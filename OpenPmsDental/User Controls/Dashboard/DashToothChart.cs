@@ -39,6 +39,17 @@ namespace OpenPmsDental {
 			}
 		}
 
+		///<summary>The Chart module's picture that the WPF chart made in the background after a refill (TC-3b), set by the dashboard's refresh thread
+		///when it arrives (UserControlDashboard, DashToothChartImageWait): the picture SetData takes from ImageToothChart with the other engines, kept
+		///as a copy in the same way. RefreshView then draws it.</summary>
+		public void SetImageToothChart(Image image) {
+			if(image==null) {
+				return;
+			}
+			_imgToothChart?.Dispose();
+			_imgToothChart=(Image)image.Clone();
+		}
+
 		private bool IsNecessaryDataAvailable(PatientDashboardDataEventArgs data) {
 			if(data.Pat==null || data.ImageToothChart==null) {
 				return false;

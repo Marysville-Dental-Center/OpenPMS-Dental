@@ -29,6 +29,9 @@ namespace OpenPmsDental {
 		public Patient SuperFamHead;
 		public DataTable TableProgNotes;
 		public Image ImageToothChart;
+		///<summary>The Chart module's picture that the WPF chart makes in the background (TC-3b), in place of ImageToothChart, or null. Only the
+		///dashboard that gets the event waits for it (UserControlDashboard, DashToothChartImageWait); the copies the dashboard makes do not carry it.</summary>
+		public SparksToothChart.ToothChartBitmapRequest ImageToothChartRequest;
 		public Bitmap BitmapImagesModule;
 		public StaticTextData StaticTextData;
 

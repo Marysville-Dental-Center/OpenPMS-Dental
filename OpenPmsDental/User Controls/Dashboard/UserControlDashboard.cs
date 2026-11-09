@@ -18,6 +18,10 @@ namespace OpenPmsDental {
 		private const string PATIENT_DASHBOARD_LOG_DIRECTORY="PatientDashboard";
 		private const string REFRESH_THREAD_NAME="DashboardRefresh_Thread";
 		private const string SET_THREAD_NAME="DashboardSet_Thread";
+		private const string TOOTH_CHART_IMAGE_THREAD_NAME="DashboardToothChartImage_Thread";
+		///<summary>The wait for the Chart module's picture that the WPF chart makes in the background (TC-3b): started and replaced by SetData, ended by
+		///a refresh or the close, and shown by ShowToothChartImage when the picture arrives for the current patient.</summary>
+		private readonly DashToothChartImageWait _dashToothChartImageWait;
 		public LayoutManagerForms LayoutManager=new LayoutManagerForms();
 
 		public List<UserControlDashboardWidget> ListOpenWidgets {
@@ -59,6 +63,7 @@ namespace OpenPmsDental {
 		public UserControlDashboard() {
 			InitializeComponent();
 			ContextMenuStrip=contextMenu;
+			_dashToothChartImageWait=new DashToothChartImageWait(() => IsInitialized && !IsDisposed,() => FormOpenDental.PatNumCur,ShowToothChartImage);
 		}
 
 		/// <summary>Initializes a Dashboard.</summary>
@@ -122,6 +127,8 @@ namespace OpenPmsDental {
 		}
 
 		private void StartRefreshThread() {
+			//The refresh makes the dashboard's own tooth chart (DashToothChart.RefreshData), newer than a Chart module picture still being made.
+			_dashToothChartImageWait.Clear();
 			StartRefreshThread((widget) => widget.TryRefreshData(),REFRESH_THREAD_NAME);
 		}
 
@@ -153,11 +160,26 @@ namespace OpenPmsDental {
 		}
 
 		private void SetData(ODEventArgs e) {
+			//A Chart module refill of the WPF chart brings a request for its picture instead of the picture (TC-3b): the dashboard waits for it. An
+			//event with a picture ends the wait, and one with neither leaves it (DashToothChartImageWait).
+			_dashToothChartImageWait.Wait(e.Tag as PatientDashboardDataEventArgs);
 			//Instantiate the new PatientDashboardEventArgs on the main thread (ctor will create copies of Bitmaps, which cannot happen on a background thread
 			//as this has caused cross-threaded exceptions in the Image Module.)
 			PatientDashboardDataEventArgs data=new PatientDashboardDataEventArgs(e.Tag);
 			StartRefreshThread((widget) => widget.TrySetData(data),SET_THREAD_NAME
 				,() => ODException.SwallowAndLogAnyException(PATIENT_DASHBOARD_LOG_DIRECTORY,() => data?.Dispose()));
+		}
+
+		///<summary>The Chart module's picture that the WPF chart made in the background has arrived for the current patient (DashToothChartImageWait),
+		///on the UI thread. It is set on the dashboard's own refresh thread, which runs after every set and refresh started before it, as the event's
+		///picture was set; the patient is checked again there, and the widgets are redrawn as after every set. The bitmap is disposed when that thread
+		///ends.</summary>
+		private void ShowToothChartImage(long patNum,Bitmap bitmap) {
+			StartRefreshThread((widget) => {
+					DashToothChartImageWait.TrySetImage(widget,patNum,FormOpenDental.PatNumCur,bitmap);
+					return widget.SheetDefWidget!=null;//redrawn as after every set, even when the patient changed, so no earlier set's redraw is lost
+				},TOOTH_CHART_IMAGE_THREAD_NAME
+				,() => ODException.SwallowAndLogAnyException(PATIENT_DASHBOARD_LOG_DIRECTORY,() => bitmap.Dispose()));
 		}
 
 		///<summary>Adds a new Widget to the current Dashboard container.</summary>
@@ -213,6 +235,7 @@ namespace OpenPmsDental {
 			}
 			Controls.Remove(widget);
 			if(ListOpenWidgets.Count==0) {
+				_dashToothChartImageWait.Clear();//a closed dashboard shows no picture that was still being made
 				IsInitialized=false;
 				_actionDashboardContentsChanged?.Invoke();
 				if(!_isLoggingOff) {
@@ -230,6 +253,7 @@ namespace OpenPmsDental {
 				return;
 			}
 			_isLoggingOff=isLoggingOff;
+			_dashToothChartImageWait.Clear();//a closed dashboard shows no picture that was still being made
 			if(ListOpenWidgets.Count==0) { //In case a dashboard manages to be left open with no widgets.
 				IsInitialized=false;
 				_actionDashboardContentsChanged?.Invoke();
