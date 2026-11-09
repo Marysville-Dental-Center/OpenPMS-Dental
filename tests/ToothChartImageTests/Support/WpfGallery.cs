@@ -311,6 +311,15 @@ namespace ToothChartImageTests {
 					Get(".software.refill.dashboard.background"),Get(".software.dashboard.arrived"));
 			}
 			sb.Append("</tbody></table>\r\n");
+			List<string> listNotes=new List<string>();
+			foreach(string size in new[] { "410x307","615x461" }) {
+				listNotes.Add(size+", the live view with the messages run freely as in the program: the refill's frame done after "
+					+FormatMs(timingReport.Get(size+".live.free.hidden.frame"))+" with the dashboard hidden and "
+					+FormatMs(timingReport.Get(size+".live.free.background.frame"))+" with its picture made in the background (its render started after "
+					+FormatMs(timingReport.Get(size+".live.free.background.jobstart"))+", the picture arrived after "
+					+FormatMs(timingReport.Get(size+".live.free.background.arrived"))+").");
+			}
+			sb.Append("<p class=\"cap\">"+WebUtility.HtmlEncode(string.Join(" ",listNotes))+"</p>\r\n");
 		}
 
 		private static void AppendTimesRow(StringBuilder sb,string size,string engine,double refill,double refillDashboard,double selection,double pen,

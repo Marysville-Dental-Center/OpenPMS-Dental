@@ -335,6 +335,14 @@ answer. How the package meets its row:
   moment, pixel for pixel. It reaches the request's action on the wrapper's UI thread through the wrapper's `BeginInvoke`.
   - The job is started by a message posted to the UI thread, so the on-screen rebuild that the same refill posted earlier runs first: with "Draw
     in software" the screen's render is queued before the dashboard's.
+  - With the live view on screen the job also waits until WPF has presented the refill's frame (`StartBitmapJobAfterLiveViewFrame`). The first
+    times showed why: WPF draws a frame of the process and the renderer's picture one after the other, so a picture started before the frame, or
+    right after WPF committed it, held the live view's frame back until the picture was done (below). WPF raises `CompositionTarget.Rendering`
+    in each render pass of the UI thread; the first pass after the posted start commits the refill's frame, and WPF prepares the next only once
+    its render thread has presented that frame, so the job starts in the second pass. A newer refill's rebuild while the job waits counts again
+    from its frame, so a burst is drawn before its one picture. A window WPF does not draw (minimized, a locked session) raises no pass, so the
+    job starts after `MillisecondsMaxWaitForFrame` (1 s) at the latest. The handler leaves the static event on the live view's thread when the
+    job starts, the handle goes, the engine is released or the wrapper is disposed.
   - Only the newest request is made. A newer request drops the older one (its action is never called), and the job takes its scene only when
     the render thread starts it, so a burst of refills makes one picture. When a render was already running, its picture is dropped and the
     newest is made after it: two renders, one picture.
@@ -663,7 +671,8 @@ either way.
    only chart test project that references the program; `tests/ToothChartImageTests` never does.
 7. **Mouse tests.**
 8. **Renderer tests:** an MTA caller, a render loop, process exit with the render thread alive, the DPI settings of 5.6, the
-   on-screen refresh after a `GetBitmap` (5.5) and a host disposed during a render (5.4).
+   on-screen refresh after a `GetBitmap` (5.5) and a host disposed during a render (5.4); since TC-3b the dashboard's picture made in the
+   background (`WpfBackgroundPictureTests`, `ToothChartDashboardWaitTests`, and `BSHELLTests` for the dashboard's side).
 
 **Rendering rules, for determinism:**
 - Explicit pixel size; 96 dpi; `Pbgra32`; opaque background; `SetRootDpi` 1.0 and `pixelsPerDip` 1.0 (5.6).

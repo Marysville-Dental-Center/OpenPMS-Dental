@@ -85,6 +85,49 @@ namespace ToothChartImageTests {
 		}
 
 		[TestMethod]
+		public void RenderLatestAsync_TakesTheNewestSceneWhenTheJobStarts_AndNoneMeansNoRender() {
+			ToothScene toothSceneOld=WpfCharts.BuildScene("restored-adult",ChartScenes.SizeModule);
+			ToothScene toothSceneNew=WpfCharts.BuildScene("treatment-plan",ChartScenes.SizeModule);
+			ToothScene toothSceneSlot=toothSceneOld;
+			ToothScene toothSceneTaken=null;
+			ToothChartRenderResult result=null;
+			using(ManualResetEvent manualResetEventDone=new ManualResetEvent(false)) {
+				using(RenderJobHold renderJobHold=new RenderJobHold(ToothChartRenderer.JobRender)) {
+					//The render thread is held in another job; the newest scene is put in the slot while this job waits behind it.
+					ToothChartRenderer.Instance.RenderAsync(toothSceneOld,null,resultHold => { });
+					Assert.IsTrue(renderJobHold.WaitEntered(20000));
+					ToothChartRenderer.Instance.RenderLatestAsync(() => Interlocked.Exchange(ref toothSceneSlot,null),null,(scene,resultJob) => {
+						toothSceneTaken=scene;
+						result=resultJob;
+						manualResetEventDone.Set();
+					});
+					Interlocked.Exchange(ref toothSceneSlot,toothSceneNew);
+					renderJobHold.Release();
+				}
+				Assert.IsTrue(manualResetEventDone.WaitOne(20000));
+			}
+			Assert.AreSame(toothSceneNew,toothSceneTaken,"The job took the scene that was newest when it started.");
+			Assert.IsNull(result.Exception);
+			using(Bitmap bitmapJob=result.ToBitmap())
+			using(Bitmap bitmapNew=ToothChartRenderer.Instance.Render(toothSceneNew,null).ToBitmap()) {
+				AssertSamePixels(bitmapNew,bitmapJob,"The newest scene's image");
+			}
+			//No scene waiting: nothing is rendered, and the callback hears of it.
+			ToothScene toothSceneNone=toothSceneOld;
+			ToothChartRenderResult resultNone=new ToothChartRenderResult();
+			using(ManualResetEvent manualResetEventDone=new ManualResetEvent(false)) {
+				ToothChartRenderer.Instance.RenderLatestAsync(() => null,null,(scene,resultJob) => {
+					toothSceneNone=scene;
+					resultNone=resultJob;
+					manualResetEventDone.Set();
+				});
+				Assert.IsTrue(manualResetEventDone.WaitOne(20000));
+			}
+			Assert.IsNull(toothSceneNone);
+			Assert.IsNull(resultNone);
+		}
+
+		[TestMethod]
 		public void Picture_IsTheSceneOfItsRequest_EvenWhenTheDataChangesBeforeItIsMade() {
 			StaRunner.Run(() => {
 				using ToothChartWrapper wrapper=CreateHiddenWrapperWithHandle(ChartScenes.SizeModule.Size);
@@ -440,8 +483,9 @@ namespace ToothChartImageTests {
 		[TestMethod]
 		public void ShownLiveView_ThePicturesRenderStartsAfterWpfsRenderPass() {
 			//WPF draws a frame of the process and the renderer's picture one after the other (TC-3b's times: a picture started before the refill's
-			//frame held that frame back until the picture was done). So with the live view the job starts only after WPF's render pass, which commits
-			//the frame (CompositionTarget.Rendering is raised in that pass).
+			//frame, or right after its commit, held that frame back until the picture was done). So with the live view the job starts only after WPF's
+			//render pass that commits the frame (CompositionTarget.Rendering is raised in each pass): in the next pass, which WPF runs once the frame
+			//is presented.
 			WpfLiveViewTests.RequireDesktop();
 			StaRunner.Run(() => {
 				using Form form=WpfCharts.CreateOffscreenForm(ChartScenes.SizeModule.Size);

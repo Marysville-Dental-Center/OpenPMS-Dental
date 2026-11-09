@@ -70,12 +70,18 @@ namespace SparksToothChart {
 		private EventHandler _eventHandlerRenderingBitmapJob;
 		private System.Windows.Threading.Dispatcher _dispatcherBitmapJob;
 		private System.Windows.Forms.Timer _timerBitmapJob;
+		///<summary>Wpf3D, with the live view: WPF's render passes since the wait for the frame began or since the newest rebuild on screen, whichever came
+		///later; the job starts in the second.</summary>
+		private int _countRenderPassesBitmapJob;
 		///<summary>The longest a background job waits for WPF to draw the live view's frame before it starts anyway: a window WPF does not draw (a
 		///minimized one, a locked session's) raises no render pass.</summary>
 		public const int MillisecondsMaxWaitForFrame=1000;
 		///<summary>For tests only, false in the program: the wait for WPF's frame counts no render pass, as for a window WPF does not draw, so the job
 		///starts after MillisecondsMaxWaitForFrame.</summary>
 		public static bool IsRenderPassIgnoredForTests;
+		///<summary>For the times only, false in the program: the background job does not wait for WPF's frame (it starts as soon as the posted start
+		///runs, as TC-3b first built it), so the times can compare both.</summary>
+		public static bool IsWaitForFrameSkippedForTests;
 		private static List<string> _listFallbackMessages=new List<string>();
 		///<summary>Every fallback message of this process, counted on past the 1000 that _listFallbackMessages keeps.</summary>
 		private static int _countFallbackMessages;
@@ -1014,6 +1020,7 @@ namespace SparksToothChart {
 				ToothChartWpfView toothChartWpfViewShown=toothChartWpfView;
 				try {
 					toothChartWpfViewShown.ShowScene(toothScene);//the live view (O-19 (b)); WPF's render thread draws it, in software in the program (O-34)
+					_countRenderPassesBitmapJob=0;//a background picture still waiting waits for this new frame (StartBitmapJobAfterLiveViewFrame)
 					return;
 				}
 				catch(Exception ex) {
@@ -1142,43 +1149,52 @@ namespace SparksToothChart {
 		///refill's frame: WPF draws a frame of the process and the renderer's picture one after the other, so a picture started first, or right after
 		///the frame was committed, held the frame back until the picture was done (measured in TC-3b). WPF raises CompositionTarget.Rendering in each
 		///render pass on this thread: the first pass after this start commits the refill's frame, and WPF prepares the next only once its render thread
-		///has presented that frame, so the job starts in the second pass. A window WPF does not draw (minimized, a locked session) raises no pass, so the
-		///job starts after MillisecondsMaxWaitForFrame at the latest. Without a live view (the image host, a hidden wrapper) the job starts now. The
-		///Dispatcher is the live view's, never one made here.</summary>
+		///has presented that frame, so the job starts in the second pass. A newer refill's rebuild while the job waits counts again from its frame
+		///(RebuildWpfOnScreen), so a burst of refills is drawn before its one picture. A window WPF does not draw (minimized, a locked session) raises
+		///no pass, so the job starts after MillisecondsMaxWaitForFrame at the latest. Without a live view (the image host, a hidden wrapper) the job
+		///starts now. The Dispatcher is the live view's, never one made here.</summary>
 		private void StartBitmapJobAfterLiveViewFrame() {
 			System.Windows.Threading.Dispatcher dispatcher=null;
 			if(toothChartWpfView!=null) {
 				dispatcher=System.Windows.Threading.Dispatcher.FromThread(System.Threading.Thread.CurrentThread);
 			}
-			if(dispatcher==null || dispatcher.HasShutdownStarted) {
+			if(dispatcher==null || dispatcher.HasShutdownStarted || IsWaitForFrameSkippedForTests) {
 				StartBitmapJob();
 				return;
 			}
 			if(_eventHandlerRenderingBitmapJob!=null) {
 				return;//waiting already
 			}
-			int countRenderPasses=0;
-			_eventHandlerRenderingBitmapJob=(sender,e) => {
-				if(IsRenderPassIgnoredForTests) {
+			_countRenderPassesBitmapJob=0;
+			//Each handler acts only while it is the current wait's: a pass raised from a list taken before the wait ended does nothing.
+			EventHandler eventHandlerRendering=null;
+			eventHandlerRendering=(sender,e) => {
+				if(eventHandlerRendering!=_eventHandlerRenderingBitmapJob || IsRenderPassIgnoredForTests) {
 					return;
 				}
-				countRenderPasses++;
-				if(countRenderPasses<2) {
-					return;//the pass that commits the refill's frame
+				_countRenderPassesBitmapJob++;
+				if(_countRenderPassesBitmapJob<2) {
+					return;//the pass that commits the refill's frame (or a newer refill's: its rebuild counts again)
 				}
 				StopWaitingForFrame();
 				StartBitmapJob();
 			};
+			System.Windows.Forms.Timer timer=null;
+			_eventHandlerRenderingBitmapJob=eventHandlerRendering;
 			_dispatcherBitmapJob=dispatcher;
 			try {
-				_timerBitmapJob=new System.Windows.Forms.Timer();
-				_timerBitmapJob.Interval=MillisecondsMaxWaitForFrame;
-				_timerBitmapJob.Tick+=(sender,e) => {
+				timer=new System.Windows.Forms.Timer();
+				_timerBitmapJob=timer;
+				timer.Interval=MillisecondsMaxWaitForFrame;
+				timer.Tick+=(sender,e) => {
+					if(timer!=_timerBitmapJob) {
+						return;
+					}
 					StopWaitingForFrame();
 					StartBitmapJob();
 				};
-				System.Windows.Media.CompositionTarget.Rendering+=_eventHandlerRenderingBitmapJob;
-				_timerBitmapJob.Start();
+				System.Windows.Media.CompositionTarget.Rendering+=eventHandlerRendering;
+				timer.Start();
 			}
 			catch(Exception ex) {
 				ex.DoNothing();
