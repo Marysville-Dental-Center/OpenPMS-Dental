@@ -138,7 +138,8 @@ namespace SparksToothChart.Wpf3D {
 	///jobs: a thread started after a Shutdown whose wait ran out never touches those of the old thread, which may still be in its last job. No lock
 	///is held while a caller waits for the render thread. The start check (EnsureStarted) waits behind a gate of its own, so WPF's cold start on one
 	///caller's behalf never blocks another caller's render, ShowScene or a read of the thread. A job that a shutdown aborts before it ran completes
-	///its caller at once: Render throws, and RenderAsync's callback gets a failed result.
+	///its caller at once: Render throws, and the callback of RenderAsync or RenderLatestAsync gets a failed result. RenderLatestAsync's job takes
+	///its scene only when it starts (the dashboard's picture made in the background, TC-3b), so a burst of requests behind other jobs makes one image.
 	///Each job catches its own exceptions and is tried once more after a failure. After FailuresInRowBeforeReset failed jobs in a row the thread
 	///drops its visual tree, materials and render targets, and after FailuresInRowBeforeRestart the renderer retires the thread, so the next job
 	///starts a new one (at most MaxRestartsAfterFailures times in a process). An unhandled exception on any thread ends a .NET Framework process,
@@ -424,6 +425,51 @@ namespace SparksToothChart.Wpf3D {
 			}
 		}
 
+		///<summary>Queues a job that takes its scene only when the render thread starts it, and returns at once (TC-3b: the dashboard's picture made in
+		///the background). funcTakeScene runs on the render thread, first in the job, and returns the newest scene still wanted, or null for none; so a
+		///caller that keeps its newest scene for the job to take, and replaces it while the job waits behind other jobs, gets one render for a burst of
+		///requests. It must not block, wait for another thread or read ToothChartData. actionDone runs once, as RenderAsync's does: on the render thread
+		///with the scene taken and its result (its Exception set when the render failed twice); with a null scene and a null result when funcTakeScene
+		///gave none; or with a null scene and a failed result when funcTakeScene threw, or when the render thread shut down before it ran the job (then
+		///on that thread during its shutdown, or at once on this thread). It must not block, and what it throws is caught.</summary>
+		public void RenderLatestAsync(Func<ToothScene> funcTakeScene,ToothChartLayerCache layerCache,Action<ToothScene,ToothChartRenderResult> actionDone) {
+			RenderThread renderThread=GetRenderThread();
+			int isDone=0;
+			Action<ToothScene,ToothChartRenderResult> actionDoneOnce=(scene,result) => {
+				if(Interlocked.Exchange(ref isDone,1)==1) {
+					return;
+				}
+				try {
+					actionDone?.Invoke(scene,result);
+				}
+				catch(Exception ex) {
+					ToothChartWrapper.LogFallbackOnce(ToothChartFallbackKind.Wpf3DRenderThread,"The WPF tooth chart's image could not be handed on ("
+						+ex.GetType().Name+": "+ex.Message+").");
+				}
+			};
+			DispatcherOperation dispatcherOperation=renderThread.DispatcherThread.BeginInvoke(DispatcherPriority.Normal,new Action(() => {
+				ToothScene scene;
+				try {
+					scene=funcTakeScene();
+				}
+				catch(Exception ex) {
+					ToothChartRenderResult resultFailed=new ToothChartRenderResult();
+					resultFailed.Exception=ex;
+					actionDoneOnce(null,resultFailed);
+					return;
+				}
+				if(scene==null) {
+					actionDoneOnce(null,null);
+					return;
+				}
+				actionDoneOnce(scene,renderThread.RunJob(scene,layerCache));
+			}));
+			dispatcherOperation.Aborted+=(sender,e) => actionDoneOnce(null,CreateAbortedResult(null));
+			if(dispatcherOperation.Status==DispatcherOperationStatus.Aborted) {
+				actionDoneOnce(null,CreateAbortedResult(null));//the thread had shut down: BeginInvoke aborts without raising Aborted
+			}
+		}
+
 		///<summary>Waits until every job queued before this call has run, for tests.</summary>
 		public void WaitIdle() {
 			RunAndWait(renderThread => true,DispatcherPriority.ApplicationIdle);
@@ -481,9 +527,12 @@ namespace SparksToothChart.Wpf3D {
 			return jobWait.Result;
 		}
 
+		///<summary>The failed result of a job a shutdown aborted before it ran; scene is null for a job that had not taken one (RenderLatestAsync).</summary>
 		private static ToothChartRenderResult CreateAbortedResult(ToothScene scene) {
 			ToothChartRenderResult result=new ToothChartRenderResult();
-			result.Size=scene.Size;
+			if(scene!=null) {
+				result.Size=scene.Size;
+			}
 			result.Exception=new InvalidOperationException("The WPF tooth chart's render thread shut down before it ran the job.");
 			return result;
 		}

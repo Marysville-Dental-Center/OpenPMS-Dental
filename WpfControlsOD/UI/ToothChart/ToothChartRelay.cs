@@ -143,6 +143,13 @@ namespace OpenPmsDental{
 			return _toothChartWrapper.GetBitmap();
 		}
 
+		///<summary>The picture GetBitmap would return now, made in the background so the caller does not wait for it: the WPF chart's picture for the
+		///Patient Dashboard (ControlChart.FillToothChart, TC-3b). Null when the chart cannot make it that way (DirectX, OpenGL and Simple 2D, a chart
+		///with no window handle, a call off its thread); the caller then calls GetBitmap, as before. See ToothChartWrapper.RequestBitmapInBackground.</summary>
+		public ToothChartBitmapRequest RequestBitmapInBackground(){
+			return _toothChartWrapper.RequestBitmapInBackground();
+		}
+
 		public void MoveTooth(string toothID,float rotate,float tipM,float tipB,float shiftM,float shiftO,float shiftB){
 			_toothChartWrapper.MoveTooth(toothID,rotate,tipM,tipB,shiftM,shiftO,shiftB);
 		}
