@@ -65,6 +65,17 @@ namespace SparksToothChart {
 		private bool _isBitmapJobInFlight;
 		///<summary>Wpf3D: how many background pictures the renderer made for this wrapper, for tests.</summary>
 		private int _countBitmapsMadeInBackground;
+		///<summary>Wpf3D, with the live view: while a background job waits for WPF to draw the refill's frame (StartBitmapJobAfterLiveViewFrame), the
+		///handler on CompositionTarget.Rendering, the live view's Dispatcher it was added on, and the timer that starts the job anyway; null otherwise.</summary>
+		private EventHandler _eventHandlerRenderingBitmapJob;
+		private System.Windows.Threading.Dispatcher _dispatcherBitmapJob;
+		private System.Windows.Forms.Timer _timerBitmapJob;
+		///<summary>The longest a background job waits for WPF to draw the live view's frame before it starts anyway: a window WPF does not draw (a
+		///minimized one, a locked session's) raises no render pass.</summary>
+		public const int MillisecondsMaxWaitForFrame=1000;
+		///<summary>For tests only, false in the program: the wait for WPF's frame counts no render pass, as for a window WPF does not draw, so the job
+		///starts after MillisecondsMaxWaitForFrame.</summary>
+		public static bool IsRenderPassIgnoredForTests;
 		private static List<string> _listFallbackMessages=new List<string>();
 		///<summary>Every fallback message of this process, counted on past the 1000 that _listFallbackMessages keeps.</summary>
 		private static int _countFallbackMessages;
@@ -1127,11 +1138,13 @@ namespace SparksToothChart {
 			}
 		}
 
-		///<summary>The posted start, which runs after the refill's on-screen rebuild. With the live view on screen the job waits once more, through this
-		///thread's WPF Dispatcher at Background priority, until WPF has committed the live view's frame (it does that at Render priority): WPF draws a
-		///frame of the process and the renderer's picture one after the other, so a picture started first held the refill's frame back until it was
-		///done (measured in TC-3b), and started after the commit it lets the frame go first. Without a live view (the image host, a hidden wrapper) the
-		///job starts now. The Dispatcher is the live view's, never one made here.</summary>
+		///<summary>The posted start, which runs after the refill's on-screen rebuild. With the live view on screen the job waits until WPF has drawn the
+		///refill's frame: WPF draws a frame of the process and the renderer's picture one after the other, so a picture started first, or right after
+		///the frame was committed, held the frame back until the picture was done (measured in TC-3b). WPF raises CompositionTarget.Rendering in each
+		///render pass on this thread: the first pass after this start commits the refill's frame, and WPF prepares the next only once its render thread
+		///has presented that frame, so the job starts in the second pass. A window WPF does not draw (minimized, a locked session) raises no pass, so the
+		///job starts after MillisecondsMaxWaitForFrame at the latest. Without a live view (the image host, a hidden wrapper) the job starts now. The
+		///Dispatcher is the live view's, never one made here.</summary>
 		private void StartBitmapJobAfterLiveViewFrame() {
 			System.Windows.Threading.Dispatcher dispatcher=null;
 			if(toothChartWpfView!=null) {
@@ -1141,12 +1154,76 @@ namespace SparksToothChart {
 				StartBitmapJob();
 				return;
 			}
+			if(_eventHandlerRenderingBitmapJob!=null) {
+				return;//waiting already
+			}
+			int countRenderPasses=0;
+			_eventHandlerRenderingBitmapJob=(sender,e) => {
+				if(IsRenderPassIgnoredForTests) {
+					return;
+				}
+				countRenderPasses++;
+				if(countRenderPasses<2) {
+					return;//the pass that commits the refill's frame
+				}
+				StopWaitingForFrame();
+				StartBitmapJob();
+			};
+			_dispatcherBitmapJob=dispatcher;
 			try {
-				dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Background,new Action(StartBitmapJob));
+				_timerBitmapJob=new System.Windows.Forms.Timer();
+				_timerBitmapJob.Interval=MillisecondsMaxWaitForFrame;
+				_timerBitmapJob.Tick+=(sender,e) => {
+					StopWaitingForFrame();
+					StartBitmapJob();
+				};
+				System.Windows.Media.CompositionTarget.Rendering+=_eventHandlerRenderingBitmapJob;
+				_timerBitmapJob.Start();
 			}
 			catch(Exception ex) {
 				ex.DoNothing();
+				StopWaitingForFrame();
 				StartBitmapJob();
+			}
+		}
+
+		///<summary>Ends the wait for WPF's frame (StartBitmapJobAfterLiveViewFrame): the handler leaves CompositionTarget.Rendering, on the live view's
+		///thread, where it was added (a static event: a handler left on it would keep this wrapper and keep WPF drawing frames), and the timer goes.</summary>
+		private void StopWaitingForFrame() {
+			EventHandler eventHandlerRendering=_eventHandlerRenderingBitmapJob;
+			System.Windows.Threading.Dispatcher dispatcher=_dispatcherBitmapJob;
+			_eventHandlerRenderingBitmapJob=null;
+			_dispatcherBitmapJob=null;
+			if(eventHandlerRendering!=null && dispatcher!=null) {
+				try {
+					if(dispatcher.CheckAccess()) {
+						System.Windows.Media.CompositionTarget.Rendering-=eventHandlerRendering;
+					}
+					else if(!dispatcher.HasShutdownStarted) {
+						dispatcher.BeginInvoke(new Action(() => System.Windows.Media.CompositionTarget.Rendering-=eventHandlerRendering));
+					}
+				}
+				catch(Exception ex) {
+					ex.DoNothing();
+				}
+			}
+			if(_timerBitmapJob!=null) {
+				try {
+					_timerBitmapJob.Stop();
+					_timerBitmapJob.Dispose();
+				}
+				catch(Exception ex) {
+					ex.DoNothing();
+				}
+				_timerBitmapJob=null;
+			}
+		}
+
+		///<summary>True while a background job waits for WPF to draw the live view's frame, for tests.</summary>
+		[Browsable(false)]
+		public bool IsBitmapJobWaitingForFrame {
+			get {
+				return _eventHandlerRenderingBitmapJob!=null;
 			}
 		}
 
@@ -1262,6 +1339,7 @@ namespace SparksToothChart {
 			lock(_lockBitmapRequest) {
 				_generationBitmapJob++;
 			}
+			StopWaitingForFrame();
 			_isBitmapJobInFlight=false;
 			_isBitmapStartPosted=false;
 		}
@@ -1286,6 +1364,7 @@ namespace SparksToothChart {
 				_generationBitmapJob++;
 				_bitmapRequestWaiting=null;
 			}
+			StopWaitingForFrame();
 			_isBitmapJobInFlight=false;
 			_isBitmapStartPosted=false;
 			_bitmapRequestLatest?.Drop();

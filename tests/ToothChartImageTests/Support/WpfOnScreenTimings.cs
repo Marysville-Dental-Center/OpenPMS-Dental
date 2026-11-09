@@ -10,6 +10,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Reflection;
+using System.Threading;
 using System.Windows.Forms;
 using System.Windows.Threading;
 using OpenPmsDental;
@@ -349,23 +350,45 @@ namespace ToothChartImageTests {
 				listRefillFrame.Add(stopwatch.Elapsed.TotalMilliseconds-millisecondsUi);
 			}
 			//TC-3b: the refill with the Patient Dashboard visible as ControlChart makes it since then, the dashboard's picture asked for in the
-			//background: the UI thread's work and WPF's frame while the render thread makes the picture, and the picture's arrival. CountWarmUp
-			//unmeasured runs first; each run waits for its picture before the next.
+			//background. (a) The UI thread's work and the refill's frame until WPF has presented it, then the picture's arrival. The picture's job waits
+			//for WPF's next render pass after the frame's (StartBitmapJobAfterLiveViewFrame), which the UI thread, blocked in the frame's wait, cannot
+			//run before the frame is presented; so (b) runs the messages freely, as the program's loop does, and times when the picture's render
+			//starts: after the frame's time, it let the frame go first. CountWarmUp unmeasured runs first; each run waits for its picture before the next.
 			Action actionShowAndFrame=() => {
 				actionShow();
-				//What the program's message loop does next: WPF's own work down to Background priority (the frame's commit at Render, then the
-				//picture's start, StartBitmapJobAfterLiveViewFrame), so the frame and the picture's render meet as they do in the program; then the frame.
-				Dispatcher.CurrentDispatcher.Invoke(DispatcherPriority.Background,new Action(() => { }));
-				WaitForFrame(actionCompleteRender);
+				Dispatcher.CurrentDispatcher.Invoke(DispatcherPriority.Loaded,new Action(() => { }));//WPF's render pass: the frame's commit
+				actionCompleteRender();
 			};
 			List<double> listRefillDashboardShown=new List<double>();
 			List<double> listRefillDashboardArrived=new List<double>();
+			List<double> listJobStart=new List<double>();
+			List<double> listArrivedFree=new List<double>();
 			for(int i=0;i<CountWarmUp+countRepeats;i++) {
 				RefillWithPictureInBackground(relay,ChartScenes.Get(i%2==0?"treatment-plan":"restored-adult"),actionShowAndFrame,out double millisecondsShown,
 					out double millisecondsArrived);
 				if(i>=CountWarmUp) {
 					listRefillDashboardShown.Add(millisecondsShown);
 					listRefillDashboardArrived.Add(millisecondsArrived);
+				}
+			}
+			for(int i=0;i<CountWarmUp+countRepeats;i++) {
+				Stopwatch stopwatchJob=Stopwatch.StartNew();
+				long ticksJobStart=-1;
+				ToothChartRenderer.ActionJobStartForTests=kind => {
+					if(kind==ToothChartRenderer.JobRender) {
+						Interlocked.CompareExchange(ref ticksJobStart,stopwatchJob.ElapsedTicks,-1);
+					}
+				};
+				try {
+					RefillWithPictureInBackground(relay,ChartScenes.Get(i%2==0?"treatment-plan":"restored-adult"),actionShow,out double millisecondsRefill,
+						out double millisecondsArrived);
+					if(i>=CountWarmUp) {
+						listJobStart.Add(Interlocked.Read(ref ticksJobStart)*1000.0/Stopwatch.Frequency);
+						listArrivedFree.Add(millisecondsArrived);
+					}
+				}
+				finally {
+					ToothChartRenderer.ActionJobStartForTests=null;
 				}
 			}
 			List<double> listSelectionShown=new List<double>();
@@ -407,6 +430,10 @@ namespace ToothChartImageTests {
 			report.Add(key+".shown.refill.dashboard.max",name+": the same, slowest",listRefillDashboardShown.Max());
 			report.Add(key+".shown.dashboard.arrived",name+": from that refill's start until the dashboard's picture has arrived on the UI thread, median",
 				WpfTimings.Median(listRefillDashboardArrived));
+			report.Add(key+".free.dashboard.jobstart",name+": the same refill with the messages run freely (the program's loop): from the refill's start until "
+				+"the picture's render started on the render thread, median",WpfTimings.Median(listJobStart));
+			report.Add(key+".free.dashboard.jobstart.min",name+": the same, earliest",listJobStart.Min());
+			report.Add(key+".free.dashboard.arrived",name+": and until the picture arrived, median",WpfTimings.Median(listArrivedFree));
 			report.Add(key+".shown.selection",name+": a selection-only change, the UI thread's work and WPF's frame, median",WpfTimings.Median(listSelectionShown));
 			report.Add(key+".frame.selection",name+": of that, WPF's frame, median",WpfTimings.Median(listSelectionFrame));
 			report.Add(key+".shown.pen",name+": one pen move (4 pixels of stroke), the UI thread's work and WPF's frame, median",WpfTimings.Median(listPenShown));

@@ -483,6 +483,53 @@ namespace ToothChartImageTests {
 				long ticksJob=Interlocked.Read(ref ticksJobStart);
 				Assert.IsTrue(ticksRenderPass>=0 && ticksJob>=0,"Both happened: render pass "+ticksRenderPass+", job "+ticksJob+".");
 				Assert.IsTrue(ticksRenderPass<ticksJob,"WPF's render pass came before the picture's render.");
+				Assert.IsFalse(wrapper.IsBitmapJobWaitingForFrame,"The wait for the frame has ended: its handler left CompositionTarget.Rendering.");
+				//A wrapper disposed while its picture waits for the frame ends the wait too (a handler left on the static event would keep the wrapper).
+				ChartScenes.Prepare(relay,ChartScenes.Get("restored-adult"),ChartColorSet.Module);
+				toothChartBitmapRequest=relay.RequestBitmapInBackground();
+				Assert.IsTrue(WpfRendererTests.PumpUntil(() => wrapper.IsBitmapJobWaitingForFrame || toothChartBitmapRequest.IsDone,20000));
+				wrapper.Dispose();
+				Assert.IsFalse(wrapper.IsBitmapJobWaitingForFrame);
+				Assert.IsTrue(toothChartBitmapRequest.IsDropped || toothChartBitmapRequest.IsDone);
+				form.Close();
+			});
+		}
+
+		[TestMethod]
+		public void ShownLiveView_PictureStartsAfterTheLongestWait_WhenWpfRunsNoRenderPass() {
+			//A window WPF does not draw (minimized, a locked session) raises no render pass; the picture's job then starts after
+			//MillisecondsMaxWaitForFrame. Here the wait counts no render pass (IsRenderPassIgnoredForTests).
+			WpfLiveViewTests.RequireDesktop();
+			StaRunner.Run(() => {
+				using Form form=WpfCharts.CreateOffscreenForm(ChartScenes.SizeModule.Size);
+				ToothChartWrapper wrapper=WpfCharts.CreateWrapper(ChartScenes.SizeModule.Size);
+				form.Controls.Add(wrapper);
+				ToothChartRelay relay=WpfCharts.CreateRelay(wrapper);
+				ChartScenes.Prepare(relay,ChartScenes.Get("restored-adult"),ChartColorSet.Module);
+				form.Show();
+				Assert.IsNotNull(WpfCharts.WaitForLiveView(wrapper),"The live view started.");
+				List<Bitmap> listBitmaps=new List<Bitmap>();
+				ToothChartBitmapRequest toothChartBitmapRequest;
+				long millisecondsArrived;
+				ToothChartWrapper.IsRenderPassIgnoredForTests=true;
+				try {
+					ChartScenes.Prepare(relay,ChartScenes.Get("treatment-plan"),ChartColorSet.Module);
+					toothChartBitmapRequest=relay.RequestBitmapInBackground();
+					toothChartBitmapRequest.SetActionDone(bitmap => listBitmaps.Add(bitmap));
+					Stopwatch stopwatch=Stopwatch.StartNew();
+					Assert.IsTrue(WpfRendererTests.PumpUntil(() => wrapper.IsBitmapJobWaitingForFrame,20000),"The job waits for WPF's frame.");
+					Assert.IsTrue(WpfRendererTests.PumpUntil(() => toothChartBitmapRequest.IsDone,20000),"The picture arrived without a render pass.");
+					millisecondsArrived=stopwatch.ElapsedMilliseconds;
+				}
+				finally {
+					ToothChartWrapper.IsRenderPassIgnoredForTests=false;
+				}
+				Assert.IsTrue(millisecondsArrived>=ToothChartWrapper.MillisecondsMaxWaitForFrame-100,"After the longest wait: "+millisecondsArrived+" ms.");
+				Assert.IsFalse(wrapper.IsBitmapJobWaitingForFrame);
+				using(Bitmap bitmap=listBitmaps.Single())
+				using(Bitmap bitmapGet=relay.GetBitmap()) {
+					AssertSamePixels(bitmapGet,bitmap,"The refill's picture");
+				}
 				wrapper.Dispose();
 				form.Close();
 			});
