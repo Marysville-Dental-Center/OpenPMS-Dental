@@ -1,7 +1,8 @@
 // The on-screen render times of TC-3 (docs/specs/wpf-tooth-chart-plan.md, TC-3's row and gallery G1): a refill plus the screen's update, with
 // the Patient Dashboard visible (the refill also makes the dashboard's image, ControlChart's GetBitmap) and hidden, and a selection-only change,
 // for today's DirectX chart, the WPF chart's live view and the WPF chart drawn in software; and the live view's frame, which WPF's render thread
-// draws after the UI thread's work, in software as the program draws it (O-34).
+// draws after the UI thread's work, in software as the program draws it (O-34). Since TC-3b also the WPF chart's refill with the dashboard's
+// picture asked for in the background, as ControlChart makes it now, and the time until that picture arrives.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
 using System.Collections.Generic;
@@ -85,7 +86,7 @@ namespace ToothChartImageTests {
 					return;
 				}
 				ToothChartRelay relay=WpfCharts.CreateRelay(wrapper);
-				MeasureEngine(report,sizeName+".directx","DirectX (today's chart)",relay,() => wrapper.Refresh(),countRepeats);
+				MeasureEngine(report,sizeName+".directx","DirectX (today's chart)",relay,() => wrapper.Refresh(),countRepeats,false);
 			}
 			finally {
 				form.Controls.Remove(wrapper);
@@ -120,7 +121,7 @@ namespace ToothChartImageTests {
 				}
 				report.Add(key+".first","Cold for this size, order-dependent (the first engine and size measured also pays the process's WPF warm-up): "+name
 					+" made on a shown wrapper and its first refill shown",stopwatch.Elapsed.TotalMilliseconds);
-				MeasureEngine(report,key,name,relay,actionShow,countRepeats);
+				MeasureEngine(report,key,name,relay,actionShow,countRepeats,true);
 			}
 			finally {
 				form.Controls.Remove(wrapper);
@@ -155,8 +156,13 @@ namespace ToothChartImageTests {
 		}
 
 		///<summary>Refill plus the screen's update (actionShow), with the dashboard hidden and visible, and a selection-only change, warm: CountWarmUp
-		///unmeasured runs of each kind first.</summary>
-		private static void MeasureEngine(WpfTimingReport report,string key,string name,ToothChartRelay relay,Action actionShow,int countRepeats) {
+		///unmeasured runs of each kind first. ".refill.dashboard" makes the dashboard's picture with GetBitmap on the UI thread (DirectX's path, and the
+		///WPF chart's before TC-3b). isBackground (the WPF chart): also the refill as ControlChart makes it since TC-3b, with the dashboard's picture
+		///asked for in the background (".refill.dashboard.background", the refill and the screen's update) and the time until that picture arrives
+		///on the UI thread (".dashboard.arrived", from the refill's start); each run waits for its picture before the next starts.</summary>
+		private static void MeasureEngine(WpfTimingReport report,string key,string name,ToothChartRelay relay,Action actionShow,int countRepeats,
+			bool isBackground)
+		{
 			ChartScene sceneA=ChartScenes.Get("restored-adult");
 			ChartScene sceneB=ChartScenes.Get("treatment-plan");
 			ChartScenes.Prepare(relay,sceneA,ChartColorSet.Module);
@@ -170,6 +176,9 @@ namespace ToothChartImageTests {
 				actionShow();
 				relay.SetSelected("8",i%2==0);
 				actionShow();
+				if(isBackground) {
+					RefillWithPictureInBackground(relay,i%2==0?sceneB:sceneA,actionShow,out double millisecondsRefill,out double millisecondsArrived);
+				}
 			}
 			ChartScenes.Prepare(relay,sceneA,ChartColorSet.Module);
 			actionShow();
@@ -190,6 +199,15 @@ namespace ToothChartImageTests {
 				actionShow();
 				listVisible.Add(stopwatch.Elapsed.TotalMilliseconds);
 			}
+			List<double> listBackground=new List<double>();
+			List<double> listArrived=new List<double>();
+			if(isBackground) {
+				for(int i=0;i<countRepeats;i++) {
+					RefillWithPictureInBackground(relay,i%2==0?sceneB:sceneA,actionShow,out double millisecondsRefill,out double millisecondsArrived);
+					listBackground.Add(millisecondsRefill);
+					listArrived.Add(millisecondsArrived);
+				}
+			}
 			List<double> listSelection=new List<double>();
 			for(int i=0;i<countRepeats;i++) {
 				stopwatch.Restart();
@@ -199,10 +217,43 @@ namespace ToothChartImageTests {
 			}
 			report.Add(key+".refill",name+": refill plus the screen's update, dashboard hidden, median",WpfTimings.Median(listHidden));
 			report.Add(key+".refill.max",name+": the same, slowest",listHidden.Max());
-			report.Add(key+".refill.dashboard",name+": refill, the dashboard's image (GetBitmap) and the screen's update, dashboard visible, median",
+			report.Add(key+".refill.dashboard",name+": refill, the dashboard's image (GetBitmap on the UI thread) and the screen's update, dashboard visible, median",
 				WpfTimings.Median(listVisible));
+			if(isBackground) {
+				report.Add(key+".refill.dashboard.background",name+": refill and the screen's update, dashboard visible, its picture asked for in the "
+					+"background (TC-3b, ControlChart since then), median",WpfTimings.Median(listBackground));
+				report.Add(key+".refill.dashboard.background.max",name+": the same, slowest",listBackground.Max());
+				report.Add(key+".dashboard.arrived",name+": from the refill's start until the dashboard's picture made in the background has arrived on the "
+					+"UI thread, median",WpfTimings.Median(listArrived));
+			}
 			report.Add(key+".selection",name+": a selection-only change and the screen's update, median",WpfTimings.Median(listSelection));
 			report.Add(key+".selection.max",name+": the same, slowest",listSelection.Max());
+		}
+
+		///<summary>A refill with the dashboard visible as ControlChart makes it since TC-3b: the scene, the request for the dashboard's picture made in
+		///the background, and the screen's update (actionShow); then it runs the messages until the picture has arrived, so the next run does not pay
+		///for this one. Both times are from the refill's start: millisecondsRefill until the screen's update, millisecondsArrived until the picture
+		///reached the UI thread.</summary>
+		private static void RefillWithPictureInBackground(ToothChartRelay relay,ChartScene scene,Action actionShow,out double millisecondsRefill,
+			out double millisecondsArrived)
+		{
+			Stopwatch stopwatch=Stopwatch.StartNew();
+			ChartScenes.Prepare(relay,scene,ChartColorSet.Module);
+			ToothChartBitmapRequest toothChartBitmapRequest=relay.RequestBitmapInBackground();
+			if(toothChartBitmapRequest==null) {
+				throw new InvalidOperationException("The WPF chart gave no request for the dashboard's picture.");
+			}
+			double millisecondsPicture=double.NaN;
+			toothChartBitmapRequest.SetActionDone(bitmap => {
+				millisecondsPicture=stopwatch.Elapsed.TotalMilliseconds;
+				bitmap.Dispose();
+			});
+			actionShow();
+			millisecondsRefill=stopwatch.Elapsed.TotalMilliseconds;
+			if(!WpfRendererTests.PumpUntil(() => toothChartBitmapRequest.IsDone,30000)) {
+				throw new TimeoutException("The dashboard's picture did not arrive.");
+			}
+			millisecondsArrived=millisecondsPicture;
 		}
 
 		///<summary>The live view's frames on a window that is on a display (FormOnDisplay), in this process's render mode: "live" when the process draws
@@ -297,6 +348,23 @@ namespace ToothChartImageTests {
 				listRefillShown.Add(stopwatch.Elapsed.TotalMilliseconds);
 				listRefillFrame.Add(stopwatch.Elapsed.TotalMilliseconds-millisecondsUi);
 			}
+			//TC-3b: the refill with the Patient Dashboard visible as ControlChart makes it since then, the dashboard's picture asked for in the
+			//background: the UI thread's work and WPF's frame while the render thread makes the picture, and the picture's arrival. CountWarmUp
+			//unmeasured runs first; each run waits for its picture before the next.
+			Action actionShowAndFrame=() => {
+				actionShow();
+				WaitForFrame(actionCompleteRender);
+			};
+			List<double> listRefillDashboardShown=new List<double>();
+			List<double> listRefillDashboardArrived=new List<double>();
+			for(int i=0;i<CountWarmUp+countRepeats;i++) {
+				RefillWithPictureInBackground(relay,ChartScenes.Get(i%2==0?"treatment-plan":"restored-adult"),actionShowAndFrame,out double millisecondsShown,
+					out double millisecondsArrived);
+				if(i>=CountWarmUp) {
+					listRefillDashboardShown.Add(millisecondsShown);
+					listRefillDashboardArrived.Add(millisecondsArrived);
+				}
+			}
 			List<double> listSelectionShown=new List<double>();
 			List<double> listSelectionFrame=new List<double>();
 			for(int i=0;i<countRepeats;i++) {
@@ -331,6 +399,11 @@ namespace ToothChartImageTests {
 			WaitForFrame(actionCompleteRender);
 			report.Add(key+".shown.refill",name+": refill, the UI thread's work and WPF's frame until it is presented, median",WpfTimings.Median(listRefillShown));
 			report.Add(key+".frame.refill",name+": of that, WPF's frame, median",WpfTimings.Median(listRefillFrame));
+			report.Add(key+".shown.refill.dashboard",name+": refill with the dashboard visible, its picture made in the background (TC-3b): the UI "
+				+"thread's work and WPF's frame until it is presented, median",WpfTimings.Median(listRefillDashboardShown));
+			report.Add(key+".shown.refill.dashboard.max",name+": the same, slowest",listRefillDashboardShown.Max());
+			report.Add(key+".shown.dashboard.arrived",name+": from that refill's start until the dashboard's picture has arrived on the UI thread, median",
+				WpfTimings.Median(listRefillDashboardArrived));
 			report.Add(key+".shown.selection",name+": a selection-only change, the UI thread's work and WPF's frame, median",WpfTimings.Median(listSelectionShown));
 			report.Add(key+".frame.selection",name+": of that, WPF's frame, median",WpfTimings.Median(listSelectionFrame));
 			report.Add(key+".shown.pen",name+": one pen move (4 pixels of stroke), the UI thread's work and WPF's frame, median",WpfTimings.Median(listPenShown));

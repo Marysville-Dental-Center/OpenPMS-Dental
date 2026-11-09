@@ -272,6 +272,7 @@ namespace ToothChartImageTests {
 					Get(".software.refill.dashboard"),Get(".software.selection"),double.NaN);
 			}
 			sb.Append("</tbody></table>\r\n");
+			AppendDashboardInBackground(sb,timingReport);
 			List<string> listNotes=new List<string>();
 			foreach(string size in new[] { "410x307","615x461" }) {
 				double fullFrame=timingReport.Get(size+".live.fullframe");
@@ -281,6 +282,35 @@ namespace ToothChartImageTests {
 					+"; waiting for a frame with nothing changed "+FormatMs(idle)+"; a refill's frame on a window off every display "+FormatMs(offscreen)+".");
 			}
 			sb.Append("<p class=\"cap\">"+WebUtility.HtmlEncode(string.Join(" ",listNotes))+"</p>\r\n");
+		}
+
+		///<summary>TC-3b's table, when its times were measured: the refill with the Patient Dashboard visible as the program makes it since TC-3b (the
+		///dashboard's picture asked for in the background) against TC-3's (the picture made with GetBitmap on the UI thread), and when the picture
+		///arrives. The table above keeps TC-3's "dashboard visible" column.</summary>
+		private static void AppendDashboardInBackground(StringBuilder sb,WpfTimingReport timingReport) {
+			if(double.IsNaN(timingReport.Get("410x307.live.refill.dashboard.background"))) {
+				return;
+			}
+			sb.Append("<h2>The dashboard's picture made in the background (TC-3b)</h2>\r\n<p>With the Patient Dashboard visible, each refill of the "
+				+"Chart module also makes the dashboard's picture. Before TC-3b the UI thread made it (GetBitmap) before the refill ended; since TC-3b the "
+				+"WPF chart's renderer makes it on its own thread and the dashboard shows it when it arrives, so the refill waits only for the screen. "
+				+"Same process and runs as the table above; each run waited for its picture before the next.</p>\r\n");
+			sb.Append("<table class=\"times\"><thead><tr><th>Size</th><th>Engine</th><th>Refill, dashboard hidden</th><th>Refill, dashboard visible, "
+				+"picture on the UI thread (before)</th><th>Refill, dashboard visible, picture in the background (TC-3b)</th><th>The dashboard's picture "
+				+"arrives</th></tr></thead><tbody>\r\n");
+			foreach(string size in new[] { "410x307","615x461" }) {
+				double Get(string suffix) {
+					return timingReport.Get(size+suffix);
+				}
+				AppendTimesRow(sb,size,"DirectX (today; unchanged)",Get(".directx.refill"),Get(".directx.refill.dashboard"),double.NaN,double.NaN);
+				AppendTimesRow(sb,size,"WPF live view, until WPF's frame is presented",Get(".live.shown.refill"),
+					Get(".live.refill.dashboard")+Get(".live.frame.refill"),Get(".live.shown.refill.dashboard"),Get(".live.shown.dashboard.arrived"),true);
+				AppendTimesRow(sb,size,"  of that, the UI thread's work",Get(".live.refill"),Get(".live.refill.dashboard"),
+					Get(".live.refill.dashboard.background"),Get(".live.dashboard.arrived"));
+				AppendTimesRow(sb,size,"WPF drawn in software (the \"Draw in software\" switch)",Get(".software.refill"),Get(".software.refill.dashboard"),
+					Get(".software.refill.dashboard.background"),Get(".software.dashboard.arrived"));
+			}
+			sb.Append("</tbody></table>\r\n");
 		}
 
 		private static void AppendTimesRow(StringBuilder sb,string size,string engine,double refill,double refillDashboard,double selection,double pen,
