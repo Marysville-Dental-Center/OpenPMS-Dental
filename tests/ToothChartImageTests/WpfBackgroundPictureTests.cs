@@ -436,5 +436,56 @@ namespace ToothChartImageTests {
 				form.Close();
 			});
 		}
+
+		[TestMethod]
+		public void ShownLiveView_ThePicturesRenderStartsAfterWpfsRenderPass() {
+			//WPF draws a frame of the process and the renderer's picture one after the other (TC-3b's times: a picture started before the refill's
+			//frame held that frame back until the picture was done). So with the live view the job starts only after WPF's render pass, which commits
+			//the frame (CompositionTarget.Rendering is raised in that pass).
+			WpfLiveViewTests.RequireDesktop();
+			StaRunner.Run(() => {
+				using Form form=WpfCharts.CreateOffscreenForm(ChartScenes.SizeModule.Size);
+				ToothChartWrapper wrapper=WpfCharts.CreateWrapper(ChartScenes.SizeModule.Size);
+				form.Controls.Add(wrapper);
+				ToothChartRelay relay=WpfCharts.CreateRelay(wrapper);
+				ChartScenes.Prepare(relay,ChartScenes.Get("restored-adult"),ChartColorSet.Module);
+				form.Show();
+				Assert.IsNotNull(WpfCharts.WaitForLiveView(wrapper),"The live view started.");
+				Stopwatch stopwatch=Stopwatch.StartNew();
+				long ticksRenderPass=-1;
+				long ticksJobStart=-1;
+				EventHandler eventHandlerRendering=(sender,e) => {
+					if(ticksRenderPass<0) {
+						ticksRenderPass=stopwatch.ElapsedTicks;
+					}
+				};
+				ToothChartRenderer.ActionJobStartForTests=kind => {
+					if(kind==ToothChartRenderer.JobRender) {
+						Interlocked.CompareExchange(ref ticksJobStart,stopwatch.ElapsedTicks,-1);
+					}
+				};
+				ToothChartBitmapRequest toothChartBitmapRequest;
+				try {
+					ChartScenes.Prepare(relay,ChartScenes.Get("treatment-plan"),ChartColorSet.Module);
+					toothChartBitmapRequest=relay.RequestBitmapInBackground();
+					Assert.IsNotNull(toothChartBitmapRequest);
+					List<Bitmap> listBitmaps=new List<Bitmap>();
+					toothChartBitmapRequest.SetActionDone(bitmap => listBitmaps.Add(bitmap));
+					//Subscribed after the request: WPF asks for its render pass now, behind the request's posted start.
+					System.Windows.Media.CompositionTarget.Rendering+=eventHandlerRendering;
+					Assert.IsTrue(WpfRendererTests.PumpUntil(() => toothChartBitmapRequest.IsDone,20000),"The picture arrived.");
+					listBitmaps.Single().Dispose();
+				}
+				finally {
+					System.Windows.Media.CompositionTarget.Rendering-=eventHandlerRendering;
+					ToothChartRenderer.ActionJobStartForTests=null;
+				}
+				long ticksJob=Interlocked.Read(ref ticksJobStart);
+				Assert.IsTrue(ticksRenderPass>=0 && ticksJob>=0,"Both happened: render pass "+ticksRenderPass+", job "+ticksJob+".");
+				Assert.IsTrue(ticksRenderPass<ticksJob,"WPF's render pass came before the picture's render.");
+				wrapper.Dispose();
+				form.Close();
+			});
+		}
 	}
 }

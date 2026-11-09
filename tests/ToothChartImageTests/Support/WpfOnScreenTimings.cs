@@ -353,6 +353,9 @@ namespace ToothChartImageTests {
 			//unmeasured runs first; each run waits for its picture before the next.
 			Action actionShowAndFrame=() => {
 				actionShow();
+				//What the program's message loop does next: WPF's own work down to Background priority (the frame's commit at Render, then the
+				//picture's start, StartBitmapJobAfterLiveViewFrame), so the frame and the picture's render meet as they do in the program; then the frame.
+				Dispatcher.CurrentDispatcher.Invoke(DispatcherPriority.Background,new Action(() => { }));
 				WaitForFrame(actionCompleteRender);
 			};
 			List<double> listRefillDashboardShown=new List<double>();

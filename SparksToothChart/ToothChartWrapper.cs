@@ -1071,7 +1071,8 @@ namespace SparksToothChart {
 		///picture for the Patient Dashboard, ControlChart.FillToothChart). Only the WPF chart does this. The scene of the current data is built now, on
 		///this thread, as GetBitmap builds it (no WPF object is made here), and the renderer makes the picture on its own thread, at this size, with
 		///this wrapper's 3D layer cache: the same renderer, size, colours and scene as GetBitmap's. The job is started by a message posted to this
-		///thread, so the on-screen rebuild that the same refill posted earlier goes first. The picture reaches the request's action on this thread when
+		///thread, so the on-screen rebuild that the same refill posted earlier goes first, and with the live view after WPF has committed its frame
+		///(StartBitmapJobAfterLiveViewFrame). The picture reaches the request's action on this thread when
 		///it arrives (ToothChartBitmapRequest). Only the newest request is made: a newer one drops the older, and the render thread takes the newest
 		///scene only when it starts the job, so a burst of refills makes one picture (and one more when a render was already running when the burst
 		///began; its picture is dropped). A render that fails twice gives the 2D chart's picture of the data as it is when the failure arrives, logged
@@ -1116,13 +1117,36 @@ namespace SparksToothChart {
 			}
 			_isBitmapStartPosted=true;
 			try {
-				BeginInvoke(new Action(StartBitmapJob));
+				BeginInvoke(new Action(StartBitmapJobAfterLiveViewFrame));
 				return true;
 			}
 			catch(InvalidOperationException ex) {
 				ex.DoNothing();//the handle went away
 				_isBitmapStartPosted=false;
 				return false;
+			}
+		}
+
+		///<summary>The posted start, which runs after the refill's on-screen rebuild. With the live view on screen the job waits once more, through this
+		///thread's WPF Dispatcher at Background priority, until WPF has committed the live view's frame (it does that at Render priority): WPF draws a
+		///frame of the process and the renderer's picture one after the other, so a picture started first held the refill's frame back until it was
+		///done (measured in TC-3b), and started after the commit it lets the frame go first. Without a live view (the image host, a hidden wrapper) the
+		///job starts now. The Dispatcher is the live view's, never one made here.</summary>
+		private void StartBitmapJobAfterLiveViewFrame() {
+			System.Windows.Threading.Dispatcher dispatcher=null;
+			if(toothChartWpfView!=null) {
+				dispatcher=System.Windows.Threading.Dispatcher.FromThread(System.Threading.Thread.CurrentThread);
+			}
+			if(dispatcher==null || dispatcher.HasShutdownStarted) {
+				StartBitmapJob();
+				return;
+			}
+			try {
+				dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Background,new Action(StartBitmapJob));
+			}
+			catch(Exception ex) {
+				ex.DoNothing();
+				StartBitmapJob();
 			}
 		}
 

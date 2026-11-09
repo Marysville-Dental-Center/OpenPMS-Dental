@@ -532,7 +532,7 @@ either way.
 - **One render thread per process.** It is STA, has `IsBackground=true` and its own Dispatcher, and ends with
   `Dispatcher.InvokeShutdown` (never `Thread.Abort`).
 - It builds and freezes the meshes once (frozen objects can be used from any thread), keeps the 3D layer's visual tree, and makes every
-  image: the on-screen image, `GetBitmap`, prints, sheets and tests.
+  image: the on-screen image, `GetBitmap`, the dashboard's picture made in the background (TC-3b), prints, sheets and tests.
 - **Scenes.** The scene is built on the calling thread from `ToothChartData` and cannot change afterwards. The render thread never reads
   `ToothChartData` and never waits for another thread, so a caller waiting for it cannot deadlock.
 - An on-screen result reaches the UI thread only through a non-blocking `BeginInvoke` on the image host. It is skipped when the host is
@@ -588,7 +588,8 @@ either way.
   notes).
 - The posted rebuild always renders the on-screen image from the current scene, even when a `GetBitmap` in between has already rebuilt
   the scene and cleared its dirty mark. Only the posted rebuild clears the burst's "posted" mark. So a refill that ends in the
-  dashboard's `GetBitmap` (`ControlChart.cs:6673-6681`) still updates the screen.
+  dashboard's `GetBitmap` (the other engines), or since TC-3b in its request (`RequestBitmapInBackground`, which builds the scene as
+  `GetBitmap` does; `ControlChart.cs:6411-6441`), still updates the screen, and the request's job is posted after the rebuild.
 - The rebuild is posted rather than tied to the wrapper's next paint: the engine control covers the whole wrapper, which may then get no
   paint of its own.
 - The `Wpf3D` branches of the wrapper: `TcData` (66-84), `OnInvalidated` (319), `OnResize` (842), the `DrawMode` setter's dispose step
