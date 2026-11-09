@@ -1082,10 +1082,10 @@ namespace SparksToothChart {
 			if(_engine!=ToothChartEngine.Wpf3D || toothChartImageHost==null || IsDisposed || Disposing || !IsHandleCreated || InvokeRequired) {
 				return null;
 			}
-			ToothScene toothScene=BuildWpfScene();
-			if(toothScene.Size.Width<1 || toothScene.Size.Height<1) {
+			if(tcData.SizeControl.Width<1 || tcData.SizeControl.Height<1) {//the scene's size (ToothSceneBuilder)
 				return null;
 			}
+			ToothScene toothScene=BuildWpfScene();
 			ToothChartBitmapRequest toothChartBitmapRequest=new ToothChartBitmapRequest(toothScene);
 			_bitmapRequestLatest?.Drop();
 			_bitmapRequestLatest=toothChartBitmapRequest;

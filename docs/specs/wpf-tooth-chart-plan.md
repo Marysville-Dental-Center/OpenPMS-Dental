@@ -346,9 +346,10 @@ answer. How the package meets its row:
 - **The Chart module.** `FillToothChart` asks only when it asked before (a refill dated today with the dashboard visible), so a closed dashboard
   asks for none. It puts the request in the event (`PatientDashboardDataEventArgs.ImageToothChartRequest`) in place of the picture, and fires the
   event at once, so the dashboard's other fields update with the refill as before.
-- **The dashboard.** `UserControlDashboard` keeps the one request whose picture it still waits for (`DashToothChartImageWait`). When the picture
-  arrives, the dashboard hands it to its `DashToothChart` fields on its own refresh thread and redraws the widget, as it showed the event's
-  picture before.
+- **The dashboard.** `UserControlDashboard` keeps the one request whose picture it still waits for in a `ToothChartDashboardWait`: chart code for
+  the caller, kept with the relay in `WpfControlsOD/UI/ToothChart` (TC-2's rule), so `ToothChartImageTests` tests it with real pictures without
+  referencing the program. When the picture arrives, the dashboard hands it to its `DashToothChart` fields (`DashToothChart.SetImageInWidget`) on
+  its own refresh thread and redraws the widget, as it showed the event's picture before.
   - Its refresh threads run one after another (each waits for the one before it), so the picture lands after every set and refresh that started
     before it arrived and before every one that starts later.
   - The wait ends without a picture on everything that brings the dashboard a newer tooth chart: a refresh (the Patient event of every patient
