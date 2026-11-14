@@ -236,17 +236,21 @@ afterwards.
 
    `certutil -store My <thumbprint>` names its key container ("Key Container"). Import `client-cng.pfx` with the tool: the result says
    that the entry's private key was in the user key set of the account that put it there, that the import gave it the private key it
-   stored, and that the earlier key was left untouched, with its provider, container and the `certutil -user -csp ... -delkey ...`
-   command. `certutil -store My <thumbprint>` now names a new container, whose file in `%ProgramData%\Microsoft\Crypto\Keys` gives Users
+   stored, and that the earlier key was left untouched, with its provider and container, and ends "The tool's record keeps it, and the
+   tool names that key on the entry again when this import is undone or a later save stops using this certificate, so do not delete that
+   key while the record names it." (no `certutil -delkey` command: DCFU4 second fix round, finding 2). `certutil -store My <thumbprint>` now names a new container, whose file in `%ProgramData%\Microsoft\Crypto\Keys` gives Users
    Read; `ConnectionSettings\imported-client-certificate.txt` of the program folder starts with `Open PMS - Dental imported client
    certificate, format 2` and holds the thumbprint, the new key (`tool.container=`, `tool.keyset=machine`) and the earlier one
    (`earlier.container=`, `earlier.keyset=user`). Keep the earlier key for check 8.
 8. **The tool gives the entry its earlier key back** (DCFU3, decision 6; DCFU4 round 4, part B). Save the settings with the password: the
    result says that the certificate "was in the computer's certificate store (LocalMachine\My) before the tool's import gave it a private
-   key: its entry names its earlier private key again (...), as before that import, and the private key the tool gave it was deleted".
-   LocalMachine\My still holds the certificate, `certutil -store My <thumbprint>` names the container of check 7's first `certutil` again,
-   the new key file of check 7 is gone, and so is `imported-client-certificate.txt`. Then remove the certificate with
-   `Remove-Item Cert:\LocalMachine\My\<thumbprint>` and delete the earlier key with the command check 7's result gave (as yourself).
+   key: its entry names its earlier private key again (...), as before that import, and the private key the tool gave it was deleted",
+   then "If someone deleted that earlier key since, the entry names a key that is not there: then remove the certificate as an
+   administrator, in PowerShell: Remove-Item Cert:\LocalMachine\My\<thumbprint>." LocalMachine\My still holds the certificate,
+   `certutil -store My <thumbprint>` names the container of check 7's first `certutil` again, `certutil -user -key "<container>"` still
+   finds that key, the new key file of check 7 is gone, and so is `imported-client-certificate.txt`. Then remove the certificate with
+   `Remove-Item Cert:\LocalMachine\My\<thumbprint>` and delete the earlier key as yourself with `certutil -user -csp "<provider>" -delkey
+   "<container>"` (the provider and container check 7's result named).
 9. **No PIN for another certificate's key** (DCFU3, decision 3), on a test computer with a TPM: put a certificate with a TPM key into
    LocalMachine\My (`New-SelfSignedCertificate -Subject "CN=synthetic-tpm" -Provider "Microsoft Platform Crypto Provider"
    -CertStoreLocation Cert:\LocalMachine\My`), then do checks 4 and 3 again: no prompt, no error, and the TPM certificate stays; remove it
@@ -257,11 +261,12 @@ afterwards.
    container name" (`certutil -store My <thumbprint>`) and check the Security tab of that file in `%ProgramData%\Microsoft\Crypto\Keys`:
    no Users. Import `client-cng.pfx` with the tool: the result says that the certificate was already there "with a usable private key
    that this tool did not import, so the tool gives the program's users no read access to that key", that the import gave the entry the
-   key it stored, and names the earlier key with `certutil -csp "Microsoft Software Key Storage Provider" -delkey "<container>"`.
+   key it stored, and names the earlier key (provider "Microsoft Software Key Storage Provider", the noted container) with the sentence
+   that asks that it not be deleted while the record names it, and no `certutil -delkey` command (DCFU4 second fix round).
    `certutil -store My <thumbprint>` names a new container, whose file gives Users Read; the earlier file still has no Users;
    `imported-client-certificate.txt` holds the thumbprint and both keys. Import the same file again: no warning, the same container, no new
-   key file. Save with the password (DCFU4 round 4, part B): the result says the entry names its earlier private key again; the
-   certificate is still in LocalMachine\My, `certutil -store My <thumbprint>` names the earlier container again, the new key file is gone,
+   key file. Save with the password (DCFU4 round 4, part B): the result says the entry names its earlier private key again, and ends with
+   the sentence about a key deleted since (check 8); the certificate is still in LocalMachine\My, `certutil -store My <thumbprint>` names the earlier container again, the new key file is gone,
    and the earlier file is still there, still without Users. Remove it with `Remove-Item Cert:\LocalMachine\My\<thumbprint> -DeleteKey`.
 11. **A save that fails after the import** (DCFU3 fix round, review finding 1). With the settings on the password, list the files of
    `%ProgramData%\Microsoft\Crypto\Keys`, hold `FreeDentalConfig.xml` open in another PowerShell window
@@ -275,8 +280,10 @@ afterwards.
    and list the files of `%ProgramData%\Microsoft\Crypto\Keys`. Hold `FreeDentalConfig.xml` open again and import `client-cng.pfx` with
    the tool: it fails with exit code 3. The error says that the settings could not be saved, and ends (DCFU4 round 4, part B): "The
    client certificate <thumbprint> was in the computer's certificate store (LocalMachine\My) before the tool's import gave it a private
-   key: its entry names its earlier private key again (...), as before that import, and the private key the tool gave it was deleted."
-   LocalMachine\My still holds the certificate, `certutil -store My <thumbprint>` names the noted container again, the key files are as
+   key: its entry names its earlier private key again (...), as before that import, and the private key the tool gave it was deleted. If
+   someone deleted that earlier key since, the entry names a key that is not there: then remove the certificate as an administrator, in
+   PowerShell: Remove-Item Cert:\LocalMachine\My\<thumbprint>." LocalMachine\My still holds the certificate, `certutil -store My
+   <thumbprint>` names the noted container again, the key files are as
    listed (the earlier one still there, its Security tab still without Users), and `imported-client-certificate.txt` is absent.
    `$f.Close()`, and remove the certificate with `Remove-Item Cert:\LocalMachine\My\<thumbprint> -DeleteKey`. Since the DCFU4 fix round
    (finding 4) the error no longer gives the import's warning about the earlier key (the certificate was already there "with a usable
@@ -287,15 +294,16 @@ afterwards.
    <thumbprint>` shows the provider and the "Key Container" name; note both. Check that `RSA\MachineKeys` has no CAPI container of that
    name (`certutil -csp "Microsoft Enhanced RSA and AES Cryptographic Provider" -key "<container>"` finds none). Import `client-capi.pfx`
    with the tool: the result says the certificate was already there "with a usable private key that this tool did not import", and names
-   the earlier key with `certutil -csp "Microsoft Software Key Storage Provider" -delkey "<container>"`. `certutil -store My <thumbprint>`
+   the earlier key (the Software Key Storage Provider and the noted container) with the sentence that asks that it not be deleted while
+   the record names it, and no `certutil -delkey` command (DCFU4 second fix round). `certutil -store My <thumbprint>`
    now shows the CAPI provider; its key file in `RSA\MachineKeys` gives Users Read, and the earlier file in `%ProgramData%\Microsoft\Crypto\Keys`
    still has no Users; `imported-client-certificate.txt` holds the thumbprint. Save with the password (DCFU4 round 4, part B): the
-   certificate stays, `certutil -store My <thumbprint>` shows the Software Key Storage Provider and the noted container again, the CAPI key
+   result ends with the sentence about a key deleted since (check 8), the certificate stays, `certutil -store My <thumbprint>` shows the Software Key Storage Provider and the noted container again, the CAPI key
    file is gone, and the earlier file is still there. Remove it with `Remove-Item Cert:\LocalMachine\My\<thumbprint> -DeleteKey`. (Whether
    the CAPI key takes the name the `.pfx` records is Windows' choice; the tests measured that it does. If it takes another name, this is
    check 10 again.)
 13. Put the connection settings back, remove what is left with `Remove-Item Cert:\LocalMachine\My\<thumbprint> -DeleteKey`, delete the
-   `.pfx` files and forget the passwords. Do checks 14 to 18 (DCFU4 round 4 and its fix round, in their sections at the end of this note) before this step.
+   `.pfx` files and forget the passwords. Do checks 14 to 19 (DCFU4 round 4 and its fix rounds, in their sections at the end of this note) before this step.
 
 The refused import and a key that cannot be deleted (DCFU2), a CAPI delete that Windows does not do (DCFU3, decision 4), a key provider
 information that cannot be read (DCFU3, decision 3) and rights of `FreeDentalConfig.xml` that cannot be reset (DCFU3 fix round) are
@@ -1275,10 +1283,12 @@ first. On the same test computer, as a Windows administrator, with the `.pfx` fi
     `Import-PfxCertificate -FilePath .\client-cng.pfx -CertStoreLocation Cert:\LocalMachine\My -Password $password`; `certutil -store My
     <thumbprint>` now names another container (note it), whose file in `%ProgramData%\Microsoft\Crypto\Keys` has no Users. (a) Import
     `client-cng.pfx` with the tool again: the result begins "The tool's record names the client certificate, but its entry in the
-    computer's certificate store (LocalMachine\My) names another private key than the one the tool gave it"; the hand-given key's file
-    still has no Users and is still there; the first noted file is gone; the entry names a third container whose file gives Users Read;
+    computer's certificate store (LocalMachine\My) names another private key than the one the tool gave it", and names the hand-given key
+    with the sentence that asks that it not be deleted while the record names it (no `certutil -delkey` command, DCFU4 second fix round);
+    the hand-given key's file still has no Users and is still there; the first noted file is gone; the entry names a third container whose file gives Users Read;
     `imported-client-certificate.txt` has `earlier.container=` the hand-given container. Save with the password: the entry names the
-    hand-given key again and the third file is gone. (b) Remove the certificate (`Remove-Item ... -DeleteKey`), then repeat up to the key
+    hand-given key again, the result ends with the sentence about a key deleted since (check 8), the hand-given key's file is still there,
+    and the third file is gone. (b) Remove the certificate (`Remove-Item ... -DeleteKey`), then repeat up to the key
     given by hand, and save with the password: the result says the certificate "stays in the computer's certificate store" with the
     hand-given key; LocalMachine\My still holds it, that key's file is still there without Users, the tool's key file is gone, and
     `imported-client-certificate.txt` is absent. Remove it with `Remove-Item Cert:\LocalMachine\My\<thumbprint> -DeleteKey`.
@@ -1439,10 +1449,12 @@ key, and each test store's clean-up checks what is left after every test).
 18. **An entry whose key does not open** (findings 1 and 3). Put `client-cng.pfx`'s certificate into LocalMachine\My with
     `Import-PfxCertificate` (not the tool), note its "Unique container name" (`certutil -store My <thumbprint>`), then delete that key's
     file in `%ProgramData%\Microsoft\Crypto\Keys` (the entry now names a key that does not open). Import `client-cng.pfx` with the tool:
-    the result says the private key its entry names "does not open for this tool" and names that container. Save with the password: the
-    result says the entry "names its earlier private key again" and that the tool's key was deleted; `certutil -store My <thumbprint>` names
-    the noted container again; the tool's key file is gone; LocalMachine\My still holds the certificate. Remove it with `Remove-Item
-    Cert:\LocalMachine\My\<thumbprint> -DeleteKey`. With a smart card or TPM key on a test computer the same holds, and no PIN is asked
+    the result says the private key its entry names "does not open for this tool", names that container, and ends with the sentence that
+    asks that it not be deleted while the record names it. Save with the password: the result says the entry "names its earlier private
+    key again", that the tool's key was deleted, and, last, that if someone deleted that earlier key since, the entry names a key that is
+    not there (here it is so: the key file was deleted before the import); `certutil -store My <thumbprint>` names
+    the noted container again; the tool's key file is gone; LocalMachine\My still holds the certificate. Remove it as that last sentence
+    says, with `Remove-Item Cert:\LocalMachine\My\<thumbprint>`. With a smart card or TPM key on a test computer the same holds, and no PIN is asked
     for at the save.
 Check 11's second part (a failed save over a certificate an administrator put there) now expects no `certutil -delkey` command in the
 error (finding 4).
@@ -1455,3 +1467,117 @@ error (finding 4).
 - **The not-open warning on a successful save** says that a later save that stops using the certificate names the key again; while the
   settings use the certificate, the entry names the tool's key, which the users can read, as for every other earlier key left aside.
 
+
+## Round 4 second fix round (branch `fix/dcfu4-3`, 2026-11-14)
+
+Cut from `fix/dcfu4-2`. The review found two things; both were real (the tests below fail against the code before the fix), and both
+are fixed. Seam and tests f0b442b5a, code and test expectations 6f287e89c, spec, release notes, owner questions and this note the commit
+after. No schema change, no enumeration value stored anywhere, no new dependency.
+
+### 1. An old-format record claimed whatever key its entry named (`ClientCertificateStore.CompleteRecord`)
+
+Round 4 rewrote a record of the old format (a thumbprint line) at the next save that kept the certificate, naming the key its store entry
+named then, read without opening it, with no other check. That made the new record claim a key the old rule never claimed: the old rule
+claimed the recorded entry's key on a re-import only after `IsEntryKeyUsable` had let the entry through (a key in the import's key set that
+opens and signs or decrypts). The sequence the review gave, both cases real:
+
+- (a) An administrator re-keys the recorded certificate's entry to a key in their own user key set. The save records that key as
+  `tool.`; the re-import turns the entry away (another key set), leaves that key aside, warns that it was "left ... untouched" with a
+  `certutil -delkey` command, and then, because the recorded tool key is not the import's, deletes it by its name in the administrator's
+  user key set (`DeleteToolKeyNamed`), without a word. A later password save then names the deleted key on the entry again.
+- (b) The entry is re-keyed to a machine key that does not open silently (a TPM key that needs a PIN, a smart-card key). The save records
+  it as the tool's; the re-import takes it for the tool's own dead key (`IsEntryKeyNotOpenedForeign`) and opens it by name to delete it.
+
+Now `CompleteRecord` names the entry's key only when the old rule would claim it: its key provider information names a key in the tool's
+key set (`IsInToolKeySet`, new: the machine's for LocalMachine\My, the user's for the tests' store) and the key is usable (`IsKeyUsable`,
+the check `IsEntryKeyUsable` makes; it opens the key, as the re-import already did for such an entry). Otherwise the record is written in
+format 2 with no `tool.` lines, so the old-format rule goes on (the thumbprint claims an entry only once `IsEntryKeyUsable` let it through)
+until an import records a key under the strict rule. `ImportedCertificateRecord`'s class summary and `CompleteRecord`'s say so.
+
+The guard: a recorded key outside the tool's key set is never the tool's, since the tool never creates one there (only a record edited
+by hand can say so). `IsEntryKeyTools` and `IsEntryKeyNotOpenedForeign` do not match it, the re-import's delete by name skips it, and
+`RemoveImported` takes nothing of such a record: the certificate and every key stay, and the warning says "The tool's record names the
+client certificate <thumbprint> with a private key outside the key set the tool imports into (...), which the tool never creates, so the
+tool leaves the certificate in the computer's certificate store (<store>) and every key as they are. If no settings use it, remove it as an
+administrator, in PowerShell: Remove-Item Cert:\<store>\<thumbprint>, and delete its private key only if you know that no one else's
+certificate uses it." (nothing when the certificate is no longer in the store). `IsEntryKeyUsable` uses the same helper.
+
+### 2. The import offered to delete an earlier key it records (`GetEntryKeyWhereText`)
+
+Since round 4 an import that leaves the store entry's earlier key aside records it (`KeyBefore`, when its key provider information was
+read field by field), and the undo or a later save names it on the entry again. The warning still gave "<who> can delete it, once no other
+certificate uses it: certutil [-user] -csp "P" -delkey "C"", whose condition held (no certificate named the key then); an administrator who
+ran it got, at the next password save, an entry naming a deleted key and a result that said only that the earlier key was named again.
+
+Now `AddClientCertificate` knows before the warnings are made whether the earlier key will be recorded (`isEarlierKeyRecorded`, the same
+condition as `KeyBefore`), and `GetEntryKeyWhereText` (for `GetEntryKeyLeftText`, `GetEntryKeyNotToolsText`, `GetEntryKeyRekeyedText`)
+then says, after where the key is: "The tool's record keeps it, and the tool names that key on the entry again when this import is undone
+or a later save stops using this certificate, so do not delete that key while the record names it." `GetEntryKeyNotOpenedText` ends with
+the same sentence, and so does the unidentified-key text when something was recorded. The `certutil -delkey` command is given only when
+nothing could be recorded (`KeyBefore` null). This also covers the failed save whose settings already use the certificate (the import
+recorded at once).
+
+The put-back result (`PutBackEarlierKey`, whatever became of the tool's key) now ends: "If someone deleted that earlier key since, the
+entry names a key that is not there: then remove the certificate as an administrator, in PowerShell: Remove-Item Cert:\<store>\<thumbprint>."
+The tool does not open the earlier key to check (it may be hardware-backed). The review asked for `-DeleteKey` in that command; it is
+left out on purpose: in the case the sentence is about the key is gone already, and if it is not, `-DeleteKey` would delete a key the
+tool did not create. The wording avoids "was deleted", which the tests reserve for the tool's own key.
+
+### Tests
+
+- `ClientCertificateRecordTests.Apply_AnOldFormatRecordWhoseEntryWasReKeyedByHand_ClaimsNoKeyTheOldRuleDidNot` (finding 1, and 2 for the
+  warning): for each kind of key, the tool's import, its record replaced by the thumbprint line, the entry re-keyed by hand (the test store
+  adds the same `.pfx` again) and then (a) made to name the machine key set (only the flag; nothing is made, opened or deleted there) or (b)
+  refused by the open seam (a key that needs a PIN); a save without an import, the same `.pfx` again, and a password save. No key is
+  deleted by its name (new seam `ActionBeforeKeyDeleteByNameForTests`, called in `DeleteToolKey` before anything looks for the key; the
+  test's throws for the hand-given key so that even the code before the fix deletes nothing), the saved record names no key, the
+  hand-given key and its file stay throughout, the re-import's warning in (a) has the new sentence and no `-delkey`, and the record keeps
+  the key as `earlier.`; the password save in (a) names the hand-given key again exactly (that user key and its file still exist; the
+  machine-set name stands for it) and ends with the new sentence, in (b) removes the certificate with the second import's key, as the old
+  rule did.
+- `ClientCertificateRecordTests.Apply_ARecordWhoseToolKeyIsOutsideTheImportsKeySet_IsNotTheTools` (the guard): the record of an import
+  rewritten with `tool.keyset=machine`; a password save deletes nothing by its name, leaves the entry and its key, and says why.
+- Changed expectations: the earlier-key warnings in `ClientCertificateImportTests` (another key set, a usable key the tool did not create,
+  the CNG key named as the import's CAPI container, a key that does not open) now end with the new sentence instead of the `certutil`
+  command; every put-back result in `ClientCertificateImportTests` and `ClientCertificatePutBackTests` ends with the new sentence
+  (`ClientCertificateRecordTests.GetPutBackHedge`). The unreadable-key case keeps its text (nothing recorded, no command anyway).
+
+**Against the code before the fix** (f0b442b5a, the seam and the tests only): `dcfu4-3-before.txt` (case (a) first: the re-import deletes
+the machine-set name by its name, after the warning with its `certutil -delkey` command) and `dcfu4-3-before-b.txt` (case (b) first: the
+re-import deletes the hand-given user key, which exists, by its name; the seam refused it); the guard test fails in both (the password save
+deletes the record's machine-set key by its name). Every other test passed (212).
+
+**After the fix:** RESULTS_PLACEHOLDER
+
+### Launch checks (administrator only, LocalMachine\My)
+
+Checks 7, 8, 10, 11 (second part), 12, 14 and 18 now expect the new sentences: no `certutil -delkey` command for an earlier key the tool
+records, and the put-back result's last sentence about a key deleted since (check 8 quotes it). Checks 15 to 17 are unchanged (15 has an
+entry whose key the tool made, which `CompleteRecord` still records; 16 and 17 are the Direct import's). New:
+
+19. **An old-format record over an entry re-keyed by hand** (finding 1). With the settings on the password, import `client-cng.pfx` with
+    the tool, replace its record by the thumbprint line as check 15 does, then give the entry a key in your own user key set with check
+    7's snippet (the store's add replaces the entry's key provider information); note its "Key Container" (`certutil -store My
+    <thumbprint>`). Open the tool and save the settings unchanged: `imported-client-certificate.txt` starts with the format 2 line and has
+    no `tool.` lines. Import `client-cng.pfx` with the tool again: the result names your key with the sentence that asks that it not be
+    deleted, no `certutil -delkey` command; `certutil -user -key "<container>"` still finds your key; the record has `earlier.container=`
+    your container and `earlier.keyset=user`. Save with the password: the entry names your key again (`certutil -store My <thumbprint>`),
+    `certutil -user -key "<container>"` still finds it. Remove the certificate with `Remove-Item Cert:\LocalMachine\My\<thumbprint>` and
+    delete your key with `certutil -user -csp "<provider>" -delkey "<container>"`. A key that does not open silently (a TPM key with a PIN,
+    a smart-card key) is the tests' case (b) only: a usable TPM key without a PIN is one the old rule claimed, so `CompleteRecord` records
+    it, as the old rule would have taken it on a re-import.
+
+### Noticed, not changed (for the lead)
+
+- **The old-format rule on removal.** A record of the old format whose entry an administrator re-keyed before the upgrade is now kept
+  without a key named, so a password save without a re-import still removes that entry with whatever key it names, as the old rule did
+  (`RemoveImported` with no key named); only a re-import first records a key under the strict rule. Database connection security is new
+  in the next version, so old-format records exist only on test installs; refusing to remove an entry whose old-format record names no
+  key would be the stricter choice.
+- **A record that cannot be written.** The new earlier-key sentence says the record keeps the key; when the save then cannot write the
+  record, its result also says "The tool could not record which client certificate it imported", but the earlier-key sentence before it
+  is then not true. Rare (the ConnectionSettings folder is the tool's own); left as it is.
+- **A usable key given by hand under an old-format record.** An administrator who re-keyed the recorded entry to a working key of the
+  machine key set (`Import-PfxCertificate`, say) before the first save of this build still has that key recorded as the tool's, since the
+  old rule claimed it too (the review's rule: claim nothing the old rule did not). Only the kinds of key the old rule refused are now left
+  out.

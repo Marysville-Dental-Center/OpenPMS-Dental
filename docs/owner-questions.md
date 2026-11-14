@@ -823,8 +823,8 @@ port note's "Round 4").
   then delete the tool's key. The entry stays, the earlier key is never touched, and the message says what was put back, and exactly what
   became of the tool's key (deleted, or left and why). This covers every earlier key the tool did not create: one in another key set, a
   working one, and one in the tool's key set that does not open (a smart card that is not inserted, a TPM or other key that needs a PIN, a
-  key the administrator's rights keep out, a deleted key file); a failed save whose undo put the key back no longer offers the command that
-  deletes it. Only an entry that had no key at all (no key provider information), or whose only key was the tool's own from an earlier
+  key the administrator's rights keep out, a deleted key file); the import no longer offers the command that deletes an earlier key it
+  records (the result asks that it be kept, since the tool names it on the entry again), and says what to do if it was deleted anyway. Only an entry that had no key at all (no key provider information), or whose only key was the tool's own from an earlier
   import, is removed with the tool's key, as before.
 - **The tool's record holds only the certificate's thumbprint.** If an administrator later gives a recorded certificate another key by hand,
   the tool treats that key as its own: it gives the users read access to it on a re-import and deletes it on a later save. Should the record
@@ -832,7 +832,9 @@ port note's "Round 4").
   still be read). **Recommended: yes.** **Answered: yes. Done:** the record (format 2, versioned by its first line) holds the thumbprint,
   the key the tool created and the entry's earlier key. The tool claims an entry's key only when the record names that very key: a key an
   administrator gave a recorded certificate by hand gets no read access for the users and is never deleted, and the result names it. A
-  record in the old format is still read, as before, and the next save rewrites it in the new format.
+  record in the old format is still read, as before, and the next save rewrites it in the new format, naming the certificate's key only
+  when the old rule would have claimed it (a working key of the computer's key set); otherwise it names no key, so a key the tool never
+  made is never recorded as the tool's.
 
 ---
 

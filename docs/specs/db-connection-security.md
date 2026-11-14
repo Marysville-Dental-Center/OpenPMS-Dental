@@ -250,8 +250,11 @@ whose key is in another key set (an administrator's own user key set, say, which
 identified, and so is one with a usable key that the tool did not create (an administrator put the certificate there with certlm.msc or
 `Import-PfxCertificate`, or gave a certificate the tool recorded another key by hand, say): the tool never gives the users read access to a
 key it did not create. The result then says that the
-entry's earlier key was left untouched, where it is, and the `certutil [-user] -csp "<provider>" -delkey "<container>"` command that
-deletes it once no other certificate uses it.
+entry's earlier key was left untouched and where it is. When the import could read the entry's key provider information field by field,
+it records that key as the entry's earlier key (below), and the result says that the tool names it on the entry again when the import is
+undone or a later save stops using the certificate, so that it must not be deleted while the record names it (DCFU4 second fix round);
+only when nothing could be recorded does it give the `certutil [-user] -csp "<provider>" -delkey "<container>"` command that deletes it
+once no other certificate uses it.
 
 The certificate it replaces (owner decision of 2026-11-02): the tool removes a client certificate from the store, with its private key
 (CNG `Delete`, or the CAPI key container), only when it imported that certificate itself and a save stops using it (another certificate,
@@ -266,8 +269,11 @@ round 4 the record is versioned by its first line (`Open PMS - Dental imported c
 line each, the thumbprint, the key the tool's import gave the entry (container, provider and type, key set, flags, key spec), and, when the
 import left an earlier key of the entry aside, the entry's earlier key provider information exactly as it was (the format is in the class
 summary of `ImportedCertificateRecord`). A record of the old format (one thumbprint line) is still read, as that thumbprint with no key
-named, and the next save writes it in the new format, naming the key the entry has then (read without opening it); a malformed record
-reads as none. The tool removes the entry and deletes its key only when the entry names the key the record names; an entry someone gave
+named, and the next save writes it in the new format, naming the key the entry has then only when the old rule would claim that key on a
+re-import: a key in the machine key set (read without opening it) that opens and signs or decrypts. An entry whose key is in another key
+set or does not open silently (an administrator may have re-keyed it to a key of their own, or to a smart-card or TPM key) is recorded with
+no key named, so the old rule goes on until an import records a key (DCFU4 second fix round). A recorded key outside the machine key set is
+never the tool's: the tool claims, grants and deletes nothing of it. A malformed record reads as none. The tool removes the entry and deletes its key only when the entry names the key the record names; an entry someone gave
 another key by hand stays, with that key, the result names it, and only the key the tool made is deleted, unless a certificate of the store
 names it.
 Only a certificate whose store entry uses the private key the tool's import stored is recorded: one the store did not have before its
@@ -286,13 +292,15 @@ administrator out, a deleted key file), the undo, and a later save that stops us
 provider information, kept in the record between saves, is written back onto the store's entry (`CertSetCertificateContextProperty`), the
 entry is read again to check it, and only then is the key the tool gave it deleted; the entry stays, the earlier key is never opened,
 altered or deleted, and the result says what was put back and what became of the tool's key: deleted, no longer there, kept because
-another certificate of the store names it, or not deleted, with why and where its file is. If the put-back fails, the tool's key is
+another certificate of the store names it, or not deleted, with why and where its file is. Since the earlier key is not opened (it may be
+hardware-backed), the result also says that if someone deleted that key since the import, the entry names a key that is not there, and
+gives the command that removes the certificate (`Remove-Item Cert:\LocalMachine\My\<thumbprint>`, without `-DeleteKey`). If the put-back fails, the tool's key is
 deleted only when the entry no longer names it; otherwise both keys and the entry stay, and the result says how to put the entry right.
 An entry that had no key provider information (no key), whose only key was the tool's own from an earlier import (the record names it, or
 an old-format record claims it by thumbprint), or whose key provider information could not be read at all, is removed whole, as before.
 The error gives the import's warning first (a key it could not delete; a grant that failed; and a store entry's earlier key that the
-import left, with the `certutil -delkey` command that deletes it, unless the undo put that key back on the entry, which then uses it
-again), then what was done: the earlier key put back; or, when the store already held the certificate before the save, that this entry
+import left, unless the undo put that key back on the entry, which then uses it again; with the `certutil -delkey` command only when the
+import could not record that key), then what was done: the earlier key put back; or, when the store already held the certificate before the save, that this entry
 was removed with the key the save gave it; otherwise that the certificate the save imported was removed with its key. When only the rights of
 `FreeDentalConfig.xml` cannot be set back (section 3), the settings are saved, so the record and the removal of the certificate they
 replaced happen as after any save, and the error says what to do about the rights.
