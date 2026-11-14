@@ -28,7 +28,61 @@ namespace LibraryUpdateTests {
 		[TestCleanup]
 		public void TestCleanup() {
 			DirectCertificateImport.ActionBeforePrivateKeyOpenForTests=null;
+			DirectCertificateImport.ActionBeforeKeyProvInfoReadForTests=null;
 			DirectCertificateImport.ActionAfterKeysStoredForTests=null;
+		}
+
+		///<summary>Round 4, part A (1), a key provider information that cannot be read (the seam makes the smart-card certificate's unreadable): that
+		///certificate may use any key, so the import deletes none of the keys it stored and does not use, and the warning says which key was
+		///kept and why, naming the certificate whose key could not be identified. Still no key of it is opened.</summary>
+		[TestMethod]
+		public void ImportPrivateFile_KeepsEveryUnusedKeyWhenAKeyOfTheStoreCannotBeIdentified() {
+			using(DirectTestPki directTestPki=new DirectTestPki())
+			using(DirectTestStores directTestStores=new DirectTestStores()) {
+				List<DirectTestKey> listKeysStored=new List<DirectTestKey>();
+				try {
+					DirectTestPki.Issued issued=directTestPki.Issue(ADDRESS);
+					DirectTestPki.Issued issuedThird=directTestPki.Issue(ADDRESS_THIRD);
+					DirectTestPki.Issued issuedSmartCard=directTestPki.Issue(ADDRESS_OTHER);
+					AddSmartCardCertificate(directTestStores,issuedSmartCard);
+					List<string> listOpened=new List<string>();
+					DirectCertificateImport.ActionBeforePrivateKeyOpenForTests=x509Certificate2 => {
+						if(x509Certificate2.Thumbprint==issuedSmartCard.Thumbprint) {
+							listOpened.Add(x509Certificate2.Subject);
+							throw new CryptographicException("The test refuses to open the smart-card certificate's key.");
+						}
+					};
+					DirectCertificateImport.ActionBeforeKeyProvInfoReadForTests=x509Certificate2 => {
+						if(x509Certificate2.Thumbprint==issuedSmartCard.Thumbprint) {
+							throw new InvalidOperationException("The test makes this key provider information unreadable.");
+						}
+					};
+					Dictionary<string,DirectTestKey> dictKeys=new Dictionary<string,DirectTestKey>();
+					DirectCertificateImport.ActionAfterKeysStoredForTests=x509Certificate2Collection => {
+						foreach(X509Certificate2 x509Certificate2 in x509Certificate2Collection) {
+							if(x509Certificate2.HasPrivateKey) {
+								dictKeys[x509Certificate2.Thumbprint]=DirectTestKey.Of(x509Certificate2);
+								listKeysStored.Add(dictKeys[x509Certificate2.Thumbprint]);
+							}
+						}
+					};
+					string pathPfx=directTestPki.WritePfxMany("pat-and-third.pfx",issued,issuedThird);
+					DirectCertificateResult directCertificateResult=DirectCertificateImport.ImportPrivateFile(ADDRESS,pathPfx,directTestPki.Password,null,DateTime.UtcNow);
+					Assert.IsTrue(directCertificateResult.IsImported,directCertificateResult.Error);
+					Assert.AreEqual(0,listOpened.Count,"No key of the store is opened.");
+					Assert.AreEqual("A private key this import stored could not be deleted ("+issuedThird.Subject+", "+issuedThird.Thumbprint+"): It was kept, "
+						+"because the private key of a certificate that stays could not be identified, and it may be this one: "+issuedSmartCard.Subject+" ("
+						+issuedSmartCard.Thumbprint+"), The test makes this key provider information unreadable.",directCertificateResult.Warning);
+					Assert.IsTrue(dictKeys[issuedThird.Thumbprint].Exists(),"The unused key is kept (the test deletes it).");
+					Assert.IsTrue(dictKeys[issued.Thumbprint].Exists(),"The imported certificate's key stays.");
+				}
+				finally {
+					DirectCertificateImport.ActionBeforePrivateKeyOpenForTests=null;
+					DirectCertificateImport.ActionBeforeKeyProvInfoReadForTests=null;
+					DirectCertificateImport.ActionAfterKeysStoredForTests=null;
+					DeleteKeys(listKeysStored);
+				}
+			}
 		}
 
 		///<summary>Round 4, part A (1): a certificate of the store (another address's) whose key provider information names a smart-card CSP and a

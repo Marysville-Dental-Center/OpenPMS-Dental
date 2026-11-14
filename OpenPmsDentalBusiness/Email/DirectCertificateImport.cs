@@ -186,10 +186,13 @@ namespace OpenPmsDentalBusiness {
 		///a CryptographicException there is a store that refuses to remove it, anything else stops the import there. Null in the program.</summary>
 		internal static Action<X509Certificate2> ActionBeforeStoreRemoveForTests;
 		///<summary>The tests only: called with the certificate each time the import is about to open its private key (IsKeyUsable,
-		///TryDeletePrivateKey, GetCapiRsaPrivateKey, GetMachinePrivateKeyFilePath, and anything that compares keys by opening them), so that a test
+		///TryDeletePrivateKey, GetCapiRsaPrivateKey, GetMachinePrivateKeyFilePath), so that a test
 		///sees which keys are opened: never one of a certificate of the store only to compare key containers. Throwing there is a key that does not
 		///open. Null in the program.</summary>
 		internal static Action<X509Certificate2> ActionBeforePrivateKeyOpenForTests;
+		///<summary>The tests only: called with the certificate right before its key provider information is read (ReadKeyProvInfo); throwing there
+		///is a property that cannot be read. Null in the program.</summary>
+		internal static Action<X509Certificate2> ActionBeforeKeyProvInfoReadForTests;
 
 		#region The address's certificate
 		///<summary>Reads the .pfx or .p12 file with its password, without storing any key (EphemeralKeySet), and checks it for the address
@@ -581,8 +584,9 @@ namespace OpenPmsDentalBusiness {
 			for(int i=0;i<listKeyed.Count;i++) {
 				DirectCertificateBinding binding=GetBinding(listKeyed[i],address);
 				DirectCertificateDetails directCertificateDetails=DirectCertificateDetails.Create(listKeyed[i],binding,GetBoundName(address,binding));
-				//Already there only when its key can be used: a key that was deleted, or that this user can't open, is imported again.
-				if(listStore.Any(x => x.Thumbprint==listKeyed[i].Thumbprint && IsKeyUsable(x))) {
+				//Already there only when its key is in the import's key set and can be used (IsEntryKeyUsable): a key in another key set, one that was
+				//deleted, or one that this user can't open, is imported again.
+				if(listStore.Any(x => x.Thumbprint==listKeyed[i].Thumbprint && IsEntryKeyUsable(x))) {
 					directCertificateResult.ListDetailsInStore.Add(directCertificateDetails);
 					continue;
 				}
@@ -805,26 +809,78 @@ namespace OpenPmsDentalBusiness {
 
 		///<summary>Deletes the private key of each certificate of listX509Certificate2s, each key container once, but none that a certificate of
 		///listInUse uses: one .pfx can give two of its certificates one key (a renewal with the same key), which Windows stores once, in one
-		///container, for both. Containers are compared by GetKeyContainerName, all read before the first is deleted. Why each key could not be
-		///deleted, in the order of listX509Certificate2s: "" when it was deleted, it had none, or a certificate of listInUse uses it.</summary>
+		///container, for both. Containers are compared by their key provider information (ReadKeyProvInfo, CertificateKeyProvInfo.Identity: the
+		///key container in its key set), all read before the first is deleted, as the connection settings tool compares them (DIRECT-CERT-FOLLOWUP
+		///round 4): no key of listInUse is opened, since the store can be the computer's, where a key on a TPM or a smart card could ask for its
+		///PIN, or fail. A certificate whose key provider information cannot be read may use any key, so then no key is deleted, and each says why.
+		///Why each key could not be deleted, in the order of listX509Certificate2s: "" when it was deleted, it had none, or a certificate of
+		///listInUse uses it.</summary>
 		private static List<string> DeleteKeysNotInUse(List<X509Certificate2> listX509Certificate2s,List<X509Certificate2> listInUse) {
-			//Every name first: once a container is deleted, the other certificates that used it no longer say which one it was.
-			List<string> listNames=listX509Certificate2s.Select(x => GetKeyContainerName(x)).ToList();
-			HashSet<string> hashSetNamesInUse=new HashSet<string>(listInUse.Select(x => GetKeyContainerName(x)).Where(x => x!=null),StringComparer.OrdinalIgnoreCase);
-			HashSet<string> hashSetNamesDeleted=new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+			//Every container first: once a container is deleted, the other certificates that used it no longer say which one it was.
+			List<CertificateKeyProvInfo> listKeyProvInfos=listX509Certificate2s.Select(x => ReadKeyProvInfo(x)).ToList();
+			List<CertificateKeyProvInfo> listKeyProvInfosInUse=listInUse.Select(x => ReadKeyProvInfo(x)).ToList();
+			string whyUnknownInUse=null;
+			int indexUnknown=listKeyProvInfosInUse.FindIndex(x => x.IsUnknown);
+			if(indexUnknown>=0) {
+				whyUnknownInUse=Lans.g("DirectCertificateImport","It was kept, because the private key of a certificate that stays could not be identified, "
+					+"and it may be this one")+": "+listInUse[indexUnknown].Subject+" ("+listInUse[indexUnknown].Thumbprint+"), "
+					+listKeyProvInfosInUse[indexUnknown].Problem;
+			}
+			HashSet<string> hashSetInUse=new HashSet<string>(listKeyProvInfosInUse.Where(x => x.IsNamed && !x.IsUnknown).Select(x => x.Identity),
+				StringComparer.OrdinalIgnoreCase);
+			HashSet<string> hashSetDeleted=new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 			List<string> listErrors=new List<string>();
 			for(int i=0;i<listX509Certificate2s.Count;i++) {
-				if(listNames[i]!=null && (hashSetNamesInUse.Contains(listNames[i]) || hashSetNamesDeleted.Contains(listNames[i]))) {
+				CertificateKeyProvInfo certificateKeyProvInfo=listKeyProvInfos[i];
+				if(!certificateKeyProvInfo.IsNamed) {
+					listErrors.Add("");//No key stored for it.
+					continue;
+				}
+				if(certificateKeyProvInfo.IsUnknown) {
+					listErrors.Add(Lans.g("DirectCertificateImport","It was kept, because its key container could not be identified, so a certificate of the "
+						+"store may use it")+": "+certificateKeyProvInfo.Problem);
+					continue;
+				}
+				if(whyUnknownInUse!=null) {
+					listErrors.Add(whyUnknownInUse);
+					continue;
+				}
+				if(hashSetInUse.Contains(certificateKeyProvInfo.Identity) || hashSetDeleted.Contains(certificateKeyProvInfo.Identity)) {
 					listErrors.Add("");//In use by a certificate that stays, or deleted already for another certificate of the list.
 					continue;
 				}
 				string error=TryDeletePrivateKey(listX509Certificate2s[i]);
-				if(error=="" && listNames[i]!=null) {
-					hashSetNamesDeleted.Add(listNames[i]);
+				if(error=="") {
+					hashSetDeleted.Add(certificateKeyProvInfo.Identity);
 				}
 				listErrors.Add(error);
 			}
 			return listErrors;
+		}
+
+		///<summary>The certificate's key provider information (CERT_KEY_PROV_INFO_PROP_ID), read without opening the key, through the reader the
+		///connection settings tool shares (CodeBase's CertificateKeyProvInfo.Read), after the seam ActionBeforeKeyProvInfoReadForTests. Never
+		///throws: anything but a critical exception is a property that cannot be read (IsUnknown).</summary>
+		private static CertificateKeyProvInfo ReadKeyProvInfo(X509Certificate2 x509Certificate2) {
+			return CertificateKeyProvInfo.Read(x509Certificate2,ActionBeforeKeyProvInfoReadForTests);
+		}
+
+		///<summary>True when the store's entry of a certificate of the file counts as already there with its key (CheckPrivateAgainstStore): its key
+		///provider information names a key in the key set the import uses (the machine's for the Local Computer's store, the user's for a store of
+		///the current user), read without opening the key, and only then does the key open and sign or decrypt (IsKeyUsable). An entry whose key
+		///is in another key set (an administrator's own user key set in the Local Computer's store, which the program's users cannot read), or
+		///whose key cannot be identified, is not usable without its key being opened, so the import gives the entry a key of its own and leaves the
+		///earlier one untouched, as the connection settings tool does (DIRECT-CERT-FOLLOWUP round 4, part A). Never throws: anything but a critical
+		///exception means not usable.</summary>
+		internal static bool IsEntryKeyUsable(X509Certificate2 x509Certificate2) {
+			CertificateKeyProvInfo certificateKeyProvInfo=ReadKeyProvInfo(x509Certificate2);
+			if(!certificateKeyProvInfo.IsNamed || certificateKeyProvInfo.IsUnknown) {
+				return false;
+			}
+			if(certificateKeyProvInfo.IsMachine!=(EmailMessages.CertStoreLocation==StoreLocation.LocalMachine)) {
+				return false;
+			}
+			return IsKeyUsable(x509Certificate2);
 		}
 
 		///<summary>"" when everything was taken back, else the lines of what could not be, after a blank line.</summary>
@@ -1279,58 +1335,6 @@ namespace OpenPmsDentalBusiness {
 			catch(Exception ex) when(!IsCriticalException(ex)) {
 				return null;//.NET Framework: "Invalid provider type specified" for a CNG key, NotSupportedException for an ECDSA one.
 			}
-		}
-
-		///<summary>The key container of the certificate's private key: its kind and provider, user or machine, and unique name (CngKey.UniqueName
-		///of a CNG key, CspKeyContainerInfo.UniqueKeyContainerName of a CAPI key), the same for every certificate that uses the one key. Null
-		///without a key, or for a key that does not open. Never throws: anything but a critical exception (IsCriticalException) gives null.</summary>
-		internal static string GetKeyContainerName(X509Certificate2 x509Certificate2) {
-			try {
-				if(!x509Certificate2.HasPrivateKey) {
-					return null;
-				}
-				ActionBeforePrivateKeyOpenForTests?.Invoke(x509Certificate2);
-				RSACryptoServiceProvider rsaCryptoServiceProviderCapi=GetCapiRsaPrivateKey(x509Certificate2);
-				if(rsaCryptoServiceProviderCapi!=null) {
-					return GetCapiKeyContainerName(rsaCryptoServiceProviderCapi.CspKeyContainerInfo);
-				}
-				using(RSA rsa=x509Certificate2.GetRSAPrivateKey()) {
-					if(rsa is RSACng) {
-						using(CngKey cngKey=((RSACng)rsa).Key) {
-							return GetCngKeyContainerName(cngKey);
-						}
-					}
-					if(rsa is RSACryptoServiceProvider) {
-						return GetCapiKeyContainerName(((RSACryptoServiceProvider)rsa).CspKeyContainerInfo);
-					}
-					if(rsa!=null) {
-						return null;
-					}
-				}
-				using(ECDsa ecdsa=x509Certificate2.GetECDsaPrivateKey()) {
-					if(ecdsa is ECDsaCng) {
-						using(CngKey cngKey=((ECDsaCng)ecdsa).Key) {
-							return GetCngKeyContainerName(cngKey);
-						}
-					}
-				}
-				return null;
-			}
-			catch(Exception ex) when(!IsCriticalException(ex)) {
-				return null;
-			}
-		}
-
-		private static string GetCapiKeyContainerName(CspKeyContainerInfo cspKeyContainerInfo) {
-			return "CAPI|"+cspKeyContainerInfo.ProviderName+"|"+(cspKeyContainerInfo.MachineKeyStore ? "machine" : "user")+"|"
-				+cspKeyContainerInfo.UniqueKeyContainerName;
-		}
-
-		private static string GetCngKeyContainerName(CngKey cngKey) {
-			if(string.IsNullOrEmpty(cngKey.UniqueName)) {
-				return null;//An ephemeral key, in memory only: no container to share.
-			}
-			return "CNG|"+cngKey.Provider.Provider+"|"+(cngKey.IsMachineKey ? "machine" : "user")+"|"+cngKey.UniqueName;
 		}
 
 		///<summary>Gives BUILTIN\Users read access to the private key file of a certificate of the Local Computer (a CNG key under
