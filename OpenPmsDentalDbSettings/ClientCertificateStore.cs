@@ -16,7 +16,9 @@ using DataConnectionBase;
 
 namespace OpenPmsDentalDbSettings {
 	///<summary>Whether the store held the client certificate before ImportPfx, and what became of its entry's earlier key: the caller says so
-	///when it undoes the import (DbSettingsRunner, a save that fails after the import), since that removes the whole entry.</summary>
+	///when it undoes the import (DbSettingsRunner, a save that fails after the import). An entry whose earlier key was left aside gets it back
+	///(RemoveImported, from ImportedCertificate.KeyBefore: DIRECT-CERT-FOLLOWUP round 4, part B); any other entry that took the import's key is
+	///removed whole.</summary>
 	public enum ClientCertificateEntryBefore {
 		///<summary>The store did not hold the certificate: the import added it.</summary>
 		None,
@@ -24,7 +26,9 @@ namespace OpenPmsDentalDbSettings {
 		///key (none, or one that no longer opens) and took the import's.</summary>
 		InStore,
 		///<summary>The store held it, and its entry took the import's key, leaving its earlier key untouched: a key in another key set, one that
-		///could not be identified, or a usable key the tool did not create. The import's warning says where that key is.</summary>
+		///could not be identified, or a usable key the tool did not create (also one given by hand to a certificate the tool's record names). The
+		///import's warning says where that key is, and ImportPfx's ImportedCertificate.KeyBefore holds what the entry named before (null only when
+		///that could not be read at all).</summary>
 		InStoreKeyLeft,
 	}
 

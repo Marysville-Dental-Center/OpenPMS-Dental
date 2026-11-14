@@ -196,8 +196,8 @@ namespace OpenPmsDentalDbSettings {
 			//that fails after the import undoes it, or records it (UndoImportOfFailedSave). Not when the store held the certificate with a usable
 			//key of the tool's own before (the record names it), which the import leaves as it is.
 			bool isStoreKeyImported=false;
-			//Whether the store held that certificate before the import, and whether its entry's earlier key was left aside: an undo removes the
-			//whole entry, and its error says so (UndoImportOfFailedSave).
+			//Whether the store held that certificate before the import, and whether its entry's earlier key was left aside: an undo gives such an
+			//entry its earlier key back, or removes an entry that had none it could name, and its error says which (UndoImportOfFailedSave).
 			ClientCertificateEntryBefore entryBefore=ClientCertificateEntryBefore.None;
 			string password="";
 			if(dbSettingsAuth==DbSettingsAuth.Certificate) {

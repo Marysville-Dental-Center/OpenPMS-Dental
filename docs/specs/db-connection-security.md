@@ -232,7 +232,8 @@ store refuses the certificate or anything else stops the import. It deletes only
 client certificate or a certificate of the store uses (compared by key container, in its key set, each container once). The containers are
 read from each certificate's key provider information (`CERT_KEY_PROV_INFO_PROP_ID`), never by opening the key of a certificate of the
 store, which for a key on a TPM or a smart card could ask for a PIN or fail (DCFU3); a certificate whose key provider information cannot be
-read may use any key, so then no key is deleted, and the result says so. A CAPI key's delete is checked: the container must no longer open
+read may use any key, so then no key is deleted, and the result says so. The reader and the strict comparison of two keys are one
+implementation in CodeBase (`CertificateKeyProvInfo`), which the Direct certificate import uses too (DIRECT-CERT-FOLLOWUP round 4). A CAPI key's delete is checked: the container must no longer open
 and its file must be gone. A key it cannot delete is named, with its file, in the result.
 
 A `.pfx` whose certificate the store already holds with a usable private key of the tool's own, as when setup runs again with the same
@@ -242,11 +243,13 @@ The store's add would give the entry the new key and leave the old one on the co
 certificate. Usable means (DCFU3) that the entry's key provider information names a key in the machine key set, the one the import uses,
 and that the key opens and signs, or decrypts, a test value. The tool's own means (DCFU3 fix round) that the entry names the key container
 this import stored the key in, in the same key set and through the same provider, its type and name both (a CNG key with the name of the
-import's CAPI container is another key: second fix round), or that the tool's record (below) names the certificate, which the tool imported before with the key its
-entry took then. An entry whose key cannot be used (deleted, or it does not open) is added again and takes the import's key; so is one
+import's CAPI container is another key: second fix round), or that the tool's record (below) names the certificate and the key the tool's
+import gave its entry then, compared the same strict way (round 4). A record of the old format names no key; then its thumbprint alone
+decides, as before round 4, until the next save rewrites it. An entry whose key cannot be used (deleted, or it does not open) is added again and takes the import's key; so is one
 whose key is in another key set (an administrator's own user key set, say, which the program's users cannot read) or cannot be
 identified, and so is one with a usable key that the tool did not create (an administrator put the certificate there with certlm.msc or
-`Import-PfxCertificate`, say): the tool never gives the users read access to a key it did not create. The result then says that the
+`Import-PfxCertificate`, or gave a certificate the tool recorded another key by hand, say): the tool never gives the users read access to a
+key it did not create. The result then says that the
 entry's earlier key was left untouched, where it is, and the `certutil [-user] -csp "<provider>" -delkey "<container>"` command that
 deletes it once no other certificate uses it.
 
@@ -258,7 +261,15 @@ and its file named through CAPI (`X509Certificate2.PrivateKey`, in the key set t
 goes first, then its key, which stays when another certificate of the store uses it; when only the key cannot be deleted, the result
 says that the certificate was removed and names the key's file, which certlm.msc no longer shows. It records the thumbprint of what it
 imported in `<program folder>\ConnectionSettings\imported-client-certificate.txt` (`ImportedCertificateRecord`), written with the
-protection of the office CA copy (section 4.4), not in `FreeDentalConfig.xml`, whose content must never decide what the tool deletes.
+protection of the office CA copy (section 4.4), not in `FreeDentalConfig.xml`, whose content must never decide what the tool deletes. Since
+round 4 the record is versioned by its first line (`Open PMS - Dental imported client certificate, format 2`) and holds, one `name=value`
+line each, the thumbprint, the key the tool's import gave the entry (container, provider and type, key set, flags, key spec), and, when the
+import left an earlier key of the entry aside, the entry's earlier key provider information exactly as it was (the format is in the class
+summary of `ImportedCertificateRecord`). A record of the old format (one thumbprint line) is still read, as that thumbprint with no key
+named, and the next save writes it in the new format, naming the key the entry has then (read without opening it); a malformed record
+reads as none. The tool removes the entry and deletes its key only when the entry names the key the record names; an entry someone gave
+another key by hand stays, with that key, the result names it, and only the key the tool made is deleted, unless a certificate of the store
+names it.
 Only a certificate whose store entry uses the private key the tool's import stored is recorded: one the store did not have before its
 `.pfx` was imported, or (DCFU3) one whose entry had no usable key of the tool's own and took the import's, so that the tool later removes
 it with the key it made. One named with `/thumbprint=`, whose entry keeps its own key, is never recorded and never removed (remove it with
@@ -268,10 +279,17 @@ after the new settings are saved (`DbSettingsRunner.PlanImportedCertificate`); w
 command that removes it with its key (certlm.msc's Delete leaves the key), and the save stands. A save that fails after the import gave
 the store's entry the key it stored (`FreeDentalConfig.xml` cannot be written, for example) leaves no key of the tool's that the record
 does not name (DCFU3 fix round): the imported certificate is removed again with that key, unless the settings as they still are, or the
-record, name it, in which case it stays and is recorded at once. The error gives the import's warning first (a store entry's earlier
-key that the import left, with the `certutil -delkey` command that deletes it; a key it could not delete; a grant that failed), then
-what was done: when the store already held the certificate before the save, that this entry was removed with the key the save gave it
-and its earlier key was left; otherwise that the certificate the save imported was removed with its key. When only the rights of
+record, name it, in which case it stays and is recorded at once. When the store already held the certificate and the import left its
+entry's earlier key aside (a key in another key set, or a usable key the tool did not create), the undo, and a later save that stops using
+the certificate, put that key back instead (the owner's answer of 2026-11-13, DIRECT-CERT-FOLLOWUP round 4): the entry's earlier key
+provider information, kept in the record between saves, is written back onto the store's entry (`CertSetCertificateContextProperty`), the
+entry is read again to check it, and only then is the key the tool gave it deleted; the entry stays, the earlier key is never opened,
+altered or deleted, and the result says what was put back. If the put-back fails, the tool's key is deleted only when the entry no longer
+names it; otherwise both keys and the entry stay, and the result says how to put the entry right. An entry that had no key, or one the
+tool could not read, is removed whole, as before. The error gives the import's warning first (a store entry's earlier key that the import
+left, with the `certutil -delkey` command that deletes it; a key it could not delete; a grant that failed), then what was done: the
+earlier key put back; or, when the store already held the certificate before the save, that this entry was removed with the key the save
+gave it; otherwise that the certificate the save imported was removed with its key. When only the rights of
 `FreeDentalConfig.xml` cannot be set back (section 3), the settings are saved, so the record and the removal of the certificate they
 replaced happen as after any save, and the error says what to do about the rights.
 

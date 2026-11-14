@@ -131,11 +131,15 @@ server computer must then connect with `<db-server>` (the name the workstations 
   `.pfx` whose certificate the computer already has with a working key the tool put there (setup run again with the same file) leaves that
   certificate and its key as they are and adds no second copy of the key. A copy of the certificate whose key is in an administrator's own
   key set, which the program's users cannot use, or whose working key someone else put there, gets the imported computer-wide key, and the
-  result names the earlier key, which the tool leaves alone and never opens to the computer's users; an imported key that a certificate
-  already there took is removed with it later. A save that fails after the import removes the imported certificate and key again, or
-  records them so that a later save removes them; the error still names an earlier key the import left, with the command that deletes it,
-  and says when the certificate it removed was one the computer had before (its earlier key is left). To compare keys the tool never opens another certificate's private key, so a smart-card
-  or TPM key asks for no PIN.
+  result names the earlier key, which the tool leaves alone and never opens to the computer's users. When a save fails after such an
+  import, or a later save stops using that certificate, the tool gives the certificate its earlier key back and deletes only the key it
+  made, so the computer's store is as the administrator had it, and the result says what was put back; a certificate the computer had
+  without a key is removed with the tool's key. A save that fails after any other import removes the imported certificate and key again, or
+  records them so that a later save removes them; the error still names an earlier key the import left, with the command that deletes it.
+  The tool's record of the certificate it imported (`ConnectionSettings\imported-client-certificate.txt`) now also names the key it
+  made: a certificate whose key an administrator later replaced by hand is no longer taken for the tool's own (its key is never opened to
+  the computer's users or deleted, and the result names it). A record written by an earlier build is still read and is rewritten at the
+  next save. To compare keys the tool never opens another certificate's private key, so a smart-card or TPM key asks for no PIN.
 - **The client certificate of a `.pfx` is chosen by what it is.** The tool takes the file's one certificate with a private key that is
   not a certificate authority (and is for client authentication), wherever the file lists it; a CA certificate with its key listed first is
   no longer taken. A file with no client certificate, or more than one, is refused before anything is imported, with the certificates it
@@ -422,7 +426,8 @@ longer reaches, so it always failed. It now imports the certificate your Direct 
   and Import puts it with its private key into this computer's Direct certificate store (`NHINDPrivate`). The private key cannot be
   exported from there again. The certificate signs e-mail and Direct messages sent from the address and decrypts the Direct messages it
   receives. It is stored for the user name as typed in Edit Email Address, and sending uses it once the address is saved. A certificate
-  already there is not imported again, unless its private key can no longer be used on this computer.
+  already there is not imported again, unless its private key can no longer be used on this computer or is kept where the program's users
+  cannot reach it (in another key set); that key is then left as it is.
 - **What is refused**, each with a message: a wrong password or another kind of file, a file with no certificate for the address or its
   domain, a certificate without its private key, an expired certificate or one not valid yet, and one Windows finds a problem in (revoked, a
   bad signature).
@@ -434,9 +439,10 @@ longer reaches, so it always failed. It now imports the certificate your Direct 
   separate signing and encryption certificates for one address both stay, and a renewed certificate already on this computer stays when an
   older file is imported by mistake. The private key of a replaced certificate is deleted too when this window imported it, so messages
   encrypted to it can then be read only after importing its file again; one put there another way keeps its key. A private key that
-  another certificate on this computer, or in the file, still uses (a renewal with the same key) is never deleted. An import that fails
-  partway removes what it stored. If storing the file's private key fails, nothing is imported, but Windows may have left a private key of
-  the file behind on this computer, which the program cannot find to delete.
+  another certificate on this computer, or in the file, still uses (a renewal with the same key) is never deleted. To compare keys the
+  import never opens another certificate's private key, so a smart-card or TPM certificate on this computer asks for no PIN. An import
+  that fails partway removes what it stored. If storing the file's private key fails, nothing is imported, but Windows may have left a
+  private key of the file behind on this computer, which the program cannot find to delete.
 - **Which certificate is used.** With a separate signing and encryption certificate for one address, signed e-mail and Direct messages
   are signed with the signing one, Direct messages to the address are encrypted to its encryption one, and received ones are decrypted
   with the encryption one first; of several for the same purpose, the one valid longest. An address with only one certificate is used as
