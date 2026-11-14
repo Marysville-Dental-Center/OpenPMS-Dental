@@ -1,14 +1,17 @@
 // The scratch database of a run: the dump of the synthetic test database (OPMS_WINDOW_CHECKS_DUMP, made once from it) restored with the local
 // MariaDB's own mysql.exe into a new database winchk_<time>, on 127.0.0.1:3306 only. Every check runs against this copy, and the copy is
-// dropped at the end. Only names starting with winchk_ are ever created or dropped. The copy's A to Z folder is moved to a scratch folder in
+// dropped at the end; a copy an earlier run left (the runner killed it before its clean-up) is dropped at the start of the next run with the
+// same results folder (DropLeftovers). Only names starting with winchk_ are ever created or dropped. The copy's A to Z folder is moved to a scratch folder in
 // the temp folder, so no check writes into the test database's own images folder.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using DataConnectionBase;
 using MySqlConnector;
 
@@ -63,6 +66,13 @@ namespace WindowChecksTests {
 				catch(Exception ex) {
 					_skipReason="The scratch copy of the test database could not be made: "+ex.GetBaseException().Message;
 					Results.Log(_skipReason);
+					//AssemblyCleanup drops only a copy that was made: a database created for a restore that failed is dropped here.
+					try {
+						Drop();
+					}
+					catch(Exception exDrop) {
+						Results.Log("Drop failed: "+exDrop.Message);
+					}
 				}
 			}
 		}
@@ -70,9 +80,11 @@ namespace WindowChecksTests {
 		private static void Make() {
 			string name=PREFIX+DateTime.Now.ToString("MMddHHmmss");
 			using(MySqlConnection connection=Open("")) {
+				DropLeftovers(connection);
 				Exec(connection,"CREATE DATABASE `"+name+"` CHARACTER SET utf8mb3");
 			}
 			_name=name;
+			Results.Log("Created "+name);
 			Stopwatch stopwatch=Stopwatch.StartNew();
 			List<string> listArgs=new List<string> { "-h",Server,"-P",Port.ToString(),"-u","root","--default-character-set=utf8mb4" };
 			listArgs.AddRange(DevDbTls.GetClientArguments(Server,Port));
@@ -122,6 +134,49 @@ namespace WindowChecksTests {
 				command.ExecuteNonQuery();
 				//No computer of the copy overrides the A to Z folder.
 				Exec(connection,"UPDATE computerpref SET AtoZpath=''");
+			}
+		}
+
+		///<summary>Drops the scratch copies earlier runs with this results folder made and never dropped (a run the test runner killed skips
+		///AssemblyCleanup): only names run.log says this harness created, that are still on the server and were made more than 25 minutes ago (the
+		///runner kills a run at 20), so a run going on beside this one is never touched. Each one is logged as dropped.</summary>
+		private static void DropLeftovers(MySqlConnection connection) {
+			string pathLog=Path.Combine(WinChkEnv.OutFolder,"run.log");
+			if(!File.Exists(pathLog)) {
+				return;
+			}
+			string log=File.ReadAllText(pathLog);
+			List<string> listCreated=Regex.Matches(log,"(?:Created|Restored the dump into) ("+PREFIX+"\\d{10})\\b").Cast<Match>().Select(x => x.Groups[1].Value)
+				.Distinct().ToList();
+			HashSet<string> hashSetDropped=new HashSet<string>(Regex.Matches(log,"Dropped ("+PREFIX+"\\d{10})\\b").Cast<Match>().Select(x => x.Groups[1].Value));
+			List<string> listOnServer=new List<string>();
+			using(MySqlCommand command=new MySqlCommand("SHOW DATABASES",connection))
+			using(MySqlDataReader reader=command.ExecuteReader()) {
+				while(reader.Read()) {
+					listOnServer.Add(reader.GetString(0));
+				}
+			}
+			foreach(string name in listCreated.Where(x => !hashSetDropped.Contains(x) && listOnServer.Contains(x))) {
+				if(!DateTime.TryParseExact(DateTime.Now.Year+name.Substring(PREFIX.Length),"yyyyMMddHHmmss",CultureInfo.InvariantCulture,DateTimeStyles.None,
+					out DateTime dateMade))
+				{
+					continue;
+				}
+				if(dateMade>DateTime.Now) {
+					dateMade=dateMade.AddYears(-1);
+				}
+				if((DateTime.Now-dateMade).TotalMinutes<25) {
+					Results.Log("Leftover "+name+" kept: made "+(DateTime.Now-dateMade).TotalMinutes.ToString("0")+" minutes ago (a run may still use it)");
+					continue;
+				}
+				Exec(connection,"DROP DATABASE IF EXISTS `"+name+"`");
+				Results.Log("Dropped "+name+" (a leftover of an earlier run that was stopped before its clean-up)");
+				try {
+					Directory.Delete(Path.Combine(Path.GetTempPath(),"winchk",name),true);
+				}
+				catch(Exception) {
+					//No scratch folder left, or not removable now: only the temp folder.
+				}
 			}
 		}
 

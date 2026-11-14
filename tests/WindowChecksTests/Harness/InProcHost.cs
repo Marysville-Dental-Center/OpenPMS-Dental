@@ -1,8 +1,11 @@
 // The test's side of an in-process session: a new AppDomain based on the program's output folder (ApplicationBase OpenPmsDental\bin\Debug,
 // ConfigurationFile OpenPmsDental.exe.config), the driver created in it from this assembly, the program started there with its command line,
 // and the AppDomain unloaded at the end. One session is one start of the program; "exit and start" in a check is a new session.
+// The row numbers the checks made (CheckResult.DictKeys) are kept here and handed to every session, so a check's undo in a later session
+// deletes only the rows its check added. No session starts and no check runs once the run's time budget is spent (WinChkFixture.Budget).
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using WindowChecksTests.InProc;
@@ -15,6 +18,10 @@ namespace WindowChecksTests {
 		public string Patched="";
 		public double SecondsToStart;
 		private static int _countSessions;
+		private static readonly Dictionary<string,long> _dictKeys=new Dictionary<string,long>();
+		///<summary>Set when a check did not end and the session is left stuck (a window that does not close, or a thread that does not answer): the
+		///session's later checks are not run in it.</summary>
+		public string StuckReason="";
 
 		///<summary>Prompts the start-up showed and the harness cancelled.</summary>
 		public string StartPrompts="";
@@ -27,6 +34,12 @@ namespace WindowChecksTests {
 		///answered with Cancel.</summary>
 		public static InProcHost Start(string module,string folder,string[] cancelTexts,int timeoutSeconds=180) {
 			InProcHost inProcHost=new InProcHost();
+			if(WinChkFixture.IsBudgetSpent) {
+				inProcHost.StartError="not started: "+WinChkFixture.BudgetSpentText;
+				Results.Log("In-process session not started: "+WinChkFixture.BudgetSpentText);
+				return inProcHost;
+			}
+			timeoutSeconds=WinChkFixture.CapTimeout(timeoutSeconds);
 			string exePath=Path.Combine(folder,"OpenPmsDental.exe");
 			AppDomainSetup appDomainSetup=new AppDomainSetup {
 				ApplicationBase=folder,
@@ -52,22 +65,61 @@ namespace WindowChecksTests {
 		public CheckResult Run(string id,string title,int timeoutSeconds=240) {
 			if(StartError!="") {
 				CheckResult checkResult=new CheckResult(id,title);
-				checkResult.Fail("The program did not start in process: "+StartError);
+				checkResult.Fail(WinChkFixture.IsBudgetSpent && StartError.StartsWith("not started: ") ? "Not run: "+WinChkFixture.BudgetSpentText
+					: "The program did not start in process: "+StartError);
 				return checkResult;
 			}
+			if(StuckReason!="") {
+				CheckResult checkResult=new CheckResult(id,title);
+				checkResult.Fail("Not run: the session is stuck after an earlier check ("+StuckReason+"); the caller starts a new session for the next one");
+				return checkResult;
+			}
+			if(WinChkFixture.IsBudgetSpent) {
+				CheckResult checkResult=new CheckResult(id,title);
+				checkResult.Fail("Not run: "+WinChkFixture.BudgetSpentText);
+				Results.Log("In-process check "+id+" not run: "+WinChkFixture.BudgetSpentText);
+				return checkResult;
+			}
+			timeoutSeconds=WinChkFixture.CapTimeout(timeoutSeconds);
 			Results.Log("In-process check "+id+" starts");
+			lock(_dictKeys) {
+				Driver.SetKeys(_dictKeys);
+			}
 			CheckResult checkResultRun=Driver.RunCheck(id,title,timeoutSeconds);
+			lock(_dictKeys) {
+				foreach(KeyValuePair<string,long> pair in checkResultRun.DictKeys) {
+					_dictKeys[pair.Key]=pair.Value;
+				}
+			}
 			Results.Log("In-process check "+id+": "+checkResultRun.Status);
+			if(checkResultRun.ListFailures.Exists(x => x.Contains("did not end within") || x.Contains("did not answer"))) {
+				try {
+					StuckReason=Driver.GetStuckState();
+				}
+				catch(Exception ex) {
+					StuckReason="the driver does not answer ("+ex.Message+")";
+				}
+				Results.Log("After "+id+" the session is "+(StuckReason=="" ? "not stuck" : "stuck: "+StuckReason));
+			}
 			return checkResultRun;
 		}
 
-		public void Dispose() {
-			try {
-				string stop=Driver?.Stop(60);
-				Results.Log("In-process session stop: "+(stop==""? "ended" : stop));
+		///<summary>True when the caller should start a new session before its next check: a check left this one stuck.</summary>
+		public bool NeedsNewSession {
+			get {
+				return StuckReason!="";
 			}
-			catch(Exception ex) {
-				Results.Log("In-process session stop failed: "+ex.Message);
+		}
+
+		public void Dispose() {
+			if(Driver!=null) {
+				try {
+					string stop=Driver.Stop(60);
+					Results.Log("In-process session stop: "+(stop==""? "ended" : stop));
+				}
+				catch(Exception ex) {
+					Results.Log("In-process session stop failed: "+ex.Message);
+				}
 			}
 			if(_appDomain!=null) {
 				try {

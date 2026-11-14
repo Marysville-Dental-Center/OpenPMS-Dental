@@ -149,11 +149,12 @@ namespace WindowChecksTests.InProc {
 		}
 
 		///<summary>The program's own aborts of its worker threads (ODThread.QuitSync aborts a thread that does not end in time): noted, not failed; a
-		///person sees nothing of them.</summary>
+		///person sees nothing of them. Only an abort that ODThread reports (source "ODThread ...") is one of these; an abort that reaches
+		///Application.ThreadException, AppDomain.UnhandledException or the Dispatcher is an unhandled exception like any other.</summary>
 		private readonly List<string> _listAborts=new List<string>();
 
 		public void AddException(string source,Exception ex) {
-			if(ex is ThreadAbortException) {
+			if(ex is ThreadAbortException && source.StartsWith("ODThread ")) {
 				lock(_lock) {
 					_listAborts.Add(source+": "+ex.GetType().FullName+" "+FirstFrames(ex));
 				}
@@ -180,6 +181,31 @@ namespace WindowChecksTests.InProc {
 		public List<string> GetExceptionsFrom(int index) {
 			lock(_lock) {
 				return _listExceptions.Skip(index).ToList();
+			}
+		}
+
+		///<summary>The row numbers earlier checks made (CheckResult.DictKeys), from the test's side, before each check: this session's copy of them.
+		///</summary>
+		public void SetKeys(Dictionary<string,long> dictKeys) {
+			InProcChecks.SetKeys(dictKeys);
+		}
+
+		///<summary>After a check that did not end: "" when the window's thread still answers and no window but the main window is open; otherwise
+		///what is stuck. The rest of the session's checks would hang on it, so the caller starts a new session.</summary>
+		public string GetStuckState() {
+			if(UiCur==null) {
+				return "no session";
+			}
+			try {
+				UiCur.Invoke(() => true,15000);
+				List<IntPtr> listWindows=UiCur.GetWindows();
+				if(listWindows.Count>0) {
+					return "windows still open: "+string.Join("; ",listWindows.Select(x => UiCur.DescribeWindow(x)));
+				}
+				return "";
+			}
+			catch(Exception ex) {
+				return "the window's thread does not answer ("+ex.Message+")";
 			}
 		}
 

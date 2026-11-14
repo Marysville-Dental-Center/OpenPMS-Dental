@@ -26,6 +26,18 @@ namespace WindowChecksTests.InProc {
 			ThreadIdUi=threadIdUi;
 		}
 
+		///<summary>How many unhandled exceptions the session has collected so far (ProgramDriver.AddException). RunCheck fails a check for them only
+		///after its script ends, so a script that must know whether an action threw reads them itself, after the action is done.</summary>
+		public int CountExceptions {
+			get {
+				return _programDriver.CountExceptions;
+			}
+		}
+
+		public List<string> GetExceptionsFrom(int index) {
+			return _programDriver.GetExceptionsFrom(index);
+		}
+
 		#region Running on the window's thread
 		///<summary>Runs the function on the window's thread and returns its result. Works while a modal window is open (its loop runs the call).
 		///Throws TimeoutException when the thread does not answer.</summary>

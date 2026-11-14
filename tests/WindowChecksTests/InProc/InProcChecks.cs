@@ -53,6 +53,43 @@ namespace WindowChecksTests.InProc {
 			return Security.CurUser!=null && FormOpenDental.PatNumCur==1;
 		}
 
+		#region Keys
+		///<summary>The row numbers checks made, this session's copy (the test's side carries them from session to session: ProgramDriver.SetKeys).
+		///</summary>
+		private static Dictionary<string,long> _dictKeys=new Dictionary<string,long>();
+
+		public static void SetKeys(Dictionary<string,long> dictKeys) {
+			_dictKeys=new Dictionary<string,long>(dictKeys);
+		}
+
+		///<summary>The row number an earlier check made under this name, or 0 (none made, or the check did not run).</summary>
+		public static long GetKey(string name) {
+			return _dictKeys.TryGetValue(name,out long value) ? value : 0;
+		}
+
+		///<summary>Records the row number the check made, for a later check's undo (0: none made, which clears an earlier one).</summary>
+		public static void SetKey(CheckResult checkResult,string name,long value) {
+			_dictKeys[name]=value;
+			checkResult.DictKeys[name]=value;
+		}
+
+		///<summary>The highest key of the table (with the condition), the number a check takes before it adds a row: the row it added is the one
+		///above it afterwards (the tables are MyISAM with auto-increment keys).</summary>
+		public static long MaxKey(string table,string column,string where="") {
+			return PIn.Long(DataCore.GetScalar("SELECT COALESCE(MAX("+column+"),0) FROM "+table+(where=="" ? "" : " WHERE "+where)));
+		}
+
+		///<summary>The one row the check added: the key above keyBefore, when exactly one such row is there; otherwise 0, and the check deletes
+		///nothing.</summary>
+		public static long AddedKey(string table,string column,long keyBefore,string where="") {
+			string condition=column+">"+keyBefore+(where=="" ? "" : " AND "+where);
+			if(Count("SELECT COUNT(*) FROM "+table+" WHERE "+condition)!=1) {
+				return 0;
+			}
+			return PIn.Long(DataCore.GetScalar("SELECT "+column+" FROM "+table+" WHERE "+condition));
+		}
+		#endregion Keys
+
 		///<summary>The check scripts, by check id.</summary>
 		public static void Run(string id,Ui ui,CheckResult checkResult) {
 			MethodInfo methodInfo=typeof(InProcChecks).GetMethod("Check"+id,BindingFlags.Static|BindingFlags.NonPublic|BindingFlags.Public);

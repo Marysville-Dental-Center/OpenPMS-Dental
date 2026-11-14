@@ -11,9 +11,48 @@ namespace WindowChecksTests {
 	[TestClass]
 	public class WinChkFixture {
 		private static bool _hasPrechecked;
+		///<summary>The run's clock, from the start of the test assembly.</summary>
+		private static readonly Stopwatch _stopwatchRun=new Stopwatch();
+		///<summary>The run's time budget in minutes (OPMS_WINDOW_CHECKS_BUDGET_MINUTES; default 15). The test runner kills an assembly after 20 minutes
+		///(taskkill, so AssemblyCleanup never runs: no Z, no drop, no report); once the budget is spent no session starts and no check runs (each is
+		///recorded FAILED, 'not run'), and each check's timeout is cut to the budget left plus a minute, so Z, the drop and the report still fit.
+		///</summary>
+		public const string VARIABLE_BUDGET="OPMS_WINDOW_CHECKS_BUDGET_MINUTES";
+
 		[AssemblyInitialize]
 		public static void AssemblyInitialize(TestContext testContext) {
+			_stopwatchRun.Start();
 			Thread.CurrentThread.CurrentCulture=new CultureInfo("en-US");
+		}
+
+		public static int BudgetMinutes {
+			get {
+				return int.TryParse(Environment.GetEnvironmentVariable(VARIABLE_BUDGET),out int minutes) && minutes>0 ? minutes : 15;
+			}
+		}
+
+		public static double BudgetSecondsLeft {
+			get {
+				return BudgetMinutes*60-_stopwatchRun.Elapsed.TotalSeconds;
+			}
+		}
+
+		public static bool IsBudgetSpent {
+			get {
+				return BudgetSecondsLeft<=0;
+			}
+		}
+
+		public static string BudgetSpentText {
+			get {
+				return "the run's time budget is spent ("+_stopwatchRun.Elapsed.TotalMinutes.ToString("0.0")+" of "+BudgetMinutes+" minutes; the test runner kills "
+					+"the assembly at 20); run this group again on its own ("+WinChkEnv.VARIABLE_GROUPS+")";
+			}
+		}
+
+		///<summary>The timeout cut to the budget left plus a minute (at least 30 s).</summary>
+		public static int CapTimeout(int timeoutSeconds) {
+			return (int)Math.Max(30,Math.Min(timeoutSeconds,BudgetSecondsLeft+60));
 		}
 
 		[AssemblyCleanup]
