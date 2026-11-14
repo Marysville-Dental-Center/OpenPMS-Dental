@@ -428,6 +428,10 @@ unchanged since Open Dental) took about half of the list's time on long ranges. 
 choice of the earliest appointment, of `GetVerifyGridList` (its signature, return type, Middle Tier call, and the order query, choice, grid
 rows), of the batch verification or of the window. No schema change, no enumeration value, no preference.
 
+The files INSV4 changes: `OpenPmsDentalBusiness/Data Interface/InsVerifies.cs` (the method), `tests/INSVERIFYTests/GridRowsBeforeInsv4.cs`
+and `tests/INSVERIFYTests/GridRowsEquivalenceTests.cs` (new, the tests), `UnitTests/UnitTests/AppointmentsTests.cs` (a test that failed on
+Fridays and Saturdays, below), this note and `docs/release-notes/next.md`.
+
 ### The change
 
 The method reads the rows in the query's order and turns them into grid rows, a row having an eligibility half (`InsVerifyPat`), a benefits
@@ -536,11 +540,15 @@ New in `tests/INSVERIFYTests`, committed before the change and run on the code b
 | `insv4-1-flip-a-keys-once.txt` | flip A | INSVERIFYTests 27 of 27, NoHqTests 49 of 57. |
 | `insv4-1-flip-b-last-row-kept.txt` | flip B | INSVERIFYTests 22 of 27 (the 5 above fail), NoHqTests 49 of 57. |
 | `insv4-1-final.txt` | INSV4, after the full build | INSVERIFYTests 27 of 27, M2INSVTests 17 of 17, NoHqTests 57 of 57, UnitTests 1,727 of 1,731 (the 3 skipped Topaz signature tests, and `AppointmentsTests.Appointments_GetSearchResults_IgnoreBrokenAppointments`, below); all 40 InsVerify tests of UnitTests pass. |
+| `insv4-1-weekday-fix.txt` | INSV4 and the weekday fix (ee76cd8f8) | UnitTests 1,728 of 1,731 (the 3 skipped Topaz signature tests), 0 failed, on Saturday 2026-11-14; its NoHqTests NOTBUILT (run on its own next). |
+| `insv4-1-weekday-fix-nohq.txt` | INSV4 and the weekday fix | NoHqTests 57 of 57. |
 
-`Appointments_GetSearchResults_IgnoreBrokenAppointments` fails on a Friday or a Saturday, whatever the branch: it puts an appointment
-"tomorrow" and expects the first opening after it, but the schedule it searches (`AppointmentT.CreateScheduleAndOpsForProv`) skips weekends,
-so tomorrow has none and the first opening is Monday at 8. The final run was on Saturday 2026-11-14; the test passed in every earlier run
-kept here (on weekdays and a Sunday). It does not reach the Insurance Verification List.
+`Appointments_GetSearchResults_IgnoreBrokenAppointments` failed on Fridays and Saturdays, whatever the branch: it booked its existing
+appointment "tomorrow" and expected the first opening after it, but `AppointmentT.CreateScheduleAndOpsForProv` makes no schedule on
+weekends, so on those days tomorrow had none and the first opening was Monday at 8. The final run above was on Saturday 2026-11-14; the
+test had passed in every earlier run kept here (on weekdays and a Sunday). ee76cd8f8 (on this branch, in
+`UnitTests/UnitTests/AppointmentsTests.cs`) books the appointment on the next weekday instead, and both asserts also check the opening's
+date; the two runs after it pass on a Saturday. The test does not reach the Insurance Verification List.
 
 Full lane build of `OpenDental.Local.slnf` (Debug, x86): 0 errors. The test database of INSVERIFYTests is the fixture's (`insv_` and the run
 id, dropped after each run); the timing database was `insv4_perf_261114`, dropped by the script; no `insv` database is left. Not run: the
