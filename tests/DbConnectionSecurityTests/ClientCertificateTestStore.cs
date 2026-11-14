@@ -737,6 +737,13 @@ namespace DbConnectionSecurityTests {
 			}
 		}
 
+		///<summary>True when both name the same key exactly: whether named, the container and provider names, the provider type, the flags and the
+		///key spec.</summary>
+		public bool IsSameAs(TestKeyProvInfo testKeyProvInfo) {
+			return IsNamed==testKeyProvInfo.IsNamed && ContainerName==testKeyProvInfo.ContainerName && ProviderName==testKeyProvInfo.ProviderName
+				&& ProviderType==testKeyProvInfo.ProviderType && Flags==testKeyProvInfo.Flags && KeySpec==testKeyProvInfo.KeySpec;
+		}
+
 		///<summary>The certificate's key provider information. Throws when it cannot be read for another reason than its absence.</summary>
 		public static TestKeyProvInfo Read(X509Certificate2 x509Certificate2) {
 			if(x509Certificate2.Handle==IntPtr.Zero) {
