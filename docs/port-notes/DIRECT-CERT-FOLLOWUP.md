@@ -1547,7 +1547,21 @@ the machine-set name by its name, after the warning with its `certutil -delkey` 
 re-import deletes the hand-given user key, which exists, by its name; the seam refused it); the guard test fails in both (the password save
 deletes the record's machine-set key by its name). Every other test passed (212).
 
-**After the fix:** RESULTS_PLACEHOLDER
+**After the fix:** one full lane build (`odbuild.ps1`, the whole solution) with 0 errors, then one Targeted run (`dcfu4-3-final.txt`):
+
+| Assembly | Total | Passed | Failed | Skipped |
+|---|---|---|---|---|
+| NoHqTests | 57 | 57 | 0 | 0 |
+| DbConnectionSecurityTests | 225 | 214 | 0 | 11 |
+| LibraryUpdateTests | 129 | 129 | 0 | 0 |
+| VendorDirectTests | 922 | 922 | 0 | 0 |
+| LibraryBindingTests | 17 | 17 | 0 | 0 |
+| ProjectFileTests | 132 | 131 | 0 | 1 |
+
+The skips are the earlier rounds' (see Round 4). DbConnectionSecurityTests has the two new tests more than after the first fix round
+(223). After the runs no test store is left under `HKCU\Software\Microsoft\SystemCertificates` and no test certificate in CurrentUser\My;
+each test class's own clean-up check (`AssertCleanedUp`) passed. No test opens LocalMachine\My or a real key; the machine-set key
+provider informations are only names written on certificates of the test stores.
 
 ### Launch checks (administrator only, LocalMachine\My)
 
