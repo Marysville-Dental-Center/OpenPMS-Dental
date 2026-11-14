@@ -775,7 +775,9 @@ the 3b gate and the merge also wait for the last two.
   folder `C:\Windows\twain_64\<name>\`, beside the unchanged 32-bit sources; the 32-bit package must be installed too, because the
   64-bit source reads the `twain_32` INI file and starts the 32-bit helper.
 - **Before the office release:** the 64-bit data sources are packaged and tested through the 64-bit TWAINDSM on the clinic's real
-  sensor, from the x64 program. Whether two programs may use the sensor at once is still an open owner decision in the driver project.
+  sensor, from the x64 program. Two programs using the sensor at once: the owner decided on 2026-11-08 (driver project) that today's
+  behaviour stays, so nothing stops a second host; whether to add a lock is decided after the clinic run's two-program check. It is
+  not an entry condition of the switch.
 - **Before the office release:** each workstation's TWAIN devices are listed, with a 64-bit data source for each, or that workstation
   stays on the bridge release for now (section 10 step 3).
 
