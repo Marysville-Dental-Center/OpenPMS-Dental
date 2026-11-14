@@ -156,12 +156,19 @@ namespace LibraryUpdateTests {
 				try {
 					DirectTestPki.Issued issued=directTestPki.Issue(ADDRESS);
 					string pathPfx=directTestPki.WritePfx("pat.pfx",issued,isCaIncluded:false);
+					//Every key either import stores is tracked as it is stored, so that the finally block deletes it whatever assert fails.
+					DirectCertificateImport.ActionAfterKeysStoredForTests=x509Certificate2Collection => {
+						foreach(X509Certificate2 x509Certificate2 in x509Certificate2Collection) {
+							if(x509Certificate2.HasPrivateKey) {
+								listKeys.Add(DirectTestKey.Of(x509Certificate2));
+							}
+						}
+					};
 					Assert.IsTrue(DirectCertificateImport.ImportPrivateFile(ADDRESS,pathPfx,directTestPki.Password,null,DateTime.UtcNow).IsImported);
 					DirectTestKey directTestKeyFirst;
 					using(X509Certificate2 x509Certificate2Entry=FindStored(directTestStores.NamePrivate,issued.Thumbprint)) {
 						directTestKeyFirst=DirectTestKey.Of(x509Certificate2Entry);
 					}
-					listKeys.Add(directTestKeyFirst);
 					Assert.IsTrue(directTestKeyFirst.Exists(),"The test's premise: the first import's key, in the user key set.");
 					DirectTestKeyProvInfo directTestKeyProvInfoMachine=DirectTestKeyProvInfo.NameMachineKeySetForEntry(directTestStores.NamePrivate,issued.Thumbprint);
 					List<string> listOpened=new List<string>();
@@ -186,14 +193,13 @@ namespace LibraryUpdateTests {
 						DirectTestKeyProvInfo directTestKeyProvInfoNow=DirectTestKeyProvInfo.Read(x509Certificate2Entry);
 						Assert.IsFalse(directTestKeyProvInfoNow.IsMachine,"The entry names the import's key, in the user key set.");
 						Assert.IsFalse(directTestKeyProvInfoNow.IsSameAs(directTestKeyProvInfoMachine));
-						DirectTestKey directTestKeyNow=DirectTestKey.Of(x509Certificate2Entry);
-						listKeys.Add(directTestKeyNow);
 						Assert.IsTrue(DirectCertificateImport.IsKeyUsable(x509Certificate2Entry),"The entry's new key works.");
 					}
 					Assert.IsTrue(directTestKeyFirst.Exists(),"The entry's earlier key (the user key the test's machine-set name stood for) is untouched.");
 				}
 				finally {
 					DirectCertificateImport.ActionBeforePrivateKeyOpenForTests=null;
+					DirectCertificateImport.ActionAfterKeysStoredForTests=null;
 					DeleteKeys(listKeys);
 				}
 			}
