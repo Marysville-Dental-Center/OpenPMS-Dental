@@ -23,7 +23,8 @@ namespace OpenPmsDentalDbSettings {
 		///one, as before round 4, the record's thumbprint alone makes the entry's key the tool's (see ImportedCertificateRecord).</summary>
 		public CertificateKeyProvInfo KeyTool;
 		///<summary>The store entry's key provider information before the tool's import gave the entry its key, when the import left that earlier
-		///key aside (ClientCertificateEntryBefore.InStoreKeyLeft: a key in another key set, or a usable key the tool did not create), exactly as
+		///key aside (ClientCertificateEntryBefore.InStoreKeyLeft: a key in another key set, an unidentified one, a usable key the tool did not
+		///create, or a key in the import's key set that does not open and that the tool did not create), exactly as
 		///read; null when there was none, or the entry had no key, or its key provider information could not be read.</summary>
 		public CertificateKeyProvInfo KeyBefore;
 		///<summary>True when the record was read from a file of the old format (a thumbprint line only).</summary>

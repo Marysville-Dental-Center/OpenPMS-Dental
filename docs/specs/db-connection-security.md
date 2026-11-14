@@ -280,16 +280,20 @@ command that removes it with its key (certlm.msc's Delete leaves the key), and t
 the store's entry the key it stored (`FreeDentalConfig.xml` cannot be written, for example) leaves no key of the tool's that the record
 does not name (DCFU3 fix round): the imported certificate is removed again with that key, unless the settings as they still are, or the
 record, name it, in which case it stays and is recorded at once. When the store already held the certificate and the import left its
-entry's earlier key aside (a key in another key set, or a usable key the tool did not create), the undo, and a later save that stops using
-the certificate, put that key back instead (the owner's answer of 2026-11-13, DIRECT-CERT-FOLLOWUP round 4): the entry's earlier key
+entry's earlier key aside (a key in another key set, a usable key the tool did not create, or a key in the import's key set that the tool
+did not create and that does not open: a smart card that is not inserted, a TPM or other key that needs a PIN, one whose rights keep the
+administrator out, a deleted key file), the undo, and a later save that stops using the certificate, put that key back instead (the owner's answer of 2026-11-13, DIRECT-CERT-FOLLOWUP round 4): the entry's earlier key
 provider information, kept in the record between saves, is written back onto the store's entry (`CertSetCertificateContextProperty`), the
 entry is read again to check it, and only then is the key the tool gave it deleted; the entry stays, the earlier key is never opened,
-altered or deleted, and the result says what was put back. If the put-back fails, the tool's key is deleted only when the entry no longer
-names it; otherwise both keys and the entry stay, and the result says how to put the entry right. An entry that had no key, or one the
-tool could not read, is removed whole, as before. The error gives the import's warning first (a store entry's earlier key that the import
-left, with the `certutil -delkey` command that deletes it; a key it could not delete; a grant that failed), then what was done: the
-earlier key put back; or, when the store already held the certificate before the save, that this entry was removed with the key the save
-gave it; otherwise that the certificate the save imported was removed with its key. When only the rights of
+altered or deleted, and the result says what was put back and what became of the tool's key: deleted, no longer there, kept because
+another certificate of the store names it, or not deleted, with why and where its file is. If the put-back fails, the tool's key is
+deleted only when the entry no longer names it; otherwise both keys and the entry stay, and the result says how to put the entry right.
+An entry that had no key provider information (no key), whose only key was the tool's own from an earlier import (the record names it, or
+an old-format record claims it by thumbprint), or whose key provider information could not be read at all, is removed whole, as before.
+The error gives the import's warning first (a key it could not delete; a grant that failed; and a store entry's earlier key that the
+import left, with the `certutil -delkey` command that deletes it, unless the undo put that key back on the entry, which then uses it
+again), then what was done: the earlier key put back; or, when the store already held the certificate before the save, that this entry
+was removed with the key the save gave it; otherwise that the certificate the save imported was removed with its key. When only the rights of
 `FreeDentalConfig.xml` cannot be set back (section 3), the settings are saved, so the record and the removal of the certificate they
 replaced happen as after any save, and the error says what to do about the rights.
 

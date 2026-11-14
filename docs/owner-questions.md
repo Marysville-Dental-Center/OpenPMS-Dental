@@ -820,8 +820,12 @@ port note's "Round 4").
   (c) leave the entry and delete only the tool's key (the entry is then left pointing at no key). **Recommended: (b)**, since it leaves the
   computer exactly as the administrator had it. **Answered: (b). Done:** the entry's earlier key provider information is kept in the tool's
   record; the undo of a failed save, and a later save that stops using the certificate, write it back onto the entry, check it, and only
-  then delete the tool's key. The entry stays, the earlier key is never touched, and the message says what was put back. An entry that had
-  no key before is removed with the tool's key, as before.
+  then delete the tool's key. The entry stays, the earlier key is never touched, and the message says what was put back, and exactly what
+  became of the tool's key (deleted, or left and why). This covers every earlier key the tool did not create: one in another key set, a
+  working one, and one in the tool's key set that does not open (a smart card that is not inserted, a TPM or other key that needs a PIN, a
+  key the administrator's rights keep out, a deleted key file); a failed save whose undo put the key back no longer offers the command that
+  deletes it. Only an entry that had no key at all (no key provider information), or whose only key was the tool's own from an earlier
+  import, is removed with the tool's key, as before.
 - **The tool's record holds only the certificate's thumbprint.** If an administrator later gives a recorded certificate another key by hand,
   the tool treats that key as its own: it gives the users read access to it on a re-import and deletes it on a later save. Should the record
   also hold the key's container and provider? That changes the format of `imported-client-certificate.txt` (a record in the old format would

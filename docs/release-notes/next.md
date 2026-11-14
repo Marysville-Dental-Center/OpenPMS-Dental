@@ -133,9 +133,12 @@ server computer must then connect with `<db-server>` (the name the workstations 
   key set, which the program's users cannot use, or whose working key someone else put there, gets the imported computer-wide key, and the
   result names the earlier key, which the tool leaves alone and never opens to the computer's users. When a save fails after such an
   import, or a later save stops using that certificate, the tool gives the certificate its earlier key back and deletes only the key it
-  made, so the computer's store is as the administrator had it, and the result says what was put back; a certificate the computer had
-  without a key is removed with the tool's key. A save that fails after any other import removes the imported certificate and key again, or
-  records them so that a later save removes them; the error still names an earlier key the import left, with the command that deletes it.
+  made, so the computer's store is as the administrator had it, and the result says what was put back and whether the tool's key was
+  deleted. The same holds for a copy whose key does not open for the tool (a smart card that is not inserted, a key that needs a PIN, a
+  deleted key file); only a certificate the computer had without any key, or with the tool's own key from an earlier import, is removed
+  with the tool's key. A save that fails after any other import removes the imported certificate and key again, or records them so that a
+  later save removes them; the error still names an earlier key the import left, with the command that deletes it, unless the earlier key
+  was put back.
   The tool's record of the certificate it imported (`ConnectionSettings\imported-client-certificate.txt`) now also names the key it
   made: a certificate whose key an administrator later replaced by hand is no longer taken for the tool's own (its key is never opened to
   the computer's users or deleted, and the result names it). A record written by an earlier build is still read and is rewritten at the
