@@ -275,7 +275,8 @@ namespace OpenPmsDentalDbSettings {
 			ImportedCertificate importedCertificateImport=null;
 			//The import's sentence about the store entry's earlier key that it left aside ("" for none), apart from its other warnings: it leads
 			//the warning of a save that succeeds, and is left out of the error of a failed save whose undo put that key back on the entry, which
-			//then uses it again (so its certutil -delkey command must not be offered).
+			//then uses it again. It offers a certutil -delkey command only when the import could not record that key (ImportedCertificate.KeyBefore
+			//null); otherwise it says that the tool names the key on the entry again, so it must not be deleted.
 			string warningEntryKeyLeft="";
 			try {
 				if(listCaCertificates!=null) {
@@ -306,7 +307,7 @@ namespace OpenPmsDentalDbSettings {
 				//The import gave the store's entry a key the tool made, which the users may read, and the settings were not saved: the import is
 				//undone, or recorded (UndoImportOfFailedSave), so that no key of the tool is left that no record names. The import's warning comes
 				//first: a key it could not delete, or a grant that failed, which the undo does not change, and the store entry's earlier key that the
-				//import left (with the certutil command that deletes it), unless the undo put that key back on the entry, which uses it again.
+				//import left (and that the tool names on the entry again), unless the undo put that key back on the entry, which uses it again.
 				string message=(ex is DbSettingsException) ? ex.Message : "The connection settings could not be saved: "+ex.Message;
 				int exitCode=(ex is DbSettingsException) ? ((DbSettingsException)ex).ExitCode : EXIT_WRITE_FAILED;
 				string undo=UndoImportOfFailedSave(importedCertificateImport,dbConnectionConfigCurrent.ClientCertThumbprint,thumbprintRecorded,pathRecord,

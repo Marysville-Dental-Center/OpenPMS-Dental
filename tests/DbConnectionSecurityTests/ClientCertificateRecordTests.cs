@@ -283,7 +283,7 @@ namespace DbConnectionSecurityTests {
 		[TestMethod]
 		public void Apply_AnOldFormatRecordWhoseEntryWasReKeyedByHand_ClaimsNoKeyTheOldRuleDidNot() {
 			foreach(TestKeyKind testKeyKind in _arrayKinds) {
-				foreach(bool isOtherKeySet in new[] { true,false }) {
+				foreach(bool isOtherKeySet in new[] { false,true }) {
 					string label=testKeyKind+(isOtherKeySet ? ", a hand-given key in another key set" : ", a hand-given key that does not open");
 					string folder=Path.Combine(_folder,testKeyKind+(isOtherKeySet ? "-old-rekeyed-keyset" : "-old-rekeyed-noopen"));
 					Directory.CreateDirectory(folder);
@@ -456,7 +456,7 @@ namespace DbConnectionSecurityTests {
 		///<summary>The sentence that follows a put-back: what to do if the earlier key was deleted since (the DCFU4 second fix round's review
 		///finding 2).</summary>
 		public static string GetPutBackHedge(string storeText,string thumbprint) {
-			return " If that earlier key was deleted since, the entry names a key that is not there: then remove the certificate as an "
+			return " If someone deleted that earlier key since, the entry names a key that is not there: then remove the certificate as an "
 				+"administrator, in PowerShell: Remove-Item Cert:\\"+storeText+"\\"+thumbprint+".";
 		}
 	}

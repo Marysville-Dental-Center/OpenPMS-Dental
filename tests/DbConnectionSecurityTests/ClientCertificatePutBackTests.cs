@@ -289,7 +289,8 @@ namespace DbConnectionSecurityTests {
 					Assert.IsTrue(File.Exists(testKeyTool.FilePath),label+": and its file: "+testKeyTool.FilePath);
 				}
 				else {
-					StringAssert.EndsWith(dbSettingsResult.Message,putBack+", and the private key the tool gave it was deleted.",label);
+					StringAssert.EndsWith(dbSettingsResult.Message,putBack+", and the private key the tool gave it was deleted."
+						+ClientCertificateRecordTests.GetPutBackHedge(storeText,thumbprintClient),label);
 					Assert.IsFalse(testKeyTool.Exists(),label+": the tool's key is gone.");
 					Assert.IsFalse(File.Exists(testKeyTool.FilePath),label+": its file is gone: "+testKeyTool.FilePath);
 				}

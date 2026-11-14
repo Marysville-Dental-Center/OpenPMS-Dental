@@ -72,9 +72,13 @@ namespace OpenPmsDentalDbSettings {
 	///recorded certificate in the import's key set is the tool's (its key gets the users' read access on a re-import, and a later save removes it
 	///with its key). That claims no key the old rule did not already claim, and the record only names a certificate whose entry took the key the
 	///tool's import stored, so its key at that time was the tool's. Claiming nothing instead would be no safer: the key the old tool made, which
-	///the users can read, would then never be removed. When the next save rewrites the record, it names the entry's key at that time (read
-	///without opening it), so from then on only that key is the tool's (IsSameKeyStrict), and a key an administrator gives the entry by hand is
-	///not.</summary>
+	///the users can read, would then never be removed. When the next save rewrites the record, it names the entry's key at that time, but only
+	///when the old rule would claim that key on a re-import: a key in the tool's key set (read without opening it) that opens and signs or
+	///decrypts (ClientCertificateStore.CompleteRecord); from then on only that key is the tool's (IsSameKeyStrict), and a key an administrator
+	///gives the entry by hand is not. An entry whose key is in another key set or does not open silently (an administrator may have re-keyed it
+	///by hand, to a key of their own or a smart-card or TPM key) is rewritten in format 2 with no key named, so the old-format rule goes on
+	///until an import records a key under the strict rule (DCFU4 second fix round, review finding 1). A recorded key outside the tool's key set
+	///is never the tool's, whatever the record says.</summary>
 	public static class ImportedCertificateRecord {
 		///<summary>The first line of the record's format 2 (round 4).</summary>
 		public const string FORMAT_LINE="Open PMS - Dental imported client certificate, format 2";
