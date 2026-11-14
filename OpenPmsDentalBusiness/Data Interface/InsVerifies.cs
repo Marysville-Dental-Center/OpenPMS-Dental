@@ -426,6 +426,12 @@ namespace OpenPmsDentalBusiness{
 			bool checkBenefitAndPatEnrollmentYearOn=(checkBenefitYear && checkPatEnrollmentYear);
 			bool checkBenefitAndPatEnrollmentYearOff=(!checkBenefitYear && !checkPatEnrollmentYear);
 			List<InsVerifyGridObject> listInsVerifyGridObjects=new List<InsVerifyGridObject>();
+			//The grid rows built so far, by the keys Open Dental looked them up by with List.Find, which made this method grow with the square of the
+			//rows (INSV4): the rows with a benefits half by its PlanNum, the rows with an eligibility half by its PatPlanNum. A row gets a half (new, or
+			//joined to a row of the other half) only after the lookup of its key found none, so each key has one row, the one List.Find returned; a
+			//half and its keys never change once set. AddGridObjectFirst keeps the first row of a key all the same, as List.Find would.
+			Dictionary<long,InsVerifyGridObject> dictInsVerifyGridObjectsByPlanNum=new Dictionary<long,InsVerifyGridObject>();
+			Dictionary<long,InsVerifyGridObject> dictInsVerifyGridObjectsByPatPlanNum=new Dictionary<long,InsVerifyGridObject>();
 			for(int i=0;i<table.Rows.Count;i++) {
 				DataRow row=table.Rows[i];
 				InsVerify insVerify=listInsVerifies[i].Clone();
@@ -447,50 +453,73 @@ namespace OpenPmsDentalBusiness{
 				insVerify.InsSubNum=PIn.Long(row["InsSubNum"].ToString());//Non DB column. Used in OpenDentalService.
 				insVerify.CarrierNum=PIn.Long(row["CarrierNum"].ToString());//Non DB column. Used in OpenDentalService.
 				if(insVerify.VerifyType==VerifyTypes.InsuranceBenefit) {
-					InsVerifyGridObject insVerifyGridObjectPlanExists=listInsVerifyGridObjects.Find(x => x.InsVerifyPlan!=null && x.InsVerifyPlan.PlanNum==insVerify.PlanNum);
-					if(insVerifyGridObjectPlanExists!=null) {
+					//A row with a benefits half of this plan: the plan is listed once.
+					if(dictInsVerifyGridObjectsByPlanNum.ContainsKey(insVerify.PlanNum)) {
 						continue;
 					}
-					InsVerifyGridObject insVerifyGridObjectExists=listInsVerifyGridObjects.Find(x => x.InsVerifyPat!=null 
-						&& x.InsVerifyPat.PatPlanNum==insVerify.PatPlanNum 
-						&& x.InsVerifyPat.PlanNum==insVerify.PlanNum 
-						&& x.InsVerifyPat.Note==insVerify.Note 
-						&& x.InsVerifyPat.DefNum==insVerify.DefNum 
-						&& x.InsVerifyPlan==null);
+					//The row with an eligibility half of this patient plan (one at most), if it is of this plan, has the same note and status, and has no
+					//benefits half yet.
+					InsVerifyGridObject insVerifyGridObjectExists=null;
+					if(dictInsVerifyGridObjectsByPatPlanNum.TryGetValue(insVerify.PatPlanNum,out InsVerifyGridObject insVerifyGridObjectPat)
+						&& insVerifyGridObjectPat.InsVerifyPat.PlanNum==insVerify.PlanNum
+						&& insVerifyGridObjectPat.InsVerifyPat.Note==insVerify.Note
+						&& insVerifyGridObjectPat.InsVerifyPat.DefNum==insVerify.DefNum
+						&& insVerifyGridObjectPat.InsVerifyPlan==null)
+					{
+						insVerifyGridObjectExists=insVerifyGridObjectPat;
+					}
 					if((checkBenefitAndPatEnrollmentYearOn || checkBenefitAndPatEnrollmentYearOff) && insVerifyGridObjectExists!=null) {//Both prefs on/off means combine pat/ins rows.
 						insVerifyGridObjectExists.InsVerifyPlan=insVerify;
+						AddGridObjectFirst(dictInsVerifyGridObjectsByPlanNum,insVerify.PlanNum,insVerifyGridObjectExists);
 					}
 					else {
 						InsVerifyGridObject insVerifyGridObject=new InsVerifyGridObject();
 						insVerifyGridObject.InsVerifyPlan=insVerify;
 						insVerifyGridObject.IsForMedicaidPlan=isForMedicaid;
 						listInsVerifyGridObjects.Add(insVerifyGridObject);
+						AddGridObjectFirst(dictInsVerifyGridObjectsByPlanNum,insVerify.PlanNum,insVerifyGridObject);
 					}
 					continue;
 				}
 				if(insVerify.VerifyType!=VerifyTypes.PatientEnrollment) {
 					continue;
 				}
-				InsVerifyGridObject insVerifyGridObjectPatExists=listInsVerifyGridObjects.Find(x => x.InsVerifyPat!=null && x.InsVerifyPat.PatPlanNum==insVerify.PatPlanNum);
-				if(insVerifyGridObjectPatExists!=null) {
+				//A row with an eligibility half of this patient plan: the patient plan is listed once.
+				if(dictInsVerifyGridObjectsByPatPlanNum.ContainsKey(insVerify.PatPlanNum)) {
 					continue;
 				}
-				InsVerifyGridObject insVerifyGridObjectObjExists=listInsVerifyGridObjects.Find(x => x.InsVerifyPlan!=null 
-					&& x.InsVerifyPlan.PlanNum==insVerify.PlanNum 
-					&& x.InsVerifyPlan.Note==insVerify.Note 
-					&& x.InsVerifyPlan.DefNum==insVerify.DefNum 
-					&& x.InsVerifyPat==null);
+				//The row with a benefits half of this plan (one at most), whichever patient plan it came with, if it has the same note and status and no
+				//eligibility half yet.
+				InsVerifyGridObject insVerifyGridObjectObjExists=null;
+				if(dictInsVerifyGridObjectsByPlanNum.TryGetValue(insVerify.PlanNum,out InsVerifyGridObject insVerifyGridObjectPlan)
+					&& insVerifyGridObjectPlan.InsVerifyPlan.Note==insVerify.Note
+					&& insVerifyGridObjectPlan.InsVerifyPlan.DefNum==insVerify.DefNum
+					&& insVerifyGridObjectPlan.InsVerifyPat==null)
+				{
+					insVerifyGridObjectObjExists=insVerifyGridObjectPlan;
+				}
 				if((checkBenefitAndPatEnrollmentYearOn || checkBenefitAndPatEnrollmentYearOff) && insVerifyGridObjectObjExists!=null) {//Both prefs on/off means combine pat/ins rows.
 					insVerifyGridObjectObjExists.InsVerifyPat=insVerify;
+					AddGridObjectFirst(dictInsVerifyGridObjectsByPatPlanNum,insVerify.PatPlanNum,insVerifyGridObjectObjExists);
 				}
 				else {
 					InsVerifyGridObject insVerifyGridObject=new InsVerifyGridObject();
 					insVerifyGridObject.InsVerifyPat=insVerify;
 					insVerifyGridObject.IsForMedicaidPlan=isForMedicaid;
 					listInsVerifyGridObjects.Add(insVerifyGridObject);
+					AddGridObjectFirst(dictInsVerifyGridObjectsByPatPlanNum,insVerify.PatPlanNum,insVerifyGridObject);
 				}
 			}
 			return listInsVerifyGridObjects;
+		}
+
+		///<summary>Adds the grid row under the key unless the key has a row already: the first row of a key stays, as List.Find returned the first match
+		///(TableToListInsVerifyGridObjects, INSV4).</summary>
+		private static void AddGridObjectFirst(Dictionary<long,InsVerifyGridObject> dictInsVerifyGridObjects,long key,InsVerifyGridObject insVerifyGridObject) {
+			Meth.NoCheckMiddleTierRole();
+			if(!dictInsVerifyGridObjects.ContainsKey(key)) {
+				dictInsVerifyGridObjects.Add(key,insVerifyGridObject);
+			}
 		}
 
 		///<summary>Runs a query on the insverify table to set row's values as blank for entries within a certain timeframe.</summary>
