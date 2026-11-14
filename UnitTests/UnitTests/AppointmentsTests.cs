@@ -60,8 +60,13 @@ namespace UnitTests.Appointments_Tests {
 			Operatory opScheduling=appSearchData.ListOps.FirstOrDefault(x => x.ProvDentist==provNum);
 			//Create appointment that the search will be to find a spot for.
 			Appointment apptOnPinBoard=AppointmentT.CreateAppointment(appSearchData.Patient.PatNum,DateTime.MinValue,opNum:0,provNum,aptStatus:ApptStatus.UnschedList);
-			//Create existing appointment on the schedule tomorrow 8-9am
-			Appointment apptScheduled=AppointmentT.CreateAppointment(appSearchData.Patient.PatNum,DateTime.Today.AddDays(1).AddHours(8),opScheduling.OperatoryNum,provNum,pattern:"////XXXX////");
+			//Create existing appointment on the schedule on the next weekday 8-9am. CreateScheduleAndOpsForProv makes no schedule on weekends, so on a
+			//Friday or Saturday 'tomorrow' has no schedule and the first opening would be Monday at 8.
+			DateTime dateNextWeekday=DateTime.Today.AddDays(1);
+			while(dateNextWeekday.DayOfWeek==DayOfWeek.Saturday || dateNextWeekday.DayOfWeek==DayOfWeek.Sunday) {
+				dateNextWeekday=dateNextWeekday.AddDays(1);
+			}
+			Appointment apptScheduled=AppointmentT.CreateAppointment(appSearchData.Patient.PatNum,dateNextWeekday.AddHours(8),opScheduling.OperatoryNum,provNum,pattern:"////XXXX////");
 			//Create ApptSearch params
 			TimeSpan beforeTime=TestT.SetDateTime(hour:18);
 			TimeSpan afterTime=TestT.SetDateTime(hour:8);
@@ -73,6 +78,7 @@ namespace UnitTests.Appointments_Tests {
 				,listProvNums,listOpsInView,listClinicNums,beforeTime,afterTime);
 			//Assert first opening for 9 am.
 			ScheduleOpening scheduleOpeningFirstAvailable=searchResults.FirstOrDefault();
+			Assert.AreEqual(dateNextWeekday,scheduleOpeningFirstAvailable.DateTimeAvail.Date);
 			Assert.AreEqual(9,scheduleOpeningFirstAvailable.DateTimeAvail.Hour);
 			Assert.AreEqual(00,scheduleOpeningFirstAvailable.DateTimeAvail.Minute);
 			//Second - Break existing appointment
@@ -84,6 +90,7 @@ namespace UnitTests.Appointments_Tests {
 				,listProvNums,listOpsInView,listClinicNums,beforeTime,afterTime);
 			//Assert first opening is now 8am (Broken appointment ignored)
 			scheduleOpeningFirstAvailable=searchResults.FirstOrDefault();
+			Assert.AreEqual(dateNextWeekday,scheduleOpeningFirstAvailable.DateTimeAvail.Date);
 			Assert.AreEqual(8,scheduleOpeningFirstAvailable.DateTimeAvail.Hour);
 			Assert.AreEqual(00,scheduleOpeningFirstAvailable.DateTimeAvail.Minute);
 		}
