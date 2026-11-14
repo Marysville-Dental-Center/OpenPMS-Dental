@@ -2,10 +2,8 @@
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Security;
 using System.Security.AccessControl;
 using System.Security.Cryptography;
@@ -13,6 +11,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Security.Principal;
 using System.Text;
 using System.Threading;
+using CodeBase;
 
 namespace OpenPmsDentalDbSettings {
 	///<summary>Whether the store held the client certificate before ImportPfx, and what became of its entry's earlier key: the caller says so
@@ -36,13 +35,6 @@ namespace OpenPmsDentalDbSettings {
 	public static class ClientCertificateStore {
 		///<summary>Extended Key Usage OID of TLS client authentication.</summary>
 		private const string OID_CLIENT_AUTHENTICATION="1.3.6.1.5.5.7.3.2";
-		///<summary>The property of a certificate context that names its private key: CRYPT_KEY_PROV_INFO.</summary>
-		private const uint CERT_KEY_PROV_INFO_PROP_ID=2;
-		///<summary>What CertGetCertificateContextProperty gives for a certificate without the property.</summary>
-		private const int CRYPT_E_NOT_FOUND=unchecked((int)0x80092004);
-		///<summary>The machine key set in CRYPT_KEY_PROV_INFO.dwFlags: CRYPT_MACHINE_KEYSET for a CAPI key, NCRYPT_MACHINE_KEY_FLAG for a CNG
-		///key, the same bit.</summary>
-		private const uint KEY_PROV_INFO_MACHINE_KEYSET=0x20;
 		///<summary>How to make a .pfx with one client certificate, for the messages that refuse a file: docs/db-connection-security.md section 3.
 		///</summary>
 		private const string PFX_HOW_TO="Make a .pfx with only the client certificate and its private key, and the office CA certificate without "
@@ -77,51 +69,6 @@ namespace OpenPmsDentalDbSettings {
 		///computer's store; the import then uses the user's key set and gives no read access, as the internal overloads do for such a store.
 		///Null in the tool.</summary>
 		internal static string StoreNameForTests;
-
-		[DllImport("crypt32.dll",SetLastError=true)]
-		[return: MarshalAs(UnmanagedType.Bool)]
-		private static extern bool CertGetCertificateContextProperty(IntPtr pCertContext,uint dwPropId,IntPtr pvData,ref uint pcbData);
-
-		///<summary>CRYPT_KEY_PROV_INFO, as CertGetCertificateContextProperty gives it for CERT_KEY_PROV_INFO_PROP_ID.</summary>
-		[StructLayout(LayoutKind.Sequential)]
-		private struct CRYPT_KEY_PROV_INFO {
-			public IntPtr pwszContainerName;
-			public IntPtr pwszProvName;
-			public uint dwProvType;
-			public uint dwFlags;
-			public uint cProvParam;
-			public IntPtr rgProvParam;
-			public uint dwKeySpec;
-		}
-
-		///<summary>Where a certificate's private key is, as its key provider information (CERT_KEY_PROV_INFO_PROP_ID) names it, read without
-		///opening the key (ReadKeyProvInfo): the key container (a CNG key's name), its provider (type 0 for a CNG key storage provider) and its
-		///key set, the machine's or the user's. A certificate without the property names no key (IsNamed false); one whose property cannot be
-		///read uses an unknown key (Problem says why).</summary>
-		internal sealed class KeyProvInfo {
-			public bool IsNamed;
-			public string ContainerName="";
-			public string ProviderName="";
-			public int ProviderType;
-			public bool IsMachine;
-			///<summary>Why the property could not be read, or null.</summary>
-			public string Problem;
-
-			public bool IsUnknown {
-				get {
-					return Problem!=null;
-				}
-			}
-
-			///<summary>The key container in its key set, compared without case (CAPI and CNG names are). Not the provider: Microsoft's software
-			///CAPI providers share their containers, and a certificate may name one through another; so two certificates that name one container
-			///name in one key set count as one key, which keeps a key rather than delete one another certificate may use.</summary>
-			public string Identity {
-				get {
-					return (IsMachine ? "machine" : "user")+"|"+ContainerName;
-				}
-			}
-		}
 
 		///<summary>Opens the .pfx without storing its key anywhere (EphemeralKeySet) and returns its client certificate (GetClientCertificate), to
 		///check the file and its password before anything is imported. Throws DbSettingsException (exit code 2).</summary>
@@ -328,9 +275,9 @@ namespace OpenPmsDentalDbSettings {
 			bool isMachine,string storeText,out string warningEntryKey,out bool isEntryKeyImported)
 		{
 			warningEntryKey="";
-			KeyProvInfo keyProvInfoEntry=ReadKeyProvInfo(x509Certificate2InStore);
-			KeyProvInfo keyProvInfoImport=ReadKeyProvInfo(x509Certificate2);
-			isEntryKeyImported=IsSameKeyStrict(keyProvInfoEntry,keyProvInfoImport);
+			CertificateKeyProvInfo keyProvInfoEntry=ReadKeyProvInfo(x509Certificate2InStore);
+			CertificateKeyProvInfo keyProvInfoImport=ReadKeyProvInfo(x509Certificate2);
+			isEntryKeyImported=CertificateKeyProvInfo.IsSameKeyStrict(keyProvInfoEntry,keyProvInfoImport);
 			if(isEntryKeyImported) {
 				return true;
 			}
@@ -348,21 +295,6 @@ namespace OpenPmsDentalDbSettings {
 			return false;
 		}
 
-		///<summary>True when these two key provider informations name one key for certain, for the tool's claim that a key is its own
-		///(IsEntryKeyTools): both named and readable, the same key container in the same key set (Identity), and the same provider, its type and
-		///its name (without case). KeyProvInfo.Identity leaves the provider out on purpose, for DeleteKeysNotInUse, where a false match only keeps
-		///a key; here a false match would make the tool claim a key it did not create (a CNG key storage provider's key with the container name of
-		///the import's CAPI key, say), so a pair of providers that differ, a CNG one (type 0) against a CAPI one above all, never matches. A false
-		///negative is safe: the entry then takes the import's key, which only the import made.</summary>
-		internal static bool IsSameKeyStrict(KeyProvInfo keyProvInfo1,KeyProvInfo keyProvInfo2) {
-			if(!keyProvInfo1.IsNamed || keyProvInfo1.IsUnknown || !keyProvInfo2.IsNamed || keyProvInfo2.IsUnknown) {
-				return false;
-			}
-			return string.Equals(keyProvInfo1.Identity,keyProvInfo2.Identity,StringComparison.OrdinalIgnoreCase)
-				&& keyProvInfo1.ProviderType==keyProvInfo2.ProviderType
-				&& string.Equals(keyProvInfo1.ProviderName,keyProvInfo2.ProviderName,StringComparison.OrdinalIgnoreCase);
-		}
-
 		///<summary>True when the store's entry of the client certificate can stay as it is (KeepCertificateInStore): its key provider information
 		///names a key in the key set the import uses (the machine's for LocalMachine\My, isMachine; the user's for the tests' store), read without
 		///opening the key, and only then the key opens and signs or decrypts (IsKeyUsable). An entry whose key is in another key set (an
@@ -371,7 +303,7 @@ namespace OpenPmsDentalDbSettings {
 		///without a key, or with one that does not open, is not usable either, without a warning, as before.</summary>
 		private static bool IsEntryKeyUsable(X509Certificate2 x509Certificate2InStore,bool isMachine,string storeText,out string warningEntryKey) {
 			warningEntryKey="";
-			KeyProvInfo keyProvInfoEntry=ReadKeyProvInfo(x509Certificate2InStore);
+			CertificateKeyProvInfo keyProvInfoEntry=ReadKeyProvInfo(x509Certificate2InStore);
 			if(!keyProvInfoEntry.IsNamed) {
 				return false;
 			}
@@ -385,7 +317,7 @@ namespace OpenPmsDentalDbSettings {
 		///<summary>The warning for a store entry of the client certificate whose private key is in another key set than the import's, or cannot be
 		///identified (IsEntryKeyUsable): the import gave the entry the key it stored, and the entry's earlier key was left untouched, where it is,
 		///with the command that deletes it once no other certificate uses it. The tool deletes no key it did not make.</summary>
-		private static string GetEntryKeyLeftText(KeyProvInfo keyProvInfoEntry,bool isMachine,string storeText) {
+		private static string GetEntryKeyLeftText(CertificateKeyProvInfo keyProvInfoEntry,bool isMachine,string storeText) {
 			string start="The client certificate was already in the computer's certificate store ("+storeText+"), ";
 			if(keyProvInfoEntry.IsUnknown) {
 				return start+"but the private key its entry names could not be identified: "+EndSentence(keyProvInfoEntry.Problem)+" The import gave "
@@ -401,20 +333,20 @@ namespace OpenPmsDentalDbSettings {
 		///<summary>The warning for a store entry of the client certificate with a usable private key in the import's key set that the tool did
 		///not create (IsEntryKeyTools): the import gave the entry the key it stored, and left the entry's earlier key untouched, without giving the
 		///users read access to it, where it is, with the command that deletes it once no other certificate uses it.</summary>
-		private static string GetEntryKeyNotToolsText(KeyProvInfo keyProvInfoEntry,bool isMachine,string storeText) {
+		private static string GetEntryKeyNotToolsText(CertificateKeyProvInfo keyProvInfoEntry,bool isMachine,string storeText) {
 			return "The client certificate was already in the computer's certificate store ("+storeText+") with a usable private key that this "
 				+"tool did not import"+(isMachine ? ", so the tool gives the program's users no read access to that key" : "")+". The import gave the "
 				+"entry the private key it stored, and left the entry's earlier key untouched: "+GetEntryKeyWhereText(keyProvInfoEntry);
 		}
 
 		///<summary>"the computer's key set", or the user key set of the account that put the entry's key there.</summary>
-		private static string GetKeySetText(KeyProvInfo keyProvInfo) {
+		private static string GetKeySetText(CertificateKeyProvInfo keyProvInfo) {
 			return keyProvInfo.IsMachine ? "the computer's key set" : "the user key set of the Windows account that put it there";
 		}
 
 		///<summary>Where the entry's earlier key is, and the certutil command that deletes it: "provider ..., key container ..., in .... Who can
 		///delete it, once no other certificate uses it: certutil ...".</summary>
-		private static string GetEntryKeyWhereText(KeyProvInfo keyProvInfoEntry) {
+		private static string GetEntryKeyWhereText(CertificateKeyProvInfo keyProvInfoEntry) {
 			string who=keyProvInfoEntry.IsMachine ? "An administrator" : "That account";
 			string certutil="certutil "+(keyProvInfoEntry.IsMachine ? "" : "-user ")+"-csp \""+keyProvInfoEntry.ProviderName+"\" -delkey \""
 				+keyProvInfoEntry.ContainerName+"\"";
@@ -585,14 +517,14 @@ namespace OpenPmsDentalDbSettings {
 
 		///<summary>Deletes the private key of each certificate of listX509Certificate2s, each key container once, but none that a certificate of
 		///listInUse uses: one .pfx can give two of its certificates one key (a renewal with the same key), which Windows stores once, in one
-		///container, for both. Containers are compared by their key provider information (ReadKeyProvInfo, KeyProvInfo.Identity), all read
+		///container, for both. Containers are compared by their key provider information (ReadKeyProvInfo, CertificateKeyProvInfo.Identity), all read
 		///before the first is deleted, and no key of listInUse is opened: a key on a TPM or a smart card could ask for its PIN, or fail. A
 		///certificate whose key cannot be identified may use any of them, so then none is deleted, and each says why. Why each key could not be
 		///deleted, in the order of listX509Certificate2s: null when it was deleted, it had none, or a certificate of listInUse uses it.</summary>
 		private static List<KeyNotDeleted> DeleteKeysNotInUse(List<X509Certificate2> listX509Certificate2s,List<X509Certificate2> listInUse) {
 			//Every container first: once a container is deleted, the other certificates that used it no longer say which one it was.
-			List<KeyProvInfo> listKeyProvInfos=listX509Certificate2s.Select(x => ReadKeyProvInfo(x)).ToList();
-			List<KeyProvInfo> listKeyProvInfosInUse=listInUse.Select(x => ReadKeyProvInfo(x)).ToList();
+			List<CertificateKeyProvInfo> listKeyProvInfos=listX509Certificate2s.Select(x => ReadKeyProvInfo(x)).ToList();
+			List<CertificateKeyProvInfo> listKeyProvInfosInUse=listInUse.Select(x => ReadKeyProvInfo(x)).ToList();
 			string whyUnknownInUse=null;
 			int indexUnknown=listKeyProvInfosInUse.FindIndex(x => x.IsUnknown);
 			if(indexUnknown>=0) {
@@ -605,7 +537,7 @@ namespace OpenPmsDentalDbSettings {
 			HashSet<string> hashSetDeleted=new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 			List<KeyNotDeleted> listNotDeleted=new List<KeyNotDeleted>();
 			for(int i=0;i<listX509Certificate2s.Count;i++) {
-				KeyProvInfo keyProvInfo=listKeyProvInfos[i];
+				CertificateKeyProvInfo keyProvInfo=listKeyProvInfos[i];
 				if(!keyProvInfo.IsNamed) {
 					listNotDeleted.Add(null);//No key stored for it.
 					continue;
@@ -634,61 +566,13 @@ namespace OpenPmsDentalDbSettings {
 			return listNotDeleted;
 		}
 
-		///<summary>The certificate's key provider information (CERT_KEY_PROV_INFO_PROP_ID, through CertGetCertificateContextProperty), which names
-		///its private key's container, provider and key set, read without opening the key: a key on a TPM or a smart card is never asked for its
-		///PIN to compare containers. A certificate without the property names no key; one whose property cannot be read gives Problem. Never
-		///throws: anything but a critical exception (IsCriticalException) is a property that cannot be read.</summary>
-		internal static KeyProvInfo ReadKeyProvInfo(X509Certificate2 x509Certificate2) {
-			KeyProvInfo keyProvInfo=new KeyProvInfo();
-			try {
-				IntPtr intPtrCertContext=x509Certificate2.Handle;
-				if(intPtrCertContext==IntPtr.Zero) {
-					keyProvInfo.IsNamed=true;
-					keyProvInfo.Problem="The certificate was already released.";
-					return keyProvInfo;
-				}
-				ActionBeforeKeyProvInfoReadForTests?.Invoke(x509Certificate2);
-				uint byteCount=0;
-				if(!CertGetCertificateContextProperty(intPtrCertContext,CERT_KEY_PROV_INFO_PROP_ID,IntPtr.Zero,ref byteCount)) {
-					int error=Marshal.GetLastWin32Error();
-					if(error==CRYPT_E_NOT_FOUND) {
-						return keyProvInfo;//No property: the certificate names no private key.
-					}
-					keyProvInfo.IsNamed=true;
-					keyProvInfo.Problem=new Win32Exception(error).Message.Trim();
-					return keyProvInfo;
-				}
-				keyProvInfo.IsNamed=true;
-				IntPtr intPtrData=Marshal.AllocHGlobal((int)byteCount);
-				try {
-					if(!CertGetCertificateContextProperty(intPtrCertContext,CERT_KEY_PROV_INFO_PROP_ID,intPtrData,ref byteCount)) {
-						keyProvInfo.Problem=new Win32Exception(Marshal.GetLastWin32Error()).Message.Trim();
-						return keyProvInfo;
-					}
-					CRYPT_KEY_PROV_INFO cryptKeyProvInfo=(CRYPT_KEY_PROV_INFO)Marshal.PtrToStructure(intPtrData,typeof(CRYPT_KEY_PROV_INFO));
-					string containerName=Marshal.PtrToStringUni(cryptKeyProvInfo.pwszContainerName);//Null for IntPtr.Zero.
-					if(string.IsNullOrEmpty(containerName)) {
-						keyProvInfo.Problem="The certificate's key provider information names no key container.";
-						return keyProvInfo;
-					}
-					keyProvInfo.ContainerName=containerName;
-					keyProvInfo.ProviderName=Marshal.PtrToStringUni(cryptKeyProvInfo.pwszProvName)??"";
-					keyProvInfo.ProviderType=(int)cryptKeyProvInfo.dwProvType;
-					keyProvInfo.IsMachine=(cryptKeyProvInfo.dwFlags & KEY_PROV_INFO_MACHINE_KEYSET)!=0;
-					return keyProvInfo;
-				}
-				finally {
-					Marshal.FreeHGlobal(intPtrData);
-				}
-			}
-			catch(Exception ex) when(!IsCriticalException(ex)) {
-				keyProvInfo.IsNamed=true;
-				keyProvInfo.Problem=ex.Message.Trim();
-				return keyProvInfo;
-			}
-			finally {
-				GC.KeepAlive(x509Certificate2);//Its certificate context is used until here.
-			}
+		///<summary>The certificate's key provider information (CERT_KEY_PROV_INFO_PROP_ID), which names its private key's container, provider and
+		///key set, read without opening the key (CodeBase's CertificateKeyProvInfo.Read, which the Direct certificate import shares): a key on a
+		///TPM or a smart card is never asked for its PIN to compare containers. A certificate without the property names no key; one whose
+		///property cannot be read gives Problem. The seam ActionBeforeKeyProvInfoReadForTests is called right before the read. Never throws:
+		///anything but a critical exception (IsCriticalException) is a property that cannot be read.</summary>
+		internal static CertificateKeyProvInfo ReadKeyProvInfo(X509Certificate2 x509Certificate2) {
+			return CertificateKeyProvInfo.Read(x509Certificate2,ActionBeforeKeyProvInfoReadForTests);
 		}
 
 		///<summary>Deletes the private key of the certificate from the key set it lives in: a CAPI key container (RSA) or a CNG key (RSA or ECDSA),
