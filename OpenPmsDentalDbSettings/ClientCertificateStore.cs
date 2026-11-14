@@ -78,6 +78,10 @@ namespace OpenPmsDentalDbSettings {
 		///(TryDeleteKeyNamed: a key the store's entry no longer names, after a put-back, say), once the key has opened; throwing there is a key
 		///that cannot be deleted, which stays. Null in the tool.</summary>
 		internal static Action<CertificateKeyProvInfo> ActionBeforeKeyNamedDeleteForTests;
+		///<summary>The tests only: called with the key provider information of each key the tool is about to delete by its name (DeleteToolKey),
+		///before anything looks for it or opens it, so that a test sees which keys the tool takes for its own to delete by name (never one it did
+		///not create). Throwing there is a key that cannot be deleted, which stays. Null in the tool.</summary>
+		internal static Action<CertificateKeyProvInfo> ActionBeforeKeyDeleteByNameForTests;
 		///<summary>The tests only: the name of a store of the current user (the tests' ClientCertificateTestStore) that the tool's public methods
 		///(ImportPfx, RemoveImported, FindInStore) use instead of LocalMachine\My, so that DbSettingsRunner.Apply can be tested without the
 		///computer's store; the import then uses the user's key set and gives no read access, as the internal overloads do for such a store.
@@ -834,6 +838,7 @@ namespace OpenPmsDentalDbSettings {
 			}
 			string pathKey=null;
 			try {
+				ActionBeforeKeyDeleteByNameForTests?.Invoke(keyProvInfoTool);
 				string whyKept=IsKeyNamedInStore(x509Store,keyProvInfoTool);
 				if(whyKept==null) {
 					return new ToolKeyDeletion(ToolKeyFate.InUse,"");//A certificate of the store names it.

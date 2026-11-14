@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using DataConnectionBase;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -30,6 +31,8 @@ namespace DbConnectionSecurityTests {
 		public void CleanUp() {
 			ClientCertificateStore.ActionAfterKeysStoredForTests=null;
 			ClientCertificateStore.ActionInsteadOfUsersReadGrantForTests=null;
+			ClientCertificateStore.ActionBeforePrivateKeyOpenForTests=null;
+			ClientCertificateStore.ActionBeforeKeyDeleteByNameForTests=null;
 			ClientCertificateStore.StoreNameForTests=null;
 			TestHelpers.DeleteFolder(_folder);
 			ClientCertificateTestStore.AssertCleanedUp();
@@ -263,6 +266,198 @@ namespace DbConnectionSecurityTests {
 					}
 				}
 			}
+		}
+
+		///<summary>The DCFU4 second fix round's review finding 1: a record of the old format names no key, and the save that rewrites it
+		///(CompleteRecord) must name the entry's key only when the old rule would have claimed it on a re-import: a key in the import's key set
+		///that is usable. (1) The tool imports the certificate; the test replaces the record with its thumbprint line (an older tool's record).
+		///(2) Someone gives the entry another key by hand (the test store adds the same .pfx again), and (a) makes the entry name it in another
+		///key set than the import's (the machine key set: only the flag is changed, nothing is made, opened or deleted there), or (b) the key
+		///does not open for the tool (the seam refuses it, as a key that needs a PIN). (3) A save without an import rewrites the record: it names
+		///no key. (4) The same .pfx imported again: no key is deleted by its name (the seam sees none), the hand-given key and its file stay; in
+		///(a) the warning names that key, says that the tool names it on the entry again, and gives no certutil -delkey command (finding 2), and
+		///the record keeps it as the entry's earlier key. (5) A save with the password: in (a) the entry names the hand-given key again, exactly,
+		///and that key and its file still exist; the result says what was put back and what to do if that key was deleted since; in (b) the
+		///certificate goes with the second import's key, as the old rule did. The hand-given key and its file stay throughout. Before the fix the
+		///save of (3) recorded the hand-given key as the tool's, so the re-import of (4) deleted it by its name. For each kind of key.</summary>
+		[TestMethod]
+		public void Apply_AnOldFormatRecordWhoseEntryWasReKeyedByHand_ClaimsNoKeyTheOldRuleDidNot() {
+			foreach(TestKeyKind testKeyKind in _arrayKinds) {
+				foreach(bool isOtherKeySet in new[] { true,false }) {
+					string label=testKeyKind+(isOtherKeySet ? ", a hand-given key in another key set" : ", a hand-given key that does not open");
+					string folder=Path.Combine(_folder,testKeyKind+(isOtherKeySet ? "-old-rekeyed-keyset" : "-old-rekeyed-noopen"));
+					Directory.CreateDirectory(folder);
+					string config=TestHelpers.WriteConfig(folder,"ComputerName","localhost","Database","opendental","User","root","Password","");
+					string caCopy=DbConnectionConfig.GetOfficeCaCopyPath(Path.Combine(folder,"program"));
+					string pathRecord=ImportedCertificateRecord.GetPath(caCopy);
+					using(ClientCertificateTestStore clientCertificateTestStore=new ClientCertificateTestStore()) {
+						string storeText="CurrentUser\\"+clientCertificateTestStore.Name;
+						string pathPfx=clientCertificateTestStore.WritePfx(folder,testKeyKind,out string thumbprintClient);
+						Dictionary<string,TestKey> dictKeys=null;
+						ClientCertificateStore.ActionAfterKeysStoredForTests=x509Certificate2Collection => {
+							dictKeys=clientCertificateTestStore.TrackKeys(x509Certificate2Collection);
+						};
+						ClientCertificateStore.StoreNameForTests=clientCertificateTestStore.Name;
+						//(1)
+						DbSettingsResult dbSettingsResult=DbSettingsRunner.Apply(new DbSettingsRequest() { Auth=DbSettingsAuth.Certificate,PfxFile=pathPfx,
+							PfxPassword=clientCertificateTestStore.Password },config,caCopy);
+						Assert.AreEqual(DbSettingsRunner.EXIT_OK,dbSettingsResult.ExitCode,label+" (1): "+dbSettingsResult.Message);
+						File.WriteAllText(pathRecord,thumbprintClient+"\r\n");//The old format.
+						//(2)
+						TestKey testKeyByHand=clientCertificateTestStore.AddCertificate(pathPfx);
+						TestKeyProvInfo testKeyProvInfoByHand;
+						if(isOtherKeySet) {
+							testKeyProvInfoByHand=clientCertificateTestStore.NameMachineKeySetForEntry(thumbprintClient);
+						}
+						else {
+							using(X509Certificate2 x509Certificate2Entry=clientCertificateTestStore.Find(thumbprintClient)) {
+								testKeyProvInfoByHand=TestKeyProvInfo.Read(x509Certificate2Entry);
+							}
+							ClientCertificateStore.ActionBeforePrivateKeyOpenForTests=x509Certificate2 => {
+								if(string.Equals(TestKeyProvInfo.Read(x509Certificate2).ContainerName,testKeyByHand.Name,StringComparison.OrdinalIgnoreCase)) {
+									throw new CryptographicException("The test refuses to open the hand-given key (it needs a PIN).");
+								}
+							};
+						}
+						Assert.IsTrue(string.Equals(testKeyProvInfoByHand.ContainerName,testKeyByHand.Name,StringComparison.OrdinalIgnoreCase),
+							label+": the test's premise, the entry names the hand-given key's container.");
+						List<string> listDeletesByName=new List<string>();
+						ClientCertificateStore.ActionBeforeKeyDeleteByNameForTests=keyProvInfo => {
+							if(string.Equals(keyProvInfo.ContainerName,testKeyByHand.Name,StringComparison.OrdinalIgnoreCase)) {
+								listDeletesByName.Add(keyProvInfo.Describe());
+								throw new CryptographicException("The test refuses to delete the hand-given key by its name.");
+							}
+						};
+						//(3) A save without an import.
+						dbSettingsResult=DbSettingsRunner.Apply(new DbSettingsRequest(),config,caCopy);
+						Assert.AreEqual(DbSettingsRunner.EXIT_OK,dbSettingsResult.ExitCode,label+" (3): "+dbSettingsResult.Message);
+						List<string> listLinesSave=File.ReadAllLines(pathRecord).ToList();
+						//(4) The same .pfx again.
+						dictKeys=null;
+						dbSettingsResult=DbSettingsRunner.Apply(new DbSettingsRequest() { Auth=DbSettingsAuth.Certificate,PfxFile=pathPfx,
+							PfxPassword=clientCertificateTestStore.Password },config,caCopy);
+						Assert.AreEqual(0,listDeletesByName.Count,label+" (4): no key the tool did not create is deleted by its name: "
+							+string.Join("; ",listDeletesByName)+" | "+dbSettingsResult.Message);
+						Assert.AreEqual(DbSettingsRunner.EXIT_OK,dbSettingsResult.ExitCode,label+" (4): "+dbSettingsResult.Message);
+						Assert.AreEqual(FORMAT_LINE,listLinesSave[0],label+" (3): rewritten in format 2.");
+						Assert.IsFalse(listLinesSave.Any(x => x.StartsWith("tool.")),label+" (3): the record names no key: "+string.Join(" | ",listLinesSave));
+						Assert.IsTrue(testKeyByHand.Exists(),label+" (4): the hand-given key stays.");
+						Assert.IsTrue(File.Exists(testKeyByHand.FilePath),label+" (4): and its file: "+testKeyByHand.FilePath);
+						Assert.IsFalse(dbSettingsResult.Message.Contains("-delkey"),label+" (4): "+dbSettingsResult.Message);
+						Assert.IsNotNull(dictKeys,label+" (4): the import stored its key.");
+						TestKey testKeyImport=dictKeys[thumbprintClient];
+						ImportedCertificate importedCertificateRead=ImportedCertificateRecord.ReadRecord(pathRecord);
+						Assert.IsNotNull(importedCertificateRead,label+" (4)");
+						Assert.IsTrue(string.Equals(importedCertificateRead.KeyTool.ContainerName,testKeyImport.Name,StringComparison.OrdinalIgnoreCase),
+							label+" (4): the record names the import's key.");
+						if(isOtherKeySet) {
+							StringAssert.Contains(dbSettingsResult.Message,"left the entry's earlier key untouched: provider "+testKeyProvInfoByHand.ProviderName
+								+", key container "+testKeyProvInfoByHand.ContainerName+", in the computer's key set. The tool's record keeps it, and the tool names "
+								+"that key on the entry again when this import is undone or a later save stops using this certificate, so do not delete that "
+								+"key while the record names it.",label+" (4)");
+							Assert.IsNotNull(importedCertificateRead.KeyBefore,label+" (4): the record keeps the entry's earlier key.");
+							Assert.IsTrue(string.Equals(importedCertificateRead.KeyBefore.ContainerName,testKeyByHand.Name,StringComparison.OrdinalIgnoreCase)
+								&& importedCertificateRead.KeyBefore.IsMachine,label+" (4): as the entry named it.");
+						}
+						else {
+							Assert.AreEqual("Saved the connection settings for the database opendental on localhost (client certificate).",dbSettingsResult.Message,
+								label+" (4): the old rule, the entry without a usable key takes the import's.");
+							Assert.IsNull(importedCertificateRead.KeyBefore,label+" (4)");
+						}
+						//(5) A save with the password.
+						dbSettingsResult=DbSettingsRunner.Apply(new DbSettingsRequest() { Auth=DbSettingsAuth.Password,DbPassword="" },config,caCopy);
+						ClientCertificateStore.ActionAfterKeysStoredForTests=null;
+						ClientCertificateStore.ActionBeforePrivateKeyOpenForTests=null;
+						ClientCertificateStore.ActionBeforeKeyDeleteByNameForTests=null;
+						ClientCertificateStore.StoreNameForTests=null;
+						Assert.AreEqual(DbSettingsRunner.EXIT_OK,dbSettingsResult.ExitCode,label+" (5): "+dbSettingsResult.Message);
+						Assert.AreEqual(0,listDeletesByName.Count,label+" (5): "+string.Join("; ",listDeletesByName));
+						Assert.IsFalse(File.Exists(pathRecord),label+" (5): no record is left.");
+						Assert.IsFalse(testKeyImport.Exists(),label+" (5): the second import's key is deleted.");
+						Assert.IsFalse(File.Exists(testKeyImport.FilePath),label+" (5): its file is gone.");
+						Assert.IsTrue(testKeyByHand.Exists(),label+" (5): the hand-given key still exists (the store's clean-up deletes it).");
+						Assert.IsTrue(File.Exists(testKeyByHand.FilePath),label+" (5): and its file: "+testKeyByHand.FilePath);
+						if(isOtherKeySet) {
+							Assert.AreEqual("Saved the connection settings for the database opendental on localhost (password). The client certificate "
+								+thumbprintClient+" was in the computer's certificate store ("+storeText+") before the tool's import gave it a private key: its "
+								+"entry names its earlier private key again (provider "+testKeyProvInfoByHand.ProviderName+", key container "
+								+testKeyProvInfoByHand.ContainerName+", in the computer's key set), as before that import, and the private key the tool gave it "
+								+"was deleted."+GetPutBackHedge(storeText,thumbprintClient),dbSettingsResult.Message,label+" (5)");
+							CollectionAssert.AreEqual(new List<string> { thumbprintClient },clientCertificateTestStore.GetThumbprints(),label+" (5): the entry stays.");
+							using(X509Certificate2 x509Certificate2Entry=clientCertificateTestStore.Find(thumbprintClient)) {
+								Assert.IsTrue(TestKeyProvInfo.Read(x509Certificate2Entry).IsSameAs(testKeyProvInfoByHand),label+" (5): it names the hand-given key "
+									+"again, exactly.");
+							}
+						}
+						else {
+							Assert.AreEqual("Saved the connection settings for the database opendental on localhost (password).",dbSettingsResult.Message,
+								label+" (5)");
+							Assert.AreEqual(0,clientCertificateTestStore.GetThumbprints().Count,label+" (5): the certificate is removed, as the old rule did.");
+						}
+					}
+				}
+			}
+		}
+
+		///<summary>The DCFU4 second fix round's review finding 1, its guard: a record of format 2 whose tool key is outside the key set the tool
+		///imports into (the test writes the record an import wrote again with the machine key set; the tool never makes such a key, so only a
+		///record edited by hand can say so). A save with the password takes nothing of it for the tool's: no key is deleted by its name, the entry
+		///stays with its key, the result says why and how to remove it by hand, and the record is gone. Before the fix the tool deleted that key
+		///by its name (the seam saw it). For each kind of key.</summary>
+		[TestMethod]
+		public void Apply_ARecordWhoseToolKeyIsOutsideTheImportsKeySet_IsNotTheTools() {
+			foreach(TestKeyKind testKeyKind in _arrayKinds) {
+				string label=testKeyKind.ToString();
+				string folder=Path.Combine(_folder,testKeyKind+"-tool-key-outside");
+				Directory.CreateDirectory(folder);
+				string config=TestHelpers.WriteConfig(folder,"ComputerName","localhost","Database","opendental","User","root","Password","");
+				string caCopy=DbConnectionConfig.GetOfficeCaCopyPath(Path.Combine(folder,"program"));
+				string pathRecord=ImportedCertificateRecord.GetPath(caCopy);
+				using(ClientCertificateTestStore clientCertificateTestStore=new ClientCertificateTestStore()) {
+					string storeText="CurrentUser\\"+clientCertificateTestStore.Name;
+					string pathPfx=clientCertificateTestStore.WritePfx(folder,testKeyKind,out string thumbprintClient);
+					Dictionary<string,TestKey> dictKeys=null;
+					ClientCertificateStore.ActionAfterKeysStoredForTests=x509Certificate2Collection => {
+						dictKeys=clientCertificateTestStore.TrackKeys(x509Certificate2Collection);
+					};
+					ClientCertificateStore.StoreNameForTests=clientCertificateTestStore.Name;
+					DbSettingsResult dbSettingsResult=DbSettingsRunner.Apply(new DbSettingsRequest() { Auth=DbSettingsAuth.Certificate,PfxFile=pathPfx,
+						PfxPassword=clientCertificateTestStore.Password },config,caCopy);
+					ClientCertificateStore.ActionAfterKeysStoredForTests=null;
+					Assert.AreEqual(DbSettingsRunner.EXIT_OK,dbSettingsResult.ExitCode,label+": "+dbSettingsResult.Message);
+					TestKey testKeyImport=dictKeys[thumbprintClient];
+					ImportedCertificate importedCertificate=ImportedCertificateRecord.ReadRecord(pathRecord);
+					Assert.IsFalse(importedCertificate.KeyTool.IsMachine,label+": the test's premise, the import's key is in the user key set.");
+					importedCertificate.KeyTool.Flags|=0x20;//CRYPT_MACHINE_KEYSET
+					ImportedCertificateRecord.Write(pathRecord,importedCertificate);
+					Assert.IsTrue(ImportedCertificateRecord.ReadRecord(pathRecord).KeyTool.IsMachine,label+": the test's premise, the record says so.");
+					List<string> listDeletesByName=new List<string>();
+					ClientCertificateStore.ActionBeforeKeyDeleteByNameForTests=keyProvInfo => {
+						listDeletesByName.Add(keyProvInfo.Describe());
+						throw new CryptographicException("The test refuses every delete by name.");
+					};
+					dbSettingsResult=DbSettingsRunner.Apply(new DbSettingsRequest() { Auth=DbSettingsAuth.Password,DbPassword="" },config,caCopy);
+					ClientCertificateStore.ActionBeforeKeyDeleteByNameForTests=null;
+					ClientCertificateStore.StoreNameForTests=null;
+					Assert.AreEqual(DbSettingsRunner.EXIT_OK,dbSettingsResult.ExitCode,label+": "+dbSettingsResult.Message);
+					Assert.AreEqual(0,listDeletesByName.Count,label+": no key is deleted by its name: "+string.Join("; ",listDeletesByName));
+					StringAssert.Contains(dbSettingsResult.Message,"The tool's record names the client certificate "+thumbprintClient+" with a private key "
+						+"outside the key set the tool imports into (",label);
+					StringAssert.Contains(dbSettingsResult.Message,"so the tool leaves the certificate in the computer's certificate store ("+storeText
+						+") and every key as they are.",label);
+					CollectionAssert.AreEqual(new List<string> { thumbprintClient },clientCertificateTestStore.GetThumbprints(),label+": the entry stays.");
+					Assert.IsTrue(testKeyImport.Exists(),label+": its key stays (the store's clean-up deletes it).");
+					Assert.IsTrue(File.Exists(testKeyImport.FilePath),label+": and its file.");
+					Assert.IsFalse(File.Exists(pathRecord),label+": no record is left.");
+				}
+			}
+		}
+
+		///<summary>The sentence that follows a put-back: what to do if the earlier key was deleted since (the DCFU4 second fix round's review
+		///finding 2).</summary>
+		public static string GetPutBackHedge(string storeText,string thumbprint) {
+			return " If that earlier key was deleted since, the entry names a key that is not there: then remove the certificate as an "
+				+"administrator, in PowerShell: Remove-Item Cert:\\"+storeText+"\\"+thumbprint+".";
 		}
 	}
 }
