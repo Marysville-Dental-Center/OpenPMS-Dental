@@ -542,6 +542,7 @@ New in `tests/INSVERIFYTests`, committed before the change and run on the code b
 | `insv4-1-final.txt` | INSV4, after the full build | INSVERIFYTests 27 of 27, M2INSVTests 17 of 17, NoHqTests 57 of 57, UnitTests 1,727 of 1,731 (the 3 skipped Topaz signature tests, and `AppointmentsTests.Appointments_GetSearchResults_IgnoreBrokenAppointments`, below); all 40 InsVerify tests of UnitTests pass. |
 | `insv4-1-weekday-fix.txt` | INSV4 and the weekday fix (ee76cd8f8) | UnitTests 1,728 of 1,731 (the 3 skipped Topaz signature tests), 0 failed, on Saturday 2026-11-14; its NoHqTests NOTBUILT (run on its own next). |
 | `insv4-1-weekday-fix-nohq.txt` | INSV4 and the weekday fix | NoHqTests 57 of 57. |
+| `insv4-3-final.txt` | INSV4, the weekday fix and this note, after the full build (Saturday 2026-11-14) | INSVERIFYTests 27 of 27, M2INSVTests 17 of 17, NoHqTests 57 of 57, UnitTests 1,728 of 1,731 (the 3 skipped Topaz signature tests), 0 failed; all 40 InsVerify tests of UnitTests pass. |
 
 `Appointments_GetSearchResults_IgnoreBrokenAppointments` failed on Fridays and Saturdays, whatever the branch: it booked its existing
 appointment "tomorrow" and expected the first opening after it, but `AppointmentT.CreateScheduleAndOpsForProv` makes no schedule on
