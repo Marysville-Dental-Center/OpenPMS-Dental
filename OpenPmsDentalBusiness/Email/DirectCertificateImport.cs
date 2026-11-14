@@ -185,6 +185,11 @@ namespace OpenPmsDentalBusiness {
 		///<summary>The tests only: called with each replaced certificate right before it is removed from the store, after the new ones were added;
 		///a CryptographicException there is a store that refuses to remove it, anything else stops the import there. Null in the program.</summary>
 		internal static Action<X509Certificate2> ActionBeforeStoreRemoveForTests;
+		///<summary>The tests only: called with the certificate each time the import is about to open its private key (IsKeyUsable,
+		///TryDeletePrivateKey, GetCapiRsaPrivateKey, GetMachinePrivateKeyFilePath, and anything that compares keys by opening them), so that a test
+		///sees which keys are opened: never one of a certificate of the store only to compare key containers. Throwing there is a key that does not
+		///open. Null in the program.</summary>
+		internal static Action<X509Certificate2> ActionBeforePrivateKeyOpenForTests;
 
 		#region The address's certificate
 		///<summary>Reads the .pfx or .p12 file with its password, without storing any key (EphemeralKeySet), and checks it for the address
@@ -342,6 +347,7 @@ namespace OpenPmsDentalBusiness {
 				if(!x509Certificate2.HasPrivateKey) {
 					return false;
 				}
+				ActionBeforePrivateKeyOpenForTests?.Invoke(x509Certificate2);
 				byte[] byteArrayValue=Encoding.ASCII.GetBytes("Open PMS - Dental Direct key check");
 				byte[] byteArrayDigest;
 				using(SHA256 sha256=SHA256.Create()) {
@@ -1229,6 +1235,7 @@ namespace OpenPmsDentalBusiness {
 				if(!x509Certificate2.HasPrivateKey) {
 					return "";
 				}
+				ActionBeforePrivateKeyOpenForTests?.Invoke(x509Certificate2);
 				RSACryptoServiceProvider rsaCryptoServiceProviderCapi=GetCapiRsaPrivateKey(x509Certificate2);
 				if(rsaCryptoServiceProviderCapi!=null) {
 					rsaCryptoServiceProviderCapi.PersistKeyInCsp=false;//Clear then deletes the key container.
@@ -1266,6 +1273,7 @@ namespace OpenPmsDentalBusiness {
 		///not disposed here.</summary>
 		private static RSACryptoServiceProvider GetCapiRsaPrivateKey(X509Certificate2 x509Certificate2) {
 			try {
+				ActionBeforePrivateKeyOpenForTests?.Invoke(x509Certificate2);
 				return x509Certificate2.PrivateKey as RSACryptoServiceProvider;
 			}
 			catch(Exception ex) when(!IsCriticalException(ex)) {
@@ -1281,6 +1289,7 @@ namespace OpenPmsDentalBusiness {
 				if(!x509Certificate2.HasPrivateKey) {
 					return null;
 				}
+				ActionBeforePrivateKeyOpenForTests?.Invoke(x509Certificate2);
 				RSACryptoServiceProvider rsaCryptoServiceProviderCapi=GetCapiRsaPrivateKey(x509Certificate2);
 				if(rsaCryptoServiceProviderCapi!=null) {
 					return GetCapiKeyContainerName(rsaCryptoServiceProviderCapi.CspKeyContainerInfo);
@@ -1340,6 +1349,7 @@ namespace OpenPmsDentalBusiness {
 		}
 
 		private static string GetMachinePrivateKeyFilePath(X509Certificate2 x509Certificate2) {
+			ActionBeforePrivateKeyOpenForTests?.Invoke(x509Certificate2);
 			string folderCrypto=Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData),"Microsoft","Crypto");
 			RSACryptoServiceProvider rsaCryptoServiceProviderCapi=GetCapiRsaPrivateKey(x509Certificate2);
 			if(rsaCryptoServiceProviderCapi!=null) {//A CAPI key, which .NET Framework's GetRSAPrivateKey would give as an RSACng.
