@@ -47,6 +47,9 @@ namespace CodeBase {
 		public List<CertificateKeyProvParam> ListProvParams=new List<CertificateKeyProvParam>();
 		///<summary>Why the property could not be read, or names no key container; null when it was read and names one.</summary>
 		public string Problem;
+		///<summary>True when the fields were read from the property (also when it names no key container), so that Write can put them back
+		///exactly; false without the property, or when it could not be read at all.</summary>
+		public bool IsFieldsRead;
 
 		[DllImport("crypt32.dll",SetLastError=true)]
 		[return: MarshalAs(UnmanagedType.Bool)]
@@ -159,6 +162,7 @@ namespace CodeBase {
 						}
 						certificateKeyProvInfo.ListProvParams.Add(certificateKeyProvParam);
 					}
+					certificateKeyProvInfo.IsFieldsRead=true;
 					if(certificateKeyProvInfo.ContainerName=="") {
 						certificateKeyProvInfo.Problem="The certificate's key provider information names no key container.";
 					}

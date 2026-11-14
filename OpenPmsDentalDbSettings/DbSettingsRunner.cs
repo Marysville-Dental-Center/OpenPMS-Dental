@@ -265,9 +265,14 @@ namespace OpenPmsDentalDbSettings {
 			#region Change things
 			string warning="";
 			string pathRecord=ImportedCertificateRecord.GetPath(caCopyPath);
-			string thumbprintRecorded=ImportedCertificateRecord.Read(pathRecord);
+			//The record of the client certificate the tool imported before (null for none), and its thumbprint ("" for none).
+			ImportedCertificate importedCertificateRecorded=ImportedCertificateRecord.ReadRecord(pathRecord);
+			string thumbprintRecorded=importedCertificateRecorded==null ? "" : importedCertificateRecorded.Thumbprint;
 			//The thumbprint this save's import returned, once ImportPfx has returned; "" before, and without an import.
 			string thumbprintImported="";
+			//What the record is to name for the certificate this save's import returned (its key, and the entry's earlier key provider
+			//information the import left aside), once ImportPfx has returned; null before, and without an import.
+			ImportedCertificate importedCertificateImport=null;
 			try {
 				if(listCaCertificates!=null) {
 					OfficeCaFile.WriteCopy(listCaCertificates,caCopyPath);
@@ -275,8 +280,10 @@ namespace OpenPmsDentalDbSettings {
 				if(isPfxImport) {
 					//isStoreKeyImported is set only once ImportPfx has returned: an import that throws has undone itself.
 					string thumbprintReturned=ClientCertificateStore.ImportPfx(dbSettingsRequest.PfxFile.Trim(),dbSettingsRequest.PfxPassword,
-						thumbprintRecorded,out warning,out bool isStoreKeyImportedReturned,out ClientCertificateEntryBefore entryBeforeReturned);
+						importedCertificateRecorded,out warning,out bool isStoreKeyImportedReturned,out ClientCertificateEntryBefore entryBeforeReturned,
+						out ImportedCertificate importedCertificateReturned);
 					thumbprintImported=DbConnectionConfig.NormalizeThumbprint(thumbprintReturned);
+					importedCertificateImport=importedCertificateReturned;
 					isStoreKeyImported=isStoreKeyImportedReturned;
 					entryBefore=entryBeforeReturned;
 					dbConnectionConfigNew.ClientCertThumbprint=thumbprintImported;
@@ -298,7 +305,7 @@ namespace OpenPmsDentalDbSettings {
 				string message=(ex is DbSettingsException) ? ex.Message : "The connection settings could not be saved: "+ex.Message;
 				int exitCode=(ex is DbSettingsException) ? ((DbSettingsException)ex).ExitCode : EXIT_WRITE_FAILED;
 				throw new DbSettingsException(exitCode,AppendSentence(AppendSentence(EndSentence(message),warning),UndoImportOfFailedSave(
-					thumbprintImported,dbConnectionConfigCurrent.ClientCertThumbprint,thumbprintRecorded,pathRecord,entryBefore)));
+					importedCertificateImport,dbConnectionConfigCurrent.ClientCertThumbprint,thumbprintRecorded,pathRecord,entryBefore)));
 			}
 			catch(DbSettingsException) {
 				throw;
@@ -323,14 +330,25 @@ namespace OpenPmsDentalDbSettings {
 				warningRights="The connection settings were saved, but the rights of "+ProgramNames.ConfigFileName+" could not be set back to those "
 					+"of the program folder: "+ex.Message+" Remove any right of Users on the file in its Properties, Security tab, then save again.";
 			}
+			//The record names the certificate with the key the tool gave it (DIRECT-CERT-FOLLOWUP round 4, part C): this save's import's, or the
+			//record as it was, rewritten in the current format (a record of the old format then names the key its entry has now: CompleteRecord).
+			ImportedCertificate importedCertificateToRecord=null;
+			if(thumbprintToRecord!="" && importedCertificateImport!=null && thumbprintToRecord==thumbprintImported) {
+				importedCertificateToRecord=importedCertificateImport;
+			}
+			else if(thumbprintToRecord!="" && importedCertificateRecorded!=null) {
+				importedCertificateToRecord=ClientCertificateStore.CompleteRecord(importedCertificateRecorded);
+			}
 			try {
-				ImportedCertificateRecord.Write(pathRecord,thumbprintToRecord);
+				ImportedCertificateRecord.Write(pathRecord,importedCertificateToRecord);
 			}
 			catch(Exception ex) when(ex is DbSettingsException || ex is IOException || ex is UnauthorizedAccessException || ex is InvalidOperationException) {
 				warning=AppendSentence(warning,"The tool could not record which client certificate it imported ("+ex.Message+"), so it will not remove "
 					+"that certificate when it is replaced.");
 			}
-			warning=AppendSentence(warning,ClientCertificateStore.RemoveImported(thumbprintToRemove));
+			if(thumbprintToRemove!="") {
+				warning=AppendSentence(warning,ClientCertificateStore.RemoveImported(importedCertificateRecorded));//The record names it (Plan).
+			}
 			if(warningRights!="") {
 				throw new DbSettingsException(EXIT_WRITE_FAILED,AppendSentence(warningRights,warning));
 			}
@@ -345,17 +363,17 @@ namespace OpenPmsDentalDbSettings {
 		///entry: when the store held the certificate before the import (entryBefore), the text says that this entry was removed, with the key this
 		///save gave it, and, when the import left the entry's earlier key aside, that the key stays where the import's warning (which the error
 		///gives before this text) says. Returns what was done, or the warning that says what is left; never throws.</summary>
-		private static string UndoImportOfFailedSave(string thumbprintImported,string thumbprintCurrent,string thumbprintRecorded,string pathRecord,
-			ClientCertificateEntryBefore entryBefore)
+		private static string UndoImportOfFailedSave(ImportedCertificate importedCertificateImport,string thumbprintCurrent,string thumbprintRecorded,
+			string pathRecord,ClientCertificateEntryBefore entryBefore)
 		{
-			thumbprintImported=DbConnectionConfig.NormalizeThumbprint(thumbprintImported);
+			string thumbprintImported=DbConnectionConfig.NormalizeThumbprint(importedCertificateImport==null ? "" : importedCertificateImport.Thumbprint);
 			thumbprintCurrent=DbConnectionConfig.NormalizeThumbprint(thumbprintCurrent);
 			thumbprintRecorded=DbConnectionConfig.NormalizeThumbprint(thumbprintRecorded);
 			if(thumbprintImported=="") {
 				return "";
 			}
 			if(thumbprintImported!=thumbprintCurrent && thumbprintImported!=thumbprintRecorded) {
-				string warningRemove=ClientCertificateStore.RemoveImported(thumbprintImported);
+				string warningRemove=ClientCertificateStore.RemoveImported(importedCertificateImport);
 				if(warningRemove!="") {
 					return warningRemove;
 				}
@@ -369,11 +387,10 @@ namespace OpenPmsDentalDbSettings {
 				}
 				return "The client certificate this save imported was removed from the computer's certificate store again, with its private key.";
 			}
-			if(thumbprintImported==thumbprintRecorded) {
-				return "";//Recorded already: a later save that stops using it removes it.
-			}
+			//Recorded at once, with the key the import gave its entry; also when the record names the certificate already, since its entry's key is
+			//the import's now (DIRECT-CERT-FOLLOWUP round 4, part C).
 			try {
-				ImportedCertificateRecord.Write(pathRecord,thumbprintImported);
+				ImportedCertificateRecord.Write(pathRecord,importedCertificateImport);
 			}
 			catch(Exception ex) when(!ClientCertificateStore.IsCriticalException(ex)) {
 				return "The client certificate this save imported ("+thumbprintImported+") stays in the computer's certificate store, which the "

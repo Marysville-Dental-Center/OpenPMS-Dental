@@ -82,6 +82,46 @@ namespace DbConnectionSecurityTests {
 			}
 		}
 
+		///<summary>Part C: a record written in format 2 reads back field for field (the tool's key, the entry's earlier key with a provider
+		///parameter, and names with "%", CR and LF in them), its file starts with the format line, and a record of the old format reads as its
+		///thumbprint with no key named.</summary>
+		[TestMethod]
+		public void Record_WrittenInFormat2_ReadsBackFieldForField() {
+			string caCopy=DbConnectionConfig.GetOfficeCaCopyPath(Path.Combine(_folder,"program"));
+			string pathRecord=ImportedCertificateRecord.GetPath(caCopy);
+			ImportedCertificate importedCertificate=ImportedCertificate.FromThumbprint(THUMB.ToLowerInvariant());
+			importedCertificate.KeyTool=new CodeBase.CertificateKeyProvInfo { IsNamed=true,IsFieldsRead=true,ContainerName="tool 100%\r\nkey",
+				ProviderName="Microsoft Software Key Storage Provider",ProviderType=0,Flags=0x20,KeySpec=0 };
+			importedCertificate.KeyBefore=new CodeBase.CertificateKeyProvInfo { IsNamed=true,IsFieldsRead=true,ContainerName="admin-key",
+				ProviderName="Microsoft Enhanced RSA and AES Cryptographic Provider",ProviderType=24,Flags=0x21,KeySpec=1 };
+			importedCertificate.KeyBefore.ListProvParams.Add(new CodeBase.CertificateKeyProvParam { Param=7,Flags=1,Data=new byte[] { 0x0A,0xFF } });
+			ImportedCertificateRecord.Write(pathRecord,importedCertificate);
+			Assert.AreEqual(FORMAT_LINE,File.ReadAllLines(pathRecord)[0]);
+			ImportedCertificate importedCertificateRead=ImportedCertificateRecord.ReadRecord(pathRecord);
+			Assert.IsNotNull(importedCertificateRead);
+			Assert.IsFalse(importedCertificateRead.IsOldFormat);
+			Assert.AreEqual(THUMB,importedCertificateRead.Thumbprint);
+			Assert.IsTrue(CodeBase.CertificateKeyProvInfo.IsSameExactly(importedCertificate.KeyTool,importedCertificateRead.KeyTool),"The tool's key.");
+			Assert.IsTrue(importedCertificateRead.KeyTool.IsMachine);
+			Assert.IsTrue(CodeBase.CertificateKeyProvInfo.IsSameExactly(importedCertificate.KeyBefore,importedCertificateRead.KeyBefore),"The earlier key.");
+			Assert.IsTrue(CodeBase.CertificateKeyProvInfo.IsSameKeyStrict(importedCertificate.KeyTool,importedCertificateRead.KeyTool));
+			//Without keys.
+			ImportedCertificateRecord.Write(pathRecord,THUMB);
+			importedCertificateRead=ImportedCertificateRecord.ReadRecord(pathRecord);
+			Assert.AreEqual(THUMB,importedCertificateRead.Thumbprint);
+			Assert.IsNull(importedCertificateRead.KeyTool);
+			Assert.IsNull(importedCertificateRead.KeyBefore);
+			//The old format: the thumbprint, no key named.
+			File.WriteAllText(pathRecord,THUMB+"\r\n");
+			importedCertificateRead=ImportedCertificateRecord.ReadRecord(pathRecord);
+			Assert.IsTrue(importedCertificateRead.IsOldFormat);
+			Assert.AreEqual(THUMB,importedCertificateRead.Thumbprint);
+			Assert.IsNull(importedCertificateRead.KeyTool);
+			ImportedCertificateRecord.Write(pathRecord,(ImportedCertificate)null);
+			Assert.IsFalse(File.Exists(pathRecord));
+			Assert.IsNull(ImportedCertificateRecord.ReadRecord(pathRecord));
+		}
+
 		///<summary>Part C: a record of the old format (the test writes the thumbprint line over the record an import wrote) is read: a save that
 		///keeps the certificate rewrites it in format 2, naming the key the store's entry has (the key the tool's import made), read without
 		///opening it; and a save with the password then removes the certificate with that key, as before. Before round 4 the save wrote the
