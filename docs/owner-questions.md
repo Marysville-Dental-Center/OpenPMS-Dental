@@ -497,10 +497,14 @@ From `docs/specs/ssh-host-keys.md`, section 11: your decision of 2026-11-02 (tie
 
 ## The program's database account (DB-SEC, 2026-11-02)
 
-From [specs/db-connection-security.md](specs/db-connection-security.md), section 8. Your answers of 2026-11-02 settled the other points of that section; these two were answered on 2026-11-07.
+From [specs/db-connection-security.md](specs/db-connection-security.md), section 8. Your answers of 2026-11-02 settled the other points of that section; these two were answered on 2026-11-07. DB-SEC 3 was decided by the lead on 2026-11-11; you can still choose otherwise.
+
 
 - (DB-SEC 1) Every backup asks whether the server replicates (`SHOW MASTER STATUS`, `SHOW SLAVE STATUS`: the server-wide rights `BINLOG MONITOR` and `REPLICA MONITOR`) and runs `FLUSH TABLE` on each table it copies (the server-wide right `RELOAD`). Should "access denied" on the replication question count as "no replication" when the program's replication table is empty, and the flush be skipped, so that the program's account `opmsd` needs no server-wide right at all? **Today:** all three are granted ([db-connection-security.md](db-connection-security.md), section 5); without any one of them every backup fails ([specs/db-connection-security.md](specs/db-connection-security.md), section 9.5). **Answered (2026-11-07):** keep the three server-wide rights; the backup is unchanged.
 - (DB-SEC 2) The Backup window's archive tab can back up to another server first ("back up first"), with an account of that server typed in the window. That path copies the rows with a bulk load (`LOAD DATA LOCAL INFILE`), which MySqlConnector refuses without `AllowLoadLocalInfile=true` in the connection string, so it fails at the first table with rows. Should the program set `AllowLoadLocalInfile=true` for that connection only (MySqlConnector keeps it off by default because a server may then ask the client for local files), copy the rows with `INSERT` statements instead, or drop the option of a backup to another server? **Answered (2026-11-07), the recommendation: `INSERT` statements.** Built: the backup to another server copies each table's rows with ordinary `INSERT` statements, in the same batches, with the same progress lines and row checks; no connection allows local infile.
+- (DB-SEC 3, decided by the lead as (c) on 2026-11-11, from the MySqlConnector 2.6.2 upgrade, [port-notes/S2-2.md](port-notes/S2-2.md) section 3.6) Your decision Q5 says the database server's certificate must chain to the office CA before anything is trusted. MySqlConnector 2.6.2 (the security update of the .NET 10 move) no longer does that by itself for logins with a database password: it sends the login first and checks the certificate after, and it accepts any certificate from a server that proves it has a copy of the account's stored password hash. Someone in the middle of the network could then collect the password's challenge response and try to guess the password offline, or, with a copy of that hash (for example from a backup of the database server's files), pass as the server and see all patient data. The choices were: (a) accept the risk and write it into the connection rule; (b) allow only client-certificate logins over the network; (c) the program checks the server's certificate itself before it logs in. **The lead decided (c), because it keeps your decision Q5 exactly as you made it** and keeps passwords working (the password fallback of Q2, the backup to another server, the read-only and reporting servers): every connection over the network that names a CA is now checked by the program during the encrypted handshake, before any part of the login is sent. The certificate must chain to exactly the office CA (no other root, not one of Windows' own), be within its dates, be a server certificate, not be revoked when a revocation list says so, and, for the main connection, name the server the computers connect to. The stored-hash shortcut can no longer be reached, so the same change also closes it for MariaDB 11.4 servers, which send that proof. Built in S2-2's follow-up round and pinned by tests (`tests/DbConnectionSecurityTests/UnverifiedServerTests.cs`, `OfficeCaServerVerifierTests.cs`). **You can still choose otherwise** ((a) or (b)); nothing in the office set-up changes with (c). **Answered (2026-11-12):** a server
+certificate with no revocation information (the guide's certificates publish none) is still accepted; one that a revocation list says
+is revoked is refused.
 
 ---
 
@@ -761,6 +765,28 @@ The questions of the EHR plan, [specs/ehr-rebuild-plan.md](specs/ehr-rebuild-pla
 
 ---
 
+## Direct certificates follow-up (DIRECT-CERT, answered on 2026-11-09)
+
+The questions the DIRECT-CERT package (open point O-13, [port-notes/DIRECT-CERT.md](port-notes/DIRECT-CERT.md)) left open. You
+approved all three parts of the follow-up package, DIRECT-CERT-FOLLOWUP
+([port-notes/DIRECT-CERT-FOLLOWUP.md](port-notes/DIRECT-CERT-FOLLOWUP.md)).
+
+- **The connection settings tool's private keys.** The tool now deletes the private key of a client certificate it replaces also when
+  Windows keeps that key the older way (a CAPI key container, as it stores a `.pfx` that names no key provider), and gives the computer's
+  users read access to such a key. Before, the certificate was removed but that kind of key stayed on the computer. The same fix as the
+  Direct certificate import's. Done. Also, as the Direct certificate import does: the tool deletes the keys a `.pfx` brings that it does
+  not use (a CA certificate's in the same file), and a `.pfx` whose certificate the computer already has with a working key (setup run
+  again with the same file) leaves that certificate and its key as they are. Before, each such re-run left one more copy of the private
+  key on the computer, readable by its users, that no tool ever removed, against your decision of 2026-11-02. Done.
+- **Open Dental's "Customer Updates" web service.** Its empty stand-in (`ICustomerUpdates`, `CustomerUpdatesNoHq` and
+  `CustomerUpdatesProxy`) is deleted, as you decided; the tests that checked it was still there now check that it is gone. Done.
+- **The computer's users keep read access to the Direct private key**, as built: the program runs as the signed-in Windows user, who signs
+  and decrypts with it.
+- **A replaced Direct certificate's private key is deleted only if the certificate window imported it**, as built; the key of a
+  certificate put there another way stays on the computer.
+
+---
+
 ## Pending items answered on 2026-11-09 ("The rest as recommended", "Do headless window test")
 
 - **The database TLS script** (`tools/Enable-LocalDbTls.ps1`, DB-TLS) runs with `-WithClientCertificate`. You run it elevated, when
@@ -772,6 +798,30 @@ The questions of the EHR plan, [specs/ehr-rebuild-plan.md](specs/ehr-rebuild-pla
   shell.
 - **The stage 1 window checks** are done by a headless test (WINCHK-HEADLESS) instead of a session driving the desktop, because
   the PC's screen stays locked. Checks only a person at the screen can do are listed in its report for a later on-screen pass.
+
+## The connection settings tool's client certificate (DIRECT-CERT-FOLLOWUP, last round, answered on 2026-11-13)
+
+The last round of [port-notes/DIRECT-CERT-FOLLOWUP.md](port-notes/DIRECT-CERT-FOLLOWUP.md) made the tool pick the client certificate of a
+`.pfx` by what it is, read key locations without opening keys, check that a deleted key is gone, record every key it creates, undo an import
+whose save fails, and never give the users read access to a key it did not create. You answered all three as recommended ("all three as
+recommended", 2026-11-13); one small package (DIRECT-CERT-FOLLOWUP round 4) builds them.
+
+- **The Direct certificate window's import** (`DirectCertificateImport`) still opens the private keys of the store's other certificates to
+  compare key containers, and counts a store entry as usable without checking which key set its key is in. Its store can be the computer's
+  (`LocalMachine\My`), where a smart-card or TPM key could ask for a PIN or fail. Should it get the same two changes as the connection
+  settings tool? **Recommended: yes**, as one small package. **Answered: yes.**
+- **Undoing an import removes the whole store entry.** When the computer already had the client certificate (put there by an administrator,
+  say) and the import gave that entry the tool's key, a failed save, or a later save that stops using the certificate, removes the entry with
+  the tool's key; the entry's earlier key stays on the computer and the message says where. The choices: (a) as built, remove the entry and
+  say so; (b) put the entry's earlier key back on it, so the store is as it was (the tool then writes to a certificate it did not import);
+  (c) leave the entry and delete only the tool's key (the entry is then left pointing at no key). **Recommended: (b)**, since it leaves the
+  computer exactly as the administrator had it. **Answered: (b).**
+- **The tool's record holds only the certificate's thumbprint.** If an administrator later gives a recorded certificate another key by hand,
+  the tool treats that key as its own: it gives the users read access to it on a re-import and deletes it on a later save. Should the record
+  also hold the key's container and provider? That changes the format of `imported-client-certificate.txt` (a record in the old format would
+  still be read). **Recommended: yes.** **Answered: yes.**
+
+---
 
 ## Not asked again (already settled)
 

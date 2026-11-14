@@ -124,14 +124,29 @@ server computer must then connect with `<db-server>` (the name the workstations 
   file's rights back to the program folder's (any right of Users on the file is removed).
 - **A replaced client certificate is removed.** When a save with the tool stops using a client certificate (a new `.pfx`, or the password),
   the tool removes the old one from the computer's store with its private key, but only a certificate it imported itself; one named by
-  thumbprint or put there another way stays.
+  thumbprint or put there another way stays. This holds for every kind of private key, also the older kind Windows uses for a `.pfx` that
+  names no key provider (as OpenSSL writes one), whose key file also gets the computer's users' read access at the import. The import
+  leaves no other key of the `.pfx` on the computer (a CA certificate's in the same file, for example), nor the client certificate's own
+  when the store refuses it; a key that cannot be deleted, and a replaced certificate's key that is left, are named with their file. A
+  `.pfx` whose certificate the computer already has with a working key the tool put there (setup run again with the same file) leaves that
+  certificate and its key as they are and adds no second copy of the key. A copy of the certificate whose key is in an administrator's own
+  key set, which the program's users cannot use, or whose working key someone else put there, gets the imported computer-wide key, and the
+  result names the earlier key, which the tool leaves alone and never opens to the computer's users; an imported key that a certificate
+  already there took is removed with it later. A save that fails after the import removes the imported certificate and key again, or
+  records them so that a later save removes them; the error still names an earlier key the import left, with the command that deletes it,
+  and says when the certificate it removed was one the computer had before (its earlier key is left). To compare keys the tool never opens another certificate's private key, so a smart-card
+  or TPM key asks for no PIN.
+- **The client certificate of a `.pfx` is chosen by what it is.** The tool takes the file's one certificate with a private key that is
+  not a certificate authority (and is for client authentication), wherever the file lists it; a CA certificate with its key listed first is
+  no longer taken. A file with no client certificate, or more than one, is refused before anything is imported, with the certificates it
+  holds and how to make a `.pfx` with one client certificate.
 - **Setup exit code 10.** A silent setup that installed the files but could not finish the connection settings (the tool failed, or an
   existing install's settings fail the connection rule) ends with exit code 10, so deployment scripts see it; the setup log says why.
 
 ## Library updates for security
 
-The libraries below replace unmaintained ones or versions with known problems. They are still DLL files in `Required dlls`, listed with
-their licences in `THIRD-PARTY-NOTICES.txt`.
+The libraries below replace unmaintained ones or versions with known problems. They come from their NuGet packages, each release file checked against
+the package at the version the lock file names, and are listed with their licences in `THIRD-PARTY-NOTICES.txt`.
 
 - **SSH: SSH.NET 2026.0.0** (with Bouncy Castle Cryptography 2.7.0) in place of SharpSSH, which was unmaintained since 2013, and its two
   cryptography libraries (Mentalis.org Security Library and DiffieHellman). It serves every SSH connection of the program: the SFTP image
@@ -380,6 +395,21 @@ question DB-SEC 2). It now copies the rows with ordinary `INSERT` statements, in
 no connection allows local files, and no temporary file of the rows is written. The account typed for the other server needs `CREATE`,
 `INSERT` and `SELECT` on the backup database. The program's own database account keeps its three server-wide rights (owner question
 DB-SEC 1, answered on 2026-11-07).
+
+## Insurance Verification List: no patient left out
+
+When a patient's insurance plan and patient plan happened to have the same number in the database, which is common, the Insurance
+Verification List showed only the plan's benefits verification and left out the patient's eligibility verification, and the batch
+insurance verification skipped the patient. Inherited from Open Dental 24.1.71. Both verifications are now listed for every patient, as
+they always were for the others.
+
+Each row of the list also shows the latest verification of its plan or patient plan, and the patient's earliest appointment in the date
+range, as Open Dental 23.3.54 to 24.2.1 did. Before, a plan with a leftover second verification record could show the older one (and be listed
+as due although it was verified recently), and a patient with several appointments in the range could show any of them. When two
+verification records of a plan or patient plan have the same date, the list shows the one entered last, the one Database Maintenance's
+InsVerifyRedundantEntries fix keeps; this tie rule is this program's own (Open Dental 24.2.1 listed whichever came first). With "Always
+reverify service year insurance benefits" or "... patient eligibility" checked in Insurance Verification Setup, a row shows the earliest
+appointment its verification is due for. The list needs no newer database server than before.
 
 ## Direct certificates: imported from your Direct provider's file
 
