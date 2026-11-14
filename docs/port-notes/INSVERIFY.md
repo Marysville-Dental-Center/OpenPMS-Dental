@@ -7,8 +7,11 @@ Follow-up round **INSV2** on branch `fix/insv2-1` (from `fix/insverify-1` b6edbf
 lead's decision on question 1, the review's corrections to this note, and the batch test's clean-up. See [INSV2](#insv2-the-latest-verification-and-the-earliest-appointment).
 Still no schema change, no enumeration value, no preference.
 
-Last round **INSV3** on branch `fix/insv3-1` (from `fix/insv2-1` 07923aec7): the lead's decision on INSV2's question (no window function: the
+Round **INSV3** on branch `fix/insv3-1` (from `fix/insv2-1` 07923aec7): the lead's decision on INSV2's question (no window function: the
 earliest appointment is chosen in C#), and the review's points. See [INSV3](#insv3-the-earliest-appointment-chosen-in-c-no-window-function).
+
+Follow-up package **INSV4** on branch `fix/insv4-1` (from `main` f15956ad5): INSV3's point for the lead, the grid rows in linear time. See
+[INSV4](#insv4-the-list-in-linear-time). No change of the query, of what the list shows, or of the database.
 
 ## The bug
 
@@ -416,10 +419,136 @@ inside it, after its `Meth.GetObject` call).
    with `List.Find`, so the list's time grows about with the square of its rows: on the synthetic set 65 to 145 ms of about 400 to 560 in the
    default 7 days, 2.4 to 2.7 s of about 5 s in 60 days. A dictionary by `PlanNum` and by `PatPlanNum` would make it linear, with the same
    rows. Not done here: it is not part of the bug, and every row the list shows would have to be shown to stay the same (the comparison
-   above would do it). A follow-up package?
+   above would do it). A follow-up package? **Taken up by the lead as the package INSV4; done in the next section.**
+
+## INSV4: the list in linear time
+
+Branch `fix/insv4-1`, from `main` (f15956ad5). INSV3's point for the lead: `TableToListInsVerifyGridObjects` (`InsVerifies`, private,
+unchanged since Open Dental) took about half of the list's time on long ranges. No change of the query (`GetVerifyGridListQuery`), of the
+choice of the earliest appointment, of `GetVerifyGridList` (its signature, return type, Middle Tier call, and the order query, choice, grid
+rows), of the batch verification or of the window. No schema change, no enumeration value, no preference.
+
+### The change
+
+The method reads the rows in the query's order and turns them into grid rows, a row having an eligibility half (`InsVerifyPat`), a benefits
+half (`InsVerifyPlan`) or both. For each row it asked the grid rows built so far one or two questions with `List.Find`, which reads the list
+from the start, so its time grew with the square of the rows. Open Dental's four predicates, exactly, and what answers them now:
+
+| Row read | Question | Open Dental's predicate (`List.Find`) | Now |
+|---|---|---|---|
+| benefits | Is the plan listed? Then skip the row. | `InsVerifyPlan!=null && InsVerifyPlan.PlanNum==PlanNum` | the key in the rows by plan |
+| benefits | An eligibility row to join (with both year checks off or both on)? | `InsVerifyPat!=null && InsVerifyPat.PatPlanNum==PatPlanNum && InsVerifyPat.PlanNum==PlanNum && InsVerifyPat.Note==Note && InsVerifyPat.DefNum==DefNum && InsVerifyPlan==null` | the row by patient plan, then the other four conditions on it |
+| eligibility | Is the patient plan listed? Then skip the row. | `InsVerifyPat!=null && InsVerifyPat.PatPlanNum==PatPlanNum` | the key in the rows by patient plan |
+| eligibility | A benefits row to join (with both year checks off or both on)? | `InsVerifyPlan!=null && InsVerifyPlan.PlanNum==PlanNum && InsVerifyPlan.Note==Note && InsVerifyPlan.DefNum==DefNum && InsVerifyPat==null` | the row by plan, then the other three conditions on it |
+
+Two dictionaries of the grid rows built so far: the rows with a benefits half, by that half's `PlanNum`, and the rows with an eligibility half,
+by that half's `PatPlanNum`. A grid row enters a dictionary in the step that gives it that half, as a new row or by a join
+(`AddGridObjectFirst`, which keeps the first row of a key). Everything else in the method is as it was: the fields copied from each row, the
+year checks, the skipped rows of another verify type, the Medicaid flag, and where rows are added to the list.
+
+### Why the rows are the same
+
+- **The keys are the predicates' own.** Every predicate starts with a half being there and its `PlanNum` (the first and fourth) or its
+  `PatPlanNum` (the second and third); the rest is checked on the row found, with the same comparisons (`==` on the note and the status). A
+  half's `PlanNum` and `PatPlanNum` are the row's `PlanNum` and `PatPlanNum` columns, not `FKey`, and they are the dictionaries' keys.
+- **A key has one row, the one `List.Find` returned.** A grid row gets a benefits half only after the first question found no row with a
+  benefits half of that plan (a new row and a join alike), and an eligibility half only after the third found none of that patient plan. So
+  at most one grid row has a benefits half of a given plan, and one an eligibility half of a given patient plan: the second and fourth
+  questions had one candidate or none, and the dictionary holds that candidate. Keeping the first row of a key is what `List.Find` did; a
+  second row for a key never comes (flip A below shows it on every test table).
+- **The same rows at the same moment.** The dictionaries change in the step that sets a half, before the next row is read, so each lookup
+  sees the grid rows `List.Find` saw. A half, once set, is never replaced or removed, and its `PlanNum`, `PatPlanNum`, `Note` and `DefNum` never
+  change (the half is the row's own clone of its `InsVerify`), so a row found once stays found under the same key, and its other conditions
+  are read as `List.Find` read them.
+- **One key never finds the other.** A plan number equal to another row's patient plan number, common since the two tables count their keys
+  separately (INSVERIFY), is in the other dictionary: rows are found by plan or by patient plan, as the predicates did.
+- **A family member's eligibility row** joins the first benefits-only row of its plan, whichever patient plan that came with (the fourth
+  predicate looks at the plan, note and status only), and the dictionary by plan holds that row: the same as before, kept on purpose.
+- **Zeros and nulls.** A plan or patient plan number 0 is a key like any other, as it was an equal value for `List.Find` (the query's inner
+  joins do not return 0; the hand-built tables do). The note comes through `PIn.String` and is never null. No half the dictionaries hold is
+  null.
+
+### Cost
+
+INSV3's synthetic set (20,000 patients, 16,000 plans, 38,000 `insverify` rows, 200,000 appointments over two years; described under INSV2's
+Cost) built again as `insv4_perf_261114` from the committed `db/init/new-database.sql` and INSV2's data script, and dropped afterwards (the
+scripts in the session's scratch folder, not committed). A 32-bit PowerShell script loaded this branch's business library and the test
+assembly from the test project's output (Debug, both), ran the query `GetVerifyGridListQuery` writes (every filter on "All", plans without a
+filing code, verifications older than 30 days) and the choice once per case, then timed the grid rows of the method before INSV4 (the test
+copy, below) and of the business layer's on the same table, interleaved, the first round not counted, with a `Stopwatch`, on the
+development PC's MariaDB 10.11 with other work running. In ms:
+
+| Range, year checks | Rows after the choice | Grid rows | Before INSV4: min, median | INSV4: min, median | Rounds |
+|---|---|---|---|---|---|
+| today through 7 days, off (the default) | 3,685 | 2,090 | 104, 114 | 49, 51 | 15 |
+| today through 7 days, both on | 3,698 | 2,091 | 106, 109 | 49, 51 | 15 |
+| today through 60 days, off | 20,290 | 11,282 | 2,047, 2,208 | 286, 299 | 9 |
+| today through 60 days, both on | 20,487 | 11,300 | 2,188, 2,303 | 294, 308 | 9 |
+
+The rows of the year checks off match INSV3's (3,685 and 20,290 after the choice; 2,090 and 11,282 grid rows; with both on, a few differ
+because the renewal dates move with today). The query itself, run once per case, took 337 ms (7 days) and 2,120 ms (60 days), as INSV3
+measured, so the list's 60 days take about 2.5 s instead of about 4.4 s, and its default 7 days about 60 ms less. What is left of the grid
+rows grows with the rows (5.5 times the rows, 6 times the time, about 15 µs a row): reading every column of every row as text
+(`InsVerifyCrud.TableToList` and the `PIn` calls), not the lookups. For an office with 50 to 100 appointments a day, a fifth to a third of
+these rows: about 10 to 20 ms in the default range, under 0.1 s in 60 days.
+
+For each case, and for a range from 30 days ago through 30 days ahead (completed appointments too), the script also compared the two
+methods' grid rows field by field (the 24 public fields of `InsVerify`, `IsNew`, whether `TagOD` is set, both halves, the Medicaid flag), as
+the standard and as the Medicaid list: identical in all ten.
+
+### Tests
+
+New in `tests/INSVERIFYTests`, committed before the change and run on the code before it and after it:
+
+- `GridRowsBeforeInsv4.cs`: the method as it was before INSV4, word for word but for its name, class and the namespace of the Crud class, in
+  the test project only (internal), as the reference. Not in the business library.
+- `GridRowsEquivalenceTests.cs` (a third part of the class `VerifyGridKeyTests`, so the same scratch database and helpers). Each comparison
+  runs both methods on the same table and requires the same number of grid rows and, row by row in order, the same Medicaid flag, the same
+  halves there or not, and every public field of each half equal (the database columns and the others), `IsNew` and `TagOD` too. Every test
+  runs with the four settings of the two year checks (both off, both on, each on alone) and puts them back afterwards.
+  - `GridRows_HandBuiltTables_SameAsBefore`: tables built by hand, typed as MySqlConnector fills them, as the standard and as the Medicaid
+    list: no rows; two family members on one plan, in the query's order and with the second member's benefits row first; a plan with an
+    eligibility and a benefits row (the plan's number equal to the patient plan's, either row first, the note or the status apart, both the
+    same); plan and patient plan numbers 0 and a row of no verify type; duplicate keys (two eligibility rows of one patient plan, two
+    benefits rows of one plan, three patient plans on one plan, a plan number that is another row's patient plan number); an eligibility row
+    that joins another patient plan's benefits row of its plan, then a later benefits row of that plan.
+  - `GridRows_RandomTables_SameAsBefore`: 400 random tables (fixed seeds) of up to 44 rows over 7 patient plans and 5 plans numbered from 0,
+    every kind, note and status, half of them as the Medicaid list: 1,600 comparisons with the four settings.
+  - `GridRows_TheFirstRowOfAKeyIsKept`: what the first row of a key decides, asserted: a plan's benefits go with the first family member's
+    row, the first of two eligibility rows of a patient plan is listed, an eligibility row joins the first benefits-only row of its plan.
+  - `GridRows_ScratchDatabase_SameAsBefore`: the rows of the list's query and the choice in the scratch database (every test's patients, and
+    these: a patient whose plan and patient plan have the same key, with a family member on the plan; a patient with a redundant benefits row
+    and a note on the eligibility row only; a Medicaid plan, by a filing code named in `InsVerifyMedicaidFilingCodes`, with a family member;
+    a plan that renews next month), for today through 7 days and 30 days ago through 45 days ahead, the standard and the Medicaid list each;
+    and `GetVerifyGridList` itself against the method before INSV4 on the same two queries.
+- **Flip A** (local, not committed): `AddGridObjectFirst` made to throw when a key has a row already, and to keep the last row otherwise.
+  INSVERIFYTests 27 of 27: no key got a second row in any test, so keeping the last row instead of the first in the dictionaries would change
+  nothing here; the reason is above, and this shows it on every table of the tests.
+- **Flip B** (local, not committed): the last row of a key kept instead of the first, so a later row of a plan or patient plan already listed
+  replaces that half of its grid row instead of being skipped. INSVERIFYTests 22 of 27: the four new tests fail (the first difference: the
+  benefits half of grid row 0 for two family members on one plan), and INSV2's
+  `GridList_PlanOfTwoPatientsAtTheSameTime_TheBenefitsRowGoesWithTheLowerAptNum` too.
+
+| Run (`.git/od-tools/test-results/`) | Code | Result |
+|---|---|---|
+| `insv4-1-tests-before-change.txt` | before INSV4, with the new tests | INSVERIFYTests 27 of 27 (INSV3's 23 and the 4), NoHqTests 49 of 57 (8 skipped: the program was not built yet in this worktree). |
+| `insv4-1-after-change.txt` | INSV4 | INSVERIFYTests 27 of 27, NoHqTests 49 of 57 (the same 8 skipped). |
+| `insv4-1-flip-a-keys-once.txt` | flip A | INSVERIFYTests 27 of 27, NoHqTests 49 of 57. |
+| `insv4-1-flip-b-last-row-kept.txt` | flip B | INSVERIFYTests 22 of 27 (the 5 above fail), NoHqTests 49 of 57. |
+| `insv4-1-final.txt` | INSV4, after the full build | INSVERIFYTests 27 of 27, M2INSVTests 17 of 17, NoHqTests 57 of 57, UnitTests 1,727 of 1,731 (the 3 skipped Topaz signature tests, and `AppointmentsTests.Appointments_GetSearchResults_IgnoreBrokenAppointments`, below); all 40 InsVerify tests of UnitTests pass. |
+
+`Appointments_GetSearchResults_IgnoreBrokenAppointments` fails on a Friday or a Saturday, whatever the branch: it puts an appointment
+"tomorrow" and expects the first opening after it, but the schedule it searches (`AppointmentT.CreateScheduleAndOpsForProv`) skips weekends,
+so tomorrow has none and the first opening is Monday at 8. The final run was on Saturday 2026-11-14; the test passed in every earlier run
+kept here (on weekdays and a Sunday). It does not reach the Insurance Verification List.
+
+Full lane build of `OpenDental.Local.slnf` (Debug, x86): 0 errors. The test database of INSVERIFYTests is the fixture's (`insv_` and the run
+id, dropped after each run); the timing database was `insv4_perf_261114`, dropped by the script; no `insv` database is left. Not run: the
+window itself (no window is opened) and the Middle Tier (`GetVerifyGridList`'s shape did not change, and the grid rows are made on the server
+side of its call, as before).
 
 ## Release notes
 
 A section "Insurance Verification List: no patient left out" in `docs/release-notes/next.md`; INSV2 added its second paragraph (the latest
 verification and the earliest appointment). INSV3 added to it the tie rule (the fork's own), the year check's earliest due appointment, and
-that the list needs no newer database server.
+that the list needs no newer database server. INSV4 added a sentence that the list fills faster on long date ranges.
