@@ -33,6 +33,13 @@ namespace WindowChecksTests {
 			string session=Native.GetSessionState();
 			checkResult.Note("Groups: "+(string.IsNullOrWhiteSpace(groups) ? "all" : groups.Trim()));
 			checkResult.Note("Database: "+ScratchDb.Name);
+			//Whether WPF draws in this session (it draws nothing while the session is locked): WPF pictures that come out blank then go to a person.
+			bool canRenderWpf=false;
+			System.Threading.Thread threadProbe=new System.Threading.Thread(() => canRenderWpf=Shot.CanRenderWpf());
+			threadProbe.SetApartmentState(System.Threading.ApartmentState.STA);
+			threadProbe.Start();
+			threadProbe.Join(30000);
+			session+=canRenderWpf ? ", WPF renders" : ", WPF renders nothing";
 			checkResult.Note("Session: "+session);
 			Results.Log("P0: groups "+(string.IsNullOrWhiteSpace(groups) ? "all" : groups.Trim())+", "+ScratchDb.Name+", session "+session);
 			List<string> listLines=new List<string>();

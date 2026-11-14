@@ -248,7 +248,7 @@ namespace WindowChecksTests.InProc {
 				pngBitmapEncoder.Save(memoryStream);
 				memoryStream.Position=0;
 				using Bitmap bitmap=new Bitmap(memoryStream);
-				return WindowChecksTests.Shot.Bitmap(bitmap,fileName);
+				return WindowChecksTests.Shot.MarkWpfBlank(WindowChecksTests.Shot.Bitmap(bitmap,fileName));
 			});
 		}
 
@@ -397,7 +397,7 @@ namespace WindowChecksTests.InProc {
 				pngBitmapEncoder.Save(memoryStream);
 				memoryStream.Position=0;
 				using Bitmap bitmap=new Bitmap(memoryStream);
-				return WindowChecksTests.Shot.Bitmap(bitmap,fileName);
+				return WindowChecksTests.Shot.MarkWpfBlank(WindowChecksTests.Shot.Bitmap(bitmap,fileName));
 			});
 		}
 		#endregion Pictures

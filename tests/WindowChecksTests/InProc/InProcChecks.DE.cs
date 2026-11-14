@@ -131,7 +131,7 @@ namespace WindowChecksTests.InProc {
 				pngBitmapEncoder.Save(memoryStream);
 				memoryStream.Position=0;
 				using System.Drawing.Bitmap bitmap=new System.Drawing.Bitmap(memoryStream);
-				return WindowChecksTests.Shot.Bitmap(bitmap,fileName);
+				return WindowChecksTests.Shot.MarkWpfBlank(WindowChecksTests.Shot.Bitmap(bitmap,fileName));
 			});
 			checkResult.Expect(countPages>0,"The preview's document has "+countPages+" page(s)");
 			checkResult.Expect(countElements>0,"Page 1 has drawn content ("+countElements+" text, image and shape elements)");

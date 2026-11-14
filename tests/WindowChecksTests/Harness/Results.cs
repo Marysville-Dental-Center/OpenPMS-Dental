@@ -83,6 +83,10 @@ namespace WindowChecksTests {
 				return;
 			}
 			ListShots.Add(shotInfo.FileName);
+			if(!shotInfo.IsDrawn && shotInfo.BlankReason!="") {
+				ForPerson(whatItShows+": "+shotInfo+" is blank: "+shotInfo.BlankReason);
+				return;
+			}
 			Expect(shotInfo.IsDrawn,whatItShows+" is drawn ("+shotInfo+")",shotInfo.ToString());
 		}
 
