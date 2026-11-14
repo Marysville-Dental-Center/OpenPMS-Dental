@@ -65,6 +65,9 @@ namespace OpenPmsDentalDbSettings {
 		///which keys the tool makes readable for the users in LocalMachine\My (never one it did not create). Throwing there is a grant that fails.
 		///Null in the tool.</summary>
 		internal static Action<X509Certificate2> ActionInsteadOfUsersReadGrantForTests;
+		///<summary>The tests only: called with the store's entry instead of writing its earlier key provider information back (PutBackEarlierKey);
+		///throwing there is a store that refuses the put-back, doing nothing is one that drops it without a word. Null in the tool.</summary>
+		internal static Action<X509Certificate2> ActionInsteadOfKeyProvInfoPutBackForTests;
 		///<summary>The tests only: the name of a store of the current user (the tests' ClientCertificateTestStore) that the tool's public methods
 		///(ImportPfx, RemoveImported, FindInStore) use instead of LocalMachine\My, so that DbSettingsRunner.Apply can be tested without the
 		///computer's store; the import then uses the user's key set and gives no read access, as the internal overloads do for such a store.
@@ -546,6 +549,12 @@ namespace OpenPmsDentalDbSettings {
 							return AppendSentence(GetEntryNotToolsText(thumbprint,storeText,keyProvInfoEntry,importedCertificate.KeyTool),
 								DeleteToolKeyNamed(importedCertificate.KeyTool,x509Store,startToolKey));
 						}
+						if(importedCertificate.KeyBefore!=null) {
+							//The store held the certificate before the tool's import, with an earlier key the import left aside: the entry stays, and
+							//gets that key back (DIRECT-CERT-FOLLOWUP round 4, part B).
+							return PutBackEarlierKey(x509Store,x509Certificate2Entry,keyProvInfoEntry,importedCertificate.KeyBefore,thumbprint,storeText,
+								startToolKey);
+						}
 						List<X509Certificate2> listRemoved=new List<X509Certificate2>();
 						foreach(X509Certificate2 x509Certificate2 in x509Certificate2CollectionFound) {
 							x509Store.Remove(x509Certificate2);
@@ -567,6 +576,79 @@ namespace OpenPmsDentalDbSettings {
 					+"certificate store ("+storeText+"): "+EndSentence(ex.Message)+" Remove it with its private key as an administrator, in "
 					+"PowerShell: Remove-Item Cert:\\"+storeText+"\\"+thumbprint+" -DeleteKey (certlm.msc's Delete leaves the key).";
 			}
+		}
+
+		///<summary>RemoveImported of an entry the store held before the tool's import, whose earlier key the import left aside (the owner's answer
+		///(b) of 2026-11-13: the computer is left exactly as the administrator had it): writes the entry's earlier key provider information back
+		///onto the store's entry (keyProvInfoBefore, exactly the fields read before the import: CertificateKeyProvInfo.Write, which is
+		///CertSetCertificateContextProperty on the store's certificate context), reads the entry anew to check it, and only then deletes the key
+		///the tool gave it (keyProvInfoTool, the entry's key until now: DeleteToolKeyNamed, unless a certificate of the store names it). The
+		///earlier key itself is never opened, altered or deleted, and the entry stays in the store. When the put-back fails, the tool's key is
+		///deleted only if the entry no longer names it (then the certificate would otherwise name a key that the users can read and no record
+		///names); while the entry still names it, it stays so that the certificate keeps working, and the text says what is left and how to put
+		///it right. Returns what was done, or what is left. Never throws.</summary>
+		private static string PutBackEarlierKey(X509Store x509Store,X509Certificate2 x509Certificate2Entry,CertificateKeyProvInfo keyProvInfoTool,
+			CertificateKeyProvInfo keyProvInfoBefore,string thumbprint,string storeText,string startToolKey)
+		{
+			string start="The client certificate "+thumbprint+" was in the computer's certificate store ("+storeText+") before the tool's import gave "
+				+"it a private key";
+			string why=null;
+			try {
+				ActionInsteadOfKeyProvInfoPutBackForTests?.Invoke(x509Certificate2Entry);
+				if(ActionInsteadOfKeyProvInfoPutBackForTests==null) {
+					keyProvInfoBefore.Write(x509Certificate2Entry);
+				}
+			}
+			catch(Exception ex) when(!IsCriticalException(ex)) {
+				why=ex.Message.Trim();
+			}
+			CertificateKeyProvInfo keyProvInfoNow=null;
+			try {
+				using(X509Certificate2 x509Certificate2Now=FindInStoreNow(x509Store,thumbprint)) {
+					keyProvInfoNow=x509Certificate2Now==null ? null : ReadKeyProvInfo(x509Certificate2Now);
+				}
+			}
+			catch(Exception ex) when(IsStoreException(ex)) {
+				why=AppendSentence(EndSentence(why),"The store could not be read again to check the entry: "+EndSentence(ex.Message));
+			}
+			if(why==null && keyProvInfoNow!=null && IsPutBack(keyProvInfoNow,keyProvInfoBefore)) {
+				return AppendSentence(start+": its entry names its earlier private key again ("+keyProvInfoBefore.Describe()+"), as before that import, "
+					+"and the private key the tool gave it was deleted.",DeleteToolKeyNamed(keyProvInfoTool,x509Store,startToolKey));
+			}
+			if(why==null) {
+				why="Windows reported no error, but the entry does not name it afterwards.";
+			}
+			string howToCheck=" Check the entry as an administrator (certutil "+(x509Store.Location==StoreLocation.CurrentUser ? "-user " : "")+"-store \""
+				+x509Store.Name+"\" "+thumbprint+") and, if it does not name its earlier key, import the certificate with that key again.";
+			if(keyProvInfoNow!=null && CertificateKeyProvInfo.IsSameKeyStrict(keyProvInfoNow,keyProvInfoTool)) {
+				//The entry still names the tool's key: it stays, so that the certificate still works.
+				return start+", but its earlier private key ("+keyProvInfoBefore.Describe()+") could not be named on its entry again: "+EndSentence(why)
+					+" The entry still names the private key the tool gave it ("+keyProvInfoTool.Describe()+"), which the computer's users can read, so "
+					+"the tool left both keys and the entry as they are. To put the entry back as it was, as an administrator, delete the tool's key ("
+					+GetCertutilDeleteKeyText(keyProvInfoTool)+"), then import the certificate with its earlier key again.";
+			}
+			string entryNow=(keyProvInfoNow==null) ? "is no longer in the store"
+				: "names "+(keyProvInfoNow.IsNamed ? (keyProvInfoNow.IsUnknown ? "a private key that could not be identified" : keyProvInfoNow.Describe()) : "no private key");
+			return AppendSentence(start+", but its earlier private key ("+keyProvInfoBefore.Describe()+") could not be named on its entry again: "
+				+EndSentence(why)+" The entry now "+entryNow+", so the private key the tool gave it ("+keyProvInfoTool.Describe()+") was deleted."+howToCheck,
+				DeleteToolKeyNamed(keyProvInfoTool,x509Store,startToolKey));
+		}
+
+		///<summary>True when the entry's key provider information read after the put-back names the earlier key: the very same fields, or (should
+		///Windows keep the flags otherwise) the same container, provider and type, key set and key spec.</summary>
+		private static bool IsPutBack(CertificateKeyProvInfo keyProvInfoNow,CertificateKeyProvInfo keyProvInfoBefore) {
+			if(CertificateKeyProvInfo.IsSameExactly(keyProvInfoNow,keyProvInfoBefore)) {
+				return true;
+			}
+			return keyProvInfoNow.IsNamed && keyProvInfoNow.ContainerName==keyProvInfoBefore.ContainerName
+				&& string.Equals(keyProvInfoNow.ProviderName,keyProvInfoBefore.ProviderName,StringComparison.OrdinalIgnoreCase)
+				&& keyProvInfoNow.ProviderType==keyProvInfoBefore.ProviderType && keyProvInfoNow.IsMachine==keyProvInfoBefore.IsMachine
+				&& keyProvInfoNow.KeySpec==keyProvInfoBefore.KeySpec;
+		}
+
+		///<summary>"certutil [-user] -csp "P" -delkey "C"" for this key.</summary>
+		private static string GetCertutilDeleteKeyText(CertificateKeyProvInfo keyProvInfo) {
+			return "certutil "+(keyProvInfo.IsMachine ? "" : "-user ")+"-csp \""+keyProvInfo.ProviderName+"\" -delkey \""+keyProvInfo.ContainerName+"\"";
 		}
 
 		///<summary>The warning for the store entry of the certificate the tool's record names when the entry no longer names the key the record

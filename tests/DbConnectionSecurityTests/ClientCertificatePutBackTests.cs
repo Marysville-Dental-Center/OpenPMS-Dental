@@ -28,6 +28,7 @@ namespace DbConnectionSecurityTests {
 		[TestCleanup]
 		public void CleanUp() {
 			ClientCertificateStore.ActionAfterKeysStoredForTests=null;
+			ClientCertificateStore.ActionInsteadOfKeyProvInfoPutBackForTests=null;
 			ClientCertificateStore.StoreNameForTests=null;
 			TestHelpers.DeleteFolder(_folder);
 			ClientCertificateTestStore.AssertCleanedUp();
@@ -48,6 +49,70 @@ namespace DbConnectionSecurityTests {
 							+(isFailedSave ? ", a failed save" : ", a later save with the password");
 						string folder=Path.Combine(_folder,testKeyKind+(isOtherKeySet ? "-keyset" : "-foreign")+(isFailedSave ? "-failed" : "-later"));
 						AssertPutBack(testKeyKind,isOtherKeySet,isFailedSave,folder,label);
+					}
+				}
+			}
+		}
+
+		///<summary>Part B, a put-back that fails (a seam stands in for the write: it throws, as a store that refuses it, or does nothing, as one that
+		///drops it without a word): the entry still names the tool's key, so that key stays (the certificate keeps working), and so do the entry
+		///and the earlier key; the message says what could not be put back, that both keys and the entry were left, and how to put it right with
+		///the certutil command that deletes the tool's key. For each kind of key, over a usable key the tool did not create.</summary>
+		[TestMethod]
+		public void Apply_APutBackThatFails_LeavesTheToolsKeyWhileTheEntryStillNamesIt() {
+			foreach(TestKeyKind testKeyKind in _arrayKinds) {
+				foreach(bool isThrown in new[] { true,false }) {
+					string label=testKeyKind+(isThrown ? ", refused" : ", dropped");
+					string folder=Path.Combine(_folder,testKeyKind+(isThrown ? "-refused" : "-dropped"));
+					Directory.CreateDirectory(folder);
+					string config=TestHelpers.WriteConfig(folder,"ComputerName","localhost","Database","opendental","User","root","Password","");
+					string caCopy=DbConnectionConfig.GetOfficeCaCopyPath(Path.Combine(folder,"program"));
+					using(ClientCertificateTestStore clientCertificateTestStore=new ClientCertificateTestStore()) {
+						string pathPfx=clientCertificateTestStore.WritePfx(folder,testKeyKind,out string thumbprintClient);
+						TestKey testKeyFirst=clientCertificateTestStore.AddCertificate(pathPfx);
+						TestKeyProvInfo testKeyProvInfoFirst;
+						using(X509Certificate2 x509Certificate2Entry=clientCertificateTestStore.Find(thumbprintClient)) {
+							testKeyProvInfoFirst=TestKeyProvInfo.Read(x509Certificate2Entry);
+						}
+						Dictionary<string,TestKey> dictKeys=null;
+						ClientCertificateStore.ActionAfterKeysStoredForTests=x509Certificate2Collection => {
+							dictKeys=clientCertificateTestStore.TrackKeys(x509Certificate2Collection);
+						};
+						ClientCertificateStore.StoreNameForTests=clientCertificateTestStore.Name;
+						DbSettingsResult dbSettingsResult=DbSettingsRunner.Apply(new DbSettingsRequest() { Auth=DbSettingsAuth.Certificate,PfxFile=pathPfx,
+							PfxPassword=clientCertificateTestStore.Password },config,caCopy);
+						Assert.AreEqual(DbSettingsRunner.EXIT_OK,dbSettingsResult.ExitCode,label+": "+dbSettingsResult.Message);
+						TestKey testKeyTool=dictKeys[thumbprintClient];
+						TestKeyProvInfo testKeyProvInfoTool;
+						using(X509Certificate2 x509Certificate2Entry=clientCertificateTestStore.Find(thumbprintClient)) {
+							testKeyProvInfoTool=TestKeyProvInfo.Read(x509Certificate2Entry);
+						}
+						ClientCertificateStore.ActionInsteadOfKeyProvInfoPutBackForTests=x509Certificate2 => {
+							if(isThrown) {
+								throw new CryptographicException("The test's store refuses the put-back.");
+							}
+						};
+						dbSettingsResult=DbSettingsRunner.Apply(new DbSettingsRequest() { Auth=DbSettingsAuth.Password,DbPassword="" },config,caCopy);
+						ClientCertificateStore.ActionInsteadOfKeyProvInfoPutBackForTests=null;
+						ClientCertificateStore.ActionAfterKeysStoredForTests=null;
+						ClientCertificateStore.StoreNameForTests=null;
+						Assert.AreEqual(DbSettingsRunner.EXIT_OK,dbSettingsResult.ExitCode,label+": "+dbSettingsResult.Message);
+						string why=isThrown ? "The test's store refuses the put-back." : "Windows reported no error, but the entry does not name it afterwards.";
+						StringAssert.Contains(dbSettingsResult.Message,"before the tool's import gave it a private key, but its earlier private key (provider "
+							+testKeyProvInfoFirst.ProviderName+", key container "+testKeyProvInfoFirst.ContainerName+", in a user key set) could not be named on its entry again: "+why
+							+" The entry still names the private key the tool gave it (",label);
+						StringAssert.Contains(dbSettingsResult.Message,"so the tool left both keys and the entry as they are. To put the entry back as it "
+							+"was, as an administrator, delete the tool's key (certutil -user -csp \""+testKeyProvInfoTool.ProviderName+"\" -delkey \""+testKeyProvInfoTool.ContainerName
+							+"\"), then import the certificate with its earlier key again.",label);
+						CollectionAssert.AreEqual(new List<string> { thumbprintClient },clientCertificateTestStore.GetThumbprints(),label+": the entry stays.");
+						using(X509Certificate2 x509Certificate2Entry=clientCertificateTestStore.Find(thumbprintClient)) {
+							Assert.IsTrue(string.Equals(TestKeyProvInfo.Read(x509Certificate2Entry).ContainerName,testKeyTool.Name,StringComparison.OrdinalIgnoreCase),
+								label+": it still names the tool's key.");
+						}
+						Assert.IsTrue(testKeyTool.Exists(),label+": the tool's key stays, while the entry names it (the store's clean-up deletes it).");
+						Assert.IsTrue(File.Exists(testKeyTool.FilePath),label+": and its file.");
+						Assert.IsTrue(testKeyFirst.Exists(),label+": the earlier key is untouched.");
+						Assert.IsTrue(clientCertificateTestStore.CanSign(thumbprintClient),label+": the certificate still works.");
 					}
 				}
 			}

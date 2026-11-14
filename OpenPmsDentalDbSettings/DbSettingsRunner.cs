@@ -359,10 +359,13 @@ namespace OpenPmsDentalDbSettings {
 		///<summary>After a save that failed once ImportPfx had given the store's entry the key it stored (isStoreKeyImported), before the settings
 		///were saved: the tool's key must not be left Users-readable with no record naming it (owner decision of 2026-11-02). The imported
 		///certificate is removed with that key (RemoveImported), unless the settings as they still are use it, or the record names it: then it
-		///stays, and is recorded at once, so that the save that later stops using it removes it with that key. The removal takes the whole store
-		///entry: when the store held the certificate before the import (entryBefore), the text says that this entry was removed, with the key this
-		///save gave it, and, when the import left the entry's earlier key aside, that the key stays where the import's warning (which the error
-		///gives before this text) says. Returns what was done, or the warning that says what is left; never throws.</summary>
+		///stays, and is recorded at once, so that the save that later stops using it removes it with that key. When the store held the
+		///certificate before the import and the import left its entry's earlier key aside (importedCertificateImport.KeyBefore), the entry stays
+		///and gets that key back, and only the key this save gave it is deleted (RemoveImported's text says so: DIRECT-CERT-FOLLOWUP round 4,
+		///part B). Otherwise the removal takes the whole store entry: when the store held the certificate before the import (entryBefore), the text
+		///says that this entry was removed, with the key this save gave it, and, when the import left the entry's earlier key aside but could not
+		///read what the entry named, that the key stays where the import's warning (which the error gives before this text) says. Returns what was
+		///done, or the warning that says what is left; never throws.</summary>
 		private static string UndoImportOfFailedSave(ImportedCertificate importedCertificateImport,string thumbprintCurrent,string thumbprintRecorded,
 			string pathRecord,ClientCertificateEntryBefore entryBefore)
 		{
@@ -378,8 +381,10 @@ namespace OpenPmsDentalDbSettings {
 					return warningRemove;
 				}
 				if(entryBefore==ClientCertificateEntryBefore.InStoreKeyLeft) {
-					return "The client certificate was already in the computer's certificate store before this save; it was removed from the store, with "
-						+"the private key this save gave it, and its earlier key was left untouched, where said above.";
+					//The import could not read what the entry named before, so there was nothing to put back (part B).
+					return "The client certificate was already in the computer's certificate store before this save; what its entry named before could "
+						+"not be read, so it could not be put back: it was removed from the store, with the private key this save gave it, and its earlier "
+						+"key was left untouched, where said above.";
 				}
 				if(entryBefore==ClientCertificateEntryBefore.InStore) {
 					return "The client certificate was already in the computer's certificate store before this save, without a private key it could use; "
