@@ -23,12 +23,14 @@ namespace OpenPmsDentalDbSettings {
 		///<summary>The store did not hold the certificate: the import added it.</summary>
 		None,
 		///<summary>The store held it, and no earlier key of its entry was left aside: the entry kept its key (the tool's own), or had no usable
-		///key (none, or one that no longer opens) and took the import's.</summary>
+		///key of anyone else's (no key provider information at all, or the tool's own key that no longer opens, or a key an old-format record
+		///claims) and took the import's.</summary>
 		InStore,
 		///<summary>The store held it, and its entry took the import's key, leaving its earlier key untouched: a key in another key set, one that
-		///could not be identified, or a usable key the tool did not create (also one given by hand to a certificate the tool's record names). The
-		///import's warning says where that key is, and ImportPfx's ImportedCertificate.KeyBefore holds what the entry named before (null only when
-		///that could not be read at all).</summary>
+		///could not be identified, a usable key the tool did not create (also one given by hand to a certificate the tool's record names), or a key
+		///in the import's key set that the tool did not create and that does not open (a smart card that is not inserted, a key that needs a PIN,
+		///a deleted key file). The import's warning says where that key is, and ImportPfx's ImportedCertificate.KeyBefore holds what the entry
+		///named before (null only when that could not be read at all).</summary>
 		InStoreKeyLeft,
 	}
 
@@ -72,6 +74,10 @@ namespace OpenPmsDentalDbSettings {
 		///<summary>The tests only: called with the store's entry instead of writing its earlier key provider information back (PutBackEarlierKey);
 		///throwing there is a store that refuses the put-back, doing nothing is one that drops it without a word. Null in the tool.</summary>
 		internal static Action<X509Certificate2> ActionInsteadOfKeyProvInfoPutBackForTests;
+		///<summary>The tests only: called with the key provider information of the tool's key right before it is deleted by its name
+		///(TryDeleteKeyNamed: a key the store's entry no longer names, after a put-back, say), once the key has opened; throwing there is a key
+		///that cannot be deleted, which stays. Null in the tool.</summary>
+		internal static Action<CertificateKeyProvInfo> ActionBeforeKeyNamedDeleteForTests;
 		///<summary>The tests only: the name of a store of the current user (the tests' ClientCertificateTestStore) that the tool's public methods
 		///(ImportPfx, RemoveImported, FindInStore) use instead of LocalMachine\My, so that DbSettingsRunner.Apply can be tested without the
 		///computer's store; the import then uses the user's key set and gives no read access, as the internal overloads do for such a store.
@@ -100,13 +106,17 @@ namespace OpenPmsDentalDbSettings {
 		///the tool made the key the certificate now has (DbSettingsRunner then records it). entryBefore: whether the store held the certificate
 		///before, and whether its entry's earlier key was left aside (the warning then says where). importedCertificate: what the record names for
 		///this certificate once the save records it (its key, and the entry's earlier key provider information that the import left aside, which
-		///the undo or a later removal puts back: RemoveImported). Needs administrator rights. Throws DbSettingsException (exit code 2 for the
-		///file, 3 for the store), whose message also names a key that could not be deleted again.</summary>
+		///the undo or a later removal puts back: RemoveImported). warningEntryKeyLeft: the sentence that says where the store entry's earlier key,
+		///which the import left aside, is ("" for none), which this overload gives apart from warning: an undo that puts that key back on the
+		///entry leaves the sentence out, since the entry uses that key again (DbSettingsRunner). Needs administrator rights. Throws
+		///DbSettingsException (exit code 2 for the file, 3 for the store), whose message also names a key that could not be deleted again.
+		///</summary>
 		public static string ImportPfx(string pfxPath,string password,ImportedCertificate importedCertificateRecorded,out string warning,
-			out bool isStoreKeyImported,out ClientCertificateEntryBefore entryBefore,out ImportedCertificate importedCertificate)
+			out string warningEntryKeyLeft,out bool isStoreKeyImported,out ClientCertificateEntryBefore entryBefore,
+			out ImportedCertificate importedCertificate)
 		{
-			return ImportPfx(pfxPath,password,GetToolStoreLocation(),GetToolStoreName(),importedCertificateRecorded,out warning,out isStoreKeyImported,
-				out entryBefore,out importedCertificate);
+			return ImportPfx(pfxPath,password,GetToolStoreLocation(),GetToolStoreName(),importedCertificateRecorded,out warning,out warningEntryKeyLeft,
+				out isStoreKeyImported,out entryBefore,out importedCertificate);
 		}
 
 		///<summary>ImportPfx into the store with this location and name, with no record and without isStoreKeyImported.</summary>
@@ -130,14 +140,17 @@ namespace OpenPmsDentalDbSettings {
 		{
 			ImportedCertificate importedCertificateRecorded=string.IsNullOrWhiteSpace(thumbprintRecorded) ? null
 				: ImportedCertificate.FromThumbprint(thumbprintRecorded);
-			return ImportPfx(pfxPath,password,storeLocation,storeName,importedCertificateRecorded,out warning,out isStoreKeyImported,
-				out ClientCertificateEntryBefore entryBefore,out ImportedCertificate importedCertificate);
+			string thumbprint=ImportPfx(pfxPath,password,storeLocation,storeName,importedCertificateRecorded,out string warningRest,
+				out string warningEntryKeyLeft,out isStoreKeyImported,out ClientCertificateEntryBefore entryBefore,out ImportedCertificate importedCertificate);
+			warning=AppendSentence(warningEntryKeyLeft,warningRest);//The whole warning, the entry's earlier key first.
+			return thumbprint;
 		}
 
-		///<summary>ImportPfx into the store with this location and name (see the public ImportPfx).</summary>
+		///<summary>ImportPfx into the store with this location and name (see the public ImportPfx, which also says what warningEntryKeyLeft is,
+		///apart from warning).</summary>
 		internal static string ImportPfx(string pfxPath,string password,StoreLocation storeLocation,string storeName,
-			ImportedCertificate importedCertificateRecorded,out string warning,out bool isStoreKeyImported,out ClientCertificateEntryBefore entryBefore,
-			out ImportedCertificate importedCertificate)
+			ImportedCertificate importedCertificateRecorded,out string warning,out string warningEntryKeyLeft,out bool isStoreKeyImported,
+			out ClientCertificateEntryBefore entryBefore,out ImportedCertificate importedCertificate)
 		{
 			X509KeyStorageFlags x509KeyStorageFlags=X509KeyStorageFlags.PersistKeySet;
 			if(storeLocation==StoreLocation.LocalMachine) {
@@ -159,7 +172,7 @@ namespace OpenPmsDentalDbSettings {
 				X509Certificate2Collection x509Certificate2Collection=ImportCollection(pfxPath,password,x509KeyStorageFlags);
 				try {
 					return AddClientCertificate(x509Store,storeText,x509Certificate2Collection,pfxPath,storeLocation==StoreLocation.LocalMachine,
-						importedCertificateRecorded,out warning,out isStoreKeyImported,out entryBefore,out importedCertificate);
+						importedCertificateRecorded,out warning,out warningEntryKeyLeft,out isStoreKeyImported,out entryBefore,out importedCertificate);
 				}
 				finally {
 					ResetAll(x509Certificate2Collection);//The keys in use stay in the key set (PersistKeySet); only these objects are released.
@@ -168,17 +181,20 @@ namespace OpenPmsDentalDbSettings {
 		}
 
 		///<summary>ImportPfx after the file's keys were stored: adds the client certificate to the open store, deletes the keys of the file's
-		///other certificates, and gives the users read access to its key (isMachine, which is also the key set the import stored the keys in). A
+		///other certificates, and gives the users read access to its key (isMachine, which is also the key set the import stored the keys in).
+		///warningEntryKeyLeft: the sentence that says where the store entry's earlier key, which the import left aside, is ("" for none), apart
+		///from warning, which says everything else. A
 		///client certificate that the store already holds with a usable key in that key set that is the tool's own (IsEntryKeyTools) is not added
 		///again (KeepCertificateInStore). When anything fails before the certificate is in the store, every key the import stored is deleted
 		///again and DbSettingsException says why, and which key could not be deleted. The catch lets the critical exceptions through
 		///(IsCriticalException), where DirectCertificateImport.AddPrivate catches every one: docs/port-notes/DIRECT-CERT-FOLLOWUP.md, last round,
 		///item 5. importedCertificate: what the record is to name (see the public ImportPfx).</summary>
 		private static string AddClientCertificate(X509Store x509Store,string storeText,X509Certificate2Collection x509Certificate2Collection,
-			string pfxPath,bool isMachine,ImportedCertificate importedCertificateRecorded,out string warning,out bool isStoreKeyImported,
-			out ClientCertificateEntryBefore entryBefore,out ImportedCertificate importedCertificate)
+			string pfxPath,bool isMachine,ImportedCertificate importedCertificateRecorded,out string warning,out string warningEntryKeyLeft,
+			out bool isStoreKeyImported,out ClientCertificateEntryBefore entryBefore,out ImportedCertificate importedCertificate)
 		{
 			warning="";
+			warningEntryKeyLeft="";
 			isStoreKeyImported=false;
 			entryBefore=ClientCertificateEntryBefore.None;
 			importedCertificate=null;
@@ -207,6 +223,12 @@ namespace OpenPmsDentalDbSettings {
 					keyProvInfoBefore=ReadKeyProvInfo(x509Certificate2InStore);
 				}
 				if(x509Certificate2InStore!=null && !IsEntryKeyUsable(x509Certificate2InStore,isMachine,storeText,out warningEntryKey)) {
+					if(warningEntryKey=="" && IsEntryKeyNotOpenedForeign(keyProvInfoBefore,x509Certificate2,isRecorded ? importedCertificateRecorded : null)) {
+						//A key in the import's key set that does not open and that the tool did not create (a smart card that is not inserted, a key
+						//that needs a PIN or that the account may not open, a deleted key file): left aside like any other key the tool did not create,
+						//and put back by the undo or a later removal (the owner's answer (b) of 2026-11-13).
+						warningEntryKey=GetEntryKeyNotOpenedText(keyProvInfoBefore,storeText);
+					}
 					x509Certificate2InStore.Reset();
 					x509Certificate2InStore=null;
 				}
@@ -251,7 +273,7 @@ namespace OpenPmsDentalDbSettings {
 				}
 			}
 			isStoreKeyImported=true;//Added: the store's entry has the key this import stored.
-			warning=warningEntryKey;
+			warningEntryKeyLeft=warningEntryKey;//Apart from warning: an undo that puts that key back leaves it out (DbSettingsRunner).
 			CertificateKeyProvInfo keyProvInfoImport=ReadKeyProvInfo(x509Certificate2);
 			importedCertificate.KeyTool=IsKeyNamedAndKnown(keyProvInfoImport) ? keyProvInfoImport : null;
 			if(warningEntryKey!="") {
@@ -369,7 +391,8 @@ namespace OpenPmsDentalDbSettings {
 		///opening the key, and only then the key opens and signs or decrypts (IsKeyUsable). An entry whose key is in another key set (an
 		///administrator's own user key set, say, which the program's users cannot read) or cannot be identified is not usable, and
 		///warningEntryKey says that the import gives the entry its own key and leaves the earlier one untouched, and where that one is. An entry
-		///without a key, or with one that does not open, is not usable either, without a warning, as before.</summary>
+		///without a key, or with one that does not open, is not usable either, without a warning here: AddClientCertificate then leaves aside, with
+		///a warning, a key that does not open and that the tool did not create (IsEntryKeyNotOpenedForeign).</summary>
 		private static bool IsEntryKeyUsable(X509Certificate2 x509Certificate2InStore,bool isMachine,string storeText,out string warningEntryKey) {
 			warningEntryKey="";
 			CertificateKeyProvInfo keyProvInfoEntry=ReadKeyProvInfo(x509Certificate2InStore);
@@ -381,6 +404,47 @@ namespace OpenPmsDentalDbSettings {
 				return false;
 			}
 			return IsKeyUsable(x509Certificate2InStore);
+		}
+
+		///<summary>True when the store entry's key, which is in the import's key set and does not open (IsEntryKeyUsable gave no warning), is a key
+		///the tool did not create, so that the import leaves it aside and the undo or a later removal puts it back (RemoveImported), as for a usable
+		///key the tool did not create (the owner's answer (b) of 2026-11-13): a smart card that is not inserted, a TPM or other key that needs a
+		///PIN, one whose rights keep this account out, or a deleted key file. Its key provider information was read before the import, field by
+		///field (keyProvInfoBefore.IsFieldsRead, so that it can be written back exactly), and names a key container. Not the tool's own: not the
+		///key the import just stored (x509Certificate2), and not the key the tool's record names (importedCertificateRecorded, null when the record
+		///names another certificate or none) by IsSameKeyStrict; a record of the old format, which names no key, claims the entry's key by its
+		///thumbprint alone, as before round 4 (ImportedCertificateRecord), so that entry is not left aside either. For the tool's own key that no
+		///longer opens, the entry takes the import's key as before, the record keeps what the entry had before the tool's first import, and the dead
+		///key is deleted by its name (DeleteToolKeyNamed). Without key provider information the entry had no key: as before, the whole entry is
+		///the tool's to remove. Opens no key.</summary>
+		private static bool IsEntryKeyNotOpenedForeign(CertificateKeyProvInfo keyProvInfoBefore,X509Certificate2 x509Certificate2,
+			ImportedCertificate importedCertificateRecorded)
+		{
+			if(keyProvInfoBefore==null || !keyProvInfoBefore.IsFieldsRead || !IsKeyNamedAndKnown(keyProvInfoBefore)) {
+				return false;
+			}
+			if(CertificateKeyProvInfo.IsSameKeyStrict(keyProvInfoBefore,ReadKeyProvInfo(x509Certificate2))) {
+				return false;//The key the import just stored: the tool's own.
+			}
+			if(importedCertificateRecorded!=null && importedCertificateRecorded.KeyTool==null) {
+				return false;//A record of the old format: the thumbprint claims the entry's key, as before round 4.
+			}
+			if(importedCertificateRecorded!=null && CertificateKeyProvInfo.IsSameKeyStrict(keyProvInfoBefore,importedCertificateRecorded.KeyTool)) {
+				return false;//The key the tool gave this certificate before, which no longer opens.
+			}
+			return true;
+		}
+
+		///<summary>The warning for a store entry of the client certificate whose private key, in the import's key set, does not open and is not
+		///the tool's (IsEntryKeyNotOpenedForeign): the import gave the entry the key it stored and left the entry's earlier key untouched, where it
+		///is. No command to delete it: it may be on a smart card, or be a key that needs a PIN, which only its owner should delete. The undo of a
+		///failed save, or a later save that stops using the certificate, names it on the entry again (RemoveImported).</summary>
+		private static string GetEntryKeyNotOpenedText(CertificateKeyProvInfo keyProvInfoEntry,string storeText) {
+			return "The client certificate was already in the computer's certificate store ("+storeText+"), but the private key its entry names "
+				+"does not open for this tool (a key that was deleted, a smart card that is not inserted, a key that needs a PIN, or one this account "
+				+"may not use), and the tool did not create it. The import gave the entry the private key it stored, and left the entry's earlier key, "
+				+"wherever it is, untouched: provider "+keyProvInfoEntry.ProviderName+", key container "+keyProvInfoEntry.ContainerName+", in "
+				+GetKeySetText(keyProvInfoEntry)+". A later save that stops using this certificate names that key on the entry again.";
 		}
 
 		///<summary>The warning for a store entry of the client certificate whose private key is in another key set than the import's, or cannot be
@@ -508,7 +572,14 @@ namespace OpenPmsDentalDbSettings {
 		///undoes: a certificate the tool did not import is never removed. Returns "" when it is gone (or was not there), else a warning that says
 		///what is left and how to remove it by hand. Never throws.</summary>
 		public static string RemoveImported(ImportedCertificate importedCertificate) {
-			return RemoveImported(importedCertificate,GetToolStoreLocation(),GetToolStoreName());
+			return RemoveImported(importedCertificate,GetToolStoreLocation(),GetToolStoreName(),out bool isEarlierKeyPutBack);
+		}
+
+		///<summary>RemoveImported, which also says whether the store's entry names its earlier key again (isEarlierKeyPutBack: the record's
+		///KeyBefore was written back and read back on the entry, whatever became of the tool's key), so that the undo of a failed save can leave
+		///out the import's warning about that key, which the entry uses again (DbSettingsRunner).</summary>
+		public static string RemoveImported(ImportedCertificate importedCertificate,out bool isEarlierKeyPutBack) {
+			return RemoveImported(importedCertificate,GetToolStoreLocation(),GetToolStoreName(),out isEarlierKeyPutBack);
 		}
 
 		///<summary>RemoveImported of a record of this thumbprint that names no key (as one of the old format), for the store with this location
@@ -531,6 +602,15 @@ namespace OpenPmsDentalDbSettings {
 		///and only the key the record names is deleted, unless a certificate of the store names it (DeleteToolKeyNamed); so is that key when the
 		///certificate is no longer in the store.</summary>
 		internal static string RemoveImported(ImportedCertificate importedCertificate,StoreLocation storeLocation,string storeName) {
+			return RemoveImported(importedCertificate,storeLocation,storeName,out bool isEarlierKeyPutBack);
+		}
+
+		///<summary>RemoveImported for the store with this location and name (see above), which also says whether the store's entry names its
+		///earlier key again (isEarlierKeyPutBack, PutBackEarlierKey).</summary>
+		internal static string RemoveImported(ImportedCertificate importedCertificate,StoreLocation storeLocation,string storeName,
+			out bool isEarlierKeyPutBack)
+		{
+			isEarlierKeyPutBack=false;
 			string thumbprint=importedCertificate==null ? "" : DbConnectionConfig.NormalizeThumbprint(importedCertificate.Thumbprint);
 			if(thumbprint=="") {
 				return "";
@@ -557,7 +637,7 @@ namespace OpenPmsDentalDbSettings {
 							//The store held the certificate before the tool's import, with an earlier key the import left aside: the entry stays, and
 							//gets that key back (DIRECT-CERT-FOLLOWUP round 4, part B).
 							return PutBackEarlierKey(x509Store,x509Certificate2Entry,keyProvInfoEntry,importedCertificate.KeyBefore,thumbprint,storeText,
-								startToolKey);
+								out isEarlierKeyPutBack);
 						}
 						List<X509Certificate2> listRemoved=new List<X509Certificate2>();
 						foreach(X509Certificate2 x509Certificate2 in x509Certificate2CollectionFound) {
@@ -590,10 +670,13 @@ namespace OpenPmsDentalDbSettings {
 		///earlier key itself is never opened, altered or deleted, and the entry stays in the store. When the put-back fails, the tool's key is
 		///deleted only if the entry no longer names it (then the certificate would otherwise name a key that the users can read and no record
 		///names); while the entry still names it, it stays so that the certificate keeps working, and the text says what is left and how to put
-		///it right. Returns what was done, or what is left. Never throws.</summary>
+		///it right. The tool's key is deleted first and the text then says what became of it (DeleteToolKey: deleted, not there, kept because
+		///another certificate of the store names it, not known, or not deleted and why). isPutBack: the entry names its earlier key again.
+		///Returns what was done, or what is left. Never throws.</summary>
 		private static string PutBackEarlierKey(X509Store x509Store,X509Certificate2 x509Certificate2Entry,CertificateKeyProvInfo keyProvInfoTool,
-			CertificateKeyProvInfo keyProvInfoBefore,string thumbprint,string storeText,string startToolKey)
+			CertificateKeyProvInfo keyProvInfoBefore,string thumbprint,string storeText,out bool isPutBack)
 		{
+			isPutBack=false;
 			string start="The client certificate "+thumbprint+" was in the computer's certificate store ("+storeText+") before the tool's import gave "
 				+"it a private key";
 			string why=null;
@@ -616,8 +699,13 @@ namespace OpenPmsDentalDbSettings {
 				why=AppendSentence(EndSentence(why),"The store could not be read again to check the entry: "+EndSentence(ex.Message));
 			}
 			if(why==null && keyProvInfoNow!=null && IsPutBack(keyProvInfoNow,keyProvInfoBefore)) {
-				return AppendSentence(start+": its entry names its earlier private key again ("+keyProvInfoBefore.Describe()+"), as before that import, "
-					+"and the private key the tool gave it was deleted.",DeleteToolKeyNamed(keyProvInfoTool,x509Store,startToolKey));
+				isPutBack=true;
+				ToolKeyDeletion toolKeyDeletion=DeleteToolKey(keyProvInfoTool,x509Store);
+				string putBack=start+": its entry names its earlier private key again ("+keyProvInfoBefore.Describe()+"), as before that import";
+				if(toolKeyDeletion.ToolKeyFate==ToolKeyFate.Deleted) {
+					return putBack+", and the private key the tool gave it was deleted.";
+				}
+				return putBack+". "+GetToolKeyFateText(toolKeyDeletion,keyProvInfoTool);
 			}
 			if(why==null) {
 				why="Windows reported no error, but the entry does not name it afterwards.";
@@ -633,9 +721,30 @@ namespace OpenPmsDentalDbSettings {
 			}
 			string entryNow=(keyProvInfoNow==null) ? "is no longer in the store"
 				: "names "+(keyProvInfoNow.IsNamed ? (keyProvInfoNow.IsUnknown ? "a private key that could not be identified" : keyProvInfoNow.Describe()) : "no private key");
-			return AppendSentence(start+", but its earlier private key ("+keyProvInfoBefore.Describe()+") could not be named on its entry again: "
-				+EndSentence(why)+" The entry now "+entryNow+", so the private key the tool gave it ("+keyProvInfoTool.Describe()+") was deleted."+howToCheck,
-				DeleteToolKeyNamed(keyProvInfoTool,x509Store,startToolKey));
+			//The entry no longer names the tool's key, which the users can read and no record will name: it goes, unless another certificate names it.
+			ToolKeyDeletion toolKeyDeletionLeft=DeleteToolKey(keyProvInfoTool,x509Store);
+			return start+", but its earlier private key ("+keyProvInfoBefore.Describe()+") could not be named on its entry again: "+EndSentence(why)
+				+" The entry now "+entryNow+". "+GetToolKeyFateText(toolKeyDeletionLeft,keyProvInfoTool)+howToCheck;
+		}
+
+		///<summary>The sentence that says what became of the private key the tool gave the store's entry, after RemoveImported gave the entry its
+		///earlier key back, or tried to (DeleteToolKey): only a key that DeleteToolKey deleted is said to be deleted.</summary>
+		private static string GetToolKeyFateText(ToolKeyDeletion toolKeyDeletion,CertificateKeyProvInfo keyProvInfoTool) {
+			switch(toolKeyDeletion.ToolKeyFate) {
+				case ToolKeyFate.Deleted:
+					return "The private key the tool gave it ("+keyProvInfoTool.Describe()+") was deleted.";
+				case ToolKeyFate.NotThere:
+					return "The private key the tool gave it ("+keyProvInfoTool.Describe()+") is no longer on this computer.";
+				case ToolKeyFate.InUse:
+					return "The private key the tool gave it ("+keyProvInfoTool.Describe()+") is kept, because another certificate of the store names it.";
+				case ToolKeyFate.Unknown:
+					string whyUnknown=(keyProvInfoTool==null || !keyProvInfoTool.IsNamed) ? "the entry named no private key"
+						: (keyProvInfoTool.Problem??"").Trim().TrimEnd('.');
+					return "The private key the tool gave it could not be identified ("+whyUnknown+"), so the tool deleted none: if no certificate uses "
+						+"it, an administrator can find it with certutil -key and delete it.";
+				default:
+					return "The private key the tool gave it ("+keyProvInfoTool.Describe()+") could not be deleted: "+toolKeyDeletion.Why;
+			}
 		}
 
 		///<summary>True when the entry's key provider information read after the put-back names the earlier key: the very same fields, or (should
@@ -679,28 +788,67 @@ namespace OpenPmsDentalDbSettings {
 		///<summary>Deletes the private key the tool's record names (keyProvInfoTool, a key the tool's import made), by its name in its key set,
 		///when no certificate of the store names it (IsKeyNamedInStore) and it is still there. For a key the store's entry no longer names: the
 		///certificate was re-keyed by hand, removed by hand, or given its earlier key back (RemoveImported, AddClientCertificate). "" when it was
-		///deleted, was not there, or a certificate of the store names it; else start, why, and where the key is left. Never throws.</summary>
+		///deleted, was not there, or a certificate of the store names it, or the tool does not know which key it is; else start, why, and where
+		///the key is left (DeleteToolKey tells these apart). Never throws.</summary>
 		private static string DeleteToolKeyNamed(CertificateKeyProvInfo keyProvInfoTool,X509Store x509Store,string start) {
-			if(!IsKeyNamedAndKnown(keyProvInfoTool)) {
+			ToolKeyDeletion toolKeyDeletion=DeleteToolKey(keyProvInfoTool,x509Store);
+			if(toolKeyDeletion.ToolKeyFate!=ToolKeyFate.Failed) {
 				return "";
+			}
+			return start+" ("+keyProvInfoTool.Describe()+"): "+toolKeyDeletion.Why;
+		}
+
+		///<summary>What became of the tool's key that DeleteToolKey was to delete.</summary>
+		private enum ToolKeyFate {
+			///<summary>Deleted now: it no longer opens, and its file is gone.</summary>
+			Deleted,
+			///<summary>Not there to delete: it does not open (deleted before, or never stored).</summary>
+			NotThere,
+			///<summary>Kept, because a certificate of the store names it.</summary>
+			InUse,
+			///<summary>Not deleted, because the tool does not know which key it is: no key provider information, or one that names no key or could
+			///not be read.</summary>
+			Unknown,
+			///<summary>Not deleted: the delete failed, or whether a certificate of the store uses it could not be told (ToolKeyDeletion.Why).
+			///</summary>
+			Failed,
+		}
+
+		///<summary>DeleteToolKey's result: what became of the key and, for Failed, why and where the key is left.</summary>
+		private sealed class ToolKeyDeletion {
+			public ToolKeyFate ToolKeyFate;
+			///<summary>For Failed: why, ending with a full stop, then where the key is left; "" otherwise.</summary>
+			public string Why;
+
+			public ToolKeyDeletion(ToolKeyFate toolKeyFate,string why) {
+				ToolKeyFate=toolKeyFate;
+				Why=why;
+			}
+		}
+
+		///<summary>Deletes the private key the tool's record names (keyProvInfoTool, a key the tool's import made), by its name in its key set,
+		///when no certificate of the store names it (IsKeyNamedInStore) and it is still there, and says what became of it. Never throws.</summary>
+		private static ToolKeyDeletion DeleteToolKey(CertificateKeyProvInfo keyProvInfoTool,X509Store x509Store) {
+			if(!IsKeyNamedAndKnown(keyProvInfoTool)) {
+				return new ToolKeyDeletion(ToolKeyFate.Unknown,"");
 			}
 			string pathKey=null;
 			try {
 				string whyKept=IsKeyNamedInStore(x509Store,keyProvInfoTool);
 				if(whyKept==null) {
-					return "";//A certificate of the store names it.
+					return new ToolKeyDeletion(ToolKeyFate.InUse,"");//A certificate of the store names it.
 				}
 				if(whyKept!="") {
-					return start+" ("+keyProvInfoTool.Describe()+"): "+EndSentence(whyKept)+GetKeyLeftText(TryGetKeyFilePath(keyProvInfoTool),true);
+					return new ToolKeyDeletion(ToolKeyFate.Failed,EndSentence(whyKept)+GetKeyLeftText(TryGetKeyFilePath(keyProvInfoTool),true));
 				}
-				string error=TryDeleteKeyNamed(keyProvInfoTool,out pathKey);
-				if(error=="") {
-					return "";
+				string error=TryDeleteKeyNamed(keyProvInfoTool,out pathKey,out bool isThere);
+				if(error!="") {
+					return new ToolKeyDeletion(ToolKeyFate.Failed,EndSentence(error)+GetKeyLeftText(pathKey,false));
 				}
-				return start+" ("+keyProvInfoTool.Describe()+"): "+EndSentence(error)+GetKeyLeftText(pathKey,false);
+				return new ToolKeyDeletion(isThere ? ToolKeyFate.Deleted : ToolKeyFate.NotThere,"");
 			}
 			catch(Exception ex) when(!IsCriticalException(ex)) {
-				return start+" ("+keyProvInfoTool.Describe()+"): "+EndSentence(ex.Message)+GetKeyLeftText(pathKey,false);
+				return new ToolKeyDeletion(ToolKeyFate.Failed,EndSentence(ex.Message)+GetKeyLeftText(pathKey,false));
 			}
 		}
 
@@ -744,10 +892,12 @@ namespace OpenPmsDentalDbSettings {
 
 		///<summary>Deletes the key with this key provider information by its name, in its key set: a CAPI key container through CAPI
 		///(DeleteCapiKey, which checks that it is gone), a CNG key through CNG (checked the same way). The tool's own key only: the key a record
-		///names. "" when it is gone, or was not there; else why not. pathKey: its file, named before the delete (null when it cannot be). Opens
-		///the key silently (NoPrompt, Silent). Throws what opening the key throws, other than its absence.</summary>
-		private static string TryDeleteKeyNamed(CertificateKeyProvInfo keyProvInfo,out string pathKey) {
+		///names. "" when it is gone, or was not there (isThere: it opened, so it was there to delete); else why not. pathKey: its file, named
+		///before the delete (null when it cannot be). Opens the key silently (NoPrompt, Silent). Throws what opening the key throws, other than
+		///its absence, and what ActionBeforeKeyNamedDeleteForTests throws.</summary>
+		private static string TryDeleteKeyNamed(CertificateKeyProvInfo keyProvInfo,out string pathKey,out bool isThere) {
 			pathKey=null;
+			isThere=false;
 			if(keyProvInfo.ProviderType!=0) {
 				RSACryptoServiceProvider rsaCryptoServiceProvider;
 				try {
@@ -756,7 +906,15 @@ namespace OpenPmsDentalDbSettings {
 				catch(CryptographicException) {
 					return "";//"Keyset does not exist": nothing to delete.
 				}
-				pathKey=GetCapiKeyFilePath(keyProvInfo.IsMachine,rsaCryptoServiceProvider.CspKeyContainerInfo.UniqueKeyContainerName);
+				isThere=true;
+				try {
+					pathKey=GetCapiKeyFilePath(keyProvInfo.IsMachine,rsaCryptoServiceProvider.CspKeyContainerInfo.UniqueKeyContainerName);
+					ActionBeforeKeyNamedDeleteForTests?.Invoke(keyProvInfo);
+				}
+				catch(Exception) {
+					rsaCryptoServiceProvider.Dispose();//Opened by name (PersistKeyInCsp): the container stays.
+					throw;
+				}
 				return DeleteCapiKey(rsaCryptoServiceProvider);
 			}
 			CngProvider cngProvider=new CngProvider(keyProvInfo.ProviderName);
@@ -764,8 +922,16 @@ namespace OpenPmsDentalDbSettings {
 			if(!CngKey.Exists(keyProvInfo.ContainerName,cngProvider,cngKeyOpenOptions)) {
 				return "";
 			}
+			isThere=true;
 			CngKey cngKey=CngKey.Open(keyProvInfo.ContainerName,cngProvider,cngKeyOpenOptions);
-			pathKey=GetCngKeyFilePath(keyProvInfo.IsMachine,cngKey.UniqueName);
+			try {
+				pathKey=GetCngKeyFilePath(keyProvInfo.IsMachine,cngKey.UniqueName);
+				ActionBeforeKeyNamedDeleteForTests?.Invoke(keyProvInfo);
+			}
+			catch(Exception) {
+				cngKey.Dispose();//Disposing a key opened by name leaves it.
+				throw;
+			}
 			cngKey.Delete();//Also disposes it.
 			bool isFileThere=pathKey!=null && File.Exists(pathKey);
 			bool isOpening=CngKey.Exists(keyProvInfo.ContainerName,cngProvider,cngKeyOpenOptions);

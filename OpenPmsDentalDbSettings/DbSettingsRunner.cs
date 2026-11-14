@@ -273,6 +273,10 @@ namespace OpenPmsDentalDbSettings {
 			//What the record is to name for the certificate this save's import returned (its key, and the entry's earlier key provider
 			//information the import left aside), once ImportPfx has returned; null before, and without an import.
 			ImportedCertificate importedCertificateImport=null;
+			//The import's sentence about the store entry's earlier key that it left aside ("" for none), apart from its other warnings: it leads
+			//the warning of a save that succeeds, and is left out of the error of a failed save whose undo put that key back on the entry, which
+			//then uses it again (so its certutil -delkey command must not be offered).
+			string warningEntryKeyLeft="";
 			try {
 				if(listCaCertificates!=null) {
 					OfficeCaFile.WriteCopy(listCaCertificates,caCopyPath);
@@ -280,8 +284,9 @@ namespace OpenPmsDentalDbSettings {
 				if(isPfxImport) {
 					//isStoreKeyImported is set only once ImportPfx has returned: an import that throws has undone itself.
 					string thumbprintReturned=ClientCertificateStore.ImportPfx(dbSettingsRequest.PfxFile.Trim(),dbSettingsRequest.PfxPassword,
-						importedCertificateRecorded,out warning,out bool isStoreKeyImportedReturned,out ClientCertificateEntryBefore entryBeforeReturned,
-						out ImportedCertificate importedCertificateReturned);
+						importedCertificateRecorded,out warning,out string warningEntryKeyLeftReturned,out bool isStoreKeyImportedReturned,
+						out ClientCertificateEntryBefore entryBeforeReturned,out ImportedCertificate importedCertificateReturned);
+					warningEntryKeyLeft=warningEntryKeyLeftReturned;
 					thumbprintImported=DbConnectionConfig.NormalizeThumbprint(thumbprintReturned);
 					importedCertificateImport=importedCertificateReturned;
 					isStoreKeyImported=isStoreKeyImportedReturned;
@@ -300,12 +305,14 @@ namespace OpenPmsDentalDbSettings {
 			catch(Exception ex) when(isStoreKeyImported && !ClientCertificateStore.IsCriticalException(ex)) {
 				//The import gave the store's entry a key the tool made, which the users may read, and the settings were not saved: the import is
 				//undone, or recorded (UndoImportOfFailedSave), so that no key of the tool is left that no record names. The import's warning comes
-				//first: it names the store entry's earlier key that the import left (with the certutil command that deletes it), a key it could not
-				//delete, or a grant that failed, which the undo does not change.
+				//first: a key it could not delete, or a grant that failed, which the undo does not change, and the store entry's earlier key that the
+				//import left (with the certutil command that deletes it), unless the undo put that key back on the entry, which uses it again.
 				string message=(ex is DbSettingsException) ? ex.Message : "The connection settings could not be saved: "+ex.Message;
 				int exitCode=(ex is DbSettingsException) ? ((DbSettingsException)ex).ExitCode : EXIT_WRITE_FAILED;
-				throw new DbSettingsException(exitCode,AppendSentence(AppendSentence(EndSentence(message),warning),UndoImportOfFailedSave(
-					importedCertificateImport,dbConnectionConfigCurrent.ClientCertThumbprint,thumbprintRecorded,pathRecord,entryBefore)));
+				string undo=UndoImportOfFailedSave(importedCertificateImport,dbConnectionConfigCurrent.ClientCertThumbprint,thumbprintRecorded,pathRecord,
+					entryBefore,out bool isEarlierKeyPutBack);
+				string warningImport=isEarlierKeyPutBack ? warning : AppendSentence(warningEntryKeyLeft,warning);
+				throw new DbSettingsException(exitCode,AppendSentence(AppendSentence(EndSentence(message),warningImport),undo));
 			}
 			catch(DbSettingsException) {
 				throw;
@@ -315,6 +322,7 @@ namespace OpenPmsDentalDbSettings {
 			{
 				throw new DbSettingsException(EXIT_WRITE_FAILED,"The connection settings could not be saved: "+ex.Message);
 			}
+			warning=AppendSentence(warningEntryKeyLeft,warning);//The import's whole warning, the entry's earlier key first.
 			//The settings are saved: only now does the certificate they replaced go, and only one this tool imported itself. Also when the rights
 			//of the file cannot be reset below: the saved settings use the new certificate, so the record must name it, and the replaced one goes.
 			PlanImportedCertificate(thumbprintRecorded,dbConnectionConfigCurrent.ClientCertThumbprint,dbConnectionConfigNew.ClientCertThumbprint,isPfxImport,
@@ -362,13 +370,16 @@ namespace OpenPmsDentalDbSettings {
 		///stays, and is recorded at once, so that the save that later stops using it removes it with that key. When the store held the
 		///certificate before the import and the import left its entry's earlier key aside (importedCertificateImport.KeyBefore), the entry stays
 		///and gets that key back, and only the key this save gave it is deleted (RemoveImported's text says so: DIRECT-CERT-FOLLOWUP round 4,
-		///part B). Otherwise the removal takes the whole store entry: when the store held the certificate before the import (entryBefore), the text
-		///says that this entry was removed, with the key this save gave it, and, when the import left the entry's earlier key aside but could not
-		///read what the entry named, that the key stays where the import's warning (which the error gives before this text) says. Returns what was
-		///done, or the warning that says what is left; never throws.</summary>
+		///part B); isEarlierKeyPutBack then says that the entry names that key again, so that the error leaves out the import's warning about it.
+		///Otherwise the removal takes the whole store entry (one that had no key provider information, or the tool's own key that no longer
+		///opened): when the store held the certificate before the import (entryBefore), the text says that this entry was removed, with the key
+		///this save gave it, and, when the import left the entry's earlier key aside but could not read what the entry named, that the key stays
+		///where the import's warning (which the error gives before this text) says. Returns what was done, or the warning that says what is left;
+		///never throws.</summary>
 		private static string UndoImportOfFailedSave(ImportedCertificate importedCertificateImport,string thumbprintCurrent,string thumbprintRecorded,
-			string pathRecord,ClientCertificateEntryBefore entryBefore)
+			string pathRecord,ClientCertificateEntryBefore entryBefore,out bool isEarlierKeyPutBack)
 		{
+			isEarlierKeyPutBack=false;
 			string thumbprintImported=DbConnectionConfig.NormalizeThumbprint(importedCertificateImport==null ? "" : importedCertificateImport.Thumbprint);
 			thumbprintCurrent=DbConnectionConfig.NormalizeThumbprint(thumbprintCurrent);
 			thumbprintRecorded=DbConnectionConfig.NormalizeThumbprint(thumbprintRecorded);
@@ -376,7 +387,7 @@ namespace OpenPmsDentalDbSettings {
 				return "";
 			}
 			if(thumbprintImported!=thumbprintCurrent && thumbprintImported!=thumbprintRecorded) {
-				string warningRemove=ClientCertificateStore.RemoveImported(importedCertificateImport);
+				string warningRemove=ClientCertificateStore.RemoveImported(importedCertificateImport,out isEarlierKeyPutBack);
 				if(warningRemove!="") {
 					return warningRemove;
 				}
@@ -387,8 +398,9 @@ namespace OpenPmsDentalDbSettings {
 						+"key was left untouched, where said above.";
 				}
 				if(entryBefore==ClientCertificateEntryBefore.InStore) {
-					return "The client certificate was already in the computer's certificate store before this save, without a private key it could use; "
-						+"it was removed from the store, with the private key this save gave it.";
+					return "The client certificate was already in the computer's certificate store before this save, without a private key of anyone "
+						+"else's that it could name again (none, or the key this tool gave it before, which no longer opened); it was removed from the store, "
+						+"with the private key this save gave it.";
 				}
 				return "The client certificate this save imported was removed from the computer's certificate store again, with its private key.";
 			}
