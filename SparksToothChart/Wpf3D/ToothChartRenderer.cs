@@ -97,28 +97,35 @@ namespace SparksToothChart.Wpf3D {
 		///<summary>The managed thread ID of the render thread, for the thread tests.</summary>
 		public int ThreadIdRender;
 
-		///<summary>A new bitmap of the pixels in the format TC-0 recorded for the DirectX chart's GetBitmap: Format24bppRgb (every pixel opaque).</summary>
+		///<summary>A new bitmap of the pixels in the format TC-0 recorded for the DirectX chart's GetBitmap: Format24bppRgb (every pixel opaque).
+		///Throws when the bitmap cannot be made or filled (GDI+ under memory or handle pressure); the bitmap made so far is then disposed.</summary>
 		public System.Drawing.Bitmap ToBitmap() {
 			int width=Size.Width;
 			int height=Size.Height;
 			System.Drawing.Bitmap bitmap=new System.Drawing.Bitmap(width,height,System.Drawing.Imaging.PixelFormat.Format24bppRgb);
-			System.Drawing.Imaging.BitmapData bitmapData=bitmap.LockBits(new System.Drawing.Rectangle(0,0,width,height),
-				System.Drawing.Imaging.ImageLockMode.WriteOnly,System.Drawing.Imaging.PixelFormat.Format24bppRgb);
 			try {
-				byte[] arrayRow=new byte[bitmapData.Stride];
-				for(int y=0;y<height;y++) {
-					int indexSource=y*width*4;
-					for(int x=0;x<width;x++) {
-						arrayRow[x*3]=PixelsBgra[indexSource];
-						arrayRow[x*3+1]=PixelsBgra[indexSource+1];
-						arrayRow[x*3+2]=PixelsBgra[indexSource+2];
-						indexSource+=4;
+				System.Drawing.Imaging.BitmapData bitmapData=bitmap.LockBits(new System.Drawing.Rectangle(0,0,width,height),
+					System.Drawing.Imaging.ImageLockMode.WriteOnly,System.Drawing.Imaging.PixelFormat.Format24bppRgb);
+				try {
+					byte[] arrayRow=new byte[bitmapData.Stride];
+					for(int y=0;y<height;y++) {
+						int indexSource=y*width*4;
+						for(int x=0;x<width;x++) {
+							arrayRow[x*3]=PixelsBgra[indexSource];
+							arrayRow[x*3+1]=PixelsBgra[indexSource+1];
+							arrayRow[x*3+2]=PixelsBgra[indexSource+2];
+							indexSource+=4;
+						}
+						Marshal.Copy(arrayRow,0,bitmapData.Scan0+y*bitmapData.Stride,width*3);
 					}
-					Marshal.Copy(arrayRow,0,bitmapData.Scan0+y*bitmapData.Stride,width*3);
+				}
+				finally {
+					bitmap.UnlockBits(bitmapData);
 				}
 			}
-			finally {
-				bitmap.UnlockBits(bitmapData);
+			catch {
+				bitmap.Dispose();//a GDI+ bitmap left to the finalizer adds to the very pressure that made this fail
+				throw;
 			}
 			return bitmap;
 		}

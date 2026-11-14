@@ -1312,33 +1312,46 @@ namespace SparksToothChart {
 				_countBitmapsMadeInBackground++;
 			}
 			ToothChartBitmapRequest toothChartBitmapRequest=_bitmapRequestLatest;
-			if(scene!=null && toothChartBitmapRequest!=null && toothChartBitmapRequest.Scene==scene) {
-				_bitmapRequestLatest=null;
-				Bitmap bitmap=GetBitmapOfBackgroundResult(result);
-				if(bitmap==null) {
-					toothChartBitmapRequest.Drop();
-				}
-				else {
-					toothChartBitmapRequest.Complete(bitmap);
+			try {
+				if(scene!=null && toothChartBitmapRequest!=null && toothChartBitmapRequest.Scene==scene) {
+					_bitmapRequestLatest=null;
+					Bitmap bitmap=GetBitmapOfBackgroundResult(result);
+					if(bitmap==null) {
+						toothChartBitmapRequest.Drop();
+					}
+					else {
+						toothChartBitmapRequest.Complete(bitmap);
+					}
 				}
 			}
-			bool isWaiting;
-			lock(_lockBitmapRequest) {
-				isWaiting=_bitmapRequestWaiting!=null;
-			}
-			if(isWaiting) {
-				StartBitmapJob();//a newer request came while the job ran, or the job was aborted before it took one
+			finally {
+				//Whatever the hand-off did, a request that waits still gets its job.
+				bool isWaiting;
+				lock(_lockBitmapRequest) {
+					isWaiting=_bitmapRequestWaiting!=null;
+				}
+				if(isWaiting) {
+					StartBitmapJob();//a newer request came while the job ran, or the job was aborted before it took one
+				}
 			}
 		}
 
-		///<summary>The picture of a background job's result, as GetBitmap returns it: the renderer's image, or after a render that failed twice the 2D
-		///chart's image of the data (as it is now), logged once; null when neither could be made.</summary>
+		///<summary>The picture of a background job's result, as GetBitmap returns it (GetWpf3DBitmap): the renderer's image, or, after a render that
+		///failed twice or a bitmap of its pixels that could not be made (GDI+ under memory or handle pressure in the 32-bit process), the 2D chart's
+		///image of the data (as it is now), logged once; null when neither could be made. Never throws: it runs in a message posted to the UI thread,
+		///where an exception would reach Application.ThreadException and end the program.</summary>
 		private Bitmap GetBitmapOfBackgroundResult(ToothChartRenderResult result) {
+			Exception exception=result?.Exception;
 			if(result!=null && result.Exception==null && result.PixelsBgra!=null) {
-				return result.ToBitmap();
+				try {
+					return result.ToBitmap();
+				}
+				catch(Exception ex) {
+					exception=ex;//the 2D picture below, as GetWpf3DBitmap gives when ToBitmap throws
+				}
 			}
 			LogFallbackOnce(ToothChartFallbackKind.Wpf3DRender,"The "+ToothChartEngine.Wpf3D+" tooth chart could not draw its picture in the background ("
-				+result?.Exception?.GetType().Name+": "+result?.Exception?.Message+"). Using "+ToothChartEngine.Simple2D+" for this picture.");
+				+exception?.GetType().Name+": "+exception?.Message+"). Using "+ToothChartEngine.Simple2D+" for this picture.");
 			try {
 				return GetSimple2DBitmap();
 			}

@@ -347,7 +347,10 @@ answer. How the package meets its row:
     the render thread starts it, so a burst of refills makes one picture. When a render was already running, its picture is dropped and the
     newest is made after it: two renders, one picture.
   - A render that fails twice gives the 2D chart's picture of the data, logged once, as `GetBitmap` does (of the data as it is when the failure
-    arrives). A handle that goes gives the job up, and the new handle asks for the newest request again. A wrapper that is disposed or leaves the
+    arrives). So does a bitmap of the render's pixels that cannot be made (`ToBitmap` throws when GDI+ is short of memory or handles, which a
+    32-bit process meets): the hand-off runs in a message posted to the UI thread, where an exception would reach
+    `Application.ThreadException` and end the program, so `GetBitmapOfBackgroundResult` catches it as `GetWpf3DBitmap` does, and the next
+    waiting request starts whatever the hand-off did. A handle that goes gives the job up, and the new handle asks for the newest request again. A wrapper that is disposed or leaves the
     WPF engine drops its requests.
   - It returns null, and asks for nothing, for DirectX, OpenGL and Simple 2D, for a wrapper with no window handle and for a call off the
     wrapper's thread. `ControlChart` then calls `GetBitmap`, as before, so those engines keep today's synchronous path until TC-8.
