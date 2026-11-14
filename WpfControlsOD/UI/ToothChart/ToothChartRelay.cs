@@ -443,6 +443,15 @@ namespace OpenPmsDental{
 			return (float)Math.Round(clamped,MidpointRounding.AwayFromZero);
 		}
 		#endregion Free text (TC-2)
+
+		#region The dashboard's picture made in the background (TC-3b)
+		///<summary>The picture GetBitmap would return now, made in the background so the caller does not wait for it: the WPF chart's picture for the
+		///Patient Dashboard (ControlChart.FillToothChart, TC-3b). Null when the chart cannot make it that way (DirectX, OpenGL and Simple 2D, a chart
+		///with no window handle, a call off its thread); the caller then calls GetBitmap, as before. See ToothChartWrapper.RequestBitmapInBackground.</summary>
+		public ToothChartBitmapRequest RequestBitmapInBackground(){
+			return _toothChartWrapper.RequestBitmapInBackground();
+		}
+		#endregion The dashboard's picture made in the background (TC-3b)
 	}
 
 	///<summary>How a caller applied the local computer's chart settings before TC-2 (ToothChartRelay.ApplyComputerSettings). The copies differed a

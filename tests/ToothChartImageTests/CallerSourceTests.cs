@@ -118,26 +118,42 @@ namespace ToothChartImageTests {
 		[TestMethod]
 		public void ChartModule_MakesTheDashboardImage_OnlyWhenADashboardCanShowIt() {
 			string fill=SourceText.GetMethod(SourceText.ReadCode(CONTROL_CHART),"private void FillToothChart(bool retainSelection,DateTime dateLimit) {");
+			//TC-3b: the WPF chart's request first, made in the background; GetBitmap only when the chart gives none (DirectX, OpenGL, Simple 2D),
+			//all inside the dashboard's guard, so a closed dashboard asks for nothing; then the event, at once.
 			SourceText.AssertInOrder(fill,"ControlChart.FillToothChart's dashboard image",
 				"PatientDashboardDataEventArgs patientDashboardDataEventArgs=new PatientDashboardDataEventArgs();",
 				"if(dateLimit==DateTime.Today && FormOpenDental.IsDashboardVisible) {",
+				"patientDashboardDataEventArgs.ImageToothChartRequest=_toothChartRelay.RequestBitmapInBackground();",
+				"if(patientDashboardDataEventArgs.ImageToothChartRequest==null) {",
 				"patientDashboardDataEventArgs.ImageToothChart=_toothChartRelay.GetBitmap();",
 				"ODEvent.Fire(ODEventType.ModuleSelected,patientDashboardDataEventArgs);");
 			Assert.AreEqual(1,Regex.Matches(fill,@"GetBitmap\(\)").Count,"The guarded image is the refill's only picture.");
-			//The image's only reader is the dashboard's tooth chart widget, which makes its own image when it opens later.
-			List<string> listReaders=new List<string>();
-			foreach(string relative in SourceText.GetCsFiles("OpenPmsDental")) {
-				if(Regex.IsMatch(SourceText.ReadCode(relative),@"\.ImageToothChart\b")) {
-					listReaders.Add(relative);
-				}
-			}
+			Assert.AreEqual(1,Regex.Matches(fill,@"RequestBitmapInBackground\(\)").Count,"One request per refill.");
+			//The image's only reader is the dashboard's tooth chart widget, which makes its own image when it opens later; the dashboard reads it only
+			//to end the wait for a picture still being made (TC-3b).
 			CollectionAssert.AreEquivalent(new[] { CONTROL_CHART,@"OpenPmsDental\User Controls\Dashboard\DashToothChart.cs",
-				@"OpenPmsDental\User Controls\Dashboard\PatientDashboardDataEventArgs.cs" },listReaders.ToArray());
+				@"OpenPmsDental\User Controls\Dashboard\PatientDashboardDataEventArgs.cs",@"OpenPmsDental\User Controls\Dashboard\UserControlDashboard.cs" },
+				GetProgramFilesMatching(@"\.ImageToothChart\b"));
+			//The request: made only by the Chart module's refill, read only by the dashboard, which hands it to its wait (ToothChartDashboardWait).
+			CollectionAssert.AreEquivalent(new[] { CONTROL_CHART,@"OpenPmsDental\User Controls\Dashboard\UserControlDashboard.cs" },
+				GetProgramFilesMatching(@"\.ImageToothChartRequest\b"));
+			CollectionAssert.AreEquivalent(new[] { CONTROL_CHART },GetProgramFilesMatching(@"\.RequestBitmapInBackground\("));
 			string dash=SourceText.ReadCode(@"OpenPmsDental\User Controls\Dashboard\DashToothChart.cs");
 			SourceText.AssertInOrder(SourceText.GetMethod(dash,"public void RefreshData(Patient pat,SheetField sheetField) {"),"DashToothChart.RefreshData",
 				"_imgToothChart=GetToothChart(pat,treatPlan,listAppts:listAppts);");
 			StringAssert.Contains(SourceText.ReadCode(FORM_OPEN_DENTAL),
 				"return (!_formOpenDentalSingleton.splitContainer.Panel2Collapsed && _formOpenDentalSingleton.userControlDashboard.IsInitialized);");
+		}
+
+		///<summary>The program's .cs files whose code (comments left out) matches the pattern.</summary>
+		private static string[] GetProgramFilesMatching(string pattern) {
+			List<string> listFiles=new List<string>();
+			foreach(string relative in SourceText.GetCsFiles("OpenPmsDental")) {
+				if(Regex.IsMatch(SourceText.ReadCode(relative),pattern)) {
+					listFiles.Add(relative);
+				}
+			}
+			return listFiles.ToArray();
 		}
 
 		[TestMethod]

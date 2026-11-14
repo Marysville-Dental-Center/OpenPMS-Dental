@@ -39,6 +39,31 @@ namespace OpenPmsDental {
 			}
 		}
 
+		///<summary>The Chart module's picture that the WPF chart made in the background after a refill (TC-3b), set by the dashboard's refresh thread
+		///when it arrives (UserControlDashboard, ToothChartDashboardWait): the picture SetData takes from ImageToothChart with the other engines, kept
+		///as a copy in the same way. RefreshView then draws it.</summary>
+		public void SetImageToothChart(Image image) {
+			if(image==null) {
+				return;
+			}
+			_imgToothChart?.Dispose();
+			_imgToothChart=(Image)image.Clone();
+		}
+
+		///<summary>On the dashboard's refresh thread, just before the Chart module's picture made in the background is set (TC-3b): gives a copy to
+		///every tooth chart field of the widget, unless the current patient (patNumCur) is no longer the picture's (the refresh that the patient change
+		///started runs next and shows the new patient's chart). True when a field took it.</summary>
+		public static bool SetImageInWidget(Control controlWidget,long patNum,long patNumCur,Image image) {
+			if(patNum!=patNumCur || image==null) {
+				return false;
+			}
+			List<DashToothChart> listDashToothCharts=UIHelper.GetAllControls(controlWidget).OfType<DashToothChart>().ToList();
+			for(int i=0;i<listDashToothCharts.Count;i++) {
+				listDashToothCharts[i].SetImageToothChart(image);
+			}
+			return listDashToothCharts.Count>0;
+		}
+
 		private bool IsNecessaryDataAvailable(PatientDashboardDataEventArgs data) {
 			if(data.Pat==null || data.ImageToothChart==null) {
 				return false;

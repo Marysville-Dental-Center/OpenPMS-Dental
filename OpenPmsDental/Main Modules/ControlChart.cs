@@ -6410,10 +6410,15 @@ namespace OpenPmsDental {
 			//firing this event here, we avoid duplicate events.
 			PatientDashboardDataEventArgs patientDashboardDataEventArgs=new PatientDashboardDataEventArgs();
 			//The chart's image is made only when a Patient Dashboard is shown to take it (DashToothChart.SetData is its only reader); a dashboard
-			//that opens later makes its own (DashToothChart.RefreshData).
+			//that opens later makes its own (DashToothChart.RefreshData). The WPF chart makes it in the background, so the refill does not wait for
+			//its software render, and the dashboard shows it when it arrives (TC-3b: UserControlDashboard, ToothChartDashboardWait). The other engines
+			//give no request and make it here, as before.
 			if(dateLimit==DateTime.Today && FormOpenDental.IsDashboardVisible) {
 				try {
-					patientDashboardDataEventArgs.ImageToothChart=_toothChartRelay.GetBitmap();
+					patientDashboardDataEventArgs.ImageToothChartRequest=_toothChartRelay.RequestBitmapInBackground();
+					if(patientDashboardDataEventArgs.ImageToothChartRequest==null) {
+						patientDashboardDataEventArgs.ImageToothChart=_toothChartRelay.GetBitmap();
+					}
 				}
 				catch(Exception ex) {
 					ex.DoNothing();//Failing to get the toothchart bitmap would only mean being unable to update the Patient Dashboard.  Since this is a fairly

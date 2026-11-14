@@ -47,6 +47,41 @@ namespace SparksToothChart {
 		///<summary>Wpf3D: set when the first mark of a burst posts the on-screen rebuild; cleared by that rebuild, and when the handle goes (which can
 		///take the posted rebuild with it).</summary>
 		private bool _isWpfRebuildPosted;
+		///<summary>Wpf3D: the newest picture asked for with RequestBitmapInBackground that has neither arrived nor been dropped, or null. UI thread
+		///only.</summary>
+		private ToothChartBitmapRequest _bitmapRequestLatest;
+		///<summary>Wpf3D: the newest request whose scene no job has taken yet, or null. Set on the UI thread and taken by the render thread when it
+		///starts a job (TakeBitmapScene), both under _lockBitmapRequest.</summary>
+		private ToothChartBitmapRequest _bitmapRequestWaiting;
+		///<summary>Wpf3D: counts the background jobs given up (the handle went, or the engine was released). A job takes a scene, and its result is
+		///used, only while its generation is current. Changed under _lockBitmapRequest.</summary>
+		private int _generationBitmapJob;
+		///<summary>Guards _bitmapRequestWaiting and _generationBitmapJob: held only to read or set them, never while waiting for anything.</summary>
+		private readonly object _lockBitmapRequest=new object();
+		///<summary>Wpf3D: set when the start of a background job is posted; cleared when the posted start runs, or the job is given up.</summary>
+		private bool _isBitmapStartPosted;
+		///<summary>Wpf3D: set while a background job is queued or running on the render thread; cleared when its result reaches the UI thread, or the
+		///job is given up.</summary>
+		private bool _isBitmapJobInFlight;
+		///<summary>Wpf3D: how many background pictures the renderer made for this wrapper, for tests.</summary>
+		private int _countBitmapsMadeInBackground;
+		///<summary>Wpf3D, with the live view: while a background job waits for WPF to draw the refill's frame (StartBitmapJobAfterLiveViewFrame), the
+		///handler on CompositionTarget.Rendering, the live view's Dispatcher it was added on, and the timer that starts the job anyway; null otherwise.</summary>
+		private EventHandler _eventHandlerRenderingBitmapJob;
+		private System.Windows.Threading.Dispatcher _dispatcherBitmapJob;
+		private System.Windows.Forms.Timer _timerBitmapJob;
+		///<summary>Wpf3D, with the live view: WPF's render passes since the wait for the frame began or since the newest rebuild on screen, whichever came
+		///later; the job starts in the second.</summary>
+		private int _countRenderPassesBitmapJob;
+		///<summary>The longest a background job waits for WPF to draw the live view's frame before it starts anyway: a window WPF does not draw (a
+		///minimized one, a locked session's) raises no render pass.</summary>
+		public const int MillisecondsMaxWaitForFrame=1000;
+		///<summary>For tests only, false in the program: the wait for WPF's frame counts no render pass, as for a window WPF does not draw, so the job
+		///starts after MillisecondsMaxWaitForFrame.</summary>
+		public static bool IsRenderPassIgnoredForTests;
+		///<summary>For the times only, false in the program: the background job does not wait for WPF's frame (it starts as soon as the posted start
+		///runs, as TC-3b first built it), so the times can compare both.</summary>
+		public static bool IsWaitForFrameSkippedForTests;
 		private static List<string> _listFallbackMessages=new List<string>();
 		///<summary>Every fallback message of this process, counted on past the 1000 that _listFallbackMessages keeps.</summary>
 		private static int _countFallbackMessages;
@@ -800,6 +835,9 @@ namespace SparksToothChart {
 			if(_engine==ToothChartEngine.Wpf3D && (_isWpfScreenStale || IsWpfLiveViewWanted())) {
 				PostWpfRebuildIfShown();
 			}
+			if(_engine==ToothChartEngine.Wpf3D) {
+				AskAgainForBitmapRequest();//a background picture whose job went with the old handle (GiveUpBitmapJob)
+			}
 		}
 
 		#region Wpf3D live view and the software switch
@@ -953,9 +991,11 @@ namespace SparksToothChart {
 
 		///<summary>Wpf3D: DestroyHandle drops what BeginInvoke posted (RecreateHandle keeps it), so a posted rebuild may never run. The posted mark is
 		///cleared, and the screen stays stale until a rebuild runs: the next mark, or the new handle, posts again. A kept rebuild that still runs
-		///only renders once more.</summary>
+		///only renders once more. A background picture's job is given up the same way (GiveUpBitmapJob), and the new handle asks for the newest
+		///request again.</summary>
 		protected override void OnHandleDestroyed(EventArgs e) {
 			_isWpfRebuildPosted=false;
+			GiveUpBitmapJob();
 			base.OnHandleDestroyed(e);
 		}
 
@@ -980,6 +1020,7 @@ namespace SparksToothChart {
 				ToothChartWpfView toothChartWpfViewShown=toothChartWpfView;
 				try {
 					toothChartWpfViewShown.ShowScene(toothScene);//the live view (O-19 (b)); WPF's render thread draws it, in software in the program (O-34)
+					_countRenderPassesBitmapJob=0;//a background picture still waiting waits for this new frame (StartBitmapJobAfterLiveViewFrame)
 					return;
 				}
 				catch(Exception ex) {
@@ -1043,8 +1084,326 @@ namespace SparksToothChart {
 			}
 		}
 
-		///<summary>Releases the WPF chart's engine controls (the image host and the live view) and its 3D layer image.</summary>
+		#region Wpf3D pictures made in the background
+		///<summary>The picture GetBitmap would return now, made in the background so the caller does not wait for it (TC-3b: the Chart module's
+		///picture for the Patient Dashboard, ControlChart.FillToothChart). Only the WPF chart does this. The scene of the current data is built now, on
+		///this thread, as GetBitmap builds it (no WPF object is made here), and the renderer makes the picture on its own thread, at this size, with
+		///this wrapper's 3D layer cache: the same renderer, size, colours and scene as GetBitmap's. The job is started by a message posted to this
+		///thread, so the on-screen rebuild that the same refill posted earlier goes first, and with the live view after WPF has committed its frame
+		///(StartBitmapJobAfterLiveViewFrame). The picture reaches the request's action on this thread when
+		///it arrives (ToothChartBitmapRequest). Only the newest request is made: a newer one drops the older, and the render thread takes the newest
+		///scene only when it starts the job, so a burst of refills makes one picture (and one more when a render was already running when the burst
+		///began; its picture is dropped). A render that fails twice gives the 2D chart's picture of the data as it is when the failure arrives, logged
+		///once, as GetBitmap falls back. Returns null, asking for nothing, when the picture cannot be made this way: another engine (DirectX, OpenGL and
+		///Simple 2D keep their GetBitmap until TC-8), a wrapper with no handle to post to (the hidden forms of prints, sheets and the dashboard's own
+		///chart), a call off the wrapper's thread, or an empty size. The caller then calls GetBitmap.</summary>
+		public ToothChartBitmapRequest RequestBitmapInBackground() {
+			if(_engine!=ToothChartEngine.Wpf3D || toothChartImageHost==null || IsDisposed || Disposing || !IsHandleCreated || InvokeRequired) {
+				return null;
+			}
+			if(tcData.SizeControl.Width<1 || tcData.SizeControl.Height<1) {//the scene's size (ToothSceneBuilder)
+				return null;
+			}
+			ToothScene toothScene=BuildWpfScene();
+			ToothChartBitmapRequest toothChartBitmapRequest=new ToothChartBitmapRequest(toothScene);
+			_bitmapRequestLatest?.Drop();
+			_bitmapRequestLatest=toothChartBitmapRequest;
+			lock(_lockBitmapRequest) {
+				_bitmapRequestWaiting=toothChartBitmapRequest;
+			}
+			if(!PostBitmapJobStart()) {
+				DropBitmapRequests();
+				return null;
+			}
+			return toothChartBitmapRequest;
+		}
+
+		///<summary>How many background pictures (RequestBitmapInBackground) the renderer has made for this wrapper, for tests: the jobs whose result
+		///reached this wrapper with a scene, whether it was handed on or dropped for a newer request.</summary>
+		[Browsable(false)]
+		public int CountBitmapsMadeInBackground {
+			get {
+				return _countBitmapsMadeInBackground;
+			}
+		}
+
+		///<summary>Posts the start of a background job, unless one is posted or in flight (that job starts the next when its result arrives). False when
+		///nothing could be posted (the handle went).</summary>
+		private bool PostBitmapJobStart() {
+			if(_isBitmapStartPosted || _isBitmapJobInFlight) {
+				return true;
+			}
+			_isBitmapStartPosted=true;
+			try {
+				BeginInvoke(new Action(StartBitmapJobAfterLiveViewFrame));
+				return true;
+			}
+			catch(InvalidOperationException ex) {
+				ex.DoNothing();//the handle went away
+				_isBitmapStartPosted=false;
+				return false;
+			}
+		}
+
+		///<summary>The posted start, which runs after the refill's on-screen rebuild. With the live view on screen the job waits until WPF has drawn the
+		///refill's frame: WPF draws a frame of the process and the renderer's picture one after the other, so a picture started first, or right after
+		///the frame was committed, held the frame back until the picture was done (measured in TC-3b). WPF raises CompositionTarget.Rendering in each
+		///render pass on this thread: the first pass after this start commits the refill's frame, and WPF prepares the next only once its render thread
+		///has presented that frame, so the job starts in the second pass. A newer refill's rebuild while the job waits counts again from its frame
+		///(RebuildWpfOnScreen), so a burst of refills is drawn before its one picture. A window WPF does not draw (minimized, a locked session) raises
+		///no pass, so the job starts after MillisecondsMaxWaitForFrame at the latest. Without a live view (the image host, a hidden wrapper) the job
+		///starts now. The Dispatcher is the live view's, never one made here.</summary>
+		private void StartBitmapJobAfterLiveViewFrame() {
+			System.Windows.Threading.Dispatcher dispatcher=null;
+			if(toothChartWpfView!=null) {
+				dispatcher=System.Windows.Threading.Dispatcher.FromThread(System.Threading.Thread.CurrentThread);
+			}
+			if(dispatcher==null || dispatcher.HasShutdownStarted || IsWaitForFrameSkippedForTests) {
+				StartBitmapJob();
+				return;
+			}
+			if(_eventHandlerRenderingBitmapJob!=null) {
+				return;//waiting already
+			}
+			_countRenderPassesBitmapJob=0;
+			//Each handler acts only while it is the current wait's: a pass raised from a list taken before the wait ended does nothing.
+			EventHandler eventHandlerRendering=null;
+			eventHandlerRendering=(sender,e) => {
+				if(eventHandlerRendering!=_eventHandlerRenderingBitmapJob || IsRenderPassIgnoredForTests) {
+					return;
+				}
+				_countRenderPassesBitmapJob++;
+				if(_countRenderPassesBitmapJob<2) {
+					return;//the pass that commits the refill's frame (or a newer refill's: its rebuild counts again)
+				}
+				StopWaitingForFrame();
+				StartBitmapJob();
+			};
+			System.Windows.Forms.Timer timer=null;
+			_eventHandlerRenderingBitmapJob=eventHandlerRendering;
+			_dispatcherBitmapJob=dispatcher;
+			try {
+				timer=new System.Windows.Forms.Timer();
+				_timerBitmapJob=timer;
+				timer.Interval=MillisecondsMaxWaitForFrame;
+				timer.Tick+=(sender,e) => {
+					if(timer!=_timerBitmapJob) {
+						return;
+					}
+					StopWaitingForFrame();
+					StartBitmapJob();
+				};
+				System.Windows.Media.CompositionTarget.Rendering+=eventHandlerRendering;
+				timer.Start();
+			}
+			catch(Exception ex) {
+				ex.DoNothing();
+				StopWaitingForFrame();
+				StartBitmapJob();
+			}
+		}
+
+		///<summary>Ends the wait for WPF's frame (StartBitmapJobAfterLiveViewFrame): the handler leaves CompositionTarget.Rendering, on the live view's
+		///thread, where it was added (a static event: a handler left on it would keep this wrapper and keep WPF drawing frames), and the timer goes.</summary>
+		private void StopWaitingForFrame() {
+			EventHandler eventHandlerRendering=_eventHandlerRenderingBitmapJob;
+			System.Windows.Threading.Dispatcher dispatcher=_dispatcherBitmapJob;
+			_eventHandlerRenderingBitmapJob=null;
+			_dispatcherBitmapJob=null;
+			if(eventHandlerRendering!=null && dispatcher!=null) {
+				try {
+					if(dispatcher.CheckAccess()) {
+						System.Windows.Media.CompositionTarget.Rendering-=eventHandlerRendering;
+					}
+					else if(!dispatcher.HasShutdownStarted) {
+						dispatcher.BeginInvoke(new Action(() => System.Windows.Media.CompositionTarget.Rendering-=eventHandlerRendering));
+					}
+				}
+				catch(Exception ex) {
+					ex.DoNothing();
+				}
+			}
+			if(_timerBitmapJob!=null) {
+				try {
+					_timerBitmapJob.Stop();
+					_timerBitmapJob.Dispose();
+				}
+				catch(Exception ex) {
+					ex.DoNothing();
+				}
+				_timerBitmapJob=null;
+			}
+		}
+
+		///<summary>True while a background job waits for WPF to draw the live view's frame, for tests.</summary>
+		[Browsable(false)]
+		public bool IsBitmapJobWaitingForFrame {
+			get {
+				return _eventHandlerRenderingBitmapJob!=null;
+			}
+		}
+
+		///<summary>On the UI thread: queues a job that takes the newest waiting scene when the render thread starts it (RenderLatestAsync).</summary>
+		private void StartBitmapJob() {
+			_isBitmapStartPosted=false;
+			if(_isBitmapJobInFlight || _engine!=ToothChartEngine.Wpf3D || IsDisposed) {
+				return;
+			}
+			int generation;
+			lock(_lockBitmapRequest) {
+				if(_bitmapRequestWaiting==null) {
+					return;
+				}
+				generation=_generationBitmapJob;
+			}
+			_isBitmapJobInFlight=true;
+			try {
+				ToothChartRenderer.Instance.RenderLatestAsync(() => TakeBitmapScene(generation),_layerCacheWpf,
+					(scene,result) => OnBitmapJobDone(scene,result,generation));
+			}
+			catch(Exception ex) {
+				//The render thread could not start: the waiting request gets what a failed render gives, the 2D chart's picture.
+				ToothChartRenderResult resultFailed=new ToothChartRenderResult();
+				resultFailed.Exception=ex;
+				ReceiveBitmapJob(TakeBitmapScene(generation),resultFailed,generation);
+			}
+		}
+
+		///<summary>First in a background job, on the render thread: the newest waiting request's scene, taken so that a later request waits for the next
+		///job; null when none waits or the job was given up (a job given up must not take the scene of a request made after it).</summary>
+		private ToothScene TakeBitmapScene(int generation) {
+			lock(_lockBitmapRequest) {
+				if(generation!=_generationBitmapJob || _bitmapRequestWaiting==null) {
+					return null;
+				}
+				ToothScene toothScene=_bitmapRequestWaiting.Scene;
+				_bitmapRequestWaiting=null;
+				return toothScene;
+			}
+		}
+
+		///<summary>On the render thread (or, for a job a shutdown aborted, the thread that ended it): hands the result to the UI thread without waiting,
+		///or drops it when the wrapper is gone or has no handle (OnHandleDestroyed then gave the job up, and OnHandleCreated asks again).</summary>
+		private void OnBitmapJobDone(ToothScene scene,ToothChartRenderResult result,int generation) {
+			if(IsDisposed || Disposing || !IsHandleCreated) {
+				return;
+			}
+			try {
+				BeginInvoke(new Action(() => ReceiveBitmapJob(scene,result,generation)));
+			}
+			catch(InvalidOperationException ex) {
+				ex.DoNothing();//the handle went away between the check and the call (ObjectDisposedException included)
+			}
+		}
+
+		///<summary>On the UI thread: hands the picture to the newest request when the job rendered that request's scene, drops the result of a scene a
+		///newer request replaced, and starts the next job when a request waits.</summary>
+		private void ReceiveBitmapJob(ToothScene scene,ToothChartRenderResult result,int generation) {
+			lock(_lockBitmapRequest) {
+				if(generation!=_generationBitmapJob) {
+					return;//a job given up when the handle went or the engine was released
+				}
+			}
+			_isBitmapJobInFlight=false;
+			if(IsDisposed || _engine!=ToothChartEngine.Wpf3D) {
+				return;
+			}
+			if(scene!=null) {
+				_countBitmapsMadeInBackground++;
+			}
+			ToothChartBitmapRequest toothChartBitmapRequest=_bitmapRequestLatest;
+			try {
+				if(scene!=null && toothChartBitmapRequest!=null && toothChartBitmapRequest.Scene==scene) {
+					_bitmapRequestLatest=null;
+					Bitmap bitmap=GetBitmapOfBackgroundResult(result);
+					if(bitmap==null) {
+						toothChartBitmapRequest.Drop();
+					}
+					else {
+						toothChartBitmapRequest.Complete(bitmap);
+					}
+				}
+			}
+			finally {
+				//Whatever the hand-off did, a request that waits still gets its job.
+				bool isWaiting;
+				lock(_lockBitmapRequest) {
+					isWaiting=_bitmapRequestWaiting!=null;
+				}
+				if(isWaiting) {
+					StartBitmapJob();//a newer request came while the job ran, or the job was aborted before it took one
+				}
+			}
+		}
+
+		///<summary>The picture of a background job's result, as GetBitmap returns it (GetWpf3DBitmap): the renderer's image, or, after a render that
+		///failed twice or a bitmap of its pixels that could not be made (GDI+ under memory or handle pressure in the 32-bit process), the 2D chart's
+		///image of the data (as it is now), logged once; null when neither could be made. Never throws: it runs in a message posted to the UI thread,
+		///where an exception would reach Application.ThreadException and end the program.</summary>
+		private Bitmap GetBitmapOfBackgroundResult(ToothChartRenderResult result) {
+			Exception exception=result?.Exception;
+			if(result!=null && result.Exception==null && result.PixelsBgra!=null) {
+				try {
+					return result.ToBitmap();
+				}
+				catch(Exception ex) {
+					exception=ex;//the 2D picture below, as GetWpf3DBitmap gives when ToBitmap throws
+				}
+			}
+			LogFallbackOnce(ToothChartFallbackKind.Wpf3DRender,"The "+ToothChartEngine.Wpf3D+" tooth chart could not draw its picture in the background ("
+				+exception?.GetType().Name+": "+exception?.Message+"). Using "+ToothChartEngine.Simple2D+" for this picture.");
+			try {
+				return GetSimple2DBitmap();
+			}
+			catch(Exception ex) {
+				ex.DoNothing();
+				return null;
+			}
+		}
+
+		///<summary>The handle went: a background job in flight or posted can no longer hand its result back (DestroyHandle drops what BeginInvoke
+		///posted), so it is given up, and its late result, or its scene if it has not taken one yet, is left alone. The newest request stays, and the
+		///new handle asks for it again (OnHandleCreated).</summary>
+		private void GiveUpBitmapJob() {
+			lock(_lockBitmapRequest) {
+				_generationBitmapJob++;
+			}
+			StopWaitingForFrame();
+			_isBitmapJobInFlight=false;
+			_isBitmapStartPosted=false;
+		}
+
+		///<summary>A new handle: the newest request that has not arrived waits again and its job is posted.</summary>
+		private void AskAgainForBitmapRequest() {
+			if(_bitmapRequestLatest==null) {
+				return;
+			}
+			lock(_lockBitmapRequest) {
+				_bitmapRequestWaiting=_bitmapRequestLatest;
+			}
+			if(!PostBitmapJobStart()) {
+				DropBitmapRequests();
+			}
+		}
+
+		///<summary>Drops every background request (the engine is released, or nothing could be posted): no picture comes for them, and a job in flight is
+		///given up.</summary>
+		private void DropBitmapRequests() {
+			lock(_lockBitmapRequest) {
+				_generationBitmapJob++;
+				_bitmapRequestWaiting=null;
+			}
+			StopWaitingForFrame();
+			_isBitmapJobInFlight=false;
+			_isBitmapStartPosted=false;
+			_bitmapRequestLatest?.Drop();
+			_bitmapRequestLatest=null;
+		}
+		#endregion Wpf3D pictures made in the background
+
+		///<summary>Releases the WPF chart's engine controls (the image host and the live view), its 3D layer image and its background requests.</summary>
 		private void DisposeWpf3D() {
+			DropBitmapRequests();
 			if(_layerCacheWpf!=null) {
 				_layerCacheWpf.Dispose();
 				_layerCacheWpf=null;

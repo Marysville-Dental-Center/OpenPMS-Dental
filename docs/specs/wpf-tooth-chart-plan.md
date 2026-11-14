@@ -323,6 +323,82 @@ the owner on 2026-11-09, with O-34 answered (b1) and the dashboard's picture mov
     `ToothChartDirectX.cs:590-628`), the DPI of the input tests (above, and L-4 for 150%) and the .NET 10 check of the input tests' reflection
     (the TC-10 row, S3b-5).
 
+**TC-3b (2026-11-09, branch `chart/tc3b-1`, from `main` at `14643fb03`): the dashboard's picture made in the background.** The owner's G1
+answer. How the package meets its row:
+- **Before.** With the Patient Dashboard visible, `ControlChart.FillToothChart` called `GetBitmap` after every refill dated today, on the UI
+  thread, and put the picture in the `ModuleSelected` event (`PatientDashboardDataEventArgs.ImageToothChart`). With the live view on screen
+  that is a full software render, because the live view does not use the render thread and leaves no 3D layer to reuse: 451 and 732 ms of
+  UI-thread work at 410x307 and 615x461 (TC-3's fix round 3), against DirectX's 127 and 144 ms.
+- **The request.** `ToothChartWrapper.RequestBitmapInBackground` (the relay's method of the same name) builds the scene of the current data on
+  the calling thread, as `GetBitmap` does (no WPF object), and returns a `ToothChartBitmapRequest` at once. The render thread makes the picture
+  at the wrapper's size with the wrapper's 3D layer cache (`ToothChartRenderer.RenderLatestAsync`), so it is `GetBitmap`'s picture of that
+  moment, pixel for pixel. It reaches the request's action on the wrapper's UI thread through the wrapper's `BeginInvoke`.
+  - The job is started by a message posted to the UI thread, so the on-screen rebuild that the same refill posted earlier runs first: with "Draw
+    in software" the screen's render is queued before the dashboard's.
+  - With the live view on screen the job also waits until WPF has presented the refill's frame (`StartBitmapJobAfterLiveViewFrame`). The first
+    times showed why: WPF draws a frame of the process and the renderer's picture one after the other, so a picture started before the frame, or
+    right after WPF committed it, held the live view's frame back until the picture was done (below). WPF raises `CompositionTarget.Rendering`
+    in each render pass of the UI thread; the first pass after the posted start commits the refill's frame, and WPF prepares the next only once
+    its render thread has presented that frame, so the job starts in the second pass. A newer refill's rebuild while the job waits counts again
+    from its frame, so a burst is drawn before its one picture. A window WPF does not draw (minimized, a locked session) raises no pass, so the
+    job starts after `MillisecondsMaxWaitForFrame` (1 s) at the latest. The handler leaves the static event on the live view's thread when the
+    job starts, the handle goes, the engine is released or the wrapper is disposed.
+  - Only the newest request is made. A newer request drops the older one (its action is never called), and the job takes its scene only when
+    the render thread starts it, so a burst of refills makes one picture. When a render was already running, its picture is dropped and the
+    newest is made after it: two renders, one picture.
+  - A render that fails twice gives the 2D chart's picture of the data, logged once, as `GetBitmap` does (of the data as it is when the failure
+    arrives). So does a bitmap of the render's pixels that cannot be made (`ToBitmap` throws when GDI+ is short of memory or handles, which a
+    32-bit process meets): the hand-off runs in a message posted to the UI thread, where an exception would reach
+    `Application.ThreadException` and end the program, so `GetBitmapOfBackgroundResult` catches it as `GetWpf3DBitmap` does, and the next
+    waiting request starts whatever the hand-off did. A handle that goes gives the job up, and the new handle asks for the newest request again. A wrapper that is disposed or leaves the
+    WPF engine drops its requests.
+  - It returns null, and asks for nothing, for DirectX, OpenGL and Simple 2D, for a wrapper with no window handle and for a call off the
+    wrapper's thread. `ControlChart` then calls `GetBitmap`, as before, so those engines keep today's synchronous path until TC-8.
+- **The Chart module.** `FillToothChart` asks only when it asked before (a refill dated today with the dashboard visible), so a closed dashboard
+  asks for none. It puts the request in the event (`PatientDashboardDataEventArgs.ImageToothChartRequest`) in place of the picture, and fires the
+  event at once, so the dashboard's other fields update with the refill as before.
+- **The dashboard.** `UserControlDashboard` keeps the one request whose picture it still waits for in a `ToothChartDashboardWait`: chart code for
+  the caller, kept with the relay in `WpfControlsOD/UI/ToothChart` (TC-2's rule), so `ToothChartImageTests` tests it with real pictures without
+  referencing the program. When the picture arrives, the dashboard hands it to its `DashToothChart` fields (`DashToothChart.SetImageInWidget`) on
+  its own refresh thread and redraws the widget, as it showed the event's picture before.
+  - Its refresh threads run one after another (each waits for the one before it), so the picture lands after every set and refresh that started
+    before it arrived and before every one that starts later.
+  - The wait ends without a picture on everything that brings the dashboard a newer tooth chart: a refresh (the Patient event of every patient
+    change, the Refresh menu and the widget's Refresh, where `DashToothChart.RefreshData` makes the dashboard's own chart), a `ModuleSelected` event
+    with a picture or with a newer request, and closing the dashboard. An event without either (the other modules, a refill dated before today)
+    leaves it, as such an event always left the chart the dashboard had.
+  - A picture is shown only while its request is the one waited for, the dashboard is open, and the patient it was made for is still the current
+    patient (`FormOpenDental.PatNumCur`), checked when it arrives and again on the refresh thread just before it is set. So the dashboard never
+    shows another patient's chart: a patient change while a picture is being made drops it. Today the last set or refresh decided the dashboard's
+    chart; now a picture is shown only if no newer chart reached the dashboard after its event, so every order ends with the chart today's code
+    ends with, a little later.
+- **The other consumers.** `DashToothChart.SetData` was the picture's only reader (`ImageToothChart`, a copy the dashboard makes and disposes on
+  its set thread); the toothChartLegend field and the other widgets read none. The dashboard's own picture (`DashToothChart.RefreshData`,
+  `SheetPrinting.GetToothChartHelper` with its hidden form on the dashboard's MTA `ODThread`) is untouched: that wrapper has no handle and calls
+  `GetBitmap`, which builds only the scene there and waits for the render thread, as since TC-1. The other callers of `GetBitmap` (Save to Images
+  in `ControlChart`, with its print recolour, the Treatment Plan printout, sheets and their `toothChartImg` parameter, the perio print, the sheet
+  editor, automation) need the picture at once and keep it.
+- **Times** (the opt-in `OnScreenTimes_AreMeasuredInAFreshProcess`, `OPMS_CHART_ONSCREEN_TIMES`, on the build PC on the branch merged with
+  `main` at `ca3c8db42`, 2026-11-13: `.git/od-tools/test-results/tc3b-merged-onscreen-times-1.txt`; a fresh process that draws WPF in
+  software as the program does; medians of 21 warm runs at 410x307 and 615x461):
+  - **Before** (the picture made with `GetBitmap` on the UI thread, measured in the same run): the live view's refill with the dashboard
+    visible is 455 and 705 ms of UI-thread work before WPF can draw its frame (TC-3's fix round 3: 451 and 732 ms), against 15 and 15 ms
+    with the dashboard hidden; DirectX 129 and 144 ms with the dashboard visible, 48 and 47 ms hidden.
+  - **After** (the picture made in the background, as the program makes it): the UI thread's work is 22 and 21 ms (slowest 73 and 57 ms).
+    From the refill's start until WPF has presented its frame: 141 and 169 ms with the dashboard visible, against 138 and 172 ms hidden
+    (slowest 177 and 207 ms), so with the dashboard visible a refill now costs what it costs with the dashboard hidden. The picture's render
+    starts after the frame (28 and 34 ms after the refill's start, with the messages run freely; the frame is done at 27 and 34 ms), and the
+    dashboard's picture arrives on the UI thread 424 and 663 ms after the refill's start.
+  - **What the picture's render waits for:** the posted start runs after the refill's on-screen rebuild; with the live view on screen the
+    job then waits for WPF's second render pass after that start (the first commits the refill's frame, and WPF prepares the next only once
+    its render thread has presented it), or for `MillisecondsMaxWaitForFrame` (1 s) when WPF draws no frame. Without that wait the frame was
+    held back until the picture was done: 634 and 936 ms with the job started at once, 508 and 789 ms with it started right after WPF's
+    commit (the first runs on 2026-11-09, `tc3b-onscreen-times-1.txt` and `-2.txt`), against 152 and 203 ms once it waited for the
+    presented frame (`-3.txt`).
+  - **"Draw in software"** (the image host): the screen's own picture is the renderer's software render, so the refill waits for it either
+    way (289 and 572 ms with the picture in the background, 305 and 540 ms with `GetBitmap`, 332 and 570 ms with the dashboard hidden); the
+    dashboard's picture reuses that picture's 3D layer and arrives right after it (301 and 572 ms).
+
 **Why not a separate branch.** The chart must not drift from the stages' rewrites of `ControlChart.cs` and the release files. Dark
 merges keep it on `main`, and the gallery approval comes before each merge (O-27).
 
@@ -487,7 +563,7 @@ either way.
 - **One render thread per process.** It is STA, has `IsBackground=true` and its own Dispatcher, and ends with
   `Dispatcher.InvokeShutdown` (never `Thread.Abort`).
 - It builds and freezes the meshes once (frozen objects can be used from any thread), keeps the 3D layer's visual tree, and makes every
-  image: the on-screen image, `GetBitmap`, prints, sheets and tests.
+  image: the on-screen image, `GetBitmap`, the dashboard's picture made in the background (TC-3b), prints, sheets and tests.
 - **Scenes.** The scene is built on the calling thread from `ToothChartData` and cannot change afterwards. The render thread never reads
   `ToothChartData` and never waits for another thread, so a caller waiting for it cannot deadlock.
 - An on-screen result reaches the UI thread only through a non-blocking `BeginInvoke` on the image host. It is skipped when the host is
@@ -543,7 +619,8 @@ either way.
   notes).
 - The posted rebuild always renders the on-screen image from the current scene, even when a `GetBitmap` in between has already rebuilt
   the scene and cleared its dirty mark. Only the posted rebuild clears the burst's "posted" mark. So a refill that ends in the
-  dashboard's `GetBitmap` (`ControlChart.cs:6673-6681`) still updates the screen.
+  dashboard's `GetBitmap` (the other engines), or since TC-3b in its request (`RequestBitmapInBackground`, which builds the scene as
+  `GetBitmap` does; `ControlChart.cs:6411-6441`), still updates the screen, and the request's job is posted after the rebuild.
 - The rebuild is posted rather than tied to the wrapper's next paint: the engine control covers the whole wrapper, which may then get no
   paint of its own.
 - The `Wpf3D` branches of the wrapper: `TcData` (66-84), `OnInvalidated` (319), `OnResize` (842), the `DrawMode` setter's dispose step
@@ -617,7 +694,8 @@ either way.
    only chart test project that references the program; `tests/ToothChartImageTests` never does.
 7. **Mouse tests.**
 8. **Renderer tests:** an MTA caller, a render loop, process exit with the render thread alive, the DPI settings of 5.6, the
-   on-screen refresh after a `GetBitmap` (5.5) and a host disposed during a render (5.4).
+   on-screen refresh after a `GetBitmap` (5.5) and a host disposed during a render (5.4); since TC-3b the dashboard's picture made in the
+   background (`WpfBackgroundPictureTests`, `ToothChartDashboardWaitTests`, and `BSHELLTests` for the dashboard's side).
 
 **Rendering rules, for determinism:**
 - Explicit pixel size; 96 dpi; `Pbgra32`; opaque background; `SetRootDpi` 1.0 and `pixelsPerDip` 1.0 (5.6).
