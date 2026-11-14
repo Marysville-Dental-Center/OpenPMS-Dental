@@ -104,14 +104,6 @@ namespace CodeBase {
 			}
 		}
 
-		///<summary>A copy of the fields (the provider parameters' bytes too).</summary>
-		public CertificateKeyProvInfo Copy() {
-			CertificateKeyProvInfo certificateKeyProvInfo=(CertificateKeyProvInfo)MemberwiseClone();
-			certificateKeyProvInfo.ListProvParams=ListProvParams.Select(x => new CertificateKeyProvParam { Param=x.Param,Flags=x.Flags,
-				Data=(byte[])x.Data.Clone() }).ToList();
-			return certificateKeyProvInfo;
-		}
-
 		///<summary>The certificate's key provider information, read with CertGetCertificateContextProperty on its context
 		///(X509Certificate2.Handle), without opening the key. actionBeforeReadForTests: a tool's test seam, called with the certificate right before
 		///the property is read; throwing there is a property that cannot be read (null in the program). Never throws: anything but a critical
@@ -291,22 +283,6 @@ namespace CodeBase {
 				}
 				GC.KeepAlive(x509Certificate2);
 			}
-		}
-
-		///<summary>A copy of the certificate in memory (its encoded form only, no store) that names this key, so that the key can be opened or
-		///deleted through it (X509Certificate2.PrivateKey, GetRSAPrivateKey, GetECDsaPrivateKey) without a certificate of a store naming it: the
-		///key a tool recorded as its own, for example, once the store's entry names another key again. The caller disposes it. Throws as Write
-		///does.</summary>
-		public X509Certificate2 NewCertificateNamingThisKey(X509Certificate2 x509Certificate2) {
-			X509Certificate2 x509Certificate2Copy=new X509Certificate2(x509Certificate2.RawData);
-			try {
-				Write(x509Certificate2Copy);
-			}
-			catch {
-				x509Certificate2Copy.Dispose();
-				throw;
-			}
-			return x509Certificate2Copy;
 		}
 
 		///<summary>"provider P, key container C, in the computer's key set" (or "in a user key set"), for the tools' messages.</summary>
