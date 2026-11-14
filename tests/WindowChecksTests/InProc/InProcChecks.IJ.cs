@@ -19,6 +19,7 @@ namespace WindowChecksTests.InProc {
 			GoToModule(ui,EnumModuleType.Chart);
 			Control controlChart=ModuleControl("controlChart");
 			int countBefore=Count("SELECT COUNT(*) FROM procedurelog WHERE PatNum=1 AND ToothNum='30' AND ProcStatus=1");
+			long procNumBefore=MaxKey("procedurelog","ProcNum");
 			string surf=ui.Invoke(() => {
 				object relay=Ui.GetField(controlChart,"_toothChartRelay");
 				Ui.Call(relay,"SetSelected","30",true);
@@ -41,6 +42,30 @@ namespace WindowChecksTests.InProc {
 			posted.Wait();
 			checkResult.Expect(Count("SELECT COUNT(*) FROM procedurelog WHERE PatNum=1 AND ToothNum='30' AND ProcStatus=1")==countBefore+1,
 				"The D2391 on 30 O is added (treatment planned) without the Procedure Edit window");
+			//The row IUNDO deletes: the one procedure this prep added (none when it added none, or more than one).
+			long procNum=AddedKey("procedurelog","ProcNum",procNumBefore,"PatNum=1 AND ToothNum='30' AND ProcStatus=1");
+			SetKey(checkResult,"IPREP.ProcNum",procNum);
+			checkResult.Note("The prep's procedure: ProcNum "+(procNum==0 ? "none found above "+procNumBefore : procNum.ToString())+" (IUNDO deletes only this one)");
+		}
+
+		///<summary>B5's on-screen test: the DirectX chart's own window printed (PrintWindow) is drawn only while the screen shows it (not locked). Saves
+		///the picture (listed, not failed when blank) and returns whether it is drawn.</summary>
+		private static bool ShotChartWindow(Ui ui,CheckResult checkResult,Control toothChartWrapper,string fileName) {
+			IntPtr hwndChart=ui.Invoke(() => toothChartWrapper.Handle);
+			ShotInfo shotInfo=ui.Shot(hwndChart,fileName);
+			if(shotInfo.Error=="") {
+				checkResult.ListShots.Add(shotInfo.FileName);
+			}
+			checkResult.Note("The chart's own window printed (PrintWindow, B5's on-screen test): "+shotInfo+(shotInfo.IsDrawn ? ", drawn" : ", blank"));
+			return shotInfo.IsDrawn;
+		}
+
+		///<summary>B5's on-screen test on its own, for I11 (whose program runs out of process): the Chart's DirectX window printed in this session.</summary>
+		public static void CheckISCREEN(Ui ui,CheckResult checkResult) {
+			GoToModule(ui,EnumModuleType.Chart);
+			Control toothChartWrapper=(Control)Ui.GetField(ModuleControl("controlChart"),"toothChartWrapper");
+			System.Threading.Thread.Sleep(2000);
+			SetKey(checkResult,"ISCREEN.IsDrawn",ShotChartWindow(ui,checkResult,toothChartWrapper,"I11-screen.png") ? 1 : 0);
 		}
 
 		public static void CheckI1(Ui ui,CheckResult checkResult) {
@@ -58,7 +83,16 @@ namespace WindowChecksTests.InProc {
 			if(InspectWindow(ui,checkResult,opened,"FormToothChartingBig",null,close:false)) {
 				System.Threading.Thread.Sleep(2000);
 				checkResult.AddShot(ui.Shot(opened.Hwnd,"I1-big.png"),"The big chart (PrintWindow)");
-				checkResult.ForPerson("the big chart is the same picture (a DirectX window printed while the screen is locked may be blank)");
+				//B5's on-screen test on the big chart's own DirectX window: drawn means the screen shows it and I1-big.png holds the real picture.
+				Control toothChartWrapperBig=ui.Invoke(() => (Control)Ui.GetField(Control.FromHandle(opened.Hwnd),"toothChartWrapper"));
+				if(toothChartWrapperBig!=null && ShotChartWindow(ui,checkResult,toothChartWrapperBig,"I1-big-chart.png")) {
+					checkResult.Verified("The big chart's own DirectX window prints drawn (I1-big-chart.png; B5's on-screen test: the screen is not locked)");
+					checkResult.ForPerson("the big chart is the same picture as the Chart's (I1-big.png, I1-chart.png)");
+				}
+				else {
+					checkResult.ForPerson("the big chart is the same picture (its DirectX window printed blank in this session, I1-big-chart.png, as it does while the "
+						+"screen is locked)");
+				}
 				checkResult.Expect(ui.Close(opened.Hwnd),"The big chart closes");
 			}
 		}
@@ -67,36 +101,90 @@ namespace WindowChecksTests.InProc {
 			GoToModule(ui,EnumModuleType.Chart);
 			Control controlChart=ModuleControl("controlChart");
 			int countBefore=Count("SELECT COUNT(*) FROM document WHERE PatNum=1");
-			ui.Post("Tooth Chart > Save to Images",() => Ui.Call(controlChart,"menuItemChartSave_Click",controlChart,EventArgs.Empty)).Wait();
-			ui.CloseStrayWindows(checkResult);
-			int countAfter=Count("SELECT COUNT(*) FROM document WHERE PatNum=1");
-			checkResult.Expect(countAfter==countBefore+1,"Save to Images adds a document (the Tooth Charts category)");
-			long docNum=PIn.Long(DataCore.GetScalar("SELECT MAX(DocNum) FROM document WHERE PatNum=1"));
-			string fileName=DataCore.GetScalar("SELECT FileName FROM document WHERE DocNum="+docNum);
 			string folder=ImageStore.GetPatientFolder(Patients.GetPat(1),ImageStore.GetPreferredAtoZpath());
-			string path=System.IO.Path.Combine(folder,fileName);
-			if(checkResult.Expect(System.IO.File.Exists(path),"Its file is in the patient's folder ("+fileName+")")) {
-				using Bitmap bitmap=new Bitmap(path);
-				checkResult.AddShot(WindowChecksTests.Shot.Bitmap(bitmap,"I2-images.png"),"The saved image");
-			}
-			checkResult.ForPerson("the image shows the chart with the filling (I2-images.png); the second save with the per-provider colours (a user "
-				+"setting) is not scripted in this run");
-			//Undo: the document and its file (and a thumbnail if one was made), by the business layer.
-			ui.Invoke(() => {
-				Document document=Documents.GetByNum(docNum);
-				Documents.Delete(document);
-			});
+			List<long> listDocNums=new List<long>();
 			try {
-				System.IO.File.Delete(path);
-				string thumbnail=System.IO.Path.Combine(folder,"Thumbnails",fileName);
-				if(System.IO.File.Exists(thumbnail)) {
-					System.IO.File.Delete(thumbnail);
+				//1. Save to Images.
+				listDocNums.Add(SaveChartToImages(ui,checkResult,controlChart,folder,"I2-images.png","Save to Images"));
+				//2. File > User Settings > tick "Chart graphics color distinguishes current provider" > Save; Save to Images again; untick > Save.
+				int countProvColourBefore=Count("SELECT COUNT(*) FROM userodpref WHERE UserNum="+Security.CurUser.UserNum+" AND FkeyType="
+					+(int)UserOdFkeyType.ToothChartUsesDiffColorByProv);
+				if(SetUserSettingProvColour(ui,checkResult,true)) {
+					checkResult.Expect(Count("SELECT COUNT(*) FROM userodpref WHERE UserNum="+Security.CurUser.UserNum+" AND FkeyType="
+						+(int)UserOdFkeyType.ToothChartUsesDiffColorByProv)==countProvColourBefore+1,"File > User Settings > tick the per-provider colour > Save: "
+						+"the user preference ToothChartUsesDiffColorByProv is saved");
+					listDocNums.Add(SaveChartToImages(ui,checkResult,controlChart,folder,"I2-images-provcolour.png","Save to Images with the per-provider colours on"));
+					SetUserSettingProvColour(ui,checkResult,false);
+				}
+				checkResult.Expect(Count("SELECT COUNT(*) FROM userodpref WHERE UserNum="+Security.CurUser.UserNum+" AND FkeyType="
+					+(int)UserOdFkeyType.ToothChartUsesDiffColorByProv)==countProvColourBefore,"File > User Settings > untick > Save: the preference row is deleted again ("
+					+countProvColourBefore+" before)");
+				checkResult.ForPerson("both images show the chart with the filling (I2-images.png, I2-images-provcolour.png)");
+			}
+			finally {
+				//Undo: the documents this check added and their files (and a thumbnail if one was made), by the business layer.
+				foreach(long docNum in listDocNums.Where(x => x>0)) {
+					string fileName=DataCore.GetScalar("SELECT FileName FROM document WHERE DocNum="+docNum);
+					ui.Invoke(() => {
+						Document document=Documents.GetByNum(docNum);
+						Documents.Delete(document);
+					});
+					try {
+						if(fileName!="") {
+							System.IO.File.Delete(System.IO.Path.Combine(folder,fileName));
+							string thumbnail=System.IO.Path.Combine(folder,"Thumbnails",fileName);
+							if(System.IO.File.Exists(thumbnail)) {
+								System.IO.File.Delete(thumbnail);
+							}
+						}
+					}
+					catch(Exception ex) {
+						checkResult.Note("File not deleted: "+ex.Message);
+					}
 				}
 			}
-			catch(Exception ex) {
-				checkResult.Note("File not deleted: "+ex.Message);
+			checkResult.Expect(Count("SELECT COUNT(*) FROM document WHERE PatNum=1")==countBefore,"Undo: the images are deleted (business layer, in the scratch copy)");
+		}
+
+		///<summary>Tooth Chart > Save to Images: checks that one document is added and its file is there, saves its picture; returns its DocNum (0 when
+		///not exactly one was added, so the undo deletes nothing else).</summary>
+		private static long SaveChartToImages(Ui ui,CheckResult checkResult,Control controlChart,string folder,string shot,string what) {
+			int countBefore=Count("SELECT COUNT(*) FROM document WHERE PatNum=1");
+			long docNumBefore=MaxKey("document","DocNum");
+			ui.Post("Tooth Chart > Save to Images",() => Ui.Call(controlChart,"menuItemChartSave_Click",controlChart,EventArgs.Empty)).Wait();
+			ui.CloseStrayWindows(checkResult);
+			checkResult.Expect(Count("SELECT COUNT(*) FROM document WHERE PatNum=1")==countBefore+1,what+" adds a document (the Tooth Charts category)");
+			long docNum=AddedKey("document","DocNum",docNumBefore,"PatNum=1");
+			if(!checkResult.Expect(docNum>0,what+": the one document it added is found (DocNum above "+docNumBefore+")")) {
+				return 0;
 			}
-			checkResult.Expect(Count("SELECT COUNT(*) FROM document WHERE PatNum=1")==countBefore,"Undo: the image is deleted (business layer, in the scratch copy)");
+			string fileName=DataCore.GetScalar("SELECT FileName FROM document WHERE DocNum="+docNum);
+			string path=System.IO.Path.Combine(folder,fileName);
+			if(checkResult.Expect(System.IO.File.Exists(path),what+": its file is in the patient's folder ("+fileName+")")) {
+				using Bitmap bitmap=new Bitmap(path);
+				checkResult.AddShot(WindowChecksTests.Shot.Bitmap(bitmap,shot),what+": the saved image");
+			}
+			return docNum;
+		}
+
+		///<summary>File > User Settings > "Chart graphics color distinguishes current provider" ticked or unticked > Save (FrmUserSetting). False when the
+		///window did not open or did not close.</summary>
+		private static bool SetUserSettingProvColour(Ui ui,CheckResult checkResult,bool isOn) {
+			Ui.Opened opened=OpenMenu(ui,"File","User Settings");
+			if(!InspectWindow(ui,checkResult,opened,"FrmUserSetting",null,close:false)) {
+				return false;
+			}
+			System.Windows.FrameworkElement frm=ui.GetFrm(opened.Hwnd);
+			ui.Invoke(() => {
+				object checkBox=Ui.GetField(frm,"checkToothChartUsesDiffColorByProv");
+				checkBox.GetType().GetProperty("Checked").SetValue(checkBox,(bool?)isOn);
+			});
+			ui.Post("User Settings: Save",() => ClickFrm(ui,frm,"butSave_Click"));
+			bool isClosed=checkResult.Expect(ui.WaitGone(opened.Hwnd),"File > User Settings > "+(isOn ? "tick" : "untick")+" 'Chart graphics color distinguishes "
+				+"current provider' > Save closes the window");
+			opened.Posted.Wait();
+			ui.CloseStrayWindows(checkResult);
+			return isClosed;
 		}
 
 		public static void CheckI7(Ui ui,CheckResult checkResult) {
@@ -157,9 +245,10 @@ namespace WindowChecksTests.InProc {
 
 		///<summary>Undo of I's prep: the D2391 deleted (status deleted), as progress notes > Delete does, by the business layer.</summary>
 		public static void CheckIUNDO(Ui ui,CheckResult checkResult) {
-			long procNum=PIn.Long(DataCore.GetScalar("SELECT MAX(ProcNum) FROM procedurelog WHERE PatNum=1 AND ToothNum='30' AND ProcStatus=1"));
-			if(procNum==0) {
-				checkResult.Note("No D2391 to delete");
+			//Only the procedure IPREP added (its key), never another treatment-planned procedure on 30 that the copy already had.
+			long procNum=GetKey("IPREP.ProcNum");
+			if(procNum==0 || Count("SELECT COUNT(*) FROM procedurelog WHERE ProcNum="+procNum+" AND ProcStatus=1")==0) {
+				checkResult.Note("No D2391 of IPREP to delete (IPREP's key: "+procNum+")");
 				return;
 			}
 			ui.Invoke(() => Procedures.Delete(procNum));
@@ -349,6 +438,8 @@ namespace WindowChecksTests.InProc {
 				checkResult.Note("Drop-down items of the window's buttons: "+string.Join("; ",listItems));
 				checkResult.Expect(listItems.Any(x => x.EndsWith("menu: Direct Messaging")) && listItems.Any(x => x.EndsWith("menu: Send")),
 					"The Send button's drop-down lists Send and Direct Messaging (read from its menu, not opened)",string.Join("; ",listItems));
+				checkResult.Expect(listItems.Any(x => x.EndsWith("menu: Cancel")),"The Send button's drop-down lists Cancel (the checklist's third item)",
+					string.Join("; ",listItems));
 				checkResult.AddShot(ui.Shot(opened.Hwnd,"J15-send-menu.png"),"The new e-mail (the drop-down itself is not opened headless)");
 				checkResult.Expect(ui.Close(opened.Hwnd),"The e-mail is cancelled (nothing sent or saved)");
 			}

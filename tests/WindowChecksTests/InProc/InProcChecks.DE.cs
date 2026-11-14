@@ -104,6 +104,11 @@ namespace WindowChecksTests.InProc {
 					|| x is System.Windows.Shapes.Shape || x is System.Windows.Controls.Border);
 				double width=double.IsNaN(fixedPage.Width) ? fixedPage.ActualWidth : fixedPage.Width;
 				double height=double.IsNaN(fixedPage.Height) ? fixedPage.ActualHeight : fixedPage.Height;
+				//A page without a size would make this harness's own RenderTargetBitmap throw the same 'pixelHeight' ArgumentOutOfRangeException as the
+				//program bug EFORM-PRINT fixed: say so instead.
+				if(double.IsNaN(width) || double.IsNaN(height) || double.IsInfinity(width) || double.IsInfinity(height) || width<=0 || height<=0) {
+					return new ShotInfo { FileName=fileName,Error="page 1 has no size to render ("+width+" x "+height+"; the harness's own rendering, not the program's)" };
+				}
 				if(fixedPage.ActualWidth<=0) {
 					fixedPage.Measure(new System.Windows.Size(width,height));
 					fixedPage.Arrange(new System.Windows.Rect(0,0,width,height));
@@ -222,6 +227,7 @@ namespace WindowChecksTests.InProc {
 			}
 			System.Windows.FrameworkElement frmDefs=ui.GetFrm(openedDefs.Hwnd);
 			int countBefore=Count("SELECT COUNT(*) FROM eformdef");
+			long eFormDefNumBefore=MaxKey("eformdef","EFormDefNum");
 			Ui.Opened openedPick=ui.Open("eForms > Add",() => ClickFrm(ui,frmDefs,"butAdd_Click"));
 			if(InspectWindow(ui,checkResult,openedPick,"FrmEFormPicker",null,close:false)) {
 				System.Windows.FrameworkElement frmPick=ui.GetFrm(openedPick.Hwnd);
@@ -240,14 +246,18 @@ namespace WindowChecksTests.InProc {
 				openedPick.Posted.Wait();
 				ui.CloseStrayWindows(checkResult);
 			}
-			_eFormDefNumD4=PIn.Long(DataCore.GetScalar("SELECT MAX(EFormDefNum) FROM eformdef"));
-			checkResult.Expect(Count("SELECT COUNT(*) FROM eformdef")==countBefore+1,"The eForm def is saved (EFormDefNum "+_eFormDefNumD4+"; D5 deletes it)");
+			//The def Save inserted (the one above the number taken before Add): D5 fills it and deletes only it (the key reaches D5 in a new session too).
+			_eFormDefNumD4=AddedKey("eformdef","EFormDefNum",eFormDefNumBefore);
+			SetKey(checkResult,"D4.EFormDefNum",_eFormDefNumD4);
+			checkResult.Expect(Count("SELECT COUNT(*) FROM eformdef")==countBefore+1 && _eFormDefNumD4>0,"The eForm def is saved (EFormDefNum "+_eFormDefNumD4
+				+", above "+eFormDefNumBefore+"; D5 deletes it)");
 			if(Native.IsWindow(openedDefs.Hwnd)) {
 				ui.Close(openedDefs.Hwnd);
 			}
 		}
 
 		public static void CheckD5(Ui ui,CheckResult checkResult) {
+			_eFormDefNumD4=GetKey("D4.EFormDefNum");
 			if(_eFormDefNumD4==0) {
 				checkResult.Fail("D4 made no eForm def");
 				return;
@@ -265,19 +275,32 @@ namespace WindowChecksTests.InProc {
 			Ui.Opened openedPick=ui.Open("Add eForm",() => Ui.Call(Control.FromHandle(hwndForms),"butAddEForm_Click",null,EventArgs.Empty));
 			if(InspectWindow(ui,checkResult,openedPick,"FrmEFormPicker",null,close:false)) {
 				System.Windows.FrameworkElement frmPick=ui.GetFrm(openedPick.Hwnd);
+				//The D4 eForm, found by its number in the picker's list (the internal eForm it copies has the same name, so neither the list nor the
+				//preview tells them apart).
+				int indexD4=-1;
 				string picked=ui.Invoke(() => {
 					object listMain=Ui.GetField(frmPick,"listMain");
-					object items=Member(listMain,"Items");
-					int count=(int)Member(items,"Count");
-					//The D4 eForm: the custom one, listed after the internal ones.
-					Ui.Call(listMain,"SetSelected",count-1,true);
-					return count+" listed, the last selected";
+					System.Collections.IList listEFormDefs=(System.Collections.IList)Ui.GetField(frmPick,"_listEFormDefs");
+					for(int i=0;i<listEFormDefs.Count;i++) {
+						if(((EFormDef)listEFormDefs[i]).EFormDefNum==_eFormDefNumD4) {
+							indexD4=i;
+						}
+					}
+					if(indexD4>=0) {
+						Ui.Call(listMain,"SetSelected",indexD4,true);
+					}
+					return listEFormDefs.Count+" listed, the D4 copy at "+indexD4;
 				});
 				checkResult.Note("Add eForm picker: "+picked);
+				checkResult.Expect(indexD4>=0,"The picker lists the D4 copy (EFormDefNum "+_eFormDefNumD4+")",picked);
 				Ui.Opened openedFill=ui.Open("Pick the D4 eForm, OK",() => ClickFrm(ui,frmPick,"butOK_Click"));
-				if(InspectWindow(ui,checkResult,openedFill,"FrmEFormFillEdit",null,close:false)) {
+				if(indexD4>=0 && InspectWindow(ui,checkResult,openedFill,"FrmEFormFillEdit",null,close:false)) {
 					System.Windows.FrameworkElement frmFill=ui.GetFrm(openedFill.Hwnd);
+					long eFormDefNumFill=ui.Invoke(() => ((EForm)Ui.GetField(frmFill,"EFormCur"))?.EFormDefNum??0);
+					checkResult.Expect(eFormDefNumFill==_eFormDefNumD4,"The fill window's eForm is made from the D4 copy (EFormCur.EFormDefNum "+eFormDefNumFill+")");
 					InspectFrm(ui,checkResult,openedFill.Hwnd,hasMinMax:false,shot:"D5-fill.png");
+					//The unhandled exceptions are read after Print is done: RunCheck adds them to the result only after the script ends.
+					int countExceptionsBeforePrint=ui.CountExceptions;
 					Ui.Opened openedPreview=ui.Open("Print",() => ClickFrm(ui,frmFill,"butPrint_Click"),allowMessage:true);
 					if(openedPreview.IsOpen && Native.IsDialogClass(openedPreview.Hwnd)) {
 						checkResult.Fail("Print showed a message instead of the preview: "+ui.DescribeWindow(openedPreview.Hwnd));
@@ -291,9 +314,16 @@ namespace WindowChecksTests.InProc {
 					else if(!openedPreview.IsOpen) {
 						checkResult.Fail("Print opened no preview (EFORM-PRINT's ArgumentOutOfRangeException pixelHeight, if it is back, is listed as unhandled)");
 					}
-					openedPreview.Posted.Wait(5000);
-					checkResult.Expect(!checkResult.ListFailures.Any(x => x.Contains("pixelHeight")),"Print throws no ArgumentOutOfRangeException (pixelHeight): "
-						+"EFORM-PRINT's fix holds");
+					bool isPrintDone=openedPreview.Posted.Wait(15000);
+					//A call through the window's thread's queue, after anything Print queued (an exception reaches Application.ThreadException from that loop).
+					System.Threading.Thread.Sleep(500);
+					ui.Invoke(() => true);
+					List<string> listExceptionsPrint=ui.GetExceptionsFrom(countExceptionsBeforePrint);
+					checkResult.Note("Print "+(isPrintDone ? "returned" : "did not return within 15 s")+"; unhandled exceptions while printing: "
+						+(listExceptionsPrint.Count==0 ? "none" : string.Join(" || ",listExceptionsPrint)));
+					checkResult.Expect(isPrintDone && !listExceptionsPrint.Any(x => x.Contains("pixelHeight") || x.Contains("ArgumentOutOfRangeException"))
+						&& !checkResult.ListFailures.Any(x => x.Contains("pixelHeight")),"Print throws no ArgumentOutOfRangeException (pixelHeight), read from the "
+						+"session's unhandled exceptions after Print returned: EFORM-PRINT's fix holds",string.Join(" || ",listExceptionsPrint));
 					checkResult.Expect(ui.Close(openedFill.Hwnd),"The fill window closes (Cancel)");
 				}
 				openedPick.Posted.Wait();
@@ -323,6 +353,7 @@ namespace WindowChecksTests.InProc {
 			IntPtr hwnd=opened.Hwnd;
 			int countRows=ui.Invoke(() => GridRows(FindControl(ui,hwnd,"gridMain",true)).Count);
 			if(countRows==0 && _imagingDeviceNumMade==0) {
+				long imagingDeviceNumBefore=MaxKey("imagingdevice","ImagingDeviceNum");
 				Ui.Opened openedAdd=ui.Open("Devices > Add",() => ((System.Windows.Forms.Button)FindControl(ui,hwnd,"butAdd",true)).PerformClick(),allowMessage:true);
 				if(openedAdd.IsOpen && !Native.IsDialogClass(openedAdd.Hwnd)) {
 					ui.Invoke(() => {
@@ -338,7 +369,8 @@ namespace WindowChecksTests.InProc {
 					openedAdd.Posted.Wait();
 					ui.CloseStrayWindows(checkResult);
 				}
-				_imagingDeviceNumMade=PIn.Long(DataCore.GetScalar("SELECT MAX(ImagingDeviceNum) FROM imagingdevice"));
+				//The device Add and Save inserted (above the number taken before), or none: E's undo deletes only that one.
+				_imagingDeviceNumMade=AddedKey("imagingdevice","ImagingDeviceNum",imagingDeviceNumBefore);
 			}
 			return hwnd;
 		}

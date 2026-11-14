@@ -75,7 +75,12 @@ namespace WindowChecksTests {
 			string folderDesigner=Path.Combine(WinChkEnv.RepoRoot,"RdlDesign","bin","Debug");
 			string pathState=Path.Combine(folderDesigner,"designerstate.xml");
 			bool hadState=File.Exists(pathState);
-			string stateBefore=hadState ? File.ReadAllText(pathState) : null;
+			//A designerstate.xml that was there is copied aside and copied back afterwards, byte for byte (its encoding and BOM unchanged); the backup is
+			//in the results folder, outside the worktree, and deleted once the restore is checked.
+			string pathStateBackup=Path.Combine(WinChkEnv.OutFolder,"H-designerstate-before.xml");
+			if(hadState) {
+				File.Copy(pathState,pathStateBackup,true);
+			}
 			try {
 				//RdlDesigner opens the files named on its command line only while it restores its designerstate.xml (RdlDesigner.GetStartupState), so an
 				//empty state is written beside it first (deleted again below; Z2 checks it is gone). It starts from its own folder.
@@ -160,12 +165,20 @@ namespace WindowChecksTests {
 			}
 			finally {
 				if(hadState) {
-					File.WriteAllText(pathState,stateBefore);
+					File.Copy(pathStateBackup,pathState,true);
+					bool isSame=File.ReadAllBytes(pathState).SequenceEqual(File.ReadAllBytes(pathStateBackup));
+					checkResultH1.Expect(isSame,"designerstate.xml is restored byte for byte (copied aside before the start and back after)");
+					if(isSame) {
+						File.Delete(pathStateBackup);
+					}
+					else {
+						checkResultH1.Note("The copy taken before the start is kept as "+Path.GetFileName(pathStateBackup)+" in the results folder");
+					}
 				}
 				else if(File.Exists(pathState)) {
 					File.Delete(pathState);
 				}
-				checkResultH1.Note("designerstate.xml: "+(hadState ? "restored as it was" : "written for the start, deleted again"));
+				checkResultH1.Note("designerstate.xml: "+(hadState ? "it was there: restored from its copy" : "written for the start, deleted again"));
 				Directory.Delete(folderTemp,true);
 			}
 			checkResultH2.Expect(!Directory.Exists(folderTemp),"The temp folder stage1-rdl is deleted");

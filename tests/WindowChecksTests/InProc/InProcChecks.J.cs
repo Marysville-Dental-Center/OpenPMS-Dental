@@ -563,6 +563,7 @@ namespace WindowChecksTests.InProc {
 			Provider provider=ui.Invoke(() => ProviderOfPatient1());
 			string names="'"+provider.LName+", "+provider.FName+"'";
 			long userNum=UserNum(USER_SETUP);
+			string provKey="";
 			IntPtr hwndSetup=OpenEhrSetup(ui,checkResult);
 			if(hwndSetup==IntPtr.Zero) {
 				return;
@@ -583,6 +584,8 @@ namespace WindowChecksTests.InProc {
 					openedEdit.Posted.Wait();
 				}
 				checkResult.Expect(DataCore.GetScalar("SELECT YearValue FROM ehrprovkey")=="25","The row's year is 25");
+				//The row's own key, before the delete: the log entries must not hold it (the checklist's key is empty; any key text is checked below).
+				provKey=DataCore.GetScalar("SELECT ProvKey FROM ehrprovkey LIMIT 1");
 				//Open it again > Delete, confirm.
 				Ui.Opened openedEdit2=ui.Open("Provider Keys > double-click the row again",() => DoubleClickRowOnThread(FindControl(ui,hwndKeys,"gridMain",true),0));
 				if(InspectWindow(ui,checkResult,openedEdit2,"FormEhrProviderKeyEdit",null,close:false)) {
@@ -597,20 +600,24 @@ namespace WindowChecksTests.InProc {
 			}
 			ui.Close(hwndSetup);
 			checkResult.Expect(Count("SELECT COUNT(*) FROM ehrprovkey")==0,"The row is deleted (undoes J7)");
-			//The Setup entries of gate-setup (Tools > Audit Trail, permission Setup).
+			//The Setup entries of gate-setup, read from securitylog (what Tools > Audit Trail shows for permission Setup; the window itself is opened only
+			//for J12.png, not filtered).
 			System.Data.DataTable table=DataCore.GetTable("SELECT LogText,UserNum FROM securitylog WHERE PermType="+(int)EnumPermType.Setup+" AND UserNum="+userNum
 				+" AND LogText LIKE 'EHR reporting row%' ORDER BY SecurityLogNum");
 			List<string> listTexts=table.Rows.Cast<System.Data.DataRow>().Select(x => x["LogText"].ToString()).ToList();
 			checkResult.Note("Setup entries of "+USER_SETUP+": "+string.Join(" || ",listTexts));
 			checkResult.Expect(listTexts.Any(x => x.StartsWith("EHR reporting row added: "+names+", year 26."))
-				,"'EHR reporting row added: "+names+", year 26.'");
+				,"securitylog (what Audit Trail shows for Setup): 'EHR reporting row added: "+names+", year 26.'");
 			checkResult.Expect(listTexts.Any(x => x.StartsWith("EHR reporting row added") && x.Contains("The radiology procedures alert (IsAlertRadiologyProcsEnabled) was turned on."))
 				,"... followed by 'The radiology procedures alert (IsAlertRadiologyProcsEnabled) was turned on.' (the table was empty at 0.3)");
 			checkResult.Expect(listTexts.Any(x => x.StartsWith("EHR reporting row changed from "+names+", year 26 to "+names+", year 25.")),
 				"'EHR reporting row changed from "+names+", year 26 to "+names+", year 25.'");
 			checkResult.Expect(listTexts.Any(x => x.StartsWith("EHR reporting row deleted:") && x.Contains("was turned off.")),
 				"One starting 'EHR reporting row deleted:' (with '... was turned off.')");
-			checkResult.Expect(listTexts.Count==3,"Three entries, all with user "+USER_SETUP+" (UserNum "+userNum+"); no key text (the key was empty)");
+			checkResult.Expect(listTexts.Count==3,"securitylog (what Audit Trail shows for Setup): three entries, all with user "+USER_SETUP+" (UserNum "+userNum+")");
+			List<string> listWithKey=listTexts.Where(x => x.IndexOf("key",StringComparison.OrdinalIgnoreCase)>=0 || (provKey!="" && x.Contains(provKey))).ToList();
+			checkResult.Expect(listWithKey.Count==0,"No entry holds key text (none says 'key'"+(provKey=="" ? "; the row's key was empty" : " or the row's key")+")",
+				string.Join(" || ",listWithKey));
 			Ui.Opened openedAudit=OpenMenu(ui,"Tools","Audit Trail");
 			if(InspectWindow(ui,checkResult,openedAudit,"FormAudit",null,close:false)) {
 				System.Threading.Thread.Sleep(1000);
@@ -647,7 +654,8 @@ namespace WindowChecksTests.InProc {
 				+"in the copy)");
 			string expectedLog="Map to ICD9 (SNOMED CT window): SNOMED CT codes added to "+(countProblems==0 ? "0 " : "");
 			string log=DataCore.GetScalar("SELECT LogText FROM securitylog WHERE PermType="+(int)EnumPermType.ProblemDefEdit+" ORDER BY SecurityLogNum DESC LIMIT 1");
-			checkResult.Expect(log.StartsWith(expectedLog) && log.EndsWith("problem definitions from their ICD-9 codes."),"Audit Trail, Problem Definition Edit: '"+log+"'",log);
+			checkResult.Expect(log.StartsWith(expectedLog) && log.EndsWith("problem definitions from their ICD-9 codes."),"securitylog (what Tools > Audit Trail shows "
+				+"for Problem Definition Edit; read from the table, the window is not filtered): '"+log+"'",log);
 			ui.Close(hwndSnomed);
 			ui.Close(hwndSetup);
 			//Undo J3's row.
