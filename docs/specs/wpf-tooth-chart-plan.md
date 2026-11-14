@@ -375,6 +375,26 @@ answer. How the package meets its row:
   `GetBitmap`, which builds only the scene there and waits for the render thread, as since TC-1. The other callers of `GetBitmap` (Save to Images
   in `ControlChart`, with its print recolour, the Treatment Plan printout, sheets and their `toothChartImg` parameter, the perio print, the sheet
   editor, automation) need the picture at once and keep it.
+- **Times** (the opt-in `OnScreenTimes_AreMeasuredInAFreshProcess`, `OPMS_CHART_ONSCREEN_TIMES`, on the build PC on the branch merged with
+  `main` at `ca3c8db42`, 2026-11-13: `.git/od-tools/test-results/tc3b-merged-onscreen-times-1.txt`; a fresh process that draws WPF in
+  software as the program does; medians of 21 warm runs at 410x307 and 615x461):
+  - **Before** (the picture made with `GetBitmap` on the UI thread, measured in the same run): the live view's refill with the dashboard
+    visible is 455 and 705 ms of UI-thread work before WPF can draw its frame (TC-3's fix round 3: 451 and 732 ms), against 15 and 15 ms
+    with the dashboard hidden; DirectX 129 and 144 ms with the dashboard visible, 48 and 47 ms hidden.
+  - **After** (the picture made in the background, as the program makes it): the UI thread's work is 22 and 21 ms (slowest 73 and 57 ms).
+    From the refill's start until WPF has presented its frame: 141 and 169 ms with the dashboard visible, against 138 and 172 ms hidden
+    (slowest 177 and 207 ms), so with the dashboard visible a refill now costs what it costs with the dashboard hidden. The picture's render
+    starts after the frame (28 and 34 ms after the refill's start, with the messages run freely; the frame is done at 27 and 34 ms), and the
+    dashboard's picture arrives on the UI thread 424 and 663 ms after the refill's start.
+  - **What the picture's render waits for:** the posted start runs after the refill's on-screen rebuild; with the live view on screen the
+    job then waits for WPF's second render pass after that start (the first commits the refill's frame, and WPF prepares the next only once
+    its render thread has presented it), or for `MillisecondsMaxWaitForFrame` (1 s) when WPF draws no frame. Without that wait the frame was
+    held back until the picture was done: 634 and 936 ms with the job started at once, 508 and 789 ms with it started right after WPF's
+    commit (the first runs on 2026-11-09, `tc3b-onscreen-times-1.txt` and `-2.txt`), against 152 and 203 ms once it waited for the
+    presented frame (`-3.txt`).
+  - **"Draw in software"** (the image host): the screen's own picture is the renderer's software render, so the refill waits for it either
+    way (289 and 572 ms with the picture in the background, 305 and 540 ms with `GetBitmap`, 332 and 570 ms with the dashboard hidden); the
+    dashboard's picture reuses that picture's 3D layer and arrives right after it (301 and 572 ms).
 
 **Why not a separate branch.** The chart must not drift from the stages' rewrites of `ControlChart.cs` and the release files. Dark
 merges keep it on `main`, and the gallery approval comes before each merge (O-27).
