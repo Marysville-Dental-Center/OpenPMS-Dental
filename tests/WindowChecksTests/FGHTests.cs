@@ -12,6 +12,10 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace WindowChecksTests {
 	[TestClass]
 	public class FGHTests {
+		///<summary>RdlDesigner's designerstate.xml as H1 found it (null: there was none, or H did not run): Z2 checks it is again exactly that.</summary>
+		public static byte[] DesignerStateBefore;
+		public static bool HasRunH;
+
 		[TestMethod]
 		public void F1toF4_Dashboard() {
 			WinChkFixture.Begin("F");
@@ -80,7 +84,9 @@ namespace WindowChecksTests {
 			string pathStateBackup=Path.Combine(WinChkEnv.OutFolder,"H-designerstate-before.xml");
 			if(hadState) {
 				File.Copy(pathState,pathStateBackup,true);
+				DesignerStateBefore=File.ReadAllBytes(pathState);
 			}
+			HasRunH=true;
 			try {
 				//RdlDesigner opens the files named on its command line only while it restores its designerstate.xml (RdlDesigner.GetStartupState), so an
 				//empty state is written beside it first (deleted again below; Z2 checks it is gone). It starts from its own folder.

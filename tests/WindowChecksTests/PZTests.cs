@@ -119,7 +119,15 @@ namespace WindowChecksTests {
 			checkResult.Expect(!File.Exists(Path.Combine(WinChkEnv.RepoRoot,"CentralManager","bin","Debug","CentralManagerConfig.xml")),"Z2: the K1 copy is gone");
 			checkResult.Expect(!File.Exists(Path.Combine(WinChkEnv.RepoRoot,"OpenPmsDentalHL7","bin","Debug","FreeDentalConfig.xml")),"Z2: the K8 copy is gone");
 			checkResult.Expect(!Directory.Exists(Path.Combine(Path.GetTempPath(),"stage1-rdl")),"Z2: %TEMP%\\stage1-rdl gone");
-			checkResult.Expect(!File.Exists(Path.Combine(WinChkEnv.RepoRoot,"RdlDesign","bin","Debug","designerstate.xml")),"Z2: RdlDesigner's designerstate.xml gone");
+			string pathDesignerState=Path.Combine(WinChkEnv.RepoRoot,"RdlDesign","bin","Debug","designerstate.xml");
+			if(FGHTests.HasRunH && FGHTests.DesignerStateBefore!=null) {
+				//H found one: it must be there again, byte for byte.
+				checkResult.Expect(File.Exists(pathDesignerState) && File.ReadAllBytes(pathDesignerState).SequenceEqual(FGHTests.DesignerStateBefore),
+					"Z2: RdlDesigner's designerstate.xml is again the one H found, byte for byte");
+			}
+			else {
+				checkResult.Expect(!File.Exists(pathDesignerState),"Z2: RdlDesigner's designerstate.xml gone"+(FGHTests.HasRunH ? " (H wrote it for its start)" : ""));
+			}
 			string pathDebugLogger=Path.Combine(WinChkEnv.DebugFolder,"Logger");
 			checkResult.Note("<dbg>\\Logger: "+(Directory.Exists(pathDebugLogger) ? string.Join(", ",Directory.GetDirectories(pathDebugLogger).Select(Path.GetFileName)) : "none")
 				+" (the program's own start-up logs; left as the program writes them, as stage 0 found)");
