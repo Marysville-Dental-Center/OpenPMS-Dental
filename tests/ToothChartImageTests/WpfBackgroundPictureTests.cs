@@ -1,8 +1,8 @@
 // Tests of the dashboard's picture made in the background (package TC-3b, docs/specs/wpf-tooth-chart-plan.md, section 2's TC-3b notes):
 // ToothChartWrapper.RequestBitmapInBackground returns without waiting for the render, its picture is GetBitmap's picture of the same data pixel for
 // pixel, a burst makes one picture and only the newest request is handed on, the other engines and wrappers that cannot take a picture back give no
-// request, a disposed wrapper or one leaving the engine drops its request, a lost handle asks again, a failed render gives the 2D picture, the caller's
-// thread gets no WPF object, and on a shown chart the screen's update comes first.
+// request, a disposed wrapper or one leaving the engine drops its request, a lost handle asks again, a failed render or pixels that cannot become a
+// bitmap give the 2D picture, the caller's thread gets no WPF object, and on a shown chart the screen's update comes first.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
 using System.Collections.Generic;
@@ -10,6 +10,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Linq;
+using System.Reflection;
 using System.Threading;
 using System.Windows.Forms;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -386,6 +387,91 @@ namespace ToothChartImageTests {
 				}
 				using(Bitmap bitmapAfter=relay.GetBitmap()) {//a render that works again, so the render thread's run of failures ends here
 					Assert.AreEqual(ChartScenes.SizeModule.Size,bitmapAfter.Size);
+				}
+			});
+			Assert.AreEqual(countUnhandled,ToothChartRenderer.CountUnhandledExceptions);
+		}
+
+		[TestMethod]
+		public void PixelsThatCannotBecomeABitmap_GiveThe2DPicture_AndNothingIsThrownOnTheUiThread() {
+			//ToBitmap throws when GDI+ cannot make or fill the bitmap (short of memory or handles, which the 32-bit process meets). The hand-off runs in
+			//a message posted to the UI thread (ReceiveBitmapJob), where an exception would reach Application.ThreadException and end the program, so it
+			//gives the 2D picture instead, logged once, as GetBitmap does when ToBitmap throws. Pixels too short for the size make ToBitmap throw here,
+			//every time.
+			int countUnhandled=ToothChartRenderer.CountUnhandledExceptions;
+			MethodInfo methodInfoGetBitmapOfResult=typeof(ToothChartWrapper).GetMethod("GetBitmapOfBackgroundResult",BindingFlags.Instance|BindingFlags.NonPublic);
+			MethodInfo methodInfoReceive=typeof(ToothChartWrapper).GetMethod("ReceiveBitmapJob",BindingFlags.Instance|BindingFlags.NonPublic);
+			FieldInfo fieldInfoGeneration=typeof(ToothChartWrapper).GetField("_generationBitmapJob",BindingFlags.Instance|BindingFlags.NonPublic);
+			FieldInfo fieldInfoScene=typeof(ToothChartBitmapRequest).GetField("Scene",BindingFlags.Instance|BindingFlags.NonPublic);
+			Assert.IsNotNull(methodInfoGetBitmapOfResult);
+			Assert.IsNotNull(methodInfoReceive);
+			Assert.IsNotNull(fieldInfoGeneration);
+			Assert.IsNotNull(fieldInfoScene);
+			StaRunner.Run(() => {
+				using ToothChartWrapper wrapper=CreateHiddenWrapperWithHandle(ChartScenes.SizeModule.Size);
+				ToothChartRelay relay=WpfCharts.CreateRelay(wrapper);
+				ChartScenes.Prepare(relay,ChartScenes.Get("restored-adult"),ChartColorSet.Module);
+				Bitmap bitmap2D;
+				ToothChartRenderer.ActionJobStartForTests=kind => {
+					if(kind==ToothChartRenderer.JobRender) {
+						throw new InvalidOperationException("A test's failed render.");
+					}
+				};
+				try {
+					bitmap2D=relay.GetBitmap();//GetBitmap's fallback: the 2D chart's picture of the data
+				}
+				finally {
+					ToothChartRenderer.ActionJobStartForTests=null;
+				}
+				using(bitmap2D) {
+					ToothChartRenderResult resultBad=new ToothChartRenderResult();
+					resultBad.Size=ChartScenes.SizeModule.Size;
+					resultBad.PixelsBgra=new byte[4];
+					try {
+						resultBad.ToBitmap().Dispose();
+						Assert.Fail("ToBitmap of pixels too short for the size throws.");
+					}
+					catch(IndexOutOfRangeException) {
+						//as GDI+ throws OutOfMemoryException or ArgumentException under pressure
+					}
+					//The picture of such a result.
+					int countMessages=ToothChartWrapper.GetCountFallbackMessages();
+					using(Bitmap bitmap=(Bitmap)methodInfoGetBitmapOfResult.Invoke(wrapper,new object[] { resultBad })) {
+						Assert.IsNotNull(bitmap);
+						AssertSamePixels(bitmap2D,bitmap,"The 2D chart's picture, as GetBitmap gives when ToBitmap throws");
+					}
+					List<string> listMessages=ToothChartWrapper.GetFallbackMessagesSince(countMessages);
+					Assert.AreEqual(1,listMessages.Count,string.Join("; ",listMessages));
+					StringAssert.Contains(listMessages[0],"in the background");
+					StringAssert.Contains(listMessages[0],nameof(IndexOutOfRangeException));
+					//The same result handed to a request's action, as the render thread's result arrives on the UI thread.
+					List<Bitmap> listBitmaps=new List<Bitmap>();
+					ToothChartBitmapRequest toothChartBitmapRequest;
+					using(RenderJobHold renderJobHold=new RenderJobHold(ToothChartRenderer.JobRender)) {
+						toothChartBitmapRequest=Request(relay,listBitmaps);
+						Assert.IsTrue(WpfRendererTests.PumpUntil(() => renderJobHold.WaitEntered(0),20000),"The request's job took its scene.");
+						countMessages=ToothChartWrapper.GetCountFallbackMessages();
+						methodInfoReceive.Invoke(wrapper,new object[] { fieldInfoScene.GetValue(toothChartBitmapRequest),resultBad,
+							(int)fieldInfoGeneration.GetValue(wrapper) });
+						Assert.IsTrue(toothChartBitmapRequest.IsDone,"The request got a picture.");
+						renderJobHold.Release();
+					}
+					ToothChartRenderer.Instance.WaitIdle();
+					WpfRendererTests.PumpUntil(() => false,300);//the held job's own result arrives and finds no request
+					listMessages=ToothChartWrapper.GetFallbackMessagesSince(countMessages);
+					Assert.AreEqual(1,listMessages.Count,string.Join("; ",listMessages));
+					using(Bitmap bitmap=listBitmaps.Single()) {
+						AssertSamePixels(bitmap2D,bitmap,"The request's picture is the 2D chart's");
+					}
+				}
+				//The wrapper's next request is made as usual.
+				ChartScenes.Prepare(relay,ChartScenes.Get("treatment-plan"),ChartColorSet.Module);
+				using(Bitmap bitmapExpected=relay.GetBitmap()) {
+					List<Bitmap> listBitmapsNext=new List<Bitmap>();
+					ToothChartBitmapRequest toothChartBitmapRequestNext=Request(relay,listBitmapsNext);
+					Assert.IsTrue(WpfRendererTests.PumpUntil(() => toothChartBitmapRequestNext.IsDone,20000),"The next picture arrived.");
+					using Bitmap bitmap=listBitmapsNext.Single();
+					AssertSamePixels(bitmapExpected,bitmap,"The next request's picture is GetBitmap's");
 				}
 			});
 			Assert.AreEqual(countUnhandled,ToothChartRenderer.CountUnhandledExceptions);
