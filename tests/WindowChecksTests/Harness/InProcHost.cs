@@ -104,6 +104,13 @@ namespace WindowChecksTests {
 			return checkResultRun;
 		}
 
+		///<summary>The row number (or flag) a check recorded under the name, or 0.</summary>
+		public static long GetKey(string name) {
+			lock(_dictKeys) {
+				return _dictKeys.TryGetValue(name,out long value) ? value : 0;
+			}
+		}
+
 		///<summary>True when the caller should start a new session before its next check: a check left this one stuck.</summary>
 		public bool NeedsNewSession {
 			get {

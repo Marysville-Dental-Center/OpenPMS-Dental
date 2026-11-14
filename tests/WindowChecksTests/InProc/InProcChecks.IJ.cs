@@ -46,18 +46,102 @@ namespace WindowChecksTests.InProc {
 			long procNum=AddedKey("procedurelog","ProcNum",procNumBefore,"PatNum=1 AND ToothNum='30' AND ProcStatus=1");
 			SetKey(checkResult,"IPREP.ProcNum",procNum);
 			checkResult.Note("The prep's procedure: ProcNum "+(procNum==0 ? "none found above "+procNumBefore : procNum.ToString())+" (IUNDO deletes only this one)");
+			//Can DirectX draw in this session? While the screen is locked it has no device: every host's chart picture throws. Then the copy draws the
+			//Simple 2D chart for the group (File > Graphics, as I6 does), so the hosts' code still runs; IJTests puts DirectX back before I11.
+			Control toothChartWrapper=(Control)Ui.GetField(controlChart,"toothChartWrapper");
+			string whyNot=WhyNotDirectX(ui,toothChartWrapper);
+			if(whyNot=="") {
+				SetKey(checkResult,"I.Simple2D",0);
+				checkResult.Note("DirectX draws in this session (the chart's off-screen render works)");
+				return;
+			}
+			string message=SetGraphics(ui,checkResult,isSimple2D:true);
+			GoToModule(ui,EnumModuleType.Account);
+			GoToModule(ui,EnumModuleType.Chart);
+			string engine=ui.Invoke(() => toothChartWrapper.GetType().GetProperty("Engine").GetValue(toothChartWrapper).ToString());
+			if(checkResult.Expect(message=="" && engine=="Simple2D","DirectX cannot draw here ("+whyNot+"): File > Graphics > Simple 2D > Save; the Chart now draws "
+				+engine+" for group I (DirectX is put back before I11)",message))
+			{
+				SetKey(checkResult,"I.Simple2D",1);
+			}
 		}
 
-		///<summary>B5's on-screen test: the DirectX chart's own window printed (PrintWindow) is drawn only while the screen shows it (not locked). Saves
-		///the picture (listed, not failed when blank) and returns whether it is drawn.</summary>
-		private static bool ShotChartWindow(Ui ui,CheckResult checkResult,Control toothChartWrapper,string fileName) {
+		///<summary>B5's on-screen test: the DirectX chart's own window printed (PrintWindow) is drawn only while the screen shows it (not locked). A
+		///window a fallback engine drew does not count, so the chart must also really draw in DirectX (WhyNotDirectX). Saves the picture (listed, not
+		///failed when blank) and returns "" when the window shows the DirectX picture, otherwise why not.</summary>
+		private static string ShotChartWindow(Ui ui,CheckResult checkResult,Control toothChartWrapper,string fileName) {
 			IntPtr hwndChart=ui.Invoke(() => toothChartWrapper.Handle);
 			ShotInfo shotInfo=ui.Shot(hwndChart,fileName);
 			if(shotInfo.Error=="") {
 				checkResult.ListShots.Add(shotInfo.FileName);
 			}
-			checkResult.Note("The chart's own window printed (PrintWindow, B5's on-screen test): "+shotInfo+(shotInfo.IsDrawn ? ", drawn" : ", blank"));
-			return shotInfo.IsDrawn;
+			string whyNot=shotInfo.IsDrawn ? WhyNotDirectX(ui,toothChartWrapper) : "its window printed blank, as a DirectX surface does while the screen is locked";
+			checkResult.Note("The chart's own window printed (PrintWindow, B5's on-screen test): "+shotInfo+(whyNot=="" ? ", drawn by DirectX" : ", not counted: "+whyNot));
+			return whyNot;
+		}
+
+		///<summary>"" while the chart draws in DirectX: its engine is DirectX, no fallback is logged in this session, and its off-screen render
+		///(GetBitmap) works, which throws when DirectX has no device (as while the session is locked); otherwise why not.</summary>
+		public static string WhyNotDirectX(Ui ui,Control toothChartWrapper) {
+			return ui.Invoke(() => {
+				string engine=toothChartWrapper.GetType().GetProperty("Engine").GetValue(toothChartWrapper).ToString();
+				if(engine!="DirectX") {
+					return "the chart draws with "+engine+", not DirectX";
+				}
+				List<string> listFallbacks=(List<string>)Ui.CallStatic(toothChartWrapper.GetType(),"GetFallbackMessages");
+				if(listFallbacks.Count>0) {
+					return "a tooth chart fallback was logged in this session ("+listFallbacks[listFallbacks.Count-1]+")";
+				}
+				try {
+					using Bitmap bitmap=(Bitmap)Ui.Call(toothChartWrapper,"GetBitmap");
+				}
+				catch(Exception ex) {
+					return "DirectX has no device in this session: its off-screen render (GetBitmap) threw "+ex.GetBaseException().GetType().Name;
+				}
+				return "";
+			});
+		}
+
+		///<summary>True when IPREP found that DirectX cannot draw in this session (the screen is locked) and switched the copy to the Simple 2D chart, so
+		///the hosts' code still runs: the DirectX picture itself is then an item for a person.</summary>
+		public static bool IsSimple2DRun {
+			get {
+				return GetKey("I.Simple2D")==1;
+			}
+		}
+
+		public const string TEXT_SIMPLE2D="the DirectX chart itself: this run drew the Simple 2D chart, because DirectX has no device in this session (the screen "
+			+"is locked); an on-screen pass at an unlocked screen";
+
+		///<summary>File > Graphics > DirectX 9 or Simple 2D (pie shapes) > Save. Returns "" when the window closed, or the message Save showed (answered).
+		///</summary>
+		private static string SetGraphics(Ui ui,CheckResult checkResult,bool isSimple2D) {
+			Ui.Opened openedGraphics=OpenMenu(ui,"File","Graphics");
+			if(!InspectWindow(ui,checkResult,openedGraphics,"FormGraphics",null,close:false)) {
+				return "File > Graphics did not open";
+			}
+			IntPtr hwndGraphics=openedGraphics.Hwnd;
+			ui.Invoke(() => ((RadioButton)FindControl(ui,hwndGraphics,isSimple2D ? "radioSimpleChart" : "radioDirectXChart",true)).Checked=true);
+			List<IntPtr> listBefore=ui.GetWindows();
+			ui.Post("Save",() => ((System.Windows.Forms.Button)FindControl(ui,hwndGraphics,"butSave",true)).PerformClick());
+			string message="";
+			System.Diagnostics.Stopwatch stopwatch=System.Diagnostics.Stopwatch.StartNew();
+			while(Native.IsWindow(hwndGraphics) && Native.IsWindowVisible(hwndGraphics) && stopwatch.Elapsed.TotalSeconds<30) {
+				IntPtr hwndMessage=ui.GetWindows().FirstOrDefault(x => !listBefore.Contains(x) && Native.IsDialogClass(x));
+				if(hwndMessage!=IntPtr.Zero) {
+					message=Native.GetDialogMessage(hwndMessage).Trim();
+					ui.Close(hwndMessage);
+					break;
+				}
+				System.Threading.Thread.Sleep(200);
+			}
+			if(message!="" && Native.IsWindow(hwndGraphics)) {
+				ui.Close(hwndGraphics);
+			}
+			ui.WaitGone(hwndGraphics,15000);
+			openedGraphics.Posted.Wait();
+			ui.CloseStrayWindows(checkResult);
+			return message;
 		}
 
 		///<summary>B5's on-screen test on its own, for I11 (whose program runs out of process): the Chart's DirectX window printed in this session.</summary>
@@ -65,7 +149,9 @@ namespace WindowChecksTests.InProc {
 			GoToModule(ui,EnumModuleType.Chart);
 			Control toothChartWrapper=(Control)Ui.GetField(ModuleControl("controlChart"),"toothChartWrapper");
 			System.Threading.Thread.Sleep(2000);
-			SetKey(checkResult,"ISCREEN.IsDrawn",ShotChartWindow(ui,checkResult,toothChartWrapper,"I11-screen.png") ? 1 : 0);
+			string whyNot=ShotChartWindow(ui,checkResult,toothChartWrapper,"I11-screen.png");
+			SetKey(checkResult,"ISCREEN.IsDrawn",whyNot=="" ? 1 : 0);
+			checkResult.Note("ISCREEN: "+(whyNot=="" ? "the DirectX chart's window is drawn" : whyNot));
 		}
 
 		public static void CheckI1(Ui ui,CheckResult checkResult) {
@@ -77,27 +163,34 @@ namespace WindowChecksTests.InProc {
 				using Bitmap bitmap=(Bitmap)Ui.Call(toothChartWrapper,"GetBitmap");
 				return WindowChecksTests.Shot.Bitmap(bitmap,"I1-chart.png");
 			});
-			checkResult.AddShot(shotInfo,"The chart after leaving the Chart and coming back (its DirectX picture)");
+			checkResult.AddShot(shotInfo,"The chart after leaving the Chart and coming back ("+(IsSimple2DRun ? "its Simple 2D picture" : "its DirectX picture")+")");
 			checkResult.ForPerson("the filling on 30 in I1-chart.png, and the date slider below the chart (moving it is mouse work)");
+			if(IsSimple2DRun) {
+				checkResult.ForPerson(TEXT_SIMPLE2D);
+			}
 			Ui.Opened opened=ui.Open("Tooth Chart > Show Big",() => Ui.Call(controlChart,"menuItemChartBig_Click",controlChart,EventArgs.Empty));
 			if(InspectWindow(ui,checkResult,opened,"FormToothChartingBig",null,close:false)) {
 				System.Threading.Thread.Sleep(2000);
 				checkResult.AddShot(ui.Shot(opened.Hwnd,"I1-big.png"),"The big chart (PrintWindow)");
 				//B5's on-screen test on the big chart's own DirectX window: drawn means the screen shows it and I1-big.png holds the real picture.
 				Control toothChartWrapperBig=ui.Invoke(() => (Control)Ui.GetField(Control.FromHandle(opened.Hwnd),"toothChartWrapper"));
-				if(toothChartWrapperBig!=null && ShotChartWindow(ui,checkResult,toothChartWrapperBig,"I1-big-chart.png")) {
+				string whyNot=toothChartWrapperBig==null ? "no chart found in the window" : ShotChartWindow(ui,checkResult,toothChartWrapperBig,"I1-big-chart.png");
+				if(whyNot=="") {
 					checkResult.Verified("The big chart's own DirectX window prints drawn (I1-big-chart.png; B5's on-screen test: the screen is not locked)");
 					checkResult.ForPerson("the big chart is the same picture as the Chart's (I1-big.png, I1-chart.png)");
 				}
 				else {
-					checkResult.ForPerson("the big chart is the same picture (its DirectX window printed blank in this session, I1-big-chart.png, as it does while the "
-						+"screen is locked)");
+					checkResult.ForPerson("the big chart is the same picture on screen (I1-big.png; its window does not show the DirectX picture in this session: "
+						+whyNot+")");
 				}
 				checkResult.Expect(ui.Close(opened.Hwnd),"The big chart closes");
 			}
 		}
 
 		public static void CheckI2(Ui ui,CheckResult checkResult) {
+			if(IsSimple2DRun) {
+				checkResult.ForPerson(TEXT_SIMPLE2D);
+			}
 			GoToModule(ui,EnumModuleType.Chart);
 			Control controlChart=ModuleControl("controlChart");
 			int countBefore=Count("SELECT COUNT(*) FROM document WHERE PatNum=1");
@@ -188,6 +281,20 @@ namespace WindowChecksTests.InProc {
 		}
 
 		public static void CheckI7(Ui ui,CheckResult checkResult) {
+			if(IsSimple2DRun) {
+				//DirectX has no device here: its Save tests the device format (ToothChartWrapper.TestDirectXFormat), which cannot pass. Read what it says
+				//and leave the copy on Simple 2D for the rest of the group (IJTests puts DirectX back before I11).
+				string message=SetGraphics(ui,checkResult,isSimple2D:false);
+				checkResult.Note("DirectX 9 > Save without a DirectX device: "+(message=="" ? "no message" : "'"+message+"'"));
+				checkResult.ForPerson("File > Graphics > DirectX 9 > Save: no error and the Chart draws in DirectX again, at an unlocked screen (here DirectX has no "
+					+"device: Save said '"+message+"')");
+				string engineNow=ui.Invoke(() => {
+					Control toothChartWrapperNow=(Control)Ui.GetField(ModuleControl("controlChart"),"toothChartWrapper");
+					return toothChartWrapperNow.GetType().GetProperty("Engine").GetValue(toothChartWrapperNow).ToString();
+				});
+				checkResult.Note("The Chart draws "+engineNow);
+				return;
+			}
 			Ui.Opened opened=OpenMenu(ui,"File","Graphics");
 			if(!InspectWindow(ui,checkResult,opened,"FormGraphics",null,close:false)) {
 				return;

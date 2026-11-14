@@ -85,6 +85,9 @@ namespace WindowChecksTests.InProc {
 
 		#region I3
 		public static void CheckI3(Ui ui,CheckResult checkResult) {
+			if(IsSimple2DRun) {
+				checkResult.ForPerson(TEXT_SIMPLE2D);
+			}
 			int countDocsBefore=Count("SELECT COUNT(*) FROM document WHERE PatNum=1");
 			GoToModule(ui,EnumModuleType.TreatPlan);
 			Control controlTreat=ModuleControl("controlTreat");
@@ -189,6 +192,9 @@ namespace WindowChecksTests.InProc {
 
 		#region I4
 		public static void CheckI4(Ui ui,CheckResult checkResult) {
+			if(IsSimple2DRun) {
+				checkResult.ForPerson(TEXT_SIMPLE2D);
+			}
 			int countSheetDefs=Count("SELECT COUNT(*) FROM sheetdef");
 			//Patient #1's referral attachments before: the undo removes only the one this check adds and compares with this count.
 			int countRefAttachBefore=Count("SELECT COUNT(*) FROM refattach WHERE PatNum=1");
@@ -331,6 +337,9 @@ namespace WindowChecksTests.InProc {
 		private static long _perioExamNum;
 
 		public static void CheckI5(Ui ui,CheckResult checkResult) {
+			if(IsSimple2DRun) {
+				checkResult.ForPerson(TEXT_SIMPLE2D);
+			}
 			Ui.Opened openedSetup=OpenMenu(ui,"Tools","Patient Dashboards","Dashboard Setup");
 			if(!InspectWindow(ui,checkResult,openedSetup,"FormDashboardWidgetSetup",null,close:false)) {
 				return;
@@ -422,6 +431,16 @@ namespace WindowChecksTests.InProc {
 			SetKey(checkResult,"I6.CountPerioBefore",countBefore);
 			checkResult.Expect(Count("SELECT COUNT(*) FROM perioexam WHERE PatNum=1")==countBefore+1 && _perioExamNum>0,"Add: a new exam (PerioExamNum "+_perioExamNum
 				+", above "+perioExamNumBefore+"), selected");
+			if(IsSimple2DRun) {
+				//Graphical perio needs DirectX, which has no device here: the copy already draws Simple 2D, so Graphical gives the 2D message below.
+				checkResult.ForPerson("Graphical: the graphical perio chart draws (it needs DirectX, which has no device in this session: the screen is locked); an "
+					+"on-screen pass");
+				ui.Close(hwndPerio);
+				openedPerio.Posted.Wait();
+				CheckPerioMessage2D(ui,checkResult);
+				checkResult.Note("The exam stays until I10; the copy stays on Simple 2D until IJTests puts DirectX back before I11");
+				return;
+			}
 			Ui.Opened openedGraphical=OpenByButton(ui,hwndPerio,"butGraphical");
 			if(InspectWindow(ui,checkResult,openedGraphical,"FormPerioGraphical",null,close:false)) {
 				System.Threading.Thread.Sleep(2500);
@@ -432,12 +451,13 @@ namespace WindowChecksTests.InProc {
 				checkResult.AddShot(ui.Shot(openedGraphical.Hwnd,"I6-perio-window.png"),"The graphical perio window (PrintWindow)");
 				//B5's on-screen test on the perio chart's own DirectX window: drawn means the screen shows it, so I6-perio-window.png is what a person sees.
 				Control toothChartWrapperPerio=ui.Invoke(() => (Control)Ui.GetField(Control.FromHandle(openedGraphical.Hwnd),"toothChartWrapper"));
-				if(toothChartWrapperPerio!=null && ShotChartWindow(ui,checkResult,toothChartWrapperPerio,"I6-perio-chart.png")) {
+				string whyNot=toothChartWrapperPerio==null ? "no chart found in the window" : ShotChartWindow(ui,checkResult,toothChartWrapperPerio,"I6-perio-chart.png");
+				if(whyNot=="") {
 					checkResult.Verified("The graphical perio chart's own DirectX window prints drawn (I6-perio-chart.png; B5's on-screen test: the screen is not locked)");
 				}
 				else {
-					checkResult.ForPerson("the graphical perio chart on screen (its DirectX window printed blank in this session, I6-perio-chart.png, as it does while "
-						+"the screen is locked; I6-perio.png is its own picture)");
+					checkResult.ForPerson("the graphical perio chart on screen (its window does not show the DirectX picture in this session: "+whyNot+"; I6-perio.png "
+						+"is its own picture)");
 				}
 				checkResult.Expect(ui.Close(openedGraphical.Hwnd),"The graphical perio window closes");
 			}
@@ -454,7 +474,12 @@ namespace WindowChecksTests.InProc {
 				openedGraphics.Posted.Wait();
 				ui.CloseStrayWindows(checkResult);
 			}
-			//Perio Chart > the exam > Graphical: the message.
+			CheckPerioMessage2D(ui,checkResult);
+			checkResult.Note("The exam stays until I10, the 2D setting until I7");
+		}
+
+		///<summary>Perio Chart > the exam > Graphical with the Simple 2D chart: exactly the 2D message.</summary>
+		private static void CheckPerioMessage2D(Ui ui,CheckResult checkResult) {
 			GoToModule(ui,EnumModuleType.Chart);
 			Ui.Opened openedPerio2=OpenChartPerio(ui,ModuleControl("controlChart"));
 			if(InspectWindow(ui,checkResult,openedPerio2,"FormPerio",null,close:false)) {
@@ -468,8 +493,10 @@ namespace WindowChecksTests.InProc {
 				checkResult.Expect(text=="In the Graphics setup window, you must first select DirectX.","Graphical with Simple 2D: exactly 'In the Graphics setup window, you "
 					+"must first select DirectX.'",text);
 				ui.CloseStrayWindows(checkResult);
+				if(Native.IsWindow(openedPerio2.Hwnd)) {
+					ui.Close(openedPerio2.Hwnd);
+				}
 			}
-			checkResult.Note("The exam stays until I10, the 2D setting until I7");
 		}
 
 		private static Ui.Opened OpenChartPerio(Ui ui,Control controlChart) {
@@ -483,6 +510,9 @@ namespace WindowChecksTests.InProc {
 		///<summary>I10 in a new session (the program started again): the dashboard closed if open, Dashboard Setup > the copy's Name cell: the sheet
 		///editor draws the toothChart field; Delete (confirm); Save. Perio Chart > the I6 exam > Delete.</summary>
 		public static void CheckI10(Ui ui,CheckResult checkResult) {
+			if(IsSimple2DRun) {
+				checkResult.ForPerson(TEXT_SIMPLE2D);
+			}
 			//The rows I5 and I6 made, by their keys (this is a new session: the statics of I5's session are gone). No key: nothing of theirs is deleted.
 			_sheetDefNumWidget=GetKey("I5.SheetDefNumWidget");
 			_perioExamNum=GetKey("I6.PerioExamNum");

@@ -85,6 +85,11 @@ namespace WindowChecksTests {
 			//The program's own computer name (ODEnvironment.MachineName: the client's name in a remote session), whose computerpref row it reads;
 			//escaped as in PZTests.
 			string computerName=CodeBase.ODEnvironment.MachineName.Replace("'","''");
+			if(InProcHost.GetKey("I.Simple2D")==1) {
+				//IPREP drew Simple 2D for the group (DirectX had no device): DirectX is put back for I11's start-up search, as I7 would have done.
+				ScratchDb.Exec("UPDATE computerpref SET GraphicsSimple=0 WHERE ComputerName='"+computerName+"'");
+				checkResultI11.Note("GraphicsSimple set back to 0 (DirectX) in the copy before the start: group I drew Simple 2D, as DirectX had no device");
+			}
 			if(WinChkFixture.IsBudgetSpent) {
 				checkResultI11.Fail("Not run: "+WinChkFixture.BudgetSpentText);
 			}
@@ -103,6 +108,11 @@ namespace WindowChecksTests {
 				}
 				string formatAfter=ScratchDb.Scalar("SELECT DirectXFormat FROM computerpref WHERE ComputerName='"+computerName+"'");
 				checkResultI11.Expect(formatAfter!="","The start-up search saved a DirectXFormat ("+formatAfter+")");
+				if(formatAfter=="invalid") {
+					//The search found no format that works: DirectX has no device in this session (the screen is locked), so the chart falls back.
+					checkResultI11.ForPerson("the start-up search finding a working DirectX format: here it saved 'invalid' (no DirectX device in this session, "
+						+"the screen is locked); at an unlocked screen it saves a format");
+				}
 				checkResultI11.Note("Before: "+formatBefore+(formatAfter==formatBefore ? " (the same)" : "; restored"));
 				if(formatAfter!=formatBefore) {
 					ScratchDb.Exec("UPDATE computerpref SET DirectXFormat='"+formatBefore.Replace("'","''")+"' WHERE ComputerName='"+computerName+"'");
