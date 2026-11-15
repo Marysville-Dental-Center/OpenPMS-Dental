@@ -804,3 +804,4 @@ technology, and they cannot be used to attest or to submit to any program** (the
 - Each refresh first removes the measure engines' work tables that a calculation stopped half way left in the database more than a day ago
   (`tempehrmeasure...`, `tempehrquality...`); a newer one may belong to another workstation's calculation and stays.
 - Nothing is stored: the `ehrmeasure` table keeps its rows as they are.
+- **Removed on the owner's decisions of 2026-11-14:** the 2014 clinical quality measure versions and their QRDA export, and the 2011 Edition quality-measure window (no button since Open Dental) with its PQRI XML export; the 2027 versions replace them, and until they are in the program the EHR window's **Quality Meas** button says so. No saved data is changed.
