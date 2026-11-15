@@ -1,6 +1,7 @@
-// The EHR-2 declarations and sources, with no database (docs/specs/ehr-rebuild-plan.md, EHR-2): the manifest's nine measures are the engine's
-// (QualityMeasures.GetEMeasureNum and GetEMeasureVersion, read by reflection, so QualityMeasures.cs is not edited) and its OIDs are exactly the
-// value-set OIDs the source names; the step's level and the ehrcode declaration, the table class and its CRUD, the schema verifier's lists,
+// The EHR-2 declarations and sources, with no database (docs/specs/ehr-rebuild-plan.md, EHR-2): the manifest's nine measures are the 2014
+// versions the deleted engine reported, and its OIDs are every value-set OID the source names plus those only the deleted engine named
+// (EHR-6b deleted QualityMeasures.cs, docs/specs/ehr-2027-measures-plan.md; EHR-6a builds the manifest from the 2027 catalog); the step's level
+// and the ehrcode declaration, the table class and its CRUD, the schema verifier's lists,
 // the adoption rule and the README; the stale comments; and the rule of section 6 that no fixture in tests/EhrTests holds a literal of a code
 // from the engine's own lists.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
@@ -19,32 +20,26 @@ namespace EhrTests {
 	[TestClass]
 	public class ValueSetSourceTests {
 		private const string TABLE="ehrcode";
+		///<summary>The manifest's value sets that only the deleted 2014 engine named (EHR-6b, docs/port-notes/EHR-6b.md).</summary>
+		private const int COUNT_OIDS_ONLY_THE_DELETED_ENGINE_NAMED=53;
+		///<summary>The codes the fixture guard finds in EhrMeasures.cs alone, since EHR-6b deleted QualityMeasures.cs (docs/port-notes/EHR-6b.md).</summary>
+		private const int COUNT_ENGINE_CODES_FLOOR=21;
 
 		#region The manifest
 		[TestMethod]
-		public void Manifest_TheNineMeasures_AreTheVersionsTheEngineReports() {
-			Type typeQualityType=typeof(QualityMeasures).Assembly.GetType("OpenPmsDentalBusiness.QualityType2014",throwOnError:true);
-			MethodInfo methodNum=typeof(QualityMeasures).GetMethod("GetEMeasureNum",BindingFlags.NonPublic|BindingFlags.Static);
-			MethodInfo methodVersion=typeof(QualityMeasures).GetMethod("GetEMeasureVersion",BindingFlags.NonPublic|BindingFlags.Static);
-			Assert.IsNotNull(methodNum);
-			Assert.IsNotNull(methodVersion);
-			List<string> listEngine=new List<string>();
-			foreach(object qualityType in Enum.GetValues(typeQualityType)) {
-				string measureId="CMS"+(string)methodNum.Invoke(null,new[] { qualityType })+"v"+(string)methodVersion.Invoke(null,new[] { qualityType });
-				if(!listEngine.Contains(measureId)) {
-					listEngine.Add(measureId);
-				}
-			}
-			CollectionAssert.AreEquivalent(listEngine,EhrValueSetImport.ArrayMeasureIds);
+		public void Manifest_TheNineMeasures_AreThe2014VersionsTheDeletedEngineReported() {
+			//The engine that reported them (QualityMeasures.GetEMeasureNum and GetEMeasureVersion, read here by reflection until EHR-6b) is deleted.
 			CollectionAssert.AreEqual(new[] { "CMS68v3","CMS69v2","CMS74v3","CMS75v2","CMS127v2","CMS138v2","CMS147v2","CMS155v2","CMS165v2" },
 				EhrValueSetImport.ArrayMeasureIds,"Section 8.1 of the plan.");
 		}
 
 		///<summary>The value-set OIDs the source names: every OID under 2.16.840.1.113883.3 (the arc VSAC's value sets of these measures use) in a
 		///string literal of the program's code, except the legacy OID root of OIDInternals and the Source of Payment Typology code system
-		///(2.16.840.1.113883.3.221.5, a code system), and the PHDSC Payer value set (2.16.840.1.114222.4.11.3591).</summary>
+		///(2.16.840.1.113883.3.221.5, a code system), and the PHDSC Payer value set (2.16.840.1.114222.4.11.3591). Since EHR-6b deleted the 2014
+		///engine (QualityMeasures.cs), the manifest also holds the value sets only that engine named: EHR-6b's port note records their count, and
+		///EHR-6a's manifest from the 2027 catalog replaces them.</summary>
 		[TestMethod]
-		public void Manifest_ItsOids_AreExactlyTheValueSetOidsTheSourceNames() {
+		public void Manifest_ItsOids_AreTheValueSetOidsTheSourceNames_AndTheDeletedEnginesOwn() {
 			Regex regexOid=new Regex(@"^(2\.16\.840\.1\.113883\.3\.[0-9.]*[0-9]|2\.16\.840\.1\.114222\.4\.11\.[0-9.]*[0-9])$");
 			Dictionary<string,List<string>> dictOidFiles=new Dictionary<string,List<string>>();
 			foreach(string path in TestPaths.ProgramSourceFiles().Where(x => TestPaths.Relative(x).StartsWith(@"OpenPmsDental\",StringComparison.OrdinalIgnoreCase)
@@ -69,7 +64,8 @@ namespace EhrTests {
 			List<string> listNotInSource=listManifest.Where(x => !dictOidFiles.ContainsKey(x)).OrderBy(x => x).ToList();
 			Assert.AreEqual(0,listMissingFromManifest.Count,"Named in the source, not in the manifest: "
 				+string.Join("; ",listMissingFromManifest.Select(x => x+" ("+string.Join(", ",dictOidFiles[x].Distinct())+")")));
-			Assert.AreEqual(0,listNotInSource.Count,"In the manifest, named nowhere in the source: "+string.Join("; ",listNotInSource));
+			Assert.AreEqual(COUNT_OIDS_ONLY_THE_DELETED_ENGINE_NAMED,listNotInSource.Count,"In the manifest, named nowhere in the source since the 2014 "
+				+"engine was deleted ("+listNotInSource.Count+"): "+string.Join("; ",listNotInSource));
 			Assert.AreEqual(79,listManifest.Count,"The two surveys counted 79 and 81 (section 7, EHR-2 step 3).");
 		}
 
@@ -182,14 +178,15 @@ namespace EhrTests {
 
 		#region Fixtures
 		///<summary>Section 6 of the plan: no fixture of tests/EhrTests holds a literal of a code from the engine's own lists (the SNOMED CT lab-result
-		///codes of EhrMeasures, the two CDT codes of the Demographics measure, the RxNorm and CPT lists of QualityMeasures), so nothing licensed is
-		///added and no fixture changes if counsel has those lists moved to the office's import (E-8, E-9). The codes are taken from the engine's
-		///string literals at run time: numbers of five or more digits and CDT codes (D and four digits).</summary>
+		///codes of EhrMeasures, the two CDT codes of the Demographics measure), so nothing licensed is added and no fixture changes if counsel has
+		///those lists moved to the office's import (E-8, E-9). The codes are taken from the engine's string literals at run time: numbers of five or
+		///more digits and CDT codes (D and four digits). Since EHR-6b deleted QualityMeasures.cs (its RxNorm and CPT lists), the guard reads
+		///EhrMeasures.cs only, with the floor lowered to what that file yields (section 10.1 of docs/specs/ehr-2027-measures-plan.md).</summary>
 		[TestMethod]
 		public void Fixtures_HoldNoLiteralOfACodeFromTheEnginesLists() {
 			Regex regexCode=new Regex(@"(?<![0-9A-Za-z.])(D\d{4}|\d{5,9})(?![0-9A-Za-z.])");
 			HashSet<string> setEngineCodes=new HashSet<string>(StringComparer.Ordinal);
-			foreach(string path in new[] { @"OpenPmsDentalBusiness\Data Interface\EhrMeasures.cs",@"OpenPmsDentalBusiness\Db Multi Table\QualityMeasures.cs" }) {
+			foreach(string path in new[] { @"OpenPmsDentalBusiness\Data Interface\EhrMeasures.cs" }) {
 				CSharpSource cSharpSource=CSharpSource.Read(TestPaths.ReadSource(path));
 				foreach(string literal in cSharpSource.ListStringLiterals) {
 					if(Regex.IsMatch(literal,@"^\s*[0-9.]+\s*$") && literal.Count(x => x=='.')>1) {
@@ -200,7 +197,7 @@ namespace EhrTests {
 					}
 				}
 			}
-			Assert.IsTrue(setEngineCodes.Count>50,"The engine's lists were found: "+setEngineCodes.Count);
+			Assert.IsTrue(setEngineCodes.Count>=COUNT_ENGINE_CODES_FLOOR,"The engine's lists were found: "+setEngineCodes.Count);
 			Assert.IsTrue(setEngineCodes.Any(x => x.StartsWith("D")),"The CDT codes of the Demographics measure are among them.");
 			List<string> listProblems=new List<string>();
 			foreach(string path in Directory.GetFiles(TestPaths.Combine(@"tests\EhrTests"),"*.*",SearchOption.AllDirectories)

@@ -2,8 +2,8 @@
 // provider "reports EHR" when an ehrprovkey row has their last and first name, and the key text is optional and never checked. On the scratch
 // database of Support/ScratchDb.cs (synthetic providers with made-up names): blank names, a name no provider has, the two-digit year and an empty
 // key, the names compared as the measure queries compare them, the radiology alert preference, the EHR window's note, and HasProvHadKey through
-// the Middle Tier mock. Source checks: the windows no longer ask for a valid key, and the two deliberate removals (the dead butPatList14 handler
-// and the quarterly-key stub, E-5) are gone.
+// the Middle Tier mock. Source checks: the windows no longer ask for a valid key, and the deliberate removals (the dead butPatList14 handler
+// and the quarterly-key stub, E-5; ProvKeyIsValid and the dead butQuality_Click with the 2011 and 2014 quality-measure windows, EHR-6b) are gone.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
 using System.Collections.Generic;
@@ -319,7 +319,7 @@ namespace EhrTests {
 		}
 
 		[TestMethod]
-		public void TheEhrWindow_LosesOnlyTheTwoDeliberateRemovals() {
+		public void TheEhrWindow_LosesOnlyTheDeliberateRemovals() {
 			string source=TestPaths.ReadSource(@"OpenPmsDental\Forms\FormEHR.cs");
 			string designer=TestPaths.ReadSource(@"OpenPmsDental\Forms\FormEHR.Designer.cs");
 			//The dead butPatList14 handler (no button in the designer) and the quarterly-key stub with no caller (E-5).
@@ -333,12 +333,12 @@ namespace EhrTests {
 			//The patient lists button keeps its handler.
 			StringAssert.Contains(source,"private void butPatList_Click(");
 			StringAssert.Contains(designer,"this.butPatList.Click += new System.EventHandler(this.butPatList_Click);");
-			//ProvKeyIsValid stays false, and only the two CQM windows still ask it, until EHR-5 (counsel's E-10).
-			StringAssert.Contains(CSharpSource.GetBlock(source,"public static bool ProvKeyIsValid("),"return false;");
-			List<string> listCallers=TestPaths.ProgramSourceFiles()
-				.Where(x => CSharpSource.Read(File.ReadAllText(x)).CodeWithoutComments.Contains("FormEHR.ProvKeyIsValid("))
-				.Select(x => Path.GetFileName(x)).OrderBy(x => x).ToList();
-			CollectionAssert.AreEqual(new[] { "FormEhrQualityMeasures.cs","FormEhrQualityMeasures2014.cs" },listCallers,string.Join(", ",listCallers));
+			//ProvKeyIsValid went with its two callers, the 2011 and 2014 quality-measure windows (EHR-6b, owner decisions 2 and 4 of 2026-11-14),
+			//and the dead butQuality_Click with the 2011 window: as for QuarterlyKeyIsValid, no source file names them.
+			Assert.IsFalse(source.Contains("ProvKeyIsValid"));
+			Assert.IsFalse(source.Contains("butQuality_Click"));
+			List<string> listFilesProvKey=TestPaths.ProgramSourceFiles().Where(x => File.ReadAllText(x).Contains("ProvKeyIsValid")).ToList();
+			Assert.AreEqual(0,listFilesProvKey.Count,string.Join("\r\n",listFilesProvKey));
 		}
 		#endregion Pure and source checks
 	}

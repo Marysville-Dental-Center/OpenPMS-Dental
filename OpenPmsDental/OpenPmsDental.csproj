@@ -1040,18 +1040,6 @@
     <Compile Update="Forms\FormEhrProviderKeys.designer.cs">
       <DependentUpon>FormEhrProviderKeys.cs</DependentUpon>
     </Compile>
-    <Compile Update="Forms\FormEhrQualityMeasureEdit.Designer.cs">
-      <DependentUpon>FormEhrQualityMeasureEdit.cs</DependentUpon>
-    </Compile>
-    <Compile Update="Forms\FormEhrQualityMeasureEdit2014.Designer.cs">
-      <DependentUpon>FormEhrQualityMeasureEdit2014.cs</DependentUpon>
-    </Compile>
-    <Compile Update="Forms\FormEhrQualityMeasures.Designer.cs">
-      <DependentUpon>FormEhrQualityMeasures.cs</DependentUpon>
-    </Compile>
-    <Compile Update="Forms\FormEhrQualityMeasures2014.Designer.cs">
-      <DependentUpon>FormEhrQualityMeasures2014.cs</DependentUpon>
-    </Compile>
     <Compile Update="Forms\FormEhrReminders.Designer.cs">
       <DependentUpon>FormEhrReminders.cs</DependentUpon>
     </Compile>
@@ -3902,18 +3890,6 @@
     </EmbeddedResource>
     <EmbeddedResource Update="Forms\FormEhrProviderKeys.resx">
       <DependentUpon>FormEhrProviderKeys.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Forms\FormEhrQualityMeasureEdit.resx">
-      <DependentUpon>FormEhrQualityMeasureEdit.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Forms\FormEhrQualityMeasureEdit2014.resx">
-      <DependentUpon>FormEhrQualityMeasureEdit2014.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Forms\FormEhrQualityMeasures.resx">
-      <DependentUpon>FormEhrQualityMeasures.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Forms\FormEhrQualityMeasures2014.resx">
-      <DependentUpon>FormEhrQualityMeasures2014.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Update="Forms\FormEhrReminders.resx">
       <DependentUpon>FormEhrReminders.cs</DependentUpon>
