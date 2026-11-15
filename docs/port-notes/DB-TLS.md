@@ -582,7 +582,7 @@ IPv4 or takes packets for other interfaces' addresses (weak host receive). The p
 | `[bindings]` | Every binding but Internet Protocol Version 4 switched off; File and Printer Sharing (`ms_server`), Client for Microsoft Networks (`ms_msclient`) and IPv6 (`ms_tcpip6`) must be off (checked), any other gets a `WARNING` if Windows keeps it. | Go with the adapter. |
 | `[firewall]` | When the firewall is on in any profile: `OpenPmsDental-DbTlsTest-Allow3306` (TCP 3306 on the address from the address itself, this computer) and `OpenPmsDental-DbTlsTest-Block3306` (from every other remote address), group `Open PMS - Dental local test TLS`, every profile. | Removes the recorded rules (only of that group). |
 | `[server-certificate]` | The server certificate also names the address (`IP:`) and the computer's host name (`DNS:`), beside `localhost` and `127.0.0.1`. | Goes with the `opms-dev-tls` folder. |
-| `[client-certificates]` | `CN=opms-dbtls-test-client-capi` and `CN=opms-dbtls-test-client-cng` (RSA 2048, 5 years, clientAuth), signed by the same CA in the same run (its key is still discarded), each as its own `.pfx` (only the certificate and its key; a random password) in `opms-dev-tls\client-pfx` (Administrators only), imported with `certutil -csp ... -importPFX My <file> NoExport,NoChain,NoRoot` into `LocalMachine\My`: the first in `Microsoft Enhanced RSA and AES Cryptographic Provider` (CAPI), the second in `Microsoft Software Key Storage Provider` (CNG). The run checks the provider and the computer's key set, then deletes the `.pfx` files. | Deletes each key (the CAPI container through the CSP, the CNG key with `CngKey.Delete`), removes the store entry and checks that both, and the key file, are gone. Only a certificate of that name that the test CA issued is removed. |
+| `[client-certificates]` | `CN=opms-dbtls-test-client-capi` and `CN=opms-dbtls-test-client-cng` (RSA 2048, 5 years, clientAuth), signed by the same CA in the same run (its key is still discarded), each as its own `.pfx` (only the certificate and its key; a random password) in `opms-dev-tls\client-pfx` (Administrators only), imported with `certutil -csp ... -importPFX My <file> NoExport,NoChain,NoRoot` into `LocalMachine\My`: the first in `Microsoft Enhanced RSA and AES Cryptographic Provider` (CAPI), the second in `Microsoft Software Key Storage Provider` (CNG). The run checks the provider and the computer's key set, then deletes the `.pfx` files. The block records each key's provider, container and file. | Deletes each key (the CAPI container through the CSP, the CNG key with `CngKey.Delete`), removes the store entry and checks that both, and the key file, are gone. Only a certificate of that name that the test CA issued is removed. A certificate that is gone already (its store entry deleted by hand, in `certlm.msc` or with `certutil -delstore`, which leave the key file) does not end it: the recorded key is deleted when its file is still there, once its container opens as that very file. |
 | `[key-access]` | `BUILTIN\Users` read access to both key files, as `ClientCertificateStore.GrantUsersReadToPrivateKey` gives it, so the lead's unelevated run can use them. | Goes with the keys: no key that the users can read is left behind (the owner's rule). |
 | `[bind-address]` | The block ends with `bind-address=127.0.0.1,192.0.2.x`, after `my.ini`'s own `bind-address=127.0.0.1` (the last one wins). After the restart the server must report that bind address, the service's process must listen on `127.0.0.1:3306` and `192.0.2.x:3306` (`Get-NetTCPConnection`), and `mariadb.exe` with `--ssl-ca --ssl-verify-server-cert` must not fail the TLS check at the address (an `Access denied` or host refusal there only gets a note: the test checks with its own account). | Restoring `my.ini` drops it; the run checks that nothing listens on the address any more. |
 
@@ -596,6 +596,8 @@ makes them):
 # test-firewall-rule=OpenPmsDental-DbTlsTest-Block3306
 # test-client-capi=<40 hex digits>
 # test-client-cng=<40 hex digits>
+# test-client-capi-key=Microsoft Enhanced RSA and AES Cryptographic Provider|<container>|C:/ProgramData/Microsoft/Crypto/RSA/MachineKeys/<file>
+# test-client-cng-key=Microsoft Software Key Storage Provider|<key name>|C:/ProgramData/Microsoft/Crypto/Keys/<file>
 ...
 tls_version=TLSv1.2,TLSv1.3
 bind-address=127.0.0.1,192.0.2.25
@@ -603,7 +605,9 @@ bind-address=127.0.0.1,192.0.2.25
 
 Every mode's checks then expect `bind-address=127.0.0.1,<the recorded address>` instead of `127.0.0.1` (in `my.ini` and from the server).
 `-Revert` and `-RequireSecureTransport` refuse a record that no enable run can have written (an address outside 192.0.2.0/24, an adapter
-that is not `ROOT\NET\nnnn`, another rule name, a value that is no thumbprint), and `-Revert` also refuses, before any change, a recorded
+that is not `ROOT\NET\nnnn`, another rule name, a value that is no thumbprint, a key that is missing, in another provider than this
+script's of its kind, with a path in its container name, or whose file is not directly in `%ProgramData%\Microsoft\Crypto\RSA\MachineKeys`
+(CAPI) or `%ProgramData%\Microsoft\Crypto\Keys` (CNG)), and `-Revert` also refuses, before any change, a recorded
 adapter that is not a loopback adapter, a rule of another group, and a certificate of another name or not issued by the test CA.
 `-RequireSecureTransport` keeps the record and checks the listener on the address after its restart. `-Revert` removes the test network
 first, while the record in `my.ini` still names it: when a step fails, nothing else is changed (exit 4) and `-Revert` can run again. A failed
@@ -671,8 +675,19 @@ tools find at the same path).
    ```
 
    Send those three lines, and any `WARNING` line, to the lead. `FAILED` with `Undone:` (exit code 3) means nothing stayed changed, the
-   test network included; `Undoing failed too` (exit code 4) names what to remove by hand. The run prints the values again whenever it is
-   started later (`already on`), from the record in `my.ini`.
+   test network included; `Undoing failed too` (exit code 4) names what to remove by hand, in this elevated window. For each test
+   certificate it names the key file and the command that deletes the key, **before** the store entry:
+
+   ```powershell
+   certutil -csp "<provider>" -delkey "<container>"
+   certutil -delstore My <thumbprint>
+   ```
+
+   and then check that the key file it named is gone (`Test-Path '<key file>'` is `False`). Not `certlm.msc`: its Delete, like
+   `certutil -delstore` alone, removes only the store entry and leaves the key file, which `BUILTIN\Users` can read (the owner's rule).
+   For a certificate whose key the run had not read yet the message says to take the provider and the container from
+   `certutil -store My <thumbprint>` (`Provider =`, `Key Container =`). The run prints the values again whenever it is started later
+   (`already on`), from the record in `my.ini`.
 4. Optional checks (they change nothing): `Get-NetIPAddress -InterfaceAlias 'OPMS DB TLS test'` shows `192.0.2.25` with prefix 32 only;
    `Get-NetAdapterBinding -Name 'OPMS DB TLS test' | Where-Object Enabled` shows `ms_tcpip` (and only what a `WARNING` named);
    `Get-NetTCPConnection -LocalPort 3306 -State Listen` shows `127.0.0.1` and `192.0.2.25`, the same process;
@@ -702,7 +717,10 @@ powershell -NoProfile -ExecutionPolicy Bypass -File <common git folder>\od-tools
   stays inconclusive until `-RequireSecureTransport` (section 5).
 - The test left nothing behind: `SELECT User FROM mysql.user WHERE User LIKE 's22_x509_%'` and `SHOW DATABASES LIKE 's22_tls_%'` (as
   root on `127.0.0.1:3306`) are empty.
-- The connections went to `127.0.0.1:3306` and `192.0.2.25:3306` only (the exception above).
+- The connections went to `127.0.0.1:3306` and `192.0.2.25:3306` only (the exception above). The test enforces it: before any
+  connection, `ReadSetup` fails unless `OPMS_DB_TLS_TEST_SERVER` is an IPv4 address from 192.0.2.1 to 192.0.2.254 that this computer has
+  (its own unicast addresses), on port 3306, with a message that names the owner's exception; a name, a LAN address or a 192.0.2.x that
+  is not this computer's never gets a connection.
 
 Then the stage 2 gate's database TLS check is done: note the run (date, counts, the result file) in `docs/port-notes/S2-2.md` section 6 and
 the plan's gate. The variables live only in that window; the 3b gate runs the same steps again (the environment stays until `-Revert`).
@@ -711,14 +729,15 @@ the plan's gate. The variables live only in that window; the 3b gate runs the sa
 
 1. Look at the plan: `powershell -NoProfile -ExecutionPolicy Bypass -File tools\Enable-LocalDbTls.ps1 -DryRun -Revert`.
    **Check:** it starts with the test network: `[firewall]` (the two rules), `[client-certificates]` (each thumbprint, "its key in a CAPI
-   provider" and "in a CNG provider"), `[key-access]`, `[adapter]` (`ROOT\NET\nnnn`), `[address] [bindings]`, `[bind-address]`,
+   provider" and "in a CNG provider", each with its recorded key file; for a certificate deleted by hand meanwhile, "but its key file ...
+   is still there ...: delete that key"), `[key-access]`, `[adapter]` (`ROOT\NET\nnnn`), `[address] [bindings]`, `[bind-address]`,
    `[server-certificate]`, then the restore of `my.ini`, the restart and the files of section 2. A `REFUSED:` line means the record or what
    it names is not this script's (section 11.1); nothing is touched then.
 2. Run `powershell -NoProfile -ExecutionPolicy Bypass -File tools\Enable-LocalDbTls.ps1 -Revert`, then `YES`.
    **Check:** `Removed the test network: the firewall rules, both test certificates with their keys, the adapter ROOT\NET\nnnn and
    192.0.2.25.` and `TLS is off again: ...`. Optional: `Get-NetAdapter -Name 'OPMS DB TLS test'` and `Get-NetIPAddress -IPAddress
    192.0.2.25` find nothing, `Get-NetFirewallRule -Group 'Open PMS - Dental local test TLS'` finds nothing, `certlm.msc` shows no
-   `opms-dbtls-test-client` certificate, and `Get-NetTCPConnection -LocalPort 3306 -State Listen` shows `127.0.0.1` only.
+   `opms-dbtls-test-client` certificate, the two key files the plan named are gone (`Test-Path`), and `Get-NetTCPConnection -LocalPort 3306 -State Listen` shows `127.0.0.1` only.
    `FAILED: the test network is not fully removed` (exit code 4) changed nothing else; put right what it names and run `-Revert` again.
 
 There is no switch that drops only the test network: `-Revert` and the enable run without `-WithTestNetwork` (a new CA) do that.
@@ -745,3 +764,36 @@ There is no switch that drops only the test network: `-Revert` and the enable ru
   `TlsCertificateLoginTests.NonLoopbackServer_VerifyFull_X509User_WithACapiKeyAndWithACngKey`, whose variables are not set here), with the
   eight new `DevDbTlsTestNetworkTests` and the updated `DevDbTlsScriptTests` passing; `NoHqTests` 57. `InitSqlTests` and
   `ForkMigrationTests` left out under the rule for every package (no schema change here).
+
+### 11.6 The fix round after the review (branch `tools/dbtls-env-2`, 2026-11-14)
+
+1. **A Users-readable key could stay behind.** (a) A failed enable run whose undo also failed (exit 4) said to remove the certificates
+   "with their keys (certlm.msc)"; `certlm.msc`'s Delete, like `certutil -delstore`, removes only the store entry, and the CAPI container
+   in `RSA\MachineKeys` or the CNG file in `Keys` stays, with the `BUILTIN\Users` read access the run gave it. (b) The record kept only the
+   thumbprints, and the removal stopped as soon as the certificate was gone from `LocalMachine\My`, so after a store entry deleted by hand
+   `-Revert` said "nothing to remove" and "no key that the users can read is left behind" while the key file was still there.
+   **Fixed:** the block records each key as `# test-client-capi-key=` / `# test-client-cng-key=` `<provider>|<container>|<key file>` from
+   the import (section 11.1); the later modes refuse a key record that this script cannot have written (another provider, a container name
+   with a path in it, a file not directly in the computer's key folder of its kind, or none). `-Revert` reads whether each recorded key
+   file is there; its plan says, for a certificate that is gone with its key file left, "delete that key (the container ... in '...', once
+   it opens as that very file) and check that the file is gone", and the removal does it (`Remove-TestKey`: CAPI through the CSP with
+   `UseMachineKeyStore|UseExistingKey`, `PersistKeyInCsp=false`, `Clear()`; CNG with `CngKey.Open(..., MachineKey).Delete()`; nothing is
+   deleted when the container's unique name is not the recorded file's name) and reports a key file that stays. A failed enable run's own
+   undo knows each key too, and its exit-4 message names each key file with `certutil -csp "<provider>" -delkey "<container>"` before
+   `certutil -delstore My <thumbprint>` (section 11.2, step 3).
+2. **The tests could connect elsewhere.** `TlsCertificateLoginTests.ReadSetup` checked only that the server was not loopback and the port
+   3306, so a variable set by mistake to an office server's name or a LAN address would have opened `VerifyFull` connections there with the
+   computer's client certificates. **Fixed:** before any connection (and before it reads the CA variable) it fails unless the host is an
+   IPv4 address from 192.0.2.1 to 192.0.2.254 in its plain form and one of this computer's own unicast addresses
+   (`NetworkInterface.GetAllNetworkInterfaces()`), with a message that names the owner's exception; no name is looked up (section 11.3).
+
+Tests: `DevDbTlsTestNetworkTests.TestNetwork_ACertificateDeletedByHand_LeavesItsKeyFile_RevertsPlanAndRemovalDeleteTheRecordedKey` (a
+record whose certificates are in no store, one key file present in the test's temporary folder: `-Revert`'s state and plan delete that key;
+the removal, with `Remove-TestKey` replaced by one that only deletes that file, deletes it and reports a file that stays; the exit-4 text);
+the record test with the key lines and eight refused key records; the plan test with each recorded key file; the dry run's key lines;
+`TlsCertificateLoginTests.TheServerVariable_OnlyTheOneLocalTestAddress_AnythingElseFailsBeforeAnyConnection` (synthetic variables and
+addresses of "this computer": `10.0.0.5` (also when this computer has it), two host names, `192.0.2.99` that is not local, the network and
+broadcast addresses, a leading zero, the one-number form, another documentation range; each refused before the CA is read; the local
+`192.0.2.25` passes). Nothing ran elevated, opened or deleted a real key, or connected anywhere but `127.0.0.1:3306`.
+
+Results: RESULTS-PENDING

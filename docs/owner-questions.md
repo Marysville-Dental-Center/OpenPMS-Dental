@@ -878,14 +878,16 @@ listener on such an address, a server certificate that names it, and two client 
   that address; nothing is exposed on the office network; `-Revert` removes the adapter again. You run the script elevated; the agents never
   run it elevated, and never install an adapter or change a network setting, the firewall or the MariaDB service on this PC.
 - **The exception to "only 127.0.0.1:3306":** the tests may also connect to that one local test address on port 3306
-  (`OPMS_DB_TLS_TEST_SERVER`), and to nothing else. Every other connection of the tests and tools stays on `127.0.0.1:3306`.
+  (`OPMS_DB_TLS_TEST_SERVER`), and to nothing else. Every other connection of the tests and tools stays on `127.0.0.1:3306`. The test
+  enforces it: before any connection it fails unless the value is an address of 192.0.2.1 to 192.0.2.254 that this computer has.
 - **Built** (DB-TLS-ENV, branch `tools/dbtls-env-1`, [port-notes/DB-TLS.md](port-notes/DB-TLS.md) section 11): `tools/Enable-LocalDbTls.ps1
   -WithTestNetwork 192.0.2.x` adds the adapter (created through Windows' SetupAPI from the driver Windows ships, no download and no
   devcon), its address with no gateway and no DNS, only IPv4 bound, the second `bind-address`, two firewall rules for port 3306 on that
   address only from this computer, the address and the computer name in the server certificate, and the two client certificates
   (`LocalMachine\My`, one key in a CAPI provider, one in the Microsoft Software Key Storage Provider, `BUILTIN\Users` read access as the
   connection settings tool gives). It prints the three values the test needs. `-Revert` undoes every step, and under your rule never leaves
-  a key behind that the users can read: both certificates go with their keys, and the `.pfx` files are deleted right after their import.
+  a key behind that the users can read: both certificates go with their keys (also a key whose certificate was deleted by hand: the
+  record in `my.ini` names each key file), and the `.pfx` files are deleted right after their import.
   Your steps, the lead's test run and the undo, with what to check after each, are in that section.
 
 ---
