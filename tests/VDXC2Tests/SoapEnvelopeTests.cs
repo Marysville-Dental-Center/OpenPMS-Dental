@@ -1,11 +1,11 @@
 // S3a-6 (docs/specs/net10-plan.md; docs/port-notes/S3a-6.md): the hand-written SOAP clients (SoapCaller, SoapClients.cs) send what the
 // generated SoapHttpClientProtocol proxies sent, for every operation the program uses: DentalXChange DWS (4), DEA (6), NewCrop Update1 (2),
-// Change Healthcare ITS (2) and DentalXChange DCI's rpc/encoded lookupEligibility (1). Each test calls the old proxy through the
-// WebRequest.RegisterPrefix fake and the new client through SoapCaller.HttpHandlerForTests with the same synthetic arguments and the same
-// canned response, and checks that both send an equivalent envelope (canonical XML: names, namespaces, attributes with xsi:type resolved,
-// text), the same SOAPAction, content type and method, and read the response into the same objects. The old proxy's request and parsed
-// result are recorded under SoapEnvelopes (OPMS_SOAP_RECORD=1), so the same checks hold once the proxies are deleted. No call leaves the
-// process: the old proxies only reach the fake host soap-capture.example.test, and the new clients only the test handler.
+// Change Healthcare ITS (2) and DentalXChange DCI's rpc/encoded lookupEligibility (1). The commit before the proxies were deleted
+// (7687144aa) called each old proxy through a WebRequest.RegisterPrefix fake and each new client with the same synthetic arguments and the same
+// canned response, found the envelopes byte for byte the same, and recorded the old proxy's request, headers and parsed result under
+// SoapEnvelopes (OPMS_SOAP_RECORD=1). These tests now check the new clients against those recordings: an equivalent envelope (canonical XML:
+// names, namespaces, attributes with xsi:type resolved, text), the same SOAPAction, content type and method, and the same parsed result; the
+// fault texts and codes the proxies gave are checked the same way. No call leaves the process: the new clients only reach the test handler.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
 using System.Collections.Generic;
@@ -16,7 +16,6 @@ using System.Net.Http;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Web.Services.Protocols;
 using System.Xml;
 using System.Xml.Serialization;
 using ForkMigrationTests;
@@ -31,20 +30,8 @@ using Nc=OpenPmsDentalBusiness.NewCropWebService;
 namespace VDXC2Tests {
 	[TestClass]
 	public class SoapEnvelopeTests {
-		///<summary>The only host the old proxies are pointed at; WebRequest answers it in memory.</summary>
-		private const string CAPTURE_HOST="https://soap-capture.example.test/";
 		private const string FIXTURE_FOLDER="SoapEnvelopes";
-		private static readonly CaptureWebRequestCreate _captureWebRequestCreate=new CaptureWebRequestCreate();
-		private static bool _isRegistered;
 		private SoapCaptureHandler _soapCaptureHandler;
-
-		[ClassInitialize]
-		public static void ClassInitialize(TestContext testContext) {
-			if(!_isRegistered) {
-				WebRequest.RegisterPrefix(CAPTURE_HOST,_captureWebRequestCreate);
-				_isRegistered=true;
-			}
-		}
 
 		[TestInitialize]
 		public void TestInitialize() {
@@ -55,7 +42,6 @@ namespace VDXC2Tests {
 		[TestCleanup]
 		public void TestCleanup() {
 			SoapCaller.HttpHandlerForTests=null;
-			_captureWebRequestCreate.ResponseBytes=null;
 		}
 
 		#region Synthetic arguments
@@ -159,7 +145,6 @@ namespace VDXC2Tests {
 			Dws.textRequest textRequest=new Dws.textRequest { outputFormat=Dws.Format.XML,validateForAttachment=true,
 				Content="ISA*00*          *00*~ST*837*0001~SE*2*0001~" };
 			AssertEquivalent("Dws.validateClaim",
-				() => OldDws().validateClaim(DwsCredentials(),textRequest),
 				() => new DwsSoapClient { Url=NewUrl("dws") }.validateClaim(DwsCredentials(),textRequest),
 				DwsResponse("validateClaim",new Dws.textResponse { Status=StatusOk(),Content="ISA*00*~ST*277*0001~STC*A1:20*20261001*WQ*0~SE*3*0001~" }));
 		}
@@ -169,7 +154,6 @@ namespace VDXC2Tests {
 			Dws.textRequest textRequest=new Dws.textRequest { outputFormat=Dws.Format.HTML,outputFormatSpecified=true,
 				Content="ISA*00*~ST*270*0001~NM1*IL*1*SYNTHETIC*PATIENT~SE*3*0001~ &amp; &lt;" };
 			AssertEquivalent("Dws.lookupEligibility",
-				() => OldDws().lookupEligibility(DwsCredentials(),textRequest),
 				() => new DwsSoapClient { Url=NewUrl("dws") }.lookupEligibility(DwsCredentials(),textRequest),
 				DwsResponse("lookupEligibility",new Dws.textResponse { Status=StatusOk(),Content="<table><tr><td>Synthetic</td></tr></table>" }));
 		}
@@ -180,7 +164,6 @@ namespace VDXC2Tests {
 			Dws.Credentials credentials=new Dws.Credentials { Client="Synthetic Partner",Username="office-login" };
 			Dws.textRequest textRequest=new Dws.textRequest();
 			AssertEquivalent("Dws.lookupEligibility.nulls",
-				() => OldDws().lookupEligibility(credentials,textRequest),
 				() => new DwsSoapClient { Url=NewUrl("dws") }.lookupEligibility(credentials,textRequest),
 				DwsResponse("lookupEligibility",new Dws.textResponse { Status=new Dws.Status { code=100,description="Invalid User" } }));
 		}
@@ -189,7 +172,6 @@ namespace VDXC2Tests {
 		public void Dws_GetUnProcessedEra() {
 			Dws.unProcessedEraRequest unProcessedEraRequest=new Dws.unProcessedEraRequest();
 			AssertEquivalent("Dws.getUnProcessedEra",
-				() => OldDws().getUnProcessedEra(DwsCredentials(),unProcessedEraRequest),
 				() => new DwsSoapClient { Url=NewUrl("dws") }.getUnProcessedEra(DwsCredentials(),unProcessedEraRequest),
 				DwsResponse("getUnProcessedEra",new Dws.UnProcessedEraResponse { Status=StatusOk(),
 					ClaimPaymentAdvice=new Dws.claimPaymentAdvice { AdditionalEraExists=true,EdiContent="ISA*00*~ST*835*0001~SE*2*0001~" } }));
@@ -203,7 +185,6 @@ namespace VDXC2Tests {
 					Requirements=new[] { new Dws.requireBean { name="PatientAndSubscriberReqdForElig",value="true" } } },
 				Claim=new Dws.supportedTransBean { isSupported=false,isSupportedSpecified=true } };
 			AssertEquivalent("Dws.getPayerListService",
-				() => OldDws().getPayerListService(DwsCredentials(),payerListInfoRequest),
 				() => new DwsSoapClient { Url=NewUrl("dws") }.getPayerListService(DwsCredentials(),payerListInfoRequest),
 				DwsResponse("getPayerListService",new Dws.PayerListInfoResponse { Status=StatusOk(),Payers=new[] { supportedTransPayer } }));
 		}
@@ -213,7 +194,6 @@ namespace VDXC2Tests {
 		[TestMethod]
 		public void Dea_OpenAttachment() {
 			AssertEquivalent("Dea.openAttachment",
-				() => OldDea().openAttachment(DeaCredentials(),DeaAttachment()),
 				() => new DeaSoapClient { Url=NewUrl("dea") }.openAttachment(DeaCredentials(),DeaAttachment()),
 				DeaResponse("openAttachment",new Dea.AttachmentReferenceResponse { MsgSuccess=true,Status=DeaStatusOk(),
 					AttachmentReference=new Dea.AttachmentReference { AttachmentID="DXC-TEST-1" } }));
@@ -223,7 +203,6 @@ namespace VDXC2Tests {
 		public void Dea_AddImage() {
 			Dea.AttachmentReference attachmentReference=new Dea.AttachmentReference { AttachmentID="DXC-TEST-1" };
 			AssertEquivalent("Dea.addImage",
-				() => OldDea().addImage(DeaCredentials(),attachmentReference,DeaImage()),
 				() => new DeaSoapClient { Url=NewUrl("dea") }.addImage(DeaCredentials(),attachmentReference,DeaImage()),
 				DeaResponse("addImage",new Dea.ImageReferenceResponses { MsgSuccess=true,Status=DeaStatusOk(),
 					ImageReferenceResponses1=new[] { new Dea.ImageReferenceResponse { MsgSuccess=true,Status=DeaStatusOk(),
@@ -234,7 +213,6 @@ namespace VDXC2Tests {
 		public void Dea_SubmitAttachment() {
 			Dea.AttachmentReference attachmentReference=new Dea.AttachmentReference { AttachmentID="DXC-TEST-1" };
 			AssertEquivalent("Dea.submitAttachment",
-				() => OldDea().submitAttachment(DeaCredentials(),attachmentReference),
 				() => new DeaSoapClient { Url=NewUrl("dea") }.submitAttachment(DeaCredentials(),attachmentReference),
 				DeaResponse("submitAttachment",new Dea.DeaResponse { MsgSuccess=true,Status=DeaStatusOk(),TransactionId="123456" }));
 		}
@@ -243,7 +221,6 @@ namespace VDXC2Tests {
 		public void Dea_AddNarrative() {
 			Dea.AttachmentReference attachmentReference=new Dea.AttachmentReference { AttachmentID="DXC-TEST-1" };
 			AssertEquivalent("Dea.addNarrative",
-				() => OldDea().addNarrative(DeaCredentials(),attachmentReference,"Synthetic narrative <b> & \"quoted\""),
 				() => new DeaSoapClient { Url=NewUrl("dea") }.addNarrative(DeaCredentials(),attachmentReference,"Synthetic narrative <b> & \"quoted\""),
 				DeaResponse("addNarrative",new Dea.AttachmentReferenceResponse { MsgSuccess=true,Status=DeaStatusOk() }));
 		}
@@ -252,7 +229,6 @@ namespace VDXC2Tests {
 		public void Dea_AddNarrative_Null() {
 			Dea.AttachmentReference attachmentReference=new Dea.AttachmentReference { AttachmentID="DXC-TEST-1" };
 			AssertEquivalent("Dea.addNarrative.null",
-				() => OldDea().addNarrative(DeaCredentials(),attachmentReference,null),
 				() => new DeaSoapClient { Url=NewUrl("dea") }.addNarrative(DeaCredentials(),attachmentReference,null),
 				DeaResponse("addNarrative",new Dea.AttachmentReferenceResponse { MsgSuccess=false,Status=new Dea.Status { code=1,description="Operation Failed" } }));
 		}
@@ -261,7 +237,6 @@ namespace VDXC2Tests {
 		public void Dea_DeleteImage() {
 			Dea.ImageReference imageReference=new Dea.ImageReference { ImageReferenceId=8080,ImageReferenceIdSpecified=true };
 			AssertEquivalent("Dea.deleteImage",
-				() => OldDea().deleteImage(DeaCredentials(),imageReference),
 				() => new DeaSoapClient { Url=NewUrl("dea") }.deleteImage(DeaCredentials(),imageReference),
 				DeaResponse("deleteImage",new Dea.DeaResponse { MsgSuccess=true,Status=DeaStatusOk() }));
 		}
@@ -271,7 +246,6 @@ namespace VDXC2Tests {
 			Dea.AttachmentImage[] arrayAttachmentImages={ DeaImage(),new Dea.AttachmentImage { ImageTypeCode=Dea.imageTypeCode.P6,ImageTypeCodeSpecified=true,
 				ImageFileAsBase64=Encoding.ASCII.GetBytes("%PDF-1.4 synthetic"),ImageFileName="Perio chart.pdf" } };
 			AssertEquivalent("Dea.sendCompleteAttachment",
-				() => OldDea().sendCompleteAttachment(DeaCredentials(),DeaAttachment(),arrayAttachmentImages,releaseAttachment:false,releaseAttachmentSpecified:false),
 				() => new DeaSoapClient { Url=NewUrl("dea") }.sendCompleteAttachment(DeaCredentials(),DeaAttachment(),arrayAttachmentImages,releaseAttachment:false,
 					releaseAttachmentSpecified:false),
 				DeaResponse("sendCompleteAttachment",new Dea.AttachmentReferenceResponse { MsgSuccess=true,Status=DeaStatusOk(),
@@ -282,7 +256,6 @@ namespace VDXC2Tests {
 		public void Dea_SendCompleteAttachment_Released() {
 			//The release flag is sent only when its Specified twin is true (the proxy's XmlIgnore'd parameter).
 			AssertEquivalent("Dea.sendCompleteAttachment.released",
-				() => OldDea().sendCompleteAttachment(DeaCredentials(),DeaAttachment(),new Dea.AttachmentImage[0],releaseAttachment:true,releaseAttachmentSpecified:true),
 				() => new DeaSoapClient { Url=NewUrl("dea") }.sendCompleteAttachment(DeaCredentials(),DeaAttachment(),new Dea.AttachmentImage[0],releaseAttachment:true,
 					releaseAttachmentSpecified:true),
 				DeaResponse("sendCompleteAttachment",new Dea.AttachmentReferenceResponse { MsgSuccess=true,Status=DeaStatusOk() }));
@@ -293,7 +266,6 @@ namespace VDXC2Tests {
 		[TestMethod]
 		public void NewCrop_GetAccountStatusV2() {
 			AssertEquivalent("NewCrop.GetAccountStatusV2",
-				() => OldNewCrop().GetAccountStatusV2(NcCredentials(),NcAccount(),"0","Staff","42"),
 				() => new NewCropSoapClient { Url=NewUrl("newcrop") }.GetAccountStatusV2(NcCredentials(),NcAccount(),"0","Staff","42"),
 				NcResponse("GetAccountStatusV2",new Nc.AccountStatusDetailV2Result { result=new Nc.Result { Status=Nc.StatusType.OK,Message="Synthetic OK",
 					RowCount=1,Timing=12 },accountStatusDetailV2=new Nc.AccountStatusDetailV2 { PendingRxCount="2",UnreadClinicalMessageCount="0" } }));
@@ -306,8 +278,6 @@ namespace VDXC2Tests {
 			Nc.PatientInformationRequester patientInformationRequester=new Nc.PatientInformationRequester { UserType="Doctor",UserId="42" };
 			string xmlResponseBase64=Convert.ToBase64String(Encoding.UTF8.GetBytes("<NewDataSet><Table><DrugName>Synthetic</DrugName></Table></NewDataSet>"));
 			AssertEquivalent("NewCrop.GetPatientFullMedicationHistory6",
-				() => OldNewCrop().GetPatientFullMedicationHistory6(NcCredentials(),NcAccount(),new Nc.PatientRequest { PatientId="1001" },
-					prescriptionHistoryRequest,patientInformationRequester,"","N"),
 				() => new NewCropSoapClient { Url=NewUrl("newcrop") }.GetPatientFullMedicationHistory6(NcCredentials(),NcAccount(),
 					new Nc.PatientRequest { PatientId="1001" },prescriptionHistoryRequest,patientInformationRequester,"","N"),
 				NcResponse("GetPatientFullMedicationHistory6",new Nc.Result { Status=Nc.StatusType.OK,XmlResponse=xmlResponseBase64,RowCount=1 }));
@@ -319,7 +289,6 @@ namespace VDXC2Tests {
 		public void Its_PutFileExt() {
 			string zipBase64=Convert.ToBase64String(new byte[] { 0x50,0x4B,5,6,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 });
 			AssertEquivalent("Its.PutFileExt",
-				() => OldIts().PutFileExt("office-login","office-password","MCT","claims7.txt",zipBase64),
 				() => new ItsSoapClient { Url=NewUrl("its") }.PutFileExt("office-login","office-password","MCT","claims7.txt",zipBase64),
 				ItsResponse("PutFileExt",new Its.ItsReturn { ErrorCode=0,Response="Synthetic file accepted" }));
 		}
@@ -327,7 +296,6 @@ namespace VDXC2Tests {
 		[TestMethod]
 		public void Its_GetFile() {
 			AssertEquivalent("Its.GetFile",
-				() => OldIts().GetFile("office-login","office-password","MCTG"),
 				() => new ItsSoapClient { Url=NewUrl("its") }.GetFile("office-login","office-password","MCTG"),
 				ItsResponse("GetFile",new Its.ItsReturn { ErrorCode=209,Response="Mailbox empty (synthetic)" }));
 		}
@@ -345,7 +313,6 @@ namespace VDXC2Tests {
 		[TestMethod]
 		public void Dci_LookupEligibility() {
 			AssertEquivalent("Dci.lookupEligibility",
-				() => OldDci().lookupEligibility(DciCredentials(),DciRequest()),
 				() => new DciSoapClient { Url=NewUrl("dci") }.lookupEligibility(DciCredentials(),DciRequest()),
 				DCI_RESPONSE_MULTIREF);
 		}
@@ -356,7 +323,6 @@ namespace VDXC2Tests {
 			credentials.password=null;
 			credentials.version=null;
 			AssertEquivalent("Dci.lookupEligibility.nulls",
-				() => OldDci().lookupEligibility(credentials,new Dci.Request()),
 				() => new DciSoapClient { Url=NewUrl("dci") }.lookupEligibility(credentials,new Dci.Request()),
 				DCI_RESPONSE_INLINE);
 		}
@@ -387,29 +353,21 @@ namespace VDXC2Tests {
 
 		[TestMethod]
 		public void Fault_FromDci_GivesTheSameText() {
-			_captureWebRequestCreate.ResponseBytes=Encoding.UTF8.GetBytes(FAULT_WITH_DETAIL);
-			SoapException soapException=Assert.Throws<SoapException>(() => OldDci().lookupEligibility(DciCredentials(),DciRequest()));
 			_soapCaptureHandler.ResponseBytes=Encoding.UTF8.GetBytes(FAULT_WITH_DETAIL);
 			SoapFaultException soapFaultException=Assert.ThrowsExactly<SoapFaultException>(
 				() => new DciSoapClient { Url=NewUrl("dci") }.lookupEligibility(DciCredentials(),DciRequest()));
-			Assert.AreEqual(soapException.Message,soapFaultException.Message);
-			Assert.AreEqual(soapException.Detail.OuterXml,soapFaultException.Detail.OuterXml);
+			Assert.AreEqual("Authentication failed.",soapFaultException.Message);
+			Assert.AreEqual("Server.userException",soapFaultException.Code.Name);
+			Assert.AreEqual("Authentication failed.synthetic-host",soapFaultException.Detail.InnerText);
 		}
 
-		///<summary>The old proxy's SoapException and the new client's SoapFaultException carry the same text, code, actor and detail, so the text
-		///ClaimConnect builds from them ("...Claim Connect: "+Message+"\r\n\r\n"+Detail.InnerText) is the same.</summary>
+		///<summary>The new client's SoapFaultException carries the text, code and detail the old proxy's SoapException carried (the commit before the
+		///proxies went compared them directly), so the text ClaimConnect builds from them ("...Claim Connect:  "+Message+"\r\n\r\n"+Detail.InnerText)
+		///is the same.</summary>
 		private void AssertSameFault(string caseName,string faultXml,string message,string codeName,string detailText) {
-			_captureWebRequestCreate.ResponseBytes=Encoding.UTF8.GetBytes(faultXml);
-			SoapException soapException=Assert.Throws<SoapException>(() => OldDws().lookupEligibility(DwsCredentials(),new Dws.textRequest()));
 			_soapCaptureHandler.ResponseBytes=Encoding.UTF8.GetBytes(faultXml);
 			SoapFaultException soapFaultException=Assert.ThrowsExactly<SoapFaultException>(
 				() => new DwsSoapClient { Url=NewUrl("dws") }.lookupEligibility(DwsCredentials(),new Dws.textRequest()));
-			Assert.AreEqual(soapException.Message,soapFaultException.Message,caseName);
-			Assert.AreEqual(soapException.Code.Name,soapFaultException.Code.Name,caseName);
-			Assert.AreEqual(soapException.Code.Namespace,soapFaultException.Code.Namespace,caseName);
-			Assert.AreEqual(soapException.Actor,soapFaultException.Actor??"",caseName);
-			Assert.AreEqual(soapException.Detail?.OuterXml,soapFaultException.Detail?.OuterXml,caseName);
-			//What the proxies' fault looked like, so the check holds once they are gone.
 			Assert.AreEqual(message,soapFaultException.Message,caseName);
 			Assert.AreEqual(codeName,soapFaultException.Code.Name,caseName);
 			Assert.AreEqual(SoapCaller.EnvelopeNamespace,soapFaultException.Code.Namespace,caseName);
@@ -420,23 +378,25 @@ namespace VDXC2Tests {
 		#region Transport
 		[TestMethod]
 		public void UserAgent_IsTheOneTheProxiesSent() {
-			Assert.AreEqual(new Dws.DwsService().UserAgent,SoapCaller.UserAgentDefault);
-			Assert.AreEqual(new Dws.DwsService().UserAgent,new DwsSoapClient().UserAgent);
-			Assert.AreEqual(new Dea.DeaPartnerService().UserAgent,new DeaSoapClient().UserAgent);
-			Assert.AreEqual(new Its.ITSWS().UserAgent,new ItsSoapClient().UserAgent);
-			Assert.AreEqual(new Dci.WebServiceService().UserAgent,new DciSoapClient().UserAgent);
-			Assert.AreEqual(new Nc.Update1().UserAgent,new NewCropSoapClient().UserAgent);
+			//The proxies' default on .NET Framework 4.8 (the commit before they went compared it with each proxy's UserAgent).
+			Assert.AreEqual("Mozilla/4.0 (compatible; MSIE 6.0; MS Web Services Client Protocol 4.0.30319.42000)",SoapCaller.UserAgentDefault);
+			Assert.AreEqual(SoapCaller.UserAgentDefault,new DwsSoapClient().UserAgent);
+			Assert.AreEqual(SoapCaller.UserAgentDefault,new DeaSoapClient().UserAgent);
+			Assert.AreEqual(SoapCaller.UserAgentDefault,new ItsSoapClient().UserAgent);
+			Assert.AreEqual(SoapCaller.UserAgentDefault,new DciSoapClient().UserAgent);
+			Assert.AreEqual(SoapCaller.UserAgentDefault,new NewCropSoapClient().UserAgent);
 		}
 
 		[TestMethod]
 		public void DefaultAddresses_AreTheProxiesDefaults() {
-			//The proxies gave their Url back through Uri.ToString, which drops a default port (the DWS and DEA settings name :443).
-			Assert.AreEqual(new Uri(new Dws.DwsService().Url),new Uri(new DwsSoapClient().Url));
-			Assert.AreEqual(new Uri(new Dea.DeaPartnerService().Url),new Uri(new DeaSoapClient().Url));
-			Assert.AreEqual(new Uri(new Its.ITSWS().Url),new Uri(new ItsSoapClient().Url));
-			Assert.AreEqual(new Uri(new Dci.WebServiceService().Url),new Uri(new DciSoapClient().Url));
-			Assert.AreEqual(new Uri(new Nc.Update1().Url),new Uri(new NewCropSoapClient().Url));
-			Assert.AreEqual(new Dws.DwsService().Timeout,new DwsSoapClient().Timeout);
+			//The proxies' defaults, from the URL settings they read (kept). The proxies gave their Url back through Uri.ToString, which drops a
+			//default port, so the addresses are compared as Uri.
+			Assert.AreEqual(new Uri("https://webservices.dentalxchange.com/dws/DwsService"),new Uri(new DwsSoapClient().Url));
+			Assert.AreEqual(new Uri("https://prelive2.dentalxchange.com/dea/DeaPartnerService"),new Uri(new DeaSoapClient().Url));
+			Assert.AreEqual(new Uri("https://its.changehealthcare.com/ITS/ITSWS.asmx"),new Uri(new ItsSoapClient().Url));
+			Assert.AreEqual(new Uri("https://webservices.dentalxchange.com/dws/services/dciservice.svl"),new Uri(new DciSoapClient().Url));
+			Assert.AreEqual(new Uri("https://secure.newcropaccounts.com/v7/WebServices/Update1.asmx"),new Uri(new NewCropSoapClient().Url));
+			Assert.AreEqual(100000,new DwsSoapClient().Timeout);
 		}
 
 		[TestMethod]
@@ -468,69 +428,23 @@ namespace VDXC2Tests {
 		}
 		#endregion Transport
 
-		#region The old proxies
-		private static Dws.DwsService OldDws() {
-			return new Dws.DwsService { Url=CAPTURE_HOST+"dws" };
-		}
-
-		private static Dea.DeaPartnerService OldDea() {
-			return new Dea.DeaPartnerService { Url=CAPTURE_HOST+"dea" };
-		}
-
-		private static Nc.Update1 OldNewCrop() {
-			return new Nc.Update1 { Url=CAPTURE_HOST+"newcrop" };
-		}
-
-		private static Its.ITSWS OldIts() {
-			return new Its.ITSWS { Url=CAPTURE_HOST+"its" };
-		}
-
-		private static Dci.WebServiceService OldDci() {
-			return new Dci.WebServiceService { Url=CAPTURE_HOST+"dci" };
-		}
-		#endregion The old proxies
-
 		#region Comparison
-		///<summary>The new clients' address: never a real host, and only the test handler answers it.</summary>
+		///<summary>The clients' address in these tests: never a real host, and only the test handler answers it.</summary>
 		private static string NewUrl(string service) {
 			return "https://soap-new.example.test/"+service;
 		}
 
-		///<summary>Calls the old proxy and the new client with the same response and compares what they sent and what they read. Records the old
-		///proxy's request and result as fixtures with OPMS_SOAP_RECORD=1, and compares the new client with the fixtures.</summary>
-		private void AssertEquivalent(string caseName,Func<object> funcOld,Func<object> funcNew,string responseXml) {
-			byte[] arrayBytesResponse=Encoding.UTF8.GetBytes(responseXml);
-			_captureWebRequestCreate.ResponseBytes=arrayBytesResponse;
-			object resultOld=funcOld();
-			CapturedRequest capturedRequestOld=_captureWebRequestCreate.CapturedRequestLast;
-			_soapCaptureHandler.ResponseBytes=arrayBytesResponse;
+		///<summary>Calls the new client with the canned response and compares what it sent and read with what the old proxy sent and read, as
+		///recorded.</summary>
+		private void AssertEquivalent(string caseName,Func<object> funcNew,string responseXml) {
+			_soapCaptureHandler.ResponseBytes=Encoding.UTF8.GetBytes(responseXml);
 			object resultNew=funcNew();
 			CapturedRequest capturedRequestNew=_soapCaptureHandler.CapturedRequestLast;
-			Assert.IsNotNull(capturedRequestOld,caseName);
 			Assert.IsNotNull(capturedRequestNew,caseName);
-			Assert.IsNotNull(resultOld,caseName+": the old proxy read nothing.");
 			Assert.IsNotNull(resultNew,caseName+": the new client read nothing.");
-			//The HTTP request.
-			Assert.AreEqual("POST",capturedRequestOld.Method,caseName);
-			Assert.AreEqual(capturedRequestOld.Method,capturedRequestNew.Method,caseName);
-			Assert.AreEqual(capturedRequestOld.ContentType,capturedRequestNew.ContentType,caseName);
-			Assert.AreEqual(capturedRequestOld.SoapAction,capturedRequestNew.SoapAction,caseName);
+			Assert.AreEqual("POST",capturedRequestNew.Method,caseName);
 			Assert.AreEqual(SoapCaller.UserAgentDefault,capturedRequestNew.UserAgent,caseName);
-			//The envelope: equivalent, and in fact the same bytes.
-			Assert.AreEqual(Canonical(capturedRequestOld.Body),Canonical(capturedRequestNew.Body),caseName);
-			Assert.AreEqual(Encoding.UTF8.GetString(capturedRequestOld.Body),Encoding.UTF8.GetString(capturedRequestNew.Body),caseName);
-			//The response, read into the same objects.
-			string xmlResultOld=SerializeResult(resultOld);
-			Assert.AreEqual(xmlResultOld,SerializeResult(resultNew),caseName);
-			//The fixtures.
-			string headers="SOAPAction: "+capturedRequestOld.SoapAction+"\r\nContent-Type: "+capturedRequestOld.ContentType+"\r\n";
-			if(Environment.GetEnvironmentVariable("OPMS_SOAP_RECORD")=="1") {
-				string folder=Path.Combine(Path.GetDirectoryName(TestDb.FindRepoFile(Path.Combine("tests","VDXC2Tests","VDXC2Tests.csproj"))),FIXTURE_FOLDER);
-				Directory.CreateDirectory(folder);
-				File.WriteAllBytes(Path.Combine(folder,caseName+".request.xml"),capturedRequestOld.Body);
-				File.WriteAllText(Path.Combine(folder,caseName+".headers.txt"),headers);
-				File.WriteAllText(Path.Combine(folder,caseName+".result.xml"),xmlResultOld);
-			}
+			string headers="SOAPAction: "+capturedRequestNew.SoapAction+"\r\nContent-Type: "+capturedRequestNew.ContentType+"\r\n";
 			AssertMatchesFixtures(caseName,capturedRequestNew,headers,SerializeResult(resultNew));
 		}
 
@@ -612,29 +526,6 @@ namespace VDXC2Tests {
 		public string SoapAction;
 		public string UserAgent;
 		public byte[] Body;
-	}
-
-	///<summary>Answers the old proxies in memory (registered with WebRequest for the capture host only) with ResponseBytes, and keeps the request.
-	///</summary>
-	public class CaptureWebRequestCreate:IWebRequestCreate {
-		public byte[] ResponseBytes;
-		public CapturedRequest CapturedRequestLast;
-
-		public WebRequest Create(Uri uri) {
-			return new FakeWebRequest(uri,(fakeWebRequest,arrayBytesRequest) => {
-				CapturedRequest capturedRequest=new CapturedRequest();
-				capturedRequest.Uri=uri;
-				capturedRequest.Method=fakeWebRequest.Method;
-				capturedRequest.ContentType=fakeWebRequest.ContentType;
-				capturedRequest.SoapAction=fakeWebRequest.Headers["SOAPAction"];
-				capturedRequest.Body=arrayBytesRequest;
-				CapturedRequestLast=capturedRequest;
-				if(ResponseBytes==null) {
-					throw new WebException("Test: no response set for the capture host.");
-				}
-				return ResponseBytes;
-			});
-		}
 	}
 
 	///<summary>Answers the new clients (SoapCaller.HttpHandlerForTests) with ResponseBytes, and keeps the request. Nothing goes to the network.

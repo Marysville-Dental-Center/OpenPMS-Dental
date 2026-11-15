@@ -2012,8 +2012,8 @@ namespace OpenPmsDental {
 		//This is not our code.   Added SPK/AAD 10/06 for eligibility check.-------------------------------------------------------------------------
 		private void EligibilityCheckDentalXchange() {
 			Cursor = Cursors.WaitCursor;
-			OpenPmsDentalBusiness.com.dentalxchange.webservices.WebServiceService DCIService 
-				= new OpenPmsDentalBusiness.com.dentalxchange.webservices.WebServiceService();
+			//S3a-6: the rpc/encoded call goes through SoapCaller (DciSoapClient) in place of the generated WebServiceService proxy.
+			OpenPmsDentalBusiness.DciSoapClient DCIService = new OpenPmsDentalBusiness.DciSoapClient();
 			OpenPmsDentalBusiness.com.dentalxchange.webservices.Credentials DCICredential 
 				= new OpenPmsDentalBusiness.com.dentalxchange.webservices.Credentials();
 			OpenPmsDentalBusiness.com.dentalxchange.webservices.Request DCIRequest = new OpenPmsDentalBusiness.com.dentalxchange.webservices.Request();

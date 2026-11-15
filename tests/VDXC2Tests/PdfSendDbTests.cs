@@ -46,13 +46,13 @@ namespace VDXC2Tests {
 				_skipReason="Scratch database could not be built: "+ex.GetBaseException().Message;
 			}
 			_apiRequestOriginal=APIRequest.Inst;
-			FakeDeaWebRequestCreate.EnsureRegistered();
 		}
 
 		[ClassCleanup]
 		public static void ClassCleanup() {
 			APIRequest.Inst=_apiRequestOriginal??new APIRequest();
-			FakeDeaWebRequestCreate.Inst.Reset();
+			FakeDeaHandler.Inst.Reset();
+			FakeDeaHandler.Uninstall();
 			if(_skipReason!=null || Environment.GetEnvironmentVariable("FORKMIGRATION_KEEP_DB")=="1") {
 				return;
 			}
@@ -73,14 +73,16 @@ namespace VDXC2Tests {
 			Security.CurUser=Security.CurUser??new Userod();
 			_recordingApiRequest=new RecordingApiRequest();
 			APIRequest.Inst=_recordingApiRequest;
-			FakeDeaWebRequestCreate.Inst.Reset();
+			FakeDeaHandler.Inst.Reset();
+			FakeDeaHandler.Install();
 			SetStorage(DataStorageType.InDatabase);
 		}
 
 		[TestCleanup]
 		public void TestCleanup() {
 			APIRequest.Inst=_apiRequestOriginal??new APIRequest();
-			FakeDeaWebRequestCreate.Inst.Reset();
+			FakeDeaHandler.Inst.Reset();
+			FakeDeaHandler.Uninstall();
 			FileAtoZ.LocalAtoZpath=null;
 		}
 
@@ -215,7 +217,7 @@ namespace VDXC2Tests {
 			DxcPartnerIdentity.Save("Test Partner","TEST-SERVICE-0001");
 			try {
 				Claim claim=CreateClaim(withXConnect:false);
-				FakeDeaWebRequestCreate fake=FakeDeaWebRequestCreate.Inst;
+				FakeDeaHandler fake=FakeDeaHandler.Inst;
 				fake.IsOn=true;
 				fake.DictReturns["openAttachment"]=new Dea.AttachmentReferenceResponse {
 					MsgSuccess=true,

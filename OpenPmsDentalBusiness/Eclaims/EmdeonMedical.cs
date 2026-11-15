@@ -39,7 +39,7 @@ namespace OpenPmsDentalBusiness.Eclaims {
 				else if(medType==EnumClaimMedType.Dental) {
 					//messageType=(isTest?"DCT":"DCD");//not used/tested yet, but planned for future.
 				}
-				EmdeonITS.ITSWS itsws=new EmdeonITS.ITSWS();
+				ItsSoapClient itsws=new ItsSoapClient();//S3a-6: SoapCaller in place of the generated ITSWS proxy
 				itsws.Url=(isTest?emdeonITSUrlTest:emdeonITSUrl);
 				EmdeonITS.ItsReturn response=itsws.PutFileExt(clearinghouseClin.LoginID,clearinghouseClin.Password,messageType,Path.GetFileName(batchFile),zipFileBytesBase64);
 				if(response.ErrorCode!=0) { //Batch submission successful.
@@ -96,7 +96,7 @@ namespace OpenPmsDentalBusiness.Eclaims {
 				for(int i=0;i<listReportTypes.Count;i++) {
 					float overallpercent=33+(i/listReportTypes.Count)*17;//33 is starting point. 17 is the amount of bar space we have before our next major spot (50%)
 					progress.UpdateProgress(Lans.g(progress.LanThis,"Downloading files"),"reports",overallpercent+"%",(int)overallpercent);
-					EmdeonITS.ITSWS itsws=new EmdeonITS.ITSWS();
+					ItsSoapClient itsws=new ItsSoapClient();//S3a-6: SoapCaller in place of the generated ITSWS proxy
 					itsws.Url=(isTest?emdeonITSUrlTest:emdeonITSUrl);
 					EmdeonMedicalReportType reportType=listReportTypes[i];
 					//Download the most up to date reports, but do not delete them from the server yet.
