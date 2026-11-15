@@ -50,6 +50,7 @@ namespace DbConnectionSecurityTests {
 		public void CleanUp() {
 			ClientCertificateStore.ActionAfterKeysStoredForTests=null;
 			ClientCertificateStore.ActionInsteadOfKeyProvInfoPutBackForTests=null;
+			ClientCertificateStore.ActionBeforePutBackCheckForTests=null;
 			ClientCertificateStore.ActionBeforeKeyNamedDeleteForTests=null;
 			ClientCertificateStore.ActionBeforePrivateKeyOpenForTests=null;
 			ClientCertificateStore.StoreNameForTests=null;
@@ -117,63 +118,195 @@ namespace DbConnectionSecurityTests {
 		///<summary>Part B, a put-back that fails (a seam stands in for the write: it throws, as a store that refuses it, or does nothing, as one that
 		///drops it without a word): the entry still names the tool's key, so that key stays (the certificate keeps working), and so do the entry
 		///and the earlier key; the message says what could not be put back, that both keys and the entry were left, and how to put it right with
-		///the certutil command that deletes the tool's key. For each kind of key, over a usable key the tool did not create.</summary>
+		///the certutil command that deletes the tool's key. The DCFU4 lead fix round, decision 2 (owner question 1 of the round): the save keeps a
+		///record that names the certificate with the tool's key and the earlier key, and says so, so that no key the tool created is left with no
+		///record naming it; a later save with the password (the seam gone) tries again: the entry names its earlier key again, the tool's key and
+		///its file are gone, no record is left. Both (a) after a later save with the password, and (b) after a save that fails (FreeDentalConfig.xml
+		///held open), whose settings never used the certificate. Before the fix the save deleted the record. For each kind of key, over a usable
+		///key the tool did not create.</summary>
 		[TestMethod]
 		public void Apply_APutBackThatFails_LeavesTheToolsKeyWhileTheEntryStillNamesIt() {
 			foreach(TestKeyKind testKeyKind in _arrayKinds) {
 				foreach(bool isThrown in new[] { true,false }) {
-					string label=testKeyKind+(isThrown ? ", refused" : ", dropped");
-					string folder=Path.Combine(_folder,testKeyKind+(isThrown ? "-refused" : "-dropped"));
-					Directory.CreateDirectory(folder);
-					string config=TestHelpers.WriteConfig(folder,"ComputerName","localhost","Database","opendental","User","root","Password","");
-					string caCopy=DbConnectionConfig.GetOfficeCaCopyPath(Path.Combine(folder,"program"));
-					using(ClientCertificateTestStore clientCertificateTestStore=new ClientCertificateTestStore()) {
-						string pathPfx=clientCertificateTestStore.WritePfx(folder,testKeyKind,out string thumbprintClient);
-						TestKey testKeyFirst=clientCertificateTestStore.AddCertificate(pathPfx);
-						TestKeyProvInfo testKeyProvInfoFirst;
-						using(X509Certificate2 x509Certificate2Entry=clientCertificateTestStore.Find(thumbprintClient)) {
-							testKeyProvInfoFirst=TestKeyProvInfo.Read(x509Certificate2Entry);
-						}
-						Dictionary<string,TestKey> dictKeys=null;
-						ClientCertificateStore.ActionAfterKeysStoredForTests=x509Certificate2Collection => {
-							dictKeys=clientCertificateTestStore.TrackKeys(x509Certificate2Collection);
-						};
-						ClientCertificateStore.StoreNameForTests=clientCertificateTestStore.Name;
-						DbSettingsResult dbSettingsResult=DbSettingsRunner.Apply(new DbSettingsRequest() { Auth=DbSettingsAuth.Certificate,PfxFile=pathPfx,
-							PfxPassword=clientCertificateTestStore.Password },config,caCopy);
-						Assert.AreEqual(DbSettingsRunner.EXIT_OK,dbSettingsResult.ExitCode,label+": "+dbSettingsResult.Message);
-						TestKey testKeyTool=dictKeys[thumbprintClient];
-						TestKeyProvInfo testKeyProvInfoTool;
-						using(X509Certificate2 x509Certificate2Entry=clientCertificateTestStore.Find(thumbprintClient)) {
-							testKeyProvInfoTool=TestKeyProvInfo.Read(x509Certificate2Entry);
-						}
-						ClientCertificateStore.ActionInsteadOfKeyProvInfoPutBackForTests=x509Certificate2 => {
-							if(isThrown) {
-								throw new CryptographicException("The test's store refuses the put-back.");
-							}
-						};
-						dbSettingsResult=DbSettingsRunner.Apply(new DbSettingsRequest() { Auth=DbSettingsAuth.Password,DbPassword="" },config,caCopy);
-						ClientCertificateStore.ActionInsteadOfKeyProvInfoPutBackForTests=null;
-						ClientCertificateStore.ActionAfterKeysStoredForTests=null;
-						ClientCertificateStore.StoreNameForTests=null;
-						Assert.AreEqual(DbSettingsRunner.EXIT_OK,dbSettingsResult.ExitCode,label+": "+dbSettingsResult.Message);
-						string why=isThrown ? "The test's store refuses the put-back." : "Windows reported no error, but the entry does not name it afterwards.";
-						StringAssert.Contains(dbSettingsResult.Message,"before the tool's import gave it a private key, but its earlier private key (provider "
-							+testKeyProvInfoFirst.ProviderName+", key container "+testKeyProvInfoFirst.ContainerName+", in a user key set) could not be named on its entry again: "+why
-							+" The entry still names the private key the tool gave it (",label);
-						StringAssert.Contains(dbSettingsResult.Message,"so the tool left both keys and the entry as they are. To put the entry back as it "
-							+"was, as an administrator, delete the tool's key (certutil -user -csp \""+testKeyProvInfoTool.ProviderName+"\" -delkey \""+testKeyProvInfoTool.ContainerName
-							+"\"), then import the certificate with its earlier key again.",label);
-						CollectionAssert.AreEqual(new List<string> { thumbprintClient },clientCertificateTestStore.GetThumbprints(),label+": the entry stays.");
-						using(X509Certificate2 x509Certificate2Entry=clientCertificateTestStore.Find(thumbprintClient)) {
-							Assert.IsTrue(string.Equals(TestKeyProvInfo.Read(x509Certificate2Entry).ContainerName,testKeyTool.Name,StringComparison.OrdinalIgnoreCase),
-								label+": it still names the tool's key.");
-						}
-						Assert.IsTrue(testKeyTool.Exists(),label+": the tool's key stays, while the entry names it (the store's clean-up deletes it).");
-						Assert.IsTrue(File.Exists(testKeyTool.FilePath),label+": and its file.");
-						Assert.IsTrue(testKeyFirst.Exists(),label+": the earlier key is untouched.");
-						Assert.IsTrue(clientCertificateTestStore.CanSign(thumbprintClient),label+": the certificate still works.");
+					foreach(bool isFailedSave in new[] { false,true }) {
+						string label=testKeyKind+(isThrown ? ", refused" : ", dropped")+(isFailedSave ? ", a failed save" : ", a later save with the password");
+						string folder=Path.Combine(_folder,testKeyKind+(isThrown ? "-refused" : "-dropped")+(isFailedSave ? "-failed" : "-later"));
+						AssertPutBackFailsAndIsTriedAgain(testKeyKind,isThrown,isFailedSave,folder,label);
 					}
+				}
+			}
+		}
+
+		private static void AssertPutBackFailsAndIsTriedAgain(TestKeyKind testKeyKind,bool isThrown,bool isFailedSave,string folder,string label) {
+			Directory.CreateDirectory(folder);
+			string config=TestHelpers.WriteConfig(folder,"ComputerName","localhost","Database","opendental","User","root","Password","");
+			string caCopy=DbConnectionConfig.GetOfficeCaCopyPath(Path.Combine(folder,"program"));
+			string pathRecord=ImportedCertificateRecord.GetPath(caCopy);
+			using(ClientCertificateTestStore clientCertificateTestStore=new ClientCertificateTestStore()) {
+				string storeText="CurrentUser\\"+clientCertificateTestStore.Name;
+				string pathPfx=clientCertificateTestStore.WritePfx(folder,testKeyKind,out string thumbprintClient);
+				TestKey testKeyFirst=clientCertificateTestStore.AddCertificate(pathPfx);
+				TestKeyProvInfo testKeyProvInfoFirst;
+				using(X509Certificate2 x509Certificate2Entry=clientCertificateTestStore.Find(thumbprintClient)) {
+					testKeyProvInfoFirst=TestKeyProvInfo.Read(x509Certificate2Entry);
+				}
+				Dictionary<string,TestKey> dictKeys=null;
+				ClientCertificateStore.ActionAfterKeysStoredForTests=x509Certificate2Collection => {
+					dictKeys=clientCertificateTestStore.TrackKeys(x509Certificate2Collection);
+				};
+				ClientCertificateStore.StoreNameForTests=clientCertificateTestStore.Name;
+				Action<X509Certificate2> actionPutBackFails=x509Certificate2 => {
+					if(isThrown) {
+						throw new CryptographicException("The test's store refuses the put-back.");
+					}
+				};
+				DbSettingsResult dbSettingsResult;
+				if(isFailedSave) {
+					ClientCertificateStore.ActionInsteadOfKeyProvInfoPutBackForTests=actionPutBackFails;
+					//Held open as a program that reads it would: others may read it, not replace it.
+					using(new FileStream(config,FileMode.Open,FileAccess.Read,FileShare.Read)) {
+						dbSettingsResult=DbSettingsRunner.Apply(new DbSettingsRequest() { Auth=DbSettingsAuth.Certificate,PfxFile=pathPfx,
+							PfxPassword=clientCertificateTestStore.Password },config,caCopy);
+					}
+					ClientCertificateStore.ActionInsteadOfKeyProvInfoPutBackForTests=null;
+					Assert.AreEqual(DbSettingsRunner.EXIT_WRITE_FAILED,dbSettingsResult.ExitCode,label+": "+dbSettingsResult.Message);
+					Assert.AreEqual("",DbConnectionConfig.ReadFile(config).ClientCertThumbprint,label+": the settings are as they were.");
+				}
+				else {
+					dbSettingsResult=DbSettingsRunner.Apply(new DbSettingsRequest() { Auth=DbSettingsAuth.Certificate,PfxFile=pathPfx,
+						PfxPassword=clientCertificateTestStore.Password },config,caCopy);
+					Assert.AreEqual(DbSettingsRunner.EXIT_OK,dbSettingsResult.ExitCode,label+": "+dbSettingsResult.Message);
+					ClientCertificateStore.ActionInsteadOfKeyProvInfoPutBackForTests=actionPutBackFails;
+					dbSettingsResult=DbSettingsRunner.Apply(new DbSettingsRequest() { Auth=DbSettingsAuth.Password,DbPassword="" },config,caCopy);
+					ClientCertificateStore.ActionInsteadOfKeyProvInfoPutBackForTests=null;
+					Assert.AreEqual(DbSettingsRunner.EXIT_OK,dbSettingsResult.ExitCode,label+": "+dbSettingsResult.Message);
+				}
+				ClientCertificateStore.ActionAfterKeysStoredForTests=null;
+				Assert.IsNotNull(dictKeys,label+": the import stored its key.");
+				TestKey testKeyTool=dictKeys[thumbprintClient];
+				TestKeyProvInfo testKeyProvInfoTool;
+				using(X509Certificate2 x509Certificate2Entry=clientCertificateTestStore.Find(thumbprintClient)) {
+					testKeyProvInfoTool=TestKeyProvInfo.Read(x509Certificate2Entry);
+				}
+				string why=isThrown ? "The test's store refuses the put-back." : "Windows reported no error, but the entry does not name it afterwards.";
+				StringAssert.Contains(dbSettingsResult.Message,"before the tool's import gave it a private key, but its earlier private key (provider "
+					+testKeyProvInfoFirst.ProviderName+", key container "+testKeyProvInfoFirst.ContainerName+", in a user key set) could not be named on its entry again: "+why
+					+" The entry still names the private key the tool gave it (",label);
+				StringAssert.Contains(dbSettingsResult.Message,"so the tool left both keys and the entry as they are. To put the entry back as it "
+					+"was, as an administrator, delete the tool's key (certutil -user -csp \""+testKeyProvInfoTool.ProviderName+"\" -delkey \""+testKeyProvInfoTool.ContainerName
+					+"\"), then import the certificate with its earlier key again.",label);
+				//Decision 2: the record is kept, so that a later save tries again.
+				StringAssert.EndsWith(dbSettingsResult.Message," The tool keeps its record of the client certificate "+thumbprintClient+", so that a later "
+					+"save tries again to name its earlier private key on its entry.",label);
+				ImportedCertificate importedCertificate=ImportedCertificateRecord.ReadRecord(pathRecord);
+				Assert.IsNotNull(importedCertificate,label+": the record is kept: "+dbSettingsResult.Message);
+				Assert.AreEqual(thumbprintClient,importedCertificate.Thumbprint,label);
+				Assert.IsTrue(importedCertificate.KeyTool!=null && string.Equals(importedCertificate.KeyTool.ContainerName,testKeyTool.Name,
+					StringComparison.OrdinalIgnoreCase),label+": it names the tool's key.");
+				Assert.IsTrue(importedCertificate.KeyBefore!=null && importedCertificate.KeyBefore.ContainerName==testKeyProvInfoFirst.ContainerName,
+					label+": and the earlier key.");
+				CollectionAssert.AreEqual(new List<string> { thumbprintClient },clientCertificateTestStore.GetThumbprints(),label+": the entry stays.");
+				Assert.IsTrue(string.Equals(testKeyProvInfoTool.ContainerName,testKeyTool.Name,StringComparison.OrdinalIgnoreCase),
+					label+": it still names the tool's key.");
+				Assert.IsTrue(testKeyTool.Exists(),label+": the tool's key stays, while the entry names it (the store's clean-up deletes it).");
+				Assert.IsTrue(File.Exists(testKeyTool.FilePath),label+": and its file.");
+				Assert.IsTrue(testKeyFirst.Exists(),label+": the earlier key is untouched.");
+				Assert.IsTrue(clientCertificateTestStore.CanSign(thumbprintClient),label+": the certificate still works.");
+				//A later save with the password tries again, and the put-back works now.
+				dbSettingsResult=DbSettingsRunner.Apply(new DbSettingsRequest() { Auth=DbSettingsAuth.Password,DbPassword="" },config,caCopy);
+				ClientCertificateStore.StoreNameForTests=null;
+				Assert.AreEqual(DbSettingsRunner.EXIT_OK,dbSettingsResult.ExitCode,label+" (again): "+dbSettingsResult.Message);
+				StringAssert.EndsWith(dbSettingsResult.Message," The client certificate "+thumbprintClient+" was in the computer's certificate store ("
+					+storeText+") before the tool's import gave it a private key: its entry names its earlier private key again (provider "
+					+testKeyProvInfoFirst.ProviderName+", key container "+testKeyProvInfoFirst.ContainerName+", in a user key set), as before that import, and "
+					+"the private key the tool gave it was deleted."+ClientCertificateRecordTests.GetPutBackHedge(storeText,thumbprintClient),label+" (again)");
+				CollectionAssert.AreEqual(new List<string> { thumbprintClient },clientCertificateTestStore.GetThumbprints(),label+" (again): the entry stays.");
+				using(X509Certificate2 x509Certificate2Entry=clientCertificateTestStore.Find(thumbprintClient)) {
+					Assert.IsTrue(TestKeyProvInfo.Read(x509Certificate2Entry).IsSameAs(testKeyProvInfoFirst),label+" (again): it names its earlier key again.");
+				}
+				Assert.IsFalse(testKeyTool.Exists(),label+" (again): the tool's key is gone.");
+				Assert.IsFalse(File.Exists(testKeyTool.FilePath),label+" (again): its file is gone.");
+				Assert.IsTrue(testKeyFirst.Exists(),label+" (again): the earlier key is untouched.");
+				Assert.IsFalse(File.Exists(pathRecord),label+" (again): no record is left.");
+			}
+		}
+
+		///<summary>The DCFU4 lead fix round, decision 5: the put-back is written, but the store cannot be read again to check the entry (a seam
+		///throws there, as a store that cannot be opened). The tool cannot tell whether the entry names its earlier key or still the tool's, so it
+		///deletes no key (the certificate could otherwise name a deleted key), and the result says that the store could not be read again and what
+		///that means, never that the entry "is no longer in the store"; the record is kept (decision 2), and a later save with the password finds
+		///the entry naming its earlier key, and deletes the tool's key, which no certificate names. Before the fix the result said the entry was
+		///no longer in the store, and the tool's key was deleted unchecked. For each kind of key, over a usable key the tool did not create.
+		///</summary>
+		[TestMethod]
+		public void Apply_APutBackThatCannotBeChecked_DeletesNoKey_AndSaysTheStoreCouldNotBeReadAgain() {
+			foreach(TestKeyKind testKeyKind in _arrayKinds) {
+				string label=testKeyKind.ToString();
+				string folder=Path.Combine(_folder,testKeyKind+"-unchecked");
+				Directory.CreateDirectory(folder);
+				string config=TestHelpers.WriteConfig(folder,"ComputerName","localhost","Database","opendental","User","root","Password","");
+				string caCopy=DbConnectionConfig.GetOfficeCaCopyPath(Path.Combine(folder,"program"));
+				string pathRecord=ImportedCertificateRecord.GetPath(caCopy);
+				using(ClientCertificateTestStore clientCertificateTestStore=new ClientCertificateTestStore()) {
+					string storeText="CurrentUser\\"+clientCertificateTestStore.Name;
+					string pathPfx=clientCertificateTestStore.WritePfx(folder,testKeyKind,out string thumbprintClient);
+					TestKey testKeyFirst=clientCertificateTestStore.AddCertificate(pathPfx);
+					TestKeyProvInfo testKeyProvInfoFirst;
+					using(X509Certificate2 x509Certificate2Entry=clientCertificateTestStore.Find(thumbprintClient)) {
+						testKeyProvInfoFirst=TestKeyProvInfo.Read(x509Certificate2Entry);
+					}
+					Dictionary<string,TestKey> dictKeys=null;
+					ClientCertificateStore.ActionAfterKeysStoredForTests=x509Certificate2Collection => {
+						dictKeys=clientCertificateTestStore.TrackKeys(x509Certificate2Collection);
+					};
+					ClientCertificateStore.StoreNameForTests=clientCertificateTestStore.Name;
+					DbSettingsResult dbSettingsResult=DbSettingsRunner.Apply(new DbSettingsRequest() { Auth=DbSettingsAuth.Certificate,PfxFile=pathPfx,
+						PfxPassword=clientCertificateTestStore.Password },config,caCopy);
+					ClientCertificateStore.ActionAfterKeysStoredForTests=null;
+					Assert.AreEqual(DbSettingsRunner.EXIT_OK,dbSettingsResult.ExitCode,label+": "+dbSettingsResult.Message);
+					TestKey testKeyTool=dictKeys[thumbprintClient];
+					TestKeyProvInfo testKeyProvInfoTool;
+					using(X509Certificate2 x509Certificate2Entry=clientCertificateTestStore.Find(thumbprintClient)) {
+						testKeyProvInfoTool=TestKeyProvInfo.Read(x509Certificate2Entry);
+					}
+					ClientCertificateStore.ActionBeforePutBackCheckForTests=() => {
+						throw new CryptographicException("The test's store cannot be read again.");
+					};
+					dbSettingsResult=DbSettingsRunner.Apply(new DbSettingsRequest() { Auth=DbSettingsAuth.Password,DbPassword="" },config,caCopy);
+					ClientCertificateStore.ActionBeforePutBackCheckForTests=null;
+					Assert.AreEqual(DbSettingsRunner.EXIT_OK,dbSettingsResult.ExitCode,label+": "+dbSettingsResult.Message);
+					Assert.IsFalse(dbSettingsResult.Message.Contains("is no longer in the store"),label+": "+dbSettingsResult.Message);
+					Assert.IsFalse(dbSettingsResult.Message.Contains("was deleted"),label+": "+dbSettingsResult.Message);
+					Assert.AreEqual("Saved the connection settings for the database opendental on localhost (password). The client certificate "+thumbprintClient
+						+" was in the computer's certificate store ("+storeText+") before the tool's import gave it a private key, and its earlier private key "
+						+"(provider "+testKeyProvInfoFirst.ProviderName+", key container "+testKeyProvInfoFirst.ContainerName+", in a user key set) was written "
+						+"on its entry again, but the store could not be read again to check the entry: The test's store cannot be read again. So the tool "
+						+"cannot tell whether the entry names its earlier private key again or still the private key the tool gave it (provider "
+						+testKeyProvInfoTool.ProviderName+", key container "+testKeyProvInfoTool.ContainerName+", in a user key set), which the computer's "
+						+"users can read; it deleted no key, so that the certificate does not name a key that is gone, and left the entry as it is. Check the "
+						+"entry as an administrator (certutil -user -store \""+clientCertificateTestStore.Name+"\" "+thumbprintClient+") and, if it does not "
+						+"name its earlier key, import the certificate with that key again. The tool keeps its record of the client certificate "+thumbprintClient
+						+", so that a later save tries again to name its earlier private key on its entry.",dbSettingsResult.Message,label);
+					Assert.IsTrue(testKeyTool.Exists(),label+": the tool's key is not deleted unchecked (the store's clean-up deletes it).");
+					Assert.IsTrue(File.Exists(testKeyTool.FilePath),label+": and its file.");
+					Assert.IsTrue(testKeyFirst.Exists(),label+": the earlier key is untouched.");
+					Assert.AreEqual(thumbprintClient,ImportedCertificateRecord.Read(pathRecord),label+": the record is kept.");
+					//A later save finds the entry naming its earlier key (the write took), and deletes the tool's key, which no certificate names.
+					dbSettingsResult=DbSettingsRunner.Apply(new DbSettingsRequest() { Auth=DbSettingsAuth.Password,DbPassword="" },config,caCopy);
+					ClientCertificateStore.StoreNameForTests=null;
+					Assert.AreEqual(DbSettingsRunner.EXIT_OK,dbSettingsResult.ExitCode,label+" (again): "+dbSettingsResult.Message);
+					Assert.AreEqual("Saved the connection settings for the database opendental on localhost (password). The client certificate "+thumbprintClient
+						+" was in the computer's certificate store ("+storeText+") before the tool's import gave it a private key: its entry names its earlier "
+						+"private key again (provider "+testKeyProvInfoFirst.ProviderName+", key container "+testKeyProvInfoFirst.ContainerName+", in a user key "
+						+"set), as before that import, and the private key the tool gave it was deleted."
+						+ClientCertificateRecordTests.GetPutBackHedge(storeText,thumbprintClient),dbSettingsResult.Message,label+" (again)");
+					using(X509Certificate2 x509Certificate2Entry=clientCertificateTestStore.Find(thumbprintClient)) {
+						Assert.IsTrue(TestKeyProvInfo.Read(x509Certificate2Entry).IsSameAs(testKeyProvInfoFirst),label+" (again): it names its earlier key.");
+					}
+					Assert.IsFalse(testKeyTool.Exists(),label+" (again): the tool's key is gone.");
+					Assert.IsFalse(File.Exists(testKeyTool.FilePath),label+" (again): its file is gone.");
+					Assert.IsTrue(testKeyFirst.Exists(),label+" (again): the earlier key is untouched.");
+					Assert.IsFalse(File.Exists(pathRecord),label+" (again): no record is left.");
 				}
 			}
 		}

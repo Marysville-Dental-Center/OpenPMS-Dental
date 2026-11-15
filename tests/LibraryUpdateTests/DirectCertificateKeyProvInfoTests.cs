@@ -205,6 +205,64 @@ namespace LibraryUpdateTests {
 			}
 		}
 
+		///<summary>The DCFU4 lead fix round, decision 4: an import over a store entry of the address's certificate whose key is in another key set
+		///than the import's (the test makes the entry name the machine key set; nothing is made, opened or deleted there) gives the entry the
+		///import's key and leaves that earlier key behind, and the window now says so, as the connection settings tool does: the warning names the
+		///certificate and the earlier key (provider, key container, key set) and says it was left untouched. The import's own key is in the user
+		///key set and works; the user key the machine-set name stood for is untouched. Before the fix the import said nothing.</summary>
+		[TestMethod]
+		public void ImportPrivateFile_OverAnEntryWhoseKeyIsInAnotherKeySet_WarnsThatTheEarlierKeyWasLeftUntouched() {
+			using(DirectTestPki directTestPki=new DirectTestPki())
+			using(DirectTestStores directTestStores=new DirectTestStores()) {
+				List<DirectTestKey> listKeys=new List<DirectTestKey>();
+				try {
+					DirectTestPki.Issued issued=directTestPki.Issue(ADDRESS);
+					string pathPfx=directTestPki.WritePfx("pat.pfx",issued,isCaIncluded:false);
+					//Every key either import stores is tracked as it is stored, so that the finally block deletes it whatever assert fails.
+					DirectCertificateImport.ActionAfterKeysStoredForTests=x509Certificate2Collection => {
+						foreach(X509Certificate2 x509Certificate2 in x509Certificate2Collection) {
+							if(x509Certificate2.HasPrivateKey) {
+								listKeys.Add(DirectTestKey.Of(x509Certificate2));
+							}
+						}
+					};
+					DirectCertificateResult directCertificateResultFirst=DirectCertificateImport.ImportPrivateFile(ADDRESS,pathPfx,directTestPki.Password,null,
+						DateTime.UtcNow);
+					Assert.IsTrue(directCertificateResultFirst.IsImported,directCertificateResultFirst.Error);
+					Assert.AreEqual("",directCertificateResultFirst.Warning,"The test's premise: the first import has nothing to warn about.");
+					DirectTestKey directTestKeyFirst;
+					using(X509Certificate2 x509Certificate2Entry=FindStored(directTestStores.NamePrivate,issued.Thumbprint)) {
+						directTestKeyFirst=DirectTestKey.Of(x509Certificate2Entry);
+					}
+					DirectTestKeyProvInfo directTestKeyProvInfoMachine=DirectTestKeyProvInfo.NameMachineKeySetForEntry(directTestStores.NamePrivate,issued.Thumbprint);
+					DirectCertificateImport.ActionBeforePrivateKeyOpenForTests=x509Certificate2 => {
+						DirectTestKeyProvInfo directTestKeyProvInfo=DirectTestKeyProvInfo.Read(x509Certificate2);
+						if(directTestKeyProvInfo.IsNamed && directTestKeyProvInfo.IsMachine) {
+							throw new CryptographicException("The test refuses to open a key of the machine key set.");
+						}
+					};
+					DirectCertificateResult directCertificateResult=DirectCertificateImport.ImportPrivateFile(ADDRESS,pathPfx,directTestPki.Password,null,DateTime.UtcNow);
+					DirectCertificateImport.ActionBeforePrivateKeyOpenForTests=null;
+					Assert.IsTrue(directCertificateResult.IsImported,directCertificateResult.Error);
+					Assert.AreEqual("The certificate was already in this computer's Direct certificate store with its private key in another key set than the "
+						+"one the import uses ("+issued.Subject+", "+issued.Thumbprint+"): the import gave it the private key it stored, and left the earlier "
+						+"key untouched: provider "+directTestKeyProvInfoMachine.ProviderName+", key container "+directTestKeyProvInfoMachine.ContainerName
+						+", in the computer's key set.",directCertificateResult.Warning);
+					using(X509Certificate2 x509Certificate2Entry=FindStored(directTestStores.NamePrivate,issued.Thumbprint)) {
+						DirectTestKeyProvInfo directTestKeyProvInfoNow=DirectTestKeyProvInfo.Read(x509Certificate2Entry);
+						Assert.IsFalse(directTestKeyProvInfoNow.IsMachine,"The entry names the import's key, in the user key set.");
+						Assert.IsTrue(DirectCertificateImport.IsKeyUsable(x509Certificate2Entry),"The entry's new key works.");
+					}
+					Assert.IsTrue(directTestKeyFirst.Exists(),"The user key the test's machine-set name stood for is untouched.");
+				}
+				finally {
+					DirectCertificateImport.ActionBeforePrivateKeyOpenForTests=null;
+					DirectCertificateImport.ActionAfterKeysStoredForTests=null;
+					DeleteKeys(listKeys);
+				}
+			}
+		}
+
 		///<summary>Adds the public certificate to the test's private store and gives its entry a key provider information that names a smart-card
 		///CSP and a key container of the current user that no CSP has (a name made for the test). Returns it, as read back.</summary>
 		private static DirectTestKeyProvInfo AddSmartCardCertificate(DirectTestStores directTestStores,DirectTestPki.Issued issued) {

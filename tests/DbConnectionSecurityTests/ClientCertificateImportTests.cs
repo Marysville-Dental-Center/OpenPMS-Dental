@@ -510,10 +510,11 @@ namespace DbConnectionSecurityTests {
 		///after the import gave the store's entry the key it stored leaves no key of the tool's that no record names. (1) FreeDentalConfig.xml is
 		///locked (another program holds it open without sharing its deletion, so its replace fails): the import is undone, the certificate goes
 		///with the import's key (it no longer opens, its file is gone), the error says so, nothing is recorded and the settings are as they were.
-		///(2) The same, when the settings as they are already name that certificate (its entry's key was deleted): it stays, with the import's
-		///key, and is recorded at once, with the entry's earlier key, which the import left aside and its warning names (the DCFU4 fix round's
-		///review findings 1 and 3); once the file is free, a save with the password deletes the import's key and names the earlier key on the
-		///entry again, which stays. (3) The settings are saved but
+		///(2) The same, when the settings as they are already name that certificate (its entry's key was deleted, a key the tool did not create,
+		///which the import left aside: the DCFU4 fix round's review findings 1 and 3): the undo gives the entry its earlier key back, as the
+		///administrator had it, deletes the import's key and leaves the record as it was before the save (none), and the error says what was put
+		///back (the DCFU4 lead fix round, decision 3: the owner's answer (b) of 2026-11-13 covers the undo of a failed save; until that round the
+		///entry kept the import's key and was recorded at once). (3) The settings are saved but
 		///their file's rights cannot be reset (a seam): the error says so, the record names the new certificate, and a save with the password
 		///then removes it with its key. Before the fix, (1) and (3) left the certificate and the import's key unrecorded, and (2) unrecorded too.
 		///(4) The fix round's second review, finding 2: as (1), over a store entry with a usable key the tool did not create (AddCertificate):
@@ -619,17 +620,31 @@ namespace DbConnectionSecurityTests {
 							continue;
 						}
 						if(i==2) {
+							ClientCertificateStore.StoreNameForTests=null;
 							StringAssert.StartsWith(dbSettingsResult.Message,"The connection settings could not be saved: ",label);
-							Assert.IsFalse(dbSettingsResult.Message.Contains("removed"),label+": "+dbSettingsResult.Message);
-							//The import left the entry's deleted key aside, and its warning says so: nothing was put back, the settings use the import.
-							StringAssert.Contains(dbSettingsResult.Message,"but the private key its entry names does not open for this tool",label);
-							StringAssert.Contains(dbSettingsResult.Message,"key container "+testKeyProvInfoDeleted.ContainerName,label);
+							//The DCFU4 lead fix round, decision 3 (the owner's answer (b) also for the undo of a failed save whose settings already name the
+							//certificate): the entry gets its earlier (deleted) key back, as the administrator had it; the import's key is deleted; the
+							//record is as it was before the save (none). The error leaves out the import's warning about that key, which the entry names again.
+							string storeText="CurrentUser\\"+clientCertificateTestStore.Name;
+							StringAssert.EndsWith(dbSettingsResult.Message,". The client certificate "+thumbprintClient+" was in the computer's certificate "
+								+"store ("+storeText+") before the tool's import gave it a private key: its entry names its earlier private key again (provider "
+								+testKeyProvInfoDeleted.ProviderName+", key container "+testKeyProvInfoDeleted.ContainerName+", in a user key set), as before that "
+								+"import, and the private key the tool gave it was deleted."+ClientCertificateRecordTests.GetPutBackHedge(storeText,thumbprintClient),
+								label);
+							Assert.IsFalse(dbSettingsResult.Message.Contains("does not open for this tool"),label+": "+dbSettingsResult.Message);
+							CollectionAssert.AreEqual(new List<string> { thumbprintClient },clientCertificateTestStore.GetThumbprints(),label+": the entry stays.");
+							using(X509Certificate2 x509Certificate2Entry=clientCertificateTestStore.Find(thumbprintClient)) {
+								Assert.IsTrue(TestKeyProvInfo.Read(x509Certificate2Entry).IsSameAs(testKeyProvInfoDeleted),label+": it names its earlier key again.");
+							}
+							Assert.IsFalse(testKeyImport.Exists(),label+": the import's key is gone.");
+							Assert.IsFalse(File.Exists(testKeyImport.FilePath),label+": its file is gone: "+testKeyImport.FilePath);
+							Assert.AreEqual("",ImportedCertificateRecord.Read(pathRecord),label+": the record is as it was before the save: none.");
+							Assert.AreEqual(thumbprintClient,DbConnectionConfig.ReadFile(config).ClientCertThumbprint,label+": the settings are as they were.");
+							continue;
 						}
-						else {
-							Assert.AreEqual("The connection settings were saved, but the rights of FreeDentalConfig.xml could not be set back to those of "
-								+"the program folder: The test's rights reset fails. Remove any right of Users on the file in its Properties, Security tab, then "
-								+"save again.",dbSettingsResult.Message,label);
-						}
+						Assert.AreEqual("The connection settings were saved, but the rights of FreeDentalConfig.xml could not be set back to those of "
+							+"the program folder: The test's rights reset fails. Remove any right of Users on the file in its Properties, Security tab, then "
+							+"save again.",dbSettingsResult.Message,label);
 						Assert.AreEqual(thumbprintClient,DbConnectionConfig.ReadFile(config).ClientCertThumbprint,label+": the settings name it.");
 						Assert.AreEqual(thumbprintClient,ImportedCertificateRecord.Read(pathRecord),label+": the record names the import.");
 						AssertEntryUsesKey(clientCertificateTestStore,thumbprintClient,testKeyImport,label);
@@ -638,16 +653,7 @@ namespace DbConnectionSecurityTests {
 						ClientCertificateStore.StoreNameForTests=null;
 						Assert.AreEqual(DbSettingsRunner.EXIT_OK,dbSettingsResult.ExitCode,label+": "+dbSettingsResult.Message);
 						Assert.AreEqual("",ImportedCertificateRecord.Read(pathRecord),label+": no record is left.");
-						if(i==2) {
-							//The entry the store held before the import names its earlier (deleted) key again and stays.
-							CollectionAssert.AreEqual(new List<string> { thumbprintClient },clientCertificateTestStore.GetThumbprints(),label+": the entry stays.");
-							using(X509Certificate2 x509Certificate2Entry=clientCertificateTestStore.Find(thumbprintClient)) {
-								Assert.IsTrue(TestKeyProvInfo.Read(x509Certificate2Entry).IsSameAs(testKeyProvInfoDeleted),label+": it names its earlier key again.");
-							}
-						}
-						else {
-							Assert.AreEqual(0,clientCertificateTestStore.GetThumbprints().Count,label+": the recorded certificate is removed.");
-						}
+						Assert.AreEqual(0,clientCertificateTestStore.GetThumbprints().Count,label+": the recorded certificate is removed.");
 						Assert.IsFalse(testKeyImport.Exists(),label+": with the key the tool made.");
 						Assert.IsFalse(File.Exists(testKeyImport.FilePath),label+": its file is gone.");
 					}

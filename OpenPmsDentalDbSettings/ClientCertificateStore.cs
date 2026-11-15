@@ -82,6 +82,10 @@ namespace OpenPmsDentalDbSettings {
 		///before anything looks for it or opens it, so that a test sees which keys the tool takes for its own to delete by name (never one it did
 		///not create). Throwing there is a key that cannot be deleted, which stays. Null in the tool.</summary>
 		internal static Action<CertificateKeyProvInfo> ActionBeforeKeyDeleteByNameForTests;
+		///<summary>The tests only: called right before PutBackEarlierKey reads the store anew to check the entry it wrote the earlier key
+		///provider information back onto; throwing there is a store that cannot be read again (DCFU4 lead fix round, decision 5). Null in the
+		///tool.</summary>
+		internal static Action ActionBeforePutBackCheckForTests;
 		///<summary>The tests only: the name of a store of the current user (the tests' ClientCertificateTestStore) that the tool's public methods
 		///(ImportPfx, RemoveImported, FindInStore) use instead of LocalMachine\My, so that DbSettingsRunner.Apply can be tested without the
 		///computer's store; the import then uses the user's key set and gives no read access, as the internal overloads do for such a store.
@@ -741,6 +745,7 @@ namespace OpenPmsDentalDbSettings {
 			}
 			CertificateKeyProvInfo keyProvInfoNow=null;
 			try {
+				ActionBeforePutBackCheckForTests?.Invoke();
 				using(X509Certificate2 x509Certificate2Now=FindInStoreNow(x509Store,thumbprint)) {
 					keyProvInfoNow=x509Certificate2Now==null ? null : ReadKeyProvInfo(x509Certificate2Now);
 				}
