@@ -1061,7 +1061,7 @@ out-of-process server in process; an x86-only SigPlusNET, Guru and QBFC 10 in th
 (synthetic PE files, fake COM activations; x86 and x64 runs), the in-process paths call for call with main's code (Helper32Tests,
 BINBTests' TopazWrapperInProcessTests), NoHqTests' vendor scan on the new rule.
 
-**Status (2026-11-15), S3a-11.** Done on `net10/s3a11-1` (`docs/port-notes/S3a-11.md`), not merged yet: the setup has no per-user mode
+**Status (2026-11-15), S3a-11.** Merged from `net10/s3a11-2` (`docs/port-notes/S3a-11.md`); the owner's elevated run is still to come: the setup has no per-user mode
 (no `PrivilegesRequiredOverridesAllowed`, no `/CURRENTUSER` note, no `IsAdminInstallMode` branch in `SetUpConnection`, the security page or
 the Event Log `[Registry]` entry; `{autodesktop}` is always the common desktop). `tools/Test-Installer.ps1` is an elevated test: unelevated
 it changes nothing and ends with exit code 2; it reads the all-users uninstall entry in the 32-bit view; scenarios A to C use a loopback
