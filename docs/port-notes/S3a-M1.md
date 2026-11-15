@@ -17,7 +17,7 @@ Line numbers are those of `main` at `8b1e89fa7`.
 
 | File | Change |
 |---|---|
-| `OpenPmsDentalBusiness/UI/GridOD.cs` (1934-2038, 2308-2313) | The grid's own right-click menu, made on the first right click when no caller set a menu (`OnMouseUp`), is a `ContextMenuStrip` (`_contextMenuStripGrid`, disposed with the grid) instead of a `new ContextMenu()`. `OnContextMenuStripChanged` subscribes it to `ContextMenuStrip_Opening` once; the Opening adds "Copy Cell Text" the first time (after a separator if the menu has items), then "Copy Rows", sets both enabled for the clicked cell and row exactly as the Popup did, then removes the last links and adds the clicked row's links from `PopupHelper.GetToolStripMenuItemLinks` (a `ToolStripSeparator` first if the menu has items, added only when there is at least one real link). A `MenuItem("-")` became a `ToolStripSeparator`; the "is it the divider" test (`Text!="-"`) became `!(x is ToolStripSeparator)`. Its empty menu starts its Opening cancelled (`ToolStripDropDown` cancels the opening of a menu without items), so the handler sets `e.Cancel=false` once it has added items. New property `DoAddGridItemsToContextMenuStrip` (default `false`, section 3.2). The `ContextMenu` path that callers still use (`OnContextMenuChanged`, `ContextMenu_Popup`, `ContextMenuAddPopupLinks`, `_listMenuItemsLinks`) is unchanged in the region "Bridge for S3a-M3". |
+| `OpenPmsDentalBusiness/UI/GridOD.cs` (1934-2038, 2308-2313) | The grid's own right-click menu, made on the first right click when no caller set a menu (`OnMouseUp`), is a `ContextMenuStrip` (`_contextMenuStripGrid`, disposed with the grid) instead of a `new ContextMenu()`. `OnContextMenuStripChanged` subscribes it to `ContextMenuStrip_Opening` once; the Opening adds "Copy Cell Text" the first time (after a separator if the menu has items), then "Copy Rows", sets both enabled for the clicked cell and row exactly as the Popup did, then removes the last links and adds the clicked row's links from `PopupHelper.GetToolStripMenuItemLinks` (a `ToolStripSeparator` first if the menu has items, added only when there is at least one real link). A `MenuItem("-")` became a `ToolStripSeparator`; the "is it the divider" test (`Text!="-"`) became `!(x is ToolStripSeparator)`. Its empty menu starts its Opening cancelled (`ToolStripDropDown` cancels the opening of a menu without displayed items, which leave out the items that are not `Available`), so the handler sets `e.Cancel=false` when the menu had no item that would show and has one after it added its items (also a caller's strip with only hidden items, section 3.2). New property `DoAddGridItemsToContextMenuStrip` (default `false`, section 3.2). The `ContextMenu` path that callers still use (`OnContextMenuChanged`, `ContextMenu_Popup`, `ContextMenuAddPopupLinks`, `_listMenuItemsLinks`) is unchanged in the region "Bridge for S3a-M3". |
 | `OpenPmsDentalBusiness/UI/GridOld.cs` (1466-1551, 1720-1725) | The same for the old grid (ControlChart's `gridProg`): its own menu is a `ContextMenuStrip`; the Opening adds "Copy Cell Text" (`CopyHelperStrip`) and, if `HasLinkDetect`, the links (`PopupHelperStrip`); no "Copy Rows", as before. `DoAddGridItemsToContextMenuStrip` as in GridOD. The `ContextMenu` path stays in the region "Bridge for S3a-M2". One difference that changes nothing today: the bridge decides on the links when the menu is assigned (`OnContextMenuChanged` subscribes `PopupHelper` only if `HasLinkDetect` is true then), the strip path when it opens; no caller sets `HasLinkDetect` to false. |
 | `OpenPmsDentalBusiness/UI/PopupHelper.cs` (the menu code; its two `ShellOpen` lines, 164 and 177, are S3a-2's and stay as S3a-2 left them) | New `GetToolStripMenuItemLinks(text,rightClickLinks)` returns the links as `ToolStripMenuItem`s. `GetContextMenuItemLinks` (the bridge) returns the same links as `MenuItem`s. Both come from one private list of links (`GetLinks`, a small `PopupLink` class with the text and the click handler), built and sorted exactly as before (`OrderByDescending(Text=="-").ThenBy(Text)`). |
 | `WpfControlsOD/UI/Controls/Supplemental/PopupHelper2.cs` | **No change.** Its `MenuItem` is `WpfControls.UI.MenuItem` (`WpfControlsOD/UI/Controls/MenuItem.cs`, a `System.Windows.Controls.MenuItem`), a WPF type that WFDEV006 does not touch, and the file has no `using System.Windows.Forms`. Its `ShellOpen` lines (162, 175) are S3a-2's. The "keep both files in sync" header stays true for the links themselves (texts, order, handlers). |
@@ -69,7 +69,12 @@ purpose or by the nature of the types:
 - `GridOD.DoAddGridItemsToContextMenuStrip` and `GridOld.DoAddGridItemsToContextMenuStrip` (designer property, default `false`): when a
   grid's `ContextMenu` becomes a `ContextMenuStrip`, set it to `true` on that grid so it keeps "Copy Cell Text", "Copy Rows" (GridOD) and
   the links after its own items. It may be set before or after the strip (the designer writes `ContextMenuStrip` first). Leave it `false`
-  on the grids that already set a `ContextMenuStrip` today. `FormQueryMonitor` relies on the grid's items ("ODGrid will automatically
+  on the grids that already set a `ContextMenuStrip` today. A strip whose own items are all hidden when it opens (the `Visible=false`
+  "View SS#"/"View SIN" and "View DOB" items of ControlFamily's `gridPat`, ControlChart's `gridPtInfo` "View DOB", FormQueryMonitor's
+  `gridFeed`) still opens with the grid's items: `ToolStripDropDown` starts such an Opening cancelled (it counts the displayed items, which
+  leave out the items that are not `Available`), and the grid's Opening un-cancels it when it had no item that would show and has one
+  after adding its items (fix on `net10/s3am1-2`). A caller's own Opening that makes a hidden item visible and runs before the grid's
+  (subscribed before the strip is assigned to the grid) still has to set `e.Cancel=false` itself. `FormQueryMonitor` relies on the grid's items ("ODGrid will automatically
   attach the default Popups") and finds its separator by `Text=="-"`: on a strip that is a `ToolStripSeparator`.
 - `PopupHelper.GetToolStripMenuItemLinks(text,rightClickLinks)`.
 - `Lan.C(Control or string,params ToolStripDropDown[])` (was `ContextMenuStrip[]`; calls compile unchanged).
@@ -87,10 +92,13 @@ DataConnectionBase, OpenPmsDentalBusiness, OpenPmsDental and ODR; its lock file 
 the grids get a window handle for their layout only, and the menus' Opening (`OnOpening`) and Popup (`OnPopup`) are raised directly with the
 grid set as their source control.
 
-- `GridMenuTests` (8): GridOD's own strip at its first opening and at four more clicks (cells with and without text, rows selected or not,
+- `GridMenuTests` (10): GridOD's own strip at its first opening and at four more clicks (cells with and without text, rows selected or not,
   links appearing and going), a caller's strip without and with `DoAddGridItemsToContextMenuStrip` (set before and after the strip, opened
   twice, then turned off), a strip shared by two grids (only the clicked one adds), the own strip disposed with the grid; GridOld's own
-  strip and a caller's strip. Every list is compared with the bridge's `ContextMenu` for the same click.
+  strip and a caller's strip; for both grids a caller's strip whose only item is hidden ("View DOB", `Visible=false`): cancelled without
+  the grid items, opened with them ("View DOB" hidden, "-", "Copy Cell Text", and "Copy Rows" on GridOD). Every list is compared with the
+  bridge's `ContextMenu` for the same click. The tests' opening starts cancelled exactly when `ToolStripDropDown` would: no item is
+  `Available`.
 - `LanToolStripTests` (3): a strip with separators in en-US (no exception, texts kept); in fr-CA on a scratch database `s3am1_*` (the
   language, languageforeign and preference tables of the reference schema, synthetic rows, dropped afterwards; inconclusive without a
   server or with `S3AM1_TEST_DB=skip`): the strip and the same `ContextMenu` give the same translated texts and the same keys (the strip
@@ -107,7 +115,8 @@ unchanged). `UnitTests/UnitTests/PopupHelperTests.cs` calls only `GetURLsFromTex
 
 Targeted runs (lane build first), all green: S3aM1Tests 17/17, BACCTTests 41, M2SHELLTests 39, BPRINTTests 71, MaintenanceTests 111,
 InventoryTests 93, NoHqTests 84, MiddleTierMockTests 151, P262BillingTests 54, AttributionTests 50. Full lane build: 0 errors, no new
-warning in the changed files.
+warning in the changed files. After the review fix (`net10/s3am1-2`, hidden items): full lane build 0 errors; Targeted runs all green,
+S3aM1Tests 19/19 and the other nine assemblies with the same counts as above.
 
 ## 5. Launch checks (for the gate; screenshots, not run by this package)
 

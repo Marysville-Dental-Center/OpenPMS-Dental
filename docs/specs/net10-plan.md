@@ -896,7 +896,8 @@ right-click menus are `ContextMenuStrip`s with the same items, order, separators
 `DoAddGridItemsToContextMenuStrip`, default off, for the menus M2/M3 convert); `PopupHelper.GetToolStripMenuItemLinks`; `Lan.C` translates
 any `ToolStripDropDown` with the same keys and no longer throws on a separator; `ContextMenuStripDropDown` is the toolbar button's drop-down;
 ODR's `ComboBoxMulti` on a `ContextMenuStrip`; `PopupHelper2` needs nothing (WPF `MenuItem`). The WinForms paths that M2/M3 callers use stay
-as marked bridges, listed in the note's section 3 for M2/M3 to remove. New `tests/S3aM1Tests` (17); Targeted runs green (BACCTTests,
+as marked bridges, listed in the note's section 3 for M2/M3 to remove. Review fix on `net10/s3am1-2`: a caller's strip with
+`DoAddGridItemsToContextMenuStrip` whose own items are all hidden (the masked SSN/DOB items) opens with the grid items. New `tests/S3aM1Tests` (19); Targeted runs green (BACCTTests,
 M2SHELLTests, BPRINTTests, MaintenanceTests, InventoryTests, NoHqTests, MiddleTierMockTests, P262BillingTests, AttributionTests). The
 launch checks (note, section 5) stay the gate's.
 
