@@ -233,7 +233,7 @@ New behaviour in `FormOIDRegistryInternal`:
 | `OpenDentBusiness/WebServices/CustomerUpdatesProxy.cs` | `ICustomerUpdates.RequestCustomerID` | Remove from the interface and the NoHq stub once no callers remain |
 | `OpenDentBusiness/TableTypes/Pref.cs` | `NewCrop*` summaries | Mark as legacy, read only for the one-time import |
 | `OpenDentBusiness/Properties/Settings.Designer.cs:148` | `OpenDentBusiness_NewCrop_Update1` | `http` → `https` (both `app.config` files are already `https`) |
-| Entry point | `FormEhrSetup.cs:159`, `FormEhrQualityMeasures2014.cs:197` | If Phase 3 deletes the EHR forms, move the OID registry button to HL7 setup, because HL7 still uses the OIDs |
+| Entry point | `FormEhrSetup.cs:159`, `FormEhrQualityMeasures2014.cs:197` (after EHR-6b of `docs/specs/ehr-2027-measures-plan.md` deletes that window: EHR-5b's export in `FormEhrCqm.cs`) | If Phase 3 deletes the EHR forms, move the OID registry button to HL7 setup, because HL7 still uses the OIDs |
 | `UnitTests/UnitTests/ErxTests.cs` | | Tests in §6 |
 
 ### 4.2 Bridges.dll types to re-implement
