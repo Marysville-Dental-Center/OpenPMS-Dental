@@ -266,9 +266,12 @@ copies from for the program (every package is in it). None of those files is on 
 - **Helix Toolkit** (new component; files HelixToolkit, .Geometry, .Maths, .Wpf; 3.1.2; Helix Toolkit contributors; MIT; source
   helix-toolkit at tag v3.1.2, commit `0d10a9fc2`). Its `Notices:` field holds, inside the entry, the BSD notice of `LoopSubdivision`
   (copied from the package's `HelixToolkit.Wpf.xml`, which quotes it: "Copyright (c) 2009, Jesus Mena", the two conditions and the
-  disclaimer), the MIT-licensed code derived from SharpDX (Alexandre Mutel) and SlimMath (SlimDX Group) in HelixToolkit.Maths, the MIT origin
-  of `MeshSimplification` (Fast-Quadric-Mesh-Simplification by Sven Forstmann, the URL the package's XML names), and `CanonicalSplineHelper`'s
-  2009 copyright line without a licence. The MIT text follows from the `License: MIT License` field.
+  disclaimer), the MIT-licensed code derived from SharpDX and SlimMath in HelixToolkit.Maths with its two copyright lines ("Copyright (c)
+  2010-2014 SharpDX - Alexandre Mutel", "Copyright (c) 2007-2011 SlimDX Group"), the MIT origin of `MeshSimplification`
+  (Fast-Quadric-Mesh-Simplification, "Copyright (c) 2015-2019 Spacerat and contributors" as that project's LICENSE.md gives it), and
+  `CanonicalSplineHelper`'s line "(c) 2009 by Charles Petzold" without a licence. The MIT text follows from the `License: MIT License`
+  field. The lead read the four copyright lines on 2026-11-14 from the v3.1.2 sources on GitHub (Collision.cs, BoundingBox.cs,
+  OrientedBoundingBox.cs, CanonicalSplineHelper.cs) and from Fast-Quadric-Mesh-Simplification's LICENSE.md (owner question O1 answered).
 - **.NET Community Toolkit** (new component; the three CommunityToolkit files; 8.3.2; .NET Foundation and Contributors; MIT; source
   CommunityToolkit/dotnet at the packages' commit), with the notice of PedroLamas/DeferredEvents 1.0.4 (MIT, Copyright (C) 2017 Pedro Lamas)
   that the packages' `ThirdPartyNotices.txt` gives for code in CommunityToolkit.Common.

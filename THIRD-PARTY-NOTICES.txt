@@ -197,14 +197,19 @@ Notices:   HelixToolkit.Wpf.dll holds LoopSubdivision, which is based on the MAT
              CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
              ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
              POSSIBILITY OF SUCH DAMAGE.
-           HelixToolkit.Maths.dll holds code derived from SharpDX (Alexandre Mutel) and from
-           SlimMath (SlimDX Group), both under the MIT License, whose text follows.
+           HelixToolkit.Maths.dll holds code derived from the SharpDX and SlimMath projects,
+           both under the MIT License, whose text follows, with these copyright lines (as its
+           source files give them):
+             Copyright (c) 2010-2014 SharpDX - Alexandre Mutel
+             Copyright (c) 2007-2011 SlimDX Group
            HelixToolkit.Geometry.dll holds MeshSimplification, a port of
-           Fast-Quadric-Mesh-Simplification by Sven Forstmann
+           Fast-Quadric-Mesh-Simplification
            (https://github.com/sp4cerat/Fast-Quadric-Mesh-Simplification), under the MIT
-           License.
-           HelixToolkit.Wpf.dll holds CanonicalSplineHelper, whose source file carries its
-           author's copyright line of 2009 and names no license of its own.
+           License, with this copyright line (as that project's LICENSE.md gives it):
+             Copyright (c) 2015-2019 Spacerat and contributors
+           HelixToolkit.Wpf.dll holds CanonicalSplineHelper, whose source file carries this
+           line and names no license of its own:
+             CanonicalSplineHelper.cs (c) 2009 by Charles Petzold (WPF and Silverlight)
 
 --- Component: .NET Community Toolkit
 Files:     CommunityToolkit.Common.dll, CommunityToolkit.Diagnostics.dll, CommunityToolkit.Mvvm.dll

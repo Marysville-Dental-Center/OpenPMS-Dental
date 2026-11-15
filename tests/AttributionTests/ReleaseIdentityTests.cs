@@ -164,8 +164,9 @@ namespace AttributionTests {
 			Assert.IsFalse(dictVendorTexts.ContainsKey("Helix Toolkit"));
 			string textHelix=listLicenseEntries.Single(x => x.Name=="Helix Toolkit").Text;
 			foreach(string expected in new[] { "Permission is hereby granted, free of charge","Copyright (c) 2009, Jesus Mena",
-				"Redistributions in binary form must reproduce the above copyright","SharpDX (Alexandre Mutel)","SlimMath (SlimDX Group)",
-				"Fast-Quadric-Mesh-Simplification by Sven Forstmann","CanonicalSplineHelper" })
+				"Redistributions in binary form must reproduce the above copyright","Copyright (c) 2010-2014 SharpDX - Alexandre Mutel",
+				"Copyright (c) 2007-2011 SlimDX Group","Copyright (c) 2015-2019 Spacerat and contributors",
+				"CanonicalSplineHelper.cs (c) 2009 by Charles Petzold" })
 			{
 				StringAssert.Contains(textHelix,expected);
 			}
