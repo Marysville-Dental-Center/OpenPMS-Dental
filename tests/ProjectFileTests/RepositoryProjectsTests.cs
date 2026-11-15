@@ -2,7 +2,8 @@
 // conditions, imports and property functions are all understood), every source, resource and page it names is on disk, each reads its
 // nearest Directory.Build.props, the SDK-style ones get the DefineConstants and NoWarn MSBuild 18 gives them, and for the third-party source
 // builds the evaluated items are exactly the ones the last build handed the compiler (SourceBuildItems.txt, which MSBuild writes from the real
-// evaluation), so the reader agrees with MSBuild on projects whose items come through imported props and wildcards.
+// evaluation), so the reader agrees with MSBuild on projects whose items come through imported props and wildcards. And no .resx file the
+// projects embed holds one of the Windows Forms designer's own properties as compiled data (open point O-17 of docs/specs/net10-plan.md).
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
 using System.Collections.Generic;
@@ -182,6 +183,64 @@ namespace ProjectFileTests {
 				}
 			}
 			Assert.AreEqual(0,listProblems.Count,string.Join("; ",listProblems));
+		}
+
+		///<summary>The properties the Windows Forms designer keeps for itself, the extender properties of its own providers: Language and
+		///Localizable of a form, Locked, Modifiers, DefaultModifiers and GenerateMember of a component, and the tray and grid settings. Nothing
+		///reads them at run time. The designer of Visual Studio 2005 and later writes them as metadata, which the build does not compile; the
+		///designer of Visual Studio .NET 2003 wrote them as data, which it does.</summary>
+		private static readonly string[] _arrayDesignTimeProperties=new[] { "Language","Localizable","Locked","Modifiers","DefaultModifiers",
+			"GenerateMember","TrayLocation","TrayHeight","TrayLargeIcon","SnapToGrid","GridSize","DrawGrid" };
+
+		///<summary>The upstream files that still hold them as data. The submodules keep upstream's bytes (docs/port-notes/BUILD-HYGIENE.md,
+		///part 1): PDFsharp's preview control, whose resources nothing reads.</summary>
+		private static readonly string[] _arrayUpstreamResx=new[] {
+			@"third-party\PDFsharp\src\foundation\src\PDFsharp\src\PdfSharp-gdi\Forms\PagePreview.resx" };
+
+		[TestMethod]
+		public void NoResxFileOfTheSolutionFilter_CompilesTheDesignersOwnProperties() {
+			//Open point O-17 of docs/specs/net10-plan.md (docs/port-notes/BUILD-HYGIENE.md, part 1): a form's $this.Language as data is the
+			//invariant CultureInfo, which the resource writer serializes with the members its build node happened to have filled in before, so
+			//OpenPmsDental.ContrTable.resources and ODR.ComboBoxMulti.resources came out in two forms, 1,818 bytes apart, from build to build.
+			//The 43 forms of the 2003 designer hold these properties as metadata now; no file may hold one as data again.
+			string root=FixtureFolder.RepoRoot();
+			List<string> listProblems=new List<string>();
+			HashSet<string> hashSetUpstreamFound=new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+			HashSet<string> hashSetLanguageAsMetadata=new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+			List<string> listPaths=Projects().SelectMany(x => x.GetItems("EmbeddedResource")).Select(x => x.FullPath)
+				.Where(x => x.EndsWith(".resx",StringComparison.OrdinalIgnoreCase)).Distinct(StringComparer.OrdinalIgnoreCase).ToList();
+			foreach(string path in listPaths) {
+				string relative=path.Substring(root.Length+1);
+				foreach(System.Xml.Linq.XElement xElement in System.Xml.Linq.XDocument.Load(path).Root.Elements()) {
+					string name=(string)xElement.Attribute("name");
+					if(name==null || name.LastIndexOf('.')<0 || !_arrayDesignTimeProperties.Contains(name.Substring(name.LastIndexOf('.')+1))) {
+						continue;
+					}
+					if(xElement.Name.LocalName=="metadata") {
+						if(name=="$this.Language") {
+							hashSetLanguageAsMetadata.Add(relative);
+						}
+						continue;
+					}
+					if(xElement.Name.LocalName!="data") {
+						continue;
+					}
+					if(_arrayUpstreamResx.Contains(relative,StringComparer.OrdinalIgnoreCase)) {
+						hashSetUpstreamFound.Add(relative);
+						continue;
+					}
+					listProblems.Add(relative+": <data name=\""+name+"\"> (the designer's own property: <metadata>, as the designer writes it)");
+				}
+			}
+			Assert.IsTrue(listPaths.Count>1000,"The projects of the solution filter embed "+listPaths.Count+" .resx files.");
+			//The two whose resources came out in two forms hold $this.Language as metadata, so the check above reads the files it should.
+			foreach(string relative in new[] { @"OpenPmsDental\Tables Old Grids\ContrTable.resx",@"ODR\ComboBoxMulti.resx" }) {
+				Assert.IsTrue(hashSetLanguageAsMetadata.Contains(relative),relative+" holds no <metadata name=\"$this.Language\">.");
+			}
+			Assert.AreEqual(0,listProblems.Count,listProblems.Count+" entries: "+string.Join("; ",listProblems.Take(20)));
+			//An upstream file that no longer holds such an entry leaves the list.
+			Assert.AreEqual(string.Join("; ",_arrayUpstreamResx.OrderBy(x => x)),string.Join("; ",hashSetUpstreamFound.OrderBy(x => x)),
+				"The upstream .resx files that hold the designer's own properties as data.");
 		}
 	}
 }
