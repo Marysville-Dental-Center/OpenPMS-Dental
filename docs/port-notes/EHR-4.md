@@ -664,7 +664,17 @@ set aside (`ehr4d-verify-mainengine.txt`) failed exactly the four tests and the 
 
 ### 7. Build and test record
 
-RECORD
+Full lane build of `OpenDental.Local.slnf` (Debug|x86) at `c9ff2ef95`: 0 errors; the warnings are the existing ones, none in a changed
+file. `run-tests.ps1 -Mode Targeted` (result files in `.git/od-tools/test-results/` of the main checkout):
+
+| Run | EhrTests | NoHqTests | MiddleTierMockTests |
+|---|---|---|---|
+| `ehr4d-run1.txt` (engine and tests, the golden file not yet recorded; `-Include EhrTests,NoHqTests`) | 261: 258 passed, 3 failed: the golden test (its message gave the two Lab lines recorded), a window case that passed the fixture's in-memory patient (null `SmokingSnoMed`; the test now reads the patient from the database, as `FormEHR` does), and a case for the Stage 1 electronic copy, which the window never lists (removed; section 6) | not built yet in this worktree | not run |
+| `ehr4d-run2.txt` (the same, fixed; the golden file recorded) | 260 of 260 passed | not built yet | not run |
+| `ehr4d-verify-mainengine.txt` (`main`'s `EhrMeasures.cs`, the window file set aside; not committed) | 255: 250 passed, 5 failed: the four Measure Calc tests of section 1 and the golden test | not built yet | not run |
+| `ehr4d-final.txt` (after the full build; `-Include EhrTests,NoHqTests,MiddleTierMockTests`) | 260 of 260 passed (MeasureSpecTests 46) | 57 of 57 passed | 125 of 125 passed (its Middle Tier rules accept the overloads and the private helpers) |
+
+No `ehr` scratch database was left on the server after the runs. `InitSqlTests` and `ForkMigrationTests` were not run (no schema change).
 
 ### 8. For the lead
 
