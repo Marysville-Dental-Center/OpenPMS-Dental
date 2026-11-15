@@ -1380,9 +1380,11 @@ namespace OpenPmsDentalBusiness {
 				throw new FileNotFoundException(Lans.g("DirectCertificateImport","The private key file was not found."));
 			}
 			SecurityIdentifier securityIdentifierUsers=new SecurityIdentifier(WellKnownSidType.BuiltinUsersSid,null);
-			FileSecurity fileSecurity=File.GetAccessControl(pathKey);
+			//The FileInfo instance form compiles on .NET Framework and on .NET 10, where the static File.Get/SetAccessControl are gone (S3a-9).
+			FileInfo fileInfoKey=new FileInfo(pathKey);
+			FileSecurity fileSecurity=fileInfoKey.GetAccessControl();
 			fileSecurity.AddAccessRule(new FileSystemAccessRule(securityIdentifierUsers,FileSystemRights.Read,AccessControlType.Allow));
-			File.SetAccessControl(pathKey,fileSecurity);
+			fileInfoKey.SetAccessControl(fileSecurity);
 		}
 
 		private static string GetMachinePrivateKeyFilePath(X509Certificate2 x509Certificate2) {
