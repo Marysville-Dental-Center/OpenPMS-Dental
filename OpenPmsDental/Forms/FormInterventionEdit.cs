@@ -26,39 +26,11 @@ namespace OpenPmsDental {
 			gridMain.AllowSelection=IsSelectionMode;//only allow changing the selected intervention code if IsSelectionMode
 			_dictionaryValueCodeSets=new Dictionary<string,string>();
 			comboCodeSet.Items.Add("All");
-			if(IsAllTypes || InterventionCur.CodeSet==InterventionCodeSet.AboveNormalWeight) {
-				comboCodeSet.Items.Add(InterventionCodeSet.AboveNormalWeight.ToString()+" Follow-up");
-				_dictionaryValueCodeSets.Add(InterventionCodeSet.AboveNormalWeight.ToString()+" Follow-up","2.16.840.1.113883.3.600.1.1525");
-				comboCodeSet.Items.Add(InterventionCodeSet.AboveNormalWeight.ToString()+" Referral");
-				_dictionaryValueCodeSets.Add(InterventionCodeSet.AboveNormalWeight.ToString()+" Referral","2.16.840.1.113883.3.600.1.1527");
-				comboCodeSet.Items.Add(InterventionCodeSet.AboveNormalWeight.ToString()+" Medication");
-				_dictionaryValueCodeSets.Add(InterventionCodeSet.AboveNormalWeight.ToString()+" Medication","2.16.840.1.113883.3.600.1.1498");
-			}
-			if(IsAllTypes || InterventionCur.CodeSet==InterventionCodeSet.BelowNormalWeight) {
-				comboCodeSet.Items.Add(InterventionCodeSet.BelowNormalWeight.ToString()+" Follow-up");
-				_dictionaryValueCodeSets.Add(InterventionCodeSet.BelowNormalWeight.ToString()+" Follow-up","2.16.840.1.113883.3.600.1.1528");
-				comboCodeSet.Items.Add(InterventionCodeSet.BelowNormalWeight.ToString()+" Referral");
-				_dictionaryValueCodeSets.Add(InterventionCodeSet.BelowNormalWeight.ToString()+" Referral","2.16.840.1.113883.3.600.1.1527");
-				comboCodeSet.Items.Add(InterventionCodeSet.BelowNormalWeight.ToString()+" Medication");
-				_dictionaryValueCodeSets.Add(InterventionCodeSet.BelowNormalWeight.ToString()+" Medication","2.16.840.1.113883.3.600.1.1499");
-			}
-			if(IsAllTypes || InterventionCur.CodeSet==InterventionCodeSet.Nutrition || InterventionCur.CodeSet==InterventionCodeSet.PhysicalActivity) {
-				comboCodeSet.Items.Add(InterventionCodeSet.Nutrition.ToString()+" Counseling");
-				_dictionaryValueCodeSets.Add(InterventionCodeSet.Nutrition.ToString()+" Counseling","2.16.840.1.113883.3.464.1003.195.12.1003");
-				comboCodeSet.Items.Add(InterventionCodeSet.PhysicalActivity.ToString()+" Counseling");
-				_dictionaryValueCodeSets.Add(InterventionCodeSet.PhysicalActivity.ToString()+" Counseling","2.16.840.1.113883.3.464.1003.118.12.1035");
-			}
-			if(IsAllTypes || InterventionCur.CodeSet==InterventionCodeSet.TobaccoCessation) {
-				comboCodeSet.Items.Add(InterventionCodeSet.TobaccoCessation.ToString()+" Counseling");
-				_dictionaryValueCodeSets.Add(InterventionCodeSet.TobaccoCessation.ToString()+" Counseling","2.16.840.1.113883.3.526.3.509");
-				comboCodeSet.Items.Add(InterventionCodeSet.TobaccoCessation.ToString()+" Medication");
-				_dictionaryValueCodeSets.Add(InterventionCodeSet.TobaccoCessation.ToString()+" Medication","2.16.840.1.113883.3.526.3.1190");
-			}
-			if(IsAllTypes || InterventionCur.CodeSet==InterventionCodeSet.Dialysis) {
-				comboCodeSet.Items.Add(InterventionCodeSet.Dialysis.ToString()+" Education");
-				_dictionaryValueCodeSets.Add(InterventionCodeSet.Dialysis.ToString()+" Education","2.16.840.1.113883.3.464.1003.109.12.1016");
-				comboCodeSet.Items.Add(InterventionCodeSet.Dialysis.ToString()+" Related Services");
-				_dictionaryValueCodeSets.Add(InterventionCodeSet.Dialysis.ToString()+" Related Services","2.16.840.1.113883.3.464.1003.109.12.1015");
+			//The 2027 catalog's value sets (EHR-7, section 8): the BMI medications are CMS69's 2027 sets, and Dialysis is "Dialysis Services" (E-28).
+			List<KeyValuePair<string,string>> listValueSets=CqmDataEntry.GetInterventionValueSets(InterventionCur.CodeSet,IsAllTypes);
+			for(int i=0;i<listValueSets.Count;i++) {
+				comboCodeSet.Items.Add(listValueSets[i].Key);
+				_dictionaryValueCodeSets.Add(listValueSets[i].Key,listValueSets[i].Value);
 			}
 			comboCodeSet.SelectedIndex=0;
 			//need to set the comboCodeSet based on InterventionCur sent in

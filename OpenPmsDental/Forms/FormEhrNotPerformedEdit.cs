@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using OpenPmsDentalBusiness;
@@ -12,6 +13,9 @@ namespace OpenPmsDental {
 		public EhrNotPerformed EhrNotPerfCur;
 		public int SelectedItemIndex;
 		public bool IsDateReadOnly;
+		///<summary>A saved row whose code is of no item (an "other" row of FormEhrNotPerformed, EHR-7): its code, reason, date and note are shown,
+		///and nothing can be changed or saved.</summary>
+		public bool IsReadOnly;
 		private List<EhrCode> listEhrCodesReason;
 
 		public FormEhrNotPerformedEdit() {
@@ -26,29 +30,31 @@ namespace OpenPmsDental {
 			if(IsDateReadOnly) {
 				textDate.ReadOnly=true;
 			}
-			List<string> listValueSetOIDs=new List<string>();
-			switch(SelectedItemIndex) {
-				case 0://BMIExam
-					listValueSetOIDs=new List<string>{"2.16.840.1.113883.3.600.1.681"};//'BMI LOINC Value' value set
-					break;
-				case 1://InfluenzaVaccination
-					listValueSetOIDs=new List<string> { "2.16.840.1.113883.3.526.3.402","2.16.840.1.113883.3.526.3.1254" };//'Influenza Vaccination' and 'Influenza Vaccine' value sets
-					radioMedReason.Visible=true;
-					radioPatReason.Visible=true;
-					radioSysReason.Visible=true;
-					break;
-				case 2://TobaccoScreening
-					listValueSetOIDs=new List<string> { "2.16.840.1.113883.3.526.3.1278" };//'Tobacco Use Screening' value set
-					break;
-				case 3://DocumentCurrentMeds
-					listValueSetOIDs=new List<string> { "2.16.840.1.113883.3.600.1.462" };//'Current Medications Documented SNMD' value set
-					break;
-				default://should never happen
-					break;
+			if(IsReadOnly || !Enum.IsDefined(typeof(EhrNotPerformedItem),SelectedItemIndex)) {//An "other" row, or no item (EHR-7)
+				if(EhrNotPerfCur.IsNew) {//Should never happen: a new row always has its item
+					DialogResult=DialogResult.Cancel;
+					return;
+				}
+				FillReadOnly();
+				return;
 			}
-			List<EhrCode> listEhrCodes=EhrCodes.GetForValueSetOIDs(listValueSetOIDs,true);
-			if(listEhrCodes.Count==0) {//Happens until the office imports the value sets (Setup, Chart, EHR, Code System Importer), or while the code system's table of these codes is not loaded
-				MsgBox.Show(this,"The codes used for Not Performed items do not exist in the table in your database.  You should run the Code System Importer tool in Setup | Chart | EHR.");
+			EhrNotPerformedItem itemNotPerformed=(EhrNotPerformedItem)SelectedItemIndex;
+			//The codes come from the 2027 catalog (EHR-7, section 8): a direct-reference-code role (BMI exam, current medications), the catalog's value
+			//sets (tobacco screening, the BMI follow-up of E-34), or the program's CVX table (influenza, E-25).
+			if(itemNotPerformed==EhrNotPerformedItem.InfluenzaVaccination) {
+				radioMedReason.Visible=true;
+				radioPatReason.Visible=true;
+				radioSysReason.Visible=false;//The 2027 release has no value set of system reasons; a saved one is kept (FillReasonList)
+				groupItem.Text=Lan.g(this,"Item Not Performed (no 2027 quality measure uses it)");
+			}
+			List<EhrCode> listEhrCodes=CqmDataEntry.GetNotPerformedCodes(itemNotPerformed);
+			if(listEhrCodes.Count==0 && EhrNotPerfCur.IsNew) {//Happens until the office imports the value sets (Setup, Chart, EHR, Code System Importer), or while the code system's table of these codes is not loaded
+				if(itemNotPerformed==EhrNotPerformedItem.InfluenzaVaccination) {
+					MsgBox.Show(this,"The CVX table in your database is empty.  You should run the Code System Importer tool in Setup | Chart | EHR.");
+				}
+				else {
+					MsgBox.Show(this,"The codes used for Not Performed items do not exist in the table in your database.  You should run the Code System Importer tool in Setup | Chart | EHR.");
+				}
 				DialogResult=DialogResult.Cancel;
 				return;
 			}
@@ -62,10 +68,12 @@ namespace OpenPmsDental {
 					for(int i=0;i<listEhrCodes.Count;i++) {
 						listCodeDescripts.Add(listEhrCodes[i].CodeValue+" - "+listEhrCodes[i].Description);
 					}
-					InputBox inputBox=new InputBox(Lan.g(this,"Select the "+Enum.GetNames(typeof(EhrNotPerformedItem))[SelectedItemIndex]+" not being performed from the list below."),listCodeDescripts);
+					string prompt=Lan.g(this,"Select the "+Enum.GetNames(typeof(EhrNotPerformedItem))[SelectedItemIndex]+" not being performed from the list below.");
 					if(SelectedItemIndex==(int)EhrNotPerformedItem.InfluenzaVaccination) {
 						//chooseItem.comboSelection.DropDownWidth=730;
+						prompt+="\r\n"+Lan.g(this,"No 2027 quality measure uses this item (the influenza measure was retired); it is kept so that its rows stay readable.");
 					}
+					InputBox inputBox=new InputBox(prompt,listCodeDescripts);
 					inputBox.ShowDialog();
 					if(inputBox.IsDialogCancel) {
 						DialogResult=DialogResult.Cancel;
@@ -96,71 +104,65 @@ namespace OpenPmsDental {
 			}
 		}
 
+		///<summary>An "other" row (EHR-7): its saved code, reason, date and note, with nothing to change and no save. Its code is of no item this
+		///program knows (or the office has not imported the 2027 release yet), so no pick list is filled.</summary>
+		private void FillReadOnly() {
+			Text=Lan.g(this,"Not Performed Item with Reason")+" - "+Lan.g(this,"read-only, the code is of no item");
+			textCode.Text=EhrNotPerfCur.CodeValue;
+			textCodeSystem.Text=EhrNotPerfCur.CodeSystem;
+			textDate.Text=EhrNotPerfCur.DateEntry.ToShortDateString();
+			textNote.Text=EhrNotPerfCur.Note;
+			textDate.ReadOnly=true;
+			textNote.ReadOnly=true;
+			listEhrCodesReason=new List<EhrCode>();
+			comboCodeReason.Items.Clear();
+			comboCodeReason.Items.Add("none");
+			comboCodeReason.SelectedIndex=0;
+			if(EhrNotPerfCur.CodeValueReason!="") {
+				comboCodeReason.Items.Add(EhrNotPerfCur.CodeValueReason);
+				comboCodeReason.SelectedIndex=1;
+				textCodeSystemReason.Text=EhrNotPerfCur.CodeSystemReason;
+				Snomed snomed=Snomeds.GetByCode(EhrNotPerfCur.CodeValueReason);
+				if(snomed!=null) {
+					textDescriptionReason.Text=snomed.Description;
+				}
+			}
+			comboCodeReason.Enabled=false;
+			butSave.Enabled=false;
+			butDelete.Enabled=false;
+		}
+
 		private void FillReasonList() {
-			List<string> listValueSetOIDsReason=new List<string>();
-			string medicalReason="2.16.840.1.113883.3.526.3.1007";//'Medical Reason' value set
-			string patientReason="2.16.840.1.113883.3.526.3.1008";//'Patient Reason' value set
-			string systemReason="2.16.840.1.113883.3.526.3.1009";//'System Reason' value set
-			string patientRefusedReason="2.16.840.1.113883.3.600.1.1503";//'Patient Reason Refused' value set
-			string medicalOrOtherReason="2.16.840.1.113883.3.600.1.1502";//'Medical or Other reason not done' value set
-			string limitedLifeExpectancy="2.16.840.1.113883.3.526.3.1259";//'Limited Life Expectancy' value set
-			switch(SelectedItemIndex) {
-				case 0://BMIExam
-					listValueSetOIDsReason=new List<string> { patientRefusedReason,medicalOrOtherReason };
-					break;
-				case 1://InfluenzaVaccination
-					if(radioPatReason.Checked) {
-						listValueSetOIDsReason=new List<string> { patientReason };
+			//The reasons of the 2027 catalog per item (EHR-7, section 8; CqmDataEntry.GetNotPerformedReasonOids).
+			EhrNotPerformedItem itemNotPerformed=(EhrNotPerformedItem)SelectedItemIndex;
+			List<string> listValueSetOIDsReason=CqmDataEntry.GetNotPerformedReasonOids(itemNotPerformed,isPatientReason:false);
+			if(itemNotPerformed==EhrNotPerformedItem.InfluenzaVaccination) {
+				List<string> listValueSetOIDsPatient=CqmDataEntry.GetNotPerformedReasonOids(itemNotPerformed,isPatientReason:true);
+				if(radioPatReason.Checked) {
+					listValueSetOIDsReason=listValueSetOIDsPatient;
+				}
+				else if(!radioMedReason.Checked) {//if new or loading a previously saved item not performed, no radio is selected, set the appropriate radio
+					radioMedReason.Checked=true;//default to medical reason list if new, or if the saved reason is in neither list
+					if(!EhrNotPerfCur.IsNew && EhrCodes.GetForValueSetOIDs(listValueSetOIDsPatient,true)
+						.Any(x => x.CodeValue==EhrNotPerfCur.CodeValueReason && x.CodeSystem==EhrNotPerfCur.CodeSystemReason))
+					{
+						radioPatReason.Checked=true;
+						listValueSetOIDsReason=listValueSetOIDsPatient;
 					}
-					else if(radioSysReason.Checked) {
-						listValueSetOIDsReason=new List<string> { systemReason };
-					}
-					else if(radioMedReason.Checked) {
-						listValueSetOIDsReason=new List<string> { medicalReason };
-					}
-					else {//if new or loading a previously saved item not performed, no radio is selected, set the appropriate radio and fill the list
-						if(EhrNotPerfCur.IsNew) {
-							radioMedReason.Checked=true;
-							listValueSetOIDsReason=new List<string> { medicalReason };//default to medical reason list if new and no radio selected yet
-						}
-						else {//if previously saved, find the sub list this reason belongs to
-							List<List<string>> listSublists=new List<List<string>> { new List<string> { medicalReason },new List<string> { patientReason },new List<string> { systemReason } };
-							bool found=false;
-							for(int i=0;i<listSublists.Count;i++) {
-								listEhrCodesReason=EhrCodes.GetForValueSetOIDs(listSublists[i],true);
-								for(int j=0;j<listEhrCodesReason.Count;j++) {
-									if(listEhrCodesReason[j].CodeValue==EhrNotPerfCur.CodeValueReason && listEhrCodesReason[j].CodeSystem==EhrNotPerfCur.CodeSystemReason) {
-										found=true;
-										break;
-									}
-								}
-								if(found) {
-									if(i==0) {
-										radioMedReason.Checked=true;
-									}
-									else if(i==1) {
-										radioPatReason.Checked=true;
-									}
-									else {
-										radioSysReason.Checked=true;
-									}
-									listValueSetOIDsReason=listSublists[i];
-									break;
-								}
-							}
-						}
-					}
-					break;
-				case 2://TobaccoScreening
-					listValueSetOIDsReason=new List<string> { medicalReason,limitedLifeExpectancy };
-					break;
-				case 3://DocumentCurrentMeds
-					listValueSetOIDsReason=new List<string> { medicalOrOtherReason };
-					break;
-				default://should never happen
-					break;
+				}
 			}
 			listEhrCodesReason=EhrCodes.GetForValueSetOIDs(listValueSetOIDsReason,true);//these are all SNOMEDCT codes and will only show if they exist in the snomed table.
+			//A saved reason that is in none of the 2027 lists (a 2014 reason, a system reason) stays the row's reason, so saving again never drops it.
+			if(!EhrNotPerfCur.IsNew && EhrNotPerfCur.CodeValueReason!=""
+				&& !listEhrCodesReason.Any(x => x.CodeValue==EhrNotPerfCur.CodeValueReason && x.CodeSystem==EhrNotPerfCur.CodeSystemReason))
+			{
+				EhrCode ehrCodeSaved=new EhrCode();
+				ehrCodeSaved.CodeValue=EhrNotPerfCur.CodeValueReason;
+				ehrCodeSaved.CodeSystem=EhrNotPerfCur.CodeSystemReason;
+				Snomed snomed=Snomeds.GetByCode(EhrNotPerfCur.CodeValueReason);
+				ehrCodeSaved.Description=snomed==null ? "" : snomed.Description;
+				listEhrCodesReason.Add(ehrCodeSaved);
+			}
 			if(listEhrCodesReason.Count==0) {
 				MsgBox.Show(this,"There are no codes in the database for reasons not performed.  You must run the Code System Importer tool in Setup | Chart | EHR to import the SNOMEDCT table in order to enter a valid reason.");
 			}

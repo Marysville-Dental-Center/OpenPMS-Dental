@@ -100,8 +100,12 @@ namespace OpenPmsDental {
 			}
 			_EhrNotPerfNum=0;
 			List<EhrNotPerformed> listEhrNotPerformeds=EhrNotPerformeds.Refresh(_patient.PatNum);
+			//The only allowed code for Current Meds Documented procedure: CMS68's direct reference code from the office's import (EHR-7), or none.
+			EhrCode ehrCodeMedsDocumented=CqmDataEntry.GetDirectCode(CqmCatalog.ROLE_CMS68_MEDS_DOCUMENTED);
 			for(int i=0;i<listEhrNotPerformeds.Count;i++) {
-				if(listEhrNotPerformeds[i].CodeValue!="428191000124101") {//this is the only allowed code for Current Meds Documented procedure
+				if(ehrCodeMedsDocumented==null || listEhrNotPerformeds[i].CodeValue!=ehrCodeMedsDocumented.CodeValue
+					|| listEhrNotPerformeds[i].CodeSystem!=ehrCodeMedsDocumented.CodeSystem)
+				{
 					continue;
 				}
 				if(listEhrNotPerformeds[i].DateEntry.Date==DateTime.Today) {
@@ -876,7 +880,7 @@ namespace OpenPmsDental {
 			FillGridInterventions();
 			Cursor=Cursors.Default;
 			#region ComboAssessmentType
-			_listEhrCodesAssessments=EhrCodes.GetForValueSetOIDs(new List<string> { "2.16.840.1.113883.3.526.3.1278" },true);//'Tobacco Use Screening' value set
+			_listEhrCodesAssessments=EhrCodes.GetForValueSetOIDs(new List<string> { CqmCatalog.OID_TOBACCO_SCREENING },true);//'Tobacco Use Screening' value set
 			//Happens until the office imports the value sets (Setup, Chart, EHR, Code System Importer), or while the code system's table of these codes is not loaded
 			if(_listEhrCodesAssessments.Count==0) {
 				//disable the tobacco use tab, message box will show if the user tries to select it
@@ -896,9 +900,9 @@ namespace OpenPmsDental {
 			#endregion ComboAssessmentType
 			#region ComboTobaccoStatus
 			//list is filled with the EhrCodes for all tobacco user statuses using the CQM value set
-			_listEhrCodesUser=EhrCodes.GetForValueSetOIDs(new List<string> { "2.16.840.1.113883.3.526.3.1170" },true).OrderBy(x => x.Description).ToList();
+			_listEhrCodesUser=EhrCodes.GetForValueSetOIDs(new List<string> { CqmCatalog.OID_TOBACCO_USER },true).OrderBy(x => x.Description).ToList();
 			//list is filled with the EhrCodes for all tobacco non-user statuses using the CQM value set
-			_listEhrCodesNonUser=EhrCodes.GetForValueSetOIDs(new List<string> { "2.16.840.1.113883.3.526.3.1189" },true).OrderBy(x => x.Description).ToList();
+			_listEhrCodesNonUser=EhrCodes.GetForValueSetOIDs(new List<string> { CqmCatalog.OID_TOBACCO_NON_USER },true).OrderBy(x => x.Description).ToList();
 			_listEhrCodesRecentTobacco=EhrCodes.GetForEventTypeByUse(EhrMeasureEventType.TobaccoUseAssessed);
 			//list is filled with any SNOMEDCT codes that are attached to EhrMeasureEvents for the patient that are not in the User and NonUser lists
 			_listEhrCodesCustomTobacco=new List<EhrCode>();
@@ -934,10 +938,10 @@ namespace OpenPmsDental {
 			#endregion ComboTobaccoStatus
 			#region ComboInterventionType and ComboInterventionCode
 			//list is filled with EhrCodes for counseling interventions using the CQM value set
-			_listEhrCodesCounselInterventions=EhrCodes.GetForValueSetOIDs(new List<string> { "2.16.840.1.113883.3.526.3.509" },true).OrderBy(x => x.Description).ToList();
+			_listEhrCodesCounselInterventions=EhrCodes.GetForValueSetOIDs(new List<string> { CqmCatalog.OID_TOBACCO_COUNSELING },true).OrderBy(x => x.Description).ToList();
 			//list is filled with EhrCodes for medication interventions using the CQM value set
-			_listEhrCodesMedInterventions=EhrCodes.GetForValueSetOIDs(new List<string> { "2.16.840.1.113883.3.526.3.1190" },true).OrderBy(x => x.Description).ToList();
-			_listEhrCodesRecentIntvs=EhrCodes.GetForIntervAndMedByUse(InterventionCodeSet.TobaccoCessation,new List<string> { "2.16.840.1.113883.3.526.3.1190" });
+			_listEhrCodesMedInterventions=EhrCodes.GetForValueSetOIDs(new List<string> { CqmCatalog.OID_TOBACCO_PHARMACOTHERAPY },true).OrderBy(x => x.Description).ToList();
+			_listEhrCodesRecentIntvs=EhrCodes.GetForIntervAndMedByUse(InterventionCodeSet.TobaccoCessation,new List<string> { CqmCatalog.OID_TOBACCO_PHARMACOTHERAPY });
 			_listEhrCodesInterventions=new List<EhrCode>();
 			//default to all interventions (couseling and medication) in the intervention dropdown box
 			radioRecentInterventions.Checked=true;//causes combo box and _listInterventionCodes to be filled with all intervention codes
@@ -1034,7 +1038,7 @@ namespace OpenPmsDental {
 			#endregion
 			#region CessationMedications
 			List<string> listValueSetOIDsRxCuis=new List<string>();
-			listValueSetOIDsRxCuis.Add("2.16.840.1.113883.3.526.3.1190");
+			listValueSetOIDsRxCuis.Add(CqmCatalog.OID_TOBACCO_PHARMACOTHERAPY);
 			//Tobacco Use Cessation Pharmacotherapy Value Set
 			string[] stringArrayRxCuis=EhrCodes.GetForValueSetOIDs(listValueSetOIDsRxCuis,true)
 				.Select(x => x.CodeValue).ToArray();
@@ -1343,13 +1347,22 @@ namespace OpenPmsDental {
 			PatientNotes.Update(_patientNote, _patient.Guarantor);
 			//Insert an ehrmeasureevent for CurrentMedsDocumented if user selected Yes and there isn't one with today's date
 			if(radioMedsDocumentedYes.Checked && _EhrMeasureEventNum==0) {
-				EhrMeasureEvent ehrMeasureEvent=new EhrMeasureEvent();
-				ehrMeasureEvent.PatNum=_patient.PatNum;
-				ehrMeasureEvent.DateTEvent=DateTime.Now;
-				ehrMeasureEvent.EventType=EhrMeasureEventType.CurrentMedsDocumented;
-				ehrMeasureEvent.CodeValueEvent="428191000124101";//SNOMEDCT code for document current meds procedure
-				ehrMeasureEvent.CodeSystemEvent="SNOMEDCT";
-				EhrMeasureEvents.Insert(ehrMeasureEvent);
+				//The code of the document current meds procedure is CMS68's direct reference code from the office's import (EHR-7). Without it
+				//(the release not imported, or its role not resolved), nothing is written.
+				EhrCode ehrCodeMedsDocumented=CqmDataEntry.GetDirectCode(CqmCatalog.ROLE_CMS68_MEDS_DOCUMENTED);
+				if(ehrCodeMedsDocumented==null) {
+					MsgBox.Show(this,"Current medications documented was not recorded: its code comes from the EHR value sets of the 2027 release, "
+						+"which are not imported.  Import them with the Code System Importer tool in Setup | Chart | EHR.");
+				}
+				else {
+					EhrMeasureEvent ehrMeasureEvent=new EhrMeasureEvent();
+					ehrMeasureEvent.PatNum=_patient.PatNum;
+					ehrMeasureEvent.DateTEvent=DateTime.Now;
+					ehrMeasureEvent.EventType=EhrMeasureEventType.CurrentMedsDocumented;
+					ehrMeasureEvent.CodeValueEvent=ehrCodeMedsDocumented.CodeValue;
+					ehrMeasureEvent.CodeSystemEvent=ehrCodeMedsDocumented.CodeSystem;
+					EhrMeasureEvents.Insert(ehrMeasureEvent);
+				}
 			}
 			//No is selected, if no EhrNotPerformed item for current meds documented, launch not performed edit window to allow user to select valid reason.
 			if(radioMedsDocumentedNo.Checked) {
