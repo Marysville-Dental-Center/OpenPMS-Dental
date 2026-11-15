@@ -119,7 +119,8 @@ namespace ToothChartImageTests {
 				folderOut=TestPaths.BaselinesLegacy;
 			}
 			List<DrawingMode> listEngines=ParseEngines(Environment.GetEnvironmentVariable(EnvEngines));
-			List<ChartScene> listScenes=ChartScenes.GetAll();
+			//The scenes of today's chart: those added after TC-0's recording (TC-5 on) show what the old engines never drew.
+			List<ChartScene> listScenes=ChartScenes.GetAll().Where(x => x.HasLegacyRecording).ToList();
 			List<string> listNames=ParseSceneNames(Environment.GetEnvironmentVariable(EnvScenes));
 			bool isAllScenes=listNames==null;
 			if(!isAllScenes) {

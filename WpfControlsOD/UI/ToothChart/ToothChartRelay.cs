@@ -12,8 +12,9 @@ using SparksToothChart;
 namespace OpenPmsDental{
 	///<summary>Relays tooth chart commands to SparksToothChart.ToothChartWrapper, the only tooth chart. Open Dental's closed DirectX 11 chart
 	///(Sparks3D.dll, under Open Dental's own licence) was removed on 2026-11-01. The wrapper draws with DirectX 9, OpenGL or Simple 2D and falls
-	///back on its own when a mode cannot start. Methods for features only Sparks3D drew (ortho hardware, free text, brackets, retained roots,
-	///space maintainers) are kept as no-ops so callers need no branches. Since TC-2 the callers' painting code is ToothChartPainter, which draws
+	///back on its own when a mode cannot start. Methods for features only Sparks3D drew (ortho hardware, brackets, retained roots, space
+	///maintainers) are kept as no-ops so callers need no branches; free text and paint text other than "W" are drawn since TC-5 (TextBelow is
+	///shown by the Chart module, outside the tooth picture). Since TC-2 the callers' painting code is ToothChartPainter, which draws
 	///on the relay as its IToothChartPaintTarget, and the callers' chart settings are the relay's settings helpers.</summary>
 	public class ToothChartRelay:IToothChartPaintTarget{
 		private ToothChartWrapper _toothChartWrapper;
@@ -121,8 +122,11 @@ namespace OpenPmsDental{
 			_toothChartWrapper.AddPerioMeasure(intTooth,sequenceType,mb,b,db,ml,l,dl);
 		}
 
-		///<summary>Not to be confused with SetText. Not supported by SparksToothChart.</summary>
+		///<summary>A free-text label (a toothinitial row of type Text) at location, the top left of its text in the chart's 410x307 drawing space. Not
+		///to be confused with SetText. The WPF chart and the 2D chart draw it (TC-5); with CursorTool.MoveText the WPF chart moves it and raises
+		///TextMoved.</summary>
 		public void AddText(string text,PointF location,Color color,long toothInitialNum){
+			_toothChartWrapper.AddText(text,location,color,toothInitialNum);
 		}
 
 		///<summary>toothChartWrapper.SuspendLayout</summary>
@@ -234,21 +238,25 @@ namespace OpenPmsDental{
 			_toothChartWrapper.SetSurfaceColors(toothID,surfaces,color);
 		}
 
+		///<summary>Paint type Text: "W" is the watch mark; any other text is drawn beyond the root tip, in the watch mark's band (O-22, TC-5).</summary>
 		public void SetText(string toothID,Color color,string text){
 			if(text=="W"){
 				_toothChartWrapper.SetWatch(toothID,color);
+				return;
 			}
-			//Other text not supported
+			_toothChartWrapper.SetText(toothID,color,text);
 		}
 
-		///<summary>Also passes the wrapper's TextMoved on as this relay's TextMoved.</summary>
+		///<summary>Also passes the wrapper's TextMoved and TextColorChanged on as this relay's.</summary>
 		public void SetToothChartWrapper(ToothChartWrapper toothChartWrapper){
 			if(_toothChartWrapper!=null) {
 				_toothChartWrapper.TextMoved-=ToothChartWrapper_TextMoved;
+				_toothChartWrapper.TextColorChanged-=ToothChartWrapper_TextColorChanged;
 			}
 			_toothChartWrapper=toothChartWrapper;
 			if(_toothChartWrapper!=null) {
 				_toothChartWrapper.TextMoved+=ToothChartWrapper_TextMoved;
+				_toothChartWrapper.TextColorChanged+=ToothChartWrapper_TextColorChanged;
 			}
 		}
 
@@ -412,11 +420,20 @@ namespace OpenPmsDental{
 
 		#region Free text (TC-2)
 		///<summary>The wrapper's TextMoved, passed on: a free-text label (ToothInitialType.Text) was dragged with CursorTool.MoveText to a point in the
-		///chart's 410×307 space. No engine raises it yet (TC-5 does); the Chart module saves the move (MoveTextLabel).</summary>
+		///chart's 410×307 space. The WPF chart raises it (TC-5); the Chart module saves the move (MoveTextLabel).</summary>
 		public event ToothChartTextMovedEventHandler TextMoved;
 
 		private void ToothChartWrapper_TextMoved(object sender,ToothChartTextMovedEventArgs e) {
 			TextMoved?.Invoke(this,e);
+		}
+
+		///<summary>The wrapper's TextColorChanged, passed on: the Draw tab's Change Color (CursorTool.ColorChanger) was pressed on a free-text label
+		///(ToothInitialType.Text), which now has the pen colour (TC-5; Open Dental's manual: "change the color of an existing drawing or text"). The
+		///WPF chart raises it; the Chart module saves the colour.</summary>
+		public event ToothChartTextColorChangedEventHandler TextColorChanged;
+
+		private void ToothChartWrapper_TextColorChanged(object sender,ToothChartTextColorChangedEventArgs e) {
+			TextColorChanged?.Invoke(this,e);
 		}
 
 		///<summary>Moves a free-text label to location, a point in the chart's 410×307 space: clamped to 0..410 and 0..307 and rounded to whole
@@ -484,6 +501,8 @@ namespace OpenPmsDental{
 			_dictionaryChartPrefsCache.Add(PrefName.ShowFeatureEhr.ToString(),PrefC.GetBool(PrefName.ShowFeatureEhr));
 			_dictionaryChartPrefsCache.Add("DirectXFormat",ComputerPrefs.LocalComputer.DirectXFormat);
 			_dictionaryChartPrefsCache.Add(PrefName.OrthoShowInChart.ToString(),PrefC.GetBool(PrefName.OrthoShowInChart));
+			//The extraction graphic (TC-5): a change on the Chart preferences page redraws the Chart module.
+			_dictionaryChartPrefsCache.Add(ToothChartExtractionGraphic.PREF_NAME,ToothChartExtractionGraphic.IsOn());
 		}
 
 		///<summary>True when nothing was taken yet or a setting differs from the last snapshot. Throws when a setting cannot be read or compared (a
@@ -496,7 +515,8 @@ namespace OpenPmsDental{
 				|| ComputerPrefs.LocalComputer.GraphicsSimple!=(DrawingMode)_dictionaryChartPrefsCache["GraphicsSimple"]
 				|| PrefC.GetBool(PrefName.ShowFeatureEhr)!=(bool)_dictionaryChartPrefsCache["ShowFeatureEhr"]
 				|| ComputerPrefs.LocalComputer.DirectXFormat!=(string)_dictionaryChartPrefsCache["DirectXFormat"]
-				|| PrefC.GetBool(PrefName.OrthoShowInChart)!=(bool)_dictionaryChartPrefsCache["OrthoShowInChart"];
+				|| PrefC.GetBool(PrefName.OrthoShowInChart)!=(bool)_dictionaryChartPrefsCache["OrthoShowInChart"]
+				|| ToothChartExtractionGraphic.IsOn()!=(bool)_dictionaryChartPrefsCache[ToothChartExtractionGraphic.PREF_NAME];
 		}
 	}
 
@@ -778,13 +798,18 @@ namespace OpenPmsDental{
 			}
 		}
 
-		///<summary>The procedures of every caller (O-25: one painter, each caller's own output kept as options): hidden procedures and completed or
-		///existing extractions are skipped (the missing teeth show them), then each procedure is painted by its code's paint type in the colour of
-		///its status. options says how each caller differs.</summary>
+		///<summary>The procedures of every caller (O-25: one painter, each caller's own output kept as options): hidden procedures are skipped, and so
+		///are completed or existing extractions (the missing teeth show them) unless the office shows completed extractions with an X (O-20,
+		///ToothChartExtractionGraphic, TC-5, on by default as in Open Dental 26.2): then they draw the big X in their status's colour over the missing
+		///tooth, in the list's order like any other procedure, whatever else is charted on that tooth (a completed implant or pontic included: the
+		///setting is a plain switch, as Open Dental's). Each procedure is painted by its code's paint type in the colour of its status. TextBelow
+		///(18) paints nothing on the tooth: the Chart module shows it in its one-line strip under the date slider (GetTextBelowStripText).
+		///options says how each caller differs.</summary>
 		public static void PaintProcedures(IToothChartPaintTarget target,List<ToothChartPaintProc> listProcs,List<ToothInitial> listToothInitials,
 			ToothChartPaintOptions options)
 		{
 			string[] stringArrayTeeth;
+			bool isCompletedExtractionShown=ToothChartExtractionGraphic.IsOn();
 			List<long> listProvNums=new List<long>();
 			if(options.DoLookUpProviderColors) {
 				listProvNums=GetPertinentProvNumsForToothColorPref(Security.CurUser,options.Patient,options.ListAppointments);
@@ -802,12 +827,8 @@ namespace OpenPmsDental{
 				if(options.DoSkipMouth && (procedureCode.PaintType==ToothPaintingType.None || procedureCode.TreatArea==TreatmentArea.Mouth)) {
 					continue;
 				}
-				if(procedureCode.PaintType==ToothPaintingType.Extraction && (
-					proc.ProcStatus==ProcStat.C
-					|| proc.ProcStatus==ProcStat.EC
-					|| proc.ProcStatus==ProcStat.EO
-					)) {
-					continue;//prevents the red X. Missing teeth already handled.
+				if(procedureCode.PaintType==ToothPaintingType.Extraction && IsCompletedStatus(proc.ProcStatus) && !isCompletedExtractionShown) {
+					continue;//prevents the red X. Missing teeth already handled. With the extraction graphic on, the X is drawn over the missing tooth.
 				}
 				Color cDark;
 				Color cLight;
@@ -955,13 +976,56 @@ namespace OpenPmsDental{
 						}
 						break;
 					case ToothPaintingType.Text:
-						target.SetText(proc.ToothNum,cDark,procedureCode.PaintText);//"W" is the watch mark; other text is not drawn yet (TC-5)
+						target.SetText(proc.ToothNum,cDark,procedureCode.PaintText);//"W" is the watch mark; other text is drawn on the tooth (TC-5)
 						break;
 					case ToothPaintingType.Veneer:
 						target.SetVeneer(proc.ToothNum,cLight);
 						break;
 				}
 			}
+		}
+
+		///<summary>True for the statuses of work that is done: completed (C), existing current provider (EC) and existing other provider (EO).</summary>
+		private static bool IsCompletedStatus(ProcStat procStat) {
+			return procStat==ProcStat.C || procStat==ProcStat.EC || procStat==ProcStat.EO;
+		}
+
+		///<summary>The separator between the texts of several TextBelow procedures in the Chart module's strip (TC-5). Open Dental's public
+		///screenshot shows one item only, so how it joins several is not known; this is the fork's choice.</summary>
+		public const string TextBelowStripSeparator="; ";
+
+		///<summary>The text of the Chart module's TextBelow strip (paint type TextBelow, 18, Open Dental 26.2: "the procedure's custom text displays
+		///below the odontogram", in a one-line box under the date slider, not in the tooth picture). listDataRows is the procedure list the Chart
+		///module paints (GetChartModuleRows: after the date slider, the chart view's status filters and the selected treatment plans), so the
+		///strip follows them. It is read before the painter's skips, so a TextBelow procedure of any treatment area counts: tooth, arch, quadrant
+		///and mouth alike (the painter leaves out Mouth procedures in the Chart module). A procedure with Hide Graphics is left out, as the painter
+		///leaves it out. The codes' paint texts, in ProcDate order (rows of the same date in the list's order), joined by TextBelowStripSeparator;
+		///an empty paint text adds nothing. "" when there is none, and the Chart module then hides the strip.</summary>
+		public static string GetTextBelowStripText(List<DataRow> listDataRows) {
+			List<Tuple<DateTime,int,string>> listTexts=new List<Tuple<DateTime,int,string>>();
+			if(listDataRows==null) {
+				return "";
+			}
+			for(int i=0;i<listDataRows.Count;i++) {
+				DataRow dataRow=listDataRows[i];
+				if(dataRow["HideGraphics"].ToString()=="1") {
+					continue;
+				}
+				ProcedureCode procedureCode=ProcedureCodes.GetProcCode(dataRow["ProcCode"].ToString());
+				if(procedureCode==null || procedureCode.PaintType!=ToothPaintingType.TextBelow || string.IsNullOrEmpty(procedureCode.PaintText)) {
+					continue;
+				}
+				DateTime dateProc;
+				object objectDate=dataRow["ProcDate"];
+				if(objectDate is DateTime) {
+					dateProc=(DateTime)objectDate;
+				}
+				else {
+					dateProc=PIn.Date(objectDate.ToString());
+				}
+				listTexts.Add(Tuple.Create(dateProc.Date,i,procedureCode.PaintText));
+			}
+			return string.Join(TextBelowStripSeparator,listTexts.OrderBy(x => x.Item1).ThenBy(x => x.Item2).Select(x => x.Item3));
 		}
 
 		///<summary>The Treatment Plan printout's own colours (ControlTreat before TC-2): the code's graphic colour whatever the status (no

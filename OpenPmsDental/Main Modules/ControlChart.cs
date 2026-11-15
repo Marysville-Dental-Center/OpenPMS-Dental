@@ -96,6 +96,16 @@ namespace OpenPmsDental {
 		private List<DataRow> _listDataRowsProcsOrig;
 		///<summary>A subset of DataSetMain.  The procedures that need to be drawn in the graphical tooth chart.</summary>
 		private List<DataRow> _listDataRowsProcsForGraphical;
+		///<summary>The control right under the date slider in the current sheet layout, which the TextBelow strip pushes down while it has text
+		///(LayoutTextBelow, TC-5), or null; and the place the sheet layout gave it.</summary>
+		private Control _controlUnderTextBelow;
+		private Rectangle _rectangleUnderTextBelow;
+		///<summary>The minimum size the sheet layout gave _controlUnderTextBelow (SheetUtil.SetControlSizeAndAnchors sets it to the field's size). While the
+		///strip has text the control is shorter than its field, so LayoutTextBelow lowers the minimum height and puts this back when the text goes.</summary>
+		private Size _sizeMinimumUnderTextBelow;
+		///<summary>True when the current sheet layout places the date slider (its field TrackToothProcDates), so the TextBelow strip is shown under it
+		///while it has text. A custom layout without the slider never shows the strip (LayoutTextBelowAfterSheet, TC-5).</summary>
+		private bool _isTextBelowSliderPlaced;
 		///<summary>The rows in the prog notes table that matched the last time we searched.</summary>
 		private List<DataRow> _listDataRowsSearchResults=new List<DataRow>();
 		///<summary>List of every open FormErx per PatNum.  This is to ensure we only open 1 FormErx per PatNum.</summary>
@@ -3530,6 +3540,21 @@ namespace OpenPmsDental {
 			FillToothChart(retainSelection:true);
 		}
 
+		///<summary>Change Color was pressed on a free-text label (CursorTool.ColorChanger; the WPF chart raises it from TC-5, as Open Dental's Change
+		///Color recolours "an existing drawing or text"): the label gets the Draw tab's colour and is saved; then the chart is refilled.</summary>
+		private void toothChartRelay_TextColorChanged(object sender,ToothChartTextColorChangedEventArgs e) {
+			if(IsPatientNull()) {
+				return;
+			}
+			ToothInitial toothInitial=Pd.ListToothInitials.Find(x => x.ToothInitialNum==e.ToothInitialNum && x.InitialType==ToothInitialType.Text);
+			if(toothInitial==null) {
+				return;
+			}
+			toothInitial.ColorDraw=panelDrawColor.BackColor;
+			ToothInitials.Update(toothInitial);
+			FillToothChart(retainSelection:true);
+		}
+
 		private void trackToothProcDates_ValueChanged(object sender,EventArgs e) {
 			textToothProcDate.Text=_listDateTimesProcedures[trackToothProcDates.Value].ToShortDateString();
 			FillToothChart(true,_listDateTimesProcedures[trackToothProcDates.Value]);
@@ -4529,6 +4554,7 @@ namespace OpenPmsDental {
 			_toothChartRelay= new ToothChartRelay();
 			_toothChartRelay.SetToothChartWrapper(toothChartWrapper);
 			_toothChartRelay.TextMoved+=toothChartRelay_TextMoved;
+			_toothChartRelay.TextColorChanged+=toothChartRelay_TextColorChanged;
 			toothChartWrapper.Visible=true;
 			//Triggers ResetControls. Falls back to OpenGL, then Simple 2D.
 			ToothChartRelay.ApplyComputerSettings(toothChartWrapper,ToothChartSettingsUse.StartupMode);
@@ -6378,6 +6404,7 @@ namespace OpenPmsDental {
 			_toothChartRelay.ResetTeeth();
 			if(IsPatientNull()) {
 				_toothChartRelay.EndUpdate();
+				FillTextBelow(null);
 				FillMovementsAndHidden();
 				//Cursor=Cursors.Default;
 				return;
@@ -6398,6 +6425,7 @@ namespace OpenPmsDental {
 			}
 			_listDataRowsProcsForGraphical=ToothChartPainter.GetChartModuleRows(table,listProcNumsTreatPlans,_listDataRowsProcsOrig,dateLimit,
 				out _listDataRowsProcsSkipped);
+			FillTextBelow(_listDataRowsProcsForGraphical);//the same list the chart paints, so the strip follows the slider and the view's filters
 			_listToothInitialsCopy=ToothChartPainter.GetChartModuleToothInitials(Pd.ListToothInitials,_listDataRowsProcsSkipped,_listDataRowsProcsForGraphical,
 				dateLimit);
 			ToothChartPainter.PaintToothInitials(_toothChartRelay,_listToothInitialsCopy);
@@ -6440,6 +6468,17 @@ namespace OpenPmsDental {
 			patientDashboardDataEventArgs.TableProgNotes=Pd.TableProgNotes;
 			ODEvent.Fire(ODEventType.ModuleSelected,patientDashboardDataEventArgs);
 			//Cursor=Cursors.Default;
+		}
+
+		///<summary>The TextBelow strip under the date slider (paint type TextBelow, Open Dental 26.2; TC-5): the paint texts of the TextBelow
+		///procedures in listDataRows, the rows the chart paints, of any treatment area (ToothChartPainter.GetTextBelowStripText). Hidden when there is
+		///none; when that changes, the control under the slider gets its room back or makes room again (LayoutTextBelow).</summary>
+		private void FillTextBelow(List<DataRow> listDataRows) {
+			if(textTextBelow.SetProcedures(listDataRows)) {
+				LayoutTextBelow();
+				return;
+			}
+			SetTextBelowVisible();//SetProcedures shows the strip whenever it has text; a layout without the slider keeps it hidden.
 		}
 
 		private void FillTrackSlider() {
@@ -8181,7 +8220,12 @@ namespace OpenPmsDental {
 		#region Methods - Private - SheetLayout
 		///<summary>Returns a dictionary such that the key is a sheetFieldDef.FieldName and the value is a corresponding control from this instance of ContrChart. Dictionary values can be null if control is not matched.</summary>
 		private Dictionary<string,Control> LayoutSheet_GetControlDict() {
-			SheetFieldLayoutMode sheetFieldLayoutMode=LayoutSheet_GetMode();
+			return LayoutSheet_GetControlDict(LayoutSheet_GetMode());
+		}
+
+		///<summary>The dictionary of LayoutSheet_GetControlDict() for the given layout mode (also read by BSHELLTests' TextBelow layout test, which has
+		///no database to choose the mode).</summary>
+		private Dictionary<string,Control> LayoutSheet_GetControlDict(SheetFieldLayoutMode sheetFieldLayoutMode) {
 			Dictionary<string,Control> dictControls=new Dictionary<string,Control>();
 			//Use internal list because it implements all sheetFieldDefs.  We expect the def to always match the controls in the Chart.
 			List<SheetFieldDef> listSheetFieldDefsAll=SheetsInternal.GetSheetDef(SheetInternalType.ChartModule).SheetFieldDefs;
@@ -8265,6 +8309,7 @@ namespace OpenPmsDental {
 				LayoutManager.Synch(dictionaryStringControl.Values.ElementAt(i));//The controls were just moved around programmatically by the sheetLayoutController.
 				//This will also pick up any change in anchor and move that over to the LayoutManager
 			}
+			LayoutTextBelowAfterSheet(sheetFieldLayoutMode,dictionaryStringControl);
 			//float fontSize=gridProg.Font.Size;
 			if(checkShowOrtho.Checked){
 				//The panelGridProg will be visible only if it is in the SheetDef and checkTreatPlans.Checked==false and checkShowOrtho.Checked==false
@@ -8299,6 +8344,76 @@ namespace OpenPmsDental {
 			butNewTP.Visible=false;
 			gridTpProcs.Visible=false;
 			panelTPpriority.Visible=false;
+		}
+
+		///<summary>After the sheet layout placed the controls (LayoutControls): finds the control that starts right under the date slider and
+		///overlaps it across (the treatment notes in the standard layout, the tooth chart in a layout with the slider above it, such as Open Dental's
+		///"Big" layout), keeps the place the sheet gave it, and lays out the TextBelow strip (LayoutTextBelow). The sheet layout has just hidden every
+		///control it does not place, the strip too (SheetLayoutController.InitLayoutForSheetDef), so LayoutTextBelow shows it again. A layout without
+		///the slider never shows the strip and moves no control for it.</summary>
+		private void LayoutTextBelowAfterSheet(SheetFieldLayoutMode sheetFieldLayoutMode,Dictionary<string,Control> dictionaryStringControl) {
+			_controlUnderTextBelow=null;
+			_isTextBelowSliderPlaced=dictionaryStringControl.TryGetValue("TrackToothProcDates",out Control controlSlider)
+				&& controlSlider==panelToothTrackBar
+				&& _sheetLayoutController.SheetDefDynamicLayoutCur!=null
+				&& _sheetLayoutController.GetPertinentSheetFieldDefs(sheetFieldLayoutMode).Any(x => x.FieldName=="TrackToothProcDates");
+			if(!_isTextBelowSliderPlaced) {
+				LayoutTextBelow();
+				return;
+			}
+			int heightStrip=textTextBelow.Height+LayoutManager.Scale(2);
+			foreach(Control control in dictionaryStringControl.Values) {
+				if(control==null || control==panelToothTrackBar || control==textTextBelow || control.Parent!=this) {
+					continue;
+				}
+				if(control.Top<panelToothTrackBar.Bottom || control.Top>panelToothTrackBar.Bottom+heightStrip) {
+					continue;
+				}
+				if(control.Right<=panelToothTrackBar.Left || control.Left>=panelToothTrackBar.Right) {
+					continue;
+				}
+				if(_controlUnderTextBelow==null || control.Top<_controlUnderTextBelow.Top) {
+					_controlUnderTextBelow=control;
+				}
+			}
+			if(_controlUnderTextBelow!=null) {
+				_rectangleUnderTextBelow=_controlUnderTextBelow.Bounds;
+				_sizeMinimumUnderTextBelow=_controlUnderTextBelow.MinimumSize;
+			}
+			LayoutTextBelow();
+		}
+
+		///<summary>The TextBelow strip (TC-5), one line right under the date slider and as wide as it, in every layout. While it has text, the control
+		///found under the slider (LayoutTextBelowAfterSheet) starts under the strip instead and keeps its bottom edge; without text that control has
+		///the sheet's place. Also sets the strip's visibility, which the sheet layout clears on every layout (SetTextBelowVisible).</summary>
+		private void LayoutTextBelow() {
+			if(!_isTextBelowSliderPlaced) {
+				SetTextBelowVisible();
+				return;
+			}
+			LayoutManager.MoveLocation(textTextBelow,new Point(panelToothTrackBar.Left,panelToothTrackBar.Bottom+LayoutManager.Scale(1)));
+			LayoutManager.MoveWidth(textTextBelow,panelToothTrackBar.Width);
+			textTextBelow.BringToFront();
+			SetTextBelowVisible();
+			if(_controlUnderTextBelow==null) {
+				return;
+			}
+			if(!textTextBelow.HasText) {
+				_controlUnderTextBelow.MinimumSize=_sizeMinimumUnderTextBelow;
+				LayoutManager.Move(_controlUnderTextBelow,_rectangleUnderTextBelow);
+				return;
+			}
+			int top=Math.Max(_rectangleUnderTextBelow.Top,textTextBelow.Bottom+LayoutManager.Scale(1));
+			int height=Math.Max(_rectangleUnderTextBelow.Bottom-top,LayoutManager.Scale(20));
+			//The field's minimum height would keep the control from shrinking, so its bottom would move down over the control below it.
+			_controlUnderTextBelow.MinimumSize=new Size(_sizeMinimumUnderTextBelow.Width,Math.Min(_sizeMinimumUnderTextBelow.Height,height));
+			LayoutManager.Move(_controlUnderTextBelow,new Rectangle(_rectangleUnderTextBelow.Left,top,_rectangleUnderTextBelow.Width,height));
+		}
+
+		///<summary>Shows the TextBelow strip while it has text and the current layout places the date slider, else hides it. Called after every layout,
+		///because the sheet layout hides each control that is not a sheet field or a static control, the strip among them, and after every fill.</summary>
+		private void SetTextBelowVisible() {
+			textTextBelow.Visible=_isTextBelowSliderPlaced && textTextBelow.HasText;
 		}
 		#endregion Methods - Private - SheetLayout
 

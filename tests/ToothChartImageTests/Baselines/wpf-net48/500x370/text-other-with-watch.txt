@@ -1,0 +1,15 @@
+Scene: text-other-with-watch
+Group: paint
+Description: Paint type Text with a watch mark on the same tooth: "UCF" and "W" on 24 and "W" on 25 (TP), "Fx" and "W" on 9 (C), and "Fx" alone on 8 (C) for comparison. The text sits one line nearer the tooth than the "W", which keeps the edge, as in Open Dental 26.2's screenshot.
+Size: 500x370
+Colours: Printout
+Engine: Wpf3D (RenderTargetBitmap in software, 3D layer at 3x reduced with WIC's Fant scaler)
+Bitmap: 500x370 Format24bppRgb
+Alpha: every alpha is 255 (format without an alpha channel)
+Colours in the picture: 3171
+Pixels SHA-256: ca22194c33c0d3224c5f2f1ad7b2ce72e8401d1e2434d12eda6929d44bdf7c08
+Repeatable: yes (a second GetBitmap gave the same pixels)
+Framework: .NET Framework 4.8, x86
+Windows: build 26300.9974 (26H2)
+Fresh render: yes (both layers drawn again without the layer cache gave the same pixels)
+Screen DPI seen by the test host: 96

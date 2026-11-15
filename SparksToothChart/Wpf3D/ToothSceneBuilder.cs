@@ -24,10 +24,27 @@ namespace SparksToothChart.Wpf3D {
 		///<summary>The scene of the chart as tcData holds it, at tcData's control size (ToothChartData.SizeControl, which the wrapper sets on every
 		///resize). An empty size gives an empty scene.</summary>
 		public static ToothScene Build(ToothChartData tcData) {
-			Size size=tcData.SizeControl;
-			if(size.Width<1 || size.Height<1 || tcData.ScaleMmToPix<=0 || float.IsNaN(tcData.ScaleMmToPix) || float.IsInfinity(tcData.ScaleMmToPix)) {
+			SceneBuilding building=CreateBuilding(tcData);
+			if(building==null) {
+				Size size=tcData.SizeControl;
 				return new ToothScene(new Size(Math.Max(size.Width,0),Math.Max(size.Height,0)),tcData.ColorBackground,tcData.PerioMode,
 					tcData.SizeOriginalProjection.Width,tcData.SizeOriginalProjection.Height,new List<ToothSceneItem3D>(),new List<ToothSceneItem2D>());
+			}
+			if(tcData.PerioMode) {
+				AddPerioScene(building);
+			}
+			else {
+				AddChartScene(building);
+			}
+			return new ToothScene(building.Scene.Size,tcData.ColorBackground,tcData.PerioMode,building.Scene.WidthProjection,building.Scene.HeightProjection,
+				building.ListItems3D,building.ListItems2D);
+		}
+
+		///<summary>An empty building of the scene at tcData's control size and projection, or null for an empty size.</summary>
+		private static SceneBuilding CreateBuilding(ToothChartData tcData) {
+			Size size=tcData.SizeControl;
+			if(size.Width<1 || size.Height<1 || tcData.ScaleMmToPix<=0 || float.IsNaN(tcData.ScaleMmToPix) || float.IsInfinity(tcData.ScaleMmToPix)) {
+				return null;
 			}
 			//DirectX's Render: the projection keeps 130 x 97.34 mm and widens for a wide or tall control.
 			float heightProj=tcData.SizeOriginalProjection.Height;
@@ -38,19 +55,13 @@ namespace SparksToothChart.Wpf3D {
 			else {
 				heightProj=widthProj*size.Height/size.Width;
 			}
-			SceneBuilding building=new SceneBuilding(tcData,size,widthProj,heightProj);
-			if(tcData.PerioMode) {
-				AddPerioScene(building);
-			}
-			else {
-				AddChartScene(building);
-			}
-			return new ToothScene(size,tcData.ColorBackground,tcData.PerioMode,widthProj,heightProj,building.ListItems3D,building.ListItems2D);
+			return new SceneBuilding(tcData,size,widthProj,heightProj);
 		}
 
 		#region Chart scene
 		///<summary>DirectX's DrawScene: for each tooth the facial view, then the occlusal view; then the watches, the drawings, the centre line and the
-		///numbers.</summary>
+		///numbers. TC-5 adds what DirectX does not draw: the paint text in the watch band after the watches, and the free-text
+		///labels last, over everything.</summary>
 		private static void AddChartScene(SceneBuilding building) {
 			ToothChartData tcData=building.TcData;
 			for(int t=0;t<tcData.ListToothGraphics.Count;t++) {
@@ -61,8 +72,10 @@ namespace SparksToothChart.Wpf3D {
 				AddOcclusalView(building,tcData.ListToothGraphics[t]);
 			}
 			AddWatches(building);
+			AddPaintTexts(building);
 			AddDrawingSegments(building);
 			AddNumbersAndLines(building);
+			AddFreeTexts(building);
 		}
 
 		///<summary>DirectX's DrawFacialView: the tooth, then (depth off) the big X, the root canal lines and the build-up/post, then the implant.</summary>
@@ -622,6 +635,143 @@ namespace SparksToothChart.Wpf3D {
 		}
 		#endregion 2D layer
 
+		#region Text of TC-5: paint text and free text
+		///<summary>The start of the Source of each kind of TC-5 text item, for tests and messages. None starts with "number ", "sealant " or "watch ",
+		///the sources the DirectX parity tests probe.</summary>
+		public const string SourcePaintText="paint text of ";
+		public const string SourceFreeText="free text ";
+
+		///<summary>Paint type Text with text other than "W" (O-22, as Open Dental draws it: "Fracture" above maxillary 9 in its 2021 tip, "UCF" under
+		///mandibular 24 and 25 in its 26.2 screenshot): each tooth's text in the watch mark's band beyond the root tip, above a maxillary tooth and
+		///below a mandibular one, centred on the tooth with its mesial shift (the watch mark's x), in the procedure's colour (opaque) and the paint
+		///text font (the watch mark's font, regular weight). When the tooth's place also has a watch mark (GetWatchPositions), the text goes one line
+		///nearer the tooth and the "W" stays at the edge, as "UCF" over "W" in the 26.2 screenshot (seen on the mandible; the maxilla mirrors it). A
+		///permanent tooth's text shows even when the tooth is missing, as its watch mark does; a primary tooth's only when the primary tooth is
+		///shown. The text stays inside the picture across.</summary>
+		private static void AddPaintTexts(SceneBuilding building) {
+			ToothChartData tcData=building.TcData;
+			List<string> listWatchPositions=GetWatchPositions(tcData);
+			Size size=building.Scene.Size;
+			ChartFont font=building.FontPaintText;
+			float toMm=1f/tcData.ScaleMmToPix;
+			for(int t=0;t<tcData.ListToothGraphics.Count;t++) {
+				ToothGraphic toothGraphic=tcData.ListToothGraphics[t];
+				if(toothGraphic.ToothID=="implant" || string.IsNullOrEmpty(toothGraphic.PaintText)) {
+					continue;
+				}
+				string toothId=toothGraphic.ToothID;
+				bool isPrimary=Tooth.IsPrimary(toothId);
+				if(isPrimary && !toothGraphic.Visible) {
+					continue;
+				}
+				string toothIdPerm=isPrimary ? Tooth.PriToPerm(toothId) : toothId;
+				bool isMaxillary=ToothGraphic.IsMaxillary(toothId);
+				//The watch mark's line (AddWatches): its top at 153 pixels times the ratio above the centre over a maxillary tooth, 138 below it under a
+				//mandibular one.
+				float yMm=isMaxillary ? tcData.PixelScaleRatio*(153f*toMm) : tcData.PixelScaleRatio*(-138f*toMm);
+				float xScreen;
+				float yScreen;
+				building.Scene.ProjectDirectX(ChartMatrix.Identity,GetShiftedTransX(tcData,toothGraphic),yMm,-6f,out xScreen,out yScreen);
+				int widthPixels=ChartFontMeasure.MeasureText(font,toothGraphic.PaintText).Width;
+				int x=(int)Math.Ceiling(xScreen-widthPixels/2f);
+				x=Math.Max(0,Math.Min(x,size.Width-widthPixels));
+				int y=(int)Math.Floor(yScreen);
+				if(listWatchPositions.Contains(toothIdPerm)) {
+					y+=isMaxillary ? building.FontWatch.Height : -building.FontWatch.Height;//one line nearer the tooth; the "W" keeps the edge
+				}
+				building.ListItems2D.Add(ToothSceneItem2D.CreateText(toothGraphic.PaintText,Color.FromArgb(255,toothGraphic.colorPaintText),font,
+					new Point(x,y),widthPixels,SourcePaintText+toothId));
+			}
+		}
+		///<summary>The permanent tooth positions where a watch mark is drawn, by the rules of AddWatches: a permanent tooth's watch always, a primary
+		///tooth's when the primary tooth is shown (in its permanent tooth's place).</summary>
+		private static List<string> GetWatchPositions(ToothChartData tcData) {
+			List<string> listPositions=new List<string>();
+			for(int t=0;t<tcData.ListToothGraphics.Count;t++) {
+				ToothGraphic toothGraphic=tcData.ListToothGraphics[t];
+				if(toothGraphic.ToothID=="implant" || !toothGraphic.Watch) {
+					continue;
+				}
+				if(!Tooth.IsPrimary(toothGraphic.ToothID)) {
+					listPositions.Add(toothGraphic.ToothID);
+				}
+				else if(toothGraphic.Visible) {
+					listPositions.Add(Tooth.PriToPerm(toothGraphic.ToothID));
+				}
+			}
+			return listPositions;
+		}
+
+		///<summary>The tooth's x in mm with its mesial shift, as the watch marks place it (DrawWatches).</summary>
+		private static float GetShiftedTransX(ToothChartData tcData,ToothGraphic toothGraphic) {
+			if(ToothGraphic.IsRight(toothGraphic.ToothID)) {
+				return tcData.GetTransX(toothGraphic.ToothID)+toothGraphic.ShiftM;
+			}
+			return tcData.GetTransX(toothGraphic.ToothID)-toothGraphic.ShiftM;
+		}
+
+		///<summary>The free-text labels, last, over everything: each at its place (FreeTextBox), in its colour (opaque, as the drawings of the same
+		///colour) and the free-text font.</summary>
+		private static void AddFreeTexts(SceneBuilding building) {
+			foreach(FreeTextBox freeTextBox in GetFreeTextBoxes(building)) {
+				building.ListItems2D.Add(ToothSceneItem2D.CreateText(freeTextBox.FreeText.Text,Color.FromArgb(255,freeTextBox.FreeText.ColorText),
+					building.FontFreeText,freeTextBox.Bounds.Location,freeTextBox.Bounds.Width,SourceFreeText+freeTextBox.FreeText.ToothInitialNum));
+			}
+		}
+
+		///<summary>Where each free-text label of tcData is drawn, in the order they are drawn (the last is on top), at tcData's control size: the boxes
+		///the mouse picks a label up by (ToothChartMouse, CursorTool.MoveText). Empty for an empty size or the perio chart, which draws no labels.</summary>
+		public static List<FreeTextBox> GetFreeTextBoxes(ToothChartData tcData) {
+			if(tcData.PerioMode) {
+				return new List<FreeTextBox>();
+			}
+			SceneBuilding building=CreateBuilding(tcData);
+			if(building==null) {
+				return new List<FreeTextBox>();
+			}
+			return GetFreeTextBoxes(building);
+		}
+
+		///<summary>Each label's text cell: its top left is the label's point in the 410x307 drawing space, mapped to the picture as the drawings are
+		///(PointDrawingPixToMm and DirectX's projection) and put on the nearest whole pixel; its size is the text's
+		///width and the font's cell height. A label that would run past an edge is moved back inside (a label wider or taller than the picture sits at
+		///its left or top), so it can always be seen and picked up. Labels with no text are left out.</summary>
+		private static List<FreeTextBox> GetFreeTextBoxes(SceneBuilding building) {
+			ToothChartData tcData=building.TcData;
+			Size size=building.Scene.Size;
+			ChartFont font=building.FontFreeText;
+			List<FreeTextBox> listBoxes=new List<FreeTextBox>();
+			for(int i=0;i<tcData.ListFreeTexts.Count;i++) {
+				ToothChartFreeText freeText=tcData.ListFreeTexts[i];
+				if(string.IsNullOrEmpty(freeText.Text)) {
+					continue;
+				}
+				PointF pointMm=tcData.PointDrawingPixToMm(freeText.Location);
+				float xScreen;
+				float yScreen;
+				building.Scene.ProjectDirectX(ChartMatrix.Identity,pointMm.X,pointMm.Y,0,out xScreen,out yScreen);
+				if(float.IsNaN(xScreen) || float.IsNaN(yScreen) || float.IsInfinity(xScreen) || float.IsInfinity(yScreen)) {
+					xScreen=0;
+					yScreen=0;
+				}
+				int widthPixels=ChartFontMeasure.MeasureText(font,freeText.Text).Width;
+				//The nearest whole pixel: no DirectX text to match here, and a whole point of the drawing space lands on its pixel whatever the float's last bit.
+				int xPoint=(int)Math.Round(Math.Max(Math.Min(xScreen,int.MaxValue/2f),int.MinValue/2f),MidpointRounding.AwayFromZero);
+				int yPoint=(int)Math.Round(Math.Max(Math.Min(yScreen,int.MaxValue/2f),int.MinValue/2f),MidpointRounding.AwayFromZero);
+				int x=Math.Max(0,Math.Min(xPoint,size.Width-widthPixels));
+				int y=Math.Max(0,Math.Min(yPoint,size.Height-font.Height));
+				FreeTextBox freeTextBox=new FreeTextBox();
+				freeTextBox.FreeText=freeText;
+				freeTextBox.Bounds=new Rectangle(x,y,widthPixels,font.Height);
+				//The label's point in the drawing space where it is seen: its own point, or, when it was moved back inside, that point moved as much.
+				float ratio=tcData.PixelScaleRatio>0 ? tcData.PixelScaleRatio : 1f;
+				freeTextBox.LocationShown=new PointF(freeText.Location.X+(x-xPoint)/ratio,freeText.Location.Y+(y-yPoint)/ratio);
+				listBoxes.Add(freeTextBox);
+			}
+			return listBoxes;
+		}
+		#endregion Text of TC-5: paint text and free text
+
 		#region Fonts
 		///<summary>DirectX's PrepareForDirectX: the numbers' font, Arial with a cell height of 14 and an average width of 5 pixels at the original
 		///size, both times the square root of the pixel scale ratio.</summary>
@@ -643,6 +793,18 @@ namespace SparksToothChart.Wpf3D {
 		public static ChartFont GetFontWatchBig(float pixelScaleRatio) {
 			return ChartFontMeasure.GetFont("Times New Roman",(int)Math.Round(19*pixelScaleRatio),(int)Math.Round(7.4*pixelScaleRatio),800);
 		}
+
+		///<summary>TC-5's free-text labels: Arial with a cell height of 14 times the ratio and its own width, normal weight. DirectX drew no free text,
+		///so there is nothing to match; the size reads like the tooth numbers'.</summary>
+		public static ChartFont GetFontFreeText(float pixelScaleRatio) {
+			return ChartFontMeasure.GetFont("Arial",Math.Max(1,(int)Math.Round(14*pixelScaleRatio)),0,400);
+		}
+
+		///<summary>TC-5's paint text (paint type Text other than "W"), in the watch mark's band: the watch mark's own font (GetFontWatch: Arial 15/6 times
+		///the ratio, regular weight), as Open Dental draws "UCF" beside its "W".</summary>
+		public static ChartFont GetFontPaintText(float pixelScaleRatio) {
+			return GetFontWatch(pixelScaleRatio);
+		}
 		#endregion Fonts
 
 		///<summary>The state of one Build: the data, an empty scene of the right size and projection for the projections, the fonts and the item
@@ -657,6 +819,8 @@ namespace SparksToothChart.Wpf3D {
 			private ChartFont _fontSealant;
 			private ChartFont _fontWatch;
 			private ChartFont _fontWatchBig;
+			private ChartFont _fontFreeText;
+			private ChartFont _fontPaintText;
 
 			public SceneBuilding(ToothChartData tcData,Size size,float widthProj,float heightProj) {
 				TcData=tcData;
@@ -698,7 +862,36 @@ namespace SparksToothChart.Wpf3D {
 					return _fontWatchBig;
 				}
 			}
+
+			public ChartFont FontFreeText {
+				get {
+					if(_fontFreeText==null) {
+						_fontFreeText=GetFontFreeText(TcData.PixelScaleRatio);
+					}
+					return _fontFreeText;
+				}
+			}
+
+			public ChartFont FontPaintText {
+				get {
+					if(_fontPaintText==null) {
+						_fontPaintText=GetFontPaintText(TcData.PixelScaleRatio);
+					}
+					return _fontPaintText;
+				}
+			}
 		}
+	}
+
+	///<summary>Where one free-text label is drawn (ToothSceneBuilder.GetFreeTextBoxes, TC-5).</summary>
+	public sealed class FreeTextBox {
+		///<summary>The label, as the chart's data holds it (not a copy): the mouse moves it in place while it is dragged.</summary>
+		public ToothChartFreeText FreeText;
+		///<summary>The text cell in pixels of the picture: the label's top left and its text's width and the font's cell height.</summary>
+		public Rectangle Bounds;
+		///<summary>The label's point in the 410x307 drawing space where it is seen: its own point, or the point it was moved back inside the picture
+		///to. A drag starts from here, so the label stays under the mouse.</summary>
+		public PointF LocationShown;
 	}
 
 	///<summary>GDI fonts and text widths for the 2D layer. The DirectX chart's D3DX fonts are GDI fonts (D3DXCreateFont passes its height, width

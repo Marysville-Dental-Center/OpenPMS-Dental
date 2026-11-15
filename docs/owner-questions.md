@@ -735,6 +735,14 @@ of 2026-11-08: "1. As recommended 2. Ship dlls we need. Use Helix. It's decided.
   the quick live view is the default on-screen chart, with a per-computer "Draw in software" switch for the smoothed picture (b1).
   The dashboard's copy of the chart is made in the background by a later package, TC-3b, before the WPF chart becomes every
   computer's chart.
+- **The extraction graphic and the tooth chart rule (2026-11-14).** After G2's first versions: "Keep it the same as open dental, which is
+  a setting to toggle showing it or not." and "Overall for tc changes, keep it the same as OD latest version." Every tooth chart change
+  now follows the latest Open Dental's public behaviour (26.2 stable, 26.3 beta); the audit is in `docs/specs/wpf-tooth-chart-plan.md`,
+  section "Open Dental parity (2026-11-14)". So O-20 (on by default; the tooth hidden with a thin X, as Open Dental's 26.2 screenshot
+  shows; no other exceptions), O-21 (TextBelow in a one-line box under the date slider, not in the tooth picture) and O-22 (paint text
+  beyond the root tip, in the W band) changed.
+- **Gallery G2 (answered on 2026-11-15: "G2 is good. Merge tc5").** TC-5's drawing, fourth version, is approved: free text, paint text,
+  TextBelow's box and the completed-extraction X as in Open Dental 26.2. TC-5 merged.
 
 ---
 

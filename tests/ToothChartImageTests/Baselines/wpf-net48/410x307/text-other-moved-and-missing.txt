@@ -1,0 +1,15 @@
+Scene: text-other-moved-and-missing
+Group: paint
+Description: Paint type Text on a missing tooth ("Ext" on 3), on a tooth shifted 2 mm mesially ("M" on 14), on a shown primary tooth ("P" on K) and on its neighbour's hidden primary tooth ("Q" on L, not drawn), each beyond the root tip in the watch mark's band.
+Size: 410x307
+Colours: Module
+Engine: Wpf3D (RenderTargetBitmap in software, 3D layer at 3x reduced with WIC's Fant scaler)
+Bitmap: 410x307 Format24bppRgb
+Alpha: every alpha is 255 (format without an alpha channel)
+Colours in the picture: 3804
+Pixels SHA-256: 78647447730b6f13e2c23a91178eb131d11ae0756f2af2f630997de9ad342045
+Repeatable: yes (a second GetBitmap gave the same pixels)
+Framework: .NET Framework 4.8, x86
+Windows: build 26300.9974 (26H2)
+Fresh render: yes (both layers drawn again without the layer cache gave the same pixels)
+Screen DPI seen by the test host: 96

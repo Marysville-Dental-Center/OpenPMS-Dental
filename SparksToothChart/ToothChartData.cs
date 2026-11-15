@@ -19,6 +19,9 @@ namespace SparksToothChart {
 		public Color ColorBackHighlight;
 		private List<string> selectedTeeth;
 		public List<ToothInitial> DrawingSegmentList;
+		///<summary>The free-text labels (toothinitial rows of type Text), in the order they were added, which is the order they are drawn (TC-5).
+		///Cleared by the wrapper's ResetTeeth, as the drawings are.</summary>
+		public List<ToothChartFreeText> ListFreeTexts;
 		///<summary>This is the size of the control in screen pixels.</summary>
 		private Size sizeControl;
 		/// <summary>In tooth mm, exactly how much of the projection to show.</summary>
@@ -68,6 +71,7 @@ namespace SparksToothChart {
 			selectedTeeth=new List<string>();
 			sizeControl=SizeOriginalDrawing;
 			DrawingSegmentList=new List<ToothInitial>();
+			ListFreeTexts=new List<ToothChartFreeText>();
 			CursorTool=CursorTool.Pointer;
 			ColorDrawing=Color.Black;
 			Font=new System.Drawing.Font(FontFamily.GenericSansSerif,8.25f);
@@ -86,6 +90,10 @@ namespace SparksToothChart {
 			tcd.DrawingSegmentList=new List<ToothInitial>();
 			foreach(ToothInitial ti in DrawingSegmentList) {
 				tcd.DrawingSegmentList.Add(ti.Copy());
+			}
+			tcd.ListFreeTexts=new List<ToothChartFreeText>();
+			foreach(ToothChartFreeText freeText in ListFreeTexts) {
+				tcd.ListFreeTexts.Add(freeText.Copy());
 			}
 			tcd.PointList=new List<PointF>();
 			foreach(PointF p in PointList) {

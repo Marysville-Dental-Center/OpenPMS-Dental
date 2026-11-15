@@ -144,6 +144,7 @@ namespace OpenPmsDental {
 			checkIsAlertRadiologyProcsEnabled.Checked=PrefC.GetBool(PrefName.IsAlertRadiologyProcsEnabled);
 			checkShowPlannedApptPrompt.Checked=PrefC.GetBool(PrefName.ShowPlannedAppointmentPrompt);
 			checkChartOrthoTabAutomaticCheckboxes.Checked=PrefC.GetBool(PrefName.ChartOrthoTabAutomaticCheckboxes);
+			checkToothChartShowCompletedExtractions.Checked=ToothChartExtractionGraphic.IsOn();//Open Dental 26.2, on by default (TC-5)
 		}
 
 		public bool SaveChartGeneral() {
@@ -175,7 +176,20 @@ namespace OpenPmsDental {
 			Changed|=Prefs.UpdateBool(PrefName.IsAlertRadiologyProcsEnabled,checkIsAlertRadiologyProcsEnabled.Checked);
 			Changed|=Prefs.UpdateBool(PrefName.ShowPlannedAppointmentPrompt,checkShowPlannedApptPrompt.Checked);
 			Changed|=Prefs.UpdateBool(PrefName.ChartOrthoTabAutomaticCheckboxes,checkChartOrthoTabAutomaticCheckboxes.Checked);
+			SaveToothChartExtractionGraphic();
 			return true;
+		}
+
+		///<summary>Open Dental 26.2's extraction graphic (O-20, TC-5): the fork's own preference row, saved by name (ToothChartExtractionGraphic). A change
+		///is written to the audit trail and sets Changed, so the Preferences window sends the preference signal and the charts redraw.</summary>
+		private void SaveToothChartExtractionGraphic() {
+			bool isOnOld=ToothChartExtractionGraphic.IsOn();
+			bool isOnNew=checkToothChartShowCompletedExtractions.Checked;
+			if(!ToothChartExtractionGraphic.Save(isOnNew)) {
+				return;
+			}
+			Changed=true;
+			SecurityLogs.MakeLogEntry(EnumPermType.Setup,0,ToothChartExtractionGraphic.GetChangeLogLine(isOnOld,isOnNew));
 		}
 		#endregion Methods - Public
 	}
