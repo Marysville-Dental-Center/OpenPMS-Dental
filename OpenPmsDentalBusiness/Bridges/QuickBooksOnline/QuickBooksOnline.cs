@@ -170,8 +170,12 @@ namespace OpenPmsDentalBusiness.Qbo {
 			if(refreshToken!="" && settings.ClientId!="" && settings.ClientSecret!="") {
 				TryRevoke(settings,refreshToken);
 			}
-			QboSettings.ClearConnection();
-			QboTokenManager.ClearAll();
+			//One unit (lead fix at S3a-1c's merge): a cancel never leaves the connection half cleared (the token gone but the company name
+			//still set); it stops the action before the clearing or after it.
+			ODCancellation.RunUncancellable(() => {
+				QboSettings.ClearConnection();
+				QboTokenManager.ClearAll();
+			});
 		}
 
 		private static void TryRevoke(QboSettings settings,string refreshToken) {

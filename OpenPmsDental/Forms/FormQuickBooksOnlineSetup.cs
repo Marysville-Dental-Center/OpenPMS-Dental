@@ -461,9 +461,21 @@ namespace OpenPmsDental {
 				exDisconnect=ex;
 			}
 			if(progressWin.IsCancelled) {
-				//S3a-1c: not "Could not disconnect" and no "disconnected" log entry after the user cancelled. The local connection stays unless its
-				//clearing was under way (the next use then asks to reconnect); the cache is refreshed either way.
+				//S3a-1c: not "Could not disconnect" after the user cancelled. The clearing is one unit (QuickBooksOnline.Disconnect), so the
+				//connection is either still there or fully cleared; when it was cleared before or within the wait, the setup change is logged as
+				//after a disconnect that was not cancelled (lead fix at the merge). The cache is refreshed either way.
 				DataValid.SetInvalid(InvalidType.Programs);
+				bool isCleared=false;
+				try {
+					QboSettings qboSettings=QboSettings.Load();
+					isCleared=(!qboSettings.HasRefreshToken && qboSettings.RealmId=="");
+				}
+				catch(Exception ex) {
+					ex.DoNothing();
+				}
+				if(isCleared) {
+					SecurityLogs.MakeLogEntry(EnumPermType.Setup,0,"QuickBooks Online disconnected");
+				}
 				return;
 			}
 			if(exDisconnect!=null) {

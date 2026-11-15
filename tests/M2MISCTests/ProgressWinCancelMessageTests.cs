@@ -272,6 +272,10 @@ namespace M2MISCTests {
 			string quickBooksOnline=TestDb.ReadRepoFile("OpenPmsDentalBusiness","Bridges","QuickBooksOnline","QuickBooksOnline.cs");
 			Assert.IsTrue(Regex.IsMatch(quickBooksOnline,@"catch\(OperationCanceledException\) when\(ODCancellation\.IsCancellationRequested\) \{\s*throw;\s*\}\s*catch\(Exception ex\) \{\s*return ex;"),
 				"QuickBooksOnline.RunForWindow throws the cancel.");
+			Assert.IsTrue(Regex.IsMatch(quickBooksOnline,@"ODCancellation\.RunUncancellable\(\(\) => \{\s*QboSettings\.ClearConnection\(\);\s*QboTokenManager\.ClearAll\(\);\s*\}\);"),
+				"QuickBooksOnline.Disconnect clears the connection as one unit (lead fix at S3a-1c's merge).");
+			AssertBefore(formQuickBooksOnlineSetup,"if(progressWin.IsCancelled) {","isCleared=(!qboSettings.HasRefreshToken && qboSettings.RealmId==\"\");",
+				"if(isCleared) {","FormQuickBooksOnlineSetup: a disconnect that finished before the cancel took effect is still logged");
 		}
 	}
 }
