@@ -173,7 +173,44 @@ namespace ToothChartImageTests {
 			new TextAllowance("text-label-long","500x370","number","number 10",ReasonFreeTextOverNumbers),
 			new TextAllowance("text-label-long","500x370","number","number 11",ReasonFreeTextOverNumbers),
 			new TextAllowance("text-label-long","500x370","number","number 12",ReasonFreeTextOverNumbers),
+			//TC-3c (LOOK-2): the numbers next to an unerupted tooth, which DirectX 9 draws dark (half colour) and the WPF chart pale (half-transparent).
+			//One allowance per number that fails without them (the first recording, tc3c-record-1), so any other number that moves still fails.
+			new TextAllowance("unerupted-third-molars","410x307","number","number 1",ReasonUneruptedNextToNumbers),
+			new TextAllowance("unerupted-third-molars","410x307","number","number 16",ReasonUneruptedNextToNumbers),
+			new TextAllowance("unerupted-third-molars","410x307","number","number 17",ReasonUneruptedNextToNumbers),
+			new TextAllowance("unerupted-third-molars","410x307","number","number 32",ReasonUneruptedNextToNumbers),
+			new TextAllowance("unerupted-third-molars","500x370","number","number 1",ReasonUneruptedNextToNumbers),
+			new TextAllowance("unerupted-third-molars","500x370","number","number 16",ReasonUneruptedNextToNumbers),
+			new TextAllowance("unerupted-third-molars","500x370","number","number 17",ReasonUneruptedNextToNumbers),
+			new TextAllowance("unerupted-third-molars","500x370","number","number 32",ReasonUneruptedNextToNumbers),
+			new TextAllowance("missing-and-hidden-primary","410x307","number","number 5",ReasonUneruptedNextToNumbers),
+			new TextAllowance("missing-and-hidden-primary","410x307","number","number 7",ReasonUneruptedNextToNumbers),
+			new TextAllowance("missing-and-hidden-primary","410x307","number","number 10",ReasonUneruptedNextToNumbers),
+			new TextAllowance("missing-and-hidden-primary","410x307","number","number 12",ReasonUneruptedNextToNumbers),
+			new TextAllowance("missing-and-hidden-primary","410x307","number","number 20",ReasonUneruptedNextToNumbers),
+			new TextAllowance("missing-and-hidden-primary","410x307","number","number 29",ReasonUneruptedNextToNumbers),
+			new TextAllowance("missing-and-hidden-primary","410x307","number","number D",ReasonUneruptedNextToNumbers),
+			new TextAllowance("missing-and-hidden-primary","410x307","number","number G",ReasonUneruptedNextToNumbers),
+			new TextAllowance("missing-and-hidden-primary","500x370","number","number 5",ReasonUneruptedNextToNumbers),
+			new TextAllowance("missing-and-hidden-primary","500x370","number","number 12",ReasonUneruptedNextToNumbers),
+			new TextAllowance("missing-and-hidden-primary","500x370","number","number 20",ReasonUneruptedNextToNumbers),
+			new TextAllowance("missing-and-hidden-primary","500x370","number","number 29",ReasonUneruptedNextToNumbers),
+			new TextAllowance("missing-and-hidden-primary","500x370","number","number D",ReasonUneruptedNextToNumbers),
+			new TextAllowance("missing-and-hidden-primary","500x370","number","number G",ReasonUneruptedNextToNumbers),
+			new TextAllowance("shifto-unerupted","410x307","number","number 6",ReasonUneruptedNextToNumbers),
+			new TextAllowance("shifto-unerupted","410x307","number","number 11",ReasonUneruptedNextToNumbers),
+			new TextAllowance("shifto-unerupted","410x307","number","number 22",ReasonUneruptedNextToNumbers),
+			new TextAllowance("shifto-unerupted","410x307","number","number 27",ReasonUneruptedNextToNumbers),
+			new TextAllowance("shifto-unerupted","500x370","number","number 6",ReasonUneruptedNextToNumbers),
+			new TextAllowance("shifto-unerupted","500x370","number","number 11",ReasonUneruptedNextToNumbers),
+			new TextAllowance("shifto-unerupted","500x370","number","number 22",ReasonUneruptedNextToNumbers),
+			new TextAllowance("shifto-unerupted","500x370","number","number 27",ReasonUneruptedNextToNumbers),
 		};
+
+		private const string ReasonUneruptedNextToNumbers="On purpose, not a difference of place (TC-3c, LOOK-2): the unerupted tooth beside this number "
+			+"is dark (half colour) in DirectX 9's picture, so its dark pixels in the search box count as the number's ink and DirectX's ink box grows by "
+			+"up to 3 pixels; the WPF chart draws the tooth pale and half-transparent, as Open Dental's DirectX 11 chart, so only the number's own ink "
+			+"counts. The glyphs sit in the same cells (looked at in both pictures: number 1 of unerupted-third-molars at 410x307).";
 
 		private const string ReasonFreeTextOverNumbers="New drawing, not a difference of place (TC-5): the free-text label of this scene is drawn over "
 			+"the row of the upper numbers, which DirectX drew without it, so the label's black ink joins the numbers' ink in the search box.";

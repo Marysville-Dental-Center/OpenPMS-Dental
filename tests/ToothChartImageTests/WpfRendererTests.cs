@@ -756,6 +756,55 @@ namespace ToothChartImageTests {
 			StringAssert.Contains(result.Output,"next render: 410x307, on a new thread True, the same image True");
 		}
 
+		[TestMethod]
+		public void TranslucentTooth_IsItsOpaquePictureBlendedOverTheBackgroundAtItsAlpha() {
+			//TC-3c (LOOK-2): an unerupted tooth's material keeps the colour's alpha in all three brushes (CreateMaterial), so the tooth comes out as
+			//its opaque picture blended over the background at UneruptedAlpha, not brighter (an emissive or specular pass added in full) and not
+			//darker. One upper molar, the same items once opaque and once at the alpha, over the module background; compared on the pixels the
+			//opaque tooth covers, where a translucent tooth that overlaps itself (front faces behind front faces) may blend twice.
+			ToothChartData tcData=WpfSceneTests.CreateData(ChartScenes.SizeModule.Size);
+			tcData.ColorBackground=ChartScenes.ModuleBackground;
+			ToothScene toothSceneAll=ToothSceneBuilder.Build(tcData);
+			List<ToothSceneItem3D> listOpaque=toothSceneAll.Items3D.Where(x => x.Source=="3 facial").ToList();
+			Assert.IsTrue(listOpaque.Count>3,"The groups of 3's facial view.");
+			List<ToothSceneItem3D> listTranslucent=listOpaque.Select(x => new ToothSceneItem3D(x.ToothId,x.GroupIndex,x.GroupType,
+				Color.FromArgb(ToothSceneBuilder.UneruptedAlpha,x.Color),x.Specular,x.Transform,x.Source)).ToList();
+			ToothScene toothSceneOpaque=new ToothScene(toothSceneAll.Size,toothSceneAll.ColorBackground,false,toothSceneAll.WidthProjection,
+				toothSceneAll.HeightProjection,listOpaque,new List<ToothSceneItem2D>());
+			ToothScene toothSceneTranslucent=new ToothScene(toothSceneAll.Size,toothSceneAll.ColorBackground,false,toothSceneAll.WidthProjection,
+				toothSceneAll.HeightProjection,listTranslucent,new List<ToothSceneItem2D>());
+			byte[] arrayOpaque=ToothChartRenderer.Instance.Render(toothSceneOpaque,null).PixelsBgra;
+			byte[] arrayTranslucent=ToothChartRenderer.Instance.Render(toothSceneTranslucent,null).PixelsBgra;
+			Color colorBack=toothSceneAll.ColorBackground;
+			double alpha=ToothSceneBuilder.UneruptedAlpha/255.0;
+			int countTooth=0;
+			int countWithin=0;
+			double sumDifference=0;
+			for(int i=0;i<arrayOpaque.Length;i+=4) {
+				int[] arrayBack={ colorBack.B,colorBack.G,colorBack.R };
+				if(Enumerable.Range(0,3).All(c => Math.Abs(arrayOpaque[i+c]-arrayBack[c])<=24)) {
+					continue;//background, or too near it to tell
+				}
+				countTooth++;
+				int worst=0;
+				for(int c=0;c<3;c++) {
+					double expected=alpha*arrayOpaque[i+c]+(1-alpha)*arrayBack[c];
+					int difference=(int)Math.Round(arrayTranslucent[i+c]-expected);
+					sumDifference+=difference;
+					worst=Math.Max(worst,Math.Abs(difference));
+				}
+				if(worst<=4) {
+					countWithin++;
+				}
+			}
+			string text=countWithin+" of "+countTooth+" tooth pixels within 4 of the blend; mean signed difference "
+				+(sumDifference/(3.0*Math.Max(1,countTooth))).ToString("0.00");
+			Console.WriteLine(text);
+			Assert.IsTrue(countTooth>500,text);
+			Assert.IsTrue(countWithin*10>=countTooth*9,text);
+			Assert.IsTrue(Math.Abs(sumDifference/(3.0*countTooth))<=2,text);
+		}
+
 		///<summary>The managed heap after a full collection with the finalizers run (WPF's render targets free their native memory in theirs), and
 		///the process's private bytes then.</summary>
 		private static long GetMemoryAfterCollect(out long bytesPrivate) {

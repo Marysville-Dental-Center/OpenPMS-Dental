@@ -131,7 +131,28 @@ namespace ToothChartImageTests {
 				+"build-up in DirectX; the WPF chart's build-up silhouette is in the 2D layer, always on top.",true),
 			new ParityAllowance("x-on-implant-tooth","*","*",ProbeKind.BigX,"Known difference (plan 5.1): DirectX draws the implant after the X with "
 				+"depth testing on, so the implant covers the X; the WPF chart's X is in the 2D layer, always on top.",true),
+			//TC-3c (LOOK-2): the scenes with unerupted teeth, each for the probes of its unerupted teeth only (both sizes).
+			new ParityAllowance("primary-dentition","*","*",null,ReasonUnerupted,false,true),
+			new ParityAllowance("primary-dentition-fdi","*","*",null,ReasonUnerupted,false,true),
+			new ParityAllowance("primary-dentition-palmer","*","*",null,ReasonUnerupted,false,true),
+			new ParityAllowance("mixed-dentition","*","*",null,ReasonUnerupted,false,true),
+			new ParityAllowance("mixed-dentition-haderup","*","*",null,ReasonUnerupted,false,true),
+			new ParityAllowance("unerupted-third-molars","*","*",null,ReasonUnerupted,false,true),
+			new ParityAllowance("missing-and-hidden-primary","*","*",null,ReasonUnerupted,false,true),
+			new ParityAllowance("shifto-unerupted","*","*",null,ReasonUnerupted,false,true),
+			new ParityAllowance("crown-primary","*","*",null,ReasonUnerupted,false,true),
+			new ParityAllowance("extraction-primary","*","*",null,ReasonUnerupted,false,true),
+			new ParityAllowance("filling-primary","*","*",null,ReasonUnerupted,false,true),
+			new ParityAllowance("rct-primary","*","*",null,ReasonUnerupted,false,true),
+			new ParityAllowance("sealant-primary","*","*",null,ReasonUnerupted,false,true),
+			new ParityAllowance("text-watch-primary","*","*",null,ReasonUnerupted,false,true),
+			new ParityAllowance("select-primary-letter","*","*",null,ReasonUnerupted,false,true),
 		};
+
+		///<summary>TC-3c's reason for the probes of unerupted teeth.</summary>
+		public const string ReasonUnerupted="On purpose (TC-3c, LOOK-2): the WPF chart draws an unerupted tooth half-transparent at its own colour (alpha "
+			+"0.63), blended over the background, as Open Dental's DirectX 11 chart shows it (its 2023 mixed-dentition screenshot); DirectX 9 drew it "
+			+"opaque at half colour, so the sample is much lighter (about 30 to 40 points) than DirectX's. Only the unerupted teeth's probes are allowed.";
 
 		///<summary>The probe points of the chart as tcData holds it, at its control size: the surface centres of every visible tooth in both views
 		///(the occlusal view of a permanent tooth only when its primary tooth is not shown over it, as DirectX's DrawOcclusalView) and of every missing
