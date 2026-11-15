@@ -551,4 +551,191 @@ scratch folders), and every database connection went to `127.0.0.1:3306`.
 - **S2-2's client certificate.** Should the script make a client certificate signed by the test CA, for S2-2's certificate-login test (a
   `REQUIRE X509` test account on the local server; the key in `%LOCALAPPDATA%\OpenPmsDental\DevDbTlsClient`, readable by the dev account)?
   Until the answer is yes the script makes none and that part of S2-2 waits. A yes after the enable run means `-Revert` and the enable run
-  again with `-WithClientCertificate` (a new CA), because the CA's key is discarded after each run.
+  again with `-WithClientCertificate` (a new CA), because the CA's key is discarded after each run. **Answered 2026-11-09: yes**
+  (`docs/owner-questions.md`, "Pending items answered on 2026-11-09"); section 11 runs it together with the test network.
+
+## 11. The test network of S2-2's check (DB-TLS-ENV, branch `tools/dbtls-env-1`, 2026-11-14)
+
+S2-2's database TLS check (`TlsCertificateLoginTests`, `docs/port-notes/S2-2.md` section 6) needs three things the script did not make: a
+listener on an address of this computer that is not loopback, a server certificate that names it, and two client certificates of the
+server's CA in `LocalMachine\My`, one with its key in a CAPI provider and one in a CNG provider. **The owner's decision (2026-11-14):** a
+Windows virtual loopback network adapter (the Microsoft KM-TEST Loopback Adapter) with one private address from the documentation range
+192.0.2.0/24, which no other computer can reach; the local MariaDB also listens on that address; nothing is exposed on the office network;
+`-Revert` removes the adapter again. The owner runs the script elevated; the agents never do, and never install an adapter or change a
+network setting, the firewall or the MariaDB service on this PC. **The one exception** to "only `127.0.0.1:3306`": the tests may connect
+to that test address on port 3306 (`OPMS_DB_TLS_TEST_SERVER`), nothing else (`docs/owner-questions.md`, plan O-8 and O-12).
+
+### 11.1 What `-WithTestNetwork <192.0.2.x>` adds to the enable run
+
+The switch goes with the enable run (or `-TestCertificatesFolder`) only; `-Revert` and `-RequireSecureTransport` take the test network
+from the record in `my.ini` and refuse the switch. An address that is not one host address of 192.0.2.0/24 (192.0.2.1 to 192.0.2.254,
+without leading zeros) is refused before anything else, also before the elevation check. The checks (no elevation, nothing changed) then
+refuse an address this computer has, another address of 192.0.2.0/24 on any interface, a route other than the default route that leads
+into 192.0.2.0/24 (a VPN, for one), a server older than MariaDB 10.11, a missing `%windir%\INF\netloop.inf`, an adapter already named
+`OPMS DB TLS test` or a firewall rule of this script that exists already, and the firewall off in a profile while an interface forwards
+IPv4 or takes packets for other interfaces' addresses (weak host receive). The plan tags each change; `-Revert`'s plan names each tag again:
+
+| Tag | The enable run | `-Revert` |
+|---|---|---|
+| `[adapter]` | A Microsoft KM-TEST Loopback Adapter (hardware id `*MSLOOP`), created through the SetupAPI from Windows' own `netloop.inf`, named `OPMS DB TLS test`. Loopback adapters that exist already are not touched. | Removes the recorded device (only when its hardware id is `*MSLOOP`) and checks that it and the address are gone. |
+| `[address]` | `192.0.2.x/32` and nothing else: no gateway, no DNS server, no DNS registration; DHCP, forwarding and weak host receive off (checked); duplicate address detection, weak host send, router discovery and NetBIOS over TCP/IP off (a `WARNING` where Windows keeps one). | Goes with the adapter. |
+| `[bindings]` | Every binding but Internet Protocol Version 4 switched off; File and Printer Sharing (`ms_server`), Client for Microsoft Networks (`ms_msclient`) and IPv6 (`ms_tcpip6`) must be off (checked), any other gets a `WARNING` if Windows keeps it. | Go with the adapter. |
+| `[firewall]` | When the firewall is on in any profile: `OpenPmsDental-DbTlsTest-Allow3306` (TCP 3306 on the address from the address itself, this computer) and `OpenPmsDental-DbTlsTest-Block3306` (from every other remote address), group `Open PMS - Dental local test TLS`, every profile. | Removes the recorded rules (only of that group). |
+| `[server-certificate]` | The server certificate also names the address (`IP:`) and the computer's host name (`DNS:`), beside `localhost` and `127.0.0.1`. | Goes with the `opms-dev-tls` folder. |
+| `[client-certificates]` | `CN=opms-dbtls-test-client-capi` and `CN=opms-dbtls-test-client-cng` (RSA 2048, 5 years, clientAuth), signed by the same CA in the same run (its key is still discarded), each as its own `.pfx` (only the certificate and its key; a random password) in `opms-dev-tls\client-pfx` (Administrators only), imported with `certutil -csp ... -importPFX My <file> NoExport,NoChain,NoRoot` into `LocalMachine\My`: the first in `Microsoft Enhanced RSA and AES Cryptographic Provider` (CAPI), the second in `Microsoft Software Key Storage Provider` (CNG). The run checks the provider and the computer's key set, then deletes the `.pfx` files. | Deletes each key (the CAPI container through the CSP, the CNG key with `CngKey.Delete`), removes the store entry and checks that both, and the key file, are gone. Only a certificate of that name that the test CA issued is removed. |
+| `[key-access]` | `BUILTIN\Users` read access to both key files, as `ClientCertificateStore.GrantUsersReadToPrivateKey` gives it, so the lead's unelevated run can use them. | Goes with the keys: no key that the users can read is left behind (the owner's rule). |
+| `[bind-address]` | The block ends with `bind-address=127.0.0.1,192.0.2.x`, after `my.ini`'s own `bind-address=127.0.0.1` (the last one wins). After the restart the server must report that bind address, the service's process must listen on `127.0.0.1:3306` and `192.0.2.x:3306` (`Get-NetTCPConnection`), and `mariadb.exe` with `--ssl-ca --ssl-verify-server-cert` must not fail the TLS check at the address (an `Access denied` or host refusal there only gets a note: the test checks with its own account). | Restoring `my.ini` drops it; the run checks that nothing listens on the address any more. |
+
+The block records what the run made, as comment lines after the folders' record (the adapter and the thumbprints are filled in as the run
+makes them):
+
+```ini
+# test-address=192.0.2.25
+# test-adapter=ROOT\NET\0001
+# test-firewall-rule=OpenPmsDental-DbTlsTest-Allow3306
+# test-firewall-rule=OpenPmsDental-DbTlsTest-Block3306
+# test-client-capi=<40 hex digits>
+# test-client-cng=<40 hex digits>
+...
+tls_version=TLSv1.2,TLSv1.3
+bind-address=127.0.0.1,192.0.2.25
+```
+
+Every mode's checks then expect `bind-address=127.0.0.1,<the recorded address>` instead of `127.0.0.1` (in `my.ini` and from the server).
+`-Revert` and `-RequireSecureTransport` refuse a record that no enable run can have written (an address outside 192.0.2.0/24, an adapter
+that is not `ROOT\NET\nnnn`, another rule name, a value that is no thumbprint), and `-Revert` also refuses, before any change, a recorded
+adapter that is not a loopback adapter, a rule of another group, and a certificate of another name or not issued by the test CA.
+`-RequireSecureTransport` keeps the record and checks the listener on the address after its restart. `-Revert` removes the test network
+first, while the record in `my.ini` still names it: when a step fails, nothing else is changed (exit 4) and `-Revert` can run again. A failed
+enable run (exit 3) removes the firewall rules, both certificates with their keys and the adapter again, beside the undo of section 2;
+when that fails too (exit 4) the message names each of them.
+
+**How the adapter is made without a download.** Windows 11 has `netloop.inf` in `%windir%\INF` and in the driver store
+(`netloop.inf_amd64_*`), so no driver is needed. Neither of Windows' own command-line tools creates a device: `pnputil` stages and
+installs drivers and enables, disables, restarts and removes devices (its commands on this PC: `/add-driver`, `/delete-driver`,
+`/export-driver`, `/enum-*`, `/disable-device`, `/enable-device`, `/restart-device`, `/remove-device`, `/scan-devices`), and `devcon` is not
+part of Windows. So the script does what `devcon install` does, through the SetupAPI by P/Invoke (`Add-Type`, the .NET Framework's own
+compiler): `SetupDiCreateDeviceInfo` (class Net, `DICD_GENERATE_ID`: `ROOT\NET\nnnn`), the hardware id `*MSLOOP`,
+`SetupDiBuildDriverInfoList` and `SetupDiSelectBestCompatDrv`, then `DIF_REGISTERDEVICE`, `DIF_REGISTER_COINSTALLERS`,
+`DIF_INSTALLINTERFACES` and `DIF_INSTALLDEVICE` for that one device (not `UpdateDriverForPlugAndPlayDevices`, which would reinstall every
+other `*MSLOOP` device too). A device registered before a later step fails is removed again (`DIF_REMOVE`); a device that asks for a
+restart fails the run. Its removal opens the recorded device and removes it with `DIF_REMOVE` only when its hardware id is `*MSLOOP`.
+No owner question was needed.
+
+**MariaDB's list of bind addresses.** The installed 10.11.19's help text (in `bin\server.dll`): "IP address to bind to. Several addresses
+may be specified, separated by a comma (,)." The MariaDB documentation (server system variables, `bind_address`) says the same from 10.11
+on (from memory: no internet here). The script requires 10.11 or later and checks `@@bind_address` and both listeners after the restart.
+
+**After a restart of the computer** the service starts with both addresses, so the adapter's address must be there by then. Duplicate
+address detection is off on the adapter so that the address is usable at once. If the service ever does not start after a restart of the
+computer, start it (`Start-Service MariaDB`) and tell the lead; `-Revert` takes the second address out again.
+
+**`TlsCertificateLoginTests` fixed on the way.** It told a CAPI key from a CNG key by the type of `GetRSAPrivateKey()`, but .NET Framework
+(the tests' target) opens a CAPI key through CNG too and gives an `RSACng` (checked here with an in-memory CAPI key), so the CAPI certificate
+would have failed as "a CNG key". It now reads the certificate's key provider information without opening the key
+(`CertificateKeyProvInfo`, provider type 0 for CNG), requires the computer's key set, and then opens the key as that kind
+(`PrivateKey` as `RSACryptoServiceProvider` for CAPI). `DevDbTlsTestNetworkTests.TlsCertificateLoginTests_TellsACapiKeyFromACngKey_...`
+checks it on synthetic key provider information.
+
+### 11.2 The owner's run (elevated)
+
+Before: tell the lead, so that no build-lane or test run uses the database during the restart. If TLS is already on through the script (an
+earlier enable run without the switch), the dry run says `already on`: run `-Revert` first (section 4; a new CA follows, which the dev
+tools find at the same path).
+
+1. Open Windows PowerShell with **Run as administrator**, from the account that runs the dev tools and tests, and go to a checkout of `main`
+   with this package.
+2. Look at the plan (changes nothing):
+
+   ```powershell
+   powershell -NoProfile -ExecutionPolicy Bypass -File tools\Enable-LocalDbTls.ps1 -DryRun -WithClientCertificate -WithTestNetwork 192.0.2.25
+   ```
+
+   **Check:** no `REFUSED:` line; the plan shows the steps tagged `[adapter]`, `[address]`, `[bindings]`, `[firewall]` (or "the Windows
+   firewall is off in every profile"), `[client-certificates]`, `[key-access]`, `[server-certificate]` and `[bind-address]`, and the block
+   ends with `bind-address=127.0.0.1,192.0.2.25`. A refusal that the address is in use, or that a route leads into 192.0.2.0/24, means
+   another address of 192.0.2.1 to 192.0.2.254 (or asking the lead).
+3. Run it, and type `YES` when it asks:
+
+   ```powershell
+   powershell -NoProfile -ExecutionPolicy Bypass -File tools\Enable-LocalDbTls.ps1 -WithClientCertificate -WithTestNetwork 192.0.2.25
+   ```
+
+   **Check:** it ends with `TLS is on: ...`, `The server certificate was verified against ...\ca.pem`, `The service listens on
+   127.0.0.1:3306 and 192.0.2.25:3306 (adapter ROOT\NET\nnnn, 'OPMS DB TLS test')`, and three lines to paste:
+
+   ```text
+     $env:OPMS_DB_TLS_TEST_SERVER='192.0.2.25'
+     $env:OPMS_DB_TLS_TEST_CAPI_THUMBPRINT='<40 hex digits>'
+     $env:OPMS_DB_TLS_TEST_CNG_THUMBPRINT='<40 hex digits>'
+   ```
+
+   Send those three lines, and any `WARNING` line, to the lead. `FAILED` with `Undone:` (exit code 3) means nothing stayed changed, the
+   test network included; `Undoing failed too` (exit code 4) names what to remove by hand. The run prints the values again whenever it is
+   started later (`already on`), from the record in `my.ini`.
+4. Optional checks (they change nothing): `Get-NetIPAddress -InterfaceAlias 'OPMS DB TLS test'` shows `192.0.2.25` with prefix 32 only;
+   `Get-NetAdapterBinding -Name 'OPMS DB TLS test' | Where-Object Enabled` shows `ms_tcpip` (and only what a `WARNING` named);
+   `Get-NetTCPConnection -LocalPort 3306 -State Listen` shows `127.0.0.1` and `192.0.2.25`, the same process;
+   `Get-NetFirewallRule -Group 'Open PMS - Dental local test TLS'` shows the two rules; `certlm.msc`, Personal, Certificates, shows
+   `opms-dbtls-test-client-capi` and `opms-dbtls-test-client-cng`.
+5. After the next restart of the computer: `Get-Service MariaDB` is `Running` (see "After a restart of the computer" above).
+
+### 11.3 The lead's test run (not elevated)
+
+In a worktree with this package, after a build of `DbConnectionSecurityTests` and `NoHqTests`, in a PowerShell window that is not elevated,
+of the account the owner ran the script for (the tests find the CA in its `%LOCALAPPDATA%`):
+
+```powershell
+$env:OPMS_DB_TLS_TEST_SERVER='192.0.2.25'
+$env:OPMS_DB_TLS_TEST_CAPI_THUMBPRINT='<from the owner's run>'
+$env:OPMS_DB_TLS_TEST_CNG_THUMBPRINT='<from the owner's run>'
+powershell -NoProfile -ExecutionPolicy Bypass -File <common git folder>\od-tools\run-tests.ps1 -Root . -Mode Targeted -Include DbConnectionSecurityTests,NoHqTests -Out <file>
+```
+
+**Check:**
+- `TlsCertificateLoginTests.NonLoopbackServer_VerifyFull_X509User_WithACapiKeyAndWithACngKey` **passed** (not skipped). A failure says
+  which variable or step: a thumbprint not in `LocalMachine\My`, a key the account cannot read, the CAPI certificate's key in a CNG
+  provider or the other way round, the session not encrypted, the user not the `REQUIRE X509` one, or the server not refusing the login
+  without a certificate or with another CA.
+- `WithoutTheVariables_TheCheckIsInconclusive_NeverAPass` is inconclusive (the variables are set), and the `DevDbTlsServerTests` pass now
+  that the CA exists, `ClientCertificateForS22_ChainsToTheServersCa` included; `WhenTheServerRequiresTls_AConnectionWithoutTlsIsRefused`
+  stays inconclusive until `-RequireSecureTransport` (section 5).
+- The test left nothing behind: `SELECT User FROM mysql.user WHERE User LIKE 's22_x509_%'` and `SHOW DATABASES LIKE 's22_tls_%'` (as
+  root on `127.0.0.1:3306`) are empty.
+- The connections went to `127.0.0.1:3306` and `192.0.2.25:3306` only (the exception above).
+
+Then the stage 2 gate's database TLS check is done: note the run (date, counts, the result file) in `docs/port-notes/S2-2.md` section 6 and
+the plan's gate. The variables live only in that window; the 3b gate runs the same steps again (the environment stays until `-Revert`).
+
+### 11.4 The undo (elevated, the owner)
+
+1. Look at the plan: `powershell -NoProfile -ExecutionPolicy Bypass -File tools\Enable-LocalDbTls.ps1 -DryRun -Revert`.
+   **Check:** it starts with the test network: `[firewall]` (the two rules), `[client-certificates]` (each thumbprint, "its key in a CAPI
+   provider" and "in a CNG provider"), `[key-access]`, `[adapter]` (`ROOT\NET\nnnn`), `[address] [bindings]`, `[bind-address]`,
+   `[server-certificate]`, then the restore of `my.ini`, the restart and the files of section 2. A `REFUSED:` line means the record or what
+   it names is not this script's (section 11.1); nothing is touched then.
+2. Run `powershell -NoProfile -ExecutionPolicy Bypass -File tools\Enable-LocalDbTls.ps1 -Revert`, then `YES`.
+   **Check:** `Removed the test network: the firewall rules, both test certificates with their keys, the adapter ROOT\NET\nnnn and
+   192.0.2.25.` and `TLS is off again: ...`. Optional: `Get-NetAdapter -Name 'OPMS DB TLS test'` and `Get-NetIPAddress -IPAddress
+   192.0.2.25` find nothing, `Get-NetFirewallRule -Group 'Open PMS - Dental local test TLS'` finds nothing, `certlm.msc` shows no
+   `opms-dbtls-test-client` certificate, and `Get-NetTCPConnection -LocalPort 3306 -State Listen` shows `127.0.0.1` only.
+   `FAILED: the test network is not fully removed` (exit code 4) changed nothing else; put right what it names and run `-Revert` again.
+
+There is no switch that drops only the test network: `-Revert` and the enable run without `-WithTestNetwork` (a new CA) do that.
+
+### 11.5 Files and checks run here
+
+- Changed: `tools/Enable-LocalDbTls.ps1` (ASCII), `tests/DbConnectionSecurityTests/DevDbTlsScriptTests.cs` (its helpers shared; the
+  driver loads the new settings; the elevation refusal also with the switch), `tests/DbConnectionSecurityTests/TlsCertificateLoginTests.cs`
+  (section 11.1), this note, `docs/port-notes/S2-2.md` section 6, `docs/owner-questions.md`, `docs/specs/net10-plan.md` (O-8, O-12).
+  `docs/release-notes/next.md` is not changed: a developer tool, nothing an office notices.
+- New: `tests/DbConnectionSecurityTests/DevDbTlsTestNetworkTests.cs`, without elevation and without touching this PC's network, MariaDB
+  service or a store: the certificate set of `-TestCertificatesFolder -WithTestNetwork` (the server's names; each `.pfx` read back with
+  `EphemeralKeySet`: one certificate, its key, clientAuth only, the same CA, not readable with another password); the refusal of ten
+  addresses outside 192.0.2.0/24 before the service is looked at, and of the switch with `-Revert` and `-RequireSecureTransport`; the
+  address-in-use and network checks on synthetic addresses, routes and facts; the record in the block, read back, kept by
+  `-RequireSecureTransport`'s block, and refused when no run can have written it; the state checks that keep `-Revert` to what the script
+  made; the enable plan and `-Revert`'s plan with every tag (also with the firewall off and with everything gone); a real dry run that lists
+  every step and changes nothing; the SetupAPI source compiled (never called) and no download in the script.
+- Nothing here ran elevated, created an adapter, or changed a network setting, the firewall, the MariaDB service, `my.ini` or a
+  certificate store; every database connection went to `127.0.0.1:3306`.
