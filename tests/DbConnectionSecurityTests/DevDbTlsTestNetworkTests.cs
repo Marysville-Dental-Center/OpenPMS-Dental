@@ -1078,14 +1078,35 @@ namespace DbConnectionSecurityTests {
 			string fileCapiKey=Environment.GetEnvironmentVariable("ProgramData")+@"\Microsoft\Crypto\RSA\MachineKeys\keyfile-capi";
 			string fileCngKey=Environment.GetEnvironmentVariable("ProgramData")+@"\Microsoft\Crypto\Keys\keyfile-cng";
 			string folderTls=Path.Combine(_folder,"revert","opms-dev-tls");
-			//(3) The owner's -DryRun -Revert: the plan names exactly the rules and the folder to remove, and the rest as gone.
+			//(3) The owner's -Revert on this PC's state: the two rules and the folder go; the adapter, the address, both certificates and their key
+			//files are reported as gone already, not as problems; my.ini and the service are not touched. (On main 9bf1de770 this ended with
+			//exit 4, "The property 'Count' cannot be found on this object", as the owner's undo did.)
+			string output=RunRevertOnTheOwnersPc("revert",isDryRun:false).Replace("\r\n","\n");
+			Assert.IsFalse(output.Contains("REFUSED"),output);
+			Assert.IsFalse(output.Contains("FAILED"),output);
+			Assert.IsFalse(output.Contains("is not fully removed"),output);
+			StringAssert.Contains(output,"CONFIRM Turn TLS off again?");
+			int indexAllow=output.IndexOf("REMOVE RULE OpenPmsDental-DbTlsTest-Allow3306\n",StringComparison.Ordinal);
+			int indexBlock=output.IndexOf("REMOVE RULE OpenPmsDental-DbTlsTest-Block3306\n",StringComparison.Ordinal);
+			int indexDevice=output.IndexOf(@"DEVICE? ROOT\NET\0000",output.IndexOf("CONFIRM",StringComparison.Ordinal),StringComparison.Ordinal);
+			Assert.IsTrue(indexDevice>0 && indexAllow>indexDevice && indexBlock>indexAllow,"The device checked gone first, then the rules: "+output);
+			StringAssert.Contains(output,"Removed of the test network 192.0.2.25: the firewall rule OpenPmsDental-DbTlsTest-Allow3306, the firewall rule "
+				+"OpenPmsDental-DbTlsTest-Block3306.\n");
+			StringAssert.Contains(output,@"Already gone before this run (not a problem): the loopback adapter ROOT\NET\0000 and its address 192.0.2.25, the CAPI certificate "
+				+new string('A',40)+" and its key file "+fileCapiKey+", the CNG certificate "+new string('B',40)+" and its key file "+fileCngKey+".\n");
+			StringAssert.Contains(output,"Removed what the enable run that did not finish had made; my.ini and the service were not touched.");
+			Assert.IsFalse(output.Contains("RESTART"),output);
+			Assert.IsFalse(Directory.Exists(folderTls),"The opms-dev-tls folder with the journal and ca.pem is removed.");
+			Assert.AreEqual("[mysqld]\r\nport=3306\r\nbind-address=127.0.0.1\r\n",File.ReadAllText(Path.Combine(_folder,"revert","my.ini")),"my.ini is not touched.");
+			//The owner's -DryRun -Revert first: the plan names exactly the rules and the folder to remove, and the rest as gone (the real run
+			//above printed the same plan).
 			string outputDry=RunRevertOnTheOwnersPc("dryrun",isDryRun:true).Replace("\r\n","\n");
-			foreach(string text in new[] { outputDry }) {
+			foreach(string text in new[] { outputDry,output }) {
 				Assert.IsFalse(text.Contains("REFUSED"),text);
 				StringAssert.Contains(text,"an enable run stopped before it");
 				StringAssert.Contains(text,"or its undo restored my.ini and removed the backup but could not remove");
-				StringAssert.Contains(text,"First the test network 192.0.2.25 of an enable run that did not finish, as its journal "
-					+Path.Combine(_folder,"dryrun","opms-dev-tls","test-network.record")+" records it");
+				StringAssert.Contains(text,"First the test network 192.0.2.25 of an enable run that did not finish, as its journal "+_folder);
+				StringAssert.Contains(text,Path.Combine("opms-dev-tls","test-network.record")+" records it");
 				StringAssert.Contains(text,@"[adapter] The loopback adapter ROOT\NET\0000 is not there any more: nothing to remove.");
 				StringAssert.Contains(text,"[address] [bindings] Its address 192.0.2.25/32 is not on this computer any more, and its bindings went with the adapter:\n"
 					+"     nothing to remove.");
@@ -1104,25 +1125,6 @@ namespace DbConnectionSecurityTests {
 			StringAssert.Contains(outputDry,"Dry run: nothing was changed.");
 			Assert.IsFalse(outputDry.Contains("REMOVE RULE"),outputDry);
 			Assert.IsTrue(File.Exists(Path.Combine(_folder,"dryrun","opms-dev-tls","test-network.record")),"The dry run changes nothing.");
-			//The owner's -Revert: the two rules and the folder go; the adapter, the address, both certificates and their key files are reported
-			//as gone already, not as problems; my.ini and the service are not touched.
-			string output=RunRevertOnTheOwnersPc("revert",isDryRun:false).Replace("\r\n","\n");
-			Assert.IsFalse(output.Contains("REFUSED"),output);
-			Assert.IsFalse(output.Contains("FAILED"),output);
-			Assert.IsFalse(output.Contains("is not fully removed"),output);
-			StringAssert.Contains(output,"CONFIRM Turn TLS off again?");
-			int indexAllow=output.IndexOf("REMOVE RULE OpenPmsDental-DbTlsTest-Allow3306\n",StringComparison.Ordinal);
-			int indexBlock=output.IndexOf("REMOVE RULE OpenPmsDental-DbTlsTest-Block3306\n",StringComparison.Ordinal);
-			int indexDevice=output.IndexOf(@"DEVICE? ROOT\NET\0000",output.IndexOf("CONFIRM",StringComparison.Ordinal),StringComparison.Ordinal);
-			Assert.IsTrue(indexDevice>0 && indexAllow>indexDevice && indexBlock>indexAllow,"The device checked gone first, then the rules: "+output);
-			StringAssert.Contains(output,"Removed of the test network 192.0.2.25: the firewall rule OpenPmsDental-DbTlsTest-Allow3306, the firewall rule "
-				+"OpenPmsDental-DbTlsTest-Block3306.\n");
-			StringAssert.Contains(output,@"Already gone before this run (not a problem): the loopback adapter ROOT\NET\0000 and its address 192.0.2.25, the CAPI certificate "
-				+new string('A',40)+" and its key file "+fileCapiKey+", the CNG certificate "+new string('B',40)+" and its key file "+fileCngKey+".\n");
-			StringAssert.Contains(output,"Removed what the enable run that did not finish had made; my.ini and the service were not touched.");
-			Assert.IsFalse(output.Contains("RESTART"),output);
-			Assert.IsFalse(Directory.Exists(folderTls),"The opms-dev-tls folder with the journal and ca.pem is removed.");
-			Assert.AreEqual("[mysqld]\r\nport=3306\r\nbind-address=127.0.0.1\r\n",File.ReadAllText(Path.Combine(_folder,"revert","my.ini")),"my.ini is not touched.");
 		}
 
 		[TestMethod]
