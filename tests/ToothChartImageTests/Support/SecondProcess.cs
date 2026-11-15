@@ -92,6 +92,9 @@ namespace ToothChartImageTests {
 					case "start-fails":
 						RunStartFails();
 						return 0;
+					case "stored-start-fails":
+						RunStoredStartFails();
+						return 0;
 					case "start-interrupted":
 						RunStartInterrupted();
 						return 0;
@@ -156,6 +159,38 @@ namespace ToothChartImageTests {
 				}
 			}
 			Console.WriteLine("start checks run: "+countChecks);
+			List<string> listMessages=ToothChartWrapper.GetFallbackMessages();
+			Console.WriteLine("fallback messages: "+listMessages.Count);
+			Console.WriteLine("log lines: "+ToothChartWrapper.GetCountFallbackLinesWritten());
+			foreach(string message in listMessages) {
+				Console.WriteLine("message: "+message);
+			}
+		}
+
+		///<summary>"stored-start-fails" (TC-8): as "start-fails", but the WPF chart is asked for the way the program asks for it since TC-8: a computer
+		///stored as DirectX (0) through the relay's ApplyComputerPref, and a DrawMode request of OpenGL (2). Both fall back to Simple 2D, no DirectX or
+		///OpenGL engine is tried, and one line is handed to the log.</summary>
+		private static void RunStoredStartFails() {
+			ODBuild.IsUnitTest=true;
+			ToothChartRenderer.ActionJobStartForTests=kind => {
+				if(kind==ToothChartRenderer.JobCheck) {
+					throw new InvalidOperationException("A forced start failure.");
+				}
+			};
+			using(ToothChartWrapper wrapper1=new ToothChartWrapper())
+			using(ToothChartWrapper wrapper2=new ToothChartWrapper()) {
+				wrapper1.Size=ChartScenes.SizeModule.Size;
+				wrapper2.Size=ChartScenes.SizeModule.Size;
+				ToothChartRelay.ApplyComputerPref(wrapper1,new OpenPmsDentalBusiness.ComputerPref { GraphicsSimple=OpenPmsDentalBusiness.DrawingMode.DirectX,
+					DirectXFormat="" });
+				wrapper2.DrawMode=OpenPmsDentalBusiness.DrawingMode.OpenGL;
+				Console.WriteLine("engine stored 0: "+wrapper1.Engine);
+				Console.WriteLine("engine requested 2: "+wrapper2.Engine);
+				ChartScenes.Prepare(WpfCharts.CreateRelay(wrapper1),ChartScenes.Get("restored-adult"),ChartColorSet.Module);
+				using(Bitmap bitmap=wrapper1.GetBitmap()) {
+					Console.WriteLine("bitmap: "+bitmap.Width+"x"+bitmap.Height+", blank "+ChartImageCompare.DescribeBitmap(bitmap).IsBlank);
+				}
+			}
 			List<string> listMessages=ToothChartWrapper.GetFallbackMessages();
 			Console.WriteLine("fallback messages: "+listMessages.Count);
 			Console.WriteLine("log lines: "+ToothChartWrapper.GetCountFallbackLinesWritten());

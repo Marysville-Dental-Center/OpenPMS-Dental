@@ -332,18 +332,22 @@ namespace ToothChartImageTests {
 					wrapper.Size=ChartScenes.SizePerio.Size;
 					wrapper.DrawMode=DrawingMode.Simple2D;
 					Exception ex=Expect.Throws<Exception>(() => wrapper.PerioMode=true);
-					StringAssert.Contains(ex.Message,"Only allowed in DirectX");
+					//Since TC-8 the graphical perio chart asks for the WPF chart on every computer (O-31): a 2D wrapper here is one whose WPF chart
+					//could not start, and the message says so instead of naming DirectX.
+					StringAssert.Contains(ex.Message,"The graphical perio chart needs the 3D tooth chart, which could not start on this computer.");
 				}
 			});
 		}
 
 		[TestMethod]
 		public void Relay_ApplyGraphicalPerioMode_PassesTheRecessionOption() {
-			//The source: the option is read from the preference for both engines, before the developer switch picks the WPF chart.
+			//The source: the option is read from the preference, then (TC-8, O-31) the computer's "Draw in software" switch is set and the WPF chart
+			//starts, on every computer: no DirectX engine and no developer switch any more.
 			string code=SourceText.ReadCode(@"WpfControlsOD\UI\ToothChart\ToothChartRelay.cs");
 			string method=SourceText.GetMethod(code,"public static void ApplyGraphicalPerioMode(");
 			SourceText.AssertInOrder(method,"ApplyGraphicalPerioMode","toothChartWrapper.PerioUseRecessionTerm=PerioMeasures.GetUseRecessionTerm();",
-				"if(IsWpfDeveloperSwitchOn()) {","toothChartWrapper.Engine=ToothChartEngine.Wpf3D;","toothChartWrapper.DrawMode=DrawingMode.DirectX;");
+				"toothChartWrapper.WpfDrawInSoftware=IsDrawnInSoftware(ComputerPrefs.LocalComputer);","toothChartWrapper.Engine=ToothChartEngine.Wpf3D;");
+			StringAssert.DoesNotMatch(method,new System.Text.RegularExpressions.Regex(@"DrawMode|DirectX|IsWpfDeveloperSwitchOn"));
 			//At run time with no database: the option reads off, and a wrapper that had it on gets it off.
 			StaRunner.Run(() => {
 				using(ToothChartWrapper wrapper=new ToothChartWrapper()) {

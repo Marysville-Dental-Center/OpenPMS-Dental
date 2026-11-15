@@ -52,7 +52,8 @@ namespace ToothChartImageTests {
 			wrapper.PreferredPixelFormatNumber=0;
 			wrapper.DeviceFormat=new ToothChartDirectX.DirectXDeviceFormat(directXFormat);
 			form.Controls.Add(wrapper);
-			wrapper.DrawMode=DrawingMode.DirectX;
+			//The DirectX engine itself: since TC-8 DrawMode's DirectX starts the WPF chart (TC-9a deletes this engine).
+			wrapper.Engine=ToothChartEngine.DirectX;
 			Application.DoEvents();
 			return wrapper;
 		}

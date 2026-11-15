@@ -351,8 +351,9 @@ namespace BINATests {
 		private static extern int GetModuleFileName(IntPtr hModule,StringBuilder lpFilename,int nSize);
 
 		#region Modes on a hidden form
-		///<summary>Starts drawingModeRequested on a chart on a hidden form, as the Chart module does (ToothChartRelay: hardware graphics, the saved
-		///pixel format, here none, and for DirectX the device format the program picks with GetPreferredDirectXFormat), through DrawMode and so
+		///<summary>Starts drawingModeRequested on a chart on a hidden form, as the Chart module did before TC-8 (ToothChartRelay: hardware graphics, the
+		///saved pixel format, here none, and for DirectX the device format the program picked with GetPreferredDirectXFormat), through Engine (since
+		///TC-8 DrawMode's DirectX and OpenGL start the WPF chart, so the old engines are reached only through Engine until TC-9a) and so
 		///StartFirstWorkingMode. Records the mode that came up and whether it drew a picture. The Simple 2D chart must start and draw; DirectX and
 		///OpenGL may fall back, which is reported as Inconclusive with the reason after the mode it fell back to has drawn.</summary>
 		private static void StartModeOnHiddenForm(DrawingMode drawingModeRequested) {
@@ -398,7 +399,7 @@ namespace BINATests {
 							wrapper.DeviceFormat=new ToothChartDirectX.DirectXDeviceFormat(directXFormat);
 						}
 						form.Controls.Add(wrapper);
-						wrapper.DrawMode=drawingModeRequested;
+						wrapper.Engine=(ToothChartEngine)drawingModeRequested;
 						drawingModeStarted=wrapper.DrawMode;
 						pixelFormat=wrapper.PreferredPixelFormatNumber;
 						Assert.IsFalse(form.Visible,"The form was shown.");
