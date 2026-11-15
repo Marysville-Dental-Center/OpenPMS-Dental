@@ -160,13 +160,16 @@ namespace CodeBase {
 
 		///<summary>Starts a process from its ProcessStartInfo: Process.Start(ProcessStartInfo), which returns null when no new process was started
 		///(a document opened in a program that was already running). Every start of this class goes through it or FuncStartProcess, except Bash's
-		///(redirected, UseShellExecute=false, and it reads the output). Tests replace it
+		///(redirected, UseShellExecute=false, and it reads the output). Tests replace it, only through ReplaceStartersForTests,
 		///with a function that records the ProcessStartInfo and returns null, so that no program is started, no file or URL is opened and no window
-		///is shown (S3a-2 of the .NET 10 move).</summary>
-		public static Func<ProcessStartInfo,Process> FuncStartProcessInfo=StartProcessInfoDefault;
+		///is shown (S3a-2 of the .NET 10 move; internal with a private setter since S3a-2f).</summary>
+		internal static Func<ProcessStartInfo,Process> FuncStartProcessInfo { get; private set; }=StartProcessInfoDefault;
 		///<summary>Starts a Process whose StartInfo the caller filled: Process.Start(), which returns false when no new process was started. Tests
 		///replace it as FuncStartProcessInfo.</summary>
-		public static Func<Process,bool> FuncStartProcess=StartProcessDefault;
+		internal static Func<Process,bool> FuncStartProcess { get; private set; }=StartProcessDefault;
+		///<summary>Held from ReplaceStartersForTests until its replacement is disposed: one replacement at a time in the whole process, whichever
+		///test class, assembly or thread asks for it.</summary>
+		private static readonly System.Threading.SemaphoreSlim _semaphoreStarters=new System.Threading.SemaphoreSlim(1,1);
 
 		private static Process StartProcessInfoDefault(ProcessStartInfo processStartInfo) {
 			return Process.Start(processStartInfo);
@@ -174,6 +177,49 @@ namespace CodeBase {
 
 		private static bool StartProcessDefault(Process process) {
 			return process.Start();
+		}
+
+		///<summary>For tests: replaces both starters until the returned object is disposed, which puts back the ones it replaced. Waits while another
+		///replacement is in place (at most two minutes, then TimeoutException), so tests running in parallel never see each other's recorders or
+		///put back the wrong starter. Never nested: a second call before the first is disposed waits for it.</summary>
+		internal static StartersReplacement ReplaceStartersForTests(Func<ProcessStartInfo,Process> funcStartProcessInfo,Func<Process,bool> funcStartProcess) {
+			if(funcStartProcessInfo==null) {
+				throw new ArgumentNullException(nameof(funcStartProcessInfo));
+			}
+			if(funcStartProcess==null) {
+				throw new ArgumentNullException(nameof(funcStartProcess));
+			}
+			if(!_semaphoreStarters.Wait(TimeSpan.FromMinutes(2))) {
+				throw new TimeoutException("Another test has had ODFileUtils' starters replaced for two minutes.");
+			}
+			StartersReplacement startersReplacement=new StartersReplacement(FuncStartProcessInfo,FuncStartProcess);
+			FuncStartProcessInfo=funcStartProcessInfo;
+			FuncStartProcess=funcStartProcess;
+			return startersReplacement;
+		}
+
+		///<summary>The replacement ReplaceStartersForTests made. Dispose puts back the starters it replaced and lets the next replacement in; a second
+		///Dispose does nothing.</summary>
+		internal sealed class StartersReplacement:IDisposable {
+			///<summary>The starter in place before the replacement: the real one, since replacements are never nested.</summary>
+			public Func<ProcessStartInfo,Process> FuncStartProcessInfoReplaced { get; }
+			public Func<Process,bool> FuncStartProcessReplaced { get; }
+			private bool _isDisposed;
+
+			public StartersReplacement(Func<ProcessStartInfo,Process> funcStartProcessInfoReplaced,Func<Process,bool> funcStartProcessReplaced) {
+				FuncStartProcessInfoReplaced=funcStartProcessInfoReplaced;
+				FuncStartProcessReplaced=funcStartProcessReplaced;
+			}
+
+			public void Dispose() {
+				if(_isDisposed) {
+					return;
+				}
+				_isDisposed=true;
+				FuncStartProcessInfo=FuncStartProcessInfoReplaced;
+				FuncStartProcess=FuncStartProcessReplaced;
+				_semaphoreStarters.Release();
+			}
 		}
 
 		///<summary>Start the given process. The caller sets process.StartInfo.UseShellExecute explicitly: true unless it redirects a standard stream
