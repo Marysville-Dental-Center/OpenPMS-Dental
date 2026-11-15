@@ -31,7 +31,10 @@ its test hosts and removes VSTEST_TELEMETRY_OPTEDIN; OPMS_TEST_RUNNER=run-tests.
 (tests/ProjectFileTests/TestTelemetryTests.cs checks all of this).
 
 -CompareWith names the results file of an earlier run (of this runner or the older one without skipped=): after the run, a
-COMPARE line per assembly says whether its total, passed, failed and skipped counts are the same as there. It changes no result.
+COMPARE line per assembly says whether its total, passed, failed and skipped counts are the same as there. A Full or Core run
+also gives each assembly of the earlier file that it lacks a 'missing' line (a test project dropped from OpenDental.Local.slnf);
+the last COMPARE line counts same=, differs=, new= and missing=, and a stage gate wants differs=0 new=0 missing=0 against its
+record. It changes no result.
 -RequireBuildOutput sets OPMS_REQUIRE_BUILD_OUTPUT=1, so a test that checks a built file fails when the file is not built (the
 stage gates' Full runs use it).
 
@@ -151,12 +154,14 @@ function Read-ResultFile([string]$Path) {
 	return $results
 }
 
-# COMPARE lines: each assembly of this run against the same assembly of an earlier results file.
+# COMPARE lines: each assembly of this run against the same assembly of an earlier results file. A run of every assembly (Full or
+# Core) also lists each assembly of the earlier file that this run lacks as missing: a test project dropped from OpenDental.Local.slnf
+# is never discovered, so it has no result line of its own. A Targeted run lists none, since it leaves out most assemblies on purpose.
 function Write-Comparison([string]$EarlierPath) {
 	$earlier = Read-ResultFile $EarlierPath
 	$now = Read-ResultFile $Out
 	Add-Content $Out "COMPARE with=$EarlierPath" -Encoding utf8
-	$same = 0; $differ = 0; $new = 0
+	$same = 0; $differ = 0; $new = 0; $missing = 0
 	foreach ($name in ($now.Keys | Sort-Object)) {
 		$b = $now[$name]
 		$text = 'total={0} passed={1} failed={2} skipped={3}' -f $b.Total, $b.Passed, $b.Failed, $b.Skipped
@@ -166,7 +171,14 @@ function Write-Comparison([string]$EarlierPath) {
 		if ($changes.Count -eq 0) { Add-Content $Out "COMPARE $name same $text" -Encoding utf8; $same++ }
 		else { Add-Content $Out "COMPARE $name differs $($changes -join ', ')" -Encoding utf8; $differ++ }
 	}
-	Add-Content $Out "COMPARE same=$same differs=$differ new=$new" -Encoding utf8
+	if ($Mode -ne 'Targeted') {
+		foreach ($name in ($earlier.Keys | Where-Object { -not $now.ContainsKey($_) } | Sort-Object)) {
+			$a = $earlier[$name]
+			Add-Content $Out ('COMPARE {0} missing total={1} passed={2} failed={3} skipped={4}' -f $name, $a.Total, $a.Passed, $a.Failed, $a.Skipped) -Encoding utf8
+			$missing++
+		}
+	}
+	Add-Content $Out "COMPARE same=$same differs=$differ new=$new missing=$missing" -Encoding utf8
 }
 
 function Show-Summary {

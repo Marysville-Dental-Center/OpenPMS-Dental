@@ -78,9 +78,14 @@ namespace ProjectFileTests {
 					"EhrTests exit=0 total=208 passed=208 failed=0 skipped=0 seconds=80",
 					"ProjectFileTests exit=1 total=139 passed=137 failed=1 skipped=1 seconds=28",
 					"NewTests exit=0 total=2 passed=2 failed=0 skipped=0 seconds=1"));
+				File.Copy(Path.Combine(folder,"now.txt"),Path.Combine(folder,"targeted.txt"));
+				//A Full run names the assembly of the earlier file that it lacks (a test project dropped from OpenDental.Local.slnf is never
+				//discovered, so it has no result line); a Targeted run leaves most assemblies out on purpose and names none.
 				List<string> listOutput=RunPowerShell(Harness(RunTestsPath(),folder,
-					"$Out=Join-Path $work 'now.txt'\r\nWrite-Comparison (Join-Path $work 'earlier.txt')\r\n"
-					+"Get-Content $Out | Where-Object { $_ -like 'COMPARE *' } | ForEach-Object { 'out=' + $_ }"));
+					"$Mode='Full'\r\n$Out=Join-Path $work 'now.txt'\r\nWrite-Comparison (Join-Path $work 'earlier.txt')\r\n"
+					+"Get-Content $Out | Where-Object { $_ -like 'COMPARE *' } | ForEach-Object { 'out=' + $_ }\r\n"
+					+"$Mode='Targeted'\r\n$Out=Join-Path $work 'targeted.txt'\r\nWrite-Comparison (Join-Path $work 'earlier.txt')\r\n"
+					+"Get-Content $Out | Where-Object { $_ -like 'COMPARE *' } | ForEach-Object { 'targeted=' + $_ }"));
 				List<string> listCompare=listOutput.Where(x => x.StartsWith("out=COMPARE ")).Select(x => x.Substring("out=COMPARE ".Length)).ToList();
 				CollectionAssert.AreEqual(new[] {
 					"with="+Path.Combine(folder,"earlier.txt"),
@@ -88,7 +93,16 @@ namespace ProjectFileTests {
 					"NewTests new total=2 passed=2 failed=0 skipped=0",
 					"ProjectFileTests differs passed 138->137, failed 0->1",
 					"WindowChecksTests same total=29 passed=0 failed=0 skipped=29",
-					"same=1 differs=2 new=1" },listCompare,string.Join(" | ",listOutput));
+					"GoneTests missing total=3 passed=3 failed=0 skipped=0",
+					"same=1 differs=2 new=1 missing=1" },listCompare,string.Join(" | ",listOutput));
+				List<string> listTargeted=listOutput.Where(x => x.StartsWith("targeted=COMPARE ")).Select(x => x.Substring("targeted=COMPARE ".Length)).ToList();
+				CollectionAssert.AreEqual(new[] {
+					"with="+Path.Combine(folder,"earlier.txt"),
+					"EhrTests differs total 129->208, passed 129->208",
+					"NewTests new total=2 passed=2 failed=0 skipped=0",
+					"ProjectFileTests differs passed 138->137, failed 0->1",
+					"WindowChecksTests same total=29 passed=0 failed=0 skipped=29",
+					"same=1 differs=2 new=1 missing=0" },listTargeted,string.Join(" | ",listOutput));
 			}
 			finally {
 				Directory.Delete(folder,true);
