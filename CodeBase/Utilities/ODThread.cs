@@ -20,8 +20,8 @@ namespace CodeBase {
 		private DateTime _dateTimeStart=DateTime.MinValue;
 		///<summary>The exact time when this thread was quit.  Useful for determining thread run times.</summary>
 		private DateTime _dateTimeQuit=DateTime.MinValue;
-		///<summary>Gets set to true when QuitSync() or QuitAsync() has been called or if this thread has finished and no timed interval was set.</summary>
-		private bool _hasQuit=false;
+		///<summary>Gets set to true when QuitSync() or QuitAsync() has been called, when Join() timed out, or if this thread has finished and no timed interval was set. Volatile because the worker reads it while another thread sets it (cooperative quitting).</summary>
+		private volatile bool _hasQuit=false;
 		///<summary>The amount of time in milliseconds that this thread will sleep before calling the WorkerDelegate again.  Setting the interval to zero or a negative number will call the WorkerDelegate once and then quit itself.</summary>
 		public int TimeIntervalMS=0;
 		///<summary>Pointer to the function from the calling code which will perform the majority of this thread's work.</summary>
@@ -70,10 +70,10 @@ namespace CodeBase {
 		public static Action<object> SetQueryMonitorChild;
 
 
-		///<summary>Used to indicate if abort has been called on a thread. Used to catch ALL exceptions after a thread has been aborted.</summary>
-		private bool _wasAbortAttempted=false;
+		///<summary>Set when Join() timed out while the thread was still running. Join no longer aborts the thread (Thread.Abort throws PlatformNotSupportedException on .NET 5 and later); the thread is asked to quit instead and finishes its WorkerDelegate on its own. From then on any exception from the thread quits it quietly, as an exception after the old abort did.</summary>
+		private volatile bool _hasJoinTimedOut=false;
 
-		///<summary>Indicates if ODThread has been scheduled to quit. Check this from within a resource intensive thread periodically if you want to exit gracefully during the course of the WorkerDelegate function.</summary>
+		///<summary>Indicates if ODThread has been scheduled to quit. Check this from within a resource intensive thread periodically if you want to exit gracefully during the course of the WorkerDelegate function. Also true after Join() timed out, which asks the thread to quit instead of aborting it.</summary>
 		public bool HasQuit {
 			get {
 				return _hasQuit;
@@ -209,7 +209,9 @@ namespace CodeBase {
 			}
 			_dateTimeQuit=DateTime.Now;
 			try {
-				_exitHandler?.Invoke(this);
+				if(!_hasJoinTimedOut) {//The exit handler does not fire after Join() timed out, as with the abort Join used to do (see _exitHandler).
+					_exitHandler?.Invoke(this);
+				}
 			}
 			catch(Exception e) {
 				if(!WorkerExceptionHandler(e)) {
@@ -225,10 +227,10 @@ namespace CodeBase {
 
 		///<summary>Calls the appropriate exception handler for this exception. Returns false if the thread needs to quit.</summary>
 		private bool WorkerExceptionHandler(Exception e) {
-			//If _wasAbortAttempted is true, the thread has been aborted so catch all types of exceptions. Before, we only caught exceptions of type 
-			//ThreadAbortException. The problem with that is that while a thread cannot catch a ThreadAbortException, if another exception throws 
-			//inside of a catch for a different circumstance, that exception will be thrown instead of the ThreadAbortException. To solve, catch them all.
-			if(_wasAbortAttempted || e is ThreadAbortException) {
+			//If _hasJoinTimedOut is true, the caller stopped waiting for this thread and asked it to quit, so catch all types of exceptions quietly, as
+			//after the abort that Join used to do. ThreadAbortException can no longer come from ODThread (Join does not abort); the check stays for an
+			//abort from elsewhere on .NET Framework and goes after the .NET 10 switch (net10-plan, S3a-1).
+			if(_hasJoinTimedOut || e is ThreadAbortException) {
 				//We know that a join failed by exceeding the allotted timeout.
 				_dateTimeQuit=DateTime.Now;
 				_hasQuit=true;
@@ -266,18 +268,24 @@ namespace CodeBase {
 			MiscUtils.PreserveExceptionInfoAndThrow(e);
 		}
 
-		///<summary>Forces the calling thread to synchronously wait for the current thread to finish doing work.  Pass Timeout.Infinite into timeoutMS if you wish to wait as long as necessary for the thread to join.  The thread will be aborted if the timeout was reached and then will return false.</summary>
+		///<summary>Forces the calling thread to synchronously wait for the current thread to finish doing work.  Pass Timeout.Infinite into timeoutMS if you wish to wait as long as necessary for the thread to join.  Returns false if the timeout was reached while the thread was still running; it never throws for that and never aborts the thread (Thread.Abort throws PlatformNotSupportedException on .NET 5 and later). Instead the thread is asked to quit (HasQuit becomes true, a wait between intervals is woken up), it runs its current WorkerDelegate to its end on its own, any exception it throws from then on quits it quietly, and it becomes a background thread so that it cannot keep the program from exiting. A caller that gets false must not rely on what the thread was producing.</summary>
 		public bool Join(int timeoutMS) {
 			if(_thread.ThreadState==ThreadState.Unstarted) {
 				return true;//Thread has not even started yet to we cannot join.
 			}
 			bool hasJoined=_thread.Join(timeoutMS);
 			if(!hasJoined) {
-				//The timeout expired and the thread is still alive so we want to abort it manually.
-				//Abort exceptions will be swallowed within Run()
-				//wasAbortAttempted should be set first as it is being set on the main thread. If abort is quick, it may not be set in time.
-				_wasAbortAttempted=true;
-				_thread.Abort();
+				//The timeout expired and the thread is still alive. It is not aborted: it is asked to quit and left to finish on its own.
+				//_hasJoinTimedOut is set before _hasQuit so that an exception the worker throws when it sees _hasQuit is already swallowed by WorkerExceptionHandler.
+				_hasJoinTimedOut=true;
+				_hasQuit=true;
+				Wakeup();//A thread waiting for its next interval quits now instead of after the interval.
+				try {
+					_thread.IsBackground=true;//A thread that does not stop must not keep the process alive when the program exits.
+				}
+				catch(ThreadStateException ex) {
+					ex.DoNothing();//The thread ended in the meantime.
+				}
 			}
 			return hasJoined;
 		}
@@ -334,7 +342,7 @@ namespace CodeBase {
 			//If thread is in waiting on wait event, wake it can quit gracefully.
 			Wakeup();
 			try {
-				Join(timeoutMS);//Wait for allotted time before throwing ThreadAbortException.
+				Join(timeoutMS);//Wait for allotted time. Then the thread is left to finish on its own (Join no longer aborts).
 			}
 			catch {
 				//Guards against re-entrance into this function just in case the main thread called QuitSyncAllOdThreads() and this thread itself called QuitSync() at the same time.
@@ -367,7 +375,7 @@ namespace CodeBase {
 			JoinThreadsByGroupName(timeoutMS,groupName,true);
 		}
 
-		///<summary>Should only be called when the main application is closing.  Loops through ALL ODThreads that are still running and aborts them instantly.  If you want to give each thread a chance to gracefully quit, call QuitSyncThreadsByGroupName instead.</summary>
+		///<summary>Should only be called when the main application is closing.  Loops through ALL ODThreads that are still running, asks each to quit and gives each timeoutMS to do so.  A thread that is still running then is no longer aborted (see Join): it becomes a background thread, which ends with the process.  If you want to give each thread a chance to gracefully quit, call QuitSyncThreadsByGroupName instead.</summary>
 		public static void QuitSyncAllOdThreads(int timeoutMS=0) {
 			QuitSyncThreadsByGroupName(timeoutMS,"");
 		}
@@ -451,7 +459,8 @@ namespace CodeBase {
 		///If numThreads is not provided then numThreads will default to Environment.ProcessorCount. This is typically what you should let happen.
 		///If onException is provided then one and only one onException event will be raised when any number of exceptions occur.
 		///All actions will run to completion regardless if any/all throw unhandled exceptions.
-		///If the timeout is reached, all threads will be killed and their corresponding actions will not complete.  This can leave data in an 
+		///If the timeout is reached, the method returns and its threads are told to quit (they are no longer aborted, see Join): each thread runs
+		///the action it is in to its end in the background and starts no further action, so the actions not started yet never run.  This can leave data in an
 		///undefined state, for example, if an action times out before instantiating an object, the object will be null.
 		///Throws exception on main thread if any action throws and unhandled exception and no onException was provided.</summary>
 		public static void RunParallel(List<Action> listActions,TimeSpan timeout,int numThreads=0,ExceptionDelegate onException=null,bool isLegacy=false) {
@@ -462,7 +471,8 @@ namespace CodeBase {
 		///If numThreads is not provided then numThreads will default to Environment.ProcessorCount. This is typically what you should let happen.
 		///If onException is provided then one and only one onException event will be raised when any number of exceptions occur.
 		///All actions will run to completion regardless if any/all throw unhandled exceptions.
-		///If the timeout is reached, all threads will be killed and their corresponding actions will not complete.  This can leave data in an 
+		///If the timeout is reached, the method returns and its threads are told to quit (they are no longer aborted, see Join): each thread runs
+		///the action it is in to its end in the background and starts no further action, so the actions not started yet never run.  This can leave data in an
 		///undefined state, for example, if an action times out before instantiating an object, the object will be null.
 		///Throws exception on main thread if any action throws and unhandled exception and no onException was provided.</summary>
 		public static void RunParallel(List<Action> listActions,int timeoutMS=Timeout.Infinite,int numThreads=0,ExceptionDelegate onException=null,
@@ -523,7 +533,13 @@ namespace CodeBase {
 				//If this thread pool is full then start it.
 				if(listActionsCur.Count==actionsPerThread||i==(listActions.Count-1)) {
 					ODThread odThread=new ODThread(new WorkerDelegate((ODThread o) => {
-						((List<Action>)o.Tag).ForEach(x => x());
+						List<Action> listActionsThread=(List<Action>)o.Tag;
+						for(int j=0;j<listActionsThread.Count;j++) {
+							if(o.HasQuit) {
+								return;//The timeout was reached (Join asked the thread to quit): start no further action.
+							}
+							listActionsThread[j]();
+						}
 					}));
 					odThread.Tag=new List<Action>(listActionsCur);
 					odThread.Name=threadGroupName+"-"+threadID;
@@ -550,7 +566,8 @@ namespace CodeBase {
 		///If numThreads is not provided then numThreads will default to Environment.ProcessorCount. This is typically what you should let happen.
 		///If onException is provided then one and only one onException event will be raised when any number of exceptions occur.
 		///All actions will run to completion regardless if any/all throw unhandled exceptions.
-		///If the timeout is reached, all threads will be killed and their corresponding actions will not complete.  This can leave data in an 
+		///If the timeout is reached, the method returns and its threads are told to quit (they are no longer aborted, see Join): each thread runs
+		///the action it is in to its end in the background and starts no further action, so the actions not started yet never run.  This can leave data in an
 		///undefined state, for example, if an action times out before instantiating an object, the object will be null.
 		///Throws exception on main thread if any action throws and unhandled exception and no onException was provided.</summary>
 		private static Exception RunParallelImproved(List<Action> listActions,int timeoutMS,int threadCount) {
@@ -566,7 +583,8 @@ namespace CodeBase {
 			List<ODThread> listThreads=new List<ODThread>();
 			for(int i=0;i<threadCount;i++) {
 				ODThread odThread=new ODThread(new WorkerDelegate((ODThread o) => {
-					while(queueActions.TryDequeue(out Action action)) {
+					//HasQuit: the timeout was reached (Join asked the thread to quit), so start no further action.
+					while(!o.HasQuit && queueActions.TryDequeue(out Action action)) {
 						action();
 					}
 				}));
