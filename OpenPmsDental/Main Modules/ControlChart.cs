@@ -100,6 +100,9 @@ namespace OpenPmsDental {
 		///(LayoutTextBelow, TC-5), or null; and the place the sheet layout gave it.</summary>
 		private Control _controlUnderTextBelow;
 		private Rectangle _rectangleUnderTextBelow;
+		///<summary>True when the current sheet layout places the date slider (its field TrackToothProcDates), so the TextBelow strip is shown under it
+		///while it has text. A custom layout without the slider never shows the strip (LayoutTextBelowAfterSheet, TC-5).</summary>
+		private bool _isTextBelowSliderPlaced;
 		///<summary>The rows in the prog notes table that matched the last time we searched.</summary>
 		private List<DataRow> _listDataRowsSearchResults=new List<DataRow>();
 		///<summary>List of every open FormErx per PatNum.  This is to ensure we only open 1 FormErx per PatNum.</summary>
@@ -6470,7 +6473,9 @@ namespace OpenPmsDental {
 		private void FillTextBelow(List<DataRow> listDataRows) {
 			if(textTextBelow.SetProcedures(listDataRows)) {
 				LayoutTextBelow();
+				return;
 			}
+			SetTextBelowVisible();//SetProcedures shows the strip whenever it has text; a layout without the slider keeps it hidden.
 		}
 
 		private void FillTrackSlider() {
@@ -8296,7 +8301,7 @@ namespace OpenPmsDental {
 				LayoutManager.Synch(dictionaryStringControl.Values.ElementAt(i));//The controls were just moved around programmatically by the sheetLayoutController.
 				//This will also pick up any change in anchor and move that over to the LayoutManager
 			}
-			LayoutTextBelowAfterSheet(dictionaryStringControl);
+			LayoutTextBelowAfterSheet(sheetFieldLayoutMode,dictionaryStringControl);
 			//float fontSize=gridProg.Font.Size;
 			if(checkShowOrtho.Checked){
 				//The panelGridProg will be visible only if it is in the SheetDef and checkTreatPlans.Checked==false and checkShowOrtho.Checked==false
@@ -8335,9 +8340,19 @@ namespace OpenPmsDental {
 
 		///<summary>After the sheet layout placed the controls (LayoutControls): finds the control that starts right under the date slider and
 		///overlaps it across (the treatment notes in the standard layout, the tooth chart in a layout with the slider above it, such as Open Dental's
-		///"Big" layout), keeps the place the sheet gave it, and lays out the TextBelow strip (LayoutTextBelow).</summary>
-		private void LayoutTextBelowAfterSheet(Dictionary<string,Control> dictionaryStringControl) {
+		///"Big" layout), keeps the place the sheet gave it, and lays out the TextBelow strip (LayoutTextBelow). The sheet layout has just hidden every
+		///control it does not place, the strip too (SheetLayoutController.InitLayoutForSheetDef), so LayoutTextBelow shows it again. A layout without
+		///the slider never shows the strip and moves no control for it.</summary>
+		private void LayoutTextBelowAfterSheet(SheetFieldLayoutMode sheetFieldLayoutMode,Dictionary<string,Control> dictionaryStringControl) {
 			_controlUnderTextBelow=null;
+			_isTextBelowSliderPlaced=dictionaryStringControl.TryGetValue("TrackToothProcDates",out Control controlSlider)
+				&& controlSlider==panelToothTrackBar
+				&& _sheetLayoutController.SheetDefDynamicLayoutCur!=null
+				&& _sheetLayoutController.GetPertinentSheetFieldDefs(sheetFieldLayoutMode).Any(x => x.FieldName=="TrackToothProcDates");
+			if(!_isTextBelowSliderPlaced) {
+				LayoutTextBelow();
+				return;
+			}
 			int heightStrip=textTextBelow.Height+LayoutManager.Scale(2);
 			foreach(Control control in dictionaryStringControl.Values) {
 				if(control==null || control==panelToothTrackBar || control==textTextBelow || control.Parent!=this) {
@@ -8361,11 +8376,16 @@ namespace OpenPmsDental {
 
 		///<summary>The TextBelow strip (TC-5), one line right under the date slider and as wide as it, in every layout. While it has text, the control
 		///found under the slider (LayoutTextBelowAfterSheet) starts under the strip instead and keeps its bottom edge; without text that control has
-		///the sheet's place.</summary>
+		///the sheet's place. Also sets the strip's visibility, which the sheet layout clears on every layout (SetTextBelowVisible).</summary>
 		private void LayoutTextBelow() {
+			if(!_isTextBelowSliderPlaced) {
+				SetTextBelowVisible();
+				return;
+			}
 			LayoutManager.MoveLocation(textTextBelow,new Point(panelToothTrackBar.Left,panelToothTrackBar.Bottom+LayoutManager.Scale(1)));
 			LayoutManager.MoveWidth(textTextBelow,panelToothTrackBar.Width);
 			textTextBelow.BringToFront();
+			SetTextBelowVisible();
 			if(_controlUnderTextBelow==null) {
 				return;
 			}
@@ -8376,6 +8396,12 @@ namespace OpenPmsDental {
 			int top=Math.Max(_rectangleUnderTextBelow.Top,textTextBelow.Bottom+LayoutManager.Scale(1));
 			int height=Math.Max(_rectangleUnderTextBelow.Bottom-top,LayoutManager.Scale(20));
 			LayoutManager.Move(_controlUnderTextBelow,new Rectangle(_rectangleUnderTextBelow.Left,top,_rectangleUnderTextBelow.Width,height));
+		}
+
+		///<summary>Shows the TextBelow strip while it has text and the current layout places the date slider, else hides it. Called after every layout,
+		///because the sheet layout hides each control that is not a sheet field or a static control, the strip among them, and after every fill.</summary>
+		private void SetTextBelowVisible() {
+			textTextBelow.Visible=_isTextBelowSliderPlaced && textTextBelow.HasText;
 		}
 		#endregion Methods - Private - SheetLayout
 
