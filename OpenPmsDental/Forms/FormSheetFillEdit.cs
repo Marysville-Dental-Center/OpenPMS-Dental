@@ -1405,7 +1405,7 @@ namespace OpenPmsDental {
 			textBox.ScrollBars=RichTextBoxScrollBars.None;//but we do want scrollbars if needed
 			if(IsInTerminal) { 
 				// Do not allow patients to use the right click menu
-				textBox.ContextMenu=new ContextMenu();
+				textBox.ContextMenuStrip=new ContextMenuStrip();//S3a-M2: ODtextBox's menu is its ContextMenuStrip; an empty one does not open
 			}
 			textBox.HasAutoNotes=true;
 			textBox.QuickPasteType=EnumQuickPasteType.Sheets;
@@ -1435,7 +1435,7 @@ namespace OpenPmsDental {
 				textBox.SelectionStart=_idxSelectedChar;
 			}
 			if(isRightClick) {
-				textBox.ContextMenu.Show(panelMain,point);
+				textBox.ContextMenuStrip.Show(panelMain,point);//S3a-M2: ODtextBox's menu (or the empty one above)
 			}
 		}
 
