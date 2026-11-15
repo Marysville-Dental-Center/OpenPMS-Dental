@@ -25,6 +25,9 @@
       <HintPath>..\..\Required dlls\Interop.CDRDicom.dll</HintPath>
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
+    <!-- The C# runtime binder: CADI's calls are late-bound (dynamic) in CadiModule.cs, CADIInProcess.cs and the tests' copy of today's code
+         (N64-A3). -->
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
@@ -87,6 +90,17 @@
     </Compile>
     <Compile Include="..\..\WpfControlsOD\Bridges\GuruInProcess.cs">
       <Link>Linked\GuruInProcess.cs</Link>
+    </Compile>
+    <!-- N64-A3: the helper's Mediadent / CADI module and its command, and the program's in-process path (CADIInProcess.cs, with today's calls),
+         run against a fake of CADI's automation object (Cadi\FakeCadi.cs) and compared with today's code (Cadi\CadiToday.cs). -->
+    <Compile Include="..\..\OpenPmsDentalHelper32\Cadi\CadiCommands.cs">
+      <Link>Linked\CadiCommands.cs</Link>
+    </Compile>
+    <Compile Include="..\..\OpenPmsDentalHelper32\Cadi\CadiModule.cs">
+      <Link>Linked\CadiModule.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WpfControlsOD\Bridges\CADIInProcess.cs">
+      <Link>Linked\CADIInProcess.cs</Link>
     </Compile>
   </ItemGroup>
   <ItemGroup>
