@@ -143,7 +143,7 @@ namespace ToothChartImageTests {
 		public void PerioScene_OneTooth_MarksInDirectXsOrder_WithTheirColoursAndRedLimits() {
 			ToothChartData tcData=CreatePerioData();
 			AddMeasure(tcData,3,PerioSequenceType.Furcation,1,2,3,-1,-1,-1);//MB 1, B 2, DB 3
-			AddMeasure(tcData,3,PerioSequenceType.Probing,3,4,5,2,-1,0);
+			AddMeasure(tcData,3,PerioSequenceType.Probing,3,4,5,2,-1,0);//MB 3, B 4, DB 5, ML 2, L none, DL 0
 			AddMeasure(tcData,3,PerioSequenceType.GingMargin,0,0,0,0,0,0);
 			AddMeasure(tcData,3,PerioSequenceType.BleedSupPlaqCalc,(int)BleedingFlags.Blood,(int)(BleedingFlags.Blood|BleedingFlags.Suppuration),
 				(int)BleedingFlags.Suppuration,(int)BleedingFlags.Blood,0,0);
@@ -172,14 +172,14 @@ namespace ToothChartImageTests {
 			Assert.AreEqual(3,dict["furcation 2 of 3 B"].Polygons.Count,"Grade 2: the outline.");
 			Assert.AreEqual(3,dict["furcation 3 of 3 DB"].Polygons.Count,"Grade 3: the outline...");
 			Assert.AreEqual(1,dict["furcation 3 of 3 DB (filled)"].Polygons.Count,"...and the filled triangle.");
-			Assert.AreEqual(ChartScenes.PerioProbing.ToArgb(),dict["probing 3 DB"].Color.ToArgb(),"3 mm below the red limit 4.");
+			Assert.AreEqual(ChartScenes.PerioProbing.ToArgb(),dict["probing 3 MB"].Color.ToArgb(),"3 mm below the red limit 4.");
 			Assert.AreEqual(ChartScenes.PerioProbingRed.ToArgb(),dict["probing 3 B"].Color.ToArgb(),"4 mm at the red limit.");
-			Assert.AreEqual(ChartScenes.PerioProbingRed.ToArgb(),dict["probing 3 MB"].Color.ToArgb());
+			Assert.AreEqual(ChartScenes.PerioProbingRed.ToArgb(),dict["probing 3 DB"].Color.ToArgb(),"5 mm.");
 			Assert.AreEqual(ChartScenes.PerioBleeding.ToArgb(),dict["bleeding 3 B"].Color.ToArgb());
 			Assert.AreEqual(ChartScenes.PerioSuppuration.ToArgb(),dict["suppuration 3 B"].Color.ToArgb());
 			Assert.IsFalse(scene.Items2D.Any(x => x.Source=="probing 3 L" || x.Source=="probing 3 DL"),"No bar for -1 or 0.");
 			//The probing bar: 0.6 mm wide, 3 mm long from the gingival margin toward the root (up on the maxilla).
-			RectangleF rectangleBar=GetBounds(dict["probing 3 DB"]);
+			RectangleF rectangleBar=GetBounds(dict["probing 3 MB"]);
 			Assert.AreEqual(0.6f*tcData.ScaleMmToPix,rectangleBar.Width,1.01f,"0.6 mm wide, on DirectX's pixels.");
 			Assert.AreEqual(3f*tcData.ScaleMmToPix,rectangleBar.Height,1.01f,"3 mm long.");
 		}

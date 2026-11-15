@@ -44,7 +44,8 @@ namespace ToothChartImageTests {
 			WpfCharts.WriteEvidence("parity-perio.txt",sb.ToString());
 			Assert.AreEqual(0,listMissing.Count,"Pictures missing:\r\n"+string.Join("\r\n",listMissing));
 			foreach(string kind in new[] { "tooth","implant","probing","bleeding","suppuration","furcation","line","legend" }) {
-				Assert.IsTrue(listOutcomes.Count(x => x.Probe.Kind==kind)>=5,"Probes of "+kind+": "+listOutcomes.Count(x => x.Probe.Kind==kind));
+				//The fewest are the implants: 19 and 30 of perio-missing-and-implants, each in its arch's two rows.
+				Assert.IsTrue(listOutcomes.Count(x => x.Probe.Kind==kind)>=4,"Probes of "+kind+": "+listOutcomes.Count(x => x.Probe.Kind==kind));
 			}
 			Assert.IsTrue(listOutcomes.Count>2000,"Probes: "+listOutcomes.Count);
 			List<PerioAllowance> listUnused=PerioParityProbes.Allowances.Where(x => !listAllowed.Any(y => y.Allowance==x)).ToList();

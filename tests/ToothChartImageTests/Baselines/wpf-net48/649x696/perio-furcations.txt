@@ -1,0 +1,15 @@
+Scene: perio-furcations
+Group: perio
+Description: Furcation grades 1, 2 and 3 on every molar site that has one, with every grade drawn in the red furcation colour (red limit 1, the default). The default red limit is 1, so all furcations are red.
+Size: 649x696
+Colours: Perio
+Engine: Wpf3D (RenderTargetBitmap in software, 3D layer at 3x reduced with WIC's Fant scaler)
+Bitmap: 649x696 Format24bppRgb
+Alpha: every alpha is 255 (format without an alpha channel)
+Colours in the picture: 10451
+Pixels SHA-256: 6bb679448e602030fe98485ec19f3da2b7fd0ce9d2e878b7cd5cf6b3f714ab90
+Repeatable: yes (a second GetBitmap gave the same pixels)
+Framework: .NET Framework 4.8, x86
+Windows: build 26300.9974 (26H2)
+Fresh render: yes (both layers drawn again without the layer cache gave the same pixels)
+Screen DPI seen by the test host: 96

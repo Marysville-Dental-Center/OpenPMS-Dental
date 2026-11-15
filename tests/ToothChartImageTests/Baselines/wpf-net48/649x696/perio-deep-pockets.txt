@@ -1,0 +1,15 @@
+Scene: perio-deep-pockets
+Group: perio
+Description: Deep pockets: probing 5-9 mm everywhere (red from 4 mm), recession 1-3 mm.
+Size: 649x696
+Colours: Perio
+Engine: Wpf3D (RenderTargetBitmap in software, 3D layer at 3x reduced with WIC's Fant scaler)
+Bitmap: 649x696 Format24bppRgb
+Alpha: every alpha is 255 (format without an alpha channel)
+Colours in the picture: 10120
+Pixels SHA-256: e06e0a7a7f574de97cf835c712411ceb4889f5f82846f67e49e4a364dc0f64d0
+Repeatable: yes (a second GetBitmap gave the same pixels)
+Framework: .NET Framework 4.8, x86
+Windows: build 26300.9974 (26H2)
+Fresh render: yes (both layers drawn again without the layer cache gave the same pixels)
+Screen DPI seen by the test host: 96
