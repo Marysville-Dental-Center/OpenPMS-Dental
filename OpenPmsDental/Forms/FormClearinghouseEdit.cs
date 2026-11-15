@@ -488,7 +488,8 @@ namespace OpenPmsDental{
 				}
 			}//end HQ
 			if(textISA08.Text=="0135WCH00" && !radioSenderOD.Checked) {//Clinic
-				MsgBox.Show(this,"When using Emdeon, this software must be the sender.");
+				//X12-SENDER: with a blank Sender TIN the practice is the sender (its billing provider's TIN, title and phone), never Open Dental Inc.
+				MsgBox.Show(this,"When using Emdeon, the practice must be the sender. Emdeon may need the practice registered as its submitter first.");
 				return false;
 			}
 			if(comboFormat.SelectedIndex==(int)ElectronicClaimFormat.x837D_4010

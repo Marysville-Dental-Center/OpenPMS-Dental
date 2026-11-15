@@ -468,7 +468,7 @@ namespace OpenPmsDental {
 			this.radioSenderOD.Size = new System.Drawing.Size(221, 18);
 			this.radioSenderOD.TabIndex = 1;
 			this.radioSenderOD.TabStop = true;
-			this.radioSenderOD.Text = "This software is the \"sender\"";
+			this.radioSenderOD.Text = "The practice is the \"sender\"";
 			this.radioSenderOD.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.radioSenderOD.UseVisualStyleBackColor = true;
 			this.radioSenderOD.Click += new System.EventHandler(this.radio_Click);
