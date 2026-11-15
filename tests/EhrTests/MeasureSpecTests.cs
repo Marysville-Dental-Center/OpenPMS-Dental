@@ -326,8 +326,8 @@ namespace EhrTests {
 			MeasureSpecFixture.Begin();
 			SpecCheck check=new SpecCheck();
 			string[] arrayAll=new[] { "Vs.Full","Vs.HeightWeight","Vs.Child2","Vs.Bp","Vs.None" };
-			//An adult with all three signs, one with height and weight, a child of 2 with height and weight, an adult with blood pressure, and one
-			//with none.
+			//An adult with all three signs, one with height and weight, a child of 2 all year with height and weight, an adult with blood pressure,
+			//and one with none.
 			//8_Record_Vital_Signs.pdf, Stage 1 (2014 Definition), May 2014, NUMERATOR / DENOMINATOR. DENOMINATOR: unique patients seen (age 3 or over
 			//for blood pressure). NUMERATOR: those with height, weight and blood pressure (ages 3 and over): the adult with all three and the child.
 			check.Sheet(S1,EhrMeasureType.VitalSigns2014,2,5,arrayAll);

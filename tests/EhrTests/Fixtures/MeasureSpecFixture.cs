@@ -369,12 +369,13 @@ namespace EhrTests {
 			MakeEvent(SeenPatient("Edu.Before"),EhrMeasureEventType.EducationProvided,new DateTime(2013,6,3),0);
 		}
 
-		///<summary>Vital signs and smoking status. Ages at the visit of 3 March 2014: Vs.Child2 is 2, Vs.Infant 1, Smoke.Age12 12 (and all
-		///year); the others are adults.</summary>
+		///<summary>Vital signs and smoking status. Ages at the visit of 3 March 2014: Vs.Child2 is 2 and Smoke.Age12 12 (both all year),
+		///Vs.Infant 1; the others are adults.</summary>
 		private static void MakeVitalSignRows() {
 			MakeVitalsign(SeenPatient("Vs.Full"),64,150,120,80);
 			MakeVitalsign(SeenPatient("Vs.HeightWeight"),64,150,0,0);
-			MakeVitalsign(SeenPatient("Vs.Child2",new DateTime(2011,6,1)),36,30,0,0);
+			//Born 1 January 2012: 2 years old on every day of 2014.
+			MakeVitalsign(SeenPatient("Vs.Child2",new DateTime(2012,1,1)),36,30,0,0);
 			MakeVitalsign(SeenPatient("Vs.Bp"),0,0,120,80);
 			SeenPatient("Vs.None");
 			MakeVitalsign(SeenPatient("Vs.Infant",new DateTime(2013,1,15)),30,22,0,0);
