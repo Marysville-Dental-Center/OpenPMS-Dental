@@ -635,7 +635,7 @@ approved.
 
 **Order.** S4-1 then S4-2 (S4-2 is small; it can be prepared in parallel and merged second).
 
-**Status (2026-11-14).** S4-1 done on `net10/s41-1` (`docs/port-notes/S4-1.md`), not merged yet: MSTest.TestFramework, MSTest.TestAdapter
+**Status (2026-11-14).** S4-1 done and merged (`b8e931cea`, `docs/port-notes/S4-1.md`): MSTest.TestFramework, MSTest.TestAdapter
 and MSTest.Analyzers 4.5.3 and Microsoft.NET.Test.Sdk 18.12.0 for every test project (UnitTestsCore: the framework only), System.ValueTuple
 pinned at 4.6.2, `ODAddMSTestV1SearchPath` removed, the analyzer levels in `tests/MSTest.globalconfig`, the telemetry extension and Application
 Insights kept out of every output folder (TestTelemetryTests). One compile error (the `[ExpectedException]`, now `Assert.ThrowsExactly`);
@@ -644,6 +644,15 @@ runs at the end of each class (v4 has no other timing). Targeted runs of all 119
 109, and every difference in the other 10 explained (tests added or removed on `main` since, the 4 new telemetry tests, the gate-only
 baseline check, and one DbConnectionSecurityTests dry run that the local server's TLS set-up refuses); no leftover scratch database. The test
 runner and the lane's `-Test` run MSTest 4 unchanged; S4-2 next.
+
+S4-2 done on `net10/s42-1` (`docs/port-notes/S4-2.md`), not merged yet: both runner copies (`tools/run-tests.ps1` and the
+lead's, whose new version waits as `run-tests.ps1.s42-new` for the merge) keep `/Platform:x86` and the adapter next to each test DLL
+(checked before each assembly, `NOADAPTER`), read the last `Total tests:` block or the one-line summaries, count skipped tests, fail a run
+with no test or no summary, compare a run with an earlier results file (`-CompareWith`), and start vstest with
+`TESTINGPLATFORM_TELEMETRY_OPTOUT=1` and `DOTNET_CLI_TELEMETRY_OPTOUT=1` and without `VSTEST_TELEMETRY_OPTEDIN`; the lane gets the same
+from `tools/Initialize-BuildEnvironment.ps1` and needs no change. No workflow script needed a change. Targeted runs of five assemblies
+with each copy: the counts of S4-1's table, test by test, plus the 8 new ProjectFileTests (TestRunnerScriptTests, TestTelemetryTests).
+Next: the stage gate's Full run with `-CompareWith` the stage 2 record (the lead's).
 
 **Full-test gate.** Section 3, plus identical per-assembly discovered-test counts and outcomes compared to the v1 record (differences
 explained one by one).
