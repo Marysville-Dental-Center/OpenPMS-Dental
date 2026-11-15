@@ -643,7 +643,7 @@ three fixture methods of the legacy UnitTests that v1 never ran now run, and the
 runs at the end of each class (v4 has no other timing). Targeted runs of all 119 assemblies: identical to the stage 2 record test by test in
 109, and every difference in the other 10 explained (tests added or removed on `main` since, the 4 new telemetry tests, the gate-only
 baseline check, and one DbConnectionSecurityTests dry run that the local server's TLS set-up refuses); no leftover scratch database. The test
-runner and the lane's `-Test` run MSTest 4 unchanged; S4-2 next.
+runner and the lane's `-Test` ran MSTest 4 unchanged until S4-2.
 
 S4-2 done on `net10/s42-1` (`docs/port-notes/S4-2.md`), not merged yet: both runner copies (`tools/run-tests.ps1` and the
 lead's, whose new version waits as `run-tests.ps1.s42-new` for the merge) keep `/Platform:x86` and the adapter next to each test DLL

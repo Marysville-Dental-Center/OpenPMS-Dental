@@ -157,8 +157,8 @@ function Read-ResultFile([string]$Path) {
 # COMPARE lines: each assembly of this run against the same assembly of an earlier results file. A run of every assembly (Full or
 # Core) also lists each assembly of the earlier file that this run lacks as missing: a test project dropped from OpenDental.Local.slnf
 # is never discovered, so it has no result line of its own. A Targeted run lists none, since it leaves out most assemblies on purpose.
-function Write-Comparison([string]$EarlierPath) {
-	$earlier = Read-ResultFile $EarlierPath
+function Write-Comparison([string]$EarlierPath, $Earlier = $null) {
+	$earlier = if ($null -ne $Earlier) { $Earlier } else { Read-ResultFile $EarlierPath }
 	$now = Read-ResultFile $Out
 	Add-Content $Out "COMPARE with=$EarlierPath" -Encoding utf8
 	$same = 0; $differ = 0; $new = 0; $missing = 0
@@ -244,6 +244,8 @@ if ($Mode -ne 'Targeted') {
 
 Set-TestRunEnvironment
 New-Item -ItemType Directory -Force $logDir | Out-Null
+# The earlier record is read before -Out is written: -CompareWith may name the same file (the default -Out of an earlier run).
+$earlierRecord = if ($CompareWith) { Read-ResultFile $CompareWith } else { $null }
 Set-Content -Path $Out -Value "RUN mode=$Mode root=$Root started=$(Get-Date -Format s) assemblies=$($assemblies.Count) vstest=$vstest" -Encoding utf8
 $queue = New-Object System.Collections.Queue
 $assemblies | ForEach-Object { $queue.Enqueue($_) }
@@ -284,7 +286,8 @@ while ($queue.Count -gt 0 -or $running.Count -gt 0) {
 		$counts = Get-VsTestCounts $text
 		$code = "$($r.P.ExitCode)"
 		# vstest ends with 0 when it finds no test at all: that is no pass.
-		if ($code -eq '0' -and $counts.Total -eq '?') { $code = 'NOSUMMARY' }
+		if ($code -eq '0' -and $counts.Total -eq '?' -and $text -match 'No test is available|No test matches') { $code = 'NOTESTS' }
+		elseif ($code -eq '0' -and $counts.Total -eq '?') { $code = 'NOSUMMARY' }
 		elseif ($code -eq '0' -and $counts.Total -eq 0) { $code = 'NOTESTS' }
 		if ($code -ne '0') { $allOk = $false }
 		Add-Content $Out "$($r.A.Name) exit=$code total=$($counts.Total) passed=$($counts.Passed) failed=$($counts.Failed) skipped=$($counts.Skipped) seconds=$([int](((Get-Date) - $r.Start).TotalSeconds))" -Encoding utf8
@@ -292,7 +295,7 @@ while ($queue.Count -gt 0 -or $running.Count -gt 0) {
 	$running = $still
 }
 if ($lock) { try { $lock.ReleaseMutex() } catch {} }
-if ($CompareWith) { Write-Comparison $CompareWith }
+if ($CompareWith) { Write-Comparison $CompareWith $earlierRecord }
 Add-Content $Out "DONE ok=$allOk finished=$(Get-Date -Format s)" -Encoding utf8
 Show-Summary
 if ($allOk) { exit 0 } else { exit 1 }

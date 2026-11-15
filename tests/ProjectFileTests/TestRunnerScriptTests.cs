@@ -110,6 +110,35 @@ namespace ProjectFileTests {
 		}
 
 		[TestMethod]
+		public void RunTests_CompareWithTheResultsFileItWrites_ComparesWithTheEarlierRun() {
+			//-CompareWith may name the file this run writes (-Out, or the default of an earlier run): the runner reads the earlier record before
+			//it writes -Out, so the comparison is with the earlier run and not with this run itself (which would read "same" everywhere).
+			string folder=NewWorkFolder();
+			try {
+				string path=Path.Combine(folder,"results.txt");
+				File.WriteAllText(path,Lines("RUN mode=Full root=C:\\repo started=2026-11-12T10:00:00 assemblies=1",
+					"EhrTests exit=0 total=129 passed=129 failed=0 skipped=0 seconds=60","DONE ok=True finished=2026-11-12T11:00:00"));
+				List<string> listOutput=RunPowerShell(Harness(RunTestsPath(),folder,
+					"$Mode='Full'\r\n$Out=Join-Path $work 'results.txt'\r\n$record=Read-ResultFile $Out\r\n"
+					+"Set-Content -Path $Out -Value 'RUN mode=Full' -Encoding utf8\r\n"
+					+"Add-Content $Out 'EhrTests exit=0 total=208 passed=208 failed=0 skipped=0 seconds=80' -Encoding utf8\r\n"
+					+"Write-Comparison $Out $record\r\n"
+					+"Get-Content $Out | Where-Object { $_ -like 'COMPARE *' -and $_ -notlike 'COMPARE with=*' } | ForEach-Object { 'out=' + $_ }"));
+				CollectionAssert.AreEqual(new[] { "out=COMPARE EhrTests differs total 129->208, passed 129->208","out=COMPARE same=0 differs=1 new=0 missing=0" },
+					listOutput,string.Join(" | ",listOutput));
+			}
+			finally {
+				Directory.Delete(folder,true);
+			}
+			//The script itself reads the record before its Set-Content of -Out, and hands it to Write-Comparison.
+			string text=File.ReadAllText(RunTestsPath()).Replace("\r\n","\n");
+			int indexRead=text.IndexOf("\n$earlierRecord = if ($CompareWith) { Read-ResultFile $CompareWith }",StringComparison.Ordinal);
+			int indexWrite=text.IndexOf("\nSet-Content -Path $Out ",StringComparison.Ordinal);
+			Assert.IsTrue(indexRead>0 && indexWrite>indexRead,"run-tests.ps1 reads the -CompareWith record before it writes -Out.");
+			Assert.IsTrue(text.Contains("Write-Comparison $CompareWith $earlierRecord"),"run-tests.ps1 compares with the record it read first.");
+		}
+
+		[TestMethod]
 		public void RunTests_StartsVSTestWithoutTelemetry() {
 			//The environment the runner sets before its first vstest, whatever this process had (here an opted-in vstest telemetry).
 			List<string> listOutput=RunPowerShell(Harness(RunTestsPath(),Path.GetTempPath(),
