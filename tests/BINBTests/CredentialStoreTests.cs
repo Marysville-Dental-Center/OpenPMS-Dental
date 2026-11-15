@@ -136,8 +136,8 @@ namespace BINBTests {
 				Assert.ThrowsExactly<ArgumentException>(() => credentialStore.WritePassword(URI,USER,null));
 				Assert.ThrowsExactly<ArgumentException>(() => credentialStore.WritePassword(URI,"",PASSWORD));
 				Assert.ThrowsExactly<ArgumentException>(() => credentialStore.WritePassword(URI,USER,new string('x',CredentialManager.MAX_SECRET_BYTES/2+1)));
-				//Only the migration's record is there.
-				CollectionAssert.AreEqual(new[] { testCredentialStore.Prefix+"record" },CredentialManager.List(testCredentialStore.Prefix).Select(x => x.TargetName).ToArray());
+				//Nothing is there, not even the migration's record (a vault that cannot be opened leaves none).
+				CollectionAssert.AreEqual(new string[0],CredentialManager.List(testCredentialStore.Prefix).Select(x => x.TargetName).ToArray());
 				credentialStore.WritePassword(URI,USER,new string('x',CredentialManager.MAX_SECRET_BYTES/2));
 				Assert.AreEqual(CredentialManager.MAX_SECRET_BYTES/2,credentialStore.RetrievePassword(URI,USER).Length);
 			}
@@ -208,14 +208,56 @@ namespace BINBTests {
 		}
 
 		[TestMethod]
-		public void Migration_WithoutAVault_RecordsThatThereWasNothingToRead() {
+		public void Migration_WhenTheVaultCannotBeOpened_LeavesNoRecord_AndTheNextProcessTriesAgain() {
+			//On Windows 8 and later the vault is always there, so failing to open it (null, or an exception from Activator.CreateInstance) is an
+			//error that may pass, such as the Credential Manager service not started yet early in a logon: no record, so the logins still move later.
+			Func<OldPasswordVault>[] arrayFuncsOpen=new Func<OldPasswordVault>[] {
+				() => null,
+				() => throw new System.Runtime.InteropServices.COMException("Synthetic: the RPC server is unavailable.",unchecked((int)0x800706BA)),
+			};
+			foreach(Func<OldPasswordVault> funcOpen in arrayFuncsOpen) {
+				using(TestCredentialStore testCredentialStore=new TestCredentialStore()) {
+					CredentialStore credentialStore=testCredentialStore.Store;
+					int countOpens=0;
+					credentialStore.FuncIsOsWithoutVault=() => false;
+					credentialStore.FuncOpenVault=() => { countOpens++; return funcOpen(); };
+					credentialStore.WritePassword(URI,USER,PASSWORD);
+					Assert.IsNull(credentialStore.GetMigrationRecord(),"No record: the migration is not done.");
+					Assert.AreEqual(PASSWORD,credentialStore.RetrievePassword(URI,USER),"The logins work without the vault.");
+					Assert.IsTrue(credentialStore.TryRetrieveUserName(URI,out string userName));
+					Assert.AreEqual(USER,userName);
+					Assert.AreEqual(1,countOpens,"One try per process, not one per call.");
+					//The next process tries again; a failed open costs that process one try and writes no record either.
+					CredentialStore credentialStoreNextProcess=testCredentialStore.NewStore();
+					int countOpensNext=0;
+					credentialStoreNextProcess.FuncIsOsWithoutVault=() => false;
+					credentialStoreNextProcess.FuncOpenVault=() => { countOpensNext++; return funcOpen(); };
+					Assert.AreEqual(PASSWORD,credentialStoreNextProcess.RetrievePassword(URI,USER));
+					Assert.AreEqual(1,countOpensNext,"The next process tried to open the vault again.");
+					Assert.IsNull(credentialStoreNextProcess.GetMigrationRecord());
+					credentialStoreNextProcess.WritePassword(URI,USER,"synthetic-password-2");
+					Assert.AreEqual("synthetic-password-2",credentialStoreNextProcess.RetrievePassword(URI,USER));
+				}
+			}
+		}
+
+		[TestMethod]
+		public void Migration_OnAWindowsWithoutTheVault_RecordsThatThereWasNothingToRead() {
+			//Only a Windows older than 8, which has no PasswordVault, records the migration without reading the vault.
 			using(TestCredentialStore testCredentialStore=new TestCredentialStore()) {
 				CredentialStore credentialStore=testCredentialStore.Store;
-				credentialStore.FuncOpenVault=() => null;
+				credentialStore.FuncIsOsWithoutVault=() => true;
+				credentialStore.FuncOpenVault=() => throw new AssertFailedException("The vault is not opened on a Windows without it.");
 				credentialStore.WritePassword(URI,USER,PASSWORD);
 				StringAssert.Contains(credentialStore.GetMigrationRecord(),"Copied 0, already there 0, failed 0, PasswordVault not available");
 				Assert.AreEqual(PASSWORD,credentialStore.RetrievePassword(URI,USER));
 			}
+		}
+
+		[TestMethod]
+		public void IsOsWithoutVault_IsFalseHere() {
+			//The tests run on Windows 10 or 11; a mistaken "no vault" here would record every migration as done with nothing copied.
+			Assert.IsFalse(OldPasswordVault.IsOsWithoutVault(),Environment.OSVersion.VersionString);
 		}
 
 		[TestMethod]
