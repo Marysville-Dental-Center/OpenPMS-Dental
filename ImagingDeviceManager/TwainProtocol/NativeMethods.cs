@@ -15,11 +15,26 @@ namespace ImagingDeviceManager.TwainProtocol {
 		public const int WM_TIMER=0x0113;
 		public const int WM_QUIT=0x0012;
 		public const uint DIB_RGB_COLORS=0;
-		///<summary>Size reserved for a Windows MSG structure. 28 bytes on 32-bit Windows; extra room is harmless.</summary>
+		///<summary>Size reserved for a Windows MSG structure: 28 bytes in a 32-bit process, 48 in a 64-bit one (MSG); extra room is harmless.</summary>
 		public const int MsgBufferSize=64;
-		public const int MsgOffsetHwnd=0;
-		public const int MsgOffsetMessage=4;
-		public const int MsgOffsetWParam=8;
+		///<summary>Offsets in a Windows MSG of this process's bitness, from the declared MSG: 0, 4 and 8 in a 32-bit process, 0, 8 and 16 in a
+		///64-bit one.</summary>
+		public static readonly int MsgOffsetHwnd=Marshal.OffsetOf(typeof(MSG),nameof(MSG.hwnd)).ToInt32();
+		public static readonly int MsgOffsetMessage=Marshal.OffsetOf(typeof(MSG),nameof(MSG.message)).ToInt32();
+		public static readonly int MsgOffsetWParam=Marshal.OffsetOf(typeof(MSG),nameof(MSG.wParam)).ToInt32();
+
+		///<summary>MSG (winuser.h) with natural alignment: HWND, WPARAM and LPARAM are pointer-sized. 28 bytes in a 32-bit process, 48 in a 64-bit
+		///one. The message loops read it from a buffer of MsgBufferSize bytes at the offsets above.</summary>
+		[StructLayout(LayoutKind.Sequential)]
+		internal struct MSG {
+			public IntPtr hwnd;
+			public uint message;
+			public IntPtr wParam;
+			public IntPtr lParam;
+			public uint time;
+			public int ptX;
+			public int ptY;
+		}
 
 		[DllImport("kernel32.dll",CharSet=CharSet.Unicode,SetLastError=true)]
 		public static extern IntPtr LoadLibrary(string lpFileName);
@@ -87,8 +102,23 @@ namespace ImagingDeviceManager.TwainProtocol {
 		[DllImport("user32.dll")]
 		public static extern IntPtr GetAncestor(IntPtr hWnd,uint gaFlags);
 
+		///<summary>SetWindowLongPtr as winuser.h defines it for each bitness: user32's SetWindowLongPtr in a 64-bit process, and SetWindowLong in a
+		///32-bit one, whose user32 exports no SetWindowLongPtr (LONG_PTR is a LONG there). For a pointer-sized value such as the owner window
+		///(GWL_HWNDPARENT). Returns the previous value.</summary>
+		public static IntPtr SetWindowLongPtr(IntPtr hWnd,int nIndex,IntPtr dwNewLong) {
+			if(IntPtr.Size==8) {
+				return SetWindowLongPtr64(hWnd,nIndex,dwNewLong);
+			}
+			return SetWindowLong32(hWnd,nIndex,dwNewLong);
+		}
+
+		///<summary>Only in a 32-bit process, where IntPtr is the 4-byte LONG of this entry point. Use SetWindowLongPtr.</summary>
 		[DllImport("user32.dll",EntryPoint="SetWindowLong",SetLastError=true)]
-		public static extern int SetWindowLong(IntPtr hWnd,int nIndex,int dwNewLong);
+		private static extern IntPtr SetWindowLong32(IntPtr hWnd,int nIndex,IntPtr dwNewLong);
+
+		///<summary>Only in a 64-bit process: 32-bit user32 does not export it. Use SetWindowLongPtr.</summary>
+		[DllImport("user32.dll",EntryPoint="SetWindowLongPtr",SetLastError=true)]
+		private static extern IntPtr SetWindowLongPtr64(IntPtr hWnd,int nIndex,IntPtr dwNewLong);
 
 		[DllImport("user32.dll")]
 		[return: MarshalAs(UnmanagedType.Bool)]

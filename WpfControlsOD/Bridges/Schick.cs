@@ -1,4 +1,5 @@
 #if !DISABLE_WINDOWS_BRIDGES
+using System;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using CodeBase;
@@ -72,7 +73,7 @@ namespace OpenPmsDental.Bridges{
 				_exam.OnClose+=new CDRDicom.IExamDocumentEvents_OnCloseEventHandler(OnExamClosed);
 			}
 			_exam.Visible=true;
-			SetForegroundWindow(_exam.hWnd);
+			SetForegroundWindow(new IntPtr(_exam.hWnd));//The exam's hWnd is a 32-bit int; a window handle is that value sign-extended in a 64-bit process.
 		}
 
 		///<summary>When the user clicks OK from the exam window, the patient will be created.  The user can also cancel.</summary>
@@ -93,7 +94,7 @@ namespace OpenPmsDental.Bridges{
 		}
 
 		[DllImport("User32.dll")]
-		public static extern bool SetForegroundWindow(int hndRef);
+		public static extern bool SetForegroundWindow(IntPtr hWnd);
 
 	}
 }

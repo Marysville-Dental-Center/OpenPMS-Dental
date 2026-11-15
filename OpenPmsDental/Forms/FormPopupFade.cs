@@ -39,6 +39,7 @@ namespace OpenPmsDental {
 			LWA_ALPHA = 0x2
 		}
 
+		//Only GWL_EXSTYLE, whose style bits are a LONG in either bitness: the 32-bit entry points are right in a 64-bit process too.
 		[DllImport("user32.dll",EntryPoint="GetWindowLong")]
 		private static extern int User32_GetWindowLong(IntPtr hWnd, GetWindowLong nIndex);
 

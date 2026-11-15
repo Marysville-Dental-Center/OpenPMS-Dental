@@ -1370,7 +1370,7 @@ namespace OpenPmsDental {
 				file=@"C:\Trojan\ETW\Planout.txt";
 			}
 			else {
-				RegistryKey registryKey=Registry.LocalMachine.OpenSubKey("Software\\TROJAN BENEFIT SERVICE");
+				RegistryKey registryKey=Trojan.OpenInstallRegistryKey();//The 32-bit registry view, where Trojan's installer writes it
 				if(registryKey==null) {//dmg Unix OS will exit here.
 					MessageBox.Show("Trojan not installed properly.");
 					return;

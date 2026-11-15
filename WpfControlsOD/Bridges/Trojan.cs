@@ -21,6 +21,15 @@ namespace OpenPmsDental.Bridges {
 		private static DataTable dataTablePatient;
 		private static DataTable dataTableTrojan;
 
+		///<summary>HKEY_LOCAL_MACHINE\Software\TROJAN BENEFIT SERVICE in the 32-bit registry view, or null when it is missing. Trojan's 32-bit
+		///installer writes it there (WOW6432Node on 64-bit Windows), and the 32-bit program has always read it there through WOW64 redirection;
+		///naming the view keeps the same key in a 64-bit process. The caller disposes it.</summary>
+		public static RegistryKey OpenInstallRegistryKey() {
+			using(RegistryKey registryKeyBase=RegistryKey.OpenBaseKey(RegistryHive.LocalMachine,RegistryView.Registry32)) {
+				return registryKeyBase.OpenSubKey("Software\\TROJAN BENEFIT SERVICE");
+			}
+		}
+
 		public static void StartupCheck(){
 			//Skip all if not using Trojan.
 			Program ProgramCur=Programs.GetCur(ProgramName.Trojan);
@@ -28,7 +37,7 @@ namespace OpenPmsDental.Bridges {
 				return;
 			}
 			//Ensure that Trojan has a sane install.
-			RegistryKey regKey=Registry.LocalMachine.OpenSubKey("Software\\TROJAN BENEFIT SERVICE");
+			RegistryKey regKey=OpenInstallRegistryKey();
 			string file="";
 			if(ODBuild.IsDebug()) {
 				file=@"C:\Trojan\ETW\";

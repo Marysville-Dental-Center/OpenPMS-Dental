@@ -501,7 +501,9 @@ namespace OpenPmsDental.UI{
 		[DllImport("Direct2dWrapper.dll", CallingConvention = CallingConvention.Cdecl)]
 		public static extern int WrapperHwnd_Initialize(IntPtr pD2DWrapperHwnd);
 
+		///<summary>The C++ function returns a one-byte bool (D2DWrapperHwnd.cpp), not a four-byte BOOL: only the low byte of the result is meaningful.</summary>
 		[DllImport("Direct2dWrapper.dll", CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
 		public static extern bool WrapperHwnd_DeviceResourcesNeedRecreate(IntPtr pD2DWrapperHwnd);
 
 		[DllImport("Direct2dWrapper.dll", CallingConvention = CallingConvention.Cdecl)]
@@ -528,8 +530,9 @@ namespace OpenPmsDental.UI{
 		[DllImport("Direct2dWrapper.dll", CallingConvention = CallingConvention.Cdecl)]
 		public static extern int WrapperHwnd_EndDraw(IntPtr pD2DWrapperHwnd);
 		
+		///<summary>void in the C++ (D2DWrapperHwnd.cpp): there is no result to read.</summary>
 		[DllImport("Direct2dWrapper.dll", CallingConvention = CallingConvention.Cdecl)]
-		public static extern int WrapperHwnd_Delete(IntPtr pD2DWrapperHwnd);
+		public static extern void WrapperHwnd_Delete(IntPtr pD2DWrapperHwnd);
 		#endregion Initialize
 
 		//From here down everything is alphabetical-------------------------------------------------------------------
@@ -634,8 +637,9 @@ namespace OpenPmsDental.UI{
 		[DllImport("Direct2dWrapper.dll", CallingConvention = CallingConvention.Cdecl)]
 		public static extern void Wrapper_ReleaseDeviceResources(IntPtr pDirect2dWrapper);
 		
+		///<summary>void in the C++ (Direct2dWrapper.cpp): there is no result to read.</summary>
 		[DllImport("Direct2dWrapper.dll", CallingConvention = CallingConvention.Cdecl)]
-		public static extern int Wrapper_Delete(IntPtr pDirect2dWrapper);
+		public static extern void Wrapper_Delete(IntPtr pDirect2dWrapper);
 		#endregion Initialize
 
 		//From here down everything is alphabetical-------------------------------------------------------------------
