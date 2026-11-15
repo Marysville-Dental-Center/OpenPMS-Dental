@@ -526,7 +526,7 @@ namespace ToothChartImageTests {
 					+"shows them in its public screenshots (the owner's rule of 2026-11-14). PT-1: the watch mark \"W\" is plain text in the procedure's "
 					+"colour, regular weight, in the same place, without the white \"W\" DirectX 9 drew behind it as an outline. LOOK-2: unerupted teeth "
 					+"(the permanent teeth under primary teeth, and teeth moved more than 10 mm toward the root) are half-transparent, blended over the "
-					+"background after the opaque teeth, at alpha 0.63 measured from Open Dental's 2023 mixed-dentition screenshot (a 26.2 screenshot "
+					+"background beneath the opaque teeth (every opaque tooth covers them, as the screenshot's primary roots cover the permanent crowns), at alpha 0.63 measured from Open Dental's 2023 mixed-dentition screenshot (a 26.2 screenshot "
 					+"would settle it), where DirectX 9 drew them opaque at half colour. LOOK-4: the centre line between the arches is in the chart's "
 					+"text colour (the \"Text\" chart colour; \"Text on TPs\" on printouts), the colour of the numbers, instead of white. The parity "
 					+"captions still compare with DirectX 9's pictures: the unerupted teeth's probes are allowed per scene, and the centre line's rows are "

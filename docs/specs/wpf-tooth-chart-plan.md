@@ -606,8 +606,10 @@ either way.
 - **Transparency.** WPF does not sort transparent models by depth, so a transparent model shows only what was drawn before it and hides
   what comes after. With alpha 255 everywhere the 3D layer has no transparent material, and the problem never arises. A scene-builder
   test checks every 3D colour of every scene. **Since TC-3c (LOOK-2)** the chart's unerupted teeth are the one exception: alpha 161, as
-  Open Dental's DirectX 11 chart draws them, added after every opaque item so they blend over what is already drawn; the test checks that
-  order and that no other colour is below 255.
+  Open Dental's DirectX 11 chart draws them, beneath the opaque teeth: the scene keeps them apart (`ToothScene.Items3DUnder`), and the
+  renderer and the live view draw them in a viewport of their own under the opaque teeth's, so they blend over the background and every
+  opaque tooth covers them whatever their depth (Open Dental's 2023 mixed-dentition screenshot: the primary roots crisp over the pale
+  permanent crowns). The test checks that they are the only items beneath and that no other colour is below 255.
 - **Background.** Opaque, in the chart's background colour.
 
 ### 5.4 Threads, the renderer and the image path
@@ -736,7 +738,7 @@ either way.
 **What is tested:**
 1. **Scene-builder unit tests.** No WPF objects and no thread. For each paint type and each state: which groups get which colour,
    visibility, transform and winding; the 2D items and their order. Unerupted teeth are at half RGB with alpha 255. No 3D colour has
-   alpha below 255. (Since TC-3c: unerupted teeth in the chart at their own RGB with alpha 161, after every opaque item; the perio
+   alpha below 255. (Since TC-3c: unerupted teeth in the chart at their own RGB with alpha 161, beneath the opaque teeth; the perio
    chart keeps half RGB.)
 2. **Mesh tests** (TC-1, 5.2).
 3. **Image tests.** All images go through the product's own renderer. Under MSTest v1 they use the existing STA-thread pattern. After
@@ -1055,12 +1057,12 @@ repository). TC-5 takes its rows now (O-20, O-21 and O-22 above; and Change Colo
 below go to later packages; nothing is cut, and each package asks the owner before it changes a decided answer.
 
 **TC-3 look follow-up** (edits merged TC-3 code in `ToothSceneBuilder`; a small package or TC-6's first commit). **Done in package TC-3c,
-branch `chart/tc3c-1` (2026-11-15; `docs/port-notes/TC-3c.md`); merges after the owner approves gallery G4.**
+branch `chart/tc3c-1`, review fix `chart/tc3c-2` (2026-11-15; `docs/port-notes/TC-3c.md`); merges after the owner approves gallery G4.**
 
 | Row | Change | Open Dental source | Caveats |
 |---|---|---|---|
 | PT-1 | **Done (TC-3c).** Draw the "W" as plain text in the procedure's colour, regular weight, without the white outline (the place stays). | https://i0.wp.com/opendental.blog/wp-content/uploads/2024/08/Capture17.png?ssl=1 ; https://i0.wp.com/opendental.blog/wp-content/uploads/2026/10/image-6.png?ssl=1 | Implied from DirectX 11 screenshots; the colour of a TP "W" next to a Condition "W" needs a screenshot. The Simple 2D chart already drew it so (`ToothChart2D.cs:304-325`). |
-| LOOK-2 | **Done (TC-3c).** Unerupted teeth half-transparent, blended over the background after the opaque teeth (`ToothSceneBuilder` 187-191): their own colour at alpha 0.63 (161), measured from the 2023 screenshot (TC-3c.md 1.2). | https://i0.wp.com/opendental.blog/wp-content/uploads/2023/07/image-4.png?ssl=1 | Implied; od-unknown-refined: the alpha needs an Open Dental 26.2 Set Mixed Dentition screenshot. The perio chart keeps DirectX's look (PERIO-1); the Simple 2D chart has no unerupted look. |
+| LOOK-2 | **Done (TC-3c).** Unerupted teeth half-transparent, blended over the background beneath the opaque teeth (`ToothSceneBuilder` 187-191; every opaque tooth covers them, as the screenshot's primary roots cover the permanent crowns): their own colour at alpha 0.63 (161), measured from the 2023 screenshot (TC-3c.md 1.2). | https://i0.wp.com/opendental.blog/wp-content/uploads/2023/07/image-4.png?ssl=1 | Implied; od-unknown-refined: the alpha needs an Open Dental 26.2 Set Mixed Dentition screenshot. The perio chart keeps DirectX's look (PERIO-1); the Simple 2D chart has no unerupted look. |
 | LOOK-4 | **Done (TC-3c).** The centre line in the chart's text colour (the "Text" definition; "Text on TPs" on printouts: `ColorText`, the numbers' colour) instead of white. | https://i0.wp.com/odtechblog.wordpress.com/wp-content/uploads/2026/08/image-6.png?ssl=1 ; https://i0.wp.com/opendental.blog/wp-content/uploads/2024/08/Capture17.png?ssl=1 | Implied, from the module images only. Unsettled in the Big layout: its 2026 screenshot shows no centre line between the number rows. The highlight boxes are od-unknown and stay. The Simple 2D chart's line is part of its picture and already dark. |
 
 **TC-6** (revises O-23 and O-24 before it starts; the owner confirms):

@@ -2,7 +2,7 @@
 
 Package TC-3c of the WPF tooth chart track ([docs/specs/wpf-tooth-chart-plan.md](../specs/wpf-tooth-chart-plan.md), section 10's "Open
 Dental parity (2026-11-14)", table "TC-3 look follow-up", rows PT-1, LOOK-2 and LOOK-4; sections 2, 3, 5, 7 and 8): branch `chart/tc3c-1`
-from `main` (`7b1c76c55`). **Status: done; waiting for the owner's approval of gallery G4** (section 3), after which it merges. Nothing was
+from `main` (`7b1c76c55`), and its review fix `chart/tc3c-2` (section 1.2a: the unerupted teeth beneath the opaque teeth). **Status: done; waiting for the owner's approval of gallery G4** (section 3), after which it merges. Nothing was
 downloaded, no program was started and no program file outside `SparksToothChart` was edited; the tests rendered offscreen and ran in the
 lead's desktop session as the chart's other tests do.
 
@@ -14,7 +14,8 @@ this package (`Capture17.png`, the 2024 chart; `tb.png`, the 26.2 TextBelow imag
 
 Commits: `948463271` (the drawing and the scene, parity and renderer test changes), `b26fa3e47` (the 276 re-recorded baselines),
 `9cee85491` (the parity allowances and the blend test), `b669fa134` (the blend test's share from the build PC's run), then the docs
-commit.
+commit; on `chart/tc3c-2`: `a1eef2f59` (the unerupted teeth beneath the opaque teeth, with their tests), the re-recorded LOOK-2 baselines
+and the docs commit.
 
 ## 1. What each row asks, and how it is built
 
@@ -49,10 +50,13 @@ commit.
 - **Built:**
   - `GetGroupColor`: an unerupted tooth (ShiftO below -10, DirectX's rule) keeps its paint colour's RGB at alpha 161; every other group is
     opaque as before. Both views are translucent (the occlusal view of a permanent tooth is still not drawn under a shown primary tooth).
-  - `AddTooth` puts translucent items into `SceneBuilding.ListItems3DTranslucent`, and `AddChartScene` appends them to the 3D layer after
-    every opaque item (teeth and implants): WPF draws its models in order with depth testing and does not sort transparent ones (plan 5.3),
-    so the unerupted teeth blend over the background and over the opaque teeth in front of which they lie, and an opaque tooth in front of
-    them hides them.
+  - `AddTooth` puts translucent items into `SceneBuilding.ListItems3DUnder`, which becomes the scene's `ToothScene.Items3DUnder`, apart
+    from the opaque `Items3D` (teeth and implants). The renderer draws them in a `Viewport3DVisual` of its own beneath that of the opaque
+    teeth (the 3D layer's container: the background, the viewport beneath, the opaque viewport; one camera), and the live view
+    (`ToothChartWpfView`) likewise in a second `Viewport3D` beneath its own, in one grid under the bitmap cache. Each viewport has its own
+    depth buffer, so the unerupted teeth blend over the background, depth-tested among themselves, and **every opaque tooth covers them
+    whatever their depth** (section 1.2a). `IsSame3DLayer` compares both lists. A scene without an unerupted tooth has nothing beneath and
+    renders exactly as before.
   - `ToothChartRenderer.CreateMaterial`: the diffuse, specular and emissive brushes carry the colour's alpha. The diffuse pass blends at that
     alpha and WPF's additive specular and emissive passes add only that part of their light, so the tooth's whole lit colour is blended at
     0.63 (the new renderer test checks it pixel by pixel: `TranslucentTooth_IsItsOpaquePictureBlendedOverTheBackgroundAtItsAlpha`). With
@@ -63,6 +67,25 @@ commit.
   white background they are faint. A translucent tooth whose own front faces overlap (a root seen through a crown) can blend twice there,
   as any unsorted transparent mesh does; the renderer test allows for it (measured 88% of the tooth's pixels within 4 of the exact blend,
   mean -1.07; the test wants 80% and a mean within 2).
+
+### 1.2a LOOK-2's review fix (`chart/tc3c-2`): beneath the opaque teeth, not after them
+
+- **The finding:** `chart/tc3c-1` appended the translucent teeth to the 3D layer after the opaque items, drawn with depth testing (the
+  plan's first wording, "after the opaque teeth"). In the chart's scenes a permanent tooth lies in front of its primary tooth in depth, so
+  its pale crown veiled the primary tooth's root and crown top. Open Dental's screenshot shows the reverse, and the owner's rule (the look
+  of the latest Open Dental, as it shows publicly) comes before the plan's wording.
+- **The evidence, measured as green minus blue** (the beige root has a high G-B, the pale enamel and the cyan background a low one):
+  in `pedo.png` the primary root that crosses a pale permanent crown keeps its full opaque value, 20-21 (x 162-166, y 84-102, as on the
+  rest of the root), while the translucent crowns beside it read 4-5; in `chart/tc3c-1`'s `410x307/mixed-dentition.png` the same root read
+  12-14 where it crossed the crown (x 96-104, y 30-45), veiled at about 0.63. In `pedo.png`'s lower arch every primary root is crisp over
+  the pale permanent crowns, where `chart/tc3c-1`'s `primary-dentition` had the lower K-T roots under the ghost crowns.
+- **Built:** the translucent teeth are the scene's own collection, `ToothScene.Items3DUnder`, drawn in a 3D layer of their own beneath
+  the opaque teeth (section 1.2, "Built"). Drawing them first in the same viewport would not do: WPF writes depth for transparent models,
+  so a translucent tooth in front would still hide the opaque one behind it.
+- **After the fix:** the same root reads 20-22 in the re-recorded `410x307/mixed-dentition.png` (x 96-104, y 28-46), as in `pedo.png`, and
+  the lower primary roots of `primary-dentition` are crisp over the permanent crowns. The renderer test
+  `UneruptedTeeth_AreDrawnBeneathTheOpaqueTeeth_EvenInFrontOfThem` puts a translucent copy of a molar 20 mm in front of the opaque molar
+  and 4 mm to the side: inside the opaque tooth every pixel is the opaque tooth's alone, and beside it the copy's alone.
 
 ### 1.3 LOOK-4: the centre line in the chart's text colour
 
@@ -122,26 +145,34 @@ keep comparing what they compared, and what now differs from the DirectX recordi
 ### 1.6 Files
 
 - `SparksToothChart/Wpf3D/ToothSceneBuilder.cs`: `UneruptedAlpha`, `GetGroupColor` (translucent), `GetGroupColorPerio` (DirectX's rule),
-  `AddTooth` and `AddChartScene` (the order), `AddWatches` (no outline), `AddNumbersAndLines` and `SourceCentreLine` (the colour);
-  `GetFontWatchBig` and `FontWatchBig` removed.
-- `SparksToothChart/Wpf3D/ToothChartRenderer.cs`: `CreateMaterial` and `CreateBrush` keep the colour's alpha.
-- `SparksToothChart/Wpf3D/ToothScene.cs`: the doc of `ToothSceneItem3D.Color`.
-- Tests: `WpfSceneTests.cs`, `WpfRendererTests.cs`, `ParityProbeTests.cs`, `Support/ParityProbes.cs`, `WpfImageTests.cs` (G4's note),
-  `Scenes/ChartScenes.cs` (the descriptions of `unerupted-third-molars` and `shifto-unerupted`), and the WPF baselines.
+  `AddTooth` and `SceneBuilding.ListItems3DUnder` (the layer beneath), `AddWatches` (no outline), `AddNumbersAndLines` and
+  `SourceCentreLine` (the colour); `GetFontWatchBig` and `FontWatchBig` removed.
+- `SparksToothChart/Wpf3D/ToothChartRenderer.cs`: `CreateMaterial` and `CreateBrush` keep the colour's alpha; `BuildModelUnder` and the
+  render thread's second `Viewport3DVisual` beneath the opaque one.
+- `SparksToothChart/Wpf3D/ToothChartWpfView.cs`: the live view's second `Viewport3D` beneath its own (`CountModelsShownUnder` for tests).
+- `SparksToothChart/Wpf3D/ToothScene.cs`: `Items3DUnder` (in `IsSame3DLayer` and `Describe`), the doc of `ToothSceneItem3D.Color`.
+- Tests: `WpfSceneTests.cs`, `WpfRendererTests.cs`, `WpfLiveViewTests.cs`, `WpfMeshTests.cs`, `ParityProbeTests.cs`,
+  `Support/ParityProbes.cs`, `WpfImageTests.cs` (G4's note), `Scenes/ChartScenes.cs` (the descriptions of `unerupted-third-molars` and
+  `shifto-unerupted`), and the WPF baselines.
 
 ## 2. Tests
 
 ### 2.1 What was added or changed
 
-- `WpfSceneTests`: `EveryChartScene_HasOpaque3DColoursAndPolygons_ButUneruptedTeeth_AfterTheOpaqueItems` (every 3D colour is opaque or at
-  `UneruptedAlpha`, never an implant, and no opaque item follows a translucent one; over 1000 translucent items in the scenes);
+- `WpfSceneTests`: `EveryChartScene_HasOpaque3DColoursAndPolygons_ButUneruptedTeeth_BeneathTheOpaqueItems` (every item of `Items3D` is
+  opaque; every item of `Items3DUnder` is at `UneruptedAlpha` and never an implant; over 1000 translucent items in the scenes);
   `SemiTransparentColours_ComeOutOfEveryBuilderColourPath_Opaque_OrAtTheUneruptedAlpha` (the alpha is the builder's, whatever the colour's
-  own; the perio chart's unerupted tooth stays opaque at half RGB); `UneruptedTeeth_AreTranslucentAtTheirOwnRgb_AfterEveryOpaqueItem` (both
-  views, after an implant, the -10 limit, the perio rule); `Items2D_ComeInDirectXOrder` (no outline item; one "W" per watched tooth, Arial
+  own; the unerupted tooth is the only item beneath; the perio chart's unerupted tooth stays opaque at half RGB, with nothing beneath);
+  `UneruptedTeeth_AreTranslucentAtTheirOwnRgb_BeneathEveryOpaqueItem` (both views, beneath and only they, the implant opaque, the -10
+  limit, `IsSame3DLayer` counting the layer beneath, the perio rule); `Items2D_ComeInDirectXOrder` (no outline item; one "W" per watched tooth, Arial
   400 in the procedure's colour; the centre line in the numbers' colour); `CentreLine_IsInTheChartTextColour_Opaque`.
 - `WpfRendererTests.TranslucentTooth_IsItsOpaquePictureBlendedOverTheBackgroundAtItsAlpha`: one tooth's facial view rendered opaque and at
-  the alpha over the module background; the translucent picture is the opaque one blended at 0.63 (at least 80% of the tooth's pixels
-  within 4 per channel, 88% measured; mean difference within 2).
+  the alpha in the layer beneath over the module background; the translucent picture is the opaque one blended at 0.63 (at least 80% of
+  the tooth's pixels within 4 per channel, 88% measured; mean difference within 2).
+- `WpfRendererTests.UneruptedTeeth_AreDrawnBeneathTheOpaqueTeeth_EvenInFrontOfThem` (`chart/tc3c-2`, section 1.2a).
+- `WpfLiveViewTests`: the 3D layer's cached border holds a grid of two `Viewport3D`s; restored-adult has no model beneath, and a refill to
+  `mixed-dentition` shows its `Items3DUnder` as the models beneath and its `Items3D` as the opaque ones. `WpfMeshTests` checks the
+  front faces of the items beneath too.
 - `ParityProbeTests` and `Support/ParityProbes.cs`: section 1.5.
 
 ### 2.2 The baselines
@@ -184,6 +215,10 @@ of both layers; the manifest is that of the recording. The reasons:
   `shifto-unerupted`, `filling-primary`, `crown-primary`, `extraction-primary`, `rct-primary`, `sealant-primary`, `text-watch-primary`,
   `select-primary-letter`, `extraction-completed-graphic-primary`, `text-below-cut-to-fit`, `text-other-moved-and-missing`. The
   descriptions of `unerupted-third-molars` and `shifto-unerupted` now say both looks, so their `.txt` changed in that line too.
+- **The review fix (`chart/tc3c-2`, section 1.2a) re-recorded only these 36 LOOK-2 pictures** (the same 18 scenes at 410x307 and
+  500x370), their unerupted teeth now beneath the opaque teeth: recorded in `tc3c2-record-1` (scratch folder) at `a1eef2f59`, each
+  repeatable and the same in a fresh render of both layers, copied with their `.txt` and their 36 manifest rows. The other 261 pictures
+  (the 21 perio pictures included) had exactly their committed pixels and keep their bytes.
 
 The legacy recordings (DirectX, OpenGL, Simple 2D, smoothed), the Simple 2D baselines and the call logs are untouched.
 
@@ -204,6 +239,14 @@ The legacy recordings (DirectX, OpenGL, Simple 2D, smoothed), the Simple 2D base
 - `tc3c-final-2.txt` (at `b669fa134`, after the full build of `OpenDental.Local.slnf`, 0 errors): **ToothChartImageTests 229: 225 passed,
   0 failed, 4 skipped** (the legacy recorder and its comparison, the gallery writer without `OPMS_CHART_GALLERY`, and the opt-in on-screen
   times); **BINATests 31, BPERIOTests 55 and NoHqTests 94 passed.**
+- **The review fix (`chart/tc3c-2`):** builds through the lane (`ToothChartImageTests` alone, then the full build of
+  `OpenDental.Local.slnf`, 0 errors). `tc3c2-record-1.txt` (the recording at `a1eef2f59` into `tc3c2-record-1`, `OPMS_PARITY_FRESH=1`):
+  ToothChartImageTests 230: 226 passed, 0 failed, 4 skipped; it recorded 297 pictures, 36 changed (section 2.2). `tc3c2-final.txt` (at
+  `226886e8d`, after the full build, with gallery G4 written by the same run): **ToothChartImageTests 230: 227 passed, 0 failed, 3
+  skipped** (the legacy recorder and its comparison, and the opt-in on-screen times); **BINATests 31, BPERIOTests 55 and NoHqTests 94
+  passed.** The WPF gate 297 of 297 pictures with exactly their `.txt`'s pixels; the parity probes as before (16852: 16356 pass, 496 allowed
+  in the same 15 scenes, 0 fail; every allowance still covers a probe); the text boxes as before (8633: 47 allowed, 0 off); the live view
+  against the renderer 1090 probes, 0 fail.
 - The call-log and database tests of ToothChartImageTests use their own scratch database as before; TC-3c adds no database test.
 - `tools/Test-NoEolFlips.ps1` against `main`: no file changed its line ends.
 
@@ -211,18 +254,25 @@ The legacy recordings (DirectX, OpenGL, Simple 2D, smoothed), the Simple 2D base
 
 On the build PC, outside the repository like G1 to G3, in the main checkout's `.git/od-tools/test-results/`:
 
+Written again for the review fix (`chart/tc3c-2` at `226886e8d`, run `tc3c2-final`); the first G4 (`chart/tc3c-1`) was not shown to the
+owner.
+
 - **`tc3c-gallery-G4/g4-tc3c.html`** (also alone with its pictures in `tc3c-gallery-G4-tc3c-scenes.zip`, 86 MB): the page to show the
   owner, in G2's table layout. Its head says what each row changes, the measured alpha and the Text definition. One row per changed scene
   (135 scenes, 276 pictures), the scenes with a "W" (PT-1) first, then those with unerupted teeth (LOOK-2), then the rest (LOOK-4 only);
   each row has today's DirectX 9 picture (TC-0's recording), the WPF picture before (the approved one, `main` at `7b1c76c55`, as G3 left
   it), the WPF picture now with its parity caption, and the Open Dental screenshot it follows (`od/`: `Capture17.png` and `tb.png` for
-  PT-1 and LOOK-4, `pedo.png` for LOOK-2, each with its URL). Made by `tc3c-make_g4_tc3c.py` in the same folder from the gallery's own
-  `index.html` and `ChartScenes.cs`; the approved pictures were copied into the gallery's `approved/` from `main`'s baselines.
-- **`tc3c-gallery-G4/index.html`** (the whole folder in `tc3c-gallery-G4.zip`, 175 MB, zipped with `tools/New-ToothChartGallery.ps1
+  PT-1 and LOOK-4, `pedo.png` for LOOK-2, each with its URL). The head also says what the review changed (section 1.2a, with the
+  measurements), and the 18 LOOK-2 scenes have one more column, "WPF first G4", with `chart/tc3c-1`'s picture (the ghost crowns over the
+  primary roots), so the owner sees the fix; the 36 LOOK-2 rows were checked against `pedo.png` (the primary roots crisp over the pale
+  permanent crowns). Made by `tc3c2-make_g4_tc3c.py` in the same folder (`tc3c-make_g4_tc3c.py` with the fix's text and column) from the
+  gallery's own `index.html` and `ChartScenes.cs`; the approved pictures were copied into the gallery's `approved/` from `main`'s
+  baselines, and `chart/tc3c-1`'s pictures into `tc3c-1/`.
+- **`tc3c-gallery-G4/index.html`** (the whole folder in `tc3c-gallery-G4.zip`, 215 MB, zipped with `tools/New-ToothChartGallery.ps1
   -NoTestRun`): the full gallery (WriteGallery with `OPMS_CHART_GALLERY_NAME=G4` and the approved pictures of `main`). 291 of 291 WPF
   pictures have exactly the pixels of this branch's baselines; the 276 of the normal chart differ from the approved ones (the centre line
-  at least), the 15 perio pictures are the same; every DirectX parity caption passes (263 of 263). The render times: a refill with its
-  picture 408 ms at 410x307 (median), a selection-only change 10.5 ms.
+  at least), the 15 perio pictures are the same; every DirectX parity caption passes (264 of 264). The render times: a refill with its
+  picture 381 ms at 410x307 (median), a selection-only change 13.8 ms.
 - The owner's answer goes into `docs/owner-questions.md` with the commit and the date (plan section 8). TC-3c merges only after it.
 
 ## 4. Od-unknown left
