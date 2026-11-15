@@ -304,9 +304,16 @@ namespace NoHqTests {
 				"process.Start();"
 			},"1 new Process","2 new ProcessStartInfo");
 			AssertProblems(new[] { "private Process _process;","private void Open() {","\t_process=new();","\t_process.Start();","}" },"3 new Process");
+			//Nullable declarations, which come with the same language version as new().
+			AssertProblems(new[] { "ProcessStartInfo? psi=new(path);","ODFileUtils.ProcessStart(psi);" },"1 new ProcessStartInfo");
+			AssertProblems(new[] { "private Process? _process;","_process=new();","_process.Start();" },"2 new Process");
 			//Good lines.
 			AssertProblems(new[] { "Process process=new();","process.StartInfo.UseShellExecute=true;","process.Start();" });
 			AssertProblems(new[] { "ProcessStartInfo processStartInfo=new(path) { UseShellExecute=true };","Process.Start(processStartInfo);" });
+			AssertProblems(new[] { "ProcessStartInfo? psi=new(path) { UseShellExecute=true };","Process.Start(psi);" });
+			AssertProblems(new[] { "private Process? _process;","_process=new() { StartInfo=new() { UseShellExecute=true } };","_process.Start();" });
+			Assert.AreEqual(3,Scan(new[] { "ProcessStartInfo? psi=new(path) { UseShellExecute=true };","private Process? _process;",
+				"_process=new() { StartInfo=new() { UseShellExecute=true } };" },false).CountConstructions);
 			AssertProblems(new[] { "using Process process=new() {","\tStartInfo=new() { FileName=path, UseShellExecute=true }","};","process.Start();" });
 			Assert.AreEqual(2,Scan(new[] { "Process process=new() {","\tStartInfo=new() { UseShellExecute=true }","};" },false).CountConstructions);
 			//Other types' new() are not constructions.
@@ -370,6 +377,16 @@ namespace NoHqTests {
 			AssertProblems(new[] { "ProcessStartInfo processStartInfo=ForkReleases.GetFileCopierStartInfo(path,args);","Process.Start(processStartInfo);" },
 				"2 Process.Start");
 			AssertProblems(new[] { "foreach(ProcessStartInfo processStartInfo in listStartInfos) {","\tProcess.Start(processStartInfo);","}" },"2 Process.Start");
+			//A parameter with the name of an earlier method's checked construction: the earlier assignment's scope closed before the call.
+			AssertProblems(new[] {
+				"void A() {",
+				"\tProcessStartInfo psi=new ProcessStartInfo(x) { UseShellExecute=true };",
+				"\tProcess.Start(psi);",
+				"}",
+				"void B(ProcessStartInfo psi) {",
+				"\tProcess.Start(psi);",
+				"}"
+			},"6 Process.Start");
 			//Reassigned after its construction.
 			AssertProblems(new[] {
 				"ProcessStartInfo processStartInfo=new ProcessStartInfo(path) { UseShellExecute=true };",
@@ -514,7 +531,7 @@ namespace NoHqTests {
 			if(nameLast=="StartInfo") {
 				return "ProcessStartInfo";
 			}
-			Match match=Regex.Match(code,@"\b(?:"+PATTERN_QUALIFIER+@")(Process|ProcessStartInfo)\s+"+Regex.Escape(nameLast)+@"\b(?!\s*\()");
+			Match match=Regex.Match(code,@"\b(?:"+PATTERN_QUALIFIER+@")(Process|ProcessStartInfo)\s*\??\s+"+Regex.Escape(nameLast)+@"\b(?!\s*\()");
 			return match.Success ? match.Groups[1].Value : null;
 		}
 
@@ -671,6 +688,20 @@ namespace NoHqTests {
 			}
 			if(matchLast==null) {
 				return false;
+			}
+			//A closing brace between the assignment and the call closes the scope the assignment was in: the name at the call is another
+			//variable, such as a later method's parameter of the same name (S3a-2f). The same rule as GetBlock's.
+			int depth=0;
+			for(int i=matchLast.Index;i<indexCall;i++) {
+				if(code[i]=='{') {
+					depth++;
+				}
+				else if(code[i]=='}') {
+					depth--;
+					if(depth<0) {
+						return false;
+					}
+				}
 			}
 			string textAssigned=code.Substring(matchLast.Index+matchLast.Length);
 			if(Regex.IsMatch(textAssigned,patternNewStartInfo)) {
