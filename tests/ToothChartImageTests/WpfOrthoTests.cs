@@ -155,13 +155,10 @@ namespace ToothChartImageTests {
 			Assert.IsTrue(xFront>xMin && xFront<xMax && yFront>yMin && yFront<yMax,name+": the bracket's middle is on the crown.");
 			Assert.AreNotEqual(float.MinValue,zUnder,name);
 			Assert.IsTrue(zFront>zUnder,name+": the bracket's face ("+zFront+") is in front of the crown under it ("+zUnder+").");
-			//About 4 mm from the incisal or occlusal edge: in the crown's half nearer that edge.
-			if(ToothGraphic.IsMaxillary(toothGraphic.ToothID)) {
-				Assert.IsTrue(yFront<(yMin+yMax)/2f,name);
-			}
-			else {
-				Assert.IsTrue(yFront>(yMin+yMax)/2f,name);
-			}
+			//About 4 mm from the incisal or occlusal edge (the crown's lowest point on the maxilla, its highest on the mandible), within the tilts of
+			//the moved teeth.
+			float fromEdge=ToothGraphic.IsMaxillary(toothGraphic.ToothID) ? yFront-yMin : yMax-yFront;
+			Assert.IsTrue(fromEdge>2.5f && fromEdge<5.5f,name+": "+fromEdge+" mm from the edge.");
 		}
 
 		[TestMethod]
@@ -369,7 +366,11 @@ namespace ToothChartImageTests {
 				ChartMatrix worldBracket=ToothSceneBuilder.GetBracketWorld(wrapper.TcData,wrapper.TcData.ListToothGraphics["3"]);
 				PointF pointBase=sceneBracket.ProjectToImage(worldBracket,0,-0.7f,ToothSceneBuilder.BracketBaseFrontMm);
 				Color colorBase=bitmapBracket.GetPixel((int)pointBase.X,(int)pointBase.Y);
-				Assert.IsTrue(colorBase.R>160 && colorBase.R<190 && Math.Abs(colorBase.R-colorBase.B)<=3,"The bracket's lit base: "+colorBase);
+				Assert.IsTrue(colorBase.R>170 && colorBase.R<187 && Math.Abs(colorBase.R-colorBase.B)<=3,"The bracket's lit, matte base: "+colorBase);
+				//A tie wing: 0.7 of the colour, lit (ortho9: 124).
+				PointF pointWing=sceneBracket.ProjectToImage(worldBracket,0.775f,-0.7f,ToothSceneBuilder.BracketBaseFrontMm+ToothSceneBuilder.BracketWingDepthMm);
+				Color colorWing=bitmapBracket.GetPixel((int)pointWing.X,(int)pointWing.Y);
+				Assert.IsTrue(colorWing.R>110 && colorWing.R<140,"A tie wing: "+colorWing);
 			});
 		}
 

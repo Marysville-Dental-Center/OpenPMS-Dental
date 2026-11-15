@@ -1105,6 +1105,8 @@ namespace SparksToothChart.Wpf3D {
 		public const float BracketSlotHeightMm=0.6f;
 		///<summary>The wings' colour: the bracket's colour times this (ortho9: wings about 124 against a base of 180).</summary>
 		public const float BracketWingShade=0.7f;
+		///<summary>The specular value of the boxes (brackets, bars): none, as ortho9's brackets (a lit silver base of 180, not a highlight).</summary>
+		public const float SpecularBox=0f;
 		///<summary>The width of a wire or an elastic, in mm: one pixel at the module's size (410 pixels across 130 mm), as ortho9's wires and
 		///elastics (ORTHO-2: thin lines of about 1 to 2 pixels).</summary>
 		public const float OrthoLineWidthMm=0.32f;
@@ -1272,12 +1274,13 @@ namespace SparksToothChart.Wpf3D {
 		}
 
 		///<summary>One box of ToothSceneShapes.Box in the 3D layer: the unit box scaled to the size, moved to the centre, then by world. Lit like the
-		///teeth, or unlit in its colour exactly when isFlat.</summary>
+		///teeth but matte (no specular part: ortho9's brackets show none, a silver base 180 and its wings 124, which the diffuse and ambient parts
+		///give: 178 and 124), or unlit in its colour exactly when isFlat.</summary>
 		private static void AddBox(SceneBuilding building,ChartMatrix world,float x,float y,float z,float width,float height,float depth,Color color,
 			string source,bool isFlat=false)
 		{
 			ChartMatrix transform=ChartMatrix.Scaling(width,height,depth)*ChartMatrix.Translation(x,y,z)*world;
-			building.ListItems3D.Add(new ToothSceneItem3D(ToothSceneShapes.Box,0,ToothGroupType.None,Color.FromArgb(255,color),SpecularNormal,transform,source,
+			building.ListItems3D.Add(new ToothSceneItem3D(ToothSceneShapes.Box,0,ToothGroupType.None,Color.FromArgb(255,color),SpecularBox,transform,source,
 				isFlat));
 		}
 
