@@ -188,12 +188,16 @@ namespace MiddleTierMockTests {
 		}
 
 		private void ODThread_RunParallel_IsSynchronous(bool isLegacy) {
-			int timeoutMS=1;
+			//Long enough that the pool thread surely reaches the action before the timeout: a Join that times out first sets HasQuit, and then no
+			//action starts at all (on a loaded machine starting the thread can take longer than a timer tick).
+			int timeoutMS=1000;
 			object testObject=null;
+			ManualResetEventSlim manualResetEventActionStarted=new ManualResetEventSlim(false);
 			ManualResetEventSlim manualResetEventRunParallelFinished=new ManualResetEventSlim(false);
 			ManualResetEventSlim manualResetEventActionEnded=new ManualResetEventSlim(false);
 			List<Action> listActions=new List<Action>();
 			listActions.Add(() => {
+				manualResetEventActionStarted.Set();
 				try {
 					//Wait here until ODThread.RunParallel finishes (bounded, so that a failing test cannot leave the thread behind for long).
 					manualResetEventRunParallelFinished.Wait(TimeSpan.FromSeconds(30));
@@ -205,6 +209,8 @@ namespace MiddleTierMockTests {
 			});
 			int numThreads=4;//Mimic what is used in AccountModules.GetAll(...).
 			ODThread.RunParallel(listActions,timeoutMS,numThreads,isLegacy:isLegacy);
+			Assert.IsTrue(manualResetEventActionStarted.IsSet,"isLegacy="+isLegacy+": the action had not started when the "+timeoutMS+" ms timeout was "
+				+"reached (the machine was too slow to start the thread); the test cannot check anything further.");
 			Assert.IsNull(testObject,"isLegacy="+isLegacy+": RunParallel returned at the timeout, before the action finished.");
 			manualResetEventRunParallelFinished.Set();
 			//The thread was not aborted: the action finishes on its own.
@@ -307,12 +313,16 @@ namespace MiddleTierMockTests {
 		}
 
 		private void ODThread_RunParallel_TimeoutStartsNoFurtherAction(bool isLegacy) {
+			//Long enough that the pool thread surely reaches the first action before the timeout (see ODThread_RunParallel_IsSynchronous).
+			int timeoutMS=1000;
+			ManualResetEventSlim manualResetEventFirstStarted=new ManualResetEventSlim(false);
 			ManualResetEventSlim manualResetEventGo=new ManualResetEventSlim(false);
 			ManualResetEventSlim manualResetEventFirstEnded=new ManualResetEventSlim(false);
 			bool hasFirstRun=false;
 			bool hasSecondRun=false;
 			List<Action> listActions=new List<Action>();
 			listActions.Add(() => {
+				manualResetEventFirstStarted.Set();
 				try {
 					manualResetEventGo.Wait(TimeSpan.FromSeconds(30));
 					hasFirstRun=true;
@@ -322,7 +332,9 @@ namespace MiddleTierMockTests {
 				}
 			});
 			listActions.Add(() => hasSecondRun=true);
-			ODThread.RunParallel(listActions,50,numThreads:1,isLegacy:isLegacy);
+			ODThread.RunParallel(listActions,timeoutMS,numThreads:1,isLegacy:isLegacy);
+			Assert.IsTrue(manualResetEventFirstStarted.IsSet,"isLegacy="+isLegacy+": the first action had not started when the "+timeoutMS+" ms timeout "
+				+"was reached (the machine was too slow to start the thread); the test cannot check anything further.");
 			Assert.IsFalse(hasFirstRun,"isLegacy="+isLegacy+": RunParallel returned at the timeout.");
 			manualResetEventGo.Set();
 			Assert.IsTrue(manualResetEventFirstEnded.Wait(TimeSpan.FromSeconds(30)));
