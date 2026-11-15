@@ -1508,7 +1508,8 @@ Added for decision 20 (self-contained), read-only on the build PC on 2026-11-08:
 
 ## 10. The update path for an office (from the .NET Framework build to the .NET 10 build)
 
-1. **Bridge release first (end of 3a).** The last .NET Framework release, x86, published through the normal self-update and installed on
+1. **Bridge release first (end of 3a). Skipped by decision 21 (2026-11-15):** no .NET Framework release follows 0.0; the office installs
+   the .NET 10 setup after uninstalling 0.0. The text below is kept as the design the guards were built for. The last .NET Framework release, x86, published through the normal self-update and installed on
    every workstation. It carries all 3a changes, the one-time PasswordVault to Credential Manager migration (S3a-5), the 32-bit helper
    program for QuickBooks Desktop, Schick CDR, Topaz and Guru (S3a-13, S3a-14), and the two release-channel guards (S3a-10): an
    unreadable manifest is refused instead of treated as "nothing published", and a release that names another runtime or another
@@ -1684,6 +1685,17 @@ The owner answered the plan's questions "as recommended", with the corrections b
     runtime changes, so normal updates stay small (S3b-7); the runtime packs come from the offline folder (batch D); a Middle Tier host
     needs no ASP.NET Core runtime (batch C, section 10 step 4); the first install and each runtime change carry the full runtime, and a
     workstation's program folder grows to about 400 MB (section 10 step 3).
+21. **No bridge release (owner, 2026-11-15: "skip Bridge release").** Stage 3a still ends with its gate: the Full runs, the Release dry
+    run, the x64 test runs and the launch checks. But no .NET Framework release is published after 0.0. The office goes from 0.0
+    straight to the .NET 10 x64 setup. The 0.0 uninstall comes first on every workstation, as the release notes already say. The 3a changes
+    reach the office with the .NET 10 release. Consequences, carried into 3b (S3b-7 re-reads section 10 with this decision):
+    - **No .NET Framework rollback installer** newer than 0.0. Going back means 0.0's setup, or the .NET 10 release before it.
+    - **The x64 release must not be published while any 0.0 install remains.** 0.0 reads a manifest it cannot parse as "nothing
+      published" and would publish over it (S3a-10, section 7). This is the same rule as before, now without the bridge's guards in between.
+    - **The bridge-only launch checks** (a self-update from a standard user on the bridge build, the forward switch over a bridge release)
+      become 3b's checks on the .NET 10 build.
+    - **S3a-10's bridge-side code stays**, under the no-cut rule. It guards any .NET Framework build that might still run (a developer's
+      Debug build, or a later decision to publish one), and its tests stay.
 
 Also recorded for the update path: the Middle Tier client and server switch together (it has never shipped to an office); saved
 passwords get a one-time migration from PasswordVault to the Credential Manager (S3a-5). Also answered on 2026-11-08: signed e-mail

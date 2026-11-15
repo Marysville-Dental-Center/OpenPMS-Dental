@@ -979,6 +979,11 @@ and E-10b), where each is set out in full with its recommendation. You first ans
   - **Emdeon Dental's eligibility request (270)** writes ISA06 as `316:` plus the clearinghouse login, as upstream does; 316 may be Open
     Dental Inc's vendor number at Emdeon. Recommended: leave it until an office uses Emdeon for eligibility, then confirm with Emdeon.
 
+- **The bridge release:** your decision (2026-11-15): "skip Bridge release". Stage 3a ends with its gate and no .NET Framework release.
+  The office goes from 0.0 to the .NET 10 setup, uninstalling 0.0 on every workstation first. Net10-plan decision 21 lists the
+  consequences: no newer .NET Framework rollback installer, the x64 release is never published while a 0.0 install remains, and the
+  bridge-only launch checks move to 3b.
+
 ## Not asked again (already settled)
 
 - How package migration levels are numbered (B-ACCT 2, B-PRINT 1, B-SHELL 6, M2-EST 1, M2-UDS 1, V-BRIDGE1 2, V-PEARL2 1, M2-SHELL's old question 4): decided on 2026-11-01 and done: the package steps now have dated levels 2026110101 to 2026110104, and new steps always go above the highest one.
