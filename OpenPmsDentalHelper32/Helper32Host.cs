@@ -75,7 +75,8 @@ namespace OpenPmsDentalHelper32 {
 		}
 	}
 
-	///<summary>The modules of the helper: QuickBooks Desktop (S3a-13); Schick CDR, Topaz and Guru (S3a-14). Nothing else changes for a new module.
+	///<summary>The modules of the helper: QuickBooks Desktop (S3a-13); Schick CDR, Topaz and Guru (S3a-14); Mediadent / CADI (N64-A3). Nothing
+	///else changes for a new module.
 	///Each constructor only stores its delegates: the vendor code loads on the module's first command (IHelper32Module).</summary>
 	internal static class Helper32Modules {
 		public static List<IHelper32Module> CreateModules(System.IO.Pipes.PipeStream pipe,HelperArguments helperArguments) {
@@ -85,6 +86,7 @@ namespace OpenPmsDentalHelper32 {
 			listModules.Add(new Schick.SchickModule());
 			listModules.Add(new Topaz.TopazModule());
 			listModules.Add(new Guru.GuruModule());
+			listModules.Add(new Cadi.CadiModule());
 			if(helperArguments.TestModuleAssembly!=null) {
 				//A test's module takes the place of a module of the same name (VendorDirectTests' stand-in for QuickBooks).
 				listModules.RemoveAll(x => x.Name==helperArguments.TestModuleName);

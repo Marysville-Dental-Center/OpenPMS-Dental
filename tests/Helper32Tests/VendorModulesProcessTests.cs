@@ -3,6 +3,7 @@
 // they do not know (which proves the module is there and loaded nothing), and Topaz gets the synthetic control of tests\TopazStandIn. Nothing
 // shows a window: the pump test's window is never made visible. Each test starts copies of the helper from this folder and ends them;
 // HelperTestBase checks that none is left.
+// N64-A3 added the Mediadent / CADI module to the unknown-command check (it makes no window and no CADI object before its command).
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
 using System.Collections.Generic;
@@ -17,6 +18,7 @@ using CodeBase;
 using Helper32Tests.Support;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenPmsDentalHelper32;
+using OpenPmsDentalHelper32.Cadi;
 using OpenPmsDentalHelper32.Guru;
 using OpenPmsDentalHelper32.Schick;
 using OpenPmsDentalHelper32.Topaz;
@@ -42,7 +44,7 @@ namespace Helper32Tests {
 		public void TheVendorModules_AreInTheHelper_AndLoadNothingUntilTheirCommands() {
 			HelperCopy helperCopy=NewCopy();
 			using(Helper32Client client=new Helper32Client(helperCopy.PathExe)) {
-				foreach(string module in new[] { SchickCommands.MODULE,TopazCommands.MODULE,GuruCommands.MODULE }) {
+				foreach(string module in new[] { SchickCommands.MODULE,TopazCommands.MODULE,GuruCommands.MODULE,CadiCommands.MODULE }) {
 					Helper32Exception exception=Assert.ThrowsExactly<Helper32Exception>(() => client.Call(module,"NoSuchCommand",_timeSpanCall));
 					Assert.AreEqual(Helper32Failure.Remote,exception.Failure);
 					StringAssert.Contains(exception.Message,"module has no command NoSuchCommand","The helper has the module "+module+".");

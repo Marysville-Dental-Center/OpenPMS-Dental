@@ -6,6 +6,9 @@
 // (an out-of-process server, or an in-process server registered for this bitness); otherwise the 32-bit helper program's module runs it
 // (OpenPmsDentalHelper32, S3a-13 and S3a-14), the fallback. In a 32-bit process the helper, itself 32-bit, can run nothing the process cannot,
 // so a 32-bit program always chooses its own process and behaves as before S3a-13 and S3a-14.
+// N64-A3 (docs/port-notes/N64-A3.md) added Mediadent / CADI: a late-bound automation server whose ProgID's registration is read in both
+// registry views first (ComServerRegistration), and whose activation or first call failing in a way that says this process cannot reach the
+// server (ChooseHelperAfterFailure) moves the choice to the helper.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
 using System.Collections.Generic;
@@ -33,6 +36,11 @@ namespace CodeBase {
 		public const int REGDB_E_CLASSNOTREG=unchecked((int)0x80040154);
 		///<summary>The server process could not be started.</summary>
 		public const int CO_E_SERVER_EXEC_FAILURE=unchecked((int)0x80080005);
+		///<summary>No such interface: a server's interface cannot be reached from this process (no proxy for it registered for this bitness).
+		///Also the HResult of an InvalidCastException from a failed QueryInterface of a COM object.</summary>
+		public const int E_NOINTERFACE=unchecked((int)0x80004002);
+		///<summary>The type library is not registered (for this bitness).</summary>
+		public const int TYPE_E_LIBNOTREGISTERED=unchecked((int)0x8002801D);
 		///<summary>Topaz's SigPlusNET.dll, a managed WinForms control (TopazWrapper). The current one is AnyCPU (Topaz's FAQ); an older one may be
 		///32-bit only.</summary>
 		public static readonly NativeFirstChooser Topaz=new NativeFirstChooser("Topaz SigPlusNET.dll");
@@ -42,6 +50,9 @@ namespace CodeBase {
 		public static readonly NativeFirstChooser Guru=new NativeFirstChooser("Guru MedVisorInterface.dll");
 		///<summary>QuickBooks Desktop's QBFC 10 session manager, an in-process COM server that is 32-bit only (QuickBooks.cs).</summary>
 		public static readonly NativeFirstChooser QuickBooksDesktop=new NativeFirstChooser("QuickBooks Desktop QBFC 10 (QBSessionManager)");
+		///<summary>Mediadent / CADI's automation server, Mediadent.Application (CADI.cs, N64-A3), called late-bound through IDispatch. Very
+		///probably a 32-bit server program of its own (LocalServer32), which a 64-bit caller reaches as well.</summary>
+		public static readonly NativeFirstChooser Cadi=new NativeFirstChooser("Mediadent / CADI (the Mediadent.Application automation server)");
 
 		private readonly object _lock=new object();
 		private readonly string _vendorName;
@@ -186,11 +197,73 @@ namespace CodeBase {
 			return hResult==REGDB_E_CLASSNOTREG || hResult==CO_E_SERVER_EXEC_FAILURE;
 		}
 
+		///<summary>The choice for a COM class created late-bound from its ProgID (Mediadent / CADI, N64-A3), made from its registration
+		///(funcReadRegistration, ComServerRegistration.Read; read only) when it is the first: this process when a LocalServer32 is registered in
+		///either registry view (a server program of its own, which COM starts for a caller of either bitness) or an InprocServer32 for this
+		///process's bitness; the 32-bit helper (in a 64-bit process) when the only server is an InprocServer32 of the other bitness. A class
+		///registered nowhere, or a registry that cannot be read, gives this process without fixing the choice: creating the class there reports
+		///what it did before (the vendor's program is not installed), and the next call reads the registry again.</summary>
+		public VendorPath ChooseForComServer(Func<ComServerRegistration> funcReadRegistration) {
+			lock(_lock) {
+				if(_vendorPath!=null) {
+					return _vendorPath.Value;
+				}
+				ComServerRegistration comServerRegistration;
+				try {
+					comServerRegistration=funcReadRegistration();
+				}
+				catch(Exception ex) {
+					ex.DoNothing();//Read only, and nothing else depends on it: the activation reports what it did before.
+					return VendorPath.InProcess;
+				}
+				if(comServerRegistration==null || !comServerRegistration.IsRegistered) {
+					return VendorPath.InProcess;
+				}
+				bool is64BitProcess=_is64BitProcessOverride??Environment.Is64BitProcess;
+				return SetChoice(comServerRegistration.CanCreateFrom(is64BitProcess),comServerRegistration.Describe());
+			}
+		}
+
+		///<summary>After the vendor's COM object failed in this process (its activation or a call), true when the 32-bit helper is chosen now
+		///or was chosen before: the failure says this process cannot reach the server (IsComServerUnreachableHere: REGDB_E_CLASSNOTREG,
+		///CO_E_SERVER_EXEC_FAILURE, E_NOINTERFACE, TYPE_E_LIBNOTREGISTERED) and the process is 64-bit. The new choice is logged with the failure;
+		///the caller decides whether to retry this call in the helper or to show its message and send the next call there. False in a 32-bit
+		///process, whose helper could reach nothing this process cannot (the vendor code's failure shows as before), and for any other failure.
+		///</summary>
+		public bool ChooseHelperAfterFailure(Exception ex) {
+			lock(_lock) {
+				if(!IsComServerUnreachableHere(ex)) {
+					return false;
+				}
+				if(!(_is64BitProcessOverride??Environment.Is64BitProcess)) {
+					return false;
+				}
+				if(_vendorPath==VendorPath.Helper32) {
+					return true;
+				}
+				SetChoice(VendorPath.Helper32,"it failed in this process with 0x"+GetHResult(ex).ToString("X8")+" ("+ex.GetType().Name+": "
+					+ex.Message.Trim()+")"+(_vendorPath==null ? "" : ", after this process had been chosen ("+_reason+")"));
+				return true;
+			}
+		}
+
+		///<summary>True for the failures that say a COM server cannot be reached from this process (also inside a TargetInvocationException):
+		///the class is not registered for this bitness (REGDB_E_CLASSNOTREG), its server program could not start (CO_E_SERVER_EXEC_FAILURE), or
+		///its interface cannot be reached from here (E_NOINTERFACE, also an InvalidCastException from a failed QueryInterface;
+		///TYPE_E_LIBNOTREGISTERED).</summary>
+		public static bool IsComServerUnreachableHere(Exception ex) {
+			int hResult=GetHResult(ex);
+			return hResult==REGDB_E_CLASSNOTREG || hResult==CO_E_SERVER_EXEC_FAILURE || hResult==E_NOINTERFACE || hResult==TYPE_E_LIBNOTREGISTERED;
+		}
+
 		private static int GetHResult(Exception ex) {
 			if(ex is TargetInvocationException && ex.InnerException!=null) {
 				ex=ex.InnerException;
 			}
 			if(ex is COMException) {
+				return ex.HResult;
+			}
+			if(ex is InvalidCastException && ex.HResult==E_NOINTERFACE) {
 				return ex.HResult;
 			}
 			return 0;
