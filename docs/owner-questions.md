@@ -953,7 +953,9 @@ and E-10b), where each is set out in full with its recommendation. You first ans
   over a manifest it cannot read. If the row were ever really damaged, someone would delete the `documentmisc` rows of types 100 and 101 on
   the database by hand. Should Recopy on the named update server offer that, after a confirmation? **Your decision (2026-11-15): yes.**
   Recopy on the named update server, when the published manifest cannot be read, offers to replace it after a confirmation (package
-  S3a-10f, queued).
+  S3a-10f). **Done** on branch `net10/s3a10f-1` ([port-notes/S3a-10.md](port-notes/S3a-10.md) section 12): Recopy on the named update
+  server asks Yes/No (No is the default); Yes deletes the `documentmisc` rows of types 100 and 101 and publishes the running build as for
+  a first release, with a security log entry; No, a silent run and every other workstation change nothing.
 - **The program after an elevated self-update** (S3a-10 section 8). After an over-the-shoulder elevation, the restarted program runs as the
   account that gave the rights. Keep that, or should 3b start it without those rights? **Your decision (2026-11-15): the user's own
   account.** In 3b (S3b-7), the copier starts the program again without the rights it was given, as the user who was working.

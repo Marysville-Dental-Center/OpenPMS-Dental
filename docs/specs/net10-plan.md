@@ -974,6 +974,13 @@ program (Mono.Cecil, cross-checked with `Direct2d.cs`); without the x64 build ou
 `OPMS_REQUIRE_BUILD_OUTPUT=1`; fix on `net10/s3a16-2`). For the lead: the gate's two lane commands, which enforce the x64 build (port
 note, section 4).
 
+**Status (2026-11-15), S3a-10f.** Built on `net10/s3a10f-1` (`docs/port-notes/S3a-10.md` section 12; the owner's "yes" of 2026-11-15): Recopy on the named update server, when the published
+manifest is not readable (`RefuseUnreadable`), asks Yes/No (default No) and on Yes replaces the `documentmisc` rows of types 100 and 101
+with this build as for a first release (`ForkReleases.ReplaceUnreadableRelease`, the question a seam), with a security log entry; No, a
+silent run, a blank `WebServiceServerName` and every other computer change nothing. `ApphostResourceTests` reports a stale Release output
+(an exe missing, or older than the newest commit to its project) as Inconclusive with "run tools/Build-Release.ps1 first" and the write
+times. New `ReplaceUnreadableDbTests` (`s3a10f_` scratch databases).
+
 **Full-test gate.** Section 3, plus: the golden outputs and known answers recorded and committed; the source-scan tests pass; the
 launch checks for 3a (section 6) done with screenshots, including a self-update from a standard user; the x64 test runs (S3a-12, S3a-15)
 and the x64 build of `Direct2dWrapper` (S3a-16) pass; the helper's tests pass, and its links are launch-checked where a test PC has the

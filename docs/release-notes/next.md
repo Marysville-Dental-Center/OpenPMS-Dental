@@ -416,7 +416,10 @@ This version must run on every workstation, the update server first, before the 
 no longer treats a published release it cannot read as "nothing published": it neither updates from it nor publishes over it, and at
 startup it shows "The published release manifest is not readable" (or "is for another product") with what to do, then starts as usual. A
 release built for another runtime or architecture, such as the 64-bit version, which carries its own .NET runtime, is refused the same
-way with "This workstation cannot update itself to that release: run the new setup on it." Update Setup's Recopy refuses both cases too.
+way with "This workstation cannot update itself to that release: run the new setup on it." Update Setup's Recopy refuses both cases too,
+with one exception: on the computer named as the update server, Recopy offers to replace a published release it cannot read with the
+running build, after a Yes/No question whose default is No, and records that in the security log; the other workstations then update to
+that build.
 The update itself works as before: UpdateFileCopier now runs from its own temp folder (`%TEMP%\openpms-dental\ForkReleaseCopier`), and
 Windows still asks for administrator consent before it copies the files.
 
