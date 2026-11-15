@@ -1,7 +1,8 @@
 // The one fixture database of the golden outputs (docs/port-notes/S3a-4.md), on the local MariaDB (127.0.0.1:3306, root, blank password): the committed
 // db/init/new-database.sql with every fork migration of this build run on it, as the EFORM-PRINT tests build theirs, then the synthetic rows of
 // GoldenData. Its name starts with "gold_" plus this run's id, so a test can never drop anything else and runs from other worktrees never collide.
-// Skipped (inconclusive) when the server does not answer, or when GOLDEN_TEST_DB=skip. GOLDEN_KEEP_DB=1 keeps it for a look afterwards.
+// Skipped (inconclusive) only when the server does not answer, its global sql_mode is not blank, or GOLDEN_TEST_DB=skip. Once the server has
+// answered, a failure while building the database or writing its rows fails every database test. GOLDEN_KEEP_DB=1 keeps it for a look afterwards.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
 using System.Collections.Generic;
@@ -27,11 +28,13 @@ namespace GoldenOutputTests {
 		private static readonly string _runId=DateTime.UtcNow.ToString("yyMMddHHmmss",CultureInfo.InvariantCulture)+"_"
 			+System.Diagnostics.Process.GetCurrentProcess().Id+"_"+new Random().Next(1000,10000);
 		public static readonly string DbName=PREFIX+_runId+"_main";
-		///<summary>Null when the database is ready; otherwise why the database tests are skipped.</summary>
+		///<summary>Null when there is a server to build the database on; otherwise why the database tests are skipped (no server, its global sql_mode,
+		///or GOLDEN_TEST_DB=skip).</summary>
 		public static string SkipReason;
-		///<summary>Null when the fixture rows were written; otherwise why not (the database tests fail).</summary>
+		///<summary>Null when the database was built and the fixture rows were written; otherwise why not (the database tests fail).</summary>
 		public static string SeedError;
-		private static bool _isBuilt;
+		///<summary>True from just before the CREATE DATABASE on, so AssemblyCleanup drops the database even when a later build step threw.</summary>
+		private static bool _isCreated;
 
 		[AssemblyInitialize]
 		public static void AssemblyInitialize(TestContext testContext) {
@@ -42,14 +45,16 @@ namespace GoldenOutputTests {
 			}
 			try {
 				DropStale();
+				_isCreated=true;
 				CreateFromInitFile(DbName);
 				ForkMigrationRunner.Run();
 				Cache.Refresh(InvalidType.AllLocal);
 				Security.CurUser=Userods.GetUser(1)??new Userod { UserNum=1,UserName="Admin" };
-				_isBuilt=true;
 			}
 			catch(Exception ex) {
-				SkipReason="Could not build the fixture database: "+ex.GetBaseException().Message;
+				//The server answered, so this is a difference the suite exists to catch (the init file, the migrations or the cache refresh on another
+				//runtime): every database test fails with it (it is not skipped).
+				SeedError="Could not build the fixture database: "+ex;
 				return;
 			}
 			try {
@@ -63,7 +68,7 @@ namespace GoldenOutputTests {
 
 		[AssemblyCleanup]
 		public static void AssemblyCleanup() {
-			if(!_isBuilt || Environment.GetEnvironmentVariable("GOLDEN_KEEP_DB")=="1") {
+			if(!_isCreated || Environment.GetEnvironmentVariable("GOLDEN_KEEP_DB")=="1") {
 				return;
 			}
 			try {
@@ -74,8 +79,8 @@ namespace GoldenOutputTests {
 			}
 		}
 
-		///<summary>Call at the start of a database test (on the thread that uses the business layer): skips the test when there is no database,
-		///otherwise connects to it as user 1, in en-US.</summary>
+		///<summary>Call at the start of a database test (on the thread that uses the business layer): skips the test when there is no server, fails it
+		///when the database could not be built or seeded, otherwise connects to it as user 1, in en-US.</summary>
 		public static void Begin() {
 			if(SkipReason!=null) {
 				Assert.Inconclusive(SkipReason);
