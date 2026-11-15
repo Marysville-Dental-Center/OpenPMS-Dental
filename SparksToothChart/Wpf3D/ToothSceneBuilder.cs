@@ -779,7 +779,7 @@ namespace SparksToothChart.Wpf3D {
 		}
 
 		///<summary>Each label's text cell: its top left is the label's point in the 410x307 drawing space, mapped to the picture as the drawings are
-		///(PointDrawingPixToMm and DirectX's projection) and put on whole pixels as D3DX puts text (ceiling of x, floor of y); its size is the text's
+		///(PointDrawingPixToMm and DirectX's projection) and put on the nearest whole pixel; its size is the text's
 		///width and the font's cell height. A label that would run past an edge is moved back inside (a label wider or taller than the picture sits at
 		///its left or top), so it can always be seen and picked up. Labels with no text are left out.</summary>
 		private static List<FreeTextBox> GetFreeTextBoxes(SceneBuilding building) {
@@ -801,8 +801,9 @@ namespace SparksToothChart.Wpf3D {
 					yScreen=0;
 				}
 				int widthPixels=ChartFontMeasure.MeasureText(font,freeText.Text).Width;
-				int xPoint=(int)Math.Ceiling(Math.Max(Math.Min(xScreen,int.MaxValue/2f),int.MinValue/2f));
-				int yPoint=(int)Math.Floor(Math.Max(Math.Min(yScreen,int.MaxValue/2f),int.MinValue/2f));
+				//The nearest whole pixel: no DirectX text to match here, and a whole point of the drawing space lands on its pixel whatever the float's last bit.
+				int xPoint=(int)Math.Round(Math.Max(Math.Min(xScreen,int.MaxValue/2f),int.MinValue/2f),MidpointRounding.AwayFromZero);
+				int yPoint=(int)Math.Round(Math.Max(Math.Min(yScreen,int.MaxValue/2f),int.MinValue/2f),MidpointRounding.AwayFromZero);
 				int x=Math.Max(0,Math.Min(xPoint,size.Width-widthPixels));
 				int y=Math.Max(0,Math.Min(yPoint,size.Height-font.Height));
 				FreeTextBox freeTextBox=new FreeTextBox();

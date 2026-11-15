@@ -108,9 +108,9 @@ namespace SparksToothChart {
 
 		///<summary>MoveText (TC-5): the label being dragged follows the mouse. The drag's distance in pixels is divided by the pixel scale ratio, the
 		///scale of the 410x307 drawing space to the picture, so the label stays under the mouse at any chart size.</summary>
-		private void MoveFreeText(ToothChartData tcData,Point location) {
+		private void MoveFreeText(ToothChartData tcData,ToothChartFreeText freeText,Point location) {
 			float ratio=tcData.PixelScaleRatio>0 ? tcData.PixelScaleRatio : 1f;
-			_freeTextMoving.Location=new PointF(_pointFreeTextStart.X+(location.X-_pointMouseDownFreeText.X)/ratio,
+			freeText.Location=new PointF(_pointFreeTextStart.X+(location.X-_pointMouseDownFreeText.X)/ratio,
 				_pointFreeTextStart.Y+(location.Y-_pointMouseDownFreeText.Y)/ratio);
 		}
 
@@ -147,7 +147,7 @@ namespace SparksToothChart {
 				if(!_isMouseDown || _freeTextMoving==null) {
 					return;
 				}
-				MoveFreeText(tcData,location);
+				MoveFreeText(tcData,_freeTextMoving,location);
 				ActionChartChanged?.Invoke();
 			}
 			else if(tcData.CursorTool==CursorTool.Eraser) {
@@ -203,7 +203,7 @@ namespace SparksToothChart {
 				ActionChartChanged?.Invoke();
 				return;
 			}
-			MoveFreeText(tcData,location);
+			MoveFreeText(tcData,freeText,location);
 			ActionChartChanged?.Invoke();
 			TextMoved?.Invoke(this,new ToothChartTextMovedEventArgs(freeText.ToothInitialNum,freeText.Location));
 		}
