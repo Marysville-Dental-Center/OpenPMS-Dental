@@ -48,6 +48,11 @@
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
+    <!-- The protocol of the 32-bit helper program (S3a-13 of the .NET 10 move), compiled into the helper and into this assembly, so both ends
+         read and write the same messages; Utilities\Helper32Client.cs uses it. Its types are internal. -->
+    <Compile Include="..\OpenPmsDentalHelper32\Helper32Protocol.cs">
+      <Link>Utilities\Helper32Protocol.cs</Link>
+    </Compile>
     <Compile Update="Controls\ODWebView2.Designer.cs">
       <DependentUpon>ODWebView2.cs</DependentUpon>
     </Compile>

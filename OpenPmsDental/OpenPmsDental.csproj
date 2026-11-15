@@ -54,11 +54,6 @@
       <HintPath>..\Required dlls\Interop.CDRDicom.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
-    <Reference Include="Interop.QBFC10, Version=11.0.0.29, Culture=neutral, PublicKeyToken=31d8aec643e18259">
-      <SpecificVersion>False</SpecificVersion>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-      <HintPath>..\Required dlls\Interop.QBFC10.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.VisualBasic" />
     <!-- The WebView2 SDK, the version of Directory.Packages.props, with its build files: they bring the native WebView2Loader.dll (x86),
@@ -134,6 +129,10 @@
     <!-- The connection settings tool (docs/specs/db-connection-security.md): referenced so that OpenPmsDentalDbSettings.exe and its .exe.config
          are copied next to OpenPmsDental.exe, where the release staging and the installer take them from. -->
     <ProjectReference Include="..\OpenPmsDentalDbSettings\OpenPmsDentalDbSettings.csproj" />
+    <!-- The 32-bit helper program (S3a-13 of the .NET 10 move, docs/port-notes/S3a-13.md): referenced so that OpenPmsDentalHelper32.exe and
+         its .exe.config are copied next to OpenPmsDental.exe, where CodeBase's Helper32Client starts it and the release staging takes it from.
+         No code here uses its types; QuickBooks Desktop's QBFC interop moved into it. -->
+    <ProjectReference Include="..\OpenPmsDentalHelper32\OpenPmsDentalHelper32.csproj" />
     <ProjectReference Include="..\SparksToothChart\SparksToothChart.csproj" />
     <!-- Build order only: UpdateFileCopier.exe is copied next to OpenPmsDental.exe after the build (CopyUpdateFileCopier below), because the
          release channel ships it with every published release (docs/release-process.md). Not referenced as an assembly. -->
