@@ -666,6 +666,13 @@ These follow Open Dental 26.2 as its public notes and screenshots show it.
   completed extractions but not the text: free text and text procedures show on computers set to the Simple 2D chart (File > Graphics)
   now, and on every computer once the 3D chart comes. The TextBelow box is part of the Chart module, so it shows whatever the chart.
   Showing free text and text procedures on the Simple 2D chart goes beyond Open Dental, whose older chart modes show only the "W".
+- **The graphical perio chart on the coming 3D chart.** The coming 3D chart can draw the graphical perio chart (Perio Chart, Graphical) as
+  today's DirectX chart draws it: the four rows of teeth, the probing bars (red from the red limit), bleeding and suppuration, furcations,
+  mobility, the gingival margin, CAL and MGJ lines, the numbers and the legend, in the colours of Graphical Perio Setup, and its print and
+  saved image as before. Two Open Dental 24.4 changes come with it: a removed implant (its procedure's graphics hidden) is not drawn, as
+  today, and with Perio Setup's "Use the term Recession" option on, the legend names the gingival margin line "Recession" ("Gingival
+  Margin" again while the exam has hyperplasia, as the Perio Chart's row). **Nothing changes in this version:** the graphical perio chart
+  keeps today's DirectX chart, and its legend keeps "Gingival Margin", until the 3D chart replaces the older charts on every computer.
 
 ## Open Dental 26.2: tools
 
