@@ -168,8 +168,13 @@ namespace BINBTests {
 		public void ServiceManager_DoesNotReferenceInstallUtil() {
 			string csproj=TestPaths.ReadSource("ServiceManager","ServiceManager.csproj");
 			Assert.IsFalse(csproj.IndexOf("installutil",StringComparison.OrdinalIgnoreCase)>=0,"ServiceManager.csproj references installutil again.");
+			//Since S3a-7 services are installed and removed with sc.exe from the system folder: no InstallUtil.exe at all, neither a copy in the
+			//installation nor the .NET Framework's own (.NET has none, and it cannot load a .NET 10 assembly).
 			string source=TestPaths.ReadSource("CodeBase","Utilities","ServicesHelper.cs");
-			StringAssert.Contains(source,"RuntimeEnvironment.GetRuntimeDirectory()","Services are installed with the .NET Framework's own InstallUtil.exe.");
+			string code=string.Join("\n",source.Split('\n').Where(x => !x.TrimStart().StartsWith("//")));
+			Assert.IsFalse(code.IndexOf("installutil",StringComparison.OrdinalIgnoreCase)>=0,"ServicesHelper runs InstallUtil again.");
+			Assert.IsFalse(code.Contains("RuntimeEnvironment.GetRuntimeDirectory()"),"ServicesHelper looks for the .NET Framework's InstallUtil.exe again.");
+			StringAssert.Contains(code,"Path.Combine(Environment.SystemDirectory,\"sc.exe\")","Services are installed with the system's sc.exe.");
 		}
 	}
 }
