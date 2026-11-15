@@ -803,6 +803,17 @@ an exception after a cancel, a worker still running when its window closes and a
 a second ShowDialog keeps the earlier run's token for its action; the comments of S3a-1's item 5 corrected.
 Tests per pattern in M2MISCTests (scratch database `s3a1b_`) and MiddleTierMockTests.
 
+**Status (2026-11-15), S3a-10.** Done on `net10/s3a10-1` (`docs/port-notes/S3a-10.md`), not merged yet: a published manifest that is not
+readable or names another product is refused (`ReleaseAction.RefuseUnreadable`) instead of read as "nothing published", for every update
+server role and in Recopy; the optional `Runtime` line (`Microsoft.NETCore.App 10.0.14 win-x64`; none = .NET Framework 4.8 x86) and the
+runtime part's lines (`RuntimeVersion`, `RuntimeArchitectures`, `RuntimeArchiveSha256`, `RuntimeKey`, `RuntimeFile`) are read and checked,
+and a release for another framework or architecture is refused with "run the new setup" (`RefuseOtherRuntime`, also before a download);
+both keep the workstation on its build. A pull copies every file of UpdateFileCopier (`ForkReleases.CopyFileCopier`, its own temp folder
+`ForkReleaseCopier`) and starts it with `UseShellExecute=true`. `ApphostResourceTests` checks the execution level, versions and icon of every
+staged `.exe` against `tests/ReleaseFlowTests/Fixtures/ApphostResources.net48.txt`, recorded from the net48 Release dry run (Inconclusive
+without a Release build). Left: the launch check (port note section 6), the copier's own runtime check and `VerifyFolder` over the runtime
+files (S3b-7), two owner questions (port note section 8).
+
 **Full-test gate.** Section 3, plus: the golden outputs and known answers recorded and committed; the source-scan tests pass; the
 launch checks for 3a (section 6) done with screenshots, including a self-update from a standard user; the x64 test runs (S3a-12, S3a-15)
 and the x64 build of `Direct2dWrapper` (S3a-16) pass; the helper's tests pass, and its links are launch-checked where a test PC has the

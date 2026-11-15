@@ -114,8 +114,18 @@ The manifest (`ForkRelease.manifest`, `ReleaseManifest`) names the product `Open
 - the publish time and the workstation that published it
 - the SHA-256 of the archive
 - for every file: its path, size and SHA-256
+- optionally, the runtime the release runs on (`Runtime=Microsoft.NETCore.App 10.0.14 win-x64`) and the runtime part it needs
+  (`RuntimeVersion`, `RuntimeArchitectures`, `RuntimeArchiveSha256`, `RuntimeKey` and one `RuntimeFile` line per runtime file). The .NET
+  Framework releases write none of these; a manifest without a `Runtime` line is a .NET Framework 4.8 x86 release. The .NET 10 release
+  writes them (it carries its own runtime, published as a part of its own). The keys, their checks and an example are in
+  [port-notes/S3a-10.md](port-notes/S3a-10.md).
 
 The archive holds a copy of the manifest without the archive hash.
+
+A workstation never treats a manifest it cannot read, or one that names another product, as "nothing published": it neither publishes
+over it nor updates from it, says so at startup and keeps running its build. A release for another runtime or architecture than the
+workstation's own (the .NET 10 release is 64-bit and carries its own runtime) is refused the same way, with "run the new setup on it":
+the new setup installs that release into its own program folder. Update Setup's Recopy refuses both cases too.
 
 ### What the other workstations do
 
@@ -129,8 +139,10 @@ At startup each workstation compares its build with the published one (`ForkRele
 | This build is newer (higher release, or same release with a later build time) | Offer to publish. | Offer to publish. | Refused (exit 174), with a message to run the new build on the update server first. |
 | Same release, different build, order unknown | Offer to publish. | Pull. The message says how to publish this build instead: name this computer as the update server. | Pull. |
 | Debug build | Never publishes or pulls. The version guard still runs. | Same. | Same. |
+| Published manifest not readable, or for another product | Refused: neither publish nor pull; the message says why; the workstation runs on. | Same. | Same. |
+| A release for another runtime or architecture (the .NET 10 release on a .NET Framework workstation) | Refused: "run the new setup"; the workstation runs on. | Same. | Same. |
 
-**Pull** means: the workstation downloads the release and checks it: product name, archive SHA-256, only listed files, safe paths, archive manifest equal to the published one, and every file's size and SHA-256. It then asks for OK and starts `UpdateFileCopier`. UpdateFileCopier checks the manifest and every file again, both in the download and in its local copy, then copies the files, writes the manifest last and restarts the program. If any check fails, nothing on the workstation changes.
+**Pull** means: the workstation downloads the release and checks it: product name, archive SHA-256, only listed files, safe paths, archive manifest equal to the published one, and every file's size and SHA-256. It then asks for OK, copies UpdateFileCopier's files (the exe, and its `.exe.config`, `.dll`, `.runtimeconfig.json` and `.deps.json` when the release has them) into `%TEMP%\openpms-dental\ForkReleaseCopier` and starts it there through ShellExecute, so Windows asks for administrator consent (the copier's manifest asks for administrator rights). UpdateFileCopier checks the manifest and every file again, both in the download and in its local copy, then copies the files, writes the manifest last and restarts the program. If any check fails, nothing on the workstation changes.
 
 No row offers a downgrade. A pull always goes to a build that is newer, or, when the order is unknown, to the build the office published. A workstation still running an old build is never asked to publish it over the office's release. Only the named update server, which the office chose, can replace a build it can't prove older.
 
@@ -180,6 +192,10 @@ vstest.console.exe tests/ReleaseFlowTests/bin/Debug/ReleaseFlowTests.dll /Platfo
 - Guard decisions for the full startup matrix: fresh 24.3.63, office copy 25.3.48, copies edited to 25.3.50 and 25.4.0, adopted, adopted with markers removed, adopted by a newer build, unfinished adoption.
 - Adoption on scratch databases with synthetic data. The 25.3.48 case uses the `od_253_schema` patient definition when it's loaded, otherwise the column and index as the office's schema-only dump has them.
 - Publish and pull round trips, including tampered segments, a tampered manifest and a manifest for another product.
+- The release-channel guards (S3a-10): the `Runtime` and runtime part lines; an unreadable, a foreign and a .NET 10 manifest refused for
+  every update server role and never downloaded; UpdateFileCopier's files copied and the copier started through ShellExecute; the
+  execution level, versions and icon of every staged `.exe` against the net48 record (`ApphostResourceTests`, inconclusive without a
+  Release build).
 - The publish/pull decision for the named, blank and other update server cases, with and without build times; the restart rule of `IsDbConnectionSafe`; and the build time stamped into `OpenPmsDental.exe`.
 - An adopted copy with only `ForkSchemaLevel`, or `ForkSchemaLevel` and `OdSchemaCompat`, removed: refused (exit 173) and never adopted again.
 - Source checks: `OpenPmsDental.exe` reports `0.0` and `24.3.63.0`; the legacy chain is frozen; the guard code has no Debug bypass; Open Dental's update file types are only ever deleted; no downgrade prompt; UpdateFileCopier checks the manifest before copying.
