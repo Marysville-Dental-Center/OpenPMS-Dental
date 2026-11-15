@@ -246,7 +246,9 @@ The legacy recordings (DirectX, OpenGL, Simple 2D, smoothed), the Simple 2D base
   skipped** (the legacy recorder and its comparison, and the opt-in on-screen times); **BINATests 31, BPERIOTests 55 and NoHqTests 94
   passed.** The WPF gate 297 of 297 pictures with exactly their `.txt`'s pixels; the parity probes as before (16852: 16356 pass, 496 allowed
   in the same 15 scenes, 0 fail; every allowance still covers a probe); the text boxes as before (8633: 47 allowed, 0 off); the live view
-  against the renderer 1090 probes, 0 fail.
+  against the renderer 1090 probes, 0 fail. `tc3c2-final-2.txt` (at `2820cc7b2`, the docs commit with G4's note in `WpfImageTests`, after
+  the full build, 0 errors; no gallery): ToothChartImageTests 230: 226 passed, 0 failed, 4 skipped; BINATests 31, BPERIOTests 55 and
+  NoHqTests 94 passed. `tools/Test-NoEolFlips.ps1` against `main`: 291 changed text files, none changed its line ends.
 - The call-log and database tests of ToothChartImageTests use their own scratch database as before; TC-3c adds no database test.
 - `tools/Test-NoEolFlips.ps1` against `main`: no file changed its line ends.
 
