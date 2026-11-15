@@ -2,7 +2,8 @@
   <!--
     Unit tests for ImagingCapture. They need no camera: the UVC layer is exercised through FakeUvcBackend, and the DirectShow
     declarations are checked for layout and vtable order. MSTest v1, like ImagingDeviceManagerTests. Run with
-    vstest.console /Platform:x86. Every .cs file under this folder is compiled.
+    vstest.console /Platform:x86, and as the lane's x64 test build with /Platform:x64 (S3a-12: the layout tables have an x86 and an x64
+    column). Every .cs file under this folder is compiled.
     The tests under Db\ are the capture track's database tests: they run the Od* stores, the hook's database path and a full mount save on
     one scratch MariaDB database (a 24.3.63 seed through the fork migration runner) with a unique per-run name, dropped afterwards, and a
     temporary A to Z folder. Synthetic data only. They are skipped (inconclusive) when the local MariaDB does not answer or when
@@ -27,7 +28,8 @@
     <!-- The database tests (Db\): DataConnection, and the synthetic patients, providers, definitions and users of UnitTestsCore. -->
     <ProjectReference Include="..\..\DataConnectionBase\xDataConnectionBase.csproj" />
     <ProjectReference Include="..\..\UnitTestsCore\UnitTestsCore.csproj" />
-    <!-- DataValid.EventInvalid, which "Add standard templates" raises to tell the other computers about new mount definitions. -->
+    <!-- DataValid.EventInvalid, which "Add standard templates" raises to tell the other computers about new mount definitions; and Dpi's
+         awareness handles (PointerSizeInteropTests, with CodeBase's SendMessage and system folder). -->
     <ProjectReference Include="..\..\WpfControlsOD\WpfControlsOD.csproj" />
   </ItemGroup>
 </Project>

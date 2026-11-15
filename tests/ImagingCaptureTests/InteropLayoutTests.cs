@@ -9,54 +9,100 @@ using ImagingCapture.Uvc.Interop;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace ImagingCapture.Tests {
-	///<summary>Pins the hand-written DirectShow declarations to the Windows SDK: structure sizes and offsets in a 32-bit process,
-	///and the vtable slot of every member that is called. A wrong slot would call the wrong method at run time.</summary>
+	///<summary>Pins the hand-written DirectShow declarations to the Windows SDK: structure sizes and offsets in a 32-bit and a 64-bit process
+	///(an x86 and an x64 column), and the vtable slot of every member that is called. A wrong slot would call the wrong method at run time.</summary>
 	[TestClass]
 	public class InteropLayoutTests {
 		private static int Offset(Type type,string field) {
-			return Marshal.OffsetOf(type,field).ToInt32();
+			return (int)Marshal.OffsetOf(type,field).ToInt64();
 		}
 
+		///<summary>x86 or x64 by the bitness of this test process: the expected sizes and offsets have one column for each (S3a-12 of the .NET 10
+		///move). The lane runs this assembly in both.</summary>
+		private static int Pick(int x86,int x64) {
+			return IntPtr.Size==8 ? x64 : x86;
+		}
+
+		///<summary>(structure, size in a 32-bit process, size in a 64-bit process), from the Windows SDK headers with their default (natural)
+		///alignment: AM_MEDIA_TYPE (strmif.h) holds an IUnknown pointer and a BYTE pointer, so it grows from 72 to 88 bytes; the others hold no
+		///pointer (REFERENCE_TIME and LONGLONG are 8 bytes and 8-aligned in both).</summary>
+		private static readonly List<Tuple<Type,int,int>> _listSizes=new List<Tuple<Type,int,int>> {
+			Tuple.Create(typeof(AM_MEDIA_TYPE),72,88),
+			Tuple.Create(typeof(RECT),16,16),
+			Tuple.Create(typeof(SIZE),8,8),
+			Tuple.Create(typeof(BITMAPINFOHEADER),40,40),
+			Tuple.Create(typeof(VIDEOINFOHEADER),88,88),
+			Tuple.Create(typeof(VIDEO_STREAM_CONFIG_CAPS),128,128),
+		};
+
+		///<summary>(structure, field, offset in a 32-bit process, offset in a 64-bit process), the fields this layer reads or writes.</summary>
+		private static readonly List<Tuple<Type,string,int,int>> _listOffsets=new List<Tuple<Type,string,int,int>> {
+			Tuple.Create(typeof(AM_MEDIA_TYPE),"subtype",16,16),
+			Tuple.Create(typeof(AM_MEDIA_TYPE),"lSampleSize",40,40),
+			Tuple.Create(typeof(AM_MEDIA_TYPE),"formattype",44,44),
+			Tuple.Create(typeof(AM_MEDIA_TYPE),"pUnk",60,64),//8-aligned in a 64-bit process: 4 bytes of padding after formattype
+			Tuple.Create(typeof(AM_MEDIA_TYPE),"cbFormat",64,72),
+			Tuple.Create(typeof(AM_MEDIA_TYPE),"pbFormat",68,80),//8-aligned: 4 bytes of padding after cbFormat
+			Tuple.Create(typeof(VIDEOINFOHEADER),"rcTarget",16,16),
+			Tuple.Create(typeof(VIDEOINFOHEADER),"AvgTimePerFrame",40,40),
+			Tuple.Create(typeof(VIDEOINFOHEADER),"bmiHeader",48,48),
+			Tuple.Create(typeof(BITMAPINFOHEADER),"biBitCount",14,14),
+			Tuple.Create(typeof(BITMAPINFOHEADER),"biCompression",16,16),
+			Tuple.Create(typeof(VIDEO_STREAM_CONFIG_CAPS),"MinOutputSize",60,60),
+			Tuple.Create(typeof(VIDEO_STREAM_CONFIG_CAPS),"MaxOutputSize",68,68),
+			Tuple.Create(typeof(VIDEO_STREAM_CONFIG_CAPS),"MinFrameInterval",104,104),
+			Tuple.Create(typeof(VIDEO_STREAM_CONFIG_CAPS),"MaxFrameInterval",112,112),
+			Tuple.Create(typeof(VIDEO_STREAM_CONFIG_CAPS),"MaxBitsPerSecond",124,124),
+		};
+
 		[TestMethod]
-		public void Process_Is32Bit() {
-			Assert.AreEqual(4,IntPtr.Size,"Run the tests with /Platform:x86.");
+		public void Process_IsX86OrX64() {
+			CollectionAssert.Contains(new[] { 4,8 },IntPtr.Size,"IntPtr.Size is "+IntPtr.Size+".");
+			Assert.AreEqual(Environment.Is64BitProcess,IntPtr.Size==8);
+			Console.WriteLine("DirectShow layout tests ran in a "+(IntPtr.Size*8)+"-bit process.");
 		}
 
 		[TestMethod]
 		public void StructSizes_MatchTheSdk() {
-			Assert.AreEqual(72,Marshal.SizeOf(typeof(AM_MEDIA_TYPE)));
-			Assert.AreEqual(16,Marshal.SizeOf(typeof(RECT)));
-			Assert.AreEqual(8,Marshal.SizeOf(typeof(SIZE)));
-			Assert.AreEqual(40,Marshal.SizeOf(typeof(BITMAPINFOHEADER)));
-			Assert.AreEqual(88,Marshal.SizeOf(typeof(VIDEOINFOHEADER)));
-			Assert.AreEqual(128,Marshal.SizeOf(typeof(VIDEO_STREAM_CONFIG_CAPS)));
+			foreach(Tuple<Type,int,int> tuple in _listSizes) {
+				Assert.AreEqual(Pick(tuple.Item2,tuple.Item3),Marshal.SizeOf(tuple.Item1),tuple.Item1.Name);
+			}
+			//Every structure of the interop layer has a row.
+			List<Type> listTypes=typeof(Ds).Assembly.GetTypes()
+				.Where(x => x.IsValueType && !x.IsEnum && x.Namespace==typeof(Ds).Namespace && x.IsLayoutSequential)
+				.ToList();
+			foreach(Type type in listTypes) {
+				Assert.IsTrue(_listSizes.Any(x => x.Item1==type),type.Name+" has no row in the size table.");
+			}
 		}
 
 		[TestMethod]
-		public void MediaType_FieldOffsets() {
-			Assert.AreEqual(16,Offset(typeof(AM_MEDIA_TYPE),"subtype"));
-			Assert.AreEqual(44,Offset(typeof(AM_MEDIA_TYPE),"formattype"));
-			Assert.AreEqual(60,Offset(typeof(AM_MEDIA_TYPE),"pUnk"));
-			Assert.AreEqual(64,Offset(typeof(AM_MEDIA_TYPE),"cbFormat"));
-			Assert.AreEqual(68,Offset(typeof(AM_MEDIA_TYPE),"pbFormat"));
+		public void FieldOffsets_MatchTheSdk() {
+			foreach(Tuple<Type,string,int,int> tuple in _listOffsets) {
+				Assert.AreEqual(Pick(tuple.Item3,tuple.Item4),Offset(tuple.Item1,tuple.Item2),tuple.Item1.Name+"."+tuple.Item2);
+			}
 		}
 
 		[TestMethod]
-		public void VideoInfoHeader_FieldOffsets() {
-			Assert.AreEqual(16,Offset(typeof(VIDEOINFOHEADER),"rcTarget"));
-			Assert.AreEqual(40,Offset(typeof(VIDEOINFOHEADER),"AvgTimePerFrame"));
-			Assert.AreEqual(48,Offset(typeof(VIDEOINFOHEADER),"bmiHeader"));
-			Assert.AreEqual(14,Offset(typeof(BITMAPINFOHEADER),"biBitCount"));
-			Assert.AreEqual(16,Offset(typeof(BITMAPINFOHEADER),"biCompression"));
-		}
-
-		[TestMethod]
-		public void StreamConfigCaps_FieldOffsets() {
-			Assert.AreEqual(60,Offset(typeof(VIDEO_STREAM_CONFIG_CAPS),"MinOutputSize"));
-			Assert.AreEqual(68,Offset(typeof(VIDEO_STREAM_CONFIG_CAPS),"MaxOutputSize"));
-			Assert.AreEqual(104,Offset(typeof(VIDEO_STREAM_CONFIG_CAPS),"MinFrameInterval"));
-			Assert.AreEqual(112,Offset(typeof(VIDEO_STREAM_CONFIG_CAPS),"MaxFrameInterval"));
-			Assert.AreEqual(124,Offset(typeof(VIDEO_STREAM_CONFIG_CAPS),"MaxBitsPerSecond"));
+		public void MediaType_PointersRoundTripThroughUnmanagedMemory() {
+			//pUnk and pbFormat keep all their bits, which a 4-byte field in a 64-bit process would not.
+			AM_MEDIA_TYPE mediaType=new AM_MEDIA_TYPE();
+			mediaType.formattype=Ds.MEDIATYPE_Video;
+			mediaType.pUnk=new IntPtr(IntPtr.Size==8 ? unchecked((long)0x7FFE12345678ABC0) : 0x12345670);
+			mediaType.cbFormat=88;
+			mediaType.pbFormat=new IntPtr(IntPtr.Size==8 ? unchecked((long)0x00007FF0DEADBEE8) : 0x0DEADBE8);
+			IntPtr p=Marshal.AllocHGlobal(Marshal.SizeOf(typeof(AM_MEDIA_TYPE)));
+			try {
+				Marshal.StructureToPtr(mediaType,p,false);
+				Assert.AreEqual(mediaType.pUnk,Marshal.ReadIntPtr(p,Offset(typeof(AM_MEDIA_TYPE),"pUnk")));
+				Assert.AreEqual(88,Marshal.ReadInt32(p,Offset(typeof(AM_MEDIA_TYPE),"cbFormat")));
+				Assert.AreEqual(mediaType.pbFormat,Marshal.ReadIntPtr(p,Offset(typeof(AM_MEDIA_TYPE),"pbFormat")));
+				AM_MEDIA_TYPE copy=(AM_MEDIA_TYPE)Marshal.PtrToStructure(p,typeof(AM_MEDIA_TYPE));
+				Assert.AreEqual(mediaType.pbFormat,copy.pbFormat);
+			}
+			finally {
+				Marshal.FreeHGlobal(p);
+			}
 		}
 
 		///<summary>(interface, member, slot). Slots count from 0 and include IUnknown (3 members) and, for dual interfaces,
