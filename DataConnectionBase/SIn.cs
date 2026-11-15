@@ -157,7 +157,7 @@ namespace DataConnectionBase {
 		}
 
 		///<summary>A number too large for a float throws OverflowException, as on .NET Framework, where .NET would give infinity; only the
-		///culture's infinity symbol gives infinity. Never negative zero.</summary>
+		///culture's infinity symbol gives infinity. Negative zero only for a negative number too small for a float, as on .NET Framework.</summary>
 		public static float Float(string myString) {
 			if(myString=="") {
 				return 0;

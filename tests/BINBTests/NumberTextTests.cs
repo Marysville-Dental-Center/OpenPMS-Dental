@@ -122,6 +122,8 @@ namespace BINBTests {
 			Assert.AreEqual(Bits(0d),Bits(SIn.Double("-0")),"Never negative zero.");
 			Assert.AreEqual(Bits(0d),Bits(SIn.Double("-1e-400")));
 			Assert.AreEqual(Bits(0f),Bits(SIn.Float("-0")));
+			Assert.AreEqual("00-00-00-80",Bits(SIn.Float("-1e-320")),".NET Framework cast the double -1e-320 to a float: negative zero.");
+			Assert.AreEqual(Bits(0f),Bits(SIn.Float("-1e-400")),"Zero as a double too.");
 			Assert.AreEqual(12.5,SIn.Double("12.5"));
 			string symbol=CultureInfo.CurrentCulture.NumberFormat.PositiveInfinitySymbol;
 			Assert.AreEqual(double.PositiveInfinity,SIn.Double(symbol),"The culture's infinity symbol is still infinity.");
@@ -148,7 +150,7 @@ namespace BINBTests {
 				Assert.AreEqual(keyValuePair.Value,ODEncodings.GetAnsiEncoding().CodePage,keyValuePair.Key);
 			}
 			Thread.CurrentThread.CurrentCulture=new CultureInfo("en-US");
-			string text="café € – ü";
+			string text="caf\u00e9 \u20ac \u2013 \u00fc";
 			CollectionAssert.AreEqual(Encoding.GetEncoding(1252).GetBytes(text),ODEncodings.GetAnsiEncoding().GetBytes(text));
 			CollectionAssert.AreEqual(new byte[] { 0x63,0x61,0x66,0xE9,0x20,0x80,0x20,0x96,0x20,0xFC },ODEncodings.GetAnsiEncoding().GetBytes(text));
 		}
@@ -230,8 +232,8 @@ namespace BINBTests {
 		public void BeforeAfter_SIn_EqualsTheReplacedCode() {
 			RequireNetFramework();
 			List<string> listTexts=new List<string> { "0","-0","-0.00","1.5","1,5","-1,5","1e400","-1e400","1e-400","-1e-400","1E308","1.8E308","abc",
-				" 12.5 ","1,234.5","1.234,5","Infinity","-Infinity","infinity","∞","-∞","+∞"," ∞ ","NaN","1e40","-1e40","3.4E38",
-				"3.5E38","1e-50"," ","$5" };
+				" 12.5 ","1,234.5","1.234,5","Infinity","-Infinity","infinity","\u221e","-\u221e","+\u221e"," \u221e ","NaN","1e40","-1e40","3.4E38",
+				"3.5E38","1e-50","-1e-50","-1e-320","1e-320","\u00a0","$5" };
 			foreach(double value in GetFixtureDoubles().Take(400)) {
 				listTexts.Add(value.ToString(CultureInfo.InvariantCulture));
 				listTexts.Add(value.ToString("R",CultureInfo.InvariantCulture));

@@ -67,13 +67,20 @@ namespace CodeBase {
 			return value;
 		}
 
-		///<summary>The float version of GetParsedAsNetFramework.</summary>
+		///<summary>The float version of GetParsedAsNetFramework. .NET Framework parsed a float as a double and then cast it, so a negative number
+		///too small for a float (but not for a double, like -1e-320) gave negative zero there; that case stays negative zero.</summary>
 		public static float GetParsedAsNetFramework(float value,string text,IFormatProvider formatProvider) {
 			if(float.IsInfinity(value) && !IsInfinitySymbol(text,formatProvider)) {
 				throw new OverflowException("The number is too large for a float.");
 			}
 			if(value==0) {
-				return 0;//no negative zero
+				if(IsNegativeZero(value)
+					&& double.TryParse(text,NumberStyles.Float|NumberStyles.AllowThousands,formatProvider,out double valueDouble)
+					&& valueDouble<0)
+				{
+					return value;
+				}
+				return 0;//no other negative zero
 			}
 			return value;
 		}
