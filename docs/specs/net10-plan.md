@@ -697,6 +697,9 @@ replaces `Encoding.Default` at the six shipped sites (NoHqTests scan: none left)
 and RAMQ amounts with `InvariantCulture`, `SOut`, and the treatment-plan and pay-plan signature keys (current culture kept, as stored
 signatures were made) the text of .NET Framework ("G15"/"G7", no negative zero); `SIn.Double/Float` keep an overflow invalid. No-ops on
 net48, proved by before/after equality on fixture data and by the three ANSI tests rebuilt with 1252; the code-page provider waits for 3b.
+Left for S3a-4's golden statement output (port note, section 4): the statement totals in `SheetFiller.cs:3915-3988` ("c" on doubles) and
+the five e-statement bridges ("F2" in the current culture) write a negative zero on .NET for a sum of doubles of about -1e-16 (recorded by
+`StatementTests.StatementMoneyTextTests`); the golden fixture includes that case.
 
 **Packages, wave 1 (parallel, disjoint).**
 
