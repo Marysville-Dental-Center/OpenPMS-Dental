@@ -257,11 +257,15 @@ namespace OpenPmsDentalBusiness.VendorDirect.Eds {
 		///A deleted claim gets a result that cannot be sent (IsNotSendable). isWaitingToSendRequired is true when re-validating for the Send Claims
 		///window, whose batch sends only claims waiting to send (W or P): a claim sent, received or held since it was selected (for example from
 		///Edit Claim opened in the validation window) also gets a result that cannot be sent. Edit Claim's own Send passes false, since it may
-		///resend a sent claim on purpose.</summary>
+		///resend a sent claim on purpose. The one exception to never throwing: after the user cancelled the progress window that runs it,
+		///the database layer's OperationCanceledException is thrown on (ODCancellation, S3a-1c), so a Re-validate loop stops at the first refused read.</summary>
 		public static EdsValidationResult ValidateClaimNum(long claimNum,long hqClearinghouseNumOverride,TimeSpan timeout,bool isWaitingToSendRequired=false) {
 			Claim claim;
 			try {
 				claim=Claims.GetClaim(claimNum);
+			}
+			catch(OperationCanceledException) when(ODCancellation.IsCancellationRequested) {
+				throw;//The user cancelled the progress window (S3a-1c): no failed call for the claims not yet revalidated.
 			}
 			catch(Exception ex) {
 				EdsValidationResult resultFailed=new EdsValidationResult();
@@ -286,6 +290,9 @@ namespace OpenPmsDentalBusiness.VendorDirect.Eds {
 				if(queueItem!=null && clearinghouseClin!=null) {
 					queueItem=Eclaims.Eclaims.GetMissingData(clearinghouseClin,queueItem);
 				}
+			}
+			catch(OperationCanceledException) when(ODCancellation.IsCancellationRequested) {
+				throw;
 			}
 			catch(Exception ex) {
 				EdsValidationResult resultFailed=MakeResult(claim);
