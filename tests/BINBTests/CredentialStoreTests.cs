@@ -4,6 +4,7 @@
 // "OpenPmsDentalTest:<guid>:" (Credential Manager targets, old-vault resources, the migration record). They create, read and delete only
 // entries under that prefix, every listing is filtered by it before an entry is touched, the public static methods (which would run the
 // program's real migration) are never called, and everything is removed in finally. All user names and passwords are synthetic.
+// The S3a-5f tests (case, '|' in names, the migration's retry) use FakeOldVault, an old vault in memory, so they never touch the real vault.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
 using System.Collections.Generic;
@@ -42,23 +43,105 @@ namespace BINBTests {
 			oldPasswordVault.Add(resource,userName,password);
 		}
 
+		///<summary>Removes everything of this test first, each entry on its own (one that fails does not keep the others), and asserts after
+		///(S3a-5f).</summary>
 		public void Dispose() {
-			//CredentialManager.List filters by the prefix (Windows' filter, then StartsWith again), so only this test's entries are deleted.
-			foreach(CredentialEntry credentialEntry in CredentialManager.List(Prefix)) {
-				Assert.IsTrue(credentialEntry.TargetName.StartsWith(Prefix,StringComparison.Ordinal));
-				CredentialManager.Delete(credentialEntry.TargetName);
-			}
-			if(_listVaultResources.Count==0) {
-				return;
-			}
-			OldPasswordVault oldPasswordVault=OldPasswordVault.TryOpen();
-			foreach(string resource in _listVaultResources.Distinct()) {
-				foreach(OldVaultEntry oldVaultEntry in oldPasswordVault.FindAllByResource(resource)) {
-					if(oldVaultEntry.Resource.StartsWith(Prefix,StringComparison.Ordinal)) {
-						oldPasswordVault.Remove(oldVaultEntry);
+			List<string> listProblems=new List<string>();
+			//CredentialManager.List filters by the prefix (Windows' filter, then StartsWith again), so only this test's entries are deleted. Windows
+			//shows one casing of a name at a time and deleting it uncovers the next, so the listing is repeated until it is empty.
+			for(int round=0;round<20;round++) {
+				List<CredentialEntry> listEntries;
+				try {
+					listEntries=CredentialManager.List(Prefix);
+				}
+				catch(Exception ex) {
+					listProblems.Add("Listing "+Prefix+"*: "+ex.Message);
+					break;
+				}
+				listEntries=listEntries.Where(x => x.TargetName.StartsWith(Prefix,StringComparison.OrdinalIgnoreCase)).ToList();
+				if(listEntries.Count==0) {
+					break;
+				}
+				if(round==19) {
+					listProblems.Add("Still there after 20 rounds: "+string.Join(", ",listEntries.Select(x => x.TargetName)));
+					break;
+				}
+				foreach(CredentialEntry credentialEntry in listEntries) {
+					try {
+						CredentialManager.Delete(credentialEntry.TargetName);
+					}
+					catch(Exception ex) {
+						listProblems.Add("Deleting "+credentialEntry.TargetName+": "+ex.Message);
 					}
 				}
 			}
+			if(_listVaultResources.Count>0) {
+				OldPasswordVault oldPasswordVault=null;
+				try {
+					oldPasswordVault=OldPasswordVault.TryOpen();
+				}
+				catch(Exception ex) {
+					listProblems.Add("Opening the vault: "+ex.Message);
+				}
+				if(oldPasswordVault==null) {
+					listProblems.Add("The vault could not be opened to remove: "+string.Join(", ",_listVaultResources.Distinct()));
+				}
+				else {
+					foreach(string resource in _listVaultResources.Distinct()) {
+						try {
+							foreach(OldVaultEntry oldVaultEntry in oldPasswordVault.FindAllByResource(resource)) {
+								if(oldVaultEntry.Resource.StartsWith(Prefix,StringComparison.Ordinal)) {
+									oldPasswordVault.Remove(oldVaultEntry);
+								}
+							}
+						}
+						catch(Exception ex) {
+							listProblems.Add("Removing the vault resource "+resource+": "+ex.Message);
+						}
+					}
+				}
+			}
+			Assert.AreEqual(0,listProblems.Count,"Clean-up: "+string.Join("; ",listProblems));
+		}
+	}
+
+	///<summary>An old vault in memory (S3a-5f): entries the test adds, single entries whose password cannot be read, and what was asked of it.
+	///It never touches the real vault.</summary>
+	internal sealed class FakeOldVault : IOldVault {
+		private readonly List<OldVaultEntry> _listEntries=new List<OldVaultEntry>();
+		private readonly Dictionary<OldVaultEntry,string> _dictPasswords=new Dictionary<OldVaultEntry,string>();
+		///<summary>Resources whose password read throws, as a vault entry that cannot be read.</summary>
+		public readonly HashSet<string> SetResourcesFailing=new HashSet<string>();
+		///<summary>The resources whose password was read, in order.</summary>
+		public readonly List<string> ListResourcesRead=new List<string>();
+		public int CountRetrieveAll;
+
+		public void Add(string resource,string userName,string password) {
+			OldVaultEntry oldVaultEntry=new OldVaultEntry { Resource=resource,UserName=userName,Credential=new object() };
+			_listEntries.Add(oldVaultEntry);
+			_dictPasswords[oldVaultEntry]=password;
+		}
+
+		public List<OldVaultEntry> RetrieveAll() {
+			CountRetrieveAll++;
+			return _listEntries.ToList();
+		}
+
+		public List<OldVaultEntry> FindAllByResource(string resource) {
+			return _listEntries.Where(x => string.Equals(x.Resource,resource,StringComparison.OrdinalIgnoreCase)).ToList();
+		}
+
+		public string RetrievePassword(OldVaultEntry oldVaultEntry) {
+			ListResourcesRead.Add(oldVaultEntry.Resource);
+			if(SetResourcesFailing.Contains(oldVaultEntry.Resource)) {
+				throw new System.Runtime.InteropServices.COMException("Synthetic: the entry cannot be read.",unchecked((int)0x80004005));
+			}
+			return _dictPasswords[oldVaultEntry];
+		}
+
+		public void Remove(OldVaultEntry oldVaultEntry) {
+			_listEntries.Remove(oldVaultEntry);
+			_dictPasswords.Remove(oldVaultEntry);
 		}
 	}
 
@@ -252,6 +335,249 @@ namespace BINBTests {
 				StringAssert.Contains(credentialStore.GetMigrationRecord(),"Copied 0, already there 0, failed 0, PasswordVault not available");
 				Assert.AreEqual(PASSWORD,credentialStore.RetrievePassword(URI,USER));
 			}
+		}
+
+		///<summary>A start of the program (a new store with the test's names) whose old vault is the given fake: the real vault is not touched.
+		///</summary>
+		private static CredentialStore StartWithVault(TestCredentialStore testCredentialStore,IOldVault oldVault) {
+			CredentialStore credentialStore=testCredentialStore.NewStore();
+			credentialStore.FuncIsOsWithoutVault=() => false;
+			credentialStore.FuncOpenVault=() => oldVault;
+			return credentialStore;
+		}
+
+		[TestMethod]
+		public void Login_IsFoundWhateverTheCaseOfTheAddressOrUser() {
+			//S3a-5f item 1: Windows matches target names without regard to case, so the store does too.
+			using(TestCredentialStore testCredentialStore=new TestCredentialStore()) {
+				CredentialStore credentialStore=StartWithVault(testCredentialStore,new FakeOldVault());
+				string uriUpper=URI.ToUpperInvariant();
+				string userUpper=USER.ToUpperInvariant();
+				credentialStore.WritePassword(URI,USER,PASSWORD);
+				Assert.IsTrue(credentialStore.TryRetrieveUserName(uriUpper,out string userName),"A differently-cased address finds its login.");
+				Assert.AreEqual(USER,userName);
+				Assert.AreEqual(PASSWORD,credentialStore.RetrievePassword(uriUpper,USER));
+				Assert.AreEqual(PASSWORD,credentialStore.RetrievePassword(URI,userUpper));
+				//Saved again in another casing: Windows keeps one credential, and the store shows one login.
+				credentialStore.WritePassword(uriUpper,userUpper,"synthetic-password-2");
+				Assert.AreEqual(1,CredentialManager.List(testCredentialStore.Prefix+"cm:").Count);
+				Assert.AreEqual(1,credentialStore.GetUserNames(URI).Count);
+				Assert.AreEqual("synthetic-password-2",credentialStore.RetrievePassword(URI,USER));
+				Assert.AreEqual(testCredentialStore.Prefix+"cm:"+URI+"|"+USER,CredentialManager.List(testCredentialStore.Prefix+"cm:")[0].TargetName,
+					"Saved again under the casing it has, not a second one that Windows would hide.");
+				credentialStore.ClearCredentials(uriUpper);
+				Assert.AreEqual(0,CredentialManager.List(testCredentialStore.Prefix+"cm:").Count,"Clearing in another casing clears the login.");
+				Assert.IsFalse(credentialStore.TryRetrieveUserName(URI,out string _));
+				//Two casings written directly (as the S3a-5 store could): Windows shows one; clearing removes both, the hidden one too.
+				CredentialManager.Write(testCredentialStore.Prefix+"cm:"+URI+"|"+USER,USER,"synthetic-password-3");
+				CredentialManager.Write(testCredentialStore.Prefix+"cm:"+uriUpper+"|"+userUpper,userUpper,"synthetic-password-4");
+				Assert.IsTrue(credentialStore.TryRetrieveUserName(URI,out string _));
+				credentialStore.ClearCredentials(URI);
+				Assert.IsNull(CredentialManager.ReadInfo(testCredentialStore.Prefix+"cm:"+URI+"|"+USER),"No casing is left.");
+				Assert.AreEqual(0,CredentialManager.List(testCredentialStore.Prefix+"cm:").Count);
+			}
+		}
+
+		[TestMethod]
+		public void TargetName_IsUnambiguousWithAPipe_AndUnchangedWithout() {
+			//S3a-5f item 2. Names are computed only; nothing is written.
+			CredentialStore credentialStore=new CredentialStore("OpenPmsDentalTest:names:cm:","OpenPmsDentalTest:names:vault:","OpenPmsDentalTest:names:record");
+			string prefix=credentialStore.TargetPrefix;
+			//Without '|' the name is byte for byte the one S3a-5 wrote, a backslash and '%' included, so the saved logins are found as before.
+			Assert.AreEqual(prefix+URI+"|"+USER,credentialStore.GetTargetName(URI,USER));
+			Assert.AreEqual(prefix+@"https://mt.example.test/a%20b%7C|DOMAIN\user",credentialStore.GetTargetName("https://mt.example.test/a%20b%7C",@"DOMAIN\user"));
+			Assert.AreEqual(prefix+"https://mt.example.test/a%_b|c",credentialStore.GetTargetName("https://mt.example.test/a%_b","c"));
+			//With '|' in either part: escaped, no '|' after the prefix.
+			Assert.AreEqual(prefix+"https://mt.example.test/a%7Cb%_c",credentialStore.GetTargetName("https://mt.example.test/a|b","c"));
+			Assert.AreEqual(prefix+"https://mt.example.test/a%_b%7Cc",credentialStore.GetTargetName("https://mt.example.test/a","b|c"));
+			Assert.AreEqual(prefix+@"https://mt.example.test/a%2520b%_DOMAIN\x%7Cy",credentialStore.GetTargetName("https://mt.example.test/a%20b",@"DOMAIN\x|y"));
+			//No two logins share a name, also as Windows compares them (case-insensitively).
+			string[][] arrayLogins=new[] {
+				new[] { "a|b","c" },new[] { "a","b|c" },new[] { "a|","b" },new[] { "a","|b" },new[] { "a||","b" },new[] { "a|","|b" },new[] { "a","||b" },
+				new[] { "a%7Cb","c" },new[] { "a%7Cb|","c" },new[] { "a","%7Cb|c" },new[] { "a%_b","c|" },new[] { "a","%_b|c" },new[] { "a%","_b|c" },
+				new[] { "a%25","b|" },new[] { "a%","25b|" },new[] { "a","b" },new[] { @"a\","b|" },new[] { "A|B","c" },
+			};
+			List<string> listNames=arrayLogins.Select(x => credentialStore.GetTargetName(x[0],x[1])).ToList();
+			Assert.AreEqual(arrayLogins.Length-1,listNames.Distinct(StringComparer.OrdinalIgnoreCase).Count(),
+				"Only \"A|B\"+\"c\" shares the name of \"a|b\"+\"c\", as Windows would: "+string.Join("  ",listNames));
+			Assert.AreEqual(arrayLogins.Length,listNames.Distinct(StringComparer.Ordinal).Count());
+		}
+
+		[TestMethod]
+		public void Login_WithAPipe_IsStoredUnambiguously() {
+			//S3a-5f item 2: the address "a|b" with the user "c" and the address "a" with the user "b|c" are two logins.
+			using(TestCredentialStore testCredentialStore=new TestCredentialStore()) {
+				CredentialStore credentialStore=StartWithVault(testCredentialStore,new FakeOldVault());
+				string uriA="https://mt.example.test/a";
+				string uriAB="https://mt.example.test/a|b";
+				credentialStore.WritePassword(uriAB,"c","synthetic-password-ab");
+				credentialStore.WritePassword(uriA,"b|c","synthetic-password-a");
+				Assert.AreEqual("synthetic-password-ab",credentialStore.RetrievePassword(uriAB,"c"));
+				Assert.AreEqual("synthetic-password-a",credentialStore.RetrievePassword(uriA,"b|c"));
+				CollectionAssert.AreEqual(new[] { "c" },credentialStore.GetUserNames(uriAB));
+				CollectionAssert.AreEqual(new[] { "b|c" },credentialStore.GetUserNames(uriA));
+				CollectionAssert.AreEquivalent(new[] { credentialStore.GetTargetName(uriAB,"c"),credentialStore.GetTargetName(uriA,"b|c") },
+					CredentialManager.List(testCredentialStore.Prefix+"cm:").Select(x => x.TargetName).ToArray());
+				credentialStore.ClearCredentials(uriA);
+				Assert.IsFalse(credentialStore.TryRetrieveUserName(uriA,out string _));
+				Assert.AreEqual("synthetic-password-ab",credentialStore.RetrievePassword(uriAB,"c"),"Clearing one leaves the other.");
+			}
+		}
+
+		[TestMethod]
+		public void Login_WithAPipe_SavedUnderTheS3a5Name_IsStillFound_AndMovesWhenSavedAgain() {
+			//S3a-5f item 2, the read fallback. S3a-5 saved both logins under the one name "...a|b|c"; the entry's own user name tells which it is.
+			using(TestCredentialStore testCredentialStore=new TestCredentialStore()) {
+				CredentialStore credentialStore=StartWithVault(testCredentialStore,new FakeOldVault());
+				string uriA="https://mt.example.test/a";
+				string uriAB="https://mt.example.test/a|b";
+				string targetNameS3a5=testCredentialStore.Prefix+"cm:"+uriAB+"|c";
+				Assert.AreEqual(targetNameS3a5,credentialStore.GetTargetNameUnescaped(uriA,"b|c"),"The S3a-5 name was ambiguous.");
+				CredentialManager.Write(targetNameS3a5,"c","synthetic-password-old");
+				Assert.AreEqual("synthetic-password-old",credentialStore.RetrievePassword(uriAB,"c"));
+				CollectionAssert.AreEqual(new[] { "c" },credentialStore.GetUserNames(uriAB));
+				Assert.IsFalse(credentialStore.TryRetrieveUserName(uriA,out string _),"Its own user name says it is not the login of \"a\" + \"b|c\".");
+				Assert.ThrowsExactly<Win32Exception>(() => credentialStore.RetrievePassword(uriA,"b|c"));
+				//Saved again: under the escaped name, and the S3a-5 entry of this login goes.
+				credentialStore.WritePassword(uriAB,"c","synthetic-password-new");
+				CollectionAssert.AreEqual(new[] { credentialStore.GetTargetName(uriAB,"c") },
+					CredentialManager.List(testCredentialStore.Prefix+"cm:").Select(x => x.TargetName).ToArray());
+				Assert.AreEqual("synthetic-password-new",credentialStore.RetrievePassword(uriAB,"c"));
+				//The same S3a-5 name holding the other login: found for that one only, and not deleted when the first login is saved.
+				CredentialManager.Write(targetNameS3a5,"b|c","synthetic-password-old-a");
+				Assert.AreEqual("synthetic-password-old-a",credentialStore.RetrievePassword(uriA,"b|c"));
+				CollectionAssert.AreEqual(new[] { "b|c" },credentialStore.GetUserNames(uriA));
+				CollectionAssert.AreEqual(new[] { "c" },credentialStore.GetUserNames(uriAB));
+				credentialStore.WritePassword(uriAB,"c","synthetic-password-newer");
+				Assert.IsNotNull(CredentialManager.ReadInfo(targetNameS3a5),"Another login's entry stays.");
+				//Clearing the address deletes its S3a-5 entry too.
+				credentialStore.ClearCredentials(uriA);
+				Assert.IsNull(CredentialManager.ReadInfo(targetNameS3a5));
+				Assert.AreEqual("synthetic-password-newer",credentialStore.RetrievePassword(uriAB,"c"));
+			}
+		}
+
+		[TestMethod]
+		public void Migration_RetriesOnlyTheEntriesThatFailed_OnLaterStarts() {
+			//S3a-5f item 3: a fake vault whose one entry cannot be read; the record names it, later starts retry it alone.
+			using(TestCredentialStore testCredentialStore=new TestCredentialStore()) {
+				FakeOldVault fakeOldVault=new FakeOldVault();
+				string uriFailing="https://mt2.example.test/ServiceMain.asmx";
+				string resourceFailing=testCredentialStore.VaultResource(uriFailing);
+				fakeOldVault.Add(testCredentialStore.VaultResource(URI),USER,PASSWORD);
+				fakeOldVault.Add(resourceFailing,USER,"synthetic-password-2");
+				fakeOldVault.SetResourcesFailing.Add(resourceFailing);
+				CredentialStore credentialStore=StartWithVault(testCredentialStore,fakeOldVault);
+				Assert.AreEqual(PASSWORD,credentialStore.RetrievePassword(URI,USER));
+				Assert.IsFalse(credentialStore.TryRetrieveUserName(uriFailing,out string _));
+				string record=credentialStore.GetMigrationRecord();
+				StringAssert.Contains(record,"Copied 1, already there 0, failed 1\nRetry: 1 of 5 tries done; on the next start: "
+					+MigrationResult.GetEntryId(resourceFailing,USER));
+				Assert.IsFalse(record.Contains("mt2.example.test"),"The record names the entry by a hash, not by its address.");
+				//The next start, still failing: only the failed entry is read again; an entry the vault got since is not copied by a retry.
+				string uriLater="https://mt3.example.test/ServiceMain.asmx";
+				fakeOldVault.Add(testCredentialStore.VaultResource(uriLater),USER,"synthetic-password-later");
+				fakeOldVault.ListResourcesRead.Clear();
+				credentialStore=StartWithVault(testCredentialStore,fakeOldVault);
+				Assert.IsFalse(credentialStore.TryRetrieveUserName(uriFailing,out string _));
+				CollectionAssert.AreEqual(new[] { resourceFailing },fakeOldVault.ListResourcesRead);
+				StringAssert.Contains(credentialStore.GetMigrationRecord(),"Copied 1, already there 0, failed 1, in 2 tries\nRetry: 2 of 5 tries done");
+				//The start after: the entry can be read now, so it is copied and the record is complete.
+				fakeOldVault.SetResourcesFailing.Clear();
+				fakeOldVault.ListResourcesRead.Clear();
+				credentialStore=StartWithVault(testCredentialStore,fakeOldVault);
+				Assert.AreEqual("synthetic-password-2",credentialStore.RetrievePassword(uriFailing,USER));
+				CollectionAssert.AreEqual(new[] { resourceFailing },fakeOldVault.ListResourcesRead);
+				record=credentialStore.GetMigrationRecord();
+				StringAssert.EndsWith(record,"Copied 2, already there 0, failed 0, in 3 tries");
+				Assert.IsFalse(credentialStore.TryRetrieveUserName(uriLater,out string _));
+				Assert.IsNull(MigrationResult.GetRetry(record));
+				//Complete: the vault is not read again.
+				int countRetrieveAll=fakeOldVault.CountRetrieveAll;
+				credentialStore=StartWithVault(testCredentialStore,fakeOldVault);
+				Assert.IsTrue(credentialStore.TryRetrieveUserName(URI,out string _));
+				Assert.AreEqual(countRetrieveAll,fakeOldVault.CountRetrieveAll);
+				Assert.AreEqual(record,credentialStore.GetMigrationRecord());
+			}
+		}
+
+		[TestMethod]
+		public void Migration_StopsRetryingAfterFiveStarts() {
+			using(TestCredentialStore testCredentialStore=new TestCredentialStore()) {
+				FakeOldVault fakeOldVault=new FakeOldVault();
+				string resourceFailing=testCredentialStore.VaultResource(URI);
+				fakeOldVault.Add(resourceFailing,USER,PASSWORD);
+				fakeOldVault.SetResourcesFailing.Add(resourceFailing);
+				for(int start=1;start<=MigrationResult.MAX_TRIES;start++) {
+					CredentialStore credentialStore=StartWithVault(testCredentialStore,fakeOldVault);
+					Assert.IsFalse(credentialStore.TryRetrieveUserName(URI,out string _));
+					string record=credentialStore.GetMigrationRecord();
+					Assert.AreEqual(start,fakeOldVault.ListResourcesRead.Count,"Start "+start+": one more try.");
+					if(start<MigrationResult.MAX_TRIES) {
+						StringAssert.Contains(record,"Retry: "+start+" of 5 tries done");
+					}
+					else {
+						StringAssert.EndsWith(record,"Copied 0, already there 0, failed 1, in 5 tries");
+						Assert.IsNull(MigrationResult.GetRetry(record));
+					}
+				}
+				int countRetrieveAll=fakeOldVault.CountRetrieveAll;
+				CredentialStore credentialStoreAfter=StartWithVault(testCredentialStore,fakeOldVault);
+				Assert.IsFalse(credentialStoreAfter.TryRetrieveUserName(URI,out string _));
+				Assert.AreEqual(countRetrieveAll,fakeOldVault.CountRetrieveAll,"After the fifth start the vault is not read again.");
+			}
+		}
+
+		[TestMethod]
+		public void MigrationRecord_OfS3a5_OrDamaged_IsComplete() {
+			//Records are parsed only; nothing is written.
+			Assert.IsNull(MigrationResult.GetRetry("2026-11-15 10:00:00 UTC: Copied 1, already there 0, failed 1"),"An S3a-5 record is complete.");
+			Assert.IsNull(MigrationResult.GetRetry("2026-11-15 10:00:00 UTC: Copied 0, already there 0, failed 0, PasswordVault not available"));
+			Assert.IsNull(MigrationResult.GetRetry("2026-11-15 10:00:00 UTC: Copied 1\nRetry: 1 of 5 tries done; on the next start: zz"),"Damaged.");
+			Assert.IsNull(MigrationResult.GetRetry("2026-11-15 10:00:00 UTC: Copied 0, already there 0, failed 1\nRetry: 5 of 5 tries done; on the next start: 0123456789abcdef"));
+			MigrationResult migrationResult=MigrationResult.GetRetry(
+				"2026-11-15 10:00:00 UTC: Copied 3, already there 1, failed 2, in 2 tries\nRetry: 2 of 5 tries done; on the next start: 0123456789abcdef,fedcba9876543210");
+			Assert.IsNotNull(migrationResult);
+			Assert.AreEqual(3,migrationResult.CountCopied);
+			Assert.AreEqual(1,migrationResult.CountAlreadyThere);
+			Assert.AreEqual(2,migrationResult.CountTries);
+			CollectionAssert.AreEqual(new[] { "0123456789abcdef","fedcba9876543210" },migrationResult.ListRetryIds);
+			//The record of many failed entries stays within the Credential Manager's limit.
+			MigrationResult migrationResultMany=new MigrationResult { CountFailed=500,IsVaultAvailable=true,CountTries=4,
+				ListRetryIds=Enumerable.Range(0,MigrationResult.MAX_RETRY_IDS).Select(x => MigrationResult.GetEntryId("r"+x,"u")).ToList() };
+			Assert.IsTrue(("2026-11-15 10:00:00 UTC: "+migrationResultMany).Length<=CredentialManager.MAX_SECRET_BYTES/2);
+		}
+
+		[TestMethod]
+		public void Migration_AlreadyThere_IsCheckedWithoutReadingTheSecret() {
+			//S3a-5f item 4.
+			using(TestCredentialStore testCredentialStore=new TestCredentialStore()) {
+				string targetName=testCredentialStore.Prefix+"cm:"+URI+"|"+USER;
+				CredentialManager.Write(targetName,USER,"synthetic-password-newer");
+				CredentialEntry credentialEntry=CredentialManager.ReadInfo(targetName);
+				Assert.AreEqual(USER,credentialEntry.UserName);
+				Assert.AreEqual("",credentialEntry.Secret,"ReadInfo never decodes the secret.");
+				Assert.IsNull(CredentialManager.ReadInfo(testCredentialStore.Prefix+"cm:none"));
+				//A login with '|' saved under its S3a-5 name is there too.
+				string uriAB="https://mt.example.test/a|b";
+				CredentialManager.Write(testCredentialStore.Prefix+"cm:"+uriAB+"|c","c","synthetic-password-old");
+				FakeOldVault fakeOldVault=new FakeOldVault();
+				fakeOldVault.Add(testCredentialStore.VaultResource(URI),USER,"synthetic-password-older");
+				fakeOldVault.Add(testCredentialStore.VaultResource(uriAB),"c","synthetic-password-older");
+				CredentialStore credentialStore=StartWithVault(testCredentialStore,fakeOldVault);
+				Assert.AreEqual("synthetic-password-newer",credentialStore.RetrievePassword(URI,USER));
+				StringAssert.Contains(credentialStore.GetMigrationRecord(),"Copied 0, already there 2, failed 0");
+				Assert.AreEqual(0,fakeOldVault.ListResourcesRead.Count,"No vault password is read for a login already there.");
+			}
+			//The check and the copy read no secret of the Credential Manager.
+			string source=TestPaths.ReadSource("PasswordVaultWrapper","CredentialStore.cs");
+			int indexStart=source.IndexOf("private bool LoginExists(",StringComparison.Ordinal);
+			int indexEnd=source.IndexOf("public string GetMigrationRecord(",StringComparison.Ordinal);
+			Assert.IsTrue(indexStart>0 && indexEnd>indexStart);
+			Assert.IsFalse(source.Substring(indexStart,indexEnd-indexStart).Contains("CredentialManager.Read("));
+			indexStart=source.IndexOf("internal MigrationResult MigrateFromVault(",StringComparison.Ordinal);
+			Assert.IsTrue(indexStart>0);
+			Assert.IsFalse(source.Substring(indexStart).Contains("CredentialManager.Read("));
 		}
 
 		[TestMethod]
