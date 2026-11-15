@@ -44,6 +44,8 @@ namespace OpenPmsDental {
 			gridMain.Columns.Add(col);
 			listNotPerf=EhrNotPerformeds.Refresh(PatCur.PatNum);
 			List<EhrCode> listEhrCodes=EhrCodes.Listt;//Read once for every row
+			//Before the office imports the 2027 release every row but the CVX rows is "other": the label says why, so the row is not taken for a code of no item.
+			bool isReleaseImported=CqmDataEntry.IsReleaseImported();
 			gridMain.ListGridRows.Clear();
 			GridRow row;
 			for(int i=0;i<listNotPerf.Count;i++) {
@@ -54,7 +56,10 @@ namespace OpenPmsDental {
 				//By role, catalog membership and the CVX table (EHR-7, section 8): a code of no item is "other", never a guessed item. The row keeps its
 				//item, or null for "other", in its Tag, and the double-click reads the Tag, never this label.
 				EhrNotPerformedItem? itemNotPerformed=CqmDataEntry.GetNotPerformedItem(listNotPerf[i].CodeValue,listNotPerf[i].CodeSystem,listEhrCodes);
-				if(itemNotPerformed==null) {
+				if(itemNotPerformed==null && !isReleaseImported) {
+					row.Cells.Add(Lan.g(this,"other (2027 value sets not imported)"));
+				}
+				else if(itemNotPerformed==null) {
 					row.Cells.Add(Lan.g(this,"other"));
 				}
 				else {

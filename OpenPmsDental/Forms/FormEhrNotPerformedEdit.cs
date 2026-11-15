@@ -105,9 +105,16 @@ namespace OpenPmsDental {
 		}
 
 		///<summary>An "other" row (EHR-7): its saved code, reason, date and note, with nothing to change and no save. Its code is of no item this
-		///program knows (or the office has not imported the 2027 release yet), so no pick list is filled.</summary>
+		///program knows, or the office has not imported the 2027 release yet, so no pick list is filled. Before the import the window says so: the
+		///row's item is then unknown only because the value sets are missing, and importing the release opens the row.</summary>
 		private void FillReadOnly() {
-			Text=Lan.g(this,"Not Performed Item with Reason")+" - "+Lan.g(this,"read-only, the code is of no item");
+			if(CqmDataEntry.IsReleaseImported()) {
+				Text=Lan.g(this,"Not Performed Item with Reason")+" - "+Lan.g(this,"read-only, the code is of no item");
+			}
+			else {
+				Text=Lan.g(this,"Not Performed Item with Reason")+" - "+Lan.g(this,"read-only, the 2027 value sets are not imported");
+				textDescription.Text=Lan.g(this,"The EHR value sets of the 2027 release are not imported (Setup | Chart | EHR, Code System Importer); until then this row's item is not known.");
+			}
 			textCode.Text=EhrNotPerfCur.CodeValue;
 			textCodeSystem.Text=EhrNotPerfCur.CodeSystem;
 			textDate.Text=EhrNotPerfCur.DateEntry.ToShortDateString();
