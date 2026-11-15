@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- Tests for package S3a-M1 of the .NET 10 plan (docs/specs/net10-plan.md, docs/port-notes/S3a-M1.md): the shared menu code on
+       ContextMenuStrip, ToolStripMenuItem and ToolStripDropDown instead of the WinForms ContextMenu, MenuItem and Menu. The grids' right-click
+       menus (GridOD, GridOld), the links of PopupHelper, Lan.C on ToolStrip items, the toolbar button's drop-down, ODR's ComboBoxMulti and the
+       sheet combo box texts are built in memory and compared with what the WinForms menus held; no window is shown. The translation tests use
+       one scratch database on the local MariaDB (127.0.0.1:3306, root, blank password) whose name starts with s3am1_ and is unique to the run,
+       with the language and languageforeign tables only and synthetic rows, dropped afterwards; they are skipped (inconclusive) when the server
+       does not answer or when S3AM1_TEST_DB=skip. Every .cs file under this folder is compiled. -->
+  <ItemGroup>
+    <Reference Include="System.Windows.Forms" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\CodeBase\xCodeBase.csproj" />
+    <ProjectReference Include="..\..\DataConnectionBase\xDataConnectionBase.csproj" />
+    <ProjectReference Include="..\..\OpenPmsDentalBusiness\OpenPmsDentalBusiness.csproj" />
+    <!-- Lan, ToolBarOD and ODToolBarButton. No window of the program is ever shown. -->
+    <ProjectReference Include="..\..\OpenPmsDental\OpenPmsDental.csproj" />
+    <!-- ComboBoxMulti, the multiple-choice box of the RDL report parameters. -->
+    <ProjectReference Include="..\..\ODR\xODR.csproj" />
+  </ItemGroup>
+</Project>
