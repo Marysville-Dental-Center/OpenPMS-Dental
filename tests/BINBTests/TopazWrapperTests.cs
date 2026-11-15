@@ -560,6 +560,88 @@ namespace BINBTests {
 		}
 
 		[TestMethod]
+		public void Signed_HelperEndsBeforeTheSave_CheckBeforeWritingFails_AndChangesNothing() {
+			//S3a-14f, second round: FormSheetFillEdit wrote the sheet and its other fields before GetSignature threw. CheckTopazSignatureReachable
+			//lets a form find the lost signature before it writes anything (AreTopazSignaturesReachable); while the helper runs it changes nothing.
+			WithFakeTopazModule(helper32Client => {
+				using(SignatureBoxWrapper signatureBoxWrapperOwn=new SignatureBoxWrapper()) {
+					signatureBoxWrapperOwn.CheckTopazSignatureReachable();//the program's own box: nothing to check, no helper call
+				}
+				using(SignatureBoxWrapper signatureBoxWrapper=new SignatureBoxWrapper()) {
+					TopazSignatureView sigBoxTopaz=(TopazSignatureView)signatureBoxWrapper.Controls.Find("sigBoxTopaz",true).Single();
+					Assert.IsTrue(SignAsTheTopazButton(signatureBoxWrapper,sigBoxTopaz));
+					signatureBoxWrapper.CheckTopazSignatureReachable();
+					signatureBoxWrapper.CheckTopazSignatureReachable();
+					Assert.IsTrue(sigBoxTopaz.IsSignatureCaptured,"The check keeps the signature.");
+					Label labelInvalidSig=GetLabel(signatureBoxWrapper);
+					Assert.IsFalse(labelInvalidSig.Visible,"The check of a reachable signature says nothing.");
+					Assert.AreEqual(FakeTopazModule.SIGNATURE_SIGNED,signatureBoxWrapper.GetSignature("synthetic key data"),"The check changed nothing.");
+					int processId=helper32Client.ProcessId;
+					using(Process process=Process.GetProcessById(processId)) {
+						process.Kill();//this test's copy of the helper
+						Assert.IsTrue(process.WaitForExit(10000));
+					}
+					Helper32Exception helper32Exception=Assert.ThrowsExactly<Helper32Exception>(() => signatureBoxWrapper.CheckTopazSignatureReachable(),
+						"The check finds the lost signature before anything is written.");
+					Assert.AreEqual(Helper32Failure.Crashed,helper32Exception.Failure);
+					StringAssert.StartsWith(helper32Exception.Message,"Topaz signature pad software could not be reached: ");
+					StringAssert.Contains(helper32Exception.Message,"ended after the patient signed on the Topaz pad");
+					Assert.IsTrue(sigBoxTopaz.IsSignatureLost);
+					Assert.IsTrue(labelInvalidSig.Visible,"The box says it.");
+					Assert.AreEqual(helper32Exception.Message,labelInvalidSig.Text);
+					//The form stays open: the same box still fails (GetSignature too) until the user clears it and signs again.
+					Assert.ThrowsExactly<Helper32Exception>(() => signatureBoxWrapper.CheckTopazSignatureReachable());
+					Assert.ThrowsExactly<Helper32Exception>(() => signatureBoxWrapper.GetSignature("synthetic key data"));
+					signatureBoxWrapper.ClearSignature();
+					signatureBoxWrapper.CheckTopazSignatureReachable();//a cleared box hides the Topaz control: nothing to check
+					Assert.IsTrue(SignAsTheTopazButton(signatureBoxWrapper,sigBoxTopaz));
+					signatureBoxWrapper.CheckTopazSignatureReachable();
+					Assert.AreEqual(FakeTopazModule.SIGNATURE_SIGNED,signatureBoxWrapper.GetSignature("synthetic key data"));
+				}
+			});
+		}
+
+		///<summary>The text of the method that starts with signature in source, up to the next "\n\t\t}" at its own indent.</summary>
+		private static string GetMethodText(string source,string signature) {
+			int indexStart=source.IndexOf(signature,StringComparison.Ordinal);
+			Assert.IsTrue(indexStart>=0,signature+" is in the source.");
+			Assert.AreEqual(-1,source.IndexOf(signature,indexStart+1,StringComparison.Ordinal),signature+" is in the source once.");
+			int indexEnd=source.IndexOf("\n\t\t}",indexStart,StringComparison.Ordinal);
+			Assert.IsTrue(indexEnd>indexStart,"The end of "+signature);
+			return source.Substring(indexStart,indexEnd-indexStart);
+		}
+
+		[TestMethod]
+		public void FormSheetFillEdit_ChecksTopazSignaturesBeforeItWritesTheSheet() {
+			//S3a-14f, second round: TryToSaveData wrote the sheet (Sheets.Insert or Update) and its other fields (SheetFields.Sync) before
+			//GetSignature found the lost Topaz signature, so a sheet without the patient's signature was stored. The check comes before any of it.
+			string source=TestPaths.ReadSource("OpenPmsDental","Forms","FormSheetFillEdit.cs").Replace("\r\n","\n");
+			string textCheck=GetMethodText(source,"private bool AreTopazSignaturesReachable() {");
+			StringAssert.Contains(textCheck,".GetSigChanged()");
+			StringAssert.Contains(textCheck,".GetSigIsTopaz()");
+			StringAssert.Contains(textCheck,".CheckTopazSignatureReachable();");
+			StringAssert.Contains(textCheck,"catch(Helper32Exception ex) {");
+			StringAssert.Contains(textCheck,"return false;");
+			string textSave=GetMethodText(source,"private bool TryToSaveData() {");
+			int indexCheck=textSave.IndexOf("if(!AreTopazSignaturesReachable()) {",StringComparison.Ordinal);
+			Assert.IsTrue(indexCheck>=0,"TryToSaveData checks the Topaz signatures.");
+			StringAssert.Contains(textSave.Substring(indexCheck),"if(!AreTopazSignaturesReachable()) {\n\t\t\t\treturn false;",
+				"A failed check stops the save.");
+			foreach(string write in new[] { "TrySetDateSubmitted()","Sheets.Insert(","Sheets.Update(","Sheets.SaveParameters(","SheetFields.Sync(",
+				"SheetFields.GetFieldsAndParameters(","ImageStore.Import(",".GetSignature(","DidChangeSheet=true" })
+			{
+				int indexWrite=textSave.IndexOf(write,StringComparison.Ordinal);
+				Assert.IsTrue(indexWrite>=0,write+" is in TryToSaveData (update this test if the method changed).");
+				Assert.IsTrue(indexCheck<indexWrite,"TryToSaveData checks the Topaz signatures before "+write);
+			}
+			//The payment plan's save writes the plan with its signature (SaveSignaturePayPlan): the check comes first there too.
+			string textButSave=GetMethodText(source,"private void butSave_Click(object sender,EventArgs e) {");
+			int indexCheckPayPlan=textButSave.IndexOf("if(!AreTopazSignaturesReachable()) {",StringComparison.Ordinal);
+			int indexSavePayPlan=textButSave.IndexOf("SaveSignaturePayPlan();",StringComparison.Ordinal);
+			Assert.IsTrue(indexCheckPayPlan>=0 && indexCheckPayPlan<indexSavePayPlan,"The payment plan's save checks the Topaz signatures first.");
+		}
+
+		[TestMethod]
 		public void LoneSurrogate_KeyDataReachesTopazUnchanged_AsInTheProgramsProcess() {
 			//S3a-14f: a note cut in the middle of an emoji leaves half a surrogate pair in the key data, which the protocol's strict UTF-8 cannot
 			//carry (EncoderFallbackException, not caught before). On main the program passed the string itself to Topaz's method in its own process,

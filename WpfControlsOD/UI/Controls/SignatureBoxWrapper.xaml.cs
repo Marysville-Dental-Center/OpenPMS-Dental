@@ -100,6 +100,12 @@ How to use the SignatureBoxWrapper control:
 			return signatureBoxWrapper.GetSignature(keyData);
 		}
 
+		///<summary>Call before the record is written, for a box whose signature changed: throws what GetSignature would throw for a Topaz box whose
+		///32-bit helper failed (a signature the helper lost), and changes nothing (S3a-14f; the WinForms box's CheckTopazSignatureReachable).</summary>
+		public void CheckTopazSignatureReachable() {
+			signatureBoxWrapper.CheckTopazSignatureReachable();
+		}
+
 		///<summary>This should NOT be used unless GetSigChanged returns true.</summary>
 		public bool GetSigIsTopaz() {
 			return signatureBoxWrapper.GetSigIsTopaz();

@@ -476,6 +476,9 @@ namespace OpenPmsDental {
 				if(!OkToSaveBecauseNoOtherEdits()) {
 					return;
 				}
+				if(!AreTopazSignaturesReachable()) {//S3a-14f: the form stays open for a lost Topaz signature
+					return;
+				}
 				SaveSignaturePayPlan();
 				SecurityLogs.MakeLogEntry(EnumPermType.SheetEdit,SheetCur.PatNum,SheetCur.Description+" from "+SheetCur.DateTimeSheet.ToShortDateString());
 				DialogResult=DialogResult.OK;
@@ -2084,6 +2087,28 @@ namespace OpenPmsDental {
 				&& SheetCur.SheetFields.Exists(x => x.FieldName=="ReferralLetterProceduresCompleted" || x.FieldName=="toothChart");
 		}
 
+		///<summary>False, after showing the message, when a changed Topaz signature box's 32-bit helper cannot be reached, for example it ended after
+		///the patient signed and the signature went with it: the form stays open and nothing is written, so the user can clear the box and sign
+		///again (S3a-14f). TryToSaveData calls this before it writes anything.</summary>
+		private bool AreTopazSignaturesReachable() {
+			for(int i=0;i<panelMain.Controls.Count;i++) {
+				if(!(panelMain.Controls[i] is OpenPmsDental.UI.SignatureBoxWrapper sigBox) || sigBox.Tag==null) {
+					continue;
+				}
+				if(!sigBox.GetSigChanged() || !sigBox.GetSigIsTopaz()) {
+					continue;
+				}
+				try {
+					sigBox.CheckTopazSignatureReachable();
+				}
+				catch(Helper32Exception ex) {
+					MessageBox.Show(this,ex.Message);
+					return false;
+				}
+			}
+			return true;
+		}
+
 		///<summary>If an error won't allow, then it shows a MsgBox and then returns false.</summary>
 		private bool TryToSaveData() {
 			if(IsStatement) {
@@ -2103,6 +2128,11 @@ namespace OpenPmsDental {
 			}
 			catch(Exception) {
 				MsgBox.Show(this,"Please fix data entry errors first.");
+				return false;
+			}
+			//Before anything of the sheet is read for saving or written: a Topaz signature the 32-bit helper lost would stop the save at GetSignature
+			//below, after the sheet and its other fields were written (S3a-14f).
+			if(!AreTopazSignaturesReachable()) {
 				return false;
 			}
 			if(!TrySetDateSubmitted()) {//Open Dental 25.4 sheet.DateTimeSubmitted, see FormSheetFillEdit.Submitted.cs

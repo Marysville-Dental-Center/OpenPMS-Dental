@@ -618,10 +618,7 @@ In FormClosing:
 				catch(Helper32Exception ex) when(ex.Failure!=Helper32Failure.Remote) {
 					//The 32-bit helper that runs Topaz's control failed (S3a-14f), for example it ended after the patient signed and the signature went
 					//with it (TopazSignatureView.IsSignatureLost). The box says so, and the save stops here instead of storing no signature.
-					string message=Lans.g(this,"Topaz signature pad software could not be reached:")+" "+ex.Message;
-					ShowTopazNotInstalled(null);
-					labelInvalidSig.Text=message;
-					throw new Helper32Exception(ex.Failure,message,ex.RemoteTypeName,ex);
+					throw ShowTopazNotReached(ex);
 				}
 			}
 			else{
@@ -648,6 +645,32 @@ In FormClosing:
 				//sigBox.SetSigCompressionMode(2);
 				return signatureBox.GetSigString();
 			}
+		}
+
+		///<summary>For a form to call before it writes anything of the record, for each box whose signature changed (GetSigChanged): throws what
+		///GetSignature would throw for a Topaz box whose 32-bit helper failed, for example one that ended after the patient signed and took the
+		///signature with it (TopazSignatureView.IsSignatureLost), so the form can show the message and stay open for the user to clear and sign
+		///again, instead of saving part of the record and then failing at GetSignature (S3a-14f). Only reads the tablet's point count, which
+		///changes nothing. Does nothing for the program's own box and for a Topaz box that is not shown.</summary>
+		public void CheckTopazSignatureReachable() {
+			if(sigBoxTopaz==null || !sigBoxTopaz.Visible) {
+				return;
+			}
+			try {
+				TopazWrapper.GetTopazNumberOfTabletPoints(sigBoxTopaz);
+			}
+			catch(Helper32Exception ex) when(ex.Failure!=Helper32Failure.Remote) {
+				throw ShowTopazNotReached(ex);
+			}
+		}
+
+		///<summary>Shows in the box that the 32-bit helper that runs Topaz's control failed, and returns the exception to throw: ex's failure with
+		///the box's text, "Topaz signature pad software could not be reached:" and ex's message.</summary>
+		private Helper32Exception ShowTopazNotReached(Helper32Exception ex) {
+			string message=Lans.g(this,"Topaz signature pad software could not be reached:")+" "+ex.Message;
+			ShowTopazNotInstalled(null);
+			labelInvalidSig.Text=message;
+			return new Helper32Exception(ex.Failure,message,ex.RemoteTypeName,ex);
 		}
 
 		private void butClearSig_Click(object sender,EventArgs e) {
