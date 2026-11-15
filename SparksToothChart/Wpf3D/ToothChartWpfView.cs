@@ -12,7 +12,7 @@ using System.Windows.Media.Media3D;
 
 namespace SparksToothChart.Wpf3D {
 	///<summary>The WPF chart's live view on screen (docs/specs/wpf-tooth-chart-plan.md, O-19 (b), decided after TC-1's times): an ElementHost whose
-	///WPF content is a Viewport3D with the scene's 3D layer and over it the 2D layer as an element of its own, which draws the scene's 2D items with
+	///WPF content is a Viewport3D with the scene's 3D layer (over a second one with the teeth drawn beneath, ToothScene.Items3DUnder) and over it the 2D layer as an element of its own, which draws the scene's 2D items with
 	///the renderer's own code (ChartLayer2D), and above that the pen stroke in progress on a third element. WPF's own render thread draws it on
 	///screen, as it draws every WPF window of the process: in OpenPmsDental.exe that is WPF's software rasterizer, at 1x and with no edge smoothing,
 	///because the program sets RenderOptions.ProcessRenderMode to SoftwareOnly for the whole process (ProgramEntry.Main, from upstream; a window's
@@ -61,10 +61,16 @@ namespace SparksToothChart.Wpf3D {
 		private readonly ToothChartMouse _toothChartMouse=new ToothChartMouse();
 		private readonly LiveRoot _gridRoot;
 		private readonly Viewport3D _viewport3D;
-		///<summary>The 3D layer: the Viewport3D over the scene's background, the size of the chart. The bitmap cache is on this element, so the cache
-		///covers whole pixels from 0,0 (the Viewport3D's own bounds are those of its teeth, which need not fall on whole pixels).</summary>
+		///<summary>TC-3c: the Viewport3D beneath _viewport3D, with the scene's Items3DUnder (the translucent unerupted teeth), so an opaque tooth always
+		///covers them (each Viewport3D has its own depth buffer).</summary>
+		private readonly Viewport3D _viewport3DUnder;
+		///<summary>The 3D layer: the two Viewport3Ds (_grid3D) over the scene's background, the size of the chart. The bitmap cache is on this element,
+		///so the cache covers whole pixels from 0,0 (a Viewport3D's own bounds are those of its teeth, which need not fall on whole pixels).</summary>
 		private readonly Border _border3D;
+		///<summary>The border's child: _viewport3DUnder, then _viewport3D over it.</summary>
+		private readonly Grid _grid3D;
 		private readonly ModelVisual3D _modelVisual3D;
+		private readonly ModelVisual3D _modelVisual3DUnder;
 		private readonly LiveLayer2D _liveLayer2D;
 		private readonly LivePenLayer _livePenLayer;
 		private ToothScene _sceneShown;
@@ -95,12 +101,23 @@ namespace SparksToothChart.Wpf3D {
 			_viewport3D.IsHitTestVisible=false;
 			_modelVisual3D=new ModelVisual3D();
 			_viewport3D.Children.Add(_modelVisual3D);
+			_viewport3DUnder=new Viewport3D();
+			_viewport3DUnder.ClipToBounds=true;
+			_viewport3DUnder.IsHitTestVisible=false;
+			_modelVisual3DUnder=new ModelVisual3D();
+			_viewport3DUnder.Children.Add(_modelVisual3DUnder);
+			_grid3D=new Grid();
+			_grid3D.HorizontalAlignment=HorizontalAlignment.Left;
+			_grid3D.VerticalAlignment=VerticalAlignment.Top;
+			_grid3D.IsHitTestVisible=false;
+			_grid3D.Children.Add(_viewport3DUnder);
+			_grid3D.Children.Add(_viewport3D);
 			_border3D=new Border();
 			_border3D.HorizontalAlignment=HorizontalAlignment.Left;
 			_border3D.VerticalAlignment=VerticalAlignment.Top;
 			_border3D.SnapsToDevicePixels=true;
 			_border3D.IsHitTestVisible=false;
-			_border3D.Child=_viewport3D;
+			_border3D.Child=_grid3D;
 			_liveLayer2D=new LiveLayer2D(this);
 			_liveLayer2D.IsHitTestVisible=false;
 			_livePenLayer=new LivePenLayer(this);
@@ -199,22 +216,34 @@ namespace SparksToothChart.Wpf3D {
 			}
 		}
 
-		///<summary>The number of GeometryModel3D in the 3D layer shown (the scene's 3D items that have a mesh), for tests.</summary>
+		///<summary>The number of GeometryModel3D in the 3D layer shown (the scene's opaque 3D items that have a mesh), for tests.</summary>
 		[Browsable(false)]
 		public int CountModelsShown {
 			get {
-				Model3DGroup model3DGroup=_modelVisual3D.Content as Model3DGroup;
-				if(model3DGroup==null) {
-					return 0;
-				}
-				int count=0;
-				foreach(Model3D model3D in model3DGroup.Children) {
-					if(model3D is GeometryModel3D) {
-						count++;
-					}
-				}
-				return count;
+				return CountModels(_modelVisual3D);
 			}
+		}
+
+		///<summary>The number of GeometryModel3D in the 3D layer beneath (the scene's Items3DUnder that have a mesh), for tests.</summary>
+		[Browsable(false)]
+		public int CountModelsShownUnder {
+			get {
+				return CountModels(_modelVisual3DUnder);
+			}
+		}
+
+		private static int CountModels(ModelVisual3D modelVisual3D) {
+			Model3DGroup model3DGroup=modelVisual3D.Content as Model3DGroup;
+			if(model3DGroup==null) {
+				return 0;
+			}
+			int count=0;
+			foreach(Model3D model3D in model3DGroup.Children) {
+				if(model3D is GeometryModel3D) {
+					count++;
+				}
+			}
+			return count;
 		}
 
 		///<summary>The WPF cursor of the content, for tests.</summary>
@@ -306,6 +335,11 @@ namespace SparksToothChart.Wpf3D {
 				_border3D.Background=brushBackground;
 				_border3D.Width=scene.Size.Width;
 				_border3D.Height=scene.Size.Height;
+				_grid3D.Width=scene.Size.Width;
+				_grid3D.Height=scene.Size.Height;
+				_viewport3DUnder.Width=scene.Size.Width;
+				_viewport3DUnder.Height=scene.Size.Height;
+				_viewport3DUnder.Camera=ToothChartRenderer.CreateCamera(scene);
 				_viewport3D.Width=scene.Size.Width;
 				_viewport3D.Height=scene.Size.Height;
 				_viewport3D.Camera=ToothChartRenderer.CreateCamera(scene);
@@ -313,6 +347,7 @@ namespace SparksToothChart.Wpf3D {
 					_toothMeshCacheThread=new ToothMeshCache();
 					_toothMaterialCacheThread=new ToothMaterialCache();
 				}
+				_modelVisual3DUnder.Content=ToothChartRenderer.BuildModelUnder(scene,_toothMeshCacheThread,_toothMaterialCacheThread);
 				_modelVisual3D.Content=ToothChartRenderer.BuildModel(scene,_toothMeshCacheThread,_toothMaterialCacheThread);
 				_scene3DShown=scene;
 				_count3DLayersBuilt++;

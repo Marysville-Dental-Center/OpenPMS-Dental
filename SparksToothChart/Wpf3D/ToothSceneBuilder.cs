@@ -9,8 +9,9 @@ namespace SparksToothChart.Wpf3D {
 	///<summary>Builds the immutable scene of the WPF chart from ToothChartData: a pure function of the data, run on the caller's thread, that
 	///makes no WPF object (docs/specs/wpf-tooth-chart-plan.md, section 5). It follows the DirectX chart's DrawScene step by step:
 	///- 3D layer: the tooth groups, implants and perio teeth that DirectX draws with depth testing on, each with DirectX's world matrix (without the
-	///  handedness flip), its colour (opaque; in the chart, unerupted teeth half-transparent as Open Dental's DirectX 11 chart draws them, after
-	///  every opaque item: TC-3c, LOOK-2), the specular value of DirectX's GetGroupMaterial, and the reversed winding when the transform mirrors (5.2).
+	///  handedness flip), its colour (opaque; in the chart, unerupted teeth half-transparent as Open Dental's DirectX 11 chart draws them, in the
+	///  scene's Items3DUnder, beneath the opaque teeth: TC-3c, LOOK-2), the specular value of DirectX's GetGroupMaterial, and the reversed winding
+	///  when the transform mirrors (5.2).
 	///- 2D layer: everything DirectX draws with depth testing off, and its D3DX text, in DirectX's order: per tooth the big X, the root canal lines
 	///  and the build-up/post silhouette (facial view), and the sealant "S" (occlusal view); then the watches, the drawings, the centre line and the
 	///  numbers (5.1). Points are projected with DirectX's own projection (ToothScene.ProjectToImage), the mapping the camera uses.
@@ -25,7 +26,8 @@ namespace SparksToothChart.Wpf3D {
 		///half-transparent over the background; its 2023 mixed-dentition screenshot
 		///(https://i0.wp.com/opendental.blog/wp-content/uploads/2023/07/image-4.png?ssl=1) gives 0.63: the enamel's red and green are equal (250,250,240),
 		///so over the background 233,254,254 a translucent pixel's green minus red is (1-alpha)*21, which averages 7.8 over 18090 pixels of the
-		///unerupted crowns (0.60 to 0.69 by region). od-unknown-refined: a Set Mixed Dentition screenshot of Open Dental 26.2 settles it.</summary>
+		///unerupted crowns (0.60 to 0.69 by region). od-unknown-refined: a Set Mixed Dentition screenshot of Open Dental 26.2 settles it. The same
+		///screenshot shows them beneath the opaque teeth: the primary teeth's roots are crisp over the pale permanent crowns (ToothScene.Items3DUnder).</summary>
 		public const int UneruptedAlpha=161;
 
 		///<summary>The scene of the chart as tcData holds it, at tcData's control size (ToothChartData.SizeControl, which the wrapper sets on every
@@ -44,7 +46,7 @@ namespace SparksToothChart.Wpf3D {
 				AddChartScene(building);
 			}
 			return new ToothScene(building.Scene.Size,tcData.ColorBackground,tcData.PerioMode,building.Scene.WidthProjection,building.Scene.HeightProjection,
-				building.ListItems3D,building.ListItems2D);
+				building.ListItems3D,building.ListItems2D,building.ListItems3DUnder);
 		}
 
 		///<summary>An empty building of the scene at tcData's control size and projection, or null for an empty size.</summary>
@@ -68,8 +70,9 @@ namespace SparksToothChart.Wpf3D {
 		#region Chart scene
 		///<summary>DirectX's DrawScene: for each tooth the facial view, then the occlusal view; then the watches, the drawings, the centre line and the
 		///numbers. TC-5 adds what DirectX does not draw: the paint text in the watch band after the watches, and the free-text
-		///labels last, over everything. TC-3c (LOOK-2): the half-transparent unerupted teeth go into the 3D layer after every opaque item, so they
-		///blend over the background and the opaque teeth (WPF draws its models in order and does not sort transparent ones).</summary>
+		///labels last, over everything. TC-3c (LOOK-2): the half-transparent unerupted teeth go into the scene's Items3DUnder, a 3D layer beneath
+		///the opaque teeth: they blend over the background, and every opaque tooth covers them whatever their depth, as Open Dental's 2023
+		///mixed-dentition screenshot shows (the primary teeth's roots crisp over the pale permanent crowns).</summary>
 		private static void AddChartScene(SceneBuilding building) {
 			ToothChartData tcData=building.TcData;
 			for(int t=0;t<tcData.ListToothGraphics.Count;t++) {
@@ -79,8 +82,6 @@ namespace SparksToothChart.Wpf3D {
 				AddFacialView(building,tcData.ListToothGraphics[t]);
 				AddOcclusalView(building,tcData.ListToothGraphics[t]);
 			}
-			building.ListItems3D.AddRange(building.ListItems3DTranslucent);
-			building.ListItems3DTranslucent.Clear();
 			AddWatches(building);
 			AddPaintTexts(building);
 			AddDrawingSegments(building);
@@ -195,8 +196,8 @@ namespace SparksToothChart.Wpf3D {
 		}
 
 		///<summary>DirectX's DrawTooth with GetGroupMaterial: every visible group except the build-up and the unnamed groups, in its paint colour.
-		///In the chart an unerupted tooth (ShiftO below -10) is half-transparent (GetGroupColor) and waits in ListItems3DTranslucent until the
-		///opaque items are in; the perio chart keeps DirectX's opaque half RGB (GetGroupColorPerio).</summary>
+		///In the chart an unerupted tooth (ShiftO below -10) is half-transparent (GetGroupColor) and goes into ListItems3DUnder, beneath the opaque
+		///teeth; the perio chart keeps DirectX's opaque half RGB (GetGroupColorPerio).</summary>
 		private static void AddTooth(SceneBuilding building,ToothGraphic toothGraphic,ChartMatrix world,string source) {
 			for(int g=0;g<toothGraphic.Groups.Count;g++) {
 				ToothGroup group=toothGraphic.Groups[g];
@@ -206,7 +207,7 @@ namespace SparksToothChart.Wpf3D {
 				Color color=building.TcData.PerioMode ? GetGroupColorPerio(toothGraphic,group) : GetGroupColor(toothGraphic,group);
 				ToothSceneItem3D item=new ToothSceneItem3D(toothGraphic.ToothID,g,group.GroupType,color,GetGroupSpecular(group),world,source);
 				if(color.A<255) {
-					building.ListItems3DTranslucent.Add(item);
+					building.ListItems3DUnder.Add(item);
 				}
 				else {
 					building.ListItems3D.Add(item);
@@ -1096,8 +1097,8 @@ namespace SparksToothChart.Wpf3D {
 			public readonly ToothScene Scene;
 			public readonly List<ToothSceneItem3D> ListItems3D=new List<ToothSceneItem3D>();
 			public readonly List<ToothSceneItem2D> ListItems2D=new List<ToothSceneItem2D>();
-			///<summary>TC-3c: the chart's half-transparent 3D items (unerupted teeth), added to ListItems3D after every opaque one.</summary>
-			public readonly List<ToothSceneItem3D> ListItems3DTranslucent=new List<ToothSceneItem3D>();
+			///<summary>TC-3c: the chart's half-transparent 3D items (unerupted teeth), the scene's Items3DUnder, drawn beneath the opaque ones.</summary>
+			public readonly List<ToothSceneItem3D> ListItems3DUnder=new List<ToothSceneItem3D>();
 			private ChartFont _fontNumbers;
 			private ChartFont _fontSealant;
 			private ChartFont _fontWatch;
