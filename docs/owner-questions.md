@@ -943,7 +943,10 @@ and E-10b), where each is set out in full with its recommendation. You first ans
 - **The 837 claim sender when a clearinghouse has no Sender TIN.** `X12Generator.GetISA06` and `GetGS02` write Open Dental Inc's TIN
   (810624427) as the sender of the claim batch when the clearinghouse's Sender TIN is blank (upstream's behaviour). For this fork that names
   a company the office has no agreement with. Recommended: refuse to build the batch while the Sender TIN is blank, with a message that
-  points to Setup > Clearinghouses. The other choice is to use the practice's own TIN. Until you decide, the code is as upstream.
+  points to Setup > Clearinghouses. The other choice is to use the practice's own TIN. **Your decision (2026-11-15): "send your practice's
+  own TIN".** Wherever upstream names Open Dental Inc as the sender, the practice is named instead: ISA06, GS02, 1000A NM1 and PER, 837
+  4010 and 5010, the 270, and the Emdeon Medical variant. That means the practice's TIN, name and telephone. When one of them is missing,
+  the batch is refused with a message saying what to fill in, so Open Dental Inc's TIN is never sent. Package X12-SENDER.
 - **A damaged release manifest** (S3a-10, [port-notes/S3a-10.md](port-notes/S3a-10.md) section 8). Every workstation now refuses to publish
   over a manifest it cannot read. If the row were ever really damaged, someone would delete the `documentmisc` rows of types 100 and 101 on
   the database by hand. Should Recopy on the named update server offer that, after a confirmation?
@@ -952,6 +955,9 @@ and E-10b), where each is set out in full with its recommendation. You first ans
 - **For your information, no answer needed (S3a-7):** ServiceManager now installs every program it offers with the HL7 service's
   settings, Open Dental's own service programs included: own process, automatic start, LocalSystem, display name = service name. InstallUtil
   used to refuse a program that had no installer of its own.
+
+- **E-20 (the UMLS record of the 2026-05-14 value set files):** you cannot download them yet (2026-11-15). EHR-6a and EHR-7 stay
+  unmerged, and S3a-M3 waits for EHR-7. Nothing else waits.
 
 ## Not asked again (already settled)
 
