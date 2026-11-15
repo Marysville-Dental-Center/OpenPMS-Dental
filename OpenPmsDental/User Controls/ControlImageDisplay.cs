@@ -3924,6 +3924,7 @@ Here is the desired behavior:
 				progressOD.StartingMessage=Lan.g(this,"Downloading file from url")+"...";
 				progressOD.ActionMain=() => {
 					webClient.DownloadFile(url,tempFileName);
+					progressOD.CancellationToken.ThrowIfCancellationRequested();//Cancelled during the download: nothing is imported (S3a-1b).
 					documentImported=ImageStore.Import(tempFileName,document.DocCategory,PatientCur);
 					File.Delete(tempFileName);
 				};
@@ -3937,6 +3938,7 @@ Here is the desired behavior:
 				progressOD.StartingMessage=Lan.g(this,"Converting file from base64")+"...";
 				progressOD.ActionMain=() => {
 					File.WriteAllBytes(tempFileName,byteArray);
+					progressOD.CancellationToken.ThrowIfCancellationRequested();//Cancelled: nothing is imported (S3a-1b).
 					documentImported=ImageStore.Import(tempFileName,document.DocCategory,PatientCur);
 					File.Delete(tempFileName);
 				};

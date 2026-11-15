@@ -515,13 +515,15 @@ namespace OpenPmsDental{
 			int patsMoved=0;
 			progressOD=new ProgressWin();
 			progressOD.ActionMain=() => {
-				List<Action> listActions = lookupPriProvPats.Select(x => new Action(() => {
+				//Each provider's move is one unit with its security log entry (S3a-1b): after a cancel the moves under way finish with their entries,
+				//RunParallel starts no further provider and then throws, so the action stops there.
+				List<Action> listActions = lookupPriProvPats.Select(x => new Action(() => ODCancellation.RunUncancellable(() => {
 					patsMoved+=x.Count();
 					ODEvent.Fire(ODEventType.ProgressBar,Lan.g(this,"Moving patients")+": "+patsMoved+" out of "+patCountTotal);
 					Patients.ChangePrimaryProviders(x.Key,provider.ProvNum);//update all priprovs to new provider
 					SecurityLogs.MakeLogEntry(EnumPermType.PatPriProvEdit,0,"Primary provider changed for "+x.Count()+" patients from "
 						+Providers.GetLongDesc(x.Key)+" to "+provider.GetLongDesc()+".");
-				})).ToList();
+				}))).ToList();
 				ODThread.RunParallel(listActions,TimeSpan.FromMinutes(2));
 			};
 			progressOD.StartingMessage=Lan.g(this,"Moving patients")+"...";
@@ -641,6 +643,7 @@ namespace OpenPmsDental{
 			progressOD=new ProgressWin();
 			progressOD.ActionMain=() => {
 				for(int i=0;i<listPatProvsSeen.Count;i++){
+					progressOD.CancellationToken.ThrowIfCancellationRequested();//The user cancelled: reassign no further patient (S3a-1b).
 					long patNum=listPatProvsSeen[i].PatNum;
 					long provNumNew=listPatProvsSeen[i].ProvNum;
 					Patients.UpdateProv(patNum, provNumNew);

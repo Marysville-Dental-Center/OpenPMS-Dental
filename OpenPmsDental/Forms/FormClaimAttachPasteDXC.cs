@@ -262,7 +262,9 @@ namespace OpenPmsDental {
 			for(int i=0;i<listImageAttachments.Count;i++) {
 				List<ClaimConnect.ImageAttachment> listImageAttachmentsOnlyOne=new List<ClaimConnect.ImageAttachment>();
 				listImageAttachmentsOnlyOne.Add(listImageAttachments[i]);
-				AddAttachments(listImageAttachmentsOnlyOne);//Send list of 1 attachment to DXC
+				//S3a-1b: after a cancel no further attachment is sent; one under way is one unit with the claim update that records it.
+				ODCancellation.ThrowIfCancellationRequested();
+				ODCancellation.RunUncancellable(() => AddAttachments(listImageAttachmentsOnlyOne));//Send list of 1 attachment to DXC
 			}
 		}
 
