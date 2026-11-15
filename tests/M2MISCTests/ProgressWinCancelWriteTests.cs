@@ -1,8 +1,8 @@
 // Package S3a-1b of the .NET 10 plan (docs/specs/net10-plan.md, the S3a-1 row and its risk item; docs/port-notes/S3a-1.md section 8): with
 // Thread.Abort gone, no database write starts for a progress window's action after the user cancelled it. One test per pattern of the audited
 // ProgressWin callers: an action that writes without checking anything (the database layer refuses its next command), a write and its log entry
-// run as one unit (ODCancellation.RunUncancellable), an action that spreads its writes over ODThread.RunParallel, a loop that writes files and
-// checks before each, an action that does not stop within the window's wait (logged, and still no write after the cancel), and a second
+// run as one unit (ODCancellation.RunUncancellable), a cleanup write in a catch after the cancel (a unit too), an action that spreads its
+// writes over ODThread.RunParallel, a loop that writes files and checks before each, an action that does not stop within the window's wait (logged, and still no write after the cancel), and a second
 // ShowDialog while the first action still runs (each run keeps its own token). The rows are synthetic, in a scratch database of this class whose
 // name starts with s3a1b_ (dropped afterwards) on the local MariaDB only; the windows are the real ones, closed by their X from a timer.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
@@ -257,6 +257,58 @@ namespace M2MISCTests {
 				Assert.AreEqual(countRows,CountProbes("log"),"Every row has its log entry: the unit under way at the cancel finished.");
 				Assert.IsTrue(countRows<=countUnitsAtCancel+1,"No unit started after the cancel: rows "+countRows+", units at the cancel "
 					+countUnitsAtCancel);
+			});
+		}
+
+		///<summary>A cleanup write in a catch after the cancel (ImageStore.Import and its siblings: the document row first, then the file and its
+		///security log entry, and the catch deletes the row if that fails): the log entry after the cancel is refused, and so would a plain cleanup
+		///be (unlike under Thread.Abort, whose catch bodies still wrote); the cleanup as a unit (ODCancellation.RunUncancellable) runs, so no
+		///orphan row is left.</summary>
+		[TestMethod]
+		public void Cancel_CleanupWriteInCatchAfterTheCancel_AsUnit_LeavesNoOrphanRow() {
+			ProgressWinTests.RunSta(() => {
+				ManualResetEventSlim manualResetEventInserted=new ManualResetEventSlim(false);
+				ManualResetEventSlim manualResetEventEnded=new ManualResetEventSlim(false);
+				Exception exceptionInStep=null;
+				bool isPlainCleanupRefused=false;
+				bool isCleanupRun=false;
+				ProgressWin progressWin=new ProgressWin();
+				progressWin.StartingMessage="S3a-1b cleanup in catch";
+				progressWin.ActionMain=() => {
+					try {
+						InsertProbe("row",1);//the document row (Documents.Insert)
+						try {
+							manualResetEventInserted.Set();
+							progressWin.CancellationToken.WaitHandle.WaitOne(_timeSpanWait);//the file copy or upload under way at the cancel
+							InsertProbe("log",1);//the file's security log entry: refused after the cancel
+						}
+						catch(Exception ex) {
+							exceptionInStep=ex;
+							try {
+								DataCore.NonQ("DELETE FROM cancelprobe WHERE Kind='none'");//a cleanup that is not a unit
+							}
+							catch(OperationCanceledException) {
+								isPlainCleanupRefused=true;
+							}
+							ODCancellation.RunUncancellable(() => DataCore.NonQ("DELETE FROM cancelprobe WHERE Kind='row' AND Step=1"));//as ImageStore.Import
+							isCleanupRun=true;
+							throw;
+						}
+					}
+					finally {
+						manualResetEventEnded.Set();
+					}
+				};
+				Exception exception=ProgressWinTests.ShowAndCloseWhen(progressWin,x => manualResetEventInserted.IsSet);
+				Assert.IsNull(exception,"Nothing is thrown to the caller: "+exception);
+				Assert.IsTrue(progressWin.IsCancelled);
+				Assert.IsFalse(progressWin.IsWorkerStillRunning,"The action stopped within the window's wait.");
+				Assert.IsTrue(manualResetEventEnded.IsSet);
+				Assert.IsInstanceOfType(exceptionInStep,typeof(OperationCanceledException),"The log entry after the cancel was refused: "+exceptionInStep);
+				Assert.IsTrue(isPlainCleanupRefused,"A cleanup write that is not a unit is refused after the cancel.");
+				Assert.IsTrue(isCleanupRun);
+				Assert.AreEqual(0,CountProbes("row"),"No orphan row: the cleanup ran as a unit.");
+				Assert.AreEqual(0,CountProbes("log"),"No log entry after the cancel.");
 			});
 		}
 
