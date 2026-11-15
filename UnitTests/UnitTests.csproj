@@ -38,10 +38,6 @@
     <ProjectReference Include="..\third-party\build\MigraDoc.Rendering-gdi\MigraDoc.Rendering-gdi.csproj" />
     <ProjectReference Include="..\third-party\build\PdfSharp-gdi\PdfSharp-gdi.csproj" />
     <ProjectReference Include="..\ODCrypt\xODCrypt.csproj" />
-    <Reference Include="OpenPmsDentalStorage, Version=16.4.0.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\OpenPmsDentalStorage\bin\Debug\OpenPmsDentalStorage.dll</HintPath>
-    </Reference>
     <Reference Include="OpenPmsDentalGraph, Version=16.1.1.0, Culture=neutral, PublicKeyToken=null" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -247,6 +243,9 @@
     <ProjectReference Include="..\DataConnectionBase\xDataConnectionBase.csproj" />
     <ProjectReference Include="..\OpenPmsDental\OpenPmsDental.csproj" />
     <ProjectReference Include="..\OpenPmsDentalBusiness\OpenPmsDentalBusiness.csproj" />
+    <!-- OpenPmsDentalStorage as a project, not as a file in its output folder: the HintPath this replaced named its bin\Debug folder, which a
+         Release build in a fresh worktree did not have (MSB3245; docs/port-notes/BUILD-HYGIENE.md, part 2). -->
+    <ProjectReference Include="..\OpenPmsDentalStorage\OpenPmsDentalStorage.csproj" />
     <ProjectReference Include="..\SparksToothChart\SparksToothChart.csproj" />
     <ProjectReference Include="..\UnitTestsCore\UnitTestsCore.csproj" />
     <ProjectReference Include="..\WpfControlsOD\WpfControlsOD.csproj" />
