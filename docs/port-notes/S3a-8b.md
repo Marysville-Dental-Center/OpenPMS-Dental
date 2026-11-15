@@ -101,3 +101,25 @@ I1-I11, J1-J17, K10 and Spike2 use in-process sessions) before the stage 3a gate
 - `ProgramDriver.PatchProcessIdentity` sets private fields of the .NET Framework's `Application` and `AppDomainManager`; on .NET the entry
   assembly of the session process is TestProbeHost's `.dll`, and the patch is redone there.
 - The run-time compilers of shipped code (`FormReportComplex`, RdlEngine's and RdlDesign's VB `<Code>`) are not tests and not this package's.
+
+## 6. Lead notes at the merge (from the reviews)
+
+- **Readers outside S3a-8's list.** `tests/LibWebTests/HtmlGenerationTests.cs` (about lines 167 and 201, `ReadModule("OpenPmsDental.exe")`)
+  and `tests/LibWebTests/IeBrowserRemovedTests.cs` (about lines 164-174) still name `OpenPmsDental.exe`. They go through
+  `ProgramAssembly.Find`/`FindRelative` in 3b, so section 1's sentence on the readers covers S3a-8's list only.
+- **The window checks are run at the stage 3a gate.** The opt-in window checks (`OPMS_WINDOW_CHECKS=1`) are headless and show no window
+  on the desktop (WINCHK-HEADLESS). They are run once, end to end, with the process-based `InProcHost` as part of the gate, which settles
+  this package's question without the owner.
+- **A stale probe copy in the Release folder.** A window-check session writes `TestProbeHost-<hex>.exe`/`.exe.config` into
+  `OpenPmsDental\bin\Debug` or `\Release`. If its test process dies, that copy stays until the next session starts, and in the meantime
+  `tools/Build-Release.ps1` stops with "Unexpected file in the Release output". Delete the `TestProbeHost-*.exe*` files there, or start a
+  window-check session first.
+- **For a later cleanup:**
+  - `HarnessTests.SessionProcess_RunsFromTheProgramFolder_WithItsConfig` should assert that the child's `Assembly.GetEntryAssembly()`
+    location is the program. Today it only checks that the patch list names it.
+  - `CheckResult_TextRoundTrip_KeepsEveryField` should fill `ListNotScripted` before the round trip.
+  - `ProbeProcess.RunOnce` should quote arguments the way `CommandLineToArgvW` expects, so a trailing backslash does not join two
+    arguments.
+  - The unbounded `WaitForExit()` after a successful timed wait could hang on a grandchild that holds the pipes, as the old
+    `SecondProcess` could.
+  - `HelixPackageTests` checks for a System.* 4.3.x file only within the copied closure: say so at the call site.
