@@ -766,6 +766,14 @@ LibraryBindingTests, NoHqTests, MiddleTierMockTests); one test retired on purpos
 Fix round on `net10/s3a5-2`: a vault that cannot be opened on Windows 8 or later (an error that may pass) leaves no record, so the next
 process tries again; only a Windows older than 8 records "PasswordVault not available". Targeted runs green again.
 
+**Status (2026-11-15).** Wave 1: S3a-9 merged (`net10/s3a9-2`, `docs/port-notes/S3a-9.md`): file rights through
+`FileInfo`/`DirectoryInfo` in the connection settings tool, `ExternalException` next to the three GDI+ `OutOfMemoryException` catches (the
+DICOM reader's stays: its only GDI+ call, in the JPEG Baseline decoder, is inside catch(Exception) and becomes a decoder failure, so only a
+managed allocation failure reaches it), both network guards also set `HttpClient.DefaultProxy`, the 25 `PrefName` errors are warnings with
+`NoHqTests/ObsoletePrefNamesTests.cs`, and the sending sites say "not a valid email address" (`AddressRulesTests` pins `a..b@example.com`).
+Left for others: `FormClaimAttachment.cs`/`FormImageSelectClaimAttach.cs` (S3a-2), `FrmAtoZFoldersCreate.xaml.cs:74` (S3a-2),
+`DirectCertificateImport.cs:1383,1385` (fixed by the lead at S3a-9's merge), `OfficeCaFile.cs:115`'s `FileStream` with `FileSecurity` (3b).
+
 **Full-test gate.** Section 3, plus: the golden outputs and known answers recorded and committed; the source-scan tests pass; the
 launch checks for 3a (section 6) done with screenshots, including a self-update from a standard user; the x64 test runs (S3a-12, S3a-15)
 and the x64 build of `Direct2dWrapper` (S3a-16) pass; the helper's tests pass, and its links are launch-checked where a test PC has the

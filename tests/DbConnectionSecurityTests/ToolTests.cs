@@ -183,12 +183,12 @@ namespace DbConnectionSecurityTests {
 			string pathCopy=DbConnectionConfig.GetOfficeCaCopyPath(Path.Combine(_folder,"program"));
 			OfficeCaFile.WriteCopy(listCertificates,pathCopy);
 			OfficeCaFile.WriteCopy(listCertificates,pathCopy);//File.Replace keeps the old file's DACL; the protected one is set again
-			AssertProtected(File.GetAccessControl(pathCopy).GetAccessRules(true,true,typeof(SecurityIdentifier)),
-				File.GetAccessControl(pathCopy).AreAccessRulesProtected,pathCopy);
+			FileSecurity fileSecurity=new FileInfo(pathCopy).GetAccessControl();
+			AssertProtected(fileSecurity.GetAccessRules(true,true,typeof(SecurityIdentifier)),fileSecurity.AreAccessRulesProtected,pathCopy);
 			string folder=Path.GetDirectoryName(pathCopy);
-			AssertProtected(Directory.GetAccessControl(folder).GetAccessRules(true,true,typeof(SecurityIdentifier)),
-				Directory.GetAccessControl(folder).AreAccessRulesProtected,folder);
-			SecurityIdentifier securityIdentifierOwner=(SecurityIdentifier)File.GetAccessControl(pathCopy).GetOwner(typeof(SecurityIdentifier));
+			DirectorySecurity directorySecurity=new DirectoryInfo(folder).GetAccessControl();
+			AssertProtected(directorySecurity.GetAccessRules(true,true,typeof(SecurityIdentifier)),directorySecurity.AreAccessRulesProtected,folder);
+			SecurityIdentifier securityIdentifierOwner=(SecurityIdentifier)fileSecurity.GetOwner(typeof(SecurityIdentifier));
 			if(OfficeCaFile.IsElevated()) {
 				Assert.IsTrue(securityIdentifierOwner.IsWellKnown(WellKnownSidType.BuiltinAdministratorsSid),"Owner Administrators.");
 			}

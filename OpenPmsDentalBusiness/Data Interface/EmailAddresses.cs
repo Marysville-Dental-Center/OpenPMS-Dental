@@ -221,6 +221,8 @@ namespace OpenPmsDentalBusiness{
 				mailAddress=new MailAddress(strEmailAddress);//Try needed in case of malformed email address. MailAddress ctor will throw UE
 			}
 			catch {
+				//Not valid, which callers show as such. On .NET 10 the FormatException for an address with two dots in a row (a..b@example.com)
+				//lands here too; on .NET Framework such an address is refused by the pattern below (docs/port-notes/S3a-9.md, section 5).
 				return null;
 			}
 			//We only want to look at the actual email address, and exclude any aliases.
