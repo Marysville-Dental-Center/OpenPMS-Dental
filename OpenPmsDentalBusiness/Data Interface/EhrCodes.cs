@@ -215,24 +215,23 @@ namespace OpenPmsDentalBusiness {
 		}
 		#endregion
 
-		///<summary></summary>
+		///<summary>The measures of every value set that holds the code (EhrCode.MeasureIds joined: the nine measures this program reports, for example
+		///"138v2,147v2"). FormSnomeds shows it.</summary>
 		public static string GetMeasureIdsForCode(string codeValue,string codeSystem) {
 			Meth.NoCheckMiddleTierRole();
+			List<EhrCode> listEhrCodes=Listt;//Once: the list is read again when the codes change.
 			string retval="";
-			//System.Diagnostics.Stopwatch sw=new System.Diagnostics.Stopwatch();
-			//sw.Start();
-			for(int i=0;i<Listt.Count;i++) {
-				if(Listt[i].CodeValue==codeValue && Listt[i].CodeSystem==codeSystem) {
-					if(retval.Contains(Listt[i].MeasureIds)) {
+			for(int i=0;i<listEhrCodes.Count;i++) {
+				if(listEhrCodes[i].CodeValue==codeValue && listEhrCodes[i].CodeSystem==codeSystem) {
+					if(retval.Contains(listEhrCodes[i].MeasureIds)) {
 						continue;
 					}
 					if(retval!="") {
 						retval+=",";
 					}
-					retval+=Listt[i].MeasureIds;
+					retval+=listEhrCodes[i].MeasureIds;
 				}
 			}
-			//sw.Stop();
 			return retval;
 		}
 
@@ -243,13 +242,14 @@ namespace OpenPmsDentalBusiness {
 
 		///<summary>Returns a list of EhrCode objects that belong to one of the value sets identified by the ValueSetOIDs supplied AND only those codes that exist in the corresponding table in the database.</summary>
 		public static List<EhrCode> GetForValueSetOIDs(List<string> listValueSetOIDs,bool usingIsInDb) {
+			List<EhrCode> listEhrCodes=Listt;
 			List<EhrCode> retval=new List<EhrCode>();
-			for(int i=0;i<Listt.Count;i++) {
-				if(usingIsInDb && !Listt[i].IsInDb) {
+			for(int i=0;i<listEhrCodes.Count;i++) {
+				if(usingIsInDb && !listEhrCodes[i].IsInDb) {
 					continue;
 				}
-				if(listValueSetOIDs.Contains(Listt[i].ValueSetOID)) {
-					retval.Add(Listt[i]);
+				if(listValueSetOIDs.Contains(listEhrCodes[i].ValueSetOID)) {
+					retval.Add(listEhrCodes[i]);
 				}
 			}
 			return retval;
@@ -257,17 +257,18 @@ namespace OpenPmsDentalBusiness {
 
 		///<summary>Returns a dictionary of CodeValue and CodeSystem pairs where the value set is in the supplied list.</summary>
 		public static Dictionary<string,string> GetCodeAndCodeSystem(List<string> listValueSetOIDs,bool usingIsInDb) {
+			List<EhrCode> listEhrCodes=Listt;
 			Dictionary<string,string> retval=new Dictionary<string,string>();
-			for(int i=0;i<Listt.Count;i++) {
-				if(usingIsInDb && !Listt[i].IsInDb) {
+			for(int i=0;i<listEhrCodes.Count;i++) {
+				if(usingIsInDb && !listEhrCodes[i].IsInDb) {
 					continue;
 				}
 				for(int j=0;j<listValueSetOIDs.Count;j++) {
-					if(Listt[i].ValueSetOID!=listValueSetOIDs[j]) {
+					if(listEhrCodes[i].ValueSetOID!=listValueSetOIDs[j]) {
 						continue;
 					}
-					if(!retval.ContainsKey(Listt[i].CodeValue)) {
-						retval.Add(Listt[i].CodeValue,Listt[i].CodeSystem);
+					if(!retval.ContainsKey(listEhrCodes[i].CodeValue)) {
+						retval.Add(listEhrCodes[i].CodeValue,listEhrCodes[i].CodeSystem);
 					}
 					break;
 				}
@@ -277,17 +278,18 @@ namespace OpenPmsDentalBusiness {
 
 		///<summary>Returns a dictionary of CodeValue,CodeSystem pairs of all codes that belong to every ValueSetOID sent in the incoming list as long as the code exists in the corresponding table in the database.</summary>
 		public static Dictionary<string,string> GetCodesExistingInAllSets(List<string> listValueSetOIDs) {
+			List<EhrCode> listEhrCodes=Listt;
 			Dictionary<string,string> dictionaryRet=new Dictionary<string,string>();
 			Dictionary<string,int> dictionaryCodeCount=new Dictionary<string,int>();
-			for(int i=0;i<Listt.Count;i++) {
-				if(!Listt[i].IsInDb) {
+			for(int i=0;i<listEhrCodes.Count;i++) {
+				if(!listEhrCodes[i].IsInDb) {
 					continue;
 				}
 				for(int j=0;j<listValueSetOIDs.Count;j++) {
-					if(Listt[i].ValueSetOID!=listValueSetOIDs[j]) {
+					if(listEhrCodes[i].ValueSetOID!=listValueSetOIDs[j]) {
 						continue;
 					}
-					string keyCur=Listt[i].CodeValue+","+Listt[i].CodeSystem;
+					string keyCur=listEhrCodes[i].CodeValue+","+listEhrCodes[i].CodeSystem;
 					if(dictionaryCodeCount.ContainsKey(keyCur)) {
 						dictionaryCodeCount[keyCur]++;//code already in list, increase find count
 					}
@@ -309,13 +311,14 @@ namespace OpenPmsDentalBusiness {
 		}
 
 		public static List<string> GetValueSetOIDsForCode(string codeValue,string codeSystem) {
+			List<EhrCode> listEhrCodes=Listt;
 			List<string> listValueSetOIDs=new List<string>();
-			for(int i=0;i<Listt.Count;i++) {
-				if(listValueSetOIDs.Contains(Listt[i].ValueSetOID)) {
+			for(int i=0;i<listEhrCodes.Count;i++) {
+				if(listValueSetOIDs.Contains(listEhrCodes[i].ValueSetOID)) {
 					continue;
 				}
-				if(Listt[i].CodeValue==codeValue && Listt[i].CodeSystem==codeSystem) {
-					listValueSetOIDs.Add(Listt[i].ValueSetOID);
+				if(listEhrCodes[i].CodeValue==codeValue && listEhrCodes[i].CodeSystem==codeSystem) {
+					listValueSetOIDs.Add(listEhrCodes[i].ValueSetOID);
 				}
 			}
 			return listValueSetOIDs;
@@ -326,11 +329,12 @@ namespace OpenPmsDentalBusiness {
 		///recently will have the largest weight and help move the EhrCode to the top of the list.  Specify a limit amount if the result set should only
 		///be a certain number of EhrCodes at most.</summary>
 		public static List<EhrCode> GetForEventTypeByUse(EhrMeasureEventType ehrMeasureEventTypes) {
+			List<EhrCode> listEhrCodesAll=Listt;
 			List<EhrCode> listEhrCodes=new List<EhrCode>();
 			//list of CodeValueResults of the specified type ordered by a weight calculated by summing values based on how recently the codes were used
 			List<string> listCodeValueResults=EhrMeasureEvents.GetListCodesUsedForType(ehrMeasureEventTypes);
 			foreach(string codeStr in listCodeValueResults) {
-				EhrCode ehrCodeCur=Listt.FirstOrDefault(x => x.CodeValue==codeStr);
+				EhrCode ehrCodeCur=listEhrCodesAll.FirstOrDefault(x => x.CodeValue==codeStr);
 				Snomed snomedCur=null;
 				if(ehrCodeCur==null) {
 					snomedCur=Snomeds.GetByCode(codeStr);
@@ -347,12 +351,14 @@ namespace OpenPmsDentalBusiness {
 		///<summary>Returns a list of EhrCodes for the specified InterventionCodeSet and ValueSetOID for any medication interventions.  Results will
 		///contain both intervention codes and medication codes that have been used in the last year.</summary>
 		public static List<EhrCode> GetForIntervAndMedByUse(InterventionCodeSet interventionCodeSet,List<string> listValueSetOIDsMed) {
+			List<EhrCode> listEhrCodesAll=Listt;
 			//get all MedicationPats where the RxCui is one of the RxCui strings for list of ValueSetOIDs provided
-			List<string> listMedPats=MedicationPats.GetAllForRxCuis(GetForValueSetOIDs(listValueSetOIDsMed,true).Select(x => x.CodeValue).ToList());
+			List<string> listMedPats=MedicationPats.GetAllForRxCuis(listEhrCodesAll.Where(x => x.IsInDb && listValueSetOIDsMed.Contains(x.ValueSetOID))
+				.Select(x => x.CodeValue).ToList());
 			List<string> listInterventions=Interventions.GetAllForCodeSet(interventionCodeSet);
 			List<EhrCode> listEhrCodes=new List<EhrCode>();
 			foreach(string codeStr in listMedPats.Union(listInterventions)) {
-				EhrCode codeCur=Listt.FirstOrDefault(x => x.CodeValue==codeStr);
+				EhrCode codeCur=listEhrCodesAll.FirstOrDefault(x => x.CodeValue==codeStr);
 				if(codeCur==null) {
 					continue;
 				}
@@ -480,8 +486,11 @@ namespace OpenPmsDentalBusiness {
 		public int CountRowsRead;
 		///<summary>Rows without a value-set OID or a code, skipped.</summary>
 		public int CountRowsSkipped;
-		///<summary>Rows with a value longer than its column (255 characters; the description is text), skipped.</summary>
+		///<summary>Rows with a value longer than its column (255 characters; the description, a text column, 65,535 bytes of UTF-8), skipped.
+		///MeasureIds is not checked: it holds only the nine measures this program reports.</summary>
 		public int CountRowsTooLong;
+		///<summary>Workbook cells with a value to the right of column IV (EhrValueSetImport.MAX_COLUMNS), not read.</summary>
+		public int CountCellsIgnored;
 		///<summary>Rows that repeat a value set, code system and code already read (a value set listed under several measures), merged into one.</summary>
 		public int CountRowsMerged;
 		///<summary>The measure IDs the file names, normalized as EhrCode.MeasureIds writes them (68v3).</summary>
@@ -537,14 +546,22 @@ namespace OpenPmsDentalBusiness {
 		public const string PREF_RELEASE="ForkEhrValueSetRelease";
 		///<summary>The release this program's measures need (section 8.1).</summary>
 		public const string RELEASE_LABEL="VSAC June 2013 EP Only Release eCQM Value Sets (MU2 EP Update 2013-06-14)";
-		///<summary>Largest file the importer reads, and largest part inside a .zip once uncompressed.</summary>
-		public const long MAX_FILE_BYTES=512L*1024*1024;
+		///<summary>Largest file the importer reads, and largest part inside a .zip or a workbook once uncompressed (counted as it is read). The
+		///program is a 32-bit process, and the parts it holds (a workbook inside a .zip, the rows read) must fit beside the rest of it; VSAC's June
+		///2013 EP package is far smaller.</summary>
+		public const long MAX_FILE_BYTES=64L*1024*1024;
 		///<summary>Largest total of the uncompressed parts of one file.</summary>
-		public const long MAX_TOTAL_BYTES=2048L*1024*1024;
+		public const long MAX_TOTAL_BYTES=256L*1024*1024;
 		public const int MAX_ZIP_ENTRIES=20000;
-		public const int MAX_ROWS=5000000;
+		///<summary>Most rows (workbook rows or SVS concepts) of one file, counted while it is read.</summary>
+		public const int MAX_ROWS=1000000;
 		///<summary>Longest value of a varchar column of ehrcode.</summary>
 		public const int MAX_COLUMN_LENGTH=255;
+		///<summary>Longest description (ehrcode.Description is text): 65,535 bytes, here counted in UTF-8 (utf8mb3 holds 21,845 characters of three
+		///bytes).</summary>
+		public const int MAX_TEXT_BYTES=65535;
+		///<summary>The workbook columns read: A to IV. VSAC's workbooks have about ten.</summary>
+		public const int MAX_COLUMNS=256;
 		private const string LANS="EhrValueSetImport";
 		///<summary>A test seam (tests/EhrTests): called after each batch of rows the import writes, with the number of rows written so far. Null in
 		///the program.</summary>
@@ -788,33 +805,128 @@ namespace OpenPmsDentalBusiness {
 			public string CodeSystemOID="";
 		}
 
+		///<summary>The uncompressed bytes read so far from the parts of one file, against MAX_TOTAL_BYTES.</summary>
+		private class ReadBudget {
+			public long CountBytesTotal;
+		}
+
+		///<summary>A part that passes one of the importer's limits. Parse refuses the file with the message.</summary>
+		private class LimitException:ApplicationException {
+			public LimitException(string message):base(message) {
+			}
+		}
+
+		///<summary>Reads a part (the chosen file, or an entry of a .zip or a workbook) forward only, counting its bytes as they are read: past
+		///MAX_FILE_BYTES for the part, or past MAX_TOTAL_BYTES for all the parts of the file, it throws a LimitException. The size a zip entry claims
+		///is not trusted.</summary>
+		private class LimitedReadStream:Stream {
+			private readonly Stream _stream;
+			private readonly string _partName;
+			private readonly ReadBudget _readBudget;
+			private readonly bool _isLeaveOpen;
+			private long _countBytes;
+
+			public LimitedReadStream(Stream stream,string partName,ReadBudget readBudget,bool isLeaveOpen) {
+				_stream=stream;
+				_partName=partName;
+				_readBudget=readBudget;
+				_isLeaveOpen=isLeaveOpen;
+			}
+
+			public override bool CanRead => true;
+			public override bool CanSeek => false;
+			public override bool CanWrite => false;
+			public override long Length => throw new NotSupportedException();
+
+			public override long Position {
+				get => _countBytes;
+				set => throw new NotSupportedException();
+			}
+
+			public override int Read(byte[] buffer,int offset,int count) {
+				int countRead=_stream.Read(buffer,offset,count);
+				_countBytes+=countRead;
+				_readBudget.CountBytesTotal+=countRead;
+				if(_countBytes>MAX_FILE_BYTES) {
+					throw new LimitException(GetPartLimitText(_partName));
+				}
+				if(_readBudget.CountBytesTotal>MAX_TOTAL_BYTES) {
+					throw new LimitException(GetTotalLimitText(_partName));
+				}
+				return countRead;
+			}
+
+			public override void Flush() {
+			}
+
+			public override long Seek(long offset,SeekOrigin origin) {
+				throw new NotSupportedException();
+			}
+
+			public override void SetLength(long value) {
+				throw new NotSupportedException();
+			}
+
+			public override void Write(byte[] buffer,int offset,int count) {
+				throw new NotSupportedException();
+			}
+
+			protected override void Dispose(bool disposing) {
+				if(disposing && !_isLeaveOpen) {
+					_stream.Dispose();
+				}
+				base.Dispose(disposing);
+			}
+		}
+
+		private static string GetPartLimitText(string partName) {
+			return Lans.g(LANS,"A part of the file is larger, uncompressed, than the importer reads")+" ("+(MAX_FILE_BYTES/1024/1024)+" MB): "+partName;
+		}
+
+		private static string GetTotalLimitText(string partName) {
+			return Lans.g(LANS,"The parts of the file are larger together, uncompressed, than the importer reads")+" ("+(MAX_TOTAL_BYTES/1024/1024)+" MB "
+				+Lans.g(LANS,"in all")+"; "+Lans.g(LANS,"passed in")+" "+partName+").";
+		}
+
 		///<summary>Reads and checks the whole file (a .xlsx workbook, an SVS .xml, or a .zip of either; a workbook named .zip is read as a
 		///workbook) and returns what an import would write. Nothing is written. Problems are in the result (ListRefusals): this does not throw for a
 		///bad file.</summary>
 		public static EhrValueSetFile Parse(string fileName,byte[] arrayBytes) {
 			Meth.NoCheckMiddleTierRole();
+			using(MemoryStream memoryStream=new MemoryStream(arrayBytes??new byte[0],writable:false)) {
+				return Parse(fileName,memoryStream);
+			}
+		}
+
+		///<summary>Parse of a file the caller opened (the Code System Importer opens a FileStream, so the file is never held whole in memory). The
+		///stream must be seekable: it is read once for the SHA-256 and again for the content. It is left open. The parts are read one record at a
+		///time: no more than MAX_FILE_BYTES of the file, MAX_FILE_BYTES per uncompressed part and MAX_TOTAL_BYTES in all, MAX_ROWS rows (counted
+		///while the file is read) and MAX_COLUMNS columns of a workbook, so a file made to exhaust a 32-bit process is refused, not read.</summary>
+		public static EhrValueSetFile Parse(string fileName,Stream stream) {
+			Meth.NoCheckMiddleTierRole();
 			EhrValueSetFile file=new EhrValueSetFile();
 			file.FileName=Path.GetFileName(fileName??"");
-			if(arrayBytes==null || arrayBytes.Length==0) {
+			if(stream==null || stream.Length==0) {
 				file.ListRefusals.Add(Lans.g(LANS,"The file is empty."));
 				return file;
 			}
-			file.CountBytes=arrayBytes.LongLength;
-			using(SHA256 sha256=SHA256.Create()) {
-				file.Sha256=string.Concat(sha256.ComputeHash(arrayBytes).Select(x => x.ToString("x2",CultureInfo.InvariantCulture)));
-			}
+			file.CountBytes=stream.Length;
 			if(file.CountBytes>MAX_FILE_BYTES) {
 				file.ListRefusals.Add(Lans.g(LANS,"The file is larger than the importer reads")+" ("+(MAX_FILE_BYTES/1024/1024)+" MB).");
 				return file;
 			}
+			stream.Position=0;
+			using(SHA256 sha256=SHA256.Create()) {
+				file.Sha256=string.Concat(sha256.ComputeHash(stream).Select(x => x.ToString("x2",CultureInfo.InvariantCulture)));
+			}
 			List<RawRow> listRawRows=new List<RawRow>();
-			long countBytesTotal=0;
 			try {
-				ReadPart(file,file.FileName,arrayBytes,listRawRows,isInsideZip:false,ref countBytesTotal);
+				stream.Position=0;
+				ReadPart(file,file.FileName,stream,listRawRows,isInsideZip:false,new ReadBudget());
 			}
 			catch(Exception ex) {
-				//A damaged workbook, zip or XML: refused, and the old rows stay.
-				file.ListRefusals.Add(Lans.g(LANS,"The file could not be read")+": "+ex.Message);
+				//A damaged workbook, zip or XML, or a part past a limit: refused, and the old rows stay.
+				file.ListRefusals.Add(GetReadErrorText(ex));
 				return file;
 			}
 			if(file.IsRefused) {
@@ -824,28 +936,58 @@ namespace OpenPmsDentalBusiness {
 			return file;
 		}
 
-		///<summary>Reads one part: the file itself or an entry of a .zip.</summary>
-		private static void ReadPart(EhrValueSetFile file,string partName,byte[] arrayBytes,List<RawRow> listRawRows,bool isInsideZip,ref long countBytesTotal) {
+		///<summary>The refusal for an exception while the file was read: a limit's own message, or "could not be read" with the reason.</summary>
+		private static string GetReadErrorText(Exception ex) {
+			for(Exception exception=ex;exception!=null;exception=exception.InnerException) {
+				if(exception is LimitException) {
+					return exception.Message;
+				}
+				if(exception is OutOfMemoryException) {
+					return Lans.g(LANS,"The file is too large for the importer to read.");
+				}
+			}
+			return Lans.g(LANS,"The file could not be read")+": "+ex.Message;
+		}
+
+		///<summary>Up to count bytes from the start of a stream (fewer when it is shorter).</summary>
+		private static byte[] ReadStart(Stream stream,int count) {
+			byte[] arrayBytes=new byte[count];
+			int countRead=0;
+			while(countRead<count) {
+				int countNow=stream.Read(arrayBytes,countRead,count-countRead);
+				if(countNow==0) {
+					break;
+				}
+				countRead+=countNow;
+			}
+			if(countRead<count) {
+				Array.Resize(ref arrayBytes,countRead);
+			}
+			return arrayBytes;
+		}
+
+		///<summary>Reads one part: the file itself or a workbook inside a .zip, from a seekable stream at its start.</summary>
+		private static void ReadPart(EhrValueSetFile file,string partName,Stream stream,List<RawRow> listRawRows,bool isInsideZip,ReadBudget readBudget) {
 			string extension=Path.GetExtension(partName).ToLowerInvariant();
-			bool isZip=arrayBytes.Length>=4 && arrayBytes[0]==0x50 && arrayBytes[1]==0x4B;//"PK": a zip, or a workbook (which is a zip).
-			if(isZip) {
-				using(MemoryStream memoryStream=new MemoryStream(arrayBytes,writable:false))
-				using(ZipArchive zipArchive=new ZipArchive(memoryStream,ZipArchiveMode.Read)) {
+			byte[] arrayStart=ReadStart(stream,67);
+			stream.Position=0;
+			if(IsZip(arrayStart)) {
+				using(ZipArchive zipArchive=new ZipArchive(stream,ZipArchiveMode.Read,leaveOpen:true)) {
 					if(zipArchive.Entries.Any(x => x.FullName=="xl/workbook.xml")) {
-						ReadWorkbook(file,partName,zipArchive,listRawRows,ref countBytesTotal);
+						ReadWorkbook(file,partName,zipArchive,listRawRows,readBudget);
 						return;
 					}
 					if(isInsideZip) {
 						file.ListPartsSkipped.Add(partName+": "+Lans.g(LANS,"a .zip inside the .zip is not read."));
 						return;
 					}
-					ReadZip(file,partName,zipArchive,listRawRows,ref countBytesTotal);
+					ReadZip(file,partName,zipArchive,listRawRows,readBudget);
 				}
 				return;
 			}
-			if(extension==".xml" || LooksLikeXml(arrayBytes)) {
-				using(MemoryStream memoryStream=new MemoryStream(arrayBytes,writable:false)) {
-					ReadSvs(file,partName,memoryStream,listRawRows);
+			if(extension==".xml" || LooksLikeXml(arrayStart)) {
+				using(LimitedReadStream limitedReadStream=new LimitedReadStream(stream,partName,readBudget,isLeaveOpen:true)) {
+					ReadSvs(file,partName,limitedReadStream,listRawRows);
 				}
 				return;
 			}
@@ -854,6 +996,11 @@ namespace OpenPmsDentalBusiness {
 				return;
 			}
 			file.ListRefusals.Add(Lans.g(LANS,"The file is not a VSAC workbook (.xlsx), an SVS file (.xml) or a .zip of them."));
+		}
+
+		///<summary>"PK": a zip, or a workbook (which is a zip).</summary>
+		private static bool IsZip(byte[] arrayStart) {
+			return arrayStart.Length>=4 && arrayStart[0]==0x50 && arrayStart[1]==0x4B;
 		}
 
 		private static bool LooksLikeXml(byte[] arrayBytes) {
@@ -871,7 +1018,7 @@ namespace OpenPmsDentalBusiness {
 		}
 
 		///<summary>Reads every workbook and SVS file of a .zip (any folder). Other entries are skipped and named.</summary>
-		private static void ReadZip(EhrValueSetFile file,string partName,ZipArchive zipArchive,List<RawRow> listRawRows,ref long countBytesTotal) {
+		private static void ReadZip(EhrValueSetFile file,string partName,ZipArchive zipArchive,List<RawRow> listRawRows,ReadBudget readBudget) {
 			if(zipArchive.Entries.Count>MAX_ZIP_ENTRIES) {
 				file.ListRefusals.Add(Lans.g(LANS,"The .zip has more entries than the importer reads")+" ("+MAX_ZIP_ENTRIES+").");
 				return;
@@ -891,9 +1038,8 @@ namespace OpenPmsDentalBusiness {
 					file.ListPartsSkipped.Add(entryName+": "+Lans.g(LANS,"not a workbook (.xlsx) or an SVS file (.xml)."));
 					continue;
 				}
-				byte[] arrayEntryBytes=ReadEntry(zipArchiveEntry,ref countBytesTotal);
 				int countPartsBefore=file.ListPartsRead.Count;
-				ReadPart(file,entryName,arrayEntryBytes,listRawRows,isInsideZip:true,ref countBytesTotal);
+				ReadZipEntry(file,entryName,zipArchiveEntry,listRawRows,readBudget);
 				if(file.IsRefused) {
 					return;
 				}
@@ -906,22 +1052,51 @@ namespace OpenPmsDentalBusiness {
 			}
 		}
 
-		///<summary>The uncompressed bytes of a zip entry, refusing one that is larger than MAX_FILE_BYTES, or that takes the parts of the file past
-		///MAX_TOTAL_BYTES (the size the entry claims is not trusted: the bytes are counted as they are read).</summary>
-		private static byte[] ReadEntry(ZipArchiveEntry zipArchiveEntry,ref long countBytesTotal) {
-			using(Stream stream=zipArchiveEntry.Open())
-			using(MemoryStream memoryStream=new MemoryStream()) {
-				byte[] arrayBuffer=new byte[81920];
-				int countRead;
-				while((countRead=stream.Read(arrayBuffer,0,arrayBuffer.Length))>0) {
-					memoryStream.Write(arrayBuffer,0,countRead);
-					countBytesTotal+=countRead;
-					if(memoryStream.Length>MAX_FILE_BYTES || countBytesTotal>MAX_TOTAL_BYTES) {
-						throw new ApplicationException(Lans.g(LANS,"a part of the file is larger, uncompressed, than the importer reads")+": "+zipArchiveEntry.FullName);
-					}
-				}
-				return memoryStream.ToArray();
+		///<summary>Reads a workbook or SVS entry of a .zip. An SVS file is read straight from the entry; a workbook (a zip itself, which needs a
+		///seekable stream) is copied into memory first, within MAX_FILE_BYTES.</summary>
+		private static void ReadZipEntry(EhrValueSetFile file,string entryName,ZipArchiveEntry zipArchiveEntry,List<RawRow> listRawRows,ReadBudget readBudget) {
+			byte[] arrayStart;
+			using(Stream stream=OpenEntry(zipArchiveEntry,entryName,new ReadBudget())) {//The first bytes, not counted twice.
+				arrayStart=ReadStart(stream,67);
 			}
+			if(IsZip(arrayStart)) {
+				using(MemoryStream memoryStream=CopyEntryToMemory(zipArchiveEntry,entryName,readBudget)) {
+					ReadPart(file,entryName,memoryStream,listRawRows,isInsideZip:true,readBudget);
+				}
+				return;
+			}
+			if(Path.GetExtension(entryName).ToLowerInvariant()==".xml" || LooksLikeXml(arrayStart)) {
+				using(Stream stream=OpenEntry(zipArchiveEntry,entryName,readBudget)) {
+					ReadSvs(file,entryName,stream,listRawRows);
+				}
+				return;
+			}
+			file.ListPartsSkipped.Add(entryName+": "+Lans.g(LANS,"not a workbook (.xlsx) or an SVS file (.xml)."));
+		}
+
+		///<summary>The entry's uncompressed bytes as a forward-only stream that counts them (LimitedReadStream). An entry that claims more than
+		///MAX_FILE_BYTES is refused before it is read.</summary>
+		private static Stream OpenEntry(ZipArchiveEntry zipArchiveEntry,string entryName,ReadBudget readBudget) {
+			if(zipArchiveEntry.Length>MAX_FILE_BYTES) {
+				throw new LimitException(GetPartLimitText(entryName));
+			}
+			return new LimitedReadStream(zipArchiveEntry.Open(),entryName,readBudget,isLeaveOpen:false);
+		}
+
+		///<summary>A workbook inside a .zip, in memory (at most MAX_FILE_BYTES; the stream is sized by the entry's claimed length).</summary>
+		private static MemoryStream CopyEntryToMemory(ZipArchiveEntry zipArchiveEntry,string entryName,ReadBudget readBudget) {
+			MemoryStream memoryStream=new MemoryStream((int)Math.Min(Math.Max(zipArchiveEntry.Length,0),MAX_FILE_BYTES));
+			try {
+				using(Stream stream=OpenEntry(zipArchiveEntry,entryName,readBudget)) {
+					stream.CopyTo(memoryStream);
+				}
+			}
+			catch {
+				memoryStream.Dispose();
+				throw;
+			}
+			memoryStream.Position=0;
+			return memoryStream;
 		}
 
 		private static XmlReaderSettings GetXmlReaderSettings() {
@@ -934,22 +1109,48 @@ namespace OpenPmsDentalBusiness {
 			return xmlReaderSettings;
 		}
 
+		///<summary>The text of the element the reader is on (every text node inside it, as XElement.Value gives it), leaving the reader on its end
+		///element (or on the element itself when it is empty).</summary>
+		private static string ReadElementText(XmlReader xmlReader) {
+			if(xmlReader.IsEmptyElement) {
+				return "";
+			}
+			int depthElement=xmlReader.Depth;
+			string text="";
+			while(xmlReader.Read()) {
+				if(xmlReader.NodeType==XmlNodeType.EndElement && xmlReader.Depth==depthElement) {
+					break;
+				}
+				if(IsTextNode(xmlReader.NodeType)) {
+					text+=xmlReader.Value;
+				}
+			}
+			return text;
+		}
+
+		private static bool IsTextNode(XmlNodeType xmlNodeType) {
+			return xmlNodeType==XmlNodeType.Text || xmlNodeType==XmlNodeType.CDATA || xmlNodeType==XmlNodeType.Whitespace
+				|| xmlNodeType==XmlNodeType.SignificantWhitespace;
+		}
+
 		#region Workbook
 		///<summary>Reads every sheet of an Excel workbook (Office Open XML: the sheet XML and the shared strings, with System.IO.Compression; no
-		///library). A sheet with no header row is skipped and named. A header row that lacks a required column refuses the file and names the missing
-		///columns.</summary>
-		private static void ReadWorkbook(EhrValueSetFile file,string partName,ZipArchive zipArchive,List<RawRow> listRawRows,ref long countBytesTotal) {
+		///library), each part straight from its entry. A sheet with no header row is skipped and named. A header row that lacks a required column
+		///refuses the file and names the missing columns.</summary>
+		private static void ReadWorkbook(EhrValueSetFile file,string partName,ZipArchive zipArchive,List<RawRow> listRawRows,ReadBudget readBudget) {
 			List<string> listSharedStrings=new List<string>();
 			ZipArchiveEntry entryShared=zipArchive.GetEntry("xl/sharedStrings.xml");
 			if(entryShared!=null) {
-				listSharedStrings=ReadSharedStrings(ReadEntry(entryShared,ref countBytesTotal));
+				using(Stream stream=OpenEntry(entryShared,partName+"/"+entryShared.FullName,readBudget)) {
+					listSharedStrings=ReadSharedStrings(stream);
+				}
 			}
 			//The sheets in workbook order, with the part each relationship points to.
 			Dictionary<string,string> dictTargetById=new Dictionary<string,string>(StringComparer.Ordinal);
 			ZipArchiveEntry entryRels=zipArchive.GetEntry("xl/_rels/workbook.xml.rels");
 			if(entryRels!=null) {
-				using(MemoryStream memoryStream=new MemoryStream(ReadEntry(entryRels,ref countBytesTotal),writable:false))
-				using(XmlReader xmlReader=XmlReader.Create(memoryStream,GetXmlReaderSettings())) {
+				using(Stream stream=OpenEntry(entryRels,partName+"/"+entryRels.FullName,readBudget))
+				using(XmlReader xmlReader=XmlReader.Create(stream,GetXmlReaderSettings())) {
 					while(xmlReader.Read()) {
 						if(xmlReader.NodeType==XmlNodeType.Element && xmlReader.LocalName=="Relationship") {
 							string id=xmlReader.GetAttribute("Id")??"";
@@ -960,8 +1161,9 @@ namespace OpenPmsDentalBusiness {
 				}
 			}
 			List<KeyValuePair<string,string>> listSheets=new List<KeyValuePair<string,string>>();//sheet name, part path
-			using(MemoryStream memoryStream=new MemoryStream(ReadEntry(zipArchive.GetEntry("xl/workbook.xml"),ref countBytesTotal),writable:false))
-			using(XmlReader xmlReader=XmlReader.Create(memoryStream,GetXmlReaderSettings())) {
+			ZipArchiveEntry entryWorkbook=zipArchive.GetEntry("xl/workbook.xml");
+			using(Stream stream=OpenEntry(entryWorkbook,partName+"/"+entryWorkbook.FullName,readBudget))
+			using(XmlReader xmlReader=XmlReader.Create(stream,GetXmlReaderSettings())) {
 				while(xmlReader.Read()) {
 					if(xmlReader.NodeType!=XmlNodeType.Element || xmlReader.LocalName!="sheet") {
 						continue;
@@ -990,9 +1192,10 @@ namespace OpenPmsDentalBusiness {
 					file.ListPartsSkipped.Add(sheetLabel+": "+Lans.g(LANS,"the sheet's part is missing."));
 					continue;
 				}
-				List<List<string>> listRows=ReadSheetRows(ReadEntry(entrySheet,ref countBytesTotal),listSharedStrings);
-				if(ReadSheet(file,sheetLabel,listRows,listRawRows)) {
-					countSheetsRead++;
+				using(Stream stream=OpenEntry(entrySheet,partName+"/"+entrySheet.FullName,readBudget)) {
+					if(ReadSheet(file,sheetLabel,ReadSheetRows(file,stream,listSharedStrings),listRawRows)) {
+						countSheetsRead++;
+					}
 				}
 				if(file.IsRefused) {
 					return;
@@ -1025,77 +1228,144 @@ namespace OpenPmsDentalBusiness {
 		}
 
 		///<summary>The shared strings of a workbook, in order: the text of each si element (its t, or the t of its runs; phonetic runs left out).</summary>
-		private static List<string> ReadSharedStrings(byte[] arrayBytes) {
+		private static List<string> ReadSharedStrings(Stream stream) {
 			List<string> listStrings=new List<string>();
-			using(MemoryStream memoryStream=new MemoryStream(arrayBytes,writable:false))
-			using(XmlReader xmlReader=XmlReader.Create(memoryStream,GetXmlReaderSettings())) {
-				foreach(XElement elementSi in ReadElements(xmlReader,"si")) {
-					listStrings.Add(string.Concat(elementSi.Descendants().Where(x => x.Name.LocalName=="t" && !x.Ancestors().Any(y => y.Name.LocalName=="rPh"))
-						.Select(x => x.Value)));
+			using(XmlReader xmlReader=XmlReader.Create(stream,GetXmlReaderSettings())) {
+				while(xmlReader.Read()) {
+					if(xmlReader.NodeType==XmlNodeType.Element && xmlReader.LocalName=="si") {
+						listStrings.Add(ReadCellContent(xmlReader,out string _));
+					}
 				}
 			}
 			return listStrings;
 		}
 
-		///<summary>Every element with one of the local names, read one at a time (XNode.ReadFrom), so a large part is never held whole. Elements
-		///inside a returned element are not returned again.</summary>
-		private static IEnumerable<XElement> ReadElements(XmlReader xmlReader,params string[] arrayLocalNames) {
-			xmlReader.MoveToContent();
-			while(!xmlReader.EOF) {
-				if(xmlReader.NodeType==XmlNodeType.Element && arrayLocalNames.Contains(xmlReader.LocalName)) {
-					yield return (XElement)XNode.ReadFrom(xmlReader);//Leaves the reader on the node after the element.
+		///<summary>Reads the cell (c) or shared string (si) element the reader is on: returns the text of its t elements outside phonetic runs (rPh),
+		///and gives the text of its first v child in valueV (null when it has none). Leaves the reader on the element's end (or on the element when it
+		///is empty).</summary>
+		private static string ReadCellContent(XmlReader xmlReader,out string valueV) {
+			valueV=null;
+			if(xmlReader.IsEmptyElement) {
+				return "";
+			}
+			int depthElement=xmlReader.Depth;
+			int depthPhonetic=-1;//The open rPh element's depth.
+			int depthText=-1;//The open t or v element's depth, whose text is being read.
+			bool isTextV=false;
+			string textT=null;
+			while(xmlReader.Read()) {
+				XmlNodeType xmlNodeType=xmlReader.NodeType;
+				if(xmlNodeType==XmlNodeType.EndElement) {
+					if(xmlReader.Depth==depthElement) {
+						break;
+					}
+					if(xmlReader.Depth==depthPhonetic) {
+						depthPhonetic=-1;
+					}
+					if(xmlReader.Depth==depthText) {
+						depthText=-1;
+					}
 					continue;
 				}
-				xmlReader.Read();
-			}
-		}
-
-		///<summary>The rows of a sheet as lists of cell texts by column (A is 0). Missing cells are "". Shared strings, inline strings, formula
-		///strings, numbers (as the sheet stores them) and booleans.</summary>
-		private static List<List<string>> ReadSheetRows(byte[] arrayBytes,List<string> listSharedStrings) {
-			List<List<string>> listRows=new List<List<string>>();
-			using(MemoryStream memoryStream=new MemoryStream(arrayBytes,writable:false))
-			using(XmlReader xmlReader=XmlReader.Create(memoryStream,GetXmlReaderSettings())) {
-				foreach(XElement elementRow in ReadElements(xmlReader,"row")) {
-					List<string> listRow=new List<string>();
-					int indexColumnNext=0;
-					foreach(XElement elementCell in elementRow.Elements().Where(x => x.Name.LocalName=="c")) {
-						string reference=(string)elementCell.Attribute("r");
-						string type=(string)elementCell.Attribute("t")??"";
-						int indexColumn=reference==null ? -1 : GetColumnIndex(reference);
-						if(indexColumn<0) {
-							indexColumn=indexColumnNext;
-						}
-						indexColumnNext=indexColumn+1;
-						string valueV=elementCell.Elements().FirstOrDefault(x => x.Name.LocalName=="v")?.Value;
-						string value;
-						if(type=="s") {
-							value="";
-							if(int.TryParse(valueV,NumberStyles.Integer,CultureInfo.InvariantCulture,out int indexShared)
-								&& indexShared>=0 && indexShared<listSharedStrings.Count)
-							{
-								value=listSharedStrings[indexShared];
-							}
-						}
-						else if(type=="inlineStr") {
-							value=string.Concat(elementCell.Descendants().Where(x => x.Name.LocalName=="t" && !x.Ancestors().Any(y => y.Name.LocalName=="rPh"))
-								.Select(x => x.Value));
-						}
-						else if(type=="b") {
-							value=valueV=="1" ? "TRUE" : "FALSE";
-						}
-						else {
-							value=valueV??"";//"n" (the default), "str" (a formula's text) and "e" (an error) as the sheet stores them.
-						}
-						while(listRow.Count<=indexColumn) {
-							listRow.Add("");
-						}
-						listRow[indexColumn]=value;
+				if(xmlNodeType==XmlNodeType.Element) {
+					if(depthText>=0) {
+						continue;
 					}
-					listRows.Add(listRow);
+					string localName=xmlReader.LocalName;
+					if(localName=="rPh") {
+						if(depthPhonetic<0 && !xmlReader.IsEmptyElement) {
+							depthPhonetic=xmlReader.Depth;
+						}
+					}
+					else if(localName=="t" && depthPhonetic<0) {
+						textT=textT??"";
+						if(!xmlReader.IsEmptyElement) {
+							depthText=xmlReader.Depth;
+							isTextV=false;
+						}
+					}
+					else if(localName=="v" && xmlReader.Depth==depthElement+1 && valueV==null) {
+						valueV="";
+						if(!xmlReader.IsEmptyElement) {
+							depthText=xmlReader.Depth;
+							isTextV=true;
+						}
+					}
+					continue;
+				}
+				if(depthText>=0 && xmlReader.Depth==depthText+1 && IsTextNode(xmlNodeType)) {
+					if(isTextV) {
+						valueV+=xmlReader.Value;
+					}
+					else {
+						textT+=xmlReader.Value;
+					}
 				}
 			}
-			return listRows;
+			return textT??"";
+		}
+
+		///<summary>The rows of a sheet, one at a time as the sheet's part is read, as lists of cell texts by column (A is 0). Missing cells are "".
+		///Shared strings, inline strings, formula strings, numbers (as the sheet stores them) and booleans. Cells to the right of column IV
+		///(MAX_COLUMNS) are not read, and counted (CountCellsIgnored): a cell far to the right would otherwise cost a whole row of empty cells.</summary>
+		private static IEnumerable<List<string>> ReadSheetRows(EhrValueSetFile file,Stream stream,List<string> listSharedStrings) {
+			using(XmlReader xmlReader=XmlReader.Create(stream,GetXmlReaderSettings())) {
+				while(xmlReader.Read()) {
+					if(xmlReader.NodeType!=XmlNodeType.Element || xmlReader.LocalName!="row") {
+						continue;
+					}
+					List<string> listRow=new List<string>();
+					if(!xmlReader.IsEmptyElement) {
+						int depthRow=xmlReader.Depth;
+						int indexColumnNext=0;
+						while(xmlReader.Read()) {
+							if(xmlReader.NodeType==XmlNodeType.EndElement && xmlReader.Depth==depthRow) {
+								break;
+							}
+							if(xmlReader.NodeType!=XmlNodeType.Element || xmlReader.LocalName!="c" || xmlReader.Depth!=depthRow+1) {
+								continue;
+							}
+							string reference=xmlReader.GetAttribute("r");
+							string type=xmlReader.GetAttribute("t")??"";
+							int indexColumn=reference==null ? -1 : GetColumnIndex(reference);
+							if(indexColumn<0) {
+								indexColumn=indexColumnNext;
+							}
+							indexColumnNext=indexColumn+1;
+							string textInline=ReadCellContent(xmlReader,out string valueV);
+							string value;
+							if(type=="s") {
+								value="";
+								if(int.TryParse(valueV,NumberStyles.Integer,CultureInfo.InvariantCulture,out int indexShared)
+									&& indexShared>=0 && indexShared<listSharedStrings.Count)
+								{
+									value=listSharedStrings[indexShared];
+								}
+							}
+							else if(type=="inlineStr") {
+								value=textInline;
+							}
+							else if(type=="b") {
+								value=valueV=="1" ? "TRUE" : "FALSE";
+							}
+							else {
+								value=valueV??"";//"n" (the default), "str" (a formula's text) and "e" (an error) as the sheet stores them.
+							}
+							if(indexColumn>=MAX_COLUMNS) {
+								if(value!="") {
+									file.CountCellsIgnored++;
+								}
+								continue;
+							}
+							while(listRow.Count<=indexColumn) {
+								listRow.Add("");
+							}
+							listRow[indexColumn]=value;
+						}
+					}
+					yield return listRow;
+				}
+			}
 		}
 
 		///<summary>The column index of a cell reference ("C12" is 2), or -1.</summary>
@@ -1132,48 +1402,51 @@ namespace OpenPmsDentalBusiness {
 			return null;
 		}
 
-		///<summary>Reads the rows under the sheet's header row. Returns false (and names the sheet) when the sheet has no header row: none of its first
-		///rows names at least two known columns, one of them Code or Value Set OID. A header row without the required columns refuses the file.</summary>
-		private static bool ReadSheet(EhrValueSetFile file,string sheetLabel,List<List<string>> listRows,List<RawRow> listRawRows) {
+		///<summary>Reads the rows under the sheet's header row, as they are read from the sheet (each row goes to the header search, then to
+		///AddRawRow, so MAX_ROWS refuses the file while it is read). Returns false (and names the sheet) when the sheet has no header row: none of its
+		///first rows names at least two known columns, one of them Code or Value Set OID; the rest of such a sheet is not read. A header row without
+		///the required columns refuses the file.</summary>
+		private static bool ReadSheet(EhrValueSetFile file,string sheetLabel,IEnumerable<List<string>> enumerableRows,List<RawRow> listRawRows) {
+			int indexRow=-1;
 			int indexHeader=-1;
 			Dictionary<string,int> dictColumns=null;
-			for(int i=0;i<listRows.Count && i<MAX_HEADER_ROW;i++) {
-				Dictionary<string,int> dictColumnsRow=new Dictionary<string,int>();
-				for(int j=0;j<listRows[i].Count;j++) {
-					string field=GetHeaderField(listRows[i][j]);
-					if(field!=null && !dictColumnsRow.ContainsKey(field)) {
-						dictColumnsRow.Add(field,j);
+			foreach(List<string> listRow in enumerableRows) {
+				indexRow++;
+				if(indexHeader<0) {
+					if(indexRow>=MAX_HEADER_ROW) {
+						break;
 					}
-				}
-				if(dictColumnsRow.Count>=2
-					&& (dictColumnsRow.ContainsKey(nameof(EhrCode.CodeValue)) || dictColumnsRow.ContainsKey(nameof(EhrCode.ValueSetOID))))
-				{
-					indexHeader=i;
+					Dictionary<string,int> dictColumnsRow=new Dictionary<string,int>();
+					for(int j=0;j<listRow.Count;j++) {
+						string field=GetHeaderField(listRow[j]);
+						if(field!=null && !dictColumnsRow.ContainsKey(field)) {
+							dictColumnsRow.Add(field,j);
+						}
+					}
+					if(dictColumnsRow.Count<2
+						|| (!dictColumnsRow.ContainsKey(nameof(EhrCode.CodeValue)) && !dictColumnsRow.ContainsKey(nameof(EhrCode.ValueSetOID))))
+					{
+						continue;
+					}
+					indexHeader=indexRow;
 					dictColumns=dictColumnsRow;
-					break;
+					List<string> listMissing=new List<string>();
+					if(!dictColumns.ContainsKey(nameof(EhrCode.ValueSetOID))) {
+						listMissing.Add("Value Set OID");
+					}
+					if(!dictColumns.ContainsKey(nameof(EhrCode.CodeValue))) {
+						listMissing.Add("Code");
+					}
+					if(!dictColumns.ContainsKey(nameof(EhrCode.CodeSystem)) && !dictColumns.ContainsKey(nameof(EhrCode.CodeSystemOID))) {
+						listMissing.Add("Code System (or Code System OID)");
+					}
+					if(listMissing.Count>0) {
+						file.ListRefusals.Add(sheetLabel+": "+Lans.g(LANS,"the header row (row")+" "+(indexHeader+1)+") "+Lans.g(LANS,"has no column")+" "
+							+string.Join(", ",listMissing)+".");
+						return false;
+					}
+					continue;
 				}
-			}
-			if(indexHeader<0) {
-				file.ListPartsSkipped.Add(sheetLabel+": "+Lans.g(LANS,"no header row with the value-set columns."));
-				return false;
-			}
-			List<string> listMissing=new List<string>();
-			if(!dictColumns.ContainsKey(nameof(EhrCode.ValueSetOID))) {
-				listMissing.Add("Value Set OID");
-			}
-			if(!dictColumns.ContainsKey(nameof(EhrCode.CodeValue))) {
-				listMissing.Add("Code");
-			}
-			if(!dictColumns.ContainsKey(nameof(EhrCode.CodeSystem)) && !dictColumns.ContainsKey(nameof(EhrCode.CodeSystemOID))) {
-				listMissing.Add("Code System (or Code System OID)");
-			}
-			if(listMissing.Count>0) {
-				file.ListRefusals.Add(sheetLabel+": "+Lans.g(LANS,"the header row (row")+" "+(indexHeader+1)+") "+Lans.g(LANS,"has no column")+" "
-					+string.Join(", ",listMissing)+".");
-				return false;
-			}
-			for(int i=indexHeader+1;i<listRows.Count;i++) {
-				List<string> listRow=listRows[i];
 				if(listRow.All(x => string.IsNullOrWhiteSpace(x))) {
 					continue;
 				}
@@ -1191,6 +1464,10 @@ namespace OpenPmsDentalBusiness {
 					return true;
 				}
 			}
+			if(indexHeader<0) {
+				file.ListPartsSkipped.Add(sheetLabel+": "+Lans.g(LANS,"no header row with the value-set columns."));
+				return false;
+			}
 			file.ListPartsRead.Add(sheetLabel);
 			return true;
 		}
@@ -1207,44 +1484,79 @@ namespace OpenPmsDentalBusiness {
 		///<summary>Reads an SVS file (IHE Sharing Value Sets, as VSAC's SVS API returns it): DescribedValueSet (or ValueSet) elements with their ID,
 		///displayName and version, their ConceptList/Concept entries (code, codeSystem, codeSystemName, displayName), and their Group elements, when
 		///present, for the QDM category (a group named CATEGORY) and the measure IDs (a group whose name has CMS or Measure in it). Element names are
-		///matched without their namespace.</summary>
+		///matched without their namespace. Read one node at a time: each concept is a row as soon as it is read (MAX_ROWS counts it), and gets its
+		///value set's category and measures when the value set ends, since the groups follow the concepts.</summary>
 		private static void ReadSvs(EhrValueSetFile file,string partName,Stream stream,List<RawRow> listRawRows) {
 			int countValueSets=0;
 			using(XmlReader xmlReader=XmlReader.Create(stream,GetXmlReaderSettings())) {
-				foreach(XElement elementValueSet in ReadElements(xmlReader,"DescribedValueSet","ValueSet")) {
+				while(xmlReader.Read()) {
+					if(xmlReader.NodeType!=XmlNodeType.Element || (xmlReader.LocalName!="DescribedValueSet" && xmlReader.LocalName!="ValueSet")) {
+						continue;
+					}
 					countValueSets++;
-					string valueSetOID=((string)elementValueSet.Attribute("ID")??"").Trim();
-					string valueSetName=((string)elementValueSet.Attribute("displayName")??"").Trim();
-					string valueSetVersion=((string)elementValueSet.Attribute("version")??"").Trim();
+					string valueSetOID=(xmlReader.GetAttribute("ID")??"").Trim();
+					string valueSetName=(xmlReader.GetAttribute("displayName")??"").Trim();
+					string valueSetVersion=(xmlReader.GetAttribute("version")??"").Trim();
 					List<string> listCategories=new List<string>();
 					List<string> listMeasureIds=new List<string>();
-					foreach(XElement elementGroup in elementValueSet.Elements().Where(x => x.Name.LocalName=="Group")) {
-						string groupName=((string)elementGroup.Attribute("displayName")??"").Trim();
-						List<string> listKeywords=elementGroup.Elements().Where(x => x.Name.LocalName=="Keyword").Select(x => x.Value.Trim())
-							.Where(x => x!="").ToList();
-						if(groupName.Equals("CATEGORY",StringComparison.OrdinalIgnoreCase)) {
-							listCategories.AddRange(listKeywords.Where(x => !listCategories.Contains(x)));
-						}
-						else if(groupName.IndexOf("CMS",StringComparison.OrdinalIgnoreCase)>=0 || groupName.IndexOf("Measure",StringComparison.OrdinalIgnoreCase)>=0) {
-							foreach(string keyword in listKeywords) {
-								listMeasureIds.AddRange(ParseMeasureIds(keyword).Where(x => !listMeasureIds.Contains(x)));
+					List<RawRow> listRowsOfValueSet=new List<RawRow>();
+					if(!xmlReader.IsEmptyElement) {
+						int depthValueSet=xmlReader.Depth;
+						while(xmlReader.Read()) {
+							if(xmlReader.NodeType==XmlNodeType.EndElement && xmlReader.Depth==depthValueSet) {
+								break;
+							}
+							if(xmlReader.NodeType!=XmlNodeType.Element) {
+								continue;
+							}
+							if(xmlReader.LocalName=="Concept") {
+								RawRow rawRow=new RawRow();
+								rawRow.ValueSetOID=valueSetOID;
+								rawRow.ValueSetName=valueSetName;
+								rawRow.ValueSetVersion=valueSetVersion;
+								rawRow.CodeValue=(xmlReader.GetAttribute("code")??"").Trim();
+								rawRow.CodeSystemOID=(xmlReader.GetAttribute("codeSystem")??"").Trim();
+								rawRow.CodeSystemName=(xmlReader.GetAttribute("codeSystemName")??"").Trim();
+								rawRow.Description=(xmlReader.GetAttribute("displayName")??"").Trim();
+								if(!AddRawRow(file,listRawRows,rawRow)) {
+									return;
+								}
+								listRowsOfValueSet.Add(rawRow);
+								continue;
+							}
+							if(xmlReader.LocalName!="Group" || xmlReader.Depth!=depthValueSet+1) {
+								continue;
+							}
+							string groupName=(xmlReader.GetAttribute("displayName")??"").Trim();
+							List<string> listKeywords=new List<string>();
+							if(!xmlReader.IsEmptyElement) {
+								int depthGroup=xmlReader.Depth;
+								while(xmlReader.Read()) {
+									if(xmlReader.NodeType==XmlNodeType.EndElement && xmlReader.Depth==depthGroup) {
+										break;
+									}
+									if(xmlReader.NodeType==XmlNodeType.Element && xmlReader.LocalName=="Keyword" && xmlReader.Depth==depthGroup+1) {
+										string keyword=ReadElementText(xmlReader).Trim();
+										if(keyword!="") {
+											listKeywords.Add(keyword);
+										}
+									}
+								}
+							}
+							if(groupName.Equals("CATEGORY",StringComparison.OrdinalIgnoreCase)) {
+								listCategories.AddRange(listKeywords.Where(x => !listCategories.Contains(x)));
+							}
+							else if(groupName.IndexOf("CMS",StringComparison.OrdinalIgnoreCase)>=0 || groupName.IndexOf("Measure",StringComparison.OrdinalIgnoreCase)>=0) {
+								foreach(string keyword in listKeywords) {
+									listMeasureIds.AddRange(ParseMeasureIds(keyword).Where(x => !listMeasureIds.Contains(x)));
+								}
 							}
 						}
 					}
-					foreach(XElement elementConcept in elementValueSet.Descendants().Where(x => x.Name.LocalName=="Concept")) {
-						RawRow rawRow=new RawRow();
-						rawRow.ValueSetOID=valueSetOID;
-						rawRow.ValueSetName=valueSetName;
-						rawRow.ValueSetVersion=valueSetVersion;
-						rawRow.QDMCategory=string.Join(", ",listCategories);
-						rawRow.ListMeasureIds=listMeasureIds.ToList();
-						rawRow.CodeValue=((string)elementConcept.Attribute("code")??"").Trim();
-						rawRow.CodeSystemOID=((string)elementConcept.Attribute("codeSystem")??"").Trim();
-						rawRow.CodeSystemName=((string)elementConcept.Attribute("codeSystemName")??"").Trim();
-						rawRow.Description=((string)elementConcept.Attribute("displayName")??"").Trim();
-						if(!AddRawRow(file,listRawRows,rawRow)) {
-							return;
-						}
+					string qdmCategory=string.Join(", ",listCategories);
+					foreach(RawRow rawRow in listRowsOfValueSet) {
+						rawRow.QDMCategory=qdmCategory;
+						rawRow.ListMeasureIds=listMeasureIds;//Read only from here on: the rows of one value set share it.
 					}
 				}
 			}
@@ -1279,6 +1591,7 @@ namespace OpenPmsDentalBusiness {
 		///file does not give, and makes the checks of section 8.2.</summary>
 		private static void Finish(EhrValueSetFile file,List<RawRow> listRawRows) {
 			Dictionary<string,EhrValueSetManifestItem> dictManifest=GetManifest().ToDictionary(x => x.ValueSetOID,x => x);
+			HashSet<string> setMeasureIdsReported=new HashSet<string>(ArrayMeasureIds.Select(x => x.Substring(3)),StringComparer.Ordinal);//"68v3"
 			Dictionary<string,EhrCode> dictEhrCodes=new Dictionary<string,EhrCode>(StringComparer.Ordinal);
 			Dictionary<string,List<string>> dictMeasureIds=new Dictionary<string,List<string>>(StringComparer.Ordinal);
 			List<string> listMeasureIdsInFile=new List<string>();
@@ -1316,16 +1629,21 @@ namespace OpenPmsDentalBusiness {
 			foreach(KeyValuePair<string,EhrCode> pair in dictEhrCodes) {
 				EhrCode ehrCode=pair.Value;
 				dictManifest.TryGetValue(ehrCode.ValueSetOID,out EhrValueSetManifestItem manifestItem);
-				List<string> listMeasureIds=dictMeasureIds[pair.Key];
-				ehrCode.MeasureIds=listMeasureIds.Count>0 ? string.Join(",",SortMeasureIds(listMeasureIds)) : (manifestItem?.MeasureIds??"");
+				//MeasureIds holds only the nine measures this program reports, as Open Dental's list did ("69v2,147v2"): its one reader
+				//(GetMeasureIdsForCode, which FormSnomeds shows) needs no more, and the supplemental data elements (Payer, race, ethnicity, sex) are
+				//listed under about 64 measures of the release, which would not fit the column. The version check below uses every measure the file
+				//names (listMeasureIdsInFile). None of the nine: the manifest's measures, when it lists the value set.
+				List<string> listMeasureIdsReported=dictMeasureIds[pair.Key].Where(x => setMeasureIdsReported.Contains(x)).ToList();
+				ehrCode.MeasureIds=listMeasureIdsReported.Count>0 ? string.Join(",",SortMeasureIds(listMeasureIdsReported)) : (manifestItem?.MeasureIds??"");
 				if(ehrCode.ValueSetName=="" && manifestItem!=null) {
 					ehrCode.ValueSetName=manifestItem.ValueSetName;
 				}
 				if(ehrCode.QDMCategory=="" && manifestItem!=null) {
 					ehrCode.QDMCategory=manifestItem.QDMCategory;
 				}
-				if(new[] { ehrCode.MeasureIds,ehrCode.ValueSetName,ehrCode.ValueSetOID,ehrCode.QDMCategory,ehrCode.CodeValue,ehrCode.CodeSystem,
-					ehrCode.CodeSystemOID }.Any(x => x.Length>MAX_COLUMN_LENGTH))
+				if(new[] { ehrCode.ValueSetName,ehrCode.ValueSetOID,ehrCode.QDMCategory,ehrCode.CodeValue,ehrCode.CodeSystem,ehrCode.CodeSystemOID }
+					.Any(x => x.Length>MAX_COLUMN_LENGTH)
+					|| Encoding.UTF8.GetByteCount(ehrCode.Description)>MAX_TEXT_BYTES)
 				{
 					file.CountRowsTooLong++;
 					continue;
@@ -1333,7 +1651,11 @@ namespace OpenPmsDentalBusiness {
 				file.ListEhrCodes.Add(ehrCode);
 			}
 			if(file.CountRowsTooLong>0) {
-				file.ListWarnings.Add(file.CountRowsTooLong+" "+Lans.g(LANS,"rows have a value longer than 255 characters and are not imported."));
+				file.ListWarnings.Add(file.CountRowsTooLong+" "+Lans.g(LANS,"rows have a value longer than 255 characters (a description: longer than")+" "
+					+MAX_TEXT_BYTES.ToString("N0",CultureInfo.InvariantCulture)+" "+Lans.g(LANS,"bytes in UTF-8) and are not imported."));
+			}
+			if(file.CountCellsIgnored>0) {
+				file.ListNotes.Add(file.CountCellsIgnored+" "+Lans.g(LANS,"cells to the right of column IV (the 256th column) were not read."));
 			}
 			//The value sets.
 			HashSet<string> setOids=new HashSet<string>(file.ListEhrCodes.Select(x => x.ValueSetOID),StringComparer.Ordinal);
@@ -1453,8 +1775,10 @@ namespace OpenPmsDentalBusiness {
 		///<summary>Replaces every row of ehrcode with the file's rows and records the release (ForkEhrValueSetRelease) and a Setup security log entry.
 		///Returns "" on success, otherwise the reason, and then the release is not recorded. Needs the Setup permission (checked here, without a
 		///message, as well as by the window) and a direct connection: it refuses under the Middle Tier, as the CPT import does. MyISAM has no
-		///transactions, so a failure while writing (the server stops, the disk is full) can leave part of the rows: the reason says to import the
-		///file again. The caller signals InvalidType.EhrCodes and InvalidType.Prefs.</summary>
+		///transactions, so the rows are written into a scratch table of the same definition (ehrcode_import_[run], CREATE TABLE ... LIKE), which
+		///one RENAME TABLE swaps with ehrcode; the old table is dropped afterwards. A failure before the swap (the server stops, the disk is full)
+		///drops the scratch table and leaves every old row. Scratch tables an import left more than a day ago (the program was stopped half way)
+		///are dropped first. The caller signals InvalidType.EhrCodes and InvalidType.Prefs.</summary>
 		public static string Import(EhrValueSetFile file) {
 			if(RemotingClient.MiddleTierRole==MiddleTierRole.ClientMT) {
 				return Lans.g(LANS,"Value sets cannot be imported when using the middle tier.");
@@ -1469,15 +1793,37 @@ namespace OpenPmsDentalBusiness {
 			if(file.IsRefused) {
 				return string.Join("\r\n",file.ListRefusals);
 			}
-			Db.NonQ("DELETE FROM ehrcode");
 			List<EhrCode> listEhrCodes=file.ListEhrCodes.Select(x => x.Copy()).ToList();
-			Crud.EhrCodeCrud.InsertMany(listEhrCodes);
-			ActionAfterInsertBatch?.Invoke(listEhrCodes.Count);
-			long countWritten=PIn.Long(Db.GetScalar("SELECT COUNT(*) FROM ehrcode"));
-			if(countWritten!=listEhrCodes.Count) {
-				return Lans.g(LANS,"The import wrote")+" "+countWritten+" "+Lans.g(LANS,"of")+" "+listEhrCodes.Count+" "
-					+Lans.g(LANS,"codes. Import the file again.");
+			try {
+				DropLeftoverTables();
 			}
+			catch(Exception) {
+				//Not needed for this import: the next one tries again.
+			}
+			string run=DateTime.UtcNow.ToString(SCRATCH_DATE_FORMAT,CultureInfo.InvariantCulture)+"_"+Guid.NewGuid().ToString("N").Substring(0,6);
+			string tableImport=SCRATCH_PREFIX_IMPORT+run;
+			string tableOld=SCRATCH_PREFIX_OLD+run;
+			bool isSwapped=false;
+			try {
+				Db.NonQ("CREATE TABLE `"+tableImport+"` LIKE ehrcode");
+				InsertRows(tableImport,listEhrCodes);
+				long countWritten=PIn.Long(Db.GetScalar("SELECT COUNT(*) FROM `"+tableImport+"`"));
+				if(countWritten!=listEhrCodes.Count) {
+					return Lans.g(LANS,"The import wrote")+" "+countWritten+" "+Lans.g(LANS,"of")+" "+listEhrCodes.Count+" "
+						+Lans.g(LANS,"codes, so the value sets in the database are unchanged. Import the file again.");
+				}
+				Db.NonQ("RENAME TABLE ehrcode TO `"+tableOld+"`, `"+tableImport+"` TO ehrcode");//One statement: other workstations see the old rows or the new.
+				isSwapped=true;
+			}
+			catch(Exception ex) {
+				return Lans.g(LANS,"The import failed, and the value sets in the database are unchanged")+": "+ex.Message;
+			}
+			finally {
+				if(!isSwapped) {
+					DropTableQuietly(tableImport);
+				}
+			}
+			DropTableQuietly(tableOld);
 			EhrValueSetRelease release=new EhrValueSetRelease();
 			release.Label=RELEASE_LABEL;
 			release.FileName=file.FileName;
@@ -1491,6 +1837,85 @@ namespace OpenPmsDentalBusiness {
 			PrefC.UpsertRaw(PREF_RELEASE,JsonConvert.SerializeObject(release));
 			SecurityLogs.MakeLogEntry(EnumPermType.Setup,0,GetLogText(release));
 			return "";
+		}
+
+		///<summary>The names of the import's scratch tables: the prefix, the UTC time the import started (yyyyMMddHHmmss), "_" and six hex digits.</summary>
+		private const string SCRATCH_PREFIX_IMPORT="ehrcode_import_";
+		private const string SCRATCH_PREFIX_OLD="ehrcode_old_";
+		private const string SCRATCH_DATE_FORMAT="yyyyMMddHHmmss";
+
+		///<summary>Writes the rows into the table (the import's scratch table), as many to a statement as the packet size allows, as
+		///EhrCodeCrud.InsertMany does for ehrcode (with random keys when the database uses them). ActionAfterInsertBatch follows each statement.</summary>
+		private static void InsertRows(string tableName,List<EhrCode> listEhrCodes) {
+			bool isRandomKeys=PrefC.RandomKeys;
+			string commandStart="INSERT INTO `"+tableName+"` ("+(isRandomKeys ? "EhrCodeNum," : "")
+				+"MeasureIds,ValueSetName,ValueSetOID,QDMCategory,CodeValue,Description,CodeSystem,CodeSystemOID) VALUES ";
+			StringBuilder stringBuilder=null;
+			int countInCommand=0;
+			int countWritten=0;
+			foreach(EhrCode ehrCode in listEhrCodes) {
+				if(isRandomKeys) {
+					ehrCode.EhrCodeNum=ReplicationServers.GetKey(tableName,"EhrCodeNum");
+				}
+				string row="("+(isRandomKeys ? POut.Long(ehrCode.EhrCodeNum)+"," : "")
+					+"'"+POut.String(ehrCode.MeasureIds)+"',"
+					+"'"+POut.String(ehrCode.ValueSetName)+"',"
+					+"'"+POut.String(ehrCode.ValueSetOID)+"',"
+					+"'"+POut.String(ehrCode.QDMCategory)+"',"
+					+"'"+POut.String(ehrCode.CodeValue)+"',"
+					+"'"+POut.String(ehrCode.Description)+"',"
+					+"'"+POut.String(ehrCode.CodeSystem)+"',"
+					+"'"+POut.String(ehrCode.CodeSystemOID)+"')";
+				if(stringBuilder!=null && stringBuilder.Length+row.Length+1>TableBase.MaxAllowedPacketCount) {
+					Db.NonQ(stringBuilder.ToString());
+					countWritten+=countInCommand;
+					ActionAfterInsertBatch?.Invoke(countWritten);
+					stringBuilder=null;
+				}
+				if(stringBuilder==null) {
+					stringBuilder=new StringBuilder(commandStart);
+					countInCommand=0;
+				}
+				else {
+					stringBuilder.Append(",");
+				}
+				stringBuilder.Append(row);
+				countInCommand++;
+			}
+			if(stringBuilder!=null) {
+				Db.NonQ(stringBuilder.ToString());
+				countWritten+=countInCommand;
+				ActionAfterInsertBatch?.Invoke(countWritten);
+			}
+		}
+
+		///<summary>Drops the scratch tables (ehrcode_import_... and ehrcode_old_..., by the names Import gives them) that an import started more than
+		///a day ago left behind. A table of today may be another workstation's import, and a table of another name is not this program's: both stay.</summary>
+		private static void DropLeftoverTables() {
+			DataTable table=Db.GetTable(@"SELECT TABLE_NAME FROM information_schema.TABLES WHERE TABLE_SCHEMA=DATABASE() "
+				+@"AND (TABLE_NAME LIKE 'ehrcode\_import\_%' OR TABLE_NAME LIKE 'ehrcode\_old\_%')");
+			foreach(DataRow dataRow in table.Rows) {
+				string tableName=dataRow[0].ToString();
+				Match match=Regex.Match(tableName,"^(?:"+SCRATCH_PREFIX_IMPORT+"|"+SCRATCH_PREFIX_OLD+@")(\d{14})_[0-9a-f]{6}$");
+				if(!match.Success || !DateTime.TryParseExact(match.Groups[1].Value,SCRATCH_DATE_FORMAT,CultureInfo.InvariantCulture,
+					DateTimeStyles.AssumeUniversal|DateTimeStyles.AdjustToUniversal,out DateTime dateStartedUtc))
+				{
+					continue;
+				}
+				if(DateTime.UtcNow-dateStartedUtc<TimeSpan.FromDays(1)) {
+					continue;
+				}
+				Db.NonQ("DROP TABLE IF EXISTS `"+tableName+"`");
+			}
+		}
+
+		///<summary>Drops the table if it exists. A failure is ignored: DropLeftoverTables drops it a day later.</summary>
+		private static void DropTableQuietly(string tableName) {
+			try {
+				Db.NonQ("DROP TABLE IF EXISTS `"+tableName+"`");
+			}
+			catch(Exception) {
+			}
 		}
 
 		///<summary>"9 of 9 measures at the versions this program reports", or that the file named no measure.</summary>

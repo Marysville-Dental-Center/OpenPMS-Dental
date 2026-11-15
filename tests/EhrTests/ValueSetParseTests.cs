@@ -80,7 +80,7 @@ namespace EhrTests {
 		}
 
 		[TestMethod]
-		public void Workbook_AValueSetUnderSeveralMeasures_IsOneRowWithEveryMeasure() {
+		public void Workbook_AValueSetUnderSeveralMeasures_IsOneRow_WithTheNineMeasuresItIsListedUnder() {
 			TestValueSetRow rowA=TestValueSetRow.Make(OID_OFFICE_VISIT,"CPT","TEST0001","CMS74v3");
 			TestValueSetRow rowB=TestValueSetRow.Make(OID_OFFICE_VISIT,"CPT","TEST0001","CMS165v2");
 			TestValueSetRow rowC=TestValueSetRow.Make(OID_OFFICE_VISIT,"CPT","TEST0001","CMS1000v1, CMS75v2");
@@ -89,7 +89,8 @@ namespace EhrTests {
 			Assert.IsFalse(file.IsRefused,EhrValueSetImport.GetReport(file));
 			Assert.AreEqual(1,file.ListEhrCodes.Count);
 			Assert.AreEqual(2,file.CountRowsMerged);
-			Assert.AreEqual("74v3,75v2,165v2,1000v1",file.ListEhrCodes[0].MeasureIds,"The nine in the engine's order first, then the others.");
+			Assert.AreEqual("74v3,75v2,165v2",file.ListEhrCodes[0].MeasureIds,"The nine this program reports, in the engine's order; not the others.");
+			CollectionAssert.Contains(file.ListMeasureIdsInFile,"1000v1","The version check sees every measure.");
 			//The same code in another value set, or of another code system, is a row of its own.
 			EhrValueSetFile file2=EhrValueSetImport.Parse("vs.xlsx",ValueSetFixtures.MakeWorkbook(MakeSheet("A",rowA,
 				TestValueSetRow.Make(OID_TOBACCO_SCREENING,"CPT","TEST0001"),TestValueSetRow.Make(OID_OFFICE_VISIT,"HCPCS","TEST0001"))));

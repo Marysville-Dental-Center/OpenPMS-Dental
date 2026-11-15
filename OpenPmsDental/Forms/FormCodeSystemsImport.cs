@@ -179,7 +179,12 @@ namespace OpenPmsDental {
 				ProgressWin progressWin=new ProgressWin();
 				progressWin.StartingMessage=Lan.g(this,"Reading the value sets...");
 				progressWin.ShowCancelButton=false;
-				progressWin.ActionMain=() => ehrValueSetFile=EhrValueSetImport.Parse(path,File.ReadAllBytes(path));
+				progressWin.ActionMain=() => {
+					//Read from the file as a stream, never whole into memory (this is a 32-bit process).
+					using(FileStream fileStream=new FileStream(path,FileMode.Open,FileAccess.Read,FileShare.Read)) {
+						ehrValueSetFile=EhrValueSetImport.Parse(path,fileStream);
+					}
+				};
 				progressWin.ShowDialog();
 			}
 			catch(Exception ex) {
