@@ -752,6 +752,8 @@ under `OpenDental Middle Tier:` once per Windows user, read through the Windows 
 reference went in 3a), and writes a record `OpenPmsDental Middle Tier migration from PasswordVault`; `Required dlls/Windows.winmd` deleted.
 The tests touch only entries under a per-run `OpenPmsDentalTest:<guid>:` prefix. Targeted runs green (BINBTests, ReleaseFlowTests,
 LibraryBindingTests, NoHqTests, MiddleTierMockTests); one test retired on purpose (`PasswordVault_LoadsWithoutTheCopiedWinmd`).
+Fix round on `net10/s3a5-2`: a vault that cannot be opened on Windows 8 or later (an error that may pass) leaves no record, so the next
+process tries again; only a Windows older than 8 records "PasswordVault not available". Targeted runs green again.
 
 **Full-test gate.** Section 3, plus: the golden outputs and known answers recorded and committed; the source-scan tests pass; the
 launch checks for 3a (section 6) done with screenshots, including a self-update from a standard user; the x64 test runs (S3a-12, S3a-15)
