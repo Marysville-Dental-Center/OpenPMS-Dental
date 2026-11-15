@@ -56,13 +56,14 @@ Source:    https://github.com/mysql-net/MySqlConnector
 --- Component: .NET libraries
 Files:     Microsoft.Bcl.AsyncInterfaces.dll, Microsoft.Bcl.Cryptography.dll,
            Microsoft.Extensions.DependencyInjection.Abstractions.dll,
-           Microsoft.Extensions.Logging.Abstractions.dll, System.Buffers.dll,
+           Microsoft.Extensions.Logging.Abstractions.dll, System.Buffers.dll, System.ComponentModel.Annotations.dll,
            System.Diagnostics.DiagnosticSource.dll, System.Formats.Asn1.dll, System.IO.Pipelines.dll,
            System.Memory.dll, System.Numerics.Vectors.dll, System.Runtime.CompilerServices.Unsafe.dll,
            System.Text.Encodings.Web.dll, System.Text.Json.dll, System.Threading.Tasks.Extensions.dll
 Version:   NuGet packages Microsoft.Bcl.AsyncInterfaces 10.0.15, Microsoft.Bcl.Cryptography 10.0.10,
            Microsoft.Extensions.DependencyInjection.Abstractions 10.0.15,
            Microsoft.Extensions.Logging.Abstractions 10.0.15, System.Buffers 4.6.1,
+           System.ComponentModel.Annotations 5.0.0,
            System.Diagnostics.DiagnosticSource 10.0.15, System.Formats.Asn1 10.0.13,
            System.IO.Pipelines 10.0.14, System.Memory 4.6.3, System.Numerics.Vectors 4.6.1,
            System.Runtime.CompilerServices.Unsafe 6.1.2, System.Text.Encodings.Web 10.0.14,
@@ -163,6 +164,58 @@ Version:   2.1
 Copyright: The Tao Framework Team
 License:   MIT X11 License (the project's own text follows)
 Source:    https://sourceforge.net/projects/taoframework/
+
+--- Component: Helix Toolkit
+Files:     HelixToolkit.dll, HelixToolkit.Geometry.dll, HelixToolkit.Maths.dll, HelixToolkit.Wpf.dll
+Version:   3.1.2 (NuGet packages HelixToolkit, HelixToolkit.Geometry, HelixToolkit.Maths and
+           HelixToolkit.Wpf)
+Copyright: Helix Toolkit contributors
+License:   MIT License (the notices of the code it holds from other projects follow)
+Source:    https://github.com/helix-toolkit/helix-toolkit (tag v3.1.2, commit
+           0d10a9fc27bbe06d4ce74c580612217af14d3fc6)
+Notices:   HelixToolkit.Wpf.dll holds LoopSubdivision, which is based on the MATLAB program
+           loopSubdivision.m by Jesus P. Mena-Chalco, under this notice (as the package's
+           HelixToolkit.Wpf.xml gives it):
+             Copyright (c) 2009, Jesus Mena
+             All rights reserved.
+             Redistribution and use in source and binary forms, with or without
+             modification, are permitted provided that the following conditions are
+             met:
+             * Redistributions of source code must retain the above copyright
+             notice, this list of conditions and the following disclaimer.
+             * Redistributions in binary form must reproduce the above copyright
+             notice, this list of conditions and the following disclaimer in
+             the documentation and/or other materials provided with the distribution
+             THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+             AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+             IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+             ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+             LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+             CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+             SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+             INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+             CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+             ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+             POSSIBILITY OF SUCH DAMAGE.
+           HelixToolkit.Maths.dll holds code derived from SharpDX (Alexandre Mutel) and from
+           SlimMath (SlimDX Group), both under the MIT License, whose text follows.
+           HelixToolkit.Geometry.dll holds MeshSimplification, a port of
+           Fast-Quadric-Mesh-Simplification by Sven Forstmann
+           (https://github.com/sp4cerat/Fast-Quadric-Mesh-Simplification), under the MIT
+           License.
+           HelixToolkit.Wpf.dll holds CanonicalSplineHelper, whose source file carries its
+           author's copyright line of 2009 and names no license of its own.
+
+--- Component: .NET Community Toolkit
+Files:     CommunityToolkit.Common.dll, CommunityToolkit.Diagnostics.dll, CommunityToolkit.Mvvm.dll
+Version:   8.3.2 (NuGet packages CommunityToolkit.Common, CommunityToolkit.Diagnostics and
+           CommunityToolkit.Mvvm)
+Copyright: .NET Foundation and Contributors
+License:   MIT License
+Source:    https://github.com/CommunityToolkit/dotnet (commit 5320d4f621e145c60ef4180ea66fe57f12f0f58a)
+Notices:   CommunityToolkit.Common.dll holds code of PedroLamas/DeferredEvents 1.0.4
+           (https://github.com/PedroLamas/DeferredEvents), Copyright (C) 2017 Pedro Lamas,
+           under the MIT License, as the packages' ThirdPartyNotices.txt states.
 
 --- Component: Direct Project
 Files:     Health.Direct.Agent.dll, Health.Direct.Common.dll, Health.Direct.ResolverPlugins.dll

@@ -153,6 +153,12 @@ $OwnFiles=[ordered]@{
 #- otherwise the project output it is built from.
 $ThirdPartyFiles=[ordered]@{
 	'BouncyCastle.Cryptography.dll'='package:BouncyCastle.Cryptography'
+	#The WPF tooth chart's 3D helpers (TC-4, docs/port-notes/TC-4.md): Helix Toolkit 3.1.2 and the packages it brings that have a .NET Framework file
+	#of their own (the .NET Community Toolkit, System.ComponentModel.Annotations); the System.* 4.3.x packages of System.Net.Http 4.3.4 bring none
+	#that the build keeps (the .NET Framework's own assemblies are newer), so none of them ships.
+	'CommunityToolkit.Common.dll'='package:CommunityToolkit.Common'
+	'CommunityToolkit.Diagnostics.dll'='package:CommunityToolkit.Diagnostics'
+	'CommunityToolkit.Mvvm.dll'='package:CommunityToolkit.Mvvm'
 	'Google.Apis.dll'='package:Google.Apis'
 	'Google.Apis.Auth.dll'='package:Google.Apis.Auth'
 	'Google.Apis.Core.dll'='package:Google.Apis.Core'
@@ -160,6 +166,10 @@ $ThirdPartyFiles=[ordered]@{
 	'Health.Direct.Agent.dll'='Required dlls'
 	'Health.Direct.Common.dll'='Required dlls'
 	'Health.Direct.ResolverPlugins.dll'='Required dlls'
+	'HelixToolkit.dll'='package:HelixToolkit'
+	'HelixToolkit.Geometry.dll'='package:HelixToolkit.Geometry'
+	'HelixToolkit.Maths.dll'='package:HelixToolkit.Maths'
+	'HelixToolkit.Wpf.dll'='package:HelixToolkit.Wpf'
 	'MailKit.dll'='package:MailKit'
 	'Microsoft.Bcl.AsyncInterfaces.dll'='package:Microsoft.Bcl.AsyncInterfaces'
 	'Microsoft.Bcl.Cryptography.dll'='package:Microsoft.Bcl.Cryptography'
@@ -178,6 +188,7 @@ $ThirdPartyFiles=[ordered]@{
 	'SharpDX.Direct3D9.dll'='Required dlls'
 	'SharpDX.Mathematics.dll'='Required dlls'
 	'System.Buffers.dll'='package:System.Buffers'
+	'System.ComponentModel.Annotations.dll'='package:System.ComponentModel.Annotations'
 	'System.Diagnostics.DiagnosticSource.dll'='package:System.Diagnostics.DiagnosticSource'
 	'System.Formats.Asn1.dll'='package:System.Formats.Asn1'
 	'System.IO.Pipelines.dll'='package:System.IO.Pipelines'
@@ -435,8 +446,10 @@ function Get-JsonValue($object,[string]$name){
 #The NuGet package files the build copies into the program's output, by file name (ignoring case): for each, the package id and version, the
 #asset (its path in the package, with '/'), the content hash OpenPmsDental\packages.lock.json names for that package, and the package's folders
 #the file may be compared with: the global packages folder the restore used (project.assets.json, packageFolders) and the offline package folder
-#nuget.config restores from (OPMS_NUGET_OFFLINE, tools\Initialize-BuildEnvironment.ps1). The assets are the runtime and native ones of every
-#target of the program's restore (lib\net4x of .NET Framework 4.8, runtimes\win-x86\native of the win-x86 target), as the SDK copies them.
+#nuget.config restores from (OPMS_NUGET_OFFLINE, tools\Initialize-BuildEnvironment.ps1). The assets are the runtime and native ones of the
+#target the SDK copies from: the program's win-x86 target (lib\net4x of .NET Framework 4.8, runtimes\win-x86\native, and a package's own
+#runtimes\win\lib file where it has one). A file the build then leaves out because the .NET Framework has a newer assembly of that name (the
+#System.* 4.3.x files of System.Net.Http 4.3.4, TC-4) is named here too; no such file is on the allow-list.
 #Returns Files (name to record) and Problems (what could not be read).
 function Get-ProgramPackageFiles {
 	$result=[pscustomobject]@{ Files=@{}; Problems=(New-Object 'System.Collections.Generic.List[string]') }
@@ -476,7 +489,13 @@ function Get-ProgramPackageFiles {
 	if($folders){ $packageFolders=@($folders.PSObject.Properties | ForEach-Object { $_.Name }) }
 	$offline=(Initialize-BuildEnvironment -RepoRoot $RepoRoot).OfflineFolder
 	$libraries=Get-JsonValue $assets 'libraries'
-	foreach($target in (Get-JsonValue $assets 'targets').PSObject.Properties){
+	#The target the build copies from: the program's win-x86 target (the SDK's ResolvePackageAssets takes the target of the project's runtime
+	#identifier when it has one, as an x86 exe does), else the framework's. A package can have other files there: System.Net.Http 4.3.4 has
+	#lib\net46 for net48 and runtimes\win\lib\net46 for win-x86 (TC-4); the build keeps neither, the .NET Framework's own is newer.
+	$targets=@((Get-JsonValue $assets 'targets').PSObject.Properties)
+	$ridTargets=@($targets | Where-Object { $_.Name.Contains('/') })
+	if($ridTargets.Count -gt 0){ $targets=$ridTargets }
+	foreach($target in $targets){
 		foreach($library in $target.Value.PSObject.Properties){
 			if((Get-JsonValue $library.Value 'type') -ne 'package'){ continue }
 			$parts=$library.Name.Split('/')

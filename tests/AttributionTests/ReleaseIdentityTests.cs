@@ -17,7 +17,7 @@ namespace AttributionTests {
 		///<summary>Every third-party component the release ships, by its name in THIRD-PARTY-NOTICES.txt (report-release.md 1.3 to 1.5).</summary>
 		private static readonly string[] _arrayShippedComponents=new string[] {
 			"MySqlConnector",".NET libraries","Newtonsoft.Json","MimeKit","MailKit","MSAL.NET","SSH.NET","Bouncy Castle Cryptography","PDFsharp",
-			"MigraDoc","SharpDX","Tao Framework","Direct Project","WeCantSpell.Hunspell","Hunspell en_US dictionary",
+			"MigraDoc","SharpDX","Tao Framework","Helix Toolkit",".NET Community Toolkit","Direct Project","WeCantSpell.Hunspell","Hunspell en_US dictionary",
 			"RDL Project","Google APIs Client Library for .NET","Microsoft Edge WebView2 SDK","TWAIN","Pearl API notice",
 			"HL7 CDA-core-xsl","AAFP CCR stylesheet",
 		};
@@ -36,6 +36,9 @@ namespace AttributionTests {
 			"Health.Direct.Common.dll","Health.Direct.ResolverPlugins.dll","WeCantSpell.Hunspell.dll","RdlEngine.dll","RdlViewer.dll",
 			"Google.Apis.dll","Google.Apis.Auth.dll","Google.Apis.Core.dll","Google.Apis.Gmail.v1.dll",
 			"Microsoft.Web.WebView2.Core.dll","Microsoft.Web.WebView2.WinForms.dll","Microsoft.Web.WebView2.Wpf.dll","WebView2Loader.dll",
+			//The WPF tooth chart's 3D helpers (TC-4): Helix Toolkit 3.1.2, the .NET Community Toolkit and System.ComponentModel.Annotations.
+			"HelixToolkit.dll","HelixToolkit.Geometry.dll","HelixToolkit.Maths.dll","HelixToolkit.Wpf.dll","CommunityToolkit.Common.dll",
+			"CommunityToolkit.Diagnostics.dll","CommunityToolkit.Mvvm.dll","System.ComponentModel.Annotations.dll",
 		};
 
 		///<summary>Names of the entries Open Dental's list had that are gone: its commercial registration-key terms, the removed API's and the ADA's
@@ -155,6 +158,18 @@ namespace AttributionTests {
 			StringAssert.Contains(textWeCantSpell,"Version: MPL 1.1/GPL 2.0/LGPL 2.1");
 			StringAssert.Contains(textWeCantSpell,"the GNU Lesser General Public License Version 2.1 or later");
 			StringAssert.Contains(textWeCantSpell,"LICENSE-LGPL-2.1.txt");
+			//Helix Toolkit (TC-4): its MIT text, and inside its own entry (no entry or resource may be named "BSD") the BSD notice of
+			//LoopSubdivision that a binary redistribution must reproduce, and the origins of the SharpDX, SlimMath and MeshSimplification code.
+			//No vendor text: one would replace the entry's MIT text (GetLicenseText).
+			Assert.IsFalse(dictVendorTexts.ContainsKey("Helix Toolkit"));
+			string textHelix=listLicenseEntries.Single(x => x.Name=="Helix Toolkit").Text;
+			foreach(string expected in new[] { "Permission is hereby granted, free of charge","Copyright (c) 2009, Jesus Mena",
+				"Redistributions in binary form must reproduce the above copyright","SharpDX (Alexandre Mutel)","SlimMath (SlimDX Group)",
+				"Fast-Quadric-Mesh-Simplification by Sven Forstmann","CanonicalSplineHelper" })
+			{
+				StringAssert.Contains(textHelix,expected);
+			}
+			StringAssert.Contains(listLicenseEntries.Single(x => x.Name==".NET Community Toolkit").Text,"Copyright (C) 2017 Pedro Lamas");
 		}
 
 		[TestMethod]
