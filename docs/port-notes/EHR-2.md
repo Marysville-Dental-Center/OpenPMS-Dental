@@ -78,12 +78,14 @@ June eCQM Specifications for Eligible Professionals" (download batch E lists it;
 - `Parse(fileName,bytes)` reads the whole file first and changes nothing: a workbook (`.xlsx`; also a workbook named `.zip`, found by its
   `xl/workbook.xml`), an SVS file (`.xml`), or a `.zip` of them. The workbook is read with `ZipArchive` and the sheet XML (shared strings,
   rich-text runs without their phonetic runs, inline strings, numbers as stored; cells placed by their reference), each sheet's header found
-  and matched by name (section 0). XML is read with DTDs prohibited and no resolver, one record at a time. Limits: 512 MB per file and per
-  uncompressed part (counted as it is read), 2 GB in all, 20,000 zip entries, 5,000,000 rows. A damaged file is refused with the reason.
+  and matched by name (section 0). XML is read with DTDs prohibited and no resolver, one node at a time. Limits (since the fix round, section
+  9): 64 MB per file and per uncompressed part (counted as it is read), 256 MB in all, 20,000 zip entries, 1,000,000 rows (counted while the
+  file is read), columns A to IV of a workbook. A damaged file is refused with the reason.
 - Rows without a value-set OID or a code are skipped and counted. A value set listed under several measures (the package sorted by CMS ID
-  repeats it) is one row per value set, code system and code, with every measure that lists it (`MeasureIds` as `EhrCode` writes them,
-  "68v3", the nine in the engine's order first). A row with a value over 255 characters (other than the description) is not imported, and
-  the report says how many.
+  repeats it) is one row per value set, code system and code. Its `MeasureIds` (as `EhrCode` writes them, "68v3") are the nine measures this
+  program reports that list it, in the engine's order, or the manifest's when none of the nine does (fix round, section 9); the version check
+  uses every measure the file names. A row with a varchar value over 255 characters, or a description over 65,535 bytes of UTF-8, is not
+  imported, and the report says how many.
 - **Code systems** by their HL7 OID, as the engine and the `codesystem` table use them: SNOMEDCT `.6.96`, ICD9CM `.6.103` and `.6.104`,
   ICD10CM `.6.90`, LOINC `.6.1`, RXNORM `.6.88`, CPT `.6.12`, CDT `.6.13`, HCPCS `.6.285`, CVX `.12.292`, CDCREC `.6.238`, SOP
   `.3.221.5`, AdministrativeSex `.5.1` and `.18.2`. A code system the list does not know (for example ICD-10-PCS `.6.4`) keeps the file's
@@ -97,12 +99,14 @@ June eCQM Specifications for Eligible Professionals" (download batch E lists it;
   value sets, "Value sets the measures use, found: N of 79" and the missing ones by OID, name and measures, the measures at the right
   version, the code systems without a table, the value-set versions in the file, the warnings.
 - `Import(file)` refuses under the Middle Tier (as the CPT import does), then checks Setup without a message (the standard reason; also
-  with no user), then refuses a refused file. Otherwise it deletes every row of `ehrcode`, writes the file's rows (`InsertMany`), counts
-  them, and records the release in the fork-owned preference row `ForkEhrValueSetRelease` (`PrefC.UpsertRaw`, JSON: label, file name,
+  with no user), then refuses a refused file. Otherwise it writes the file's rows into a scratch table `ehrcode_import_<UTC time>_<6 hex>`
+  (`CREATE TABLE ... LIKE ehrcode`), counts them, swaps it in with one `RENAME TABLE` and drops the old table (section 9), and records the
+  release in the fork-owned preference row `ForkEhrValueSetRelease` (`PrefC.UpsertRaw`, JSON: label, file name,
   SHA-256, UTC date, codes, value sets, manifest value sets found, the measure check) and one Setup security log entry ("EHR value sets
   imported (Code System Importer): file '...', SHA-256 ..., N codes in M value sets, K of the 79 value sets the measures use; 9 of 9
   measures at the versions this program reports. Every earlier value-set code was replaced."; no code is logged). MyISAM has no
-  transactions: a failure while writing returns the reason ("Import the file again"), and the release is not recorded.
+  transactions, hence the scratch table: a failure before the swap drops it and returns the reason, every old row kept, and the release is
+  not recorded.
 - **The window** (`FormCodeSystemsImport`, now titled "Code System Importer"): a row "eCQM value sets (VSAC, June 2013 EP release)" next to
   CPT, with the last import's date and file, and Import Value Sets: refused under the Middle Tier; Setup checked with the standard message;
   the licence prompt (the office's own download under its own UMLS license; CPT of the AMA, CDT of the ADA and SNOMED CT under the UMLS
@@ -166,10 +170,11 @@ no value-set member is in the program (section 8.3).
 
 ## 7. Tests
 
-`tests/EhrTests`, 42 new tests (171 in all), in new files only (the project file is not edited; the SDK-style project compiles them):
+`tests/EhrTests`, 42 new tests (171 in all), in new files only (the project file is not edited; the SDK-style project compiles them). This
+section records the first round; the fix round's 12 tests, its two renamed tests and its runs are in section 9.
 
 - `ValueSetParseTests` (19, no database): `Workbook_ReadsTheRows_UnderATitle_WithTheirFieldsAndCodeSystems`,
-  `Workbook_HeadersMatch_IgnoringCaseAndSpaces_InAnyOrder_AndInlineStrings`, `Workbook_AValueSetUnderSeveralMeasures_IsOneRowWithEveryMeasure`,
+  `Workbook_HeadersMatch_IgnoringCaseAndSpaces_InAnyOrder_AndInlineStrings`, `Workbook_AValueSetUnderSeveralMeasures_IsOneRowWithEveryMeasure` (now `..._IsOneRow_WithTheNineMeasuresItIsListedUnder`),
   `Workbook_ASheetWithoutAHeaderRow_IsSkippedAndNamed`, `Workbook_AHeaderRowWithoutTheRequiredColumns_IsRefused_NamingThem`,
   `Workbook_RowsWithoutAnOidOrACode_AreSkippedAndCounted`, `Workbook_AValueLongerThanItsColumn_IsNotImported_AndWarned_ADescriptionMayBeLong`,
   `Svs_WithGroups_ReadsTheConcepts_TheCategoryAndTheMeasures`,
@@ -182,7 +187,8 @@ no value-set member is in the program (section 8.3).
   `Report_NamesTheFileItsHashAndTheCounts`.
 - `ValueSetDbTests` (13, on the scratch database `ehr2_<UTC start>_<process>_<random>_main`, built from `db/init/new-database.sql` and the
   fork migrations, plus an `..._empty` one for the step; both dropped; leftovers older than 12 hours dropped first, only names starting with
-  `ehr2_`): `Step_OnTheScratchDatabase_CreatedTheTableOnce_AsDeclared_AndTheSchemaStillMatchesOpenDental` (the change is the step's, the
+  `ehr2_`): `Step_OnTheScratchDatabase_CreatedTheTableOnce_AsDeclared_AndTheSchemaStillMatchesOpenDental` (now
+  `Step_TheInitFileHasTheTableAsDeclared_TheStepFindsIt_AndTheSchemaStillMatchesOpenDental`, section 9) (the change is the step's, the
   live `SHOW CREATE TABLE` equals the declaration, `ForkTables.VerifyDatabase` clean, the schema verifier matches with `ehrcode` excepted
   once), `Step_OnAnAlreadyMigratedDatabase_ChangesNothing_AndKeepsTheRows`,
   `Step_OnAnEmptyDatabase_CreatesTheEmptyTable_ThenChangesNothing_AndATableOfAnotherDefinitionStopsIt`,
@@ -230,9 +236,8 @@ times. Before EHR-2 `ehrcode` was one of the skipped HQ-only types. The database
 
 ## 8. For the lead
 
-- **Init file.** Regenerate `db/init/new-database.sql` after the merge (it gains the empty `ehrcode` table and the 2026111401 level) and run
-  InitSqlTests, and ForkMigrationTests' `Generator_WritesExactlyTheCommittedFile`, which fails until then (section 7). Until then a database
-  made from the committed file gets the table from the step, as the tests' scratch databases do.
+- **Init file.** Done on the branch: `329793122` regenerated `db/init/new-database.sql` (the empty `ehrcode` table, fork level 2026111401)
+  and ran InitSqlTests and ForkMigrationTests. The fix round changes no schema, so the file stays as it is.
 - **Release notes.** Written into `docs/release-notes/next.md`: a line in the summary, "14 tables" (one for the EHR value sets), and the
   section "EHR: the value sets from your own VSAC download".
 - **Launch checks (section 11), on a test database:**
@@ -256,3 +261,93 @@ times. Before EHR-2 `ehrcode` was one of the skipped HQ-only types. The database
 2. **The manifest's names and QDM categories** (section 5) come from the source's comments and the engine's use of each value set. Should
    the lead check them against CMS's "2013 June eCQM Specifications for Eligible Professionals" (download batch E, approved but not in
    `batch-e-20261109`) before the bridge release?
+
+## 9. Fix round (`ehr/ehr2-2`)
+
+On `ehr/ehr2-2` from `ehr/ehr2-1` (`329793122`). The review's findings, each with a test that fails without the fix: the new tests were run
+once on the unfixed code (commit `0f6c3c4b6` adds the tests and the import's test seam only), in `ehr2-2-before.txt` of the test results:
+EhrTests 183, 171 passed, 12 failed: the 11 new tests below that test a fix, and the step test of item 7.
+
+1. **`MeasureIds` within its column (blocking).** `MeasureIds` was every measure that lists the value set. In the June 2013 EP release the
+   supplemental data elements (Payer `2.16.840.1.114222.4.11.3591`, race, ethnicity, ONC Administrative Sex) are listed under about 64
+   measures, about 400 characters, so the too-long check dropped every code of them. Now `MeasureIds` holds only the nine measures this
+   program reports that list the value set (as Open Dental's list held them, "69v2,147v2"), the manifest's when none of the nine is left,
+   and "" for a value set the manifest does not have. That is all its one reader needs (`GetMeasureIdsForCode`, shown by
+   `FormSnomeds.cs:90`). `MeasureIds` left the too-long check (nine IDs fit in 255); the version check still uses every measure the file
+   names (`ListMeasureIdsInFile`). Test: `Workbook_AValueSetListedUnder64Measures_ImportsEveryCode_WithTheNineItListsAsMeasureIds` (the
+   nine and 55 made-up measures `CMS1000v1` and up: every code imported, `MeasureIds` the nine and at most 255 characters, 64 measures for
+   the version check). The first round's `Workbook_AValueSetUnderSeveralMeasures_...` now expects "74v3,75v2,165v2" (no `1000v1`).
+2. **The limits bound memory in the 32-bit process (blocking).** Before: the whole sheet was built before `MAX_ROWS` counted it; a row was
+   padded up to its last cell's column (a cell in ZZZ cost about 18,000 entries); 512 MB per part and 2 GB in all, with `File.ReadAllBytes`
+   and `MemoryStream` copies, ended in an `OutOfMemoryException`. Now:
+   - each sheet row goes, as it is read (`XmlReader`, node by node; no `XElement` per row, per shared string or per value set), to the
+     header search and then to `AddRawRow`, so `MAX_ROWS` refuses while the file is read, and a sheet with no header row in its first 30
+     rows is read no further;
+   - cells right of column IV (`MAX_COLUMNS` 256; VSAC's workbooks have about ten columns) are not read; their number is a note of the
+     report ("N cells to the right of column IV (the 256th column) were not read.");
+   - every part is read straight from its zip entry through a counting stream (`LimitedReadStream`: past 64 MB for the part or 256 MB in
+     all it stops, and the refusal names the part and the limit); an entry that claims more than 64 MB is refused before it is read; only a
+     workbook inside a `.zip` is copied into memory (it needs a seekable stream), sized by its entry;
+   - limits: `MAX_FILE_BYTES` 64 MB (the file, and each part uncompressed), `MAX_TOTAL_BYTES` 256 MB, `MAX_ROWS` 1,000,000 (the June 2013
+     package is far smaller); an `OutOfMemoryException` while reading is a refusal too, not a crash;
+   - `Parse(fileName,Stream)`: the window opens a `FileStream` (`FileShare.Read`) instead of `File.ReadAllBytes`; the stream is hashed, then
+     read; `Parse(fileName,byte[])` wraps it.
+
+   Tests: `Workbook_ManyCellsInColumnZZZ_AreNotHeld_AndASheetOfNothingElseIsRefusedWithAMessage` (3,000 rows of one ZZZ cell in a 141 KB
+   file: refused for having no codes, not for memory, with under 64 MB allocated while it is read), `Workbook_CellsToTheRightOfColumnIV_AreIgnoredAndCounted_TheRowsUnderTheHeaderImport`
+   (3,003 cells counted, the rows imported), `Zip_AnEntryThatInflatesPastThePartLimit_IsRefusedWithAMessage_WhateverItsHeaderSays` (a 70 KB
+   `.zip` whose deflated `.xml` entry inflates to 65 MB, with its true size in the headers and with 1,000),
+   `Zip_PartsThatTogetherInflatePastTheTotalLimit_AreRefusedWithAMessage` (five entries of 60 MB), `Limits_AreWhatA32BitProcessHolds`, and
+   `Window_ReadsTheValueSetFileAsAStream_NotWhole` (source). The tests' `StoredZip` writes deflated entries with `DeflateStream`
+   (System.dll; the project still does not reference System.IO.Compression.dll).
+3. **The description's length.** `Description` is `text` (65,535 bytes; 21,845 utf8mb3 characters of three bytes): a description over
+   65,535 bytes of UTF-8 now counts in `CountRowsTooLong` ("... longer than 255 characters (a description: longer than 65,535 bytes in
+   UTF-8) ..."), so no write is cut short. Tests: `Svs_ADescriptionPastTheTextColumn_IsNotImported_CountedByItsUtf8Bytes` (21,845
+   three-byte characters kept; 21,846, and 65,536 ASCII bytes, counted) and `Import_ADescriptionAsLongAsTheTextColumn_IsStoredWhole` (the
+   65,535 bytes round-trip; it passes without the fix too: it shows that the limit is the column's).
+4. **An atomic import.** It was `DELETE FROM ehrcode` and then `InsertMany`, which is not atomic on MyISAM. Now `Import` writes the rows
+   into `ehrcode_import_<UTC yyyyMMddHHmmss>_<6 hex>` (`CREATE TABLE ... LIKE ehrcode`, so the same definition; its own batched `INSERT`,
+   built as `EhrCodeCrud.InsertMany` builds it, with random keys when the database uses them), checks the count, then runs one `RENAME
+   TABLE ehrcode TO ehrcode_old_<run>, ehrcode_import_<run> TO ehrcode` and drops the old table. A failure before the swap drops the scratch
+   table and returns "The import failed, and the value sets in the database are unchanged: <reason>"; the release is not recorded. Scratch
+   tables of that name pattern older than a day (an import stopped half way) are dropped at the start of the next import; today's (another
+   workstation's import) and other names are left alone. The test seam `EhrValueSetImport.ActionAfterInsertBatch` (internal; the business
+   library's `AssemblyInfo.cs` gains `[assembly: InternalsVisibleTo("EhrTests")]` beside the other test assemblies) runs after each batch.
+   Tests: `Import_AFailureWhileWritingTheRows_LeavesTheOldRows_AndNoScratchTable` (the seam throws after the rows are written: the old row,
+   the old release, no `ehrcode_` table; then the import works), `Import_DropsTheScratchTablesAnImportLeftADayAgo_AndKeepsTheOthers`, and
+   `Import_ReplacesEveryRow_...` now also checks that no scratch table is left.
+5. **The list read once per method.** `GetMeasureIdsForCode`, both `GetForValueSetOIDs`, `GetCodeAndCodeSystem`, `GetCodesExistingInAllSets`,
+   `GetValueSetOIDsForCode`, `GetForEventTypeByUse` and `GetForIntervAndMedByUse` copy `Listt` to a local once (the list is read again when
+   the codes change). Test: `EhrCodes_TheListsConsumers_ReadListtOnce_IntoALocal` (source: no `Listt[` or `Listt.` in the class outside
+   the methods Open Dental left commented out).
+6. **Docs.** The plan's status line no longer says that the lead regenerates the init file (`329793122` did it on the branch); section 8
+   here says the same; the release notes say that a failed import changes nothing, and give the size limits. **The Middle Tier server
+   reloads the list for every client's signal:** each Middle Tier client that receives `InvalidType.EhrCodes` runs `Cache.GetCacheDs` on
+   the server, whose `EhrCodes` branch is `UpdateList`, so the server reads the table again once per client (about 0.5 s with 60,000 rows:
+   603 ms in the run below), and each client then fetches the list on its next read. With a few Middle Tier workstations this is a few
+   seconds of server work once per import. It is the existing cache pattern of `GetCacheDs` and is left as it is.
+7. **The step test and the regenerated init file.** `Step_OnTheScratchDatabase_CreatedTheTableOnce_...` failed on `329793122` itself: it
+   expected the step to create `ehrcode`, but the init file regenerated there already has the table, so nothing is left for the step. It is
+   now `Step_TheInitFileHasTheTableAsDeclared_TheStepFindsIt_AndTheSchemaStillMatchesOpenDental`: the init file holds the declared table and
+   the level, the build made no `ehrcode` change and nothing is pending, then the schema checks as before. The step's own `CREATE` stays
+   tested on an empty database.
+
+No schema change, so `db/init/new-database.sql` is unchanged. No project file edited, no package added.
+
+**Load time** (`LoadTime_AFullSyntheticRelease_LoadsInUnderASecond`, the same 60,000 synthetic rows and 32 MB workbook): parse 1,359 ms,
+import 4,416 ms (into the scratch table, then the swap), first load 570 ms, `UpdateList` 603 ms, one value-set lookup 2 ms.
+
+Targeted runs after the full build (0 errors), `ehr2-2-run1.txt`:
+
+| Assembly | Result |
+|---|---|
+| EhrTests | 183 of 183 passed |
+| ForkMigrationTests | 38 passed, 2 skipped (`FORKMIGRATION_REFERENCE_DUMP`), 0 failed |
+| M201Tests | 24 passed, 2 skipped (`M201_OD_DOCS_DIR`), 0 failed |
+| P262SchemaTests | 24 passed, 4 skipped (`P262_OD_DOCS_DIR`), 0 failed |
+| SyntheticData.Tests | 57 passed, 1 skipped (`RealDump_Has422Tables`), 0 failed |
+| MiddleTierMockTests | 125 of 125 passed |
+| InitSqlTests | 19 of 19 passed |
+| NoHqTests | 57 of 57 passed |
+
+The skips are the environment skips of `main`. No `ehr` database was left on the server after the runs.

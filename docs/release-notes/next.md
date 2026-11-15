@@ -486,8 +486,10 @@ the office fills it from its own download.
 - **Where.** Setup > Chart > EHR > Code System Importer, Import Value Sets (Setup permission; not through the Middle Tier, as the CPT
   import). The window reads and checks the whole file first and shows a report: the codes and value sets it found, which of the 79 value
   sets the measures use are missing, the measure versions, and the code systems it has no table for. Only after you confirm does it
-  replace every value-set code in the database; a refused file changes nothing. The import is recorded in the security log (Setup) with the
-  file's name and SHA-256, and the window shows the date and file of the last import.
+  replace every value-set code in the database; a refused file, or an import that fails part way, changes nothing (the new codes are written
+  beside the old ones and take their place in one step). A file over 64 MB, or one whose parts pass 64 MB each or 256 MB in all once
+  uncompressed, is refused; the June 2013 package is far smaller. The import is recorded in the security log (Setup) with the file's name
+  and SHA-256, and the window shows the date and file of the last import.
 - **Code-system status.** The same window lists each code system (SNOMED CT, ICD-9-CM, ICD-10-CM, LOINC, RxNorm, CPT, CDT, HCPCS, CVX,
   CDCREC, SOP) with its rows in the database and the minimum the code list expects. A value-set code counts for the pick lists and the
   measures only when its code system's table is loaded; this program does not download them, so load each table directly (CPT with the
