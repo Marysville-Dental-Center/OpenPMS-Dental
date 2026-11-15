@@ -197,6 +197,12 @@ namespace OpenPmsDental {
 				FriendlyException.Show(Lan.g(this,"Re-validation failed."),ex);
 				return;
 			}
+			//Cancelled (S3a-1c): the earlier results stay. After the cancel the database layer refuses the reads of the claims not yet revalidated,
+			//which would come back as failed calls ("EDS could not be reached") and change their send decision, and the worker can still be writing
+			//dictResultsLatest after the window closed.
+			if(progressWin.IsCancelled) {
+				return;
+			}
 			for(int i=0;i<_listResults.Count;i++) {
 				EdsValidationResult resultLatest;
 				if(!dictResultsLatest.TryGetValue(_listResults[i].ClaimNum,out resultLatest) || resultLatest==null) {

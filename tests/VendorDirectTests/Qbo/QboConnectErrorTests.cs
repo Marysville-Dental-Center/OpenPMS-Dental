@@ -5,6 +5,8 @@ using System;
 using System.IO;
 using System.Net;
 using System.Net.Http;
+using System.Threading;
+using System.Threading.Tasks;
 using CodeBase;
 using CodeBase.VendorDirect;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -111,6 +113,40 @@ namespace VendorDirectTests.Qbo {
 			Assert.IsTrue(countProgressWins>=3,"Load, Connect and Disconnect each run behind a progress window.");
 			Assert.AreEqual(countProgressWins,CountOccurrences(source,"=QuickBooksOnline.RunForWindow("),
 				"Every ProgressWin action has to catch inside RunForWindow, or ProgressWin swaps the message for the inner exception.");
+		}
+
+		///<summary>S3a-1c: after the user cancelled the window, the database layer refuses the action's next command. RunForWindow throws that
+		///cancel instead of returning it, so the window drops it (it is not shown as "Could not disconnect" or the like); a cancel inside a unit
+		///of work does not happen, and the action runs to its end.</summary>
+		[TestMethod]
+		public void RunForWindow_CancelOfTheWindow_IsThrown_NotReturnedAsAFailure() {
+			using CancellationTokenSource cancellationTokenSource=new CancellationTokenSource();
+			cancellationTokenSource.Cancel();
+			using(ODCancellation.Use(cancellationTokenSource.Token)) {
+				Exception exReturned=null;
+				Assert.ThrowsExactly<OperationCanceledException>(() => exReturned=QuickBooksOnline.RunForWindow(() => ODCancellation.ThrowIfCancellationRequested()));
+				Assert.IsNull(exReturned);
+				bool isRun=false;
+				Assert.IsNull(QuickBooksOnline.RunForWindow(() => ODCancellation.RunUncancellable(() => {
+					ODCancellation.ThrowIfCancellationRequested();
+					isRun=true;
+				})));
+				Assert.IsTrue(isRun,"Inside a unit nothing is cancelled.");
+				//Any other failure after the cancel is still returned, as before.
+				Assert.IsInstanceOfType(QuickBooksOnline.RunForWindow(() => throw new InvalidOperationException("Synthetic")),typeof(InvalidOperationException));
+			}
+		}
+
+		///<summary>S3a-1c: a timeout of the vendor call (HttpClient throws TaskCanceledException, an OperationCanceledException) without a cancel of
+		///the window is a failure to show, so RunForWindow returns it as before.</summary>
+		[TestMethod]
+		public void RunForWindow_TimeoutWithoutACancel_IsReturned() {
+			Exception ex=QuickBooksOnline.RunForWindow(() => throw new TaskCanceledException("Synthetic timeout"));
+			Assert.IsInstanceOfType(ex,typeof(TaskCanceledException));
+			using CancellationTokenSource cancellationTokenSource=new CancellationTokenSource();
+			using(ODCancellation.Use(cancellationTokenSource.Token)) {//a window that was not cancelled
+				Assert.IsInstanceOfType(QuickBooksOnline.RunForWindow(() => throw new TaskCanceledException("Synthetic timeout")),typeof(TaskCanceledException));
+			}
 		}
 
 		private static int CountOccurrences(string text,string value) {

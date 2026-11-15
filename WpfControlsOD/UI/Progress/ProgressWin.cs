@@ -92,6 +92,9 @@ exception it throws is logged. Either way no database write starts after the can
 under way) finishes. An action whose writes must not stop part-way at all runs without a Cancel button (ShowCancelButton=false).
 Read CancellationToken on the action's own thread (or pass it on): the property gives each run of ShowDialog its own token, also to an
 earlier run's action that is still running after a cancel.
+A ProgressWin shown again after a cancel makes its new token in ShowDialog: read before that (on the caller's thread, between the
+two ShowDialogs), CancellationToken still gives the earlier run's token, which is cancelled. So read it inside ActionMain (or in
+ActionCancel), never before ShowDialog to hand it on; or use a new ProgressWin for each run (S3a-1c).
 
 Events==============================================================================================================================
 Inside of your background thread, you can fire global events:
@@ -157,7 +160,7 @@ Use wait cursors for everything else:
 			//no parameters
 		}
 
-		///<summary>Cancelled when the user cancels while ActionMain runs. ActionMain can check it (IsCancellationRequested, ThrowIfCancellationRequested) or pass it on, to stop early; the window does not abort the action. Read on the thread of an action of this ProgressWin, it is that run's token: after a cancel and a second ShowDialog, the first action, if it still runs, sees its own cancelled token and the second action a new one.</summary>
+		///<summary>Cancelled when the user cancels while ActionMain runs. ActionMain can check it (IsCancellationRequested, ThrowIfCancellationRequested) or pass it on, to stop early; the window does not abort the action. Read on the thread of an action of this ProgressWin, it is that run's token: after a cancel and a second ShowDialog, the first action, if it still runs, sees its own cancelled token and the second action a new one. Read on another thread after a cancel and before the next ShowDialog, it is still the cancelled token of the earlier run (see "Cancel" at the top of this file).</summary>
 		public CancellationToken CancellationToken {
 			get {
 				CancellationToken cancellationTokenThread=ODCancellation.Current;//the token FrmProgressAuto set on the worker thread of a run

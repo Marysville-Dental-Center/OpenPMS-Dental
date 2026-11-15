@@ -253,13 +253,20 @@ namespace OpenPmsDental{
 			showBrokenAppts=checkBrokenAppts.Checked;
 			long clinicNum=PrefC.HasClinicsEnabled ? comboClinic.ClinicNumSelected : -1;
 			Dictionary<long,string> dictPatNames=null;
+			List<Appointment> listAppointmentsUnsched=null;
 			ProgressWin progressOD=new ProgressWin();
 			progressOD.ActionMain=() => {
-				_listAppointmentsUnsched=Appointments.RefreshUnsched(order,provNum,siteNum,showBrokenAppts,clinicNum,
+				listAppointmentsUnsched=Appointments.RefreshUnsched(order,provNum,siteNum,showBrokenAppts,clinicNum,
 					codeRangeFilter.StartRange,codeRangeFilter.EndRange,dateRangePicker.GetDateTimeFrom(),dateRangePicker.GetDateTimeTo());
-				dictPatNames=Patients.GetPatientNames(_listAppointmentsUnsched.Select(x => x.PatNum).ToList());
+				dictPatNames=Patients.GetPatientNames(listAppointmentsUnsched.Select(x => x.PatNum).ToList());
 			};
 			progressOD.ShowDialog();
+			//Cancelled (S3a-1c): the grid and its list stay as they were, the rows matching the list. The names may not have been read, and the
+			//worker can still be running.
+			if(progressOD.IsCancelled) {
+				return;
+			}
+			_listAppointmentsUnsched=listAppointmentsUnsched;
 			int scrollVal=grid.ScrollValue;
 			grid.BeginUpdate();
 			grid.Columns.Clear();

@@ -151,7 +151,9 @@ namespace OpenPmsDentalBusiness {
 		}
 
 		///<summary>The one entry point: checks every tracked ACH payment. isManual runs even when the hourly check is turned off (the background job
-		///passes false; the job host's lease already keeps other workstations out). Never throws; problems are in the result.</summary>
+		///passes false; the job host's lease already keeps other workstations out). Never throws; problems are in the result. The one exception is
+		///a cancel of the progress window it runs in (Setup's "Check ACH statuses now"): then it stops with OperationCanceledException (S3a-1b,
+		///S3a-1c).</summary>
 		public static PaySimpleAchSyncResult Run(bool isManual) {
 			Meth.NoCheckMiddleTierRole();
 			return new PaySimpleAchStatusSync().Execute(isManual);
@@ -177,6 +179,9 @@ namespace OpenPmsDentalBusiness {
 				List<Payment> listPayments;
 				try {
 					listPayments=_store.GetPaymentsToTrack(_funcToday().AddDays(-DaysToTrackSettled));
+				}
+				catch(OperationCanceledException) when(ODCancellation.IsCancellationRequested) {
+					throw;//The user cancelled Setup's progress window: not a problem to report (S3a-1c).
 				}
 				catch(Exception ex) {
 					AddError(result,"Could not read payments: "+ex.Message);
@@ -308,6 +313,7 @@ namespace OpenPmsDentalBusiness {
 					result.CountChecked++;
 					//The list holds lite objects; fetch the full one for the return reason, but don't lose the match if that fails.
 					PaySimple.PaySimplePaymentStatus paySimplePaymentStatusFull=paySimplePaymentStatus;
+					ODCancellation.ThrowIfCancellationRequested();//No further vendor call after a cancel, outside the catch below (S3a-1c).
 					try {
 						_actionPause(TimeSpanPace);
 						paySimplePaymentStatusFull=PaySimple.GetPaymentStatus(achGroup.Credentials,payment.ExternalId);
@@ -370,23 +376,30 @@ namespace OpenPmsDentalBusiness {
 				Payment paymentOld=payment.Clone();
 				payment.PaymentStatus=paymentStatusNew.Value;
 				payment.PayNote=AppendNoteLine(payment.PayNote,BuildNoteLine(outcome,paySimplePaymentStatus,_funcToday()));
-				_store.UpdatePayment(payment,paymentOld);
-				_store.MakeSecurityLog(payment,"PaySimple ACH status check changed the payment of "+payment.PayAmt.ToString("c")
-					+" dated "+payment.PayDate.ToShortDateString()+" from "+paymentOld.PaymentStatus+" to "+payment.PaymentStatus+".");
-				if(paymentStatusNew.Value==PaymentStatus.PaySimpleAchFailed) {
-					result.CountFailed++;
-					_store.AddAlert(payment.ClinicNum,Lans.g("PaySimple","PaySimple ACH payment failed. Review the payment."),
-						Lans.g("PaySimple","A PaySimple ACH payment did not go through. The payment amount, splits and deposits were not changed;"
-							+" correct the account by hand.")+"\r\n"
-						+Lans.g("PaySimple","Patient number")+": "+payment.PatNum+"\r\n"
-						+Lans.g("PaySimple","Payment date")+": "+payment.PayDate.ToShortDateString()+"\r\n"
-						+Lans.g("PaySimple","Amount")+": "+payment.PayAmt.ToString("c")+"\r\n"
-						+Lans.g("PaySimple","PaySimple Transaction Number")+": "+payment.ExternalId+"\r\n"
-						+BuildNoteLine(outcome,paySimplePaymentStatus,_funcToday()));
-				}
-				else {
-					result.CountSettled++;
-				}
+				//The new status, its log entry and, for a failed payment, the alert that asks staff to correct the account are one unit (S3a-1c): a
+				//cancel from Setup's progress window stops the check before or after it, never between the change and what records it.
+				ODCancellation.RunUncancellable(() => {
+					_store.UpdatePayment(payment,paymentOld);
+					_store.MakeSecurityLog(payment,"PaySimple ACH status check changed the payment of "+payment.PayAmt.ToString("c")
+						+" dated "+payment.PayDate.ToShortDateString()+" from "+paymentOld.PaymentStatus+" to "+payment.PaymentStatus+".");
+					if(paymentStatusNew.Value==PaymentStatus.PaySimpleAchFailed) {
+						result.CountFailed++;
+						_store.AddAlert(payment.ClinicNum,Lans.g("PaySimple","PaySimple ACH payment failed. Review the payment."),
+							Lans.g("PaySimple","A PaySimple ACH payment did not go through. The payment amount, splits and deposits were not changed;"
+								+" correct the account by hand.")+"\r\n"
+							+Lans.g("PaySimple","Patient number")+": "+payment.PatNum+"\r\n"
+							+Lans.g("PaySimple","Payment date")+": "+payment.PayDate.ToShortDateString()+"\r\n"
+							+Lans.g("PaySimple","Amount")+": "+payment.PayAmt.ToString("c")+"\r\n"
+							+Lans.g("PaySimple","PaySimple Transaction Number")+": "+payment.ExternalId+"\r\n"
+							+BuildNoteLine(outcome,paySimplePaymentStatus,_funcToday()));
+					}
+					else {
+						result.CountSettled++;
+					}
+				});
+			}
+			catch(OperationCanceledException) when(ODCancellation.IsCancellationRequested) {
+				throw;//The user cancelled (the re-read was refused): no "could not save" problem in the result, and no further payment (S3a-1c).
 			}
 			catch(Exception ex) {
 				AddError(result,"PayNum "+paymentTracked.PayNum+": could not save the new status: "+ex.Message);

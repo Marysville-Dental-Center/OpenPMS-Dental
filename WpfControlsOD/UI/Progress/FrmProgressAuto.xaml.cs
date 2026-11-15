@@ -51,10 +51,16 @@ namespace WpfControls.UI {
 		private volatile bool _isCancelRequested=false;
 		///<summary>Set on the main thread (inside the worker's Invoke) when the action has finished, with or without an exception. Used instead of the thread's IsAlive, which stays true for a moment after the action.</summary>
 		private bool _isWorkDone=false;
-		///<summary>Set on the main thread when the window closed as cancelled while the action still ran (IsWorkerStillRunning). The worker then logs how and when it ended. Volatile because the worker thread reads it.</summary>
-		private volatile bool _isLoggingWorkerEnd=false;
+		///<summary>Set on the main thread when the window closed as cancelled while the action still ran (IsWorkerStillRunning). The worker then logs how and when it ended. Read and written under _lockWorkerEnd.</summary>
+		private bool _isLoggingWorkerEnd=false;
+		///<summary>Set by the worker thread as it ends (the last thing DoWork does before its log line). Read and written under _lockWorkerEnd.</summary>
+		private bool _isWorkerEnded=false;
+		///<summary>Guards _isLoggingWorkerEnd and _isWorkerEnded (S3a-1c): the worker can end between the Join's timeout in CancelWorker and the moment the main thread marks it as still running. Under the lock, either the main thread sees the end (the worker is not still running, and nothing is logged) or the worker sees the mark (and logs its end), never neither.</summary>
+		private readonly object _lockWorkerEnd=new object();
 		///<summary>When the window closed with the worker still running. Read by the worker for its log line.</summary>
 		private DateTime _dateTimeClosedWithWorkerRunning;
+		///<summary>For tests only (set by reflection; null otherwise): called on the main thread with the worker thread when a cancel's Join has timed out, before the main thread decides whether the worker is still running. A test lets the worker end here, the moment the S3a-1c fix is about.</summary>
+		private static Action<Thread> _actionAfterJoinTimeoutForTests;
 
 		public FrmProgressAuto() {
 			InitializeComponent();
@@ -144,7 +150,12 @@ namespace WpfControls.UI {
 				//The window unsubscribes when it closes too, but after a cancel the worker can outlive the window, and its progress events are its
 				//cancellation points until it ends (ODEvent_Fired).
 				ODEvent.Fired-=ODEvent_Fired;
-				if(_isLoggingWorkerEnd) {
+				bool isLoggingWorkerEnd;
+				lock(_lockWorkerEnd) {
+					_isWorkerEnded=true;
+					isLoggingWorkerEnd=_isLoggingWorkerEnd;
+				}
+				if(isLoggingWorkerEnd) {
 					ODCancellation.Log("Progress window '"+StartingMessage+"' ("+GetActionName()+"): the action "+outcome+" "
 						+(DateTime.Now-_dateTimeClosedWithWorkerRunning).TotalSeconds.ToString("F1")+" s after the window closed as cancelled.");
 				}
@@ -371,14 +382,21 @@ namespace WpfControls.UI {
 				}
 			}
 			//Bounded wait. The worker does not need this thread to stop: after the cancel it no longer invokes onto the window.
-			IsWorkerStillRunning=!_threadWorker.Join(WorkerStopWaitMS);
-			if(IsWorkerStillRunning) {
-				//Logged, no UI (S3a-1b, lead decision). The worker logs again when it ends (DoWork).
-				_dateTimeClosedWithWorkerRunning=DateTime.Now;
-				_isLoggingWorkerEnd=true;
-				ODCancellation.Log("Progress window '"+StartingMessage+"' ("+GetActionName()+"): the action was still running "+WorkerStopWaitMS
-					+" ms after the user cancelled; the window closed as cancelled and the action goes on in the background to its next cancellation point"
-					+" or its end.");
+			if(!_threadWorker.Join(WorkerStopWaitMS)) {
+				_actionAfterJoinTimeoutForTests?.Invoke(_threadWorker);
+			}
+			//Decided under the lock, not from the Join alone (S3a-1c): a worker that ends right after the Join's timeout either is seen as ended here
+			//(not still running, nothing logged) or sees the mark set here and logs its end. Before, it could end between the two and log nothing.
+			lock(_lockWorkerEnd) {
+				IsWorkerStillRunning=!_isWorkerEnded;
+				if(IsWorkerStillRunning) {
+					//Logged, no UI (S3a-1b, lead decision). The worker logs again when it ends (DoWork), always after this line.
+					_dateTimeClosedWithWorkerRunning=DateTime.Now;
+					_isLoggingWorkerEnd=true;
+					ODCancellation.Log("Progress window '"+StartingMessage+"' ("+GetActionName()+"): the action was still running "+WorkerStopWaitMS
+						+" ms after the user cancelled; the window closed as cancelled and the action goes on in the background to its next cancellation point"
+						+" or its end.");
+				}
 			}
 		}
 		

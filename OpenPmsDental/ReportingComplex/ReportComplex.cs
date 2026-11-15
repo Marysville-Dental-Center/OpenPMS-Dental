@@ -469,12 +469,12 @@ namespace OpenPmsDental.ReportingComplex {
 						};
 						progressOD.ShowDialog();
 					}
+					if(!query.IsQueryStringNullOrEmpty && progressOD.IsCancelled){
+						return false;//Before the error (S3a-1c): a cancelled query was not submitted, which is no error.
+					}
 					if(!wasSubmitted) {
 						MsgBox.Show(this,"There was an error generating this report."
 							+ (hasReportServer ? "\r\nVerify or remove the report server connection settings and try again." : ""));
-						return false;
-					}
-					if(!query.IsQueryStringNullOrEmpty && progressOD.IsCancelled){
 						return false;
 					}
 					if(query.ReportTable.Rows.Count==0) {

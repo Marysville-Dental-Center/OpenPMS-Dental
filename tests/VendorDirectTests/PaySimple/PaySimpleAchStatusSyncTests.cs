@@ -1,11 +1,14 @@
 // Tests for the PaySimple ACH status check that replaces Open Dental HQ's webhook relay: the status mapping, the note text, and the poller against
-// an in-memory payment store and a fake HttpMessageHandler. No database and no network.
+// an in-memory payment store and a fake HttpMessageHandler. No database and no network. The store checks the thread's cancellation before every
+// read and write, as the database layer does (S3a-1b), for the cancel tests of S3a-1c.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Threading;
+using CodeBase;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenPmsDentalBusiness;
 using OpenPmsDentalBusiness.VendorDirect;
@@ -286,6 +289,73 @@ namespace VendorDirectTests.PaySimple {
 			Assert.IsTrue(VendorJobScheduler.DiscoverJobs().Any(x => x is PaySimpleAchStatusJob),"The job host finds the job.");
 		}
 
+		///<summary>S3a-1c: the user cancels Setup's "Check ACH statuses now" while a failed payment's new status is written. The status, its log
+		///entry and its alert are one unit, so all three are written (the store refuses work after the cancel, as the database layer does); the
+		///check then stops before the next payment's lookup and throws, so the window gets no result.</summary>
+		[TestMethod]
+		public void Run_CancelDuringAStatusChange_ItsLogEntryAndAlertStillWritten_NoFurtherPayment() {
+			AddPayment(1,PaymentStatus.PaySimpleAchPosted,"501");
+			AddPayment(2,PaymentStatus.PaySimpleAchPosted,"502");
+			EnqueuePayment(501,"Returned","R01","Insufficient Funds",returnDate:"2026-10-18T06:00:00Z");
+			EnqueuePayment(502,"Returned","R01","Insufficient Funds",returnDate:"2026-10-18T06:00:00Z");
+			using CancellationTokenSource cancellationTokenSource=new CancellationTokenSource();
+			_fakeAchStore.ActionAfterUpdate=x => cancellationTokenSource.Cancel();
+			PaySimpleAchSyncResult result=null;
+			using(ODCancellation.Use(cancellationTokenSource.Token)) {
+				Assert.ThrowsExactly<OperationCanceledException>(() => result=CreateSync().Execute(isManual:true));
+			}
+			Assert.IsNull(result,"No result after the cancel.");
+			Assert.AreEqual(1,_fakeAchStore.CountUpdates);
+			Assert.AreEqual(PaymentStatus.PaySimpleAchFailed,_fakeAchStore.DictPayments[1].PaymentStatus);
+			Assert.AreEqual(1,_fakeAchStore.ListSecurityLogs.Count,"The change's log entry, in the unit.");
+			Assert.AreEqual(1,_fakeAchStore.ListAlerts.Count,"The failed payment's alert, in the unit.");
+			Assert.AreEqual(PaymentStatus.PaySimpleAchPosted,_fakeAchStore.DictPayments[2].PaymentStatus);
+			Assert.AreEqual(1,_fakeHttpHandler.Requests.Count,"No lookup after the cancel.");
+		}
+
+		///<summary>S3a-1c: a cancel before a payment's re-read. The refused read is not a "could not save the new status" problem: the check
+		///throws, writes nothing and makes no further lookup.</summary>
+		[TestMethod]
+		public void Run_CancelBeforeTheReRead_NothingWritten_NotAProblem_Throws() {
+			AddPayment(1,PaymentStatus.PaySimpleAchPosted,"501");
+			AddPayment(2,PaymentStatus.PaySimpleAchPosted,"502");
+			EnqueuePayment(501,"Settled");
+			EnqueuePayment(502,"Settled");
+			List<string> listLines=new List<string>();
+			using CancellationTokenSource cancellationTokenSource=new CancellationTokenSource();
+			_fakeAchStore.ActionBeforeReread=x => cancellationTokenSource.Cancel();
+			PaySimpleAchStatusSync paySimpleAchStatusSync=new PaySimpleAchStatusSync(_fakeAchStore,x => _dictCredentials[0],() => true,() => true,
+				() => _today,x => _listPauses.Add(x),x => listLines.Add(x));
+			using(ODCancellation.Use(cancellationTokenSource.Token)) {
+				Assert.ThrowsExactly<OperationCanceledException>(() => paySimpleAchStatusSync.Execute(isManual:true));
+			}
+			Assert.AreEqual(0,_fakeAchStore.CountUpdates);
+			Assert.AreEqual(0,_fakeAchStore.ListSecurityLogs.Count);
+			Assert.AreEqual(1,_fakeHttpHandler.Requests.Count,"No lookup after the cancel.");
+			Assert.IsFalse(listLines.Any(x => x.Contains("could not save")),"Not logged as a problem: "+string.Join(" | ",listLines));
+		}
+
+		///<summary>S3a-1c: the late-return sweep makes no further full-status call for its matches after a cancel.</summary>
+		[TestMethod]
+		public void Run_CancelDuringTheSweep_NoFurtherVendorCall() {
+			AddPayment(1,PaymentStatus.PaySimpleAchSettled,"601",daysAgo:40);
+			AddPayment(2,PaymentStatus.PaySimpleAchSettled,"602",daysAgo:40);
+			_fakeHttpHandler.Enqueue(HttpStatusCode.OK,PaySimpleClientTests.Envelope("["+PaySimpleClientTests.PaymentJson(601,"Returned")+","
+				+PaySimpleClientTests.PaymentJson(602,"ReverseNSF")+"]","{\"TotalItems\":2,\"Page\":1,\"ItemsPerPage\":200}"));
+			EnqueuePayment(601,"Returned","R01","Insufficient Funds",returnDate:"2026-10-15T06:00:00Z");
+			EnqueuePayment(602,"ReverseNSF","R01","Insufficient Funds",returnDate:"2026-10-15T06:00:00Z");
+			using CancellationTokenSource cancellationTokenSource=new CancellationTokenSource();
+			_fakeAchStore.ActionAfterUpdate=x => cancellationTokenSource.Cancel();
+			using(ODCancellation.Use(cancellationTokenSource.Token)) {
+				Assert.ThrowsExactly<OperationCanceledException>(() => CreateSync().Execute(isManual:true));
+			}
+			Assert.AreEqual(1,_fakeAchStore.CountUpdates,"The first match is written with its log entry and alert.");
+			Assert.AreEqual(1,_fakeAchStore.ListSecurityLogs.Count);
+			Assert.AreEqual(1,_fakeAchStore.ListAlerts.Count);
+			Assert.AreEqual(2,_fakeHttpHandler.Requests.Count,"The list and the first match's full status; none for the second match.");
+			Assert.AreEqual(PaymentStatus.PaySimpleAchSettled,_fakeAchStore.DictPayments[2].PaymentStatus);
+		}
+
 		[TestMethod]
 		public void AppendNoteLine_KeepsTheExistingNote() {
 			Assert.AreEqual("line",PaySimpleAchStatusSync.AppendNoteLine("","line"));
@@ -294,15 +364,20 @@ namespace VendorDirectTests.PaySimple {
 			Assert.AreEqual("a",PaySimpleAchStatusSync.AppendNoteLine("a",""));
 		}
 
-		///<summary>Payments in memory. Records every write.</summary>
+		///<summary>Payments in memory. Records every write. Like the database layer (DataConnection.RunDbAction), every method first refuses to
+		///run on a thread whose progress window was cancelled (ODCancellation), unless the thread is inside a unit; without a cancel that check
+		///does nothing.</summary>
 		private class FakeAchStore:IPaySimpleAchStore {
 			public Dictionary<long,Payment> DictPayments=new Dictionary<long,Payment>();
 			public List<string> ListSecurityLogs=new List<string>();
 			public List<(long ClinicNum,string Description,string ItemValue)> ListAlerts=new List<(long,string,string)>();
 			public int CountUpdates;
 			public Action<long> ActionBeforeReread;
+			///<summary>Called with the payment right after UpdatePayment stored it: the moment a test's user cancels.</summary>
+			public Action<Payment> ActionAfterUpdate;
 
 			public List<Payment> GetPaymentsToTrack(DateTime dateFrom) {
+				ODCancellation.ThrowIfCancellationRequested();
 				return DictPayments.Values
 					.Where(x => x.ExternalId!="" && (x.PaymentStatus==PaymentStatus.PaySimpleAchPosted
 						|| (x.PaymentStatus==PaymentStatus.PaySimpleAchSettled && x.PayDate>=dateFrom)))
@@ -312,21 +387,26 @@ namespace VendorDirectTests.PaySimple {
 
 			public Payment GetPayment(long payNum) {
 				ActionBeforeReread?.Invoke(payNum);
+				ODCancellation.ThrowIfCancellationRequested();
 				return DictPayments.TryGetValue(payNum,out Payment payment) ? payment.Clone() : null;
 			}
 
 			public void UpdatePayment(Payment paymentNew,Payment paymentOld) {
+				ODCancellation.ThrowIfCancellationRequested();
 				Assert.AreEqual(paymentOld.PayAmt,paymentNew.PayAmt,"The amount is never changed.");
 				Assert.AreEqual(paymentOld.DepositNum,paymentNew.DepositNum,"The deposit is never changed.");
 				DictPayments[paymentNew.PayNum]=paymentNew.Clone();
 				CountUpdates++;
+				ActionAfterUpdate?.Invoke(paymentNew);
 			}
 
 			public void MakeSecurityLog(Payment payment,string logText) {
+				ODCancellation.ThrowIfCancellationRequested();
 				ListSecurityLogs.Add(logText);
 			}
 
 			public void AddAlert(long clinicNum,string description,string itemValue) {
+				ODCancellation.ThrowIfCancellationRequested();
 				ListAlerts.Add((clinicNum,description,itemValue));
 			}
 		}

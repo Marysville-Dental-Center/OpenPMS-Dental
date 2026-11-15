@@ -1,10 +1,11 @@
 // Package S3a-1b of the .NET 10 plan (docs/specs/net10-plan.md, the S3a-1 row and its risk item; docs/port-notes/S3a-1.md section 8): with
 // Thread.Abort gone, no database write starts for a progress window's action after the user cancelled it. One test per pattern of the audited
 // ProgressWin callers: an action that writes without checking anything (the database layer refuses its next command), a write and its log entry
-// run as one unit (ODCancellation.RunUncancellable), a cleanup write in a catch after the cancel (a unit too), an action that spreads its
-// writes over ODThread.RunParallel, a loop that writes files and checks before each, an action that does not stop within the window's wait (logged, and still no write after the cancel), and a second
-// ShowDialog while the first action still runs (each run keeps its own token). The rows are synthetic, in a scratch database of this class whose
-// name starts with s3a1b_ (dropped afterwards) on the local MariaDB only; the windows are the real ones, closed by their X from a timer.
+// run as one unit (ODCancellation.RunUncancellable), a cleanup write in a catch after the cancel (a unit too), an action that spreads its writes
+// over ODThread.RunParallel, a loop that writes files and checks before each, an action that does not stop within the window's wait (logged, and
+// still no write after the cancel), and a second ShowDialog while the first action still runs (each run keeps its own token). The rows are
+// synthetic, in a scratch database of this class whose name starts with s3a1b_ (dropped afterwards) on the local MariaDB only; the windows are
+// the real ones, closed by their X from a timer.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
 using System.Collections.Concurrent;

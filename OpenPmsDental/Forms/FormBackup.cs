@@ -425,6 +425,8 @@ namespace OpenPmsDental {
 					}
 				}
 				if(containsMaxPathLimit) {
+					//The question comes from the worker thread: none after the user cancelled (S3a-1c). The folder listing above can take a while.
+					ODCancellation.ThrowIfCancellationRequested();
 					if(!MsgBox.Show(MsgBoxButtons.YesNo, "Your AtoZ images folder contains file paths that exceed the length limit, this could result in data loss."
 							+" These will likely be skipped. Continue anyways?")) {
 						throw new ODException("User manually cancelled out of the Backup or Restore.");
