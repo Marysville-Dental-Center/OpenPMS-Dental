@@ -326,6 +326,14 @@ namespace ToothChartImageTests {
 				"FormGraphics names an engine.");
 			StringAssert.Contains(code,"radio3DChart.Checked=ToothChartRelay.Is3DChart(ComputerPrefCur);");
 			StringAssert.Contains(code,"checkDrawInSoftware.Checked=ToothChartRelay.IsDrawnInSoftware(ComputerPrefCur);");
+			//A medical practice or clinic keeps Open Dental's plain "Graphics" wording (main's FormGraphics_Load did the same with the old radio buttons).
+			SourceText.AssertInOrder(SourceText.GetMethod(code,"private void FormGraphics_Load(object sender,EventArgs e) {"),"FormGraphics.FormGraphics_Load",
+				"radio3DChart.Checked=ToothChartRelay.Is3DChart(ComputerPrefCur);",
+				"if(Clinics.IsMedicalPracticeOrClinic(Clinics.ClinicNum)) {",
+				"groupToothChart.Text=\"Graphics\";",
+				"radio3DChart.Text=\"Use 3D Graphics (recommended)\";",
+				"radioSimpleChart.Text=\"Use Simple Graphics\";",
+				"RefreshPreview();");
 			SourceText.AssertInOrder(SourceText.GetMethod(code,"private void butSave_Click(object sender,System.EventArgs e) {"),"FormGraphics.butSave_Click",
 				"ComputerPref computerPrefOld=ComputerPrefCur.Copy();",
 				"ToothChartRelay.SetGraphicsChoice(ComputerPrefCur,radio3DChart.Checked,checkDrawInSoftware.Checked);",

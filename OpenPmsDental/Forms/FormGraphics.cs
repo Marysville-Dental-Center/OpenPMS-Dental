@@ -49,6 +49,11 @@ namespace OpenPmsDental{
 			radio3DChart.Checked=ToothChartRelay.Is3DChart(ComputerPrefCur);
 			radioSimpleChart.Checked=!radio3DChart.Checked;
 			checkDrawInSoftware.Checked=ToothChartRelay.IsDrawnInSoftware(ComputerPrefCur);
+			if(Clinics.IsMedicalPracticeOrClinic(Clinics.ClinicNum)) {//Medical wording, as Open Dental words this window for a medical practice or clinic.
+				groupToothChart.Text="Graphics";
+				radio3DChart.Text="Use 3D Graphics (recommended)";
+				radioSimpleChart.Text="Use Simple Graphics";
+			}
 			if(ComputerPrefCur.ComputerOS==PlatformOD.Unix) {//Force simple mode on Unix systems.
 				MsgBox.Show(this,"Linux users must use simple tooth chart.");
 				radio3DChart.Enabled=false;

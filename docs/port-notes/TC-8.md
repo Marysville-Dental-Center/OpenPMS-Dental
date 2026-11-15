@@ -71,6 +71,9 @@ The menu item is File > Graphics (`FormOpenDentalMenus`), and Setup > Computers 
   1; "3D chart" writes 0 only when the stored value was 1, so a stored 0 or 2 is kept and a return to Open Dental brings back the engine the
   computer had there; "Draw in software" on writes "WpfSoftware" to `DirectXFormat`, off clears only that value (a DirectX device format an
   older build saved stays for the same return). No other column is written.
+- **The medical wording is kept:** in a medical practice or clinic (`Clinics.IsMedicalPracticeOrClinic`) Load words the window as Open Dental
+  does there, "Graphics" for the group, "Use 3D Graphics (recommended)" and "Use Simple Graphics" for the two choices (main's Load did the same
+  for the old radio buttons; the engine names are left out of the words, as the window names no engine). A source test pins it.
 - **"Draw in software"** (`checkDrawInSoftware`, with a line saying what it does): enabled only for "3D chart".
 - **A live preview** (`toothChartWrapper` in a "Preview" group, 410x307) with made-up work in the office's chart colours (a completed MOD on 3,
   a completed crown on 14, a planned root canal and build-up on 19, a planned extraction on 1, a missing 30; no patient), redrawn at once for
