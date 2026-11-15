@@ -303,12 +303,12 @@ namespace S3aM1Tests {
 		#endregion GridOD
 
 		#region GridOld
+		//GridOld's WinForms ContextMenu path (the bridge) went with S3a-M2, which converted its last caller (ControlChart's gridProg). The lists
+		//below are the ones the bridge's ContextMenu gave for the same clicks when S3a-M1 compared them.
 		[TestMethod]
 		public void GridOld_OwnMenu_HasTheItemsOfTheWinFormsMenu_AtEveryOpening() {
-			using(GridOld grid=MakeGrid<GridOld>("gridProg"))
-			using(GridOld gridLegacy=MakeGrid<GridOld>("gridLegacy")) {
+			using(GridOld grid=MakeGrid<GridOld>("gridProg")) {
 				ContextMenuStrip contextMenuStrip=SetOwnMenu(grid);
-				gridLegacy.ContextMenu=new ContextMenu();
 				List<(int row,int col,List<string> listExpected)> listClicks=new List<(int,int,List<string>)> {
 					(0,1,new List<string> { "Copy Cell Text","-",LINK }),
 					(1,1,new List<string> { "Copy Cell Text (disabled)" }),
@@ -323,9 +323,6 @@ namespace S3aM1Tests {
 						isFirst=false;
 					}
 					CollectionAssert.AreEqual(listExpected,Describe(contextMenuStrip),"Row "+row+", column "+col+".");
-					RightClickCell(gridLegacy,row,col,isRowSelected:true);
-					Popup(gridLegacy.ContextMenu,gridLegacy);
-					CollectionAssert.AreEqual(listExpected,Describe(gridLegacy.ContextMenu),"Bridge, row "+row+", column "+col+".");
 				}
 			}
 		}
@@ -333,7 +330,6 @@ namespace S3aM1Tests {
 		[TestMethod]
 		public void GridOld_CallersStrip_DefaultAndWithDoAddGridItems() {
 			using(GridOld grid=MakeGrid<GridOld>("gridProg"))
-			using(GridOld gridLegacy=MakeGrid<GridOld>("gridLegacy"))
 			using(ContextMenuStrip contextMenuStrip=MakeCallerStrip()) {
 				grid.ContextMenuStrip=contextMenuStrip;
 				RightClickCell(grid,0,1,isRowSelected:true);
@@ -344,31 +340,22 @@ namespace S3aM1Tests {
 				Open(contextMenuStrip,grid);
 				List<string> listExpected=new List<string> { "Edit","-","Delete","-","Copy Cell Text","-",LINK };
 				CollectionAssert.AreEqual(listExpected,Describe(contextMenuStrip));
-				gridLegacy.ContextMenu=MakeCallerMenu();
-				RightClickCell(gridLegacy,0,1,isRowSelected:true);
-				Popup(gridLegacy.ContextMenu,gridLegacy);
-				CollectionAssert.AreEqual(listExpected,Describe(gridLegacy.ContextMenu),"Bridge.");
 			}
 		}
 
 		[TestMethod]
 		public void GridOld_CallersStrip_WithDoAddGridItems_AndOnlyHiddenItems_Opens() {
 			using(GridOld grid=MakeGrid<GridOld>("gridPtInfo"))
-			using(GridOld gridLegacy=MakeGrid<GridOld>("gridLegacy"))
 			using(ContextMenuStrip contextMenuStrip=MakeCallerStripHiddenOnly()) {
 				grid.ContextMenuStrip=contextMenuStrip;
 				RightClickCell(grid,1,0,isRowSelected:true);
 				Assert.IsTrue(Open(contextMenuStrip,grid),"Without the grid items the strip of hidden items stays cancelled.");
 				grid.DoAddGridItemsToContextMenuStrip=true;
-				gridLegacy.ContextMenu=MakeCallerMenuHiddenOnly();
 				List<string> listExpected=new List<string> { "View DOB (hidden)","-","Copy Cell Text" };//GridOld has no "Copy Rows", as before
 				for(int i=0;i<2;i++) {
 					RightClickCell(grid,1,0,isRowSelected:true);
 					Assert.IsFalse(Open(contextMenuStrip,grid),"Opening "+i+": the grid's items show, so the menu opens.");
 					CollectionAssert.AreEqual(listExpected,Describe(contextMenuStrip),"Opening "+i+".");
-					RightClickCell(gridLegacy,1,0,isRowSelected:true);
-					Popup(gridLegacy.ContextMenu,gridLegacy);
-					CollectionAssert.AreEqual(listExpected,Describe(gridLegacy.ContextMenu),"Bridge, opening "+i+".");
 				}
 			}
 		}

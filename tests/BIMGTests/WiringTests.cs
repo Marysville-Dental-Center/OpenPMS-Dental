@@ -112,13 +112,14 @@ namespace BIMGTests {
 		[TestMethod]
 		public void ImageRightClickMenu_HasBothCommandsInOrder() {
 			string designer=Read("OpenPmsDental","User Controls","ControlImageDisplay.Designer.cs");
-			Match match=Regex.Match(designer,@"this\.menuPanelMain\.MenuItems\.AddRange\(new System\.Windows\.Forms\.MenuItem\[\] \{(?<items>[^}]*)\}\);");
+			//A ContextMenuStrip since S3a-M2: the items are in the order of AddRange (a ToolStripMenuItem has no designer Index).
+			Match match=Regex.Match(designer,@"this\.menuPanelMain\.Items\.AddRange\(new System\.Windows\.Forms\.ToolStripItem\[\] \{(?<items>[^}]*)\}\);");
 			Assert.IsTrue(match.Success);
 			string[] arrayItems=match.Groups["items"].Value.Split(',').Select(x => x.Trim().Replace("this.","")).ToArray();
 			CollectionAssert.AreEqual(new[] { "menuItemCopy","menuItemCopyWithoutDrawings","menuItemPaste","menuItemFlipHoriz","menuItemRotateLeft",
 				"menuItemRotateRight","menuItemRotate180","menuItemDelete","menuItemInfo","menuItemTasks" },arrayItems);
 			for(int i=0;i<arrayItems.Length;i++) {
-				StringAssert.Contains(designer,"this."+arrayItems[i]+".Index = "+i+";","The designer index matches the order.");
+				StringAssert.Contains(designer,"this."+arrayItems[i]+" = new System.Windows.Forms.ToolStripMenuItem();");
 				StringAssert.Contains(designer,"this."+arrayItems[i]+".Click += new System.EventHandler(this.menuPanelMain_Click);");
 			}
 			StringAssert.Contains(designer,"this.menuItemCopyWithoutDrawings.Text = \"Copy without drawings\";");

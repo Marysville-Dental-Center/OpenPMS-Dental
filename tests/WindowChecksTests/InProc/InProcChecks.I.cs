@@ -268,12 +268,14 @@ namespace WindowChecksTests.InProc {
 				});
 				checkResult.Note("Referral 'Gatetest, Referral' (ReferralNum "+referralNum+") attached as From to patient #1 by the business layer");
 				//Main toolbar Letter (arrow) > the item naming the referral > pick the copy.
-				MenuItem menuItemReferral=ui.Invoke(() => {
-					ContextMenu menuLetter=(ContextMenu)Ui.GetField(FormMain,"menuLetter");
-					Ui.Call(FormMain,"menuLetter_Popup",menuLetter,EventArgs.Empty);
-					return menuLetter.MenuItems.Cast<MenuItem>().FirstOrDefault(x => x.Tag is Referral && ((Referral)x.Tag).ReferralNum==referralNum);
+				//The menu is a ContextMenuStrip since S3a-M2; its Opening fills it.
+				ToolStripMenuItem menuItemReferral=ui.Invoke(() => {
+					ContextMenuStrip menuLetter=(ContextMenuStrip)Ui.GetField(FormMain,"menuLetter");
+					Ui.Call(FormMain,"menuLetter_Popup",menuLetter,new System.ComponentModel.CancelEventArgs());
+					return menuLetter.Items.OfType<ToolStripMenuItem>().FirstOrDefault(x => x.Tag is Referral && ((Referral)x.Tag).ReferralNum==referralNum);
 				});
-				string items=ui.Invoke(() => string.Join(", ",((ContextMenu)Ui.GetField(FormMain,"menuLetter")).MenuItems.Cast<MenuItem>().Select(x => x.Text)));
+				string items=ui.Invoke(() => string.Join(", ",((ContextMenuStrip)Ui.GetField(FormMain,"menuLetter")).Items.Cast<ToolStripItem>()
+					.Select(x => x is ToolStripSeparator ? "-" : x.Text)));
 				if(checkResult.Expect(menuItemReferral!=null,"The Letter drop-down names the referral ("+items+")")) {
 					Ui.Opened openedPick=ui.Open("Letter > "+menuItemReferral.Text,() => menuItemReferral.PerformClick());
 					if(InspectWindow(ui,checkResult,openedPick,"FrmSheetPicker",null,close:false)) {

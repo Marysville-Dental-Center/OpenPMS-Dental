@@ -55,7 +55,7 @@ namespace BACCTTests {
 			string accountMain=ReadSource("OpenPmsDental","Main Modules","ControlAccount.cs");
 			string prefs=ReadSource("OpenPmsDental","User Controls","Preferences","UserControlAccountAdjustments.cs");
 			string prefsDesigner=ReadSource("OpenPmsDental","User Controls","Preferences","UserControlAccountAdjustments.Designer.cs");
-			StringAssert.Contains(account,"contextMenuQuickProcs.MenuItems.Add(0,new MenuItem(Lan.g(this,\"Sales Tax\")");
+			StringAssert.Contains(account,"contextMenuQuickProcs.Items.Insert(0,new ToolStripMenuItem(Lan.g(this,\"Sales Tax\")");//a ContextMenuStrip since S3a-M2
 			StringAssert.Contains(account,"EnumPermType.AccountProcsQuickAdd");
 			StringAssert.Contains(account,"EnumPermType.ProcComplCreate");
 			StringAssert.Contains(accountMain,"AddQuickProcsSalesTaxItem();");

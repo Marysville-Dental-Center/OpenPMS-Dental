@@ -33,8 +33,8 @@ namespace M2SDVTests {
 			Assert.IsFalse(source.Contains("GetByUserAndFkeyType(Security.CurUser.UserNum,UserOdFkeyType.AcctProcBreakdown)"));
 			Assert.IsFalse(source.Contains("GetFirstOrNewByUserAndFkeyType(Security.CurUser.UserNum,UserOdFkeyType.AcctProcBreakdown)"));
 			string sourcePartial=ReadSource(Path.Combine("OpenPmsDental","Main Modules","ControlAccount.ServiceDateView.cs"));
-			StringAssert.Contains(sourcePartial,"contextMenuStatement.MenuItems.Add(");
-			StringAssert.Contains(sourcePartial,"contextMenuAcctGrid.MenuItems.Add(");
+			StringAssert.Contains(sourcePartial,"contextMenuStatement.Items.Add(");//ContextMenuStrips since S3a-M2
+			StringAssert.Contains(sourcePartial,"contextMenuAcctGrid.Items.Add(");
 			StringAssert.Contains(sourcePartial,"_formRpServiceDateView.SetPatient(patNum,isFamily);");
 			//The evaluated items, so the check holds for the classic project file and the SDK-style one of the .NET 10 move alike.
 			ProjectFile.Load(TestDb.FindRepoFile(Path.Combine("OpenPmsDental","OpenPmsDental.csproj"))).AssertCompiles(@"Main Modules\ControlAccount.ServiceDateView.cs");
