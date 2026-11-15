@@ -43,6 +43,7 @@ so, and the lead makes the change.
 | **EHR-2 Value sets** | `EhrCodes.Listt` (H1): a fork-only `ehrcode` table, filled by an import of the office's own VSAC download of the June 2013 EP release | Stage 2 after EHR-3, or stage 4; **before the bridge release** | M, 5-7 days |
 | **EHR-4a Measure Calc window** | The Meaningful Use measures window and its drill-down (H3, H4), on the existing open engine | After S1-5 and EHR-1; stage 2 or stage 4 | M, 4-6 days |
 | **EHR-4b Measure fixtures** | Spec-derived meet and miss cases for the three stages, golden numbers and a known-deviation list | After EHR-4a; stage 4 or later | M, 4-6 days |
+| **EHR-4c Measure engine fixed to the sheets** | The engine counts each numeric deviation of EHR-4b's list (D01-D04, D06-D11, D15), and D16, which it found, as the latest sheet defines it; D05, D12, D13 kept, D14 not calculated | After EHR-4b (assigned by the lead, section 9.3) | S, about 1 agent-day |
 | **EHR-5 CQM reports and QRDA** (replaced, section 7) | Replaced by the 2027 plan: the 2014 and 2011 quality-measure code deleted (EHR-6b); the 2027 catalog and import (EHR-6a), data entry (EHR-7), engine and measures (EHR-8a1 to EHR-8d), window (EHR-5a) and QRDA (EHR-5b, EHR-5c1, EHR-5c2), with this program's own identity in what QRDA writes | Stage 4 and 3a (the 2027 plan, section 13.2) | about 10 agent-days in all (the 2027 plan; agent-days, never added to this table's dev-days) |
 
 Total: about 26-36 dev-days. These are rough figures for orientation; the 2027 plan counts in agent-days (section 17).
@@ -706,6 +707,23 @@ The key was a licence check, but it was also the only thing that kept these acti
   - A recorded run of `SelectAll`, `SelectAllMu2` and `SelectAllMu2Mod` on the fixture as golden numbers.
 - **Order and size.** After EHR-4a. Stage 4 or later; it changes no schema and may land after the bridge release. M, about 4-6 dev-days.
 
+### EHR-4c Measure engine fixed to the sheets
+
+- **Status (2026-11-14).** Written on `ehr/ehr4c-1` from `main` `282bfa06c`, for review: `docs/port-notes/EHR-4.md` (EHR-4c part: each
+  deviation fixed, how, and the golden numbers that moved). No schema change; no saved row changed. Review fix (2026-11-15, `ehr/ehr4c-3`):
+  D16, found by EHR-4c, fixed too (Stage 1 clinical summaries after a Saturday visit), with two fixture patients in
+  `tests/EhrTests/Fixtures/MeasureSpecFixture.cs` and the golden numbers recorded again.
+- **Goal.** The numbers of the Measure Calc window and its patient lists are those the CMS specification sheets define (section 9.3).
+- **Owns.** `OpenPmsDentalBusiness/Data Interface/EhrMeasures.cs` (the three audit-table methods and three private helpers),
+  `tests/EhrTests/MeasureSpecTests.cs` (the deviation tests become sheet cases), `tests/EhrTests/Fixtures/MeasureSpecGolden.txt` (recorded
+  again).
+- **Work.** D01 and D15 (4 business days, by date), D02 and D15 (each Stage 2 visit's own summary within one business day), D03 and D04
+  (the age at the last visit in the period), D06 (5 or younger), D07 (visits with the EP), D08 (transitions received by the EP, each
+  reconciled or not), D09 (the patient's message in the period), D10 (Modified Stage 2 education in the period's calendar year), D11
+  (only results that are a positive/negative affirmation or a number), D16 (Stage 1's three business days after a Saturday visit).
+  Kept, on the owner's no-cut rule: D05, D12, D13; D14 stays not calculated.
+- **Order and size.** After EHR-4b; changes no schema and may land after the bridge release. S, about 1 agent-day.
+
 ### EHR-5 CQM reports and QRDA (replaced by the 2027 plan)
 
 - **Replaced (2026-11-14).** This package reopened the 2014 and 2011 quality-measure windows. The owner decided on 2026-11-14 to delete
@@ -851,6 +869,8 @@ table below is EHR-2's.
 - The engine has no test today, and its SQL already contains real codes (section 8.3). The fixture rule of section 6 lets those branches
   be tested without adding any code to the repository: the tests read those codes from the engine's strings at run time.
 - A spec case that disagrees with the engine is recorded, not fixed in EHR-4b: Inconclusive with an ID, and a line in the deviation list.
+- EHR-4c, assigned by the lead after EHR-4b, fixes the engine for every numeric deviation of the list; each deviation test then asserts
+  the sheet's numbers, and the golden numbers are recorded again (`docs/port-notes/EHR-4.md`, EHR-4c).
 
 ### 9.4 The CQM reports (the 2027 plan)
 
@@ -1117,7 +1137,7 @@ batch Q approved with E-33. Every answer below is that recommendation.
   after S3a-2, which owns line 1117.
 - **SHA-1 in `FormEhrHash.cs:40`.** Today's 170.210(c) asks for SHA-2.
 - **RxNav's discontinued interaction API.**
-- **Engine fixes** from EHR-4b's deviation list.
+- **Engine fixes** from EHR-4b's deviation list: the numeric ones done by EHR-4c; D05, D12 and D13 are kept (the owner's no-cut rule).
 - **Direct certificates:** the certificate-import package of O-13 (net10-plan section 12), done by DIRECT-CERT
   (`docs/port-notes/DIRECT-CERT.md`).
 

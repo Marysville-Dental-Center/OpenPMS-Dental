@@ -1,4 +1,4 @@
-# Port note: EHR-4 (the Measure Calc window; EHR-4b adds the measure fixtures)
+# Port note: EHR-4 (the Measure Calc window; EHR-4b adds the measure fixtures; EHR-4c fixes the engine to the sheets)
 
 ## EHR-4a: the Measure Calc window
 
@@ -328,25 +328,28 @@ match** ("more than N percent"; Modified Stage 2 `ElectronicCopy`'s "greater tha
 
 Each numeric deviation was confirmed by a run (the test is Inconclusive with the ID; the numbers are the case's, sheet against engine).
 D05, D12, D13 and D14 are entries without a number to compare: an older edition, measures with no sheet, and sheet rules the engine does
-not compute. The IDs are those of the lead's analysis; D15 is new (found by this package's run).
+not compute. The IDs are those of the lead's analysis; D15 is new (found by this package's run), and D16 was found by EHR-4c. **EHR-4c
+fixed every numeric deviation** (D01-D04, D06-D11, D15, D16, marked "fixed" below; the section "EHR-4c" says how); D05, D12, D13 and D14
+stay as listed.
 
 | ID | Stages | The engine | The sheet (latest edition; older where it differs) | Case: sheet / engine |
 |---|---|---|---|---|
-| EHR4B-D01 | 1, 2, MS2 (`ElectronicCopyAccess`) | Deadline: the first visit plus 4 days, plus 2 more only when the visit is after a Tuesday; a Tuesday visit's deadline is the Saturday | Within 4 business days (Monday to Friday): `11_Patient_Electronic_Access-` (May 2014), `Stage2_EPCore_7` (August 2014) Measure 1, `MedicaidEPModStage2_2018_Obj8` Measure 1 | Seen Tuesday 4 March, access Monday 10 March (the fourth business day): 1/1 / 0/1, each stage |
-| EHR4B-D02 | 2 (`ClinicalSummaries`) | Each visit is compared with the patient's first summary ever (`MIN(DateTEvent)`), with no lower bound | Visits whose summary is provided within one business day of that visit: `Stage2_EPCore_8_ClinicalSummaries` (November 2014) | Two visits, one summary on the day of the first: 1/2 / 2/2 |
-| EHR4B-D03 | 1, 2 (`Smoking`; MS2's has no sheet) | Age 13 or older on today's date | Unique patients age 13 or older seen in the period: `9_Record_Smoking_Status` (May 2014), `Stage2_EPCore_5` (October 2012) | A patient of 12 at the visit and all year: 0/0 / 0/1, both stages |
-| EHR4B-D04 | 1 (`VitalSigns`) | Age 2 or older on today's date | Unique patients age 2 or over seen: `2013DefinitionEP_8_Record_Vital_Signs` (April 2013), the first numerator and denominator | An infant of 1 with height and weight: 0/0 / 0/1 (`VitalSigns2014`, Stage 2 and the blood-pressure measure agree with their sheets: 1/1, 1/1, 0/0) |
+| EHR4B-D01 (fixed, EHR-4c) | 1, 2, MS2 (`ElectronicCopyAccess`) | Deadline: the first visit plus 4 days, plus 2 more only when the visit is after a Tuesday; a Tuesday visit's deadline is the Saturday | Within 4 business days (Monday to Friday): `11_Patient_Electronic_Access-` (May 2014), `Stage2_EPCore_7` (August 2014) Measure 1, `MedicaidEPModStage2_2018_Obj8` Measure 1 | Seen Tuesday 4 March, access Monday 10 March (the fourth business day): 1/1 / 0/1, each stage |
+| EHR4B-D02 (fixed, EHR-4c) | 2 (`ClinicalSummaries`) | Each visit is compared with the patient's first summary ever (`MIN(DateTEvent)`), with no lower bound | Visits whose summary is provided within one business day of that visit: `Stage2_EPCore_8_ClinicalSummaries` (November 2014) | Two visits, one summary on the day of the first: 1/2 / 2/2 |
+| EHR4B-D03 (fixed, EHR-4c) | 1, 2 (`Smoking`; MS2's has no sheet) | Age 13 or older on today's date | Unique patients age 13 or older seen in the period: `9_Record_Smoking_Status` (May 2014), `Stage2_EPCore_5` (October 2012) | A patient of 12 at the visit and all year: 0/0 / 0/1, both stages |
+| EHR4B-D04 (fixed, EHR-4c) | 1 (`VitalSigns`) | Age 2 or older on today's date | Unique patients age 2 or over seen: `2013DefinitionEP_8_Record_Vital_Signs` (April 2013), the first numerator and denominator | An infant of 1 with height and weight: 0/0 / 0/1 (`VitalSigns2014`, Stage 2 and the blood-pressure measure agree with their sheets: 1/1, 1/1, 0/0) |
 | EHR4B-D05 | 1 (`VitalSigns`) | Calculates the April 2013 edition's first numerator and denominator (age 2 or over, all three signs), beside `VitalSigns2014` | The May 2014 edition, `8_Record_Vital_Signs`, has only the newer definition (blood pressure from age 3), which `VitalSigns2014` follows | No number: the engine's `VitalSigns` agrees with the 2013 sheet (1/5 on the vital-signs patients) apart from D04 |
-| EHR4B-D06 | 1 (`Reminders`) | "5 years old or younger" coded as younger than 5 at the start of the period (`Birthdate > start - 5 years`) | Unique patients 65 years old or older or 5 years old or younger: `4_Patient_Reminders` (May 2014) | A child who is 5 on every day of 2014, reminded: 1/1 / 0/0 |
-| EHR4B-D07 | 2 (`Reminders`) | Patients whose primary provider is the EP, with two or more visit dates with any provider in the 24 months before | Two or more office visits with the EP in the 24 months before: `Stage2_EPCore_12_PreventiveCare` (October 2012) | Two visits with the EP, another primary provider, reminded: 1/1 / 0/0; two visits with another provider, the EP primary, reminded: 0/0 / 1/1 |
-| EHR4B-D08 | 1, 2, MS2 (`MedReconcile`) | Counts patients seen by the EP in the period who had a transition received; met only when there are as many reconciliations as transitions | Transitions of care received by the EP in the period; those reconciled: `7_Medication_Reconciliation` (May 2014), `Stage2_EPCore_14` (October 2012), `MedicaidEPModStage2_2018_Obj7` | Two transitions, one reconciled: 1/2 / 0/1; a transition received and reconciled for a patient not seen in the period: 1/1 / 0/0; each stage |
-| EHR4B-D09 | 2 (`SecureMessaging`) | A message from the patient of any date counts | A message sent by the patient to the EP during the reporting period: `Stage2_EPCore_17_UseSecureElectronicMessaging` (October 2012) | A patient seen whose only message is of the year before: 0/1 / 1/1 |
-| EHR4B-D10 | MS2 (`Education`) | Education events of any date count | Within the reporting period when it is a full calendar year (`MedicaidEPModStage2_2018_Obj6`, Additional Information); the 2017 edition: no earlier than the start of the period's calendar year | Resources given only the year before: 0/1 / 1/1. (The Stage 1 and Stage 2 sheets give no time, so those stages are not compared.) |
-| EHR4B-D11 | 1, 2 (`Lab`) | Every lab order by the EP in the period is in the denominator | Only tests whose results are a positive or negative affirmation or a number: `2_Clinical_Lab_Test_Results` (May 2014), `Stage2_EPCore_10` (November 2014) | A test with a free-text result: 0/0 / 0/1, both stages |
+| EHR4B-D06 (fixed, EHR-4c) | 1 (`Reminders`) | "5 years old or younger" coded as younger than 5 at the start of the period (`Birthdate > start - 5 years`) | Unique patients 65 years old or older or 5 years old or younger: `4_Patient_Reminders` (May 2014) | A child who is 5 on every day of 2014, reminded: 1/1 / 0/0 |
+| EHR4B-D07 (fixed, EHR-4c) | 2 (`Reminders`) | Patients whose primary provider is the EP, with two or more visit dates with any provider in the 24 months before | Two or more office visits with the EP in the 24 months before: `Stage2_EPCore_12_PreventiveCare` (October 2012) | Two visits with the EP, another primary provider, reminded: 1/1 / 0/0; two visits with another provider, the EP primary, reminded: 0/0 / 1/1 |
+| EHR4B-D08 (fixed, EHR-4c) | 1, 2, MS2 (`MedReconcile`) | Counts patients seen by the EP in the period who had a transition received; met only when there are as many reconciliations as transitions | Transitions of care received by the EP in the period; those reconciled: `7_Medication_Reconciliation` (May 2014), `Stage2_EPCore_14` (October 2012), `MedicaidEPModStage2_2018_Obj7` | Two transitions, one reconciled: 1/2 / 0/1; a transition received and reconciled for a patient not seen in the period: 1/1 / 0/0; each stage |
+| EHR4B-D09 (fixed, EHR-4c) | 2 (`SecureMessaging`) | A message from the patient of any date counts | A message sent by the patient to the EP during the reporting period: `Stage2_EPCore_17_UseSecureElectronicMessaging` (October 2012) | A patient seen whose only message is of the year before: 0/1 / 1/1 |
+| EHR4B-D10 (fixed, EHR-4c) | MS2 (`Education`) | Education events of any date count | Within the reporting period when it is a full calendar year (`MedicaidEPModStage2_2018_Obj6`, Additional Information); the 2017 edition: no earlier than the start of the period's calendar year | Resources given only the year before: 0/1 / 1/1. (The Stage 1 and Stage 2 sheets give no time, so those stages are not compared.) |
+| EHR4B-D11 (fixed, EHR-4c) | 1, 2 (`Lab`) | Every lab order by the EP in the period is in the denominator | Only tests whose results are a positive or negative affirmation or a number: `2_Clinical_Lab_Test_Results` (May 2014), `Stage2_EPCore_10` (November 2014) | A test with a free-text result: 0/0 / 0/1, both stages |
 | EHR4B-D12 | MS2 (`SummaryOfCare`, `VitalSigns`, `Smoking`, `Demographics`) | Calculated, with Stage 2's queries and thresholds (50, 80, 80, 80) | No sheet: the 2015-2017 rule removed these objectives; neither the 2018 nor the 2017 edition has them (Obj5 has only the electronic exchange) | No number: `ModifiedStage2_TheMeasuresWithNoSheet_CountAsStage2Does_D12` checks they equal Stage 2's on the fixture; D03 applies to MS2's `Smoking` too |
 | EHR4B-D13 | 1 (`CPOE_PreviouslyOrdered`) | Calculated: the patients for whom the EP previously ordered medications (the engine's comment names CMS FAQ #3257), 30 | No sheet: `1_CPOE_for_Medication_Orders` (May 2014) has the two numerators and denominators only; the FAQ is not in the batches | No number; the golden numbers cover it |
 | EHR4B-D14 | all | Not calculated (`SelectAllMu2` and `SelectAllMu2Mod` remove the types the engine has for them) | Yes/no attestations and public health: Stage 1 (May 2014) `1_Drug_Formulary_Checks`, `2_Drug_Interaction_ChecksEP`, `3_Patient_Lists`, `9_Immunization_Registries_Data_Submission`, `10_Syndromic_Surveillance_Data_SubmissionEP`, `11_Clinical_Decision_Support_Rule`, `15_Core_ProtectElectronicHealthInformation`; Stage 2 `Stage2_EPCore_6_ClinicalDecisionSupport`, `_9_ProtectElectronicHealthInfo`, `_11_PatientLists`, `_16_ImmunizationRegistriesDataSubmission`, `Stage2_EPMenu_1_SyndromicSurveillanceDataSub`, `_5_ReportCancerCases`, `_6_ReportSpecificCases`, and `Stage2_EPCore_15` MEASURE 3; MS2 `Obj1` (security risk analysis), `Obj2` (both CDS measures, drug interaction checks), `Obj10` (public health). Rules inside computed measures: e-prescribing's formulary query (`Stage2_EPCore_2`, `MedicaidEPModStage2_2018_Obj4`: the engine counts prescriptions sent electronically and has no record of the query); Stage 2 e-prescribing's second denominator (with controlled substances) is not offered. The 2013 Stage 1 edition's `2013DefinitionEP_12_Electronic_Copy_of_Health_Information` is not calculated, which agrees with the May 2014 edition (it replaced it by patient electronic access) | No number |
-| EHR4B-D15 | 1, 2, MS2 (`ElectronicCopyAccess`); 2 (`ClinicalSummaries`) | Compares the event's date and time (`PIn.Date` keeps the time) with a deadline at midnight of the last day, so an event during the last day misses (Stage 1's clinical summaries compare dates in SQL and are not affected) | The last business day counts: within 4 business days (the sheets of D01); within one business day (`Stage2_EPCore_8`) | Seen Monday, access Friday 11:00 (the fourth business day): 1/1 / 0/1, each stage; a summary the next business day at 11:00 (Tuesday after a Monday visit, Monday after a Friday visit): 1/1 / 0/1 each |
+| EHR4B-D15 (fixed, EHR-4c) | 1, 2, MS2 (`ElectronicCopyAccess`); 2 (`ClinicalSummaries`) | Compares the event's date and time (`PIn.Date` keeps the time) with a deadline at midnight of the last day, so an event during the last day misses (Stage 1's clinical summaries compare dates in SQL and are not affected) | The last business day counts: within 4 business days (the sheets of D01); within one business day (`Stage2_EPCore_8`) | Seen Monday, access Friday 11:00 (the fourth business day): 1/1 / 0/1, each stage; a summary the next business day at 11:00 (Tuesday after a Monday visit, Monday after a Friday visit): 1/1 / 0/1 each |
+| EHR4B-D16 (fixed, EHR-4c) | 1 (`ClinicalSummaries`) | Deadline: the visit plus 5 days after a Wednesday, Thursday or Friday, plus 3 otherwise, so a Saturday visit's deadline is the Tuesday (found by EHR-4c; no EHR-4b case had a Saturday visit) | Within three business days: `13_Clinical_Summaries` (May 2014): after a Saturday, the Wednesday | Seen Saturday 8 March, the summary Wednesday 12 March: 1/1 / 0/1 |
 
 **Proposed, checked and not listed.** Attempt A's "Stage 1 access threshold 50 against the 2013 sheet's at least 10": the May 2014 edition
 (`11_Patient_Electronic_Access-`) says more than 50 percent, the engine's threshold; the April 2013 sheet's "at least 10 percent"
@@ -420,3 +423,131 @@ both runs no `ehr4b_` database was left on the server.
   `Fixtures/MeasureSpecFixture.cs`); the golden file is not an item. `tools/project-baseline` is re-recorded at the next gate.
 - **Plan section 10.2** names `tests/EhrTests/Support/MeasureCalcFixture.cs` as EHR-4b's; it was not needed and not edited (EHR-4b builds its
   own fixture under `tests/EhrTests/Fixtures/`).
+
+## EHR-4c: the engine fixed to the sheets
+
+Package EHR-4c, assigned by the lead after EHR-4b (plan section 9.3), on branch `ehr/ehr4c-1` from `main` `282bfa06c`. Each numeric
+deviation of EHR-4b's list now gives the latest sheet's numbers, in the audit tables of `GetTable` (Stage 1), `GetTableMu2` (Stage 2) and
+`GetTableMu2Mod` (Modified Stage 2). Those tables are what `SelectAll`, `SelectAllMu2` and `SelectAllMu2Mod` count and what the Measure Calc
+detail lists (`GetAuditTable`; `AuditTables_AreWhatTheSelectAllCallsCount` checks it for all 56 measures), so the window's numbers and its
+patient lists follow the same rules. Files: `OpenPmsDentalBusiness/Data Interface/EhrMeasures.cs` (edited byte for byte, so the `0x92`
+byte and the CRLF line ends are kept), `tests/EhrTests/MeasureSpecTests.cs`, `tests/EhrTests/Fixtures/MeasureSpecGolden.txt`, this
+section and the marks in the list of section 3 above, the plan and `docs/release-notes/next.md`. **No schema change; no saved row is
+changed** (the engine writes nothing; the `ehrmeasure` rows stay as they are). No project file was edited.
+
+The sheets are those of EHR-4b's "Public basis" (batches M and M2 of 2026-11-14, read as data); the latest edition decides.
+
+### 1. Each deviation fixed
+
+Three private helpers, beside `GetProvsOrNone`, each with `Meth.NoCheckMiddleTierRole()` and called only from the three Middle Tier
+methods: `AddBusinessDays` (the day N business days, Monday to Friday, after a date, the date's own day being day 0; the time dropped),
+`IsOnlineAccessTimely` and `GetMedReconcileTransitions`.
+
+| ID | Stages | The fix | The test (the sheet's numbers; the engine's before) |
+|---|---|---|---|
+| D01 | 1, 2, MS2 (`ElectronicCopyAccess`) | The deadline is `AddBusinessDays(first visit in the period, 4)`: seen Monday, the Friday; Tuesday, the next Monday; Saturday, the Thursday. The three stages share `IsOnlineAccessTimely`. Stage 1's query now takes the first access provided (`MIN`), as Stage 2's and Modified Stage 2's did; its join kept any one of several | `OnlineAccess_ATuesdayVisit_TheNextMondayIsTheFourthBusinessDay_D01`: 1/1 each stage (was 0/1) |
+| D02 | 2 (`ClinicalSummaries`) | Each visit (patient and day) is joined with the summaries of its own day or later and takes the first of them, not the patient's first summary ever; met when that one is no later than `AddBusinessDays(visit, 1)` | `ClinicalSummaries_Stage2_ASummaryOfAnEarlierVisit_DoesNotCountForALaterOne_D02`: 1/2 (was 2/2) |
+| D03 | 1, 2 (and MS2, D12) (`Smoking`) | `HAVING MIN(Birthdate)<=MAX(ProcDate)-INTERVAL 13 YEAR`: 13 or older at the last visit with the EP in the period, in place of today's date | `Smoking_APatientOf12AtTheVisit_IsNotInTheDenominator_D03`: 0/0 in Stage 1, Stage 2 and Modified Stage 2 (was 0/1) |
+| D04 | 1 (`VitalSigns`) | The same with 2 years | `VitalSigns_AnInfantOf1_IsInNoDenominatorOfAge2_D04`: 0/0 (was 0/1) |
+| D06 | 1 (`Reminders`) | `Birthdate > start - 6 years`: 5 years old or younger (the sixth birthday not yet reached) at the start of the period; 65 or older is unchanged | `Reminders_Stage1_AChildOf5AllYear_IsInTheDenominator_D06`: 1/1 (was 0/0) |
+| D07 | 2 (`Reminders`) | The two office visits of the 24 months before the period are completed procedures of the EP's providers on two different days; the condition that the EP is the primary provider is removed. Kept: a birthdate entered and the status Patient (the sheet says nothing of them; they are not in the list) | `PreventiveCare_Stage2_TheVisitsAreWithTheEP_NotThePrimaryProvider_D07`: `Rem2.OtherPrimary` 1/1 (was 0/0), `Rem2.VisitsWithOther` 0/0 (was 1/1) |
+| D08 | 1, 2, MS2 (`MedReconcile`) | `GetMedReconcileTransitions`: one row per transition of care received by the EP in the period, whether or not the patient had a visit: an incoming referral (`RefFrom`) marked as a transition of care and dated in the period, whose provider is one of the EP's, or which names none (`ProvNum` 0 or below: the referral window saves -1 on every incoming referral, `FrmRefAttachEdit`) for a patient whose primary provider is one of the EP's. A reconciliation event in the period counts for one transition: the latest one not yet reconciled dated on or before its day (the program's reconciliation events carry no link to a referral). Each row's explanation names the transition's date and the reconciliation's | `MedReconcile_TheDenominatorCountsTransitions_NotPatientsSeen_D08`: `MedRec.TwoOne` 1/2 (was 0/1), `MedRec.NoVisit` 1/1 (was 0/0), each stage |
+| D09 | 2 (`SecureMessaging`) | The patient's message must be dated in the period (and the first such message is taken, where the join kept any) | `SecureMessaging_Stage2_AMessageOfTheYearBefore_DoesNotCount_D09`: 0/1 (was 1/1) |
+| D10 | MS2 (`Education`) | Education events from 1 January of the period's first year to 31 December of its last: `MedicaidEPModStage2_2018_Obj6` (July 2018), Additional Information, counts the action within the period when it is a full calendar year, otherwise within the calendar year in which the period occurs; both are that calendar year for a period inside one year. Stage 1 and Stage 2 are unchanged (their sheets give no time) | `Education_ModifiedStage2_ResourcesOfTheYearBefore_DoNotCount_D10`: 0/1 (was 1/1) |
+| D11 | 1, 2 (`Lab`) | An `ehrlab` order whose results are all neither a number (`NM`, `SN`) nor a coded positive/negative result of the engine's list is left out of the denominator; an order with no result yet stays in and is missed, as before; the older `medicalorder` lab orders are as before. The denominator text says so ("except those whose results are neither positive/negative nor numeric"; also Modified Stage 2's, which does not calculate `Lab`) | `LabResults_AFreeTextResult_IsNotInTheDenominator_D11`: 0/0 both stages (was 0/1) |
+| D15 | 1, 2, MS2 (`ElectronicCopyAccess`); 2 (`ClinicalSummaries`) | With D01 and D02: a deadline is a date, and the event's date is compared with it (`.Date`), so an event at any time of the last business day counts | `OnlineAccess_OnTheFourthBusinessDay_IsTimely_D15`: 1/1 each stage (was 0/1); `ClinicalSummaries_Stage2_ASummaryDuringTheNextBusinessDay_IsWithinOne_D15`: `ClinSum.NextDay`, `ClinSum.FridayMonday` 1/1 each (was 0/1) |
+| D16 | 1 (`ClinicalSummaries`) | Found by EHR-4c and fixed in the review round (`ehr/ehr4c-3`): Stage 1's SQL deadline gives a Saturday visit 4 days (the Wednesday); Wednesday to Friday keep 5 and Sunday to Tuesday 3, which were right. Still compared by date in SQL. Two fixture patients were added for it (`ClinSum.SaturdayWednesday`, `ClinSum.SaturdayThursday`, seen Saturday 8 March) | `ClinicalSummaries_Stage1_ASaturdayVisit_TheWednesdayIsTheThirdBusinessDay_D16`: Wednesday 1/1 (was 0/1), Thursday (the fourth business day) 0/1; Stage 2 (one business day, the Monday) 0/2 |
+
+**The day of the age (D03, D04).** No sheet of the batches names a day other than the visit: the latest editions define the denominators
+as "unique patients age 13 or older seen by the EP during the EHR reporting period" (`9_Record_Smoking_Status`, May 2014;
+`Stage2_EPCore_5_RecordSmokingStatus`, October 2012) and "unique patients age 2 or over seen by the EP during the EHR reporting period"
+(`2013DefinitionEP_8_Record_Vital_Signs`, April 2013, the first denominator). The engine takes the age at the patient's last visit with
+the EP in the period, the oldest the patient is at any visit counted, which is also the day the engine's own exclusion counts already
+use ("at the time of their last visit"). The Stage 1 reminders sheet (`4_Patient_Reminders`, May 2014) names no day and counts patients
+not seen in the period, so D06 keeps the engine's day, the start of the period.
+
+### 2. Kept as they were
+
+As the owner's no-cut rule says: **D05** (Stage 1's 2013-edition `VitalSigns` beside `VitalSigns2014`), **D12** (the four Modified Stage 2
+measures with no sheet: they still count as Stage 2's, and D03's fix applies to Modified Stage 2's `Smoking` too, which
+`ModifiedStage2_TheMeasuresWithNoSheet_CountAsStage2Does_D12` checks), **D13** (`CPOE_PreviouslyOrdered`). **D14** (yes/no attestations and
+rules the engine has no record of) stays not calculated. Exclusion counts and thresholds are unchanged.
+
+### 3. The golden numbers that moved
+
+`Fixtures/MeasureSpecGolden.txt` recorded again from the first EHR-4c run (its comment says so). 16 of the 56 lines moved, each by a
+fixed deviation; no threshold and no exclusion count moved:
+
+| Line | Before | After | Why |
+|---|---|---|---|
+| `SelectAll VitalSigns` | 1/81 | 1/80 | D04: `Vs.Infant` (1 at the visit) is in no denominator |
+| `SelectAll Smoking`, `SelectAllMu2 Smoking`, `SelectAllMu2Mod Smoking` | 1/81 | 1/76 | D03: the five patients under 13 at their visit (`Vs.Child2`, `Vs.Infant`, `Smoke.Age12`, `Rem1.Child3`, `Rem1.Age5`) leave; 76 is now the exclusion count's own number of patients 13 or older at their last visit |
+| `SelectAll Lab`, `SelectAllMu2 Lab` | 3/8 | 3/7 | D11: `Lab.Text` leaves |
+| `SelectAll Reminders` | 2/5 | 3/6 | D06: `Rem1.Age5` (5 all year, reminded) joins |
+| `SelectAll MedReconcile`, `SelectAllMu2 MedReconcile`, `SelectAllMu2Mod MedReconcile` | 1/3 | 3/5 | D08: a row per transition (`MedRec.TwoOne` is 1 of 2) and `MedRec.NoVisit` (1 of 1) joins |
+| `SelectAll ElectronicCopyAccess`, `SelectAllMu2 ElectronicCopyAccess`, `SelectAllMu2Mod ElectronicCopyAccess` | 2/81 | 4/81 | D01: `Access.TuesdayMonday` met; D15: `Access.Friday` met |
+| `SelectAllMu2 ClinicalSummaries` | 3/82 | 4/82 | D15: `ClinSum.NextDay` and `ClinSum.FridayMonday` met (+2); D02: the second visit of `ClinSum.TwoVisits` missed (-1) |
+| `SelectAllMu2 SecureMessaging` | 2/81 | 1/81 | D09: `Msg.Before` (a message of 2013 only) missed |
+| `SelectAllMu2Mod Education` | 2/81 | 1/81 | D10: `Edu.Before` (resources of 2013 only) missed |
+
+`SelectAllMu2 Reminders` stays 2/3 with other patients (D07): `Rem2.OtherPrimary` (met) joins, `Rem2.VisitsWithOther` (met) leaves.
+
+**Recorded again for D16 (review round, 2026-11-15, `ehr/ehr4c-3`).** The two Saturday patients are seen by the EP, so 31 of the 56
+lines moved, each by them; no threshold moved:
+
+| Lines | Before | After | Why |
+|---|---|---|---|
+| Every measure of unique patients seen (`ProblemList`, `Demographics`, `ElectronicCopyAccess` and the rest, all three stages) | N/81 (`VitalSigns` 1/80, `VitalSignsBPOnly` 2/79, `Smoking` 1/76) | N/83 (1/82, 2/81, 1/78) | The two patients join each denominator, met in none. The exclusion counts that count the EP's patients moved by 2 with them (79 to 81, 82 to 84, 76 to 78) |
+| `SelectAll ClinicalSummaries` | 5/82 | 6/84 | D16: `ClinSum.SaturdayWednesday` met (the Wednesday is the third business day), `ClinSum.SaturdayThursday` missed (the fourth) |
+| `SelectAllMu2 ClinicalSummaries` | 4/82 | 4/84 | Both missed: one business day after a Saturday is the Monday |
+
+The numerators of the other lines and the visit-based lines (`ProvOrderEntry`, the CPOE lines, `Rx`, `Lab`, `Reminders`, `MedReconcile`,
+`SummaryOfCare`, `LabImages`) did not move.
+
+### 4. Tests
+
+`MeasureSpecTests.cs`, 37 tests (36, and D16's of the review round), all pass, none Inconclusive. The 12 deviation tests keep their names (each ends in its ID) and assert the
+sheet's numbers with `SpecCheck.Sheet`; each comment says what the engine gave before. D03's test also checks Modified Stage 2.
+`SpecCheck.Deviation` stays, unused, for the next deviation found. The fixture (`Fixtures/MeasureSpecFixture.cs`) was unchanged in the first round: every case
+of EHR-4b's list was there; the review round added D16's two Saturday patients (and D16's test, and two weekday checks in
+`Fixture_TheWeekdaysTheBusinessDayCasesNeed_AndTheEnginesCodesReadAtRunTime`), as the review finding asked. `MeasureCalcTests.cs` is unchanged: none of its expected numbers moved (its fixture asserts only `ProblemList`'s
+2/4 and that the window gives what the three calls give; `ProviderWithNoKeyRow_NoSqlError_DenominatorZero` still finds 0 everywhere: the
+new reconciliation query reads a referral's provider only when it is positive, so the guard's `-1` never meets an incoming referral's
+`-1`). Nothing else in `tests/EhrTests` changed, and no test assembly was added.
+
+### 5. Found, not fixed (for the lead)
+
+- **Stage 1 clinical summaries on a Saturday** (found here, fixed in the review round as EHR4B-D16; see section 1 and the list).
+- **The EHR window's Stage 1 clinical summaries** (`GetMu`) have the same Saturday rule (3 days, plus 2 only after a Wednesday to Friday
+  visit). It is not the Measure Calc window and keeps its own rules (next item), so the review round left it.
+- **Holidays.** Business days are Monday to Friday, as the brief says; no sheet defines a holiday calendar.
+- **The fixture's header comment** (`Fixtures/MeasureSpecFixture.cs`, lines 13-16) still says the engine takes two ages on today's date;
+  the brief kept that file out of this package. The guard it describes still holds, and the test's own comment now says why it stays.
+- **The EHR window's per-patient summaries** (`GetMu`, `GetMu2`, `GetMu2Mod`) keep their own rules (the last year from today, today's
+  age); they are not the Measure Calc window and were not in the list.
+
+### 6. Build and test record
+
+Full lane build of `OpenDental.Local.slnf` (Debug|x86) at `d75cd52ee`: 0 errors; the warnings are the existing ones, none in a changed
+file. Then `run-tests.ps1 -Mode Targeted` (result files in `.git/od-tools/test-results/` of the main checkout):
+
+| Run | EhrTests | NoHqTests | MiddleTierMockTests |
+|---|---|---|---|
+| `ehr4c-run1.txt` (engine and tests committed, the golden file not yet recorded; `-Include EhrTests,NoHqTests`) | 250: 249 passed, 1 failed: the golden test, whose message gave the lines now recorded. Every deviation test passed on this first run | not built yet in this worktree (built by the full build) | not run |
+| `ehr4c-final.txt` (after the full build; `-Include EhrTests,NoHqTests,MiddleTierMockTests`) | 250 of 250 passed (MeasureSpecTests 36; none skipped or inconclusive) | 57 of 57 passed | 125 of 125 passed (its Middle Tier rules accept the three private helpers) |
+
+Review round (`ehr/ehr4c-3`, D16), full lane build of `OpenDental.Local.slnf` at `eabc4e6f1` (the engine fix and the test): 0 errors.
+`ehr4c3-run1.txt` (`-Include EhrTests,NoHqTests,MiddleTierMockTests`): EhrTests 251, 250 passed, 1 failed: the golden test, whose message
+gave the lines then recorded (D16's test passed); NoHqTests 57 of 57; MiddleTierMockTests 125 of 125. `ehr4c3-run2.txt` (the same, after
+the golden file): EhrTests 251 of 251 (MeasureSpecTests 37), NoHqTests 57 of 57, MiddleTierMockTests 125 of 125.
+
+No `ehr` scratch database was left on the server after the runs. EHR-4c adds no database test: the runs build EhrTests' existing
+`ehr1_`, `ehr4a_` and `ehr4b_` scratch databases, each dropped by its class. `InitSqlTests` and `ForkMigrationTests` were not run (no
+schema change).
+
+### 7. For the lead
+
+- **Release notes**: one bullet in `docs/release-notes/next.md`, section "EHR: the Meaningful Use measures window (Measure Calc)".
+- **Project baseline**: no item added or removed.
+- **Choices made here, for review**: D08 counts an incoming referral that names no provider for the patient's primary provider (the
+  program records no receiving provider on incoming referrals); D06 keeps the start of the period as the day of the age.
