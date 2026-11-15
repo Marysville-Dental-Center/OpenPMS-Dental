@@ -715,9 +715,13 @@ carries (owner rule: always the latest version).
 ### Decisions
 
 - **O-16.** Approve the TWAINDSM 2.5.1 download. The download rule of 2026-11-14 may already cover it. Take both the 64-bit and the 32-bit DLLs.
-- **The 32-bit TWAINDSM.** Should the setup also install the 32-bit TWAINDSM into SysWOW64? S3b-7 names only the 64-bit one.
-- **DirectX** (owner-questions.md:23). Chain Microsoft's June 2010 End-User Runtime, or ship the x64 D3DX9_43.dll app-local. The app-local way needs counsel's view of the package licence next to the GPL 3.0.
-- **System.IO.Ports.** Approve the package, for Topaz serial pads. TerminalConnector probably needs the same approval.
+- **The 32-bit TWAINDSM.** Should the setup also install the 32-bit TWAINDSM into SysWOW64? S3b-7 names only the 64-bit one. **Answered
+  2026-11-15: yes**; S3b-7 installs both.
+- **DirectX** (owner-questions.md:23). Chain Microsoft's June 2010 End-User Runtime, or ship the x64 D3DX9_43.dll app-local. **Answered
+  2026-11-15: neither** ("we can get rid of Directx after our switch"): TC-8, TC-9a and TC-9b land before the 64-bit build, so it
+  carries no SharpDX and needs no D3DX. B1's SharpDX check and B2 (S3b-3's SharpDX version) fall away; no counsel question.
+- **System.IO.Ports.** Approve the package, for Topaz serial pads. TerminalConnector probably needs the same approval. **Approved
+  2026-11-15** (both).
 - **Optional, Trojan.** Should the program also look under `SOFTWARE\Trojan` and in the 64-bit view?
 
 ### Vendor questions (optional; the owner's contacts)

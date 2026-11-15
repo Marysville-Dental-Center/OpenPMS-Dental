@@ -1004,8 +1004,15 @@ and E-10b), where each is set out in full with its recommendation. You first ans
 
 - **Treatment plan grid's right-click menu** (S3a-M3a, [port-notes/S3a-M3.md](port-notes/S3a-M3.md)). In the Treatment Plan edit window,
   upstream's code meant to offer "Go To Appointment" and "Go To Planned Appointment" on a right-click, but an empty menu hid them, so only
-  Copy Cell Text and Copy Rows showed. After the menu conversion they show, above Copy Cell Text. Recommended: keep them (it is what the
-  code was written to do, and no function is lost). Or hide them again as before?
+  Copy Cell Text and Copy Rows showed. After the menu conversion they show, above Copy Cell Text. **Answered on 2026-11-15: keep them.**
+
+- **Survey section 5 (answered on 2026-11-15).** "32-bit TWAIN manager: yes. System.IO.Ports: approve." and "we can get rid of Directx
+  after our switch". So: S3b-7's setup installs the 32-bit TWAINDSM 2.5.1 into SysWOW64 as well as the 64-bit one into System32; the
+  System.IO.Ports package is approved (Topaz serial pads on .NET 10, and the dial-up terminal); and no DirectX runtime is shipped or
+  chained. DirectX was only for the old DirectX tooth chart and the graphical perio gate: TC-8 moves both to the WPF chart (drawn in
+  software on every PC), TC-9a and TC-9b then delete the old engines with SharpDX and Tao, and with no bridge release all three land on
+  `main` before the 64-bit build, which never carries DirectX. TC-9a follows TC-8 directly; the office check (the chart's image tests
+  on one PC of the office's graphics type, no database) stays as a launch check before the office switches.
 
 - **Trojan's registry key names** (N64-A, [port-notes/N64-A.md](port-notes/N64-A.md)). Trojan's install folder is now looked up under
   Software\TROJAN BENEFIT SERVICE (as before) and also under Software\Trojan (the name Open Dental's manual gives), in the 32-bit and then
