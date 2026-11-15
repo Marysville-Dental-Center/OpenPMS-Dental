@@ -255,7 +255,7 @@ stays in the database and is not read.
 | Gate (file:line) | Today | Becomes | Package |
 |---|---|---|---|
 | Saving a key, `FormEhrProviderKeyEdit.cs:50` | `ProvKeyIsValid` is false, so "Invalid provider key" | Valid when the last and first names are not blank, a provider has exactly those names (the comparison the measure SQL uses, `EhrMeasures.cs:333-338`), and the year has two digits (already checked at `:44-49`). The key text is optional and stored as typed. The message names the missing provider. New `EhrProvKeys.GetSaveError` | EHR-1 |
-| CQM provider lists, `FormEhrQualityMeasures.cs:38`, `FormEhrQualityMeasures2014.cs:43` | Nobody is listed: "No providers found with ehr keys." | Listed when `EhrProvKeys.HasProvHadKey(LName,FName)` (`EhrProvKeys.cs:50`): any row for those names, any year. The message says where to add them | EHR-5 (E-10) |
+| CQM provider lists, `FormEhrQualityMeasures.cs:38`, `FormEhrQualityMeasures2014.cs:43` | Nobody is listed: "No providers found with ehr keys." | Listed when `EhrProvKeys.HasProvHadKey(LName,FName)` (`EhrProvKeys.cs:50`): any row for those names, any year. The message says where to add them | none: EHR-6b deletes both windows (2027 plan, owner decisions 2 and 4) |
 | SNOMED "Map to ICD9", `FormSnomeds.cs:33-49` | Hidden unless the logged-on user is a provider with a valid key ("to prevent Snomeds from being used in non-member nations") | Shown when the user has the Setup permission and the `snomed` table has rows. The office imports SNOMED under its own licence (E-6) | EHR-1 |
 | EHR window labels, `FormEHR.cs:45-56` | "(no ehr provider key entered)" | "(not marked for EHR reporting)". The same row test | EHR-1 |
 | CPOE, `Userods.cs:464`; lab windows, `FormEhrLabOrders.cs:116`, `FormEhrLabOrderEdit2014.cs:531`, `FormEhrLabOrderImport.cs:179` | Row tests that already work | Unchanged. Adding a row turns CPOE on for that provider's user at 9 call sites, as in Open Dental | none |
@@ -647,7 +647,7 @@ The key was a licence check, but it was also the only thing that kept these acti
 
 ### EHR-4a Measure Calc window
 
-- **Status (2026-11-14).** Written on `ehr/ehr4a-1`; both review rounds passed; the lead fix round is on `ehr/ehr4a-2`, not merged:
+- **Status (2026-11-14).** Merged as `d33a8f330` (`ehr/ehr4a-2`: both review rounds passed, then the lead fix round and its review):
   `docs/port-notes/EHR-4.md` (EHR-4a part, with its deviations, launch checks and the lead fix round). No schema change.
 - **Goal.** The window behind "Measure Calc" (`FormEHR.designer.cs:61`), built on the open engine (section 9.1).
 - **Owns.**
@@ -989,7 +989,8 @@ The rows of the 2027 plan's section 13.3 are merged here (2026-11-14).
   - The fixture rule and a test that enforces it.
   - The import reads only the office's file. Counsel E-8 and E-9.
 - **Measure steward terms.** NCQA permits internal non-commercial use by providers but asks vendors who embed its measures for a licence.
-  - The engine was already distributed in v0.0. EHR-5 waits for counsel (E-10).
+  - The engine was already distributed in v0.0. The owner decided on 2026-11-14 that building the NCQA measures in this open-source
+    program is okay (E-10b); nothing waits for counsel, and E-10 is withdrawn (`docs/specs/ehr-2027-measures-plan.md`, E-40).
 - **The wrong value-set release.** A later release fills the lists with codes of later measure versions.
   - Section 8.1 names the release, and the importer checks the measure versions.
 - **The archived release is withdrawn, or its files differ from what the parsers expect.**

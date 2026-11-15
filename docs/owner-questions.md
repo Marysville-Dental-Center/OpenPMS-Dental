@@ -759,8 +759,8 @@ The questions of the EHR plan, [specs/ehr-rebuild-plan.md](specs/ehr-rebuild-pla
 - **Identity:** QRDA files carry this program's name and the office's identity instead of Open Dental's; HL7 follows later (E-15).
 - **Left out:** current measure versions, Stage 3 / MIPS and the newer C-CDA guide, which only count with certification (E-16);
   other EHR gaps, the radiology-orders alert and the unused measure columns become follow-ups or stay as they are (E-17 to E-19).
-- **Counsel (E-6, E-8 to E-11):** the work goes ahead and nothing licensed is shipped; the CQM reports (EHR-5) merge after
-  counsel answers E-10, and the other counsel answers are applied when they come (the code lists already in the engine stay until
+- **Counsel (E-6, E-8 to E-11):** the work goes ahead and nothing licensed is shipped; the CQM reports (EHR-5) no longer wait for
+  counsel: the owner decided on 2026-11-14 that the NCQA measures may be built (E-10b) and E-10 is withdrawn (2027 plan, E-40); the other counsel answers are applied when they come (the code lists already in the engine stay until
   counsel answers E-8 and E-9).
 
 ---
