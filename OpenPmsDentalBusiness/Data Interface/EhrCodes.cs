@@ -2190,18 +2190,27 @@ namespace OpenPmsDentalBusiness {
 				pick.ListRefusals.Add(file.FileName+": "+string.Join(" ",file.ListRefusals));
 			}
 			EhrValueSetFileKind[] arrayKinds=new[] { EhrValueSetFileKind.ValueSets,EhrValueSetFileKind.DirectReferenceCodes,EhrValueSetFileKind.CodeSystemVersions };
+			//Whether the pick itself is wrong (a kind missing or doubled, or other than three files), as against only a file refused for its own
+			//content (the 2026 release, for example): the latter is reported by the file's own refusal, which then comes first (section 7.2).
+			bool isPickWrong=pick.ListFiles.Count!=3;
 			foreach(EhrValueSetFileKind kind in arrayKinds) {
-				List<EhrValueSetFile> listOfKind=pick.ListFiles.Where(x => !x.IsRefused && x.Kind==kind).ToList();
-				if(listOfKind.Count==0) {
+				//A file of the kind that was refused for its content is still the pick's file of that kind: the kind is not missing.
+				if(!pick.ListFiles.Any(x => x.Kind==kind)) {
 					pick.ListRefusals.Add(Lans.g(LANS,"The pick has no file with")+" "+GetKindText(kind)+".");
+					isPickWrong=true;
+					continue;
 				}
-				else if(listOfKind.Count>1) {
+				List<EhrValueSetFile> listOfKind=pick.ListFiles.Where(x => !x.IsRefused && x.Kind==kind).ToList();
+				if(listOfKind.Count>1) {
 					pick.ListRefusals.Add(Lans.g(LANS,"The pick has more than one file with")+" "+GetKindText(kind)+": "
 						+string.Join(", ",listOfKind.Select(x => x.FileName))+".");
+					isPickWrong=true;
 				}
 			}
-			if(pick.ListFiles.Count!=3 || pick.ListRefusals.Count>0) {
+			if(isPickWrong) {
 				pick.ListRefusals.Insert(0,GetPickCountText(pick.ListFiles.Count));
+			}
+			if(pick.ListRefusals.Count>0) {
 				return pick;
 			}
 			pick.FileValueSets=pick.ListFiles.Single(x => x.Kind==EhrValueSetFileKind.ValueSets);
