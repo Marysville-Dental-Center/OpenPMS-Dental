@@ -186,8 +186,18 @@ namespace ToothChartHostTests {
 							Application.DoEvents();
 							System.Threading.Thread.Sleep(10);
 						}
+						//The computer's name in the title is this PC's: the picture gets a placeholder instead.
+						formGraphics.Text=formGraphics.Text.Replace(ComputerPrefs.LocalComputer.ComputerName,"SYNTHETIC-PC");
+						Application.DoEvents();
 						using(Bitmap bitmap=new Bitmap(formGraphics.Width,formGraphics.Height)) {
 							formGraphics.DrawToBitmap(bitmap,new Rectangle(0,0,bitmap.Width,bitmap.Height));
+							//A window's picture leaves out child controls that do not print themselves with their parent, so each control is drawn over
+							//its place, parents first; the chart is drawn below.
+							Point pointClient=formGraphics.PointToScreen(Point.Empty);
+							for(int i=formGraphics.Controls.Count-1;i>=0;i--) {
+								Control control=formGraphics.Controls[i];
+								DrawTree(control,bitmap,new Point(pointClient.X-formGraphics.Left+control.Left,pointClient.Y-formGraphics.Top+control.Top));
+							}
 							if(wrapper!=null) {
 								Bitmap bitmapPreview=wrapper.LiveViewWpf!=null ? wrapper.LiveViewWpf.GetBitmapForTests() : wrapper.ImageHostWpf?.GetBitmapShown();
 								if(bitmapPreview!=null) {
@@ -206,6 +216,26 @@ namespace ToothChartHostTests {
 				if(name.Contains("before")) {
 					break;//the window before TC-8 has no software switch
 				}
+			}
+		}
+
+		///<summary>Draws a control (DrawToBitmap) at pointOffset in bitmapTarget, then its children over it, back to front. A tooth chart and an
+		///ElementHost are left out: the caller draws the chart's own picture.</summary>
+		private static void DrawTree(Control control,Bitmap bitmapTarget,Point pointOffset) {
+			if(!control.Visible || control.Width<=0 || control.Height<=0 || control is ToothChartWrapper
+				|| control is System.Windows.Forms.Integration.ElementHost)
+			{
+				return;
+			}
+			using(Bitmap bitmap=new Bitmap(control.Width,control.Height)) {
+				control.DrawToBitmap(bitmap,new Rectangle(0,0,bitmap.Width,bitmap.Height));
+				using(Graphics g=Graphics.FromImage(bitmapTarget)) {
+					g.DrawImageUnscaled(bitmap,pointOffset);
+				}
+			}
+			for(int i=control.Controls.Count-1;i>=0;i--) {
+				Control controlChild=control.Controls[i];
+				DrawTree(controlChild,bitmapTarget,new Point(pointOffset.X+controlChild.Left,pointOffset.Y+controlChild.Top));
 			}
 		}
 	}
