@@ -117,6 +117,11 @@ namespace ServiceManager {
 				if(errorCode!=0) {
 					MessageBox.Show("Error. Exit code: "+errorCode+"\r\n"+ServicesHelper.GetScErrorText(errorCode)+"\r\n"+standardOutput.Trim());
 				}
+				if(errorCode==ServicesHelper.ScErrorServiceExists) {
+					//A service with this name was already there: this click installed nothing, so its permissions are left as they are.
+					RefreshFormData();
+					return;
+				}
 			}
 			catch(Exception ex) {
 				MessageBox.Show("Unexpected error installing the service:\r\n"+ex.Message);

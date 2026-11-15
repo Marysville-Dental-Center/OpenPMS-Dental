@@ -71,8 +71,8 @@ namespace CodeBase {
 			return serviceProcessResult;
 		}
 
-		///<summary>The full path of sc.exe in the Windows system folder (SysWOW64 for a 32-bit process on 64-bit Windows, which has its own
-		///sc.exe), never a sc.exe found on the PATH or in the current folder.</summary>
+		///<summary>The full path of sc.exe in the Windows system folder: System32 (which file system redirection turns into SysWOW64 for a
+		///32-bit process on 64-bit Windows, which has its own sc.exe), never a sc.exe found on the PATH or in the current folder.</summary>
 		public static string GetScExePath() {
 			return Path.Combine(Environment.SystemDirectory,"sc.exe");
 		}
@@ -215,7 +215,10 @@ namespace CodeBase {
 				,GetScDeleteArguments(serviceName)
 				,out standardOutput
 				,out exitCode);
-			if(GetScErrorCode(exitCode,standardOutput)==0) {
+			int errorCode=GetScErrorCode(exitCode,standardOutput);
+			//Also stop a service already marked for deletion (1072): an earlier delete whose stop timed out leaves it running, and Windows removes
+			//it only once it has stopped.
+			if(errorCode==0 || errorCode==ScErrorServiceMarkedForDelete) {
 				FuncStopService(serviceName);
 			}
 		}

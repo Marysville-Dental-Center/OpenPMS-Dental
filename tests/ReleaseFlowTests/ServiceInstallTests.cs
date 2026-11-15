@@ -1,8 +1,8 @@
 // Windows services without InstallUtil (S3a-7 of the .NET 10 move, docs/port-notes/S3a-7.md): ServicesHelper.Install and Uninstall run
 // sc.exe create and sc.exe delete with the settings the HL7 service's ProjectInstaller gave through InstallUtil.exe. Safety: no test here
 // creates, deletes, starts, stops or configures a real Windows service, and none runs sc.exe. Every test replaces ServicesHelper's process
-// start, registry read and service stop with fakes that only record the calls, and puts the real ones back after it; a call that reaches a
-// process the fake does not expect fails the test.
+// start, registry read and service stop with fakes that only record the calls and answer with a canned result, and puts the real ones back
+// after it; the tests compare the recorded calls exactly, so an unexpected call fails them.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
 using System.Collections.Generic;
@@ -160,6 +160,22 @@ namespace ReleaseFlowTests {
 			Assert.IsFalse(_listCalls.Contains("stop|OpenPmsDentalHL7"),string.Join("; ",_listCalls));
 		}
 
+		///<summary>A service already marked for deletion (1072, an earlier delete whose stop timed out): the caller sees 1072 and the service is
+		///stopped, so that Windows removes it.</summary>
+		[TestMethod]
+		public void Uninstall_MarkedForDelete_StopsTheService() {
+			_imagePath=_pathHL7Exe;
+			_serviceProcessResult=new ServiceProcessResult {
+				StandardOutput="[SC] DeleteService FAILED 1072:\r\n\r\nThe specified service has been marked for deletion.\r\n",ExitCode=1072 };
+			ServicesHelper.Uninstall(ProgramNames.HL7ServiceName,out string standardOutput,out int exitCode);
+			CollectionAssert.AreEqual(new List<string> {
+				"imagepath|OpenPmsDentalHL7",
+				"run|"+ScExe+"|delete \"OpenPmsDentalHL7\"|",
+				"stop|OpenPmsDentalHL7",
+			},_listCalls,string.Join("; ",_listCalls));
+			Assert.AreEqual(ServicesHelper.ScErrorServiceMarkedForDelete,ServicesHelper.GetScErrorCode(exitCode,standardOutput));
+		}
+
 		///<summary>A MariaDB or MySQL service is removed as before: stopped, then mysqld.exe --remove from its bin folder, not sc.exe.</summary>
 		[TestMethod]
 		public void Uninstall_MySqlService_UsesMysqldRemove() {
@@ -197,10 +213,10 @@ namespace ReleaseFlowTests {
 			Assert.AreEqual(0,_listCalls.Count,string.Join("; ",_listCalls));
 		}
 
-		///<summary>The safety rule of these tests: the seams are the real ones again after each test (this one runs with the fakes in place
-		///and checks that SetUp kept the real ones to put back).</summary>
+		///<summary>The safety rule of these tests: SetUp keeps the real seams so that TearDown can put them back, and the fakes are in place
+		///while a test runs.</summary>
 		[TestMethod]
-		public void Seams_AreRestoredAfterEachTest() {
+		public void SetUp_KeepsTheRealSeams() {
 			Assert.IsNotNull(_funcRunProcessReal);
 			Assert.IsNotNull(_funcGetImagePathReal);
 			Assert.IsNotNull(_funcStopServiceReal);
