@@ -470,8 +470,8 @@ namespace CodeBase {
 		///the action it is in to its end in the background and starts no further action, so the actions not started yet never run.  This can leave data in an
 		///undefined state, for example, if an action times out before instantiating an object, the object will be null.
 		///If the action that calls this runs for a progress window that the user cancels (ODCancellation), the threads start no further action, the
-		///actions under way run to their end (their database writes stop at the next command, as on the calling thread, since the threads share its
-		///token), and then this method throws OperationCanceledException on the calling thread, so the caller stops too (S3a-1b).
+		///actions under way stop at their next database command as the calling thread does (the threads share its token; a unit run with
+		///ODCancellation.RunUncancellable finishes), and then this method throws OperationCanceledException on the calling thread (S3a-1b).
 		///Throws exception on main thread if any action throws and unhandled exception and no onException was provided.</summary>
 		public static void RunParallel(List<Action> listActions,TimeSpan timeout,int numThreads=0,ExceptionDelegate onException=null,bool isLegacy=false) {
 			RunParallel(listActions,(int)timeout.TotalMilliseconds,numThreads,onException,isLegacy:isLegacy);
@@ -485,8 +485,8 @@ namespace CodeBase {
 		///the action it is in to its end in the background and starts no further action, so the actions not started yet never run.  This can leave data in an
 		///undefined state, for example, if an action times out before instantiating an object, the object will be null.
 		///If the action that calls this runs for a progress window that the user cancels (ODCancellation), the threads start no further action, the
-		///actions under way run to their end (their database writes stop at the next command, as on the calling thread, since the threads share its
-		///token), and then this method throws OperationCanceledException on the calling thread, so the caller stops too (S3a-1b).
+		///actions under way stop at their next database command as the calling thread does (the threads share its token; a unit run with
+		///ODCancellation.RunUncancellable finishes), and then this method throws OperationCanceledException on the calling thread (S3a-1b).
 		///Throws exception on main thread if any action throws and unhandled exception and no onException was provided.</summary>
 		public static void RunParallel(List<Action> listActions,int timeoutMS=Timeout.Infinite,int numThreads=0,ExceptionDelegate onException=null,
 			bool doRunOnCurrentThreadIf1Processor=false,bool isLegacy=false) 
@@ -596,8 +596,8 @@ namespace CodeBase {
 		///the action it is in to its end in the background and starts no further action, so the actions not started yet never run.  This can leave data in an
 		///undefined state, for example, if an action times out before instantiating an object, the object will be null.
 		///If the action that calls this runs for a progress window that the user cancels (ODCancellation), the threads start no further action, the
-		///actions under way run to their end (their database writes stop at the next command, as on the calling thread, since the threads share its
-		///token), and then this method throws OperationCanceledException on the calling thread, so the caller stops too (S3a-1b).
+		///actions under way stop at their next database command as the calling thread does (the threads share its token; a unit run with
+		///ODCancellation.RunUncancellable finishes), and then this method throws OperationCanceledException on the calling thread (S3a-1b).
 		///Throws exception on main thread if any action throws and unhandled exception and no onException was provided.</summary>
 		private static Exception RunParallelImproved(List<Action> listActions,int timeoutMS,int threadCount,CancellationToken cancellationToken) {
 			Exception exceptionFirst=null;
