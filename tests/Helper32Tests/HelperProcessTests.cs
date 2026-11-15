@@ -75,6 +75,37 @@ namespace Helper32Tests {
 		}
 
 		[TestMethod]
+		public void Call_AStringTheProtocolCannotEncode_IsAProtocolError_AndNothingIsSent() {
+			//S3a-14f: the strict UTF-8 throws EncoderFallbackException for a lone surrogate (note text cut in the middle of an emoji), which Call
+			//let through before. The message is built in memory first, so nothing reaches the helper, which keeps answering in order.
+			HelperCopy helperCopy=NewCopy();
+			using(Helper32Client client=NewClient(helperCopy)) {
+				Assert.AreEqual("1",client.Call(FakeModule.MODULE,"Count",_timeSpanCall)[0]);
+				int processId=client.ProcessId;
+				foreach(string value in new[] { "note \uD83D","\uDE00 note" }) {
+					Helper32Exception exception=Assert.ThrowsExactly<Helper32Exception>(() => client.Call(FakeModule.MODULE,"Echo",new[] { "ok",value },
+						null,_timeSpanCall));
+					Assert.AreEqual(Helper32Failure.Protocol,exception.Failure);
+					StringAssert.StartsWith(exception.Message,"A text of Test Echo cannot be sent to the 32-bit helper program: ");
+					StringAssert.EndsWith(exception.Message," Nothing was sent.");
+					Assert.IsInstanceOfType(exception.InnerException,typeof(EncoderFallbackException));
+				}
+				Assert.ThrowsExactly<Helper32Exception>(() => client.CallPumping(FakeModule.MODULE,"Echo",new[] { "\uD83D" },null,_timeSpanCall,
+					isReactivating:false),"The pumping call too (Schick's and the signing window's).");
+				Assert.AreEqual("2",client.Call(FakeModule.MODULE,"Count",_timeSpanCall)[0],"The same helper, in step: none of those requests reached it.");
+				Assert.AreEqual(processId,client.ProcessId);
+				//A whole emoji is well-formed and crosses as before.
+				CollectionAssert.AreEqual(new[] { "emoji 😀" },client.Call(FakeModule.MODULE,"Echo",_timeSpanCall,"emoji 😀"));
+				//A reply the helper cannot encode: the helper answers with the reason instead of ending.
+				Helper32Exception exceptionReply=Assert.ThrowsExactly<Helper32Exception>(() => client.Call(FakeModule.MODULE,"LoneSurrogate",_timeSpanCall));
+				Assert.AreEqual(Helper32Failure.Remote,exceptionReply.Failure);
+				Assert.AreEqual(typeof(EncoderFallbackException).FullName,exceptionReply.RemoteTypeName);
+				Assert.AreEqual("3",client.Call(FakeModule.MODULE,"Count",_timeSpanCall)[0]);
+				Assert.AreEqual(processId,client.ProcessId);
+			}
+		}
+
+		[TestMethod]
 		public void Call_HelperEndsDuringTheCall_IsReportedOnce_AndTheNextCallStartsANewHelper() {
 			HelperCopy helperCopy=NewCopy();
 			using(Helper32Client client=NewClient(helperCopy)) {

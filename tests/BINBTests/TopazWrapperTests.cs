@@ -433,6 +433,160 @@ namespace BINBTests {
 			}
 		}
 
+		///<summary>Runs action on an STA thread, as the program's UI thread (the signing window's call waits there with its messages dispatched),
+		///and rethrows what it threw.</summary>
+		private static void RunOnSta(Action action) {
+			Exception exceptionThread=null;
+			System.Threading.Thread thread=new System.Threading.Thread(() => {
+				try {
+					action();
+				}
+				catch(Exception exception) {
+					exceptionThread=exception;
+				}
+			});
+			thread.SetApartmentState(System.Threading.ApartmentState.STA);
+			thread.IsBackground=true;
+			thread.Start();
+			Assert.IsTrue(thread.Join(120000),"The STA thread ends.");
+			if(exceptionThread!=null) {
+				System.Runtime.ExceptionServices.ExceptionDispatchInfo.Capture(exceptionThread).Throw();
+			}
+		}
+
+		///<summary>A copy of the helper whose Topaz module is FakeTopazModule (its signing command answers without a window), for action; the
+		///copy is ended and deleted afterwards, and no process of it may be left.</summary>
+		private static void WithFakeTopazModule(Action<Helper32Client> action) {
+			HelperCopy helperCopy=HelperCopy.Create();
+			try {
+				using(Helper32Client helper32Client=new Helper32Client(helperCopy.PathExe,FakeTopazModule.ARGS)) {
+					TopazWrapper.ResetLoader(new List<string> { _folderFake },helper32Client);
+					try {
+						RunOnSta(() => action(helper32Client));
+					}
+					finally {
+						TopazWrapper.ResetLoader();
+					}
+				}
+			}
+			finally {
+				helperCopy.Dispose();
+			}
+			Assert.AreEqual(0,helperCopy.GetProcesses().Count,"No process of the fake module's helper copy is left.");
+			Assert.IsFalse(File.Exists(helperCopy.PathExe),"The fake module's helper copy is deleted.");
+		}
+
+		///<summary>The patient signs in the signing window, as SignatureBoxWrapper's Topaz button does it: clear, encryption mode 0, capture on,
+		///the window (here FakeTopazModule's OK), capture off.</summary>
+		private static bool SignAsTheTopazButton(SignatureBoxWrapper signatureBoxWrapper,Control sigBoxTopaz) {
+			sigBoxTopaz.Visible=true;
+			TopazWrapper.ClearTopaz(sigBoxTopaz);
+			TopazWrapper.SetTopazEncryptionMode(sigBoxTopaz,0);
+			TopazWrapper.SetTopazState(sigBoxTopaz,1);
+			bool isOk=TopazWrapper.ShowSigningWindow(sigBoxTopaz,signatureBoxWrapper);
+			if(TopazWrapper.GetTopazState(sigBoxTopaz)==1) {
+				TopazWrapper.SetTopazState(sigBoxTopaz,0);
+			}
+			return isOk;
+		}
+
+		[TestMethod]
+		public void Signed_HelperEndsBeforeTheSave_GetSignatureFailsInsteadOfReturningNoSignature() {
+			//S3a-14f: before, the view made an empty control in the new helper and GetSignature returned "", so the form saved no signature and said
+			//nothing. Now the save fails with "could not be reached", in the box and in the exception, until the box is cleared.
+			WithFakeTopazModule(helper32Client => {
+				using(SignatureBoxWrapper signatureBoxWrapper=new SignatureBoxWrapper()) {
+					TopazSignatureView sigBoxTopaz=(TopazSignatureView)signatureBoxWrapper.Controls.Find("sigBoxTopaz",true).Single();
+					Assert.IsTrue(SignAsTheTopazButton(signatureBoxWrapper,sigBoxTopaz),"The fake signing window answers OK.");
+					Assert.IsTrue(sigBoxTopaz.IsSignatureCaptured);
+					Assert.AreEqual(FakeTopazModule.SIGNATURE_SIGNED,signatureBoxWrapper.GetSignature("synthetic key data"),"Saved while the helper runs.");
+					Assert.IsTrue(sigBoxTopaz.IsSignatureCaptured,"Saving keeps the signature.");
+					int processId=helper32Client.ProcessId;
+					using(Process process=Process.GetProcessById(processId)) {
+						process.Kill();//this test's copy of the helper, as a crash of vendor code would end it after the patient pressed OK
+						Assert.IsTrue(process.WaitForExit(10000));
+					}
+					Helper32Exception helper32Exception=Assert.ThrowsExactly<Helper32Exception>(() => signatureBoxWrapper.GetSignature("synthetic key data"),
+						"GetSignature never returns \"\" for the lost signature.");
+					Assert.AreEqual(Helper32Failure.Crashed,helper32Exception.Failure);
+					StringAssert.StartsWith(helper32Exception.Message,"Topaz signature pad software could not be reached: ");
+					StringAssert.Contains(helper32Exception.Message,"ended after the patient signed on the Topaz pad");
+					Assert.IsTrue(sigBoxTopaz.IsSignatureLost);
+					Label labelInvalidSig=GetLabel(signatureBoxWrapper);
+					Assert.IsTrue(labelInvalidSig.Visible,"The box says it.");
+					Assert.AreEqual(helper32Exception.Message,labelInvalidSig.Text);
+					Assert.IsFalse(signatureBoxWrapper.IsValid);
+					Assert.AreNotEqual(processId,helper32Client.ProcessId,"A new helper answered.");
+					//A second save fails again; the other reads of the signature fail too.
+					Assert.ThrowsExactly<Helper32Exception>(() => signatureBoxWrapper.GetSignature("synthetic key data"));
+					Assert.ThrowsExactly<Helper32Exception>(() => signatureBoxWrapper.GetNumberOfTabletPoints(true));
+					Assert.ThrowsExactly<Helper32Exception>(() => { _=signatureBoxWrapper.SigIsBlank; });
+					//The tablet state never reads the signature: a window's FormClosing (SetTabletState(0)) still closes quietly.
+					signatureBoxWrapper.SetTabletState(0);
+					Assert.IsTrue(sigBoxTopaz.IsSignatureLost,"The tablet state does not bring the signature back.");
+					Assert.ThrowsExactly<Helper32Exception>(() => signatureBoxWrapper.GetSignature("synthetic key data"));
+					//Clearing the box (its X button) ends the state: the box is empty, and a new signature can be made and saved.
+					signatureBoxWrapper.ClearSignature();
+					Assert.IsFalse(sigBoxTopaz.IsSignatureLost);
+					Assert.IsFalse(sigBoxTopaz.IsSignatureCaptured);
+					sigBoxTopaz.Visible=true;
+					Assert.AreEqual("",signatureBoxWrapper.GetSignature("synthetic key data"),"A cleared box has no signature, as before.");
+					Assert.IsTrue(SignAsTheTopazButton(signatureBoxWrapper,sigBoxTopaz));
+					Assert.AreEqual(FakeTopazModule.SIGNATURE_SIGNED,signatureBoxWrapper.GetSignature("synthetic key data"));
+				}
+			});
+		}
+
+		[TestMethod]
+		public void Signed_NoSignatureCapturedForCancel_AndAFilledSignatureIsMadeAgainAsBefore() {
+			//Only a signature the patient signed (OK) counts as captured. Cancel clears the pad; a stored signature shown with FillSignature is made
+			//again in a new helper from the database, as before (Installed_HelperEndedBetweenTwoSignatures_TheControlIsCreatedAgain).
+			WithFakeTopazModule(helper32Client => {
+				using(SignatureBoxWrapper signatureBoxWrapper=new SignatureBoxWrapper()) {
+					TopazSignatureView sigBoxTopaz=(TopazSignatureView)signatureBoxWrapper.Controls.Find("sigBoxTopaz",true).Single();
+					Assert.IsTrue(SignAsTheTopazButton(signatureBoxWrapper,sigBoxTopaz));
+					Assert.IsTrue(sigBoxTopaz.IsSignatureCaptured);
+					sigBoxTopaz.Call(FakeTopazModule.METHOD_NEXT_SIGN_CANCELS);
+					Assert.IsFalse(SignAsTheTopazButton(signatureBoxWrapper,sigBoxTopaz),"Cancel.");
+					Assert.IsFalse(sigBoxTopaz.IsSignatureCaptured,"A new signing forgets the last one; Cancel captures nothing.");
+					using(Process process=Process.GetProcessById(helper32Client.ProcessId)) {
+						process.Kill();//this test's copy of the helper
+						Assert.IsTrue(process.WaitForExit(10000));
+					}
+					Assert.AreEqual("",signatureBoxWrapper.GetSignature("synthetic key data"),"Nothing was signed, so nothing is lost.");
+					Assert.IsFalse(sigBoxTopaz.IsSignatureLost);
+				}
+			});
+		}
+
+		[TestMethod]
+		public void LoneSurrogate_KeyDataReachesTopazUnchanged_AsInTheProgramsProcess() {
+			//S3a-14f: a note cut in the middle of an emoji leaves half a surrogate pair in the key data, which the protocol's strict UTF-8 cannot
+			//carry (EncoderFallbackException, not caught before). On main the program passed the string itself to Topaz's method in its own process,
+			//so the helper's control must get the same string: the stand-in records each argument as it got it, and the recorded calls come back
+			//through the same encoding.
+			string keyDataCut="Synthetic note "+"\uD83D";//the high half of an emoji, its low half cut off
+			string keyDataLow="\uDE00"+" synthetic";//a lone low half
+			string keyDataPair="Synthetic note 😀";//a whole emoji: well-formed, sent as plain text
+			Reset(_folderFake);
+			using(Control control=TopazWrapper.GetTopaz()) {
+				ClearCalls(control);
+				TopazWrapper.SetTopazAutoKeyData(control,keyDataCut);
+				TopazWrapper.SetTopazAutoKeyANSIData(control,keyDataLow);
+				TopazWrapper.SetTopazKeyString(control,keyDataPair);
+				TopazWrapper.SetTopazSigString(control,"valid");
+				CollectionAssert.AreEqual(new[] { "AutoKeyStart","SetAutoKeyData:"+keyDataCut,"AutoKeyFinish","AutoKeyStart","SetAutoKeyANSIData:"+keyDataLow,
+					"AutoKeyFinish","SetKeyString:"+keyDataPair,"SetSigString:valid" },GetCalls(control));
+				Assert.AreEqual(250,TopazWrapper.GetTopazNumberOfTabletPoints(control));
+				//The fill and the save of a box with such key data go through, with the same calls as for any key data.
+				using(SignatureBoxWrapper signatureBoxWrapper=new SignatureBoxWrapper()) {
+					signatureBoxWrapper.FillSignature(true,keyDataCut,"valid");
+					Assert.IsTrue(signatureBoxWrapper.IsValid);
+					Assert.AreEqual("valid",signatureBoxWrapper.GetSignature(keyDataCut));
+				}
+			}
+		}
+
 		[TestMethod]
 		public void NotInstalled_NoHelperIsStarted() {
 			//Most offices have no Topaz software: no SigPlusNET.dll is found, and no helper is started for a signature box.

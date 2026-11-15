@@ -10,6 +10,7 @@ using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Windows.Forms;
 using Helper32Tests.Support;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -131,6 +132,42 @@ namespace Helper32Tests.Topaz {
 			}
 			Assert.IsNull(TopazCommands.DecodeValue(TopazCommands.TYPE_VOID,""));
 			Assert.ThrowsExactly<ArgumentException>(() => TopazCommands.DecodeValue("q","1"));
+		}
+
+		[TestMethod]
+		public void Values_AStringWithALoneSurrogate_CrossesAsItsCodeUnits() {
+			//S3a-14f: note text cut in the middle of an emoji. The protocol's strict UTF-8 cannot carry it, and Topaz got the string itself when it
+			//ran in the program's process, so it crosses unchanged as UTF-16 code units; a well-formed string stays plain text.
+			foreach(string value in new[] { "note \uD83D","\uDE00","a\uDE00\uD83Db","\uD83D😀","end \uDBFF" }) {
+				Assert.IsTrue(TopazCommands.HasLoneSurrogate(value),"Has a lone surrogate: "+value.Length);
+				string[] arrayEncoded=TopazCommands.EncodeValue(value);
+				Assert.AreEqual(TopazCommands.TYPE_STRING_UTF16,arrayEncoded[0]);
+				Assert.IsFalse(TopazCommands.HasLoneSurrogate(arrayEncoded[1]));
+				Assert.AreEqual(value,(string)TopazCommands.DecodeValue(arrayEncoded[0],arrayEncoded[1]));
+				//The encoded text is what the protocol writes: it goes through the strict UTF-8 the protocol uses.
+				new UTF8Encoding(false,true).GetBytes(arrayEncoded[1]);
+				Assert.ThrowsExactly<EncoderFallbackException>(() => new UTF8Encoding(false,true).GetBytes(value),"Why the plain text cannot cross.");
+			}
+			CollectionAssert.AreEqual(new[] { TopazCommands.TYPE_STRING_UTF16,"0061D83D" },TopazCommands.EncodeValue("a\uD83D"));
+			foreach(string value in new[] { "","plain","emoji 😀 whole","é中" }) {
+				Assert.IsFalse(TopazCommands.HasLoneSurrogate(value));
+				CollectionAssert.AreEqual(new[] { TopazCommands.TYPE_STRING,value },TopazCommands.EncodeValue(value),"Well-formed text as before.");
+			}
+			Assert.ThrowsExactly<ArgumentException>(() => TopazCommands.DecodeValue(TopazCommands.TYPE_STRING_UTF16,"D83"));
+			Assert.ThrowsExactly<FormatException>(() => TopazCommands.DecodeValue(TopazCommands.TYPE_STRING_UTF16,"XYZW"));
+		}
+
+		[TestMethod]
+		public void Call_AStringWithALoneSurrogate_ReachesTheControlUnchanged_AndComesBack() {
+			//The module's side of the same: Call decodes the argument and the stand-in gets the very string (as Topaz got it in the program's
+			//process); a string result with a lone surrogate is encoded back the same way.
+			TopazModule module=NewModule();
+			string id=Create(module);
+			Call(module,id,"ClearRecordedCalls");
+			Call(module,id,"SetAutoKeyData","note \uD83D");
+			Assert.AreEqual("SetAutoKeyData:note \uD83D",(string)Call(module,id,"GetRecordedCalls"));
+			string[] arrayResults=Handle(module,TopazCommands.CALL,null,id,"GetRecordedCalls").Results;
+			Assert.AreEqual(TopazCommands.TYPE_STRING_UTF16,arrayResults[0]);
 		}
 
 		[TestMethod]

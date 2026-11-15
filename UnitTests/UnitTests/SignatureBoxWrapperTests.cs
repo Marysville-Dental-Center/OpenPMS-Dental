@@ -62,6 +62,16 @@ namespace UnitTests.SignatureBoxWrapper_Tests {
 					System.Threading.Thread.Sleep(250);//the copy's process is still going away
 				}
 			}
+			//A copy left behind fails the run (S3a-14f): its process did not end within the 10 seconds above, or its files could not be deleted.
+			string fileName=System.IO.Path.GetFileNameWithoutExtension(_pathHelperCopy);
+			System.Diagnostics.Process[] arrayProcessesLeft=System.Diagnostics.Process.GetProcessesByName(fileName);
+			int countProcessesLeft=arrayProcessesLeft.Length;
+			foreach(System.Diagnostics.Process process in arrayProcessesLeft) {
+				process.Dispose();
+			}
+			Assert.AreEqual(0,countProcessesLeft,"No process of the helper copy "+fileName+" is left.");
+			Assert.IsFalse(System.IO.File.Exists(_pathHelperCopy),"The helper copy is deleted: "+_pathHelperCopy);
+			Assert.IsFalse(System.IO.File.Exists(_pathHelperCopy+".config"),"The helper copy's config is deleted: "+_pathHelperCopy+".config");
 		}
 
 		///<summary>The Topaz tests need Topaz's own SigPlusNET.dll, which the program does not ship: TopazWrapper finds it in the program folder or

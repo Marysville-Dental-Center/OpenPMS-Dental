@@ -19,6 +19,8 @@ namespace Helper32Tests.Support {
 					return args;
 				case "Throw":
 					throw new InvalidOperationException(args[0]);
+				case "LoneSurrogate"://a result the protocol's strict UTF-8 cannot carry (S3a-14f)
+					return new[] { "cut \uD83D" };
 				case "Exit"://the helper ends during the call with this exit code
 					Environment.Exit(int.Parse(args[0],CultureInfo.InvariantCulture));
 					return null;

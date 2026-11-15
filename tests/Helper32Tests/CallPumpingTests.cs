@@ -26,54 +26,83 @@ namespace Helper32Tests {
 		private const uint SMTO_NORMAL=0x0000;
 
 		[TestMethod]
-		public void CallPumping_TheCallersWindowsAnswerDuringTheCall_AndItsResultComesBack() {
-			//Before the review Schick.cs called the helper with Call on the program's UI thread: a window of that thread did not answer until
-			//the call ended (CDR starting, its create-exam window waiting for the user), and Windows marked the program "Not responding".
+		public void CallPumping_TheCallersPostedMessagesAreDispatchedDuringTheCall_AndItsResultComesBack() {
+			//Before the review Schick.cs called the helper with Call on the program's UI thread: the thread's queue was not read until the call
+			//ended (CDR starting, its create-exam window waiting for the user), so the program did not paint and Windows marked it "Not responding".
+			//A sent message alone does not tell the two apart: the CLR's wait on an STA thread (Task.Wait in a plain Call) also answers sent
+			//messages. A posted message waits in the thread's queue until someone reads it, which CallPumping does and a plain Call does not
+			//(S3a-14f; checked by running this test once with a plain Call: the posted messages stayed in the queue and the test failed).
 			HelperCopy helperCopy=NewCopy();
 			using(Helper32Client client=new Helper32Client(helperCopy.PathExe,HelperCopy.ArgsFakeModule))
-			using(ManualResetEvent manualResetEventReady=new ManualResetEvent(false)) {
+			using(ManualResetEvent manualResetEventReady=new ManualResetEvent(false))
+			using(ManualResetEvent manualResetEventCalling=new ManualResetEvent(false))
+			using(ManualResetEvent manualResetEventReturned=new ManualResetEvent(false)) {
+				Assert.AreEqual("1",client.Call(FakeModule.MODULE,"Count",_timeSpanCall)[0],"The helper runs before the timed call.");
 				IntPtr hWnd=IntPtr.Zero;
 				int threadIdCaller=0;
 				string[] arrayResults=null;
 				Exception exceptionThread=null;
+				TestWindow testWindow=null;
 				Thread thread=new Thread(() => {
 					try {
 						using(TestWindow window=new TestWindow()) {
+							testWindow=window;
 							hWnd=window.Handle;
 							threadIdCaller=Thread.CurrentThread.ManagedThreadId;
 							manualResetEventReady.Set();
-							arrayResults=client.CallPumping(FakeModule.MODULE,"Sleep",new[] { "4000" },null,_timeSpanCall,isReactivating:false).Results;
-							Assert.AreEqual(3,window.CountMessages,"Every message was answered during the call.");
-							Assert.AreEqual(threadIdCaller,window.ThreadIdLast,"Dispatched on the calling thread.");
+							manualResetEventCalling.Set();
+							arrayResults=client.CallPumping(FakeModule.MODULE,"Sleep",new[] { "6000" },null,_timeSpanCall,isReactivating:false).Results;
+							manualResetEventReturned.Set();
 						}
 					}
 					catch(Exception exception) {
 						exceptionThread=exception;
 						manualResetEventReady.Set();
+						manualResetEventReturned.Set();
 					}
 				});
 				thread.SetApartmentState(ApartmentState.STA);
 				thread.IsBackground=true;
 				thread.Start();
-				Assert.IsTrue(manualResetEventReady.WaitOne(10000));
-				Assert.IsNull(exceptionThread);
-				DateTime dateTimeDeadline=DateTime.UtcNow.AddSeconds(30);
-				while(!client.IsCallPumping && DateTime.UtcNow<dateTimeDeadline) {
-					Thread.Sleep(20);
+				try {
+					Assert.IsTrue(manualResetEventReady.WaitOne(10000));
+					Assert.IsNull(exceptionThread);
+					Assert.IsTrue(manualResetEventCalling.WaitOne(10000));
+					Thread.Sleep(500);//inside the call: the helper sleeps 6 seconds
+					Assert.IsFalse(manualResetEventReturned.WaitOne(0),"Still in the call.");
+					for(int i=0;i<3;i++) {
+						Assert.IsTrue(PostMessage(hWnd,WM_POSTED,new IntPtr(i),IntPtr.Zero),"Posted (error "
+							+Marshal.GetLastWin32Error().ToString(CultureInfo.InvariantCulture)+").");
+					}
+					DateTime dateTimeDeadline=DateTime.UtcNow.AddSeconds(2);
+					while(testWindow.CountPosted<3 && DateTime.UtcNow<dateTimeDeadline && !manualResetEventReturned.WaitOne(0)) {
+						Thread.Sleep(20);
+					}
+					bool isReturned=manualResetEventReturned.WaitOne(0);
+					Assert.AreEqual(3,testWindow.CountPosted,"The calling thread's posted messages were dispatched during the call (returned already: "
+						+isReturned+").");
+					Assert.IsFalse(isReturned,"Dispatched while the call still waited for the helper.");
+					Assert.AreEqual(threadIdCaller,testWindow.ThreadIdPosted,"Dispatched on the calling thread.");
+					Assert.IsTrue(client.IsCallPumping,"The pumping call is still in progress.");
+					for(int i=0;i<3;i++) {
+						IntPtr isSent=SendMessageTimeout(hWnd,FakeModule.WM_TEST,IntPtr.Zero,IntPtr.Zero,SMTO_NORMAL,1000,out IntPtr result);
+						Assert.AreNotEqual(IntPtr.Zero,isSent,"The calling thread's window did not answer within 1 second during the call (error "
+							+Marshal.GetLastWin32Error().ToString(CultureInfo.InvariantCulture)+").");
+						Assert.AreEqual(FakeModule.ANSWER,result.ToInt32());
+						Assert.IsTrue(client.IsCallPumping,"Still in the call (the helper sleeps 6 seconds).");
+					}
+					Assert.IsTrue(thread.Join(30000),"The call ends.");
+					Assert.IsNull(exceptionThread,exceptionThread?.ToString());
+					CollectionAssert.AreEqual(new[] { "slept" },arrayResults);
+					Assert.AreEqual(3,testWindow.CountSent,"Every sent message was answered during the call.");
+					Assert.AreEqual(threadIdCaller,testWindow.ThreadIdSent);
+					Assert.AreEqual(3,testWindow.CountPosted);
+					Assert.IsFalse(client.IsCallPumping);
+					Assert.AreEqual("2",client.Call(FakeModule.MODULE,"Count",_timeSpanCall)[0],"The same helper answers the next call.");
 				}
-				Assert.IsTrue(client.IsCallPumping,"The pumping call started.");
-				for(int i=0;i<3;i++) {
-					IntPtr isSent=SendMessageTimeout(hWnd,FakeModule.WM_TEST,IntPtr.Zero,IntPtr.Zero,SMTO_NORMAL,1000,out IntPtr result);
-					Assert.AreNotEqual(IntPtr.Zero,isSent,"The calling thread's window did not answer within 1 second during the call (error "
-						+Marshal.GetLastWin32Error().ToString(CultureInfo.InvariantCulture)+").");
-					Assert.AreEqual(FakeModule.ANSWER,result.ToInt32());
-					Assert.IsTrue(client.IsCallPumping,"Still in the call (the helper sleeps 4 seconds).");
+				finally {
+					thread.Join(30000);//after a failed assert the call still ends before the client and the events are disposed
 				}
-				Assert.IsTrue(thread.Join(30000),"The call ends.");
-				Assert.IsNull(exceptionThread,exceptionThread?.ToString());
-				CollectionAssert.AreEqual(new[] { "slept" },arrayResults);
-				Assert.IsFalse(client.IsCallPumping);
-				Assert.AreEqual("1",client.Call(FakeModule.MODULE,"Count",_timeSpanCall)[0],"The same helper answers the next call.");
 			}
 		}
 
@@ -150,10 +179,44 @@ namespace Helper32Tests {
 				"TopazWrapper uses the client's wait, not its own.");
 		}
 
-		///<summary>A hidden top-level window (never shown) that answers FakeModule.WM_TEST and counts the messages.</summary>
+		///<summary>WM_APP+0x43, the message CallPumping_TheCallersPostedMessagesAreDispatchedDuringTheCall posts.</summary>
+		private const int WM_POSTED=0x8000+0x43;
+
+		[DllImport("user32.dll",SetLastError=true)]
+		[return: MarshalAs(UnmanagedType.Bool)]
+		private static extern bool PostMessage(IntPtr hWnd,int msg,IntPtr wParam,IntPtr lParam);
+
+		///<summary>A hidden top-level window (never shown) that answers FakeModule.WM_TEST (sent) and counts it and WM_POSTED (posted), with the
+		///thread that dispatched each. Read from the test's thread while the window's thread is in the call.</summary>
 		private sealed class TestWindow:System.Windows.Forms.NativeWindow,IDisposable {
-			public int CountMessages { get; private set; }
-			public int ThreadIdLast { get; private set; }
+			private volatile int _countSent;
+			private volatile int _threadIdSent;
+			private volatile int _countPosted;
+			private volatile int _threadIdPosted;
+
+			public int CountSent {
+				get {
+					return _countSent;
+				}
+			}
+
+			public int ThreadIdSent {
+				get {
+					return _threadIdSent;
+				}
+			}
+
+			public int CountPosted {
+				get {
+					return _countPosted;
+				}
+			}
+
+			public int ThreadIdPosted {
+				get {
+					return _threadIdPosted;
+				}
+			}
 
 			public TestWindow() {
 				System.Windows.Forms.CreateParams createParams=new System.Windows.Forms.CreateParams();
@@ -164,9 +227,14 @@ namespace Helper32Tests {
 
 			protected override void WndProc(ref System.Windows.Forms.Message m) {
 				if(m.Msg==FakeModule.WM_TEST) {
-					CountMessages++;
-					ThreadIdLast=Thread.CurrentThread.ManagedThreadId;
+					_threadIdSent=Thread.CurrentThread.ManagedThreadId;
+					_countSent++;
 					m.Result=new IntPtr(FakeModule.ANSWER);
+					return;
+				}
+				if(m.Msg==WM_POSTED) {
+					_threadIdPosted=Thread.CurrentThread.ManagedThreadId;
+					_countPosted++;
 					return;
 				}
 				base.WndProc(ref m);
