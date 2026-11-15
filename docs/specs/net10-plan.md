@@ -783,7 +783,7 @@ Left for others: the dead `ThreadAbortException` catches (after 3b), `tests/Wind
 (lead, before 3b), the callers that relied on a timeout aborting and the review of long ProgressWin actions for a check point (port note,
 sections 5 and 6).
 
-**Status (2026-11-15).** S3a-4 done on `net10/s3a4-1` (`docs/port-notes/S3a-4.md`), not yet merged: new `tests/GoldenOutputTests` (its
+**Status (2026-11-15).** S3a-4 merged (`net10/s3a4-2`, `docs/port-notes/S3a-4.md`): new `tests/GoldenOutputTests` (its
 `OpenDental.sln` and `OpenDental.Local.slnf` entries for the lead to review) with 16 fixture files recorded by the net48 build from one
 `gold_` scratch database (init file, fork migrations, synthetic rows with fixed dates and fixed primary keys): the 837 dental batch in 5010
 and 4010 (ISA09/10, GS04/05, BHT04/05 replaced by tokens), the statement PDF text of a family and of a limited statement totalling about
