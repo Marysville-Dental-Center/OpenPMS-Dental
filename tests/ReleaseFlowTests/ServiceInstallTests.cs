@@ -168,8 +168,7 @@ namespace ReleaseFlowTests {
 				"imagepath|OpenPmsDentalHL7",
 				"run|"+ScExe+"|delete \"OpenPmsDentalHL7\"|",
 				"stop|OpenPmsDentalHL7",
-				"eventlog-remove|OpenPmsDentalHL7",
-			},_listCalls,string.Join("; ",_listCalls));
+			},_listCalls,"The shared HL7 source stays: every HL7 service writes under it. "+string.Join("; ",_listCalls));
 			Assert.AreEqual(0,exitCode);
 			Assert.IsFalse(isMySQLService);
 			Assert.AreEqual("delete \"OpenPmsDentalHL7\"",ServicesHelper.GetScDeleteArguments(ProgramNames.HL7ServiceName));
@@ -182,6 +181,8 @@ namespace ReleaseFlowTests {
 				"stop|OpenPmsDentalHL7Clinic2",
 				"eventlog-remove|OpenPmsDentalHL7Clinic2",
 			},_listCalls,"Only the source of the name goes: another HL7 service may still write under OpenPmsDentalHL7. "+string.Join("; ",_listCalls));
+			Assert.IsNull(ServicesHelper.GetEventLogSourceToRemove("openpmsdentalHL7"),"The shared HL7 source, in any case, is never removed.");
+			Assert.AreEqual("OpenPmsDentalHL7Clinic2",ServicesHelper.GetEventLogSourceToRemove("OpenPmsDentalHL7Clinic2"));
 		}
 
 		///<summary>The stop after sc.exe delete waits 15 seconds, as long as InstallUtil's ServiceInstaller (10 seconds and a 5 second sleep),
@@ -248,7 +249,6 @@ namespace ReleaseFlowTests {
 				"imagepath|OpenPmsDentalHL7",
 				"run|"+ScExe+"|delete \"OpenPmsDentalHL7\"|",
 				"stop|OpenPmsDentalHL7",
-				"eventlog-remove|OpenPmsDentalHL7",
 			},_listCalls,string.Join("; ",_listCalls));
 			Assert.AreEqual(ServicesHelper.ScErrorServiceMarkedForDelete,ServicesHelper.GetScErrorCode(exitCode,standardOutput));
 		}

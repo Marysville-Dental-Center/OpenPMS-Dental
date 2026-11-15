@@ -198,7 +198,8 @@ namespace CodeBase {
 		///registered it, and ServiceBase writes the service's start and stop entries under it), and for the HL7 service's exe also
 		///ProgramNames.EventLogSourceHL7, the source its messages are written under whatever the service is named. Registering it while elevated
 		///means a later run that is not elevated (the HL7 debug window) can write without creating it, which needs an administrator.
-		///Uninstall removes only the source named after the service: another HL7 service may still write under EventLogSourceHL7.</summary>
+		///Uninstall removes only the source named after the service, and never EventLogSourceHL7 (GetEventLogSourceToRemove): every HL7 service
+		///writes its messages under it, whatever it is named, so another one may still be installed.</summary>
 		public static List<string> GetEventLogSourcesToRegister(string serviceName,string exeFileName) {
 			List<string> listSources=new List<string>() { serviceName };
 			if(string.Equals(exeFileName,ProgramNames.HL7ServiceName+".exe",StringComparison.OrdinalIgnoreCase)
@@ -207,6 +208,16 @@ namespace CodeBase {
 				listSources.Add(ProgramNames.EventLogSourceHL7);
 			}
 			return listSources;
+		}
+
+		///<summary>The event log source Uninstall removes for the service, or null for none: the source named after the service, except
+		///ProgramNames.EventLogSourceHL7, which the default-named HL7 service shares with every other HL7 service (lead fix at S3a-FU1's merge;
+		///a source left behind does no harm, a removed one makes a later HL7 debug window that is not elevated fail to write).</summary>
+		public static string GetEventLogSourceToRemove(string serviceName) {
+			if(string.Equals(serviceName,ProgramNames.EventLogSourceHL7,StringComparison.OrdinalIgnoreCase)) {
+				return null;
+			}
+			return serviceName;
 		}
 
 		///<summary>The real ActionRegisterEventLogSource: registers the source in the Application log unless it is registered already, in any log.
@@ -303,7 +314,10 @@ namespace CodeBase {
 			//it only once it has stopped.
 			if(errorCode==0 || errorCode==ScErrorServiceMarkedForDelete) {
 				FuncStopService(serviceName);
-				ActionRemoveEventLogSource(serviceName);
+				string sourceToRemove=GetEventLogSourceToRemove(serviceName);
+				if(sourceToRemove!=null) {
+					ActionRemoveEventLogSource(sourceToRemove);
+				}
 			}
 		}
 
