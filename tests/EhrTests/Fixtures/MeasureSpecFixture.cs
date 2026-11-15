@@ -10,10 +10,12 @@
 //
 // One provider reports (an ehrprovkey row for its names, and a made-up all-digit NPI); a second provider has no row. Each case of
 // MeasureSpecTests has its own patients, registered under a key such as "Vs.Child2", with only the rows its measures read, so a case counts its
-// patients' rows of the engine's audit table whatever the other cases add. The reporting period is the calendar year 2014, and every patient is
-// born before 14 November 2013: the engine takes the smoking (13 or older) and the first Stage 1 vital signs (2 or older) ages on today's date,
-// so on any day from 14 November 2026 on every patient is old enough for both, and the golden numbers do not drift. Days of the week matter to
-// the business-day rules: 3 March 2014 is a Monday.
+// patients' rows of the engine's audit table whatever the other cases add. The reporting period is the calendar year 2014. The engine takes
+// each age on a day of the period (since EHR-4c: the smoking and vital signs ages at the patient's last visit in it, the Stage 1 reminders ages
+// at its start), so the golden numbers do not drift with today's date; every patient is still born before 14 November 2013 (the guard of the
+// time when the engine took two ages on today's date). Days of the week matter to the business-day rules: 3 March 2014 is a Monday. EHR-4d
+// added patients with no visit in 2014 and a group seen only in 2015 (the EHR window's cases, the period across a year boundary, the
+// reminders exclusion count), so the golden numbers of 2014 stay as they were.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
 using System.Collections.Generic;
@@ -48,6 +50,14 @@ namespace EhrTests {
 		///<summary>The reporting period: the calendar year 2014.</summary>
 		public static readonly DateTime DateStart=new DateTime(2014,1,1);
 		public static readonly DateTime DateEnd=new DateTime(2014,12,31);
+		///<summary>EHR-4d: the calendar year 2015, the period of the group seen only in 2015 (no row of it is dated in 2014's visits).</summary>
+		public static readonly DateTime DateStart2015=new DateTime(2015,1,1);
+		public static readonly DateTime DateEnd2015=new DateTime(2015,12,31);
+		///<summary>EHR-4d: a period across a year boundary, 1 July 2014 to 30 June 2015.</summary>
+		public static readonly DateTime DateStartCross=new DateTime(2014,7,1);
+		public static readonly DateTime DateEndCross=new DateTime(2015,6,30);
+		///<summary>EHR-4d: the day of the 2015 group's visits: Monday 2 March 2015.</summary>
+		public static readonly DateTime DateMonday2015=new DateTime(2015,3,2);
 		///<summary>The day of most visits: Monday 3 March 2014.</summary>
 		public static readonly DateTime DateMonday=new DateTime(2014,3,3);
 		///<summary>Every patient is born before this day (see the header).</summary>
@@ -145,9 +155,17 @@ namespace EhrTests {
 		///<summary>The engine's audit table of the measure (GetAuditTable: GetTable, GetTableMu2 or GetTableMu2Mod) for the EP and the period, one
 		///row per unit of the denominator and "X" in met for the numerator: the table SelectAll, SelectAllMu2 and SelectAllMu2Mod count.</summary>
 		public static DataTable GetAudit(EhrMeasureStage stage,EhrMeasureType measureType) {
+			return GetAudit(stage,measureType,DateStart,DateEnd);
+		}
+
+		///<summary>The engine's audit table of the measure for the EP and another period (EHR-4d), fetched once per run.</summary>
+		public static DataTable GetAudit(EhrMeasureStage stage,EhrMeasureType measureType,DateTime dateStart,DateTime dateEnd) {
 			string key=stage+"."+measureType;
+			if(dateStart!=DateStart || dateEnd!=DateEnd) {
+				key+="."+dateStart.ToString("yyyyMMdd",CultureInfo.InvariantCulture)+"."+dateEnd.ToString("yyyyMMdd",CultureInfo.InvariantCulture);
+			}
 			if(!_dictAudit.TryGetValue(key,out DataTable table)) {
-				table=EhrMeasures.GetAuditTable(stage,measureType,DateStart,DateEnd,ProviderEp.ProvNum);
+				table=EhrMeasures.GetAuditTable(stage,measureType,dateStart,dateEnd,ProviderEp.ProvNum);
 				Assert.IsNotNull(table,key+" has an audit table.");
 				_dictAudit[key]=table;
 			}
@@ -157,8 +175,16 @@ namespace EhrTests {
 		///<summary>The engine's numerator and denominator of the measure for the patients under the keys only: the audit table's rows of those
 		///patients, and the met ones among them.</summary>
 		public static void Count(EhrMeasureStage stage,EhrMeasureType measureType,IEnumerable<string> listKeys,out int numerator,out int denominator) {
+			Count(stage,measureType,DateStart,DateEnd,listKeys,out numerator,out denominator);
+		}
+
+		///<summary>Count for another period (EHR-4d).</summary>
+		public static void Count(EhrMeasureStage stage,EhrMeasureType measureType,DateTime dateStart,DateTime dateEnd,IEnumerable<string> listKeys,
+			out int numerator,out int denominator)
+		{
 			HashSet<string> setPatNums=new HashSet<string>(listKeys.Select(x => GetPatient(x).PatNum.ToString(CultureInfo.InvariantCulture)));
-			List<DataRow> listRows=GetAudit(stage,measureType).Rows.Cast<DataRow>().Where(x => setPatNums.Contains(x["PatNum"].ToString())).ToList();
+			List<DataRow> listRows=GetAudit(stage,measureType,dateStart,dateEnd).Rows.Cast<DataRow>()
+				.Where(x => setPatNums.Contains(x["PatNum"].ToString())).ToList();
 			denominator=listRows.Count;
 			numerator=listRows.Count(x => x["met"].ToString()=="X");
 		}
@@ -278,6 +304,7 @@ namespace EhrTests {
 			MakeReminderRows();
 			MakeTransitionRows();
 			MakePortalRows();
+			MakeEhr4dRows();
 			foreach(Patient patient in _dictPatients.Values) {
 				if(patient.Birthdate>=DateBornBefore) {
 					throw new ApplicationException("Every fixture patient is born before "+DateBornBefore.ToShortDateString()+" (see the header).");
@@ -550,6 +577,68 @@ namespace EhrTests {
 			emailMessage.BodyText="Synthetic text.";
 			OpenPmsDentalBusiness.Crud.EmailMessageCrud.Insert(emailMessage);
 			SeenPatient("Web.None");
+		}
+
+		///<summary>EHR-4d's cases. With no office visit in 2014: the older lab orders' results (D11), a deleted patient's transition (D08). Seen only
+		///in 2015 (Monday 2 March 2015 unless said): the EHR window's cases the 2014 patients do not have, the period across a year boundary (D10),
+		///the Stage 1 reminders exclusion count (D06). None is in a 2014 visit-based denominator, so the golden numbers of 2014 move only where a
+		///fixed rule puts a new patient in (the older lab orders with a positive/negative or numeric result).</summary>
+		private static void MakeEhr4dRows() {
+			//Lab (D11): the older lab orders (medical order, lab panel, labresult) by the EP on 3 March 2014, with no visit: a free-text result, the word
+			//negative, a coded result (the field as the lab panel import keeps it, the engine's code first) and a structured number with a comparator.
+			MakeOldLabResult(MakePatient("Lab.OldText",new DateTime(1980,6,15),ProviderEp.ProvNum),"Synthetic free-text result");
+			MakeOldLabResult(MakePatient("Lab.OldNegative",new DateTime(1980,6,15),ProviderEp.ProvNum),"Negative");
+			MakeOldLabResult(MakePatient("Lab.OldCoded",new DateTime(1980,6,15),ProviderEp.ProvNum),MeasureSpecCodes.GetLabResultCode()+"^Synthetic^SCT");
+			MakeOldLabResult(MakePatient("Lab.OldNumeric",new DateTime(1980,6,15),ProviderEp.ProvNum),"<^200");
+			//MedReconcile (D08): a transition received by the EP and reconciled, for a deleted patient.
+			Patient patient=MakePatient("MedRec.Deleted",new DateTime(1980,6,15),ProviderEp.ProvNum);
+			patient.PatStatus=PatientStatus.Deleted;
+			OpenPmsDentalBusiness.Crud.PatientCrud.Update(patient);
+			MakeRefAttach(patient,ReferralType.RefFrom,D(3,3));
+			MakeEvent(patient,EhrMeasureEventType.MedicationReconcile,D(3,3),0);
+			//The EHR window: seen Saturday 7 March 2015, a clinical summary on Monday 9 March (one business day after it).
+			patient=MakePatient("Win.SaturdayMonday",new DateTime(1980,6,15),ProviderEp.ProvNum);
+			MakeVisit(patient,new DateTime(2015,3,7),ProviderEp.ProvNum);
+			MakeEvent(patient,EhrMeasureEventType.ClinicalSummaryProvidedToPt,new DateTime(2015,3,9),0);
+			//The EHR window: a transition received on Monday 1 June 2015, a reconciliation on 2 March 2015, before it.
+			patient=SeenPatient2015("Win.ReconcileBefore",new DateTime(1980,6,15));
+			MakeRefAttach(patient,ReferralType.RefFrom,new DateTime(2015,6,1));
+			MakeEvent(patient,EhrMeasureEventType.MedicationReconcile,DateMonday2015,0);
+			//The EHR window, Stage 1 electronic copy (not calculated by Measure Calc): requested Wednesday 4 March 2015, provided Monday 9 March
+			//(the third business day after the request).
+			patient=MakePatient("Win.CopyWednesdayMonday",new DateTime(1980,6,15),ProviderEp.ProvNum);
+			MakeEvent(patient,EhrMeasureEventType.ElectronicCopyRequested,new DateTime(2015,3,4),0);
+			MakeEvent(patient,EhrMeasureEventType.ElectronicCopyProvidedToPt,new DateTime(2015,3,9),0);
+			//Education (D10), the period 1 July 2014 to 30 June 2015: seen in 2015, resources on 3 March 2014 (before the period, another calendar
+			//year) and on Monday 3 August 2015 (after the period, the visit's calendar year).
+			MakeEvent(SeenPatient2015("Edu.CrossBefore",new DateTime(1980,6,15)),EhrMeasureEventType.EducationProvided,D(3,3),0);
+			MakeEvent(SeenPatient2015("Edu.CrossAfter",new DateTime(1980,6,15)),EhrMeasureEventType.EducationProvided,new DateTime(2015,8,3),0);
+			//Reminders (D06): 64 at the start of 2015, 65 at the visit (the 65th birthday 2 February 2015).
+			SeenPatient2015("Rem1.Turns65",new DateTime(1950,2,2));
+		}
+
+		///<summary>A patient with one completed office visit with the EP on Monday 2 March 2015 (EHR-4d's 2015 group).</summary>
+		private static Patient SeenPatient2015(string key,DateTime birthdate) {
+			Patient patient=MakePatient(key,birthdate,ProviderEp.ProvNum);
+			MakeVisit(patient,DateMonday2015,ProviderEp.ProvNum);
+			return patient;
+		}
+
+		///<summary>An older lab order by the EP on 3 March 2014 (medical order) with a lab panel holding one result of the value.</summary>
+		private static void MakeOldLabResult(Patient patient,string obsValue) {
+			long medicalOrderNum=MakeLabOrder(patient);
+			LabPanel labPanel=new LabPanel();
+			labPanel.PatNum=patient.PatNum;
+			labPanel.MedicalOrderNum=medicalOrderNum;
+			labPanel.ServiceName="Synthetic panel";
+			long labPanelNum=OpenPmsDentalBusiness.Crud.LabPanelCrud.Insert(labPanel);
+			LabResult labResult=new LabResult();
+			labResult.LabPanelNum=labPanelNum;
+			labResult.DateTimeTest=DateMonday.AddHours(EVENT_HOUR);
+			labResult.TestName="Synthetic test";
+			labResult.TestID="TEST0002";
+			labResult.ObsValue=obsValue;
+			OpenPmsDentalBusiness.Crud.LabResultCrud.Insert(labResult);
 		}
 
 		///<summary>An adult patient with one completed office visit with the EP on Monday 3 March 2014.</summary>

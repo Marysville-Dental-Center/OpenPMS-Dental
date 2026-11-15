@@ -29,7 +29,7 @@ using OpenPmsDentalBusiness;
 
 namespace EhrTests {
 	[TestClass]
-	public class MeasureSpecTests {
+	public partial class MeasureSpecTests {
 		private const string GOLDEN_PATH=@"tests\EhrTests\Fixtures\MeasureSpecGolden.txt";
 		private const EhrMeasureStage S1=EhrMeasureStage.Stage1;
 		private const EhrMeasureStage S2=EhrMeasureStage.Stage2;
@@ -63,9 +63,20 @@ namespace EhrTests {
 
 			///<summary>The engine must give the sheet's numerator and denominator for the patients under the keys.</summary>
 			public void Sheet(EhrMeasureStage stage,EhrMeasureType measureType,int numerator,int denominator,params string[] arrayKeys) {
-				MeasureSpecFixture.Count(stage,measureType,arrayKeys,out int numeratorEngine,out int denominatorEngine);
+				SheetInPeriod(stage,measureType,MeasureSpecFixture.DateStart,MeasureSpecFixture.DateEnd,numerator,denominator,arrayKeys);
+			}
+
+			///<summary>Sheet, for another reporting period (EHR-4d).</summary>
+			public void SheetInPeriod(EhrMeasureStage stage,EhrMeasureType measureType,DateTime dateStart,DateTime dateEnd,int numerator,int denominator,
+				params string[] arrayKeys)
+			{
+				MeasureSpecFixture.Count(stage,measureType,dateStart,dateEnd,arrayKeys,out int numeratorEngine,out int denominatorEngine);
 				if(numeratorEngine!=numerator || denominatorEngine!=denominator) {
-					_listFailures.Add(Text(stage,measureType,arrayKeys)+": the sheet gives "+numerator+"/"+denominator+", the engine "
+					string textPeriod="";
+					if(dateStart!=MeasureSpecFixture.DateStart || dateEnd!=MeasureSpecFixture.DateEnd) {
+						textPeriod=" "+dateStart.ToString("yyyy-MM-dd",CultureInfo.InvariantCulture)+" to "+dateEnd.ToString("yyyy-MM-dd",CultureInfo.InvariantCulture);
+					}
+					_listFailures.Add(Text(stage,measureType,arrayKeys)+textPeriod+": the sheet gives "+numerator+"/"+denominator+", the engine "
 						+numeratorEngine+"/"+denominatorEngine+".");
 				}
 			}
@@ -224,6 +235,12 @@ namespace EhrTests {
 			Assert.AreEqual(DayOfWeek.Monday,new DateTime(2014,6,2).DayOfWeek,"The second visit of ClinSum.TwoVisits.");
 			Assert.AreEqual(DayOfWeek.Saturday,new DateTime(2014,3,8).DayOfWeek,"The visit of ClinSum.SaturdayWednesday and ClinSum.SaturdayThursday.");
 			Assert.AreEqual(DayOfWeek.Wednesday,new DateTime(2014,3,12).DayOfWeek,"The third business day after Saturday 8 March.");
+			//EHR-4d's 2015 group.
+			Assert.AreEqual(DayOfWeek.Monday,MeasureSpecFixture.DateMonday2015.DayOfWeek,"2 March 2015");
+			Assert.AreEqual(DayOfWeek.Saturday,new DateTime(2015,3,7).DayOfWeek,"The visit of Win.SaturdayMonday.");
+			Assert.AreEqual(DayOfWeek.Monday,new DateTime(2015,3,9).DayOfWeek,"The first business day after it, and the third after Wednesday 4 March.");
+			Assert.AreEqual(DayOfWeek.Wednesday,new DateTime(2015,3,4).DayOfWeek,"The request of Win.CopyWednesdayMonday.");
+			Assert.AreEqual(MeasureSpecFixture.DateStartCross.Year+1,MeasureSpecFixture.DateEndCross.Year,"The period across a year boundary.");
 			Assert.AreEqual(MeasureSpecFixture.DateStart.Year,MeasureSpecFixture.DateEnd.Year,"One full calendar year.");
 			Assert.AreEqual(new DateTime(MeasureSpecFixture.DateStart.Year,1,1),MeasureSpecFixture.DateStart);
 			Assert.AreEqual(new DateTime(MeasureSpecFixture.DateStart.Year,12,31),MeasureSpecFixture.DateEnd);
@@ -492,6 +509,22 @@ namespace EhrTests {
 		}
 
 		[TestMethod]
+		public void LabResults_TheOlderLabOrders_AFreeTextResult_IsNotInTheDenominator_D11() {
+			MeasureSpecFixture.Begin();
+			SpecCheck check=new SpecCheck();
+			//The same sheets and rule, for the older lab orders (medical order, lab panel, labresult; 2011 edition). An order whose only result is
+			//free text is in no denominator; a result that is the word negative, a coded positive/negative result (the engine's code as the first
+			//component of the field, as the lab panel import keeps it) or a number with a comparator is in, and met. EHR-4d (EHR4B-D11): the engine
+			//applies the ehrlab branch's rule to the older orders too (it counted every older order, met by its panel: Lab.OldText 1/1). An order
+			//with a panel and no result row stays in, met by its panel (Lab.OldPanel in LabResults_IncorporatedAsStructuredData_...).
+			check.Sheet(S1,EhrMeasureType.Lab,0,0,"Lab.OldText");
+			check.Sheet(S2,EhrMeasureType.Lab,0,0,"Lab.OldText");
+			check.Sheet(S1,EhrMeasureType.Lab,3,3,"Lab.OldNegative","Lab.OldCoded","Lab.OldNumeric");
+			check.Sheet(S2,EhrMeasureType.Lab,3,3,"Lab.OldNegative","Lab.OldCoded","Lab.OldNumeric");
+			check.Finish();
+		}
+
+		[TestMethod]
 		public void ImagingResults_Stage2_AnAttachedImage_Meets_AnExpectedOneMisses() {
 			MeasureSpecFixture.Begin();
 			SpecCheck check=new SpecCheck();
@@ -637,6 +670,26 @@ namespace EhrTests {
 		}
 
 		[TestMethod]
+		public void Education_ModifiedStage2_APeriodAcrossAYearBoundary_TakesTheVisitsCalendarYear_D10() {
+			MeasureSpecFixture.Begin();
+			SpecCheck check=new SpecCheck();
+			//MedicaidEPModStage2_2018_Obj6.pdf, July 2018, Additional Information: within the period when it is a full calendar year, otherwise
+			//within the calendar year in which the period occurs. A period of 1 July 2014 to 30 June 2015 is neither one calendar year nor inside one;
+			//EHR-4d takes each patient's visit's own calendar year (the period's calendar years, a visit at a time). Seen on 2 March 2015: resources
+			//of 3 March 2014 (another calendar year, before the period) do not count; resources of 3 August 2015 (after the period, in the visit's
+			//calendar year) do, as for a period inside 2015. EHR4B-D10 as EHR-4c fixed it counted 1 January 2014 to 31 December 2015 for every
+			//patient: Edu.CrossBefore 1/1.
+			DateTime dateStart=MeasureSpecFixture.DateStartCross;
+			DateTime dateEnd=MeasureSpecFixture.DateEndCross;
+			check.SheetInPeriod(MS2,EhrMeasureType.Education,dateStart,dateEnd,0,1,"Edu.CrossBefore");
+			check.SheetInPeriod(MS2,EhrMeasureType.Education,dateStart,dateEnd,1,1,"Edu.CrossAfter");
+			//Stage 1 and Stage 2 give no time for it (unchanged: any date).
+			check.SheetInPeriod(S1,EhrMeasureType.Education,dateStart,dateEnd,2,2,"Edu.CrossBefore","Edu.CrossAfter");
+			check.SheetInPeriod(S2,EhrMeasureType.Education,dateStart,dateEnd,2,2,"Edu.CrossBefore","Edu.CrossAfter");
+			check.Finish();
+		}
+
+		[TestMethod]
 		public void Reminders_Stage1_65OrOlderOr5OrYounger_AReminderMeets() {
 			MeasureSpecFixture.Begin();
 			SpecCheck check=new SpecCheck();
@@ -655,6 +708,23 @@ namespace EhrTests {
 			//takes 5 or younger at the start of the period (it took younger than 5: 0/0).
 			check.Sheet(S1,EhrMeasureType.Reminders,1,1,"Rem1.Age5");
 			check.Finish();
+		}
+
+		[TestMethod]
+		public void Reminders_Stage1_TheExclusionCount_TakesTheAgesAtThePeriodsStart_D06() {
+			MeasureSpecFixture.Begin();
+			//4_Patient_Reminders.pdf, May 2014, EXCLUSION: an EP with no patients 65 years old or older or 5 years old or younger. The denominator
+			//takes the ages at the start of the period (EHR-4c, EHR4B-D06; the lead kept that day); EHR-4d makes the exclusion count take the same
+			//day (it took the age at the patient's last visit). In 2015 the only patient of either age range at a visit is Rem1.Turns65: 64 on 1
+			//January 2015, 65 at the visit of 2 March. At the period's start he is in neither, so the denominator does not have him and the count is
+			//0 (before EHR-4d: 1).
+			SpecCheck check=new SpecCheck();
+			check.SheetInPeriod(S1,EhrMeasureType.Reminders,MeasureSpecFixture.DateStart2015,MeasureSpecFixture.DateEnd2015,0,0,"Rem1.Turns65");
+			check.Finish();
+			EhrMeasure ehrMeasure=EhrMeasures.GetMeasuresToCalc(S1).First(x => x.MeasureType==EhrMeasureType.Reminders);
+			ehrMeasure=EhrMeasures.CalcMeasure(S1,ehrMeasure,MeasureSpecFixture.DateStart2015,MeasureSpecFixture.DateEnd2015,
+				MeasureSpecFixture.ProviderEp.ProvNum);
+			Assert.AreEqual(0,ehrMeasure.ExclusionCount,"The patients seen in 2015 who were 65 or older or 5 or younger on 1 January 2015.");
 		}
 
 		[TestMethod]
@@ -706,6 +776,20 @@ namespace EhrTests {
 			foreach(EhrMeasureStage stage in new[] { S1,S2,MS2 }) {
 				check.Sheet(stage,EhrMeasureType.MedReconcile,1,2,"MedRec.TwoOne");
 				check.Sheet(stage,EhrMeasureType.MedReconcile,1,1,"MedRec.NoVisit");
+			}
+			check.Finish();
+		}
+
+		[TestMethod]
+		public void MedReconcile_ADeletedPatientsTransition_IsInNoDenominator_D08() {
+			MeasureSpecFixture.Begin();
+			SpecCheck check=new SpecCheck();
+			//The same sheets count transitions of care received by the EP; a deleted patient's record is no patient of the practice. A transition
+			//needs no visit (D08), so EHR-4d checks the status: MedRec.Deleted (received and reconciled on 3 March 2014, no visit) is in no
+			//denominator (before EHR-4d: 1/1, each stage). A visit-based measure never counts a deleted patient: the program deletes only a
+			//patient with nothing entered.
+			foreach(EhrMeasureStage stage in new[] { S1,S2,MS2 }) {
+				check.Sheet(stage,EhrMeasureType.MedReconcile,0,0,"MedRec.Deleted");
 			}
 			check.Finish();
 		}
