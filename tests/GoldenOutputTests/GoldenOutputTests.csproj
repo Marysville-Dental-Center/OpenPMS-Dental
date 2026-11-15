@@ -21,7 +21,6 @@
     <ProjectReference Include="..\..\DataConnectionBase\xDataConnectionBase.csproj" />
     <ProjectReference Include="..\..\ODCrypt\xODCrypt.csproj" />
     <ProjectReference Include="..\..\OpenPmsDentalBusiness\OpenPmsDentalBusiness.csproj" />
-    <ProjectReference Include="..\..\UnitTestsCore\UnitTestsCore.csproj" />
     <!-- The RDL engine the program uses (its <Code> blocks, decision 14 of the plan). -->
     <ProjectReference Include="..\..\RdlEngine\RdlEngine.csproj" />
     <!-- The statement PDF (SheetDrawingJob.CreatePdf) and its reader. -->
