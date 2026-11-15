@@ -60,7 +60,9 @@ What this version brings, each in its section below (the roadmap's "Done in the 
   26.2) in a line under the Chart module's date slider, the text of text procedures, and free text; the X and the TextBelow line show
   on every chart, the other texts on Simple 2D now and on the coming 3D chart;
 - the coming 3D tooth chart: its "W", centre line and unerupted teeth look as in Open Dental (a plain "W", the centre line in the chart's
-  text colour, unerupted teeth half-transparent).
+  text colour, unerupted teeth half-transparent);
+- the coming 3D tooth chart: orthodontic brackets, wires and elastics, Open Dental's ortho mode (front views only, close to the centre
+  line), retained roots and space maintainers, drawn as in Open Dental.
 
 The update adds this program's own tables to the database (14 tables, none of Open Dental's schema: five for routine maintenance, seven for
 inventory tracking, one for SSH host keys, one for the EHR value sets); they start empty, except the stock ledger's opening rows (Inventory tracking, below). It also
