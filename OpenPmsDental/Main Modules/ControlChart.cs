@@ -5000,7 +5000,7 @@ namespace OpenPmsDental {
 				}
 				if(PrefC.GetBool(PrefName.PatientDOBMasked)) {
 					//Add "View DOB" right click option, MenuItemPopupUnmaskDOB will show and hide it as needed.
-					if(gridPtInfo.ContextMenuStrip==null) {
+					if(gridPtInfo.ContextMenuStrip==null || !gridPtInfo.DoAddGridItemsToContextMenuStrip) {//Also the grid's own strip, made by a right click on the empty grid (lead fix at S3a-M2's merge)
 						gridPtInfo.ContextMenuStrip=new ContextMenuStrip();
 						gridPtInfo.DoAddGridItemsToContextMenuStrip=true;//ODGrid will automatically attach the defaut Popups
 					}

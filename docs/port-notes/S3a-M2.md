@@ -197,3 +197,33 @@ of the open menu.
 12. **Security.** Setup > Security > Security Settings, the users grid: right-click a user: Copy User, Copy Cell Text, Copy Rows.
 13. **Translation (optional, a non-US culture with translations).** The converted menus show their translated texts (the same keys as
     before).
+
+## Lead fixes and notes at the merge (from the reviews)
+
+- **The hidden-item grids after a right click on an empty grid.** Open the Family module with no patient and right-click the empty patient
+  grid: GridOD then makes its own strip. Select a patient next, and View SS#/View DOB were added to that strip without a separator, so they
+  never showed. `ControlFamily.FillPatientData` (both blocks) and `ControlChart`'s gridPtInfo now replace the grid's own strip too
+  (`ContextMenuStrip==null || !DoAddGridItemsToContextMenuStrip`), as main's `ContextMenu==null` check did. The old strip is not disposed:
+  GridOD owns it. For the gate: launch checks 3 and 5 also do a right click on the empty grid first.
+- **The paste never throws on clipboard data.** `ControlImageDisplay`'s paste wraps `NodeTypeAndKeyClipboard.GetData` and treats a failure
+  as "no key".
+- **Clipboard hardening, for a follow-up (S3a-M2f).** On .NET Framework, WinForms `DataObject.GetData(customFormat,false)` still passes an
+  HGLOBAL that starts with the serialized-object GUID to the BinaryFormatter. A program of the same user that writes such data under
+  `OpenPmsDental.NodeTypeAndKey.Json` could therefore still reach it. Read the bytes through
+  `System.Runtime.InteropServices.ComTypes.IDataObject.GetData` with `TYMED_HGLOBAL` (on .NET 10, `TryGetData<MemoryStream>`), so no
+  serializer is involved.
+- **The clipboard format.** It holds UTF-8 JSON bytes in a `MemoryStream`, not a string, because on .NET Framework a WPF string under a
+  custom format could go through the BinaryFormatter (section 2). This is a deliberate reading of the row.
+- **Release notes (gate).** An image copied in an earlier version pastes as a picture or file (a new document), not as a copy of the
+  document or mount. Copy and paste within this version work as before.
+- **For M3 and later:**
+  - `Lan.C(Control,params Menu[])` has no caller left. `Lan.TranslateGrid`'s ContextMenu branch is the Menu bridge's last user (section 3
+    said otherwise).
+  - `ODcodeBox.cs` (User Controls) still uses WinForms `ContextMenu`; it belongs to M3's list.
+  - Window check J15 is M3's.
+  - The ControlChart Layout drop-down's old items could be disposed after the current message.
+  - UserControlSecurityUserGroup.Designer.cs also got a components container.
+- **For the gate:**
+  - Launch check 7 does Rotate and Delete from the image menu, because `ContextMenuStrip.Show` does not block and panelMain's MouseUp now
+    runs first.
+  - Launch check 11 confirms that opening the strip on a sheet field does not dispose the text box (`TextBox_LostFocus`).

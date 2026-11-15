@@ -1847,7 +1847,13 @@ Here is the desired behavior:
 				return;
 			}
 			//Only the program's own format is read (NodeTypeAndKeyClipboard): no object of another program or format is deserialized.
-			nodeTypeAndKey=NodeTypeAndKeyClipboard.GetData(iDataObject,out dbNameOrUriCopied);
+			try {
+				nodeTypeAndKey=NodeTypeAndKeyClipboard.GetData(iDataObject,out dbNameOrUriCopied);
+			}
+			catch(Exception ex) {//Bad data under the program's format from another program: no key, never an error out of the paste (lead fix at S3a-M2's merge).
+				ex.DoNothing();
+				nodeTypeAndKey=null;
+			}
 			string dbNameOrUri=DataConnectionBase.DataConnection.GetDatabaseName();
 			if(RemotingClient.MiddleTierRole!=MiddleTierRole.ClientDirect) {//using Middle Tier
 				dbNameOrUri=RemotingClient.ServerURI;
