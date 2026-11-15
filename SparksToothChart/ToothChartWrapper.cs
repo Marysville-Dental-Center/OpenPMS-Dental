@@ -12,21 +12,14 @@ using OpenPmsDentalBusiness;
 using SparksToothChart.Wpf3D;
 
 namespace SparksToothChart {
-	///<summary>This is the old tooth chart control.  It "wraps" three different old tooth charts: OpenGL, DirectX9, and 2D, and the WPF 3D chart
-	///(Engine, docs/specs/wpf-tooth-chart-plan.md). Since TC-8 a stored DirectX or OpenGL choice (DrawMode) starts the WPF chart, so the program
-	///draws with the WPF chart or the 2D chart only; the DirectX and OpenGL engines are reached only through Engine (the legacy recorder and the
-	///tests) until TC-9a deletes them.</summary>
+	///<summary>The tooth chart control. It "wraps" the two engines that draw the chart: the WPF 3D chart (docs/specs/wpf-tooth-chart-plan.md) and
+	///the Simple 2D chart (Engine). A stored DirectX or OpenGL choice (DrawMode) starts the WPF chart since TC-8, and a stored Simple 2D choice
+	///the 2D chart. The old DirectX 9 and OpenGL engines were retired in TC-9a.</summary>
 	public partial class ToothChartWrapper:UserControl {
 		private string[] selectedTeeth;
-		///<summary>True for hardware graphics, false for software graphics.</summary>
-		private bool hardwareMode=false;
-		private ToothChartOpenGL toothChartOpenGL;
-		private ToothChartDirectX toothChartDirectX;
-		private int preferredPixelFormatNum;
-		private ToothChartDirectX.DirectXDeviceFormat deviceFormat=null;
 		private DrawingMode drawMode;
 		private ToothChartData tcData;
-		///<summary>The engine that draws: the three DrawingMode engines, or Wpf3D. drawMode is its stored view (Wpf3D reads as DirectX).</summary>
+		///<summary>The engine that draws: Simple2D or Wpf3D. drawMode is its stored view (Wpf3D reads as DirectX).</summary>
 		private ToothChartEngine _engine;
 		///<summary>Wpf3D: the engine control that shows the renderer's image: the on-screen chart until the live view is made, when the wrapper is drawn
 		///in software, and when the live view could not start.</summary>
@@ -123,8 +116,8 @@ namespace SparksToothChart {
 		#region Properties
 
 		///<summary>The stored kind of the engine (computerpref.GraphicsSimple). Since TC-8 setting DirectX (0) or OpenGL (2) starts the WPF chart
-		///(Engine=Wpf3D), which falls back to Simple2D with one log line when it cannot start, and setting Simple2D (1) starts the 2D chart (O-30): a
-		///stored DirectX or OpenGL choice never reaches the old engines again. While Engine is Wpf3D this reads DirectX: the stored value that the
+		///(Engine=Wpf3D), which falls back to Simple2D with one log line when it cannot start, and setting Simple2D (1) starts the 2D chart (O-30); the old
+		///DirectX and OpenGL engines were retired in TC-9a. While Engine is Wpf3D this reads DirectX: the stored value that the
 		///WPF chart replaces, so a caller that saves DrawMode never turns a computer to the 2D chart, and Wpf3D has no stored form of its own.</summary>
 		public DrawingMode DrawMode{
 			get{
@@ -139,35 +132,26 @@ namespace SparksToothChart {
 					Engine=ToothChartEngine.Wpf3D;//TC-8: the stored DirectX and OpenGL choices start the WPF chart
 					return;
 				}
-				StartDrawingModeEngine(value);
+				StartSimple2D();
 			}
 		}
 
-		///<summary>Starts one of the three DrawingMode engines on this wrapper, after releasing the engine it had. A mode that cannot start falls back
-		///to the next one (DirectX, OpenGL, Simple 2D) without an error dialog, logged once per process. Since TC-8 only Engine reaches DirectX and
-		///OpenGL here (the legacy recorder and the tests, until TC-9a deletes those engines); DrawMode reaches only Simple2D.</summary>
-		private void StartDrawingModeEngine(DrawingMode value) {
-			if(_engine==ToothChartEngine.DirectX && value!=DrawingMode.DirectX){
-				//If switching from from DirectX to another drawing mode,
-				//then we need to cleanup DirectX resources in case the
-				//chart is never switched back to DirectX mode.
-				DisposeDirectX();//Calls CleanupDirectX() and device.Dispose().
-			}
+		///<summary>Starts the Simple 2D chart on this wrapper, after releasing the engine it had. The 2D chart is the last resort, so a failure to
+		///start it is not caught.</summary>
+		private void StartSimple2D() {
 			if(_engine==ToothChartEngine.Wpf3D) {
 				DisposeWpf3D();
 			}
-			//A mode that cannot start falls back to the next one (DirectX, OpenGL, Simple 2D) without an error dialog, logged once per process.
-			//Read DrawMode afterwards to learn which mode started.
-			drawMode=StartFirstWorkingMode(value,IsDirectXRuntimeAvailable(),TryStartDrawMode,LogFallbackOnce);
-			_engine=(ToothChartEngine)drawMode;
+			drawMode=DrawingMode.Simple2D;
+			_engine=ToothChartEngine.Simple2D;
+			ResetControls();
 		}
 
 		///<summary>The engine that draws the chart. Setting Wpf3D starts the WPF chart (docs/specs/wpf-tooth-chart-plan.md, section 5): its render
 		///thread and a check image the first time in the process, then its engine control, the image host; the live view follows with the first
 		///rebuild on screen of a wrapper shown on an STA thread (WpfDrawInSoftware, TC-3). When it cannot start, the chart falls back to Simple2D with
-		///one log line (LogFallbackOnce). Setting Simple2D starts the 2D chart. Setting DirectX or OpenGL starts that old engine itself, with its
-		///fallback: since TC-8 only the legacy recorder and the tests do that, until TC-9a deletes those engines; the program sets the stored choice
-		///through DrawMode, where DirectX and OpenGL start Wpf3D. Read Engine afterwards to learn which engine started. In memory only.</summary>
+		///one log line (LogFallbackOnce). Setting Simple2D starts the 2D chart. The program sets the stored choice through DrawMode, where DirectX and
+		///OpenGL start Wpf3D. Read Engine afterwards to learn which engine started. In memory only.</summary>
 		[Browsable(false)]
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public ToothChartEngine Engine {
@@ -179,11 +163,8 @@ namespace SparksToothChart {
 					return;//as DrawMode: Unix keeps the 2D chart
 				}
 				if(value!=ToothChartEngine.Wpf3D) {
-					StartDrawingModeEngine((DrawingMode)value);
+					StartSimple2D();
 					return;
-				}
-				if(_engine==ToothChartEngine.DirectX) {
-					DisposeDirectX();
 				}
 				if(_engine==ToothChartEngine.Wpf3D) {
 					DisposeWpf3D();
@@ -215,12 +196,6 @@ namespace SparksToothChart {
 			set {
 				if(_engine==ToothChartEngine.Simple2D) {
 					toothChart2D.TcData=value;
-				}
-				else if(_engine==ToothChartEngine.DirectX) {
-					toothChartDirectX.SetTcData(value);//Frees the old models' buffers in video memory and makes the new ones'.
-				}
-				else if(_engine==ToothChartEngine.OpenGL) {
-					toothChartOpenGL.TcData=value;
 				}
 				else if(_engine==ToothChartEngine.Wpf3D) {
 					toothChartImageHost.TcData=value;
@@ -281,54 +256,6 @@ namespace SparksToothChart {
 			}
 		}
 
-		///<summary>Set to true when using hardware rendering in OpenGL, and false otherwise. This will have no effect when in simple 2D graphics mode.</summary>
-		[Browsable(false)]
-		public bool UseHardware{
-			get{
-				return hardwareMode;
-			}
-			set{
-				hardwareMode=value;
-			}
-		}
-
-		[Browsable(false)]
-		public bool AutoFinish{
-			get{
-				if(drawMode==DrawingMode.OpenGL) {
-					return toothChartOpenGL.autoFinish;
-				}
-				else {
-					return false;
-				}
-			}
-			set{
-				if(drawMode==DrawingMode.OpenGL) {
-					toothChartOpenGL.autoFinish=value;
-				}
-			}
-		}
-
-		[Browsable(false)]
-		public int PreferredPixelFormatNumber{
-			get{
-				return preferredPixelFormatNum;
-			}
-			set{
-				preferredPixelFormatNum=value;
-			}
-		}
-
-		[Browsable(false)]
-		public ToothChartDirectX.DirectXDeviceFormat DeviceFormat {
-			get {
-				return deviceFormat;
-			}
-			set {
-				deviceFormat=value;
-			}
-		}
-
 		[Browsable(false)]
 		public CursorTool CursorTool{
 			get{
@@ -374,8 +301,8 @@ namespace SparksToothChart {
 				return tcData.PerioMode;
 			}
 			set {
-				if(_engine!=ToothChartEngine.DirectX && _engine!=ToothChartEngine.Wpf3D && value==true) {
-					//The WPF chart draws perio since TC-7, and since TC-8 the graphical perio chart always asks for it (O-31); Simple 2D and OpenGL cannot.
+				if(_engine!=ToothChartEngine.Wpf3D && value==true) {
+					//The WPF chart draws perio since TC-7, and since TC-8 the graphical perio chart always asks for it (O-31); Simple 2D cannot.
 					//A perio chart gets here only when the WPF chart could not start on this computer (its one log line says why).
 					throw new Exception("The graphical perio chart needs the 3D tooth chart, which could not start on this computer.");
 				}
@@ -385,7 +312,7 @@ namespace SparksToothChart {
 		}
 
 		///<summary>The office's Perio Setup option "Use the term Recession" (Open Dental 24.4): the WPF chart's perio legend names the gingival margin
-		///line "Recession" unless the exam has hyperplasia (TC-7). The DirectX chart's legend keeps its fixed text.</summary>
+		///line "Recession" unless the exam has hyperplasia (TC-7).</summary>
 		[Browsable(false)]
 		public bool PerioUseRecessionTerm {
 			get {
@@ -492,13 +419,6 @@ namespace SparksToothChart {
 			if(_engine==ToothChartEngine.Simple2D) {
 				toothChart2D.Invalidate();
 			}
-			else if(_engine==ToothChartEngine.DirectX) {
-				toothChartDirectX.Invalidate();
-			}
-			else if(_engine==ToothChartEngine.OpenGL) {
-				toothChartOpenGL.Invalidate();
-				//toothChartOpenGL.TaoDraw();
-			}
 			else if(_engine==ToothChartEngine.Wpf3D) {
 				MarkWpfSceneDirty();
 			}
@@ -551,202 +471,23 @@ namespace SparksToothChart {
 				toothChart2D.InitializeGraphics();
 				toothChart2D.ResumeLayout();
 			}
-			else if(drawMode==DrawingMode.DirectX){
-				//I noticed that this code executes when the program starts, then also when the Chart module is selected for the first time.
-				//Thus the Chart graphic was loading twice before the user could see it.
-				bool isInitialized=true;
-				if(toothChartDirectX==null) {
-					isInitialized=false;
-				}
-				if(isInitialized) {
-					//Since the control is already initialized, reuse it.  This helps the load time of the Chart module and helps to prevent an issue.
-					//This flag helps prevent a red X on the tooth chart when the Chart module is left open and the Windows user is switched then switched back.
-				}
-				else {
-					toothChartDirectX=new ToothChartDirectX();//(hardwareMode,preferredPixelFormatNum);
-				}
-				//preferredPixelFormatNum=toothChart.SelectedPixelFormatNumber;
-				//toothChartDirectX.ColorText=colorText;
-				toothChartDirectX.Dock = System.Windows.Forms.DockStyle.Fill;
-				toothChartDirectX.Location = new System.Drawing.Point(0,0);
-				toothChartDirectX.Name = "toothChartDirectX";
-				//toothChartDirectX.Size = new System.Drawing.Size(719,564);//unnecessary?
-				toothChartDirectX.SegmentDrawn+=new ToothChartDrawEventHandler(toothChart_SegmentDrawn);
-				toothChartDirectX.ToothSelectionsChanged+=new ToothChartSelectionEventHandler(toothChart_ToothSelectionsChanged);
-				toothChartDirectX.TcData=tcData;
-				toothChartDirectX.SuspendLayout();//Might help with the MDA debug error we used to get (if the option wasn't disabled in our compilers).
-				this.Controls.Add(toothChartDirectX);
-				ResetTeeth();
-				toothChartDirectX.deviceFormat=deviceFormat;
-				if(!isInitialized) {
-					toothChartDirectX.InitializeGraphics();
-				}
-				toothChartDirectX.ResumeLayout();//Might help with the MDA debug error we used to get (if the option wasn't disabled in our compilers).
-			}
-			else if(drawMode==DrawingMode.OpenGL){
-				toothChartOpenGL=new ToothChartOpenGL(hardwareMode,preferredPixelFormatNum);
-				preferredPixelFormatNum=toothChartOpenGL.SelectedPixelFormatNumber;
-				//toothChartOpenGL.ColorText=colorText;
-				toothChartOpenGL.Dock = System.Windows.Forms.DockStyle.Fill;
-				toothChartOpenGL.Location = new System.Drawing.Point(0,0);
-				toothChartOpenGL.Name = "toothChartOpenGL";
-				//toothChartOpenGL.Size = new System.Drawing.Size(719,564);//unnecessary?
-				toothChartOpenGL.TcData=tcData;
-				toothChartOpenGL.SegmentDrawn+=new ToothChartDrawEventHandler(toothChart_SegmentDrawn);
-				toothChartOpenGL.ToothSelectionsChanged+=new ToothChartSelectionEventHandler(toothChart_ToothSelectionsChanged);
-				toothChartOpenGL.SuspendLayout();
-				this.Controls.Add(toothChartOpenGL);
-				ResetTeeth();
-				toothChartOpenGL.InitializeGraphics();//MakeDisplayLists();
-				toothChartOpenGL.ResumeLayout();
-			}
 		}
 
-		#region Draw mode fallback
-		///<summary>The D3DX 9 helper library from Microsoft's legacy DirectX End-User Runtime. The DirectX chart needs it for its fonts and mesh
-		///optimisation (SharpDX.Direct3D9.Font, D3DX.OptimizeFaces). Windows itself ships d3d9.dll but not this file.</summary>
-		public const string D3DX_DLL="d3dx9_43.dll";
-		private static bool? _isDirectXRuntimeAvailable;
-		private static string _directXRuntimeLogLine;
+		#region Fallback messages
+		//TC-9a retired the old engines' fallback (DirectX, then OpenGL, then Simple 2D), the DirectX runtime check (D3DX_DLL, IsDirectXRuntimeAvailable,
+		//CanLoadLibrary and its log line naming the d3dx9_43.dll that loaded, N64-A), the DirectX format search and test, and IsGraphicsDeviceException
+		//(SharpDX's exception): nothing loads the DirectX runtime any more. What is left is the WPF chart's own fallback to Simple 2D.
 		///<summary>The fallback kinds whose first message has been written to the log in this process.</summary>
 		private static readonly HashSet<ToothChartFallbackKind> _hashSetKindsLogged=new HashSet<ToothChartFallbackKind>();
 
-		///<summary>The mode the chart tries next when drawingMode cannot start: DirectX falls back to OpenGL, OpenGL to Simple 2D. Simple 2D has no
-		///fallback and returns itself.</summary>
-		public static DrawingMode GetFallbackDrawMode(DrawingMode drawingMode) {
-			if(drawingMode==DrawingMode.DirectX) {
-				return DrawingMode.OpenGL;
-			}
-			return DrawingMode.Simple2D;
-		}
-
-		///<summary>True when D3DX_DLL can be loaded in this process, so the DirectX chart can start. A clean Windows install lacks it. Checked once
-		///per process.</summary>
-		public static bool IsDirectXRuntimeAvailable() {
-			if(_isDirectXRuntimeAvailable==null) {
-				_isDirectXRuntimeAvailable=CanLoadLibrary(D3DX_DLL,out string pathLoaded);
-				if(_isDirectXRuntimeAvailable.Value) {
-					//One ToothChart log line per process, at the first chart's start: the folder and bitness of the D3DX that loaded (N64-A).
-					_directXRuntimeLogLine=DescribeLoadedD3dx(pathLoaded,Environment.Is64BitProcess);
-					try {
-						CodeBase.Logger.WriteLine(_directXRuntimeLogLine,"ToothChart");
-					}
-					catch(Exception ex) {
-						ex.DoNothing();
-					}
-				}
-			}
-			return _isDirectXRuntimeAvailable.Value;
-		}
-
-		///<summary>The ToothChart log line IsDirectXRuntimeAvailable wrote, naming the folder and bitness of the d3dx9_43.dll this process loaded,
-		///or "" before the check and when the file could not be loaded (the chart's fallback line says so). For tests: Logger writes nothing in a
-		///unit test process.</summary>
-		public static string GetDirectXRuntimeLogLine() {
-			return _directXRuntimeLogLine??"";
-		}
-
-		///<summary>The log line for the D3DX file at pathLoaded (the loaded module's path): its folder, its PE bitness and this process's, for
-		///example "DirectX: d3dx9_43.dll loaded from C:\Windows\System32, a native 64-bit (x64) PE32+ file, in this 64-bit process." A file of the
-		///other bitness could not have loaded; the line still says what the file is.</summary>
-		public static string DescribeLoadedD3dx(string pathLoaded,bool is64BitProcess) {
-			string bitnessProcess=is64BitProcess ? "64-bit" : "32-bit";
-			if(string.IsNullOrEmpty(pathLoaded)) {
-				return "DirectX: "+D3DX_DLL+" loaded (its path could not be read) in this "+bitnessProcess+" process.";
-			}
-			string describe;
-			try {
-				describe=CodeBase.PortableExecutableFile.Read(pathLoaded).DescribeBitness();
-			}
-			catch(Exception ex) {
-				describe="its header could not be read ("+ex.GetType().Name+")";
-			}
-			string folder=System.IO.Path.GetDirectoryName(pathLoaded);
-			if(!is64BitProcess && Environment.Is64BitOperatingSystem
-				&& string.Equals(folder.TrimEnd('\\'),Environment.SystemDirectory.TrimEnd('\\'),StringComparison.OrdinalIgnoreCase))
-			{
-				//A 32-bit process on 64-bit Windows is told System32, but WOW64 redirects it to the 32-bit system folder, where the file is.
-				folder=Environment.GetFolderPath(Environment.SpecialFolder.SystemX86)+" (the loader reports "+folder+", which WOW64 redirects)";
-			}
-			return "DirectX: "+System.IO.Path.GetFileName(pathLoaded)+" loaded from "+folder+", "+describe+", in this "+bitnessProcess+" process.";
-		}
-
-		///<summary>Starts the first mode that works, beginning with drawingModeRequested and following GetFallbackDrawMode: DirectX, then OpenGL,
-		///then Simple 2D. DirectX is not tried when isDirectXRuntimeAvailable is false. funcTryStart starts one mode and returns true, or returns false
-		///or throws when that mode cannot start. Simple 2D is the last resort and is not caught, as before. actionLog gets one line for each mode
-		///that was skipped or failed. Returns the mode that started.</summary>
-		public static DrawingMode StartFirstWorkingMode(DrawingMode drawingModeRequested,bool isDirectXRuntimeAvailable,Func<DrawingMode,bool> funcTryStart,
-			Action<string> actionLog)
-		{
-			DrawingMode drawingMode=drawingModeRequested;
-			if(drawingMode==DrawingMode.DirectX && !isDirectXRuntimeAvailable) {
-				actionLog?.Invoke("The DirectX tooth chart cannot start because "+D3DX_DLL+" (Microsoft's DirectX End-User Runtime) is not installed. "
-					+"Using "+GetFallbackDrawMode(drawingMode)+".");
-				drawingMode=GetFallbackDrawMode(drawingMode);
-			}
-			while(drawingMode!=DrawingMode.Simple2D) {
-				string reason="";
-				bool isStarted=false;
-				try {
-					isStarted=funcTryStart(drawingMode);
-				}
-				catch(Exception ex) {
-					reason=" ("+ex.GetType().Name+": "+ex.Message+")";
-				}
-				if(isStarted) {
-					return drawingMode;
-				}
-				actionLog?.Invoke("The "+drawingMode+" tooth chart could not start"+reason+". Using "+GetFallbackDrawMode(drawingMode)+".");
-				drawingMode=GetFallbackDrawMode(drawingMode);
-			}
-			funcTryStart(DrawingMode.Simple2D);
-			return DrawingMode.Simple2D;
-		}
-
-		///<summary>Starts drawingMode on this wrapper. Throws when it cannot start, after releasing a half-made DirectX control so the next attempt at
-		///DirectX starts clean.</summary>
-		private bool TryStartDrawMode(DrawingMode drawingMode) {
-			drawMode=drawingMode;
-			_engine=(ToothChartEngine)drawingMode;
-			try {
-				ResetControls();
-			}
-			catch {
-				if(drawingMode==DrawingMode.DirectX) {
-					DisposeDirectX();
-				}
-				throw;
-			}
-			return true;
-		}
-
-		private void DisposeDirectX() {
-			if(toothChartDirectX==null) {
-				return;
-			}
-			try {
-				Controls.Remove(toothChartDirectX);
-				toothChartDirectX.Dispose();
-			}
-			catch(Exception ex) {
-				ex.DoNothing();//A device that never started can fail to clean up; it is dropped either way.
-			}
-			toothChartDirectX=null;
-		}
-
-		///<summary>A fallback of a DrawingMode engine (ToothChartFallbackKind.DrawMode), as StartFirstWorkingMode reports it.</summary>
-		internal static void LogFallbackOnce(string message) {
-			LogFallbackOnce(ToothChartFallbackKind.DrawMode,message);
-		}
-
 		///<summary>Writes the first fallback of each kind in this process to the ToothChart log and ignores the rest of that kind, so a computer
-		///without DirectX does not fill the log every time a chart is drawn, and a computer that has written one kind still writes the first of
-		///another (a DirectX fallback line does not hide the WPF chart's first failure). Every message, written or not, is kept for
-		///GetFallbackMessages. The WPF chart's renderer and image host log through here too.</summary>
+		///where the WPF chart cannot start does not fill the log every time a chart is drawn, and a computer that has written one kind still writes
+		///the first of another. Every message, written or not, is kept for GetFallbackMessages. The WPF chart's renderer and image host log through
+		///here too.</summary>
 		internal static void LogFallbackOnce(ToothChartFallbackKind kind,string message) {
 			lock(_lockFallback) {
 				if(_listFallbackMessages.Count>=1000) {
-					_listFallbackMessages.RemoveAt(0);//a computer without DirectX adds one for every chart; the list stays small
+					_listFallbackMessages.RemoveAt(0);//a computer where the WPF chart cannot start adds one for every chart; the list stays small
 				}
 				_listFallbackMessages.Add(message);
 				_countFallbackMessages++;
@@ -800,98 +541,7 @@ namespace SparksToothChart {
 				return _listFallbackMessages.GetRange(_listFallbackMessages.Count-countNew,countNew);
 			}
 		}
-
-		///<summary>True when ex is an error of the chart's graphics device: today SharpDX's exception (or a subclass), thrown by the DirectX chart when
-		///its device is lost or a picture cannot be read back. Lets callers catch it without naming SharpDX:
-		///catch(Exception ex) when(ToothChartWrapper.IsGraphicsDeviceException(ex)). False for null and for every other exception.</summary>
-		public static bool IsGraphicsDeviceException(Exception ex) {
-			return ex is SharpDX.SharpDXException;
-		}
-
-		///<summary>CAUTION: Runs slowly. May take minutes. Returns the string "invalid" if no suitable Direct X format can be found. Each format is
-		///tried on an invisible chart on controlHost (TestDirectXFormat). Moved from FormGraphics (TC-2). Since TC-8 the program never calls it (the
-		///start-up search is a no-op and Setup > Graphics has no format grid); the legacy recorder and the tests do, until TC-9a.</summary>
-		public static string GetPreferredDirectXFormat(Control controlHost) {
-			if(!ToothChartWrapper.IsDirectXRuntimeAvailable()) {
-				return "invalid";//No format can work without d3dx9_43.dll, so don't spend minutes trying each one.
-			}
-			ToothChartDirectX.DirectXDeviceFormat[] directXDeviceFormatArray=ToothChartDirectX.GetStandardDeviceFormats();
-			for(int i=0;i<directXDeviceFormatArray.Length;i++) {
-				if(TestDirectXFormat(controlHost,directXDeviceFormatArray[i].ToString())) {
-					return directXDeviceFormatArray[i].ToString();
-				}
-			}
-			return "invalid";
-		}
-
-		///<summary>Returns true if the given directXFormat works for a DirectX tooth chart on the local computer: an invisible chart on controlHost
-		///starts DirectX with it and gives a picture. Moved from FormGraphics (TC-2).</summary>
-		public static bool TestDirectXFormat(Control controlHost,string directXFormat) {
-			using(ToothChartWrapper toothChartWrapperTest=new ToothChartWrapper()) {//using blocks: this project is C# 7.3
-				toothChartWrapperTest.Visible=false;
-				//We add the invisible tooth chart to our form so that the device context will initialize properly
-				//and our device creation test will then be accurate.
-				controlHost.Controls.Add(toothChartWrapperTest);
-				toothChartWrapperTest.DeviceFormat=new ToothChartDirectX.DirectXDeviceFormat(directXFormat);
-				//Creates the device. The DirectX engine itself (Engine): since TC-8 DrawMode's DirectX starts the WPF chart. Only the legacy recorder and
-				//the tests search formats now (Setup > Graphics and the start-up search no longer do); TC-9a deletes this with the engine.
-				toothChartWrapperTest.Engine=ToothChartEngine.DirectX;
-				if(toothChartWrapperTest.Engine!=ToothChartEngine.DirectX) {
-					//The chart falls back to OpenGL, then Simple 2D, when DirectX cannot start.
-					controlHost.Controls.Remove(toothChartWrapperTest);
-					return false;
-				}
-				//Now we check to be sure that one can draw and retrieve a screen shot from a DirectX control
-				//using the specified device format.
-				try {
-					using(Bitmap bitmap=toothChartWrapperTest.GetBitmap()) {
-					}
-				}
-				catch {
-					controlHost.Controls.Remove(toothChartWrapperTest);
-					return false;
-				}
-				controlHost.Controls.Remove(toothChartWrapperTest);
-				return true;
-			}
-		}
-
-		///<summary>True when fileName loads in this process; pathLoaded is then the loaded module's full path (GetModuleFileName), or "" when
-		///that could not be read.</summary>
-		private static bool CanLoadLibrary(string fileName,out string pathLoaded) {
-			pathLoaded="";
-			try {
-				IntPtr intPtrModule=LoadLibrary(fileName);
-				if(intPtrModule==IntPtr.Zero) {
-					return false;
-				}
-				try {
-					StringBuilder stringBuilder=new StringBuilder(1024);
-					if(GetModuleFileName(intPtrModule,stringBuilder,stringBuilder.Capacity)>0) {
-						pathLoaded=stringBuilder.ToString();
-					}
-				}
-				catch(Exception ex) {
-					ex.DoNothing();
-				}
-				FreeLibrary(intPtrModule);
-				return true;
-			}
-			catch(Exception ex) {
-				ex.DoNothing();
-				return false;
-			}
-		}
-
-		[System.Runtime.InteropServices.DllImport("kernel32.dll",CharSet=System.Runtime.InteropServices.CharSet.Unicode,SetLastError=true)]
-		private static extern IntPtr LoadLibrary(string lpFileName);
-
-		[System.Runtime.InteropServices.DllImport("kernel32.dll",CharSet=System.Runtime.InteropServices.CharSet.Unicode,SetLastError=true)]
-		private static extern int GetModuleFileName(IntPtr hModule,StringBuilder lpFilename,int nSize);
-
-		[System.Runtime.InteropServices.DllImport("kernel32.dll",SetLastError=true)]
-		private static extern bool FreeLibrary(IntPtr hModule);
-		#endregion Draw mode fallback
+		#endregion Fallback messages
 
 		#region Wpf3D
 		///<summary>Marks the WPF chart's scene dirty (every Invalidate comes here, section 5.5). On a wrapper that is shown, the first mark of a burst
@@ -944,8 +594,8 @@ namespace SparksToothChart {
 		#region Wpf3D live view and the software switch
 		///<summary>The value of computerpref.DirectXFormat that turns the WPF chart's on-screen view to the software render on a computer (O-19 (b)):
 		///empty, or a DirectX device format, means the live view. Since TC-8 Setup > Graphics stores it ("Draw in software") and
-		///ToothChartRelay.ApplyComputerSettings reads it; an older build finds no ';' in it and keeps its default DirectX format
-		///(ToothChartDirectX.DirectXDeviceFormat).</summary>
+		///ToothChartRelay.ApplyComputerSettings reads it. It holds no ';', so a build that still has the DirectX chart (Open Dental, or this one before
+		///TC-9a) reads no device format from it and keeps its default DirectX format.</summary>
 		public const string DirectXFormatWpfSoftware="WpfSoftware";
 
 		///<summary>True when a stored computerpref.DirectXFormat value is DirectXFormatWpfSoftware: the computer draws the WPF chart in software.</summary>
@@ -1270,7 +920,7 @@ namespace SparksToothChart {
 		///scene only when it starts the job, so a burst of refills makes one picture (and one more when a render was already running when the burst
 		///began; its picture is dropped). A render that fails twice gives the 2D chart's picture of the data as it is when the failure arrives, logged
 		///once, as GetBitmap falls back. Returns null, asking for nothing, when the picture cannot be made this way: another engine (Simple 2D keeps its
-		///GetBitmap; since TC-8 the program starts no DirectX or OpenGL chart), a wrapper with no handle to post to (the hidden forms of prints, sheets and the dashboard's own
+		///GetBitmap), a wrapper with no handle to post to (the hidden forms of prints, sheets and the dashboard's own
 		///chart), a call off the wrapper's thread, or an empty size. The caller then calls GetBitmap.</summary>
 		public ToothChartBitmapRequest RequestBitmapInBackground() {
 			if(_engine!=ToothChartEngine.Wpf3D || toothChartImageHost==null || IsDisposed || Disposing || !IsHandleCreated || InvokeRequired) {
@@ -1605,12 +1255,6 @@ namespace SparksToothChart {
 		}
 		#endregion Wpf3D
 
-		//This step usually happens when the DrawMode property is set on the tooth chart wrapper, by way of the ResetControls() function.
-		///<summary>Not normally used unless we are just trying to make a copy of an existing directX control.</summary>
-		//public void InitializeDirectXGraphics() {
-		//  toothChartDirectX.InitializeGraphics();
-		//}
-
 		#region Public Methods
 
 		///<summary>If ListToothGraphics is empty, then this fills it, including the complex process of loading all drawing points from local resources.  Or if not empty, then this resets all 32+20 teeth to default postitions, no restorations, etc. Primary teeth set to visible false.  Also clears selected.  Should surround with SuspendLayout / ResumeLayout.</summary>
@@ -1848,7 +1492,7 @@ namespace SparksToothChart {
 
 		///<summary>Paint type Text with text other than "W" (O-22, TC-5): the text is drawn beyond the root tip, in the watch mark's band, in the
 		///colour. "W" is the watch mark (SetWatch; the relay chooses). A second call for the same tooth replaces the first; empty text draws nothing.
-		///The WPF chart and the 2D chart draw it; DirectX and OpenGL do not (they leave with TC-9a).</summary>
+		///The WPF chart and the 2D chart draw it; the old DirectX and OpenGL charts (retired in TC-9a) did not.</summary>
 		public void SetText(string toothID,Color color,string text) {
 			if(!ToothGraphic.IsValidToothID(toothID)) {
 				return;
@@ -1972,30 +1616,11 @@ namespace SparksToothChart {
 
 		///<summary>Returns a bitmap of what is showing in the control.  Used for printing.</summary>
 		public Bitmap GetBitmap() {
-			/*
-			Bitmap bmp=new Bitmap(this.Width,this.Height);
-			Graphics g=Graphics.FromImage(dummy);
-			PaintEventArgs e=new PaintEventArgs(g,new Rectangle(0,0,dummy.Width,dummy.Height));
-			if(simpleMode) {
-				OnPaint(e);
-				return dummy;
-			}
-			toothChartOpenGL.Render(e);
-			Bitmap result=toothChartOpenGL.ReadFrontBuffer();
-			g.Dispose();
-			return result;
-			return null;*/
 			if(_engine==ToothChartEngine.Wpf3D) {
 				return GetWpf3DBitmap();
 			}
 			if(drawMode==DrawingMode.Simple2D) {
 				return toothChart2D.GetBitmap();
-			}
-			if(drawMode==DrawingMode.OpenGL) {
-				return toothChartOpenGL.GetBitmap();
-			}
-			if(drawMode==DrawingMode.DirectX) {
-				return toothChartDirectX.GetBitmap();
 			}
 			return null;
 		}
@@ -2037,13 +1662,6 @@ namespace SparksToothChart {
 			base.OnResize(e);
 			tcData.SizeControl=this.Size;
 			Invalidate();//Wpf3D: marks the scene dirty, and the next image has the new size
-			if(_engine==ToothChartEngine.DirectX){
-				//Fire the resize event for the DirectX tooth chart.
-				//For some reason the Resize() and Size() events don't fire on the DirectX control
-				//if you create them through the designer. Perhaps there is something wrong, but this
-				//works for now.
-				toothChartDirectX.SetSize(this.Size);
-			}
 		}
 
 		public void SetSelected(string tooth_id,bool setValue) {

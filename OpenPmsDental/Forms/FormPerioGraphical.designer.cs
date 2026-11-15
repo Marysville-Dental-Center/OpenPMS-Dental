@@ -32,19 +32,15 @@
 			// 
 			// toothChartWrapper
 			// 
-			this.toothChartWrapper.AutoFinish = false;
 			this.toothChartWrapper.ColorBackground = System.Drawing.Color.FromArgb(((int)(((byte)(150)))), ((int)(((byte)(145)))), ((int)(((byte)(152)))));
 			this.toothChartWrapper.Cursor = System.Windows.Forms.Cursors.Default;
 			this.toothChartWrapper.CursorTool = SparksToothChart.CursorTool.Pointer;
-			this.toothChartWrapper.DeviceFormat = null;
 			this.toothChartWrapper.DrawMode = OpenPmsDentalBusiness.DrawingMode.Simple2D;
 			this.toothChartWrapper.Location = new System.Drawing.Point(0, 0);
 			this.toothChartWrapper.Name = "toothChartWrapper";
 			this.toothChartWrapper.PerioMode = false;
-			this.toothChartWrapper.PreferredPixelFormatNumber = 0;
 			this.toothChartWrapper.Size = new System.Drawing.Size(649, 696);
 			this.toothChartWrapper.TabIndex = 198;
-			this.toothChartWrapper.UseHardware = false;
 			// 
 			// butPrint
 			// 

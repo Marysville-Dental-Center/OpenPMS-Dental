@@ -815,17 +815,6 @@ namespace OpenPmsDental{
 				FrmDecimalSettings frmDecimalSettings=new FrmDecimalSettings();
 				frmDecimalSettings.ShowDialog();
 			}
-			Logger.LogToPath("DirectXFormat",LogPath.Startup,LogPhase.Unspecified);
-			//Choose a default DirectX format when no DirectX format has been specified and running in DirectX tooth chart mode.
-			if(ToothChartRelay.ChooseStartupDirectXFormat(this)) {
-				try {
-					//Reinitialize the tooth chart because the graphics mode was probably changed which should change the tooth chart appearence.
-					controlChart.InitializeOnStartup();
-				}
-				catch(Exception) {
-					//The tooth chart will default to Simple2D mode if the above code fails for any reason.  This will at least get the user into the program.
-				}
-			}
 			_menuItemReactivation.Available=PrefC.GetBool(PrefName.ShowFeatureReactivations);
 			Logger.LogToPath("UpdateLocalComputerOS",LogPath.Startup,LogPhase.Unspecified);
 			ComputerPrefs.UpdateLocalComputerOS();

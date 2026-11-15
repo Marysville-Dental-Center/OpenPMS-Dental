@@ -1088,7 +1088,7 @@ Scrollable Control: For example, a panel that's set to AutoScroll=true.  These c
 			//	return true;
 			//}
 			if(control is SparksToothChart.ToothChartWrapper){
-				return true;//ignore the engine control contained within: ToothChartDirectX, ToothChart2D, ToothChartOpenGL or the WPF chart's image host.
+				return true;//ignore the engine control contained within: ToothChart2D or the WPF chart's image host.
 			}
 			if(control is ScrollableControl scrollableControl && scrollableControl.AutoScroll){
 				//We need to return true for these forms to avoid a bug with scrollable splitters or panels that can create uneccessary additional white space.

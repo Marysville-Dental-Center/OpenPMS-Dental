@@ -13,7 +13,7 @@ namespace OpenPmsDental{
 	///<summary>Relays tooth chart commands to SparksToothChart.ToothChartWrapper, the only tooth chart. Open Dental's closed DirectX 11 chart
 	///(Sparks3D.dll, under Open Dental's own licence) was removed on 2026-11-01. Since TC-8 the wrapper draws with the WPF chart (a stored DirectX
 	///or OpenGL choice starts it) or the Simple 2D chart (a stored Simple 2D choice), and falls back to Simple 2D on its own when the WPF chart
-	///cannot start; the DirectX 9 and OpenGL engines stay in the wrapper, unused by the program, until TC-9a. The features only Sparks3D drew are drawn by the WPF chart: free text and paint text other than "W"
+	///cannot start; the DirectX 9 and OpenGL engines were retired in TC-9a. The features only Sparks3D drew are drawn by the WPF chart: free text and paint text other than "W"
 	///since TC-5 (TextBelow is shown by the Chart module, outside the tooth picture), ortho mode, orthodontic hardware, retained roots and space
 	///maintainers since TC-6; the DirectX, OpenGL and Simple 2D charts ignore those last four, as Open Dental's own did. Since TC-2 the callers' painting code is ToothChartPainter, which draws
 	///on the relay as its IToothChartPaintTarget, and the callers' chart settings are the relay's settings helpers.</summary>
@@ -82,8 +82,8 @@ namespace OpenPmsDental{
 			}
 		}
 
-		///<summary>Sets the wrapper's perio mode to the value given. Turning it on is only allowed in DirectX and, since TC-7, the WPF chart (the wrapper
-		///throws otherwise).</summary>
+		///<summary>Sets the wrapper's perio mode to the value given. Turning it on is only allowed in the WPF chart (since TC-7; the wrapper throws
+		///otherwise).</summary>
 		public bool IsPerioMode{
 			set{
 				_toothChartWrapper.PerioMode=value;
@@ -339,9 +339,10 @@ namespace OpenPmsDental{
 
 		///<summary>Applies the local computer's chart settings (ApplyComputerPref with ComputerPrefs.LocalComputer) to a wrapper and starts its engine.
 		///One helper for the copies each caller had before TC-2 (ControlChart twice, ControlTreat, SheetPrinting, FormSheetDefEdit and
-		///FormToothChartingBig). Since TC-8 the three ways of toothChartSettingsUse are the same: the DirectX device format, the OpenGL pixel format and
-		///its hardware flag are no longer read, and nothing is saved (no ComputerPrefs.Update when an image is made, or ever here).</summary>
-		public static void ApplyComputerSettings(ToothChartWrapper toothChartWrapper,ToothChartSettingsUse toothChartSettingsUse) {
+		///FormToothChartingBig). The copies differed a little before TC-8 (the hardware flag, the OpenGL pixel format and the DirectX device format,
+		///set and saved in different ways); since TC-8 every caller applies the same two settings and nothing is saved (no ComputerPrefs.Update when an
+		///image is made, or ever here), so TC-9a removed the parameter that named each caller's old way (ToothChartSettingsUse).</summary>
+		public static void ApplyComputerSettings(ToothChartWrapper toothChartWrapper) {
 			ApplyComputerPref(toothChartWrapper,ComputerPrefs.LocalComputer);
 		}
 
@@ -352,13 +353,6 @@ namespace OpenPmsDental{
 		public static void ApplyComputerPref(ToothChartWrapper toothChartWrapper,ComputerPref computerPref) {
 			toothChartWrapper.WpfDrawInSoftware=IsDrawnInSoftware(computerPref);
 			toothChartWrapper.Engine=GetEngineForStoredMode(computerPref.GraphicsSimple);
-		}
-
-		///<summary>At start-up (FormOpenDental) a computer saved as DirectX with no DirectX format yet used to get the first standard format that
-		///worked, which could take minutes. Since TC-8 a stored DirectX choice starts the WPF chart, which needs no device format, so this searches
-		///nothing, saves nothing and returns false: the caller has nothing to restart. FormOpenDental keeps its call until TC-9a.</summary>
-		public static bool ChooseStartupDirectXFormat(Control controlHost) {
-			return false;
 		}
 
 		///<summary>The gate of the graphical perio chart (FormPerio's Graphical button), moved from FormPerio in TC-2. Since TC-8 (O-31) it opens on
@@ -500,7 +494,7 @@ namespace OpenPmsDental{
 
 		#region The dashboard's picture made in the background (TC-3b)
 		///<summary>The picture GetBitmap would return now, made in the background so the caller does not wait for it: the WPF chart's picture for the
-		///Patient Dashboard (ControlChart.FillToothChart, TC-3b). Null when the chart cannot make it that way (DirectX, OpenGL and Simple 2D, a chart
+		///Patient Dashboard (ControlChart.FillToothChart, TC-3b). Null when the chart cannot make it that way (Simple 2D, a chart
 		///with no window handle, a call off its thread); the caller then calls GetBitmap, as before. See ToothChartWrapper.RequestBitmapInBackground.</summary>
 		public ToothChartBitmapRequest RequestBitmapInBackground(){
 			return _toothChartWrapper.RequestBitmapInBackground();
@@ -509,8 +503,7 @@ namespace OpenPmsDental{
 
 		#region Graphical perio (TC-7)
 		///<summary>The office's Perio Setup option "Use the term Recession" (Open Dental 24.4) for the graphical perio chart: the WPF chart's legend then
-		///names the gingival margin line "Recession", unless the exam has hyperplasia. ApplyGraphicalPerioMode sets it from the preference; the DirectX
-		///chart's legend keeps its fixed text.</summary>
+		///names the gingival margin line "Recession", unless the exam has hyperplasia. ApplyGraphicalPerioMode sets it from the preference.</summary>
 		public bool IsPerioRecessionTerm{
 			get{
 				return _toothChartWrapper.PerioUseRecessionTerm;
@@ -520,20 +513,6 @@ namespace OpenPmsDental{
 			}
 		}
 		#endregion Graphical perio (TC-7)
-	}
-
-	///<summary>How a caller applied the local computer's chart settings before TC-2 (ToothChartRelay.ApplyComputerSettings). The copies differed a
-	///little, and each kept its own way until TC-8; since TC-8 all three apply the same two settings (the "Draw in software" switch, then the engine
-	///of the stored mode) and save nothing. The callers still name their way.</summary>
-	public enum ToothChartSettingsUse {
-		///<summary>Before TC-8: hardware flag and pixel format, the DirectX format, then the stored mode as it is; the chosen pixel format was saved
-		///(ControlChart.InitializeLocalData, ControlTreat's printout, SheetPrinting's sheets and dashboard).</summary>
-		StoredMode,
-		///<summary>Before TC-8: as StoredMode, but the mode chosen by name: Simple 2D, DirectX with its format, otherwise OpenGL; the DirectX format
-		///was set only for DirectX (FormSheetDefEdit's preview, FormToothChartingBig).</summary>
-		ModeByName,
-		///<summary>Before TC-8: only the DirectX format and the stored mode, and nothing saved (ControlChart.InitializeOnStartup).</summary>
-		StartupMode,
 	}
 
 	///<summary>The chart settings FormOpenDental compares after a refresh, to redraw the Chart module only when one of them changed
