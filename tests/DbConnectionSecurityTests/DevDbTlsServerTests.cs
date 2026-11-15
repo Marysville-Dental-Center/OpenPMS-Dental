@@ -78,7 +78,10 @@ namespace DbConnectionSecurityTests {
 				Assert.AreEqual("YES",dictServer["have_ssl"]);
 				Assert.AreEqual("TLSv1.2,TLSv1.3",dictServer["tls_version"],"No TLS 1.0 or 1.1.");
 				Assert.AreEqual("3306",dictServer["port"]);
-				Assert.AreEqual("127.0.0.1",dictServer["bind_address"]);
+				//127.0.0.1 only, or with the owner's test network of DB-TLS section 11 (-WithTestNetwork): its one address of 192.0.2.0/24 after it.
+				StringAssert.Matches(dictServer["bind_address"],
+					new System.Text.RegularExpressions.Regex(@"^127\.0\.0\.1(,192\.0\.2\.([1-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-4]))?$"),
+					"The server listens on this computer only: 127.0.0.1, and at most the test network's 192.0.2.x.");
 			}
 		}
 
