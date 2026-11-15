@@ -118,3 +118,17 @@ All runs used this worktree's own Debug build, `winchk_` copies on 127.0.0.1:330
   as made at 15:00, was dropped at the start of the next run; group J with a 1-minute budget recorded J13, J15 to J17 and JLOGONFAIL as
   "not run" (FAILED) and still ran Z, dropped its copy and wrote the report (that run fails on purpose).
 - A run with a designerstate.xml beside RdlDesigner (H): restored byte for byte, Z2 passed.
+- Final runs on dde7fda10 (the code as merged; this paragraph is the only later change), after the full build (0 errors), one Targeted run per
+  group set, each with NoHqTests (57 passed every time):
+
+| Groups | WindowChecksTests | P0 | Z | Time |
+|---|---|---|---|---|
+| B | passed, none failing | PASSED | PASSED | 101 s |
+| D, E, F, H | passed, none failing | PASSED | PASSED | 119 s |
+| I | passed, none failing | PASSED | PASSED | 237 s |
+| J | passed, none failing | PASSED | PASSED | 119 s |
+| none (no opt-in) | 29 skipped (Inconclusive), none failing | | | 3 s |
+
+  The report after the last run: 50 checks on this commit, PASSED 24, PARTLY 25, SKIPPED 1, none FAILED, no older results; every session
+  "remote desktop, locked, WPF renders nothing". The PARTLY items are the pictures WPF and DirectX cannot draw while the screen is locked,
+  plus the items that were already for a person. Group I takes about 4 minutes, well inside the 15-minute budget.
