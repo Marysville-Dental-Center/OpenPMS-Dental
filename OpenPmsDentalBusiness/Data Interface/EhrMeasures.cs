@@ -305,6 +305,95 @@ namespace OpenPmsDentalBusiness{
 			return provs;
 		}
 
+		///<summary>The day that is the number of business days (Monday to Friday) after the date (EHR-4c), the visit's own day being day 0, for
+		///the sheets' "within N business days": seen on a Monday, the fourth business day is the Friday; on a Tuesday, the next Monday; on a
+		///Saturday, the Thursday. The time of day is dropped, so a deadline is compared by date and the whole last business day counts
+		///(EHR4B-D15 of docs/port-notes/EHR-4.md).</summary>
+		private static DateTime AddBusinessDays(DateTime date,int businessDays) {
+			Meth.NoCheckMiddleTierRole();//Private static.
+			DateTime dateRet=date.Date;
+			int count=0;
+			while(count<businessDays) {
+				dateRet=dateRet.AddDays(1);
+				if(dateRet.DayOfWeek!=DayOfWeek.Saturday && dateRet.DayOfWeek!=DayOfWeek.Sunday) {
+					count++;
+				}
+			}
+			return dateRet;
+		}
+
+		///<summary>Timely online access (EHR-4c, EHR4B-D01 and D15): online access provided no later than the fourth business day after the
+		///patient's first visit with the EP in the period, compared by date, as 11_Patient_Electronic_Access- (Stage 1, May 2014),
+		///Stage2_EPCore_7 Measure 1 (August 2014) and MedicaidEPModStage2_2018_Obj8 Measure 1 define it. False when no access was provided.</summary>
+		private static bool IsOnlineAccessTimely(DateTime dateVisit,DateTime dateProvided,out DateTime dateDeadline) {
+			Meth.NoCheckMiddleTierRole();//Private static.
+			dateDeadline=AddBusinessDays(dateVisit,4);
+			return dateProvided.Year>1880 && dateProvided.Date<=dateDeadline;
+		}
+
+		///<summary>The rows of the medication reconciliation measure of the three stages (EHR-4c, EHR4B-D08): one per transition of care received
+		///by the EP in the period, as 7_Medication_Reconciliation (Stage 1, May 2014), Stage2_EPCore_14 (October 2012) and
+		///MedicaidEPModStage2_2018_Obj7 define the denominator, whether or not the patient had an office visit in the period. A transition is an
+		///incoming referral marked as a transition of care and dated in the period, received by the EP: its provider is one of the EP's, or it names
+		///none (the program saves incoming referrals with no provider) and the patient's primary provider is one of the EP's. Each reconciliation of
+		///the patient in the period counts for one transition, the latest one not yet reconciled that is dated on or before the reconciliation's
+		///day. Columns: PatNum, LName, FName, RefDate, and DateReconciled (MinValue when none).</summary>
+		private static DataTable GetMedReconcileTransitions(string provs,DateTime dateStart,DateTime dateEnd) {
+			Meth.NoCheckMiddleTierRole();//Private static.
+			DataTable table=new DataTable();
+			table.Columns.Add("PatNum");
+			table.Columns.Add("LName");
+			table.Columns.Add("FName");
+			table.Columns.Add("RefDate",typeof(DateTime));
+			table.Columns.Add("DateReconciled",typeof(DateTime));
+			//refattach.ProvNum is -1 on an incoming referral saved by the program and 0 when none was picked, so only a positive value names a provider.
+			string command="SELECT patient.PatNum,patient.LName,patient.FName,refattach.RefDate "
+				+"FROM refattach "
+				+"INNER JOIN patient ON patient.PatNum=refattach.PatNum "
+				+"WHERE refattach.RefDate BETWEEN "+POut.Date(dateStart)+" AND "+POut.Date(dateEnd)+" "
+				+"AND refattach.RefType="+POut.Int((int)ReferralType.RefFrom)+" AND refattach.IsTransitionOfCare=1 "
+				+"AND ((refattach.ProvNum>0 AND refattach.ProvNum IN("+POut.String(provs)+")) "
+					+"OR (refattach.ProvNum<=0 AND patient.PriProv IN("+POut.String(provs)+"))) "
+				+"ORDER BY patient.PatNum,refattach.RefDate,refattach.RefAttachNum";
+			DataTable tableTransitions=Db.GetTable(command);
+			if(tableTransitions.Rows.Count==0) {
+				return table;
+			}
+			List<long> listPatNums=tableTransitions.Rows.Cast<DataRow>().Select(x => PIn.Long(x["PatNum"].ToString())).Distinct().ToList();
+			command="SELECT ehrmeasureevent.PatNum,ehrmeasureevent.DateTEvent FROM ehrmeasureevent "
+				+"WHERE ehrmeasureevent.EventType="+POut.Int((int)EhrMeasureEventType.MedicationReconcile)+" "
+				+"AND "+DbHelper.DtimeToDate("ehrmeasureevent.DateTEvent")+" BETWEEN "+POut.Date(dateStart)+" AND "+POut.Date(dateEnd)+" "
+				+"AND ehrmeasureevent.PatNum IN("+string.Join(",",listPatNums.Select(x => POut.Long(x)))+") "
+				+"ORDER BY ehrmeasureevent.PatNum,ehrmeasureevent.DateTEvent";
+			Dictionary<long,List<DateTime>> dictReconciles=Db.GetTable(command).Rows.Cast<DataRow>()
+				.GroupBy(x => PIn.Long(x["PatNum"].ToString()))
+				.ToDictionary(x => x.Key,x => x.Select(y => PIn.DateT(y["DateTEvent"].ToString()).Date).ToList());
+			foreach(IGrouping<long,DataRow> groupPat in tableTransitions.Rows.Cast<DataRow>().GroupBy(x => PIn.Long(x["PatNum"].ToString()))) {
+				List<DataRow> listTransitions=groupPat.ToList();//In date order.
+				DateTime[] arrayDatesReconciled=new DateTime[listTransitions.Count];
+				if(dictReconciles.TryGetValue(groupPat.Key,out List<DateTime> listDatesReconcile)) {
+					foreach(DateTime dateReconcile in listDatesReconcile) {//In date order.
+						for(int t=listTransitions.Count-1;t>=0;t--) {
+							if(arrayDatesReconciled[t].Year<1880 && PIn.Date(listTransitions[t]["RefDate"].ToString())<=dateReconcile) {
+								arrayDatesReconciled[t]=dateReconcile;
+								break;
+							}
+						}
+					}
+				}
+				for(int t=0;t<listTransitions.Count;t++) {
+					DataRow row=table.NewRow();
+					row["PatNum"]=groupPat.Key.ToString();
+					row["LName"]=listTransitions[t]["LName"].ToString();
+					row["FName"]=listTransitions[t]["FName"].ToString();
+					row["RefDate"]=PIn.Date(listTransitions[t]["RefDate"].ToString());
+					row["DateReconciled"]=arrayDatesReconciled[t];
+					table.Rows.Add(row);
+				}
+			}
+			return table;
+		}
+
 		///<summary></summary>
 		public static void Update(EhrMeasure ehrMeasure){
 			if(RemotingClient.MiddleTierRole==MiddleTierRole.ClientMT){
@@ -658,7 +747,8 @@ namespace OpenPmsDentalBusiness{
 				#endregion
 				#region ElectronicCopyAccess
 				case EhrMeasureType.ElectronicCopyAccess:
-					command="SELECT patient.PatNum,patient.LName,patient.FName,OnlineAccess.dateProvided,MIN(procedurelog.ProcDate) as leastRecentDate "
+					//EHR-4c: the first access provided, as Stage 2 and Modified Stage 2 take it (before, the join kept any one of them).
+					command="SELECT patient.PatNum,patient.LName,patient.FName,MIN(OnlineAccess.dateProvided) AS dateProvided,MIN(procedurelog.ProcDate) as leastRecentDate "
 						+"FROM patient "
 						+"INNER JOIN procedurelog ON procedurelog.PatNum=patient.PatNum "
 							+"AND procedurelog.ProcStatus="+POut.Int((int)ProcStat.C)+" "
@@ -842,8 +932,8 @@ namespace OpenPmsDentalBusiness{
 						+"AND procedurelog.ProcDate BETWEEN "+POut.Date(dateStart)+" AND "+POut.Date(dateEnd)+" "
 						+"INNER JOIN procedurecode ON procedurelog.CodeNum = procedurecode.CodeNum "
 						+"AND procedurecode.ProcCode NOT IN ('D9986','D9987') "
-						+"WHERE patient.Birthdate <= "+POut.Date(DateTime.Today.AddYears(-2))+" "//2 and older
-						+"GROUP BY patient.PatNum) A "
+						+"GROUP BY patient.PatNum "
+						+"HAVING MIN(patient.Birthdate)<=MAX(procedurelog.ProcDate)-INTERVAL 2 YEAR) A "//EHR-4c (EHR4B-D04): 2 or older at the last visit in the period, not today
 						+"LEFT JOIN (SELECT PatNum,COUNT(*) AS 'Count' FROM vitalsign	WHERE Height>0 AND Weight>0 GROUP BY PatNum) hwCount ON hwCount.PatNum=A.PatNum "
 						+"LEFT JOIN (SELECT PatNum,COUNT(*) AS 'Count' FROM vitalsign WHERE BpSystolic>0 AND BpDiastolic>0 GROUP BY PatNum) bpCount ON bpCount.PatNum=A.PatNum";
 					tableRaw=Db.GetTable(command);
@@ -914,8 +1004,8 @@ namespace OpenPmsDentalBusiness{
 						+"AND procedurelog.ProcDate BETWEEN "+POut.Date(dateStart)+" AND "+POut.Date(dateEnd)+" "
 						+"INNER JOIN procedurecode ON procedurelog.CodeNum = procedurecode.CodeNum "
 						+"AND procedurecode.ProcCode NOT IN ('D9986','D9987') "
-						+"WHERE patient.Birthdate <= "+POut.Date(DateTime.Today.AddYears(-13))+" "//13 and older
-						+"GROUP BY patient.PatNum";
+						+"GROUP BY patient.PatNum "
+						+"HAVING MIN(patient.Birthdate)<=MAX(procedurelog.ProcDate)-INTERVAL 13 YEAR";//EHR-4c (EHR4B-D03): 13 or older at the last visit in the period, not today
 					tableRaw=Db.GetTable(command);
 					break;
 				#endregion
@@ -948,6 +1038,9 @@ namespace OpenPmsDentalBusiness{
 							+"OR ehrlabresult.ObservationValueCodedElementIDAlt IN ("+_snomedLabResult+") "
 							+"GROUP BY EhrLabNum "
 						+") ehrlabs ON ehrlab.EhrLabNum=ehrlabs.EhrLabNum "
+						//EHR-4c (EHR4B-D11): all of the order's results, to leave out an order whose results are neither a positive or negative affirmation nor a
+						//number (2_Clinical_Lab_Test_Results, Stage 1, May 2014; Stage2_EPCore_10, November 2014). An order with no result yet stays, missed.
+						+"LEFT JOIN (SELECT EhrLabNum,COUNT(*) AS 'Count' FROM ehrlabresult GROUP BY EhrLabNum) ehrlabsall ON ehrlab.EhrLabNum=ehrlabsall.EhrLabNum "
 						+"WHERE (CASE WHEN ehrlab.OrderingProviderIdentifierTypeCode='NPI' THEN ehrlab.OrderingProviderID IN("+POut.String(provNPIs)+") " //When the lab is using a NPI number to determine provider.
 							+"WHEN ehrlab.OrderingProviderIdentifierTypeCode='PRN' THEN ( " //When the lab is using provider number to determine provider.
 								+"CASE WHEN ehrlab.OrderingProviderAssigningAuthorityUniversalID=( " //If the AssigningAuthority is OpenPmsDental.
@@ -955,6 +1048,7 @@ namespace OpenPmsDentalBusiness{
 								+") THEN ehrlab.OrderingProviderID IN("+POut.String(provs)+") END) " //Use the ProvNum to determine provider.
 							+"ELSE FALSE END) " //If the AssigningAuthority is not OpenPmsDental, we have no way to tell who the provider is.
 						+"AND ehrlab.ObservationDateTimeStart BETWEEN DATE_FORMAT("+POut.Date(dateStart)+",'%Y%m%d') AND DATE_FORMAT("+POut.Date(dateEnd)+",'%Y%m%d') "
+						+"AND (COALESCE(ehrlabsall.Count,0)=0 OR COALESCE(ehrlabs.Count,0)>0) "
 						+"AND (CASE WHEN ehrlab.UsiCodeSystemName='LN' THEN ehrlab.UsiID WHEN ehrlab.UsiCodeSystemNameAlt='LN' THEN ehrlab.UsiIDAlt ELSE '' END) "
 							+"NOT IN (SELECT LoincCode FROM loinc WHERE loinc.ClassType LIKE '%RAD%')";
 					tableRaw=Db.GetTable(command);
@@ -1102,7 +1196,7 @@ namespace OpenPmsDentalBusiness{
 						+"AND DATE(ehrmeasureevent.DateTEvent) BETWEEN "+POut.Date(dateStart)+" AND "+POut.Date(dateEnd)+" "
 						+"GROUP BY ehrmeasureevent.PatNum) reminderCount ON reminderCount.PatNum=patient.PatNum "
 						+"WHERE patient.Birthdate > '1880-01-01' "//a birthdate is entered
-						+"AND (patient.Birthdate > "+POut.Date(dateStart)+"-INTERVAL 5 YEAR "//5 years or younger as of start of measurement period
+						+"AND (patient.Birthdate > "+POut.Date(dateStart)+"-INTERVAL 6 YEAR "//EHR-4c (EHR4B-D06): 5 years old or younger (the sixth birthday not reached) at the start of the period
 						+"OR patient.Birthdate <= "+POut.Date(dateStart)+"-INTERVAL 65 YEAR) "//65+ as of start of measurement period
 						+"AND patient.PatStatus="+POut.Int((int)PatientStatus.Patient)+" "
 						+"AND patient.PriProv IN("+POut.String(provs)+") "
@@ -1142,25 +1236,8 @@ namespace OpenPmsDentalBusiness{
 					//tableRaw=Db.GetTable(command);
 					//command="DROP TABLE IF EXISTS tempehrmeasure"+rndStr;
 					//Db.NonQ(command);
-					//Reworked to only count patients seen by this provider in the date range
-					command="SELECT ptsRefCnt.*,COALESCE(RecCount,0) AS ReconcileCount "
-						+"FROM (SELECT ptsSeen.*,COUNT(DISTINCT refattach.RefAttachNum) AS RefCount "
-							+"FROM (SELECT patient.PatNum,LName,FName FROM patient "
-								+"INNER JOIN procedurelog ON procedurelog.PatNum=patient.PatNum "
-								+"AND ProcStatus=2 AND ProcDate BETWEEN "+POut.Date(dateStart)+" AND "+POut.Date(dateEnd)+" "
-								+"AND procedurelog.ProvNum IN("+POut.String(provs)+")	"
-								+"INNER JOIN procedurecode ON procedurelog.CodeNum = procedurecode.CodeNum "
-								+"AND procedurecode.ProcCode NOT IN ('D9986','D9987') "
-								+"GROUP BY patient.PatNum) ptsSeen "
-							+"INNER JOIN refattach ON ptsSeen.PatNum=refattach.PatNum "
-							+"AND RefDate BETWEEN "+POut.Date(dateStart)+" AND "+POut.Date(dateEnd)+" "
-							+"AND RefType="+POut.Int((int)ReferralType.RefFrom)+" AND IsTransitionOfCare=1 "
-							+"GROUP BY ptsSeen.PatNum) ptsRefCnt "
-						+"LEFT JOIN (SELECT ehrmeasureevent.PatNum,COUNT(*) AS RecCount FROM ehrmeasureevent "
-							+"WHERE EventType="+POut.Int((int)EhrMeasureEventType.MedicationReconcile)+" "
-							+"AND DATE(ehrmeasureevent.DateTEvent) BETWEEN "+POut.Date(dateStart)+" AND "+POut.Date(dateEnd)+" "
-							+"GROUP BY ehrmeasureevent.PatNum) ptsRecCount ON ptsRefCnt.PatNum=ptsRecCount.PatNum";
-					tableRaw=Db.GetTable(command);
+					//EHR-4c (EHR4B-D08): one row per transition of care received by the EP in the period, whether or not the patient was seen in it.
+					tableRaw=GetMedReconcileTransitions(provs,dateStart,dateEnd);
 					break;
 				#endregion
 				#region SummaryOfCare
@@ -1342,14 +1419,11 @@ namespace OpenPmsDentalBusiness{
 					#region ElectronicCopyAccess
 					case EhrMeasureType.ElectronicCopyAccess:
 						DateTime recentDate=PIn.Date(tableRaw.Rows[i]["leastRecentDate"].ToString());
-						DateTime deadlineDate=PIn.Date(tableRaw.Rows[i]["leastRecentDate"].ToString());
 						DateTime providedDate=PIn.Date(tableRaw.Rows[i]["dateProvided"].ToString());
-						deadlineDate=deadlineDate.AddDays(4);
-						if(recentDate.DayOfWeek>DayOfWeek.Tuesday) {
-							deadlineDate=deadlineDate.AddDays(2);
-						}
-						if(providedDate<=deadlineDate && providedDate.Year>1880) {
-							explanation="Online access provided before "+deadlineDate.ToShortDateString();
+						DateTime deadlineDate;
+						//EHR-4c (EHR4B-D01, D15): within 4 business days after the first visit in the period, compared by date.
+						if(IsOnlineAccessTimely(recentDate,providedDate,out deadlineDate)) {
+							explanation="Online access provided by "+deadlineDate.ToShortDateString();
 							row["met"]="X";
 						}
 						else {
@@ -1542,13 +1616,13 @@ namespace OpenPmsDentalBusiness{
 					#endregion
 					#region MedReconcile
 					case EhrMeasureType.MedReconcile:
-						int refCount=PIn.Int(tableRaw.Rows[i]["RefCount"].ToString());//this will always be greater than zero
-						int reconcileCount=PIn.Int(tableRaw.Rows[i]["ReconcileCount"].ToString());
-						if(reconcileCount<refCount) {
-							explanation="Transitions of Care:"+refCount.ToString()+", Reconciles:"+reconcileCount.ToString();
+						DateTime dateTransition=PIn.Date(tableRaw.Rows[i]["RefDate"].ToString());
+						DateTime dateReconciled=(DateTime)tableRaw.Rows[i]["DateReconciled"];
+						if(dateReconciled.Year<1880) {
+							explanation="Transition of care received "+dateTransition.ToShortDateString()+", not reconciled.";
 						}
 						else {
-							explanation="Reconciles performed for each transition of care.";
+							explanation="Transition of care received "+dateTransition.ToShortDateString()+", reconciled "+dateReconciled.ToShortDateString()+".";
 							row["met"]="X";
 						}
 						break;
@@ -1683,7 +1757,7 @@ namespace OpenPmsDentalBusiness{
 				case EhrMeasureType.Smoking:
 					return "All unique patients 13 years or older with at least one completed procedure by the Provider during the reporting period.";
 				case EhrMeasureType.Lab:
-					return "All lab orders by the Provider during the reporting period.";
+					return "All lab orders by the Provider during the reporting period, except those whose results are neither positive/negative nor numeric.";
 				case EhrMeasureType.ElectronicCopy:
 					return "All requests for electronic copies of health information during the reporting period.";
 				case EhrMeasureType.ClinicalSummaries:
@@ -3190,8 +3264,8 @@ namespace OpenPmsDentalBusiness{
 						+"AND procedurelog.ProcDate BETWEEN "+POut.Date(dateStart)+" AND "+POut.Date(dateEnd)+" "
 						+"INNER JOIN procedurecode ON procedurelog.CodeNum = procedurecode.CodeNum "
 						+"AND procedurecode.ProcCode NOT IN ('D9986','D9987') "
-						+"WHERE patient.Birthdate <= "+POut.Date(DateTime.Today.AddYears(-13))+" "//13 and older
-						+"GROUP BY patient.PatNum";
+						+"GROUP BY patient.PatNum "
+						+"HAVING MIN(patient.Birthdate)<=MAX(procedurelog.ProcDate)-INTERVAL 13 YEAR";//EHR-4c (EHR4B-D03): 13 or older at the last visit in the period, not today
 					tableRaw=Db.GetTable(command);
 					break;
 				#endregion
@@ -3242,7 +3316,7 @@ namespace OpenPmsDentalBusiness{
 				#endregion
 				#region ClinicalSummaries
 				case EhrMeasureType.ClinicalSummaries:
-					command="SELECT patient.PatNum,LName,FName,ClinSum.summaryProvided as summaryProvided,ProcCheck.ProcDate as procDate "
+					command="SELECT patient.PatNum,LName,FName,MIN(ClinSum.DateTEvent) AS summaryProvided,ProcCheck.ProcDate AS procDate "
 						+"FROM patient "
 						+"INNER JOIN ( "
 							+"SELECT procedurelog.PatNum,procedurelog.ProcNum,procedurelog.ProcDate "
@@ -3256,13 +3330,10 @@ namespace OpenPmsDentalBusiness{
 					command+="AND procedurelog.ProvNum IN("+POut.String(provs)+")	"
 							+"AND procedurelog.ProcDate BETWEEN "+POut.Date(dateStart)+" AND "+POut.Date(dateEnd)+" "
 						+") ProcCheck ON ProcCheck.PatNum = patient.PatNum "
-						+"LEFT JOIN ( "
-							+"SELECT ehrmeasureevent.PatNum,MIN(ehrmeasureevent.DateTEvent) AS summaryProvided "
-							+"FROM ehrmeasureevent "
-							+"WHERE EventType="+POut.Int((int)EhrMeasureEventType.ClinicalSummaryProvidedToPt)+" "
-							+"GROUP BY ehrmeasureevent.PatNum "
-							+"ORDER BY NULL "
-						+") ClinSum ON patient.PatNum=ClinSum.PatNum "
+						//EHR-4c (EHR4B-D02): each visit is compared with the first summary on or after its own day, not with the patient's first summary ever.
+						+"LEFT JOIN ehrmeasureevent ClinSum ON ClinSum.PatNum=patient.PatNum "
+							+"AND ClinSum.EventType="+POut.Int((int)EhrMeasureEventType.ClinicalSummaryProvidedToPt)+" "
+							+"AND "+DbHelper.DtimeToDate("ClinSum.DateTEvent")+">=ProcCheck.ProcDate "
 						+"GROUP BY patient.PatNum, ProcCheck.ProcDate";
 					tableRaw=Db.GetTable(command);
 					break;
@@ -3285,6 +3356,9 @@ namespace OpenPmsDentalBusiness{
 							+"OR ehrlabresult.ObservationValueCodedElementIDAlt IN ("+_snomedLabResult+") "
 							+"GROUP BY EhrLabNum "
 						+") ehrlabs ON ehrlab.EhrLabNum=ehrlabs.EhrLabNum "
+						//EHR-4c (EHR4B-D11): all of the order's results, to leave out an order whose results are neither a positive or negative affirmation nor a
+						//number (2_Clinical_Lab_Test_Results, Stage 1, May 2014; Stage2_EPCore_10, November 2014). An order with no result yet stays, missed.
+						+"LEFT JOIN (SELECT EhrLabNum,COUNT(*) AS 'Count' FROM ehrlabresult GROUP BY EhrLabNum) ehrlabsall ON ehrlab.EhrLabNum=ehrlabsall.EhrLabNum "
 						+"WHERE (CASE WHEN ehrlab.OrderingProviderIdentifierTypeCode='NPI' THEN ehrlab.OrderingProviderID IN("+POut.String(provNPIs)+") " //When the lab is using a NPI number to determine provider.
 							+"WHEN ehrlab.OrderingProviderIdentifierTypeCode='PRN' THEN ( " //When the lab is using provider number to determine provider.
 								+"CASE WHEN ehrlab.OrderingProviderAssigningAuthorityUniversalID=( " //If the AssigningAuthority is OpenPmsDental.
@@ -3292,6 +3366,7 @@ namespace OpenPmsDentalBusiness{
 								+") THEN ehrlab.OrderingProviderID IN("+POut.String(provs)+") END) " //Use the ProvNum to determine provider.
 							+"ELSE FALSE END) " //If the AssigningAuthority is not OpenPmsDental, we have no way to tell who the provider is.
 						+"AND ehrlab.ObservationDateTimeStart BETWEEN DATE_FORMAT("+POut.Date(dateStart)+",'%Y%m%d') AND DATE_FORMAT("+POut.Date(dateEnd)+",'%Y%m%d') "
+						+"AND (COALESCE(ehrlabsall.Count,0)=0 OR COALESCE(ehrlabs.Count,0)>0) "
 						+"AND (CASE WHEN ehrlab.UsiCodeSystemName='LN' THEN ehrlab.UsiID WHEN ehrlab.UsiCodeSystemNameAlt='LN' THEN ehrlab.UsiIDAlt ELSE '' END) "
 							+"NOT IN (SELECT LoincCode FROM loinc WHERE loinc.ClassType LIKE '%RAD%')"; //Not sure if we need this since rad labs shouldnt be set to numeric results
 					tableRaw=Db.GetTable(command);
@@ -3305,6 +3380,7 @@ namespace OpenPmsDentalBusiness{
 						+"INNER JOIN procedurecode ON procedurelog.CodeNum = procedurecode.CodeNum "
 						+"AND procedurecode.ProcCode NOT IN ('D9986','D9987') "
 						+"WHERE ProcStatus="+POut.Int((int)ProcStat.C)+" "
+						+"AND procedurelog.ProvNum IN("+POut.String(provs)+") "//EHR-4c (EHR4B-D07): office visits with the EP, whoever the primary provider is
 						+"AND ProcDate>"+POut.Date(dateStart)+"-INTERVAL 2 YEAR "
 						+"AND ProcDate<"+POut.Date(dateStart)+" GROUP BY PatNum,ProcDate) uniqueprocdates "
 						+"GROUP BY uniqueprocdates.PatNum HAVING COUNT(*)>1) procscomplete ON procscomplete.PatNum=patient.PatNum "
@@ -3314,7 +3390,6 @@ namespace OpenPmsDentalBusiness{
 						+"GROUP BY ehrmeasureevent.PatNum) reminderCount ON reminderCount.PatNum=patient.PatNum "
 						+"WHERE patient.Birthdate > '1880-01-01' "//a birthdate is entered
 						+"AND patient.PatStatus="+POut.Int((int)PatientStatus.Patient)+" "
-						+"AND patient.PriProv IN("+POut.String(provs)+") "
 						+"GROUP BY patient.PatNum";
 					tableRaw=Db.GetTable(command);
 					break;
@@ -3337,24 +3412,8 @@ namespace OpenPmsDentalBusiness{
 				#endregion
 				#region MedReconcile
 				case EhrMeasureType.MedReconcile:
-					command="SELECT ptsRefCnt.*,COALESCE(RecCount,0) AS ReconcileCount "
-						+"FROM (SELECT ptsSeen.*,COUNT(DISTINCT refattach.RefAttachNum) AS RefCount "
-							+"FROM (SELECT patient.PatNum,LName,FName FROM patient "
-								+"INNER JOIN procedurelog ON procedurelog.PatNum=patient.PatNum "
-								+"AND ProcStatus=2 AND ProcDate BETWEEN "+POut.Date(dateStart)+" AND "+POut.Date(dateEnd)+" "
-								+"AND procedurelog.ProvNum IN("+POut.String(provs)+")	"
-								+"INNER JOIN procedurecode ON procedurelog.CodeNum = procedurecode.CodeNum "
-								+"AND procedurecode.ProcCode NOT IN ('D9986','D9987') "
-								+"GROUP BY patient.PatNum) ptsSeen "
-							+"INNER JOIN refattach ON ptsSeen.PatNum=refattach.PatNum "
-							+"AND RefDate BETWEEN "+POut.Date(dateStart)+" AND "+POut.Date(dateEnd)+" "
-							+"AND RefType="+POut.Int((int)ReferralType.RefFrom)+" AND IsTransitionOfCare=1 "
-							+"GROUP BY ptsSeen.PatNum) ptsRefCnt "
-						+"LEFT JOIN (SELECT ehrmeasureevent.PatNum,COUNT(*) AS RecCount FROM ehrmeasureevent "
-							+"WHERE EventType="+POut.Int((int)EhrMeasureEventType.MedicationReconcile)+" "
-							+"AND DATE(ehrmeasureevent.DateTEvent) BETWEEN "+POut.Date(dateStart)+" AND "+POut.Date(dateEnd)+" "
-							+"GROUP BY ehrmeasureevent.PatNum) ptsRecCount ON ptsRefCnt.PatNum=ptsRecCount.PatNum";
-					tableRaw=Db.GetTable(command);
+					//EHR-4c (EHR4B-D08): one row per transition of care received by the EP in the period, whether or not the patient was seen in it.
+					tableRaw=GetMedReconcileTransitions(provs,dateStart,dateEnd);
 					break;
 				#endregion
 				#region SummaryOfCare
@@ -3408,8 +3467,11 @@ namespace OpenPmsDentalBusiness{
 						+"INNER JOIN procedurecode ON procedurelog.CodeNum = procedurecode.CodeNum "
 						+"AND procedurecode.ProcCode NOT IN ('D9986','D9987') "
 						+" GROUP BY procedurelog.PatNum) A "
-						+"LEFT JOIN (SELECT ehrmeasureevent.PatNum, ehrmeasureevent.DateTEvent as secureMessageRead FROM ehrmeasureevent "
-						+"WHERE EventType="+POut.Int((int)EhrMeasureEventType.SecureMessageFromPat)+" GROUP BY ehrmeasureevent.PatNum) "
+						//EHR-4c (EHR4B-D09): a message the patient sent during the reporting period (Stage2_EPCore_17, October 2012).
+						+"LEFT JOIN (SELECT ehrmeasureevent.PatNum,MIN(ehrmeasureevent.DateTEvent) AS secureMessageRead FROM ehrmeasureevent "
+						+"WHERE EventType="+POut.Int((int)EhrMeasureEventType.SecureMessageFromPat)+" "
+						+"AND "+DbHelper.DtimeToDate("ehrmeasureevent.DateTEvent")+" BETWEEN "+POut.Date(dateStart)+" AND "+POut.Date(dateEnd)+" "
+						+"GROUP BY ehrmeasureevent.PatNum) "
 						+"SecureMessage ON A.PatNum=SecureMessage.PatNum "
 						+"";
 					tableRaw=Db.GetTable(command);
@@ -3715,14 +3777,11 @@ namespace OpenPmsDentalBusiness{
 					#region ElectronicCopyAccess
 					case EhrMeasureType.ElectronicCopyAccess:
 						DateTime visitDate=PIn.Date(tableRaw.Rows[i]["leastRecentDate"].ToString());
-						DateTime deadlineDate=PIn.Date(tableRaw.Rows[i]["leastRecentDate"].ToString());
 						DateTime providedDate=PIn.Date(tableRaw.Rows[i]["dateProvided"].ToString());
-						deadlineDate=deadlineDate.AddDays(4);
-						if(visitDate.DayOfWeek>DayOfWeek.Tuesday) {
-							deadlineDate=deadlineDate.AddDays(2);
-						}
-						if(providedDate<=deadlineDate && providedDate.Year>1880) {
-							explanation="Online access provided before "+deadlineDate.ToShortDateString();
+						DateTime deadlineDate;
+						//EHR-4c (EHR4B-D01, D15): within 4 business days after the first visit in the period, compared by date.
+						if(IsOnlineAccessTimely(visitDate,providedDate,out deadlineDate)) {
+							explanation="Online access provided by "+deadlineDate.ToShortDateString();
 							row["met"]="X";
 						}
 						else {
@@ -3745,15 +3804,13 @@ namespace OpenPmsDentalBusiness{
 					#region ClinicalSummaries
 					case EhrMeasureType.ClinicalSummaries:
 						DateTime procDate=PIn.Date(tableRaw.Rows[i]["procDate"].ToString());
-						DateTime deadlineDateClinSum=procDate.AddDays(1);
-						if(procDate.DayOfWeek==DayOfWeek.Friday) {
-							deadlineDateClinSum=deadlineDateClinSum.AddDays(2);
-						}
+						//EHR-4c (EHR4B-D02, D15): within one business day of the visit (Stage2_EPCore_8, November 2014), compared by date.
+						DateTime deadlineDateClinSum=AddBusinessDays(procDate,1);
 						DateTime summaryProvidedDate=PIn.Date(tableRaw.Rows[i]["summaryProvided"].ToString());
 						if(summaryProvidedDate==DateTime.MinValue) {
 							explanation=procDate.ToShortDateString()+" no summary provided to patient";
 						}
-						else if(summaryProvidedDate<=deadlineDateClinSum) {
+						else if(summaryProvidedDate.Date<=deadlineDateClinSum) {
 							explanation=procDate.ToShortDateString()+" summary provided to patient";
 							row["met"]="X";
 						}
@@ -3802,13 +3859,13 @@ namespace OpenPmsDentalBusiness{
 					#endregion
 					#region MedReconcile
 					case EhrMeasureType.MedReconcile:
-						int refCount=PIn.Int(tableRaw.Rows[i]["RefCount"].ToString());//this will always be greater than zero
-						int reconcileCount=PIn.Int(tableRaw.Rows[i]["ReconcileCount"].ToString());
-						if(reconcileCount<refCount) {
-							explanation="Transitions of Care:"+refCount.ToString()+", Reconciles:"+reconcileCount.ToString();
+						DateTime dateTransition=PIn.Date(tableRaw.Rows[i]["RefDate"].ToString());
+						DateTime dateReconciled=(DateTime)tableRaw.Rows[i]["DateReconciled"];
+						if(dateReconciled.Year<1880) {
+							explanation="Transition of care received "+dateTransition.ToShortDateString()+", not reconciled.";
 						}
 						else {
-							explanation="Reconciles performed for each transition of care.";
+							explanation="Transition of care received "+dateTransition.ToShortDateString()+", reconciled "+dateReconciled.ToShortDateString()+".";
 							row["met"]="X";
 						}
 						break;
@@ -3972,7 +4029,7 @@ namespace OpenPmsDentalBusiness{
 				case EhrMeasureType.ClinicalSummaries:
 					return "All office visits during the reporting period.  An office visit is calculated as any number of completed procedures by the Provider for a given date.";
 				case EhrMeasureType.Lab:
-					return "All lab orders by the Provider during the reporting period.";
+					return "All lab orders by the Provider during the reporting period, except those whose results are neither positive/negative nor numeric.";
 				case EhrMeasureType.Reminders:
 					return "Number of unique patients who have had two or more office visits with the EP in the 24 months prior to the beginning of the EHR reporting period.";
 				case EhrMeasureType.Education:
@@ -6193,8 +6250,8 @@ namespace OpenPmsDentalBusiness{
 						+"AND procedurelog.ProcDate BETWEEN "+POut.Date(dateStart)+" AND "+POut.Date(dateEnd)+" "
 						+"INNER JOIN procedurecode ON procedurelog.CodeNum = procedurecode.CodeNum "
 						+"AND procedurecode.ProcCode NOT IN ('D9986','D9987') "
-						+"WHERE patient.Birthdate <= "+POut.Date(DateTime.Today.AddYears(-13))+" "//13 and older
-						+"GROUP BY patient.PatNum";
+						+"GROUP BY patient.PatNum "
+						+"HAVING MIN(patient.Birthdate)<=MAX(procedurelog.ProcDate)-INTERVAL 13 YEAR";//EHR-4c (EHR4B-D03): 13 or older at the last visit in the period, not today
 					tableRaw=Db.GetTable(command);
 					break;
 				#endregion
@@ -6334,30 +6391,17 @@ namespace OpenPmsDentalBusiness{
 						+"GROUP BY patient.PatNum) A "
 						+"LEFT JOIN (SELECT PatNum,COUNT(*) AS 'Count' FROM ehrmeasureevent "
 						+"WHERE EventType="+POut.Int((int)EhrMeasureEventType.EducationProvided)+" "
+						//EHR-4c (EHR4B-D10): MedicaidEPModStage2_2018_Obj6 (July 2018), Additional Information: within the reporting period when it is a full
+						//calendar year, otherwise within the calendar year in which the period occurs.
+						+"AND "+DbHelper.DtimeToDate("DateTEvent")+" BETWEEN "+POut.Date(new DateTime(dateStart.Year,1,1))+" AND "+POut.Date(new DateTime(dateEnd.Year,12,31))+" "
 						+"GROUP BY PatNum) edCount ON edCount.PatNum=A.PatNum";
 					tableRaw=Db.GetTable(command);
 					break;
 				#endregion
 				#region MedReconcile
 				case EhrMeasureType.MedReconcile:
-					command="SELECT ptsRefCnt.*,COALESCE(RecCount,0) AS ReconcileCount "
-						+"FROM (SELECT ptsSeen.*,COUNT(DISTINCT refattach.RefAttachNum) AS RefCount "
-							+"FROM (SELECT patient.PatNum,LName,FName FROM patient "
-								+"INNER JOIN procedurelog ON procedurelog.PatNum=patient.PatNum "
-								+"AND ProcStatus=2 AND ProcDate BETWEEN "+POut.Date(dateStart)+" AND "+POut.Date(dateEnd)+" "
-								+"AND procedurelog.ProvNum IN("+POut.String(provs)+")	"
-								+"INNER JOIN procedurecode ON procedurelog.CodeNum = procedurecode.CodeNum "
-								+"AND procedurecode.ProcCode NOT IN ('D9986','D9987') "
-								+"GROUP BY patient.PatNum) ptsSeen "
-							+"INNER JOIN refattach ON ptsSeen.PatNum=refattach.PatNum "
-							+"AND RefDate BETWEEN "+POut.Date(dateStart)+" AND "+POut.Date(dateEnd)+" "
-							+"AND RefType="+POut.Int((int)ReferralType.RefFrom)+" AND IsTransitionOfCare=1 "
-							+"GROUP BY ptsSeen.PatNum) ptsRefCnt "
-						+"LEFT JOIN (SELECT ehrmeasureevent.PatNum,COUNT(*) AS RecCount FROM ehrmeasureevent "
-							+"WHERE EventType="+POut.Int((int)EhrMeasureEventType.MedicationReconcile)+" "
-							+"AND DATE(ehrmeasureevent.DateTEvent) BETWEEN "+POut.Date(dateStart)+" AND "+POut.Date(dateEnd)+" "
-							+"GROUP BY ehrmeasureevent.PatNum) ptsRecCount ON ptsRefCnt.PatNum=ptsRecCount.PatNum";
-					tableRaw=Db.GetTable(command);
+					//EHR-4c (EHR4B-D08): one row per transition of care received by the EP in the period, whether or not the patient was seen in it.
+					tableRaw=GetMedReconcileTransitions(provs,dateStart,dateEnd);
 					break;
 				#endregion
 				#region SummaryOfCare
@@ -6726,14 +6770,11 @@ namespace OpenPmsDentalBusiness{
 					#region ElectronicCopyAccess
 					case EhrMeasureType.ElectronicCopyAccess:
 						DateTime visitDate=PIn.Date(tableRaw.Rows[i]["leastRecentDate"].ToString());
-						DateTime deadlineDate=PIn.Date(tableRaw.Rows[i]["leastRecentDate"].ToString());
 						DateTime providedDate=PIn.Date(tableRaw.Rows[i]["dateProvided"].ToString());
-						deadlineDate=deadlineDate.AddDays(4);
-						if(visitDate.DayOfWeek>DayOfWeek.Tuesday) {
-							deadlineDate=deadlineDate.AddDays(2);
-						}
-						if(providedDate<=deadlineDate && providedDate.Year>1880) {
-							explanation="Online access provided before "+deadlineDate.ToShortDateString();
+						DateTime deadlineDate;
+						//EHR-4c (EHR4B-D01, D15): within 4 business days after the first visit in the period, compared by date.
+						if(IsOnlineAccessTimely(visitDate,providedDate,out deadlineDate)) {
+							explanation="Online access provided by "+deadlineDate.ToShortDateString();
 							row["met"]="X";
 						}
 						else {
@@ -6813,13 +6854,13 @@ namespace OpenPmsDentalBusiness{
 					#endregion
 					#region MedReconcile
 					case EhrMeasureType.MedReconcile:
-						int refCount=PIn.Int(tableRaw.Rows[i]["RefCount"].ToString());//this will always be greater than zero
-						int reconcileCount=PIn.Int(tableRaw.Rows[i]["ReconcileCount"].ToString());
-						if(reconcileCount<refCount) {
-							explanation="Transitions of Care:"+refCount.ToString()+", Reconciles:"+reconcileCount.ToString();
+						DateTime dateTransition=PIn.Date(tableRaw.Rows[i]["RefDate"].ToString());
+						DateTime dateReconciled=(DateTime)tableRaw.Rows[i]["DateReconciled"];
+						if(dateReconciled.Year<1880) {
+							explanation="Transition of care received "+dateTransition.ToShortDateString()+", not reconciled.";
 						}
 						else {
-							explanation="Reconciles performed for each transition of care.";
+							explanation="Transition of care received "+dateTransition.ToShortDateString()+", reconciled "+dateReconciled.ToShortDateString()+".";
 							row["met"]="X";
 						}
 						break;
@@ -6983,7 +7024,7 @@ namespace OpenPmsDentalBusiness{
 				case EhrMeasureType.ClinicalSummaries:
 					return "All office visits during the reporting period.  An office visit is calculated as any number of completed procedures by the Provider for a given date.";
 				case EhrMeasureType.Lab:
-					return "All lab orders by the Provider during the reporting period.";
+					return "All lab orders by the Provider during the reporting period, except those whose results are neither positive/negative nor numeric.";
 				case EhrMeasureType.Reminders:
 					return "Number of unique patients who have had two or more office visits with the EP in the 24 months prior to the beginning of the EHR reporting period.";
 				case EhrMeasureType.Education:
