@@ -2,122 +2,57 @@
 using System.Collections;
 using System.Diagnostics;
 using System.IO;
-using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
 using CodeBase;
 using OpenPmsDentalBusiness;
+using OpenPmsDentalHelper32.Guru;
 
 namespace OpenPmsDental.Bridges {
-	/// <summary></summary>
+	///<summary>Guru (MedVisor). Since S3a-14 of the .NET 10 move (docs/port-notes/S3a-14.md) Guru's native MedVisorInterface.dll is loaded and
+	///called in the 32-bit helper program (OpenPmsDentalHelper32, its Guru module), because the program is 64-bit after stage 3b and no 64-bit
+	///MedVisorInterface.dll is known (open point O-14). The helper calls MVStart and MVSendPatient, and builds MVSendPatient's structure from the
+	///MVPatient filled here with the same ToCPlusPlusStructure as before, byte for byte.
+	///Since S3a-14n (native first, net10-plan decision 23) the helper is the fallback: MedVisorInterface.dll is called in the program's own
+	///process (GuruInProcess, the code of before S3a-14) whenever the one the loader finds is of the program's machine type
+	///(NativeFirstChooser.Guru, from its PE header), which in a 32-bit program it always is. The choice is made once per program process and
+	///logged.</summary>
 	public class Guru {
-
-		[DllImport("MedVisorInterface.dll")]
-		private static extern int MVStart();
-
-		//[DllImport("MedVisorInterface.dll")]
-		//private static extern bool MVGetRunningState();
-
-		[DllImport("MedVisorInterface.dll")]
-		private static extern int MVSendPatient(IntPtr mvPatient);
-		private static int MVSendPatient(MVPatient mvPatient) {
-			IntPtr patStruct=ToCPlusPlusStructure(mvPatient);
-			int retVal=MVSendPatient(patStruct);
-			DestroyCPlusPlusStruct(patStruct);
-			return retVal;
-		}
-
-		///<summary>This class is defined with a structural layout, so that it can be properly marshaled to a C-code structure.</summary>
-		[StructLayout(LayoutKind.Sequential,Pack=8)]
-		public class MVPatient {
-			public char[] LastName=new char[65];
-			public char[] MiddleName=new char[65];
-			public char[] FirstName=new char[65];
-			public char[] Prefix=new char[65];
-			public char[] Suffix=new char[65];
-			public char[] Sex=new char[2];
-			public char[] BirthDate=new char[9];
-			public char[] ID=new char[65];
-			public char[] Directory=new char[260];
-		}
+		///<summary>How long one call of MedVisorInterface.dll in the helper may take (MVStart starts Guru when it is not running).</summary>
+		private static readonly TimeSpan _timeSpanCall=TimeSpan.FromMinutes(5);
 
 		/// <summary></summary>
 		public Guru() {
 
 		}
 
-		///<summary>CRITICAL FUNCTION: Creates a converted copy of this object into an unmanaged c++ structure (including the virutal function table) which is compatible with MedVisorInterface.dll module and returns the address to the newly created structure. The newly created structure will point to the same image data as the managed/local structure does. Finally, the structure which is returned (pointed to) must be freed using DesctroyCPlusPlusStructure(), or else there will be a memory leak. This function was designed to work on 32-bit and 64-bit operating systems.</summary>
-		private static IntPtr ToCPlusPlusStructure(MVPatient mvPatient) {
-			int size=sizeof(char)*(65+65+65+65+65+2+9+65+260);//The size of the unmanaged structure.
-			IntPtr retVal=Marshal.AllocHGlobal(size);//The location where the unmanaged structure will rest.
-			unsafe {//unmanaged code section.
-				byte* copyLoc=(byte*)retVal.ToPointer();
-
-				////__vfptr (virtual function table pointer).
-				////The layout of the virtual function table as expected by MedVisorInterface.dll was discovered by running the
-				////sen4 example project (provided by Suni) in debug mode and viewing one of the CImageData object at runtime.
-				//IntPtr vfptr=Marshal.AllocHGlobal(3*Marshal.SizeOf(typeof(IntPtr)));
-				//byte* vtp=(byte*)vfptr.ToPointer();
-				////The pointer to ~CImageData() (will not be called by any native function calls to SuniUSB.dll, 
-				////so no need to define it). Always set to zero just to fill the space.
-				//Marshal.Copy(new IntPtr[] { IntPtr.Zero },0,(IntPtr)vtp,1);
-				//vtp+=Marshal.SizeOf(typeof(IntPtr));
-				////PutPixel() pointer
-				//IntPtr putPixelPtr=Marshal.GetFunctionPointerForDelegate(ppd);
-				//Marshal.Copy(new IntPtr[] { putPixelPtr },0,(IntPtr)vtp,1);
-				//vtp+=Marshal.SizeOf(putPixelPtr);
-				////GetPixel() pointer
-				//IntPtr getPixelPtr=Marshal.GetFunctionPointerForDelegate(gpd);
-				//Marshal.Copy(new IntPtr[] { getPixelPtr },0,(IntPtr)vtp,1);
-				//vtp+=Marshal.SizeOf(getPixelPtr);
-				////End of virtual function table definition.
-				////Virtual table
-				//Marshal.Copy(new IntPtr[] { vfptr },0,(IntPtr)copyLoc,1);
-				//copyLoc+=Marshal.SizeOf(vfptr);
-
-				//LastName
-				size=65;
-				Marshal.Copy(mvPatient.LastName,0,(IntPtr)copyLoc,size);
-				copyLoc+=size;
-				//MiddleName
-				size=65;
-				Marshal.Copy(mvPatient.MiddleName,0,(IntPtr)copyLoc,size);
-				copyLoc+=size;
-				//FirstName
-				size=65;
-				Marshal.Copy(mvPatient.FirstName,0,(IntPtr)copyLoc,size);
-				copyLoc+=size;
-				//Prefix
-				size=65;
-				Marshal.Copy(mvPatient.Prefix,0,(IntPtr)copyLoc,size);
-				copyLoc+=size;
-				//Suffix
-				size=65;
-				Marshal.Copy(mvPatient.Suffix,0,(IntPtr)copyLoc,size);
-				copyLoc+=size;
-				//Sex
-				size=2;
-				Marshal.Copy(mvPatient.Sex,0,(IntPtr)copyLoc,size);
-				copyLoc+=size;
-				//BirthDate
-				size=9;
-				Marshal.Copy(mvPatient.BirthDate,0,(IntPtr)copyLoc,size);
-				copyLoc+=size;
-				//ID
-				size=65;
-				Marshal.Copy(mvPatient.ID,0,(IntPtr)copyLoc,size);
-				copyLoc+=size;
-				//Directory
-				size=260;
-				Marshal.Copy(mvPatient.Directory,0,(IntPtr)copyLoc,size);
-				copyLoc+=size;
+		///<summary>MedVisorInterface.MVStart, in this process (native first) or in the helper. A missing MedVisorInterface.dll throws
+		///DllNotFoundException on either path, as the call in the program's process did.</summary>
+		private static int MVStart() {
+			if(GuruInProcess.IsChosen()) {
+				return GuruInProcess.MVStart();
 			}
-			return retVal;
+			try {
+				return IntFromResult(Helper32Client.Default.Call(GuruCommands.MODULE,GuruCommands.MV_START,_timeSpanCall));
+			}
+			catch(Helper32Exception ex) when(ex.Failure==Helper32Failure.Remote && ex.RemoteTypeName==typeof(DllNotFoundException).FullName) {
+				throw new DllNotFoundException(ex.Message,ex);
+			}
 		}
 
-		///<summary>Destroys a c++ structure created by ToCPlusPlusStructure().</summary>
-		public static void DestroyCPlusPlusStruct(IntPtr cPlusPlusStruct) {
-			Marshal.FreeHGlobal(cPlusPlusStruct);//Free the structure itself.
+		///<summary>MedVisorInterface.MVSendPatient with the structure built from mvPatient (ToCPlusPlusStructure), in this process (native first) or
+		///in the helper.</summary>
+		private static int MVSendPatient(MVPatient mvPatient) {
+			if(GuruInProcess.IsChosen()) {
+				return GuruInProcess.MVSendPatient(mvPatient);
+			}
+			string[] arrayArgs=GuruCommands.EncodePatient(mvPatient,out byte[] data);
+			Helper32Result helper32Result=Helper32Client.Default.Call(GuruCommands.MODULE,GuruCommands.MV_SEND_PATIENT,arrayArgs,data,_timeSpanCall);
+			return IntFromResult(helper32Result.Results);
+		}
+
+		private static int IntFromResult(string[] arrayResults) {
+			return int.Parse(arrayResults[0],System.Globalization.NumberStyles.AllowLeadingSign,System.Globalization.CultureInfo.InvariantCulture);
 		}
 
 		/// <summary></summary>

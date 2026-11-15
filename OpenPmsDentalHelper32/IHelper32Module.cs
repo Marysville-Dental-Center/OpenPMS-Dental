@@ -10,7 +10,13 @@ namespace OpenPmsDentalHelper32 {
 	///as QBFC's session manager and Schick's CDR objects are created and called there, and a window such as Topaz's signing window can be shown
 	///there modally, which runs a message loop), one request at a time, in the order the program sends them. A module keeps its state (an open
 	///session, a loaded library) in its own fields for the helper's lifetime, which is that of one program process. Whatever Handle throws goes
-	///back to the program as an error reply with the exception's type name and message; the helper keeps running.</summary>
+	///back to the program as an error reply with the exception's type name and message; the helper keeps running.
+	///
+	///A module loads its vendor code lazily, in Handle, never in its constructor: Helper32Modules.CreateModules builds every module when the
+	///helper starts, so a constructor that touched vendor code (a missing SigPlusNET.dll, no CDR installed, no MedVisorInterface.dll) would stop
+	///the helper for every other module too. Between two requests the main thread dispatches its window messages (MessagePumpingStream, S3a-14),
+	///so a vendor object that owns a window on it, or receives COM events there (Topaz's control, CDR's exam document), keeps answering while
+	///the helper waits for the program.</summary>
 	internal interface IHelper32Module {
 		///<summary>The module's name in requests, such as "QuickBooks". Unique in the helper.</summary>
 		string Name { get; }

@@ -45,6 +45,11 @@ namespace OpenPmsDentalHelper32 {
 						//A reply longer than the protocol allows: the program gets the reason instead of the results.
 						Helper32Protocol.WriteReply(stream,Helper32Reply.FromException(exception));
 					}
+					catch(System.Text.EncoderFallbackException exception) {
+						//A reply string the protocol's UTF-8 cannot carry (a lone surrogate; S3a-14f): the program gets the reason instead of the results.
+						//The reply is built in memory before it is written, so nothing of it was sent.
+						Helper32Protocol.WriteReply(stream,Helper32Reply.FromException(exception));
+					}
 				}
 				catch(IOException) {
 					return Helper32Protocol.EXIT_OK;
@@ -70,12 +75,16 @@ namespace OpenPmsDentalHelper32 {
 		}
 	}
 
-	///<summary>The modules of the helper. S3a-14 adds Schick, Topaz and Guru here; nothing else changes for a new module.</summary>
+	///<summary>The modules of the helper: QuickBooks Desktop (S3a-13); Schick CDR, Topaz and Guru (S3a-14). Nothing else changes for a new module.
+	///Each constructor only stores its delegates: the vendor code loads on the module's first command (IHelper32Module).</summary>
 	internal static class Helper32Modules {
 		public static List<IHelper32Module> CreateModules(System.IO.Pipes.PipeStream pipe,HelperArguments helperArguments) {
 			List<IHelper32Module> listModules=new List<IHelper32Module>();
 			listModules.Add(new HostModule(pipe));
 			listModules.Add(new QuickBooks.QuickBooksModule());
+			listModules.Add(new Schick.SchickModule());
+			listModules.Add(new Topaz.TopazModule());
+			listModules.Add(new Guru.GuruModule());
 			if(helperArguments.TestModuleAssembly!=null) {
 				//A test's module takes the place of a module of the same name (VendorDirectTests' stand-in for QuickBooks).
 				listModules.RemoveAll(x => x.Name==helperArguments.TestModuleName);

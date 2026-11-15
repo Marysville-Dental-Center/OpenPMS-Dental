@@ -109,6 +109,11 @@
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
+    <!-- The commands of the 32-bit helper's Topaz module (S3a-14 of the .NET 10 move), compiled into the helper and into this assembly, so
+         UI\TopazWrapper.cs, UI\TopazSignatureView.cs and the module name them alike. Its types are internal. -->
+    <Compile Include="..\OpenPmsDentalHelper32\Topaz\TopazCommands.cs">
+      <Link>UI\TopazCommands.cs</Link>
+    </Compile>
     <Compile Update="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

@@ -16,7 +16,7 @@ namespace OpenPmsDentalHelper32 {
 		///<summary>Started by the program (CodeBase.Helper32Client) with --pipe &lt;name&gt; --parent &lt;the program's process id&gt;. Shows no window,
 		///whatever happens: started any other way it ends with EXIT_USAGE at once. Connects to the program's pipe, checks that the program is at
 		///its other end, sends its hello and answers the program's requests on this thread, a single-threaded apartment, until the program closes
-		///the pipe or ends.</summary>
+		///the pipe or ends. Between two requests the thread dispatches its window messages (MessagePumpingStream).</summary>
 		[STAThread]
 		private static int Main(string[] args) {
 			//No Windows error dialog for this process (a missing drive, a crash): the program reports a helper that failed. This sets the mode of
@@ -38,7 +38,7 @@ namespace OpenPmsDentalHelper32 {
 				return Helper32Protocol.EXIT_PARENT;
 			}
 			StartParentWatch(processParent);
-			using(NamedPipeClientStream pipe=new NamedPipeClientStream(".",helperArguments.PipeName,PipeDirection.InOut,PipeOptions.None,
+			using(NamedPipeClientStream pipe=new NamedPipeClientStream(".",helperArguments.PipeName,PipeDirection.InOut,PipeOptions.Asynchronous,
 				TokenImpersonationLevel.Identification))
 			{
 				try {
@@ -69,7 +69,9 @@ namespace OpenPmsDentalHelper32 {
 				catch(Exception) {
 					return Helper32Protocol.EXIT_CONNECT;
 				}
-				return new Helper32Host(listModules).Run(pipe);
+				//Overlapped reads with the thread's messages pumped between two requests (S3a-14): the modules' windows and COM objects live on
+				//this thread.
+				return new Helper32Host(listModules).Run(new MessagePumpingStream(pipe));
 			}
 		}
 

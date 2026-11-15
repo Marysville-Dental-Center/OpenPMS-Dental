@@ -121,6 +121,9 @@
       "testprobehost": {
         "type": "Project"
       },
+      "topazstandin": {
+        "type": "Project"
+      },
       "Microsoft.Web.WebView2": {
         "type": "CentralTransitive",
         "requested": "[1.0.2420.47, )",

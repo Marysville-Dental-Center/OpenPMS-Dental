@@ -123,7 +123,13 @@ namespace OpenPmsDental {
 
 		private void butPrint_Click(object sender,EventArgs e) {
 			//Unlike sheets, we have no need to save first because we are just printing whatever is on the screen at the moment.
-			ctrlEFormFill.FillFieldsFromControls();//so that RefreshLayout will work
+			try {
+				ctrlEFormFill.FillFieldsFromControls();//so that RefreshLayout will work
+			}
+			catch(Helper32Exception ex) {
+				MsgBox.Show(ex.Message);//S3a-14g: a Topaz signature the 32-bit helper lost; before, the program ended
+				return;
+			}
 			Printout printout=new Printout();
 			printout.FuncPrintPage=ctrlEFormFill.Pd_PrintPage;
 			printout.thicknessMarginInches=new Thickness(0.5);
@@ -167,7 +173,14 @@ namespace OpenPmsDental {
 				return;
 			}
 			Cursor=Cursors.Wait;
-			ctrlEFormFill.FillFieldsFromControls();//so that RefreshLayout will work
+			try {
+				ctrlEFormFill.FillFieldsFromControls();//so that RefreshLayout will work
+			}
+			catch(Helper32Exception ex) {
+				Cursor=Cursors.Arrow;
+				MsgBox.Show(ex.Message);//S3a-14g: the helper ended after the save above; the form is saved, the image is not made
+				return;
+			}
 			Printout printout=new Printout();
 			printout.FuncPrintPage=ctrlEFormFill.Pd_PrintPage;
 			printout.thicknessMarginInches=new Thickness(0.5);
@@ -255,7 +268,15 @@ namespace OpenPmsDental {
 			}
 			ctrlEFormFill.Width=maxWidth;
 			ctrlEFormFill.UpdateLayout();
-			ctrlEFormFill.FillFieldsFromControls();
+			try {
+				ctrlEFormFill.FillFieldsFromControls();
+			}
+			catch(Helper32Exception ex) {
+				//S3a-14g: a Topaz signature the 32-bit helper lost (before, the program ended). The box already says so, and a save says it again; a
+				//message here would come with every size change. The layout is not rebuilt, so the box stays as it is for the user to clear and sign.
+				ex.DoNothing();
+				return;
+			}
 			ctrlEFormFill.RefreshLayout();
 			//The one thing this doesn't do perfectly is
 			//if already signed in this session, then size changed, then change text,
@@ -268,7 +289,17 @@ namespace OpenPmsDental {
 			_wasError=false;
 			_wasUnchanged=false;
 			_wasSaved=false;
-			ctrlEFormFill.FillFieldsFromControls();
+			//S3a-14g: a Topaz signature the 32-bit helper lost stops the save here, with the message, before anything is written; the window stays
+			//open, so the user can clear the box and sign again. Before, GetSignature's failure ended the program.
+			try {
+				ctrlEFormFill.CheckTopazSignaturesReachable();
+				ctrlEFormFill.FillFieldsFromControls();
+			}
+			catch(Helper32Exception ex) {
+				MsgBox.Show(ex.Message);
+				_wasError=true;
+				return;
+			}
 			if(!EFormCur.IsNew && !Security.IsAuthorized(EnumPermType.EFormEdit,EFormCur.DateTimeShown)) {
 				_wasError=true;
 				return;

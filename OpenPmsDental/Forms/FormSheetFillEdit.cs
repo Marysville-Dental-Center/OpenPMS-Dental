@@ -154,6 +154,9 @@ namespace OpenPmsDental {
 			}
 			FixFontsForPdf(SheetCur,true);// validate fonts before printing/creating PDF
 			if(SheetCur.SheetType==SheetTypeEnum.PaymentPlan) {
+				if(!AreTopazSignaturesReachable()) {//S3a-14f: the form stays open for a lost Topaz signature
+					return;
+				}
 				SaveSignaturePayPlan();
 			}
 			else {
@@ -231,6 +234,9 @@ namespace OpenPmsDental {
 			}
 			FixFontsForPdf(SheetCur,true);// validate fonts before printing/creating PDF
 			if(SheetCur.SheetType==SheetTypeEnum.PaymentPlan) {
+				if(!AreTopazSignaturesReachable()) {//S3a-14f: the form stays open for a lost Topaz signature
+					return;
+				}
 				SaveSignaturePayPlan();
 			}
 			else {
@@ -283,6 +289,9 @@ namespace OpenPmsDental {
 			}
 			FixFontsForPdf(SheetCur,true);// validate fonts before printing/creating PDF
 			if(SheetCur.SheetType==SheetTypeEnum.PaymentPlan) {
+				if(!AreTopazSignaturesReachable()) {//S3a-14f: the form stays open for a lost Topaz signature
+					return;
+				}
 				SaveSignaturePayPlan();
 			}
 			else {
@@ -332,6 +341,9 @@ namespace OpenPmsDental {
 			}
 			FixFontsForPdf(SheetCur,true);// validate fonts before printing/creating PDF
 			if(SheetCur.SheetType==SheetTypeEnum.PaymentPlan) {
+				if(!AreTopazSignaturesReachable()) {//S3a-14f: the form stays open for a lost Topaz signature
+					return;
+				}
 				SaveSignaturePayPlan();
 			}
 			else {
@@ -474,6 +486,9 @@ namespace OpenPmsDental {
 					return;
 				}
 				if(!OkToSaveBecauseNoOtherEdits()) {
+					return;
+				}
+				if(!AreTopazSignaturesReachable()) {//S3a-14f: the form stays open for a lost Topaz signature
 					return;
 				}
 				SaveSignaturePayPlan();
@@ -2087,6 +2102,29 @@ namespace OpenPmsDental {
 				&& SheetCur.SheetFields.Exists(x => x.FieldName=="ReferralLetterProceduresCompleted" || x.FieldName=="toothChart");
 		}
 
+		///<summary>False, after showing the message, when a changed Topaz signature box's 32-bit helper cannot be reached, for example it ended after
+		///the patient signed and the signature went with it: the form stays open and nothing is written, so the user can clear the box and sign
+		///again (S3a-14f). TryToSaveData and VerifyRequiredFields call this before they read or write anything, and the payment plan's
+		///buttons before SaveSignaturePayPlan.</summary>
+		private bool AreTopazSignaturesReachable() {
+			for(int i=0;i<panelMain.Controls.Count;i++) {
+				if(!(panelMain.Controls[i] is OpenPmsDental.UI.SignatureBoxWrapper sigBox) || sigBox.Tag==null) {
+					continue;
+				}
+				if(!sigBox.GetSigChanged() || !sigBox.GetSigIsTopaz()) {
+					continue;
+				}
+				try {
+					sigBox.CheckTopazSignatureReachable();
+				}
+				catch(Helper32Exception ex) {
+					MessageBox.Show(this,ex.Message);
+					return false;
+				}
+			}
+			return true;
+		}
+
 		///<summary>If an error won't allow, then it shows a MsgBox and then returns false.</summary>
 		private bool TryToSaveData() {
 			if(IsStatement) {
@@ -2108,6 +2146,11 @@ namespace OpenPmsDental {
 				MsgBox.Show(this,"Please fix data entry errors first.");
 				return false;
 			}
+			//Before anything of the sheet is read for saving or written: a Topaz signature the 32-bit helper lost would stop the save at GetSignature
+			//below, after the sheet and its other fields were written (S3a-14f).
+			if(!AreTopazSignaturesReachable()) {
+				return false;
+			}
 			if(!TrySetDateSubmitted()) {//Open Dental 25.4 sheet.DateTimeSubmitted, see FormSheetFillEdit.Submitted.cs
 				return false;
 			}
@@ -2119,6 +2162,31 @@ namespace OpenPmsDental {
 			FillFieldsFromControls(isSave:true);//this does nothing
 			FillFieldsFromScreenings();
 			bool isNewReferralLetterWithProcsOrChart=IsNewReferralLetterWithProcsOrChart();
+			//S3a-14g: the changed signatures are read here, before anything of the sheet is written, with the key the sheet will have once it is
+			//written. The helper could otherwise end between the check above and GetSignature below, after the sheet and its fields were written.
+			string keyDataBeforeWrites=null;
+			if(isNewReferralLetterWithProcsOrChart) {
+				keyDataBeforeWrites=Sheets.GetSignatureKey(SheetCur);//its fields are not written or read back below
+			}
+			else {
+				keyDataBeforeWrites=Sheets.GetSignatureKeyAfterSave(SheetCur);
+			}
+			Dictionary<OpenPmsDental.UI.SignatureBoxWrapper,string> dictSignaturesBeforeWrites=new Dictionary<OpenPmsDental.UI.SignatureBoxWrapper,string>();
+			for(int i=0;i<panelMain.Controls.Count;i++) {
+				if(!(panelMain.Controls[i] is OpenPmsDental.UI.SignatureBoxWrapper sigBoxRead) || sigBoxRead.Tag==null || !sigBoxRead.GetSigChanged()) {
+					continue;
+				}
+				if(keyDataBeforeWrites==null) {
+					break;//the key cannot be worked out first: the signatures are read after the writes, as before
+				}
+				try {
+					dictSignaturesBeforeWrites[sigBoxRead]=sigBoxRead.GetSignature(keyDataBeforeWrites);
+				}
+				catch(Helper32Exception ex) {
+					MessageBox.Show(this,ex.Message);
+					return false;
+				}
+			}
 			if(SheetCur.IsNew) {
 				Sheets.Insert(SheetCur);
 				Sheets.SaveParameters(SheetCur);
@@ -2165,7 +2233,19 @@ namespace OpenPmsDental {
 					SheetFields.GetFieldsAndParameters(SheetCur);
 				}
 				string keyData=Sheets.GetSignatureKey(SheetCur);
-				string signature=sigBox.GetSignature(keyData);
+				string signature;
+				if(keyData!=keyDataBeforeWrites || !dictSignaturesBeforeWrites.TryGetValue(sigBox,out signature)) {
+					//The key differs from the one worked out before the writes (or none could be): read now, as before S3a-14g.
+					try {
+						signature=sigBox.GetSignature(keyData);
+					}
+					catch(Helper32Exception ex) {
+						//S3a-14g: only when the key read back differs from the one worked out before the writes (not known to happen): the sheet and its
+						//other fields are written, its signature fields are not. The form stays open, so the user can clear the box, sign again and save.
+						MessageBox.Show(this,ex.Message);
+						return false;
+					}
+				}
 				sheetField.DateTimeSig=DateTime.MinValue;
 				if(signature!="") {
 					sheetField.FieldValue="0";
@@ -2366,6 +2446,10 @@ namespace OpenPmsDental {
 
 		///<summary>Returns true when all of the sheet fields with IsRequired set to true have a value set. Otherwise, a message box shows and false is returned.</summary>
 		private bool VerifyRequiredFields(){
+			//S3a-14f: SigIsBlank below throws for a Topaz signature the 32-bit helper lost: show it, and the form stays open.
+			if(!AreTopazSignaturesReachable()) {
+				return false;
+			}
 			//SigBoxes are checked separately due to specific properties not in SheetField
 			for(int i=0;i<_listSignatureBoxWrappers.Count;i++) {
 				SheetField sheetField=(SheetField)_listSignatureBoxWrappers[i].Tag;
@@ -2464,15 +2548,14 @@ namespace OpenPmsDental {
 				}
 				OpenPmsDental.UI.SignatureBoxWrapper signatureBoxWrapper=(OpenPmsDental.UI.SignatureBoxWrapper)panelMain.Controls[i];
 				if(!signatureBoxWrapper.IsValid) {//invalid sig. Do not save signature.
-					isValidSig=signatureBoxWrapper.IsValid; 
+					isValidSig=signatureBoxWrapper.IsValid;
 					continue;
 				}
-				payPlan.Signature=signatureBoxWrapper.GetSignature(keyData);
-				if(payPlan.Signature!="") {
-					payPlan.SigIsTopaz=false;
-					if(signatureBoxWrapper.GetSigIsTopaz()) {
-						payPlan.SigIsTopaz=true; ;
-					}
+				//S3a-14g: a Topaz box on the 32-bit helper's path whose signature did not change is not read again; the plan keeps its stored signature
+				//(a Topaz signature read back from a helper that ended since the sheet opened was "", saved with no message). Every other box is read
+				//as before (S3a-14n).
+				if(!SignatureBoxSaves.SetPayPlanSignature(payPlan,signatureBoxWrapper,keyData)) {
+					continue;
 				}
 				hasSigChanged=signatureBoxWrapper.GetSigChanged();
 				PayPlans.Update(payPlan);

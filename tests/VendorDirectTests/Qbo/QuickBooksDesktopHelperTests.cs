@@ -53,10 +53,11 @@ namespace VendorDirectTests.Qbo {
 				"Void CreateDeposit(DateTime txnDate,String depositAcct,String incomeAcct,Double amount,String memo,String classRef)",
 			},arrayMethods);
 			Assert.IsNotNull(type.GetConstructor(Type.EmptyTypes),"The public constructor stays.");
-			//WpfControlsOD no longer carries QBFC's interop types (they were embedded before S3a-13).
-			Assert.IsFalse(type.Assembly.GetTypes().Any(x => x.Namespace!=null && x.Namespace.StartsWith("Interop.QBFC",StringComparison.Ordinal)),
-				"WpfControlsOD embeds no QBFC type.");
-			Assert.IsFalse(type.Assembly.GetReferencedAssemblies().Any(x => x.Name.StartsWith("Interop.QBFC",StringComparison.Ordinal)));
+			//S3a-14n (native first): WpfControlsOD carries QBFC's interop types again, embedded as before S3a-13, for its in-process path
+			//(QuickBooksInProcess); it still references no interop assembly, so none is copied or shipped.
+			Assert.IsTrue(type.Assembly.GetTypes().Any(x => x.Namespace!=null && x.Namespace.StartsWith("Interop.QBFC",StringComparison.Ordinal)),
+				"WpfControlsOD embeds the QBFC types its in-process path uses.");
+			Assert.IsFalse(type.Assembly.GetReferencedAssemblies().Any(x => x.Name.StartsWith("Interop.",StringComparison.Ordinal)));
 		}
 
 		///<summary>The deposit's arguments for the helper, as BuildDepositAddRq used them: the amount formatted in the program's culture ("F"), and
@@ -91,6 +92,9 @@ namespace VendorDirectTests.Qbo {
 			object clientBefore=fieldDefault.GetValue(null);
 			Helper32Client client=new Helper32Client(pathCopy,"--test-module VendorDirectTests "+typeof(QuickBooksStandIn).FullName+" QuickBooks");
 			try {
+				//S3a-14n: the helper's path, as a 64-bit program without a 64-bit QBFC takes it; the chooser is fixed first, so no QBFC object is
+				//activated in this process.
+				NativeFirstChooser.QuickBooksDesktop.ForceChoiceForTests(VendorPath.Helper32);
 				fieldDefault.SetValue(null,client);
 				Assert.AreEqual(@"stand-in TestConnection C:\QuickBooks\Synthetic Company.qbw",QuickBooks.TestConnection(@"C:\QuickBooks\Synthetic Company.qbw"));
 				int processId=client.ProcessId;
@@ -100,6 +104,7 @@ namespace VendorDirectTests.Qbo {
 					+"OpenPmsDentalHelper32.exe was not found");
 			}
 			finally {
+				NativeFirstChooser.QuickBooksDesktop.ResetForTests();
 				fieldDefault.SetValue(null,clientBefore);
 				client.Dispose();
 				for(int i=0;i<40 && Process.GetProcesses().Any(x => SafeName(x)==Path.GetFileNameWithoutExtension(pathCopy));i++) {

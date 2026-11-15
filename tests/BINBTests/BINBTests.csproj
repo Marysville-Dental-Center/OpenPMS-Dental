@@ -37,5 +37,21 @@
     <!-- The synthetic Topaz control that TopazWrapperTests copy into a search folder as SigPlusNET.dll (S3a-8b of the .NET 10 move: it was
          compiled at run time before, and .NET has no run-time C# compiler). -->
     <ProjectReference Include="..\TopazStandIn\TopazStandIn.csproj" />
+    <!-- The 32-bit helper program, which runs Topaz's control since S3a-14 of the .NET 10 move: OpenPmsDentalHelper32.exe and its .exe.config
+         land in this folder, where TopazWrapperTests copy it under a name of their own (Helper32Tests' HelperCopy, linked below), end the copy
+         and delete it. -->
+    <ProjectReference Include="..\..\OpenPmsDentalHelper32\OpenPmsDentalHelper32.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\Helper32Tests\Support\HelperCopy.cs">
+      <Link>Helper32\HelperCopy.cs</Link>
+    </Compile>
+    <Compile Include="..\Helper32Tests\Support\ProcessList.cs">
+      <Link>Helper32\ProcessList.cs</Link>
+    </Compile>
+    <!-- HelperCopy names the protocol tests' fake module; nothing here loads it. -->
+    <Compile Include="..\Helper32Tests\Support\FakeModule.cs">
+      <Link>Helper32\FakeModule.cs</Link>
+    </Compile>
   </ItemGroup>
 </Project>
