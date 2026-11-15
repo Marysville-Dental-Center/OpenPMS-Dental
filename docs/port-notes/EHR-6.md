@@ -161,6 +161,14 @@ the improvement notation, each population and stratum with its ID and define, an
   missing, twice or refused, and nothing is written. **One swap** (`Import(EhrValueSetPick)`): the value-set rows and the direct-reference-code
   rows together into EHR-2's scratch table, one `RENAME TABLE`, so a later import replaces both kinds together and an import that fails part
   way leaves every old row of both kinds. `Import(EhrValueSetFile)` is gone: no import of one file is left.
+- **Reading the pick within EHR-2's limits** (`ParsePick(listFileNames,funcOpenStream)`, review fix in `ehr/ehr6a-2`): EHR-2's limits
+  (`MAX_ROWS` 1,000,000, 64 MB per part, 256 MB per file) are for one parsed value-set file in memory in a 32-bit process, so the pick never
+  holds more. A pick of other than three files is refused before any file is opened (the window checks the count before it reads anything
+  too). The three are read one after another under one `MAX_ROWS` for the whole pick ("The files of the pick have more rows together than the
+  importer reads"); a second file of a kind already read is refused at its first row of that kind ("The pick has more than one file with the
+  value sets: this file and ..."), so its rows are never held; a refused file keeps only its report. `MakePick` then checks the three as
+  before. An office that picks the workbook and the SVS `.zip` of the same release with the two companions (four files) is refused unread;
+  one that picks two value-set files and one companion holds one value-set parse.
 - **The release record** (`ForkEhrValueSetRelease`, `EhrValueSetRelease`): as EHR-2 (label, the value-set file's name and SHA-256, date,
   counts, the measure check), plus the three files (kind, name, SHA-256, size), the code-system versions, the roles and how each resolved, and
   the number of direct reference codes. A record written by EHR-2 still reads (the new lists are empty). The Setup security log entry names
@@ -189,7 +197,8 @@ pick lists".
 
 `FormCodeSystemsImport` (the plan's Owns): the value-set row reads "eCQM value sets (VSAC, eligible clinicians, 2026-05-14)"; Import Value
 Sets keeps EHR-2's order (Middle Tier refused, Setup, the licence prompt, now naming the release and its three files, the file dialog, the
-import, the signal), with the dialog in multi-select: the three files are read each as a stream (never whole), picked together, the pick's
+import, the signal), with the dialog in multi-select: a pick of other than three files is refused before any is read; the three are read
+each as a stream (never whole) through `ParsePick` (section 3), picked together, the pick's
 report shown (copy and paste), the confirmation names the codes of both kinds, and the import writes them in one swap. The status label in
 `.designer.cs` names the new column.
 
@@ -228,7 +237,7 @@ unchanged. The embedded copy follows the file (`Resources.resx` links it). **For
 
 ### 8. Tests
 
-`tests/EhrTests`, new files `CatalogTests.cs` (11), `DirectCodeTests.cs` (8), `DirectCodeDbTests.cs` (5) and `Support/ReleaseDb.cs`;
+`tests/EhrTests`, new files `CatalogTests.cs` (11), `DirectCodeTests.cs` (8; 11 after the review fix, section 11), `DirectCodeDbTests.cs` (5) and `Support/ReleaseDb.cs`;
 `ValueSetParseTests.cs`, `ValueSetSourceTests.cs`, `ValueSetDbTests.cs` and `Support/ValueSetFixtures.cs` moved to the 2027 catalog;
 `tests/AttributionTests/ReleaseIdentityTests.cs` (the LOINC component). No project file edited.
 
@@ -237,7 +246,10 @@ unchanged. The embedded copy follows the file (`Resources.resx` links it). **For
   record, the 72 in all, the four declared but unused; the 17 pick lists; the eight roles (display names only for LOINC); each statement
   equal to its recorded SHA-256; `GetStatementText`; the code-like guard; namespace and ASCII; the optional comparison with the downloads.
 - `DirectCodeTests`: the synthetic release gives 7 of 7 with every role resolved and every row under its key; a pick without all three
-  files, with two of a kind, with a fourth or with none is refused; a file of two kinds is refused; a role missing and a role twice warn (the
+  files, with two of a kind, with a fourth or with none is refused (through `ParsePick`, as the window reads it: a count other than three
+  unread, the missing kind named for three files; `ParseEachThenPick` keeps `MakePick`'s file-by-file checks); a four-file pick with two
+  value-set files opens no file; a second value-set file keeps no rows (one value-set file's rows at most); the row budget is the whole
+  pick's (review fix, three tests); a file of two kinds is refused; a role missing and a role twice warn (the
   twice is not resolved, both codes stay listed), CMS138's CPT role with three codes warns and resolves; the LOINC roles by display name (case
   and spaces ignored, not at another version); the Direct Reference Codes file's version check, rows without a measure, missing columns, an
   empty file; the Code System Versions file by name or OID and either header; the version mapping.
@@ -286,3 +298,25 @@ Full build through the lane: 0 errors, no warning in a changed file. Then the Ta
 
 No `ehr6a_` or `ehr2_` database was left on the server after the runs. One `ehr3_..._ccd` database of the EHR-3 tests' own fixture was
 there after the run (not this package's; its stale clean-up drops it after 12 hours), and was left alone.
+
+### 11. Review fix (`ehr/ehr6a-2`): the pick within EHR-2's memory limits
+
+The review found that the window parsed every file of the multi-select, keeping each parse, before `MakePick` refused a pick of other
+than three files or of two files of one kind: a pick of the workbook and the SVS `.zip` of one release with the two companions held two
+value-set parses, a whole download folder N, in a 32-bit process. Fixed by `ParsePick` (section 3): a count other than three refused before
+any file is read (in the window and in `ParsePick`), one `MAX_ROWS` for the whole pick, a second file of a kind refused at its first row
+with its rows not kept, and a refused file's rows dropped. `DirectCodeTests` gains three tests (four files with two value-set files open no
+file; a second value-set file keeps no rows; the row budget is the pick's); `ValueSetSourceTests` checks the window reads through
+`ParsePick` with the count checked first.
+
+Full build through the lane: 0 errors, no warning in a changed file. Targeted runs: `ehr6a-2-run1.txt` (all four) and `ehr6a-2-run2.txt`
+(EhrTests and NoHqTests again):
+
+| Assembly | Result |
+|---|---|
+| EhrTests | run 2: 235: 234 passed, 1 skipped (`Catalog_EqualsTheDownloadedPackages_WhenCqmSpecsDirIsSet`, as in section 10), 0 failed. Run 1 had one failure, `LoadTime_AFullSyntheticRelease_LoadsInUnderASecond` (first load 1,572 ms against its 1 s bound while the other assemblies ran beside it); this fix does not touch the load, and it passed in run 2 and in the EhrTests-only run before it |
+| AttributionTests | run 1: 50 of 50 passed |
+| MiddleTierMockTests | run 1: 125 of 125 passed |
+| NoHqTests | runs 1 and 2: 57 of 57 passed |
+
+No `ehr6a_` database was left on the server after the runs.
