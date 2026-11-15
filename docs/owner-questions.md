@@ -953,8 +953,8 @@ and E-10b), where each is set out in full with its recommendation. You first ans
   Recopy on the named update server, when the published manifest cannot be read, offers to replace it after a confirmation (package
   S3a-10f, queued).
 - **The program after an elevated self-update** (S3a-10 section 8). After an over-the-shoulder elevation, the restarted program runs as the
-  account that gave the rights. Keep that, or should 3b start it without those rights? Your answer (2026-11-15) was "yes"; the lead
-  asked which of the two you mean (3b work, nothing waits for it).
+  account that gave the rights. Keep that, or should 3b start it without those rights? **Your decision (2026-11-15): the user's own
+  account.** In 3b (S3b-7), the copier starts the program again without the rights it was given, as the user who was working.
 - **For your information, no answer needed (S3a-7):** ServiceManager now installs every program it offers with the HL7 service's
   settings, Open Dental's own service programs included: own process, automatic start, LocalSystem, display name = service name. InstallUtil
   used to refuse a program that had no installer of its own.
