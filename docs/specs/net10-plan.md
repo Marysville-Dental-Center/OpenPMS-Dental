@@ -746,6 +746,13 @@ and `FrmPatientSelect.xaml.cs` pass from S3a-2 to S3a-12 after wave 1 merges; a 
 3a (the helper's files). `ControlImages.cs` passes from S3a-M2 to S3a-14 (its Topaz lines only). In `tests/ReleaseFlowTests`, S3a-13 and
 S3a-16 add new files only. The lane's x64 test build and `OpenDental.sln` are the lead's.
 
+**Status (2026-11-15).** Wave 1: S3a-9 done on `net10/s3a9-1` (`docs/port-notes/S3a-9.md`), not merged yet: file rights through
+`FileInfo`/`DirectoryInfo` in the connection settings tool, `ExternalException` next to the three GDI+ `OutOfMemoryException` catches (the
+DICOM reader's is managed and stays), both network guards also set `HttpClient.DefaultProxy`, the 25 `PrefName` errors are warnings with
+`NoHqTests/ObsoletePrefNamesTests.cs`, and the sending sites say "not a valid email address" (`AddressRulesTests` pins `a..b@example.com`).
+Left for others: `FormClaimAttachment.cs`/`FormImageSelectClaimAttach.cs` (S3a-2), `FrmAtoZFoldersCreate.xaml.cs:74` (S3a-2),
+`DirectCertificateImport.cs:1383,1385` (no owner yet), `OfficeCaFile.cs:115`'s `FileStream` with `FileSecurity` (3b).
+
 **Full-test gate.** Section 3, plus: the golden outputs and known answers recorded and committed; the source-scan tests pass; the
 launch checks for 3a (section 6) done with screenshots, including a self-update from a standard user; the x64 test runs (S3a-12, S3a-15)
 and the x64 build of `Direct2dWrapper` (S3a-16) pass; the helper's tests pass, and its links are launch-checked where a test PC has the
