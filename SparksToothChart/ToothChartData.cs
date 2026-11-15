@@ -61,6 +61,9 @@ namespace SparksToothChart {
 		public int RedLimitProbing;
 		///<summary>Any furcation grade that is greater than or equal to this number will show in 'red'.  Typical value is 2.</summary>
 		public int RedLimitFurcations;
+		///<summary>The office's Perio Setup option "Use the term Recession" (Open Dental 24.4; PerioMeasures.GetUseRecessionTerm). The WPF chart's perio
+		///legend then names the gingival margin line "Recession", unless the exam has hyperplasia (TC-7). Not cleared by ResetTeeth.</summary>
+		public bool PerioUseRecessionTerm;
 
 		public ToothChartData() {
 			ListToothGraphics=new ToothGraphicCollection();
