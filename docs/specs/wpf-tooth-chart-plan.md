@@ -447,6 +447,21 @@ has the details and launch check L-6 written for a person. In short:
 - 15 perio scenes at 649x696 (five new ones with `HasLegacyRecording=false`) and the print and the 750x1000 save of three of them are WPF
   baselines; the perio parity probes compare the ten recorded scenes with TC-0's DirectX pictures.
 
+**TC-8 (2026-11-15, branch `chart/tc8-1` from `main` at `e2fc2306f`): the engine choice moves to the WPF chart; every host. Done on the
+branch; gallery G4's final part (`g4-tc8.html`) waits for the owner, and TC-8 merges only after the owner approves it.**
+`docs/port-notes/TC-8.md` has the details and launch check L-7 written for a person. In short, under O-19 and O-34 (b1), O-30, O-31 and O-26 as
+the owner revised it on 2026-11-15 (the parity rows ENG-1 to NEW-1 below were not confirmed and are not built):
+- A stored DirectX (0) or OpenGL (2) choice starts the WPF chart (the wrapper's `DrawMode`; the relay's `GetEngineForStoredMode`), which falls
+  back to Simple 2D with one log line; a stored Simple 2D (1) stays 2D. `ApplyComputerSettings` sets "Draw in software" before the engine and
+  saves nothing; the start-up DirectX search is a no-op; the snapshot holds the engine and the switch; graphical perio opens on the WPF chart on
+  every computer; the developer switch is gone. Only `Engine` still starts DirectX and OpenGL (the legacy recorder and tests) until TC-9a.
+- File > Graphics rebuilt: "3D chart" and "Simple 2D chart", "Draw in software", a live preview; the save rule as the row writes it (decision
+  22: its rollback is a return to Open Dental, which reads 0, 1 and 2 as before).
+- A render-thread failure that WPF throws on the UI thread releases the live view and falls back to the image host, as a failed `ShowScene`.
+- `tests/ToothChartHostTests` (new; sln and slnf entries added on the branch) checks every host it can without the main window through the
+  program on a `tc8_` scratch database, with 9 new baselines; no existing baseline changed. The Chart module and the classic Treatment Plan
+  document are L-7's. `tests/WindowChecksTests` still expects the DirectX chart and needs the lead's rewrite.
+
 **Why not a separate branch.** The chart must not drift from the stages' rewrites of `ControlChart.cs` and the release files. Dark
 merges keep it on `main`, and the gallery approval comes before each merge (O-27).
 
@@ -1110,6 +1125,9 @@ its gallery (G2 part 2, built as G5) on 2026-11-15 and it is merged on `main`.**
 | SM-1 | **Done (TC-6).** Space maintainer: only a thick solid bar in the status colour across missing-tooth spaces, at about crown height on the facial view, never over a present tooth; no band and no loop. Quadrants kept. Revises O-23. | https://odtechblog.files.wordpress.com/2021/01/space-main-chart.png ; https://www.opendentalsoft.com:8085/forum/viewtopic.php?t=7522 | Stated. Which engines draw it needs a row. Built: the WPF chart only (O-23); the bar flat in the status colour, as the screenshot's 198,0,0. |
 
 **TC-8** (revises O-30, O-31 and O-34 before it starts; the owner confirms):
+
+*Not built in TC-8 (2026-11-15): the owner has not confirmed these rows, so TC-8 follows O-19 and O-34 (b1), O-30 and O-31 as answered;
+the rows stay open for the owner (`docs/port-notes/TC-8.md`, section 6).*
 
 | Row | Change | Open Dental source | Caveats |
 |---|---|---|---|
