@@ -7,8 +7,8 @@
 // S3a-2f tightened it: Diagnostics.Process.Start( and Process.Start as a method group are starts; a using that hides Process is refused;
 // target-typed new() of a Process or ProcessStartInfo is a construction; UseShellExecute counts only on the constructed object's own name or
 // initializer, within its scope and before its name gets a new object; Process.Start(x) needs x's last assignment to be a checked construction.
-// S3a-FU2: and no declaration of x (a parameter, a local, a lambda's parameter), no out/ref x and no end of an expression body between them;
-// ProcessStartInfo?x (no space) is a declaration.
+// S3a-FU2: and no declaration of x (a parameter, a local, a lambda's parameter, a pattern's designation, a deconstruction's element, each also
+// as @x), no out/ref x, no tuple assignment to x and no end of an expression body between them; ProcessStartInfo?x (no space) is a declaration.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
 using System.Collections.Generic;
@@ -523,6 +523,73 @@ namespace NoHqTests {
 		}
 
 		[TestMethod]
+		public void Scan_APatternDeconstructionOrVerbatimNameThatShadowsAField_IsFound() {
+			//A pattern's designation after a property pattern: no type name before the name.
+			AssertProblems(new[] {
+				"private ProcessStartInfo psi=new ProcessStartInfo(x) { UseShellExecute=true };",
+				"void B() {",
+				"\tif(GetStartInfo() is {} psi) {",
+				"\t\tProcess.Start(psi);",
+				"\t}",
+				"}"
+			},"4 Process.Start");
+			AssertProblems(new[] {
+				"private ProcessStartInfo psi=new ProcessStartInfo(x) { UseShellExecute=true };",
+				"void B() {",
+				"\tif(GetStartInfo() is ProcessStartInfo { } psi && isReady) {",
+				"\t\tProcess.Start(psi);",
+				"\t}",
+				"}"
+			},"4 Process.Start");
+			AssertProblems(new[] {
+				"private ProcessStartInfo psi=new ProcessStartInfo(x) { UseShellExecute=true };",
+				"void B() {",
+				"\tif(GetStartInfo() is { FileName: not null } psi) {",
+				"\t\tProcess.Start(psi);",
+				"\t}",
+				"}"
+			},"4 Process.Start");
+			//A deconstruction.
+			AssertProblems(new[] {
+				"private ProcessStartInfo psi=new ProcessStartInfo(x) { UseShellExecute=true };",
+				"void B() {",
+				"\tvar (psi,n)=GetPair();",
+				"\tProcess.Start(psi);",
+				"}"
+			},"4 Process.Start");
+			AssertProblems(new[] {
+				"private ProcessStartInfo psi=new ProcessStartInfo(x) { UseShellExecute=true };",
+				"void B() {",
+				"\tforeach(var (psi,n) in listPairs) {",
+				"\t\tProcess.Start(psi);",
+				"\t}",
+				"}"
+			},"4 Process.Start");
+			AssertProblems(new[] {
+				"ProcessStartInfo psi=new ProcessStartInfo(x) { UseShellExecute=true };",
+				"(psi,count)=(GetStartInfo(),1);",
+				"Process.Start(psi);"
+			},"3 Process.Start");
+			//A verbatim parameter.
+			AssertProblems(new[] {
+				"private ProcessStartInfo psi=new ProcessStartInfo(x) { UseShellExecute=true };",
+				"void B(ProcessStartInfo @psi) {",
+				"\tProcess.Start(psi);",
+				"}"
+			},"3 Process.Start");
+			//Good lines: a statement after a block, and a tuple swap of other names.
+			AssertProblems(new[] {
+				"ProcessStartInfo psi=new ProcessStartInfo(x) { UseShellExecute=true };",
+				"if(isRemote) { }",
+				"psi.FileName=path;",
+				"if(isLocal) { }",
+				"psi?.Verb.Trim();",
+				"(a,b)=(b,a);",
+				"Process.Start(psi);"
+			});
+		}
+
+		[TestMethod]
 		public void Scan_NullableDeclarationWithoutASpace_IsChecked() {
 			AssertProblems(new[] { "ProcessStartInfo?psi=new(path);","ODFileUtils.ProcessStart(psi);" },"1 new ProcessStartInfo");
 			AssertProblems(new[] { "private Process?_process;","_process=new();","_process.Start();" },"2 new Process");
@@ -850,10 +917,12 @@ namespace NoHqTests {
 
 		///<summary>True when the text (the code between a name's last assignment and a call that passes the name) declares the name again or may
 		///give it another value (S3a-FU2): a parameter, a local or a local function's parameter (ProcessStartInfo psi, var psi, List&lt;T&gt; psi,
-		///ProcessStartInfo? psi=), a lambda's parameter (psi =&gt;, (psi) =&gt;, (i,psi) =&gt;), a query's range variable (from psi), or out/ref psi.
+		///ProcessStartInfo? psi=), a lambda's parameter (psi =&gt;, (psi) =&gt;, (i,psi) =&gt;), a query's range variable (from psi), or out/ref psi;
+		///a pattern's designation after a property or list pattern (is {} psi, is ProcessStartInfo { } psi, case [..] psi:); an element of a
+		///deconstruction or tuple assignment (var (psi,n)=..., (psi,n)=..., foreach(var (psi,n) in ...)); each also with the verbatim @psi.
 		///Each makes the name at the call another variable, such as a parameter that shadows a field of the same name, or another value.</summary>
 		private static bool IsNameDeclaredOrPassedByRef(string text,string name) {
-			string nameEscaped=Regex.Escape(name);
+			string nameEscaped="@?"+Regex.Escape(name);
 			string patternType=@"(?<![\w.])([A-Za-z_]\w*)(?:\s*\.\s*[A-Za-z_]\w*)*(?:\s*<[^;{}()=]*>)?(?:\s*\[[\s,]*\])*";
 			foreach(Match match in Regex.Matches(text,patternType+@"\s+"+nameEscaped+@"\b(?!\s*\()")) {
 				if(!_arrayWordsNotTypes.Contains(match.Groups[1].Value)) {
@@ -864,12 +933,19 @@ namespace NoHqTests {
 			if(Regex.IsMatch(text,patternType+@"\s*\?\s*"+nameEscaped+@"\b(?=\s*(?:=(?!=)|[;,)]))")) {
 				return true;
 			}
+			//A pattern's designation after a property pattern or a list pattern: followed by what follows a pattern (S3a-FU2), so that a statement
+			//after a block (if(x) { } psi.FileName=...) is not taken for one.
+			if(Regex.IsMatch(text,@"[}\]]\s*"+nameEscaped+@"\b(?=\s*(?:[)&|,;:]|\?(?![.\[?])|when\b|=>))")) {
+				return true;
+			}
 			if(Regex.IsMatch(text,@"(?<![\w.])"+nameEscaped+@"\s*=>")) {
 				return true;
 			}
-			foreach(Match match in Regex.Matches(text,@"\(([^()]*)\)\s*=>")) {
-				foreach(string parameter in match.Groups[1].Value.Split(',')) {
-					Match matchName=Regex.Match(parameter,@"([A-Za-z_]\w*)\s*$");
+			//A parenthesized list before =>, = or in: a lambda's parameters, a deconstruction or a tuple assignment (one level of nested
+			//parentheses, as in var ((psi,n),m)=...). The name is an element when it is the element's last identifier.
+			foreach(Match match in Regex.Matches(text,@"\(((?:[^()]|\([^()]*\))*)\)\s*(?:=>|=(?![=>])|\bin\b)")) {
+				foreach(string element in match.Groups[1].Value.Replace("(","").Replace(")","").Split(',')) {
+					Match matchName=Regex.Match(element,@"@?([A-Za-z_]\w*)\s*$");
 					if(matchName.Success && matchName.Groups[1].Value==name) {
 						return true;
 					}
