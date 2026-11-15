@@ -299,6 +299,107 @@ namespace ReleaseFlowTests {
 				"A newer bridge build still restarts the workstation.");
 		}
 
+		private static ReleaseIdentity RunningNet10(string release="1.0",string buildId="net10",DateTime? dateTimeBuild=null) {
+			ReleaseIdentity releaseIdentity=RunningBridge(release,buildId,dateTimeBuild??_dateTimeNew);
+			releaseIdentity.Runtime=ReleaseRuntime.Parse("Microsoft.NETCore.App 10.0.14 win-x64");
+			return releaseIdentity;
+		}
+
+		///<summary>Plan section 10 step 3: the update server gets the .NET 10 setup first, and its first start publishes the .NET 10 release over
+		///the bridge release (a manifest without a Runtime line). Decide, Recopy's GetRefusal and MayRunUnpublishedBuild all let it publish.</summary>
+		[TestMethod]
+		public void Net10UpdateServer_PublishesOverTheBridgeRelease() {
+			ReleaseIdentity releaseIdentity=RunningNet10();
+			foreach(ReleaseManifest releaseManifest in new[] { Published("0.0","bridge",_dateTimeOld),Published("0.0","bridge",DateTime.MinValue),
+				Published("0.0","bridge",_dateTimeOld,ReleaseRuntime.NetFramework48X86),Published("1.0","bridge",DateTime.MinValue) })
+			{
+				Assert.IsTrue(ForkReleases.IsForwardRuntimeSwitch(releaseManifest,releaseIdentity));
+				ReleaseDecision releaseDecision=ForkReleases.Decide(releaseManifest,releaseIdentity,UpdateServerRole.ThisComputer,false,"SERVER1");
+				Assert.AreEqual(ReleaseAction.Publish,releaseDecision.Action,releaseManifest.ReleaseVersion+" "+releaseManifest.BuildUtc);
+				StringAssert.Contains(releaseDecision.Message,"This build is not the published one");
+				StringAssert.Contains(releaseDecision.Message,"keep running it until the new setup runs on them");
+				Assert.IsFalse(releaseDecision.Message.Contains("run the new setup on it"),releaseDecision.Message);
+				Assert.AreEqual("",ForkReleases.GetRefusal(releaseManifest,"",releaseIdentity,UpdateServerRole.ThisComputer),"Recopy publishes.");
+				Assert.IsTrue(ForkReleases.MayRunUnpublishedBuild(releaseManifest,releaseIdentity,UpdateServerRole.ThisComputer));
+				//The version guard's pull: a .NET 10 install never pulls a .NET Framework release.
+				Assert.AreNotEqual("",ForkReleases.GetRefusal(releaseManifest,"",releaseIdentity));
+			}
+			//Blank WebServiceServerName: a build known to be newer publishes, as for one runtime.
+			ReleaseManifest releaseManifestOlder=Published("0.0","bridge",_dateTimeOld);
+			Assert.AreEqual(ReleaseAction.Publish,ForkReleases.Decide(releaseManifestOlder,releaseIdentity,UpdateServerRole.AnyWorkstation,false).Action);
+			Assert.AreEqual("",ForkReleases.GetRefusal(releaseManifestOlder,"",releaseIdentity,UpdateServerRole.AnyWorkstation));
+		}
+
+		///<summary>Every forward case the role rules would not publish is RefuseOtherRuntime: a workstation that is not the update server, a blank
+		///WebServiceServerName without a known order, and a published .NET Framework release that is newer than the .NET 10 build (never a downgrade).
+		///None of them pulls.</summary>
+		[TestMethod]
+		public void Net10Workstation_NotTheUpdateServer_RefusesTheBridgeRelease() {
+			ReleaseIdentity releaseIdentity=RunningNet10();
+			ReleaseManifest releaseManifest=Published("0.0","bridge",_dateTimeOld);
+			ReleaseDecision releaseDecision=ForkReleases.Decide(releaseManifest,releaseIdentity,UpdateServerRole.OtherComputer,false,"SERVER1");
+			Assert.AreEqual(ReleaseAction.RefuseOtherRuntime,releaseDecision.Action);
+			StringAssert.Contains(releaseDecision.Message,"does not go back to that release");
+			StringAssert.Contains(releaseDecision.Message,"run the new setup on the update server");
+			StringAssert.Contains(releaseDecision.Message,".NET Framework 4.8 (win-x86)");
+			StringAssert.Contains(releaseDecision.Message,".NET 10.0.14 (win-x64)");
+			Assert.AreEqual(releaseDecision.Message,ForkReleases.GetRuntimeRefusal(releaseManifest,releaseIdentity));
+			Assert.AreEqual(releaseDecision.Message,ForkReleases.GetRefusal(releaseManifest,"",releaseIdentity));
+			Assert.AreEqual(releaseDecision.Message,ForkReleases.GetRefusal(releaseManifest,"",releaseIdentity,UpdateServerRole.OtherComputer));
+			Assert.IsTrue(ForkReleases.MayRunUnpublishedBuild(releaseManifest,releaseIdentity,UpdateServerRole.OtherComputer),
+				"No restart loop while the bridge release is still published.");
+			//Blank WebServiceServerName, same release and no build order: the rules would pull, so refused.
+			ReleaseManifest releaseManifestUnordered=Published("1.0","bridge",DateTime.MinValue);
+			Assert.AreEqual(ReleaseAction.RefuseOtherRuntime,
+				ForkReleases.Decide(releaseManifestUnordered,releaseIdentity,UpdateServerRole.AnyWorkstation,false).Action);
+			Assert.AreNotEqual("",ForkReleases.GetRefusal(releaseManifestUnordered,"",releaseIdentity,UpdateServerRole.AnyWorkstation));
+			//A newer .NET Framework release: neither the update server nor any workstation publishes over it, and none pulls it.
+			ReleaseManifest releaseManifestNewer=Published("2.0","bridgenewer",_dateTimeOld);
+			foreach(UpdateServerRole updateServerRole in _arrayRoles) {
+				ReleaseDecision releaseDecisionNewer=ForkReleases.Decide(releaseManifestNewer,releaseIdentity,updateServerRole,false);
+				Assert.AreEqual(ReleaseAction.RefuseOtherRuntime,releaseDecisionNewer.Action,updateServerRole.ToString());
+				Assert.AreEqual(releaseDecisionNewer.Message,ForkReleases.GetRefusal(releaseManifestNewer,"",releaseIdentity,updateServerRole));
+			}
+			StringAssert.Contains(ForkReleases.Decide(releaseManifestNewer,releaseIdentity,UpdateServerRole.ThisComputer,false).Message,
+				"This computer is the update server, but the published release is newer than this build");
+		}
+
+		///<summary>The exception is one way only: the bridge release never publishes over a .NET release, with or without a role for Recopy, and a
+		///.NET 10 build never publishes over a .NET release for another architecture.</summary>
+		[TestMethod]
+		public void ForwardSwitchOnly_NeverBackToTheNetFramework() {
+			ReleaseManifest releaseManifestNet10=ReleaseManifest.Parse(ReadNet10Example());
+			Assert.IsFalse(ForkReleases.IsForwardRuntimeSwitch(releaseManifestNet10,RunningBridge()));
+			foreach(UpdateServerRole updateServerRole in _arrayRoles) {
+				Assert.AreEqual(ReleaseAction.RefuseOtherRuntime,ForkReleases.Decide(releaseManifestNet10,RunningBridge(),updateServerRole,false).Action);
+				StringAssert.Contains(ForkReleases.GetRefusal(releaseManifestNet10,"",RunningBridge(),updateServerRole),"run the new setup on it");
+			}
+			ReleaseManifest releaseManifestX86=Published("0.0","net10x86",_dateTimeOld,ReleaseRuntime.Parse("Microsoft.NETCore.App 10.0.14 win-x86"));
+			Assert.IsFalse(ForkReleases.IsForwardRuntimeSwitch(releaseManifestX86,RunningNet10()));
+			Assert.AreEqual(ReleaseAction.RefuseOtherRuntime,
+				ForkReleases.Decide(releaseManifestX86,RunningNet10(),UpdateServerRole.ThisComputer,false).Action);
+			Assert.AreNotEqual("",ForkReleases.GetRefusal(releaseManifestX86,"",RunningNet10(),UpdateServerRole.ThisComputer));
+			ReleaseIdentity releaseIdentityUnknown=RunningNet10();
+			releaseIdentityUnknown.Runtime=null;
+			Assert.IsFalse(ForkReleases.IsForwardRuntimeSwitch(Published("0.0","bridge",_dateTimeOld),releaseIdentityUnknown));
+		}
+
+		///<summary>What the .NET 10 update server publishes names its runtime, so the bridge workstations refuse it instead of pulling .NET 10 files
+		///into their folder; a bridge release still writes no Runtime line.</summary>
+		[TestMethod]
+		public void BuildRelease_NamesTheRuntime_OfAnyBuildButTheBridge() {
+			string folder=TestPaths.NewTempFolder("runtime_line");
+			System.IO.File.WriteAllText(System.IO.Path.Combine(folder,"OpenPmsDental.exe"),"synthetic");
+			DateTime dateTimeUtc=new DateTime(2027,2,1,8,0,0,DateTimeKind.Utc);
+			ReleaseManifest releaseManifestNet10=ForkReleases.BuildRelease(folder,RunningNet10(),"SERVER1",dateTimeUtc,out byte[] _);
+			Assert.AreEqual("Microsoft.NETCore.App 10.0.14 win-x64",releaseManifestNet10.Runtime.ToString());
+			ReleaseManifest releaseManifestRead=ReleaseManifest.Parse(releaseManifestNet10.Serialize());
+			Assert.AreEqual(ReleaseAction.RefuseOtherRuntime,ForkReleases.Decide(releaseManifestRead,RunningBridge(),UpdateServerRole.OtherComputer,false).Action);
+			ReleaseManifest releaseManifestBridge=ForkReleases.BuildRelease(folder,RunningBridge(),"SERVER1",dateTimeUtc,out byte[] _);
+			Assert.IsNull(releaseManifestBridge.Runtime);
+			Assert.IsFalse(releaseManifestBridge.Serialize().Contains("Runtime"));
+		}
+
 		[TestMethod]
 		public void DescribeRuntime_NamesTheFrameworkForPeople() {
 			Assert.AreEqual(".NET Framework 4.8 (win-x86)",ForkReleases.DescribeRuntime(ReleaseRuntime.NetFramework48X86));
