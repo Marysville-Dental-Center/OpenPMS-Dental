@@ -192,3 +192,9 @@ test fails with `1 entries: OpenPmsDental\Tables Old Grids\ContrTable.resx: <dat
 <metadata>, as the designer writes it)`.
 
 InitSqlTests and ForkMigrationTests were not run (no schema change), nor the test assemblies of the parallel streams.
+
+## A copy of this note as an artifact
+
+While it edited this note, the implementing agent published it by mistake as a private artifact on claude.ai
+(https://claude.ai/artifact/2M79x7TKJwx1HKGh5y1r2V), visible only to the owner. The owner chose on 2026-11-14 to keep it. It is a
+snapshot from before the merge: this file is the record, and the artifact is not updated with it.
