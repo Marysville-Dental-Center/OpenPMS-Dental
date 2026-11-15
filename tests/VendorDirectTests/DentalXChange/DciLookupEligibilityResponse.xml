@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- S3a-6 (docs/port-notes/S3a-6.md): a SYNTHETIC answer of DentalXChange's DCI lookupEligibility, in the rpc/encoded form Apache Axis writes
+     (the return as an href to a multiRef element after the wrapper). Every value is made up: no real patient, subscriber, payer, provider or
+     login. The content is the EligBenefitResponse that FormInsPlan.ProcessEligibilityResponseDentalXchange and FormEligibilityResponseDisplay
+     read (isEligible, then BenefitResponse/PlanBenefit). -->
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+ <soapenv:Body>
+  <ns1:lookupEligibilityResponse soapenv:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" xmlns:ns1="http://www.dentalxchange.com/webservice">
+   <lookupEligibilityReturn href="#id0"/>
+  </ns1:lookupEligibilityResponse>
+  <multiRef id="id0" soapenc:root="0" soapenv:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" xsi:type="ns2:Response" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:ns2="http://www.dentalxchange.com/webservice">
+   <content xsi:type="xsd:string">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;EligBenefitResponse&gt;&lt;isEligible&gt;0&lt;/isEligible&gt;&lt;Subscriber&gt;&lt;LastName&gt;SYNTHETIC&lt;/LastName&gt;&lt;FirstName&gt;SUBSCRIBER&lt;/FirstName&gt;&lt;MemberID&gt;SYN000000001&lt;/MemberID&gt;&lt;/Subscriber&gt;&lt;BenefitResponse&gt;&lt;PlanBenefit&gt;&lt;BenefitInfo&gt;Active Coverage&lt;/BenefitInfo&gt;&lt;CoverageLevelCode&gt;IND&lt;/CoverageLevelCode&gt;&lt;PlanCoverageDesc&gt;SYNTHETIC DENTAL PLAN&lt;/PlanCoverageDesc&gt;&lt;/PlanBenefit&gt;&lt;PlanBenefit&gt;&lt;BenefitInfo&gt;Deductible&lt;/BenefitInfo&gt;&lt;CoverageLevelCode&gt;IND&lt;/CoverageLevelCode&gt;&lt;TimeQualifier&gt;Calendar Year&lt;/TimeQualifier&gt;&lt;BenefitAmount&gt;50.00&lt;/BenefitAmount&gt;&lt;/PlanBenefit&gt;&lt;PlanBenefit&gt;&lt;BenefitInfo&gt;Co-Insurance&lt;/BenefitInfo&gt;&lt;Percent&gt;0.2&lt;/Percent&gt;&lt;Message&gt;Basic services (synthetic)&lt;/Message&gt;&lt;/PlanBenefit&gt;&lt;/BenefitResponse&gt;&lt;/EligBenefitResponse&gt;</content>
+  </multiRef>
+ </soapenv:Body>
+</soapenv:Envelope>
