@@ -267,8 +267,9 @@ namespace OpenPmsDental {
 			}
 			ReleaseIdentity releaseIdentityRunning=ForkReleases.GetRunningIdentity();
 			ReleaseManifest releaseManifestPublished=ForkReleases.GetPublishedManifest(out string errorPublished);
-			//Never over a manifest that is not readable or a release for another runtime (S3a-10): a newer program may have published it.
-			string refusal=ForkReleases.GetRefusal(releaseManifestPublished,errorPublished,releaseIdentityRunning);
+			//Never over a manifest that is not readable or a release for another runtime (S3a-10): a newer program may have published it. The one
+			//exception is the forward switch: the .NET 10 update server publishes over the .NET Framework release (ForkReleases.IsForwardRuntimeSwitch).
+			string refusal=ForkReleases.GetRefusal(releaseManifestPublished,errorPublished,releaseIdentityRunning,GetUpdateServerRole());
 			if(refusal!="") {
 				if(!isSilent) {
 					MessageBox.Show(refusal);

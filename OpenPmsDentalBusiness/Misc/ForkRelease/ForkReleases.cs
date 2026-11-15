@@ -248,8 +248,12 @@ namespace OpenPmsDentalBusiness {
 		///update server role:
 		///- A published manifest that is not readable or names another product (errorPublished, with a null manifest) is not "nothing published":
 		///RefuseUnreadable. This workstation never publishes over it and never pulls.
-		///- A release for another runtime or architecture than this build (GetRuntimeRefusal): RefuseOtherRuntime, "run the new setup".
-		///Both keep this workstation on its build; the message says why.</summary>
+		///- A release for another runtime or architecture than this build (GetRuntimeRefusal): RefuseOtherRuntime, "run the new setup". One
+		///exception, the forward switch (IsForwardRuntimeSwitch: this build runs on .NET and the published release is a .NET Framework one): the rules
+		///above may still publish this build over it, as on the update server whose first start after the .NET 10 setup publishes the .NET 10 release
+		///(docs/specs/net10-plan.md, section 10 step 3). Only Publish survives; a pull, or any other decision, is RefuseOtherRuntime. Nothing ever
+		///publishes a .NET Framework release over a .NET one.
+		///Both refusals keep this workstation on its build; the message says why.</summary>
 		public static ReleaseDecision Decide(ReleaseManifest releaseManifestPublished,string errorPublished,ReleaseIdentity releaseIdentityRunning,
 			UpdateServerRole updateServerRole,bool isDebugBuild,string updateServerName="")
 		{
@@ -274,11 +278,31 @@ namespace OpenPmsDentalBusiness {
 				return releaseDecision;
 			}
 			string refusalRuntime=GetRuntimeRefusal(releaseManifestPublished,releaseIdentityRunning);
-			if(refusalRuntime!="") {
-				releaseDecision.Action=ReleaseAction.RefuseOtherRuntime;
-				releaseDecision.Message=refusalRuntime;
-				return releaseDecision;
+			ReleaseDecision releaseDecisionByRole=DecideByRole(releaseManifestPublished,releaseIdentityRunning,updateServerRole,updateServerName);
+			if(refusalRuntime=="") {
+				return releaseDecisionByRole;
 			}
+			if(IsForwardRuntimeSwitch(releaseManifestPublished,releaseIdentityRunning) && releaseDecisionByRole.Action==ReleaseAction.Publish) {
+				releaseDecisionByRole.Message+="\r\nThe published release is for "+DescribeRuntime(releaseManifestPublished.GetRuntimeOrDefault())
+					+" and this build runs on "+DescribeRuntime(releaseIdentityRunning.Runtime)+". Once this build is published, the workstations that "
+					+"still run the old release keep running it until the new setup runs on them.";
+				return releaseDecisionByRole;
+			}
+			releaseDecision.Action=ReleaseAction.RefuseOtherRuntime;
+			releaseDecision.Message=refusalRuntime;
+			if(updateServerRole==UpdateServerRole.ThisComputer && IsForwardRuntimeSwitch(releaseManifestPublished,releaseIdentityRunning)) {
+				//The update server on .NET whose rules would pull: the published .NET Framework release is newer than this build. Never a downgrade.
+				releaseDecision.Message+="\r\nThis computer is the update server, but the published release is newer than this build, so this build "
+					+"does not replace it. Install a newer release for "+DescribeRuntime(releaseIdentityRunning.Runtime)+" on this computer.";
+			}
+			return releaseDecision;
+		}
+
+		///<summary>The rules of Decide (see the first overload) for a readable published manifest of another build, without the refusals.</summary>
+		private static ReleaseDecision DecideByRole(ReleaseManifest releaseManifestPublished,ReleaseIdentity releaseIdentityRunning,
+			UpdateServerRole updateServerRole,string updateServerName)
+		{
+			ReleaseDecision releaseDecision=new ReleaseDecision();
 			int? compare=CompareBuilds(releaseManifestPublished,releaseIdentityRunning);
 			if(compare>0) {
 				releaseDecision.Action=ReleaseAction.Pull;
@@ -315,7 +339,8 @@ namespace OpenPmsDentalBusiness {
 		///<summary>True when this workstation may keep running a build other than the published one: the decision would offer to publish it (the
 		///named update server, or a build known to be newer with a blank WebServiceServerName). Any other different build must update, except one
 		///that cannot: a release for another runtime or architecture (RefuseOtherRuntime) leaves this workstation on its build until the new setup
-		///runs, so a restart would not change anything.</summary>
+		///runs, so a restart would not change anything. The forward switch (IsForwardRuntimeSwitch) that Decide publishes is a Publish here too.
+		///</summary>
 		public static bool MayRunUnpublishedBuild(ReleaseManifest releaseManifestPublished,ReleaseIdentity releaseIdentityRunning,
 			UpdateServerRole updateServerRole)
 		{
@@ -338,21 +363,52 @@ namespace OpenPmsDentalBusiness {
 			if(releaseRuntimePublished.IsSameFrameworkAndArchitecture(releaseIdentityRunning.Runtime)) {
 				return "";
 			}
+			if(IsForwardRuntimeSwitch(releaseManifestPublished,releaseIdentityRunning)) {
+				//This workstation already had the new setup. It never goes back to the .NET Framework release; the update server replaces that.
+				return "The update server published "+Describe(releaseManifestPublished)+" for "+DescribeRuntime(releaseRuntimePublished)
+					+", but this workstation runs on "+DescribeRuntime(releaseIdentityRunning.Runtime)+".\r\n"
+					+"This workstation does not go back to that release. It keeps running "+releaseIdentityRunning+", and nothing was changed on it, "
+					+"until the release for its runtime is published: run the new setup on the update server and start the program there.";
+			}
 			return "The update server published "+Describe(releaseManifestPublished)+" for "+DescribeRuntime(releaseRuntimePublished)
 				+", but this workstation runs on "+DescribeRuntime(releaseIdentityRunning.Runtime)+".\r\n"
 				+"This workstation cannot update itself to that release: run the new setup on it. Until then it keeps running "
 				+releaseIdentityRunning+", and nothing was changed on it.";
 		}
 
+		///<summary>True for the one runtime switch a release may be published across: this build runs on .NET (Microsoft.NETCore.App) and the
+		///published release is a .NET Framework one (a manifest without a Runtime line is). Decide still applies its role rules to it and lets only
+		///Publish through. The other way round (a .NET Framework build over a .NET release) is never true, so the bridge release never publishes
+		///over the .NET 10 release. False when either runtime is unknown.</summary>
+		public static bool IsForwardRuntimeSwitch(ReleaseManifest releaseManifestPublished,ReleaseIdentity releaseIdentityRunning) {
+			if(releaseManifestPublished==null || releaseIdentityRunning?.Runtime==null) {
+				return false;
+			}
+			return releaseIdentityRunning.Runtime.Framework.Equals(ReleaseRuntime.FRAMEWORK_NET_CORE_APP,StringComparison.OrdinalIgnoreCase)
+				&& releaseManifestPublished.GetRuntimeOrDefault().Framework.Equals(ReleaseRuntime.FRAMEWORK_NET_FRAMEWORK,StringComparison.OrdinalIgnoreCase);
+		}
+
 		///<summary>Why this build may neither pull nor publish over the published release, or "" when nothing stands in the way: the two refusals of
 		///Decide (RefuseUnreadable, RefuseOtherRuntime) for the places that act outside it, the version guard's pull and Update Setup's Recopy.
-		///</summary>
-		public static string GetRefusal(ReleaseManifest releaseManifestPublished,string errorPublished,ReleaseIdentity releaseIdentityRunning) {
+		///updateServerRolePublishing is null for a pull (the version guard). For a publish (Recopy) it is this computer's role: then the forward
+		///switch of Decide (IsForwardRuntimeSwitch) is not refused when Decide would publish, so the .NET 10 update server can Recopy over the
+		///.NET Framework release.</summary>
+		public static string GetRefusal(ReleaseManifest releaseManifestPublished,string errorPublished,ReleaseIdentity releaseIdentityRunning,
+			UpdateServerRole? updateServerRolePublishing=null)
+		{
 			if(releaseManifestPublished==null) {
 				return string.IsNullOrEmpty(errorPublished) ? "" : GetUnreadableMessage(errorPublished);
 			}
 			if(releaseManifestPublished.BuildId==releaseIdentityRunning.BuildId) {
 				return "";
+			}
+			if(updateServerRolePublishing!=null && IsForwardRuntimeSwitch(releaseManifestPublished,releaseIdentityRunning)) {
+				ReleaseDecision releaseDecision=Decide(releaseManifestPublished,errorPublished,releaseIdentityRunning,updateServerRolePublishing.Value,
+					isDebugBuild:false);
+				if(releaseDecision.Action==ReleaseAction.Publish) {
+					return "";
+				}
+				return releaseDecision.Message;
 			}
 			return GetRuntimeRefusal(releaseManifestPublished,releaseIdentityRunning);
 		}
@@ -443,6 +499,11 @@ namespace OpenPmsDentalBusiness {
 			releaseManifest.PublishedUtc=new DateTime(dateTimeUtc.Year,dateTimeUtc.Month,dateTimeUtc.Day,dateTimeUtc.Hour,dateTimeUtc.Minute,
 				dateTimeUtc.Second,DateTimeKind.Utc);
 			releaseManifest.PublishedBy=publishedBy??"";
+			//A build for any other runtime than .NET Framework 4.8 x86 names its runtime, so a workstation on the bridge release refuses it ("run the
+			//new setup") instead of reading it as one of its own. A bridge release writes no Runtime line, as before. S3b-7 adds the runtime part.
+			if(releaseIdentity.Runtime!=null && !releaseIdentity.Runtime.IsSameFrameworkAndArchitecture(ReleaseRuntime.NetFramework48X86)) {
+				releaseManifest.Runtime=releaseIdentity.Runtime;
+			}
 			//The archive layout: every file under its relative path with '/' separators, in GetReleaseFiles order, then the manifest at the root.
 			using(MemoryStream memoryStream=new MemoryStream()) {
 				using(ZipArchive zipArchive=new ZipArchive(memoryStream,ZipArchiveMode.Create,leaveOpen:true)) {
