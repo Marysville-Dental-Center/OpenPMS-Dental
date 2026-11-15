@@ -64,7 +64,7 @@ them when `P262_OD_DOCS_DIR` names a folder that holds both files; without it th
 | `DefCat` | 57 | `CommLogReferralTypes` | For the 26.2 misc package (item 39); description "Commlog Referral Types". Contiguous 0 to 57 (the definition cache indexes by category). |
 | `DefLinkType` | 6 | `User` | Reserved: Open Dental HQ only (task category to user). |
 | `EnumPermType` | 277 | `AdvancedTextingAccountEdit` | `IsODHQ`: Open Dental HQ only, so hidden from the security tree and the audit trail filter, never granted by Set All. |
-| `ToothPaintingType` | 18 | `TextBelow` | Defined so that procedure codes written by Open Dental load and Database Maintenance's paint type check no longer resets them to None. The tooth chart draws nothing for it; no 26.2 package ports it. |
+| `ToothPaintingType` | 18 | `TextBelow` | Defined so that procedure codes written by Open Dental load and Database Maintenance's paint type check no longer resets them to None. The tooth chart draws it since TC-5 (`docs/port-notes/TC-5.md`). |
 | `TsiFKeyType` | 6 | `PayPlanLink` | Defined so that Transworld log rows written by Open Dental load; this program's Transworld code does not write it. |
 | `UserOdFkeyType` | 31 | `PerioShowCurrentProbingOnly` | For the 26.2 perio package (item 16). Open Dental's documents have no 30. |
 | `EnumGlidewellOrderStatus` | 0 to 7 | `Initialized`, `Received`, `InProgress`, `OnHold`, `Shipped`, `Cancelled`, `CreditPending`, `Credited` | New enum; numbers INFERRED (below). |
@@ -130,7 +130,8 @@ marked in the reference file.
 - The new members show in their lists at once: `DoNotBillInsuranceCheck` in the automation trigger list, `CarriersMatch` in the condition
   list and "Commlog Referral Types" in the Definitions window (default options). The claims, misc and perio packages give them their
   behaviour. `TextBelow` is hidden from the procedure code paint type lists until the tooth chart draws it (owner answer of 2026-11-07 to
-  question 2, integration `next/int262-1`: `ProcedureCodes.GetPaintTypesForList`; a code that already has it keeps it).
+  question 2, integration `next/int262-1`: `ProcedureCodes.GetPaintTypesForList`; a code that already has it keeps it). Since TC-5 the tooth
+  chart draws it, so the lists offer it (`docs/port-notes/TC-5.md`).
 - Claims: `provider.ClaimFormNum`, trigger 11, condition 15. Misc: `DefCat` 57. Perio: `UserOdFkeyType` 31. Glidewell: the three tables,
   `provider.GlidewellAcctNum` and the two enums (`EnumGlidewellProductName` needs values from a public source, with Open Dental's numbers).
 - A feature step with a level below 2026110701 that writes `provider`, `apisubscription` or `insbluebook` through the CRUD would fail on a

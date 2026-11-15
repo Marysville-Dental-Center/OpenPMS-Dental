@@ -48,7 +48,9 @@ What this version brings, each in its section below (the roadmap's "Done in the 
     data is sent without a business associate agreement with Glidewell.
 - the Meaningful Use measures window of EHR (Measure Calc) working again, rebuilt as open code, for internal review only;
 - two new entries in Help > About > View Licenses, Helix Toolkit and the .NET Community Toolkit: libraries for the coming 3D tooth chart,
-  installed with the program from this version on (the tooth chart itself does not change yet).
+  installed with the program from this version on (the tooth chart itself does not change yet);
+- the tooth chart: completed extractions shown with an X if the office chooses (Open Dental 26.2), the paint type TextBelow (Open Dental
+  26.2), the text of text procedures, and free text, drawn by the Simple 2D chart now and by the coming 3D chart.
 
 The update adds this program's own tables to the database (14 tables, none of Open Dental's schema: five for routine maintenance, seven for
 inventory tracking, one for SSH host keys, one for the EHR value sets); they start empty, except the stock ledger's opening rows (Inventory tracking, below). It also
@@ -528,8 +530,8 @@ their own sections.
   writes them) and the time an insurance blue book row last changed (`insbluebook.DateTStamp`). Existing rows keep every value; the new
   columns start empty, except `insbluebook.DateTStamp`, which holds the time of the update in every existing row.
 - **New values** with Open Dental's numbers, so that rows written by Open Dental 26.2 load: the definition category Commlog Referral Types,
-  the automation trigger Do Not Bill Insurance Check and the condition Carriers Match, the paint type TextBelow (the tooth chart does not draw
-  it yet, so the procedure code windows do not offer it; a procedure code that already has it keeps it), the Perio Chart preference of showing only the current exam's probing, a Transworld payment plan link, and values that belong to
+  the automation trigger Do Not Bill Insurance Check and the condition Carriers Match, the paint type TextBelow (offered by the procedure
+  code windows and drawn by the tooth chart: "The tooth chart: free text, text procedures and completed extractions", below), the Perio Chart preference of showing only the current exam's probing, a Transworld payment plan link, and values that belong to
   Open Dental HQ or to services this program does not have (two MariaDB backup alerts, an eConnector alert, an HQ permission, an HQ
   definition link), which stay hidden.
 - The schema verifier now checks the database against Open Dental 26.2.0, and `OdSchemaCompat` says 26.2.0 after the update. Open Dental
@@ -631,6 +633,27 @@ documents (`docs/port-notes/P262-PERIO.md`). No database change.
   grayed earlier values (what Show current exam only did). Both are checked for a user who never changed them. A user who had Show current
   exam only checked finds Show previous exams unchecked, which now also hides the grayed earlier values; to see those again, check Show
   previous exams and uncheck Show previous probing values.
+
+## The tooth chart: free text, text procedures and completed extractions
+
+- **Completed extractions with an X (a new setting, Open Dental 26.2).** Setup > Preferences > Chart - General, "Show completed extractions
+  with an X on the tooth chart". It is off at first, which is the chart as it was: a completed extraction shows only as the missing tooth.
+  When it is on, the tooth stays missing and the big X is drawn over its place in the colour of the extraction's status (C, EC or EO), in the
+  Chart module, the big chart, the Treatment Plan printout, sheets and the Patient Dashboard. One setting for the whole office: a change is
+  recorded in the Audit Trail (Setup), and the other workstations pick it up. The Chart module's date slider works as before: an extraction
+  completed after the slider's date shows as planned, and one planned after it does not show. Open Dental's own name for this setting is not
+  public, so an office that comes from Open Dental 26.2 turns it on again here.
+- **Text procedures (paint type Text).** A procedure code with the paint type Text and a paint text other than "W" now shows that text on the
+  tooth, centred on the crown, in the procedure's colour. "W" stays the watch mark.
+- **TextBelow (paint type 18, Open Dental 26.2).** The procedure code windows now offer TextBelow, with its paint text (the paint text box
+  shows for Text and TextBelow). The chart draws the text at the edge of the chart beyond the tooth (along the top over the upper teeth, along
+  the bottom under the lower teeth), centred on the tooth and shortened to the tooth's width, one line further in where the tooth has a watch
+  mark. The chart keeps its size, so sheets and printouts keep their layout.
+- **Free text.** Text added on the Chart module's Draw tab (Add Text) is drawn on the chart at its place, over the teeth, and is kept inside
+  the chart. With Move Text, the coming 3D chart moves a label by dragging it, and its new place is saved.
+- **Which chart draws what.** The DirectX and OpenGL charts, which most computers use until the coming 3D chart replaces them, draw the X of
+  completed extractions but not the text: free text, text procedures and TextBelow show on computers set to the Simple 2D chart (Setup >
+  Graphics) now, and on every computer once the 3D chart comes.
 
 ## Open Dental 26.2: tools
 
