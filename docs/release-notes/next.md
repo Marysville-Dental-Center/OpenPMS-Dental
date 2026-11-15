@@ -102,6 +102,13 @@ A database on the same computer (`localhost`, `127.0.0.1`, `::1`) needs no certi
 rule. But once `require_secure_transport` is ON, MariaDB refuses connections without TLS from the server computer too, so a program on the
 server computer must then connect with `<db-server>` (the name the workstations use), not `localhost`, set up like any workstation.
 
+## QuickBooks Desktop
+
+- **QuickBooks Desktop asks again.** The program now talks to QuickBooks Desktop through a small helper program that ships with it
+  (`OpenPmsDentalHelper32.exe`). QuickBooks allows integrated applications one program at a time, so on the first connection after the
+  update QuickBooks will probably ask again whether to allow access, and a grant to connect while QuickBooks is not running has to be
+  given again. Open the company file as the QuickBooks administrator the first time.
+
 ## Database connection security
 
 - **Encrypted connections only, over the network, for the program's own database account.** `SslMode=VerifyFull` with the office CA
