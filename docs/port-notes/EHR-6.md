@@ -320,3 +320,29 @@ Full build through the lane: 0 errors, no warning in a changed file. Targeted ru
 | NoHqTests | runs 1 and 2: 57 of 57 passed |
 
 No `ehr6a_` database was left on the server after the runs.
+
+### 12. Review fix (`ehr/ehr6a-3`): a pick refused for its files' content opens with their refusal
+
+The review found that `MakePick` counted a kind only among the files that were not refused, so a pick of the 2026 release's three files
+(CMS74v15 and so on; the likeliest real mistake) was refused with "Pick the three files of the release together ... Files picked: 3." first,
+then the two files' own refusals ("None of the seven measures this program reports is in the file at its 2027 version ... This program needs
+the release for the 2027 performance period: ..."), then "The pick has no file with the value sets." and "The pick has no file with the
+Direct Reference Codes file.", although all three were picked; the window's status line (`ListRefusals[0]`) showed only the first, misleading
+line. Fixed in `MakePick`: a kind is missing only when no file of that kind is in the pick, refused or not ("more than one" still counts the
+files not refused, as before), and the count text goes first only when the pick itself is wrong (other than three files, a kind missing or
+doubled). A pick whose only fault is a file refused for its content now opens with that file's refusal, naming the release this program
+needs (section 7.2), and the status line shows it. `DirectCodeTests` gains
+`Pick_TheThreeFilesOfThe2026Release_IsRefused_FirstNamingTheReleaseThisProgramNeeds` (the three files with every measure one version back,
+through `ParsePick` and through `MakePick` of the files read one by one: the first refusal is the value-set file's own and names
+`RELEASE_LABEL`, the Direct Reference Codes file's is the second and last, no "no file with" and no "Files picked: 3").
+
+Full build through the lane: 0 errors. Targeted run `ehr6a-3-targeted.txt`:
+
+| Assembly | Result |
+|---|---|
+| EhrTests | 236: 235 passed, 1 skipped (`Catalog_EqualsTheDownloadedPackages_WhenCqmSpecsDirIsSet`, as in section 10), 0 failed |
+| AttributionTests | 50 of 50 passed |
+| MiddleTierMockTests | 125 of 125 passed |
+| NoHqTests | 57 of 57 passed |
+
+No `ehr6a_` database was left on the server after the run.
