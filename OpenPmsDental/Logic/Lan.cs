@@ -29,37 +29,6 @@ namespace OpenPmsDental {
 			return retVal;
 		}
 
-		///<summary>Bridge for S3a-M2 and S3a-M3, removed once no caller passes a WinForms ContextMenu or MainMenu (they pass the ContextMenuStrip
-		///or ToolStripDropDown that replaces it, below).
-		///C is for control. Translates the text of all menu items to another language.</summary>
-		public static void C(Control sender,params Menu[] paramsMenus) {
-			string classType="All";
-			if(sender!=null){
-				classType=sender.GetType().Name;
-			}
-			C(classType,paramsMenus);
-		}
-
-		///<summary>Bridge for S3a-M2 and S3a-M3 (see above).
-		///C is for control. Translates the text of all menu items to another language.</summary>
-		public static void C(string classType,params Menu[] paramsMenus) {
-			for(int p=0;p<paramsMenus.Length;p++){
-				for(int i=0;i<paramsMenus[p].MenuItems.Count;i++){
-					TranslateMenuItems(classType,paramsMenus[p].MenuItems[i]);
-				}
-			}
-		}
-
-		///<summary>This is recursive</summary>
-		private static void TranslateMenuItems(string classType,MenuItem menuItem) {
-			//first translate any child menuItems
-			for(int i=0;i<menuItem.MenuItems.Count;i++){
-				TranslateMenuItems(classType,menuItem.MenuItems[i]);
-			}
-			//then this menuitem
-			menuItem.Text=Lans.ConvertString(classType,menuItem.Text);
-		}
-
 		///<summary>C is for control. Translates the text of all context menu strip items to another language. Takes any ToolStripDropDown: a
 		///ContextMenuStrip, a ToolStripDropDownMenu or a ToolStripDropDown.</summary>
 		public static void C(Control controlSender,params ToolStripDropDown[] paramsToolStripDropDowns) {
@@ -158,13 +127,36 @@ namespace OpenPmsDental {
 			for(int c=0;c<grid.Columns.Count;c++){
 				grid.Columns[c].Heading=Lans.ConvertString(grid.TranslationName,grid.Columns[c].Heading);
 			}
-			if(grid.ContextMenu!=null) {//Bridge for S3a-M3: a WinForms ContextMenu a caller set on the grid.
-				C(grid.TranslationName,grid.ContextMenu);
-			}
+			TranslateGridWinFormsContextMenu(grid);
 			if(grid.ContextMenuStrip!=null) {
 				C(grid.TranslationName,grid.ContextMenuStrip);
 			}
 		}
+
+		#region Bridge for S3a-M3b - WinForms ContextMenu of a grid
+		//S3a-M3 removed Lan.C(Control or string,params Menu[]): no caller passes a WinForms ContextMenu or MainMenu any more. What is left translates
+		//a WinForms ContextMenu that a caller set on a GridOD (GridOD's bridge, FormMedical's grids), with the same keys as before. Removed by
+		//S3a-M3b with GridOD's bridge. NoHqTests' WinFormsMenuScanTests allows WinForms menus in this region only.
+		///<summary>Translates the items of a WinForms ContextMenu that a caller set on the grid, if any.</summary>
+		private static void TranslateGridWinFormsContextMenu(UI.GridOD grid) {
+			if(grid.ContextMenu==null) {
+				return;
+			}
+			for(int i=0;i<grid.ContextMenu.MenuItems.Count;i++){
+				TranslateMenuItems(grid.TranslationName,grid.ContextMenu.MenuItems[i]);
+			}
+		}
+
+		///<summary>This is recursive</summary>
+		private static void TranslateMenuItems(string classType,MenuItem menuItem) {
+			//first translate any child menuItems
+			for(int i=0;i<menuItem.MenuItems.Count;i++){
+				TranslateMenuItems(classType,menuItem.MenuItems[i]);
+			}
+			//then this menuitem
+			menuItem.Text=Lans.ConvertString(classType,menuItem.Text);
+		}
+		#endregion Bridge for S3a-M3b - WinForms ContextMenu of a grid
 
 		//tab conrol-----------------------------------------------------------------------------------
 		///<summary></summary>

@@ -94,13 +94,18 @@ namespace S3aM1Tests {
 				}
 			});
 			List<string> listKeysStrip=S3aM1Db.GetKeys(CLASS_TYPE);
-			//The same menu as a WinForms ContextMenu through the bridge, on fresh tables.
+			//The same menu as a WinForms ContextMenu through what is left of the bridge (S3a-M3 removed Lan.C(string,params Menu[]); the grid
+			//bridge's TranslateMenuItems, for FormMedical's grids until S3a-M3b, translates each item the same way), on fresh tables.
 			S3aM1Db.ResetOrSkip();
 			S3aM1Db.RunInCulture(CULTURE,() => {
 				AddTranslations();
 				S3aM1Db.RefreshLanguageCaches();
 				using(ContextMenu contextMenu=MakeContextMenu()) {
-					Lan.C(CLASS_TYPE,contextMenu);
+					System.Reflection.MethodInfo methodInfoTranslate=typeof(Lan).GetMethod("TranslateMenuItems",
+						System.Reflection.BindingFlags.NonPublic|System.Reflection.BindingFlags.Static);
+					foreach(MenuItem menuItem in contextMenu.MenuItems) {
+						methodInfoTranslate.Invoke(null,new object[] { CLASS_TYPE,menuItem });
+					}
 					CollectionAssert.AreEqual(listExpected,Texts(contextMenu.MenuItems));
 				}
 			});

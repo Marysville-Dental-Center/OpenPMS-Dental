@@ -45,10 +45,9 @@ namespace S3aM1Tests {
 
 		#region ODToolBarButton
 		[TestMethod]
-		public void ToolBarButton_DropDown_StripIsTheMember_MenuIsTheBridge() {
+		public void ToolBarButton_DropDown_StripIsTheMember_MenuBridgeIsGone() {
 			Assert.AreEqual(typeof(ContextMenuStrip),typeof(ODToolBarButton).GetField(nameof(ODToolBarButton.ContextMenuStripDropDown)).FieldType);
-			Assert.AreEqual(typeof(Menu),typeof(ODToolBarButton).GetField(nameof(ODToolBarButton.DropDownMenu)).FieldType,
-				"The bridge for S3a-M2/M3: callers still assign a ContextMenu and read it with GetContextMenu.");
+			Assert.IsNull(typeof(ODToolBarButton).GetField("DropDownMenu"),"S3a-M3 removed the WinForms bridge: every caller sets ContextMenuStripDropDown.");
 			using(ContextMenuStrip contextMenuStrip=new ContextMenuStrip())
 			using(ToolBarOD toolBarOD=new ToolBarOD()) {
 				contextMenuStrip.Items.Add(new ToolStripMenuItem("Send"));
@@ -58,7 +57,6 @@ namespace S3aM1Tests {
 				odToolBarButton.ContextMenuStripDropDown=contextMenuStrip;
 				toolBarOD.Buttons.Add(odToolBarButton);
 				Assert.AreSame(contextMenuStrip,toolBarOD.Buttons[0].ContextMenuStripDropDown);
-				Assert.IsNull(toolBarOD.Buttons[0].DropDownMenu);
 			}
 		}
 		#endregion ODToolBarButton
