@@ -514,7 +514,8 @@ namespace ToothChartImageTests {
 					SetPrimary(relay,"4","5","6","11","12","13","20","21","22","27","28","29");
 					SetMissing(relay,"1","2","15","16","17","18","31","32");
 				}).Nomenclature=ToothNumberingNomenclature.Haderup;
-			Add(listScenes,group,"unerupted-third-molars","Third molars 1, 16, 17 and 32 unerupted (shifted 12 mm toward the root), drawn at half colour.",
+			Add(listScenes,group,"unerupted-third-molars","Third molars 1, 16, 17 and 32 unerupted (shifted 12 mm toward the root), drawn at half colour by DirectX 9 and half-transparent "
+				+"by the WPF chart, as by Open Dental's DirectX 11 chart.",
 				relay => Move(relay,new[] { "1","16","17","32" },0,0,0,0,-12,0));
 		}
 
@@ -551,7 +552,7 @@ namespace ToothChartImageTests {
 			Add(listScenes,group,"shiftb-plus","Shifted 2 mm buccally"+movedText,relay => Move(relay,arrayMoved,0,0,0,0,0,2));
 			Add(listScenes,group,"shiftb-minus","Shifted 2 mm lingually"+movedText,relay => Move(relay,arrayMoved,0,0,0,0,0,-2));
 			Add(listScenes,group,"shifto-unerupted","Canines 6, 11, 22 and 27 shifted 11 mm toward the root: just past the unerupted limit of -10 mm, so drawn "
-				+"at half colour.",relay => Move(relay,new[] { "6","11","22","27" },0,0,0,0,-11,0));
+				+"at half colour by DirectX 9 and half-transparent by the WPF chart, as by Open Dental's DirectX 11 chart.",relay => Move(relay,new[] { "6","11","22","27" },0,0,0,0,-11,0));
 			Add(listScenes,group,"shiftm-fractions","Teeth 3 and 14 shifted 1.6 mm mesially and 19 and 30 shifted 2.5 mm mesially: the number boxes move "
 				+"with the teeth.",relay => {
 					Move(relay,new[] { "3","14" },0,0,0,1.6f,0,0);

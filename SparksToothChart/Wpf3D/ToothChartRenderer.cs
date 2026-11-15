@@ -596,12 +596,14 @@ namespace SparksToothChart.Wpf3D {
 			return factor;
 		}
 
-		///<summary>The three-part material of section 5.3, frozen.</summary>
+		///<summary>The three-part material of section 5.3, frozen. Every brush has the colour's alpha: 255 for all but the chart's unerupted teeth
+		///(TC-3c, ToothSceneBuilder.UneruptedAlpha), whose diffuse pass blends over what is drawn and whose specular and emissive passes add only
+		///that part of their light, so the tooth's lit colour is blended at that alpha.</summary>
 		public static MaterialGroup CreateMaterial(System.Drawing.Color color,float specular,float diffuseFactor,float emissiveFactor) {
 			MaterialGroup materialGroup=new MaterialGroup();
 			materialGroup.Children.Add(new DiffuseMaterial(CreateBrush(color,diffuseFactor)));
 			byte specularByte=ToByte(specular*255.0);
-			SolidColorBrush brushSpecular=new SolidColorBrush(Color.FromRgb(specularByte,specularByte,specularByte));
+			SolidColorBrush brushSpecular=new SolidColorBrush(Color.FromArgb(color.A,specularByte,specularByte,specularByte));
 			brushSpecular.Freeze();
 			materialGroup.Children.Add(new SpecularMaterial(brushSpecular,ToothScene.SpecularPower));
 			materialGroup.Children.Add(new EmissiveMaterial(CreateBrush(color,emissiveFactor)));
@@ -610,7 +612,8 @@ namespace SparksToothChart.Wpf3D {
 		}
 
 		private static SolidColorBrush CreateBrush(System.Drawing.Color color,float factor) {
-			SolidColorBrush brush=new SolidColorBrush(Color.FromRgb(ToByte(color.R*(double)factor),ToByte(color.G*(double)factor),ToByte(color.B*(double)factor)));
+			SolidColorBrush brush=new SolidColorBrush(Color.FromArgb(color.A,ToByte(color.R*(double)factor),ToByte(color.G*(double)factor),
+				ToByte(color.B*(double)factor)));
 			brush.Freeze();
 			return brush;
 		}

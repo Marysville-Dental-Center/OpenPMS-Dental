@@ -39,6 +39,9 @@ namespace ToothChartImageTests {
 		public bool IsToothDrawn;
 		///<summary>1: the mean of the 3x3 pixels around the point (a surface). 0: the one pixel (a line or the crossing of the X, a few pixels wide).</summary>
 		public int SampleRadius;
+		///<summary>True for the surfaces of an unerupted tooth (ShiftO below -10), which the WPF chart draws half-transparent on purpose since TC-3c
+		///(LOOK-2), where DirectX 9 draws them opaque at half RGB.</summary>
+		public bool IsUnerupted;
 
 		public string Name {
 			get {
@@ -76,23 +79,29 @@ namespace ToothChartImageTests {
 		public string Reason;
 		///<summary>True for a case of section 5.1's known difference, which the list keeps even when no probe lands on the covered part.</summary>
 		public bool IsKnownDifference;
+		///<summary>True when the allowance covers only the probes of unerupted teeth (ParityProbePoint.IsUnerupted): TC-3c's per-scene notes.</summary>
+		public bool IsUneruptedOnly;
 
-		public ParityAllowance(string sceneName,string sizeName,string toothId,ProbeKind? kind,string reason,bool isKnownDifference=false) {
+		public ParityAllowance(string sceneName,string sizeName,string toothId,ProbeKind? kind,string reason,bool isKnownDifference=false,
+			bool isUneruptedOnly=false)
+		{
 			SceneName=sceneName;
 			SizeName=sizeName;
 			ToothId=toothId;
 			Kind=kind;
 			Reason=reason;
 			IsKnownDifference=isKnownDifference;
+			IsUneruptedOnly=isUneruptedOnly;
 		}
 
 		public bool Covers(ParityProbeOutcome outcome) {
 			return (SceneName=="*" || SceneName==outcome.SceneName) && (SizeName=="*" || SizeName==outcome.SizeName)
-				&& (ToothId=="*" || ToothId==outcome.Probe.ToothId) && (Kind==null || Kind==outcome.Probe.Kind);
+				&& (ToothId=="*" || ToothId==outcome.Probe.ToothId) && (Kind==null || Kind==outcome.Probe.Kind)
+				&& (!IsUneruptedOnly || outcome.Probe.IsUnerupted);
 		}
 
 		public override string ToString() {
-			return SceneName+" "+SizeName+" "+ToothId+" "+(Kind?.ToString()??"every kind")+": "+Reason;
+			return SceneName+" "+SizeName+" "+ToothId+" "+(Kind?.ToString()??"every kind")+(IsUneruptedOnly?" (unerupted teeth only)":"")+": "+Reason;
 		}
 	}
 
@@ -195,6 +204,7 @@ namespace ToothChartImageTests {
 			}
 			ParityProbePoint probe=AddPoint(listPoints,toothGraphic.ToothID,kind,pointCentre.Value,1);
 			probe.IsToothDrawn=isToothDrawn;
+			probe.IsUnerupted=toothGraphic.ShiftO<-10;
 		}
 
 		///<summary>DrawImplant's model and transform: the implant upside down for a maxillary tooth. The centre of its front-facing triangles.</summary>

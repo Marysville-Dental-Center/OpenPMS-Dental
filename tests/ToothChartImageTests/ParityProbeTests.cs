@@ -83,10 +83,9 @@ namespace ToothChartImageTests {
 			List<string> listMissing=new List<string>();
 			ForEachRecordedPicture((scene,chartSize,wrapper,arrayDirectX,arrayWpf) => {
 				ToothScene toothScene=ToothSceneBuilder.Build(wrapper.TcData);
+				//TC-3c (PT-1) took out the white W that DirectX draws behind the coloured one as an outline; the probes never compared it (its colour is
+				//the colour of the enamel and the numbers' highlight) and still compare the coloured W's ink with DirectX's.
 				foreach(ToothSceneItem2D item in toothScene.Items2D.Where(x => x.Kind==ChartItem2DKind.Text)) {
-					if(item.Source.EndsWith("(outline)")) {
-						continue;//the white W behind the coloured one: its colour is the colour of the enamel and the numbers' highlight
-					}
 					TextBoxOutcome outcome=ProbeText(scene,chartSize,wrapper.TcData,item,arrayDirectX,arrayWpf);
 					if(outcome!=null) {
 						listOutcomes.Add(outcome);
@@ -199,20 +198,23 @@ namespace ToothChartImageTests {
 					return;
 				}
 				ToothScene toothScene=ToothSceneBuilder.Build(wrapper.TcData);
-				foreach(ToothSceneItem2D item in toothScene.Items2D.Where(x => x.Source=="centre line" || x.Source.StartsWith("highlight of "))) {
-					if(item.Color.ToArgb()==toothScene.ColorBackground.ToArgb()) {
+				foreach(ToothSceneItem2D item in toothScene.Items2D.Where(x => x.Source==ToothSceneBuilder.SourceCentreLine || x.Source.StartsWith("highlight of "))) {
+					//TC-3c (LOOK-4): the WPF centre line is in the chart's text colour on purpose, where DirectX 9 drew it white, so its rows are found by
+					//white in the DirectX recording and by the text colour in the WPF picture: the same pixels are still compared.
+					Color colorDirectX=item.Source==ToothSceneBuilder.SourceCentreLine ? Color.White : item.Color;
+					if(colorDirectX.ToArgb()==toothScene.ColorBackground.ToArgb() || item.Color.ToArgb()==toothScene.ColorBackground.ToArgb()) {
 						continue;//white on the printouts' white: nothing to see
 					}
 					string name=chartSize.FolderName+"/"+scene.Name+" "+item.Source;
 					foreach(PointF[] arrayPoints in item.Polygons) {
 						Rectangle rectangle=Rectangle.FromLTRB((int)arrayPoints.Min(x => x.X),(int)arrayPoints.Min(x => x.Y),(int)arrayPoints.Max(x => x.X),
 							(int)arrayPoints.Max(x => x.Y));
-						if(item.Source=="centre line") {
+						if(item.Source==ToothSceneBuilder.SourceCentreLine) {
 							countLines++;
 							foreach(int x in new[] { rectangle.Left+3,rectangle.Left+rectangle.Width/4,rectangle.Left+rectangle.Width/2,rectangle.Left+3*rectangle.Width/4,
 								rectangle.Right-4 })
 							{
-								int[] arrayDirectXRows=GetRun(arrayDirectX,chartSize.Size,item.Color,x,(rectangle.Top+rectangle.Bottom-1)/2,false);
+								int[] arrayDirectXRows=GetRun(arrayDirectX,chartSize.Size,colorDirectX,x,(rectangle.Top+rectangle.Bottom-1)/2,false);
 								int[] arrayWpfRows=GetRun(arrayWpf,chartSize.Size,item.Color,x,(rectangle.Top+rectangle.Bottom-1)/2,false);
 								if(!arrayDirectXRows.SequenceEqual(arrayWpfRows)) {
 									listFailures.Add(name+" at column "+x+": DirectX fills rows "+Describe(arrayDirectXRows)+", WPF "+Describe(arrayWpfRows));
