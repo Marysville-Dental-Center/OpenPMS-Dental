@@ -6,7 +6,6 @@ using System;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Threading;
 using System.Windows.Forms;
 using CodeBase;
 using OpenPmsDentalHelper32.Topaz;
@@ -23,9 +22,6 @@ namespace OpenPmsDental.UI {
 		private static readonly TimeSpan _timeSpanCall=TimeSpan.FromSeconds(60);
 		///<summary>How long the signing window may stay open.</summary>
 		private static readonly TimeSpan _timeSpanSign=TimeSpan.FromMinutes(30);
-		///<summary>Set while a signing window is open: a paint then shows the picture it has, since the helper is busy with the signing window.
-		///</summary>
-		private static int _countSigning;
 		private readonly Helper32Client _helper32Client;
 		private readonly string _pathAssembly;
 		private string _id;
@@ -113,8 +109,8 @@ namespace OpenPmsDental.UI {
 			if(!_isPictureStale && _sizePicture==Size) {
 				return _bitmapPicture;
 			}
-			if(Volatile.Read(ref _countSigning)>0) {
-				return _bitmapPicture;//the helper shows the signing window; the picture comes with its reply
+			if(_helper32Client.IsCallPumping) {
+				return _bitmapPicture;//the helper shows the signing window (its picture comes with its reply) or Schick CDR's exam window
 			}
 			_isPictureStale=false;
 			_sizePicture=Size;
@@ -153,23 +149,15 @@ namespace OpenPmsDental.UI {
 
 		#region Signing
 		///<summary>Shows the helper's signing window over the program's window (handleOwner) until the patient presses OK or Cancel, and takes
-		///the picture it sends back. Blocks this thread's windows and keeps them painting meanwhile (TopazWrapper.ShowSigningWindow). True for OK.
-		///</summary>
-		internal bool Sign(IntPtr handleOwner,string title,string textOk,string textClear,string textCancel,Func<Func<Helper32Result>,Helper32Result> funcWait) {
+		///the picture it sends back. Blocks this thread's windows and keeps them painting meanwhile (Helper32Client.CallPumping), then activates
+		///the window that was active. True for OK.</summary>
+		internal bool Sign(IntPtr handleOwner,string title,string textOk,string textClear,string textCancel) {
 			EnsureCreated();
-			_helper32Client.AllowSetForeground();
-			//The call runs on another thread (funcWait) and touches nothing of this control: the helper's control was just created or used.
+			//The call runs on another thread and touches nothing of this control: the helper's control was just created or used.
 			string[] arrayArgs=new[] { _id,TopazCommands.HandleToText(handleOwner),TopazCommands.IntToText(Width),TopazCommands.IntToText(Height),
 				title,textOk,textClear,textCancel };
-			Helper32Client helper32Client=_helper32Client;
-			Helper32Result helper32Result;
-			Interlocked.Increment(ref _countSigning);
-			try {
-				helper32Result=funcWait(() => helper32Client.Call(TopazCommands.MODULE,TopazCommands.SIGN,arrayArgs,null,_timeSpanSign));
-			}
-			finally {
-				Interlocked.Decrement(ref _countSigning);
-			}
+			Helper32Result helper32Result=_helper32Client.CallPumping(TopazCommands.MODULE,TopazCommands.SIGN,arrayArgs,null,_timeSpanSign,
+				isReactivating:true);
 			SetPicture(helper32Result.Data);
 			_sizePicture=Size;
 			_isPictureStale=false;
@@ -182,7 +170,7 @@ namespace OpenPmsDental.UI {
 			if(disposing) {
 				string id=_id;
 				_id=null;
-				if(id!=null && Volatile.Read(ref _countSigning)==0 && _helper32Client.ProcessId!=0) {
+				if(id!=null && !_helper32Client.IsCallPumping && _helper32Client.ProcessId!=0) {
 					try {
 						_helper32Client.Call(TopazCommands.MODULE,TopazCommands.RELEASE,_timeSpanCall,id);
 					}

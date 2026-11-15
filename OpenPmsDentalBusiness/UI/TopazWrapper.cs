@@ -346,8 +346,9 @@ namespace OpenPmsDental.UI {
 		#region Signing
 		///<summary>Shows the helper's signing window with topaz's control over the window of controlOwner, until the patient presses OK or Cancel
 		///(Cancel clears the pad). The caller has cleared the pad and turned capture on, as before S3a-14 when the patient signed into the box in the
-		///program's window. Meanwhile this thread's windows are disabled, as for a modal window of the program, and keep painting. True for OK;
-		///false also for a null control. Throws a Helper32Exception when the helper fails.</summary>
+		///program's window. Meanwhile this thread's windows are disabled, as for a modal window of the program, and keep painting
+		///(Helper32Client.CallPumping, which Schick.cs uses too). True for OK; false also for a null control. Throws a Helper32Exception when the
+		///helper fails.</summary>
 		public static bool ShowSigningWindow(Control topaz,Control controlOwner) {
 			if(topaz==null) {//Topaz's software is not installed (GetTopaz threw), so there is no control.
 				return false;
@@ -357,74 +358,14 @@ namespace OpenPmsDental.UI {
 				handleOwner=NativeMethods.GetAncestor(controlOwner.Handle,NativeMethods.GA_ROOT);//a WinForms form or the WPF window that hosts it
 			}
 			return GetView(topaz).Sign(handleOwner,Lans.g("TopazWrapper","Sign on the Topaz pad"),Lans.g("TopazWrapper","OK"),
-				Lans.g("TopazWrapper","Clear"),Lans.g("TopazWrapper","Cancel"),WaitWithThreadWindowsDisabled);
-		}
-
-		///<summary>Runs func on another thread and waits for it here, with this thread's enabled visible windows disabled (as a modal window of the
-		///program disables them) and its messages dispatched, so the program's windows paint while the helper's window is open. Then the windows
-		///are enabled again and the one that was active is activated.</summary>
-		private static Helper32Result WaitWithThreadWindowsDisabled(Func<Helper32Result> func) {
-			IntPtr handleActive=NativeMethods.GetActiveWindow();
-			List<IntPtr> listDisabled=new List<IntPtr>();
-			NativeMethods.EnumThreadWindows(NativeMethods.GetCurrentThreadId(),(hWnd,lParam) => {
-				if(NativeMethods.IsWindowVisible(hWnd) && NativeMethods.IsWindowEnabled(hWnd)) {
-					listDisabled.Add(hWnd);
-				}
-				return true;
-			},IntPtr.Zero);
-			foreach(IntPtr hWnd in listDisabled) {
-				NativeMethods.EnableWindow(hWnd,false);
-			}
-			try {
-				System.Threading.Tasks.Task<Helper32Result> task=System.Threading.Tasks.Task.Run(func);
-				while(!task.Wait(15)) {
-					Application.DoEvents();
-				}
-				return task.GetAwaiter().GetResult();
-			}
-			finally {
-				foreach(IntPtr hWnd in listDisabled) {
-					NativeMethods.EnableWindow(hWnd,true);
-				}
-				if(handleActive!=IntPtr.Zero) {
-					NativeMethods.SetForegroundWindow(handleActive);
-				}
-			}
+				Lans.g("TopazWrapper","Clear"),Lans.g("TopazWrapper","Cancel"));
 		}
 
 		private static class NativeMethods {
 			public const uint GA_ROOT=2;
 
-			public delegate bool EnumThreadWndProc(IntPtr hWnd,IntPtr lParam);
-
 			[DllImport("user32.dll")]
 			public static extern IntPtr GetAncestor(IntPtr hWnd,uint flags);
-
-			[DllImport("user32.dll")]
-			[return: MarshalAs(UnmanagedType.Bool)]
-			public static extern bool EnumThreadWindows(uint threadId,EnumThreadWndProc callback,IntPtr lParam);
-
-			[DllImport("kernel32.dll")]
-			public static extern uint GetCurrentThreadId();
-
-			[DllImport("user32.dll")]
-			[return: MarshalAs(UnmanagedType.Bool)]
-			public static extern bool IsWindowVisible(IntPtr hWnd);
-
-			[DllImport("user32.dll")]
-			[return: MarshalAs(UnmanagedType.Bool)]
-			public static extern bool IsWindowEnabled(IntPtr hWnd);
-
-			[DllImport("user32.dll")]
-			[return: MarshalAs(UnmanagedType.Bool)]
-			public static extern bool EnableWindow(IntPtr hWnd,[MarshalAs(UnmanagedType.Bool)] bool enable);
-
-			[DllImport("user32.dll")]
-			public static extern IntPtr GetActiveWindow();
-
-			[DllImport("user32.dll")]
-			[return: MarshalAs(UnmanagedType.Bool)]
-			public static extern bool SetForegroundWindow(IntPtr hWnd);
 		}
 		#endregion Signing
 

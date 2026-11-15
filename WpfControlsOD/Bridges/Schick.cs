@@ -13,7 +13,9 @@ namespace OpenPmsDental.Bridges{
 	///program (OpenPmsDentalHelper32, its Schick module, with the calls this class made before), because the program is 64-bit after stage 3b
 	///and nothing proves yet that CDR's COM classes serve a 64-bit caller (open point O-14).</summary>
 	public class Schick{
-		///<summary>How long ShowExam may take: CDR starts when it is not running, and creating an exam waits for the user's answer.</summary>
+		///<summary>How long ShowExam may take: CDR starts when it is not running, and creating an exam waits for the user's answer.
+		///When it passes, the helper is ended with everything it held (docs/port-notes/S3a-14.md, section 3) and SendData shows the helper's
+		///message.</summary>
 		private static readonly TimeSpan _timeSpanCall=TimeSpan.FromMinutes(30);
 
 		public Schick() {
@@ -53,11 +55,13 @@ namespace OpenPmsDental.Bridges{
 		}
 
 		///<summary>The helper's Schick module loads the patient in CDR's exam window, or creates the exam (SchickCommands.SHOW_EXAM). The helper may
-		///bring the exam window to the foreground, as the program did.</summary>
+		///bring the exam window to the foreground, as the program did, and it stays there (no reactivation of the program's window). The call
+		///runs on another thread while this thread dispatches its messages with its windows disabled (Helper32Client.CallPumping), so the
+		///program keeps painting while CDR starts or its create-exam window waits for the user, as it did during the COM call it made itself,
+		///and a second click cannot start another call meanwhile.</summary>
 		private static void ShowExam(Patient pat,string patID) {
-			Helper32Client helper32Client=Helper32Client.Default;
-			helper32Client.AllowSetForeground();
-			helper32Client.Call(SchickCommands.MODULE,SchickCommands.SHOW_EXAM,_timeSpanCall,pat.LName,pat.FName,patID);
+			Helper32Client.Default.CallPumping(SchickCommands.MODULE,SchickCommands.SHOW_EXAM,new[] { pat.LName,pat.FName,patID },null,_timeSpanCall,
+				isReactivating:false);
 		}
 
 	}

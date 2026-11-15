@@ -3,6 +3,7 @@
 // that only the current user may open. The protocol is OpenPmsDentalHelper32\Helper32Protocol.cs, linked into this assembly.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
@@ -73,6 +74,7 @@ namespace CodeBase {
 		private volatile int _processId;
 		private volatile string _pipeName;
 		private bool _isDisposed;
+		private int _countCallsPumping;
 
 		///<summary>The helper of the program's process, from the program's folder (OpenPmsDentalHelper32.exe next to the program; S3b-4 moves it
 		///to the sub folder Helper32\ with its own runtime). Started on its first call.</summary>
@@ -183,6 +185,75 @@ namespace CodeBase {
 		///<summary>Call with string arguments and results only.</summary>
 		public string[] Call(string module,string command,TimeSpan timeSpanTimeout,params string[] args) {
 			return Call(module,command,args,null,timeSpanTimeout).Results;
+		}
+
+		///<summary>Call for a command that shows a window to the user and waits for the user or for a vendor program to start (Schick CDR's exam
+		///window, Topaz's signing window), made from the program's UI thread. The call runs on another thread and this thread waits for it in
+		///WaitWithThreadWindowsDisabled: its visible windows are disabled, as for a modal window of the program, and its messages are dispatched,
+		///so the program's windows keep painting, Windows does not mark the program "Not responding", and no second click can start another call
+		///while this one holds the client. The helper may bring its window to the foreground (AllowSetForeground, on the same thread before the
+		///call). isReactivating: the window that was active is activated again afterwards (a window that closed with the call, as Topaz's signing
+		///window); false leaves the foreground to the vendor's window that stays open (Schick CDR's exam window). IsCallPumping is true meanwhile.
+		///Throws what Call throws; when timeSpanTimeout passes, the helper is ended (TimedOut) with everything its modules held. (S3a-14.)</summary>
+		public Helper32Result CallPumping(string module,string command,string[] args,byte[] data,TimeSpan timeSpanTimeout,bool isReactivating) {
+			Interlocked.Increment(ref _countCallsPumping);
+			try {
+				return WaitWithThreadWindowsDisabled(() => {
+					AllowSetForeground();
+					return Call(module,command,args,data,timeSpanTimeout);
+				},isReactivating);
+			}
+			finally {
+				Interlocked.Decrement(ref _countCallsPumping);
+			}
+		}
+
+		///<summary>True while a CallPumping of this client is in progress. A Call made meanwhile, from the waiting thread (a timer, a paint)
+		///waits for that call to end, with this thread's messages not dispatched; a caller that only refreshes a picture uses the one it has
+		///instead (TopazSignatureView).</summary>
+		public bool IsCallPumping {
+			get {
+				return Volatile.Read(ref _countCallsPumping)>0;
+			}
+		}
+
+		///<summary>Runs func on another thread and waits for it here, with this thread's enabled visible windows disabled (as a modal window of the
+		///program disables them) and its messages dispatched, so the program's windows paint while a window of the helper or of a vendor's
+		///program is open. Then the windows are enabled again, and with isReactivating the one that was active is activated. Returns what func
+		///returned and throws what it threw. WinForms disables only its own thread's windows for a modal window, and the window here is another
+		///process's, so this thread does it itself. (S3a-14; TopazWrapper's until S3a-14's review moved it here for Schick.cs too.)</summary>
+		public static T WaitWithThreadWindowsDisabled<T>(Func<T> func,bool isReactivating) {
+			IntPtr handleActive=NativeMethods.GetActiveWindow();
+			List<IntPtr> listDisabled=new List<IntPtr>();
+			NativeMethods.EnumThreadWindows(NativeMethods.GetCurrentThreadId(),(hWnd,lParam) => {
+				if(NativeMethods.IsWindowVisible(hWnd) && NativeMethods.IsWindowEnabled(hWnd)) {
+					listDisabled.Add(hWnd);
+				}
+				return true;
+			},IntPtr.Zero);
+			foreach(IntPtr hWnd in listDisabled) {
+				NativeMethods.EnableWindow(hWnd,false);
+			}
+			try {
+				Task<T> task=Task.Run(func);
+				while(!task.Wait(15)) {
+					System.Windows.Forms.Application.DoEvents();
+				}
+				return task.GetAwaiter().GetResult();
+			}
+			catch(AggregateException exception) when(exception.InnerExceptions.Count==1) {
+				//task.Wait(15) throws when func threw; what func threw is thrown instead, as it would be without the wait.
+				System.Runtime.ExceptionServices.ExceptionDispatchInfo.Capture(exception.InnerException).Throw();
+				throw;
+			}
+			finally {
+				foreach(IntPtr hWnd in listDisabled) {
+					NativeMethods.EnableWindow(hWnd,true);
+				}
+				if(isReactivating && handleActive!=IntPtr.Zero) {
+					NativeMethods.SetForegroundWindow(handleActive);
+				}
+			}
 		}
 
 		///<summary>Lets the helper bring its own window, or a vendor window it opens (Schick CDR's exam window, Topaz's signing window), to the
@@ -538,6 +609,35 @@ namespace CodeBase {
 			[DllImport("user32.dll")]
 			[return: MarshalAs(UnmanagedType.Bool)]
 			public static extern bool AllowSetForegroundWindow(uint processId);
+
+			//WaitWithThreadWindowsDisabled (S3a-14).
+			public delegate bool EnumThreadWndProc(IntPtr hWnd,IntPtr lParam);
+
+			[DllImport("user32.dll")]
+			[return: MarshalAs(UnmanagedType.Bool)]
+			public static extern bool EnumThreadWindows(uint threadId,EnumThreadWndProc callback,IntPtr lParam);
+
+			[DllImport("kernel32.dll")]
+			public static extern uint GetCurrentThreadId();
+
+			[DllImport("user32.dll")]
+			[return: MarshalAs(UnmanagedType.Bool)]
+			public static extern bool IsWindowVisible(IntPtr hWnd);
+
+			[DllImport("user32.dll")]
+			[return: MarshalAs(UnmanagedType.Bool)]
+			public static extern bool IsWindowEnabled(IntPtr hWnd);
+
+			[DllImport("user32.dll")]
+			[return: MarshalAs(UnmanagedType.Bool)]
+			public static extern bool EnableWindow(IntPtr hWnd,[MarshalAs(UnmanagedType.Bool)] bool enable);
+
+			[DllImport("user32.dll")]
+			public static extern IntPtr GetActiveWindow();
+
+			[DllImport("user32.dll")]
+			[return: MarshalAs(UnmanagedType.Bool)]
+			public static extern bool SetForegroundWindow(IntPtr hWnd);
 		}
 	}
 }
