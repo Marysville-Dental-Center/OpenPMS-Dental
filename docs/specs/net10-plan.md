@@ -1696,6 +1696,16 @@ The owner answered the plan's questions "as recommended", with the corrections b
       become 3b's checks on the .NET 10 build.
     - **S3a-10's bridge-side code stays**, under the no-cut rule. It guards any .NET Framework build that might still run (a developer's
       Debug build, or a later decision to publish one), and its tests stay.
+22. **No install to migrate (owner, 2026-11-15: "nothing in prod has openpms install. Don't worry about migration. The office will only
+    migrate once all workstreams are done").** No workstation runs OpenPMS - Dental. The office switches from Open Dental only once every
+    workstream is done, and that switch is the "Switch-over and data conversions" part of `docs/owner-questions.md`. So:
+    - **No upgrade path from an OpenPMS install.** From 0.0, from a .NET Framework build, from a 32-bit install, or over a mixed set of
+      workstations: none of these is designed, built or tested from now on. Section 10's steps 1 and 3 (the bridge, moving the install
+      out of `Program Files (x86)`, mixed workstations) and decision 21's 0.0 consequences no longer bind anything. S3b-7 builds the
+      .NET 10 release, setup and self-update for a new install, and for updates from one .NET 10 release to the next.
+    - **Migration code already built stays**, under the no-cut rule, with its tests. That is S3a-5's PasswordVault copy and S3a-10/10f's
+      guards and Recopy offer. Nothing is added to it.
+    - **The gates and launch checks stay.** They run on a test PC, never at the office.
 
 Also recorded for the update path: the Middle Tier client and server switch together (it has never shipped to an office); saved
 passwords get a one-time migration from PasswordVault to the Credential Manager (S3a-5). Also answered on 2026-11-08: signed e-mail

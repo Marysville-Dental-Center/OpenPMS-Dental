@@ -984,6 +984,11 @@ and E-10b), where each is set out in full with its recommendation. You first ans
   consequences: no newer .NET Framework rollback installer, the x64 release is never published while a 0.0 install remains, and the
   bridge-only launch checks move to 3b.
 
+- **No OpenPMS install to migrate:** your statement (2026-11-15): "nothing in prod has openpms install. Don't worry about migration.
+  The office will only migrate once all workstreams are done". From now on no upgrade path from an OpenPMS install (0.0, .NET Framework,
+  32-bit, mixed workstations) is designed or tested. The office's switch from Open Dental comes at the end, with the switch-over questions
+  above. Migration code already built stays (net10-plan decision 22).
+
 ## Not asked again (already settled)
 
 - How package migration levels are numbered (B-ACCT 2, B-PRINT 1, B-SHELL 6, M2-EST 1, M2-UDS 1, V-BRIDGE1 2, V-PEARL2 1, M2-SHELL's old question 4): decided on 2026-11-01 and done: the package steps now have dated levels 2026110101 to 2026110104, and new steps always go above the highest one.
