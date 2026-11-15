@@ -959,12 +959,40 @@ sheets and the dashboard (TC-1's gallery G0, `timings.txt`). TC-3's fix round fo
   Dental 26.2's screenshot ("Fracture" above maxillary 9 in its 2021 tip,
   https://odtechblog.files.wordpress.com/2021/01/text-paint-type.png). The 2026-11-08 "on the tooth, as Open Dental did" was wrong:
   Open Dental's screenshots contradict it. "W" stays the watch mark. The 2D chart draws it in its own watch rows (O-24 kept).
-- **O-23. Retained root and space maintainer** (types 16 and 17). They are no-ops today (relay 215, 227). **Recommended:** draw them in
-  TC-6. They are cheap with the same geometry tools, and the gallery shows them.
-- **O-24. Ortho mode and the 2D chart.** **Recommended:**
-  - Keep today's layout with Palmer numbering (`ControlChart.cs:6544-6549`), and draw the hardware on the facial views.
-  - The 2D chart draws free text, Text and the extraction graphic, but no orthodontic hardware. (TextBelow is shown by the Chart
-    module's strip since TC-5's parity round, the same on every engine.)
+- **O-23. Retained root and space maintainer** (types 16 and 17). *Revised by the parity rows RR-1 and SM-1 (section 10, "Open Dental
+  parity (2026-11-14)", table TC-6) under the owner's rule of 2026-11-14 ("Overall for tc changes, keep it the same as OD latest
+  version"), which is the owner's confirmation of those rows. The text below is the decision as built on `chart/tc6-1`
+  (`docs/port-notes/TC-6.md`); the 2026-11-08 answer ("the crown groups hidden, the roots in the colour"; "a band on the tooth and a loop
+  across the gap") is kept here as history and superseded.*
+  - **Retained root, as Open Dental draws it** (https://odtechblog.files.wordpress.com/2021/01/retained-chart.png): only the root, in the
+    status colour, lit like the teeth, in the facial row; in the occlusal row the same root seen from occlusal, which shows as a small
+    crescent of that colour. A completed extraction hides it: the extraction marks the tooth missing, and the root is drawn only on a tooth
+    that is shown (https://opendental.blog/tips-tricks-33/, "once the root's extraction is complete, the root graphic is gone").
+  - **Space maintainer, as Open Dental draws it** (https://odtechblog.files.wordpress.com/2021/01/space-main-chart.png): only a thick solid
+    bar in the status colour across each missing tooth's space, at about crown height on the facial view, never over a present tooth (the
+    forum's "designed to not ever draw in the same space where a tooth already exists"); no band and no loop. Tooth, range and quadrant
+    (UR 4-8, UL 9-13, LL 20-24, LR 25-29) as the painter sends them.
+  - Only the WPF chart draws them. Open Dental's own Simple 2D, DirectX 9 and OpenGL charts never did (its 24.3 relay sent both only to
+    Sparks3D, "not supported" otherwise; its Graphics page lists them as unavailable with the older technology), so those engines stay as
+    they are.
+  - Old answer (2026-11-08): they are no-ops today (relay 215, 227). **Recommended:** draw them in TC-6. They are cheap with the same
+    geometry tools, and the gallery shows them.
+- **O-24. Ortho mode and the 2D chart.** *Revised by the parity rows ORTHO-1 and ORTHO-2 (section 10, table TC-6) under the owner's rule
+  of 2026-11-14, the owner's confirmation of those rows. The text below is the decision as built on `chart/tc6-1`; the 2026-11-08 answer
+  ("keep today's layout") is kept as history and superseded.*
+  - **Ortho mode (ORTHO-1):** a facial-only layout as Open Dental's ortho mode shows it (Capture13, 2024; ortho9, 2022): the upper and
+    lower facial rows moved toward the centre line, the Palmer numbers (the callers' switch, unchanged) between them, no occlusal rows.
+    The teeth keep their size: measured in both screenshots, a tooth is as wide and as long as in the normal chart (the 16 teeth fill the
+    same width, a central incisor is about 70 pixels long in both), so "enlarged" means re-spaced, not scaled. Hit-testing follows the
+    layout (the upper half picks the upper teeth, as before).
+  - **Hardware (ORTHO-2):** brackets with a flat face and a slot (Helix `MeshBuilder` boxes in the 3D layer), wires and elastics as thin
+    lines (about 1 to 2 pixels) in the 2D layer, in the colours of the hardware rows, drawn whenever the caller paints them: in ortho mode
+    and in the normal layout ("Show Graphics" in the Chart module; sheets and printouts as before).
+  - The 2D chart draws free text, Text and the extraction graphic, but no orthodontic hardware and no ortho layout, as Open Dental's own 2D
+    chart (its 24.3 relay sent ortho mode and the hardware only to Sparks3D). (TextBelow is shown by the Chart module's strip since TC-5's
+    parity round, the same on every engine.)
+  - Old answer (2026-11-08), **Recommended:** keep today's layout with Palmer numbering (`ControlChart.cs:6544-6549`), and draw the
+    hardware on the facial views; the 2D chart draws free text, Text and the extraction graphic, but no orthodontic hardware.
 - **O-25. Differences between the four painting copies.**
   - `ControlTreat`'s printout colours lack the TPi exception and the per-provider colours (2179-2213).
   - `ControlTreat` skips procedures with status D or an unhandled status (2205-2207). `ControlChart` and `SheetPrinting` ignore the
