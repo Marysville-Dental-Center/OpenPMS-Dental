@@ -201,19 +201,43 @@ All on the branch at `6ce016b89`, after a full build of the solution filter thro
   logs; the first found the text mover's null reference (`35fdc50ac`). A run of the gate with the re-recorded baselines then found the
   parity probes the new drawing covers (`6ce016b89`).
 
+Fix round 1, on `chart/tc5-2`, after a full build through the lane (0 errors):
+
+- `tc5-2-record.txt` (at `06b17717a`): recorded the 2D baselines, the call logs (none changed) and every WPF baseline into a scratch
+  folder (270 with the committed pixels, 4 new), with the parity wildcards removed: it listed the numbers of `text-label-long` that fail
+  without an allowance (section 2.2) and found two faults of the new test and painter code, fixed in `a6df3a9eb`.
+- `tc5-2-final.txt` (at `a6df3a9eb`): ToothChartImageTests 201 passed, 0 failed, 3 skipped (as above); P262SchemaTests 24 passed, 4
+  skipped (as above); RegistryTests 39, BINATests 23, BSHELLTests 72 and NoHqTests 57 passed. The same run wrote gallery G2's second
+  version (section 3), 947 s.
+
 ## 3. Gallery G2
 
-On the build PC, outside the repository like G1: `.git/od-tools/test-results/tc5-gallery-G2/` of the main checkout.
+On the build PC, outside the repository like G1: `.git/od-tools/test-results/tc5-gallery-G2/` of the main checkout, the second version,
+made after fix round 1 (`a6df3a9eb`). The first version, made before the fixes, is kept beside it as `tc5-gallery-G2-round1/` (with
+`tc5-gallery-G2-round1.zip` and `tc5-gallery-G2-round1-tc5-scenes.zip`); the owner should look at the second version only.
 
-- `g2-tc5.html` (also alone in `tc5-gallery-G2-tc5-scenes.zip`, 15 MB): the 16 scenes of this package, before and after, at every size:
+**What changed from round 1:**
+
+- The 2D chart's TextBelow is no longer cut one character short: "IMP" on 12 and 21 in `text-all-kinds` (round 1 showed "IM"). The 2D
+  chart measures and draws its text with the typographic format, so 25 of its 31 round-1 pictures changed by a few pixels of text (1.1).
+- No X under a completed implant or a completed bridge's or denture's pontic (1.4), with two new scenes,
+  `extraction-completed-graphic-under-implant` and `extraction-completed-graphic-under-pontic`, at 410x307 and 500x370, in the WPF chart and
+  the 2D chart, on `g2-tc5.html` too. No other WPF picture changed.
+- The counts: 274 WPF pictures (round 1: 270), 21 new scenes' pictures (round 1: 17), 18 scenes on `g2-tc5.html` (round 1: 16), 35 2D
+  pictures (round 1: 31).
+
+**The second version:**
+
+- `g2-tc5.html` (also alone in `tc5-gallery-G2-tc5-scenes.zip`, 17 MB): the 18 scenes of this package, before and after, at every size:
   today's DirectX and Simple 2D pictures (TC-0's recording), the Simple 2D chart now, the WPF picture as approved in G1 (from `main` at
-  `b8e931cea`) and the WPF picture now. This is the page to show the owner.
-- `index.html` (the whole folder in `tc5-gallery-G2.zip`, 125 MB, made with `tools/New-ToothChartGallery.ps1 -NoTestRun`): the full
+  `e9c46c233`, whose WPF baselines are those of `b8e931cea`) and the WPF picture now. Its head says what changed from the first version.
+  This is the page to show the owner.
+- `index.html` (the whole folder in `tc5-gallery-G2.zip`, 126 MB, made with `tools/New-ToothChartGallery.ps1 -NoTestRun`): the full
   gallery as G1 was made (WriteGallery with `OPMS_CHART_GALLERY_NAME=G2` and G1's approved pictures from `main`), with a new column for the
-  2D chart's new pictures. 270 of 270 WPF pictures have exactly the pixels of this branch's baselines; 239 are the same as approved, 14
-  differ (the re-recorded text scenes) and 17 are new. Every parity caption passes, the allowed ones as "known difference". The render
-  times did not move: a refill with its picture 356 ms at 410x307 and 741 ms at 615x461, a selection-only change 15 and 17 ms (G1's and
-  TC-3's software render: 316 to 384 ms and 559 to 728 ms).
+  2D chart's new pictures. 274 of 274 WPF pictures have exactly the pixels of this branch's baselines; 239 are the same as approved, 14
+  differ (the re-recorded text scenes) and 21 are new. Every parity caption passes, the allowed ones as "known difference". The render
+  times did not move: a refill with its picture 330 ms at 410x307 and 583 ms at 615x461 (medians; slowest 356 and 740 ms), a
+  selection-only change 10 and 12 ms (G1's and TC-3's software render: 316 to 384 ms and 559 to 728 ms).
 - The owner's answer goes into `docs/owner-questions.md` with the commit and the date (plan section 8); TC-6's hardware completes G2 later
   (its second part), so this answer covers TC-5's drawing.
 
