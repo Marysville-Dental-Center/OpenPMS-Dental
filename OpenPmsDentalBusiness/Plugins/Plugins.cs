@@ -107,32 +107,13 @@ namespace OpenPmsDentalBusiness {
 				if(!File.Exists(dllPath)) {
 					continue;//Nothing to do.
 				}
-				//The dll was found, try and load it in.
-				PluginBase plugin=null;
-				Assembly ass=null;
-				string assName="";
-				try {
-					ass=Assembly.LoadFile(dllPath);
-					assName=Path.GetFileNameWithoutExtension(dllPath);
-					string typeName=assName+".Plugin";
-					Type type=ass.GetType(typeName);
-					plugin=(PluginBase)Activator.CreateInstance(type);
-					plugin.Host=host;
-				}
-				catch {
-					//Never try and show message boxes when on the middle tier, there is no UI.  We should instead log to a file or the event viewer.
-					//if(RemotingClient.RemotingRole!=RemotingRole.ServerWeb) {
-						//Notify the user that their plug-in is not loaded.
-					//	MessageBox.Show("Error loading Plugin:"+listPrograms[i].PluginDllName+"\r\n"+ex.Message);
-					//}
-					continue;//Don't add it to plugin list.
+				//The dll was found, try and load it in. Never show message boxes on the middle tier, there is no UI: LoadPlugin writes the reason to
+				//the log instead (N64-A).
+				PluginContainer pluginContainer=LoadPlugin(dllPath,listPrograms[i].PluginDllName,listPrograms[i].ProgramNum,host,out string _);
+				if(pluginContainer==null) {
+					continue;//Don't add it to plugin list. The reason is in the log.
 				}
 				//The plug-in was successfully loaded and will start getting hook notifications.  Add it to the list of loaded plug-ins.
-				PluginContainer pluginContainer=new PluginContainer();
-				pluginContainer.Plugin=plugin;
-				pluginContainer.ProgramNum=listPrograms[i].ProgramNum;
-				pluginContainer.Assemb=ass;
-				pluginContainer.Name=assName;
 				listPluginContainers.Add(pluginContainer);
 			}
 			//Notify the user which dlls were not loaded.
@@ -143,6 +124,103 @@ namespace OpenPmsDentalBusiness {
 			//	messageBox.ShowDialog();
 			//}
 			ListPlugins=listPluginContainers;
+		}
+
+		///<summary>The Logger sub folder of the plug-in problems (N64-A).</summary>
+		public const string LOG_SUB_DIRECTORY="Plugins";
+		///<summary>Lock object for _listProblemsLogged and _hashSetHookProblemsLogged.</summary>
+		private static readonly object _lockProblems=new object();
+		///<summary>The plug-in problems of this process so far, the last 100, in order (GetProblemsLogged).</summary>
+		private static readonly List<string> _listProblemsLogged=new List<string>();
+		///<summary>The hook-time problems already written once in this process: plug-in name, exception type and message.</summary>
+		private static readonly HashSet<string> _hashSetHookProblemsLogged=new HashSet<string>();
+
+		///<summary>Loads the plug-in DLL at dllPath, as both loaders did: Assembly.LoadFile, the type [file name without extension].Plugin,
+		///Activator.CreateInstance, then Host=host. Before LoadFile, PluginImageCheck.GetRefusalReason reads the file's PE header and target
+		///framework, so a plug-in this process cannot load (32-bit only in a 64-bit process, 64-bit only in a 32-bit one, built for a framework the
+		///process cannot host, not a .NET assembly) is refused with a clear reason instead of a load error (N64-A). Returns the plug-in's container,
+		///or null with error set to the reason (PluginImageCheck.GetLoadErrorText for an exception), which is also written to the log naming the
+		///plug-in. pluginDllName is the program link's PluginDllName, as the messages have named the plug-in.</summary>
+		public static PluginContainer LoadPlugin(string dllPath,string pluginDllName,long programNum,Form host,out string error) {
+			error=PluginImageCheck.GetRefusalReason(dllPath,pluginDllName);
+			if(error!=null) {
+				LogProblem(error);
+				return null;
+			}
+			PluginBase plugin=null;
+			Assembly ass=null;
+			string assName="";
+			try {
+				ass=Assembly.LoadFile(dllPath);
+				assName=Path.GetFileNameWithoutExtension(dllPath);
+				string typeName=assName+".Plugin";
+				Type type=ass.GetType(typeName);
+				plugin=(PluginBase)Activator.CreateInstance(type);
+				plugin.Host=host;
+			}
+			catch(Exception ex) {
+				error=PluginImageCheck.GetLoadErrorText(ex,pluginDllName,dllPath);
+				if(error==ex.Message) {//not one of the errors GetLoadErrorText explains: the message the loader showed before
+					LogProblem("The plug-in "+pluginDllName+" ("+dllPath+") was not loaded ("+ex.GetType().Name+": "+ex.Message+").");
+				}
+				else {
+					LogProblem(error);
+				}
+				return null;
+			}
+			PluginContainer pluginContainer=new PluginContainer();
+			pluginContainer.Plugin=plugin;
+			pluginContainer.ProgramNum=programNum;
+			pluginContainer.Assemb=ass;
+			pluginContainer.Name=assName;
+			return pluginContainer;
+		}
+
+		///<summary>Writes a plug-in problem to the log (Logger, sub folder Plugins) and keeps it for GetProblemsLogged. Never throws.</summary>
+		public static void LogProblem(string message) {
+			lock(_lockProblems) {
+				if(_listProblemsLogged.Count>=100) {
+					_listProblemsLogged.RemoveAt(0);
+				}
+				_listProblemsLogged.Add(message);
+			}
+			try {
+				Logger.WriteLine(message,LOG_SUB_DIRECTORY);
+			}
+			catch(Exception ex) {
+				ex.DoNothing();
+			}
+		}
+
+		///<summary>The plug-in problems this process has logged so far, the last 100, in order. Logger writes nothing in a unit test process, so the
+		///tests read these.</summary>
+		public static List<string> GetProblemsLogged() {
+			lock(_lockProblems) {
+				return new List<string>(_listProblemsLogged);
+			}
+		}
+
+		///<summary>For an exception a plug-in's hook threw: when it is, or wraps, a DllNotFoundException or BadImageFormatException (a native
+		///library the plug-in calls is missing, or is of the other bitness), writes it to the log once per plug-in and error, naming the plug-in and
+		///the hook. Other exceptions go only to the plug-in's own HookException, as before.</summary>
+		private static void LogHookException(PluginContainer pluginContainer,string hookName,Exception e) {
+			Exception exceptionLoad=e;
+			while(exceptionLoad!=null && !(exceptionLoad is DllNotFoundException) && !(exceptionLoad is BadImageFormatException)) {
+				exceptionLoad=exceptionLoad.InnerException;
+			}
+			if(exceptionLoad==null) {
+				return;
+			}
+			string name=pluginContainer?.Name ?? "";
+			lock(_lockProblems) {
+				if(!_hashSetHookProblemsLogged.Add(name+"\t"+exceptionLoad.GetType().Name+"\t"+exceptionLoad.Message)) {
+					return;
+				}
+			}
+			string what=(exceptionLoad is DllNotFoundException)
+				? "a library it calls was not found"
+				: "a library it calls is not one this "+(Environment.Is64BitProcess ? "64-bit" : "32-bit")+" program can load (another bitness?)";
+			LogProblem("The plug-in "+name+" failed in "+hookName+": "+what+" ("+exceptionLoad.GetType().Name+": "+exceptionLoad.Message+").");
 		}
 
 		///<summary>Returns null if no plugin assembly loaded with the given name.
@@ -168,6 +246,7 @@ namespace OpenPmsDentalBusiness {
 					}
 				}
 				catch(Exception e) {
+					LogHookException(pluginContainer,hookName,e);
 					pluginContainer.Plugin.HookException(e);
 					//Continue the for loop looking for another potential hook that implements this method since this one failed.
 				}
@@ -186,6 +265,7 @@ namespace OpenPmsDentalBusiness {
 					pluginContainer.Plugin.HookAddCode(sender,hookName,parameters);
 				}
 				catch(Exception e) {
+					LogHookException(pluginContainer,hookName,e);
 					pluginContainer.Plugin.HookException(e);
 					//Continue the loop looking for another potential hook that implements this method since this one failed.
 				}
@@ -202,6 +282,7 @@ namespace OpenPmsDentalBusiness {
 					pluginContainer.Plugin.LaunchToolbarButton(patNum);
 				}
 				catch(Exception e) {
+					LogHookException(pluginContainer,nameof(LaunchToolbarButton),e);
 					pluginContainer.Plugin.HookException(e);
 				}
 			}

@@ -1004,6 +1004,10 @@ and E-10b), where each is set out in full with its recommendation. You first ans
   Copy Cell Text and Copy Rows showed. After the menu conversion they show, above Copy Cell Text. Recommended: keep them (it is what the
   code was written to do, and no function is lost). Or hide them again as before?
 
+- **Trojan's registry key names** (N64-A, [port-notes/N64-A.md](port-notes/N64-A.md)). Trojan's install folder is now looked up under
+  Software\TROJAN BENEFIT SERVICE (as before) and also under Software\Trojan (the name Open Dental's manual gives), in the 32-bit and then
+  the 64-bit registry view. Recommended: keep both (a lookup that finds nothing changes nothing). Or only the old one?
+
 ## Not asked again (already settled)
 
 - How package migration levels are numbered (B-ACCT 2, B-PRINT 1, B-SHELL 6, M2-EST 1, M2-UDS 1, V-BRIDGE1 2, V-PEARL2 1, M2-SHELL's old question 4): decided on 2026-11-01 and done: the package steps now have dated levels 2026110101 to 2026110104, and new steps always go above the highest one.

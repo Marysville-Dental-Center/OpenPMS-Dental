@@ -109,6 +109,7 @@
       "tests\\MaintenanceTests\\MaintenanceTests.csproj",
       "tests\\MedicationTests\\MedicationTests.csproj",
       "tests\\MiddleTierMockTests\\MiddleTierMockTests.csproj",
+      "tests\\N64ATests\\N64ATests.csproj",
       "tests\\ODOPTSTests\\ODOPTSTests.csproj",
       "tests\\P262ApptTests\\P262ApptTests.csproj",
       "tests\\P262BillingTests\\P262BillingTests.csproj",
