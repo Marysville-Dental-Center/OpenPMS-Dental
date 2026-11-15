@@ -986,7 +986,8 @@ times. New `ReplaceUnreadableDbTests` (`s3a10f_` scratch databases).
 serialized-object block, so nothing under it reaches the BinaryFormatter; the shell-start scan refuses the shadowing and expression-body
 shapes and `ProcessStartInfo?psi`; `ProbeProcess` quotes for `CommandLineToArgvW` and bounds its output waits; rule 3 of the pointer-size
 scan counts a bitness branch only in the pair's wrapper; the DirectX test's format search is timed and limited, a timeout Inconclusive.
-`ControlImages.cs`' `PDF_SetCompression` argument is left for S3a-14 (its file).
+`ControlImages.cs`' `PDF_SetCompression` argument is left for S3a-14 (its file). Review fix on `net10/s3a-fu2-3`: the scan also refuses a
+pattern's designation (`is {} psi`), a deconstruction's element (`var (psi,n)=`, `foreach(var (psi,n) in`) and a verbatim `@psi`.
 
 **Full-test gate.** Section 3, plus: the golden outputs and known answers recorded and committed; the source-scan tests pass; the
 launch checks for 3a (section 6) done with screenshots, including a self-update from a standard user; the x64 test runs (S3a-12, S3a-15)
