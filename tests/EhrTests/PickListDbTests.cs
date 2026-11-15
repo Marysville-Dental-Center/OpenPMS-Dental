@@ -104,7 +104,9 @@ namespace EhrTests {
 
 		[TestMethod]
 		public void NotPerformed_EachItemsCodes_FillFromTheRelease_AndEachImportedCodeHasItsItem() {
+			Assert.IsFalse(CqmDataEntry.IsReleaseImported(),"No import yet: the not-performed windows say the 2027 value sets are not imported.");
 			ImportOrFail(MakeRows());
+			Assert.IsTrue(CqmDataEntry.IsReleaseImported(),"The import recorded the 2027 release.");
 			LoadCodeTables();
 			EhrCode ehrCodeBmi=CqmDataEntry.GetDirectCode(CqmCatalog.ROLE_CMS69_BMI);
 			EhrCode ehrCodeMeds=CqmDataEntry.GetDirectCode(CqmCatalog.ROLE_CMS68_MEDS_DOCUMENTED);

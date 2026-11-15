@@ -209,6 +209,38 @@ namespace EhrTests {
 			}
 			StringAssert.Contains(CSharpSource.GetBlock(sourceEdit,"private void FillReasonList()"),"CqmDataEntry.GetNotPerformedReasonOids(itemNotPerformed,");
 		}
+
+		///<summary>The release is the 2027 one only by its label: no record, or a record of an earlier release (EHR-2's June 2013 import), is not.</summary>
+		[TestMethod]
+		public void ReleaseImported_OnlyThe2027ReleasesRecord() {
+			Assert.IsFalse(CqmDataEntry.IsReleaseImported(null));
+			Assert.IsFalse(CqmDataEntry.IsReleaseImported(new EhrValueSetRelease()),"A record with no label.");
+			Assert.IsFalse(CqmDataEntry.IsReleaseImported(new EhrValueSetRelease { Label="TEST earlier release" }));
+			Assert.IsTrue(CqmDataEntry.IsReleaseImported(new EhrValueSetRelease { Label=CqmCatalog.RELEASE_LABEL }));
+			Assert.AreEqual(EhrValueSetImport.RELEASE_LABEL,CqmCatalog.RELEASE_LABEL);
+		}
+
+		///<summary>Before the office imports the 2027 release every row but the CVX rows is "other": the grid's label and the read-only window say
+		///that the value sets are missing and where to import them; the plain "other" label and the "code is of no item" title are kept for an office
+		///that has imported the release.</summary>
+		[TestMethod]
+		public void NotPerformed_OtherRows_SayWhenTheReleaseIsNotImported() {
+			string fillGrid=CSharpSource.GetBlock(TestPaths.ReadSource(PATH_NOT_PERFORMED),"private void FillGrid()").Replace("\r\n","\n");//Either line ending
+			StringAssert.Contains(fillGrid,"bool isReleaseImported=CqmDataEntry.IsReleaseImported();");
+			StringAssert.Contains(fillGrid,"if(itemNotPerformed==null && !isReleaseImported) {\n\t\t\t\t\trow.Cells.Add(Lan.g(this,\"other (2027 value sets not imported)\"));");
+			StringAssert.Contains(fillGrid,"else if(itemNotPerformed==null) {\n\t\t\t\t\trow.Cells.Add(Lan.g(this,\"other\"));");
+			Assert.IsTrue(fillGrid.IndexOf("CqmDataEntry.IsReleaseImported()",StringComparison.Ordinal)<fillGrid.IndexOf("for(int i=0;",StringComparison.Ordinal),
+				"Read once, not per row.");
+			string readOnly=CSharpSource.GetBlock(TestPaths.ReadSource(PATH_NOT_PERFORMED_EDIT),"private void FillReadOnly()");
+			int indexIf=readOnly.IndexOf("if(CqmDataEntry.IsReleaseImported()) {",StringComparison.Ordinal);
+			int indexOfNoItem=readOnly.IndexOf("\"read-only, the code is of no item\"",StringComparison.Ordinal);
+			int indexElse=readOnly.IndexOf("else {",StringComparison.Ordinal);
+			int indexNotImported=readOnly.IndexOf("\"read-only, the 2027 value sets are not imported\"",StringComparison.Ordinal);
+			int indexMessage=readOnly.IndexOf("textDescription.Text=Lan.g(this,\"The EHR value sets of the 2027 release are not imported "
+				+"(Setup | Chart | EHR, Code System Importer); until then this row's item is not known.\");",StringComparison.Ordinal);
+			Assert.IsTrue(indexIf>=0 && indexOfNoItem>indexIf && indexElse>indexOfNoItem && indexNotImported>indexElse && indexMessage>indexElse,
+				"The old title only with the release imported; without it the title and the message say why.");
+		}
 		#endregion Not performed
 
 		#region Interventions
@@ -235,6 +267,40 @@ namespace EhrTests {
 			//The window takes its list from here.
 			string window=TestPaths.ReadSource(@"OpenPmsDental\Forms\FormInterventionEdit.cs");
 			StringAssert.Contains(window,"CqmDataEntry.GetInterventionValueSets(InterventionCur.CodeSet,IsAllTypes)");
+		}
+
+		///<summary>The intervention window says why its list is empty (no import, or no code-system table), in the grid's title and once on load of a
+		///new entry; and a saved intervention whose code is in none of the 2027 lists (a 2014 Dialysis Education row, E-28) keeps its code as a selected
+		///row, so saving again keeps it, as the not-performed window keeps a saved reason.</summary>
+		[TestMethod]
+		public void Interventions_AnEmptyListSaysWhy_AndASavedCodeOutsideTheListsIsKept() {
+			const string message="The codes of these intervention lists come from the EHR value sets of the 2027 release and the code-system tables; "
+				+"run the Code System Importer in Setup | Chart | EHR.";
+			string window=TestPaths.ReadSource(@"OpenPmsDental\Forms\FormInterventionEdit.cs");
+			string fillGrid=CSharpSource.GetBlock(window,"private void FillGrid()");
+			int indexRead=fillGrid.IndexOf("_listEhrCodes=EhrCodes.GetForValueSetOIDs(listValSetOIDs,true);",StringComparison.Ordinal);
+			int indexEmpty=fillGrid.IndexOf("if(_listEhrCodes.Count==0) {",StringComparison.Ordinal);
+			int indexTitle=fillGrid.IndexOf("gridMain.Title=_titleGrid+\" - \"+Lan.g(this,\"none: the codes of these intervention lists come from the EHR value "
+				+"sets of the 2027 release and the code-system tables; run the Code System Importer in Setup | Chart | EHR.\");",StringComparison.Ordinal);
+			int indexSaved=fillGrid.IndexOf("if(!InterventionCur.IsNew && !string.IsNullOrEmpty(InterventionCur.CodeValue)",StringComparison.Ordinal);
+			int indexAdd=fillGrid.IndexOf("_listEhrCodes.Add(ehrCodeSaved);",StringComparison.Ordinal);
+			int indexLoop=fillGrid.IndexOf("for(int i=0;i<_listEhrCodes.Count;i++) {",StringComparison.Ordinal);
+			int indexSelect=fillGrid.IndexOf("gridMain.SetSelected(idxSelected,true);",StringComparison.Ordinal);
+			Assert.IsTrue(indexRead>=0 && indexEmpty>indexRead && indexTitle>indexEmpty,"The empty list is said in the grid's title.");
+			Assert.IsTrue(indexSaved>indexEmpty && indexAdd>indexSaved && indexLoop>indexAdd && indexSelect>indexLoop,
+				"The saved code is added before the rows are filled, and its row is selected like any other.");
+			StringAssert.Contains(fillGrid,"gridMain.Title=_titleGrid;");
+			StringAssert.Contains(fillGrid,"ehrCodeSaved.CodeValue=InterventionCur.CodeValue;");
+			StringAssert.Contains(fillGrid,"ehrCodeSaved.CodeSystem=InterventionCur.CodeSystem;");
+			StringAssert.Contains(fillGrid,"if(_listEhrCodes[i].CodeValue==InterventionCur.CodeValue && _listEhrCodes[i].CodeSystem==InterventionCur.CodeSystem) {");
+			string load=CSharpSource.GetBlock(window,"private void FormInterventionEdit_Load(");
+			Assert.IsTrue(load.IndexOf("_titleGrid=gridMain.Title;",StringComparison.Ordinal)<load.IndexOf("FillGrid();",StringComparison.Ordinal));
+			StringAssert.Contains(load,"if(IsSelectionMode && EhrCodes.GetForValueSetOIDs(new List<string>(_dictionaryValueCodeSets.Values),true).Count==0) {");
+			StringAssert.Contains(load,"MsgBox.Show(this,\""+message+"\");");
+			//Saving with "All" a code that is in no list keeps the code set; listVSFound[0] is read only when one set holds the code.
+			string save=CSharpSource.GetBlock(window,"private void butSave_Click(");
+			StringAssert.Contains(save,"else if(listVSFound.Count==1) {");
+			StringAssert.Contains(save,"selectedCodeSet=InterventionCur.CodeSet.ToString();");
 		}
 
 		[TestMethod]
