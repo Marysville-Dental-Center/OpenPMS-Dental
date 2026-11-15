@@ -141,6 +141,10 @@ $OwnFiles=[ordered]@{
 	#The connection settings tool (docs/specs/db-connection-security.md); the installer runs it for the connection page.
 	'OpenPmsDentalDbSettings.exe'='OpenPmsDentalDbSettings\bin\Release'
 	'OpenPmsDentalDbSettings.exe.config'=''
+	#The 32-bit helper program (S3a-13 of the .NET 10 move, docs/port-notes/S3a-13.md): it runs QuickBooks Desktop's 32-bit QBFC (S3a-14: Schick
+	#CDR, Topaz, Guru) for the program, which starts it from its own folder. Both files must be the helper project's own Release output.
+	'OpenPmsDentalHelper32.exe'='OpenPmsDentalHelper32\bin\Release'
+	'OpenPmsDentalHelper32.exe.config'='OpenPmsDentalHelper32\bin\Release'
 }
 
 #Third-party files. Each must be named in THIRD-PARTY-NOTICES.txt. Value: where its bytes come from:
@@ -254,6 +258,10 @@ $SourceArchiveName='OpenPmsDental-{0}-source'
 #Native files: they must be x86 and must not need the debug C runtime, which may not be redistributed. WebView2Loader.dll is the WebView2
 #package's (runtimes\win-x86\native, since S2-3 of the .NET 10 move): an x64 or arm64 loader of the same package fails here.
 $NativeFiles=@('Direct2dWrapper.dll','WebView2Loader.dll')
+#Files that are x86 whatever the program is (S3a-13): the 32-bit helper program loads vendor code that exists only as 32-bit code, so it stays
+#x86 after stage 3b, when the program and everything else is x64. PE machine 0x14C, and for a managed file the CLR header's 32BITREQUIRED flag
+#(an AnyCPU file has machine 0x14C too, and would run as a 64-bit process on 64-bit Windows); after 3b the helper's .exe is a native x86 apphost.
+$X86OnlyFiles=@('OpenPmsDentalHelper32.exe')
 $DebugRuntimeNames=@('VCRUNTIME140D.dll','MSVCP140D.dll','ucrtbased.dll','VCRUNTIME140_1D.dll')
 
 #Files of OpenPmsDental's Release output that are never shipped.
@@ -389,6 +397,37 @@ function Get-PeMachine([string]$path){
 	if($offset -lt 0 -or $offset+6 -gt $bytes.Length){ return -1 }
 	if($bytes[$offset] -ne 0x50 -or $bytes[$offset+1] -ne 0x45 -or $bytes[$offset+2] -ne 0 -or $bytes[$offset+3] -ne 0){ return -1 }
 	return [int][BitConverter]::ToUInt16($bytes,$offset+4)
+}
+
+#The Flags of the file's CLR header (0x1 ILONLY, 0x2 32BITREQUIRED, 0x20000 32BITPREFERRED), or -1 when it has none (a native file) or is not a
+#PE file. Reads the optional header's CLR runtime header directory (number 14) and maps its RVA to the file through the section table.
+function Get-ClrFlags([string]$path){
+	$bytes=[System.IO.File]::ReadAllBytes($path)
+	if((Get-PeMachine $path) -lt 0){ return -1 }
+	$offset=[BitConverter]::ToInt32($bytes,0x3C)
+	$sectionCount=[BitConverter]::ToUInt16($bytes,$offset+6)
+	$optionalSize=[BitConverter]::ToUInt16($bytes,$offset+20)
+	$optional=$offset+24
+	if($optional+2 -gt $bytes.Length){ return -1 }
+	$magic=[BitConverter]::ToUInt16($bytes,$optional)
+	if($magic -eq 0x10B){ $directories=$optional+96 }elseif($magic -eq 0x20B){ $directories=$optional+112 }else{ return -1 }
+	$entry=$directories+14*8
+	if($entry+8 -gt $optional+$optionalSize){ return -1 }
+	$rva=[BitConverter]::ToUInt32($bytes,$entry)
+	if($rva -eq 0){ return -1 }
+	$sections=$optional+$optionalSize
+	for($i=0;$i -lt $sectionCount;$i++){
+		$section=$sections+$i*40
+		$virtualSize=[BitConverter]::ToUInt32($bytes,$section+8)
+		$virtualAddress=[BitConverter]::ToUInt32($bytes,$section+12)
+		$rawPointer=[BitConverter]::ToUInt32($bytes,$section+20)
+		if($rva -ge $virtualAddress -and $rva -lt $virtualAddress+$virtualSize){
+			$header=$rawPointer+($rva-$virtualAddress)
+			if($header+20 -gt $bytes.Length){ return -1 }
+			return [int64][BitConverter]::ToUInt32($bytes,$header+16)
+		}
+	}
+	return -1
 }
 
 function Read-ReleaseVersion {
@@ -679,6 +718,19 @@ function Test-StagingFolder([string]$folder,[switch]$Full){
 			if($text.IndexOf($debugName,[StringComparison]::OrdinalIgnoreCase) -ge 0){
 				$problems.Add("Needs the debug C runtime ($debugName), which may not be redistributed: $name (a Debug build?)")
 			}
+		}
+	}
+	foreach($name in $X86OnlyFiles){
+		$path=Join-Path $folder $name
+		if(-not (Test-Path -LiteralPath $path -PathType Leaf)){ continue }
+		$machine=Get-PeMachine $path
+		if($machine -ne 0x14C){
+			$problems.Add(("Not an x86 file: {0} (PE machine 0x{1:X}); the 32-bit helper program stays x86" -f $name,$machine))
+			continue
+		}
+		$clrFlags=Get-ClrFlags $path
+		if($clrFlags -ge 0 -and ($clrFlags -band 0x2) -eq 0){
+			$problems.Add(("Not an x86 file: {0} (an AnyCPU assembly, CLR flags 0x{1:X}, runs as a 64-bit process); the 32-bit helper program stays x86" -f $name,$clrFlags))
 		}
 	}
 	$releaseVersion=Read-ReleaseVersion
