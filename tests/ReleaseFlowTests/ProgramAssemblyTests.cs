@@ -52,6 +52,27 @@ namespace ReleaseFlowTests {
 			}
 		}
 
+		///<summary>FindRelative (S3a-8b), for the reference readers: the managed file relative to the root, and the .exe's relative path when
+		///nothing is built, so the reader's own "not built" check still names it.</summary>
+		[TestMethod]
+		public void FindRelative_TheManagedFileRelativeToTheRoot_OrTheExeWhenNotBuilt() {
+			string root=TestPaths.NewTempFolder("programassembly");
+			try {
+				string folder=Path.Combine(root,@"Prog\bin\Debug");
+				Directory.CreateDirectory(folder);
+				Assert.AreEqual(@"Prog\bin\Debug\Prog.exe",ProgramAssembly.FindRelative(root,@"Prog\bin\Debug","Prog"),"Not built.");
+				File.Copy(ManagedFile,Path.Combine(folder,"Prog.exe"));
+				Assert.AreEqual(@"Prog\bin\Debug\Prog.exe",ProgramAssembly.FindRelative(root,@"Prog\bin\Debug","Prog"),".NET Framework.");
+				File.Delete(Path.Combine(folder,"Prog.exe"));
+				File.Copy(NativeFile,Path.Combine(folder,"Prog.exe"));
+				File.Copy(ManagedFile,Path.Combine(folder,"Prog.dll"));
+				Assert.AreEqual(@"Prog\bin\Debug\Prog.dll",ProgramAssembly.FindRelative(root,@"Prog\bin\Debug","Prog"),".NET: the apphost and its .dll.");
+			}
+			finally {
+				DeleteQuietly(root);
+			}
+		}
+
 		[TestMethod]
 		public void GetPath_FailsForAnApphostWithoutItsDll() {
 			string folder=TestPaths.NewTempFolder("programassembly");

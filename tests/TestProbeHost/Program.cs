@@ -17,6 +17,8 @@ namespace TestProbeHost {
 		public const int EXIT_USAGE=90;
 		///<summary>The exit code when the handler or entry method cannot be loaded.</summary>
 		public const int EXIT_LOAD_FAILED=91;
+		///<summary>The exit code when the entry method threw (its exception is on standard error).</summary>
+		public const int EXIT_RUN_THREW=92;
 
 		///<summary>args[0] is the assembly file of the handler, args[1] the handler's type, which declares public static string Handle(string
 		///command,string[] args). The first line on standard output is READY, or an error reply when the handler cannot be loaded. Then each
@@ -75,7 +77,7 @@ namespace TestProbeHost {
 		///<summary>args[0] is the assembly file, args[1] the type, which declares public static int Run(string[] args); the rest are Run's arguments.
 		///Run is this process's Main: it runs on this MTA thread, its console output is this process's, and its result is the exit code. The
 		///process then ends as a console program's does: once Main has returned and only background threads are left. EXIT_USAGE or
-		///EXIT_LOAD_FAILED (with the reason on standard error) when the work cannot start.</summary>
+		///EXIT_LOAD_FAILED (with the reason on standard error) when the work cannot start, EXIT_RUN_THREW when Run threw.</summary>
 		private static int RunOnce(string[] args) {
 			if(args.Length<2) {
 				Console.Error.WriteLine("Usage: TestProbeHost "+RUN_ONCE+" <assembly file> <type name> [arguments...]");
@@ -97,9 +99,10 @@ namespace TestProbeHost {
 				return (int)methodInfoRun.Invoke(null,new object[] { args.Skip(2).ToArray() });
 			}
 			catch(TargetInvocationException ex) {
-				//An exception out of Run ends the process as an unhandled one does in a console program.
-				System.Runtime.ExceptionServices.ExceptionDispatchInfo.Capture(ex.InnerException??ex).Throw();
-				throw;
+				//Written and ended with an exit code of its own, not left unhandled: an unhandled exception would also start Windows Error
+				//Reporting for the process.
+				Console.Error.WriteLine("Run threw: "+(ex.InnerException??ex));
+				return EXIT_RUN_THREW;
 			}
 		}
 
