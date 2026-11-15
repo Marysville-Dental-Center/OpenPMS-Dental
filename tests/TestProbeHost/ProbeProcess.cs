@@ -23,6 +23,9 @@ namespace TestProbeHost {
 		public string Output;
 		///<summary>From the process's start to its end (or to the timeout).</summary>
 		public TimeSpan Elapsed;
+		///<summary>True when the process ended but its standard output or error was still open after the wait for their end (a process it
+		///started holds them): Output is what had come by then (S3a-FU2).</summary>
+		public bool IsOutputUnfinished;
 	}
 
 	///<summary>A child process that runs a test's handler. Start it in a using block; every Call is answered or throws.</summary>
@@ -33,7 +36,12 @@ namespace TestProbeHost {
 		private readonly TimeSpan _timeSpanTimeout;
 		private readonly StringBuilder _stringBuilderError=new StringBuilder();
 		private readonly object _lockError=new object();
+		///<summary>Set when the child's standard error has ended (ErrorDataReceived with null).</summary>
+		private readonly ManualResetEvent _manualResetEventErrorEnded=new ManualResetEvent(false);
 		private bool _isDisposed;
+		///<summary>How long Dispose and RunOnce wait for the standard streams to end once the process has ended. A process the child started
+		///that holds them keeps them open; after this the output is taken as it is (S3a-FU2: the wait was unbounded).</summary>
+		public static readonly TimeSpan TimeSpanOutputEnd=TimeSpan.FromSeconds(10);
 
 		private ProbeProcess(Process process,string pathExe,string pathConfig,TimeSpan timeSpanTimeout) {
 			_process=process;
@@ -59,7 +67,8 @@ namespace TestProbeHost {
 		public static ProbeProcess Start(string folderBase,string configText,Type typeHandler,TimeSpan timeSpanTimeout) {
 			string pathExe=CopyHost(folderBase,configText);
 			string pathConfig=pathExe+".config";
-			ProcessStartInfo processStartInfo=new ProcessStartInfo(pathExe,Quote(typeHandler.Assembly.Location)+" "+Quote(typeHandler.FullName));
+			ProcessStartInfo processStartInfo=new ProcessStartInfo(pathExe,QuoteArgument(typeHandler.Assembly.Location)+" "
+				+QuoteArgument(typeHandler.FullName));
 			processStartInfo.UseShellExecute=false;//redirected standard streams
 			processStartInfo.CreateNoWindow=true;
 			processStartInfo.RedirectStandardInput=true;
@@ -78,10 +87,12 @@ namespace TestProbeHost {
 			}
 			ProbeProcess probeProcess=new ProbeProcess(process,pathExe,pathConfig,timeSpanTimeout);
 			process.ErrorDataReceived+=(sender,e) => {
-				if(e.Data!=null) {
-					lock(probeProcess._lockError) {
-						probeProcess._stringBuilderError.AppendLine(e.Data);
-					}
+				if(e.Data==null) {
+					probeProcess._manualResetEventErrorEnded.Set();
+					return;
+				}
+				lock(probeProcess._lockError) {
+					probeProcess._stringBuilderError.AppendLine(e.Data);
 				}
 			};
 			process.BeginErrorReadLine();
@@ -161,9 +172,10 @@ namespace TestProbeHost {
 				Kill();
 			}
 			if(_process.HasExited) {
-				_process.WaitForExit();//its standard error is read to its end
+				//Its standard error is read to its end, unless a process it started holds it open (S3a-FU2: bounded).
+				_manualResetEventErrorEnded.WaitOne(TimeSpanOutputEnd);
 			}
-			_process.Dispose();
+			_process.Dispose();//the event is not disposed: the reader of a stream held open may still set it
 			DeleteQuietly(_pathExe);
 			DeleteQuietly(_pathConfig);
 		}
@@ -185,10 +197,18 @@ namespace TestProbeHost {
 		///the test would run. The process ends once Run has returned and only background threads are left, or is ended after timeSpanTimeout.
 		///The copy of the host and its config are deleted afterwards.</summary>
 		public static ProbeRunResult RunOnce(string folderBase,string configText,Type typeEntry,string[] arrayArgs,TimeSpan timeSpanTimeout) {
+			return RunOnce(folderBase,configText,typeEntry,arrayArgs,timeSpanTimeout,TimeSpanOutputEnd);
+		}
+
+		///<summary>RunOnce, with its own wait for the standard streams to end once the process has ended (a process the entry method started can
+		///hold them open). After that wait IsOutputUnfinished is set and Output is what had come.</summary>
+		public static ProbeRunResult RunOnce(string folderBase,string configText,Type typeEntry,string[] arrayArgs,TimeSpan timeSpanTimeout,
+			TimeSpan timeSpanOutputEnd)
+		{
 			string pathExe=CopyHost(folderBase,configText);
 			string pathConfig=pathExe+".config";
 			try {
-				string arguments=string.Join(" ",new[] { Program.RUN_ONCE,typeEntry.Assembly.Location,typeEntry.FullName }.Concat(arrayArgs).Select(x => Quote(x)));
+				string arguments=JoinArguments(new[] { Program.RUN_ONCE,typeEntry.Assembly.Location,typeEntry.FullName }.Concat(arrayArgs));
 				ProcessStartInfo processStartInfo=new ProcessStartInfo(pathExe,arguments);
 				processStartInfo.UseShellExecute=false;//redirected standard streams
 				processStartInfo.CreateNoWindow=true;
@@ -200,24 +220,38 @@ namespace TestProbeHost {
 				using(Process process=Process.Start(processStartInfo)) {
 					StringBuilder stringBuilder=new StringBuilder();
 					object lockOutput=new object();
+					//Not disposed: a reader of a stream that a process the entry started holds open may set them after this method returns.
+					ManualResetEvent manualResetEventOutputEnded=new ManualResetEvent(false);
+					ManualResetEvent manualResetEventErrorEnded=new ManualResetEvent(false);
 					process.OutputDataReceived+=(sender,e) => {
-						if(e.Data!=null) {
-							lock(lockOutput) {
-								stringBuilder.AppendLine(e.Data);
-							}
+						if(e.Data==null) {
+							manualResetEventOutputEnded.Set();
+							return;
+						}
+						lock(lockOutput) {
+							stringBuilder.AppendLine(e.Data);
 						}
 					};
 					process.ErrorDataReceived+=(sender,e) => {
-						if(e.Data!=null) {
-							lock(lockOutput) {
-								stringBuilder.AppendLine("stderr: "+e.Data);
-							}
+						if(e.Data==null) {
+							manualResetEventErrorEnded.Set();
+							return;
+						}
+						lock(lockOutput) {
+							stringBuilder.AppendLine("stderr: "+e.Data);
 						}
 					};
 					process.BeginOutputReadLine();
 					process.BeginErrorReadLine();
 					if(process.WaitForExit((int)Math.Min(int.MaxValue,timeSpanTimeout.TotalMilliseconds))) {
-						process.WaitForExit();//the output is read to its end
+						//The output is read to its end, unless a process it started holds a stream open: then not past timeSpanOutputEnd (S3a-FU2: the
+						//wait was WaitForExit(), unbounded).
+						//One handle at a time: WaitAll is not supported on an STA thread, where a test may call this.
+						Stopwatch stopwatchOutputEnd=Stopwatch.StartNew();
+						bool isOutputEnded=manualResetEventOutputEnded.WaitOne(timeSpanOutputEnd);
+						TimeSpan timeSpanLeft=timeSpanOutputEnd-stopwatchOutputEnd.Elapsed;
+						bool isErrorEnded=manualResetEventErrorEnded.WaitOne(timeSpanLeft<TimeSpan.Zero ? TimeSpan.Zero : timeSpanLeft);
+						probeRunResult.IsOutputUnfinished=!isOutputEnded || !isErrorEnded;
 						probeRunResult.ExitCode=process.ExitCode;
 					}
 					else {
@@ -315,8 +349,35 @@ namespace TestProbeHost {
 			return listDeleted;
 		}
 
-		private static string Quote(string arg) {
-			return "\""+arg+"\"";
+		///<summary>The argument in double quotes, escaped so that CommandLineToArgvW (and the .NET Framework's and the C runtime's own parsing of a
+		///command line, which follow the same rules) gives it back as it is (S3a-FU2): a backslash run before a double quote, and before the
+		///closing quote, is doubled, and a double quote in the argument becomes \". Before, "C:\folder\" ended in \" and joined the next argument.
+		///</summary>
+		public static string QuoteArgument(string arg) {
+			StringBuilder stringBuilder=new StringBuilder("\"");
+			int countBackslashes=0;
+			foreach(char c in arg??"") {
+				if(c=='\\') {
+					countBackslashes++;
+					continue;
+				}
+				if(c=='"') {
+					stringBuilder.Append('\\',countBackslashes*2+1);
+				}
+				else {
+					stringBuilder.Append('\\',countBackslashes);
+				}
+				stringBuilder.Append(c);
+				countBackslashes=0;
+			}
+			stringBuilder.Append('\\',countBackslashes*2);
+			stringBuilder.Append('"');
+			return stringBuilder.ToString();
+		}
+
+		///<summary>The arguments as one command line, each quoted with QuoteArgument and separated by a space.</summary>
+		public static string JoinArguments(IEnumerable<string> arguments) {
+			return string.Join(" ",arguments.Select(x => QuoteArgument(x)));
 		}
 
 		private static void DeleteQuietly(string path) {

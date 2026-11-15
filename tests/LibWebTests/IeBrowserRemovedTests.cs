@@ -161,7 +161,7 @@ namespace LibWebTests {
 		[TestMethod]
 		public void BuiltAssemblies_ReferenceNoIeBrowserType() {
 			string folder=Path.Combine(TestPaths.RepoRoot,"OpenPmsDental","bin","Debug");
-			if(!File.Exists(Path.Combine(folder,"OpenPmsDental.exe"))) {
+			if(ProgramAssembly.Find(folder,"OpenPmsDental")==null) {//the .dll on .NET, the .exe on .NET Framework (S3a-FU2)
 				BuildOutput.NotBuilt(@"OpenPmsDental\bin\Debug is not built. Build OpenDental.Local.slnf (Debug|x86) first.");
 			}
 			List<string> listViolations=new List<string>();

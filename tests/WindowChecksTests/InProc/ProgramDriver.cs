@@ -32,12 +32,16 @@ namespace WindowChecksTests.InProc {
 		public const string COMMAND_RUN_CHECK="RunCheck";
 		public const string COMMAND_GET_STUCK_STATE="GetStuckState";
 		public const string COMMAND_STOP="Stop";
+		///<summary>The location of this process's Assembly.GetEntryAssembly() ("" for none), read after Patch (S3a-FU2).</summary>
+		public const string COMMAND_GET_ENTRY_ASSEMBLY="GetEntryAssembly";
 		private static readonly ProgramDriver _programDriver=new ProgramDriver();
 
 		public static string Handle(string command,string[] arrayArgs) {
 			switch(command) {
 				case COMMAND_PATCH:
 					return _programDriver.PatchProcessIdentity(arrayArgs[0]);
+				case COMMAND_GET_ENTRY_ASSEMBLY:
+					return Assembly.GetEntryAssembly()?.Location??"";
 				case COMMAND_START:
 					string startError=_programDriver.Start(ProbeText.SplitList(arrayArgs[0]),int.Parse(arrayArgs[1],CultureInfo.InvariantCulture),
 						ProbeText.SplitList(arrayArgs[2]));

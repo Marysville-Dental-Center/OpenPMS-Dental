@@ -112,8 +112,13 @@ namespace WindowChecksTests {
 				string configText=File.ReadAllText(pathExe+".config");
 				string patched;
 				string pathConfigChild;
+				string pathEntryBefore;
+				string pathEntryAfter;
 				using(ProbeProcess probeProcess=InProcHost.StartSessionProcess(folder,TimeSpan.FromMinutes(2))) {
+					pathEntryBefore=probeProcess.Call(ProgramDriverHost.COMMAND_GET_ENTRY_ASSEMBLY);
 					patched=probeProcess.Call(ProgramDriverHost.COMMAND_PATCH,pathExe);
+					//S3a-FU2: the child's own Assembly.GetEntryAssembly() is the program's assembly in the folder, not only named in the patch list.
+					pathEntryAfter=probeProcess.Call(ProgramDriverHost.COMMAND_GET_ENTRY_ASSEMBLY);
 					List<string> listCopies=Directory.GetFiles(folder,"TestProbeHost-*.exe").ToList();
 					Assert.AreEqual(1,listCopies.Count,string.Join(", ",listCopies));
 					pathConfigChild=listCopies[0]+".config";
@@ -121,6 +126,9 @@ namespace WindowChecksTests {
 				}
 				StringAssert.StartsWith(patched,"Application.StartupPath, Application.ExecutablePath, Assembly.GetEntryAssembly; ",patched);
 				StringAssert.Contains(patched,"; OpenPmsDental loaded from "+pathExe+"; ",patched);
+				StringAssert.StartsWith(Path.GetFileName(pathEntryBefore),"TestProbeHost-","Before the patch the entry assembly is the host's copy: "
+					+pathEntryBefore);
+				Assert.AreEqual(pathExe,pathEntryAfter,true,"After the patch the entry assembly is the program in the folder.");
 				//The .NET Framework names an exe's config with a capital C (".exe.Config"); Windows file names ignore case.
 				StringAssert.EndsWith(patched,"; config "+pathConfigChild,StringComparison.OrdinalIgnoreCase,patched);
 				Assert.AreEqual(0,Directory.GetFiles(folder,"TestProbeHost-*").Length,"Dispose deletes the copy of the host and its config.");
@@ -141,6 +149,8 @@ namespace WindowChecksTests {
 			checkResult.Fail("failed: (evidence)");
 			checkResult.ListShots.Add("I4-shot.png");
 			checkResult.Note("a note ~ with the null marker");
+			checkResult.NotScripted("not scripted é\twith a tab");
+			checkResult.NotScripted("");
 			checkResult.DictKeys["I4.RefAttachNum"]=9007199254740993;
 			checkResult.DictKeys["I.Simple2D"]=0;
 			checkResult.Reason="";
@@ -153,7 +163,8 @@ namespace WindowChecksTests {
 			CollectionAssert.AreEqual(checkResult.ListFailures,checkResultBack.ListFailures);
 			CollectionAssert.AreEqual(checkResult.ListShots,checkResultBack.ListShots);
 			CollectionAssert.AreEqual(checkResult.ListNotes,checkResultBack.ListNotes);
-			Assert.AreEqual(0,checkResultBack.ListNotScripted.Count);
+			Assert.AreEqual(2,checkResultBack.ListNotScripted.Count);
+			CollectionAssert.AreEqual(checkResult.ListNotScripted,checkResultBack.ListNotScripted);
 			CollectionAssert.AreEquivalent(checkResult.DictKeys.ToList(),checkResultBack.DictKeys.ToList());
 			Assert.AreEqual("",checkResultBack.Reason);
 			Assert.AreEqual(CheckStatus.NeedsScreen,checkResultBack.StatusForced);

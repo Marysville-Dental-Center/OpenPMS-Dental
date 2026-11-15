@@ -37,6 +37,10 @@
     <Compile Include="..\ProjectFileTests\NuGetFiles.cs">
       <Link>NuGetFiles.cs</Link>
     </Compile>
+    <!-- The program's managed assembly, OpenPmsDental.dll on .NET and OpenPmsDental.exe on .NET Framework (S3a-8b's lead note, S3a-FU2). -->
+    <Compile Include="..\ProjectFileTests\ProgramAssembly.cs">
+      <Link>ProgramAssembly.cs</Link>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\CodeBase\xCodeBase.csproj" />

@@ -260,6 +260,9 @@ namespace ReleaseFlowTests {
 				Assert.IsTrue(dictLoaded.ContainsKey(name),name+" loaded: "+report);
 				Assert.AreEqual(Path.Combine(folderProbe,name+".dll"),dictLoaded[name],true,name+" from the program folder's file (its copy in the probe's folder).");
 			}
+			//Only the copied closure is in the probe's folder (CopyWithReferences: the Helix assemblies and what they reference), so this sees a
+			//System.* 4.3.x file only when something in that closure references it. A file of those packages that the program folder holds but no
+			//copied assembly references is not seen here: BuiltFolders_HoldNoFileOfTheSystemNetHttpPackages checks the built folders themselves.
 			foreach(string fileName in _arrayFrameworkFiles) {
 				string name=Path.GetFileNameWithoutExtension(fileName);
 				if(dictLoaded.TryGetValue(name,out string location)) {
