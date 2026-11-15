@@ -874,6 +874,15 @@ drops the address from the retry line; the credential tests clean up through `Te
 succeeded. Two processes retrying together is a note only; the project baseline's `ProjectInstaller.cs` line stays for the lead. Full lane
 build 0 errors; Targeted runs green (BINBTests, ReleaseFlowTests, NoHqTests, MiddleTierMockTests, LibraryBindingTests).
 
+**Status (2026-11-15), S3a-1c.** Done on `net10/s3a1c-1` (`docs/port-notes/S3a-1.md` section 9), the non-blocking review leftovers of S3a-1b:
+PaySimple's status change, its log entry and its alert are one unit, and `Fees.SaveIncrease` saves each fee with its log entries as one unit
+(a cancel stops between two fees); a worker that ends right after the window's wait is decided under a lock with its end, so it is either not
+still running or logged with its end; the 176 windows audited for an error shown after a cancel (DemandForce fixed in S3a-1b; FormBackup's
+question from the worker; eight callers that showed the worker's result before their cancel check, and `QuickBooksOnline.RunForWindow`); the
+reused ProgressWin's token documented; the four producer threads listed (read-only, never under a Cancel button, no change); `ImageStore`'s row
+inserts are units (the new ImagingTests case found a row left after a cancel right after the insert) and its two `throw ex;` are `throw;`.
+Tests in VendorDirectTests, FeeTests, ImagingTests, M2MISCTests and BPROCTests.
+
 **Full-test gate.** Section 3, plus: the golden outputs and known answers recorded and committed; the source-scan tests pass; the
 launch checks for 3a (section 6) done with screenshots, including a self-update from a standard user; the x64 test runs (S3a-12, S3a-15)
 and the x64 build of `Direct2dWrapper` (S3a-16) pass; the helper's tests pass, and its links are launch-checked where a test PC has the
@@ -897,6 +906,8 @@ S3a-14 read vendor documentation only; no vendor file is downloaded.
   `ODCancellation.RunUncancellable` (a write with its log entry; a cleanup write in a catch or finally block, which unlike under the abort
   is refused after a cancel too). Every ProgressWin caller was reviewed (S3a-1.md section 8: 176 windows,
   77 that write, each with its check); the cancel tests in M2MISCTests and MiddleTierMockTests prove it per pattern on a scratch database.
+  Since S3a-1c, no window shows an error after a cancel that only the cancel caused (S3a-1.md section 9.4), and a document row is inserted as
+  a unit, so a cancel right after it leaves no row.
 - Hand-written SOAP envelopes could differ from the generated proxies: envelope-equivalence tests run against the old proxies before they
   are deleted, plus one call against the DentalXChange test endpoint (prelive) if credentials allow. ITS has no test account in the
   office, so it is proven by envelope equivalence and the fake endpoint only; the release notes say so.
