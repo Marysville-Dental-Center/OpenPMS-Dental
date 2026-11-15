@@ -23,9 +23,10 @@ What this version brings, each in its section below (the roadmap's "Done in the 
   prompt never logs off while the user is answering it, and a tidier Edit Email Address window;
 - the Direct certificate of an e-mail address imported from the file the office's Direct provider issued, with the provider's trust anchor,
   in place of the registration with Open Dental's servers, which always failed;
-- the EHR value sets imported from the office's own download of VSAC's June 2013 EP release, so the EHR pick lists (tobacco use,
-  interventions, not-performed reasons) and the 2014 quality measures have their codes again, with a code-system status that shows which
-  code-system tables still have to be loaded;
+- the EHR value sets imported from the office's own download of VSAC's release for the 2027 quality measures (published 2026-05-14), with
+  its Direct Reference Codes and Code System Versions files picked together, so the EHR pick lists (tobacco use, counseling, BMI follow-up)
+  have their codes, with a code-system status that shows which code-system tables still have to be loaded and whether a loaded table is
+  older than the release; the catalog of the seven 2027 measure versions this program will report;
 - Open Dental 26.2: its database schema and the changes the owner chose on 2026-11-07:
   - Appointments: several blockout types in the Advanced Appointment Search, the practice and clinic schedule notes in the Appointments
     module, and appointment estimates brought up to date when an insurance plan is saved;
@@ -491,30 +492,47 @@ longer reaches, so it always failed. It now imports the certificate your Direct 
 
 ## EHR: the value sets from your own VSAC download
 
-Open Dental filled the EHR code list (the value sets of the 2014 clinical quality measures and the EHR pick lists) from its closed EHR.dll,
+Open Dental filled the EHR code list (the value sets of the clinical quality measures and the EHR pick lists) from its closed EHR.dll,
 which this program does not have, so the list was empty: the Tobacco Use tab of the medical window stayed off, and the tobacco, intervention
 and not-performed windows had no codes to offer. This version keeps the list in a table of its own (`ehrcode`, empty after the update), and
 the office fills it from its own download.
 
+The quality measures move to CMS's 2027 versions for eligible clinicians (the owner's decisions of 2026-11-14,
+`docs/specs/ehr-2027-measures-plan.md`): CMS68v16, CMS69v15, CMS74v16, CMS75v15, CMS138v15, CMS155v15 and CMS165v15. This version brings
+their catalog (the measures, their value sets and the codes they name directly, by name and OID only) and the import of their value sets;
+the measures themselves, their window and their QRDA files come in later versions. Three of them are measures of the National Committee for
+Quality Assurance (NCQA): CMS138v15 "Preventive Care and Screening: Tobacco Use: Screening and Cessation Intervention", CMS155v15 "Weight
+Assessment and Counseling for Nutrition and Physical Activity for Children/Adolescents" and CMS165v15 "Controlling High Blood Pressure".
+NCQA's copyright and disclaimer statements, and CMS's for the other four, are kept with the measures and will be shown with them wherever
+their results are shown, printed or exported.
+
 - **What to download.** From the Value Set Authority Center (VSAC) of the National Library of Medicine, under your office's own UMLS
-  license: the "June 2013 EP Only Release eCQM Value Sets" (publication date June 14, 2013), the package sorted by CMS ID, as the Excel
-  workbook (`.xlsx`) or the SVS XML (`.xml`), or the `.zip` VSAC gives. These are the value sets of the nine 2014 measure versions this
-  program reports (CMS68v3, CMS69v2, CMS74v3, CMS75v2, CMS127v2, CMS138v2, CMS147v2, CMS155v2, CMS165v2). Later releases use later measure
-  versions: a file with none of the nine at these versions is refused, and a file that has some at other versions (for example CMS74v4 of
-  the 2014 update) is imported with a warning that names them. This program ships no value-set codes.
+  license, three files of one release: the "eCQM Value Sets for Eligible Clinicians" published 2026-05-14 for the 2027 performance period,
+  sorted by CMS ID, as the Excel workbook (`.xlsx`) or the SVS XML (`.xml`), or the `.zip` VSAC gives; and that release's "Direct
+  Reference Codes" file and "Code System Versions" file. Releases for other years use other measure versions: a file with none of the seven
+  at its 2027 version is refused, and a file that has some at other versions (for example CMS74v15 of the 2026 release) is imported with a
+  warning that names them. This program ships no value-set codes.
 - **Where.** Setup > Chart > EHR > Code System Importer, Import Value Sets (Setup permission; not through the Middle Tier, as the CPT
-  import). The window reads and checks the whole file first and shows a report: the codes and value sets it found, which of the 79 value
-  sets the measures use are missing, the measure versions, and the code systems it has no table for. Only after you confirm does it
-  replace every value-set code in the database; a refused file, or an import that fails part way, changes nothing (the new codes are written
-  beside the old ones and take their place in one step). A file over 64 MB, or one whose parts pass 64 MB each or 256 MB in all once
-  uncompressed, is refused; the June 2013 package is far smaller. The import is recorded in the security log (Setup) with the file's name
-  and SHA-256, and the window shows the date and file of the last import.
+  import). Pick the three files together; a pick without all three (or with a file twice) is refused and changes nothing. The window reads
+  and checks the files first and shows a report: the codes and value sets found, which of the 68 value sets the measures use are missing,
+  the measure versions ("7 of 7 measures at the 2027 versions"), the direct reference codes the measures need and whether each was found,
+  and the code systems it has no table for. Only after you confirm does it replace every value-set code and direct reference code in the
+  database, both together; a refused pick, or an import that fails part way, changes nothing (the new codes are written beside the old ones
+  and take their place in one step). A file over 64 MB, or one whose parts pass 64 MB each or 256 MB in all once uncompressed, is refused.
+  The import is recorded in the security log (Setup) with the three files' names and SHA-256, and the window shows the date and value-set
+  file of the last import.
 - **Code-system status.** The same window lists each code system (SNOMED CT, ICD-9-CM, ICD-10-CM, LOINC, RxNorm, CPT, CDT, HCPCS, CVX,
-  CDCREC, SOP) with its rows in the database and the minimum the code list expects. A value-set code counts for the pick lists and the
-  measures only when its code system's table is loaded; this program does not download them, so load each table directly (CPT with the
-  import above).
+  CDCREC, SOP) with its rows in the database, the minimum the code list expects, the version of the loaded table and the version the release
+  names; a loaded table older than the release is marked, since codes of the newer value sets are then missing from the pick lists. A
+  value-set code counts for the pick lists and the measures only when its code system's table is loaded; this program does not download
+  them, so load each table directly (CPT with the import above).
+- **Until a later version moves them to the 2027 value sets,** some EHR pick lists stay empty after the import, because they still name
+  value sets of the 2014 measures: the BMI medications and dialysis lists of the intervention window, the not-performed window's BMI exam,
+  influenza and current-medications codes and its reasons other than "Medical Reason", and the pregnancy problems the quality measures look
+  for. The tobacco, counseling and BMI follow-up lists work.
 - **Every workstation** reads the new codes after the import, also through the Middle Tier, without a restart.
 - The CPT import in the same window now needs the Setup permission too.
+- LOINC's notice is in Help > About > View Licenses: the program holds LOINC codes (the vital-sign exams) and three LOINC display names.
 
 ## Open Dental 26.2: the database schema
 

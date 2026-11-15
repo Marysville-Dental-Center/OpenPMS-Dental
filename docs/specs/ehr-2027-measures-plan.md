@@ -31,7 +31,9 @@ replaces its EHR-5 and its section 8 release. Package briefs are cut from it the
 
 **Date.** 2026-11-14. **Status.** Decided (2026-11-14): the owner's five decisions and every question of section 14 answered as
 recommended. The draft was revised the same day after a critique (appendix, first table), again after a check and the owner's answers to
-E-21 and E-10b (appendix, second table), and then decided (appendix, third table). Nothing waits for counsel.
+E-21 and E-10b (appendix, second table), and then decided (appendix, third table). Nothing waits for counsel. **EHR-6a written**
+(2026-11-14, branch `ehr/ehr6a-1`, `docs/port-notes/EHR-6.md`): the catalog, the three-file import and the LOINC notice, with the readers'
+header names provisional; it merges after E-20's record.
 
 **Owner decisions (2026-11-14).**
 1. The 2027 versions of all nine of today's measures that CMS still publishes for eligible clinicians. A measure CMS retired is dropped and
