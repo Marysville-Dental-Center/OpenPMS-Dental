@@ -623,7 +623,11 @@ The labels A1-A5 and B1-B8 below are only for this survey. Existing plan IDs are
 - Catch BadImageFormatException and FileLoadException in PluginLoader.cs and show a clear text.
 - Log a hook-time DllNotFoundException or BadImageFormatException with the plug-in name.
 
-**A3. CADI fallback.** Do this after A1, which sets the helper module pattern.
+**A3. CADI fallback.** Do this after A1, which sets the helper module pattern. **Done** on `net10/n64a3-1` (N64-A3,
+docs/port-notes/N64-A3.md): `NativeFirstChooser.Cadi` reads the ProgID's LocalServer32 and InprocServer32 in both registry views first
+(`ComServerRegistration`); the four HRESULTs (CLASSNOTREG, SERVER_EXEC_FAILURE, NOINTERFACE, LIBNOTREGISTERED) move a 64-bit process to
+the new helper Cadi module, retried once when no call reached CADI; the in-process path is main's code call for call; tests in
+NativeFirstTests (x86 and x64) and Helper32Tests. The registry check of section 5 (launch check C1) is still to do on a PC with CADI.
 - Add the HRESULT test in CADINativeWindow.SendData, and optionally the LocalServer32 read.
 - Add a new helper CADI module that repeats today's calls and message-only window.
 - This can wait for the CADI registry check (section 5) if the owner prefers.

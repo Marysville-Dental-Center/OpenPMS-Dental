@@ -1012,6 +1012,16 @@ registration (REGDB_E_CLASSNOTREG, CO_E_SERVER_EXEC_FAILURE, TYPE_E_* and simila
 names the folder and bitness of the D3DX that loaded. New library-only `tests/N64ATests` (34 tests, x86 and the lane's x64 test build);
 the x64 run showed that a DLL with 32BITREQUIRED and 32BITPREFERRED loads in a 64-bit process, so only 32BITREQUIRED alone is x86 only.
 
+**Status (2026-11-15), N64-A3.** Done on `net10/n64a3-1` (`docs/port-notes/N64-A3.md`), not merged yet: item A3 of the native
+64-bit survey (decision 23). Mediadent / CADI through the native-first chooser: `NativeFirstChooser.Cadi` reads `Mediadent.Application`'s
+LocalServer32 and InprocServer32 in both registry views, read only (new `CodeBase.ComServerRegistration`); a LocalServer32, or an
+InprocServer32 of the process's bitness, runs CADI in the program's process (main's `CADINativeWindow`, moved to `CADIInProcess.cs` call
+for call); an InprocServer32 of the other bitness only, or REGDB_E_CLASSNOTREG, CO_E_SERVER_EXEC_FAILURE, E_NOINTERFACE or
+TYPE_E_LIBNOTREGISTERED from the activation or a call, sends a 64-bit process to the new helper Cadi module (retried once at once when no
+call reached CADI, otherwise from the next click on), logged. A 32-bit process always stays: the x86 program runs CADI as on main. Tests:
+NativeFirstTests' CadiChooserTests (x86 and x64), Helper32Tests' Cadi tests (the in-process path and the module call for call with main's
+code against a fake automation object), NoHqTests' vendor scan. Launch checks C1-C3 need a PC with CADI.
+
 **Status (2026-11-15), S3a-14.** Merged from `net10/s3a14n-1`, which holds S3a-14, its fix rounds S3a-14f and the stopped S3a-14g, and S3a-14n's native-first chooser (`docs/port-notes/S3a-14.md`): Schick CDR DICOM, Topaz and Guru run in
 the 32-bit helper's new Schick, Topaz and Guru modules with the calls the program made before. Schick: `ShowExam` line for line (the exam
 window kept between patients, OnClose reaching the helper); the program lets the helper bring CDR's window to the front
