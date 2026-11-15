@@ -157,8 +157,10 @@ namespace ServiceManager {
 			try {
 				string standardOutput;
 				int exitCode;
-				ServicesHelper.Uninstall(textName.Text,out standardOutput,out exitCode);
-				if(ServicesHelper.IsMySQLService(textPathToExe.Text)) {
+				bool isMySQLService;
+				ServicesHelper.Uninstall(textName.Text,out standardOutput,out exitCode,out isMySQLService);
+				//The branch Uninstall took (by the registry's ImagePath), not the path in the box, picks how the result is read.
+				if(isMySQLService) {
 					//mysqld.exe --remove: its own exit code, not sc.exe's.
 					if(exitCode!=0) {
 						MessageBox.Show("Error. Exit code: "+exitCode+"\r\n"+standardOutput.Trim());

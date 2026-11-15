@@ -23,23 +23,31 @@ namespace PasswordVaultWrapper {
 
 		public int CountCopied;
 		public int CountAlreadyThere;
-		///<summary>The entries that failed in the latest try (still not copied).</summary>
+		///<summary>The entries still not copied: those that failed in the latest try, and those not named for a retry (CountNotNamed).</summary>
 		public int CountFailed;
 		///<summary>False only on a Windows older than 8, which has no PasswordVault (nothing can ever be read there).</summary>
 		public bool IsVaultAvailable;
 		///<summary>The tries done, the latest one included.</summary>
 		public int CountTries=1;
+		///<summary>The tries (retry starts) whose vault could not be opened or listed (S3a-FU1). Each counts as a try, so a vault that stays
+		///unreadable ends the retries after MAX_TRIES starts.</summary>
+		public int CountTriesWithoutVault;
+		///<summary>The failed entries past the first MAX_RETRY_IDS, which the retry line does not name (S3a-FU1): they get no retry, and stay
+		///counted in CountFailed.</summary>
+		public int CountNotNamed;
 		///<summary>The entries (GetEntryId) tried again on the next start; empty when the migration is complete.</summary>
 		public List<string> ListRetryIds=new List<string>();
 
 		///<summary>The record's text after its time. The first line keeps the S3a-5 wording; the retry line follows only while entries are left to
 		///retry.</summary>
 		public override string ToString() {
+			string withoutVault=(CountTriesWithoutVault>0 ? " ("+CountTriesWithoutVault+" without the vault)" : "");
 			string text="Copied "+CountCopied+", already there "+CountAlreadyThere+", failed "+CountFailed
 				+(IsVaultAvailable ? "" : ", PasswordVault not available")
-				+(CountTries>1 ? ", in "+CountTries+" tries" : "");
+				+(CountTries>1 ? ", in "+CountTries+" tries"+withoutVault : "");
 			if(ListRetryIds.Count>0) {
-				text+="\n"+RETRY_LINE_START+CountTries+" of "+MAX_TRIES+" tries done; on the next start: "+string.Join(",",ListRetryIds);
+				text+="\n"+RETRY_LINE_START+CountTries+" of "+MAX_TRIES+" tries done"+withoutVault+"; on the next start: "+string.Join(",",ListRetryIds)
+					+(CountNotNamed>0 ? ", "+CountNotNamed+" not named" : "");
 			}
 			return text;
 		}
@@ -50,7 +58,9 @@ namespace PasswordVaultWrapper {
 			if(record==null) {
 				return null;
 			}
-			Match matchRetry=Regex.Match(record,"^"+Regex.Escape(RETRY_LINE_START)+@"(\d+) of \d+ tries done; on the next start: ([0-9a-f]{16}(,[0-9a-f]{16})*)\r?$",
+			//S3a-5f's retry line, with S3a-FU1's optional " (k without the vault)" after the tries and ", m not named" after the names.
+			Match matchRetry=Regex.Match(record,"^"+Regex.Escape(RETRY_LINE_START)
+				+@"(\d+) of \d+ tries done(?: \((\d+) without the vault\))?; on the next start: ([0-9a-f]{16}(?:,[0-9a-f]{16})*)(?:, (\d+) not named)?\r?$",
 				RegexOptions.Multiline|RegexOptions.CultureInvariant);
 			Match matchCounts=Regex.Match(record,@"Copied (\d+), already there (\d+), failed (\d+)",RegexOptions.CultureInvariant);
 			if(!matchRetry.Success || !matchCounts.Success) {
@@ -62,6 +72,12 @@ namespace PasswordVaultWrapper {
 				migrationResult.CountCopied=int.Parse(matchCounts.Groups[1].Value,CultureInfo.InvariantCulture);
 				migrationResult.CountAlreadyThere=int.Parse(matchCounts.Groups[2].Value,CultureInfo.InvariantCulture);
 				migrationResult.CountFailed=int.Parse(matchCounts.Groups[3].Value,CultureInfo.InvariantCulture);
+				if(matchRetry.Groups[2].Success) {
+					migrationResult.CountTriesWithoutVault=int.Parse(matchRetry.Groups[2].Value,CultureInfo.InvariantCulture);
+				}
+				if(matchRetry.Groups[4].Success) {
+					migrationResult.CountNotNamed=int.Parse(matchRetry.Groups[4].Value,CultureInfo.InvariantCulture);
+				}
 			}
 			catch(OverflowException) {
 				return null;
@@ -70,7 +86,7 @@ namespace PasswordVaultWrapper {
 				return null;
 			}
 			migrationResult.IsVaultAvailable=true;
-			migrationResult.ListRetryIds=matchRetry.Groups[2].Value.Split(',').ToList();
+			migrationResult.ListRetryIds=matchRetry.Groups[3].Value.Split(',').ToList();
 			return migrationResult;
 		}
 
@@ -235,9 +251,11 @@ namespace PasswordVaultWrapper {
 		}
 
 		///<summary>Deletes every login saved for this address, and the old vault's entries of the address too, so the migration cannot bring a
-		///cleared login back.</summary>
+		///cleared login back. The address's entries are also dropped from a migration record that names them for a retry (S3a-FU1), so a retry
+		///cannot copy a login back whose old-vault entry could not be removed.</summary>
 		public void ClearCredentials(string uri) {
 			EnsureMigrated();
+			HashSet<string> setEntryIds=new HashSet<string>();
 			//Again until none is left: a deleted login may uncover the same name in another casing (GetSavedTargetName).
 			for(int i=0;i<MAX_CASE_VARIANTS;i++) {
 				List<CredentialEntry> listLogins=ListLogins(uri);
@@ -245,21 +263,61 @@ namespace PasswordVaultWrapper {
 					break;
 				}
 				foreach(CredentialEntry credentialEntry in listLogins) {
+					//The old-vault entry of this login, as the migration names it, also when the vault cannot be opened now.
+					setEntryIds.Add(MigrationResult.GetEntryId(VaultResourcePrefix+uri,credentialEntry.UserName));
 					CredentialManager.Delete(credentialEntry.TargetName);
 				}
 			}
 			try {
 				IOldVault oldVault=FuncOpenVault();
 				if(oldVault!=null) {
-					foreach(OldVaultEntry oldVaultEntry in oldVault.FindAllByResource(VaultResourcePrefix+uri)) {
-						if(IsSameName(oldVaultEntry.Resource,VaultResourcePrefix+uri)) {
+					List<OldVaultEntry> listOldVaultEntries=oldVault.FindAllByResource(VaultResourcePrefix+uri)
+						.Where(x => IsSameName(x.Resource,VaultResourcePrefix+uri))
+						.ToList();
+					//Named before any removal, so an entry whose removal fails cannot come back through a retry.
+					foreach(OldVaultEntry oldVaultEntry in listOldVaultEntries) {
+						setEntryIds.Add(MigrationResult.GetEntryId(oldVaultEntry.Resource,oldVaultEntry.UserName));
+					}
+					foreach(OldVaultEntry oldVaultEntry in listOldVaultEntries) {
+						try {
 							oldVault.Remove(oldVaultEntry);
+						}
+						catch(Exception) {
+							//The next entry is still removed; this one is no longer named for a retry.
 						}
 					}
 				}
 			}
 			catch(Exception) {
 				//The old vault is best effort: the login is gone from the Credential Manager, which is the store the program reads.
+			}
+			DropRetryIds(setEntryIds);
+		}
+
+		///<summary>Removes these entries (MigrationResult.GetEntryId) from the migration record's retry line, when it names any (S3a-FU1). They no
+		///longer count as failed; a record left with none to retry is complete. The record keeps its time. Best effort: an error leaves the
+		///record as it was.</summary>
+		private void DropRetryIds(HashSet<string> setEntryIds) {
+			if(setEntryIds.Count==0) {
+				return;
+			}
+			try {
+				string record=GetMigrationRecord();
+				MigrationResult migrationResult=MigrationResult.GetRetry(record);
+				if(migrationResult==null) {
+					return;//No record, or a complete one: nothing is retried.
+				}
+				int countDropped=migrationResult.ListRetryIds.RemoveAll(x => setEntryIds.Contains(x));
+				if(countDropped==0) {
+					return;
+				}
+				migrationResult.CountFailed=Math.Max(migrationResult.CountNotNamed,migrationResult.CountFailed-countDropped);
+				int indexTimeEnd=record.IndexOf(RECORD_TIME_END,StringComparison.Ordinal);
+				string time=(indexTimeEnd<0) ? GetRecordTime() : record.Substring(0,indexTimeEnd);
+				WriteMigrationRecord(time,migrationResult);
+			}
+			catch(Exception) {
+				//The record stays as it was.
 			}
 		}
 
@@ -297,6 +355,19 @@ namespace PasswordVaultWrapper {
 			return credentialEntry?.Secret;
 		}
 
+		///<summary>Between the record's time and its result.</summary>
+		private const string RECORD_TIME_END=" UTC: ";
+
+		///<summary>Now, as the record writes its time (UTC).</summary>
+		private static string GetRecordTime() {
+			return DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss",CultureInfo.InvariantCulture);
+		}
+
+		///<summary>Writes the migration's record: "<time> UTC: <result>".</summary>
+		private void WriteMigrationRecord(string time,MigrationResult migrationResult) {
+			CredentialManager.Write(MigrationRecordTarget,"PasswordVault migration",time+RECORD_TIME_END+migrationResult);
+		}
+
 		///<summary>Runs the migration once per Windows user: the first call in a process looks for the record, and without one copies the old
 		///vault's entries. A record that leaves entries to retry has them tried again (S3a-5f). Errors never reach the caller; without a record
 		///the next process tries again.</summary>
@@ -318,8 +389,7 @@ namespace PasswordVaultWrapper {
 #if NETFRAMEWORK
 					MigrationResult migrationResult=MigrateFromVault(migrationResultRetry);
 					if(migrationResult!=null) {
-						CredentialManager.Write(MigrationRecordTarget,"PasswordVault migration",
-							DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss",CultureInfo.InvariantCulture)+" UTC: "+migrationResult);
+						WriteMigrationRecord(GetRecordTime(),migrationResult);
 					}
 #endif
 					//On .NET 5 and later the old vault cannot be read: no record, the bridge release (.NET Framework) moved the logins first.
@@ -332,14 +402,17 @@ namespace PasswordVaultWrapper {
 
 		///<summary>Copies the old vault's entries under this store's resource prefix into the Credential Manager, never over a login already
 		///there. With a previous try that left entries to retry, only those are tried again, and its counts carry on. Returns null when the vault
-		///could not be opened or listed (no record then, or the previous one kept: the next process tries again). Only a Windows older than 8,
-		///which has no vault, gives a result without reading it. Only the entries under the prefix are read beyond their names.</summary>
+		///could not be opened or listed on the first try (no record then: the next process tries again); on a retry that start counts as a try
+		///without the vault (S3a-FU1), so an unreadable vault ends the retries after MAX_TRIES starts. Only a Windows older than 8, which has no
+		///vault, gives a result without reading it. Only the entries under the prefix are read beyond their names.</summary>
 		internal MigrationResult MigrateFromVault(MigrationResult migrationResultRetry=null) {
 			MigrationResult migrationResult=new MigrationResult();
 			if(migrationResultRetry!=null) {
 				migrationResult.CountCopied=migrationResultRetry.CountCopied;
 				migrationResult.CountAlreadyThere=migrationResultRetry.CountAlreadyThere;
 				migrationResult.CountTries=migrationResultRetry.CountTries+1;
+				migrationResult.CountTriesWithoutVault=migrationResultRetry.CountTriesWithoutVault;
+				migrationResult.CountNotNamed=migrationResultRetry.CountNotNamed;
 			}
 			if(FuncIsOsWithoutVault()) {
 				return migrationResult;//IsVaultAvailable false: nothing can ever be read here.
@@ -349,12 +422,12 @@ namespace PasswordVaultWrapper {
 				oldVault=FuncOpenVault();
 			}
 			catch(Exception) {
-				return null;
+				return GetResultWithoutVault(migrationResult,migrationResultRetry);
 			}
 			if(oldVault==null) {
 				//Windows 8 and later always have the vault, so this is an error that may pass (the Credential Manager service not started yet
 				//early in a logon, an RPC or COM error): no record, so one unlucky start cannot leave the saved logins behind.
-				return null;
+				return GetResultWithoutVault(migrationResult,migrationResultRetry);
 			}
 			migrationResult.IsVaultAvailable=true;
 			List<OldVaultEntry> listOwn;
@@ -365,7 +438,7 @@ namespace PasswordVaultWrapper {
 					.ToList();
 			}
 			catch(Exception) {
-				return null;
+				return GetResultWithoutVault(migrationResult,migrationResultRetry);
 			}
 			if(migrationResultRetry!=null) {
 				listOwn=listOwn.Where(x => migrationResultRetry.ListRetryIds.Contains(MigrationResult.GetEntryId(x.Resource,x.UserName))).ToList();
@@ -392,8 +465,28 @@ namespace PasswordVaultWrapper {
 					listFailedIds.Add(MigrationResult.GetEntryId(oldVaultEntry.Resource,oldVaultEntry.UserName));
 				}
 			}
+			//The entries an earlier try left unnamed are still not copied, and still get no retry.
+			migrationResult.CountFailed+=migrationResult.CountNotNamed;
 			if(migrationResult.CountTries<MigrationResult.MAX_TRIES) {
-				migrationResult.ListRetryIds=listFailedIds.Distinct().Take(MigrationResult.MAX_RETRY_IDS).ToList();
+				List<string> listFailedIdsDistinct=listFailedIds.Distinct().ToList();
+				migrationResult.ListRetryIds=listFailedIdsDistinct.Take(MigrationResult.MAX_RETRY_IDS).ToList();
+				migrationResult.CountNotNamed+=listFailedIdsDistinct.Count-migrationResult.ListRetryIds.Count;
+			}
+			return migrationResult;
+		}
+
+		///<summary>The result of a start whose vault could not be opened or listed: null on the first try (no record, the next process tries
+		///again, section 2 of the port note); on a retry (S3a-FU1) the previous record carried on with this start counted as a try without the
+		///vault, the same entries named for the next start, or none after the last try.</summary>
+		private static MigrationResult GetResultWithoutVault(MigrationResult migrationResult,MigrationResult migrationResultRetry) {
+			if(migrationResultRetry==null) {
+				return null;
+			}
+			migrationResult.IsVaultAvailable=true;
+			migrationResult.CountFailed=migrationResultRetry.CountFailed;
+			migrationResult.CountTriesWithoutVault++;
+			if(migrationResult.CountTries<MigrationResult.MAX_TRIES) {
+				migrationResult.ListRetryIds=migrationResultRetry.ListRetryIds.ToList();
 			}
 			return migrationResult;
 		}
