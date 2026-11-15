@@ -397,3 +397,12 @@ Full build through the lane: 0 errors, no warning in a changed file. Targeted ru
 | NoHqTests | 57 of 57 passed |
 
 No `ehr6a_` database was left on the server after the run.
+
+Review fix (`ehr/ehr6a-5`): the round's business-layer commit a65f13bdf had rewritten every line end of `EhrCodes.cs` from CRLF to LF (the
+blob is CRLF on `main` and `ehr/ehr6a-3`), so its real change (66 insertions, 11 deletions with `--ignore-all-space`) showed as some 5,200
+changed lines and every other branch touching the file would conflict on each line. e1de85bf1 puts the CRLF back with no other change (`git
+diff --ignore-cr-at-eol ehr/ehr6a-4` is empty); `core.autocrlf` is true here and the index blob was LF, so the file was staged with
+`core.autocrlf=false` to keep its CRLF in the blob. `git diff ehr/ehr6a-3..ehr/ehr6a-5` on the file is now 85 insertions and 30
+deletions (the release record's lines re-indented inside the new try block). No other file of the round changed its line ends. Full build
+through the lane: 0 errors. Targeted run `ehr6a-5-crlf.txt`: EhrTests 240 (239 passed, 1 skipped as in section 10), AttributionTests 50,
+MiddleTierMockTests 125, NoHqTests 57, all passed.
