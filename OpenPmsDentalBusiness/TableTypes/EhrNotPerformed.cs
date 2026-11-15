@@ -40,7 +40,11 @@ namespace OpenPmsDentalBusiness {
 		///<summary>2 - Tobacco Use Screening, risk category/assessment</summary>
 		TobaccoScreening,
 		///<summary>3 - Current Medications Documented, procedure</summary>
-		DocumentCurrentMeds
+		DocumentCurrentMeds,
+		///<summary>4 - BMI follow-up (fork-only, EHR-7, E-34): a follow-up, referral or medication for an above- or below-normal BMI not
+		///performed, with "Medical Reason" as its only reason, for CMS69's exception. The enum is not stored (the rows store codes) and the windows
+		///index it by position, so this fork-only value is the next number, not one from 10000 (docs/port-notes/FORK-ENUMS.md, its own rule).</summary>
+		BMIFollowUp
 	}
 
 }
