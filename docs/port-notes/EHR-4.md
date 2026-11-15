@@ -404,6 +404,7 @@ warnings, none in a changed file. Then `run-tests.ps1 -Mode Targeted -Include Eh
 |---|---|---|
 | `ehr4b-run1.txt` (first run, no golden file yet) | 244: 230 passed, 2 failed, 12 skipped. Failed: the golden test (no file; its message gave the lines recorded in `Fixtures/MeasureSpecGolden.txt`) and `ValueSetDbTests.LoadTime_AFullSyntheticRelease_LoadsInUnderASecond` (EHR-2's timing test: first load 1635 ms against its 1 second, on a machine with other builds running; it passed in the next run, and this package touches nothing it loads). Skipped: the 12 deviation tests, each Inconclusive with its recorded engine numbers, so every proposed numeric deviation and D15 was confirmed by this run | 57 of 57 passed |
 | `ehr4b-final.txt` (after the full build) | 244: 232 passed, 0 failed, 12 skipped (the 12 deviation tests, Inconclusive by design; MeasureSpecTests 24 passed) | 57 of 57 passed |
+| `ehr4b-3.txt` (review fix: `Vs.Child2` born 1 January 2012, so 2 on every day of 2014 and the vital-signs case holds whichever day the age is read on; full build 0 errors) | 244: 232 passed, 0 failed, 12 skipped, the same as above; the golden test and the vital-signs case passed unchanged | 57 of 57 passed |
 
 Every meet and miss case agreed with its sheet on the first run, and no proposed deviation was dropped by a run (the threshold proposal
 dropped above was dropped by reading the May 2014 edition). `InitSqlTests` and `ForkMigrationTests` were not run (no schema change). After
