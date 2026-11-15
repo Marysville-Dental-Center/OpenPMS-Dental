@@ -139,6 +139,7 @@
       "tests\\SWMAPTests\\SWMAPTests.csproj",
       "tests\\TaskCategoryTests\\TaskCategoryTests.csproj",
       "tests\\TestProbeHost\\TestProbeHost.csproj",
+      "tests\\ToothChartHostTests\\ToothChartHostTests.csproj",
       "tests\\ToothChartImageTests\\ToothChartImageTests.csproj",
       "tests\\TopazStandIn\\TopazStandIn.csproj",
       "tests\\VBRIDGE1Tests\\VBRIDGE1Tests.csproj",

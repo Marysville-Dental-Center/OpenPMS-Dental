@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- Host tests of the WPF tooth chart (package TC-8 of docs/specs/wpf-tooth-chart-plan.md, sections 4, 7 and 8; docs/port-notes/TC-8.md):
+       each program host's chart picture made through the program's own code (the sheets and their toothChartImg parameter, the referral
+       letter and automation sheet, the Treatment Plan sheet printout, the Patient Dashboard on an MTA thread, the sheet editor's preview, the
+       big chart window and the graphical perio chart's print and save), checked for the WPF engine, its size, opacity, pixel format, a picture
+       that is not blank, and its baseline (Baselines\). Also File > Graphics' save rule and preview, through the program's window. The only chart
+       test project that references the program; tests\ToothChartImageTests never does. It stays x86 until S3b-5 of the .NET 10 plan retargets it.
+       The tests use one scratch database on the local MariaDB (127.0.0.1:3306, root, blank password) whose name starts with tc8_ and is unique
+       to the run, loaded from db\init\new-database.sql and filled with synthetic patients only, dropped afterwards; they are skipped
+       (inconclusive) when the server does not answer or when OPMS_CHART_HOST_TEST_DB=skip. No window is shown on the desktop: forms are made
+       and drawn off screen, as tests\ToothChartImageTests does. Every .cs file under this folder is compiled.
+       The program carries every library these tests use; the libraries the tests compile against are named as well, because the test projects
+       turn the SDK's transitive project references off (tests\Directory.Build.props), as S3aM1Tests names them. -->
+  <ItemGroup>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="WindowsFormsIntegration" />
+  </ItemGroup>
+  <ItemGroup>
+    <!-- The program: SheetPrinting.GetToothChartHelper, DashToothChart, FormSheetDefEdit, FormToothChartingBig, FormPerioGraphical and
+         FormGraphics, the hosts of the chart. No window of the program is shown on the desktop. -->
+    <ProjectReference Include="..\..\OpenPmsDental\OpenPmsDental.csproj" />
+    <ProjectReference Include="..\..\CodeBase\xCodeBase.csproj" />
+    <ProjectReference Include="..\..\DataConnectionBase\xDataConnectionBase.csproj" />
+    <ProjectReference Include="..\..\OpenPmsDentalBusiness\OpenPmsDentalBusiness.csproj" />
+    <ProjectReference Include="..\..\SparksToothChart\SparksToothChart.csproj" />
+    <ProjectReference Include="..\..\WpfControlsOD\WpfControlsOD.csproj" />
+  </ItemGroup>
+</Project>
