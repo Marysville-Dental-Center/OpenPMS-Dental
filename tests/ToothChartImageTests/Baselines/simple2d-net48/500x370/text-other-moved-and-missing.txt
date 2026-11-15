@@ -1,9 +1,9 @@
 Scene: text-other-moved-and-missing
 Group: paint
-Description: Paint type Text on a missing tooth ("Ext" on 3), on a tooth shifted 2 mm mesially ("M" on 14), on a shown primary tooth ("P" on K) and on its neighbour's hidden primary tooth ("Q" on L, not drawn).
+Description: Paint type Text on a missing tooth ("Ext" on 3), on a tooth shifted 2 mm mesially ("M" on 14), on a shown primary tooth ("P" on K) and on its neighbour's hidden primary tooth ("Q" on L, not drawn), each beyond the root tip in the watch mark's band.
 Size: 500x370
 Colours: Printout
 Engine: Simple2D (ToothChart2D, GDI+)
 Bitmap: 500x370 Format32bppArgb
-Pixels SHA-256: f1392d5998c860403c30cd0e326bf38b8924a79303c6387c43684a1617d9cd6e
+Pixels SHA-256: 9ecdf4adcd5c5286dcc7bea4e2840f78454579a111d766d8f91df7cfa0137228
 Framework: .NET Framework 4.8, x86

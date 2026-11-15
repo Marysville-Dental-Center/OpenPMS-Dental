@@ -1,9 +1,9 @@
 Scene: text-other
 Group: paint
-Description: Paint type Text with text other than "W" ("Fx" on 3, "?" on 14, "ABC" on 19, "1" on 30). The old charts draw nothing for it; the WPF and 2D charts draw it on the crown since TC-5 (O-22).
+Description: Paint type Text with text other than "W" ("Fx" on 3, "?" on 14, "ABC" on 19, "1" on 30). The old charts draw nothing for it; the WPF and 2D charts draw it beyond the root tip, in the watch mark's band, since TC-5 (O-22, as Open Dental).
 Size: 500x370
 Colours: Printout
 Engine: Simple2D (ToothChart2D, GDI+)
 Bitmap: 500x370 Format32bppArgb
-Pixels SHA-256: c41dc0010133a5e93ef5ef2a3a457e4a22f4ac7a0141c88754feec04946f5529
+Pixels SHA-256: 0be8f2dfa449f300ceefb8353772b4350f2457161f5998a37ebe53ce97bc7324
 Framework: .NET Framework 4.8, x86

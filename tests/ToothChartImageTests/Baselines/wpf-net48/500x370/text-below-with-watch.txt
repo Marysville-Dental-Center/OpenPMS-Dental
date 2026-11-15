@@ -1,13 +1,13 @@
 Scene: text-below-with-watch
 Group: paint
-Description: TextBelow "IMP" on 3, 14, 19 and 30, with watch marks on 3 and 30: there the text moves in by one line, under the watch mark at the top and above it at the bottom.
+Description: TextBelow "IMP" on 3, 14, 19 and 30, with watch marks on 3 and 30. Since the parity round of TC-5 TextBelow is not in the tooth picture (the Chart module's strip under the date slider shows it, as Open Dental 26.2 does), so only the two watch marks are drawn.
 Size: 500x370
 Colours: Printout
 Engine: Wpf3D (RenderTargetBitmap in software, 3D layer at 3x reduced with WIC's Fant scaler)
 Bitmap: 500x370 Format24bppRgb
 Alpha: every alpha is 255 (format without an alpha channel)
-Colours in the picture: 3168
-Pixels SHA-256: 6f650a552dfbb6b86105e879fcccade473a2256c20a53d02e727080f2a248238
+Colours in the picture: 3122
+Pixels SHA-256: cab5c29bcc356436e61bf5b5688c97efc55307802f4f2849eac09825cb6e640d
 Repeatable: yes (a second GetBitmap gave the same pixels)
 Framework: .NET Framework 4.8, x86
 Windows: build 26300.9974 (26H2)

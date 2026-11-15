@@ -1246,13 +1246,12 @@ namespace ToothChartImageTests {
 					PaintCompletedExtraction(relay,"20",C);
 				}).HasLegacyRecording=false;
 			//TC-5's parity round: paint text beside a watch mark, as Open Dental 26.2's screenshot shows "UCF" over the "W" under 24 and 25.
-			Add(listScenes,"paint","text-other-with-watch","Paint type Text with a watch mark on the same tooth: \"UCF\" and \"W\" on 24 and 25 (TP), "
+			Add(listScenes,"paint","text-other-with-watch","Paint type Text with a watch mark on the same tooth: \"UCF\" and \"W\" on 24 and \"W\" on 25 (TP), "
 				+"\"Fx\" and \"W\" on 9 (C), and \"Fx\" alone on 8 (C) for comparison. The text sits one line nearer the tooth than the \"W\", which "
 				+"keeps the edge, as in Open Dental 26.2's screenshot.",relay => {
-					foreach(string toothNum in new[] { "24","25" }) {
-						Paint(relay,ToothPaintingType.Text,toothNum,"UCF",TP);
-						Paint(relay,ToothPaintingType.Text,toothNum,"W",TP);
-					}
+					Paint(relay,ToothPaintingType.Text,"24","UCF",TP);
+					Paint(relay,ToothPaintingType.Text,"24","W",TP);
+					Paint(relay,ToothPaintingType.Text,"25","W",TP);
 					Paint(relay,ToothPaintingType.Text,"9","Fx",C);
 					Paint(relay,ToothPaintingType.Text,"9","W",C);
 					Paint(relay,ToothPaintingType.Text,"8","Fx",C);

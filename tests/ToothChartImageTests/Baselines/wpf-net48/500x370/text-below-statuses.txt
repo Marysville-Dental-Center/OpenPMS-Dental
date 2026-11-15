@@ -1,13 +1,13 @@
 Scene: text-below-statuses
 Group: paint
-Description: Paint type TextBelow (18) with the paint text "IMP" in the six status colours (TP, C, EC, EO, R, Cn) on teeth 3, 5, 7, 10, 12, 14 and 30, 28, 26, 23, 21, 19. The old charts draw nothing for it (no caller painted TextBelow); the WPF and 2D charts draw it in the band at the edge, cut to fit the tooth, since TC-5 (O-21).
+Description: Paint type TextBelow (18) with the paint text "IMP" in the six status colours (TP, C, EC, EO, R, Cn) on teeth 3, 5, 7, 10, 12, 14 and 30, 28, 26, 23, 21, 19. No chart draws it in the tooth picture: since TC-5 the Chart module shows the paint text in a one-line strip under the date slider, as Open Dental 26.2 does (O-21).
 Size: 500x370
 Colours: Printout
 Engine: Wpf3D (RenderTargetBitmap in software, 3D layer at 3x reduced with WIC's Fant scaler)
 Bitmap: 500x370 Format24bppRgb
 Alpha: every alpha is 255 (format without an alpha channel)
-Colours in the picture: 3146
-Pixels SHA-256: 5410b898656ab4aee3fb4d20c71d47fbfa000c6d6a168767d2b3636dd3743545
+Colours in the picture: 3111
+Pixels SHA-256: 4ac990ad60020f4747a76ee25904ba326e1db36fd8ea5fe4308ba6e1a04dda0a
 Repeatable: yes (a second GetBitmap gave the same pixels)
 Framework: .NET Framework 4.8, x86
 Windows: build 26300.9974 (26H2)

@@ -1,13 +1,13 @@
 Scene: text-other-eo-r
 Group: paint
-Description: Paint type Text with text other than "W" in the two statuses text-other leaves out: "Rx" on 5 (EO) and "2" on 28 (R). The old charts draw nothing for it; the WPF and 2D charts draw it on the crown since TC-5 (O-22).
+Description: Paint type Text with text other than "W" in the two statuses text-other leaves out: "Rx" on 5 (EO) and "2" on 28 (R). The old charts draw nothing for it; the WPF and 2D charts draw it beyond the root tip, in the watch mark's band, since TC-5 (O-22, as Open Dental).
 Size: 410x307
 Colours: Module
 Engine: Wpf3D (RenderTargetBitmap in software, 3D layer at 3x reduced with WIC's Fant scaler)
 Bitmap: 410x307 Format24bppRgb
 Alpha: every alpha is 255 (format without an alpha channel)
-Colours in the picture: 3590
-Pixels SHA-256: 0933365d4076d9e04f1710536441c9700161cb9184878c7f6f6d88f532ecc540
+Colours in the picture: 3585
+Pixels SHA-256: b3860d2cbb18eb6e4bd5e8a280c0409cacbaab56ab4bd47a8661bf5b6198bed0
 Repeatable: yes (a second GetBitmap gave the same pixels)
 Framework: .NET Framework 4.8, x86
 Windows: build 26300.9974 (26H2)

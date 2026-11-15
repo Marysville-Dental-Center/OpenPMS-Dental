@@ -1,9 +1,9 @@
 Scene: text-below-with-watch
 Group: paint
-Description: TextBelow "IMP" on 3, 14, 19 and 30, with watch marks on 3 and 30: there the text moves in by one line, under the watch mark at the top and above it at the bottom.
+Description: TextBelow "IMP" on 3, 14, 19 and 30, with watch marks on 3 and 30. Since the parity round of TC-5 TextBelow is not in the tooth picture (the Chart module's strip under the date slider shows it, as Open Dental 26.2 does), so only the two watch marks are drawn.
 Size: 500x370
 Colours: Printout
 Engine: Simple2D (ToothChart2D, GDI+)
 Bitmap: 500x370 Format32bppArgb
-Pixels SHA-256: acaf03d1f40f5ed7d81ae8e8149ce92dccb1d7c97058ba78d9d2dc8c94edfbb1
+Pixels SHA-256: 2f1d8b165c5fcca4f4383274ca0765594ef83fbc727917333f23b8002c463b8e
 Framework: .NET Framework 4.8, x86

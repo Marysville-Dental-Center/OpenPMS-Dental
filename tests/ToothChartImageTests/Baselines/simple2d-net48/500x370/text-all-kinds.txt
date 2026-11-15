@@ -1,9 +1,9 @@
 Scene: text-all-kinds
 Group: free-text
-Description: Every TC-5 drawing together: free-text labels ("Upper right" at 30,60 and "Lower left" at 260,240), paint text "Fx" on 5, TextBelow "IMP" on 12 and 21, and the completed-extraction graphic on missing tooth 30 (C), at the chart's sizes, the big window and two sheet aspects included.
+Description: Every TC-5 drawing together: free-text labels ("Upper right" at 30,60 and "Lower left" at 260,240), paint text "Fx" on 5 (beyond its root tip), TextBelow "IMP" on 12 and 21 (not in the picture since the parity round: the Chart module's strip shows it), and the completed-extraction graphic on missing tooth 30 (C), at the chart's sizes, the big window and two sheet aspects included.
 Size: 500x370
 Colours: Printout
 Engine: Simple2D (ToothChart2D, GDI+)
 Bitmap: 500x370 Format32bppArgb
-Pixels SHA-256: beec6026abcbd0a6d1404dddb4e94e020f23915f59ddfb1a38ff0471c39ee28c
+Pixels SHA-256: 4cbf92d5edc58f4db875f29509afe9adb49d1fc79c89c1891fa95a3b95721c7d
 Framework: .NET Framework 4.8, x86

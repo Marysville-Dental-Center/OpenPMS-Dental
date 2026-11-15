@@ -1,13 +1,13 @@
 Scene: text-all-kinds
 Group: free-text
-Description: Every TC-5 drawing together: free-text labels ("Upper right" at 30,60 and "Lower left" at 260,240), paint text "Fx" on 5, TextBelow "IMP" on 12 and 21, and the completed-extraction graphic on missing tooth 30 (C), at the chart's sizes, the big window and two sheet aspects included.
+Description: Every TC-5 drawing together: free-text labels ("Upper right" at 30,60 and "Lower left" at 260,240), paint text "Fx" on 5 (beyond its root tip), TextBelow "IMP" on 12 and 21 (not in the picture since the parity round: the Chart module's strip shows it), and the completed-extraction graphic on missing tooth 30 (C), at the chart's sizes, the big window and two sheet aspects included.
 Size: 360x480
 Colours: Printout
 Engine: Wpf3D (RenderTargetBitmap in software, 3D layer at 3x reduced with WIC's Fant scaler)
 Bitmap: 360x480 Format24bppRgb
 Alpha: every alpha is 255 (format without an alpha channel)
-Colours in the picture: 3133
-Pixels SHA-256: b7f723258928e6a0d9436b93012c55cbe61e8eb1fb08265f432179bba4ded809
+Colours in the picture: 3113
+Pixels SHA-256: f9ddb9ec6473435a12133e71dd4eb86c93158b32b63ded0ae3b51bf73e767189
 Repeatable: yes (a second GetBitmap gave the same pixels)
 Framework: .NET Framework 4.8, x86
 Windows: build 26300.9974 (26H2)

@@ -1,4 +1,4 @@
-# Tooth chart call log (TC-2): caller ControlTreat, scene Paint_AllStatuses, 322 calls
+# Tooth chart call log (TC-2): caller ControlTreat, scene Paint_AllStatuses, 316 calls
 SetPrimary "4"
 SetPrimary "13"
 SetPrimary "20"
@@ -268,12 +268,6 @@ SetSpaceMaintainer "24" #FF273DE9
 SetSpaceMaintainer "22" #FFD09878
 SetSpaceMaintainer "23" #FFD09878
 SetSpaceMaintainer "24" #FFD09878
-SetTextBelow "17" #FF0028C8 "Below"
-SetTextBelow "18" #FF0D2FD3 "Below"
-SetTextBelow "19" #FF1A36DE "Below"
-SetTextBelow "20" #FF273DE9 "Below"
-SetTextBelow "21" #FF3444F4 "Below"
-SetTextBelow "23" #FFD09878 "Below"
 SetCrown "25" #FF0C2238
 SetCrown "26" #FF0C2238
 SetCrown "27" #FF0C2238
