@@ -2,7 +2,8 @@
 
 Package TC-5 of the WPF tooth chart track ([docs/specs/wpf-tooth-chart-plan.md](../specs/wpf-tooth-chart-plan.md), the TC-5 row of
 section 4; sections 2, 3, 5, 7 and 8 and section 10's owner answers O-20, O-21 and O-22): branch `chart/tc5-1` from `main` (`b8e931cea`),
-fix round 1 of the review on `chart/tc5-2`, then the **Open Dental parity round** on `chart/tc5-4` (from `chart/tc5-2`). **Status: done;
+fix round 1 of the review on `chart/tc5-2`, then the **Open Dental parity round** on `chart/tc5-4` (from `chart/tc5-2`), then fix round 5
+on `chart/tc5-5` (from `chart/tc5-4`: the TextBelow strip after a layout, and line ends). **Status: done;
 waiting for the owner's approval of gallery G2** (section 3, its fourth version), after which it merges. Nothing was downloaded and no
 program was started; the tests ran in the lead's desktop session as the chart's other tests do.
 
@@ -18,7 +19,9 @@ Commits: `61f9b4f12` (this note's first part, the setting's business class, Text
 the text mover, the relay and painter, the Chart preferences page), `35fdc50ac` (a fix the tests found, and free text on the nearest
 pixel), `74134ffd4` (tests, scenes, baselines, call logs), `6ce016b89` (parity allowances), `ebda24a76` (this note). Fix round 1:
 `fd85e4a59` (the code), `06b17717a` (tests and scenes), `a6df3a9eb` (baselines and parity allowances), then the docs commits. The parity
-round: `5c420ccb4` (the code), `55f68ad88` (tests and scenes), then the baselines and call logs and the docs commits.
+round: `5c420ccb4` (the code), `55f68ad88` (tests and scenes), then the baselines and call logs and the docs commits. Fix round 5 (section
+1.6): `95ab3f11d` (CRLF back on seven files), `c5c6a446c` (`tools/Test-NoEolFlips.ps1`), `72bca65c1` and `2cda98777` (the strip after a
+layout), `57fd2cab4` (tests), then the docs commit.
 
 ## 1. What the row asks, and how it is built
 
@@ -88,7 +91,12 @@ round: `5c420ccb4` (the code), `55f68ad88` (tests and scenes), then the baseline
   `ControlChart.LayoutTextBelow` puts it right under the date slider (`panelToothTrackBar`), as wide as the slider, in every layout: after the
   sheet layout, `LayoutTextBelowAfterSheet` finds the control that starts right under the slider (the treatment notes in the standard layout,
   the tooth chart in a layout with the slider above it, such as Open Dental's "Big" layout) and, while the strip has text, starts that control
-  under the strip with its bottom edge kept; without text the control has the sheet's place and the strip is hidden.
+  under the strip with its bottom edge kept; without text the control has the sheet's place and the strip is hidden. The sheet layout hides
+  every child of `ControlChart` that is neither a sheet field nor a static control, the strip among them, on every `LayoutControls()`, so
+  `LayoutTextBelow` sets the strip's visibility after the move (`SetTextBelowVisible`: shown while it has text and the layout places the
+  slider; fix round 5). A custom layout without the date slider never shows the strip and moves no control for it. The sheet makes each
+  field's size its control's minimum, so while the strip has text the control under it gets a lower minimum height (and the sheet's again
+  without text), or it would grow down over the control below it.
 - **Its text.** `FillToothChart` fills it (`FillTextBelow`) from `_listDataRowsProcsForGraphical`, the rows it paints, so it follows the date
   slider, the chart view's status filters and the selected treatment plans. `ToothChartPainter.GetTextBelowStripText` reads them before the
   painter's skips, so TextBelow procedures of every treatment area count (tooth, arch, quadrant and mouth: Open Dental's examples, occlusal
@@ -157,6 +165,27 @@ round: `5c420ccb4` (the code), `55f68ad88` (tests and scenes), then the baseline
   `ParityProbeTests.cs` and `LegacyRecorder.cs` (scenes without an old recording left out), `MovedLabelTests.cs` (comment),
   `Support/CallLogFixtures.cs` (`CallLogUser.IsExtractionGraphicOn`, tri-state since the parity round), `Support/ParityProbes.cs`,
   `Support/WpfGallery.cs` (the 2D chart's new pictures, the new scenes' cells), `WpfImageTests.cs` (G2's note and its strip picture).
+- **Fix round 5:** new `tests/BSHELLTests/ChartTextBelowLayoutTests.cs` and `tools/Test-NoEolFlips.ps1`; edited `ControlChart.cs`
+  (`SetTextBelowVisible`, `_isTextBelowSliderPlaced`, `_sizeMinimumUnderTextBelow`, `LayoutSheet_GetControlDict(SheetFieldLayoutMode)`) and
+  `TextBelowStripTests.cs`; CRLF restored on the seven files of section 1.6.
+
+### 1.6 Fix round 5 (`chart/tc5-5`)
+
+- **The strip was hidden after every layout** (review finding 1, real). `ModuleSelected` fills the chart (which showed the strip) and then
+  calls `LayoutControls()`, whose sheet layout hid it again; `LayoutTextBelow` moved it and made room under it but never showed it, so after
+  selecting a patient, charting a procedure, a chart view, Treatment Plans or the layout menu a blank gap sat where the strip should be. It
+  came back only when the date slider moved. Fixed as section 1.3 says; `ChartTextBelowLayoutTests` (BSHELLTests) runs a real
+  `ControlChart` through the hide pass, and found the minimum-height fault too. L-5 step 8 now selects another patient and comes back.
+- **Line ends** (review finding 2, real). `5c420ccb4` wrote seven files that are CRLF on `main` with LF line ends (`ControlChart.cs`,
+  `ControlChart.designer.cs`, `FormProcCodeEdit.cs`, `ProcedureCodes.cs`, `ToothChart2D.cs`, `ToothChartWrapper.cs`, `ToothGraphic.cs`), so
+  the branch's diff rewrote every line of each. `95ab3f11d` writes them back with CRLF at the same content (`git diff --ignore-cr-at-eol`
+  against its parent is empty; `git diff --stat main...chart/tc5-5 -- "OpenPmsDental/Main Modules/ControlChart.cs"` showed 77 insertions
+  then, and each file's CR count is its line count, as on `main`). The repository has no eol rule for code (4,482 CRLF and 2,323 LF `.cs`
+  blobs), and `core.autocrlf=true` commits a file rewritten with LF as LF over a CRLF blob. `.gitattributes` with `*.cs text eol=crlf`
+  would renormalise thousands of blobs and is the lead's decision, so this round adds a check instead: **`tools/Test-NoEolFlips.ps1`**
+  compares, for each file a branch modifies, the blob at the merge base with the head's and exits 1 when a CRLF file gains bare LF lines or
+  an LF file gains CRLF lines. On `chart/tc5-4` it lists the seven files; on `chart/tc5-5` it passes. The lane does not run it yet (the
+  lane is the lead's): run it before a branch is reviewed. To keep a CRLF file CRLF, stage it with `git -c core.autocrlf=false add`.
 
 ## 2. Tests
 
@@ -214,6 +243,13 @@ round: `5c420ccb4` (the code), `55f68ad88` (tests and scenes), then the baseline
   `ToothChartRelay.MoveTextLabel(toothInitial,e.Location)`, `ToothInitials.Update(toothInitial)`, `FillToothChart(retainSelection:true)`, in
   that order) and of its subscription `_toothChartRelay.TextMoved+=toothChartRelay_TextMoved;`, because the round trip's `TextMoved`
   handler is a copy of it. (Round 1's TextBelow cut tests left with the bands in the parity round.)
+- **Fix round 5** (`BSHELLTests.ChartTextBelowLayoutTests`, `TextBelowStripTests`): a real `ControlChart`, built and never shown, with no
+  database, laid out with the internal Chart module sheet in `LayoutControls`' order: the hide pass hides the strip; the strip layout
+  shows it again right under the slider, the notes under it with their bottom edge kept and a lower minimum height; a second layout keeps
+  it with no gap; no text hides it and gives the notes the sheet's place and minimum size back; a sheet without the slider never shows it
+  and moves nothing. With `LayoutTextBelow`'s `SetTextBelowVisible()` taken out, the test fails ("Shown again after the layout, with no
+  fill after it"). The source pin of `ControlChart` checks that `LayoutTextBelow` sets the strip's visibility after the move, the rule,
+  `FillTextBelow`'s use of it, the slider check and the order in `LayoutControls`.
 - **P262SchemaTests** (`PaintTypeListTests`): every paint type in number order, TextBelow last with no gap (the cast of `FormProcCodeNew`),
   the same list whatever the code has, and the paint text box for Text and TextBelow in the window's source.
 
@@ -281,12 +317,27 @@ The parity round, on `chart/tc5-4`, after a full build through the lane (0 error
   skipped (the 26.2 document tests, as before); RegistryTests 39, BINATests 23, BSHELLTests 72 and NoHqTests 57 passed. The same run
   wrote gallery G2's fourth version (section 3), 983 s.
 
+Fix round 5, on `chart/tc5-5` at `57fd2cab4` with this note's changes, after a full build of the solution filter through the lane (0
+errors):
+
+- `tc5-5-bshell-negative.txt`: with `LayoutTextBelow`'s `SetTextBelowVisible()` taken out, `ChartTextBelowLayoutTests` fails ("Shown again
+  after the layout, with no fill after it"); the call was put back before any commit.
+- `tc5-5-final-other.txt`: P262SchemaTests 24 passed, 4 skipped (the 26.2 document tests, as before); RegistryTests 39, BINATests 23,
+  BSHELLTests 73 (72 and the new layout test) and NoHqTests 57 passed.
+- `tc5-5-final-image.txt`: ToothChartImageTests 207 passed, 0 failed, 4 skipped (the legacy recorder and its comparison, the opt-in on-screen
+  times, and `WriteGallery`, which runs only when a gallery is asked for: no picture changed, section 3); NoHqTests 57 passed. 306 s.
+- `tools/Test-NoEolFlips.ps1`: `chart/tc5-5` against `main` passes (44 changed text files checked, none changed its line ends);
+  `chart/tc5-4` lists the seven files.
+
 ## 3. Gallery G2
 
 On the build PC, outside the repository like G1: `.git/od-tools/test-results/tc5-gallery-G2/` of the main checkout, the **fourth version**,
 made after the Open Dental parity round (`chart/tc5-4`). The first version (before the fixes) is kept as `tc5-gallery-G2-round1/` and the
 second (after fix round 1) as `tc5-gallery-G2-round2/`, each with its zips; a third version for the abandoned `chart/tc5-3` (the tooth shown
 under the X) was never finished. The owner should look at the fourth version only.
+
+Fix round 5 (`chart/tc5-5`) changes no picture: the strip's visibility after a layout is not in any gallery cell (the strip row is drawn
+on its own form), so the fourth version stands for this branch too.
 
 **What changed from the second version (the parity round):**
 
@@ -346,10 +397,13 @@ down. Do every step once at 100% display scale and once at 150%.
    a second TextBelow code `Aligners` (area Arch) and chart it with an earlier procedure date. *Expected:* the box reads
    `Aligners; Occlusal Guard` (oldest first). Move the date slider to before the guard's date. *Expected:* `Occlusal Guard` drops out of
    the box. Move it before both dates. *Expected:* the box is gone and the treatment notes are back right under the slider. Move the slider
-   back to today. Select a patient with no TextBelow procedure. *Expected:* no box.
+   back to today. Select another patient and come back to this one. *Expected:* the box is still there, right under the slider, and the
+   treatment notes start right under it: no blank gap and no overlap. Chart one more procedure of any code for the patient. *Expected:*
+   the box is still there. Select a patient with no TextBelow procedure. *Expected:* no box and no gap.
 9. **The Big layout.** In the Chart module, choose a layout that has the date slider above the tooth chart (Open Dental's "Big" layout, or
    a custom Chart Layout sheet with the slider above the chart), on the patient of step 8. *Expected:* the TextBelow box sits right under
-   the slider there too, and the chart under it is a little shorter; nothing overlaps. Switch back to the standard layout.
+   the slider there too, and the chart under it is a little shorter; nothing overlaps. If you have a custom Chart Layout sheet without the
+   date slider, choose it: *Expected:* no box anywhere. Switch back to the standard layout: *Expected:* the box is back.
 10. **The extraction graphic.** Chart an extraction on 30 and set it complete. *Expected:* 30 is missing and a thin X in the completed
     colour is drawn over its place (the setting is on by default, as in Open Dental 26.2). Setup > Preferences > Chart - General:
     *Expected:* "Show completed extractions with an X on the tooth chart" is ticked. Untick it, OK. *Expected:* the Chart module redraws,

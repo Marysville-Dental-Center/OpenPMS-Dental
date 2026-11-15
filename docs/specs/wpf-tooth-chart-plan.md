@@ -408,7 +408,8 @@ packages; an unlocked restore of the whole slnf gave no NU warning and changed 4
 analyzers; the release ships eight new files (four Helix, three .NET Community Toolkit, System.ComponentModel.Annotations), each noticed, and no
 System.Net.Http or other 4.3.x file. The rules for the chart's Helix use are in the TC-4 row and in `docs/port-notes/TC-4.md`.
 
-**TC-5 (2026-11-14, branch `chart/tc5-1`, fix round 1 on `chart/tc5-2`, the Open Dental parity round on `chart/tc5-4`): free text, the
+**TC-5 (2026-11-14, branch `chart/tc5-1`, fix round 1 on `chart/tc5-2`, the Open Dental parity round on `chart/tc5-4`, fix round 5 on
+`chart/tc5-5`): free text, the
 text paint types and the extraction graphic; gallery G2 (its fourth version) waits for the owner.**
 `docs/port-notes/TC-5.md` has the details and launch check L-5 written for a person. The parity round follows the owner's rule of
 2026-11-14 ("keep it the same as OD latest version"; section 10, "Open Dental parity (2026-11-14)"). In short:
@@ -418,7 +419,8 @@ text paint types and the extraction graphic; gallery G2 (its fourth version) wai
   near), through the shared mouse class (the image host and the live view), raising `TextMoved` and `TextColorChanged`; the Chart module
   saves both. The 2D chart draws but does not move or recolour labels. DirectX and OpenGL draw none of it until TC-9a retires them.
 - TextBelow is not in the tooth picture: the Chart module shows it in a one-line read-only strip under the date slider (O-21), from the
-  procedures it paints, of any treatment area, joined in ProcDate order with "; ", hidden when there is none. Pictures for sheets,
+  procedures it paints, of any treatment area, joined in ProcDate order with "; ", hidden when there is none, shown again after every
+  layout and never in a layout without the slider (fix round 5). Pictures for sheets,
   printouts, the big chart and the dashboard do not carry it.
 - The extraction graphic (O-20) is `ForkToothChartShowCompletedExtractions` in `ToothChartExtractionGraphic`, read and written by name,
   **on** when the row is missing (Open Dental 26.2's default); the Chart preferences page's check box saves it with an audit line and the
