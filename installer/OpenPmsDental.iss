@@ -18,7 +18,7 @@
 ;   /DBTHUMBPRINT=hex   a client certificate already in LocalMachine\My. Neither: the database password is used instead.
 ;   /DBSECRETSFILE=file lines PfxPassword=... and DbPassword=... for a silent install. Setup only passes the path on to the connection
 ;                       settings tool, which reads the file and never changes it: the caller deletes it. Secrets never go on a command line.
-;   Setup writes FreeDentalConfig.xml without a password. An administrative install then runs OpenPmsDentalDbSettings.exe (the connection
+;   Setup writes FreeDentalConfig.xml without a password, then runs OpenPmsDentalDbSettings.exe (the connection
 ;   settings tool) for a server over the network or when any of the DB* security switches is given: its window, filled from these values,
 ;   in an interactive install, or /silent in a silent one. For a server on this computer an interactive install opens the window in
 ;   password mode (the program never asks for the database password; Cancel keeps it blank). On an upgrade (FreeDentalConfig.xml exists)
@@ -30,7 +30,8 @@
 ;                       from Microsoft, or skip it with a warning.
 ; The Microsoft Edge WebView2 Runtime (part of Windows 11) is only checked: when it is missing, setup tells the administrator how to install
 ; it (and logs it). Setup never downloads it.
-;   /CURRENTUSER        install without administrator rights, for tests only (no Event Log source; pass /DIR= too).
+; Setup always runs as administrator and installs for all users (owner decision 7 of docs/specs/net10-plan.md): it has no per-user mode,
+; so {autoprograms} and {autodesktop} are the common Start menu and desktop, and the connection settings tool can always run.
 ; Setup never starts the program, silent or not. The office switch-over (adopting an Open Dental database) is not part of this setup.
 ; Exit code: Inno Setup's own (0 done, 1 to 8 setup did not finish), and 10 for a silent install that finished but whose connection settings
 ; step did not: the connection settings tool failed or could not start, or, on an upgrade without security switches, the kept settings fail
@@ -80,7 +81,6 @@ DirExistsWarning=no
 DisableProgramGroupPage=yes
 AllowNoIcons=yes
 PrivilegesRequired=admin
-PrivilegesRequiredOverridesAllowed=commandline
 ; A release publishes every top-level file of the program folder to every workstation, so the uninstaller lives in a sub folder.
 UninstallFilesDir={app}\uninstall
 UninstallDisplayName={#AppName}
@@ -149,9 +149,9 @@ Name: "{autoprograms}\{#AppName}"; Filename: "{app}\{#ExeName}"; WorkingDir: "{a
 Name: "{autodesktop}\{#AppName}"; Filename: "{app}\{#ExeName}"; WorkingDir: "{app}"; Tasks: desktopicon
 
 [Registry]
-; The program's Event Log source (ProgramNames.EventLogSource). Registering a source needs administrator rights, so only an
-; administrative install does it; the program's writes then need none.
-Root: HKLM; Subkey: "SYSTEM\CurrentControlSet\Services\EventLog\Application\{#EventLogSource}"; ValueType: expandsz; ValueName: "EventMessageFile"; ValueData: "%SystemRoot%\Microsoft.NET\Framework\v4.0.30319\EventLogMessages.dll"; Flags: uninsdeletekey; Check: IsAdminInstallMode
+; The program's Event Log source (ProgramNames.EventLogSource). Registering a source needs administrator rights, which setup always has;
+; the program's writes then need none. The uninstall deletes the key (tools\Test-Installer.ps1 checks both).
+Root: HKLM; Subkey: "SYSTEM\CurrentControlSet\Services\EventLog\Application\{#EventLogSource}"; ValueType: expandsz; ValueName: "EventMessageFile"; ValueData: "%SystemRoot%\Microsoft.NET\Framework\v4.0.30319\EventLogMessages.dll"; Flags: uninsdeletekey
 
 [Code]
 const
@@ -576,7 +576,7 @@ begin
 end;
 
 { Runs the tool from the program folder and waits; its result line goes to setup's log. Returns its exit code, or -1 when it could not be
-  started. Setup is elevated here (administrative installs only), which the tool's manifest needs. }
+  started. Setup always runs elevated (PrivilegesRequired=admin), which the tool's manifest needs. }
 function RunDbSettings(const Params: String; const ShowWindow: Boolean): Integer;
 var
   ToolPath, LogPath, LogText: String;
@@ -666,15 +666,6 @@ var
 begin
   if ConfigWanted then begin
     NeedsTool := (not IsLoopbackServer(ConfigServer)) or HasSecuritySwitches;
-    if not IsAdminInstallMode then begin
-      if NeedsTool then begin
-        Log('The connection to ' + ConfigServer + ' needs the connection settings tool, which needs administrator rights.');
-        SuppressibleMsgBox('The database server ' + ConfigServer + ' is reached over the network, encrypted. An administrator must run ' +
-          '{#DbSettingsExeName} in the program folder to set up the office CA certificate and the client certificate or password.',
-          mbInformation, MB_OK, IDOK);
-      end;
-      Exit;
-    end;
     if NeedsTool then begin
       if WizardSilent then
         ToolExit := RunDbSettings(DbSettingsParams + ' /silent', False)
@@ -689,8 +680,6 @@ begin
       ReportDbSettingsFailure(RunDbSettings(DbSettingsParams + ' /auth=password', True));
     Exit;
   end;
-  if not IsAdminInstallMode then
-    Exit;
   if HasSecurityParams then begin
     if WizardSilent then
       ToolExit := RunDbSettings(UpgradeParams + ' /silent', False)
@@ -797,8 +786,8 @@ begin
   if PageID = ConfigPage.ID then
     Result := ConfigExistsInFolder
   else if PageID = SecurityPage.ID then
-    { Only for a new connection to a server over the network, and only an administrative install can run the tool. }
-    Result := ConfigExistsInFolder or IsLoopbackServer(ConfigServer) or (not IsAdminInstallMode)
+    { Only for a new connection to a server over the network. }
+    Result := ConfigExistsInFolder or IsLoopbackServer(ConfigServer)
   else if PageID = PrereqPage.ID then
     Result := not NeedVcRedist
   else if PageID = WebView2Page.ID then
