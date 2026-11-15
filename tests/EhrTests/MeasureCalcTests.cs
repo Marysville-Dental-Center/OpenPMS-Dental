@@ -692,7 +692,6 @@ namespace EhrTests {
 			string db=MeasureCalcFixture.DbName;
 			MeasureCalcFixture.CreateTable(db,"tempehrmeasure900021");
 			try {
-				CollectionAssert.AreEqual(new List<string>(),EhrMeasures.DropOldWorkTables(0),"Directly: an age of 0 is raised to the floor.");
 				MeasureCalcFixture.UseMockMiddleTier();
 				Assert.AreEqual(MiddleTierRole.ClientMT,RemotingClient.MiddleTierRole);
 				foreach(int maxAgeSeconds in new[] { 0,-1,1,59,int.MinValue }) {
@@ -704,6 +703,7 @@ namespace EhrTests {
 				MeasureCalcFixture.UseDirectConnection();
 			}
 			try {
+				CollectionAssert.AreEqual(new List<string>(),EhrMeasures.DropOldWorkTables(0),"Directly: an age of 0 is raised to the floor.");
 				CollectionAssert.AreEqual(new List<string> { "tempehrmeasure900021" },MeasureCalcFixture.GetWorkTables(db),"A table made just now stays.");
 				//The floor is applied after the Middle Tier call, in the code the server runs; the window's one day is above it.
 				string source=ReadSource(@"OpenPmsDentalBusiness\Data Interface\EhrMeasures.cs");
