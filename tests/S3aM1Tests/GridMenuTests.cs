@@ -99,7 +99,8 @@ namespace S3aM1Tests {
 		///<summary>Raises the strip's Opening as showing it over grid does, and returns whether the opening stays cancelled.</summary>
 		private static bool Open(ContextMenuStrip contextMenuStrip,Control grid) {
 			SetSourceControl(contextMenuStrip,grid);
-			CancelEventArgs cancelEventArgs=new CancelEventArgs(contextMenuStrip.Items.Count==0);//as ToolStripDropDown does before Opening
+			//As ToolStripDropDown does before Opening: cancelled when no item will show (its DisplayedItems leaves out the items that are not Available).
+			CancelEventArgs cancelEventArgs=new CancelEventArgs(!contextMenuStrip.Items.Cast<ToolStripItem>().Any(x => x.Available));
 			Priv.Call(contextMenuStrip,"OnOpening",cancelEventArgs);
 			return cancelEventArgs.Cancel;
 		}
@@ -123,14 +124,31 @@ namespace S3aM1Tests {
 			Assert.Fail("No settable source control member on "+menu.GetType().Name+".");
 		}
 
-		///<summary>The items as text: "-" for a separator, the text otherwise, with " (disabled)" for an item that is not enabled.</summary>
+		///<summary>The items as text: "-" for a separator, the text otherwise, with " (disabled)" for an item that is not enabled and " (hidden)"
+		///for one that is not visible (a strip's item that is not Available).</summary>
 		private static List<string> Describe(ContextMenuStrip contextMenuStrip) {
 			return contextMenuStrip.Items.Cast<ToolStripItem>()
-				.Select(x => x is ToolStripSeparator ? "-" : x.Text+(x.Enabled ? "" : " (disabled)")).ToList();
+				.Select(x => x is ToolStripSeparator ? "-" : x.Text+(x.Enabled ? "" : " (disabled)")+(x.Available ? "" : " (hidden)")).ToList();
 		}
 
 		private static List<string> Describe(ContextMenu contextMenu) {
-			return contextMenu.MenuItems.Cast<MenuItem>().Select(x => x.Text=="-" ? "-" : x.Text+(x.Enabled ? "" : " (disabled)")).ToList();
+			return contextMenu.MenuItems.Cast<MenuItem>()
+				.Select(x => x.Text=="-" ? "-" : x.Text+(x.Enabled ? "" : " (disabled)")+(x.Visible ? "" : " (hidden)")).ToList();
+		}
+
+		///<summary>A caller's strip whose only item is hidden until the caller's own Opening shows it (ControlFamily's "View DOB").</summary>
+		private static ContextMenuStrip MakeCallerStripHiddenOnly() {
+			ContextMenuStrip contextMenuStrip=new ContextMenuStrip();
+			ToolStripMenuItem toolStripMenuItem=new ToolStripMenuItem("View DOB");
+			toolStripMenuItem.Visible=false;
+			contextMenuStrip.Items.Add(toolStripMenuItem);
+			return contextMenuStrip;
+		}
+
+		private static ContextMenu MakeCallerMenuHiddenOnly() {
+			MenuItem menuItem=new MenuItem("View DOB");
+			menuItem.Visible=false;
+			return new ContextMenu(new[] { menuItem });
 		}
 
 		private static ContextMenuStrip MakeCallerStrip() {
@@ -257,6 +275,31 @@ namespace S3aM1Tests {
 			grid.Dispose();
 			Assert.IsTrue(contextMenuStrip.IsDisposed);
 		}
+
+		[TestMethod]
+		public void GridOD_CallersStrip_WithDoAddGridItems_AndOnlyHiddenItems_Opens() {
+			using(GridOD grid=MakeGrid<GridOD>("gridPat"))
+			using(GridOD gridLegacy=MakeGrid<GridOD>("gridLegacy"))
+			using(ContextMenuStrip contextMenuStrip=MakeCallerStripHiddenOnly()) {
+				//Without the grid items, the strip of hidden items stays cancelled, as any such strip does.
+				grid.ContextMenuStrip=contextMenuStrip;
+				RightClickCell(grid,1,0,isRowSelected:true);
+				Assert.IsTrue(Open(contextMenuStrip,grid));
+				CollectionAssert.AreEqual(new List<string> { "View DOB (hidden)" },Describe(contextMenuStrip));
+				//With them, it opens with the items the bridge's ContextMenu shows.
+				grid.DoAddGridItemsToContextMenuStrip=true;
+				gridLegacy.ContextMenu=MakeCallerMenuHiddenOnly();
+				List<string> listExpected=new List<string> { "View DOB (hidden)","-","Copy Cell Text","Copy Rows" };
+				for(int i=0;i<2;i++) {
+					RightClickCell(grid,1,0,isRowSelected:true);
+					Assert.IsFalse(Open(contextMenuStrip,grid),"Opening "+i+": the grid's items show, so the menu opens.");
+					CollectionAssert.AreEqual(listExpected,Describe(contextMenuStrip),"Opening "+i+".");
+					RightClickCell(gridLegacy,1,0,isRowSelected:true);
+					Popup(gridLegacy.ContextMenu,gridLegacy);
+					CollectionAssert.AreEqual(listExpected,Describe(gridLegacy.ContextMenu),"Bridge, opening "+i+".");
+				}
+			}
+		}
 		#endregion GridOD
 
 		#region GridOld
@@ -305,6 +348,28 @@ namespace S3aM1Tests {
 				RightClickCell(gridLegacy,0,1,isRowSelected:true);
 				Popup(gridLegacy.ContextMenu,gridLegacy);
 				CollectionAssert.AreEqual(listExpected,Describe(gridLegacy.ContextMenu),"Bridge.");
+			}
+		}
+
+		[TestMethod]
+		public void GridOld_CallersStrip_WithDoAddGridItems_AndOnlyHiddenItems_Opens() {
+			using(GridOld grid=MakeGrid<GridOld>("gridPtInfo"))
+			using(GridOld gridLegacy=MakeGrid<GridOld>("gridLegacy"))
+			using(ContextMenuStrip contextMenuStrip=MakeCallerStripHiddenOnly()) {
+				grid.ContextMenuStrip=contextMenuStrip;
+				RightClickCell(grid,1,0,isRowSelected:true);
+				Assert.IsTrue(Open(contextMenuStrip,grid),"Without the grid items the strip of hidden items stays cancelled.");
+				grid.DoAddGridItemsToContextMenuStrip=true;
+				gridLegacy.ContextMenu=MakeCallerMenuHiddenOnly();
+				List<string> listExpected=new List<string> { "View DOB (hidden)","-","Copy Cell Text" };//GridOld has no "Copy Rows", as before
+				for(int i=0;i<2;i++) {
+					RightClickCell(grid,1,0,isRowSelected:true);
+					Assert.IsFalse(Open(contextMenuStrip,grid),"Opening "+i+": the grid's items show, so the menu opens.");
+					CollectionAssert.AreEqual(listExpected,Describe(contextMenuStrip),"Opening "+i+".");
+					RightClickCell(gridLegacy,1,0,isRowSelected:true);
+					Popup(gridLegacy.ContextMenu,gridLegacy);
+					CollectionAssert.AreEqual(listExpected,Describe(gridLegacy.ContextMenu),"Bridge, opening "+i+".");
+				}
 			}
 		}
 		#endregion GridOld
