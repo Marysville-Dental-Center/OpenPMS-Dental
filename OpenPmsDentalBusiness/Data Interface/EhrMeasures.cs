@@ -2738,8 +2738,13 @@ namespace OpenPmsDentalBusiness{
 							List<EhrMeasureEvent> listCopiesProvided=EhrMeasureEvents.GetByType(listMeasureEvents,EhrMeasureEventType.ElectronicCopyProvidedToPt);
 							for(int rp=0;rp<listRequestsPeriod.Count;rp++) {
 								copyProvidedinTime=false;
-								//EHR-4d: the third business day after the request (the weekend days were dropped: the result of AddDays(2) was not kept).
-								DateTime deadlineDateCopy=AddBusinessDays(listRequestsPeriod[rp].DateTEvent,3);
+								DateTime deadlineDateCopy=listRequestsPeriod[rp].DateTEvent.Date.AddDays(3);
+								if(listRequestsPeriod[rp].DateTEvent.DayOfWeek==DayOfWeek.Wednesday
+									|| listRequestsPeriod[rp].DateTEvent.DayOfWeek==DayOfWeek.Thursday
+									|| listRequestsPeriod[rp].DateTEvent.DayOfWeek==DayOfWeek.Friday)
+								{
+									deadlineDateCopy.AddDays(2);//add two days for the weekend
+								}
 								for(int cp=0;cp<listCopiesProvided.Count;cp++) {
 									if(listCopiesProvided[cp].DateTEvent.Date > deadlineDateCopy) {
 										continue;

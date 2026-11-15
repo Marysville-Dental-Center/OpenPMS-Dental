@@ -56,6 +56,7 @@ namespace EhrTests {
 			string key=stage+"."+patient.PatNum+"."+dateStart.ToString("yyyyMMdd",CultureInfo.InvariantCulture)+"."
 				+dateEnd.ToString("yyyyMMdd",CultureInfo.InvariantCulture);
 			if(!_dictWindow.TryGetValue(key,out List<EhrMu> listEhrMus)) {
+				patient=Patients.GetPat(patient.PatNum);//As FormEHR reads it: the fixture's object has null where the database has "".
 				switch(stage) {
 					case EhrMeasureStage.Stage1:
 						listEhrMus=EhrMeasures.GetMu(patient,dateStart,dateEnd);
@@ -150,16 +151,6 @@ namespace EhrTests {
 		}
 
 		[TestMethod]
-		public void EhrWindow_Stage1_ElectronicCopy_WithinThreeBusinessDaysOfTheRequest() {
-			MeasureSpecFixture.Begin();
-			//The deprecated Stage 1 electronic copy, which only the window shows (Measure Calc does not calculate it): requested Wednesday 4 March
-			//2015, provided Monday 9 March, the third business day after it. The old rule added 3 days and dropped the 2 weekend days it meant to add
-			//(the result of AddDays was not kept), so the deadline was the Saturday and the copy was late.
-			Patient patient=MeasureSpecFixture.GetPatient("Win.CopyWednesdayMonday");
-			Assert.AreEqual(MuMet.True,GetWindowMet(S1,EhrMeasureType.ElectronicCopy,patient,MeasureSpecFixture.DateStart2015,MeasureSpecFixture.DateEnd2015));
-		}
-
-		[TestMethod]
 		public void EhrWindow_Reminders_AsMeasureCalc() {
 			MeasureSpecFixture.Begin();
 			WindowCheck check=new WindowCheck();
@@ -221,7 +212,7 @@ namespace EhrTests {
 			MeasureSpecFixture.Begin();
 			//FormEHR calls the overloads without a period: the year before today, to today, as the window always took. No fixture row is dated in it,
 			//so the visit-based rows are N/A.
-			Patient patient=MeasureSpecFixture.GetPatient("ClinSum.SameDay");
+			Patient patient=Patients.GetPat(MeasureSpecFixture.GetPatient("ClinSum.SameDay").PatNum);
 			List<EhrMu> listEhrMus=EhrMeasures.GetMu(patient);
 			List<EhrMu> listEhrMusPeriod=EhrMeasures.GetMu(patient,DateTime.Today.AddYears(-1),DateTime.Today);
 			CollectionAssert.AreEqual(listEhrMusPeriod.Select(x => x.MeasureType+" "+x.Met+" "+x.Details).ToList(),

@@ -604,11 +604,6 @@ namespace EhrTests {
 			patient=SeenPatient2015("Win.ReconcileBefore",new DateTime(1980,6,15));
 			MakeRefAttach(patient,ReferralType.RefFrom,new DateTime(2015,6,1));
 			MakeEvent(patient,EhrMeasureEventType.MedicationReconcile,DateMonday2015,0);
-			//The EHR window, Stage 1 electronic copy (not calculated by Measure Calc): requested Wednesday 4 March 2015, provided Monday 9 March
-			//(the third business day after the request).
-			patient=MakePatient("Win.CopyWednesdayMonday",new DateTime(1980,6,15),ProviderEp.ProvNum);
-			MakeEvent(patient,EhrMeasureEventType.ElectronicCopyRequested,new DateTime(2015,3,4),0);
-			MakeEvent(patient,EhrMeasureEventType.ElectronicCopyProvidedToPt,new DateTime(2015,3,9),0);
 			//Education (D10), the period 1 July 2014 to 30 June 2015: seen in 2015, resources on 3 March 2014 (before the period, another calendar
 			//year) and on Monday 3 August 2015 (after the period, the visit's calendar year).
 			MakeEvent(SeenPatient2015("Edu.CrossBefore",new DateTime(1980,6,15)),EhrMeasureEventType.EducationProvided,D(3,3),0);

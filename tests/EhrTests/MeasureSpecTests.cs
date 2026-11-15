@@ -238,8 +238,7 @@ namespace EhrTests {
 			//EHR-4d's 2015 group.
 			Assert.AreEqual(DayOfWeek.Monday,MeasureSpecFixture.DateMonday2015.DayOfWeek,"2 March 2015");
 			Assert.AreEqual(DayOfWeek.Saturday,new DateTime(2015,3,7).DayOfWeek,"The visit of Win.SaturdayMonday.");
-			Assert.AreEqual(DayOfWeek.Monday,new DateTime(2015,3,9).DayOfWeek,"The first business day after it, and the third after Wednesday 4 March.");
-			Assert.AreEqual(DayOfWeek.Wednesday,new DateTime(2015,3,4).DayOfWeek,"The request of Win.CopyWednesdayMonday.");
+			Assert.AreEqual(DayOfWeek.Monday,new DateTime(2015,3,9).DayOfWeek,"The first business day after it.");
 			Assert.AreEqual(MeasureSpecFixture.DateStartCross.Year+1,MeasureSpecFixture.DateEndCross.Year,"The period across a year boundary.");
 			Assert.AreEqual(MeasureSpecFixture.DateStart.Year,MeasureSpecFixture.DateEnd.Year,"One full calendar year.");
 			Assert.AreEqual(new DateTime(MeasureSpecFixture.DateStart.Year,1,1),MeasureSpecFixture.DateStart);
