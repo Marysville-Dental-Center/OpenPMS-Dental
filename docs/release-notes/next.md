@@ -120,6 +120,9 @@ server computer must then connect with `<db-server>` (the name the workstations 
   box itself. Press OK when the patient has signed; Cancel clears the pad. The box then shows the signature as before, and stored Topaz
   signatures show and check as before: their data does not change. The window is the helper program's (`OpenPmsDentalHelper32.exe`), which
   now runs Topaz's software, Schick CDR DICOM's exam window and Guru for the program, as it runs QuickBooks Desktop.
+- **Schick CDR: answer CDR first.** While CDR DICOM starts after the Schick button, or while its window for creating a patient's exam is
+  open, Open PMS - Dental keeps drawing its windows but takes no clicks until CDR's window is answered, as while one of its own windows is
+  open. If CDR does not answer within 30 minutes, the program says so and starts the helper again on the next click.
 - **Nothing to install.** Topaz's own software (it provides `SigPlusNET.dll`), CDR DICOM and Guru stay as they are on each workstation.
 
 ## Database connection security

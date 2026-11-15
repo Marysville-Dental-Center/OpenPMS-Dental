@@ -988,7 +988,10 @@ the Schick interop; only the helper loads `SigPlusNET.dll` or `MedVisorInterface
 a test PC shows `LocalServer32`; Topaz's current SigPlusNET is AnyCPU; Guru none). Tests: Helper32Tests 70 (the modules against fakes of
 their vendor interfaces, compared with today's code; the pump; the modules in a running helper), BINBTests' TopazWrapperTests through a helper
 copy, UnitTests' SignatureBoxWrapperTests through a copy where Topaz exists, NoHqTests' vendor scan; full lane build 0 errors, every Targeted run
-green. Launch checks (note, section 10), the STA pumping check included, need a test PC with the vendor software (none today).
+green. Launch checks (note, section 10), the STA pumping check included, need a test PC with the vendor software (none today). Review fix
+on `net10/s3a14-2`: Schick's `ShowExam` no longer blocks the program's thread without pumping for up to 30 minutes; it waits through
+`Helper32Client.CallPumping` (the signing window's wait, moved to CodeBase: the call on another thread, the program's windows disabled and
+painting), launch check S2 extended, the 30-minute timeout described (note, section 3); Helper32Tests 74.
 
 **Full-test gate.** Section 3, plus: the golden outputs and known answers recorded and committed; the source-scan tests pass; the
 launch checks for 3a (section 6) done with screenshots, including a self-update from a standard user; the x64 test runs (S3a-12, S3a-15)
