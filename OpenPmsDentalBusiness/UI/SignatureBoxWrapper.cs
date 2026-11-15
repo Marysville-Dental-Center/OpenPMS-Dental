@@ -44,7 +44,8 @@ Topaz hardware vs our SignatureBox:
 
 Control nesting
 	This control is SignatureBoxWrapper.cs. It is a wrapper with two controls inside of it:
-	1. Topaz SigPlusNET control (since S3a-14 a TopazSignatureView: the control lives in the 32-bit helper program, which draws its picture)
+	1. Topaz SigPlusNET control (in the program's process when it can run there, native first since S3a-14n; otherwise, the fallback of S3a-14, a
+	   TopazSignatureView: the control lives in the 32-bit helper program, which draws its picture)
 	2. SignatureBox control, our own internal control.
 	For WPF, this control is wrapped in with a WindowsFormsHost container because Topaz does not have a WPF version, and wrapping is what they recommend.
 	This SignatureBoxWrapper also contains two buttons that we need. The buttons are ugly and need an overhaul.
@@ -695,14 +696,27 @@ In FormClosing:
 			}
 		}
 
+		///<summary>True when the box shows a Topaz signature whose control lives in the 32-bit helper (the fallback path, TopazWrapper.IsInHelper):
+		///the only box whose signature a helper's end can take away. False for the program's own box and for Topaz's own control in the program's
+		///process (native first, S3a-14n). The forms' S3a-14g steps that keep a stored signature instead of reading the box again apply to these
+		///boxes only, so every other box is read as before (SignatureBoxSaves).</summary>
+		public bool IsTopazInHelper() {
+			return sigBoxTopaz!=null && sigBoxTopaz.Visible && TopazWrapper.IsInHelper(sigBoxTopaz);
+		}
+
 		///<summary>True while the box holds the stored Topaz signature of the last FillSignature and nothing has changed it since (S3a-14g).</summary>
 		private bool IsFilledTopazSignatureHeld() {
 			return _signatureFilledTopaz!=null;
 		}
 
 		///<summary>Remembers the stored Topaz signature that FillSignature just showed (countPoints on the tablet), or could not check because the
-		///helper could not be reached (countPoints 0), with its key data (S3a-14g).</summary>
+		///helper could not be reached (countPoints 0), with its key data (S3a-14g). Only on the fallback path, where the control lives in the 32-bit
+		///helper: Topaz's own control in the program's process (native first, S3a-14n) keeps the signature as long as the box, so the box reads it
+		///back from the control as before S3a-14.</summary>
 		private void HoldFilledTopazSignature(string signature,string keyData,int countPoints) {
+			if(!TopazWrapper.IsInHelper(sigBoxTopaz)) {
+				return;
+			}
 			_signatureFilledTopaz=signature;
 			_keyDataFilledTopaz=keyData;
 			_countPointsFilledTopaz=countPoints;
@@ -752,10 +766,17 @@ In FormClosing:
 					TopazWrapper.SetTopazState(sigBoxTopaz,1);
 				//}
 				labelInvalidSig.Visible=false;
-				//Since S3a-14 the patient signs in the 32-bit helper's signing window, which holds Topaz's control while the pad captures; before,
-				//this box took the focus and showed the strokes itself. When the window closes, capture stops as it did when the focus left the box.
-				TopazWrapper.ShowSigningWindow(sigBoxTopaz,this);
-				sigBoxTopaz_Leave(sigBoxTopaz,EventArgs.Empty);
+				if(!TopazWrapper.IsInHelper(sigBoxTopaz)) {
+					//Topaz's own control in this window (the program's process, native first, S3a-14n): the box takes the focus and shows the strokes
+					//itself, as before S3a-14; capture stops when the focus leaves it (sigBoxTopaz_Leave).
+					sigBoxTopaz.Focus();
+				}
+				else {
+					//The fallback path (S3a-14): the patient signs in the 32-bit helper's signing window, which holds Topaz's control while the pad
+					//captures. When the window closes, capture stops as it did when the focus left the box.
+					TopazWrapper.ShowSigningWindow(sigBoxTopaz,this);
+					sigBoxTopaz_Leave(sigBoxTopaz,EventArgs.Empty);
+				}
 			}
 			catch(Helper32Exception ex) {
 				MessageBox.Show(ex.Message);
