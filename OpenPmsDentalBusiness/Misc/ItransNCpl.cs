@@ -104,7 +104,8 @@ namespace OpenPmsDentalBusiness {
 				using Process process=new Process {
 					StartInfo=new ProcessStartInfo {
 						FileName=exePath,
-						Arguments=" --getncpl"
+						Arguments=" --getncpl",
+						UseShellExecute=true//Through the shell, the .NET Framework default (the .NET default is false).
 					}
 				};
 				process.Start();

@@ -52,7 +52,7 @@ namespace OpenPmsDentalBusiness.Eclaims
 			//example usage: "C:\temp\7z.exe" a -tzip -pmypass "C:\temp\temp.zip" "C:\temp\temp.txt"
 			string zipNameFull=fileNameFull.Substring(0,fileNameFull.Length-4)+".zip";
 			string arguments="a -tzip -p"+clearhouse.Password+" \""+zipNameFull+"\" \""+fileNameFull+"\"";
-			Process.Start("7z.exe",arguments);
+			CodeBase.ODFileUtils.ProcessStart("7z.exe",arguments);
 			File.Delete(fileNameFull);
 			string fileNameOnly=Path.GetFileName(zipNameFull);
 			//upload

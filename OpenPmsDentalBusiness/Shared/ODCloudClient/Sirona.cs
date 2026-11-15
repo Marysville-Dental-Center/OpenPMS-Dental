@@ -22,7 +22,7 @@ namespace OpenPmsDentalBusiness.Shared {
 
 		public static void SendData(string pathExe,List<string> listIniLines) {
 			WriteToSendBoxFile(pathExe,listIniLines);
-			Process.Start(pathExe);
+			ODFileUtils.ProcessStart(pathExe);
 		}
 
 		public static void WriteToSendBoxFile(string pathExe,List<string> listIniLines) {

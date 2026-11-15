@@ -698,6 +698,7 @@ namespace OpenPmsDentalBusiness {
 			}
 			string xPath=Programs.GetProgramPath(_progCur);
 			ProcessStartInfo info=new ProcessStartInfo(xPath);
+			info.UseShellExecute=true;//Through the shell, the .NET Framework default (the .NET default is false).
 			info.Arguments="";
 			double amt=chargeData.RecurringCharge.ChargeAmt;
 			DateTime exp=chargeData.CCExpiration;

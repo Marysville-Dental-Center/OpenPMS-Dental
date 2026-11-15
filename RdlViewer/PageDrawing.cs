@@ -213,7 +213,7 @@ namespace fyiReporting.RdlViewer
             {
                 try
                 {
-                    System.Diagnostics.Process.Start(hle.pi.HyperLink);
+                    System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo(hle.pi.HyperLink) { UseShellExecute = true });//The shell opens the link (the .NET default is false).
                 }
                 catch (Exception ex)
                 {

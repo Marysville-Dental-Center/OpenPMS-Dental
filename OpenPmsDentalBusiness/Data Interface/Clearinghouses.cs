@@ -636,7 +636,7 @@ namespace OpenPmsDentalBusiness {
 						else {//The user pressed the Get Reports button manually.
 									//The old way.  Some customers still prefer to go to the dentalxchange web portal to view reports because the ERA service costs money.
 							try {
-								Process.Start(@"http://www.dentalxchange.com");
+								ODFileUtils.ShellOpen(@"http://www.dentalxchange.com");
 							}
 							catch(Exception ex) {
 								ex.DoNothing();
@@ -650,7 +650,7 @@ namespace OpenPmsDentalBusiness {
 			else if(clearinghouseClin.CommBridge==EclaimsCommBridge.AOS) {
 				try {
 					//This path would never exist on Unix, so no need to handle back slashes.
-					Process.Start(@"C:\Program files\AOS\AOSCommunicator\AOSCommunicator.exe");
+					ODFileUtils.ProcessStart(@"C:\Program files\AOS\AOSCommunicator\AOSCommunicator.exe");
 				}
 				catch {
 					return Lans.g("FormClaimReports","Could not locate the file.");
@@ -686,7 +686,7 @@ namespace OpenPmsDentalBusiness {
 			else if(clearinghouseClin.CommBridge==EclaimsCommBridge.Lantek) {
 				try {
 					//This path would never exist on Unix, so no need to handle back slashes.
-					Process.Start(@"C:\Lantek\Program\Trakker.exe");
+					ODFileUtils.ProcessStart(@"C:\Lantek\Program\Trakker.exe");
 				}
 				catch {
 					return Lans.g("FormClaimReports","Could not locate the file.");

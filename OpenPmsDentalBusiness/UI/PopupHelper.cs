@@ -161,7 +161,7 @@ namespace OpenPmsDentalBusiness.UI {
 				if(!url.ToLower().StartsWith("http")) {
 					url=@"http://"+url;
 				}
-				Process.Start(url);
+				ODFileUtils.ShellOpen(url);
 			}
 			catch {
 				MessageBox.Show(Lans.g("PopupHelper","Failed to open web browser.  Please make sure you have a default browser set and are connected to the internet then try again."),Lans.g("PopupHelper","Attention"));
@@ -174,7 +174,7 @@ namespace OpenPmsDentalBusiness.UI {
 			bool isValidPath=Directory.Exists(folderPath);
 			if(isValidPath) {
 				try {
-					Process.Start(folderPath);
+					ODFileUtils.ShellOpen(folderPath);
 				}
 				catch(Exception e) {
 					MessageBox.Show(e.Message);
