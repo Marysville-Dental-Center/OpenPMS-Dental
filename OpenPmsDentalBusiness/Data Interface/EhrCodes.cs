@@ -880,6 +880,10 @@ namespace OpenPmsDentalBusiness {
 				}
 				string extension=Path.GetExtension(zipArchiveEntry.Name).ToLowerInvariant();
 				string entryName=partName+"/"+zipArchiveEntry.FullName;
+				if(extension==".zip") {
+					file.ListPartsSkipped.Add(entryName+": "+Lans.g(LANS,"a .zip inside the .zip is not read."));
+					continue;
+				}
 				if(extension!=".xlsx" && extension!=".xml") {
 					file.ListPartsSkipped.Add(entryName+": "+Lans.g(LANS,"not a workbook (.xlsx) or an SVS file (.xml)."));
 					continue;
