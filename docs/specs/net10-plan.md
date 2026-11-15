@@ -998,7 +998,10 @@ encoder failure is a `Helper32Exception` (Protocol); `CallPumpingTests` posts me
 clean-up asserts; for 3b: `FillSignatureEncodings`' loop as one helper command, and the DoEvents wait's limits. Second fix round on
 `net10/s3a14f-2` (note, section S3a-14f, item 7): `FormSheetFillEdit` checks its changed Topaz signatures
 (`SignatureBoxWrapper.CheckTopazSignatureReachable`) before it writes the sheet, so a lost signature keeps the form open with the message
-instead of storing the sheet without it; BINBTests 80.
+instead of storing the sheet without it; BINBTests 80. Third fix round on `net10/s3a14f-3` (note, section S3a-14f, item 9):
+`FormProcNoteAppend`, `FormProcEdit` and `FormProcGroup` catch the `Helper32Exception` ahead of their catch-all and return before
+`Procedures.Update`, and check before they write; `FormSheetFillEdit` checks before `VerifyRequiredFields`' `SigIsBlank` and before every
+`SaveSignaturePayPlan`; BINBTests 81.
 
 **Full-test gate.** Section 3, plus: the golden outputs and known answers recorded and committed; the source-scan tests pass; the
 launch checks for 3a (section 6) done with screenshots, including a self-update from a standard user; the x64 test runs (S3a-12, S3a-15)
