@@ -14,6 +14,23 @@ namespace OpenPmsDentalBusiness {
 		///<summary>The most codes one Snomeds.GetByCodes call is sent.</summary>
 		private const int COUNT_CODES_PER_QUERY=500;
 
+		#region The release
+		///<summary>True when the office's last value-set import (EhrValueSetImport.GetRelease) is the 2027 release this program needs
+		///(CqmCatalog.RELEASE_LABEL). False with no import, or with an earlier release (EHR-2's June 2013 import): then every pick list of the
+		///catalog is empty and a saved not-performed row of no CVX code is "other" only because the value sets are missing, which the windows say
+		///(FormEhrNotPerformed, FormEhrNotPerformedEdit).</summary>
+		public static bool IsReleaseImported() {
+			Meth.NoCheckMiddleTierRole();
+			return IsReleaseImported(EhrValueSetImport.GetRelease());
+		}
+
+		///<summary>True when this record of an import is the 2027 release (IsReleaseImported).</summary>
+		public static bool IsReleaseImported(EhrValueSetRelease release) {
+			Meth.NoCheckMiddleTierRole();
+			return release!=null && release.Label==CqmCatalog.RELEASE_LABEL;
+		}
+		#endregion The release
+
 		#region Direct reference codes
 		///<summary>The code of a direct-reference-code role (CqmCatalog.GetDirectCodeRoles) from the office's import, or null when the role matched no
 		///row or more than one (the import's report warns of both; section 7.3). Read from EhrCodes.Listt.</summary>
