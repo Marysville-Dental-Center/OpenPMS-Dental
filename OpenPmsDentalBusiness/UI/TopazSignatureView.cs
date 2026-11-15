@@ -20,7 +20,8 @@ namespace OpenPmsDental.UI {
 	///state, as each of TopazWrapper's sequences starts from a cleared pad. The one exception is a signature the patient signed in the signing
 	///window (Sign returned OK) that the program has not cleared since: it lived only in the lost control, so from then on every call but the
 	///tablet state's and ClearTablet's throws a Helper32Exception (Crashed) instead of reading an empty control, and saving the form fails
-	///loudly instead of storing no signature (S3a-14f).</summary>
+	///loudly instead of storing no signature (S3a-14f). A stored signature that SignatureBoxWrapper.FillSignature showed (MarkSignatureFilled)
+	///counts the same way since S3a-14g: an empty control made again would read as no signature.</summary>
 	public class TopazSignatureView:Control {
 		///<summary>How long one call may take. A call of the control returns at once; the wait covers a busy helper.</summary>
 		private static readonly TimeSpan _timeSpanCall=TimeSpan.FromSeconds(60);
@@ -35,8 +36,12 @@ namespace OpenPmsDental.UI {
 		///<summary>True from the patient's OK in the signing window until ClearTablet or the next signing: the helper's control holds a signature
 		///that exists nowhere else.</summary>
 		private bool _isSignatureCaptured;
-		///<summary>True when the helper's control went (its helper ended) while _isSignatureCaptured: the signature is gone, until ClearTablet or
-		///the next signing.</summary>
+		///<summary>True from MarkSignatureFilled (SignatureBoxWrapper.FillSignature showed a stored signature) until ClearTablet or the next
+		///signing: the helper's control holds the stored signature, and an empty control made again in its place would read as none (S3a-14g).
+		///</summary>
+		private bool _isSignatureFilled;
+		///<summary>True when the helper's control went (its helper ended) while _isSignatureCaptured or _isSignatureFilled: the signature is gone
+		///from the control, until ClearTablet or the next signing.</summary>
 		private bool _isSignatureLost;
 
 		///<summary>pathAssembly is the SigPlusNET.dll the program found (TopazWrapper.FindAssemblyPath), which the helper loads.</summary>
@@ -63,12 +68,28 @@ namespace OpenPmsDental.UI {
 			}
 		}
 
-		///<summary>True when the helper ended while this control held a signature the patient signed (IsSignatureCaptured): the signature is lost,
-		///and the calls that would read it throw until ClearTablet or the next signing.</summary>
+		///<summary>True while the helper's control holds a stored signature that SignatureBoxWrapper.FillSignature showed (MarkSignatureFilled),
+		///until ClearTablet or the next signing (S3a-14g).</summary>
+		public bool IsSignatureFilled {
+			get {
+				return _isSignatureFilled;
+			}
+		}
+
+		///<summary>True when the helper ended while this control held a signature the patient signed (IsSignatureCaptured) or a stored one it
+		///showed (IsSignatureFilled): the signature is gone from the control, and the calls that would read it throw until ClearTablet or the next
+		///signing.</summary>
 		public bool IsSignatureLost {
 			get {
 				return _isSignatureLost;
 			}
+		}
+
+		///<summary>For SignatureBoxWrapper.FillSignature, after the stored signature showed (points on the tablet): from now on the control holds
+		///it, and a helper that ends takes it along, so the calls that would read it throw instead of reading an empty control made again
+		///(S3a-14g), until ClearTablet or the next signing. Changes nothing in the helper.</summary>
+		public void MarkSignatureFilled() {
+			_isSignatureFilled=true;
 		}
 
 		private void EnsureCreated() {
@@ -79,13 +100,13 @@ namespace OpenPmsDental.UI {
 		}
 
 		///<summary>Calls command for the helper's control. A control the helper does not know (its helper ended) is created again and the call is
-		///made once more, unless the lost control held a signature the patient signed (IsSignatureCaptured): then the signature is lost, and the
-		///call throws a Helper32Exception (Crashed), as every later call that is not isStateOnly does until ClearTablet or the next signing. A
-		///state-only call (the tablet state: capture on or off, as a window's closing turns it off) never reads the signature and is made on a
-		///control created again.</summary>
+		///made once more, unless the lost control held a signature the patient signed (IsSignatureCaptured) or a stored one it showed
+		///(IsSignatureFilled, S3a-14g): then the signature is lost from the control, and the call throws a Helper32Exception (Crashed), as every
+		///later call that is not isStateOnly does until ClearTablet or the next signing. A state-only call (the tablet state: capture on or off, as
+		///a window's closing turns it off) never reads the signature and is made on a control created again.</summary>
 		private Helper32Result CallHelper(string command,string[] arrayArgsAfterId,byte[] data,TimeSpan timeSpan,bool isStateOnly=false) {
 			if(_isSignatureLost && !isStateOnly) {
-				throw NewSignatureLostException(null);
+				throw NewSignatureLostException(null,_isSignatureFilled && !_isSignatureCaptured);
 			}
 			EnsureCreated();
 			try {
@@ -93,10 +114,10 @@ namespace OpenPmsDental.UI {
 			}
 			catch(Helper32Exception ex) when(IsControlGone(ex)) {
 				_id=null;
-				if(_isSignatureCaptured) {
+				if(_isSignatureCaptured || _isSignatureFilled) {
 					_isSignatureLost=true;
 					if(!isStateOnly) {
-						throw NewSignatureLostException(ex);
+						throw NewSignatureLostException(ex,_isSignatureFilled && !_isSignatureCaptured);
 					}
 				}
 				EnsureCreated();
@@ -111,21 +132,30 @@ namespace OpenPmsDental.UI {
 			return ex.Failure==Helper32Failure.Remote && ex.RemoteTypeName==typeof(TopazControlGoneException).FullName;
 		}
 
-		///<summary>The failure of a call after the helper ended with the patient's signature in its control (S3a-14f): Crashed, as a helper that
-		///ends during a call, so the form's save stops instead of storing no signature. SignatureBoxWrapper.GetSignature says "Topaz signature pad
-		///software could not be reached:" before this message.</summary>
-		private static Helper32Exception NewSignatureLostException(Exception exceptionInner) {
+		///<summary>The failure of a call after the helper ended with the patient's signature in its control (S3a-14f), or with a stored signature
+		///it showed (isFilled, S3a-14g): Crashed, as a helper that ends during a call, so the form's save stops instead of storing no signature.
+		///SignatureBoxWrapper.GetSignature says "Topaz signature pad software could not be reached:" before this message.</summary>
+		private static Helper32Exception NewSignatureLostException(Exception exceptionInner,bool isFilled) {
+			string text;
+			if(isFilled) {
+				text=Lans.g("TopazSignatureView","ended while this box showed a stored Topaz signature, so the box no longer holds it. Close the "
+					+"window without saving and open it again, or clear the signature and sign again.");
+			}
+			else {
+				text=Lans.g("TopazSignatureView","ended after the patient signed on the Topaz pad, and the signature was lost with it. Clear the "
+					+"signature and sign again.");
+			}
 			return new Helper32Exception(Helper32Failure.Crashed,Lans.g("TopazSignatureView","The 32-bit helper program")+" ("
-				+Helper32Client.HELPER_FILE_NAME+") "+Lans.g("TopazSignatureView","ended after the patient signed on the Topaz pad, and the signature "
-				+"was lost with it. Clear the signature and sign again."),null,exceptionInner);
+				+Helper32Client.HELPER_FILE_NAME+") "+text,null,exceptionInner);
 		}
 
 		///<summary>The control's public instance method of that name, with these arguments (ints and strings), and what it returned (null for
 		///void). What the method threw comes as a Helper32Exception (Remote) with its message and type name. ClearTablet forgets a captured
-		///signature (IsSignatureCaptured) and a lost one (IsSignatureLost).</summary>
+		///signature (IsSignatureCaptured), a filled one (IsSignatureFilled) and a lost one (IsSignatureLost).</summary>
 		public object Call(string methodName,params object[] arrayArgs) {
 			if(methodName==METHOD_CLEAR_TABLET) {
 				_isSignatureCaptured=false;
+				_isSignatureFilled=false;
 				_isSignatureLost=false;
 			}
 			bool isStateOnly=(methodName==METHOD_SET_TABLET_STATE || methodName==METHOD_GET_TABLET_STATE);
@@ -213,6 +243,7 @@ namespace OpenPmsDental.UI {
 		///signing.</summary>
 		internal bool Sign(IntPtr handleOwner,string title,string textOk,string textClear,string textCancel) {
 			_isSignatureCaptured=false;
+			_isSignatureFilled=false;
 			_isSignatureLost=false;
 			EnsureCreated();
 			//The call runs on another thread and touches nothing of this control: the helper's control was just created or used.

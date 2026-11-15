@@ -106,6 +106,14 @@ In FormClosing:
 		///When the program's own check then does not accept that same signature either, the not-installed message stays: Topaz could not check it,
 		///so "Invalid Signature" would be a tamper warning the program cannot back up.</summary>
 		private string _signatureTopazNotInstalled;
+		///<summary>The stored Topaz signature the last FillSignature showed (or could not check because the 32-bit helper could not be reached),
+		///while nothing has changed the box since (OnSignatureChanged, ClearSignature, the Topaz button, the next fill), else null. GetSignature
+		///with the same key data returns it as it is, without asking the helper: it is the same data (S3a-14g).</summary>
+		private string _signatureFilledTopaz;
+		///<summary>The key data FillSignature got with _signatureFilledTopaz.</summary>
+		private string _keyDataFilledTopaz;
+		///<summary>The tablet points the Topaz control showed for _signatureFilledTopaz: 0 when the helper could not be reached during the fill.</summary>
+		private int _countPointsFilledTopaz;
 		#endregion Fields
 
 		#region Constructor
@@ -175,8 +183,11 @@ In FormClosing:
 		}
 
 		public bool SigIsBlank{
-			get{ 
+			get{
 				if(sigBoxTopaz!=null && sigBoxTopaz.Visible){
+					if(IsFilledTopazSignatureHeld()) {
+						return(_countPointsFilledTopaz==0);//S3a-14g: the stored signature, as the fill showed it; the helper is not asked
+					}
 					return(TopazWrapper.GetTopazNumberOfTabletPoints(sigBoxTopaz)==0);
 				}
 				return(signatureBox.NumberOfTabletPoints()==0);
@@ -317,6 +328,7 @@ In FormClosing:
 		
 		protected void OnSignatureChanged() {
 			SigChanged=true;
+			ForgetFilledTopazSignature();
 			if(SignatureChanged!=null){
 				SignatureChanged(this,new EventArgs());
 			}
@@ -330,6 +342,7 @@ In FormClosing:
 			//True when the fill just before this one could not check this same signature because Topaz's software is not installed.
 			bool isTopazNotInstalledForSignature=(_signatureTopazNotInstalled!=null && _signatureTopazNotInstalled==signature);
 			RestoreLabelText();
+			ForgetFilledTopazSignature();
 			//This does 3 checks for both topaz and normal signatures.  These keyData replacements are due to MiddleTier & RichTextBox newline issues.
 			//Most cases will not get past check 1.  Some of the following checks are taken care of by things like POut.StringNote().
 			//Check 1:  keyData.Replace("\r\n","\n").  This reverts any changes middle tier made to the keydata.  
@@ -357,11 +370,20 @@ In FormClosing:
 					if(TopazWrapper.GetTopazNumberOfTabletPoints(sigBoxTopaz)==0) {
 						FillSignatureHelperTopaz(keyData.Replace("\r\n","\n").Replace("\n","\r\n"),signature);
 					}
+					int countPoints=TopazWrapper.GetTopazNumberOfTabletPoints(sigBoxTopaz);
+					if(countPoints>0) {
+						//S3a-14g: the box now shows the stored signature. Until something changes the box, saving it (GetSignature with this key data) and
+						//asking whether it is blank keep to the stored signature, and the control fails loudly if its helper ends (MarkTopazSignatureFilled).
+						HoldFilledTopazSignature(signature,keyData,countPoints);
+						TopazWrapper.MarkTopazSignatureFilled(sigBoxTopaz);
+					}
 				}
 				catch(Helper32Exception ex) when(ex.Failure!=Helper32Failure.Remote) {
 					//The 32-bit helper that runs Topaz's control failed (S3a-14): Topaz could not check the signature, so it is not called invalid.
 					ShowTopazNotInstalled(signature);
 					labelInvalidSig.Text=Lans.g(this,"Topaz signature pad software could not be reached:")+" "+ex.Message;
+					//S3a-14g: the stored signature is kept as it is if the box is saved unchanged, instead of an empty control's "".
+					HoldFilledTopazSignature(signature,keyData,0);
 				}
 			}
 			else {
@@ -550,6 +572,9 @@ In FormClosing:
 				if(!CheckTopaz()) {
 					return 0;
 				}
+				if(sigBoxTopaz.Visible && IsFilledTopazSignatureHeld()) {
+					return _countPointsFilledTopaz;//S3a-14g: the stored signature, as the fill showed it; the helper is not asked
+				}
 				return TopazWrapper.GetTopazNumberOfTabletPoints(sigBoxTopaz);
 			}
 			return signatureBox.NumberOfTabletPoints();
@@ -601,10 +626,16 @@ In FormClosing:
 
 		///<summary>This should NOT be used unless GetSigChanged returns true. keyData should not be hashed. For a Topaz box, throws a Helper32Exception
 		///(its message starts with "Topaz signature pad software could not be reached:") when the 32-bit helper that runs Topaz's control failed,
-		///and never returns "" for a signature the helper lost (S3a-14f).</summary>
+		///and never returns "" for a signature the helper lost (S3a-14f). A Topaz box that shows a stored signature (FillSignature) and has not
+		///changed since returns that stored signature as it is for the same key data, without asking the helper (S3a-14g).</summary>
 		public string GetSignature(string keyData){
 			//Topaz boxes are written in Windows native code.
 			if(sigBoxTopaz!=null && sigBoxTopaz.Visible) {
+				if(IsFilledTopazSignatureHeld() && keyData==_keyDataFilledTopaz) {
+					//S3a-14g: the box still shows the stored signature it was filled with. Read back from the helper it is the same data, and a helper
+					//that ended since would have made an empty control in its place, which read as no signature (the silent loss of S3a-14g).
+					return _signatureFilledTopaz;
+				}
 				try {
 					if(TopazWrapper.GetTopazNumberOfTabletPoints(sigBoxTopaz)==0){
 						return "";
@@ -664,6 +695,26 @@ In FormClosing:
 			}
 		}
 
+		///<summary>True while the box holds the stored Topaz signature of the last FillSignature and nothing has changed it since (S3a-14g).</summary>
+		private bool IsFilledTopazSignatureHeld() {
+			return _signatureFilledTopaz!=null;
+		}
+
+		///<summary>Remembers the stored Topaz signature that FillSignature just showed (countPoints on the tablet), or could not check because the
+		///helper could not be reached (countPoints 0), with its key data (S3a-14g).</summary>
+		private void HoldFilledTopazSignature(string signature,string keyData,int countPoints) {
+			_signatureFilledTopaz=signature;
+			_keyDataFilledTopaz=keyData;
+			_countPointsFilledTopaz=countPoints;
+		}
+
+		///<summary>The box changed (or is filled again): it no longer holds the stored signature of the last fill.</summary>
+		private void ForgetFilledTopazSignature() {
+			_signatureFilledTopaz=null;
+			_keyDataFilledTopaz=null;
+			_countPointsFilledTopaz=0;
+		}
+
 		///<summary>Shows in the box that the 32-bit helper that runs Topaz's control failed, and returns the exception to throw: ex's failure with
 		///the box's text, "Topaz signature pad software could not be reached:" and ex's message.</summary>
 		private Helper32Exception ShowTopazNotReached(Helper32Exception ex) {
@@ -688,6 +739,7 @@ In FormClosing:
 				return;
 			}
 			RestoreLabelText();
+			ForgetFilledTopazSignature();//S3a-14g: the patient signs anew
 			if(SignTopazClicked!=null) {
 				SignTopazClicked(this,new EventArgs());
 			}
@@ -751,6 +803,7 @@ In FormClosing:
 
 		///<summary>If this is called externally, then the event SignatureChanged will also fire.</summary>
 		public void ClearSignature(bool clearTopazTablet=true){
+			ForgetFilledTopazSignature();
 			signatureBox.Enabled=true;
 			signatureBox.ClearTablet();
 			signatureBox.Visible=true;

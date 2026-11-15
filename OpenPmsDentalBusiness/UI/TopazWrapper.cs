@@ -367,6 +367,15 @@ namespace OpenPmsDental.UI {
 			[DllImport("user32.dll")]
 			public static extern IntPtr GetAncestor(IntPtr hWnd,uint flags);
 		}
+		///<summary>For SignatureBoxWrapper.FillSignature, once a stored signature shows on topaz: the control now holds it, so when its helper ends
+		///the calls that would read it fail instead of reading an empty control made again (TopazSignatureView.MarkSignatureFilled, S3a-14g).
+		///Does nothing for a null control.</summary>
+		public static void MarkTopazSignatureFilled(Control topaz) {
+			if(topaz==null) {//Topaz's software is not installed (GetTopaz threw), so there is no control.
+				return;
+			}
+			GetView(topaz).MarkSignatureFilled();
+		}
 		#endregion Signing
 
 		#region Helper Methods

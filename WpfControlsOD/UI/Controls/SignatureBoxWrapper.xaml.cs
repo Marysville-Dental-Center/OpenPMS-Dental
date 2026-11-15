@@ -95,7 +95,9 @@ How to use the SignatureBoxWrapper control:
 			return signatureBoxWrapper.GetSigChanged();
 		}
 
-		///<summary>This should NOT be used unless GetSigChanged returns true. keyData should not be hashed.</summary>
+		///<summary>This should NOT be used unless GetSigChanged returns true. keyData should not be hashed. Passes through to the WinForms box: a Topaz
+		///box that shows a stored signature (FillSignature) and has not changed since returns that stored signature for the same key data without
+		///asking the 32-bit helper; a changed Topaz box whose helper failed throws a Helper32Exception (S3a-14f, S3a-14g).</summary>
 		public string GetSignature(string keyData) {
 			return signatureBoxWrapper.GetSignature(keyData);
 		}

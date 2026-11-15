@@ -494,6 +494,12 @@ namespace OpenPmsDentalBusiness{
 		///It ignores PatNum parameters, since those are already part of the sheet itself.</summary>
 		public static void SaveParameters(Sheet sheet){
 			Meth.NoCheckMiddleTierRole();
+			SheetFields.InsertMany(GetParameterFieldsToSave(sheet));
+		}
+
+		///<summary>The sheet fields that SaveParameters inserts for the parameters of sheet, in the order it inserts them. Split from SaveParameters
+		///(S3a-14g) so that GetSignatureKeyAfterSave builds the same fields.</summary>
+		private static List<SheetField> GetParameterFieldsToSave(Sheet sheet){
 			List<SheetField> listSheetFields=new List<SheetField>();
 			for(int i=0;i<sheet.Parameters.Count;i++){
 				if(sheet.Parameters[i].ParamName.In("PatNum",
@@ -534,7 +540,7 @@ namespace OpenPmsDentalBusiness{
 				sheetField.RadioButtonValue="";
 				listSheetFields.Add(sheetField);
 			}
-			SheetFields.InsertMany(listSheetFields);
+			return listSheetFields;
 		}
 
 		///<summary>Loops through all the fields in the sheet and appends together all the FieldValues.  It obviously excludes all SigBox fieldtypes.  It does include Drawing fieldtypes, so any change at all to any drawing will invalidate the signature.  It does include Image fieldtypes, although that's just a filename and does not really have any meaningful data about the image itself.  The order is absolutely critical.</summary>
@@ -550,6 +556,41 @@ namespace OpenPmsDentalBusiness{
 				listSheetFieldsCopy.Sort(SheetFields.SortPrimaryKey);
 			}
 			return UI.SigBox.GetSignatureKeySheets(listSheetFieldsCopy);
+		}
+
+		///<summary>The signature key (GetSignatureKey) that sheet will have once FormSheetFillEdit.TryToSaveData has written it and read its fields
+		///back (Insert and SaveParameters for a new sheet, or Update; then SheetFields.Sync of every field but the signature boxes, and
+		///SheetFields.GetFieldsAndParameters), worked out before anything is written, so that the form can read the signatures first (S3a-14g). The
+		///key is the fields' values in the order of their primary keys: the rows already in the database keep theirs (a new sheet's parameters are
+		///inserted first, in SaveParameters' order), and the new fields follow in the order SheetFieldCrud.Sync inserts them. Null when it cannot be
+		///worked out; the form then compares it with the key it reads back after the writes and, when they differ, reads the signatures there as
+		///before.</summary>
+		public static string GetSignatureKeyAfterSave(Sheet sheet) {
+			Meth.NoCheckMiddleTierRole();
+			try {
+				List<SheetField> listSheetFieldsDb=new List<SheetField>();
+				List<SheetField> listSheetFieldsNoSig=sheet.SheetFields.FindAll(x => !x.FieldType.In(SheetFieldType.SigBox,SheetFieldType.SigBoxPractice));
+				if(sheet.IsNew) {
+					listSheetFieldsDb.AddRange(GetParameterFieldsToSave(sheet));
+				}
+				else {
+					//SheetFields.Sync leaves the parameters as they are and updates the other fields in place: they keep their primary keys.
+					List<SheetField> listSheetFieldsKept=listSheetFieldsNoSig.FindAll(x => x.SheetFieldNum>0);
+					listSheetFieldsKept.Sort(SheetFields.SortPrimaryKey);
+					listSheetFieldsDb.AddRange(listSheetFieldsKept);
+				}
+				//The same list SheetFields.Sync gives SheetFieldCrud.Sync, sorted the same way: its new fields (no primary key yet) are inserted in this
+				//order, after every row already written.
+				List<SheetField> listSheetFieldsSynced=listSheetFieldsNoSig.FindAll(x => x.FieldType!=SheetFieldType.Parameter
+					&& !x.FieldType.In(SheetFieldType.SigBox,SheetFieldType.SigBoxPractice));
+				listSheetFieldsSynced.Sort((SheetField x,SheetField y) => { return x.SheetFieldNum.CompareTo(y.SheetFieldNum); });
+				listSheetFieldsDb.AddRange(listSheetFieldsSynced.FindAll(x => x.SheetFieldNum==0));
+				return UI.SigBox.GetSignatureKeySheets(listSheetFieldsDb);
+			}
+			catch(Exception ex) {
+				ex.DoNothing();//For example a required parameter without a value, which SaveParameters fails on as well: the form reads after the writes.
+				return null;
+			}
 		}
 
 		public static DataTable GetPatientFormsTable(long patNum) {
