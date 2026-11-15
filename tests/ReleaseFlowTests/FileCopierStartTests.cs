@@ -142,7 +142,7 @@ namespace ReleaseFlowTests {
 			}
 		}
 
-		private static string GetMethodBody(string text,string signature) {
+		internal static string GetMethodBody(string text,string signature) {
 			int indexStart=text.IndexOf(signature);
 			Assert.IsTrue(indexStart>=0,signature);
 			int indexBrace=text.IndexOf('{',indexStart);
@@ -162,7 +162,7 @@ namespace ReleaseFlowTests {
 		}
 
 		///<summary>Removes // and /* */ comments (not inside string literals).</summary>
-		private static string StripComments(string text) {
+		internal static string StripComments(string text) {
 			return Regex.Replace(text,@"""(?:[^""\\]|\\.)*""|//[^\n]*|/\*.*?\*/",m => m.Value.StartsWith("/") ? "" : m.Value,RegexOptions.Singleline);
 		}
 	}
