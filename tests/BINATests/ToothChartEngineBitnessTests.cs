@@ -4,6 +4,8 @@
 // the bitness of the test process: the engine libraries are IL-only and not 32-bit-required, they call only Windows files that exist in both
 // bitnesses, every handle they take is an IntPtr, the DirectX runtime check loads the D3DX file of the process's own bitness, and each mode
 // starts on a hidden form through StartFirstWorkingMode or falls back. A mode this computer cannot start is reported, never failed.
+// S3a-FU2: the DirectX test's device format search is timed on its own and tries the first few formats only; a search or a start that runs
+// out of time is Inconclusive.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
 using System.Collections.Generic;
@@ -71,6 +73,13 @@ namespace BINATests {
 
 		///<summary>Runs action on a new STA thread, which a WinForms control wants, and rethrows what it throws (an Inconclusive as itself).</summary>
 		private static void RunSta(Action action) {
+			RunSta(action,TimeSpan.FromSeconds(180),null,false);
+		}
+
+		///<summary>RunSta with a join limit. When the thread has not finished by then, messageTimeoutInconclusive (when not null) makes the test
+		///Inconclusive instead of failed (S3a-FU2: the DirectX test on a computer where the device takes minutes), and isTimeoutRecorded also
+		///writes it to the record file. The thread is a background thread and is left to end.</summary>
+		private static void RunSta(Action action,TimeSpan timeSpanJoin,string messageTimeoutInconclusive,bool isTimeoutRecorded) {
 			Exception exception=null;
 			Thread thread=new Thread(() => {
 				try {
@@ -83,7 +92,15 @@ namespace BINATests {
 			thread.SetApartmentState(ApartmentState.STA);
 			thread.IsBackground=true;
 			thread.Start();
-			Assert.IsTrue(thread.Join(180000),"The STA thread did not finish.");
+			if(!thread.Join(timeSpanJoin)) {
+				if(messageTimeoutInconclusive!=null) {
+					if(isTimeoutRecorded) {
+						Record(messageTimeoutInconclusive);
+					}
+					Assert.Inconclusive(messageTimeoutInconclusive);
+				}
+				Assert.Fail("The STA thread did not finish in "+timeSpanJoin.TotalSeconds+" s.");
+			}
 			if(exception is AssertInconclusiveException || exception is AssertFailedException) {
 				throw exception;
 			}
@@ -339,6 +356,13 @@ namespace BINATests {
 		///StartFirstWorkingMode. Records the mode that came up and whether it drew a picture. The Simple 2D chart must start and draw; DirectX and
 		///OpenGL may fall back, which is reported as Inconclusive with the reason after the mode it fell back to has drawn.</summary>
 		private static void StartModeOnHiddenForm(DrawingMode drawingModeRequested) {
+			TimeSpan timeSpanJoin=TimeSpan.FromSeconds(180);
+			string messageTimeoutInconclusive=null;
+			if(drawingModeRequested==DrawingMode.DirectX) {
+				timeSpanJoin=_timeSpanDirectXJoin;
+				messageTimeoutInconclusive="The DirectX chart did not start or draw within "+_timeSpanDirectXJoin.TotalSeconds+" s in this "+Bitness()
+					+" process here (a device that takes minutes, as on a VM's basic display adapter): reported, not failed.";
+			}
 			RunSta(() => {
 				using(Form form=new Form()) {
 					form.ShowInTaskbar=false;
@@ -349,8 +373,16 @@ namespace BINATests {
 					Assert.AreNotEqual(IntPtr.Zero,intPtrForm);
 					Stopwatch stopwatch=Stopwatch.StartNew();
 					string directXFormat=null;
+					string formatSearch="";
 					if(drawingModeRequested==DrawingMode.DirectX) {
-						directXFormat=ToothChartWrapper.GetPreferredDirectXFormat(form);//"invalid" without D3DX or without a working format
+						//"invalid" without D3DX or without a working format among those tried; null when the search's time ran out (S3a-FU2).
+						directXFormat=SearchDirectXFormat(form,_timeSpanDirectXFormatSearch,out formatSearch);
+						if(directXFormat==null) {
+							string lineSearch="requested DirectX, device format search stopped: "+formatSearch;
+							Record(lineSearch);
+							Assert.Inconclusive("The DirectX device format search took too long in this "+Bitness()+" process here (reported, not failed): "
+								+lineSearch);
+						}
 					}
 					long msFormat=stopwatch.ElapsedMilliseconds;
 					int countFallbacksBefore=ToothChartWrapper.GetCountFallbackMessages();
@@ -383,7 +415,7 @@ namespace BINATests {
 					}
 					List<string> listFallbacks=ToothChartWrapper.GetFallbackMessagesSince(countFallbacksBefore);
 					string line="requested "+drawingModeRequested+", came up "+drawingModeStarted+", "+drawResult
-						+(drawingModeRequested==DrawingMode.DirectX?", device format "+(directXFormat??"none")+" (search "+msFormat+" ms)":"")
+						+(drawingModeRequested==DrawingMode.DirectX?", device format "+(directXFormat??"none")+" (search "+msFormat+" ms, "+formatSearch+")":"")
 						+(drawingModeStarted==DrawingMode.OpenGL?", pixel format "+pixelFormat:"")
 						+", "+stopwatch.ElapsedMilliseconds+" ms"+(listFallbacks.Count==0?"":"; fallback: "+string.Join(" | ",listFallbacks));
 					Record(line);
@@ -414,7 +446,44 @@ namespace BINATests {
 						Assert.Inconclusive("This "+Bitness()+" process started "+drawingModeRequested+" but could not draw with it here: "+line);
 					}
 				}
-			});
+			},timeSpanJoin,messageTimeoutInconclusive,true);
+		}
+
+		///<summary>How many of ToothChartDirectX's standard device formats the DirectX test tries (S3a-FU2): GetPreferredDirectXFormat tries every
+		///one, which can take minutes where formats fail (a VM with the D3DX runtime and a basic display adapter).</summary>
+		private const int MAX_DIRECTX_FORMATS_TRIED=4;
+		///<summary>No further format is tried once the search has run this long.</summary>
+		private static readonly TimeSpan _timeSpanDirectXFormatSearch=TimeSpan.FromSeconds(60);
+		///<summary>The DirectX test's STA thread: the search, then the chart. Inside the lane's 5-minute limit for the x64 run with the other tests.
+		///</summary>
+		private static readonly TimeSpan _timeSpanDirectXJoin=TimeSpan.FromSeconds(120);
+
+		///<summary>GetPreferredDirectXFormat's search, timed on its own and limited: the first MAX_DIRECTX_FORMATS_TRIED standard formats, each
+		///through the program's own TestDirectXFormat, and none started after timeSpanSearch. Returns the first that works,
+		///"invalid" when D3DX is missing or none of those tried works, or null when the time ran out first. formatSearch says what was tried and how
+		///long it took.</summary>
+		private static string SearchDirectXFormat(Control controlHost,TimeSpan timeSpanSearch,out string formatSearch) {
+			if(!ToothChartWrapper.IsDirectXRuntimeAvailable()) {
+				formatSearch="no D3DX";
+				return "invalid";
+			}
+			ToothChartDirectX.DirectXDeviceFormat[] arrayFormats=ToothChartDirectX.GetStandardDeviceFormats();
+			int countToTry=Math.Min(MAX_DIRECTX_FORMATS_TRIED,arrayFormats.Length);
+			Stopwatch stopwatch=Stopwatch.StartNew();
+			for(int i=0;i<countToTry;i++) {
+				if(stopwatch.Elapsed>=timeSpanSearch) {
+					formatSearch="time ran out after "+i+" of "+countToTry+" formats tried ("+arrayFormats.Length+" standard), "+stopwatch.ElapsedMilliseconds
+						+" ms";
+					return null;
+				}
+				string format=arrayFormats[i].ToString();
+				if(ToothChartWrapper.TestDirectXFormat(controlHost,format)) {
+					formatSearch="format "+(i+1)+" of "+countToTry+" tried ("+arrayFormats.Length+" standard) works, "+stopwatch.ElapsedMilliseconds+" ms";
+					return format;
+				}
+			}
+			formatSearch="none of the first "+countToTry+" formats works ("+arrayFormats.Length+" standard), "+stopwatch.ElapsedMilliseconds+" ms";
+			return "invalid";
 		}
 
 		[TestMethod]
@@ -430,6 +499,28 @@ namespace BINATests {
 		[TestMethod]
 		public void Simple2D_StartsOnAHiddenForm() {
 			StartModeOnHiddenForm(DrawingMode.Simple2D);
+		}
+
+		///<summary>S3a-FU2: an STA thread that runs past its join limit makes the test Inconclusive when the caller says so (the DirectX test), and
+		///fails it otherwise. A thread that only sleeps; nothing is shown or started.</summary>
+		[TestMethod]
+		public void RunSta_Timeout_IsInconclusiveOnlyWhenAsked() {
+			AssertInconclusiveException assertInconclusiveException=Assert.ThrowsExactly<AssertInconclusiveException>(
+				() => RunSta(() => Thread.Sleep(3000),TimeSpan.FromMilliseconds(100),"synthetic: the thread ran out of time",false));
+			StringAssert.Contains(assertInconclusiveException.Message,"synthetic: the thread ran out of time");
+			Assert.ThrowsExactly<AssertFailedException>(() => RunSta(() => Thread.Sleep(3000),TimeSpan.FromMilliseconds(100),null,false));
+			RunSta(() => { },TimeSpan.FromSeconds(30),"not reached",false);
+		}
+
+		///<summary>S3a-FU2: the device format search stops when its time has run out, before it tries a format, and says so (null): the DirectX
+		///test then reports Inconclusive. With no time at all no format is tried, so no chart is made.</summary>
+		[TestMethod]
+		public void DirectXFormatSearch_OutOfTime_StopsBeforeAFormat() {
+			if(!ToothChartWrapper.IsDirectXRuntimeAvailable()) {
+				Assert.Inconclusive(ToothChartWrapper.D3DX_DLL+" is not installed for "+Bitness()+" processes here: the search returns \"invalid\" at once.");
+			}
+			Assert.IsNull(SearchDirectXFormat(null,TimeSpan.Zero,out string formatSearch),formatSearch);
+			StringAssert.StartsWith(formatSearch,"time ran out after 0 of "+MAX_DIRECTX_FORMATS_TRIED+" formats tried");
 		}
 		#endregion Modes on a hidden form
 	}
