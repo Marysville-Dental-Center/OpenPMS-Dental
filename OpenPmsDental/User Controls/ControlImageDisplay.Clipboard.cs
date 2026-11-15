@@ -6,16 +6,20 @@
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
 using System.IO;
+using System.Runtime.InteropServices;
+using System.Runtime.InteropServices.ComTypes;
 using System.Text;
 using CodeBase;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using OpenPmsDental.UI;
+using IComDataObject=System.Runtime.InteropServices.ComTypes.IDataObject;
 
 namespace OpenPmsDental {
 	///<summary>Puts a NodeTypeAndKey and the database it belongs to on a clipboard data object, and reads them back. The data is UTF-8 JSON,
 	///{"NodeType":"Document","PriKey":123,"DbNameOrUri":"opendental"}, in a MemoryStream under Format: a stream goes to and from the clipboard
-	///as its bytes (no serializer), in WPF and in WinForms, and in this process and another one. Nothing else is read: an object of another
+	///as its bytes (no serializer), in WPF and in WinForms, and in this process and another one. The paste reads those bytes through OLE
+	///(ReadBytes), so no data under Format reaches a deserializer. Nothing else is read: an object of another
 	///format, an old copy (the NodeTypeAndKey object of an earlier version) or malformed data gives null, and the paste then uses the bitmap or
 	///the file names, as it does for a copy from another program.</summary>
 	public static class NodeTypeAndKeyClipboard {
@@ -23,6 +27,11 @@ namespace OpenPmsDental {
 		public const string Format="OpenPmsDental.NodeTypeAndKey.Json";
 		///<summary>Larger data is not read. The JSON of a copy is under 200 bytes plus the database name or Middle Tier address.</summary>
 		private const int MAX_BYTES=4096;
+		///<summary>A memory block may be this much larger than the data it holds (it is then zero filled).</summary>
+		private const int MAX_BYTES_ROUNDING=64;
+		///<summary>The 16 bytes that start a memory block holding an object that the WinForms or WPF clipboard serialized with the
+		///BinaryFormatter; their data objects deserialize such a block on GetData. A block under Format that starts with them is never read.</summary>
+		public static readonly Guid GuidSerializedObject=new Guid("FD9EA796-3B13-4370-A679-56106BB288FB");
 
 		///<summary>The JSON for the clipboard. dbNameOrUri is the database name, or the Middle Tier address, of the copy; null is written as "".</summary>
 		public static string ToJson(NodeTypeAndKey nodeTypeAndKey,string dbNameOrUri) {
@@ -92,54 +101,116 @@ namespace OpenPmsDental {
 			dataObject.SetData(Format,new MemoryStream(Encoding.UTF8.GetBytes(ToJson(nodeTypeAndKey,dbNameOrUri))));
 		}
 
-		///<summary>The copy on a WinForms data object (the paste reads the clipboard this way), or null if it has none.</summary>
+		///<summary>The copy on a WinForms data object (the paste reads the clipboard this way), or null if it has none. The bytes are read
+		///through the data object's OLE interface (ReadBytes), never through GetData(Format), which on .NET Framework passes a memory block that
+		///starts with GuidSerializedObject to the BinaryFormatter (S3a-FU2).</summary>
 		public static NodeTypeAndKey GetData(System.Windows.Forms.IDataObject iDataObject,out string dbNameOrUri) {
 			dbNameOrUri="";
 			if(iDataObject==null || !iDataObject.GetDataPresent(Format,false)) {
 				return null;
 			}
-			return FromData(iDataObject.GetData(Format,false),out dbNameOrUri);
+			return FromBytes(ReadBytes(iDataObject as IComDataObject),out dbNameOrUri);
 		}
 
-		///<summary>The copy on a WPF data object, or null if it has none.</summary>
+		///<summary>The copy on a WPF data object, or null if it has none. Read as the WinForms one is.</summary>
 		public static NodeTypeAndKey GetData(System.Windows.IDataObject iDataObject,out string dbNameOrUri) {
 			dbNameOrUri="";
 			if(iDataObject==null || !iDataObject.GetDataPresent(Format,false)) {
 				return null;
 			}
-			return FromData(iDataObject.GetData(Format,false),out dbNameOrUri);
+			return FromBytes(ReadBytes(iDataObject as IComDataObject),out dbNameOrUri);
 		}
 
-		///<summary>The data of Format: the stream (from the clipboard, or the one SetData made), or a string.</summary>
-		private static NodeTypeAndKey FromData(object data,out string dbNameOrUri) {
-			dbNameOrUri="";
-			string json;
-			if(data is Stream stream) {
-				if(!stream.CanRead || (stream.CanSeek && stream.Length>MAX_BYTES)) {
-					return null;
-				}
-				if(stream.CanSeek) {
-					stream.Position=0;
-				}
-				byte[] byteArray=new byte[MAX_BYTES+1];
-				int count=0;
-				int countRead;
-				while(count<byteArray.Length && (countRead=stream.Read(byteArray,count,byteArray.Length-count))>0) {
-					count+=countRead;
-				}
-				if(count>MAX_BYTES) {
-					return null;
-				}
-				//A stream from the clipboard can be longer than the data: its memory block is rounded up and filled with zeros.
-				json=Encoding.UTF8.GetString(byteArray,0,count).TrimEnd('\0');
-			}
-			else if(data is string str) {
-				json=str;
-			}
-			else {
+		///<summary>The bytes of Format's memory block on an OLE data object, copied as they are: IDataObject.GetData with TYMED_HGLOBAL, and no
+		///serializer. Null if the data object is null, has no memory block for Format, fails, or gives a block larger than MAX_BYTES plus
+		///MAX_BYTES_ROUNDING. The WinForms and WPF data objects in this process are OLE data objects too; a stream on them is copied into the
+		///block as its bytes.</summary>
+		public static byte[] ReadBytes(IComDataObject iComDataObject) {
+			if(iComDataObject==null) {
 				return null;
 			}
-			return FromJson(json,out dbNameOrUri);
+			FORMATETC formatetc=new FORMATETC();
+			formatetc.cfFormat=unchecked((short)(ushort)System.Windows.Forms.DataFormats.GetFormat(Format).Id);
+			formatetc.dwAspect=DVASPECT.DVASPECT_CONTENT;
+			formatetc.lindex=-1;
+			formatetc.ptd=IntPtr.Zero;
+			formatetc.tymed=TYMED.TYMED_HGLOBAL;
+			STGMEDIUM stgmedium;
+			try {
+				iComDataObject.GetData(ref formatetc,out stgmedium);
+			}
+			catch(Exception ex) {//COMException for a format or medium the data object does not have; anything else from another program's data object
+				ex.DoNothing();
+				return null;
+			}
+			try {
+				if(stgmedium.tymed!=TYMED.TYMED_HGLOBAL || stgmedium.unionmember==IntPtr.Zero) {
+					return null;
+				}
+				ulong size=GlobalSize(stgmedium.unionmember).ToUInt64();
+				if(size==0 || size>MAX_BYTES+MAX_BYTES_ROUNDING) {
+					return null;
+				}
+				IntPtr pointer=GlobalLock(stgmedium.unionmember);
+				if(pointer==IntPtr.Zero) {
+					return null;
+				}
+				try {
+					byte[] byteArray=new byte[(int)size];
+					Marshal.Copy(pointer,byteArray,0,byteArray.Length);
+					return byteArray;
+				}
+				finally {
+					GlobalUnlock(stgmedium.unionmember);
+				}
+			}
+			finally {
+				ReleaseStgMedium(ref stgmedium);
+			}
 		}
+
+		///<summary>Reads the bytes of Format's memory block: UTF-8 JSON, maybe followed by zeros (a memory block can be rounded up and zero
+		///filled). Null for null, for a block that starts with GuidSerializedObject (an object the clipboard serialized: it is never
+		///deserialized), for more than MAX_BYTES before the zeros, and for anything FromJson does not read.</summary>
+		public static NodeTypeAndKey FromBytes(byte[] byteArray,out string dbNameOrUri) {
+			dbNameOrUri="";
+			if(byteArray==null) {
+				return null;
+			}
+			byte[] byteArrayGuid=GuidSerializedObject.ToByteArray();
+			if(byteArray.Length>=byteArrayGuid.Length) {
+				bool isSerializedObject=true;
+				for(int i=0;i<byteArrayGuid.Length;i++) {
+					if(byteArray[i]!=byteArrayGuid[i]) {
+						isSerializedObject=false;
+						break;
+					}
+				}
+				if(isSerializedObject) {
+					return null;
+				}
+			}
+			int count=byteArray.Length;
+			while(count>0 && byteArray[count-1]==0) {
+				count--;
+			}
+			if(count>MAX_BYTES) {
+				return null;
+			}
+			return FromJson(Encoding.UTF8.GetString(byteArray,0,count),out dbNameOrUri);
+		}
+
+		[DllImport("kernel32.dll",SetLastError=true)]
+		private static extern IntPtr GlobalLock(IntPtr hMem);
+
+		[DllImport("kernel32.dll",SetLastError=true)]
+		[return: MarshalAs(UnmanagedType.Bool)]
+		private static extern bool GlobalUnlock(IntPtr hMem);
+
+		[DllImport("kernel32.dll",SetLastError=true)]
+		private static extern UIntPtr GlobalSize(IntPtr hMem);
+
+		[DllImport("ole32.dll")]
+		private static extern void ReleaseStgMedium(ref STGMEDIUM pmedium);
 	}
 }
