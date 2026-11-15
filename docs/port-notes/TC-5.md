@@ -203,7 +203,7 @@ All on the branch at `6ce016b89`, after a full build of the solution filter thro
 
 Fix round 1, on `chart/tc5-2`, after a full build through the lane (0 errors):
 
-- `tc5-2-record.txt` (at `06b17717a`): recorded the 2D baselines, the call logs (none changed) and every WPF baseline into a scratch
+- `tc5-2-record.txt` (at `06b17717a` and the text-size test, committed with `a6df3a9eb`): recorded the 2D baselines, the call logs (none changed) and every WPF baseline into a scratch
   folder (270 with the committed pixels, 4 new), with the parity wildcards removed: it listed the numbers of `text-label-long` that fail
   without an allowance (section 2.2) and found two faults of the new test and painter code, fixed in `a6df3a9eb`.
 - `tc5-2-final.txt` (at `a6df3a9eb`): ToothChartImageTests 201 passed, 0 failed, 3 skipped (as above); P262SchemaTests 24 passed, 4
