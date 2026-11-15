@@ -12,9 +12,12 @@ namespace OpenPmsDentalBusiness {
 		public long ComputerPrefNum;
 		///<summary>The human-readable name of the computer on the network (not the IP address).</summary>
 		public string ComputerName;
-		///<summary>Set to true if the tooth chart is to use a hardware accelerated OpenGL window when available. Set to false to use software rendering when available. Of course, the final pixel format on the customer machine depends on the list of available formats. Best match pixel format is always used. This option only applies if GraphicsSimple is set to false.</summary>
+		///<summary>Set to true if the tooth chart is to use a hardware accelerated OpenGL window when available. Set to false to use software rendering when available. Of course, the final pixel format on the customer machine depends on the list of available formats. Best match pixel format is always used. This option only applies if GraphicsSimple is set to false.
+		///Not read since TC-8 (docs/specs/wpf-tooth-chart-plan.md): no computer starts the OpenGL chart. The column stays, as in Open Dental's schema.</summary>
 		public bool GraphicsUseHardware;
-		///<summary>Enum:DrawingMode Set to 1 to use the low-quality 2D tooth chart in the chart module. Set to 0 to use a 3D DirectX based tooth chart in the chart module. This option helps the program run even when the local graphics hardware is buggy or unavailable.</summary>
+		///<summary>Enum:DrawingMode Set to 1 to use the low-quality 2D tooth chart in the chart module. Set to 0 to use a 3D DirectX based tooth chart in the chart module. This option helps the program run even when the local graphics hardware is buggy or unavailable.
+		///Since TC-8 (docs/specs/wpf-tooth-chart-plan.md) 0 (DirectX) and 2 (OpenGL) start the WPF 3D chart and 1 the Simple 2D chart; the stored values stay 0, 1 and 2 and
+		///gain no new one. Setup > Graphics writes 1 for "Simple 2D chart", and for "3D chart" writes 0 only when the value was 1, so a stored 0 or 2 is kept.</summary>
 		public DrawingMode GraphicsSimple;
 		///<summary>Indicates the type of Suni sensor connected to the local computer (if any). This can be a value of A, B, C, or D.
 		///Not used: Suni support is removed (Open Dental 26.2; P262-LINKS). The four Suni columns stay because Open Dental's 26.2 schema keeps them.
@@ -27,9 +30,10 @@ namespace OpenPmsDentalBusiness {
 		///<summary>Indicates the exposure level to use when capturing from a Suni sensor. Values can be 1 through 7. Not used (Suni support is removed).
 		///</summary>
 		public int SensorExposure;
-		///<summary>Indicates if the user prefers double-buffered 3D tooth-chart (where applicable).</summary>
+		///<summary>Indicates if the user prefers double-buffered 3D tooth-chart (where applicable). Not read since TC-8: it was the OpenGL chart's. The column stays.</summary>
 		public bool GraphicsDoubleBuffering;
-		///<summary>Indicates the current OpenGL pixel format by number which the user prefers (if using OpenGL).</summary>
+		///<summary>Indicates the current OpenGL pixel format by number which the user prefers (if using OpenGL). Not read or written since TC-8: no computer starts the
+		///OpenGL chart. The column stays.</summary>
 		public int PreferredPixelFormatNum;
 		///<summary>The path of the A-Z folder for the specified computer.  Overrides the officewide default.  Used when multiple locations are on a single virtual database and they each want to look to the local data folder for images.</summary>
 		public string AtoZpath;
@@ -43,7 +47,10 @@ namespace OpenPmsDentalBusiness {
 		public int TaskY;
 		///<summary>Holds a semi-colon separated list of enumeration names and values representing a DirectX format. If blank, then
 		///no format is currently set and the best theoretical format will be chosen at program startup. If this value is set to
-		///'opengl' then this computer is using OpenGL and a DirectX format will not be picked.</summary>
+		///'opengl' then this computer is using OpenGL and a DirectX format will not be picked.
+		///Since TC-8 (docs/specs/wpf-tooth-chart-plan.md, O-19 (b)) it holds the WPF chart's per-computer "Draw in software" switch: 'WpfSoftware' (SparksToothChart's
+		///ToothChartWrapper.DirectXFormatWpfSoftware) shows the renderer's smoothed picture on screen; empty, or a DirectX format an older build saved, shows the live view.
+		///No DirectX format is chosen or read any more; Setup > Graphics writes 'WpfSoftware' or clears it, and keeps any other value.</summary>
 		public string DirectXFormat;
 		///<summary>Show the select scanner dialog when scanning documents.</summary>
 		public bool ScanDocSelectSource;
@@ -74,7 +81,8 @@ namespace OpenPmsDentalBusiness {
 		public PlatformOD ComputerOS;
 		///<summary>Deprecated.</summary>
 		public double HelpButtonXAdjustment;
-		///<summary>Enum:YN Unknown, Yes, No.</summary>
+		///<summary>Enum:YN Unknown, Yes, No. Open Dental's DirectX 11 chart setting for this computer; not read since Sparks3D was removed (2026-11-01). The column
+		///stays (owner question BIN-A 5).</summary>
 		public YN GraphicsUseDirectX11;
 		///<summary>Default 0.  Typically a bit above 100. Example 120. Below 100 is allowed but rare, like 80. In addition to normal monitor scale set in Windows. 0 is treated the same as 100, or no additional zoom.</summary>
 		public int Zoom;

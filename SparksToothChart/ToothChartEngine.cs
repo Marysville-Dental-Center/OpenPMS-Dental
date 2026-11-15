@@ -4,7 +4,9 @@ namespace SparksToothChart {
 	///<summary>The engine a ToothChartWrapper draws with (ToothChartWrapper.Engine). In memory only: it is never stored, and it is outside the
 	///business layer, so docs/port-notes/FORK-ENUMS.md does not apply to it. The first three have the values of the stored DrawingMode
 	///(computerpref.GraphicsSimple: 0 DirectX, 1 Simple 2D, 2 OpenGL), so a stored value converts with a cast. Wpf3D has no stored form: the stored
-	///values stay 0, 1 and 2 (docs/specs/wpf-tooth-chart-plan.md, section 1 item 5).</summary>
+	///values stay 0, 1 and 2 (docs/specs/wpf-tooth-chart-plan.md, section 1 item 5). Since TC-8 the stored 0 and 2 start Wpf3D
+	///(ToothChartWrapper.DrawMode, ToothChartRelay.GetEngineForStoredMode) and 1 starts Simple2D; DirectX and OpenGL are started only by setting
+	///ToothChartWrapper.Engine to them (the legacy recorder and the tests), until TC-9a deletes them.</summary>
 	public enum ToothChartEngine {
 		///<summary>0. DirectX 9 through SharpDX.</summary>
 		DirectX,

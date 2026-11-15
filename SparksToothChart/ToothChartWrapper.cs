@@ -13,7 +13,9 @@ using SparksToothChart.Wpf3D;
 
 namespace SparksToothChart {
 	///<summary>This is the old tooth chart control.  It "wraps" three different old tooth charts: OpenGL, DirectX9, and 2D, and the WPF 3D chart
-	///(Engine, docs/specs/wpf-tooth-chart-plan.md), which no caller chooses yet.</summary>
+	///(Engine, docs/specs/wpf-tooth-chart-plan.md). Since TC-8 a stored DirectX or OpenGL choice (DrawMode) starts the WPF chart, so the program
+	///draws with the WPF chart or the 2D chart only; the DirectX and OpenGL engines are reached only through Engine (the legacy recorder and the
+	///tests) until TC-9a deletes them.</summary>
 	public partial class ToothChartWrapper:UserControl {
 		private string[] selectedTeeth;
 		///<summary>True for hardware graphics, false for software graphics.</summary>
@@ -34,6 +36,9 @@ namespace SparksToothChart {
 		private ToothChartWpfView toothChartWpfView;
 		///<summary>Wpf3D: the per-computer "Draw in software" switch (WpfDrawInSoftware).</summary>
 		private bool _isWpfDrawnInSoftware;
+		///<summary>Wpf3D, with the live view: the WPF Dispatcher of the live view's thread, whose UnhandledException the wrapper watches for a failure of
+		///WPF's render thread (WatchLiveViewDispatcher, TC-8); null while there is no live view.</summary>
+		private System.Windows.Threading.Dispatcher _dispatcherLiveView;
 		///<summary>Wpf3D: set when the live view failed to start on this wrapper, which then shows the software render; cleared when the engine is
 		///released.</summary>
 		private bool _isWpfLiveViewFailed;
@@ -117,9 +122,10 @@ namespace SparksToothChart {
 
 		#region Properties
 
-		///<summary>The stored kind of the engine (computerpref.GraphicsSimple). Setting it starts that engine, falling back as GetFallbackDrawMode
-		///says. While Engine is Wpf3D this reads DirectX: the stored value that the WPF chart replaces (TC-8 maps 0 and 2 to it), so a caller that
-		///saves DrawMode never turns a computer to the 2D chart.</summary>
+		///<summary>The stored kind of the engine (computerpref.GraphicsSimple). Since TC-8 setting DirectX (0) or OpenGL (2) starts the WPF chart
+		///(Engine=Wpf3D), which falls back to Simple2D with one log line when it cannot start, and setting Simple2D (1) starts the 2D chart (O-30): a
+		///stored DirectX or OpenGL choice never reaches the old engines again. While Engine is Wpf3D this reads DirectX: the stored value that the
+		///WPF chart replaces, so a caller that saves DrawMode never turns a computer to the 2D chart, and Wpf3D has no stored form of its own.</summary>
 		public DrawingMode DrawMode{
 			get{
 				return drawMode;
@@ -129,28 +135,39 @@ namespace SparksToothChart {
 					return;//disallow changing from simpleMode if platform is Unix
 				}
 				//do not break out if not changing mode.  ContrChart.InitializeOnStartup assumes this code will always run.
-				if(_engine==ToothChartEngine.DirectX && value!=DrawingMode.DirectX){
-					//If switching from from DirectX to another drawing mode,
-					//then we need to cleanup DirectX resources in case the
-					//chart is never switched back to DirectX mode.
-					DisposeDirectX();//Calls CleanupDirectX() and device.Dispose().
+				if(value!=DrawingMode.Simple2D) {
+					Engine=ToothChartEngine.Wpf3D;//TC-8: the stored DirectX and OpenGL choices start the WPF chart
+					return;
 				}
-				if(_engine==ToothChartEngine.Wpf3D) {
-					DisposeWpf3D();
-				}
-				//A mode that cannot start falls back to the next one (DirectX, OpenGL, Simple 2D) without an error dialog, logged once per process.
-				//Read DrawMode afterwards to learn which mode started.
-				drawMode=StartFirstWorkingMode(value,IsDirectXRuntimeAvailable(),TryStartDrawMode,LogFallbackOnce);
-				_engine=(ToothChartEngine)drawMode;
+				StartDrawingModeEngine(value);
 			}
 		}
 
-		///<summary>The engine that draws the chart. Setting DirectX, Simple2D or OpenGL is the same as setting DrawMode. Setting Wpf3D starts the WPF
-		///chart (docs/specs/wpf-tooth-chart-plan.md, section 5): its render thread and a check image the first time in the process, then its engine
-		///control, the image host; the live view follows with the first rebuild on screen of a wrapper shown on an STA thread (WpfDrawInSoftware,
-		///TC-3). When it cannot start,
-		///the chart falls back to Simple2D with one log line (LogFallbackOnce). Read Engine afterwards to learn which engine started. In memory only:
-		///no caller chooses Wpf3D yet (TC-8 maps the stored values to it).</summary>
+		///<summary>Starts one of the three DrawingMode engines on this wrapper, after releasing the engine it had. A mode that cannot start falls back
+		///to the next one (DirectX, OpenGL, Simple 2D) without an error dialog, logged once per process. Since TC-8 only Engine reaches DirectX and
+		///OpenGL here (the legacy recorder and the tests, until TC-9a deletes those engines); DrawMode reaches only Simple2D.</summary>
+		private void StartDrawingModeEngine(DrawingMode value) {
+			if(_engine==ToothChartEngine.DirectX && value!=DrawingMode.DirectX){
+				//If switching from from DirectX to another drawing mode,
+				//then we need to cleanup DirectX resources in case the
+				//chart is never switched back to DirectX mode.
+				DisposeDirectX();//Calls CleanupDirectX() and device.Dispose().
+			}
+			if(_engine==ToothChartEngine.Wpf3D) {
+				DisposeWpf3D();
+			}
+			//A mode that cannot start falls back to the next one (DirectX, OpenGL, Simple 2D) without an error dialog, logged once per process.
+			//Read DrawMode afterwards to learn which mode started.
+			drawMode=StartFirstWorkingMode(value,IsDirectXRuntimeAvailable(),TryStartDrawMode,LogFallbackOnce);
+			_engine=(ToothChartEngine)drawMode;
+		}
+
+		///<summary>The engine that draws the chart. Setting Wpf3D starts the WPF chart (docs/specs/wpf-tooth-chart-plan.md, section 5): its render
+		///thread and a check image the first time in the process, then its engine control, the image host; the live view follows with the first
+		///rebuild on screen of a wrapper shown on an STA thread (WpfDrawInSoftware, TC-3). When it cannot start, the chart falls back to Simple2D with
+		///one log line (LogFallbackOnce). Setting Simple2D starts the 2D chart. Setting DirectX or OpenGL starts that old engine itself, with its
+		///fallback: since TC-8 only the legacy recorder and the tests do that, until TC-9a deletes those engines; the program sets the stored choice
+		///through DrawMode, where DirectX and OpenGL start Wpf3D. Read Engine afterwards to learn which engine started. In memory only.</summary>
 		[Browsable(false)]
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public ToothChartEngine Engine {
@@ -162,7 +179,7 @@ namespace SparksToothChart {
 					return;//as DrawMode: Unix keeps the 2D chart
 				}
 				if(value!=ToothChartEngine.Wpf3D) {
-					DrawMode=(DrawingMode)value;
+					StartDrawingModeEngine((DrawingMode)value);
 					return;
 				}
 				if(_engine==ToothChartEngine.DirectX) {
@@ -358,7 +375,9 @@ namespace SparksToothChart {
 			}
 			set {
 				if(_engine!=ToothChartEngine.DirectX && _engine!=ToothChartEngine.Wpf3D && value==true) {
-					throw new Exception("Only allowed in DirectX");//the WPF chart draws perio since TC-7; Simple 2D and OpenGL cannot
+					//The WPF chart draws perio since TC-7, and since TC-8 the graphical perio chart always asks for it (O-31); Simple 2D and OpenGL cannot.
+					//A perio chart gets here only when the WPF chart could not start on this computer (its one log line says why).
+					throw new Exception("The graphical perio chart needs the 3D tooth chart, which could not start on this computer.");
 				}
 				tcData.PerioMode=value;
 				Invalidate();
@@ -790,7 +809,8 @@ namespace SparksToothChart {
 		}
 
 		///<summary>CAUTION: Runs slowly. May take minutes. Returns the string "invalid" if no suitable Direct X format can be found. Each format is
-		///tried on an invisible chart on controlHost (TestDirectXFormat). Moved from FormGraphics (TC-2).</summary>
+		///tried on an invisible chart on controlHost (TestDirectXFormat). Moved from FormGraphics (TC-2). Since TC-8 the program never calls it (the
+		///start-up search is a no-op and Setup > Graphics has no format grid); the legacy recorder and the tests do, until TC-9a.</summary>
 		public static string GetPreferredDirectXFormat(Control controlHost) {
 			if(!ToothChartWrapper.IsDirectXRuntimeAvailable()) {
 				return "invalid";//No format can work without d3dx9_43.dll, so don't spend minutes trying each one.
@@ -813,8 +833,10 @@ namespace SparksToothChart {
 				//and our device creation test will then be accurate.
 				controlHost.Controls.Add(toothChartWrapperTest);
 				toothChartWrapperTest.DeviceFormat=new ToothChartDirectX.DirectXDeviceFormat(directXFormat);
-				toothChartWrapperTest.DrawMode=DrawingMode.DirectX;//Creates the device.
-				if(toothChartWrapperTest.DrawMode!=DrawingMode.DirectX) {
+				//Creates the device. The DirectX engine itself (Engine): since TC-8 DrawMode's DirectX starts the WPF chart. Only the legacy recorder and
+				//the tests search formats now (Setup > Graphics and the start-up search no longer do); TC-9a deletes this with the engine.
+				toothChartWrapperTest.Engine=ToothChartEngine.DirectX;
+				if(toothChartWrapperTest.Engine!=ToothChartEngine.DirectX) {
 					//The chart falls back to OpenGL, then Simple 2D, when DirectX cannot start.
 					controlHost.Controls.Remove(toothChartWrapperTest);
 					return false;
@@ -921,8 +943,9 @@ namespace SparksToothChart {
 
 		#region Wpf3D live view and the software switch
 		///<summary>The value of computerpref.DirectXFormat that turns the WPF chart's on-screen view to the software render on a computer (O-19 (b)):
-		///empty, or a DirectX device format, means the live view. TC-8 stores and reads it; an older build finds no ';' in it and keeps its default
-		///DirectX format (ToothChartDirectX.DirectXDeviceFormat).</summary>
+		///empty, or a DirectX device format, means the live view. Since TC-8 Setup > Graphics stores it ("Draw in software") and
+		///ToothChartRelay.ApplyComputerSettings reads it; an older build finds no ';' in it and keeps its default DirectX format
+		///(ToothChartDirectX.DirectXDeviceFormat).</summary>
 		public const string DirectXFormatWpfSoftware="WpfSoftware";
 
 		///<summary>True when a stored computerpref.DirectXFormat value is DirectXFormatWpfSoftware: the computer draws the WPF chart in software.</summary>
@@ -930,8 +953,8 @@ namespace SparksToothChart {
 			return directXFormat!=null && directXFormat.Trim()==DirectXFormatWpfSoftware;
 		}
 
-		///<summary>The per-computer "Draw in software" switch of the WPF chart (O-19 (b); TC-8 sets it from computerpref.DirectXFormat and shows it in
-		///Setup > Graphics). Off (the default): a shown wrapper on an STA thread shows the live view, which WPF's render thread draws as it draws every
+		///<summary>The per-computer "Draw in software" switch of the WPF chart (O-19 (b); since TC-8 ToothChartRelay.ApplyComputerSettings sets it from
+		///computerpref.DirectXFormat before it starts the engine, and Setup > Graphics shows it). Off (the default): a shown wrapper on an STA thread shows the live view, which WPF's render thread draws as it draws every
 		///WPF window of the process. On: it shows the renderer's image of the scene, the same image as GetBitmap's (the 3D layer supersampled and
 		///smoothed), which no graphics driver can change (for a PC whose driver draws no WPF 3D, dotnet/wpf#7076). In OpenPmsDental.exe both are
 		///software: the program sets RenderOptions.ProcessRenderMode to SoftwareOnly for the whole process (ProgramEntry.Main, from upstream), so the
@@ -1012,10 +1035,79 @@ namespace SparksToothChart {
 				toothChartWpfViewNew.BringToFront();
 				toothChartWpfView=toothChartWpfViewNew;
 				toothChartImageHost.Visible=false;
+				WatchLiveViewDispatcher();
 			}
 			catch(Exception ex) {
 				FallBackFromWpfLiveView(toothChartWpfViewNew,"start",ex);
 			}
+		}
+
+		///<summary>UCEERR_RENDERTHREADFAILURE: WPF's render thread failed. WPF throws it on the UI thread, as a COMException with this HRESULT (from its
+		///channel's flush), or as the exception MediaContext.NotifyPartitionIsZombie throws when it learns of the failure (an InvalidOperationException,
+		///"An unspecified error occurred on the render thread", or an OutOfMemoryException for video memory).</summary>
+		public const int HRESULT_UCEERR_RENDERTHREADFAILURE=unchecked((int)0x88980406);
+
+		///<summary>True when ex, or an exception inside it, is a failure of WPF's render thread as WPF reports it on the UI thread: the HRESULT
+		///UCEERR_RENDERTHREADFAILURE, or an exception thrown by System.Windows.Media.MediaContext.NotifyPartitionIsZombie. False for null and for every
+		///other exception, which the live view's fallback leaves to the program's own handlers.</summary>
+		public static bool IsWpfRenderThreadFailure(Exception ex) {
+			for(Exception exCur=ex;exCur!=null;exCur=exCur.InnerException) {
+				if(exCur.HResult==HRESULT_UCEERR_RENDERTHREADFAILURE) {
+					return true;
+				}
+				System.Reflection.MethodBase methodBase=null;
+				try {
+					methodBase=exCur.TargetSite;
+				}
+				catch(Exception exTarget) {
+					exTarget.DoNothing();
+				}
+				if(methodBase!=null && methodBase.Name=="NotifyPartitionIsZombie" && methodBase.DeclaringType?.FullName=="System.Windows.Media.MediaContext") {
+					return true;
+				}
+			}
+			return false;
+		}
+
+		///<summary>While the wrapper has a live view, it watches the UnhandledException of its thread's WPF Dispatcher (TC-8, from TC-3's fix round 3): the
+		///UI thread has no Dispatcher.UnhandledException filter of its own, unlike the chart's render thread (ToothChartRenderer), so a failure of WPF's
+		///render thread that WPF throws on the UI thread (IsWpfRenderThreadFailure) would otherwise reach the program's handlers. The wrapper then falls
+		///back to the image host as a failed ShowScene does (LiveViewDispatcher_UnhandledException).</summary>
+		private void WatchLiveViewDispatcher() {
+			StopWatchingLiveViewDispatcher();
+			_dispatcherLiveView=System.Windows.Threading.Dispatcher.CurrentDispatcher;
+			_dispatcherLiveView.UnhandledException+=LiveViewDispatcher_UnhandledException;
+		}
+
+		///<summary>Stops watching the live view's Dispatcher (the live view went, failed, or the engine was released).</summary>
+		private void StopWatchingLiveViewDispatcher() {
+			if(_dispatcherLiveView==null) {
+				return;
+			}
+			try {
+				_dispatcherLiveView.UnhandledException-=LiveViewDispatcher_UnhandledException;
+			}
+			catch(Exception ex) {
+				ex.DoNothing();
+			}
+			_dispatcherLiveView=null;
+		}
+
+		///<summary>A failure of WPF's render thread on the live view's thread: the exception is handled (every live view of the thread falls back, so
+		///another wrapper's Handled does not stop this one), the live view is released, the image host shows the chart from then on, cleared first,
+		///logged once (Wpf3DLiveView) as a failed ShowScene is, and the on-screen rebuild is posted so the image host shows the current data. Any other
+		///exception is left alone, unhandled, for the program's own handlers.</summary>
+		private void LiveViewDispatcher_UnhandledException(object sender,System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e) {
+			if(!IsWpfRenderThreadFailure(e.Exception)) {
+				return;
+			}
+			e.Handled=true;
+			if(toothChartWpfView==null || IsDisposed || Disposing) {
+				return;
+			}
+			FallBackFromWpfLiveView(toothChartWpfView,"draw on screen",e.Exception);
+			_isWpfScreenStale=true;
+			PostWpfRebuildIfShown();
 		}
 
 		///<summary>The live view failed: it could not start (toothChartWpfViewFailed is the half-made view, or null) or could not show a scene. The wrapper
@@ -1023,6 +1115,7 @@ namespace SparksToothChart {
 		///logs once (Wpf3DLiveView). It makes no live view again until the engine is started again (DisposeWpf3D clears _isWpfLiveViewFailed).</summary>
 		private void FallBackFromWpfLiveView(ToothChartWpfView toothChartWpfViewFailed,string action,Exception ex) {
 			_isWpfLiveViewFailed=true;
+			StopWatchingLiveViewDispatcher();
 			if(toothChartWpfViewFailed!=null) {
 				ReleaseWpfLiveView(toothChartWpfViewFailed);
 			}
@@ -1039,6 +1132,7 @@ namespace SparksToothChart {
 
 		///<summary>Releases the live view, if there is one.</summary>
 		private void DisposeWpfLiveView() {
+			StopWatchingLiveViewDispatcher();
 			if(toothChartWpfView==null) {
 				return;
 			}
@@ -1175,8 +1269,8 @@ namespace SparksToothChart {
 		///it arrives (ToothChartBitmapRequest). Only the newest request is made: a newer one drops the older, and the render thread takes the newest
 		///scene only when it starts the job, so a burst of refills makes one picture (and one more when a render was already running when the burst
 		///began; its picture is dropped). A render that fails twice gives the 2D chart's picture of the data as it is when the failure arrives, logged
-		///once, as GetBitmap falls back. Returns null, asking for nothing, when the picture cannot be made this way: another engine (DirectX, OpenGL and
-		///Simple 2D keep their GetBitmap until TC-8), a wrapper with no handle to post to (the hidden forms of prints, sheets and the dashboard's own
+		///once, as GetBitmap falls back. Returns null, asking for nothing, when the picture cannot be made this way: another engine (Simple 2D keeps its
+		///GetBitmap; since TC-8 the program starts no DirectX or OpenGL chart), a wrapper with no handle to post to (the hidden forms of prints, sheets and the dashboard's own
 		///chart), a call off the wrapper's thread, or an empty size. The caller then calls GetBitmap.</summary>
 		public ToothChartBitmapRequest RequestBitmapInBackground() {
 			if(_engine!=ToothChartEngine.Wpf3D || toothChartImageHost==null || IsDisposed || Disposing || !IsHandleCreated || InvokeRequired) {
