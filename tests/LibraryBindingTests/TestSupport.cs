@@ -383,7 +383,48 @@ namespace LibraryBindingTests {
 			{ "Microsoft.NETCore.Targets","no assembly: the runtime graph of the .NET Standard 1.x packages (TC-4)" },
 			{ "runtime.any.System.IO","no assembly for .NET Framework (lib\\net45\\_._), batch H2 (TC-4)" },
 			{ "runtime.any.System.Runtime","no assembly for .NET Framework (lib\\net45\\_._), batch H2 (TC-4)" },
+			//S4-1 of the .NET 10 move (docs/port-notes/S4-1.md): MSTest 4 and its closure, batch B. Like Mono.Cecil, test tools of the test projects
+			//(and UnitTestsCore) only, which no program references and "Required dlls" never held; vstest loads the adapter next to each test
+			//assembly, and the generated .dll.config of each test project binds them.
+			{ "MSTest.TestFramework","the test framework (S4-1): test projects only; its assemblies are no library of the programs" },
+			{ "MSTest.TestAdapter","the VSTest adapter (S4-1), whose two assemblies its build files reference from buildTransitive\\net462 (the "
+				+"MSTest.TestFramework files there are byte for byte those of MSTest.TestFramework's lib\\net462); test projects only" },
+			{ "MSTest.Analyzers","Roslyn analyzers only (S4-1)" },
+			{ "Microsoft.NET.Test.Sdk","no assembly for .NET Framework (lib\\net462\\_._): build files only (S4-1)" },
+			{ "Microsoft.CodeCoverage","the code coverage collector's shim (S4-1), test projects only; the collector's own files (build\\netstandard2.0) "
+				+"are copied on publish only (FoldersNotCopied)" },
+			{ "Microsoft.TestPlatform.ObjectModel","VSTest's object model, which the MSTest adapter uses (S4-1): test projects only" },
+			{ "Microsoft.Testing.Platform","the Microsoft Testing Platform, which the MSTest adapter references (S4-1): test projects only" },
+			{ "Microsoft.Testing.Platform.MSBuild","the platform's MSBuild support (S4-1): test projects only" },
+			{ "Microsoft.Testing.Extensions.TrxReport.Abstractions","the platform's TRX abstractions, which the MSTest adapter references (S4-1): test "
+				+"projects only" },
+			{ "Microsoft.Testing.Extensions.Telemetry","the platform's telemetry extension: Directory.Build.targets keeps its assembly out of every "
+				+"output folder (S4-1; tests\\ProjectFileTests, TestTelemetryTests)" },
+			{ "Microsoft.ApplicationInsights","the telemetry extension's client: Directory.Build.targets keeps its assembly out of every output folder "
+				+"(S4-1; tests\\ProjectFileTests, TestTelemetryTests)" },
+			{ "System.Collections.Immutable","the MSTest adapter's (through System.Reflection.Metadata and Microsoft.TestPlatform.ObjectModel, S4-1): "
+				+"test projects only" },
+			{ "System.Reflection.Metadata","the MSTest adapter's (S4-1): test projects only" },
 		};
+
+		///<summary>Folders of a package of _dictNoLibraries that no build copies from, with the reason: the check that such a package holds no file of a
+		///library file's name (RequiredDllsTests) skips them. Package id to folder prefixes, with '/'.</summary>
+		private static readonly Dictionary<string,string[]> _dictFoldersNotCopied=new Dictionary<string,string[]>(StringComparer.OrdinalIgnoreCase) {
+			//The code coverage collector and its own dependencies (System.Memory, System.Text.Json and the like, older or other builds than the
+			//libraries'), which Microsoft.CodeCoverage.targets copies only after ComputeFilesToPublish, into a Microsoft.CodeCoverage sub folder.
+			{ "Microsoft.CodeCoverage",new[] { "build/netstandard2.0/" } },
+		};
+
+		///<summary>True when the file (its path in the package's folder, with '/' or '\') is in a folder of the package that no build copies from
+		///(_dictFoldersNotCopied).</summary>
+		public static bool IsInFolderNotCopied(string packageId,string relativePath) {
+			string[] arrayFolders;
+			if(!_dictFoldersNotCopied.TryGetValue(packageId,out arrayFolders)) {
+				return false;
+			}
+			string path=relativePath.Replace('\\','/');
+			return arrayFolders.Any(x => path.StartsWith(x,StringComparison.OrdinalIgnoreCase));
+		}
 
 		///<summary>The mapped packages, by id.</summary>
 		public static IEnumerable<string> MappedIds {

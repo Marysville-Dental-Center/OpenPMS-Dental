@@ -14,7 +14,7 @@ namespace UnitTests.Userods_Tests {
 	public class UserodsTests:TestBase {
 		///<summary>This method will get invoked after every single test.</summary>
 		[TestCleanup]
-		public void Cleanup() {
+		public void CleanupUserodsTest() {
 			ODEvent.Fired-=CredentialsFailedAfterLoginEvent_Fired1;
 			ODEvent.IsCredentialsFailedAfterLogin_EventSubscribed=false;
 			RemotingClient.HasLoginFailed=false;

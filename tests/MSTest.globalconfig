@@ -1,0 +1,62 @@
+# The MSTest.Analyzers rules (MSTest.Analyzers 4.5.3, which comes with MSTest.TestFramework) as this repository sets them, for every
+# project that has the analyzers: the test projects, NoHqTests, UnitTests and UnitTestsCore (Directory.Build.targets adds this file).
+# The package's own "Default" set applies to every rule not named here; this file is read after it (global_level 10 is above the
+# package's -100). Why each rule below has its level: docs/port-notes/S4-1.md, "MSTest.Analyzers".
+is_global = true
+global_level = 10
+
+# Errors: a test, a fixture or a test class that MSTest 4 would not run, or would run differently than it is written. MSTest v1 ran
+# some of these anyway (or skipped them without a word); MSTest 4 refuses them at run time, so the build stops first.
+# Test classes and test methods with a valid layout.
+dotnet_diagnostic.MSTEST0002.severity = error
+dotnet_diagnostic.MSTEST0003.severity = error
+# The TestContext property.
+dotnet_diagnostic.MSTEST0005.severity = error
+# Test attributes ([Owner], [Priority], [TestCategory], [Timeout] and the like) only on test methods.
+dotnet_diagnostic.MSTEST0007.severity = error
+# TestInitialize, TestCleanup, ClassInitialize, ClassCleanup, AssemblyInitialize and AssemblyCleanup with a valid layout.
+dotnet_diagnostic.MSTEST0008.severity = error
+dotnet_diagnostic.MSTEST0009.severity = error
+dotnet_diagnostic.MSTEST0010.severity = error
+dotnet_diagnostic.MSTEST0011.severity = error
+dotnet_diagnostic.MSTEST0012.severity = error
+dotnet_diagnostic.MSTEST0013.severity = error
+# DataRow and DynamicData that fit their test method.
+dotnet_diagnostic.MSTEST0014.severity = error
+dotnet_diagnostic.MSTEST0018.severity = error
+# A type with [TestMethod] but no [TestClass]: its tests never run.
+dotnet_diagnostic.MSTEST0030.severity = error
+# [DeploymentItem] only on a test class or a test method.
+dotnet_diagnostic.MSTEST0035.severity = error
+# A test or fixture method that hides one of its base class: reflection may find either.
+dotnet_diagnostic.MSTEST0036.severity = error
+# Asserts in an async void method: a failure is not reported to the test.
+dotnet_diagnostic.MSTEST0040.severity = error
+# Condition and retry attributes where MSTest reads them.
+dotnet_diagnostic.MSTEST0041.severity = error
+dotnet_diagnostic.MSTEST0043.severity = error
+# TestContext properties used where they have no value.
+dotnet_diagnostic.MSTEST0048.severity = error
+# Global test fixtures, custom TestMethodAttribute classes, duplicate test method attributes, test class constructors, [MemberCondition],
+# [DependsOn], [TestFilterProvider] and lifecycle methods inherited from another MSTest version.
+dotnet_diagnostic.MSTEST0050.severity = error
+dotnet_diagnostic.MSTEST0056.severity = error
+dotnet_diagnostic.MSTEST0057.severity = error
+dotnet_diagnostic.MSTEST0060.severity = error
+dotnet_diagnostic.MSTEST0063.severity = error
+dotnet_diagnostic.MSTEST0070.severity = error
+dotnet_diagnostic.MSTEST0078.severity = error
+dotnet_diagnostic.MSTEST0081.severity = error
+dotnet_diagnostic.MSTEST0082.severity = error
+dotnet_diagnostic.MSTEST0088.severity = error
+
+# Suggestions (shown in an editor, not in a build): advice on how an assertion is written, never a change of outcome.
+# The expected and actual arguments in the other order (319 places when S4-1 moved to MSTest 4): only the wording of a failure message.
+dotnet_diagnostic.MSTEST0017.severity = suggestion
+# Both arguments constant, so the analyzer already knows the result: the tests that pin a stored number (an enum value, a migration
+# level, a lock code) against the constant in the code, which is what they are for.
+dotnet_diagnostic.MSTEST0025.severity = suggestion
+dotnet_diagnostic.MSTEST0032.severity = suggestion
+# [Timeout] without cooperative cancellation: the two [Timeout] tests of BPERIOTests keep MSTest v1's meaning (the test is stopped
+# waiting for after the time, whether or not it watches a cancellation token).
+dotnet_diagnostic.MSTEST0045.severity = suggestion

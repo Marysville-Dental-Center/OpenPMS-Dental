@@ -635,6 +635,16 @@ approved.
 
 **Order.** S4-1 then S4-2 (S4-2 is small; it can be prepared in parallel and merged second).
 
+**Status (2026-11-14).** S4-1 done on `net10/s41-1` (`docs/port-notes/S4-1.md`), not merged yet: MSTest.TestFramework, MSTest.TestAdapter
+and MSTest.Analyzers 4.5.3 and Microsoft.NET.Test.Sdk 18.12.0 for every test project (UnitTestsCore: the framework only), System.ValueTuple
+pinned at 4.6.2, `ODAddMSTestV1SearchPath` removed, the analyzer levels in `tests/MSTest.globalconfig`, the telemetry extension and Application
+Insights kept out of every output folder (TestTelemetryTests). One compile error (the `[ExpectedException]`, now `Assert.ThrowsExactly`);
+three fixture methods of the legacy UnitTests that v1 never ran now run, and the one test that then failed checks what it says. ClassCleanup
+runs at the end of each class (v4 has no other timing). Targeted runs of all 119 assemblies: identical to the stage 2 record test by test in
+109, and every difference in the other 10 explained (tests added or removed on `main` since, the 4 new telemetry tests, the gate-only
+baseline check, and one DbConnectionSecurityTests dry run that the local server's TLS set-up refuses); no leftover scratch database. The test
+runner and the lane's `-Test` run MSTest 4 unchanged; S4-2 next.
+
 **Full-test gate.** Section 3, plus identical per-assembly discovered-test counts and outcomes compared to the v1 record (differences
 explained one by one).
 
