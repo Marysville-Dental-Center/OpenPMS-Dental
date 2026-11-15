@@ -17,6 +17,9 @@ using System.Runtime.InteropServices;
 // COM, set the ComVisible attribute to true on that type.
 [assembly: ComVisible(false)]
 
+//The Credential Manager tests use their own store names and the old vault reader (S3a-5, CredentialStore and OldPasswordVault).
+[assembly: InternalsVisibleTo("BINBTests")]
+
 // The following GUID is for the ID of the typelib if this project is exposed to COM
 [assembly: Guid("59052a4b-ec6f-44e3-8c3f-26749d28bcf3")]
 

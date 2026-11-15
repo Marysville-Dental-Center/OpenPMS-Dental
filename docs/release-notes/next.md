@@ -47,6 +47,7 @@ What this version brings, each in its section below (the roadmap's "Done in the 
   - Glidewell lab cases, ready but not yet able to send: hidden in Program Links until the program can connect to Glidewell, and no patient
     data is sent without a business associate agreement with Glidewell.
 - the Meaningful Use measures window of EHR (Measure Calc) working again, rebuilt as open code, for internal review only;
+- saved Middle Tier passwords move from the Windows PasswordVault to the Windows Credential Manager on first use; nothing to re-enter;
 - two new entries in Help > About > View Licenses, Helix Toolkit and the .NET Community Toolkit: libraries for the coming 3D tooth chart,
   installed with the program from this version on (the tooth chart itself does not change yet);
 - the tooth chart: completed extractions shown with an X, on by default as in Open Dental 26.2, the paint type TextBelow (Open Dental
