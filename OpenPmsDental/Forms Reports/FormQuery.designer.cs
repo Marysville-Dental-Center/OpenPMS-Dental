@@ -20,11 +20,11 @@
 		private OpenPmsDental.UI.Button butQView;
 		private OpenPmsDental.UI.Button butSubmit;
 		private OpenPmsDental.UI.CheckBox checkReportServer;
-		private System.Windows.Forms.DataGrid grid2;
+		private System.Windows.Forms.DataGridView grid2;
+		private System.Windows.Forms.Label labelGridCaption;
 		private OpenPmsDental.UI.GroupBox groupBox1;
 		private System.Windows.Forms.Label labelTotPages;
 		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.DataGridTableStyle myGridTS;
 		private System.Windows.Forms.Panel panel1;
 		private System.Windows.Forms.Panel panelZoom;
 		private OpenPmsDental.UI.ODPrintPreviewControl printPreviewControl2;
@@ -40,7 +40,8 @@
 		private void InitializeComponent()
 		{
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormQuery));
-			this.grid2 = new System.Windows.Forms.DataGrid();
+			this.grid2 = new System.Windows.Forms.DataGridView();
+			this.labelGridCaption = new System.Windows.Forms.Label();
 			this.textQuery = new OpenPmsDental.ODtextBox();
 			this.butExportExcel = new OpenPmsDental.UI.Button();
 			this.butPaste = new OpenPmsDental.UI.Button();
@@ -83,14 +84,30 @@
 			this.grid2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+			this.grid2.AllowUserToAddRows = false;
+			this.grid2.AllowUserToDeleteRows = false;
+			this.grid2.AutoGenerateColumns = false;
 			this.grid2.BackgroundColor = System.Drawing.Color.Gainsboro;
+			this.grid2.ColumnHeadersDefaultCellStyle.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.grid2.DataMember = "";
-			this.grid2.HeaderForeColor = System.Drawing.SystemColors.ControlText;
-			this.grid2.Location = new System.Drawing.Point(1, 26);
+			this.grid2.Location = new System.Drawing.Point(1, 45);
 			this.grid2.Name = "grid2";
 			this.grid2.ReadOnly = true;
-			this.grid2.Size = new System.Drawing.Size(1225, 468);
+			this.grid2.Size = new System.Drawing.Size(1225, 449);
 			this.grid2.TabIndex = 2;
+			//
+			// labelGridCaption
+			//
+			this.labelGridCaption.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.labelGridCaption.BackColor = System.Drawing.SystemColors.ActiveCaption;
+			this.labelGridCaption.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold);
+			this.labelGridCaption.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+			this.labelGridCaption.Location = new System.Drawing.Point(1, 26);
+			this.labelGridCaption.Name = "labelGridCaption";
+			this.labelGridCaption.Size = new System.Drawing.Size(1225, 19);
+			this.labelGridCaption.TabIndex = 10;
+			this.labelGridCaption.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// textQuery
 			// 
@@ -385,6 +402,7 @@
 			// splitterPanel2
 			// 
 			this.splitterPanel2.Controls.Add(this.grid2);
+			this.splitterPanel2.Controls.Add(this.labelGridCaption);
 			this.splitterPanel2.Controls.Add(this.label1);
 			this.splitterPanel2.Controls.Add(this.textTitle);
 			this.splitterPanel2.Location = new System.Drawing.Point(0, 163);

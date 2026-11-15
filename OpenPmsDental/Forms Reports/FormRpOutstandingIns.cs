@@ -16,7 +16,7 @@ using CodeBase;
 namespace OpenPmsDental {
 	public partial class FormRpOutstandingIns:FormODBase {
 		#region Private Variables
-		private ContextMenu rightClickMenu=new ContextMenu();
+		private ContextMenuStrip rightClickMenu=new ContextMenuStrip();
 		private RpOutstandingIns.PreauthOptions _preauthOption;
 		private bool headingPrinted;
 		private int pagesPrinted;
@@ -32,7 +32,8 @@ namespace OpenPmsDental {
 		public FormRpOutstandingIns() {
 			InitializeComponent();
 			InitializeLayoutManager();
-			gridMain.ContextMenu=rightClickMenu;
+			gridMain.ContextMenuStrip=rightClickMenu;
+			gridMain.DoAddGridItemsToContextMenuStrip=true;
 			Lan.F(this);
 		}
 
@@ -56,33 +57,32 @@ namespace OpenPmsDental {
 			if(!Security.IsAuthorized(EnumPermType.UpdateCustomTracking,true)) {
 				buttonUpdateCustomTrack.Enabled=false;
 			}
-			List<MenuItem> listMenuItems=new List<MenuItem>();
+			List<ToolStripMenuItem> listMenuItems=new List<ToolStripMenuItem>();
 			//The first item in the list will always exists, but we toggle it's visibility to only show when 1 row is selected.
-			listMenuItems.Add(new MenuItem(Lan.g(this,"Go to Account"),new EventHandler(gridMain_RightClickHelper)));
+			listMenuItems.Add(new ToolStripMenuItem(Lan.g(this,"Go to Account"),null,new EventHandler(gridMain_RightClickHelper)));
 			listMenuItems[0].Tag=0;//Tags are used to identify what to do in gridMain_RightClickHelper.
-			listMenuItems.Add(new MenuItem(Lan.g(this,"Assign to Me"),new EventHandler(gridMain_RightClickHelper)));
+			listMenuItems.Add(new ToolStripMenuItem(Lan.g(this,"Assign to Me"),null,new EventHandler(gridMain_RightClickHelper)));
 			listMenuItems[1].Tag=1;
-			listMenuItems.Add(new MenuItem(Lan.g(this,"Assign to User")));
-			List<MenuItem> listSubUserMenu=new List<MenuItem>();
+			listMenuItems.Add(new ToolStripMenuItem(Lan.g(this,"Assign to User")));
+			List<ToolStripMenuItem> listSubUserMenu=new List<ToolStripMenuItem>();
 			_listClaimSentEditUsers.ForEach(x => { 
-				listSubUserMenu.Add(new MenuItem(x.UserName,new EventHandler(gridMain_RightClickHelper)));
+				listSubUserMenu.Add(new ToolStripMenuItem(x.UserName,null,new EventHandler(gridMain_RightClickHelper)));
 				listSubUserMenu[listSubUserMenu.Count-1].Tag=2;
 			});
-			listMenuItems[2].MenuItems.AddRange(listSubUserMenu.ToArray());
-			Menu.MenuItemCollection menuItemCollection=new Menu.MenuItemCollection(rightClickMenu);
-			menuItemCollection.AddRange(listMenuItems.ToArray());
-			rightClickMenu.Popup+=new EventHandler((o,ea) => {
-				rightClickMenu.MenuItems[0].Visible=false;
+			listMenuItems[2].DropDownItems.AddRange(listSubUserMenu.ToArray());
+			rightClickMenu.Items.AddRange(listMenuItems.ToArray());
+			rightClickMenu.Opening+=(o,ea) => {
+				rightClickMenu.Items[0].Visible=false;
 				if(gridMain.SelectedIndices.Count()!=1) {//Only show 'Go to Account' when there is exactly 1 row selected.
 					return;
 				}
-				rightClickMenu.MenuItems[0].Visible=true;
+				rightClickMenu.Items[0].Visible=true;
 				if(PrefC.HasClinicsEnabled) {
 					long clinicNum=gridMain.SelectedTags<RpOutstandingIns.OutstandingInsClaim>()[0].ClinicNum;
 					//If the user is clinic restricted, only enable 'Got to Account' when the clinicNum matches
-					rightClickMenu.MenuItems[0].Enabled= Clinics.GetForUserod(Security.CurUser, true, comboClinics.HqDescription).Select(x => x.ClinicNum).Contains(clinicNum);
+					rightClickMenu.Items[0].Enabled= Clinics.GetForUserod(Security.CurUser, true, comboClinics.HqDescription).Select(x => x.ClinicNum).Contains(clinicNum);
 				}
-			});
+			};
 			FillCustomTrack();
 			FillPreauth();
 			FillErrorDef();
@@ -372,7 +372,7 @@ namespace OpenPmsDental {
 			if(index==-1) {
 				return;
 			}
-			int menuCode=(int)((MenuItem)sender).Tag;
+			int menuCode=(int)((ToolStripMenuItem)sender).Tag;
 			switch(menuCode) {
 				case 0://Go to Account
 					GlobalFormOpenDental.GoToModule(EnumModuleType.Account,patNum:((RpOutstandingIns.OutstandingInsClaim)gridMain.ListGridRows[index].Tag).PatNum);
@@ -381,7 +381,8 @@ namespace OpenPmsDental {
 					AssignUserHelper(Security.CurUser.UserNum);
 				break;
 				case 2://Assign to User
-					AssignUserHelper(_listClaimSentEditUsers[((MenuItem)sender).Index].UserNum);
+					ToolStripMenuItem toolStripMenuItemUser=(ToolStripMenuItem)sender;
+					AssignUserHelper(_listClaimSentEditUsers[toolStripMenuItemUser.Owner.Items.IndexOf(toolStripMenuItemUser)].UserNum);
 				break;
 			}
 		}

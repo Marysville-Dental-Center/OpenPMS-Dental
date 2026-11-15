@@ -87,7 +87,7 @@ namespace OpenPmsDental{
 			FormQE.ShowDialog();
 			if(FormQE.DialogResult==DialogResult.OK){
 				textQuery.Text=FormQE.UserQueryCur.QueryText;
-				grid2.CaptionText=FormQE.UserQueryCur.Description;
+				labelGridCaption.Text=FormQE.UserQueryCur.Description;
 			}
 		}
 
@@ -853,12 +853,59 @@ namespace OpenPmsDental{
 			return PrinterL.TryPrint(ODprintout.CurPrintout);
 		}
 
-		///<summary>Clears the DataGridTableStyles for the current grid.</summary>
+		///<summary>Binds the grid to the query table again, with new columns.</summary>
 		public void ResetGrid(){ //not really sure what the point of this is.
-			grid2.TableStyles.Clear();
-			grid2.SetDataBinding(_reportSimpleGrid.TableQ,"");
-			myGridTS = new DataGridTableStyle();
-			grid2.TableStyles.Add(myGridTS);
+			BindGrid(_reportSimpleGrid.TableQ);
+		}
+
+		///<summary>Shows the table in the grid: one column per table column, in order, with the column's caption as its heading (a check box column for
+		///a bool column, a text column otherwise, as the WinForms DataGrid made them before S3a-M3). The columns are made here rather than by the
+		///DataGridView, which would make an image column for a byte[] column (a blob in a user query) and fail to draw it.</summary>
+		public void BindGrid(DataTable table) {
+			grid2.DataSource=null;
+			grid2.Columns.Clear();
+			if(table==null) {
+				return;
+			}
+			List<DataGridViewColumn> listColumns=new List<DataGridViewColumn>();
+			for(int i=0;i<table.Columns.Count;i++) {
+				DataGridViewColumn dataGridViewColumn;
+				if(table.Columns[i].DataType==typeof(bool)) {
+					dataGridViewColumn=new DataGridViewCheckBoxColumn();
+				}
+				else {
+					dataGridViewColumn=new DataGridViewTextBoxColumn();
+				}
+				dataGridViewColumn.DataPropertyName=table.Columns[i].ColumnName;
+				dataGridViewColumn.HeaderText=table.Columns[i].Caption;
+				dataGridViewColumn.Name=table.Columns[i].ColumnName;
+				dataGridViewColumn.SortMode=DataGridViewColumnSortMode.Automatic;
+				dataGridViewColumn.Width=75;//the WinForms DataGrid's PreferredColumnWidth
+				listColumns.Add(dataGridViewColumn);
+			}
+			grid2.Columns.AddRange(listColumns.ToArray());
+			grid2.DataSource=table;
+		}
+
+		///<summary>The text of a cell of the grid, by row and column in the grid's order (the WinForms DataGrid's grid2[row,col].ToString()).</summary>
+		private string GetGridCellText(int row,int col) {
+			if(row<grid2.Rows.Count && col<grid2.Columns.Count) {
+				return grid2.Rows[row].Cells[col].Value?.ToString()??"";
+			}
+			//The grid has made no rows yet (no binding context): the rows of the table's view, which the grid shows in the same order.
+			return ((DataTable)grid2.DataSource).DefaultView[row][col].ToString();
+		}
+
+		///<summary>The cell alignment of the grid's column for a report column's alignment.</summary>
+		public static DataGridViewContentAlignment GetCellAlignment(HorizontalAlignment horizontalAlignment) {
+			switch(horizontalAlignment) {
+				case HorizontalAlignment.Right:
+					return DataGridViewContentAlignment.MiddleRight;
+				case HorizontalAlignment.Center:
+					return DataGridViewContentAlignment.MiddleCenter;
+				default:
+					return DataGridViewContentAlignment.MiddleLeft;
+			}
 		}
 
 		///<summary>At this point, this only gets called externally when we want to automate the submission of a user query (like for the patients raw report).
@@ -886,8 +933,7 @@ namespace OpenPmsDental{
 				return;//There is already a query executing.
 			}
 			//Clear the grid
-			grid2.TableStyles.Clear();
-			grid2.SetDataBinding(new DataTable(),"");
+			BindGrid(new DataTable());
 			//then create a new _reportSimpleGrid
 			_reportSimpleGrid=new ReportSimpleGrid();
 			_reportSimpleGrid.Query=textQuery.Text;
@@ -920,11 +966,8 @@ namespace OpenPmsDental{
 			Cursor=Cursors.WaitCursor;
 			_reportSimpleGrid.SubmitQuery();
 			Cursor=Cursors.Default;
-			grid2.TableStyles.Clear();
-			myGridTS = new DataGridTableStyle();
-			grid2.TableStyles.Add(myGridTS);
 			_tableHuman=MakeReadable(_reportSimpleGrid.TableQ,_reportSimpleGrid);
-			grid2.SetDataBinding(_tableHuman,"");
+			BindGrid(_tableHuman);
 		}
 		///<summary>Sizes the columns based on the the length of the text in the columns of the passed-in DataTable.</summary>
 		private void AutoSizeColumns(DataTable table) {
@@ -943,8 +986,8 @@ namespace OpenPmsDental{
 					_reportSimpleGrid.ColWidth[i]=400;
 				}
 				//I have no idea why this is failing, so we'll just do a check:
-				if(myGridTS.GridColumnStyles.Count >= i+1) {
-					myGridTS.GridColumnStyles[i].Width=_reportSimpleGrid.ColWidth[i]+12;
+				if(grid2.Columns.Count >= i+1) {
+					grid2.Columns[i].Width=_reportSimpleGrid.ColWidth[i]+12;
 				}
 				_reportSimpleGrid.ColWidth[i]+=6;//so the columns don't touch
 				_reportSimpleGrid.ColPos[i+1]=_reportSimpleGrid.ColPos[i]+_reportSimpleGrid.ColWidth[i];
@@ -994,19 +1037,16 @@ namespace OpenPmsDental{
 			Cursor=Cursors.WaitCursor;
 			LayoutHelperForState(QueryExecuteState.Formatting);
 			//Set the data binding based on the radio buttons.
-			myGridTS = new DataGridTableStyle();
-			grid2.TableStyles.Clear();
-			grid2.TableStyles.Add(myGridTS);
 			if(radioHuman.Checked) {
 				//fill the Human Readable table if it is null. (set to null on Submit_Click)
 				if(_tableHuman==null) {
 					_tableHuman=MakeReadable(_reportSimpleGrid.TableQ,_reportSimpleGrid);
 				}
-				grid2.SetDataBinding(_tableHuman,"");
+				BindGrid(_tableHuman);
 				AutoSizeColumns(_tableHuman);
 			}
 			else {
-				grid2.SetDataBinding(_reportSimpleGrid.TableQ,"");
+				BindGrid(_reportSimpleGrid.TableQ);
 				AutoSizeColumns(_reportSimpleGrid.TableQ);
 			}
 			_reportSimpleGrid.Title=textTitle.Text;
@@ -1015,8 +1055,8 @@ namespace OpenPmsDental{
 			for(int iCol = 0;iCol<_reportSimpleGrid.TableQ.Columns.Count;iCol++) {
 				_reportSimpleGrid.ColCaption[iCol]=_reportSimpleGrid.TableQ.Columns[iCol].Caption;
 				//again, I don't know why this would fail, so here's a check:
-				if(myGridTS.GridColumnStyles.Count >= iCol+1) {
-					myGridTS.GridColumnStyles[iCol].Alignment=_reportSimpleGrid.ColAlign[iCol];
+				if(grid2.Columns.Count >= iCol+1) {
+					grid2.Columns[iCol].DefaultCellStyle.Alignment=GetCellAlignment(_reportSimpleGrid.ColAlign[iCol]);
 				}
 			}
 			SecurityLogs.MakeLogEntry(EnumPermType.UserQuery,0,textQuery.Text);
@@ -1202,7 +1242,7 @@ namespace OpenPmsDental{
 							cellWidth=_reportSimpleGrid.ColPos[iCol2+1]-_reportSimpleGrid.ColPos[iCol2]+6;
 						}
 						//Current height of the string with given width.
-						string cellText=grid2[_linesPrinted,iCol2].ToString();
+						string cellText=GetGridCellText(_linesPrinted,iCol2);
 						float rectHeight=ev.Graphics.MeasureString(cellText,bodyFont,cellWidth).Height;
 						if(yPos+rectHeight > bounds.Bottom) {//Check for if we have enough height to print on current page.
 							isRowTooTall=true;
@@ -1220,7 +1260,7 @@ namespace OpenPmsDental{
 						cellHeight=0;//Infinate height.
 					}
 					int cellWidth=0;
-					string cellText=grid2[_linesPrinted,iCol].ToString();
+					string cellText=GetGridCellText(_linesPrinted,iCol);
 					if(_reportSimpleGrid.ColAlign[iCol]==HorizontalAlignment.Right){
 						cellWidth=_reportSimpleGrid.ColWidth[iCol];
 						if(isPrintablePage) {

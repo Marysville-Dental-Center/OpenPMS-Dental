@@ -32,6 +32,7 @@ namespace OpenPmsDental {
 		/// </summary>
 		private void InitializeComponent()
 		{
+			this.components = new System.ComponentModel.Container();
 			this.butSave = new OpenPmsDental.UI.Button();
 			this.label2 = new System.Windows.Forms.Label();
 			this.textBodyText = new OpenPmsDental.ODtextBox();
@@ -43,10 +44,10 @@ namespace OpenPmsDental {
 			this.butSubjectFields = new OpenPmsDental.UI.Button();
 			this.butAttach = new OpenPmsDental.UI.Button();
 			this.gridAttachments = new OpenPmsDental.UI.GridOD();
-			this.contextMenuAttachments = new System.Windows.Forms.ContextMenu();
-			this.menuItemOpen = new System.Windows.Forms.MenuItem();
-			this.menuItemRename = new System.Windows.Forms.MenuItem();
-			this.menuItemRemove = new System.Windows.Forms.MenuItem();
+			this.contextMenuAttachments = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.menuItemOpen = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemRename = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemRemove = new System.Windows.Forms.ToolStripMenuItem();
 			this.butEditHtml = new OpenPmsDental.UI.Button();
 			this.butEditText = new OpenPmsDental.UI.Button();
 			this.webViewHtml = new CodeBase.Controls.ODWebView2();
@@ -187,27 +188,24 @@ namespace OpenPmsDental {
 			// 
 			// contextMenuAttachments
 			// 
-			this.contextMenuAttachments.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+			this.contextMenuAttachments.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuItemOpen,
             this.menuItemRename,
             this.menuItemRemove});
-			this.contextMenuAttachments.Popup += new System.EventHandler(this.contextMenuAttachments_Popup);
+			this.contextMenuAttachments.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuAttachments_Popup);
 			// 
 			// menuItemOpen
 			// 
-			this.menuItemOpen.Index = 0;
 			this.menuItemOpen.Text = "Open";
 			this.menuItemOpen.Click += new System.EventHandler(this.menuItemOpen_Click);
 			// 
 			// menuItemRename
 			// 
-			this.menuItemRename.Index = 1;
 			this.menuItemRename.Text = "Rename";
 			this.menuItemRename.Click += new System.EventHandler(this.menuItemRename_Click);
 			// 
 			// menuItemRemove
 			// 
-			this.menuItemRemove.Index = 2;
 			this.menuItemRemove.Text = "Remove";
 			this.menuItemRemove.Click += new System.EventHandler(this.menuItemRemove_Click);
 			// 
@@ -298,10 +296,10 @@ namespace OpenPmsDental {
 		private UI.Button butAttach;
 		private UI.GridOD gridAttachments;
 		private UI.Button butSubjectFields;
-		private ContextMenu contextMenuAttachments;
-		private MenuItem menuItemOpen;
-		private MenuItem menuItemRename;
-		private MenuItem menuItemRemove;
+		private System.Windows.Forms.ContextMenuStrip contextMenuAttachments;
+		private System.Windows.Forms.ToolStripMenuItem menuItemOpen;
+		private System.Windows.Forms.ToolStripMenuItem menuItemRename;
+		private System.Windows.Forms.ToolStripMenuItem menuItemRemove;
 		private UI.Button butEditHtml;
 		private UI.Button butEditText;
 		private CodeBase.Controls.ODWebView2 webViewHtml;

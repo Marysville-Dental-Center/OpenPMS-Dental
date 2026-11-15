@@ -26,7 +26,8 @@ namespace OpenPmsDental {
 		}
 
 		private void FormRpInsPendingSupplementals_Load(object sender,EventArgs e) {
-			gridMain.ContextMenu=contextMenuGrid;
+			gridMain.ContextMenuStrip=contextMenuGrid;
+			gridMain.DoAddGridItemsToContextMenuStrip=true;
 			comboType.Items.Add(Lan.g(this,"All"),PendingSupplementalFilter.All);
 			comboType.Items.Add(Lan.g(this,"Overpaid"),PendingSupplementalFilter.Overpaid);
 			comboType.Items.Add(Lan.g(this,"Underpaid"),PendingSupplementalFilter.Underpaid);

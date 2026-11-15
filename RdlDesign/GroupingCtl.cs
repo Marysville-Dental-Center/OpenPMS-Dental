@@ -40,13 +40,12 @@ namespace fyiReporting.RdlDesign
 		private XmlNode _GroupingParent;
 		private DataTable _DataTable;
 //		private DGCBColumn dgtbGE;
-		private DataGridTextBoxColumn dgtbGE;
+		private DataGridViewTextBoxColumn dgtbGE;
 
 		private System.Windows.Forms.Button bDelete;
-		private System.Windows.Forms.DataGridTableStyle dgTableStyle;
 		private System.Windows.Forms.Button bUp;
 		private System.Windows.Forms.Button bDown;
-		private System.Windows.Forms.DataGrid dgGroup;
+		private System.Windows.Forms.DataGridView dgGroup;
 		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.TextBox tbName;
 		private System.Windows.Forms.Label label2;
@@ -83,15 +82,15 @@ namespace fyiReporting.RdlDesign
 		{
 			// Initialize the DataGrid columns
 			//			dgtbGE = new DGCBColumn(ComboBoxStyle.DropDown);
-			dgtbGE = new DataGridTextBoxColumn();
+			dgtbGE = new DataGridViewTextBoxColumn();
 
-			this.dgTableStyle.GridColumnStyles.AddRange(new DataGridColumnStyle[] {
+			this.dgGroup.Columns.AddRange(new DataGridViewColumn[] {
 															this.dgtbGE});
 			// 
 			// dgtbGE
 			// 
 			dgtbGE.HeaderText = "Expression";
-			dgtbGE.MappingName = "Expression";
+			dgtbGE.DataPropertyName = "Expression";
 			dgtbGE.Width = 175;
 			// Get the parent's dataset name
 //			string dataSetName = _Draw.GetDataSetNameValue(_GroupingParent);
@@ -121,9 +120,11 @@ namespace fyiReporting.RdlDesign
 				_DataTable.Rows.Add(rowValues);
 			}
 			this.dgGroup.DataSource = _DataTable;
-			DataGridTableStyle ts = dgGroup.TableStyles[0];
 		//	ts.PreferredRowHeight = dgtbGE.CB.Height;
-			ts.GridColumnStyles[0].Width = 330;
+			dgGroup.Columns[0].Width = 330;
+			DataGridViewSetup.SetNotSortable(this.dgGroup);
+			DataGridViewSetup.CommitOnLeave(this.dgGroup);
+			DataGridViewSetup.KeepEmptyText(this.dgGroup);
 
 			//
 			if (grouping == null)
@@ -207,8 +208,7 @@ namespace fyiReporting.RdlDesign
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.dgGroup = new System.Windows.Forms.DataGrid();
-			this.dgTableStyle = new System.Windows.Forms.DataGridTableStyle();
+			this.dgGroup = new System.Windows.Forms.DataGridView();
 			this.bDelete = new System.Windows.Forms.Button();
 			this.bUp = new System.Windows.Forms.Button();
 			this.bDown = new System.Windows.Forms.Button();
@@ -233,22 +233,13 @@ namespace fyiReporting.RdlDesign
 			// 
 			// dgGroup
 			// 
-			this.dgGroup.CaptionVisible = false;
+			this.dgGroup.AutoGenerateColumns = false;
 			this.dgGroup.DataMember = "";
-			this.dgGroup.HeaderForeColor = System.Drawing.SystemColors.ControlText;
+			this.dgGroup.ColumnHeadersDefaultCellStyle.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.dgGroup.Location = new System.Drawing.Point(8, 48);
 			this.dgGroup.Name = "dgGroup";
 			this.dgGroup.Size = new System.Drawing.Size(376, 88);
 			this.dgGroup.TabIndex = 1;
-			this.dgGroup.TableStyles.AddRange(new System.Windows.Forms.DataGridTableStyle[] {
-																								this.dgTableStyle});
-			// 
-			// dgTableStyle
-			// 
-			this.dgTableStyle.AllowSorting = false;
-			this.dgTableStyle.DataGrid = this.dgGroup;
-			this.dgTableStyle.HeaderForeColor = System.Drawing.SystemColors.ControlText;
-			this.dgTableStyle.MappingName = "";
 			// 
 			// bDelete
 			// 
@@ -450,6 +441,7 @@ namespace fyiReporting.RdlDesign
 
 		public bool IsValid()
 		{
+			DataGridViewSetup.CommitEdits(this.dgGroup);
 			// Check to see if we have an expression
 			bool bRows=HasRows();
 
@@ -508,6 +500,7 @@ namespace fyiReporting.RdlDesign
 
 		public void Apply()
 		{
+			DataGridViewSetup.CommitEdits(this.dgGroup);
 			if (!HasRows())		// No expressions in grouping; get rid of grouping
 			{
 				_Draw.RemoveElement(_GroupingParent, "Grouping");	// can't have a grouping
@@ -616,8 +609,8 @@ namespace fyiReporting.RdlDesign
 
 		private void bDelete_Click(object sender, System.EventArgs e)
 		{
-			int cr = dgGroup.CurrentRowIndex;
-			if (cr < 0)		// already at the top
+			int cr = DataGridViewSetup.GetCurrentRowIndex(dgGroup);
+			if (cr < 0 || !DataGridViewSetup.IsCurrentRowData(dgGroup))		// no row, or the new row at the end (no row in the table yet)
 				return;
 			else if (cr == 0)
 			{
@@ -630,24 +623,24 @@ namespace fyiReporting.RdlDesign
 
 		private void bUp_Click(object sender, System.EventArgs e)
 		{
-			int cr = dgGroup.CurrentRowIndex;
+			int cr = DataGridViewSetup.GetCurrentRowIndex(dgGroup);
 			if (cr <= 0)		// already at the top
 				return;
 			
 			SwapRow(_DataTable.Rows[cr-1], _DataTable.Rows[cr]);
-			dgGroup.CurrentRowIndex = cr-1;
+			DataGridViewSetup.SetCurrentRowIndex(dgGroup, cr-1);
 		}
 
 		private void bDown_Click(object sender, System.EventArgs e)
 		{
-			int cr = dgGroup.CurrentRowIndex;
+			int cr = DataGridViewSetup.GetCurrentRowIndex(dgGroup);
 			if (cr < 0)			// invalid index
 				return;
 			if (cr + 1 >= _DataTable.Rows.Count)
 				return;			// already at end
 			
 			SwapRow(_DataTable.Rows[cr+1], _DataTable.Rows[cr]);
-			dgGroup.CurrentRowIndex = cr+1;
+			DataGridViewSetup.SetCurrentRowIndex(dgGroup, cr+1);
 		}
 
 		private void SwapRow(DataRow tdr, DataRow fdr)
@@ -684,17 +677,18 @@ namespace fyiReporting.RdlDesign
 
 		private void bValueExpr_Click(object sender, System.EventArgs e)
 		{
-			int cr = dgGroup.CurrentRowIndex;
-			if (cr < 0)
-			{	// No rows yet; create one
+			DataGridViewSetup.CommitEdits(dgGroup);
+			int cr = DataGridViewSetup.GetCurrentRowIndex(dgGroup);
+			if (cr < 0 || cr >= _DataTable.Rows.Count)
+			{	// No rows yet (or the new row at the end, which has no row in the table); create one
 				string[] rowValues = new string[1];
 				rowValues[0] = null;
 
 				_DataTable.Rows.Add(rowValues);
-				cr = 0;
+				cr = _DataTable.Rows.Count-1;
 			}
-			DataGridCell dgc = dgGroup.CurrentCell;
-			int cc = dgc.ColumnNumber;
+			DataGridViewCell dgc = dgGroup.CurrentCell;
+			int cc = dgc == null? 0: dgc.ColumnIndex;
 			DataRow dr = _DataTable.Rows[cr];
 			string cv = dr[cc] as string;
 

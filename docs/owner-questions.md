@@ -999,6 +999,11 @@ and E-10b), where each is set out in full with its recommendation. You first ans
   SDK download needs your Intuit sign-in) with the helper kept for older QuickBooks, Guru stays on the helper, and 32-bit-only TWAIN
   drivers get a helper path in 3b.
 
+- **Treatment plan grid's right-click menu** (S3a-M3a, [port-notes/S3a-M3.md](port-notes/S3a-M3.md)). In the Treatment Plan edit window,
+  upstream's code meant to offer "Go To Appointment" and "Go To Planned Appointment" on a right-click, but an empty menu hid them, so only
+  Copy Cell Text and Copy Rows showed. After the menu conversion they show, above Copy Cell Text. Recommended: keep them (it is what the
+  code was written to do, and no function is lost). Or hide them again as before?
+
 ## Not asked again (already settled)
 
 - How package migration levels are numbered (B-ACCT 2, B-PRINT 1, B-SHELL 6, M2-EST 1, M2-UDS 1, V-BRIDGE1 2, V-PEARL2 1, M2-SHELL's old question 4): decided on 2026-11-01 and done: the package steps now have dated levels 2026110101 to 2026110104, and new steps always go above the highest one.

@@ -62,9 +62,12 @@ namespace OpenPmsDental {
 		public FormRecallList(){
 			InitializeComponent();// Required for Windows Form Designer support
 			InitializeLayoutManager();
-			gridRecalls.ContextMenu=menuRightClick;
-			gridReminders.ContextMenu=menuRightClick;
-			gridReactivations.ContextMenu=menuRightClick;
+			gridRecalls.ContextMenuStrip=menuRightClick;
+			gridRecalls.DoAddGridItemsToContextMenuStrip=true;
+			gridReminders.ContextMenuStrip=menuRightClick;
+			gridReminders.DoAddGridItemsToContextMenuStrip=true;
+			gridReactivations.ContextMenuStrip=menuRightClick;
+			gridReactivations.DoAddGridItemsToContextMenuStrip=true;
 			if(!PrefC.GetBool(PrefName.ShowFeatureReactivations)) {
 				tabControl.Controls.Remove(tabPageReactivations);
 			}
@@ -1772,14 +1775,15 @@ namespace OpenPmsDental {
 		}
 
 		///<summary>Rebuilds the context menu when the user right-clicks on the grids in this form. Rebuilding the context menu each time rather than just once on form_load is necessary to ensure that the correct context values are passed along to the user's selected function.</summary>
-		private void gridContextMenu_Popup(object sender, EventArgs e) {
-			menuRightClick.MenuItems.Clear();
+		private void gridContextMenu_Popup(object sender, System.ComponentModel.CancelEventArgs e) {
+			menuRightClick.Items.Clear();
 			if(_grid.GetSelectedIndex()==-1) {
-				return;
+				return;//the grid's Opening, after this one, adds its items and opens the menu
 			}
 			//add our local-only context menu entries
-			menuRightClick.MenuItems.Add(menuItemSeeFamily);
-			menuRightClick.MenuItems.Add(menuItemSeeAccount);
+			menuRightClick.Items.Add(menuItemSeeFamily);
+			menuRightClick.Items.Add(menuItemSeeAccount);
+			e.Cancel=false;//filled here: a ContextMenuStrip without shown items starts its Opening cancelled
 		}
 
 	}

@@ -104,11 +104,12 @@ namespace OpenPmsDental{
 			//tbProc.CellClicked += new OpenPmsDental.ContrTable.CellEventHandler(tbProc_CellClicked);
 			//tbPay.CellClicked += new OpenPmsDental.ContrTable.CellEventHandler(tbPay_CellClicked);
 			Lan.F(this);
-			listAttachments.ContextMenu=contextMenuAttachments;
+			listAttachments.ContextMenuStrip=contextMenuAttachments;
 			if(CultureInfo.CurrentCulture.Name.EndsWith("CA")) {
-				listCanadianAttachments.ContextMenu=contextMenuAttachments;
+				listCanadianAttachments.ContextMenuStrip=contextMenuAttachments;
 			}
-			gridProc.ContextMenu=contextAdjust;
+			gridProc.ContextMenuStrip=contextAdjust;
+			gridProc.DoAddGridItemsToContextMenuStrip=true;
 			DoCalculateClientArea=false;
 		}
 
@@ -390,7 +391,7 @@ namespace OpenPmsDental{
 				this.Text+=" - "+Lan.g(this,"CLAIM CLINIC IS HIDDEN");
 			}
 			if(!PrefC.GetBool(PrefName.AllowProcAdjFromClaim)) {
-				contextAdjust.MenuItems.Remove(menuItemAddAdj);
+				contextAdjust.Items.Remove(menuItemAddAdj);
 			}
 		}
 

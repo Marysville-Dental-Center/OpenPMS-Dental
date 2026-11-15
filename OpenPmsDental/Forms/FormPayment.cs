@@ -108,9 +108,9 @@ namespace OpenPmsDental {
 			_payment=payment;
 			_doPreferCurrentPat=doPreferCurrentPat;
 			Lan.F(this);
-			panelXcharge.ContextMenu=contextMenuXcharge;
-			butPayConnect.ContextMenu=contextMenuPayConnect;
-			butPaySimple.ContextMenu=contextMenuPaySimple;
+			panelXcharge.ContextMenuStrip=contextMenuXcharge;
+			butPayConnect.ContextMenuStrip=contextMenuPayConnect;
+			butPaySimple.ContextMenuStrip=contextMenuPaySimple;
 			_paymentOld=payment.Clone();
 			_rigorousAccounting=PrefC.GetEnum<RigorousAccounting>(PrefName.RigorousAccounting);
 		}

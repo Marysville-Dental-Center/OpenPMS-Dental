@@ -40,7 +40,8 @@ namespace OpenPmsDental{
 			else {
 				comboClinic.ClinicNumSelected=Clinics.ClinicNum;
 			}
-			gridMain.ContextMenu=contextMenu1;
+			gridMain.ContextMenuStrip=contextMenu1;
+			gridMain.DoAddGridItemsToContextMenuStrip=true;
 			textDateFrom.Text="";//DateViewing.ToShortDateString();
 			textDateTo.Text="";//DateViewing.AddDays(5).ToShortDateString();
 			//checkShowAll.Checked=false

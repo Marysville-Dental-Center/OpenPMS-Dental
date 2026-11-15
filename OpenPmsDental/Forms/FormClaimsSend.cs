@@ -60,18 +60,20 @@ namespace OpenPmsDental{
 			_claimSendQueueItemArrayQueueAll=Claims.GetQueueList(0,0,0);
 			_claimSendQueueItemArrayQueueAll.ForEach(x => x.MissingData="(validated when sending)");
 			_listNumberOfClaims=new List<int>();
-			contextMenuStatus.MenuItems.Add(Lan.g(this,"Go to Account"),new EventHandler(GotoAccount_Clicked));
-			MenuItem menuItemDeleteClaim=new MenuItem();
+			contextMenuStatus.Items.Add(Lan.g(this,"Go to Account"),null,new EventHandler(GotoAccount_Clicked));
+			ToolStripMenuItem menuItemDeleteClaim=new ToolStripMenuItem();
 			menuItemDeleteClaim.Name="menuItemDeleteClaim";
 			menuItemDeleteClaim.Text=Lan.g(this,"Delete Claim");
 			menuItemDeleteClaim.Click+=new EventHandler(menuItemDeleteClaim_Click);
-			contextMenuStatus.MenuItems.Add(menuItemDeleteClaim);
-			contextMenuStatus.Popup+=MenuItemPopup;
-			gridMain.ContextMenu=contextMenuStatus;
-			gridHistory.ContextMenu=contextMenuHistory;
+			contextMenuStatus.Items.Add(menuItemDeleteClaim);
+			contextMenuStatus.Opening+=MenuItemPopup;
+			gridMain.ContextMenuStrip=contextMenuStatus;
+			gridMain.DoAddGridItemsToContextMenuStrip=true;
+			gridHistory.ContextMenuStrip=contextMenuHistory;
+			gridHistory.DoAddGridItemsToContextMenuStrip=true;
 			_listClearinghouses=Clearinghouses.GetDeepCopy(true);
 			for(int i=0;i<_listClearinghouses.Count;i++){
-				contextMenuEclaims.MenuItems.Add(_listClearinghouses[i].Description,new EventHandler(menuItemClearinghouse_Click));
+				contextMenuEclaims.Items.Add(_listClearinghouses[i].Description,null,new EventHandler(menuItemClearinghouse_Click));
 			}
 			LayoutToolBars();
 			if(!PrefC.HasClinicsEnabled) {
@@ -199,12 +201,12 @@ namespace OpenPmsDental{
 			/*ToolBarMain.Buttons.Add(new ODToolBarButton(ODToolBarButtonStyle.Separator));
 			ODToolBarButton button=new ODToolBarButton(Lan.g(this,"Change Status"),-1,Lan.g(this,"Changes Status of Selected Claims"),"Status");
 			button.Style=ODToolBarButtonStyle.DropDownButton;
-			button.DropDownMenu=contextMenuStatus;
+			button.ContextMenuStripDropDown=contextMenuStatus;
 			ToolBarMain.Buttons.Add(button);*/
 			ToolBarMain.Buttons.Add(new ODToolBarButton(ODToolBarButtonStyle.Separator));
 			ODToolBarButton button=new ODToolBarButton(Lan.g(this,"Send E-Claims"),4,Lan.g(this,"Send claims Electronically"),"Eclaims");
 			button.Style=ODToolBarButtonStyle.DropDownButton;
-			button.DropDownMenu=contextMenuEclaims;
+			button.ContextMenuStripDropDown=contextMenuEclaims;
 			ToolBarMain.Buttons.Add(button);
 			ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Validate Claims"),-1,Lan.g(this,"Refresh and Validate Selected Claims"),"Validate"));
 			if(CultureInfo.CurrentCulture.Name.EndsWith("CA")) {//Canadian. en-CA or fr-CA
@@ -248,7 +250,7 @@ namespace OpenPmsDental{
 		}
 
 		private void MenuItemPopup(object sender,EventArgs e) {
-			MenuItem menuItemDeleteClaim=gridMain.ContextMenu.MenuItems.OfType<MenuItem>().FirstOrDefault(x => x.Name=="menuItemDeleteClaim");
+			ToolStripMenuItem menuItemDeleteClaim=gridMain.ContextMenuStrip.Items.OfType<ToolStripMenuItem>().FirstOrDefault(x => x.Name=="menuItemDeleteClaim");
 			menuItemDeleteClaim.Enabled=Security.IsAuthorized(EnumPermType.ClaimDelete,true);
 			if(gridMain.SelectedTags<ClaimSendQueueItem>().Count==1
 				&& gridMain.SelectedTag<ClaimSendQueueItem>().MissingData.Contains(Eclaims.GetNoProceduresOnClaimMessage()))
@@ -302,8 +304,8 @@ namespace OpenPmsDental{
 		}
 
 		private void menuItemClearinghouse_Click(object sender, System.EventArgs e){
-			MenuItem menuitem=(MenuItem)sender;
-			SendEclaimsToClearinghouse(_listClearinghouses[menuitem.Index].ClearinghouseNum);
+			ToolStripMenuItem menuitem=(ToolStripMenuItem)sender;
+			SendEclaimsToClearinghouse(_listClearinghouses[contextMenuEclaims.Items.IndexOf(menuitem)].ClearinghouseNum);
 		}
 
 		private void FillGrid(bool rememberSelection=false,bool isRefreshRequired=true) {

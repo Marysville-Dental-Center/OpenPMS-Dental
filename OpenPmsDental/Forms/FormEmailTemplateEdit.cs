@@ -36,7 +36,8 @@ namespace OpenPmsDental {
 		}
 
 		private void FormEmailTemplateEdit_Load(object sender, System.EventArgs e) {
-			gridAttachments.ContextMenu=contextMenuAttachments;
+			gridAttachments.ContextMenuStrip=contextMenuAttachments;
+			gridAttachments.DoAddGridItemsToContextMenuStrip=true;
 			textSubject.Text=EmailTemplateCur.Subject;
 			textDescription.Text=EmailTemplateCur.Description;
 			if(EmailTemplateCur.EmailTemplateNum==0) {//New email template

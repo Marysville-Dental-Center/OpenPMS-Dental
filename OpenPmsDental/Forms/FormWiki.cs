@@ -159,7 +159,7 @@ namespace OpenPmsDental {
 			ToolBarMain.Buttons.Add(new ODToolBarButton(ODToolBarButtonStyle.Separator));
 			ODToolBarButton odToolBarButtonHome=new ODToolBarButton(Lan.g(this,"Home"),3,"","Home");
 			odToolBarButtonHome.Style=ODToolBarButtonStyle.DropDownButton;
-			odToolBarButtonHome.DropDownMenu=menuHomeDropDown; 
+			odToolBarButtonHome.ContextMenuStripDropDown=menuHomeDropDown; 
 			ToolBarMain.Buttons.Add(odToolBarButtonHome);
 			ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Edit"),4,"","Edit"));
 			ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Print"),5,"","Print"));

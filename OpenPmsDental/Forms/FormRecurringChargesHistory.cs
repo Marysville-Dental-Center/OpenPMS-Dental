@@ -22,7 +22,8 @@ namespace OpenPmsDental {
 			InitializeComponent();
 			InitializeLayoutManager();
 			Lan.F(this);
-			gridMain.ContextMenu=contextMenu;
+			gridMain.ContextMenuStrip=contextMenu;
+			gridMain.DoAddGridItemsToContextMenuStrip=true;
 		}
 
 		private void FormRecurringChargesHistory_Load(object sender,EventArgs e) {

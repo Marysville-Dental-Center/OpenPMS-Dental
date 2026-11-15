@@ -30,250 +30,189 @@ using System.Windows.Forms;
 
 namespace fyiReporting.RdlDesign
 {
-	internal class DGCBColumn : DataGridColumnStyle 
-	{ 
-		private ComboBox _cb = new ComboBox(); 
-		private bool editing = false; 
-		private string originalText; 
-		CurrencyManager _CM;
-		int _Row;
+	/// <summary>
+	/// A grid column whose cells are edited with a combo box: a drop-down list, or an editable combo box (ComboBoxStyle.DropDown) where any
+	/// text may be typed. CB holds the items and the style. S3a-M3: it was a column style of the WinForms DataGrid (a DataGridColumnStyle that
+	/// moved a ComboBox over the cell being edited); it is now a DataGridView column with a cell whose editing control is that combo box. The
+	/// cell's value is the text; an emptied cell stores "" in a string column (DataGridViewSetup.KeepEmptyText), as with the DataGrid.
+	/// </summary>
+	internal class DGCBColumn : DataGridViewColumn
+	{
+		private ComboBox _cb = new ComboBox();
 
 		public DGCBColumn() : this(ComboBoxStyle.DropDownList)
-		{ 
-		} 
+		{
+		}
 
-		public DGCBColumn(ComboBoxStyle cbs) 
-		{ 
-			_cb.Visible = false; 
-			_cb.DropDownStyle = cbs; 
-		} 
+		public DGCBColumn(ComboBoxStyle cbs) : base(new DGCBCell())
+		{
+			_cb.Visible = false;
+			_cb.DropDownStyle = cbs;
+		}
 
-		protected override void Abort(int row) 
-		{ 
-			RollBack(); 
-			HideComboBox(); 
-			EndEdit(); 
-		} 
-
+		/// <summary>The combo box whose Items and DropDownStyle the editing combo box of a cell takes when the cell is edited.</summary>
 		internal ComboBox CB
 		{
 			get {return _cb;}
 		}
 
-		protected override bool Commit(CurrencyManager cm, int row) 
+		public override DataGridViewCell CellTemplate
 		{
-//			if (!editing)
-//				return true;
-
-			try 
-			{ 
-				object o = _cb.Text; 
-				if (NullText.Equals(o)) 
-					o = System.Convert.DBNull; 
-
-
-				SetColumnValueAtRow(cm, row, o); 
-			} 
-			catch 
-			{ 
-//				EndEdit();
-				return false; 
-			} 
-
-//			HideComboBox();	  
-//			EndEdit(); 
-			return true; 
-		} 
-
-		protected override void ConcedeFocus() 
-		{ 
-			if (editing)
+			get {return base.CellTemplate;}
+			set
 			{
-				object o = _cb.Text; 
-				if (NullText.Equals(o)) 
-					o = System.Convert.DBNull; 
-
-
-				SetColumnValueAtRow(_CM, _Row, o); 
+				if (value != null && !(value is DGCBCell))
+					throw new InvalidCastException("The cell template of a DGCBColumn must be a DGCBCell.");
+				base.CellTemplate = value;
 			}
-			HideComboBox(); 
-			EndEdit();
-		} 
+		}
 
-		protected override void Edit(CurrencyManager cm, int row, Rectangle 
-				rect, bool readOnly, string text, bool visible) 
+		public override object Clone()
 		{
-			_CM = cm;
-			_Row = row;
-			originalText = _cb.Text; 
+			DGCBColumn dgcbColumn = (DGCBColumn) base.Clone();
+			dgcbColumn._cb.DropDownStyle = _cb.DropDownStyle;
+			foreach (object item in _cb.Items)
+				dgcbColumn._cb.Items.Add(item);
+			return dgcbColumn;
+		}
 
-			_cb.Text = string.Empty; 
-			_cb.Bounds = rect; 
-			_cb.RightToLeft = DataGridTableStyle.DataGrid.RightToLeft; 
-			_cb.Visible = visible; 
+		protected override void Dispose(bool disposing)
+		{
+			if (disposing)
+				_cb.Dispose();
+			base.Dispose(disposing);
+		}
+	}
 
-			if (text != null) 
-				_cb.Text = text; 
-			else
+	/// <summary>A cell of a DGCBColumn: shown as its text, edited with a DGCBEditingControl.</summary>
+	internal class DGCBCell : DataGridViewTextBoxCell
+	{
+		public override Type EditType
+		{
+			get {return typeof(DGCBEditingControl);}
+		}
+
+		public override void InitializeEditingControl(int rowIndex, object initialFormattedValue, DataGridViewCellStyle dataGridViewCellStyle)
+		{
+			DGCBEditingControl editingControl = DataGridView.EditingControl as DGCBEditingControl;
+			if (editingControl == null)
 			{
-				string temp = GetText(GetColumnValueAtRow(cm, row)); 
-				_cb.Text = temp; 
+				base.InitializeEditingControl(rowIndex, initialFormattedValue, dataGridViewCellStyle);
+				return;
 			}
+			DGCBColumn dgcbColumn = OwningColumn as DGCBColumn;
+			editingControl.IsInitializing = true;
+			try
+			{
+				base.InitializeEditingControl(rowIndex, initialFormattedValue, dataGridViewCellStyle);
+				editingControl.Items.Clear();
+				editingControl.DropDownStyle = dgcbColumn == null? ComboBoxStyle.DropDownList: dgcbColumn.CB.DropDownStyle;
+				if (dgcbColumn != null)
+				{
+					foreach (object item in dgcbColumn.CB.Items)
+						editingControl.Items.Add(item);
+				}
+				editingControl.Text = initialFormattedValue as string ?? "";
+				if (editingControl.DropDownStyle != ComboBoxStyle.DropDownList)
+					editingControl.Select(editingControl.Text.Length, 0);
+			}
+			finally
+			{
+				editingControl.IsInitializing = false;
+			}
+		}
+	}
 
-			_cb.Select(_cb.Text.Length, 0); 
+	/// <summary>The combo box that edits a DGCBCell.</summary>
+	internal class DGCBEditingControl : ComboBox, IDataGridViewEditingControl
+	{
+		/// <summary>True while the cell fills the combo box, so that filling it does not mark the cell as changed.</summary>
+		internal bool IsInitializing;
 
-			if (_cb.Visible) 
-				DataGridTableStyle.DataGrid.Invalidate(_cb.Bounds); 
+		public DGCBEditingControl()
+		{
+			TabStop = false;
+		}
 
-			if (ReadOnly) 
-				_cb.Enabled = false; 
+		public DataGridView EditingControlDataGridView { get; set; }
 
-			editing = true; 
-		} 
+		public object EditingControlFormattedValue
+		{
+			get {return Text;}
+			set {Text = value as string ?? "";}
+		}
 
+		public int EditingControlRowIndex { get; set; }
 
-		protected override int GetMinimumHeight() 
-		{ 
-			return _cb.PreferredHeight; 
-		} 
+		public bool EditingControlValueChanged { get; set; }
 
+		public Cursor EditingPanelCursor
+		{
+			get {return Cursors.Default;}
+		}
 
-		protected override int GetPreferredHeight(Graphics g, object o) 
-		{ 
-			return 0; 
-		} 
+		public bool RepositionEditingControlOnValueChange
+		{
+			get {return false;}
+		}
 
-		protected override Size GetPreferredSize(Graphics g, object o) 
-		{ 
-			return new Size(0, 0); 
-		} 
+		public void ApplyCellStyleToEditingControl(DataGridViewCellStyle dataGridViewCellStyle)
+		{
+			Font = dataGridViewCellStyle.Font;
+			ForeColor = dataGridViewCellStyle.ForeColor;
+			BackColor = dataGridViewCellStyle.BackColor;
+		}
 
-		protected override void Paint(Graphics g, Rectangle rect, 
-									CurrencyManager cm, int row) 
-		{ 
-			Paint(g, rect, cm, row, false); 
-		} 
+		public bool EditingControlWantsInputKey(Keys keyData, bool dataGridViewWantsInputKey)
+		{
+			switch (keyData & Keys.KeyCode)
+			{
+				case Keys.Down:
+				case Keys.Up:
+				case Keys.PageDown:
+				case Keys.PageUp:
+					return true;		// the combo box moves through its items
+				case Keys.Left:
+				case Keys.Right:
+				case Keys.Home:
+				case Keys.End:
+					return DropDownStyle != ComboBoxStyle.DropDownList;		// the caret, in an editable combo box
+				case Keys.Enter:
+				case Keys.Escape:
+					return DroppedDown;		// closes the list first
+			}
+			return !dataGridViewWantsInputKey;
+		}
 
-		protected override void Paint(Graphics g, Rectangle rect, 
-					CurrencyManager cm, int row, bool alignToRight) 
-		{ 
-			string text = GetText(GetColumnValueAtRow(cm, row)); 
-			PaintText(g, rect, text, alignToRight); 
-		} 
+		public object GetEditingControlFormattedValue(DataGridViewDataErrorContexts context)
+		{
+			return EditingControlFormattedValue;
+		}
 
-		protected override void Paint(Graphics g, Rectangle rect, 
-					CurrencyManager cm, int row, Brush backBrush, Brush foreBrush, bool alignToRight) 
-		{ 
-			string text = GetText(GetColumnValueAtRow(cm, row)); 
-			PaintText(g, rect, text, backBrush, foreBrush, alignToRight); 
-		} 
+		public void PrepareEditingControlForEdit(bool selectAll)
+		{
+			if (selectAll && DropDownStyle != ComboBoxStyle.DropDownList)
+				SelectAll();
+		}
 
+		protected override void OnTextChanged(EventArgs e)
+		{
+			base.OnTextChanged(e);
+			NotifyValueChanged();
+		}
 
-		protected override void SetDataGridInColumn(DataGrid dg) 
-		{ 
-			base.SetDataGridInColumn(dg); 
+		protected override void OnSelectedIndexChanged(EventArgs e)
+		{
+			base.OnSelectedIndexChanged(e);
+			NotifyValueChanged();
+		}
 
-			if (_cb.Parent != dg) 
-			{ 
-				if (_cb.Parent != null) 
-				{ 
-					_cb.Parent.Controls.Remove(_cb); 
-				} 
-			} 
-
-			if (dg != null) 
-				dg.Controls.Add(_cb); 
-		} 
-
-
-		protected override void UpdateUI(CurrencyManager cm, int row, string text) 
-		{ 
-			_cb.Text = GetText(GetColumnValueAtRow(cm, row)); 
-
-			if (text != null) 
-				_cb.Text = text; 
-		}                                                                                                                         
-
-
-		private int DataGridTableGridLineWidth 
-		{ 
-			get 
-			{ 
-				return (DataGridTableStyle.GridLineStyle == DataGridLineStyle.Solid) ? 1 : 0; 
-			} 
-		} 
-
-
-		public void EndEdit() 
-		{ 
-			editing = false; 
-
-			Invalidate(); 
-		} 
-
-
-		private string GetText(object o) 
-		{ 
-			if (o == System.DBNull.Value) 
-				return NullText; 
-
-			if (o != null) 
-				return o.ToString(); 
-			else 
-				return string.Empty; 
-		} 
-
-
-		private void HideComboBox() 
-		{ 
-			if (_cb.Focused) 
-				DataGridTableStyle.DataGrid.Focus(); 
-
-			_cb.Visible = false; 
-		} 
-
-		private void RollBack() 
-		{ 
-			_cb.Text = originalText; 
-		} 
-
-
-		protected virtual void PaintText(Graphics g, Rectangle rect, string text, bool alignToRight) 
-		{ 
-			Brush backBrush = new SolidBrush(DataGridTableStyle.BackColor); 
-			Brush foreBrush = new SolidBrush(DataGridTableStyle.ForeColor); 
-
-			PaintText(g, rect, text, backBrush, foreBrush, alignToRight); 
-		} 
-
-
-		protected virtual void PaintText(Graphics g, Rectangle rect, string text, 
-			Brush backBrush, Brush foreBrush, bool alignToRight) 
-		{       
-			StringFormat format = new StringFormat(); 
-			if (alignToRight) 
-				format.FormatFlags = StringFormatFlags.DirectionRightToLeft; 
-
-			switch (Alignment) 
-			{ 
-				case HorizontalAlignment.Left: 
-					format.Alignment = StringAlignment.Near; 
-				break; 
-				case HorizontalAlignment.Right: 
-					format.Alignment = StringAlignment.Far; 
-				break; 
-				case HorizontalAlignment.Center: 
-					format.Alignment = StringAlignment.Center; 
-				break; 
-			} 
-
-			format.LineAlignment = StringAlignment.Center;
-			format.FormatFlags = StringFormatFlags.NoWrap; 
-
-			g.FillRectangle(backBrush, rect); 
-			g.DrawString(text, DataGridTableStyle.DataGrid.Font, foreBrush, rect, format); 
-
-			format.Dispose(); 
-		} 
-	} 
+		private void NotifyValueChanged()
+		{
+			if (IsInitializing || EditingControlDataGridView == null)
+				return;
+			EditingControlValueChanged = true;
+			EditingControlDataGridView.NotifyCurrentCellDirty(true);
+		}
+	}
 }

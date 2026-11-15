@@ -1119,8 +1119,9 @@ Scrollable Control: For example, a panel that's set to AutoScroll=true.  These c
 					control96Info=_listControl96Infos.FirstOrDefault(x=>x.ControlRef==control);
 					return true;
 				}
-				if(control is DataGridTextBox){
-					//This is a child of DataGrid, which we don't control.
+				if(control.Parent is DataGridView || control.Parent?.Parent is DataGridView){
+					//The editing panel or editing control of a DataGridView, which it adds itself and we don't control. S3a-M3: this was the
+					//DataGridTextBox of the WinForms DataGrid, which FormQuery's grid was until the DataGridView replaced it.
 					return true;
 				}
 				return false;//don't skip.  Let it get caught in HandleManualAlteration

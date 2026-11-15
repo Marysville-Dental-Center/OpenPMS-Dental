@@ -165,12 +165,13 @@ using OpenPmsDental.UI;
 		private bool _isUpdating;
 		///<summary>This is an alternative to setting up all of the GridRows in advance.  The DataRows get converted to GridRows on the fly.</summary>
 		private List<DataRow> _listDataRows;
-		///<summary>Bridge for S3a-M3: the links added to a WinForms ContextMenu that a caller set. Goes with the other bridge members below.</summary>
-		private List<MenuItem> _listMenuItemsLinks;
 		///<summary>The links added to the ContextMenuStrip the last time it opened, removed before the next links are added.</summary>
 		private List<ToolStripItem> _listToolStripItemsLinks;
 		///<summary>The grid's own right-click menu, made on the first right click when no caller set a menu. Disposed with the grid.</summary>
 		private ContextMenuStrip _contextMenuStripGrid;
+		///<summary>The ContextMenuStrip that ContextMenuStrip_Opening is subscribed to, if any, so that it is unsubscribed when the grid gets another
+		///strip (a strip the grid had before must not add the grid's items any more).</summary>
+		private ContextMenuStrip _contextMenuStripHooked;
 		///<summary>Helps with drag selections. This is a snapshot of the selected indices when the mouse goes down and starts a drag.</summary>
 		private List<int> _listSelectedIndicesWhenMouseDown;
 		private MouseButtons _mouseButtonLastPressed;
@@ -1959,14 +1960,20 @@ using OpenPmsDental.UI;
 			HookContextMenuStrip();
 		}
 
-		///<summary>Subscribes the ContextMenuStrip to ContextMenuStrip_Opening once, if it is the grid's own or DoAddGridItemsToContextMenuStrip is true.</summary>
+		///<summary>Subscribes the ContextMenuStrip to ContextMenuStrip_Opening once, if it is the grid's own or DoAddGridItemsToContextMenuStrip is true,
+		///and unsubscribes the strip it was subscribed to before.</summary>
 		private void HookContextMenuStrip() {
+			if(_contextMenuStripHooked!=null) {
+				_contextMenuStripHooked.Opening-=ContextMenuStrip_Opening;
+				_contextMenuStripHooked=null;
+			}
 			if(ContextMenuStrip==null) {
 				return;
 			}
 			ContextMenuStrip.Opening-=ContextMenuStrip_Opening;
 			if(ContextMenuStrip==_contextMenuStripGrid || DoAddGridItemsToContextMenuStrip) {
 				ContextMenuStrip.Opening+=ContextMenuStrip_Opening;
+				_contextMenuStripHooked=ContextMenuStrip;
 			}
 		}
 
@@ -2068,8 +2075,18 @@ using OpenPmsDental.UI;
 			}
 		}
 
-		#region Bridge for S3a-M3 - WinForms ContextMenu set by a caller
-		//Removed by S3a-M3 once no caller sets the grid's ContextMenu (they set ContextMenuStrip and DoAddGridItemsToContextMenuStrip instead).
+		#region Bridge for S3a-M3b - WinForms ContextMenu set by a caller
+		//S3a-M3 converted every caller but FormMedical (its Allergies and Problems grids, S3a-M3b after EHR-7). Removed by S3a-M3b once no caller sets
+		//the grid's ContextMenu (they set ContextMenuStrip and DoAddGridItemsToContextMenuStrip instead). NoHqTests' WinFormsMenuScanTests allows
+		//WinForms menus in this region only.
+		///<summary>The links added to a WinForms ContextMenu that a caller set.</summary>
+		private List<MenuItem> _listMenuItemsLinks;
+
+		///<summary>True if a caller set a WinForms ContextMenu on the grid (it shows instead of any ContextMenuStrip).</summary>
+		private bool IsWinFormsContextMenuSet() {
+			return ContextMenu!=null;
+		}
+
 		///<summary>Several locations throughout the program the context menu changes. This subscribes each menu to use the popup helper below.</summary>
 		protected override void OnContextMenuChanged(EventArgs e) {
 			//this event fires when the ContextMenu property of GridOD changes.
@@ -2179,7 +2196,7 @@ using OpenPmsDental.UI;
 				}
 			}
 		}
-		#endregion Bridge for S3a-M3 - WinForms ContextMenu set by a caller
+		#endregion Bridge for S3a-M3b - WinForms ContextMenu set by a caller
 
 		private void CopyCellClick(object sender,EventArgs e) {
 			try {
@@ -2446,7 +2463,7 @@ using OpenPmsDental.UI;
 			//if(e.Button==MouseButtons.Right){
 			//	return;
 			//}		
-			if(this.ContextMenu==null && this.ContextMenuStrip==null && this.ShowContextMenu) {
+			if(!IsWinFormsContextMenuSet() && this.ContextMenuStrip==null && this.ShowContextMenu) {
 				if(e.Button==MouseButtons.Right) {
 					//The grid's own menu. Later right clicks show it as the grid's ContextMenuStrip.
 					_contextMenuStripGrid?.Dispose();

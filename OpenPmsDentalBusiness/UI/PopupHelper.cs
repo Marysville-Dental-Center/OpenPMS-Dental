@@ -23,11 +23,14 @@ namespace OpenPmsDentalBusiness.UI {
 			return GetLinks(contextMenuItemText,rightClickLinks).Select(x => new ToolStripMenuItem(x.Text,null,x.EventHandlerClick)).ToList();
 		}
 
-		///<summary>Bridge for S3a-M2 (ODtextBox), removed once it uses GetToolStripMenuItemLinks: the same links as WinForms MenuItems, for a ContextMenu.
-		///For a given context menu item, returns a sorted list of menu item links. This supports wiki, patient, task, Job, URL, web, and file explorer.</summary>
+		#region Bridge for S3a-M3b - WinForms MenuItem links
+		///<summary>Bridge for GridOD's WinForms ContextMenu bridge (FormMedical's grids, S3a-M3b), removed with it: the same links as WinForms MenuItems,
+		///for a ContextMenu. For a given context menu item, returns a sorted list of menu item links. This supports wiki, patient, task, Job, URL,
+		///web, and file explorer.</summary>
 		public static List<MenuItem> GetContextMenuItemLinks(string contextMenuItemText,bool rightClickLinks) {
 			return GetLinks(contextMenuItemText,rightClickLinks).Select(x => new MenuItem(x.Text,x.EventHandlerClick)).ToList();
 		}
+		#endregion Bridge for S3a-M3b - WinForms MenuItem links
 
 		///<summary>The texts and click handlers of the links, sorted. Shared by the ToolStrip and the bridge's MenuItem versions.</summary>
 		private static List<PopupLink> GetLinks(string contextMenuItemText,bool rightClickLinks) {

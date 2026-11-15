@@ -214,8 +214,11 @@ namespace OpenPmsDental {
 
 		private void grids_MouseDown(object sender,MouseEventArgs e) {
 			contextMenuProcs.Items.Clear();
-			gridAll.ContextMenu=null;
-			gridTP.ContextMenu=null;
+			//S3a-M3: without a ContextMenuStrip the grids make their own (Copy Cell Text, Copy Rows and the links). Before, these lines set the WinForms
+			//ContextMenu to null, which GridOD replaced with an empty ContextMenu of its own; a ContextMenu wins over a ContextMenuStrip, so the
+			//Go To items below never showed. Now they show, above the grid's items.
+			gridAll.ContextMenuStrip=null;
+			gridTP.ContextMenuStrip=null;
 			GridOD grid=(GridOD)sender;
 			int row=grid.PointToRow(e.Y);
 			if(row<0 || row>=grid.ListGridRows.Count) {
@@ -235,6 +238,7 @@ namespace OpenPmsDental {
 			}
 			if(contextMenuProcs.Items.Count!=0) {
 				grid.ContextMenuStrip=contextMenuProcs;
+				grid.DoAddGridItemsToContextMenuStrip=true;
 			}
 		}
 

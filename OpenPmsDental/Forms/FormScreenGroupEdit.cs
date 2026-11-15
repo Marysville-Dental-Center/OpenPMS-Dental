@@ -28,7 +28,8 @@ namespace OpenPmsDental{
 			//
 			InitializeComponent();
 			InitializeLayoutManager();
-			gridScreenPats.ContextMenu=patContextMenu;
+			gridScreenPats.ContextMenuStrip=patContextMenu;
+			gridScreenPats.DoAddGridItemsToContextMenuStrip=true;
 			Lan.F(this);
 			_screenGroup=screenGroup;
 		}
@@ -540,7 +541,7 @@ namespace OpenPmsDental{
 			if(gridScreenPats.GetSelectedIndex()==-1) {
 				return;
 			}
-			int idx=patContextMenu.MenuItems.IndexOf((MenuItem)sender);
+			int idx=patContextMenu.Items.IndexOf((ToolStripMenuItem)sender);
 			_listScreenPats[gridScreenPats.GetSelectedIndex()].PatScreenPerm=(PatScreenPerm)idx;
 			FillScreenPats();
 		}

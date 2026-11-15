@@ -9,7 +9,7 @@ using CodeBase;
 
 namespace OpenPmsDental {
 	public class ODcodeBox:RichTextBox {
-		ContextMenu contextMenu = new ContextMenu();
+		ContextMenuStrip contextMenu = new ContextMenuStrip();
 		private int _lastLineWidth=0;
 		///<summary>Set to -1 when the line number width needs to be recalculated.</summary>
 		private int _lineNumberWidth=-1;
@@ -42,17 +42,17 @@ namespace OpenPmsDental {
 			EventHandler onClickCopy=new EventHandler(menuItemCopy_Click);
 			EventHandler onClickPaste=new EventHandler(menuItemPaste_Click);
 			EventHandler onClickSelectAll=new EventHandler(menuItemSelectAll_Click);
-			contextMenu.MenuItems.Add(new MenuItem(Lan.g(this,"Cut"),onClickCut,Shortcut.CtrlX));
-			contextMenu.MenuItems.Add(new MenuItem(Lan.g(this,"Copy"),onClickCopy,Shortcut.CtrlC));
-			contextMenu.MenuItems.Add(new MenuItem(Lan.g(this,"Paste"),onClickPaste,Shortcut.CtrlV));
-			contextMenu.MenuItems.Add(new MenuItem(Lan.g(this,"Select All"),onClickSelectAll,Shortcut.CtrlA));
+			contextMenu.Items.Add(new ToolStripMenuItem(Lan.g(this,"Cut"),null,onClickCut,(Keys.Control|Keys.X)));
+			contextMenu.Items.Add(new ToolStripMenuItem(Lan.g(this,"Copy"),null,onClickCopy,(Keys.Control|Keys.C)));
+			contextMenu.Items.Add(new ToolStripMenuItem(Lan.g(this,"Paste"),null,onClickPaste,(Keys.Control|Keys.V)));
+			contextMenu.Items.Add(new ToolStripMenuItem(Lan.g(this,"Select All"),null,onClickSelectAll,(Keys.Control|Keys.A)));
 			if(isQueryText) {
 				EventHandler onClickCommentLine=new EventHandler(menuItemAddComment_Click);
 				EventHandler onClickUnCommentLine=new EventHandler(menuItemRemoveComment_Click);
-				contextMenu.MenuItems.Add(new MenuItem(Lan.g(this,"Comment Selection"),onClickCommentLine,Shortcut.CtrlShiftC));
-				contextMenu.MenuItems.Add(new MenuItem(Lan.g(this,"Remove Comment From Selection"),onClickUnCommentLine,Shortcut.CtrlShiftR));
+				contextMenu.Items.Add(new ToolStripMenuItem(Lan.g(this,"Comment Selection"),null,onClickCommentLine,(Keys.Control|Keys.Shift|Keys.C)));
+				contextMenu.Items.Add(new ToolStripMenuItem(Lan.g(this,"Remove Comment From Selection"),null,onClickUnCommentLine,(Keys.Control|Keys.Shift|Keys.R)));
 			}
-			this.ContextMenu = contextMenu;
+			this.ContextMenuStrip = contextMenu;
 		}
 
 		private List<int> GetListIndicesOfNewLines() {

@@ -44,8 +44,10 @@ namespace P262BillingTests {
 			Assert.IsTrue(indexButton>0);
 			string statementButton=layout.Substring(indexButton,layout.IndexOf("ToolBarMain.Buttons.Add(toolBarButton);",indexButton,StringComparison.Ordinal)-indexButton);
 			StringAssert.Contains(statementButton,"toolBarButton.Style=ODToolBarButtonStyle.DropDownButton;");
+			//No dropdown menu: neither the WinForms DropDownMenu (gone since S3a-M3) nor the ContextMenuStripDropDown that replaced it.
 			Assert.IsFalse(statementButton.Contains("DropDownMenu=contextMenuStatement"),"No dropdown menu: the arrow opens the window.");
 			Assert.AreEqual(0,CountOf(account,"DropDownMenu=contextMenuStatement"));
+			Assert.AreEqual(0,CountOf(account,"ContextMenuStripDropDown=contextMenuStatement"));
 			Assert.AreEqual(1,CountOf(account,"ConstructStatementOptions();"),"Constructor.");
 			//The button's click still prints the default statement.
 			StringAssert.Contains(account,"ToolBarClick toolBarClick=toolBarButStatement_Click;");
@@ -83,7 +85,7 @@ namespace P262BillingTests {
 			string toolBar=Read("OpenPmsDental","UI","ToolBarOD.cs");
 			StringAssert.Contains(toolBar,"public event ODToolBarButtonClickEventHandler ButtonDropDownClick=null;");
 			Assert.IsTrue(Regex.IsMatch(toolBar,
-				@"if\(toolBarButton\.DropDownMenu==null && toolBarButton\.ContextMenuStripDropDown==null\)\{[^\r\n]*\r?\n(\s*[^\r\n]*\r?\n){3}\s*OnButtonDropDownClicked\(toolBarButton\);"),
+				@"if\(toolBarButton\.ContextMenuStripDropDown==null\)\{[^\r\n]*\r?\n(\s*[^\r\n]*\r?\n){3}\s*OnButtonDropDownClicked\(toolBarButton\);"),
 				"Only a dropdown button without a menu raises it.");
 			Assert.AreEqual(1,CountOf(toolBar,"OnButtonDropDownClicked(toolBarButton);"));
 		}

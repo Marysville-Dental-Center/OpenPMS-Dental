@@ -777,7 +777,7 @@ namespace OpenPmsDental {
 		}
 		
 		private void menuItemCombo_Click(object sender,EventArgs e) {
-			MenuItem menuItem=(MenuItem)sender;
+			ToolStripMenuItem menuItem=(ToolStripMenuItem)sender;
 			SheetField sheetField=(SheetField)menuItem.Tag;
 			SheetFields.SetComboFieldValue(sheetField,menuItem.Text);
 			panelMain.Invalidate();
@@ -1338,19 +1338,22 @@ namespace OpenPmsDental {
 		#region Methods - private
 		///<summary>Creates the dropdown list using a context menu.</summary>
 		private void CreateFloatingComboOptions(SheetField sheetField){
-			ContextMenu contextMenu=new ContextMenu();
+			ContextMenuStrip contextMenu=new ContextMenuStrip();
 			List<string> listItems=SheetFields.GetComboMenuItems(sheetField);
 			for(int i=0;i<listItems.Count;i++){
-				MenuItem menuItem=new MenuItem(listItems[i],menuItemCombo_Click);
+				//Always a menu item, never a separator: GetComboMenuItems escapes a lone "-" as "&-" and "&" as "&&", as for the WinForms MenuItem.
+				ToolStripMenuItem menuItem=new ToolStripMenuItem(listItems[i],null,menuItemCombo_Click);
 				menuItem.Tag=sheetField;
-				contextMenu.MenuItems.Add(menuItem);
+				contextMenu.Items.Add(menuItem);
 			}
+			//A new menu each time: disposed after the message that closed it, so that a clicked item's Click runs first.
+			contextMenu.Closed+=(sender,e) => BeginInvoke(new Action(() => contextMenu.Dispose()));
 			int yPos=LayoutManager.Scale(sheetField.YPos);
 			int height=LayoutManager.Scale(sheetField.Height);
 			//int scrollVal=panelScroll.VerticalScroll.Value;
 			Point point=new Point(LayoutManager.Scale(sheetField.XPos),yPos+height);//+scrollVal);
 			contextMenu.Show(panelMain,point);//Can't resize width, it's done according to width of items.
-			_isMouseDown=false;//contextMenu is closed, so Mouse shouldn't be considered down anymore
+			_isMouseDown=false;//the menu is open (a ContextMenuStrip does not block until it closes), so Mouse shouldn't be considered down anymore
 		}
 
 		///<summary>This is for an input field, static text, or output text to edit text, and then it goes away. The point passed in is so that we can put the cursor in the right place.</summary>
