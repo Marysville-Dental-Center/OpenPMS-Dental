@@ -1038,6 +1038,15 @@ namespace ProjectFileTests {
 			if(IsValueIfKnown("DelaySign","true")==false) {
 				_dictProperties["DelaySign"]="";
 			}
+			//Line 393: BuildInParallel true unless set. Lines 7097-7100: UseMSBuildTestInfrastructure false unless set; 'true' imports
+			//Microsoft.Common.Test.targets, which this reader does not read, so one that is not known to be 'false' throws. Microsoft.Testing.Platform.MSBuild's
+			//targets (MSTest 4, S4-1), which the restore's .nuget.g.targets imports after this file, read both (the stage 4 gate's evaluator check).
+			SetIfEmpty("BuildInParallel","true");
+			SetIfEmpty("UseMSBuildTestInfrastructure","false");
+			if(IsValueIfKnown("UseMSBuildTestInfrastructure","false")!=true) {
+				throw new NotSupportedException(Describe()+": $(UseMSBuildTestInfrastructure) ("+FILE+" line 7100) is not 'false': MSBuild then imports "
+					+"Microsoft.Common.Test.targets, which ProjectFile does not model.");
+			}
 			ApplyNuGetTargetsProperties();
 		}
 
@@ -1357,6 +1366,15 @@ namespace ProjectFileTests {
 			}
 			else if(isExecutable.Value) {
 				_dictProperties["_IsExecutable"]="true";
+			}
+			//Two names Microsoft.Testing.Platform.MSBuild's targets (MSTest 4) read inside its targets: the native executable's extension
+			//(Microsoft.NET.Sdk.Shared.targets line 33, from the runtime identifier the SDK infers for an exe, not modelled) and the container
+			//switch (Microsoft.NET.Build.Containers.targets line 19, true unless OutputType is Library). For a library both stay '', as MSBuild has them.
+			if(isExecutable!=false) {
+				_hashSetNotModelled.Add("_NativeExecutableExtension");
+			}
+			if(IsValueIfKnown("OutputType","Library")!=true) {
+				_hashSetNotModelled.Add("EnableSdkContainerSupport");
 			}
 			if(GetValue("HasRuntimeOutput")=="") {
 				_dictProperties["HasRuntimeOutput"]=GetValue("_IsExecutable");
