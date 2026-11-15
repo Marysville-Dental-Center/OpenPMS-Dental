@@ -823,7 +823,7 @@ VDXC2 fake is an `HttpMessageHandler`, a fake ITS endpoint and the DCI request a
 VendorDirectTests. The Middle Tier's web reference stays, so the Release dry run still stages both XmlSerializers files. Left: the
 program's unused ITS URL setting (kept), CallFire (O-10), the Middle Tier proxy (3b).
 
-**Status (2026-11-15), S3a-2.** Done on `net10/s3a2-1` (`docs/port-notes/S3a-2.md`), not merged yet: `ODFileUtils.ShellOpen(pathOrUrl)`
+**Status (2026-11-15), S3a-2.** Done on `net10/s3a2-2` (`docs/port-notes/S3a-2.md`; the review fix updates P262LinksTests' MeditLink wiring test), not merged yet: `ODFileUtils.ShellOpen(pathOrUrl)`
 and every `ODFileUtils` start build `UseShellExecute=true` (the helper commit `667f0ee68`), through `FuncStartProcessInfo`/`FuncStartProcess`,
 which the tests replace so nothing is started (`tests/MiddleTierMockTests/ODFileUtilsStartTests.cs`); the documents, folders and URLs of
 shipped code open through `ShellOpen`, the executable starts go through `ODFileUtils.ProcessStart`, and every `new Process()`/`new
@@ -831,7 +831,7 @@ ProcessStartInfo(` block sets `UseShellExecute` (true unless redirected; the net
 `EhrStylesheetStarter`/`EhrRenderChildProcess` checked), RdlDesign's and RdlViewer's link opens included; `ExternalException` next to the two
 claim-attachment `OutOfMemoryException` catches and `FrmAtoZFoldersCreate`'s `DirectoryInfo.Create`. No change on net48. The source scan
 `NoHqTests/ShellStartScanTests.cs` is the branch's last commit, for the lead to merge after S3a-10 (PrefL.cs is a known pending site until
-then). Targeted runs green.
+then). Targeted runs green, P262LinksTests included.
 
 **Full-test gate.** Section 3, plus: the golden outputs and known answers recorded and committed; the source-scan tests pass; the
 launch checks for 3a (section 6) done with screenshots, including a self-update from a standard user; the x64 test runs (S3a-12, S3a-15)
