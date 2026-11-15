@@ -2548,12 +2548,13 @@ namespace OpenPmsDental {
 					isValidSig=signatureBoxWrapper.IsValid;
 					continue;
 				}
-				//S3a-14g: a box whose signature did not change is not read again; the plan keeps its stored signature (a Topaz signature read back from
-				//a 32-bit helper that ended since the sheet opened was "", saved with no message).
+				//S3a-14g: a Topaz box on the 32-bit helper's path whose signature did not change is not read again; the plan keeps its stored signature
+				//(a Topaz signature read back from a helper that ended since the sheet opened was "", saved with no message). Every other box is read
+				//as before (S3a-14n).
 				if(!SignatureBoxSaves.SetPayPlanSignature(payPlan,signatureBoxWrapper,keyData)) {
 					continue;
 				}
-				hasSigChanged=true;
+				hasSigChanged=signatureBoxWrapper.GetSigChanged();
 				PayPlans.Update(payPlan);
 			}
 			//save .pdf file if payPlan is new or signature has changed and signature is valid

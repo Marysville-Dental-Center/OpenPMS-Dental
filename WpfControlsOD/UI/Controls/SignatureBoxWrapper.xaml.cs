@@ -108,6 +108,12 @@ How to use the SignatureBoxWrapper control:
 			signatureBoxWrapper.CheckTopazSignatureReachable();
 		}
 
+		///<summary>True when the box shows a Topaz signature whose control lives in the 32-bit helper (the fallback path); false for the program's own
+		///box and for Topaz's own control in the program's process (native first, S3a-14n). The WinForms box's IsTopazInHelper.</summary>
+		public bool IsTopazInHelper() {
+			return signatureBoxWrapper.IsTopazInHelper();
+		}
+
 		///<summary>This should NOT be used unless GetSigChanged returns true.</summary>
 		public bool GetSigIsTopaz() {
 			return signatureBoxWrapper.GetSigIsTopaz();

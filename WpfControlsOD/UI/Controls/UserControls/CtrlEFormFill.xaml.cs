@@ -416,19 +416,19 @@ namespace OpenPmsDental {
 			}
 			//After pulling all other fields, we can pull signatures from sigboxes
 			for(int i=0;i<ListEFormFields.Count;i++){
-				if(eFormField!=null && ListEFormFields[i]!=eFormField){
-					continue;//S3a-14g: the filter applies to the signatures too (a click, a date box): they keep their ValueString
-				}
 				if(ListEFormFields[i].FieldType!=EnumEFormFieldType.SigBox){
 					continue;
 				}
 				Border borderBox=ListEFormFields[i].TagOD as Border;
 				StackPanel stackPanel=borderBox.Child as StackPanel;
 				WpfControls.UI.SignatureBoxWrapper signatureBoxWrapper=stackPanel.Children[1] as WpfControls.UI.SignatureBoxWrapper;
+				if(eFormField!=null && ListEFormFields[i]!=eFormField && signatureBoxWrapper.IsTopazInHelper()){
+					continue;//S3a-14g: for a Topaz box on the 32-bit helper's path the filter applies to the signature too (a click, a date box): it keeps its ValueString
+				}
 				string keyData=EForms.GetSignatureKeyData(ListEFormFields);
-				//S3a-14g: a box whose signature did not change keeps the stored ValueString, instead of reading it back from a 32-bit helper that may
-				//have ended since the form was laid out. A changed Topaz box whose helper lost the signature throws a Helper32Exception: the callers
-				//show it and write nothing.
+				//S3a-14g: a Topaz box on the 32-bit helper's path whose signature did not change keeps the stored ValueString, instead of reading it back
+				//from a helper that may have ended since the form was laid out; every other box is read as before (S3a-14n). A changed Topaz box whose
+				//helper lost the signature throws a Helper32Exception: the callers show it and write nothing.
 				ListEFormFields[i].ValueString=OpenPmsDental.UI.SignatureBoxSaves.GetEFormSignatureValue(ListEFormFields[i].ValueString,
 					signatureBoxWrapper.signatureBoxWrapper,keyData);
 			}

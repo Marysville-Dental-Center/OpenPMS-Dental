@@ -12,9 +12,13 @@ namespace OpenPmsDental.Bridges {
 	///<summary>Guru (MedVisor). Since S3a-14 of the .NET 10 move (docs/port-notes/S3a-14.md) Guru's native MedVisorInterface.dll is loaded and
 	///called in the 32-bit helper program (OpenPmsDentalHelper32, its Guru module), because the program is 64-bit after stage 3b and no 64-bit
 	///MedVisorInterface.dll is known (open point O-14). The helper calls MVStart and MVSendPatient, and builds MVSendPatient's structure from the
-	///MVPatient filled here with the same ToCPlusPlusStructure as before, byte for byte.</summary>
+	///MVPatient filled here with the same ToCPlusPlusStructure as before, byte for byte.
+	///Since S3a-14n (native first, net10-plan decision 23) the helper is the fallback: MedVisorInterface.dll is called in the program's own
+	///process (GuruInProcess, the code of before S3a-14) whenever the one the loader finds is of the program's machine type
+	///(NativeFirstChooser.Guru, from its PE header), which in a 32-bit program it always is. The choice is made once per program process and
+	///logged.</summary>
 	public class Guru {
-		///<summary>How long one call of MedVisorInterface.dll may take (MVStart starts Guru when it is not running).</summary>
+		///<summary>How long one call of MedVisorInterface.dll in the helper may take (MVStart starts Guru when it is not running).</summary>
 		private static readonly TimeSpan _timeSpanCall=TimeSpan.FromMinutes(5);
 
 		/// <summary></summary>
@@ -22,9 +26,12 @@ namespace OpenPmsDental.Bridges {
 
 		}
 
-		///<summary>MedVisorInterface.MVStart in the helper. A missing MedVisorInterface.dll throws DllNotFoundException, as the call in the program's
-		///process did.</summary>
+		///<summary>MedVisorInterface.MVStart, in this process (native first) or in the helper. A missing MedVisorInterface.dll throws
+		///DllNotFoundException on either path, as the call in the program's process did.</summary>
 		private static int MVStart() {
+			if(GuruInProcess.IsChosen()) {
+				return GuruInProcess.MVStart();
+			}
 			try {
 				return IntFromResult(Helper32Client.Default.Call(GuruCommands.MODULE,GuruCommands.MV_START,_timeSpanCall));
 			}
@@ -33,8 +40,12 @@ namespace OpenPmsDental.Bridges {
 			}
 		}
 
-		///<summary>MedVisorInterface.MVSendPatient in the helper, with the structure it builds from mvPatient (ToCPlusPlusStructure).</summary>
+		///<summary>MedVisorInterface.MVSendPatient with the structure built from mvPatient (ToCPlusPlusStructure), in this process (native first) or
+		///in the helper.</summary>
 		private static int MVSendPatient(MVPatient mvPatient) {
+			if(GuruInProcess.IsChosen()) {
+				return GuruInProcess.MVSendPatient(mvPatient);
+			}
 			string[] arrayArgs=GuruCommands.EncodePatient(mvPatient,out byte[] data);
 			Helper32Result helper32Result=Helper32Client.Default.Call(GuruCommands.MODULE,GuruCommands.MV_SEND_PATIENT,arrayArgs,data,_timeSpanCall);
 			return IntFromResult(helper32Result.Results);

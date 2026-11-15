@@ -24,6 +24,22 @@
     <DebugType>pdbonly</DebugType>
   </PropertyGroup>
   <ItemGroup>
+    <!-- Native first (S3a-14n of the .NET 10 move, docs/port-notes/S3a-14.md): Schick CDR DICOM's automation interop and QuickBooks Desktop's
+         QBFC 10 interop ("Required dlls"), with their types embedded as before S3a-13 and S3a-14, so neither interop file is copied or shipped.
+         Used only by Bridges\SchickInProcess.cs and Bridges\QuickBooksInProcess.cs, the in-process paths of NativeFirstChooser; the 32-bit
+         helper embeds them too for its modules, the fallback. -->
+    <Reference Include="Interop.CDRDATALib">
+      <HintPath>..\Required dlls\Interop.CDRDATALib.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Interop.CDRDicom">
+      <HintPath>..\Required dlls\Interop.CDRDicom.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Interop.QBFC10">
+      <HintPath>..\Required dlls\Interop.QBFC10.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
     <Reference Include="Microsoft.VisualBasic" />
     <!-- The WebView2 SDK, the version of Directory.Packages.props (UI\Controls\WebView2.xaml). Its build files are left out
          (ExcludeAssets="build"): in a library they would only copy the native WebView2Loader.dll into this output folder and every one that
@@ -76,7 +92,7 @@
     </Compile>
     <!-- The commands of the helper's Schick CDR and Guru modules (S3a-14), compiled into the helper and into this assembly, so
          Bridges\Schick.cs, Bridges\Guru.cs and the modules name them alike (and cross Guru's patient alike). Their types are internal.
-         Since S3a-14 CDR DICOM's two interop files are referenced by the helper only. -->
+         CDR DICOM's two interop files are referenced above for the in-process path (S3a-14n) and by the helper for the fallback. -->
     <Compile Include="..\OpenPmsDentalHelper32\Schick\SchickCommands.cs">
       <Link>Bridges\SchickCommands.cs</Link>
     </Compile>
