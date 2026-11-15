@@ -678,7 +678,7 @@ namespace SparksToothChart.Wpf3D {
 				if(mesh==null) {
 					continue;
 				}
-				GeometryModel3D geometryModel3D=new GeometryModel3D(mesh,materialCache.GetMaterial(item.Color,item.Specular,scene));
+				GeometryModel3D geometryModel3D=new GeometryModel3D(mesh,materialCache.GetMaterial(item.Color,item.Specular,scene,item.IsFlat));
 				MatrixTransform3D matrixTransform3D=new MatrixTransform3D(ToMatrix3D(item.Transform));
 				matrixTransform3D.Freeze();
 				geometryModel3D.Transform=matrixTransform3D;
@@ -1021,7 +1021,18 @@ namespace SparksToothChart.Wpf3D {
 		///<summary>A material of three parts: a diffuse brush of the colour times DiffuseFactor, a specular brush of the specular value with power 70,
 		///and an emissive brush of the colour times EmissiveFactor, which is DirectX's ambient term. Made and frozen the first time.</summary>
 		public Material GetMaterial(System.Drawing.Color color,float specular,ToothScene scene) {
-			string key=color.ToArgb()+"|"+specular.ToString("R")+"|"+scene.DiffuseFactor.ToString("R")+"|"+scene.EmissiveFactor.ToString("R");
+			return GetMaterial(color,specular,scene,false);
+		}
+
+		///<summary>GetMaterial; isFlat (TC-6, ToothSceneItem3D.IsFlat) gives the colour exactly, unlit: no diffuse and no specular part, and the whole
+		///colour as the emissive part.</summary>
+		public Material GetMaterial(System.Drawing.Color color,float specular,ToothScene scene,bool isFlat) {
+			float diffuseFactor=isFlat ? 0f : scene.DiffuseFactor;
+			float emissiveFactor=isFlat ? 1f : scene.EmissiveFactor;
+			if(isFlat) {
+				specular=0f;
+			}
+			string key=color.ToArgb()+"|"+specular.ToString("R")+"|"+diffuseFactor.ToString("R")+"|"+emissiveFactor.ToString("R");
 			Material material;
 			if(_dictMaterials.TryGetValue(key,out material)) {
 				return material;
@@ -1029,7 +1040,7 @@ namespace SparksToothChart.Wpf3D {
 			if(_dictMaterials.Count>4096) {
 				_dictMaterials.Clear();
 			}
-			material=ToothChartRenderer.CreateMaterial(color,specular,scene.DiffuseFactor,scene.EmissiveFactor);
+			material=ToothChartRenderer.CreateMaterial(color,specular,diffuseFactor,emissiveFactor);
 			_dictMaterials[key]=material;
 			return material;
 		}

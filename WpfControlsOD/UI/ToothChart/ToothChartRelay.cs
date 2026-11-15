@@ -12,9 +12,9 @@ using SparksToothChart;
 namespace OpenPmsDental{
 	///<summary>Relays tooth chart commands to SparksToothChart.ToothChartWrapper, the only tooth chart. Open Dental's closed DirectX 11 chart
 	///(Sparks3D.dll, under Open Dental's own licence) was removed on 2026-11-01. The wrapper draws with DirectX 9, OpenGL or Simple 2D and falls
-	///back on its own when a mode cannot start. Methods for features only Sparks3D drew (ortho hardware, brackets, retained roots, space
-	///maintainers) are kept as no-ops so callers need no branches; free text and paint text other than "W" are drawn since TC-5 (TextBelow is
-	///shown by the Chart module, outside the tooth picture). Since TC-2 the callers' painting code is ToothChartPainter, which draws
+	///back on its own when a mode cannot start. The features only Sparks3D drew are drawn by the WPF chart: free text and paint text other than "W"
+	///since TC-5 (TextBelow is shown by the Chart module, outside the tooth picture), ortho mode, orthodontic hardware, retained roots and space
+	///maintainers since TC-6; the DirectX, OpenGL and Simple 2D charts ignore those last four, as Open Dental's own did. Since TC-2 the callers' painting code is ToothChartPainter, which draws
 	///on the relay as its IToothChartPaintTarget, and the callers' chart settings are the relay's settings helpers.</summary>
 	public class ToothChartRelay:IToothChartPaintTarget{
 		private ToothChartWrapper _toothChartWrapper;
@@ -107,16 +107,19 @@ namespace OpenPmsDental{
 			_toothChartWrapper.AddDrawingSegment(drawingSegment);
 		}
 
-		///<summary>Not supported by SparksToothChart.</summary>
+		///<summary>A wire from one bracket to the next: a thin line in the WPF chart (TC-6, ORTHO-2); the other engines ignore it.</summary>
 		public void AddOrthoWireBetweenBrackets(string toothIDstart,string toothIDend,Color color){
+			_toothChartWrapper.AddOrthoWireBetweenBrackets(toothIDstart,toothIDend,color);
 		}
 
-		///<summary>Not supported by SparksToothChart.</summary>
+		///<summary>A wire across one bracket: a thin line in the WPF chart (TC-6, ORTHO-2); the other engines ignore it.</summary>
 		public void AddOrthoWireInBracket(string toothID,Color color){
+			_toothChartWrapper.AddOrthoWireInBracket(toothID,color);
 		}
 
-		///<summary>Not supported by SparksToothChart.</summary>
+		///<summary>An elastic between two brackets: a thin line in the WPF chart (TC-6, ORTHO-2); the other engines ignore it.</summary>
 		public void AddOrthoElastic(string toothIDstart,string toothIDend,Color color){
+			_toothChartWrapper.AddOrthoElastic(toothIDstart,toothIDend,color);
 		}
 
 		public void AddPerioMeasure(int intTooth,PerioSequenceType sequenceType,int mb,int b,int db,int ml,int l, int dl){
@@ -160,8 +163,9 @@ namespace OpenPmsDental{
 			_toothChartWrapper.SetBigX(toothID,color);
 		}
 
-		///<summary>Not supported by SparksToothChart.</summary>
+		///<summary>A bracket on the tooth's facial surface, drawn by the WPF chart (TC-6, ORTHO-2); the other engines ignore it.</summary>
 		public void SetBracket(string toothID,Color color){
+			_toothChartWrapper.SetBracket(toothID,color);
 		}
 
 		public void SetBU(string toothID,Color color){
@@ -188,8 +192,10 @@ namespace OpenPmsDental{
 			_toothChartWrapper.SetMobility(toothID,mobility,color);
 		}
 
-		///<summary>Not supported by SparksToothChart.</summary>
+		///<summary>Ortho mode: the WPF chart draws only the facial rows, moved toward the centre line (TC-6, ORTHO-1); the other engines ignore it. The
+		///callers switch Universal numbering to Palmer themselves.</summary>
 		public void SetOrthoMode(bool isOrthoMode){
+			_toothChartWrapper.SetOrthoMode(isOrthoMode);
 		}
 
 		public void SetPerioColors(Color colorBleeding,Color colorSuppuration,Color colorProbing,Color colorProbingRed,Color colorGM,Color colorCAL,
@@ -219,8 +225,10 @@ namespace OpenPmsDental{
 			_toothChartWrapper.SetRCT(toothID,color);
 		}
 
-		///<summary>Not supported by SparksToothChart.</summary>
+		///<summary>Paint type RetainedRoot: the root only, in the colour, drawn by the WPF chart on a tooth that is shown (TC-6, RR-1); the other engines
+		///ignore it.</summary>
 		public void SetRetainedRoot(string toothID,Color color){
+			_toothChartWrapper.SetRetainedRoot(toothID,color);
 		}
 
 		public void SetSealant(string toothID,Color color){
@@ -231,8 +239,10 @@ namespace OpenPmsDental{
 			_toothChartWrapper.SetSelected(toothID,setValue);
 		}
 
-		///<summary>Not supported by SparksToothChart.</summary>
+		///<summary>Paint type SpaceMaintainer, one tooth of the procedure: a solid bar across the tooth's space when no tooth is drawn there, drawn by the
+		///WPF chart (TC-6, SM-1); the other engines ignore it.</summary>
 		public void SetSpaceMaintainer(string toothID,Color color){
+			_toothChartWrapper.SetSpaceMaintainer(toothID,color);
 		}
 
 		public void SetSurfaceColors(string toothID,string surfaces,Color color){

@@ -70,6 +70,17 @@ namespace SparksToothChart {
 		public string Mobility;
 		///<summary>If a mobility is set, the is the color.</summary>
 		public Color colorMobility;
+		///<summary>Paint type RetainedRoot (TC-6, RR-1): only the root is drawn, in colorRetainedRoot, in both views, on a tooth that is shown. Only the
+		///WPF chart draws it, as only Open Dental's DirectX 11 chart did.</summary>
+		public bool IsRetainedRoot;
+		public Color colorRetainedRoot;
+		///<summary>Paint type SpaceMaintainer (TC-6, SM-1): a bar in colorSpaceMaintainer across this tooth's space when no tooth is drawn there. A
+		///primary tooth's flag stands for its permanent tooth's space. Only the WPF chart draws it.</summary>
+		public bool IsSpaceMaintainer;
+		public Color colorSpaceMaintainer;
+		///<summary>An orthodontic bracket on the tooth's facial surface (TC-6, ORTHO-2), in colorBracket. Only the WPF chart draws it.</summary>
+		public bool HasBracket;
+		public Color colorBracket;
 
 		///<summary>Shallow copy. The model holds no graphics device objects: each DirectX chart keeps its own buffers for the models, keyed by tooth
 		///and group (ToothChartDirectX), so a copy can be drawn by any chart.</summary>
@@ -167,6 +178,9 @@ namespace SparksToothChart {
 			IsSealant=false;
 			Watch=false;
 			PaintText="";
+			IsRetainedRoot=false;
+			IsSpaceMaintainer=false;
+			HasBracket=false;
 		}
 
 		public void SetSurfaceColors(string surfaces,Color color){

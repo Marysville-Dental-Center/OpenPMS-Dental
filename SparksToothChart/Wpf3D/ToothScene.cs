@@ -143,10 +143,18 @@ namespace SparksToothChart.Wpf3D {
 		}
 	}
 
+	///<summary>TC-6: the 3D models of the chart that are no tooth. A ToothSceneItem3D names one by its ToothId, with group index 0; ToothMeshCache
+	///makes its mesh.</summary>
+	public static class ToothSceneShapes {
+		///<summary>A unit box (1 x 1 x 1 mm, centred on the origin), made with Helix Toolkit's MeshBuilder; each item scales and places it by its
+		///transform: the parts of an orthodontic bracket (ORTHO-2) and the bar of a space maintainer (SM-1).</summary>
+		public const string Box="box";
+	}
+
 	///<summary>One tooth group drawn in the 3D layer: which mesh (the model of a tooth ID and the index of the group in its ToothGraphic.Groups,
 	///the key of ToothMeshCache), with which colour, specular value and model transform, and with which winding. Immutable.</summary>
 	public sealed class ToothSceneItem3D {
-		///<summary>The model's tooth ID: 1-32, A-T or "implant".</summary>
+		///<summary>The model's tooth ID: 1-32, A-T or "implant"; or, since TC-6, a shape of ToothSceneShapes (ToothSceneShapes.Box).</summary>
 		public readonly string ToothId;
 		///<summary>The index of the group in the model's ToothGraphic.Groups.</summary>
 		public readonly int GroupIndex;
@@ -166,8 +174,19 @@ namespace SparksToothChart.Wpf3D {
 		public readonly bool IsReversed;
 		///<summary>What the item is, for tests and messages: for example "8 facial" or "implant of 3".</summary>
 		public readonly string Source;
+		///<summary>TC-6 (SM-1): drawn in its colour exactly, unlit (an emissive-only material), as Open Dental's DirectX 11 chart draws a space
+		///maintainer's bar (198,0,0, the TP colour itself, in its screenshot). False for every tooth, implant and bracket, which are lit.</summary>
+		public readonly bool IsFlat;
 
-		public ToothSceneItem3D(string toothId,int groupIndex,ToothGroupType groupType,Color color,float specular,ChartMatrix transform,string source) {
+		public ToothSceneItem3D(string toothId,int groupIndex,ToothGroupType groupType,Color color,float specular,ChartMatrix transform,string source)
+			:this(toothId,groupIndex,groupType,color,specular,transform,source,false)
+		{
+		}
+
+		public ToothSceneItem3D(string toothId,int groupIndex,ToothGroupType groupType,Color color,float specular,ChartMatrix transform,string source,
+			bool isFlat)
+		{
+			IsFlat=isFlat;
 			ToothId=toothId;
 			GroupIndex=groupIndex;
 			GroupType=groupType;
@@ -180,11 +199,11 @@ namespace SparksToothChart.Wpf3D {
 
 		public bool IsEqualTo(ToothSceneItem3D other) {
 			return ToothId==other.ToothId && GroupIndex==other.GroupIndex && GroupType==other.GroupType && Color.ToArgb()==other.Color.ToArgb()
-				&& Specular==other.Specular && Transform.IsEqualTo(other.Transform) && IsReversed==other.IsReversed;
+				&& Specular==other.Specular && Transform.IsEqualTo(other.Transform) && IsReversed==other.IsReversed && IsFlat==other.IsFlat;
 		}
 
 		public override string ToString() {
-			return Source+": "+ToothId+" group "+GroupIndex+" ("+GroupType+"), #"+Color.ToArgb().ToString("X8")+(IsReversed?", reversed":"");
+			return Source+": "+ToothId+" group "+GroupIndex+" ("+GroupType+"), #"+Color.ToArgb().ToString("X8")+(IsReversed?", reversed":"")+(IsFlat?", flat":"");
 		}
 	}
 
