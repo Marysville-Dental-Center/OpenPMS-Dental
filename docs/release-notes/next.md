@@ -542,13 +542,17 @@ those windows used to name for the 2014 measures. Until the office imports the r
 
 - **Interventions.** The BMI medication lists are the 2027 "Medications for Above Normal BMI" and "Medications for Below Normal BMI", and
   the dialysis list is "Dialysis Services" (one list in place of "Education" and "Related Services"). The interventions list labels each
-  medication by the value set that holds it. An intervention saved before keeps its code; the vital sign window lists the 2027 BMI
-  medications.
+  medication by the value set that holds it. An intervention saved before keeps its code, also one in none of the 2027 lists (for example
+  a 2014 dialysis education row): the intervention window shows it as the selected row, so it can be saved again. Until the office imports
+  the release and the code-system tables, the intervention window's list is empty and its title says where the codes come from. The vital
+  sign window lists the 2027 BMI medications.
 - **Not performed.** The items' codes and reasons come from the release: the BMI exam and "current medications documented" by the codes
   the 2027 measures name directly, tobacco screening from "Tobacco Use Screening". A new item, **BMI follow-up**, records a follow-up,
   referral or BMI medication not done for a medical reason (CMS69's exception). The influenza vaccination item stays, picking from the CVX
   table, with a note that no 2027 measure uses it. The list labels each row by its code; a row whose code is of no item (for example one
-  saved before the import) shows "other" and opens read-only, where it once opened as "influenza" or failed. A saved reason that is not in
+  saved before the import) shows "other" and opens read-only, where it once opened as "influenza" or failed. Until the office imports the
+  release every saved row but the influenza ones is such a row: the list shows "other (2027 value sets not imported)", and the read-only
+  window says that importing the release (Code System Importer) gives the row its item. A saved reason that is not in
   the 2027 lists stays the row's reason when the row is saved again.
 - **Current medications documented** (the medical window) records the code of CMS68 from the import; without the import it records nothing
   and says so.

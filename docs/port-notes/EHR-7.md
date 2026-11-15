@@ -99,7 +99,10 @@ calls only methods that pass the Middle Tier themselves (`EhrCodes.Listt`, `Snom
   the item switch. A new row of an item whose list is empty is refused with the message to run the Code System Importer, as before; a saved
   row opens even when its item's list is empty.
 - Before the office imports the 2027 release, every saved row but the CVX ones is "other": their codes are known only from the import
-  (`GetNotPerformedItem` reads roles and value sets). The release notes say so.
+  (`GetNotPerformedItem` reads roles and value sets). The release notes say so, and so do the windows (section 11):
+  `CqmDataEntry.IsReleaseImported()` (the last import's record is the 2027 release, by `CqmCatalog.RELEASE_LABEL`) is false, the grid
+  labels such a row "other (2027 value sets not imported)" and the read-only window's title and description say the value sets are not
+  imported and where to import them. The plain "other" and "read-only, the code is of no item" stay for an office that has imported it.
 
 ## 5. Code literals (section 8's second table)
 
@@ -204,3 +207,30 @@ LOINC and RxNorm rows: the medical window's Tobacco Use tab; the intervention wi
 not-performed window: BMI exam, current medications and the new BMI follow-up item, a row of an unknown code shown as "other" and opening
 read-only; Setup > EHR settings and the encounter tool: the recommended encounter and pregnancy codes; a vital sign of a 17-year-old (a
 percentile and the child group) and of an 18-year-old (the class).
+
+## 11. Fix round (`ehr/ehr7-3`, from `ehr/ehr7-1`)
+
+The review of `ehr/ehr7-1` (`eb7364c2c`) asked for a fix branch. No branch `ehr/ehr7-2` was ever made and no record of a first round's
+findings exists in the repository or the worktree, so this round fixes the two findings the review names, on `ehr/ehr7-3` as the fix task
+named it; the round-2 check reads `ehr/ehr7-1..ehr/ehr7-3`.
+
+- **The not-performed windows before the import** ("empty lists must say why"). `CqmDataEntry.IsReleaseImported()` and
+  `IsReleaseImported(EhrValueSetRelease)` (true only for a record of the 2027 release; no record, or EHR-2's June 2013 record, is false).
+  `FormEhrNotPerformed.FillGrid` reads it once and labels an "other" row "other (2027 value sets not imported)" while it is false;
+  `FormEhrNotPerformedEdit.FillReadOnly` then titles the window "read-only, the 2027 value sets are not imported" and writes in the item's
+  description: "The EHR value sets of the 2027 release are not imported (Setup | Chart | EHR, Code System Importer); until then this row's
+  item is not known." Delete stays disabled (section 7).
+- **The intervention window's empty list and a saved code outside the 2027 lists.** `FormInterventionEdit.FillGrid`: when the selected
+  lists give no code, the grid's title adds "none: the codes of these intervention lists come from the EHR value sets of the 2027 release
+  and the code-system tables; run the Code System Importer in Setup | Chart | EHR."; on load of a new entry (selection mode) with no code in
+  any list the same message is shown once. A saved intervention (`!IsNew`) whose code is not in the list (a 2014 Dialysis Education or
+  Related Services row after E-28, a row saved before the import) is added as a row of its own, marked "(saved code, not in this list)",
+  and selected like any other, so Save keeps it, as `FillReasonList` keeps a saved reason. Save with "All" of a code in no list keeps the
+  row's code set (it read `listVSFound[0]` of an empty list). The description lookup moved to `GetDescription(EhrCode)`.
+- **Tests.** `PickListTests` (15): `ReleaseImported_OnlyThe2027ReleasesRecord`, `NotPerformed_OtherRows_SayWhenTheReleaseIsNotImported`
+  (both labels and both titles, in order), `Interventions_AnEmptyListSaysWhy_AndASavedCodeOutsideTheListsIsKept`. `PickListDbTests`: not
+  imported before the synthetic import, imported after it.
+- **Runs.** Full build through the lane: 0 errors. Targeted run `ehr7-3-targeted.txt`: EhrTests 307 (294 passed, 13 skipped, the EHR-4
+  deviation tests as before, 0 failed), NoHqTests 57/57, ProjectFileTests 150 (149 passed, 1 skipped), AttributionTests 50/50,
+  MiddleTierMockTests 125/125, RegistryTests 39/39, P262MiscTests 75/75.
+- The merge gate is unchanged: EHR-7 merges with EHR-6a, after E-20's record.
