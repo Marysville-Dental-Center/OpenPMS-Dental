@@ -101,7 +101,6 @@ namespace OpenPmsDentalBusiness {
 		private static readonly object _lock=new object();
 		private static readonly Dictionary<Type,Dictionary<string,SoapOperation>> _dictOperations=new Dictionary<Type,Dictionary<string,SoapOperation>>();
 		private static HttpClient _httpClient;
-		private static HttpClient _httpClientDefaultCredentials;
 
 		///<summary>One operation of a client type: its attribute and the serializers of its request and response members.</summary>
 		private class SoapOperation {
@@ -367,8 +366,10 @@ namespace OpenPmsDentalBusiness {
 
 		#region HTTP
 		///<summary>Posts arrayBytesRequest to the client's Url with the SOAPAction soapAction and reads the response, as SoapHttpClientProtocol.Invoke
-		///did: no redirects, no cookies, the client's time limit and user agent, and for an address on localhost at a port of 1024 or more the
-		///Windows login (UseDefaultCredentials). A status of 300 or more other than 400 and 500 throws WebException (ProtocolError); a response
+		///did: no redirects, no cookies, the client's time limit and user agent, and never the Windows login. (The generated proxies turned the
+		///Windows login on only when their DEFAULT address, from Settings, was on localhost at a port of 1024 or more, and every default address of
+		///the five services is remote, so they never sent it, even when a caller pointed Url at localhost; the lead's fix at S3a-6's merge.)
+		///A status of 300 or more other than 400 and 500 throws WebException (ProtocolError); a response
 		///that is not text/xml throws WebException for 400 and InvalidOperationException otherwise; a SOAP fault throws SoapFaultException; a
 		///request that fails or times out throws WebException. funcReadBody reads the body of a response without a fault.</summary>
 		public static T Send<T>(SoapClient soapClient,string soapAction,byte[] arrayBytesRequest,Func<XmlReader,T> funcReadBody) {
@@ -385,7 +386,7 @@ namespace OpenPmsDentalBusiness {
 				httpRequestMessage.Headers.TryAddWithoutValidation("User-Agent",soapClient.UserAgent);
 			}
 			HttpMessageHandler httpMessageHandler=HttpHandlerForTests;
-			HttpClient httpClient=httpMessageHandler==null ? GetHttpClient(IsLocalFileSystemWebService(uri)) : new HttpClient(httpMessageHandler,false);
+			HttpClient httpClient=httpMessageHandler==null ? GetHttpClient() : new HttpClient(httpMessageHandler,false);
 			try {
 				using CancellationTokenSource cancellationTokenSource=new CancellationTokenSource();
 				if(soapClient.Timeout>=0) {
@@ -429,36 +430,27 @@ namespace OpenPmsDentalBusiness {
 			}
 		}
 
-		///<summary>The shared client: no redirects and no cookies, as HttpWebClientProtocol; with the Windows login for a local test service.</summary>
-		private static HttpClient GetHttpClient(bool useDefaultCredentials) {
+		///<summary>The shared client: no redirects, no cookies and no Windows login, as the generated proxies (HttpWebClientProtocol) with their
+		///remote default addresses.</summary>
+		private static HttpClient GetHttpClient() {
 			lock(_lock) {
-				if(useDefaultCredentials) {
-					if(_httpClientDefaultCredentials==null) {
-						_httpClientDefaultCredentials=CreateHttpClient(true);
-					}
-					return _httpClientDefaultCredentials;
-				}
 				if(_httpClient==null) {
-					_httpClient=CreateHttpClient(false);
+					_httpClient=CreateHttpClient();
 				}
 				return _httpClient;
 			}
 		}
 
-		private static HttpClient CreateHttpClient(bool useDefaultCredentials) {
+		private static HttpClient CreateHttpClient() {
 			HttpClientHandler httpClientHandler=new HttpClientHandler();
 			httpClientHandler.AllowAutoRedirect=false;
 			httpClientHandler.UseCookies=false;
-			httpClientHandler.UseDefaultCredentials=useDefaultCredentials;
+			httpClientHandler.UseDefaultCredentials=false;
 			HttpClient httpClient=new HttpClient(httpClientHandler);
 			httpClient.Timeout=System.Threading.Timeout.InfiniteTimeSpan;//Each request has its own time limit (SoapClient.Timeout).
 			return httpClient;
 		}
 
-		///<summary>An address on localhost at a port of 1024 or more, for which the generated proxies used the Windows login.</summary>
-		private static bool IsLocalFileSystemWebService(Uri uri) {
-			return uri.Port>=1024 && string.Compare(uri.Host,"localHost",StringComparison.OrdinalIgnoreCase)==0;
-		}
 
 		///<summary>The text of a failed response, as RequestResponseUtils.CreateResponseExceptionString wrote it: the status for 400 and above
 		///except 500; otherwise the body (read with its charset, or else the ANSI page, which the proxies' Encoding.Default was, and its byte
