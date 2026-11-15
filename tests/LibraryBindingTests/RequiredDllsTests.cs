@@ -185,8 +185,9 @@ namespace LibraryBindingTests {
 					continue;
 				}
 				if(PackageFiles.BringsNoLibraries(lockedPackage.Id)) {
-					List<string> listNamed=Directory.GetFiles(folderPackage,"*",SearchOption.AllDirectories).Select(x => Path.GetFileName(x))
-						.Where(x => hashSetLibraryNames.Contains(x)).Distinct().ToList();
+					List<string> listNamed=Directory.GetFiles(folderPackage,"*",SearchOption.AllDirectories)
+						.Where(x => !PackageFiles.IsInFolderNotCopied(lockedPackage.Id,x.Substring(folderPackage.TrimEnd('\\').Length+1)))
+						.Select(x => Path.GetFileName(x)).Where(x => hashSetLibraryNames.Contains(x)).Distinct().ToList();
 					if(listNamed.Count>0) {
 						listProblems.Add(pair.Key+" is mapped to no library file, but holds "+string.Join(", ",listNamed)+".");
 					}
