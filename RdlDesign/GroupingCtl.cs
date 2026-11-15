@@ -124,6 +124,7 @@ namespace fyiReporting.RdlDesign
 			dgGroup.Columns[0].Width = 330;
 			DataGridViewSetup.SetNotSortable(this.dgGroup);
 			DataGridViewSetup.CommitOnLeave(this.dgGroup);
+			DataGridViewSetup.KeepEmptyText(this.dgGroup);
 
 			//
 			if (grouping == null)

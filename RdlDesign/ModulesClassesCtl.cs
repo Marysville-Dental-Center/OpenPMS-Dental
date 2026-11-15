@@ -102,6 +102,7 @@ namespace fyiReporting.RdlDesign
 			this.dgCodeModules.DataSource = _DTCM;
 			dgCodeModules.Columns[0].Width = 330;
 			DataGridViewSetup.CommitOnLeave(this.dgCodeModules);
+			DataGridViewSetup.KeepEmptyText(this.dgCodeModules);
 		}
 
 		private void BuildClasses()
@@ -151,6 +152,7 @@ namespace fyiReporting.RdlDesign
 			dgClasses.Columns[0].Width = 200;
 			dgClasses.Columns[1].Width = 130;
 			DataGridViewSetup.CommitOnLeave(this.dgClasses);
+			DataGridViewSetup.KeepEmptyText(this.dgClasses);
 		}
 
 		/// <summary> 

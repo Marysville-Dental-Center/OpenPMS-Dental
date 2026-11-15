@@ -89,6 +89,7 @@ namespace fyiReporting.RdlDesign
 																					  dgtbValue,
 																					  dgtbTypeName});
 			DataGridViewSetup.CommitOnLeave(this.dgFields);
+			DataGridViewSetup.KeepEmptyText(this.dgFields);
 			// dgtbName
 			dgtbName.DefaultCellStyle.Format = "";
 			dgtbName.DefaultCellStyle.FormatProvider = null;
@@ -430,9 +431,11 @@ namespace fyiReporting.RdlDesign
 				string name = (string) dr[0];
 				if (name.Length <= 0)
 					continue;
+				// S3a-M3: a row typed in with only a Name has no Value (DBNull); it is written as an empty Value (the cast threw here before)
+				string value = dr[1] == DBNull.Value? "": (string) dr[1];
 				XmlNode qpNode = _Draw.CreateElement(qpsNode, "QueryParameter", null);
 				_Draw.SetElementAttribute(qpNode, "Name", name);
-				_Draw.SetElement(qpNode, "Value", (string) dr[1]);	
+				_Draw.SetElement(qpNode, "Value", value);
 			}
 			if (!qpsNode.HasChildNodes)	// if no parameters we don't need to define them
 				_Draw.RemoveElement(qNode, "QueryParameters");

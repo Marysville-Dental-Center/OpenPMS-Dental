@@ -34,7 +34,7 @@ namespace fyiReporting.RdlDesign
 	/// A grid column whose cells are edited with a combo box: a drop-down list, or an editable combo box (ComboBoxStyle.DropDown) where any
 	/// text may be typed. CB holds the items and the style. S3a-M3: it was a column style of the WinForms DataGrid (a DataGridColumnStyle that
 	/// moved a ComboBox over the cell being edited); it is now a DataGridView column with a cell whose editing control is that combo box. The
-	/// cell's value is the text; an empty text is the null value, as the DataGrid's NullText was.
+	/// cell's value is the text; an emptied cell stores "" in a string column (DataGridViewSetup.KeepEmptyText), as with the DataGrid.
 	/// </summary>
 	internal class DGCBColumn : DataGridViewColumn
 	{

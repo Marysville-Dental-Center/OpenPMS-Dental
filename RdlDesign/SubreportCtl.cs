@@ -131,6 +131,7 @@ namespace fyiReporting.RdlDesign
 			dgParms.Columns[1].Width = 140;
 			DataGridViewSetup.SetNotSortable(this.dgParms);
 			DataGridViewSetup.CommitOnLeave(this.dgParms);
+			DataGridViewSetup.KeepEmptyText(this.dgParms);
 		}
 
 		/// <summary> 

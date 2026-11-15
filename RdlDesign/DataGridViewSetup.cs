@@ -2,6 +2,7 @@
 // table style's AllowSorting have no member of the same name on a DataGridView; these helpers keep the dialogs' code close to what it was.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
+using System.Data;
 using System.Windows.Forms;
 
 namespace fyiReporting.RdlDesign
@@ -64,6 +65,41 @@ namespace fyiReporting.RdlDesign
 		internal static void CommitOnLeave(DataGridView dataGridView)
 		{
 			dataGridView.Leave += (sender, e) => CommitEdits(dataGridView);
+		}
+
+		/// <summary>A text cell bound to a string column that is emptied stores "" in the DataTable, as the DataGrid's text column did (its
+		/// NullText was "(null)", so an empty text was the string ""). A DataGridView parses an empty text to its null value, DBNull by default;
+		/// this sets the null value of the text and combo box columns bound to a string column to "". The cells of a new row that are not typed
+		/// into are not parsed, so they stay DBNull as before. The columns are set now and again whenever a column is added, a column's
+		/// DataPropertyName changes or the grid gets another DataSource, so the order of the dialog's set-up does not matter.</summary>
+		internal static void KeepEmptyText(DataGridView dataGridView)
+		{
+			SetEmptyTextNullValues(dataGridView);
+			dataGridView.ColumnAdded += (sender, e) => SetEmptyTextNullValues(dataGridView);
+			dataGridView.ColumnDataPropertyNameChanged += (sender, e) => SetEmptyTextNullValues(dataGridView);
+			dataGridView.DataSourceChanged += (sender, e) => SetEmptyTextNullValues(dataGridView);
+		}
+
+		private static void SetEmptyTextNullValues(DataGridView dataGridView)
+		{
+			DataTable dataTable = dataGridView.DataSource as DataTable;
+			if (dataTable == null && dataGridView.DataSource is DataView)
+				dataTable = ((DataView) dataGridView.DataSource).Table;
+			if (dataTable == null)
+				return;		// not bound yet: DataSourceChanged sets the columns
+			foreach (DataGridViewColumn dataGridViewColumn in dataGridView.Columns)
+			{
+				if (!(dataGridViewColumn is DataGridViewTextBoxColumn) && !(dataGridViewColumn is DGCBColumn))
+					continue;
+				if (string.IsNullOrEmpty(dataGridViewColumn.DataPropertyName))
+					continue;
+				DataColumn dataColumn = dataTable.Columns[dataGridViewColumn.DataPropertyName];
+				if (dataColumn == null || dataColumn.DataType != typeof(string))
+					continue;
+				if ("".Equals(dataGridViewColumn.DefaultCellStyle.DataSourceNullValue))
+					continue;
+				dataGridViewColumn.DefaultCellStyle.DataSourceNullValue = "";
+			}
 		}
 	}
 }

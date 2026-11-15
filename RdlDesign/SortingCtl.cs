@@ -120,6 +120,7 @@ namespace fyiReporting.RdlDesign
 			this.dgSorting.DataSource = _DataTable;
 			DataGridViewSetup.SetNotSortable(this.dgSorting);
 			DataGridViewSetup.CommitOnLeave(this.dgSorting);
+			DataGridViewSetup.KeepEmptyText(this.dgSorting);
 			dgSorting.Columns[0].Width = 240;
 			dgSorting.Columns[1].Width = 90;
 		}

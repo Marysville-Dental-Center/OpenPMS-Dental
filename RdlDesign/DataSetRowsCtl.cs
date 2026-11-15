@@ -86,6 +86,7 @@ namespace fyiReporting.RdlDesign
 
 			this.dgRows.DataSource = _DataTable;
 			DataGridViewSetup.CommitOnLeave(this.dgRows);
+			DataGridViewSetup.KeepEmptyText(this.dgRows);
 			if (file != null)
 			{
 				tbRowsFile.Text = file;
