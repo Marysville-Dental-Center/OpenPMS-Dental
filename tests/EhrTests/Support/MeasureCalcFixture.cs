@@ -90,6 +90,12 @@ namespace EhrTests {
 				_cultureBefore=null;
 			}
 			ScratchDb.UseDirectConnection();
+			//The Middle Tier user exists only in this fixture's database. Left logged on, it would stop the EHR-1 database's first cache refresh ("The
+			//current user has been removed from the cache") when a Middle Tier test of this class runs last before the EHR-1 tests.
+			if(UserodMiddleTier!=null && Security.CurUser!=null && Security.CurUser.UserNum==UserodMiddleTier.UserNum) {
+				Security.CurUser=null;
+				Security.PasswordTyped="";
+			}
 			if(_isBuilt && ScratchDb.SkipReason==null && Exists(ScratchDb.DbName)) {
 				ScratchDb.Connect(ScratchDb.DbName);
 				RefreshCaches();
