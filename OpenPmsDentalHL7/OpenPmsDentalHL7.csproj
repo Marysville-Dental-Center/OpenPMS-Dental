@@ -1,6 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <!--
-    The HL7 Windows service (OpenPmsDentalHL7.exe, ServiceHL7), with its installer and its debug window. The SDK's default globs compile
+    The HL7 Windows service (OpenPmsDentalHL7.exe, ServiceHL7), with its debug window (ServiceManager installs it with sc.exe,
+    CodeBase ServicesHelper; S3a-7). The SDK's default globs compile
     every .cs file and embed every .resx file under this folder (bin\ and obj\ excepted); only items with their own metadata are listed.
     AutoGenerateBindingRedirects is left to its default, on for an exe, as for the classic project: no reference conflicts today, so
     OpenPmsDentalHL7.exe.config is app.config as it is.
@@ -21,7 +22,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.Configuration.Install" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.ServiceProcess" />

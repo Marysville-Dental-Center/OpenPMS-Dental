@@ -823,6 +823,16 @@ VDXC2 fake is an `HttpMessageHandler`, a fake ITS endpoint and the DCI request a
 VendorDirectTests. The Middle Tier's web reference stays, so the Release dry run still stages both XmlSerializers files. Left: the
 program's unused ITS URL setting (kept), CallFire (O-10), the Middle Tier proxy (3b).
 
+**Status (2026-11-15), S3a-7.** Merged from `net10/s3a7-1` (`docs/port-notes/S3a-7.md`), with the lead's fixes (1072 stop, no permission change after 1073): `ServicesHelper.Install`/`Uninstall`
+keep their signatures and run the system folder's `sc.exe create`/`sc.exe delete` (delete, then stop, ServiceInstaller's order) with the
+ProjectInstaller's settings, pinned in a test: own process, `start= auto`, `error= normal`, `obj= LocalSystem`, display name the service
+name, no description, the quoted exe path as ImagePath. `OpenPmsDentalHL7/ProjectInstaller.cs` and the `System.Configuration.Install`
+reference deleted; FormServiceManage shows what 5, 1060, 1072 and 1073 mean; PrefL needs no edit. The process start, the ImagePath read and
+the service stop are internal seams: the new `ServiceInstallTests` (ReleaseFlowTests) check the command lines and exit codes with fakes, and
+no test runs `sc.exe`. `ProgramNamesTests.cs:191` now reads the HL7 assembly through `ProgramAssembly`. The manual install/remove on a test PC
+is written step by step in the note, not run. Left: the unused `System.Configuration.Install` reference of `ReleaseFlowTests.csproj`
+(S3a-10's file) and the project baseline's `ProjectInstaller.cs` line, for the lead.
+
 **Full-test gate.** Section 3, plus: the golden outputs and known answers recorded and committed; the source-scan tests pass; the
 launch checks for 3a (section 6) done with screenshots, including a self-update from a standard user; the x64 test runs (S3a-12, S3a-15)
 and the x64 build of `Direct2dWrapper` (S3a-16) pass; the helper's tests pass, and its links are launch-checked where a test PC has the
