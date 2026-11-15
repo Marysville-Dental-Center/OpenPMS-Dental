@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- Tests for package N64-A (docs/port-notes/N64-A.md; items A2 and A4 of docs/specs/native64-survey.md): the plug-in loaders' PE kind and
+       target framework check, with synthetic plug-in DLLs (any CPU, x86 only, x64) written by Mono.Cecil; the PE reader against Mono.Cecil;
+       Trojan's install key on a fake registry seam; Word's registration errors and the x64 build's Word code; the D3DX log line. Library-only
+       (no program exe), so the lane's x64 test build runs it too (-X64Test). No test starts Word, loads a third-party plug-in, opens a real
+       registry key or shows a window. Every .cs file under this folder is compiled. -->
+  <ItemGroup>
+    <Reference Include="System.Windows.Forms" />
+    <!-- Writes the synthetic plug-in DLLs and reads assemblies without loading them, to check CodeBase.PortableExecutableFile. The NuGet package,
+         from the offline package folder (nuget.config), at the version of Directory.Packages.props. -->
+    <PackageReference Include="Mono.Cecil" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\CodeBase\xCodeBase.csproj" />
+    <ProjectReference Include="..\..\DataConnectionBase\xDataConnectionBase.csproj" />
+    <ProjectReference Include="..\..\OpenPmsDentalBusiness\OpenPmsDentalBusiness.csproj" />
+    <!-- Trojan's install key lookup (Bridges\Trojan.cs). -->
+    <ProjectReference Include="..\..\WpfControlsOD\WpfControlsOD.csproj" />
+    <!-- The D3DX log line (ToothChartWrapper). -->
+    <ProjectReference Include="..\..\SparksToothChart\SparksToothChart.csproj" />
+  </ItemGroup>
+</Project>
