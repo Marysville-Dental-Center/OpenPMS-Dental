@@ -307,10 +307,12 @@ namespace BINATests {
 			try {
 				StringBuilder stringBuilder=new StringBuilder(1024);
 				Assert.IsTrue(GetModuleFileName(intPtrModule,stringBuilder,stringBuilder.Capacity)>0);
+				//In a 32-bit process on 64-bit Windows the name says System32, which WOW64 redirects to SysWOW64 for the load and for the read below.
 				string pathLoaded=stringBuilder.ToString();
 				ushort machineExpected=Environment.Is64BitProcess?IMAGE_FILE_MACHINE_AMD64:IMAGE_FILE_MACHINE_I386;
 				Assert.AreEqual(machineExpected,ReadPeMachine(pathLoaded),pathLoaded+" is not a "+Bitness()+" file.");
-				Record("d3dx9_43.dll loaded from "+pathLoaded);
+				Record("d3dx9_43.dll loaded from "+pathLoaded+(CodeBase.ODSystemFolders.IsWow64Process()?" (WOW64: the SysWOW64 file)":"")
+					+", PE machine 0x"+machineExpected.ToString("X4"));
 			}
 			finally {
 				FreeLibrary(intPtrModule);
