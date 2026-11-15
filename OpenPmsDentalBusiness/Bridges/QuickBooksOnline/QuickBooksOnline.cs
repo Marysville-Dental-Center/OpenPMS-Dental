@@ -188,11 +188,17 @@ namespace OpenPmsDentalBusiness.Qbo {
 		#region Windows
 		///<summary>Runs action and returns the exception it threw, or null. Windows call this inside UI.ProgressWin.ActionMain: ProgressWin rethrows
 		///an exception's InnerException whenever it has one, which would swap a QboAuthException or QboApiException (written for the office) for the
-		///raw TokenRejectedException or HttpRequestException beneath it. Show the result with GetMessageForUser.</summary>
+		///raw TokenRejectedException or HttpRequestException beneath it. Show the result with GetMessageForUser. A cancel of the progress window
+		///(ODCancellation; the database layer refuses the action's next command) is not returned but thrown, as the window expects, so that it is
+		///never shown as a failure after the user cancelled (S3a-1c). A timeout of the vendor call (TaskCanceledException) is returned as before.
+		///</summary>
 		public static Exception RunForWindow(Action action) {
 			try {
 				action();
 				return null;
+			}
+			catch(OperationCanceledException) when(ODCancellation.IsCancellationRequested) {
+				throw;
 			}
 			catch(Exception ex) {
 				return ex;

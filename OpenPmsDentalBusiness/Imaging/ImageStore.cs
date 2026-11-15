@@ -599,19 +599,23 @@ namespace OpenPmsDentalBusiness {
 				doc.ImgType=ImageType.Document;
 			}
 			doc.DocCategory = docCategory;
-			doc=Documents.InsertAndGet(doc,pat);//this assigns a filename and saves to db
-			if(doAvoidOverwrite) {
-				SetFileNameNotInFolder(doc,patFolder);
-			}
+			//The row with its file name is one unit (S3a-1c): the insert is several commands, and a cancel between them would leave a row
+			//outside the try below, whose catch deletes the row when what follows fails or is cancelled.
+			ODCancellation.RunUncancellable(() => {
+				doc=Documents.InsertAndGet(doc,pat);//this assigns a filename and saves to db
+				if(doAvoidOverwrite) {
+					SetFileNameNotInFolder(doc,patFolder);
+				}
+			});
 			try {
 				SaveDocument(doc,pathImportFrom,patFolder);//Makes log entry
 				if(PrefC.AtoZfolderUsed==DataStorageType.InDatabase) {
 					Documents.Update(doc);//Because SaveDocument() modified doc.RawBase64
 				}
 			}
-			catch (Exception ex){
+			catch {
 				ODCancellation.RunUncancellable(() => Documents.Delete(doc));//A cleanup in a catch: also after a cancel, as under the old abort (S3a-1b).
-				throw ex;
+				throw;//keeps the stack trace of the failure (S3a-1c; was "throw ex;")
 			}
 			return doc;
 		}
@@ -649,8 +653,12 @@ namespace OpenPmsDentalBusiness {
 			if(doPrintHeading) {
 				doc.PrintHeading=true;
 			}
-			Documents.Insert(doc,pat);//creates filename and saves to db
-			doc=Documents.GetByNum(doc.DocNum);
+			//The row with its file name is one unit (S3a-1c): the insert is several commands, and a cancel between them would leave a row
+			//outside the try below, whose catch deletes the row when what follows fails or is cancelled.
+			ODCancellation.RunUncancellable(() => {
+				Documents.Insert(doc,pat);//creates filename and saves to db
+				doc=Documents.GetByNum(doc.DocNum);
+			});
 			long qualityL = 0;
 			if(imageType.In(ImageType.Radiograph,ImageType.Photo,ImageType.Attachment)) {
 				qualityL=100;
@@ -704,8 +712,12 @@ namespace OpenPmsDentalBusiness {
 			doc.DateCreated=DateTime.Now;
 			doc.PatNum=pat.PatNum;
 			doc.DocCategory=docCategory;
-			Documents.Insert(doc,pat);//creates filename and saves to db
-			doc=Documents.GetByNum(doc.DocNum);
+			//The row with its file name is one unit (S3a-1c): the insert is several commands, and a cancel between them would leave a row
+			//outside the try below, whose catch deletes the row when what follows fails or is cancelled.
+			ODCancellation.RunUncancellable(() => {
+				Documents.Insert(doc,pat);//creates filename and saves to db
+				doc=Documents.GetByNum(doc.DocNum);
+			});
 			try {
 				SaveDocument(doc,arrayBytes,patFolder);//Makes log entry
 				if(PrefC.AtoZfolderUsed==DataStorageType.InDatabase) {
@@ -748,8 +760,12 @@ namespace OpenPmsDentalBusiness {
 			doc.DocCategory = docCategory;
 			doc.PatNum = pat.PatNum;
 			doc.ImgType = ImageType.Document;
-			Documents.Insert(doc,pat);//this assigns a filename and saves to db
-			doc=Documents.GetByNum(doc.DocNum);
+			//The row with its file name is one unit (S3a-1c): the insert is several commands, and a cancel between them would leave a row
+			//outside the try below, whose catch deletes the row when what follows fails or is cancelled.
+			ODCancellation.RunUncancellable(() => {
+				Documents.Insert(doc,pat);//this assigns a filename and saves to db
+				doc=Documents.GetByNum(doc.DocNum);
+			});
 			try {
 				if(CloudStorage.IsCloudStorage) {
 					//byte[] bytes=OpenPmsDentalBusiness.FileIO.FileAtoZ.ReadAllBytes(pathSourceFile);
@@ -783,8 +799,12 @@ namespace OpenPmsDentalBusiness {
 			doc.PrintHeading=true;
 			doc.WindowingMin = PrefC.GetInt(PrefName.ImageWindowingMin);
 			doc.WindowingMax = PrefC.GetInt(PrefName.ImageWindowingMax);
-			Documents.Insert(doc,pat);//creates filename and saves to db
-			doc=Documents.GetByNum(doc.DocNum);
+			//The row with its file name is one unit (S3a-1c): the insert is several commands, and a cancel between them would leave a row
+			//outside the try below, whose catch deletes the row when what follows fails or is cancelled.
+			ODCancellation.RunUncancellable(() => {
+				Documents.Insert(doc,pat);//creates filename and saves to db
+				doc=Documents.GetByNum(doc.DocNum);
+			});
 			try {
 				SaveDocument(doc,image,ImageFormat.Bmp,patFolder);//Makes log entry
 			}
@@ -811,8 +831,12 @@ namespace OpenPmsDentalBusiness {
 			}
 			eob.FileName=".jpg";
 			eob.DateTCreated = DateTime.Now;
-			EobAttaches.Insert(eob);//creates filename and saves to db
-			eob=EobAttaches.GetOne(eob.EobAttachNum);
+			//The row with its file name is one unit (S3a-1c): the insert is several commands, and a cancel between them would leave a row
+			//outside the try below, whose catch deletes the row when what follows fails or is cancelled.
+			ODCancellation.RunUncancellable(() => {
+				EobAttaches.Insert(eob);//creates filename and saves to db
+				eob=EobAttaches.GetOne(eob.EobAttachNum);
+			});
 			long qualityL=(long)ComputerPrefs.LocalComputer.ScanDocQuality;
 			ImageCodecInfo myImageCodecInfo;
 			ImageCodecInfo[] encoders;
@@ -863,8 +887,12 @@ namespace OpenPmsDentalBusiness {
 				eob.FileName=Path.GetExtension(pathImportFrom);
 			}
 			eob.DateTCreated=File.GetLastWriteTime(pathImportFrom);
-			EobAttaches.Insert(eob);//creates filename and saves to db
-			eob=EobAttaches.GetOne(eob.EobAttachNum);
+			//The row with its file name is one unit (S3a-1c): the insert is several commands, and a cancel between them would leave a row
+			//outside the try below, whose catch deletes the row when what follows fails or is cancelled.
+			ODCancellation.RunUncancellable(() => {
+				EobAttaches.Insert(eob);//creates filename and saves to db
+				eob=EobAttaches.GetOne(eob.EobAttachNum);
+			});
 			try {
 				SaveEobAttach(eob,pathImportFrom,eobFolder);
 				//No security log for creation of claim payment EOB's because they don't show up in the images module. Preauth EOBs are logged.
@@ -1384,7 +1412,7 @@ namespace OpenPmsDentalBusiness {
 			}
 			catch(Exception ex) {
 				if(!ex.Message.ToLower().Contains("being used by another process")) {
-					throw ex;//Currently we only care about the above exception. Other exceptions should be brought to our attention still.
+					throw;//Currently we only care about the above exception. Other exceptions should be brought to our attention still.
 				}
 				actInUseException?.Invoke(ex.Message);
 				return false;
