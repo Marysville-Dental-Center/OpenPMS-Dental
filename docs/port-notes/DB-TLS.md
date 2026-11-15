@@ -731,8 +731,9 @@ There is no switch that drops only the test network: `-Revert` and the enable ru
   `docs/release-notes/next.md` is not changed: a developer tool, nothing an office notices.
 - New: `tests/DbConnectionSecurityTests/DevDbTlsTestNetworkTests.cs`, without elevation and without touching this PC's network, MariaDB
   service or a store: the certificate set of `-TestCertificatesFolder -WithTestNetwork` (the server's names; each `.pfx` read back with
-  `EphemeralKeySet`: one certificate, its key, clientAuth only, the same CA, not readable with another password); the refusal of ten
-  addresses outside 192.0.2.0/24 before the service is looked at, and of the switch with `-Revert` and `-RequireSecureTransport`; the
+  `EphemeralKeySet`: one certificate, its key, clientAuth only, the same CA, not readable with another password); the refusal of nine
+  values that are no host address of 192.0.2.0/24 (`127.0.0.1`, the network and broadcast addresses, leading zeros, a name, IPv6) before
+  the service is looked at, and of the switch with `-Revert` and `-RequireSecureTransport`; the
   address-in-use and network checks on synthetic addresses, routes and facts; the record in the block, read back, kept by
   `-RequireSecureTransport`'s block, and refused when no run can have written it; the state checks that keep `-Revert` to what the script
   made; the enable plan and `-Revert`'s plan with every tag (also with the firewall off and with everything gone); a real dry run that lists

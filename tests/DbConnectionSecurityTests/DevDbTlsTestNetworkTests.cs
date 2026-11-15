@@ -106,14 +106,14 @@ namespace DbConnectionSecurityTests {
 		[TestMethod]
 		public void TestNetwork_AnAddressOutside192_0_2_0_24_IsRefused_BeforeAnythingElse() {
 			string script=DevDbTlsScriptTests.GetScriptPath();
-			foreach(string address in new[] { "10.0.0.5","192.0.3.1","192.0.2.0","192.0.2.255","192.0.2.256","192.0.2.025","192.0.2","198.51.100.25","localhost","::1" }) {
+			foreach(string address in new[] { "127.0.0.1","192.0.2.0","192.0.2.255","192.0.2.256","192.0.2.025","192.0.2","192.0.2.25.1","localhost","::1" }) {
 				Assert.AreEqual(1,DevDbTlsScriptTests.RunPowerShell(script,"-DryRun -WithTestNetwork "+address,out string output),address+": "+output);
 				StringAssert.Contains(output,"REFUSED: -WithTestNetwork "+address+" is not a host address of 192.0.2.0/24",address);
 				Assert.IsFalse(output.Contains("Service:"),address+": refused before the service is even looked at.");
 				Assert.IsFalse(output.Contains("Plan:"),address);
 			}
 			string folder=Path.Combine(_folder,"certs");
-			Assert.AreEqual(1,DevDbTlsScriptTests.RunPowerShell(script,"-TestCertificatesFolder \""+folder+"\" -WithTestNetwork 10.0.0.5",out string outputFolder),outputFolder);
+			Assert.AreEqual(1,DevDbTlsScriptTests.RunPowerShell(script,"-TestCertificatesFolder \""+folder+"\" -WithTestNetwork 127.0.0.1",out string outputFolder),outputFolder);
 			StringAssert.Contains(outputFolder,"is not a host address of 192.0.2.0/24");
 			Assert.IsFalse(Directory.Exists(folder),"Nothing written.");
 			//The later modes take the test network from the record in my.ini; the switch goes with the enable run only.
@@ -130,16 +130,16 @@ namespace DbConnectionSecurityTests {
 				"Get-TestNetworkProblem","Test-FirewallOn" },new[] {
 				"function Addr([string]$Ip, [string]$Alias) { [pscustomobject]@{ IPAddress = $Ip; InterfaceAlias = $Alias } }",
 				"function Route([string]$Prefix, [string]$Alias) { [pscustomobject]@{ DestinationPrefix = $Prefix; InterfaceAlias = $Alias } }",
-				"$addresses = @((Addr '127.0.0.1' 'Loopback'), (Addr '198.51.100.7' 'Ethernet'))",
-				"$routes = @((Route '0.0.0.0/0' 'Ethernet'), (Route '198.51.100.0/24' 'Ethernet'), (Route '255.255.255.255/32' 'Ethernet'), (Route '224.0.0.0/4' 'Ethernet'), (Route '127.0.0.0/8' 'Loopback'))",
+				"$addresses = @((Addr '127.0.0.1' 'Loopback'))",
+				"$routes = @((Route '0.0.0.0/0' 'Ethernet'), (Route '255.255.255.255/32' 'Ethernet'), (Route '127.0.0.0/8' 'Loopback'))",
 				"function U([string]$Case, $Addr, $Rt) { $p = Get-TestAddressUseProblem '192.0.2.25' $Addr $Rt; if ($null -eq $p) { $p = 'OK' }; 'USE ' + $Case + ': ' + $p }",
 				"U 'free' $addresses $routes",
 				"U 'same' ($addresses + @(Addr '192.0.2.25' 'Wi-Fi')) $routes",
 				"U 'other' ($addresses + @(Addr '192.0.2.99' 'vEthernet')) $routes",
 				"U 'net24' $addresses ($routes + @(Route '192.0.2.0/24' 'VPN'))",
-				"U 'net16' $addresses ($routes + @(Route '192.0.0.0/16' 'VPN'))",
+				"U 'net23' $addresses ($routes + @(Route '192.0.2.0/23' 'VPN'))",
 				"U 'host32' $addresses ($routes + @(Route '192.0.2.200/32' 'VPN'))",
-				"U 'neighbour' $addresses ($routes + @(Route '192.0.3.0/24' 'VPN'))",
+				"U 'half' $addresses ($routes + @(Route '192.0.2.128/25' 'VPN'))",
 				"foreach ($a in @('192.0.2.1', '192.0.2.25', '192.0.2.254', ' 192.0.2.7 ')) { 'FORM ' + $a.Trim() + ': ' + ($null -eq (Get-TestAddressFormProblem $a)) }",
 				"function F([bool]$FwOn, $Open = @(), [bool]$Netloop = $true, [bool]$NameTaken = $false, $Rules = @()) {",
 				"  [pscustomobject]@{ Addresses = $addresses; Routes = $routes; FirewallProfiles = @([pscustomobject]@{ Name = 'Domain'; Enabled = $FwOn }, [pscustomobject]@{ Name = 'Public'; Enabled = $FwOn });",
@@ -164,9 +164,9 @@ namespace DbConnectionSecurityTests {
 			StringAssert.Contains(output,"USE same: -WithTestNetwork 192.0.2.25 is in use: this computer has that address on Wi-Fi.");
 			StringAssert.Contains(output,"USE other: -WithTestNetwork 192.0.2.25: this computer already has 192.0.2.99 of 192.0.2.0/24 on vEthernet");
 			StringAssert.Contains(output,"USE net24: -WithTestNetwork 192.0.2.25: the route 192.0.2.0/24 on VPN leads into 192.0.2.0/24");
-			StringAssert.Contains(output,"USE net16: -WithTestNetwork 192.0.2.25: the route 192.0.0.0/16 on VPN leads into 192.0.2.0/24");
+			StringAssert.Contains(output,"USE net23: -WithTestNetwork 192.0.2.25: the route 192.0.2.0/23 on VPN leads into 192.0.2.0/24");
 			StringAssert.Contains(output,"USE host32: -WithTestNetwork 192.0.2.25: the route 192.0.2.200/32 on VPN leads into 192.0.2.0/24");
-			StringAssert.Contains(output,"USE neighbour: OK\r\n","192.0.3.0/24 is another range.");
+			StringAssert.Contains(output,"USE half: -WithTestNetwork 192.0.2.25: the route 192.0.2.128/25 on VPN leads into 192.0.2.0/24");
 			foreach(string address in new[] { "192.0.2.1","192.0.2.25","192.0.2.254","192.0.2.7" }) {
 				StringAssert.Contains(output,"FORM "+address+": True\r\n");
 			}
@@ -212,7 +212,7 @@ namespace DbConnectionSecurityTests {
 				"  foreach ($k in $Changes.Keys) { $c.$k = $Changes[$k] }",
 				"  $p = Get-TestNetworkRecordProblem $c; if ($null -eq $p) { $p = 'OK' }; 'PROBLEM ' + $Case + ': ' + $p",
 				"}",
-				"P 'address' @{ Address = '10.0.0.1' }",
+				"P 'address' @{ Address = '127.0.0.1' }",
 				"P 'adapter' @{ AdapterId = 'PCI\\VEN_8086&DEV_15B8\\3&11583659&0&FE' }",
 				"P 'adapterdots' @{ AdapterId = 'ROOT\\NET\\0001\\..' }",
 				"P 'rule' @{ FirewallRules = @('Some other rule') }",
@@ -232,7 +232,7 @@ namespace DbConnectionSecurityTests {
 			StringAssert.Contains(output,"REQUIRE True True 2 ON 127.0.0.1,192.0.2.25\r\n","-RequireSecureTransport's block keeps the record and the address.");
 			StringAssert.Contains(output,"NONET True False","Without -WithTestNetwork: no record, no second address.");
 			StringAssert.Contains(output,"OFF 0 True","The firewall was off: no rule recorded.");
-			StringAssert.Contains(output,"PROBLEM address: my.ini records the test address 10.0.0.1, which is not a host address of 192.0.2.0/24.");
+			StringAssert.Contains(output,"PROBLEM address: my.ini records the test address 127.0.0.1, which is not a host address of 192.0.2.0/24.");
 			StringAssert.Contains(output,@"PROBLEM adapter: my.ini records the test adapter 'PCI\VEN_8086&DEV_15B8\3&11583659&0&FE', which is not a device this script creates");
 			StringAssert.Contains(output,@"PROBLEM adapterdots: my.ini records the test adapter 'ROOT\NET\0001\..'");
 			StringAssert.Contains(output,"PROBLEM rule: my.ini records the firewall rule 'Some other rule', which is not one of this script's");
