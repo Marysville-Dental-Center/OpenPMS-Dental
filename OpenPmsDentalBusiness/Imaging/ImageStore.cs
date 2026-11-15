@@ -610,7 +610,7 @@ namespace OpenPmsDentalBusiness {
 				}
 			}
 			catch (Exception ex){
-				Documents.Delete(doc);
+				ODCancellation.RunUncancellable(() => Documents.Delete(doc));//A cleanup in a catch: also after a cancel, as under the old abort (S3a-1b).
 				throw ex;
 			}
 			return doc;
@@ -681,7 +681,7 @@ namespace OpenPmsDentalBusiness {
 			}
 			catch(Exception e) {
 				e.DoNothing();
-				Documents.Delete(doc);
+				ODCancellation.RunUncancellable(() => Documents.Delete(doc));//A cleanup in a catch: also after a cancel, as under the old abort (S3a-1b).
 				throw;
 			}
 			return doc;
@@ -715,7 +715,7 @@ namespace OpenPmsDentalBusiness {
 			}
 			catch(Exception e) {
 				e.DoNothing();
-				Documents.Delete(doc);
+				ODCancellation.RunUncancellable(() => Documents.Delete(doc));//A cleanup in a catch: also after a cancel, as under the old abort (S3a-1b).
 				throw;
 			}
 			return doc;
@@ -762,7 +762,7 @@ namespace OpenPmsDentalBusiness {
 				}
 			}
 			catch {
-				Documents.Delete(doc);
+				ODCancellation.RunUncancellable(() => Documents.Delete(doc));//A cleanup in a catch: also after a cancel, as under the old abort (S3a-1b).
 				throw;
 			}
 			return doc;
@@ -789,7 +789,7 @@ namespace OpenPmsDentalBusiness {
 				SaveDocument(doc,image,ImageFormat.Bmp,patFolder);//Makes log entry
 			}
 			catch {
-				Documents.Delete(doc);
+				ODCancellation.RunUncancellable(() => Documents.Delete(doc));//A cleanup in a catch: also after a cancel, as under the old abort (S3a-1b).
 				throw;
 			}
 			return doc;
@@ -835,7 +835,7 @@ namespace OpenPmsDentalBusiness {
 				//No security log for creation of claim payment EOB's because they don't show up in the images module. Preauth EOBs are logged.
 			}
 			catch {
-				EobAttaches.Delete(eob.EobAttachNum);
+				ODCancellation.RunUncancellable(() => EobAttaches.Delete(eob.EobAttachNum));//A cleanup in a catch: also after a cancel (S3a-1b).
 				throw;
 			}
 			LogPreAuthEob(EnumPermType.ImageCreate,eob);
@@ -873,7 +873,7 @@ namespace OpenPmsDentalBusiness {
 				}
 			}
 			catch {
-				EobAttaches.Delete(eob.EobAttachNum);
+				ODCancellation.RunUncancellable(() => EobAttaches.Delete(eob.EobAttachNum));//A cleanup in a catch: also after a cancel (S3a-1b).
 				throw;
 			}
 			LogPreAuthEob(EnumPermType.ImageCreate,eob);
