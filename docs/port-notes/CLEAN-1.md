@@ -87,3 +87,8 @@ no line there.
   change here).
 - `tools/Test-NoEolFlips.ps1 -Base main`: 23 changed text files checked, 0 changed their line ends; `Plugins.cs` keeps its BOM, no other
   changed file had one. No sln or slnf change, `db/init/new-database.sql` untouched.
+- Fix round (`net10/clean1-3`, review of item 3): `CreateWordApp` also releases the object `Activator.CreateInstance` started when
+  setting `Visible` fails with a registration error (`InitWordApp`, `ReleaseComObjectQuietly`). Full lane build: 0 errors. Targeted run, all
+  passed (`clean1-3-fix.txt`): NoHqTests 111, ProjectFileTests 150 (149 passed, 1 skipped), N64ATests 41, S3aM1Tests 63, ImagingTests 82,
+  M2MISCTests 98, BCLAIMTests 80, VendorDirectTests 941, MiddleTierMockTests 151, ODOPTSTests 57, BINBTests 99 and ChartLetterTests 45
+  (both use `LetterMerges`).
