@@ -36,7 +36,7 @@ namespace OpenPmsDental {
 		private void LayoutTeeth(){
 			_toothChartRelay= new ToothChartRelay();
 			_toothChartRelay.SetToothChartWrapper(toothChartWrapper);
-			//The perio chart draws only in DirectX. If DirectX cannot start, the wrapper falls back and IsPerioMode below says so.
+			//The perio chart draws on the WPF chart (TC-8, O-31). If it cannot start, the wrapper falls back to 2D and IsPerioMode below says so.
 			ToothChartRelay.ApplyGraphicalPerioMode(toothChartWrapper);
 			_toothChartRelay.BeginUpdate();
 			_toothChartRelay.SetToothNumberingNomenclature((ToothNumberingNomenclature)PrefC.GetInt(PrefName.UseInternationalToothNumbers));
