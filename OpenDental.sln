@@ -325,6 +325,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "INSVERIFYTests", "tests\INS
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EFormPrintTests", "tests\EFormPrintTests\EFormPrintTests.csproj", "{E8D85495-B109-4D4C-B08E-D5D14FC64B02}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoldenOutputTests", "tests\GoldenOutputTests\GoldenOutputTests.csproj", "{B2E5B9FE-35AC-4064-B438-4FA9E58E11BD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -1590,6 +1592,14 @@ Global
 		{E8D85495-B109-4D4C-B08E-D5D14FC64B02}.Release|Any CPU.Build.0 = Release|x86
 		{E8D85495-B109-4D4C-B08E-D5D14FC64B02}.Release|x86.ActiveCfg = Release|x86
 		{E8D85495-B109-4D4C-B08E-D5D14FC64B02}.Release|x86.Build.0 = Release|x86
+		{B2E5B9FE-35AC-4064-B438-4FA9E58E11BD}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{B2E5B9FE-35AC-4064-B438-4FA9E58E11BD}.Debug|Any CPU.Build.0 = Debug|x86
+		{B2E5B9FE-35AC-4064-B438-4FA9E58E11BD}.Debug|x86.ActiveCfg = Debug|x86
+		{B2E5B9FE-35AC-4064-B438-4FA9E58E11BD}.Debug|x86.Build.0 = Debug|x86
+		{B2E5B9FE-35AC-4064-B438-4FA9E58E11BD}.Release|Any CPU.ActiveCfg = Release|x86
+		{B2E5B9FE-35AC-4064-B438-4FA9E58E11BD}.Release|Any CPU.Build.0 = Release|x86
+		{B2E5B9FE-35AC-4064-B438-4FA9E58E11BD}.Release|x86.ActiveCfg = Release|x86
+		{B2E5B9FE-35AC-4064-B438-4FA9E58E11BD}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

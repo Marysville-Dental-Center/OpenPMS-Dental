@@ -1,0 +1,39 @@
+<NewDataSet>
+  <xs:schema id="NewDataSet" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xs:element name="NewDataSet" msdata:IsDataSet="true" msdata:MainDataTable="goldensynthetic" msdata:UseCurrentLocale="true">
+      <xs:complexType>
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+          <xs:element name="goldensynthetic">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="goldensyntheticNum" type="xs:long" minOccurs="0" />
+                <xs:element name="Supplier" type="xs:string" minOccurs="0" />
+                <xs:element name="Phone" type="xs:string" minOccurs="0" />
+                <xs:element name="Notes" type="xs:string" minOccurs="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:choice>
+      </xs:complexType>
+    </xs:element>
+  </xs:schema>
+  <goldensynthetic>
+    <goldensyntheticNum>2</goldensyntheticNum>
+    <Supplier>Éclair Dental Lab</Supplier>
+    <Phone>(503)555-0131</Phone>
+    <Notes>Café hours: 8–5
+Closed Fridays</Notes>
+  </goldensynthetic>
+  <goldensynthetic>
+    <goldensyntheticNum>3</goldensyntheticNum>
+    <Supplier>Empty Notes Ltd.</Supplier>
+    <Phone />
+    <Notes />
+  </goldensynthetic>
+  <goldensynthetic>
+    <goldensyntheticNum>1</goldensyntheticNum>
+    <Supplier>Synthetic Supply &amp; Co.</Supplier>
+    <Phone>(503)555-0130</Phone>
+    <Notes>Orders &lt;weekly&gt;; "rush" fee 0.30</Notes>
+  </goldensynthetic>
+</NewDataSet>
