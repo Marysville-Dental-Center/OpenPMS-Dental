@@ -254,7 +254,9 @@ entry's earlier key was left untouched and where it is. When the import could re
 it records that key as the entry's earlier key (below), and the result says that the tool names it on the entry again when the import is
 undone or a later save stops using the certificate, so that it must not be deleted while the record names it (DCFU4 second fix round);
 only when nothing could be recorded does it give the `certutil [-user] -csp "<provider>" -delkey "<container>"` command that deletes it
-once no other certificate uses it.
+once no other certificate uses it. The earlier key is recorded only together with the key the import gave the entry: an import that
+cannot read its own key's provider information records neither, and the result says so (the undo and a later removal then remove the entry
+with the key it names, as for a record that names no key; DCFU4 lead fix round, decision 1).
 
 The certificate it replaces (owner decision of 2026-11-02): the tool removes a client certificate from the store, with its private key
 (CNG `Delete`, or the CAPI key container), only when it imported that certificate itself and a save stops using it (another certificate,
@@ -295,7 +297,19 @@ altered or deleted, and the result says what was put back and what became of the
 another certificate of the store names it, or not deleted, with why and where its file is. Since the earlier key is not opened (it may be
 hardware-backed), the result also says that if someone deleted that key since the import, the entry names a key that is not there, and
 gives the command that removes the certificate (`Remove-Item Cert:\LocalMachine\My\<thumbprint>`, without `-DeleteKey`). If the put-back fails, the tool's key is
-deleted only when the entry no longer names it; otherwise both keys and the entry stay, and the result says how to put the entry right.
+deleted only when the entry no longer names it; otherwise both keys and the entry stay, the result says how to put the entry right, and the
+save keeps the record (also after a failed save, writing one that names the import), so that no key the tool created is left with no record
+naming it, and a later save whose settings do not use that certificate tries the put-back again; the record names one certificate, so when
+it must name the one the settings use, the result says that no later save tries again (DCFU4 lead fix round, decision 2). If the store
+cannot be read again to check the entry after the put-back, the tool cannot tell which key the entry names: it deletes no key (the
+certificate could otherwise name a key that is gone), keeps the record, and says that the store could not be read again; the next save that
+finds the entry naming its earlier key deletes the tool's key (decision 5). A record that names the entry's earlier key but no tool key
+(only an import before the DCFU4 lead fix round that could not read its own key wrote one) leaves the tool unable to tell whether the key the
+entry names is its own: its removal puts the earlier key back and deletes no key, and the result names the key the entry named until then,
+says that it may be the users-readable key the tool gave it, and gives the command an administrator deletes it with once no certificate
+names it; the next save never records that key as the tool's (decision 1). The undo of a failed save whose settings as they still are name
+the certificate puts the earlier key back too, deletes the key the save gave the entry, and leaves the record as it was before the save
+(decision 3; until then the entry kept the import's key and was recorded at once).
 An entry that had no key provider information (no key), whose only key was the tool's own from an earlier import (the record names it, or
 an old-format record claims it by thumbprint), or whose key provider information could not be read at all, is removed whole, as before.
 The error gives the import's warning first (a key it could not delete; a grant that failed; and a store entry's earlier key that the

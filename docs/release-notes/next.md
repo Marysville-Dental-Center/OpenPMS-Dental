@@ -136,8 +136,10 @@ server computer must then connect with `<db-server>` (the name the workstations 
   certificate, the tool gives the certificate its earlier key back and deletes only the key it made, so the computer's store is as the
   administrator had it, and the result says what was put back, whether the tool's key was deleted, and how to remove the certificate if
   its earlier key was deleted since. The same holds for a copy whose key does not open for the tool (a smart card that is not inserted, a key that needs a PIN, a
-  deleted key file); only a certificate the computer had without any key, or with the tool's own key from an earlier import, is removed
-  with the tool's key. A save that fails after any other import removes the imported certificate and key again, or records them so that a
+  deleted key file), and for a failed save whose settings already used that certificate (it gets its earlier key back as well); only a
+  certificate the computer had without any key, or with the tool's own key from an earlier import, is removed with the tool's key. If the
+  earlier key cannot be given back while the certificate still uses the tool's key, the tool keeps its record of the certificate, so a later
+  save tries again, and the result says so; if the store cannot be read again to check it, the tool deletes no key and says so. A save that fails after any other import removes the imported certificate and key again, or records them so that a
   later save removes them; the error still names an earlier key the import left, unless the earlier key was put back, and gives the command
   that deletes it only when the tool could not record that key.
   The tool's record of the certificate it imported (`ConnectionSettings\imported-client-certificate.txt`) now also names the key it
@@ -432,7 +434,8 @@ longer reaches, so it always failed. It now imports the certificate your Direct 
   exported from there again. The certificate signs e-mail and Direct messages sent from the address and decrypts the Direct messages it
   receives. It is stored for the user name as typed in Edit Email Address, and sending uses it once the address is saved. A certificate
   already there is not imported again, unless its private key can no longer be used on this computer or is kept where the program's users
-  cannot reach it (in another key set); that key is then left as it is.
+  cannot reach it (in another key set); that key is then left as it is, and for a key in another key set the import says so and names it
+  (its provider, key container and key set).
 - **What is refused**, each with a message: a wrong password or another kind of file, a file with no certificate for the address or its
   domain, a certificate without its private key, an expired certificate or one not valid yet, and one Windows finds a problem in (revoked, a
   bad signature).

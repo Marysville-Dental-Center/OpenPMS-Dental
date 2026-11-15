@@ -836,6 +836,34 @@ port note's "Round 4").
   when the old rule would have claimed it (a working key of the computer's key set); otherwise it names no key, so a key the tool never
   made is never recorded as the tool's.
 
+## DIRECT-CERT-FOLLOWUP round 4's review questions (decided by the lead on 2026-11-14)
+
+The review of round 4 and its two fix rounds ([port-notes/DIRECT-CERT-FOLLOWUP.md](port-notes/DIRECT-CERT-FOLLOWUP.md), "Round 4, lead
+fix round") left four questions. The lead decided them under your rule (the tools never leave a Users-readable key behind and never touch
+a key they did not create) and your answer (b) of 2026-11-13; all are built (branch `fix/dcfu4-4`). You can still choose otherwise.
+
+- **A put-back that fails while the certificate still uses the tool's key.** The tool leaves both keys so that the certificate keeps
+  working; until now the save then deleted its record, so no record named the tool's Users-readable key. **Decided: keep the record**
+  (after a failed save, write one), so that a later save tries the put-back again, and say so. **Done.** One record names one certificate:
+  when it must name the new certificate the settings use, the result says that no later save tries again for the old one, and how to put
+  it right by hand.
+- **The undo of a failed save whose settings already name the certificate.** The import had given the computer's copy of the certificate
+  the tool's key and was recorded at once. **Decided: your answer (b) covers this undo too**: the copy gets its earlier key back, the key
+  the save gave it is deleted, and the record is as it was before the save. **Done.** No case was found where this breaks a connection the
+  settings as they were depend on: the copy gets back exactly the key those settings used.
+- **A copy of the certificate the tool did not record, whose key does not open** (a smart card that is not inserted, a key that needs a
+  PIN, a deleted key file). **Answered by round 4's first fix round:** such a key is left aside with a warning, recorded, and put back by
+  the undo or a later save, as for every other earlier key.
+- **A record of the old format whose certificate an administrator gave another key by hand before the upgrade.** A save with the password
+  without a re-import still removes that copy with whatever key it names, as the old rule did. **Decided: as built** (the old rule), and
+  kept documented: such records exist only on test installs, because database connection security is new in the next version.
+
+Also built in the same round, as the lead decided: a record that names a copy's earlier key but not the tool's key (only an earlier
+build, unreleased, could write one) gets the earlier key back and no key deleted, since the tool cannot tell whether the key it names is
+its own, and the result says which key that is and how an administrator deletes it; the import no longer writes such a record. The
+Direct certificate window now says so, naming the key, when it imports over a copy whose key is in another key set and leaves that key
+untouched. A put-back the tool cannot check (the store cannot be read again) deletes no key and says so.
+
 ---
 
 ## Not asked again (already settled)
