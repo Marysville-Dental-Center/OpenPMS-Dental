@@ -602,6 +602,90 @@ namespace BINBTests {
 			});
 		}
 
+		[TestMethod]
+		public void Filled_HelperEndsBeforeTheSave_TheStoredSignatureIsKept() {
+			//S3a-14g: a box filled from a stored Topaz signature and saved unchanged read the signature back from the helper. After the helper ended
+			//(a crash in other vendor code, the 30-minute Schick end, Task Manager) the view made an empty control in a new helper, GetSignature
+			//returned "", and the payment plan's sheet and eForms saved no signature, with no message. Now the unchanged box keeps the stored one.
+			Reset(_folderFake);
+			using(SignatureBoxWrapper signatureBoxWrapper=new SignatureBoxWrapper()) {
+				TopazSignatureView sigBoxTopaz=(TopazSignatureView)signatureBoxWrapper.Controls.Find("sigBoxTopaz",true).Single();
+				signatureBoxWrapper.FillSignature(true,"synthetic key data","valid");
+				Assert.AreEqual(250,signatureBoxWrapper.GetNumberOfTabletPoints(true));
+				Assert.IsTrue(signatureBoxWrapper.IsValid);
+				Assert.IsTrue(sigBoxTopaz.IsSignatureFilled,"The view holds the stored signature.");
+				Assert.IsFalse(sigBoxTopaz.IsSignatureCaptured);
+				Assert.IsFalse(signatureBoxWrapper.GetSigChanged());
+				int processId=_helper32Client.ProcessId;
+				using(Process process=Process.GetProcessById(processId)) {
+					process.Kill();//this test's copy of the helper, as a crash of vendor code would end it while the sheet is open
+					Assert.IsTrue(process.WaitForExit(10000));
+				}
+				//The box, unchanged, still gives the stored signature, without asking the helper (no new helper is started for it).
+				Assert.AreEqual("valid",signatureBoxWrapper.GetSignature("synthetic key data"),"Never \"\" for the stored signature.");
+				Assert.IsFalse(signatureBoxWrapper.SigIsBlank);
+				Assert.AreEqual(250,signatureBoxWrapper.GetNumberOfTabletPoints(true));
+				Assert.IsTrue(signatureBoxWrapper.IsValid);
+				//The payment plan's save (FormSheetFillEdit.SaveSignaturePayPlan): the plan keeps its stored signature and is not saved again.
+				OpenPmsDentalBusiness.PayPlan payPlan=new OpenPmsDentalBusiness.PayPlan { Signature="valid",SigIsTopaz=true };
+				Assert.IsFalse(SignatureBoxSaves.SetPayPlanSignature(payPlan,signatureBoxWrapper,"synthetic key data"),"An unchanged box is not saved.");
+				Assert.AreEqual("valid",payPlan.Signature);
+				Assert.IsTrue(payPlan.SigIsTopaz);
+				//The eForm's save (CtrlEFormFill.FillFieldsFromControls): the field keeps its stored value.
+				Assert.AreEqual("1valid",SignatureBoxSaves.GetEFormSignatureValue("1valid",signatureBoxWrapper,"synthetic key data"));
+				Assert.AreEqual(processId,_helper32Client.ProcessId,"Nothing above asked the helper.");
+				//A read that needs the control (other key data) fails loudly instead of reading the empty control a new helper would make.
+				Helper32Exception helper32Exception=Assert.ThrowsExactly<Helper32Exception>(() => signatureBoxWrapper.GetSignature("other key data"));
+				Assert.AreEqual(Helper32Failure.Crashed,helper32Exception.Failure);
+				StringAssert.StartsWith(helper32Exception.Message,"Topaz signature pad software could not be reached: ");
+				StringAssert.Contains(helper32Exception.Message,"ended while this box showed a stored Topaz signature");
+				Assert.IsTrue(sigBoxTopaz.IsSignatureLost);
+				Assert.IsFalse(signatureBoxWrapper.IsValid,"The box says it.");
+				signatureBoxWrapper.SetTabletState(0);//a window's FormClosing stays quiet
+				//The stored signature is still kept unchanged; a new fill shows it again in a new helper.
+				Assert.AreEqual("valid",signatureBoxWrapper.GetSignature("synthetic key data"));
+				signatureBoxWrapper.FillSignature(true,"synthetic key data","valid");
+				Assert.AreEqual(250,signatureBoxWrapper.GetNumberOfTabletPoints(true));
+				Assert.IsTrue(signatureBoxWrapper.IsValid);
+				Assert.IsFalse(sigBoxTopaz.IsSignatureLost);
+				Assert.AreNotEqual(processId,_helper32Client.ProcessId);
+				//Once the box changes (here the X button's ClearSignature) it is read from the box again: a cleared box has no signature.
+				signatureBoxWrapper.ClearSignature();
+				Assert.IsTrue(signatureBoxWrapper.GetSigChanged());
+				Assert.IsFalse(sigBoxTopaz.IsSignatureFilled);
+				Assert.AreEqual("",signatureBoxWrapper.GetSignature("synthetic key data"));
+				Assert.IsTrue(SignatureBoxSaves.SetPayPlanSignature(payPlan,signatureBoxWrapper,"synthetic key data"));
+				Assert.AreEqual("",payPlan.Signature,"A cleared box clears the plan's signature, as before.");
+				Assert.AreEqual("0",SignatureBoxSaves.GetEFormSignatureValue("1valid",signatureBoxWrapper,"synthetic key data"));
+			}
+		}
+
+		[TestMethod]
+		public void Signed_HelperEndsBeforeTheSave_ThePayPlanAndEFormSavesFail_AndChangeNothing() {
+			//S3a-14g: the same two save steps for a box the patient signed in this session: the lost signature throws, nothing is changed.
+			WithFakeTopazModule(helper32Client => {
+				using(SignatureBoxWrapper signatureBoxWrapper=new SignatureBoxWrapper()) {
+					TopazSignatureView sigBoxTopaz=(TopazSignatureView)signatureBoxWrapper.Controls.Find("sigBoxTopaz",true).Single();
+					Assert.IsTrue(SignAsTheTopazButton(signatureBoxWrapper,sigBoxTopaz));
+					signatureBoxWrapper.SigChanged=true;//as the Topaz button's OnSignatureChanged does
+					OpenPmsDentalBusiness.PayPlan payPlan=new OpenPmsDentalBusiness.PayPlan { Signature="stored",SigIsTopaz=true };
+					Assert.IsTrue(SignatureBoxSaves.SetPayPlanSignature(payPlan,signatureBoxWrapper,"synthetic key data"));
+					Assert.AreEqual(FakeTopazModule.SIGNATURE_SIGNED,payPlan.Signature,"Saved while the helper runs.");
+					Assert.AreEqual("1"+FakeTopazModule.SIGNATURE_SIGNED,SignatureBoxSaves.GetEFormSignatureValue("",signatureBoxWrapper,"synthetic key data"));
+					using(Process process=Process.GetProcessById(helper32Client.ProcessId)) {
+						process.Kill();//this test's copy of the helper
+						Assert.IsTrue(process.WaitForExit(10000));
+					}
+					payPlan.Signature="stored";
+					Helper32Exception helper32Exception=Assert.ThrowsExactly<Helper32Exception>(
+						() => SignatureBoxSaves.SetPayPlanSignature(payPlan,signatureBoxWrapper,"synthetic key data"));
+					StringAssert.Contains(helper32Exception.Message,"ended after the patient signed on the Topaz pad");
+					Assert.AreEqual("stored",payPlan.Signature,"The plan is not changed.");
+					Assert.ThrowsExactly<Helper32Exception>(() => SignatureBoxSaves.GetEFormSignatureValue("",signatureBoxWrapper,"synthetic key data"));
+				}
+			});
+		}
+
 		///<summary>The text of the method that starts with signature in source, up to the next "\n\t\t}" at its own indent.</summary>
 		private static string GetMethodText(string source,string signature) {
 			int indexStart=source.IndexOf(signature,StringComparison.Ordinal);
@@ -662,6 +746,78 @@ namespace BINBTests {
 				Assert.AreEqual(3,textBetween.Split('\n').Length-1,"Nothing between the check and the SaveSignaturePayPlan at "+index+": "+textBetween);
 			}
 			Assert.AreEqual(5,countSavePayPlan,"SaveSignaturePayPlan is called five times (update this test if that changed).");
+			//S3a-14g: the check above skips boxes whose signature did not change, so SaveSignaturePayPlan must not read them either: an unchanged
+			//Topaz box read back from a helper that ended since the sheet opened was "", saved with no message. Each box goes through
+			//SignatureBoxSaves.SetPayPlanSignature, which leaves an unchanged box's plan as it is, and only a box it read is saved.
+			string textSavePayPlan=GetMethodText(source,"private void SaveSignaturePayPlan() {");
+			Assert.IsFalse(textSavePayPlan.Contains(".GetSignature("),"SaveSignaturePayPlan reads no box itself: "+textSavePayPlan);
+			StringAssert.Contains(textSavePayPlan,"if(!SignatureBoxSaves.SetPayPlanSignature(payPlan,signatureBoxWrapper,keyData)) {\n\t\t\t\t\tcontinue;\n\t\t\t\t}\n");
+			Assert.IsTrue(textSavePayPlan.IndexOf("SetPayPlanSignature(",StringComparison.Ordinal)<textSavePayPlan.IndexOf("PayPlans.Update(",StringComparison.Ordinal),
+				"The plan is saved only after a box was read.");
+			Assert.AreEqual(1,Regex.Matches(textSavePayPlan,@"PayPlans\.Update\(").Count);
+			string sourceSaves=TestPaths.ReadSource("OpenPmsDentalBusiness","UI","SignatureBoxSaves.cs").Replace("\r\n","\n");
+			foreach(string signature in new[] { "public static bool SetPayPlanSignature(PayPlan payPlan,SignatureBoxWrapper signatureBoxWrapper,string keyData) {",
+				"public static string GetEFormSignatureValue(string valueStringStored,SignatureBoxWrapper signatureBoxWrapper,string keyData) {" })
+			{
+				string textStep=GetMethodText(sourceSaves,signature);
+				Match matchSkip=Regex.Match(textStep,@"\{\n\t+if\(!signatureBoxWrapper\.GetSigChanged\(\)\) \{\n\t+return (false|valueStringStored);\n\t+\}\n");
+				Assert.IsTrue(matchSkip.Success && matchSkip.Index==signature.Length-1,"An unchanged box is skipped first: "+textStep);
+				Assert.IsTrue(textStep.IndexOf(".GetSignature(",StringComparison.Ordinal)>matchSkip.Index+matchSkip.Length,"The box is read after the skip.");
+			}
+		}
+
+		[TestMethod]
+		public void FormSheetFillEdit_ReadsTheSignaturesBeforeTheFirstWrite() {
+			//S3a-14g: the helper could end between the check and GetSignature, which came after Sheets.Insert or Update and SheetFields.Sync: the
+			//program then ended with part of the sheet written. The changed signatures are read first, with the key worked out before the writes
+			//(Sheets.GetSignatureKeyAfterSave), and read again after the writes only when the key differs, with the failure shown, not thrown.
+			string source=TestPaths.ReadSource("OpenPmsDental","Forms","FormSheetFillEdit.cs").Replace("\r\n","\n");
+			string textSave=GetMethodText(source,"private bool TryToSaveData() {");
+			int indexKey=textSave.IndexOf("keyDataBeforeWrites=Sheets.GetSignatureKeyAfterSave(SheetCur);",StringComparison.Ordinal);
+			int indexRead=textSave.IndexOf("dictSignaturesBeforeWrites[sigBoxRead]=sigBoxRead.GetSignature(keyDataBeforeWrites);",StringComparison.Ordinal);
+			Assert.IsTrue(indexKey>=0 && indexRead>indexKey,"TryToSaveData reads the signatures with the key worked out first.");
+			List<Tuple<string,string>> listTryBlocks=GetHelper32TryBlocks(textSave);
+			Tuple<string,string> tupleRead=listTryBlocks.Find(x => x.Item1.Contains("sigBoxRead.GetSignature(keyDataBeforeWrites)"));
+			Assert.IsNotNull(tupleRead,"The read before the writes is in a try that catches Helper32Exception.");
+			StringAssert.Contains(tupleRead.Item2,"MessageBox.Show(this,ex.Message);");
+			StringAssert.Contains(tupleRead.Item2,"return false;");
+			foreach(string write in new[] { "Sheets.Insert(","Sheets.Update(","Sheets.SaveParameters(","SheetFields.Sync(","SheetFields.GetFieldsAndParameters(",
+				"ImageStore.Import(","DidChangeSheet=true" })
+			{
+				int indexWrite=textSave.IndexOf(write,StringComparison.Ordinal);
+				Assert.IsTrue(indexWrite>=0,write+" is in TryToSaveData (update this test if the method changed).");
+				Assert.IsTrue(indexRead<indexWrite,"TryToSaveData reads the signatures before "+write);
+			}
+			//After the writes: the signature read first is used when the key read back is the same; else it is read there, in a try that returns.
+			StringAssert.Contains(textSave,"if(keyData!=keyDataBeforeWrites || !dictSignaturesBeforeWrites.TryGetValue(sigBox,out signature)) {");
+			Tuple<string,string> tupleReadAfter=listTryBlocks.Find(x => x.Item1.Contains("signature=sigBox.GetSignature(keyData);"));
+			Assert.IsNotNull(tupleReadAfter,"The read after the writes is in a try that catches Helper32Exception.");
+			StringAssert.Contains(tupleReadAfter.Item2,"return false;");
+			Assert.AreEqual(2,Regex.Matches(textSave,@"\.GetSignature\(").Count,"Two reads (update this test if that changed).");
+			//The key worked out first follows the writes' order: a new sheet's parameters first, then SheetFieldCrud.Sync's inserts.
+			string sourceSheets=TestPaths.ReadSource("OpenPmsDentalBusiness","Data Interface","Sheets.cs").Replace("\r\n","\n");
+			string textKey=GetMethodText(sourceSheets,"public static string GetSignatureKeyAfterSave(Sheet sheet) {");
+			StringAssert.Contains(textKey,"listSheetFieldsDb.AddRange(GetParameterFieldsToSave(sheet));");
+			StringAssert.Contains(GetMethodText(sourceSheets,"public static void SaveParameters(Sheet sheet){"),"SheetFields.InsertMany(GetParameterFieldsToSave(sheet));");
+		}
+
+		///<summary>Each try block of text whose first catch is catch(Helper32Exception ex): the try's body and the catch's body (lines at the
+		///block's own indent end them).</summary>
+		internal static List<Tuple<string,string>> GetHelper32TryBlocks(string text) {
+			List<Tuple<string,string>> listTryBlocks=new List<Tuple<string,string>>();
+			foreach(Match match in Regex.Matches(text,@"\n(\t+)try \{\n")) {
+				string indent=match.Groups[1].Value;
+				int indexBody=match.Index+match.Length;
+				int indexClose=text.IndexOf("\n"+indent+"}",indexBody-1,StringComparison.Ordinal);
+				string textCatch="\n"+indent+"}\n"+indent+"catch(Helper32Exception ex) {\n";
+				if(indexClose<0 || string.CompareOrdinal(text,indexClose,textCatch,0,textCatch.Length)!=0) {
+					continue;
+				}
+				int indexCatchBody=indexClose+textCatch.Length;
+				int indexCatchEnd=text.IndexOf("\n"+indent+"}",indexCatchBody-1,StringComparison.Ordinal);
+				listTryBlocks.Add(Tuple.Create(text.Substring(indexBody,indexClose+1-indexBody),text.Substring(indexCatchBody,indexCatchEnd+1-indexCatchBody)));
+			}
+			return listTryBlocks;
 		}
 
 		[TestMethod]
