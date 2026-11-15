@@ -156,7 +156,7 @@ Here is the desired behavior:
 			_cursorPan=new Cursor(GetType(),"CursorPalm.cur");
 			panelMain.Cursor=_cursorPan;
 			panelMain.MouseWheel += panelMain_MouseWheel;//here because not browsable in designer
-			panelMain.ContextMenu=menuPanelMain;
+			panelMain.ContextMenuStrip=menuPanelMain;
 			_odWebView2=new ODWebView2();//Include a WebView2 object for loading .pdf files.
 			_odWebView2.Visible=false;
 			_odWebView2.Dock=DockStyle.Fill;
@@ -2432,7 +2432,7 @@ Here is the desired behavior:
 				return;//Probably the user has no patient or tree object selected
 			}
 			//By menu item rather than by position, so inserting an item does not shift the others.
-			MenuItem menuItem=(MenuItem)sender;
+			ToolStripMenuItem menuItem=(ToolStripMenuItem)sender;
 			if(menuItem==menuItemCopy) {
 				ToolBarCopy_Click(this,new EventArgs());
 			}
@@ -2618,19 +2618,19 @@ Here is the desired behavior:
 					return;
 				}
 			}
-			for(int i=0;i<menuPanelMain.MenuItems.Count;i++) {
+			for(int i=0;i<menuPanelMain.Items.Count;i++) {
 				//If no document or mount selected, context menu will not be visible
 				if(IsDocumentShowing() || IsMountShowing()) {
 					//Disable these context menu items when opening this from the chart module
-					if(DidLaunchFromChartModule && ListTools.In(menuPanelMain.MenuItems[i],menuItemDelete,menuItemPaste)) {
-						menuPanelMain.MenuItems[i].Visible=false;
+					if(DidLaunchFromChartModule && ListTools.In(menuPanelMain.Items[i],menuItemDelete,menuItemPaste)) {
+						menuPanelMain.Items[i].Visible=false;
 					}
 					else {
-						menuPanelMain.MenuItems[i].Visible=true;
+						menuPanelMain.Items[i].Visible=true;
 					}
 				}
 				else{ 
-					menuPanelMain.MenuItems[i].Visible=false;//if no menu items visible, menu won't even show
+					menuPanelMain.Items[i].Visible=false;//if no menu items visible, menu won't even show
 				}
 			}
 			if(!IsDocumentShowing() && !IsMountShowing()) {

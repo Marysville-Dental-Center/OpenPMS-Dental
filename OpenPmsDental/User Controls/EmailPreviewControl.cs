@@ -125,7 +125,8 @@ namespace OpenPmsDental {
 
 		public EmailPreviewControl() {
 			InitializeComponent();
-			gridAttachments.ContextMenu=contextMenuAttachments;
+			gridAttachments.ContextMenuStrip=contextMenuAttachments;
+			gridAttachments.DoAddGridItemsToContextMenuStrip=true;//Copy Cell Text, Copy Rows and the links after the menu's items, as before
 			webViewEmail.LinkClicked+=webViewEmail_LinkClicked;
 			webViewEmail.RemoteContentBlocked+=webViewEmail_RemoteContentBlocked;
 		}

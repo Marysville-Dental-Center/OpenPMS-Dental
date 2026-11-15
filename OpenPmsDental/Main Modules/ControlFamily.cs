@@ -134,11 +134,11 @@ namespace OpenPmsDental{
 
 		///<summary>Just prior to displaying the context menu, enable or disables the UnmaskDOB option</summary>
 		private void MenuItemPopupUnmaskDOB(object sender,EventArgs e) {
-			MenuItem menuItemDOB=gridPat.ContextMenu.MenuItems.OfType<MenuItem>().FirstOrDefault(x => x.Name=="ViewDOB");
+			ToolStripMenuItem menuItemDOB=gridPat.ContextMenuStrip.Items.OfType<ToolStripMenuItem>().FirstOrDefault(x => x.Name=="ViewDOB");
 			if(menuItemDOB==null) { 
 				return;//Should not happen
 			}
-			MenuItem menuItemSeperator=gridPat.ContextMenu.MenuItems.OfType<MenuItem>().FirstOrDefault(x => x.Text=="-");
+			ToolStripSeparator menuItemSeperator=gridPat.ContextMenuStrip.Items.OfType<ToolStripSeparator>().FirstOrDefault();//the first separator, the grid's
 			if(menuItemSeperator==null) { 
 				return;//Should not happen
 			}
@@ -164,7 +164,7 @@ namespace OpenPmsDental{
 			}
 			menuItemDOB.Visible=false;
 			menuItemDOB.Enabled=false;
-			if(gridPat.ContextMenu.MenuItems.OfType<MenuItem>().Count(x => x.Visible==true && x.Text!="-")>1) {
+			if(gridPat.ContextMenuStrip.Items.OfType<ToolStripMenuItem>().Count(x => x.Available)>1) {//Available: Visible is false until the menu shows
 				//There is more than one item showing, we want the seperator.
 				menuItemSeperator.Visible=true;
 				menuItemSeperator.Enabled=true;
@@ -177,11 +177,11 @@ namespace OpenPmsDental{
 
 		///<summary>Just prior to displaying the context menu, enable or disables the UnmaskSSN option</summary>
 		private void MenuItemPopupUnmaskSSN(object sender,EventArgs e) {
-			MenuItem menuItemSSN=gridPat.ContextMenu.MenuItems.OfType<MenuItem>().FirstOrDefault(x => x.Name=="ViewSS#");
+			ToolStripMenuItem menuItemSSN=gridPat.ContextMenuStrip.Items.OfType<ToolStripMenuItem>().FirstOrDefault(x => x.Name=="ViewSS#");
 			if(menuItemSSN==null) { 
 				return;//Should not happen
 			}
-			MenuItem menuItemSeperator=gridPat.ContextMenu.MenuItems.OfType<MenuItem>().FirstOrDefault(x => x.Text=="-");
+			ToolStripSeparator menuItemSeperator=gridPat.ContextMenuStrip.Items.OfType<ToolStripSeparator>().FirstOrDefault();//the first separator, the grid's
 			if(menuItemSeperator==null) {
 				return;//Should not happen
 			}
@@ -207,7 +207,7 @@ namespace OpenPmsDental{
 			}
 			menuItemSSN.Visible=false;
 			menuItemSSN.Enabled=false;
-			if(gridPat.ContextMenu.MenuItems.OfType<MenuItem>().Count(x => x.Visible==true && x.Text!="-")>1) {
+			if(gridPat.ContextMenuStrip.Items.OfType<ToolStripMenuItem>().Count(x => x.Available)>1) {//Available: Visible is false until the menu shows
 				//There is more than one item showing, we want the seperator.
 				menuItemSeperator.Visible=true;
 				menuItemSeperator.Enabled=true;
@@ -570,12 +570,12 @@ namespace OpenPmsDental{
 				toolBarMain.Buttons.Add(new ODToolBarButton(ODToolBarButtonStyle.Separator));
 				toolBarButton=new ODToolBarButton(Lan.g(this,"Add Insurance"),6,"","Ins");
 				toolBarButton.Style=ODToolBarButtonStyle.DropDownButton;
-				toolBarButton.DropDownMenu=contextMenuInsurance;
+				toolBarButton.ContextMenuStripDropDown=contextMenuInsurance;
 				toolBarMain.Buttons.Add(toolBarButton);
 				toolBarMain.Buttons.Add(new ODToolBarButton(ODToolBarButtonStyle.Separator));
 				toolBarButton=new ODToolBarButton(Lan.g(this,"Discount Plan"),-1,"","Discount");
 				toolBarButton.Style=ODToolBarButtonStyle.DropDownButton;
-				toolBarButton.DropDownMenu=contextMenuDiscount;
+				toolBarButton.ContextMenuStripDropDown=contextMenuDiscount;
 				toolBarMain.Buttons.Add(toolBarButton);
 			}
 			ProgramL.LoadToolBar(toolBarMain,EnumToolBar.FamilyModule);
@@ -620,12 +620,29 @@ namespace OpenPmsDental{
 			_family=null;
 			_listInsPlans=null;
 			_patNumLast=0;//Clear out the last pat num so that a security log gets entered that the module was "visited" or "refreshed".
-			gridPat.ContextMenu=new ContextMenu();//This module is never really disposed. Get rid of any menu options we added, to avoid duplicates.
+			//This module is never really disposed. Get rid of any menu options we added, to avoid duplicates.
+			ContextMenuStrip contextMenuStripOld=gridPat.ContextMenuStrip;
+			gridPat.ContextMenuStrip=new ContextMenuStrip();
+			gridPat.DoAddGridItemsToContextMenuStrip=true;//ODGrid will automatically attach the default Popups
+			DisposeContextMenuStripLater(contextMenuStripOld);
 			Plugins.HookAddCode(this,"ContrFamily.ModuleUnselected_end");
 		}
 		#endregion Methods - Public
 
 		#region Methods - Private - GridPatient
+		///<summary>Disposes a right-click menu that a grid no longer uses, after the current message: the menu can be replaced from a click on one of
+		///its own items (a link that changes the patient or the module).</summary>
+		private void DisposeContextMenuStripLater(ContextMenuStrip contextMenuStrip) {
+			if(contextMenuStrip==null) {
+				return;
+			}
+			if(!IsHandleCreated) {
+				contextMenuStrip.Dispose();
+				return;
+			}
+			BeginInvoke((Action)contextMenuStrip.Dispose);
+		}
+
 		private void FillPatientData() {
 			if(_patient==null) {
 				gridPat.BeginUpdate();
@@ -636,11 +653,12 @@ namespace OpenPmsDental{
 			}
 			if(PrefC.GetBool(PrefName.PatientSSNMasked)) {
 				//Add "View SS#" right click option, MenuItemPopupUnmaskSSN will show and hide it as needed.
-				if(gridPat.ContextMenu==null) {
-					gridPat.ContextMenu=new ContextMenu();//ODGrid will automatically attach the defaut Popups
+				if(gridPat.ContextMenuStrip==null) {
+					gridPat.ContextMenuStrip=new ContextMenuStrip();
+					gridPat.DoAddGridItemsToContextMenuStrip=true;//ODGrid will automatically attach the defaut Popups
 				}
-				ContextMenu contextMenu=gridPat.ContextMenu;
-				MenuItem menuItemUnmaskSSN=new MenuItem();
+				ContextMenuStrip contextMenu=gridPat.ContextMenuStrip;
+				ToolStripMenuItem menuItemUnmaskSSN=new ToolStripMenuItem();
 				menuItemUnmaskSSN.Enabled=false;
 				menuItemUnmaskSSN.Visible=false;
 				menuItemUnmaskSSN.Name="ViewSS#";
@@ -649,23 +667,24 @@ namespace OpenPmsDental{
 					menuItemUnmaskSSN.Text="View SIN";
 				}
 				menuItemUnmaskSSN.Click+= new System.EventHandler(this.MenuItemUnmaskSSN_Click);
-				contextMenu.MenuItems.Add(menuItemUnmaskSSN);
-				contextMenu.Popup+=MenuItemPopupUnmaskSSN;
+				contextMenu.Items.Add(menuItemUnmaskSSN);
+				contextMenu.Opening+=MenuItemPopupUnmaskSSN;
 			}
 			if(PrefC.GetBool(PrefName.PatientDOBMasked)) {
 				//Add "View DOB" right click option, MenuItemPopupUnmaskDOB will show and hide it as needed.
-				if(gridPat.ContextMenu==null) {
-					gridPat.ContextMenu=new ContextMenu();//ODGrid will automatically attach the defaut Popups
+				if(gridPat.ContextMenuStrip==null) {
+					gridPat.ContextMenuStrip=new ContextMenuStrip();
+					gridPat.DoAddGridItemsToContextMenuStrip=true;//ODGrid will automatically attach the defaut Popups
 				}
-				ContextMenu contextMenu=gridPat.ContextMenu;
-				MenuItem menuItemUnmaskDOB=new MenuItem();
+				ContextMenuStrip contextMenu=gridPat.ContextMenuStrip;
+				ToolStripMenuItem menuItemUnmaskDOB=new ToolStripMenuItem();
 				menuItemUnmaskDOB.Enabled=false;
 				menuItemUnmaskDOB.Visible=false;
 				menuItemUnmaskDOB.Name="ViewDOB";
 				menuItemUnmaskDOB.Text="View DOB";
 				menuItemUnmaskDOB.Click+= new System.EventHandler(this.MenuItemUnmaskDOB_Click);
-				contextMenu.MenuItems.Add(menuItemUnmaskDOB);
-				contextMenu.Popup+=MenuItemPopupUnmaskDOB;
+				contextMenu.Items.Add(menuItemUnmaskDOB);
+				contextMenu.Opening+=MenuItemPopupUnmaskDOB;
 			}
 			gridPat.BeginUpdate();
 			gridPat.Columns.Clear();

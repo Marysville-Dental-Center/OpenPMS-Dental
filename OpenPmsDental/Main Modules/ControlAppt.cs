@@ -50,7 +50,8 @@ namespace OpenPmsDental {
 			Logger.LogToPath("Ctor",LogPath.Startup,LogPhase.Start);
 			InitializeComponent();
 			Font=LayoutManagerForms.FontInitial;
-			gridReminders.ContextMenu=menuReminderEdit;
+			gridReminders.ContextMenuStrip=menuReminderEdit;
+			gridReminders.DoAddGridItemsToContextMenuStrip=true;//Copy Cell Text, Copy Rows and the links after the menu's items, as before
 			Logger.LogToPath("Ctor",LogPath.Startup,LogPhase.End);
 		}
 		#endregion Constructor
@@ -2660,8 +2661,8 @@ namespace OpenPmsDental {
 			}
 			menuBlockout.Items.Add(new ToolStripMenuItem(Lan.g(this,"Edit Blockout Types"),null,menuBlockTypes_Click,MenuItemNames.EditBlockoutTypes));
 			//Recall Family
-			menuRecall.MenuItems.Clear();
-			menuRecall.MenuItems.Add(Lan.g(this,"Make Family Recall"),butFamRecall_Click);
+			menuRecall.Items.Clear();
+			menuRecall.Items.Add(Lan.g(this,"Make Family Recall"),null,butFamRecall_Click);
 			Lan.C(this,
 				butBackMonth,
 				butBackWeek,
@@ -2714,7 +2715,7 @@ namespace OpenPmsDental {
 			toolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Make Appt"),EnumIcons.Add,Lan.g(this,"Make Appointment"),"Make"));
 			ODToolBarButton toolBarButton=new ODToolBarButton(Lan.g(this,"Make Recall"),EnumIcons.Recall,Lan.g(this,"Make Recall"),"Recall");
 			toolBarButton.Style=ODToolBarButtonStyle.DropDownButton;
-			toolBarButton.DropDownMenu=menuRecall;
+			toolBarButton.ContextMenuStripDropDown=menuRecall;
 			toolBarMain.Buttons.Add(toolBarButton);
 			toolBarMain.Buttons.Add(new ODToolBarButton(ODToolBarButtonStyle.Separator));
 			toolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Unsched"),3,Lan.g(this,"Send to Unscheduled List"),"Unsched"));

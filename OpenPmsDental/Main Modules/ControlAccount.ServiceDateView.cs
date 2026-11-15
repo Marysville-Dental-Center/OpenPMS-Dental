@@ -20,7 +20,7 @@ namespace OpenPmsDental {
 		private GridOD gridServiceDateView;
 		///<summary>Show tab: insurance estimate and patient portion on every procedure of the service-date view.</summary>
 		private OpenPmsDental.UI.CheckBox checkServiceDateViewDetails;
-		private MenuItem _menuItemServiceDateViewToggle;
+		private ToolStripMenuItem _menuItemServiceDateViewToggle;
 		private bool _isServiceDateView;
 		///<summary>The user whose settings were loaded last; the settings are loaded again after another user logs on.</summary>
 		private long _userNumServiceDateView=-1;
@@ -45,7 +45,8 @@ namespace OpenPmsDental {
 			gridServiceDateView.Margin=new Padding(0);
 			gridServiceDateView.HScrollVisible=true;
 			gridServiceDateView.SelectionMode=GridSelectionMode.MultiExtended;
-			gridServiceDateView.ContextMenu=contextMenuAcctGrid;
+			gridServiceDateView.ContextMenuStrip=contextMenuAcctGrid;
+			gridServiceDateView.DoAddGridItemsToContextMenuStrip=true;//Copy Cell Text, Copy Rows and the links after the menu's items, as on gridAccount
 			gridServiceDateView.Visible=false;
 			gridServiceDateView.CellClick+=gridServiceDateView_CellClick;
 			gridServiceDateView.MouseUp+=(sender,e) => MirrorServiceDateViewSelection();
@@ -66,16 +67,16 @@ namespace OpenPmsDental {
 		private void InitializeServiceDateView() {
 			checkServiceDateViewDetails.Text=Lan.g(this,"Service Date View details");
 			gridServiceDateView.Title=Lan.g(this,"Patient Account - Service Date View");
-			contextMenuAcctGrid.MenuItems.Add(new MenuItem("-"));
-			_menuItemServiceDateViewToggle=new MenuItem(Lan.g(this,"Service Date View"),menuItemServiceDateViewToggle_Click);
-			contextMenuAcctGrid.MenuItems.Add(_menuItemServiceDateViewToggle);
-			contextMenuAcctGrid.MenuItems.Add(new MenuItem(Lan.g(this,"Service Date View Window"),menuItemServiceDateViewWindow_Click));
+			contextMenuAcctGrid.Items.Add(new ToolStripSeparator());
+			_menuItemServiceDateViewToggle=new ToolStripMenuItem(Lan.g(this,"Service Date View"),null,menuItemServiceDateViewToggle_Click);
+			contextMenuAcctGrid.Items.Add(_menuItemServiceDateViewToggle);
+			contextMenuAcctGrid.Items.Add(new ToolStripMenuItem(Lan.g(this,"Service Date View Window"),null,menuItemServiceDateViewWindow_Click));
 			//This handler must run before contextMenuAcctGrid_Popup, which reads gridAccount's selection.
-			contextMenuAcctGrid.Popup-=contextMenuAcctGrid_Popup;
-			contextMenuAcctGrid.Popup+=contextMenuAcctGridServiceDateView_Popup;
-			contextMenuAcctGrid.Popup+=contextMenuAcctGrid_Popup;
+			contextMenuAcctGrid.Opening-=contextMenuAcctGrid_Popup;
+			contextMenuAcctGrid.Opening+=contextMenuAcctGridServiceDateView_Popup;
+			contextMenuAcctGrid.Opening+=contextMenuAcctGrid_Popup;
 			//Listed in the Statement Options window since 26.2 (P262-BILLING); the Tag gives it its description there.
-			contextMenuStatement.MenuItems.Add(new MenuItem(Lan.g(this,"Service Date View Window"),menuItemServiceDateViewWindow_Click) { Tag=StatementChoice.ServiceDateView });
+			contextMenuStatement.Items.Add(new ToolStripMenuItem(Lan.g(this,"Service Date View Window"),null,menuItemServiceDateViewWindow_Click) { Tag=StatementChoice.ServiceDateView });
 		}
 
 		#region Methods - Service Date View
@@ -387,7 +388,7 @@ namespace OpenPmsDental {
 			FillServiceDateView();
 		}
 
-		private void contextMenuAcctGridServiceDateView_Popup(object sender,EventArgs e) {
+		private void contextMenuAcctGridServiceDateView_Popup(object sender,System.ComponentModel.CancelEventArgs e) {
 			if(_menuItemServiceDateViewToggle!=null) {
 				_menuItemServiceDateViewToggle.Checked=_isServiceDateView;
 			}
