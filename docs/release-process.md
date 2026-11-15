@@ -125,7 +125,11 @@ The archive holds a copy of the manifest without the archive hash.
 A workstation never treats a manifest it cannot read, or one that names another product, as "nothing published": it neither publishes
 over it nor updates from it, says so at startup and keeps running its build. A release for another runtime or architecture than the
 workstation's own (the .NET 10 release is 64-bit and carries its own runtime) is refused the same way, with "run the new setup on it":
-the new setup installs that release into its own program folder. Update Setup's Recopy refuses both cases too.
+the new setup installs that release into its own program folder. Update Setup's Recopy refuses both cases too. The one exception is
+the switch itself (section 10 step 3 of [specs/net10-plan.md](specs/net10-plan.md)): a .NET 10 build publishes over a .NET Framework
+release by the usual rules for publishing (the named update server, or a newer build with a blank `WebServiceServerName`), at its first
+start after the new setup or through Recopy, and writes its `Runtime` line so the .NET Framework workstations refuse it. It never pulls a
+.NET Framework release, and no .NET Framework build ever publishes over a .NET release.
 
 ### What the other workstations do
 
@@ -141,6 +145,7 @@ At startup each workstation compares its build with the published one (`ForkRele
 | Debug build | Never publishes or pulls. The version guard still runs. | Same. | Same. |
 | Published manifest not readable, or for another product | Refused: neither publish nor pull; the message says why; the workstation runs on. | Same. | Same. |
 | A release for another runtime or architecture (the .NET 10 release on a .NET Framework workstation) | Refused: "run the new setup"; the workstation runs on. | Same. | Same. |
+| A .NET Framework release on a .NET 10 build (the switch) | Offer to publish, unless the published release is newer: then refused. | Offer to publish when this build is newer; otherwise refused. | Refused: the message says to run the new setup on the update server; the workstation runs on. |
 
 **Pull** means: the workstation downloads the release and checks it: product name, archive SHA-256, only listed files, safe paths, archive manifest equal to the published one, and every file's size and SHA-256. It then asks for OK, copies UpdateFileCopier's files (the exe, and its `.exe.config`, `.dll`, `.runtimeconfig.json` and `.deps.json` when the release has them) into `%TEMP%\openpms-dental\ForkReleaseCopier` and starts it there through ShellExecute, so Windows asks for administrator consent (the copier's manifest asks for administrator rights). UpdateFileCopier checks the manifest and every file again, both in the download and in its local copy, then copies the files, writes the manifest last and restarts the program. If any check fails, nothing on the workstation changes.
 

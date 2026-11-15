@@ -808,7 +808,9 @@ readable or names another product is refused (`ReleaseAction.RefuseUnreadable`) 
 server role and in Recopy; the optional `Runtime` line (`Microsoft.NETCore.App 10.0.14 win-x64`; none = .NET Framework 4.8 x86) and the
 runtime part's lines (`RuntimeVersion`, `RuntimeArchitectures`, `RuntimeArchiveSha256`, `RuntimeKey`, `RuntimeFile`) are read and checked,
 and a release for another framework or architecture is refused with "run the new setup" (`RefuseOtherRuntime`, also before a download);
-both keep the workstation on its build. A pull copies every file of UpdateFileCopier (`ForkReleases.CopyFileCopier`, its own temp folder
+both keep the workstation on its build. The one exception (review fix, `net10/s3a10-2`) is the forward switch of section 10 step 3: a
+.NET 10 build still publishes over a .NET Framework release by the role rules, and Recopy there too (`ForkReleases.IsForwardRuntimeSwitch`),
+and writes its `Runtime` line; it never pulls one. A pull copies every file of UpdateFileCopier (`ForkReleases.CopyFileCopier`, its own temp folder
 `ForkReleaseCopier`) and starts it with `UseShellExecute=true`. `ApphostResourceTests` checks the execution level, versions and icon of every
 staged `.exe` against `tests/ReleaseFlowTests/Fixtures/ApphostResources.net48.txt`, recorded from the net48 Release dry run (Inconclusive
 without a Release build). Left: the launch check (port note section 6), the copier's own runtime check and `VerifyFolder` over the runtime
