@@ -293,7 +293,7 @@ namespace DbConnectionSecurityTests {
 				"function S([bool]$Present, [string[]]$Hw = @('*MSLOOP'), [string]$Group = $FirewallGroup, [string]$CapiSubject = '', [bool]$Issued = $true, [bool]$HasCa = $true) {",
 				"  if ($CapiSubject -eq '') { $CapiSubject = 'CN=' + $TestClientCapiName + ', O=Open PMS - Dental local test' }",
 				"  [pscustomobject]@{",
-				"    Adapter = [pscustomobject]@{ Exists = $Present; HardwareIds = $Hw; Addresses = @('192.0.2.25') }",
+				"    Adapter = [pscustomobject]@{ Exists = $Present; HardwareIds = $Hw; Addresses = @('192.0.2.25'); AddressThere = $Present }",
 				"    Rules = @($r.FirewallRules | ForEach-Object { [pscustomobject]@{ Name = $_; Exists = $Present; Group = $Group } })",
 				"    Certificates = @([pscustomobject]@{ Kind = 'CAPI'; Thumbprint = $r.CapiThumbprint; Name = $TestClientCapiName; Exists = $Present; Subject = $CapiSubject; IssuedByCa = $Issued; Key = (ConvertFrom-KeyRecord $r.CapiKey 'CAPI'); KeyExists = $Present },",
 				"      [pscustomobject]@{ Kind = 'CNG'; Thumbprint = $r.CngThumbprint; Name = $TestClientCngName; Exists = $Present; Subject = ('CN=' + $TestClientCngName + ', O=Open PMS - Dental local test'); IssuedByCa = $Issued; Key = (ConvertFrom-KeyRecord $r.CngKey 'CNG'); KeyExists = $Present })",
@@ -393,7 +393,9 @@ namespace DbConnectionSecurityTests {
 			string fileCapi=Path.Combine(_folder,"capi-key-file");
 			string fileCng=Path.Combine(_folder,"cng-key-file");
 			string output=RunDriver(new[] { "Get-TestNetworkState","Get-TestNetworkRevertPlan","ConvertFrom-KeyRecord","ConvertTo-KeyRecord","Find-MachineCertificate",
-				"Remove-TestClientCertificate","Get-CreatedKey","Get-ManualCertificateRemoval" },new[] {
+				"Remove-TestClientCertificate","Get-CreatedKey","Get-ManualCertificateRemoval","Get-ErrorText" },new[] {
+				"function Test-TestAdapterExists([string]$InstanceId) { $false }",
+				"function Test-HasAddress([string]$Address) { $false }",
 				"$capiFile = Join-Path $Folder 'capi-key-file'",
 				"$cngFile = Join-Path $Folder 'cng-key-file'",
 				"[System.IO.File]::WriteAllText($capiFile, 'synthetic')",
@@ -452,6 +454,9 @@ namespace DbConnectionSecurityTests {
 			if(output.Contains("already on through this script")) {
 				Assert.Inconclusive("TLS is already on through the script, so its enable plan is not shown: "+output);
 			}
+			if(DevDbTlsScriptTests.IsLeftByAnEnableRun(output)) {
+				Assert.Inconclusive("An enable run that did not finish left its opms-dev-tls folder (until the owner's -Revert), so the plan is not shown: "+output);
+			}
 			if(output.Contains("leads into 192.0.2.0/24") || output.Contains("of 192.0.2.0/24 on")) {
 				Assert.Inconclusive("This computer uses 192.0.2.0/24 already, so the dry run refuses: "+output);
 			}
@@ -476,14 +481,20 @@ namespace DbConnectionSecurityTests {
 
 		[TestMethod]
 		public void TestNetwork_TheAdaptersSetupApiSource_Compiles_AndNothingIsDownloaded() {
-			//Add-Type compiles the source with the .NET Framework's own compiler; nothing of it is called.
-			string output=RunDriver(new[] { "Get-LoopbackAdapterSource","Add-LoopbackAdapterType" },new[] {
+			//Add-Type compiles the source with the .NET Framework's own compiler. Create and Remove are never called; only Exists and GetHardwareIds,
+			//which only read (SetupDiOpenDeviceInfo, no elevation): a device id no computer has, and the root of the device tree that every one has.
+			string output=RunDriver(new[] { "Get-LoopbackAdapterSource","Add-LoopbackAdapterType","Test-TestAdapterExists","Get-TestAdapterHardwareIds" },new[] {
 				"Add-LoopbackAdapterType",
 				"$t = 'OpenPmsDentalDevDbTls.LoopbackAdapter' -as [type]",
 				"'METHODS ' + ((@($t.GetMethods() | Where-Object { $_.DeclaringType -eq $t } | ForEach-Object { $_.Name }) | Sort-Object) -join ',')",
 				"'HWID ' + $t.GetField('HardwareId').GetValue($null)",
+				@"'EXISTS missing ' + (Test-TestAdapterExists 'ROOT\OPMSDBTLSNOSUCHDEVICE\0000') + ' root ' + (Test-TestAdapterExists 'HTREE\ROOT\0')",
+				@"$ids = @(Get-TestAdapterHardwareIds 'HTREE\ROOT\0')",
+				"'IDS ' + @(@($ids) | Where-Object { $_ -isnot [string] }).Count",
 			});
-			StringAssert.Contains(output,"METHODS Create,GetHardwareIds,Remove\r\n");
+			StringAssert.Contains(output,"METHODS Create,Exists,GetHardwareIds,Remove\r\n");
+			StringAssert.Contains(output,"EXISTS missing False root True\r\n","Exists tells a device Windows knows from one it does not, without Get-PnpDevice.");
+			StringAssert.Contains(output,"IDS 0\r\n","The hardware ids come one by one, each a string, not a list inside a list.");
 			StringAssert.Contains(output,"HWID *MSLOOP\r\n");
 			string script=TestHelpers.ReadRepoFile("tools","Enable-LocalDbTls.ps1");
 			foreach(string forbidden in new[] { "devcon.exe","Invoke-WebRequest","Invoke-RestMethod","DownloadFile","DownloadString","Start-BitsTransfer","Install-Module",
@@ -498,11 +509,11 @@ namespace DbConnectionSecurityTests {
 		///<summary>The driver lines of a journal at $journal (in the test's temporary folder) with what an enable run that got as far as both keys
 		///wrote: the address, the adapter, both rules, both thumbprints and both keys (key "files" named in the computer's key folders, never
 		///touched). Set-ProtectedAcl is replaced: the journal's ACL is not set here (that needs elevation).</summary>
-		private static string[] GetJournalLines() {
+		private static string[] GetJournalLines(string adapterId=@"ROOT\NET\0042") {
 			return new[] {
 				"function Set-ProtectedAcl($Path, $FullSids, $ReadSids) { Write-Host ('ACL ' + (Split-Path -Leaf $Path) + ' full ' + @($FullSids).Count + ' read ' + @($ReadSids).Count) }",
 				"function KeyLine([string]$Kind, [string]$Provider) { ConvertTo-KeyRecord ([pscustomobject]@{ Provider = $Provider; Container = ('dbtls-env-' + $Kind.ToLower()); File = (Join-Path (Get-MachineKeyFolder $Kind) ('keyfile-' + $Kind.ToLower())) }) }",
-				"foreach ($line in @(($RecordAddressPrefix + '192.0.2.25'), ($RecordAdapterPrefix + 'ROOT\\NET\\0042'), ($RecordFirewallPrefix + $FirewallAllowName), ($RecordFirewallPrefix + $FirewallBlockName),",
+				"foreach ($line in @(($RecordAddressPrefix + '192.0.2.25'), ($RecordAdapterPrefix + '"+adapterId+"'), ($RecordFirewallPrefix + $FirewallAllowName), ($RecordFirewallPrefix + $FirewallBlockName),",
 				"  ($RecordCapiPrefix + ('A' * 40)), ($RecordCapiKeyPrefix + (KeyLine 'CAPI' $CapiProviderName)), ($RecordCngPrefix + ('B' * 40)), ($RecordCngKeyPrefix + (KeyLine 'CNG' $CngProviderName)))) {",
 				"  Add-TestNetworkJournalLine $journal $line",
 				"}",
@@ -639,7 +650,7 @@ namespace DbConnectionSecurityTests {
 				"    $certificates += [pscustomobject]@{ Kind = $item[0]; Thumbprint = $item[1]; Name = $item[2]; Exists = $script:present; Subject = ('CN=' + $item[2] + ', O=Open PMS - Dental local test')",
 				"      IssuedByCa = $true; Key = (ConvertFrom-KeyRecord $item[3] $item[0]); KeyExists = $script:present }",
 				"  }",
-				"  [pscustomobject]@{ Adapter = [pscustomobject]@{ Exists = $script:present; HardwareIds = @('*MSLOOP'); Addresses = @($Record.Address) }",
+				"  [pscustomobject]@{ Adapter = [pscustomobject]@{ Exists = $script:present; HardwareIds = @('*MSLOOP'); Addresses = @($Record.Address); AddressThere = $script:present }",
 				"    Rules = @($Record.FirewallRules | ForEach-Object { [pscustomobject]@{ Name = $_; Exists = $script:present; Group = $FirewallGroup } }); Certificates = $certificates; HasCa = $true }",
 				"}",
 				"function Confirm-Change([string]$Question) { Write-Host ('CONFIRM ' + $Question) }",
@@ -656,7 +667,7 @@ namespace DbConnectionSecurityTests {
 			return DevDbTlsScriptTests.RunDriverIn(_folder,new[] { "Invoke-Revert","Get-TestNetworkJournalPath","Read-TestNetworkJournal","ConvertFrom-TestNetworkLines",
 				"Get-RecordedTestNetwork","Get-TestNetworkRecordProblem","Get-TestAddressFormProblem","Get-KeyRecordProblem","ConvertFrom-KeyRecord","ConvertTo-KeyRecord",
 				"Get-MachineKeyFolder","Test-HasBlock","Remove-Block","Get-TestNetworkStateProblem","Get-TestNetworkRevertPlan","Get-TestNetworkLeft","Get-DevFiles",
-				"Get-CreatedParents","Add-TestNetworkJournalLine","Undo-TestNetwork","Get-CreatedKey" },listBody.ToArray(),exitCodeExpected);
+				"Get-CreatedParents","Add-TestNetworkJournalLine","Undo-TestNetwork","Get-CreatedKey","Get-ErrorText","Test-FolderReadable","Get-TestNetworkRemovedLines" },listBody.ToArray(),exitCodeExpected);
 		}
 
 		[TestMethod]
@@ -685,7 +696,10 @@ namespace DbConnectionSecurityTests {
 			int indexUndoBlock=output.IndexOf("UNDO RULE OpenPmsDental-DbTlsTest-Block3306",StringComparison.Ordinal);
 			Assert.IsTrue(indexUndoAdapter>0 && indexUndoCapi>indexUndoAdapter && indexUndoCng>indexUndoCapi && indexUndoAllow>indexUndoCng
 				&& indexUndoBlock>indexUndoAllow,"The adapter first, the rules last: "+output);
-			StringAssert.Contains(output,@"Removed the test network: the adapter ROOT\NET\0042 and 192.0.2.25, both test certificates with their keys, the firewall rules.");
+			StringAssert.Contains(output,@"Removed of the test network 192.0.2.25: the loopback adapter ROOT\NET\0042 with its address 192.0.2.25, the CAPI certificate "
+				+new string('A',40)+" with its key file "+fileCapiKey+", the CNG certificate "+new string('B',40)+" with its key file "+fileCngKey
+				+", the firewall rule OpenPmsDental-DbTlsTest-Allow3306, the firewall rule OpenPmsDental-DbTlsTest-Block3306.");
+			Assert.IsFalse(output.Contains("Already gone before this run"),"Everything was there: "+output);
 			Assert.IsFalse(output.Contains("is not fully removed"),output);
 			Assert.IsFalse(output.Contains("RESTART"),"my.ini and the service are not touched: "+output);
 			Assert.IsFalse(output.Contains("Restore "),"No restore of my.ini without a backup: "+output);
@@ -725,7 +739,7 @@ namespace DbConnectionSecurityTests {
 		public void TestNetwork_UndoTestNetwork_TheAdapterFirst_TheRulesLast_AndKeptWhileTheAdapterStays() {
 			//The server may still listen on the test address while -Revert runs (my.ini is restored afterwards), so the block rule goes only once the
 			//address is gone. Every removal is replaced by a function that only notes its call.
-			string output=RunDriver(new[] { "Undo-TestNetwork","Get-CreatedKey" },new[] {
+			string output=RunDriver(new[] { "Undo-TestNetwork","Get-CreatedKey","Get-ErrorText" },new[] {
 				"$script:calls = @()",
 				"$script:adapterFails = $false",
 				"function Remove-TestAdapter($InstanceId, $Address) { $script:calls += ('ADAPTER ' + $InstanceId + ' ' + $Address); if ($script:adapterFails) { throw 'DIF_REMOVE failed (synthetic)' } }",
@@ -747,15 +761,18 @@ namespace DbConnectionSecurityTests {
 			StringAssert.Contains(output,"OK problems: 0\r\n");
 			StringAssert.Contains(output,@"FAILS calls: ADAPTER ROOT\NET\0042 192.0.2.25, CERT AAAA capi, CERT BBBB cng"+"\r\n",
 				"With the adapter still there, Remove-TestFirewallRule is never called; the certificates with their Users-readable keys still go.");
-			StringAssert.Contains(output,@"FAILS problems: the loopback adapter ROOT\NET\0042: DIF_REMOVE failed (synthetic) || the firewall rules "
-				+"OpenPmsDental-DbTlsTest-Allow3306 and OpenPmsDental-DbTlsTest-Block3306 are kept, because the adapter and its address 192.0.2.25 are still there");
+			//Each problem names the line it was raised on ($_.InvocationInfo.PositionMessage: here the stub's line in the driver).
+			StringAssert.Contains(output,@"FAILS problems: the loopback adapter ROOT\NET\0042: DIF_REMOVE failed (synthetic) [At ");
+			StringAssert.Contains(output,"throw 'DIF_REMOVE");
+			StringAssert.Contains(output,"] || the firewall rules OpenPmsDental-DbTlsTest-Allow3306 and OpenPmsDental-DbTlsTest-Block3306 are kept, because the adapter "
+				+"and its address 192.0.2.25 are still there");
 		}
 
 		[TestMethod]
 		public void TestNetwork_AFailedRunsUndo_UndoesTheTestNetwork_AlsoWhenTheRestartFails_AndKeepsTheJournalWhileItIsNotUndone() {
 			//Undo-FailedEnable and the script's own Undo-TestNetwork on scratch files (my.ini, its backup, the journal in the test's temporary
 			//folder); the restart, the adapter's and the rule's removal and the files' undo are replaced by functions that note their call.
-			string output=RunDriver(new[] { "Undo-FailedEnable","Get-TestNetworkJournalPath","Undo-TestNetwork","Get-CreatedKey" },new[] {
+			string output=RunDriver(new[] { "Undo-FailedEnable","Get-TestNetworkJournalPath","Undo-TestNetwork","Get-CreatedKey","Get-ErrorText" },new[] {
 				"function Restart-DbService { $script:calls += 'RESTART'; if ($script:restartFails) { throw 'the service did not start (synthetic)' } }",
 				"function Remove-TestAdapter($InstanceId, $Address) { $script:calls += ('ADAPTER ' + $Address); if ($script:adapterFails) { throw 'synthetic' } }",
 				"function Remove-TestFirewallRule($Name) { $script:calls += ('RULE ' + $Name) }",
@@ -786,12 +803,13 @@ namespace DbConnectionSecurityTests {
 			//(a) The restart fails: the test network is still undone; the journal goes once that undo leaves nothing; the backup stays for -Revert.
 			StringAssert.Contains(output,"restartfails calls: RESTART, ADAPTER 192.0.2.25, RULE OpenPmsDental-DbTlsTest-Allow3306\n",
 				"The test network's undo runs although the restart failed.");
-			StringAssert.Contains(output,"restartfails problems: my.ini and the service: the service did not start (synthetic)\n");
+			StringAssert.Contains(output,"restartfails problems: my.ini and the service: the service did not start (synthetic) [At ");
 			StringAssert.Contains(output,"restartfails ini False myini the old my.ini backup True journal False\n");
 			//The restart fails and the test network is not undone: the journal stays, the only record once my.ini is the old file again.
 			StringAssert.Contains(output,"restartfailsnetleft calls: RESTART, ADAPTER 192.0.2.25\n","The rule stays while the adapter does.");
-			StringAssert.Contains(output,@"restartfailsnetleft problems: my.ini and the service: the service did not start (synthetic) || the test network could not be undone: "
-				+@"the loopback adapter ROOT\NET\0042: synthetic; the firewall rules OpenPmsDental-DbTlsTest-Allow3306 are kept");
+			StringAssert.Contains(output,"restartfailsnetleft problems: my.ini and the service: the service did not start (synthetic) [At ");
+			StringAssert.Contains(output,@"|| the test network could not be undone: the loopback adapter ROOT\NET\0042: synthetic [At ");
+			StringAssert.Contains(output,"]; the firewall rules OpenPmsDental-DbTlsTest-Allow3306 are kept");
 			StringAssert.Contains(output,"restartfailsnetleft ini False myini the old my.ini backup True journal True\n");
 			//my.ini restored but the test network not undone: the files are undone, the opms-dev-tls folder (the journal, ca.pem) is kept.
 			StringAssert.Contains(output,"netleft calls: RESTART, ADAPTER 192.0.2.25, FILES keep True\n");
@@ -803,6 +821,388 @@ namespace DbConnectionSecurityTests {
 			string script=TestHelpers.ReadRepoFile("tools","Enable-LocalDbTls.ps1");
 			StringAssert.Contains(script,"$undo = Undo-FailedEnable $paths $saved $created $testAddress $changedIni");
 			StringAssert.Contains(script,"interrupted run''s test network: the adapter first, then both test certificates with their keys, the firewall rules last");
+		}
+
+		///<summary>The client's error in the owner's run of 2026-11-14 at the test address (root is root@localhost: MariaDB refuses another host
+		///with 1130 before the TLS handshake, and the client wraps that in ERROR 2002).</summary>
+		private const string OWNERS_RUN_ERROR="ERROR 2002 (HY000): Received error packet before completion of TLS handshake. The authenticity of the following "
+			+"error cannot be verified: 1130 - Host '192.0.2.25' is not allowed to connect to this MariaDB server";
+
+		///<summary>Invoke-Enable -WithClientCertificate -WithTestNetwork 192.0.2.25 in a driver, from its checks to its end, with the certificates
+		///made for real (in memory, their files in the test's temporary folder) and every step that would change this computer replaced: the
+		///folders' ACLs, the test network (Install-TestNetwork only notes what it would have made), the restart, the server's answers (TLS on, both
+		///listeners, the bind address) and the client's check at the test address, which ends with <paramref name="clientError"/> ('' for
+		///success). A failure's undo is replaced by one that only notes its call. Returns the output; asserts the exit code.</summary>
+		private string RunEnableAtTheTestAddress(string name,string clientError,int exitCodeExpected) {
+			string[] arrayBody=new[] {
+				"$root = Join-Path $Folder '"+name+"'",
+				"New-Item -ItemType Directory -Path $root | Out-Null",
+				"$script:Facts = [pscustomobject]@{ Ini = (Join-Path $root 'my.ini'); Home = $root; Account = 'LocalSystem' }",
+				"[System.IO.File]::WriteAllText($script:Facts.Ini, \"[mysqld]`r`nport=3306`r`nbind-address=127.0.0.1`r`ndatadir=C:/x/data`r`n\")",
+				"$script:IniFile = Read-OptionFile $script:Facts.Ini",
+				"$User = 'root'",
+				"$DevUser = ''",
+				"$WithTestNetwork = '192.0.2.25'",
+				"$script:clientError = '"+clientError.Replace("'","''")+"'",
+				"function Assert-LocalServer { [pscustomobject]@{ Values = @{ have_ssl = 'DISABLED'; datadir = 'C:/x/data'; version = '10.11.19-MariaDB' } } }",
+				"$tls = Join-Path $root 'opms-dev-tls'",
+				"function Get-Paths([bool]$ForEnable) { [pscustomobject]@{ TlsFolder = $tls; Ca = (Join-Path $tls 'ca.pem'); ServerCert = (Join-Path $tls 'server-cert.pem')",
+				"  ServerKey = (Join-Path $tls 'server-key.pem'); DevFolder = (Join-Path $root 'dev'); DevCa = (Join-Path $root 'dev\\ca.pem'); ClientFolder = (Join-Path $root 'client')",
+				"  ClientCert = (Join-Path $root 'client\\client-cert.pem'); ClientKey = (Join-Path $root 'client\\client-key.pem'); IsRecorded = $false; CreatedParents = @()",
+				"  Backup = ($script:Facts.Ini + $BackupSuffix); IniTemp = ($script:Facts.Ini + $IniTempSuffix); TestNetwork = $null } }",
+				"function Test-InsideRepository([string]$Path) { $false }",
+				"function Get-LocalAppDataRoots { @() }",
+				"function Get-FolderProblem { $null }",
+				"function Get-CimInstance { [pscustomobject]@{ UserName = '' } }",
+				"function Get-NetworkFacts { [pscustomobject]@{ Addresses = @(); Routes = @(); FirewallProfiles = @([pscustomobject]@{ Name = 'Domain'; Enabled = $true }); OpenInterfaces = @()",
+				"  Loopbacks = @(); AdapterNameTaken = $false; RulesTaken = @(); HasNetloop = $true; HostName = 'testhost' } }",
+				"function Confirm-Change([string]$Question) { Write-Host ('CONFIRM ' + $Question) }",
+				"function Set-ProtectedAcl($Path, $FullSids, $ReadSids) { }",
+				"function Install-TestNetwork($Paths, $Set, $Created) {",
+				"  $Paths.TestNetwork.AdapterId = 'ROOT\\NET\\0000'; $Created.AdapterId = 'ROOT\\NET\\0000'",
+				"  $Created.FirewallRules = @($FirewallAllowName, $FirewallBlockName); $Created.Thumbprints = @($Set.TestCapiThumbprint, $Set.TestCngThumbprint)",
+				"  Write-Host 'INSTALLED (synthetic)'",
+				"}",
+				"function Restart-DbService { Write-Host 'RESTART (synthetic)' }",
+				"function Get-ServerState([string]$Tls) { [pscustomobject]@{ Ok = $true; Error = ''; Values = @{ have_ssl = 'YES'; ssl_cipher = 'TLS_AES_256_GCM_SHA384'; ssl_version = 'TLSv1.3'",
+				"  ssl_server_not_after = 'Nov 13 2031'; bind_address = '127.0.0.1,192.0.2.25' } } }",
+				"function Get-TestListenerProblem([string]$Address, [int]$ServicePid) { $null }",
+				"function Get-ServiceProcessId { 4242 }",
+				"function Invoke-DbClient([string]$Sql, [string]$Tls = 'tls', [string]$ServerAddress = '127.0.0.1') {",
+				"  Write-Host ('CLIENT ' + $ServerAddress + ' ca ' + (Split-Path -Leaf $Tls))",
+				"  if ($script:clientError -eq '') { [pscustomobject]@{ ExitCode = 0; Lines = @('1'); Error = '' } } else { [pscustomobject]@{ ExitCode = 1; Lines = @(); Error = $script:clientError } }",
+				"}",
+				"function Undo-FailedEnable($Paths, $Saved, $Created, [string]$TestAddress, [bool]$ChangedIni) { Write-Host 'UNDO (synthetic)'; [pscustomobject]@{ Problems = @(); IniUndone = $true; NetLeft = @(); Journal = '' } }",
+				"Invoke-Enable",
+			};
+			return DevDbTlsScriptTests.RunDriverIn(_folder,new[] { "Invoke-Enable","Get-ServerOptions","Test-HasBlock","Test-FolderOverlap","Get-NormalPath","Get-Sid",
+				"Get-TestNetworkProblem","Get-TestAddressUseProblem","ConvertTo-AddressNumber","Test-FirewallOn","Get-MachineKeyFolder","Get-BlockLines","Get-CreatedParents",
+				"Add-ToMysqldSection","Get-DevFiles","Get-FolderPlanText","Get-TestNetworkEnablePlan","Get-FirewallBlockRanges","Get-TestNetworkJournalPath","New-CertificateSet",
+				"New-SerialNumber","ConvertTo-Pem","ConvertFrom-Hex","New-Request","Add-LeafExtensions","New-PfxPassword","New-TestClientPfx","Save-ExistingItems","Get-AccessSddl",
+				"Write-AsciiFile","Read-OptionFile","Write-OptionFile","Get-BindText","Get-ServerCertificateAddressProblem","Read-PemCertificate","Get-CertificateIpAddresses",
+				"Read-DerLength","Get-TestAddressCheck","Get-TestAddressLoginNote","Write-TestVariables","Get-ErrorText","Get-IgnoredTestNetworkNote","Get-RecordedTestNetwork",
+				"ConvertFrom-TestNetworkLines" },arrayBody,exitCodeExpected);
+		}
+
+		[TestMethod]
+		public void TestNetwork_OwnersRun_TheServersRefusalOfRootAtTheTestAddress_IsANote_ACertificateFailureStaysFatal() {
+			//(1) The owner's run of 2026-11-14 ended here with exit 4: the refusal of root@192.0.2.25 (1130, before TLS, wrapped in ERROR 2002 "...
+			//TLS handshake ...") was taken for a certificate failure. Now it is a NOTE, the run ends with exit 0 and prints the test's values.
+			string output=RunEnableAtTheTestAddress("owner",OWNERS_RUN_ERROR,0).Replace("\r\n","\n");
+			StringAssert.Contains(output,"CLIENT 192.0.2.25 ca ca.pem");
+			StringAssert.Contains(output,"NOTE: at 192.0.2.25 the server refused the check's login as root ("+OWNERS_RUN_ERROR+").\n");
+			StringAssert.Contains(output,"the certificate at the\n  address is verified by TlsCertificateLoginTests with its own X509 user.\n");
+			StringAssert.Contains(output,"This run checked that the server certificate ("+Path.Combine(_folder,"owner","opms-dev-tls","server-cert.pem")+") names 192.0.2.25;",
+				"The run checked from the file that the server certificate names the address.");
+			StringAssert.Contains(output,"$env:OPMS_DB_TLS_TEST_SERVER='192.0.2.25'");
+			Assert.IsFalse(output.Contains("FAILED"),output);
+			Assert.IsFalse(output.Contains("UNDO"),output);
+			//The client verified the certificate there: no note.
+			string outputVerified=RunEnableAtTheTestAddress("verified","",0);
+			StringAssert.Contains(outputVerified,"The server certificate was verified at 192.0.2.25 too.");
+			Assert.IsFalse(outputVerified.Contains("NOTE: at 192.0.2.25"),outputVerified);
+			//A real certificate failure stays fatal (exit 3, after the undo), and so does any other error at the address.
+			string outputCertificate=RunEnableAtTheTestAddress("certificate","ERROR 2026 (HY000): TLS/SSL error: Validation of SSL server certificate failed",3);
+			StringAssert.Contains(outputCertificate,"FAILED: The client could not verify the server certificate at 192.0.2.25: ERROR 2026 (HY000): TLS/SSL error: Validation of SSL "
+				+"server certificate failed");
+			StringAssert.Contains(outputCertificate,"UNDO (synthetic)");
+			string outputOther=RunEnableAtTheTestAddress("other","ERROR 2013 (HY000): Lost connection to server at 'handshake: reading initial communication packet', system error: 0",3);
+			StringAssert.Contains(outputOther,"FAILED: The client's check at 192.0.2.25:3306 failed: ERROR 2013 (HY000): Lost connection");
+			StringAssert.Contains(outputOther,"UNDO (synthetic)");
+			//(2) The classification and the server certificate's names, on the script's own functions; the certificate made for real, in memory.
+			string outputCheck=RunDriver(new[] { "Get-TestAddressCheck","New-CertificateSet","New-SerialNumber","ConvertTo-Pem","ConvertFrom-Hex","New-Request","Add-LeafExtensions",
+				"New-PfxPassword","New-TestClientPfx","Write-AsciiFile","Read-PemCertificate","Get-CertificateIpAddresses","Read-DerLength","Get-ServerCertificateAddressProblem" },new[] {
+				"function C([string]$Case, [int]$Code, [string]$Text) { 'CHECK ' + $Case + ' ' + (Get-TestAddressCheck $Code $Text) }",
+				"C 'owner' 1 '"+OWNERS_RUN_ERROR.Replace("'","''")+"'",
+				"C 'plain1130' 1 'ERROR 1130 (HY000): Host ''192.0.2.25'' is not allowed to connect to this MariaDB server'",
+				"C 'denied' 1 'ERROR 1045 (28000): Access denied for user ''root''@''192.0.2.25'' (using password: NO)'",
+				"C 'wrapped1045' 1 'ERROR 2002 (HY000): Received error packet before completion of TLS handshake. The authenticity of the following error cannot be verified: 1045 - Access denied for user ''root''@''192.0.2.25'''",
+				"C 'wrappedother' 1 'ERROR 2002 (HY000): Received error packet before completion of TLS handshake. The authenticity of the following error cannot be verified: 1040 - Too many connections'",
+				"C 'tls' 1 'ERROR 2026 (HY000): TLS/SSL error: self-signed certificate in certificate chain'",
+				"C 'lost' 1 'ERROR 2013 (HY000): Lost connection to server during query'",
+				"C 'ok' 0 ''",
+				"$set = New-CertificateSet $false '192.0.2.25' 'testhost'",
+				"$path = Join-Path $Folder 'server-cert.pem'",
+				"Write-AsciiFile $path $set.ServerCert",
+				"$cert = Read-PemCertificate $path",
+				"'SAN ' + ((Get-CertificateIpAddresses $cert) -join ',')",
+				"'SANOK ' + ($null -eq (Get-ServerCertificateAddressProblem $path '192.0.2.25'))",
+				"'SANOTHER ' + (Get-ServerCertificateAddressProblem $path '192.0.2.26')",
+				"$plain = New-CertificateSet $false",
+				"$pathPlain = Join-Path $Folder 'server-cert-plain.pem'",
+				"Write-AsciiFile $pathPlain $plain.ServerCert",
+				"'SANPLAIN ' + (Get-ServerCertificateAddressProblem $pathPlain '192.0.2.25')",
+			});
+			StringAssert.Contains(outputCheck,"CHECK owner login-refused\r\n","The owner's exact error is the server's refusal of the login, not a certificate failure.");
+			StringAssert.Contains(outputCheck,"CHECK plain1130 login-refused\r\n");
+			StringAssert.Contains(outputCheck,"CHECK denied login-refused\r\n");
+			StringAssert.Contains(outputCheck,"CHECK wrapped1045 login-refused\r\n");
+			StringAssert.Contains(outputCheck,"CHECK wrappedother certificate\r\n","Another error before the end of the TLS handshake is no login refusal.");
+			StringAssert.Contains(outputCheck,"CHECK tls certificate\r\n");
+			StringAssert.Contains(outputCheck,"CHECK lost failed\r\n");
+			StringAssert.Contains(outputCheck,"CHECK ok verified\r\n");
+			StringAssert.Contains(outputCheck,"SAN 127.0.0.1,192.0.2.25\r\n","The IP entries of the subject alternative names, read from the DER.");
+			StringAssert.Contains(outputCheck,"SANOK True\r\n");
+			StringAssert.Contains(outputCheck,"SANOTHER The server certificate "+Path.Combine(_folder,"server-cert.pem")+" does not name 192.0.2.26 (its IP addresses: "
+				+"127.0.0.1, 192.0.2.25).");
+			StringAssert.Contains(outputCheck,"SANPLAIN The server certificate "+Path.Combine(_folder,"server-cert-plain.pem")+" does not name 192.0.2.25 (its IP addresses: "
+				+"127.0.0.1).");
+			string script=TestHelpers.ReadRepoFile("tools","Enable-LocalDbTls.ps1");
+			Assert.IsFalse(script.Contains("$atTest.ExitCode -ne 0 -and $atTest.Error -match '(?i)SSL|TLS|certificate'"),"The check of main 9bf1de770 that failed the owner's run.");
+		}
+
+		[TestMethod]
+		public void TestNetwork_OwnersRun_RemoveTestAdapter_UnderStrictMode_TheWaitAsksAgainAfterAnError_AndNoListBecomesAString() {
+			//(2) The undo of the owner's run threw "The property 'Count' cannot be found on this object" once the adapter was gone: in
+			//Remove-TestAdapter, '$address = @(...)' assigned to its [string] parameter $Address (PowerShell's names ignore case), so the empty list
+			//became a string, which has no Count under Set-StrictMode. The device and the addresses here are synthetic: a type of the SetupAPI
+			//class's name whose Exists and Remove only change a field, and Get-NetIPAddress (and, for main's script, Get-PnpDevice) following it.
+			string output=RunDriver(new[] { "Remove-TestAdapter","Get-ErrorText","Test-HasAddress","Test-TestAdapterExists" },new[] {
+				"function Add-LoopbackAdapterType { }",
+				"Add-Type -TypeDefinition 'namespace OpenPmsDentalDevDbTls { public static class LoopbackAdapter { public static bool Present; public static bool Removed; "
+					+"public static int ThrowsAfterRemove; public static bool Stays; public static bool Exists(string instanceId) { if (Removed && ThrowsAfterRemove != 0) { "
+					+"if (ThrowsAfterRemove > 0) { ThrowsAfterRemove--; } throw new System.InvalidOperationException(\"SetupDiOpenDeviceInfo failed (synthetic)\"); } return Present; } "
+					+"public static void Remove(string instanceId) { Removed = true; if (!Stays) { Present = false; } } } }'",
+				"function Get-PnpDevice { if ([OpenPmsDentalDevDbTls.LoopbackAdapter]::Present) { [pscustomobject]@{ InstanceId = 'ROOT\\NET\\0000' } } }",
+				"function Get-NetIPAddress { [pscustomobject]@{ IPAddress = '127.0.0.1' }; if ([OpenPmsDentalDevDbTls.LoopbackAdapter]::Present) { [pscustomobject]@{ IPAddress = '192.0.2.25' } } }",
+				"function Case([string]$Name, [bool]$Present, [int]$Throws, [bool]$Stays, [int]$Seconds) {",
+				"  [OpenPmsDentalDevDbTls.LoopbackAdapter]::Present = $Present; [OpenPmsDentalDevDbTls.LoopbackAdapter]::Removed = $false",
+				"  [OpenPmsDentalDevDbTls.LoopbackAdapter]::ThrowsAfterRemove = $Throws; [OpenPmsDentalDevDbTls.LoopbackAdapter]::Stays = $Stays",
+				"  try {",
+				"    if ($Seconds -gt 0) { Remove-TestAdapter 'ROOT\\NET\\0000' '192.0.2.25' $Seconds } else { Remove-TestAdapter 'ROOT\\NET\\0000' '192.0.2.25' }",
+				"    Write-Host ($Name + ' GONE removed ' + [OpenPmsDentalDevDbTls.LoopbackAdapter]::Removed)",
+				"  }",
+				"  catch { Write-Host ($Name + ' THROWS ' + $_.Exception.Message) }",
+				"}",
+				"Case 'owner' $true 0 $false 0",
+				"Case 'missing' $false 0 $false 0",
+				"Case 'flaky' $true 2 $false 0",
+				"Case 'stays' $true 0 $true 1",
+				"Case 'unknown' $true -1 $false 1",
+			});
+			//Write-Host lines end with a bare line feed.
+			output=output.Replace("\r\n","\n");
+			StringAssert.Contains(output,"owner GONE removed True\n","The owner's case: the device removed, then device and address gone. "+output);
+			Assert.IsFalse(output.Contains("cannot be found on this object"),output);
+			StringAssert.Contains(output,"missing GONE removed False\n","A device that is gone already is not removed again, and that is no problem.");
+			StringAssert.Contains(output,"flaky GONE removed True\n","A check that throws while it waits is asked again.");
+			StringAssert.Contains(output,@"stays THROWS After the removal of the test adapter, within 1 seconds: the device ROOT\NET\0000 is still there; this computer still has "
+				+"the address 192.0.2.25.\n");
+			StringAssert.Contains(output,@"unknown THROWS After the removal of the test adapter, within 1 seconds: whether the device ROOT\NET\0000 is still there is not known "
+				+"(Exception calling \"Exists\" with \"1\" argument(s): \"SetupDiOpenDeviceInfo failed (synthetic)\" [At line:");
+			//The whole script: no function assigns a variable (or a foreach variable) that shares a parameter's name, read from its syntax tree.
+			string outputScan=RunDriver(new string[0],new[] {
+				"$count = 0",
+				"foreach ($f in $ast.FindAll({ param($a) $a -is [System.Management.Automation.Language.FunctionDefinitionAst] }, $true)) {",
+				"  $count++",
+				"  $params = @()",
+				"  if ($null -ne $f.Parameters) { $params += @($f.Parameters) }",
+				"  if ($null -ne $f.Body.ParamBlock) { $params += @($f.Body.ParamBlock.Parameters) }",
+				"  $lower = @($params | ForEach-Object { $_.Name.VariablePath.UserPath.ToLowerInvariant() })",
+				"  foreach ($s in $f.Body.FindAll({ param($a) ($a -is [System.Management.Automation.Language.AssignmentStatementAst] -and $a.Left -is [System.Management.Automation.Language.VariableExpressionAst]) -or $a -is [System.Management.Automation.Language.ForEachStatementAst] }, $true)) {",
+				"    if ($s -is [System.Management.Automation.Language.ForEachStatementAst]) { $v = $s.Variable } else { $v = $s.Left }",
+				"    if ($lower -contains $v.VariablePath.UserPath.ToLowerInvariant()) { Write-Host ('COLLISION ' + $f.Name + ' $' + $v.VariablePath.UserPath + ' line ' + $s.Extent.StartLineNumber) }",
+				"  }",
+				"}",
+				"Write-Host ('SCANNED ' + $count)",
+			});
+			Assert.IsFalse(outputScan.Contains("COLLISION"),"A local that shares a parameter's name takes the parameter's type: "+outputScan);
+			System.Text.RegularExpressions.Match matchScanned=System.Text.RegularExpressions.Regex.Match(outputScan,@"SCANNED (\d+)");
+			Assert.IsTrue(matchScanned.Success && int.Parse(matchScanned.Groups[1].Value)>100,"Every function of the script was scanned: "+outputScan);
+			string script=TestHelpers.ReadRepoFile("tools","Enable-LocalDbTls.ps1");
+			Assert.IsFalse(script.Contains("Get-PnpDevice -InstanceId"),"Whether the device is there comes from the SetupAPI (LoopbackAdapter.Exists).");
+			StringAssert.Contains(script,"return [bool][OpenPmsDentalDevDbTls.LoopbackAdapter]::Exists($InstanceId)");
+		}
+
+		///<summary>This PC after the owner's first run (2026-11-14, exit 4), as the lead read it: the journal names the address, the adapter
+		///ROOT\NET\0000, both rules, both thumbprints and both keys; the device, the address, both certificates and both key files are gone; the two
+		///rules are there; my.ini has no block and there is no backup; the opms-dev-tls folder holds the journal and ca.pem. Invoke-Revert with the
+		///script's own state, plan, undo and report, and every system call replaced: whether the device is there (Test-TestAdapterExists, and
+		///Get-PnpDevice for main's script), the addresses (Get-NetIPAddress), the adapters, the rules (Get-NetFirewallRule; Remove-NetFirewallRule
+		///only takes the rule out of a list), the store (Find-MachineCertificate: nothing), the service and the listeners. The key "files" are named
+		///in the computer's key folders and are not there; every file the run removes is in the test's temporary folder.</summary>
+		private string RunRevertOnTheOwnersPc(string name,bool isDryRun) {
+			List<string> listBody=new List<string> {
+				"$root = Join-Path $Folder '"+name+"'",
+				"$tls = Join-Path $root 'opms-dev-tls'",
+				"New-Item -ItemType Directory -Path $tls | Out-Null",
+				"$journal = Join-Path $tls $TestNetworkJournalName",
+			};
+			listBody.AddRange(GetJournalLines(@"ROOT\NET\0000"));
+			listBody.AddRange(new[] {
+				"$set = New-CertificateSet $false",
+				"[System.IO.File]::WriteAllText((Join-Path $tls 'ca.pem'), $set.CaCert)",
+				"$script:Facts = [pscustomobject]@{ Ini = (Join-Path $root 'my.ini'); Home = $root }",
+				"[System.IO.File]::WriteAllText($script:Facts.Ini, \"[mysqld]`r`nport=3306`r`nbind-address=127.0.0.1`r`n\")",
+				"$script:IniFile = [pscustomobject]@{ Text = [System.IO.File]::ReadAllText($script:Facts.Ini); Newline = \"`r`n\" }",
+				"$DryRun = $"+(isDryRun ? "true" : "false"),
+				"function Assert-LocalServer { }",
+				"function Get-Paths([bool]$ForEnable) { [pscustomobject]@{ TlsFolder = $tls; Ca = (Join-Path $tls 'ca.pem'); DevFolder = (Join-Path $root 'dev'); DevCa = (Join-Path $root 'dev\\ca.pem')",
+				"  ClientFolder = ''; ClientCert = ''; ClientKey = ''; IsRecorded = $false; CreatedParents = @(); Backup = ($script:Facts.Ini + $BackupSuffix); IniTemp = ($script:Facts.Ini + $IniTempSuffix)",
+				"  TestNetwork = (Get-RecordedTestNetwork $script:IniFile.Text) } }",
+				"function Add-LoopbackAdapterType { throw 'No SetupAPI call here (synthetic).' }",
+				"function Test-TestAdapterExists([string]$InstanceId) { Write-Host ('DEVICE? ' + $InstanceId); $false }",
+				"function Get-TestAdapterHardwareIds([string]$InstanceId) { throw 'The device is gone (synthetic).' }",
+				"function Get-PnpDevice { }",
+				"function Get-NetIPAddress { [pscustomobject]@{ IPAddress = '127.0.0.1' } }",
+				"function Get-NetAdapter { }",
+				"$script:rules = @(@($FirewallAllowName, $FirewallBlockName) | ForEach-Object { [pscustomobject]@{ Name = $_; Group = $FirewallGroup } })",
+				"function Get-NetFirewallRule { $script:rules }",
+				"function Remove-NetFirewallRule { param($Name) Write-Host ('REMOVE RULE ' + $Name); $script:rules = @($script:rules | Where-Object { $_.Name -ne $Name }) }",
+				"function Find-MachineCertificate([string]$Thumbprint) { $null }",
+				"function Remove-MachineCertificate($Certificate) { throw 'There is no store entry to remove (synthetic).' }",
+				"function Restart-DbService { Write-Host 'RESTART' }",
+				"function Get-ServerState([string]$Tls) { [pscustomobject]@{ Ok = $true; Error = ''; Values = @{} } }",
+				"function Read-OptionFile([string]$Path) { throw 'There is no backup to read (synthetic).' }",
+				"function Get-NetTCPConnection { }",
+			});
+			List<string> listFunctions=new List<string> { "Invoke-Revert","Get-TestNetworkJournalPath","Read-TestNetworkJournal","ConvertFrom-TestNetworkLines",
+				"Get-RecordedTestNetwork","Get-TestNetworkRecordProblem","Get-TestAddressFormProblem","Get-KeyRecordProblem","ConvertFrom-KeyRecord","ConvertTo-KeyRecord",
+				"Get-MachineKeyFolder","Test-HasBlock","Remove-Block","Get-TestNetworkState","Get-TestNetworkStateProblem","Get-TestNetworkRevertPlan","Get-TestNetworkLeft",
+				"Get-TestNetworkRemovedLines","Get-DevFiles","Get-CreatedParents","Add-TestNetworkJournalLine","Undo-TestNetwork","Get-CreatedKey","Remove-TestAdapter",
+				"Test-HasAddress","Remove-TestFirewallRule","Remove-TestClientCertificate","Remove-TestKey","Get-ErrorText","Read-PemCertificate","Test-IssuedByCa",
+				"Remove-NewFiles","Remove-EmptyFolder","Test-FolderReadable","New-CertificateSet","New-SerialNumber","ConvertTo-Pem","ConvertFrom-Hex","New-Request",
+				"Add-LeafExtensions","New-PfxPassword","New-TestClientPfx" };
+			if(isDryRun) {
+				listFunctions.Add("Confirm-Change");
+			}
+			else {
+				listBody.Add("function Confirm-Change([string]$Question) { Write-Host ('CONFIRM ' + $Question) }");
+			}
+			listBody.Add("Invoke-Revert");
+			return DevDbTlsScriptTests.RunDriverIn(_folder,listFunctions.ToArray(),listBody.ToArray(),0);
+		}
+
+		[TestMethod]
+		public void TestNetwork_OwnersPcAfterTheFailedRun_RevertRemovesTheRulesAndTheFolder_AndReportsTheRestAsGone() {
+			string fileCapiKey=Environment.GetEnvironmentVariable("ProgramData")+@"\Microsoft\Crypto\RSA\MachineKeys\keyfile-capi";
+			string fileCngKey=Environment.GetEnvironmentVariable("ProgramData")+@"\Microsoft\Crypto\Keys\keyfile-cng";
+			string folderTls=Path.Combine(_folder,"revert","opms-dev-tls");
+			//(3) The owner's -DryRun -Revert: the plan names exactly the rules and the folder to remove, and the rest as gone.
+			string outputDry=RunRevertOnTheOwnersPc("dryrun",isDryRun:true).Replace("\r\n","\n");
+			foreach(string text in new[] { outputDry }) {
+				Assert.IsFalse(text.Contains("REFUSED"),text);
+				StringAssert.Contains(text,"an enable run stopped before it");
+				StringAssert.Contains(text,"or its undo restored my.ini and removed the backup but could not remove");
+				StringAssert.Contains(text,"First the test network 192.0.2.25 of an enable run that did not finish, as its journal "
+					+Path.Combine(_folder,"dryrun","opms-dev-tls","test-network.record")+" records it");
+				StringAssert.Contains(text,@"[adapter] The loopback adapter ROOT\NET\0000 is not there any more: nothing to remove.");
+				StringAssert.Contains(text,"[address] [bindings] Its address 192.0.2.25/32 is not on this computer any more, and its bindings went with the adapter:\n"
+					+"     nothing to remove.");
+				StringAssert.Contains(text,"[client-certificates] The CAPI certificate "+new string('A',40)+" is not in LocalMachine\\My any more, and its key\n     file "+fileCapiKey
+					+" is gone too: nothing to remove.");
+				StringAssert.Contains(text,"[client-certificates] The CNG certificate "+new string('B',40)+" is not in LocalMachine\\My any more, and its key\n     file "+fileCngKey
+					+" is gone too: nothing to remove.");
+				StringAssert.Contains(text,"[firewall] Remove the firewall rules OpenPmsDental-DbTlsTest-Allow3306 and OpenPmsDental-DbTlsTest-Block3306 (group 'Open PMS - Dental "
+					+"local test TLS') last");
+				StringAssert.Contains(text,"my.ini has no block of this script (the run stopped before it wrote it, or its undo restored my.ini)");
+				CollectionAssert.AreEqual(_arrayTags.OrderBy(x => x).ToList(),GetTags(text),text);
+				Assert.IsFalse(text.Contains("Restore "),"No restore of my.ini: there is no backup. "+text);
+			}
+			StringAssert.Contains(outputDry,". Remove "+Path.Combine(_folder,"dryrun","opms-dev-tls")+", "+Path.Combine(_folder,"dryrun","dev","ca.pem")+";",
+				"The opms-dev-tls folder (the journal, ca.pem) and the dev folder's copy, which is not there; no backup.");
+			StringAssert.Contains(outputDry,"Dry run: nothing was changed.");
+			Assert.IsFalse(outputDry.Contains("REMOVE RULE"),outputDry);
+			Assert.IsTrue(File.Exists(Path.Combine(_folder,"dryrun","opms-dev-tls","test-network.record")),"The dry run changes nothing.");
+			//The owner's -Revert: the two rules and the folder go; the adapter, the address, both certificates and their key files are reported
+			//as gone already, not as problems; my.ini and the service are not touched.
+			string output=RunRevertOnTheOwnersPc("revert",isDryRun:false).Replace("\r\n","\n");
+			Assert.IsFalse(output.Contains("REFUSED"),output);
+			Assert.IsFalse(output.Contains("FAILED"),output);
+			Assert.IsFalse(output.Contains("is not fully removed"),output);
+			StringAssert.Contains(output,"CONFIRM Turn TLS off again?");
+			int indexAllow=output.IndexOf("REMOVE RULE OpenPmsDental-DbTlsTest-Allow3306\n",StringComparison.Ordinal);
+			int indexBlock=output.IndexOf("REMOVE RULE OpenPmsDental-DbTlsTest-Block3306\n",StringComparison.Ordinal);
+			int indexDevice=output.IndexOf(@"DEVICE? ROOT\NET\0000",output.IndexOf("CONFIRM",StringComparison.Ordinal),StringComparison.Ordinal);
+			Assert.IsTrue(indexDevice>0 && indexAllow>indexDevice && indexBlock>indexAllow,"The device checked gone first, then the rules: "+output);
+			StringAssert.Contains(output,"Removed of the test network 192.0.2.25: the firewall rule OpenPmsDental-DbTlsTest-Allow3306, the firewall rule "
+				+"OpenPmsDental-DbTlsTest-Block3306.\n");
+			StringAssert.Contains(output,@"Already gone before this run (not a problem): the loopback adapter ROOT\NET\0000 and its address 192.0.2.25, the CAPI certificate "
+				+new string('A',40)+" and its key file "+fileCapiKey+", the CNG certificate "+new string('B',40)+" and its key file "+fileCngKey+".\n");
+			StringAssert.Contains(output,"Removed what the enable run that did not finish had made; my.ini and the service were not touched.");
+			Assert.IsFalse(output.Contains("RESTART"),output);
+			Assert.IsFalse(Directory.Exists(folderTls),"The opms-dev-tls folder with the journal and ca.pem is removed.");
+			Assert.AreEqual("[mysqld]\r\nport=3306\r\nbind-address=127.0.0.1\r\n",File.ReadAllText(Path.Combine(_folder,"revert","my.ini")),"my.ini is not touched.");
+		}
+
+		[TestMethod]
+		public void TestNetwork_ACertificateWhoseKeyFileWasDeletedByHand_LosesItsStoreEntryToo_WhenTheKeyIsKnown() {
+			//A store entry whose key does not open any more (its key file deleted by hand): with the key known (the record, the run's own undo), the
+			//entry goes and nothing is left; without, the entry stays and the error (and the exit-4 text) says how to find the key. Synthetic: the
+			//"store" is a variable, Get-TestKeyInfo throws as for a missing key file, the recorded key file is in the test's temporary folder and
+			//not there; nothing in a store or in the computer's key folders is touched.
+			string thumbprint=new string('C',40);
+			string output=RunDriver(new[] { "Remove-TestClientCertificate","Remove-TestKey","Get-ErrorText","ConvertFrom-KeyRecord","Undo-TestNetwork","Get-CreatedKey",
+				"Get-ManualCertificateRemoval" },new[] {
+				"$thumb = '"+thumbprint+"'",
+				"$script:inStore = $true",
+				"function Find-MachineCertificate([string]$Thumbprint) { if ($script:inStore) { [pscustomobject]@{ Thumbprint = $Thumbprint; HasPrivateKey = $true } } else { $null } }",
+				"function Get-TestKeyInfo($Certificate) { throw 'Keyset does not exist (synthetic: the key file was deleted by hand)' }",
+				"function Remove-MachineCertificate($Certificate) { Write-Host ('STORE REMOVED ' + $Certificate.Thumbprint.Substring(0, 4)); $script:inStore = $false }",
+				"$key = ConvertFrom-KeyRecord ($CngProviderName + '|dbtls-env-cng|' + (Join-Path $Folder 'cng-key-file-deleted-by-hand')) 'CNG'",
+				"'KNOWN [' + (Remove-TestClientCertificate $thumb $key) + '] in the store ' + $script:inStore",
+				"$script:inStore = $true",
+				"try { $left = Remove-TestClientCertificate $thumb $null; 'UNKNOWN not thrown [' + $left + ']' } catch { 'UNKNOWN ' + $_.Exception.Message }",
+				"'UNKNOWN in the store ' + $script:inStore",
+				"function Remove-TestFirewallRule($Name) { }",
+				"$created = [pscustomobject]@{ AdapterId = ''; FirewallRules = @(); Thumbprints = @($thumb); Keys = @(); PfxFolder = '' }",
+				"$p = Undo-TestNetwork $created '192.0.2.25'",
+				"'UNDO ' + (@($p) -join ' || ')",
+				"'MANUAL ' + (Get-ManualCertificateRemoval $thumb (Get-CreatedKey $created $thumb))",
+			});
+			output=output.Replace("\r\n","\n");
+			StringAssert.Contains(output,"STORE REMOVED CCCC\n");
+			StringAssert.Contains(output,"KNOWN [] in the store False\n","The entry is gone, and nothing is left: the key file was gone already.");
+			StringAssert.Contains(output,"UNKNOWN The key of "+thumbprint+" does not open (Keyset does not exist (synthetic: the key file was deleted by hand) [At ");
+			StringAssert.Contains(output,"and no record names its key file, so its store entry stays: certutil -store My "+thumbprint+" shows its Provider and Key Container.\n");
+			StringAssert.Contains(output,"UNKNOWN in the store True\n");
+			StringAssert.Contains(output,"UNDO the certificate "+thumbprint+" in LocalMachine\\My (with its key): The key of "+thumbprint+" does not open");
+			StringAssert.Contains(output,"MANUAL the certificate "+thumbprint+": if certutil -store My "+thumbprint+" shows it, first delete its key with certutil -csp");
+		}
+
+		[TestMethod]
+		public void TestNetwork_The32BitPowerShell_IsRefusedFirst_AndASecondEnableRunSaysItIgnoresTheAddress() {
+			string output=RunDriver(new[] { "Get-ProcessBitnessProblem","Get-IgnoredTestNetworkNote" },new[] {
+				"'BIT32 ' + (Get-ProcessBitnessProblem $true $false)",
+				"'BIT64 ' + ($null -eq (Get-ProcessBitnessProblem $true $true)) + ' ' + ($null -eq (Get-ProcessBitnessProblem $false $false))",
+				"$rec = [pscustomobject]@{ Address = '192.0.2.25' }",
+				"'NOTE none ' + @(Get-IgnoredTestNetworkNote '' $rec).Count",
+				"'NOTE norecord ' + (@(Get-IgnoredTestNetworkNote '192.0.2.30' $null) -join ' ')",
+				"'NOTE same ' + (@(Get-IgnoredTestNetworkNote '192.0.2.25' $rec) -join ' ')",
+				"'NOTE other ' + (@(Get-IgnoredTestNetworkNote '192.0.2.30' $rec) -join ' ')",
+			});
+			StringAssert.Contains(output,"BIT32 This is the 32-bit Windows PowerShell (SysWOW64) on 64-bit Windows;");
+			StringAssert.Contains(output,"BIT64 True True\r\n");
+			StringAssert.Contains(output,"NOTE none 0\r\n");
+			StringAssert.Contains(output,"NOTE norecord NOTE: -WithTestNetwork 192.0.2.30 is ignored: TLS is on without a test network (the block records none).");
+			StringAssert.Contains(output,"NOTE same NOTE: -WithTestNetwork 192.0.2.25 is ignored: the block records that test network already (its values below).\r\n");
+			StringAssert.Contains(output,"NOTE other NOTE: -WithTestNetwork 192.0.2.30 is ignored: the block records the test network 192.0.2.25 (its values below).");
+			StringAssert.Contains(output,"run -Revert first and then this script again with -WithTestNetwork 192.0.2.30.");
+			//A second enable run with the block in my.ini: TLS is on, nothing to do, and it says that it ignores the other address.
+			string outputSecond=DevDbTlsScriptTests.RunDriverIn(_folder,new[] { "Invoke-Enable","Test-HasBlock","Get-RecordedTestNetwork","ConvertFrom-TestNetworkLines",
+				"Get-TestNetworkRecordProblem","Get-TestAddressFormProblem","Get-KeyRecordProblem","ConvertFrom-KeyRecord","Get-MachineKeyFolder","Get-IgnoredTestNetworkNote",
+				"Write-TestVariables" },new[] {
+				"$script:Facts = [pscustomobject]@{ Ini = 'C:\\x\\my.ini' }",
+				"$script:IniFile = [pscustomobject]@{ Text = (\"[mysqld]`nport=3306`n\" + $MarkerBegin + \"`n\" + $RecordAddressPrefix + \"192.0.2.25`n\" + $MarkerEnd + \"`n\") }",
+				"$WithTestNetwork = '192.0.2.30'",
+				"function Assert-LocalServer { }",
+				"function Get-Paths([bool]$ForEnable) { }",
+				"Invoke-Enable",
+			},0);
+			StringAssert.Contains(outputSecond,"TLS is already on through this script");
+			StringAssert.Contains(outputSecond,"NOTE: -WithTestNetwork 192.0.2.30 is ignored: the block records the test network 192.0.2.25");
+			//The real script in the 32-bit Windows PowerShell of a 64-bit Windows: refused before anything else, even a dry run.
+			string script=TestHelpers.ReadRepoFile("tools","Enable-LocalDbTls.ps1");
+			int indexBitness=script.IndexOf("$bitnessProblem = Get-ProcessBitnessProblem ([Environment]::Is64BitOperatingSystem) ([Environment]::Is64BitProcess)",StringComparison.Ordinal);
+			int indexModes=script.IndexOf("$modes = @($RequireSecureTransport.IsPresent",StringComparison.Ordinal);
+			Assert.IsTrue(indexBitness>0 && indexModes>indexBitness,"The check comes first.");
+			string pathPowerShell32=Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Windows),"SysWOW64","WindowsPowerShell","v1.0","powershell.exe");
+			if(!Environment.Is64BitOperatingSystem || !File.Exists(pathPowerShell32)) {
+				Assert.Inconclusive("Not a 64-bit Windows with the 32-bit Windows PowerShell: the function's check above is all there is to test.");
+			}
+			Assert.AreEqual(1,DevDbTlsScriptTests.RunPowerShellWith(pathPowerShell32,DevDbTlsScriptTests.GetScriptPath(),"-DryRun",out string output32),output32);
+			StringAssert.Contains(output32,"REFUSED: This is the 32-bit Windows PowerShell (SysWOW64) on 64-bit Windows;");
+			Assert.IsFalse(output32.Contains("Service:"),"Refused before the service is looked at: "+output32);
 		}
 
 		[TestMethod]
