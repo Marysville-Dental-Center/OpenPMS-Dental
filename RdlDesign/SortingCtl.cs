@@ -98,6 +98,7 @@ namespace fyiReporting.RdlDesign
 			_DataTable = new DataTable();
 			_DataTable.Columns.Add(new DataColumn("SortExpression", typeof(string)));
 			_DataTable.Columns.Add(new DataColumn("Direction", typeof(bool)));
+			_DataTable.Columns["Direction"].DefaultValue = true;	// a new sort row is Ascending, as Apply writes it, and shows checked (CLEAN-1)
 
 			object[] rowValues = new object[2];
 			XmlNode sorts = _Draw.GetNamedChildNode(_SortingParent, "Sorting");
@@ -261,6 +262,8 @@ namespace fyiReporting.RdlDesign
 			int cr = DataGridViewSetup.GetCurrentRowIndex(dgSorting);
 			if (cr <= 0)		// already at the top
 				return;
+			if (cr >= _DataTable.Rows.Count)
+				return;			// the new row at the end, which has no row in the table yet (CLEAN-1)
 			
 			SwapRow(_DataTable.Rows[cr-1], _DataTable.Rows[cr]);
 			DataGridViewSetup.SetCurrentRowIndex(dgSorting, cr-1);
@@ -284,14 +287,10 @@ namespace fyiReporting.RdlDesign
 			object save = tdr[0];
 			tdr[0] = fdr[0];
 			fdr[0] = save;
-			// column 2
+			// column 2 (the table has two columns: a third swap threw, so Up and Down failed; CLEAN-1)
 			save = tdr[1];
 			tdr[1] = fdr[1];
 			fdr[1] = save;
-			// column 3
-			save = tdr[2];
-			tdr[2] = fdr[2];
-			fdr[2] = save;
 			return;
 		}
 
