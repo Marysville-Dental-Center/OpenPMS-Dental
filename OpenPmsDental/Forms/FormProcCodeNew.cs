@@ -58,8 +58,8 @@ namespace OpenPmsDental{
 				comboTreatArea.Visible=false;
 			}
 			listType.SelectedIndex=0;
-			//Every paint type but TextBelow (26.2), which the tooth chart does not draw yet (owner decision of 2026-11-07). The list's index is the
-			//paint type's number (SelectedIndex is cast to ToothPaintingType below); TextBelow is the last value, so leaving it out keeps that true.
+			//Every paint type, TextBelow (26.2) included since the tooth chart draws it (TC-5). The list's index is the paint type's number
+			//(SelectedIndex is cast to ToothPaintingType below): the values are 0 to 18 with no gap, and TextBelow is the last (PaintTypeListTests).
 			List<ToothPaintingType> listPaintTypes=ProcedureCodes.GetPaintTypesForList();
 			for(int i=0;i<listPaintTypes.Count;i++) {
 				comboPaintType.Items.Add(listPaintTypes[i].ToString());
