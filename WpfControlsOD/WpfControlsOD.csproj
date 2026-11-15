@@ -32,10 +32,6 @@
       <HintPath>..\Required dlls\Interop.CDRDicom.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
-    <Reference Include="Interop.QBFC10">
-      <HintPath>..\Required dlls\Interop.QBFC10.dll</HintPath>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </Reference>
     <Reference Include="Microsoft.VisualBasic" />
     <!-- The WebView2 SDK, the version of Directory.Packages.props (UI\Controls\WebView2.xaml). Its build files are left out
          (ExcludeAssets="build"): in a library they would only copy the native WebView2Loader.dll into this output folder and every one that
@@ -80,6 +76,11 @@
   <ItemGroup>
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
+    </Compile>
+    <!-- The commands of the 32-bit helper's QuickBooks Desktop module (S3a-13 of the .NET 10 move), compiled into the helper and into this
+         assembly, so Bridges\QuickBooks.cs and the module name them alike. Its type is internal. -->
+    <Compile Include="..\OpenPmsDentalHelper32\QuickBooks\QuickBooksCommands.cs">
+      <Link>Bridges\QuickBooksCommands.cs</Link>
     </Compile>
     <!-- The code-behind of each window and control belongs to its .xaml file (Frms\FrmAccountEdit.xaml.cs to FrmAccountEdit.xaml). -->
     <Compile Update="**\*.xaml.cs" DependentUpon="%(Filename)" />

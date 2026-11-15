@@ -1,0 +1,43 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- Tests of the 32-bit helper program (S3a-13 of the .NET 10 move, docs/port-notes/S3a-13.md, section 8): the protocol with a fake module
+       (start, call, reply, error, a crash during a call, timeout, a missing helper, no helper left after the program's process ends, one helper
+       per program process, the pipe's security), and the QuickBooks module against a fake of the QBFC session interfaces that records each
+       call. No test opens a QuickBooks session or creates a real QBFC object; every helper a test starts is a copy of the helper in this
+       folder, ended and deleted by the test. S3a-14 adds the tests of the Schick, Topaz and Guru modules here. Every .cs file under this
+       folder is compiled. -->
+  <ItemGroup>
+    <!--
+      QuickBooks Desktop's QBFC 10 interop ("Required dlls"), not embedded here: QuickBooksModule.cs (linked below) is compiled against its
+      types, and the fake session (QbfcFake.cs) implements them. Copied into this test folder only; the helper embeds the types it uses and
+      nothing ships the file.
+    -->
+    <Reference Include="Interop.QBFC10">
+      <HintPath>..\..\Required dlls\Interop.QBFC10.dll</HintPath>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <!-- The protocol, the module interface and the QuickBooks module, compiled as the helper compiles them: the module runs in the test's
+         process against the fake session; the protocol's framing is tested on a memory stream. -->
+    <Compile Include="..\..\OpenPmsDentalHelper32\Helper32Protocol.cs">
+      <Link>Linked\Helper32Protocol.cs</Link>
+    </Compile>
+    <Compile Include="..\..\OpenPmsDentalHelper32\IHelper32Module.cs">
+      <Link>Linked\IHelper32Module.cs</Link>
+    </Compile>
+    <Compile Include="..\..\OpenPmsDentalHelper32\QuickBooks\QuickBooksCommands.cs">
+      <Link>Linked\QuickBooksCommands.cs</Link>
+    </Compile>
+    <Compile Include="..\..\OpenPmsDentalHelper32\QuickBooks\QuickBooksModule.cs">
+      <Link>Linked\QuickBooksModule.cs</Link>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <!-- Helper32Client, the program's side. -->
+    <ProjectReference Include="..\..\CodeBase\xCodeBase.csproj" />
+    <!-- The helper: OpenPmsDentalHelper32.exe and its .exe.config land in this folder, where each test copies it under a name of its own. -->
+    <ProjectReference Include="..\..\OpenPmsDentalHelper32\OpenPmsDentalHelper32.csproj" />
+    <!-- The program processes of the tests that end a program (a TestProbeHost child that starts its own helper). -->
+    <ProjectReference Include="..\TestProbeHost\TestProbeHost.csproj" />
+  </ItemGroup>
+</Project>
