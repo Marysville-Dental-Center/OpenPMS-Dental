@@ -1,0 +1,7 @@
+# The Win32 resources of every .exe that tools\Build-Release.ps1 stages, recorded from the net48 Release build by
+# ApphostResourceTests with OPMS_APPHOST_RECORD=1 (S3a-10, docs/port-notes/S3a-10.md). Stage 3b's apphosts must carry the same.
+# file|requestedExecutionLevel|uiAccess|FileVersion|ProductVersion|SHA-256 of each RT_GROUP_ICON as an .ico file
+OpenPmsDental.exe|asInvoker|false|24.3.63.0|0.0|a4b5034e149d647f06f89112d9e338fe548a60bb0cf8b418a3b6907c9334167e
+OpenPmsDentalDbSettings.exe|requireAdministrator|false|24.3.63.0|0.0|a4b5034e149d647f06f89112d9e338fe548a60bb0cf8b418a3b6907c9334167e
+ServiceManager.exe|requireAdministrator|false|15.4.1.0|0.0|a4b5034e149d647f06f89112d9e338fe548a60bb0cf8b418a3b6907c9334167e
+UpdateFileCopier.exe|requireAdministrator|false|13.1.0.0|0.0|a4b5034e149d647f06f89112d9e338fe548a60bb0cf8b418a3b6907c9334167e

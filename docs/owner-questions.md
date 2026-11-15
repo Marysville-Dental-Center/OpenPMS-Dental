@@ -936,6 +936,22 @@ and E-10b), where each is set out in full with its recommendation. You first ans
 
 ---
 
+## Open questions (2026-11-15)
+
+- **Gallery G3: the graphical perio chart (TC-7, branch `chart/tc7-1`, both reviews pass).** TC-7 merges when you approve the gallery.
+- **The 837 claim sender when a clearinghouse has no Sender TIN.** `X12Generator.GetISA06` and `GetGS02` write Open Dental Inc's TIN
+  (810624427) as the sender of the claim batch when the clearinghouse's Sender TIN is blank (upstream's behaviour). For this fork that names
+  a company the office has no agreement with. Recommended: refuse to build the batch while the Sender TIN is blank, with a message that
+  points to Setup > Clearinghouses. The other choice is to use the practice's own TIN. Until you decide, the code is as upstream.
+- **A damaged release manifest** (S3a-10, [port-notes/S3a-10.md](port-notes/S3a-10.md) section 8). Every workstation now refuses to publish
+  over a manifest it cannot read. If the row were ever really damaged, someone would delete the `documentmisc` rows of types 100 and 101 on
+  the database by hand. Should Recopy on the named update server offer that, after a confirmation?
+- **The program after an elevated self-update** (S3a-10 section 8). After an over-the-shoulder elevation, the restarted program runs as the
+  account that gave the rights. Keep that, or should 3b start it without those rights?
+- **For your information, no answer needed (S3a-7):** ServiceManager now installs every program it offers with the HL7 service's
+  settings, Open Dental's own service programs included: own process, automatic start, LocalSystem, display name = service name. InstallUtil
+  used to refuse a program that had no installer of its own.
+
 ## Not asked again (already settled)
 
 - How package migration levels are numbered (B-ACCT 2, B-PRINT 1, B-SHELL 6, M2-EST 1, M2-UDS 1, V-BRIDGE1 2, V-PEARL2 1, M2-SHELL's old question 4): decided on 2026-11-01 and done: the package steps now have dated levels 2026110101 to 2026110104, and new steps always go above the highest one.

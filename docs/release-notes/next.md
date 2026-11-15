@@ -48,6 +48,8 @@ What this version brings, each in its section below (the roadmap's "Done in the 
     data is sent without a business associate agreement with Glidewell.
 - the Meaningful Use measures window of EHR (Measure Calc) working again, rebuilt as open code, for internal review only;
 - saved Middle Tier passwords move from the Windows PasswordVault to the Windows Credential Manager on first use; nothing to re-enter;
+- the self-update gets ready for the coming 64-bit version: it never publishes over a release it cannot read, and refuses a release built
+  for another runtime with a message to run the new setup;
 - two new entries in Help > About > View Licenses, Helix Toolkit and the .NET Community Toolkit: libraries for the coming 3D tooth chart,
   installed with the program from this version on (the tooth chart itself does not change yet);
 - the tooth chart: completed extractions shown with an X, on by default as in Open Dental 26.2, the paint type TextBelow (Open Dental
@@ -381,6 +383,16 @@ they are, also from SFTP storage.
 ## Claim files: a period in every amount
 
 Claim files (X12 837) and RAMQ amounts now use a period as the decimal separator in every regional setting; before, a regional setting with a decimal comma (such as French (Canada)) wrote a comma there, which neither format allows. With a period, as on every English Windows, the files are byte for byte as before.
+
+## Self-update: ready for the 64-bit version
+
+This version must run on every workstation, the update server first, before the coming 64-bit version is installed anywhere. A workstation
+no longer treats a published release it cannot read as "nothing published": it neither updates from it nor publishes over it, and at
+startup it shows "The published release manifest is not readable" (or "is for another product") with what to do, then starts as usual. A
+release built for another runtime or architecture, such as the 64-bit version, which carries its own .NET runtime, is refused the same
+way with "This workstation cannot update itself to that release: run the new setup on it." Update Setup's Recopy refuses both cases too.
+The update itself works as before: UpdateFileCopier now runs from its own temp folder (`%TEMP%\openpms-dental\ForkReleaseCopier`), and
+Windows still asks for administrator consent before it copies the files.
 
 ## Switch-over: Insurance History leaves the frequency code groups alone
 
