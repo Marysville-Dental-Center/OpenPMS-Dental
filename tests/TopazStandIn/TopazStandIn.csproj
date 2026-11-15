@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- A synthetic stand-in for the Topaz signature pad's control (S3a-8b of the .NET 10 move, docs/port-notes/S3a-8b.md), never Topaz's file:
+       the class Topaz.SigPlusNET with the public methods TopazWrapper calls, each call recorded. BINBTests' TopazWrapperTests copy it into a
+       search folder as SigPlusNET.dll under that assembly name (Mono.Cecil), as the program finds Topaz's own file. It was compiled at run
+       time with the .NET Framework's C# compiler before, which .NET does not have. Its own name is TopazStandIn, so no build output holds a
+       SigPlusNET.dll (BINBTests' RemovedBinariesTests). Not a test project: its name does not end with Tests, so the test runner never runs it
+       and Directory.Build.targets gives it no shared test config. Every .cs file under this folder is compiled. -->
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Topaz</RootNamespace>
+    <AssemblyName>TopazStandIn</AssemblyName>
+  </PropertyGroup>
+  <ItemGroup>
+    <!-- No test framework: tests\Directory.Build.props gives every project under tests\ the three MSTest 4 packages. -->
+    <PackageReference Remove="MSTest.TestFramework" />
+    <PackageReference Remove="MSTest.TestAdapter" />
+    <PackageReference Remove="Microsoft.NET.Test.Sdk" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System.Windows.Forms" />
+  </ItemGroup>
+</Project>

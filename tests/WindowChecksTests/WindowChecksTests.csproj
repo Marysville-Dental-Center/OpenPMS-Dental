@@ -15,6 +15,10 @@
     <Reference Include="UIAutomationTypes" />
     <Reference Include="WindowsBase" />
     <Reference Include="WindowsFormsIntegration" />
+    <!-- Reads a built assembly's identity and attributes without loading it (AssemblyProbe; S3a-8b of the .NET 10 move: .NET has no
+         reflection-only load). The NuGet package, from the offline package folder (nuget.config), at the version of
+         Directory.Packages.props. -->
+    <PackageReference Include="Mono.Cecil" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\CodeBase\xCodeBase.csproj" />
@@ -24,5 +28,7 @@
          own output folder are never loaded there (the AppDomain probes its own base first). -->
     <ProjectReference Include="..\..\OpenPmsDental\OpenPmsDental.csproj" />
     <ProjectReference Include="..\..\WpfControlsOD\WpfControlsOD.csproj" />
+    <!-- The process of an in-process session (TestProbeHost, S3a-8b of the .NET 10 move: .NET has no new AppDomain). -->
+    <ProjectReference Include="..\TestProbeHost\TestProbeHost.csproj" />
   </ItemGroup>
 </Project>

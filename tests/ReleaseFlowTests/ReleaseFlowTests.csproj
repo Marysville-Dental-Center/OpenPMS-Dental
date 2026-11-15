@@ -5,6 +5,9 @@
   <ItemGroup>
     <Reference Include="System.Configuration.Install" />
     <Reference Include="System.IO.Compression" />
+    <!-- Reads which assemblies of the program folder the Helix load needs, without loading them (S3a-8b of the .NET 10 move). The NuGet
+         package, from the offline package folder (nuget.config), at the version of Directory.Packages.props. -->
+    <PackageReference Include="Mono.Cecil" />
   </ItemGroup>
   <ItemGroup>
     <!-- The reader of project files (classic and SDK-style) shared by the tests that check them (S1-T of docs/specs/net10-plan.md). -->
@@ -29,5 +32,8 @@
     <ProjectReference Include="..\..\CodeBase\xCodeBase.csproj" />
     <ProjectReference Include="..\..\DataConnectionBase\xDataConnectionBase.csproj" />
     <ProjectReference Include="..\..\OpenPmsDentalBusiness\OpenPmsDentalBusiness.csproj" />
+    <!-- The child process of the Helix load from the program's files and of ProbeProcess's own tests (TestProbeHost, S3a-8b of the .NET 10
+         move: .NET has no new AppDomain). -->
+    <ProjectReference Include="..\TestProbeHost\TestProbeHost.csproj" />
   </ItemGroup>
 </Project>

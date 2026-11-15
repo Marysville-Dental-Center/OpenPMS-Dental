@@ -18,5 +18,7 @@
     <ProjectReference Include="..\..\DataConnectionBase\xDataConnectionBase.csproj" />
     <ProjectReference Include="..\..\OpenPmsDentalBusiness\OpenPmsDentalBusiness.csproj" />
     <ProjectReference Include="..\..\UnitTestsCore\UnitTestsCore.csproj" />
+    <!-- The fresh process of the host seam tests (TestProbeHost, S3a-8b of the .NET 10 move: .NET has no new AppDomain). -->
+    <ProjectReference Include="..\TestProbeHost\TestProbeHost.csproj" />
   </ItemGroup>
 </Project>

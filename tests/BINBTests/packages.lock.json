@@ -201,6 +201,9 @@
           "System.Memory": "[4.6.3, )"
         }
       },
+      "topazstandin": {
+        "type": "Project"
+      },
       "BouncyCastle.Cryptography": {
         "type": "CentralTransitive",
         "requested": "[2.7.0, )",

@@ -11,6 +11,12 @@
           "Microsoft.CodeCoverage": "18.12.0"
         }
       },
+      "Mono.Cecil": {
+        "type": "Direct",
+        "requested": "[0.10.3, )",
+        "resolved": "0.10.3",
+        "contentHash": "sE0q+bj5YC3X9FuFCXv0R0suoldVGXiuUls8mtXuBwDw1LeQ39pOKFyrDiEkoxCh4tNHH/luNB6DgZZnMZlEeA=="
+      },
       "MSTest.TestAdapter": {
         "type": "Direct",
         "requested": "[4.5.3, )",
@@ -458,6 +464,9 @@
           "HelixToolkit.Wpf": "[3.1.2, )",
           "OpenPmsDentalBusiness": "[1.0.0, )"
         }
+      },
+      "testprobehost": {
+        "type": "Project"
       },
       "wecantspell.hunspell": {
         "type": "Project",
