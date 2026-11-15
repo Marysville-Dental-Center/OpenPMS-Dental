@@ -76,7 +76,7 @@ namespace DbConnectionSecurityTests {
 		}
 
 		///<summary>RunDriver in the given temporary folder (also for DevDbTlsTestNetworkTests). The script-level settings include the test
-		///network's ($Record*Prefix, $TestAdapter*, $Firewall*, $*ProviderName, $TestClient*Name, $PfxFolderName).</summary>
+		///network's ($Record*Prefix, $TestAdapter*, $Firewall*, $*ProviderName, $CapiProviderType, $TestClient*Name, $PfxFolderName).</summary>
 		internal static string RunDriverIn(string folder,string[] arrayFunctions,string[] arrayBody) {
 			string driver=Path.Combine(folder,"driver-"+Guid.NewGuid().ToString("N").Substring(0,8)+".ps1");
 			List<string> listLines=new List<string> {
@@ -87,7 +87,7 @@ namespace DbConnectionSecurityTests {
 				"foreach ($f in $ast.FindAll({ param($a) $a -is [System.Management.Automation.Language.FunctionDefinitionAst] -and $names -contains $a.Name }, $true)) {",
 				"  . ([scriptblock]::Create($f.Extent.Text))",
 				"}",
-				"foreach ($v in $ast.FindAll({ param($a) $a -is [System.Management.Automation.Language.AssignmentStatementAst] -and $a.Left.Extent.Text -match '^\\$(Marker(Begin|End)|Record(Dev|Client|Parent|Address|Adapter|Firewall|Capi|Cng)Prefix|(App|Dev|Client|Tls|Pfx)FolderName|(Backup|IniTemp)Suffix|TestAdapter(Name|HardwareId)|Firewall(Group|AllowName|BlockName)|(Capi|Cng)ProviderName|TestClient(Capi|Cng)Name)$' }, $false)) {",
+				"foreach ($v in $ast.FindAll({ param($a) $a -is [System.Management.Automation.Language.AssignmentStatementAst] -and $a.Left.Extent.Text -match '^\\$(Marker(Begin|End)|Record(Dev|Client|Parent|Address|Adapter|Firewall|Capi|Cng|CapiKey|CngKey)Prefix|(App|Dev|Client|Tls|Pfx)FolderName|(Backup|IniTemp)Suffix|TestAdapter(Name|HardwareId)|Firewall(Group|AllowName|BlockName)|(Capi|Cng)ProviderName|CapiProviderType|TestClient(Capi|Cng)Name)$' }, $false)) {",
 				"  . ([scriptblock]::Create($v.Extent.Text))",
 				"}",
 				"function Stop-Refused([string]$Message) { throw ('REFUSED: ' + $Message) }",

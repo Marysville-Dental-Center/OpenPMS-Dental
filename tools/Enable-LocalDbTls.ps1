@@ -189,6 +189,10 @@ $RecordAdapterPrefix = '# test-adapter='
 $RecordFirewallPrefix = '# test-firewall-rule='
 $RecordCapiPrefix = '# test-client-capi='
 $RecordCngPrefix = '# test-client-cng='
+# Where each test client certificate's key is (<provider>|<container>|<key file>), recorded as the import made it, so that -Revert finds
+# and deletes a key whose certificate is gone already (a store entry deleted by hand leaves its key file, with BUILTIN\Users' read access).
+$RecordCapiKeyPrefix = '# test-client-capi-key='
+$RecordCngKeyPrefix = '# test-client-cng-key='
 $TestAdapterName = 'OPMS DB TLS test'
 $TestAdapterHardwareId = '*MSLOOP'
 $FirewallGroup = 'Open PMS - Dental local test TLS'
@@ -196,6 +200,8 @@ $FirewallAllowName = 'OpenPmsDental-DbTlsTest-Allow3306'
 $FirewallBlockName = 'OpenPmsDental-DbTlsTest-Block3306'
 $CapiProviderName = 'Microsoft Enhanced RSA and AES Cryptographic Provider'
 $CngProviderName = 'Microsoft Software Key Storage Provider'
+# PROV_RSA_AES, the type of $CapiProviderName (CspParameters needs it to open a recorded CAPI container).
+$CapiProviderType = 24
 $TestClientCapiName = 'opms-dbtls-test-client-capi'
 $TestClientCngName = 'opms-dbtls-test-client-cng'
 # The .pfx files of the two test client certificates live here (inside the opms-dev-tls folder, Administrators only) until their import.
@@ -1043,7 +1049,7 @@ function Get-RecordedTestNetwork([string]$Text) {
 	if (-not $block.Success) {
 		return $null
 	}
-	$record = [pscustomobject]@{ Address = $null; AdapterId = ''; FirewallRules = @(); CapiThumbprint = ''; CngThumbprint = '' }
+	$record = [pscustomobject]@{ Address = $null; AdapterId = ''; FirewallRules = @(); CapiThumbprint = ''; CngThumbprint = ''; CapiKey = ''; CngKey = '' }
 	foreach ($rawLine in ($block.Value -split "`n")) {
 		$line = $rawLine.Trim()
 		if ($line.StartsWith($RecordAddressPrefix)) {
@@ -1061,6 +1067,12 @@ function Get-RecordedTestNetwork([string]$Text) {
 		elseif ($line.StartsWith($RecordCngPrefix)) {
 			$record.CngThumbprint = $line.Substring($RecordCngPrefix.Length).Trim()
 		}
+		elseif ($line.StartsWith($RecordCapiKeyPrefix)) {
+			$record.CapiKey = $line.Substring($RecordCapiKeyPrefix.Length).Trim()
+		}
+		elseif ($line.StartsWith($RecordCngKeyPrefix)) {
+			$record.CngKey = $line.Substring($RecordCngKeyPrefix.Length).Trim()
+		}
 	}
 	if ($null -eq $record.Address) {
 		return $null
@@ -1069,8 +1081,9 @@ function Get-RecordedTestNetwork([string]$Text) {
 }
 
 # Why a recorded test network ($Record, from Get-RecordedTestNetwork) cannot be one an enable run wrote, or $null when it can: an address of
-# 192.0.2.0/24, a root-enumerated network device (ROOT\NET\nnnn), only this script's firewall rule names, and two thumbprints. -Revert
-# removes exactly what the record names, so a record of anything else came from somewhere else and is never acted on.
+# 192.0.2.0/24, a root-enumerated network device (ROOT\NET\nnnn), only this script's firewall rule names, two thumbprints, and two keys, each
+# in this script's provider of its kind with its file in the computer's key folder of that kind (Get-KeyRecordProblem). -Revert removes
+# exactly what the record names, so a record of anything else came from somewhere else and is never acted on.
 function Get-TestNetworkRecordProblem($Record) {
 	if ($null -ne (Get-TestAddressFormProblem $Record.Address)) {
 		return "my.ini records the test address $($Record.Address), which is not a host address of 192.0.2.0/24."
@@ -1087,6 +1100,70 @@ function Get-TestNetworkRecordProblem($Record) {
 		if ([string]$thumbprint -notmatch '^[0-9A-F]{40}$') {
 			return "my.ini records the test client certificate '$thumbprint', which is not a thumbprint (40 hex digits)."
 		}
+	}
+	foreach ($item in @(@('CAPI', $Record.CapiKey), @('CNG', $Record.CngKey))) {
+		$keyProblem = Get-KeyRecordProblem ([string]$item[1]) $item[0]
+		if ($null -ne $keyProblem) {
+			return $keyProblem
+		}
+	}
+	return $null
+}
+
+# The computer's folder of the key files of a kind: CAPI's RSA\MachineKeys or CNG's Keys under %ProgramData%\Microsoft\Crypto.
+function Get-MachineKeyFolder([string]$Kind) {
+	if ($Kind -eq 'CAPI') {
+		return Join-Path $env:ProgramData 'Microsoft\Crypto\RSA\MachineKeys'
+	}
+	return Join-Path $env:ProgramData 'Microsoft\Crypto\Keys'
+}
+
+# The record line's value for a test client certificate's key ($Info from Get-TestKeyInfo): <provider>|<container>|<key file>, the file with
+# forward slashes as the folders are recorded.
+function ConvertTo-KeyRecord($Info) {
+	return "$($Info.Provider)|$($Info.Container)|$(([string]$Info.File).Replace('\', '/'))"
+}
+
+# A recorded key (<provider>|<container>|<key file>) of a kind as Kind, Provider, ProviderType, Container and File, or $null when it is empty
+# or not three parts.
+function ConvertFrom-KeyRecord([string]$Text, [string]$Kind) {
+	if ([string]::IsNullOrWhiteSpace($Text)) {
+		return $null
+	}
+	$parts = @($Text.Split('|'))
+	if ($parts.Count -ne 3) {
+		return $null
+	}
+	$type = 0
+	if ($Kind -eq 'CAPI') {
+		$type = $CapiProviderType
+	}
+	return [pscustomobject]@{ Kind = $Kind; Provider = $parts[0].Trim(); ProviderType = $type; Container = $parts[1].Trim(); File = $parts[2].Trim().Replace('/', '\') }
+}
+
+# Why a recorded key ($Text, of the kind CAPI or CNG) cannot be one this script's import recorded, or $null: this script's provider of that
+# kind, a container name, and a file directly in the computer's key folder of that kind (Get-MachineKeyFolder).
+function Get-KeyRecordProblem([string]$Text, [string]$Kind) {
+	$label = "my.ini records the key of the $Kind test client certificate as '$Text'"
+	$key = ConvertFrom-KeyRecord $Text $Kind
+	if ($null -eq $key) {
+		return "$label, which is not <provider>|<container>|<key file>."
+	}
+	$provider = $CngProviderName
+	if ($Kind -eq 'CAPI') {
+		$provider = $CapiProviderName
+	}
+	if ($key.Provider -ne $provider) {
+		return "$label, whose provider is not '$provider'."
+	}
+	if ($key.Container -notmatch '^[^|\\/\x00-\x1f]+$') {
+		return "$label, whose container name is empty or has a path in it."
+	}
+	$folder = Get-MachineKeyFolder $Kind
+	$leaf = Split-Path -Leaf $key.File
+	$parent = Split-Path -Parent $key.File
+	if ($leaf -notmatch '^[0-9A-Za-z_-]+$' -or -not [string]::Equals(([string]$parent).TrimEnd('\'), $folder.TrimEnd('\'), [System.StringComparison]::OrdinalIgnoreCase)) {
+		return "$label, whose key file is not a file in $folder."
 	}
 	return $null
 }
@@ -1183,7 +1260,8 @@ function Get-TestNetworkEnablePlan([string]$Address, [string]$HostName, $Facts, 
 	$lines += "     and import them with certutil into LocalMachine\My, not exportable: the first with its key in '$CapiProviderName'"
 	$lines += "     (CAPI), the second in '$CngProviderName' (CNG). The .pfx files are deleted after the import."
 	$lines += '     [key-access] Give BUILTIN\Users read access to both key files, as the connection settings tool gives (ClientCertificateStore),'
-	$lines += '     so that the lead''s unelevated test run can use them. -Revert deletes both certificates with their keys.'
+	$lines += '     so that the lead''s unelevated test run can use them. The block records each key''s provider, container and file;'
+	$lines += '     -Revert deletes both certificates with their keys, and a recorded key whose certificate is gone already.'
 	$lines += "     [server-certificate] The server certificate of step 1 also names $Address and this computer's host name $HostName."
 	$lines += "     [bind-address] The block in my.ini (next step) ends with bind-address=127.0.0.1,$Address, so the server listens there too."
 	return $lines
@@ -1191,7 +1269,7 @@ function Get-TestNetworkEnablePlan([string]$Address, [string]$HostName, $Facts, 
 
 # What is there now of a recorded test network ($Record), read without elevation and without opening a key: the adapter (its hardware ids,
 # its IPv4 addresses), each recorded firewall rule (its group), each recorded certificate in LocalMachine\My (its subject, and whether the
-# CA in $CaPath issued it).
+# CA in $CaPath issued it) and its recorded key (whether the key file is there; a store entry deleted by hand leaves it).
 function Get-TestNetworkState($Record, [string]$CaPath) {
 	$adapter = [pscustomobject]@{ Exists = $false; HardwareIds = @(); Addresses = @() }
 	$device = @(Get-PnpDevice -InstanceId $Record.AdapterId -ErrorAction SilentlyContinue)
@@ -1219,9 +1297,14 @@ function Get-TestNetworkState($Record, [string]$CaPath) {
 		$ca = Read-PemCertificate $CaPath
 	}
 	$certificates = @()
-	foreach ($item in @(@('CAPI', $Record.CapiThumbprint, $TestClientCapiName), @('CNG', $Record.CngThumbprint, $TestClientCngName))) {
+	foreach ($item in @(@('CAPI', $Record.CapiThumbprint, $TestClientCapiName, $Record.CapiKey), @('CNG', $Record.CngThumbprint, $TestClientCngName, $Record.CngKey))) {
 		$certificate = Find-MachineCertificate $item[1]
-		$state = [pscustomobject]@{ Kind = $item[0]; Thumbprint = $item[1]; Name = $item[2]; Exists = $false; Subject = ''; IssuedByCa = $false }
+		$key = ConvertFrom-KeyRecord ([string]$item[3]) $item[0]
+		$state = [pscustomobject]@{ Kind = $item[0]; Thumbprint = $item[1]; Name = $item[2]; Exists = $false; Subject = ''; IssuedByCa = $false
+			Key = $key; KeyExists = $false }
+		if ($null -ne $key) {
+			$state.KeyExists = Test-Path -LiteralPath $key.File -PathType Leaf
+		}
 		if ($null -ne $certificate) {
 			$state.Exists = $true
 			$state.Subject = $certificate.Subject
@@ -1271,16 +1354,27 @@ function Get-TestNetworkRevertPlan($Record, $State) {
 		$lines += "#. [firewall] The firewall rules $(@($Record.FirewallRules) -join ' and ') are not there any more: nothing to remove."
 	}
 	foreach ($certificate in @($State.Certificates)) {
+		$key = $certificate.Key
+		if ($null -eq $key) {
+			# Get-TestNetworkRecordProblem refuses a record without the key, so this is a state that names none.
+			$key = [pscustomobject]@{ Kind = $certificate.Kind; Provider = ''; ProviderType = 0; Container = ''; File = '<not recorded>' }
+		}
 		if ($certificate.Exists) {
 			$lines += "#. [client-certificates] Remove $($certificate.Subject) ($($certificate.Thumbprint), its key in a $($certificate.Kind) provider) from"
-			$lines += '     LocalMachine\My, and delete its key first.'
+			$lines += "     LocalMachine\My, and delete its key first (the recorded file $($key.File))."
+		}
+		elseif ($certificate.KeyExists) {
+			$lines += "#. [client-certificates] The $($certificate.Kind) certificate $($certificate.Thumbprint) is not in LocalMachine\My any more, but its key"
+			$lines += "     file $($key.File) is still there (BUILTIN\Users can read it): delete that key (the container $($key.Container)"
+			$lines += "     in '$($key.Provider)', once it opens as that very file) and check that the file is gone."
 		}
 		else {
-			$lines += "#. [client-certificates] The $($certificate.Kind) certificate $($certificate.Thumbprint) is not in LocalMachine\My any more: nothing to remove."
+			$lines += "#. [client-certificates] The $($certificate.Kind) certificate $($certificate.Thumbprint) is not in LocalMachine\My any more, and its key"
+			$lines += "     file $($key.File) is gone too: nothing to remove."
 		}
 	}
-	$lines += '     [key-access] With the keys their files go, BUILTIN\Users'' read access with them: the run checks that each key file is gone,'
-	$lines += '     so no key that the users can read is left behind.'
+	$lines += '     [key-access] With the keys their files go, BUILTIN\Users'' read access with them: the run checks that each recorded key file is'
+	$lines += '     gone, so no key that the users can read is left behind.'
 	if ($State.Adapter.Exists) {
 		$lines += "#. [adapter] Remove the loopback adapter $($Record.AdapterId) ('$TestAdapterName') and check that it is gone."
 		$others = @($State.Adapter.Addresses | Where-Object { $_ -ne $Record.Address })
@@ -1639,45 +1733,84 @@ function Import-TestClientCertificate([string]$PfxPath, [string]$Password, [stri
 	return $info
 }
 
-# Removes a test client certificate from LocalMachine\My with its key: the key first (CAPI: its container through the CSP; CNG: CngKey.Delete),
-# then the store entry, then checks that both are gone. '' when gone (or it was not there), else what is left.
-function Remove-TestClientCertificate([string]$Thumbprint) {
+# Deletes one key of the computer's key set ($Key: Kind, Provider, ProviderType, Container, File, from Get-TestKeyInfo or the record):
+# CAPI through the CSP (UseMachineKeyStore, UseExistingKey, PersistKeyInCsp off, Clear), CNG with CngKey.Delete. The container must open as
+# that very file (its unique name is the file's name), else nothing is deleted. Nothing to do when the file is gone already.
+function Remove-TestKey($Key) {
+	if (-not (Test-Path -LiteralPath $Key.File)) {
+		return
+	}
+	$leaf = Split-Path -Leaf $Key.File
+	if ($Key.Kind -eq 'CAPI') {
+		$parameters = New-Object System.Security.Cryptography.CspParameters($Key.ProviderType, $Key.Provider, $Key.Container)
+		$parameters.Flags = [System.Security.Cryptography.CspProviderFlags]::UseMachineKeyStore -bor [System.Security.Cryptography.CspProviderFlags]::UseExistingKey
+		$csp = New-Object System.Security.Cryptography.RSACryptoServiceProvider($parameters)
+		$unique = [string]$csp.CspKeyContainerInfo.UniqueKeyContainerName
+		if ($unique -ne $leaf) {
+			# PersistKeyInCsp stays on (a named container), so Dispose keeps the key.
+			$csp.Dispose()
+			throw "The key container $($Key.Container) in '$($Key.Provider)' is the file $unique, not the recorded $($Key.File); it is not deleted."
+		}
+		$csp.PersistKeyInCsp = $false
+		$csp.Clear()
+	}
+	else {
+		$cngKey = [System.Security.Cryptography.CngKey]::Open($Key.Container, (New-Object System.Security.Cryptography.CngProvider($Key.Provider)), [System.Security.Cryptography.CngKeyOpenOptions]::MachineKey)
+		$unique = [string]$cngKey.UniqueName
+		if ($unique -ne $leaf) {
+			$cngKey.Dispose()
+			throw "The key $($Key.Container) in '$($Key.Provider)' is the file $unique, not the recorded $($Key.File); it is not deleted."
+		}
+		$cngKey.Delete()
+	}
+}
+
+# Removes a test client certificate from LocalMachine\My with its key: the key first (Remove-TestKey), then the store entry, then checks that
+# both are gone. $RecordedKey (the record's, from ConvertFrom-KeyRecord, or $null) is deleted too when its file is still there, also when the
+# certificate is gone already (a store entry deleted by hand, certlm.msc or certutil -delstore, leaves its key file and the users' read
+# access to it). '' when everything is gone (or was not there), else what is left.
+function Remove-TestClientCertificate([string]$Thumbprint, $RecordedKey) {
 	$certificate = Find-MachineCertificate $Thumbprint
-	if ($null -eq $certificate) {
-		return ''
-	}
-	$file = ''
-	if ($certificate.HasPrivateKey) {
-		$info = Get-TestKeyInfo $certificate
-		$file = $info.File
-		if ($info.Kind -eq 'CAPI') {
-			$parameters = New-Object System.Security.Cryptography.CspParameters($info.ProviderType, $info.Provider, $info.Container)
-			$parameters.Flags = [System.Security.Cryptography.CspProviderFlags]::UseMachineKeyStore -bor [System.Security.Cryptography.CspProviderFlags]::UseExistingKey
-			$csp = New-Object System.Security.Cryptography.RSACryptoServiceProvider($parameters)
-			$csp.PersistKeyInCsp = $false
-			$csp.Clear()
+	$files = @()
+	if ($null -ne $certificate) {
+		if ($certificate.HasPrivateKey) {
+			$info = Get-TestKeyInfo $certificate
+			$files += $info.File
+			Remove-TestKey $info
 		}
-		else {
-			$key = [System.Security.Cryptography.CngKey]::Open($info.Container, (New-Object System.Security.Cryptography.CngProvider($info.Provider)), [System.Security.Cryptography.CngKeyOpenOptions]::MachineKey)
-			$key.Delete()
+		$store = New-Object System.Security.Cryptography.X509Certificates.X509Store('My', [System.Security.Cryptography.X509Certificates.StoreLocation]::LocalMachine)
+		$store.Open([System.Security.Cryptography.X509Certificates.OpenFlags]::ReadWrite -bor [System.Security.Cryptography.X509Certificates.OpenFlags]::OpenExistingOnly)
+		try {
+			$store.Remove($certificate)
+		}
+		finally {
+			$store.Close()
 		}
 	}
-	$store = New-Object System.Security.Cryptography.X509Certificates.X509Store('My', [System.Security.Cryptography.X509Certificates.StoreLocation]::LocalMachine)
-	$store.Open([System.Security.Cryptography.X509Certificates.OpenFlags]::ReadWrite -bor [System.Security.Cryptography.X509Certificates.OpenFlags]::OpenExistingOnly)
-	try {
-		$store.Remove($certificate)
-	}
-	finally {
-		$store.Close()
+	if ($null -ne $RecordedKey) {
+		$files += $RecordedKey.File
+		Remove-TestKey $RecordedKey
 	}
 	$left = @()
 	if ($null -ne (Find-MachineCertificate $Thumbprint)) {
 		$left += "the certificate $Thumbprint is still in LocalMachine\My"
 	}
-	if ($file -ne '' -and (Test-Path -LiteralPath $file)) {
-		$left += "its key file $file is still there"
+	foreach ($file in @($files | Where-Object { $_ } | Select-Object -Unique)) {
+		if (Test-Path -LiteralPath $file) {
+			$left += "the key file $file of $Thumbprint is still there"
+		}
 	}
 	return ($left -join '; ')
+}
+
+# What to do by hand for a test client certificate that an undo could not remove ($Key from Get-TestKeyInfo, or $null when the import did
+# not get that far): the key first, with certutil -delkey (the computer's key set; an elevated window), then the store entry. certlm.msc's
+# Delete and certutil -delstore alone remove only the store entry and leave the key file, with BUILTIN\Users' read access.
+function Get-ManualCertificateRemoval([string]$Thumbprint, $Key) {
+	if ($null -eq $Key) {
+		return "the certificate ${Thumbprint}: if certutil -store My $Thumbprint shows it, first delete its key with certutil -csp ""<its Provider>"" -delkey <its Key Container> (both from that output), then certutil -delstore My $Thumbprint, and check that the key file is gone"
+	}
+	return "the certificate $Thumbprint with its key file $($Key.File): first certutil -csp ""$($Key.Provider)"" -delkey ""$($Key.Container)"", then certutil -delstore My $Thumbprint, and check that the key file is gone"
 }
 
 # Waits until the new adapter shows as a network adapter, and returns it.
@@ -1851,14 +1984,32 @@ function Install-TestNetwork($Paths, $Set, $Created) {
 		[System.IO.File]::WriteAllBytes($pfxPath, [byte[]]$item[2])
 		$Created.Thumbprints = @($Created.Thumbprints) + @($item[3])
 		$info = Import-TestClientCertificate $pfxPath $Set.TestPfxPassword $item[1] $item[0] $item[3]
+		# Where the key is, for the undo and for the record in my.ini (-Revert deletes it even when the certificate is gone).
+		$Created.Keys = @($Created.Keys) + @([pscustomobject]@{ Thumbprint = $item[3]; Key = $info })
+		if ($item[0] -eq 'CAPI') {
+			$net.CapiKey = ConvertTo-KeyRecord $info
+		}
+		else {
+			$net.CngKey = ConvertTo-KeyRecord $info
+		}
 		Write-Host "Imported $($item[3]) into LocalMachine\My, its key in '$($info.Provider)' ($($info.File), BUILTIN\Users read)."
 	}
 	Remove-Item -LiteralPath $pfxFolder -Recurse -Force
 	$Created.PfxFolder = ''
 }
 
-# Undoes what $Created names (a failed enable run's own, or -Revert's record): the firewall rules, the certificates with their keys, the
-# adapter with its address, the .pfx folder. Returns what could not be undone (empty when everything is gone).
+# The key that $Created (Undo-TestNetwork's) knows for a thumbprint (Kind, Provider, ProviderType, Container, File), or $null.
+function Get-CreatedKey($Created, [string]$Thumbprint) {
+	$found = @(@($Created.Keys) | Where-Object { $null -ne $_ -and $_.Thumbprint -eq $Thumbprint })
+	if ($found.Count -gt 0) {
+		return $found[0].Key
+	}
+	return $null
+}
+
+# Undoes what $Created names (a failed enable run's own, or -Revert's record): the firewall rules, the certificates with their keys (also a
+# known key whose certificate is gone), the adapter with its address, the .pfx folder. Returns what could not be undone (empty when
+# everything is gone).
 function Undo-TestNetwork($Created, [string]$Address) {
 	$problems = @()
 	foreach ($rule in @($Created.FirewallRules | Where-Object { $_ })) {
@@ -1871,7 +2022,7 @@ function Undo-TestNetwork($Created, [string]$Address) {
 	}
 	foreach ($thumbprint in @($Created.Thumbprints | Where-Object { $_ })) {
 		try {
-			$left = Remove-TestClientCertificate $thumbprint
+			$left = Remove-TestClientCertificate $thumbprint (Get-CreatedKey $Created $thumbprint)
 			if ($left -ne '') {
 				$problems += $left
 			}
@@ -2183,6 +2334,8 @@ function Get-BlockLines($Paths, [bool]$WithRequire) {
 		}
 		$lines += "$RecordCapiPrefix$($net.CapiThumbprint)"
 		$lines += "$RecordCngPrefix$($net.CngThumbprint)"
+		$lines += "$RecordCapiKeyPrefix$($net.CapiKey)"
+		$lines += "$RecordCngKeyPrefix$($net.CngKey)"
 	}
 	$lines += @(
 		"ssl_ca=$($Paths.Ca.Replace('\', '/'))",
@@ -2374,7 +2527,9 @@ function Invoke-Enable {
 			$rules = @($FirewallAllowName, $FirewallBlockName)
 		}
 		$paths.TestNetwork = [pscustomobject]@{ Address = $testAddress; AdapterId = '<the new adapter, ROOT\NET\nnnn>'; FirewallRules = $rules
-			CapiThumbprint = '<the CAPI certificate''s thumbprint>'; CngThumbprint = '<the CNG certificate''s thumbprint>' }
+			CapiThumbprint = '<the CAPI certificate''s thumbprint>'; CngThumbprint = '<the CNG certificate''s thumbprint>'
+			CapiKey = "$CapiProviderName|<its key container>|<its key file in $((Get-MachineKeyFolder 'CAPI').Replace('\', '/'))>"
+			CngKey = "$CngProviderName|<its key name>|<its key file in $((Get-MachineKeyFolder 'CNG').Replace('\', '/'))>" }
 	}
 	$block = Get-BlockLines $paths $false
 	$newText = Add-ToMysqldSection $text $block $script:IniFile.Newline
@@ -2454,7 +2609,7 @@ function Invoke-Enable {
 	$saved = Save-ExistingItems $paths
 	$changedIni = $false
 	# What the test network part has made so far, for the undo of a failed run (Undo-TestNetwork).
-	$created = [pscustomobject]@{ AdapterId = ''; FirewallRules = @(); Thumbprints = @(); PfxFolder = '' }
+	$created = [pscustomobject]@{ AdapterId = ''; FirewallRules = @(); Thumbprints = @(); Keys = @(); PfxFolder = '' }
 	if ($testAddress -ne '') {
 		$paths.TestNetwork.CapiThumbprint = $set.TestCapiThumbprint
 		$paths.TestNetwork.CngThumbprint = $set.TestCngThumbprint
@@ -2553,7 +2708,13 @@ function Invoke-Enable {
 				Write-Host "These files existed before the run and now hold the new certificates: $($replaced -join ', ')."
 			}
 			if ($testAddress -ne '') {
-				Write-Host "Check and remove by hand what the run made of the test network (docs/port-notes/DB-TLS.md section 11): the firewall rules $(@($created.FirewallRules) -join ', ') (group '$FirewallGroup'), the certificates $(@($created.Thumbprints) -join ', ') in LocalMachine\My with their keys (certlm.msc), and the loopback adapter $($created.AdapterId) (Device Manager, Network adapters)."
+				Write-Host "Check and remove by hand, in an elevated window, what the run made of the test network (docs/port-notes/DB-TLS.md section 11.2): the firewall rules $(@($created.FirewallRules) -join ', ') (group '$FirewallGroup') and the loopback adapter $($created.AdapterId) (Device Manager, Network adapters)."
+				foreach ($thumbprint in @($created.Thumbprints | Where-Object { $_ })) {
+					Write-Host "  $(Get-ManualCertificateRemoval $thumbprint (Get-CreatedKey $created $thumbprint))."
+				}
+				if (@($created.Thumbprints | Where-Object { $_ }).Count -gt 0) {
+					Write-Host '  Not certlm.msc: its Delete, like certutil -delstore alone, removes only the store entry and leaves the key file that BUILTIN\Users can read.'
+				}
 			}
 			exit 4
 		}
@@ -2740,7 +2901,10 @@ function Invoke-Revert {
 	}
 	Confirm-Change 'Turn TLS off again?'
 	if ($null -ne $net) {
-		$recorded = [pscustomobject]@{ AdapterId = $net.AdapterId; FirewallRules = @($net.FirewallRules); Thumbprints = @($net.CapiThumbprint, $net.CngThumbprint); PfxFolder = (Join-Path $paths.TlsFolder $PfxFolderName) }
+		$recordedKeys = @([pscustomobject]@{ Thumbprint = $net.CapiThumbprint; Key = (ConvertFrom-KeyRecord $net.CapiKey 'CAPI') },
+			[pscustomobject]@{ Thumbprint = $net.CngThumbprint; Key = (ConvertFrom-KeyRecord $net.CngKey 'CNG') })
+		$recorded = [pscustomobject]@{ AdapterId = $net.AdapterId; FirewallRules = @($net.FirewallRules); Thumbprints = @($net.CapiThumbprint, $net.CngThumbprint)
+			Keys = $recordedKeys; PfxFolder = (Join-Path $paths.TlsFolder $PfxFolderName) }
 		$netLeft = @()
 		try {
 			$netLeft = @(Undo-TestNetwork $recorded $net.Address)

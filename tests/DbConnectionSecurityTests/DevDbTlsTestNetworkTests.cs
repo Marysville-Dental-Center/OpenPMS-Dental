@@ -188,27 +188,31 @@ namespace DbConnectionSecurityTests {
 		[TestMethod]
 		public void TestNetwork_TheBlockRecordsWhatTheRunMade_ForRevertAndRequireSecureTransport_AndRefusesARecordNoRunWrote() {
 			string output=RunDriver(new[] { "Add-ToMysqldSection","Get-BlockLines","Get-CreatedParents","Get-RecordedTestNetwork","Get-TestNetworkRecordProblem",
-				"Get-TestAddressFormProblem","Get-ServerOptions","Get-ExpectedBindAddress","Get-BindText","Remove-Block","Test-HasBlock","Get-RecordedFolders" },new[] {
-				"$net = [pscustomobject]@{ Address = '192.0.2.25'; AdapterId = 'ROOT\\NET\\0003'; FirewallRules = @($FirewallAllowName, $FirewallBlockName); CapiThumbprint = ('A' * 40); CngThumbprint = ('B' * 40) }",
+				"Get-TestAddressFormProblem","Get-ServerOptions","Get-ExpectedBindAddress","Get-BindText","Remove-Block","Test-HasBlock","Get-RecordedFolders",
+				"Get-KeyRecordProblem","ConvertFrom-KeyRecord","ConvertTo-KeyRecord","Get-MachineKeyFolder" },new[] {
+				"function KeyInfo([string]$Kind, [string]$Provider, [string]$Container, [string]$Leaf) { [pscustomobject]@{ Provider = $Provider; Container = $Container; File = (Join-Path (Get-MachineKeyFolder $Kind) $Leaf) } }",
+				"$capiKey = ConvertTo-KeyRecord (KeyInfo 'CAPI' $CapiProviderName 'dbtls-env-capi' (('a' * 32) + '_0f1e2d3c-4b5a-6978-8796-a5b4c3d2e1f0'))",
+				"$cngKey = ConvertTo-KeyRecord (KeyInfo 'CNG' $CngProviderName 'dbtls-env-cng' (('b' * 40) + '_0f1e2d3c-4b5a-6978-8796-a5b4c3d2e1f0'))",
+				"$net = [pscustomobject]@{ Address = '192.0.2.25'; AdapterId = 'ROOT\\NET\\0003'; FirewallRules = @($FirewallAllowName, $FirewallBlockName); CapiThumbprint = ('A' * 40); CngThumbprint = ('B' * 40); CapiKey = $capiKey; CngKey = $cngKey }",
 				"function Paths($Net) { [pscustomobject]@{ DevFolder = 'C:\\u\\OpenPmsDental\\DevDbTls'; ClientFolder = ''; CreatedParents = @(); Ca = 'C:\\x\\ca.pem'; ServerCert = 'C:\\x\\s.pem'; ServerKey = 'C:\\x\\k.pem'; TestNetwork = $Net } }",
 				"$ini = \"[mysqld]`nport=3306`nbind-address=127.0.0.1`n`n[client]`nport=3306`n\"",
 				"$new = Add-ToMysqldSection $ini (Get-BlockLines (Paths $net) $false) \"`n\"",
 				"[System.IO.File]::WriteAllText((Join-Path $Folder 'new.ini'), $new)",
 				"$r = Get-RecordedTestNetwork $new",
-				"'RECORD ' + $r.Address + '|' + $r.AdapterId + '|' + (@($r.FirewallRules) -join ',') + '|' + $r.CapiThumbprint + '|' + $r.CngThumbprint",
+				"'RECORD ' + $r.Address + '|' + $r.AdapterId + '|' + (@($r.FirewallRules) -join ',') + '|' + $r.CapiThumbprint + '|' + $r.CngThumbprint + '|' + $r.CapiKey + '|' + $r.CngKey",
 				"'RECORDOK ' + ($null -eq (Get-TestNetworkRecordProblem $r))",
 				"'BIND ' + (Get-ServerOptions $new)['bind_address'] + ' ' + (Get-ExpectedBindAddress $new) + ' ' + (Get-ExpectedBindAddress $ini) + ' ' + (Get-BindText '127.0.0.1, 192.0.2.25')",
 				"'FOLDERS ' + (Get-RecordedFolders $new).DevFolder",
 				"'REMOVED ' + ((Remove-Block $new) -eq $ini) + ' ' + ($null -eq (Get-RecordedTestNetwork (Remove-Block $new)))",
 				"$require = Add-ToMysqldSection (Remove-Block $new) (Get-BlockLines (Paths $r) $true) \"`n\"",
 				"$r2 = Get-RecordedTestNetwork $require",
-				"'REQUIRE ' + ($r2.AdapterId -eq $r.AdapterId) + ' ' + ($r2.CngThumbprint -eq $r.CngThumbprint) + ' ' + (@($r2.FirewallRules).Count) + ' ' + (Get-ServerOptions $require)['require_secure_transport'] + ' ' + (Get-ServerOptions $require)['bind_address']",
+				"'REQUIRE ' + ($r2.AdapterId -eq $r.AdapterId) + ' ' + ($r2.CngThumbprint -eq $r.CngThumbprint -and $r2.CapiKey -eq $r.CapiKey -and $r2.CngKey -eq $r.CngKey) + ' ' + (@($r2.FirewallRules).Count) + ' ' + (Get-ServerOptions $require)['require_secure_transport'] + ' ' + (Get-ServerOptions $require)['bind_address']",
 				"'NONET ' + ($null -eq (Get-RecordedTestNetwork (Add-ToMysqldSection $ini (Get-BlockLines (Paths $null) $false) \"`n\"))) + ' ' + ((Add-ToMysqldSection $ini (Get-BlockLines (Paths $null) $false) \"`n\").Contains('bind-address=127.0.0.1,'))",
-				"$off = [pscustomobject]@{ Address = '192.0.2.25'; AdapterId = 'ROOT\\NET\\0004'; FirewallRules = @(); CapiThumbprint = ('C' * 40); CngThumbprint = ('D' * 40) }",
+				"$off = [pscustomobject]@{ Address = '192.0.2.25'; AdapterId = 'ROOT\\NET\\0004'; FirewallRules = @(); CapiThumbprint = ('C' * 40); CngThumbprint = ('D' * 40); CapiKey = $capiKey; CngKey = $cngKey }",
 				"$rOff = Get-RecordedTestNetwork (Add-ToMysqldSection $ini (Get-BlockLines (Paths $off) $false) \"`n\")",
 				"'OFF ' + @($rOff.FirewallRules).Count + ' ' + ($null -eq (Get-TestNetworkRecordProblem $rOff))",
 				"function P([string]$Case, [hashtable]$Changes) {",
-				"  $c = [pscustomobject]@{ Address = $r.Address; AdapterId = $r.AdapterId; FirewallRules = @($r.FirewallRules); CapiThumbprint = $r.CapiThumbprint; CngThumbprint = $r.CngThumbprint }",
+				"  $c = [pscustomobject]@{ Address = $r.Address; AdapterId = $r.AdapterId; FirewallRules = @($r.FirewallRules); CapiThumbprint = $r.CapiThumbprint; CngThumbprint = $r.CngThumbprint; CapiKey = $r.CapiKey; CngKey = $r.CngKey }",
 				"  foreach ($k in $Changes.Keys) { $c.$k = $Changes[$k] }",
 				"  $p = Get-TestNetworkRecordProblem $c; if ($null -eq $p) { $p = 'OK' }; 'PROBLEM ' + $Case + ': ' + $p",
 				"}",
@@ -217,13 +221,27 @@ namespace DbConnectionSecurityTests {
 				"P 'adapterdots' @{ AdapterId = 'ROOT\\NET\\0001\\..' }",
 				"P 'rule' @{ FirewallRules = @('Some other rule') }",
 				"P 'thumb' @{ CngThumbprint = 'xyz' }",
+				"P 'keyprovider' @{ CapiKey = $capiKey.Replace($CapiProviderName, 'Microsoft Strong Cryptographic Provider') }",
+				"P 'keykind' @{ CngKey = $capiKey }",
+				"P 'keyfolder' @{ CngKey = ($CngProviderName + '|dbtls-env-cng|C:/Users/Public/dbtls-env-key') }",
+				"P 'keyotherfolder' @{ CapiKey = $cngKey.Replace($CngProviderName, $CapiProviderName) }",
+				"P 'keydots' @{ CapiKey = ($capiKey + '/../../../../Keys/x') }",
+				"P 'keycontainer' @{ CapiKey = ($capiKey -replace '\\|dbtls-env-capi\\|', '|..\\x|') }",
+				"P 'keyparts' @{ CapiKey = 'only|two' }",
+				"P 'keymissing' @{ CngKey = '' }",
 			});
 			string textNew=File.ReadAllText(Path.Combine(_folder,"new.ini"));
+			string folderCrypto=Environment.GetEnvironmentVariable("ProgramData").Replace('\\','/')+"/Microsoft/Crypto/";
+			string capiKey="Microsoft Enhanced RSA and AES Cryptographic Provider|dbtls-env-capi|"+folderCrypto+"RSA/MachineKeys/"+new string('a',32)
+				+"_0f1e2d3c-4b5a-6978-8796-a5b4c3d2e1f0";
+			string cngKey="Microsoft Software Key Storage Provider|dbtls-env-cng|"+folderCrypto+"Keys/"+new string('b',40)+"_0f1e2d3c-4b5a-6978-8796-a5b4c3d2e1f0";
 			StringAssert.Contains(textNew,"\n# test-address=192.0.2.25\n# test-adapter=ROOT\\NET\\0003\n# test-firewall-rule=OpenPmsDental-DbTlsTest-Allow3306\n"
-				+"# test-firewall-rule=OpenPmsDental-DbTlsTest-Block3306\n# test-client-capi="+new string('A',40)+"\n# test-client-cng="+new string('B',40)+"\nssl_ca=",
-				"The record as comment lines, after the folders' record.");
+				+"# test-firewall-rule=OpenPmsDental-DbTlsTest-Block3306\n# test-client-capi="+new string('A',40)+"\n# test-client-cng="+new string('B',40)+"\n"
+				+"# test-client-capi-key="+capiKey+"\n# test-client-cng-key="+cngKey+"\nssl_ca=",
+				"The record as comment lines, after the folders' record; each key's provider, container and file, so -Revert finds a key whose certificate is gone.");
 			StringAssert.Contains(textNew,"tls_version=TLSv1.2,TLSv1.3\nbind-address=127.0.0.1,192.0.2.25\n# END Open PMS - Dental local test TLS\n");
-			StringAssert.Contains(output,"RECORD 192.0.2.25|ROOT\\NET\\0003|OpenPmsDental-DbTlsTest-Allow3306,OpenPmsDental-DbTlsTest-Block3306|"+new string('A',40)+"|"+new string('B',40)+"\r\n");
+			StringAssert.Contains(output,"RECORD 192.0.2.25|ROOT\\NET\\0003|OpenPmsDental-DbTlsTest-Allow3306,OpenPmsDental-DbTlsTest-Block3306|"+new string('A',40)+"|"+new string('B',40)
+				+"|"+capiKey+"|"+cngKey+"\r\n");
 			StringAssert.Contains(output,"RECORDOK True");
 			StringAssert.Contains(output,"BIND 127.0.0.1,192.0.2.25 127.0.0.1,192.0.2.25 127.0.0.1 127.0.0.1,192.0.2.25\r\n",
 				"The block's bind-address follows my.ini's and wins; the later modes expect it exactly when the block records the address.");
@@ -237,6 +255,28 @@ namespace DbConnectionSecurityTests {
 			StringAssert.Contains(output,@"PROBLEM adapterdots: my.ini records the test adapter 'ROOT\NET\0001\..'");
 			StringAssert.Contains(output,"PROBLEM rule: my.ini records the firewall rule 'Some other rule', which is not one of this script's");
 			StringAssert.Contains(output,"PROBLEM thumb: my.ini records the test client certificate 'xyz', which is not a thumbprint");
+			//The recorded keys: this script's provider of the kind, a container name, a file directly in the computer's key folder of the kind.
+			string folderMachineKeys=Environment.GetEnvironmentVariable("ProgramData")+@"\Microsoft\Crypto\RSA\MachineKeys";
+			string folderKeys=Environment.GetEnvironmentVariable("ProgramData")+@"\Microsoft\Crypto\Keys";
+			StringAssert.Contains(output,"PROBLEM keyprovider: my.ini records the key of the CAPI test client certificate as 'Microsoft Strong Cryptographic Provider|"
+				+"dbtls-env-capi|","A CAPI key in another provider");
+			StringAssert.Contains(output,"', whose provider is not 'Microsoft Enhanced RSA and AES Cryptographic Provider'.");
+			StringAssert.Contains(output,"PROBLEM keykind: my.ini records the key of the CNG test client certificate as '"+capiKey+"', whose provider is not "
+				+"'Microsoft Software Key Storage Provider'.");
+			StringAssert.Contains(output,"PROBLEM keyfolder: my.ini records the key of the CNG test client certificate as 'Microsoft Software Key Storage Provider|"
+				+"dbtls-env-cng|C:/Users/Public/dbtls-env-key', whose key file is not a file in "+folderKeys+".");
+			StringAssert.Contains(output,"PROBLEM keyotherfolder: my.ini records the key of the CAPI test client certificate as 'Microsoft Enhanced RSA and AES "
+				+"Cryptographic Provider|dbtls-env-cng|"+folderCrypto+"Keys/","A CNG key folder for a CAPI key");
+			StringAssert.Contains(output,"', whose key file is not a file in "+folderMachineKeys+".");
+			StringAssert.Contains(output,"PROBLEM keydots: my.ini records the key of the CAPI test client certificate as '"+capiKey+"/../../../../Keys/x', whose key file "
+				+"is not a file in "+folderMachineKeys+".");
+			StringAssert.Contains(output,"PROBLEM keycontainer: my.ini records the key of the CAPI test client certificate as 'Microsoft Enhanced RSA and AES "
+				+@"Cryptographic Provider|..\x|"+folderCrypto+"RSA/MachineKeys/","A container name with a path in it");
+			StringAssert.Contains(output,"', whose container name is empty or has a path in it.");
+			StringAssert.Contains(output,"PROBLEM keyparts: my.ini records the key of the CAPI test client certificate as 'only|two', which is not "
+				+"<provider>|<container>|<key file>.");
+			StringAssert.Contains(output,"PROBLEM keymissing: my.ini records the key of the CNG test client certificate as '', which is not "
+				+"<provider>|<container>|<key file>.","A record without the key is refused: -Revert could not find a key left behind.");
 			//The source: the later modes read the record (Get-Paths), and every mode's checks expect the recorded bind-address.
 			string script=TestHelpers.ReadRepoFile("tools","Enable-LocalDbTls.ps1");
 			StringAssert.Contains(script,"$testNetwork = Get-RecordedTestNetwork $script:IniFile.Text");
@@ -245,15 +285,18 @@ namespace DbConnectionSecurityTests {
 
 		[TestMethod]
 		public void TestNetwork_RevertsPlan_UndoesEveryStepOfTheEnablePlan_AndRemovesOnlyWhatTheScriptMade() {
-			string output=RunDriver(new[] { "Get-TestNetworkEnablePlan","Get-TestNetworkRevertPlan","Get-TestNetworkStateProblem","Get-FirewallBlockRanges","Test-FirewallOn" },new[] {
-				"$r = [pscustomobject]@{ Address = '192.0.2.25'; AdapterId = 'ROOT\\NET\\0003'; FirewallRules = @($FirewallAllowName, $FirewallBlockName); CapiThumbprint = ('A' * 40); CngThumbprint = ('B' * 40) }",
+			string output=RunDriver(new[] { "Get-TestNetworkEnablePlan","Get-TestNetworkRevertPlan","Get-TestNetworkStateProblem","Get-FirewallBlockRanges","Test-FirewallOn",
+				"ConvertFrom-KeyRecord","ConvertTo-KeyRecord","Get-MachineKeyFolder" },new[] {
+				"$capiKey = ConvertTo-KeyRecord ([pscustomobject]@{ Provider = $CapiProviderName; Container = 'dbtls-env-capi'; File = (Join-Path (Get-MachineKeyFolder 'CAPI') 'capi-key-file') })",
+				"$cngKey = ConvertTo-KeyRecord ([pscustomobject]@{ Provider = $CngProviderName; Container = 'dbtls-env-cng'; File = (Join-Path (Get-MachineKeyFolder 'CNG') 'cng-key-file') })",
+				"$r = [pscustomobject]@{ Address = '192.0.2.25'; AdapterId = 'ROOT\\NET\\0003'; FirewallRules = @($FirewallAllowName, $FirewallBlockName); CapiThumbprint = ('A' * 40); CngThumbprint = ('B' * 40); CapiKey = $capiKey; CngKey = $cngKey }",
 				"function S([bool]$Present, [string[]]$Hw = @('*MSLOOP'), [string]$Group = $FirewallGroup, [string]$CapiSubject = '', [bool]$Issued = $true, [bool]$HasCa = $true) {",
 				"  if ($CapiSubject -eq '') { $CapiSubject = 'CN=' + $TestClientCapiName + ', O=Open PMS - Dental local test' }",
 				"  [pscustomobject]@{",
 				"    Adapter = [pscustomobject]@{ Exists = $Present; HardwareIds = $Hw; Addresses = @('192.0.2.25') }",
 				"    Rules = @($r.FirewallRules | ForEach-Object { [pscustomobject]@{ Name = $_; Exists = $Present; Group = $Group } })",
-				"    Certificates = @([pscustomobject]@{ Kind = 'CAPI'; Thumbprint = $r.CapiThumbprint; Name = $TestClientCapiName; Exists = $Present; Subject = $CapiSubject; IssuedByCa = $Issued },",
-				"      [pscustomobject]@{ Kind = 'CNG'; Thumbprint = $r.CngThumbprint; Name = $TestClientCngName; Exists = $Present; Subject = ('CN=' + $TestClientCngName + ', O=Open PMS - Dental local test'); IssuedByCa = $Issued })",
+				"    Certificates = @([pscustomobject]@{ Kind = 'CAPI'; Thumbprint = $r.CapiThumbprint; Name = $TestClientCapiName; Exists = $Present; Subject = $CapiSubject; IssuedByCa = $Issued; Key = (ConvertFrom-KeyRecord $r.CapiKey 'CAPI'); KeyExists = $Present },",
+				"      [pscustomobject]@{ Kind = 'CNG'; Thumbprint = $r.CngThumbprint; Name = $TestClientCngName; Exists = $Present; Subject = ('CN=' + $TestClientCngName + ', O=Open PMS - Dental local test'); IssuedByCa = $Issued; Key = (ConvertFrom-KeyRecord $r.CngKey 'CNG'); KeyExists = $Present })",
 				"    HasCa = $HasCa",
 				"  }",
 				"}",
@@ -271,7 +314,7 @@ namespace DbConnectionSecurityTests {
 				"[System.IO.File]::WriteAllLines((Join-Path $Folder 'enable-off.txt'), [string[]](Get-TestNetworkEnablePlan '192.0.2.25' 'testhost' $offFacts 'C:\\x\\opms-dev-tls'))",
 				"[System.IO.File]::WriteAllLines((Join-Path $Folder 'revert.txt'), [string[]](Get-TestNetworkRevertPlan $r (S $true)))",
 				"[System.IO.File]::WriteAllLines((Join-Path $Folder 'revert-gone.txt'), [string[]](Get-TestNetworkRevertPlan $r (S $false @())))",
-				"$rOff = [pscustomobject]@{ Address = '192.0.2.25'; AdapterId = 'ROOT\\NET\\0003'; FirewallRules = @(); CapiThumbprint = ('A' * 40); CngThumbprint = ('B' * 40) }",
+				"$rOff = [pscustomobject]@{ Address = '192.0.2.25'; AdapterId = 'ROOT\\NET\\0003'; FirewallRules = @(); CapiThumbprint = ('A' * 40); CngThumbprint = ('B' * 40); CapiKey = $capiKey; CngKey = $cngKey }",
 				"[System.IO.File]::WriteAllLines((Join-Path $Folder 'revert-off.txt'), [string[]](Get-TestNetworkRevertPlan $rOff (S $true)))",
 			});
 			StringAssert.Contains(output,"STATE present: OK\r\n");
@@ -307,6 +350,12 @@ namespace DbConnectionSecurityTests {
 			StringAssert.Contains(revert,"("+new string('A',40)+", its key in a CAPI provider)");
 			StringAssert.Contains(revert,"("+new string('B',40)+", its key in a CNG provider)");
 			StringAssert.Contains(revert,"so no key that the users can read is left behind.");
+			string fileCapiKey=Environment.GetEnvironmentVariable("ProgramData")+@"\Microsoft\Crypto\RSA\MachineKeys\capi-key-file";
+			string fileCngKey=Environment.GetEnvironmentVariable("ProgramData")+@"\Microsoft\Crypto\Keys\cng-key-file";
+			StringAssert.Contains(revert,"and delete its key first (the recorded file "+fileCapiKey+").");
+			StringAssert.Contains(revert,"and delete its key first (the recorded file "+fileCngKey+").");
+			StringAssert.Contains(File.ReadAllText(Path.Combine(_folder,"revert-gone.txt")),"file "+fileCapiKey+" is gone too: nothing to remove.",
+				"The certificate and its recorded key file are both gone.");
 			StringAssert.Contains(revert,@"Remove the loopback adapter ROOT\NET\0003 ('OPMS DB TLS test')");
 			StringAssert.Contains(revert,"removes bind-address=127.0.0.1,192.0.2.25");
 			StringAssert.Contains(revert,"goes with the opms-dev-tls folder");
@@ -323,6 +372,65 @@ namespace DbConnectionSecurityTests {
 			}
 			Assert.IsTrue(indexUndo>0 && indexRestore>indexUndo,"The test network goes before my.ini is restored.");
 			StringAssert.Contains(script,"$netProblem = Get-TestNetworkStateProblem $net $netState");
+		}
+
+		[TestMethod]
+		public void TestNetwork_ACertificateDeletedByHand_LeavesItsKeyFile_RevertsPlanAndRemovalDeleteTheRecordedKey() {
+			//certlm.msc's Delete, or certutil -delstore, removes only the store entry: the key file stays, with BUILTIN\Users' read access. The record
+			//names each key, so -Revert's state, plan and removal find it. Synthetic: random thumbprints that are in no store (LocalMachine\My is only
+			//read), key "files" in the test's temporary folder, and Remove-TestKey replaced by one that only deletes that file: no key is opened, and
+			//nothing in a store or in the computer's key folders is touched.
+			string thumbprintCapi=(Guid.NewGuid().ToString("N")+Guid.NewGuid().ToString("N")).Substring(0,40).ToUpperInvariant();
+			string thumbprintCng=(Guid.NewGuid().ToString("N")+Guid.NewGuid().ToString("N")).Substring(0,40).ToUpperInvariant();
+			string fileCapi=Path.Combine(_folder,"capi-key-file");
+			string fileCng=Path.Combine(_folder,"cng-key-file");
+			string output=RunDriver(new[] { "Get-TestNetworkState","Get-TestNetworkRevertPlan","ConvertFrom-KeyRecord","ConvertTo-KeyRecord","Find-MachineCertificate",
+				"Remove-TestClientCertificate","Get-CreatedKey","Get-ManualCertificateRemoval" },new[] {
+				"$capiFile = Join-Path $Folder 'capi-key-file'",
+				"$cngFile = Join-Path $Folder 'cng-key-file'",
+				"[System.IO.File]::WriteAllText($capiFile, 'synthetic')",
+				"$capiKey = ConvertTo-KeyRecord ([pscustomobject]@{ Provider = $CapiProviderName; Container = 'dbtls-env-capi'; File = $capiFile })",
+				"$cngKey = ConvertTo-KeyRecord ([pscustomobject]@{ Provider = $CngProviderName; Container = 'dbtls-env-cng'; File = $cngFile })",
+				"$r = [pscustomobject]@{ Address = '192.0.2.25'; AdapterId = 'ROOT\\NET\\9999'; FirewallRules = @(); CapiThumbprint = '"+thumbprintCapi+"'; CngThumbprint = '"
+					+thumbprintCng+"'; CapiKey = $capiKey; CngKey = $cngKey }",
+				"$state = Get-TestNetworkState $r ''",
+				"'EXISTS ' + (@($state.Certificates | ForEach-Object { $_.Kind + '=' + $_.Exists + '/' + $_.KeyExists }) -join ' ')",
+				"[System.IO.File]::WriteAllLines((Join-Path $Folder 'revert.txt'), [string[]](Get-TestNetworkRevertPlan $r $state))",
+				"$script:deleted = @()",
+				"function Remove-TestKey($Key) { $script:deleted += ($Key.Kind + ' ' + $Key.Provider + ' ' + $Key.ProviderType + ' ' + $Key.Container); Remove-Item -LiteralPath $Key.File }",
+				"$capi = ConvertFrom-KeyRecord $r.CapiKey 'CAPI'",
+				"'REMOVED ' + ((Remove-TestClientCertificate $r.CapiThumbprint $capi) -eq '') + ' ' + (Test-Path -LiteralPath $capiFile) + ' ' + ($script:deleted -join ',')",
+				"[System.IO.File]::WriteAllText($capiFile, 'synthetic')",
+				"function Remove-TestKey($Key) { }",
+				"'LEFT ' + (Remove-TestClientCertificate $r.CapiThumbprint $capi)",
+				"'NOTHING ' + ((Remove-TestClientCertificate $r.CngThumbprint (ConvertFrom-KeyRecord $r.CngKey 'CNG')) -eq '')",
+				"$created = [pscustomobject]@{ Thumbprints = @($r.CapiThumbprint, $r.CngThumbprint); Keys = @([pscustomobject]@{ Thumbprint = $r.CapiThumbprint; Key = $capi }) }",
+				"'MANUAL ' + (Get-ManualCertificateRemoval $r.CapiThumbprint (Get-CreatedKey $created $r.CapiThumbprint))",
+				"'MANUALUNKNOWN ' + (Get-ManualCertificateRemoval $r.CngThumbprint (Get-CreatedKey $created $r.CngThumbprint))",
+			});
+			StringAssert.Contains(output,"EXISTS CAPI=False/True CNG=False/False\r\n","Both certificates are gone; the CAPI key file is still there.");
+			string revert=File.ReadAllText(Path.Combine(_folder,"revert.txt"));
+			StringAssert.Contains(revert,"#. [client-certificates] The CAPI certificate "+thumbprintCapi+" is not in LocalMachine\\My any more, but its key");
+			StringAssert.Contains(revert,"file "+fileCapi+" is still there (BUILTIN\\Users can read it): delete that key (the container dbtls-env-capi");
+			StringAssert.Contains(revert,"in 'Microsoft Enhanced RSA and AES Cryptographic Provider', once it opens as that very file) and check that the file is gone.");
+			StringAssert.Contains(revert,"#. [client-certificates] The CNG certificate "+thumbprintCng+" is not in LocalMachine\\My any more, and its key");
+			StringAssert.Contains(revert,"file "+fileCng+" is gone too: nothing to remove.");
+			Assert.IsFalse(revert.Contains(thumbprintCapi+" is not in LocalMachine\\My any more: nothing to remove"),"Not 'nothing to remove' while the key file is there.");
+			StringAssert.Contains(output,"REMOVED True False CAPI Microsoft Enhanced RSA and AES Cryptographic Provider 24 dbtls-env-capi\r\n",
+				"With the certificate gone, the removal deletes the recorded key (the CSP's type for CspParameters) and checks that the file is gone.");
+			StringAssert.Contains(output,"LEFT the key file "+fileCapi+" of "+thumbprintCapi+" is still there\r\n","A key file that stays is reported, never passed over.");
+			StringAssert.Contains(output,"NOTHING True\r\n");
+			//What a failed undo (exit 4) tells the owner: the key first, by its provider and container, then the store entry; not certlm.msc.
+			StringAssert.Contains(output,"MANUAL the certificate "+thumbprintCapi+" with its key file "+fileCapi+": first certutil -csp \"Microsoft Enhanced RSA and AES "
+				+"Cryptographic Provider\" -delkey \"dbtls-env-capi\", then certutil -delstore My "+thumbprintCapi+", and check that the key file is gone\r\n");
+			StringAssert.Contains(output,"MANUALUNKNOWN the certificate "+thumbprintCng+": if certutil -store My "+thumbprintCng+" shows it, first delete its key with "
+				+"certutil -csp \"<its Provider>\" -delkey <its Key Container>");
+			string script=TestHelpers.ReadRepoFile("tools","Enable-LocalDbTls.ps1");
+			Assert.IsFalse(script.Contains("with their keys (certlm.msc)"),"certlm.msc's Delete leaves the key file.");
+			StringAssert.Contains(script,"Write-Host \"  $(Get-ManualCertificateRemoval $thumbprint (Get-CreatedKey $created $thumbprint)).\"");
+			StringAssert.Contains(script,"$left = Remove-TestClientCertificate $thumbprint (Get-CreatedKey $Created $thumbprint)");
+			StringAssert.Contains(script,"Keys = $recordedKeys;","-Revert passes the recorded keys to the removal.");
+			StringAssert.Contains(script,"$Created.Keys = @($Created.Keys) + @([pscustomobject]@{ Thumbprint = $item[3]; Key = $info })","The enable run's undo knows each key.");
 		}
 
 		[TestMethod]
@@ -346,6 +454,8 @@ namespace DbConnectionSecurityTests {
 			StringAssert.Contains(output,"# test-address="+address);
 			StringAssert.Contains(output,@"# test-adapter=<the new adapter, ROOT\NET\nnnn>");
 			StringAssert.Contains(output,"# test-client-capi=<the CAPI certificate's thumbprint>");
+			StringAssert.Contains(output,"# test-client-capi-key=Microsoft Enhanced RSA and AES Cryptographic Provider|<its key container>|<its key file in ");
+			StringAssert.Contains(output,"# test-client-cng-key=Microsoft Software Key Storage Provider|<its key name>|<its key file in ");
 			StringAssert.Contains(output,"bind-address=127.0.0.1,"+address);
 			StringAssert.Contains(output,"listens on 127.0.0.1:3306 and on "+address+":3306 (Get-NetTCPConnection)");
 			StringAssert.Contains(output,"prints the three OPMS_DB_TLS_TEST_* values");
