@@ -335,11 +335,13 @@ Version:   not applicable
 Copyright: Regenstrief Institute, Inc. and the Logical Observation Identifiers Names and Codes (LOINC) Committee
 License:   LOINC license, available at no cost at https://loinc.org/license
 Source:    https://loinc.org
-Notice:    This material contains content from LOINC (http://loinc.org). LOINC is copyright (C) Regenstrief
-           Institute, Inc. and the Logical Observation Identifiers Names and Codes (LOINC) Committee and is
-           available at no cost under the license at http://loinc.org/license. LOINC (R) is a registered United
-           States trademark of Regenstrief Institute, Inc.
-Note:      Owner decisions E-23 and E-37 (docs/specs/ehr-2027-measures-plan.md, section 14).
+Notice:    This material contains content from LOINC (http://loinc.org). LOINC is copyright (C) 1995-2026,
+           Regenstrief Institute, Inc. and the Logical Observation Identifiers Names and Codes (LOINC) Committee
+           and is available at no cost under the license at http://loinc.org/license. LOINC (R) is a registered
+           United States trademark of Regenstrief Institute, Inc.
+Note:      Owner decisions E-23 and E-37 (docs/specs/ehr-2027-measures-plan.md, section 14). The notice is the one
+           LOINC's licence asks for, with its year range: the end year is the year of the latest LOINC release
+           (LOINC publishes one each June); update it when a release names a newer LOINC version.
 
 --- License: MIT License
 Copyright (c) <year> <copyright holders named above>

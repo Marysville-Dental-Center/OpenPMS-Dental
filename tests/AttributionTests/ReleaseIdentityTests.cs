@@ -176,6 +176,8 @@ namespace AttributionTests {
 			string textLoinc=listLicenseEntries.Single(x => x.Name=="LOINC").Text;
 			StringAssert.Contains(textLoinc,"This material contains content from LOINC (http://loinc.org).");
 			StringAssert.Contains(textLoinc,"https://loinc.org/license");
+			//The licence's notice names the copyright years, 1995 to the year of the latest LOINC release.
+			StringAssert.Matches(textLoinc,new System.Text.RegularExpressions.Regex(@"LOINC is copyright \(C\) 1995-20[2-9][0-9],\s+Regenstrief Institute"));
 			StringAssert.Contains(textLoinc,"registered United");
 			Assert.IsFalse(textLoinc.Contains("Permission is hereby granted"),"No standard licence text under LOINC's notice.");
 		}
