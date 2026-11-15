@@ -3,8 +3,8 @@
 Package TC-6 of the WPF tooth chart track ([docs/specs/wpf-tooth-chart-plan.md](../specs/wpf-tooth-chart-plan.md), the TC-6 row of
 section 4; sections 2, 3, 5, 7 and 8; section 10's O-23 and O-24 and its "Open Dental parity (2026-11-14)" table TC-6, rows ORTHO-1,
 ORTHO-2, RR-1 and SM-1): branch `chart/tc6-1` from `chart/tc3c-2` (TC-3c, which changes the same scene builder; the owner approved its
-gallery G4 on 2026-11-15 and it is merged on `main` as `cd67aa44f`, so the branch's base is in `main`). **Status: done; waiting for the
-owner's approval of gallery G5** (section 4), after which it merges.
+gallery G4 on 2026-11-15 and it is merged on `main` as `cd67aa44f`, so the branch's base is in `main`). **Status: done; the owner
+approved its gallery on 2026-11-15** (section 4: built as G5, shown as G2 part 2), and it is merged on `main`.
 Nothing was downloaded, no program was started and no program file outside `SparksToothChart` and the chart's relay was edited; the tests
 rendered offscreen in the lead's desktop session, as the chart's other tests do.
 

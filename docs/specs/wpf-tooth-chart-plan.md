@@ -837,8 +837,9 @@ package merges only after that answer.
 - G2: TC-5 and TC-6, the new drawing.
 - G3: TC-7, perio.
 - G4: TC-8, final, with the hosts. Its first part is TC-3c's (the TC-3 look follow-up, 2026-11-15: `g4-tc3c.html`, TC-3c.md section 3).
-- G5: 3b, net48 against net10 x64. *TC-6's gallery (2026-11-15) was named G5 by its brief (`g5-tc6.html`, TC-6.md section 4), as G2's
-  second part; the 3b gallery keeps its place and takes the next free name when it is made.*
+- G5: 3b, net48 against net10 x64. *TC-6's gallery (2026-11-15) is G2's second part. Its build folder is named `tc6-gallery-G5`
+  (`g5-tc6.html`, TC-6.md section 4) by its brief, and it was shown to the owner as G2 part 2; the owner approved it on 2026-11-15.
+  The 3b gallery keeps the name G5.*
 
 ---
 
@@ -1095,8 +1096,8 @@ branch `chart/tc3c-1`, review fix `chart/tc3c-2` (2026-11-15; `docs/port-notes/T
 | LOOK-4 | **Done (TC-3c).** The centre line in the chart's text colour (the "Text" definition; "Text on TPs" on printouts: `ColorText`, the numbers' colour) instead of white. | https://i0.wp.com/odtechblog.wordpress.com/wp-content/uploads/2026/08/image-6.png?ssl=1 ; https://i0.wp.com/opendental.blog/wp-content/uploads/2024/08/Capture17.png?ssl=1 | Implied, from the module images only. Unsettled in the Big layout: its 2026 screenshot shows no centre line between the number rows. The highlight boxes are od-unknown and stay. The Simple 2D chart's line is part of its picture and already dark. |
 
 **TC-6** (revises O-23 and O-24 before it starts; the owner confirms). **Done in package TC-6, branch `chart/tc6-1` from `chart/tc3c-2`
-(2026-11-15; `docs/port-notes/TC-6.md`); O-23 and O-24 say that these rows revised them under the owner's rule; merges after the owner
-approves gallery G5 (TC-3c, its base, is merged).**
+(2026-11-15; `docs/port-notes/TC-6.md`); O-23 and O-24 say that these rows revised them under the owner's rule; the owner approved
+its gallery (G2 part 2, built as G5) on 2026-11-15 and it is merged on `main`.**
 
 | Row | Change | Open Dental source | Caveats |
 |---|---|---|---|

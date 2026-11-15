@@ -741,6 +741,9 @@ of 2026-11-08: "1. As recommended 2. Ship dlls we need. Use Helix. It's decided.
   section "Open Dental parity (2026-11-14)". So O-20 (on by default; the tooth hidden with a thin X, as Open Dental's 26.2 screenshot
   shows; no other exceptions), O-21 (TextBelow in a one-line box under the date slider, not in the tooth picture) and O-22 (paint text
   beyond the root tip, in the W band) changed.
+- **Gallery G2 part 2, TC-6 (answered on 2026-11-15: "TC-6 approved").** Ortho mode with the facial rows only, brackets with a slot,
+  thin wires and elastics, root-only retained roots and flat space-maintainer bars, as Open Dental shows them, are approved. TC-6
+  merged. Its build folder is named G5; the page called it G2 part 2, and the later 3b gallery keeps the name G5.
 - **Gallery G2 (answered on 2026-11-15: "G2 is good. Merge tc5").** TC-5's drawing, fourth version, is approved: free text, paint text,
   TextBelow's box and the completed-extraction X as in Open Dental 26.2. TC-5 merged.
 

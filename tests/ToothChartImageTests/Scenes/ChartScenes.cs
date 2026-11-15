@@ -1514,7 +1514,7 @@ namespace ToothChartImageTests {
 			scene.IsOrthoMode=true;
 			scene.Nomenclature=ToothNumberingNomenclature.Palmer;
 			scene.HasLegacyRecording=false;
-			scene=Add(listScenes,"ortho","ortho-mode-other-work","Ortho mode with other work: 4 and 13 missing (TP extraction X on 4), RCT and crown on "
+			scene=Add(listScenes,"ortho","ortho-mode-other-work","Ortho mode with other work: 13 missing, a planned extraction X on 4 (TP), RCT and crown on "
 				+"3 (C), a watch on 8, paint text \"Fx\" on 24, a filling DO on 30 (TP), retained root on 20 (TP), space maintainer on 13 (C), teeth 6 "
 				+"and 27 selected, and brackets on 3, 5-12 and 19-30: the X, the root canal, the \"W\" and the text follow the moved rows.",relay => {
 					SetMissing(relay,"13");
