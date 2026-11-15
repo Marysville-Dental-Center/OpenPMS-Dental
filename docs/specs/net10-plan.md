@@ -774,6 +774,17 @@ managed allocation failure reaches it), both network guards also set `HttpClient
 Left for others: `FormClaimAttachment.cs`/`FormImageSelectClaimAttach.cs` (S3a-2), `FrmAtoZFoldersCreate.xaml.cs:74` (S3a-2),
 `DirectCertificateImport.cs:1383,1385` (fixed by the lead at S3a-9's merge), `OfficeCaFile.cs:115`'s `FileStream` with `FileSecurity` (3b).
 
+**Status (2026-11-15).** S3a-4 done on `net10/s3a4-1` (`docs/port-notes/S3a-4.md`), not yet merged: new `tests/GoldenOutputTests` (its
+`OpenDental.sln` and `OpenDental.Local.slnf` entries for the lead to review) with 16 fixture files recorded by the net48 build from one
+`gold_` scratch database (init file, fork migrations, synthetic rows with fixed dates and fixed primary keys): the 837 dental batch in 5010
+and 4010 (ISA09/10, GS04/05, BHT04/05 replaced by tokens), the statement PDF text of a family and of a limited statement totalling about
+-1.1e-16 (`$0.00`), the statement `.csv`, the treatment-plan and pay-plan signature keys and hashes, the Chart of Accounts and UDS+ `.csv`,
+the SQL text of computed doubles and floats (through `QueryMonitor`) and `SOut` itself, crypto known answers both ways (`MiscUtils`,
+`CentralConnections`, stored signatures, the RDL `.dsr` file), `wikilisthist.ListContent` and its revert, and a fixture RDL report calling
+VB `<Code>` functions. Byte-for-byte compares; `OPMS_GOLDEN_RECORD=1` records, on .NET Framework only; `.gitattributes` keeps the fixtures'
+bytes. Differences already visible for 3b: `Statements.WriteStatementToCSV` and RdlEngine's `Style.GetFormatedString` write doubles with
+`ToString()`; GoldenOutputTests needs the code-page provider in 3b (its PDF reader decodes 1252).
+
 **Full-test gate.** Section 3, plus: the golden outputs and known answers recorded and committed; the source-scan tests pass; the
 launch checks for 3a (section 6) done with screenshots, including a self-update from a standard user; the x64 test runs (S3a-12, S3a-15)
 and the x64 build of `Direct2dWrapper` (S3a-16) pass; the helper's tests pass, and its links are launch-checked where a test PC has the
