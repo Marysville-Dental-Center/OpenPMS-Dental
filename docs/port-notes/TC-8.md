@@ -189,8 +189,7 @@ afterwards.
   or the plan): BSHELLTests 73, DbConnectionSecurityTests 250 (3 skipped), InventoryTests 93, LibraryBindingTests 20, ODOPTSTests 57,
   P262SchemaTests 28 (4 skipped), PdfLibraryTests 41, ReleaseFlowTests 206 (5 skipped) and NoHqTests 110: all passed.
 - Not run: InitSqlTests and ForkMigrationTests (the coordinator's), and `tests/WindowChecksTests`, which starts the program (section 6).
-- `tools/Test-NoEolFlips.ps1` against `main`: 23 changed text files (before the docs), none changed its line ends; again after the docs (section
-  3.3's last run).
+- `tools/Test-NoEolFlips.ps1` against `main` (merge base `e2fc2306f`), after the docs: 23 changed text files, none changed its line ends.
 
 ## 4. Gallery G4, TC-8's part
 
