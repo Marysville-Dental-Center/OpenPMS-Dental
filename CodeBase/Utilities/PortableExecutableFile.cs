@@ -81,11 +81,12 @@ namespace CodeBase {
 			}
 		}
 
-		///<summary>A managed IL-only PE32 x86 image without 32BITREQUIRED: an "any CPU" assembly, which loads in a 32-bit and in a 64-bit
-		///process.</summary>
+		///<summary>A managed IL-only PE32 x86 image without 32BITREQUIRED, or with both 32BITREQUIRED and 32BITPREFERRED ("any CPU, 32-bit
+		///preferred"): an "any CPU" assembly, which loads in a 32-bit and in a 64-bit process. The lane's x64 test run of tests/N64ATests showed
+		///that a 64-bit .NET Framework process loads a DLL with both flags (N64-A, docs/port-notes/N64-A.md).</summary>
 		public bool IsAnyCpu {
 			get {
-				return IsManaged && IsIlOnly && !IsPe32Plus && Machine==IMAGE_FILE_MACHINE_I386 && !Is32BitRequired;
+				return IsManaged && IsIlOnly && !IsPe32Plus && Machine==IMAGE_FILE_MACHINE_I386 && (!Is32BitRequired || Is32BitPreferred);
 			}
 		}
 
@@ -104,8 +105,8 @@ namespace CodeBase {
 		}
 
 		///<summary>True when a process of machine type machineProcess (IMAGE_FILE_MACHINE_...) can map this image. For an assembly, the rule of
-		///the runtime's binder: an any-CPU assembly (IsAnyCpu) loads in every process, every other one (32BITREQUIRED, with or without
-		///32BITPREFERRED; mixed mode; PE32+) only in a process of its machine type. A native DLL only in a process of its machine type.</summary>
+		///the runtime's binder: an any-CPU assembly (IsAnyCpu) loads in every process, every other one (32BITREQUIRED without 32BITPREFERRED;
+		///mixed mode; PE32+) only in a process of its machine type. A native DLL only in a process of its machine type.</summary>
 		public bool CanLoadInProcess(ushort machineProcess) {
 			if(!IsPe) {
 				return false;
@@ -142,7 +143,7 @@ namespace CodeBase {
 				return "a native "+bitness+" "+(IsPe32Plus ? "PE32+" : "PE32")+" file";
 			}
 			if(IsAnyCpu) {
-				return "a .NET assembly for any CPU";
+				return Is32BitRequired ? "a .NET assembly for any CPU, 32-bit preferred" : "a .NET assembly for any CPU";
 			}
 			if(!IsIlOnly) {
 				return "a mixed-mode "+bitness+" .NET assembly";

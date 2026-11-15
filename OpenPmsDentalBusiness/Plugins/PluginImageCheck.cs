@@ -95,8 +95,8 @@ namespace OpenPmsDentalBusiness {
 		///<summary>Null when a process of machine type machineProcess (PortableExecutableFile.IMAGE_FILE_MACHINE_...) on frameworkProcess
 		///versionProcess can load the plug-in DLL at dllPath, or a clear reason, naming the plug-in, why it is refused:
 		///- not a PE file, or a native DLL: not a .NET plug-in;
-		///- a .NET assembly the process cannot map (PortableExecutableFile.CanLoadInProcess): 32BITREQUIRED (platform x86, with or without
-		///  32BITPREFERRED) or mixed-mode x86 in a 64-bit process, x64 (PE32+) in a 32-bit one;
+		///- a .NET assembly the process cannot map (PortableExecutableFile.CanLoadInProcess): 32BITREQUIRED without 32BITPREFERRED (platform
+		///  x86) or mixed-mode x86 in a 64-bit process, x64 (PE32+) in a 32-bit one;
 		///- a framework the process cannot host: on the .NET Framework, .NET (Core) and .NET Standard 2.1 or later; on .NET, the .NET Framework
 		///  (decision 16 of docs/specs/net10-plan.md) and a .NET newer than the process's.
 		///An assembly whose framework the file does not tell is not refused for it (it loads as before). A file that cannot be read is not refused

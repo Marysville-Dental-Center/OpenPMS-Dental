@@ -642,8 +642,14 @@ namespace SparksToothChart {
 			catch(Exception ex) {
 				describe="its header could not be read ("+ex.GetType().Name+")";
 			}
-			return "DirectX: "+System.IO.Path.GetFileName(pathLoaded)+" loaded from "+System.IO.Path.GetDirectoryName(pathLoaded)+", "+describe
-				+", in this "+bitnessProcess+" process.";
+			string folder=System.IO.Path.GetDirectoryName(pathLoaded);
+			if(!is64BitProcess && Environment.Is64BitOperatingSystem
+				&& string.Equals(folder.TrimEnd('\\'),Environment.SystemDirectory.TrimEnd('\\'),StringComparison.OrdinalIgnoreCase))
+			{
+				//A 32-bit process on 64-bit Windows is told System32, but WOW64 redirects it to the 32-bit system folder, where the file is.
+				folder=Environment.GetFolderPath(Environment.SpecialFolder.SystemX86)+" (the loader reports "+folder+", which WOW64 redirects)";
+			}
+			return "DirectX: "+System.IO.Path.GetFileName(pathLoaded)+" loaded from "+folder+", "+describe+", in this "+bitnessProcess+" process.";
 		}
 
 		///<summary>Starts the first mode that works, beginning with drawingModeRequested and following GetFallbackDrawMode: DirectX, then OpenGL,
