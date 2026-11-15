@@ -160,6 +160,13 @@ namespace EhrTests {
 			check.Agree(S1,EhrMeasureType.Reminders,MuMet.False,"Rem1.SeniorNone");
 			check.Agree(S1,EhrMeasureType.Reminders,MuMet.NA,"Rem1.Adult");
 			check.AgreeInPeriod(S1,EhrMeasureType.Reminders,MeasureSpecFixture.DateStart2015,MeasureSpecFixture.DateEnd2015,MuMet.NA,"Rem1.Turns65");
+			//Only the patients with a completed visit after the day three years before the period's start (the EHR-4d fix; any provider, so the
+			//window can tell). Rem1.NoVisit (no visit) and Rem1.VisitThreeYears (a visit on 1 January 2011, three years to the day) are N/A; before
+			//the fix the window asked no visit and gave met (both were reminded), and Measure Calc has neither. Rem1.VisitInThreeYears2015
+			//is 64 at the start of 2014 and, in 2015, met by a visit on 2 January 2012, the first day of the three years.
+			check.Agree(S1,EhrMeasureType.Reminders,MuMet.NA,"Rem1.NoVisit","Rem1.VisitThreeYears","Rem1.VisitInThreeYears2015");
+			check.AgreeInPeriod(S1,EhrMeasureType.Reminders,MeasureSpecFixture.DateStart2015,MeasureSpecFixture.DateEnd2015,MuMet.True,
+				"Rem1.VisitInThreeYears2015");
 			//Stage 2: two or more visit days in the 24 months before the period (the old window: the two years before today, the period included).
 			//The window counts visits with any provider (it has no EP), so Rem2.VisitsWithOther is not compared.
 			check.Agree(S2,EhrMeasureType.Reminders,MuMet.True,"Rem2.TwoVisits","Rem2.OtherPrimary");
@@ -181,12 +188,16 @@ namespace EhrTests {
 					"Win.ReconcileBefore");
 			}
 			//Lab results, Stage 1 and Stage 2 (EHR4B-D11): an order with a free-text result only and a radiology order are in no denominator. The
-			//old window met Lab.Text (a result is entered) and missed the radiology orders (no result). The window does not list the older
-			//medical-order labs, so the Lab.Old cases are not compared.
+			//old window met Lab.Text (a result is entered) and missed the radiology orders (no result). The older lab orders (medical order, lab
+			//panel, labresult) count too since the EHR-4d fix (the window read only ehrlab rows and gave N/A, no lab orders): a panel with no result
+			//row or a positive/negative or numeric result is met, no panel is not met, a free-text result only is in no denominator.
 			foreach(EhrMeasureStage stage in new[] { S1,S2 }) {
 				check.Agree(stage,EhrMeasureType.Lab,MuMet.True,"Lab.Numeric","Lab.Coded");
 				check.Agree(stage,EhrMeasureType.Lab,MuMet.False,"Lab.NoResult","CpoeLab.Cpoe","CpoeLab.NotCpoe");
 				check.Agree(stage,EhrMeasureType.Lab,MuMet.NA,"Lab.Text","Rad.Cpoe","Rad.NotCpoe");
+				check.Agree(stage,EhrMeasureType.Lab,MuMet.True,"Lab.OldPanel","Lab.OldNegative","Lab.OldCoded","Lab.OldNumeric");
+				check.Agree(stage,EhrMeasureType.Lab,MuMet.False,"Lab.OldNoPanel");
+				check.Agree(stage,EhrMeasureType.Lab,MuMet.NA,"Lab.OldText");
 			}
 			//Stage 2 secure messaging (EHR4B-D09): a message from the patient in the period. The old window met Msg.Before (a message of 2013).
 			check.Agree(S2,EhrMeasureType.SecureMessaging,MuMet.True,"Msg.FromPatient");

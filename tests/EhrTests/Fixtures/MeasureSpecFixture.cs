@@ -581,7 +581,8 @@ namespace EhrTests {
 
 		///<summary>EHR-4d's cases. With no office visit in 2014: the older lab orders' results (D11), a deleted patient's transition (D08). Seen only
 		///in 2015 (Monday 2 March 2015 unless said): the EHR window's cases the 2014 patients do not have, the period across a year boundary (D10),
-		///the Stage 1 reminders exclusion count (D06). None is in a 2014 visit-based denominator, so the golden numbers of 2014 move only where a
+		///the Stage 1 reminders exclusion count (D06). Seen only before 2014, or never: the Stage 1 reminders' three years before the period (the
+		///EHR window). None is in a 2014 visit-based denominator, so the golden numbers of 2014 move only where a
 		///fixed rule puts a new patient in (the older lab orders with a positive/negative or numeric result).</summary>
 		private static void MakeEhr4dRows() {
 			//Lab (D11): the older lab orders (medical order, lab panel, labresult) by the EP on 3 March 2014, with no visit: a free-text result, the word
@@ -610,6 +611,18 @@ namespace EhrTests {
 			MakeEvent(SeenPatient2015("Edu.CrossAfter",new DateTime(1980,6,15)),EhrMeasureEventType.EducationProvided,new DateTime(2015,8,3),0);
 			//Reminders (D06): 64 at the start of 2015, 65 at the visit (the 65th birthday 2 February 2015).
 			SeenPatient2015("Rem1.Turns65",new DateTime(1950,2,2));
+			//Stage 1 reminders, the visit in the three years before the period (the EHR window, EHR-4d fix): Measure Calc takes only patients with a
+			//completed visit after the day three years before the period's start. 68 at the start of 2014 and reminded on 3 March 2014: no visit at
+			//all, or one visit on 1 January 2011 (three years before 1 January 2014 to the day, so not after it).
+			MakeEvent(MakePatient("Rem1.NoVisit",new DateTime(1945,2,1),ProviderEp.ProvNum),EhrMeasureEventType.ReminderSent,D(3,3),0);
+			patient=MakePatient("Rem1.VisitThreeYears",new DateTime(1945,2,1),ProviderEp.ProvNum);
+			MakeVisit(patient,new DateTime(2011,1,1),ProviderEp.ProvNum);
+			MakeEvent(patient,EhrMeasureEventType.ReminderSent,D(3,3),0);
+			//64 at the start of 2014 (in no 2014 denominator), 65 at the start of 2015; one visit on 2 January 2012, the first day after the three
+			//years before 1 January 2015; reminded on 2 March 2015.
+			patient=MakePatient("Rem1.VisitInThreeYears2015",new DateTime(1949,6,1),ProviderEp.ProvNum);
+			MakeVisit(patient,new DateTime(2012,1,2),ProviderEp.ProvNum);
+			MakeEvent(patient,EhrMeasureEventType.ReminderSent,DateMonday2015,0);
 		}
 
 		///<summary>A patient with one completed office visit with the EP on Monday 2 March 2015 (EHR-4d's 2015 group).</summary>
