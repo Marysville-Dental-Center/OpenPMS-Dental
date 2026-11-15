@@ -105,6 +105,36 @@ namespace EhrTests {
 		}
 
 		[TestMethod]
+		public void Pick_TheThreeFilesOfThe2026Release_IsRefused_FirstNamingTheReleaseThisProgramNeeds() {
+			//The likeliest real mistake: the previous year's three files (CMS74v15 and so on). Each file of a kind is there, so the pick names no
+			//kind as missing and no count; the first refusal is a file's own, which the Code System Importer's status line shows (section 7.2).
+			List<TestValueSetRow> listValueSets2026=ValueSetFixtures.MakeManifestRows();
+			List<TestValueSetRow> listDirectCodes2026=ValueSetFixtures.MakeDirectCodeRows();
+			foreach(TestValueSetRow row in listValueSets2026.Concat(listDirectCodes2026)) {//One version before each 2027 version.
+				row.MeasureIds=System.Text.RegularExpressions.Regex.Replace(row.MeasureIds,@"v(\d+)",
+					x => "v"+(int.Parse(x.Groups[1].Value,System.Globalization.CultureInfo.InvariantCulture)-1).ToString(System.Globalization.CultureInfo.InvariantCulture));
+			}
+			ValueSetFixtures.Sheet sheet=new ValueSetFixtures.Sheet();
+			sheet.Name="All";
+			sheet.ListRows=listValueSets2026;
+			List<KeyValuePair<string,byte[]>> listFiles=ValueSetFixtures.MakeRelease(ValueSetFixtures.MakeWorkbook(sheet),listDirectCodes2026);
+			foreach(EhrValueSetPick pick in new[] { ValueSetFixtures.ParsePick(listFiles),ValueSetFixtures.ParseEachThenPick(listFiles) }) {
+				string refusals=string.Join("\r\n",pick.ListRefusals);
+				Assert.IsTrue(pick.IsRefused,refusals);
+				Assert.AreEqual(3,pick.ListFiles.Count);
+				StringAssert.Contains(pick.ListRefusals[0],"None of the seven measures this program reports is in the file at its 2027 version");
+				StringAssert.Contains(pick.ListRefusals[0],EhrValueSetImport.RELEASE_LABEL);
+				StringAssert.StartsWith(pick.ListRefusals[0],listFiles[0].Key+": ");
+				Assert.IsTrue(pick.ListRefusals.Any(x => x.StartsWith(listFiles[1].Key+": None of the seven measures")),refusals);
+				Assert.AreEqual(2,pick.ListRefusals.Count,"Only the two files' own refusals: "+refusals);
+				Assert.IsFalse(pick.ListRefusals.Any(x => x.StartsWith("The pick has no file with")),refusals);
+				Assert.IsFalse(pick.ListRefusals.Any(x => x.Contains("Files picked: 3")),refusals);
+				Assert.IsFalse(pick.ListRefusals.Any(x => x.Contains("Pick the three files of the release together")),refusals);
+				Assert.AreEqual(0,pick.ListEhrCodesAll.Count,"Nothing to write.");
+			}
+		}
+
+		[TestMethod]
 		public void Pick_OfFourFiles_TwoOfThemValueSets_IsRefused_BeforeAnyFileIsOpened() {
 			List<KeyValuePair<string,byte[]>> listFiles=ValueSetFixtures.MakeRelease();
 			//The workbook and the same release's value sets again (as an office might pick the .xlsx and the SVS .zip), with the two other files.
