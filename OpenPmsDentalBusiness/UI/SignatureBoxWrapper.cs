@@ -599,18 +599,30 @@ In FormClosing:
 			labelInvalidSig.BringToFront();
 		}
 
-		///<summary>This should NOT be used unless GetSigChanged returns true. keyData should not be hashed.</summary>
+		///<summary>This should NOT be used unless GetSigChanged returns true. keyData should not be hashed. For a Topaz box, throws a Helper32Exception
+		///(its message starts with "Topaz signature pad software could not be reached:") when the 32-bit helper that runs Topaz's control failed,
+		///and never returns "" for a signature the helper lost (S3a-14f).</summary>
 		public string GetSignature(string keyData){
 			//Topaz boxes are written in Windows native code.
 			if(sigBoxTopaz!=null && sigBoxTopaz.Visible) {
-				if(TopazWrapper.GetTopazNumberOfTabletPoints(sigBoxTopaz)==0){
-					return "";
+				try {
+					if(TopazWrapper.GetTopazNumberOfTabletPoints(sigBoxTopaz)==0){
+						return "";
+					}
+					TopazWrapper.SetTopazKeyString(sigBoxTopaz,"0000000000000000");//Clear out key string
+					TopazWrapper.SetTopazAutoKeyData(sigBoxTopaz,keyData);
+					TopazWrapper.SetTopazEncryptionMode(sigBoxTopaz,2);
+					TopazWrapper.SetTopazCompressionMode(sigBoxTopaz,2);
+					return TopazWrapper.GetTopazString(sigBoxTopaz);
 				}
-				TopazWrapper.SetTopazKeyString(sigBoxTopaz,"0000000000000000");//Clear out key string
-				TopazWrapper.SetTopazAutoKeyData(sigBoxTopaz,keyData);
-				TopazWrapper.SetTopazEncryptionMode(sigBoxTopaz,2);
-				TopazWrapper.SetTopazCompressionMode(sigBoxTopaz,2);
-				return TopazWrapper.GetTopazString(sigBoxTopaz);
+				catch(Helper32Exception ex) when(ex.Failure!=Helper32Failure.Remote) {
+					//The 32-bit helper that runs Topaz's control failed (S3a-14f), for example it ended after the patient signed and the signature went
+					//with it (TopazSignatureView.IsSignatureLost). The box says so, and the save stops here instead of storing no signature.
+					string message=Lans.g(this,"Topaz signature pad software could not be reached:")+" "+ex.Message;
+					ShowTopazNotInstalled(null);
+					labelInvalidSig.Text=message;
+					throw new Helper32Exception(ex.Failure,message,ex.RemoteTypeName,ex);
+				}
 			}
 			else{
 				//ProcCur.SigIsTopaz=false;

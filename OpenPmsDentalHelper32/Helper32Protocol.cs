@@ -15,7 +15,9 @@ namespace OpenPmsDentalHelper32 {
 	///its own, only the current user may open it, remote clients rejected) and starts the helper with its name; the helper connects, sends its
 	///hello, and then answers one request at a time with one reply, in order, until the program closes the pipe. A message is a 4-byte
 	///little-endian length and that many bytes: a kind byte and the fields, each string a presence byte and BinaryWriter's UTF-8 string, each
-	///string list a count and its strings, each byte array a length (-1 for null) and its bytes.</summary>
+	///string list a count and its strings, each byte array a length (-1 for null) and its bytes. The UTF-8 is strict: a string that is not
+	///well-formed UTF-16 (a lone surrogate) throws EncoderFallbackException while the message is built in memory, so nothing is written
+	///(Helper32Client reports it as Protocol; S3a-14f); a module whose texts can hold one sends them as bytes or code units of its own.</summary>
 	internal static class Helper32Protocol {
 		///<summary>The protocol version. A module, a command or an argument added to a module (S3a-14's Schick, Topaz and Guru modules) does not
 		///change it; only a change of the framing or of the hello does.</summary>

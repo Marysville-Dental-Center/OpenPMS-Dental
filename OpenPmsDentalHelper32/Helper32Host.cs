@@ -45,6 +45,11 @@ namespace OpenPmsDentalHelper32 {
 						//A reply longer than the protocol allows: the program gets the reason instead of the results.
 						Helper32Protocol.WriteReply(stream,Helper32Reply.FromException(exception));
 					}
+					catch(System.Text.EncoderFallbackException exception) {
+						//A reply string the protocol's UTF-8 cannot carry (a lone surrogate; S3a-14f): the program gets the reason instead of the results.
+						//The reply is built in memory before it is written, so nothing of it was sent.
+						Helper32Protocol.WriteReply(stream,Helper32Reply.FromException(exception));
+					}
 				}
 				catch(IOException) {
 					return Helper32Protocol.EXIT_OK;

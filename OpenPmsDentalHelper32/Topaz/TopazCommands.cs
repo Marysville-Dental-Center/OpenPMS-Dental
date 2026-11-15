@@ -4,6 +4,7 @@
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
 using System.Globalization;
+using System.Text;
 
 namespace OpenPmsDentalHelper32.Topaz {
 	internal static class TopazCommands {
@@ -43,6 +44,10 @@ namespace OpenPmsDentalHelper32.Topaz {
 		public const string TYPE_BOOL="b";
 		public const string TYPE_DOUBLE="d";
 		public const string TYPE_STRING="s";
+		///<summary>A string that is not well-formed UTF-16 (a lone surrogate: note text cut in the middle of an emoji), as its UTF-16 code units in
+		///hex, four digits each. The protocol's UTF-8 cannot carry such a string (S3a-14f), and Topaz's control got it as it was when it ran in the
+		///program's process, so the helper's control gets it unchanged too: the same key data, the same signature check.</summary>
+		public const string TYPE_STRING_UTF16="u";
 		///<summary>Any other type, as its ToString (the program never reads one).</summary>
 		public const string TYPE_OTHER="o";
 
@@ -62,6 +67,9 @@ namespace OpenPmsDentalHelper32.Topaz {
 				case double doubleValue:
 					return new[] { TYPE_DOUBLE,doubleValue.ToString("R",CultureInfo.InvariantCulture) };
 				case string stringValue:
+					if(HasLoneSurrogate(stringValue)) {
+						return new[] { TYPE_STRING_UTF16,StringToUtf16Hex(stringValue) };
+					}
 					return new[] { TYPE_STRING,stringValue };
 				default:
 					if(value.GetType().IsEnum) {
@@ -90,9 +98,47 @@ namespace OpenPmsDentalHelper32.Topaz {
 				case TYPE_STRING:
 				case TYPE_OTHER:
 					return text;
+				case TYPE_STRING_UTF16:
+					return StringFromUtf16Hex(text);
 				default:
 					throw new ArgumentException("No value type "+type+".");
 			}
+		}
+
+		///<summary>True when value has a high surrogate not followed by a low one, or a low surrogate not after a high one.</summary>
+		public static bool HasLoneSurrogate(string value) {
+			for(int i=0;i<value.Length;i++) {
+				if(char.IsHighSurrogate(value[i])) {
+					if(i+1<value.Length && char.IsLowSurrogate(value[i+1])) {
+						i++;//a pair
+						continue;
+					}
+					return true;
+				}
+				if(char.IsLowSurrogate(value[i])) {
+					return true;
+				}
+			}
+			return false;
+		}
+
+		private static string StringToUtf16Hex(string value) {
+			StringBuilder stringBuilder=new StringBuilder(value.Length*4);
+			foreach(char c in value) {
+				stringBuilder.Append(((int)c).ToString("X4",CultureInfo.InvariantCulture));
+			}
+			return stringBuilder.ToString();
+		}
+
+		private static string StringFromUtf16Hex(string text) {
+			if(text.Length%4!=0) {
+				throw new ArgumentException("A "+TYPE_STRING_UTF16+" value has four hex digits per character.");
+			}
+			char[] arrayChars=new char[text.Length/4];
+			for(int i=0;i<arrayChars.Length;i++) {
+				arrayChars[i]=(char)int.Parse(text.Substring(4*i,4),NumberStyles.AllowHexSpecifier,CultureInfo.InvariantCulture);
+			}
+			return new string(arrayChars);
 		}
 
 		public static string IntToText(int value) {

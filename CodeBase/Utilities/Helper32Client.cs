@@ -11,6 +11,7 @@ using System.IO;
 using System.IO.Pipes;
 using System.Runtime.InteropServices;
 using System.Security.Principal;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Win32.SafeHandles;
@@ -143,6 +144,13 @@ namespace CodeBase {
 				}
 				catch(InvalidDataException exception) {
 					throw new Helper32Exception(Helper32Failure.Protocol,exception.Message,null,exception);//too long: nothing was sent
+				}
+				catch(EncoderFallbackException exception) {
+					//A string the protocol's UTF-8 cannot carry (a lone surrogate, as in a note cut in the middle of an emoji; S3a-14f). The message is
+					//built in memory before it is written, so nothing was sent and the helper still waits for the next request. A module whose strings
+					//can hold one encodes them itself (TopazCommands.TYPE_STRING_UTF16, GuruCommands.EncodePatient).
+					throw new Helper32Exception(Helper32Failure.Protocol,"A text of "+module+" "+command+" cannot be sent to the 32-bit helper program: "
+						+exception.Message+" Nothing was sent.",null,exception);
 				}
 				Task<Helper32Reply> taskRead=Task.Run(() => Helper32Protocol.ReadReply(pipe));
 				bool isDone;
