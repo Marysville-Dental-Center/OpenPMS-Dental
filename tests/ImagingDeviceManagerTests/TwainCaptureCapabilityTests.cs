@@ -32,9 +32,11 @@ namespace ImagingDeviceManager.Tests {
 
 		[TestMethod]
 		public void ExtImageInfoStructures_HaveTwainSizes() {
-			//TW_UINTPTR is 4 bytes in a 32-bit process and 8 in a 64-bit one (S3a-12: the lane runs this assembly in both bitnesses).
-			int sizeInfo=IntPtr.Size==8 ? 16 : 12;
+			//TW_UINTPTR is 4 bytes in a 32-bit process and 8 in a 64-bit one (S3a-12: the lane runs this assembly in both bitnesses). The size comes
+			//from the TWAIN size table of TwainProtocolTests (S3a-FU2: it was written here inline).
+			int sizeInfo=TwainProtocolTests.GetTwainSize(typeof(TW_INFO));
 			Assert.AreEqual(sizeInfo,Marshal.SizeOf(typeof(TW_INFO)),"TW_INFO: four UINT16 and a TW_UINTPTR.");
+			Assert.AreEqual(sizeInfo,TwExtImageInfo.InfoSize);
 			Assert.AreEqual(4+3*sizeInfo,TwExtImageInfo.GetSize(3));
 			Assert.AreEqual(4+sizeInfo,TwExtImageInfo.GetInfoOffset(1));
 			Assert.IsTrue(TwExtImageInfo.IsItemHandle(Tw.TWTY_HANDLE,1),"A TWTY_HANDLE item is a handle.");

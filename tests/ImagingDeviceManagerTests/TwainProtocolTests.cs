@@ -37,6 +37,14 @@ namespace ImagingDeviceManager.Tests {
 			Tuple.Create(typeof(TW_ENTRYPOINT),24,44),//Size(4) five function pointers
 		};
 
+		///<summary>The TWAIN size of a structure of the size table in this process's bitness, for the other tests of this assembly (S3a-FU2: they
+		///take a size from here, not inline). Fails for a structure that has no row.</summary>
+		internal static int GetTwainSize(Type type) {
+			Tuple<Type,int,int> tuple=_listSizes.Find(x => x.Item1==type);
+			Assert.IsNotNull(tuple,type.Name+" has no row in the size table.");
+			return Pick(tuple.Item2,tuple.Item3);
+		}
+
 		///<summary>(structure, field, offset in a 32-bit process, offset in a 64-bit process), from the same header. With two-byte packing a pointer
 		///field moves only when a pointer comes before it.</summary>
 		private static readonly List<Tuple<Type,string,int,int>> _listOffsets=new List<Tuple<Type,string,int,int>> {

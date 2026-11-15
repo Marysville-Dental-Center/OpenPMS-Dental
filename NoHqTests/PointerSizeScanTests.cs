@@ -150,6 +150,57 @@ namespace NoHqTests {
 		}
 
 		[TestMethod]
+		public void Scan_WindowLongPairOutsideItsWrapper_IsFound() {
+			//S3a-FU2: the choice by bitness counts only in the method that calls both halves. Here it is in another method of the file.
+			AssertProblems(new[] {
+				"public static IntPtr SetOwner(IntPtr hWnd,int nIndex,IntPtr dwNewLong) {",
+				"\treturn SetWindowLong32(hWnd,nIndex,dwNewLong);",
+				"}",
+				"public static IntPtr SetOwner64(IntPtr hWnd,int nIndex,IntPtr dwNewLong) {",
+				"\treturn SetWindowLongPtr64(hWnd,nIndex,dwNewLong);",
+				"}",
+				"private static bool Is64() {",
+				"\treturn Environment.Is64BitProcess;",
+				"}",
+				"[DllImport(\"user32.dll\",EntryPoint=\"SetWindowLong\",SetLastError=true)]",
+				"private static extern IntPtr SetWindowLong32(IntPtr hWnd,int nIndex,IntPtr dwNewLong);",
+				"[DllImport(\"user32.dll\",EntryPoint=\"SetWindowLongPtr\",SetLastError=true)]",
+				"private static extern IntPtr SetWindowLongPtr64(IntPtr hWnd,int nIndex,IntPtr dwNewLong);" },"2 window long","5 window long");
+			//The wrapper chooses, but another method calls the 64-bit half directly (and a lambda the 32-bit one).
+			AssertProblems(new[] {
+				"public static IntPtr SetWindowLongPtr(IntPtr hWnd,int nIndex,IntPtr dwNewLong) {",
+				"\tif(IntPtr.Size==8) {","\t\treturn SetWindowLongPtr64(hWnd,nIndex,dwNewLong);","\t}","\treturn SetWindowLong32(hWnd,nIndex,dwNewLong);","}",
+				"private void SetParent(IntPtr hWnd,IntPtr hWndOwner) {",
+				"\tNativeMethods.SetWindowLongPtr64(hWnd,-8,hWndOwner);",
+				"\tlistHandles.ForEach(x => SetWindowLong32(x,-8,hWndOwner));",
+				"}",
+				"[DllImport(\"user32.dll\",EntryPoint=\"SetWindowLong\",SetLastError=true)]",
+				"private static extern IntPtr SetWindowLong32(IntPtr hWnd,int nIndex,IntPtr dwNewLong);",
+				"[DllImport(\"user32.dll\",EntryPoint=\"SetWindowLongPtr\",SetLastError=true)]",
+				"private static extern IntPtr SetWindowLongPtr64(IntPtr hWnd,int nIndex,IntPtr dwNewLong);" },"8 window long","9 window long");
+			//A branch in the wrapper that calls only one half.
+			AssertProblems(new[] {
+				"public static IntPtr SetWindowLongPtr(IntPtr hWnd,int nIndex,IntPtr dwNewLong) {",
+				"\tif(IntPtr.Size==8) {","\t\treturn SetWindowLongPtr64(hWnd,nIndex,dwNewLong);","\t}","\treturn IntPtr.Zero;","}",
+				"private static IntPtr Set32(IntPtr hWnd,int nIndex,IntPtr dwNewLong) {","\treturn SetWindowLong32(hWnd,nIndex,dwNewLong);","}",
+				"[DllImport(\"user32.dll\",EntryPoint=\"SetWindowLong\",SetLastError=true)]",
+				"private static extern IntPtr SetWindowLong32(IntPtr hWnd,int nIndex,IntPtr dwNewLong);",
+				"[DllImport(\"user32.dll\",EntryPoint=\"SetWindowLongPtr\",SetLastError=true)]",
+				"private static extern IntPtr SetWindowLongPtr64(IntPtr hWnd,int nIndex,IntPtr dwNewLong);" },"3 window long","8 window long");
+			//Good: an expression-bodied wrapper, and callers of the wrapper elsewhere in the file.
+			AssertProblems(new[] {
+				"public static IntPtr SetWindowLongPtr(IntPtr hWnd,int nIndex,IntPtr dwNewLong)",
+				"\t=> Environment.Is64BitProcess ? SetWindowLongPtr64(hWnd,nIndex,dwNewLong) : SetWindowLong32(hWnd,nIndex,dwNewLong);",
+				"private void SetParent(IntPtr hWnd,IntPtr hWndOwner) {",
+				"\tusing(new Scope()) {","\t\tNativeMethods.SetWindowLongPtr(hWnd,-8,hWndOwner);","\t}",
+				"}",
+				"[DllImport(\"user32.dll\",EntryPoint=\"SetWindowLong\",SetLastError=true)]",
+				"private static extern IntPtr SetWindowLong32(IntPtr hWnd,int nIndex,IntPtr dwNewLong);",
+				"[DllImport(\"user32.dll\",EntryPoint=\"SetWindowLongPtr\",SetLastError=true)]",
+				"private static extern IntPtr SetWindowLongPtr64(IntPtr hWnd,int nIndex,IntPtr dwNewLong);" });
+		}
+
+		[TestMethod]
 		public void Scan_RegistryLocalMachineVendorKey_IsFound() {
 			AssertProblems(new[] { "RegistryKey regKey=Registry.LocalMachine.OpenSubKey(\"Software\\\\TROJAN BENEFIT SERVICE\");" },"1 registry");
 			AssertProblems(new[] { "RegistryKey hklm=Registry.LocalMachine;","hklm=hklm.OpenSubKey(@\"SOFTWARE\\Vendor\");" },"1 registry");
@@ -236,15 +287,17 @@ namespace NoHqTests {
 		///<summary>Rule 3.</summary>
 		private static List<string> FindWindowLongs(SourceFile sourceFile) {
 			List<string> listProblems=new List<string>();
-			bool hasBitnessBranch=_regexBitnessBranch.IsMatch(sourceFile.Code);
 			List<Declaration> listDeclarations=GetDeclarations(sourceFile);
-			bool hasPtrImport=listDeclarations.Any(x => _arrayWindowLongPtr.Contains(x.EntryPointBase));
+			//S3a-FU2: the choice by bitness counts only in the method that wraps the pair, the one that calls both halves; before, a bitness branch
+			//anywhere in the file let either half be called from anywhere.
+			List<string> listNamesPtr=listDeclarations.Where(x => _arrayWindowLongPtr.Contains(x.EntryPointBase)).Select(x => x.Name).ToList();
+			List<string> listNames32Pointer=listDeclarations.Where(x => _arrayWindowLong32.Contains(x.EntryPointBase) && !x.Name.Contains("Ptr")
+				&& x.IsPointerForm).Select(x => x.Name).ToList();
 			foreach(Declaration declaration in listDeclarations) {
 				string where=sourceFile.PathRelative+":"+declaration.Line+" window long ";
 				if(_arrayWindowLongPtr.Contains(declaration.EntryPointBase)) {
-					if(!hasBitnessBranch) {
-						listProblems.Add(where+declaration.EntryPoint+" imported where nothing chooses by bitness: 32-bit user32 does not export it");
-					}
+					listProblems.AddRange(FindCallsOutsideTheWrapper(sourceFile,declaration,listNames32Pointer,
+						where+declaration.EntryPoint+" imported where nothing chooses by bitness: 32-bit user32 does not export it"));
 					continue;
 				}
 				if(!_arrayWindowLong32.Contains(declaration.EntryPointBase)) {
@@ -255,10 +308,9 @@ namespace NoHqTests {
 					continue;
 				}
 				if(declaration.IsPointerForm) {
-					if(!hasPtrImport || !hasBitnessBranch) {
-						listProblems.Add(where+declaration.Name+" passes a pointer-sized value to the 32-bit "+declaration.EntryPoint+" without the 64-bit "
-							+declaration.EntryPointBase+"Ptr chosen by bitness");
-					}
+					listProblems.AddRange(FindCallsOutsideTheWrapper(sourceFile,declaration,listNamesPtr,
+						where+declaration.Name+" passes a pointer-sized value to the 32-bit "+declaration.EntryPoint+" without the 64-bit "
+						+declaration.EntryPointBase+"Ptr chosen by bitness"));
 					continue;
 				}
 				foreach(Match match in Regex.Matches(sourceFile.Code,@"(?<![\w])"+Regex.Escape(declaration.Name)+@"\s*\(")) {
@@ -273,6 +325,120 @@ namespace NoHqTests {
 				}
 			}
 			return listProblems;
+		}
+
+		///<summary>Rule 3's pair (S3a-FU2): one half of the pair (declaration) may be called only from a method that chooses by bitness
+		///(_regexBitnessBranch in its own body) and also calls the other half (one of listNamesOther). problemNoCall when it is never called or
+		///the other half is not imported; a problem at each call outside such a method.</summary>
+		private static List<string> FindCallsOutsideTheWrapper(SourceFile sourceFile,Declaration declaration,List<string> listNamesOther,
+			string problemNoCall)
+		{
+			List<string> listProblems=new List<string>();
+			string code=sourceFile.Code;
+			List<int> listCalls=FindCalls(code,declaration.Name);
+			if(listCalls.Count==0 || listNamesOther.Count==0) {
+				listProblems.Add(problemNoCall);
+				return listProblems;
+			}
+			foreach(int indexCall in listCalls) {
+				string method=GetEnclosingMethod(code,indexCall);
+				bool isWrapped=method!=null && _regexBitnessBranch.IsMatch(method) && listNamesOther.Any(x => FindCalls(method,x).Count>0);
+				if(!isWrapped) {
+					listProblems.Add(sourceFile.PathRelative+":"+sourceFile.GetLine(indexCall)+" window long "+declaration.Name+"() called outside the "
+						+"method that chooses between "+declaration.EntryPointBase+" and its other half by bitness");
+				}
+			}
+			return listProblems;
+		}
+
+		///<summary>Where the code calls the method name (its declarations left out).</summary>
+		private static List<int> FindCalls(string code,string name) {
+			List<int> listCalls=new List<int>();
+			foreach(Match match in Regex.Matches(code,@"(?<![\w])"+Regex.Escape(name)+@"\s*\(")) {
+				if(!IsDeclaration(code,match.Index)) {
+					listCalls.Add(match.Index);
+				}
+			}
+			return listCalls;
+		}
+
+		private static readonly string[] _arrayKeywordsBeforeParenthesis=new[] { "if","for","foreach","while","switch","using","lock","catch","fixed",
+			"when","return","nameof","typeof","sizeof","default","checked","unchecked" };
+
+		///<summary>The body of the innermost method (or local function) around index: from its { to its }, found by walking out of the blocks
+		///that are not a method's (if, for, using, a lambda's, ...). For a call in an expression body (=&gt; with no braces), its statement. Null
+		///when the call is in no method (a field initializer).</summary>
+		private static string GetEnclosingMethod(string code,int index) {
+			int indexStatementStart=code.LastIndexOfAny(new[] { ';','{','}' },Math.Max(0,index-1))+1;
+			int indexStatementEnd=code.IndexOf(';',index);
+			indexStatementEnd=indexStatementEnd<0 ? code.Length : indexStatementEnd;
+			string statement=code.Substring(indexStatementStart,indexStatementEnd-indexStatementStart);
+			if(statement.Substring(0,index-indexStatementStart).Contains("=>")) {
+				return statement;
+			}
+			int depth=0;
+			for(int i=index-1;i>=0;i--) {
+				if(code[i]=='}') {
+					depth++;
+					continue;
+				}
+				if(code[i]!='{') {
+					continue;
+				}
+				if(depth>0) {
+					depth--;
+					continue;
+				}
+				if(IsMethodBodyStart(code,i)) {
+					int indexEnd=GetBalancedBraceEnd(code,i);
+					return code.Substring(i,indexEnd-i);
+				}
+			}
+			return null;
+		}
+
+		///<summary>True when the { at indexBrace opens a method's body: it follows a parameter list whose name is not a keyword (if(...) {).</summary>
+		private static bool IsMethodBodyStart(string code,int indexBrace) {
+			string before=code.Substring(0,indexBrace).TrimEnd();
+			if(!before.EndsWith(")")) {
+				return false;
+			}
+			int depth=0;
+			int indexOpen=-1;
+			for(int i=before.Length-1;i>=0;i--) {
+				if(before[i]==')') {
+					depth++;
+				}
+				else if(before[i]=='(') {
+					depth--;
+					if(depth==0) {
+						indexOpen=i;
+						break;
+					}
+				}
+			}
+			if(indexOpen<0) {
+				return false;
+			}
+			Match match=Regex.Match(before.Substring(0,indexOpen),@"([A-Za-z_]\w*)\s*(?:<[^<>(){};]*>)?\s*$");
+			return match.Success && !_arrayKeywordsBeforeParenthesis.Contains(match.Groups[1].Value);
+		}
+
+		///<summary>The index after the brace that closes the one at indexOpen (the end of the code when there is none).</summary>
+		private static int GetBalancedBraceEnd(string code,int indexOpen) {
+			int depth=0;
+			for(int i=indexOpen;i<code.Length;i++) {
+				if(code[i]=='{') {
+					depth++;
+				}
+				else if(code[i]=='}') {
+					depth--;
+					if(depth==0) {
+						return i+1;
+					}
+				}
+			}
+			return code.Length;
 		}
 
 		///<summary>Rule 4.</summary>
