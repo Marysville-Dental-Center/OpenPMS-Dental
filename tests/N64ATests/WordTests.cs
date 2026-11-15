@@ -80,9 +80,13 @@ namespace N64ATests {
 		[TestMethod]
 		public void Source_CreateWordApp_AndTheCallers() {
 			string letterMerges=TestSupport.ReadRepoFile(@"OpenPmsDentalBusiness\Data Interface\LetterMerges.cs");
-			Assert.AreEqual(2,CountOf(letterMerges,"catch(Exception ex) when(GetWordRegistrationErrorHResult(ex)!=0) {"));
-			//CLEAN-1: also the new Word whose first call fails with a registration error (released, no second start).
-			Assert.AreEqual(3,CountOf(letterMerges,"throw CreateWordRegistrationException(ex);"));
+			//CreateInstance in CreateWordApp, Visible in InitWordApp, and the second start in GetWordApp.
+			Assert.AreEqual(3,CountOf(letterMerges,"catch(Exception ex) when(GetWordRegistrationErrorHResult(ex)!=0) {"));
+			//CLEAN-1: also the new Word whose first call fails with a registration error (released, no second start), and the Word whose Visible
+			//fails in InitWordApp (released).
+			Assert.AreEqual(4,CountOf(letterMerges,"throw CreateWordRegistrationException(ex);"));
+			Assert.AreEqual(2,CountOf(letterMerges,"ReleaseComObjectQuietly(application);"),"ReleaseWordApp and InitWordApp release through it.");
+			StringAssert.Contains(letterMerges,"return InitWordApp(application);");
 			Assert.AreEqual(1,CountOf(letterMerges,"catch(Exception ex) when(isWordNew && GetWordRegistrationErrorHResult(ex)!=0) {"));
 			StringAssert.Contains(letterMerges,"CodeBase.Logger.WriteLine(wordRegistrationException.Message+\" \"+ex.GetType().Name+\": \"+ex.Message,\"Word\");");
 			Assert.AreEqual(3,CountOf(TestSupport.ReadRepoFile(@"OpenPmsDental\Forms\FormLetterMerges.cs"),
@@ -227,6 +231,80 @@ namespace N64ATests {
 				Assert.AreEqual(2,listCreated.Count);
 				Assert.AreEqual(0,listReleased.Count);
 			});
+		}
+		///<summary>A stand-in for a Word just started whose type library is not registered: setting Visible, its first late-bound call, fails.</summary>
+		public class FakeWordVisibleFails {
+			public Exception ExceptionVisible;
+			public int CountVisible;
+
+			public bool Visible {
+				get { return false; }
+				set {
+					CountVisible++;
+					throw ExceptionVisible;
+				}
+			}
+		}
+
+		///<summary>CreateInstance started Word, and setting Visible fails with a registration error: InitWordApp releases that object (no hidden
+		///Word stays running) and throws the clear WordRegistrationException. Before this fix the object was not released.</summary>
+		[TestMethod]
+		public void InitWordApp_VisibleFailsWithABrokenRegistration_ReleasesTheObject() {
+			FakeWordVisibleFails fakeWord=new FakeWordVisibleFails { ExceptionVisible=new COMException("Library not registered.",TYPE_E_LIBNOTREGISTERED) };
+			List<object> listReleased=new List<object>();
+			try {
+				LetterMerges.ActionReleaseWordAppForTests=x => listReleased.Add(x);
+				WordRegistrationException wordRegistrationException=null;
+				try {
+					LetterMerges.InitWordApp(fakeWord);
+				}
+				catch(WordRegistrationException ex) {
+					wordRegistrationException=ex;
+				}
+				Assert.IsNotNull(wordRegistrationException,"The clear message for a broken registration.");
+				Assert.AreEqual(TYPE_E_LIBNOTREGISTERED,wordRegistrationException.HResultRegistration);
+				Assert.AreEqual(1,fakeWord.CountVisible);
+				CollectionAssert.AreEqual(new object[] { fakeWord },listReleased,"The Word object that was started is released.");
+			}
+			finally {
+				LetterMerges.ActionReleaseWordAppForTests=null;
+			}
+		}
+
+		///<summary>Setting Visible fails with Word's own error (not a registration error): the exception goes to the caller as before and the object
+		///is not released here.</summary>
+		[TestMethod]
+		public void InitWordApp_VisibleFailsWithAnotherError_Rethrows_NoRelease() {
+			FakeWordVisibleFails fakeWord=new FakeWordVisibleFails { ExceptionVisible=new COMException("Word failed.",unchecked((int)0x80004005)) };
+			List<object> listReleased=new List<object>();
+			try {
+				LetterMerges.ActionReleaseWordAppForTests=x => listReleased.Add(x);
+				Exception exception=null;
+				try {
+					LetterMerges.InitWordApp(fakeWord);
+				}
+				catch(Exception ex) {
+					exception=ex;
+				}
+				Assert.IsNotNull(exception);
+				Assert.IsNotInstanceOfType(exception,typeof(WordRegistrationException));
+				Assert.AreEqual(0,listReleased.Count);
+			}
+			finally {
+				LetterMerges.ActionReleaseWordAppForTests=null;
+			}
+		}
+
+		///<summary>A working Word: InitWordApp sets Visible to true and returns the same object.</summary>
+		[TestMethod]
+		public void InitWordApp_Works_SetsVisible_ReturnsTheObject() {
+			FakeWordVisible fakeWord=new FakeWordVisible();
+			Assert.AreSame(fakeWord,LetterMerges.InitWordApp(fakeWord));
+			Assert.IsTrue(fakeWord.Visible);
+		}
+
+		public class FakeWordVisible {
+			public bool Visible { get; set; }
 		}
 		#endregion GetWordApp's start and retry (CLEAN-1)
 

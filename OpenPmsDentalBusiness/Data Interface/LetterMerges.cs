@@ -117,6 +117,12 @@ namespace OpenPmsDentalBusiness{
 		private static void ReleaseWordApp() {
 			object application=_word_Application;
 			_word_Application=null;
+			ReleaseComObjectQuietly(application);
+		}
+
+		///<summary>Releases a Word object that failed with a registration error, so its Word process ends now rather than when the garbage
+		///collector finalizes it. Never throws.</summary>
+		private static void ReleaseComObjectQuietly(object application) {
 			if(ActionReleaseWordAppForTests!=null) {
 				ActionReleaseWordAppForTests(application);
 				return;
@@ -141,12 +147,26 @@ namespace OpenPmsDentalBusiness{
 			if(type==null) {
 				throw new ApplicationException("Microsoft Word is not installed.");
 			}
+			object application;
 			try {
-				object application=Activator.CreateInstance(type);
-				type.InvokeMember("Visible",BindingFlags.SetProperty,null,application,new object[] { true });
+				application=Activator.CreateInstance(type);
+			}
+			catch(Exception ex) when(GetWordRegistrationErrorHResult(ex)!=0) {
+				throw CreateWordRegistrationException(ex);
+			}
+			return InitWordApp(application);
+		}
+
+		///<summary>Makes the Word object just started visible and returns it. Its first late-bound call is the one that meets a broken type
+		///library or interface registration: then the object is released, so no hidden Word process stays running (it could get in the way of
+		///the Office repair the message asks for), and the WordRegistrationException is thrown (CLEAN-1).</summary>
+		internal static object InitWordApp(object application) {
+			try {
+				application.GetType().InvokeMember("Visible",BindingFlags.SetProperty,null,application,new object[] { true });
 				return application;
 			}
 			catch(Exception ex) when(GetWordRegistrationErrorHResult(ex)!=0) {
+				ReleaseComObjectQuietly(application);
 				throw CreateWordRegistrationException(ex);
 			}
 		}
