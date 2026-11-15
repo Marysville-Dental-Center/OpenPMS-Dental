@@ -461,8 +461,8 @@ namespace OpenPmsDentalBusiness {
 		}
 
 		///<summary>The text of a failed response, as RequestResponseUtils.CreateResponseExceptionString wrote it: the status for 400 and above
-		///except 500; otherwise the body (read with its charset, or Encoding.Default and its byte order mark, and HTML-decoded), or "an empty
-		///response" when there is none.</summary>
+		///except 500; otherwise the body (read with its charset, or else the ANSI page, which the proxies' Encoding.Default was, and its byte
+		///order mark; HTML-decoded), or "an empty response" when there is none.</summary>
 		private static string GetFailureText(HttpResponseMessage httpResponseMessage,byte[] arrayBytesResponse,string contentType) {
 			int statusCode=(int)httpResponseMessage.StatusCode;
 			if(statusCode>=400 && httpResponseMessage.StatusCode!=HttpStatusCode.InternalServerError) {
@@ -470,7 +470,7 @@ namespace OpenPmsDentalBusiness {
 			}
 			string text="";
 			if(arrayBytesResponse!=null && arrayBytesResponse.Length>0) {
-				using StreamReader streamReader=new StreamReader(new MemoryStream(arrayBytesResponse),GetCharset(contentType)??Encoding.Default,true);
+				using StreamReader streamReader=new StreamReader(new MemoryStream(arrayBytesResponse),GetCharset(contentType)??ODEncodings.GetAnsiEncoding(),true);
 				text=streamReader.ReadToEnd();
 			}
 			if(text.Length==0) {
