@@ -50,11 +50,11 @@ namespace OpenPmsDental {
 			this.tabPagePrint = new OpenPmsDental.UI.TabPage();
 			this.checkPrintClassic = new OpenPmsDental.UI.CheckBox();
 			this.labelCheckInsFrequency = new System.Windows.Forms.Label();
-			this.contextMenuPreAuthGrid = new System.Windows.Forms.ContextMenu();
-			this.menuItemSnipAttachment = new System.Windows.Forms.MenuItem();
-			this.menuItemSelectImage = new System.Windows.Forms.MenuItem();
-			this.menuItemPasteAttachment = new System.Windows.Forms.MenuItem();
-			this.menuItemAttachmentHistory = new System.Windows.Forms.MenuItem();
+			this.contextMenuPreAuthGrid = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.menuItemSnipAttachment = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemSelectImage = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemPasteAttachment = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemAttachmentHistory = new System.Windows.Forms.ToolStripMenuItem();
 			this.userControlIndIns = new OpenPmsDental.DashIndividualInsurance();
 			this.userControlFamIns = new OpenPmsDental.DashFamilyInsurance();
 			this.butPlannedAppt = new OpenPmsDental.UI.Button();
@@ -64,7 +64,7 @@ namespace OpenPmsDental {
 			this.butInsRem = new OpenPmsDental.UI.Button();
 			this.ToolBarMain = new OpenPmsDental.UI.ToolBarOD();
 			this.textNote = new OpenPmsDental.ODtextBox();
-			this.menuConsent = new System.Windows.Forms.ContextMenu();
+			this.menuConsent = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.userControlIndDis = new OpenPmsDental.DashIndividualDiscount();
 			this.tabControlShowSort.SuspendLayout();
 			this.tabPageShow.SuspendLayout();
@@ -125,7 +125,8 @@ namespace OpenPmsDental {
 			// 
 			// gridPreAuth
 			// 
-			this.gridPreAuth.ContextMenu = this.contextMenuPreAuthGrid;
+			this.gridPreAuth.ContextMenuStrip = this.contextMenuPreAuthGrid;
+			this.gridPreAuth.DoAddGridItemsToContextMenuStrip = true;
 			this.gridPreAuth.Location = new System.Drawing.Point(693, 29);
 			this.gridPreAuth.Name = "gridPreAuth";
 			this.gridPreAuth.Size = new System.Drawing.Size(299, 146);
@@ -137,34 +138,30 @@ namespace OpenPmsDental {
 			// 
 			// contextMenuPreAuthGrid
 			// 
-			this.contextMenuPreAuthGrid.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+			this.contextMenuPreAuthGrid.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuItemSnipAttachment,
             this.menuItemSelectImage,
             this.menuItemPasteAttachment,
             this.menuItemAttachmentHistory});
-			this.contextMenuPreAuthGrid.Popup += new System.EventHandler(this.contextMenuPreAuthGrid_Popup);
+			this.contextMenuPreAuthGrid.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuPreAuthGrid_Popup);
 			// 
 			// menuItemSnipAttachment
 			// 
-			this.menuItemSnipAttachment.Index = 0;
 			this.menuItemSnipAttachment.Text = "Snip Attachment for DentalXChange";
 			this.menuItemSnipAttachment.Click += new System.EventHandler(this.menuItemSnipAttachment_Click);
 			// 
 			// menuItemSelectImage
 			// 
-			this.menuItemSelectImage.Index = 1;
 			this.menuItemSelectImage.Text = "Select Attachment for DentalXChange";
 			this.menuItemSelectImage.Click += new System.EventHandler(this.menuItemSelectImage_Click);
 			// 
 			// menuItemPasteAttachment
 			// 
-			this.menuItemPasteAttachment.Index = 2;
 			this.menuItemPasteAttachment.Text = "Paste Attachment(s) for DentalXChange";
 			this.menuItemPasteAttachment.Click += new System.EventHandler(this.menuItemPasteAttachment_Click);
 			// 
 			// menuItemAttachmentHistory
 			// 
-			this.menuItemAttachmentHistory.Index = 3;
 			this.menuItemAttachmentHistory.Text = "View Sent Attachments for DentalXChange";
 			this.menuItemAttachmentHistory.Click += new System.EventHandler(this.menuItemAttachmentHistory_Click);
 			// 
@@ -463,7 +460,7 @@ namespace OpenPmsDental {
 			// 
 			// menuConsent
 			// 
-			this.menuConsent.Popup += new System.EventHandler(this.menuConsent_Popup);
+			this.menuConsent.Opening += new System.ComponentModel.CancelEventHandler(this.menuConsent_Popup);
 			// 
 			// userControlIndDis
 			// 
@@ -531,16 +528,16 @@ namespace OpenPmsDental {
 		private UI.Button butInsRem;
 		private UI.Button butNewTP;
 		private UI.Button butSaveTP;
-		private System.Windows.Forms.ContextMenu contextMenuPreAuthGrid;
-		private System.Windows.Forms.MenuItem menuItemSnipAttachment;
-		private System.Windows.Forms.MenuItem menuItemSelectImage;
-		private System.Windows.Forms.MenuItem menuItemPasteAttachment;
-		private System.Windows.Forms.MenuItem menuItemAttachmentHistory;
+		private System.Windows.Forms.ContextMenuStrip contextMenuPreAuthGrid;
+		private System.Windows.Forms.ToolStripMenuItem menuItemSnipAttachment;
+		private System.Windows.Forms.ToolStripMenuItem menuItemSelectImage;
+		private System.Windows.Forms.ToolStripMenuItem menuItemPasteAttachment;
+		private System.Windows.Forms.ToolStripMenuItem menuItemAttachmentHistory;
 		private System.Drawing.Printing.PrintDocument pd2;
 		private OpenPmsDental.UI.GridOD gridMain;
 		private OpenPmsDental.UI.GridOD gridPrint;
 		private OpenPmsDental.UI.GridOD gridPreAuth;
-		private System.Windows.Forms.ContextMenu menuConsent;
+		private System.Windows.Forms.ContextMenuStrip menuConsent;
 		private System.Windows.Forms.ImageList imageListMain;
 		private OpenPmsDental.UI.ToolBarOD ToolBarMain;
 		private OpenPmsDental.UI.GridOD gridPlans;

@@ -23,7 +23,8 @@
 		/// the contents of this method with the code editor.
 		/// </summary>
 		private void InitializeComponent() {
-			this.contextMenuUsers = new System.Windows.Forms.ContextMenu();
+			this.components = new System.ComponentModel.Container();
+			this.contextMenuUsers = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.tabControlMain = new OpenPmsDental.UI.TabControl();
 			this.tabPageUsers = new OpenPmsDental.UI.TabPage();
 			this.panelUserGroups = new OpenPmsDental.UI.PanelOD();

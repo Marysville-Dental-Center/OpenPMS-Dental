@@ -38,6 +38,8 @@ namespace OpenPmsDental {
 		#endregion Fields - Public
 
 		#region Fields - Private
+		///<summary>The Layout button's drop-down menu. LayoutToolBar fills it again each time it lays out the toolbar.</summary>
+		private ContextMenuStrip _contextMenuStripLayout;
 		///<summary>Locker for Apteryx Thumbnail downloads</summary>
 		private object _apteryxLocker=new object();
 		///<summary>This is a list that is 1:1 with what's showing in current tab.</summary>
@@ -746,9 +748,9 @@ namespace OpenPmsDental {
 
 		#region Methods - Event Handlers - LayoutMenuItems
 		private void LayoutMenuItem_Click(object sender,EventArgs e) {
-			MenuItem menuItem=(sender as MenuItem);
+			ToolStripMenuItem menuItem=(sender as ToolStripMenuItem);
 			if(menuItem.Tag is SheetDef sheetDef) {
-				menuItem.Parent.MenuItems.OfType<MenuItem>().ForEach(x => x.Checked=(x==menuItem));
+				menuItem.Owner.Items.OfType<ToolStripMenuItem>().ForEach(x => x.Checked=(x==menuItem));
 				_sheetLayoutController.InitLayoutForSheetDef(sheetDef,LayoutSheet_GetMode(),LayoutSheet_GetControlDict(),isUserSelection:true);
 				LayoutControls();
 				return;
@@ -1163,11 +1165,11 @@ namespace OpenPmsDental {
 
 		///<summary>Just prior to displaying the context menu, enable or disables the UnmaskSSN option</summary>
 		private void MenuItemPopupUnmaskDOB(object sender,EventArgs e) {
-			MenuItem menuItemDOB=gridPtInfo.ContextMenu.MenuItems.OfType<MenuItem>().FirstOrDefault(x => x.Name=="ViewDOB");
+			ToolStripMenuItem menuItemDOB=gridPtInfo.ContextMenuStrip.Items.OfType<ToolStripMenuItem>().FirstOrDefault(x => x.Name=="ViewDOB");
 			if(menuItemDOB==null) { 
 				return;//Should not happen
 			}
-			MenuItem menuItemSeperator=gridPtInfo.ContextMenu.MenuItems.OfType<MenuItem>().FirstOrDefault(x => x.Text=="-");
+			ToolStripSeparator menuItemSeperator=gridPtInfo.ContextMenuStrip.Items.OfType<ToolStripSeparator>().FirstOrDefault();//the first separator, the grid's
 			if(menuItemSeperator==null) { 
 				return;//Should not happen
 			}
@@ -1193,7 +1195,7 @@ namespace OpenPmsDental {
 			}
 			menuItemDOB.Visible=false;
 			menuItemDOB.Enabled=false;
-			if(gridPtInfo.ContextMenu.MenuItems.OfType<MenuItem>().Count(x => x.Visible==true && x.Text!="-")>1) {
+			if(gridPtInfo.ContextMenuStrip.Items.OfType<ToolStripMenuItem>().Count(x => x.Available)>1) {//Available: Visible is false until the menu shows
 				//There is more than one item showing, we want the seperator.
 				menuItemSeperator.Visible=true;
 				menuItemSeperator.Enabled=true;
@@ -1494,7 +1496,7 @@ namespace OpenPmsDental {
 
 		#region Methods - Event Handlers - Menu Other
 		private void menuConsent_Click(object sender,EventArgs e) {
-			SheetDef sheetDef=(SheetDef)(((MenuItem)sender).Tag);
+			SheetDef sheetDef=(SheetDef)(((ToolStripMenuItem)sender).Tag);
 			SheetDefs.GetFieldsAndParameters(sheetDef);
 			Sheet sheet=SheetUtil.CreateSheet(sheetDef,Pd.PatNum);
 			SheetParameter.SetParameter(sheet,"PatNum",Pd.PatNum);
@@ -1513,36 +1515,38 @@ namespace OpenPmsDental {
 			FormSheetFillEdit.ShowForm(sheet,FormSheetFillEdit_FormClosing);
 		}
 
-		private void menuConsent_Popup(object sender,EventArgs e) {
-			menuConsent.MenuItems.Clear();
+		private void menuConsent_Popup(object sender,CancelEventArgs e) {
+			menuConsent.Items.Clear();
 			List<SheetDef> listSheetDefs=SheetDefs.GetCustomForType(SheetTypeEnum.Consent);
-			MenuItem menuItem;
+			ToolStripMenuItem menuItem;
 			for(int i=0;i<listSheetDefs.Count;i++) {
-				menuItem=new MenuItem(listSheetDefs[i].Description);
+				menuItem=new ToolStripMenuItem(listSheetDefs[i].Description);
 				menuItem.Tag=listSheetDefs[i];
 				menuItem.Click+=new EventHandler(menuConsent_Click);
-				menuConsent.MenuItems.Add(menuItem);
+				menuConsent.Items.Add(menuItem);
 			}
+			e.Cancel=menuConsent.Items.Count==0;//filled here: a ContextMenuStrip without items starts its Opening cancelled
 		}
 
 		private void menuOrthoChart_Click(object sender,EventArgs e) {
-			int orthoChartTabIndex=(int)(((MenuItem)sender).Tag);
+			int orthoChartTabIndex=(int)(((ToolStripMenuItem)sender).Tag);
 			FormOrthoChart.ShowNonModal(FindForm(),Pd.Patient,orthoChartTabIndex,OrthoChartSaved);//25.3: no longer blocks the program.
 		}
 
-		private void menuOrthoChart_Popup(object sender,EventArgs e) {
-			menuOrthoChart.MenuItems.Clear();
+		private void menuOrthoChart_Popup(object sender,CancelEventArgs e) {
+			menuOrthoChart.Items.Clear();
 			List<OrthoChartTab> listOrthoChartTabs=OrthoChartTabs.GetDeepCopy(true);
 			for(int i=1;i<listOrthoChartTabs.Count;i++) {//Start i at 1 so tha we do not duplicate the first ortho tab (the main button)
-				MenuItem menuItem=new MenuItem(listOrthoChartTabs[i].TabName);
+				ToolStripMenuItem menuItem=new ToolStripMenuItem(listOrthoChartTabs[i].TabName);
 				menuItem.Tag=i;
 				menuItem.Click+=new EventHandler(menuOrthoChart_Click);
-				menuOrthoChart.MenuItems.Add(menuItem);
+				menuOrthoChart.Items.Add(menuItem);
 			}
+			e.Cancel=menuOrthoChart.Items.Count==0;//filled here: a ContextMenuStrip without items starts its Opening cancelled
 		}
 
 		///<summary>The menu will display all items that are relevant to at least one selected row. If there is at least one selected row that is not relevant, the menu item will be disabled but visible.</summary>
-		private void menuProgRight_Popup(object sender,EventArgs e) {
+		private void menuProgRight_Popup(object sender,CancelEventArgs e) {
 			//Permissions on some menu items will not get checked until clicking on the menu item which will then stop the user if not allowed.
 			ShowMenuItemHelper(menuItemDelete,x => CanDeleteRow(x.DataRow,isCheckDb:false,isSilent:true)==EnumSkippedRow.None);
 			ShowMenuItemHelper(menuItemSetEO,x => CanChangeProcsStatus(ProcStat.EO,x.DataRow,isCheckDb:false,isSilent:true));
@@ -1576,7 +1580,7 @@ namespace OpenPmsDental {
 			ChartLetters_MenuPopup();
 		}
 
-		private void menuToothChart_Popup(object sender,EventArgs e) {
+		private void menuToothChart_Popup(object sender,CancelEventArgs e) {
 			//ComputerPref computerPref=ComputerPrefs.GetForLocalComputer();
 			//only enable the big button if 3D graphics
 			/*if(computerPref.GraphicsSimple) {
@@ -4614,7 +4618,7 @@ namespace OpenPmsDental {
 						//ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"New Rx"),1,"","Rx"));
 						button=new ODToolBarButton(Lan.g(this,"New Rx"),1,"","Rx");
 						button.Style=ODToolBarButtonStyle.DropDownButton;
-						button.DropDownMenu=_contextMenuRxManage;
+						button.ContextMenuStripDropDown=_contextMenuRxManage;
 						ToolBarMain.Buttons.Add(button);
 					}
 					//don't add eRx
@@ -4623,13 +4627,13 @@ namespace OpenPmsDental {
 					//ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"New Rx"),1,"","Rx"));
 					button=new ODToolBarButton(Lan.g(this,"New Rx"),1,"","Rx");
 					button.Style=ODToolBarButtonStyle.DropDownButton;
-					button.DropDownMenu=_contextMenuRxManage;
+					button.ContextMenuStripDropDown=_contextMenuRxManage;
 					ToolBarMain.Buttons.Add(button);
 					if(Programs.IsEnabled(ProgramName.eRx)) {//The eRx button only shows once the office has enabled the eRx program link.
 						if(toolBarButtonErx==null) {
 							toolBarButtonErx=new ODToolBarButton(Lan.g(this,"eRx"),1,"","eRx");
 							toolBarButtonErx.Style=ODToolBarButtonStyle.DropDownButton;
-							toolBarButtonErx.DropDownMenu=menuErx;
+							toolBarButtonErx.ContextMenuStripDropDown=menuErx;
 						}
 						ToolBarMain.Buttons.Add(toolBarButtonErx);
 					}
@@ -4643,14 +4647,14 @@ namespace OpenPmsDental {
 				button=new ODToolBarButton(OrthoChartTabs.GetFirst(true).TabName,-1,"","Ortho");
 				if(OrthoChartTabs.GetCount(true)>1) {
 					button.Style=ODToolBarButtonStyle.DropDownButton;
-					button.DropDownMenu=menuOrthoChart;
+					button.ContextMenuStripDropDown=menuOrthoChart;
 				}
 				ToolBarMain.Buttons.Add(button);
 			}
 			button=new ODToolBarButton(Lan.g(this,"Consent"),-1,"","Consent");
 			if(SheetDefs.GetCustomForType(SheetTypeEnum.Consent).Count>0) {
 				button.Style=ODToolBarButtonStyle.DropDownButton;
-				button.DropDownMenu=menuConsent;
+				button.ContextMenuStripDropDown=menuConsent;
 			}
 			ToolBarMain.Buttons.Add(button);
 			//if(PrefC.GetBool(PrefName.ToothChartMoveMenuToRight)) {
@@ -4659,7 +4663,7 @@ namespace OpenPmsDental {
 			if(!Clinics.IsMedicalPracticeOrClinic(Clinics.ClinicNum)) {
 				button=new ODToolBarButton(Lan.g(this,"Tooth Chart"),-1,"","ToothChart");
 				button.Style=ODToolBarButtonStyle.DropDownButton;
-				button.DropDownMenu=menuToothChart;
+				button.ContextMenuStripDropDown=menuToothChart;
 				ToolBarMain.Buttons.Add(button);
 			}
 			button=new ODToolBarButton(Lan.g(this,"Exam Sheet"),-1,"","ExamSheet");
@@ -4687,22 +4691,28 @@ namespace OpenPmsDental {
 			if(_sheetLayoutController!=null && _sheetLayoutController.ListSheetDefsLayout!=null && _sheetLayoutController.ListSheetDefsLayout.Count>0) {
 				button=new ODToolBarButton("Layout",-1,"","Layout");
 				button.Style=ODToolBarButtonStyle.DropDownButton;
-				List<MenuItem> listMenuItems=new List<MenuItem>(new[] { new MenuItem(Lan.g(this,"Add/Edit Layouts"),LayoutMenuItem_Click),new MenuItem("-") });
+				List<ToolStripItem> listMenuItems=new List<ToolStripItem>(new ToolStripItem[] { new ToolStripMenuItem(Lan.g(this,"Add/Edit Layouts"),null,LayoutMenuItem_Click),new ToolStripSeparator() });
 				long sheetDefNumSelectedLayout=_sheetLayoutController.GetLayoutForUser().SheetDefNum;
 				listMenuItems.AddRange(
 					_sheetLayoutController.ListSheetDefsLayout.FindAll(x => x.SheetDefNum>0)//add all custom SheetDefs
-						.Select(x => new MenuItem(x.Description,LayoutMenuItem_Click) { Tag=x,Checked=(sheetDefNumSelectedLayout==x.SheetDefNum) })
+						.Select(x => new ToolStripMenuItem(x.Description,null,LayoutMenuItem_Click) { Tag=x,Checked=(sheetDefNumSelectedLayout==x.SheetDefNum) })
 				);
 				if(_sheetLayoutController.ListSheetDefsLayout.Any(x => x.SheetDefNum>0)) {//Menu has at least one custom layout def
-					listMenuItems.Add(new MenuItem("-"));//add separator between custom and internal
+					listMenuItems.Add(new ToolStripSeparator());//add separator between custom and internal
 				}
 				SheetDef sheetDefInternalLayout=_sheetLayoutController.ListSheetDefsLayout.FirstOrDefault(x => x.SheetDefNum==0);
 				if(sheetDefInternalLayout!=null) {//Not sure how this could be null, but we've had bug submissions for it.
 					listMenuItems.Add(
-						new MenuItem(sheetDefInternalLayout.Description,LayoutMenuItem_Click) { Tag=sheetDefInternalLayout,Checked=(sheetDefNumSelectedLayout==0) }
+						new ToolStripMenuItem(sheetDefInternalLayout.Description,null,LayoutMenuItem_Click) { Tag=sheetDefInternalLayout,Checked=(sheetDefNumSelectedLayout==0) }
 					);
 				}
-				button.DropDownMenu=new ContextMenu(listMenuItems.ToArray());
+				//One menu, filled again each time (the toolbar is laid out again from a click on one of its items, so it is not disposed here).
+				if(_contextMenuStripLayout==null) {
+					_contextMenuStripLayout=new ContextMenuStrip();
+				}
+				_contextMenuStripLayout.Items.Clear();
+				_contextMenuStripLayout.Items.AddRange(listMenuItems.ToArray());
+				button.ContextMenuStripDropDown=_contextMenuStripLayout;
 				ToolBarMain.Buttons.Add(button);
 			}
 			ProgramL.LoadToolBar(ToolBarMain,EnumToolBar.ChartModule);
@@ -4791,7 +4801,11 @@ namespace OpenPmsDental {
 			Pd.Clear();
 			_listSubstitutionLinks=null;
 			_patNumLast=0;//Clear out the last pat num so that a security log gets entered that the module was "visited" or "refreshed".
-			gridPtInfo.ContextMenu=new ContextMenu();//This module is never really disposed. Get rid of any menu options we added, to avoid duplicates.
+			//This module is never really disposed. Get rid of any menu options we added, to avoid duplicates.
+			ContextMenuStrip contextMenuStripOld=gridPtInfo.ContextMenuStrip;
+			gridPtInfo.ContextMenuStrip=new ContextMenuStrip();
+			gridPtInfo.DoAddGridItemsToContextMenuStrip=true;//ODGrid will automatically attach the default Popups
+			DisposeContextMenuStripLater(contextMenuStripOld);
 			Plugins.HookAddCode(this,"ContrChart.ModuleUnselected_end");
 		}
 
@@ -4986,18 +5000,19 @@ namespace OpenPmsDental {
 				}
 				if(PrefC.GetBool(PrefName.PatientDOBMasked)) {
 					//Add "View DOB" right click option, MenuItemPopupUnmaskDOB will show and hide it as needed.
-					if(gridPtInfo.ContextMenu==null) {
-						gridPtInfo.ContextMenu=new ContextMenu();//ODGrid will automatically attach the defaut Popups
+					if(gridPtInfo.ContextMenuStrip==null || !gridPtInfo.DoAddGridItemsToContextMenuStrip) {//Also the grid's own strip, made by a right click on the empty grid (lead fix at S3a-M2's merge)
+						gridPtInfo.ContextMenuStrip=new ContextMenuStrip();
+						gridPtInfo.DoAddGridItemsToContextMenuStrip=true;//ODGrid will automatically attach the defaut Popups
 					}
-					ContextMenu contextMenu=gridPtInfo.ContextMenu;
-					MenuItem menuItemUnmaskDOB=new MenuItem();
+					ContextMenuStrip contextMenu=gridPtInfo.ContextMenuStrip;
+					ToolStripMenuItem menuItemUnmaskDOB=new ToolStripMenuItem();
 					menuItemUnmaskDOB.Enabled=false;
 					menuItemUnmaskDOB.Visible=false;
 					menuItemUnmaskDOB.Name="ViewDOB";
 					menuItemUnmaskDOB.Text="View DOB";
 					menuItemUnmaskDOB.Click+=new System.EventHandler(this.MenuItemUnmaskDOB_Click);
-					contextMenu.MenuItems.Add(menuItemUnmaskDOB);
-					contextMenu.Popup+=MenuItemPopupUnmaskDOB;
+					contextMenu.Items.Add(menuItemUnmaskDOB);
+					contextMenu.Opening+=MenuItemPopupUnmaskDOB;
 				}
 			}
 			if(!UsingEcwTightOrFull() && isClinicRefresh) {
@@ -7487,8 +7502,21 @@ namespace OpenPmsDental {
 			return true;
 		}		
 
+		///<summary>Disposes a right-click menu that a grid no longer uses, after the current message: the menu can be replaced from a click on one of
+		///its own items (a link that changes the patient or the module).</summary>
+		private void DisposeContextMenuStripLater(ContextMenuStrip contextMenuStrip) {
+			if(contextMenuStrip==null) {
+				return;
+			}
+			if(!IsHandleCreated) {
+				contextMenuStrip.Dispose();
+				return;
+			}
+			BeginInvoke((Action)contextMenuStrip.Dispose);
+		}
+
 		///<summary>Displays the menu item as enabled if all the selected rows return true for isRowRelevant. Displays the menu item as disabled if at least one but not all return true. Hides the menu item if no rows return true.</summary>
-		private void ShowMenuItemHelper(MenuItem menuItem,Func<DataRowWithIdx,bool> isRowRelevant) {
+		private void ShowMenuItemHelper(ToolStripMenuItem menuItem,Func<DataRowWithIdx,bool> isRowRelevant) {
 			List<DataRowWithIdx> listDataRowsWithIdxsSelected=gridProg.SelectedIndices.Where(x => x>-1 && x<gridProg.ListGridRows.Count)
 				.Select(x => new DataRowWithIdx((DataRow)gridProg.ListGridRows[x].Tag,x)).ToList();
 			int countRelevant=listDataRowsWithIdxsSelected.Count(x => isRowRelevant(x));
@@ -7585,7 +7613,7 @@ namespace OpenPmsDental {
 			}
 			List<SheetDef> listSheetDefs=SheetDefs.GetCustomForType(SheetTypeEnum.Consent);
 			if(listSheetDefs.Count>0) {
-				ContextMenu contextMenuConsent=odToolBarButton.DropDownMenu.GetContextMenu();
+				ContextMenuStrip contextMenuConsent=odToolBarButton.ContextMenuStripDropDown;
 				contextMenuConsent.Show(this,new Point(odToolBarButton.Bounds.X,odToolBarButton.Bounds.Y+odToolBarButton.Bounds.Height));
 				return;
 			}
@@ -8188,7 +8216,7 @@ namespace OpenPmsDental {
 		}
 		
 		private void Tool_ToothChart_Click(ODToolBarButton odToolBarButton) {
-			ContextMenu contextMenuConsent=odToolBarButton.DropDownMenu.GetContextMenu();
+			ContextMenuStrip contextMenuConsent=odToolBarButton.ContextMenuStripDropDown;
 			contextMenuConsent.Show(this,new Point(odToolBarButton.Bounds.X,odToolBarButton.Bounds.Y+odToolBarButton.Bounds.Height));
 		}
 
@@ -10286,9 +10314,12 @@ namespace OpenPmsDental {
 			}
 			Cursor=Cursors.WaitCursor;
 			gridOrtho.SelectionMode=GridSelectionMode.MultiExtended;
-			ContextMenu contextMenu=new ContextMenu();
-			contextMenu.MenuItems.Add("Delete",MenuItemOrthoDelete_Click);
-			gridOrtho.ContextMenu=contextMenu;
+			ContextMenuStrip contextMenu=new ContextMenuStrip();
+			contextMenu.Items.Add("Delete",null,MenuItemOrthoDelete_Click);
+			ContextMenuStrip contextMenuStripOld=gridOrtho.ContextMenuStrip;
+			gridOrtho.ContextMenuStrip=contextMenu;
+			gridOrtho.DoAddGridItemsToContextMenuStrip=true;//Copy Cell Text, Copy Rows and the links after Delete, as before
+			DisposeContextMenuStripLater(contextMenuStripOld);
 			gridOrtho.BeginUpdate();
 			gridOrtho.Columns.Clear();
 			GridColumn col=new GridColumn(Lan.g("TableOrtho","Date"),70);

@@ -5,9 +5,15 @@
        sheet combo box texts are built in memory and compared with what the WinForms menus held; no window is shown. The translation tests use
        one scratch database on the local MariaDB (127.0.0.1:3306, root, blank password) whose name starts with s3am1_ and is unique to the run,
        with the language and languageforeign tables only and synthetic rows, dropped afterwards; they are skipped (inconclusive) when the server
-       does not answer or when S3AM1_TEST_DB=skip. Every .cs file under this folder is compiled. -->
+       does not answer or when S3AM1_TEST_DB=skip. Every .cs file under this folder is compiled.
+       The M2*.cs files test package S3a-M2 (docs/port-notes/S3a-M2.md): the program modules' menus on ContextMenuStrip, built in memory on an
+       STA thread or read from the designer files, and the Images module's clipboard data (JSON under the program's own format), round-tripped
+       through private data objects, never the system clipboard. They need no database. -->
   <ItemGroup>
     <Reference Include="System.Windows.Forms" />
+    <!-- The WPF DataObject of the Images module's copy (M2ClipboardTests). -->
+    <Reference Include="PresentationCore" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\CodeBase\xCodeBase.csproj" />
@@ -15,6 +21,8 @@
     <ProjectReference Include="..\..\OpenPmsDentalBusiness\OpenPmsDentalBusiness.csproj" />
     <!-- Lan, ToolBarOD and ODToolBarButton. No window of the program is ever shown. -->
     <ProjectReference Include="..\..\OpenPmsDental\OpenPmsDental.csproj" />
+    <!-- NodeTypeAndKey, the Images module's clipboard key (M2ClipboardTests). The lock file already holds it (a dependency of OpenPmsDental). -->
+    <ProjectReference Include="..\..\WpfControlsOD\WpfControlsOD.csproj" />
     <!-- ComboBoxMulti, the multiple-choice box of the RDL report parameters. -->
     <ProjectReference Include="..\..\ODR\xODR.csproj" />
   </ItemGroup>

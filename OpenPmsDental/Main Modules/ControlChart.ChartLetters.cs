@@ -7,23 +7,23 @@ namespace OpenPmsDental {
 	///<summary>Chart letters (24.4) in the Progress Notes: the right-click menu items, double-click to open a read-only copy, and refreshing when a
 	///letter changes, including when a save in the editor writes a new version in the background.</summary>
 	public partial class ControlChart {
-		private MenuItem _menuItemChartLetterSeparator;
-		private MenuItem _menuItemChartLetterNew;
-		private MenuItem _menuItemChartLetterEdit;
-		private MenuItem _menuItemChartLetterProperties;
-		private MenuItem _menuItemChartLetterDelete;
+		private ToolStripSeparator _menuItemChartLetterSeparator;
+		private ToolStripMenuItem _menuItemChartLetterNew;
+		private ToolStripMenuItem _menuItemChartLetterEdit;
+		private ToolStripMenuItem _menuItemChartLetterProperties;
+		private ToolStripMenuItem _menuItemChartLetterDelete;
 
 		///<summary>Adds the chart letter items to the Progress Notes right-click menu. Called once at startup.</summary>
 		private void ChartLetters_InitializeOnStartup() {
 			if(_menuItemChartLetterNew!=null) {
 				return;
 			}
-			_menuItemChartLetterSeparator=new MenuItem("-");
-			_menuItemChartLetterNew=new MenuItem(Lan.g(this,"New Chart Letter..."),menuItemChartLetterNew_Click);
-			_menuItemChartLetterEdit=new MenuItem(Lan.g(this,"Edit Document"),menuItemChartLetterEdit_Click);
-			_menuItemChartLetterProperties=new MenuItem(Lan.g(this,"Properties"),menuItemChartLetterProperties_Click);
-			_menuItemChartLetterDelete=new MenuItem(Lan.g(this,"Delete Chart Letter"),menuItemChartLetterDelete_Click);
-			menuProgRight.MenuItems.AddRange(new MenuItem[] {
+			_menuItemChartLetterSeparator=new ToolStripSeparator();
+			_menuItemChartLetterNew=new ToolStripMenuItem(Lan.g(this,"New Chart Letter..."),null,menuItemChartLetterNew_Click);
+			_menuItemChartLetterEdit=new ToolStripMenuItem(Lan.g(this,"Edit Document"),null,menuItemChartLetterEdit_Click);
+			_menuItemChartLetterProperties=new ToolStripMenuItem(Lan.g(this,"Properties"),null,menuItemChartLetterProperties_Click);
+			_menuItemChartLetterDelete=new ToolStripMenuItem(Lan.g(this,"Delete Chart Letter"),null,menuItemChartLetterDelete_Click);
+			menuProgRight.Items.AddRange(new ToolStripItem[] {
 				_menuItemChartLetterSeparator,
 				_menuItemChartLetterNew,
 				_menuItemChartLetterEdit,

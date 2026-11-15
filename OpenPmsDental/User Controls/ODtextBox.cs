@@ -38,7 +38,7 @@ namespace OpenPmsDental {
 		public LayoutManagerForms LayoutManager=new LayoutManagerForms();
 		///<summary>User can open a dialog from textBox for AutoNote or QuickPaste. This flag is set to true during that time so that TextBox_LostFocus doesn't try to dispose of the textBox in FormSheetFillEdit.</summary>
 		public bool IsDlgOpen=false;
-		private System.Windows.Forms.ContextMenu contextMenu;
+		private System.Windows.Forms.ContextMenuStrip contextMenu;
 		private IContainer components;// Required designer variable.
 		private EnumQuickPasteType _quickPasteType;
 		private Graphics _graphicsBuffer;
@@ -67,7 +67,7 @@ namespace OpenPmsDental {
 		private bool _enableDetectLinks=true;
 		private bool _hasAutoNotes;
 		///<summary>Must track menuitems that we have added, so that we know which ones to take away when reconstructing context menu.</summary>
-		private List<MenuItem> _listMenuItemsLinks;
+		private List<ToolStripItem> _listMenuItemsLinks;
 		///<summary>Stores the current words for all odtextboxes and if they are spelled correctly.  Speeds up spell checking.
 		///Words cannot be removed from the spelling dictionary and thus also cannot be removed from this dictionary.
 		///Is a concurrent dictionary so multiple odtextboxes can add words at the same time safely.</summary>
@@ -195,24 +195,24 @@ namespace OpenPmsDental {
 				WpfControls.SpellCheckL.ReadInBackground();
 			}
 			EventHandler onClick=new EventHandler(menuItem_Click);
-			contextMenu.MenuItems.Add("",onClick);//These five menu items will hold the suggested spelling for misspelled words.  If no misspelled words, they will not be visible.
-			contextMenu.MenuItems.Add("",onClick);
-			contextMenu.MenuItems.Add("",onClick);
-			contextMenu.MenuItems.Add("",onClick);
-			contextMenu.MenuItems.Add("",onClick);
-			contextMenu.MenuItems.Add("-");
-			contextMenu.MenuItems.Add(Lan.g(this,"Add to Dictionary"),onClick);
-			contextMenu.MenuItems.Add(Lan.g(this,"Disable Spell Check"),onClick);
-			contextMenu.MenuItems.Add("-");
-			contextMenu.MenuItems.Add(new MenuItem(Lan.g(this,"Insert Date"),onClick,Shortcut.CtrlD));
-			contextMenu.MenuItems.Add(new MenuItem(Lan.g(this,"Insert Quick Paste Note"),onClick,Shortcut.CtrlQ));
-			contextMenu.MenuItems.Add(new MenuItem(Lan.g(this,"Insert Auto Note"),onClick));
-			contextMenu.MenuItems.Add("-");
-			contextMenu.MenuItems.Add(new MenuItem(Lan.g(this,"Cut"),onClick,Shortcut.CtrlX));
-			contextMenu.MenuItems.Add(new MenuItem(Lan.g(this,"Copy"),onClick,Shortcut.CtrlC));
-			contextMenu.MenuItems.Add(new MenuItem(Lan.g(this,"Paste"),onClick,Shortcut.CtrlV));
-			contextMenu.MenuItems.Add(new MenuItem(Lan.g(this,"Paste Plain Text"),onClick));
-			contextMenu.MenuItems.Add(new MenuItem(Lan.g(this,"Edit Auto Note"),onClick));
+			contextMenu.Items.Add("",null,onClick);//These five menu items will hold the suggested spelling for misspelled words.  If no misspelled words, they will not be visible.
+			contextMenu.Items.Add("",null,onClick);
+			contextMenu.Items.Add("",null,onClick);
+			contextMenu.Items.Add("",null,onClick);
+			contextMenu.Items.Add("",null,onClick);
+			contextMenu.Items.Add(new ToolStripSeparator());
+			contextMenu.Items.Add(Lan.g(this,"Add to Dictionary"),null,onClick);
+			contextMenu.Items.Add(Lan.g(this,"Disable Spell Check"),null,onClick);
+			contextMenu.Items.Add(new ToolStripSeparator());
+			contextMenu.Items.Add(new ToolStripMenuItem(Lan.g(this,"Insert Date"),null,onClick,Keys.Control|Keys.D));
+			contextMenu.Items.Add(new ToolStripMenuItem(Lan.g(this,"Insert Quick Paste Note"),null,onClick,Keys.Control|Keys.Q));
+			contextMenu.Items.Add(new ToolStripMenuItem(Lan.g(this,"Insert Auto Note"),null,onClick));
+			contextMenu.Items.Add(new ToolStripSeparator());
+			contextMenu.Items.Add(new ToolStripMenuItem(Lan.g(this,"Cut"),null,onClick,Keys.Control|Keys.X));
+			contextMenu.Items.Add(new ToolStripMenuItem(Lan.g(this,"Copy"),null,onClick,Keys.Control|Keys.C));
+			contextMenu.Items.Add(new ToolStripMenuItem(Lan.g(this,"Paste"),null,onClick,Keys.Control|Keys.V));
+			contextMenu.Items.Add(new ToolStripMenuItem(Lan.g(this,"Paste Plain Text"),null,onClick));
+			contextMenu.Items.Add(new ToolStripMenuItem(Lan.g(this,"Edit Auto Note"),null,onClick));
 			base.BackColor=SystemColors.Window;//Needed for OnReadOnlyChanged() to change backcolor when ReadOnly because of an issue with RichTextBox.
 		}
 
@@ -237,13 +237,13 @@ namespace OpenPmsDental {
 		/// </summary>
 		private void InitializeComponent() {
 			this.components = new System.ComponentModel.Container();
-			this.contextMenu = new System.Windows.Forms.ContextMenu();
+			this.contextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.timerSpellCheck = new System.Windows.Forms.Timer(this.components);
 			this.SuspendLayout();
 			// 
 			// contextMenu
 			// 
-			this.contextMenu.Popup += new System.EventHandler(this.contextMenu_Popup);
+			this.contextMenu.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenu_Popup);
 			// 
 			// timerSpellCheck
 			// 
@@ -252,7 +252,7 @@ namespace OpenPmsDental {
 			// 
 			// ODtextBox
 			// 
-			this.ContextMenu = this.contextMenu;
+			this.ContextMenuStrip = this.contextMenu;
 			this.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
 			this.ContentsResized += new System.Windows.Forms.ContentsResizedEventHandler(this.ODtextBox_ContentsResized);
 			this.VScroll += new System.EventHandler(this.ODtextBox_VScroll);
@@ -374,89 +374,89 @@ namespace OpenPmsDental {
 			return PrefC.GetBool(PrefName.SpellCheckIsEnabled);
 		}
 
-		private void contextMenu_Popup(object sender,System.EventArgs e) {
+		private void contextMenu_Popup(object sender,System.ComponentModel.CancelEventArgs e) {
 			if(SelectionLength==0) {
-				contextMenu.MenuItems[13].Enabled=false;//cut
-				contextMenu.MenuItems[14].Enabled=false;//copy
+				contextMenu.Items[13].Enabled=false;//cut
+				contextMenu.Items[14].Enabled=false;//copy
 			}
 			else {
-				contextMenu.MenuItems[13].Enabled=true;
-				contextMenu.MenuItems[14].Enabled=true;
+				contextMenu.Items[13].Enabled=true;
+				contextMenu.Items[14].Enabled=true;
 			}
 			if(!IsUsingSpellCheck()
 			  || !IsOnMisspelled(_pointClick)) {//did not click on a misspelled word OR spell check is disabled
-				contextMenu.MenuItems[0].Visible=false;//suggestion 1
-				contextMenu.MenuItems[1].Visible=false;//suggestion 2
-				contextMenu.MenuItems[2].Visible=false;//suggestion 3
-				contextMenu.MenuItems[3].Visible=false;//suggestion 4
-				contextMenu.MenuItems[4].Visible=false;//suggestion 5
-				contextMenu.MenuItems[5].Visible=false;//contextMenu separator
-				contextMenu.MenuItems[6].Visible=false;//Add to Dictionary
-				contextMenu.MenuItems[7].Visible=false;//Disable Spell Check
-				contextMenu.MenuItems[8].Visible=false;//separator
+				contextMenu.Items[0].Visible=false;//suggestion 1
+				contextMenu.Items[1].Visible=false;//suggestion 2
+				contextMenu.Items[2].Visible=false;//suggestion 3
+				contextMenu.Items[3].Visible=false;//suggestion 4
+				contextMenu.Items[4].Visible=false;//suggestion 5
+				contextMenu.Items[5].Visible=false;//contextMenu separator
+				contextMenu.Items[6].Visible=false;//Add to Dictionary
+				contextMenu.Items[7].Visible=false;//Disable Spell Check
+				contextMenu.Items[8].Visible=false;//separator
 			}
 			else if(IsUsingSpellCheck()
 			  && IsOnMisspelled(_pointClick)) {//clicked on or near a misspelled word AND spell check is enabled
 				List<string> suggestions=SpellSuggest();
 				if(suggestions.Count==0) {//no suggestions
-					contextMenu.MenuItems[0].Text=Lan.g(this,"No Spelling Suggestions");
-					contextMenu.MenuItems[0].Visible=true;
-					contextMenu.MenuItems[0].Enabled=false;//suggestion 1 set to "No Spelling Suggestions"
-					contextMenu.MenuItems[1].Visible=false;//suggestion 2
-					contextMenu.MenuItems[2].Visible=false;//suggestion 3
-					contextMenu.MenuItems[3].Visible=false;//suggestion 4
-					contextMenu.MenuItems[4].Visible=false;//suggestion 5
+					contextMenu.Items[0].Text=Lan.g(this,"No Spelling Suggestions");
+					contextMenu.Items[0].Visible=true;
+					contextMenu.Items[0].Enabled=false;//suggestion 1 set to "No Spelling Suggestions"
+					contextMenu.Items[1].Visible=false;//suggestion 2
+					contextMenu.Items[2].Visible=false;//suggestion 3
+					contextMenu.Items[3].Visible=false;//suggestion 4
+					contextMenu.Items[4].Visible=false;//suggestion 5
 				}
 				else {//must be on misspelled word and spell check is enabled globally and locally
 					for(int i=0;i<5;i++) {//Only display first 5 suggestions if available
 						if(i>=suggestions.Count) {
-							contextMenu.MenuItems[i].Visible=false;
+							contextMenu.Items[i].Visible=false;
 							continue;
 						}
-						contextMenu.MenuItems[i].Text=suggestions[i];
-						contextMenu.MenuItems[i].Visible=true;
-						contextMenu.MenuItems[i].Enabled=true;
+						contextMenu.Items[i].Text=suggestions[i];
+						contextMenu.Items[i].Visible=true;
+						contextMenu.Items[i].Enabled=true;
 					}
 				}
-				contextMenu.MenuItems[5].Visible=true;//contextMenu separator, will display whether or not there is a suggestion for the misspelled word
-				contextMenu.MenuItems[6].Visible=true;//Add to Dictionary
-				contextMenu.MenuItems[7].Visible=true;//Disable Spell Check
-				contextMenu.MenuItems[8].Visible=true;//contextMenu separator
+				contextMenu.Items[5].Visible=true;//contextMenu separator, will display whether or not there is a suggestion for the misspelled word
+				contextMenu.Items[6].Visible=true;//Add to Dictionary
+				contextMenu.Items[7].Visible=true;//Disable Spell Check
+				contextMenu.Items[8].Visible=true;//contextMenu separator
 			}
 			if(HasAutoNotes) {
-				contextMenu.MenuItems[11].Visible=true;//Insert Auto Note
-				contextMenu.MenuItems[11].Enabled=true;
+				contextMenu.Items[11].Visible=true;//Insert Auto Note
+				contextMenu.Items[11].Enabled=true;
 			}
 			else {
-				contextMenu.MenuItems[11].Visible=false;
-				contextMenu.MenuItems[11].Enabled=false;
+				contextMenu.Items[11].Visible=false;
+				contextMenu.Items[11].Enabled=false;
 			}
 			if(FormattedTextAllowed) {
-				contextMenu.MenuItems[16].Visible=true;//Paste Plain Text
-				contextMenu.MenuItems[16].Enabled=true;
+				contextMenu.Items[16].Visible=true;//Paste Plain Text
+				contextMenu.Items[16].Enabled=true;
 			}
 			else {
-				contextMenu.MenuItems[16].Visible=false;//Paste Plain Text
-				contextMenu.MenuItems[16].Enabled=false;
+				contextMenu.Items[16].Visible=false;//Paste Plain Text
+				contextMenu.Items[16].Enabled=false;
 			}
 			string textCur=(SelectedText!=""?SelectedText:Text); //Edit Auto Note
 			if(Regex.IsMatch(textCur,@"\[Prompt:""[a-zA-Z_0-9 ]+""\]")) {
-				contextMenu.MenuItems[17].Visible=true;
-				contextMenu.MenuItems[17].Enabled=true;
+				contextMenu.Items[17].Visible=true;
+				contextMenu.Items[17].Enabled=true;
 			}
 			else {
-				contextMenu.MenuItems[17].Visible=false;
-				contextMenu.MenuItems[17].Enabled=false;
+				contextMenu.Items[17].Visible=false;
+				contextMenu.Items[17].Enabled=false;
 			}
 			if(_listMenuItemsLinks==null) {
-				_listMenuItemsLinks=new List<MenuItem>();
+				_listMenuItemsLinks=new List<ToolStripItem>();
 			}
-			_listMenuItemsLinks.ForEach(x => contextMenu.MenuItems.Remove(x));//remove items from previous pass.
+			_listMenuItemsLinks.ForEach(x => contextMenu.Items.Remove(x));//remove items from previous pass.
 			_listMenuItemsLinks.Clear();
-			_listMenuItemsLinks.Add(new MenuItem("-"));
-			_listMenuItemsLinks.AddRange(PopupHelper.GetContextMenuItemLinks(Text,RightClickLinks));
-			if(_listMenuItemsLinks.Any(x => x.Text!="-")) {//at least one REAL menu item that is not the divider.
-				_listMenuItemsLinks.ForEach(x => contextMenu.MenuItems.Add(x));
+			_listMenuItemsLinks.Add(new ToolStripSeparator());
+			_listMenuItemsLinks.AddRange(PopupHelper.GetToolStripMenuItemLinks(Text,RightClickLinks));
+			if(_listMenuItemsLinks.Any(x => !(x is ToolStripSeparator))) {//at least one REAL menu item that is not the divider.
+				_listMenuItemsLinks.ForEach(x => contextMenu.Items.Add(x));
 			}
 		}
 
@@ -501,11 +501,11 @@ namespace OpenPmsDental {
 		}
 
 		private void menuItem_Click(object sender,System.EventArgs e) {
-			if(ReadOnly && contextMenu.MenuItems.IndexOf((MenuItem)sender)!=14) {//14 = copy.
+			if(ReadOnly && contextMenu.Items.IndexOf((ToolStripItem)sender)!=14) {//14 = copy.
 				MsgBox.Show(this,"This feature is currently disabled due to this text box being read only.");
 				return;
 			}
-			switch(contextMenu.MenuItems.IndexOf((MenuItem)sender)) {
+			switch(contextMenu.Items.IndexOf((ToolStripItem)sender)) {
 				case 0:
 				case 1:
 				case 2:
@@ -520,7 +520,7 @@ namespace OpenPmsDental {
 					}
 					this.SelectionStart=MatchReplWord.StartCharIndex;
 					this.SelectionLength=MatchReplWord.Value.Length;
-					this.SelectedText=((MenuItem)sender).Text;
+					this.SelectedText=((ToolStripItem)sender).Text;
 					if(this.Text.Length<=originalCaret) {
 						this.SelectionStart=this.Text.Length;
 					}

@@ -156,7 +156,7 @@ Here is the desired behavior:
 			_cursorPan=new Cursor(GetType(),"CursorPalm.cur");
 			panelMain.Cursor=_cursorPan;
 			panelMain.MouseWheel += panelMain_MouseWheel;//here because not browsable in designer
-			panelMain.ContextMenu=menuPanelMain;
+			panelMain.ContextMenuStrip=menuPanelMain;
 			_odWebView2=new ODWebView2();//Include a WebView2 object for loading .pdf files.
 			_odWebView2.Visible=false;
 			_odWebView2.Dock=DockStyle.Fill;
@@ -1342,7 +1342,7 @@ Here is the desired behavior:
 			CopyToClipboard(includeDrawings:false);
 		}
 
-		///<summary>Three to four objects will end up on clipboard: 1:NodeTypeAndKey, 2:Bitmap(if it's an image type), 3:FileDrop, 4:Database name (if NodeTypeAndKey is not null). For images, the filedrop will point to a temp copy of the saved bitmap.  For non-images, filedrop will point to the original file. With includeDrawings false, the bitmap and the file have no drawings. Pasting inside this program uses NodeTypeAndKey, which never copies drawings.</summary>
+		///<summary>Up to three objects will end up on clipboard: 1:NodeTypeAndKey with the database name (NodeTypeAndKeyClipboard), 2:Bitmap(if it's an image type), 3:FileDrop. For images, the filedrop will point to a temp copy of the saved bitmap.  For non-images, filedrop will point to the original file. With includeDrawings false, the bitmap and the file have no drawings. Pasting inside this program uses NodeTypeAndKey, which never copies drawings.</summary>
 		private void CopyToClipboard(bool includeDrawings){
 			//not enabled when pdf selected
 			NodeTypeAndKey nodeTypeAndKey=null;
@@ -1438,8 +1438,8 @@ Here is the desired behavior:
 			}
 			System.Windows.DataObject dataObject=new System.Windows.DataObject();
 			if(nodeTypeAndKey!=null){
-				dataObject.SetData(nodeTypeAndKey);//DataFormat automatically determined
-				dataObject.SetData("stringDbNameOrUri",dbNameOrUri);//this is in addition to the other DataFormat with the nodeTypeAndKey
+				//A JSON string with the database under the program's own format, read back by the paste; no BinaryFormatter (S3a-M2).
+				NodeTypeAndKeyClipboard.SetData(dataObject,nodeTypeAndKey,dbNameOrUri);
 			}
 			if(bitmapCopy!=null){
 				dataObject.SetData(DataFormats.Bitmap,bitmapCopy);
@@ -1846,8 +1846,14 @@ Here is the desired behavior:
 				MsgBox.Show(this,"Clipboard is empty.");
 				return;
 			}
-			nodeTypeAndKey=(NodeTypeAndKey)iDataObject.GetData(typeof(NodeTypeAndKey));
-			dbNameOrUriCopied=(string)iDataObject.GetData("stringDbNameOrUri");//safe even if null
+			//Only the program's own format is read (NodeTypeAndKeyClipboard): no object of another program or format is deserialized.
+			try {
+				nodeTypeAndKey=NodeTypeAndKeyClipboard.GetData(iDataObject,out dbNameOrUriCopied);
+			}
+			catch(Exception ex) {//Bad data under the program's format from another program: no key, never an error out of the paste (lead fix at S3a-M2's merge).
+				ex.DoNothing();
+				nodeTypeAndKey=null;
+			}
 			string dbNameOrUri=DataConnectionBase.DataConnection.GetDatabaseName();
 			if(RemotingClient.MiddleTierRole!=MiddleTierRole.ClientDirect) {//using Middle Tier
 				dbNameOrUri=RemotingClient.ServerURI;
@@ -2432,7 +2438,7 @@ Here is the desired behavior:
 				return;//Probably the user has no patient or tree object selected
 			}
 			//By menu item rather than by position, so inserting an item does not shift the others.
-			MenuItem menuItem=(MenuItem)sender;
+			ToolStripMenuItem menuItem=(ToolStripMenuItem)sender;
 			if(menuItem==menuItemCopy) {
 				ToolBarCopy_Click(this,new EventArgs());
 			}
@@ -2618,19 +2624,19 @@ Here is the desired behavior:
 					return;
 				}
 			}
-			for(int i=0;i<menuPanelMain.MenuItems.Count;i++) {
+			for(int i=0;i<menuPanelMain.Items.Count;i++) {
 				//If no document or mount selected, context menu will not be visible
 				if(IsDocumentShowing() || IsMountShowing()) {
 					//Disable these context menu items when opening this from the chart module
-					if(DidLaunchFromChartModule && ListTools.In(menuPanelMain.MenuItems[i],menuItemDelete,menuItemPaste)) {
-						menuPanelMain.MenuItems[i].Visible=false;
+					if(DidLaunchFromChartModule && ListTools.In(menuPanelMain.Items[i],menuItemDelete,menuItemPaste)) {
+						menuPanelMain.Items[i].Visible=false;
 					}
 					else {
-						menuPanelMain.MenuItems[i].Visible=true;
+						menuPanelMain.Items[i].Visible=true;
 					}
 				}
 				else{ 
-					menuPanelMain.MenuItems[i].Visible=false;//if no menu items visible, menu won't even show
+					menuPanelMain.Items[i].Visible=false;//if no menu items visible, menu won't even show
 				}
 			}
 			if(!IsDocumentShowing() && !IsMountShowing()) {

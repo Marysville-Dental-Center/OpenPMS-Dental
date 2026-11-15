@@ -23,7 +23,7 @@ namespace OpenPmsDental {
 		///<summary>The currently selected user. Should not be used except for in the selected user property.</summary>
 		private Userod _selectedUser;
 		///<summary>This context menu makes it so you can right click a user in the userGrid and select 'Copy User'</summary>
-		private ContextMenu contextMenuUsers;
+		private ContextMenuStrip contextMenuUsers;
 		#endregion
 		#region Public Variables/Events
 		public LayoutManagerForms LayoutManager=new LayoutManagerForms();
@@ -102,8 +102,9 @@ namespace OpenPmsDental {
 
 		private void UserControlUserGroupSecurity_Load(object sender,EventArgs e) {
 			if(CopyUserClick!=null) {//CEMT currently does not define/allow a user to be copied.
-				contextMenuUsers.MenuItems.Add(Lan.g(this,"Copy User"),new EventHandler(butCopyUser_Click));
-				gridUsers.ContextMenu=contextMenuUsers;
+				contextMenuUsers.Items.Add(Lan.g(this,"Copy User"),null,new EventHandler(butCopyUser_Click));
+				gridUsers.ContextMenuStrip=contextMenuUsers;
+				gridUsers.DoAddGridItemsToContextMenuStrip=true;//Copy Cell Text, Copy Rows and the links after Copy User, as before
 				butCopyUser.Visible=true;//False by default
 			}
 			//securityTreeUser was not laying itself out properly.  It's because right anchored items have problems inside of tabs. So we lay it out manually.

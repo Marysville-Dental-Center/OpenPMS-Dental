@@ -34,36 +34,36 @@ namespace OpenPmsDental{
 		}
 
 		///<summary>Removes all patients from the dropdown menu and from the history.  Only used when a user logs off and a different user logs on.  Important for enterprise customers with clinic restrictions for users.</summary>
-		public static void RemoveAllFromMenu(ContextMenu contextMenu) {
-			contextMenu.MenuItems.Clear();
+		public static void RemoveAllFromMenu(ContextMenuStrip contextMenu) {
+			contextMenu.Items.Clear();
 			lock(_lock) {//Lock the list before clear to prevent concurrency issues.
 				_listPatientsLastFive.Clear();
 			}
 		}
 
 		///<summary>The current patient will already be on the button.  This adds the family members when user clicks dropdown arrow. Can handle null values for pat and fam.  Need to supply the menu to fill as well as the EventHandler to set for each item (all the same).</summary>
-		public static void AddFamilyToMenu(ContextMenu contextMenu,EventHandler eventHandlerOnClick,long patNum,Family family) {
+		public static void AddFamilyToMenu(ContextMenuStrip contextMenu,EventHandler eventHandlerOnClick,long patNum,Family family) {
 			//fill menu
-			contextMenu.MenuItems.Clear();
+			contextMenu.Items.Clear();
 			if(_listPatientsLastFive.Count==0 && patNum==0) {
 				return;//Without this the Select Patient dropdown would only have a bar and FAMILY.
 			}
 			for(int i=0;i<_listPatientsLastFive.Count;i++) {
 				string name=_listPatientsLastFive[i].GetNameLF();
-				contextMenu.MenuItems.Add(name,eventHandlerOnClick);
+				contextMenu.Items.Add(name,null,eventHandlerOnClick);
 			}
-			contextMenu.MenuItems.Add("-");
-			contextMenu.MenuItems.Add("FAMILY");
+			contextMenu.Items.Add("-");//a ToolStripSeparator
+			contextMenu.Items.Add("FAMILY");
 			if(patNum!=0 && family!=null) {
 				for(int i=0;i<family.ListPats.Length;i++) {
 					string name=family.ListPats[i].GetNameLF();
-					contextMenu.MenuItems.Add(name,eventHandlerOnClick);
+					contextMenu.Items.Add(name,null,eventHandlerOnClick);
 				}
 			}
 		}
 
 		///<summary>Does not handle null values. Use zero.  Does not handle adding family members.  Returns true if patient has changed.</summary>
-		public static bool AddPatsToMenu(ContextMenu contextMenu,EventHandler eventHandlerOnClick, Patient patient) {
+		public static bool AddPatsToMenu(ContextMenuStrip contextMenu,EventHandler eventHandlerOnClick, Patient patient) {
 			//add current patient
 			if(patient.PatNum==0) {
 				return false;
@@ -87,8 +87,8 @@ namespace OpenPmsDental{
 		}
 
 		///<summary>Determines which menu Item was selected from the Patient dropdown list and returns the patNum for that patient. This will not be activated when click on 'FAMILY' or on separator, because they do not have events attached.  Calling class then does a ModuleSelected.</summary>
-		public static long ButtonSelect(ContextMenu contextMenu,object sender,Family family) {
-			int index=contextMenu.MenuItems.IndexOf((MenuItem)sender);
+		public static long ButtonSelect(ContextMenuStrip contextMenu,object sender,Family family) {
+			int index=contextMenu.Items.IndexOf((ToolStripItem)sender);
 			//Patients.PatIsLoaded=true;
 			if(index<_listPatientsLastFive.Count) {
 				return _listPatientsLastFive[index].PatNum;

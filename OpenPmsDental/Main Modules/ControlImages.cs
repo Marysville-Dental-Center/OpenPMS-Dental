@@ -1727,7 +1727,7 @@ namespace OpenPmsDental{
 			if(controlImageDisplay is null){
 				return;
 			}
-			switch(((MenuItem)sender).Index) {
+			switch(menuTree.Items.IndexOf((ToolStripItem)sender)) {//MenuItem.Index was the item's place in menuTree
 				case 0://print
 					ToolBarPrint_Click(this,new EventArgs());
 					break;

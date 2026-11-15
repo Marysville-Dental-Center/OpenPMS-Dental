@@ -938,6 +938,20 @@ Helper32Tests (the protocol with a fake module, the QuickBooks module against a 
 vendor scan, VendorDirectTests (QuickBooks Online untouched), ReleaseFlowTests (the helper ships and is x86). For the lead: whether
 `OpenPmsDentalHelper32.exe` joins the build id lists (port note, section 7).
 
+**Status (2026-11-15), S3a-M2.** Merged from `net10/s3am2-1` (`docs/port-notes/S3a-M2.md`; lead fixes at the merge: the hidden-item grids, the paste never throws): the main window's toolbar drop-downs and splitter
+menu, the Account, Chart, Appointments, Family, Treatment Plan and Images modules, `ControlImageDisplay`, `UserControlTasks`,
+`EmailPreviewControl`, `ODtextBox` and `UserControlSecurityUserGroup` (and `PatientL`'s patient-menu helpers) are on `ContextMenuStrip` with the
+same items, texts, order, shortcuts, states, separators and handlers; the grids that had a caller's menu keep the grid items
+(`DoAddGridItemsToContextMenuStrip`), the toolbar drop-downs use `ContextMenuStripDropDown`, the main menu and the translation keys are
+unchanged. The image copy puts `NodeTypeAndKey` and the database as JSON in a stream under `OpenPmsDental.NodeTypeAndKey.Json`, and the paste
+reads only that format (no BinaryFormatter; an earlier version's copy pastes as a picture). GridOld's bridge is removed; the GridOD,
+`GetContextMenuItemLinks`, `Lan.C(Menu)`, `TranslateGrid` and `DropDownMenu` bridges stay for M3 (note, section 3, with two more
+`DropDownMenu` callers in `ReportingForRdl`). Overlaps for the lead (note, section 4): `PatientL.cs`, two lines of `FormSheetFillEdit.cs` (a
+right click on a sheet text field would throw otherwise), and the M3-assigned source-text tests that read the changed `ControlAccount`
+lines, updated here. New tests in `tests/S3aM1Tests` (M2 files, 19, no window, private data objects only); Targeted runs green (ApptTests,
+BAPPTTests, BACCTTests, BIMGTests, BTASKTests, S3aM1Tests, NoHqTests, MiddleTierMockTests and the 29 projects whose source-text tests read a
+changed file); full lane build 0 errors. The launch checks (note, section 7) stay the gate's.
+
 **Full-test gate.** Section 3, plus: the golden outputs and known answers recorded and committed; the source-scan tests pass; the
 launch checks for 3a (section 6) done with screenshots, including a self-update from a standard user; the x64 test runs (S3a-12, S3a-15)
 and the x64 build of `Direct2dWrapper` (S3a-16) pass; the helper's tests pass, and its links are launch-checked where a test PC has the
