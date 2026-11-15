@@ -151,6 +151,23 @@ namespace Helper32Tests.Cadi {
 				+string.Join("\n  ",fakeToday.ListCalls)+"\n"+nameOther+":\n  "+string.Join("\n  ",fakeOther.ListCalls));
 		}
 
+		///<summary>A ProgID only the 32-bit registry view knows gives a null type: a 64-bit chooser turns it into REGDB_E_CLASSNOTREG, which is
+		///retried in the helper; a 32-bit one keeps today's ArgumentNullException (CADI.cs's message). No COM class is created.</summary>
+		[TestMethod]
+		public void CreateComObject_NullType_64BitIsClassNotRegistered_32BitAsBefore() {
+			try {
+				NativeFirstChooser.Cadi.ResetForTests(true);
+				COMException comException=Assert.ThrowsExactly<COMException>(() => CADIInProcess.CreateComObject(null));
+				Assert.AreEqual(unchecked((int)0x80040154),comException.HResult);
+				Assert.IsTrue(CADIInProcess.IsRetriedInHelper(comException,false),"Nothing reached CADI yet: retried in the helper.");
+				NativeFirstChooser.Cadi.ResetForTests(false);
+				Assert.ThrowsExactly<ArgumentNullException>(() => CADIInProcess.CreateComObject(null));
+			}
+			finally {
+				NativeFirstChooser.Cadi.ResetForTests();
+			}
+		}
+
 		///<summary>Runs action with fakeCadi as CADI's object of the in-process path, CADI registered as comServerRegistration and a chooser of a
 		///new process (deciding for is64BitProcess), and puts everything back afterwards.</summary>
 		private static void RunInProcess(FakeCadi fakeCadi,bool is64BitProcess,ComServerRegistration comServerRegistration,Action action) {

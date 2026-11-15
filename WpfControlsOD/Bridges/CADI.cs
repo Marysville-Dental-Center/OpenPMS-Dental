@@ -6,7 +6,7 @@ using OpenPmsDentalHelper32.Cadi;
 
 namespace OpenPmsDental.Bridges {
 	/// <summary>CADI uses their own OLE format for passing data to CADI. 
-	/// See the bridging documents in \opendental.od\serverfiles\Storage\OPEN DENTAL\Programmers Documents\Bridge Info\CADI for details.
+	/// See the bridging documents in \\opendental.od\serverfiles\Storage\OPEN DENTAL\Programmers Documents\Bridge Info\CADI for details.
 	/// Since N64-A3 (native 64-bit first, net10-plan decision 23; docs/port-notes/N64-A3.md) CADI's automation object is called from the
 	/// program's own process as before (CADINativeWindow, in CADIInProcess.cs) whenever this process can reach it, and from the 32-bit helper
 	/// program's Cadi module (OpenPmsDentalHelper32), with the same calls, only when it cannot: the class is registered only as a 32-bit DLL

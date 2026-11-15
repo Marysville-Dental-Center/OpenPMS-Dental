@@ -19,10 +19,17 @@ namespace OpenPmsDental.Bridges {
 		internal const string PROGRAM_ID="Mediadent.Application";
 		///<summary>Creates CADI's automation object (which starts CADI), CADI.cs's two lines of before N64-A3. A test sets a fake; nothing else
 		///changes it.</summary>
-		internal static Func<object> FuncCreateComObject=() => {
-			Type progType=Type.GetTypeFromProgID(PROGRAM_ID);
+		internal static Func<object> FuncCreateComObject=() => CreateComObject(Type.GetTypeFromProgID(PROGRAM_ID));
+
+		///<summary>Activator.CreateInstance(progType), as CADI.cs did before N64-A3. In a 64-bit process a null type (the ProgID is known
+		///only to the 32-bit registry view, HKCR\Wow6432Node, which ComServerRegistration also reads) throws REGDB_E_CLASSNOTREG, so the
+		///call is tried in the 32-bit helper, which sees that view. A 32-bit process keeps today's ArgumentNullException and message.</summary>
+		internal static object CreateComObject(Type progType) {
+			if(progType==null && NativeFirstChooser.Cadi.Is64BitProcess) {
+				throw new COMException(PROGRAM_ID+" is not registered in this process's registry view.",unchecked((int)0x80040154));//REGDB_E_CLASSNOTREG
+			}
 			return Activator.CreateInstance(progType);
-		};
+		}
 		///<summary>Releases CADI's automation object (Marshal.ReleaseComObject). A test sets a fake; nothing else changes it.</summary>
 		internal static Action<object> ActionReleaseComObject=x => Marshal.ReleaseComObject(x);
 		///<summary>Reads the ProgID's registration in both registry views, read only. A test sets a fake; nothing else changes it.</summary>
@@ -96,6 +103,8 @@ namespace OpenPmsDental.Bridges {
 				_comObject.OleEndTransaction();
 				return true;
 			}
+			//The filter is not side-effect free: on a match it fixes the chooser on the helper and logs it (NativeFirstChooser.SetChoice), which is
+			//safe for this one UI-thread call.
 			catch(Exception ex) when(CADIInProcess.IsRetriedInHelper(ex,isCadiReached)) {
 				//N64-A3: this process cannot reach CADI's server and nothing reached CADI yet: the helper repeats the call. A 32-bit process never
 				//gets here (the helper is 32-bit too), so it shows the messages below as before.
