@@ -31,7 +31,7 @@ namespace OpenPmsDental.Bridges{
 				//An https address only (checked above), so this opens the default browser and never starts a program.
 				ProcessStartInfo processStartInfo=new ProcessStartInfo(url);
 				processStartInfo.UseShellExecute=true;
-				Process.Start(processStartInfo);
+				ODFileUtils.ProcessStart(processStartInfo);
 			}
 			catch(Exception ex) {
 				FriendlyException.Show(Lans.g("Clerri","The Clerri dashboard could not be opened."),ex);

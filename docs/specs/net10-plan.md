@@ -874,6 +874,12 @@ drops the address from the retry line; the credential tests clean up through `Te
 succeeded. Two processes retrying together is a note only; the project baseline's `ProjectInstaller.cs` line stays for the lead. Full lane
 build 0 errors; Targeted runs green (BINBTests, ReleaseFlowTests, NoHqTests, MiddleTierMockTests, LibraryBindingTests).
 
+**Status (2026-11-15), S3a-2f.** The S3a-2 review leftovers merged from `net10/s3a2f-2` (review fixes on top of `net10/s3a2f-1`) (`docs/port-notes/S3a-2.md`, section 7): the scan
+tightened (Diagnostics.Process.Start, method groups, hiding usings, target-typed `new()`, `UseShellExecute` tied to its own object and
+scope, `Process.Start(x)` only for a checked construction), six new self-tests, shipped code passes; the claim-attachment "not an image"
+catch only for `Image.FromFile`; `ODFileUtils`' starters internal, set only through the scoped `ReplaceStartersForTests`
+(`InternalsVisibleTo("MiddleTierMockTests")`); six `ProcessStartInfo` starts through `ODFileUtils.ProcessStart`. The launch checks stay the gate's.
+
 **Full-test gate.** Section 3, plus: the golden outputs and known answers recorded and committed; the source-scan tests pass; the
 launch checks for 3a (section 6) done with screenshots, including a self-update from a standard user; the x64 test runs (S3a-12, S3a-15)
 and the x64 build of `Direct2dWrapper` (S3a-16) pass; the helper's tests pass, and its links are launch-checked where a test PC has the

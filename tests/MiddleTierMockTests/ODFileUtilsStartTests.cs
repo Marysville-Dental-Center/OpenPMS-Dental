@@ -7,15 +7,17 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Reflection;
 using System.Text;
+using System.Threading.Tasks;
 using CodeBase;
+using CodeBase.Controls;
+using CodeBase.VendorDirect;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace MiddleTierMockTests {
 	[TestClass]
 	public class ODFileUtilsStartTests {
-		///<summary>The starters are static: one test at a time replaces them.</summary>
-		private static readonly object _lockStarters=new object();
 		private List<ProcessStartInfo> _listStartInfos;
 		private List<Process> _listProcesses;
 		private string _pathFolder;
@@ -39,25 +41,16 @@ namespace MiddleTierMockTests {
 			}
 		}
 
-		///<summary>Runs action with both starters of ODFileUtils replaced by recorders that start nothing, and puts the real ones back.</summary>
+		///<summary>Runs action with both starters of ODFileUtils replaced by recorders that start nothing, and puts the real ones back. The
+		///replacement is ODFileUtils' own scoped one (S3a-2f): one at a time in the whole test process, not only in this class.</summary>
 		private void RunRecorded(Action action) {
-			lock(_lockStarters) {
-				Func<ProcessStartInfo,Process> funcStartProcessInfoOld=ODFileUtils.FuncStartProcessInfo;
-				Func<Process,bool> funcStartProcessOld=ODFileUtils.FuncStartProcess;
-				Func<ProcessStartInfo,Process> funcRecordInfo=x => { _listStartInfos.Add(x); return null; };
-				Func<Process,bool> funcRecordProcess=x => { _listProcesses.Add(x); return false; };
-				ODFileUtils.FuncStartProcessInfo=funcRecordInfo;
-				ODFileUtils.FuncStartProcess=funcRecordProcess;
-				try {
-					//Nothing may be started: make sure the recorders are in place before the call.
-					Assert.AreSame(funcRecordInfo,ODFileUtils.FuncStartProcessInfo);
-					Assert.AreSame(funcRecordProcess,ODFileUtils.FuncStartProcess);
-					action();
-				}
-				finally {
-					ODFileUtils.FuncStartProcessInfo=funcStartProcessInfoOld;
-					ODFileUtils.FuncStartProcess=funcStartProcessOld;
-				}
+			Func<ProcessStartInfo,Process> funcRecordInfo=x => { _listStartInfos.Add(x); return null; };
+			Func<Process,bool> funcRecordProcess=x => { _listProcesses.Add(x); return false; };
+			using(ODFileUtils.ReplaceStartersForTests(funcRecordInfo,funcRecordProcess)) {
+				//Nothing may be started: make sure the recorders are in place before the call.
+				Assert.AreSame(funcRecordInfo,ODFileUtils.FuncStartProcessInfo);
+				Assert.AreSame(funcRecordProcess,ODFileUtils.FuncStartProcess);
+				action();
 			}
 		}
 
@@ -192,13 +185,86 @@ namespace MiddleTierMockTests {
 
 		[TestMethod]
 		public void Starters_DefaultToTheRealStart() {
-			//Not called (that would start a program): the defaults are the private methods that call Process.Start.
-			lock(_lockStarters) {
-				Assert.AreEqual("StartProcessInfoDefault",ODFileUtils.FuncStartProcessInfo.Method.Name);
-				Assert.AreEqual(typeof(ODFileUtils),ODFileUtils.FuncStartProcessInfo.Method.DeclaringType);
-				Assert.AreEqual("StartProcessDefault",ODFileUtils.FuncStartProcess.Method.Name);
-				Assert.AreEqual(typeof(ODFileUtils),ODFileUtils.FuncStartProcess.Method.DeclaringType);
+			//Not called (that would start a program): the defaults are the private methods that call Process.Start. Read as the starters a
+			//replacement replaced, so no other test can have its recorders in place meanwhile.
+			using(ODFileUtils.StartersReplacement startersReplacement=ODFileUtils.ReplaceStartersForTests(x => null,x => false)) {
+				Assert.AreEqual("StartProcessInfoDefault",startersReplacement.FuncStartProcessInfoReplaced.Method.Name);
+				Assert.AreEqual(typeof(ODFileUtils),startersReplacement.FuncStartProcessInfoReplaced.Method.DeclaringType);
+				Assert.AreEqual("StartProcessDefault",startersReplacement.FuncStartProcessReplaced.Method.Name);
+				Assert.AreEqual(typeof(ODFileUtils),startersReplacement.FuncStartProcessReplaced.Method.DeclaringType);
 			}
+		}
+
+		[TestMethod]
+		public void Starters_AreNotPublic_AndSetOnlyByTheScopedReplacement() {
+			//S3a-2f: no code outside CodeBase and this assembly sees the starters, and nothing assigns them except ReplaceStartersForTests.
+			foreach(string name in new[] { "FuncStartProcessInfo","FuncStartProcess" }) {
+				Assert.IsNull(typeof(ODFileUtils).GetField(name,BindingFlags.Public|BindingFlags.NonPublic|BindingFlags.Static),name+" is no field.");
+				Assert.IsNull(typeof(ODFileUtils).GetProperty(name,BindingFlags.Public|BindingFlags.Static),name+" is not public.");
+				PropertyInfo propertyInfo=typeof(ODFileUtils).GetProperty(name,BindingFlags.NonPublic|BindingFlags.Static);
+				Assert.IsNotNull(propertyInfo,name);
+				Assert.IsTrue(propertyInfo.GetMethod.IsAssembly,name+" is internal.");
+				Assert.IsTrue(propertyInfo.SetMethod.IsPrivate,name+" is set only inside ODFileUtils.");
+			}
+			MethodInfo methodInfo=typeof(ODFileUtils).GetMethod("ReplaceStartersForTests",BindingFlags.NonPublic|BindingFlags.Static);
+			Assert.IsNotNull(methodInfo);
+			Assert.IsTrue(methodInfo.IsAssembly);
+		}
+
+		[TestMethod]
+		public void ReplaceStarters_Dispose_PutsTheReplacedStartersBack() {
+			Func<ProcessStartInfo,Process> funcRecordInfo=x => null;
+			Func<Process,bool> funcRecordProcess=x => false;
+			ODFileUtils.StartersReplacement startersReplacementFirst=ODFileUtils.ReplaceStartersForTests(funcRecordInfo,funcRecordProcess);
+			try {
+				Assert.AreSame(funcRecordInfo,ODFileUtils.FuncStartProcessInfo);
+				Assert.AreSame(funcRecordProcess,ODFileUtils.FuncStartProcess);
+			}
+			finally {
+				startersReplacementFirst.Dispose();
+			}
+			startersReplacementFirst.Dispose();//A second Dispose neither puts anything back nor lets a second replacement in.
+			//The next replacement replaces what the first put back: the real starters, whoever replaced them in between (each puts them back).
+			using(ODFileUtils.StartersReplacement startersReplacementSecond=ODFileUtils.ReplaceStartersForTests(x => null,x => false)) {
+				Assert.AreSame(startersReplacementFirst.FuncStartProcessInfoReplaced,startersReplacementSecond.FuncStartProcessInfoReplaced);
+				Assert.AreSame(startersReplacementFirst.FuncStartProcessReplaced,startersReplacementSecond.FuncStartProcessReplaced);
+				Assert.AreEqual("StartProcessInfoDefault",startersReplacementSecond.FuncStartProcessInfoReplaced.Method.Name);
+				//The doubled Dispose did not release twice: a replacement on another thread still waits for this one.
+				Task<ODFileUtils.StartersReplacement> taskThird=Task.Run(() => ODFileUtils.ReplaceStartersForTests(x => null,x => false));
+				bool isThirdWaiting=!taskThird.Wait(300);
+				startersReplacementSecond.Dispose();
+				Assert.IsTrue(taskThird.Wait(TimeSpan.FromSeconds(30)),"It goes in once the first is disposed.");
+				using(ODFileUtils.StartersReplacement startersReplacementThird=taskThird.Result) {
+					Assert.AreEqual("StartProcessInfoDefault",startersReplacementThird.FuncStartProcessInfoReplaced.Method.Name,
+						"It replaced the real starters, which the first put back before letting it in.");
+				}
+				Assert.IsTrue(isThirdWaiting,"A second replacement waits while one is in place.");
+			}
+		}
+
+		[TestMethod]
+		public void ReplaceStarters_NullStarter_ThrowsAndHoldsNothing() {
+			Assert.ThrowsExactly<ArgumentNullException>(() => ODFileUtils.ReplaceStartersForTests(null,x => false));
+			Assert.ThrowsExactly<ArgumentNullException>(() => ODFileUtils.ReplaceStartersForTests(x => null,null));
+			using(ODFileUtils.StartersReplacement startersReplacement=ODFileUtils.ReplaceStartersForTests(x => null,x => false)) {
+				Assert.AreEqual("StartProcessDefault",startersReplacement.FuncStartProcessReplaced.Method.Name);
+			}
+		}
+
+		[TestMethod]
+		public void SystemBrowser_Open_GoesThroughTheRecordedShellStart() {
+			//S3a-2f item 4: the vendor sign-in page opens through ODFileUtils.ProcessStart(ProcessStartInfo), so it can be recorded.
+			RunRecorded(() => SystemBrowser.Open(" https://vendor.example.test/sign-in?state=1 "));
+			GetSingleShellStart("https://vendor.example.test/sign-in?state=1","");
+		}
+
+		[TestMethod]
+		public void WebView2Policy_OpenInSystemBrowser_GoesThroughTheRecordedShellStart() {
+			RunRecorded(() => Assert.IsTrue(WebView2Policy.OpenInSystemBrowser("https://www.example.test/page")));
+			GetSingleShellStart("https://www.example.test/page","");
+			_listStartInfos.Clear();
+			RunRecorded(() => Assert.IsTrue(WebView2Policy.OpenInSystemBrowser("mailto:someone@example.test")));
+			GetSingleShellStart("mailto:someone@example.test","");
 		}
 	}
 }
