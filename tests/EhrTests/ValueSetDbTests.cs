@@ -75,10 +75,14 @@ namespace EhrTests {
 
 		#region The step and the declaration
 		[TestMethod]
-		public void Step_OnTheScratchDatabase_CreatedTheTableOnce_AsDeclared_AndTheSchemaStillMatchesOpenDental() {
-			Assert.AreEqual(1,ValueSetDb.ListChangesBuild.Count(x => x.Contains("CREATE TABLE `ehrcode`")),string.Join("\r\n",ValueSetDb.ListChangesBuild));
-			Assert.IsTrue(ValueSetDb.ListChangesBuild.First(x => x.Contains("CREATE TABLE `ehrcode`")).StartsWith("2026111401"),
-				"The change is the step's: "+string.Join("\r\n",ValueSetDb.ListChangesBuild));
+		public void Step_TheInitFileHasTheTableAsDeclared_TheStepFindsIt_AndTheSchemaStillMatchesOpenDental() {
+			//db/init/new-database.sql was regenerated at fork level 2026111401 (329793122): it creates the table as the step declares it, so the
+			//scratch database built from it has nothing left for the step to do. The step's own CREATE is the test on an empty database below.
+			string init=File.ReadAllText(TestPaths.Combine(ScratchDb.RepoPathInitSql)).Replace("\r\n","\n");
+			StringAssert.Contains(init,EhrTables.CREATE_EHR_CODE.Replace("\r\n","\n")+";\n");
+			StringAssert.Contains(init,"('ForkSchemaLevel','2026111401',");
+			Assert.AreEqual(0,ValueSetDb.ListChangesBuild.Count(x => x.Contains("ehrcode")),string.Join("\r\n",ValueSetDb.ListChangesBuild));
+			Assert.IsFalse(ForkMigrationRunner.GetPendingSteps().Any(x => x.Level==2026111401));
 			SchemaVerifyResult resultFork=ForkTables.VerifyDatabase(ValueSetDb.DbName);
 			Assert.AreEqual(0,resultFork.ListDifferences.Count(x => x.Table==TABLE),resultFork.GetReport());
 			SchemaVerifyResult result=SchemaVerifier.VerifyDatabase(ValueSetDb.DbName);
