@@ -881,7 +881,9 @@ still running or logged with its end; the 176 windows audited for an error shown
 question from the worker; eight callers that showed the worker's result before their cancel check, and `QuickBooksOnline.RunForWindow`); the
 reused ProgressWin's token documented; the four producer threads listed (read-only, never under a Cancel button, no change); `ImageStore`'s row
 inserts are units (the new ImagingTests case found a row left after a cancel right after the insert) and its two `throw ex;` are `throw;`.
-Tests in VendorDirectTests, FeeTests, ImagingTests, M2MISCTests and BPROCTests.
+Tests in VendorDirectTests, FeeTests, ImagingTests, M2MISCTests and BPROCTests. Review fix on `net10/s3a1c-2` (section 9.10): the EDS and
+XConnect validation windows keep their results after a cancelled Re-validate (EDS's worker stops at the first refused read), and the ASAP,
+Unscheduled and Planned Tracker grids no longer throw on a result a cancel left null.
 
 **Full-test gate.** Section 3, plus: the golden outputs and known answers recorded and committed; the source-scan tests pass; the
 launch checks for 3a (section 6) done with screenshots, including a self-update from a standard user; the x64 test runs (S3a-12, S3a-15)
