@@ -124,7 +124,9 @@ Comments name the deleted code in files this package does not own; none is code,
 - `Source_NamesNoneOfTheDeletedCode_CommentsLeftOut`: no file of the program's source (`TestPaths.ProgramSourceFiles`, the test projects
   left out) names `QualityMeasures`, `QualityMeasure`, `QualityType`, `QualityType2014`, `GetAll2014`, `GetEhrCqmData`, `GenerateQRDA`,
   `GetPQRIMeasureNumber`, `GeneratePQRS_xml`, `EhrCqm`, `FormEhrQualityMeasures`, `FormEhrQualityMeasureEdit` or `ProvKeyIsValid` outside
-  comments (substring match, so the longer names are covered too).
+  comments. A name matches at a word start (not after a letter, digit or underscore), so the longer names that begin with one are covered too
+  (`EhrCqmPatient`, `QualityMeasureDocument`), while the 2027 names that only hold one inside theirs (`FormEhrCqm`, `FormEhrCqmDetail` of
+  EHR-5a, which EHR-5b and EHR-5c edit) do not trip it; the test checks a sample of both kinds.
 - `Files_TheTwelveFormFilesAndTheTwoBusinessFiles_AreGone`: none of the fourteen files is on disk.
 - `ProjectFiles_NameNoneOfTheFourForms_AndKeepTheirNeighbours`: `OpenPmsDental.csproj` (comments left out) names none of the four forms, and
   the items next to the removed ones (`FormEhrProviderKeys`, `FormEhrReminders`) stay; the business project names neither file.

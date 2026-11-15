@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Text.RegularExpressions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenPmsDental;
 using OpenPmsDentalBusiness;
@@ -30,13 +31,26 @@ namespace EhrTests {
 			List<string> listProblems=new List<string>();
 			foreach(string path in TestPaths.ProgramSourceFiles()) {
 				string code=CSharpSource.Read(File.ReadAllText(path)).CodeWithoutComments;
-				foreach(string name in _arrayDeletedNames) {
-					if(code.Contains(name)) {
-						listProblems.Add(TestPaths.Relative(path)+": "+name);
-					}
+				foreach(string name in GetDeletedNamesIn(code)) {
+					listProblems.Add(TestPaths.Relative(path)+": "+name);
 				}
 			}
 			Assert.AreEqual(0,listProblems.Count,"Deleted code still named: "+string.Join("; ",listProblems));
+			//The match is at a word start: the longer names of the deleted code are still caught as prefixes, and the 2027 window of EHR-5a and its
+			//neighbours, which hold a deleted name inside theirs, are not.
+			CollectionAssert.AreEqual(new[] { "QualityMeasures","QualityMeasure","GetAll2014" },GetDeletedNamesIn("QualityMeasures.GetAll2014Data("));
+			CollectionAssert.AreEqual(new[] { "EhrCqm" },GetDeletedNamesIn("new OpenPmsDentalBusiness.EhrCqmPatient()"));
+			CollectionAssert.AreEqual(new[] { "QualityType","QualityType2014" },GetDeletedNamesIn("(QualityType2014)x"));
+			foreach(string name2027 in new[] { "FormEhrCqm","FormEhrCqmDetail","CqmCatalog" }) {
+				string code2027="using("+name2027+" form=new "+name2027+"()) { form.ShowDialog(); }";
+				Assert.AreEqual(0,GetDeletedNamesIn(code2027).Count,name2027);
+			}
+		}
+
+		///<summary>The deleted names that the code names at a word start (not after a letter, digit or underscore), so a longer name that begins
+		///with one counts and a name that only holds one inside it does not.</summary>
+		private static List<string> GetDeletedNamesIn(string code) {
+			return _arrayDeletedNames.Where(x => Regex.IsMatch(code,@"(?<![A-Za-z0-9_])"+Regex.Escape(x))).ToList();
 		}
 
 		[TestMethod]
