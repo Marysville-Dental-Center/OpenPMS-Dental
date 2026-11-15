@@ -35,5 +35,7 @@
     <ProjectReference Include="..\..\WpfControlsOD\WpfControlsOD.csproj" />
     <!-- The child process in place of a new AppDomain (S3a-8): SSH.NET loaded from the program's files with the program's config. -->
     <ProjectReference Include="..\TestProbeHost\TestProbeHost.csproj" />
+    <!-- The 32-bit helper program (S3a-13): QuickBooks Desktop goes through it (Qbo\QuickBooksDesktopHelperTests.cs runs a copy of it). -->
+    <ProjectReference Include="..\..\OpenPmsDentalHelper32\OpenPmsDentalHelper32.csproj" />
   </ItemGroup>
 </Project>
