@@ -157,6 +157,6 @@ P262ClaimsTests 42, NoHqTests 84, MiddleTierMockTests 151.
 - **Later cleanups:**
   - The 270 is refused for a missing title or phone, although it writes only the TIN. That follows the one rule for every writer; relax it
     if the owner prefers.
-  - Name the Treating Provider case in the refusal text.
+  - Name the Treating Provider case in the refusal text. Done in `net10/clean1-1` (CLEAN-1 item 29).
   - Build the refusal from whole translatable sentences.
   - Add a `gold_` test with clinics turned on.

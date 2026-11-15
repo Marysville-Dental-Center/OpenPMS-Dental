@@ -927,3 +927,15 @@ technology, and they cannot be used to attest or to submit to any program** (the
   depended on the old rules can change.
 - Nothing is stored: the `ehrmeasure` table keeps its rows as they are.
 - **Removed on the owner's decisions of 2026-11-14:** the 2014 clinical quality measure versions and their QRDA export, and the 2011 Edition quality-measure window (no button since Open Dental) with its PQRI XML export; the 2027 versions replace them, and until they are in the program the EHR window's **Quality Meas** button says so. No saved data is changed.
+
+## Small fixes
+
+- **Letter merge and Microsoft Word.** When Word's registration in Windows is broken, the program now starts Word once, lets go of it and
+  shows the message at once; before, it started Word a second time first. Letter Merge Edit shows that message in the program's usual error
+  window.
+- **Claim files: the practice as the sender.** With Treating Provider billing, the refusal of a batch now says that the TIN of the clinic's
+  or the practice's Default Provider is the sender TIN.
+- **Imaging.** A picture import (a scan, a pasted image, an EOB) that fails while it reads this computer's scan settings no longer leaves an
+  empty image entry behind.
+- **Advertising postcards.** After a cancelled or failed contact with the postcard service, the window keeps the designs and orders it
+  showed before.

@@ -211,6 +211,37 @@ namespace BCLAIMTests {
 			StringAssert.Contains(GetMissing(source).Single(),"Lists > Clinics > SYNWEST > Default Insurance Billing Provider");
 		}
 
+		///<summary>CLEAN-1 (X12-SENDER's later cleanups): with Treating Provider billing, the TIN entry says why a Default Provider's TIN is the
+		///sender TIN, naming the clinic's or the practice's Default Provider, in one whole sentence. Other settings do not get the sentence.</summary>
+		[TestMethod]
+		public void TreatingProviderBills_Missing_TheEntryNamesTheCase() {
+			const string TREATING_PRACTICE="The Default Insurance Billing Provider is Treating Provider, which names no single provider, so the sender TIN "
+				+"is that of the practice's Default Provider.";
+			const string TREATING_CLINIC="The Default Insurance Billing Provider is Treating Provider, which names no single provider, so the sender TIN "
+				+"is that of the clinic's Default Provider.";
+			X12SenderSource source=NewSource();
+			source.InsBillingProv=-1;
+			source.PracticeDefaultProv=0;
+			string missing=GetMissing(source).Single();
+			StringAssert.Contains(missing,"Setup > Practice > Default Insurance Billing Provider and Default Provider");
+			StringAssert.Contains(missing,TREATING_PRACTICE);
+			source.PracticeDefaultProv=_provSsn.ProvNum;
+			missing=GetMissing(source).Single();
+			StringAssert.Contains(missing,"Lists > Providers > SYNSSN > SSN or TIN");
+			StringAssert.Contains(missing,TREATING_PRACTICE);
+			//A clinic with Treating Provider: its own Default Provider, or the practice's when it has none.
+			source.HasClinicsEnabled=true;
+			source.Clinic=NewClinic(-1,_provSsn.ProvNum);
+			StringAssert.Contains(GetMissing(source).Single(),TREATING_CLINIC);
+			source.Clinic=NewClinic(-1,0);
+			StringAssert.Contains(GetMissing(source).Single(),TREATING_PRACTICE);
+			//A specific billing provider, or the Default Practice Provider: no such sentence.
+			source.Clinic=NewClinic(_provSsn.ProvNum,0);
+			Assert.IsFalse(GetMissing(source).Single().Contains("Treating Provider"));
+			source.Clinic=NewClinic(0,0);
+			Assert.IsFalse(GetMissing(source).Single().Contains("Treating Provider"));
+		}
+
 		[TestMethod]
 		public void BlankPracticeTitle_Refused() {
 			X12SenderSource source=NewSource();

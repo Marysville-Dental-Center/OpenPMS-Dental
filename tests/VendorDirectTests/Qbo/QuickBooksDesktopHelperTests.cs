@@ -104,15 +104,49 @@ namespace VendorDirectTests.Qbo {
 					+"OpenPmsDentalHelper32.exe was not found");
 			}
 			finally {
-				NativeFirstChooser.QuickBooksDesktop.ResetForTests();
-				fieldDefault.SetValue(null,clientBefore);
-				client.Dispose();
-				for(int i=0;i<40 && Process.GetProcesses().Any(x => SafeName(x)==Path.GetFileNameWithoutExtension(pathCopy));i++) {
-					Thread.Sleep(250);
+				string nameCopy=Path.GetFileNameWithoutExtension(pathCopy);
+				try {
+					NativeFirstChooser.QuickBooksDesktop.ResetForTests();
+					fieldDefault.SetValue(null,clientBefore);
+					client.Dispose();
+					for(int i=0;i<40 && Process.GetProcesses().Any(x => SafeName(x)==nameCopy);i++) {
+						Thread.Sleep(250);
+					}
+					Assert.IsFalse(Process.GetProcesses().Any(x => SafeName(x)==nameCopy),"The copy's helper ended.");
 				}
-				Assert.IsFalse(Process.GetProcesses().Any(x => SafeName(x)==Path.GetFileNameWithoutExtension(pathCopy)),"The copy's helper ended.");
-				File.Delete(pathCopy);
-				File.Delete(pathCopy+".config");
+				finally {
+					//CLEAN-1 (S3a-13's later cleanups): the copy is deleted even when a check above failed, as HelperTestBase does. A copy still
+					//running (only this test starts a helper of this random name) is ended first, so its file can be deleted.
+					EndCopiesStillRunning(nameCopy);
+					DeleteIfThere(pathCopy);
+					DeleteIfThere(pathCopy+".config");
+				}
+			}
+		}
+
+		///<summary>Ends every process named nameCopy (this test's own helper copy, by its random name) and waits up to 10 s for each. Never throws.</summary>
+		private static void EndCopiesStillRunning(string nameCopy) {
+			foreach(Process process in Process.GetProcesses()) {
+				try {
+					if(SafeName(process)!=nameCopy) {
+						continue;
+					}
+					process.Kill();
+					process.WaitForExit(10000);
+				}
+				catch(Exception) {
+					//Ended meanwhile, or not ours to end: the delete below reports what is left.
+				}
+				finally {
+					process.Dispose();
+				}
+			}
+		}
+
+		///<summary>Deletes the file when it is there; a file that cannot be deleted fails the test with its path.</summary>
+		private static void DeleteIfThere(string path) {
+			if(File.Exists(path)) {
+				File.Delete(path);
 			}
 		}
 

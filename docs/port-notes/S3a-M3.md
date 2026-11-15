@@ -232,7 +232,8 @@ Run the Debug x86 build on the test database as an administrator; each step a sc
   check 2).
 - The Delete fix on the report designer's new row (section 2) changes nothing else in those dialogs; `SortingCtl.SwapRow` and
   `GroupingCtl.SwapRow` still swap a third column their tables do not have (Up and Down there throw as on main; left as it is).
+  Done in `net10/clean1-1` (CLEAN-1 item 1).
 
 Lead notes at the merge (round 2's review):
-- **For a later cleanup:** `RdlDesign/SortingCtl.SwapRow` swaps a third column on a two-column table, so Up or Down on a sort row throws, on main too (pre-existing); drop the column-3 block. A new sort row with only an expression shows its Direction unchecked where the DataGrid showed it grayed; Apply treats it as Ascending in both.
+- **For a later cleanup:** `RdlDesign/SortingCtl.SwapRow` swaps a third column on a two-column table, so Up or Down on a sort row throws, on main too (pre-existing); drop the column-3 block. A new sort row with only an expression shows its Direction unchecked where the DataGrid showed it grayed; Apply treats it as Ascending in both. Both done in `net10/clean1-1` (CLEAN-1 items 1 and 2).
 - **Owner question:** FormTreatPlanCurEdit's Go To Appointment and Go To Planned Appointment now show on right-click (main's empty ContextMenu hid them); kept until the owner says otherwise (docs/owner-questions.md).

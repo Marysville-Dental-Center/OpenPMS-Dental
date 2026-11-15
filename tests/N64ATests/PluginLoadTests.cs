@@ -209,7 +209,6 @@ namespace N64ATests {
 			ThrowingPlugin throwingPlugin=new ThrowingPlugin();
 			Plugins.ListPlugins=new List<PluginContainer> { new PluginContainer { Plugin=throwingPlugin,ProgramNum=5,Name="N64aHookPlugin" } };
 			try {
-				int countBefore=Plugins.GetProblemsLogged().Count;
 				throwingPlugin.ExceptionNext=new DllNotFoundException("Unable to load DLL 'n64avendor.dll'");
 				Plugins.HookAddCode(this,"N64aHook.AddCode");
 				Plugins.HookAddCode(this,"N64aHook.AddCode");
@@ -218,7 +217,9 @@ namespace N64ATests {
 				Assert.IsFalse(Plugins.HookMethod(this,"N64aHook.Method"));
 				throwingPlugin.ExceptionNext=new InvalidOperationException("not a library error");
 				Plugins.LaunchToolbarButton(5,0);
-				List<string> listNew=Plugins.GetProblemsLogged().Skip(countBefore).ToList();
+				//Found by the plug-in's name, not by the list's count before: the list keeps only the last 100, so another test that fills it (the
+				//CLEAN-1 cap test) must not change what this one sees, whichever runs first.
+				List<string> listNew=Plugins.GetProblemsLogged().Where(x => x.Contains("N64aHookPlugin")).ToList();
 				Assert.AreEqual(2,listNew.Count,string.Join("\r\n",listNew));
 				Assert.AreEqual("The plug-in N64aHookPlugin failed in N64aHook.AddCode: a library it calls was not found (DllNotFoundException: Unable to load "
 					+"DLL 'n64avendor.dll').",listNew[0]);
@@ -226,6 +227,41 @@ namespace N64ATests {
 					+(Environment.Is64BitProcess ? "64" : "32")+"-bit program can load (another bitness?) (BadImageFormatException: An attempt was made to "
 					+"load a program with an incorrect format.).",listNew[1]);
 				Assert.AreEqual(4,throwingPlugin.ListExceptions.Count,"HookException gets every exception, as before.");
+			}
+			finally {
+				Plugins.ListPlugins=null;
+			}
+		}
+
+		///<summary>CLEAN-1: the hook-time problems kept for logging once are the last 100, like the problem list: a plug-in that fails with ever new
+		///messages no longer grows the set without end (it held every one before). A problem among the last 100 is still logged only once; one
+		///that dropped out is logged again when it comes back.</summary>
+		[TestMethod]
+		public void HookTime_ProblemsKeptForLoggingOnce_AreTheLast100() {
+			FieldInfo fieldInfo=typeof(Plugins).GetField("_hashSetHookProblemsLogged",BindingFlags.NonPublic|BindingFlags.Static);
+			Assert.IsNotNull(fieldInfo);
+			HashSet<string> hashSet=(HashSet<string>)fieldInfo.GetValue(null);
+			ThrowingPlugin throwingPlugin=new ThrowingPlugin();
+			Plugins.ListPlugins=new List<PluginContainer> { new PluginContainer { Plugin=throwingPlugin,ProgramNum=6,Name="N64aCapPlugin" } };
+			try {
+				for(int i=0;i<150;i++) {
+					throwingPlugin.ExceptionNext=new DllNotFoundException("Unable to load DLL 'clean1vendor"+i+".dll'");
+					Plugins.HookAddCode(this,"Clean1Hook.AddCode");
+				}
+				Assert.IsTrue(hashSet.Count<=100,"At most 100 hook problems are kept: "+hashSet.Count);
+				//The newest is still logged once only.
+				List<string> listBefore=Plugins.GetProblemsLogged();
+				throwingPlugin.ExceptionNext=new DllNotFoundException("Unable to load DLL 'clean1vendor149.dll'");
+				Plugins.HookAddCode(this,"Clean1Hook.AddCode");
+				CollectionAssert.AreEqual(listBefore,Plugins.GetProblemsLogged(),"A problem among the last 100 is not logged again.");
+				Assert.IsTrue(Plugins.GetProblemsLogged().Last().Contains("clean1vendor149.dll"));
+				//The first one dropped out, so it is logged again.
+				throwingPlugin.ExceptionNext=new DllNotFoundException("Unable to load DLL 'clean1vendor0.dll'");
+				Plugins.HookAddCode(this,"Clean1Hook.AddCode");
+				Assert.AreEqual("The plug-in N64aCapPlugin failed in Clean1Hook.AddCode: a library it calls was not found (DllNotFoundException: Unable to "
+					+"load DLL 'clean1vendor0.dll').",Plugins.GetProblemsLogged().Last());
+				Assert.IsTrue(hashSet.Count<=100,"Still at most 100: "+hashSet.Count);
+				Assert.AreEqual(152,throwingPlugin.ListExceptions.Count,"HookException gets every exception, as before.");
 			}
 			finally {
 				Plugins.ListPlugins=null;

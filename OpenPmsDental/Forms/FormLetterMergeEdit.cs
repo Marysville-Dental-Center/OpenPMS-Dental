@@ -217,8 +217,8 @@ namespace OpenPmsDental{
 				word_Application=LetterMerges.GetWordApp();
 			}
 			catch(Exception ex) {
-				if(ex is WordRegistrationException) {//a clear message for a broken registration (N64-A)
-					MessageBox.Show(this,ex.Message);
+				if(ex is WordRegistrationException) {
+					FriendlyException.Show(ex.Message,ex);//a clear message for a broken registration (N64-A), as the other callers show it (CLEAN-1)
 					return;
 				}
 				MsgBox.Show(this,"Error. Is MS Word installed?");

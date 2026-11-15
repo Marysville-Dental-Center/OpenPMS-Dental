@@ -626,6 +626,8 @@ namespace fyiReporting.RdlDesign
 			int cr = DataGridViewSetup.GetCurrentRowIndex(dgGroup);
 			if (cr <= 0)		// already at the top
 				return;
+			if (cr >= _DataTable.Rows.Count)
+				return;			// the new row at the end, which has no row in the table yet (CLEAN-1)
 			
 			SwapRow(_DataTable.Rows[cr-1], _DataTable.Rows[cr]);
 			DataGridViewSetup.SetCurrentRowIndex(dgGroup, cr-1);
@@ -645,18 +647,10 @@ namespace fyiReporting.RdlDesign
 
 		private void SwapRow(DataRow tdr, DataRow fdr)
 		{
-			// column 1
+			// column 1, the table's only column (the swaps of a second and third column threw, so Up and Down failed; CLEAN-1)
 			object save = tdr[0];
 			tdr[0] = fdr[0];
 			fdr[0] = save;
-			// column 2
-			save = tdr[1];
-			tdr[1] = fdr[1];
-			fdr[1] = save;
-			// column 3
-			save = tdr[2];
-			tdr[2] = fdr[2];
-			fdr[2] = save;
 			return;
 		}
 

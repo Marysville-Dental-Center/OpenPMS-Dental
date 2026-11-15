@@ -653,12 +653,8 @@ namespace OpenPmsDentalBusiness {
 			if(doPrintHeading) {
 				doc.PrintHeading=true;
 			}
-			//The row with its file name is one unit (S3a-1c): the insert is several commands, and a cancel between them would leave a row
-			//outside the try below, whose catch deletes the row when what follows fails or is cancelled.
-			ODCancellation.RunUncancellable(() => {
-				Documents.Insert(doc,pat);//creates filename and saves to db
-				doc=Documents.GetByNum(doc.DocNum);
-			});
+			//The quality and the encoder are worked out before the row is inserted, so nothing between the insert and the try below (whose catch
+			//deletes the row) can fail and leave the row without its file (CLEAN-1).
 			long qualityL = 0;
 			if(imageType.In(ImageType.Radiograph,ImageType.Photo,ImageType.Attachment)) {
 				qualityL=100;
@@ -680,6 +676,12 @@ namespace OpenPmsDentalBusiness {
 			EncoderParameter encoderParameter = new EncoderParameter(System.Drawing.Imaging.Encoder.Quality,qualityL);
 			encoderParameters.Param[0] = encoderParameter;
 			//AutoCrop()?
+			//The row with its file name is one unit (S3a-1c): the insert is several commands, and a cancel between them would leave a row
+			//outside the try below, whose catch deletes the row when what follows fails or is cancelled.
+			ODCancellation.RunUncancellable(() => {
+				Documents.Insert(doc,pat);//creates filename and saves to db
+				doc=Documents.GetByNum(doc.DocNum);
+			});
 			try {
 				SaveDocument(doc,image,imageCodecInfo,encoderParameters,patFolder,uploadHasExceptions:true); //Makes log entry. Allows the file upload to throw if it fails.
 				if(PrefC.AtoZfolderUsed==DataStorageType.InDatabase) {
@@ -831,12 +833,8 @@ namespace OpenPmsDentalBusiness {
 			}
 			eob.FileName=".jpg";
 			eob.DateTCreated = DateTime.Now;
-			//The row with its file name is one unit (S3a-1c): the insert is several commands, and a cancel between them would leave a row
-			//outside the try below, whose catch deletes the row when what follows fails or is cancelled.
-			ODCancellation.RunUncancellable(() => {
-				EobAttaches.Insert(eob);//creates filename and saves to db
-				eob=EobAttaches.GetOne(eob.EobAttachNum);
-			});
+			//The quality and the encoder are worked out before the row is inserted, so nothing between the insert and the try below (whose catch
+			//deletes the row) can fail and leave the row without its file (CLEAN-1).
 			long qualityL=(long)ComputerPrefs.LocalComputer.ScanDocQuality;
 			ImageCodecInfo myImageCodecInfo;
 			ImageCodecInfo[] encoders;
@@ -850,6 +848,12 @@ namespace OpenPmsDentalBusiness {
 			EncoderParameters myEncoderParameters = new EncoderParameters(1);
 			EncoderParameter myEncoderParameter = new EncoderParameter(System.Drawing.Imaging.Encoder.Quality,qualityL);
 			myEncoderParameters.Param[0] = myEncoderParameter;
+			//The row with its file name is one unit (S3a-1c): the insert is several commands, and a cancel between them would leave a row
+			//outside the try below, whose catch deletes the row when what follows fails or is cancelled.
+			ODCancellation.RunUncancellable(() => {
+				EobAttaches.Insert(eob);//creates filename and saves to db
+				eob=EobAttaches.GetOne(eob.EobAttachNum);
+			});
 			try {
 				SaveEobAttach(eob,image,myImageCodecInfo,myEncoderParameters,eobFolder);
 				if(PrefC.AtoZfolderUsed==DataStorageType.InDatabase) {
