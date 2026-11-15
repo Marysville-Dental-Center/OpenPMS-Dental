@@ -1216,6 +1216,27 @@ namespace ToothChartImageTests {
 			sceneAll.ListSizesExtra.Add(SizeBigWindow);
 			sceneAll.ListSizesExtra.Add(SizeSheetWide);
 			sceneAll.ListSizesExtra.Add(SizeSheetTall);
+			//TC-5's fix round: a completed implant or pontic in the extracted tooth's place hides the completed extraction's X (the painter's
+			//GetToothNumsReplaced); a planned one does not. Each scene paints what the painter paints with the graphic on.
+			Add(listScenes,"paint","extraction-completed-graphic-under-implant","The completed-extraction graphic on, with implants in the extracted "
+				+"teeth's places: 19 extracted (C) with a completed implant and 14 extracted (EO) with an existing implant (EC) and its crown (C) show "
+				+"the implant and no X; 30 extracted (C) with a planned implant (TP) keeps the X over it.",relay => {
+					SetMissing(relay,"14","19","30");
+					Paint(relay,ToothPaintingType.Implant,"19","",C);
+					Paint(relay,ToothPaintingType.Implant,"14","",EC);
+					Paint(relay,ToothPaintingType.CrownDark,"14","",C);
+					Paint(relay,ToothPaintingType.Implant,"30","",TP);
+					PaintCompletedExtraction(relay,"30",C);
+				}).HasLegacyRecording=false;
+			Add(listScenes,"paint","extraction-completed-graphic-under-pontic","The completed-extraction graphic on, with bridges over extracted "
+				+"teeth: 4 extracted (C) under the pontic of a completed bridge 3-4-5 shows the pontic and no X; 20 extracted (C) under the pontic of "
+				+"a planned bridge 19-20-21 (TP) keeps the X over it.",relay => {
+					string[] arrayMissing={ "4","20" };
+					SetMissing(relay,arrayMissing);
+					foreach(string toothNum in new[] { "3","4","5" }) { Paint(relay,ToothPaintingType.BridgeDark,toothNum,"",C,arrayMissing); }
+					foreach(string toothNum in new[] { "19","20","21" }) { Paint(relay,ToothPaintingType.BridgeDark,toothNum,"",TP,arrayMissing); }
+					PaintCompletedExtraction(relay,"20",C);
+				}).HasLegacyRecording=false;
 		}
 
 		private static void AddOrthoScenes(List<ChartScene> listScenes) {

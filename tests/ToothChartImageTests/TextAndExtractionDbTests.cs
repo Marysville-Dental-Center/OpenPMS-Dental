@@ -173,9 +173,107 @@ namespace ToothChartImageTests {
 				DeleteRow();
 			}
 		}
+		[TestMethod]
+		public void ExtractionGraphic_NoXUnderACompletedImplantOrPontic_APlannedOneKeepsIt() {
+			//Review of TC-5, item 3: the X of a completed extraction is not drawn where a completed implant or a completed bridge or denture's pontic
+			//stands in the tooth's place now. A planned implant or bridge, a hidden one, and a planned extraction keep the X. The painter feeds every
+			//engine (WPF, 2D, DirectX and OpenGL), so this call log is what each of them is told.
+			CallLogFixtures.EnsureBuilt();
+			ProcedureCode codeExtraction=new ProcedureCode { ProcCode="Z9101",PaintType=ToothPaintingType.Extraction,TreatArea=TreatmentArea.Tooth };
+			ProcedureCode codeImplant=new ProcedureCode { ProcCode="Z9102",PaintType=ToothPaintingType.Implant,TreatArea=TreatmentArea.Tooth };
+			ProcedureCode codeBridgeDark=new ProcedureCode { ProcCode="Z9103",PaintType=ToothPaintingType.BridgeDark,TreatArea=TreatmentArea.Tooth };
+			ProcedureCode codeBridgeLight=new ProcedureCode { ProcCode="Z9104",PaintType=ToothPaintingType.BridgeLight,TreatArea=TreatmentArea.Tooth };
+			ProcedureCode codeDenture=new ProcedureCode { ProcCode="Z9105",PaintType=ToothPaintingType.DentureDark,TreatArea=TreatmentArea.Arch };
+			Func<ProcedureCode,string,ProcStat,ToothChartPaintProc> funcProc=(procedureCode,toothNum,procStat) => new ToothChartPaintProc {
+				ProcedureCode=procedureCode,ToothNum=toothNum,ProcStatus=procStat,Surf="",ToothRange="" };
+			List<ToothChartPaintProc> listProcs=new List<ToothChartPaintProc>();
+			//19 C and 14 EO extracted, with a completed (C) and an existing (EC) implant: no X.
+			listProcs.Add(funcProc(codeExtraction,"19",ProcStat.C));
+			listProcs.Add(funcProc(codeImplant,"19",ProcStat.C));
+			listProcs.Add(funcProc(codeImplant,"14",ProcStat.EC));
+			listProcs.Add(funcProc(codeExtraction,"14",ProcStat.EO));
+			//30 extracted with a planned implant (as the slider shows one completed after its date): the X stays.
+			listProcs.Add(funcProc(codeExtraction,"30",ProcStat.C));
+			listProcs.Add(funcProc(codeImplant,"30",ProcStat.TP));
+			//4 extracted under the pontic of a completed dark bridge 3-4-5, 12 under an existing light bridge's: no X.
+			foreach(string toothNum in new[] { "3","4","5" }) {
+				listProcs.Add(funcProc(codeBridgeDark,toothNum,ProcStat.C));
+			}
+			listProcs.Add(funcProc(codeExtraction,"4",ProcStat.C));
+			listProcs.Add(funcProc(codeExtraction,"12",ProcStat.C));
+			listProcs.Add(funcProc(codeBridgeLight,"12",ProcStat.EC));
+			//20 extracted under the pontic of a planned bridge 19-20-21: the X stays.
+			foreach(string toothNum in new[] { "21","20" }) {
+				listProcs.Add(funcProc(codeBridgeDark,toothNum,ProcStat.TP));
+			}
+			listProcs.Add(funcProc(codeExtraction,"20",ProcStat.C));
+			//7 extracted under a completed upper denture (its pontic): no X.
+			ToothChartPaintProc procDenture=funcProc(codeDenture,"",ProcStat.C);
+			procDenture.Surf="U";
+			listProcs.Add(procDenture);
+			listProcs.Add(funcProc(codeExtraction,"7",ProcStat.C));
+			//2 extracted with a hidden completed implant: the X stays (a hidden procedure draws nothing).
+			listProcs.Add(funcProc(codeExtraction,"2",ProcStat.C));
+			ToothChartPaintProc procImplantHidden=funcProc(codeImplant,"2",ProcStat.C);
+			procImplantHidden.IsHidden=true;
+			listProcs.Add(procImplantHidden);
+			//31 extracted with nothing over it, and a planned extraction of 25, which has a completed implant: both keep the X.
+			listProcs.Add(funcProc(codeExtraction,"31",ProcStat.C));
+			listProcs.Add(funcProc(codeImplant,"25",ProcStat.C));
+			listProcs.Add(funcProc(codeExtraction,"25",ProcStat.TP));
+			List<ToothInitial> listToothInitials=new[] { "2","4","7","12","14","19","20","30","31" }
+				.Select(x => new ToothInitial { ToothNum=x,InitialType=ToothInitialType.Missing }).ToList();
+			Func<bool,List<string>> funcPaint=isOn => {
+				CallLogFixtures.ApplyUser(new CallLogUser { IsExtractionGraphicOn=isOn });
+				CallLog callLog=new CallLog();
+				ToothChartPainter.PaintProcedures(new RecordingPaintTarget(callLog),listProcs,listToothInitials,new ToothChartPaintOptions());
+				return callLog.ListLines;
+			};
+			CallLogFixtures.CultureScope cultureScope=CallLogFixtures.SetCulture();
+			try {
+				List<string> listOn=funcPaint(true);
+				List<string> listXsOn=listOn.Where(x => x.StartsWith("SetBigX ")).Select(x => x.Split(' ')[1].Trim('"')).OrderBy(x => x,StringComparer.Ordinal)
+					.ToList();
+				CollectionAssert.AreEqual(new[] { "2","20","25","30","31" },listXsOn,string.Join("\n",listOn));
+				Assert.IsTrue(listOn.Any(x => x.StartsWith("SetImplant \"19\" ")),"The implant is drawn.");
+				Assert.IsTrue(listOn.Any(x => x.StartsWith("SetPontic \"4\" ")),"The pontic is drawn.");
+				Assert.IsTrue(listOn.Any(x => x.StartsWith("SetPontic \"7\" ")),"The denture's pontic is drawn.");
+				ToothChartPainter.GetToothColors(codeExtraction,ProcStat.C,false,out Color colorDarkC,out Color colorLightC);
+				Assert.IsTrue(listOn.Contains("SetBigX \"30\" "+CallLog.Format(colorDarkC)),"The X in its status's colour.");
+				//With the setting off: only the planned extraction's X, as always.
+				List<string> listOff=funcPaint(false);
+				CollectionAssert.AreEqual(new[] { "SetBigX \"25\"" },listOff.Where(x => x.StartsWith("SetBigX ")).Select(x => x.Substring(0,x.LastIndexOf(' ')))
+					.ToList(),string.Join("\n",listOff));
+			}
+			finally {
+				CallLogFixtures.ApplyUser(CallLogUser.Plain);
+				cultureScope.Dispose();
+				DeleteRow();
+			}
+		}
 		#endregion The painter and the date slider
 
 		#region Free text round trip
+		[TestMethod]
+		public void ChartModuleTextMovedHandler_IsTheOneThisRoundTripCopies() {
+			//The round trip below gives the relay's TextMoved a copy of the Chart module's handler; this pins the handler and its subscription in
+			//ControlChart's source, so a change there fails here instead of passing the round trip unseen (review of TC-5, item 5).
+			string code=SourceText.ReadCode("OpenPmsDental/Main Modules/ControlChart.cs");
+			StringAssert.Contains(code,"_toothChartRelay.TextMoved+=toothChartRelay_TextMoved;");
+			int indexHandler=code.IndexOf("private void toothChartRelay_TextMoved(object sender,ToothChartTextMovedEventArgs e) {");
+			Assert.IsTrue(indexHandler>=0,"The handler.");
+			int indexEnd=code.IndexOf("\n\t\t}\n",indexHandler);
+			Assert.IsTrue(indexEnd>indexHandler);
+			string handler=code.Substring(indexHandler,indexEnd-indexHandler);
+			StringAssert.Contains(handler,
+				"ToothInitial toothInitial=Pd.ListToothInitials.Find(x => x.ToothInitialNum==e.ToothInitialNum && x.InitialType==ToothInitialType.Text);");
+			StringAssert.Contains(handler,"ToothChartRelay.MoveTextLabel(toothInitial,e.Location);");
+			StringAssert.Contains(handler,"ToothInitials.Update(toothInitial);");
+			StringAssert.Contains(handler,"FillToothChart(retainSelection:true);");
+			Assert.IsTrue(handler.IndexOf("ToothChartRelay.MoveTextLabel(")<handler.IndexOf("ToothInitials.Update(")
+				&& handler.IndexOf("ToothInitials.Update(")<handler.IndexOf("FillToothChart("),"Move, save, then refill, as the copy does.");
+		}
+
 		[TestMethod]
 		public void FreeText_AddMoveSave_RoundTrip_EnUs() {
 			RoundTrip("en-US");
@@ -216,6 +314,8 @@ namespace ToothChartImageTests {
 						ToothChartPainter.PaintToothInitials(relay,listToothInitials);
 						relay.EndUpdate();
 					};
+					//A copy of ControlChart.toothChartRelay_TextMoved (Find, MoveTextLabel, ToothInitials.Update, then the refill), which
+					//ChartModuleTextMovedHandler_IsTheOneThisRoundTripCopies pins in ControlChart's source.
 					relay.TextMoved+=(sender,e) => {
 						ToothInitial toothInitial=listToothInitials.Find(x => x.ToothInitialNum==e.ToothInitialNum && x.InitialType==ToothInitialType.Text);
 						Assert.IsNotNull(toothInitial);

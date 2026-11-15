@@ -24,7 +24,8 @@ namespace ToothChartImageTests {
 		///<summary>The scenes whose 2D picture has TC-5's drawing: the older scenes that the 2D chart now draws more of, and TC-5's own scenes.</summary>
 		public static readonly string[] ArrayScenes={ "text-other","text-other-eo-r","text-below-statuses","text-label-long","text-labels-over-teeth",
 			"text-labels-at-edges","text-label-moved","extraction-completed-graphic","extraction-completed-graphic-primary","text-below-with-watch",
-			"text-below-cut-to-fit","text-other-moved-and-missing","text-label-past-edge","text-all-kinds" };
+			"text-below-cut-to-fit","text-other-moved-and-missing","text-label-past-edge","text-all-kinds",
+			"extraction-completed-graphic-under-implant","extraction-completed-graphic-under-pontic" };
 
 		///<summary>The folder of the 2D chart's TC-5 baselines on .NET Framework 4.8 x86: tests\ToothChartImageTests\Baselines\simple2d-net48.</summary>
 		public static string Baselines2D {

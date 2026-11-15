@@ -216,6 +216,39 @@ namespace ToothChartImageTests {
 		}
 
 		[TestMethod]
+		public void TextBelowFitted_The2DChartCutsAsTheWpfChart_ImpOn12And21IsNotCut() {
+			//text-all-kinds at 410x307: "IMP" on 12 and 21. The 2D chart measures with GenericTypographic (no padding on each side), so it keeps the
+			//characters the WPF chart keeps; the padded measure of GenericDefault cut it to "IM" (review of TC-5, item 1).
+			StaRunner.Run(() => {
+				Size size=ChartScenes.SizeModule.Size;
+				using ToothChartWrapper wrapper=CreateReset(size,out ToothChartRelay relay);
+				ToothChartData tcData=wrapper.TcData;
+				ToothScene scene=ToothSceneBuilder.Build(tcData);
+				float pixelsPerMm=scene.Size.Width/scene.WidthProjection;
+				ChartFont fontWpf=ToothSceneBuilder.GetFontTextBelow(tcData.PixelScaleRatio);
+				using Bitmap bitmap=new Bitmap(size.Width,size.Height);
+				using Graphics g=Graphics.FromImage(bitmap);
+				g.TextRenderingHint=System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;//as ToothChart2D.OnPaint draws
+				using StringFormat format=ToothChart2D.CreateTextFormat();
+				Font font2D=wrapper.Font;//the 2D chart's own font, its parent's: 8.25 pt at every size
+				Assert.AreEqual(8.25f,font2D.SizeInPoints,0.01f);
+				foreach(string toothNum in new[] { "12","21" }) {
+					int widthMax2D=(int)Math.Floor(ToothGraphic.GetWidth(toothNum)*tcData.ScaleMmToPix);
+					int widthMaxWpf=(int)Math.Floor(ToothGraphic.GetWidth(toothNum)*pixelsPerMm);
+					Assert.AreEqual(widthMaxWpf,widthMax2D,toothNum+": both charts give the tooth the same width.");
+					string textWpf=ToothSceneBuilder.GetTextBelowFitted(fontWpf,"IMP",widthMaxWpf);
+					string text2D=ToothChart2D.GetTextBelowFitted(g,font2D,format,"IMP",widthMax2D);
+					Assert.AreEqual("IMP",textWpf,toothNum+" in the WPF chart.");
+					Assert.AreEqual(textWpf,text2D,toothNum+" in the 2D chart, "+widthMax2D+" pixels wide.");
+					Assert.IsTrue(g.MeasureString("IMP",font2D).Width>widthMax2D,
+						toothNum+": the padded measure would have cut it, so this test tells the two apart.");
+				}
+				Assert.AreEqual("",ToothChart2D.GetTextBelowFitted(g,font2D,format,null,10));
+				Assert.AreEqual("I",ToothChart2D.GetTextBelowFitted(g,font2D,format,"IMPLANT",1),"The first character stays.");
+			});
+		}
+
+		[TestMethod]
 		public void Relay_PassesTheTextPaintTypes_ToTheWrapper() {
 			StaRunner.Run(() => {
 				using ToothChartWrapper wrapper=CreateReset(ChartScenes.SizeModule.Size,out ToothChartRelay relay);
@@ -331,6 +364,27 @@ namespace ToothChartImageTests {
 				Assert.AreEqual(1,moveLog.ListMoved.Count);
 				Assert.AreEqual(box.LocationShown.X-50/tcData.PixelScaleRatio,moveLog.ListMoved[0].Location.X,0.001);
 				Assert.AreEqual(box.LocationShown.Y-40/tcData.PixelScaleRatio,moveLog.ListMoved[0].Location.Y,0.001);
+			});
+		}
+
+		[TestMethod]
+		public void MoveText_APressWithNoMoveAndNoUp_LeavesTheLabelsPoint() {
+			//A press that never reaches MouseUp (the capture lost, a dialog, Alt-Tab) must not leave the label at the point it is drawn at inside the
+			//edge: the chart's data keeps the stored point (review of TC-5, item 4).
+			StaRunner.Run(() => {
+				Size size=ChartScenes.SizeModule.Size;
+				using ToothChartWrapper wrapper=CreateReset(size,out ToothChartRelay relay);
+				relay.AddText("corner",new PointF(409,306),Color.Black,5);
+				ToothChartData tcData=wrapper.TcData;
+				tcData.CursorTool=CursorTool.MoveText;
+				MoveLog moveLog=new MoveLog();
+				ToothChartMouse toothChartMouse=CreateMouse(moveLog);
+				FreeTextBox box=ToothSceneBuilder.GetFreeTextBoxes(tcData)[0];
+				Assert.AreNotEqual(new PointF(409,306),box.LocationShown,"The label is drawn inside the edge.");
+				toothChartMouse.MouseDown(tcData,GetCentre(box.Bounds),size);
+				Assert.AreSame(tcData.ListFreeTexts[0],toothChartMouse.FreeTextMoving);
+				Assert.AreEqual(new PointF(409,306),tcData.ListFreeTexts[0].Location,"No move and no up: the stored point.");
+				Assert.AreEqual(0,moveLog.ListMoved.Count);
 			});
 		}
 
