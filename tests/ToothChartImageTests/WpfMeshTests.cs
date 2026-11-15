@@ -162,7 +162,7 @@ namespace ToothChartImageTests {
 					ToothChartRelay relay=WpfCharts.CreateRelay(wrapper);
 					relay.SetImplant("3",Color.Gainsboro);
 					relay.SetImplant("30",Color.Gainsboro);
-					wrapper.TcData.PerioMode=true;//as a DirectX chart in perio mode has it; the wrapper allows Wpf3D perio from TC-7
+					wrapper.TcData.PerioMode=true;//as a chart in perio mode has it (the wrapper allows Wpf3D perio since TC-7)
 					ToothScene toothScene=ToothSceneBuilder.Build(wrapper.TcData);
 					listItemsAll.AddRange(toothScene.Items3D);
 					Assert.IsTrue(toothScene.Items3D.Any(x => x.IsReversed && x.Source.Contains("lingual")),"The lingual rows mirror.");

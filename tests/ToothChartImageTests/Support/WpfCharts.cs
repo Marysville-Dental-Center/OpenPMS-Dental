@@ -34,10 +34,27 @@ namespace ToothChartImageTests {
 			return relay;
 		}
 
-		///<summary>The chart scenes the WPF chart draws in TC-1: every scene of kind Chart. The perio scenes need perio mode, which the wrapper allows
-		///only in DirectX until TC-7.</summary>
+		///<summary>The chart scenes the WPF chart draws in TC-1: every scene of kind Chart. The perio scenes (TC-7) are GetPerioScenes: each needs a
+		///wrapper of its own.</summary>
 		public static List<ChartScene> GetChartScenes() {
 			return ChartScenes.GetAll().Where(x => x.Kind==ChartSceneKind.Chart).ToList();
+		}
+
+		///<summary>The perio scenes, which the WPF chart draws since TC-7, at 649x696 (ChartScenes.SizePerio). ResetTeeth keeps perio measures, so each
+		///is drawn on a new wrapper (ForEachPerioScene).</summary>
+		public static List<ChartScene> GetPerioScenes() {
+			return ChartScenes.GetAll().Where(x => x.Kind==ChartSceneKind.Perio).ToList();
+		}
+
+		///<summary>Runs action for every perio scene with a new Wpf3D wrapper of the perio size and its relay, as FormPerioGraphical makes one per exam.
+		///The action prepares the scene (Draw, or ChartScenes.Prepare). Call on an STA thread.</summary>
+		public static void ForEachPerioScene(Action<ChartScene,ChartSize,ToothChartWrapper,ToothChartRelay> action) {
+			foreach(ChartScene scene in GetPerioScenes()) {
+				foreach(ChartSize chartSize in ChartScenes.GetSizes(scene)) {
+					using ToothChartWrapper wrapper=CreateWrapper(chartSize.Size);
+					action(scene,chartSize,wrapper,CreateRelay(wrapper));
+				}
+			}
 		}
 
 		///<summary>Every chart size of the chart scenes, standard sizes first, then the extra sizes in scene order (the recorder's order).</summary>

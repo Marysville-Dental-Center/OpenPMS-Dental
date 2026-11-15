@@ -206,7 +206,7 @@ namespace ToothChartImageTests {
 					AppendImageCell(sb,folder,"simple2d/"+chartSize.FolderName+"/"+scene.Name+".png",chartSize,scene.Kind==ChartSceneKind.Perio?"":"as recorded");
 					WpfGalleryPicture picture=listPictures.FirstOrDefault(x => x.Scene.Name==scene.Name && x.ChartSize.FolderName==chartSize.FolderName);
 					if(picture==null) {
-						sb.Append("<td class=\"cap\">"+(scene.Kind==ChartSceneKind.Perio?"Perio on the WPF chart comes with TC-7 (gallery G3).":"not drawn")+"</td><td></td>");
+						sb.Append("<td class=\"cap\">not drawn</td><td></td>");
 					}
 					else if(picture.Failure!=null) {
 						sb.Append("<td class=\"warn\">failed: "+WebUtility.HtmlEncode(picture.Failure)+"</td><td class=\"cap\">not compared</td>");

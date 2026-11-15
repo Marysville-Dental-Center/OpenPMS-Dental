@@ -16,8 +16,9 @@ using SparksToothChart.Wpf3D;
 namespace ToothChartImageTests {
 	///<summary>Every chart scene at every one of its sizes, drawn by the WPF chart through the relay and the wrapper's GetBitmap, against
 	///Baselines\wpf-net48\&lt;size&gt;\&lt;scene&gt;.png with the tolerances of section 7 (ChartImageCompare). A failing scene writes its expected,
-	///actual and diff images to %TEMP%\ToothChartImageTests\wpf-failures. The perio scenes come with TC-7. A picture the WPF chart did not draw
-	///(the engine did not start, or a render failed and GetBitmap returned the Simple 2D fallback) fails and is never recorded or compared.
+	///actual and diff images to %TEMP%\ToothChartImageTests\wpf-failures. The perio scenes (TC-7) are drawn at 649x696, each on a new wrapper.
+	///A picture the WPF chart did not draw (the engine did not start, or a render failed and GetBitmap returned the Simple 2D fallback)
+	///fails and is never recorded or compared.
 	///
 	///Record the baselines (after a deliberate change of the drawing, in a commit that says why): set OPMS_RECORD_WPF_CHART=1 for a run of this
 	///assembly (optionally OPMS_RECORD_WPF_CHART_OUT=&lt;folder&gt;). Each PNG gets a .txt with its facts (the framework and bitness of the process,
@@ -71,6 +72,21 @@ namespace ToothChartImageTests {
 						}
 					}
 				}
+				//TC-7: the perio scenes, each on a new wrapper.
+				WpfCharts.ForEachPerioScene((scene,chartSize,wrapper,relay) => {
+					WpfSceneOutcome wpfSceneOutcome=CheckScene(wrapper,relay,scene,chartSize,isRecording,folderBaseline,folderFailures,windows,listFailures,
+						listIdentical);
+					if(wpfSceneOutcome==WpfSceneOutcome.Recorded) {
+						listWritten.Add(chartSize.FolderName+"/"+scene.Name);
+					}
+					else if(wpfSceneOutcome==WpfSceneOutcome.Compared) {
+						listCompared.Add(chartSize.FolderName+"/"+scene.Name);
+					}
+					if(wpfSceneOutcome!=WpfSceneOutcome.Skipped && PerioPrintout.ArraySceneNames.Contains(scene.Name)) {
+						//The print and the saved image, as FormPerioGraphical.RenderPerioPrintout makes them from this picture.
+						PerioPrintout.Check(relay,scene,isRecording,folderBaseline,folderFailures,windows,listFailures,listIdentical,listWritten,listCompared);
+					}
+				});
 			});
 			if(isRecording) {
 				WriteManifest(folderBaseline);
@@ -271,6 +287,14 @@ namespace ToothChartImageTests {
 						listPictures.Add(DrawGalleryPicture(wrapper,relay,scene,chartSize,folder,folderApproved));
 					}
 				}
+				//TC-7: the perio scenes, each on a new wrapper.
+				WpfCharts.ForEachPerioScene((scene,chartSize,wrapper,relay) => {
+					WpfGalleryPicture picture=DrawGalleryPicture(wrapper,relay,scene,chartSize,folder,folderApproved);
+					listPictures.Add(picture);
+					if(picture.Failure==null && PerioPrintout.ArraySceneNames.Contains(scene.Name)) {
+						PerioPrintout.WriteGalleryPictures(relay,scene,folder);
+					}
+				});
 			});
 			List<WpfGalleryLiveCapture> listLiveCaptures=null;
 			if(galleryName!="G0") {
@@ -345,6 +369,17 @@ namespace ToothChartImageTests {
 				return;
 			}
 			using Bitmap bitmapDirectX=LoadBitmap(pathDirectX);
+			if(scene.Kind==ChartSceneKind.Perio) {
+				//TC-7: the perio chart's own probes (PerioParityTests).
+				List<PerioProbeOutcome> listOutcomesPerio=PerioParityProbes.Probe(scene.Name,chartSize.Size,PerioParityProbes.GetPoints(wrapper.TcData),
+					ChartImageCompare.GetPixelsArgb(bitmapDirectX),ChartImageCompare.GetPixelsArgb(bitmap),wrapper.TcData.ColorBackground);
+				int countFailedPerio=listOutcomesPerio.Count(x => x.Failure!=null && x.Allowance==null);
+				int countAllowedPerio=listOutcomesPerio.Count(x => x.Failure!=null && x.Allowance!=null);
+				picture.IsParityOk=countFailedPerio==0;
+				picture.ParityText="Parity with DirectX: "+(listOutcomesPerio.Count-countFailedPerio-countAllowedPerio)+" of "+listOutcomesPerio.Count+" probes agree"
+					+(countAllowedPerio>0?", "+countAllowedPerio+" differ and are allowed":"")+(countFailedPerio>0?", "+countFailedPerio+" differ":"")+".";
+				return;
+			}
 			List<ParityProbeOutcome> listOutcomes=ParityProbes.Probe(scene,chartSize,ParityProbes.GetPoints(wrapper.TcData),ChartImageCompare.GetPixelsArgb(bitmapDirectX),
 				ChartImageCompare.GetPixelsArgb(bitmap),wrapper.TcData.ColorBackground);
 			int countFailed=listOutcomes.Count(x => x.Failure!=null && x.Allowance==null);

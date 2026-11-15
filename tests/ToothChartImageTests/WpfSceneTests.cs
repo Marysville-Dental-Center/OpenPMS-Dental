@@ -121,7 +121,7 @@ namespace ToothChartImageTests {
 						relay.SetCrown("30",colorQuarter);
 						relay.SetMissing("12");
 						relay.SetPontic("12",colorHalf);
-						wrapper.TcData.PerioMode=isPerio;//as a DirectX chart in perio mode has it; the wrapper allows Wpf3D perio from TC-7
+						wrapper.TcData.PerioMode=isPerio;//as a chart in perio mode has it (the wrapper allows Wpf3D perio since TC-7)
 						listScenesBuilt.Add(ToothSceneBuilder.Build(wrapper.TcData));
 					}
 				}

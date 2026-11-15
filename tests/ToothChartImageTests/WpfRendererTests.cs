@@ -193,14 +193,15 @@ namespace ToothChartImageTests {
 		}
 
 		[TestMethod]
-		public void Engine_Wpf3D_KeepsPerioDirectXOnly_AndSwitchesBack() {
+		public void Engine_Wpf3D_AllowsPerio_AndSwitchesBack() {
 			StaRunner.Run(() => {
 				using(ToothChartWrapper wrapper=WpfCharts.CreateWrapper(ChartScenes.SizeModule.Size)) {
 					Assert.AreEqual(ToothChartEngine.Wpf3D,wrapper.Engine);
 					Assert.IsNotNull(wrapper.ImageHostWpf);
 					Assert.AreSame(wrapper.ImageHostWpf,wrapper.Controls.Cast<Control>().Single(),"The image host is the wrapper's one engine control.");
-					Exception ex=Expect.Throws<Exception>(() => wrapper.PerioMode=true);
-					StringAssert.Contains(ex.Message,"DirectX","Perio on the WPF chart comes with TC-7.");
+					wrapper.PerioMode=true;//the WPF chart draws perio since TC-7
+					Assert.IsTrue(wrapper.PerioMode);
+					wrapper.PerioMode=false;
 					wrapper.DrawMode=DrawingMode.Simple2D;
 					Assert.AreEqual(ToothChartEngine.Simple2D,wrapper.Engine);
 					Assert.IsNull(wrapper.ImageHostWpf,"Leaving Wpf3D releases its engine control.");
