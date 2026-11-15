@@ -529,7 +529,9 @@ namespace EhrTests {
 			EhrCodes.UpdateList();
 			stopwatchReload.Stop();
 			Stopwatch stopwatchLookup=Stopwatch.StartNew();
-			int countFound=EhrCodes.GetForValueSetOIDs(new List<string> { OID_TOBACCO_SCREENING },true).Count;
+			//Without IsInDb: with the 68 value sets of the 2027 catalog the synthetic rows of this value set fall on code systems whose tables are
+			//not loaded here (MakeLargeRelease cycles eight code systems), so IsInDb would find none (EHR-6a).
+			int countFound=EhrCodes.GetForValueSetOIDs(new List<string> { OID_TOBACCO_SCREENING },false).Count;
 			stopwatchLookup.Stop();
 			Assert.IsTrue(countFound>0);
 			string timing="EHR-2 load time, "+countRows+" rows, workbook "+arrayWorkbook.Length+" bytes: parse "+stopwatchParse.ElapsedMilliseconds+" ms, import "

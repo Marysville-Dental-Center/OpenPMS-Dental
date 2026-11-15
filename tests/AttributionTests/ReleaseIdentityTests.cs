@@ -19,7 +19,7 @@ namespace AttributionTests {
 			"MySqlConnector",".NET libraries","Newtonsoft.Json","MimeKit","MailKit","MSAL.NET","SSH.NET","Bouncy Castle Cryptography","PDFsharp",
 			"MigraDoc","SharpDX","Tao Framework","Helix Toolkit",".NET Community Toolkit","Direct Project","WeCantSpell.Hunspell","Hunspell en_US dictionary",
 			"RDL Project","Google APIs Client Library for .NET","Microsoft Edge WebView2 SDK","TWAIN","Pearl API notice",
-			"HL7 CDA-core-xsl","AAFP CCR stylesheet",
+			"HL7 CDA-core-xsl","AAFP CCR stylesheet","LOINC",
 		};
 
 		///<summary>Files of every listed component that ships in the output folder.</summary>
@@ -171,6 +171,13 @@ namespace AttributionTests {
 				StringAssert.Contains(textHelix,expected);
 			}
 			StringAssert.Contains(listLicenseEntries.Single(x => x.Name==".NET Community Toolkit").Text,"Copyright (C) 2017 Pedro Lamas");
+			//LOINC (EHR-6a, E-23 and E-37): the program's own files hold LOINC codes and display names, so LOINC's notice is listed, with its licence's
+			//address and no licence text of the notices file.
+			string textLoinc=listLicenseEntries.Single(x => x.Name=="LOINC").Text;
+			StringAssert.Contains(textLoinc,"This material contains content from LOINC (http://loinc.org).");
+			StringAssert.Contains(textLoinc,"https://loinc.org/license");
+			StringAssert.Contains(textLoinc,"registered United");
+			Assert.IsFalse(textLoinc.Contains("Permission is hereby granted"),"No standard licence text under LOINC's notice.");
 		}
 
 		[TestMethod]

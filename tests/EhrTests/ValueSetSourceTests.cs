@@ -199,12 +199,17 @@ namespace EhrTests {
 		[TestMethod]
 		public void Fixtures_HoldNoLiteralOfACodeFromTheEnginesLists() {
 			Regex regexCode=new Regex(@"(?<![0-9A-Za-z.])(D\d{4}|\d{5,9})(?![0-9A-Za-z.])");
+			//A GUID is an ID (the measures' set IDs, which the engine and the 2027 catalog's tests both name, EHR-6a), never a code.
+			Regex regexGuid=new Regex("^[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12}$");
 			HashSet<string> setEngineCodes=new HashSet<string>(StringComparer.Ordinal);
 			foreach(string path in new[] { @"OpenPmsDentalBusiness\Data Interface\EhrMeasures.cs",@"OpenPmsDentalBusiness\Db Multi Table\QualityMeasures.cs" }) {
 				CSharpSource cSharpSource=CSharpSource.Read(TestPaths.ReadSource(path));
 				foreach(string literal in cSharpSource.ListStringLiterals) {
 					if(Regex.IsMatch(literal,@"^\s*[0-9.]+\s*$") && literal.Count(x => x=='.')>1) {
 						continue;//An OID.
+					}
+					if(regexGuid.IsMatch(literal.Trim())) {
+						continue;
 					}
 					foreach(Match match in regexCode.Matches(literal)) {
 						setEngineCodes.Add(match.Groups[1].Value);
@@ -219,7 +224,7 @@ namespace EhrTests {
 			{
 				string text=File.ReadAllText(path);
 				IEnumerable<string> listTexts=path.EndsWith(".cs") ? CSharpSource.Read(text).ListStringLiterals : new List<string> { text };
-				foreach(string literal in listTexts) {
+				foreach(string literal in listTexts.Where(x => !regexGuid.IsMatch(x.Trim()))) {
 					foreach(Match match in regexCode.Matches(literal)) {
 						if(setEngineCodes.Contains(match.Groups[1].Value)) {
 							listProblems.Add(TestPaths.Relative(path)+": "+match.Groups[1].Value);

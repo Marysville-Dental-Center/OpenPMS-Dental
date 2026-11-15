@@ -376,7 +376,8 @@ namespace EhrTests {
 
 		///<summary>One made-up TEST code per direct-reference-code role of the catalog (four for CMS138's CPT visits), under the role's measure at its
 		///2027 version, the LOINC roles with the display name the catalog gives them. Each LOINC role's measure gets one more LOINC code with another
-		///display name, which no role takes, and CMS74 a SNOMED CT code with no role, so the rows that only are listed are there too.</summary>
+		///display name, which no role takes, and CMS74, CMS75 and CMS155 a SNOMED CT code with no role, so the rows that are only listed are there
+		///too and the file names all seven measures.</summary>
 		public static List<TestValueSetRow> MakeDirectCodeRows(string prefix="TESTD") {
 			List<TestValueSetRow> listRows=new List<TestValueSetRow>();
 			int index=0;
@@ -392,8 +393,10 @@ namespace EhrTests {
 				index++;
 				listRows.Add(TestValueSetRow.MakeDirectCode(CqmCatalog.GetMeasure(cmsId).MeasureId,"LOINC",prefix+index.ToString("D4"),"TEST other LOINC display"));
 			}
-			index++;
-			listRows.Add(TestValueSetRow.MakeDirectCode(CqmCatalog.GetMeasure("CMS74").MeasureId,"SNOMEDCT",prefix+index.ToString("D4")));
+			foreach(string cmsId in new[] { "CMS74","CMS75","CMS155" }) {//As the hospice codes are listed under them: no role.
+				index++;
+				listRows.Add(TestValueSetRow.MakeDirectCode(CqmCatalog.GetMeasure(cmsId).MeasureId,"SNOMEDCT",prefix+index.ToString("D4")));
+			}
 			return listRows;
 		}
 
