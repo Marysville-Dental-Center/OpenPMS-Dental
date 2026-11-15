@@ -5,7 +5,9 @@
 // from the code list at run time. No VSAC, UMLS, CPT, CDT or SNOMED CT content is in any of them. The zip files are written by StoredZip below
 // (entries stored, not compressed, with their CRC-32; or deflated with DeflateStream, which is in System.dll, for an entry that inflates to a
 // large part), because this project does not reference System.IO.Compression.dll (ZipArchive); the importer reads them with ZipArchive as it
-// reads any zip.
+// reads any zip. EHR-6a (docs/specs/ehr-2027-measures-plan.md) adds the release's other two files, a Direct Reference Codes file (one TEST
+// code per role of the catalog) and a Code System Versions file, in the provisional shapes of docs/port-notes/EHR-6.md (the real files' shapes
+// are E-20's record), and the pick of the three.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
 using System.Collections.Generic;
@@ -28,6 +30,8 @@ namespace EhrTests {
 		public string CodeSystem="";
 		public string CodeSystemOID="";
 		public string ValueSetVersion="";
+		///<summary>The Code System Version column of a value-set or Direct Reference Codes row.</summary>
+		public string CodeSystemVersion="TEST";
 
 		///<summary>A row of the manifest's value set with a made-up code of the code system (its code list name), its OID from the code list.</summary>
 		public static TestValueSetRow Make(string valueSetOID,string codeSystem,string codeValue,string measureIds=null) {
@@ -41,16 +45,50 @@ namespace EhrTests {
 			row.Description="TEST description of "+codeValue;
 			row.CodeSystem=codeSystem;
 			row.CodeSystemOID=EhrValueSetImport.GetCodeSystemOid(codeSystem);
-			row.ValueSetVersion="20130614";
+			row.ValueSetVersion=ValueSetFixtures.VALUE_SET_VERSION;
+			return row;
+		}
+
+		///<summary>A row of a Direct Reference Codes file: a made-up code of the code system under the measures (CMS IDs with versions, comma
+		///separated), with the description given (a LOINC role's display name from the catalog) or a made-up one.</summary>
+		public static TestValueSetRow MakeDirectCode(string measureIds,string codeSystem,string codeValue,string description=null) {
+			TestValueSetRow row=new TestValueSetRow();
+			row.MeasureIds=measureIds;
+			row.CodeValue=codeValue;
+			row.Description=description??("TEST description of "+codeValue);
+			row.CodeSystem=codeSystem;
+			row.CodeSystemOID=EhrValueSetImport.GetCodeSystemOid(codeSystem);
+			row.CodeSystemVersion="TEST-2026";
+			return row;
+		}
+
+		///<summary>A row of a Code System Versions file.</summary>
+		public static TestValueSetRow MakeCodeSystemVersion(string codeSystem,string version) {
+			TestValueSetRow row=new TestValueSetRow();
+			row.CodeSystem=codeSystem;
+			row.CodeSystemOID=EhrValueSetImport.GetCodeSystemOid(codeSystem);
+			row.ValueSetVersion=version;
+			row.CodeSystemVersion="";
 			return row;
 		}
 	}
 
 	public static class ValueSetFixtures {
-		///<summary>The headers the workbooks use by default: the names the importer expects first (docs/port-notes/EHR-2.md).</summary>
+		///<summary>The value-set version the synthetic rows carry (a made-up expansion version of the 2026-05-14 release).</summary>
+		public const string VALUE_SET_VERSION="TEST-20260514";
+		///<summary>The headers the workbooks use by default: the names the importer expects first (docs/port-notes/EHR-2.md, EHR-6.md; provisional
+		///until E-20's record).</summary>
 		public static readonly string[] ArrayHeadersDefault=new string[] {
-			"CMS ID","Value Set Name","Value Set OID","QDM Category","Definition Version","Code","Descriptor","Code System","Code System Version",
+			"CMS ID","Value Set Name","Value Set OID","QDM Category","Expansion Version","Code","Description","Code System","Code System Version",
 			"Code System OID",
+		};
+		///<summary>The headers of a synthetic Direct Reference Codes file (provisional, E-20).</summary>
+		public static readonly string[] ArrayHeadersDirectCodes=new string[] {
+			"CMS ID","Code","Description","Code System","Code System OID","Code System Version",
+		};
+		///<summary>The headers of a synthetic Code System Versions file (provisional, E-20).</summary>
+		public static readonly string[] ArrayHeadersCodeSystemVersions=new string[] {
+			"Code System","Code System OID","Version",
 		};
 
 		///<summary>Throws unless every code is a made-up TEST code (section 6 of the plan).</summary>
@@ -76,6 +114,8 @@ namespace EhrTests {
 				case "qdmcategory":
 					return row.QDMCategory;
 				case "definitionversion":
+				case "expansionversion":
+				case "version":
 					return row.ValueSetVersion;
 				case "code":
 					return row.CodeValue;
@@ -85,7 +125,7 @@ namespace EhrTests {
 				case "codesystem":
 					return row.CodeSystem;
 				case "codesystemversion":
-					return "TEST";
+					return row.CodeSystemVersion;
 				case "codesystemoid":
 					return row.CodeSystemOID;
 				default:
@@ -249,7 +289,7 @@ namespace EhrTests {
 				}
 				stringBuilder.Append("    </ns0:ConceptList>\r\n");
 				stringBuilder.Append("    <ns0:Source>TEST steward</ns0:Source>\r\n    <ns0:Type>Extensional</ns0:Type>\r\n    <ns0:Binding>Static</ns0:Binding>\r\n"
-					+"    <ns0:Status>Active</ns0:Status>\r\n    <ns0:RevisionDate>2013-06-14</ns0:RevisionDate>\r\n");
+					+"    <ns0:Status>Active</ns0:Status>\r\n    <ns0:RevisionDate>2026-05-14</ns0:RevisionDate>\r\n");
 				if(hasGroups) {
 					stringBuilder.Append("    <ns0:Group displayName=\"CATEGORY\" ID=\"1\" sourceOrganization=\"TEST\">\r\n      <ns0:Keyword>"
 						+SecurityElement.Escape(rowFirst.QDMCategory)+"</ns0:Keyword>\r\n    </ns0:Group>\r\n");
@@ -280,7 +320,7 @@ namespace EhrTests {
 		}
 
 		///<summary>One made-up code in each value set of the manifest, of a code system that suits it (SNOMEDCT for most; the code list's own
-		///systems for the rest), with the manifest's measures (as CMS IDs), so the file names all nine measures at their versions.</summary>
+		///systems for the rest), with the manifest's measures (as CMS IDs), so the file names all seven measures at their 2027 versions.</summary>
 		public static List<TestValueSetRow> MakeManifestRows(string prefix="TESTM") {
 			List<TestValueSetRow> listRows=new List<TestValueSetRow>();
 			int index=0;
@@ -313,6 +353,88 @@ namespace EhrTests {
 			}
 			return listRows;
 		}
+
+		#region The release's other two files (EHR-6a)
+		///<summary>A Direct Reference Codes file (.xlsx bytes) of the rows (TestValueSetRow.MakeDirectCode), under the default headers or others.</summary>
+		public static byte[] MakeDirectCodesWorkbook(List<TestValueSetRow> listRows,string[] arrayHeaders=null) {
+			Sheet sheet=new Sheet();
+			sheet.Name="Direct Reference Codes";
+			sheet.ListTitleLines.Add("TEST Direct Reference Codes, eCQM Value Sets for Eligible Clinicians, 2026-05-14");
+			sheet.ArrayHeaders=arrayHeaders??ArrayHeadersDirectCodes;
+			sheet.ListRows=listRows;
+			return MakeWorkbook(sheet);
+		}
+
+		///<summary>A Code System Versions file (.xlsx bytes) of the rows (TestValueSetRow.MakeCodeSystemVersion).</summary>
+		public static byte[] MakeCodeSystemVersionsWorkbook(List<TestValueSetRow> listRows,string[] arrayHeaders=null) {
+			Sheet sheet=new Sheet();
+			sheet.Name="Code System Versions";
+			sheet.ArrayHeaders=arrayHeaders??ArrayHeadersCodeSystemVersions;
+			sheet.ListRows=listRows;
+			return MakeWorkbook(sheet);
+		}
+
+		///<summary>One made-up TEST code per direct-reference-code role of the catalog (four for CMS138's CPT visits), under the role's measure at its
+		///2027 version, the LOINC roles with the display name the catalog gives them. Each LOINC role's measure gets one more LOINC code with another
+		///display name, which no role takes, and CMS74 a SNOMED CT code with no role, so the rows that only are listed are there too.</summary>
+		public static List<TestValueSetRow> MakeDirectCodeRows(string prefix="TESTD") {
+			List<TestValueSetRow> listRows=new List<TestValueSetRow>();
+			int index=0;
+			foreach(CqmDirectCodeRole role in CqmCatalog.GetDirectCodeRoles()) {
+				string measureId=CqmCatalog.GetMeasure(role.CmsId).MeasureId;
+				for(int i=0;i<role.CountExpected;i++) {
+					index++;
+					listRows.Add(TestValueSetRow.MakeDirectCode(measureId,role.CodeSystem,prefix+index.ToString("D4"),
+						role.DisplayName=="" ? null : role.DisplayName));
+				}
+			}
+			foreach(string cmsId in new[] { "CMS69","CMS165" }) {
+				index++;
+				listRows.Add(TestValueSetRow.MakeDirectCode(CqmCatalog.GetMeasure(cmsId).MeasureId,"LOINC",prefix+index.ToString("D4"),"TEST other LOINC display"));
+			}
+			index++;
+			listRows.Add(TestValueSetRow.MakeDirectCode(CqmCatalog.GetMeasure("CMS74").MeasureId,"SNOMEDCT",prefix+index.ToString("D4")));
+			return listRows;
+		}
+
+		///<summary>A made-up version of each code system the code list knows, in the formats a Code System Versions file is expected to use
+		///(provisional): dates for SNOMED CT, RxNorm and CVX, a release number for LOINC, a year for ICD-10-CM, CPT and HCPCS.</summary>
+		public static List<TestValueSetRow> MakeCodeSystemVersionRows() {
+			return new List<TestValueSetRow> {
+				TestValueSetRow.MakeCodeSystemVersion("SNOMEDCT","2025-09"),
+				TestValueSetRow.MakeCodeSystemVersion("LOINC","2.80"),
+				TestValueSetRow.MakeCodeSystemVersion("ICD10CM","2026"),
+				TestValueSetRow.MakeCodeSystemVersion("CPT","2026"),
+				TestValueSetRow.MakeCodeSystemVersion("RXNORM","2026-04"),
+				TestValueSetRow.MakeCodeSystemVersion("CVX","2026-03-31"),
+				TestValueSetRow.MakeCodeSystemVersion("HCPCS","2026"),
+				TestValueSetRow.MakeCodeSystemVersion("CDCREC","1.2"),
+			};
+		}
+
+		///<summary>The three files of a synthetic release (names and bytes): the value sets as given (a workbook of every catalog value set by
+		///default), the Direct Reference Codes file (one code per role by default) and the Code System Versions file.</summary>
+		public static List<KeyValuePair<string,byte[]>> MakeRelease(byte[] arrayValueSets=null,List<TestValueSetRow> listDirectCodes=null,
+			List<TestValueSetRow> listCodeSystemVersions=null,string nameValueSets="ec_value_sets_TEST.xlsx")
+		{
+			if(arrayValueSets==null) {
+				Sheet sheet=new Sheet();
+				sheet.Name="All";
+				sheet.ListRows=MakeManifestRows();
+				arrayValueSets=MakeWorkbook(sheet);
+			}
+			return new List<KeyValuePair<string,byte[]>> {
+				Entry(nameValueSets,arrayValueSets),
+				Entry("ec_direct_reference_codes_TEST.xlsx",MakeDirectCodesWorkbook(listDirectCodes??MakeDirectCodeRows())),
+				Entry("ec_code_system_versions_TEST.xlsx",MakeCodeSystemVersionsWorkbook(listCodeSystemVersions??MakeCodeSystemVersionRows())),
+			};
+		}
+
+		///<summary>Parses each file and picks them together, as the Code System Importer does.</summary>
+		public static EhrValueSetPick ParsePick(List<KeyValuePair<string,byte[]>> listFiles) {
+			return EhrValueSetImport.MakePick(listFiles.Select(x => EhrValueSetImport.Parse(x.Key,x.Value)).ToList());
+		}
+		#endregion The release's other two files (EHR-6a)
 	}
 	///<summary>A zip file whose entries are stored (method 0) with their CRC-32 and UTF-8 names: the local headers, the central directory and the
 	///end record of the ZIP format (PKWARE APPNOTE, section 4.3), which ZipArchive reads.</summary>

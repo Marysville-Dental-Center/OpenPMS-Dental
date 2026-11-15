@@ -1,7 +1,8 @@
 // The value-set readers and checks of EHR-2 (docs/specs/ehr-rebuild-plan.md, EHR-2 and section 8.2), with no database: synthetic Excel
 // workbooks, SVS files and .zip files of them (Support/ValueSetFixtures.cs; made-up TEST codes, the real value-set and code-system OIDs), the
-// header matching, the merge of a value set listed under several measures, the code systems by OID, the measure-version check (the June 2013
-// versions imported, the 2014 EP update's versions warned about or refused), an SVS file without Group elements, and files that are refused.
+// header matching, the merge of a value set listed under several measures, the code systems by OID, the measure-version check (since EHR-6a
+// the 2027 versions of the catalog imported, the 2026 release's versions warned about or refused), an SVS file without Group elements, and
+// files that are refused.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
 using System.Collections.Generic;
@@ -18,11 +19,12 @@ namespace EhrTests {
 		private const string OID_PREGNANCY="2.16.840.1.113883.3.526.3.378";
 		private const string OID_SNOMEDCT="2.16.840.1.113883.6.96";
 
-		///<summary>The versions VSAC's 2014 EP update (expansion profile "MU2 EP Update 2014-05-30", 2015 reporting) gives the nine measures: each
-		///one version later than the June 2013 release (for example CMS74v4).</summary>
-		private static readonly string[] _arrayMeasureIds2014Update=new string[] {
-			"CMS68v4","CMS69v3","CMS74v4","CMS75v3","CMS127v3","CMS138v3","CMS147v3","CMS155v3","CMS165v3",
+		///<summary>The versions the 2026 performance period's release gives the seven measures: each one version before the 2027 versions (for
+		///example CMS74v15, section 7.2).</summary>
+		private static readonly string[] _arrayMeasureIds2026=new string[] {
+			"CMS68v15","CMS69v14","CMS74v15","CMS75v14","CMS138v14","CMS155v14","CMS165v14",
 		};
+		private const string CATEGORY_TOBACCO_SCREENING="Assessment";
 
 		[TestInitialize]
 		public void Begin() {
@@ -40,11 +42,11 @@ namespace EhrTests {
 		#region Workbook
 		[TestMethod]
 		public void Workbook_ReadsTheRows_UnderATitle_WithTheirFieldsAndCodeSystems() {
-			ValueSetFixtures.Sheet sheet=MakeSheet("CMS138v2",
+			ValueSetFixtures.Sheet sheet=MakeSheet("CMS138v15",
 				TestValueSetRow.Make(OID_TOBACCO_SCREENING,"SNOMEDCT","TEST0001"),
 				TestValueSetRow.Make(OID_OFFICE_VISIT,"CPT","TEST0002"),
 				TestValueSetRow.Make(OID_PREGNANCY,"ICD9CM","TEST0003"));
-			sheet.ListTitleLines.Add("TEST eCQM value sets, June 2013 EP release");
+			sheet.ListTitleLines.Add("TEST eCQM value sets for eligible clinicians, 2026-05-14");
 			sheet.ListTitleLines.Add("");
 			sheet.ListRows[2].Description="TEST & <description> with \"quotes\"";
 			EhrValueSetFile file=EhrValueSetImport.Parse("ep_value_sets.xlsx",ValueSetFixtures.MakeWorkbook(sheet));
@@ -53,8 +55,8 @@ namespace EhrTests {
 			EhrCode ehrCode=file.ListEhrCodes.Single(x => x.CodeValue=="TEST0001");
 			Assert.AreEqual(OID_TOBACCO_SCREENING,ehrCode.ValueSetOID);
 			Assert.AreEqual("Tobacco Use Screening",ehrCode.ValueSetName);
-			Assert.AreEqual("Risk Category/Assessment",ehrCode.QDMCategory);
-			Assert.AreEqual("138v2",ehrCode.MeasureIds,"As EhrCode.MeasureIds writes them: without CMS.");
+			Assert.AreEqual(CATEGORY_TOBACCO_SCREENING,ehrCode.QDMCategory);
+			Assert.AreEqual("138v15",ehrCode.MeasureIds,"As EhrCode.MeasureIds writes them: without CMS.");
 			Assert.AreEqual("SNOMEDCT",ehrCode.CodeSystem);
 			Assert.AreEqual(OID_SNOMEDCT,ehrCode.CodeSystemOID);
 			Assert.AreEqual("TEST description of TEST0001",ehrCode.Description,"Rich-text runs joined, the phonetic run left out.");
@@ -62,7 +64,8 @@ namespace EhrTests {
 			Assert.AreEqual("TEST & <description> with \"quotes\"",file.ListEhrCodes.Single(x => x.CodeValue=="TEST0003").Description);
 			Assert.AreEqual(3,file.CountRowsRead);
 			Assert.AreEqual(64,file.Sha256.Length);
-			CollectionAssert.Contains(file.ListPartsRead,"ep_value_sets.xlsx [CMS138v2]");
+			CollectionAssert.Contains(file.ListPartsRead,"ep_value_sets.xlsx [CMS138v15]");
+			Assert.AreEqual(EhrValueSetFileKind.ValueSets,file.Kind);
 		}
 
 		[TestMethod]
@@ -76,20 +79,20 @@ namespace EhrTests {
 			Assert.AreEqual("TEST0001",ehrCode.CodeValue);
 			Assert.AreEqual(OID_TOBACCO_SCREENING,ehrCode.ValueSetOID);
 			Assert.AreEqual(OID_SNOMEDCT,ehrCode.CodeSystemOID,"No Code System OID column: the code list's OID for the name.");
-			Assert.AreEqual("Risk Category/Assessment",ehrCode.QDMCategory,"No QDM Category column: the manifest's.");
+			Assert.AreEqual(CATEGORY_TOBACCO_SCREENING,ehrCode.QDMCategory,"No QDM Category column: the manifest's.");
 		}
 
 		[TestMethod]
-		public void Workbook_AValueSetUnderSeveralMeasures_IsOneRow_WithTheNineMeasuresItIsListedUnder() {
-			TestValueSetRow rowA=TestValueSetRow.Make(OID_OFFICE_VISIT,"CPT","TEST0001","CMS74v3");
-			TestValueSetRow rowB=TestValueSetRow.Make(OID_OFFICE_VISIT,"CPT","TEST0001","CMS165v2");
-			TestValueSetRow rowC=TestValueSetRow.Make(OID_OFFICE_VISIT,"CPT","TEST0001","CMS1000v1, CMS75v2");
-			EhrValueSetFile file=EhrValueSetImport.Parse("vs.xlsx",ValueSetFixtures.MakeWorkbook(MakeSheet("CMS74v3",rowA),MakeSheet("CMS165v2",rowB),
+		public void Workbook_AValueSetUnderSeveralMeasures_IsOneRow_WithTheSevenMeasuresItIsListedUnder() {
+			TestValueSetRow rowA=TestValueSetRow.Make(OID_OFFICE_VISIT,"CPT","TEST0001","CMS138v15");
+			TestValueSetRow rowB=TestValueSetRow.Make(OID_OFFICE_VISIT,"CPT","TEST0001","CMS165v15");
+			TestValueSetRow rowC=TestValueSetRow.Make(OID_OFFICE_VISIT,"CPT","TEST0001","CMS1000v1, CMS155v15");
+			EhrValueSetFile file=EhrValueSetImport.Parse("vs.xlsx",ValueSetFixtures.MakeWorkbook(MakeSheet("CMS138v15",rowA),MakeSheet("CMS165v15",rowB),
 				MakeSheet("Other",rowC)));
 			Assert.IsFalse(file.IsRefused,EhrValueSetImport.GetReport(file));
 			Assert.AreEqual(1,file.ListEhrCodes.Count);
 			Assert.AreEqual(2,file.CountRowsMerged);
-			Assert.AreEqual("74v3,75v2,165v2",file.ListEhrCodes[0].MeasureIds,"The nine this program reports, in the engine's order; not the others.");
+			Assert.AreEqual("138v15,155v15,165v15",file.ListEhrCodes[0].MeasureIds,"The seven this program reports, in the catalog's order; not the others.");
 			CollectionAssert.Contains(file.ListMeasureIdsInFile,"1000v1","The version check sees every measure.");
 			//The same code in another value set, or of another code system, is a row of its own.
 			EhrValueSetFile file2=EhrValueSetImport.Parse("vs.xlsx",ValueSetFixtures.MakeWorkbook(MakeSheet("A",rowA,
@@ -174,11 +177,11 @@ namespace EhrTests {
 			Assert.AreEqual(3,file.ListEhrCodes.Count);
 			EhrCode ehrCode=file.ListEhrCodes.First(x => x.CodeValue=="TEST0001");
 			Assert.AreEqual("TEST category from the file",ehrCode.QDMCategory,"The file's category wins over the manifest's.");
-			Assert.AreEqual("138v2",ehrCode.MeasureIds);
+			Assert.AreEqual("138v15",ehrCode.MeasureIds);
 			Assert.AreEqual("Tobacco Use Screening",ehrCode.ValueSetName);
-			Assert.AreEqual("74v3,75v2,127v2,138v2,147v2,155v2,165v2",file.ListEhrCodes.First(x => x.CodeValue=="TEST0003").MeasureIds);
+			Assert.AreEqual("138v15,155v15,165v15",file.ListEhrCodes.First(x => x.CodeValue=="TEST0003").MeasureIds);
 			Assert.IsTrue(file.AreVersionsChecked);
-			Assert.IsTrue(file.ListNotes.Any(x => x.Contains("20130614")),"The value-set versions are reported.");
+			Assert.IsTrue(file.ListNotes.Any(x => x.Contains(ValueSetFixtures.VALUE_SET_VERSION)),"The value-set versions are reported.");
 		}
 
 		[TestMethod]
@@ -190,8 +193,8 @@ namespace EhrTests {
 			EhrValueSetFile file=EhrValueSetImport.Parse("vs.xml",ValueSetFixtures.MakeSvs(listRows,hasGroups:false));
 			Assert.IsFalse(file.IsRefused,EhrValueSetImport.GetReport(file));
 			Assert.IsFalse(file.AreVersionsChecked);
-			Assert.AreEqual("138v2",file.ListEhrCodes.Single(x => x.CodeValue=="TEST0001").MeasureIds,"From the manifest.");
-			Assert.AreEqual("Risk Category/Assessment",file.ListEhrCodes.Single(x => x.CodeValue=="TEST0001").QDMCategory,"From the manifest.");
+			Assert.AreEqual("138v15",file.ListEhrCodes.Single(x => x.CodeValue=="TEST0001").MeasureIds,"From the manifest.");
+			Assert.AreEqual(CATEGORY_TOBACCO_SCREENING,file.ListEhrCodes.Single(x => x.CodeValue=="TEST0001").QDMCategory,"From the manifest.");
 			Assert.AreEqual("",file.ListEhrCodes.Single(x => x.CodeValue=="TEST0002").MeasureIds,"Not in the manifest: no measures.");
 			Assert.AreEqual(1,file.CountOtherValueSets);
 			Assert.IsTrue(file.ListNotes.Any(x => x.Contains("measure versions could not be checked")),string.Join("\r\n",file.ListNotes));
@@ -212,56 +215,58 @@ namespace EhrTests {
 
 		#region Measure versions
 		[TestMethod]
-		public void Versions_TheJune2013Release_HasAllNine_AndEveryManifestValueSet() {
+		public void Versions_The2027Release_HasAllSeven_AndEveryManifestValueSet() {
 			EhrValueSetFile file=EhrValueSetImport.Parse("vs.xlsx",ValueSetFixtures.MakeWorkbook(MakeSheet("All",ValueSetFixtures.MakeManifestRows().ToArray())));
 			Assert.IsFalse(file.IsRefused,EhrValueSetImport.GetReport(file));
 			CollectionAssert.AreEqual(EhrValueSetImport.ArrayMeasureIds,file.ListMeasuresMatched);
 			Assert.AreEqual(0,file.ListWarnings.Count,string.Join("\r\n",file.ListWarnings));
 			Assert.AreEqual(EhrValueSetImport.GetManifest().Count,file.ListManifestOidsFound.Count);
 			Assert.AreEqual(0,file.ListManifestOidsMissing.Count);
-			StringAssert.Contains(EhrValueSetImport.GetReport(file),"Measures at the versions this program reports: 9 of 9");
+			StringAssert.Contains(EhrValueSetImport.GetReport(file),"Measures: 7 of 7 measures at the 2027 versions");
 		}
 
 		[TestMethod]
-		public void Versions_AMeasureAtThe2014UpdatesVersion_GivesTheVersionWarning() {
+		public void Versions_AMeasureAtThe2026ReleasesVersion_GivesTheVersionWarning() {
 			List<TestValueSetRow> listRows=new List<TestValueSetRow> {
-				TestValueSetRow.Make(OID_TOBACCO_SCREENING,"SNOMEDCT","TEST0001","CMS138v2"),
-				TestValueSetRow.Make("2.16.840.1.113883.3.464.1003.125.12.1002","CDT","TEST0002","CMS74v4"),
+				TestValueSetRow.Make(OID_TOBACCO_SCREENING,"SNOMEDCT","TEST0001","CMS138v15"),
+				TestValueSetRow.Make("2.16.840.1.113883.3.464.1003.125.12.1002","CDT","TEST0002","CMS74v15"),
 			};
 			EhrValueSetFile file=EhrValueSetImport.Parse("vs.xlsx",ValueSetFixtures.MakeWorkbook(MakeSheet("A",listRows.ToArray())));
 			Assert.IsFalse(file.IsRefused,EhrValueSetImport.GetReport(file));
-			CollectionAssert.AreEqual(new[] { "CMS138v2" },file.ListMeasuresMatched);
-			Assert.IsTrue(file.ListWarnings.Any(x => x.Contains("CMS74v4") && x.Contains("CMS74v3")),string.Join("\r\n",file.ListWarnings));
-			Assert.IsTrue(file.ListWarnings.Any(x => x=="CMS68v3 is not in the file."),string.Join("\r\n",file.ListWarnings));
+			CollectionAssert.AreEqual(new[] { "CMS138v15" },file.ListMeasuresMatched);
+			Assert.IsTrue(file.ListWarnings.Any(x => x=="The file has CMS74v15 where this program reports CMS74v16."),string.Join("\r\n",file.ListWarnings));
+			Assert.IsTrue(file.ListWarnings.Any(x => x=="CMS68v16 is not in the file."),string.Join("\r\n",file.ListWarnings));
 			Assert.IsTrue(file.ListWarnings.Any(x => x.Contains("value sets the measures use are not in the file")));
 			string report=EhrValueSetImport.GetReport(file);
+			StringAssert.Contains(report,"Measures: 1 of 7 measures at the 2027 versions (CMS138v15)");
 			StringAssert.Contains(report,"Value sets the measures use that are not in the file:");
-			StringAssert.Contains(report,"2.16.840.1.113883.3.526.3.1170 Tobacco User (138v2)");
+			StringAssert.Contains(report,"2.16.840.1.113883.3.526.3.1170 Tobacco User (138v15)");
 		}
 
 		[TestMethod]
-		public void Versions_TheWhole2014Update_IsRefused_NoneOfTheNineAtItsVersion() {
+		public void Versions_TheWhole2026Release_IsRefused_NoneOfTheSevenAtIts2027Version() {
 			List<TestValueSetRow> listRows=ValueSetFixtures.MakeManifestRows();
 			for(int i=0;i<listRows.Count;i++) {
-				listRows[i].MeasureIds=_arrayMeasureIds2014Update[i%_arrayMeasureIds2014Update.Length];
+				listRows[i].MeasureIds=_arrayMeasureIds2026[i%_arrayMeasureIds2026.Length];
 			}
 			foreach(bool isSvs in new[] { false,true }) {
 				EhrValueSetFile file=isSvs ? EhrValueSetImport.Parse("vs.xml",ValueSetFixtures.MakeSvs(listRows,hasGroups:true))
 					: EhrValueSetImport.Parse("vs.xlsx",ValueSetFixtures.MakeWorkbook(MakeSheet("A",listRows.ToArray())));
 				Assert.IsTrue(file.IsRefused,"svs="+isSvs);
 				string refusal=string.Join(" ",file.ListRefusals);
-				StringAssert.Contains(refusal,"None of the nine measures this program reports is in the file at the version it reports");
-				StringAssert.Contains(refusal,"CMS74v4");
+				StringAssert.Contains(refusal,"None of the seven measures this program reports is in the file at its 2027 version");
+				StringAssert.Contains(refusal,"CMS74v15");
 				StringAssert.Contains(refusal,EhrValueSetImport.RELEASE_LABEL);
 			}
 		}
 
 		[TestMethod]
 		public void ParseMeasureIds_ReadsCmsIdsAndShortIds_IgnoresOtherText() {
-			CollectionAssert.AreEqual(new[] { "68v3","69v2","147v2","1000v12" },
-				EhrValueSetImport.ParseMeasureIds("CMS68v3, cms69V2; 147v2 CMS 1000 v 12, NQF 0419, TEST74, v3, CMS68v3"));
+			CollectionAssert.AreEqual(new[] { "68v16","69v15","147v2","1000v12" },
+				EhrValueSetImport.ParseMeasureIds("CMS68v16, cms69V15; 147v2 CMS 1000 v 12, NQF 0419, TEST74, v3, CMS68v16"));
 			CollectionAssert.AreEqual(new string[0],EhrValueSetImport.ParseMeasureIds(""));
-			CollectionAssert.AreEqual(new[] { "74v3","165v2","1000v1" },EhrValueSetImport.SortMeasureIds(new[] { "1000v1","165v2","74v3","165v2" }));
+			CollectionAssert.AreEqual(new[] { "74v16","165v15","74v3","1000v1" },
+				EhrValueSetImport.SortMeasureIds(new[] { "1000v1","165v15","74v3","74v16","165v15" }),"The catalog's order first, then the others by number.");
 		}
 		#endregion Measure versions
 
@@ -290,6 +295,11 @@ namespace EhrTests {
 			Assert.AreEqual("ICD10PCS",EhrValueSetImport.GetCodeSystemName("2.16.840.1.113883.6.4","ICD10 PCS"),"Not in the code list: the file's name.");
 			Assert.AreEqual("SNOMEDCT",EhrValueSetImport.GetCodeSystemName("","snomedct"),"No OID: the code list's name for the file's.");
 			Assert.AreEqual("AdministrativeSex",EhrValueSetImport.GetCodeSystemName("","AdministrativeGender"));
+			//HL7 ActCode (a direct reference code of CMS69, EHR-6a): named, never a table of the code list.
+			Assert.AreEqual("ActCode",EhrValueSetImport.GetCodeSystemName("2.16.840.1.113883.5.4","TEST name"));
+			Assert.AreEqual("ActCode",EhrValueSetImport.GetCodeSystemName("","HL7 ActCode"));
+			Assert.AreEqual("2.16.840.1.113883.5.4",EhrValueSetImport.GetCodeSystemOid("ActCode"));
+			CollectionAssert.DoesNotContain(EhrCodes.ArrayCodeSystems,"ActCode");
 			//The codesystem table's OIDs (the convert scripts) agree with the importer's.
 			string convert=TestPaths.ReadSource(@"OpenPmsDentalBusiness\Misc\ConvertDatabases3.cs");
 			foreach(string codeSystem in EhrCodes.ArrayCodeSystems.Where(x => x!="AdministrativeSex")) {
@@ -383,9 +393,9 @@ namespace EhrTests {
 		}
 
 		[TestMethod]
-		public void Workbook_AValueSetListedUnder64Measures_ImportsEveryCode_WithTheNineItListsAsMeasureIds() {
-			//The supplemental data elements (Payer, race, ethnicity, sex) are listed under every measure of the June 2013 EP release, about 64 of
-			//them: the nine this program reports and made-up others here.
+		public void Workbook_AValueSetListedUnder64Measures_ImportsEveryCode_WithTheSevenItListsAsMeasureIds() {
+			//The supplemental data elements (Payer, race, ethnicity, sex) are listed under every measure of a release, about 49 in 2027 and 64 in
+			//June 2013: the seven this program reports and made-up others here.
 			const string OID_PAYER="2.16.840.1.114222.4.11.3591";
 			const string OID_OTHER="2.16.840.1.113883.3.999999.7";
 			List<string> listMeasures=EhrValueSetImport.ArrayMeasureIds.ToList();
@@ -409,12 +419,12 @@ namespace EhrTests {
 				file.ListEhrCodes.Select(x => x.CodeValue).ToList(),"Every code imported.");
 			Assert.IsTrue(file.ListEhrCodes.All(x => x.MeasureIds.Length<=EhrValueSetImport.MAX_COLUMN_LENGTH),
 				string.Join("\r\n",file.ListEhrCodes.Select(x => x.MeasureIds.Length+" "+x.MeasureIds)));
-			const string NINE="68v3,69v2,74v3,75v2,127v2,138v2,147v2,155v2,165v2";
+			const string SEVEN="68v16,69v15,74v16,75v15,138v15,155v15,165v15";
 			foreach(string codeValue in new[] { "TEST0001","TEST0002","TEST0003","TEST0004" }) {
-				Assert.AreEqual(NINE,file.ListEhrCodes.Single(x => x.CodeValue==codeValue).MeasureIds,"Only the nine this program reports: "+codeValue);
+				Assert.AreEqual(SEVEN,file.ListEhrCodes.Single(x => x.CodeValue==codeValue).MeasureIds,"Only the seven this program reports: "+codeValue);
 			}
-			Assert.AreEqual("138v2",file.ListEhrCodes.Single(x => x.CodeValue=="TEST0005").MeasureIds,"None of the nine left: the manifest's.");
-			Assert.AreEqual("",file.ListEhrCodes.Single(x => x.CodeValue=="TEST0006").MeasureIds,"None of the nine, not in the manifest: none.");
+			Assert.AreEqual("138v15",file.ListEhrCodes.Single(x => x.CodeValue=="TEST0005").MeasureIds,"None of the seven left: the manifest's.");
+			Assert.AreEqual("",file.ListEhrCodes.Single(x => x.CodeValue=="TEST0006").MeasureIds,"None of the seven, not in the manifest: none.");
 			//The version check still sees every measure of the file.
 			Assert.AreEqual(64,file.ListMeasureIdsInFile.Count);
 			CollectionAssert.AreEqual(EhrValueSetImport.ArrayMeasureIds,file.ListMeasuresMatched);

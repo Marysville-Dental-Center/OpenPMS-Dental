@@ -3,7 +3,9 @@
 // list read from the table and read again, IsInDb against synthetic code-table rows above and below the thresholds, the code-system status,
 // the tobacco pick lists and the pregnancy lookup filled from imported value sets, the Middle Tier round trip (InvalidType.EhrCodes on a
 // client), and the time a full synthetic release takes to load. They run on this run's ehr2_ scratch database (Support/ValueSetDb.cs);
-// every row is synthetic (made-up TEST codes). Each test starts from empty value-set and code-system tables.
+// every row is synthetic (made-up TEST codes). Each test starts from empty value-set and code-system tables. Since EHR-6a an import takes the
+// release's three files together (MakePick: the value-set file with a one-code Direct Reference Codes file and a Code System Versions file),
+// and the tests count the value-set rows without the direct reference code; DirectCodeDbTests tests the pick itself.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
 using System.Collections.Generic;
@@ -65,12 +67,31 @@ namespace EhrTests {
 			return file;
 		}
 
-		private static void ImportOrFail(EhrValueSetFile file) {
-			Assert.AreEqual("",EhrValueSetImport.Import(file));
+		///<summary>The value-set file picked with the release's other two files (EHR-6a: an import takes the three together): a Direct Reference
+		///Codes file of one made-up HCPCS code under CMS68v16 (so the code systems these tests count are not touched) and a Code System Versions
+		///file.</summary>
+		private static EhrValueSetPick MakePick(EhrValueSetFile file) {
+			EhrValueSetFile fileDirect=EhrValueSetImport.Parse("ec_direct_reference_codes_TEST.xlsx",ValueSetFixtures.MakeDirectCodesWorkbook(
+				new List<TestValueSetRow> { TestValueSetRow.MakeDirectCode("CMS68v16","HCPCS","TESTH0001") }));
+			EhrValueSetFile fileVersions=EhrValueSetImport.Parse("ec_code_system_versions_TEST.xlsx",
+				ValueSetFixtures.MakeCodeSystemVersionsWorkbook(ValueSetFixtures.MakeCodeSystemVersionRows()));
+			return EhrValueSetImport.MakePick(new List<EhrValueSetFile> { file,fileDirect,fileVersions });
 		}
 
+		private static void ImportOrFail(EhrValueSetFile file) {
+			EhrValueSetPick pick=MakePick(file);
+			Assert.IsFalse(pick.IsRefused,EhrValueSetImport.GetReport(pick));
+			Assert.AreEqual("",EhrValueSetImport.Import(pick));
+		}
+
+		///<summary>The value-set rows of the list, without the direct reference codes the pick adds (drc: keys).</summary>
+		private static List<EhrCode> ValueSetRows(List<EhrCode> listEhrCodes) {
+			return listEhrCodes.Where(x => !CqmCatalog.IsDirectCodeKey(x.ValueSetOID)).ToList();
+		}
+
+		///<summary>The value-set rows of ehrcode (the direct reference codes left out).</summary>
 		private static long CountRows() {
-			return PIn.Long(DataCore.GetScalar("SELECT COUNT(*) FROM ehrcode"));
+			return PIn.Long(DataCore.GetScalar("SELECT COUNT(*) FROM ehrcode WHERE ValueSetOID NOT LIKE 'drc:%'"));
 		}
 
 		#region The step and the declaration
@@ -155,14 +176,14 @@ namespace EhrTests {
 			EhrValueSetFile fileSecond=ParseWorkbook(TestValueSetRow.Make(OID_TOBACCO_NON_USER,"SNOMEDCT","TEST0003"),
 				TestValueSetRow.Make(OID_TOBACCO_COUNSELING,"SNOMEDCT","TEST0004"),TestValueSetRow.Make(OID_TOBACCO_PHARMACOTHERAPY,"RXNORM","TEST0005"));
 			ImportOrFail(fileSecond);
-			List<EhrCode> listRows=EhrCodes.GetAllFromDb();
+			List<EhrCode> listRows=ValueSetRows(EhrCodes.GetAllFromDb());
 			CollectionAssert.AreEquivalent(new[] { "TEST0003","TEST0004","TEST0005" },listRows.Select(x => x.CodeValue).ToList(),"Every earlier row replaced.");
 			EhrCode ehrCode=listRows.Single(x => x.CodeValue=="TEST0005");
 			Assert.AreEqual(OID_TOBACCO_PHARMACOTHERAPY,ehrCode.ValueSetOID);
 			Assert.AreEqual("Tobacco Use Cessation Pharmacotherapy",ehrCode.ValueSetName);
 			Assert.AreEqual("RXNORM",ehrCode.CodeSystem);
 			Assert.AreEqual("2.16.840.1.113883.6.88",ehrCode.CodeSystemOID);
-			Assert.AreEqual("138v2",ehrCode.MeasureIds);
+			Assert.AreEqual("138v15",ehrCode.MeasureIds);
 			Assert.AreEqual("Medication",ehrCode.QDMCategory);
 			Assert.AreEqual("TEST description of TEST0005",ehrCode.Description);
 			//The release.
@@ -171,11 +192,12 @@ namespace EhrTests {
 			Assert.AreEqual(EhrValueSetImport.RELEASE_LABEL,release.Label);
 			Assert.AreEqual("ep_value_sets_TEST.xlsx",release.FileName);
 			Assert.AreEqual(fileSecond.Sha256,release.Sha256);
-			Assert.AreEqual(3,release.CountCodes);
+			Assert.AreEqual(4,release.CountCodes,"Three value-set codes and the one direct reference code.");
+			Assert.AreEqual(1,release.CountDirectCodes);
 			Assert.AreEqual(3,release.CountValueSets);
 			Assert.AreEqual(3,release.CountManifestFound);
 			Assert.AreEqual(EhrValueSetImport.GetManifest().Count,release.CountManifest);
-			Assert.AreEqual("1 of 9 measures at the versions this program reports",release.MeasureCheck);
+			Assert.AreEqual("1 of 7 measures at the 2027 versions",release.MeasureCheck);
 			Assert.IsTrue(DateTime.TryParse(release.DateImportedUtc,System.Globalization.CultureInfo.InvariantCulture,
 				System.Globalization.DateTimeStyles.AdjustToUniversal,out DateTime dateImported));
 			Assert.IsTrue(Math.Abs((DateTime.UtcNow-dateImported).TotalMinutes)<10,release.DateImportedUtc);
@@ -185,8 +207,9 @@ namespace EhrTests {
 			List<SecurityLog> listLogs=ScratchDb.GetSecurityLogsAfter(securityLogNum).Where(x => x.LogText.StartsWith("EHR value sets imported")).ToList();
 			Assert.AreEqual(2,listLogs.Count);
 			Assert.IsTrue(listLogs.All(x => x.PermType==EnumPermType.Setup));
-			StringAssert.Contains(listLogs[1].LogText,"file 'ep_value_sets_TEST.xlsx', SHA-256 "+fileSecond.Sha256+", 3 codes in 3 value sets, 3 of the "
-				+EhrValueSetImport.GetManifest().Count+" value sets the measures use; 1 of 9 measures at the versions this program reports.");
+			StringAssert.Contains(listLogs[1].LogText,"ValueSets 'ep_value_sets_TEST.xlsx' SHA-256 "+fileSecond.Sha256);
+			StringAssert.Contains(listLogs[1].LogText,"4 codes (1 direct reference codes) in 3 value sets, 3 of the "
+				+EhrValueSetImport.GetManifest().Count+" value sets the measures use; 1 of 7 measures at the 2027 versions;");
 			Assert.IsFalse(listLogs.Any(x => x.LogText.Contains("TEST000")),"No code is logged.");
 		}
 
@@ -196,11 +219,11 @@ namespace EhrTests {
 			EhrValueSetRelease releaseBefore=EhrValueSetImport.GetRelease();
 			EhrValueSetFile fileRefused=EhrValueSetImport.Parse("other.xml",System.Text.Encoding.UTF8.GetBytes("<notes>TEST</notes>"));
 			Assert.IsTrue(fileRefused.IsRefused);
-			string error=EhrValueSetImport.Import(fileRefused);
+			string error=EhrValueSetImport.Import(MakePick(fileRefused));
 			StringAssert.Contains(error,"not an SVS file");
 			Assert.AreEqual(1,CountRows());
 			Assert.AreEqual(releaseBefore.Sha256,EhrValueSetImport.GetRelease().Sha256);
-			Assert.AreNotEqual("",EhrValueSetImport.Import(null));
+			Assert.AreNotEqual("",EhrValueSetImport.Import((EhrValueSetPick)null));
 			Assert.AreEqual(1,CountRows());
 		}
 
@@ -220,19 +243,19 @@ namespace EhrTests {
 			EhrValueSetImport.ActionAfterInsertBatch=countWritten => throw new ApplicationException("TEST failure after "+countWritten+" rows were written");
 			string error;
 			try {
-				error=EhrValueSetImport.Import(fileSecond);
+				error=EhrValueSetImport.Import(MakePick(fileSecond));
 			}
 			finally {
 				EhrValueSetImport.ActionAfterInsertBatch=null;
 			}
-			StringAssert.Contains(error,"TEST failure after 2 rows were written");
+			StringAssert.Contains(error,"TEST failure after 3 rows were written","The two value-set codes and the direct reference code.");
 			StringAssert.Contains(error,"unchanged");
-			CollectionAssert.AreEqual(new[] { "TEST0001" },EhrCodes.GetAllFromDb().Select(x => x.CodeValue).ToList(),"The old rows, all of them.");
+			CollectionAssert.AreEqual(new[] { "TEST0001" },ValueSetRows(EhrCodes.GetAllFromDb()).Select(x => x.CodeValue).ToList(),"The old rows, all of them.");
 			Assert.AreEqual(releaseBefore.Sha256,EhrValueSetImport.GetRelease().Sha256,"The release is not recorded.");
 			CollectionAssert.AreEqual(new string[0],ListScratchTables(),"No scratch table is left.");
 			//The next import works.
 			ImportOrFail(fileSecond);
-			CollectionAssert.AreEquivalent(new[] { "TEST0002","TEST0003" },EhrCodes.GetAllFromDb().Select(x => x.CodeValue).ToList());
+			CollectionAssert.AreEquivalent(new[] { "TEST0002","TEST0003" },ValueSetRows(EhrCodes.GetAllFromDb()).Select(x => x.CodeValue).ToList());
 			CollectionAssert.AreEqual(new string[0],ListScratchTables());
 		}
 
@@ -261,7 +284,7 @@ namespace EhrTests {
 			TestValueSetRow row=TestValueSetRow.Make(OID_TOBACCO_SCREENING,"SNOMEDCT","TEST0001");
 			row.Description=new string('€',21845);//65,535 bytes in UTF-8.
 			ImportOrFail(ParseWorkbook(row));
-			Assert.AreEqual(row.Description,EhrCodes.GetAllFromDb().Single().Description);
+			Assert.AreEqual(row.Description,ValueSetRows(EhrCodes.GetAllFromDb()).Single().Description);
 		}
 
 		[TestMethod]
@@ -270,12 +293,12 @@ namespace EhrTests {
 			Userod userod=ScratchDb.MakeUser(PASSWORD,EnumPermType.ProblemDefEdit,EnumPermType.EhrKeyAdd,EnumPermType.EhrMeasureEventEdit);
 			long securityLogNum=ScratchDb.GetLastSecurityLogNum();
 			ScratchDb.LogOn(userod,PASSWORD);
-			string error=EhrValueSetImport.Import(ParseWorkbook(TestValueSetRow.Make(OID_TOBACCO_USER,"SNOMEDCT","TEST0002")));
+			string error=EhrValueSetImport.Import(MakePick(ParseWorkbook(TestValueSetRow.Make(OID_TOBACCO_USER,"SNOMEDCT","TEST0002"))));
 			StringAssert.Contains(error,"Not authorized");
-			Assert.AreEqual("TEST0001",EhrCodes.GetAllFromDb().Single().CodeValue);
+			Assert.AreEqual("TEST0001",ValueSetRows(EhrCodes.GetAllFromDb()).Single().CodeValue);
 			Assert.AreEqual(0,ScratchDb.GetSecurityLogsAfter(securityLogNum).Count(x => x.LogText.StartsWith("EHR value sets imported")));
 			Security.CurUser=null;
-			StringAssert.Contains(EhrValueSetImport.Import(ParseWorkbook(TestValueSetRow.Make(OID_TOBACCO_USER,"SNOMEDCT","TEST0002"))),"Not authorized");
+			StringAssert.Contains(EhrValueSetImport.Import(MakePick(ParseWorkbook(TestValueSetRow.Make(OID_TOBACCO_USER,"SNOMEDCT","TEST0002")))),"Not authorized");
 			Assert.AreEqual(1,CountRows());
 		}
 
@@ -283,10 +306,10 @@ namespace EhrTests {
 		public void Import_ThroughTheMiddleTier_IsRefused_AsTheCptImportIs() {
 			Userod userod=ScratchDb.MakeUser(PASSWORD,EnumPermType.Setup);
 			ScratchDb.LogOn(userod,PASSWORD);
-			EhrValueSetFile file=ParseWorkbook(TestValueSetRow.Make(OID_TOBACCO_SCREENING,"SNOMEDCT","TEST0001"));
+			EhrValueSetPick pick=MakePick(ParseWorkbook(TestValueSetRow.Make(OID_TOBACCO_SCREENING,"SNOMEDCT","TEST0001")));
 			ValueSetDb.UseMockMiddleTier();
 			try {
-				StringAssert.Contains(EhrValueSetImport.Import(file),"middle tier");
+				StringAssert.Contains(EhrValueSetImport.Import(pick),"middle tier");
 			}
 			finally {
 				ScratchDb.UseDirectConnection();
@@ -318,15 +341,15 @@ namespace EhrTests {
 			ImportOrFail(ParseWorkbook(TestValueSetRow.Make(OID_TOBACCO_SCREENING,"SNOMEDCT","TEST0001")));
 			Assert.AreEqual(0,EhrCodes.Listt.Count,"The list in memory until it is read again.");
 			EhrCodes.UpdateList();
-			Assert.AreEqual("TEST0001",EhrCodes.Listt.Single().CodeValue);
+			Assert.AreEqual("TEST0001",ValueSetRows(EhrCodes.Listt).Single().CodeValue);
 			ImportOrFail(ParseWorkbook(TestValueSetRow.Make(OID_TOBACCO_USER,"SNOMEDCT","TEST0002"),TestValueSetRow.Make(OID_TOBACCO_USER,"SNOMEDCT","TEST0003")));
 			//The signal the window sends: on a direct connection Cache.GetCacheDs reads the table again.
 			Cache.Refresh(InvalidType.EhrCodes);
-			CollectionAssert.AreEquivalent(new[] { "TEST0002","TEST0003" },EhrCodes.Listt.Select(x => x.CodeValue).ToList());
-			Assert.AreEqual("138v2",EhrCodes.GetMeasureIdsForCode("TEST0002","SNOMEDCT"));
+			CollectionAssert.AreEquivalent(new[] { "TEST0002","TEST0003" },ValueSetRows(EhrCodes.Listt).Select(x => x.CodeValue).ToList());
+			Assert.AreEqual("138v15",EhrCodes.GetMeasureIdsForCode("TEST0002","SNOMEDCT"));
 			CollectionAssert.AreEqual(new[] { OID_TOBACCO_USER },EhrCodes.GetValueSetOIDsForCode("TEST0003","SNOMEDCT"));
 			EhrCodes.ClearList();
-			Assert.AreEqual(2,EhrCodes.Listt.Count,"Read again after ClearList.");
+			Assert.AreEqual(2,ValueSetRows(EhrCodes.Listt).Count,"Read again after ClearList.");
 		}
 
 		[TestMethod]
@@ -355,7 +378,8 @@ namespace EhrTests {
 			Assert.AreEqual(1,EhrCodes.GetForValueSetOIDs(new List<string> { OID_PREGNANCY },false).Count);
 			//The status the Code System Importer shows.
 			List<EhrCodeSystemStatus> listStatuses=EhrCodes.GetCodeSystemStatuses();
-			CollectionAssert.AreEqual(EhrCodes.ArrayCodeSystems.Concat(new[] { "ICD10PCS" }).ToList(),listStatuses.Select(x => x.CodeSystem).ToList());
+			CollectionAssert.AreEqual(EhrCodes.ArrayCodeSystems.Concat(new[] { "ICD10PCS" }).ToList(),listStatuses.Select(x => x.CodeSystem).ToList(),
+				"The pick's one direct reference code is HCPCS, a code system of the list.");
 			EhrCodeSystemStatus statusSnomed=listStatuses.Single(x => x.CodeSystem=="SNOMEDCT");
 			Assert.AreEqual(701,statusSnomed.CountInDb);
 			Assert.AreEqual(700,statusSnomed.CountMinimum);
@@ -442,9 +466,9 @@ namespace EhrTests {
 			ValueSetDb.UseMockMiddleTier();
 			try {
 				//GetAllFromDb runs on the server (the client may not send SQL).
-				CollectionAssert.AreEquivalent(new[] { "TEST0001","TEST0002" },EhrCodes.GetAllFromDb().Select(x => x.CodeValue).ToList());
+				CollectionAssert.AreEquivalent(new[] { "TEST0001","TEST0002" },ValueSetRows(EhrCodes.GetAllFromDb()).Select(x => x.CodeValue).ToList());
 				EhrCodes.ClearList();
-				List<EhrCode> listClient=EhrCodes.Listt;
+				List<EhrCode> listClient=ValueSetRows(EhrCodes.Listt);
 				Assert.AreEqual(2,listClient.Count);
 				Assert.IsTrue(listClient.All(x => x.IsInDb),"IsInDb worked out on the client from the server's counts.");
 				//The client keeps its list until it is told: a stale list stands for the list a client read before the import.
@@ -456,11 +480,11 @@ namespace EhrTests {
 				Assert.AreEqual("TEST-STALE",EhrCodes.Listt.Single().CodeValue);
 				//The client's own FillCache drops the list (the server sends no table for EhrCodes), so the next read fetches the new rows.
 				Cache.FillCache(new DataSet(),InvalidType.EhrCodes);
-				CollectionAssert.AreEquivalent(new[] { "TEST0003","TEST0004","TEST0005" },EhrCodes.Listt.Select(x => x.CodeValue).ToList());
+				CollectionAssert.AreEquivalent(new[] { "TEST0003","TEST0004","TEST0005" },ValueSetRows(EhrCodes.Listt).Select(x => x.CodeValue).ToList());
 				//The whole signal on a client: GetCacheDs on the server (which reads the table again there), then FillCache here.
 				EhrCodes.Listt=new List<EhrCode>();
 				Cache.Refresh(InvalidType.EhrCodes);
-				Assert.AreEqual(3,EhrCodes.Listt.Count);
+				Assert.AreEqual(3,ValueSetRows(EhrCodes.Listt).Count);
 				Assert.AreEqual(2,EhrCodes.GetForValueSetOIDs(new List<string> { OID_TOBACCO_NON_USER },true).Count);
 			}
 			finally {
@@ -500,7 +524,7 @@ namespace EhrTests {
 			Stopwatch stopwatchLoad=Stopwatch.StartNew();
 			int count=EhrCodes.Listt.Count;
 			stopwatchLoad.Stop();
-			Assert.AreEqual(countRows,count);
+			Assert.AreEqual(countRows+1,count,"With the pick's one direct reference code.");
 			Stopwatch stopwatchReload=Stopwatch.StartNew();
 			EhrCodes.UpdateList();
 			stopwatchReload.Stop();
