@@ -349,7 +349,9 @@ namespace OpenPmsDentalBusiness{
 			//refattach.ProvNum is -1 on an incoming referral saved by the program and 0 when none was picked, so only a positive value names a provider.
 			string command="SELECT patient.PatNum,patient.LName,patient.FName,refattach.RefDate "
 				+"FROM refattach "
-				+"INNER JOIN patient ON patient.PatNum=refattach.PatNum "
+				//EHR-4d (EHR4B-D08): a deleted patient's transitions are in no denominator. A visit-based measure never counts a deleted patient (the
+				//program deletes only a patient with nothing entered), but a transition needs no visit, so the status is checked here.
+				+"INNER JOIN patient ON patient.PatNum=refattach.PatNum AND patient.PatStatus!="+POut.Int((int)PatientStatus.Deleted)+" "
 				+"WHERE refattach.RefDate BETWEEN "+POut.Date(dateStart)+" AND "+POut.Date(dateEnd)+" "
 				+"AND refattach.RefType="+POut.Int((int)ReferralType.RefFrom)+" AND refattach.IsTransitionOfCare=1 "
 				+"AND ((refattach.ProvNum>0 AND refattach.ProvNum IN("+POut.String(provs)+")) "
@@ -370,17 +372,10 @@ namespace OpenPmsDentalBusiness{
 				.ToDictionary(x => x.Key,x => x.Select(y => PIn.DateT(y["DateTEvent"].ToString()).Date).ToList());
 			foreach(IGrouping<long,DataRow> groupPat in tableTransitions.Rows.Cast<DataRow>().GroupBy(x => PIn.Long(x["PatNum"].ToString()))) {
 				List<DataRow> listTransitions=groupPat.ToList();//In date order.
-				DateTime[] arrayDatesReconciled=new DateTime[listTransitions.Count];
-				if(dictReconciles.TryGetValue(groupPat.Key,out List<DateTime> listDatesReconcile)) {
-					foreach(DateTime dateReconcile in listDatesReconcile) {//In date order.
-						for(int t=listTransitions.Count-1;t>=0;t--) {
-							if(arrayDatesReconciled[t].Year<1880 && PIn.Date(listTransitions[t]["RefDate"].ToString())<=dateReconcile) {
-								arrayDatesReconciled[t]=dateReconcile;
-								break;
-							}
-						}
-					}
+				if(!dictReconciles.TryGetValue(groupPat.Key,out List<DateTime> listDatesReconcile)) {
+					listDatesReconcile=new List<DateTime>();
 				}
+				DateTime[] arrayDatesReconciled=MatchReconciliations(listTransitions.Select(x => PIn.Date(x["RefDate"].ToString())).ToList(),listDatesReconcile);
 				for(int t=0;t<listTransitions.Count;t++) {
 					DataRow row=table.NewRow();
 					row["PatNum"]=groupPat.Key.ToString();
@@ -393,6 +388,280 @@ namespace OpenPmsDentalBusiness{
 			}
 			return table;
 		}
+
+		///<summary>The day each transition of care was reconciled on, MinValue when it was not (EHR-4c, EHR4B-D08; shared by Measure Calc and the EHR
+		///window since EHR-4d): each reconciliation counts for one transition, the latest one not yet reconciled that is dated on or before the
+		///reconciliation's day; the reconciliations are taken in date order. Both lists are of one patient, in date order; the result is in the order
+		///of listTransitionDates.</summary>
+		private static DateTime[] MatchReconciliations(List<DateTime> listTransitionDates,List<DateTime> listReconcileDates) {
+			Meth.NoCheckMiddleTierRole();//Private static.
+			DateTime[] arrayDatesReconciled=new DateTime[listTransitionDates.Count];
+			foreach(DateTime dateReconcile in listReconcileDates) {
+				for(int t=listTransitionDates.Count-1;t>=0;t--) {
+					if(arrayDatesReconciled[t].Year<1880 && listTransitionDates[t].Date<=dateReconcile.Date) {
+						arrayDatesReconciled[t]=dateReconcile.Date;
+						break;
+					}
+				}
+			}
+			return arrayDatesReconciled;
+		}
+
+		///<summary>The SQL condition (EHR-4d, EHR4B-D11) that a result of the older lab orders (labresult, of a medicalorder's labpanel) is a positive
+		///or negative affirmation or a number, the rule the ehrlab branch applies with its value types and codes: the value's first component is a
+		///code of the engine's positive/negative list (the lab panel import keeps the whole field, components and all), or the word positive or
+		///negative (POS, NEG), or a number, with a comparator, a ratio or a range (such as 5.5, &lt;200, 1:128 or 2-5) once the component
+		///separators are taken out.</summary>
+		private static string GetWhereLabResultPosNegOrNumeric() {
+			Meth.NoCheckMiddleTierRole();//Private static.
+			return "(SUBSTRING_INDEX(TRIM(labresult.ObsValue),'^',1) IN ("+_snomedLabResult+") "
+				+"OR UPPER(TRIM(labresult.ObsValue)) IN ('POSITIVE','NEGATIVE','POS','NEG') "
+				+"OR REPLACE(labresult.ObsValue,'^','') REGEXP '^ *(<|>|<=|>=|=)? *[-+]?[0-9]+([.][0-9]+)? *([-:/] *[-+]?[0-9]+([.][0-9]+)?)? *$')";
+		}
+
+		///<summary>Whether an ehrlab result is a positive or negative affirmation or a number, as the Lab measure's ehrlab branch counts one (EHR-4c,
+		///EHR4B-D11): a numeric or structured numeric value, or a coded value of the engine's positive/negative list. For the EHR window (EHR-4d).</summary>
+		private static bool IsLabResultPosNegOrNumeric(EhrLabResult ehrLabResult) {
+			Meth.NoCheckMiddleTierRole();//Private static.
+			if(ehrLabResult.ValueType==EhrLaboratories.HL70125.NM || ehrLabResult.ValueType==EhrLaboratories.HL70125.SN) {
+				return true;
+			}
+			List<string> listCodes=_snomedLabResult.Split(',').Select(x => x.Trim().Trim('\'')).ToList();
+			return listCodes.Contains(ehrLabResult.ObservationValueCodedElementID) || listCodes.Contains(ehrLabResult.ObservationValueCodedElementIDAlt);
+		}
+
+		///<summary>Whether a result of the older lab orders (labresult) is a positive or negative affirmation or a number, the C# twin of
+		///GetWhereLabResultPosNegOrNumeric for the EHR window (EHR-4d, EHR4B-D11): the first component of the value (spaces trimmed, as MySQL's TRIM
+		///and its padded comparison) a code of the engine's positive/negative list, or the value the word positive or negative (POS, NEG), or the
+		///value without its component separators matching the same number pattern.</summary>
+		private static bool IsLabResultPosNegOrNumeric(LabResult labResult) {
+			Meth.NoCheckMiddleTierRole();//Private static.
+			string obsValue=labResult.ObsValue??"";
+			string obsValueTrimmed=obsValue.Trim(' ');
+			List<string> listCodes=_snomedLabResult.Split(',').Select(x => x.Trim().Trim('\'')).ToList();
+			if(listCodes.Contains(obsValueTrimmed.Split('^')[0].TrimEnd(' '))) {
+				return true;
+			}
+			if(obsValueTrimmed.ToUpperInvariant().In("POSITIVE","NEGATIVE","POS","NEG")) {
+				return true;
+			}
+			return System.Text.RegularExpressions.Regex.IsMatch(obsValue.Replace("^",""),
+				"^ *(<|>|<=|>=|=)? *[-+]?[0-9]+([.][0-9]+)? *([-:/] *[-+]?[0-9]+([.][0-9]+)?)? *$");
+		}
+
+		#region The EHR window's rules (EHR-4d)
+		//The EHR window's per-patient summary (GetMu, GetMu2, GetMu2Mod, for FormEHR) follows Measure Calc's rules (EHR-4c) for a period, by
+		//default the year before today, to today. The window has no EP to restrict visits to: it counts the patient's visits with any provider.
+
+		///<summary>The days of the patient's office visits in the period, as Measure Calc counts a visit: completed procedures, broken appointments
+		///(D9986, D9987) left out; with any provider. Each day once, in date order.</summary>
+		private static List<DateTime> GetVisitDays(List<Procedure> listProcs,DateTime dateStart,DateTime dateEnd) {
+			Meth.NoCheckMiddleTierRole();//Private static.
+			return listProcs
+				.Where(x => x.ProcStatus==ProcStat.C && x.ProcDate.Date>=dateStart.Date && x.ProcDate.Date<=dateEnd.Date)
+				.Where(x => !ProcedureCodes.GetStringProcCode(x.CodeNum,doThrowIfMissing:false).In("D9986","D9987"))
+				.Select(x => x.ProcDate.Date)
+				.Distinct()
+				.OrderBy(x => x)
+				.ToList();
+		}
+
+		///<summary>Whether the patient is the age or older on the day Measure Calc takes it (EHR-4c, EHR4B-D03 and D04): the last visit in the period
+		///(HAVING Birthdate&lt;=MAX(ProcDate)-INTERVAL n YEAR). With no visit in the period, the period's last day, so the window still says what to
+		///enter.</summary>
+		private static bool IsAgeAtLeastAtLastVisit(Patient pat,int years,List<DateTime> listVisitDays,DateTime dateEnd) {
+			Meth.NoCheckMiddleTierRole();//Private static.
+			DateTime dateAge=dateEnd.Date;
+			if(listVisitDays.Count>0) {
+				dateAge=listVisitDays[listVisitDays.Count-1];
+			}
+			return pat.Birthdate<=dateAge.AddYears(-years);
+		}
+
+		///<summary>Timely online access in the window, as Measure Calc's ElectronicCopyAccess of the three stages (IsOnlineAccessTimely): the first
+		///access provided no later than the fourth business day after the first visit in the period. N/A with no visit in the period.</summary>
+		private static void FillMuOnlineAccess(EhrMu mu,List<EhrMeasureEvent> listMeasureEvents,List<DateTime> listVisitDays) {
+			Meth.NoCheckMiddleTierRole();//Private static.
+			mu.Action="Provide online Access";
+			List<EhrMeasureEvent> listOnline=EhrMeasureEvents.GetByType(listMeasureEvents,EhrMeasureEventType.OnlineAccessProvided);
+			if(listVisitDays.Count==0) {
+				mu.Met=MuMet.NA;
+				mu.Details="No visits within the last year.";
+				return;
+			}
+			if(listOnline.Count==0) {
+				mu.Details="No online access provided.";
+				return;
+			}
+			DateTime dateProvided=listOnline.Min(x => x.DateTEvent);
+			if(IsOnlineAccessTimely(listVisitDays[0],dateProvided,out DateTime dateDeadline)) {
+				mu.Met=MuMet.True;
+				mu.Details="Online access provided: "+dateProvided.ToShortDateString();
+			}
+			else {
+				mu.Details="Online access not provided within 4 business days of the visit of "+listVisitDays[0].ToShortDateString()+" (by "
+					+dateDeadline.ToShortDateString()+").";
+			}
+		}
+
+		///<summary>Clinical summaries in the window, as Measure Calc's (EHR-4c): each visit in the period needs a summary dated on the visit's day or
+		///no later than the business days after it (3 for Stage 1, 13_Clinical_Summaries; 1 for Stage 2, Stage2_EPCore_8), compared by date. N/A
+		///with no visit in the period.</summary>
+		private static void FillMuClinicalSummaries(EhrMu mu,List<EhrMeasureEvent> listMeasureEvents,List<DateTime> listVisitDays,int businessDays) {
+			Meth.NoCheckMiddleTierRole();//Private static.
+			mu.Action="Send clinical summary to Pt";
+			string textDays=businessDays==1 ? "1 business day" : businessDays+" business days";
+			if(listVisitDays.Count==0) {
+				mu.Met=MuMet.NA;
+				mu.Details="No visits within the last year.";
+				return;
+			}
+			List<DateTime> listDatesSummary=EhrMeasureEvents.GetByType(listMeasureEvents,EhrMeasureEventType.ClinicalSummaryProvidedToPt)
+				.Select(x => x.DateTEvent.Date).ToList();
+			int countMissing=listVisitDays.Count(x => !listDatesSummary.Any(y => y>=x && y<=AddBusinessDays(x,businessDays)));
+			if(countMissing==0) {
+				mu.Met=MuMet.True;
+				mu.Details="Clinical summary provided to Pt within "+textDays+" of each visit.";
+			}
+			else {
+				mu.Met=MuMet.False;
+				mu.Details="Clinical summaries not provided to Pt within "+textDays+" of a visit:"+countMissing.ToString();
+			}
+		}
+
+		///<summary>Medication reconciliation in the window, as Measure Calc's of the three stages (EHR-4c, EHR4B-D08): the transitions of care received
+		///in the period (incoming referrals marked as transitions of care), each reconciliation in the period counting for one of them
+		///(MatchReconciliations). Met when every one is reconciled. The window does not check the referral's provider.</summary>
+		private static void FillMuMedReconcile(EhrMu mu,List<RefAttach> listRefAttach,List<EhrMeasureEvent> listMeasureEvents,DateTime dateStart,DateTime dateEnd) {
+			Meth.NoCheckMiddleTierRole();//Private static.
+			mu.Action="Electronic Reconciliation";
+			mu.Action2="Manual Reconciliation";
+			List<RefAttach> listRefAttachFrom=listRefAttach.FindAll(x => x.RefType==ReferralType.RefFrom && x.IsTransitionOfCare);
+			List<DateTime> listTransitionDates=listRefAttachFrom
+				.Where(x => x.RefDate.Date>=dateStart.Date && x.RefDate.Date<=dateEnd.Date)
+				.OrderBy(x => x.RefDate.Date).ThenBy(x => x.RefAttachNum)
+				.Select(x => x.RefDate.Date).ToList();
+			if(listRefAttachFrom.Count==0) {
+				mu.Met=MuMet.NA;
+				mu.Details="Referral 'from' not entered.";
+				return;
+			}
+			if(listTransitionDates.Count==0) {
+				mu.Met=MuMet.NA;
+				mu.Details="Referral 'from' not entered within the last year.";
+				return;
+			}
+			List<DateTime> listReconcileDates=EhrMeasureEvents.GetByType(listMeasureEvents,EhrMeasureEventType.MedicationReconcile)
+				.Select(x => x.DateTEvent.Date)
+				.Where(x => x>=dateStart.Date && x<=dateEnd.Date)
+				.OrderBy(x => x).ToList();
+			int countReconciled=MatchReconciliations(listTransitionDates,listReconcileDates).Count(x => x.Year>1880);
+			mu.Details="Referrals:"+listTransitionDates.Count.ToString()+", Reconciled:"+countReconciled.ToString();
+			if(countReconciled==listTransitionDates.Count) {
+				mu.Met=MuMet.True;
+			}
+		}
+
+		///<summary>Patient education in the window, as Measure Calc's: resources provided at any date for Stage 1 and Stage 2 (their sheets give no
+		///time); for Modified Stage 2 only those dated in the calendar year of one of the patient's visits in the period (EHR4B-D10,
+		///MedicaidEPModStage2_2018_Obj6), and N/A with no visit in it.</summary>
+		private static void FillMuEducation(EhrMu mu,List<EhrMeasureEvent> listMeasureEvents,List<DateTime> listVisitDays,EhrMeasureStage ehrMeasureStage) {
+			Meth.NoCheckMiddleTierRole();//Private static.
+			mu.Action="Provide education resources";
+			List<EhrMeasureEvent> listEd=EhrMeasureEvents.GetByType(listMeasureEvents,EhrMeasureEventType.EducationProvided);
+			if(ehrMeasureStage==EhrMeasureStage.ModifiedStage2) {
+				if(listVisitDays.Count==0) {
+					mu.Met=MuMet.NA;
+					mu.Details="No visits within the last year.";
+					return;
+				}
+				List<int> listYears=listVisitDays.Select(x => x.Year).Distinct().ToList();
+				listEd=listEd.FindAll(x => listYears.Contains(x.DateTEvent.Year));
+			}
+			if(listEd.Count==0) {
+				mu.Details="No education resources provided.";
+				return;
+			}
+			mu.Met=MuMet.True;
+			mu.Details="Education resources provided: "+listEd.Count.ToString();
+		}
+
+		///<summary>Lab results in the window, as Measure Calc's ehrlab branch of the Lab measure (Stage 1, Stage 2): the patient's lab orders observed
+		///in the period, radiology orders (a LOINC code of a RAD class) left out, and an order whose results are all neither a positive or negative
+		///affirmation nor a number left out (EHR4B-D11); an order with no such result is missing. And, as Measure Calc's medicalorder branch, the
+		///older 2011-edition lab orders (listMedicalOrders: medical orders of type Laboratory, MedicalOrders.GetLabsByDate): an order dated in the
+		///period whose results (labresult rows of its lab panels) are all neither a positive or negative affirmation nor a number left out (EHR-4d,
+		///EHR4B-D11); an order with no result row stays, met when it has a lab panel. N/A with no order left. The window has no EP: an order of any
+		///provider counts.</summary>
+		private static void FillMuLab(EhrMu mu,List<EhrLab> listEhrLabs,List<MedicalOrder> listMedicalOrders,DateTime dateStart,DateTime dateEnd) {
+			Meth.NoCheckMiddleTierRole();//Private static.
+			mu.Action="Edit labs";
+			string textStart=dateStart.ToString("yyyyMMdd");
+			string textEnd=dateEnd.ToString("yyyyMMdd");
+			int countOrders=0;
+			int countMissing=0;
+			for(int i=0;i<listEhrLabs.Count;i++) {
+				EhrLab ehrLab=listEhrLabs[i];
+				//The ehrlab text column compared as text, as Measure Calc's BETWEEN does.
+				if(string.CompareOrdinal(ehrLab.ObservationDateTimeStart,textStart)<0 || string.CompareOrdinal(ehrLab.ObservationDateTimeStart,textEnd)>0) {
+					continue;
+				}
+				string loincCode="";
+				if(ehrLab.UsiCodeSystemName=="LN") {
+					loincCode=ehrLab.UsiID;
+				}
+				else if(ehrLab.UsiCodeSystemNameAlt=="LN") {
+					loincCode=ehrLab.UsiIDAlt;
+				}
+				if(loincCode!="") {
+					Loinc loinc=Loincs.GetByCode(loincCode);
+					if(loinc!=null && loinc.ClassType.Contains("RAD")) {
+						continue;
+					}
+				}
+				List<EhrLabResult> listEhrLabResults=EhrLabResults.GetForLab(ehrLab.EhrLabNum);
+				bool hasPosNegOrNumeric=listEhrLabResults.Any(x => IsLabResultPosNegOrNumeric(x));
+				if(listEhrLabResults.Count>0 && !hasPosNegOrNumeric) {
+					continue;
+				}
+				countOrders++;
+				if(!hasPosNegOrNumeric) {
+					countMissing++;
+				}
+			}
+			//EHR-4d: the older lab orders (medical order, lab panel, labresult), before only in Measure Calc. FormEHR still opens them
+			//(FormEhrMedicalOrders, FormEhrMedicalOrderLabEdit).
+			for(int i=0;i<listMedicalOrders.Count;i++) {
+				MedicalOrder medicalOrder=listMedicalOrders[i];
+				if(medicalOrder.MedOrderType!=MedicalOrderType.Laboratory
+					|| medicalOrder.DateTimeOrder.Date<dateStart.Date || medicalOrder.DateTimeOrder.Date>dateEnd.Date)
+				{
+					continue;
+				}
+				List<LabPanel> listLabPanels=LabPanels.GetPanelsForOrder(medicalOrder.MedicalOrderNum);
+				List<LabResult> listLabResults=listLabPanels.SelectMany(x => LabResults.GetForPanel(x.LabPanelNum)).ToList();
+				if(listLabResults.Count>0 && !listLabResults.Any(x => IsLabResultPosNegOrNumeric(x))) {
+					continue;
+				}
+				countOrders++;
+				if(listLabPanels.Count==0) {
+					countMissing++;
+				}
+			}
+			if(countOrders==0) {
+				mu.Met=MuMet.NA;
+				mu.Details="No lab orders";
+			}
+			else if(countMissing>0) {
+				mu.Met=MuMet.False;
+				mu.Details="Lab orders missing results: "+countMissing.ToString();
+			}
+			else {
+				mu.Met=MuMet.True;
+				mu.Details="Lab results entered for each lab order.";
+			}
+		}
+		#endregion The EHR window's rules (EHR-4d)
 
 		///<summary></summary>
 		public static void Update(EhrMeasure ehrMeasure){
@@ -1029,6 +1298,14 @@ namespace OpenPmsDentalBusiness{
 							+"AND DATE(DateTimeOrder) BETWEEN "+POut.Date(dateStart)+" AND "+POut.Date(dateEnd)+" "
 						+"LEFT JOIN (SELECT MedicalOrderNum,COUNT(*) AS 'Count' FROM labpanel GROUP BY MedicalOrderNum "
 						+") panels ON panels.MedicalOrderNum=medicalorder.MedicalOrderNum "
+						//EHR-4d (EHR4B-D11): as in the ehrlab branch below, an order whose results are all neither a positive or negative affirmation nor a number
+						//is left out (2_Clinical_Lab_Test_Results, Stage 1, May 2014; Stage2_EPCore_10, November 2014). An order with no result row stays, met by
+						//its panel as before (the 2011 edition).
+						+"LEFT JOIN (SELECT labpanel.MedicalOrderNum,COUNT(*) AS 'Count',"
+							+"SUM(CASE WHEN "+GetWhereLabResultPosNegOrNumeric()+" THEN 1 ELSE 0 END) AS 'CountPosNegNum' "
+							+"FROM labpanel INNER JOIN labresult ON labresult.LabPanelNum=labpanel.LabPanelNum GROUP BY labpanel.MedicalOrderNum "
+						+") results ON results.MedicalOrderNum=medicalorder.MedicalOrderNum "
+						+"WHERE (COALESCE(results.Count,0)=0 OR results.CountPosNegNum>0) "
 						+"UNION ALL "
 						+"SELECT 0 AS IsOldLab,patient.PatNum,LName,FName,STR_TO_DATE(ObservationDateTimeStart,'%Y%m%d') AS DateTimeOrder,COALESCE(ehrlabs.Count,0) AS ResultCount FROM patient "
 						+"INNER JOIN ehrlab ON patient.PatNum=ehrlab.PatNum "
@@ -1950,9 +2227,10 @@ namespace OpenPmsDentalBusiness{
 				#endregion
 				#region Reminders
 				case EhrMeasureType.Reminders:
-					//Excluded if Provider sees no patients 65 years or older or 5 years or younger at the time of their last visit in reporting period.
-					command="SELECT SUM((CASE WHEN (A.Birthdate > (A.LastVisitInDateRange-INTERVAL 6 YEAR) ";//6th birthday had not happened by date of last visit, 5 years or younger
-					command+="OR A.Birthdate <= (A.LastVisitInDateRange-INTERVAL 65 YEAR)) ";//had 65th birthday by date of last vist, 65 or older
+					//Excluded if Provider sees no patients 65 years or older or 5 years or younger.
+					//EHR-4d (EHR4B-D06): the ages at the start of the period, the day the denominator takes them (EHR-4c), not at the last visit.
+					command="SELECT SUM((CASE WHEN A.Birthdate > '1880-01-01' AND (A.Birthdate > "+POut.Date(dateStart)+"-INTERVAL 6 YEAR ";//6th birthday not reached by the start of the period, 5 years or younger
+					command+="OR A.Birthdate <= "+POut.Date(dateStart)+"-INTERVAL 65 YEAR) ";//65th birthday reached by the start of the period, 65 or older
 					command+="THEN 1 ELSE 0 END)) AS 'Count' "
 						+"FROM (SELECT Birthdate,MAX(procedurelog.ProcDate) AS LastVisitInDateRange "
 						+"FROM patient "
@@ -2000,16 +2278,26 @@ namespace OpenPmsDentalBusiness{
 				case EhrMeasureType.ClinicalSummaries:
 					return "Count of procedures completed during the reporting period.";
 				case EhrMeasureType.Reminders:
-					return "Count of patients 65 years or older or 5 years or younger at the time of their last visit during the reporting period.";
+					return "Count of patients seen during the reporting period who were 65 years or older or 5 years or younger at its start.";
 			}
 			throw new ApplicationException("Type not found: "+mtype.ToString());
 		}
 
 		///<summary>Only called from FormEHR to load the patient specific MU data and tell the user what action to take to get closer to meeting MU.</summary>
 		public static List<EhrMu> GetMu(Patient pat) {
+			Meth.NoCheckMiddleTierRole();//The overload checks.
+			return GetMu(pat,DateTime.Today.AddYears(-1),DateTime.Today);
+		}
+
+		///<summary>The Stage 1 summary of FormEHR for the patient over the period (the window's is the year before today, to today). EHR-4d: the
+		///measures Measure Calc calculates take its rules (EHR-4c): the ages at the last visit in the period (Smoking, the vital signs) or at its
+		///start (Reminders), the business-day deadlines, the transitions and lab results counted as GetTable counts them (the region "The EHR
+		///window's rules"). The window counts visits with any provider.</summary>
+		public static List<EhrMu> GetMu(Patient pat,DateTime dateStart,DateTime dateEnd) {
 			if(RemotingClient.MiddleTierRole==MiddleTierRole.ClientMT) {
-				return Meth.GetObject<List<EhrMu>>(MethodBase.GetCurrentMethod(),pat);
+				return Meth.GetObject<List<EhrMu>>(MethodBase.GetCurrentMethod(),pat,dateStart,dateEnd);
 			}
+			EhrMeasureStage ehrMeasureStage=EhrMeasureStage.Stage1;//EHR-4d: for the helpers whose rules differ by stage.
 			List<EhrMu> list=new List<EhrMu>();
 			//add one of each type
 			EhrMu mu;
@@ -2018,6 +2306,8 @@ namespace OpenPmsDentalBusiness{
 			List<MedicationPat> medList=MedicationPats.Refresh(pat.PatNum,true);
 			List<EhrMeasureEvent> listMeasureEvents=EhrMeasureEvents.Refresh(pat.PatNum);
 			List<RefAttach> listRefAttach=RefAttaches.Refresh(pat.PatNum);
+			List<Procedure> listProcs=Procedures.Refresh(pat.PatNum);//EHR-4d: the visits of the period, and of the three years the reminders look back
+			List<DateTime> listVisitDays=GetVisitDays(listProcs,dateStart,dateEnd);//EHR-4d
 			for(int i=0;i<retVal.Count;i++) {
 				mu=new EhrMu();
 				mu.Met=MuMet.False;
@@ -2138,29 +2428,15 @@ namespace OpenPmsDentalBusiness{
 					#endregion
 					#region Education
 					case EhrMeasureType.Education:
-						List<EhrMeasureEvent> listEd=EhrMeasureEvents.RefreshByType(pat.PatNum,EhrMeasureEventType.EducationProvided);
-						if(listEd.Count==0) {
-							mu.Details="No education resources provided.";
-						}
-						else {
-							mu.Details="Education resources provided: "+listEd.Count.ToString();
-							mu.Met=MuMet.True;
-						}
-						mu.Action="Provide education resources";
+						//EHR-4d: Modified Stage 2 takes the calendar year of a visit in the period, as Measure Calc (EHR4B-D10).
+						FillMuEducation(mu,listMeasureEvents,listVisitDays,ehrMeasureStage);
 						break;
 					#endregion
 					#region ElectronicCopyAccess
 					//This used to be called TimelyAccess.  In 2014, CMS required offices use the new V/D/T measure (patient portal).  Electronic copy was removed as well due to this change.
 					case EhrMeasureType.ElectronicCopyAccess:
-						List<EhrMeasureEvent> listOnline=EhrMeasureEvents.RefreshByType(pat.PatNum,EhrMeasureEventType.OnlineAccessProvided);
-						if(listOnline.Count==0) {
-							mu.Details="No online access provided.";
-						}
-						else {
-							mu.Details="Online access provided: "+listOnline[listOnline.Count-1].DateTEvent.ToShortDateString();//most recent
-							mu.Met=MuMet.True;
-						}
-						mu.Action="Provide online Access";
+						//EHR-4d: within 4 business days of the first visit in the period, as Measure Calc (EHR4B-D01, D15).
+						FillMuOnlineAccess(mu,listMeasureEvents,listVisitDays);
 						break;
 					#endregion
 					#region TimelyAccess (Deprecated)
@@ -2207,7 +2483,7 @@ namespace OpenPmsDentalBusiness{
 						medOrderCpoeCount=0;
 						for(int m=0;m<medList.Count;m++) {
 							//Using the last year as the reporting period, following pattern in ElectronicCopy, ClinicalSummaries, Reminders...
-							if(medList[m].DateStart<DateTime.Now.AddYears(-1)) {//either no start date so not an order, or not within the last year so not during the reporting period
+							if(medList[m].DateStart.Date<dateStart.Date || medList[m].DateStart.Date>dateEnd.Date) {//either no start date so not an order, or not during the reporting period
 								continue;
 							}
 							else if(medList[m].PatNote!="" && medList[m].ProvNum==pat.PriProv) {//if there's a note and it was created by the patient's PriProv, then count as order created by this provider and would count toward the denominator for MU
@@ -2264,7 +2540,7 @@ namespace OpenPmsDentalBusiness{
 					#endregion
 					#region Rx
 					case EhrMeasureType.Rx:
-						List<RxPat> listRx=RxPats.GetPermissableForDateRange(pat.PatNum,DateTime.Today.AddYears(-1),DateTime.Today);
+						List<RxPat> listRx=RxPats.GetPermissableForDateRange(pat.PatNum,dateStart,dateEnd);
 						if(listRx.Count==0){
 							mu.Met=MuMet.NA;
 							mu.Details="No Rxs entered.";
@@ -2309,8 +2585,9 @@ namespace OpenPmsDentalBusiness{
 								if(vitalsignList[v].Weight>0) {
 									wFound=true;
 								}
-								if(pat.Birthdate>DateTime.Today.AddYears(-3) //3 and older for BP
-									|| (vitalsignList[v].BpDiastolic>0 && vitalsignList[v].BpSystolic>0)) {
+								//EHR-4d: the 2013 edition's first numerator, as Measure Calc's VitalSigns (EHR4B-D05): blood pressure from age 2, as height
+								//and weight (VitalSigns2014 takes it from age 3).
+								if(vitalsignList[v].BpDiastolic>0 && vitalsignList[v].BpSystolic>0) {
 									bpFound=true;
 								}
 							}
@@ -2338,6 +2615,10 @@ namespace OpenPmsDentalBusiness{
 								mu.Details="Missing: "+explanation;
 							}
 						}
+						if(!IsAgeAtLeastAtLastVisit(pat,2,listVisitDays,dateEnd)) {//EHR-4d (EHR4B-D04): 2 or older at the last visit, as Measure Calc.
+							mu.Met=MuMet.NA;
+							mu.Details="Under 2 at the last visit.";
+						}
 						mu.Action="Enter vital signs";
 						break;
 					#endregion
@@ -2358,7 +2639,7 @@ namespace OpenPmsDentalBusiness{
 								if(vitalsignList2014[v].Weight>0) {
 									wFound=true;
 								}
-								if(pat.Birthdate>DateTime.Today.AddYears(-3) //3 and older for BP
+								if(!IsAgeAtLeastAtLastVisit(pat,3,listVisitDays,dateEnd) //3 and older for BP, at the last visit as Measure Calc (EHR-4d)
 									|| (vitalsignList2014[v].BpDiastolic>0 && vitalsignList2014[v].BpSystolic>0)) {
 									bpFound=true;
 								}
@@ -2431,7 +2712,7 @@ namespace OpenPmsDentalBusiness{
 					#region VitalSignsBPOnly
 					case EhrMeasureType.VitalSignsBPOnly:
 						vitalsignList=Vitalsigns.Refresh(pat.PatNum);
-						if(pat.Birthdate>DateTime.Today.AddYears(-3)) {//3 and older for BP
+						if(!IsAgeAtLeastAtLastVisit(pat,3,listVisitDays,dateEnd)) {//3 and older for BP, at the last visit as Measure Calc (EHR-4d)
 							mu.Details="Age 3 and older for BP.";
 							mu.Met=MuMet.NA;
 						}
@@ -2461,7 +2742,7 @@ namespace OpenPmsDentalBusiness{
 							mu.Details="Smoking status entered";
 							mu.Met=MuMet.True;
 						}
-						if(pat.Age<13) {//The smoking measure does not apply to patients under the age of 13.
+						if(!IsAgeAtLeastAtLastVisit(pat,13,listVisitDays,dateEnd)) {//The smoking measure does not apply to patients under 13 at the last visit (EHR-4d, EHR4B-D03).
 							mu.Met=MuMet.NA;
 						}
 						mu.Action="Edit smoking status";
@@ -2474,30 +2755,8 @@ namespace OpenPmsDentalBusiness{
 							mu.Met=MuMet.False;
 							break;
 						}
-						List<EhrLab> listLabOrders=EhrLabs.GetAllForPatInDateRange(pat.PatNum,DateTime.Today.AddYears(-1),DateTime.Today);
-						if(listLabOrders.Count==0) {
-							mu.Details="No lab orders";
-							mu.Met=MuMet.NA;
-						}
-						else {
-							int labResultCount=0;
-							for(int lo=0;lo<listLabOrders.Count;lo++) {
-								List<EhrLabResult> listLabResults=EhrLabResults.GetForLab(listLabOrders[lo].EhrLabNum);
-								if(listLabResults.Count>0) {
-									labResultCount++;
-									continue;//Only need one per lab order
-								}
-							}
-							if(labResultCount<listLabOrders.Count) {
-								mu.Met=MuMet.False;
-								mu.Details="Lab orders missing results: "+(listLabOrders.Count-labResultCount).ToString();
-							}
-							else {
-								mu.Details="Lab results entered for each lab order.";
-								mu.Met=MuMet.True;
-							}
-						}
-						mu.Action="Edit labs";
+						//EHR-4d: the orders in the period, as Measure Calc counts them (EHR4B-D11: free-text results only, left out).
+						FillMuLab(mu,EhrLabs.GetAllForPat(pat.PatNum),MedicalOrders.GetLabsByDate(pat.PatNum,dateStart,dateEnd),dateStart,dateEnd);
 						break;
 					#endregion
 					#region ElectronicCopy (Deprecated)
@@ -2506,7 +2765,7 @@ namespace OpenPmsDentalBusiness{
 						List<EhrMeasureEvent> listRequests=EhrMeasureEvents.GetByType(listMeasureEvents,EhrMeasureEventType.ElectronicCopyRequested);
 						List<EhrMeasureEvent> listRequestsPeriod=new List<EhrMeasureEvent>();
 						for(int r=0;r<listRequests.Count;r++) {
-							if(listRequests[r].DateTEvent < DateTime.Now.AddYears(-1)) {//not within the last year
+							if(listRequests[r].DateTEvent.Date<dateStart.Date || listRequests[r].DateTEvent.Date>dateEnd.Date) {//not within the period
 								continue;
 							}
 							listRequestsPeriod.Add(listRequests[r]);
@@ -2522,9 +2781,9 @@ namespace OpenPmsDentalBusiness{
 							for(int rp=0;rp<listRequestsPeriod.Count;rp++) {
 								copyProvidedinTime=false;
 								DateTime deadlineDateCopy=listRequestsPeriod[rp].DateTEvent.Date.AddDays(3);
-								if(listRequestsPeriod[rp].DateTEvent.DayOfWeek==DayOfWeek.Wednesday 
-									|| listRequestsPeriod[rp].DateTEvent.DayOfWeek==DayOfWeek.Thursday 
-									|| listRequestsPeriod[rp].DateTEvent.DayOfWeek==DayOfWeek.Friday) 
+								if(listRequestsPeriod[rp].DateTEvent.DayOfWeek==DayOfWeek.Wednesday
+									|| listRequestsPeriod[rp].DateTEvent.DayOfWeek==DayOfWeek.Thursday
+									|| listRequestsPeriod[rp].DateTEvent.DayOfWeek==DayOfWeek.Friday)
 								{
 									deadlineDateCopy.AddDays(2);//add two days for the weekend
 								}
@@ -2555,53 +2814,9 @@ namespace OpenPmsDentalBusiness{
 					#endregion
 					#region ClinicalSummaries
 					case EhrMeasureType.ClinicalSummaries:
-						List<DateTime> listVisits=new List<DateTime>();//for this year
-						List<Procedure> listProcs=Procedures.Refresh(pat.PatNum);
-						for(int p=0;p<listProcs.Count;p++) {
-							if(listProcs[p].ProcDate < DateTime.Now.AddYears(-1) || listProcs[p].ProcStatus!=ProcStat.C) {//not within the last year or not a completed procedure
-								continue;
-							}
-							if(!listVisits.Contains(listProcs[p].ProcDate)) {
-								listVisits.Add(listProcs[p].ProcDate);
-							}
-						}
-						if(listVisits.Count==0){
-							mu.Met=MuMet.NA;
-							mu.Details="No visits within the last year.";
-						}
-						else{
-							int countMissing=0;
-							bool summaryProvidedinTime;
-							List<EhrMeasureEvent> listClinSum=EhrMeasureEvents.GetByType(listMeasureEvents,EhrMeasureEventType.ClinicalSummaryProvidedToPt);
-							for(int p=0;p<listVisits.Count;p++) {
-								summaryProvidedinTime=false;
-								DateTime deadlineDate=listVisits[p].AddDays(3);
-								if(listVisits[p].DayOfWeek==DayOfWeek.Wednesday || listVisits[p].DayOfWeek==DayOfWeek.Thursday || listVisits[p].DayOfWeek==DayOfWeek.Friday){
-									deadlineDate=deadlineDate.AddDays(2);//add two days for the weekend
-								}
-								for(int r=0;r<listClinSum.Count;r++) {
-									if(listClinSum[r].DateTEvent.Date > deadlineDate) {
-										continue;
-									}
-									if(listClinSum[r].DateTEvent.Date < listVisits[p]) {
-										continue;
-									}
-									summaryProvidedinTime=true;
-								}
-								if(!summaryProvidedinTime) {
-									countMissing++;
-								}
-							}
-							if(countMissing==0) {
-								mu.Met=MuMet.True;
-								mu.Details="Clinical summary provided to Pt within 3 business days of each visit.";
-							}
-							else {
-								mu.Met=MuMet.False;
-								mu.Details="Clinical summaries not provided to Pt within 3 business days of a visit:"+countMissing.ToString();
-							}
-						}
-						mu.Action="Send clinical summary to Pt";
+						//EHR-4d: within 3 business days of each visit (13_Clinical_Summaries), as Measure Calc; a Saturday visit's third is the Wednesday
+						//(EHR4B-D16). The old rule here added 3 days, 5 after a Wednesday to Friday.
+						FillMuClinicalSummaries(mu,listMeasureEvents,listVisitDays,3);
 						break;
 					#endregion
 					#region Reminders
@@ -2610,20 +2825,28 @@ namespace OpenPmsDentalBusiness{
 							mu.Met=MuMet.NA;
 							mu.Details="Status not patient.";
 						}
-						else if(pat.Age==0) {
+						//EHR-4d: the age at the start of the period, as Measure Calc (EHR4B-D06): 5 or younger (the sixth birthday not reached) or 65 or older.
+						//Before, today's age, and an age of 0 (a patient under 1) read as no birthdate.
+						else if(pat.Birthdate.Year<1880) {
 							mu.Met=MuMet.NA;
 							mu.Details="Age not entered.";
 						}
-						else if(pat.Age>5 && pat.Age<65) {
+						else if(pat.Birthdate<=dateStart.Date.AddYears(-6) && pat.Birthdate>dateStart.Date.AddYears(-65)) {
 							mu.Met=MuMet.NA;
-							mu.Details="Patient age not 65+ or 5-.";
+							mu.Details="Patient age not 65+ or 5- at the start of the period.";
+						}
+						//EHR-4d: Measure Calc's denominator has only the patients with a completed visit (broken appointments left out, any provider)
+						//after the day three years before the period's start (ProcDate>dateStart-INTERVAL 3 YEAR), with no upper bound.
+						else if(GetVisitDays(listProcs,dateStart.Date.AddYears(-3).AddDays(1),DateTime.MaxValue).Count==0) {
+							mu.Met=MuMet.NA;
+							mu.Details="No visit in the three years before the period.";
 						}
 						else {
 							List<EhrMeasureEvent> listReminders=EhrMeasureEvents.GetByType(listMeasureEvents,EhrMeasureEventType.ReminderSent);
 							//during reporting period.
 							bool withinLastYear=false;
 							for(int r=0;r<listReminders.Count;r++) {
-								if(listReminders[r].DateTEvent > DateTime.Now.AddYears(-1)) {
+								if(listReminders[r].DateTEvent.Date>=dateStart.Date && listReminders[r].DateTEvent.Date<=dateEnd.Date) {
 									withinLastYear=true;
 								}
 							}
@@ -2640,39 +2863,8 @@ namespace OpenPmsDentalBusiness{
 					#endregion
 					#region MedReconcile
 					case EhrMeasureType.MedReconcile:
-						int countFromRef=0;
-						int countFromRefPeriod=0;
-						for(int c=0;c<listRefAttach.Count;c++) {
-							if(listRefAttach[c].RefType==ReferralType.RefFrom && listRefAttach[c].IsTransitionOfCare) {
-								countFromRef++;
-								if(listRefAttach[c].RefDate > DateTime.Now.AddYears(-1)) {//within the last year
-									countFromRefPeriod++;
-								}
-							}
-						}
-						if(countFromRef==0) {
-							mu.Met=MuMet.NA;
-							mu.Details="Referral 'from' not entered.";
-						}
-						else if(countFromRefPeriod==0) {
-							mu.Met=MuMet.NA;
-							mu.Details="Referral 'from' not entered within the last year.";
-						}
-						else if(countFromRefPeriod > 0) {
-							List<EhrMeasureEvent> listReconciles=EhrMeasureEvents.GetByType(listMeasureEvents,EhrMeasureEventType.MedicationReconcile);
-							int countReconciles=0;//during reporting period.
-							for(int r=0;r<listReconciles.Count;r++) {
-								if(listReconciles[r].DateTEvent > DateTime.Now.AddYears(-1)) {//within the same period as the count for referrals.
-									countReconciles++;
-								}
-							}
-							mu.Details="Referrals:"+countFromRefPeriod.ToString()+", Reconciles:"+countReconciles.ToString();
-							if(countReconciles>=countFromRefPeriod) {
-								mu.Met=MuMet.True;
-							}
-						}
-						mu.Action="Electronic Reconciliation";
-						mu.Action2="Manual Reconciliation";
+						//EHR-4d: each reconciliation in the period counts for one transition received in it, as Measure Calc (EHR4B-D08).
+						FillMuMedReconcile(mu,listRefAttach,listMeasureEvents,dateStart,dateEnd);
 						break;
 					#endregion
 					#region SummaryOfCare
@@ -2680,7 +2872,7 @@ namespace OpenPmsDentalBusiness{
 						int countToRefPeriod=0;
 						for(int c=0;c<listRefAttach.Count;c++) {
 							if(listRefAttach[c].RefType==ReferralType.RefTo && listRefAttach[c].IsTransitionOfCare && listRefAttach[c].ProvNum!=0) {
-								if(listRefAttach[c].RefDate > DateTime.Now.AddYears(-1)) {//within the last year
+								if(listRefAttach[c].RefDate.Date>=dateStart.Date && listRefAttach[c].RefDate.Date<=dateEnd.Date) {//within the period
 									countToRefPeriod++;
 								}
 							}
@@ -2693,14 +2885,14 @@ namespace OpenPmsDentalBusiness{
 							List<EhrMeasureEvent> listCcds=EhrMeasureEvents.GetByType(listMeasureEvents,EhrMeasureEventType.SummaryOfCareProvidedToDr);
 							int countCcds=0;//during reporting period.
 							for(int r=0;r<listCcds.Count;r++) {
-								if(listCcds[r].DateTEvent > DateTime.Now.AddYears(-1) && listCcds[r].FKey!=0) {//Quick filter for measure events that do not meet the criterion.
+								if(listCcds[r].DateTEvent.Date>=dateStart.Date && listCcds[r].DateTEvent.Date<=dateEnd.Date && listCcds[r].FKey!=0) {//Quick filter for measure events that do not meet the criterion.
 									//Loop through all ref attaches and only count the ones that meet all measure requirements.
 									for(int c=0;c<listRefAttach.Count;c++) {
 										if(listRefAttach[c].RefType==ReferralType.RefTo
 											&& listRefAttach[c].RefAttachNum==listCcds[r].FKey
 											&& listRefAttach[c].IsTransitionOfCare 
 											&& listRefAttach[c].ProvNum!=0 
-											&& listRefAttach[c].RefDate > DateTime.Now.AddYears(-1)) 
+											&& listRefAttach[c].RefDate.Date>=dateStart.Date && listRefAttach[c].RefDate.Date<=dateEnd.Date)
 										{
 											countCcds++;
 											break;
@@ -3351,6 +3543,14 @@ namespace OpenPmsDentalBusiness{
 							+"AND DATE(DateTimeOrder) BETWEEN "+POut.Date(dateStart)+" AND "+POut.Date(dateEnd)+" "
 						+"LEFT JOIN (SELECT MedicalOrderNum,COUNT(*) AS 'Count' FROM labpanel GROUP BY MedicalOrderNum "
 						+") panels ON panels.MedicalOrderNum=medicalorder.MedicalOrderNum "
+						//EHR-4d (EHR4B-D11): as in the ehrlab branch below, an order whose results are all neither a positive or negative affirmation nor a number
+						//is left out (2_Clinical_Lab_Test_Results, Stage 1, May 2014; Stage2_EPCore_10, November 2014). An order with no result row stays, met by
+						//its panel as before (the 2011 edition).
+						+"LEFT JOIN (SELECT labpanel.MedicalOrderNum,COUNT(*) AS 'Count',"
+							+"SUM(CASE WHEN "+GetWhereLabResultPosNegOrNumeric()+" THEN 1 ELSE 0 END) AS 'CountPosNegNum' "
+							+"FROM labpanel INNER JOIN labresult ON labresult.LabPanelNum=labpanel.LabPanelNum GROUP BY labpanel.MedicalOrderNum "
+						+") results ON results.MedicalOrderNum=medicalorder.MedicalOrderNum "
+						+"WHERE (COALESCE(results.Count,0)=0 OR results.CountPosNegNum>0) "
 						+"UNION ALL "
 						+"SELECT 0 AS IsOldLab,patient.PatNum,LName,FName,STR_TO_DATE(ObservationDateTimeStart,'%Y%m%d') AS DateTimeOrder,COALESCE(ehrlabs.Count,0) AS ResultCount FROM patient "
 						+"INNER JOIN ehrlab ON patient.PatNum=ehrlab.PatNum "
@@ -4496,9 +4696,17 @@ namespace OpenPmsDentalBusiness{
 
 		///<summary>Only called from FormEHR to load the patient specific MU data and tell the user what action to take to get closer to meeting MU.</summary>
 		public static List<EhrMu> GetMu2(Patient pat) {
+			Meth.NoCheckMiddleTierRole();//The overload checks.
+			return GetMu2(pat,DateTime.Today.AddYears(-1),DateTime.Today);
+		}
+
+		///<summary>The Stage 2 summary of FormEHR for the patient over the period (the window's is the year before today, to today), with Measure
+		///Calc's rules (EHR-4c) where a measure has them (EHR-4d; see GetMu).</summary>
+		public static List<EhrMu> GetMu2(Patient pat,DateTime dateStart,DateTime dateEnd) {
 			if(RemotingClient.MiddleTierRole==MiddleTierRole.ClientMT) {
-				return Meth.GetObject<List<EhrMu>>(MethodBase.GetCurrentMethod(),pat);
+				return Meth.GetObject<List<EhrMu>>(MethodBase.GetCurrentMethod(),pat,dateStart,dateEnd);
 			}
+			EhrMeasureStage ehrMeasureStage=EhrMeasureStage.Stage2;//EHR-4d: for the helpers whose rules differ by stage.
 			List<EhrMu> list=new List<EhrMu>();
 			//add one of each type
 			EhrMu mu;
@@ -4512,6 +4720,7 @@ namespace OpenPmsDentalBusiness{
 			List<Procedure> listRadCpoeProcs=Procedures.GetProcsRadiologyCpoeForPat(pat.PatNum);
 			List<EhrMeasureEvent> listMeasureEvents=EhrMeasureEvents.Refresh(pat.PatNum);
 			List<RefAttach> listRefAttach=RefAttaches.Refresh(pat.PatNum);
+			List<DateTime> listVisitDays=GetVisitDays(Procedures.Refresh(pat.PatNum),dateStart,dateEnd);//EHR-4d
 			for(int i=0;i<retVal.Count;i++) {
 				mu=new EhrMu();
 				mu.Met=MuMet.False;
@@ -4553,28 +4762,14 @@ namespace OpenPmsDentalBusiness{
 					#endregion
 					#region Education
 					case EhrMeasureType.Education:
-						List<EhrMeasureEvent> listEd=EhrMeasureEvents.RefreshByType(pat.PatNum,EhrMeasureEventType.EducationProvided);
-						if(listEd.Count==0) {
-							mu.Details="No education resources provided.";
-						}
-						else {
-							mu.Details="Education resources provided: "+listEd.Count.ToString();
-							mu.Met=MuMet.True;
-						}
-						mu.Action="Provide education resources";
+						//EHR-4d: Modified Stage 2 takes the calendar year of a visit in the period, as Measure Calc (EHR4B-D10).
+						FillMuEducation(mu,listMeasureEvents,listVisitDays,ehrMeasureStage);
 						break;
 					#endregion
 					#region ElectronicCopyAccess
 					case EhrMeasureType.ElectronicCopyAccess:
-						List<EhrMeasureEvent> listOnline=EhrMeasureEvents.RefreshByType(pat.PatNum,EhrMeasureEventType.OnlineAccessProvided);
-						if(listOnline.Count==0) {
-							mu.Details="No online access provided.";
-						}
-						else {
-							mu.Details="Online access provided: "+listOnline[listOnline.Count-1].DateTEvent.ToShortDateString();//most recent
-							mu.Met=MuMet.True;
-						}
-						mu.Action="Provide online Access";
+						//EHR-4d: within 4 business days of the first visit in the period, as Measure Calc (EHR4B-D01, D15).
+						FillMuOnlineAccess(mu,listMeasureEvents,listVisitDays);
 						break;
 					#endregion
 					#region CPOE_MedOrdersOnly
@@ -4583,7 +4778,7 @@ namespace OpenPmsDentalBusiness{
 						int medOrderCpoeCount=0;
 						for(int m=0;m<medList.Count;m++) {
 							//Using the last year as the reporting period, following pattern in ElectronicCopy, ClinicalSummaries, Reminders...
-							if(medList[m].DateStart<DateTime.Now.AddYears(-1)) {//either no start date so not an order, or not within the last year so not during the reporting period
+							if(medList[m].DateStart.Date<dateStart.Date || medList[m].DateStart.Date>dateEnd.Date) {//either no start date so not an order, or not during the reporting period
 								continue;
 							}
 							else if(medList[m].PatNote!="" && medList[m].ProvNum==pat.PriProv) {//if there's a note and it was created by the patient's PriProv, then count as order created by this provider and would count toward the denominator for MU
@@ -4617,7 +4812,7 @@ namespace OpenPmsDentalBusiness{
 							Loinc loinc=Loincs.GetByCode(ehrLabList[m].UsiID);
 							string dateSt=ehrLabList[m].ObservationDateTimeStart.PadRight(8,'0').Substring(0,8);//stored in DB as yyyyMMddhhmmss-zzzz
 							DateTime dateT=PIn.Date(dateSt.Substring(4,2)+"/"+dateSt.Substring(6,2)+"/"+dateSt.Substring(0,4));
-							if(dateT<DateTime.Now.AddYears(-1)) {//either no start date so not an order, or not within the last year so not during the reporting period
+							if(dateT<dateStart.Date || dateT>dateEnd.Date) {//either no start date so not an order, or not during the reporting period
 								continue;
 							}
 							else if((ehrLabList[m].OrderingProviderID==pat.PriProv.ToString()	
@@ -4655,7 +4850,7 @@ namespace OpenPmsDentalBusiness{
 							Loinc loinc=Loincs.GetByCode(ehrLabList[m].UsiID);
 							string dateSt=ehrLabList[m].ObservationDateTimeStart.PadRight(8,'0').Substring(0,8);//stored in DB as yyyyMMddhhmmss-zzzz
 							DateTime dateT=PIn.Date(dateSt.Substring(4,2)+"/"+dateSt.Substring(6,2)+"/"+dateSt.Substring(0,4));
-							if(dateT<DateTime.Now.AddYears(-1)) {//either no start date so not an order, or not within the last year so not during the reporting period
+							if(dateT<dateStart.Date || dateT>dateEnd.Date) {//either no start date so not an order, or not during the reporting period
 								continue;
 							}
 							else if((ehrLabList[m].OrderingProviderID==pat.PriProv.ToString() 
@@ -4689,7 +4884,7 @@ namespace OpenPmsDentalBusiness{
 					#endregion
 					#region Rx
 					case EhrMeasureType.Rx:
-						List<RxPat> listRx=RxPats.GetPermissableForDateRange(pat.PatNum,DateTime.Today.AddYears(-1),DateTime.Today);
+						List<RxPat> listRx=RxPats.GetPermissableForDateRange(pat.PatNum,dateStart,dateEnd);
 						if(listRx.Count==0) {
 							mu.Met=MuMet.NA;
 							mu.Details="No Rxs entered.";
@@ -4734,7 +4929,7 @@ namespace OpenPmsDentalBusiness{
 								if(vitalsignList[v].Weight>0) {
 									wFound=true;
 								}
-								if(pat.Birthdate>DateTime.Today.AddYears(-3) //3 and older for BP
+								if(!IsAgeAtLeastAtLastVisit(pat,3,listVisitDays,dateEnd) //3 and older for BP, at the last visit as Measure Calc (EHR-4d)
 									|| (vitalsignList[v].BpDiastolic>0 && vitalsignList[v].BpSystolic>0)) {
 									bpFound=true;
 								}
@@ -4807,7 +5002,7 @@ namespace OpenPmsDentalBusiness{
 					#region VitalSignsBPOnly
 					case EhrMeasureType.VitalSignsBPOnly:
 						vitalsignList=Vitalsigns.Refresh(pat.PatNum);
-						if(pat.Birthdate>DateTime.Today.AddYears(-3)) {//3 and older for BP
+						if(!IsAgeAtLeastAtLastVisit(pat,3,listVisitDays,dateEnd)) {//3 and older for BP, at the last visit as Measure Calc (EHR-4d)
 							mu.Details="Age 3 and older for BP.";
 							mu.Met=MuMet.NA;
 						}
@@ -4837,7 +5032,7 @@ namespace OpenPmsDentalBusiness{
 							mu.Details="Smoking status entered";
 							mu.Met=MuMet.True;
 						}
-						if(pat.Age<13) {//The smoking measure does not apply to patients under the age of 13.
+						if(!IsAgeAtLeastAtLastVisit(pat,13,listVisitDays,dateEnd)) {//The smoking measure does not apply to patients under 13 at the last visit (EHR-4d, EHR4B-D03).
 							mu.Met=MuMet.NA;
 						}
 						mu.Action="Edit smoking status";
@@ -4850,27 +5045,8 @@ namespace OpenPmsDentalBusiness{
 							mu.Met=MuMet.False;
 							break;
 						}
-						if(ehrLabList.Count==0) {
-							mu.Details="No lab orders";
-							mu.Met=MuMet.NA;
-						}
-						else {
-							int labResultCount=0;
-							for(int lo=0;lo<ehrLabList.Count;lo++) {
-								List<EhrLabResult> ehrLabResults=EhrLabResults.GetForLab(ehrLabList[lo].EhrLabNum);
-								if(ehrLabResults.Count>0) {
-									labResultCount++;
-								}
-							}
-							if(labResultCount<ehrLabList.Count) {
-								mu.Details="Lab orders missing results: "+(ehrLabList.Count-labResultCount).ToString();
-							}
-							else {
-								mu.Details="Lab results entered for each lab order.";
-								mu.Met=MuMet.True;
-							}
-						}
-						mu.Action="Edit labs";
+						//EHR-4d: the orders in the period, as Measure Calc counts them (EHR4B-D11: free-text results only, left out).
+						FillMuLab(mu,ehrLabList,MedicalOrders.GetLabsByDate(pat.PatNum,dateStart,dateEnd),dateStart,dateEnd);
 						break;
 					#endregion
 					#region ElectronicCopy
@@ -4878,7 +5054,7 @@ namespace OpenPmsDentalBusiness{
 						List<EhrMeasureEvent> listRequests=EhrMeasureEvents.GetByType(listMeasureEvents,EhrMeasureEventType.ElectronicCopyRequested);
 						List<EhrMeasureEvent> listRequestsPeriod=new List<EhrMeasureEvent>();
 						for(int r=0;r<listRequests.Count;r++) {
-							if(listRequests[r].DateTEvent<DateTime.Now.AddYears(-1) || listRequests[r].PatNum!=pat.PatNum) {//not within the last year
+							if(listRequests[r].DateTEvent.Date<dateStart.Date || listRequests[r].DateTEvent.Date>dateEnd.Date || listRequests[r].PatNum!=pat.PatNum) {//not within the period
 								continue;
 							}
 							listRequestsPeriod.Add(listRequests[r]);
@@ -4896,81 +5072,34 @@ namespace OpenPmsDentalBusiness{
 					#endregion
 					#region ClinicalSummaries
 					case EhrMeasureType.ClinicalSummaries:
-						List<DateTime> listVisits=new List<DateTime>();//for this year
-						List<Procedure> listProcs=Procedures.Refresh(pat.PatNum);
-						for(int p=0;p<listProcs.Count;p++) {
-							if(listProcs[p].ProcDate < DateTime.Now.AddYears(-1) || listProcs[p].ProcStatus!=ProcStat.C) {//not within the last year or not a completed procedure
-								continue;
-							}
-							if(!listVisits.Contains(listProcs[p].ProcDate)) {
-								listVisits.Add(listProcs[p].ProcDate);
-							}
-						}
-						if(listVisits.Count==0) {
-							mu.Met=MuMet.NA;
-							mu.Details="No visits within the last year.";
-						}
-						else {
-							int countMissing=0;
-							bool summaryProvidedinTime;
-							List<EhrMeasureEvent> listClinSum=EhrMeasureEvents.GetByType(listMeasureEvents,EhrMeasureEventType.ClinicalSummaryProvidedToPt);
-							for(int p=0;p<listVisits.Count;p++) {
-								summaryProvidedinTime=false;
-								DateTime deadlineDate=listVisits[p].AddDays(1);
-								if(listVisits[p].DayOfWeek==DayOfWeek.Friday) {
-									deadlineDate=deadlineDate.AddDays(2);//add two days for the weekend
-								}
-								for(int r=0;r<listClinSum.Count;r++) {
-									if(listClinSum[r].DateTEvent.Date > deadlineDate) {
-										continue;
-									}
-									if(listClinSum[r].DateTEvent.Date < listVisits[p]) {
-										continue;
-									}
-									summaryProvidedinTime=true;
-								}
-								if(!summaryProvidedinTime) {
-									countMissing++;
-								}
-							}
-							if(countMissing==0) {
-								mu.Met=MuMet.True;
-								mu.Details="Clinical summary provided to Pt within 1 business day of each visit.";
-							}
-							else {
-								mu.Met=MuMet.False;
-								mu.Details="Clinical summaries not provided to Pt within 1 business day of a visit:"+countMissing.ToString();
-							}
-						}
-						mu.Action="Send clinical summary to Pt";
+						//EHR-4d: within 1 business day of each visit (Stage2_EPCore_8), as Measure Calc; a Saturday visit's is the Monday (the old rule
+						//here added 1 day, 3 after a Friday, so a Saturday visit's deadline was the Sunday).
+						FillMuClinicalSummaries(mu,listMeasureEvents,listVisitDays,1);
 						break;
 					#endregion
 					#region Reminders
 					case EhrMeasureType.Reminders:
-						List<DateTime> listVisitsRem=new List<DateTime>();//for this year
-						List<Procedure> listProcsRem=Procedures.Refresh(pat.PatNum);
-						for(int p=0;p<listProcsRem.Count;p++) {
-							if(listProcsRem[p].ProcDate < DateTime.Now.AddYears(-2) || listProcsRem[p].ProcStatus!=ProcStat.C) {//not within the last year or not a completed procedure
-								continue;
-							}
-							if(!listVisitsRem.Contains(listProcsRem[p].ProcDate)) {
-								listVisitsRem.Add(listProcsRem[p].ProcDate);
-							}
-						}
+						//EHR-4d: two or more visit days in the 24 months before the period (Stage2_EPCore_12), as Measure Calc; before, the two years before
+						//today, the period included.
+						List<DateTime> listVisitsRem=GetVisitDays(Procedures.Refresh(pat.PatNum),dateStart.Date.AddYears(-2).AddDays(1),dateStart.Date.AddDays(-1));
 						if(listVisitsRem.Count<=1) {
 							mu.Met=MuMet.NA;
-							mu.Details="No two visits within the last two years.";
+							mu.Details="No two visits within the two years before the period.";
 						}
 						else if(pat.PatStatus!=PatientStatus.Patient) {
 							mu.Met=MuMet.NA;
 							mu.Details="Status not patient.";
+						}
+						else if(pat.Birthdate.Year<1880) {
+							mu.Met=MuMet.NA;
+							mu.Details="Birthdate not entered.";
 						}
 						else {
 							List<EhrMeasureEvent> listReminders=EhrMeasureEvents.GetByType(listMeasureEvents,EhrMeasureEventType.ReminderSent);
 							//during reporting period.
 							bool withinLastYear=false;
 							for(int r=0;r<listReminders.Count;r++) {
-								if(listReminders[r].DateTEvent > DateTime.Now.AddYears(-1)) {
+								if(listReminders[r].DateTEvent.Date>=dateStart.Date && listReminders[r].DateTEvent.Date<=dateEnd.Date) {
 									withinLastYear=true;
 								}
 							}
@@ -4987,39 +5116,8 @@ namespace OpenPmsDentalBusiness{
 					#endregion
 					#region MedReconcile
 					case EhrMeasureType.MedReconcile:
-						int countFromRef=0;
-						int countFromRefPeriod=0;
-						for(int c=0;c<listRefAttach.Count;c++) {
-							if(listRefAttach[c].RefType==ReferralType.RefFrom && listRefAttach[c].IsTransitionOfCare) {
-								countFromRef++;
-								if(listRefAttach[c].RefDate > DateTime.Now.AddYears(-1)) {//within the last year
-									countFromRefPeriod++;
-								}
-							}
-						}
-						if(countFromRef==0) {
-							mu.Met=MuMet.NA;
-							mu.Details="Referral 'from' not entered.";
-						}
-						else if(countFromRefPeriod==0) {
-							mu.Met=MuMet.NA;
-							mu.Details="Referral 'from' not entered within the last year.";
-						}
-						else if(countFromRefPeriod > 0) {
-							List<EhrMeasureEvent> listReconciles=EhrMeasureEvents.GetByType(listMeasureEvents,EhrMeasureEventType.MedicationReconcile);
-							int countReconciles=0;//during reporting period.
-							for(int r=0;r<listReconciles.Count;r++) {
-								if(listReconciles[r].DateTEvent > DateTime.Now.AddYears(-1)) {//within the same period as the count for referrals.
-									countReconciles++;
-								}
-							}
-							mu.Details="Referrals:"+countFromRefPeriod.ToString()+", Reconciles:"+countReconciles.ToString();
-							if(countReconciles>=countFromRefPeriod) {
-								mu.Met=MuMet.True;
-							}
-						}
-						mu.Action="Electronic Reconciliation";
-						mu.Action2="Manual Reconciliation";
+						//EHR-4d: each reconciliation in the period counts for one transition received in it, as Measure Calc (EHR4B-D08).
+						FillMuMedReconcile(mu,listRefAttach,listMeasureEvents,dateStart,dateEnd);
 						break;
 					#endregion
 					#region SummaryOfCare
@@ -5027,7 +5125,7 @@ namespace OpenPmsDentalBusiness{
 						int countToRefPeriod=0;
 						for(int c=0;c<listRefAttach.Count;c++) {
 							if(listRefAttach[c].RefType==ReferralType.RefTo && listRefAttach[c].IsTransitionOfCare && listRefAttach[c].ProvNum!=0) {
-								if(listRefAttach[c].RefDate > DateTime.Now.AddYears(-1)) {//within the last year
+								if(listRefAttach[c].RefDate.Date>=dateStart.Date && listRefAttach[c].RefDate.Date<=dateEnd.Date) {//within the period
 									countToRefPeriod++;
 								}
 							}
@@ -5040,14 +5138,14 @@ namespace OpenPmsDentalBusiness{
 							List<EhrMeasureEvent> listCcds=EhrMeasureEvents.GetByType(listMeasureEvents,EhrMeasureEventType.SummaryOfCareProvidedToDr);
 							int countCcds=0;//during reporting period.
 							for(int r=0;r<listCcds.Count;r++) {
-								if(listCcds[r].DateTEvent > DateTime.Now.AddYears(-1) && listCcds[r].FKey!=0) {//Quick filter for measure events that do not meet the criterion.
+								if(listCcds[r].DateTEvent.Date>=dateStart.Date && listCcds[r].DateTEvent.Date<=dateEnd.Date && listCcds[r].FKey!=0) {//Quick filter for measure events that do not meet the criterion.
 									//Loop through all ref attaches and only count the ones that meet all measure requirements.
 									for(int c=0;c<listRefAttach.Count;c++) {
 										if(listRefAttach[c].RefType==ReferralType.RefTo
 											&& listRefAttach[c].RefAttachNum==listCcds[r].FKey
 											&& listRefAttach[c].IsTransitionOfCare 
 											&& listRefAttach[c].ProvNum!=0 
-											&& listRefAttach[c].RefDate > DateTime.Now.AddYears(-1)) 
+											&& listRefAttach[c].RefDate.Date>=dateStart.Date && listRefAttach[c].RefDate.Date<=dateEnd.Date)
 										{
 											countCcds++;
 											break;
@@ -5069,7 +5167,7 @@ namespace OpenPmsDentalBusiness{
 						countToRefPeriod=0;
 						for(int c=0;c<listRefAttach.Count;c++) {
 							if(listRefAttach[c].RefType==ReferralType.RefTo && listRefAttach[c].IsTransitionOfCare && listRefAttach[c].ProvNum!=0) {
-								if(listRefAttach[c].RefDate > DateTime.Now.AddYears(-1)) {//within the last year
+								if(listRefAttach[c].RefDate.Date>=dateStart.Date && listRefAttach[c].RefDate.Date<=dateEnd.Date) {//within the period
 									countToRefPeriod++;
 								}
 							}
@@ -5082,14 +5180,14 @@ namespace OpenPmsDentalBusiness{
 							List<EhrMeasureEvent> listCcds=EhrMeasureEvents.GetByType(listMeasureEvents,EhrMeasureEventType.SummaryOfCareProvidedToDrElectronic);
 							int countCcds=0;//during reporting period.
 							for(int r=0;r<listCcds.Count;r++) {
-								if(listCcds[r].DateTEvent > DateTime.Now.AddYears(-1) && listCcds[r].FKey!=0) {//Quick filter for measure events that do not meet the criterion.
+								if(listCcds[r].DateTEvent.Date>=dateStart.Date && listCcds[r].DateTEvent.Date<=dateEnd.Date && listCcds[r].FKey!=0) {//Quick filter for measure events that do not meet the criterion.
 									//Loop through all ref attaches and only count the ones that meet all measure requirements.
 									for(int c=0;c<listRefAttach.Count;c++) {
 										if(listRefAttach[c].RefType==ReferralType.RefTo
 											&& listRefAttach[c].RefAttachNum==listCcds[r].FKey
 											&& listRefAttach[c].IsTransitionOfCare 
 											&& listRefAttach[c].ProvNum!=0 
-											&& listRefAttach[c].RefDate > DateTime.Now.AddYears(-1)) 
+											&& listRefAttach[c].RefDate.Date>=dateStart.Date && listRefAttach[c].RefDate.Date<=dateEnd.Date)
 										{
 											countCcds++;
 											break;
@@ -5109,23 +5207,9 @@ namespace OpenPmsDentalBusiness{
 					#region SecureMessaging
 					case EhrMeasureType.SecureMessaging:
 						List<EhrMeasureEvent> listMsg=EhrMeasureEvents.GetByType(listMeasureEvents,EhrMeasureEventType.SecureMessageFromPat);
-						List<DateTime> listVisitsMsg=new List<DateTime>();//for this year
-						List<Procedure> listProcsMsg=Procedures.Refresh(pat.PatNum);
-						int msgCount=0;
-						for(int p=0;p<listProcsMsg.Count;p++) {
-							if(listProcsMsg[p].ProcDate < DateTime.Now.AddYears(-1) || listProcsMsg[p].ProcStatus!=ProcStat.C) {//not within the last year or not a completed procedure
-								continue;
-							}
-							if(!listVisitsMsg.Contains(listProcsMsg[p].ProcDate)) {
-								listVisitsMsg.Add(listProcsMsg[p].ProcDate);
-							}
-						}
-						for(int p=0;p<listMsg.Count;p++) {
-							if(listMsg[p].PatNum==pat.PatNum) {
-								msgCount++;
-							}
-						}
-						if(listVisitsMsg.Count==0) {
+						//EHR-4d: a message dated in the period, as Measure Calc (EHR4B-D09); before, of any date.
+						int msgCount=listMsg.Count(x => x.PatNum==pat.PatNum && x.DateTEvent.Date>=dateStart.Date && x.DateTEvent.Date<=dateEnd.Date);
+						if(listVisitDays.Count==0) {
 							mu.Met=MuMet.NA;
 							mu.Details="No visits within the last year.";
 						}
@@ -5156,7 +5240,7 @@ namespace OpenPmsDentalBusiness{
 					#endregion
 					#region ElectronicNote
 					case EhrMeasureType.ElectronicNote:
-						ProcNote procNote=ProcNotes.GetProcNotesForPat(pat.PatNum, DateTime.Now.AddYears(-1), DateTime.Now.AddDays(1));
+						ProcNote procNote=ProcNotes.GetProcNotesForPat(pat.PatNum,dateStart.Date,dateEnd.Date.AddDays(1));
 						int notesSigned=0;
 						if(procNote==null) {
 							mu.Met=MuMet.NA;
@@ -5185,7 +5269,7 @@ namespace OpenPmsDentalBusiness{
 						}
 						int labCount=0;
 						int labCountImages=0;
-						List<EhrLab> listEhrLabs=EhrLabs.GetAllForPatInDateRange(pat.PatNum,DateTime.Now.AddYears(-1),DateTime.Now.AddDays(1));
+						List<EhrLab> listEhrLabs=EhrLabs.GetAllForPatInDateRange(pat.PatNum,dateStart.Date,dateEnd.Date.AddDays(1));
 						for(int img=0;img<listEhrLabs.Count;img++) {
 							if(EhrLabImages.IsWaitingForImages(listEhrLabs[img].EhrLabNum)) {
 								labCount++;
@@ -5379,9 +5463,17 @@ namespace OpenPmsDentalBusiness{
 		
 		///<summary>Only called from FormEHR to load the patient specific MU data and tell the user what action to take to get closer to meeting MU.</summary>
 		public static List<EhrMu> GetMu2Mod(Patient pat) {
+			Meth.NoCheckMiddleTierRole();//The overload checks.
+			return GetMu2Mod(pat,DateTime.Today.AddYears(-1),DateTime.Today);
+		}
+
+		///<summary>The Modified Stage 2 summary of FormEHR for the patient over the period (the window's is the year before today, to today), with
+		///Measure Calc's rules (EHR-4c) where a measure has them (EHR-4d; see GetMu).</summary>
+		public static List<EhrMu> GetMu2Mod(Patient pat,DateTime dateStart,DateTime dateEnd) {
 			if(RemotingClient.MiddleTierRole==MiddleTierRole.ClientMT) {
-				return Meth.GetObject<List<EhrMu>>(MethodBase.GetCurrentMethod(),pat);
+				return Meth.GetObject<List<EhrMu>>(MethodBase.GetCurrentMethod(),pat,dateStart,dateEnd);
 			}
+			EhrMeasureStage ehrMeasureStage=EhrMeasureStage.ModifiedStage2;//EHR-4d: for the helpers whose rules differ by stage.
 			List<EhrMu> list=new List<EhrMu>();
 			//add one of each type
 			EhrMu mu;
@@ -5395,6 +5487,7 @@ namespace OpenPmsDentalBusiness{
 			List<Procedure> listRadCpoeProcs=Procedures.GetProcsRadiologyCpoeForPat(pat.PatNum);
 			List<EhrMeasureEvent> listMeasureEvents=EhrMeasureEvents.Refresh(pat.PatNum);
 			List<RefAttach> listRefAttach=RefAttaches.Refresh(pat.PatNum);
+			List<DateTime> listVisitDays=GetVisitDays(Procedures.Refresh(pat.PatNum),dateStart,dateEnd);//EHR-4d
 			for(int i=0;i<retVal.Count;i++) {
 				mu=new EhrMu();
 				mu.Met=MuMet.False;
@@ -5436,28 +5529,14 @@ namespace OpenPmsDentalBusiness{
 					#endregion
 					#region Education
 					case EhrMeasureType.Education:
-						List<EhrMeasureEvent> listEd=EhrMeasureEvents.RefreshByType(pat.PatNum,EhrMeasureEventType.EducationProvided);
-						if(listEd.Count==0) {
-							mu.Details="No education resources provided.";
-						}
-						else {
-							mu.Details="Education resources provided: "+listEd.Count.ToString();
-							mu.Met=MuMet.True;
-						}
-						mu.Action="Provide education resources";
+						//EHR-4d: Modified Stage 2 takes the calendar year of a visit in the period, as Measure Calc (EHR4B-D10).
+						FillMuEducation(mu,listMeasureEvents,listVisitDays,ehrMeasureStage);
 						break;
 					#endregion
 					#region ElectronicCopyAccess
 					case EhrMeasureType.ElectronicCopyAccess:
-						List<EhrMeasureEvent> listOnline=EhrMeasureEvents.RefreshByType(pat.PatNum,EhrMeasureEventType.OnlineAccessProvided);
-						if(listOnline.Count==0) {
-							mu.Details="No online access provided.";
-						}
-						else {
-							mu.Details="Online access provided: "+listOnline[listOnline.Count-1].DateTEvent.ToShortDateString();//most recent
-							mu.Met=MuMet.True;
-						}
-						mu.Action="Provide online Access";
+						//EHR-4d: within 4 business days of the first visit in the period, as Measure Calc (EHR4B-D01, D15).
+						FillMuOnlineAccess(mu,listMeasureEvents,listVisitDays);
 						break;
 					#endregion
 					#region CPOE_MedOrdersOnly
@@ -5466,7 +5545,7 @@ namespace OpenPmsDentalBusiness{
 						int medOrderCpoeCount=0;
 						for(int m=0;m<medList.Count;m++) {
 							//Using the last year as the reporting period, following pattern in ElectronicCopy, ClinicalSummaries, Reminders...
-							if(medList[m].DateStart<DateTime.Now.AddYears(-1)) {//either no start date so not an order, or not within the last year so not during the reporting period
+							if(medList[m].DateStart.Date<dateStart.Date || medList[m].DateStart.Date>dateEnd.Date) {//either no start date so not an order, or not during the reporting period
 								continue;
 							}
 							else if(medList[m].PatNote!="" && medList[m].ProvNum==pat.PriProv) {//if there's a note and it was created by the patient's PriProv, then count as order created by this provider and would count toward the denominator for MU
@@ -5500,7 +5579,7 @@ namespace OpenPmsDentalBusiness{
 							Loinc loinc=Loincs.GetByCode(ehrLabList[m].UsiID);
 							string dateSt=ehrLabList[m].ObservationDateTimeStart.PadRight(8,'0').Substring(0,8);//stored in DB as yyyyMMddhhmmss-zzzz
 							DateTime dateT=PIn.Date(dateSt.Substring(4,2)+"/"+dateSt.Substring(6,2)+"/"+dateSt.Substring(0,4));
-							if(dateT<DateTime.Now.AddYears(-1)) {//either no start date so not an order, or not within the last year so not during the reporting period
+							if(dateT<dateStart.Date || dateT>dateEnd.Date) {//either no start date so not an order, or not during the reporting period
 								continue;
 							}
 							else if((ehrLabList[m].OrderingProviderID==pat.PriProv.ToString()	
@@ -5538,7 +5617,7 @@ namespace OpenPmsDentalBusiness{
 							Loinc loinc=Loincs.GetByCode(ehrLabList[m].UsiID);
 							string dateSt=ehrLabList[m].ObservationDateTimeStart.PadRight(8,'0').Substring(0,8);//stored in DB as yyyyMMddhhmmss-zzzz
 							DateTime dateT=PIn.Date(dateSt.Substring(4,2)+"/"+dateSt.Substring(6,2)+"/"+dateSt.Substring(0,4));
-							if(dateT<DateTime.Now.AddYears(-1)) {//either no start date so not an order, or not within the last year so not during the reporting period
+							if(dateT<dateStart.Date || dateT>dateEnd.Date) {//either no start date so not an order, or not during the reporting period
 								continue;
 							}
 							else if((ehrLabList[m].OrderingProviderID==pat.PriProv.ToString() 
@@ -5572,7 +5651,7 @@ namespace OpenPmsDentalBusiness{
 					#endregion
 					#region Rx
 					case EhrMeasureType.Rx:
-						List<RxPat> listRx=RxPats.GetPermissableForDateRange(pat.PatNum,DateTime.Today.AddYears(-1),DateTime.Today);
+						List<RxPat> listRx=RxPats.GetPermissableForDateRange(pat.PatNum,dateStart,dateEnd);
 						if(listRx.Count==0) {
 							mu.Met=MuMet.NA;
 							mu.Details="No Rxs entered.";
@@ -5617,7 +5696,7 @@ namespace OpenPmsDentalBusiness{
 								if(vitalsignList[v].Weight>0) {
 									wFound=true;
 								}
-								if(pat.Birthdate>DateTime.Today.AddYears(-3) //3 and older for BP
+								if(!IsAgeAtLeastAtLastVisit(pat,3,listVisitDays,dateEnd) //3 and older for BP, at the last visit as Measure Calc (EHR-4d)
 									|| (vitalsignList[v].BpDiastolic>0 && vitalsignList[v].BpSystolic>0)) {
 									bpFound=true;
 								}
@@ -5658,7 +5737,7 @@ namespace OpenPmsDentalBusiness{
 							mu.Details="Smoking status entered";
 							mu.Met=MuMet.True;
 						}
-						if(pat.Age<13) {//The smoking measure does not apply to patients under the age of 13.
+						if(!IsAgeAtLeastAtLastVisit(pat,13,listVisitDays,dateEnd)) {//The smoking measure does not apply to patients under 13 at the last visit (EHR-4d, EHR4B-D03).
 							mu.Met=MuMet.NA;
 						}
 						mu.Action="Edit smoking status";
@@ -5669,7 +5748,7 @@ namespace OpenPmsDentalBusiness{
 						List<EhrMeasureEvent> listRequests=EhrMeasureEvents.GetByType(listMeasureEvents,EhrMeasureEventType.ElectronicCopyRequested);
 						List<EhrMeasureEvent> listRequestsPeriod=new List<EhrMeasureEvent>();
 						for(int r=0;r<listRequests.Count;r++) {
-							if(listRequests[r].DateTEvent<DateTime.Now.AddYears(-1) || listRequests[r].PatNum!=pat.PatNum) {//not within the last year
+							if(listRequests[r].DateTEvent.Date<dateStart.Date || listRequests[r].DateTEvent.Date>dateEnd.Date || listRequests[r].PatNum!=pat.PatNum) {//not within the period
 								continue;
 							}
 							listRequestsPeriod.Add(listRequests[r]);
@@ -5687,39 +5766,8 @@ namespace OpenPmsDentalBusiness{
 					#endregion
 					#region MedReconcile
 					case EhrMeasureType.MedReconcile:
-						int countFromRef=0;
-						int countFromRefPeriod=0;
-						for(int c=0;c<listRefAttach.Count;c++) {
-							if(listRefAttach[c].RefType==ReferralType.RefFrom && listRefAttach[c].IsTransitionOfCare) {
-								countFromRef++;
-								if(listRefAttach[c].RefDate > DateTime.Now.AddYears(-1)) {//within the last year
-									countFromRefPeriod++;
-								}
-							}
-						}
-						if(countFromRef==0) {
-							mu.Met=MuMet.NA;
-							mu.Details="Referral 'from' not entered.";
-						}
-						else if(countFromRefPeriod==0) {
-							mu.Met=MuMet.NA;
-							mu.Details="Referral 'from' not entered within the last year.";
-						}
-						else if(countFromRefPeriod > 0) {
-							List<EhrMeasureEvent> listReconciles=EhrMeasureEvents.GetByType(listMeasureEvents,EhrMeasureEventType.MedicationReconcile);
-							int countReconciles=0;//during reporting period.
-							for(int r=0;r<listReconciles.Count;r++) {
-								if(listReconciles[r].DateTEvent > DateTime.Now.AddYears(-1)) {//within the same period as the count for referrals.
-									countReconciles++;
-								}
-							}
-							mu.Details="Referrals:"+countFromRefPeriod.ToString()+", Reconciles:"+countReconciles.ToString();
-							if(countReconciles>=countFromRefPeriod) {
-								mu.Met=MuMet.True;
-							}
-						}
-						mu.Action="Electronic Reconciliation";
-						mu.Action2="Manual Reconciliation";
+						//EHR-4d: each reconciliation in the period counts for one transition received in it, as Measure Calc (EHR4B-D08).
+						FillMuMedReconcile(mu,listRefAttach,listMeasureEvents,dateStart,dateEnd);
 						break;
 					#endregion
 					#region SummaryOfCare
@@ -5727,7 +5775,7 @@ namespace OpenPmsDentalBusiness{
 						int countToRefPeriod=0;
 						for(int c=0;c<listRefAttach.Count;c++) {
 							if(listRefAttach[c].RefType==ReferralType.RefTo && listRefAttach[c].IsTransitionOfCare && listRefAttach[c].ProvNum!=0) {
-								if(listRefAttach[c].RefDate > DateTime.Now.AddYears(-1)) {//within the last year
+								if(listRefAttach[c].RefDate.Date>=dateStart.Date && listRefAttach[c].RefDate.Date<=dateEnd.Date) {//within the period
 									countToRefPeriod++;
 								}
 							}
@@ -5740,14 +5788,14 @@ namespace OpenPmsDentalBusiness{
 							List<EhrMeasureEvent> listCcds=EhrMeasureEvents.GetByType(listMeasureEvents,EhrMeasureEventType.SummaryOfCareProvidedToDr);
 							int countCcds=0;//during reporting period.
 							for(int r=0;r<listCcds.Count;r++) {
-								if(listCcds[r].DateTEvent > DateTime.Now.AddYears(-1) && listCcds[r].FKey!=0) {//Quick filter for measure events that do not meet the criterion.
+								if(listCcds[r].DateTEvent.Date>=dateStart.Date && listCcds[r].DateTEvent.Date<=dateEnd.Date && listCcds[r].FKey!=0) {//Quick filter for measure events that do not meet the criterion.
 									//Loop through all ref attaches and only count the ones that meet all measure requirements.
 									for(int c=0;c<listRefAttach.Count;c++) {
 										if(listRefAttach[c].RefType==ReferralType.RefTo
 											&& listRefAttach[c].RefAttachNum==listCcds[r].FKey
 											&& listRefAttach[c].IsTransitionOfCare 
 											&& listRefAttach[c].ProvNum!=0 
-											&& listRefAttach[c].RefDate > DateTime.Now.AddYears(-1)) 
+											&& listRefAttach[c].RefDate.Date>=dateStart.Date && listRefAttach[c].RefDate.Date<=dateEnd.Date)
 										{
 											countCcds++;
 											break;
@@ -5769,7 +5817,7 @@ namespace OpenPmsDentalBusiness{
 						countToRefPeriod=0;
 						for(int c=0;c<listRefAttach.Count;c++) {
 							if(listRefAttach[c].RefType==ReferralType.RefTo && listRefAttach[c].IsTransitionOfCare && listRefAttach[c].ProvNum!=0) {
-								if(listRefAttach[c].RefDate > DateTime.Now.AddYears(-1)) {//within the last year
+								if(listRefAttach[c].RefDate.Date>=dateStart.Date && listRefAttach[c].RefDate.Date<=dateEnd.Date) {//within the period
 									countToRefPeriod++;
 								}
 							}
@@ -5782,14 +5830,14 @@ namespace OpenPmsDentalBusiness{
 							List<EhrMeasureEvent> listCcds=EhrMeasureEvents.GetByType(listMeasureEvents,EhrMeasureEventType.SummaryOfCareProvidedToDrElectronic);
 							int countCcds=0;//during reporting period.
 							for(int r=0;r<listCcds.Count;r++) {
-								if(listCcds[r].DateTEvent > DateTime.Now.AddYears(-1) && listCcds[r].FKey!=0) {//Quick filter for measure events that do not meet the criterion.
+								if(listCcds[r].DateTEvent.Date>=dateStart.Date && listCcds[r].DateTEvent.Date<=dateEnd.Date && listCcds[r].FKey!=0) {//Quick filter for measure events that do not meet the criterion.
 									//Loop through all ref attaches and only count the ones that meet all measure requirements.
 									for(int c=0;c<listRefAttach.Count;c++) {
 										if(listRefAttach[c].RefType==ReferralType.RefTo
 											&& listRefAttach[c].RefAttachNum==listCcds[r].FKey
 											&& listRefAttach[c].IsTransitionOfCare 
 											&& listRefAttach[c].ProvNum!=0 
-											&& listRefAttach[c].RefDate > DateTime.Now.AddYears(-1)) 
+											&& listRefAttach[c].RefDate.Date>=dateStart.Date && listRefAttach[c].RefDate.Date<=dateEnd.Date)
 										{
 											countCcds++;
 											break;
@@ -5808,13 +5856,14 @@ namespace OpenPmsDentalBusiness{
 					#endregion
 					#region SecureMessaging
 					case EhrMeasureType.SecureMessaging:
-						List<Procedure> listProcsMsg=Procedures.GetCompletedForDateRange(DateTime.Now.AddYears(-1),DateTime.Now,listPatNums: new List<long> { pat.PatNum });
-						if(listProcsMsg.Count==0) {
+						//EHR-4d: web mail sent in the period's calendar years, as Measure Calc (MedicaidEPModStage2_2018_Obj9); before, of any date.
+						if(listVisitDays.Count==0) {
 							mu.Met=MuMet.NA;
 							mu.Details="No visits within the last year.";
 						}
 						else if(EmailMessages.GetWebMailForPat(pat.PatNum)
-							.Any(x => EmailMessages.IsSecureWebMail(x.SentOrReceived) && EmailMessages.IsSent(x.SentOrReceived)))
+							.Any(x => EmailMessages.IsSecureWebMail(x.SentOrReceived) && EmailMessages.IsSent(x.SentOrReceived)
+								&& x.MsgDateTime.Year>=dateStart.Year && x.MsgDateTime.Year<=dateEnd.Year))
 						{
 							mu.Met=MuMet.True;
 							mu.Details="Web mail message has been sent.";
@@ -6340,6 +6389,14 @@ namespace OpenPmsDentalBusiness{
 							+"AND DATE(DateTimeOrder) BETWEEN "+POut.Date(dateStart)+" AND "+POut.Date(dateEnd)+" "
 						+"LEFT JOIN (SELECT MedicalOrderNum,COUNT(*) AS 'Count' FROM labpanel GROUP BY MedicalOrderNum "
 						+") panels ON panels.MedicalOrderNum=medicalorder.MedicalOrderNum "
+						//EHR-4d (EHR4B-D11): as in the ehrlab branch below, an order whose results are all neither a positive or negative affirmation nor a number
+						//is left out (2_Clinical_Lab_Test_Results, Stage 1, May 2014; Stage2_EPCore_10, November 2014). An order with no result row stays, met by
+						//its panel as before (the 2011 edition).
+						+"LEFT JOIN (SELECT labpanel.MedicalOrderNum,COUNT(*) AS 'Count',"
+							+"SUM(CASE WHEN "+GetWhereLabResultPosNegOrNumeric()+" THEN 1 ELSE 0 END) AS 'CountPosNegNum' "
+							+"FROM labpanel INNER JOIN labresult ON labresult.LabPanelNum=labpanel.LabPanelNum GROUP BY labpanel.MedicalOrderNum "
+						+") results ON results.MedicalOrderNum=medicalorder.MedicalOrderNum "
+						+"WHERE (COALESCE(results.Count,0)=0 OR results.CountPosNegNum>0) "
 						+"UNION ALL "
 						+"SELECT 0 AS IsOldLab,patient.PatNum,LName,FName,STR_TO_DATE(ObservationDateTimeStart,'%Y%m%d') AS DateTimeOrder,COALESCE(ehrlabs.Count,0) AS ResultCount FROM patient "
 						+"INNER JOIN ehrlab ON patient.PatNum=ehrlab.PatNum "
@@ -6393,12 +6450,19 @@ namespace OpenPmsDentalBusiness{
 						+"INNER JOIN procedurecode ON procedurelog.CodeNum = procedurecode.CodeNum "
 						+"AND procedurecode.ProcCode NOT IN ('D9986','D9987') "
 						+"GROUP BY patient.PatNum) A "
-						+"LEFT JOIN (SELECT PatNum,COUNT(*) AS 'Count' FROM ehrmeasureevent "
-						+"WHERE EventType="+POut.Int((int)EhrMeasureEventType.EducationProvided)+" "
-						//EHR-4c (EHR4B-D10): MedicaidEPModStage2_2018_Obj6 (July 2018), Additional Information: within the reporting period when it is a full
-						//calendar year, otherwise within the calendar year in which the period occurs.
-						+"AND "+DbHelper.DtimeToDate("DateTEvent")+" BETWEEN "+POut.Date(new DateTime(dateStart.Year,1,1))+" AND "+POut.Date(new DateTime(dateEnd.Year,12,31))+" "
-						+"GROUP BY PatNum) edCount ON edCount.PatNum=A.PatNum";
+						//EHR-4c (EHR4B-D10), EHR-4d: MedicaidEPModStage2_2018_Obj6 (July 2018), Additional Information: within the reporting period when it is
+						//a full calendar year, otherwise within the calendar year in which the period occurs. Taken per visit: the resources count when they
+						//are dated in the calendar year of one of the patient's visits with the EP in the period. For a period of one calendar year, or inside
+						//one, that is the calendar year; a period that crosses a year boundary does not widen it to both years for every patient.
+						+"LEFT JOIN (SELECT ehrmeasureevent.PatNum,COUNT(DISTINCT ehrmeasureevent.EhrMeasureEventNum) AS 'Count' FROM ehrmeasureevent "
+						+"INNER JOIN procedurelog ON procedurelog.PatNum=ehrmeasureevent.PatNum AND procedurelog.ProcStatus=2 "
+						+"AND procedurelog.ProvNum IN("+POut.String(provs)+") "
+						+"AND procedurelog.ProcDate BETWEEN "+POut.Date(dateStart)+" AND "+POut.Date(dateEnd)+" "
+						+"AND YEAR(procedurelog.ProcDate)=YEAR(ehrmeasureevent.DateTEvent) "
+						+"INNER JOIN procedurecode ON procedurelog.CodeNum = procedurecode.CodeNum "
+						+"AND procedurecode.ProcCode NOT IN ('D9986','D9987') "
+						+"WHERE ehrmeasureevent.EventType="+POut.Int((int)EhrMeasureEventType.EducationProvided)+" "
+						+"GROUP BY ehrmeasureevent.PatNum) edCount ON edCount.PatNum=A.PatNum";
 					tableRaw=Db.GetTable(command);
 					break;
 				#endregion
