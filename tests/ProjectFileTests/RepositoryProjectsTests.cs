@@ -232,12 +232,12 @@ namespace ProjectFileTests {
 					listProblems.Add(relative+": <data name=\""+name+"\"> (the designer's own property: <metadata>, as the designer writes it)");
 				}
 			}
+			Assert.AreEqual(0,listProblems.Count,listProblems.Count+" entries: "+string.Join("; ",listProblems.Take(20)));
 			Assert.IsTrue(listPaths.Count>1000,"The projects of the solution filter embed "+listPaths.Count+" .resx files.");
 			//The two whose resources came out in two forms hold $this.Language as metadata, so the check above reads the files it should.
 			foreach(string relative in new[] { @"OpenPmsDental\Tables Old Grids\ContrTable.resx",@"ODR\ComboBoxMulti.resx" }) {
 				Assert.IsTrue(hashSetLanguageAsMetadata.Contains(relative),relative+" holds no <metadata name=\"$this.Language\">.");
 			}
-			Assert.AreEqual(0,listProblems.Count,listProblems.Count+" entries: "+string.Join("; ",listProblems.Take(20)));
 			//An upstream file that no longer holds such an entry leaves the list.
 			Assert.AreEqual(string.Join("; ",_arrayUpstreamResx.OrderBy(x => x)),string.Join("; ",hashSetUpstreamFound.OrderBy(x => x)),
 				"The upstream .resx files that hold the designer's own properties as data.");
