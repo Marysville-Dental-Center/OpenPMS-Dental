@@ -19,6 +19,9 @@ namespace WindowChecksTests {
 		///<summary>The share (0 to 1) of sampled pixels that differ from the most common colour.</summary>
 		public double ShareNonBackground;
 		public string Error="";
+		///<summary>Set when the picture is blank because of the session, not the window: WPF's RenderTargetBitmap draws nothing while the session is
+		///locked or disconnected (Shot.MarkWpfBlank). AddShot then lists the picture for a person instead of failing the check.</summary>
+		public string BlankReason="";
 
 		public bool IsDrawn {
 			get {
@@ -66,6 +69,39 @@ namespace WindowChecksTests {
 			}
 			catch(Exception ex) {
 				shotInfo.Error=ex.GetType().Name+": "+ex.Message;
+			}
+			return shotInfo;
+		}
+
+		///<summary>Whether WPF's RenderTargetBitmap draws at all in this session: a red square rendered with it, read back. False while the session is
+		///locked or disconnected (WINCHK-3 found that a locked remote desktop session renders nothing, not even the square), so a blank WPF picture is
+		///then not the window's fault. Run on an STA thread (the window's thread); not cached, as the session can be unlocked during a run.</summary>
+		public static bool CanRenderWpf() {
+			try {
+				System.Windows.Media.Imaging.RenderTargetBitmap renderTargetBitmap=new System.Windows.Media.Imaging.RenderTargetBitmap(8,8,96,96,
+					System.Windows.Media.PixelFormats.Pbgra32);
+				System.Windows.Media.DrawingVisual drawingVisual=new System.Windows.Media.DrawingVisual();
+				using(System.Windows.Media.DrawingContext drawingContext=drawingVisual.RenderOpen()) {
+					drawingContext.DrawRectangle(System.Windows.Media.Brushes.Red,null,new System.Windows.Rect(0,0,8,8));
+				}
+				renderTargetBitmap.Render(drawingVisual);
+				byte[] arrayPixels=new byte[8*8*4];
+				renderTargetBitmap.CopyPixels(arrayPixels,8*4,0);
+				//Pixel (4,4), BGRA: red and opaque.
+				int index=(4*8+4)*4;
+				return arrayPixels[index+2]>200 && arrayPixels[index+3]>200;
+			}
+			catch(Exception) {
+				return false;
+			}
+		}
+
+		///<summary>For a picture made with RenderTargetBitmap: when it is blank and WPF renders nothing in this session (CanRenderWpf), says so in its
+		///BlankReason. Run on the thread that rendered it.</summary>
+		public static ShotInfo MarkWpfBlank(ShotInfo shotInfo) {
+			if(shotInfo!=null && shotInfo.Error=="" && !shotInfo.IsDrawn && !CanRenderWpf()) {
+				shotInfo.BlankReason="WPF renders nothing in this session ("+Native.GetSessionState()+"): a red test square rendered with RenderTargetBitmap is "
+					+"blank too, so this picture says nothing about the window; a person looks at it on screen";
 			}
 			return shotInfo;
 		}

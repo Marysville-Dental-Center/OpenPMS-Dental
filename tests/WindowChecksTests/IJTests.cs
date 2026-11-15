@@ -17,14 +17,21 @@ namespace WindowChecksTests {
 		public void I1toI11_ToothChart() {
 			WinChkFixture.Begin("I");
 			List<CheckResult> listResults=new List<CheckResult>();
-			//I1 to I7 in one session (I5's dashboard copy and I6's exam stay until I10; I6's 2D setting until I7).
-			using(InProcHost inProcHost=InProcHost.Start("chart")) {
-				CheckResult checkResultPrep=inProcHost.Run("IPREP","I prep: D2391 on 30 O");
+			//I1 to I7 in one session (I5's dashboard copy and I6's exam stay until I10; I6's 2D setting until I7). A check that leaves the session stuck
+			//(a window that does not close) gets the rest of them a new session, so one hang costs one check, not the group; the rows a check made reach
+			//the later sessions as keys (InProcHost), and the run's time budget (WinChkFixture) stops the group before the runner's 20-minute kill.
+			InProcHost inProcHostI=InProcHost.Start("chart");
+			try {
+				CheckResult checkResultPrep=inProcHostI.Run("IPREP","I prep: D2391 on 30 O");
 				foreach(string[] arrayCheck in new[] { new[] { "I1","Refill, slider, Show Big" },new[] { "I2","Save to Images" },
 					new[] { "I3","Treatment Plan print preview, classic and sheet" },new[] { "I4","Referral letter" },new[] { "I5","Dashboard widget, open and closed" },
 					new[] { "I6","Graphical perio, and the 2D message" },new[] { "I7","Graphics: save DirectX" } })
 				{
-					CheckResult checkResult=inProcHost.Run(arrayCheck[0],arrayCheck[1],timeoutSeconds:360);
+					if(inProcHostI.NeedsNewSession) {
+						inProcHostI.Dispose();
+						inProcHostI=InProcHost.Start("chart");
+					}
+					CheckResult checkResult=inProcHostI.Run(arrayCheck[0],arrayCheck[1],timeoutSeconds:360);
 					if(arrayCheck[0]=="I1") {
 						ATests.Merge(checkResult,checkResultPrep);
 					}
@@ -32,33 +39,42 @@ namespace WindowChecksTests {
 					listResults.Add(checkResult);
 				}
 			}
+			finally {
+				inProcHostI.Dispose();
+			}
 			WinChkFixture.Record("I9","WPF developer switch, the other callers",CheckStatus.Skipped,"Optional, not run (the checklist marks it optional).");
 			//I8: the WPF chart, out of process (its memory) and in process (Show Big and the resize).
 			CheckResult checkResultI8=new CheckResult("I8","The WPF chart at 100%");
-			using(ProgramProcess programProcessWpf=ProgramProcess.Start(ATests.DebugExe,ProgramProcess.ProgramArgs("chart"),
-				new System.Collections.Generic.Dictionary<string,string> { { "OPMS_TOOTHCHART_WPF","1" } }))
-			{
-				IntPtr hwnd=programProcessWpf.WaitForWindow((h,className,title) => className!="#32770" && title.Contains("Gatetest"),TimeSpan.FromSeconds(180));
-				if(checkResultI8.Expect(hwnd!=IntPtr.Zero,"The program starts with OPMS_TOOTHCHART_WPF=1 (out of process)")) {
-					System.Threading.Thread.Sleep(4000);
-					checkResultI8.AddShot(Shot.Window(hwnd,"I8-wpf-chart.png"),"The Chart with the WPF chart");
-					programProcessWpf.Process.Refresh();
-					checkResultI8.Note("Memory with the Chart open: working set "+programProcessWpf.Process.WorkingSet64/1048576+" MB, private "
-						+programProcessWpf.Process.PrivateMemorySize64/1048576+" MB");
-					Exits.CloseProgram(programProcessWpf,hwnd,"I8",checkResultI8);
+			if(WinChkFixture.IsBudgetSpent) {
+				checkResultI8.Fail("Not run: "+WinChkFixture.BudgetSpentText);
+			}
+			else {
+				using(ProgramProcess programProcessWpf=ProgramProcess.Start(ATests.DebugExe,ProgramProcess.ProgramArgs("chart"),
+					new System.Collections.Generic.Dictionary<string,string> { { "OPMS_TOOTHCHART_WPF","1" } }))
+				{
+					IntPtr hwnd=programProcessWpf.WaitForWindow((h,className,title) => className!="#32770" && title.Contains("Gatetest"),
+						TimeSpan.FromSeconds(WinChkFixture.CapTimeout(180)));
+					if(checkResultI8.Expect(hwnd!=IntPtr.Zero,"The program starts with OPMS_TOOTHCHART_WPF=1 (out of process)")) {
+						System.Threading.Thread.Sleep(4000);
+						checkResultI8.AddShot(Shot.Window(hwnd,"I8-wpf-chart.png"),"The Chart with the WPF chart");
+						programProcessWpf.Process.Refresh();
+						checkResultI8.Note("Memory with the Chart open: working set "+programProcessWpf.Process.WorkingSet64/1048576+" MB, private "
+							+programProcessWpf.Process.PrivateMemorySize64/1048576+" MB");
+						Exits.CloseProgram(programProcessWpf,hwnd,"I8",checkResultI8);
+					}
 				}
+				Environment.SetEnvironmentVariable("OPMS_TOOTHCHART_WPF","1");
+				try {
+					using InProcHost inProcHost=InProcHost.Start("chart");
+					ATests.Merge(checkResultI8,inProcHost.Run("I8BIG","The WPF chart: Show Big and resize"));
+				}
+				finally {
+					Environment.SetEnvironmentVariable("OPMS_TOOTHCHART_WPF",null);
+				}
+				checkResultI8.ForPerson("the memory after Show Big and after closing it (in process the memory is the test host's)");
 			}
-			Environment.SetEnvironmentVariable("OPMS_TOOTHCHART_WPF","1");
-			try {
-				using InProcHost inProcHost=InProcHost.Start("chart");
-				ATests.Merge(checkResultI8,inProcHost.Run("I8BIG","The WPF chart: Show Big and resize"));
-			}
-			finally {
-				Environment.SetEnvironmentVariable("OPMS_TOOTHCHART_WPF",null);
-			}
-			checkResultI8.ForPerson("the memory after Show Big and after closing it (in process the memory is the test host's)");
 			Results.Write(checkResultI8);
-			//I10: the program started again (a new session): the sheet editor's preview, undoing I5 and I6.
+			//I10: the program started again (a new session): the sheet editor's preview, undoing I5 and I6 (only the rows they made: their keys).
 			using(InProcHost inProcHost=InProcHost.Start("chart")) {
 				CheckResult checkResultI10=inProcHost.Run("I10","Sheet editor preview",timeoutSeconds:300);
 				Results.Write(checkResultI10);
@@ -66,28 +82,59 @@ namespace WindowChecksTests {
 			}
 			//I11: start-up with no DirectX format saved.
 			CheckResult checkResultI11=new CheckResult("I11","Start-up with no DirectX format saved");
-			//The program's own computer name (ODEnvironment.MachineName: the client's name in a remote session), whose computerpref row it reads.
-			string computerName=CodeBase.ODEnvironment.MachineName;
-			string formatBefore=ScratchDb.Scalar("SELECT DirectXFormat FROM computerpref WHERE ComputerName='"+computerName+"'");
-			ScratchDb.Exec("UPDATE computerpref SET DirectXFormat='' WHERE ComputerName='"+computerName+"'");
-			Stopwatch stopwatch=Stopwatch.StartNew();
-			IntPtr hwndI11=ATests.StartProgram(ATests.DebugExe,"chart",checkResultI11,out ProgramProcess programProcessI11,null);
-			using(programProcessI11) {
-				if(hwndI11!=IntPtr.Zero) {
-					System.Threading.Thread.Sleep(5000);
-					checkResultI11.Note("Start to the main window with the Chart: "+stopwatch.Elapsed.TotalSeconds.ToString("0.0")+" s");
-					checkResultI11.AddShot(Shot.Window(hwndI11,"I11.png"),"The Chart after the start-up search");
-					Exits.CloseProgram(programProcessI11,hwndI11,"I11",checkResultI11);
+			//The program's own computer name (ODEnvironment.MachineName: the client's name in a remote session), whose computerpref row it reads;
+			//escaped as in PZTests.
+			string computerName=CodeBase.ODEnvironment.MachineName.Replace("'","''");
+			if(InProcHost.GetKey("I.Simple2D")==1) {
+				//IPREP drew Simple 2D for the group (DirectX had no device): DirectX is put back for I11's start-up search, as I7 would have done.
+				ScratchDb.Exec("UPDATE computerpref SET GraphicsSimple=0 WHERE ComputerName='"+computerName+"'");
+				checkResultI11.Note("GraphicsSimple set back to 0 (DirectX) in the copy before the start: group I drew Simple 2D, as DirectX had no device");
+			}
+			if(WinChkFixture.IsBudgetSpent) {
+				checkResultI11.Fail("Not run: "+WinChkFixture.BudgetSpentText);
+			}
+			else {
+				string formatBefore=ScratchDb.Scalar("SELECT DirectXFormat FROM computerpref WHERE ComputerName='"+computerName+"'");
+				ScratchDb.Exec("UPDATE computerpref SET DirectXFormat='' WHERE ComputerName='"+computerName+"'");
+				Stopwatch stopwatch=Stopwatch.StartNew();
+				IntPtr hwndI11=ATests.StartProgram(ATests.DebugExe,"chart",checkResultI11,out ProgramProcess programProcessI11,null);
+				using(programProcessI11) {
+					if(hwndI11!=IntPtr.Zero) {
+						System.Threading.Thread.Sleep(5000);
+						checkResultI11.Note("Start to the main window with the Chart: "+stopwatch.Elapsed.TotalSeconds.ToString("0.0")+" s");
+						checkResultI11.AddShot(Shot.Window(hwndI11,"I11.png"),"The Chart after the start-up search");
+						Exits.CloseProgram(programProcessI11,hwndI11,"I11",checkResultI11);
+					}
+				}
+				string formatAfter=ScratchDb.Scalar("SELECT DirectXFormat FROM computerpref WHERE ComputerName='"+computerName+"'");
+				checkResultI11.Expect(formatAfter!="","The start-up search saved a DirectXFormat ("+formatAfter+")");
+				if(formatAfter=="invalid" && InProcHost.GetKey("I.Simple2D")==1) {
+					//The search found no format that works: DirectX has no device in this session (the screen is locked, IPREP found), so the chart falls back.
+					checkResultI11.ForPerson("the start-up search finding a working DirectX format: here it saved 'invalid' (no DirectX device in this session, "
+						+"the screen is locked); at an unlocked screen it saves a format");
+				}
+				else if(formatAfter=="invalid") {
+					//IPREP found that DirectX draws (or failed for the program's own reason): no working format is the program's failure.
+					checkResultI11.Fail("The start-up search saved 'invalid' (no working DirectX format) in a session where IPREP did not find DirectX without a "
+						+"device ("+Native.GetSessionState()+")");
+				}
+				checkResultI11.Note("Before: "+formatBefore+(formatAfter==formatBefore ? " (the same)" : "; restored"));
+				if(formatAfter!=formatBefore) {
+					ScratchDb.Exec("UPDATE computerpref SET DirectXFormat='"+formatBefore.Replace("'","''")+"' WHERE ComputerName='"+computerName+"'");
 				}
 			}
-			string formatAfter=ScratchDb.Scalar("SELECT DirectXFormat FROM computerpref WHERE ComputerName='"+computerName+"'");
-			checkResultI11.Expect(formatAfter!="","The start-up search saved a DirectXFormat ("+formatAfter+")");
-			checkResultI11.Note("Before: "+formatBefore+(formatAfter==formatBefore ? " (the same)" : "; restored"));
-			if(formatAfter!=formatBefore) {
-				ScratchDb.Exec("UPDATE computerpref SET DirectXFormat='"+formatBefore.Replace("'","''")+"' WHERE ComputerName='"+computerName+"'");
-			}
-			checkResultI11.ForPerson("that the chart starts in DirectX on screen (I11.png; a DirectX surface prints blank while the screen is locked)");
 			using(InProcHost inProcHost=InProcHost.Start("chart")) {
+				//B5's on-screen test in this session: when the DirectX chart's own window prints drawn, the screen shows it, and so does I11.png.
+				CheckResult checkResultScreen=inProcHost.Run("ISCREEN","The DirectX chart printed from its window (B5's on-screen test)");
+				if(checkResultScreen.DictKeys.TryGetValue("ISCREEN.IsDrawn",out long isDrawn) && isDrawn==1) {
+					checkResultI11.Verified("The DirectX chart's own window prints drawn in this session (B5's on-screen test, I11-screen.png): the screen is not "
+						+"locked, so I11.png shows the chart as the screen does");
+				}
+				else {
+					checkResultI11.ForPerson("that the chart starts in DirectX on screen (I11.png; the chart's own window printed blank in this session, I11-screen.png, "
+						+"as a DirectX surface does while the screen is locked)");
+				}
+				ATests.Merge(checkResultI11,checkResultScreen);
 				ATests.Merge(checkResultI11,inProcHost.Run("IUNDO","Undo of the prep"));
 			}
 			Results.Write(checkResultI11);

@@ -149,11 +149,16 @@ namespace WindowChecksTests.InProc {
 		}
 
 		///<summary>The program's own aborts of its worker threads (ODThread.QuitSync aborts a thread that does not end in time): noted, not failed; a
-		///person sees nothing of them.</summary>
+		///person sees nothing of them. Only an abort that ODThread reports (source "ODThread ..."), or one of an ODThread's own thread (its stack runs
+		///in ODThread.Run) that reaches AppDomain.UnhandledException, is one of these; any other abort (Application.ThreadException, the Dispatcher,
+		///another thread) is an unhandled exception like any other.</summary>
 		private readonly List<string> _listAborts=new List<string>();
 
 		public void AddException(string source,Exception ex) {
-			if(ex is ThreadAbortException) {
+			//An ODThread's worker aborted by ODThread.QuitSync can also reach AppDomain.UnhandledException; its stack shows it is ODThread's own thread.
+			bool isODThreadAbort=ex is ThreadAbortException && (source.StartsWith("ODThread ")
+				|| (source=="AppDomain.UnhandledException" && (ex.StackTrace??"").Contains("CodeBase.ODThread.Run(")));
+			if(isODThreadAbort) {
 				lock(_lock) {
 					_listAborts.Add(source+": "+ex.GetType().FullName+" "+FirstFrames(ex));
 				}
@@ -180,6 +185,31 @@ namespace WindowChecksTests.InProc {
 		public List<string> GetExceptionsFrom(int index) {
 			lock(_lock) {
 				return _listExceptions.Skip(index).ToList();
+			}
+		}
+
+		///<summary>The row numbers earlier checks made (CheckResult.DictKeys), from the test's side, before each check: this session's copy of them.
+		///</summary>
+		public void SetKeys(Dictionary<string,long> dictKeys) {
+			InProcChecks.SetKeys(dictKeys);
+		}
+
+		///<summary>After a check that did not end: "" when the window's thread still answers and no window but the main window is open; otherwise
+		///what is stuck. The rest of the session's checks would hang on it, so the caller starts a new session.</summary>
+		public string GetStuckState() {
+			if(UiCur==null) {
+				return "no session";
+			}
+			try {
+				UiCur.Invoke(() => true,15000);
+				List<IntPtr> listWindows=UiCur.GetWindows();
+				if(listWindows.Count>0) {
+					return "windows still open: "+string.Join("; ",listWindows.Select(x => UiCur.DescribeWindow(x)));
+				}
+				return "";
+			}
+			catch(Exception ex) {
+				return "the window's thread does not answer ("+ex.Message+")";
 			}
 		}
 

@@ -28,6 +28,20 @@ namespace WindowChecksTests {
 		///<summary>0.3 on the copy, once per run, right after the copy is made (WinChkFixture.Begin): the base Z compares with.</summary>
 		public static void RunPrechecks() {
 			CheckResult checkResult=new CheckResult("P0","0.3 prechecks on the scratch copy");
+			//The run's own line in the report (Report.GetValue reads these three labels).
+			string groups=Environment.GetEnvironmentVariable(WinChkEnv.VARIABLE_GROUPS);
+			string session=Native.GetSessionState();
+			checkResult.Note("Groups: "+(string.IsNullOrWhiteSpace(groups) ? "all" : groups.Trim()));
+			checkResult.Note("Database: "+ScratchDb.Name);
+			//Whether WPF draws in this session (it draws nothing while the session is locked): WPF pictures that come out blank then go to a person.
+			bool canRenderWpf=false;
+			System.Threading.Thread threadProbe=new System.Threading.Thread(() => canRenderWpf=Shot.CanRenderWpf());
+			threadProbe.SetApartmentState(System.Threading.ApartmentState.STA);
+			threadProbe.Start();
+			threadProbe.Join(30000);
+			session+=canRenderWpf ? ", WPF renders" : ", WPF renders nothing";
+			checkResult.Note("Session: "+session);
+			Results.Log("P0: groups "+(string.IsNullOrWhiteSpace(groups) ? "all" : groups.Trim())+", "+ScratchDb.Name+", session "+session);
 			List<string> listLines=new List<string>();
 			string patient=ScratchDb.Rows("SELECT PatNum,LName,FName,PriProv FROM patient WHERE PatNum=1");
 			listLines.Add("1. "+patient);
@@ -57,7 +71,8 @@ namespace WindowChecksTests {
 			File.WriteAllLines(Path.Combine(WinChkEnv.OutFolder,"00-prechecks.txt"),listLines);
 			checkResult.Note(string.Join(" / ",listLines));
 			checkResult.Note("0.4's test users and groups are made by group J in the copy (JUSERS, before J4) and removed at its end; 0.4 #6 (DOC's first "
-				+"name) is not needed: the copy's provider names are not blank");
+				+"name) is not done: the copy's provider names are not blank, so J7 and J12 use patient #1's provider's own names instead of the checklist's "
+				+"'Dentist, Gate' (an open question for the owner; the checklist is left as it is)");
 			Results.Write(checkResult);
 		}
 
@@ -111,7 +126,15 @@ namespace WindowChecksTests {
 			checkResult.Expect(!File.Exists(Path.Combine(WinChkEnv.RepoRoot,"CentralManager","bin","Debug","CentralManagerConfig.xml")),"Z2: the K1 copy is gone");
 			checkResult.Expect(!File.Exists(Path.Combine(WinChkEnv.RepoRoot,"OpenPmsDentalHL7","bin","Debug","FreeDentalConfig.xml")),"Z2: the K8 copy is gone");
 			checkResult.Expect(!Directory.Exists(Path.Combine(Path.GetTempPath(),"stage1-rdl")),"Z2: %TEMP%\\stage1-rdl gone");
-			checkResult.Expect(!File.Exists(Path.Combine(WinChkEnv.RepoRoot,"RdlDesign","bin","Debug","designerstate.xml")),"Z2: RdlDesigner's designerstate.xml gone");
+			string pathDesignerState=Path.Combine(WinChkEnv.RepoRoot,"RdlDesign","bin","Debug","designerstate.xml");
+			if(FGHTests.HasRunH && FGHTests.DesignerStateBefore!=null) {
+				//H found one: it must be there again, byte for byte.
+				checkResult.Expect(File.Exists(pathDesignerState) && File.ReadAllBytes(pathDesignerState).SequenceEqual(FGHTests.DesignerStateBefore),
+					"Z2: RdlDesigner's designerstate.xml is again the one H found, byte for byte");
+			}
+			else {
+				checkResult.Expect(!File.Exists(pathDesignerState),"Z2: RdlDesigner's designerstate.xml gone"+(FGHTests.HasRunH ? " (H wrote it for its start)" : ""));
+			}
 			string pathDebugLogger=Path.Combine(WinChkEnv.DebugFolder,"Logger");
 			checkResult.Note("<dbg>\\Logger: "+(Directory.Exists(pathDebugLogger) ? string.Join(", ",Directory.GetDirectories(pathDebugLogger).Select(Path.GetFileName)) : "none")
 				+" (the program's own start-up logs; left as the program writes them, as stage 0 found)");

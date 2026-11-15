@@ -342,6 +342,41 @@ namespace WindowChecksTests {
 			return false;
 		}
 
+		[DllImport("wtsapi32.dll",SetLastError=true)]
+		private static extern bool WTSQuerySessionInformation(IntPtr hServer,int sessionId,int wtsInfoClass,out IntPtr ppBuffer,out int pBytesReturned);
+
+		[DllImport("wtsapi32.dll")]
+		private static extern void WTSFreeMemory(IntPtr pMemory);
+
+		private const int WTS_CURRENT_SESSION=-1;
+		private const int WTSSessionInfoEx=25;
+
+		///<summary>This session as the screen shows it: "console" or "remote desktop", and "locked", "unlocked" or "lock state unknown" (the
+		///session's WTSINFOEX flags). Read only; the checks work in every state, but a DirectX surface prints blank while the screen is locked.</summary>
+		public static string GetSessionState() {
+			string kind=System.Windows.Forms.SystemInformation.TerminalServerSession ? "remote desktop" : "console";
+			string lockState="lock state unknown";
+			try {
+				if(WTSQuerySessionInformation(IntPtr.Zero,WTS_CURRENT_SESSION,WTSSessionInfoEx,out IntPtr buffer,out int bytes)) {
+					try {
+						//WTSINFOEX: DWORD Level, then the WTSINFOEX_LEVEL1 union (8-byte aligned: it holds LARGE_INTEGERs): SessionId, SessionState,
+						//SessionFlags at offset 16. WTS_SESSIONSTATE_LOCK 0, WTS_SESSIONSTATE_UNLOCK 1.
+						if(bytes>=20 && Marshal.ReadInt32(buffer,0)==1) {
+							int flags=Marshal.ReadInt32(buffer,16);
+							lockState=flags==0 ? "locked" : (flags==1 ? "unlocked" : "lock state unknown");
+						}
+					}
+					finally {
+						WTSFreeMemory(buffer);
+					}
+				}
+			}
+			catch(Exception) {
+				//Not available: the state stays unknown.
+			}
+			return kind+", "+lockState;
+		}
+
 		///<summary>Closes a standard dialog the way its Cancel (or Esc) does, or with its only button.</summary>
 		public static void CancelDialog(IntPtr hwnd) {
 			List<string> listButtons=GetDialogButtons(hwnd);

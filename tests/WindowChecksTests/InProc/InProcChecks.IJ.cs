@@ -19,6 +19,7 @@ namespace WindowChecksTests.InProc {
 			GoToModule(ui,EnumModuleType.Chart);
 			Control controlChart=ModuleControl("controlChart");
 			int countBefore=Count("SELECT COUNT(*) FROM procedurelog WHERE PatNum=1 AND ToothNum='30' AND ProcStatus=1");
+			long procNumBefore=MaxKey("procedurelog","ProcNum");
 			string surf=ui.Invoke(() => {
 				object relay=Ui.GetField(controlChart,"_toothChartRelay");
 				Ui.Call(relay,"SetSelected","30",true);
@@ -41,6 +42,143 @@ namespace WindowChecksTests.InProc {
 			posted.Wait();
 			checkResult.Expect(Count("SELECT COUNT(*) FROM procedurelog WHERE PatNum=1 AND ToothNum='30' AND ProcStatus=1")==countBefore+1,
 				"The D2391 on 30 O is added (treatment planned) without the Procedure Edit window");
+			//The row IUNDO deletes: the one procedure this prep added (none when it added none, or more than one).
+			long procNum=AddedKey("procedurelog","ProcNum",procNumBefore,"PatNum=1 AND ToothNum='30' AND ProcStatus=1");
+			SetKey(checkResult,"IPREP.ProcNum",procNum);
+			checkResult.Note("The prep's procedure: ProcNum "+(procNum==0 ? "none found above "+procNumBefore : procNum.ToString())+" (IUNDO deletes only this one)");
+			//Can DirectX draw in this session? While the screen is locked it has no device: every host's chart picture throws. Then, and only then, the
+			//copy draws the Simple 2D chart for the group (File > Graphics, as I6 does), so the hosts' code still runs; IJTests puts DirectX back before
+			//I11. Any other reason (another engine, a fallback logged, GetBitmap throwing in a session that can draw) is the program's: it fails here and
+			//DirectX stays on, so the group's DirectX checks fail too.
+			Control toothChartWrapper=(Control)Ui.GetField(controlChart,"toothChartWrapper");
+			string whyNot=WhyNotDirectX(ui,toothChartWrapper);
+			if(whyNot=="") {
+				SetKey(checkResult,"I.Simple2D",0);
+				checkResult.Note("DirectX draws in this session (the chart's off-screen render works)");
+				return;
+			}
+			if(!IsNoDevice(whyNot)) {
+				SetKey(checkResult,"I.Simple2D",0);
+				checkResult.Fail("The chart does not draw in DirectX: "+whyNot+" (DirectX stays on for group I)");
+				return;
+			}
+			string message=SetGraphics(ui,checkResult,isSimple2D:true);
+			GoToModule(ui,EnumModuleType.Account);
+			GoToModule(ui,EnumModuleType.Chart);
+			string engine=ui.Invoke(() => toothChartWrapper.GetType().GetProperty("Engine").GetValue(toothChartWrapper).ToString());
+			if(checkResult.Expect(message=="" && engine=="Simple2D","DirectX cannot draw here ("+whyNot+"): File > Graphics > Simple 2D > Save; the Chart now draws "
+				+engine+" for group I (DirectX is put back before I11)",message))
+			{
+				SetKey(checkResult,"I.Simple2D",1);
+			}
+		}
+
+		///<summary>B5's on-screen test: the DirectX chart's own window printed (PrintWindow) is drawn only while the screen shows it (not locked). A
+		///window a fallback engine drew does not count, so the chart must also really draw in DirectX (WhyNotDirectX). Saves the picture (listed, not
+		///failed when blank) and returns "" when the window shows the DirectX picture, otherwise why not.</summary>
+		private static string ShotChartWindow(Ui ui,CheckResult checkResult,Control toothChartWrapper,string fileName) {
+			IntPtr hwndChart=ui.Invoke(() => toothChartWrapper.Handle);
+			ShotInfo shotInfo=ui.Shot(hwndChart,fileName);
+			if(shotInfo.Error=="") {
+				checkResult.ListShots.Add(shotInfo.FileName);
+			}
+			string whyNot=shotInfo.IsDrawn ? WhyNotDirectX(ui,toothChartWrapper) : "its window printed blank, as a DirectX surface does while the screen is locked";
+			checkResult.Note("The chart's own window printed (PrintWindow, B5's on-screen test): "+shotInfo+(whyNot=="" ? ", drawn by DirectX" : ", not counted: "+whyNot));
+			return whyNot;
+		}
+
+		///<summary>The start of WhyNotDirectX's reason when the session cannot draw at all (IsNoDevice): only then do the DirectX checks go to a person.
+		///</summary>
+		public const string TEXT_NO_DEVICE="DirectX has no device in this session";
+
+		///<summary>True when WhyNotDirectX's reason is the session's (locked, nothing renders), not the program's.</summary>
+		public static bool IsNoDevice(string whyNotDirectX) {
+			return whyNotDirectX.StartsWith(TEXT_NO_DEVICE);
+		}
+
+		///<summary>"" while the chart draws in DirectX: its engine is DirectX, no fallback is logged in this session, and its off-screen render
+		///(GetBitmap) works; otherwise why not. GetBitmap throws when DirectX has no device, as while the session is locked: that reason (TEXT_NO_DEVICE)
+		///is given only when the session really cannot draw (GetSessionState says locked, or WPF renders nothing either, Shot.CanRenderWpf). In a
+		///session that can draw, GetBitmap throwing is the program's failure and says so. Run on any thread (it calls the window's thread).</summary>
+		public static string WhyNotDirectX(Ui ui,Control toothChartWrapper) {
+			return ui.Invoke(() => {
+				string engine=toothChartWrapper.GetType().GetProperty("Engine").GetValue(toothChartWrapper).ToString();
+				if(engine!="DirectX") {
+					return "the chart draws with "+engine+", not DirectX";
+				}
+				List<string> listFallbacks=(List<string>)Ui.CallStatic(toothChartWrapper.GetType(),"GetFallbackMessages");
+				if(listFallbacks.Count>0) {
+					return "a tooth chart fallback was logged in this session ("+listFallbacks[listFallbacks.Count-1]+")";
+				}
+				try {
+					using Bitmap bitmap=(Bitmap)Ui.Call(toothChartWrapper,"GetBitmap");
+				}
+				catch(Exception ex) {
+					Exception exBase=ex.GetBaseException();
+					string session=Native.GetSessionState();
+					//On the window's (STA) thread, as Shot.CanRenderWpf needs.
+					bool canRenderWpf=WindowChecksTests.Shot.CanRenderWpf();
+					if(session.Contains(", locked") || !canRenderWpf) {
+						return TEXT_NO_DEVICE+" ("+session+(canRenderWpf ? "" : ", WPF renders nothing")+"): its off-screen render (GetBitmap) threw "
+							+exBase.GetType().Name;
+					}
+					return "the chart's off-screen render (GetBitmap) threw "+exBase.GetType().Name+": "+exBase.Message+" in a session that can draw ("+session
+						+", WPF renders)";
+				}
+				return "";
+			});
+		}
+
+		///<summary>True when IPREP found that DirectX cannot draw in this session (the screen is locked) and switched the copy to the Simple 2D chart, so
+		///the hosts' code still runs: the DirectX picture itself is then an item for a person.</summary>
+		public static bool IsSimple2DRun {
+			get {
+				return GetKey("I.Simple2D")==1;
+			}
+		}
+
+		public const string TEXT_SIMPLE2D="the DirectX chart itself: this run drew the Simple 2D chart, because DirectX has no device in this session (the screen "
+			+"is locked); an on-screen pass at an unlocked screen";
+
+		///<summary>File > Graphics > DirectX 9 or Simple 2D (pie shapes) > Save. Returns "" when the window closed, or the message Save showed (answered).
+		///</summary>
+		private static string SetGraphics(Ui ui,CheckResult checkResult,bool isSimple2D) {
+			Ui.Opened openedGraphics=OpenMenu(ui,"File","Graphics");
+			if(!InspectWindow(ui,checkResult,openedGraphics,"FormGraphics",null,close:false)) {
+				return "File > Graphics did not open";
+			}
+			IntPtr hwndGraphics=openedGraphics.Hwnd;
+			ui.Invoke(() => ((RadioButton)FindControl(ui,hwndGraphics,isSimple2D ? "radioSimpleChart" : "radioDirectXChart",true)).Checked=true);
+			List<IntPtr> listBefore=ui.GetWindows();
+			ui.Post("Save",() => ((System.Windows.Forms.Button)FindControl(ui,hwndGraphics,"butSave",true)).PerformClick());
+			string message="";
+			System.Diagnostics.Stopwatch stopwatch=System.Diagnostics.Stopwatch.StartNew();
+			while(Native.IsWindow(hwndGraphics) && Native.IsWindowVisible(hwndGraphics) && stopwatch.Elapsed.TotalSeconds<30) {
+				IntPtr hwndMessage=ui.GetWindows().FirstOrDefault(x => !listBefore.Contains(x) && Native.IsDialogClass(x));
+				if(hwndMessage!=IntPtr.Zero) {
+					message=Native.GetDialogMessage(hwndMessage).Trim();
+					ui.Close(hwndMessage);
+					break;
+				}
+				System.Threading.Thread.Sleep(200);
+			}
+			if(message!="" && Native.IsWindow(hwndGraphics)) {
+				ui.Close(hwndGraphics);
+			}
+			ui.WaitGone(hwndGraphics,15000);
+			openedGraphics.Posted.Wait();
+			ui.CloseStrayWindows(checkResult);
+			return message;
+		}
+
+		///<summary>B5's on-screen test on its own, for I11 (whose program runs out of process): the Chart's DirectX window printed in this session.</summary>
+		public static void CheckISCREEN(Ui ui,CheckResult checkResult) {
+			GoToModule(ui,EnumModuleType.Chart);
+			Control toothChartWrapper=(Control)Ui.GetField(ModuleControl("controlChart"),"toothChartWrapper");
+			System.Threading.Thread.Sleep(2000);
+			string whyNot=ShotChartWindow(ui,checkResult,toothChartWrapper,"I11-screen.png");
+			SetKey(checkResult,"ISCREEN.IsDrawn",whyNot=="" ? 1 : 0);
+			checkResult.Note("ISCREEN: "+(whyNot=="" ? "the DirectX chart's window is drawn" : whyNot));
 		}
 
 		public static void CheckI1(Ui ui,CheckResult checkResult) {
@@ -52,54 +190,138 @@ namespace WindowChecksTests.InProc {
 				using Bitmap bitmap=(Bitmap)Ui.Call(toothChartWrapper,"GetBitmap");
 				return WindowChecksTests.Shot.Bitmap(bitmap,"I1-chart.png");
 			});
-			checkResult.AddShot(shotInfo,"The chart after leaving the Chart and coming back (its DirectX picture)");
+			checkResult.AddShot(shotInfo,"The chart after leaving the Chart and coming back ("+(IsSimple2DRun ? "its Simple 2D picture" : "its DirectX picture")+")");
 			checkResult.ForPerson("the filling on 30 in I1-chart.png, and the date slider below the chart (moving it is mouse work)");
+			if(IsSimple2DRun) {
+				checkResult.ForPerson(TEXT_SIMPLE2D);
+			}
 			Ui.Opened opened=ui.Open("Tooth Chart > Show Big",() => Ui.Call(controlChart,"menuItemChartBig_Click",controlChart,EventArgs.Empty));
 			if(InspectWindow(ui,checkResult,opened,"FormToothChartingBig",null,close:false)) {
 				System.Threading.Thread.Sleep(2000);
 				checkResult.AddShot(ui.Shot(opened.Hwnd,"I1-big.png"),"The big chart (PrintWindow)");
-				checkResult.ForPerson("the big chart is the same picture (a DirectX window printed while the screen is locked may be blank)");
+				//B5's on-screen test on the big chart's own DirectX window: drawn means the screen shows it and I1-big.png holds the real picture.
+				Control toothChartWrapperBig=ui.Invoke(() => (Control)Ui.GetField(Control.FromHandle(opened.Hwnd),"toothChartWrapper"));
+				string whyNot=toothChartWrapperBig==null ? "no chart found in the window" : ShotChartWindow(ui,checkResult,toothChartWrapperBig,"I1-big-chart.png");
+				if(whyNot=="") {
+					checkResult.Verified("The big chart's own DirectX window prints drawn (I1-big-chart.png; B5's on-screen test: the screen is not locked)");
+					checkResult.ForPerson("the big chart is the same picture as the Chart's (I1-big.png, I1-chart.png)");
+				}
+				else {
+					checkResult.ForPerson("the big chart is the same picture on screen (I1-big.png; its window does not show the DirectX picture in this session: "
+						+whyNot+")");
+				}
 				checkResult.Expect(ui.Close(opened.Hwnd),"The big chart closes");
 			}
 		}
 
 		public static void CheckI2(Ui ui,CheckResult checkResult) {
+			if(IsSimple2DRun) {
+				checkResult.ForPerson(TEXT_SIMPLE2D);
+			}
 			GoToModule(ui,EnumModuleType.Chart);
 			Control controlChart=ModuleControl("controlChart");
 			int countBefore=Count("SELECT COUNT(*) FROM document WHERE PatNum=1");
-			ui.Post("Tooth Chart > Save to Images",() => Ui.Call(controlChart,"menuItemChartSave_Click",controlChart,EventArgs.Empty)).Wait();
-			ui.CloseStrayWindows(checkResult);
-			int countAfter=Count("SELECT COUNT(*) FROM document WHERE PatNum=1");
-			checkResult.Expect(countAfter==countBefore+1,"Save to Images adds a document (the Tooth Charts category)");
-			long docNum=PIn.Long(DataCore.GetScalar("SELECT MAX(DocNum) FROM document WHERE PatNum=1"));
-			string fileName=DataCore.GetScalar("SELECT FileName FROM document WHERE DocNum="+docNum);
 			string folder=ImageStore.GetPatientFolder(Patients.GetPat(1),ImageStore.GetPreferredAtoZpath());
-			string path=System.IO.Path.Combine(folder,fileName);
-			if(checkResult.Expect(System.IO.File.Exists(path),"Its file is in the patient's folder ("+fileName+")")) {
-				using Bitmap bitmap=new Bitmap(path);
-				checkResult.AddShot(WindowChecksTests.Shot.Bitmap(bitmap,"I2-images.png"),"The saved image");
-			}
-			checkResult.ForPerson("the image shows the chart with the filling (I2-images.png); the second save with the per-provider colours (a user "
-				+"setting) is not scripted in this run");
-			//Undo: the document and its file (and a thumbnail if one was made), by the business layer.
-			ui.Invoke(() => {
-				Document document=Documents.GetByNum(docNum);
-				Documents.Delete(document);
-			});
+			List<long> listDocNums=new List<long>();
 			try {
-				System.IO.File.Delete(path);
-				string thumbnail=System.IO.Path.Combine(folder,"Thumbnails",fileName);
-				if(System.IO.File.Exists(thumbnail)) {
-					System.IO.File.Delete(thumbnail);
+				//1. Save to Images.
+				listDocNums.Add(SaveChartToImages(ui,checkResult,controlChart,folder,"I2-images.png","Save to Images"));
+				//2. File > User Settings > tick "Chart graphics color distinguishes current provider" > Save; Save to Images again; untick > Save.
+				int countProvColourBefore=Count("SELECT COUNT(*) FROM userodpref WHERE UserNum="+Security.CurUser.UserNum+" AND FkeyType="
+					+(int)UserOdFkeyType.ToothChartUsesDiffColorByProv);
+				if(SetUserSettingProvColour(ui,checkResult,true)) {
+					checkResult.Expect(Count("SELECT COUNT(*) FROM userodpref WHERE UserNum="+Security.CurUser.UserNum+" AND FkeyType="
+						+(int)UserOdFkeyType.ToothChartUsesDiffColorByProv)==countProvColourBefore+1,"File > User Settings > tick the per-provider colour > Save: "
+						+"the user preference ToothChartUsesDiffColorByProv is saved");
+					listDocNums.Add(SaveChartToImages(ui,checkResult,controlChart,folder,"I2-images-provcolour.png","Save to Images with the per-provider colours on"));
+					SetUserSettingProvColour(ui,checkResult,false);
+				}
+				checkResult.Expect(Count("SELECT COUNT(*) FROM userodpref WHERE UserNum="+Security.CurUser.UserNum+" AND FkeyType="
+					+(int)UserOdFkeyType.ToothChartUsesDiffColorByProv)==countProvColourBefore,"File > User Settings > untick > Save: the preference row is deleted again ("
+					+countProvColourBefore+" before)");
+				checkResult.ForPerson("both images show the chart with the filling (I2-images.png, I2-images-provcolour.png)");
+			}
+			finally {
+				//Undo: the documents this check added and their files (and a thumbnail if one was made), by the business layer.
+				foreach(long docNum in listDocNums.Where(x => x>0)) {
+					string fileName=DataCore.GetScalar("SELECT FileName FROM document WHERE DocNum="+docNum);
+					ui.Invoke(() => {
+						Document document=Documents.GetByNum(docNum);
+						Documents.Delete(document);
+					});
+					try {
+						if(fileName!="") {
+							System.IO.File.Delete(System.IO.Path.Combine(folder,fileName));
+							string thumbnail=System.IO.Path.Combine(folder,"Thumbnails",fileName);
+							if(System.IO.File.Exists(thumbnail)) {
+								System.IO.File.Delete(thumbnail);
+							}
+						}
+					}
+					catch(Exception ex) {
+						checkResult.Note("File not deleted: "+ex.Message);
+					}
 				}
 			}
-			catch(Exception ex) {
-				checkResult.Note("File not deleted: "+ex.Message);
+			checkResult.Expect(Count("SELECT COUNT(*) FROM document WHERE PatNum=1")==countBefore,"Undo: the images are deleted (business layer, in the scratch copy)");
+		}
+
+		///<summary>Tooth Chart > Save to Images: checks that one document is added and its file is there, saves its picture; returns its DocNum (0 when
+		///not exactly one was added, so the undo deletes nothing else).</summary>
+		private static long SaveChartToImages(Ui ui,CheckResult checkResult,Control controlChart,string folder,string shot,string what) {
+			int countBefore=Count("SELECT COUNT(*) FROM document WHERE PatNum=1");
+			long docNumBefore=MaxKey("document","DocNum");
+			ui.Post("Tooth Chart > Save to Images",() => Ui.Call(controlChart,"menuItemChartSave_Click",controlChart,EventArgs.Empty)).Wait();
+			ui.CloseStrayWindows(checkResult);
+			checkResult.Expect(Count("SELECT COUNT(*) FROM document WHERE PatNum=1")==countBefore+1,what+" adds a document (the Tooth Charts category)");
+			long docNum=AddedKey("document","DocNum",docNumBefore,"PatNum=1");
+			if(!checkResult.Expect(docNum>0,what+": the one document it added is found (DocNum above "+docNumBefore+")")) {
+				return 0;
 			}
-			checkResult.Expect(Count("SELECT COUNT(*) FROM document WHERE PatNum=1")==countBefore,"Undo: the image is deleted (business layer, in the scratch copy)");
+			string fileName=DataCore.GetScalar("SELECT FileName FROM document WHERE DocNum="+docNum);
+			string path=System.IO.Path.Combine(folder,fileName);
+			if(checkResult.Expect(System.IO.File.Exists(path),what+": its file is in the patient's folder ("+fileName+")")) {
+				using Bitmap bitmap=new Bitmap(path);
+				checkResult.AddShot(WindowChecksTests.Shot.Bitmap(bitmap,shot),what+": the saved image");
+			}
+			return docNum;
+		}
+
+		///<summary>File > User Settings > "Chart graphics color distinguishes current provider" ticked or unticked > Save (FrmUserSetting). False when the
+		///window did not open or did not close.</summary>
+		private static bool SetUserSettingProvColour(Ui ui,CheckResult checkResult,bool isOn) {
+			Ui.Opened opened=OpenMenu(ui,"File","User Settings");
+			if(!InspectWindow(ui,checkResult,opened,"FrmUserSetting",null,close:false)) {
+				return false;
+			}
+			System.Windows.FrameworkElement frm=ui.GetFrm(opened.Hwnd);
+			ui.Invoke(() => {
+				object checkBox=Ui.GetField(frm,"checkToothChartUsesDiffColorByProv");
+				checkBox.GetType().GetProperty("Checked").SetValue(checkBox,(bool?)isOn);
+			});
+			ui.Post("User Settings: Save",() => ClickFrm(ui,frm,"butSave_Click"));
+			bool isClosed=checkResult.Expect(ui.WaitGone(opened.Hwnd),"File > User Settings > "+(isOn ? "tick" : "untick")+" 'Chart graphics color distinguishes "
+				+"current provider' > Save closes the window");
+			opened.Posted.Wait();
+			ui.CloseStrayWindows(checkResult);
+			return isClosed;
 		}
 
 		public static void CheckI7(Ui ui,CheckResult checkResult) {
+			if(IsSimple2DRun) {
+				//DirectX has no device here: its Save tests the device format (ToothChartWrapper.TestDirectXFormat), which cannot pass. Read what it says
+				//and leave the copy on Simple 2D for the rest of the group (IJTests puts DirectX back before I11).
+				string message=SetGraphics(ui,checkResult,isSimple2D:false);
+				checkResult.Note("DirectX 9 > Save without a DirectX device: "+(message=="" ? "no message" : "'"+message+"'"));
+				checkResult.ForPerson("File > Graphics > DirectX 9 > Save: no error and the Chart draws in DirectX again, at an unlocked screen (here DirectX has no "
+					+"device: Save said '"+message+"')");
+				string engineNow=ui.Invoke(() => {
+					Control toothChartWrapperNow=(Control)Ui.GetField(ModuleControl("controlChart"),"toothChartWrapper");
+					return toothChartWrapperNow.GetType().GetProperty("Engine").GetValue(toothChartWrapperNow).ToString();
+				});
+				checkResult.Note("The Chart draws "+engineNow);
+				return;
+			}
 			Ui.Opened opened=OpenMenu(ui,"File","Graphics");
 			if(!InspectWindow(ui,checkResult,opened,"FormGraphics",null,close:false)) {
 				return;
@@ -157,9 +379,10 @@ namespace WindowChecksTests.InProc {
 
 		///<summary>Undo of I's prep: the D2391 deleted (status deleted), as progress notes > Delete does, by the business layer.</summary>
 		public static void CheckIUNDO(Ui ui,CheckResult checkResult) {
-			long procNum=PIn.Long(DataCore.GetScalar("SELECT MAX(ProcNum) FROM procedurelog WHERE PatNum=1 AND ToothNum='30' AND ProcStatus=1"));
-			if(procNum==0) {
-				checkResult.Note("No D2391 to delete");
+			//Only the procedure IPREP added (its key), never another treatment-planned procedure on 30 that the copy already had.
+			long procNum=GetKey("IPREP.ProcNum");
+			if(procNum==0 || Count("SELECT COUNT(*) FROM procedurelog WHERE ProcNum="+procNum+" AND ProcStatus=1")==0) {
+				checkResult.Note("No D2391 of IPREP to delete (IPREP's key: "+procNum+")");
 				return;
 			}
 			ui.Invoke(() => Procedures.Delete(procNum));
@@ -349,6 +572,8 @@ namespace WindowChecksTests.InProc {
 				checkResult.Note("Drop-down items of the window's buttons: "+string.Join("; ",listItems));
 				checkResult.Expect(listItems.Any(x => x.EndsWith("menu: Direct Messaging")) && listItems.Any(x => x.EndsWith("menu: Send")),
 					"The Send button's drop-down lists Send and Direct Messaging (read from its menu, not opened)",string.Join("; ",listItems));
+				checkResult.Expect(listItems.Any(x => x.EndsWith("menu: Cancel")),"The Send button's drop-down lists Cancel (the checklist's third item)",
+					string.Join("; ",listItems));
 				checkResult.AddShot(ui.Shot(opened.Hwnd,"J15-send-menu.png"),"The new e-mail (the drop-down itself is not opened headless)");
 				checkResult.Expect(ui.Close(opened.Hwnd),"The e-mail is cancelled (nothing sent or saved)");
 			}

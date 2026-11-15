@@ -1,6 +1,7 @@
 // The outcome of each check, appended to results.tsv in the results folder (one line per check and run), from which the report's table is
 // made. Statuses: PASSED (headless, with what was verified), PARTLY (what was verified, and what only a person can judge), NEEDS-SCREEN (why
-// headless cannot reach it), SKIPPED (elevation, hardware, or the checklist's section 3) and FAILED (with the evidence).
+// headless cannot reach it), SKIPPED (elevation, hardware, or the checklist's section 3) and FAILED (with the evidence). Each line also holds
+// the commit the run was built from, so the report can tell this commit's results from older ones.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
 using System.Collections.Generic;
@@ -27,6 +28,12 @@ namespace WindowChecksTests {
 		public List<string> ListFailures=new List<string>();
 		public List<string> ListShots=new List<string>();
 		public List<string> ListNotes=new List<string>();
+		///<summary>Steps of the checklist the harness does not script (done by the business layer, or not done): a gap of the harness, not an item
+		///for a person to judge. They do not change the status; the report lists them on their own.</summary>
+		public List<string> ListNotScripted=new List<string>();
+		///<summary>Row numbers a check made, for a later check that undoes them, perhaps in another session (another AppDomain): InProcHost carries
+		///them from one session to the next, so an undo deletes only the rows its check added.</summary>
+		public Dictionary<string,long> DictKeys=new Dictionary<string,long>();
 		///<summary>Set for NEEDS-SCREEN and SKIPPED: why.</summary>
 		public string Reason="";
 		public string StatusForced="";
@@ -52,6 +59,10 @@ namespace WindowChecksTests {
 			ListNotes.Add(text);
 		}
 
+		public void NotScripted(string text) {
+			ListNotScripted.Add(text);
+		}
+
 		///<summary>Expect: records a verified fact when true, a failure when false.</summary>
 		public bool Expect(bool condition,string text,string evidence="") {
 			if(condition) {
@@ -72,6 +83,10 @@ namespace WindowChecksTests {
 				return;
 			}
 			ListShots.Add(shotInfo.FileName);
+			if(!shotInfo.IsDrawn && shotInfo.BlankReason!="") {
+				ForPerson(whatItShows+": "+shotInfo+" is blank: "+shotInfo.BlankReason);
+				return;
+			}
 			Expect(shotInfo.IsDrawn,whatItShows+" is drawn ("+shotInfo+")",shotInfo.ToString());
 		}
 
@@ -105,6 +120,9 @@ namespace WindowChecksTests {
 				if(ListForPerson.Count>0) {
 					stringBuilder.Append("For a person: "+string.Join("; ",ListForPerson)+". ");
 				}
+				if(ListNotScripted.Count>0) {
+					stringBuilder.Append("Not scripted: "+string.Join("; ",ListNotScripted)+". ");
+				}
 				if(ListNotes.Count>0) {
 					stringBuilder.Append("Notes: "+string.Join("; ",ListNotes)+".");
 				}
@@ -115,6 +133,22 @@ namespace WindowChecksTests {
 
 	public static class Results {
 		private static readonly object _lock=new object();
+		private static string _commit;
+
+		///<summary>The commit this run was built from: the worktree's HEAD, short, with "+changes" when tracked files differ from it. Read once per run.
+		///</summary>
+		public static string Commit {
+			get {
+				lock(_lock) {
+					if(_commit==null) {
+						string head=Report.RunGit("rev-parse --short HEAD");
+						string changes=Report.RunGit("status --porcelain --untracked-files=no");
+						_commit=head+(changes=="" || changes.StartsWith("(git") ? "" : "+changes");
+					}
+					return _commit;
+				}
+			}
+		}
 
 		public static string PathTsv {
 			get {
@@ -124,7 +158,7 @@ namespace WindowChecksTests {
 
 		public static void Write(CheckResult checkResult) {
 			string line=string.Join("\t",new[] { DateTime.Now.ToString("s"),checkResult.Id,checkResult.Status,Clean(checkResult.Title),
-				Clean(checkResult.Summary),string.Join(", ",checkResult.ListShots) });
+				Clean(checkResult.Summary),string.Join(", ",checkResult.ListShots),Commit });
 			lock(_lock) {
 				File.AppendAllText(PathTsv,line+Environment.NewLine,Encoding.UTF8);
 			}
@@ -140,19 +174,24 @@ namespace WindowChecksTests {
 			return (text??"").Replace("\t"," ").Replace("\r"," ").Replace("\n"," ");
 		}
 
-		///<summary>The latest result of each check id in results.tsv.</summary>
-		public static Dictionary<string,string[]> ReadLatest() {
-			Dictionary<string,string[]> dictionary=new Dictionary<string,string[]>();
+		///<summary>Every result line of results.tsv in the order written, each with 7 fields (time, id, status, title, text, pictures, commit); a line
+		///written before the commit field was added gets "" as its commit.</summary>
+		public static List<string[]> ReadAll() {
+			List<string[]> listRows=new List<string[]>();
 			if(!File.Exists(PathTsv)) {
-				return dictionary;
+				return listRows;
 			}
 			foreach(string line in File.ReadAllLines(PathTsv,Encoding.UTF8).Where(x => x.Trim()!="")) {
 				string[] arrayFields=line.Split('\t');
-				if(arrayFields.Length>=6) {
-					dictionary[arrayFields[1]]=arrayFields;
+				if(arrayFields.Length<6) {
+					continue;
 				}
+				if(arrayFields.Length<7) {
+					arrayFields=arrayFields.Concat(new[] { "" }).ToArray();
+				}
+				listRows.Add(arrayFields);
 			}
-			return dictionary;
+			return listRows;
 		}
 	}
 }

@@ -85,6 +85,9 @@ namespace WindowChecksTests.InProc {
 
 		#region I3
 		public static void CheckI3(Ui ui,CheckResult checkResult) {
+			if(IsSimple2DRun) {
+				checkResult.ForPerson(TEXT_SIMPLE2D);
+			}
 			int countDocsBefore=Count("SELECT COUNT(*) FROM document WHERE PatNum=1");
 			GoToModule(ui,EnumModuleType.TreatPlan);
 			Control controlTreat=ModuleControl("controlTreat");
@@ -93,6 +96,7 @@ namespace WindowChecksTests.InProc {
 			ui.Invoke(() => ClickRowOnThread(controlTreat,"gridPlans","gridPlans_CellClick",RowOfPlan(controlTreat,x => x.TPStatus==TreatPlanStatus.Active)));
 			string heading=HEADING_SAVED;
 			List<IntPtr> listBefore=ui.GetWindows();
+			long treatPlanNumBefore=MaxKey("treatplan","TreatPlanNum");
 			Ui.Posted postedSave=ui.Post("Save TP",() => Ui.Call(controlTreat,"butSaveTP_Click",null,EventArgs.Empty));
 			IntPtr hwndBox=ui.WaitForNewWindow(listBefore,isPromptSave ? 20000 : 3000);
 			if(hwndBox!=IntPtr.Zero && ui.GetWindowTypeName(hwndBox).EndsWith("/InputBox")) {
@@ -109,8 +113,9 @@ namespace WindowChecksTests.InProc {
 			}
 			postedSave.Wait(30000);
 			ui.CloseStrayWindows(checkResult);
-			long treatPlanNum=PIn.Long(DataCore.GetScalar("SELECT MAX(TreatPlanNum) FROM treatplan WHERE PatNum=1 AND TPStatus=0 AND Heading='"+POut.String(heading)+"'"));
-			if(!checkResult.Expect(treatPlanNum>0,"The saved plan '"+heading+"' is made (TreatPlanNum "+treatPlanNum+")")) {
+			//The plan Save TP added (above the number taken before it), never a saved plan of the same heading the copy already had.
+			long treatPlanNum=AddedKey("treatplan","TreatPlanNum",treatPlanNumBefore,"PatNum=1 AND TPStatus=0 AND Heading='"+POut.String(heading)+"'");
+			if(!checkResult.Expect(treatPlanNum>0,"The saved plan '"+heading+"' is made (TreatPlanNum "+treatPlanNum+", the one plan above "+treatPlanNumBefore+")")) {
 				return;
 			}
 			//The User Query of the checklist, so the plan is dated before 17.1's update date.
@@ -187,7 +192,13 @@ namespace WindowChecksTests.InProc {
 
 		#region I4
 		public static void CheckI4(Ui ui,CheckResult checkResult) {
+			if(IsSimple2DRun) {
+				checkResult.ForPerson(TEXT_SIMPLE2D);
+			}
 			int countSheetDefs=Count("SELECT COUNT(*) FROM sheetdef");
+			//Patient #1's referral attachments before: the undo removes only the one this check adds and compares with this count.
+			int countRefAttachBefore=Count("SELECT COUNT(*) FROM refattach WHERE PatNum=1");
+			long refAttachNum=0;
 			//Prep: a copy of the internal Referral Letter (as Setup > Sheets > Copy makes it), by the business layer.
 			long sheetDefNum=ui.Invoke(() => {
 				SheetDef sheetDef=SheetsInternal.GetSheetDef(SheetInternalType.ReferralLetter);
@@ -251,6 +262,7 @@ namespace WindowChecksTests.InProc {
 					Referrals.Insert(referral);
 					RefAttach refAttach=new RefAttach { PatNum=1,ReferralNum=referral.ReferralNum,RefType=ReferralType.RefFrom,RefDate=DateTime.Today,ItemOrder=0 };
 					RefAttaches.Insert(refAttach);
+					refAttachNum=refAttach.RefAttachNum;
 					DataValid.SetInvalid(InvalidType.Referral);
 					return referral.ReferralNum;
 				});
@@ -296,8 +308,10 @@ namespace WindowChecksTests.InProc {
 			finally {
 				//Undo: the attachment, the referral and the copy.
 				ui.Invoke(() => {
+					if(refAttachNum!=0) {
+						DataCore.NonQ("DELETE FROM refattach WHERE RefAttachNum="+refAttachNum);
+					}
 					if(referralNum!=0) {
-						DataCore.NonQ("DELETE FROM refattach WHERE ReferralNum="+referralNum);
 						Referrals.Delete(Referrals.GetReferral(referralNum));
 						DataValid.SetInvalid(InvalidType.Referral);
 					}
@@ -307,9 +321,14 @@ namespace WindowChecksTests.InProc {
 				ui.CloseStrayWindows(checkResult);
 			}
 			checkResult.Expect(Count("SELECT COUNT(*) FROM sheetdef")==countSheetDefs && Count("SELECT COUNT(*) FROM referral WHERE ReferralNum="+referralNum)==0
-				&& Count("SELECT COUNT(*) FROM refattach WHERE PatNum=1")==0,"Undo: the attachment, the referral and the copy are deleted");
-			checkResult.Note("The copy, its toothChart field, the referral and its attachment were made by the business layer (the designer's mouse placement and the "
-				+"referral windows are not driven); the editor's Special > toothChart > Save, the Letter drop-down, the picker and the fill window ran as clicks run them");
+				&& Count("SELECT COUNT(*) FROM refattach WHERE PatNum=1")==countRefAttachBefore,"Undo: the attachment (RefAttachNum "+refAttachNum+"), the referral and "
+				+"the copy are deleted (sheetdefs "+countSheetDefs+", patient #1's refattach rows "+countRefAttachBefore+" as before)");
+			checkResult.Note("The editor's Special > toothChart > Save, the Letter drop-down, the picker and the fill window ran as clicks run them");
+			checkResult.NotScripted("Setup > Sheets > the internal Referral Letter > Copy (the copy is made by the business layer, SheetDefs.InsertOrUpdate)");
+			checkResult.NotScripted("double-clicking the copy in Setup > Sheets (its editor is opened with new FormSheetDefEdit(...).ShowDialog())");
+			checkResult.NotScripted("Family > Referrals > Add > FrmReferralEdit and attach as From (the referral and its attachment are made by the business layer)");
+			checkResult.NotScripted("the undo through the Referrals windows and Setup > Sheets > Delete (the attachment, the referral and the copy are deleted by "
+				+"the business layer)");
 		}
 		#endregion I4
 
@@ -318,6 +337,9 @@ namespace WindowChecksTests.InProc {
 		private static long _perioExamNum;
 
 		public static void CheckI5(Ui ui,CheckResult checkResult) {
+			if(IsSimple2DRun) {
+				checkResult.ForPerson(TEXT_SIMPLE2D);
+			}
 			Ui.Opened openedSetup=OpenMenu(ui,"Tools","Patient Dashboards","Dashboard Setup");
 			if(!InspectWindow(ui,checkResult,openedSetup,"FormDashboardWidgetSetup",null,close:false)) {
 				return;
@@ -335,11 +357,15 @@ namespace WindowChecksTests.InProc {
 				Control gridInternal=FindControl(ui,hwndSetup,"gridInternal",true);
 				Ui.Call(gridInternal,"SetSelected",rowInternal,true);
 			});
+			long sheetDefNumBefore=MaxKey("sheetdef","SheetDefNum");
 			ui.Post("Copy",() => Ui.Call(Control.FromHandle(hwndSetup),"butCopy_Click",null,EventArgs.Empty)).Wait();
 			List<string> listCustom=ui.Invoke(() => GridRows(FindControl(ui,hwndSetup,"gridCustom",true)));
 			checkResult.Expect(listCustom.Count==countCustomBefore+1 && listCustom.Any(x => x.Contains("Patient Dashboard ToothChart") && x.EndsWith("X")),
 				"Copy: the copy appears in the custom grid with Allowed X ("+string.Join("; ",listCustom)+")");
-			_sheetDefNumWidget=PIn.Long(DataCore.GetScalar("SELECT MAX(SheetDefNum) FROM sheetdef WHERE SheetType="+(int)SheetTypeEnum.PatientDashboardWidget));
+			//The widget sheet Copy inserted (the one above the number taken before it); I10 deletes only this one, in its own session (the key).
+			_sheetDefNumWidget=AddedKey("sheetdef","SheetDefNum",sheetDefNumBefore,"SheetType="+(int)SheetTypeEnum.PatientDashboardWidget);
+			SetKey(checkResult,"I5.SheetDefNumWidget",_sheetDefNumWidget);
+			checkResult.Expect(_sheetDefNumWidget>0,"Copy inserted one dashboard widget sheet (SheetDefNum "+_sheetDefNumWidget+", above "+sheetDefNumBefore+"; I10 deletes it)");
 			ui.Post("Save",() => Ui.Call(Control.FromHandle(hwndSetup),"butSave_Click",null,EventArgs.Empty));
 			checkResult.Expect(ui.WaitGone(hwndSetup),"Save closes Dashboard Setup");
 			openedSetup.Posted.Wait();
@@ -392,14 +418,29 @@ namespace WindowChecksTests.InProc {
 			}
 			IntPtr hwndPerio=openedPerio.Hwnd;
 			int countBefore=Count("SELECT COUNT(*) FROM perioexam WHERE PatNum=1");
+			long perioExamNumBefore=MaxKey("perioexam","PerioExamNum");
 			List<IntPtr> listBeforeAdd=ui.GetWindows();
 			ui.Post("Perio > Add",() => Ui.Call(Control.FromHandle(hwndPerio),"butAdd_Click",null,EventArgs.Empty)).Wait();
 			foreach(IntPtr hwndNew in ui.GetWindows().Where(x => !listBeforeAdd.Contains(x))) {
 				checkResult.Fail("Add showed: "+ui.DescribeWindow(hwndNew));
 				ui.Close(hwndNew);
 			}
-			_perioExamNum=PIn.Long(DataCore.GetScalar("SELECT MAX(PerioExamNum) FROM perioexam WHERE PatNum=1"));
-			checkResult.Expect(Count("SELECT COUNT(*) FROM perioexam WHERE PatNum=1")==countBefore+1,"Add: a new exam (PerioExamNum "+_perioExamNum+"), selected");
+			//The exam Add inserted; I10 deletes only this one (the key), and compares with the count before it.
+			_perioExamNum=AddedKey("perioexam","PerioExamNum",perioExamNumBefore,"PatNum=1");
+			SetKey(checkResult,"I6.PerioExamNum",_perioExamNum);
+			SetKey(checkResult,"I6.CountPerioBefore",countBefore);
+			checkResult.Expect(Count("SELECT COUNT(*) FROM perioexam WHERE PatNum=1")==countBefore+1 && _perioExamNum>0,"Add: a new exam (PerioExamNum "+_perioExamNum
+				+", above "+perioExamNumBefore+"), selected");
+			if(IsSimple2DRun) {
+				//Graphical perio needs DirectX, which has no device here: the copy already draws Simple 2D, so Graphical gives the 2D message below.
+				checkResult.ForPerson("Graphical: the graphical perio chart draws (it needs DirectX, which has no device in this session: the screen is locked); an "
+					+"on-screen pass");
+				ui.Close(hwndPerio);
+				openedPerio.Posted.Wait();
+				CheckPerioMessage2D(ui,checkResult);
+				checkResult.Note("The exam stays until I10; the copy stays on Simple 2D until IJTests puts DirectX back before I11");
+				return;
+			}
 			Ui.Opened openedGraphical=OpenByButton(ui,hwndPerio,"butGraphical");
 			if(InspectWindow(ui,checkResult,openedGraphical,"FormPerioGraphical",null,close:false)) {
 				System.Threading.Thread.Sleep(2500);
@@ -408,7 +449,16 @@ namespace WindowChecksTests.InProc {
 					return (Image)Ui.Call(toothChartWrapper,"GetBitmap");
 				},"I6-perio.png","The graphical perio chart (its DirectX picture)");
 				checkResult.AddShot(ui.Shot(openedGraphical.Hwnd,"I6-perio-window.png"),"The graphical perio window (PrintWindow)");
-				checkResult.ForPerson("the graphical perio chart on screen (its DirectX surface prints blank while the screen is locked; I6-perio.png is its own picture)");
+				//B5's on-screen test on the perio chart's own DirectX window: drawn means the screen shows it, so I6-perio-window.png is what a person sees.
+				Control toothChartWrapperPerio=ui.Invoke(() => (Control)Ui.GetField(Control.FromHandle(openedGraphical.Hwnd),"toothChartWrapper"));
+				string whyNot=toothChartWrapperPerio==null ? "no chart found in the window" : ShotChartWindow(ui,checkResult,toothChartWrapperPerio,"I6-perio-chart.png");
+				if(whyNot=="") {
+					checkResult.Verified("The graphical perio chart's own DirectX window prints drawn (I6-perio-chart.png; B5's on-screen test: the screen is not locked)");
+				}
+				else {
+					checkResult.ForPerson("the graphical perio chart on screen (its window does not show the DirectX picture in this session: "+whyNot+"; I6-perio.png "
+						+"is its own picture)");
+				}
 				checkResult.Expect(ui.Close(openedGraphical.Hwnd),"The graphical perio window closes");
 			}
 			openedGraphical.Posted.Wait();
@@ -424,7 +474,12 @@ namespace WindowChecksTests.InProc {
 				openedGraphics.Posted.Wait();
 				ui.CloseStrayWindows(checkResult);
 			}
-			//Perio Chart > the exam > Graphical: the message.
+			CheckPerioMessage2D(ui,checkResult);
+			checkResult.Note("The exam stays until I10, the 2D setting until I7");
+		}
+
+		///<summary>Perio Chart > the exam > Graphical with the Simple 2D chart: exactly the 2D message.</summary>
+		private static void CheckPerioMessage2D(Ui ui,CheckResult checkResult) {
 			GoToModule(ui,EnumModuleType.Chart);
 			Ui.Opened openedPerio2=OpenChartPerio(ui,ModuleControl("controlChart"));
 			if(InspectWindow(ui,checkResult,openedPerio2,"FormPerio",null,close:false)) {
@@ -438,8 +493,10 @@ namespace WindowChecksTests.InProc {
 				checkResult.Expect(text=="In the Graphics setup window, you must first select DirectX.","Graphical with Simple 2D: exactly 'In the Graphics setup window, you "
 					+"must first select DirectX.'",text);
 				ui.CloseStrayWindows(checkResult);
+				if(Native.IsWindow(openedPerio2.Hwnd)) {
+					ui.Close(openedPerio2.Hwnd);
+				}
 			}
-			checkResult.Note("The exam stays until I10, the 2D setting until I7");
 		}
 
 		private static Ui.Opened OpenChartPerio(Ui ui,Control controlChart) {
@@ -453,9 +510,14 @@ namespace WindowChecksTests.InProc {
 		///<summary>I10 in a new session (the program started again): the dashboard closed if open, Dashboard Setup > the copy's Name cell: the sheet
 		///editor draws the toothChart field; Delete (confirm); Save. Perio Chart > the I6 exam > Delete.</summary>
 		public static void CheckI10(Ui ui,CheckResult checkResult) {
-			if(_sheetDefNumWidget==0) {
-				_sheetDefNumWidget=PIn.Long(DataCore.GetScalar("SELECT MAX(SheetDefNum) FROM sheetdef WHERE SheetType="+(int)SheetTypeEnum.PatientDashboardWidget));
+			if(IsSimple2DRun) {
+				checkResult.ForPerson(TEXT_SIMPLE2D);
 			}
+			//The rows I5 and I6 made, by their keys (this is a new session: the statics of I5's session are gone). No key: nothing of theirs is deleted.
+			_sheetDefNumWidget=GetKey("I5.SheetDefNumWidget");
+			_perioExamNum=GetKey("I6.PerioExamNum");
+			checkResult.Note("I5's widget sheet: "+(_sheetDefNumWidget==0 ? "none recorded" : "SheetDefNum "+_sheetDefNumWidget)+"; I6's exam: "
+				+(_perioExamNum==0 ? "none recorded" : "PerioExamNum "+_perioExamNum));
 			bool isOpen=ui.Invoke(() => (bool)Member(MainField<Control>("userControlDashboard"),"IsInitialized")
 				&& ((System.Collections.ICollection)Member(MainField<Control>("userControlDashboard"),"ListOpenWidgets")).Count>0);
 			checkResult.Note("At the start the dashboard was "+(isOpen ? "open (the user preference I5 left)" : "closed"));
@@ -502,29 +564,51 @@ namespace WindowChecksTests.InProc {
 				openedSetup.Posted.Wait();
 				ui.CloseStrayWindows(checkResult);
 			}
-			checkResult.Expect(Count("SELECT COUNT(*) FROM sheetdef WHERE SheetDefNum="+_sheetDefNumWidget)==0,"The dashboard copy is deleted (undoes I5)");
-			//Perio Chart > the I6 exam > Delete.
+			if(_sheetDefNumWidget>0) {
+				checkResult.Expect(Count("SELECT COUNT(*) FROM sheetdef WHERE SheetDefNum="+_sheetDefNumWidget)==0,"The dashboard copy (SheetDefNum "+_sheetDefNumWidget
+					+") is deleted (undoes I5)");
+			}
+			else {
+				checkResult.Fail("I5 recorded no dashboard copy, so none is deleted (only the row I5 added may be)");
+			}
+			//Perio Chart > the I6 exam (the row of its PerioExamNum) > Delete.
+			if(_perioExamNum==0) {
+				checkResult.Fail("I6 recorded no exam, so none is deleted (only the exam I6 added may be)");
+				return;
+			}
 			GoToModule(ui,EnumModuleType.Chart);
 			Ui.Opened openedPerio=OpenChartPerio(ui,ModuleControl("controlChart"));
 			if(InspectWindow(ui,checkResult,openedPerio,"FormPerio",null,close:false)) {
 				IntPtr hwndPerio=openedPerio.Hwnd;
-				int rowExam=ui.Invoke(() => {
-					Control gridExam=FindControl(ui,hwndPerio,"gridODExam",true);
-					int count=GridRows(gridExam).Count;
-					return count-1;
+				//Click the exam's row as a person does (SetSelected, then the grid's CellClick handler, which loads that exam), then check it is I6's.
+				long perioExamNumSelected=ui.Invoke(() => {
+					Form formPerio=(Form)Control.FromHandle(hwndPerio);
+					System.Collections.IList listExams=(System.Collections.IList)Member(Ui.GetField(formPerio,"contrPerio"),"ListPerioExams");
+					int rowExam=-1;
+					for(int i=0;i<listExams.Count;i++) {
+						if(((PerioExam)listExams[i]).PerioExamNum==_perioExamNum) {
+							rowExam=i;
+						}
+					}
+					if(rowExam<0) {
+						return 0;
+					}
+					ClickRowOnThread(formPerio,"gridODExam","gridODExam_CellClick",rowExam);
+					return ((PerioExam)Ui.GetField(formPerio,"_perioExam"))?.PerioExamNum??0;
 				});
-				ui.Invoke(() => {
-					Control gridExam=FindControl(ui,hwndPerio,"gridODExam",true);
-					Ui.Call(gridExam,"SetSelected",rowExam,true);
-				});
-				Ui.Opened openedConfirm=OpenByButton(ui,hwndPerio,"butDelete",allowMessage:true);
-				string text=openedConfirm.IsOpen && Native.IsDialogClass(openedConfirm.Hwnd) ? Native.GetDialogMessage(openedConfirm.Hwnd).Trim() : "";
-				checkResult.Expect(text.Contains("Delete Exam?"),"Perio > the exam > Delete asks 'Delete Exam?'; OK",text);
-				ReadAndCloseMessage(ui,openedConfirm,"OK");
-				openedConfirm.Posted.Wait();
+				if(checkResult.Expect(perioExamNumSelected==_perioExamNum,"Perio Chart > I6's exam is selected (PerioExamNum "+perioExamNumSelected+")")) {
+					Ui.Opened openedConfirm=OpenByButton(ui,hwndPerio,"butDelete",allowMessage:true);
+					string text=openedConfirm.IsOpen && Native.IsDialogClass(openedConfirm.Hwnd) ? Native.GetDialogMessage(openedConfirm.Hwnd).Trim() : "";
+					checkResult.Expect(text.Contains("Delete Exam?"),"Perio > the exam > Delete asks 'Delete Exam?'; OK",text);
+					ReadAndCloseMessage(ui,openedConfirm,"OK");
+					openedConfirm.Posted.Wait();
+				}
 				ui.Close(hwndPerio);
 			}
-			checkResult.Expect(Count("SELECT COUNT(*) FROM perioexam WHERE PatNum=1")==0,"The I6 exam is deleted (undoes I6)");
+			long countPerioBefore=GetKey("I6.CountPerioBefore");
+			checkResult.Expect(Count("SELECT COUNT(*) FROM perioexam WHERE PerioExamNum="+_perioExamNum)==0
+				&& Count("SELECT COUNT(*) FROM perioexam WHERE PatNum=1")==countPerioBefore,"The I6 exam (PerioExamNum "+_perioExamNum+") is deleted (undoes I6; "
+				+countPerioBefore+" exams of patient #1 as before I6)");
 		}
 		#endregion I5, I6, I10
 	}

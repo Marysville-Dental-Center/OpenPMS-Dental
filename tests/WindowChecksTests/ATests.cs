@@ -108,6 +108,10 @@ namespace WindowChecksTests {
 			checkResult.ListShots.AddRange(checkResultOther.ListShots);
 			checkResult.ListNotes.AddRange(checkResultOther.ListNotes);
 			checkResult.ListForPerson.AddRange(checkResultOther.ListForPerson);
+			checkResult.ListNotScripted.AddRange(checkResultOther.ListNotScripted);
+			foreach(KeyValuePair<string,long> pair in checkResultOther.DictKeys) {
+				checkResult.DictKeys[pair.Key]=pair.Value;
+			}
 		}
 
 		[TestMethod]

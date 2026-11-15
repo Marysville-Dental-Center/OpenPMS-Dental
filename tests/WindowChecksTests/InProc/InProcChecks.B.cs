@@ -146,8 +146,19 @@ namespace WindowChecksTests.InProc {
 			string engine=ui.Invoke(() => toothChartWrapper.GetType().GetProperty("Engine").GetValue(toothChartWrapper)+" (DrawMode "
 				+toothChartWrapper.GetType().GetProperty("DrawMode").GetValue(toothChartWrapper)+")");
 			checkResult.Expect(engine.StartsWith("DirectX"),"The tooth chart runs in DirectX: "+engine,engine);
+			//While the session is locked DirectX has no device: the chart cannot draw at all, here or on screen (WINCHK-3). That is the session's state,
+			//not the program's: the DirectX checks then go to a person. WhyNotDirectX gives that reason only when the session really cannot draw
+			//(locked, or WPF renders nothing); in any other session a fallback stays an Expect and GetBitmap throwing fails.
+			string whyNotDirectX=WhyNotDirectX(ui,toothChartWrapper);
+			bool hasNoDevice=IsNoDevice(whyNotDirectX);
 			List<string> listFallbacks=ui.Invoke(() => (List<string>)Ui.CallStatic(toothChartWrapper.GetType(),"GetFallbackMessages"));
-			checkResult.Expect(listFallbacks.Count==0,"No tooth chart fallback was logged",string.Join("; ",listFallbacks));
+			if(hasNoDevice) {
+				checkResult.ForPerson("the DirectX chart at an unlocked screen: "+whyNotDirectX+" (session: "+Native.GetSessionState()+"); fallbacks logged: "
+					+(listFallbacks.Count==0 ? "none" : string.Join("; ",listFallbacks)));
+			}
+			else {
+				checkResult.Expect(listFallbacks.Count==0,"No tooth chart fallback was logged",string.Join("; ",listFallbacks));
+			}
 			List<string> listProg=ui.Invoke(() => GridRows((Control)Ui.GetField(controlChart,"gridProg")));
 			checkResult.Expect(listProg.Any(x => x.Contains("D1110")) && listProg.Any(x => x.Contains("D0120")),"The progress notes list D1110 and D0120",
 				string.Join("; ",listProg.Take(6)));
@@ -156,17 +167,28 @@ namespace WindowChecksTests.InProc {
 				+Ui.AllControls(gridProgPageNav).Count()+" child controls");
 			checkResult.Expect(ui.Invoke(() => gridProgPageNav.Visible && gridProgPageNav.Height>0),"The page navigation bar (ODGridPageNav) is under the grid: "+pageNav);
 			checkResult.AddShot(ui.ShotDraw(gridProgPageNav,"B5-pagenav.png"),"The page navigation bar with its arrow images");
-			//The chart's own picture: the DirectX scene rendered off screen (the Save to Images path).
-			ShotInfo shotInfoChart=ui.Invoke(() => {
-				using Bitmap bitmap=(Bitmap)Ui.Call(toothChartWrapper,"GetBitmap");
-				return WindowChecksTests.Shot.Bitmap(bitmap,"B5-chart-bitmap.png");
-			});
-			checkResult.AddShot(shotInfoChart,"The tooth chart's DirectX picture (GetBitmap)");
-			IntPtr hwndChart=ui.Invoke(() => toothChartWrapper.Handle);
-			ShotInfo shotInfoOnScreen=ui.Shot(hwndChart,"B5-chart-onscreen.png");
-			checkResult.Note("The chart's window printed (PrintWindow): "+shotInfoOnScreen);
-			if(!shotInfoOnScreen.IsDrawn) {
-				checkResult.ForPerson("the DirectX chart on the screen: printed from its window it is blank ("+shotInfoOnScreen+"); its off-screen picture "
+			//The chart's own picture: the DirectX scene rendered off screen (the Save to Images path); none without a device.
+			if(!hasNoDevice) {
+				string error="";
+				ShotInfo shotInfoChart=ui.Invoke(() => {
+					try {
+						using Bitmap bitmap=(Bitmap)Ui.Call(toothChartWrapper,"GetBitmap");
+						return WindowChecksTests.Shot.Bitmap(bitmap,"B5-chart-bitmap.png");
+					}
+					catch(Exception ex) {
+						error=ex.GetBaseException().GetType().Name+": "+ex.GetBaseException().Message;
+						return null;
+					}
+				});
+				if(error!="") {
+					checkResult.Fail("The tooth chart's DirectX picture (GetBitmap) threw "+error+" in a session that can draw ("+Native.GetSessionState()+")");
+				}
+				checkResult.AddShot(shotInfoChart,"The tooth chart's DirectX picture (GetBitmap)");
+			}
+			//The on-screen test (I1, I6 and I11 use the same one): the chart's own window, counted only while the chart really draws in DirectX.
+			string whyNotOnScreen=ShotChartWindow(ui,checkResult,toothChartWrapper,"B5-chart-onscreen.png");
+			if(whyNotOnScreen!="" && !hasNoDevice) {
+				checkResult.ForPerson("the DirectX chart on the screen: its window does not show the DirectX picture ("+whyNotOnScreen+"); its off-screen picture "
 					+"(B5-chart-bitmap.png) is drawn. Whether the screen shows it needs a person at an unlocked screen");
 			}
 			checkResult.AddShot(ui.Shot(MainHwnd(ui),"B5-chart-inproc.png"),"Chart (in process)");

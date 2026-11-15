@@ -56,11 +56,14 @@ namespace WindowChecksTests.InProc {
 			while(Native.IsWindow(hwndDashboard) && Native.IsWindowVisible(hwndDashboard) && stopwatch.ElapsedMilliseconds<20000) {
 				foreach(IntPtr hwndAsk in ui.GetWindows().Where(x => !listBefore.Contains(x) && Native.IsDialogClass(x))) {
 					string text=Native.GetDialogMessage(hwndAsk);
-					checkResult.Note("Closing the dashboard asked: '"+text.Trim()+"'; answered OK (discard)");
+					//The note names the answer this branch gives: OK only to the question that discards the changes, otherwise the dialog's Cancel.
 					if(text.Contains("discard")) {
+						checkResult.Note("Closing the dashboard asked: '"+text.Trim()+"'; answered OK (discard)");
 						Native.ClickDialogButton(hwndAsk,"OK");
 					}
 					else {
+						checkResult.Note("Closing the dashboard asked: '"+text.Trim()+"'; answered with its Cancel (Native.CancelDialog: Cancel, No, OK or Close, "
+							+"whichever it has: "+string.Join(", ",Native.GetDialogButtons(hwndAsk))+")");
 						Native.CancelDialog(hwndAsk);
 					}
 					ui.WaitGone(hwndAsk);
@@ -93,6 +96,8 @@ namespace WindowChecksTests.InProc {
 		}
 
 		public static void CheckF3(Ui ui,CheckResult checkResult) {
+			//The layout count before anything of F3 runs: Exit Setup, the name prompt and the close must leave it as it is.
+			int countLayouts=Count("SELECT COUNT(*) FROM dashboardlayout");
 			IntPtr hwnd=OpenDashboard(ui,checkResult);
 			if(hwnd==IntPtr.Zero) {
 				return;
@@ -129,9 +134,9 @@ namespace WindowChecksTests.InProc {
 			title=Native.GetText(hwnd);
 			checkResult.Expect(Native.IsWindowVisible(hwnd),"The dashboard is still open after Exit Setup");
 			checkResult.Expect(!title.Contains("(Edit)"),"Setup > Exit Setup: the title loses '(Edit)' ('"+title+"'); Save Changes is never pressed");
-			int countLayouts=Count("SELECT COUNT(*) FROM dashboardlayout");
 			CloseDashboard(ui,checkResult,hwnd);
-			checkResult.Expect(Count("SELECT COUNT(*) FROM dashboardlayout")==countLayouts,"No layout saved ("+countLayouts+" dashboardlayout rows)");
+			checkResult.Expect(Count("SELECT COUNT(*) FROM dashboardlayout")==countLayouts,"No layout saved ("+countLayouts+" dashboardlayout rows before the dashboard "
+				+"opened, as many after it closed)");
 		}
 
 		public static void CheckF4(Ui ui,CheckResult checkResult) {
