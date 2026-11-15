@@ -989,6 +989,16 @@ scan counts a bitness branch only in the pair's wrapper; the DirectX test's form
 `ControlImages.cs`' `PDF_SetCompression` argument is left for S3a-14 (its file). Review fix on `net10/s3a-fu2-3`: the scan also refuses a
 pattern's designation (`is {} psi`), a deconstruction's element (`var (psi,n)=`, `foreach(var (psi,n) in`) and a verbatim `@psi`.
 
+**Status (2026-11-15), S3a-M3a.** Done on `net10/s3am3a-1` (`docs/port-notes/S3a-M3.md`), not merged yet; the lead split S3a-M3 into S3a-M3a (every file but `FormMedical.cs`) and S3a-M3b (FormMedical's two grid menus, after EHR-7 merges, and the bridges they need). The
+remaining forms', reports' and ReportingForRdl's menus are ContextMenuStrips (the grids that had a caller's menu keep the grid's items, the
+toolbar drop-downs use `ContextMenuStripDropDown`); RdlDesigner's and CentralManager's main menus are MenuStrips (RdlDesigner's shortcuts raise the
+menus' Opening handlers first, as the MainMenu did; CentralManager's controls move down by the strip's 24 pixels); FormQuery's and the report
+designer's ten DataGrids are DataGridViews with the same columns, binding and read-only and sorting settings, and an edit ends when the grid
+loses the focus, as the DataGrid's did. Removed: the toolbar's `DropDownMenu` and `Lan.C(...,params Menu[])`; left for M3b in regions "Bridge for
+S3a-M3b": GridOD's ContextMenu path, `PopupHelper.GetContextMenuItemLinks`, Lan's translation of a grid's ContextMenu. New NoHqTests
+`WinFormsMenuScanTests` (FormMedical.cs and the bridge regions the known-pending ones); S3aM1Tests' M3 files; P262BillingTests and window check
+J15 follow the moved text. One change on purpose: `FormTreatPlanCurEdit`'s Go To items now show (they were hidden by an empty ContextMenu).
+
 **Full-test gate.** Section 3, plus: the golden outputs and known answers recorded and committed; the source-scan tests pass; the
 launch checks for 3a (section 6) done with screenshots, including a self-update from a standard user; the x64 test runs (S3a-12, S3a-15)
 and the x64 build of `Direct2dWrapper` (S3a-16) pass; the helper's tests pass, and its links are launch-checked where a test PC has the
