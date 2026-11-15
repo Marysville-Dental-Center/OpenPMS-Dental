@@ -26,7 +26,8 @@ What this version brings, each in its section below (the roadmap's "Done in the 
 - the EHR value sets imported from the office's own download of VSAC's release for the 2027 quality measures (published 2026-05-14), with
   its Direct Reference Codes and Code System Versions files picked together, so the EHR pick lists (tobacco use, counseling, BMI follow-up)
   have their codes, with a code-system status that shows which code-system tables still have to be loaded and whether a loaded table is
-  older than the release; the catalog of the seven 2027 measure versions this program will report;
+  older than the release; the catalog of the seven 2027 measure versions this program will report (the 2014 and 2011 quality-measure
+  windows are removed: the 2027 measures replace them);
 - Open Dental 26.2: its database schema and the changes the owner chose on 2026-11-07:
   - Appointments: several blockout types in the Advanced Appointment Search, the practice and clinic schedule notes in the Appointments
     module, and appointment estimates brought up to date when an insurance plan is saved;
@@ -822,3 +823,4 @@ technology, and they cannot be used to attest or to submit to any program** (the
 - Each refresh first removes the measure engines' work tables that a calculation stopped half way left in the database more than a day ago
   (`tempehrmeasure...`, `tempehrquality...`); a newer one may belong to another workstation's calculation and stays.
 - Nothing is stored: the `ehrmeasure` table keeps its rows as they are.
+- **Removed on the owner's decisions of 2026-11-14:** the 2014 clinical quality measure versions and their QRDA export, and the 2011 Edition quality-measure window (no button since Open Dental) with its PQRI XML export; the 2027 versions replace them, and until they are in the program the EHR window's **Quality Meas** button says so. No saved data is changed.

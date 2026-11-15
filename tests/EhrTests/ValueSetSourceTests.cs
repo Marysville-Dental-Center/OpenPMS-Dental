@@ -19,12 +19,13 @@ namespace EhrTests {
 	[TestClass]
 	public class ValueSetSourceTests {
 		private const string TABLE="ehrcode";
+		///<summary>The codes the fixture guard finds in EhrMeasures.cs alone, since EHR-6b deleted QualityMeasures.cs (docs/port-notes/EHR-6b.md).</summary>
+		private const int COUNT_ENGINE_CODES_FLOOR=21;
 
 		#region The manifest
-		///<summary>The files that may still name a value-set OID outside the catalog (section 7.2's shrinking allowlist): the 2014 engine until
-		///EHR-6b deletes it, and the data-entry windows and the pregnancy lookup until EHR-7 moves them to the catalog. Then empty.</summary>
+		///<summary>The files that may still name a value-set OID outside the catalog (section 7.2's shrinking allowlist): the data-entry windows
+		///and the pregnancy lookup until EHR-7 moves them to the catalog. Then empty. (The 2014 engine left it when EHR-6b deleted it.)</summary>
 		private static readonly string[] _arrayOidAllowlist=new string[] {
-			@"OpenPmsDentalBusiness\Db Multi Table\QualityMeasures.cs",//EHR-6b
 			@"OpenPmsDental\Forms\FormEhrNotPerformedEdit.cs",//EHR-7
 			@"OpenPmsDental\Forms\FormEhrPatientSmoking.cs",//EHR-7
 			@"OpenPmsDental\Forms\FormInterventionEdit.cs",//EHR-7
@@ -193,16 +194,17 @@ namespace EhrTests {
 
 		#region Fixtures
 		///<summary>Section 6 of the plan: no fixture of tests/EhrTests holds a literal of a code from the engine's own lists (the SNOMED CT lab-result
-		///codes of EhrMeasures, the two CDT codes of the Demographics measure, the RxNorm and CPT lists of QualityMeasures), so nothing licensed is
-		///added and no fixture changes if counsel has those lists moved to the office's import (E-8, E-9). The codes are taken from the engine's
-		///string literals at run time: numbers of five or more digits and CDT codes (D and four digits).</summary>
+		///codes of EhrMeasures, the two CDT codes of the Demographics measure), so nothing licensed is added and no fixture changes if counsel has
+		///those lists moved to the office's import (E-8, E-9). The codes are taken from the engine's string literals at run time: numbers of five or
+		///more digits and CDT codes (D and four digits). Since EHR-6b deleted QualityMeasures.cs (its RxNorm and CPT lists), the guard reads
+		///EhrMeasures.cs only, with the floor lowered to what that file yields (section 10.1 of docs/specs/ehr-2027-measures-plan.md).</summary>
 		[TestMethod]
 		public void Fixtures_HoldNoLiteralOfACodeFromTheEnginesLists() {
 			Regex regexCode=new Regex(@"(?<![0-9A-Za-z.])(D\d{4}|\d{5,9})(?![0-9A-Za-z.])");
 			//A GUID is an ID (the measures' set IDs, which the engine and the 2027 catalog's tests both name, EHR-6a), never a code.
 			Regex regexGuid=new Regex("^[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12}$");
 			HashSet<string> setEngineCodes=new HashSet<string>(StringComparer.Ordinal);
-			foreach(string path in new[] { @"OpenPmsDentalBusiness\Data Interface\EhrMeasures.cs",@"OpenPmsDentalBusiness\Db Multi Table\QualityMeasures.cs" }) {
+			foreach(string path in new[] { @"OpenPmsDentalBusiness\Data Interface\EhrMeasures.cs" }) {
 				CSharpSource cSharpSource=CSharpSource.Read(TestPaths.ReadSource(path));
 				foreach(string literal in cSharpSource.ListStringLiterals) {
 					if(Regex.IsMatch(literal,@"^\s*[0-9.]+\s*$") && literal.Count(x => x=='.')>1) {
@@ -216,7 +218,7 @@ namespace EhrTests {
 					}
 				}
 			}
-			Assert.IsTrue(setEngineCodes.Count>50,"The engine's lists were found: "+setEngineCodes.Count);
+			Assert.IsTrue(setEngineCodes.Count>=COUNT_ENGINE_CODES_FLOOR,"The engine's lists were found: "+setEngineCodes.Count);
 			Assert.IsTrue(setEngineCodes.Any(x => x.StartsWith("D")),"The CDT codes of the Demographics measure are among them.");
 			List<string> listProblems=new List<string>();
 			foreach(string path in Directory.GetFiles(TestPaths.Combine(@"tests\EhrTests"),"*.*",SearchOption.AllDirectories)

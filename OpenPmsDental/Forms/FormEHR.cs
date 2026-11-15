@@ -544,23 +544,10 @@ namespace OpenPmsDental {
 			formEhrEncryption.ShowDialog();
 		}
 
-		private void butQuality_Click(object sender,EventArgs e) {
-			using FormEhrQualityMeasures formEhrQualityMeasures=new FormEhrQualityMeasures();
-			formEhrQualityMeasures.ShowDialog();
-			FillGridMu();
-		}
-
 		private void but2014CQM_Click(object sender,EventArgs e) {
-			using FormEhrQualityMeasures2014 formEhrQualityMeasures2014=new FormEhrQualityMeasures2014();
-			formEhrQualityMeasures2014.ShowDialog();
-			if(formEhrQualityMeasures2014.DialogResult==DialogResult.OK && formEhrQualityMeasures2014.selectedPatNum!=0) {
-				PatNum=formEhrQualityMeasures2014.selectedPatNum;
-				EhrFormResultOnClose=EhrFormResult.PatientSelect;
-				DialogResult=DialogResult.OK;
-				Close();
-				return;
-			}
-			FillGridMu();
+			//The 2014 and 2011 quality measures were deleted on the owner's decisions of 2026-11-14 (docs/specs/ehr-2027-measures-plan.md, EHR-6b).
+			//The 2027 window replaces this message (EHR-5a).
+			MsgBox.Show(this,"The 2027 quality measures are not in this build yet.");
 		}
 
 		private void butVaccines_Click(object sender,EventArgs e) {
@@ -619,12 +606,6 @@ namespace OpenPmsDental {
 			}
 			using FormEhrMeasureEvents formEhrMeasureEvents=new FormEhrMeasureEvents();
 			formEhrMeasureEvents.ShowDialog();
-		}
-
-		///<summary>EHR provider keys were issued and checked by Open Dental's proprietary EHR.dll, which is not loaded anymore. Always returns false,
-		///the same result as when EHR.dll was missing.</summary>
-		public static bool ProvKeyIsValid(string lName,string fName,int year,string provKey) {
-			return false;
 		}
 
 	}

@@ -692,6 +692,8 @@ The key was a licence check, but it was also the only thing that kept these acti
 
 ### EHR-4b Measure fixtures
 
+- **Status (2026-11-14).** Written on `ehr/ehr4b-1` from `main` `e9c46c233`, for review: `docs/port-notes/EHR-4.md` (EHR-4b part, with
+  the sheet map and the known-deviation list EHR4B-D01 to D15). No engine change, no schema change.
 - **Goal.** Numbers that a test has checked against the public specifications (section 9.3).
 - **Owns.** `tests/EhrTests/MeasureSpecTests.cs`, `tests/EhrTests/Fixtures/`, and the known-deviation list in `docs/port-notes/EHR-4.md`.
   It edits no engine code.
