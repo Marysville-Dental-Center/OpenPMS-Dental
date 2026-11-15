@@ -58,7 +58,9 @@ What this version brings, each in its section below (the roadmap's "Done in the 
   installed with the program from this version on (the tooth chart itself does not change yet);
 - the tooth chart: completed extractions shown with an X, on by default as in Open Dental 26.2, the paint type TextBelow (Open Dental
   26.2) in a line under the Chart module's date slider, the text of text procedures, and free text; the X and the TextBelow line show
-  on every chart, the other texts on Simple 2D now and on the coming 3D chart.
+  on every chart, the other texts on Simple 2D now and on the coming 3D chart;
+- the coming 3D tooth chart: its "W", centre line and unerupted teeth look as in Open Dental (a plain "W", the centre line in the chart's
+  text colour, unerupted teeth half-transparent).
 
 The update adds this program's own tables to the database (14 tables, none of Open Dental's schema: five for routine maintenance, seven for
 inventory tracking, one for SSH host keys, one for the EHR value sets); they start empty, except the stock ledger's opening rows (Inventory tracking, below). It also
