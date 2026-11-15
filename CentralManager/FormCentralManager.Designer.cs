@@ -25,24 +25,24 @@
 		private void InitializeComponent() {
 			this.components = new System.ComponentModel.Container();
 			this.textConnSearch = new System.Windows.Forms.TextBox();
-			this.mainMenu = new System.Windows.Forms.MainMenu(this.components);
-			this.menuItemLogoff = new System.Windows.Forms.MenuItem();
-			this.menuItemFile = new System.Windows.Forms.MenuItem();
-			this.menuItemPassword = new System.Windows.Forms.MenuItem();
-			this.menuItemUserSettings = new System.Windows.Forms.MenuItem();
-			this.menuItemSetup = new System.Windows.Forms.MenuItem();
-			this.menuItemConnections = new System.Windows.Forms.MenuItem();
-			this.menuItemDisplayFields = new System.Windows.Forms.MenuItem();
-			this.menuItemGroups = new System.Windows.Forms.MenuItem();
-			this.menuItem1 = new System.Windows.Forms.MenuItem();
-			this.menuItemSecurity = new System.Windows.Forms.MenuItem();
-			this.menuItemReports = new System.Windows.Forms.MenuItem();
-			this.menuItemAnnualPI = new System.Windows.Forms.MenuItem();
-			this.menuTransfer = new System.Windows.Forms.MenuItem();
-			this.menuTransferPatient = new System.Windows.Forms.MenuItem();
-			this.menuItemHelp = new System.Windows.Forms.MenuItem();
-			this.menuItemQueryMonitor = new System.Windows.Forms.MenuItem();
-			this.menuItemPayloadMonitor = new System.Windows.Forms.MenuItem();
+			this.mainMenu = new System.Windows.Forms.MenuStrip();
+			this.menuItemLogoff = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemFile = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemPassword = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemUserSettings = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemSetup = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemConnections = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemDisplayFields = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemGroups = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemSecurity = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemReports = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemAnnualPI = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuTransfer = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuTransferPatient = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemHelp = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemQueryMonitor = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemPayloadMonitor = new System.Windows.Forms.ToolStripMenuItem();
 			this.label1 = new System.Windows.Forms.Label();
 			this.comboConnectionGroups = new System.Windows.Forms.ComboBox();
 			this.label6 = new System.Windows.Forms.Label();
@@ -97,6 +97,7 @@
 			this.label17 = new System.Windows.Forms.Label();
 			this.gridPats = new OpenPmsDental.UI.GridOD();
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
+			this.mainMenu.SuspendLayout();
 			this.gridMainRightClickMenu.SuspendLayout();
 			this.groupBox2.SuspendLayout();
 			this.groupBox1.SuspendLayout();
@@ -111,45 +112,44 @@
 			// 
 			// mainMenu
 			// 
-			this.mainMenu.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+			this.mainMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuItemLogoff,
             this.menuItemFile,
             this.menuItemSetup,
             this.menuItemReports,
             this.menuTransfer,
             this.menuItemHelp});
+			this.mainMenu.Location = new System.Drawing.Point(0, 0);
+			this.mainMenu.Name = "mainMenu";
+			this.mainMenu.Size = new System.Drawing.Size(1834, 24);
+			this.mainMenu.TabIndex = 240;
 			// 
 			// menuItemLogoff
 			// 
-			this.menuItemLogoff.Index = 0;
 			this.menuItemLogoff.Text = "Logoff";
 			this.menuItemLogoff.Click += new System.EventHandler(this.menuItemLogoff_Click);
 			// 
 			// menuItemFile
 			// 
-			this.menuItemFile.Index = 1;
-			this.menuItemFile.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+			this.menuItemFile.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuItemPassword,
             this.menuItemUserSettings});
 			this.menuItemFile.Text = "File";
 			// 
 			// menuItemPassword
 			// 
-			this.menuItemPassword.Index = 0;
 			this.menuItemPassword.Text = "Change Password";
 			this.menuItemPassword.Click += new System.EventHandler(this.menuItemPassword_Click);
 			// 
 			// menuItemUserSettings
 			// 
-			this.menuItemUserSettings.Index = 1;
 			this.menuItemUserSettings.Text = "User Settings";
 			this.menuItemUserSettings.Visible = false;
 			this.menuItemUserSettings.Click += new System.EventHandler(this.menuItemUserSettings_Click);
 			// 
 			// menuItemSetup
 			// 
-			this.menuItemSetup.Index = 2;
-			this.menuItemSetup.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+			this.menuItemSetup.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuItemConnections,
             this.menuItemDisplayFields,
             this.menuItemGroups,
@@ -159,84 +159,72 @@
 			// 
 			// menuItemConnections
 			// 
-			this.menuItemConnections.Index = 0;
 			this.menuItemConnections.Text = "Connections";
 			this.menuItemConnections.Click += new System.EventHandler(this.menuConnSetup_Click);
 			// 
 			// menuItemDisplayFields
 			// 
-			this.menuItemDisplayFields.Index = 1;
 			this.menuItemDisplayFields.Text = "Display Fields";
 			this.menuItemDisplayFields.Click += new System.EventHandler(this.menuItemDisplayFields_Click);
 			// 
 			// menuItemGroups
 			// 
-			this.menuItemGroups.Index = 2;
 			this.menuItemGroups.Text = "Groups";
 			this.menuItemGroups.Click += new System.EventHandler(this.menuGroups_Click);
 			// 
 			// menuItem1
 			// 
-			this.menuItem1.Index = 3;
 			this.menuItem1.Text = "Report Permissions";
 			this.menuItem1.Click += new System.EventHandler(this.menuItemReportSetup_Click);
 			// 
 			// menuItemSecurity
 			// 
-			this.menuItemSecurity.Index = 4;
 			this.menuItemSecurity.Text = "Security";
 			this.menuItemSecurity.Click += new System.EventHandler(this.menuItemSecurity_Click);
 			// 
 			// menuItemReports
 			// 
-			this.menuItemReports.Index = 3;
-			this.menuItemReports.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+			this.menuItemReports.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuItemAnnualPI});
 			this.menuItemReports.Text = "Reports";
 			// 
 			// menuItemAnnualPI
 			// 
-			this.menuItemAnnualPI.Index = 0;
 			this.menuItemAnnualPI.Text = "Production and Income";
 			this.menuItemAnnualPI.Click += new System.EventHandler(this.menuProdInc_Click);
 			// 
 			// menuTransfer
 			// 
-			this.menuTransfer.Index = 4;
-			this.menuTransfer.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+			this.menuTransfer.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuTransferPatient});
 			this.menuTransfer.Text = "Transfer";
 			// 
 			// menuTransferPatient
 			// 
-			this.menuTransferPatient.Index = 0;
 			this.menuTransferPatient.Text = "Patient";
 			this.menuTransferPatient.Click += new System.EventHandler(this.menuTransferPatient_Click);
 			// 
 			// menuItemHelp
 			// 
-			this.menuItemHelp.Index = 5;
-			this.menuItemHelp.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+			this.menuItemHelp.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuItemQueryMonitor,
             this.menuItemPayloadMonitor});
 			this.menuItemHelp.Text = "Help";
 			// 
 			// menuItemQueryMonitor
 			// 
-			this.menuItemQueryMonitor.Index = 0;
 			this.menuItemQueryMonitor.Text = "Query Monitor";
 			this.menuItemQueryMonitor.Click += new System.EventHandler(this.menuItemQueryMonitor_Click);
 			// 
 			// menuItemPayloadMonitor
 			// 
-			this.menuItemPayloadMonitor.Index = 1;
 			this.menuItemPayloadMonitor.Text = "Payload Monitor";
 			this.menuItemPayloadMonitor.Click += new System.EventHandler(this.menuItemPayloadMonitor_Click);
 			// 
 			// label1
 			// 
 			this.label1.FlatStyle = System.Windows.Forms.FlatStyle.System;
-			this.label1.Location = new System.Drawing.Point(5, 7);
+			this.label1.Location = new System.Drawing.Point(5, 31);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(82, 15);
 			this.label1.TabIndex = 213;
@@ -247,7 +235,7 @@
 			// 
 			this.comboConnectionGroups.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.comboConnectionGroups.FormattingEnabled = true;
-			this.comboConnectionGroups.Location = new System.Drawing.Point(91, 3);
+			this.comboConnectionGroups.Location = new System.Drawing.Point(91, 27);
 			this.comboConnectionGroups.MaxDropDownItems = 20;
 			this.comboConnectionGroups.Name = "comboConnectionGroups";
 			this.comboConnectionGroups.Size = new System.Drawing.Size(169, 21);
@@ -316,7 +304,7 @@
 			// 
 			this.labelVersion.FlatStyle = System.Windows.Forms.FlatStyle.System;
 			this.labelVersion.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.labelVersion.Location = new System.Drawing.Point(3, 71);
+			this.labelVersion.Location = new System.Drawing.Point(3, 95);
 			this.labelVersion.Name = "labelVersion";
 			this.labelVersion.Size = new System.Drawing.Size(110, 12);
 			this.labelVersion.TabIndex = 227;
@@ -329,7 +317,7 @@
 			this.gridConns.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
 			this.gridConns.ContextMenuStrip = this.gridMainRightClickMenu;
-			this.gridConns.Location = new System.Drawing.Point(6, 88);
+			this.gridConns.Location = new System.Drawing.Point(6, 112);
 			this.gridConns.Name = "gridConns";
 			this.gridConns.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
 			this.gridConns.Size = new System.Drawing.Size(703, 837);
@@ -349,7 +337,7 @@
 			// 
 			// butRefreshStatuses
 			// 
-			this.butRefreshStatuses.Location = new System.Drawing.Point(155, 35);
+			this.butRefreshStatuses.Location = new System.Drawing.Point(155, 59);
 			this.butRefreshStatuses.Name = "butRefreshStatuses";
 			this.butRefreshStatuses.Size = new System.Drawing.Size(105, 24);
 			this.butRefreshStatuses.TabIndex = 227;
@@ -369,7 +357,7 @@
 			this.labelFetch.BackColor = System.Drawing.Color.Transparent;
 			this.labelFetch.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.labelFetch.ForeColor = System.Drawing.Color.Red;
-			this.labelFetch.Location = new System.Drawing.Point(1589, 530);
+			this.labelFetch.Location = new System.Drawing.Point(1589, 554);
 			this.labelFetch.Name = "labelFetch";
 			this.labelFetch.Size = new System.Drawing.Size(148, 17);
 			this.labelFetch.TabIndex = 235;
@@ -383,7 +371,7 @@
 			this.checkLimit.Checked = true;
 			this.checkLimit.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.checkLimit.FlatStyle = System.Windows.Forms.FlatStyle.System;
-			this.checkLimit.Location = new System.Drawing.Point(1605, 502);
+			this.checkLimit.Location = new System.Drawing.Point(1605, 526);
 			this.checkLimit.Name = "checkLimit";
 			this.checkLimit.Size = new System.Drawing.Size(217, 16);
 			this.checkLimit.TabIndex = 234;
@@ -392,7 +380,7 @@
 			// butSearchPats
 			// 
 			this.butSearchPats.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSearchPats.Location = new System.Drawing.Point(1738, 529);
+			this.butSearchPats.Location = new System.Drawing.Point(1738, 553);
 			this.butSearchPats.Name = "butSearchPats";
 			this.butSearchPats.Size = new System.Drawing.Size(84, 23);
 			this.butSearchPats.TabIndex = 233;
@@ -437,7 +425,7 @@
 			this.groupBox2.Controls.Add(this.textLName);
 			this.groupBox2.Controls.Add(this.label17);
 			this.groupBox2.FlatStyle = System.Windows.Forms.FlatStyle.System;
-			this.groupBox2.Location = new System.Drawing.Point(1593, 100);
+			this.groupBox2.Location = new System.Drawing.Point(1593, 124);
 			this.groupBox2.Name = "groupBox2";
 			this.groupBox2.Size = new System.Drawing.Size(229, 388);
 			this.groupBox2.TabIndex = 232;
@@ -726,7 +714,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.gridPats.HScrollVisible = true;
-			this.gridPats.Location = new System.Drawing.Point(715, 88);
+			this.gridPats.Location = new System.Drawing.Point(715, 112);
 			this.gridPats.Name = "gridPats";
 			this.gridPats.Size = new System.Drawing.Size(868, 837);
 			this.gridPats.TabIndex = 231;
@@ -744,7 +732,7 @@
 			this.groupBox1.Controls.Add(this.label4);
 			this.groupBox1.Controls.Add(this.butFilter);
 			this.groupBox1.Controls.Add(this.label6);
-			this.groupBox1.Location = new System.Drawing.Point(285, 0);
+			this.groupBox1.Location = new System.Drawing.Point(285, 24);
 			this.groupBox1.Name = "groupBox1";
 			this.groupBox1.Size = new System.Drawing.Size(297, 85);
 			this.groupBox1.TabIndex = 236;
@@ -755,7 +743,7 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(1834, 929);
+			this.ClientSize = new System.Drawing.Size(1834, 953);
 			this.Controls.Add(this.groupBox1);
 			this.Controls.Add(this.labelFetch);
 			this.Controls.Add(this.checkLimit);
@@ -767,19 +755,23 @@
 			this.Controls.Add(this.comboConnectionGroups);
 			this.Controls.Add(this.label1);
 			this.Controls.Add(this.gridConns);
-			this.Menu = this.mainMenu;
+			this.Controls.Add(this.mainMenu);
+			this.MainMenuStrip = this.mainMenu;
 			this.MinimumSize = new System.Drawing.Size(1006, 572);
 			this.Name = "FormCentralManager";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "Central Enterprise Management Tool (CEMT)";
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormCentralManager_FormClosing);
 			this.Load += new System.EventHandler(this.FormCentralManager_Load);
+			this.mainMenu.ResumeLayout(false);
+			this.mainMenu.PerformLayout();
 			this.gridMainRightClickMenu.ResumeLayout(false);
 			this.groupBox2.ResumeLayout(false);
 			this.groupBox2.PerformLayout();
 			this.groupBox1.ResumeLayout(false);
 			this.groupBox1.PerformLayout();
 			this.ResumeLayout(false);
+			this.PerformLayout();
 
 		}
 
@@ -787,19 +779,19 @@
 
 		private OpenPmsDental.UI.GridOD gridConns;
 		private System.Windows.Forms.TextBox textConnSearch;
-		private System.Windows.Forms.MainMenu mainMenu;
-		private System.Windows.Forms.MenuItem menuItemSetup;
-		private System.Windows.Forms.MenuItem menuItemReports;
-		private System.Windows.Forms.MenuItem menuItemConnections;
-		private System.Windows.Forms.MenuItem menuItemSecurity;
-		private System.Windows.Forms.MenuItem menuItemAnnualPI;
-		private System.Windows.Forms.MenuItem menuItemGroups;
+		private System.Windows.Forms.MenuStrip mainMenu;
+		private System.Windows.Forms.ToolStripMenuItem menuItemSetup;
+		private System.Windows.Forms.ToolStripMenuItem menuItemReports;
+		private System.Windows.Forms.ToolStripMenuItem menuItemConnections;
+		private System.Windows.Forms.ToolStripMenuItem menuItemSecurity;
+		private System.Windows.Forms.ToolStripMenuItem menuItemAnnualPI;
+		private System.Windows.Forms.ToolStripMenuItem menuItemGroups;
 		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.ComboBox comboConnectionGroups;
-		private System.Windows.Forms.MenuItem menuItemLogoff;
-		private System.Windows.Forms.MenuItem menuItemFile;
-		private System.Windows.Forms.MenuItem menuItemPassword;
-		private System.Windows.Forms.MenuItem menuItemUserSettings;
+		private System.Windows.Forms.ToolStripMenuItem menuItemLogoff;
+		private System.Windows.Forms.ToolStripMenuItem menuItemFile;
+		private System.Windows.Forms.ToolStripMenuItem menuItemPassword;
+		private System.Windows.Forms.ToolStripMenuItem menuItemUserSettings;
 		private OpenPmsDental.UI.Button butFilter;
 		private System.Windows.Forms.Label label6;
 		private System.Windows.Forms.Label label4;
@@ -808,13 +800,13 @@
 		private System.Windows.Forms.TextBox textClinicSearch;
 		private OpenPmsDental.UI.Button butRefreshStatuses;
 		private System.Windows.Forms.Label labelVersion;
-		private System.Windows.Forms.MenuItem menuItem1;
-		private System.Windows.Forms.MenuItem menuItemDisplayFields;
+		private System.Windows.Forms.ToolStripMenuItem menuItem1;
+		private System.Windows.Forms.ToolStripMenuItem menuItemDisplayFields;
 		private System.Windows.Forms.ContextMenuStrip gridMainRightClickMenu;
 		private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
 		private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
-		private System.Windows.Forms.MenuItem menuTransfer;
-		private System.Windows.Forms.MenuItem menuTransferPatient;
+		private System.Windows.Forms.ToolStripMenuItem menuTransfer;
+		private System.Windows.Forms.ToolStripMenuItem menuTransferPatient;
 		private System.Windows.Forms.Timer timer1;
 		private System.Windows.Forms.Label labelFetch;
 		private System.Windows.Forms.CheckBox checkLimit;
@@ -856,9 +848,9 @@
 		private System.Windows.Forms.TextBox textClinicPatSearch;
 		private System.Windows.Forms.Label label18;
 		private System.Windows.Forms.GroupBox groupBox1;
-		private System.Windows.Forms.MenuItem menuItemHelp;
-		private System.Windows.Forms.MenuItem menuItemQueryMonitor;
-		private System.Windows.Forms.MenuItem menuItemPayloadMonitor;
+		private System.Windows.Forms.ToolStripMenuItem menuItemHelp;
+		private System.Windows.Forms.ToolStripMenuItem menuItemQueryMonitor;
+		private System.Windows.Forms.ToolStripMenuItem menuItemPayloadMonitor;
 	}
 }
 

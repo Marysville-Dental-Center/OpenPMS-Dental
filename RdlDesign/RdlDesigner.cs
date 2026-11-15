@@ -115,110 +115,110 @@ namespace fyiReporting.RdlDesign
 		private System.Windows.Forms.Label ctlEditLabel=null;
 
 		// Menu Items
-		MenuItem menuFSep1;
-		MenuItem menuFSep2;
-		MenuItem menuFSep3;
-		MenuItem menuFSep4;
+		ToolStripSeparator menuFSep1;
+		ToolStripSeparator menuFSep2;
+		ToolStripSeparator menuFSep3;
+		ToolStripSeparator menuFSep4;
 		// File
-		MenuItem menuNew;
-		MenuItem menuOpen;
-		MenuItem menuClose;
-		MenuItem menuSave;
-		MenuItem menuSaveAs;
-		MenuItem menuExport;
-		MenuItem menuExportXml;
-		MenuItem menuExportPdf;
-		MenuItem menuExportHtml;
-		MenuItem menuExportMHtml;
-		MenuItem menuPrint;
-		MenuItem menuRecentFile;
-		MenuItem menuExit;
+		ToolStripMenuItem menuNew;
+		ToolStripMenuItem menuOpen;
+		ToolStripMenuItem menuClose;
+		ToolStripMenuItem menuSave;
+		ToolStripMenuItem menuSaveAs;
+		ToolStripMenuItem menuExport;
+		ToolStripMenuItem menuExportXml;
+		ToolStripMenuItem menuExportPdf;
+		ToolStripMenuItem menuExportHtml;
+		ToolStripMenuItem menuExportMHtml;
+		ToolStripMenuItem menuPrint;
+		ToolStripMenuItem menuRecentFile;
+		ToolStripMenuItem menuExit;
 		// Edit
-		MenuItem menuEdit;
-		MenuItem menuEditUndo;
-		MenuItem menuEditRedo;
-		MenuItem menuEditCut;
-		MenuItem menuEditCopy;
-		MenuItem menuEditPaste;
-		MenuItem menuEditDelete;
-		MenuItem menuEditSelectAll;
-		MenuItem menuEditFind;
-		MenuItem menuEditFindNext;
-		MenuItem menuEditReplace;
-		MenuItem menuEditGoto;
-		MenuItem menuEditFormatXml;
+		ToolStripMenuItem menuEdit;
+		ToolStripMenuItem menuEditUndo;
+		ToolStripMenuItem menuEditRedo;
+		ToolStripMenuItem menuEditCut;
+		ToolStripMenuItem menuEditCopy;
+		ToolStripMenuItem menuEditPaste;
+		ToolStripMenuItem menuEditDelete;
+		ToolStripMenuItem menuEditSelectAll;
+		ToolStripMenuItem menuEditFind;
+		ToolStripMenuItem menuEditFindNext;
+		ToolStripMenuItem menuEditReplace;
+		ToolStripMenuItem menuEditGoto;
+		ToolStripMenuItem menuEditFormatXml;
 		// View
-		MenuItem menuView;
-		MenuItem menuViewDesigner;
-		MenuItem menuViewRDL;
-		MenuItem menuViewPreview;
-		MenuItem menuViewBrowser;
-		MenuItem menuViewProperties;
+		ToolStripMenuItem menuView;
+		ToolStripMenuItem menuViewDesigner;
+		ToolStripMenuItem menuViewRDL;
+		ToolStripMenuItem menuViewPreview;
+		ToolStripMenuItem menuViewBrowser;
+		ToolStripMenuItem menuViewProperties;
 		// Data
-		MenuItem menuData;
-		MenuItem menuDataSources;
-		MenuItem menuDataSets;
-		MenuItem menuEmbeddedImages;
-		MenuItem menuNewDataSourceRef;
+		ToolStripMenuItem menuData;
+		ToolStripMenuItem menuDataSources;
+		ToolStripMenuItem menuDataSets;
+		ToolStripMenuItem menuEmbeddedImages;
+		ToolStripMenuItem menuNewDataSourceRef;
 		// Format
-		MenuItem menuFormatAlign;
-		MenuItem menuFormatAlignL;
-		MenuItem menuFormatAlignC;
-		MenuItem menuFormatAlignR;
-		MenuItem menuFormatAlignT;
-		MenuItem menuFormatAlignM;
-		MenuItem menuFormatAlignB;
+		ToolStripMenuItem menuFormatAlign;
+		ToolStripMenuItem menuFormatAlignL;
+		ToolStripMenuItem menuFormatAlignC;
+		ToolStripMenuItem menuFormatAlignR;
+		ToolStripMenuItem menuFormatAlignT;
+		ToolStripMenuItem menuFormatAlignM;
+		ToolStripMenuItem menuFormatAlignB;
 
-		MenuItem menuFormatSize;
-		MenuItem menuFormatSizeW;
-		MenuItem menuFormatSizeH;
-		MenuItem menuFormatSizeB;
+		ToolStripMenuItem menuFormatSize;
+		ToolStripMenuItem menuFormatSizeW;
+		ToolStripMenuItem menuFormatSizeH;
+		ToolStripMenuItem menuFormatSizeB;
 
-		MenuItem menuFormatHorz;
-		MenuItem menuFormatHorzE;
-		MenuItem menuFormatHorzI;
-		MenuItem menuFormatHorzD;
-		MenuItem menuFormatHorzZ;
+		ToolStripMenuItem menuFormatHorz;
+		ToolStripMenuItem menuFormatHorzE;
+		ToolStripMenuItem menuFormatHorzI;
+		ToolStripMenuItem menuFormatHorzD;
+		ToolStripMenuItem menuFormatHorzZ;
 
-		MenuItem menuFormatVert;
-		MenuItem menuFormatVertE;
-		MenuItem menuFormatVertI;
-		MenuItem menuFormatVertD;
-		MenuItem menuFormatVertZ;
+		ToolStripMenuItem menuFormatVert;
+		ToolStripMenuItem menuFormatVertE;
+		ToolStripMenuItem menuFormatVertI;
+		ToolStripMenuItem menuFormatVertD;
+		ToolStripMenuItem menuFormatVertZ;
 
-		MenuItem menuFormatPaddingLeft;
-		MenuItem menuFormatPaddingLeftI;
-		MenuItem menuFormatPaddingLeftD;
-		MenuItem menuFormatPaddingLeftZ;
+		ToolStripMenuItem menuFormatPaddingLeft;
+		ToolStripMenuItem menuFormatPaddingLeftI;
+		ToolStripMenuItem menuFormatPaddingLeftD;
+		ToolStripMenuItem menuFormatPaddingLeftZ;
 
-		MenuItem menuFormatPaddingRight;
-		MenuItem menuFormatPaddingRightI;
-		MenuItem menuFormatPaddingRightD;
-		MenuItem menuFormatPaddingRightZ;
+		ToolStripMenuItem menuFormatPaddingRight;
+		ToolStripMenuItem menuFormatPaddingRightI;
+		ToolStripMenuItem menuFormatPaddingRightD;
+		ToolStripMenuItem menuFormatPaddingRightZ;
 
-		MenuItem menuFormatPaddingTop;
-		MenuItem menuFormatPaddingTopI;
-		MenuItem menuFormatPaddingTopD;
-		MenuItem menuFormatPaddingTopZ;
+		ToolStripMenuItem menuFormatPaddingTop;
+		ToolStripMenuItem menuFormatPaddingTopI;
+		ToolStripMenuItem menuFormatPaddingTopD;
+		ToolStripMenuItem menuFormatPaddingTopZ;
 
-		MenuItem menuFormatPaddingBottom;
-		MenuItem menuFormatPaddingBottomI;
-		MenuItem menuFormatPaddingBottomD;
-		MenuItem menuFormatPaddingBottomZ;
+		ToolStripMenuItem menuFormatPaddingBottom;
+		ToolStripMenuItem menuFormatPaddingBottomI;
+		ToolStripMenuItem menuFormatPaddingBottomD;
+		ToolStripMenuItem menuFormatPaddingBottomZ;
 
-		MenuItem menuFormat;
+		ToolStripMenuItem menuFormat;
 
 		// Tools
-		MenuItem menuTools;
-		MenuItem menuToolsValidateSchema;
-		MenuItem menuToolsProcess;
-		MenuItem menuToolsOptions;
+		ToolStripMenuItem menuTools;
+		ToolStripMenuItem menuToolsValidateSchema;
+		ToolStripMenuItem menuToolsProcess;
+		ToolStripMenuItem menuToolsOptions;
 
 		// Window
-		MenuItem menuCascade;
-		MenuItem menuTileH;
-		MenuItem menuTileV;
-		MenuItem menuTile;
+		ToolStripMenuItem menuCascade;
+		ToolStripMenuItem menuTileH;
+		ToolStripMenuItem menuTileV;
+		ToolStripMenuItem menuTile;
 		private System.Windows.Forms.Button bTable;
 		private System.Windows.Forms.Button bLine;
 		private System.Windows.Forms.Button bImage;
@@ -240,7 +240,7 @@ namespace fyiReporting.RdlDesign
 		private System.Windows.Forms.Button bXml;
 		private System.Windows.Forms.Button bHtml;
 		private System.Windows.Forms.Button bMht;
-		MenuItem menuCloseAll;
+		ToolStripMenuItem menuCloseAll;
 
 		public RdlDesigner(bool mono)
 		{
@@ -255,6 +255,8 @@ namespace fyiReporting.RdlDesign
 
 			InitToolbar();
 			InitStatusBar();
+			this.Controls.Add(menuMain);		// last, so that it docks first, above the toolbar
+			this.MainMenuStrip = menuMain;
 
 			// open up the current files if any
 			if (_CurrentFiles != null)
@@ -1290,194 +1292,252 @@ namespace fyiReporting.RdlDesign
 		private void BuildMenus()
 		{
 			// FILE MENU
-			menuNew = new MenuItem("&New Report...", new EventHandler(this.menuFileNewReport_Click), Shortcut.CtrlN);
-			menuOpen = new MenuItem("&Open...", new EventHandler(this.menuFileOpen_Click), Shortcut.CtrlO);
-			menuClose = new MenuItem("&Close", new EventHandler(this.menuFileClose_Click), Shortcut.CtrlW);
-			menuFSep1 = new MenuItem("-");
-			menuSave = new MenuItem("&Save", new EventHandler(this.menuFileSave_Click), Shortcut.CtrlS);
-			menuSaveAs = new MenuItem("Save &As...", new EventHandler(this.menuFileSaveAs_Click));
-			menuPrint = new MenuItem("Print...", new EventHandler(this.menuFilePrint_Click), Shortcut.CtrlP);
-			menuExport = new MenuItem("Export");
-			menuExportPdf =  new MenuItem("PDF...", new EventHandler(this.menuExportPdf_Click));
-			menuExportXml =  new MenuItem("XML...", new EventHandler(this.menuExportXml_Click));
-			menuExportHtml =  new MenuItem("Web Page, HTML...", new EventHandler(this.menuExportHtml_Click));
-			menuExportMHtml =  new MenuItem("Web Archive, single file MHT...", new EventHandler(this.menuExportMHtml_Click));
-			menuExport.MenuItems.AddRange(new MenuItem[] {menuExportPdf, menuExportHtml, menuExportMHtml, menuExportXml});
+			menuNew = new ToolStripMenuItem("&New Report...", null, new EventHandler(this.menuFileNewReport_Click), (Keys.Control|Keys.N));
+			menuOpen = new ToolStripMenuItem("&Open...", null, new EventHandler(this.menuFileOpen_Click), (Keys.Control|Keys.O));
+			menuClose = new ToolStripMenuItem("&Close", null, new EventHandler(this.menuFileClose_Click), (Keys.Control|Keys.W));
+			menuFSep1 = new ToolStripSeparator();
+			menuSave = new ToolStripMenuItem("&Save", null, new EventHandler(this.menuFileSave_Click), (Keys.Control|Keys.S));
+			menuSaveAs = new ToolStripMenuItem("Save &As...", null, new EventHandler(this.menuFileSaveAs_Click));
+			menuPrint = new ToolStripMenuItem("Print...", null, new EventHandler(this.menuFilePrint_Click), (Keys.Control|Keys.P));
+			menuExport = new ToolStripMenuItem("Export");
+			menuExportPdf =  new ToolStripMenuItem("PDF...", null, new EventHandler(this.menuExportPdf_Click));
+			menuExportXml =  new ToolStripMenuItem("XML...", null, new EventHandler(this.menuExportXml_Click));
+			menuExportHtml =  new ToolStripMenuItem("Web Page, HTML...", null, new EventHandler(this.menuExportHtml_Click));
+			menuExportMHtml =  new ToolStripMenuItem("Web Archive, single file MHT...", null, new EventHandler(this.menuExportMHtml_Click));
+			menuExport.DropDownItems.AddRange(new ToolStripItem[] {menuExportPdf, menuExportHtml, menuExportMHtml, menuExportXml});
 
-			menuFSep2 = new MenuItem("-");
-			MenuItem menuRecentItem = new MenuItem("");
-			menuRecentFile = new MenuItem("Recent &Files");
-			menuRecentFile.MenuItems.AddRange(new MenuItem[] { menuRecentItem });
-			menuFSep3 = new MenuItem("-");
-			menuExit = new MenuItem("E&xit", new EventHandler(this.menuFileExit_Click), Shortcut.CtrlQ);
+			menuFSep2 = new ToolStripSeparator();
+			ToolStripMenuItem menuRecentItem = new ToolStripMenuItem("");
+			menuRecentFile = new ToolStripMenuItem("Recent &Files");
+			menuRecentFile.DropDownItems.AddRange(new ToolStripItem[] { menuRecentItem });
+			menuFSep3 = new ToolStripSeparator();
+			menuExit = new ToolStripMenuItem("E&xit", null, new EventHandler(this.menuFileExit_Click), (Keys.Control|Keys.Q));
 			   
 			// Create file menu and add array of sub-menu items
-			MenuItem menuFile = new MenuItem("&File");
-			menuFile.Popup +=new EventHandler(this.menuFile_Popup);
-			menuFile.MenuItems.AddRange(
-				new MenuItem[] { menuNew, menuOpen, menuClose, menuFSep1, menuSave, menuSaveAs, 
+			ToolStripMenuItem menuFile = new ToolStripMenuItem("&File");
+			menuFile.DropDownOpening +=new EventHandler(this.menuFile_Popup);
+			menuFile.DropDownItems.AddRange(
+				new ToolStripItem[] { menuNew, menuOpen, menuClose, menuFSep1, menuSave, menuSaveAs, 
 								   menuPrint, menuExport, menuFSep2, menuRecentFile, menuFSep3, menuExit });
 
 			// Intialize the recent file menu
 			RecentFilesMenu();
 
 			// EDIT MENU
-			menuEditUndo = new MenuItem("&Undo", new EventHandler(this.menuEditUndo_Click), Shortcut.CtrlZ);
-			menuEditRedo = new MenuItem("&Redo", new EventHandler(this.menuEditRedo_Click), Shortcut.CtrlY);
-			menuFSep1 = new MenuItem("-");
-			menuEditCut = new MenuItem("Cu&t", new EventHandler(this.menuEditCut_Click), Shortcut.CtrlX);
-			menuEditCopy = new MenuItem("&Copy", new EventHandler(this.menuEditCopy_Click), Shortcut.CtrlC);
-			menuEditPaste = new MenuItem("&Paste", new EventHandler(this.menuEditPaste_Click), Shortcut.CtrlV);
-			menuEditDelete = new MenuItem("&Delete", new EventHandler(this.menuEditDelete_Click));
-			menuFSep2 = new MenuItem("-");
-			menuEditSelectAll = new MenuItem("Select &All", new EventHandler(this.menuEditSelectAll_Click), Shortcut.CtrlA);
-			menuFSep3 = new MenuItem("-");
-			menuEditFind = new MenuItem("&Find...", new EventHandler(this.menuEditFind_Click), Shortcut.CtrlF);
-			menuEditFindNext = new MenuItem("Find Next", new EventHandler(this.menuEditFindNext_Click), Shortcut.F3);
-			menuEditReplace = new MenuItem("&Replace...", new EventHandler(this.menuEditReplace_Click), Shortcut.CtrlH);
-			menuEditGoto = new MenuItem("&Go To...", new EventHandler(this.menuEditGoto_Click), Shortcut.CtrlG);
-			menuFSep4 = new MenuItem("-");
-			menuEditFormatXml = new MenuItem("Format XM&L", new EventHandler(this.menuEdit_FormatXml), Shortcut.CtrlL);
+			menuEditUndo = new ToolStripMenuItem("&Undo", null, new EventHandler(this.menuEditUndo_Click), (Keys.Control|Keys.Z));
+			menuEditRedo = new ToolStripMenuItem("&Redo", null, new EventHandler(this.menuEditRedo_Click), (Keys.Control|Keys.Y));
+			menuFSep1 = new ToolStripSeparator();
+			menuEditCut = new ToolStripMenuItem("Cu&t", null, new EventHandler(this.menuEditCut_Click), (Keys.Control|Keys.X));
+			menuEditCopy = new ToolStripMenuItem("&Copy", null, new EventHandler(this.menuEditCopy_Click), (Keys.Control|Keys.C));
+			menuEditPaste = new ToolStripMenuItem("&Paste", null, new EventHandler(this.menuEditPaste_Click), (Keys.Control|Keys.V));
+			menuEditDelete = new ToolStripMenuItem("&Delete", null, new EventHandler(this.menuEditDelete_Click));
+			menuFSep2 = new ToolStripSeparator();
+			menuEditSelectAll = new ToolStripMenuItem("Select &All", null, new EventHandler(this.menuEditSelectAll_Click), (Keys.Control|Keys.A));
+			menuFSep3 = new ToolStripSeparator();
+			menuEditFind = new ToolStripMenuItem("&Find...", null, new EventHandler(this.menuEditFind_Click), (Keys.Control|Keys.F));
+			menuEditFindNext = new ToolStripMenuItem("Find Next", null, new EventHandler(this.menuEditFindNext_Click), Keys.F3);
+			menuEditReplace = new ToolStripMenuItem("&Replace...", null, new EventHandler(this.menuEditReplace_Click), (Keys.Control|Keys.H));
+			menuEditGoto = new ToolStripMenuItem("&Go To...", null, new EventHandler(this.menuEditGoto_Click), (Keys.Control|Keys.G));
+			menuFSep4 = new ToolStripSeparator();
+			menuEditFormatXml = new ToolStripMenuItem("Format XM&L", null, new EventHandler(this.menuEdit_FormatXml), (Keys.Control|Keys.L));
 			// Create edit menu and add array of sub-menu items
-			menuEdit = new MenuItem("&Edit");
-			menuEdit.Popup +=new EventHandler(this.menuEdit_Popup);
+			menuEdit = new ToolStripMenuItem("&Edit");
+			menuEdit.DropDownOpening +=new EventHandler(this.menuEdit_Popup);
 			
-			menuEdit.MenuItems.AddRange(
-				new MenuItem[] { menuEditUndo, menuEditRedo, menuFSep1, menuEditCut, menuEditPaste, 
+			menuEdit.DropDownItems.AddRange(
+				new ToolStripItem[] { menuEditUndo, menuEditRedo, menuFSep1, menuEditCut, menuEditPaste, 
 								   menuEditDelete, menuFSep2, menuEditSelectAll, menuFSep3,
 								   menuEditFind, menuEditFindNext, menuEditReplace, menuEditGoto,
 								   menuFSep4, menuEditFormatXml});
 			// View Menu
-			menuViewDesigner = new MenuItem("Designer", new EventHandler(this.menuViewDesigner_Click), Shortcut.F7);
-			menuViewRDL = new MenuItem("RDL Text", new EventHandler(this.menuViewRDL_Click), Shortcut.ShiftF7);
-			menuViewPreview = new MenuItem("Preview", new EventHandler(this.menuViewPreview_Click), Shortcut.F5);
-			menuViewBrowser = new MenuItem("Show Report in Browser", new EventHandler(this.menuViewBrowser_Click), Shortcut.F6);
-			menuViewProperties = new MenuItem("Properties...", new EventHandler(this.menuEditProperties_Click), Shortcut.F4);
-			menuView = new MenuItem("&View");
-			menuView.Popup += new EventHandler(menuView_Popup);
-			menuView.MenuItems.AddRange(
-				new MenuItem[] {menuViewDesigner, menuViewRDL, menuViewPreview, 
-							  new MenuItem("-"), menuViewBrowser, new MenuItem("-"), menuViewProperties});
+			menuViewDesigner = new ToolStripMenuItem("Designer", null, new EventHandler(this.menuViewDesigner_Click), Keys.F7);
+			menuViewRDL = new ToolStripMenuItem("RDL Text", null, new EventHandler(this.menuViewRDL_Click), (Keys.Shift|Keys.F7));
+			menuViewPreview = new ToolStripMenuItem("Preview", null, new EventHandler(this.menuViewPreview_Click), Keys.F5);
+			menuViewBrowser = new ToolStripMenuItem("Show Report in Browser", null, new EventHandler(this.menuViewBrowser_Click), Keys.F6);
+			menuViewProperties = new ToolStripMenuItem("Properties...", null, new EventHandler(this.menuEditProperties_Click), Keys.F4);
+			menuView = new ToolStripMenuItem("&View");
+			menuView.DropDownOpening += new EventHandler(menuView_Popup);
+			menuView.DropDownItems.AddRange(
+				new ToolStripItem[] {menuViewDesigner, menuViewRDL, menuViewPreview, 
+							  new ToolStripSeparator(), menuViewBrowser, new ToolStripSeparator(), menuViewProperties});
 			
 			// Data Menu
-			menuNewDataSourceRef = new MenuItem("&Create Shared Data Source...", new EventHandler(this.menuFileNewDataSourceRef_Click));
-			menuDataSources = new MenuItem("Data &Sources...", new EventHandler(this.menuDataSources_Click));
-			menuDataSets = new MenuItem("&Data Sets");
-			menuDataSets.MenuItems.Add(new MenuItem());	// this will actually get build dynamically
+			menuNewDataSourceRef = new ToolStripMenuItem("&Create Shared Data Source...", null, new EventHandler(this.menuFileNewDataSourceRef_Click));
+			menuDataSources = new ToolStripMenuItem("Data &Sources...", null, new EventHandler(this.menuDataSources_Click));
+			menuDataSets = new ToolStripMenuItem("&Data Sets");
+			menuDataSets.DropDownItems.Add(new ToolStripMenuItem());	// this will actually get build dynamically
 
-			menuEmbeddedImages = new MenuItem("&Embedded Images...", new EventHandler(this.menuEmbeddedImages_Click));
-			menuData = new MenuItem("&Data");
-			menuData.Popup +=new EventHandler(this.menuData_Popup);
-			menuData.MenuItems.AddRange(
-				new MenuItem[] { menuDataSets, menuDataSources, new MenuItem("-"), menuEmbeddedImages, new MenuItem("-"), menuNewDataSourceRef });
+			menuEmbeddedImages = new ToolStripMenuItem("&Embedded Images...", null, new EventHandler(this.menuEmbeddedImages_Click));
+			menuData = new ToolStripMenuItem("&Data");
+			menuData.DropDownOpening +=new EventHandler(this.menuData_Popup);
+			menuData.DropDownItems.AddRange(
+				new ToolStripItem[] { menuDataSets, menuDataSources, new ToolStripSeparator(), menuEmbeddedImages, new ToolStripSeparator(), menuNewDataSourceRef });
 
 			// Format menu
-			menuFormatAlign = new MenuItem("&Align");
-			menuFormatAlignL = new MenuItem("&Lefts", new EventHandler(this.menuFormatAlignL_Click));
-			menuFormatAlignC = new MenuItem("&Centers", new EventHandler(this.menuFormatAlignC_Click));
-			menuFormatAlignR = new MenuItem("&Rights", new EventHandler(this.menuFormatAlignR_Click));
-			menuFormatAlignT = new MenuItem("&Tops", new EventHandler(this.menuFormatAlignT_Click));
-			menuFormatAlignM = new MenuItem("&Middles", new EventHandler(this.menuFormatAlignM_Click));
-			menuFormatAlignB = new MenuItem("&Bottoms", new EventHandler(this.menuFormatAlignB_Click));
-			menuFormatAlign.MenuItems.AddRange(
-				new MenuItem[] {menuFormatAlignL,menuFormatAlignC,menuFormatAlignR,new MenuItem("-"),menuFormatAlignT,menuFormatAlignM,menuFormatAlignB });
+			menuFormatAlign = new ToolStripMenuItem("&Align");
+			menuFormatAlignL = new ToolStripMenuItem("&Lefts", null, new EventHandler(this.menuFormatAlignL_Click));
+			menuFormatAlignC = new ToolStripMenuItem("&Centers", null, new EventHandler(this.menuFormatAlignC_Click));
+			menuFormatAlignR = new ToolStripMenuItem("&Rights", null, new EventHandler(this.menuFormatAlignR_Click));
+			menuFormatAlignT = new ToolStripMenuItem("&Tops", null, new EventHandler(this.menuFormatAlignT_Click));
+			menuFormatAlignM = new ToolStripMenuItem("&Middles", null, new EventHandler(this.menuFormatAlignM_Click));
+			menuFormatAlignB = new ToolStripMenuItem("&Bottoms", null, new EventHandler(this.menuFormatAlignB_Click));
+			menuFormatAlign.DropDownItems.AddRange(
+				new ToolStripItem[] {menuFormatAlignL,menuFormatAlignC,menuFormatAlignR,new ToolStripSeparator(),menuFormatAlignT,menuFormatAlignM,menuFormatAlignB });
 
-			menuFormatSize = new MenuItem("&Size");
-			menuFormatSizeW = new MenuItem("&Width", new EventHandler(this.menuFormatSizeW_Click));
-			menuFormatSizeH = new MenuItem("&Height", new EventHandler(this.menuFormatSizeH_Click));
-			menuFormatSizeB = new MenuItem("&Both", new EventHandler(this.menuFormatSizeB_Click));
-			menuFormatSize.MenuItems.AddRange(
-				new MenuItem[] {menuFormatSizeW, menuFormatSizeH, menuFormatSizeB });
+			menuFormatSize = new ToolStripMenuItem("&Size");
+			menuFormatSizeW = new ToolStripMenuItem("&Width", null, new EventHandler(this.menuFormatSizeW_Click));
+			menuFormatSizeH = new ToolStripMenuItem("&Height", null, new EventHandler(this.menuFormatSizeH_Click));
+			menuFormatSizeB = new ToolStripMenuItem("&Both", null, new EventHandler(this.menuFormatSizeB_Click));
+			menuFormatSize.DropDownItems.AddRange(
+				new ToolStripItem[] {menuFormatSizeW, menuFormatSizeH, menuFormatSizeB });
 
-			menuFormatHorz = new MenuItem("&Horizontal Spacing");
-			menuFormatHorzE = new MenuItem("&Make Equal", new EventHandler(this.menuFormatHorzE_Click));
-			menuFormatHorzI = new MenuItem("&Increase", new EventHandler(this.menuFormatHorzI_Click));
-			menuFormatHorzD = new MenuItem("&Decrease", new EventHandler(this.menuFormatHorzD_Click));
-			menuFormatHorzZ = new MenuItem("&Zero", new EventHandler(this.menuFormatHorzZ_Click));
-			menuFormatHorz.MenuItems.AddRange(
-				new MenuItem[] {menuFormatHorzE,menuFormatHorzI,menuFormatHorzD,menuFormatHorzZ });
+			menuFormatHorz = new ToolStripMenuItem("&Horizontal Spacing");
+			menuFormatHorzE = new ToolStripMenuItem("&Make Equal", null, new EventHandler(this.menuFormatHorzE_Click));
+			menuFormatHorzI = new ToolStripMenuItem("&Increase", null, new EventHandler(this.menuFormatHorzI_Click));
+			menuFormatHorzD = new ToolStripMenuItem("&Decrease", null, new EventHandler(this.menuFormatHorzD_Click));
+			menuFormatHorzZ = new ToolStripMenuItem("&Zero", null, new EventHandler(this.menuFormatHorzZ_Click));
+			menuFormatHorz.DropDownItems.AddRange(
+				new ToolStripItem[] {menuFormatHorzE,menuFormatHorzI,menuFormatHorzD,menuFormatHorzZ });
 
-			menuFormatVert = new MenuItem("&Vertical Spacing");
-			menuFormatVertE = new MenuItem("&Make Equal", new EventHandler(this.menuFormatVertE_Click));
-			menuFormatVertI = new MenuItem("&Increase", new EventHandler(this.menuFormatVertI_Click));
-			menuFormatVertD = new MenuItem("&Decrease", new EventHandler(this.menuFormatVertD_Click));
-			menuFormatVertZ = new MenuItem("&Zero", new EventHandler(this.menuFormatVertZ_Click));
-			menuFormatVert.MenuItems.AddRange(
-				new MenuItem[] {menuFormatVertE,menuFormatVertI,menuFormatVertD,menuFormatVertZ });
+			menuFormatVert = new ToolStripMenuItem("&Vertical Spacing");
+			menuFormatVertE = new ToolStripMenuItem("&Make Equal", null, new EventHandler(this.menuFormatVertE_Click));
+			menuFormatVertI = new ToolStripMenuItem("&Increase", null, new EventHandler(this.menuFormatVertI_Click));
+			menuFormatVertD = new ToolStripMenuItem("&Decrease", null, new EventHandler(this.menuFormatVertD_Click));
+			menuFormatVertZ = new ToolStripMenuItem("&Zero", null, new EventHandler(this.menuFormatVertZ_Click));
+			menuFormatVert.DropDownItems.AddRange(
+				new ToolStripItem[] {menuFormatVertE,menuFormatVertI,menuFormatVertD,menuFormatVertZ });
 
-			menuFormatPaddingLeft = new MenuItem("Padding Left");
-			menuFormatPaddingLeftI = new MenuItem("Increase", new EventHandler(this.menuFormatPadding_Click));
-			menuFormatPaddingLeftD = new MenuItem("Decrease", new EventHandler(this.menuFormatPadding_Click));
-			menuFormatPaddingLeftZ = new MenuItem("Zero", new EventHandler(this.menuFormatPadding_Click));
-			menuFormatPaddingLeft.MenuItems.AddRange(
-				new MenuItem[] {menuFormatPaddingLeftI,menuFormatPaddingLeftD,menuFormatPaddingLeftZ  });
+			menuFormatPaddingLeft = new ToolStripMenuItem("Padding Left");
+			menuFormatPaddingLeftI = new ToolStripMenuItem("Increase", null, new EventHandler(this.menuFormatPadding_Click));
+			menuFormatPaddingLeftD = new ToolStripMenuItem("Decrease", null, new EventHandler(this.menuFormatPadding_Click));
+			menuFormatPaddingLeftZ = new ToolStripMenuItem("Zero", null, new EventHandler(this.menuFormatPadding_Click));
+			menuFormatPaddingLeft.DropDownItems.AddRange(
+				new ToolStripItem[] {menuFormatPaddingLeftI,menuFormatPaddingLeftD,menuFormatPaddingLeftZ  });
 
-			menuFormatPaddingRight = new MenuItem("Padding Right");
-			menuFormatPaddingRightI = new MenuItem("Increase", new EventHandler(this.menuFormatPadding_Click));
-			menuFormatPaddingRightD = new MenuItem("Decrease", new EventHandler(this.menuFormatPadding_Click));
-			menuFormatPaddingRightZ = new MenuItem("Zero", new EventHandler(this.menuFormatPadding_Click));
-			menuFormatPaddingRight.MenuItems.AddRange(
-				new MenuItem[] {menuFormatPaddingRightI,menuFormatPaddingRightD,menuFormatPaddingRightZ  });
+			menuFormatPaddingRight = new ToolStripMenuItem("Padding Right");
+			menuFormatPaddingRightI = new ToolStripMenuItem("Increase", null, new EventHandler(this.menuFormatPadding_Click));
+			menuFormatPaddingRightD = new ToolStripMenuItem("Decrease", null, new EventHandler(this.menuFormatPadding_Click));
+			menuFormatPaddingRightZ = new ToolStripMenuItem("Zero", null, new EventHandler(this.menuFormatPadding_Click));
+			menuFormatPaddingRight.DropDownItems.AddRange(
+				new ToolStripItem[] {menuFormatPaddingRightI,menuFormatPaddingRightD,menuFormatPaddingRightZ  });
 
-			menuFormatPaddingTop = new MenuItem("Padding Top");
-			menuFormatPaddingTopI = new MenuItem("Increase", new EventHandler(this.menuFormatPadding_Click));
-			menuFormatPaddingTopD = new MenuItem("Decrease", new EventHandler(this.menuFormatPadding_Click));
-			menuFormatPaddingTopZ = new MenuItem("Zero", new EventHandler(this.menuFormatPadding_Click));
-			menuFormatPaddingTop.MenuItems.AddRange(
-				new MenuItem[] {menuFormatPaddingTopI,menuFormatPaddingTopD,menuFormatPaddingTopZ  });
+			menuFormatPaddingTop = new ToolStripMenuItem("Padding Top");
+			menuFormatPaddingTopI = new ToolStripMenuItem("Increase", null, new EventHandler(this.menuFormatPadding_Click));
+			menuFormatPaddingTopD = new ToolStripMenuItem("Decrease", null, new EventHandler(this.menuFormatPadding_Click));
+			menuFormatPaddingTopZ = new ToolStripMenuItem("Zero", null, new EventHandler(this.menuFormatPadding_Click));
+			menuFormatPaddingTop.DropDownItems.AddRange(
+				new ToolStripItem[] {menuFormatPaddingTopI,menuFormatPaddingTopD,menuFormatPaddingTopZ  });
 
-			menuFormatPaddingBottom = new MenuItem("Padding Bottom");
-			menuFormatPaddingBottomI = new MenuItem("Increase", new EventHandler(this.menuFormatPadding_Click));
-			menuFormatPaddingBottomD = new MenuItem("Decrease", new EventHandler(this.menuFormatPadding_Click));
-			menuFormatPaddingBottomZ = new MenuItem("Zero", new EventHandler(this.menuFormatPadding_Click));
-			menuFormatPaddingBottom.MenuItems.AddRange(
-				new MenuItem[] {menuFormatPaddingBottomI,menuFormatPaddingBottomD,menuFormatPaddingBottomZ  });
+			menuFormatPaddingBottom = new ToolStripMenuItem("Padding Bottom");
+			menuFormatPaddingBottomI = new ToolStripMenuItem("Increase", null, new EventHandler(this.menuFormatPadding_Click));
+			menuFormatPaddingBottomD = new ToolStripMenuItem("Decrease", null, new EventHandler(this.menuFormatPadding_Click));
+			menuFormatPaddingBottomZ = new ToolStripMenuItem("Zero", null, new EventHandler(this.menuFormatPadding_Click));
+			menuFormatPaddingBottom.DropDownItems.AddRange(
+				new ToolStripItem[] {menuFormatPaddingBottomI,menuFormatPaddingBottomD,menuFormatPaddingBottomZ  });
 
-			menuFormat = new MenuItem("F&ormat");
-			menuFormat.Popup +=new EventHandler(menuFormat_Popup);
-			menuFormat.MenuItems.AddRange(
-				new MenuItem[] { menuFormatAlign, menuFormatSize, menuFormatHorz, menuFormatVert, 
-								   new MenuItem("-"), 
+			menuFormat = new ToolStripMenuItem("F&ormat");
+			menuFormat.DropDownOpening +=new EventHandler(menuFormat_Popup);
+			menuFormat.DropDownItems.AddRange(
+				new ToolStripItem[] { menuFormatAlign, menuFormatSize, menuFormatHorz, menuFormatVert, 
+								   new ToolStripSeparator(), 
 								   menuFormatPaddingLeft,menuFormatPaddingRight,
 								   menuFormatPaddingTop,menuFormatPaddingBottom} );
 
 			// Tools menu
-			this.menuToolsProcess = new MenuItem("Start Desktop Server", new EventHandler(this.menuToolsProcess_Click));
-			this.menuToolsValidateSchema = new  MenuItem("Validate RDL", new EventHandler(this.menuToolsValidateSchema_Click));
-			this.menuToolsOptions = new  MenuItem("Options...", new EventHandler(this.menuToolsOptions_Click));
-			menuTools = new MenuItem("&Tools");
-			menuTools.MenuItems.AddRange(
-				new MenuItem[] { menuToolsValidateSchema, new MenuItem("-"), menuToolsProcess, 
-								   new MenuItem("-"), menuToolsOptions} );
-			menuTools.Popup +=new EventHandler(this.menuTools_Popup);
+			this.menuToolsProcess = new ToolStripMenuItem("Start Desktop Server", null, new EventHandler(this.menuToolsProcess_Click));
+			this.menuToolsValidateSchema = new ToolStripMenuItem("Validate RDL", null, new EventHandler(this.menuToolsValidateSchema_Click));
+			this.menuToolsOptions = new ToolStripMenuItem("Options...", null, new EventHandler(this.menuToolsOptions_Click));
+			menuTools = new ToolStripMenuItem("&Tools");
+			menuTools.DropDownItems.AddRange(
+				new ToolStripItem[] { menuToolsValidateSchema, new ToolStripSeparator(), menuToolsProcess, 
+								   new ToolStripSeparator(), menuToolsOptions} );
+			menuTools.DropDownOpening +=new EventHandler(this.menuTools_Popup);
 
 			// WINDOW MENU
-			menuCascade = new MenuItem("&Cascade", new EventHandler(this.menuWndCascade_Click), Shortcut.CtrlShiftJ);
+			menuCascade = new ToolStripMenuItem("&Cascade", null, new EventHandler(this.menuWndCascade_Click), (Keys.Control|Keys.Shift|Keys.J));
 
-			menuTileH  = new MenuItem("&Horizontally", new EventHandler(this.menuWndTileH_Click), Shortcut.CtrlShiftK);
-			menuTileV  = new MenuItem("&Vertically", new EventHandler(this.menuWndTileV_Click), Shortcut.CtrlShiftL);
-			menuTile = new MenuItem("&Tile");
-			menuTile.MenuItems.AddRange(new MenuItem[] { menuTileH, menuTileV });
+			menuTileH  = new ToolStripMenuItem("&Horizontally", null, new EventHandler(this.menuWndTileH_Click), (Keys.Control|Keys.Shift|Keys.K));
+			menuTileV  = new ToolStripMenuItem("&Vertically", null, new EventHandler(this.menuWndTileV_Click), (Keys.Control|Keys.Shift|Keys.L));
+			menuTile = new ToolStripMenuItem("&Tile");
+			menuTile.DropDownItems.AddRange(new ToolStripItem[] { menuTileH, menuTileV });
 
-			menuCloseAll = new MenuItem("Close &All", new EventHandler(this.menuWndCloseAll_Click), Shortcut.CtrlShiftW);
+			menuCloseAll = new ToolStripMenuItem("Close &All", null, new EventHandler(this.menuWndCloseAll_Click), (Keys.Control|Keys.Shift|Keys.W));
 
 			// Add the Window menu
-			MenuItem menuWindow = new MenuItem("&Window");
-			menuWindow.Popup +=new EventHandler(this.menuWnd_Popup);
-			menuWindow.MdiList = true;
-			menuWindow.MenuItems.AddRange(new MenuItem[] { menuCascade, menuTile, menuCloseAll });
+			ToolStripMenuItem menuWindow = new ToolStripMenuItem("&Window");
+			menuWindow.DropDownOpening +=new EventHandler(this.menuWnd_Popup);
+			menuWindow.DropDownItems.AddRange(new ToolStripItem[] { menuCascade, menuTile, menuCloseAll });
 
 			// HELP MENU
-			MenuItem menuAbout = new MenuItem("&About...", new EventHandler(this.menuHelpAbout_Click));
-			MenuItem menuHelpItem = new MenuItem("&Help", new EventHandler(this.menuHelpHelp_Click));
-			MenuItem menuSupport = new MenuItem("&Support", new EventHandler(this.menuHelpSupport_Click));
-			MenuItem menuHelp = new MenuItem("&Help");
-			menuHelp.MenuItems.AddRange(new MenuItem[] {menuHelpItem, new MenuItem("-"), menuSupport, new MenuItem("-"), menuAbout } );
+			ToolStripMenuItem menuAbout = new ToolStripMenuItem("&About...", null, new EventHandler(this.menuHelpAbout_Click));
+			ToolStripMenuItem menuHelpItem = new ToolStripMenuItem("&Help", null, new EventHandler(this.menuHelpHelp_Click));
+			ToolStripMenuItem menuSupport = new ToolStripMenuItem("&Support", null, new EventHandler(this.menuHelpSupport_Click));
+			ToolStripMenuItem menuHelp = new ToolStripMenuItem("&Help");
+			menuHelp.DropDownItems.AddRange(new ToolStripItem[] {menuHelpItem, new ToolStripSeparator(), menuSupport, new ToolStripSeparator(), menuAbout } );
 
-			MainMenu menuMain = new MainMenu(new MenuItem[]{menuFile, menuEdit, menuView, menuData, 
-															menuFormat, menuTools, menuWindow, menuHelp});	
+			// S3a-M3: a MenuStrip in place of the WinForms MainMenu. It is added to the form after the toolbar and the status bar (the constructor),
+			// so that it docks above the toolbar; the open MDI windows are listed at the end of the Window menu, as MdiList did.
+			menuMain = new MenuStrip();
+			menuMain.Name = "menuMain";
+			menuMain.Dock = DockStyle.Top;
+			menuMain.Items.AddRange(new ToolStripItem[]{menuFile, menuEdit, menuView, menuData,
+															menuFormat, menuTools, menuWindow, menuHelp});
+			menuMain.MdiWindowListItem = menuWindow;
+			_dictMenuPopups = new Dictionary<ToolStripMenuItem, EventHandler>();
+			_dictMenuPopups.Add(menuFile, this.menuFile_Popup);
+			_dictMenuPopups.Add(menuEdit, this.menuEdit_Popup);
+			_dictMenuPopups.Add(menuView, this.menuView_Popup);
+			_dictMenuPopups.Add(menuData, this.menuData_Popup);
+			_dictMenuPopups.Add(menuFormat, this.menuFormat_Popup);
+			_dictMenuPopups.Add(menuTools, this.menuTools_Popup);
+			_dictMenuPopups.Add(menuWindow, this.menuWnd_Popup);
 			IsMdiContainer = true;
-			this.Menu = menuMain;   
+		}
+
+		/// <summary>The main menu (a WinForms MainMenu before S3a-M3).</summary>
+		MenuStrip menuMain;
+		/// <summary>The menus with a Popup (now DropDownOpening) handler, and the handler.</summary>
+		Dictionary<ToolStripMenuItem, EventHandler> _dictMenuPopups;
+
+		/// <summary>A WinForms MainMenu raised the Popup of the menus that hold an item before it ran the item's shortcut, so the item's Enabled
+		/// state (set in those handlers) was current; a MenuStrip runs the shortcut with the state of the last time the menu was opened. This raises
+		/// the same handlers first, from the top menu down, for the item that has the key as its shortcut.</summary>
+		protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+		{
+			if (menuMain != null && _dictMenuPopups != null)
+			{
+				List<ToolStripMenuItem> listPath = FindShortcutPath(menuMain.Items, keyData);
+				if (listPath != null)
+				{
+					foreach (ToolStripMenuItem menuParent in listPath)
+					{
+						EventHandler eventHandler;
+						if (_dictMenuPopups.TryGetValue(menuParent, out eventHandler))
+							eventHandler(menuParent, EventArgs.Empty);
+					}
+				}
+			}
+			return base.ProcessCmdKey(ref msg, keyData);
+		}
+
+		/// <summary>The menus from the top down to the item whose shortcut is the key (the item not included), or null if no item has it.</summary>
+		internal static List<ToolStripMenuItem> FindShortcutPath(ToolStripItemCollection items, Keys keyData)
+		{
+			foreach (ToolStripItem toolStripItem in items)
+			{
+				ToolStripMenuItem toolStripMenuItem = toolStripItem as ToolStripMenuItem;
+				if (toolStripMenuItem == null)
+					continue;
+				if (toolStripMenuItem.ShortcutKeys == keyData && keyData != Keys.None)
+					return new List<ToolStripMenuItem>();
+				List<ToolStripMenuItem> listPath = FindShortcutPath(toolStripMenuItem.DropDownItems, keyData);
+				if (listPath != null)
+				{
+					listPath.Insert(0, toolStripMenuItem);
+					return listPath;
+				}
+			}
+			return null;
 		}
   
 		private bool OkToSave()
@@ -1886,9 +1946,8 @@ namespace fyiReporting.RdlDesign
 				return;
 
 			// Run thru all the existing DataSets
-			menuDataSets.MenuItems.Clear();
-			menuDataSets.MenuItems.Add(new MenuItem("New...", 
-						new EventHandler(this.menuDataSets_Click)));
+			menuDataSets.DropDownItems.Clear();
+			menuDataSets.DropDownItems.Add(new ToolStripMenuItem("New...", null, new EventHandler(this.menuDataSets_Click)));
 
 			DesignXmlDraw draw = mc.DrawCtl;
 			XmlNode rNode = draw.GetReportNode();
@@ -1902,8 +1961,7 @@ namespace fyiReporting.RdlDesign
 					XmlAttribute nAttr = dNode.Attributes["Name"];
 					if (nAttr == null)	// shouldn't really happen
 						continue;
-					menuDataSets.MenuItems.Add(new MenuItem(nAttr.Value, 
-						new EventHandler(this.menuDataSets_Click)));
+					menuDataSets.DropDownItems.Add(new ToolStripMenuItem(nAttr.Value, null, new EventHandler(this.menuDataSets_Click)));
 				}
 			}
 		}
@@ -1929,7 +1987,7 @@ namespace fyiReporting.RdlDesign
 			if (mc == null || mc.DrawCtl == null || mc.ReportDocument == null)
 				return;
 
-			MenuItem menu = sender as MenuItem;
+			ToolStripMenuItem menu = sender as ToolStripMenuItem;
 			if (menu == null)
 				return;
 			mc.Editor.StartUndoGroup("DataSet Dialog");
@@ -2194,12 +2252,12 @@ namespace fyiReporting.RdlDesign
 			MDIChild mc = this.ActiveMdiChild as MDIChild;
 			// These menus require an MDIChild in order to work
 			RdlEditPreview e = GetEditor();			
-			menuEdit.MenuItems.Clear();
+			menuEdit.DropDownItems.Clear();
 			if (e == null || e.DesignTab != "edit")
 			{
 				menuEditUndo.Text = e == null? "Undo": "Undo " + e.UndoDescription;
-				menuEdit.MenuItems.AddRange(
-					new MenuItem[] {  menuEditUndo, /* menuEditRedo,*/ menuFSep1,  menuEditCut, menuEditCopy,
+				menuEdit.DropDownItems.AddRange(
+					new ToolStripItem[] {  menuEditUndo, /* menuEditRedo,*/ menuFSep1,  menuEditCut, menuEditCopy,
 									   menuEditPaste, menuEditDelete, menuFSep2, menuEditSelectAll});
 
 				if (mc == null || e == null)
@@ -2213,8 +2271,8 @@ namespace fyiReporting.RdlDesign
 			else
 			{
 				menuEditUndo.Text = "Undo";
-				menuEdit.MenuItems.AddRange(
-					new MenuItem[] { menuEditUndo, menuEditRedo, menuFSep1, menuEditCut, menuEditCopy,
+				menuEdit.DropDownItems.AddRange(
+					new ToolStripItem[] { menuEditUndo, menuEditRedo, menuFSep1, menuEditCut, menuEditCopy,
 									   menuEditPaste, menuEditDelete, menuFSep2, menuEditSelectAll, menuFSep3,
 									   menuEditFind, menuEditFindNext, menuEditReplace, menuEditGoto,
 									   menuFSep4, menuEditFormatXml});
@@ -2579,7 +2637,7 @@ namespace fyiReporting.RdlDesign
 
 		private void menuRecentItem_Click(object sender, System.EventArgs e)
 		{
-			MenuItem m = (MenuItem) sender;
+			ToolStripMenuItem m = (ToolStripMenuItem) sender;
 			int si = m.Text.IndexOf(" ");
 			string file = m.Text.Substring(si+1);
 
@@ -2616,14 +2674,14 @@ namespace fyiReporting.RdlDesign
 
 		internal void RecentFilesMenu()
 		{
-			menuRecentFile.MenuItems.Clear();
+			menuRecentFile.DropDownItems.Clear();
 			int mi = 1;
 			for (int i=_RecentFiles.Count-1; i >= 0; i--)
 			{
 				string menuText = string.Format("&{0} {1}", mi++, _RecentFiles.Values[i]);
-				MenuItem m = new MenuItem(menuText);
+				ToolStripMenuItem m = new ToolStripMenuItem(menuText);
 				m.Click += new EventHandler(this.menuRecentItem_Click);
-				menuRecentFile.MenuItems.Add(m);
+				menuRecentFile.DropDownItems.Add(m);
 			}
 		}
  
@@ -3483,7 +3541,7 @@ namespace fyiReporting.RdlDesign
 			if (mc == null)
 				return;
 
-			MenuItem mi = sender as MenuItem;
+			ToolStripMenuItem mi = sender as ToolStripMenuItem;
 
 			string padname=null;
 			int paddiff=0;

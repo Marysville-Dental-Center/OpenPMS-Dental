@@ -70,21 +70,21 @@ namespace fyiReporting.RdlDesign
 
 		// Context menus
 
-		MenuItem menuCopy;    
-		MenuItem menuPaste;
-		MenuItem menuDelete;
-		MenuItem menuFSep1;
-		MenuItem menuSelectAll;
-		MenuItem menuFSep2;
-		MenuItem menuInsert;
-		MenuItem menuProperties;
-		ContextMenu menuContext;
-		MenuItem menuPropertiesLegend;
-		MenuItem menuPropertiesCategoryAxis;
-		MenuItem menuPropertiesValueAxis;
-		MenuItem menuPropertiesCategoryAxisTitle;
-		MenuItem menuPropertiesValueAxisTitle;
-		MenuItem menuPropertiesChartTitle;
+		ToolStripMenuItem menuCopy;    
+		ToolStripMenuItem menuPaste;
+		ToolStripMenuItem menuDelete;
+		ToolStripSeparator menuFSep1;
+		ToolStripMenuItem menuSelectAll;
+		ToolStripSeparator menuFSep2;
+		ToolStripMenuItem menuInsert;
+		ToolStripMenuItem menuProperties;
+		ContextMenuStrip menuContext;
+		ToolStripMenuItem menuPropertiesLegend;
+		ToolStripMenuItem menuPropertiesCategoryAxis;
+		ToolStripMenuItem menuPropertiesValueAxis;
+		ToolStripMenuItem menuPropertiesCategoryAxisTitle;
+		ToolStripMenuItem menuPropertiesValueAxisTitle;
+		ToolStripMenuItem menuPropertiesChartTitle;
 
 		public DesignCtl()
 		{
@@ -862,44 +862,44 @@ namespace fyiReporting.RdlDesign
 		private void BuildContextMenus()
 		{
 			// EDIT MENU
-			menuCopy = new MenuItem("&Copy", new EventHandler(this.menuCopy_Click));
-			menuPaste = new MenuItem("Paste", new EventHandler(this.menuPaste_Click));
-			menuDelete = new MenuItem("&Delete", new EventHandler(this.menuDelete_Click));
-			menuFSep1 = new MenuItem("-");
-			menuSelectAll = new MenuItem("Select &All", new EventHandler(this.menuSelectAll_Click));
-			menuFSep2 = new MenuItem("-");
+			menuCopy = new ToolStripMenuItem("&Copy", null, new EventHandler(this.menuCopy_Click));
+			menuPaste = new ToolStripMenuItem("Paste", null, new EventHandler(this.menuPaste_Click));
+			menuDelete = new ToolStripMenuItem("&Delete", null, new EventHandler(this.menuDelete_Click));
+			menuFSep1 = new ToolStripSeparator();
+			menuSelectAll = new ToolStripMenuItem("Select &All", null, new EventHandler(this.menuSelectAll_Click));
+			menuFSep2 = new ToolStripSeparator();
 
-            List<MenuItem> insertItems = new List<MenuItem>();
-            insertItems.Add(new MenuItem("&Chart...", new EventHandler(this.menuInsertChart_Click)));
-            insertItems.Add(new MenuItem("&Image", new EventHandler(this.menuInsertImage_Click)));
-            insertItems.Add(new MenuItem("&Line", new EventHandler(this.menuInsertLine_Click)));
-			insertItems.Add(new MenuItem("&List", new EventHandler(this.menuInsertList_Click)));
-			insertItems.Add(new MenuItem("&Matrix...", new EventHandler(this.menuInsertMatrix_Click)));
-            insertItems.Add(new MenuItem("&Rectangle", new EventHandler(this.menuInsertRectangle_Click)));
-            insertItems.Add(new MenuItem("&Subreport", new EventHandler(this.menuInsertSubreport_Click)));
-            insertItems.Add(new MenuItem("Ta&ble...", new EventHandler(this.menuInsertTable_Click)));
-            insertItems.Add(new MenuItem("&Textbox", new EventHandler(this.menuInsertTextbox_Click)));
+            List<ToolStripItem> insertItems = new List<ToolStripItem>();
+            insertItems.Add(new ToolStripMenuItem("&Chart...", null, new EventHandler(this.menuInsertChart_Click)));
+            insertItems.Add(new ToolStripMenuItem("&Image", null, new EventHandler(this.menuInsertImage_Click)));
+            insertItems.Add(new ToolStripMenuItem("&Line", null, new EventHandler(this.menuInsertLine_Click)));
+			insertItems.Add(new ToolStripMenuItem("&List", null, new EventHandler(this.menuInsertList_Click)));
+			insertItems.Add(new ToolStripMenuItem("&Matrix...", null, new EventHandler(this.menuInsertMatrix_Click)));
+            insertItems.Add(new ToolStripMenuItem("&Rectangle", null, new EventHandler(this.menuInsertRectangle_Click)));
+            insertItems.Add(new ToolStripMenuItem("&Subreport", null, new EventHandler(this.menuInsertSubreport_Click)));
+            insertItems.Add(new ToolStripMenuItem("Ta&ble...", null, new EventHandler(this.menuInsertTable_Click)));
+            insertItems.Add(new ToolStripMenuItem("&Textbox", null, new EventHandler(this.menuInsertTextbox_Click)));
             // Now add any CustomReportItems
             BuildContextMenusCustom(insertItems);
 
-			menuInsert = new MenuItem("&Insert");
-			menuInsert.MenuItems.AddRange(insertItems.ToArray());
+			menuInsert = new ToolStripMenuItem("&Insert");
+			menuInsert.DropDownItems.AddRange(insertItems.ToArray());
 
-			menuProperties = new MenuItem("&Properties...", new EventHandler(this.menuProperties_Click));
+			menuProperties = new ToolStripMenuItem("&Properties...", null, new EventHandler(this.menuProperties_Click));
 
 			//
 			// Create chart context menu and add array of sub-menu items
-			menuPropertiesLegend = new MenuItem("Legend...", new EventHandler(this.menuPropertiesLegend_Click));
-			menuPropertiesCategoryAxis = new MenuItem("Category (X) Axis...", new EventHandler(this.menuPropertiesCategoryAxis_Click));
-			menuPropertiesValueAxis = new MenuItem("Value (Y) Axis...", new EventHandler(this.menuPropertiesValueAxis_Click));
+			menuPropertiesLegend = new ToolStripMenuItem("Legend...", null, new EventHandler(this.menuPropertiesLegend_Click));
+			menuPropertiesCategoryAxis = new ToolStripMenuItem("Category (X) Axis...", null, new EventHandler(this.menuPropertiesCategoryAxis_Click));
+			menuPropertiesValueAxis = new ToolStripMenuItem("Value (Y) Axis...", null, new EventHandler(this.menuPropertiesValueAxis_Click));
 			
-			menuPropertiesCategoryAxisTitle = new MenuItem("Category (X) Axis Title...", new EventHandler(this.menuPropertiesCategoryAxisTitle_Click));
-			menuPropertiesValueAxisTitle = new MenuItem("Value (Y) Axis Title...", new EventHandler(this.menuPropertiesValueAxisTitle_Click));
-			menuPropertiesChartTitle = new MenuItem("Title...", new EventHandler(this.menuPropertiesChartTitle_Click));
+			menuPropertiesCategoryAxisTitle = new ToolStripMenuItem("Category (X) Axis Title...", null, new EventHandler(this.menuPropertiesCategoryAxisTitle_Click));
+			menuPropertiesValueAxisTitle = new ToolStripMenuItem("Value (Y) Axis Title...", null, new EventHandler(this.menuPropertiesValueAxisTitle_Click));
+			menuPropertiesChartTitle = new ToolStripMenuItem("Title...", null, new EventHandler(this.menuPropertiesChartTitle_Click));
 
 		}
         
-        private void BuildContextMenusCustom(List<MenuItem> items)
+        private void BuildContextMenusCustom(List<ToolStripItem> items)
         {
             try
             {
@@ -907,11 +907,11 @@ namespace fyiReporting.RdlDesign
                 if (sa == null || sa.Length == 0)
                     return;
 
-                items.Add(new MenuItem("-"));       // put a separator
+                items.Add(new ToolStripSeparator());       // put a separator
                 // Add the custom report items to the insert menu
                 foreach (string m in sa)
                 {
-                    MenuItem mi = new MenuItem(m+"...", new EventHandler(this.menuInsertCustomReportItem_Click));
+                    ToolStripMenuItem mi = new ToolStripMenuItem(m+"...", null, new EventHandler(this.menuInsertCustomReportItem_Click));
                     mi.Tag = m;
                     items.Add(mi);
                 }
@@ -1142,22 +1142,21 @@ namespace fyiReporting.RdlDesign
 
 		private void DrawPanelContextMenuChart(Point p, XmlNode riNode)
 		{
-			menuContext = new ContextMenu();
-			menuContext.Popup +=new EventHandler(this.menuContext_Popup);
+			menuContext = new ContextMenuStrip();
+			menuContext.Opening +=new System.ComponentModel.CancelEventHandler(this.menuContext_Popup);
 
 			// Get the Category Groupings
 			object[] catGroupNames = _DrawPanel.GetChartCategoryGroupNames(riNode);
 
-			MenuItem menuChartInsertCategoryGrouping = new MenuItem("Insert Category Grouping...", 
-				new EventHandler(this.menuChartInsertCategoryGrouping_Click));
-			MenuItem menuChartEditCategoryGrouping = new MenuItem("Edit Category Grouping");
-			MenuItem menuChartDeleteCategoryGrouping = new MenuItem("Delete Category Grouping");
+			ToolStripMenuItem menuChartInsertCategoryGrouping = new ToolStripMenuItem("Insert Category Grouping...", null, new EventHandler(this.menuChartInsertCategoryGrouping_Click));
+			ToolStripMenuItem menuChartEditCategoryGrouping = new ToolStripMenuItem("Edit Category Grouping");
+			ToolStripMenuItem menuChartDeleteCategoryGrouping = new ToolStripMenuItem("Delete Category Grouping");
 			if (catGroupNames != null)
 			{
 				foreach (string gname in catGroupNames)
 				{
-					menuChartEditCategoryGrouping.MenuItems.Add(new MenuItem(gname, new EventHandler(this.menuChartEditGrouping_Click)));
-					menuChartDeleteCategoryGrouping.MenuItems.Add(new MenuItem(gname, new EventHandler(this.menuChartDeleteGrouping_Click)));
+					menuChartEditCategoryGrouping.DropDownItems.Add(new ToolStripMenuItem(gname, null, new EventHandler(this.menuChartEditGrouping_Click)));
+					menuChartDeleteCategoryGrouping.DropDownItems.Add(new ToolStripMenuItem(gname, null, new EventHandler(this.menuChartDeleteGrouping_Click)));
 				}
 			}
 			else
@@ -1169,15 +1168,15 @@ namespace fyiReporting.RdlDesign
 			// Get the Series Groupings
 			object[] serGroupNames = _DrawPanel.GetChartSeriesGroupNames(riNode);
 
-			MenuItem menuChartInsertSeriesGrouping = new MenuItem("Insert Series Grouping...", new EventHandler(this.menuChartInsertSeriesGrouping_Click));
-			MenuItem menuChartEditSeriesGrouping = new MenuItem("Edit Series Grouping");
-			MenuItem menuChartDeleteSeriesGrouping = new MenuItem("Delete Series Grouping");
+			ToolStripMenuItem menuChartInsertSeriesGrouping = new ToolStripMenuItem("Insert Series Grouping...", null, new EventHandler(this.menuChartInsertSeriesGrouping_Click));
+			ToolStripMenuItem menuChartEditSeriesGrouping = new ToolStripMenuItem("Edit Series Grouping");
+			ToolStripMenuItem menuChartDeleteSeriesGrouping = new ToolStripMenuItem("Delete Series Grouping");
 			if (serGroupNames != null)
 			{
 				foreach (string gname in serGroupNames)
 				{
-					menuChartEditSeriesGrouping.MenuItems.Add(new MenuItem(gname, new EventHandler(this.menuChartEditGrouping_Click)));
-					menuChartDeleteSeriesGrouping.MenuItems.Add(new MenuItem(gname, new EventHandler(this.menuChartDeleteGrouping_Click)));
+					menuChartEditSeriesGrouping.DropDownItems.Add(new ToolStripMenuItem(gname, null, new EventHandler(this.menuChartEditGrouping_Click)));
+					menuChartDeleteSeriesGrouping.DropDownItems.Add(new ToolStripMenuItem(gname, null, new EventHandler(this.menuChartDeleteGrouping_Click)));
 				}
 			}
 			else
@@ -1186,14 +1185,14 @@ namespace fyiReporting.RdlDesign
 				menuChartDeleteSeriesGrouping.Enabled = false;
 			}
 
-			menuContext.MenuItems.AddRange(
-				new MenuItem[] { 
-									menuProperties, menuPropertiesLegend,menuPropertiesChartTitle,new MenuItem("-"),
-								   menuChartInsertCategoryGrouping, menuChartEditCategoryGrouping,menuChartDeleteCategoryGrouping,new MenuItem("-"),
-									menuPropertiesCategoryAxis, menuPropertiesCategoryAxisTitle, new MenuItem("-"),
-								   menuChartInsertSeriesGrouping, menuChartEditSeriesGrouping,menuChartDeleteSeriesGrouping,new MenuItem("-"),
-								   menuPropertiesValueAxis,menuPropertiesValueAxisTitle,new MenuItem("-"),
-								    menuCopy, menuPaste, menuDelete, new MenuItem("-"), 
+			menuContext.Items.AddRange(
+				new ToolStripItem[] { 
+									menuProperties, menuPropertiesLegend,menuPropertiesChartTitle,new ToolStripSeparator(),
+								   menuChartInsertCategoryGrouping, menuChartEditCategoryGrouping,menuChartDeleteCategoryGrouping,new ToolStripSeparator(),
+									menuPropertiesCategoryAxis, menuPropertiesCategoryAxisTitle, new ToolStripSeparator(),
+								   menuChartInsertSeriesGrouping, menuChartEditSeriesGrouping,menuChartDeleteSeriesGrouping,new ToolStripSeparator(),
+								   menuPropertiesValueAxis,menuPropertiesValueAxisTitle,new ToolStripSeparator(),
+								    menuCopy, menuPaste, menuDelete, new ToolStripSeparator(), 
 									menuSelectAll
 									});
 			menuContext.Show(this, p);
@@ -1201,37 +1200,37 @@ namespace fyiReporting.RdlDesign
 
 		private void DrawPanelContextMenuDefault(Point p)
 		{
-			menuContext = new ContextMenu();
-			menuContext.Popup +=new EventHandler(this.menuContext_Popup);
-			menuContext.MenuItems.AddRange(
-				new MenuItem[] {
-						menuProperties,new MenuItem("-"), menuCopy, menuPaste, menuDelete, menuFSep1, 
+			menuContext = new ContextMenuStrip();
+			menuContext.Opening +=new System.ComponentModel.CancelEventHandler(this.menuContext_Popup);
+			menuContext.Items.AddRange(
+				new ToolStripItem[] {
+						menuProperties,new ToolStripSeparator(), menuCopy, menuPaste, menuDelete, menuFSep1, 
 						menuSelectAll, menuFSep2,menuInsert});
 			menuContext.Show(this, p);
 		}
 
 		private void DrawPanelContextMenuMatrix(Point p, XmlNode riNode)
 		{
-			menuContext = new ContextMenu();
-			menuContext.Popup +=new EventHandler(this.menuContext_Popup);
+			menuContext = new ContextMenuStrip();
+			menuContext.Opening +=new System.ComponentModel.CancelEventHandler(this.menuContext_Popup);
 			// matrix menus
-			MenuItem menuMatrixDelete = new MenuItem("Delete Matrix", new EventHandler(this.menuMatrixDelete_Click));
-			MenuItem menuMatrixProperties = new MenuItem("Matrix Properties...", new EventHandler(this.menuMatrixProperties_Click));
+			ToolStripMenuItem menuMatrixDelete = new ToolStripMenuItem("Delete Matrix", null, new EventHandler(this.menuMatrixDelete_Click));
+			ToolStripMenuItem menuMatrixProperties = new ToolStripMenuItem("Matrix Properties...", null, new EventHandler(this.menuMatrixProperties_Click));
 			
 			// Get the column groupings
-			MenuItem[] cmenu;			// the ultimate context menu items
+			ToolStripItem[] cmenu;			// the ultimate context menu items
 			object[] colGroupNames = _DrawPanel.GetMatrixColumnGroupNames(riNode);
 			object[] rowGroupNames = _DrawPanel.GetMatrixRowGroupNames(riNode);
 
-			MenuItem menuMatrixInsertColumnGroup = new MenuItem("Insert Column Group...", new EventHandler(this.menuMatrixInsertColumnGroup_Click));
-			MenuItem menuMatrixEditColumnGroup= new MenuItem("Edit Column Group");
-			MenuItem menuMatrixDeleteColumnGroup= new MenuItem("Delete Column Group");
+			ToolStripMenuItem menuMatrixInsertColumnGroup = new ToolStripMenuItem("Insert Column Group...", null, new EventHandler(this.menuMatrixInsertColumnGroup_Click));
+			ToolStripMenuItem menuMatrixEditColumnGroup= new ToolStripMenuItem("Edit Column Group");
+			ToolStripMenuItem menuMatrixDeleteColumnGroup= new ToolStripMenuItem("Delete Column Group");
 			if (colGroupNames != null)
 			{
 				foreach (string gname in colGroupNames)
 				{
-					menuMatrixEditColumnGroup.MenuItems.Add(new MenuItem(gname, new EventHandler(this.menuMatrixEditGroup_Click)));
-					menuMatrixDeleteColumnGroup.MenuItems.Add(new MenuItem(gname, new EventHandler(this.menuMatrixDeleteGroup_Click)));
+					menuMatrixEditColumnGroup.DropDownItems.Add(new ToolStripMenuItem(gname, null, new EventHandler(this.menuMatrixEditGroup_Click)));
+					menuMatrixDeleteColumnGroup.DropDownItems.Add(new ToolStripMenuItem(gname, null, new EventHandler(this.menuMatrixDeleteGroup_Click)));
 				}
 			}
 			else
@@ -1239,15 +1238,15 @@ namespace fyiReporting.RdlDesign
 				menuMatrixEditColumnGroup.Enabled = false;
 				menuMatrixDeleteColumnGroup.Enabled = false;
 			}
-			MenuItem menuMatrixInsertRowGroup = new MenuItem("Insert Row Group...", new EventHandler(this.menuMatrixInsertRowGroup_Click));
-			MenuItem menuMatrixEditRowGroup= new MenuItem("Edit Row Group");
-			MenuItem menuMatrixDeleteRowGroup= new MenuItem("Delete Row Group");
+			ToolStripMenuItem menuMatrixInsertRowGroup = new ToolStripMenuItem("Insert Row Group...", null, new EventHandler(this.menuMatrixInsertRowGroup_Click));
+			ToolStripMenuItem menuMatrixEditRowGroup= new ToolStripMenuItem("Edit Row Group");
+			ToolStripMenuItem menuMatrixDeleteRowGroup= new ToolStripMenuItem("Delete Row Group");
 			if (rowGroupNames != null)
 			{
 				foreach (string gname in rowGroupNames)
 				{
-					menuMatrixEditRowGroup.MenuItems.Add(new MenuItem(gname, new EventHandler(this.menuMatrixEditGroup_Click)));
-					menuMatrixDeleteRowGroup.MenuItems.Add(new MenuItem(gname, new EventHandler(this.menuMatrixDeleteGroup_Click)));
+					menuMatrixEditRowGroup.DropDownItems.Add(new ToolStripMenuItem(gname, null, new EventHandler(this.menuMatrixEditGroup_Click)));
+					menuMatrixDeleteRowGroup.DropDownItems.Add(new ToolStripMenuItem(gname, null, new EventHandler(this.menuMatrixDeleteGroup_Click)));
 				}
 			}
 			else
@@ -1255,40 +1254,40 @@ namespace fyiReporting.RdlDesign
 				menuMatrixEditRowGroup.Enabled = false;
 				menuMatrixDeleteRowGroup.Enabled = false;
 			}
-			cmenu = new MenuItem[] {   menuProperties, menuMatrixProperties, new MenuItem("-"),
-									   menuMatrixInsertColumnGroup, menuMatrixEditColumnGroup, menuMatrixDeleteColumnGroup, new MenuItem("-"),
-									   menuMatrixInsertRowGroup, menuMatrixEditRowGroup, menuMatrixDeleteRowGroup, new MenuItem("-"),
-									   menuMatrixDelete, new MenuItem("-"), 
-									   menuCopy, menuPaste, menuDelete, new MenuItem("-"), 
+			cmenu = new ToolStripItem[] {   menuProperties, menuMatrixProperties, new ToolStripSeparator(),
+									   menuMatrixInsertColumnGroup, menuMatrixEditColumnGroup, menuMatrixDeleteColumnGroup, new ToolStripSeparator(),
+									   menuMatrixInsertRowGroup, menuMatrixEditRowGroup, menuMatrixDeleteRowGroup, new ToolStripSeparator(),
+									   menuMatrixDelete, new ToolStripSeparator(), 
+									   menuCopy, menuPaste, menuDelete, new ToolStripSeparator(), 
 									   menuSelectAll };
 
-			menuContext.MenuItems.AddRange(cmenu);
+			menuContext.Items.AddRange(cmenu);
 			menuContext.Show(this, p);
 		}
 
 		private void DrawPanelContextMenuSubreport(Point p, XmlNode sr)
 		{
-			menuContext = new ContextMenu();
-			menuContext.Popup +=new EventHandler(this.menuContext_Popup);
+			menuContext = new ContextMenuStrip();
+			menuContext.Opening +=new System.ComponentModel.CancelEventHandler(this.menuContext_Popup);
 
 			// get the subreport name
 			string name = _DrawPanel.GetElementValue(sr, "ReportName", "");
 			if (name == null || name.Length == 0)
 			{	// No name; no way to open the subreport
-				menuContext.MenuItems.AddRange(
-					new MenuItem[] {
+				menuContext.Items.AddRange(
+					new ToolStripItem[] {
 									   menuProperties, 
-									   new MenuItem("-"), menuCopy, menuPaste, menuDelete, new MenuItem("-"), 
+									   new ToolStripSeparator(), menuCopy, menuPaste, menuDelete, new ToolStripSeparator(), 
 									   menuSelectAll, menuFSep2,menuInsert});
 			}
 			else
 			{
 				string srmi = "Open " + name;
 
-				menuContext.MenuItems.AddRange(
-					new MenuItem[] {
-									   menuProperties, new MenuItem(srmi, new EventHandler(this.menuOpenSubreport_Click)),
-									   new MenuItem("-"), menuCopy, menuPaste, menuDelete, new MenuItem("-"), 
+				menuContext.Items.AddRange(
+					new ToolStripItem[] {
+									   menuProperties, new ToolStripMenuItem(srmi, null, new EventHandler(this.menuOpenSubreport_Click)),
+									   new ToolStripSeparator(), menuCopy, menuPaste, menuDelete, new ToolStripSeparator(), 
 									   menuSelectAll, menuFSep2,menuInsert});
 			}
 			menuContext.Show(this, p);
@@ -1296,65 +1295,65 @@ namespace fyiReporting.RdlDesign
 
 		private void DrawPanelContextMenuTable(Point p, XmlNode riNode)
 		{
-			menuContext = new ContextMenu();
-			menuContext.Popup +=new EventHandler(this.menuContext_Popup);
+			menuContext = new ContextMenuStrip();
+			menuContext.Opening +=new System.ComponentModel.CancelEventHandler(this.menuContext_Popup);
 			// table menus
-			MenuItem menuTableInsertRowBefore = new MenuItem("Insert Row Before", new EventHandler(this.menuTableInsertRowBefore_Click));
-			MenuItem menuTableInsertRowAfter = new MenuItem("Insert Row After", new EventHandler(this.menuTableInsertRowAfter_Click));
-			MenuItem menuTableDeleteRow = new MenuItem("Delete Table Row", new EventHandler(this.menuTableDeleteRow_Click));
-			MenuItem menuTableInsertColumnBefore = new MenuItem("Insert Column Before", new EventHandler(this.menuTableInsertColumnBefore_Click));
-			MenuItem menuTableInsertColumnAfter = new MenuItem("Insert Column After", new EventHandler(this.menuTableInsertColumnAfter_Click));
-			MenuItem menuTableInsertTableGroup = new MenuItem("Insert Table Group...", new EventHandler(this.menuTableInsertGroup_Click));
-			MenuItem menuTableDeleteColumn = new MenuItem("Delete Table Column", new EventHandler(this.menuTableDeleteColumn_Click));
-			MenuItem menuTableDelete = new MenuItem("Delete Table", new EventHandler(this.menuTableDelete_Click));
-			MenuItem menuTableProperties = new MenuItem("Table Properties...", new EventHandler(this.menuTableProperties_Click));
+			ToolStripMenuItem menuTableInsertRowBefore = new ToolStripMenuItem("Insert Row Before", null, new EventHandler(this.menuTableInsertRowBefore_Click));
+			ToolStripMenuItem menuTableInsertRowAfter = new ToolStripMenuItem("Insert Row After", null, new EventHandler(this.menuTableInsertRowAfter_Click));
+			ToolStripMenuItem menuTableDeleteRow = new ToolStripMenuItem("Delete Table Row", null, new EventHandler(this.menuTableDeleteRow_Click));
+			ToolStripMenuItem menuTableInsertColumnBefore = new ToolStripMenuItem("Insert Column Before", null, new EventHandler(this.menuTableInsertColumnBefore_Click));
+			ToolStripMenuItem menuTableInsertColumnAfter = new ToolStripMenuItem("Insert Column After", null, new EventHandler(this.menuTableInsertColumnAfter_Click));
+			ToolStripMenuItem menuTableInsertTableGroup = new ToolStripMenuItem("Insert Table Group...", null, new EventHandler(this.menuTableInsertGroup_Click));
+			ToolStripMenuItem menuTableDeleteColumn = new ToolStripMenuItem("Delete Table Column", null, new EventHandler(this.menuTableDeleteColumn_Click));
+			ToolStripMenuItem menuTableDelete = new ToolStripMenuItem("Delete Table", null, new EventHandler(this.menuTableDelete_Click));
+			ToolStripMenuItem menuTableProperties = new ToolStripMenuItem("Table Properties...", null, new EventHandler(this.menuTableProperties_Click));
 
 			// the replace items
-			MenuItem menuReplTextbox = new MenuItem("&Textbox", new EventHandler(this.menuInsertTextbox_Click));
-			MenuItem menuReplRectangle = new MenuItem("&Rectangle", new EventHandler(this.menuInsertRectangle_Click));
-			MenuItem menuReplImage = new MenuItem("&Image", new EventHandler(this.menuInsertImage_Click));
-			MenuItem menuReplSubreport = new MenuItem("&Subreport", new EventHandler(this.menuInsertSubreport_Click));
-			MenuItem menuReplList = new MenuItem("&List", new EventHandler(this.menuInsertList_Click));
-			MenuItem menuReplMatrix = new MenuItem("&Matrix...", new EventHandler(this.menuInsertMatrix_Click));
-			MenuItem menuReplTable = new MenuItem("Ta&ble...", new EventHandler(this.menuInsertTable_Click));
-			MenuItem menuReplChart = new MenuItem("&Chart...", new EventHandler(this.menuInsertChart_Click));
-			MenuItem menuRepl = new MenuItem("&Replace Cell with");
-			menuRepl.MenuItems.AddRange(new MenuItem[] { menuReplChart, menuReplImage,
+			ToolStripMenuItem menuReplTextbox = new ToolStripMenuItem("&Textbox", null, new EventHandler(this.menuInsertTextbox_Click));
+			ToolStripMenuItem menuReplRectangle = new ToolStripMenuItem("&Rectangle", null, new EventHandler(this.menuInsertRectangle_Click));
+			ToolStripMenuItem menuReplImage = new ToolStripMenuItem("&Image", null, new EventHandler(this.menuInsertImage_Click));
+			ToolStripMenuItem menuReplSubreport = new ToolStripMenuItem("&Subreport", null, new EventHandler(this.menuInsertSubreport_Click));
+			ToolStripMenuItem menuReplList = new ToolStripMenuItem("&List", null, new EventHandler(this.menuInsertList_Click));
+			ToolStripMenuItem menuReplMatrix = new ToolStripMenuItem("&Matrix...", null, new EventHandler(this.menuInsertMatrix_Click));
+			ToolStripMenuItem menuReplTable = new ToolStripMenuItem("Ta&ble...", null, new EventHandler(this.menuInsertTable_Click));
+			ToolStripMenuItem menuReplChart = new ToolStripMenuItem("&Chart...", null, new EventHandler(this.menuInsertChart_Click));
+			ToolStripMenuItem menuRepl = new ToolStripMenuItem("&Replace Cell with");
+			menuRepl.DropDownItems.AddRange(new ToolStripItem[] { menuReplChart, menuReplImage,
 															 menuReplList, menuReplMatrix, 
 															 menuReplRectangle, menuReplSubreport,
 															 menuReplTable, menuReplTextbox});
 			
 			// If there are any TableGroups then we need menu items to manipulate them
-			MenuItem[] cmenu;			// the ultimate context menu items
+			ToolStripItem[] cmenu;			// the ultimate context menu items
 			object[] tblGroupNames = _DrawPanel.GetTableGroupNames(riNode);
 			if (tblGroupNames == null)
 			{   // Don't need menus for manipulating existing TableGroups
-				cmenu = new MenuItem[] {   menuProperties, menuTableProperties, menuRepl, new MenuItem("-"),
-									   menuTableInsertColumnBefore, menuTableInsertColumnAfter, new MenuItem("-"),
-									   menuTableInsertRowBefore, menuTableInsertRowAfter, new MenuItem("-"),
-									   menuTableInsertTableGroup, new MenuItem("-"), 
-									   menuTableDeleteColumn, menuTableDeleteRow, menuTableDelete, new MenuItem("-"), 
-									   menuCopy, menuPaste, menuDelete, new MenuItem("-"), 
+				cmenu = new ToolStripItem[] {   menuProperties, menuTableProperties, menuRepl, new ToolStripSeparator(),
+									   menuTableInsertColumnBefore, menuTableInsertColumnAfter, new ToolStripSeparator(),
+									   menuTableInsertRowBefore, menuTableInsertRowAfter, new ToolStripSeparator(),
+									   menuTableInsertTableGroup, new ToolStripSeparator(), 
+									   menuTableDeleteColumn, menuTableDeleteRow, menuTableDelete, new ToolStripSeparator(), 
+									   menuCopy, menuPaste, menuDelete, new ToolStripSeparator(), 
 									   menuSelectAll };
 			}
 			else
 			{
-				MenuItem menuTableEditGroup= new MenuItem("Edit Group");
-				MenuItem menuTableDeleteGroup= new MenuItem("Delete Group");
+				ToolStripMenuItem menuTableEditGroup= new ToolStripMenuItem("Edit Group");
+				ToolStripMenuItem menuTableDeleteGroup= new ToolStripMenuItem("Delete Group");
 				foreach (string gname in tblGroupNames)
 				{
-					menuTableEditGroup.MenuItems.Add(new MenuItem(gname, new EventHandler(this.menuTableEditGroup_Click)));
-					menuTableDeleteGroup.MenuItems.Add(new MenuItem(gname, new EventHandler(this.menuTableDeleteGroup_Click)));
+					menuTableEditGroup.DropDownItems.Add(new ToolStripMenuItem(gname, null, new EventHandler(this.menuTableEditGroup_Click)));
+					menuTableDeleteGroup.DropDownItems.Add(new ToolStripMenuItem(gname, null, new EventHandler(this.menuTableDeleteGroup_Click)));
 				}
-				cmenu = new MenuItem[] {   menuProperties, menuTableProperties, menuRepl, new MenuItem("-"),
-									   menuTableInsertColumnBefore, menuTableInsertColumnAfter, new MenuItem("-"),
-									   menuTableInsertRowBefore, menuTableInsertRowAfter, new MenuItem("-"),
-									   menuTableInsertTableGroup,menuTableEditGroup,menuTableDeleteGroup, new MenuItem("-"), 
-									   menuTableDeleteColumn, menuTableDeleteRow, menuTableDelete, new MenuItem("-"), 
-									   menuCopy, menuPaste, menuDelete, new MenuItem("-"), 
+				cmenu = new ToolStripItem[] {   menuProperties, menuTableProperties, menuRepl, new ToolStripSeparator(),
+									   menuTableInsertColumnBefore, menuTableInsertColumnAfter, new ToolStripSeparator(),
+									   menuTableInsertRowBefore, menuTableInsertRowAfter, new ToolStripSeparator(),
+									   menuTableInsertTableGroup,menuTableEditGroup,menuTableDeleteGroup, new ToolStripSeparator(), 
+									   menuTableDeleteColumn, menuTableDeleteRow, menuTableDelete, new ToolStripSeparator(), 
+									   menuCopy, menuPaste, menuDelete, new ToolStripSeparator(), 
 									   menuSelectAll };
 			}
-			menuContext.MenuItems.AddRange(cmenu);
+			menuContext.Items.AddRange(cmenu);
 			menuContext.Show(this, p);
 		}
 
@@ -2092,7 +2091,7 @@ namespace fyiReporting.RdlDesign
             ICustomReportItem cri = null;
             try
             {
-                MenuItem mi = sender as MenuItem;
+                ToolStripMenuItem mi = sender as ToolStripMenuItem;
 
                 cri = RdlEngineConfig.CreateCustomReportItem((string) mi.Tag);
                 ri = "<ReportItems>" +
@@ -2379,7 +2378,7 @@ namespace fyiReporting.RdlDesign
 		{
 			if (_DrawPanel.SelectedCount != 1)
 				return;
-			MenuItem menu = sender as MenuItem;
+			ToolStripMenuItem menu = sender as ToolStripMenuItem;
 			if (menu == null)
 				return;
 			string gname = menu.Text;
@@ -2401,7 +2400,7 @@ namespace fyiReporting.RdlDesign
 		{
 			if (_DrawPanel.SelectedCount != 1)
 				return;
-			MenuItem menu = sender as MenuItem;
+			ToolStripMenuItem menu = sender as ToolStripMenuItem;
 			if (menu == null)
 				return;
 			string gname = menu.Text;
@@ -2556,7 +2555,7 @@ namespace fyiReporting.RdlDesign
 		{
 			if (_DrawPanel.SelectedCount != 1)
 				return;
-			MenuItem menu = sender as MenuItem;
+			ToolStripMenuItem menu = sender as ToolStripMenuItem;
 			if (menu == null)
 				return;
 			_Undo.StartUndoGroup("Matrix Delete Group");
@@ -2578,7 +2577,7 @@ namespace fyiReporting.RdlDesign
 		{
 			if (_DrawPanel.SelectedCount != 1)
 				return;
-			MenuItem menu = sender as MenuItem;
+			ToolStripMenuItem menu = sender as ToolStripMenuItem;
 			if (menu == null)
 				return;
 			string gname = menu.Text;
@@ -2712,7 +2711,7 @@ namespace fyiReporting.RdlDesign
 		{
 			if (_DrawPanel.SelectedCount != 1)
 				return;
-			MenuItem menu = sender as MenuItem;
+			ToolStripMenuItem menu = sender as ToolStripMenuItem;
 			if (menu == null)
 				return;
 			string gname = menu.Text;
@@ -2734,7 +2733,7 @@ namespace fyiReporting.RdlDesign
 		{
 			if (_DrawPanel.SelectedCount != 1)
 				return;
-			MenuItem menu = sender as MenuItem;
+			ToolStripMenuItem menu = sender as ToolStripMenuItem;
 			if (menu == null)
 				return;
 			string gname = menu.Text;
