@@ -679,7 +679,8 @@ namespace OpenPmsDentalBusiness {
 	///three files from VSAC under its own UMLS licence (the value sets as the Excel workbook (.xlsx) or the SVS XML (.xml), or a .zip of either)
 	///and imports them together in Setup, Chart, EHR, Code System Importer. Nothing of VSAC's content is shipped: the program carries only the
 	///catalog (the value sets' OIDs, names, QDM categories and measures, the direct-code roles) and these readers. Parse reads each file whole
-	///first and checks it; MakePick checks the three together and resolves the roles; Import then replaces every row of ehrcode, both kinds in
+	///first and checks it (ParsePick reads the pick's three so, under one row budget, refusing a pick of other than three before reading any);
+	///MakePick checks the three together and resolves the roles; Import then replaces every row of ehrcode, both kinds in
 	///one swap, and records the release. A pick without all three files, a file that is refused, or a parse that fails, leaves the old rows.
 	///The header names of the three files are provisional until the record of the real files (E-20; docs/port-notes/EHR-6.md).</summary>
 	public class EhrValueSetImport {
@@ -893,6 +894,20 @@ namespace OpenPmsDentalBusiness {
 			public List<RawRow> ListCodeSystemVersions=new List<RawRow>();
 			///<summary>The kinds of the sheets (or SVS files) rows were read from, skipped rows included.</summary>
 			public HashSet<EhrValueSetFileKind> SetKinds=new HashSet<EhrValueSetFileKind>();
+			///<summary>What the earlier files of the pick read (ParsePick). Null when one file is parsed alone.</summary>
+			public PickBudget PickBudget;
+		}
+
+		///<summary>What the files of a pick read before the one being read (ParsePick): their rows, against one MAX_ROWS for the whole pick, and the
+		///file kept for each of the three kinds. EHR-2's limits are for one parsed value-set file in memory in a 32-bit process, so a pick never
+		///holds more: a second file of a kind already kept is refused at its first row, and its rows are not held.</summary>
+		private class PickBudget {
+			///<summary>Most rows of the whole pick. MAX_ROWS in the program; tests set less.</summary>
+			public int CountRowsMax=MAX_ROWS;
+			///<summary>Rows read by the files of the pick before the one being read, refused files included.</summary>
+			public int CountRowsRead;
+			///<summary>The name of the file kept for each kind read so far.</summary>
+			public Dictionary<EhrValueSetFileKind,string> DictFileNamesKept=new Dictionary<EhrValueSetFileKind,string>();
 		}
 
 		///<summary>The uncompressed bytes read so far from the parts of one file, against MAX_TOTAL_BYTES.</summary>
@@ -994,6 +1009,11 @@ namespace OpenPmsDentalBusiness {
 		///while the file is read) and MAX_COLUMNS columns of a workbook, so a file made to exhaust a 32-bit process is refused, not read.</summary>
 		public static EhrValueSetFile Parse(string fileName,Stream stream) {
 			Meth.NoCheckMiddleTierRole();
+			return ParseOne(fileName,stream,null);
+		}
+
+		///<summary>Parse of one file, alone (pickBudget null) or as one of a pick (ParsePick).</summary>
+		private static EhrValueSetFile ParseOne(string fileName,Stream stream,PickBudget pickBudget) {
 			EhrValueSetFile file=new EhrValueSetFile();
 			file.FileName=Path.GetFileName(fileName??"");
 			if(stream==null || stream.Length==0) {
@@ -1010,6 +1030,7 @@ namespace OpenPmsDentalBusiness {
 				file.Sha256=string.Concat(sha256.ComputeHash(stream).Select(x => x.ToString("x2",CultureInfo.InvariantCulture)));
 			}
 			RawRows rawRows=new RawRows();
+			rawRows.PickBudget=pickBudget;
 			try {
 				stream.Position=0;
 				ReadPart(file,file.FileName,stream,rawRows,isInsideZip:false,new ReadBudget());
@@ -1702,12 +1723,25 @@ namespace OpenPmsDentalBusiness {
 		#endregion SVS
 
 		///<summary>Adds a row read from the file, of the kind of its sheet, skipping and counting one without what that kind needs (a value-set OID and
-		///a code; a code; a code system and a version). Returns false when the file passes MAX_ROWS (the file is then refused).</summary>
+		///a code; a code; a code system and a version). Returns false when the file passes MAX_ROWS, when the files of a pick pass it together, or
+		///when the pick already has a file of the row's kind (the file is then refused, and its rows are not kept).</summary>
 		private static bool AddRawRow(EhrValueSetFile file,RawRows rawRows,RawRow rawRow,EhrValueSetFileKind kind) {
 			file.CountRowsRead++;
 			if(file.CountRowsRead>MAX_ROWS) {
 				file.ListRefusals.Add(Lans.g(LANS,"The file has more rows than the importer reads")+" ("+MAX_ROWS+").");
 				return false;
+			}
+			PickBudget pickBudget=rawRows.PickBudget;
+			if(pickBudget!=null) {
+				if(pickBudget.DictFileNamesKept.TryGetValue(kind,out string fileNameKept)) {
+					file.Kind=kind;
+					file.ListRefusals.Add(GetKindTakenText(kind,fileNameKept));
+					return false;
+				}
+				if(pickBudget.CountRowsRead+file.CountRowsRead>pickBudget.CountRowsMax) {
+					file.ListRefusals.Add(Lans.g(LANS,"The files of the pick have more rows together than the importer reads")+" ("+pickBudget.CountRowsMax+").");
+					return false;
+				}
 			}
 			rawRows.SetKinds.Add(kind);
 			switch(kind) {
@@ -2081,6 +2115,69 @@ namespace OpenPmsDentalBusiness {
 			return stringBuilder.ToString().TrimEnd();
 		}
 
+		///<summary>Reads the office's pick of the release's three files and checks them together (MakePick), as the Code System Importer does
+		///(section 7.1), holding no more in memory than EHR-2's limits allow for one parsed value-set file (a 32-bit process). A pick of other than
+		///three files is refused before any file is opened. The three are read one after another under one MAX_ROWS for the whole pick, and a
+		///second file of a kind already read is refused at its first row of that kind, so its rows are never held; a refused file keeps only its
+		///report. funcOpenStream opens the file at an index of listFileNames as a seekable stream (a FileStream in the program); it is disposed here
+		///once read. Nothing is written.</summary>
+		public static EhrValueSetPick ParsePick(List<string> listFileNames,Func<int,Stream> funcOpenStream) {
+			Meth.NoCheckMiddleTierRole();
+			return ParsePick(listFileNames,funcOpenStream,MAX_ROWS);
+		}
+
+		///<summary>ParsePick with a row budget for the whole pick other than MAX_ROWS (tests/EhrTests).</summary>
+		internal static EhrValueSetPick ParsePick(List<string> listFileNames,Func<int,Stream> funcOpenStream,int countRowsMax) {
+			listFileNames=listFileNames??new List<string>();
+			if(listFileNames.Count!=3) {
+				EhrValueSetPick pickRefused=new EhrValueSetPick();
+				pickRefused.ListRefusals.Add(GetPickCountText(listFileNames.Count));
+				return pickRefused;
+			}
+			PickBudget pickBudget=new PickBudget();
+			pickBudget.CountRowsMax=countRowsMax;
+			List<EhrValueSetFile> listFiles=new List<EhrValueSetFile>();
+			for(int i=0;i<listFileNames.Count;i++) {
+				EhrValueSetFile file;
+				using(Stream stream=funcOpenStream(i)) {
+					file=ParseOne(listFileNames[i],stream,pickBudget);
+				}
+				pickBudget.CountRowsRead+=file.CountRowsRead;
+				bool isKindOfRelease=file.Kind==EhrValueSetFileKind.ValueSets || file.Kind==EhrValueSetFileKind.DirectReferenceCodes
+					|| file.Kind==EhrValueSetFileKind.CodeSystemVersions;
+				if(!file.IsRefused && isKindOfRelease) {
+					if(pickBudget.DictFileNamesKept.TryGetValue(file.Kind,out string fileNameKept)) {
+						//AddRawRow refuses such a file at its first row of the kind; this is the same refusal, should a file get here.
+						file.ListRefusals.Add(GetKindTakenText(file.Kind,fileNameKept));
+					}
+					else {
+						pickBudget.DictFileNamesKept.Add(file.Kind,file.FileName);
+					}
+				}
+				if(file.IsRefused) {
+					//A refused file writes nothing: its rows are not held for the rest of the pick, only its report.
+					file.ListEhrCodes=new List<EhrCode>();
+					file.ListDirectCodes=new List<EhrDirectCode>();
+					file.ListCodeSystemVersions=new List<EhrCodeSystemVersion>();
+				}
+				listFiles.Add(file);
+			}
+			return MakePick(listFiles);
+		}
+
+		///<summary>The refusal of a pick of other than the release's three files (ParsePick and MakePick).</summary>
+		public static string GetPickCountText(int countFiles) {
+			Meth.NoCheckMiddleTierRole();
+			return Lans.g(LANS,"Pick the three files of the release together: the value sets (the Excel workbook, the SVS XML or a "
+				+".zip of either), the Direct Reference Codes file and the Code System Versions file. Files picked")+": "+countFiles+".";
+		}
+
+		///<summary>The refusal of a second file of a kind the pick already has (ParsePick).</summary>
+		private static string GetKindTakenText(EhrValueSetFileKind kind,string fileNameKept) {
+			return Lans.g(LANS,"The pick has more than one file with")+" "+GetKindText(kind)+": "+Lans.g(LANS,"this file and")+" "+fileNameKept+". "
+				+Lans.g(LANS,"This file was not read further, and its rows are not kept.");
+		}
+
 		///<summary>The office's pick of the release's three files, as Parse read each (section 7.1): checks that it holds exactly the three (the
 		///value sets, the Direct Reference Codes file and the Code System Versions file), each once and none refused, then turns the direct reference
 		///codes into ehrcode rows under their drc: keys and resolves the catalog's roles. A pick without all three, or with a refused file, is
@@ -2104,8 +2201,7 @@ namespace OpenPmsDentalBusiness {
 				}
 			}
 			if(pick.ListFiles.Count!=3 || pick.ListRefusals.Count>0) {
-				pick.ListRefusals.Insert(0,Lans.g(LANS,"Pick the three files of the release together: the value sets (the Excel workbook, the SVS XML or a "
-					+".zip of either), the Direct Reference Codes file and the Code System Versions file. Files picked")+": "+pick.ListFiles.Count+".");
+				pick.ListRefusals.Insert(0,GetPickCountText(pick.ListFiles.Count));
 				return pick;
 			}
 			pick.FileValueSets=pick.ListFiles.Single(x => x.Kind==EhrValueSetFileKind.ValueSets);

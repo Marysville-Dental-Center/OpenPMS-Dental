@@ -181,6 +181,12 @@ namespace OpenPmsDental {
 				}
 				listPaths=openFileDialog.FileNames.ToList();
 			}
+			if(listPaths.Count!=3) {//Refused before any file is read: each parsed value-set file is held in memory (a 32-bit process).
+				string refusal=EhrValueSetImport.GetPickCountText(listPaths.Count);
+				MsgBox.Show(refusal);
+				SetStatusValueSets(Lan.g("CodeSystemImporter","Files refused, nothing imported")+": "+refusal);
+				return;
+			}
 			EhrValueSetPick pick=null;
 			try {
 				foreach(string path in listPaths) {
@@ -192,16 +198,10 @@ namespace OpenPmsDental {
 				ProgressWin progressWin=new ProgressWin();
 				progressWin.StartingMessage=Lan.g(this,"Reading the value sets...");
 				progressWin.ShowCancelButton=false;
-				progressWin.ActionMain=() => {
-					List<EhrValueSetFile> listFiles=new List<EhrValueSetFile>();
-					foreach(string path in listPaths) {
-						//Read from the file as a stream, never whole into memory (this is a 32-bit process).
-						using(FileStream fileStream=new FileStream(path,FileMode.Open,FileAccess.Read,FileShare.Read)) {
-							listFiles.Add(EhrValueSetImport.Parse(path,fileStream));
-						}
-					}
-					pick=EhrValueSetImport.MakePick(listFiles);
-				};
+				//Each file is read from a stream, never whole into memory (this is a 32-bit process), under one row budget for the three, and a second
+				//file of a kind already read is refused at its first row, so the pick never holds more than one parsed value-set file.
+				progressWin.ActionMain=() => pick=EhrValueSetImport.ParsePick(listPaths,
+					index => new FileStream(listPaths[index],FileMode.Open,FileAccess.Read,FileShare.Read));
 				progressWin.ShowDialog();
 			}
 			catch(Exception ex) {
