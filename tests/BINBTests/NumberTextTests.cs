@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using CodeBase;
@@ -114,7 +115,7 @@ namespace BINBTests {
 
 		[TestMethod]
 		public void Pins_SInTreatsOverflowAsInvalid() {
-			Thread.CurrentThread.CurrentCulture=new CultureInfo("en-US");
+			Thread.CurrentThread.CurrentCulture=CultureInfo.GetCultureInfo("en-US");
 			Assert.AreEqual(0,SIn.Double("1e400"),"An overflow is invalid (0), as on .NET Framework; .NET parses it to infinity.");
 			Assert.AreEqual(0,SIn.Double("-1e400"));
 			Assert.AreEqual(0,SIn.Double("1e400",doUseEnUSFormat:true));
@@ -140,19 +141,66 @@ namespace BINBTests {
 			Assert.IsTrue(double.IsNaN(ODNumberText.GetParsedAsNetFramework(double.NaN,"NaN",CultureInfo.CurrentCulture)));
 		}
 
+		///<summary>The system locale's ANSI code page, asked of Windows here as well, so the pins do not lean on Encoding.Default (UTF-8 on .NET).</summary>
+		[DllImport("kernel32.dll")]
+		private static extern int GetACP();
+
+		///<summary>Cultures whose own ANSI page is 1252, 1250, 1251, 1253 and 932: on an English Windows the last four differ from the system page.</summary>
+		private static readonly string[] _arrayCultureNamesAnsi=new[] { "en-US","en-CA","fr-CA","de-DE","pl-PL","ru-RU","el-GR","ja-JP" };
+
 		[TestMethod]
-		public void Pins_AnsiEncodingIsTheCulturesAnsiPage() {
-			Dictionary<string,int> dictCodePages=new Dictionary<string,int> {
-				{ "en-US",1252 },{ "en-CA",1252 },{ "fr-CA",1252 },{ "de-DE",1252 },{ "pl-PL",1250 },{ "ru-RU",1251 },{ "el-GR",1253 },{ "ja-JP",932 },
-			};
-			foreach(KeyValuePair<string,int> keyValuePair in dictCodePages) {
-				Thread.CurrentThread.CurrentCulture=new CultureInfo(keyValuePair.Key);
-				Assert.AreEqual(keyValuePair.Value,ODEncodings.GetAnsiEncoding().CodePage,keyValuePair.Key);
+		public void Pins_AnsiEncodingIsTheSystemAnsiPage() {
+			int codePageSystem=GetACP();
+			foreach(string cultureName in _arrayCultureNamesAnsi) {
+				Thread.CurrentThread.CurrentCulture=CultureInfo.GetCultureInfo(cultureName);
+				Assert.AreEqual(codePageSystem,ODEncodings.GetAnsiEncoding().CodePage,
+					cultureName+": the system page, whatever the thread culture's own page ("+CultureInfo.CurrentCulture.TextInfo.ANSICodePage+")");
 			}
-			Thread.CurrentThread.CurrentCulture=new CultureInfo("en-US");
+			Assert.AreNotEqual(65001,ODEncodings.GetAnsiEncoding().CodePage,"Not UTF-8, which Encoding.Default is on .NET.");
+			if(codePageSystem!=1252) {
+				Assert.Inconclusive("The 1252 bytes below are pinned on a Windows whose ANSI page is 1252; this one has "+codePageSystem+".");
+			}
 			string text="caf\u00e9 \u20ac \u2013 \u00fc";
 			CollectionAssert.AreEqual(Encoding.GetEncoding(1252).GetBytes(text),ODEncodings.GetAnsiEncoding().GetBytes(text));
 			CollectionAssert.AreEqual(new byte[] { 0x63,0x61,0x66,0xE9,0x20,0x80,0x20,0x96,0x20,0xFC },ODEncodings.GetAnsiEncoding().GetBytes(text));
+		}
+
+		///<summary>Fixtures/G15Texts.txt: the texts .NET Framework 4.8 gave for double.ToString(InvariantCulture) and float.ToString(InvariantCulture),
+		///recorded once on .NET Framework and copied next to the test assembly. ToStringG15 and ToStringG7 must give them on every runtime (for S3a-4
+		///and 3b); on .NET Framework the plain ToString must give them too, which shows the file is that runtime's record.</summary>
+		[TestMethod]
+		public void Fixture_G15AndG7Texts() {
+			string path=System.IO.Path.Combine(System.IO.Path.GetDirectoryName(typeof(NumberTextTests).Assembly.Location),"Fixtures","G15Texts.txt");
+			int countDoubles=0;
+			int countFloats=0;
+			foreach(string line in System.IO.File.ReadAllLines(path)) {
+				if(line.Trim()=="" || line.StartsWith("#")) {
+					continue;
+				}
+				string[] arrayParts=line.Split(new[] { ' ' },3);
+				Assert.AreEqual(3,arrayParts.Length,line);
+				if(arrayParts[0]=="D") {
+					double value=BitConverter.Int64BitsToDouble(long.Parse(arrayParts[1],NumberStyles.HexNumber,CultureInfo.InvariantCulture));
+					Assert.AreEqual(arrayParts[2],ODNumberText.ToStringG15(value,CultureInfo.InvariantCulture),line);
+					if(IsNetFramework()) {
+						Assert.AreEqual(arrayParts[2],value.ToString(CultureInfo.InvariantCulture),line);
+					}
+					countDoubles++;
+				}
+				else if(arrayParts[0]=="F") {
+					int bits=int.Parse(arrayParts[1],NumberStyles.HexNumber,CultureInfo.InvariantCulture);
+					float value=BitConverter.ToSingle(BitConverter.GetBytes(bits),0);
+					Assert.AreEqual(arrayParts[2],ODNumberText.ToStringG7(value,CultureInfo.InvariantCulture),line);
+					if(IsNetFramework()) {
+						Assert.AreEqual(arrayParts[2],value.ToString(CultureInfo.InvariantCulture),line);
+					}
+					countFloats++;
+				}
+				else {
+					Assert.Fail("Unknown line: "+line);
+				}
+			}
+			Assert.IsTrue(countDoubles>=300 && countFloats>=200,"doubles "+countDoubles+", floats "+countFloats);
 		}
 		#endregion Pins
 
@@ -160,23 +208,26 @@ namespace BINBTests {
 		[TestMethod]
 		public void BeforeAfter_AnsiEncodingIsEncodingDefault() {
 			RequireNetFramework();
-			//Encoding.Default is the system locale's ANSI page; the new code takes the culture's. They agree whenever the two share their page,
-			//as for every culture of the office. The test runs in the computer's own culture and in each culture with the system's page.
-			if(CultureInfo.CurrentCulture.TextInfo.ANSICodePage!=Encoding.Default.CodePage) {
-				Assert.Inconclusive("This computer's culture and system locale have different ANSI pages.");
-			}
-			Assert.AreEqual(Encoding.Default.CodePage,ODEncodings.GetAnsiEncoding().CodePage);
+			//Encoding.Default on .NET Framework is the system locale's ANSI page (GetACP), whatever the thread culture, and so is the new code.
+			//The test runs in the computer's own culture, in cultures whose own page is not the system page (pl-PL 1250, ru-RU 1251, el-GR 1253,
+			//ja-JP 932 on an English Windows), and in every specific culture of the computer.
 			byte[] arrayAll=Enumerable.Range(0,256).Select(x => (byte)x).ToArray();
 			string textAll=Encoding.Default.GetString(arrayAll);
-			Assert.AreEqual(textAll,ODEncodings.GetAnsiEncoding().GetString(arrayAll));
-			CollectionAssert.AreEqual(Encoding.Default.GetBytes(textAll),ODEncodings.GetAnsiEncoding().GetBytes(textAll));
-			foreach(CultureInfo cultureInfo in CultureInfo.GetCultures(CultureTypes.SpecificCultures)) {
-				if(cultureInfo.TextInfo.ANSICodePage!=Encoding.Default.CodePage) {
-					continue;
-				}
+			List<CultureInfo> listCultures=new List<CultureInfo> { _cultureInfoOld };
+			listCultures.AddRange(_arrayCultureNamesAnsi.Select(x => CultureInfo.GetCultureInfo(x)));
+			listCultures.AddRange(CultureInfo.GetCultures(CultureTypes.SpecificCultures));
+			int countOtherPage=0;
+			foreach(CultureInfo cultureInfo in listCultures) {
 				Thread.CurrentThread.CurrentCulture=cultureInfo;
+				Assert.AreEqual(Encoding.Default,ODEncodings.GetAnsiEncoding(),cultureInfo.Name);
+				Assert.AreEqual(Encoding.Default.CodePage,ODEncodings.GetAnsiEncoding().CodePage,cultureInfo.Name);
 				Assert.AreEqual(textAll,ODEncodings.GetAnsiEncoding().GetString(arrayAll),cultureInfo.Name);
+				CollectionAssert.AreEqual(Encoding.Default.GetBytes(textAll),ODEncodings.GetAnsiEncoding().GetBytes(textAll),cultureInfo.Name);
+				if(cultureInfo.TextInfo.ANSICodePage!=Encoding.Default.CodePage) {
+					countOtherPage++;
+				}
 			}
+			Assert.IsTrue(countOtherPage>=4,"Cultures whose own ANSI page is not the system page were tested: "+countOtherPage);
 		}
 
 		[TestMethod]
@@ -212,7 +263,7 @@ namespace BINBTests {
 			numberFormatInfoEnUs.NumberDecimalSeparator=".";
 			numberFormatInfoEnUs.NumberGroupSeparator=",";
 			foreach(string cultureName in _arrayCultureNames) {
-				Thread.CurrentThread.CurrentCulture=new CultureInfo(cultureName);
+				Thread.CurrentThread.CurrentCulture=CultureInfo.GetCultureInfo(cultureName);
 				foreach(double value in GetFixtureDoubles()) {
 					string message=value.ToString("R",CultureInfo.InvariantCulture)+" "+cultureName;
 					Assert.AreEqual(value.ToString("f",CultureInfo.InvariantCulture),SOut.Double(value),message);
@@ -239,7 +290,7 @@ namespace BINBTests {
 				listTexts.Add(value.ToString("R",CultureInfo.InvariantCulture));
 			}
 			foreach(string cultureName in _arrayCultureNames) {
-				Thread.CurrentThread.CurrentCulture=new CultureInfo(cultureName);
+				Thread.CurrentThread.CurrentCulture=CultureInfo.GetCultureInfo(cultureName);
 				listTexts.Add(CultureInfo.CurrentCulture.NumberFormat.PositiveInfinitySymbol);
 				listTexts.Add(CultureInfo.CurrentCulture.NumberFormat.NegativeInfinitySymbol);
 				listTexts.Add(CultureInfo.CurrentCulture.NumberFormat.NaNSymbol);

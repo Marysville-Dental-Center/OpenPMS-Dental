@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Xml.Serialization;
@@ -15,6 +16,10 @@ using OpenPmsDentalBusiness;
 namespace BPROCTests {
 	[TestClass]
 	public class ProcCodeImportTests {
+		///<summary>The system locale's ANSI code page, asked of Windows (Encoding.Default is UTF-8 on .NET).</summary>
+		[DllImport("kernel32.dll")]
+		private static extern int GetACP();
+
 		[TestInitialize]
 		public void TestInitialize() {
 			Thread.CurrentThread.CurrentCulture=new CultureInfo("en-US");
@@ -117,9 +122,16 @@ namespace BPROCTests {
 		public void DecodeFileBytes_Utf8AndAnsi() {
 			byte[] arrayUtf8Bom=new UTF8Encoding(true).GetPreamble().Concat(Encoding.UTF8.GetBytes("D9931\tSynth\u00e9tique")).ToArray();
 			Assert.AreEqual("D9931\tSynth\u00e9tique",ProcCodeImports.DecodeFileBytes(arrayUtf8Bom));
-			//The ANSI page of the culture (en-US, set in TestInitialize) is 1252 on every computer, so the bytes are built with 1252 (S3a-3).
-			byte[] arrayAnsi=Encoding.GetEncoding(1252).GetBytes("D9932\tSynth\u00e9tique");
-			Assert.AreEqual("D9932\tSynth\u00e9tique",ProcCodeImports.DecodeFileBytes(arrayAnsi),"Invalid UTF-8 falls back to the ANSI code page.");
+			//The ANSI fallback is the system's page (GetACP), as Encoding.Default was on .NET Framework, whatever the thread culture (S3a-3): the bytes
+			//are built with that page (1252 on an English or Western European Windows) and decoded in ja-JP, whose own page is 932.
+			Encoding encodingAnsi=Encoding.GetEncoding(GetACP());
+			byte[] arrayAnsi=encodingAnsi.GetBytes("D9932\tSynth\u00e9tique");
+			Thread.CurrentThread.CurrentCulture=CultureInfo.GetCultureInfo("ja-JP");
+			Assert.AreEqual(encodingAnsi.GetString(arrayAnsi),ProcCodeImports.DecodeFileBytes(arrayAnsi),"Invalid UTF-8 falls back to the ANSI code page.");
+			if(GetACP()==1252) {
+				Assert.AreEqual("D9932\tSynth\u00e9tique",ProcCodeImports.DecodeFileBytes(Encoding.GetEncoding(1252).GetBytes("D9932\tSynth\u00e9tique")));
+			}
+			Thread.CurrentThread.CurrentCulture=CultureInfo.GetCultureInfo("en-US");
 			Assert.AreEqual("",ProcCodeImports.DecodeFileBytes(new byte[0]));
 		}
 

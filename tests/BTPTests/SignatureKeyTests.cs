@@ -21,7 +21,7 @@ namespace BTPTests {
 		[TestInitialize]
 		public void TestInitialize() {
 			_cultureInfoOld=Thread.CurrentThread.CurrentCulture;
-			Thread.CurrentThread.CurrentCulture=new CultureInfo("en-US");
+			Thread.CurrentThread.CurrentCulture=CultureInfo.GetCultureInfo("en-US");
 		}
 
 		[TestCleanup]
@@ -43,7 +43,7 @@ namespace BTPTests {
 			string keyData=TreatPlans.GetKeyDataForSignatureHash(NewPlan(),NewProcs(125.5,-0.004,_negativeZero,0.1+0.2));
 			Assert.AreEqual("Synthetic plan note20261115Synthetic PatientSynthetic Dentist"
 				+"Synthetic procedure 0125.50Synthetic procedure 10.00Synthetic procedure 20.00Synthetic procedure 30.30",keyData);
-			Thread.CurrentThread.CurrentCulture=new CultureInfo("fr-CA");
+			Thread.CurrentThread.CurrentCulture=CultureInfo.GetCultureInfo("fr-CA");
 			StringAssert.Contains(TreatPlans.GetKeyDataForSignatureHash(NewPlan(),NewProcs(125.5)),"125,50",
 				"The current culture, as the stored signatures were made.");
 		}
@@ -60,7 +60,7 @@ namespace BTPTests {
 				listAmounts.Add(i%3==0 ? -amount : amount);
 			}
 			foreach(string cultureName in new[] { "en-US","en-CA","fr-CA","de-DE" }) {
-				Thread.CurrentThread.CurrentCulture=new CultureInfo(cultureName);
+				Thread.CurrentThread.CurrentCulture=CultureInfo.GetCultureInfo(cultureName);
 				for(int i=0;i<listAmounts.Count;i+=5) {
 					TreatPlan treatPlan=NewPlan();
 					List<ProcTP> listProcTPs=NewProcs(listAmounts.Skip(i).Take(5).ToArray());

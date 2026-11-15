@@ -20,7 +20,7 @@ namespace PayPlanTests {
 		[TestInitialize]
 		public void TestInitialize() {
 			_cultureInfoOld=Thread.CurrentThread.CurrentCulture;
-			Thread.CurrentThread.CurrentCulture=new CultureInfo("en-US");
+			Thread.CurrentThread.CurrentCulture=CultureInfo.GetCultureInfo("en-US");
 		}
 
 		[TestCleanup]
@@ -43,7 +43,7 @@ namespace PayPlanTests {
 				".NET writes 0.30000000000000004 for the APR and -0.00 for the amount without S3a-3.");
 			Assert.AreEqual("12.5120.00",PayPlans.GetKeyDataStringForSignature(NewPayPlan(12.5,_negativeZero),NewPatient("A"),NewPatient("B"))
 				.Substring(0,10));
-			Thread.CurrentThread.CurrentCulture=new CultureInfo("fr-CA");
+			Thread.CurrentThread.CurrentCulture=CultureInfo.GetCultureInfo("fr-CA");
 			StringAssert.StartsWith(PayPlans.GetKeyDataStringForSignature(NewPayPlan(12.5,100),NewPatient("A"),NewPatient("B")),"12,512100,00",
 				"The current culture, as the stored signatures were made.");
 		}
@@ -65,7 +65,7 @@ namespace PayPlanTests {
 			Patient patient=NewPatient("Pat");
 			Patient patientGuar=NewPatient("Guar");
 			foreach(string cultureName in new[] { "en-US","en-CA","fr-CA","de-DE" }) {
-				Thread.CurrentThread.CurrentCulture=new CultureInfo(cultureName);
+				Thread.CurrentThread.CurrentCulture=CultureInfo.GetCultureInfo(cultureName);
 				for(int i=0;i<listValues.Count;i++) {
 					PayPlan payPlan=NewPayPlan(listValues[i],listValues[listValues.Count-1-i]);
 					string keyDataOld=PayPlans.GetKeyDataStringForSignature(payPlan.APR.ToString(),payPlan.NumberOfPayments.ToString(),
