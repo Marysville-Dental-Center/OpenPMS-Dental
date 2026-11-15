@@ -158,9 +158,22 @@ namespace ToothChartImageTests {
 			new TextAllowance("size-sheet-tall","360x480","number","number 1",ReasonSheetTallNumbers),
 			new TextAllowance("size-sheet-tall","360x480","number","number 20",ReasonSheetTallNumbers),
 			new TextAllowance("size-sheet-tall","360x480","number","number 29",ReasonSheetTallNumbers),
-			//TC-5: the long free-text label at 20,140 runs along the row of the upper numbers, which DirectX drew without it.
-			new TextAllowance("text-label-long","410x307","number","*",ReasonFreeTextOverNumbers),
-			new TextAllowance("text-label-long","500x370","number","*",ReasonFreeTextOverNumbers),
+			//TC-5: the long free-text label at 20,140 runs along the row of the upper numbers, which DirectX drew without it. One allowance per number
+			//whose ink box the label's ink joins (the numbers that fail without them, fix round 1), so any other number that moves still fails.
+			new TextAllowance("text-label-long","410x307","number","number 5",ReasonFreeTextOverNumbers),
+			new TextAllowance("text-label-long","410x307","number","number 9",ReasonFreeTextOverNumbers),
+			new TextAllowance("text-label-long","410x307","number","number 11",ReasonFreeTextOverNumbers),
+			new TextAllowance("text-label-long","500x370","number","number 2",ReasonFreeTextOverNumbers),
+			new TextAllowance("text-label-long","500x370","number","number 3",ReasonFreeTextOverNumbers),
+			new TextAllowance("text-label-long","500x370","number","number 4",ReasonFreeTextOverNumbers),
+			new TextAllowance("text-label-long","500x370","number","number 5",ReasonFreeTextOverNumbers),
+			new TextAllowance("text-label-long","500x370","number","number 6",ReasonFreeTextOverNumbers),
+			new TextAllowance("text-label-long","500x370","number","number 7",ReasonFreeTextOverNumbers),
+			new TextAllowance("text-label-long","500x370","number","number 8",ReasonFreeTextOverNumbers),
+			new TextAllowance("text-label-long","500x370","number","number 9",ReasonFreeTextOverNumbers),
+			new TextAllowance("text-label-long","500x370","number","number 10",ReasonFreeTextOverNumbers),
+			new TextAllowance("text-label-long","500x370","number","number 11",ReasonFreeTextOverNumbers),
+			new TextAllowance("text-label-long","500x370","number","number 12",ReasonFreeTextOverNumbers),
 		};
 
 		private const string ReasonFreeTextOverNumbers="New drawing, not a difference of place (TC-5): the free-text label of this scene is drawn over "

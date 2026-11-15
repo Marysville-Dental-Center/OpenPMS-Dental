@@ -5,5 +5,5 @@ Size: 500x370
 Colours: Printout
 Engine: Simple2D (ToothChart2D, GDI+)
 Bitmap: 500x370 Format32bppArgb
-Pixels SHA-256: 4a454014732085ffaa7a3f80c65551089d7ede4b363d3e409ae34c2e1f6ffe8f
+Pixels SHA-256: 1b61c24b9bcab0f783c2c538a7012771779b89deaaf1f255a626c79f6bfb260d
 Framework: .NET Framework 4.8, x86

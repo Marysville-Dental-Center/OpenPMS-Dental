@@ -5,5 +5,5 @@ Size: 410x307
 Colours: Module
 Engine: Simple2D (ToothChart2D, GDI+)
 Bitmap: 410x307 Format32bppArgb
-Pixels SHA-256: 0a3ea3bc9ed374012868574574243644fc1867f631cfef1f1caae6929a09b711
+Pixels SHA-256: 608a645577a6665c9c6680d064bccd908c9c75c7cc8aa883f05ce6b793d86621
 Framework: .NET Framework 4.8, x86

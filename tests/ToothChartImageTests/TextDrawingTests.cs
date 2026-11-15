@@ -249,6 +249,41 @@ namespace ToothChartImageTests {
 		}
 
 		[TestMethod]
+		public void TextSizes_The2DChartsFontIsFixed_TheWpfChartsScales() {
+			//Review of TC-5, item 2 (kept as it is, documented in TC-5.md 1.1 to 1.3): the 2D chart draws its TC-5 text in the control's fixed 8.25 pt
+			//font at every size, as its tooth numbers and "W"; the WPF chart scales its fonts by the pixel scale ratio. The measured sizes go to
+			//%TEMP%\ToothChartImageTests\tc5-text-sizes.txt for the port note.
+			List<string> listLines=new List<string>();
+			List<int> listHeights2D=new List<int>();
+			List<int> listHeightsWpf=new List<int>();
+			StaRunner.Run(() => {
+				foreach(ChartSize chartSize in new[] { ChartScenes.SizeModule,ChartScenes.SizeBigWindow }) {
+					using ToothChartWrapper wrapper=CreateReset(chartSize.Size,out ToothChartRelay relay);
+					float ratio=wrapper.TcData.PixelScaleRatio;
+					using Bitmap bitmap=new Bitmap(10,10);
+					using Graphics g=Graphics.FromImage(bitmap);
+					g.TextRenderingHint=System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;//as ToothChart2D.OnPaint draws
+					using StringFormat format=ToothChart2D.CreateTextFormat();
+					Font font2D=wrapper.Font;
+					ChartFont fontBelow=ToothSceneBuilder.GetFontTextBelow(ratio);
+					ChartFont fontFree=ToothSceneBuilder.GetFontFreeText(ratio);
+					listHeights2D.Add(font2D.Height);
+					listHeightsWpf.Add(fontBelow.Height);
+					listLines.Add(chartSize.FolderName+" (ratio "+ratio.ToString("0.###",System.Globalization.CultureInfo.InvariantCulture)+"): 2D "
+						+font2D.Name+" "+font2D.SizeInPoints.ToString(System.Globalization.CultureInfo.InvariantCulture)+" pt, cell "+font2D.Height
+						+" px, \"IMP\" "+Math.Round(g.MeasureString("IMP",font2D,PointF.Empty,format).Width,1).ToString(System.Globalization.CultureInfo.InvariantCulture)
+						+" px, \"Upper right\" "+Math.Round(g.MeasureString("Upper right",font2D,PointF.Empty,format).Width,1)
+							.ToString(System.Globalization.CultureInfo.InvariantCulture)+" px; "
+						+"WPF TextBelow cell "+fontBelow.Height+" px, \"IMP\" "+ChartFontMeasure.MeasureText(fontBelow,"IMP").Width+" px; "
+						+"WPF free text cell "+fontFree.Height+" px, \"Upper right\" "+ChartFontMeasure.MeasureText(fontFree,"Upper right").Width+" px.");
+				}
+			});
+			WpfCharts.WriteEvidence("tc5-text-sizes.txt",string.Join("\r\n",listLines));
+			Assert.AreEqual(listHeights2D[0],listHeights2D[1],"The 2D chart's text does not scale.");
+			Assert.IsTrue(listHeightsWpf[1]>listHeightsWpf[0],"The WPF chart's text scales with the chart.");
+		}
+
+		[TestMethod]
 		public void Relay_PassesTheTextPaintTypes_ToTheWrapper() {
 			StaRunner.Run(() => {
 				using ToothChartWrapper wrapper=CreateReset(ChartScenes.SizeModule.Size,out ToothChartRelay relay);

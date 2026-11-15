@@ -212,16 +212,16 @@ namespace ToothChartImageTests {
 			procDenture.Surf="U";
 			listProcs.Add(procDenture);
 			listProcs.Add(funcProc(codeExtraction,"7",ProcStat.C));
-			//2 extracted with a hidden completed implant: the X stays (a hidden procedure draws nothing).
-			listProcs.Add(funcProc(codeExtraction,"2",ProcStat.C));
-			ToothChartPaintProc procImplantHidden=funcProc(codeImplant,"2",ProcStat.C);
+			//18 extracted with a hidden completed implant: the X stays (a hidden procedure draws nothing).
+			listProcs.Add(funcProc(codeExtraction,"18",ProcStat.C));
+			ToothChartPaintProc procImplantHidden=funcProc(codeImplant,"18",ProcStat.C);
 			procImplantHidden.IsHidden=true;
 			listProcs.Add(procImplantHidden);
 			//31 extracted with nothing over it, and a planned extraction of 25, which has a completed implant: both keep the X.
 			listProcs.Add(funcProc(codeExtraction,"31",ProcStat.C));
 			listProcs.Add(funcProc(codeImplant,"25",ProcStat.C));
 			listProcs.Add(funcProc(codeExtraction,"25",ProcStat.TP));
-			List<ToothInitial> listToothInitials=new[] { "2","4","7","12","14","19","20","30","31" }
+			List<ToothInitial> listToothInitials=new[] { "4","7","12","14","18","19","20","30","31" }
 				.Select(x => new ToothInitial { ToothNum=x,InitialType=ToothInitialType.Missing }).ToList();
 			Func<bool,List<string>> funcPaint=isOn => {
 				CallLogFixtures.ApplyUser(new CallLogUser { IsExtractionGraphicOn=isOn });
@@ -234,7 +234,7 @@ namespace ToothChartImageTests {
 				List<string> listOn=funcPaint(true);
 				List<string> listXsOn=listOn.Where(x => x.StartsWith("SetBigX ")).Select(x => x.Split(' ')[1].Trim('"')).OrderBy(x => x,StringComparer.Ordinal)
 					.ToList();
-				CollectionAssert.AreEqual(new[] { "2","20","25","30","31" },listXsOn,string.Join("\n",listOn));
+				CollectionAssert.AreEqual(new[] { "18","20","25","30","31" },listXsOn,string.Join("\n",listOn));
 				Assert.IsTrue(listOn.Any(x => x.StartsWith("SetImplant \"19\" ")),"The implant is drawn.");
 				Assert.IsTrue(listOn.Any(x => x.StartsWith("SetPontic \"4\" ")),"The pontic is drawn.");
 				Assert.IsTrue(listOn.Any(x => x.StartsWith("SetPontic \"7\" ")),"The denture's pontic is drawn.");

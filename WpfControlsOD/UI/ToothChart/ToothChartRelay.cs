@@ -1015,31 +1015,30 @@ namespace OpenPmsDental{
 				if(options.DoSkipMouth && (procedureCode.PaintType==ToothPaintingType.None || procedureCode.TreatArea==TreatmentArea.Mouth)) {
 					continue;
 				}
+				ToothPaintingType paintType=procedureCode.PaintType;
+				if(paintType==ToothPaintingType.Implant) {
+					listToothNums.Add(proc.ToothNum);
+					continue;
+				}
+				//The teeth the bridge or denture covers, as the paint switch finds them; each one that is missing or hidden is drawn as a pontic.
 				List<string> listToothNumsProc=new List<string>();
-				switch(procedureCode.PaintType) {
-					case ToothPaintingType.Implant:
-						listToothNums.Add(proc.ToothNum);
-						continue;
-					case ToothPaintingType.BridgeDark:
-					case ToothPaintingType.BridgeLight:
-						listToothNumsProc.Add(proc.ToothNum);
-						break;
-					case ToothPaintingType.DentureDark:
-					case ToothPaintingType.DentureLight:
-						if(proc.Surf=="U") {
-							for(int t=0;t<14;t++) {
-								listToothNumsProc.Add((t+2).ToString());
-							}
+				if(paintType==ToothPaintingType.BridgeDark || paintType==ToothPaintingType.BridgeLight) {
+					listToothNumsProc.Add(proc.ToothNum);
+				}
+				else if(paintType==ToothPaintingType.DentureDark || paintType==ToothPaintingType.DentureLight) {
+					if(proc.Surf=="U") {
+						for(int t=0;t<14;t++) {
+							listToothNumsProc.Add((t+2).ToString());
 						}
-						else if(proc.Surf=="L") {
-							for(int t=0;t<14;t++) {
-								listToothNumsProc.Add((t+18).ToString());
-							}
+					}
+					else if(proc.Surf=="L") {
+						for(int t=0;t<14;t++) {
+							listToothNumsProc.Add((t+18).ToString());
 						}
-						else if(!string.IsNullOrEmpty(proc.ToothRange)) {
-							listToothNumsProc.AddRange(proc.ToothRange.Split(','));
-						}
-						break;
+					}
+					else if(!string.IsNullOrEmpty(proc.ToothRange)) {
+						listToothNumsProc.AddRange(proc.ToothRange.Split(','));
+					}
 				}
 				for(int t=0;t<listToothNumsProc.Count;t++) {
 					if(ToothInitials.ToothIsMissingOrHidden(listToothInitials,listToothNumsProc[t])) {
