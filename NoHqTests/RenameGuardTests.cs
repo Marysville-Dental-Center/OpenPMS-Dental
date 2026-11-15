@@ -98,12 +98,15 @@ namespace NoHqTests {
 			if(!File.Exists(pathDll)) {
 				BuildOutput.NotBuilt(pathDll+" is not built. Build OpenDental.Local.slnf (Debug|x86) first.");
 			}
-			//From a copy of the bytes, so the file stays unlocked. The reflection-only context holds one copy of an assembly, so reuse one.
-			string fullName=AssemblyName.GetAssemblyName(pathDll).FullName;
-			Assembly assembly=AppDomain.CurrentDomain.ReflectionOnlyGetAssemblies().FirstOrDefault(x => x.FullName==fullName)
-				??Assembly.ReflectionOnlyLoad(File.ReadAllBytes(pathDll));
-			string assemblyName=assembly.GetName().Name;
-			HashSet<string> hashSetResources=GetWpfResourceKeys(assembly);
+			//The assembly's name and its WPF resources, read from the metadata of a copy of its bytes with Mono.Cecil: the file stays unlocked and
+			//nothing is loaded (S3a-8: .NET has no reflection-only load).
+			string assemblyName;
+			HashSet<string> hashSetResources;
+			using(MemoryStream memoryStream=new MemoryStream(File.ReadAllBytes(pathDll)))
+			using(Mono.Cecil.ModuleDefinition moduleDefinition=Mono.Cecil.ModuleDefinition.ReadModule(memoryStream)) {
+				assemblyName=moduleDefinition.Assembly.Name.Name;
+				hashSetResources=GetWpfResourceKeys(moduleDefinition);
+			}
 			Assert.IsTrue(hashSetResources.Count>0,"No WPF resources in "+pathDll);
 			//The URIs in the source.
 			List<string> listPrefixes=new List<string>();
@@ -221,11 +224,12 @@ namespace NoHqTests {
 		}
 
 		///<summary>The keys of the assembly's WPF resources (AssemblyName.g.resources): lower-case paths, with .xaml compiled to .baml.</summary>
-		private static HashSet<string> GetWpfResourceKeys(Assembly assembly) {
+		private static HashSet<string> GetWpfResourceKeys(Mono.Cecil.ModuleDefinition moduleDefinition) {
 			HashSet<string> hashSetKeys=new HashSet<string>();
-			string resourceName=assembly.GetName().Name+".g.resources";
-			using(Stream stream=assembly.GetManifestResourceStream(resourceName)) {
-				Assert.IsNotNull(stream,resourceName+" is missing.");
+			string resourceName=moduleDefinition.Assembly.Name.Name+".g.resources";
+			Mono.Cecil.EmbeddedResource embeddedResource=moduleDefinition.Resources.OfType<Mono.Cecil.EmbeddedResource>().FirstOrDefault(x => x.Name==resourceName);
+			Assert.IsNotNull(embeddedResource,resourceName+" is missing.");
+			using(Stream stream=embeddedResource.GetResourceStream()) {
 				using(ResourceReader resourceReader=new ResourceReader(stream)) {
 					IDictionaryEnumerator enumerator=resourceReader.GetEnumerator();
 					while(enumerator.MoveNext()) {

@@ -52,10 +52,13 @@ namespace VendorDirectTests.PayConnectV1Removal {
 			return listFiles;
 		}
 
-		///<summary>The names of the assemblies the file references, read from a copy of its bytes so the file stays unlocked.</summary>
+		///<summary>The names of the assemblies the file references, read with Mono.Cecil from the metadata of a copy of its bytes, so the file stays
+		///unlocked and nothing is loaded (S3a-8 of the .NET 10 move: .NET has no reflection-only load).</summary>
 		private static List<string> GetReferencedAssemblyNames(string path) {
-			Assembly assembly=Assembly.ReflectionOnlyLoad(File.ReadAllBytes(path));
-			return assembly.GetReferencedAssemblies().Select(x => x.Name).ToList();
+			using(MemoryStream memoryStream=new MemoryStream(File.ReadAllBytes(path)))
+			using(Mono.Cecil.ModuleDefinition moduleDefinition=Mono.Cecil.ModuleDefinition.ReadModule(memoryStream)) {
+				return moduleDefinition.AssemblyReferences.Select(x => x.Name).ToList();
+			}
 		}
 
 		[TestMethod]

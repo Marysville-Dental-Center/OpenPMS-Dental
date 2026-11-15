@@ -5,6 +5,9 @@
     <!-- MimeKit (the Microsoft 365 and Gmail tests build and read MIME messages), Newtonsoft.Json and MySqlConnector come as packages through
          the projects below. -->
     <Reference Include="System.Net.Http" />
+    <!-- Reads the references of built assemblies without loading them (S3a-8 of the .NET 10 move: .NET has no reflection-only load). The
+         NuGet package, from the offline package folder (nuget.config), at the version of Directory.Packages.props. -->
+    <PackageReference Include="Mono.Cecil" />
   </ItemGroup>
   <ItemGroup>
     <!-- The reader of project files (classic and SDK-style) shared by the tests that check them (S1-T of docs/specs/net10-plan.md). -->
@@ -26,5 +29,7 @@
     <ProjectReference Include="..\..\OpenPmsDentalBusiness\OpenPmsDentalBusiness.csproj" />
     <!-- The DDE program links (DentX, Dexis Integrator, Vipersoft): their commands and DDE calls, on a fake conversation (DdeBridges). -->
     <ProjectReference Include="..\..\WpfControlsOD\WpfControlsOD.csproj" />
+    <!-- The child process in place of a new AppDomain (S3a-8): SSH.NET loaded from the program's files with the program's config. -->
+    <ProjectReference Include="..\TestProbeHost\TestProbeHost.csproj" />
   </ItemGroup>
 </Project>

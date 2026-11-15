@@ -1,4 +1,4 @@
-// Shared helpers of the spell checker tests: repository paths, a fresh AppDomain for the tests that need the spell checker as a program that just
+// Shared helpers of the spell checker tests: repository paths, a fresh process for the tests that need the spell checker as a program that just
 // started (no dictionary read yet), and scratch databases on the local MariaDB for the office's own words.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using DataConnectionBase;
 using MySqlConnector;
+using TestProbeHost;
 
 namespace LibSpellTests {
 	internal static class RepoPaths {
@@ -78,31 +79,25 @@ namespace LibSpellTests {
 		}
 	}
 
-	///<summary>Runs a SpellCheckProbe in a new AppDomain of this test's folder and config, so the spell checker's static state starts empty, as in a
-	///program that just started: no dictionary read, no word looked up. The domain is unloaded afterwards.</summary>
-	internal sealed class IsolatedDomain:IDisposable {
-		private readonly AppDomain _appDomain;
+	///<summary>Runs the spell checker in a new process (TestProbeHost) from this test's folder and with its config, so the spell checker's static
+	///state starts empty, as in a program that just started: no dictionary read, no word looked up. Probe sends each call there
+	///(SpellCheckProbeWorker). The process ends afterwards. A process, not a new AppDomain as before S3a-8 of the .NET 10 move: .NET cannot
+	///create one.</summary>
+	internal sealed class IsolatedProcess:IDisposable {
+		private readonly ProbeProcess _probeProcess;
 		public readonly SpellCheckProbe Probe;
 
-		public IsolatedDomain() {
-			string folder=Path.GetDirectoryName(typeof(SpellCheckProbe).Assembly.Location);
-			AppDomainSetup appDomainSetup=new AppDomainSetup();
-			appDomainSetup.ApplicationBase=folder;
-			string pathConfig=typeof(SpellCheckProbe).Assembly.Location+".config";
-			if(File.Exists(pathConfig)) {
-				appDomainSetup.ConfigurationFile=pathConfig;//the binding redirects of this test (System.Memory and friends)
-			}
-			_appDomain=AppDomain.CreateDomain("LibSpellTests-"+Guid.NewGuid().ToString("N"),null,appDomainSetup);
-			Probe=(SpellCheckProbe)_appDomain.CreateInstanceAndUnwrap(typeof(SpellCheckProbe).Assembly.FullName,typeof(SpellCheckProbe).FullName);
+		public IsolatedProcess() {
+			string folder=Path.GetDirectoryName(typeof(SpellCheckProbeWorker).Assembly.Location);
+			string pathConfig=typeof(SpellCheckProbeWorker).Assembly.Location+".config";
+			//The binding redirects of this test (System.Memory and friends).
+			string configText=File.Exists(pathConfig) ? File.ReadAllText(pathConfig) : null;
+			_probeProcess=ProbeProcess.Start(folder,configText,typeof(SpellCheckProbeWorker),TimeSpan.FromMinutes(5));
+			Probe=new SpellCheckProbe(_probeProcess);
 		}
 
 		public void Dispose() {
-			try {
-				AppDomain.Unload(_appDomain);
-			}
-			catch(CannotUnloadAppDomainException) {
-				//A thread of the domain did not end in time. The domain goes with the test process; the test's result does not depend on it.
-			}
+			_probeProcess.Dispose();
 		}
 	}
 

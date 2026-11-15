@@ -803,6 +803,16 @@ an exception after a cancel, a worker still running when its window closes and a
 a second ShowDialog keeps the earlier run's token for its action; the comments of S3a-1's item 5 corrected.
 Tests per pattern in M2MISCTests (scratch database `s3a1b_`) and MiddleTierMockTests.
 
+**Status (2026-11-15), S3a-8.** Done on `net10/s3a8-1` (`docs/port-notes/S3a-8.md`), merged: the row's tests read assembly
+references and resources with Mono.Cecil (NoHqTests, BINATests, BINBTests, LibraryUpdateTests and VendorDirectTests now reference the
+package); the AppDomain probes run in a child process, the new exe project `tests/TestProbeHost` (its `OpenDental.sln` and
+`OpenDental.Local.slnf` entries for the lead to review; LibSpellTests, PdfLibraryTests, VendorDirectTests' SSH.NET load), or in-process (the
+DICOM reader); `AssemblyBuilder.DefineDynamicAssembly`; the GAC assertion deleted; the COM slots from the declared order; the shared
+`tests/ProjectFileTests/ProgramAssembly.cs` (the `.dll` when present, else the `.exe`) in CdtRetiredTests and ReleaseManifestTests, for S3a-7's
+`ProgramNamesTests.cs:191`. A negative run proved each rewritten test still fails for its reason; Targeted runs green. Left for 3b: starting
+TestProbeHost on .NET (no renamed apphost, no `.config`), the PDF network control as an `EventListener`, the reference readers that still name
+`OpenPmsDental.exe`; the same APIs outside the row are listed in the note for the lead.
+
 **Full-test gate.** Section 3, plus: the golden outputs and known answers recorded and committed; the source-scan tests pass; the
 launch checks for 3a (section 6) done with screenshots, including a self-update from a standard user; the x64 test runs (S3a-12, S3a-15)
 and the x64 build of `Direct2dWrapper` (S3a-16) pass; the helper's tests pass, and its links are launch-checked where a test PC has the

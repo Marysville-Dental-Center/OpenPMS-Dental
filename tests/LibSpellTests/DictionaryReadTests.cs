@@ -1,4 +1,4 @@
-// The dictionary is read once per process, off the UI thread: each test runs the spell checker in a fresh AppDomain (IsolatedDomain), as a
+// The dictionary is read once per process, off the UI thread: each test runs the spell checker in a fresh process (IsolatedProcess), as a
 // program that just started, and counts the reads.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
@@ -14,8 +14,8 @@ namespace LibSpellTests {
 
 		[TestMethod]
 		public void Dictionary_IsReadOnce_WhenManyThreadsNeedItAtOnce() {
-			using IsolatedDomain isolatedDomain=new IsolatedDomain();
-			SpellCheckProbe probe=isolatedDomain.Probe;
+			using IsolatedProcess isolatedProcess=new IsolatedProcess();
+			SpellCheckProbe probe=isolatedProcess.Probe;
 			Assert.AreEqual(0,probe.CountDictionaryReads(),"Nothing reads the dictionary before it is needed.");
 			Assert.IsFalse(probe.IsDictionaryRead());
 			//16 threads start at once with no dictionary: one reads it, the others wait for that read.
@@ -32,8 +32,8 @@ namespace LibSpellTests {
 
 		[TestMethod]
 		public void ReadInBackground_ReturnsAtOnce_AndReadsOnce() {
-			using IsolatedDomain isolatedDomain=new IsolatedDomain();
-			SpellCheckProbe probe=isolatedDomain.Probe;
+			using IsolatedProcess isolatedProcess=new IsolatedProcess();
+			SpellCheckProbe probe=isolatedProcess.Probe;
 			Assert.AreEqual(0,probe.CountDictionaryReads());
 			//What 50 boxes do when a window with 50 of them opens: the calls start the read on the thread pool and return.
 			double msCalls=probe.ReadInBackground(50);
@@ -48,8 +48,8 @@ namespace LibSpellTests {
 
 		[TestMethod]
 		public void Boxes_ODtextBoxAndTextRich_ShareTheOneDictionary() {
-			using IsolatedDomain isolatedDomain=new IsolatedDomain();
-			SpellCheckProbe probe=isolatedDomain.Probe;
+			using IsolatedProcess isolatedProcess=new IsolatedProcess();
+			SpellCheckProbe probe=isolatedProcess.Probe;
 			Assert.AreEqual(0,probe.CountDictionaryReads());
 			//Three of each kind of box, built as a window builds them (never shown), on an STA thread.
 			Assert.AreEqual("",probe.CreateBoxes(3));
@@ -62,14 +62,14 @@ namespace LibSpellTests {
 
 		[TestMethod]
 		public void EachProcess_ReadsItsOwnDictionary() {
-			//Two fresh domains stand for two programs: each reads the dictionary once.
-			using IsolatedDomain isolatedDomain1=new IsolatedDomain();
-			using IsolatedDomain isolatedDomain2=new IsolatedDomain();
-			Assert.IsTrue(isolatedDomain1.Probe.IsInDictionary("tooth"));
-			Assert.AreEqual(1,isolatedDomain1.Probe.CountDictionaryReads());
-			Assert.AreEqual(0,isolatedDomain2.Probe.CountDictionaryReads());
-			Assert.IsTrue(isolatedDomain2.Probe.IsInDictionary("tooth"));
-			Assert.AreEqual(1,isolatedDomain2.Probe.CountDictionaryReads());
+			//Two fresh processes stand for two programs: each reads the dictionary once.
+			using IsolatedProcess isolatedProcess1=new IsolatedProcess();
+			using IsolatedProcess isolatedProcess2=new IsolatedProcess();
+			Assert.IsTrue(isolatedProcess1.Probe.IsInDictionary("tooth"));
+			Assert.AreEqual(1,isolatedProcess1.Probe.CountDictionaryReads());
+			Assert.AreEqual(0,isolatedProcess2.Probe.CountDictionaryReads());
+			Assert.IsTrue(isolatedProcess2.Probe.IsInDictionary("tooth"));
+			Assert.AreEqual(1,isolatedProcess2.Probe.CountDictionaryReads());
 		}
 	}
 }

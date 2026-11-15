@@ -217,13 +217,12 @@ namespace ReleaseFlowTests {
 
 		[TestMethod]
 		public void BuiltOpenDentalExe_CarriesItsBuildTime() {
-			string path=Path.Combine(TestPaths.RepoRoot,"OpenPmsDental","bin","Debug","OpenPmsDental.exe");
-			if(!File.Exists(path)) {
-				BuildOutput.NotBuilt(@"OpenPmsDental\bin\Debug is not built. Build OpenDental.Local.slnf (Debug|x86) first.");
-			}
+			//The program's managed assembly: OpenPmsDental.dll on .NET, where the .exe is the apphost, else OpenPmsDental.exe (ProgramAssembly, S3a-8).
 			//Loaded only to read its attributes; nothing in it runs.
-			DateTime dateTimeBuildUtc=ForkReleases.GetBuildUtc(System.Reflection.Assembly.LoadFrom(path));
-			Assert.AreNotEqual(DateTime.MinValue,dateTimeBuildUtc,"OpenPmsDental.csproj stamps "+ForkReleases.BUILD_UTC_METADATA_KEY+" into OpenPmsDental.exe.");
+			System.Reflection.Assembly assembly=ProgramAssembly.Load(Path.Combine(TestPaths.RepoRoot,"OpenPmsDental","bin","Debug"),"OpenPmsDental");
+			DateTime dateTimeBuildUtc=ForkReleases.GetBuildUtc(assembly);
+			Assert.AreNotEqual(DateTime.MinValue,dateTimeBuildUtc,"OpenPmsDental.csproj stamps "+ForkReleases.BUILD_UTC_METADATA_KEY+" into "
+				+Path.GetFileName(assembly.Location)+".");
 			Assert.IsTrue(dateTimeBuildUtc<=DateTime.UtcNow.AddMinutes(5));
 		}
 

@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- The child process of the tests that need a process of their own (S3a-8 of the .NET 10 move, docs/port-notes/S3a-8.md): a fresh process
+       in place of the new AppDomain that .NET cannot create (https://learn.microsoft.com/en-us/dotnet/core/porting/net-framework-tech-unavailable).
+       TestProbeHost.exe loads a test assembly, calls the Handle method of one of its types for each line its test sends, and answers on
+       standard output. ProbeProcess (the client the tests use) copies it under a name of its own into the folder the child process runs
+       from, with the config the test gives it. Not a test project: its name does not end with Tests, so the test runner never runs it and
+       Directory.Build.targets gives it no shared test config. Every .cs file under this folder is compiled. -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>TestProbeHost</RootNamespace>
+    <AssemblyName>TestProbeHost</AssemblyName>
+  </PropertyGroup>
+  <ItemGroup>
+    <!-- No test framework: tests\Directory.Build.props gives every project under tests\ the three MSTest 4 packages. -->
+    <PackageReference Remove="MSTest.TestFramework" />
+    <PackageReference Remove="MSTest.TestAdapter" />
+    <PackageReference Remove="Microsoft.NET.Test.Sdk" />
+  </ItemGroup>
+</Project>

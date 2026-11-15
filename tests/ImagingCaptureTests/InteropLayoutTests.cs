@@ -106,12 +106,34 @@ namespace ImagingCapture.Tests {
 			Tuple.Create(typeof(IAMVideoProcAmp),"Get",5),
 		};
 
+		///<summary>The interface's methods in the order they are declared, which is the order of their vtable slots: the runtime lays out a COM
+		///interface's vtable in metadata order (the MethodDef rows, numbered in source order), after IUnknown's three slots, or after IDispatch's
+		///seven for a dual or IDispatch interface. Read from the metadata tokens, not from Marshal.GetComSlotForMethodInfo (S3a-8 of the .NET 10
+		///move: that is a .NET Framework COM interop call; Type.GetMethods promises no order).</summary>
+		internal static List<MethodInfo> GetMethodsInSlotOrder(Type type) {
+			return type.GetMethods(BindingFlags.Public|BindingFlags.NonPublic|BindingFlags.Instance|BindingFlags.DeclaredOnly)
+				.OrderBy(x => x.MetadataToken).ToList();
+		}
+
+		///<summary>The vtable slot of each declared method of the interface (GetMethodsInSlotOrder), by name.</summary>
+		internal static Dictionary<string,int> GetComSlots(Type type) {
+			InterfaceTypeAttribute interfaceTypeAttribute=(InterfaceTypeAttribute)Attribute.GetCustomAttribute(type,typeof(InterfaceTypeAttribute));
+			Assert.IsNotNull(interfaceTypeAttribute,type.Name+" names no InterfaceType.");
+			int slotFirst=interfaceTypeAttribute.Value==ComInterfaceType.InterfaceIsIUnknown ? 3 : 7;//IUnknown; IDispatch (dual, IDispatch only)
+			List<MethodInfo> listMethods=GetMethodsInSlotOrder(type);
+			Dictionary<string,int> dictSlots=new Dictionary<string,int>();
+			for(int i=0;i<listMethods.Count;i++) {
+				dictSlots.Add(listMethods[i].Name,slotFirst+i);
+			}
+			return dictSlots;
+		}
+
 		[TestMethod]
 		public void VtableSlots_MatchTheSdkOrder() {
 			foreach(Tuple<Type,string,int> tuple in _listSlots) {
 				MethodInfo methodInfo=tuple.Item1.GetMethod(tuple.Item2);
 				Assert.IsNotNull(methodInfo,tuple.Item1.Name+"."+tuple.Item2+" is not declared.");
-				Assert.AreEqual(tuple.Item3,Marshal.GetComSlotForMethodInfo(methodInfo),tuple.Item1.Name+"."+tuple.Item2);
+				Assert.AreEqual(tuple.Item3,GetComSlots(tuple.Item1)[tuple.Item2],tuple.Item1.Name+"."+tuple.Item2);
 			}
 		}
 
@@ -134,7 +156,7 @@ namespace ImagingCapture.Tests {
 						Assert.AreEqual(0,methodInfo.GetParameters().Length,type.Name+"."+methodInfo.Name+" placeholder has parameters.");
 					}
 				}
-				MethodInfo methodLast=arrayMethods.OrderBy(x => Marshal.GetComSlotForMethodInfo(x)).Last();
+				MethodInfo methodLast=GetMethodsInSlotOrder(type).Last();
 				Assert.IsFalse(methodLast.Name.StartsWith("Unused_"),type.Name+" ends with a placeholder.");
 			}
 		}
