@@ -57,8 +57,12 @@ routes) that this computer does not use, in a range no route of this computer le
   f. bind-address=127.0.0.1,<address> in the block of my.ini (MariaDB 10.11 takes a comma-separated list; 127.0.0.1 stays); after the
      restart the service's process must listen on 127.0.0.1:3306 and <address>:3306 (Get-NetTCPConnection).
   The block records the address, the adapter, the firewall rules and the two certificates; the run prints the three OPMS_DB_TLS_TEST_*
-  values of the test. -Revert undoes every step: the firewall rules, both certificates with their keys (never a key that BUILTIN\Users can
-  read is left behind), the adapter with its address, and my.ini with the files as before.
+  values of the test. Before each item is made, the run also writes its record line to a journal in the opms-dev-tls folder
+  (test-network.record, Administrators only), since my.ini's block is written only after the whole test network is made. -Revert undoes
+  every step: the adapter with its address first, both certificates with their keys (never a key that BUILTIN\Users can read is left
+  behind), the firewall rules last (they stay while the adapter does), and my.ini with the files as before. From the journal it also
+  undoes the test network of a run that stopped part-way (Ctrl+C, a closed window, a crash) or whose undo restored my.ini but could not
+  remove the test network; the opms-dev-tls folder goes only once nothing the journal names is there.
 
 -RequireSecureTransport: the lead's later step, once every session connects with TLS. Checks the CA copy in the dev folder that my.ini
 records, adds require_secure_transport=ON inside the script's block, restarts, and verifies that a TLS connection works and an
@@ -67,7 +71,8 @@ unencrypted one is refused (else it removes the line again).
 -Revert: restores my.ini from the backup (it shows what would be lost when my.ini changed since), restarts, verifies an unencrypted
 connection, then removes the opms-dev-tls folder, the files the script wrote to the dev folder and the client folder that my.ini
 records (whichever account's they are), each folder when it is then empty, the parent folder the enable run created when it is then
-empty, and the backup.
+empty, and the backup. With no backup and no block but an opms-dev-tls folder (an enable run that stopped before it changed my.ini),
+it leaves my.ini and the service alone and removes only what that run made: the test network of its journal, the files and folders.
 
 -RequireSecureTransport and -Revert never recompute the folders from the account that runs them: they take them from the record in
 my.ini and refuse a -DevFolder or -ClientFolder that names another folder, and a recorded folder that an enable run cannot have written
@@ -193,6 +198,12 @@ $RecordCngPrefix = '# test-client-cng='
 # and deletes a key whose certificate is gone already (a store entry deleted by hand leaves its key file, with BUILTIN\Users' read access).
 $RecordCapiKeyPrefix = '# test-client-capi-key='
 $RecordCngKeyPrefix = '# test-client-cng-key='
+# The journal of the test network: the same record lines, each written before the item it names is made (the adapter's right after its
+# creation, a key's right after its import, before the users get read access to it), in the opms-dev-tls folder (Administrators only).
+# my.ini's block is written only after the whole test network is made, so the journal is what -Revert reads after a run that stopped
+# before that (Ctrl+C, a closed window, a crash) or whose undo restored my.ini but could not remove the test network. It stays as long as
+# the test network does; -Revert removes it with the folder once everything it names is gone.
+$TestNetworkJournalName = 'test-network.record'
 $TestAdapterName = 'OPMS DB TLS test'
 $TestAdapterHardwareId = '*MSLOOP'
 $FirewallGroup = 'Open PMS - Dental local test TLS'
@@ -1049,8 +1060,37 @@ function Get-RecordedTestNetwork([string]$Text) {
 	if (-not $block.Success) {
 		return $null
 	}
+	return ConvertFrom-TestNetworkLines $block.Value
+}
+
+# The test network that the journal at $Path records (Get-TestNetworkJournalPath; the record lines as the block has them, but only as far
+# as the run got), or $null when there is no journal or it records no test address (the run made nothing of the test network).
+function Read-TestNetworkJournal([string]$Path) {
+	if ($Path -eq '' -or -not (Test-Path -LiteralPath $Path -PathType Leaf)) {
+		return $null
+	}
+	return ConvertFrom-TestNetworkLines ([System.IO.File]::ReadAllText($Path))
+}
+
+# The journal's path in the opms-dev-tls folder ($TlsFolder).
+function Get-TestNetworkJournalPath([string]$TlsFolder) {
+	return Join-Path $TlsFolder $TestNetworkJournalName
+}
+
+# Adds one record line to the journal ($Path), before the item it names is made. The first line creates the file with a protected ACL
+# (Administrators and SYSTEM only) before anything is written to it.
+function Add-TestNetworkJournalLine([string]$Path, [string]$Line) {
+	if (-not (Test-Path -LiteralPath $Path -PathType Leaf)) {
+		[System.IO.File]::WriteAllText($Path, '', (New-Object System.Text.ASCIIEncoding))
+		Set-ProtectedAcl $Path @() @()
+	}
+	[System.IO.File]::AppendAllText($Path, $Line + "`r`n", (New-Object System.Text.ASCIIEncoding))
+}
+
+# The record lines of the test network ($Text: my.ini's block or the journal) as a record, or $null when no test address is among them.
+function ConvertFrom-TestNetworkLines([string]$Text) {
 	$record = [pscustomobject]@{ Address = $null; AdapterId = ''; FirewallRules = @(); CapiThumbprint = ''; CngThumbprint = ''; CapiKey = ''; CngKey = '' }
-	foreach ($rawLine in ($block.Value -split "`n")) {
+	foreach ($rawLine in ($Text -split "`n")) {
 		$line = $rawLine.Trim()
 		if ($line.StartsWith($RecordAddressPrefix)) {
 			$record.Address = $line.Substring($RecordAddressPrefix.Length).Trim()
@@ -1083,26 +1123,37 @@ function Get-RecordedTestNetwork([string]$Text) {
 # Why a recorded test network ($Record, from Get-RecordedTestNetwork) cannot be one an enable run wrote, or $null when it can: an address of
 # 192.0.2.0/24, a root-enumerated network device (ROOT\NET\nnnn), only this script's firewall rule names, two thumbprints, and two keys, each
 # in this script's provider of its kind with its file in the computer's key folder of that kind (Get-KeyRecordProblem). -Revert removes
-# exactly what the record names, so a record of anything else came from somewhere else and is never acted on.
-function Get-TestNetworkRecordProblem($Record) {
+# exactly what the record names, so a record of anything else came from somewhere else and is never acted on. $Source names the record in
+# the messages (my.ini, or the journal's path). -Partial is the journal of a run that stopped part-way: the adapter, a thumbprint and a key
+# may be missing (the run had not made them yet), but what is there must be as above, and a key only with its certificate's thumbprint.
+function Get-TestNetworkRecordProblem($Record, [string]$Source = 'my.ini', [switch]$Partial) {
 	if ($null -ne (Get-TestAddressFormProblem $Record.Address)) {
-		return "my.ini records the test address $($Record.Address), which is not a host address of 192.0.2.0/24."
+		return "$Source records the test address $($Record.Address), which is not a host address of 192.0.2.0/24."
 	}
-	if ([string]$Record.AdapterId -notmatch '^ROOT\\NET\\[0-9]{4}$') {
-		return "my.ini records the test adapter '$($Record.AdapterId)', which is not a device this script creates (ROOT\NET\nnnn)."
+	if (-not ($Partial -and [string]$Record.AdapterId -eq '') -and [string]$Record.AdapterId -notmatch '^ROOT\\NET\\[0-9]{4}$') {
+		return "$Source records the test adapter '$($Record.AdapterId)', which is not a device this script creates (ROOT\NET\nnnn)."
 	}
 	foreach ($rule in @($Record.FirewallRules)) {
 		if (@($FirewallAllowName, $FirewallBlockName) -notcontains $rule) {
-			return "my.ini records the firewall rule '$rule', which is not one of this script's ($FirewallAllowName, $FirewallBlockName)."
+			return "$Source records the firewall rule '$rule', which is not one of this script's ($FirewallAllowName, $FirewallBlockName)."
 		}
 	}
-	foreach ($thumbprint in @($Record.CapiThumbprint, $Record.CngThumbprint)) {
-		if ([string]$thumbprint -notmatch '^[0-9A-F]{40}$') {
-			return "my.ini records the test client certificate '$thumbprint', which is not a thumbprint (40 hex digits)."
+	foreach ($item in @(@('CAPI', $Record.CapiThumbprint, $Record.CapiKey), @('CNG', $Record.CngThumbprint, $Record.CngKey))) {
+		if ($Partial -and [string]$item[1] -eq '') {
+			if ([string]$item[2] -ne '') {
+				return "$Source records a key of the $($item[0]) test client certificate, but not its thumbprint."
+			}
+			continue
+		}
+		if ([string]$item[1] -notmatch '^[0-9A-F]{40}$') {
+			return "$Source records the test client certificate '$($item[1])', which is not a thumbprint (40 hex digits)."
 		}
 	}
 	foreach ($item in @(@('CAPI', $Record.CapiKey), @('CNG', $Record.CngKey))) {
-		$keyProblem = Get-KeyRecordProblem ([string]$item[1]) $item[0]
+		if ($Partial -and [string]$item[1] -eq '') {
+			continue
+		}
+		$keyProblem = Get-KeyRecordProblem ([string]$item[1]) $item[0] $Source
 		if ($null -ne $keyProblem) {
 			return $keyProblem
 		}
@@ -1143,8 +1194,8 @@ function ConvertFrom-KeyRecord([string]$Text, [string]$Kind) {
 
 # Why a recorded key ($Text, of the kind CAPI or CNG) cannot be one this script's import recorded, or $null: this script's provider of that
 # kind, a container name, and a file directly in the computer's key folder of that kind (Get-MachineKeyFolder).
-function Get-KeyRecordProblem([string]$Text, [string]$Kind) {
-	$label = "my.ini records the key of the $Kind test client certificate as '$Text'"
+function Get-KeyRecordProblem([string]$Text, [string]$Kind, [string]$Source = 'my.ini') {
+	$label = "$Source records the key of the $Kind test client certificate as '$Text'"
 	$key = ConvertFrom-KeyRecord $Text $Kind
 	if ($null -eq $key) {
 		return "$label, which is not <provider>|<container>|<key file>."
@@ -1264,6 +1315,9 @@ function Get-TestNetworkEnablePlan([string]$Address, [string]$HostName, $Facts, 
 	$lines += '     -Revert deletes both certificates with their keys, and a recorded key whose certificate is gone already.'
 	$lines += "     [server-certificate] The server certificate of step 1 also names $Address and this computer's host name $HostName."
 	$lines += "     [bind-address] The block in my.ini (next step) ends with bind-address=127.0.0.1,$Address, so the server listens there too."
+	$lines += "     Before each of these items is made, its record line goes to the journal $(Get-TestNetworkJournalPath $TlsFolder)"
+	$lines += '     (Administrators only): the block in my.ini is written only after all of them, so -Revert reads the journal after a run that stopped'
+	$lines += '     part-way, or whose undo restored my.ini but could not remove the test network.'
 	return $lines
 }
 
@@ -1272,7 +1326,11 @@ function Get-TestNetworkEnablePlan([string]$Address, [string]$HostName, $Facts, 
 # CA in $CaPath issued it) and its recorded key (whether the key file is there; a store entry deleted by hand leaves it).
 function Get-TestNetworkState($Record, [string]$CaPath) {
 	$adapter = [pscustomobject]@{ Exists = $false; HardwareIds = @(); Addresses = @() }
-	$device = @(Get-PnpDevice -InstanceId $Record.AdapterId -ErrorAction SilentlyContinue)
+	$device = @()
+	if ([string]$Record.AdapterId -ne '') {
+		# A journal of a run that stopped before the adapter was made names none.
+		$device = @(Get-PnpDevice -InstanceId $Record.AdapterId -ErrorAction SilentlyContinue)
+	}
 	if ($device.Count -gt 0) {
 		$adapter.Exists = $true
 		$adapter.HardwareIds = @($device[0].HardwareID | ForEach-Object { [string]$_ })
@@ -1298,6 +1356,10 @@ function Get-TestNetworkState($Record, [string]$CaPath) {
 	}
 	$certificates = @()
 	foreach ($item in @(@('CAPI', $Record.CapiThumbprint, $TestClientCapiName, $Record.CapiKey), @('CNG', $Record.CngThumbprint, $TestClientCngName, $Record.CngKey))) {
+		if ([string]$item[1] -eq '') {
+			# Not made yet when the run stopped (a journal): nothing of it to look for.
+			continue
+		}
 		$certificate = Find-MachineCertificate $item[1]
 		$key = ConvertFrom-KeyRecord ([string]$item[3]) $item[0]
 		$state = [pscustomobject]@{ Kind = $item[0]; Thumbprint = $item[1]; Name = $item[2]; Exists = $false; Subject = ''; IssuedByCa = $false
@@ -1340,18 +1402,29 @@ function Get-TestNetworkStateProblem($Record, $State) {
 	return $null
 }
 
-# -Revert's plan for the test network ($Record, $State from Get-TestNetworkState): one line or more for each tag of the enable run's plan.
-function Get-TestNetworkRevertPlan($Record, $State) {
+# -Revert's plan for the test network ($Record, $State from Get-TestNetworkState): one line or more for each tag of the enable run's plan,
+# in the order Undo-TestNetwork takes them: the adapter with its address first, then the certificates with their keys, the firewall rules
+# last, so the address on which the server may still listen never lacks its block rule. -FromJournal: the record is the journal of a run
+# that stopped before it wrote its block in my.ini.
+function Get-TestNetworkRevertPlan($Record, $State, [switch]$FromJournal) {
 	$lines = @()
-	$rules = @($State.Rules | Where-Object { $_.Exists } | ForEach-Object { $_.Name })
-	if (@($Record.FirewallRules).Count -eq 0) {
-		$lines += '#. [firewall] No firewall rule to remove (the enable run added none: the firewall was off).'
+	if ([string]$Record.AdapterId -eq '') {
+		$lines += '#. [adapter] The record names no loopback adapter (the run stopped before it made one): nothing to remove.'
 	}
-	elseif ($rules.Count -gt 0) {
-		$lines += "#. [firewall] Remove the firewall rules $($rules -join ' and ') (group '$FirewallGroup')."
+	elseif ($State.Adapter.Exists) {
+		$lines += "#. [adapter] Remove the loopback adapter $($Record.AdapterId) ('$TestAdapterName') first and check that it and its address are gone."
+		$others = @($State.Adapter.Addresses | Where-Object { $_ -ne $Record.Address })
+		if ($others.Count -gt 0) {
+			$lines += "     It also has $($others -join ', '), which go with it."
+		}
 	}
 	else {
-		$lines += "#. [firewall] The firewall rules $(@($Record.FirewallRules) -join ' and ') are not there any more: nothing to remove."
+		$lines += "#. [adapter] The loopback adapter $($Record.AdapterId) is not there any more: nothing to remove."
+	}
+	$lines += "     [address] [bindings] Its address $($Record.Address)/32 and its bindings go with the adapter; the run checks that this computer no"
+	$lines += '     longer has the address.'
+	if (@($State.Certificates).Count -eq 0) {
+		$lines += '#. [client-certificates] The record names no test client certificate (the run stopped before it imported one): nothing to remove.'
 	}
 	foreach ($certificate in @($State.Certificates)) {
 		$key = $certificate.Key
@@ -1375,22 +1448,49 @@ function Get-TestNetworkRevertPlan($Record, $State) {
 	}
 	$lines += '     [key-access] With the keys their files go, BUILTIN\Users'' read access with them: the run checks that each recorded key file is'
 	$lines += '     gone, so no key that the users can read is left behind.'
-	if ($State.Adapter.Exists) {
-		$lines += "#. [adapter] Remove the loopback adapter $($Record.AdapterId) ('$TestAdapterName') and check that it is gone."
-		$others = @($State.Adapter.Addresses | Where-Object { $_ -ne $Record.Address })
-		if ($others.Count -gt 0) {
-			$lines += "     It also has $($others -join ', '), which go with it."
-		}
+	$rules = @($State.Rules | Where-Object { $_.Exists } | ForEach-Object { $_.Name })
+	if (@($Record.FirewallRules).Count -eq 0) {
+		$lines += '#. [firewall] No firewall rule to remove (the record names none: the firewall was off, or the run stopped before it added one).'
+	}
+	elseif ($rules.Count -gt 0) {
+		$lines += "#. [firewall] Remove the firewall rules $($rules -join ' and ') (group '$FirewallGroup') last, once the adapter and its address are"
+		$lines += '     gone. If the adapter cannot be removed, the rules stay (they keep other computers away from the address) and -Revert names'
+		$lines += '     them as kept: it removes them when it is run again.'
 	}
 	else {
-		$lines += "#. [adapter] The loopback adapter $($Record.AdapterId) is not there any more: nothing to remove."
+		$lines += "#. [firewall] The firewall rules $(@($Record.FirewallRules) -join ' and ') are not there any more: nothing to remove."
 	}
-	$lines += "     [address] [bindings] Its address $($Record.Address)/32 and its bindings go with the adapter; the run checks that this computer no"
-	$lines += '     longer has the address.'
-	$lines += "     [bind-address] Restoring my.ini (below) removes bind-address=127.0.0.1,$($Record.Address); after the restart the server listens on"
-	$lines += "     127.0.0.1 only, and nothing listens on $($Record.Address):3306."
+	if ($FromJournal) {
+		$lines += "     [bind-address] my.ini has no block of this script (the run stopped before it wrote it, or its undo restored my.ini), so it has no"
+		$lines += "     bind-address=127.0.0.1,$($Record.Address); the run checks that nothing listens on $($Record.Address):3306."
+	}
+	else {
+		$lines += "     [bind-address] Restoring my.ini (below) removes bind-address=127.0.0.1,$($Record.Address); after the restart the server listens on"
+		$lines += "     127.0.0.1 only, and nothing listens on $($Record.Address):3306."
+	}
 	$lines += "     [server-certificate] The server certificate that names $($Record.Address) goes with the opms-dev-tls folder (below)."
 	return $lines
+}
+
+# What is still there of a recorded test network ($State from Get-TestNetworkState), as text for a message: the adapter, each firewall
+# rule, each certificate and each key file that exists. Empty when everything is gone.
+function Get-TestNetworkLeft($Record, $State) {
+	$left = @()
+	if ($State.Adapter.Exists) {
+		$left += "the loopback adapter $($Record.AdapterId)"
+	}
+	foreach ($rule in @($State.Rules | Where-Object { $_.Exists })) {
+		$left += "the firewall rule $($rule.Name)"
+	}
+	foreach ($certificate in @($State.Certificates)) {
+		if ($certificate.Exists) {
+			$left += "the certificate $($certificate.Thumbprint) in LocalMachine\My"
+		}
+		if ($certificate.KeyExists) {
+			$left += "the key file $($certificate.Key.File)"
+		}
+	}
+	return , $left
 }
 
 # The C# source of the adapter's creation and removal through the SetupAPI (setupapi.dll; what devcon install does, without devcon), for
@@ -1712,7 +1812,8 @@ function Invoke-Certutil([string[]]$Arguments, [string]$Secret) {
 }
 
 # Imports one test client .pfx into LocalMachine\My with its key in $Provider (certutil -csp, not exportable, no chain), checks where the key
-# landed ($Kind, the computer's key set) and gives BUILTIN\Users read access to its file. Returns the key's information.
+# landed ($Kind, the computer's key set). Returns the key's information; the caller records it (the journal) and then gives BUILTIN\Users
+# read access to its file (Grant-UsersReadToKeyFile), so that no key the users can read is ever unrecorded.
 function Import-TestClientCertificate([string]$PfxPath, [string]$Password, [string]$Provider, [string]$Kind, [string]$Thumbprint) {
 	$result = Invoke-Certutil @('-f', '-p', $Password, '-csp', $Provider, '-importPFX', 'My', $PfxPath, 'NoExport,NoChain,NoRoot') $Password
 	if ($result.ExitCode -ne 0) {
@@ -1729,7 +1830,6 @@ function Import-TestClientCertificate([string]$PfxPath, [string]$Password, [stri
 	if (-not (Test-Path -LiteralPath $info.File -PathType Leaf)) {
 		throw "The key file of $Thumbprint, $($info.File), was not found."
 	}
-	Grant-UsersReadToKeyFile $info.File
 	return $info
 }
 
@@ -1911,12 +2011,15 @@ function Get-TestAdapterProblem([int]$Index, [string]$Address) {
 	return "The test adapter is not as this script set it up: $problem."
 }
 
-# Step c: the two firewall rules. Each name goes to $Created.FirewallRules before the rule is added, so a failed run removes it.
-function Add-TestFirewallRules([string]$Address, $Created) {
+# Step c: the two firewall rules. Each name goes to $Created.FirewallRules and to the journal ($JournalPath) before the rule is added, so a
+# failed run, or -Revert after an interrupted one, removes it.
+function Add-TestFirewallRules([string]$Address, $Created, [string]$JournalPath) {
 	$common = @{ Group = $FirewallGroup; Direction = 'Inbound'; Protocol = 'TCP'; LocalPort = '3306'; LocalAddress = $Address; Profile = 'Any'; Enabled = 'True' }
 	$Created.FirewallRules = @($Created.FirewallRules) + @($FirewallAllowName)
+	Add-TestNetworkJournalLine $JournalPath "$RecordFirewallPrefix$FirewallAllowName"
 	New-NetFirewallRule -Name $FirewallAllowName -DisplayName "Open PMS - Dental local test TLS: MariaDB on $Address from this computer" -Action Allow -RemoteAddress $Address @common | Out-Null
 	$Created.FirewallRules = @($Created.FirewallRules) + @($FirewallBlockName)
+	Add-TestNetworkJournalLine $JournalPath "$RecordFirewallPrefix$FirewallBlockName"
 	New-NetFirewallRule -Name $FirewallBlockName -DisplayName "Open PMS - Dental local test TLS: MariaDB on $Address from anywhere else" -Action Block -RemoteAddress (Get-FirewallBlockRanges $Address) @common | Out-Null
 }
 
@@ -1952,14 +2055,18 @@ function Remove-TestAdapter([string]$InstanceId, [string]$Address) {
 }
 
 # Steps a, b, c and e of an enable run with -WithTestNetwork (the certificates in $Set, the paths and the test network in $Paths). Records
-# in $Created what it made, as it makes it, so that a failed run undoes exactly that (Undo-TestNetwork); fills in $Paths.TestNetwork's
-# adapter for the record in my.ini.
+# in $Created what it made, as it makes it, so that a failed run undoes exactly that (Undo-TestNetwork), and in the journal in the
+# opms-dev-tls folder, so that -Revert finds it after a run that stopped without its undo (Ctrl+C, a closed window); fills in
+# $Paths.TestNetwork's adapter and keys for the record in my.ini.
 function Install-TestNetwork($Paths, $Set, $Created) {
 	$net = $Paths.TestNetwork
+	$journal = Get-TestNetworkJournalPath $Paths.TlsFolder
+	Add-TestNetworkJournalLine $journal "$RecordAddressPrefix$($net.Address)"
 	Add-LoopbackAdapterType
 	$needsReboot = $false
 	$instanceId = [OpenPmsDentalDevDbTls.LoopbackAdapter]::Create($TestAdapterName, [ref]$needsReboot)
 	$Created.AdapterId = $instanceId
+	Add-TestNetworkJournalLine $journal "$RecordAdapterPrefix$instanceId"
 	$net.AdapterId = $instanceId
 	Write-Host "Created the loopback adapter $instanceId."
 	if ($needsReboot) {
@@ -1972,7 +2079,7 @@ function Install-TestNetwork($Paths, $Set, $Created) {
 	}
 	Write-Host "Gave it $($net.Address)/32 (no gateway, no DNS, only IPv4 bound)."
 	if (@($net.FirewallRules).Count -gt 0) {
-		Add-TestFirewallRules $net.Address $Created
+		Add-TestFirewallRules $net.Address $Created $journal
 		Write-Host "Added the firewall rules $(@($net.FirewallRules) -join ' and ')."
 	}
 	$pfxFolder = Join-Path $Paths.TlsFolder $PfxFolderName
@@ -1983,15 +2090,26 @@ function Install-TestNetwork($Paths, $Set, $Created) {
 		$pfxPath = Join-Path $pfxFolder $item[4]
 		[System.IO.File]::WriteAllBytes($pfxPath, [byte[]]$item[2])
 		$Created.Thumbprints = @($Created.Thumbprints) + @($item[3])
-		$info = Import-TestClientCertificate $pfxPath $Set.TestPfxPassword $item[1] $item[0] $item[3]
-		# Where the key is, for the undo and for the record in my.ini (-Revert deletes it even when the certificate is gone).
-		$Created.Keys = @($Created.Keys) + @([pscustomobject]@{ Thumbprint = $item[3]; Key = $info })
+		$thumbprintPrefix = $RecordCngPrefix
+		$keyPrefix = $RecordCngKeyPrefix
 		if ($item[0] -eq 'CAPI') {
-			$net.CapiKey = ConvertTo-KeyRecord $info
+			$thumbprintPrefix = $RecordCapiPrefix
+			$keyPrefix = $RecordCapiKeyPrefix
+		}
+		Add-TestNetworkJournalLine $journal "$thumbprintPrefix$($item[3])"
+		$info = Import-TestClientCertificate $pfxPath $Set.TestPfxPassword $item[1] $item[0] $item[3]
+		# Where the key is, for the undo, the journal and the record in my.ini (-Revert deletes it even when the certificate is gone), all
+		# before the users get read access to it.
+		$Created.Keys = @($Created.Keys) + @([pscustomobject]@{ Thumbprint = $item[3]; Key = $info })
+		$keyRecord = ConvertTo-KeyRecord $info
+		Add-TestNetworkJournalLine $journal "$keyPrefix$keyRecord"
+		if ($item[0] -eq 'CAPI') {
+			$net.CapiKey = $keyRecord
 		}
 		else {
-			$net.CngKey = ConvertTo-KeyRecord $info
+			$net.CngKey = $keyRecord
 		}
+		Grant-UsersReadToKeyFile $info.File
 		Write-Host "Imported $($item[3]) into LocalMachine\My, its key in '$($info.Provider)' ($($info.File), BUILTIN\Users read)."
 	}
 	Remove-Item -LiteralPath $pfxFolder -Recurse -Force
@@ -2007,17 +2125,21 @@ function Get-CreatedKey($Created, [string]$Thumbprint) {
 	return $null
 }
 
-# Undoes what $Created names (a failed enable run's own, or -Revert's record): the firewall rules, the certificates with their keys (also a
-# known key whose certificate is gone), the adapter with its address, the .pfx folder. Returns what could not be undone (empty when
-# everything is gone).
+# Undoes what $Created names (a failed enable run's own, or -Revert's record): the adapter with its address first (Remove-TestAdapter waits
+# until both are gone), then the certificates with their keys (also a known key whose certificate is gone), the .pfx folder, and the
+# firewall rules last. The server may still listen on the address (-Revert restores my.ini only afterwards), so its block rule goes only
+# once the address is gone: when the adapter step fails, the rules stay and are named as kept, and the record that names them stays for a
+# later -Revert. Returns what could not be undone or was kept (empty when everything is gone).
 function Undo-TestNetwork($Created, [string]$Address) {
 	$problems = @()
-	foreach ($rule in @($Created.FirewallRules | Where-Object { $_ })) {
+	$adapterGone = $true
+	if ([string]$Created.AdapterId -ne '') {
 		try {
-			Remove-TestFirewallRule $rule
+			Remove-TestAdapter $Created.AdapterId $Address
 		}
 		catch {
-			$problems += "the firewall rule ${rule}: $($_.Exception.Message)"
+			$adapterGone = $false
+			$problems += "the loopback adapter $($Created.AdapterId): $($_.Exception.Message)"
 		}
 	}
 	foreach ($thumbprint in @($Created.Thumbprints | Where-Object { $_ })) {
@@ -2031,20 +2153,27 @@ function Undo-TestNetwork($Created, [string]$Address) {
 			$problems += "the certificate $thumbprint in LocalMachine\My (with its key): $($_.Exception.Message)"
 		}
 	}
-	if ([string]$Created.AdapterId -ne '') {
-		try {
-			Remove-TestAdapter $Created.AdapterId $Address
-		}
-		catch {
-			$problems += "the loopback adapter $($Created.AdapterId): $($_.Exception.Message)"
-		}
-	}
 	if ([string]$Created.PfxFolder -ne '' -and (Test-Path -LiteralPath $Created.PfxFolder)) {
 		try {
 			Remove-Item -LiteralPath $Created.PfxFolder -Recurse -Force
 		}
 		catch {
 			$problems += "the folder $($Created.PfxFolder) (the .pfx files): $($_.Exception.Message)"
+		}
+	}
+	$rules = @($Created.FirewallRules | Where-Object { $_ })
+	if (-not $adapterGone) {
+		if ($rules.Count -gt 0) {
+			$problems += "the firewall rules $($rules -join ' and ') are kept, because the adapter and its address $Address are still there and the rules keep other computers away from it; run -Revert again once the adapter is gone"
+		}
+		return , $problems
+	}
+	foreach ($rule in $rules) {
+		try {
+			Remove-TestFirewallRule $rule
+		}
+		catch {
+			$problems += "the firewall rule ${rule}: $($_.Exception.Message)"
 		}
 	}
 	return , $problems
@@ -2412,8 +2541,9 @@ function Save-ExistingItems($Paths) {
 # The files of a failed enable run: each file it replaced gets its bytes and access rules back and each file it added is removed; each
 # folder that was there gets its access rules back, and each folder it created (the dev and client folders, their parents) is removed
 # when it is then empty; the opms-dev-tls folder (always new: the run refuses to start when it exists) is removed, and so is my.ini's
-# temporary copy ($Paths.IniTemp) when a write left it.
-function Undo-EnableFiles($Paths, $Saved) {
+# temporary copy ($Paths.IniTemp) when a write left it. -KeepTlsFolder keeps the opms-dev-tls folder: the test network could not be
+# undone, and its journal and ca.pem there are what -Revert needs to remove it later.
+function Undo-EnableFiles($Paths, $Saved, [switch]$KeepTlsFolder) {
 	foreach ($path in (Get-DevFiles $Paths)) {
 		$old = @($Saved.Files | Where-Object { $_.Path -eq $path })
 		if ($old.Count -gt 0) {
@@ -2436,12 +2566,66 @@ function Undo-EnableFiles($Paths, $Saved) {
 	foreach ($parent in (Get-CreatedParents $Paths)) {
 		Remove-EmptyFolder $parent
 	}
-	if (Test-Path -LiteralPath $Paths.TlsFolder) {
+	if (-not $KeepTlsFolder -and (Test-Path -LiteralPath $Paths.TlsFolder)) {
 		Remove-Item -LiteralPath $Paths.TlsFolder -Recurse -Force
 	}
 	if ($Paths.IniTemp -ne '' -and (Test-Path -LiteralPath $Paths.IniTemp)) {
 		Remove-Item -LiteralPath $Paths.IniTemp -Force
 	}
+}
+
+# The undo of a failed enable run, each part in its own try: my.ini from the backup and the restart ($ChangedIni), then the backup; the
+# test network ($Created; when $TestAddress is set) in any case, also when my.ini's restore or the restart failed, because once my.ini is
+# the old file again the journal is the only record of it; the journal goes only when that undo leaves nothing. Then the files
+# (Undo-EnableFiles) when my.ini was restored, keeping the opms-dev-tls folder (the journal, ca.pem) while the test network is not undone.
+# Returns Problems (empty: everything is undone), IniUndone, NetLeft and the journal's path.
+function Undo-FailedEnable($Paths, $Saved, $Created, [string]$TestAddress, [bool]$ChangedIni) {
+	$problems = @()
+	$iniUndone = $true
+	try {
+		if ($ChangedIni) {
+			Copy-Item -LiteralPath $Paths.Backup -Destination $script:Facts.Ini -Force
+			Restart-DbService
+		}
+		# The run refused to start with a backup there, so a backup now is this run's own (also a partial copy).
+		if (Test-Path -LiteralPath $Paths.Backup) {
+			Remove-Item -LiteralPath $Paths.Backup -Force
+		}
+	}
+	catch {
+		$iniUndone = $false
+		$problems += "my.ini and the service: $($_.Exception.Message)"
+	}
+	$netLeft = @()
+	$journal = Get-TestNetworkJournalPath $Paths.TlsFolder
+	if ($TestAddress -ne '') {
+		try {
+			$netLeft = @(Undo-TestNetwork $Created $TestAddress)
+		}
+		catch {
+			$netLeft = @($_.Exception.Message)
+		}
+		if ($netLeft.Count -gt 0) {
+			$problems += "the test network could not be undone: $($netLeft -join '; ')"
+		}
+		elseif (Test-Path -LiteralPath $journal) {
+			try {
+				Remove-Item -LiteralPath $journal -Force
+			}
+			catch {
+				$problems += "the journal ${journal}: $($_.Exception.Message)"
+			}
+		}
+	}
+	if ($iniUndone) {
+		try {
+			Undo-EnableFiles $Paths $Saved -KeepTlsFolder:($netLeft.Count -gt 0)
+		}
+		catch {
+			$problems += "the files: $($_.Exception.Message)"
+		}
+	}
+	return [pscustomobject]@{ Problems = @($problems); IniUndone = $iniUndone; NetLeft = @($netLeft); Journal = $journal }
 }
 
 function Invoke-Enable {
@@ -2677,47 +2861,47 @@ function Invoke-Enable {
 	catch {
 		$failure = $_.Exception.Message
 		Write-Host "FAILED: $failure"
-		try {
-			if ($changedIni) {
-				Copy-Item -LiteralPath $paths.Backup -Destination $script:Facts.Ini -Force
-				Restart-DbService
-			}
-			# The run refused to start with a backup there, so a backup now is this run's own (also a partial copy).
-			if (Test-Path -LiteralPath $paths.Backup) {
-				Remove-Item -LiteralPath $paths.Backup -Force
-			}
-			if ($testAddress -ne '') {
-				$netLeft = @(Undo-TestNetwork $created $testAddress)
-				if ($netLeft.Count -gt 0) {
-					throw "the test network could not be undone: $($netLeft -join '; ')"
-				}
-			}
-			Undo-EnableFiles $paths $saved
+		$undo = Undo-FailedEnable $paths $saved $created $testAddress $changedIni
+		$undoProblems = @($undo.Problems)
+		$iniUndone = $undo.IniUndone
+		$netLeft = @($undo.NetLeft)
+		$journal = $undo.Journal
+		if ($undoProblems.Count -eq 0) {
 			Write-Host 'Undone: my.ini restored from the backup, the service restarted, the files this run replaced put back as they were, the files and folders it added removed.'
 			if ($testAddress -ne '') {
-				Write-Host '        The firewall rules, the two test certificates with their keys and the loopback adapter are removed again.'
+				Write-Host '        The loopback adapter, the two test certificates with their keys and the firewall rules are removed again.'
 			}
 			exit 3
 		}
-		catch {
-			Write-Host "Undoing failed too: $($_.Exception.Message)"
-			$replaced = @($saved.Files | ForEach-Object { $_.Path })
-			$added = @(Get-DevFiles $paths | Where-Object { $replaced -notcontains $_ })
-			Write-Host "Restore $($script:Facts.Ini) from $($paths.Backup) by hand (when it is still there), restart the service $ServiceName, and remove $($paths.TlsFolder), $($paths.IniTemp) when it is there, $($added -join ', ')."
-			if ($replaced.Count -gt 0) {
-				Write-Host "These files existed before the run and now hold the new certificates: $($replaced -join ', ')."
-			}
-			if ($testAddress -ne '') {
-				Write-Host "Check and remove by hand, in an elevated window, what the run made of the test network (docs/port-notes/DB-TLS.md section 11.2): the firewall rules $(@($created.FirewallRules) -join ', ') (group '$FirewallGroup') and the loopback adapter $($created.AdapterId) (Device Manager, Network adapters)."
-				foreach ($thumbprint in @($created.Thumbprints | Where-Object { $_ })) {
-					Write-Host "  $(Get-ManualCertificateRemoval $thumbprint (Get-CreatedKey $created $thumbprint))."
-				}
-				if (@($created.Thumbprints | Where-Object { $_ }).Count -gt 0) {
-					Write-Host '  Not certlm.msc: its Delete, like certutil -delstore alone, removes only the store entry and leaves the key file that BUILTIN\Users can read.'
-				}
-			}
-			exit 4
+		Write-Host "Undoing failed too: $($undoProblems -join '; ')"
+		$replaced = @($saved.Files | ForEach-Object { $_.Path })
+		$added = @(Get-DevFiles $paths | Where-Object { $replaced -notcontains $_ })
+		if (-not $iniUndone) {
+			Write-Host "Restore $($script:Facts.Ini) from $($paths.Backup) by hand when my.ini still has the block of this script, and start the service $ServiceName."
 		}
+		if ($testAddress -ne '' -and $netLeft.Count -gt 0) {
+			Write-Host "The journal $journal names what the run made of the test network; $($paths.TlsFolder) stays for it (with ca.pem, against which"
+			Write-Host '-Revert checks the certificates).'
+		}
+		Write-Host 'Then run this script with -Revert in this elevated window (first with -DryRun -Revert to see its plan): it restores my.ini from the'
+		Write-Host 'backup when there is one, removes the files and folders of this run and, from my.ini''s block or else from the journal, also an'
+		Write-Host 'interrupted run''s test network: the adapter first, then both test certificates with their keys, the firewall rules last'
+		Write-Host '(docs/port-notes/DB-TLS.md sections 11.2 and 11.4).'
+		Write-Host "By hand instead: restore my.ini as above, restart the service, and remove (once the test network below is gone, if any) $($paths.TlsFolder), $($paths.IniTemp) when it is there, $($added -join ', ')."
+		if ($replaced.Count -gt 0) {
+			Write-Host "These files existed before the run and now hold the new certificates: $($replaced -join ', ')."
+		}
+		if ($testAddress -ne '' -and $netLeft.Count -gt 0) {
+			Write-Host "  The test network, in an elevated window: first the loopback adapter $($created.AdapterId) (Device Manager, Network adapters), then:"
+			foreach ($thumbprint in @($created.Thumbprints | Where-Object { $_ })) {
+				Write-Host "  $(Get-ManualCertificateRemoval $thumbprint (Get-CreatedKey $created $thumbprint))."
+			}
+			if (@($created.Thumbprints | Where-Object { $_ }).Count -gt 0) {
+				Write-Host '  Not certlm.msc: its Delete, like certutil -delstore alone, removes only the store entry and leaves the key file that BUILTIN\Users can read.'
+			}
+			Write-Host "  The firewall rules $(@($created.FirewallRules) -join ', ') (group '$FirewallGroup') last, once the adapter and $testAddress are gone."
+		}
+		exit 4
 	}
 	Write-Host ''
 	Write-Host "TLS is on: $($after.Values['ssl_version']), cipher $($after.Values['ssl_cipher']); the server certificate is valid until $($after.Values['ssl_server_not_after'])."
@@ -2832,39 +3016,79 @@ function Invoke-Revert {
 	[void](Assert-LocalServer)
 	$paths = Get-Paths $false
 	$text = $script:IniFile.Text
-	if (-not (Test-Path -LiteralPath $paths.Backup)) {
-		if (-not (Test-HasBlock $text) -and -not (Test-Path -LiteralPath $paths.TlsFolder)) {
+	$hasBackup = Test-Path -LiteralPath $paths.Backup
+	# The test network of -WithTestNetwork: my.ini's block records it once the enable run has made all of it. Before that, and after a
+	# failed run's undo restored my.ini, only the journal in the opms-dev-tls folder does (an interrupted run: Ctrl+C, a closed window, a
+	# crash; or an undo that could not remove the test network).
+	$journal = Get-TestNetworkJournalPath $paths.TlsFolder
+	$journalNet = Read-TestNetworkJournal $journal
+	if ($null -ne $journalNet) {
+		$journalProblem = Get-TestNetworkRecordProblem $journalNet $journal -Partial
+		if ($null -ne $journalProblem) {
+			Stop-Refused "$journalProblem This script does not touch it: something else wrote that line of its journal. Look at the journal and undo the test network yourself (docs/port-notes/DB-TLS.md section 11.4)."
+		}
+	}
+	$net = $paths.TestNetwork
+	$fromJournal = $false
+	if ($null -eq $net -and $null -ne $journalNet) {
+		$net = $journalNet
+		$fromJournal = $true
+	}
+	# Without a backup and without a block, my.ini was never changed: an enable run stopped before it copied my.ini. Only what it made is
+	# removed then (the test network of its journal, its files and folders); my.ini and the service are not touched.
+	$filesOnly = $false
+	if (-not $hasBackup) {
+		if (Test-HasBlock $text) {
+			Stop-Refused "$($paths.Backup) is missing, so the original my.ini cannot be restored. Remove the block between the marker lines from $($script:Facts.Ini) by hand."
+		}
+		if (-not (Test-Path -LiteralPath $paths.TlsFolder)) {
 			Write-Host ''
 			Write-Host 'Nothing to revert: no backup, no block of this script in my.ini, no certificate folder.'
 			exit 0
 		}
-		Stop-Refused "$($paths.Backup) is missing, so the original my.ini cannot be restored. Remove the block between the marker lines from $($script:Facts.Ini) by hand."
+		$filesOnly = $true
 	}
-	$backup = Read-OptionFile $paths.Backup
 	$lost = @()
-	if ((Remove-Block $text) -ne $backup.Text) {
-		$current = @((Remove-Block $text) -split "`n" | ForEach-Object { $_.TrimEnd("`r") })
-		$old = @($backup.Text -split "`n" | ForEach-Object { $_.TrimEnd("`r") })
-		$lost = @(Compare-Object -ReferenceObject $old -DifferenceObject $current | Where-Object { $_.SideIndicator -eq '=>' } |
-			ForEach-Object { $_.InputObject })
+	if (-not $filesOnly) {
+		$backup = Read-OptionFile $paths.Backup
+		if ((Remove-Block $text) -ne $backup.Text) {
+			$current = @((Remove-Block $text) -split "`n" | ForEach-Object { $_.TrimEnd("`r") })
+			$old = @($backup.Text -split "`n" | ForEach-Object { $_.TrimEnd("`r") })
+			$lost = @(Compare-Object -ReferenceObject $old -DifferenceObject $current | Where-Object { $_.SideIndicator -eq '=>' } |
+				ForEach-Object { $_.InputObject })
+		}
 	}
-	# The test network of -WithTestNetwork, as the block records it: what is there of it, and whether it is this script's to remove.
-	$net = $paths.TestNetwork
+	# What is there of the recorded test network, and whether it is this script's to remove.
 	$netState = $null
+	$netSource = $script:Facts.Ini
+	if ($fromJournal) {
+		$netSource = $journal
+	}
 	if ($null -ne $net) {
 		$netState = Get-TestNetworkState $net $paths.Ca
 		$netProblem = Get-TestNetworkStateProblem $net $netState
 		if ($null -ne $netProblem) {
-			Stop-Refused "$netProblem This script removes only what it made; remove that by hand, or put the record in $($script:Facts.Ini) right (docs/port-notes/DB-TLS.md section 11)."
+			Stop-Refused "$netProblem This script removes only what it made; remove that by hand, or put the record in $netSource right (docs/port-notes/DB-TLS.md section 11)."
 		}
 	}
 	Write-Host ''
 	Write-Host 'Plan:'
 	$step = 0
+	if ($filesOnly) {
+		Write-Host "  $($paths.Backup) is missing and $($script:Facts.Ini) has no block of this script: an enable run stopped before it"
+		Write-Host '  changed my.ini (Ctrl+C, a closed window, a crash). my.ini and the service are not touched; what the run made is removed.'
+	}
 	if ($null -ne $net) {
-		Write-Host "  First the test network of -WithTestNetwork $($net.Address) (the record in my.ini stays until it is gone, so that -Revert can"
-		Write-Host '  be run again if a step fails):'
-		foreach ($line in (Get-TestNetworkRevertPlan $net $netState)) {
+		if ($fromJournal) {
+			Write-Host "  First the test network $($net.Address) of an enable run that did not finish, as its journal $journal records it"
+			Write-Host '  (my.ini has no record of it). The journal and the opms-dev-tls folder stay until everything it names is gone, so that -Revert'
+			Write-Host '  can be run again if a step fails:'
+		}
+		else {
+			Write-Host "  First the test network of -WithTestNetwork $($net.Address) (the record in my.ini stays until it is gone, so that -Revert can"
+			Write-Host '  be run again if a step fails):'
+		}
+		foreach ($line in (Get-TestNetworkRevertPlan $net $netState -FromJournal:$fromJournal)) {
 			if ($line.StartsWith('#. ')) {
 				$step++
 				$line = "  $step. " + $line.Substring(3)
@@ -2872,21 +3096,27 @@ function Invoke-Revert {
 			Write-Host $line
 		}
 	}
-	$step++
-	Write-Host "  $step. Restore $($script:Facts.Ini) from $($paths.Backup)."
-	if ($lost.Count -gt 0) {
-		Write-Host '     my.ini was changed since TLS was turned on; restoring the backup also drops these lines:'
-		foreach ($line in $lost) {
-			Write-Host "       $line"
+	if (-not $filesOnly) {
+		$step++
+		Write-Host "  $step. Restore $($script:Facts.Ini) from $($paths.Backup)."
+		if ($lost.Count -gt 0) {
+			Write-Host '     my.ini was changed since TLS was turned on; restoring the backup also drops these lines:'
+			foreach ($line in $lost) {
+				Write-Host "       $line"
+			}
 		}
+		$step++
+		Write-Host "  $step. Restart the service $ServiceName and check an unencrypted connection."
 	}
-	$step++
-	Write-Host "  $step. Restart the service $ServiceName and check an unencrypted connection."
 	if ($null -ne $net) {
 		Write-Host "     Then check that nothing listens on $($net.Address):3306 any more."
 	}
 	$step++
-	Write-Host "  $step. Remove $($paths.TlsFolder), $((Get-DevFiles $paths) -join ', ') and the backup;"
+	$backupText = ' and the backup'
+	if ($filesOnly) {
+		$backupText = ''
+	}
+	Write-Host "  $step. Remove $($paths.TlsFolder), $((Get-DevFiles $paths) -join ', ')$backupText;"
 	Write-Host "     $((@(@($paths.DevFolder, $paths.ClientFolder) | Where-Object { $_ -ne '' })) -join ' and ') too when it is then empty."
 	foreach ($parent in (Get-CreatedParents $paths)) {
 		Write-Host "     $parent too when it is then empty (the enable run created it)."
@@ -2898,6 +3128,9 @@ function Invoke-Revert {
 		Write-Host "     my.ini records no dev folder, so only $($paths.DevCa) is removed (-DevFolder, else this account's %LOCALAPPDATA%)."
 		Write-Host '     A ca.pem, client-cert.pem or client-key.pem in another account''s folder is not touched: pass -DevFolder (and'
 		Write-Host '     -ClientFolder) for it, or remove it by hand, or the dev tools there keep asking the server for TLS.'
+	}
+	if ($null -ne $journalNet) {
+		Write-Host "     $($paths.TlsFolder) holds the journal of the test network: it is removed only once nothing the journal names is there."
 	}
 	Confirm-Change 'Turn TLS off again?'
 	if ($null -ne $net) {
@@ -2912,28 +3145,50 @@ function Invoke-Revert {
 		catch {
 			$netLeft = @($_.Exception.Message)
 		}
+		if ($netLeft.Count -eq 0 -and $null -ne $journalNet) {
+			# The journal's items too (the same as the block's, or fewer): the opms-dev-tls folder with the journal goes only when they are gone.
+			try {
+				$netLeft = @(Get-TestNetworkLeft $journalNet (Get-TestNetworkState $journalNet $paths.Ca) | ForEach-Object { "$_ (named in the journal $journal) is still there" })
+			}
+			catch {
+				$netLeft = @("the journal ${journal}: $($_.Exception.Message)")
+			}
+		}
 		if ($netLeft.Count -gt 0) {
 			Write-Host "FAILED: the test network is not fully removed: $($netLeft -join '; ')."
-			Write-Host "Nothing else was changed: my.ini still has its block (the record), so -Revert can run again once that is put right."
+			if ($fromJournal) {
+				Write-Host "Nothing else was changed: the journal $journal still names it, and $($paths.TlsFolder) stays with it, so -Revert can run again once that is put right."
+			}
+			else {
+				Write-Host "Nothing else was changed: my.ini still has its block (the record), so -Revert can run again once that is put right."
+			}
 			exit 4
 		}
-		Write-Host "Removed the test network: the firewall rules, both test certificates with their keys, the adapter $($net.AdapterId) and $($net.Address)."
+		Write-Host "Removed the test network: the adapter $($net.AdapterId) and $($net.Address), both test certificates with their keys, the firewall rules."
 	}
 	try {
-		Copy-Item -LiteralPath $paths.Backup -Destination $script:Facts.Ini -Force
-		Restart-DbService
-		$plain = Get-ServerState 'plain'
-		if (-not $plain.Ok) {
-			throw "An unencrypted connection does not work after the restore: $($plain.Error)"
+		if (-not $filesOnly) {
+			Copy-Item -LiteralPath $paths.Backup -Destination $script:Facts.Ini -Force
+			Restart-DbService
+			$plain = Get-ServerState 'plain'
+			if (-not $plain.Ok) {
+				throw "An unencrypted connection does not work after the restore: $($plain.Error)"
+			}
 		}
 		if ($null -ne $net -and @(Get-NetTCPConnection -LocalAddress $net.Address -LocalPort 3306 -State Listen -ErrorAction SilentlyContinue).Count -gt 0) {
 			throw "Something still listens on $($net.Address):3306 after the restore."
 		}
 		Remove-NewFiles $paths
-		Remove-Item -LiteralPath $paths.Backup -Force
+		if (-not $filesOnly) {
+			Remove-Item -LiteralPath $paths.Backup -Force
+		}
 	}
 	catch {
 		Write-Host "FAILED: $($_.Exception.Message)"
+		if ($filesOnly) {
+			Write-Host "my.ini and the service were not touched. Remove what is left of $($paths.TlsFolder) and $((Get-DevFiles $paths) -join ', ') by hand."
+			exit 4
+		}
 		Write-Host "The backup $($paths.Backup) is kept. Look at $($script:Facts.Ini) and the MariaDB error log, then restart the service."
 		if ($null -ne $net) {
 			Write-Host "The test network is already removed, so a my.ini that still has the block (bind-address=127.0.0.1,$($net.Address)) keeps the"
@@ -2942,6 +3197,10 @@ function Invoke-Revert {
 		exit 4
 	}
 	Write-Host ''
+	if ($filesOnly) {
+		Write-Host 'Removed what the enable run that did not finish had made; my.ini and the service were not touched. The enable run can start again.'
+		exit 0
+	}
 	Write-Host 'TLS is off again: my.ini restored, the service restarted, the certificate files removed.'
 	exit 0
 }
