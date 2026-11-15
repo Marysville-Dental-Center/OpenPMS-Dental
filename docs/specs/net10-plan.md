@@ -746,6 +746,15 @@ and `FrmPatientSelect.xaml.cs` pass from S3a-2 to S3a-12 after wave 1 merges; a 
 3a (the helper's files). `ControlImages.cs` passes from S3a-M2 to S3a-14 (its Topaz lines only). In `tests/ReleaseFlowTests`, S3a-13 and
 S3a-16 add new files only. The lane's x64 test build and `OpenDental.sln` are the lead's.
 
+**Status (2026-11-15), S3a-1.** Done on `net10/s3a1-1` (`docs/port-notes/S3a-1.md`), not merged yet: no `Thread.Abort` is left in shipped
+code. `ODThread.Join` on timeout returns false, asks the thread to quit and makes it a background thread; `RunParallel`'s threads start no
+further action after the timeout. The progress window closes on success and shows the exception as before; Cancel cancels the new
+`ProgressWin.CancellationToken`, calls `ActionCancel` (never called before), makes the action's next progress event throw
+`OperationCanceledException`, waits up to a second and closes as cancelled (`ProgressWin.IsWorkerStillRunning` if the action did not stop).
+Left for others: the dead `ThreadAbortException` catches (after 3b), `tests/WindowChecksTests/InProc/ProgramDriver.cs`'s `thread.Abort()`
+(lead, before 3b), the callers that relied on a timeout aborting and the review of long ProgressWin actions for a check point (port note,
+sections 5 and 6).
+
 **Full-test gate.** Section 3, plus: the golden outputs and known answers recorded and committed; the source-scan tests pass; the
 launch checks for 3a (section 6) done with screenshots, including a self-update from a standard user; the x64 test runs (S3a-12, S3a-15)
 and the x64 build of `Direct2dWrapper` (S3a-16) pass; the helper's tests pass, and its links are launch-checked where a test PC has the
