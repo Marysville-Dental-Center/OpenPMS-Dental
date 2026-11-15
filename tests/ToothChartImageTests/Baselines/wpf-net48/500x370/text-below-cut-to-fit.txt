@@ -6,8 +6,8 @@ Colours: Printout
 Engine: Wpf3D (RenderTargetBitmap in software, 3D layer at 3x reduced with WIC's Fant scaler)
 Bitmap: 500x370 Format24bppRgb
 Alpha: every alpha is 255 (format without an alpha channel)
-Colours in the picture: 3349
-Pixels SHA-256: 1b043b3b8a4527742e52e8fa45be8f1df55f74604b86933d247c8621968ffdee
+Colours in the picture: 3320
+Pixels SHA-256: e748e0b2de0dbdddac2d252ead7091c27345c752279d7a28a62f5badec87c1fc
 Repeatable: yes (a second GetBitmap gave the same pixels)
 Framework: .NET Framework 4.8, x86
 Windows: build 26300.9974 (26H2)

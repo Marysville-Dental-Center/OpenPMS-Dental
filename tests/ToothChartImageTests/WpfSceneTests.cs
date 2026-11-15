@@ -84,11 +84,20 @@ namespace ToothChartImageTests {
 		}
 
 		[TestMethod]
-		public void EveryChartScene_HasOnlyOpaque3DColoursAndPolygons() {
+		public void EveryChartScene_HasOpaque3DColoursAndPolygons_ButUneruptedTeeth_BeneathTheOpaqueItems() {
 			int countItems=0;
+			int countTranslucent=0;
 			foreach(KeyValuePair<string,ToothScene> pair in BuildEveryChartScene()) {
+				//TC-3c (LOOK-2): only the unerupted teeth are translucent, at UneruptedAlpha, and they are the scene's Items3DUnder, drawn beneath every
+				//opaque 3D item (Open Dental's 2023 mixed-dentition screenshot: the primary roots crisp over the pale permanent crowns).
 				foreach(ToothSceneItem3D item in pair.Value.Items3D) {
-					Assert.AreEqual(255,item.Color.A,pair.Key+": "+item);
+					Assert.AreEqual(255,item.Color.A,pair.Key+": an item over the unerupted teeth that is not opaque: "+item);
+					countItems++;
+				}
+				foreach(ToothSceneItem3D item in pair.Value.Items3DUnder) {
+					Assert.AreEqual(ToothSceneBuilder.UneruptedAlpha,item.Color.A,pair.Key+": "+item);
+					Assert.AreNotEqual("implant",item.ToothId,pair.Key+": "+item);
+					countTranslucent++;
 					countItems++;
 				}
 				foreach(ToothSceneItem2D item in pair.Value.Items2D.Where(x => x.Kind==ChartItem2DKind.Polygons)) {
@@ -97,13 +106,15 @@ namespace ToothChartImageTests {
 				Assert.AreEqual(255,pair.Value.ColorBackground.A);
 			}
 			Assert.IsTrue(countItems>100000,"3D items checked: "+countItems);
+			Assert.IsTrue(countTranslucent>1000,"The scenes with unerupted teeth (mixed and primary dentition, unerupted third molars): "+countTranslucent);
 		}
 
 		[TestMethod]
-		public void SemiTransparentColours_ComeOutOfEveryBuilderColourPath_Opaque() {
+		public void SemiTransparentColours_ComeOutOfEveryBuilderColourPath_Opaque_OrAtTheUneruptedAlpha() {
 			//The chart scenes use opaque colours, so the test above cannot catch a colour path that keeps a colour's alpha. Here every 3D colour path
-			//of the builder gets a semi-transparent colour: surfaces, a crown (enamel groups), an unerupted tooth (half RGB), an implant with its
-			//crown, a pontic and the perio rows. ToothSceneItem3D keeps the colour as given, so only the builder can make it opaque.
+			//of the builder gets a semi-transparent colour: surfaces, a crown (enamel groups), an unerupted tooth, an implant with its crown, a pontic
+			//and the perio rows. ToothSceneItem3D keeps the colour as given, so only the builder can set the alpha: 255, or in the chart
+			//UneruptedAlpha for the unerupted tooth (TC-3c), whatever the colour's own alpha.
 			Color colorHalf=Color.FromArgb(128,200,40,60);
 			Color colorQuarter=Color.FromArgb(64,30,160,90);
 			List<ToothScene> listScenes=StaRunner.Run(() => {
@@ -129,10 +140,17 @@ namespace ToothChartImageTests {
 			});
 			Color colorHalfOpaque=Color.FromArgb(255,colorHalf);
 			Color colorQuarterOpaque=Color.FromArgb(255,colorQuarter);
-			Color colorHalfUnerupted=Color.FromArgb(255,colorHalf.R/2,colorHalf.G/2,colorHalf.B/2);
+			Color colorHalfUneruptedPerio=Color.FromArgb(255,colorHalf.R/2,colorHalf.G/2,colorHalf.B/2);
+			Color colorHalfUnerupted=Color.FromArgb(ToothSceneBuilder.UneruptedAlpha,colorHalf.R,colorHalf.G,colorHalf.B);
 			foreach(ToothScene toothScene in listScenes) {
 				foreach(ToothSceneItem3D item in toothScene.Items3D) {
 					Assert.AreEqual(255,item.Color.A,item.Source+" group "+item.GroupIndex+" "+item.GroupType);
+					Assert.IsTrue(toothScene.IsPerio || item.ToothId!="1","The unerupted 1 is beneath the opaque items in the chart: "+item.Source);
+				}
+				foreach(ToothSceneItem3D item in toothScene.Items3DUnder) {
+					Assert.IsFalse(toothScene.IsPerio,"The perio chart draws nothing beneath: "+item.Source);
+					Assert.AreEqual("1",item.ToothId,item.Source);
+					Assert.AreEqual(ToothSceneBuilder.UneruptedAlpha,item.Color.A,item.Source+" group "+item.GroupIndex+" "+item.GroupType);
 				}
 				//The colours themselves came through: the paths were taken.
 				Assert.IsTrue(toothScene.Items3D.Any(x => x.ToothId=="3" && x.Color.ToArgb()==colorHalfOpaque.ToArgb()),"The surfaces of 3.");
@@ -141,25 +159,52 @@ namespace ToothChartImageTests {
 					"The implant of 30.");
 				Assert.IsTrue(toothScene.Items3D.Any(x => x.ToothId=="30" && x.Color.ToArgb()==colorQuarterOpaque.ToArgb()),"The crown on the implant of 30.");
 				Assert.IsTrue(toothScene.Items3D.Any(x => x.ToothId=="12" && x.Color.ToArgb()==colorHalfOpaque.ToArgb()),"The pontic 12.");
-				if(!toothScene.IsPerio) {
-					Assert.IsTrue(toothScene.Items3D.Any(x => x.ToothId=="1" && x.Color.ToArgb()==colorHalfUnerupted.ToArgb()),"The unerupted 1, at half RGB.");
+				if(toothScene.IsPerio) {
+					Assert.IsTrue(toothScene.Items3D.Any(x => x.ToothId=="1" && x.Color.ToArgb()==colorHalfUneruptedPerio.ToArgb()),
+						"The unerupted 1 in the perio chart, at half RGB, opaque (DirectX's rule).");
+				}
+				else {
+					Assert.IsTrue(toothScene.Items3DUnder.Any(x => x.ToothId=="1" && x.Color.ToArgb()==colorHalfUnerupted.ToArgb()),
+						"The unerupted 1, at its own RGB and the unerupted alpha.");
 				}
 			}
 		}
 
 		[TestMethod]
-		public void UneruptedTeeth_AreHalfRgb_AndOpaque() {
+		public void UneruptedTeeth_AreTranslucentAtTheirOwnRgb_BeneathEveryOpaqueItem() {
+			//TC-3c (LOOK-2): Open Dental's DirectX 11 chart draws unerupted teeth pale and translucent over the background (its 2023 mixed-dentition
+			//screenshot), not opaque at half RGB as DirectX 9: the paint colour at UneruptedAlpha (0.63, measured from that screenshot), beneath the
+			//opaque teeth and implants (the same screenshot: the primary roots crisp over the pale permanent crowns), both views.
+			Assert.AreEqual(161,ToothSceneBuilder.UneruptedAlpha);
 			ToothChartData tcData=CreateData(ChartScenes.SizeModule.Size);
 			tcData.ListToothGraphics["1"].ShiftO=-12;//as MoveTooth with shiftO -12 sets it
+			tcData.ListToothGraphics["30"].Visible=false;
+			tcData.ListToothGraphics["30"].IsImplant=true;
+			tcData.ListToothGraphics["30"].colorImplant=Color.Gainsboro;
 			ToothScene toothScene=ToothSceneBuilder.Build(tcData);
-			List<ToothSceneItem3D> listItems=toothScene.Items3D.Where(x => x.ToothId=="1").ToList();
-			Assert.IsTrue(listItems.Count>0);
+			List<ToothSceneItem3D> listItems=toothScene.Items3DUnder.Where(x => x.ToothId=="1").ToList();
+			Assert.IsTrue(listItems.Any(x => x.Source=="1 facial") && listItems.Any(x => x.Source=="1 occlusal"),"Both views.");
 			foreach(ToothSceneItem3D item in listItems) {
 				Color colorPaint=tcData.ListToothGraphics["1"].Groups[item.GroupIndex].PaintColor;
-				Assert.AreEqual(Color.FromArgb(255,colorPaint.R/2,colorPaint.G/2,colorPaint.B/2).ToArgb(),item.Color.ToArgb(),item.ToString());
+				Assert.AreEqual(Color.FromArgb(ToothSceneBuilder.UneruptedAlpha,colorPaint.R,colorPaint.G,colorPaint.B).ToArgb(),item.Color.ToArgb(),item.ToString());
 			}
+			//Tooth 1's items are all beneath, and only they: the opaque layer has the other teeth and the implant of 30.
+			Assert.AreEqual(listItems.Count,toothScene.Items3DUnder.Count);
+			Assert.IsFalse(toothScene.Items3D.Any(x => x.ToothId=="1"));
+			Assert.IsTrue(toothScene.Items3D.Any(x => x.Source=="implant of 30"));
 			ToothSceneItem3D itemEnamel=toothScene.Items3D.First(x => x.ToothId=="2" && x.GroupType==ToothGroupType.Enamel);
 			Assert.AreEqual(Color.FromArgb(255,250,250,240).ToArgb(),itemEnamel.Color.ToArgb(),"An erupted tooth keeps its colour.");
+			//ShiftO of -10 is not yet unerupted (DirectX's rule: below -10).
+			tcData.ListToothGraphics["1"].ShiftO=-10;
+			ToothScene toothSceneErupted=ToothSceneBuilder.Build(tcData);
+			Assert.IsTrue(toothSceneErupted.Items3D.All(x => x.Color.A==255));
+			Assert.AreEqual(0,toothSceneErupted.Items3DUnder.Count);
+			Assert.IsTrue(toothSceneErupted.Items3D.Any(x => x.ToothId=="1"));
+			Assert.IsFalse(toothScene.IsSame3DLayer(toothSceneErupted),"The layer beneath counts in IsSame3DLayer.");
+			//The perio chart keeps DirectX's opaque half RGB.
+			ToothGroup groupEnamel=tcData.ListToothGraphics["1"].GetGroup(ToothGroupType.Enamel);
+			tcData.ListToothGraphics["1"].ShiftO=-12;
+			Assert.AreEqual(Color.FromArgb(255,125,125,120).ToArgb(),ToothSceneBuilder.GetGroupColorPerio(tcData.ListToothGraphics["1"],groupEnamel).ToArgb());
 		}
 
 		[TestMethod]
@@ -235,7 +280,7 @@ namespace ToothChartImageTests {
 			Assert.IsTrue(listSources.IndexOf("build-up of 8")<listSources.IndexOf("sealant of 8"));
 			Assert.IsTrue(listSources.IndexOf("sealant of 8")<listSources.IndexOf("sealant of 19"));
 			Assert.IsTrue(listSources.IndexOf("sealant of 19")<listSources.IndexOf("root canal of 24"));
-			//After every tooth: the watches (a white outline, then the colour), the drawings, the centre line, then the numbers.
+			//After every tooth: the watches, the drawings, the centre line, then the numbers.
 			int indexLastTooth=listSources.LastIndexOf("root canal of 24");
 			int indexFirstWatch=listSources.FindIndex(x => x.StartsWith("watch of "));
 			int indexDrawing=listSources.IndexOf("drawing 0");
@@ -243,12 +288,19 @@ namespace ToothChartImageTests {
 			int indexFirstNumber=listSources.FindIndex(x => x.StartsWith("number ") || x.StartsWith("highlight of "));
 			Assert.IsTrue(indexLastTooth<indexFirstWatch && indexFirstWatch<indexDrawing && indexDrawing<indexCentre && indexCentre<indexFirstNumber,
 				string.Join(", ",listSources));
+			//TC-3c (PT-1): the "W" is plain text in the procedure's colour, Arial at regular weight, with no white "W" behind it as an outline.
+			Assert.IsFalse(listSources.Any(x => x.EndsWith("(outline)")),string.Join(", ",listSources));
 			foreach(string toothId in new[] { "12","30" }) {
-				int indexOutline=listSources.IndexOf("watch of "+toothId+" (outline)");
-				Assert.IsTrue(indexOutline>=0 && listSources[indexOutline+1]=="watch of "+toothId,"The white W, then the coloured one.");
-				Assert.AreEqual(Color.White.ToArgb(),listItems[indexOutline].Color.ToArgb());
-				Assert.AreEqual("Times New Roman",listItems[indexOutline].Font.FaceName);
+				List<ToothSceneItem2D> listWatch=listItems.Where(x => x.Source.StartsWith("watch of "+toothId)).ToList();
+				Assert.AreEqual(1,listWatch.Count,"One W for "+toothId);
+				Assert.AreEqual("W",listWatch[0].Text);
+				Assert.AreEqual(Color.Red.ToArgb(),listWatch[0].Color.ToArgb());
+				Assert.AreEqual("Arial",listWatch[0].Font.FaceName);
+				Assert.AreEqual(400,listWatch[0].Font.Weight);
 			}
+			//TC-3c (LOOK-4): the centre line is in the chart's text colour, the numbers' colour, not white.
+			ToothSceneItem2D itemCentre=listItems[indexCentre];
+			Assert.AreEqual(Color.FromArgb(255,listItems.First(x => x.Source=="number 1").Color).ToArgb(),itemCentre.Color.ToArgb());
 			//The numbers in tooth order, 1-32 (A-T are not shown here), each highlight right before its number.
 			List<string> listNumbers=listSources.Skip(indexFirstNumber).ToList();
 			Assert.AreEqual(32+2,listNumbers.Count,string.Join(", ",listNumbers));
@@ -257,6 +309,21 @@ namespace ToothChartImageTests {
 			Assert.AreEqual("number 25",listNumbers[listNumbers.IndexOf("highlight of 25")+1]);
 			//Text keeps its colour's alpha; polygons are opaque.
 			Assert.IsTrue(listItems.Where(x => x.Kind==ChartItem2DKind.Text).All(x => x.Font!=null && x.Text!=null));
+		}
+
+		[TestMethod]
+		public void CentreLine_IsInTheChartTextColour_Opaque() {
+			//TC-3c (LOOK-4): the chart's text colour (the "Text" chart graphic colour in the module, "Text on TPs" on printouts), opaque like every
+			//polygon; DirectX 9 drew it white. The perio chart's own centre line stays black (TC-7).
+			ToothChartData tcData=CreateData(ChartScenes.SizeModule.Size);
+			foreach(Color colorText in new[] { Color.Black,Color.Navy,Color.FromArgb(128,200,40,60) }) {
+				tcData.ColorText=colorText;
+				ToothScene toothScene=ToothSceneBuilder.Build(tcData);
+				ToothSceneItem2D itemCentre=toothScene.Items2D.Single(x => x.Source==ToothSceneBuilder.SourceCentreLine);
+				Assert.AreEqual(ChartItem2DKind.Polygons,itemCentre.Kind);
+				Assert.AreEqual(Color.FromArgb(255,colorText).ToArgb(),itemCentre.Color.ToArgb(),colorText.ToString());
+				Assert.AreEqual(colorText.ToArgb(),toothScene.Items2D.First(x => x.Source=="number 1").Color.ToArgb(),"The numbers keep the text colour as given.");
+			}
 		}
 
 		[TestMethod]

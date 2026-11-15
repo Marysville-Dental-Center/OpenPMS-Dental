@@ -9,8 +9,9 @@ namespace SparksToothChart.Wpf3D {
 	///<summary>Builds the immutable scene of the WPF chart from ToothChartData: a pure function of the data, run on the caller's thread, that
 	///makes no WPF object (docs/specs/wpf-tooth-chart-plan.md, section 5). It follows the DirectX chart's DrawScene step by step:
 	///- 3D layer: the tooth groups, implants and perio teeth that DirectX draws with depth testing on, each with DirectX's world matrix (without the
-	///  handedness flip), its colour (opaque; unerupted teeth at half RGB), the specular value of DirectX's GetGroupMaterial, and the reversed
-	///  winding when the transform mirrors (5.2).
+	///  handedness flip), its colour (opaque; in the chart, unerupted teeth half-transparent as Open Dental's DirectX 11 chart draws them, in the
+	///  scene's Items3DUnder, beneath the opaque teeth: TC-3c, LOOK-2), the specular value of DirectX's GetGroupMaterial, and the reversed winding
+	///  when the transform mirrors (5.2).
 	///- 2D layer: everything DirectX draws with depth testing off, and its D3DX text, in DirectX's order: per tooth the big X, the root canal lines
 	///  and the build-up/post silhouette (facial view), and the sealant "S" (occlusal view); then the watches, the drawings, the centre line and the
 	///  numbers (5.1). Points are projected with DirectX's own projection (ToothScene.ProjectToImage), the mapping the camera uses.
@@ -21,6 +22,13 @@ namespace SparksToothChart.Wpf3D {
 		public const float SpecularCementum=0.1f;
 		public const float SpecularEnamel=0.4f;
 		public const float SpecularNormal=1f;
+		///<summary>TC-3c (LOOK-2): the alpha of an unerupted tooth in the chart, 161 of 255 (0.63). Open Dental's DirectX 11 chart draws unerupted teeth
+		///half-transparent over the background; its 2023 mixed-dentition screenshot
+		///(https://i0.wp.com/opendental.blog/wp-content/uploads/2023/07/image-4.png?ssl=1) gives 0.63: the enamel's red and green are equal (250,250,240),
+		///so over the background 233,254,254 a translucent pixel's green minus red is (1-alpha)*21, which averages 7.8 over 18090 pixels of the
+		///unerupted crowns (0.60 to 0.69 by region). od-unknown-refined: a Set Mixed Dentition screenshot of Open Dental 26.2 settles it. The same
+		///screenshot shows them beneath the opaque teeth: the primary teeth's roots are crisp over the pale permanent crowns (ToothScene.Items3DUnder).</summary>
+		public const int UneruptedAlpha=161;
 
 		///<summary>The scene of the chart as tcData holds it, at tcData's control size (ToothChartData.SizeControl, which the wrapper sets on every
 		///resize). An empty size gives an empty scene.</summary>
@@ -38,7 +46,7 @@ namespace SparksToothChart.Wpf3D {
 				AddChartScene(building);
 			}
 			return new ToothScene(building.Scene.Size,tcData.ColorBackground,tcData.PerioMode,building.Scene.WidthProjection,building.Scene.HeightProjection,
-				building.ListItems3D,building.ListItems2D);
+				building.ListItems3D,building.ListItems2D,building.ListItems3DUnder);
 		}
 
 		///<summary>An empty building of the scene at tcData's control size and projection, or null for an empty size.</summary>
@@ -62,7 +70,9 @@ namespace SparksToothChart.Wpf3D {
 		#region Chart scene
 		///<summary>DirectX's DrawScene: for each tooth the facial view, then the occlusal view; then the watches, the drawings, the centre line and the
 		///numbers. TC-5 adds what DirectX does not draw: the paint text in the watch band after the watches, and the free-text
-		///labels last, over everything.</summary>
+		///labels last, over everything. TC-3c (LOOK-2): the half-transparent unerupted teeth go into the scene's Items3DUnder, a 3D layer beneath
+		///the opaque teeth: they blend over the background, and every opaque tooth covers them whatever their depth, as Open Dental's 2023
+		///mixed-dentition screenshot shows (the primary teeth's roots crisp over the pale permanent crowns).</summary>
 		private static void AddChartScene(SceneBuilding building) {
 			ToothChartData tcData=building.TcData;
 			for(int t=0;t<tcData.ListToothGraphics.Count;t++) {
@@ -185,22 +195,41 @@ namespace SparksToothChart.Wpf3D {
 			return toothRot;
 		}
 
-		///<summary>DirectX's DrawTooth with GetGroupMaterial: every visible group except the build-up and the unnamed groups, in its paint colour
-		///(half RGB when the tooth is unerupted, ShiftO below -10), opaque.</summary>
+		///<summary>DirectX's DrawTooth with GetGroupMaterial: every visible group except the build-up and the unnamed groups, in its paint colour.
+		///In the chart an unerupted tooth (ShiftO below -10) is half-transparent (GetGroupColor) and goes into ListItems3DUnder, beneath the opaque
+		///teeth; the perio chart keeps DirectX's opaque half RGB (GetGroupColorPerio).</summary>
 		private static void AddTooth(SceneBuilding building,ToothGraphic toothGraphic,ChartMatrix world,string source) {
 			for(int g=0;g<toothGraphic.Groups.Count;g++) {
 				ToothGroup group=toothGraphic.Groups[g];
 				if(!group.Visible || group.Faces.Count==0 || group.GroupType==ToothGroupType.Buildup || group.GroupType==ToothGroupType.None) {
 					continue;
 				}
-				building.ListItems3D.Add(new ToothSceneItem3D(toothGraphic.ToothID,g,group.GroupType,GetGroupColor(toothGraphic,group),
-					GetGroupSpecular(group),world,source));
+				Color color=building.TcData.PerioMode ? GetGroupColorPerio(toothGraphic,group) : GetGroupColor(toothGraphic,group);
+				ToothSceneItem3D item=new ToothSceneItem3D(toothGraphic.ToothID,g,group.GroupType,color,GetGroupSpecular(group),world,source);
+				if(color.A<255) {
+					building.ListItems3DUnder.Add(item);
+				}
+				else {
+					building.ListItems3D.Add(item);
+				}
 			}
 		}
 
-		///<summary>The colour of a tooth group: its paint colour, at half RGB when the tooth is unerupted (ShiftO below -10). DirectX halves the alpha
-		///too but draws with blending off, so the colour is opaque.</summary>
+		///<summary>The colour of a tooth group in the chart: its paint colour, opaque. TC-3c (LOOK-2): an unerupted tooth (ShiftO below -10) keeps its
+		///RGB at alpha UneruptedAlpha, as Open Dental's DirectX 11 chart draws it, pale and translucent over the background, where the DirectX 9 chart
+		///drew it opaque at half RGB (GetGroupColorPerio).</summary>
 		public static Color GetGroupColor(ToothGraphic toothGraphic,ToothGroup group) {
+			Color colorPaint=group.PaintColor;
+			if(toothGraphic.ShiftO<-10) {//if unerupted
+				return Color.FromArgb(UneruptedAlpha,colorPaint.R,colorPaint.G,colorPaint.B);
+			}
+			return Color.FromArgb(255,colorPaint);
+		}
+
+		///<summary>The colour of a tooth group in the perio chart, DirectX's rule: its paint colour, at half RGB when the tooth is unerupted (ShiftO
+		///below -10). DirectX halves the alpha too but draws with blending off, so the colour is opaque. The graphical perio chart moves no tooth
+		///(FormPerioGraphical), and how Open Dental 26.2 draws it is not public (PERIO-1), so it stays as TC-7 built it.</summary>
+		public static Color GetGroupColorPerio(ToothGraphic toothGraphic,ToothGroup group) {
 			Color colorPaint=group.PaintColor;
 			if(toothGraphic.ShiftO<-10) {//if unerupted
 				return Color.FromArgb(255,colorPaint.R/2,colorPaint.G/2,colorPaint.B/2);
@@ -372,6 +401,8 @@ namespace SparksToothChart.Wpf3D {
 		public const string SourceCAL="CAL line ";
 		public const string SourceMGJ="MGJ line ";
 		public const string SourcePerioCentreLine="perio centre line";
+		///<summary>The Source of the chart's centre line (AddNumbersAndLines).</summary>
+		public const string SourceCentreLine="centre line";
 		public const string SourceLegend="legend ";
 		///<summary>The legend's names, in English as DirectX prints them.</summary>
 		public const string LegendGingivalMargin="Gingival Margin";
@@ -608,8 +639,11 @@ namespace SparksToothChart.Wpf3D {
 		#endregion Perio scene
 
 		#region 2D layer
-		///<summary>DirectX's DrawWatches and RenderToothWatch: a "W" for each watched tooth, a bigger white one first as its outline. A permanent tooth's
-		///watch shows even when the tooth is missing; a primary tooth's only when it is visible, and it takes its permanent tooth's place.</summary>
+		///<summary>DirectX's DrawWatches and RenderToothWatch: a "W" for each watched tooth, in the procedure's colour, at DirectX's place. A permanent
+		///tooth's watch shows even when the tooth is missing; a primary tooth's only when it is visible, and it takes its permanent tooth's place.
+		///TC-3c (PT-1): plain text, regular weight, without the bigger white "W" that DirectX 9 drew first as an outline, as Open Dental's DirectX 11
+		///chart draws it (https://i0.wp.com/opendental.blog/wp-content/uploads/2024/08/Capture17.png?ssl=1 and
+		///https://i0.wp.com/opendental.blog/wp-content/uploads/2026/10/image-6.png?ssl=1).</summary>
 		private static void AddWatches(SceneBuilding building) {
 			ToothChartData tcData=building.TcData;
 			//A Hashtable keyed by the permanent tooth, as DirectX keeps it: its order is the order of the watches.
@@ -640,14 +674,10 @@ namespace SparksToothChart.Wpf3D {
 				float toMm=1f/tcData.ScaleMmToPix;
 				string source="watch of "+toothGraphic.ToothID;
 				if(ToothGraphic.IsMaxillary(toothGraphic.ToothID)) {
-					AddText(building,"W",toothTrans,tcData.PixelScaleRatio*(-8f*toMm),tcData.PixelScaleRatio*(155f*toMm),-6f,Color.White,building.FontWatchBig,
-						source+" (outline)");
 					AddText(building,"W",toothTrans,tcData.PixelScaleRatio*(-6f*toMm),tcData.PixelScaleRatio*(153f*toMm),-6f,toothGraphic.colorWatch,
 						building.FontWatch,source);
 				}
 				else {
-					AddText(building,"W",toothTrans,tcData.PixelScaleRatio*(-8f*toMm),tcData.PixelScaleRatio*(-136f*toMm),-6f,Color.White,building.FontWatchBig,
-						source+" (outline)");
 					AddText(building,"W",toothTrans,tcData.PixelScaleRatio*(-6f*toMm),tcData.PixelScaleRatio*(-138f*toMm),-6f,toothGraphic.colorWatch,
 						building.FontWatch,source);
 				}
@@ -686,11 +716,15 @@ namespace SparksToothChart.Wpf3D {
 			return arrayCoordinate.Length==2 && float.TryParse(arrayCoordinate[0],out x) && float.TryParse(arrayCoordinate[1],out y);
 		}
 
-		///<summary>DirectX's DrawNumbersAndLines: the white centre line, then the number of each tooth 1-32 and A-T in order, selected ones on their
-		///highlight rectangle.</summary>
+		///<summary>DirectX's DrawNumbersAndLines: the centre line, then the number of each tooth 1-32 and A-T in order, selected ones on their
+		///highlight rectangle. TC-3c (LOOK-4): the centre line is in the chart's text colour (ColorText: the "Text" chart graphic colour in the module
+		///and the big chart, "Text on TPs" on printouts and sheets), the colour of the numbers, as Open Dental's DirectX 11 chart draws it dark like its
+		///numbers (https://i0.wp.com/odtechblog.wordpress.com/wp-content/uploads/2026/08/image-6.png?ssl=1 and
+		///https://i0.wp.com/opendental.blog/wp-content/uploads/2024/08/Capture17.png?ssl=1), where DirectX 9 drew it white. Its place and pixels
+		///stay DirectX's.</summary>
 		private static void AddNumbersAndLines(SceneBuilding building) {
 			ToothChartData tcData=building.TcData;
-			AddLineList(building,ChartMatrix.Identity,Color.White,0.32f,"centre line",new Vertex3f(-65f,0,0),new Vertex3f(65f,0,0));
+			AddLineList(building,ChartMatrix.Identity,Color.FromArgb(255,tcData.ColorText),0.32f,SourceCentreLine,new Vertex3f(-65f,0,0),new Vertex3f(65f,0,0));
 			for(int i=1;i<=52;i++) {
 				string toothId=Tooth.FromOrdinal(i);
 				AddNumber(building,toothId,tcData.SelectedTeeth.Contains(toothId),0);
@@ -1042,11 +1076,6 @@ namespace SparksToothChart.Wpf3D {
 			return ChartFontMeasure.GetFont("Arial",(int)Math.Round(15*pixelScaleRatio),(int)Math.Round(6*pixelScaleRatio),400);
 		}
 
-		///<summary>The white outline behind the watch's "W": Times New Roman 19/7.4 times the ratio, ultra bold.</summary>
-		public static ChartFont GetFontWatchBig(float pixelScaleRatio) {
-			return ChartFontMeasure.GetFont("Times New Roman",(int)Math.Round(19*pixelScaleRatio),(int)Math.Round(7.4*pixelScaleRatio),800);
-		}
-
 		///<summary>TC-5's free-text labels: Arial with a cell height of 14 times the ratio and its own width, normal weight. DirectX drew no free text,
 		///so there is nothing to match; the size reads like the tooth numbers'.</summary>
 		public static ChartFont GetFontFreeText(float pixelScaleRatio) {
@@ -1068,10 +1097,11 @@ namespace SparksToothChart.Wpf3D {
 			public readonly ToothScene Scene;
 			public readonly List<ToothSceneItem3D> ListItems3D=new List<ToothSceneItem3D>();
 			public readonly List<ToothSceneItem2D> ListItems2D=new List<ToothSceneItem2D>();
+			///<summary>TC-3c: the chart's half-transparent 3D items (unerupted teeth), the scene's Items3DUnder, drawn beneath the opaque ones.</summary>
+			public readonly List<ToothSceneItem3D> ListItems3DUnder=new List<ToothSceneItem3D>();
 			private ChartFont _fontNumbers;
 			private ChartFont _fontSealant;
 			private ChartFont _fontWatch;
-			private ChartFont _fontWatchBig;
 			private ChartFont _fontFreeText;
 			private ChartFont _fontPaintText;
 
@@ -1104,15 +1134,6 @@ namespace SparksToothChart.Wpf3D {
 						_fontWatch=GetFontWatch(TcData.PixelScaleRatio);
 					}
 					return _fontWatch;
-				}
-			}
-
-			public ChartFont FontWatchBig {
-				get {
-					if(_fontWatchBig==null) {
-						_fontWatchBig=GetFontWatchBig(TcData.PixelScaleRatio);
-					}
-					return _fontWatchBig;
 				}
 			}
 

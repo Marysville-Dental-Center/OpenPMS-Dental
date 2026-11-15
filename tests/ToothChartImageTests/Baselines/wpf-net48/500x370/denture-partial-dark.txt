@@ -7,9 +7,9 @@ Engine: Wpf3D (RenderTargetBitmap in software, 3D layer at 3x reduced with WIC's
 Bitmap: 500x370 Format24bppRgb
 Alpha: every alpha is 255 (format without an alpha channel)
 Colours in the picture: 3994
-Pixels SHA-256: 783feaf2f03a2bdbb5f864576cfe42c1800275dfd2afa07a6a876354323bedec
+Pixels SHA-256: f5e6058e85f470dcf82c8f91d421bdf8f73e124b65a6bec53a82d0d4afa1ff7a
 Repeatable: yes (a second GetBitmap gave the same pixels)
 Framework: .NET Framework 4.8, x86
-Windows: build 26300.9711 (26H2)
+Windows: build 26300.9974 (26H2)
 Fresh render: yes (both layers drawn again without the layer cache gave the same pixels)
 Screen DPI seen by the test host: 96

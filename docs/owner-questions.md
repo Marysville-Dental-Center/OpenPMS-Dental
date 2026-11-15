@@ -989,6 +989,10 @@ and E-10b), where each is set out in full with its recommendation. You first ans
   32-bit, mixed workstations) is designed or tested. The office's switch from Open Dental comes at the end, with the switch-over questions
   above. Migration code already built stays (net10-plan decision 22).
 
+- **Gallery G4, its TC-3c part: the plain "W", the centre line in the Text colour, half-transparent unerupted teeth beneath the
+  opaque ones** (branch `chart/tc3c-2`, both reviews pass;
+  [port-notes/TC-3c.md](port-notes/TC-3c.md)). Answered on 2026-11-15: "G4 approved". TC-3c is merged.
+
 ## Not asked again (already settled)
 
 - How package migration levels are numbered (B-ACCT 2, B-PRINT 1, B-SHELL 6, M2-EST 1, M2-UDS 1, V-BRIDGE1 2, V-PEARL2 1, M2-SHELL's old question 4): decided on 2026-11-01 and done: the package steps now have dated levels 2026110101 to 2026110104, and new steps always go above the highest one.

@@ -157,6 +157,7 @@ namespace ToothChartImageTests {
 					ApplyMovementsAndImplants(relay);
 					ToothScene toothScene=ToothSceneBuilder.Build(wrapper.TcData);
 					listItemsAll.AddRange(toothScene.Items3D);
+					listItemsAll.AddRange(toothScene.Items3DUnder);
 					Assert.IsTrue(toothScene.Items3D.Any(x => x.Source=="implant of 3"),"A maxillary implant is in the scene.");
 					Assert.IsFalse(toothScene.Items3D.Any(x => x.IsReversed),"The normal chart has only rotations and translations: no mirrored instance.");
 				}
