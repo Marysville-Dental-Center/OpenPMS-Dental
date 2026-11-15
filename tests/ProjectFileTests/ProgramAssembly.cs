@@ -24,6 +24,14 @@ namespace ProjectFileTests {
 			return null;
 		}
 
+		///<summary>Find for a folder relative to root, for the tests that read a built program's references (S3a-8b): the path of the program's
+		///managed assembly relative to root, or folderRelative\programName.exe when neither file is built, so the caller's own "not built" check and
+		///message stay as they were. For example FindRelative(root,@"OpenPmsDental\bin\Debug","OpenPmsDental").</summary>
+		public static string FindRelative(string root,string folderRelative,string programName) {
+			string path=Find(Path.Combine(root,folderRelative),programName);
+			return Path.Combine(folderRelative,path==null ? programName+".exe" : Path.GetFileName(path));
+		}
+
 		///<summary>Find, for a test: the file, or the test ends through BuildOutput.NotBuilt when neither file is built, and fails when the file
 		///found holds no managed code (an apphost without its .dll).</summary>
 		public static string GetPath(string folder,string programName) {

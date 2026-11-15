@@ -1,6 +1,6 @@
 // The in-process check scripts' common part: the program's start as ProgramEntry.Main does it, and the ways a person's clicks reach the
 // program's code (a menu item's PerformClick, a toolbar button's handler, a module button's click, a button's PerformClick). Each check's own
-// script is in a file of its group (InProcChecks.B.cs and on). Runs only in the program's AppDomain.
+// script is in a file of its group (InProcChecks.B.cs and on). Runs only in the session's process (InProcHost).
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
 using System.Collections.Generic;

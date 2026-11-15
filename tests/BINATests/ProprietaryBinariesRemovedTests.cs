@@ -85,7 +85,10 @@ namespace BINATests {
 
 		[TestMethod]
 		public void BuiltProgram_ReferencesNoneOfTheRemovedBinaries() {
-			foreach(string pathRelative in new[] { @"OpenPmsDental\bin\Debug\OpenPmsDental.exe",@"WpfControlsOD\bin\Debug\WpfControlsOD.dll" }) {
+			//The program's managed assembly (ProgramAssembly: OpenPmsDental.dll on .NET, where the .exe is the apphost Mono.Cecil cannot read).
+			foreach(string pathRelative in new[] { ProgramAssembly.FindRelative(RepoFiles.Root(),@"OpenPmsDental\bin\Debug","OpenPmsDental"),
+				@"WpfControlsOD\bin\Debug\WpfControlsOD.dll" })
+			{
 				string path=Path.Combine(RepoFiles.Root(),pathRelative);
 				if(!File.Exists(path)) {
 					BuildOutput.NotBuilt(pathRelative+" is not built. Build OpenDental.Local.slnf (Debug|x86) first.");

@@ -1,59 +1,18 @@
-// The Topaz signature pad without SigPlusNET.dll in the build: absent, the program says so; present (a synthetic stand-in compiled at test time,
+// The Topaz signature pad without SigPlusNET.dll in the build: absent, the program says so; present (a synthetic stand-in, tests\TopazStandIn,
 // never Topaz's file), the wrapper loads it from the search folders at run time and makes the same calls the compiled code made.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
-using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-using Microsoft.CSharp;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Mono.Cecil;
 using OpenPmsDental.UI;
 
 namespace BINBTests {
 	[TestClass]
 	public class TopazWrapperTests {
-		///<summary>A stand-in with the same type name and the public methods the wrapper calls. Every call is recorded in the static Calls list.
-		///SetSigString("valid") gives 250 points; "needs-bytes" gives points only after the private Sig.SetAutoKeyData(byte[]) was called; "throw"
-		///throws as Topaz's control does for a corrupt signature.</summary>
-		private const string FAKE_SOURCE=@"
-using System;
-using System.Collections.Generic;
-using System.Windows.Forms;
-namespace Topaz {
-	public class Signature {
-		public bool IsKeyBytesSet;
-		private void SetAutoKeyData(byte[] arrayBytes) { SigPlusNET.Calls.Add(""Sig.SetAutoKeyData""); IsKeyBytesSet=true; }
-	}
-	public class SigPlusNET:Control {
-		public static List<string> Calls=new List<string>();
-		private Signature Sig=new Signature();
-		private int _points;
-		private int _state;
-		private string _sig="""";
-		public void ClearTablet() { Calls.Add(""ClearTablet""); _points=0; }
-		public void SetTabletLogicalXSize(int x) { Calls.Add(""SetTabletLogicalXSize:""+x); }
-		public void SetTabletLogicalYSize(int y) { Calls.Add(""SetTabletLogicalYSize:""+y); }
-		public void SetSigCompressionMode(int mode) { Calls.Add(""SetSigCompressionMode:""+mode); }
-		public void SetEncryptionMode(int mode) { Calls.Add(""SetEncryptionMode:""+mode); }
-		public void SetKeyString(string key) { Calls.Add(""SetKeyString:""+key); }
-		public void AutoKeyStart() { Calls.Add(""AutoKeyStart""); }
-		public void AutoKeyFinish() { Calls.Add(""AutoKeyFinish""); }
-		public void SetAutoKeyData(string data) { Calls.Add(""SetAutoKeyData:""+data); }
-		public void SetAutoKeyANSIData(string data) { Calls.Add(""SetAutoKeyANSIData:""+data); }
-		public void SetSigString(string sig) {
-			Calls.Add(""SetSigString:""+sig);
-			if(sig==""throw"") { throw new IndexOutOfRangeException(""corrupt signature""); }
-			_sig=sig;
-			_points=(sig==""valid"" || (sig==""needs-bytes"" && Sig.IsKeyBytesSet)) ? 250 : 0;
-		}
-		public string GetSigString() { Calls.Add(""GetSigString""); return _sig; }
-		public int NumberOfTabletPoints() { return _points; }
-		public void SetTabletState(int state) { Calls.Add(""SetTabletState:""+state); _state=state; }
-		public int GetTabletState() { return _state; }
-	}
-}";
 		private static string _folderFake;
 		private static string _folderEmpty;
 
@@ -61,12 +20,23 @@ namespace Topaz {
 		public static void ClassInitialize(TestContext testContext) {
 			_folderEmpty=TestPaths.NewTempFolder("topaz_none");
 			_folderFake=TestPaths.NewTempFolder("topaz_fake");
-			using(CSharpCodeProvider cSharpCodeProvider=new CSharpCodeProvider()) {
-				CompilerParameters compilerParameters=new CompilerParameters(new[] { "System.dll","System.Windows.Forms.dll" },
-					Path.Combine(_folderFake,TopazWrapper.ASSEMBLY_FILE_NAME));
-				compilerParameters.GenerateExecutable=false;
-				CompilerResults compilerResults=cSharpCodeProvider.CompileAssemblyFromSource(compilerParameters,FAKE_SOURCE);
-				Assert.AreEqual(0,compilerResults.Errors.Count,string.Join("; ",compilerResults.Errors.Cast<CompilerError>().Select(x => x.ErrorText)));
+			WriteStandIn(Path.Combine(_folderFake,TopazWrapper.ASSEMBLY_FILE_NAME));
+		}
+
+		///<summary>Writes the synthetic stand-in (tests\TopazStandIn: Topaz.SigPlusNET with the public methods the wrapper calls, every call recorded in
+		///its static Calls list; SetSigString("valid") gives 250 points, "needs-bytes" gives points only after the private Sig.SetAutoKeyData(byte[])
+		///was called, "throw" throws as Topaz's control does for a corrupt signature) as the file at path, under the assembly name SigPlusNET, as
+		///Topaz's own file is named. Mono.Cecil renames it, so it is another assembly than the TopazStandIn.dll beside this test, which nothing here
+		///loads. Before S3a-8b of the .NET 10 move the same source was compiled here with the .NET Framework's C# compiler, which .NET does not have.
+		///</summary>
+		private static void WriteStandIn(string path) {
+			string pathStandIn=Path.Combine(Path.GetDirectoryName(typeof(TopazWrapperTests).Assembly.Location),"TopazStandIn.dll");
+			Assert.IsTrue(File.Exists(pathStandIn),pathStandIn+" is not built (tests\\TopazStandIn, which BINBTests references).");
+			using(MemoryStream memoryStream=new MemoryStream(File.ReadAllBytes(pathStandIn)))
+			using(AssemblyDefinition assemblyDefinition=AssemblyDefinition.ReadAssembly(memoryStream)) {
+				assemblyDefinition.Name.Name=Path.GetFileNameWithoutExtension(TopazWrapper.ASSEMBLY_FILE_NAME);
+				assemblyDefinition.MainModule.Name=TopazWrapper.ASSEMBLY_FILE_NAME;
+				assemblyDefinition.Write(path);
 			}
 		}
 

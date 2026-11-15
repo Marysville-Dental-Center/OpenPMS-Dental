@@ -9,6 +9,7 @@ using System.Text.RegularExpressions;
 using CodeBase;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenPmsDentalBusiness;
+using ProjectFileTests;
 
 namespace BINBTests {
 	[TestClass]
@@ -47,8 +48,10 @@ namespace BINBTests {
 				{ "CodeBase",ToRefs(typeof(ODZip).Assembly.GetReferencedAssemblies()) },
 				{ "PasswordVaultWrapper",ToRefs(typeof(PasswordVaultWrapper.WindowsPasswordVaultWrapper).Assembly.GetReferencedAssemblies()) },
 			};
-			//The program itself, when this checkout has built it. Its public references are read without running any of its code.
-			foreach(string relative in new[] { @"OpenPmsDental\bin\Debug\OpenPmsDental.exe",@"ServiceManager\bin\Debug\ServiceManager.exe",
+			//The program itself, when this checkout has built it. Its public references are read without running any of its code. The managed
+			//assemblies of the two programs (ProgramAssembly: the .dll on .NET, where the .exe is the apphost Mono.Cecil cannot read).
+			foreach(string relative in new[] { ProgramAssembly.FindRelative(TestPaths.RepoRoot,@"OpenPmsDental\bin\Debug","OpenPmsDental"),
+				ProgramAssembly.FindRelative(TestPaths.RepoRoot,@"ServiceManager\bin\Debug","ServiceManager"),
 				@"SparksToothChart\bin\Debug\SparksToothChart.dll" })
 			{
 				string path=Path.Combine(TestPaths.RepoRoot,relative);

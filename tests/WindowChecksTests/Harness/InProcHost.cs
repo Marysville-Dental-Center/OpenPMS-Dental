@@ -1,26 +1,34 @@
-// The test's side of an in-process session: a new AppDomain based on the program's output folder (ApplicationBase OpenPmsDental\bin\Debug,
-// ConfigurationFile OpenPmsDental.exe.config), the driver created in it from this assembly, the program started there with its command line,
-// and the AppDomain unloaded at the end. One session is one start of the program; "exit and start" in a check is a new session.
+// The test's side of an in-process session: a process of its own whose application base is the program's output folder (OpenPmsDental\bin\Debug
+// or the Release folder) and whose config is OpenPmsDental.exe.config (TestProbeHost, started by ProbeProcess with a copy of the host in that
+// folder), the driver created in it from this assembly (ProgramDriverHost), the program started there with its command line, and the process
+// ended at the end. One session is one start of the program; "exit and start" in a check is a new session. Before S3a-8b of the .NET 10 move
+// the session was a new AppDomain of this process, which .NET cannot create; a process isolates the program's static state, its config and its
+// application base as the AppDomain did, and the program's own exit (Environment.Exit) now ends the session's process, not the test host.
 // The row numbers the checks made (CheckResult.DictKeys) are kept here and handed to every session, so a check's undo in a later session
 // deletes only the rows its check added. No session starts and no check runs once the run's time budget is spent (WinChkFixture.Budget).
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
+using System.Linq;
+using TestProbeHost;
 using WindowChecksTests.InProc;
 
 namespace WindowChecksTests {
 	public class InProcHost:IDisposable {
-		private AppDomain _appDomain;
-		public ProgramDriver Driver;
+		///<summary>How much longer than the driver's own timeout the test waits for a reply before it ends the session's process: the driver's
+		///clean-up after a check that did not end (closing its windows, 30 s for the main window's closing) runs within it.</summary>
+		private const int SECONDS_REPLY_MARGIN=180;
+		private ProbeProcess _probeProcess;
 		public string StartError="";
 		public string Patched="";
 		public double SecondsToStart;
 		private static int _countSessions;
 		private static readonly Dictionary<string,long> _dictKeys=new Dictionary<string,long>();
-		///<summary>Set when a check did not end and the session is left stuck (a window that does not close, or a thread that does not answer): the
-		///session's later checks are not run in it.</summary>
+		///<summary>Set when a check did not end and the session is left stuck (a window that does not close, or a thread that does not answer), or
+		///when the session's process ended or stopped answering: the session's later checks are not run in it.</summary>
 		public string StuckReason="";
 
 		///<summary>Prompts the start-up showed and the harness cancelled.</summary>
@@ -41,25 +49,35 @@ namespace WindowChecksTests {
 			}
 			timeoutSeconds=WinChkFixture.CapTimeout(timeoutSeconds);
 			string exePath=Path.Combine(folder,"OpenPmsDental.exe");
-			AppDomainSetup appDomainSetup=new AppDomainSetup {
-				ApplicationBase=folder,
-				ConfigurationFile=exePath+".config",
-				ApplicationName="OpenPmsDental",
-			};
 			_countSessions++;
 			Stopwatch stopwatch=Stopwatch.StartNew();
-			inProcHost._appDomain=AppDomain.CreateDomain("winchk-"+_countSessions,null,appDomainSetup);
-			inProcHost.Driver=(ProgramDriver)inProcHost._appDomain.CreateInstanceFromAndUnwrap(typeof(ProgramDriver).Assembly.Location,
-				typeof(ProgramDriver).FullName);
-			inProcHost.Patched=inProcHost.Driver.PatchProcessIdentity(exePath);
 			string[] arrayArgs=ProgramProcess.ProgramArgs(module).Split(' ');
-			Results.Log("In-process session "+_countSessions+" starting ("+inProcHost.Patched+")");
-			inProcHost.StartError=inProcHost.Driver.Start(arrayArgs,timeoutSeconds,cancelTexts);
-			inProcHost.StartPrompts=string.Join(" || ",inProcHost.Driver.ListStartPrompts);
+			try {
+				inProcHost._probeProcess=StartSessionProcess(folder,TimeSpan.FromSeconds(timeoutSeconds+SECONDS_REPLY_MARGIN));
+				inProcHost.Patched=inProcHost._probeProcess.Call(ProgramDriverHost.COMMAND_PATCH,exePath);
+				Results.Log("In-process session "+_countSessions+" starting ("+inProcHost.Patched+")");
+				string[] arrayReply=ProbeText.SplitList(inProcHost._probeProcess.Call(ProgramDriverHost.COMMAND_START,ProbeText.JoinList(arrayArgs),
+					timeoutSeconds.ToString(CultureInfo.InvariantCulture),ProbeText.JoinList(cancelTexts)));
+				inProcHost.StartError=arrayReply[0];
+				inProcHost.StartPrompts=string.Join(" || ",arrayReply.Skip(1));
+			}
+			catch(Exception ex) {
+				inProcHost.StartError="The session's process failed: "+ex.GetType().Name+": "+ex.Message
+					+(inProcHost._probeProcess==null ? "" : " "+inProcHost._probeProcess.ErrorOutput);
+			}
 			inProcHost.SecondsToStart=stopwatch.Elapsed.TotalSeconds;
 			Results.Log("In-process session "+_countSessions+" start: "+(inProcHost.StartError=="" ? "ready" : inProcHost.StartError)+" after "
 				+inProcHost.SecondsToStart.ToString("0.0")+" s");
 			return inProcHost;
+		}
+
+		///<summary>The session's process, not yet driving anything: a copy of TestProbeHost in the folder (its application base) with the folder's
+		///OpenPmsDental.exe.config as its config, so the program's binding redirects and probing are the real ones, and ProgramDriverHost as its
+		///handler. Each reply is waited for up to timeSpanTimeout. The caller disposes it, which ends the process and deletes the copy.</summary>
+		public static ProbeProcess StartSessionProcess(string folder,TimeSpan timeSpanTimeout) {
+			string pathConfig=Path.Combine(folder,"OpenPmsDental.exe.config");
+			string configText=File.Exists(pathConfig) ? File.ReadAllText(pathConfig) : null;
+			return ProbeProcess.Start(folder,configText,typeof(ProgramDriverHost),timeSpanTimeout);
 		}
 
 		public CheckResult Run(string id,string title,int timeoutSeconds=240) {
@@ -82,10 +100,23 @@ namespace WindowChecksTests {
 			}
 			timeoutSeconds=WinChkFixture.CapTimeout(timeoutSeconds);
 			Results.Log("In-process check "+id+" starts");
-			lock(_dictKeys) {
-				Driver.SetKeys(_dictKeys);
+			CheckResult checkResultRun;
+			try {
+				lock(_dictKeys) {
+					_probeProcess.Call(ProgramDriverHost.COMMAND_SET_KEYS,ProbeText.JoinList(_dictKeys.SelectMany(x => new[] { x.Key,
+						x.Value.ToString(CultureInfo.InvariantCulture) })));
+				}
+				checkResultRun=CheckResult.FromText(_probeProcess.CallWithTimeout(TimeSpan.FromSeconds(timeoutSeconds+SECONDS_REPLY_MARGIN),
+					ProgramDriverHost.COMMAND_RUN_CHECK,id,title,timeoutSeconds.ToString(CultureInfo.InvariantCulture)));
 			}
-			CheckResult checkResultRun=Driver.RunCheck(id,title,timeoutSeconds);
+			catch(Exception ex) {
+				//The session's process ended (the program's own exit, an unhandled exception) or stopped answering, and was ended.
+				checkResultRun=new CheckResult(id,title);
+				checkResultRun.Fail("The in-process session's process did not answer: "+ex.GetType().Name+": "+ex.Message);
+				StuckReason="the session's process did not answer ("+ex.GetType().Name+")";
+				Results.Log("In-process check "+id+": "+checkResultRun.Status+"; the session's process is gone: "+ex.Message);
+				return checkResultRun;
+			}
 			lock(_dictKeys) {
 				foreach(KeyValuePair<string,long> pair in checkResultRun.DictKeys) {
 					_dictKeys[pair.Key]=pair.Value;
@@ -94,7 +125,7 @@ namespace WindowChecksTests {
 			Results.Log("In-process check "+id+": "+checkResultRun.Status);
 			if(checkResultRun.ListFailures.Exists(x => x.Contains("did not end within") || x.Contains("did not answer"))) {
 				try {
-					StuckReason=Driver.GetStuckState();
+					StuckReason=_probeProcess.Call(ProgramDriverHost.COMMAND_GET_STUCK_STATE);
 				}
 				catch(Exception ex) {
 					StuckReason="the driver does not answer ("+ex.Message+")";
@@ -119,25 +150,27 @@ namespace WindowChecksTests {
 		}
 
 		public void Dispose() {
-			if(Driver!=null) {
+			if(_probeProcess==null) {
+				return;
+			}
+			if(StartError=="" || !StartError.StartsWith("The session's process failed")) {
 				try {
-					string stop=Driver.Stop(60);
-					Results.Log("In-process session stop: "+(stop==""? "ended" : stop));
+					string stop=_probeProcess.CallWithTimeout(TimeSpan.FromSeconds(60+SECONDS_REPLY_MARGIN),ProgramDriverHost.COMMAND_STOP,"60");
+					Results.Log("In-process session stop: "+(stop=="" ? "ended" : stop));
 				}
 				catch(Exception ex) {
 					Results.Log("In-process session stop failed: "+ex.Message);
 				}
 			}
-			if(_appDomain!=null) {
-				try {
-					AppDomain.Unload(_appDomain);
-					Results.Log("AppDomain unloaded");
-				}
-				catch(Exception ex) {
-					Results.Log("AppDomain not unloaded: "+ex.GetType().Name+": "+ex.Message);
-				}
-				_appDomain=null;
+			try {
+				//Closes the process's standard input, which ends it (ended after 10 s), and deletes the copy of the host and its config.
+				_probeProcess.Dispose();
+				Results.Log("Session process ended");
 			}
+			catch(Exception ex) {
+				Results.Log("Session process not ended: "+ex.GetType().Name+": "+ex.Message);
+			}
+			_probeProcess=null;
 		}
 	}
 }

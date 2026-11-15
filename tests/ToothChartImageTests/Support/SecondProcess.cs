@@ -2,7 +2,6 @@
 // and the start and logging tests that need a fresh process.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
-using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
@@ -14,10 +13,10 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Threading;
 using CodeBase;
-using Microsoft.CSharp;
 using OpenPmsDental;
 using SparksToothChart;
 using SparksToothChart.Wpf3D;
+using TestProbeHost;
 
 namespace ToothChartImageTests {
 	///<summary>What a second process did.</summary>
@@ -28,101 +27,25 @@ namespace ToothChartImageTests {
 		public double MillisecondsElapsed;
 	}
 
-	///<summary>Runs SecondProcessEntry.Run in a new 32-bit process. The test assembly is a library, so a tiny console program is compiled for each run
-	///with the .NET Framework's own C# compiler into the test assembly's folder (so it finds the same assemblies, with the test assembly's binding
-	///redirects as its config), started with no window, and deleted afterwards. Its Main is [MTAThread]: the WPF chart needs no STA caller.</summary>
+	///<summary>Runs SecondProcessEntry.Run in a new 32-bit process. The test assembly is a library, so TestProbeHost runs it as its Main
+	///(ProbeProcess.RunOnce): a copy of the host in the test assembly's folder (so it finds the same assemblies), with the test assembly's binding
+	///redirects as its config, started with no window, and deleted afterwards. Its Main is [MTAThread]: the WPF chart needs no STA caller. Before
+	///S3a-8b of the .NET 10 move a tiny console program was compiled for each run with the .NET Framework's own C# compiler, which .NET does not
+	///have; the process is the same: the program's Main calls Run and returns its exit code, and the process ends once only background threads
+	///are left.</summary>
 	public static class SecondProcess {
 		public static SecondProcessResult Run(int millisecondsTimeout,params string[] arrayArgs) {
 			string folder=Path.GetDirectoryName(typeof(SecondProcessEntry).Assembly.Location);
-			string name="ToothChartSecondProcess-"+Guid.NewGuid().ToString("N").Substring(0,8);
-			string pathExe=Path.Combine(folder,name+".exe");
-			string pathConfig=pathExe+".config";
-			try {
-				Compile(pathExe);
-				string pathConfigTests=typeof(SecondProcessEntry).Assembly.Location+".config";
-				if(File.Exists(pathConfigTests)) {
-					File.Copy(pathConfigTests,pathConfig,true);
-				}
-				ProcessStartInfo processStartInfo=new ProcessStartInfo(pathExe,string.Join(" ",arrayArgs.Select(x => "\""+x+"\"")));
-				processStartInfo.UseShellExecute=false;
-				processStartInfo.CreateNoWindow=true;
-				processStartInfo.RedirectStandardOutput=true;
-				processStartInfo.RedirectStandardError=true;
-				processStartInfo.WorkingDirectory=folder;
-				SecondProcessResult result=new SecondProcessResult();
-				Stopwatch stopwatch=Stopwatch.StartNew();
-				using(Process process=Process.Start(processStartInfo)) {
-					StringBuilder stringBuilder=new StringBuilder();
-					object lockOutput=new object();
-					process.OutputDataReceived+=(sender,e) => { if(e.Data!=null) { lock(lockOutput) { stringBuilder.AppendLine(e.Data); } } };
-					process.ErrorDataReceived+=(sender,e) => { if(e.Data!=null) { lock(lockOutput) { stringBuilder.AppendLine("stderr: "+e.Data); } } };
-					process.BeginOutputReadLine();
-					process.BeginErrorReadLine();
-					if(!process.WaitForExit(millisecondsTimeout)) {
-						result.IsTimedOut=true;
-						try {
-							process.Kill();//the process this test started, and nothing else
-						}
-						catch(Exception ex) {
-							ex.ToString();
-						}
-						process.WaitForExit(10000);
-					}
-					else {
-						process.WaitForExit();//the output is read to its end
-					}
-					result.MillisecondsElapsed=stopwatch.Elapsed.TotalMilliseconds;
-					result.ExitCode=result.IsTimedOut?-1:process.ExitCode;
-					lock(lockOutput) {
-						result.Output=stringBuilder.ToString();
-					}
-				}
-				return result;
-			}
-			finally {
-				DeleteQuietly(pathExe);
-				DeleteQuietly(pathConfig);
-			}
-		}
-
-		private static void Compile(string pathExe) {
-			string source="using System;\r\n"
-				+"static class Program {\r\n"
-				+"	[MTAThread]\r\n"
-				+"	static int Main(string[] args) {\r\n"
-				+"		return ToothChartImageTests.SecondProcessEntry.Run(args);\r\n"
-				+"	}\r\n"
-				+"}\r\n";
-			using(CSharpCodeProvider cSharpCodeProvider=new CSharpCodeProvider()) {
-				CompilerParameters compilerParameters=new CompilerParameters(new[] { "System.dll",typeof(SecondProcessEntry).Assembly.Location });
-				compilerParameters.GenerateExecutable=true;
-				compilerParameters.GenerateInMemory=false;
-				compilerParameters.IncludeDebugInformation=false;
-				compilerParameters.OutputAssembly=pathExe;
-				compilerParameters.CompilerOptions="/platform:x86";
-				CompilerResults compilerResults=cSharpCodeProvider.CompileAssemblyFromSource(compilerParameters,source);
-				if(compilerResults.Errors.HasErrors) {
-					throw new InvalidOperationException("The second process could not be compiled: "
-						+string.Join("; ",compilerResults.Errors.Cast<CompilerError>().Select(x => x.ErrorText)));
-				}
-			}
-		}
-
-		private static void DeleteQuietly(string path) {
-			for(int i=0;i<20;i++) {
-				try {
-					if(File.Exists(path)) {
-						File.Delete(path);
-					}
-					return;
-				}
-				catch(IOException) {
-					System.Threading.Thread.Sleep(100);//the process may still hold its file for a moment after it exits
-				}
-				catch(UnauthorizedAccessException) {
-					System.Threading.Thread.Sleep(100);
-				}
-			}
+			string pathConfigTests=typeof(SecondProcessEntry).Assembly.Location+".config";
+			string configText=File.Exists(pathConfigTests) ? File.ReadAllText(pathConfigTests) : null;
+			ProbeRunResult probeRunResult=ProbeProcess.RunOnce(folder,configText,typeof(SecondProcessEntry),arrayArgs,
+				TimeSpan.FromMilliseconds(millisecondsTimeout));
+			SecondProcessResult result=new SecondProcessResult();
+			result.ExitCode=probeRunResult.ExitCode;
+			result.IsTimedOut=probeRunResult.IsTimedOut;
+			result.Output=probeRunResult.Output;
+			result.MillisecondsElapsed=probeRunResult.Elapsed.TotalMilliseconds;
+			return result;
 		}
 	}
 

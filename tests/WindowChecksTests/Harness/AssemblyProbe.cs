@@ -1,58 +1,61 @@
-// Reads an assembly's identity and attributes without running it (A3's build stamp, A8's serializer pairing): reflection-only loads in a
-// throwaway AppDomain based on the assembly's folder, unloaded afterwards so no file stays locked.
+// Reads an assembly's identity and attributes without running it (A3's build stamp, A8's serializer pairing): Mono.Cecil reads the metadata
+// from a copy of the file's bytes, so nothing is loaded and no file stays locked. Before S3a-8b of the .NET 10 move these were reflection-only
+// loads in a throwaway AppDomain, neither of which .NET has; the texts are the same as CustomAttributeData gave them.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
+using Mono.Cecil;
 
 namespace WindowChecksTests {
-	public class AssemblyProbe:MarshalByRefObject {
-		private string _folder;
-
-		///<summary>Runs func on a probe in a new AppDomain based on the folder and unloads it.</summary>
-		public static T Run<T>(string folder,Func<AssemblyProbe,T> func) {
-			AppDomain appDomain=AppDomain.CreateDomain("winchk-probe",null,new AppDomainSetup { ApplicationBase=folder });
-			try {
-				AssemblyProbe assemblyProbe=(AssemblyProbe)appDomain.CreateInstanceFromAndUnwrap(typeof(AssemblyProbe).Assembly.Location,typeof(AssemblyProbe).FullName);
-				assemblyProbe.Init(folder);
-				return func(assemblyProbe);
-			}
-			finally {
-				AppDomain.Unload(appDomain);
-			}
+	public static class AssemblyProbe {
+		///<summary>The AssemblyMetadata attributes of folder\fileName as "key = value" lines, each argument as CustomAttributeTypedArgument.ToString
+		///writes it (a string in double quotes).</summary>
+		public static string[] GetMetadata(string folder,string fileName) {
+			return Read(folder,fileName,moduleDefinition => moduleDefinition.Assembly.CustomAttributes
+				.Where(x => x.AttributeType.Name=="AssemblyMetadataAttribute")
+				.Select(x => string.Join(" = ",x.ConstructorArguments.Select(y => FormatTypedArgument(y)))).ToArray());
 		}
 
-		public void Init(string folder) {
-			_folder=folder;
-			AppDomain.CurrentDomain.ReflectionOnlyAssemblyResolve+=(sender,args) => {
-				string path=Path.Combine(_folder,new AssemblyName(args.Name).Name+".dll");
-				if(File.Exists(path)) {
-					return Assembly.ReflectionOnlyLoadFrom(path);
+		///<summary>The module version id (MVID) of folder\fileName.</summary>
+		public static string GetMvid(string folder,string fileName) {
+			return Read(folder,fileName,moduleDefinition => moduleDefinition.Mvid.ToString());
+		}
+
+		///<summary>The XmlSerializerVersionAttribute's named arguments of folder\fileName ("ParentAssemblyId = ...; Version = ..."), in the order the
+		///attribute's blob holds them, or "" when the assembly has none.</summary>
+		public static string GetSerializerVersion(string folder,string fileName) {
+			return Read(folder,fileName,moduleDefinition => {
+				CustomAttribute customAttribute=moduleDefinition.Assembly.CustomAttributes.FirstOrDefault(x => x.AttributeType.Name=="XmlSerializerVersionAttribute");
+				if(customAttribute==null) {
+					return "";
 				}
-				return Assembly.ReflectionOnlyLoad(AppDomain.CurrentDomain.ApplyPolicy(args.Name));
-			};
+				//Mono.Cecil keeps the fields and the properties apart, each in the blob's order; the attribute has properties only, so the order
+				//is the blob's, as CustomAttributeData.NamedArguments gave it.
+				IEnumerable<CustomAttributeNamedArgument> listNamed=customAttribute.Fields.Concat(customAttribute.Properties);
+				return string.Join("; ",listNamed.Select(x => x.Name+" = "+x.Argument.Value));
+			});
 		}
 
-		///<summary>The AssemblyMetadata attributes as "key = value" lines.</summary>
-		public string[] GetMetadata(string fileName) {
-			Assembly assembly=Assembly.ReflectionOnlyLoadFrom(Path.Combine(_folder,fileName));
-			return assembly.GetCustomAttributesData().Where(x => x.AttributeType.Name=="AssemblyMetadataAttribute")
-				.Select(x => string.Join(" = ",x.ConstructorArguments.Select(y => y.ToString()))).ToArray();
-		}
-
-		public string GetMvid(string fileName) {
-			return Assembly.ReflectionOnlyLoadFrom(Path.Combine(_folder,fileName)).ManifestModule.ModuleVersionId.ToString();
-		}
-
-		///<summary>The XmlSerializerVersionAttribute's named arguments ("ParentAssemblyId = ...; Version = ...").</summary>
-		public string GetSerializerVersion(string fileName) {
-			Assembly assembly=Assembly.ReflectionOnlyLoadFrom(Path.Combine(_folder,fileName));
-			CustomAttributeData customAttributeData=assembly.GetCustomAttributesData().FirstOrDefault(x => x.AttributeType.Name=="XmlSerializerVersionAttribute");
-			if(customAttributeData==null) {
-				return "";
+		///<summary>As CustomAttributeTypedArgument.ToString writes an argument: a string in double quotes, a type as typeof(name), anything else as its
+		///value.</summary>
+		public static string FormatTypedArgument(CustomAttributeArgument customAttributeArgument) {
+			object value=customAttributeArgument.Value;
+			if(value is string) {
+				return "\""+value+"\"";
 			}
-			return string.Join("; ",customAttributeData.NamedArguments.Select(x => x.MemberName+" = "+x.TypedValue.Value));
+			if(value is TypeReference typeReference) {
+				return "typeof("+typeReference.FullName+")";
+			}
+			return value==null ? "null" : value.ToString();
+		}
+
+		private static T Read<T>(string folder,string fileName,Func<ModuleDefinition,T> func) {
+			using(MemoryStream memoryStream=new MemoryStream(File.ReadAllBytes(Path.Combine(folder,fileName))))
+			using(ModuleDefinition moduleDefinition=ModuleDefinition.ReadModule(memoryStream)) {
+				return func(moduleDefinition);
+			}
 		}
 	}
 }

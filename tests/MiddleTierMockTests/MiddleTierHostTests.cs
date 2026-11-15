@@ -5,8 +5,9 @@
 // config file and the mismatch message), ConnectionStoreBase (the content root's ConnectionStore.xml, on any thread) and Plugins (the request
 // folder); that a request's values are cleared when it ends, also when it fails, so the next request on the thread does not see them; and that
 // with no host every value is what System.Web gave outside a hosted request. The runs through DtoProcessor and the business caches happen in a new
-// AppDomain of this test's folder (HostSeamProbe), which stands for a Middle Tier worker that has just started (no database connection, nothing
-// cached) and leaves this assembly's own state alone: its scratch database connection, the program cache and the logger. No database is used:
+// process from this test's folder and with its config (HostSeamProbe in TestProbeHost; a new AppDomain before S3a-8b of the .NET 10 move, which
+// .NET cannot create), which stands for a Middle Tier worker that has just started (no database connection, nothing cached) and leaves this
+// assembly's own state alone: its scratch database connection, the program cache and the logger. No database is used:
 // the config files written here hold a connection string that does not parse, so no connection is attempted. Files go to a folder of the
 // temporary folder, deleted afterwards. PluginLoader (WpfControlsOD, which this assembly does not reference) and ServiceMain.asmx.cs (an ASP.NET
 // page) are checked in their source. Synthetic values only; the client addresses are from the documentation range 192.0.2.0/24.
@@ -23,6 +24,7 @@ using CodeBase;
 using DataConnectionBase;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenPmsDentalBusiness;
+using TestProbeHost;
 
 namespace MiddleTierMockTests {
 	[TestClass]
@@ -44,7 +46,7 @@ namespace MiddleTierMockTests {
 				Directory.Delete(_pathFolder,true);
 			}
 			catch(Exception) {
-				//A file the logger of a test domain still held. The temporary folder is cleaned up by Windows.
+				//A file the logger of a test process still held. The temporary folder is cleaned up by Windows.
 			}
 		}
 
@@ -117,12 +119,12 @@ namespace MiddleTierMockTests {
 		}
 		#endregion
 
-		#region Through the business layer, in a new domain
+		#region Through the business layer, in a new process
 		///<summary>With no host, as in the program, the mock server and a Middle Tier worker before its first request, every value is what
 		///System.Web gave outside a hosted request: null, and no request.</summary>
 		[TestMethod]
 		public void NoHost_EveryValueIsWhatSystemWebGaveOutsideAHostedRequest() {
-			Dictionary<string,string> dict=RunInNewDomain(probe => probe.NoHost());
+			Dictionary<string,string> dict=RunInNewProcess(nameof(HostSeamProbe.NoHost));
 			Assert.AreEqual("(null)",dict["ContentRoot"]);
 			Assert.AreEqual("(null)",dict["WebAppPath"]);
 			Assert.AreEqual("False",dict["NoHost.IsInRequest"]);
@@ -140,7 +142,7 @@ namespace MiddleTierMockTests {
 		///on the thread.</summary>
 		[TestMethod]
 		public void ProcessDto_HostForm_TheValuesReachDtoProcessorAndUserods_AndAreClearedAfterEachRequest() {
-			Dictionary<string,string> dict=RunInNewDomain(probe => probe.ProcessDtoRequests(_pathFolder));
+			Dictionary<string,string> dict=RunInNewProcess(nameof(HostSeamProbe.ProcessDtoRequests),_pathFolder);
 			AssertConfigMismatch(dict,"Own",Path.Combine(_pathFolder,"S04SeamConfig.xml"),"/S04Seam");
 			AssertConfigMismatch(dict,"Absent",Path.Combine(_pathFolder,"S04AbsentConfig.xml"),"/S04Absent");
 			AssertConfigMismatch(dict,"Root",Path.Combine(_pathFolder,"Config.xml"),"/");
@@ -162,7 +164,7 @@ namespace MiddleTierMockTests {
 		///then the connection fails on its connection string, and the message names the file.</summary>
 		[TestMethod]
 		public void ProcessDto_HostForm_AMissingOrEmptyApplicationNameGetsTheRequestsName() {
-			Dictionary<string,string> dict=RunInNewDomain(probe => probe.ApplicationNameWritten(_pathFolder));
+			Dictionary<string,string> dict=RunInNewProcess(nameof(HostSeamProbe.ApplicationNameWritten),_pathFolder);
 			foreach(string key in new[] { "Missing","Empty" }) {
 				StringAssert.Contains(dict[key+".Message"],"Connection to database failed",key);
 				StringAssert.Contains(dict[key+".Message"],Path.Combine(_pathFolder,"S04"+key+"Config.xml"),key);
@@ -175,7 +177,7 @@ namespace MiddleTierMockTests {
 		///a thread that handles no request, as on any thread of the ASMX host before.</summary>
 		[TestMethod]
 		public void ConnectionStore_ReadsTheContentRootsFile_OnAThreadWithoutARequest() {
-			Dictionary<string,string> dict=RunInNewDomain(probe => probe.ConnectionStoreOnAnyThread(_pathFolder));
+			Dictionary<string,string> dict=RunInNewProcess(nameof(HostSeamProbe.ConnectionStoreOnAnyThread),_pathFolder);
 			Assert.AreEqual("False",dict["IsInRequest"]);
 			Assert.AreEqual(_pathFolder+"\\",dict["WebAppPath"]);
 			Assert.AreEqual("db.example.test",dict["ServerName"],dict.ContainsKey("Error") ? dict["Error"] : "");
@@ -188,7 +190,7 @@ namespace MiddleTierMockTests {
 		///NullReferenceException).</summary>
 		[TestMethod]
 		public void Plugins_TakeTheRequestFolder_AndThrowOutsideARequest() {
-			Dictionary<string,string> dict=RunInNewDomain(probe => probe.PluginFolder(_pathFolder));
+			Dictionary<string,string> dict=RunInNewProcess(nameof(HostSeamProbe.PluginFolder),_pathFolder);
 			Assert.AreEqual("ok",dict["InRequest"]);
 			Assert.AreEqual("True",dict["Copied"],"The versioned file in the request folder is copied to S04SeamPlugin.dll there.");
 			Assert.AreEqual(nameof(InvalidOperationException),dict["NoRequest"]);
@@ -238,27 +240,15 @@ namespace MiddleTierMockTests {
 		#endregion
 
 		#region Helpers
-		///<summary>Runs the probe in a new AppDomain of this test's folder and configuration (its binding redirects), and unloads it afterwards.</summary>
-		private static Dictionary<string,string> RunInNewDomain(Func<HostSeamProbe,Dictionary<string,string>> funcRun) {
+		///<summary>Runs the probe's method in a new process (TestProbeHost) from this test's folder and with its config (its binding redirects), as a
+		///Middle Tier worker that has just started, and ends the process afterwards. A process, not a new AppDomain as before S3a-8b of the .NET 10
+		///move: .NET cannot create one. What the method saw comes back as text.</summary>
+		private static Dictionary<string,string> RunInNewProcess(string methodName,params string[] arrayArgs) {
 			string folder=Path.GetDirectoryName(typeof(HostSeamProbe).Assembly.Location);
-			AppDomainSetup appDomainSetup=new AppDomainSetup();
-			appDomainSetup.ApplicationBase=folder;
 			string pathConfig=typeof(HostSeamProbe).Assembly.Location+".config";
-			if(File.Exists(pathConfig)) {
-				appDomainSetup.ConfigurationFile=pathConfig;
-			}
-			AppDomain appDomain=AppDomain.CreateDomain("MiddleTierHostTests-"+Guid.NewGuid().ToString("N"),null,appDomainSetup);
-			try {
-				HostSeamProbe probe=(HostSeamProbe)appDomain.CreateInstanceAndUnwrap(typeof(HostSeamProbe).Assembly.FullName,typeof(HostSeamProbe).FullName);
-				return funcRun(probe);
-			}
-			finally {
-				try {
-					AppDomain.Unload(appDomain);
-				}
-				catch(CannotUnloadAppDomainException) {
-					//A thread of the domain (the logger's clean-up) did not end in time. The domain goes with the test process.
-				}
+			string configText=File.Exists(pathConfig) ? File.ReadAllText(pathConfig) : null;
+			using(ProbeProcess probeProcess=ProbeProcess.Start(folder,configText,typeof(HostSeamProbe),TimeSpan.FromMinutes(3))) {
+				return HostSeamProbe.ToDictionary(probeProcess.Call(methodName,arrayArgs));
 			}
 		}
 
@@ -282,11 +272,48 @@ namespace MiddleTierMockTests {
 		#endregion
 	}
 
-	///<summary>Runs in a new AppDomain (MiddleTierHostTests.RunInNewDomain): a Middle Tier worker that has just started, with no database
-	///connection and nothing cached. Every method returns what it saw as text, since only serializable values cross the domain boundary.</summary>
-	public class HostSeamProbe:MarshalByRefObject {
+	///<summary>Runs in a new process (MiddleTierHostTests.RunInNewProcess, TestProbeHost): a Middle Tier worker that has just started, with no
+	///database connection and nothing cached. Every method returns what it saw as text, which crosses to the test as one ProbeText list of keys
+	///and values.</summary>
+	public class HostSeamProbe {
 		///<summary>Any payload: each request below fails at the config file, before the payload is read.</summary>
 		private const string DTO="<S04Seam />";
+
+		///<summary>The child process's handler: the command is the name of one of the methods below, the arguments its arguments (the folder).</summary>
+		public static string Handle(string command,string[] arrayArgs) {
+			HostSeamProbe hostSeamProbe=new HostSeamProbe();
+			Dictionary<string,string> dict;
+			switch(command) {
+				case nameof(NoHost):
+					dict=hostSeamProbe.NoHost();
+					break;
+				case nameof(ProcessDtoRequests):
+					dict=hostSeamProbe.ProcessDtoRequests(arrayArgs[0]);
+					break;
+				case nameof(ApplicationNameWritten):
+					dict=hostSeamProbe.ApplicationNameWritten(arrayArgs[0]);
+					break;
+				case nameof(ConnectionStoreOnAnyThread):
+					dict=hostSeamProbe.ConnectionStoreOnAnyThread(arrayArgs[0]);
+					break;
+				case nameof(PluginFolder):
+					dict=hostSeamProbe.PluginFolder(arrayArgs[0]);
+					break;
+				default:
+					throw new ArgumentException("Unknown command "+command);
+			}
+			return ProbeText.JoinList(dict.SelectMany(x => new[] { x.Key,x.Value }));
+		}
+
+		///<summary>The dictionary Handle sent, on the test's side.</summary>
+		public static Dictionary<string,string> ToDictionary(string text) {
+			string[] arrayValues=ProbeText.SplitList(text);
+			Dictionary<string,string> dict=new Dictionary<string,string>();
+			for(int i=0;i<arrayValues.Length;i+=2) {
+				dict[arrayValues[i]]=arrayValues[i+1];
+			}
+			return dict;
+		}
 
 		public Dictionary<string,string> NoHost() {
 			Dictionary<string,string> dict=new Dictionary<string,string>();

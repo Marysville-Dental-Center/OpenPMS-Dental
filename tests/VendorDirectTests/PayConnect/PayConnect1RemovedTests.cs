@@ -142,7 +142,10 @@ namespace VendorDirectTests.PayConnectV1Removal {
 
 		[TestMethod]
 		public void DpsPosAndLog4net_AreNotReferencedByTheProgram() {
-			foreach(string pathRelative in new[] { @"OpenPmsDental\bin\Debug\OpenPmsDental.exe",@"WpfControlsOD\bin\Debug\WpfControlsOD.dll" }) {
+			//The program's managed assembly (ProgramAssembly: OpenPmsDental.dll on .NET, where the .exe is the apphost Mono.Cecil cannot read).
+			foreach(string pathRelative in new[] { ProgramAssembly.FindRelative(GetRoot(),@"OpenPmsDental\bin\Debug","OpenPmsDental"),
+				@"WpfControlsOD\bin\Debug\WpfControlsOD.dll" })
+			{
 				string path=Path.Combine(GetRoot(),pathRelative);
 				if(!File.Exists(path)) {
 					BuildOutput.NotBuilt(path+" is not built. Build OpenDental.Local.slnf (Debug|x86) first.");

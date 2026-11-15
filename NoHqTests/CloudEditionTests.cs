@@ -30,7 +30,8 @@ namespace NoHqTests {
 		public void CloudEditionAssemblies_AreNotReferenced() {
 			string pathRoot=RemovedAssembliesTests.GetRepositoryRoot();
 			List<string> listPaths=new List<string> {
-				Path.Combine(pathRoot,"OpenPmsDental","bin","Debug","OpenPmsDental.exe"),
+				//The program's managed assembly (ProgramAssembly: OpenPmsDental.dll on .NET, where the .exe is the apphost).
+				Path.Combine(pathRoot,ProgramAssembly.FindRelative(pathRoot,Path.Combine("OpenPmsDental","bin","Debug"),"OpenPmsDental")),
 				Path.Combine(pathRoot,"WpfControlsOD","bin","Debug","WpfControlsOD.dll"),
 				Path.Combine(pathRoot,"OpenPmsDentalBusiness","bin","Debug","OpenPmsDentalBusiness.dll"),
 				Path.Combine(pathRoot,"OpenPmsDentalGraph","bin","Debug","OpenPmsDentalGraph.dll"),
