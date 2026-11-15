@@ -547,14 +547,13 @@ namespace WindowChecksTests.InProc {
 			if(InspectWindow(ui,checkResult,opened,"FormEmailMessageEdit",null,close:false)) {
 				List<string> listItems=ui.Invoke(() => {
 					List<string> list=new List<string>();
-					//The toolbars' buttons and their drop-down menus (the Send button's menu is an ODToolBarButton's DropDownMenu).
+					//The toolbars' buttons and their drop-down menus (the Send button's menu is an ODToolBarButton's ContextMenuStripDropDown since S3a-M3,
+					//which replaced its WinForms DropDownMenu). A ToolStripItem is Visible only while its menu shows: Available is the item's own state.
 					foreach(Control toolBar in Ui.AllControls(Control.FromHandle(opened.Hwnd)).Where(x => x.GetType().Name=="ToolBarOD")) {
 						foreach(object button in ((System.Collections.IEnumerable)toolBar.GetType().GetProperty("Buttons").GetValue(toolBar)).Cast<object>()) {
 							list.Add(toolBar.Name+" button: "+((Member(button,"Text") as string)??""));
-							object dropDownMenu=Member(button,"DropDownMenu");
-							ContextMenu contextMenuButton=dropDownMenu as ContextMenu??(dropDownMenu==null ? null : Ui.Call(dropDownMenu,"GetContextMenu") as ContextMenu);
-							if(contextMenuButton!=null) {
-								list.AddRange(contextMenuButton.MenuItems.Cast<MenuItem>().Where(x => x.Visible).Select(x => toolBar.Name+" menu: "+x.Text.Replace("&","")));
+							if(Member(button,"ContextMenuStripDropDown") is ContextMenuStrip contextMenuStripButton) {
+								list.AddRange(contextMenuStripButton.Items.OfType<ToolStripMenuItem>().Where(x => x.Available).Select(x => toolBar.Name+" menu: "+x.Text.Replace("&","")));
 							}
 						}
 					}

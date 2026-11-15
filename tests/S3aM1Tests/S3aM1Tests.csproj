@@ -8,7 +8,10 @@
        does not answer or when S3AM1_TEST_DB=skip. Every .cs file under this folder is compiled.
        The M2*.cs files test package S3a-M2 (docs/port-notes/S3a-M2.md): the program modules' menus on ContextMenuStrip, built in memory on an
        STA thread or read from the designer files, and the Images module's clipboard data (JSON under the program's own format), round-tripped
-       through private data objects, never the system clipboard. They need no database. -->
+       through private data objects, never the system clipboard. They need no database.
+       The M3*.cs files test package S3a-M3a (docs/port-notes/S3a-M3.md): the remaining forms' menus on ContextMenuStrip and MenuStrip (from the
+       designer files and built in memory), and the DataGridViews that replaced the WinForms DataGrid (User Query, and the report designer's
+       grids, whose RdlDesigner.exe is loaded from RdlDesign\bin by reflection: no reference, so the lock file is unchanged). No database. -->
   <ItemGroup>
     <Reference Include="System.Windows.Forms" />
     <!-- The WPF DataObject of the Images module's copy (M2ClipboardTests). -->
