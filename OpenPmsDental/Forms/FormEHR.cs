@@ -520,8 +520,18 @@ namespace OpenPmsDental {
 		}
 
 		private void butMeasures_Click(object sender,EventArgs e) {
-			//The Meaningful Use measures report was part of Open Dental's proprietary EHR.dll, which is not loaded anymore.
-			MsgBox.Show(this,"The Meaningful Use measures report is not available in this build.");
+			//The Meaningful Use measures window, rebuilt as open code on the open engine (EHR-4a); Open Dental's lived in its proprietary EHR.dll.
+			//No gate of its own, as in Open Dental: it opens from this window.
+			using FormEhrMeasureCalc formEhrMeasureCalc=new FormEhrMeasureCalc();
+			formEhrMeasureCalc.ShowDialog();
+			if(EhrMeasureCalcRules.IsPatientPicked(formEhrMeasureCalc.DialogResult,formEhrMeasureCalc.SelectedPatNum)) {
+				PatNum=formEhrMeasureCalc.SelectedPatNum;
+				EhrFormResultOnClose=EhrFormResult.PatientSelect;
+				DialogResult=DialogResult.OK;
+				Close();
+				return;
+			}
+			FillGridMu();
 		}
 
 		private void butHash_Click(object sender,EventArgs e) {

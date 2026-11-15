@@ -18,57 +18,13 @@ namespace OpenPmsDentalBusiness{
 			if(RemotingClient.MiddleTierRole==MiddleTierRole.ClientMT) {
 				return Meth.GetObject<List<EhrMeasure>>(MethodBase.GetCurrentMethod(),dateStart,dateEnd,provNum);
 			}
-			string command="SELECT * FROM ehrmeasure "
-			+"WHERE MeasureType IN ("
-			+POut.Int((int)EhrMeasureType.ProblemList)+","
-			+POut.Int((int)EhrMeasureType.MedicationList)+","
-			+POut.Int((int)EhrMeasureType.AllergyList)+","
-			+POut.Int((int)EhrMeasureType.Demographics)+","
-			+POut.Int((int)EhrMeasureType.Education)+","
-			+POut.Int((int)EhrMeasureType.ElectronicCopyAccess)+","
-			//+POut.Int((int)EhrMeasureType.TimelyAccess)+"," //Deprecated in 2014.  V/D/T (patient portal) now required.  ElectronicCopyAccess used instead.
-			+POut.Int((int)EhrMeasureType.ProvOrderEntry)+","
-			+POut.Int((int)EhrMeasureType.CPOE_MedOrdersOnly)+","
-			+POut.Int((int)EhrMeasureType.CPOE_PreviouslyOrdered)+","
-			+POut.Int((int)EhrMeasureType.Rx)+","
-			+POut.Int((int)EhrMeasureType.VitalSigns)+","
-			+POut.Int((int)EhrMeasureType.VitalSigns2014)+","
-			+POut.Int((int)EhrMeasureType.VitalSignsBMIOnly)+","
-			+POut.Int((int)EhrMeasureType.VitalSignsBPOnly)+","
-			+POut.Int((int)EhrMeasureType.Smoking)+","
-			+POut.Int((int)EhrMeasureType.Lab)+","
-			//+POut.Int((int)EhrMeasureType.ElectronicCopy)+"," //Deprecated in 2014.  V/D/T (patient portal) now required.  ElectronicCopyAccess used instead.
-			+POut.Int((int)EhrMeasureType.ClinicalSummaries)+","
-			+POut.Int((int)EhrMeasureType.Reminders)+","
-			+POut.Int((int)EhrMeasureType.MedReconcile)+","
-			+POut.Int((int)EhrMeasureType.SummaryOfCare)+", "
-			+POut.Int((int)EhrMeasureType.VitalSigns2014)+") "
-			+"ORDER BY MeasureType";
-			List<EhrMeasure> retVal=Crud.EhrMeasureCrud.SelectMany(command);
-			Stopwatch s=new Stopwatch();
+			//The query and the calculation of each measure moved, unchanged, into GetMeasuresToCalc and CalcMeasure (EHR-4a), which the Measure Calc
+			//window calls one measure at a time.
+			List<EhrMeasure> retVal=GetMeasuresToCalc(EhrMeasureStage.Stage1);
 			for(int i=0;i<retVal.Count;i++) {
-				s.Restart();
-				retVal[i].Objective=GetObjective(retVal[i].MeasureType);
-				retVal[i].Measure=GetMeasure(retVal[i].MeasureType);
-				retVal[i].PercentThreshold=GetThreshold(retVal[i].MeasureType);
-				DataTable table=GetTable(retVal[i].MeasureType,dateStart,dateEnd,provNum);
-				if(table==null) {
-					retVal[i].Numerator=-1;
-					retVal[i].Denominator=-1;
-				}
-				else {
-					retVal[i].Numerator=CalcNumerator(table);
-					retVal[i].Denominator=table.Rows.Count;
-				}
-				retVal[i].NumeratorExplain=GetNumeratorExplain(retVal[i].MeasureType);
-				retVal[i].DenominatorExplain=GetDenominatorExplain(retVal[i].MeasureType);
-				retVal[i].ExclusionExplain=GetExclusionExplain(retVal[i].MeasureType);
-				retVal[i].ExclusionCount=GetExclusionCount(retVal[i].MeasureType,dateStart,dateEnd,provNum);
-				retVal[i].ExclusionCountDescript=GetExclusionCountDescript(retVal[i].MeasureType);
-				s.Stop();
-				retVal[i].ElapsedTime=s.Elapsed;
+				retVal[i]=CalcMeasure(EhrMeasureStage.Stage1,retVal[i],dateStart,dateEnd,provNum);
 			}
-			return retVal; 
+			return retVal;
 		}
 
 		///<summary>Select All EHRMeasures from combination of db, static data, and complex calculations.</summary>
@@ -76,39 +32,10 @@ namespace OpenPmsDentalBusiness{
 			if(RemotingClient.MiddleTierRole==MiddleTierRole.ClientMT) {
 				return Meth.GetObject<List<EhrMeasure>>(MethodBase.GetCurrentMethod(),dateStart,dateEnd,provNum);
 			}
-			List<EhrMeasure> retVal=GetMU2List();
-			retVal.RemoveAll(x => 
-				x.MeasureType.In(
-					EhrMeasureType.DrugDrugInteractChecking,
-					EhrMeasureType.DrugFormularyChecking,
-					EhrMeasureType.ProtectElectHealthInfo,
-					EhrMeasureType.ImmunizationRegistries,
-					EhrMeasureType.SyndromicSurveillance,
-					EhrMeasureType.PatientList,
-					EhrMeasureType.ClinicalInterventionRules)
-			);
-			Stopwatch s=new Stopwatch();
+			//Moved, unchanged, into GetMeasuresToCalc and CalcMeasure (EHR-4a).
+			List<EhrMeasure> retVal=GetMeasuresToCalc(EhrMeasureStage.Stage2);
 			for(int i=0;i<retVal.Count;i++) {
-				s.Restart();
-				retVal[i].Objective=GetObjectiveMu2(retVal[i].MeasureType);
-				retVal[i].Measure=GetMeasureMu2(retVal[i].MeasureType);
-				retVal[i].PercentThreshold=GetThresholdMu2(retVal[i].MeasureType);
-				DataTable table=GetTableMu2(retVal[i].MeasureType,dateStart,dateEnd,provNum);
-				if(table==null) {
-					retVal[i].Numerator=-1;
-					retVal[i].Denominator=-1;
-				}
-				else {
-					retVal[i].Numerator=CalcNumerator(table);
-					retVal[i].Denominator=table.Rows.Count;
-				}
-				retVal[i].NumeratorExplain=GetNumeratorExplainMu2(retVal[i].MeasureType);
-				retVal[i].DenominatorExplain=GetDenominatorExplainMu2(retVal[i].MeasureType);
-				retVal[i].ExclusionExplain=GetExclusionExplainMu2(retVal[i].MeasureType);
-				retVal[i].ExclusionCount=GetExclusionCountMu2(retVal[i].MeasureType,dateStart,dateEnd,provNum);
-				retVal[i].ExclusionCountDescript=GetExclusionCountDescriptMu2(retVal[i].MeasureType);
-				s.Stop();
-				retVal[i].ElapsedTime=s.Elapsed;
+				retVal[i]=CalcMeasure(EhrMeasureStage.Stage2,retVal[i],dateStart,dateEnd,provNum);
 			}
 			return retVal;
 		}
@@ -118,43 +45,264 @@ namespace OpenPmsDentalBusiness{
 			if(RemotingClient.MiddleTierRole==MiddleTierRole.ClientMT) {
 				return Meth.GetObject<List<EhrMeasure>>(MethodBase.GetCurrentMethod(),dateStart,dateEnd,provNum);
 			}
-			List<EhrMeasure> retVal=GetMU2ModList();
-			retVal.RemoveAll(x => 
-				x.MeasureType.In(
-					EhrMeasureType.ProtectElectHealthInfo,
-					EhrMeasureType.ClinicalInterventionRules,
-					EhrMeasureType.DrugDrugInteractChecking,
-					EhrMeasureType.DrugFormularyChecking,
-					EhrMeasureType.ImmunizationRegistries,
-					EhrMeasureType.SyndromicSurveillance,
-					EhrMeasureType.ProblemList,
-					EhrMeasureType.MedicationList,
-					EhrMeasureType.AllergyList)
-			);
-			Stopwatch s=new Stopwatch();
+			//Moved, unchanged, into GetMeasuresToCalc and CalcMeasure (EHR-4a).
+			List<EhrMeasure> retVal=GetMeasuresToCalc(EhrMeasureStage.ModifiedStage2);
 			for(int i=0;i<retVal.Count;i++) {
-				s.Restart();
-				retVal[i].Objective=GetObjectiveMu2(retVal[i].MeasureType);
-				retVal[i].Measure=GetMeasureMu2Mod(retVal[i].MeasureType);
-				retVal[i].PercentThreshold=GetThresholdMu2(retVal[i].MeasureType);
-				DataTable table=GetTableMu2Mod(retVal[i].MeasureType,dateStart,dateEnd,provNum);
-				if(table==null) {
-					retVal[i].Numerator=-1;
-					retVal[i].Denominator=-1;
-				}
-				else {
-					retVal[i].Numerator=CalcNumerator(table);
-					retVal[i].Denominator=table.Rows.Count;
-				}
-				retVal[i].NumeratorExplain=GetNumeratorExplainMu2Mod(retVal[i].MeasureType);
-				retVal[i].DenominatorExplain=GetDenominatorExplainMu2Mod(retVal[i].MeasureType);
-				retVal[i].ExclusionExplain=GetExclusionExplainMu2Mod(retVal[i].MeasureType);
-				retVal[i].ExclusionCount=GetExclusionCountMu2(retVal[i].MeasureType,dateStart,dateEnd,provNum);
-				retVal[i].ExclusionCountDescript=GetExclusionCountDescriptMu2(retVal[i].MeasureType);
-				s.Stop();
-				retVal[i].ElapsedTime=s.Elapsed;
+				retVal[i]=CalcMeasure(EhrMeasureStage.ModifiedStage2,retVal[i],dateStart,dateEnd,provNum);
 			}
 			return retVal;
+		}
+
+		///<summary>The measure types that SelectAll (Stage 1), SelectAllMu2 (Stage 2) and SelectAllMu2Mod (Modified Stage 2) calculate, in the order
+		///they return them: the types of GetMeasuresToCalc in a database that has the ehrmeasure rows of a new database (one row per type).
+		///A new list on each call.</summary>
+		public static List<EhrMeasureType> GetStageMeasureTypes(EhrMeasureStage ehrMeasureStage) {
+			Meth.NoCheckMiddleTierRole();
+			switch(ehrMeasureStage) {
+				case EhrMeasureStage.Stage1://SelectAll's query: ORDER BY MeasureType.
+					return new List<EhrMeasureType>() {
+						EhrMeasureType.ProblemList,
+						EhrMeasureType.MedicationList,
+						EhrMeasureType.AllergyList,
+						EhrMeasureType.Demographics,
+						EhrMeasureType.Education,
+						EhrMeasureType.ProvOrderEntry,
+						EhrMeasureType.CPOE_MedOrdersOnly,
+						EhrMeasureType.CPOE_PreviouslyOrdered,
+						EhrMeasureType.Rx,
+						EhrMeasureType.VitalSigns,
+						EhrMeasureType.VitalSignsBMIOnly,
+						EhrMeasureType.VitalSignsBPOnly,
+						EhrMeasureType.Smoking,
+						EhrMeasureType.Lab,
+						EhrMeasureType.ClinicalSummaries,
+						EhrMeasureType.Reminders,
+						EhrMeasureType.MedReconcile,
+						EhrMeasureType.SummaryOfCare,
+						EhrMeasureType.ElectronicCopyAccess,
+						EhrMeasureType.VitalSigns2014
+					};
+				case EhrMeasureStage.Stage2://GetMU2List's order, less the types SelectAllMu2 removes.
+					return new List<EhrMeasureType>() {
+						EhrMeasureType.CPOE_MedOrdersOnly,
+						EhrMeasureType.CPOE_LabOrdersOnly,
+						EhrMeasureType.CPOE_RadiologyOrdersOnly,
+						EhrMeasureType.Rx,
+						EhrMeasureType.Demographics,
+						EhrMeasureType.VitalSigns,
+						EhrMeasureType.VitalSignsBMIOnly,
+						EhrMeasureType.VitalSignsBPOnly,
+						EhrMeasureType.Smoking,
+						EhrMeasureType.ElectronicCopyAccess,
+						EhrMeasureType.ElectronicCopy,
+						EhrMeasureType.ClinicalSummaries,
+						EhrMeasureType.Lab,
+						EhrMeasureType.Reminders,
+						EhrMeasureType.Education,
+						EhrMeasureType.MedReconcile,
+						EhrMeasureType.SummaryOfCare,
+						EhrMeasureType.SummaryOfCareElectronic,
+						EhrMeasureType.SecureMessaging,
+						EhrMeasureType.FamilyHistory,
+						EhrMeasureType.ElectronicNote,
+						EhrMeasureType.LabImages
+					};
+				case EhrMeasureStage.ModifiedStage2://GetMU2ModList's order, less the types SelectAllMu2Mod removes.
+					return new List<EhrMeasureType>() {
+						EhrMeasureType.CPOE_MedOrdersOnly,
+						EhrMeasureType.CPOE_LabOrdersOnly,
+						EhrMeasureType.CPOE_RadiologyOrdersOnly,
+						EhrMeasureType.Rx,
+						EhrMeasureType.SummaryOfCare,
+						EhrMeasureType.SummaryOfCareElectronic,
+						EhrMeasureType.Education,
+						EhrMeasureType.MedReconcile,
+						EhrMeasureType.ElectronicCopyAccess,
+						EhrMeasureType.ElectronicCopy,
+						EhrMeasureType.SecureMessaging,
+						EhrMeasureType.VitalSigns,
+						EhrMeasureType.Smoking,
+						EhrMeasureType.Demographics
+					};
+			}
+			throw new ApplicationException("Stage not found: "+ehrMeasureStage.ToString());
+		}
+
+		///<summary>The ehrmeasure rows that SelectAll (Stage 1), SelectAllMu2 (Stage 2) or SelectAllMu2Mod (Modified Stage 2) calculates, in its
+		///order and not yet calculated: their queries and their RemoveAll, moved here unchanged (EHR-4a). The Measure Calc window passes each row to
+		///CalcMeasure in turn.</summary>
+		public static List<EhrMeasure> GetMeasuresToCalc(EhrMeasureStage ehrMeasureStage) {
+			if(RemotingClient.MiddleTierRole==MiddleTierRole.ClientMT) {
+				return Meth.GetObject<List<EhrMeasure>>(MethodBase.GetCurrentMethod(),ehrMeasureStage);
+			}
+			List<EhrMeasure> retVal;
+			switch(ehrMeasureStage) {
+				case EhrMeasureStage.Stage1:
+					string command="SELECT * FROM ehrmeasure "
+					+"WHERE MeasureType IN ("
+					+POut.Int((int)EhrMeasureType.ProblemList)+","
+					+POut.Int((int)EhrMeasureType.MedicationList)+","
+					+POut.Int((int)EhrMeasureType.AllergyList)+","
+					+POut.Int((int)EhrMeasureType.Demographics)+","
+					+POut.Int((int)EhrMeasureType.Education)+","
+					+POut.Int((int)EhrMeasureType.ElectronicCopyAccess)+","
+					//+POut.Int((int)EhrMeasureType.TimelyAccess)+"," //Deprecated in 2014.  V/D/T (patient portal) now required.  ElectronicCopyAccess used instead.
+					+POut.Int((int)EhrMeasureType.ProvOrderEntry)+","
+					+POut.Int((int)EhrMeasureType.CPOE_MedOrdersOnly)+","
+					+POut.Int((int)EhrMeasureType.CPOE_PreviouslyOrdered)+","
+					+POut.Int((int)EhrMeasureType.Rx)+","
+					+POut.Int((int)EhrMeasureType.VitalSigns)+","
+					+POut.Int((int)EhrMeasureType.VitalSigns2014)+","
+					+POut.Int((int)EhrMeasureType.VitalSignsBMIOnly)+","
+					+POut.Int((int)EhrMeasureType.VitalSignsBPOnly)+","
+					+POut.Int((int)EhrMeasureType.Smoking)+","
+					+POut.Int((int)EhrMeasureType.Lab)+","
+					//+POut.Int((int)EhrMeasureType.ElectronicCopy)+"," //Deprecated in 2014.  V/D/T (patient portal) now required.  ElectronicCopyAccess used instead.
+					+POut.Int((int)EhrMeasureType.ClinicalSummaries)+","
+					+POut.Int((int)EhrMeasureType.Reminders)+","
+					+POut.Int((int)EhrMeasureType.MedReconcile)+","
+					+POut.Int((int)EhrMeasureType.SummaryOfCare)+", "
+					+POut.Int((int)EhrMeasureType.VitalSigns2014)+") "
+					+"ORDER BY MeasureType";
+					retVal=Crud.EhrMeasureCrud.SelectMany(command);
+					return retVal;
+				case EhrMeasureStage.Stage2:
+					retVal=GetMU2List();
+					retVal.RemoveAll(x =>
+						x.MeasureType.In(
+							EhrMeasureType.DrugDrugInteractChecking,
+							EhrMeasureType.DrugFormularyChecking,
+							EhrMeasureType.ProtectElectHealthInfo,
+							EhrMeasureType.ImmunizationRegistries,
+							EhrMeasureType.SyndromicSurveillance,
+							EhrMeasureType.PatientList,
+							EhrMeasureType.ClinicalInterventionRules)
+					);
+					return retVal;
+				case EhrMeasureStage.ModifiedStage2:
+					retVal=GetMU2ModList();
+					retVal.RemoveAll(x =>
+						x.MeasureType.In(
+							EhrMeasureType.ProtectElectHealthInfo,
+							EhrMeasureType.ClinicalInterventionRules,
+							EhrMeasureType.DrugDrugInteractChecking,
+							EhrMeasureType.DrugFormularyChecking,
+							EhrMeasureType.ImmunizationRegistries,
+							EhrMeasureType.SyndromicSurveillance,
+							EhrMeasureType.ProblemList,
+							EhrMeasureType.MedicationList,
+							EhrMeasureType.AllergyList)
+					);
+					return retVal;
+			}
+			throw new ApplicationException("Stage not found: "+ehrMeasureStage.ToString());
+		}
+
+		///<summary>Calculates one measure of the stage for the provider's reporting names and the dates: the body of the loops of SelectAll (Stage 1),
+		///SelectAllMu2 (Stage 2) and SelectAllMu2Mod (Modified Stage 2), moved here unchanged (EHR-4a), so the Measure Calc window can calculate one
+		///measure at a time and stop between two. Fills in the measure it is given (a row of GetMeasuresToCalc) and returns it; through the Middle
+		///Tier the server fills in a copy and returns that.</summary>
+		public static EhrMeasure CalcMeasure(EhrMeasureStage ehrMeasureStage,EhrMeasure ehrMeasure,DateTime dateStart,DateTime dateEnd,long provNum) {
+			if(RemotingClient.MiddleTierRole==MiddleTierRole.ClientMT) {
+				return Meth.GetObject<EhrMeasure>(MethodBase.GetCurrentMethod(),ehrMeasureStage,ehrMeasure,dateStart,dateEnd,provNum);
+			}
+			Stopwatch s=new Stopwatch();
+			DataTable table;
+			switch(ehrMeasureStage) {
+				case EhrMeasureStage.Stage1:
+					s.Restart();
+					ehrMeasure.Objective=GetObjective(ehrMeasure.MeasureType);
+					ehrMeasure.Measure=GetMeasure(ehrMeasure.MeasureType);
+					ehrMeasure.PercentThreshold=GetThreshold(ehrMeasure.MeasureType);
+					table=GetTable(ehrMeasure.MeasureType,dateStart,dateEnd,provNum);
+					if(table==null) {
+						ehrMeasure.Numerator=-1;
+						ehrMeasure.Denominator=-1;
+					}
+					else {
+						ehrMeasure.Numerator=CalcNumerator(table);
+						ehrMeasure.Denominator=table.Rows.Count;
+					}
+					ehrMeasure.NumeratorExplain=GetNumeratorExplain(ehrMeasure.MeasureType);
+					ehrMeasure.DenominatorExplain=GetDenominatorExplain(ehrMeasure.MeasureType);
+					ehrMeasure.ExclusionExplain=GetExclusionExplain(ehrMeasure.MeasureType);
+					ehrMeasure.ExclusionCount=GetExclusionCount(ehrMeasure.MeasureType,dateStart,dateEnd,provNum);
+					ehrMeasure.ExclusionCountDescript=GetExclusionCountDescript(ehrMeasure.MeasureType);
+					s.Stop();
+					ehrMeasure.ElapsedTime=s.Elapsed;
+					return ehrMeasure;
+				case EhrMeasureStage.Stage2:
+					s.Restart();
+					ehrMeasure.Objective=GetObjectiveMu2(ehrMeasure.MeasureType);
+					ehrMeasure.Measure=GetMeasureMu2(ehrMeasure.MeasureType);
+					ehrMeasure.PercentThreshold=GetThresholdMu2(ehrMeasure.MeasureType);
+					table=GetTableMu2(ehrMeasure.MeasureType,dateStart,dateEnd,provNum);
+					if(table==null) {
+						ehrMeasure.Numerator=-1;
+						ehrMeasure.Denominator=-1;
+					}
+					else {
+						ehrMeasure.Numerator=CalcNumerator(table);
+						ehrMeasure.Denominator=table.Rows.Count;
+					}
+					ehrMeasure.NumeratorExplain=GetNumeratorExplainMu2(ehrMeasure.MeasureType);
+					ehrMeasure.DenominatorExplain=GetDenominatorExplainMu2(ehrMeasure.MeasureType);
+					ehrMeasure.ExclusionExplain=GetExclusionExplainMu2(ehrMeasure.MeasureType);
+					ehrMeasure.ExclusionCount=GetExclusionCountMu2(ehrMeasure.MeasureType,dateStart,dateEnd,provNum);
+					ehrMeasure.ExclusionCountDescript=GetExclusionCountDescriptMu2(ehrMeasure.MeasureType);
+					s.Stop();
+					ehrMeasure.ElapsedTime=s.Elapsed;
+					return ehrMeasure;
+				case EhrMeasureStage.ModifiedStage2:
+					s.Restart();
+					ehrMeasure.Objective=GetObjectiveMu2(ehrMeasure.MeasureType);
+					ehrMeasure.Measure=GetMeasureMu2Mod(ehrMeasure.MeasureType);
+					ehrMeasure.PercentThreshold=GetThresholdMu2(ehrMeasure.MeasureType);
+					table=GetTableMu2Mod(ehrMeasure.MeasureType,dateStart,dateEnd,provNum);
+					if(table==null) {
+						ehrMeasure.Numerator=-1;
+						ehrMeasure.Denominator=-1;
+					}
+					else {
+						ehrMeasure.Numerator=CalcNumerator(table);
+						ehrMeasure.Denominator=table.Rows.Count;
+					}
+					ehrMeasure.NumeratorExplain=GetNumeratorExplainMu2Mod(ehrMeasure.MeasureType);
+					ehrMeasure.DenominatorExplain=GetDenominatorExplainMu2Mod(ehrMeasure.MeasureType);
+					ehrMeasure.ExclusionExplain=GetExclusionExplainMu2Mod(ehrMeasure.MeasureType);
+					ehrMeasure.ExclusionCount=GetExclusionCountMu2(ehrMeasure.MeasureType,dateStart,dateEnd,provNum);
+					ehrMeasure.ExclusionCountDescript=GetExclusionCountDescriptMu2(ehrMeasure.MeasureType);
+					s.Stop();
+					ehrMeasure.ElapsedTime=s.Elapsed;
+					return ehrMeasure;
+			}
+			throw new ApplicationException("Stage not found: "+ehrMeasureStage.ToString());
+		}
+
+		///<summary>The audit table of one measure (PatNum, patientName, explanation, met "X" or empty): GetTable (Stage 1), GetTableMu2 (Stage 2) or
+		///GetTableMu2Mod (Modified Stage 2), each a Middle Tier method of its own. Null for a measure that has no table, as the three return.</summary>
+		public static DataTable GetAuditTable(EhrMeasureStage ehrMeasureStage,EhrMeasureType mtype,DateTime dateStart,DateTime dateEnd,long provNum) {
+			Meth.NoCheckMiddleTierRole();//Each of the three checks the Middle Tier role itself.
+			switch(ehrMeasureStage) {
+				case EhrMeasureStage.Stage1:
+					return GetTable(mtype,dateStart,dateEnd,provNum);
+				case EhrMeasureStage.Stage2:
+					return GetTableMu2(mtype,dateStart,dateEnd,provNum);
+				case EhrMeasureStage.ModifiedStage2:
+					return GetTableMu2Mod(mtype,dateStart,dateEnd,provNum);
+			}
+			throw new ApplicationException("Stage not found: "+ehrMeasureStage.ToString());
+		}
+
+		///<summary>The engine's comma-separated provider list for its IN() clauses: the providers whose names have an ehrprovkey row for the names of
+		///the provider asked for. Empty when that provider has no row; then it becomes -1 (EHR-4a), which no row's provider column holds, so the IN()
+		///queries stay valid and match nothing. Not 0: a row with no provider holds 0, such as a medication entered in the medical window.</summary>
+		private static string GetProvsOrNone(string provs) {
+			Meth.NoCheckMiddleTierRole();//Private static.
+			if(string.IsNullOrWhiteSpace(provs)) {
+				return "-1";
+			}
+			return provs;
 		}
 
 		///<summary></summary>
@@ -335,7 +483,7 @@ namespace OpenPmsDentalBusiness{
 			command="SELECT "+DbHelper.GroupConcat("provider.ProvNum")+" FROM provider WHERE provider.ProvNum IN "
 				+"(SELECT ProvNum FROM provider pv, ehrprovkey epk WHERE pv.LName=epk.LName AND pv.FName=epk.FName "
 				+"AND epk.LName='"+POut.String(provCur.LName)+"' AND epk.FName='"+POut.String(provCur.FName)+"') ";
-			string provs=Db.GetScalar(command);
+			string provs=GetProvsOrNone(Db.GetScalar(command));//EHR-4a: -1 when the provider has no ehrprovkey row.
 			command="SELECT "+DbHelper.GroupConcat("provider.NationalProvID")+" FROM provider WHERE provider.ProvNum IN "
 				+"(SELECT ProvNum FROM provider pv, ehrprovkey epk WHERE pv.LName=epk.LName AND pv.FName=epk.FName "
 				+"AND epk.LName='"+POut.String(provCur.LName)+"' AND epk.FName='"+POut.String(provCur.FName)+"') "
@@ -1615,7 +1763,7 @@ namespace OpenPmsDentalBusiness{
 			command="SELECT GROUP_CONCAT(provider.ProvNum) FROM provider WHERE provider.ProvNum IN "
 				+"(SELECT ProvNum FROM provider pv, ehrprovkey epk WHERE pv.LName=epk.LName AND pv.FName=epk.FName "
 				+"AND epk.LName='"+POut.String(provCur.LName)+"' AND epk.FName='"+POut.String(provCur.FName)+"')";
-			string provs=Db.GetScalar(command);
+			string provs=GetProvsOrNone(Db.GetScalar(command));//EHR-4a: -1 when the provider has no ehrprovkey row.
 			switch(mtype) {
 				case EhrMeasureType.ProblemList:
 				case EhrMeasureType.MedicationList:
@@ -2841,7 +2989,7 @@ namespace OpenPmsDentalBusiness{
 			command="SELECT GROUP_CONCAT(provider.ProvNum) FROM provider WHERE provider.ProvNum IN "
 				+"(SELECT ProvNum FROM provider pv, ehrprovkey epk WHERE pv.LName=epk.LName AND pv.FName=epk.FName "
 				+"AND epk.LName='"+POut.String(provCur.LName)+"' AND epk.FName='"+POut.String(provCur.FName)+"')";
-			string provs=Db.GetScalar(command);
+			string provs=GetProvsOrNone(Db.GetScalar(command));//EHR-4a: -1 when the provider has no ehrprovkey row.
 			string[] tempProv=provs.Split(',');
 			string provOID="";
 			for(int oi=0;oi<tempProv.Length;oi++) {
@@ -3915,7 +4063,7 @@ namespace OpenPmsDentalBusiness{
 			command="SELECT GROUP_CONCAT(provider.ProvNum) FROM provider WHERE provider.ProvNum IN "
 				+"(SELECT ProvNum FROM provider pv, ehrprovkey epk WHERE pv.LName=epk.LName AND pv.FName=epk.FName "
 				+"AND epk.LName='"+POut.String(provCur.LName)+"' AND epk.FName='"+POut.String(provCur.FName)+"')";
-			string provs=Db.GetScalar(command);
+			string provs=GetProvsOrNone(Db.GetScalar(command));//EHR-4a: -1 when the provider has no ehrprovkey row.
 			switch(mtype) {
 				#region CPOE_MedOrdersOnly
 				case EhrMeasureType.CPOE_MedOrdersOnly:
@@ -5851,7 +5999,7 @@ namespace OpenPmsDentalBusiness{
 			command="SELECT GROUP_CONCAT(provider.ProvNum) FROM provider WHERE provider.ProvNum IN "
 				+"(SELECT ProvNum FROM provider pv, ehrprovkey epk WHERE pv.LName=epk.LName AND pv.FName=epk.FName "
 				+"AND epk.LName='"+POut.String(provCur.LName)+"' AND epk.FName='"+POut.String(provCur.FName)+"')";
-			string provs=Db.GetScalar(command);
+			string provs=GetProvsOrNone(Db.GetScalar(command));//EHR-4a: -1 when the provider has no ehrprovkey row.
 			string[] tempProv=provs.Split(',');
 			string provOID="";
 			for(int oi=0;oi<tempProv.Length;oi++) {
@@ -7067,6 +7215,81 @@ namespace OpenPmsDentalBusiness{
 			}
 		}
 		#endregion
+
+		#region Measure Calc window (EHR-4a)
+		///<summary>The age after which DropOldWorkTables drops a work table: one day. Not "older than this run", because another workstation may be
+		///running a calculation that uses its own work table right now.</summary>
+		public const int WORK_TABLE_MAX_AGE_SECONDS=86400;
+		///<summary>The least age DropOldWorkTables uses: one hour. The server raises a smaller age (0, a negative one) to it, so no caller, a Middle
+		///Tier client included, can drop a work table that a calculation of another workstation is using right now.</summary>
+		public const int WORK_TABLE_MIN_AGE_SECONDS=3600;
+
+		///<summary>Every provider whose last and first name have an ehrprovkey row, by the join the measure queries use (the database's collation:
+		///case-insensitive, trailing spaces ignored), with columns ProvNum and KeyGroup. KeyGroup is the smallest EhrProvKeyNum of the provider's
+		///rows; providers with the same KeyGroup are the ones the engine counts together for any of them. Ordered by ProvNum.</summary>
+		public static DataTable GetReportingProviders() {
+			if(RemotingClient.MiddleTierRole==MiddleTierRole.ClientMT) {
+				return Meth.GetTable(MethodBase.GetCurrentMethod());
+			}
+			string command="SELECT pv.ProvNum,MIN(epk.EhrProvKeyNum) AS KeyGroup "
+				+"FROM provider pv "
+				+"INNER JOIN ehrprovkey epk ON pv.LName=epk.LName AND pv.FName=epk.FName "
+				+"GROUP BY pv.ProvNum "
+				+"ORDER BY pv.ProvNum";
+			return Db.GetTable(command);
+		}
+
+		///<summary>Drops the work tables of the measure engines (tempehrmeasure..., EhrMeasures; tempehrquality..., QualityMeasures) that this
+		///database's information_schema says were created more than maxAgeSeconds earlier, by the database server's own clock. The engines drop their
+		///work tables when a measure is done; one is left behind only when a calculation stopped half way (an error, a closed program). Tables of
+		///another database, other tables and work tables whose creation time the server does not know are never dropped. An age below
+		///WORK_TABLE_MIN_AGE_SECONDS (one hour) is raised to it here, in the code the server runs, whatever the client sent. Returns the names
+		///dropped. Called before each refresh of the Measure Calc window with WORK_TABLE_MAX_AGE_SECONDS, and by the quality measure windows (EHR-5).
+		///</summary>
+		public static List<string> DropOldWorkTables(int maxAgeSeconds) {
+			if(RemotingClient.MiddleTierRole==MiddleTierRole.ClientMT) {
+				return Meth.GetObject<List<string>>(MethodBase.GetCurrentMethod(),maxAgeSeconds);
+			}
+			return DropWorkTablesOlderThan(Math.Max(maxAgeSeconds,WORK_TABLE_MIN_AGE_SECONDS));
+		}
+
+		///<summary>DropOldWorkTables without the floor, on the server or a direct connection only (private: reached only through DropOldWorkTables,
+		///and by the tests, through reflection, to show which tables an age of 0 would drop).</summary>
+		private static List<string> DropWorkTablesOlderThan(int maxAgeSeconds) {
+			string command="SELECT TABLE_NAME,COALESCE(TIMESTAMPDIFF(SECOND,CREATE_TIME,NOW()),-1) AS AgeSeconds "
+				+"FROM information_schema.TABLES "
+				+"WHERE TABLE_SCHEMA=DATABASE() "
+				+"AND (TABLE_NAME LIKE 'tempehrmeasure%' OR TABLE_NAME LIKE 'tempehrquality%')";
+			DataTable table=Db.GetTable(command);
+			List<string> listDropped=new List<string>();
+			for(int i=0;i<table.Rows.Count;i++) {
+				string tableName=table.Rows[i]["TABLE_NAME"].ToString();
+				long ageSeconds=PIn.Long(table.Rows[i]["AgeSeconds"].ToString(),hasExceptions:false);
+				if(!IsOldWorkTable(tableName,ageSeconds,maxAgeSeconds)) {
+					continue;
+				}
+				command="DROP TABLE IF EXISTS `"+tableName+"`";
+				Db.NonQ(command);
+				listDropped.Add(tableName);
+			}
+			return listDropped;
+		}
+
+		///<summary>True when the table is a work table of the measure engines (tempehrmeasure or tempehrquality, then only letters, digits and
+		///underscores, so the name is safe between backticks) and its age in seconds is known (not negative) and at least maxAgeSeconds.</summary>
+		public static bool IsOldWorkTable(string tableName,long ageSeconds,int maxAgeSeconds) {
+			Meth.NoCheckMiddleTierRole();
+			if(tableName==null || !System.Text.RegularExpressions.Regex.IsMatch(tableName,"^temp(ehrmeasure|ehrquality)[0-9A-Za-z_]*$",
+				System.Text.RegularExpressions.RegexOptions.IgnoreCase))
+			{
+				return false;
+			}
+			if(ageSeconds<0 || maxAgeSeconds<0) {
+				return false;
+			}
+			return ageSeconds>=maxAgeSeconds;
+		}
+		#endregion Measure Calc window (EHR-4a)
 	}
 
 	///<summary>When FormEHR closes, the result will be one of these.  Different results will lead to different behaviors.</summary>
@@ -7082,5 +7305,16 @@ namespace OpenPmsDentalBusiness{
 		MedicationPatNew,
 		MedicationPatEdit,
 		PatientSelect//When this form closes, OD will set the current patient to PatNum
+	}
+
+	///<summary>The Meaningful Use stage of a measure calculation: which of SelectAll, SelectAllMu2 and SelectAllMu2Mod (EHR-4a). Never stored in the
+	///database.</summary>
+	public enum EhrMeasureStage {
+		///<summary>0. Stage 1 (SelectAll, GetTable).</summary>
+		Stage1,
+		///<summary>1. Stage 2 (SelectAllMu2, GetTableMu2).</summary>
+		Stage2,
+		///<summary>2. Modified Stage 2, 2015 to 2017 (SelectAllMu2Mod, GetTableMu2Mod).</summary>
+		ModifiedStage2
 	}
 }

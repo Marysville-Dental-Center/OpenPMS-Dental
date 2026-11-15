@@ -636,6 +636,8 @@ The key was a licence check, but it was also the only thing that kept these acti
 
 ### EHR-4a Measure Calc window
 
+- **Status (2026-11-14).** Written on `ehr/ehr4a-1`; both review rounds passed; the lead fix round is on `ehr/ehr4a-2`, not merged:
+  `docs/port-notes/EHR-4.md` (EHR-4a part, with its deviations, launch checks and the lead fix round). No schema change.
 - **Goal.** The window behind "Measure Calc" (`FormEHR.designer.cs:61`), built on the open engine (section 9.1).
 - **Owns.**
   - new `OpenPmsDental/Forms/FormEhrMeasureCalc.cs`, `.designer.cs`, `.resx`
@@ -649,7 +651,9 @@ The key was a licence check, but it was also the only thing that kept these acti
   - Open Dental's public manual for the window's behaviour.
 - **Work.**
   - Section 9.1 and 9.2.
-  - The engine guard: an empty provider list becomes `0`, which matches nothing, so the 107 `IN()` queries stay valid.
+  - The engine guard: an empty provider list becomes `-1`, which matches nothing, so the 107 `IN()` queries stay valid. Decided by the lead
+    (owner question 2 of the package): `-1`, not `0` as first planned, because rows with no provider hold `ProvNum` 0 and a `0` counted them
+    (the negative check of `docs/port-notes/EHR-4.md`, section 3). No provider column holds -1.
   - The bodies of the three `SelectAll*` methods move, unchanged, into a per-measure method that is safe on the Middle Tier, with a
     public list of the measure types of each stage. The three methods call them, so their results do not change.
   - The window computes one measure at a time on a background `ODThread` (no `Join` with a timeout). Its Cancel button sets a flag that is
@@ -659,7 +663,8 @@ The key was a licence check, but it was also the only thing that kept these acti
     (`information_schema.TABLES.CREATE_TIME`). The engines create them as real tables (`EhrMeasures.cs:531-572`, `:817-853`;
     `QualityMeasures.cs:513-546`), and the schema verifier reports leftovers as extra tables (`SchemaVerifier.cs:219-222`). One day, not
     "older than this run", because another workstation may be running a refresh. The helper is public and runs on the server for a
-    Middle Tier client (through `Meth`), so EHR-5 calls it too.
+    Middle Tier client (through `Meth`), so EHR-5 calls it too. The server raises a smaller age to a floor of one hour, whatever the client
+    sends, so no caller can drop one less than an hour old.
   - `EhrMeasures.Update` and the `ehrmeasure` table's Numerator and Denominator columns stay unused (E-19).
 - **Tests.**
   - A provider with no key row: no SQL error, denominator 0.
@@ -847,6 +852,10 @@ The key was a licence check, but it was also the only thing that kept these acti
 - **Measures this build cannot meet.** The numerators of those two measures come from the patient portal and web mail
   (`EhrMeasures.cs:4685`, `:4931`, `:5607`, `:6257-6271`). The portal was removed in `2c62a2490`. The window marks these rows "depends on
   the removed patient portal" instead of a red 0%, and the release notes say so.
+- **A third one (lead decision, owner question 1 of EHR-4a).** Patient electronic access measure 1 (timely online access,
+  `ElectronicCopyAccess`, in all three stages) counts `OnlineAccessProvided` events, which only granting portal access wrote (removed in
+  `a99adc70b` and `133f16773`); nothing in this build writes them any more. It gets the same marking under the same rule: a met row from
+  old data shows its percent, an unmet one is marked.
 
 ### 9.3 Fixtures and known deviations (EHR-4b)
 
