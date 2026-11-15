@@ -120,7 +120,7 @@ namespace OpenPmsDentalBusiness.Bridges {
 					balanceForward=PIn.Double(dataSet.Tables["misc"].Rows[r]["value"].ToString());
 				}
 			}
-			writer.WriteElementString("PriorBalance",balanceForward.ToString("F2"));
+			writer.WriteElementString("PriorBalance",EStatementAmounts.GetText(balanceForward));
 			DataTable tableAccount=null;
 			for(int i=0;i<dataSet.Tables.Count;i++) {
 				if(dataSet.Tables[i].TableName.StartsWith("account")) {
@@ -131,7 +131,7 @@ namespace OpenPmsDentalBusiness.Bridges {
 			for(int i=0;i<tableAccount.Rows.Count;i++) {
 				credits+=PIn.Double(tableAccount.Rows[i]["creditsDouble"].ToString());
 			}
-			writer.WriteElementString("Credits",credits.ToString("F2"));
+			writer.WriteElementString("Credits",EStatementAmounts.GetText(credits));
 			decimal payPlanDue=0;
 			double amountDue=guar.BalTotal;
 			for(int m=0;m<dataSet.Tables["misc"].Rows.Count;m++) {
@@ -144,7 +144,7 @@ namespace OpenPmsDentalBusiness.Bridges {
 				writer.WriteElementString("EstInsPayments","");//optional.
 			}
 			else {//this is typical
-				writer.WriteElementString("EstInsPayments",guar.InsEst.ToString("F2"));//optional.
+				writer.WriteElementString("EstInsPayments",EStatementAmounts.GetText(guar.InsEst));//optional.
 				amountDue-=guar.InsEst;
 			}
 			InstallmentPlan installPlan=InstallmentPlans.GetOneForFam(guar.PatNum);
@@ -154,10 +154,10 @@ namespace OpenPmsDentalBusiness.Bridges {
 					amountDue=installPlan.MonthlyPayment;
 				}
 			}
-			writer.WriteElementString("AmountDue",amountDue.ToString("F2"));
-			writer.WriteElementString("PastDue30",guar.Bal_31_60.ToString("F2"));//optional
-			writer.WriteElementString("PastDue60",guar.Bal_61_90.ToString("F2"));//optional
-			writer.WriteElementString("PastDue90",guar.BalOver90.ToString("F2"));//optional
+			writer.WriteElementString("AmountDue",EStatementAmounts.GetText(amountDue));
+			writer.WriteElementString("PastDue30",EStatementAmounts.GetText(guar.Bal_31_60));//optional
+			writer.WriteElementString("PastDue60",EStatementAmounts.GetText(guar.Bal_61_90));//optional
+			writer.WriteElementString("PastDue90",EStatementAmounts.GetText(guar.BalOver90));//optional
 			//Notes-----------------------------------------------------------------------------------
 			writer.WriteStartElement("Notes");
 			if(stmt.NoteBold!="") {
