@@ -25,11 +25,12 @@ namespace OpenPmsDental {
 		#region Windows Form Designer generated code
 
 		private void InitializeComponent(){
+			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormClaimPayBatch));
-			this.menuRightAttached = new System.Windows.Forms.ContextMenu();
-			this.menuItemGotoAccount = new System.Windows.Forms.MenuItem();
-			this.menuRightOut = new System.Windows.Forms.ContextMenu();
-			this.menuItemGotoOut = new System.Windows.Forms.MenuItem();
+			this.menuRightAttached = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.menuItemGotoAccount = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuRightOut = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.menuItemGotoOut = new System.Windows.Forms.ToolStripMenuItem();
 			this.groupFilters = new OpenPmsDental.UI.GroupBox();
 			this.butCarrierPick = new OpenPmsDental.UI.Button();
 			this.textCarrier = new System.Windows.Forms.TextBox();
@@ -83,23 +84,21 @@ namespace OpenPmsDental {
 			// 
 			// menuRightAttached
 			// 
-			this.menuRightAttached.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+			this.menuRightAttached.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuItemGotoAccount});
 			// 
 			// menuItemGotoAccount
 			// 
-			this.menuItemGotoAccount.Index = 0;
 			this.menuItemGotoAccount.Text = "Go to Account";
 			this.menuItemGotoAccount.Click += new System.EventHandler(this.menuItemGotoAccount_Click);
 			// 
 			// menuRightOut
 			// 
-			this.menuRightOut.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+			this.menuRightOut.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuItemGotoOut});
 			// 
 			// menuItemGotoOut
 			// 
-			this.menuItemGotoOut.Index = 0;
 			this.menuItemGotoOut.Text = "Go to Account";
 			this.menuItemGotoOut.Click += new System.EventHandler(this.menuItemGotoOut_Click);
 			// 
@@ -642,10 +641,10 @@ namespace OpenPmsDental {
 		private UI.Button butDown;
 		private UI.Button butUp;
 		private Label labelInstruct2;
-		private ContextMenu menuRightAttached;
-		private MenuItem menuItemGotoAccount;
-		private ContextMenu menuRightOut;
-		private MenuItem menuItemGotoOut;
+		private System.Windows.Forms.ContextMenuStrip menuRightAttached;
+		private System.Windows.Forms.ToolStripMenuItem menuItemGotoAccount;
+		private System.Windows.Forms.ContextMenuStrip menuRightOut;
+		private System.Windows.Forms.ToolStripMenuItem menuItemGotoOut;
 		private UI.Button butSave;
 		private Label label1;
 		private UI.Button butView;

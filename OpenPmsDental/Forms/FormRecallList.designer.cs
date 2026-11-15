@@ -18,9 +18,10 @@
 
 		private void InitializeComponent()
 		{
-			this.menuRightClick = new System.Windows.Forms.ContextMenu();
-			this.menuItemSeeFamily = new System.Windows.Forms.MenuItem();
-			this.menuItemSeeAccount = new System.Windows.Forms.MenuItem();
+			this.components = new System.ComponentModel.Container();
+			this.menuRightClick = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.menuItemSeeFamily = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemSeeAccount = new System.Windows.Forms.ToolStripMenuItem();
 			this.tabControl = new OpenPmsDental.UI.TabControl();
 			this.tabPageRecalls = new OpenPmsDental.UI.TabPage();
 			this.groupEmailFromRecalls = new OpenPmsDental.UI.GroupBox();
@@ -116,19 +117,17 @@
 			// 
 			// menuItemSeeFamily
 			// 
-			this.menuItemSeeFamily.Index = 0;
 			this.menuItemSeeFamily.Text = "See Family";
 			this.menuItemSeeFamily.Click += new System.EventHandler(this.butGotoFamily_Click);
 			// 
 			// menuItemSeeAccount
 			// 
-			this.menuItemSeeAccount.Index = 1;
 			this.menuItemSeeAccount.Text = "See Account";
 			this.menuItemSeeAccount.Click += new System.EventHandler(this.butGotoAccount_Click);
 			// 
 			// menuRightClick
 			// 
-			this.menuRightClick.Popup+=gridContextMenu_Popup;
+			this.menuRightClick.Opening+=gridContextMenu_Popup;
 			// 
 			// tabControl
 			// 
@@ -1027,9 +1026,9 @@
 		#endregion
 
 		#region UI Variables
-		private System.Windows.Forms.ContextMenu menuRightClick;
-		private System.Windows.Forms.MenuItem menuItemSeeFamily;
-		private System.Windows.Forms.MenuItem menuItemSeeAccount;
+		private System.Windows.Forms.ContextMenuStrip menuRightClick;
+		private System.Windows.Forms.ToolStripMenuItem menuItemSeeFamily;
+		private System.Windows.Forms.ToolStripMenuItem menuItemSeeAccount;
 		private OpenPmsDental.UI.TabControl tabControl;
 		private OpenPmsDental.UI.TabPage tabPageRecalls;
 		private OpenPmsDental.UI.GroupBox groupEmailFromRecalls;

@@ -57,7 +57,7 @@ namespace OpenPmsDental {
 		private bool _isHeadingPrinted;
 		private int _heightHeadingPrint;
 		private HorizontalAlignment _horizontalAlignment;
-		private MenuItem _menuItemGoToPatient;
+		private ToolStripMenuItem _menuItemGoToPatient;
 
 		#endregion Fields
 
@@ -99,11 +99,12 @@ namespace OpenPmsDental {
 				checkReportServer.Visible=true;
 				checkReportServer.Checked=true;
 			}
-			_menuItemGoToPatient=new MenuItem();
+			_menuItemGoToPatient=new ToolStripMenuItem();
 			_menuItemGoToPatient.Text="Go To Patient";
 			_menuItemGoToPatient.Click+=new EventHandler(MenuItemGoToPatient_Click);
-			if(_gridResults.ContextMenu==null) {
-				_gridResults.ContextMenu=new ContextMenu();
+			if(_gridResults.ContextMenuStrip==null || !_gridResults.DoAddGridItemsToContextMenuStrip) {//none yet, or the grid's own strip
+				_gridResults.ContextMenuStrip=new ContextMenuStrip();
+				_gridResults.DoAddGridItemsToContextMenuStrip=true;
 			}
 			if(_userQuery==null) {
 				//default to raw format when UserQueryDefaultRaw pref is enabled
@@ -924,12 +925,12 @@ namespace OpenPmsDental {
 				}
 			}
 			if(hasPatNum) {
-				if(!_gridResults.ContextMenu.MenuItems.Contains(_menuItemGoToPatient)) {
-					_gridResults.ContextMenu.MenuItems.Add(_menuItemGoToPatient);
+				if(!_gridResults.ContextMenuStrip.Items.Contains(_menuItemGoToPatient)) {
+					_gridResults.ContextMenuStrip.Items.Add(_menuItemGoToPatient);
 				}
 			}
 			else {
-				_gridResults.ContextMenu.MenuItems.Remove(_menuItemGoToPatient);
+				_gridResults.ContextMenuStrip.Items.Remove(_menuItemGoToPatient);
 			}
 			foreach(DataRow row in table.AsEnumerable()) {
 				_listListsRawData.Add(row.ItemArray.AsEnumerable().Select(x => PIn.ByteArray(x)).ToList());

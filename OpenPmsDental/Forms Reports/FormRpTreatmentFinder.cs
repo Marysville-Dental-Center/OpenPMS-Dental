@@ -28,7 +28,8 @@ namespace OpenPmsDental{
 			InitializeComponent();
 			InitializeLayoutManager();
 			Lan.F(this);
-			gridMain.ContextMenu=contextRightClick;
+			gridMain.ContextMenuStrip=contextRightClick;
+			gridMain.DoAddGridItemsToContextMenuStrip=true;
 		}
 
 		private void FormRpTreatmentFinder_Load(object sender, System.EventArgs e) {

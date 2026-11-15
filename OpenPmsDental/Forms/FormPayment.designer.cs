@@ -24,14 +24,14 @@
 		private System.Windows.Forms.Label labelDepositAccount;
 		private OpenPmsDental.UI.ComboBox comboDepositAccount;
 		private OpenPmsDental.UI.Button panelXcharge;
-		private System.Windows.Forms.ContextMenu contextMenuXcharge;
-		private System.Windows.Forms.MenuItem menuXcharge;
+		private System.Windows.Forms.ContextMenuStrip contextMenuXcharge;
+		private System.Windows.Forms.ToolStripMenuItem menuXcharge;
 		private System.Windows.Forms.TextBox textDepositAccount;
 		private System.Windows.Forms.TextBox textDeposit;
 		private System.Windows.Forms.Label labelDeposit;
 		private OpenPmsDental.UI.CheckBox checkPayTypeNone;
-		private System.Windows.Forms.ContextMenu contextMenuPayConnect;
-		private System.Windows.Forms.MenuItem menuPayConnect;
+		private System.Windows.Forms.ContextMenuStrip contextMenuPayConnect;
+		private System.Windows.Forms.ToolStripMenuItem menuPayConnect;
 		private UI.ComboBox comboCreditCards;
 		private System.Windows.Forms.Label labelCreditCards;
 		private OpenPmsDental.UI.CheckBox checkRecurring;
@@ -88,9 +88,9 @@
 		private OpenPmsDental.UI.TabPage tabPageOutstanding;
 		private OpenPmsDental.UI.TabPage tabPageTreatPlan;
 		private OpenPmsDental.UI.Button butPaySimple;
-		private System.Windows.Forms.ContextMenu contextMenuPaySimple;
-		private System.Windows.Forms.MenuItem menuPaySimple;
-		private System.Windows.Forms.MenuItem menuPaySimpleCheckAch;
+		private System.Windows.Forms.ContextMenuStrip contextMenuPaySimple;
+		private System.Windows.Forms.ToolStripMenuItem menuPaySimple;
+		private System.Windows.Forms.ToolStripMenuItem menuPaySimpleCheckAch;
 		private System.Windows.Forms.Label labelPaySimpleAchStatus;
 		private UI.GridOD gridTreatPlan;
 		private System.Windows.Forms.Label labelTPProcWarning;
@@ -113,10 +113,11 @@
 		/// the contents of this method with the code editor.
 		/// </summary>
 		private void InitializeComponent() {
-			this.contextMenuXcharge = new System.Windows.Forms.ContextMenu();
-			this.menuXcharge = new System.Windows.Forms.MenuItem();
-			this.contextMenuPayConnect = new System.Windows.Forms.ContextMenu();
-			this.menuPayConnect = new System.Windows.Forms.MenuItem();
+			this.components = new System.ComponentModel.Container();
+			this.contextMenuXcharge = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.menuXcharge = new System.Windows.Forms.ToolStripMenuItem();
+			this.contextMenuPayConnect = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.menuPayConnect = new System.Windows.Forms.ToolStripMenuItem();
 			this._pd2 = new System.Drawing.Printing.PrintDocument();
 			this.label9 = new System.Windows.Forms.Label();
 			this.butSave = new OpenPmsDental.UI.Button();
@@ -205,9 +206,9 @@
 			this.label13 = new System.Windows.Forms.Label();
 			this.textSplitTotal = new System.Windows.Forms.TextBox();
 			this.butAddManual = new OpenPmsDental.UI.Button();
-			this.contextMenuPaySimple = new System.Windows.Forms.ContextMenu();
-			this.menuPaySimple = new System.Windows.Forms.MenuItem();
-			this.menuPaySimpleCheckAch = new System.Windows.Forms.MenuItem();
+			this.contextMenuPaySimple = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.menuPaySimple = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuPaySimpleCheckAch = new System.Windows.Forms.ToolStripMenuItem();
 			this.panelSplits = new System.Windows.Forms.Panel();
 			this.groupBoxFilteringPaySplits = new OpenPmsDental.UI.GroupBox();
 			this.labelIncludesNegativeEntries = new System.Windows.Forms.Label();
@@ -245,23 +246,21 @@
 			// 
 			// contextMenuXcharge
 			// 
-			this.contextMenuXcharge.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+			this.contextMenuXcharge.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuXcharge});
 			// 
 			// menuXcharge
 			// 
-			this.menuXcharge.Index = 0;
 			this.menuXcharge.Text = "Settings";
 			this.menuXcharge.Click += new System.EventHandler(this.menuXcharge_Click);
 			// 
 			// contextMenuPayConnect
 			// 
-			this.contextMenuPayConnect.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+			this.contextMenuPayConnect.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuPayConnect});
 			// 
 			// menuPayConnect
 			// 
-			this.menuPayConnect.Index = 0;
 			this.menuPayConnect.Text = "Settings";
 			this.menuPayConnect.Click += new System.EventHandler(this.menuPayConnect_Click);
 			// 
@@ -1176,19 +1175,17 @@
 			// 
 			// contextMenuPaySimple
 			// 
-			this.contextMenuPaySimple.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+			this.contextMenuPaySimple.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuPaySimple,
             this.menuPaySimpleCheckAch});
 			//
 			// menuPaySimple
 			//
-			this.menuPaySimple.Index = 0;
 			this.menuPaySimple.Text = "Settings";
 			this.menuPaySimple.Click += new System.EventHandler(this.menuPaySimple_Click);
 			//
 			// menuPaySimpleCheckAch
 			//
-			this.menuPaySimpleCheckAch.Index = 1;
 			this.menuPaySimpleCheckAch.Text = "Check ACH status";
 			this.menuPaySimpleCheckAch.Visible = false;
 			this.menuPaySimpleCheckAch.Click += new System.EventHandler(this.menuPaySimpleCheckAch_Click);

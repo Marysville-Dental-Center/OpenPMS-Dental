@@ -41,7 +41,7 @@ namespace OpenPmsDental {
 		private UvcErrorEventArgs _uvcErrorEventArgsPending;
 		private bool _isFillingCombo;
 		///<summary>The settings menu last shown, disposed when the next one is built or the window closes.</summary>
-		private ContextMenu _contextMenuSettings;
+		private ContextMenuStrip _contextMenuSettings;
 		///<summary>"N unassigned captures on this computer" when the window opened with a non-empty capture quarantine, or null.</summary>
 		private string _unassignedText;
 		///<summary>labelInfo shows _unassignedText, which then opens the unassigned captures window.</summary>
@@ -498,48 +498,46 @@ namespace OpenPmsDental {
 			IFrameSource frameSource=videoCaptureSession.FrameSource;
 			CameraConfig cameraConfig=videoCaptureSession.CameraConfig;
 			_contextMenuSettings?.Dispose();
-			ContextMenu contextMenu=new ContextMenu();
+			//The checked resolution and photo source show a check mark: a ToolStripMenuItem has no radio bullet (the WinForms MenuItem's RadioCheck).
+			ContextMenuStrip contextMenu=new ContextMenuStrip();
 			_contextMenuSettings=contextMenu;
-			MenuItem menuItemResolution=new MenuItem(Lan.g(this,"Resolution"));
+			ToolStripMenuItem menuItemResolution=new ToolStripMenuItem(Lan.g(this,"Resolution"));
 			if(frameSource==null) {
 				menuItemResolution.Enabled=false;
 			}
 			else {
 				foreach(ResolutionChoice resolutionChoice in ResolutionChoice.GetChoices(frameSource.Modes,cameraConfig)) {
 					UvcMode mode=resolutionChoice.Mode;
-					MenuItem menuItem=new MenuItem(resolutionChoice.Text,(sender,e) => SetResolution(mode));
-					menuItem.RadioCheck=true;
+					ToolStripMenuItem menuItem=new ToolStripMenuItem(resolutionChoice.Text,null,(sender,e) => SetResolution(mode));
 					menuItem.Checked=resolutionChoice.IsSelected;
-					menuItemResolution.MenuItems.Add(menuItem);
+					menuItemResolution.DropDownItems.Add(menuItem);
 				}
 			}
-			contextMenu.MenuItems.Add(menuItemResolution);
-			MenuItem menuItemPhotoSource=new MenuItem(Lan.g(this,"Take photos from"));
-			MenuItem menuItemPreview=new MenuItem(Lan.g(this,"The preview picture"),(sender,e) => SetPhotoSource(CameraPhotoSource.Preview));
-			menuItemPreview.RadioCheck=true;
+			contextMenu.Items.Add(menuItemResolution);
+			ToolStripMenuItem menuItemPhotoSource=new ToolStripMenuItem(Lan.g(this,"Take photos from"));
+			ToolStripMenuItem menuItemPreview=new ToolStripMenuItem(Lan.g(this,"The preview picture"),null,(sender,e) => SetPhotoSource(CameraPhotoSource.Preview));
 			menuItemPreview.Checked=cameraConfig.PhotoSource==CameraPhotoSource.Preview;
-			menuItemPhotoSource.MenuItems.Add(menuItemPreview);
-			MenuItem menuItemStill=new MenuItem(Lan.g(this,"The camera's still image, for still-pin camera buttons"),(sender,e) => SetPhotoSource(CameraPhotoSource.Still));
-			menuItemStill.RadioCheck=true;
+			menuItemPhotoSource.DropDownItems.Add(menuItemPreview);
+			ToolStripMenuItem menuItemStill=new ToolStripMenuItem(Lan.g(this,"The camera's still image, for still-pin camera buttons"),null,(sender,e) => SetPhotoSource(CameraPhotoSource.Still));
 			menuItemStill.Checked=cameraConfig.PhotoSource==CameraPhotoSource.Still;
 			menuItemStill.Enabled=frameSource!=null && frameSource.HasStillPin;
-			menuItemPhotoSource.MenuItems.Add(menuItemStill);
-			contextMenu.MenuItems.Add(menuItemPhotoSource);
-			MenuItem menuItemSpace=new MenuItem(Lan.g(this,"Space in the main window takes a photo"),(sender,e) => SetMainWindowSpace(!cameraConfig.MainWindowSpace));
+			menuItemPhotoSource.DropDownItems.Add(menuItemStill);
+			contextMenu.Items.Add(menuItemPhotoSource);
+			ToolStripMenuItem menuItemSpace=new ToolStripMenuItem(Lan.g(this,"Space in the main window takes a photo"),null,(sender,e) => SetMainWindowSpace(!cameraConfig.MainWindowSpace));
 			menuItemSpace.Checked=cameraConfig.MainWindowSpace;
-			contextMenu.MenuItems.Add(menuItemSpace);
-			contextMenu.MenuItems.Add("-");
-			MenuItem menuItemLearn=new MenuItem(Lan.g(this,"Learn camera buttons..."),(sender,e) => OpenLearn(CaptureLearnMode.Learn));
+			contextMenu.Items.Add(menuItemSpace);
+			contextMenu.Items.Add("-");
+			ToolStripMenuItem menuItemLearn=new ToolStripMenuItem(Lan.g(this,"Learn camera buttons..."),null,(sender,e) => OpenLearn(CaptureLearnMode.Learn));
 			menuItemLearn.Enabled=videoCaptureSession.IsStreaming;
-			contextMenu.MenuItems.Add(menuItemLearn);
-			MenuItem menuItemButtonTest=new MenuItem(Lan.g(this,"Camera button test..."),(sender,e) => OpenLearn(CaptureLearnMode.ButtonTest));
+			contextMenu.Items.Add(menuItemLearn);
+			ToolStripMenuItem menuItemButtonTest=new ToolStripMenuItem(Lan.g(this,"Camera button test..."),null,(sender,e) => OpenLearn(CaptureLearnMode.ButtonTest));
 			menuItemButtonTest.Enabled=videoCaptureSession.IsStreaming;
-			contextMenu.MenuItems.Add(menuItemButtonTest);
-			contextMenu.MenuItems.Add("-");
+			contextMenu.Items.Add(menuItemButtonTest);
+			contextMenu.Items.Add("-");
 			foreach(string line in videoCaptureSession.GetTriggerNotes()) {
-				MenuItem menuItemNote=new MenuItem(line);
+				ToolStripMenuItem menuItemNote=new ToolStripMenuItem(line);
 				menuItemNote.Enabled=false;
-				contextMenu.MenuItems.Add(menuItemNote);
+				contextMenu.Items.Add(menuItemNote);
 			}
 			contextMenu.Show(butSettings,new Point(0,butSettings.Height));
 		}

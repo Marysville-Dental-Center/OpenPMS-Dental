@@ -115,21 +115,22 @@ namespace OpenPmsDental {
 		
 		///<summary>MenuItems here appear and work the same as in UserControlTasks.cs</summary>
 		private void FillContextMenu() {
-			if(gridTasks.ContextMenu!=null) {
+			if(gridTasks.ContextMenuStrip!=null && gridTasks.DoAddGridItemsToContextMenuStrip) {//already filled (not the grid's own strip)
 				return;
 			}
-			gridTasks.ContextMenu=new ContextMenu();//ODGrid will automatically attach the default Popups
-			MenuItem menuItemGoTo=gridTasks.ContextMenu.MenuItems.OfType<MenuItem>().FirstOrDefault(x => x.Text == "Go To");
-			menuItemGoTo=new MenuItem("Go To",menuItemGoTo_Click);
+			gridTasks.ContextMenuStrip=new ContextMenuStrip();
+			gridTasks.DoAddGridItemsToContextMenuStrip=true;//ODGrid will automatically attach the default Popups
+			ToolStripMenuItem menuItemGoTo=gridTasks.ContextMenuStrip.Items.OfType<ToolStripMenuItem>().FirstOrDefault(x => x.Text == "Go To");
+			menuItemGoTo=new ToolStripMenuItem("Go To",null,menuItemGoTo_Click);
 			menuItemGoTo.Enabled=false;
 			menuItemGoTo.Visible=true;
-			gridTasks.ContextMenu.MenuItems.Add(menuItemGoTo);
-			gridTasks.ContextMenu.Popup+=MenuPopup;
+			gridTasks.ContextMenuStrip.Items.Add(menuItemGoTo);
+			gridTasks.ContextMenuStrip.Opening+=MenuPopup;
 		}
 
 		private void MenuPopup(object sender,EventArgs e) {
 			int mouseLocationGridRow=gridTasks.PointToRow(_pointLastClicked.Y);
-			MenuItem menuItemGoTo=gridTasks.ContextMenu.MenuItems.OfType<MenuItem>().FirstOrDefault(x => x.Text == "Go To");
+			ToolStripMenuItem menuItemGoTo=gridTasks.ContextMenuStrip.Items.OfType<ToolStripMenuItem>().FirstOrDefault(x => x.Text == "Go To");
 			if(mouseLocationGridRow==-1) {
 				menuItemSetEnabled(menuItemGoTo,false);
 				return;
@@ -155,7 +156,7 @@ namespace OpenPmsDental {
 			_pointLastClicked=e.Location;
 		}
 
-		private void menuItemSetEnabled(MenuItem menuItem,bool isEnabled) { 
+		private void menuItemSetEnabled(ToolStripMenuItem menuItem,bool isEnabled) { 
 			if(menuItem!=null) {
 				menuItem.Enabled=isEnabled;
 			}

@@ -27,7 +27,7 @@ namespace OpenPmsDental {
 		private List<Def> _listDefsVerifyStatuses=new List<Def>();
 		private long _userNumVerifyGrid=0;
 		private Dictionary<long,Def> _dictionaryDefsStatus=new Dictionary<long,Def>();
-		private ContextMenu _contextMenuRightClick=new ContextMenu();
+		private ContextMenuStrip _contextMenuRightClick=new ContextMenuStrip();
 		private List<Def> _listDefsRegion;
 		///<summary>The carriers picked for the Carrier filter (Open Dental 25.4: one or more carriers instead of a name box). Empty is "All".</summary>
 		private List<long> _listCarrierNumsFilter=new List<long>();
@@ -36,11 +36,15 @@ namespace OpenPmsDental {
 		public FormInsVerificationList() {
 			InitializeComponent();
 			InitializeLayoutManager();
-			_contextMenuRightClick.Popup+=gridContextMenuStrip_Popup;
-			gridMain.ContextMenu=_contextMenuRightClick;
-			gridPastDue.ContextMenu=_contextMenuRightClick;
-			gridAssignStandard.ContextMenu=_contextMenuRightClick;
-			gridAssignMedicaid.ContextMenu=_contextMenuRightClick;
+			_contextMenuRightClick.Opening+=gridContextMenuStrip_Popup;
+			gridMain.ContextMenuStrip=_contextMenuRightClick;
+			gridMain.DoAddGridItemsToContextMenuStrip=true;
+			gridPastDue.ContextMenuStrip=_contextMenuRightClick;
+			gridPastDue.DoAddGridItemsToContextMenuStrip=true;
+			gridAssignStandard.ContextMenuStrip=_contextMenuRightClick;
+			gridAssignStandard.DoAddGridItemsToContextMenuStrip=true;
+			gridAssignMedicaid.ContextMenuStrip=_contextMenuRightClick;
+			gridAssignMedicaid.DoAddGridItemsToContextMenuStrip=true;
 			Lan.F(this);
 		}
 
@@ -566,53 +570,55 @@ namespace OpenPmsDental {
 			FillControls();
 		}
 
-		private void gridContextMenuStrip_Popup(object sender,EventArgs e) {
-			_contextMenuRightClick.MenuItems.Clear();
+		private void gridContextMenuStrip_Popup(object sender,System.ComponentModel.CancelEventArgs e) {
+			_contextMenuRightClick.Items.Clear();
 			GridOD grid=GetVisibleGrid();
 			if(grid.GetSelectedIndex()==-1) {
-				return;
+				return;//the grid's Opening, after this one, adds its items and opens the menu
 			}
+			//Filled here: a ContextMenuStrip without items starts its Opening cancelled, and the grid's Opening only un-cancels a menu it found empty.
+			e.Cancel=false;
 			if(grid.In(gridAssignStandard,gridAssignMedicaid)) {
 				gridAssign_Popup(sender,e);
 				return;
 			}
 			//The _gridRowSelected needs to get updated before we run our menu item logic because Popup fires before CellClick.
 			_insVerifyGridObjectRowSelected=(InsVerifyGridObject)grid.ListGridRows[grid.GetSelectedIndex()].Tag;
-			_contextMenuRightClick.MenuItems.Add(new MenuItem(Lan.g(this,"Go to Patient"),gridMainRight_click));
+			_contextMenuRightClick.Items.Add(new ToolStripMenuItem(Lan.g(this,"Go to Patient"),null,gridMainRight_click));
 			string verifyDescription=Lan.g(this,"Go to Insurance Plan");
 			if(_insVerifyGridObjectRowSelected.InsVerifyPat!=null) {
 				verifyDescription=Lan.g(this,"Go to Patient Plan");
 			}
-			_contextMenuRightClick.MenuItems.Add(new MenuItem(verifyDescription,gridMainRight_click));
-			MenuItem menuItemAssignUserTool=new MenuItem(Lan.g(this,"Assign to User"));
+			_contextMenuRightClick.Items.Add(new ToolStripMenuItem(verifyDescription,null,gridMainRight_click));
+			ToolStripMenuItem menuItemAssignUserTool=new ToolStripMenuItem(Lan.g(this,"Assign to User"));
 			for(int i=0;i<_listUserodsInRegion.Count;i++) {
 				if(_listUserodsInRegion[i].IsHidden) {
 					continue;
 				}
-				MenuItem menuItemAssignUserDropDown=new MenuItem(_listUserodsInRegion[i].UserName);
+				ToolStripMenuItem menuItemAssignUserDropDown=new ToolStripMenuItem(_listUserodsInRegion[i].UserName);
 				menuItemAssignUserDropDown.Tag=_listUserodsInRegion[i];
 				menuItemAssignUserDropDown.Click+=new EventHandler(menuItemAssignUserDropDown_Click);
-				menuItemAssignUserTool.MenuItems.Add(menuItemAssignUserDropDown);
+				menuItemAssignUserTool.DropDownItems.Add(menuItemAssignUserDropDown);
 			}
-			_contextMenuRightClick.MenuItems.Add(menuItemAssignUserTool);
-			MenuItem menuItemVerifyStatusTool=new MenuItem(Lan.g(this,"Set Verify Status to"));
+			_contextMenuRightClick.Items.Add(menuItemAssignUserTool);
+			ToolStripMenuItem menuItemVerifyStatusTool=new ToolStripMenuItem(Lan.g(this,"Set Verify Status to"));
 			for(int i=0;i<_listDefsVerifyStatuses.Count;i++) {
-				MenuItem menuItemVerifyStatusDropDown=new MenuItem(_listDefsVerifyStatuses[i].ItemName);
+				ToolStripMenuItem menuItemVerifyStatusDropDown=new ToolStripMenuItem(_listDefsVerifyStatuses[i].ItemName);
 				menuItemVerifyStatusDropDown.Tag=_listDefsVerifyStatuses[i];
 				menuItemVerifyStatusDropDown.Click+=new EventHandler(menuItemVerifyStatusDropDown_Click);
-				menuItemVerifyStatusTool.MenuItems.Add(menuItemVerifyStatusDropDown);
+				menuItemVerifyStatusTool.DropDownItems.Add(menuItemVerifyStatusDropDown);
 			}
-			_contextMenuRightClick.MenuItems.Add(menuItemVerifyStatusTool);
+			_contextMenuRightClick.Items.Add(menuItemVerifyStatusTool);
 			if(_insVerifyGridObjectRowSelected.IsPatAndInsRow()) {
-				_contextMenuRightClick.MenuItems.Add(new MenuItem(Lan.g(this,"Verify Patient Eligibility"),gridMainRight_click));//Number 3 in gridMainRight_click
-				_contextMenuRightClick.MenuItems.Add(new MenuItem(Lan.g(this,"Verify Insurance Benefits"),gridMainRight_click));//Number 4 in gridMainRight_click
-				_contextMenuRightClick.MenuItems.Add(new MenuItem(Lan.g(this,"Verify Both"),gridMainRight_click));//Number 5 in gridMainRight_click
+				_contextMenuRightClick.Items.Add(new ToolStripMenuItem(Lan.g(this,"Verify Patient Eligibility"),null,gridMainRight_click));//Number 3 in gridMainRight_click
+				_contextMenuRightClick.Items.Add(new ToolStripMenuItem(Lan.g(this,"Verify Insurance Benefits"),null,gridMainRight_click));//Number 4 in gridMainRight_click
+				_contextMenuRightClick.Items.Add(new ToolStripMenuItem(Lan.g(this,"Verify Both"),null,gridMainRight_click));//Number 5 in gridMainRight_click
 			}
 			else if(_insVerifyGridObjectRowSelected.IsOnlyPatRow()) {
-				_contextMenuRightClick.MenuItems.Add(new MenuItem(Lan.g(this,"Verify Patient Eligibility"),gridMainRight_click));//Number 3 in gridMainRight_click
+				_contextMenuRightClick.Items.Add(new ToolStripMenuItem(Lan.g(this,"Verify Patient Eligibility"),null,gridMainRight_click));//Number 3 in gridMainRight_click
 			}
 			else if(_insVerifyGridObjectRowSelected.IsOnlyInsRow()) {
-				_contextMenuRightClick.MenuItems.Add(new MenuItem(Lan.g(this,"Verify Insurance Benefits"),gridMainRight_click));//Number 3 in gridMainRight_click
+				_contextMenuRightClick.Items.Add(new ToolStripMenuItem(Lan.g(this,"Verify Insurance Benefits"),null,gridMainRight_click));//Number 3 in gridMainRight_click
 			}
 		}
 
@@ -667,7 +673,7 @@ namespace OpenPmsDental {
 		}
 
 		private void gridMainRight_click(object sender,System.EventArgs e) {
-			switch(_contextMenuRightClick.MenuItems.IndexOf((MenuItem)sender)) {
+			switch(_contextMenuRightClick.Items.IndexOf((ToolStripMenuItem)sender)) {
 				case 0:
 					GlobalFormOpenDental.GoToModule(EnumModuleType.Family, patNum:_insVerifyGridObjectRowSelected.GetPatNum());
 					break;
@@ -756,29 +762,29 @@ namespace OpenPmsDental {
 		}
 
 		private void gridAssign_Popup(object sender,EventArgs e) {
-			MenuItem menuItemAssignUserTool=new MenuItem(Lan.g(this,"Assign to User"));
+			ToolStripMenuItem menuItemAssignUserTool=new ToolStripMenuItem(Lan.g(this,"Assign to User"));
 			for(int i=0;i<_listUserodsInRegion.Count;i++) {
 				if(_listUserodsInRegion[i].IsHidden) {
 					continue;
 				}
-				MenuItem menuItemAssignUserDropDown=new MenuItem(_listUserodsInRegion[i].UserName);
+				ToolStripMenuItem menuItemAssignUserDropDown=new ToolStripMenuItem(_listUserodsInRegion[i].UserName);
 				menuItemAssignUserDropDown.Tag=_listUserodsInRegion[i];
 				menuItemAssignUserDropDown.Click+=new EventHandler(menuItemAssignUserDropDown_Click);
-				menuItemAssignUserTool.MenuItems.Add(menuItemAssignUserDropDown);
+				menuItemAssignUserTool.DropDownItems.Add(menuItemAssignUserDropDown);
 			}
-			_contextMenuRightClick.MenuItems.Add(menuItemAssignUserTool);
-			MenuItem menuItemVerifyStatusTool=new MenuItem(Lan.g(this,"Set Verify Status to"));
+			_contextMenuRightClick.Items.Add(menuItemAssignUserTool);
+			ToolStripMenuItem menuItemVerifyStatusTool=new ToolStripMenuItem(Lan.g(this,"Set Verify Status to"));
 			for(int i=0;i<_listDefsVerifyStatuses.Count;i++) {
-				MenuItem menuItemVerifyStatusDropDown=new MenuItem(_listDefsVerifyStatuses[i].ItemName);
+				ToolStripMenuItem menuItemVerifyStatusDropDown=new ToolStripMenuItem(_listDefsVerifyStatuses[i].ItemName);
 				menuItemVerifyStatusDropDown.Tag=_listDefsVerifyStatuses[i];
 				menuItemVerifyStatusDropDown.Click+=new EventHandler(menuItemVerifyStatusDropDown_Click);
-				menuItemVerifyStatusTool.MenuItems.Add(menuItemVerifyStatusDropDown);
+				menuItemVerifyStatusTool.DropDownItems.Add(menuItemVerifyStatusDropDown);
 			}
-			_contextMenuRightClick.MenuItems.Add(menuItemVerifyStatusTool);
+			_contextMenuRightClick.Items.Add(menuItemVerifyStatusTool);
 		}
 
 		//private void gridAssignStandard_RightClick(object sender,System.EventArgs e) {
-		//	switch(_contextMenuRightClick.MenuItems.IndexOf((MenuItem)sender)) {
+		//	switch(_contextMenuRightClick.Items.IndexOf((ToolStripMenuItem)sender)) {
 		//		case 0:
 		//			if(_assignUserNum==0) {
 		//				if(!MsgBox.Show(this,MsgBoxButtons.YesNo,"Are you sure you want to unassign the selected plan?")) {
@@ -1026,7 +1032,7 @@ namespace OpenPmsDental {
 		}
 
 		private void menuItemVerifyStatusDropDown_Click(object sender, EventArgs e) {
-			Def defStatus=(Def)((MenuItem)sender).Tag;
+			Def defStatus=(Def)((ToolStripMenuItem)sender).Tag;
 			if(tabControl1.SelectedTab==tabVerify) {
 				SetStatus(defStatus.DefNum,isVerifyGrid:true);
 				FillControls();
@@ -1039,7 +1045,7 @@ namespace OpenPmsDental {
 		}
 
 		private void menuItemAssignUserDropDown_Click(object sender, EventArgs e) {
-			Userod userod=(Userod)((MenuItem)sender).Tag;
+			Userod userod=(Userod)((ToolStripMenuItem)sender).Tag;
 			DateTime dateTimeAssigned=DateTime.Now;//datetime since Open Dental 25.4: the time of day is kept.
 			if(tabControl1.SelectedTab==tabVerify) {
 				if(_insVerifyGridObjectRowSelected.InsVerifyPat!=null) {

@@ -74,30 +74,31 @@ namespace OpenPmsDental {
 		private void ConfigureSendButtons() {
 			toolBarSend.Buttons.Clear();
 			ODToolBarButton odToolBarButton=null;
-			ContextMenu contextMenu=null;
+			ContextMenuStrip contextMenu=null;
 			//Init the cancel button it will be part of the ODToolBarButton regardless.
-			MenuItem menuItemCancel=new MenuItem();
+			ToolStripMenuItem menuItemCancel=new ToolStripMenuItem();
 			menuItemCancel.Text=Lan.g(this,"Cancel");
 			menuItemCancel.Click+=new EventHandler(this.butCancel_Click);
 			//Add send buttons if we are composing
 			if(emailPreview.IsComposing) {
 				contextMenu=GetSendMenu();
-				contextMenu.MenuItems.Add(menuItemCancel);
+				contextMenu.Items.Add(menuItemCancel);
 				//Setting the Tag to the first option in the list results in first option click event on click.
-				MenuItem menuItemSendDefault=contextMenu.MenuItems[0];
+				ToolStripMenuItem menuItemSendDefault=(ToolStripMenuItem)contextMenu.Items[0];
 				odToolBarButton=new ODToolBarButton(menuItemSendDefault.Text,EnumIcons.Email,menuItemSendDefault.Text,menuItemSendDefault);
 				odToolBarButton.Style=ODToolBarButtonStyle.DropDownButton;
-				odToolBarButton.DropDownMenu=contextMenu;
+				odToolBarButton.ContextMenuStripDropDown=contextMenu;
 			}
 			//Add reply button if this is a received email
 			else if(EmailMessages.IsReceived(_emailMessage.SentOrReceived)) {
-				MenuItem menuItemReply=new MenuItem();
+				ToolStripMenuItem menuItemReply=new ToolStripMenuItem();
 				menuItemReply.Text=Lan.g(this,"Reply");
 				menuItemReply.Click+=new EventHandler(this.butSend_Click);//Opens new FormEmailMessageEdit window pre-filled with a reply to this email.
-				contextMenu=new ContextMenu(new MenuItem[] { menuItemReply,menuItemCancel });
+				contextMenu=new ContextMenuStrip();
+				contextMenu.Items.AddRange(new ToolStripItem[] { menuItemReply,menuItemCancel });
 				odToolBarButton=new ODToolBarButton(menuItemReply.Text,EnumIcons.Email,"",menuItemReply);
 				odToolBarButton.Style=ODToolBarButtonStyle.DropDownButton;
-				odToolBarButton.DropDownMenu=contextMenu;
+				odToolBarButton.ContextMenuStripDropDown=contextMenu;
 			}
 			//Sent emails will only have Cancel
 			else {
@@ -122,7 +123,7 @@ namespace OpenPmsDental {
 		}
 
 		///<summary>Configures the dropdown/contextmenu for the 'Send Email' button.</summary>
-		private ContextMenu GetSendMenu() {
+		private ContextMenuStrip GetSendMenu() {
 			if(!Enum.TryParse(ClinicPrefs.GetPrefValue(PrefName.EmailDefaultSendPlatform,_clinicNum),out EmailPlatform emailPlatform)
 				|| emailPlatform==EmailPlatform.Secure//Open Dental's hosted Secure Email was removed.
 				|| (emailPlatform==EmailPlatform.Direct && !IsDirectMessagingEnabled()))
@@ -130,21 +131,21 @@ namespace OpenPmsDental {
 				//If pref is invalid, or set to a platform that is not available, default to Insecure email.
 				emailPlatform=EmailPlatform.Unsecure;
 			}
-			ContextMenu contextMenu=new ContextMenu();
-			MenuItem menuItemSend=new MenuItem();
+			ContextMenuStrip contextMenu=new ContextMenuStrip();
+			ToolStripMenuItem menuItemSend=new ToolStripMenuItem();
 			menuItemSend.Text=Lan.g(this,"Send");
 			menuItemSend.Click+=new EventHandler(this.butSend_Click);
-			MenuItem menuItemSendDirect=new MenuItem();
+			ToolStripMenuItem menuItemSendDirect=new ToolStripMenuItem();
 			menuItemSendDirect.Text=Lan.g(this,"Direct Messaging");//For EHR and very rare
 			menuItemSendDirect.Click+=new EventHandler(this.butDirectMessage_Click);
-			MenuItem getDefaultMenuItem() {
+			ToolStripMenuItem getDefaultMenuItem() {
 				return emailPlatform switch {
 					EmailPlatform.Direct => menuItemSendDirect,
 					EmailPlatform.Unsecure => menuItemSend,
 					_ => menuItemSend,//If the preference is invalid, just use Insecure as the default.
 				};
 			}
-			List<MenuItem> listMenuItems=new List<MenuItem>() {
+			List<ToolStripMenuItem> listMenuItems=new List<ToolStripMenuItem>() {
 				menuItemSend,//always an option
 			};
 			if(IsDirectMessagingEnabled()) {
@@ -153,15 +154,12 @@ namespace OpenPmsDental {
 			}
 			//Default first, then SendInsecure
 			listMenuItems=listMenuItems.OrderByDescending(x => x==getDefaultMenuItem()).ThenByDescending(x => x==menuItemSend).ToList();
-			for(int i=0;i<listMenuItems.Count;i++) {
-				listMenuItems[i].Index=i;
-			}
-			contextMenu.MenuItems.AddRange(listMenuItems.ToArray());
+			contextMenu.Items.AddRange(listMenuItems.ToArray());//in this order
 			return contextMenu;
 		}
 
 		private void toolBarSend_ButtonClick(object sender,ODToolBarButtonClickEventArgs e) {
-			if(e.Button.Tag is MenuItem menuItemSend) {
+			if(e.Button.Tag is ToolStripMenuItem menuItemSend) {
 				menuItemSend.PerformClick();
 			}
 		}

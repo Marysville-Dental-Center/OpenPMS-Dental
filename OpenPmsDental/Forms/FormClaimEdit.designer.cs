@@ -30,12 +30,12 @@
 			this.label33 = new System.Windows.Forms.Label();
 			this.label34 = new System.Windows.Forms.Label();
 			this.label35 = new System.Windows.Forms.Label();
-			this.contextMenuAttachments = new System.Windows.Forms.ContextMenu();
-			this.menuItemOpen = new System.Windows.Forms.MenuItem();
-			this.menuItemRename = new System.Windows.Forms.MenuItem();
-			this.menuItemRemove = new System.Windows.Forms.MenuItem();
-			this.contextAdjust = new System.Windows.Forms.ContextMenu();
-			this.menuItemAddAdj = new System.Windows.Forms.MenuItem();
+			this.contextMenuAttachments = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.menuItemOpen = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemRename = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemRemove = new System.Windows.Forms.ToolStripMenuItem();
+			this.contextAdjust = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.menuItemAddAdj = new System.Windows.Forms.ToolStripMenuItem();
 			this.butViewEob = new OpenPmsDental.UI.Button();
 			this.groupFinalizePayment = new OpenPmsDental.UI.GroupBox();
 			this.butBatch = new OpenPmsDental.UI.Button();
@@ -460,40 +460,36 @@
 			// 
 			// contextMenuAttachments
 			// 
-			this.contextMenuAttachments.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+			this.contextMenuAttachments.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuItemOpen,
             this.menuItemRename,
             this.menuItemRemove});
-			this.contextMenuAttachments.Popup += new System.EventHandler(this.contextMenuAttachments_Popup);
+			this.contextMenuAttachments.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuAttachments_Popup);
 			// 
 			// menuItemOpen
 			// 
-			this.menuItemOpen.Index = 0;
 			this.menuItemOpen.Text = "Open";
 			this.menuItemOpen.Click += new System.EventHandler(this.menuItemOpen_Click);
 			// 
 			// menuItemRename
 			// 
-			this.menuItemRename.Index = 1;
 			this.menuItemRename.Text = "Rename";
 			this.menuItemRename.Click += new System.EventHandler(this.menuItemRename_Click);
 			// 
 			// menuItemRemove
 			// 
-			this.menuItemRemove.Index = 2;
 			this.menuItemRemove.Text = "Remove";
 			this.menuItemRemove.Click += new System.EventHandler(this.menuItemRemove_Click);
 			// 
 			// contextAdjust
 			// 
-			this.contextAdjust.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+			this.contextAdjust.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuItemAddAdj});
-			this.contextAdjust.Popup += new System.EventHandler(this.contextAdjust_Popup);
+			this.contextAdjust.Opening += new System.ComponentModel.CancelEventHandler(this.contextAdjust_Popup);
 			// 
 			// menuItemAddAdj
 			// 
 			this.menuItemAddAdj.Enabled = false;
-			this.menuItemAddAdj.Index = 0;
 			this.menuItemAddAdj.Text = "Add Adjustment";
 			this.menuItemAddAdj.Click += new System.EventHandler(this.menuItemAddAdj_Click);
 			// 
@@ -4088,14 +4084,14 @@
 		private OpenPmsDental.UI.TabPage tabMisc;
 		private System.Windows.Forms.TextBox textOrderingProviderOverride;
 		private UI.GridOD gridPay;
-		private System.Windows.Forms.ContextMenu contextMenuAttachments;
-		private System.Windows.Forms.MenuItem menuItemOpen;
-		private System.Windows.Forms.MenuItem menuItemRename;
-		private System.Windows.Forms.MenuItem menuItemRemove;
+		private System.Windows.Forms.ContextMenuStrip contextMenuAttachments;
+		private System.Windows.Forms.ToolStripMenuItem menuItemOpen;
+		private System.Windows.Forms.ToolStripMenuItem menuItemRename;
+		private System.Windows.Forms.ToolStripMenuItem menuItemRemove;
 		private UI.GridOD gridStatusHistory;
 		private UI.GridOD gridProc;
-		private System.Windows.Forms.ContextMenu contextAdjust;
-		private System.Windows.Forms.MenuItem menuItemAddAdj;
+		private System.Windows.Forms.ContextMenuStrip contextAdjust;
+		private System.Windows.Forms.ToolStripMenuItem menuItemAddAdj;
 		private System.Windows.Forms.TextBox textClaimIdOriginal;
 		private System.Windows.Forms.Label labelClaimIdOriginal;
 		private OpenPmsDental.UI.GroupBox groupFinalizePayment;

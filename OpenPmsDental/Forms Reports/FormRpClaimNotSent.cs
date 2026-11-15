@@ -19,13 +19,14 @@ namespace OpenPmsDental{
 		private List<ClaimTracking> _listNewClaimTrackings=new List<ClaimTracking>();
 		private List<ClaimTracking> _listOldClaimTrackings=new List<ClaimTracking>();
 		private List<Userod> _listClaimSentEditUsers=new List<Userod>();
-		private ContextMenu rightClickMenu=new ContextMenu();
+		private ContextMenuStrip rightClickMenu=new ContextMenuStrip();
 
 		///<summary></summary>
 		public FormRpClaimNotSent(){
 			InitializeComponent();
 			InitializeLayoutManager();
-			gridMain.ContextMenu=rightClickMenu;
+			gridMain.ContextMenuStrip=rightClickMenu;
+			gridMain.DoAddGridItemsToContextMenuStrip=true;
 			Lan.F(this);
 		}
 
@@ -45,15 +46,14 @@ namespace OpenPmsDental{
 			}
 			comboBoxInsFilter.SelectedIndex=0;//Pre-select 'All' for the user
 			//Fill the right-click menu for the grid
-			List<MenuItem> listMenuItems=new List<MenuItem>();
+			List<ToolStripMenuItem> listMenuItems=new List<ToolStripMenuItem>();
 			//The first item in the list will always exists, but we toggle it's visibility to only show when 1 row is selected.
-			listMenuItems.Add(new MenuItem(Lan.g(this,"Go to Account"),new EventHandler(gridMain_RightClickHelper)));
+			listMenuItems.Add(new ToolStripMenuItem(Lan.g(this,"Go to Account"),null,new EventHandler(gridMain_RightClickHelper)));
 			listMenuItems[0].Tag=0;//Tags are used to identify what to do in gridMain_RightClickHelper.
-			Menu.MenuItemCollection menuItemCollection=new Menu.MenuItemCollection(rightClickMenu);
-			menuItemCollection.AddRange(listMenuItems.ToArray());
-			rightClickMenu.Popup+=new EventHandler((o,ea) => {
-				rightClickMenu.MenuItems[0].Visible=(gridMain.SelectedIndices.Count()==1);//Only show 'Go to Account' when there is exactly 1 row selected.
-			});
+			rightClickMenu.Items.AddRange(listMenuItems.ToArray());
+			rightClickMenu.Opening+=(o,ea) => {
+				rightClickMenu.Items[0].Visible=(gridMain.SelectedIndices.Count()==1);//Only show 'Go to Account' when there is exactly 1 row selected.
+			};
 			FillGrid();
 		}
 
@@ -206,7 +206,7 @@ namespace OpenPmsDental{
 			if(index==-1) {
 				return;
 			}
-			int menuCode=(int)((MenuItem)sender).Tag;
+			int menuCode=(int)((ToolStripMenuItem)sender).Tag;
 			switch(menuCode) {
 				case 0://Go to Account
 					GlobalFormOpenDental.GoToModule(EnumModuleType.Account,patNum:((UnsentInsClaim)gridMain.ListGridRows[index].Tag).PatNum);

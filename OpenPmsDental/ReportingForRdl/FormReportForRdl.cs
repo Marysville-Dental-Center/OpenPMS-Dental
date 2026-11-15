@@ -81,7 +81,7 @@ namespace OpenPmsDental{
 			ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Zoom In"),6,"","Zoom"));
 			//ODToolBarButton button=new ODToolBarButton("Scroll Mode",-1,"","");
 			//button.Style=ODToolBarButtonStyle.DropDownButton;
-			//button.DropDownMenu=menuScrollMode;
+			//button.ContextMenuStripDropDown=menuScrollMode;
 			//ToolBarMain.Buttons.Add(button);
 			ToolBarMain.Buttons.Add(new ODToolBarButton(ODToolBarButtonStyle.Separator));
 			ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Close"),-1,"Close This Window","Close"));

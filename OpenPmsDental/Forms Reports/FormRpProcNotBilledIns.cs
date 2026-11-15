@@ -41,7 +41,8 @@ namespace OpenPmsDental{
 		}
 
 		private void FormProcNotAttach_Load(object sender, System.EventArgs e) {
-			gridMain.ContextMenu=contextMenuGrid;
+			gridMain.ContextMenuStrip=contextMenuGrid;
+			gridMain.DoAddGridItemsToContextMenuStrip=true;
 			dateRangePicker.SetDateTimeTo(DateTime.Today);
 			dateRangePicker.SetDateTimeFrom(DateTime.Today);
 			if(PrefC.GetBool(PrefName.ShowFeatureMedicalInsurance)) {

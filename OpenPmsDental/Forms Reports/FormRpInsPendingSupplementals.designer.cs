@@ -34,8 +34,8 @@ namespace OpenPmsDental {
 			this.dateRangePicker = new OpenPmsDental.UI.ODDateRangePicker();
 			this.butRefresh = new OpenPmsDental.UI.Button();
 			this.gridMain = new OpenPmsDental.UI.GridOD();
-			this.contextMenuGrid = new System.Windows.Forms.ContextMenu();
-			this.menuItemGoToAccount = new System.Windows.Forms.MenuItem();
+			this.contextMenuGrid = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.menuItemGoToAccount = new System.Windows.Forms.ToolStripMenuItem();
 			this.labelTotal = new System.Windows.Forms.Label();
 			this.butPrint = new OpenPmsDental.UI.Button();
 			this.butExport = new OpenPmsDental.UI.Button();
@@ -130,12 +130,11 @@ namespace OpenPmsDental {
 			//
 			// contextMenuGrid
 			//
-			this.contextMenuGrid.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+			this.contextMenuGrid.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuItemGoToAccount});
 			//
 			// menuItemGoToAccount
 			//
-			this.menuItemGoToAccount.Index = 0;
 			this.menuItemGoToAccount.Text = "Go to Account";
 			this.menuItemGoToAccount.Click += new System.EventHandler(this.menuItemGoToAccount_Click);
 			//
@@ -210,8 +209,8 @@ namespace OpenPmsDental {
 		private OpenPmsDental.UI.ODDateRangePicker dateRangePicker;
 		private OpenPmsDental.UI.Button butRefresh;
 		private OpenPmsDental.UI.GridOD gridMain;
-		private System.Windows.Forms.ContextMenu contextMenuGrid;
-		private System.Windows.Forms.MenuItem menuItemGoToAccount;
+		private System.Windows.Forms.ContextMenuStrip contextMenuGrid;
+		private System.Windows.Forms.ToolStripMenuItem menuItemGoToAccount;
 		private System.Windows.Forms.Label labelTotal;
 		private OpenPmsDental.UI.Button butPrint;
 		private OpenPmsDental.UI.Button butExport;

@@ -153,10 +153,11 @@ namespace OpenPmsDental {
 				_isLoading=false;
 				return;
 			}
-			ContextMenu contextMenuDynamicPaymentPlanCharges=new ContextMenu();
-			contextMenuDynamicPaymentPlanCharges.MenuItems.Add(new MenuItem(Lan.g(this,"Delete"),new EventHandler(gridCharges_RightClickDelete)));
-			contextMenuDynamicPaymentPlanCharges.MenuItems.Add(new MenuItem(Lan.g(this,"Edit"), new EventHandler(gridCharges_RightClickEdit)));
-			this.gridCharges.ContextMenu=contextMenuDynamicPaymentPlanCharges;
+			ContextMenuStrip contextMenuDynamicPaymentPlanCharges=new ContextMenuStrip();
+			contextMenuDynamicPaymentPlanCharges.Items.Add(new ToolStripMenuItem(Lan.g(this,"Delete"),null,new EventHandler(gridCharges_RightClickDelete)));
+			contextMenuDynamicPaymentPlanCharges.Items.Add(new ToolStripMenuItem(Lan.g(this,"Edit"),null,new EventHandler(gridCharges_RightClickEdit)));
+			this.gridCharges.ContextMenuStrip=contextMenuDynamicPaymentPlanCharges;
+			this.gridCharges.DoAddGridItemsToContextMenuStrip=true;
 			_isLoading=false;
 		}
 

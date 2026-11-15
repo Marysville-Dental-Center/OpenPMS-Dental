@@ -196,10 +196,12 @@ namespace OpenPmsDental.UI {
 				return;
 			}
 			if(e.Button==MouseButtons.Right) {
-				ContextMenu contextMenu=new ContextMenu();
-				MenuItem menuItemProv=new MenuItem(Lan.g(this,"Change Provider"));
+				ContextMenuStrip contextMenu=new ContextMenuStrip();
+				ToolStripMenuItem menuItemProv=new ToolStripMenuItem(Lan.g(this,"Change Provider"));
 				menuItemProv.Click+=new EventHandler(menuItemProv_Click);
-				contextMenu.MenuItems.Add(menuItemProv);
+				contextMenu.Items.Add(menuItemProv);
+				//A new menu each time: disposed after the message that closed it, so that a clicked item's Click runs first.
+				contextMenu.Closed+=(sender2,e2) => BeginInvoke(new Action(() => contextMenu.Dispose()));
 				contextMenu.Show(this,e.Location);
 				return;
 			}

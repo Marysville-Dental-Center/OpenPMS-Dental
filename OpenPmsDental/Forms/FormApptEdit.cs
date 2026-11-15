@@ -328,9 +328,9 @@ namespace OpenPmsDental{
 				comboAssistant.SetSelected(index+1);//+1 to skip none
 			}
 			textLabCase.Text=GetLabCaseDescript();
-			textTimeArrived.ContextMenu=contextMenuTimeArrived;
-			textTimeSeated.ContextMenu=contextMenuTimeSeated;
-			textTimeDismissed.ContextMenu=contextMenuTimeDismissed;
+			textTimeArrived.ContextMenuStrip=contextMenuTimeArrived;
+			textTimeSeated.ContextMenuStrip=contextMenuTimeSeated;
+			textTimeDismissed.ContextMenuStrip=contextMenuTimeDismissed;
 			if(_appointment.DateTimeAskedToArrive.TimeOfDay>TimeSpan.FromHours(0)) {
 				textTimeAskedToArrive.Text=_appointment.DateTimeAskedToArrive.ToShortTimeString();
 			}

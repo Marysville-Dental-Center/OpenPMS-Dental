@@ -29,8 +29,8 @@ namespace OpenPmsDental{
 			this.labelStatus = new System.Windows.Forms.Label();
 			this.ToolBarMain = new OpenPmsDental.UI.ToolBarOD();
 			this.webViewWiki = new CodeBase.Controls.ODWebView2();
-			this.menuHomeDropDown = new System.Windows.Forms.ContextMenu();
-			this.menuItemHomePageSave = new System.Windows.Forms.MenuItem();
+			this.menuHomeDropDown = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.menuItemHomePageSave = new System.Windows.Forms.ToolStripMenuItem();
 			((System.ComponentModel.ISupportInitialize)(this.webViewWiki)).BeginInit();
 			this.SuspendLayout();
 			// 
@@ -95,12 +95,11 @@ namespace OpenPmsDental{
 			//
 			// menuHomeDropDown
 			// 
-			this.menuHomeDropDown.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+			this.menuHomeDropDown.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuItemHomePageSave});
 			// 
 			// menuItemHomePageSave
 			// 
-			this.menuItemHomePageSave.Index = 0;
 			this.menuItemHomePageSave.Text = "Save As Home Page";
 			this.menuItemHomePageSave.Click += new System.EventHandler(this.menuItemHomePageSave_Click);
 			// 
@@ -126,7 +125,7 @@ namespace OpenPmsDental{
 		private UI.ToolBarOD ToolBarMain;
 		private System.Windows.Forms.ImageList imageListMain;
 		private System.Windows.Forms.Label labelStatus;
-		private System.Windows.Forms.ContextMenu menuHomeDropDown;
-		private System.Windows.Forms.MenuItem menuItemHomePageSave;
+		private System.Windows.Forms.ContextMenuStrip menuHomeDropDown;
+		private System.Windows.Forms.ToolStripMenuItem menuItemHomePageSave;
 	}
 }

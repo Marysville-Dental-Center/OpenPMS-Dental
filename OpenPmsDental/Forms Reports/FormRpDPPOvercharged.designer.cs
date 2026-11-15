@@ -20,8 +20,8 @@
 			this.butPrint = new OpenPmsDental.UI.Button();
 			this.imageListCalendar = new System.Windows.Forms.ImageList(this.components);
 			this.gridMain = new OpenPmsDental.UI.GridOD();
-			this.contextMenuGrid = new System.Windows.Forms.ContextMenu();
-			this.menuItemGoToAccount = new System.Windows.Forms.MenuItem();
+			this.contextMenuGrid = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.menuItemGoToAccount = new System.Windows.Forms.ToolStripMenuItem();
 			this.butRefresh = new OpenPmsDental.UI.Button();
 			this.groupBox2 = new OpenPmsDental.UI.GroupBox();
 			this.butCurrent = new OpenPmsDental.UI.Button();
@@ -74,12 +74,11 @@
 			// 
 			// contextMenuGrid
 			// 
-			this.contextMenuGrid.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+			this.contextMenuGrid.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuItemGoToAccount});
 			// 
 			// menuItemGoToAccount
 			// 
-			this.menuItemGoToAccount.Index = 0;
 			this.menuItemGoToAccount.Text = "Go To Account";
 			this.menuItemGoToAccount.Click += new System.EventHandler(this.menuItemGridGoToAccount_Click);
 			// 
@@ -227,8 +226,8 @@
 		}
 		#endregion
 
-		private System.Windows.Forms.ContextMenu contextMenuGrid;
-		private System.Windows.Forms.MenuItem menuItemGoToAccount;
+		private System.Windows.Forms.ContextMenuStrip contextMenuGrid;
+		private System.Windows.Forms.ToolStripMenuItem menuItemGoToAccount;
 		private System.Windows.Forms.ImageList imageListCalendar;
 		private UI.Button butRefresh;
 		private UI.Button butPrint;

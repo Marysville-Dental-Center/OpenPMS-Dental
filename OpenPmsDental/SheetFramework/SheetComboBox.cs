@@ -15,7 +15,7 @@ namespace OpenPmsDental {
 		///<summary>A default option for the combo box to display.  Required to be set for screening tooth chart combo boxes.  E.g. "ling", "b".</summary>
 		public string DefaultOption;
 		public bool IsToothChart;
-		private ContextMenu _contextMenu=new ContextMenu();
+		private ContextMenuStrip _contextMenu=new ContextMenuStrip();
 
 		[Category("Layout"),Description("Set true if this is a toothchart combo.")]
 		public bool ToothChart {get { return IsToothChart; } set { IsToothChart=value; } }
@@ -45,13 +45,13 @@ namespace OpenPmsDental {
 				_arrayComboOptions=arrayValues[0].Split('|');//Will be an empty string if no '|' is present.
 			}
 			foreach(string option in _arrayComboOptions) {
-				//'&' is a special character in System.Windows.Forms.ContextMenu. We need to escapte all ampersands so that they are displayed correctly in the fill sheet window.
+				//'&' is a special character in System.Windows.Forms.ContextMenuStrip. We need to escapte all ampersands so that they are displayed correctly in the fill sheet window.
 				string escapedOption=option.Replace("&","&&");
-				//'-' by itself is a special character in System.Windows.Forms.ContextMenu. We need to escapte it so that it is displayed correctly in the fill sheet window.
+				//'-' by itself is a special character in System.Windows.Forms.ContextMenuStrip. We need to escapte it so that it is displayed correctly in the fill sheet window.
 				if(escapedOption=="-") {
 					escapedOption="&-";
 				}
-				_contextMenu.MenuItems.Add(new MenuItem(escapedOption,menuItemContext_Click));
+				_contextMenu.Items.Add(new ToolStripMenuItem(escapedOption,null,menuItemContext_Click));
 			}
 		}
 
@@ -62,10 +62,10 @@ namespace OpenPmsDental {
 		}
 
 		private void menuItemContext_Click(object sender,EventArgs e) {
-			if(sender.GetType()!=typeof(MenuItem)) {
+			if(sender.GetType()!=typeof(ToolStripMenuItem)) {
 				return;
 			}
-			SelectedOption=_arrayComboOptions[_contextMenu.MenuItems.IndexOf((MenuItem)sender)];
+			SelectedOption=_arrayComboOptions[_contextMenu.Items.IndexOf((ToolStripMenuItem)sender)];
 		}
 
 		private void SheetComboBox_MouseDown(object sender,MouseEventArgs e) {
