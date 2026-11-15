@@ -277,13 +277,15 @@ namespace ToothChartImageTests {
 			//TC-8: the program and the relay start only the WPF chart and the 2D chart. The stored DirectX and OpenGL choices reach the wrapper as the
 			//engine of the stored mode (GetEngineForStoredMode), never as DrawMode or as the old engines; only the legacy recorder and the tests set
 			//ToothChartEngine.DirectX or OpenGL, until TC-9a.
-			Regex regexSelect=new Regex(@"\bToothChartEngine\.(DirectX|OpenGL)\b|\bDrawMode\s*=(?!=)|\bDrawingMode\.OpenGL\b|\.DeviceFormat\s*=(?!=)|\.UseHardware\s*=(?!=)|\.PreferredPixelFormatNumber\s*=(?!=)");
+			Regex regexSelect=new Regex(@"\bToothChartEngine\.(DirectX|OpenGL)\b|\bDrawingMode\.OpenGL\b|(\bDrawMode|\.DeviceFormat|\.UseHardware|\.PreferredPixelFormatNumber)\s*=(?!=)\s*(?<value>[^;]*);");
+			//The wrappers' designer defaults (in the designer files, and in ControlChart.cs, whose designer code is in the file itself).
+			string[] arrayDesignerDefaults=new[] { "null","OpenPmsDentalBusiness.DrawingMode.Simple2D","0","false" };
 			List<string> listProblems=new List<string>();
 			foreach(string relative in SourceText.GetCsFiles("OpenPmsDental").Concat(new[] { RELAY })) {
-				if(relative.EndsWith(".designer.cs",StringComparison.OrdinalIgnoreCase)) {
-					continue;//the wrappers' designer defaults (DrawMode Simple2D, DeviceFormat null, UseHardware false, PreferredPixelFormatNumber 0)
-				}
 				foreach(Match match in regexSelect.Matches(SourceText.ReadCode(relative))) {
+					if(match.Groups["value"].Success && arrayDesignerDefaults.Contains(match.Groups["value"].Value.Trim())) {
+						continue;
+					}
 					listProblems.Add(relative+": "+match.Value);
 				}
 			}

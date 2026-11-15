@@ -12,6 +12,19 @@
        The program carries every library these tests use; the libraries the tests compile against are named as well, because the test projects
        turn the SDK's transitive project references off (tests\Directory.Build.props), as S3aM1Tests names them. -->
   <ItemGroup>
+    <!-- The image tests' comparer, PNG writer and STA runner (namespace ToothChartImageTests), so the host pictures are compared with the same
+         tolerance and written the same way. -->
+    <Compile Include="..\ToothChartImageTests\Support\ChartImageCompare.cs">
+      <Link>Shared\ChartImageCompare.cs</Link>
+    </Compile>
+    <Compile Include="..\ToothChartImageTests\Support\PngWriter.cs">
+      <Link>Shared\PngWriter.cs</Link>
+    </Compile>
+    <Compile Include="..\ToothChartImageTests\Support\StaRunner.cs">
+      <Link>Shared\StaRunner.cs</Link>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System.Windows.Forms" />
