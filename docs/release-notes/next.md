@@ -106,24 +106,23 @@ A database on the same computer (`localhost`, `127.0.0.1`, `::1`) needs no certi
 rule. But once `require_secure_transport` is ON, MariaDB refuses connections without TLS from the server computer too, so a program on the
 server computer must then connect with `<db-server>` (the name the workstations use), not `localhost`, set up like any workstation.
 
-## QuickBooks Desktop
+## QuickBooks Desktop, Topaz signature pads, Schick CDR and Guru
 
-- **QuickBooks Desktop asks again.** The program now talks to QuickBooks Desktop through a small helper program that ships with it
-  (`OpenPmsDentalHelper32.exe`). QuickBooks allows integrated applications one program at a time, so on the first connection after the
-  update QuickBooks will probably ask again whether to allow access, and a grant to connect while QuickBooks is not running has to be
-  given again. Open the company file as the QuickBooks administrator the first time.
-
-## Topaz signature pads, Schick CDR and Guru
-
-- **The Topaz signing window looks different.** When a patient signs on a Topaz pad, a small window titled "Sign on the Topaz pad" opens
-  over the program's window and shows the signature as it is drawn, with OK, Clear and Cancel; before, the strokes appeared in the signature
-  box itself. Press OK when the patient has signed; Cancel clears the pad. The box then shows the signature as before, and stored Topaz
-  signatures show and check as before: their data does not change. The window is the helper program's (`OpenPmsDentalHelper32.exe`), which
-  now runs Topaz's software, Schick CDR DICOM's exam window and Guru for the program, as it runs QuickBooks Desktop.
-- **Schick CDR: answer CDR first.** While CDR DICOM starts after the Schick button, or while its window for creating a patient's exam is
-  open, Open PMS - Dental keeps drawing its windows but takes no clicks until CDR's window is answered, as while one of its own windows is
-  open. If CDR does not answer within 30 minutes, the program says so and starts the helper again on the next click.
-- **Nothing to install.** Topaz's own software (it provides `SigPlusNET.dll`), CDR DICOM and Guru stay as they are on each workstation.
+- **They work as before.** The program loads each of them in its own process whenever it can run it there, as before: QuickBooks
+  Desktop, Topaz's software, Schick CDR DICOM and Guru. A small helper program that ships with it (`OpenPmsDentalHelper32.exe`) takes over
+  only for a piece the program cannot run itself, which does not happen in this 32-bit release; the program writes which way it chose for
+  each into its log (the `NativeFirst` folder) the first time it uses it.
+- **Topaz: the patient signs in the signature box again.** The strokes appear in the box in the program's window, as before. The helper's
+  own small signing window ("Sign on the Topaz pad", with OK, Clear and Cancel) appears only on the helper's path. Stored Topaz signatures
+  show and check as before: their data does not change.
+- **QuickBooks Desktop does not ask again.** The program itself still connects to QuickBooks Desktop, so the access QuickBooks granted
+  before stays. (Only a release whose program cannot run QuickBooks' 32-bit connector itself goes through the helper, and then QuickBooks
+  asks once whether to allow it.)
+- **On the helper's path** (not in this release): while CDR DICOM starts after the Schick button, or while its window for creating a
+  patient's exam is open, Open PMS - Dental keeps drawing its windows but takes no clicks until CDR's window is answered; if CDR does not
+  answer within 30 minutes, the program says so and starts the helper again on the next click.
+- **Nothing to install.** Topaz's own software (it provides `SigPlusNET.dll`), CDR DICOM, Guru and QuickBooks Desktop stay as they are on
+  each workstation.
 
 ## Database connection security
 

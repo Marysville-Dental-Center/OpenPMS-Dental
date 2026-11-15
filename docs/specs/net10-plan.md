@@ -936,7 +936,10 @@ config and checks it stays x86 (0x14C, 32BITREQUIRED); the Release dry run at th
 check: Intuit's 64-bit QBFC exists from QBFC 15 for QuickBooks Desktop 2022 and later, not for QBFC 10; the helper module stays. Tests:
 Helper32Tests (the protocol with a fake module, the QuickBooks module against a recording QBFC fake compared with today's code), NoHqTests'
 vendor scan, VendorDirectTests (QuickBooks Online untouched), ReleaseFlowTests (the helper ships and is x86). For the lead: whether
-`OpenPmsDentalHelper32.exe` joins the build id lists (port note, section 7).
+`OpenPmsDentalHelper32.exe` joins the build id lists (port note, section 7). Since S3a-14n (decision 23, on `net10/s3a14n-1`, not merged yet)
+the QuickBooks module is the fallback: the QBFC session runs in the program's process again whenever QBFC activates there
+(`QuickBooksInProcess.cs`, the code of before S3a-13, behind `NativeFirstChooser`), which in the 32-bit program it always does; the 64-bit
+QBFC 15+ path is a later package (the owner's Intuit sign-in).
 
 **Status (2026-11-15), S3a-M2.** Merged from `net10/s3am2-1` (`docs/port-notes/S3a-M2.md`; lead fixes at the merge: the hidden-item grids, the paste never throws): the main window's toolbar drop-downs and splitter
 menu, the Account, Chart, Appointments, Family, Treatment Plan and Images modules, `ControlImageDisplay`, `UserControlTasks`,
@@ -1001,7 +1004,17 @@ clean-up asserts; for 3b: `FillSignatureEncodings`' loop as one helper command, 
 instead of storing the sheet without it; BINBTests 80. Third fix round on `net10/s3a14f-3` (note, section S3a-14f, item 9):
 `FormProcNoteAppend`, `FormProcEdit` and `FormProcGroup` catch the `Helper32Exception` ahead of their catch-all and return before
 `Procedures.Update`, and check before they write; `FormSheetFillEdit` checks before `VerifyRequiredFields`' `SigIsBlank` and before every
-`SaveSignaturePayPlan`; BINBTests 81.
+`SaveSignaturePayPlan`; BINBTests 81. S3a-14g (`net10/s3a14g-1`: an unchanged filled Topaz box keeps its stored signature, the callers stop
+before they write) was stopped for the owner's pivot and is carried by S3a-14n. **S3a-14n, native first** (decision 23; `net10/s3a14n-1`,
+note section "S3a-14n: native first"), done, not merged yet: CodeBase's `NativeFirstChooser` makes one logged choice per vendor piece and
+program process, the program's own process when the piece can run at its bitness (a managed or native DLL's PE header, one COM
+activation), else the helper; a 32-bit process always chooses itself. Topaz (`TopazInProcess`), Schick CDR (`SchickInProcess`), Guru
+(`GuruInProcess`) and QuickBooks Desktop (`QuickBooksInProcess`) run main's in-process code again, so the x86 program behaves as before
+S3a-13 and S3a-14 (the patient signs into the box again); the helper's modules and every S3a-14f/14g guard stay for the fallback, and the
+two S3a-14g save steps that changed main's behaviour apply to a helper-path Topaz box only. In the x64 build: AnyCPU SigPlusNET and CDR's
+out-of-process server in process; an x86-only SigPlusNET, Guru and QBFC 10 in the helper. Tests: the new library-only NativeFirstTests
+(synthetic PE files, fake COM activations; x86 and x64 runs), the in-process paths call for call with main's code (Helper32Tests,
+BINBTests' TopazWrapperInProcessTests), NoHqTests' vendor scan on the new rule.
 
 **Full-test gate.** Section 3, plus: the golden outputs and known answers recorded and committed; the source-scan tests pass; the
 launch checks for 3a (section 6) done with screenshots, including a self-update from a standard user; the x64 test runs (S3a-12, S3a-15)
@@ -1865,6 +1878,13 @@ self-contained (open point O-15, decision 20).
   (built), the in-process 64-bit control as the owner's later choice. *Guru:* no public documentation of `MedVisorInterface.dll`; no 64-bit
   version known (https://www.opendental.com/manual/bridgeguru.html). The helper module (built); nothing to choose. No test PC has any of the
   three (launch checks: the port note, section 10).
+  **Answered 2026-11-15 by decision 23 (owner: "For any integration, use native 64bit first. If the option is not available, fall back to
+  32bit"); built by S3a-14n (`docs/port-notes/S3a-14.md`, section "S3a-14n: native first").** One run-time choice per vendor piece and program
+  process (`NativeFirstChooser`): Topaz in process when the installed SigPlusNET can run at the program's bitness (AnyCPU: always), else the
+  helper; Schick CDR in process when `CDRDicom.Application` activates from the program (launch check S1 for 64-bit), else the helper;
+  Guru and QBFC 10 in the helper in a 64-bit program; every piece in process in the 32-bit program. Open for 3b: QBFC 15+ for QuickBooks
+  Desktop 2022 and later (a later package, the SDK behind the owner's Intuit sign-in), System.IO.Ports for Topaz's serial pads on .NET 10 (a
+  new package), and the launch checks on a test PC with the vendor software (none today).
 - **O-15. The helper's runtime after the switch (decision 19). Answered 2026-11-08: (c) self-contained (decision 20).** The helper is
   32-bit because the vendor code it loads is; the program itself has no 32-bit .NET 10 build. In 3a the helper is built like everything
   else (net48, x86). For 3b the options were: (a) it stays on .NET
