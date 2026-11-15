@@ -981,6 +981,13 @@ silent run, a blank `WebServiceServerName` and every other computer change nothi
 (an exe missing, or older than the newest commit to its project) as Inconclusive with "run tools/Build-Release.ps1 first" and the write
 times. New `ReplaceUnreadableDbTests` (`s3a10f_` scratch databases).
 
+**Status (2026-11-15), S3a-FU2.** Done on `net10/s3a-fu2-1`, for the merge (section S3a-FU2 of `docs/port-notes/S3a-M2.md`, `S3a-2.md`,
+`S3a-8b.md`, `S3a-12.md`, `S3a-15.md`): the Images paste reads its clipboard format's bytes through OLE (`TYMED_HGLOBAL`) and refuses a
+serialized-object block, so nothing under it reaches the BinaryFormatter; the shell-start scan refuses the shadowing and expression-body
+shapes and `ProcessStartInfo?psi`; `ProbeProcess` quotes for `CommandLineToArgvW` and bounds its output waits; rule 3 of the pointer-size
+scan counts a bitness branch only in the pair's wrapper; the DirectX test's format search is timed and limited, a timeout Inconclusive.
+`ControlImages.cs`' `PDF_SetCompression` argument is left for S3a-14 (its file).
+
 **Full-test gate.** Section 3, plus: the golden outputs and known answers recorded and committed; the source-scan tests pass; the
 launch checks for 3a (section 6) done with screenshots, including a self-update from a standard user; the x64 test runs (S3a-12, S3a-15)
 and the x64 build of `Direct2dWrapper` (S3a-16) pass; the helper's tests pass, and its links are launch-checked where a test PC has the

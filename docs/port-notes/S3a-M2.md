@@ -227,3 +227,37 @@ of the open menu.
   - Launch check 7 does Rotate and Delete from the image menu, because `ContextMenuStrip.Show` does not block and panelMain's MouseUp now
     runs first.
   - Launch check 11 confirms that opening the strip on a sheet field does not dispose the text box (`TextBox_LostFocus`).
+
+## S3a-FU2: the clipboard hardening (branch `net10/s3a-fu2-1`)
+
+The lead's item "Clipboard hardening, for a follow-up" above is done.
+
+- **The read.** `NodeTypeAndKeyClipboard.GetData` (the WinForms overload the paste uses, and the WPF one) no longer calls the data
+  object's `GetData(Format,false)`. It copies the memory block of `OpenPmsDental.NodeTypeAndKey.Json` through
+  `System.Runtime.InteropServices.ComTypes.IDataObject.GetData` with `TYMED_HGLOBAL` (`ReadBytes`: `GlobalSize`, `GlobalLock`, a copy,
+  `ReleaseStgMedium`) and reads it as UTF-8 JSON (`FromBytes`, then `FromJson` as before). No serializer is involved, so no data under the
+  format can reach the BinaryFormatter, whoever wrote it. The WinForms and WPF data objects, in this process and from the clipboard, are OLE
+  data objects; a data object that is not one gives no key.
+- **What is refused.** A block that starts with the serialized-object GUID `FD9EA796-3B13-4370-A679-56106BB288FB`
+  (`NodeTypeAndKeyClipboard.GuidSerializedObject`: what WinForms and WPF write before an object they serialized, and deserialize on
+  `GetData`); a block larger than 4096 + 64 bytes; more than 4096 bytes before the trailing zeros; and anything `FromJson` does not read. A
+  data object that throws, fails with a COM error or gives no handle gives no key; the paste's own catch stays.
+- **The writer is unchanged** (`SetData`: UTF-8 JSON in a `MemoryStream`), so copies made by S3a-M2's build paste as before.
+- **Tests** (`tests/S3aM1Tests/M2ClipboardOleTests.cs`, a private OLE data object `OleDataObjectPrivate` that makes a memory block on each
+  `GetData`; never the system clipboard):
+  - (a) the program's JSON (also zero filled after it) is read directly and through a WinForms and a WPF wrapper, and every read asks for
+    `TYMED_HGLOBAL` only;
+  - (b) a GUID-headed block: a `DeserializationWitness` object and a serialized JSON string. The WinForms data object's own `GetData` (the
+    old route) is shown to deserialize both (the witness counts it; the string comes back as the JSON). The new read rejects both and
+    deserializes nothing; the GUID followed by the JSON's bytes is rejected too. The block the WinForms data object writes for a
+    `NodeTypeAndKey` object starts with `GuidSerializedObject`, which pins the constant to the framework's;
+  - (c) empty, zeros only, 4096 + 65 bytes, 100000 bytes, random garbage, bytes that are not UTF-8, UTF-16 JSON, the JSON with text or a
+    zero and text after it, half the JSON, a data object that throws, a COM failure and a null handle all give no key.
+
+  `M2ClipboardTests`' round trips pass unchanged.
+- **For 3b.** The OLE read works on .NET 10 as it is (there `TryGetData<MemoryStream>` is the framework's own way). The proofs in (b) use
+  .NET Framework's WinForms `GetData`, which deserializes; on .NET 10 that route no longer does, and those two assertions change.
+- **Builds and runs (whole package S3a-FU2).** Full lane build (x86): 0 errors. Targeted runs, all passing: S3aM1Tests 42, MiddleTierMockTests
+  151, NoHqTests 99, WindowChecksTests 3 passed (its 29 opt-in window checks skipped without `OPMS_WINDOW_CHECKS=1`), ReleaseFlowTests 201
+  passed and 5 inconclusive (Release output and x64 files not built here, as before), LibWebTests 65, ImagingDeviceManagerTests 534,
+  ImagingCaptureTests 806, BINATests 33; the lane's x64 run of BINATests 33 of 33. `tools/Test-NoEolFlips.ps1`: no line-end flips.
