@@ -287,7 +287,8 @@ namespace ToothChartImageTests {
 				foreach(ChartSize chartSize in WpfCharts.GetChartSizes()) {
 					using ToothChartWrapper wrapper=WpfCharts.CreateWrapper(chartSize.Size);
 					ToothChartRelay relay=WpfCharts.CreateRelay(wrapper);
-					foreach(ChartScene scene in WpfCharts.GetChartScenes().Where(x => ChartScenes.GetSizes(x).Contains(chartSize))) {
+					//A scene added after TC-0's recording (TC-5 on) shows what DirectX never drew, so it has no DirectX picture to compare with.
+					foreach(ChartScene scene in WpfCharts.GetChartScenes().Where(x => x.HasLegacyRecording && ChartScenes.GetSizes(x).Contains(chartSize))) {
 						string name=chartSize.FolderName+"/"+scene.Name;
 						string pathDirectX=Path.Combine(TestPaths.BaselinesLegacy,"DirectX",chartSize.FolderName,scene.Name+".png");
 						if(!File.Exists(pathDirectX)) {

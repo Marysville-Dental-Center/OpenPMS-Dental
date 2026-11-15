@@ -1,4 +1,4 @@
-# Tooth chart call log (TC-2): caller ControlChart, scene Paint_Today, 394 calls
+# Tooth chart call log (TC-2): caller ControlChart, scene Paint_Today, 402 calls
 SetPrimary "4"
 SetPrimary "13"
 SetPrimary "20"
@@ -256,46 +256,54 @@ SetSurfaceColors "24" "F" #FFFFFFFF
 SetSurfaceColors "24" "F" #FFFFFFFF
 SetRetainedRoot "9" #FF0028C8
 SetImplant "17" #FF0028C8
+SetTextBelow "17" #FF0028C8 "Below"
 SetCrown "25" #FF0028C8
 SetCrown "2" #FF414BFF
 SetPontic "3" #FF414BFF
 SetCrown "4" #FF414BFF
 SetRetainedRoot "10" #FF0D2FD3
 SetImplant "18" #FF0D2FD3
+SetTextBelow "18" #FF0D2FD3 "Below"
 SetCrown "26" #FF0D2FD3
 SetPontic "6" #FF4E520A
 SetCrown "7" #FF4E520A
 SetCrown "8" #FF4E520A
 SetRetainedRoot "11" #FF1A36DE
 SetImplant "19" #FF1A36DE
+SetTextBelow "19" #FF1A36DE "Below"
 SetCrown "27" #FF1A36DE
 SetCrown "27" #FF5B5915
 SetCrown "28" #FF5B5915
 SetRetainedRoot "12" #FF273DE9
 SetImplant "20" #FF273DE9
+SetTextBelow "20" #FF273DE9 "Below"
 SetCrown "28" #FF273DE9
 SetCrown "2" #FF686020
 SetPontic "3" #FF686020
 SetCrown "4" #FF686020
 SetRetainedRoot "13" #FF3444F4
 SetImplant "21" #FF3444F4
+SetTextBelow "21" #FF3444F4 "Below"
 SetCrown "29" #FF3444F4
 SetPontic "6" #FF75672B
 SetCrown "7" #FF75672B
 SetCrown "8" #FF75672B
 SetRetainedRoot "14" #FFFFFFFF
 SetImplant "22" #FFFFFFFF
+SetTextBelow "22" #FFFFFFFF "Below"
 SetCrown "30" #FFFFFFFF
 SetCrown "27" #FFFFFFFF
 SetCrown "28" #FFFFFFFF
 SetRetainedRoot "15" #FFD09878
 SetImplant "23" #FFD09878
+SetTextBelow "23" #FFD09878 "Below"
 SetCrown "31" #FFD09878
 SetCrown "2" #FFDD9F83
 SetPontic "3" #FFDD9F83
 SetCrown "4" #FFDD9F83
 SetRetainedRoot "16" #FFFFFFFF
 SetImplant "24" #FFFFFFFF
+SetTextBelow "24" #FFFFFFFF "Below"
 SetCrown "32" #FFFFFFFF
 SetPontic "6" #FFFFFFFF
 SetCrown "7" #FFFFFFFF

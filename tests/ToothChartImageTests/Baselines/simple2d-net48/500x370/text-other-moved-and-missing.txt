@@ -1,0 +1,9 @@
+Scene: text-other-moved-and-missing
+Group: paint
+Description: Paint type Text on a missing tooth ("Ext" on 3), on a tooth shifted 2 mm mesially ("M" on 14), on a shown primary tooth ("P" on K) and on its neighbour's hidden primary tooth ("Q" on L, not drawn).
+Size: 500x370
+Colours: Printout
+Engine: Simple2D (ToothChart2D, GDI+)
+Bitmap: 500x370 Format32bppArgb
+Pixels SHA-256: 3764baf48f2cbcd08b77b8075155aefdfa2e21dd55118f97ddd53e64e64a637f
+Framework: .NET Framework 4.8, x86

@@ -1,0 +1,9 @@
+Scene: text-label-past-edge
+Group: free-text
+Description: Free-text labels whose points are at or past the edges (400,300; 409,306; 300,306; 409,0): each is drawn inside the picture.
+Size: 500x370
+Colours: Printout
+Engine: Simple2D (ToothChart2D, GDI+)
+Bitmap: 500x370 Format32bppArgb
+Pixels SHA-256: c0281d292f4af5c8fe61bec1835011c59a08ca5c7f9b63e97a1f6dc0daea8ae9
+Framework: .NET Framework 4.8, x86

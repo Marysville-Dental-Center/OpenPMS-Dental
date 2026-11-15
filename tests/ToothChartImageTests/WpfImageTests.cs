@@ -456,6 +456,19 @@ namespace ToothChartImageTests {
 					+"compare DirectX, the live view (the UI thread's work and WPF's frame, measured in a process that draws in software as the "
 					+"program does) and the renderer's picture.";
 			}
+			if(galleryName=="G2") {
+				return "Gallery G2 (package TC-5; TC-6's orthodontic hardware, retained roots and space maintainers follow in a second part): the new "
+					+"drawing of free text, the text paint types and the extraction graphic, in the WPF chart and in the Simple 2D chart. Free text "
+					+"(the Chart module's Draw tab, Add Text) is drawn at its place over everything, kept inside the picture, and can be moved with Move "
+					+"Text. Paint type Text with text other than \"W\" is drawn on the tooth's crown (O-22); \"W\" stays the watch mark. TextBelow (Open "
+					+"Dental 26.2) is drawn in a band along the top edge over the upper teeth and along the bottom edge under the lower teeth, centred on "
+					+"the tooth and cut to fit it, one line further in where the tooth has a watch mark (O-21); the procedure code window now offers it. "
+					+"The extraction graphic (O-20) is a new setting, off by default (Setup, Preferences, Chart - General: \"Show completed extractions "
+					+"with an X on the tooth chart\"): when it is on, a completed extraction draws the X in its status's colour over the missing tooth. "
+					+"The scenes marked \"new scene\" exist only from TC-5, because the old engines never drew this; the older text scenes show the old "
+					+"engines' pictures (which draw nothing for it) next to the new ones, and the column \"Simple 2D now\" shows the 2D chart's new "
+					+"pictures. Every other WPF picture is unchanged from G1 (the last column).";
+			}
 			return "Gallery "+galleryName+" of the WPF chart.";
 		}
 

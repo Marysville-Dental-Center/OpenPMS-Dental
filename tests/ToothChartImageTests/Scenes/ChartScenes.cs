@@ -60,6 +60,9 @@ namespace ToothChartImageTests {
 		///<summary>Sets the scene's state: primary teeth first, then missing teeth, movements and drawings, then procedures, then orthodontic
 		///hardware, the order of the Chart module's refill (ControlChart.FillToothChart).</summary>
 		public Action<ToothChartRelay> Apply;
+		///<summary>False for a scene added after TC-0's recording of the old engines (Baselines\legacy): it shows what only the WPF chart and the 2D
+		///chart draw (TC-5 on), so it has no DirectX, OpenGL or Simple 2D picture of today's chart, and the DirectX parity probes leave it out.</summary>
+		public bool HasLegacyRecording=true;
 
 		public override string ToString() {
 			return Name;
@@ -197,8 +200,9 @@ namespace ToothChartImageTests {
 
 		///<summary>Paints one procedure as the Chart module's paint switch does (ControlChart.DrawProcGraphics) for the given paint type, tooth,
 		///surfaces or range and status colours. listMissing holds the teeth that are missing or hidden, which turns bridge and denture teeth into
-		///pontics. The caller has already set those teeth missing. As in the Chart module, a completed extraction (C, EC or EO) draws nothing: the
-		///completion set the tooth missing, which the caller does. TextBelow (18) draws nothing today: no caller has a case for it (TC-5).</summary>
+		///pontics. The caller has already set those teeth missing. As in the Chart module with the extraction graphic off (the default, O-20), a
+		///completed extraction (C, EC or EO) draws nothing: the completion set the tooth missing, which the caller does (PaintCompletedExtraction
+		///draws it as with the setting on). TextBelow (18) goes to the relay's SetTextBelow since TC-5.</summary>
 		public static void Paint(ToothChartRelay relay,ToothPaintingType paintType,string toothNum,string surf,StatusColors statusColors,
 			params string[] arrayMissing)
 		{
@@ -279,11 +283,19 @@ namespace ToothChartImageTests {
 					relay.SetText(toothNum,colorDark,surf);//surf holds the procedure code's paint text
 					break;
 				case ToothPaintingType.TextBelow:
-					break;//No paint switch has a case for it today, so nothing is drawn; TC-5 adds the relay's SetTextBelow.
+					relay.SetTextBelow(toothNum,colorDark,surf);//surf holds the procedure code's paint text (TC-5)
+					break;
 				case ToothPaintingType.Veneer:
 					relay.SetVeneer(toothNum,colorLight);
 					break;
 			}
+		}
+
+		///<summary>A completed extraction (C, EC or EO) as the painter draws it with the extraction graphic on (O-20, TC-5): the big X in the status's
+		///dark colour over the tooth, which the caller has set missing.</summary>
+		public static void PaintCompletedExtraction(ToothChartRelay relay,string toothNum,StatusColors statusColors) {
+			ListPaintLog?.Add(ToothPaintingType.Extraction+" "+statusColors.Status);
+			relay.SetBigX(toothNum,statusColors.Dark);
 		}
 
 		///<summary>C, EC and EO: the statuses of work that is done. A completed extraction is shown as a missing tooth, not as an X.</summary>
@@ -450,6 +462,7 @@ namespace ToothChartImageTests {
 				AddOrthoScenes(listScenes);
 				AddSizeScenes(listScenes);
 				AddPerioScenes(listScenes);
+				AddTextAndExtractionScenes(listScenes);
 				_listScenes=listScenes;
 			}
 			return _listScenes;
@@ -881,20 +894,20 @@ namespace ToothChartImageTests {
 					Paint(relay,ToothPaintingType.Text,toothNum,"W",TP);
 				}
 			});
-			Add(listScenes,group,"text-other","Paint type Text with text other than \"W\" (\"Fx\" on 3, \"?\" on 14, \"ABC\" on 19, \"1\" on 30). Today's chart "
-				+"draws nothing for it (O-22).",relay => {
+			Add(listScenes,group,"text-other","Paint type Text with text other than \"W\" (\"Fx\" on 3, \"?\" on 14, \"ABC\" on 19, \"1\" on 30). The old charts "
+				+"draw nothing for it; the WPF and 2D charts draw it on the crown since TC-5 (O-22).",relay => {
 					Paint(relay,ToothPaintingType.Text,"3","Fx",TP);
 					Paint(relay,ToothPaintingType.Text,"14","?",C);
 					Paint(relay,ToothPaintingType.Text,"19","ABC",EC);
 					Paint(relay,ToothPaintingType.Text,"30","1",Cn);
 				});
 			Add(listScenes,group,"text-other-eo-r","Paint type Text with text other than \"W\" in the two statuses text-other leaves out: \"Rx\" on 5 (EO) and "
-				+"\"2\" on 28 (R). Today's chart draws nothing for it (O-22).",relay => {
+				+"\"2\" on 28 (R). The old charts draw nothing for it; the WPF and 2D charts draw it on the crown since TC-5 (O-22).",relay => {
 					Paint(relay,ToothPaintingType.Text,"5","Rx",EO);
 					Paint(relay,ToothPaintingType.Text,"28","2",R);
 				});
-			Add(listScenes,group,"text-below-statuses","Paint type TextBelow (18) with the paint text \"IMP\""+statusText+" Today's chart draws nothing for it: "
-				+"no caller paints TextBelow (O-21, TC-5).",relay => PaintStatuses(relay,ToothPaintingType.TextBelow,"IMP"));
+			Add(listScenes,group,"text-below-statuses","Paint type TextBelow (18) with the paint text \"IMP\""+statusText+" The old charts draw nothing for it "
+				+"(no caller painted TextBelow); the WPF and 2D charts draw it in the band at the edge, cut to fit the tooth, since TC-5 (O-21).",relay => PaintStatuses(relay,ToothPaintingType.TextBelow,"IMP"));
 			Add(listScenes,group,"retained-root","Retained roots (type 16) on 4, 13 and 20 (TP) and 29 (C). Today's chart draws nothing for them (O-23).",
 				relay => {
 					foreach(string toothNum in new[] { "4","13","20" }) {
@@ -1111,25 +1124,98 @@ namespace ToothChartImageTests {
 
 		private static void AddFreeTextScenes(List<ChartScene> listScenes) {
 			const string group="free-text";
-			Add(listScenes,group,"text-label-long","A long free-text label (\"Patient reports sensitivity to cold on the upper right\") at 20,140. Today's "
-				+"chart draws no free text.",relay => relay.AddText("Patient reports sensitivity to cold on the upper right",new PointF(20,140),Color.Black,1));
+			Add(listScenes,group,"text-label-long","A long free-text label (\"Patient reports sensitivity to cold on the upper right\") at 20,140. The old "
+				+"charts draw no free text; the WPF and 2D charts do since TC-5, the long label running to the picture's right edge.",relay => relay.AddText("Patient reports sensitivity to cold on the upper right",new PointF(20,140),Color.Black,1));
 			Add(listScenes,group,"text-labels-over-teeth","Free-text labels over teeth: \"cracked\" on 3, \"watch\" on 14, \"mobile\" on 24 and \"sore\" on "
-				+"30, in four colours. Today's chart draws no free text.",relay => {
+				+"30, in four colours. The old charts draw no free text; the WPF and 2D charts do since TC-5.",relay => {
 					relay.AddText("cracked",new PointF(60,40),Color.Red,2);
 					relay.AddText("watch",new PointF(310,40),Color.Blue,3);
 					relay.AddText("mobile",new PointF(195,260),Color.Green,4);
 					relay.AddText("sore",new PointF(80,265),Color.Purple,5);
 				});
-			Add(listScenes,group,"text-labels-at-edges","Free-text labels at the corners and edges (0,0; 380,0; 0,290; 370,290; 200,0). Today's chart "
-				+"draws no free text.",relay => {
+			Add(listScenes,group,"text-labels-at-edges","Free-text labels at the corners and edges (0,0; 380,0; 0,290; 370,290; 200,0). The old "
+				+"charts draw no free text; the WPF and 2D charts do since TC-5, each label kept inside the picture.",relay => {
 					relay.AddText("TL",new PointF(0,0),Color.Black,6);
 					relay.AddText("TR",new PointF(380,0),Color.Black,7);
 					relay.AddText("BL",new PointF(0,290),Color.Black,8);
 					relay.AddText("BR",new PointF(370,290),Color.Black,9);
 					relay.AddText("top",new PointF(200,0),Color.Black,10);
 				});
-			Add(listScenes,group,"text-label-moved","A free-text label after a move to 250,180 (moving is TC-2 and TC-5). Today's chart draws no free text.",
+			Add(listScenes,group,"text-label-moved","A free-text label after a move to 250,180 (moving is TC-2 and TC-5). The old charts draw no free text; the WPF and 2D charts do since TC-5.",
 				relay => relay.AddText("moved here",new PointF(250,180),Color.DarkBlue,11));
+		}
+
+		///<summary>TC-5's scenes (gallery G2): what only the WPF chart and the 2D chart draw, so the old engines have no recording of them
+		///(HasLegacyRecording false). Added after every older scene, so no older scene moves.</summary>
+		private static void AddTextAndExtractionScenes(List<ChartScene> listScenes) {
+			Add(listScenes,"paint","extraction-completed-graphic","The completed-extraction graphic on (O-20): C on 2 and 31, EC on 12, EO on 21, each "
+				+"tooth missing with the big X in its status's colour (the same teeth as extraction-completed, which shows the setting off).",relay => {
+					string[] arrayTeeth={ "2","12","21","31" };
+					StatusColors[] arrayStatusesCompleted={ C,EC,EO,C };
+					SetMissing(relay,arrayTeeth);
+					for(int i=0;i<arrayTeeth.Length;i++) {
+						PaintCompletedExtraction(relay,arrayTeeth[i],arrayStatusesCompleted[i]);
+					}
+				}).HasLegacyRecording=false;
+			Add(listScenes,"paint","extraction-completed-graphic-primary","The completed-extraction graphic on, in the primary dentition: C on missing "
+				+"primary teeth A and T, with a planned (TP) extraction of K for comparison.",relay => {
+					SetPrimary(relay,GetTeethWithPrimary());
+					SetMissing(relay,"A","T");
+					PaintCompletedExtraction(relay,"A",C);
+					PaintCompletedExtraction(relay,"T",C);
+					Paint(relay,ToothPaintingType.Extraction,"K","",TP);
+				}).HasLegacyRecording=false;
+			Add(listScenes,"paint","text-below-with-watch","TextBelow \"IMP\" on 3, 14, 19 and 30, with watch marks on 3 and 30: there the text moves in by "
+				+"one line, under the watch mark at the top and above it at the bottom.",relay => {
+					foreach(string toothNum in new[] { "3","30" }) {
+						Paint(relay,ToothPaintingType.Text,toothNum,"W",TP);
+					}
+					Paint(relay,ToothPaintingType.TextBelow,"3","IMP",TP);
+					Paint(relay,ToothPaintingType.TextBelow,"14","IMP",C);
+					Paint(relay,ToothPaintingType.TextBelow,"19","IMP",EC);
+					Paint(relay,ToothPaintingType.TextBelow,"30","IMP",Cn);
+				}).HasLegacyRecording=false;
+			Add(listScenes,"paint","text-below-cut-to-fit","Long TextBelow texts cut to fit the tooth: \"Implant planned\" on 8 and 25, \"Bone graft\" on 1 "
+				+"(at the picture's left edge), and \"Watch\" on primary tooth A (shown) and on primary tooth S (not shown, so not drawn).",relay => {
+					SetPrimary(relay,"4");
+					Paint(relay,ToothPaintingType.TextBelow,"8","Implant planned",TP);
+					Paint(relay,ToothPaintingType.TextBelow,"25","Implant planned",TP);
+					Paint(relay,ToothPaintingType.TextBelow,"1","Bone graft",R);
+					Paint(relay,ToothPaintingType.TextBelow,"A","Watch",EO);
+					Paint(relay,ToothPaintingType.TextBelow,"S","Watch",EO);
+				}).HasLegacyRecording=false;
+			Add(listScenes,"paint","text-other-moved-and-missing","Paint type Text on a missing tooth (\"Ext\" on 3), on a tooth shifted 2 mm mesially "
+				+"(\"M\" on 14), on a shown primary tooth (\"P\" on K) and on its neighbour's hidden primary tooth (\"Q\" on L, not drawn).",relay => {
+					SetPrimary(relay,"20");
+					SetMissing(relay,"3");
+					relay.MoveTooth("14",0,0,0,2,0,0);
+					Paint(relay,ToothPaintingType.Text,"3","Ext",TP);
+					Paint(relay,ToothPaintingType.Text,"14","M",C);
+					Paint(relay,ToothPaintingType.Text,"K","P",EC);
+					Paint(relay,ToothPaintingType.Text,"L","Q",EC);
+				}).HasLegacyRecording=false;
+			Add(listScenes,"free-text","text-label-past-edge","Free-text labels whose points are at or past the edges (400,300; 409,306; 300,306; 409,0): "
+				+"each is drawn inside the picture.",relay => {
+					relay.AddText("corner",new PointF(400,300),Color.Black,21);
+					relay.AddText("far",new PointF(409,306),Color.DarkRed,22);
+					relay.AddText("bottom",new PointF(300,306),Color.Blue,23);
+					relay.AddText("right",new PointF(409,0),Color.Green,24);
+				}).HasLegacyRecording=false;
+			ChartScene sceneAll=Add(listScenes,"free-text","text-all-kinds","Every TC-5 drawing together: free-text labels (\"Upper right\" at 30,60 and "
+				+"\"Lower left\" at 260,240), paint text \"Fx\" on 5, TextBelow \"IMP\" on 12 and 21, and the completed-extraction graphic on missing tooth 30 "
+				+"(C), at the chart's sizes, the big window and two sheet aspects included.",relay => {
+					SetMissing(relay,"30");
+					PaintCompletedExtraction(relay,"30",C);
+					Paint(relay,ToothPaintingType.Text,"5","Fx",TP);
+					Paint(relay,ToothPaintingType.TextBelow,"12","IMP",TP);
+					Paint(relay,ToothPaintingType.TextBelow,"21","IMP",R);
+					relay.AddText("Upper right",new PointF(30,60),Color.DarkBlue,31);
+					relay.AddText("Lower left",new PointF(260,240),Color.DarkGreen,32);
+				});
+			sceneAll.HasLegacyRecording=false;
+			sceneAll.ListSizesExtra.Add(SizeBigWindow);
+			sceneAll.ListSizesExtra.Add(SizeSheetWide);
+			sceneAll.ListSizesExtra.Add(SizeSheetTall);
 		}
 
 		private static void AddOrthoScenes(List<ChartScene> listScenes) {

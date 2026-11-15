@@ -1,5 +1,6 @@
-// P262-SCHEMA owner question 2 (answered on 2026-11-07): the paint type TextBelow (18) is hidden from the procedure code paint type lists until
-// the tooth chart draws it; a procedure code that already has it keeps it. The rule without a database, and the two windows read from the sources.
+// P262-SCHEMA owner question 2 (answered on 2026-11-07) hid the paint type TextBelow (18) from the procedure code paint type lists until the tooth
+// chart drew it. The WPF and 2D charts draw it since TC-5 (docs/specs/wpf-tooth-chart-plan.md, O-21), so every list offers it, last, and the new
+// code window's cast of the list index to the paint type stays valid. The rule without a database, and the two windows read from the sources.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
 using System.Collections.Generic;
@@ -12,23 +13,23 @@ namespace P262SchemaTests {
 	[TestClass]
 	public class PaintTypeListTests {
 		[TestMethod]
-		public void PaintTypes_TextBelowHidden_EveryOtherInNumberOrder() {
+		public void PaintTypes_EveryOneInNumberOrder_TextBelowLast() {
 			List<ToothPaintingType> listPaintTypes=ProcedureCodes.GetPaintTypesForList();
-			CollectionAssert.DoesNotContain(listPaintTypes,ToothPaintingType.TextBelow);
-			List<ToothPaintingType> listOthers=Enum.GetValues(typeof(ToothPaintingType)).Cast<ToothPaintingType>()
-				.Where(x => x!=ToothPaintingType.TextBelow).OrderBy(x => (int)x).ToList();
-			CollectionAssert.AreEqual(listOthers,listPaintTypes);
+			List<ToothPaintingType> listAll=Enum.GetValues(typeof(ToothPaintingType)).Cast<ToothPaintingType>().OrderBy(x => (int)x).ToList();
+			CollectionAssert.AreEqual(listAll,listPaintTypes);
+			CollectionAssert.Contains(listPaintTypes,ToothPaintingType.TextBelow,"The tooth chart draws TextBelow since TC-5.");
+			Assert.AreEqual(ToothPaintingType.TextBelow,listPaintTypes.Last(),"TextBelow is the last value.");
 			for(int i=0;i<listPaintTypes.Count;i++) {
-				Assert.AreEqual(i,(int)listPaintTypes[i],"The new code window casts the list index to the paint type.");
+				Assert.AreEqual(i,(int)listPaintTypes[i],"The new code window casts the list index to the paint type: no gap in the values.");
 			}
-			CollectionAssert.AreEqual(listPaintTypes,ProcedureCodes.GetPaintTypesForList(ToothPaintingType.Text));
+			Assert.AreEqual(19,listPaintTypes.Count,"None to TextBelow: 0 to 18.");
 		}
 
 		[TestMethod]
-		public void PaintTypes_ACodeThatHasTextBelowKeepsIt() {
-			List<ToothPaintingType> listPaintTypes=ProcedureCodes.GetPaintTypesForList(ToothPaintingType.TextBelow);
-			Assert.AreEqual(ToothPaintingType.TextBelow,listPaintTypes.Last());
-			Assert.AreEqual(Enum.GetValues(typeof(ToothPaintingType)).Length,listPaintTypes.Count);
+		public void PaintTypes_TheSameListWhateverTheCodeHas() {
+			foreach(ToothPaintingType toothPaintingType in Enum.GetValues(typeof(ToothPaintingType))) {
+				CollectionAssert.AreEqual(ProcedureCodes.GetPaintTypesForList(),ProcedureCodes.GetPaintTypesForList(toothPaintingType),toothPaintingType.ToString());
+			}
 		}
 
 		[TestMethod]
@@ -39,6 +40,9 @@ namespace P262SchemaTests {
 			string codeNew=Read("OpenPmsDental","Forms","FormProcCodeNew.cs");
 			StringAssert.Contains(codeNew,"List<ToothPaintingType> listPaintTypes=ProcedureCodes.GetPaintTypesForList();");
 			Assert.IsFalse(codeNew.Contains("Enum.GetNames(typeof(ToothPaintingType))"));
+			StringAssert.Contains(codeNew,"procedureCode.PaintType=(ToothPaintingType)comboPaintType.SelectedIndex;","The cast the list order keeps valid.");
+			//The paint text box shows for Text and TextBelow, the two paint types that draw it.
+			StringAssert.Contains(edit,"if(listPaintType.GetSelected<ToothPaintingType>().In(ToothPaintingType.Text,ToothPaintingType.TextBelow)){");
 		}
 
 		private static string Read(params string[] arrayParts) {

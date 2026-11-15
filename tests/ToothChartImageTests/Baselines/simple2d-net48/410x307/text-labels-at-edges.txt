@@ -1,0 +1,9 @@
+Scene: text-labels-at-edges
+Group: free-text
+Description: Free-text labels at the corners and edges (0,0; 380,0; 0,290; 370,290; 200,0). The old charts draw no free text; the WPF and 2D charts do since TC-5, each label kept inside the picture.
+Size: 410x307
+Colours: Module
+Engine: Simple2D (ToothChart2D, GDI+)
+Bitmap: 410x307 Format32bppArgb
+Pixels SHA-256: 9b3e072997724eea6cc966d2b122bc123f16f30c7140b335155ecfba6ba55ad7
+Framework: .NET Framework 4.8, x86

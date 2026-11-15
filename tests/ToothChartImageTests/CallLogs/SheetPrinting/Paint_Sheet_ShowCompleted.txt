@@ -1,4 +1,4 @@
-# Tooth chart call log (TC-2): caller SheetPrinting, scene Paint_Sheet_ShowCompleted, 312 calls
+# Tooth chart call log (TC-2): caller SheetPrinting, scene Paint_Sheet_ShowCompleted, 318 calls
 SetPrimary "4"
 SetPrimary "13"
 SetPrimary "20"
@@ -197,6 +197,7 @@ SetSpaceMaintainer "22" #FFD09878
 SetSpaceMaintainer "23" #FFD09878
 SetSpaceMaintainer "24" #FFD09878
 SetSurfaceColors "23" "V" #FF5A0AA0
+SetTextBelow "17" #FF0028C8 "Below"
 SetRetainedRoot "9" #FF0028C8
 SetCrown "2" #FF414BFF
 SetPontic "3" #FF414BFF
@@ -204,6 +205,7 @@ SetCrown "4" #FF414BFF
 SetCrown "25" #FF0028C8
 SetImplant "17" #FF0028C8
 SetRetainedRoot "10" #FF0D2FD3
+SetTextBelow "18" #FF0D2FD3 "Below"
 SetPontic "6" #FF4E520A
 SetCrown "7" #FF4E520A
 SetCrown "8" #FF4E520A
@@ -212,14 +214,17 @@ SetImplant "18" #FF0D2FD3
 SetCrown "27" #FF5B5915
 SetCrown "28" #FF5B5915
 SetCrown "27" #FF1A36DE
+SetTextBelow "19" #FF1A36DE "Below"
 SetImplant "19" #FF1A36DE
 SetRetainedRoot "11" #FF1A36DE
 SetImplant "20" #FF273DE9
 SetCrown "28" #FF273DE9
 SetRetainedRoot "12" #FF273DE9
+SetTextBelow "20" #FF273DE9 "Below"
 SetCrown "2" #FF686020
 SetPontic "3" #FF686020
 SetCrown "4" #FF686020
+SetTextBelow "21" #FF3444F4 "Below"
 SetRetainedRoot "13" #FF3444F4
 SetPontic "6" #FF75672B
 SetCrown "7" #FF75672B
@@ -232,6 +237,7 @@ SetCrown "2" #FFDD9F83
 SetPontic "3" #FFDD9F83
 SetCrown "4" #FFDD9F83
 SetRetainedRoot "15" #FFD09878
+SetTextBelow "23" #FFD09878 "Below"
 SetRCT "25" #FF0028C8
 SetSpaceMaintainer "17" #FF0028C8
 SetCrown "25" #FF0C2238

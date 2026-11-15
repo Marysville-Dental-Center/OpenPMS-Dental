@@ -1,0 +1,9 @@
+Scene: text-other-eo-r
+Group: paint
+Description: Paint type Text with text other than "W" in the two statuses text-other leaves out: "Rx" on 5 (EO) and "2" on 28 (R). The old charts draw nothing for it; the WPF and 2D charts draw it on the crown since TC-5 (O-22).
+Size: 500x370
+Colours: Printout
+Engine: Simple2D (ToothChart2D, GDI+)
+Bitmap: 500x370 Format32bppArgb
+Pixels SHA-256: fb888d0872a1682e7e8fcf538354478ecf4000c2d4350fc647c0e2c5cd72b27d
+Framework: .NET Framework 4.8, x86

@@ -97,6 +97,10 @@ namespace ToothChartImageTests {
 			_callLog.Add("SetText",toothID,color,text);
 		}
 
+		public void SetTextBelow(string toothID,Color color,string text) {
+			_callLog.Add("SetTextBelow",toothID,color,text);
+		}
+
 		public void SetVeneer(string toothID,Color color) {
 			_callLog.Add("SetVeneer",toothID,color);
 		}

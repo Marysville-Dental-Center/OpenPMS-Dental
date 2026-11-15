@@ -1,0 +1,9 @@
+Scene: text-below-cut-to-fit
+Group: paint
+Description: Long TextBelow texts cut to fit the tooth: "Implant planned" on 8 and 25, "Bone graft" on 1 (at the picture's left edge), and "Watch" on primary tooth A (shown) and on primary tooth S (not shown, so not drawn).
+Size: 410x307
+Colours: Module
+Engine: Simple2D (ToothChart2D, GDI+)
+Bitmap: 410x307 Format32bppArgb
+Pixels SHA-256: 0a3ea3bc9ed374012868574574243644fc1867f631cfef1f1caae6929a09b711
+Framework: .NET Framework 4.8, x86

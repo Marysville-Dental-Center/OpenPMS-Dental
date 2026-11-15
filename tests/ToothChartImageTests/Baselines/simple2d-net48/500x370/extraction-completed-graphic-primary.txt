@@ -1,0 +1,9 @@
+Scene: extraction-completed-graphic-primary
+Group: paint
+Description: The completed-extraction graphic on, in the primary dentition: C on missing primary teeth A and T, with a planned (TP) extraction of K for comparison.
+Size: 500x370
+Colours: Printout
+Engine: Simple2D (ToothChart2D, GDI+)
+Bitmap: 500x370 Format32bppArgb
+Pixels SHA-256: d81241e493db1367bd63ca90f58c708af4d28e59500da5ba381a1e4380699907
+Framework: .NET Framework 4.8, x86

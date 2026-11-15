@@ -1,0 +1,9 @@
+Scene: text-below-with-watch
+Group: paint
+Description: TextBelow "IMP" on 3, 14, 19 and 30, with watch marks on 3 and 30: there the text moves in by one line, under the watch mark at the top and above it at the bottom.
+Size: 500x370
+Colours: Printout
+Engine: Simple2D (ToothChart2D, GDI+)
+Bitmap: 500x370 Format32bppArgb
+Pixels SHA-256: acaf03d1f40f5ed7d81ae8e8149ce92dccb1d7c97058ba78d9d2dc8c94edfbb1
+Framework: .NET Framework 4.8, x86
