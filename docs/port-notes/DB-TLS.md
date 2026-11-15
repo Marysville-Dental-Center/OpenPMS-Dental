@@ -796,4 +796,6 @@ addresses of "this computer": `10.0.0.5` (also when this computer has it), two h
 broadcast addresses, a leading zero, the one-number form, another documentation range; each refused before the CA is read; the local
 `192.0.2.25` passes). Nothing ran elevated, opened or deleted a real key, or connected anywhere but `127.0.0.1:3306`.
 
-Results: RESULTS-PENDING
+Results: the full lane build has no error. Targeted runs, all passed: `DbConnectionSecurityTests` 239 (228 passed; the same 11
+inconclusive by design until the owner's run as in section 11.5), with the two new tests passing; `NoHqTests` 57 passed. `InitSqlTests`
+and `ForkMigrationTests` left out under the rule for every package (no schema change here).
