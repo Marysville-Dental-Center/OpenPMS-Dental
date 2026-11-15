@@ -1141,7 +1141,11 @@ namespace OpenPmsDentalBusiness{
 					command="SELECT Procs.*, (CASE WHEN ISNULL(ehrmeasureevent.EhrMeasureEventNum) THEN 0 ELSE 1 END) AS summaryProvided "
 							+"FROM ( "
 								+"SELECT patient.PatNum,LName,FName,ProcDate AS visitDate, "
-								+"(CASE WHEN DAYOFWEEK(ProcDate) IN (4,5,6) THEN "+DbHelper.DateAddDay("ProcDate","5") +" ELSE "+DbHelper.DateAddDay("ProcDate","3")+" END) AS 'DeadlineDate' "
+								//EHR-4c (EHR4B-D16): the third business day, Monday to Friday, after the visit (13_Clinical_Summaries, May 2014): 5 days after a
+								//Wednesday, Thursday or Friday, 4 after a Saturday (the Wednesday), 3 after a Sunday, Monday or Tuesday. Compared by date.
+								+"(CASE WHEN DAYOFWEEK(ProcDate) IN (4,5,6) THEN "+DbHelper.DateAddDay("ProcDate","5")+" "
+								+"WHEN DAYOFWEEK(ProcDate)=7 THEN "+DbHelper.DateAddDay("ProcDate","4")+" "//saturday
+								+"ELSE "+DbHelper.DateAddDay("ProcDate","3")+" END) AS 'DeadlineDate' "
 								+"FROM procedurelog "
 								+"INNER JOIN procedurecode ON procedurelog.CodeNum = procedurecode.CodeNum "
 								+"AND procedurecode.ProcCode NOT IN ('D9986','D9987') "
