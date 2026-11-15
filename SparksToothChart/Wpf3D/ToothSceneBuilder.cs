@@ -60,7 +60,7 @@ namespace SparksToothChart.Wpf3D {
 
 		#region Chart scene
 		///<summary>DirectX's DrawScene: for each tooth the facial view, then the occlusal view; then the watches, the drawings, the centre line and the
-		///numbers. TC-5 adds what DirectX does not draw: the paint text on the teeth and the TextBelow bands after the watches, and the free-text
+		///numbers. TC-5 adds what DirectX does not draw: the paint text in the watch band after the watches, and the free-text
 		///labels last, over everything.</summary>
 		private static void AddChartScene(SceneBuilding building) {
 			ToothChartData tcData=building.TcData;
@@ -73,7 +73,6 @@ namespace SparksToothChart.Wpf3D {
 			}
 			AddWatches(building);
 			AddPaintTexts(building);
-			AddTextsBelow(building);
 			AddDrawingSegments(building);
 			AddNumbersAndLines(building);
 			AddFreeTexts(building);
@@ -636,57 +635,28 @@ namespace SparksToothChart.Wpf3D {
 		}
 		#endregion 2D layer
 
-		#region Text of TC-5: paint text, TextBelow and free text
-		///<summary>Where the paint text's centre sits on the tooth, in mm from the tooth's facial position (GetTransYfacial) toward the occlusal plane:
-		///the middle of the crown in the facial view.</summary>
-		public const float PaintTextCrownOffsetMm=3.5f;
+		#region Text of TC-5: paint text and free text
 		///<summary>The start of the Source of each kind of TC-5 text item, for tests and messages. None starts with "number ", "sealant " or "watch ",
 		///the sources the DirectX parity tests probe.</summary>
 		public const string SourcePaintText="paint text of ";
-		public const string SourceTextBelow="text below ";
 		public const string SourceFreeText="free text ";
 
-		///<summary>Paint type Text with text other than "W" (O-22): each tooth's text, centred on its crown in the facial view, in the procedure's colour
-		///(opaque) and the bold paint text font. It follows the tooth's mesial shift as the watch mark does and stays upright. A permanent tooth's text
-		///shows even when the tooth is missing, as its watch mark does; a primary tooth's only when the primary tooth is shown.</summary>
+		///<summary>Paint type Text with text other than "W" (O-22, as Open Dental draws it: "Fracture" above maxillary 9 in its 2021 tip, "UCF" under
+		///mandibular 24 and 25 in its 26.2 screenshot): each tooth's text in the watch mark's band beyond the root tip, above a maxillary tooth and
+		///below a mandibular one, centred on the tooth with its mesial shift (the watch mark's x), in the procedure's colour (opaque) and the paint
+		///text font (the watch mark's font, regular weight). When the tooth's place also has a watch mark (GetWatchPositions), the text goes one line
+		///nearer the tooth and the "W" stays at the edge, as "UCF" over "W" in the 26.2 screenshot (seen on the mandible; the maxilla mirrors it). A
+		///permanent tooth's text shows even when the tooth is missing, as its watch mark does; a primary tooth's only when the primary tooth is
+		///shown. The text stays inside the picture across.</summary>
 		private static void AddPaintTexts(SceneBuilding building) {
-			ToothChartData tcData=building.TcData;
-			for(int t=0;t<tcData.ListToothGraphics.Count;t++) {
-				ToothGraphic toothGraphic=tcData.ListToothGraphics[t];
-				if(toothGraphic.ToothID=="implant" || string.IsNullOrEmpty(toothGraphic.PaintText)) {
-					continue;
-				}
-				if(Tooth.IsPrimary(toothGraphic.ToothID) && !toothGraphic.Visible) {
-					continue;
-				}
-				string toothId=toothGraphic.ToothID;
-				float yMm=tcData.GetTransYfacial(toothId);
-				yMm+=ToothGraphic.IsMaxillary(toothId) ? -PaintTextCrownOffsetMm : PaintTextCrownOffsetMm;
-				float xScreen;
-				float yScreen;
-				building.Scene.ProjectDirectX(ChartMatrix.Identity,GetShiftedTransX(tcData,toothGraphic),yMm,0,out xScreen,out yScreen);
-				ChartFont font=building.FontPaintText;
-				int widthPixels=ChartFontMeasure.MeasureText(font,toothGraphic.PaintText).Width;
-				Point origin=new Point((int)Math.Ceiling(xScreen-widthPixels/2f),(int)Math.Floor(yScreen-font.Height/2f));
-				building.ListItems2D.Add(ToothSceneItem2D.CreateText(toothGraphic.PaintText,Color.FromArgb(255,toothGraphic.colorPaintText),font,origin,
-					widthPixels,SourcePaintText+toothId));
-			}
-		}
-
-		///<summary>Paint type TextBelow (O-21): each tooth's text in the band along the picture's edge beyond the tooth, the top edge for a maxillary
-		///tooth and the bottom edge for a mandibular one, centred on the tooth (with its mesial shift), in the procedure's colour (opaque), cut to fit
-		///the tooth's width in the layout (GetTextBelowFitted). The watch mark sits in the same band, so on a tooth with a watch mark the text moves in
-		///by the watch mark's line. A permanent tooth's text shows even when the tooth is missing; a primary tooth's only when it is shown. The text
-		///stays inside the picture.</summary>
-		private static void AddTextsBelow(SceneBuilding building) {
 			ToothChartData tcData=building.TcData;
 			List<string> listWatchPositions=GetWatchPositions(tcData);
 			Size size=building.Scene.Size;
-			float pixelsPerMm=size.Width/building.Scene.WidthProjection;
-			ChartFont font=building.FontTextBelow;
+			ChartFont font=building.FontPaintText;
+			float toMm=1f/tcData.ScaleMmToPix;
 			for(int t=0;t<tcData.ListToothGraphics.Count;t++) {
 				ToothGraphic toothGraphic=tcData.ListToothGraphics[t];
-				if(toothGraphic.ToothID=="implant" || string.IsNullOrEmpty(toothGraphic.TextBelow)) {
+				if(toothGraphic.ToothID=="implant" || string.IsNullOrEmpty(toothGraphic.PaintText)) {
 					continue;
 				}
 				string toothId=toothGraphic.ToothID;
@@ -695,40 +665,24 @@ namespace SparksToothChart.Wpf3D {
 					continue;
 				}
 				string toothIdPerm=isPrimary ? Tooth.PriToPerm(toothId) : toothId;
-				int widthMax=(int)Math.Floor(ToothGraphic.GetWidth(toothIdPerm)*pixelsPerMm);
-				string text=GetTextBelowFitted(font,toothGraphic.TextBelow,widthMax);
-				int widthPixels=ChartFontMeasure.MeasureText(font,text).Width;
+				bool isMaxillary=ToothGraphic.IsMaxillary(toothId);
+				//The watch mark's line (AddWatches): its top at 153 pixels times the ratio above the centre over a maxillary tooth, 138 below it under a
+				//mandibular one.
+				float yMm=isMaxillary ? tcData.PixelScaleRatio*(153f*toMm) : tcData.PixelScaleRatio*(-138f*toMm);
 				float xScreen;
 				float yScreen;
-				building.Scene.ProjectDirectX(ChartMatrix.Identity,GetShiftedTransX(tcData,toothGraphic),0,0,out xScreen,out yScreen);
+				building.Scene.ProjectDirectX(ChartMatrix.Identity,GetShiftedTransX(tcData,toothGraphic),yMm,-6f,out xScreen,out yScreen);
+				int widthPixels=ChartFontMeasure.MeasureText(font,toothGraphic.PaintText).Width;
 				int x=(int)Math.Ceiling(xScreen-widthPixels/2f);
 				x=Math.Max(0,Math.Min(x,size.Width-widthPixels));
-				int lineWatch=listWatchPositions.Contains(toothIdPerm) ? building.FontWatch.Height : 0;
-				int y;
-				if(ToothGraphic.IsMaxillary(toothId)) {
-					y=lineWatch;
+				int y=(int)Math.Floor(yScreen);
+				if(listWatchPositions.Contains(toothIdPerm)) {
+					y+=isMaxillary ? building.FontWatch.Height : -building.FontWatch.Height;//one line nearer the tooth; the "W" keeps the edge
 				}
-				else {
-					y=size.Height-font.Height-lineWatch;
-				}
-				building.ListItems2D.Add(ToothSceneItem2D.CreateText(text,Color.FromArgb(255,toothGraphic.colorTextBelow),font,new Point(x,y),widthPixels,
-					SourceTextBelow+toothId));
+				building.ListItems2D.Add(ToothSceneItem2D.CreateText(toothGraphic.PaintText,Color.FromArgb(255,toothGraphic.colorPaintText),font,
+					new Point(x,y),widthPixels,SourcePaintText+toothId));
 			}
 		}
-
-		///<summary>text cut to fit widthMax pixels in the font: characters are dropped from the end until it fits. At least the first character stays,
-		///so a code's text never disappears.</summary>
-		public static string GetTextBelowFitted(ChartFont font,string text,int widthMax) {
-			if(string.IsNullOrEmpty(text)) {
-				return "";
-			}
-			string textFitted=text;
-			while(textFitted.Length>1 && ChartFontMeasure.MeasureText(font,textFitted).Width>widthMax) {
-				textFitted=textFitted.Substring(0,textFitted.Length-1);
-			}
-			return textFitted;
-		}
-
 		///<summary>The permanent tooth positions where a watch mark is drawn, by the rules of AddWatches: a permanent tooth's watch always, a primary
 		///tooth's when the primary tooth is shown (in its permanent tooth's place).</summary>
 		private static List<string> GetWatchPositions(ToothChartData tcData) {
@@ -816,7 +770,7 @@ namespace SparksToothChart.Wpf3D {
 			}
 			return listBoxes;
 		}
-		#endregion Text of TC-5: paint text, TextBelow and free text
+		#endregion Text of TC-5: paint text and free text
 
 		#region Fonts
 		///<summary>DirectX's PrepareForDirectX: the numbers' font, Arial with a cell height of 14 and an average width of 5 pixels at the original
@@ -846,14 +800,10 @@ namespace SparksToothChart.Wpf3D {
 			return ChartFontMeasure.GetFont("Arial",Math.Max(1,(int)Math.Round(14*pixelScaleRatio)),0,400);
 		}
 
-		///<summary>TC-5's paint text on a tooth (paint type Text other than "W"): Arial 13 times the ratio, bold, so it reads over the crown.</summary>
+		///<summary>TC-5's paint text (paint type Text other than "W"), in the watch mark's band: the watch mark's own font (GetFontWatch: Arial 15/6 times
+		///the ratio, regular weight), as Open Dental draws "UCF" beside its "W".</summary>
 		public static ChartFont GetFontPaintText(float pixelScaleRatio) {
-			return ChartFontMeasure.GetFont("Arial",Math.Max(1,(int)Math.Round(13*pixelScaleRatio)),0,700);
-		}
-
-		///<summary>TC-5's TextBelow band: Arial 13 times the ratio, normal weight.</summary>
-		public static ChartFont GetFontTextBelow(float pixelScaleRatio) {
-			return ChartFontMeasure.GetFont("Arial",Math.Max(1,(int)Math.Round(13*pixelScaleRatio)),0,400);
+			return GetFontWatch(pixelScaleRatio);
 		}
 		#endregion Fonts
 
@@ -871,7 +821,6 @@ namespace SparksToothChart.Wpf3D {
 			private ChartFont _fontWatchBig;
 			private ChartFont _fontFreeText;
 			private ChartFont _fontPaintText;
-			private ChartFont _fontTextBelow;
 
 			public SceneBuilding(ToothChartData tcData,Size size,float widthProj,float heightProj) {
 				TcData=tcData;
@@ -929,15 +878,6 @@ namespace SparksToothChart.Wpf3D {
 						_fontPaintText=GetFontPaintText(TcData.PixelScaleRatio);
 					}
 					return _fontPaintText;
-				}
-			}
-
-			public ChartFont FontTextBelow {
-				get {
-					if(_fontTextBelow==null) {
-						_fontTextBelow=GetFontTextBelow(TcData.PixelScaleRatio);
-					}
-					return _fontTextBelow;
 				}
 			}
 		}

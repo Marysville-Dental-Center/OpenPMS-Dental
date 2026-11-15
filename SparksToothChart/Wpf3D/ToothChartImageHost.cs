@@ -54,6 +54,7 @@ namespace SparksToothChart.Wpf3D {
 			_toothChartMouse.SegmentDrawn+=(sender,e) => OnSegmentDrawn(e.DrawingSegement);
 			_toothChartMouse.ToothSelectionsChanged+=sender => OnToothSelectionsChanged();
 			_toothChartMouse.TextMoved+=(sender,e) => TextMoved?.Invoke(this,e);
+			_toothChartMouse.TextColorChanged+=(sender,e) => TextColorChanged?.Invoke(this,e);
 		}
 
 		#region Events
@@ -65,6 +66,9 @@ namespace SparksToothChart.Wpf3D {
 
 		[Category("OD"),Description("Occurs on mouse up after a free-text label was dragged with the text mover (TC-5).")]
 		public event ToothChartTextMovedEventHandler TextMoved=null;
+
+		[Category("OD"),Description("Occurs on mouse down when Change Color recoloured a free-text label (TC-5).")]
+		public event ToothChartTextColorChangedEventHandler TextColorChanged=null;
 
 		protected void OnSegmentDrawn(string drawingSegment) {
 			SegmentDrawn?.Invoke(this,new ToothChartDrawEventArgs(drawingSegment));

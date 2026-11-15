@@ -1100,8 +1100,9 @@ namespace OpenPmsDentalBusiness{
 		///<summary>17</summary>
 		SpaceMaintainer,
 		///<summary>18 - Open Dental 26.2 (procedurecode.PaintType, OpenDentalDiffDocumentation26-2.xml). The documents give only the name. Defined so
-		///that procedure codes written by Open Dental load and Database Maintenance does not reset them to None. Since TC-5 the tooth chart draws the
-		///paint text in a band at its edge beyond the tooth (owner question O-21 of docs/specs/wpf-tooth-chart-plan.md).</summary>
+		///that procedure codes written by Open Dental load and Database Maintenance does not reset them to None. Since TC-5 the Chart module shows the
+		///paint text in a one-line strip under its date slider, outside the tooth picture, as Open Dental 26.2 does (owner question O-21 of
+		///docs/specs/wpf-tooth-chart-plan.md).</summary>
 		TextBelow=18,
 	}
 	

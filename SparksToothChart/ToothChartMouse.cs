@@ -12,7 +12,8 @@ namespace SparksToothChart {
 	///(radius 8 at the cursor plus 8.49) and the colour changer (radius 2) raise SegmentDrawn with the string of the drawing they touch, then remove
 	///it or give it the pen colour. ToothSelectionsChanged is raised on mouse up when the selection changed. Every button acts, as in DirectX.
 	///The text mover (CursorTool.MoveText, TC-5), which DirectX never had, picks up the free-text label under the mouse, moves it with the mouse and
-	///raises TextMoved on mouse up with its new place.
+	///raises TextMoved on mouse up with its new place. With no drawing near, the colour changer gives the free-text label under the mouse the pen
+	///colour and raises TextColorChanged (TC-5).
 	///The control asks for a new image through ActionChartChanged (selection or drawings changed) and redraws only the stroke in progress through
 	///ActionPenStrokeChanged, as DirectX draws the stroke over the teeth without drawing them again. No visible hover, as today. The 2D chart keeps
 	///its own mouse code: it toggles only the tooth under the cursor, a difference that stays. The DirectX chart keeps its own handlers until TC-9a
@@ -48,6 +49,9 @@ namespace SparksToothChart {
 		///<summary>On mouse up that ends a drag of a free-text label with CursorTool.MoveText (TC-5): the label's number and its new top left in the
 		///410x307 drawing space.</summary>
 		public event ToothChartTextMovedEventHandler TextMoved=null;
+		///<summary>On mouse down with CursorTool.ColorChanger on a free-text label and no drawing near (TC-5): the label's number and its new colour,
+		///the pen colour.</summary>
+		public event ToothChartTextColorChangedEventHandler TextColorChanged=null;
 
 		///<summary>True between mouse down and mouse up.</summary>
 		public bool IsMouseDown {
@@ -81,6 +85,9 @@ namespace SparksToothChart {
 					tcData.DrawingSegmentList[indexSegment].ColorDraw=tcData.ColorDrawing;
 					ActionChartChanged?.Invoke();
 				}
+				else {
+					RecolorFreeText(tcData,location);
+				}
 			}
 			else if(tcData.CursorTool==CursorTool.MoveText) {
 				PickUpFreeText(tcData,location);
@@ -103,6 +110,24 @@ namespace SparksToothChart {
 				_pointMouseDownFreeText=location;
 				//The label's point is not changed until the mouse moves (MoveFreeText starts from _pointFreeTextStart): a press that never reaches
 				//MouseUp (the capture lost, a dialog, Alt-Tab) leaves the chart's data as it was.
+				return;
+			}
+		}
+
+		///<summary>ColorChanger with no drawing near the "wand" (TC-5; Open Dental's manual: Change Color is "to change the color of an existing drawing
+		///or text"): the free-text label under the mouse, the top-most (the last drawn) as MoveText picks one up, gets the pen colour
+		///(ToothChartData.ColorDrawing), and TextColorChanged is raised with its number and the colour, so the Chart module saves it. Nothing when the
+		///press is not on a label.</summary>
+		private void RecolorFreeText(ToothChartData tcData,Point location) {
+			List<Wpf3D.FreeTextBox> listBoxes=Wpf3D.ToothSceneBuilder.GetFreeTextBoxes(tcData);
+			for(int i=listBoxes.Count-1;i>=0;i--) {
+				if(!listBoxes[i].Bounds.Contains(location)) {
+					continue;
+				}
+				ToothChartFreeText freeText=listBoxes[i].FreeText;
+				freeText.ColorText=tcData.ColorDrawing;
+				ActionChartChanged?.Invoke();
+				TextColorChanged?.Invoke(this,new ToothChartTextColorChangedEventArgs(freeText.ToothInitialNum,freeText.ColorText));
 				return;
 			}
 		}

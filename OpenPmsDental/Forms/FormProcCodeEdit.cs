@@ -365,7 +365,7 @@ namespace OpenPmsDental{
 		}
 
 		private void listPaintType_SelectedIndexChanged(object sender, EventArgs e){
-			//The paint text is drawn for Text (on the tooth; "W" is the watch mark) and for TextBelow (in the band at the chart's edge, TC-5).
+			//The paint text is drawn for Text (beyond the root tip; "W" is the watch mark) and shown for TextBelow (in the Chart module's strip under the date slider, TC-5).
 			if(listPaintType.GetSelected<ToothPaintingType>().In(ToothPaintingType.Text,ToothPaintingType.TextBelow)){
 				labelPaintText.Visible=true;
 				textPaintText.Visible=true;

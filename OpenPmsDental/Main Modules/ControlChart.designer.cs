@@ -256,6 +256,7 @@
 			this.button1 = new OpenPmsDental.UI.Button();
 			this.gridPtInfo = new OpenPmsDental.UI.GridOD();
 			this.textTreatmentNotes = new OpenPmsDental.ODtextBox();
+			this.textTextBelow = new OpenPmsDental.ToothChartTextBelowStrip();
 			this.tabControlImages.SuspendLayout();
 			this.panelImages.SuspendLayout();
 			this.tabControlProc.SuspendLayout();
@@ -2640,6 +2641,18 @@
 			this.gridPtInfo.CellDoubleClick += new OpenPmsDental.UI.ODGridClickEventHandler(this.gridPtInfo_CellDoubleClick);
 			this.gridPtInfo.MouseDown += new System.Windows.Forms.MouseEventHandler(this.gridPtInfo_MouseDown);
 			// 
+			// textTextBelow
+			// 
+			this.textTextBelow.BackColor = System.Drawing.SystemColors.Window;
+			this.textTextBelow.ForeColor = System.Drawing.Color.Black;
+			this.textTextBelow.Location = new System.Drawing.Point(0, 362);
+			this.textTextBelow.Name = "textTextBelow";
+			this.textTextBelow.ReadOnly = true;
+			this.textTextBelow.Size = new System.Drawing.Size(410, 20);
+			this.textTextBelow.TabIndex = 188;
+			this.textTextBelow.TabStop = false;
+			this.textTextBelow.Visible = false;
+			// 
 			// textTreatmentNotes
 			// 
 			this.textTreatmentNotes.AcceptsTab = true;
@@ -2676,6 +2689,7 @@
 			this.Controls.Add(this.button1);
 			this.Controls.Add(this.gridPtInfo);
 			this.Controls.Add(this.textTreatmentNotes);
+			this.Controls.Add(this.textTextBelow);
 			this.Controls.Add(this.panelTPpriority);
 			this.Name = "ControlChart";
 			this.Size = new System.Drawing.Size(939, 708);
@@ -2896,6 +2910,7 @@
 		private System.Windows.Forms.TrackBar trackToothProcDates;
 		private System.Windows.Forms.Label textToothProcDate;
 		private ODtextBox textTreatmentNotes;
+		private ToothChartTextBelowStrip textTextBelow;
 		private System.Windows.Forms.MenuItem menuItemDoseSpotPendingPescr;
 		private System.Windows.Forms.MenuItem menuItemDoseSpotRefillReqs;
 		private System.Windows.Forms.MenuItem menuItemDoseSpotTransactionErrors;

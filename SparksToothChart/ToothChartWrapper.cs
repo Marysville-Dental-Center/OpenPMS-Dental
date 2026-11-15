@@ -100,6 +100,11 @@ namespace SparksToothChart {
 		///the move.</summary>
 		[Category("Action"),Description("Occurs when the mouse goes up after moving a text label.")]
 		public event ToothChartTextMovedEventHandler TextMoved=null;
+		///<summary>The Draw tab's Change Color (CursorTool.ColorChanger) was pressed on a free-text label (ToothInitialType.Text), which now has the
+		///pen colour (TC-5; Open Dental's manual: "change the color of an existing drawing or text"). The WPF chart raises it on mouse down; the
+		///other engines do not. The relay passes it on, and the Chart module saves the colour.</summary>
+		[Category("Action"),Description("Occurs when Change Color is pressed on a text label.")]
+		public event ToothChartTextColorChangedEventHandler TextColorChanged=null;
 
 		public ToothChartWrapper() {
 			drawMode=DrawingMode.Simple2D;
@@ -484,6 +489,7 @@ namespace SparksToothChart {
 				toothChartImageHost.SegmentDrawn+=new ToothChartDrawEventHandler(toothChart_SegmentDrawn);
 				toothChartImageHost.ToothSelectionsChanged+=new ToothChartSelectionEventHandler(toothChart_ToothSelectionsChanged);
 				toothChartImageHost.TextMoved+=new ToothChartTextMovedEventHandler(toothChart_TextMoved);
+				toothChartImageHost.TextColorChanged+=new ToothChartTextColorChangedEventHandler(toothChart_TextColorChanged);
 				toothChartImageHost.TcData=tcData;
 				toothChartImageHost.LayerCache=_layerCacheWpf;
 				toothChartImageHost.ActionChartChanged=Invalidate;
@@ -929,6 +935,7 @@ namespace SparksToothChart {
 				toothChartWpfViewNew.SegmentDrawn+=new ToothChartDrawEventHandler(toothChart_SegmentDrawn);
 				toothChartWpfViewNew.ToothSelectionsChanged+=new ToothChartSelectionEventHandler(toothChart_ToothSelectionsChanged);
 				toothChartWpfViewNew.TextMoved+=new ToothChartTextMovedEventHandler(toothChart_TextMoved);
+				toothChartWpfViewNew.TextColorChanged+=new ToothChartTextColorChangedEventHandler(toothChart_TextColorChanged);
 				toothChartWpfViewNew.SetCursorTool(tcData.CursorTool);
 				this.Controls.Add(toothChartWpfViewNew);
 				toothChartWpfViewNew.BringToFront();
@@ -1673,27 +1680,15 @@ namespace SparksToothChart {
 			Invalidate();
 		}
 
-		///<summary>Paint type Text with text other than "W" (O-22, TC-5): the text is drawn on the tooth's crown in the colour. "W" is the watch mark
-		///(SetWatch; the relay chooses). A second call for the same tooth replaces the first; empty text draws nothing. The WPF chart and the 2D chart
-		///draw it; DirectX and OpenGL do not (they leave with TC-9a).</summary>
+		///<summary>Paint type Text with text other than "W" (O-22, TC-5): the text is drawn beyond the root tip, in the watch mark's band, in the
+		///colour. "W" is the watch mark (SetWatch; the relay chooses). A second call for the same tooth replaces the first; empty text draws nothing.
+		///The WPF chart and the 2D chart draw it; DirectX and OpenGL do not (they leave with TC-9a).</summary>
 		public void SetText(string toothID,Color color,string text) {
 			if(!ToothGraphic.IsValidToothID(toothID)) {
 				return;
 			}
 			tcData.ListToothGraphics[toothID].PaintText=text??"";
 			tcData.ListToothGraphics[toothID].colorPaintText=color;
-			Invalidate();
-		}
-
-		///<summary>Paint type TextBelow (O-21, TC-5): the text is drawn in the band at the chart's edge beyond the tooth (the top edge for a maxillary
-		///tooth, the bottom edge for a mandibular one), centred on the tooth and cut to fit its width. A second call for the same tooth replaces the
-		///first; empty text draws nothing. The WPF chart and the 2D chart draw it.</summary>
-		public void SetTextBelow(string toothID,Color color,string text) {
-			if(!ToothGraphic.IsValidToothID(toothID)) {
-				return;
-			}
-			tcData.ListToothGraphics[toothID].TextBelow=text??"";
-			tcData.ListToothGraphics[toothID].colorTextBelow=color;
 			Invalidate();
 		}
 
@@ -1842,6 +1837,10 @@ namespace SparksToothChart {
 			OnTextMoved(e.ToothInitialNum,e.Location);
 		}
 
+		private void toothChart_TextColorChanged(object sender,ToothChartTextColorChangedEventArgs e) {
+			TextColorChanged?.Invoke(this,e);
+		}
+
 		//public void SimulateMouseDown(MouseEventArgs e) {
 
 		//}
@@ -1864,6 +1863,8 @@ namespace SparksToothChart {
 	public delegate void ToothChartSelectionEventHandler(object sender);
 	///<summary>TextMoved: a free-text label was moved.</summary>
 	public delegate void ToothChartTextMovedEventHandler(object sender,ToothChartTextMovedEventArgs e);
+	///<summary>TextColorChanged: a free-text label was given the pen colour.</summary>
+	public delegate void ToothChartTextColorChangedEventHandler(object sender,ToothChartTextColorChangedEventArgs e);
 
 	///<summary>The label a TextMoved moved (toothinitial.ToothInitialNum) and where it was dropped, in the chart's 410x307 space, as the mouse gave
 	///it: not clamped or rounded (ToothChartRelay.MoveTextLabel does that before saving).</summary>
@@ -1874,6 +1875,18 @@ namespace SparksToothChart {
 		public ToothChartTextMovedEventArgs(long toothInitialNum,PointF location) {
 			ToothInitialNum=toothInitialNum;
 			Location=location;
+		}
+	}
+
+	///<summary>The label a TextColorChanged recoloured (toothinitial.ToothInitialNum) and its new colour, the pen colour of the Draw tab
+	///(ToothChartData.ColorDrawing).</summary>
+	public class ToothChartTextColorChangedEventArgs {
+		public long ToothInitialNum { get; }
+		public Color ColorText { get; }
+
+		public ToothChartTextColorChangedEventArgs(long toothInitialNum,Color colorText) {
+			ToothInitialNum=toothInitialNum;
+			ColorText=colorText;
 		}
 	}
 	

@@ -144,7 +144,7 @@ namespace OpenPmsDental {
 			checkIsAlertRadiologyProcsEnabled.Checked=PrefC.GetBool(PrefName.IsAlertRadiologyProcsEnabled);
 			checkShowPlannedApptPrompt.Checked=PrefC.GetBool(PrefName.ShowPlannedAppointmentPrompt);
 			checkChartOrthoTabAutomaticCheckboxes.Checked=PrefC.GetBool(PrefName.ChartOrthoTabAutomaticCheckboxes);
-			checkToothChartShowCompletedExtractions.Checked=ToothChartExtractionGraphic.IsOn();//Open Dental 26.2, off by default (TC-5)
+			checkToothChartShowCompletedExtractions.Checked=ToothChartExtractionGraphic.IsOn();//Open Dental 26.2, on by default (TC-5)
 		}
 
 		public bool SaveChartGeneral() {

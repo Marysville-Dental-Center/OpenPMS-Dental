@@ -60,7 +60,6 @@ namespace SparksToothChart {
 			}
 			DrawWatches(g);
 			DrawPaintTexts(g);
-			DrawTextsBelow(g);
 			DrawNumbers(g);
 			DrawDrawingSegments(g);
 			DrawFreeTexts(g);
@@ -424,23 +423,10 @@ namespace SparksToothChart {
 
 		#region Text of TC-5
 		///<summary>The string format of the TC-5 text: GenericTypographic, which measures and draws without the padding GenericDefault adds on each
-		///side, so a text is as wide here as in the WPF chart's measure and the cut to fit drops the same characters. Measure and draw with the same
+		///side, so a text is as wide here as in the WPF chart's measure and is centred alike. Measure and draw with the same
 		///format so the centring stays right. A copy, which the caller disposes.</summary>
 		public static StringFormat CreateTextFormat() {
 			return (StringFormat)StringFormat.GenericTypographic.Clone();
-		}
-
-		///<summary>TextBelow cut to fit widthMax pixels in the font (TC-5), by the WPF chart's rule (ToothSceneBuilder.GetTextBelowFitted): characters
-		///are dropped from the end until it fits, and at least the first character stays.</summary>
-		public static string GetTextBelowFitted(Graphics g,Font font,StringFormat format,string text,int widthMax) {
-			if(string.IsNullOrEmpty(text)) {
-				return "";
-			}
-			string textFitted=text;
-			while(textFitted.Length>1 && g.MeasureString(textFitted,font,PointF.Empty,format).Width>widthMax) {
-				textFitted=textFitted.Substring(0,textFitted.Length-1);
-			}
-			return textFitted;
 		}
 
 		///<summary>A point in the scene's mm (origin at the centre, y up) in pixels of this control, as the 3D charts project it.</summary>
@@ -456,35 +442,11 @@ namespace SparksToothChart {
 			return TcData.GetTransX(toothGraphic.ToothID)-toothGraphic.ShiftM;
 		}
 
-		///<summary>Paint type Text with text other than "W" (O-22, TC-5): centred on the tooth's crown in the facial view, in bold, in the procedure's
-		///colour, as the WPF chart draws it. A primary tooth's text only when the primary tooth is shown.</summary>
+		///<summary>Paint type Text with text other than "W" (O-22, TC-5), as the WPF chart draws it: in the rows this chart draws its watch marks in
+		///(RenderToothWatch), the top edge over a maxillary tooth and the bottom edge under a mandibular one, centred on the tooth, in the procedure's
+		///colour, in the control's regular font. On a tooth whose place also has a watch mark the text goes one line nearer the tooth and the "W"
+		///keeps the edge. Kept inside the picture across. A primary tooth's text only when the primary tooth is shown.</summary>
 		private void DrawPaintTexts(Graphics g) {
-			Font fontBold=new Font(Font,FontStyle.Bold);
-			StringFormat format=CreateTextFormat();
-			for(int t=0;t<TcData.ListToothGraphics.Count;t++) {
-				ToothGraphic toothGraphic=TcData.ListToothGraphics[t];
-				if(toothGraphic.ToothID=="implant" || string.IsNullOrEmpty(toothGraphic.PaintText)) {
-					continue;
-				}
-				if(Tooth.IsPrimary(toothGraphic.ToothID) && !toothGraphic.Visible) {
-					continue;
-				}
-				float yMm=TcData.GetTransYfacial(toothGraphic.ToothID);
-				yMm+=ToothGraphic.IsMaxillary(toothGraphic.ToothID) ? -Wpf3D.ToothSceneBuilder.PaintTextCrownOffsetMm : Wpf3D.ToothSceneBuilder.PaintTextCrownOffsetMm;
-				PointF pointCentre=MmToPix(GetShiftedTransX(toothGraphic),yMm);
-				SizeF sizeText=g.MeasureString(toothGraphic.PaintText,fontBold,PointF.Empty,format);
-				using(SolidBrush brush=new SolidBrush(Color.FromArgb(255,toothGraphic.colorPaintText))) {
-					g.DrawString(toothGraphic.PaintText,fontBold,brush,pointCentre.X-sizeText.Width/2f,pointCentre.Y-sizeText.Height/2f,format);
-				}
-			}
-			format.Dispose();
-			fontBold.Dispose();
-		}
-
-		///<summary>Paint type TextBelow (O-21, TC-5): in the band along the top edge over a maxillary tooth and along the bottom edge under a mandibular
-		///one, the rows this chart draws its watch marks in; on a tooth with a watch mark one line further in. Centred on the tooth, in the procedure's
-		///colour, cut to fit the tooth's width (characters dropped from the end, the first one kept; GetTextBelowFitted, as the WPF chart cuts it).</summary>
-		private void DrawTextsBelow(Graphics g) {
 			StringFormat format=CreateTextFormat();
 			List<string> listWatchPositions=new List<string>();
 			for(int t=0;t<TcData.ListToothGraphics.Count;t++) {
@@ -501,7 +463,7 @@ namespace SparksToothChart {
 			}
 			for(int t=0;t<TcData.ListToothGraphics.Count;t++) {
 				ToothGraphic toothGraphic=TcData.ListToothGraphics[t];
-				if(toothGraphic.ToothID=="implant" || string.IsNullOrEmpty(toothGraphic.TextBelow)) {
+				if(toothGraphic.ToothID=="implant" || string.IsNullOrEmpty(toothGraphic.PaintText)) {
 					continue;
 				}
 				bool isPrimary=Tooth.IsPrimary(toothGraphic.ToothID);
@@ -509,9 +471,7 @@ namespace SparksToothChart {
 					continue;
 				}
 				string toothIdPerm=isPrimary ? Tooth.PriToPerm(toothGraphic.ToothID) : toothGraphic.ToothID;
-				int widthMax=(int)Math.Floor(ToothGraphic.GetWidth(toothIdPerm)*TcData.ScaleMmToPix);
-				string text=GetTextBelowFitted(g,Font,format,toothGraphic.TextBelow,widthMax);
-				SizeF sizeText=g.MeasureString(text,Font,PointF.Empty,format);
+				SizeF sizeText=g.MeasureString(toothGraphic.PaintText,Font,PointF.Empty,format);
 				float x=MmToPix(GetShiftedTransX(toothGraphic),0).X-sizeText.Width/2f;
 				x=Math.Max(0,Math.Min(x,Width-sizeText.Width));
 				bool hasWatch=listWatchPositions.Contains(toothIdPerm);
@@ -522,8 +482,8 @@ namespace SparksToothChart {
 				else {
 					y=Height-Font.Size-8f-(hasWatch ? Font.Height : 0);
 				}
-				using(SolidBrush brush=new SolidBrush(Color.FromArgb(255,toothGraphic.colorTextBelow))) {
-					g.DrawString(text,Font,brush,x,y,format);
+				using(SolidBrush brush=new SolidBrush(Color.FromArgb(255,toothGraphic.colorPaintText))) {
+					g.DrawString(toothGraphic.PaintText,Font,brush,x,y,format);
 				}
 			}
 			format.Dispose();

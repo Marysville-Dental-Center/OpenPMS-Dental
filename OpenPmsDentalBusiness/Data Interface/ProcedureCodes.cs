@@ -86,7 +86,7 @@ namespace OpenPmsDentalBusiness{
 
 		///<summary>The paint types the procedure code windows offer: every paint type, in enum order, so each one's number equals its place in the
 		///list (FormProcCodeNew casts the index). TextBelow (18, Open Dental 26.2) was left out until the tooth chart drew it (owner decision of
-		///2026-11-07); the chart draws it since TC-5, so it is offered like the others. paintTypeCur, the code's own paint type, no longer changes the
+		///2026-11-07); the Chart module shows it since TC-5, so it is offered like the others. paintTypeCur, the code's own paint type, no longer changes the
 		///list; it is kept for the callers.</summary>
 		public static List<ToothPaintingType> GetPaintTypesForList(ToothPaintingType paintTypeCur=ToothPaintingType.None) {
 			Meth.NoCheckMiddleTierRole();
