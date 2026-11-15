@@ -37,11 +37,11 @@ namespace LibraryBindingTests {
 		};
 
 		///<summary>What "Required dlls" holds after stage 2 of the .NET 10 move: the files that have no NuGet package (docs/specs/net10-plan.md, "Left
-		///in Required dlls after stage 2"). The Direct Project's three files, the interop of Schick (CDR) and QuickBooks Desktop, SharpDX and Tao,
-		///and Windows.winmd.</summary>
+		///in Required dlls after stage 2"). The Direct Project's three files, the interop of Schick (CDR) and QuickBooks Desktop, SharpDX and Tao.
+		///Windows.winmd left with S3a-5 (the Credential Manager in place of PasswordVault; BINBTests, RemovedBinariesTests).</summary>
 		private static readonly string[] _arrayRequiredDllsLeft=new[] {
 			"Health.Direct.Agent.dll","Health.Direct.Common.dll","Health.Direct.ResolverPlugins.dll","Interop.CDRDATALib.dll","Interop.CDRDicom.dll",
-			"Interop.QBFC10.dll","SharpDX.Direct3D9.dll","SharpDX.Mathematics.dll","SharpDX.dll","Tao.OpenGl.dll","Tao.Platform.Windows.dll","Windows.winmd",
+			"Interop.QBFC10.dll","SharpDX.Direct3D9.dll","SharpDX.Mathematics.dll","SharpDX.dll","Tao.OpenGl.dll","Tao.Platform.Windows.dll",
 		};
 
 		///<summary>The files S2-4 deleted from "Required dlls" that come from no package: System.Security.Cryptography.Pkcs 8.0.1, which nothing

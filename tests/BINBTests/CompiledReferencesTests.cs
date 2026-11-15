@@ -40,6 +40,9 @@ namespace BINBTests {
 			List<string> listViolations=new List<string>();
 			foreach(KeyValuePair<string,AssemblyName[]> keyValuePair in dictionaryReferences) {
 				listViolations.AddRange(GetRemovedReferences(keyValuePair.Value).Select(x => keyValuePair.Key+" references "+x));
+				//Since S3a-5 (the Credential Manager in place of PasswordVault) no assembly references Windows Runtime metadata (Windows.winmd).
+				listViolations.AddRange(keyValuePair.Value.Where(x => x.ContentType==AssemblyContentType.WindowsRuntime)
+					.Select(x => keyValuePair.Key+" references the Windows Runtime metadata "+x.Name));
 			}
 			Assert.AreEqual(0,listViolations.Count,string.Join("; ",listViolations));
 		}
