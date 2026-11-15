@@ -67,8 +67,8 @@ June eCQM Specifications for Eligible Professionals" (download batch E lists it;
   it has more rows; AdministrativeSex always; a code system without a table never). Each table is counted once per load.
 - **Load time** (`ValueSetDbTests.LoadTime_AFullSyntheticRelease_LoadsInUnderASecond`, on the ehr2_ scratch database built from the seed
   file, 60,000 synthetic rows: a third in the 79 manifest value sets, the rest in 400 other value sets, more than the June 2013 EP release
-  holds for all its measures): first load (`Listt`) 475 ms and 549 ms in the two runs, `UpdateList` 449 and 542 ms, one value-set lookup
-  4-5 ms; reading and checking the 32 MB workbook 1.5-2.0 s, the import 3.8-4.5 s. **Under 1 second, so no background load comes back**; the
+  holds for all its measures): first load (`Listt`) 475, 549 and 591 ms in three runs, `UpdateList` 449, 542 and 556 ms, one value-set
+  lookup 4-9 ms; reading and checking the 32 MB workbook 1.5-2.1 s, the import 3.8-4.7 s. **Under 1 second, so no background load comes back**; the
   test fails if the first load passes 1 second.
 
 ## 3. The import (section 8.2)
@@ -211,14 +211,14 @@ Targeted runs (`run-tests.ps1 -Mode Targeted`, after building the test projects 
 | Assembly | Result |
 |---|---|
 | EhrTests | 171 of 171 passed |
-| ForkMigrationTests | 38 passed, 2 skipped (they need the schema-only dump, `FORKMIGRATION_REFERENCE_DUMP`), 0 failed |
+| ForkMigrationTests | 37 passed, 2 skipped (they need the schema-only dump, `FORKMIGRATION_REFERENCE_DUMP`), **1 failed as expected**: `InitSqlRegenerationTests.Generator_WritesExactlyTheCommittedFile` ("Committed: ... 457 tables ... fork schema level 2026110801"; "Generated: ... 458 tables ... fork schema level 2026111401"), because `db/init/new-database.sql` is not regenerated in this package (the lead regenerates it after the merge). An earlier run passed it only because `tools/DevDbTool` had not been rebuilt with this package yet |
 | M201Tests | 24 passed, 2 skipped (they need Open Dental's published documents, `M201_OD_DOCS_DIR`), 0 failed |
 | P262SchemaTests | 24 passed, 4 skipped (`P262_OD_DOCS_DIR`), 0 failed |
 | SyntheticData.Tests | 57 passed, 1 skipped (`RealDump_Has422Tables`, the real dump), 0 failed |
 | MiddleTierMockTests | 125 of 125 passed (the Middle Tier rules read the new methods' IL) |
 | NoHqTests | 57 of 57 passed |
 
-The skips are the same environment skips as on `main`. InitSqlTests was not run and `db/init/new-database.sql` was not regenerated (the
+The table is the run after the full build (`ehr2-run3.txt`). The skips are the same environment skips as on `main`. InitSqlTests was not run and `db/init/new-database.sql` was not regenerated (the
 lead does both after the merge). Running EhrTests also builds and drops the EHR-1 (`ehr1_`) and EHR-3 (`ehr3_`) scratch databases of the
 existing tests; after the runs no `ehr` database was left on the server.
 
@@ -231,7 +231,8 @@ times. Before EHR-2 `ehrcode` was one of the skipped HQ-only types. The database
 ## 8. For the lead
 
 - **Init file.** Regenerate `db/init/new-database.sql` after the merge (it gains the empty `ehrcode` table and the 2026111401 level) and run
-  InitSqlTests. Until then a database made from the committed file gets the table from the step, as the tests' scratch databases do.
+  InitSqlTests, and ForkMigrationTests' `Generator_WritesExactlyTheCommittedFile`, which fails until then (section 7). Until then a database
+  made from the committed file gets the table from the step, as the tests' scratch databases do.
 - **Release notes.** Written into `docs/release-notes/next.md`: a line in the summary, "14 tables" (one for the EHR value sets), and the
   section "EHR: the value sets from your own VSAC download".
 - **Launch checks (section 11), on a test database:**
