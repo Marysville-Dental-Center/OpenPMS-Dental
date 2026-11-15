@@ -902,6 +902,20 @@ Tests in VendorDirectTests, FeeTests, ImagingTests, M2MISCTests and BPROCTests. 
 XConnect validation windows keep their results after a cancelled Re-validate (EDS's worker stops at the first refused read), and the ASAP,
 Unscheduled and Planned Tracker grids no longer throw on a result a cancel left null.
 
+**Status (2026-11-15), S3a-13.** Done on `net10/s3a13-1` (`docs/port-notes/S3a-13.md`), not merged yet: the new 32-bit helper program
+`OpenPmsDentalHelper32` (x86 WinExe, net48, no window, no project reference; sln and slnf entries for the lead to review, with
+`tests/Helper32Tests`) runs QuickBooks Desktop's QBFC 10 in its QuickBooks module, the old `QuickBooks.cs` code line for line; the program
+starts it from its own folder on first use through `CodeBase/Utilities/Helper32Client.cs`, one per program process, over a pipe it creates
+first (random name, first instance, remote clients rejected, a protected DACL for the current user's SID), in a job object that ends it with
+the program; calls time out, a crash is reported once and the next call starts a new helper, a missing helper gives a clear message. The
+protocol is one file linked into CodeBase; the module interface takes S3a-14's Schick, Topaz and Guru modules unchanged. `QuickBooks`' public
+methods stay; no project but the helper references `Interop.QBFC10` (still embedded, never shipped). Build-Release stages the helper and its
+config and checks it stays x86 (0x14C, 32BITREQUIRED); the Release dry run at the gate proves it (port note, section 7). O-14 has the vendor
+check: Intuit's 64-bit QBFC exists from QBFC 15 for QuickBooks Desktop 2022 and later, not for QBFC 10; the helper module stays. Tests:
+Helper32Tests (the protocol with a fake module, the QuickBooks module against a recording QBFC fake compared with today's code), NoHqTests'
+vendor scan, VendorDirectTests (QuickBooks Online untouched), ReleaseFlowTests (the helper ships and is x86). For the lead: whether
+`OpenPmsDentalHelper32.exe` joins the build id lists (port note, section 7).
+
 **Full-test gate.** Section 3, plus: the golden outputs and known answers recorded and committed; the source-scan tests pass; the
 launch checks for 3a (section 6) done with screenshots, including a self-update from a standard user; the x64 test runs (S3a-12, S3a-15)
 and the x64 build of `Direct2dWrapper` (S3a-16) pass; the helper's tests pass, and its links are launch-checked where a test PC has the
@@ -1738,6 +1752,17 @@ self-contained (open point O-15, decision 20).
   which the owner approves separately. Recommendation: the helper module, unless a vendor's 64-bit way needs nothing new on the
   workstations. Until this is answered, each component gets its helper module, so nothing waits. No test PC has any of the four today;
   whether the owner wants a vendor's trial or test set-up for a launch check is part of this question.
+  **QuickBooks Desktop, checked by S3a-13 on 2026-11-15 (`docs/port-notes/S3a-13.md`, section 2; vendor documentation only, nothing
+  downloaded):** Intuit ships a 64-bit Desktop SDK since SDK 15.0 (current 17.0), with 64-bit QBFC 15 and later and QBXMLRP2, for QuickBooks
+  Desktop 2022 and later only, and "not backward-compatible" with the 32-bit SDK
+  (https://developer.intuit.com/app/developer/qbdesktop/docs/get-started/sdk-compatibility-with-quickbooks-releases,
+  https://developer.intuit.com/app/developer/qbdesktop/docs/get-started/download-and-install-the-sdk,
+  https://developer.intuit.com/app/developer/qbdesktop/docs/get-started/older-versions-of-the-desktop-sdk); 32-bit applications keep working
+  with QuickBooks Desktop 2022. So a 64-bit QBFC exists, but not for the QBFC 10 this program uses: the 64-bit way needs Intuit's 64-bit SDK
+  (a download behind the owner's Intuit sign-in), the code moved to QBFC 15 or later, QuickBooks Desktop 2022 or later at the office and the
+  64-bit QBFC runtime installed on each workstation. The helper module needs nothing new and is built (S3a-13); it stays the recommendation,
+  with the 64-bit QBFC as the owner's later choice if the office moves to QuickBooks Desktop 2022 or later. No test PC has QuickBooks Desktop
+  (launch check: the port note, section 9).
 - **O-15. The helper's runtime after the switch (decision 19). Answered 2026-11-08: (c) self-contained (decision 20).** The helper is
   32-bit because the vendor code it loads is; the program itself has no 32-bit .NET 10 build. In 3a the helper is built like everything
   else (net48, x86). For 3b the options were: (a) it stays on .NET
