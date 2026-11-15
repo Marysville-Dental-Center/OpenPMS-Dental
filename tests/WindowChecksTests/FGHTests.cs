@@ -172,7 +172,8 @@ namespace WindowChecksTests {
 			finally {
 				if(hadState) {
 					File.Copy(pathStateBackup,pathState,true);
-					bool isSame=File.ReadAllBytes(pathState).SequenceEqual(File.ReadAllBytes(pathStateBackup));
+					//Against the bytes read before the start, not the backup the file was just copied from (that comparison could not fail).
+					bool isSame=File.ReadAllBytes(pathState).SequenceEqual(DesignerStateBefore);
 					checkResultH1.Expect(isSame,"designerstate.xml is restored byte for byte (copied aside before the start and back after)");
 					if(isSame) {
 						File.Delete(pathStateBackup);
