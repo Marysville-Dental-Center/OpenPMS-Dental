@@ -347,4 +347,16 @@ These hold from TC-4's merge on; no chart code uses Helix in TC-4 itself.
 
 ## 14. Builds and Targeted runs
 
-(Filled in after the final full build and runs.)
+- **Builds** (the lane, `OpenDental.Local.slnf`, Debug x86, Build Tools 2026 MSBuild, SDK 10.0.114): before the change (the branch's start)
+  0 errors, 353 warnings; the restore that wrote the lock files again, 0 errors after section 6's fix (the build before it failed with the
+  four CS1739 errors); the final `-Rebuild` on `6fb7e677d`, 0 errors, 353 warnings, the same 353 distinct warning lines as before (only the
+  random names of WpfControlsOD's temporary markup project differ). Its log (normal verbosity, every compiler command line) holds **no
+  `/analyzer:` at all**, so no compilation, the markup project's included, got a CommunityToolkit.Mvvm analyzer.
+- **Release dry runs** (section 9): both exit 0.
+- **Targeted runs** (`run-tests.ps1 -Root . -Mode Targeted -Include ReleaseFlowTests,LibraryBindingTests,AttributionTests,
+  ToothChartImageTests,ProjectFileTests,NoHqTests`, on the final rebuild; `.git/od-tools/test-results/tc4-1-final.txt`): all pass.
+  AttributionTests 50/50, LibraryBindingTests 20/20, ProjectFileTests 133 passed and 1 skipped (the opt-in baseline check), NoHqTests
+  57/57, ReleaseFlowTests 128/128 (its database tests on scratch databases of the local MariaDB), ToothChartImageTests 174 passed and 4
+  skipped (the opt-in recorder, comparison, gallery and on-screen timing tests), unchanged: Helix changes no pixel. Not run, by the
+  coordinator's rules: Core and Full, InitSqlTests, ForkMigrationTests, and the parallel stream's DbConnectionSecurityTests and
+  LibraryUpdateTests (the latter reads `NuGetFiles.ReadCopiedFiles`, section 11).
