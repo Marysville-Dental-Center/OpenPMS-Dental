@@ -3,7 +3,8 @@
 // the numerator and denominator the public CMS specification sheet's definitions give, and a recorded run of the three SelectAll calls on the
 // whole fixture as golden numbers (Fixtures/MeasureSpecGolden.txt). A case where the engine disagrees with its sheet is Inconclusive with a
 // deviation ID (EHR4B-Dnn), listed in docs/port-notes/EHR-4.md (section "EHR-4b"). Package EHR-4c fixed the engine for every numeric deviation
-// (D01-D04, D06-D11, D15): each of those tests now asserts the sheet's numbers and keeps its ID in its name (section "EHR-4c" of that note).
+// (D01-D04, D06-D11, D15, and D16, which it found): each of those tests now asserts the sheet's numbers and keeps its ID in its name
+// (section "EHR-4c" of that note).
 //
 // The sheets (CMS EHR Incentive Program specification sheets for eligible professionals, US government works), cited in each test by file name,
 // the date the sheet states and its rule; the latest edition of each stage first:
@@ -221,6 +222,8 @@ namespace EhrTests {
 			Assert.AreEqual(DayOfWeek.Tuesday,MeasureSpecFixture.DateMonday.AddDays(8).DayOfWeek,"The sixth.");
 			Assert.AreEqual(DayOfWeek.Monday,MeasureSpecFixture.DateMonday.AddDays(7).DayOfWeek,"The fourth business day after Tuesday 4 March.");
 			Assert.AreEqual(DayOfWeek.Monday,new DateTime(2014,6,2).DayOfWeek,"The second visit of ClinSum.TwoVisits.");
+			Assert.AreEqual(DayOfWeek.Saturday,new DateTime(2014,3,8).DayOfWeek,"The visit of ClinSum.SaturdayWednesday and ClinSum.SaturdayThursday.");
+			Assert.AreEqual(DayOfWeek.Wednesday,new DateTime(2014,3,12).DayOfWeek,"The third business day after Saturday 8 March.");
 			Assert.AreEqual(MeasureSpecFixture.DateStart.Year,MeasureSpecFixture.DateEnd.Year,"One full calendar year.");
 			Assert.AreEqual(new DateTime(MeasureSpecFixture.DateStart.Year,1,1),MeasureSpecFixture.DateStart);
 			Assert.AreEqual(new DateTime(MeasureSpecFixture.DateStart.Year,12,31),MeasureSpecFixture.DateEnd);
@@ -591,6 +594,20 @@ namespace EhrTests {
 			//and time with midnight of the last day: 0/1 each).
 			check.Sheet(S2,EhrMeasureType.ClinicalSummaries,1,1,"ClinSum.NextDay");
 			check.Sheet(S2,EhrMeasureType.ClinicalSummaries,1,1,"ClinSum.FridayMonday");
+			check.Finish();
+		}
+
+		[TestMethod]
+		public void ClinicalSummaries_Stage1_ASaturdayVisit_TheWednesdayIsTheThirdBusinessDay_D16() {
+			MeasureSpecFixture.Begin();
+			SpecCheck check=new SpecCheck();
+			//13_Clinical_Summaries.pdf, Stage 1 (2014 Definition), May 2014: within three business days. Seen on a Saturday, a summary on the
+			//Wednesday (Monday, Tuesday, Wednesday: the third business day) is met; on the Thursday (the fourth) it is missed. EHR4B-D16, found and
+			//fixed by EHR-4c: the engine's deadline for a Saturday visit is the Wednesday (it added 3 days, the Tuesday: 0/1 for the Wednesday).
+			check.Sheet(S1,EhrMeasureType.ClinicalSummaries,1,1,"ClinSum.SaturdayWednesday");
+			check.Sheet(S1,EhrMeasureType.ClinicalSummaries,0,1,"ClinSum.SaturdayThursday");
+			//Stage2_EPCore_8_ClinicalSummaries.pdf (November 2014): within one business day, the Monday, so both are missed.
+			check.Sheet(S2,EhrMeasureType.ClinicalSummaries,0,2,"ClinSum.SaturdayWednesday","ClinSum.SaturdayThursday");
 			check.Finish();
 		}
 

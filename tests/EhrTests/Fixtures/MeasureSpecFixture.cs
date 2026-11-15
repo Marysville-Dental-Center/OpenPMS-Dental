@@ -440,6 +440,13 @@ namespace EhrTests {
 			Patient patient=MakePatient("ClinSum.FridayMonday",new DateTime(1980,6,15),ProviderEp.ProvNum);
 			MakeVisit(patient,D(3,7),ProviderEp.ProvNum);
 			MakeEvent(patient,EhrMeasureEventType.ClinicalSummaryProvidedToPt,D(3,10),0);
+			//Seen on Saturday 8 March, the summary on Wednesday 12 March (the third business day after it) and on Thursday 13 March (the fourth).
+			patient=MakePatient("ClinSum.SaturdayWednesday",new DateTime(1980,6,15),ProviderEp.ProvNum);
+			MakeVisit(patient,D(3,8),ProviderEp.ProvNum);
+			MakeEvent(patient,EhrMeasureEventType.ClinicalSummaryProvidedToPt,D(3,12),0);
+			patient=MakePatient("ClinSum.SaturdayThursday",new DateTime(1980,6,15),ProviderEp.ProvNum);
+			MakeVisit(patient,D(3,8),ProviderEp.ProvNum);
+			MakeEvent(patient,EhrMeasureEventType.ClinicalSummaryProvidedToPt,D(3,13),0);
 			//Two visits (Monday 3 March and Monday 2 June), one summary, on the day of the first.
 			patient=SeenPatient("ClinSum.TwoVisits");
 			MakeVisit(patient,D(6,2),ProviderEp.ProvNum);
