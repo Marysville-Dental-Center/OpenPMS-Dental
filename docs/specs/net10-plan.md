@@ -692,6 +692,12 @@ decision 19), proven on the x86 build and in x64 test runs on .NET Framework.
 
 **Entry conditions.** Stage 4 merged and green.
 
+**Status (2026-11-15).** S3a-3 done on `net10/s3a3-1` (`docs/port-notes/S3a-3.md`), not yet merged: `CodeBase.ODEncodings.GetAnsiEncoding()`
+replaces `Encoding.Default` at the six shipped sites (NoHqTests scan: none left); `CodeBase.ODNumberText` gives the X12 837 (4010, 5010)
+and RAMQ amounts with `InvariantCulture`, `SOut`, and the treatment-plan and pay-plan signature keys (current culture kept, as stored
+signatures were made) the text of .NET Framework ("G15"/"G7", no negative zero); `SIn.Double/Float` keep an overflow invalid. No-ops on
+net48, proved by before/after equality on fixture data and by the three ANSI tests rebuilt with 1252; the code-page provider waits for 3b.
+
 **Packages, wave 1 (parallel, disjoint).**
 
 | Package | Owns | Work | Targeted tests |
