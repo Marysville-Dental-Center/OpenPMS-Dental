@@ -430,6 +430,25 @@ namespace OpenPmsDentalBusiness{
 			return listCodes.Contains(ehrLabResult.ObservationValueCodedElementID) || listCodes.Contains(ehrLabResult.ObservationValueCodedElementIDAlt);
 		}
 
+		///<summary>Whether a result of the older lab orders (labresult) is a positive or negative affirmation or a number, the C# twin of
+		///GetWhereLabResultPosNegOrNumeric for the EHR window (EHR-4d, EHR4B-D11): the first component of the value (spaces trimmed, as MySQL's TRIM
+		///and its padded comparison) a code of the engine's positive/negative list, or the value the word positive or negative (POS, NEG), or the
+		///value without its component separators matching the same number pattern.</summary>
+		private static bool IsLabResultPosNegOrNumeric(LabResult labResult) {
+			Meth.NoCheckMiddleTierRole();//Private static.
+			string obsValue=labResult.ObsValue??"";
+			string obsValueTrimmed=obsValue.Trim(' ');
+			List<string> listCodes=_snomedLabResult.Split(',').Select(x => x.Trim().Trim('\'')).ToList();
+			if(listCodes.Contains(obsValueTrimmed.Split('^')[0].TrimEnd(' '))) {
+				return true;
+			}
+			if(obsValueTrimmed.ToUpperInvariant().In("POSITIVE","NEGATIVE","POS","NEG")) {
+				return true;
+			}
+			return System.Text.RegularExpressions.Regex.IsMatch(obsValue.Replace("^",""),
+				"^ *(<|>|<=|>=|=)? *[-+]?[0-9]+([.][0-9]+)? *([-:/] *[-+]?[0-9]+([.][0-9]+)?)? *$");
+		}
+
 		#region The EHR window's rules (EHR-4d)
 		//The EHR window's per-patient summary (GetMu, GetMu2, GetMu2Mod, for FormEHR) follows Measure Calc's rules (EHR-4c) for a period, by
 		//default the year before today, to today. The window has no EP to restrict visits to: it counts the patient's visits with any provider.
@@ -569,9 +588,12 @@ namespace OpenPmsDentalBusiness{
 
 		///<summary>Lab results in the window, as Measure Calc's ehrlab branch of the Lab measure (Stage 1, Stage 2): the patient's lab orders observed
 		///in the period, radiology orders (a LOINC code of a RAD class) left out, and an order whose results are all neither a positive or negative
-		///affirmation nor a number left out (EHR4B-D11); an order with no such result is missing. N/A with no order left. The older 2011-edition
-		///medical orders are not listed here, as before.</summary>
-		private static void FillMuLab(EhrMu mu,List<EhrLab> listEhrLabs,DateTime dateStart,DateTime dateEnd) {
+		///affirmation nor a number left out (EHR4B-D11); an order with no such result is missing. And, as Measure Calc's medicalorder branch, the
+		///older 2011-edition lab orders (listMedicalOrders: medical orders of type Laboratory, MedicalOrders.GetLabsByDate): an order dated in the
+		///period whose results (labresult rows of its lab panels) are all neither a positive or negative affirmation nor a number left out (EHR-4d,
+		///EHR4B-D11); an order with no result row stays, met when it has a lab panel. N/A with no order left. The window has no EP: an order of any
+		///provider counts.</summary>
+		private static void FillMuLab(EhrMu mu,List<EhrLab> listEhrLabs,List<MedicalOrder> listMedicalOrders,DateTime dateStart,DateTime dateEnd) {
 			Meth.NoCheckMiddleTierRole();//Private static.
 			mu.Action="Edit labs";
 			string textStart=dateStart.ToString("yyyyMMdd");
@@ -604,6 +626,25 @@ namespace OpenPmsDentalBusiness{
 				}
 				countOrders++;
 				if(!hasPosNegOrNumeric) {
+					countMissing++;
+				}
+			}
+			//EHR-4d: the older lab orders (medical order, lab panel, labresult), before only in Measure Calc. FormEHR still opens them
+			//(FormEhrMedicalOrders, FormEhrMedicalOrderLabEdit).
+			for(int i=0;i<listMedicalOrders.Count;i++) {
+				MedicalOrder medicalOrder=listMedicalOrders[i];
+				if(medicalOrder.MedOrderType!=MedicalOrderType.Laboratory
+					|| medicalOrder.DateTimeOrder.Date<dateStart.Date || medicalOrder.DateTimeOrder.Date>dateEnd.Date)
+				{
+					continue;
+				}
+				List<LabPanel> listLabPanels=LabPanels.GetPanelsForOrder(medicalOrder.MedicalOrderNum);
+				List<LabResult> listLabResults=listLabPanels.SelectMany(x => LabResults.GetForPanel(x.LabPanelNum)).ToList();
+				if(listLabResults.Count>0 && !listLabResults.Any(x => IsLabResultPosNegOrNumeric(x))) {
+					continue;
+				}
+				countOrders++;
+				if(listLabPanels.Count==0) {
 					countMissing++;
 				}
 			}
@@ -2265,7 +2306,8 @@ namespace OpenPmsDentalBusiness{
 			List<MedicationPat> medList=MedicationPats.Refresh(pat.PatNum,true);
 			List<EhrMeasureEvent> listMeasureEvents=EhrMeasureEvents.Refresh(pat.PatNum);
 			List<RefAttach> listRefAttach=RefAttaches.Refresh(pat.PatNum);
-			List<DateTime> listVisitDays=GetVisitDays(Procedures.Refresh(pat.PatNum),dateStart,dateEnd);//EHR-4d
+			List<Procedure> listProcs=Procedures.Refresh(pat.PatNum);//EHR-4d: the visits of the period, and of the three years the reminders look back
+			List<DateTime> listVisitDays=GetVisitDays(listProcs,dateStart,dateEnd);//EHR-4d
 			for(int i=0;i<retVal.Count;i++) {
 				mu=new EhrMu();
 				mu.Met=MuMet.False;
@@ -2714,7 +2756,7 @@ namespace OpenPmsDentalBusiness{
 							break;
 						}
 						//EHR-4d: the orders in the period, as Measure Calc counts them (EHR4B-D11: free-text results only, left out).
-						FillMuLab(mu,EhrLabs.GetAllForPat(pat.PatNum),dateStart,dateEnd);
+						FillMuLab(mu,EhrLabs.GetAllForPat(pat.PatNum),MedicalOrders.GetLabsByDate(pat.PatNum,dateStart,dateEnd),dateStart,dateEnd);
 						break;
 					#endregion
 					#region ElectronicCopy (Deprecated)
@@ -2792,6 +2834,12 @@ namespace OpenPmsDentalBusiness{
 						else if(pat.Birthdate<=dateStart.Date.AddYears(-6) && pat.Birthdate>dateStart.Date.AddYears(-65)) {
 							mu.Met=MuMet.NA;
 							mu.Details="Patient age not 65+ or 5- at the start of the period.";
+						}
+						//EHR-4d: Measure Calc's denominator has only the patients with a completed visit (broken appointments left out, any provider)
+						//after the day three years before the period's start (ProcDate>dateStart-INTERVAL 3 YEAR), with no upper bound.
+						else if(GetVisitDays(listProcs,dateStart.Date.AddYears(-3).AddDays(1),DateTime.MaxValue).Count==0) {
+							mu.Met=MuMet.NA;
+							mu.Details="No visit in the three years before the period.";
 						}
 						else {
 							List<EhrMeasureEvent> listReminders=EhrMeasureEvents.GetByType(listMeasureEvents,EhrMeasureEventType.ReminderSent);
@@ -4998,7 +5046,7 @@ namespace OpenPmsDentalBusiness{
 							break;
 						}
 						//EHR-4d: the orders in the period, as Measure Calc counts them (EHR4B-D11: free-text results only, left out).
-						FillMuLab(mu,ehrLabList,dateStart,dateEnd);
+						FillMuLab(mu,ehrLabList,MedicalOrders.GetLabsByDate(pat.PatNum,dateStart,dateEnd),dateStart,dateEnd);
 						break;
 					#endregion
 					#region ElectronicCopy
