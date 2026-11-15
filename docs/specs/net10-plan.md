@@ -974,6 +974,22 @@ program (Mono.Cecil, cross-checked with `Direct2d.cs`); without the x64 build ou
 `OPMS_REQUIRE_BUILD_OUTPUT=1`; fix on `net10/s3a16-2`). For the lead: the gate's two lane commands, which enforce the x64 build (port
 note, section 4).
 
+**Status (2026-11-15), S3a-14.** Done on `net10/s3a14-1` (`docs/port-notes/S3a-14.md`), not merged yet: Schick CDR DICOM, Topaz and Guru run in
+the 32-bit helper's new Schick, Topaz and Guru modules with the calls the program made before. Schick: `ShowExam` line for line (the exam
+window kept between patients, OnClose reaching the helper); the program lets the helper bring CDR's window to the front
+(`Helper32Client.AllowSetForeground`). Guru: `MVStart` and `MVSendPatient` with today's `ToCPlusPlusStructure`, byte for byte (the patient
+crosses as UTF-16 bytes). Topaz: the program still finds `SigPlusNET.dll` and the helper loads it; `GetTopaz` returns a `TopazSignatureView`
+that shows the helper's picture of its control; every `TopazWrapper` call goes to the helper's control by name, unchanged, so stored
+signatures and their checks do not change; the patient signs in the helper's own signing window over the program's window (release notes).
+The helper's request loop now pumps its thread's messages between requests (`MessagePumpingStream`: overlapped read and
+`MsgWaitForMultipleObjectsEx`), chosen over releasing the vendor objects after each call, which Topaz's signature and Schick's kept exam
+window do not allow (note, section 6); `IHelper32Module` states the lazy-loading rule. No project but the helper (and Helper32Tests) references
+the Schick interop; only the helper loads `SigPlusNET.dll` or `MedVisorInterface.dll`. O-14 has the vendor checks (Schick likely direct once
+a test PC shows `LocalServer32`; Topaz's current SigPlusNET is AnyCPU; Guru none). Tests: Helper32Tests 70 (the modules against fakes of
+their vendor interfaces, compared with today's code; the pump; the modules in a running helper), BINBTests' TopazWrapperTests through a helper
+copy, UnitTests' SignatureBoxWrapperTests through a copy where Topaz exists, NoHqTests' vendor scan; full lane build 0 errors, every Targeted run
+green. Launch checks (note, section 10), the STA pumping check included, need a test PC with the vendor software (none today).
+
 **Full-test gate.** Section 3, plus: the golden outputs and known answers recorded and committed; the source-scan tests pass; the
 launch checks for 3a (section 6) done with screenshots, including a self-update from a standard user; the x64 test runs (S3a-12, S3a-15)
 and the x64 build of `Direct2dWrapper` (S3a-16) pass; the helper's tests pass, and its links are launch-checked where a test PC has the
@@ -1821,6 +1837,21 @@ self-contained (open point O-15, decision 20).
   64-bit QBFC runtime installed on each workstation. The helper module needs nothing new and is built (S3a-13); it stays the recommendation,
   with the 64-bit QBFC as the owner's later choice if the office moves to QuickBooks Desktop 2022 or later. No test PC has QuickBooks Desktop
   (launch check: the port note, section 9).
+  **Schick CDR, Topaz and Guru, checked by S3a-14 on 2026-11-15 (`docs/port-notes/S3a-14.md`, section 2; public documentation only,
+  nothing downloaded).** *Schick:* no public documentation of CDR DICOM's automation interface; its client is its own program
+  (`CDRDicom.exe`, beside `CDRServer.exe`; https://pattersonsupport.custhelp.com/euf/assets/Answers/11005/CDRDicom_4_5_QuickStart.pdf), and the
+  interop's application, exam and event interfaces are dispinterfaces (`ICDRPatient` is dual), so an out-of-process `CDRDicom.Application`
+  (CLSID `{E7D0A248-0C4C-11D6-8294-00B0D0403E92}`) would serve a 64-bit caller with nothing new installed
+  (https://learn.microsoft.com/en-us/windows/win32/winprog64/process-interoperability). Not proven: whether the class is a `LocalServer32`
+  and whether `CDRDATALib`'s type library is registered for 64-bit callers (launch check S1). Recommendation: the helper module (built) until a
+  test PC with CDR shows `LocalServer32`; then the owner may choose the direct call. *Topaz:* "The current version of SigPlusNET is 'Any CPU'
+  compatible" (https://topazsystems.com/information/SoftwareDevFAQ.pdf); built with .NET Framework 4.7.1, 2.1.5.6 of 2023-09-25, usable from
+  .NET Core with the System.IO.Ports library for serial pads (https://www.topazsystems.com/itextnet.html). The 64-bit way needs the current
+  SigPlusNET on every workstation (Topaz's download), a new package for serial pads, and a check that stored signatures read in a 64-bit
+  process (Open Dental saw the 64-bit DLL encode key data differently, hence `FillSignatureEncodings`). Recommendation: the helper module
+  (built), the in-process 64-bit control as the owner's later choice. *Guru:* no public documentation of `MedVisorInterface.dll`; no 64-bit
+  version known (https://www.opendental.com/manual/bridgeguru.html). The helper module (built); nothing to choose. No test PC has any of the
+  three (launch checks: the port note, section 10).
 - **O-15. The helper's runtime after the switch (decision 19). Answered 2026-11-08: (c) self-contained (decision 20).** The helper is
   32-bit because the vendor code it loads is; the program itself has no 32-bit .NET 10 build. In 3a the helper is built like everything
   else (net48, x86). For 3b the options were: (a) it stays on .NET

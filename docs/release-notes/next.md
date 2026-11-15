@@ -113,6 +113,15 @@ server computer must then connect with `<db-server>` (the name the workstations 
   update QuickBooks will probably ask again whether to allow access, and a grant to connect while QuickBooks is not running has to be
   given again. Open the company file as the QuickBooks administrator the first time.
 
+## Topaz signature pads, Schick CDR and Guru
+
+- **The Topaz signing window looks different.** When a patient signs on a Topaz pad, a small window titled "Sign on the Topaz pad" opens
+  over the program's window and shows the signature as it is drawn, with OK, Clear and Cancel; before, the strokes appeared in the signature
+  box itself. Press OK when the patient has signed; Cancel clears the pad. The box then shows the signature as before, and stored Topaz
+  signatures show and check as before: their data does not change. The window is the helper program's (`OpenPmsDentalHelper32.exe`), which
+  now runs Topaz's software, Schick CDR DICOM's exam window and Guru for the program, as it runs QuickBooks Desktop.
+- **Nothing to install.** Topaz's own software (it provides `SigPlusNET.dll`), CDR DICOM and Guru stay as they are on each workstation.
+
 ## Database connection security
 
 - **Encrypted connections only, over the network, for the program's own database account.** `SslMode=VerifyFull` with the office CA
