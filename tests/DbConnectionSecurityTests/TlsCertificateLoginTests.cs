@@ -12,6 +12,7 @@ using System.Globalization;
 using System.IO;
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
+using CodeBase;
 using DataConnectionBase;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MySqlConnector;
@@ -69,7 +70,8 @@ namespace DbConnectionSecurityTests {
 			Assert.IsTrue(sslCa!="" && File.Exists(sslCa),"No CA: set "+VARIABLE_CA+" or run "+DevDbTls.ENABLE_SCRIPT+" (docs/port-notes/DB-TLS.md).");
 		}
 
-		///<summary>The certificate in LocalMachine\My with its private key, and whether that key is in a CNG provider (false: CAPI).</summary>
+		///<summary>The certificate in LocalMachine\My with its private key, and whether that key is in a CNG provider (false: CAPI). The kind comes
+		///from the certificate's key provider information (IsCngProvider), then the key must open for this account as that kind.</summary>
 		private static bool IsCngKey(string thumbprint,string variable) {
 			using(X509Store x509Store=new X509Store(StoreName.My,StoreLocation.LocalMachine)) {
 				x509Store.Open(OpenFlags.ReadOnly|OpenFlags.OpenExistingOnly);
@@ -77,14 +79,36 @@ namespace DbConnectionSecurityTests {
 				Assert.AreEqual(1,x509Certificate2Collection.Count,variable+": no certificate "+thumbprint+" in LocalMachine\\My.");
 				X509Certificate2 x509Certificate2=x509Certificate2Collection[0];
 				Assert.IsTrue(x509Certificate2.HasPrivateKey,variable+": the certificate has no private key.");
-				AsymmetricAlgorithm asymmetricAlgorithm=(AsymmetricAlgorithm)x509Certificate2.GetRSAPrivateKey()??x509Certificate2.GetECDsaPrivateKey();
-				Assert.IsNotNull(asymmetricAlgorithm,variable+": this account cannot read the private key (an RSA or ECDSA key).");
-				if(asymmetricAlgorithm is RSACryptoServiceProvider) {
+				bool isCng=IsCngProvider(x509Certificate2,variable);
+				if(!isCng) {
+					RSACryptoServiceProvider rsaCryptoServiceProvider=null;
+					try {
+						rsaCryptoServiceProvider=x509Certificate2.PrivateKey as RSACryptoServiceProvider;
+					}
+					catch(CryptographicException) {
+						rsaCryptoServiceProvider=null;
+					}
+					Assert.IsNotNull(rsaCryptoServiceProvider,variable+": this account cannot read the CAPI private key (an RSA key).");
 					return false;
 				}
+				AsymmetricAlgorithm asymmetricAlgorithm=(AsymmetricAlgorithm)x509Certificate2.GetRSAPrivateKey()??x509Certificate2.GetECDsaPrivateKey();
+				Assert.IsNotNull(asymmetricAlgorithm,variable+": this account cannot read the private key (an RSA or ECDSA key).");
 				Assert.IsTrue(asymmetricAlgorithm is RSACng || asymmetricAlgorithm is ECDsaCng,variable+": a key of "+asymmetricAlgorithm.GetType().Name);
 				return true;
 			}
+		}
+
+		///<summary>True when the certificate's key provider information (read without opening the key, CertificateKeyProvInfo) names a CNG key
+		///storage provider (provider type 0), false for a CAPI provider; the key must be in the computer's key set, where the connection settings
+		///tool imports it. Not the type of the key object: .NET Framework's GetRSAPrivateKey opens a CAPI key through CNG too, as an RSACng
+		///(ClientCertificateStore.GetCapiRsaPrivateKey), so that type cannot tell the two apart.</summary>
+		internal static bool IsCngProvider(X509Certificate2 x509Certificate2,string variable) {
+			CertificateKeyProvInfo certificateKeyProvInfo=CertificateKeyProvInfo.Read(x509Certificate2);
+			Assert.IsTrue(certificateKeyProvInfo.IsNamed && !certificateKeyProvInfo.IsUnknown,variable+": the certificate names no key it can be read for ("
+				+certificateKeyProvInfo.Problem+").");
+			Assert.IsTrue(certificateKeyProvInfo.IsMachine,variable+": the key is in a user's key set, not the computer's (LocalMachine\\My, as the "
+				+"connection settings tool imports it): "+certificateKeyProvInfo.Describe());
+			return certificateKeyProvInfo.ProviderType==0;
 		}
 
 		private static void Run(MySqlConnection mySqlConnection,string command) {

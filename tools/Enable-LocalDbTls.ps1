@@ -1178,6 +1178,7 @@ function Get-TestNetworkEnablePlan([string]$Address, [string]$HostName, $Facts, 
 	$lines += '     [key-access] Give BUILTIN\Users read access to both key files, as the connection settings tool gives (ClientCertificateStore),'
 	$lines += '     so that the lead''s unelevated test run can use them. -Revert deletes both certificates with their keys.'
 	$lines += "     [server-certificate] The server certificate of step 1 also names $Address and this computer's host name $HostName."
+	$lines += "     [bind-address] The block in my.ini (next step) ends with bind-address=127.0.0.1,$Address, so the server listens there too."
 	return $lines
 }
 
@@ -2401,7 +2402,7 @@ function Invoke-Enable {
 		Write-Host "       $line"
 	}
 	if ($testAddress -ne '') {
-		Write-Host "     [bind-address] Its last line, bind-address=127.0.0.1,$testAddress, follows my.ini's bind-address=127.0.0.1 and"
+		Write-Host "     Its last line, bind-address=127.0.0.1,$testAddress, follows my.ini's bind-address=127.0.0.1 and"
 		Write-Host '     so takes its place (the last one wins). MariaDB 10.11 takes a comma-separated list; 127.0.0.1 stays. The record lines'
 		Write-Host '     name the adapter, the firewall rules and the two certificates, filled in as the run makes them.'
 	}

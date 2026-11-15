@@ -29,13 +29,13 @@ namespace DbConnectionSecurityTests {
 			TestHelpers.DeleteFolder(_folder);
 		}
 
-		private static string GetScriptPath() {
+		internal static string GetScriptPath() {
 			string path=Path.Combine(GetRepoRoot(),"tools","Enable-LocalDbTls.ps1");
 			Assert.IsTrue(File.Exists(path),path);
 			return path;
 		}
 
-		private static string GetRepoRoot() {
+		internal static string GetRepoRoot() {
 			DirectoryInfo directoryInfo=new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory);
 			while(directoryInfo!=null
 				&& !(File.Exists(Path.Combine(directoryInfo.FullName,"LICENSE")) && File.Exists(Path.Combine(directoryInfo.FullName,"NOTICE"))))
@@ -48,7 +48,7 @@ namespace DbConnectionSecurityTests {
 
 		///<summary>Runs a PowerShell script file without a profile, non-interactively (a question gets no answer, so nothing is ever confirmed).
 		///Returns the exit code; output is the standard output and error.</summary>
-		private static int RunPowerShell(string scriptPath,string arguments,out string output) {
+		internal static int RunPowerShell(string scriptPath,string arguments,out string output) {
 			ProcessStartInfo processStartInfo=new ProcessStartInfo("powershell.exe",
 				"-NoProfile -NonInteractive -ExecutionPolicy Bypass -File \""+scriptPath+"\" "+arguments) {
 				UseShellExecute=false,
@@ -72,7 +72,13 @@ namespace DbConnectionSecurityTests {
 		///ending the process; then the body, with $Script and $Folder (this test's temporary folder). Asserts exit code 0; returns the output.
 		///</summary>
 		private string RunDriver(string[] arrayFunctions,string[] arrayBody) {
-			string driver=Path.Combine(_folder,"driver-"+Guid.NewGuid().ToString("N").Substring(0,8)+".ps1");
+			return RunDriverIn(_folder,arrayFunctions,arrayBody);
+		}
+
+		///<summary>RunDriver in the given temporary folder (also for DevDbTlsTestNetworkTests). The script-level settings include the test
+		///network's ($Record*Prefix, $TestAdapter*, $Firewall*, $*ProviderName, $TestClient*Name, $PfxFolderName).</summary>
+		internal static string RunDriverIn(string folder,string[] arrayFunctions,string[] arrayBody) {
+			string driver=Path.Combine(folder,"driver-"+Guid.NewGuid().ToString("N").Substring(0,8)+".ps1");
 			List<string> listLines=new List<string> {
 				"param([string]$Script, [string]$Folder)",
 				"$ErrorActionPreference = 'Stop'",
@@ -81,7 +87,7 @@ namespace DbConnectionSecurityTests {
 				"foreach ($f in $ast.FindAll({ param($a) $a -is [System.Management.Automation.Language.FunctionDefinitionAst] -and $names -contains $a.Name }, $true)) {",
 				"  . ([scriptblock]::Create($f.Extent.Text))",
 				"}",
-				"foreach ($v in $ast.FindAll({ param($a) $a -is [System.Management.Automation.Language.AssignmentStatementAst] -and $a.Left.Extent.Text -match '^\\$(Marker(Begin|End)|Record(Dev|Client|Parent)Prefix|(App|Dev|Client|Tls)FolderName|(Backup|IniTemp)Suffix)$' }, $false)) {",
+				"foreach ($v in $ast.FindAll({ param($a) $a -is [System.Management.Automation.Language.AssignmentStatementAst] -and $a.Left.Extent.Text -match '^\\$(Marker(Begin|End)|Record(Dev|Client|Parent|Address|Adapter|Firewall|Capi|Cng)Prefix|(App|Dev|Client|Tls|Pfx)FolderName|(Backup|IniTemp)Suffix|TestAdapter(Name|HardwareId)|Firewall(Group|AllowName|BlockName)|(Capi|Cng)ProviderName|TestClient(Capi|Cng)Name)$' }, $false)) {",
 				"  . ([scriptblock]::Create($v.Extent.Text))",
 				"}",
 				"function Stop-Refused([string]$Message) { throw ('REFUSED: ' + $Message) }",
@@ -89,18 +95,18 @@ namespace DbConnectionSecurityTests {
 			};
 			listLines.AddRange(arrayBody);
 			File.WriteAllText(driver,string.Join("\r\n",listLines),Encoding.ASCII);
-			int exitCode=RunPowerShell(driver,"-Script \""+GetScriptPath()+"\" -Folder \""+_folder+"\"",out string output);
+			int exitCode=RunPowerShell(driver,"-Script \""+GetScriptPath()+"\" -Folder \""+folder+"\"",out string output);
 			Assert.AreEqual(0,exitCode,output);
 			return output;
 		}
 
-		private static bool IsElevated() {
+		internal static bool IsElevated() {
 			using(WindowsIdentity windowsIdentity=WindowsIdentity.GetCurrent()) {
 				return new WindowsPrincipal(windowsIdentity).IsInRole(WindowsBuiltInRole.Administrator);
 			}
 		}
 
-		private static byte[] ReadPem(string path,string label) {
+		internal static byte[] ReadPem(string path,string label) {
 			string text=File.ReadAllText(path);
 			string begin="-----BEGIN "+label+"-----";
 			string end="-----END "+label+"-----";
@@ -111,13 +117,13 @@ namespace DbConnectionSecurityTests {
 			return Convert.FromBase64String(text.Substring(indexBegin+begin.Length,indexEnd-indexBegin-begin.Length));
 		}
 
-		private static X509Extension GetExtension(X509Certificate2 x509Certificate2,string oid) {
+		internal static X509Extension GetExtension(X509Certificate2 x509Certificate2,string oid) {
 			return x509Certificate2.Extensions.Cast<X509Extension>().FirstOrDefault(x => x.Oid.Value==oid);
 		}
 
 		///<summary>The DNS names and IP addresses of a Subject Alternative Name extension, read from its DER (GeneralNames: [2] dNSName, [7]
 		///iPAddress), so the check does not depend on the language Windows formats extensions in.</summary>
-		private static List<string> GetAlternativeNames(X509Extension x509Extension) {
+		internal static List<string> GetAlternativeNames(X509Extension x509Extension) {
 			byte[] arrayBytes=x509Extension.RawData;
 			List<string> listNames=new List<string>();
 			Assert.AreEqual(0x30,arrayBytes[0],"GeneralNames is a SEQUENCE.");
@@ -140,7 +146,7 @@ namespace DbConnectionSecurityTests {
 			return listNames;
 		}
 
-		private static void AssertChainsTo(X509Certificate2 x509Certificate2Leaf,X509Certificate2 x509Certificate2Ca) {
+		internal static void AssertChainsTo(X509Certificate2 x509Certificate2Leaf,X509Certificate2 x509Certificate2Ca) {
 			using(X509Chain x509Chain=new X509Chain()) {
 				x509Chain.ChainPolicy.RevocationMode=X509RevocationMode.NoCheck;
 				x509Chain.ChainPolicy.VerificationFlags=X509VerificationFlags.AllowUnknownCertificateAuthority;
@@ -251,7 +257,7 @@ namespace DbConnectionSecurityTests {
 			if(IsElevated()) {
 				Assert.Inconclusive("The test process is elevated; this test only runs without elevation, so the script can never change the server.");
 			}
-			foreach(string arguments in new[] { "","-RequireSecureTransport","-Revert" }) {
+			foreach(string arguments in new[] { "","-RequireSecureTransport","-Revert","-WithClientCertificate -WithTestNetwork 192.0.2.25" }) {
 				Assert.AreEqual(1,RunPowerShell(GetScriptPath(),arguments,out string output),arguments+": "+output);
 				StringAssert.Contains(output,"must run elevated",arguments);
 				Assert.IsFalse(output.Contains("Plan:"),arguments+": it stops before it even makes a plan.");
@@ -534,7 +540,8 @@ namespace DbConnectionSecurityTests {
 			//The record in my.ini decides where -Revert removes files, so a record that no enable run can have written is refused: a folder outside
 			//a profile's OpenPmsDental folder, another name, a path with .. segments, a relative path, a created parent that is not the parent.
 			string output=RunDriver(new[] { "Resolve-FullPath","Get-NormalPath","Get-CanonicalPath","Test-ProfileFolder","Get-RecordProblem","Get-RecordedFolders",
-				"Resolve-RecordedFolders","Add-ToMysqldSection","Get-BlockLines","Get-CreatedParents","Get-LocalAppDataRoots","Get-Paths","Get-DefaultClientFolder" },
+				"Resolve-RecordedFolders","Add-ToMysqldSection","Get-BlockLines","Get-CreatedParents","Get-LocalAppDataRoots","Get-Paths","Get-DefaultClientFolder",
+				"Get-RecordedTestNetwork","Get-TestNetworkRecordProblem","Get-TestAddressFormProblem" },
 				new[] {
 				"$local = Join-Path $Folder 'profiles\\alice\\AppData\\Local'",
 				"$roots = @($local)",
