@@ -633,6 +633,22 @@ namespace EhrTests {
 		}
 
 		[TestMethod]
+		public void ProgressEndText_AnErrorSaysWhereItStopped_AndKeepsTheMessage_NeverDone() {
+			Exception exception=new ApplicationException("Table 'tempehrmeasure1' is\r\nfull");
+			string textError=EhrMeasureCalcRules.GetProgressEndText(exception,false,2,2,14,"Problems");
+			Assert.AreEqual("Stopped with an error at measure 3 of 14 (Problems); 2 measures were calculated. Error: Table 'tempehrmeasure1' is full",
+				textError);
+			Assert.AreEqual(textError,EhrMeasureCalcRules.GetProgressEndText(exception,true,2,2,14,"Problems"),"An error is said even after Cancel.");
+			Assert.AreEqual("Stopped with an error before the first measure; none was calculated. Error: Table 'tempehrmeasure1' is full",
+				EhrMeasureCalcRules.GetProgressEndText(exception,false,0,-1,0,""),"An error in the work-table helper or the stage list.");
+			Assert.AreEqual("Cancelled after 2 measures.",EhrMeasureCalcRules.GetProgressEndText(null,true,2,2,14,"Problems"));
+			Assert.AreEqual("Done: 14 measures.",EhrMeasureCalcRules.GetProgressEndText(null,false,14,13,14,"Immunizations"));
+			foreach(bool isCancelled in new[] { false,true }) {
+				Assert.IsFalse(EhrMeasureCalcRules.GetProgressEndText(exception,isCancelled,5,5,20,"Rx").Contains("Done"));
+			}
+		}
+
+		[TestMethod]
 		public void PeriodNotes_ModifiedStage2_OneStatementOfTheYearShown_AndTheLabelShowsEveryNote() {
 			List<EhrMeasureType> listTypes=EhrMeasures.GetStageMeasureTypes(EhrMeasureStage.ModifiedStage2);
 			for(int yearStart=2013;yearStart<=2018;yearStart++) {

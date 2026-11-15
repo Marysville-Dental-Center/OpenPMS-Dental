@@ -132,29 +132,40 @@ namespace OpenPmsDental {
 			//measures and no work table is left half filled. No Join: the window stays responsive, and closing it only asks the thread to stop.
 			EhrMeasureStage ehrMeasureStage=_ehrMeasureStage;
 			long provNum=_provNum;
+			//Set on the refresh's thread: the measure being calculated, and the error that stopped the refresh. ODThread runs the exit handler after
+			//the exception handler, and the exit handler reads them on the window's thread once the refresh has stopped.
+			int indexStarted=-1;
+			int countTotal=0;
+			EhrMeasureType ehrMeasureTypeStarted=EhrMeasureType.ProblemList;
+			Exception exceptionRun=null;
 			ODThread odThread=new ODThread(o => {
 				RunCalculation(ehrMeasureStage,dateStart,dateEnd,provNum,() => _isCancelRequested,
-					(index,count,ehrMeasureType) => this.InvokeIfNotDisposed(() => {
-						labelProgress.Text=Lan.g(this,"Calculating measure")+" "+(index+1).ToString()+" "+Lan.g(this,"of")+" "+count.ToString()+": "
-							+EhrMeasureCalcRules.GetMeasureTitle(ehrMeasureStage,ehrMeasureType);
-					}),
+					(index,count,ehrMeasureType) => {
+						indexStarted=index;
+						countTotal=count;
+						ehrMeasureTypeStarted=ehrMeasureType;
+						this.InvokeIfNotDisposed(() => {
+							labelProgress.Text=Lan.g(this,"Calculating measure")+" "+(index+1).ToString()+" "+Lan.g(this,"of")+" "+count.ToString()+": "
+								+EhrMeasureCalcRules.GetMeasureTitle(ehrMeasureStage,ehrMeasureType);
+						});
+					},
 					(index,count,ehrMeasure) => this.InvokeIfNotDisposed(() => {
 						_listEhrMeasures.Add(ehrMeasure);
 						FillGrid();
 					}));
 			});
 			odThread.Name="EhrMeasureCalc";
-			odThread.AddExceptionHandler(ex => this.InvokeIfNotDisposed(() => {
-				FriendlyException.Show(Lan.g(this,"The measures could not be calculated."),ex);
-			}));
+			odThread.AddExceptionHandler(ex => {
+				exceptionRun=ex;
+				this.InvokeIfNotDisposed(() => {
+					FriendlyException.Show(Lan.g(this,"The measures could not be calculated."),ex);
+				});
+			});
 			odThread.AddExitHandler(o => this.InvokeIfNotDisposed(() => {
 				_odThread=null;
-				if(_isCancelRequested) {
-					labelProgress.Text=Lan.g(this,"Cancelled after")+" "+_listEhrMeasures.Count.ToString()+" "+Lan.g(this,"measures.");
-				}
-				else {
-					labelProgress.Text=Lan.g(this,"Done:")+" "+_listEhrMeasures.Count.ToString()+" "+Lan.g(this,"measures.");
-				}
+				//After an error the line says where the refresh stopped and keeps the error's message, never "Done".
+				labelProgress.Text=EhrMeasureCalcRules.GetProgressEndText(exceptionRun,_isCancelRequested,_listEhrMeasures.Count,indexStarted,countTotal,
+					indexStarted<0 ? "" : EhrMeasureCalcRules.GetMeasureTitle(ehrMeasureStage,ehrMeasureTypeStarted));
 				SetControlsForRun(isRunning:false);
 			}));
 			_odThread=odThread;
@@ -502,6 +513,26 @@ namespace OpenPmsDental {
 				}
 			}
 			return "";//Not reached.
+		}
+
+		///<summary>The progress line when a refresh ends. After an error: where the refresh stopped (the measure being calculated, its number and
+		///name, or before the first), how many were calculated, and the error's message on one line, which stays shown after the error window is
+		///closed; never "Done". Cancelled: "Cancelled after N measures." Otherwise "Done: N measures." countDone is the number calculated,
+		///indexStarted the measure being calculated (-1 before the first), countTotal the stage's count.</summary>
+		public static string GetProgressEndText(Exception exception,bool isCancelled,int countDone,int indexStarted,int countTotal,string titleStarted) {
+			string count=countDone.ToString(CultureInfo.InvariantCulture);
+			if(exception!=null) {
+				string message=System.Text.RegularExpressions.Regex.Replace(exception.Message??"",@"\s+"," ").Trim();
+				if(indexStarted<0) {
+					return "Stopped with an error before the first measure; none was calculated. Error: "+message;
+				}
+				return "Stopped with an error at measure "+(indexStarted+1).ToString(CultureInfo.InvariantCulture)+" of "
+					+countTotal.ToString(CultureInfo.InvariantCulture)+" ("+titleStarted+"); "+count+" measures were calculated. Error: "+message;
+			}
+			if(isCancelled) {
+				return "Cancelled after "+count+" measures.";
+			}
+			return "Done: "+count+" measures.";
 		}
 
 		///<summary>A numerator or denominator: "not calculated" for -1.</summary>
