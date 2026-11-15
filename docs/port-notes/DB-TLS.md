@@ -551,4 +551,328 @@ scratch folders), and every database connection went to `127.0.0.1:3306`.
 - **S2-2's client certificate.** Should the script make a client certificate signed by the test CA, for S2-2's certificate-login test (a
   `REQUIRE X509` test account on the local server; the key in `%LOCALAPPDATA%\OpenPmsDental\DevDbTlsClient`, readable by the dev account)?
   Until the answer is yes the script makes none and that part of S2-2 waits. A yes after the enable run means `-Revert` and the enable run
-  again with `-WithClientCertificate` (a new CA), because the CA's key is discarded after each run.
+  again with `-WithClientCertificate` (a new CA), because the CA's key is discarded after each run. **Answered 2026-11-09: yes**
+  (`docs/owner-questions.md`, "Pending items answered on 2026-11-09"); section 11 runs it together with the test network.
+
+## 11. The test network of S2-2's check (DB-TLS-ENV, branch `tools/dbtls-env-1`, 2026-11-14)
+
+S2-2's database TLS check (`TlsCertificateLoginTests`, `docs/port-notes/S2-2.md` section 6) needs three things the script did not make: a
+listener on an address of this computer that is not loopback, a server certificate that names it, and two client certificates of the
+server's CA in `LocalMachine\My`, one with its key in a CAPI provider and one in a CNG provider. **The owner's decision (2026-11-14):** a
+Windows virtual loopback network adapter (the Microsoft KM-TEST Loopback Adapter) with one private address from the documentation range
+192.0.2.0/24, which no other computer can reach; the local MariaDB also listens on that address; nothing is exposed on the office network;
+`-Revert` removes the adapter again. The owner runs the script elevated; the agents never do, and never install an adapter or change a
+network setting, the firewall or the MariaDB service on this PC. **The one exception** to "only `127.0.0.1:3306`": the tests may connect
+to that test address on port 3306 (`OPMS_DB_TLS_TEST_SERVER`), nothing else (`docs/owner-questions.md`, plan O-8 and O-12).
+
+### 11.1 What `-WithTestNetwork <192.0.2.x>` adds to the enable run
+
+The switch goes with the enable run (or `-TestCertificatesFolder`) only; `-Revert` and `-RequireSecureTransport` take the test network
+from the record in `my.ini` and refuse the switch. An address that is not one host address of 192.0.2.0/24 (192.0.2.1 to 192.0.2.254,
+without leading zeros) is refused before anything else, also before the elevation check. The checks (no elevation, nothing changed) then
+refuse an address this computer has, another address of 192.0.2.0/24 on any interface, a route other than the default route that leads
+into 192.0.2.0/24 (a VPN, for one), a server older than MariaDB 10.11, a missing `%windir%\INF\netloop.inf`, an adapter already named
+`OPMS DB TLS test` or a firewall rule of this script that exists already, and the firewall off in a profile while an interface forwards
+IPv4 or takes packets for other interfaces' addresses (weak host receive). The plan tags each change; `-Revert`'s plan names each tag again:
+
+| Tag | The enable run | `-Revert` |
+|---|---|---|
+| `[adapter]` | A Microsoft KM-TEST Loopback Adapter (hardware id `*MSLOOP`), created through the SetupAPI from Windows' own `netloop.inf`, named `OPMS DB TLS test`. Loopback adapters that exist already are not touched. | First of all: removes the recorded device (only when its hardware id is `*MSLOOP`) and checks that it and the address are gone. |
+| `[address]` | `192.0.2.x/32` and nothing else: no gateway, no DNS server, no DNS registration; DHCP, forwarding and weak host receive off (checked); duplicate address detection, weak host send, router discovery and NetBIOS over TCP/IP off (a `WARNING` where Windows keeps one). | Goes with the adapter. |
+| `[bindings]` | Every binding but Internet Protocol Version 4 switched off; File and Printer Sharing (`ms_server`), Client for Microsoft Networks (`ms_msclient`) and IPv6 (`ms_tcpip6`) must be off (checked), any other gets a `WARNING` if Windows keeps it. | Go with the adapter. |
+| `[firewall]` | When the firewall is on in any profile: `OpenPmsDental-DbTlsTest-Allow3306` (TCP 3306 on the address from the address itself, this computer) and `OpenPmsDental-DbTlsTest-Block3306` (from every other remote address), group `Open PMS - Dental local test TLS`, every profile. | Last: removes the recorded rules (only of that group) once the adapter and its address are gone; while the adapter stays (its removal failed), the rules stay too and are named as kept, so the address on which the server may still listen never lacks its block rule, and a later `-Revert` finds them in the record. |
+| `[server-certificate]` | The server certificate also names the address (`IP:`) and the computer's host name (`DNS:`), beside `localhost` and `127.0.0.1`. | Goes with the `opms-dev-tls` folder. |
+| `[client-certificates]` | `CN=opms-dbtls-test-client-capi` and `CN=opms-dbtls-test-client-cng` (RSA 2048, 5 years, clientAuth), signed by the same CA in the same run (its key is still discarded), each as its own `.pfx` (only the certificate and its key; a random password) in `opms-dev-tls\client-pfx` (Administrators only), imported with `certutil -csp ... -importPFX My <file> NoExport,NoChain,NoRoot` into `LocalMachine\My`: the first in `Microsoft Enhanced RSA and AES Cryptographic Provider` (CAPI), the second in `Microsoft Software Key Storage Provider` (CNG). The run checks the provider and the computer's key set, then deletes the `.pfx` files. The block records each key's provider, container and file. | Deletes each key (the CAPI container through the CSP, the CNG key with `CngKey.Delete`), removes the store entry and checks that both, and the key file, are gone. Only a certificate of that name that the test CA issued is removed. A certificate that is gone already (its store entry deleted by hand, in `certlm.msc` or with `certutil -delstore`, which leave the key file) does not end it: the recorded key is deleted when its file is still there, once its container opens as that very file. |
+| `[key-access]` | `BUILTIN\Users` read access to both key files, as `ClientCertificateStore.GrantUsersReadToPrivateKey` gives it, so the lead's unelevated run can use them. | Goes with the keys: no key that the users can read is left behind (the owner's rule). |
+| `[bind-address]` | The block ends with `bind-address=127.0.0.1,192.0.2.x`, after `my.ini`'s own `bind-address=127.0.0.1` (the last one wins). After the restart the server must report that bind address, the service's process must listen on `127.0.0.1:3306` and `192.0.2.x:3306` (`Get-NetTCPConnection`), and `mariadb.exe` with `--ssl-ca --ssl-verify-server-cert` must not fail the TLS check at the address (an `Access denied` or host refusal there only gets a note: the test checks with its own account). | Restoring `my.ini` drops it; the run checks that nothing listens on the address any more. |
+
+The block records what the run made, as comment lines after the folders' record (the adapter and the thumbprints are filled in as the run
+makes them):
+
+```ini
+# test-address=192.0.2.25
+# test-adapter=ROOT\NET\0001
+# test-firewall-rule=OpenPmsDental-DbTlsTest-Allow3306
+# test-firewall-rule=OpenPmsDental-DbTlsTest-Block3306
+# test-client-capi=<40 hex digits>
+# test-client-cng=<40 hex digits>
+# test-client-capi-key=Microsoft Enhanced RSA and AES Cryptographic Provider|<container>|C:/ProgramData/Microsoft/Crypto/RSA/MachineKeys/<file>
+# test-client-cng-key=Microsoft Software Key Storage Provider|<key name>|C:/ProgramData/Microsoft/Crypto/Keys/<file>
+...
+tls_version=TLSv1.2,TLSv1.3
+bind-address=127.0.0.1,192.0.2.25
+```
+
+Every mode's checks then expect `bind-address=127.0.0.1,<the recorded address>` instead of `127.0.0.1` (in `my.ini` and from the server).
+`-Revert` and `-RequireSecureTransport` refuse a record that no enable run can have written (an address outside 192.0.2.0/24, an adapter
+that is not `ROOT\NET\nnnn`, another rule name, a value that is no thumbprint, a key that is missing, in another provider than this
+script's of its kind, with a path in its container name, or whose file is not directly in `%ProgramData%\Microsoft\Crypto\RSA\MachineKeys`
+(CAPI) or `%ProgramData%\Microsoft\Crypto\Keys` (CNG)), and `-Revert` also refuses, before any change, a recorded
+adapter that is not a loopback adapter, a rule of another group, and a certificate of another name or not issued by the test CA.
+`-RequireSecureTransport` keeps the record and checks the listener on the address after its restart. `-Revert` removes the test network
+first, while the record in `my.ini` still names it: when a step fails, nothing else is changed (exit 4) and `-Revert` can run again. A failed
+enable run (exit 3) removes the adapter, both certificates with their keys and the firewall rules again, beside the undo of section 2;
+when that fails too (exit 4) the message names each of them.
+
+**The journal.** The block goes into `my.ini` only after the whole test network is made, so the run also writes each record line to
+`<MariaDB folder>\opms-dev-tls\test-network.record` (a protected ACL: Administrators and SYSTEM only) *before* the item it names is made:
+the address before the adapter is created, the adapter's id right after its creation, each rule name before its rule, each thumbprint
+before `certutil`, each key line right after the import and before `BUILTIN\Users` get read access to the key file. A failed run's undo
+removes the test network in its own step, also when the restore of `my.ini` or the restart failed, and deletes the journal only when that
+removal leaves nothing; while it does not, the `opms-dev-tls` folder (the journal and `ca.pem`) stays. When `my.ini`'s block records no
+test network, `-Revert` reads the journal instead, refuses one with a line no run writes (as for the block, but items the run had not
+made yet may be missing), checks what it names (`*MSLOOP`, the rule group, the certificates' names and the test CA of `ca.pem`), and
+removes it before anything else: an interrupted run (Ctrl+C in a wait, a closed window, a crash: no backup, no block) or a failed run whose
+undo restored `my.ini` and then could not restart the service or remove the test network (a backup, no block). Without a backup and a block
+it leaves `my.ini` and the service alone and removes only what the stopped run made, so the enable run can start again. It removes the
+`opms-dev-tls` folder only once nothing the journal names is there (else exit 4, nothing else changed). The journal stays as long as the
+test network does; after a whole run it holds the same lines as the block.
+
+**How the adapter is made without a download.** Windows 11 has `netloop.inf` in `%windir%\INF` and in the driver store
+(`netloop.inf_amd64_*`), so no driver is needed. Neither of Windows' own command-line tools creates a device: `pnputil` stages and
+installs drivers and enables, disables, restarts and removes devices (its commands on this PC: `/add-driver`, `/delete-driver`,
+`/export-driver`, `/enum-*`, `/disable-device`, `/enable-device`, `/restart-device`, `/remove-device`, `/scan-devices`), and `devcon` is not
+part of Windows. So the script does what `devcon install` does, through the SetupAPI by P/Invoke (`Add-Type`, the .NET Framework's own
+compiler): `SetupDiCreateDeviceInfo` (class Net, `DICD_GENERATE_ID`: `ROOT\NET\nnnn`), the hardware id `*MSLOOP`,
+`SetupDiBuildDriverInfoList` and `SetupDiSelectBestCompatDrv`, then `DIF_REGISTERDEVICE`, `DIF_REGISTER_COINSTALLERS`,
+`DIF_INSTALLINTERFACES` and `DIF_INSTALLDEVICE` for that one device (not `UpdateDriverForPlugAndPlayDevices`, which would reinstall every
+other `*MSLOOP` device too). A device registered before a later step fails is removed again (`DIF_REMOVE`); a device that asks for a
+restart fails the run. Its removal opens the recorded device and removes it with `DIF_REMOVE` only when its hardware id is `*MSLOOP`.
+No owner question was needed.
+
+**MariaDB's list of bind addresses.** The installed 10.11.19's help text (in `bin\server.dll`): "IP address to bind to. Several addresses
+may be specified, separated by a comma (,)." The MariaDB documentation (server system variables, `bind_address`) says the same from 10.11
+on (from memory: no internet here). The script requires 10.11 or later and checks `@@bind_address` and both listeners after the restart.
+
+**After a restart of the computer** the service starts with both addresses, so the adapter's address must be there by then. Duplicate
+address detection is off on the adapter so that the address is usable at once. If the service ever does not start after a restart of the
+computer, start it (`Start-Service MariaDB`) and tell the lead; `-Revert` takes the second address out again.
+
+**`TlsCertificateLoginTests` fixed on the way.** It told a CAPI key from a CNG key by the type of `GetRSAPrivateKey()`, but .NET Framework
+(the tests' target) opens a CAPI key through CNG too and gives an `RSACng` (checked here with an in-memory CAPI key), so the CAPI certificate
+would have failed as "a CNG key". It now reads the certificate's key provider information without opening the key
+(`CertificateKeyProvInfo`, provider type 0 for CNG), requires the computer's key set, and then opens the key as that kind
+(`PrivateKey` as `RSACryptoServiceProvider` for CAPI). `DevDbTlsTestNetworkTests.TlsCertificateLoginTests_TellsACapiKeyFromACngKey_...`
+checks it on synthetic key provider information.
+
+### 11.2 The owner's run (elevated)
+
+Before: tell the lead, so that no build-lane or test run uses the database during the restart. If TLS is already on through the script (an
+earlier enable run without the switch), the dry run says `already on`: run `-Revert` first (section 4; a new CA follows, which the dev
+tools find at the same path).
+
+1. Open Windows PowerShell with **Run as administrator**, from the account that runs the dev tools and tests, and go to a checkout of `main`
+   with this package.
+2. Look at the plan (changes nothing):
+
+   ```powershell
+   powershell -NoProfile -ExecutionPolicy Bypass -File tools\Enable-LocalDbTls.ps1 -DryRun -WithClientCertificate -WithTestNetwork 192.0.2.25
+   ```
+
+   **Check:** no `REFUSED:` line; the plan shows the steps tagged `[adapter]`, `[address]`, `[bindings]`, `[firewall]` (or "the Windows
+   firewall is off in every profile"), `[client-certificates]`, `[key-access]`, `[server-certificate]` and `[bind-address]`, and the block
+   ends with `bind-address=127.0.0.1,192.0.2.25`. A refusal that the address is in use, or that a route leads into 192.0.2.0/24, means
+   another address of 192.0.2.1 to 192.0.2.254 (or asking the lead).
+3. Run it, and type `YES` when it asks:
+
+   ```powershell
+   powershell -NoProfile -ExecutionPolicy Bypass -File tools\Enable-LocalDbTls.ps1 -WithClientCertificate -WithTestNetwork 192.0.2.25
+   ```
+
+   **Check:** it ends with `TLS is on: ...`, `The server certificate was verified against ...\ca.pem`, `The service listens on
+   127.0.0.1:3306 and 192.0.2.25:3306 (adapter ROOT\NET\nnnn, 'OPMS DB TLS test')`, and three lines to paste:
+
+   ```text
+     $env:OPMS_DB_TLS_TEST_SERVER='192.0.2.25'
+     $env:OPMS_DB_TLS_TEST_CAPI_THUMBPRINT='<40 hex digits>'
+     $env:OPMS_DB_TLS_TEST_CNG_THUMBPRINT='<40 hex digits>'
+   ```
+
+   Send those three lines, and any `WARNING` line, to the lead. `FAILED` with `Undone:` (exit code 3) means nothing stayed changed, the
+   test network included; `Undoing failed too` (exit code 4) names what is left. Then run `-DryRun -Revert` and `-Revert` in this
+   elevated window (section 11.4): it also undoes the test network of a run that did not finish, from the journal when `my.ini` has no
+   block. The same after a run that was interrupted (Ctrl+C, a closed window, a crash): the enable run refuses to start again while the
+   `opms-dev-tls` folder is there, and `-Revert` removes what the stopped run made. By hand instead: the adapter first (Device Manager,
+   Network adapters), then each test certificate (the message names the key file and the command that deletes the key, **before** the
+   store entry), the firewall rules last:
+
+   ```powershell
+   certutil -csp "<provider>" -delkey "<container>"
+   certutil -delstore My <thumbprint>
+   ```
+
+   and then check that the key file it named is gone (`Test-Path '<key file>'` is `False`). Not `certlm.msc`: its Delete, like
+   `certutil -delstore` alone, removes only the store entry and leaves the key file, which `BUILTIN\Users` can read (the owner's rule).
+   For a certificate whose key the run had not read yet the message says to take the provider and the container from
+   `certutil -store My <thumbprint>` (`Provider =`, `Key Container =`). The run prints the values again whenever it is started later
+   (`already on`), from the record in `my.ini`.
+4. Optional checks (they change nothing): `Get-NetIPAddress -InterfaceAlias 'OPMS DB TLS test'` shows `192.0.2.25` with prefix 32 only;
+   `Get-NetAdapterBinding -Name 'OPMS DB TLS test' | Where-Object Enabled` shows `ms_tcpip` (and only what a `WARNING` named);
+   `Get-NetTCPConnection -LocalPort 3306 -State Listen` shows `127.0.0.1` and `192.0.2.25`, the same process;
+   `Get-NetFirewallRule -Group 'Open PMS - Dental local test TLS'` shows the two rules; `certlm.msc`, Personal, Certificates, shows
+   `opms-dbtls-test-client-capi` and `opms-dbtls-test-client-cng`.
+5. After the next restart of the computer: `Get-Service MariaDB` is `Running` (see "After a restart of the computer" above).
+
+### 11.3 The lead's test run (not elevated)
+
+In a worktree with this package, after a build of `DbConnectionSecurityTests` and `NoHqTests`, in a PowerShell window that is not elevated,
+of the account the owner ran the script for (the tests find the CA in its `%LOCALAPPDATA%`):
+
+```powershell
+$env:OPMS_DB_TLS_TEST_SERVER='192.0.2.25'
+$env:OPMS_DB_TLS_TEST_CAPI_THUMBPRINT='<from the owner's run>'
+$env:OPMS_DB_TLS_TEST_CNG_THUMBPRINT='<from the owner's run>'
+powershell -NoProfile -ExecutionPolicy Bypass -File <common git folder>\od-tools\run-tests.ps1 -Root . -Mode Targeted -Include DbConnectionSecurityTests,NoHqTests -Out <file>
+```
+
+**Check:**
+- `TlsCertificateLoginTests.NonLoopbackServer_VerifyFull_X509User_WithACapiKeyAndWithACngKey` **passed** (not skipped). A failure says
+  which variable or step: a thumbprint not in `LocalMachine\My`, a key the account cannot read, the CAPI certificate's key in a CNG
+  provider or the other way round, the session not encrypted, the user not the `REQUIRE X509` one, or the server not refusing the login
+  without a certificate or with another CA.
+- `WithoutTheVariables_TheCheckIsInconclusive_NeverAPass` is inconclusive (the variables are set), and the `DevDbTlsServerTests` pass now
+  that the CA exists, `ClientCertificateForS22_ChainsToTheServersCa` included; `WhenTheServerRequiresTls_AConnectionWithoutTlsIsRefused`
+  stays inconclusive until `-RequireSecureTransport` (section 5).
+- The test left nothing behind: `SELECT User FROM mysql.user WHERE User LIKE 's22_x509_%'` and `SHOW DATABASES LIKE 's22_tls_%'` (as
+  root on `127.0.0.1:3306`) are empty.
+- The connections went to `127.0.0.1:3306` and `192.0.2.25:3306` only (the exception above). The test enforces it: before any
+  connection, `ReadSetup` fails unless `OPMS_DB_TLS_TEST_SERVER` is an IPv4 address from 192.0.2.1 to 192.0.2.254 that this computer has
+  (its own unicast addresses), on port 3306, with a message that names the owner's exception; a name, a LAN address or a 192.0.2.x that
+  is not this computer's never gets a connection.
+
+Then the stage 2 gate's database TLS check is done: note the run (date, counts, the result file) in `docs/port-notes/S2-2.md` section 6 and
+the plan's gate. The variables live only in that window; the 3b gate runs the same steps again (the environment stays until `-Revert`).
+
+### 11.4 The undo (elevated, the owner)
+
+1. Look at the plan: `powershell -NoProfile -ExecutionPolicy Bypass -File tools\Enable-LocalDbTls.ps1 -DryRun -Revert`.
+   **Check:** it starts with the test network, in the order of its removal: `[adapter]` (`ROOT\NET\nnnn`, first) with `[address]
+   [bindings]`, `[client-certificates]` (each thumbprint, "its key in a CAPI provider" and "in a CNG provider", each with its recorded key
+   file; for a certificate deleted by hand meanwhile, "but its key file ... is still there ...: delete that key"), `[key-access]`,
+   `[firewall]` (the two rules, last, "If the adapter cannot be removed, the rules stay"), `[bind-address]`, `[server-certificate]`, then the
+   restore of `my.ini`, the restart and the files of section 2. After a run that did not finish, the test network comes from the journal:
+   "First the test network 192.0.2.25 of an enable run that did not finish, as its journal ...\test-network.record records it", with
+   only the items that run had made ("The record names no loopback adapter (the run stopped before it made one)" and the like); without a
+   backup the plan also says "an enable run stopped before it changed my.ini" and has no restore and no restart. A `REFUSED:` line means
+   the record or the journal, or what it names, is not this script's (section 11.1); nothing is touched then.
+2. Run `powershell -NoProfile -ExecutionPolicy Bypass -File tools\Enable-LocalDbTls.ps1 -Revert`, then `YES`.
+   **Check:** `Removed the test network: the adapter ROOT\NET\nnnn and 192.0.2.25, both test certificates with their keys, the firewall
+   rules.` and `TLS is off again: ...` (after a run that stopped before it changed `my.ini`: `Removed what the enable run that did not finish
+   had made; my.ini and the service were not touched.`). Optional: `Get-NetAdapter -Name 'OPMS DB TLS test'` and `Get-NetIPAddress -IPAddress
+   192.0.2.25` find nothing, `Get-NetFirewallRule -Group 'Open PMS - Dental local test TLS'` finds nothing, `certlm.msc` shows no
+   `opms-dbtls-test-client` certificate, the two key files the plan named are gone (`Test-Path`), the `opms-dev-tls` folder is gone, and
+   `Get-NetTCPConnection -LocalPort 3306 -State Listen` shows `127.0.0.1` only.
+   `FAILED: the test network is not fully removed` (exit code 4) changed nothing else: the record (the block, or the journal with the
+   `opms-dev-tls` folder and `ca.pem`) stays. When the adapter could not be removed, the firewall rules are kept with it ("are kept,
+   because the adapter and its address ... are still there"). Put right what it names (for the adapter: Device Manager, or a restart of the
+   computer when Windows asks for one) and run `-Revert` again.
+
+There is no switch that drops only the test network: `-Revert` and the enable run without `-WithTestNetwork` (a new CA) do that.
+
+### 11.5 Files and checks run here
+
+- Changed: `tools/Enable-LocalDbTls.ps1` (ASCII), `tests/DbConnectionSecurityTests/DevDbTlsScriptTests.cs` (its helpers shared; the
+  driver loads the new settings; the elevation refusal also with the switch), `tests/DbConnectionSecurityTests/TlsCertificateLoginTests.cs`
+  (section 11.1), this note, `docs/port-notes/S2-2.md` section 6, `docs/owner-questions.md`, `docs/specs/net10-plan.md` (O-8, O-12).
+  `docs/release-notes/next.md` is not changed: a developer tool, nothing an office notices.
+- New: `tests/DbConnectionSecurityTests/DevDbTlsTestNetworkTests.cs`, without elevation and without touching this PC's network, MariaDB
+  service or a store: the certificate set of `-TestCertificatesFolder -WithTestNetwork` (the server's names; each `.pfx` read back with
+  `EphemeralKeySet`: one certificate, its key, clientAuth only, the same CA, not readable with another password); the refusal of nine
+  values that are no host address of 192.0.2.0/24 (`127.0.0.1`, the network and broadcast addresses, leading zeros, a name, IPv6) before
+  the service is looked at, and of the switch with `-Revert` and `-RequireSecureTransport`; the
+  address-in-use and network checks on synthetic addresses, routes and facts; the record in the block, read back, kept by
+  `-RequireSecureTransport`'s block, and refused when no run can have written it; the state checks that keep `-Revert` to what the script
+  made; the enable plan and `-Revert`'s plan with every tag (also with the firewall off and with everything gone); a real dry run that lists
+  every step and changes nothing; the SetupAPI source compiled (never called) and no download in the script.
+- Nothing here ran elevated, created an adapter, or changed a network setting, the firewall, the MariaDB service, `my.ini` or a
+  certificate store; every database connection went to `127.0.0.1:3306`.
+- Results: the full lane build has no error. Targeted runs, all passed: `DbConnectionSecurityTests` 237 (226 passed; 11 inconclusive by
+  design until the owner's run: the nine `DevDbTlsServerTests`, `DataConnection_Loopback_WithTheLocalTestServersCa_VerifyCa` and
+  `TlsCertificateLoginTests.NonLoopbackServer_VerifyFull_X509User_WithACapiKeyAndWithACngKey`, whose variables are not set here), with the
+  eight new `DevDbTlsTestNetworkTests` and the updated `DevDbTlsScriptTests` passing; `NoHqTests` 57. `InitSqlTests` and
+  `ForkMigrationTests` left out under the rule for every package (no schema change here).
+
+### 11.6 The fix round after the review (branch `tools/dbtls-env-2`, 2026-11-14)
+
+1. **A Users-readable key could stay behind.** (a) A failed enable run whose undo also failed (exit 4) said to remove the certificates
+   "with their keys (certlm.msc)"; `certlm.msc`'s Delete, like `certutil -delstore`, removes only the store entry, and the CAPI container
+   in `RSA\MachineKeys` or the CNG file in `Keys` stays, with the `BUILTIN\Users` read access the run gave it. (b) The record kept only the
+   thumbprints, and the removal stopped as soon as the certificate was gone from `LocalMachine\My`, so after a store entry deleted by hand
+   `-Revert` said "nothing to remove" and "no key that the users can read is left behind" while the key file was still there.
+   **Fixed:** the block records each key as `# test-client-capi-key=` / `# test-client-cng-key=` `<provider>|<container>|<key file>` from
+   the import (section 11.1); the later modes refuse a key record that this script cannot have written (another provider, a container name
+   with a path in it, a file not directly in the computer's key folder of its kind, or none). `-Revert` reads whether each recorded key
+   file is there; its plan says, for a certificate that is gone with its key file left, "delete that key (the container ... in '...', once
+   it opens as that very file) and check that the file is gone", and the removal does it (`Remove-TestKey`: CAPI through the CSP with
+   `UseMachineKeyStore|UseExistingKey`, `PersistKeyInCsp=false`, `Clear()`; CNG with `CngKey.Open(..., MachineKey).Delete()`; nothing is
+   deleted when the container's unique name is not the recorded file's name) and reports a key file that stays. A failed enable run's own
+   undo knows each key too, and its exit-4 message names each key file with `certutil -csp "<provider>" -delkey "<container>"` before
+   `certutil -delstore My <thumbprint>` (section 11.2, step 3).
+2. **The tests could connect elsewhere.** `TlsCertificateLoginTests.ReadSetup` checked only that the server was not loopback and the port
+   3306, so a variable set by mistake to an office server's name or a LAN address would have opened `VerifyFull` connections there with the
+   computer's client certificates. **Fixed:** before any connection (and before it reads the CA variable) it fails unless the host is an
+   IPv4 address from 192.0.2.1 to 192.0.2.254 in its plain form and one of this computer's own unicast addresses
+   (`NetworkInterface.GetAllNetworkInterfaces()`), with a message that names the owner's exception; no name is looked up (section 11.3).
+
+Tests: `DevDbTlsTestNetworkTests.TestNetwork_ACertificateDeletedByHand_LeavesItsKeyFile_RevertsPlanAndRemovalDeleteTheRecordedKey` (a
+record whose certificates are in no store, one key file present in the test's temporary folder: `-Revert`'s state and plan delete that key;
+the removal, with `Remove-TestKey` replaced by one that only deletes that file, deletes it and reports a file that stays; the exit-4 text);
+the record test with the key lines and eight refused key records; the plan test with each recorded key file; the dry run's key lines;
+`TlsCertificateLoginTests.TheServerVariable_OnlyTheOneLocalTestAddress_AnythingElseFailsBeforeAnyConnection` (synthetic variables and
+addresses of "this computer": `10.0.0.5` (also when this computer has it), two host names, `192.0.2.99` that is not local, the network and
+broadcast addresses, a leading zero, the one-number form, another documentation range; each refused before the CA is read; the local
+`192.0.2.25` passes). Nothing ran elevated, opened or deleted a real key, or connected anywhere but `127.0.0.1:3306`.
+
+Results: the full lane build has no error. Targeted runs, all passed: `DbConnectionSecurityTests` 239 (228 passed; the same 11
+inconclusive by design until the owner's run as in section 11.5), with the two new tests passing; `NoHqTests` 57 passed. `InitSqlTests`
+and `ForkMigrationTests` left out under the rule for every package (no schema change here).
+
+### 11.7 The second fix round (branch `tools/dbtls-env-3`, 2026-11-14)
+
+1. **`-Revert` could not find the test network of a run that did not finish.** Its only record was the block in `my.ini`, written after
+   the whole test network was made. (a) When a failed run's undo copied the backup over `my.ini` and then the restart threw (exit 4), the
+   test network was never undone, `my.ini` was the old file again (no record) and the backup stayed: a later `-Revert` restored, restarted,
+   deleted the `opms-dev-tls` folder with `ca.pem` and said "TLS is off again" (exit 0), leaving the adapter, the rules and both keys that
+   `BUILTIN\Users` can read, which could then no longer be checked against the test CA. (b) An interrupted run (Ctrl+C in the waits of
+   up to 60 and 20 seconds, a closed window, a crash) skipped the undo and left all of it with no backup and no block: `-Revert` refused
+   ("remove the block between the marker lines by hand", but there was none), and the enable run refused because the folder was there.
+   **Fixed:** the journal of section 11.1, written before each item is made; the failed run's undo (`Undo-FailedEnable`) removes the test
+   network in its own step whatever happened to `my.ini` and the restart, and keeps the journal and the folder while that removal is not
+   complete; `-Revert` reads the journal when the block records no test network, checks it and what it names, and removes it before the
+   "backup is missing" refusal and before the folder; with no backup and no block it removes only what the stopped run made. The exit-4
+   text says that `-Revert` also undoes an interrupted run's test network (section 11.2, step 3; section 11.4).
+2. **The block rule went before the adapter.** `Undo-TestNetwork` removed the firewall rules first and the adapter last, while `-Revert`
+   restores `my.ini` and restarts only afterwards, so the server still listened on `192.0.2.x:3306` without its block rule until the
+   adapter was gone, and for good when the adapter's removal failed (exit 4). With the firewall on, the enable run does not check for
+   interfaces that forward IPv4 or receive for other interfaces' addresses (it relies on the block rule), so on a computer with Internet
+   Connection Sharing or a Hyper-V or WSL switch the address could have been reached from beyond it. **Fixed:** the adapter first
+   (`Remove-TestAdapter` waits until the address is gone), then the certificates with their keys, the rules last and only when the adapter
+   step succeeded; otherwise they are kept and named, and the record that names them stays. `-Revert`'s plan follows that order
+   (section 11.1 table, section 11.4).
+3. **Found on the way: every `-Revert` with a test network would have stopped with exit 4.** `Undo-TestNetwork` returns its list with
+   `return , $problems`, and the callers wrapped the call in `@()`: in Windows PowerShell 5.1 that gives one element, the list itself (an
+   empty list counts 1; checked here with a two-line script), so a removal that left nothing still printed "the test network is not fully
+   removed" and kept the record, run after run; a failed enable run's undo would always have said "Undoing failed too". The callers now
+   assign first and wrap after (also for the new `Get-TestNetworkLeft`). The new driver tests run the real `Undo-TestNetwork` through
+   `Invoke-Revert` and `Undo-FailedEnable`, so this is now covered.
+
+Tests (`DevDbTlsTestNetworkTests`, no elevation; every step that would change this computer replaced by a function that only notes its
+call, all files in the test's temporary folder):
+`TestNetwork_TheJournal_RecordsEachItemBeforeItIsMade_AndReadsBackForRevert` (`Install-TestNetwork` with the adapter's creation replaced
+by a type of the same name that reads the journal: the address before the creation, the id right after, each rule before
+`New-NetFirewallRule`, each thumbprint before the import, each key before the users' read access, also with a crash there; read back as a
+record `-Revert` accepts; a journal of a run that stopped after the address gives a plan with every tag and nothing to remove; a journal
+line no run writes, and a key without its thumbprint, refused);
+`TestNetwork_Revert_AJournalWithoutABlock_RemovesTheAdapterTheRulesAndTheKeys_AlsoWithoutABackup` (`Invoke-Revert` on a scratch `my.ini`
+without a block: without a backup no "backup is missing" refusal, no restore and no restart; with a backup the restore after the removal;
+the plan names the adapter, both rules and both keys with every tag; the adapter, the certificates and the rules removed in that order;
+an item the journal names that is still there ends it with exit 4, the folder, the journal and the backup kept);
+`TestNetwork_UndoTestNetwork_TheAdapterFirst_TheRulesLast_AndKeptWhileTheAdapterStays` (with `Remove-TestAdapter` throwing,
+`Remove-TestFirewallRule` is not called and the rules are in the list as kept);
+`TestNetwork_AFailedRunsUndo_UndoesTheTestNetwork_AlsoWhenTheRestartFails_AndKeepsTheJournalWhileItIsNotUndone`; the plan test checks the
+new order and the journal line of the enable plan.
+
+Results: the full lane build has no error. Targeted runs, all passed: `DbConnectionSecurityTests` 243 (232 passed; the same 11
+inconclusive by design until the owner's run as in section 11.5), with the four new tests passing; `NoHqTests` 57 passed. `InitSqlTests`
+and `ForkMigrationTests` left out under the rule for every package (no schema change here). Nothing ran elevated or changed a network
+setting, the firewall, the MariaDB service, `my.ini` or a certificate store.

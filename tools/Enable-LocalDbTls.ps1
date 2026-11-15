@@ -36,6 +36,34 @@ Without a mode switch (enable):
      the files the run replaced put back as they were, the files and folders it added removed.
   It does NOT set require_secure_transport: unencrypted connections still work until -RequireSecureTransport.
 
+With -WithTestNetwork <192.0.2.x> (DB-TLS-ENV, the owner's decision of 2026-11-14; docs/port-notes/DB-TLS.md section 11) the enable
+run also makes the environment of S2-2's database TLS check (TlsCertificateLoginTests): an address of this computer that is not loopback
+and that no other computer can reach. The address must be one host address of 192.0.2.0/24 (TEST-NET-1, RFC 5737, which no network
+routes) that this computer does not use, in a range no route of this computer leads to.
+  a. A Microsoft KM-TEST Loopback Adapter (hardware id *MSLOOP, Windows' own netloop.inf from the driver store), created through the
+     SetupAPI (P/Invoke, no download, no devcon) and named 'OPMS DB TLS test'. Loopback adapters that exist already are not touched.
+  b. Its IPv4 address with a /32 prefix and nothing else: no gateway, no DNS server, no DNS registration, NetBIOS over TCP/IP off, DHCP,
+     duplicate address detection, forwarding, weak host send and receive and router discovery off, and every binding but Internet
+     Protocol Version 4 switched off (File and Printer Sharing, Client for Microsoft Networks, IPv6 and the rest). The address, no
+     gateway, DHCP, forwarding and weak host receive off and those three bindings off are checked; the rest gets a WARNING where
+     Windows keeps it.
+  c. When the Windows firewall is on in any profile: two inbound rules for TCP port 3306 on that address only, one that allows it from
+     the address itself (this computer) and one that blocks every other remote address.
+  d. The server certificate also names the address and the computer's host name.
+  e. Two client certificates (RSA 2048, 5 years, clientAuth) signed by the same CA in the same run, each as its own .pfx (in an
+     Administrators-only folder, deleted after its import), imported with certutil into LocalMachine\My, not exportable: one key in the
+     CAPI provider 'Microsoft Enhanced RSA and AES Cryptographic Provider', one in the 'Microsoft Software Key Storage Provider'; BUILTIN\Users
+     get read access to both key files, as the connection settings tool gives (ClientCertificateStore).
+  f. bind-address=127.0.0.1,<address> in the block of my.ini (MariaDB 10.11 takes a comma-separated list; 127.0.0.1 stays); after the
+     restart the service's process must listen on 127.0.0.1:3306 and <address>:3306 (Get-NetTCPConnection).
+  The block records the address, the adapter, the firewall rules and the two certificates; the run prints the three OPMS_DB_TLS_TEST_*
+  values of the test. Before each item is made, the run also writes its record line to a journal in the opms-dev-tls folder
+  (test-network.record, Administrators only), since my.ini's block is written only after the whole test network is made. -Revert undoes
+  every step: the adapter with its address first, both certificates with their keys (never a key that BUILTIN\Users can read is left
+  behind), the firewall rules last (they stay while the adapter does), and my.ini with the files as before. From the journal it also
+  undoes the test network of a run that stopped part-way (Ctrl+C, a closed window, a crash) or whose undo restored my.ini but could not
+  remove the test network; the opms-dev-tls folder goes only once nothing the journal names is there.
+
 -RequireSecureTransport: the lead's later step, once every session connects with TLS. Checks the CA copy in the dev folder that my.ini
 records, adds require_secure_transport=ON inside the script's block, restarts, and verifies that a TLS connection works and an
 unencrypted one is refused (else it removes the line again).
@@ -43,7 +71,8 @@ unencrypted one is refused (else it removes the line again).
 -Revert: restores my.ini from the backup (it shows what would be lost when my.ini changed since), restarts, verifies an unencrypted
 connection, then removes the opms-dev-tls folder, the files the script wrote to the dev folder and the client folder that my.ini
 records (whichever account's they are), each folder when it is then empty, the parent folder the enable run created when it is then
-empty, and the backup.
+empty, and the backup. With no backup and no block but an opms-dev-tls folder (an enable run that stopped before it changed my.ini),
+it leaves my.ini and the service alone and removes only what that run made: the test network of its journal, the files and folders.
 
 -RequireSecureTransport and -Revert never recompute the folders from the account that runs them: they take them from the record in
 my.ini and refuse a -DevFolder or -ClientFolder that names another folder, and a recorded folder that an enable run cannot have written
@@ -53,8 +82,10 @@ fall back to -DevFolder or this account's default (the plan then says that a cop
 -DryRun: with any mode, shows the checks and the plan and changes nothing. It does not need elevation.
 
 -TestCertificatesFolder <folder>: writes only the certificate set of step 2 (the CA certificate, the server certificate and key, and
-with -WithClientCertificate the client certificate and key) to an empty folder outside the repository, and nothing else; no elevation,
-no service. The tests use it to check the certificates offline (tests/DbConnectionSecurityTests/DevDbTlsScriptTests.cs).
+with -WithClientCertificate the client certificate and key; with -WithTestNetwork the server certificate's extra names and the two test
+client .pfx files with their password in a text file) to an empty folder outside the repository, and nothing else; no elevation, no
+service, no network setting read or changed. The tests use it to check the certificates offline
+(tests/DbConnectionSecurityTests/DevDbTlsScriptTests.cs).
 
 The client is the MariaDB service's own mariadb.exe (or mysql.exe), always on 127.0.0.1:3306 over TCP, as -User (default root); the
 password comes from the MYSQL_PWD environment variable when it is set, otherwise none (the dev server's root has a blank password).
@@ -100,9 +131,18 @@ Default: DevDbTlsClient beside -DevFolder (%LOCALAPPDATA%\OpenPmsDental\DevDbTls
 <profile>\AppData\Local\OpenPmsDental\DevDbTlsClient. With -RequireSecureTransport and -Revert it must be the folder my.ini records
 (leave it out).
 
+.PARAMETER WithTestNetwork
+With the enable run (or -TestCertificatesFolder): the test address, one host address of 192.0.2.0/24 that this computer does not use, for
+the loopback adapter, the second bind-address, the server certificate and the firewall rules of S2-2's database TLS check (steps a to f
+above). -Revert and -RequireSecureTransport take it from the record in my.ini (leave it out).
+
 .EXAMPLE
 powershell -NoProfile -ExecutionPolicy Bypass -File tools\Enable-LocalDbTls.ps1 -DryRun
 Shows what the script would change.
+
+.EXAMPLE
+powershell -NoProfile -ExecutionPolicy Bypass -File tools\Enable-LocalDbTls.ps1 -WithClientCertificate -WithTestNetwork 192.0.2.25
+From a PowerShell started with "Run as administrator": turns on TLS with the test network of S2-2's check, after you type YES.
 
 .EXAMPLE
 powershell -NoProfile -ExecutionPolicy Bypass -File tools\Enable-LocalDbTls.ps1
@@ -125,7 +165,8 @@ param(
 	[ValidatePattern('^[A-Za-z0-9_.-]{1,64}$')]
 	[string]$User = 'root',
 	[switch]$WithClientCertificate,
-	[string]$ClientFolder = ''
+	[string]$ClientFolder = '',
+	[string]$WithTestNetwork = ''
 )
 
 Set-StrictMode -Version Latest
@@ -147,6 +188,38 @@ $BackupSuffix = '.before-opms-dev-tls'
 # Write-OptionFile writes my.ini here first and then moves it over my.ini.
 $IniTempSuffix = '.opms-new'
 $RepoRoot = Split-Path -Parent $PSScriptRoot
+# The test network of S2-2's database TLS check (-WithTestNetwork): the record lines of the block, and the names of what the run makes.
+$RecordAddressPrefix = '# test-address='
+$RecordAdapterPrefix = '# test-adapter='
+$RecordFirewallPrefix = '# test-firewall-rule='
+$RecordCapiPrefix = '# test-client-capi='
+$RecordCngPrefix = '# test-client-cng='
+# Where each test client certificate's key is (<provider>|<container>|<key file>), recorded as the import made it, so that -Revert finds
+# and deletes a key whose certificate is gone already (a store entry deleted by hand leaves its key file, with BUILTIN\Users' read access).
+$RecordCapiKeyPrefix = '# test-client-capi-key='
+$RecordCngKeyPrefix = '# test-client-cng-key='
+# The journal of the test network: the same record lines, each written before the item it names is made (the adapter's right after its
+# creation, a key's right after its import, before the users get read access to it), in the opms-dev-tls folder (Administrators only).
+# my.ini's block is written only after the whole test network is made, so the journal is what -Revert reads after a run that stopped
+# before that (Ctrl+C, a closed window, a crash) or whose undo restored my.ini but could not remove the test network. It stays as long as
+# the test network does; -Revert removes it with the folder once everything it names is gone.
+$TestNetworkJournalName = 'test-network.record'
+$TestAdapterName = 'OPMS DB TLS test'
+$TestAdapterHardwareId = '*MSLOOP'
+$FirewallGroup = 'Open PMS - Dental local test TLS'
+$FirewallAllowName = 'OpenPmsDental-DbTlsTest-Allow3306'
+$FirewallBlockName = 'OpenPmsDental-DbTlsTest-Block3306'
+$CapiProviderName = 'Microsoft Enhanced RSA and AES Cryptographic Provider'
+$CngProviderName = 'Microsoft Software Key Storage Provider'
+# PROV_RSA_AES, the type of $CapiProviderName (CspParameters needs it to open a recorded CAPI container).
+$CapiProviderType = 24
+$TestClientCapiName = 'opms-dbtls-test-client-capi'
+$TestClientCngName = 'opms-dbtls-test-client-cng'
+# The .pfx files of the two test client certificates live here (inside the opms-dev-tls folder, Administrators only) until their import.
+$PfxFolderName = 'client-pfx'
+# The bindings that must be off on the test adapter (Get-TestAdapterProblem checks them): File and Printer Sharing, Client for Microsoft
+# Networks and IPv6. Every other binding but IPv4 is switched off too; one that Windows does not let go of only gets a WARNING.
+$RequiredOffBindings = @('ms_server', 'ms_msclient', 'ms_tcpip6')
 
 # A check refused: say why and stop with exit code 1. Every check runs before the first change, so nothing needs undoing.
 function Stop-Refused([string]$Message) {
@@ -221,9 +294,44 @@ function Add-LeafExtensions($Request, [string]$EkuOid, [string]$AuthorityKeyId) 
 	$Request.CertificateExtensions.Add((New-Object System.Security.Cryptography.X509Certificates.X509Extension('2.5.29.35', $value, $false)))
 }
 
-# The certificate set: the CA (its key only in memory), the server certificate for localhost and 127.0.0.1, and optionally the client
-# certificate. Returns PEM texts; the keys are disposed before it returns.
-function New-CertificateSet([bool]$WithClient) {
+# A random password for the .pfx files of the test client certificates: 32 hex digits, used for their export and their import only.
+function New-PfxPassword {
+	$bytes = New-Object byte[] 16
+	$rng = [System.Security.Cryptography.RandomNumberGenerator]::Create()
+	try {
+		$rng.GetBytes($bytes)
+	}
+	finally {
+		$rng.Dispose()
+	}
+	return (($bytes | ForEach-Object { $_.ToString('x2') }) -join '')
+}
+
+# One test client certificate of -WithTestNetwork (clientAuth, signed by $Ca) as a .pfx with only this certificate and its key (no CA, so
+# that the import adds nothing to another store). Returns the .pfx bytes and the thumbprint; the key is disposed before it returns.
+function New-TestClientPfx($Ca, [string]$CaKeyId, [string]$CommonName, [DateTimeOffset]$NotBefore, [string]$Password) {
+	$key = New-Object System.Security.Cryptography.RSACng(2048)
+	$withKey = $null
+	try {
+		$request = New-Request "CN=$CommonName, O=Open PMS - Dental local test" $key
+		Add-LeafExtensions $request '1.3.6.1.5.5.7.3.2' $CaKeyId
+		$certificate = $request.Create($Ca, $NotBefore, $NotBefore.AddYears(5), (New-SerialNumber))
+		$withKey = [System.Security.Cryptography.X509Certificates.RSACertificateExtensions]::CopyWithPrivateKey($certificate, $key)
+		$pfx = $withKey.Export([System.Security.Cryptography.X509Certificates.X509ContentType]::Pkcs12, $Password)
+		return [pscustomobject]@{ Pfx = $pfx; Thumbprint = $certificate.Thumbprint }
+	}
+	finally {
+		if ($null -ne $withKey) {
+			$withKey.Reset()
+		}
+		$key.Dispose()
+	}
+}
+
+# The certificate set: the CA (its key only in memory), the server certificate for localhost and 127.0.0.1 (with $TestAddress also for
+# that address and $HostName), optionally the client certificate, and with $TestAddress the two test client certificates as .pfx bytes.
+# Returns PEM texts; the keys are disposed before it returns.
+function New-CertificateSet([bool]$WithClient, [string]$TestAddress = '', [string]$HostName = '') {
 	$notBefore = [DateTimeOffset]::UtcNow.AddMinutes(-10)
 	$stamp = [DateTime]::UtcNow.ToString('yyyy-MM-dd')
 	$caKey = New-Object System.Security.Cryptography.RSACng(3072)
@@ -244,6 +352,12 @@ function New-CertificateSet([bool]$WithClient) {
 		$names = New-Object System.Security.Cryptography.X509Certificates.SubjectAlternativeNameBuilder
 		$names.AddDnsName('localhost')
 		$names.AddIpAddress([System.Net.IPAddress]::Parse('127.0.0.1'))
+		if ($TestAddress -ne '') {
+			if ($HostName -ne '') {
+				$names.AddDnsName($HostName)
+			}
+			$names.AddIpAddress([System.Net.IPAddress]::Parse($TestAddress))
+		}
 		$serverRequest.CertificateExtensions.Add($names.Build($false))
 		$server = $serverRequest.Create($ca, $notBefore, $notBefore.AddYears(5), (New-SerialNumber))
 
@@ -256,6 +370,20 @@ function New-CertificateSet([bool]$WithClient) {
 			NotAfter         = $server.NotAfter
 			ClientCert = $null
 			ClientKey  = $null
+			TestPfxPassword  = ''
+			TestCapiPfx      = $null
+			TestCapiThumbprint = ''
+			TestCngPfx       = $null
+			TestCngThumbprint = ''
+		}
+		if ($TestAddress -ne '') {
+			$set.TestPfxPassword = New-PfxPassword
+			$capi = New-TestClientPfx $ca $caKeyId.SubjectKeyIdentifier $TestClientCapiName $notBefore $set.TestPfxPassword
+			$cng = New-TestClientPfx $ca $caKeyId.SubjectKeyIdentifier $TestClientCngName $notBefore $set.TestPfxPassword
+			$set.TestCapiPfx = $capi.Pfx
+			$set.TestCapiThumbprint = $capi.Thumbprint
+			$set.TestCngPfx = $cng.Pfx
+			$set.TestCngThumbprint = $cng.Thumbprint
 		}
 		if ($WithClient) {
 			$clientKey = New-Object System.Security.Cryptography.RSACng(2048)
@@ -596,10 +724,11 @@ function Join-Arguments([string[]]$Arguments) {
 	return ($quoted -join ' ')
 }
 
-# Runs one statement list with the service's client on 127.0.0.1:3306 over TCP. $Tls: 'plain' (no TLS), 'tls' (TLS without
-# verification) or the path of a CA file (TLS, the server verified against it, host name included).
-function Invoke-DbClient([string]$Sql, [string]$Tls = 'tls') {
-	$arguments = @('--no-defaults', "--plugin-dir=$($script:Facts.PluginDir)", '--protocol=TCP', '--host=127.0.0.1', '--port=3306',
+# Runs one statement list with the service's client on 127.0.0.1:3306 over TCP (or, for the check of -WithTestNetwork, on the recorded
+# test address, port 3306). $Tls: 'plain' (no TLS), 'tls' (TLS without verification) or the path of a CA file (TLS, the server verified
+# against it, host name included).
+function Invoke-DbClient([string]$Sql, [string]$Tls = 'tls', [string]$ServerAddress = '127.0.0.1') {
+	$arguments = @('--no-defaults', "--plugin-dir=$($script:Facts.PluginDir)", '--protocol=TCP', "--host=$ServerAddress", '--port=3306',
 		"--user=$User", '--connect-timeout=10', '--batch', '--raw', '--skip-column-names')
 	if ($Tls -eq 'plain') {
 		$arguments += '--skip-ssl'
@@ -790,12 +919,18 @@ function Assert-LocalServer {
 	if ($port -ne '3306') {
 		Stop-Refused "my.ini sets port=$port. This script is only for the local server on 127.0.0.1:3306."
 	}
-	if (-not $options.ContainsKey('bind_address') -or $options['bind_address'] -ne '127.0.0.1') {
+	# 127.0.0.1 alone; or, when the block of this script records a test address (-WithTestNetwork), 127.0.0.1 and that address as the block
+	# sets them.
+	$expectedBind = Get-ExpectedBindAddress $script:IniFile.Text
+	if (-not $options.ContainsKey('bind_address') -or (Get-BindText $options['bind_address']) -ne $expectedBind) {
 		$bind = '(not set: every address)'
 		if ($options.ContainsKey('bind_address')) {
 			$bind = $options['bind_address']
 		}
-		Stop-Refused "my.ini's bind-address is $bind. This script is only for a server that listens on 127.0.0.1 alone."
+		if ($expectedBind -eq '127.0.0.1') {
+			Stop-Refused "my.ini's bind-address is $bind. This script is only for a server that listens on 127.0.0.1 alone."
+		}
+		Stop-Refused "my.ini's bind-address is $bind, but the block of this script sets $expectedBind (127.0.0.1 and the recorded test address). Look at my.ini: something else changed it."
 	}
 	# The process behind 127.0.0.1:3306 must be the service's own before the client sends anything there.
 	try {
@@ -815,7 +950,7 @@ function Assert-LocalServer {
 		Stop-Refused "No connection to 127.0.0.1:3306 as $User ($($state.Error)). Set MYSQL_PWD when the account has a password."
 	}
 	$values = $state.Values
-	if ($values['port'] -ne '3306' -or $values['bind_address'] -ne '127.0.0.1') {
+	if ($values['port'] -ne '3306' -or (Get-BindText $values['bind_address']) -ne $expectedBind) {
 		Stop-Refused "The server on 127.0.0.1:3306 reports port $($values['port']) and bind address $($values['bind_address'])."
 	}
 	if ($options.ContainsKey('datadir') -and (Get-NormalPath $options['datadir']) -ne (Get-NormalPath $values['datadir'])) {
@@ -824,6 +959,1245 @@ function Assert-LocalServer {
 	Write-Host "Server:         $($values['version']) on 127.0.0.1:3306, data folder $($values['datadir'])"
 	Write-Host "TLS now:        have_ssl=$($values['have_ssl']), require_secure_transport=$($values['require_secure_transport']), tls_version=$($values['tls_version']), this session's cipher '$($values['ssl_cipher'])'"
 	return $state
+}
+
+#endregion
+
+#region The test network (-WithTestNetwork)
+
+# A bind-address value without white space, so that '127.0.0.1, 192.0.2.25' and '127.0.0.1,192.0.2.25' compare alike.
+function Get-BindText([string]$Value) {
+	return ([string]$Value) -replace '\s', ''
+}
+
+# The bind-address the server must have: 127.0.0.1, or 127.0.0.1 and the test address when the block of this script records one.
+function Get-ExpectedBindAddress([string]$Text) {
+	$record = Get-RecordedTestNetwork $Text
+	if ($null -eq $record) {
+		return '127.0.0.1'
+	}
+	return "127.0.0.1,$($record.Address)"
+}
+
+# An IPv4 address in dotted form as a number (0 to 2^32-1), or $null for anything else.
+function ConvertTo-AddressNumber([string]$Address) {
+	$value = ([string]$Address).Trim()
+	if ($value -notmatch '^[0-9]{1,3}(\.[0-9]{1,3}){3}$') {
+		return $null
+	}
+	[int64]$number = 0
+	foreach ($part in $value.Split('.')) {
+		$byte = [int64]$part
+		if ($byte -gt 255) {
+			return $null
+		}
+		$number = $number * 256 + $byte
+	}
+	return $number
+}
+
+# Why $Address cannot be the test address, or $null when it can: one host address of 192.0.2.0/24 (192.0.2.1 to 192.0.2.254), written
+# without leading zeros. TEST-NET-1 (RFC 5737) is the documentation range, which no network routes, so no other computer can reach it.
+function Get-TestAddressFormProblem([string]$Address) {
+	$value = ([string]$Address).Trim()
+	$match = [regex]::Match($value, '^192\.0\.2\.(?<h>[0-9]{1,3})$')
+	if ($match.Success) {
+		$hostPart = [int]$match.Groups['h'].Value
+		if ($match.Groups['h'].Value -eq [string]$hostPart -and $hostPart -ge 1 -and $hostPart -le 254) {
+			return $null
+		}
+	}
+	return "-WithTestNetwork $Address is not a host address of 192.0.2.0/24 (192.0.2.1 to 192.0.2.254, without leading zeros). The test network uses only the documentation range TEST-NET-1 (RFC 5737), which no network routes, so that no other computer can reach it."
+}
+
+# Why $Address is in use on this computer, or $null: $Addresses are this computer's IPv4 addresses (IPAddress, InterfaceAlias), $Routes its
+# IPv4 routes (DestinationPrefix, InterfaceAlias). The address must be on no interface, no other address of 192.0.2.0/24 may be (another
+# test network), and no route but the default route may lead into 192.0.2.0/24 (a network that uses the range after all, a VPN for one).
+function Get-TestAddressUseProblem([string]$Address, $Addresses, $Routes) {
+	$rangeStart = ConvertTo-AddressNumber '192.0.2.0'
+	$rangeEnd = $rangeStart + 255
+	foreach ($item in @($Addresses | Where-Object { $null -ne $_ })) {
+		$ip = [string]$item.IPAddress
+		if ($ip -eq $Address) {
+			return "-WithTestNetwork $Address is in use: this computer has that address on $($item.InterfaceAlias)."
+		}
+		$number = ConvertTo-AddressNumber $ip
+		if ($null -ne $number -and $number -ge $rangeStart -and $number -le $rangeEnd) {
+			return "-WithTestNetwork ${Address}: this computer already has $ip of 192.0.2.0/24 on $($item.InterfaceAlias) (another test network, or an earlier run). Run -Revert, or remove that address first."
+		}
+	}
+	foreach ($route in @($Routes | Where-Object { $null -ne $_ })) {
+		$prefix = [string]$route.DestinationPrefix
+		$parts = $prefix.Split('/')
+		if ($parts.Count -ne 2) {
+			continue
+		}
+		$start = ConvertTo-AddressNumber $parts[0]
+		$length = 0
+		if ($null -eq $start -or -not [int]::TryParse($parts[1], [ref]$length) -or $length -le 0 -or $length -gt 32) {
+			continue
+		}
+		$size = [int64][Math]::Pow(2, 32 - $length)
+		$start = $start - ($start % $size)
+		$end = $start + $size - 1
+		if ($start -le $rangeEnd -and $end -ge $rangeStart) {
+			return "-WithTestNetwork ${Address}: the route $prefix on $($route.InterfaceAlias) leads into 192.0.2.0/24, so a network this computer is on uses that range (a VPN, for one). The test address could hide an address there, or be reached from there."
+		}
+	}
+	return $null
+}
+
+# The remote addresses of the firewall rule that blocks port 3306 on the test address: every IPv4 address but the test address itself.
+function Get-FirewallBlockRanges([string]$Address) {
+	$hostPart = [int]($Address.Split('.')[3])
+	return @("0.0.0.0-192.0.2.$($hostPart - 1)", "192.0.2.$($hostPart + 1)-255.255.255.255")
+}
+
+# The test network that the block of this script in my.ini records (the comment lines $RecordAddressPrefix to $RecordCngPrefix), or $null
+# when the block records no test address (or there is no block).
+function Get-RecordedTestNetwork([string]$Text) {
+	$block = [regex]::Match($Text, '(?ms)^' + [regex]::Escape($MarkerBegin) + '.*?^' + [regex]::Escape($MarkerEnd))
+	if (-not $block.Success) {
+		return $null
+	}
+	return ConvertFrom-TestNetworkLines $block.Value
+}
+
+# The test network that the journal at $Path records (Get-TestNetworkJournalPath; the record lines as the block has them, but only as far
+# as the run got), or $null when there is no journal or it records no test address (the run made nothing of the test network).
+function Read-TestNetworkJournal([string]$Path) {
+	if ($Path -eq '' -or -not (Test-Path -LiteralPath $Path -PathType Leaf)) {
+		return $null
+	}
+	return ConvertFrom-TestNetworkLines ([System.IO.File]::ReadAllText($Path))
+}
+
+# The journal's path in the opms-dev-tls folder ($TlsFolder).
+function Get-TestNetworkJournalPath([string]$TlsFolder) {
+	return Join-Path $TlsFolder $TestNetworkJournalName
+}
+
+# Adds one record line to the journal ($Path), before the item it names is made. The first line creates the file with a protected ACL
+# (Administrators and SYSTEM only) before anything is written to it.
+function Add-TestNetworkJournalLine([string]$Path, [string]$Line) {
+	if (-not (Test-Path -LiteralPath $Path -PathType Leaf)) {
+		[System.IO.File]::WriteAllText($Path, '', (New-Object System.Text.ASCIIEncoding))
+		Set-ProtectedAcl $Path @() @()
+	}
+	[System.IO.File]::AppendAllText($Path, $Line + "`r`n", (New-Object System.Text.ASCIIEncoding))
+}
+
+# The record lines of the test network ($Text: my.ini's block or the journal) as a record, or $null when no test address is among them.
+function ConvertFrom-TestNetworkLines([string]$Text) {
+	$record = [pscustomobject]@{ Address = $null; AdapterId = ''; FirewallRules = @(); CapiThumbprint = ''; CngThumbprint = ''; CapiKey = ''; CngKey = '' }
+	foreach ($rawLine in ($Text -split "`n")) {
+		$line = $rawLine.Trim()
+		if ($line.StartsWith($RecordAddressPrefix)) {
+			$record.Address = $line.Substring($RecordAddressPrefix.Length).Trim()
+		}
+		elseif ($line.StartsWith($RecordAdapterPrefix)) {
+			$record.AdapterId = $line.Substring($RecordAdapterPrefix.Length).Trim()
+		}
+		elseif ($line.StartsWith($RecordFirewallPrefix)) {
+			$record.FirewallRules = @($record.FirewallRules) + @($line.Substring($RecordFirewallPrefix.Length).Trim())
+		}
+		elseif ($line.StartsWith($RecordCapiPrefix)) {
+			$record.CapiThumbprint = $line.Substring($RecordCapiPrefix.Length).Trim()
+		}
+		elseif ($line.StartsWith($RecordCngPrefix)) {
+			$record.CngThumbprint = $line.Substring($RecordCngPrefix.Length).Trim()
+		}
+		elseif ($line.StartsWith($RecordCapiKeyPrefix)) {
+			$record.CapiKey = $line.Substring($RecordCapiKeyPrefix.Length).Trim()
+		}
+		elseif ($line.StartsWith($RecordCngKeyPrefix)) {
+			$record.CngKey = $line.Substring($RecordCngKeyPrefix.Length).Trim()
+		}
+	}
+	if ($null -eq $record.Address) {
+		return $null
+	}
+	return $record
+}
+
+# Why a recorded test network ($Record, from Get-RecordedTestNetwork) cannot be one an enable run wrote, or $null when it can: an address of
+# 192.0.2.0/24, a root-enumerated network device (ROOT\NET\nnnn), only this script's firewall rule names, two thumbprints, and two keys, each
+# in this script's provider of its kind with its file in the computer's key folder of that kind (Get-KeyRecordProblem). -Revert removes
+# exactly what the record names, so a record of anything else came from somewhere else and is never acted on. $Source names the record in
+# the messages (my.ini, or the journal's path). -Partial is the journal of a run that stopped part-way: the adapter, a thumbprint and a key
+# may be missing (the run had not made them yet), but what is there must be as above, and a key only with its certificate's thumbprint.
+function Get-TestNetworkRecordProblem($Record, [string]$Source = 'my.ini', [switch]$Partial) {
+	if ($null -ne (Get-TestAddressFormProblem $Record.Address)) {
+		return "$Source records the test address $($Record.Address), which is not a host address of 192.0.2.0/24."
+	}
+	if (-not ($Partial -and [string]$Record.AdapterId -eq '') -and [string]$Record.AdapterId -notmatch '^ROOT\\NET\\[0-9]{4}$') {
+		return "$Source records the test adapter '$($Record.AdapterId)', which is not a device this script creates (ROOT\NET\nnnn)."
+	}
+	foreach ($rule in @($Record.FirewallRules)) {
+		if (@($FirewallAllowName, $FirewallBlockName) -notcontains $rule) {
+			return "$Source records the firewall rule '$rule', which is not one of this script's ($FirewallAllowName, $FirewallBlockName)."
+		}
+	}
+	foreach ($item in @(@('CAPI', $Record.CapiThumbprint, $Record.CapiKey), @('CNG', $Record.CngThumbprint, $Record.CngKey))) {
+		if ($Partial -and [string]$item[1] -eq '') {
+			if ([string]$item[2] -ne '') {
+				return "$Source records a key of the $($item[0]) test client certificate, but not its thumbprint."
+			}
+			continue
+		}
+		if ([string]$item[1] -notmatch '^[0-9A-F]{40}$') {
+			return "$Source records the test client certificate '$($item[1])', which is not a thumbprint (40 hex digits)."
+		}
+	}
+	foreach ($item in @(@('CAPI', $Record.CapiKey), @('CNG', $Record.CngKey))) {
+		if ($Partial -and [string]$item[1] -eq '') {
+			continue
+		}
+		$keyProblem = Get-KeyRecordProblem ([string]$item[1]) $item[0] $Source
+		if ($null -ne $keyProblem) {
+			return $keyProblem
+		}
+	}
+	return $null
+}
+
+# The computer's folder of the key files of a kind: CAPI's RSA\MachineKeys or CNG's Keys under %ProgramData%\Microsoft\Crypto.
+function Get-MachineKeyFolder([string]$Kind) {
+	if ($Kind -eq 'CAPI') {
+		return Join-Path $env:ProgramData 'Microsoft\Crypto\RSA\MachineKeys'
+	}
+	return Join-Path $env:ProgramData 'Microsoft\Crypto\Keys'
+}
+
+# The record line's value for a test client certificate's key ($Info from Get-TestKeyInfo): <provider>|<container>|<key file>, the file with
+# forward slashes as the folders are recorded.
+function ConvertTo-KeyRecord($Info) {
+	return "$($Info.Provider)|$($Info.Container)|$(([string]$Info.File).Replace('\', '/'))"
+}
+
+# A recorded key (<provider>|<container>|<key file>) of a kind as Kind, Provider, ProviderType, Container and File, or $null when it is empty
+# or not three parts.
+function ConvertFrom-KeyRecord([string]$Text, [string]$Kind) {
+	if ([string]::IsNullOrWhiteSpace($Text)) {
+		return $null
+	}
+	$parts = @($Text.Split('|'))
+	if ($parts.Count -ne 3) {
+		return $null
+	}
+	$type = 0
+	if ($Kind -eq 'CAPI') {
+		$type = $CapiProviderType
+	}
+	return [pscustomobject]@{ Kind = $Kind; Provider = $parts[0].Trim(); ProviderType = $type; Container = $parts[1].Trim(); File = $parts[2].Trim().Replace('/', '\') }
+}
+
+# Why a recorded key ($Text, of the kind CAPI or CNG) cannot be one this script's import recorded, or $null: this script's provider of that
+# kind, a container name, and a file directly in the computer's key folder of that kind (Get-MachineKeyFolder).
+function Get-KeyRecordProblem([string]$Text, [string]$Kind, [string]$Source = 'my.ini') {
+	$label = "$Source records the key of the $Kind test client certificate as '$Text'"
+	$key = ConvertFrom-KeyRecord $Text $Kind
+	if ($null -eq $key) {
+		return "$label, which is not <provider>|<container>|<key file>."
+	}
+	$provider = $CngProviderName
+	if ($Kind -eq 'CAPI') {
+		$provider = $CapiProviderName
+	}
+	if ($key.Provider -ne $provider) {
+		return "$label, whose provider is not '$provider'."
+	}
+	if ($key.Container -notmatch '^[^|\\/\x00-\x1f]+$') {
+		return "$label, whose container name is empty or has a path in it."
+	}
+	$folder = Get-MachineKeyFolder $Kind
+	$leaf = Split-Path -Leaf $key.File
+	$parent = Split-Path -Parent $key.File
+	if ($leaf -notmatch '^[0-9A-Za-z_-]+$' -or -not [string]::Equals(([string]$parent).TrimEnd('\'), $folder.TrimEnd('\'), [System.StringComparison]::OrdinalIgnoreCase)) {
+		return "$label, whose key file is not a file in $folder."
+	}
+	return $null
+}
+
+# What the enable run's checks read about this computer's network, without elevation and without changing anything.
+function Get-NetworkFacts {
+	$addresses = @(Get-NetIPAddress -AddressFamily IPv4 -ErrorAction SilentlyContinue |
+		ForEach-Object { [pscustomobject]@{ IPAddress = [string]$_.IPAddress; InterfaceAlias = [string]$_.InterfaceAlias } })
+	$routes = @(Get-NetRoute -AddressFamily IPv4 -ErrorAction SilentlyContinue |
+		ForEach-Object { [pscustomobject]@{ DestinationPrefix = [string]$_.DestinationPrefix; InterfaceAlias = [string]$_.InterfaceAlias } })
+	$profiles = @(Get-NetFirewallProfile -ErrorAction SilentlyContinue |
+		ForEach-Object { [pscustomobject]@{ Name = [string]$_.Name; Enabled = ([string]$_.Enabled -eq 'True') } })
+	$open = @(Get-NetIPInterface -AddressFamily IPv4 -ErrorAction SilentlyContinue |
+		Where-Object { [string]$_.Forwarding -eq 'Enabled' -or [string]$_.WeakHostReceive -eq 'Enabled' } |
+		ForEach-Object { [pscustomobject]@{ InterfaceAlias = [string]$_.InterfaceAlias; Forwarding = [string]$_.Forwarding; WeakHostReceive = [string]$_.WeakHostReceive } })
+	$loopbacks = @(Get-PnpDevice -Class Net -ErrorAction SilentlyContinue | Where-Object { @($_.HardwareID) -contains $TestAdapterHardwareId } |
+		ForEach-Object { [string]$_.InstanceId })
+	$nameTaken = @(Get-NetAdapter -IncludeHidden -ErrorAction SilentlyContinue | Where-Object { [string]$_.Name -eq $TestAdapterName }).Count -gt 0
+	$rules = @(Get-NetFirewallRule -ErrorAction SilentlyContinue | Where-Object { @($FirewallAllowName, $FirewallBlockName) -contains [string]$_.Name } |
+		ForEach-Object { [string]$_.Name })
+	return [pscustomobject]@{
+		Addresses        = $addresses
+		Routes           = $routes
+		FirewallProfiles = $profiles
+		OpenInterfaces   = $open
+		Loopbacks        = $loopbacks
+		AdapterNameTaken = $nameTaken
+		RulesTaken       = $rules
+		HasNetloop       = (Test-Path -LiteralPath (Join-Path $env:windir 'INF\netloop.inf') -PathType Leaf)
+		HostName         = [System.Net.Dns]::GetHostName()
+	}
+}
+
+# True when the Windows firewall is on in at least one profile ($Facts from Get-NetworkFacts): the run then adds its two rules.
+function Test-FirewallOn($Facts) {
+	return @($Facts.FirewallProfiles | Where-Object { $_.Enabled }).Count -gt 0
+}
+
+# Why the enable run cannot make the test network on this computer ($Facts from Get-NetworkFacts, $Version the server's @@version), or $null.
+function Get-TestNetworkProblem([string]$Address, $Facts, [string]$Version) {
+	$use = Get-TestAddressUseProblem $Address $Facts.Addresses $Facts.Routes
+	if ($null -ne $use) {
+		return $use
+	}
+	$versionMatch = [regex]::Match($Version, '^(?<major>[0-9]+)\.(?<minor>[0-9]+)')
+	if (-not $versionMatch.Success -or ([int]$versionMatch.Groups['major'].Value * 1000 + [int]$versionMatch.Groups['minor'].Value) -lt 10011) {
+		return "The server is $Version. A bind-address with two addresses needs MariaDB 10.11 or later."
+	}
+	if (-not $Facts.HasNetloop) {
+		return "Windows' own loopback adapter driver (netloop.inf) is not in $env:windir\INF, so this script cannot create the adapter without a download. Report this to the lead."
+	}
+	if ($Facts.AdapterNameTaken) {
+		return "A network adapter named '$TestAdapterName' exists already (an earlier run?). Run -Revert, or remove or rename it first."
+	}
+	if (@($Facts.RulesTaken).Count -gt 0) {
+		return "The firewall rule $(@($Facts.RulesTaken)[0]) exists already (an earlier run?). Run -Revert, or remove it first."
+	}
+	$off = @($Facts.FirewallProfiles | Where-Object { -not $_.Enabled } | ForEach-Object { $_.Name })
+	$open = @($Facts.OpenInterfaces)
+	if ($off.Count -gt 0 -and $open.Count -gt 0) {
+		return "The Windows firewall is off in the profile $($off -join ', '), and $($open[0].InterfaceAlias) forwards IPv4 ($($open[0].Forwarding)) or takes packets for other interfaces' addresses (weak host receive $($open[0].WeakHostReceive)), so another computer could reach the test address through it. Turn the firewall on in every profile first."
+	}
+	return $null
+}
+
+# The enable run's plan for the test network: lines to print, each line that starts a step with '#.' (the caller numbers it). Every change
+# carries its tag in brackets; -Revert's plan (Get-TestNetworkRevertPlan) undoes each tag.
+function Get-TestNetworkEnablePlan([string]$Address, [string]$HostName, $Facts, [string]$TlsFolder) {
+	$lines = @()
+	$lines += "#. [adapter] Create a Microsoft KM-TEST Loopback Adapter (hardware id $TestAdapterHardwareId, Windows' own netloop.inf from the driver"
+	$lines += "     store, through the SetupAPI: no download, no devcon) and name it '$TestAdapterName'."
+	$existing = @($Facts.Loopbacks)
+	if ($existing.Count -gt 0) {
+		$lines += "     Loopback adapters that exist already are not touched: $($existing -join ', ')."
+	}
+	$lines += "     [address] Give it $Address/32 and nothing else: no gateway, no DNS server, no DNS registration, NetBIOS over TCP/IP"
+	$lines += '     off, DHCP, duplicate address detection, forwarding, weak host send and receive and router discovery off. No other computer'
+	$lines += '     can reach the address: 192.0.2.0/24 is the documentation range, which no network routes.'
+	$lines += "     [bindings] Switch off every binding of the adapter but Internet Protocol Version 4 (ms_tcpip): File and Printer Sharing,"
+	$lines += '     Client for Microsoft Networks, IPv6, QoS, the link-layer discovery protocols and the rest. Then check the address, the'
+	$lines += '     settings above and that File and Printer Sharing, Client for Microsoft Networks and IPv6 are off (any other binding,'
+	$lines += '     duplicate address detection, weak host send, router discovery or NetBIOS that Windows keeps on gets a WARNING).'
+	if (Test-FirewallOn $Facts) {
+		$lines += "#. [firewall] Add two inbound firewall rules (group '$FirewallGroup', every profile) for TCP port 3306 on $Address only:"
+		$lines += "     $FirewallAllowName allows it from $Address itself (this computer), $FirewallBlockName blocks"
+		$lines += "     every other remote address ($((Get-FirewallBlockRanges $Address) -join ', '))."
+	}
+	else {
+		$lines += '#. [firewall] The Windows firewall is off in every profile: no rule is added (no interface forwards IPv4 or receives for other'
+		$lines += '     interfaces'' addresses, so no other computer can send to the test address).'
+	}
+	$lines += "#. [client-certificates] Make two client certificates (RSA 2048, 5 years, clientAuth) signed by the same CA, CN=$TestClientCapiName"
+	$lines += "     and CN=$TestClientCngName, each as its own .pfx in $(Join-Path $TlsFolder $PfxFolderName) (Administrators only),"
+	$lines += "     and import them with certutil into LocalMachine\My, not exportable: the first with its key in '$CapiProviderName'"
+	$lines += "     (CAPI), the second in '$CngProviderName' (CNG). The .pfx files are deleted after the import."
+	$lines += '     [key-access] Give BUILTIN\Users read access to both key files, as the connection settings tool gives (ClientCertificateStore),'
+	$lines += '     so that the lead''s unelevated test run can use them. The block records each key''s provider, container and file;'
+	$lines += '     -Revert deletes both certificates with their keys, and a recorded key whose certificate is gone already.'
+	$lines += "     [server-certificate] The server certificate of step 1 also names $Address and this computer's host name $HostName."
+	$lines += "     [bind-address] The block in my.ini (next step) ends with bind-address=127.0.0.1,$Address, so the server listens there too."
+	$lines += "     Before each of these items is made, its record line goes to the journal $(Get-TestNetworkJournalPath $TlsFolder)"
+	$lines += '     (Administrators only): the block in my.ini is written only after all of them, so -Revert reads the journal after a run that stopped'
+	$lines += '     part-way, or whose undo restored my.ini but could not remove the test network.'
+	return $lines
+}
+
+# What is there now of a recorded test network ($Record), read without elevation and without opening a key: the adapter (its hardware ids,
+# its IPv4 addresses), each recorded firewall rule (its group), each recorded certificate in LocalMachine\My (its subject, and whether the
+# CA in $CaPath issued it) and its recorded key (whether the key file is there; a store entry deleted by hand leaves it).
+function Get-TestNetworkState($Record, [string]$CaPath) {
+	$adapter = [pscustomobject]@{ Exists = $false; HardwareIds = @(); Addresses = @() }
+	$device = @()
+	if ([string]$Record.AdapterId -ne '') {
+		# A journal of a run that stopped before the adapter was made names none.
+		$device = @(Get-PnpDevice -InstanceId $Record.AdapterId -ErrorAction SilentlyContinue)
+	}
+	if ($device.Count -gt 0) {
+		$adapter.Exists = $true
+		$adapter.HardwareIds = @($device[0].HardwareID | ForEach-Object { [string]$_ })
+		$netAdapter = @(Get-NetAdapter -IncludeHidden -ErrorAction SilentlyContinue | Where-Object { [string]$_.PnPDeviceID -eq $Record.AdapterId })
+		if ($netAdapter.Count -gt 0) {
+			$adapter.Addresses = @(Get-NetIPAddress -InterfaceIndex $netAdapter[0].InterfaceIndex -AddressFamily IPv4 -ErrorAction SilentlyContinue |
+				ForEach-Object { [string]$_.IPAddress })
+		}
+	}
+	$rules = @()
+	foreach ($name in @($Record.FirewallRules)) {
+		$rule = @(Get-NetFirewallRule -ErrorAction SilentlyContinue | Where-Object { [string]$_.Name -eq $name })
+		if ($rule.Count -gt 0) {
+			$rules += [pscustomobject]@{ Name = $name; Exists = $true; Group = [string]$rule[0].Group }
+		}
+		else {
+			$rules += [pscustomobject]@{ Name = $name; Exists = $false; Group = '' }
+		}
+	}
+	$ca = $null
+	if ($CaPath -ne '' -and (Test-Path -LiteralPath $CaPath -PathType Leaf)) {
+		$ca = Read-PemCertificate $CaPath
+	}
+	$certificates = @()
+	foreach ($item in @(@('CAPI', $Record.CapiThumbprint, $TestClientCapiName, $Record.CapiKey), @('CNG', $Record.CngThumbprint, $TestClientCngName, $Record.CngKey))) {
+		if ([string]$item[1] -eq '') {
+			# Not made yet when the run stopped (a journal): nothing of it to look for.
+			continue
+		}
+		$certificate = Find-MachineCertificate $item[1]
+		$key = ConvertFrom-KeyRecord ([string]$item[3]) $item[0]
+		$state = [pscustomobject]@{ Kind = $item[0]; Thumbprint = $item[1]; Name = $item[2]; Exists = $false; Subject = ''; IssuedByCa = $false
+			Key = $key; KeyExists = $false }
+		if ($null -ne $key) {
+			$state.KeyExists = Test-Path -LiteralPath $key.File -PathType Leaf
+		}
+		if ($null -ne $certificate) {
+			$state.Exists = $true
+			$state.Subject = $certificate.Subject
+			$state.IssuedByCa = ($null -ne $ca) -and (Test-IssuedByCa $certificate $ca)
+		}
+		$certificates += $state
+	}
+	return [pscustomobject]@{ Adapter = $adapter; Rules = $rules; Certificates = $certificates; HasCa = ($null -ne $ca) }
+}
+
+# Why -Revert must not remove what the record names ($Record, $State from Get-TestNetworkState), or $null: an adapter that is not a
+# loopback adapter, a rule of another group, a certificate of another name or not issued by the test CA are not this script's.
+function Get-TestNetworkStateProblem($Record, $State) {
+	if ($State.Adapter.Exists -and @($State.Adapter.HardwareIds) -notcontains $TestAdapterHardwareId) {
+		return "The recorded test adapter $($Record.AdapterId) is not a loopback adapter (hardware ids $(@($State.Adapter.HardwareIds) -join ', ')), so it is not the one this script created."
+	}
+	foreach ($rule in @($State.Rules | Where-Object { $_.Exists })) {
+		if ($rule.Group -ne $FirewallGroup) {
+			return "The firewall rule $($rule.Name) is in the group '$($rule.Group)', not '$FirewallGroup', so it is not the one this script added."
+		}
+	}
+	foreach ($certificate in @($State.Certificates | Where-Object { $_.Exists })) {
+		if (-not $certificate.Subject.StartsWith("CN=$($certificate.Name),")) {
+			return "The recorded certificate $($certificate.Thumbprint) in LocalMachine\My is $($certificate.Subject), not CN=$($certificate.Name), so it is not the one this script imported."
+		}
+		if (-not $certificate.IssuedByCa) {
+			if (-not $State.HasCa) {
+				return "The recorded certificate $($certificate.Thumbprint) cannot be checked against the test CA: its ca.pem in the opms-dev-tls folder is missing."
+			}
+			return "The recorded certificate $($certificate.Thumbprint) in LocalMachine\My was not issued by the test CA of the opms-dev-tls folder, so it is not the one this script imported."
+		}
+	}
+	return $null
+}
+
+# -Revert's plan for the test network ($Record, $State from Get-TestNetworkState): one line or more for each tag of the enable run's plan,
+# in the order Undo-TestNetwork takes them: the adapter with its address first, then the certificates with their keys, the firewall rules
+# last, so the address on which the server may still listen never lacks its block rule. -FromJournal: the record is the journal of a run
+# that stopped before it wrote its block in my.ini.
+function Get-TestNetworkRevertPlan($Record, $State, [switch]$FromJournal) {
+	$lines = @()
+	if ([string]$Record.AdapterId -eq '') {
+		$lines += '#. [adapter] The record names no loopback adapter (the run stopped before it made one): nothing to remove.'
+	}
+	elseif ($State.Adapter.Exists) {
+		$lines += "#. [adapter] Remove the loopback adapter $($Record.AdapterId) ('$TestAdapterName') first and check that it and its address are gone."
+		$others = @($State.Adapter.Addresses | Where-Object { $_ -ne $Record.Address })
+		if ($others.Count -gt 0) {
+			$lines += "     It also has $($others -join ', '), which go with it."
+		}
+	}
+	else {
+		$lines += "#. [adapter] The loopback adapter $($Record.AdapterId) is not there any more: nothing to remove."
+	}
+	$lines += "     [address] [bindings] Its address $($Record.Address)/32 and its bindings go with the adapter; the run checks that this computer no"
+	$lines += '     longer has the address.'
+	if (@($State.Certificates).Count -eq 0) {
+		$lines += '#. [client-certificates] The record names no test client certificate (the run stopped before it imported one): nothing to remove.'
+	}
+	foreach ($certificate in @($State.Certificates)) {
+		$key = $certificate.Key
+		if ($null -eq $key) {
+			# Get-TestNetworkRecordProblem refuses a record without the key, so this is a state that names none.
+			$key = [pscustomobject]@{ Kind = $certificate.Kind; Provider = ''; ProviderType = 0; Container = ''; File = '<not recorded>' }
+		}
+		if ($certificate.Exists) {
+			$lines += "#. [client-certificates] Remove $($certificate.Subject) ($($certificate.Thumbprint), its key in a $($certificate.Kind) provider) from"
+			$lines += "     LocalMachine\My, and delete its key first (the recorded file $($key.File))."
+		}
+		elseif ($certificate.KeyExists) {
+			$lines += "#. [client-certificates] The $($certificate.Kind) certificate $($certificate.Thumbprint) is not in LocalMachine\My any more, but its key"
+			$lines += "     file $($key.File) is still there (BUILTIN\Users can read it): delete that key (the container $($key.Container)"
+			$lines += "     in '$($key.Provider)', once it opens as that very file) and check that the file is gone."
+		}
+		else {
+			$lines += "#. [client-certificates] The $($certificate.Kind) certificate $($certificate.Thumbprint) is not in LocalMachine\My any more, and its key"
+			$lines += "     file $($key.File) is gone too: nothing to remove."
+		}
+	}
+	$lines += '     [key-access] With the keys their files go, BUILTIN\Users'' read access with them: the run checks that each recorded key file is'
+	$lines += '     gone, so no key that the users can read is left behind.'
+	$rules = @($State.Rules | Where-Object { $_.Exists } | ForEach-Object { $_.Name })
+	if (@($Record.FirewallRules).Count -eq 0) {
+		$lines += '#. [firewall] No firewall rule to remove (the record names none: the firewall was off, or the run stopped before it added one).'
+	}
+	elseif ($rules.Count -gt 0) {
+		$lines += "#. [firewall] Remove the firewall rules $($rules -join ' and ') (group '$FirewallGroup') last, once the adapter and its address are"
+		$lines += '     gone. If the adapter cannot be removed, the rules stay (they keep other computers away from the address) and -Revert names'
+		$lines += '     them as kept: it removes them when it is run again.'
+	}
+	else {
+		$lines += "#. [firewall] The firewall rules $(@($Record.FirewallRules) -join ' and ') are not there any more: nothing to remove."
+	}
+	if ($FromJournal) {
+		$lines += "     [bind-address] my.ini has no block of this script (the run stopped before it wrote it, or its undo restored my.ini), so it has no"
+		$lines += "     bind-address=127.0.0.1,$($Record.Address); the run checks that nothing listens on $($Record.Address):3306."
+	}
+	else {
+		$lines += "     [bind-address] Restoring my.ini (below) removes bind-address=127.0.0.1,$($Record.Address); after the restart the server listens on"
+		$lines += "     127.0.0.1 only, and nothing listens on $($Record.Address):3306."
+	}
+	$lines += "     [server-certificate] The server certificate that names $($Record.Address) goes with the opms-dev-tls folder (below)."
+	return $lines
+}
+
+# What is still there of a recorded test network ($State from Get-TestNetworkState), as text for a message: the adapter, each firewall
+# rule, each certificate and each key file that exists. Empty when everything is gone.
+function Get-TestNetworkLeft($Record, $State) {
+	$left = @()
+	if ($State.Adapter.Exists) {
+		$left += "the loopback adapter $($Record.AdapterId)"
+	}
+	foreach ($rule in @($State.Rules | Where-Object { $_.Exists })) {
+		$left += "the firewall rule $($rule.Name)"
+	}
+	foreach ($certificate in @($State.Certificates)) {
+		if ($certificate.Exists) {
+			$left += "the certificate $($certificate.Thumbprint) in LocalMachine\My"
+		}
+		if ($certificate.KeyExists) {
+			$left += "the key file $($certificate.Key.File)"
+		}
+	}
+	return , $left
+}
+
+# The C# source of the adapter's creation and removal through the SetupAPI (setupapi.dll; what devcon install does, without devcon), for
+# Add-Type: the .NET Framework's own compiler, nothing downloaded.
+function Get-LoopbackAdapterSource {
+	return @'
+using System;
+using System.ComponentModel;
+using System.Runtime.InteropServices;
+using System.Text;
+
+namespace OpenPmsDentalDevDbTls {
+	public static class LoopbackAdapter {
+		public const string HardwareId = "*MSLOOP";
+		private static readonly Guid GuidDevClassNet = new Guid("4d36e972-e325-11ce-bfc1-08002be10318");
+		private const int DICD_GENERATE_ID = 0x1;
+		private const int SPDRP_HARDWAREID = 0x1;
+		private const int SPDIT_COMPATDRIVER = 0x2;
+		private const int DIF_INSTALLDEVICE = 0x2;
+		private const int DIF_REMOVE = 0x5;
+		private const int DIF_REGISTERDEVICE = 0x19;
+		private const int DIF_INSTALLINTERFACES = 0x20;
+		private const int DIF_REGISTER_COINSTALLERS = 0x22;
+		private const int DI_NEEDRESTART = 0x80;
+		private const int DI_NEEDREBOOT = 0x100;
+
+		[StructLayout(LayoutKind.Sequential)]
+		private struct SP_DEVINFO_DATA {
+			public int cbSize;
+			public Guid ClassGuid;
+			public int DevInst;
+			public IntPtr Reserved;
+		}
+
+		[StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+		private struct SP_DEVINSTALL_PARAMS {
+			public int cbSize;
+			public int Flags;
+			public int FlagsEx;
+			public IntPtr hwndParent;
+			public IntPtr InstallMsgHandler;
+			public IntPtr InstallMsgHandlerContext;
+			public IntPtr FileQueue;
+			public IntPtr ClassInstallReserved;
+			public int Reserved;
+			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 260)]
+			public string DriverPath;
+		}
+
+		[DllImport("setupapi.dll", SetLastError = true)]
+		private static extern IntPtr SetupDiCreateDeviceInfoList(ref Guid ClassGuid, IntPtr hwndParent);
+		[DllImport("setupapi.dll", SetLastError = true)]
+		private static extern bool SetupDiDestroyDeviceInfoList(IntPtr DeviceInfoSet);
+		[DllImport("setupapi.dll", SetLastError = true, CharSet = CharSet.Unicode, EntryPoint = "SetupDiCreateDeviceInfoW")]
+		private static extern bool SetupDiCreateDeviceInfo(IntPtr DeviceInfoSet, string DeviceName, ref Guid ClassGuid, string DeviceDescription,
+			IntPtr hwndParent, int CreationFlags, ref SP_DEVINFO_DATA DeviceInfoData);
+		[DllImport("setupapi.dll", SetLastError = true, CharSet = CharSet.Unicode, EntryPoint = "SetupDiOpenDeviceInfoW")]
+		private static extern bool SetupDiOpenDeviceInfo(IntPtr DeviceInfoSet, string DeviceInstanceId, IntPtr hwndParent, int OpenFlags,
+			ref SP_DEVINFO_DATA DeviceInfoData);
+		[DllImport("setupapi.dll", SetLastError = true, CharSet = CharSet.Unicode, EntryPoint = "SetupDiSetDeviceRegistryPropertyW")]
+		private static extern bool SetupDiSetDeviceRegistryProperty(IntPtr DeviceInfoSet, ref SP_DEVINFO_DATA DeviceInfoData, int Property,
+			byte[] PropertyBuffer, int PropertyBufferSize);
+		[DllImport("setupapi.dll", SetLastError = true, CharSet = CharSet.Unicode, EntryPoint = "SetupDiGetDeviceRegistryPropertyW")]
+		private static extern bool SetupDiGetDeviceRegistryProperty(IntPtr DeviceInfoSet, ref SP_DEVINFO_DATA DeviceInfoData, int Property,
+			out int PropertyRegDataType, byte[] PropertyBuffer, int PropertyBufferSize, out int RequiredSize);
+		[DllImport("setupapi.dll", SetLastError = true)]
+		private static extern bool SetupDiBuildDriverInfoList(IntPtr DeviceInfoSet, ref SP_DEVINFO_DATA DeviceInfoData, int DriverType);
+		[DllImport("setupapi.dll", SetLastError = true)]
+		private static extern bool SetupDiSelectBestCompatDrv(IntPtr DeviceInfoSet, ref SP_DEVINFO_DATA DeviceInfoData);
+		[DllImport("setupapi.dll", SetLastError = true)]
+		private static extern bool SetupDiCallClassInstaller(int InstallFunction, IntPtr DeviceInfoSet, ref SP_DEVINFO_DATA DeviceInfoData);
+		[DllImport("setupapi.dll", SetLastError = true, CharSet = CharSet.Unicode, EntryPoint = "SetupDiGetDeviceInstanceIdW")]
+		private static extern bool SetupDiGetDeviceInstanceId(IntPtr DeviceInfoSet, ref SP_DEVINFO_DATA DeviceInfoData, StringBuilder DeviceInstanceId,
+			int DeviceInstanceIdSize, out int RequiredSize);
+		[DllImport("setupapi.dll", SetLastError = true, CharSet = CharSet.Unicode, EntryPoint = "SetupDiGetDeviceInstallParamsW")]
+		private static extern bool SetupDiGetDeviceInstallParams(IntPtr DeviceInfoSet, ref SP_DEVINFO_DATA DeviceInfoData,
+			ref SP_DEVINSTALL_PARAMS DeviceInstallParams);
+
+		private static SP_DEVINFO_DATA NewData() {
+			SP_DEVINFO_DATA data = new SP_DEVINFO_DATA();
+			data.cbSize = Marshal.SizeOf(typeof(SP_DEVINFO_DATA));
+			return data;
+		}
+
+		private static Win32Exception Fail(string step) {
+			int code = Marshal.GetLastWin32Error();
+			return new Win32Exception(code, step + " failed: " + new Win32Exception(code).Message + " (0x" + code.ToString("X8") + ")");
+		}
+
+		private static IntPtr NewSet() {
+			Guid classGuid = GuidDevClassNet;
+			IntPtr set = SetupDiCreateDeviceInfoList(ref classGuid, IntPtr.Zero);
+			if (set == new IntPtr(-1)) {
+				throw Fail("SetupDiCreateDeviceInfoList");
+			}
+			return set;
+		}
+
+		///<summary>Creates a root-enumerated network device with the hardware id *MSLOOP and installs the best driver for it (Windows'
+		///netloop.inf), as devcon install does. Returns its device instance id (ROOT\NET\nnnn). A device registered before a later step failed
+		///is removed again before the exception leaves.</summary>
+		public static string Create(string description, out bool needsReboot) {
+			needsReboot = false;
+			Guid classGuid = GuidDevClassNet;
+			IntPtr set = NewSet();
+			SP_DEVINFO_DATA data = NewData();
+			bool isRegistered = false;
+			try {
+				if (!SetupDiCreateDeviceInfo(set, "NET", ref classGuid, description, IntPtr.Zero, DICD_GENERATE_ID, ref data)) {
+					throw Fail("SetupDiCreateDeviceInfo");
+				}
+				byte[] ids = Encoding.Unicode.GetBytes(HardwareId + "\0\0");
+				if (!SetupDiSetDeviceRegistryProperty(set, ref data, SPDRP_HARDWAREID, ids, ids.Length)) {
+					throw Fail("SetupDiSetDeviceRegistryProperty (hardware id)");
+				}
+				if (!SetupDiBuildDriverInfoList(set, ref data, SPDIT_COMPATDRIVER)) {
+					throw Fail("SetupDiBuildDriverInfoList");
+				}
+				if (!SetupDiSelectBestCompatDrv(set, ref data)) {
+					throw Fail("SetupDiSelectBestCompatDrv (no driver for " + HardwareId + ")");
+				}
+				if (!SetupDiCallClassInstaller(DIF_REGISTERDEVICE, set, ref data)) {
+					throw Fail("DIF_REGISTERDEVICE");
+				}
+				isRegistered = true;
+				string instanceId = GetInstanceId(set, ref data);
+				if (!SetupDiCallClassInstaller(DIF_REGISTER_COINSTALLERS, set, ref data)) {
+					throw Fail("DIF_REGISTER_COINSTALLERS");
+				}
+				if (!SetupDiCallClassInstaller(DIF_INSTALLINTERFACES, set, ref data)) {
+					throw Fail("DIF_INSTALLINTERFACES");
+				}
+				if (!SetupDiCallClassInstaller(DIF_INSTALLDEVICE, set, ref data)) {
+					throw Fail("DIF_INSTALLDEVICE");
+				}
+				SP_DEVINSTALL_PARAMS installParams = new SP_DEVINSTALL_PARAMS();
+				installParams.cbSize = Marshal.SizeOf(typeof(SP_DEVINSTALL_PARAMS));
+				if (SetupDiGetDeviceInstallParams(set, ref data, ref installParams)) {
+					needsReboot = (installParams.Flags & (DI_NEEDREBOOT | DI_NEEDRESTART)) != 0;
+				}
+				isRegistered = false;
+				return instanceId;
+			}
+			finally {
+				if (isRegistered) {
+					SetupDiCallClassInstaller(DIF_REMOVE, set, ref data);
+				}
+				SetupDiDestroyDeviceInfoList(set);
+			}
+		}
+
+		///<summary>The hardware ids of a device (empty when it has none). Throws when there is no such device.</summary>
+		public static string[] GetHardwareIds(string instanceId) {
+			IntPtr set = NewSet();
+			try {
+				SP_DEVINFO_DATA data = NewData();
+				if (!SetupDiOpenDeviceInfo(set, instanceId, IntPtr.Zero, 0, ref data)) {
+					throw Fail("SetupDiOpenDeviceInfo " + instanceId);
+				}
+				return ReadHardwareIds(set, ref data);
+			}
+			finally {
+				SetupDiDestroyDeviceInfoList(set);
+			}
+		}
+
+		///<summary>Removes the device, only when it is a loopback adapter (hardware id *MSLOOP); throws otherwise.</summary>
+		public static void Remove(string instanceId) {
+			IntPtr set = NewSet();
+			try {
+				SP_DEVINFO_DATA data = NewData();
+				if (!SetupDiOpenDeviceInfo(set, instanceId, IntPtr.Zero, 0, ref data)) {
+					throw Fail("SetupDiOpenDeviceInfo " + instanceId);
+				}
+				string[] ids = ReadHardwareIds(set, ref data);
+				if (Array.FindIndex(ids, x => string.Equals(x, HardwareId, StringComparison.OrdinalIgnoreCase)) < 0) {
+					throw new InvalidOperationException(instanceId + " is not a loopback adapter (hardware ids " + string.Join(", ", ids) + "); it is not removed.");
+				}
+				if (!SetupDiCallClassInstaller(DIF_REMOVE, set, ref data)) {
+					throw Fail("DIF_REMOVE " + instanceId);
+				}
+			}
+			finally {
+				SetupDiDestroyDeviceInfoList(set);
+			}
+		}
+
+		private static string GetInstanceId(IntPtr set, ref SP_DEVINFO_DATA data) {
+			StringBuilder builder = new StringBuilder(512);
+			int required;
+			if (!SetupDiGetDeviceInstanceId(set, ref data, builder, builder.Capacity, out required)) {
+				throw Fail("SetupDiGetDeviceInstanceId");
+			}
+			return builder.ToString();
+		}
+
+		private static string[] ReadHardwareIds(IntPtr set, ref SP_DEVINFO_DATA data) {
+			byte[] buffer = new byte[4096];
+			int type;
+			int required;
+			if (!SetupDiGetDeviceRegistryProperty(set, ref data, SPDRP_HARDWAREID, out type, buffer, buffer.Length, out required)) {
+				return new string[0];
+			}
+			return Encoding.Unicode.GetString(buffer, 0, Math.Min(required, buffer.Length)).Split(new[] { '\0' }, StringSplitOptions.RemoveEmptyEntries);
+		}
+	}
+}
+'@
+}
+
+function Add-LoopbackAdapterType {
+	if ($null -eq ('OpenPmsDentalDevDbTls.LoopbackAdapter' -as [type])) {
+		Add-Type -TypeDefinition (Get-LoopbackAdapterSource) -Language CSharp
+	}
+}
+
+# The certificate of a PEM file (the first CERTIFICATE block).
+function Read-PemCertificate([string]$Path) {
+	$text = [System.IO.File]::ReadAllText($Path)
+	$match = [regex]::Match($text, '-----BEGIN CERTIFICATE-----(?<b>[A-Za-z0-9+/=\s]+)-----END CERTIFICATE-----')
+	if (-not $match.Success) {
+		throw "$Path holds no PEM certificate."
+	}
+	return New-Object System.Security.Cryptography.X509Certificates.X509Certificate2(, [Convert]::FromBase64String(($match.Groups['b'].Value -replace '\s', '')))
+}
+
+# The certificate of this thumbprint in LocalMachine\My, or $null. Reading the store needs no elevation and opens no key.
+function Find-MachineCertificate([string]$Thumbprint) {
+	if ([string]$Thumbprint -notmatch '^[0-9A-Fa-f]{40}$') {
+		return $null
+	}
+	$store = New-Object System.Security.Cryptography.X509Certificates.X509Store('My', [System.Security.Cryptography.X509Certificates.StoreLocation]::LocalMachine)
+	$store.Open([System.Security.Cryptography.X509Certificates.OpenFlags]::ReadOnly -bor [System.Security.Cryptography.X509Certificates.OpenFlags]::OpenExistingOnly)
+	try {
+		$found = $store.Certificates.Find([System.Security.Cryptography.X509Certificates.X509FindType]::FindByThumbprint, $Thumbprint, $false)
+		if ($found.Count -gt 0) {
+			return $found[0]
+		}
+		return $null
+	}
+	finally {
+		$store.Close()
+	}
+}
+
+# True when $Ca (the test CA) issued $Certificate: the chain from it ends in that CA, signatures checked, no revocation look-up.
+function Test-IssuedByCa($Certificate, $Ca) {
+	$chain = New-Object System.Security.Cryptography.X509Certificates.X509Chain
+	try {
+		$chain.ChainPolicy.RevocationMode = [System.Security.Cryptography.X509Certificates.X509RevocationMode]::NoCheck
+		$chain.ChainPolicy.VerificationFlags = [System.Security.Cryptography.X509Certificates.X509VerificationFlags]::AllowUnknownCertificateAuthority
+		[void]$chain.ChainPolicy.ExtraStore.Add($Ca)
+		$built = $chain.Build($Certificate)
+		return $built -and $chain.ChainElements.Count -eq 2 -and $chain.ChainElements[1].Certificate.Thumbprint -eq $Ca.Thumbprint
+	}
+	finally {
+		$chain.Reset()
+	}
+}
+
+# Where a certificate's private key is: CAPI (an RSACryptoServiceProvider through the certificate's PrivateKey, its container file under
+# %ProgramData%\Microsoft\Crypto\RSA\MachineKeys) or CNG (RSACng, its file under %ProgramData%\Microsoft\Crypto\Keys), as the connection
+# settings tool names them (ClientCertificateStore.GetPrivateKeyFilePath). .NET Framework's GetRSAPrivateKey gives an RSACng for a CAPI
+# key too, so CAPI is tried first. Opens the key: only for the two certificates this script imports. Needs elevation for a machine key.
+function Get-TestKeyInfo($Certificate) {
+	$capi = $null
+	try {
+		$capi = $Certificate.PrivateKey -as [System.Security.Cryptography.RSACryptoServiceProvider]
+	}
+	catch {
+		$capi = $null
+	}
+	if ($null -ne $capi) {
+		$info = $capi.CspKeyContainerInfo
+		$folder = Join-Path $env:ProgramData 'Microsoft\Crypto\RSA\MachineKeys'
+		return [pscustomobject]@{ Kind = 'CAPI'; Provider = $info.ProviderName; ProviderType = $info.ProviderType; Container = $info.KeyContainerName
+			IsMachine = $info.MachineKeyStore; File = (Join-Path $folder $info.UniqueKeyContainerName) }
+	}
+	$rsa = [System.Security.Cryptography.X509Certificates.RSACertificateExtensions]::GetRSAPrivateKey($Certificate)
+	if ($rsa -is [System.Security.Cryptography.RSACng]) {
+		try {
+			$key = $rsa.Key
+			return [pscustomobject]@{ Kind = 'CNG'; Provider = $key.Provider.Provider; ProviderType = 0; Container = $key.KeyName; IsMachine = $key.IsMachineKey
+				File = (Join-Path $env:ProgramData ('Microsoft\Crypto\Keys\' + $key.UniqueName)) }
+		}
+		finally {
+			$rsa.Dispose()
+		}
+	}
+	throw "The private key of $($Certificate.Subject) ($($Certificate.Thumbprint)) does not open as a CAPI or CNG RSA key."
+}
+
+# BUILTIN\Users read access to a key file, as ClientCertificateStore.GrantUsersReadToPrivateKey gives it.
+function Grant-UsersReadToKeyFile([string]$Path) {
+	$users = New-Object System.Security.Principal.SecurityIdentifier('S-1-5-32-545')
+	$security = [System.IO.File]::GetAccessControl($Path)
+	$security.AddAccessRule((New-Object System.Security.AccessControl.FileSystemAccessRule($users, [System.Security.AccessControl.FileSystemRights]::Read, [System.Security.AccessControl.AccessControlType]::Allow)))
+	[System.IO.File]::SetAccessControl($Path, $security)
+}
+
+# Runs certutil.exe (Windows' own) with these arguments; the output with $Secret replaced, so the .pfx password is never printed.
+function Invoke-Certutil([string[]]$Arguments, [string]$Secret) {
+	$startInfo = New-Object System.Diagnostics.ProcessStartInfo
+	$startInfo.FileName = Join-Path $env:windir 'System32\certutil.exe'
+	$startInfo.Arguments = Join-Arguments $Arguments
+	$startInfo.UseShellExecute = $false
+	$startInfo.RedirectStandardOutput = $true
+	$startInfo.RedirectStandardError = $true
+	$startInfo.CreateNoWindow = $true
+	$process = [System.Diagnostics.Process]::Start($startInfo)
+	$stdoutTask = $process.StandardOutput.ReadToEndAsync()
+	$stderr = $process.StandardError.ReadToEnd()
+	$process.WaitForExit()
+	$output = ($stdoutTask.Result + ' ' + $stderr).Trim()
+	if ($Secret -ne '') {
+		$output = $output.Replace($Secret, '<password>')
+	}
+	return [pscustomobject]@{ ExitCode = $process.ExitCode; Output = ($output -replace '\s+', ' ') }
+}
+
+# Imports one test client .pfx into LocalMachine\My with its key in $Provider (certutil -csp, not exportable, no chain), checks where the key
+# landed ($Kind, the computer's key set). Returns the key's information; the caller records it (the journal) and then gives BUILTIN\Users
+# read access to its file (Grant-UsersReadToKeyFile), so that no key the users can read is ever unrecorded.
+function Import-TestClientCertificate([string]$PfxPath, [string]$Password, [string]$Provider, [string]$Kind, [string]$Thumbprint) {
+	$result = Invoke-Certutil @('-f', '-p', $Password, '-csp', $Provider, '-importPFX', 'My', $PfxPath, 'NoExport,NoChain,NoRoot') $Password
+	if ($result.ExitCode -ne 0) {
+		throw "certutil could not import $PfxPath into LocalMachine\My with the provider $Provider (exit code $($result.ExitCode)): $($result.Output)"
+	}
+	$certificate = Find-MachineCertificate $Thumbprint
+	if ($null -eq $certificate) {
+		throw "After certutil's import of $PfxPath, LocalMachine\My has no certificate $Thumbprint."
+	}
+	$info = Get-TestKeyInfo $certificate
+	if ($info.Kind -ne $Kind -or $info.Provider -ne $Provider -or -not $info.IsMachine) {
+		throw "The key of $Thumbprint is in the $($info.Kind) provider '$($info.Provider)' (the computer's key set: $($info.IsMachine)), not in the $Kind provider '$Provider' of the computer's key set."
+	}
+	if (-not (Test-Path -LiteralPath $info.File -PathType Leaf)) {
+		throw "The key file of $Thumbprint, $($info.File), was not found."
+	}
+	return $info
+}
+
+# Deletes one key of the computer's key set ($Key: Kind, Provider, ProviderType, Container, File, from Get-TestKeyInfo or the record):
+# CAPI through the CSP (UseMachineKeyStore, UseExistingKey, PersistKeyInCsp off, Clear), CNG with CngKey.Delete. The container must open as
+# that very file (its unique name is the file's name), else nothing is deleted. Nothing to do when the file is gone already.
+function Remove-TestKey($Key) {
+	if (-not (Test-Path -LiteralPath $Key.File)) {
+		return
+	}
+	$leaf = Split-Path -Leaf $Key.File
+	if ($Key.Kind -eq 'CAPI') {
+		$parameters = New-Object System.Security.Cryptography.CspParameters($Key.ProviderType, $Key.Provider, $Key.Container)
+		$parameters.Flags = [System.Security.Cryptography.CspProviderFlags]::UseMachineKeyStore -bor [System.Security.Cryptography.CspProviderFlags]::UseExistingKey
+		$csp = New-Object System.Security.Cryptography.RSACryptoServiceProvider($parameters)
+		$unique = [string]$csp.CspKeyContainerInfo.UniqueKeyContainerName
+		if ($unique -ne $leaf) {
+			# PersistKeyInCsp stays on (a named container), so Dispose keeps the key.
+			$csp.Dispose()
+			throw "The key container $($Key.Container) in '$($Key.Provider)' is the file $unique, not the recorded $($Key.File); it is not deleted."
+		}
+		$csp.PersistKeyInCsp = $false
+		$csp.Clear()
+	}
+	else {
+		$cngKey = [System.Security.Cryptography.CngKey]::Open($Key.Container, (New-Object System.Security.Cryptography.CngProvider($Key.Provider)), [System.Security.Cryptography.CngKeyOpenOptions]::MachineKey)
+		$unique = [string]$cngKey.UniqueName
+		if ($unique -ne $leaf) {
+			$cngKey.Dispose()
+			throw "The key $($Key.Container) in '$($Key.Provider)' is the file $unique, not the recorded $($Key.File); it is not deleted."
+		}
+		$cngKey.Delete()
+	}
+}
+
+# Removes a test client certificate from LocalMachine\My with its key: the key first (Remove-TestKey), then the store entry, then checks that
+# both are gone. $RecordedKey (the record's, from ConvertFrom-KeyRecord, or $null) is deleted too when its file is still there, also when the
+# certificate is gone already (a store entry deleted by hand, certlm.msc or certutil -delstore, leaves its key file and the users' read
+# access to it). '' when everything is gone (or was not there), else what is left.
+function Remove-TestClientCertificate([string]$Thumbprint, $RecordedKey) {
+	$certificate = Find-MachineCertificate $Thumbprint
+	$files = @()
+	if ($null -ne $certificate) {
+		if ($certificate.HasPrivateKey) {
+			$info = Get-TestKeyInfo $certificate
+			$files += $info.File
+			Remove-TestKey $info
+		}
+		$store = New-Object System.Security.Cryptography.X509Certificates.X509Store('My', [System.Security.Cryptography.X509Certificates.StoreLocation]::LocalMachine)
+		$store.Open([System.Security.Cryptography.X509Certificates.OpenFlags]::ReadWrite -bor [System.Security.Cryptography.X509Certificates.OpenFlags]::OpenExistingOnly)
+		try {
+			$store.Remove($certificate)
+		}
+		finally {
+			$store.Close()
+		}
+	}
+	if ($null -ne $RecordedKey) {
+		$files += $RecordedKey.File
+		Remove-TestKey $RecordedKey
+	}
+	$left = @()
+	if ($null -ne (Find-MachineCertificate $Thumbprint)) {
+		$left += "the certificate $Thumbprint is still in LocalMachine\My"
+	}
+	foreach ($file in @($files | Where-Object { $_ } | Select-Object -Unique)) {
+		if (Test-Path -LiteralPath $file) {
+			$left += "the key file $file of $Thumbprint is still there"
+		}
+	}
+	return ($left -join '; ')
+}
+
+# What to do by hand for a test client certificate that an undo could not remove ($Key from Get-TestKeyInfo, or $null when the import did
+# not get that far): the key first, with certutil -delkey (the computer's key set; an elevated window), then the store entry. certlm.msc's
+# Delete and certutil -delstore alone remove only the store entry and leave the key file, with BUILTIN\Users' read access.
+function Get-ManualCertificateRemoval([string]$Thumbprint, $Key) {
+	if ($null -eq $Key) {
+		return "the certificate ${Thumbprint}: if certutil -store My $Thumbprint shows it, first delete its key with certutil -csp ""<its Provider>"" -delkey <its Key Container> (both from that output), then certutil -delstore My $Thumbprint, and check that the key file is gone"
+	}
+	return "the certificate $Thumbprint with its key file $($Key.File): first certutil -csp ""$($Key.Provider)"" -delkey ""$($Key.Container)"", then certutil -delstore My $Thumbprint, and check that the key file is gone"
+}
+
+# Waits until the new adapter shows as a network adapter, and returns it.
+function Wait-TestNetAdapter([string]$InstanceId) {
+	$deadline = [DateTime]::UtcNow.AddSeconds(60)
+	while ([DateTime]::UtcNow -lt $deadline) {
+		$adapter = @(Get-NetAdapter -IncludeHidden -ErrorAction SilentlyContinue | Where-Object { [string]$_.PnPDeviceID -eq $InstanceId })
+		if ($adapter.Count -gt 0) {
+			return $adapter[0]
+		}
+		Start-Sleep -Milliseconds 500
+	}
+	throw "The new loopback adapter $InstanceId did not show as a network adapter within 60 seconds."
+}
+
+# Steps a and b: names the new adapter, switches off every binding but IPv4, and gives it the address and nothing else. Returns its
+# interface index. What keeps other computers away (no gateway, DHCP, forwarding and weak host receive off, the bindings of
+# $RequiredOffBindings) must succeed; the rest (duplicate address detection, weak host send, router discovery, NetBIOS, other bindings)
+# is switched off where Windows allows it, with a WARNING otherwise.
+function Set-TestAdapter([string]$InstanceId, [string]$Address) {
+	$adapter = Wait-TestNetAdapter $InstanceId
+	Rename-NetAdapter -Name $adapter.Name -NewName $TestAdapterName -Confirm:$false
+	$index = [int]$adapter.InterfaceIndex
+	foreach ($binding in @(Get-NetAdapterBinding -Name $TestAdapterName -ErrorAction SilentlyContinue | Where-Object { $_.ComponentID -ne 'ms_tcpip' -and $_.Enabled })) {
+		try {
+			Disable-NetAdapterBinding -Name $TestAdapterName -ComponentID $binding.ComponentID -Confirm:$false
+		}
+		catch {
+			if ($RequiredOffBindings -contains $binding.ComponentID) {
+				throw
+			}
+			Write-Host "WARNING: the binding $($binding.ComponentID) ($($binding.DisplayName)) of the test adapter stays on: $($_.Exception.Message)"
+		}
+	}
+	Set-NetIPInterface -InterfaceIndex $index -AddressFamily IPv4 -Dhcp Disabled -Forwarding Disabled -WeakHostReceive Disabled
+	foreach ($setting in @(@{ DadTransmits = [uint32]0 }, @{ WeakHostSend = 'Disabled' }, @{ RouterDiscovery = 'Disabled' })) {
+		try {
+			Set-NetIPInterface -InterfaceIndex $index -AddressFamily IPv4 @setting
+		}
+		catch {
+			Write-Host "WARNING: $(@($setting.Keys)[0]) of the test adapter stays as Windows set it: $($_.Exception.Message)"
+		}
+	}
+	New-NetIPAddress -InterfaceIndex $index -AddressFamily IPv4 -IPAddress $Address -PrefixLength 32 | Out-Null
+	Set-DnsClient -InterfaceIndex $index -RegisterThisConnectionsAddress $false
+	Set-DnsClientServerAddress -InterfaceIndex $index -ResetServerAddresses
+	try {
+		$configuration = Get-CimInstance -ClassName Win32_NetworkAdapterConfiguration -Filter "InterfaceIndex=$index"
+		$result = Invoke-CimMethod -InputObject $configuration -MethodName SetTcpipNetbios -Arguments @{ TcpipNetbiosOptions = [uint32]2 }
+		if ([int]$result.ReturnValue -ne 0 -and [int]$result.ReturnValue -ne 1) {
+			Write-Host "WARNING: NetBIOS over TCP/IP of the test adapter stays on (SetTcpipNetbios returned $($result.ReturnValue))."
+		}
+	}
+	catch {
+		Write-Host "WARNING: NetBIOS over TCP/IP of the test adapter stays on: $($_.Exception.Message)"
+	}
+	return $index
+}
+
+# Why the configured adapter (interface $Index) is not as steps a and b make it, or $null: its only IPv4 address is $Address/32 (preferred), no
+# gateway, no DNS server, no DNS registration, DHCP, forwarding and weak host receive off, none of $RequiredOffBindings on. Waits up to 20
+# seconds.
+function Get-TestAdapterProblem([int]$Index, [string]$Address) {
+	$deadline = [DateTime]::UtcNow.AddSeconds(20)
+	$problem = 'not checked'
+	while ([DateTime]::UtcNow -lt $deadline) {
+		$problem = $null
+		$addresses = @(Get-NetIPAddress -InterfaceIndex $Index -AddressFamily IPv4 -ErrorAction SilentlyContinue)
+		if ($addresses.Count -ne 1 -or [string]$addresses[0].IPAddress -ne $Address -or [int]$addresses[0].PrefixLength -ne 32 -or [string]$addresses[0].AddressState -ne 'Preferred') {
+			$problem = "its IPv4 addresses are $(@($addresses | ForEach-Object { [string]$_.IPAddress + '/' + $_.PrefixLength + ' ' + $_.AddressState }) -join ', '), not $Address/32 alone (Preferred)"
+		}
+		elseif (@(Get-NetRoute -InterfaceIndex $Index -AddressFamily IPv4 -ErrorAction SilentlyContinue | Where-Object { [string]$_.NextHop -ne '0.0.0.0' }).Count -gt 0) {
+			$problem = 'it has a gateway'
+		}
+		elseif (@((Get-DnsClientServerAddress -InterfaceIndex $Index -AddressFamily IPv4 -ErrorAction SilentlyContinue).ServerAddresses | Where-Object { $_ }).Count -gt 0) {
+			$problem = 'it has a DNS server'
+		}
+		elseif ((Get-DnsClient -InterfaceIndex $Index -ErrorAction SilentlyContinue).RegisterThisConnectionsAddress) {
+			$problem = 'it registers its address in DNS'
+		}
+		else {
+			$interface = Get-NetIPInterface -InterfaceIndex $Index -AddressFamily IPv4
+			if ([string]$interface.Dhcp -ne 'Disabled' -or [string]$interface.Forwarding -ne 'Disabled' -or [string]$interface.WeakHostReceive -ne 'Disabled') {
+				$problem = "DHCP $($interface.Dhcp), forwarding $($interface.Forwarding), weak host receive $($interface.WeakHostReceive)"
+			}
+			else {
+				$bound = @(Get-NetAdapterBinding -Name $TestAdapterName -ErrorAction SilentlyContinue | Where-Object { $_.Enabled -and $RequiredOffBindings -contains $_.ComponentID } | ForEach-Object { $_.ComponentID })
+				if ($bound.Count -gt 0) {
+					$problem = "bindings still on: $($bound -join ', ')"
+				}
+			}
+		}
+		if ($null -eq $problem) {
+			return $null
+		}
+		Start-Sleep -Milliseconds 500
+	}
+	return "The test adapter is not as this script set it up: $problem."
+}
+
+# Step c: the two firewall rules. Each name goes to $Created.FirewallRules and to the journal ($JournalPath) before the rule is added, so a
+# failed run, or -Revert after an interrupted one, removes it.
+function Add-TestFirewallRules([string]$Address, $Created, [string]$JournalPath) {
+	$common = @{ Group = $FirewallGroup; Direction = 'Inbound'; Protocol = 'TCP'; LocalPort = '3306'; LocalAddress = $Address; Profile = 'Any'; Enabled = 'True' }
+	$Created.FirewallRules = @($Created.FirewallRules) + @($FirewallAllowName)
+	Add-TestNetworkJournalLine $JournalPath "$RecordFirewallPrefix$FirewallAllowName"
+	New-NetFirewallRule -Name $FirewallAllowName -DisplayName "Open PMS - Dental local test TLS: MariaDB on $Address from this computer" -Action Allow -RemoteAddress $Address @common | Out-Null
+	$Created.FirewallRules = @($Created.FirewallRules) + @($FirewallBlockName)
+	Add-TestNetworkJournalLine $JournalPath "$RecordFirewallPrefix$FirewallBlockName"
+	New-NetFirewallRule -Name $FirewallBlockName -DisplayName "Open PMS - Dental local test TLS: MariaDB on $Address from anywhere else" -Action Block -RemoteAddress (Get-FirewallBlockRanges $Address) @common | Out-Null
+}
+
+# Removes one of this script's firewall rules (only of its group); nothing when it is not there.
+function Remove-TestFirewallRule([string]$Name) {
+	$rule = @(Get-NetFirewallRule -ErrorAction SilentlyContinue | Where-Object { [string]$_.Name -eq $Name })
+	if ($rule.Count -eq 0) {
+		return
+	}
+	if ([string]$rule[0].Group -ne $FirewallGroup) {
+		throw "The firewall rule $Name is in the group '$($rule[0].Group)', not '$FirewallGroup'; it is not removed."
+	}
+	Remove-NetFirewallRule -Name $Name
+}
+
+# Removes the test adapter (only a loopback adapter: LoopbackAdapter.Remove checks it) and waits until neither the device nor the address
+# is there; nothing when the device is not there.
+function Remove-TestAdapter([string]$InstanceId, [string]$Address) {
+	if (@(Get-PnpDevice -InstanceId $InstanceId -ErrorAction SilentlyContinue).Count -gt 0) {
+		Add-LoopbackAdapterType
+		[OpenPmsDentalDevDbTls.LoopbackAdapter]::Remove($InstanceId)
+	}
+	$deadline = [DateTime]::UtcNow.AddSeconds(30)
+	while ([DateTime]::UtcNow -lt $deadline) {
+		$device = @(Get-PnpDevice -InstanceId $InstanceId -ErrorAction SilentlyContinue)
+		$address = @(Get-NetIPAddress -AddressFamily IPv4 -ErrorAction SilentlyContinue | Where-Object { [string]$_.IPAddress -eq $Address })
+		if ($device.Count -eq 0 -and $address.Count -eq 0) {
+			return
+		}
+		Start-Sleep -Milliseconds 500
+	}
+	throw "After its removal, the test adapter $InstanceId or the address $Address is still there."
+}
+
+# Steps a, b, c and e of an enable run with -WithTestNetwork (the certificates in $Set, the paths and the test network in $Paths). Records
+# in $Created what it made, as it makes it, so that a failed run undoes exactly that (Undo-TestNetwork), and in the journal in the
+# opms-dev-tls folder, so that -Revert finds it after a run that stopped without its undo (Ctrl+C, a closed window); fills in
+# $Paths.TestNetwork's adapter and keys for the record in my.ini.
+function Install-TestNetwork($Paths, $Set, $Created) {
+	$net = $Paths.TestNetwork
+	$journal = Get-TestNetworkJournalPath $Paths.TlsFolder
+	Add-TestNetworkJournalLine $journal "$RecordAddressPrefix$($net.Address)"
+	Add-LoopbackAdapterType
+	$needsReboot = $false
+	$instanceId = [OpenPmsDentalDevDbTls.LoopbackAdapter]::Create($TestAdapterName, [ref]$needsReboot)
+	$Created.AdapterId = $instanceId
+	Add-TestNetworkJournalLine $journal "$RecordAdapterPrefix$instanceId"
+	$net.AdapterId = $instanceId
+	Write-Host "Created the loopback adapter $instanceId."
+	if ($needsReboot) {
+		throw "Windows asks for a restart to finish the loopback adapter $instanceId; this script does not restart the computer."
+	}
+	$index = Set-TestAdapter $instanceId $net.Address
+	$problem = Get-TestAdapterProblem $index $net.Address
+	if ($null -ne $problem) {
+		throw $problem
+	}
+	Write-Host "Gave it $($net.Address)/32 (no gateway, no DNS, only IPv4 bound)."
+	if (@($net.FirewallRules).Count -gt 0) {
+		Add-TestFirewallRules $net.Address $Created $journal
+		Write-Host "Added the firewall rules $(@($net.FirewallRules) -join ' and ')."
+	}
+	$pfxFolder = Join-Path $Paths.TlsFolder $PfxFolderName
+	New-Item -ItemType Directory -Path $pfxFolder | Out-Null
+	$Created.PfxFolder = $pfxFolder
+	Set-ProtectedAcl $pfxFolder @() @()
+	foreach ($item in @(@('CAPI', $CapiProviderName, $Set.TestCapiPfx, $Set.TestCapiThumbprint, 'test-client-capi.pfx'), @('CNG', $CngProviderName, $Set.TestCngPfx, $Set.TestCngThumbprint, 'test-client-cng.pfx'))) {
+		$pfxPath = Join-Path $pfxFolder $item[4]
+		[System.IO.File]::WriteAllBytes($pfxPath, [byte[]]$item[2])
+		$Created.Thumbprints = @($Created.Thumbprints) + @($item[3])
+		$thumbprintPrefix = $RecordCngPrefix
+		$keyPrefix = $RecordCngKeyPrefix
+		if ($item[0] -eq 'CAPI') {
+			$thumbprintPrefix = $RecordCapiPrefix
+			$keyPrefix = $RecordCapiKeyPrefix
+		}
+		Add-TestNetworkJournalLine $journal "$thumbprintPrefix$($item[3])"
+		$info = Import-TestClientCertificate $pfxPath $Set.TestPfxPassword $item[1] $item[0] $item[3]
+		# Where the key is, for the undo, the journal and the record in my.ini (-Revert deletes it even when the certificate is gone), all
+		# before the users get read access to it.
+		$Created.Keys = @($Created.Keys) + @([pscustomobject]@{ Thumbprint = $item[3]; Key = $info })
+		$keyRecord = ConvertTo-KeyRecord $info
+		Add-TestNetworkJournalLine $journal "$keyPrefix$keyRecord"
+		if ($item[0] -eq 'CAPI') {
+			$net.CapiKey = $keyRecord
+		}
+		else {
+			$net.CngKey = $keyRecord
+		}
+		Grant-UsersReadToKeyFile $info.File
+		Write-Host "Imported $($item[3]) into LocalMachine\My, its key in '$($info.Provider)' ($($info.File), BUILTIN\Users read)."
+	}
+	Remove-Item -LiteralPath $pfxFolder -Recurse -Force
+	$Created.PfxFolder = ''
+}
+
+# The key that $Created (Undo-TestNetwork's) knows for a thumbprint (Kind, Provider, ProviderType, Container, File), or $null.
+function Get-CreatedKey($Created, [string]$Thumbprint) {
+	$found = @(@($Created.Keys) | Where-Object { $null -ne $_ -and $_.Thumbprint -eq $Thumbprint })
+	if ($found.Count -gt 0) {
+		return $found[0].Key
+	}
+	return $null
+}
+
+# Undoes what $Created names (a failed enable run's own, or -Revert's record): the adapter with its address first (Remove-TestAdapter waits
+# until both are gone), then the certificates with their keys (also a known key whose certificate is gone), the .pfx folder, and the
+# firewall rules last. The server may still listen on the address (-Revert restores my.ini only afterwards), so its block rule goes only
+# once the address is gone: when the adapter step fails, the rules stay and are named as kept, and the record that names them stays for a
+# later -Revert. Returns what could not be undone or was kept (empty when everything is gone).
+function Undo-TestNetwork($Created, [string]$Address) {
+	$problems = @()
+	$adapterGone = $true
+	if ([string]$Created.AdapterId -ne '') {
+		try {
+			Remove-TestAdapter $Created.AdapterId $Address
+		}
+		catch {
+			$adapterGone = $false
+			$problems += "the loopback adapter $($Created.AdapterId): $($_.Exception.Message)"
+		}
+	}
+	foreach ($thumbprint in @($Created.Thumbprints | Where-Object { $_ })) {
+		try {
+			$left = Remove-TestClientCertificate $thumbprint (Get-CreatedKey $Created $thumbprint)
+			if ($left -ne '') {
+				$problems += $left
+			}
+		}
+		catch {
+			$problems += "the certificate $thumbprint in LocalMachine\My (with its key): $($_.Exception.Message)"
+		}
+	}
+	if ([string]$Created.PfxFolder -ne '' -and (Test-Path -LiteralPath $Created.PfxFolder)) {
+		try {
+			Remove-Item -LiteralPath $Created.PfxFolder -Recurse -Force
+		}
+		catch {
+			$problems += "the folder $($Created.PfxFolder) (the .pfx files): $($_.Exception.Message)"
+		}
+	}
+	$rules = @($Created.FirewallRules | Where-Object { $_ })
+	if (-not $adapterGone) {
+		if ($rules.Count -gt 0) {
+			$problems += "the firewall rules $($rules -join ' and ') are kept, because the adapter and its address $Address are still there and the rules keep other computers away from it; run -Revert again once the adapter is gone"
+		}
+		return , $problems
+	}
+	foreach ($rule in $rules) {
+		try {
+			Remove-TestFirewallRule $rule
+		}
+		catch {
+			$problems += "the firewall rule ${rule}: $($_.Exception.Message)"
+		}
+	}
+	return , $problems
+}
+
+# Why the service's process ($ServicePid) does not listen on $Address:3306 within 30 seconds after a restart, or $null when it does.
+function Get-TestListenerProblem([string]$Address, [int]$ServicePid) {
+	$deadline = [DateTime]::UtcNow.AddSeconds(30)
+	while ([DateTime]::UtcNow -lt $deadline) {
+		$listeners = @(Get-NetTCPConnection -LocalAddress $Address -LocalPort 3306 -State Listen -ErrorAction SilentlyContinue)
+		if (@($listeners | Where-Object { [int]$_.OwningProcess -eq $ServicePid }).Count -gt 0) {
+			return $null
+		}
+		Start-Sleep -Milliseconds 500
+	}
+	return "The service's process $ServicePid does not listen on ${Address}:3306."
+}
+
+# The three values of TlsCertificateLoginTests (docs/port-notes/S2-2.md section 6), as PowerShell lines to paste.
+function Write-TestVariables([string]$Address, [string]$CapiThumbprint, [string]$CngThumbprint) {
+	Write-Host 'The values for TlsCertificateLoginTests (docs/port-notes/DB-TLS.md section 11), to paste into the lead''s PowerShell window:'
+	Write-Host "  `$env:OPMS_DB_TLS_TEST_SERVER='$Address'"
+	Write-Host "  `$env:OPMS_DB_TLS_TEST_CAPI_THUMBPRINT='$CapiThumbprint'"
+	Write-Host "  `$env:OPMS_DB_TLS_TEST_CNG_THUMBPRINT='$CngThumbprint'"
 }
 
 #endregion
@@ -982,6 +2356,17 @@ function Resolve-RecordedFolders($Recorded, [string]$GivenDev, [string]$GivenCli
 function Get-Paths([bool]$ForEnable) {
 	$tlsFolder = Join-Path $script:Facts.Home $TlsFolderName
 	$defaultDev = Join-Path ([Environment]::GetFolderPath('LocalApplicationData')) 'OpenPmsDental\DevDbTls'
+	# The test network: the enable run fills it in (Invoke-Enable); the other modes take the record and refuse one no enable run wrote.
+	$testNetwork = $null
+	if (-not $ForEnable) {
+		$testNetwork = Get-RecordedTestNetwork $script:IniFile.Text
+		if ($null -ne $testNetwork) {
+			$netProblem = Get-TestNetworkRecordProblem $testNetwork
+			if ($null -ne $netProblem) {
+				Stop-Refused "$netProblem This script does not touch it: something else wrote that line of its block in $($script:Facts.Ini). Look at the block, restore my.ini from $($script:Facts.Ini + $BackupSuffix) by hand and undo the test network yourself (docs/port-notes/DB-TLS.md section 11)."
+			}
+		}
+	}
 	if ($ForEnable) {
 		$dev = $DevFolder
 		if ($dev -eq '') {
@@ -1040,6 +2425,7 @@ function Get-Paths([bool]$ForEnable) {
 		CreatedParents = @($folders.CreatedParents)
 		Backup       = $script:Facts.Ini + $BackupSuffix
 		IniTemp      = $script:Facts.Ini + $IniTempSuffix
+		TestNetwork  = $testNetwork
 	}
 }
 
@@ -1064,12 +2450,31 @@ function Get-BlockLines($Paths, [bool]$WithRequire) {
 	foreach ($parent in (Get-CreatedParents $Paths)) {
 		$lines += "$RecordParentPrefix$($parent.Replace('\', '/'))"
 	}
+	# The test network (-WithTestNetwork): the record of what the run made, for -Revert, and the second address for the server.
+	$net = $null
+	if ($Paths.PSObject.Properties['TestNetwork']) {
+		$net = $Paths.TestNetwork
+	}
+	if ($null -ne $net) {
+		$lines += "$RecordAddressPrefix$($net.Address)"
+		$lines += "$RecordAdapterPrefix$($net.AdapterId)"
+		foreach ($rule in @($net.FirewallRules | Where-Object { $_ })) {
+			$lines += "$RecordFirewallPrefix$rule"
+		}
+		$lines += "$RecordCapiPrefix$($net.CapiThumbprint)"
+		$lines += "$RecordCngPrefix$($net.CngThumbprint)"
+		$lines += "$RecordCapiKeyPrefix$($net.CapiKey)"
+		$lines += "$RecordCngKeyPrefix$($net.CngKey)"
+	}
 	$lines += @(
 		"ssl_ca=$($Paths.Ca.Replace('\', '/'))",
 		"ssl_cert=$($Paths.ServerCert.Replace('\', '/'))",
 		"ssl_key=$($Paths.ServerKey.Replace('\', '/'))",
 		'tls_version=TLSv1.2,TLSv1.3'
 	)
+	if ($null -ne $net) {
+		$lines += "bind-address=127.0.0.1,$($net.Address)"
+	}
 	if ($WithRequire) {
 		$lines += 'require_secure_transport=ON'
 	}
@@ -1136,8 +2541,9 @@ function Save-ExistingItems($Paths) {
 # The files of a failed enable run: each file it replaced gets its bytes and access rules back and each file it added is removed; each
 # folder that was there gets its access rules back, and each folder it created (the dev and client folders, their parents) is removed
 # when it is then empty; the opms-dev-tls folder (always new: the run refuses to start when it exists) is removed, and so is my.ini's
-# temporary copy ($Paths.IniTemp) when a write left it.
-function Undo-EnableFiles($Paths, $Saved) {
+# temporary copy ($Paths.IniTemp) when a write left it. -KeepTlsFolder keeps the opms-dev-tls folder: the test network could not be
+# undone, and its journal and ca.pem there are what -Revert needs to remove it later.
+function Undo-EnableFiles($Paths, $Saved, [switch]$KeepTlsFolder) {
 	foreach ($path in (Get-DevFiles $Paths)) {
 		$old = @($Saved.Files | Where-Object { $_.Path -eq $path })
 		if ($old.Count -gt 0) {
@@ -1160,12 +2566,68 @@ function Undo-EnableFiles($Paths, $Saved) {
 	foreach ($parent in (Get-CreatedParents $Paths)) {
 		Remove-EmptyFolder $parent
 	}
-	if (Test-Path -LiteralPath $Paths.TlsFolder) {
+	if (-not $KeepTlsFolder -and (Test-Path -LiteralPath $Paths.TlsFolder)) {
 		Remove-Item -LiteralPath $Paths.TlsFolder -Recurse -Force
 	}
 	if ($Paths.IniTemp -ne '' -and (Test-Path -LiteralPath $Paths.IniTemp)) {
 		Remove-Item -LiteralPath $Paths.IniTemp -Force
 	}
+}
+
+# The undo of a failed enable run, each part in its own try: my.ini from the backup and the restart ($ChangedIni), then the backup; the
+# test network ($Created; when $TestAddress is set) in any case, also when my.ini's restore or the restart failed, because once my.ini is
+# the old file again the journal is the only record of it; the journal goes only when that undo leaves nothing. Then the files
+# (Undo-EnableFiles) when my.ini was restored, keeping the opms-dev-tls folder (the journal, ca.pem) while the test network is not undone.
+# Returns Problems (empty: everything is undone), IniUndone, NetLeft and the journal's path.
+function Undo-FailedEnable($Paths, $Saved, $Created, [string]$TestAddress, [bool]$ChangedIni) {
+	$problems = @()
+	$iniUndone = $true
+	try {
+		if ($ChangedIni) {
+			Copy-Item -LiteralPath $Paths.Backup -Destination $script:Facts.Ini -Force
+			Restart-DbService
+		}
+		# The run refused to start with a backup there, so a backup now is this run's own (also a partial copy).
+		if (Test-Path -LiteralPath $Paths.Backup) {
+			Remove-Item -LiteralPath $Paths.Backup -Force
+		}
+	}
+	catch {
+		$iniUndone = $false
+		$problems += "my.ini and the service: $($_.Exception.Message)"
+	}
+	$netLeft = @()
+	$journal = Get-TestNetworkJournalPath $Paths.TlsFolder
+	if ($TestAddress -ne '') {
+		try {
+			# Assigned first, then wrapped: @() around a function that returns , $array would give one element, the array itself.
+			$undone = Undo-TestNetwork $Created $TestAddress
+			$netLeft = @($undone)
+		}
+		catch {
+			$netLeft = @($_.Exception.Message)
+		}
+		if ($netLeft.Count -gt 0) {
+			$problems += "the test network could not be undone: $($netLeft -join '; ')"
+		}
+		elseif (Test-Path -LiteralPath $journal) {
+			try {
+				Remove-Item -LiteralPath $journal -Force
+			}
+			catch {
+				$problems += "the journal ${journal}: $($_.Exception.Message)"
+			}
+		}
+	}
+	if ($iniUndone) {
+		try {
+			Undo-EnableFiles $Paths $Saved -KeepTlsFolder:($netLeft.Count -gt 0)
+		}
+		catch {
+			$problems += "the files: $($_.Exception.Message)"
+		}
+	}
+	return [pscustomobject]@{ Problems = @($problems); IniUndone = $iniUndone; NetLeft = @($netLeft); Journal = $journal }
 }
 
 function Invoke-Enable {
@@ -1176,6 +2638,10 @@ function Invoke-Enable {
 		Write-Host ''
 		Write-Host "TLS is already on through this script ($($script:Facts.Ini) has its block). Nothing to do."
 		Write-Host 'To make new certificates, run -Revert first and then this script again.'
+		$recordedNet = Get-RecordedTestNetwork $text
+		if ($null -ne $recordedNet -and $null -eq (Get-TestNetworkRecordProblem $recordedNet)) {
+			Write-TestVariables $recordedNet.Address $recordedNet.CapiThumbprint $recordedNet.CngThumbprint
+		}
 		exit 0
 	}
 	$options = Get-ServerOptions $text
@@ -1230,6 +2696,27 @@ function Invoke-Enable {
 	}
 	$devSid = Get-Sid $devUserName
 	$consoleUser = [string](Get-CimInstance -ClassName Win32_ComputerSystem).UserName
+	# -WithTestNetwork: the checks of this computer's network (read only), and the record with what the run will name once it has made it.
+	$testAddress = ''
+	$hostName = ''
+	$netFacts = $null
+	if ($WithTestNetwork -ne '') {
+		$testAddress = $WithTestNetwork.Trim()
+		$netFacts = Get-NetworkFacts
+		$netProblem = Get-TestNetworkProblem $testAddress $netFacts ([string]$state.Values['version'])
+		if ($null -ne $netProblem) {
+			Stop-Refused $netProblem
+		}
+		$hostName = $netFacts.HostName
+		$rules = @()
+		if (Test-FirewallOn $netFacts) {
+			$rules = @($FirewallAllowName, $FirewallBlockName)
+		}
+		$paths.TestNetwork = [pscustomobject]@{ Address = $testAddress; AdapterId = '<the new adapter, ROOT\NET\nnnn>'; FirewallRules = $rules
+			CapiThumbprint = '<the CAPI certificate''s thumbprint>'; CngThumbprint = '<the CNG certificate''s thumbprint>'
+			CapiKey = "$CapiProviderName|<its key container>|<its key file in $((Get-MachineKeyFolder 'CAPI').Replace('\', '/'))>"
+			CngKey = "$CngProviderName|<its key name>|<its key file in $((Get-MachineKeyFolder 'CNG').Replace('\', '/'))>" }
+	}
 	$block = Get-BlockLines $paths $false
 	$newText = Add-ToMysqldSection $text $block $script:IniFile.Newline
 
@@ -1271,22 +2758,48 @@ function Invoke-Enable {
 		Write-Host "     NOTE: $consoleUser is signed in, but the files go to the folders of $devUserName. The dev tools and tests of"
 		Write-Host "     $consoleUser look in their own %LOCALAPPDATA%: pass -DevUser and -DevFolder for that account, or set OPMS_DB_TLS_CA."
 	}
+	if ($testAddress -ne '') {
+		foreach ($line in (Get-TestNetworkEnablePlan $testAddress $hostName $netFacts $paths.TlsFolder)) {
+			if ($line.StartsWith('#. ')) {
+				$step++
+				$line = "  $step. " + $line.Substring(3)
+			}
+			Write-Host $line
+		}
+	}
 	$step++
 	Write-Host "  $step. Copy $($script:Facts.Ini) to $($paths.Backup), then add at the end of its [mysqld] section (the comment lines"
 	Write-Host '     record the folders above; -Revert and -RequireSecureTransport read them from there):'
 	foreach ($line in $block) {
 		Write-Host "       $line"
 	}
+	if ($testAddress -ne '') {
+		Write-Host "     Its last line, bind-address=127.0.0.1,$testAddress, follows my.ini's bind-address=127.0.0.1 and"
+		Write-Host '     so takes its place (the last one wins). MariaDB 10.11 takes a comma-separated list; 127.0.0.1 stays. The record lines'
+		Write-Host '     name the adapter, the firewall rules and the two certificates, filled in as the run makes them.'
+	}
 	$step++
 	Write-Host "  $step. Restart the service $ServiceName (connections drop for a few seconds) and check a TLS session and the server"
 	Write-Host '     certificate against the CA. If the server does not come back with TLS, the backup is restored, the files this run'
 	Write-Host '     replaced are put back as they were and the files and folders it added are removed.'
+	if ($testAddress -ne '') {
+		Write-Host "     Then check that the service's process listens on 127.0.0.1:3306 and on ${testAddress}:3306 (Get-NetTCPConnection),"
+		Write-Host "     and that the client verifies the server certificate at $testAddress. If anything fails, the firewall rules, both"
+		Write-Host '     certificates with their keys and the adapter are removed again as well.'
+		Write-Host '     At the end the run prints the three OPMS_DB_TLS_TEST_* values for TlsCertificateLoginTests.'
+	}
 	Write-Host '  require_secure_transport is not set: unencrypted connections keep working until -RequireSecureTransport.'
 	Confirm-Change 'Turn on TLS in the local MariaDB service?'
 
-	$set = New-CertificateSet $withClient
+	$set = New-CertificateSet $withClient $testAddress $hostName
 	$saved = Save-ExistingItems $paths
 	$changedIni = $false
+	# What the test network part has made so far, for the undo of a failed run (Undo-TestNetwork).
+	$created = [pscustomobject]@{ AdapterId = ''; FirewallRules = @(); Thumbprints = @(); Keys = @(); PfxFolder = '' }
+	if ($testAddress -ne '') {
+		$paths.TestNetwork.CapiThumbprint = $set.TestCapiThumbprint
+		$paths.TestNetwork.CngThumbprint = $set.TestCngThumbprint
+	}
 	try {
 		New-Item -ItemType Directory -Path $paths.TlsFolder | Out-Null
 		Set-ProtectedAcl $paths.TlsFolder @() @($serviceSid)
@@ -1314,6 +2827,12 @@ function Invoke-Enable {
 			}
 			$written += ", $($paths.ClientFolder)"
 		}
+		if ($testAddress -ne '') {
+			Install-TestNetwork $paths $set $created
+			# The block names what the run made, now that it has made it.
+			$block = Get-BlockLines $paths $false
+			$newText = Add-ToMysqldSection $text $block $script:IniFile.Newline
+		}
 		Copy-Item -LiteralPath $script:Facts.Ini -Destination $paths.Backup
 		$changedIni = $true
 		Write-OptionFile $script:IniFile $newText
@@ -1327,33 +2846,64 @@ function Invoke-Enable {
 			}
 			throw "The server did not come back with TLS ($why). The MariaDB error log in the data folder says why."
 		}
+		if ($testAddress -ne '') {
+			$listenerProblem = Get-TestListenerProblem $testAddress (Get-ServiceProcessId)
+			if ($null -ne $listenerProblem) {
+				throw "$listenerProblem The MariaDB error log in the data folder says why."
+			}
+			if ((Get-BindText $after.Values['bind_address']) -ne "127.0.0.1,$testAddress") {
+				throw "The server reports the bind address $($after.Values['bind_address']), not 127.0.0.1,$testAddress."
+			}
+			$atTest = Invoke-DbClient 'SELECT 1' $paths.DevCa $testAddress
+			if ($atTest.ExitCode -ne 0 -and $atTest.Error -match '(?i)SSL|TLS|certificate') {
+				throw "The client could not verify the server certificate at ${testAddress}: $($atTest.Error)"
+			}
+		}
 	}
 	catch {
 		$failure = $_.Exception.Message
 		Write-Host "FAILED: $failure"
-		try {
-			if ($changedIni) {
-				Copy-Item -LiteralPath $paths.Backup -Destination $script:Facts.Ini -Force
-				Restart-DbService
-			}
-			# The run refused to start with a backup there, so a backup now is this run's own (also a partial copy).
-			if (Test-Path -LiteralPath $paths.Backup) {
-				Remove-Item -LiteralPath $paths.Backup -Force
-			}
-			Undo-EnableFiles $paths $saved
+		$undo = Undo-FailedEnable $paths $saved $created $testAddress $changedIni
+		$undoProblems = @($undo.Problems)
+		$iniUndone = $undo.IniUndone
+		$netLeft = @($undo.NetLeft)
+		$journal = $undo.Journal
+		if ($undoProblems.Count -eq 0) {
 			Write-Host 'Undone: my.ini restored from the backup, the service restarted, the files this run replaced put back as they were, the files and folders it added removed.'
+			if ($testAddress -ne '') {
+				Write-Host '        The loopback adapter, the two test certificates with their keys and the firewall rules are removed again.'
+			}
 			exit 3
 		}
-		catch {
-			Write-Host "Undoing failed too: $($_.Exception.Message)"
-			$replaced = @($saved.Files | ForEach-Object { $_.Path })
-			$added = @(Get-DevFiles $paths | Where-Object { $replaced -notcontains $_ })
-			Write-Host "Restore $($script:Facts.Ini) from $($paths.Backup) by hand (when it is still there), restart the service $ServiceName, and remove $($paths.TlsFolder), $($paths.IniTemp) when it is there, $($added -join ', ')."
-			if ($replaced.Count -gt 0) {
-				Write-Host "These files existed before the run and now hold the new certificates: $($replaced -join ', ')."
-			}
-			exit 4
+		Write-Host "Undoing failed too: $($undoProblems -join '; ')"
+		$replaced = @($saved.Files | ForEach-Object { $_.Path })
+		$added = @(Get-DevFiles $paths | Where-Object { $replaced -notcontains $_ })
+		if (-not $iniUndone) {
+			Write-Host "Restore $($script:Facts.Ini) from $($paths.Backup) by hand when my.ini still has the block of this script, and start the service $ServiceName."
 		}
+		if ($testAddress -ne '' -and $netLeft.Count -gt 0) {
+			Write-Host "The journal $journal names what the run made of the test network; $($paths.TlsFolder) stays for it (with ca.pem, against which"
+			Write-Host '-Revert checks the certificates).'
+		}
+		Write-Host 'Then run this script with -Revert in this elevated window (first with -DryRun -Revert to see its plan): it restores my.ini from the'
+		Write-Host 'backup when there is one, removes the files and folders of this run and, from my.ini''s block or else from the journal, also an'
+		Write-Host 'interrupted run''s test network: the adapter first, then both test certificates with their keys, the firewall rules last'
+		Write-Host '(docs/port-notes/DB-TLS.md sections 11.2 and 11.4).'
+		Write-Host "By hand instead: restore my.ini as above, restart the service, and remove (once the test network below is gone, if any) $($paths.TlsFolder), $($paths.IniTemp) when it is there, $($added -join ', ')."
+		if ($replaced.Count -gt 0) {
+			Write-Host "These files existed before the run and now hold the new certificates: $($replaced -join ', ')."
+		}
+		if ($testAddress -ne '' -and $netLeft.Count -gt 0) {
+			Write-Host "  The test network, in an elevated window: first the loopback adapter $($created.AdapterId) (Device Manager, Network adapters), then:"
+			foreach ($thumbprint in @($created.Thumbprints | Where-Object { $_ })) {
+				Write-Host "  $(Get-ManualCertificateRemoval $thumbprint (Get-CreatedKey $created $thumbprint))."
+			}
+			if (@($created.Thumbprints | Where-Object { $_ }).Count -gt 0) {
+				Write-Host '  Not certlm.msc: its Delete, like certutil -delstore alone, removes only the store entry and leaves the key file that BUILTIN\Users can read.'
+			}
+			Write-Host "  The firewall rules $(@($created.FirewallRules) -join ', ') (group '$FirewallGroup') last, once the adapter and $testAddress are gone."
+		}
+		exit 4
 	}
 	Write-Host ''
 	Write-Host "TLS is on: $($after.Values['ssl_version']), cipher $($after.Values['ssl_cipher']); the server certificate is valid until $($after.Values['ssl_server_not_after'])."
@@ -1364,6 +2914,18 @@ function Invoke-Enable {
 	else {
 		Write-Host "WARNING: TLS works, but the client could not verify the server against $($paths.DevCa): $($verified.Error)"
 		Write-Host '         Report this to the lead; the tests (DevDbTlsServerTests) check the verification with the program''s own connector.'
+	}
+	if ($testAddress -ne '') {
+		Write-Host "The service listens on 127.0.0.1:3306 and ${testAddress}:3306 (adapter $($paths.TestNetwork.AdapterId), '$TestAdapterName')."
+		if ($atTest.ExitCode -eq 0) {
+			Write-Host "The server certificate was verified at $testAddress too."
+		}
+		else {
+			Write-Host "At $testAddress the server answered, but refused the check's login ($($atTest.Error));"
+			Write-Host '  TlsCertificateLoginTests checks the certificate there with its own account.'
+		}
+		Write-Host ''
+		Write-TestVariables $testAddress $paths.TestNetwork.CapiThumbprint $paths.TestNetwork.CngThumbprint
 	}
 	Write-Host ''
 	Write-Host 'Next: the lead runs the TLS tests, tells the other sessions, and later runs this script with -RequireSecureTransport.'
@@ -1426,6 +2988,12 @@ function Invoke-RequireSecureTransport {
 		if ($plain.Ok) {
 			throw 'An unencrypted connection was still accepted.'
 		}
+		if ($null -ne $paths.TestNetwork) {
+			$listenerProblem = Get-TestListenerProblem $paths.TestNetwork.Address (Get-ServiceProcessId)
+			if ($null -ne $listenerProblem) {
+				throw $listenerProblem
+			}
+		}
 	}
 	catch {
 		Write-Host "FAILED: $($_.Exception.Message)"
@@ -1450,33 +3018,107 @@ function Invoke-Revert {
 	[void](Assert-LocalServer)
 	$paths = Get-Paths $false
 	$text = $script:IniFile.Text
-	if (-not (Test-Path -LiteralPath $paths.Backup)) {
-		if (-not (Test-HasBlock $text) -and -not (Test-Path -LiteralPath $paths.TlsFolder)) {
+	$hasBackup = Test-Path -LiteralPath $paths.Backup
+	# The test network of -WithTestNetwork: my.ini's block records it once the enable run has made all of it. Before that, and after a
+	# failed run's undo restored my.ini, only the journal in the opms-dev-tls folder does (an interrupted run: Ctrl+C, a closed window, a
+	# crash; or an undo that could not remove the test network).
+	$journal = Get-TestNetworkJournalPath $paths.TlsFolder
+	$journalNet = Read-TestNetworkJournal $journal
+	if ($null -ne $journalNet) {
+		$journalProblem = Get-TestNetworkRecordProblem $journalNet $journal -Partial
+		if ($null -ne $journalProblem) {
+			Stop-Refused "$journalProblem This script does not touch it: something else wrote that line of its journal. Look at the journal and undo the test network yourself (docs/port-notes/DB-TLS.md section 11.4)."
+		}
+	}
+	$net = $paths.TestNetwork
+	$fromJournal = $false
+	if ($null -eq $net -and $null -ne $journalNet) {
+		$net = $journalNet
+		$fromJournal = $true
+	}
+	# Without a backup and without a block, my.ini was never changed: an enable run stopped before it copied my.ini. Only what it made is
+	# removed then (the test network of its journal, its files and folders); my.ini and the service are not touched.
+	$filesOnly = $false
+	if (-not $hasBackup) {
+		if (Test-HasBlock $text) {
+			Stop-Refused "$($paths.Backup) is missing, so the original my.ini cannot be restored. Remove the block between the marker lines from $($script:Facts.Ini) by hand."
+		}
+		if (-not (Test-Path -LiteralPath $paths.TlsFolder)) {
 			Write-Host ''
 			Write-Host 'Nothing to revert: no backup, no block of this script in my.ini, no certificate folder.'
 			exit 0
 		}
-		Stop-Refused "$($paths.Backup) is missing, so the original my.ini cannot be restored. Remove the block between the marker lines from $($script:Facts.Ini) by hand."
+		$filesOnly = $true
 	}
-	$backup = Read-OptionFile $paths.Backup
 	$lost = @()
-	if ((Remove-Block $text) -ne $backup.Text) {
-		$current = @((Remove-Block $text) -split "`n" | ForEach-Object { $_.TrimEnd("`r") })
-		$old = @($backup.Text -split "`n" | ForEach-Object { $_.TrimEnd("`r") })
-		$lost = @(Compare-Object -ReferenceObject $old -DifferenceObject $current | Where-Object { $_.SideIndicator -eq '=>' } |
-			ForEach-Object { $_.InputObject })
+	if (-not $filesOnly) {
+		$backup = Read-OptionFile $paths.Backup
+		if ((Remove-Block $text) -ne $backup.Text) {
+			$current = @((Remove-Block $text) -split "`n" | ForEach-Object { $_.TrimEnd("`r") })
+			$old = @($backup.Text -split "`n" | ForEach-Object { $_.TrimEnd("`r") })
+			$lost = @(Compare-Object -ReferenceObject $old -DifferenceObject $current | Where-Object { $_.SideIndicator -eq '=>' } |
+				ForEach-Object { $_.InputObject })
+		}
+	}
+	# What is there of the recorded test network, and whether it is this script's to remove.
+	$netState = $null
+	$netSource = $script:Facts.Ini
+	if ($fromJournal) {
+		$netSource = $journal
+	}
+	if ($null -ne $net) {
+		$netState = Get-TestNetworkState $net $paths.Ca
+		$netProblem = Get-TestNetworkStateProblem $net $netState
+		if ($null -ne $netProblem) {
+			Stop-Refused "$netProblem This script removes only what it made; remove that by hand, or put the record in $netSource right (docs/port-notes/DB-TLS.md section 11)."
+		}
 	}
 	Write-Host ''
 	Write-Host 'Plan:'
-	Write-Host "  1. Restore $($script:Facts.Ini) from $($paths.Backup)."
-	if ($lost.Count -gt 0) {
-		Write-Host '     my.ini was changed since TLS was turned on; restoring the backup also drops these lines:'
-		foreach ($line in $lost) {
-			Write-Host "       $line"
+	$step = 0
+	if ($filesOnly) {
+		Write-Host "  $($paths.Backup) is missing and $($script:Facts.Ini) has no block of this script: an enable run stopped before it"
+		Write-Host '  changed my.ini (Ctrl+C, a closed window, a crash). my.ini and the service are not touched; what the run made is removed.'
+	}
+	if ($null -ne $net) {
+		if ($fromJournal) {
+			Write-Host "  First the test network $($net.Address) of an enable run that did not finish, as its journal $journal records it"
+			Write-Host '  (my.ini has no record of it). The journal and the opms-dev-tls folder stay until everything it names is gone, so that -Revert'
+			Write-Host '  can be run again if a step fails:'
+		}
+		else {
+			Write-Host "  First the test network of -WithTestNetwork $($net.Address) (the record in my.ini stays until it is gone, so that -Revert can"
+			Write-Host '  be run again if a step fails):'
+		}
+		foreach ($line in (Get-TestNetworkRevertPlan $net $netState -FromJournal:$fromJournal)) {
+			if ($line.StartsWith('#. ')) {
+				$step++
+				$line = "  $step. " + $line.Substring(3)
+			}
+			Write-Host $line
 		}
 	}
-	Write-Host "  2. Restart the service $ServiceName and check an unencrypted connection."
-	Write-Host "  3. Remove $($paths.TlsFolder), $((Get-DevFiles $paths) -join ', ') and the backup;"
+	if (-not $filesOnly) {
+		$step++
+		Write-Host "  $step. Restore $($script:Facts.Ini) from $($paths.Backup)."
+		if ($lost.Count -gt 0) {
+			Write-Host '     my.ini was changed since TLS was turned on; restoring the backup also drops these lines:'
+			foreach ($line in $lost) {
+				Write-Host "       $line"
+			}
+		}
+		$step++
+		Write-Host "  $step. Restart the service $ServiceName and check an unencrypted connection."
+	}
+	if ($null -ne $net) {
+		Write-Host "     Then check that nothing listens on $($net.Address):3306 any more."
+	}
+	$step++
+	$backupText = ' and the backup'
+	if ($filesOnly) {
+		$backupText = ''
+	}
+	Write-Host "  $step. Remove $($paths.TlsFolder), $((Get-DevFiles $paths) -join ', ')$backupText;"
 	Write-Host "     $((@(@($paths.DevFolder, $paths.ClientFolder) | Where-Object { $_ -ne '' })) -join ' and ') too when it is then empty."
 	foreach ($parent in (Get-CreatedParents $paths)) {
 		Write-Host "     $parent too when it is then empty (the enable run created it)."
@@ -1489,23 +3131,81 @@ function Invoke-Revert {
 		Write-Host '     A ca.pem, client-cert.pem or client-key.pem in another account''s folder is not touched: pass -DevFolder (and'
 		Write-Host '     -ClientFolder) for it, or remove it by hand, or the dev tools there keep asking the server for TLS.'
 	}
+	if ($null -ne $journalNet) {
+		Write-Host "     $($paths.TlsFolder) holds the journal of the test network: it is removed only once nothing the journal names is there."
+	}
 	Confirm-Change 'Turn TLS off again?'
+	if ($null -ne $net) {
+		$recordedKeys = @([pscustomobject]@{ Thumbprint = $net.CapiThumbprint; Key = (ConvertFrom-KeyRecord $net.CapiKey 'CAPI') },
+			[pscustomobject]@{ Thumbprint = $net.CngThumbprint; Key = (ConvertFrom-KeyRecord $net.CngKey 'CNG') })
+		$recorded = [pscustomobject]@{ AdapterId = $net.AdapterId; FirewallRules = @($net.FirewallRules); Thumbprints = @($net.CapiThumbprint, $net.CngThumbprint)
+			Keys = $recordedKeys; PfxFolder = (Join-Path $paths.TlsFolder $PfxFolderName) }
+		$netLeft = @()
+		try {
+			# Assigned first, then wrapped: @() around a function that returns , $array would give one element, the array itself.
+			$undone = Undo-TestNetwork $recorded $net.Address
+			$netLeft = @($undone)
+		}
+		catch {
+			$netLeft = @($_.Exception.Message)
+		}
+		if ($netLeft.Count -eq 0 -and $null -ne $journalNet) {
+			# The journal's items too (the same as the block's, or fewer): the opms-dev-tls folder with the journal goes only when they are gone.
+			try {
+				$stillThere = Get-TestNetworkLeft $journalNet (Get-TestNetworkState $journalNet $paths.Ca)
+				$netLeft = @(@($stillThere) | ForEach-Object { "$_ (named in the journal $journal) is still there" })
+			}
+			catch {
+				$netLeft = @("the journal ${journal}: $($_.Exception.Message)")
+			}
+		}
+		if ($netLeft.Count -gt 0) {
+			Write-Host "FAILED: the test network is not fully removed: $($netLeft -join '; ')."
+			if ($fromJournal) {
+				Write-Host "Nothing else was changed: the journal $journal still names it, and $($paths.TlsFolder) stays with it, so -Revert can run again once that is put right."
+			}
+			else {
+				Write-Host "Nothing else was changed: my.ini still has its block (the record), so -Revert can run again once that is put right."
+			}
+			exit 4
+		}
+		Write-Host "Removed the test network: the adapter $($net.AdapterId) and $($net.Address), both test certificates with their keys, the firewall rules."
+	}
 	try {
-		Copy-Item -LiteralPath $paths.Backup -Destination $script:Facts.Ini -Force
-		Restart-DbService
-		$plain = Get-ServerState 'plain'
-		if (-not $plain.Ok) {
-			throw "An unencrypted connection does not work after the restore: $($plain.Error)"
+		if (-not $filesOnly) {
+			Copy-Item -LiteralPath $paths.Backup -Destination $script:Facts.Ini -Force
+			Restart-DbService
+			$plain = Get-ServerState 'plain'
+			if (-not $plain.Ok) {
+				throw "An unencrypted connection does not work after the restore: $($plain.Error)"
+			}
+		}
+		if ($null -ne $net -and @(Get-NetTCPConnection -LocalAddress $net.Address -LocalPort 3306 -State Listen -ErrorAction SilentlyContinue).Count -gt 0) {
+			throw "Something still listens on $($net.Address):3306 after the restore."
 		}
 		Remove-NewFiles $paths
-		Remove-Item -LiteralPath $paths.Backup -Force
+		if (-not $filesOnly) {
+			Remove-Item -LiteralPath $paths.Backup -Force
+		}
 	}
 	catch {
 		Write-Host "FAILED: $($_.Exception.Message)"
+		if ($filesOnly) {
+			Write-Host "my.ini and the service were not touched. Remove what is left of $($paths.TlsFolder) and $((Get-DevFiles $paths) -join ', ') by hand."
+			exit 4
+		}
 		Write-Host "The backup $($paths.Backup) is kept. Look at $($script:Facts.Ini) and the MariaDB error log, then restart the service."
+		if ($null -ne $net) {
+			Write-Host "The test network is already removed, so a my.ini that still has the block (bind-address=127.0.0.1,$($net.Address)) keeps the"
+			Write-Host "service from starting: copy $($paths.Backup) over $($script:Facts.Ini) by hand first."
+		}
 		exit 4
 	}
 	Write-Host ''
+	if ($filesOnly) {
+		Write-Host 'Removed what the enable run that did not finish had made; my.ini and the service were not touched. The enable run can start again.'
+		exit 0
+	}
 	Write-Host 'TLS is off again: my.ini restored, the service restarted, the certificate files removed.'
 	exit 0
 }
@@ -1523,13 +3223,24 @@ function Invoke-TestCertificates {
 	else {
 		New-Item -ItemType Directory -Path $TestCertificatesFolder | Out-Null
 	}
-	$set = New-CertificateSet $WithClientCertificate.IsPresent
+	$testAddress = $WithTestNetwork.Trim()
+	$hostName = ''
+	if ($testAddress -ne '') {
+		$hostName = [System.Net.Dns]::GetHostName()
+	}
+	$set = New-CertificateSet $WithClientCertificate.IsPresent $testAddress $hostName
 	Write-AsciiFile (Join-Path $TestCertificatesFolder 'ca.pem') $set.CaCert
 	Write-AsciiFile (Join-Path $TestCertificatesFolder 'server-cert.pem') $set.ServerCert
 	Write-AsciiFile (Join-Path $TestCertificatesFolder 'server-key.pem') $set.ServerKey
 	if ($WithClientCertificate) {
 		Write-AsciiFile (Join-Path $TestCertificatesFolder 'client-cert.pem') $set.ClientCert
 		Write-AsciiFile (Join-Path $TestCertificatesFolder 'client-key.pem') $set.ClientKey
+	}
+	if ($testAddress -ne '') {
+		# Only here, in the tests' own scratch folder, does the .pfx password go to a file: the tests read the .pfx files back with it.
+		[System.IO.File]::WriteAllBytes((Join-Path $TestCertificatesFolder 'test-client-capi.pfx'), [byte[]]$set.TestCapiPfx)
+		[System.IO.File]::WriteAllBytes((Join-Path $TestCertificatesFolder 'test-client-cng.pfx'), [byte[]]$set.TestCngPfx)
+		Write-AsciiFile (Join-Path $TestCertificatesFolder 'test-client-pfx-password.txt') $set.TestPfxPassword
 	}
 	Write-Host "Wrote a test certificate set to $TestCertificatesFolder (CA $($set.CaThumbprint), server $($set.ServerThumbprint))."
 	exit 0
@@ -1547,6 +3258,15 @@ try {
 	}
 	if ($ClientFolder -ne '' -and ($TestCertificatesFolder -ne '' -or (-not $WithClientCertificate -and -not $RequireSecureTransport -and -not $Revert))) {
 		Stop-Refused '-ClientFolder needs -WithClientCertificate (the enable run), or names the recorded client folder for -Revert or -RequireSecureTransport.'
+	}
+	if ($WithTestNetwork -ne '' -and ($RequireSecureTransport -or $Revert)) {
+		Stop-Refused '-WithTestNetwork goes with the enable run (or -TestCertificatesFolder) only: -Revert and -RequireSecureTransport take the test network from the record in my.ini.'
+	}
+	if ($WithTestNetwork -ne '') {
+		$addressProblem = Get-TestAddressFormProblem $WithTestNetwork
+		if ($null -ne $addressProblem) {
+			Stop-Refused $addressProblem
+		}
 	}
 	if ($TestCertificatesFolder -ne '') {
 		Invoke-TestCertificates
