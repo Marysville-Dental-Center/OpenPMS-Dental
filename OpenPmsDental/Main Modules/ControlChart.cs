@@ -100,6 +100,9 @@ namespace OpenPmsDental {
 		///(LayoutTextBelow, TC-5), or null; and the place the sheet layout gave it.</summary>
 		private Control _controlUnderTextBelow;
 		private Rectangle _rectangleUnderTextBelow;
+		///<summary>The minimum size the sheet layout gave _controlUnderTextBelow (SheetUtil.SetControlSizeAndAnchors sets it to the field's size). While the
+		///strip has text the control is shorter than its field, so LayoutTextBelow lowers the minimum height and puts this back when the text goes.</summary>
+		private Size _sizeMinimumUnderTextBelow;
 		///<summary>True when the current sheet layout places the date slider (its field TrackToothProcDates), so the TextBelow strip is shown under it
 		///while it has text. A custom layout without the slider never shows the strip (LayoutTextBelowAfterSheet, TC-5).</summary>
 		private bool _isTextBelowSliderPlaced;
@@ -8217,7 +8220,12 @@ namespace OpenPmsDental {
 		#region Methods - Private - SheetLayout
 		///<summary>Returns a dictionary such that the key is a sheetFieldDef.FieldName and the value is a corresponding control from this instance of ContrChart. Dictionary values can be null if control is not matched.</summary>
 		private Dictionary<string,Control> LayoutSheet_GetControlDict() {
-			SheetFieldLayoutMode sheetFieldLayoutMode=LayoutSheet_GetMode();
+			return LayoutSheet_GetControlDict(LayoutSheet_GetMode());
+		}
+
+		///<summary>The dictionary of LayoutSheet_GetControlDict() for the given layout mode (also read by BSHELLTests' TextBelow layout test, which has
+		///no database to choose the mode).</summary>
+		private Dictionary<string,Control> LayoutSheet_GetControlDict(SheetFieldLayoutMode sheetFieldLayoutMode) {
 			Dictionary<string,Control> dictControls=new Dictionary<string,Control>();
 			//Use internal list because it implements all sheetFieldDefs.  We expect the def to always match the controls in the Chart.
 			List<SheetFieldDef> listSheetFieldDefsAll=SheetsInternal.GetSheetDef(SheetInternalType.ChartModule).SheetFieldDefs;
@@ -8370,6 +8378,7 @@ namespace OpenPmsDental {
 			}
 			if(_controlUnderTextBelow!=null) {
 				_rectangleUnderTextBelow=_controlUnderTextBelow.Bounds;
+				_sizeMinimumUnderTextBelow=_controlUnderTextBelow.MinimumSize;
 			}
 			LayoutTextBelow();
 		}
@@ -8390,11 +8399,14 @@ namespace OpenPmsDental {
 				return;
 			}
 			if(!textTextBelow.HasText) {
+				_controlUnderTextBelow.MinimumSize=_sizeMinimumUnderTextBelow;
 				LayoutManager.Move(_controlUnderTextBelow,_rectangleUnderTextBelow);
 				return;
 			}
 			int top=Math.Max(_rectangleUnderTextBelow.Top,textTextBelow.Bottom+LayoutManager.Scale(1));
 			int height=Math.Max(_rectangleUnderTextBelow.Bottom-top,LayoutManager.Scale(20));
+			//The field's minimum height would keep the control from shrinking, so its bottom would move down over the control below it.
+			_controlUnderTextBelow.MinimumSize=new Size(_sizeMinimumUnderTextBelow.Width,Math.Min(_sizeMinimumUnderTextBelow.Height,height));
 			LayoutManager.Move(_controlUnderTextBelow,new Rectangle(_rectangleUnderTextBelow.Left,top,_rectangleUnderTextBelow.Width,height));
 		}
 
