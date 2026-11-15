@@ -465,6 +465,16 @@ namespace OpenPmsDentalBusiness {
 				+"No changes nothing.";
 		}
 
+		///<summary>The line the startup message of RefuseUnreadable gets on the named update server, where Recopy offers to replace the manifest
+		///(GetReplaceUnreadableQuestion); "" wherever it does not.</summary>
+		public static string GetReplaceUnreadableHint(ReleaseManifest releaseManifestPublished,string errorPublished,UpdateServerRole updateServerRole) {
+			if(GetReplaceUnreadableQuestion(releaseManifestPublished,errorPublished,new ReleaseIdentity(),updateServerRole,isSilent:false)=="") {
+				return "";
+			}
+			return "This computer is the update server. Once that has been looked at, Recopy in Update Setup offers to replace the published "
+				+"release with this build.";
+		}
+
 		///<summary>A runtime for people: ".NET Framework 4.8 (win-x86)" or ".NET 10.0.14 (win-x64)"; another framework by its own name.</summary>
 		public static string DescribeRuntime(ReleaseRuntime releaseRuntime) {
 			string framework=releaseRuntime.Framework;
