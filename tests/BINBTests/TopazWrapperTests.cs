@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Diagnostics;
 using System.Drawing;
@@ -639,6 +640,105 @@ namespace BINBTests {
 			int indexCheckPayPlan=textButSave.IndexOf("if(!AreTopazSignaturesReachable()) {",StringComparison.Ordinal);
 			int indexSavePayPlan=textButSave.IndexOf("SaveSignaturePayPlan();",StringComparison.Ordinal);
 			Assert.IsTrue(indexCheckPayPlan>=0 && indexCheckPayPlan<indexSavePayPlan,"The payment plan's save checks the Topaz signatures first.");
+			//Third round: VerifyRequiredFields (OK, the exam sheet's and the payment plan's save) reads a required box's SigIsBlank, which throws for
+			//a lost signature: the check comes first and stops it.
+			string textVerify=GetMethodText(source,"private bool VerifyRequiredFields(){");
+			int indexCheckVerify=textVerify.IndexOf("if(!AreTopazSignaturesReachable()) {\n\t\t\t\treturn false;",StringComparison.Ordinal);
+			int indexSigIsBlank=textVerify.IndexOf(".SigIsBlank",StringComparison.Ordinal);
+			Assert.IsTrue(indexSigIsBlank>=0,"VerifyRequiredFields reads SigIsBlank (update this test if the method changed).");
+			Assert.IsTrue(indexCheckVerify>=0 && indexCheckVerify<indexSigIsBlank,"VerifyRequiredFields checks the Topaz signatures before SigIsBlank.");
+			//Every SaveSignaturePayPlan in the file (the save, Email, PDF, Print, Print or Email) comes right after a check that returns.
+			int countSavePayPlan=0;
+			for(int index=source.IndexOf("SaveSignaturePayPlan();",StringComparison.Ordinal);index>=0;
+				index=source.IndexOf("SaveSignaturePayPlan();",index+1,StringComparison.Ordinal))
+			{
+				countSavePayPlan++;
+				int indexCheckBefore=source.LastIndexOf("if(!AreTopazSignaturesReachable()) {",index,StringComparison.Ordinal);
+				Assert.IsTrue(indexCheckBefore>=0,"A check before the SaveSignaturePayPlan at "+index);
+				string textBetween=source.Substring(indexCheckBefore,index-indexCheckBefore);
+				StringAssert.StartsWith(textBetween.Replace("//S3a-14f: the form stays open for a lost Topaz signature",""),
+					"if(!AreTopazSignaturesReachable()) {\n","The check at "+indexCheckBefore);
+				Assert.AreEqual(1,Regex.Matches(textBetween,@"\breturn\b").Count,"The check right before the SaveSignaturePayPlan at "+index+" returns.");
+				Assert.AreEqual(3,textBetween.Split('\n').Length-1,"Nothing between the check and the SaveSignaturePayPlan at "+index+": "+textBetween);
+			}
+			Assert.AreEqual(5,countSavePayPlan,"SaveSignaturePayPlan is called five times (update this test if that changed).");
+		}
+
+		[TestMethod]
+		public void ProcedureForms_ALostTopazSignatureNeverReachesProceduresUpdate() {
+			//S3a-14f, third round: FormProcNoteAppend, FormProcEdit and FormProcGroup caught every exception around SaveSignature, showed "Error saving
+			//signature." and went on to Procedures.Update, which stored the note beside the old signature (FormProcNoteAppend then closed). A
+			//Helper32Exception (the lost signature) is caught first and returns; each form checks the Topaz signature before it writes anything.
+			foreach(string fileName in new[] { "FormProcNoteAppend.cs","FormProcEdit.cs","FormProcGroup.cs" }) {
+				string source=TestPaths.ReadSource("OpenPmsDental","Forms",fileName).Replace("\r\n","\n");
+				Assert.AreEqual(1,Regex.Matches(source,@"\n\t+SaveSignature\(\);").Count,fileName+": SaveSignature is called once (update this test if that changed).");
+				Match matchTry=Regex.Match(source,@"\n\t+try \{\n\t+SaveSignature\(\);\n\t+\}\n\t+catch\(");
+				Assert.IsTrue(matchTry.Success,fileName+": SaveSignature is alone in a try block.");
+				int indexSave=source.IndexOf("SaveSignature();",matchTry.Index,StringComparison.Ordinal);
+				int indexCatchHelper=source.IndexOf("catch(Helper32Exception ex) {",indexSave,StringComparison.Ordinal);
+				int indexCatchAll=source.IndexOf("catch(Exception ex)",indexSave,StringComparison.Ordinal);
+				int indexUpdate=source.IndexOf("Procedures.Update(",indexSave,StringComparison.Ordinal);
+				Assert.IsTrue(indexCatchAll>indexSave && indexUpdate>indexCatchAll,fileName+": the catch-all is followed by Procedures.Update (update this test).");
+				Assert.IsTrue(indexCatchHelper>indexSave && indexCatchHelper<indexCatchAll,fileName+": Helper32Exception is caught ahead of Exception.");
+				string textCatchHelper=source.Substring(indexCatchHelper,indexCatchAll-indexCatchHelper);
+				Assert.IsTrue(Regex.IsMatch(textCatchHelper,@"\n\t+return;\n\t+\}\n\t+$"),fileName+": the Helper32Exception catch returns: "+textCatchHelper);
+				StringAssert.Contains(textCatchHelper,"ex.Message",fileName+": the catch shows the message.");
+				Assert.IsFalse(textCatchHelper.Contains("Procedures.Update("),fileName);
+			}
+			//FormProcNoteAppend: the check comes before the note, its user and the alert change; the catch puts the note and its user back.
+			string sourceAppend=TestPaths.ReadSource("OpenPmsDental","Forms","FormProcNoteAppend.cs").Replace("\r\n","\n");
+			string textAppendSave=GetMethodText(sourceAppend,"private void butSave_Click(object sender,EventArgs e) {");
+			int indexCheckAppend=textAppendSave.IndexOf("signatureBoxWrapper.CheckTopazSignatureReachable();",StringComparison.Ordinal);
+			Assert.IsTrue(indexCheckAppend>=0,"FormProcNoteAppend checks the Topaz signature.");
+			StringAssert.Contains(textAppendSave.Substring(indexCheckAppend),"catch(Helper32Exception ex) {\n\t\t\t\t\tMessageBox.Show(ex.Message);\n\t\t\t\t\treturn;");
+			foreach(string write in new[] { "ProcedureCur.Copy()","ProcedureCur.UserNum=","ProcedureCur.Note=","AlertItems.Insert(","SaveSignature();" }) {
+				int indexWrite=textAppendSave.IndexOf(write,StringComparison.Ordinal);
+				Assert.IsTrue(indexWrite>=0,write+" is in FormProcNoteAppend.butSave_Click (update this test if the method changed).");
+				Assert.IsTrue(indexCheckAppend<indexWrite,"FormProcNoteAppend checks the Topaz signature before "+write);
+			}
+			string textAppendCatch=textAppendSave.Substring(textAppendSave.IndexOf("catch(Helper32Exception ex) {",
+				textAppendSave.IndexOf("SaveSignature();",StringComparison.Ordinal),StringComparison.Ordinal));
+			StringAssert.Contains(textAppendCatch,"ProcedureCur.Note=procedure.Note;");
+			StringAssert.Contains(textAppendCatch,"ProcedureCur.UserNum=procedure.UserNum;");
+			//FormProcEdit and FormProcGroup: the check returns false or returns at the top of EntriesAreValid (before its SigIsBlank) and before
+			//SaveAndClose writes anything.
+			AssertCheckedFirst("FormProcEdit.cs","private bool IsTopazSignatureReachable() {","private bool EntriesAreValid() {",
+				"if(!IsTopazSignatureReachable()) {\n\t\t\t\treturn false;",new[] { ".SigIsBlank","Procedures.EntriesAreValid(" },new[] { "_signatureChanged" });
+			AssertCheckedFirst("FormProcEdit.cs","private bool IsTopazSignatureReachable() {","private void SaveAndClose() {",
+				"if(!IsTopazSignatureReachable()) {",new[] { "ClaimProcs.Update(","PaySplits.UpdateAttachedPaySplits(","Adjustments.Update(","SaveSignature();",
+				"Procedures.Update(" },new[] { "_signatureChanged" });
+			AssertCheckedFirst("FormProcGroup.cs","private bool AreTopazSignaturesReachable() {","private bool EntriesAreValid() {",
+				"if(!AreTopazSignaturesReachable()) {\n\t\t\t\treturn false;",new[] { "IsAuthorizedForChanges(",".SigIsBlank","AreSecondSignatureEntriesValid(" },
+				new[] { "_hasSigChanged","_hasSig2Changed","signatureBoxWrapper2.CheckTopazSignatureReachable();" });
+			AssertCheckedFirst("FormProcGroup.cs","private bool AreTopazSignaturesReachable() {","private void SaveAndClose() {",
+				"if(!AreTopazSignaturesReachable()) {",new[] { "ProcGroupItems.SyncForGroup(","SaveSignature();","Procedures.Update(","SecurityLogs.MakeLogEntry(" },
+				new[] { "_hasSigChanged" });
+		}
+
+		///<summary>In fileName, the check method checkSignature reads a changed Topaz box and returns false on a Helper32Exception, and in the method
+		///methodSignature the call callCheck comes before each of listWrites.</summary>
+		private static void AssertCheckedFirst(string fileName,string checkSignature,string methodSignature,string callCheck,string[] listWrites,
+			string[] listCheckTexts)
+		{
+			string source=TestPaths.ReadSource("OpenPmsDental","Forms",fileName).Replace("\r\n","\n");
+			string textCheck=GetMethodText(source,checkSignature);
+			StringAssert.Contains(textCheck,".GetSigIsTopaz()",fileName);
+			StringAssert.Contains(textCheck,".CheckTopazSignatureReachable();",fileName);
+			StringAssert.Contains(textCheck,"catch(Helper32Exception ex) {",fileName);
+			StringAssert.Contains(textCheck,"return false;",fileName);
+			foreach(string checkText in listCheckTexts) {
+				StringAssert.Contains(textCheck,checkText,fileName);
+			}
+			string textMethod=GetMethodText(source,methodSignature);
+			int indexCheck=textMethod.IndexOf(callCheck,StringComparison.Ordinal);
+			Assert.IsTrue(indexCheck>=0,fileName+": "+methodSignature+" checks the Topaz signature.");
+			Assert.IsTrue(Regex.IsMatch(textMethod.Substring(indexCheck),@"^if\(![A-Za-z]+\(\)\) \{(//[^\n]*)?\n\t+return( false)?;"),
+				fileName+": the failed check in "+methodSignature+" returns.");
+			foreach(string write in listWrites) {
+				int indexWrite=textMethod.IndexOf(write,StringComparison.Ordinal);
+				Assert.IsTrue(indexWrite>=0,fileName+": "+write+" is in "+methodSignature+" (update this test if the method changed).");
+				Assert.IsTrue(indexCheck<indexWrite,fileName+": "+methodSignature+" checks the Topaz signature before "+write);
+			}
 		}
 
 		[TestMethod]
