@@ -854,7 +854,10 @@ namespace OpenPmsDentalBusiness {
 						new Rectangle(0,0,bmpOriginal.Width,bmpOriginal.Height),
 						GraphicsUnit.Pixel);
 				}
-				catch(OutOfMemoryException) {
+				//GDI+ reports an image too large to draw as OutOfMemoryException on .NET Framework and as ExternalException on .NET 10
+				//(https://learn.microsoft.com/en-us/dotnet/core/compatibility/windows-forms/10.0/system-drawing-outofmemory-externalexception).
+				//Both become the OutOfMemoryException with this message, which the print job shows before it cancels (SheetPrintingJob.pd_PrintPage).
+				catch(Exception ex) when(ex is OutOfMemoryException || ex is System.Runtime.InteropServices.ExternalException) {
 					throw new OutOfMemoryException(Lans.g("Sheets","A static image on this sheet is too high in quality and cannot be printed.")+"\r\n"
 						+Lans.g("Sheets","Try printing to a different printer or lower the quality of the static image")+":\r\n"
 						+filePathAndName);
