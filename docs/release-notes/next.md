@@ -42,8 +42,8 @@ What this version brings, each in its section below (the roadmap's "Done in the 
     Suni retired, and a Partner ID for Medit Link that assigns the cases created from the Chart to the office's lab (the office still sends
     them from Medit Link);
   - Glidewell lab cases, ready but not yet able to send: hidden in Program Links until the program can connect to Glidewell, and no patient
-    data is sent without a business associate agreement with Glidewell;
-- EHR: the Meaningful Use measures window (Measure Calc) works again, rebuilt as open code, for internal review only.
+    data is sent without a business associate agreement with Glidewell.
+- the Meaningful Use measures window of EHR (Measure Calc) working again, rebuilt as open code, for internal review only.
 
 The update adds this program's own tables to the database (13 tables, none of Open Dental's schema: five for routine maintenance, seven for
 inventory tracking, one for SSH host keys); they start empty, except the stock ledger's opening rows (Inventory tracking, below). It also
@@ -738,16 +738,20 @@ technology, and they cannot be used to attest or to submit to any program** (the
   Stage 2; by default the provider's Meaningful Use stage, or the global setting), then **Refresh**. The measures are calculated one at a
   time; **Cancel** stops after the measure being calculated. The window lists patients across the practice, and like Open Dental's it needs
   no permission of its own beyond opening the EHR window.
-- **Each row**: numerator, denominator, percent, the requirement and the exclusion count. A met row is green. A value the program could not
-  calculate shows "not calculated".
+- **Each row**: numerator, denominator, percent, the requirement and the exclusion count. A met row is green. The percent is rounded down to
+  one decimal, so it never shows more than it is; a row that only just meets its requirement shows as many decimals as it takes to be
+  seen above it (4001 of 5000 against "More than 80%" shows 80.02%, not 80%). A value the program could not calculate shows "not
+  calculated". If a measure fails, the line above the list says at which measure the calculation stopped, with the error.
 - **Modified Stage 2 by year**, as the 2015-2017 rule set it: patient electronic access (view, download or transmit) needs at least one
   patient in 2015 and 2016, secure messaging is a yes/no attestation in 2015 ("attestation, not calculated") and needs at least one patient
   in 2016; from 2017 both need more than 5%. A period across two calendar years gets a warning. The 2015 alternate exclusions for providers
   who were scheduled for Stage 1 are not modelled, and the window says so.
-- **The patient portal is gone**, so the two measures that counted what patients did there (view, download or transmit, and secure
-  messaging) show "depends on the removed patient portal" instead of 0%.
+- **The patient portal is gone**, so the three measures that counted what it recorded (timely online access, in every stage; view,
+  download or transmit, and secure messaging, in Stage 2 and Modified Stage 2) show "depends on the removed patient portal" instead of a
+  percent that cannot be met; a database whose older data still meets one shows its percent.
 - **Double-click a measure** for its texts, its exclusion count and its list of patients with the reason each one is met or not;
-  double-click a patient to switch the Chart to that patient. **Print** shows the list with the provider, the period, the stage and the
+  double-click a patient to switch the Chart to that patient. The list loads without holding up the window (Cancel stops waiting), and
+  opening the same measure again shows it at once. **Print** shows the list with the provider, the period, the stage and the
   internal-review line.
 - Each refresh first removes the measure engines' work tables that a calculation stopped half way left in the database more than a day ago
   (`tempehrmeasure...`, `tempehrquality...`); a newer one may belong to another workstation's calculation and stays.
