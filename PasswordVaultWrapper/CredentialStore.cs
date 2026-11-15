@@ -13,7 +13,7 @@ namespace PasswordVaultWrapper {
 		public int CountCopied;
 		public int CountAlreadyThere;
 		public int CountFailed;
-		///<summary>False when the old vault could not be opened (nothing to read there).</summary>
+		///<summary>False only on a Windows older than 8, which has no PasswordVault (nothing can ever be read there).</summary>
 		public bool IsVaultAvailable;
 
 		public override string ToString() {
@@ -38,8 +38,10 @@ namespace PasswordVaultWrapper {
 		public readonly string TargetPrefix;
 		public readonly string VaultResourcePrefix;
 		public readonly string MigrationRecordTarget;
-		///<summary>Opens the old vault; replaced by the tests to simulate a missing vault.</summary>
+		///<summary>Opens the old vault; replaced by the tests to simulate a vault that cannot be opened.</summary>
 		internal Func<OldPasswordVault> FuncOpenVault=OldPasswordVault.TryOpen;
+		///<summary>True on a Windows older than 8, which has no PasswordVault; replaced by the tests.</summary>
+		internal Func<bool> FuncIsOsWithoutVault=OldPasswordVault.IsOsWithoutVault;
 		private readonly object _lock=new object();
 		private bool _isMigrationChecked;
 
@@ -166,13 +168,24 @@ namespace PasswordVaultWrapper {
 		}
 
 		///<summary>Copies the old vault's entries under this store's resource prefix into the Credential Manager, never over a login already
-		///there. Returns null when the vault could not be listed (no record then). Only the entries under the prefix are read beyond their names.
-		///</summary>
+		///there. Returns null when the vault could not be opened or listed (no record then: the next process tries again). Only a Windows older
+		///than 8, which has no vault, gives a result without reading it. Only the entries under the prefix are read beyond their names.</summary>
 		internal MigrationResult MigrateFromVault() {
 			MigrationResult migrationResult=new MigrationResult();
-			OldPasswordVault oldPasswordVault=FuncOpenVault();
-			if(oldPasswordVault==null) {
+			if(FuncIsOsWithoutVault()) {
 				return migrationResult;//IsVaultAvailable false: nothing can ever be read here.
+			}
+			OldPasswordVault oldPasswordVault;
+			try {
+				oldPasswordVault=FuncOpenVault();
+			}
+			catch(Exception) {
+				return null;
+			}
+			if(oldPasswordVault==null) {
+				//Windows 8 and later always have the vault, so this is an error that may pass (the Credential Manager service not started yet
+				//early in a logon, an RPC or COM error): no record, so one unlucky start cannot leave the saved logins behind.
+				return null;
 			}
 			migrationResult.IsVaultAvailable=true;
 			List<OldVaultEntry> listOwn;

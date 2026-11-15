@@ -34,8 +34,8 @@ namespace PasswordVaultWrapper {
 			_vault=vault;
 		}
 
-		///<summary>The old vault of the signed-in Windows user, or null where the Windows Runtime cannot be reached (.NET 5 and later, or a Windows
-		///without the vault).</summary>
+		///<summary>The old vault of the signed-in Windows user, or null where it cannot be opened: always on .NET 5 and later; on .NET Framework
+		///for any error (on Windows 8 and later that is an error that may pass, see IsOsWithoutVault).</summary>
 		public static OldPasswordVault TryOpen() {
 #if NETFRAMEWORK
 			try {
@@ -52,6 +52,12 @@ namespace PasswordVaultWrapper {
 #else
 			return null;
 #endif
+		}
+
+		///<summary>True on a Windows older than 8 (version 6.2), which has no PasswordVault. A program without a compatibility manifest is told
+		///6.2 on Windows 8.1 and later, so the test holds there too.</summary>
+		public static bool IsOsWithoutVault() {
+			return Environment.OSVersion.Platform!=PlatformID.Win32NT || Environment.OSVersion.Version<new Version(6,2);
 		}
 
 		///<summary>Every entry of the vault, names only (the vault returns no password until RetrievePassword is called). An empty vault gives an
