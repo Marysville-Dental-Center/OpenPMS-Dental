@@ -165,5 +165,21 @@ namespace ImagingTests {
 			AssertBefore(send,"ClaimL.TryDeletePreAuthEobs(claim)","Claims.Delete(claim,");
 			//The institutional claim window FormClaimInstEdit was never compiled and was deleted with the other uncompiled sources.
 		}
+
+		///<summary>CLEAN-1 (S3a-1's lead note): the imports of a picture (ImageStore.Import(Bitmap,...) and ImportEobAttach(Bitmap,...)) read this
+		///computer's scan quality and choose the JPEG encoder before the row's insert unit, so the try whose catch deletes the row follows the
+		///unit at once. Before, ComputerPrefs.LocalComputer was read between the two, where a failure left the row without its file.</summary>
+		[TestMethod]
+		public void ImportBitmap_QualityReadBeforeTheRowInsert_TheTryFollowsTheUnit() {
+			string imageStore=Read("OpenPmsDentalBusiness","Imaging","ImageStore.cs");
+			string import=MethodBody(imageStore,"public static Document Import(Bitmap image,long docCategory,");
+			AssertBefore(import,"qualityL=(long)ComputerPrefs.LocalComputer.ScanDocQuality;","Documents.Insert(doc,pat);");
+			AssertBefore(import,"encoders = ImageCodecInfo.GetImageEncoders();","Documents.Insert(doc,pat);");
+			Assert.IsTrue(Regex.IsMatch(import,@"doc=Documents\.GetByNum\(doc\.DocNum\);\s*\}\);\s*try \{"),"The try follows the insert unit.");
+			string importEob=MethodBody(imageStore,"public static EobAttach ImportEobAttach(Bitmap image,long claimPaymentNum,long claimNumPreAuth) {");
+			AssertBefore(importEob,"long qualityL=(long)ComputerPrefs.LocalComputer.ScanDocQuality;","EobAttaches.Insert(eob);");
+			AssertBefore(importEob,"encoders = ImageCodecInfo.GetImageEncoders();","EobAttaches.Insert(eob);");
+			Assert.IsTrue(Regex.IsMatch(importEob,@"eob=EobAttaches\.GetOne\(eob\.EobAttachNum\);\s*\}\);\s*try \{"),"The try follows the insert unit.");
+		}
 	}
 }

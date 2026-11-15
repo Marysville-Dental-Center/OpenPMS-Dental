@@ -277,5 +277,18 @@ namespace M2MISCTests {
 			AssertBefore(formQuickBooksOnlineSetup,"if(progressWin.IsCancelled) {","isCleared=(!qboSettings.HasRefreshToken && qboSettings.RealmId==\"\");",
 				"if(isCleared) {","FormQuickBooksOnlineSetup: a disconnect that finished before the cancel took effect is still logged");
 		}
+
+		///<summary>CLEAN-1 (S3a-1's lead note): the postcard window's RefreshFromVendor takes the worker's lists only from a call that was neither
+		///cancelled nor failed. After a cancel the worker can still be filling them (an unsynchronised read before).</summary>
+		[TestMethod]
+		public void Source_PostcardsRefreshFromVendor_TakesTheListsOnlyFromACallThatWasOk() {
+			string form=TestDb.ReadRepoFile("OpenPmsDental","Forms","FormAdvertisingPostcardsSend.cs");
+			AssertBefore(form,"private bool RefreshFromVendor(","bool isOk=RunVendorCall(","if(!isOk) {","FormAdvertisingPostcardsSend, the check");
+			AssertBefore(form,"private bool RefreshFromVendor(","if(!isOk) {","_listDesigns=listDesigns;","FormAdvertisingPostcardsSend, the designs");
+			AssertBefore(form,"private bool RefreshFromVendor(","if(!isOk) {","_listOrders=listOrders;","FormAdvertisingPostcardsSend, the orders");
+			int indexMethod=IndexOf(form,"private bool RefreshFromVendor(",0,"RefreshFromVendor");
+			int indexCheck=IndexOf(form,"if(!isOk) {",indexMethod,"RefreshFromVendor");
+			Assert.IsTrue(Regex.IsMatch(form.Substring(indexCheck),@"^if\(!isOk\) \{[^\n]*\n\s*return false;"),"A call that was not OK returns at once.");
+		}
 	}
 }

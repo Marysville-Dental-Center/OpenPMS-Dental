@@ -4,7 +4,8 @@
 // widths, read-only, not sortable), an edit typed into a cell that reaches the table when the grid loses the focus (as the DataGrid's edit did),
 // an untouched new row that does not, the dialog's own validation after the edit, the combo box column DGCBColumn (items, style, and a drop-down
 // list that takes only its items), an emptied cell that stores "" as the DataGrid did (QueryParametersCtl with DataSetsCtl.Apply, and
-// DialogValidValues), and the main menu's shortcut lookup that raises the menus' Opening handlers first.
+// DialogValidValues), the main menu's shortcut lookup that raises the menus' Opening handlers first, and (CLEAN-1) Up and Down on the sort
+// and group rows, and a new sort row that is Ascending.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
 using System.Collections;
@@ -175,6 +176,115 @@ namespace S3aM1Tests {
 					//The fields grid is set the same way: an emptied field name is "", not DBNull.
 					DataGridView dataGridViewFields=(DataGridView)Priv.Get(dataSetsCtl,"dgFields");
 					Assert.IsTrue(dataGridViewFields.Columns.Cast<DataGridViewColumn>().All(x => "".Equals(x.DefaultCellStyle.DataSourceNullValue)));
+					dataGridView.CurrentCell=null;//leaves the cell before the form and its grids are disposed
+				}
+			});
+		}
+
+		///<summary>A minimal report (no namespace) with one data set and a list that groups by two expressions and sorts by two, the first
+		///descending.</summary>
+		private const string REPORT_LIST_GROUPING_SORTING=
+			"<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
+			+"<Report>"
+			+"<DataSources><DataSource Name=\"DS1\"><ConnectionProperties><DataProvider>SQL</DataProvider><ConnectString></ConnectString>"
+			+"</ConnectionProperties></DataSource></DataSources>"
+			+"<DataSets><DataSet Name=\"Data\"><Query><DataSourceName>DS1</DataSourceName><CommandText>SELECT 1</CommandText></Query>"
+			+"<Fields><Field Name=\"A\"><DataField>A</DataField></Field><Field Name=\"B\"><DataField>B</DataField></Field></Fields></DataSet></DataSets>"
+			+"<Body><ReportItems><List Name=\"List1\"><DataSetName>Data</DataSetName>"
+			+"<Grouping Name=\"Group1\"><GroupExpressions><GroupExpression>=Fields!A.Value</GroupExpression>"
+			+"<GroupExpression>=Fields!B.Value</GroupExpression></GroupExpressions></Grouping>"
+			+"<Sorting><SortBy><SortExpression>=Fields!A.Value</SortExpression><Direction>Descending</Direction></SortBy>"
+			+"<SortBy><SortExpression>=Fields!B.Value</SortExpression><Direction>Ascending</Direction></SortBy></Sorting>"
+			+"<ReportItems></ReportItems></List></ReportItems><Height>1in</Height></Body>"
+			+"<Width>8.5in</Width>"
+			+"</Report>";
+
+		///<summary>CLEAN-1 (S3a-M3's lead note): Up and Down on the sort rows swap the rows' two columns; they threw before, since SwapRow also
+		///swapped a third column the table does not have. Up on the new row at the end does nothing (it threw too). A sort row typed into the
+		///new row with only an expression is Ascending and shows checked, as Apply writes it (it showed unchecked, as if descending).</summary>
+		[TestMethod]
+		public void SortingCtl_UpDown_SwapTheRows_NewRowIsAscending() {
+			M2Support.RunSta(() => {
+				System.Xml.XmlDocument xmlDocument=new System.Xml.XmlDocument();
+				xmlDocument.LoadXml(REPORT_LIST_GROUPING_SORTING);
+				using(UserControl draw=(UserControl)Activator.CreateInstance(GetType("DesignXmlDraw"),nonPublic:true))//its static constructor makes Create ambiguous
+				using(Form form=new Form()) {
+					Priv.Set(draw,"ReportDocument",xmlDocument);
+					System.Xml.XmlNode nodeList=xmlDocument.SelectSingleNode("/Report/Body/ReportItems/List");
+					UserControl sortingCtl=(UserControl)Create("SortingCtl",draw,nodeList);
+					form.Controls.Add(sortingCtl);//disposed with the form
+					IntPtr handle=form.Handle;
+					DataGridView dataGridView=(DataGridView)Priv.Get(sortingCtl,"dgSorting");
+					IntPtr handleGrid=dataGridView.Handle;
+					DataTable dataTable=(DataTable)Priv.Get(sortingCtl,"_DataTable");
+					Assert.AreEqual(2,dataTable.Rows.Count);
+					//Up on the second row: the rows trade places, both columns.
+					DataGridViewSetupSetCurrent(dataGridView,1);
+					Priv.Call(sortingCtl,"bUp_Click",sortingCtl,EventArgs.Empty);
+					Assert.AreEqual("=Fields!B.Value",dataTable.Rows[0]["SortExpression"]);
+					Assert.AreEqual(true,dataTable.Rows[0]["Direction"]);
+					Assert.AreEqual("=Fields!A.Value",dataTable.Rows[1]["SortExpression"]);
+					Assert.AreEqual(false,dataTable.Rows[1]["Direction"]);
+					Assert.AreEqual(0,(int)CallStatic("DataGridViewSetup","GetCurrentRowIndex",dataGridView),"The moved row stays current.");
+					//Down moves it back.
+					Priv.Call(sortingCtl,"bDown_Click",sortingCtl,EventArgs.Empty);
+					Assert.AreEqual("=Fields!A.Value",dataTable.Rows[0]["SortExpression"]);
+					Assert.AreEqual(false,dataTable.Rows[0]["Direction"]);
+					Assert.AreEqual("=Fields!B.Value",dataTable.Rows[1]["SortExpression"]);
+					Assert.AreEqual(1,(int)CallStatic("DataGridViewSetup","GetCurrentRowIndex",dataGridView));
+					//Up and Down on the new row at the end change nothing.
+					DataGridViewSetupSetCurrent(dataGridView,2);
+					Priv.Call(sortingCtl,"bUp_Click",sortingCtl,EventArgs.Empty);
+					Priv.Call(sortingCtl,"bDown_Click",sortingCtl,EventArgs.Empty);
+					Assert.AreEqual(2,dataTable.Rows.Count);
+					Assert.AreEqual("=Fields!A.Value",dataTable.Rows[0]["SortExpression"]);
+					Assert.AreEqual("=Fields!B.Value",dataTable.Rows[1]["SortExpression"]);
+					//A sort row typed into the new row with only its expression is Ascending, and its box is checked.
+					TypeInto(dataGridView,2,0,"=Fields!C.Value");
+					Priv.Call(dataGridView,"OnLeave",EventArgs.Empty);
+					Assert.AreEqual(3,dataTable.Rows.Count);
+					Assert.AreEqual(true,dataTable.Rows[2]["Direction"],"A new sort row is Ascending.");
+					Assert.AreEqual(true,dataGridView.Rows[2].Cells[1].Value,"Its Sort Ascending box shows checked.");
+					//Apply writes the three rows in their order, with their directions.
+					Priv.Call(sortingCtl,"Apply");
+					System.Xml.XmlNodeList nodeListSortBy=xmlDocument.SelectNodes("/Report/Body/ReportItems/List/Sorting/SortBy");
+					CollectionAssert.AreEqual(new[] { "=Fields!A.Value","=Fields!B.Value","=Fields!C.Value" },
+						nodeListSortBy.Cast<System.Xml.XmlNode>().Select(x => x.SelectSingleNode("SortExpression").InnerText).ToArray());
+					CollectionAssert.AreEqual(new[] { "Descending","Ascending","Ascending" },
+						nodeListSortBy.Cast<System.Xml.XmlNode>().Select(x => x.SelectSingleNode("Direction").InnerText).ToArray());
+					dataGridView.CurrentCell=null;//leaves the cell before the form and its grids are disposed
+				}
+			});
+		}
+
+		///<summary>CLEAN-1 (S3a-M3's note for the lead): Up and Down on the group expressions swap the rows; they threw before, since SwapRow also
+		///swapped a second and a third column the one-column table does not have. Up on the new row at the end does nothing.</summary>
+		[TestMethod]
+		public void GroupingCtl_UpDown_SwapTheRows() {
+			M2Support.RunSta(() => {
+				System.Xml.XmlDocument xmlDocument=new System.Xml.XmlDocument();
+				xmlDocument.LoadXml(REPORT_LIST_GROUPING_SORTING);
+				using(UserControl draw=(UserControl)Activator.CreateInstance(GetType("DesignXmlDraw"),nonPublic:true))//its static constructor makes Create ambiguous
+				using(Form form=new Form()) {
+					Priv.Set(draw,"ReportDocument",xmlDocument);
+					System.Xml.XmlNode nodeList=xmlDocument.SelectSingleNode("/Report/Body/ReportItems/List");
+					UserControl groupingCtl=(UserControl)Create("GroupingCtl",draw,nodeList);
+					form.Controls.Add(groupingCtl);//disposed with the form
+					IntPtr handle=form.Handle;
+					DataGridView dataGridView=(DataGridView)Priv.Get(groupingCtl,"dgGroup");
+					IntPtr handleGrid=dataGridView.Handle;
+					DataTable dataTable=(DataTable)Priv.Get(groupingCtl,"_DataTable");
+					Assert.AreEqual(2,dataTable.Rows.Count);
+					DataGridViewSetupSetCurrent(dataGridView,1);
+					Priv.Call(groupingCtl,"bUp_Click",groupingCtl,EventArgs.Empty);
+					CollectionAssert.AreEqual(new[] { "=Fields!B.Value","=Fields!A.Value" },dataTable.Rows.Cast<DataRow>().Select(x => (string)x[0]).ToArray());
+					Assert.AreEqual(0,(int)CallStatic("DataGridViewSetup","GetCurrentRowIndex",dataGridView),"The moved row stays current.");
+					Priv.Call(groupingCtl,"bDown_Click",groupingCtl,EventArgs.Empty);
+					CollectionAssert.AreEqual(new[] { "=Fields!A.Value","=Fields!B.Value" },dataTable.Rows.Cast<DataRow>().Select(x => (string)x[0]).ToArray());
+					DataGridViewSetupSetCurrent(dataGridView,2);
+					Priv.Call(groupingCtl,"bUp_Click",groupingCtl,EventArgs.Empty);
+					Priv.Call(groupingCtl,"bDown_Click",groupingCtl,EventArgs.Empty);
+					CollectionAssert.AreEqual(new[] { "=Fields!A.Value","=Fields!B.Value" },dataTable.Rows.Cast<DataRow>().Select(x => (string)x[0]).ToArray());
 					dataGridView.CurrentCell=null;//leaves the cell before the form and its grids are disposed
 				}
 			});
