@@ -19,6 +19,7 @@ All builds below are lane builds (Build Tools 2026, MSBuild 18, SDK 10.0.114, 6 
 | A1 | this branch | Release | 1,113 | 0 |
 | A2 | this branch | Release | 1,113 | 0 |
 | A3 | this branch | Debug | 353 | 0 |
+| A4 | this branch, final (with the docs and the test's last commit) | Debug | 353 | 0 |
 
 The resources were read from every built assembly of every `bin\<configuration>` folder with Mono.Cecil (the `.resources` streams of
 each `EmbeddedResource`, by name, with their size and SHA-256; copies with the same name and bytes counted once): 1,085 `.resources` in
@@ -79,6 +80,7 @@ done much). It stays as it is, and the test lists it as its one exception (secti
   identical), every `.resources` inside `OpenPmsDental.exe` and `ODR.dll` included.
 - A3 (Debug) has the same bytes as A2 (Release) for every `.resources` but the two WPF `.g.resources` (BAML, which is not the same in
   Debug and Release builds by design): with other configurations and another scheduling of the nodes, the same resources.
+- A3 and A4, two cold Debug builds: all 1,085 `.resources` of the 199 assemblies have the same bytes too.
 - Before against after, in each configuration: exactly the 43 resources of the 43 files differ (ContrTable, ComboBoxMulti, 41 of
   RdlDesigner); none of the other 1,042.
 - `ODR.dll` of A2: 38,912 bytes, `2ee9adf8bb9dc4464f060028b85b23a5c94691232b6d18674ff62d9cbc6a1008`.
@@ -177,7 +179,7 @@ section 3 says so).
 
 ## 6. Test results
 
-Targeted runs (`run-tests.ps1 -Mode Targeted`, Debug), after the final full lane build of this branch:
+Targeted runs (`run-tests.ps1 -Mode Targeted`, Debug), after the final full lane build of this branch (A4):
 
 | Assembly | Total | Passed | Failed |
 |---|---|---|---|
