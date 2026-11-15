@@ -165,7 +165,12 @@ using OpenPmsDental.UI;
 		private bool _isUpdating;
 		///<summary>This is an alternative to setting up all of the GridRows in advance.  The DataRows get converted to GridRows on the fly.</summary>
 		private List<DataRow> _listDataRows;
+		///<summary>Bridge for S3a-M3: the links added to a WinForms ContextMenu that a caller set. Goes with the other bridge members below.</summary>
 		private List<MenuItem> _listMenuItemsLinks;
+		///<summary>The links added to the ContextMenuStrip the last time it opened, removed before the next links are added.</summary>
+		private List<ToolStripItem> _listToolStripItemsLinks;
+		///<summary>The grid's own right-click menu, made on the first right click when no caller set a menu. Disposed with the grid.</summary>
+		private ContextMenuStrip _contextMenuStripGrid;
 		///<summary>Helps with drag selections. This is a snapshot of the selected indices when the mouse goes down and starts a drag.</summary>
 		private List<int> _listSelectedIndicesWhenMouseDown;
 		private MouseButtons _mouseButtonLastPressed;
@@ -233,6 +238,7 @@ using OpenPmsDental.UI;
 				_fontForSheets?.Dispose();
 				_fontForSheetsBold?.Dispose();
 				comboBox?.Dispose();
+				_contextMenuStripGrid?.Dispose();
 				components?.Dispose();//vScroll and hScroll
 			}
 			base.Dispose(disposing);
@@ -561,6 +567,23 @@ using OpenPmsDental.UI;
 		[Description("Set to false to disable the context menu for the grid.")]
 		[DefaultValue(true)]
 		public bool ShowContextMenu { get; set; } = true;
+
+		///<summary>False by default: a ContextMenuStrip that a caller sets shows only its own items, as before. True: the grid adds Copy Cell Text,
+		///Copy Rows and the links to it each time it opens, as it does to its own menu and to a WinForms ContextMenu a caller sets. For S3a-M3,
+		///which turns those ContextMenus into ContextMenuStrips and keeps their grid items with this.</summary>
+		[Category("OD")]
+		[Description("Set to true to add Copy Cell Text, Copy Rows and the links to the ContextMenuStrip set on the grid.")]
+		[DefaultValue(false)]
+		public bool DoAddGridItemsToContextMenuStrip {
+			get {
+				return _doAddGridItemsToContextMenuStrip;
+			}
+			set {
+				_doAddGridItemsToContextMenuStrip=value;
+				HookContextMenuStrip();
+			}
+		}
+		private bool _doAddGridItemsToContextMenuStrip=false;
 
 		///<summary>The title of the grid which shows across the top.</summary>
 		[Category("OD")]
@@ -1930,6 +1953,123 @@ using OpenPmsDental.UI;
 		#endregion Methods - Event Handlers
 
 		#region Methods - Event Handlers - Mouse
+		///<summary>The grid's own menu, and a caller's ContextMenuStrip when DoAddGridItemsToContextMenuStrip is true, get the grid items when they open.</summary>
+		protected override void OnContextMenuStripChanged(EventArgs e) {
+			base.OnContextMenuStripChanged(e);
+			HookContextMenuStrip();
+		}
+
+		///<summary>Subscribes the ContextMenuStrip to ContextMenuStrip_Opening once, if it is the grid's own or DoAddGridItemsToContextMenuStrip is true.</summary>
+		private void HookContextMenuStrip() {
+			if(ContextMenuStrip==null) {
+				return;
+			}
+			ContextMenuStrip.Opening-=ContextMenuStrip_Opening;
+			if(ContextMenuStrip==_contextMenuStripGrid || DoAddGridItemsToContextMenuStrip) {
+				ContextMenuStrip.Opening+=ContextMenuStrip_Opening;
+			}
+		}
+
+		///<summary>Just prior to displaying the context menu strip, add the copy items and the wiki links if neccesary.</summary>
+		private void ContextMenuStrip_Opening(object sender,CancelEventArgs e) {
+			//If multiple grids add the same instance of ContextMenuStrip, then all of them will raise this event any time any of them raise the event.
+			//Only allow the event to operate if this is the grid that actually fired the event.
+			try {
+				if(((ContextMenuStrip)sender).SourceControl.Name != this.Name) {
+					return;
+				}
+			}
+			catch(Exception ex) {
+				ex.DoNothing();
+				return;
+			}
+			if(this.ContextMenuStrip==null) {
+				return;
+			}
+			//A ContextMenuStrip with no items that will show starts its Opening cancelled (ToolStripDropDown uses DisplayedItems, which leaves out the
+			//items that are not Available). The grid's own menu is empty until the first time it opens, and a caller's strip may have only hidden items
+			//(ControlFamily's "View SS#", which its own Opening makes visible after this one).
+			bool hadNoShownItems=!this.ContextMenuStrip.Items.Cast<ToolStripItem>().Any(x => x.Available);
+			AddGridItemsToContextMenuStrip();
+			if(hadNoShownItems && this.ContextMenuStrip.Items.Cast<ToolStripItem>().Any(x => x.Available)) {
+				e.Cancel=false;
+			}
+		}
+
+		///<summary>Adds Copy Cell Text (the first time, after a separator if the menu has items), sets it and Copy Rows enabled for the cell and row
+		///that were clicked, and adds the links. The same items, order and states as the WinForms ContextMenu had.</summary>
+		private void AddGridItemsToContextMenuStrip() {
+			//Todo: this is a bad selector:
+			ToolStripMenuItem toolStripMenuItemCopy=this.ContextMenuStrip.Items.OfType<ToolStripMenuItem>().FirstOrDefault(x => x.Text == "Copy Cell Text");
+			List<ToolStripItem> listToolStripItems=new List<ToolStripItem>();
+			if(toolStripMenuItemCopy==null) {//Add it the first time
+				toolStripMenuItemCopy=new ToolStripMenuItem("Copy Cell Text",null,CopyCellClick);
+				if(this.ContextMenuStrip.Items.Count > 0) {
+					listToolStripItems.Add(new ToolStripSeparator());
+				}
+				listToolStripItems.Add(toolStripMenuItemCopy);
+				listToolStripItems.ForEach(x => this.ContextMenuStrip.Items.Add(x));
+			}
+			if(!(0<=_mouseDownRow && _mouseDownRow<=ListGridRows.Count-1)
+				|| !(0<=_mouseDownCol && _mouseDownCol<=ListGridRows[_mouseDownRow].Cells.Count-1)
+				|| string.IsNullOrEmpty(ListGridRows[_mouseDownRow].Cells[_mouseDownCol].Text))
+			{
+				toolStripMenuItemCopy.Enabled = false;
+			}
+			else {
+				toolStripMenuItemCopy.Enabled = true;
+			}
+			//Copy Rows----------------------------------------------------
+			ToolStripMenuItem toolStripMenuItemCopyRows=this.ContextMenuStrip.Items.OfType<ToolStripMenuItem>().FirstOrDefault(x => x.Text == "Copy Rows");
+			if(toolStripMenuItemCopyRows==null) {//Add it the first time
+				toolStripMenuItemCopyRows=new ToolStripMenuItem("Copy Rows",null,CopyRowsClick);
+				this.ContextMenuStrip.Items.Add(toolStripMenuItemCopyRows);
+			}
+			if(!_listSelectedIndices.Contains(_mouseDownRow)//If clicked row is not selected.
+				|| !(0<=_mouseDownCol && _mouseDownCol<=ListGridRows[_mouseDownRow].Cells.Count-1))//If clicked column is not in the row's cells.
+			{
+				toolStripMenuItemCopyRows.Enabled = false;
+			}
+			else {
+				toolStripMenuItemCopyRows.Enabled = true;
+			}
+			//Link items----------------------------------------------------
+			if(HasLinkDetect) {//Links go below any "Copy Text" menu items.
+				ContextMenuStripAddPopupLinks();
+			}
+		}
+
+		///<summary>Just prior to displaying the context menu strip, add wiki links if neccesary. Links of the row that was right-clicked.</summary>
+		private void ContextMenuStripAddPopupLinks() {
+			if(ContextMenuStrip!=null && _listToolStripItemsLinks!=null) {
+			//Removes all previous wiki and web links from context menu.
+				for(int i=_listToolStripItemsLinks.Count-1;i>=0;i--) {//backward because removing
+					ContextMenuStrip.Items.Remove(_listToolStripItemsLinks[i]);
+				}
+			}
+			int rowClick = PointToRow(_mouseClickLocation.Y);
+			int colClick = PointToCol(_mouseClickLocation.X);
+			if(rowClick<0 || colClick<0) {//don't diplay links, not on grid row.
+				return;
+			}
+			if(_mouseButtonLastPressed==MouseButtons.Right && rowClick<=this.ListGridRows.Count) {
+				GridRow gridRow = this.ListGridRows[rowClick];
+				_listToolStripItemsLinks=new List<ToolStripItem>();
+				if(this.ContextMenuStrip.Items.Count>0) {
+					_listToolStripItemsLinks.Add(new ToolStripSeparator());
+				}
+				StringBuilder stringBuilder = new StringBuilder();
+				gridRow.Cells.OfType<GridCell>().ToList().ForEach(x => stringBuilder.AppendLine(x.Text));
+				stringBuilder.AppendLine(gridRow.Note);
+				_listToolStripItemsLinks.AddRange(OpenPmsDentalBusiness.UI.PopupHelper.GetToolStripMenuItemLinks(stringBuilder.ToString(),DoShowRightClickLinks));
+				if(_listToolStripItemsLinks.Any(x => !(x is ToolStripSeparator))) {//at least one REAL menu item that is not the divider.
+					_listToolStripItemsLinks.ForEach(x => this.ContextMenuStrip.Items.Add(x));
+				}
+			}
+		}
+
+		#region Bridge for S3a-M3 - WinForms ContextMenu set by a caller
+		//Removed by S3a-M3 once no caller sets the grid's ContextMenu (they set ContextMenuStrip and DoAddGridItemsToContextMenuStrip instead).
 		///<summary>Several locations throughout the program the context menu changes. This subscribes each menu to use the popup helper below.</summary>
 		protected override void OnContextMenuChanged(EventArgs e) {
 			//this event fires when the ContextMenu property of GridOD changes.
@@ -2039,6 +2179,7 @@ using OpenPmsDental.UI;
 				}
 			}
 		}
+		#endregion Bridge for S3a-M3 - WinForms ContextMenu set by a caller
 
 		private void CopyCellClick(object sender,EventArgs e) {
 			try {
@@ -2307,9 +2448,12 @@ using OpenPmsDental.UI;
 			//}		
 			if(this.ContextMenu==null && this.ContextMenuStrip==null && this.ShowContextMenu) {
 				if(e.Button==MouseButtons.Right) {
-					this.ContextMenu=new ContextMenu();
+					//The grid's own menu. Later right clicks show it as the grid's ContextMenuStrip.
+					_contextMenuStripGrid?.Dispose();
+					_contextMenuStripGrid=new ContextMenuStrip();
+					this.ContextMenuStrip=_contextMenuStripGrid;//OnContextMenuStripChanged subscribes it to ContextMenuStrip_Opening.
 					try{
-						this.ContextMenu.Show(this,_mouseClickLocation);//triggers autofill via the popup helper.
+						this.ContextMenuStrip.Show(this,_mouseClickLocation);//triggers autofill via the popup helper.
 					}
 					catch{ }//This can fail if user double clicks, causing form to close, and also right clicks on the second click.
 				}

@@ -29,7 +29,9 @@ namespace OpenPmsDental {
 			return retVal;
 		}
 
-		///<summary>C is for control. Translates the text of all menu items to another language.</summary>
+		///<summary>Bridge for S3a-M2 and S3a-M3, removed once no caller passes a WinForms ContextMenu or MainMenu (they pass the ContextMenuStrip
+		///or ToolStripDropDown that replaces it, below).
+		///C is for control. Translates the text of all menu items to another language.</summary>
 		public static void C(Control sender,params Menu[] paramsMenus) {
 			string classType="All";
 			if(sender!=null){
@@ -38,7 +40,8 @@ namespace OpenPmsDental {
 			C(classType,paramsMenus);
 		}
 
-		///<summary>C is for control. Translates the text of all menu items to another language.</summary>
+		///<summary>Bridge for S3a-M2 and S3a-M3 (see above).
+		///C is for control. Translates the text of all menu items to another language.</summary>
 		public static void C(string classType,params Menu[] paramsMenus) {
 			for(int p=0;p<paramsMenus.Length;p++){
 				for(int i=0;i<paramsMenus[p].MenuItems.Count;i++){
@@ -57,17 +60,22 @@ namespace OpenPmsDental {
 			menuItem.Text=Lans.ConvertString(classType,menuItem.Text);
 		}
 
-		///<summary>C is for control. Translates the text of all context menu strip items to another language.</summary>
-		public static void C(Control controlSender,params ContextMenuStrip[] paramsContextMenuStrips) {
+		///<summary>C is for control. Translates the text of all context menu strip items to another language. Takes any ToolStripDropDown: a
+		///ContextMenuStrip, a ToolStripDropDownMenu or a ToolStripDropDown.</summary>
+		public static void C(Control controlSender,params ToolStripDropDown[] paramsToolStripDropDowns) {
 			string classType=(controlSender==null ? "All": controlSender.GetType().Name);
-			C(classType,paramsContextMenuStrips);
+			C(classType,paramsToolStripDropDowns);
 		}
 
-		///<summary>C is for control. Translates the text of all context menu strip items to another language.</summary>
-		public static void C(string classType,params ContextMenuStrip[] paramsContextMenuStrips) {
-			for(int m=0;m<paramsContextMenuStrips.Length;m++){
-				for(int i=0;i<paramsContextMenuStrips[m].Items.Count;i++){
-					TranslateToolStripMenuItems(classType, (ToolStripMenuItem)paramsContextMenuStrips[m].Items[i]);
+		///<summary>C is for control. Translates the text of all context menu strip items to another language, with the same translation keys
+		///(classType and the English text) as the WinForms menu items they replace. Separators and other items that are not ToolStripMenuItems
+		///(a separator was a MenuItem "-" with nothing to translate) are left as they are.</summary>
+		public static void C(string classType,params ToolStripDropDown[] paramsToolStripDropDowns) {
+			for(int m=0;m<paramsToolStripDropDowns.Length;m++){
+				for(int i=0;i<paramsToolStripDropDowns[m].Items.Count;i++){
+					if(paramsToolStripDropDowns[m].Items[i] is ToolStripMenuItem toolStripMenuItem) {
+						TranslateToolStripMenuItems(classType,toolStripMenuItem);
+					}
 				}
 			}
 		}
@@ -150,7 +158,7 @@ namespace OpenPmsDental {
 			for(int c=0;c<grid.Columns.Count;c++){
 				grid.Columns[c].Heading=Lans.ConvertString(grid.TranslationName,grid.Columns[c].Heading);
 			}
-			if(grid.ContextMenu!=null) {
+			if(grid.ContextMenu!=null) {//Bridge for S3a-M3: a WinForms ContextMenu a caller set on the grid.
 				C(grid.TranslationName,grid.ContextMenu);
 			}
 			if(grid.ContextMenuStrip!=null) {

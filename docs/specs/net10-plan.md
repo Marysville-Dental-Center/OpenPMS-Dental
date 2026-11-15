@@ -902,6 +902,16 @@ Tests in VendorDirectTests, FeeTests, ImagingTests, M2MISCTests and BPROCTests. 
 XConnect validation windows keep their results after a cancelled Re-validate (EDS's worker stops at the first refused read), and the ASAP,
 Unscheduled and Planned Tracker grids no longer throw on a result a cancel left null.
 
+**Status (2026-11-15), S3a-M1.** Merged from `net10/s3am1-2` (`docs/port-notes/S3a-M1.md`): GridOD's and GridOld's own
+right-click menus are `ContextMenuStrip`s with the same items, order, separators and enabled states (new
+`DoAddGridItemsToContextMenuStrip`, default off, for the menus M2/M3 convert); `PopupHelper.GetToolStripMenuItemLinks`; `Lan.C` translates
+any `ToolStripDropDown` with the same keys and no longer throws on a separator; `ContextMenuStripDropDown` is the toolbar button's drop-down;
+ODR's `ComboBoxMulti` on a `ContextMenuStrip`; `PopupHelper2` needs nothing (WPF `MenuItem`). The WinForms paths that M2/M3 callers use stay
+as marked bridges, listed in the note's section 3 for M2/M3 to remove. Review fix on `net10/s3am1-2`: a caller's strip with
+`DoAddGridItemsToContextMenuStrip` whose own items are all hidden (the masked SSN/DOB items) opens with the grid items. New `tests/S3aM1Tests` (19); Targeted runs green (BACCTTests,
+M2SHELLTests, BPRINTTests, MaintenanceTests, InventoryTests, NoHqTests, MiddleTierMockTests, P262BillingTests, AttributionTests). The
+launch checks (note, section 5) stay the gate's.
+
 **Full-test gate.** Section 3, plus: the golden outputs and known answers recorded and committed; the source-scan tests pass; the
 launch checks for 3a (section 6) done with screenshots, including a self-update from a standard user; the x64 test runs (S3a-12, S3a-15)
 and the x64 build of `Direct2dWrapper` (S3a-16) pass; the helper's tests pass, and its links are launch-checked where a test PC has the
