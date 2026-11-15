@@ -46,6 +46,8 @@ What this version brings, each in its section below (the roadmap's "Done in the 
     them from Medit Link);
   - Glidewell lab cases, ready but not yet able to send: hidden in Program Links until the program can connect to Glidewell, and no patient
     data is sent without a business associate agreement with Glidewell.
+- scanning and radiograph capture (TWAIN): the program now identifies itself to the TWAIN 2 manager as a TWAIN 2 application (two
+  flag values had been swapped), so the manager's own memory functions are used, as the TWAIN 2 specification intends;
 - claim files and benefit requests (X12 837 and 270) name the practice as their sender, with its own TIN, name and telephone, when the
   clearinghouse has no Sender TIN, instead of Open Dental Inc; a batch is refused while the practice's TIN, name or telephone is missing;
   Emdeon Dental eligibility requests send the office's Emdeon login alone as the sender, without Open Dental Inc's "316:" vendor prefix;

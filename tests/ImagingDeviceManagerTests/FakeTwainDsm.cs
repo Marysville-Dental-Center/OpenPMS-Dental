@@ -430,7 +430,8 @@ namespace ImagingDeviceManager.Tests {
 				TW_IDENTITY appIdentity=(TW_IDENTITY)Marshal.PtrToStructure(origin,typeof(TW_IDENTITY));
 				ListLog.Add("OPENDSM "+appIdentity.ProductName);
 				appIdentity.Id=1;
-				if(SupplyEntryPoints) {
+				//As the real TWAINDSM 2.x does: DF_DSM2 (and DAT_ENTRYPOINT) only for an application that says DF_APP2.
+				if(SupplyEntryPoints && (appIdentity.SupportedGroups & Tw.DF_APP2)!=0) {
 					appIdentity.SupportedGroups|=Tw.DF_DSM2;
 				}
 				Marshal.StructureToPtr(appIdentity,origin,false);
