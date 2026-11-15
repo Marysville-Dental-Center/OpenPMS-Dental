@@ -797,8 +797,9 @@ namespace OpenPmsDental{
 
 		///<summary>The procedures of every caller (O-25: one painter, each caller's own output kept as options): hidden procedures are skipped, and so
 		///are completed or existing extractions (the missing teeth show them) unless the office shows completed extractions with an X (O-20,
-		///ToothChartExtractionGraphic, TC-5): then they draw the big X in their status's colour over the missing tooth. Each procedure is painted by its
-		///code's paint type in the colour of its status. options says how each caller differs.</summary>
+		///ToothChartExtractionGraphic, TC-5): then they draw the big X in their status's colour over the missing tooth, except where a completed implant
+		///or pontic fills the tooth's place (GetToothNumsReplaced). Each procedure is painted by its code's paint type in the colour of its status.
+		///options says how each caller differs.</summary>
 		public static void PaintProcedures(IToothChartPaintTarget target,List<ToothChartPaintProc> listProcs,List<ToothInitial> listToothInitials,
 			ToothChartPaintOptions options)
 		{
@@ -812,6 +813,10 @@ namespace OpenPmsDental{
 			if(options.DoUseTreatPlanColors) {
 				listDefsTreatPlan=Defs.GetDefsForCategory(DefCat.ChartGraphicColors,true);
 			}
+			List<string> listToothNumsReplaced=new List<string>();
+			if(isCompletedExtractionShown) {
+				listToothNumsReplaced=GetToothNumsReplaced(listProcs,listToothInitials,options);
+			}
 			for(int i=0;i<listProcs.Count;i++) {
 				ToothChartPaintProc proc=listProcs[i];
 				if(proc.IsHidden) {
@@ -821,12 +826,13 @@ namespace OpenPmsDental{
 				if(options.DoSkipMouth && (procedureCode.PaintType==ToothPaintingType.None || procedureCode.TreatArea==TreatmentArea.Mouth)) {
 					continue;
 				}
-				if(procedureCode.PaintType==ToothPaintingType.Extraction && (
-					proc.ProcStatus==ProcStat.C
-					|| proc.ProcStatus==ProcStat.EC
-					|| proc.ProcStatus==ProcStat.EO
-					) && !isCompletedExtractionShown) {
-					continue;//prevents the red X. Missing teeth already handled. With the extraction graphic on, the X is drawn over the missing tooth.
+				if(procedureCode.PaintType==ToothPaintingType.Extraction && IsCompletedStatus(proc.ProcStatus)) {
+					if(!isCompletedExtractionShown) {
+						continue;//prevents the red X. Missing teeth already handled. With the extraction graphic on, the X is drawn over the missing tooth.
+					}
+					if(listToothNumsReplaced.Contains(proc.ToothNum)) {
+						continue;//a completed implant or pontic stands in the extracted tooth's place now: no X over it (TC-5)
+					}
 				}
 				Color cDark;
 				Color cLight;
@@ -984,6 +990,64 @@ namespace OpenPmsDental{
 						break;
 				}
 			}
+		}
+
+		///<summary>True for the statuses of work that is done: completed (C), existing current provider (EC) and existing other provider (EO).</summary>
+		private static bool IsCompletedStatus(ProcStat procStat) {
+			return procStat==ProcStat.C || procStat==ProcStat.EC || procStat==ProcStat.EO;
+		}
+
+		///<summary>With the extraction graphic on (TC-5): the teeth whose place a completed implant or pontic fills, where the X of a completed
+		///extraction is not drawn because the tooth was replaced. A completed (C, EC or EO) procedure of paint type Implant on the tooth, or of a
+		///bridge or denture paint type on a tooth that is missing or hidden (the painter draws a pontic there). listProcs is the list the painter
+		///draws, so in the Chart module it is after the date slider: an implant completed after the slider date is drawn as planned there and does
+		///not hide the X. A planned extraction's X is always drawn. Hidden procedures, and those the caller skips, replace nothing.</summary>
+		private static List<string> GetToothNumsReplaced(List<ToothChartPaintProc> listProcs,List<ToothInitial> listToothInitials,
+			ToothChartPaintOptions options)
+		{
+			List<string> listToothNums=new List<string>();
+			for(int i=0;i<listProcs.Count;i++) {
+				ToothChartPaintProc proc=listProcs[i];
+				if(proc.IsHidden || !IsCompletedStatus(proc.ProcStatus)) {
+					continue;
+				}
+				ProcedureCode procedureCode=proc.ProcedureCode;
+				if(options.DoSkipMouth && (procedureCode.PaintType==ToothPaintingType.None || procedureCode.TreatArea==TreatmentArea.Mouth)) {
+					continue;
+				}
+				List<string> listToothNumsProc=new List<string>();
+				switch(procedureCode.PaintType) {
+					case ToothPaintingType.Implant:
+						listToothNums.Add(proc.ToothNum);
+						continue;
+					case ToothPaintingType.BridgeDark:
+					case ToothPaintingType.BridgeLight:
+						listToothNumsProc.Add(proc.ToothNum);
+						break;
+					case ToothPaintingType.DentureDark:
+					case ToothPaintingType.DentureLight:
+						if(proc.Surf=="U") {
+							for(int t=0;t<14;t++) {
+								listToothNumsProc.Add((t+2).ToString());
+							}
+						}
+						else if(proc.Surf=="L") {
+							for(int t=0;t<14;t++) {
+								listToothNumsProc.Add((t+18).ToString());
+							}
+						}
+						else if(!string.IsNullOrEmpty(proc.ToothRange)) {
+							listToothNumsProc.AddRange(proc.ToothRange.Split(','));
+						}
+						break;
+				}
+				for(int t=0;t<listToothNumsProc.Count;t++) {
+					if(ToothInitials.ToothIsMissingOrHidden(listToothInitials,listToothNumsProc[t])) {
+						listToothNums.Add(listToothNumsProc[t]);
+					}
+				}
+			}
+			return listToothNums;
 		}
 
 		///<summary>The Treatment Plan printout's own colours (ControlTreat before TC-2): the code's graphic colour whatever the status (no

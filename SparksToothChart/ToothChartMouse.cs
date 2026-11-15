@@ -88,8 +88,8 @@ namespace SparksToothChart {
 			//Eraser: nothing until the mouse moves.
 		}
 
-		///<summary>MoveText (TC-5): the label under the mouse (the top-most, the last drawn) is picked up, from where it is seen. Nothing when the press
-		///is not on a label.</summary>
+		///<summary>MoveText (TC-5): the label under the mouse (the top-most, the last drawn) is picked up, from where it is seen: the first move puts it
+		///at that point plus the drag. Nothing when the press is not on a label.</summary>
 		private void PickUpFreeText(ToothChartData tcData,Point location) {
 			_freeTextMoving=null;
 			List<Wpf3D.FreeTextBox> listBoxes=Wpf3D.ToothSceneBuilder.GetFreeTextBoxes(tcData);
@@ -101,7 +101,8 @@ namespace SparksToothChart {
 				_pointFreeTextOld=_freeTextMoving.Location;
 				_pointFreeTextStart=listBoxes[i].LocationShown;
 				_pointMouseDownFreeText=location;
-				_freeTextMoving.Location=_pointFreeTextStart;
+				//The label's point is not changed until the mouse moves (MoveFreeText starts from _pointFreeTextStart): a press that never reaches
+				//MouseUp (the capture lost, a dialog, Alt-Tab) leaves the chart's data as it was.
 				return;
 			}
 		}

@@ -423,6 +423,26 @@ namespace SparksToothChart {
 		}
 
 		#region Text of TC-5
+		///<summary>The string format of the TC-5 text: GenericTypographic, which measures and draws without the padding GenericDefault adds on each
+		///side, so a text is as wide here as in the WPF chart's measure and the cut to fit drops the same characters. Measure and draw with the same
+		///format so the centring stays right. A copy, which the caller disposes.</summary>
+		public static StringFormat CreateTextFormat() {
+			return (StringFormat)StringFormat.GenericTypographic.Clone();
+		}
+
+		///<summary>TextBelow cut to fit widthMax pixels in the font (TC-5), by the WPF chart's rule (ToothSceneBuilder.GetTextBelowFitted): characters
+		///are dropped from the end until it fits, and at least the first character stays.</summary>
+		public static string GetTextBelowFitted(Graphics g,Font font,StringFormat format,string text,int widthMax) {
+			if(string.IsNullOrEmpty(text)) {
+				return "";
+			}
+			string textFitted=text;
+			while(textFitted.Length>1 && g.MeasureString(textFitted,font,PointF.Empty,format).Width>widthMax) {
+				textFitted=textFitted.Substring(0,textFitted.Length-1);
+			}
+			return textFitted;
+		}
+
 		///<summary>A point in the scene's mm (origin at the centre, y up) in pixels of this control, as the 3D charts project it.</summary>
 		private PointF MmToPix(float xMm,float yMm) {
 			return new PointF(Width/2f+xMm*TcData.ScaleMmToPix,Height/2f-yMm*TcData.ScaleMmToPix);
@@ -440,6 +460,7 @@ namespace SparksToothChart {
 		///colour, as the WPF chart draws it. A primary tooth's text only when the primary tooth is shown.</summary>
 		private void DrawPaintTexts(Graphics g) {
 			Font fontBold=new Font(Font,FontStyle.Bold);
+			StringFormat format=CreateTextFormat();
 			for(int t=0;t<TcData.ListToothGraphics.Count;t++) {
 				ToothGraphic toothGraphic=TcData.ListToothGraphics[t];
 				if(toothGraphic.ToothID=="implant" || string.IsNullOrEmpty(toothGraphic.PaintText)) {
@@ -451,18 +472,20 @@ namespace SparksToothChart {
 				float yMm=TcData.GetTransYfacial(toothGraphic.ToothID);
 				yMm+=ToothGraphic.IsMaxillary(toothGraphic.ToothID) ? -Wpf3D.ToothSceneBuilder.PaintTextCrownOffsetMm : Wpf3D.ToothSceneBuilder.PaintTextCrownOffsetMm;
 				PointF pointCentre=MmToPix(GetShiftedTransX(toothGraphic),yMm);
-				SizeF sizeText=g.MeasureString(toothGraphic.PaintText,fontBold);
+				SizeF sizeText=g.MeasureString(toothGraphic.PaintText,fontBold,PointF.Empty,format);
 				using(SolidBrush brush=new SolidBrush(Color.FromArgb(255,toothGraphic.colorPaintText))) {
-					g.DrawString(toothGraphic.PaintText,fontBold,brush,pointCentre.X-sizeText.Width/2f,pointCentre.Y-sizeText.Height/2f);
+					g.DrawString(toothGraphic.PaintText,fontBold,brush,pointCentre.X-sizeText.Width/2f,pointCentre.Y-sizeText.Height/2f,format);
 				}
 			}
+			format.Dispose();
 			fontBold.Dispose();
 		}
 
 		///<summary>Paint type TextBelow (O-21, TC-5): in the band along the top edge over a maxillary tooth and along the bottom edge under a mandibular
 		///one, the rows this chart draws its watch marks in; on a tooth with a watch mark one line further in. Centred on the tooth, in the procedure's
-		///colour, cut to fit the tooth's width (characters dropped from the end, the first one kept).</summary>
+		///colour, cut to fit the tooth's width (characters dropped from the end, the first one kept; GetTextBelowFitted, as the WPF chart cuts it).</summary>
 		private void DrawTextsBelow(Graphics g) {
+			StringFormat format=CreateTextFormat();
 			List<string> listWatchPositions=new List<string>();
 			for(int t=0;t<TcData.ListToothGraphics.Count;t++) {
 				ToothGraphic toothGraphic=TcData.ListToothGraphics[t];
@@ -486,12 +509,9 @@ namespace SparksToothChart {
 					continue;
 				}
 				string toothIdPerm=isPrimary ? Tooth.PriToPerm(toothGraphic.ToothID) : toothGraphic.ToothID;
-				float widthMax=ToothGraphic.GetWidth(toothIdPerm)*TcData.ScaleMmToPix;
-				string text=toothGraphic.TextBelow;
-				while(text.Length>1 && g.MeasureString(text,Font).Width>widthMax) {
-					text=text.Substring(0,text.Length-1);
-				}
-				SizeF sizeText=g.MeasureString(text,Font);
+				int widthMax=(int)Math.Floor(ToothGraphic.GetWidth(toothIdPerm)*TcData.ScaleMmToPix);
+				string text=GetTextBelowFitted(g,Font,format,toothGraphic.TextBelow,widthMax);
+				SizeF sizeText=g.MeasureString(text,Font,PointF.Empty,format);
 				float x=MmToPix(GetShiftedTransX(toothGraphic),0).X-sizeText.Width/2f;
 				x=Math.Max(0,Math.Min(x,Width-sizeText.Width));
 				bool hasWatch=listWatchPositions.Contains(toothIdPerm);
@@ -503,28 +523,31 @@ namespace SparksToothChart {
 					y=Height-Font.Size-8f-(hasWatch ? Font.Height : 0);
 				}
 				using(SolidBrush brush=new SolidBrush(Color.FromArgb(255,toothGraphic.colorTextBelow))) {
-					g.DrawString(text,Font,brush,x,y);
+					g.DrawString(text,Font,brush,x,y,format);
 				}
 			}
+			format.Dispose();
 		}
 
 		///<summary>The free-text labels (TC-5), last: each at its point in the 410x307 drawing space, scaled as the drawings are, kept inside the
 		///picture, in its colour. This chart draws them; it does not move them (its mouse code stays its own).</summary>
 		private void DrawFreeTexts(Graphics g) {
+			StringFormat format=CreateTextFormat();
 			for(int i=0;i<TcData.ListFreeTexts.Count;i++) {
 				ToothChartFreeText freeText=TcData.ListFreeTexts[i];
 				if(string.IsNullOrEmpty(freeText.Text)) {
 					continue;
 				}
-				SizeF sizeText=g.MeasureString(freeText.Text,Font);
+				SizeF sizeText=g.MeasureString(freeText.Text,Font,PointF.Empty,format);
 				float x=TcData.RectTarget.X+freeText.Location.X*TcData.PixelScaleRatio;
 				float y=TcData.RectTarget.Y+freeText.Location.Y*TcData.PixelScaleRatio;
 				x=Math.Max(0,Math.Min(x,Width-sizeText.Width));
 				y=Math.Max(0,Math.Min(y,Height-sizeText.Height));
 				using(SolidBrush brush=new SolidBrush(Color.FromArgb(255,freeText.ColorText))) {
-					g.DrawString(freeText.Text,Font,brush,x,y);
+					g.DrawString(freeText.Text,Font,brush,x,y,format);
 				}
 			}
+			format.Dispose();
 		}
 		#endregion Text of TC-5
 
