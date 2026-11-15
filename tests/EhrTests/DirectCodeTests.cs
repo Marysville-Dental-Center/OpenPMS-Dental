@@ -2,10 +2,12 @@
 // no database: a synthetic Direct Reference Codes file (one TEST code per role of the catalog) and Code System Versions file in the provisional
 // shapes of docs/port-notes/EHR-6.md, the kind of each file by its header row, the roles resolved (the LOINC ones by display name), a role
 // missing or twice, the measure-version check of the Direct Reference Codes file, the pick refused without all three files or with a file of
-// two kinds, and the code-system versions compared with a loaded table's. Made-up TEST codes only.
+// two kinds, the pick read under one row budget with a second file of a kind refused at its first row (a 32-bit process holds no more than one
+// parsed value-set file), and the code-system versions compared with a loaded table's. Made-up TEST codes only.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenPmsDentalBusiness;
@@ -59,34 +61,106 @@ namespace EhrTests {
 		[TestMethod]
 		public void Pick_WithoutAllThreeFiles_IsRefused_NamingWhatIsMissing() {
 			List<KeyValuePair<string,byte[]>> listFiles=ValueSetFixtures.MakeRelease();
-			//Each file alone, and each pair.
+			//Each file alone, and each pair: refused before any file is read.
 			for(int i=0;i<3;i++) {
 				EhrValueSetPick pickOne=ValueSetFixtures.ParsePick(new List<KeyValuePair<string,byte[]>> { listFiles[i] });
 				Assert.IsTrue(pickOne.IsRefused,listFiles[i].Key);
 				StringAssert.Contains(pickOne.ListRefusals[0],"Pick the three files of the release together");
 				StringAssert.Contains(pickOne.ListRefusals[0],"Files picked: 1.");
+				Assert.AreEqual(0,pickOne.ListFiles.Count,"No file is read.");
 				EhrValueSetPick pickTwo=ValueSetFixtures.ParsePick(listFiles.Where((x,index) => index!=i).ToList());
 				Assert.IsTrue(pickTwo.IsRefused,"Without "+listFiles[i].Key);
+				StringAssert.Contains(pickTwo.ListRefusals[0],"Files picked: 2.");
 				Assert.AreEqual(0,pickTwo.ListEhrCodesAll.Count,"Nothing to write.");
+				//The files read one by one and checked together name the kind that is missing.
+				EhrValueSetPick pickTwoEach=ValueSetFixtures.ParseEachThenPick(listFiles.Where((x,index) => index!=i).ToList());
+				Assert.IsTrue(pickTwoEach.ListRefusals.Any(x => x.StartsWith("The pick has no file with ")),string.Join("\r\n",pickTwoEach.ListRefusals));
 			}
-			EhrValueSetPick pickNoDirect=ValueSetFixtures.ParsePick(new List<KeyValuePair<string,byte[]>> { listFiles[0],listFiles[2] });
+			//Three files, one of them not of the release: the missing kind is named.
+			KeyValuePair<string,byte[]> pairReadme=ValueSetFixtures.Entry("readme.xml",System.Text.Encoding.UTF8.GetBytes("<notes>TEST</notes>"));
+			EhrValueSetPick pickNoDirect=ValueSetFixtures.ParsePick(new List<KeyValuePair<string,byte[]>> { listFiles[0],pairReadme,listFiles[2] });
 			Assert.IsTrue(pickNoDirect.ListRefusals.Any(x => x=="The pick has no file with the Direct Reference Codes file."),
 				string.Join("\r\n",pickNoDirect.ListRefusals));
-			//Two value-set files in place of the Direct Reference Codes file.
+			Assert.IsTrue(pickNoDirect.ListRefusals.Any(x => x.StartsWith("readme.xml: ")),string.Join("\r\n",pickNoDirect.ListRefusals));
+			//Two value-set files in place of the Direct Reference Codes file: the second is refused at its first row.
 			EhrValueSetPick pickTwice=ValueSetFixtures.ParsePick(new List<KeyValuePair<string,byte[]>> { listFiles[0],
 				ValueSetFixtures.Entry("other_TEST.xlsx",listFiles[0].Value),listFiles[2] });
 			Assert.IsTrue(pickTwice.IsRefused);
-			Assert.IsTrue(pickTwice.ListRefusals.Any(x => x.StartsWith("The pick has more than one file with the value sets") && x.Contains("other_TEST.xlsx")),
-				string.Join("\r\n",pickTwice.ListRefusals));
-			//A fourth file, even a good one.
-			EhrValueSetPick pickFour=ValueSetFixtures.ParsePick(listFiles.Concat(new[] { ValueSetFixtures.Entry("readme.xml",
-				System.Text.Encoding.UTF8.GetBytes("<notes>TEST</notes>")) }).ToList());
+			Assert.IsTrue(pickTwice.ListRefusals.Any(x => x.StartsWith("other_TEST.xlsx: The pick has more than one file with the value sets")
+				&& x.Contains("ec_value_sets_TEST.xlsx")),string.Join("\r\n",pickTwice.ListRefusals));
+			//A fourth file, even a good one: refused before any file is read.
+			EhrValueSetPick pickFour=ValueSetFixtures.ParsePick(listFiles.Concat(new[] { pairReadme }).ToList());
 			Assert.IsTrue(pickFour.IsRefused);
-			Assert.IsTrue(pickFour.ListRefusals.Any(x => x.StartsWith("readme.xml: ")),string.Join("\r\n",pickFour.ListRefusals));
+			StringAssert.Contains(pickFour.ListRefusals[0],"Files picked: 4.");
+			Assert.AreEqual(0,pickFour.ListFiles.Count);
+			//The same four read one by one and checked together are refused too.
+			EhrValueSetPick pickFourEach=ValueSetFixtures.ParseEachThenPick(listFiles.Concat(new[] { pairReadme }).ToList());
+			Assert.IsTrue(pickFourEach.IsRefused);
+			Assert.IsTrue(pickFourEach.ListRefusals.Any(x => x.StartsWith("readme.xml: ")),string.Join("\r\n",pickFourEach.ListRefusals));
 			//None at all, and null.
 			Assert.IsTrue(EhrValueSetImport.MakePick(new List<EhrValueSetFile>()).IsRefused);
 			Assert.IsTrue(EhrValueSetImport.MakePick(null).IsRefused);
+			Assert.IsTrue(EhrValueSetImport.ParsePick(null,index => throw new AssertFailedException("No file is opened.")).IsRefused);
 			StringAssert.Contains(EhrValueSetImport.GetReport(pickNoDirect),"The pick is refused. Nothing was imported");
+		}
+
+		[TestMethod]
+		public void Pick_OfFourFiles_TwoOfThemValueSets_IsRefused_BeforeAnyFileIsOpened() {
+			List<KeyValuePair<string,byte[]>> listFiles=ValueSetFixtures.MakeRelease();
+			//The workbook and the same release's value sets again (as an office might pick the .xlsx and the SVS .zip), with the two other files.
+			listFiles.Insert(1,ValueSetFixtures.Entry("ec_value_sets_svs_TEST.xlsx",listFiles[0].Value));
+			List<int> listIndexesOpened=new List<int>();
+			EhrValueSetPick pick=EhrValueSetImport.ParsePick(listFiles.Select(x => x.Key).ToList(),index => {
+				listIndexesOpened.Add(index);
+				return new MemoryStream(listFiles[index].Value,writable:false);
+			});
+			Assert.IsTrue(pick.IsRefused);
+			StringAssert.Contains(pick.ListRefusals[0],"Files picked: 4.");
+			Assert.AreEqual(0,listIndexesOpened.Count,"No file is opened.");
+			Assert.AreEqual(0,pick.ListFiles.Count,"No value-set file's rows are held.");
+			Assert.AreEqual(0,pick.ListEhrCodesAll.Count);
+		}
+
+		[TestMethod]
+		public void Pick_ASecondValueSetFile_KeepsNoRows_OnlyTheFirstFilesRowsAreHeld() {
+			List<KeyValuePair<string,byte[]>> listFiles=ValueSetFixtures.MakeRelease();
+			int countValueSetCodes=EhrValueSetImport.Parse(listFiles[0].Key,listFiles[0].Value).ListEhrCodes.Count;
+			Assert.IsTrue(countValueSetCodes>0);
+			//The value sets twice and the Code System Versions file.
+			EhrValueSetPick pick=ValueSetFixtures.ParsePick(new List<KeyValuePair<string,byte[]>> { listFiles[0],
+				ValueSetFixtures.Entry("ec_value_sets_again_TEST.xlsx",listFiles[0].Value),listFiles[2] });
+			Assert.IsTrue(pick.IsRefused);
+			Assert.AreEqual(3,pick.ListFiles.Count);
+			EhrValueSetFile fileSecond=pick.ListFiles[1];
+			Assert.IsTrue(fileSecond.IsRefused);
+			Assert.AreEqual(EhrValueSetFileKind.ValueSets,fileSecond.Kind);
+			Assert.AreEqual(1,fileSecond.CountRowsRead,"Read no further than its first row.");
+			Assert.AreEqual(0,fileSecond.ListEhrCodes.Count);
+			StringAssert.Contains(fileSecond.ListRefusals[0],"its rows are not kept");
+			Assert.AreEqual(countValueSetCodes,pick.ListFiles.Sum(x => x.ListEhrCodes.Count),"The rows of one value-set file at most.");
+			Assert.AreEqual(0,pick.ListEhrCodesAll.Count,"Nothing to write.");
+			StringAssert.Contains(EhrValueSetImport.GetReport(pick),"ec_value_sets_again_TEST.xlsx");
+		}
+
+		[TestMethod]
+		public void Pick_TheRowBudget_IsForTheWholePick() {
+			List<KeyValuePair<string,byte[]>> listFiles=ValueSetFixtures.MakeRelease();
+			List<string> listNames=listFiles.Select(x => x.Key).ToList();
+			List<int> listRows=listFiles.Select(x => EhrValueSetImport.Parse(x.Key,x.Value).CountRowsRead).ToList();
+			Assert.IsTrue(listRows.All(x => x>0));
+			Func<int,Stream> funcOpen=index => new MemoryStream(listFiles[index].Value,writable:false);
+			//Exactly the rows of the three: accepted.
+			EhrValueSetPick pickExact=EhrValueSetImport.ParsePick(listNames,funcOpen,listRows.Sum());
+			Assert.IsFalse(pickExact.IsRefused,EhrValueSetImport.GetReport(pickExact));
+			//One row less: each file is within it alone, the three together are not. The last file is refused, and nothing is written.
+			Assert.IsTrue(listRows.Max()<listRows.Sum()-1);
+			EhrValueSetPick pickOver=EhrValueSetImport.ParsePick(listNames,funcOpen,listRows.Sum()-1);
+			Assert.IsTrue(pickOver.IsRefused);
+			Assert.IsFalse(pickOver.ListFiles[0].IsRefused);
+			Assert.IsTrue(pickOver.ListFiles[2].IsRefused);
+			StringAssert.Contains(pickOver.ListFiles[2].ListRefusals[0],"The files of the pick have more rows together than the importer reads ("
+				+(listRows.Sum()-1)+").");
+			Assert.AreEqual(0,pickOver.ListEhrCodesAll.Count);
 		}
 
 		[TestMethod]

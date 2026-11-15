@@ -433,8 +433,13 @@ namespace EhrTests {
 			};
 		}
 
-		///<summary>Parses each file and picks them together, as the Code System Importer does.</summary>
+		///<summary>Reads the files as one pick (EhrValueSetImport.ParsePick), as the Code System Importer does.</summary>
 		public static EhrValueSetPick ParsePick(List<KeyValuePair<string,byte[]>> listFiles) {
+			return EhrValueSetImport.ParsePick(listFiles.Select(x => x.Key).ToList(),index => new MemoryStream(listFiles[index].Value,writable:false));
+		}
+
+		///<summary>Parses each file alone and checks them together (EhrValueSetImport.MakePick), as for a pick read file by file.</summary>
+		public static EhrValueSetPick ParseEachThenPick(List<KeyValuePair<string,byte[]>> listFiles) {
 			return EhrValueSetImport.MakePick(listFiles.Select(x => EhrValueSetImport.Parse(x.Key,x.Value)).ToList());
 		}
 		#endregion The release's other two files (EHR-6a)
