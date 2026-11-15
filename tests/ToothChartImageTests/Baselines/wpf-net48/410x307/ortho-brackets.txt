@@ -1,13 +1,13 @@
 Scene: ortho-brackets
 Group: ortho
-Description: Brackets on 3-14 and 19-30 (silver). Today's chart draws no orthodontic hardware (O-24).
+Description: Brackets on 3-14 and 19-30 (silver). The old charts draw no orthodontic hardware; the WPF chart draws the brackets since TC-6 (ORTHO-2, as Open Dental).
 Size: 410x307
 Colours: Module
 Engine: Wpf3D (RenderTargetBitmap in software, 3D layer at 3x reduced with WIC's Fant scaler)
 Bitmap: 410x307 Format24bppRgb
 Alpha: every alpha is 255 (format without an alpha channel)
-Colours in the picture: 3549
-Pixels SHA-256: 4b1b5bf3c2f0380513379a92e77029d72924922ea1ea3aee4154d1a013fdc5ea
+Colours in the picture: 3727
+Pixels SHA-256: 117ee6090be25a58a45c03254c1da6f91ee668ffc9744b1230f6d706d487efdc
 Repeatable: yes (a second GetBitmap gave the same pixels)
 Framework: .NET Framework 4.8, x86
 Windows: build 26300.9974 (26H2)

@@ -151,6 +151,7 @@ namespace ToothChartImageTests {
 			new ParityAllowance("ortho-mode","*","*",null,ReasonOrthoMode),
 			new ParityAllowance("ortho-brackets","*","*",ProbeKind.Facial,ReasonBracket),
 			new ParityAllowance("ortho-wires","*","*",ProbeKind.Facial,ReasonBracket),
+			new ParityAllowance("ortho-wire-in-bracket","*","*",ProbeKind.Facial,ReasonBracket),
 			new ParityAllowance("ortho-elastics","*","*",ProbeKind.Facial,ReasonBracket),
 			new ParityAllowance("retained-root","*","*",null,ReasonRetainedRoot),
 			new ParityAllowance("retained-root-statuses","*","*",null,ReasonRetainedRoot),

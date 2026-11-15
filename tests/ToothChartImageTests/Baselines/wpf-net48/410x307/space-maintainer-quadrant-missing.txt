@@ -1,0 +1,15 @@
+Scene: space-maintainer-quadrant-missing
+Group: paint
+Description: Space maintainers by quadrant with missing teeth: UL (9-13, EC; 12 and 13 missing) and LR (25-29, EO; 28 and 29 missing), the teeth the Chart module paints for a quadrant code: bars only across the missing teeth (SM-1).
+Size: 410x307
+Colours: Module
+Engine: Wpf3D (RenderTargetBitmap in software, 3D layer at 3x reduced with WIC's Fant scaler)
+Bitmap: 410x307 Format24bppRgb
+Alpha: every alpha is 255 (format without an alpha channel)
+Colours in the picture: 3404
+Pixels SHA-256: 0f78bad79a255637b8eafba2cd0da06f8c33c4ddb11411032af636b7115393d2
+Repeatable: yes (a second GetBitmap gave the same pixels)
+Framework: .NET Framework 4.8, x86
+Windows: build 26300.9974 (26H2)
+Fresh render: yes (both layers drawn again without the layer cache gave the same pixels)
+Screen DPI seen by the test host: 96

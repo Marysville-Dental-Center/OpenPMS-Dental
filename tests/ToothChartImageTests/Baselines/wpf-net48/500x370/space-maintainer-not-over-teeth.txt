@@ -1,0 +1,15 @@
+Scene: space-maintainer-not-over-teeth
+Group: paint
+Description: Space maintainers never over a present tooth: 9 missing with a pontic (TP bridge on 8-9-10) and a space maintainer (C): no bar; 20 missing, 19 shifted 2 mm mesially into its space, a space maintainer on 20 (TP): the bar goes behind 19; 25 and 26 present with space maintainers (R): no bar (SM-1).
+Size: 500x370
+Colours: Printout
+Engine: Wpf3D (RenderTargetBitmap in software, 3D layer at 3x reduced with WIC's Fant scaler)
+Bitmap: 500x370 Format24bppRgb
+Alpha: every alpha is 255 (format without an alpha channel)
+Colours in the picture: 4068
+Pixels SHA-256: 043edc17d55d292611c20a7b081fc7b3b240802c724bce98c5d3109b5bf75ee4
+Repeatable: yes (a second GetBitmap gave the same pixels)
+Framework: .NET Framework 4.8, x86
+Windows: build 26300.9974 (26H2)
+Fresh render: yes (both layers drawn again without the layer cache gave the same pixels)
+Screen DPI seen by the test host: 96

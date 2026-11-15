@@ -1,0 +1,15 @@
+Scene: retained-root-extraction-completed
+Group: paint
+Description: Retained roots whose extraction is complete: 9 and 20 missing (the completion marks them missing), so their roots are gone, as Open Dental says ("once the root's extraction is complete, the root graphic is gone"); 20 with the completed-extraction graphic on (the X, C). 29 (TP) keeps its root (RR-1).
+Size: 410x307
+Colours: Module
+Engine: Wpf3D (RenderTargetBitmap in software, 3D layer at 3x reduced with WIC's Fant scaler)
+Bitmap: 410x307 Format24bppRgb
+Alpha: every alpha is 255 (format without an alpha channel)
+Colours in the picture: 3659
+Pixels SHA-256: 194e8731837eaac3eac6472fe10da0a0b48502d17582bf7690f31095d49d9628
+Repeatable: yes (a second GetBitmap gave the same pixels)
+Framework: .NET Framework 4.8, x86
+Windows: build 26300.9974 (26H2)
+Fresh render: yes (both layers drawn again without the layer cache gave the same pixels)
+Screen DPI seen by the test host: 96

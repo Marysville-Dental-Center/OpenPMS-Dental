@@ -912,14 +912,16 @@ namespace ToothChartImageTests {
 				});
 			Add(listScenes,group,"text-below-statuses","Paint type TextBelow (18) with the paint text \"IMP\""+statusText+" No chart draws it in the tooth picture: "
 				+"since TC-5 the Chart module shows the paint text in a one-line strip under the date slider, as Open Dental 26.2 does (O-21).",relay => PaintStatuses(relay,ToothPaintingType.TextBelow,"IMP"));
-			Add(listScenes,group,"retained-root","Retained roots (type 16) on 4, 13 and 20 (TP) and 29 (C). Today's chart draws nothing for them (O-23).",
+			Add(listScenes,group,"retained-root","Retained roots (type 16) on 4, 13 and 20 (TP) and 29 (C). The old charts draw nothing for them; the WPF chart draws the root alone "
+				+"in the status colour since TC-6 (RR-1, as Open Dental).",
 				relay => {
 					foreach(string toothNum in new[] { "4","13","20" }) {
 						Paint(relay,ToothPaintingType.RetainedRoot,toothNum,"",TP);
 					}
 					Paint(relay,ToothPaintingType.RetainedRoot,"29","",C);
 				});
-			Add(listScenes,group,"retained-root-statuses","Retained roots"+statusText+" Today's chart draws nothing for them (O-23).",
+			Add(listScenes,group,"retained-root-statuses","Retained roots"+statusText+" The old charts draw nothing for them; the WPF chart draws the root alone in the status colour since "
+				+"TC-6 (RR-1, as Open Dental).",
 				relay => PaintStatuses(relay,ToothPaintingType.RetainedRoot,""));
 			Add(listScenes,group,"space-maintainer-tooth","Space maintainers (type 17) on single teeth 4 (TP) and 29 (C). Today's chart draws nothing for "
 				+"them (O-23).",relay => {
@@ -1266,7 +1268,8 @@ namespace ToothChartImageTests {
 			const string group="ortho";
 			string[] arrayMaxillary=Enumerable.Range(3,12).Select(x => x.ToString()).ToArray();
 			string[] arrayMandibular=Enumerable.Range(19,12).Select(x => x.ToString()).ToArray();
-			Add(listScenes,group,"ortho-brackets","Brackets on 3-14 and 19-30 (silver). Today's chart draws no orthodontic hardware (O-24).",relay => {
+			Add(listScenes,group,"ortho-brackets","Brackets on 3-14 and 19-30 (silver). The old charts draw no orthodontic hardware; the WPF chart draws "
+				+"the brackets since TC-6 (ORTHO-2, as Open Dental).",relay => {
 				foreach(string toothNum in arrayMaxillary.Concat(arrayMandibular)) {
 					relay.SetBracket(toothNum,Color.Silver);
 				}

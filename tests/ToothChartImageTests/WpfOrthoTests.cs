@@ -133,6 +133,8 @@ namespace ToothChartImageTests {
 			ChartMatrix worldFacial=ToothSceneBuilder.GetFacialWorld(tcData,toothGraphic);
 			ChartMatrix worldBracket=ToothSceneBuilder.GetBracketWorld(tcData,toothGraphic);
 			worldBracket.TransformCoordinate(0,0,ToothSceneBuilder.BracketBaseFrontMm,out float xFront,out float yFront,out float zFront);
+			ToothSceneBuilder.BracketPlacement placement=ToothSceneBuilder.GetBracketPlacement(toothGraphic);
+			float zFrontModel=placement.FaceZ+ToothSceneBuilder.BracketBaseFrontMm;
 			float xMin=float.MaxValue,xMax=float.MinValue,yMin=float.MaxValue,yMax=float.MinValue,zUnder=float.MinValue;
 			for(int g=0;g<toothGraphic.Groups.Count;g++) {
 				ToothGroupType groupType=toothGraphic.Groups[g].GroupType;
@@ -146,15 +148,17 @@ namespace ToothChartImageTests {
 					xMax=Math.Max(xMax,x);
 					yMin=Math.Min(yMin,y);
 					yMax=Math.Max(yMax,y);
-					if(Math.Abs(x-xFront)<0.5f && Math.Abs(y-yFront)<0.5f) {
-						zUnder=Math.Max(zUnder,z);
+					//Under the bracket, in the model's own frame, where the bracket is placed (the world transform is the same for both).
+					if(Math.Abs(vertex.X)<ToothSceneBuilder.BracketWidthMm/2f && Math.Abs(vertex.Y-placement.CenterY)<ToothSceneBuilder.BracketHeightMm/2f) {
+						zUnder=Math.Max(zUnder,vertex.Z);
 					}
 				}
 			}
 			string name=sceneName+" "+toothGraphic.ToothID;
 			Assert.IsTrue(xFront>xMin && xFront<xMax && yFront>yMin && yFront<yMax,name+": the bracket's middle is on the crown.");
 			Assert.AreNotEqual(float.MinValue,zUnder,name);
-			Assert.IsTrue(zFront>zUnder,name+": the bracket's face ("+zFront+") is in front of the crown under it ("+zUnder+").");
+			Assert.IsTrue(zFrontModel>zUnder,name+": the bracket's face ("+zFrontModel+") is in front of the crown under it ("+zUnder+").");
+			Assert.IsTrue(zFrontModel-zUnder<=ToothSceneBuilder.BracketBaseFrontMm+0.0001f,name+": and on it, not floating.");
 			//About 4 mm from the incisal or occlusal edge (the crown's lowest point on the maxilla, its highest on the mandible), within the tilts of
 			//the moved teeth.
 			float fromEdge=ToothGraphic.IsMaxillary(toothGraphic.ToothID) ? yFront-yMin : yMax-yFront;

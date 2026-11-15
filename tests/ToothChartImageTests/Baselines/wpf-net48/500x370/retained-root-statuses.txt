@@ -1,13 +1,13 @@
 Scene: retained-root-statuses
 Group: paint
-Description: Retained roots in the six status colours (TP, C, EC, EO, R, Cn) on teeth 3, 5, 7, 10, 12, 14 and 30, 28, 26, 23, 21, 19. Today's chart draws nothing for them (O-23).
+Description: Retained roots in the six status colours (TP, C, EC, EO, R, Cn) on teeth 3, 5, 7, 10, 12, 14 and 30, 28, 26, 23, 21, 19. The old charts draw nothing for them; the WPF chart draws the root alone in the status colour since TC-6 (RR-1, as Open Dental).
 Size: 500x370
 Colours: Printout
 Engine: Wpf3D (RenderTargetBitmap in software, 3D layer at 3x reduced with WIC's Fant scaler)
 Bitmap: 500x370 Format24bppRgb
 Alpha: every alpha is 255 (format without an alpha channel)
-Colours in the picture: 3111
-Pixels SHA-256: a0856d3615c370bf03afda779a7262ec704d77fb4701fbdd930bde774a7620cb
+Colours in the picture: 4552
+Pixels SHA-256: f1f93ca6de330b8e7951ea3f250b9047b60d77e14ed030e7bead0619096a2d23
 Repeatable: yes (a second GetBitmap gave the same pixels)
 Framework: .NET Framework 4.8, x86
 Windows: build 26300.9974 (26H2)
