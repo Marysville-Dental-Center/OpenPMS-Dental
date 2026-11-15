@@ -135,9 +135,22 @@ namespace ProjectFileTests {
 					"PlatformTargetAsMSBuildArchitecture","x86","_TargetFrameworkVersionWithoutV","4.8",
 					"ProjectAssetsFile",fixtureFolder.Combine(@"tests\SdkStyle\obj\project.assets.json"),
 					"BuildInParallel","true","UseMSBuildTestInfrastructure","false");
-				//The SDK computes these two after the common targets (Microsoft.NET.Sdk.Shared.targets, Microsoft.NET.Build.Containers.targets): not modelled.
+				//The fixture is a WinExe: the SDK's native extension and container switch of an exe are not modelled (a library's: below).
 				AssertThrows<NotSupportedException>(() => projectFile.GetProperty("_NativeExecutableExtension"),"_NativeExecutableExtension");
 				AssertThrows<NotSupportedException>(() => projectFile.GetProperty("EnableSdkContainerSupport"),"EnableSdkContainerSupport");
+			}
+		}
+
+		[TestMethod]
+		public void Sdk_AnExe_TheNativeExtensionAndTheContainerSwitchAreNotModelled() {
+			using(FixtureFolder fixtureFolder=FixtureFolder.Create()) {
+				//For an exe the extension comes from the runtime identifier the SDK infers, and the container switch is true: neither is modelled.
+				WriteSdkLinks(fixtureFolder,"<TargetFramework>net48</TargetFramework><OutputType>Exe</OutputType>");
+				ProjectFile projectFile=fixtureFolder.Load("SdkLinks");
+				AssertThrows<NotSupportedException>(() => projectFile.GetProperty("_NativeExecutableExtension"),"_NativeExecutableExtension");
+				AssertThrows<NotSupportedException>(() => projectFile.GetProperty("EnableSdkContainerSupport"),"EnableSdkContainerSupport");
+				WriteSdkLinks(fixtureFolder,"<TargetFramework>net48</TargetFramework>");
+				AssertProperties(fixtureFolder.Load("SdkLinks"),"_NativeExecutableExtension","","EnableSdkContainerSupport","");
 			}
 		}
 
