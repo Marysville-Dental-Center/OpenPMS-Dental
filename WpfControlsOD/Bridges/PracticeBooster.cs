@@ -19,7 +19,7 @@ namespace OpenPmsDental.Bridges{
 		public static void SendData(Program ProgramCur,Patient pat) {
 			string path=Programs.GetProgramPath(ProgramCur);
 			try {
-				Process.Start(path);//should start PracticeBooster without bringing up a pt.
+				CodeBase.ODFileUtils.ProcessStart(path);//should start PracticeBooster without bringing up a pt.
 			}
 			catch {
 				MessageBox.Show(path+" is not available.");

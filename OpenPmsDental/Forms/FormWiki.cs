@@ -251,7 +251,7 @@ namespace OpenPmsDental {
 				return;
 			}
 			try {
-				System.Diagnostics.Process.Start(pathIndex);
+				ODFileUtils.ShellOpen(pathIndex);
 			}
 			catch(Exception ex) {
 				MessageBox.Show(this,ex.Message);
@@ -612,14 +612,14 @@ namespace OpenPmsDental {
 						MessageBox.Show(Lan.g(this,"File does not exist: ")+target);
 						return;
 					}
-					ODException.SwallowAnyException(() => System.Diagnostics.Process.Start(target));
+					ODException.SwallowAnyException(() => ODFileUtils.ShellOpen(target));
 					return;
 				case EnumWikiLink.Folder:
 					if(!Directory.Exists(target)) {
 						MessageBox.Show(Lan.g(this,"Folder does not exist: ")+target);
 						return;
 					}
-					ODException.SwallowAnyException(() => System.Diagnostics.Process.Start(target));
+					ODException.SwallowAnyException(() => ODFileUtils.ShellOpen(target));
 					return;
 				case EnumWikiLink.FileCloud:
 					if(!FileAtoZ.Exists(target)) {

@@ -831,6 +831,7 @@ namespace OpenPmsDental {
 			}
 			_processOnScreenKeyboard=new Process();
 			ProcessStartInfo processStartInfo=new ProcessStartInfo();
+			processStartInfo.UseShellExecute=true;//osk.exe's manifest asks for UI access, which CreateProcess refuses (ERROR_ELEVATION_REQUIRED): only the shell starts it (the .NET default is false).
 			string strPath=System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Windows),Environment.SystemDirectory,"osk.exe");
 			processStartInfo.FileName=strPath;
 			_processOnScreenKeyboard.StartInfo=processStartInfo;

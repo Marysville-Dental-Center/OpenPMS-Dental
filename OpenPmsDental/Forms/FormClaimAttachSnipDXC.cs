@@ -255,6 +255,7 @@ namespace OpenPmsDental {
 			//A 32-bit process on a 32-bit OS uses `system32` as there's no need for `sysnative`.
 			if(DoesSnippingToolExist()) {
 				Process processSnippingTool=new Process();
+				processSnippingTool.StartInfo.UseShellExecute=true;//Through the shell, the .NET Framework default (the .NET default is false).
 				string pathToSnippingTool;
 				if(Environment.Is64BitProcess || !Environment.Is64BitOperatingSystem) {
 					pathToSnippingTool="system32";

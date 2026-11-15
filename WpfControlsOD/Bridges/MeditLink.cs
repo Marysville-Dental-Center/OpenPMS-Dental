@@ -29,7 +29,7 @@ namespace OpenPmsDental.Bridges {
 			}
 			string path=Programs.GetProgramPath(program);
 			try {
-				Process.Start(path,commandArgs);
+				CodeBase.ODFileUtils.ProcessStart(path,commandArgs);
 			}
 			catch(Exception ex) {
 				MessageBox.Show(ex.Message);

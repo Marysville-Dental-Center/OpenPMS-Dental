@@ -236,7 +236,7 @@ namespace OpenPmsDental{
 			}
 			LetterMerge letterMerge=_listLetterMergesForCat[listLetters.SelectedIndex];
 			string dataFile=PrefC.GetString(PrefName.LetterMergePath)+letterMerge.DataFileName;
-			Process.Start(dataFile);
+			ODFileUtils.ShellOpen(dataFile);
 		}
 
 		private bool CreateData(){

@@ -255,7 +255,7 @@ namespace OpenPmsDental {
 				}
 			}
 			try {
-				Process.Start(filePathAndName);
+				ODFileUtils.ShellOpen(filePathAndName);
 			}
 			catch(Exception ex) {
 				FriendlyException.Show(Lan.g(this,"Unable to open the file."),ex);

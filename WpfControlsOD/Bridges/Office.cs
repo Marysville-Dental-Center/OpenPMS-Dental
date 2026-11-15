@@ -36,6 +36,7 @@ namespace OpenPmsDental.Bridges {
 			oldFileName+=ProgramProperties.GetPropVal(ProgramCur.ProgramNum,"File extension");
 			Process process=new Process();
 			ProcessStartInfo startInfo=new ProcessStartInfo();
+			startInfo.UseShellExecute=true;//Through the shell, the .NET Framework default (the .NET default is false).
 			if(!File.Exists(fileName)) {
 				if(File.Exists(oldFileName)) {
 					fileName=oldFileName;

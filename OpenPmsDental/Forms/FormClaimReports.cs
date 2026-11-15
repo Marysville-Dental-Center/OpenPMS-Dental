@@ -172,7 +172,7 @@ namespace OpenPmsDental{
 				}
 			}
 			try{
-				Process.Start((string)listMain.SelectedItem);
+				ODFileUtils.ShellOpen((string)listMain.SelectedItem);
 			}
 			catch{
 				MsgBox.Show(this,"Could not open the item. You could try open it directly from the folder where it is located.");

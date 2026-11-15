@@ -592,6 +592,7 @@ namespace OpenPmsDental {
 				return;
 			}
 			ProcessStartInfo processStartInfo=new ProcessStartInfo(path);
+			processStartInfo.UseShellExecute=true;//Through the shell, the .NET Framework default (the .NET default is false).
 			string resultFile=PrefC.GetRandomTempFile("txt");
 			try {
 				File.Delete(resultFile);//delete the old result file.
@@ -773,6 +774,7 @@ namespace OpenPmsDental {
 					}
 					//Either update the exp date or update credit card number by deleting archive so new token can be created next time it's used.
 					ProcessStartInfo processStartInfo=new ProcessStartInfo(path);
+					processStartInfo.UseShellExecute=true;//Through the shell, the .NET Framework default (the .NET default is false).
 					string resultFile=PrefC.GetRandomTempFile("txt");
 					try {
 						File.Delete(resultFile);//delete the old result file.

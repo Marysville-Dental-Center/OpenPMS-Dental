@@ -668,7 +668,7 @@ namespace OpenPmsDental {
 
 		private static void StartProcess(string path) {
 			try {
-				Process.Start(path);
+				ODFileUtils.ShellOpen(path);
 			}
 			catch(Exception ex) {
 				FriendlyException.Show(Lan.g(LAN,"No program could open the file. Install a program that opens this file type:")+" "

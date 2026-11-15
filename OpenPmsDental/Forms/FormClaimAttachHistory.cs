@@ -190,12 +190,12 @@ namespace OpenPmsDental {
 				}
 				string tempFile=PrefC.GetRandomTempFile(Path.GetExtension(pathAndFileName));
 				File.WriteAllBytes(tempFile,byteArray);
-				Process.Start(tempFile);
+				ODFileUtils.ShellOpen(tempFile);
 			}
 			else {//Local storage
 				string pathAndFileName=ODFileUtils.CombinePaths(patFolder,claimAttach.ActualFileName);
 				try {
-					Process.Start(pathAndFileName);
+					ODFileUtils.ShellOpen(pathAndFileName);
 				}
 				catch(Exception ex) {
 					ex.DoNothing();

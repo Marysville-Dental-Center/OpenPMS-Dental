@@ -27,7 +27,7 @@ namespace OpenPmsDental.Bridges{
 			string pathDolCtrl=Path.Combine(path,"dolCtrl.exe");
 			if(pat==null){
 				try{
-					Process.Start(pathDolCtrl);//should start Dolphin without bringing up a pt.
+					CodeBase.ODFileUtils.ProcessStart(pathDolCtrl);//should start Dolphin without bringing up a pt.
 				}
 				catch (Exception e){
 					MessageBox.Show(e.Message+"\r\n"+pathDolCtrl);
@@ -63,19 +63,20 @@ namespace OpenPmsDental.Bridges{
 				File.WriteAllText(filename,txt.ToString());
 				Process proc=new Process();
 				proc.StartInfo=new ProcessStartInfo(pathDolDb,"Find -i"+patientId);
+				proc.StartInfo.UseShellExecute=true;//Through the shell, the .NET Framework default (the .NET default is false).
 				proc.Start();
 				proc.WaitForExit();//proc.WaitForExit(5000);//5 seconds
 				int exitcode=proc.ExitCode;//0=notfound, 135=found
 				if(exitcode==0){//not found
-					Process.Start(pathDolDb,"AddPatient -f\""+filename+"\" -i"+patientId);
+					CodeBase.ODFileUtils.ProcessStart(pathDolDb,"AddPatient -f\""+filename+"\" -i"+patientId);
 				}
 				else if(exitcode==135){//found
-					Process.Start(pathDolDb,"UpdatePatient -f\""+filename+"\" -i"+patientId);
+					CodeBase.ODFileUtils.ProcessStart(pathDolDb,"UpdatePatient -f\""+filename+"\" -i"+patientId);
 				}
 				else{
 					MessageBox.Show("Error in dolDb.exe Find.  Code="+exitcode.ToString());
 				}
-				Process.Start(pathDolCtrl,patientId);
+				CodeBase.ODFileUtils.ProcessStart(pathDolCtrl,patientId);
 			}
 			catch (Exception e){
 				MessageBox.Show(e.Message);

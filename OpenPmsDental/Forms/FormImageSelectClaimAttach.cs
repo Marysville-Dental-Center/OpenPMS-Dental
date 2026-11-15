@@ -436,6 +436,7 @@ namespace OpenPmsDental{
 			//Couldn't start Snip & Sketch, so try Snipping Tool next
 			if(DoesSnippingToolExist()) {
 				Process processSnippingTool=new Process();
+				processSnippingTool.StartInfo.UseShellExecute=true;//Through the shell, the .NET Framework default (the .NET default is false).
 				string pathToSnippingTool;
 				if(!Environment.Is64BitOperatingSystem) {
 					pathToSnippingTool="sysnative";
@@ -512,7 +513,8 @@ namespace OpenPmsDental{
 			catch(FileNotFoundException ex) {
 				FriendlyException.Show(Lan.g(this,"The selected file at")+": "+selectedFilePath+" "+Lan.g(this,"could not be found"),ex);
 			}
-			catch(OutOfMemoryException) {
+			catch(Exception ex) when(ex is OutOfMemoryException || ex is System.Runtime.InteropServices.ExternalException) {
+				//GDI+ reports this as OutOfMemoryException on .NET Framework and as ExternalException on .NET 10.
 				//Image.FromFile() will throw an OOM exception when the image format is invalid or not supported.
 				//See MSDN if you have trust issues:  https://msdn.microsoft.com/en-us/library/stf701f5(v=vs.110).aspx
 				string extension=Path.GetExtension(selectedFilePath);

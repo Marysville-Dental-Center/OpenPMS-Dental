@@ -52,7 +52,7 @@ namespace OpenPmsDental.Bridges{
 			//E.g. --inbridge_patient=""C:\osstem\patient.xml"" --inbridge_from=""xml""
 			string commandLineArgs=@$"--inbridge_patient=""{patientInfoFilePath}"" --inbridge_from=""xml""";
 			try {
-				Process.Start(program.Path,program.CommandLine+commandLineArgs);
+				CodeBase.ODFileUtils.ProcessStart(program.Path,program.CommandLine+commandLineArgs);
 			}
 			catch(Exception ex) {
 				MsgBox.Show(ex.Message);

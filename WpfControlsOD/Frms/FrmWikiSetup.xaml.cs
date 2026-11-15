@@ -128,7 +128,7 @@ namespace OpenPmsDental {
 				return;
 			}
 			try {
-				System.Diagnostics.Process.Start(pathIndex);
+				ODFileUtils.ShellOpen(pathIndex);
 			}
 			catch(Exception ex) {
 				MsgBox.Show(ex.Message);

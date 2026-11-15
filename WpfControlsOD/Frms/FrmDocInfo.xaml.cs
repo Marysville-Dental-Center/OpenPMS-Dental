@@ -148,7 +148,7 @@ namespace OpenPmsDental {
 
 		private void butOpen_Click(object sender,EventArgs e) {
 			if(PrefC.AtoZfolderUsed==DataStorageType.LocalAtoZ) {
-				System.Diagnostics.Process.Start("Explorer",Path.GetDirectoryName(textFileName.Text));
+				ODFileUtils.ProcessStart("Explorer",Path.GetDirectoryName(textFileName.Text));
 				return;
 			}
 			if(!CloudStorage.IsCloudStorage) {
@@ -171,7 +171,7 @@ namespace OpenPmsDental {
 				return;
 			}
 			File.WriteAllBytes(tempFile,byteArray);
-			System.Diagnostics.Process.Start(tempFile);
+			ODFileUtils.ShellOpen(tempFile);
 		}
 
 		private void FillComboProv(){

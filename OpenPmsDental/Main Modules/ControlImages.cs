@@ -823,7 +823,7 @@ namespace OpenPmsDental{
 				MsgBox.Show(this,"Folder does not exist.");
 				return;
 			}
-			Process.Start(textImportAuto.Text);
+			ODFileUtils.ShellOpen(textImportAuto.Text);
 		}
 
 		private void butImportClose_Click(object sender,EventArgs e) {
@@ -1301,7 +1301,7 @@ namespace OpenPmsDental{
 				string tempFile=ImageStore.GetFilePath(document,_patFolder);
 				try {
 					string filePath=ImageStore.GetFilePath(document,_patFolder);
-					Process.Start(filePath);
+					ODFileUtils.ShellOpen(filePath);
 				}
 				catch(Exception ex) {
 					MessageBox.Show(ex.Message);
@@ -1321,7 +1321,7 @@ namespace OpenPmsDental{
 				if(progressWin.IsCancelled){
 					return;
 				}	
-				Process.Start(tempFile);
+				ODFileUtils.ShellOpen(tempFile);
 			}
 		}
 

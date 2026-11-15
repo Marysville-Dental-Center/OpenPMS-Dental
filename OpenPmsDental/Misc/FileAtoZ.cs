@@ -99,7 +99,7 @@ namespace OpenPmsDental {
 					//placed in the temporary directory.			
 					File.Copy(actualFilePath,tempFile,true);
 				}
-				Process.Start(tempFile);
+				ODFileUtils.ShellOpen(tempFile);
 			}
 			catch(Exception ex) {
 				MsgBox.Show(ex.Message);
@@ -164,7 +164,7 @@ namespace OpenPmsDental {
 			else {
 				filePathToOpen=fileFullPath;
 			}
-			Process.Start(filePathToOpen);
+			ODFileUtils.ShellOpen(filePathToOpen);
 		}
 
 		///<summary>Runs the file.  If necessary, downloads the file from the cloud to the temp directory.  Throws exceptions.
@@ -236,7 +236,7 @@ namespace OpenPmsDental {
 				}
 			}
 			else {
-				Process.Start(folderName);
+				ODFileUtils.ShellOpen(folderName);
 			}
 		}
 

@@ -44,7 +44,7 @@ namespace OpenPmsDental.Bridges {
 			if(pat != null) {
 				try {
 					//formHandle = Parent.Handle;
-					System.Diagnostics.Process.Start(path,ProgramCur.CommandLine);//"C /LINK "+ formHandle;
+					ODFileUtils.ProcessStart(path,ProgramCur.CommandLine);//"C /LINK "+ formHandle;
 					if(!IsWindow(hwndLink)) {
 						hwndLink=FindWindow("MjLinkWndClass",null);
 					}
