@@ -31,39 +31,67 @@ namespace ToothChartImageTests {
 
 		#region The setting
 		[TestMethod]
-		public void NewDatabase_HasNoSettingRow_SoTheGraphicIsOff() {
+		public void NewDatabase_HasNoSettingRow_SoTheGraphicIsOn() {
+			//Open Dental 26.2: "The preference is enabled by default." (the parity round of TC-5, EXT-2).
 			CallLogFixtures.EnsureBuilt();
 			string text=System.IO.File.ReadAllText(System.IO.Path.Combine(TestPaths.RepoRoot,"db","init","new-database.sql"));
-			Assert.IsFalse(text.Contains(ToothChartExtractionGraphic.PREF_NAME),"No migration step or init row: the office turns the setting on.");
-			Assert.IsFalse(ToothChartExtractionGraphic.IsOn());
-		}
-
-		[TestMethod]
-		public void Setting_MissingRowReadsOff_FirstSaveInsertsTheRow_ThenOneRowIsUpdated() {
-			CallLogFixtures.EnsureBuilt();
+			Assert.IsFalse(text.Contains(ToothChartExtractionGraphic.PREF_NAME),"No migration step or init row: a missing row is the default.");
 			try {
 				DeleteRow();
-				Assert.IsFalse(ToothChartExtractionGraphic.IsOn(),"No row: off.");
-				Assert.IsFalse(ToothChartExtractionGraphic.Save(false),"Saving off when off changes nothing.");
-				Assert.AreEqual("0",CountRows(),"Nothing is written while the setting stays off.");
-				Assert.IsTrue(ToothChartExtractionGraphic.Save(true));
-				Assert.IsTrue(ToothChartExtractionGraphic.IsOn());
-				Assert.AreEqual("1",DataCore.GetScalar("SELECT ValueString FROM preference WHERE PrefName='"+ToothChartExtractionGraphic.PREF_NAME+"'"));
-				Prefs.RefreshCache();
-				Assert.IsTrue(ToothChartExtractionGraphic.IsOn(),"Read back from the database.");
-				Assert.IsTrue(ToothChartExtractionGraphic.Save(false));
-				Prefs.RefreshCache();
-				Assert.IsFalse(ToothChartExtractionGraphic.IsOn());
-				Assert.AreEqual("1",CountRows(),"The row is updated, never doubled.");
-				Assert.AreEqual("0",DataCore.GetScalar("SELECT ValueString FROM preference WHERE PrefName='"+ToothChartExtractionGraphic.PREF_NAME+"'"));
-				Assert.IsFalse(Enum.GetNames(typeof(PrefName)).Contains(ToothChartExtractionGraphic.PREF_NAME),"Open Dental's name is not public: not in PrefName.");
-				StringAssert.StartsWith(ToothChartExtractionGraphic.PREF_NAME,"Fork","The fork's own row, like the other fork-owned preference rows.");
-				Assert.AreEqual("",ToothChartExtractionGraphic.GetChangeLogLine(true,true));
-				Assert.AreEqual("Show completed extractions with an X on the tooth chart changed from 'False' to 'True'",
-					ToothChartExtractionGraphic.GetChangeLogLine(false,true));
+				Assert.IsTrue(ToothChartExtractionGraphic.IsOn(),"No row: on, as in Open Dental 26.2.");
 			}
 			finally {
 				DeleteRow();
+			}
+		}
+
+		[TestMethod]
+		public void Setting_MissingRowReadsOn_FirstSaveOffInsertsZero_ThenOneRowIsUpdated() {
+			CallLogFixtures.EnsureBuilt();
+			try {
+				DeleteRow();
+				Assert.IsTrue(ToothChartExtractionGraphic.IsOn(),"No row: on.");
+				Assert.IsFalse(ToothChartExtractionGraphic.Save(true),"Saving on when on (the default) changes nothing.");
+				Assert.AreEqual("0",CountRows(),"Nothing is written while the setting stays at its default.");
+				Assert.IsTrue(ToothChartExtractionGraphic.Save(false),"The office turns it off.");
+				Assert.IsFalse(ToothChartExtractionGraphic.IsOn());
+				Assert.AreEqual("1",CountRows(),"The first save off inserts the row.");
+				Assert.AreEqual("0",DataCore.GetScalar("SELECT ValueString FROM preference WHERE PrefName='"+ToothChartExtractionGraphic.PREF_NAME+"'"));
+				Prefs.RefreshCache();
+				Assert.IsFalse(ToothChartExtractionGraphic.IsOn(),"Read back from the database.");
+				Assert.IsTrue(ToothChartExtractionGraphic.Save(true));
+				Prefs.RefreshCache();
+				Assert.IsTrue(ToothChartExtractionGraphic.IsOn());
+				Assert.AreEqual("1",CountRows(),"The row is updated, never doubled.");
+				Assert.AreEqual("1",DataCore.GetScalar("SELECT ValueString FROM preference WHERE PrefName='"+ToothChartExtractionGraphic.PREF_NAME+"'"));
+				Assert.IsFalse(Enum.GetNames(typeof(PrefName)).Contains(ToothChartExtractionGraphic.PREF_NAME),"Open Dental's name is not public: not in PrefName.");
+				StringAssert.StartsWith(ToothChartExtractionGraphic.PREF_NAME,"Fork","The fork's own row, like the other fork-owned preference rows.");
+				Assert.AreEqual("",ToothChartExtractionGraphic.GetChangeLogLine(true,true));
+				Assert.AreEqual("Show completed extractions with an X on the tooth chart changed from 'True' to 'False'",
+					ToothChartExtractionGraphic.GetChangeLogLine(true,false));
+			}
+			finally {
+				DeleteRow();
+			}
+		}
+
+		[TestMethod]
+		public void CallLogUser_NullDeletesTheRow_FalseWritesZero_TrueWritesOne() {
+			//The call-log scenes' three states (CallLogFixtures.ApplyUser): unset gives the default (on), as in a new database.
+			CallLogFixtures.EnsureBuilt();
+			try {
+				CallLogFixtures.ApplyUser(new CallLogUser { IsExtractionGraphicOn=false });
+				Assert.IsFalse(ToothChartExtractionGraphic.IsOn());
+				Assert.AreEqual("0",DataCore.GetScalar("SELECT ValueString FROM preference WHERE PrefName='"+ToothChartExtractionGraphic.PREF_NAME+"'"));
+				CallLogFixtures.ApplyUser(new CallLogUser { IsExtractionGraphicOn=null });
+				Assert.AreEqual("0",CountRows(),"Unset: no row.");
+				Assert.IsTrue(ToothChartExtractionGraphic.IsOn(),"Unset: the default, on.");
+				CallLogFixtures.ApplyUser(new CallLogUser { IsExtractionGraphicOn=true });
+				Assert.IsTrue(ToothChartExtractionGraphic.IsOn());
+				Assert.IsFalse(CallLogUser.Plain.IsExtractionGraphicOn.Value,"The plain state, every scene's without a setting of its own, is off.");
+			}
+			finally {
+				CallLogFixtures.ApplyUser(CallLogUser.Plain);
 			}
 		}
 
@@ -76,8 +104,8 @@ namespace ToothChartImageTests {
 				Assert.IsTrue(snapshot.HasChanged(),"Nothing taken yet.");
 				snapshot.Take();
 				Assert.IsFalse(snapshot.HasChanged());
-				ToothChartExtractionGraphic.Save(true);
-				Assert.IsTrue(snapshot.HasChanged(),"Turning the graphic on redraws the Chart module.");
+				ToothChartExtractionGraphic.Save(false);
+				Assert.IsTrue(snapshot.HasChanged(),"Turning the graphic off (it is on by default) redraws the Chart module.");
 				snapshot.Take();
 				Assert.IsFalse(snapshot.HasChanged());
 			}
@@ -173,11 +201,12 @@ namespace ToothChartImageTests {
 				DeleteRow();
 			}
 		}
+
 		[TestMethod]
-		public void ExtractionGraphic_NoXUnderACompletedImplantOrPontic_APlannedOneKeepsIt() {
-			//Review of TC-5, item 3: the X of a completed extraction is not drawn where a completed implant or a completed bridge or denture's pontic
-			//stands in the tooth's place now. A planned implant or bridge, a hidden one, and a planned extraction keep the X. The painter feeds every
-			//engine (WPF, 2D, DirectX and OpenGL), so this call log is what each of them is told.
+		public void ExtractionGraphic_CompletedImplantOrPontic_KeepsTheX_InPainterOrder() {
+			//The parity round of TC-5 (EXT-5): the setting is a plain switch, as Open Dental's ("Now they do."), so the X of every completed extraction
+			//is drawn, under a completed implant or a completed bridge or denture's pontic too, in the list's order like any other procedure. The
+			//painter feeds every engine (WPF, 2D, DirectX and OpenGL), so this call log is what each of them is told. Round 2's exception is gone.
 			CallLogFixtures.EnsureBuilt();
 			ProcedureCode codeExtraction=new ProcedureCode { ProcCode="Z9101",PaintType=ToothPaintingType.Extraction,TreatArea=TreatmentArea.Tooth };
 			ProcedureCode codeImplant=new ProcedureCode { ProcCode="Z9102",PaintType=ToothPaintingType.Implant,TreatArea=TreatmentArea.Tooth };
@@ -187,37 +216,37 @@ namespace ToothChartImageTests {
 			Func<ProcedureCode,string,ProcStat,ToothChartPaintProc> funcProc=(procedureCode,toothNum,procStat) => new ToothChartPaintProc {
 				ProcedureCode=procedureCode,ToothNum=toothNum,ProcStatus=procStat,Surf="",ToothRange="" };
 			List<ToothChartPaintProc> listProcs=new List<ToothChartPaintProc>();
-			//19 C and 14 EO extracted, with a completed (C) and an existing (EC) implant: no X.
+			//19 C and 14 EO extracted, with a completed (C) and an existing (EC) implant: the X, before the implant of 19 and after that of 14 (the list's order).
 			listProcs.Add(funcProc(codeExtraction,"19",ProcStat.C));
 			listProcs.Add(funcProc(codeImplant,"19",ProcStat.C));
 			listProcs.Add(funcProc(codeImplant,"14",ProcStat.EC));
 			listProcs.Add(funcProc(codeExtraction,"14",ProcStat.EO));
-			//30 extracted with a planned implant (as the slider shows one completed after its date): the X stays.
+			//30 extracted with a planned implant (as the slider shows one completed after its date): the X.
 			listProcs.Add(funcProc(codeExtraction,"30",ProcStat.C));
 			listProcs.Add(funcProc(codeImplant,"30",ProcStat.TP));
-			//4 extracted under the pontic of a completed dark bridge 3-4-5, 12 under an existing light bridge's: no X.
+			//4 extracted under the pontic of a completed dark bridge 3-4-5, 12 under an existing light bridge's: the X.
 			foreach(string toothNum in new[] { "3","4","5" }) {
 				listProcs.Add(funcProc(codeBridgeDark,toothNum,ProcStat.C));
 			}
 			listProcs.Add(funcProc(codeExtraction,"4",ProcStat.C));
 			listProcs.Add(funcProc(codeExtraction,"12",ProcStat.C));
 			listProcs.Add(funcProc(codeBridgeLight,"12",ProcStat.EC));
-			//20 extracted under the pontic of a planned bridge 19-20-21: the X stays.
+			//20 extracted under the pontic of a planned bridge 19-20-21: the X.
 			foreach(string toothNum in new[] { "21","20" }) {
 				listProcs.Add(funcProc(codeBridgeDark,toothNum,ProcStat.TP));
 			}
 			listProcs.Add(funcProc(codeExtraction,"20",ProcStat.C));
-			//7 extracted under a completed upper denture (its pontic): no X.
+			//7 extracted under a completed upper denture (its pontic): the X.
 			ToothChartPaintProc procDenture=funcProc(codeDenture,"",ProcStat.C);
 			procDenture.Surf="U";
 			listProcs.Add(procDenture);
 			listProcs.Add(funcProc(codeExtraction,"7",ProcStat.C));
-			//18 extracted with a hidden completed implant: the X stays (a hidden procedure draws nothing).
+			//18 extracted with a hidden completed implant: the X (a hidden procedure draws nothing).
 			listProcs.Add(funcProc(codeExtraction,"18",ProcStat.C));
 			ToothChartPaintProc procImplantHidden=funcProc(codeImplant,"18",ProcStat.C);
 			procImplantHidden.IsHidden=true;
 			listProcs.Add(procImplantHidden);
-			//31 extracted with nothing over it, and a planned extraction of 25, which has a completed implant: both keep the X.
+			//31 extracted with nothing over it, and a planned extraction of 25, which has a completed implant: both draw the X.
 			listProcs.Add(funcProc(codeExtraction,"31",ProcStat.C));
 			listProcs.Add(funcProc(codeImplant,"25",ProcStat.C));
 			listProcs.Add(funcProc(codeExtraction,"25",ProcStat.TP));
@@ -234,7 +263,19 @@ namespace ToothChartImageTests {
 				List<string> listOn=funcPaint(true);
 				List<string> listXsOn=listOn.Where(x => x.StartsWith("SetBigX ")).Select(x => x.Split(' ')[1].Trim('"')).OrderBy(x => x,StringComparer.Ordinal)
 					.ToList();
-				CollectionAssert.AreEqual(new[] { "18","20","25","30","31" },listXsOn,string.Join("\n",listOn));
+				CollectionAssert.AreEqual(new[] { "12","14","18","19","20","25","30","31","4","7" },listXsOn,string.Join("\n",listOn));
+				foreach(string toothNum in new[] { "19","14","4" }) {
+					Assert.IsTrue(listOn.Any(x => x.StartsWith("SetBigX \""+toothNum+"\" ")),"The X of "+toothNum+" under the completed implant or pontic.");
+				}
+				//In the painter's order: the list's.
+				Assert.IsTrue(listOn.FindIndex(x => x.StartsWith("SetBigX \"19\" "))<listOn.FindIndex(x => x.StartsWith("SetImplant \"19\" ")),
+					"19's extraction is listed before its implant.");
+				Assert.IsTrue(listOn.FindIndex(x => x.StartsWith("SetImplant \"14\" "))<listOn.FindIndex(x => x.StartsWith("SetBigX \"14\" ")),
+					"14's implant is listed before its extraction.");
+				Assert.IsTrue(listOn.FindIndex(x => x.StartsWith("SetPontic \"4\" "))<listOn.FindIndex(x => x.StartsWith("SetBigX \"4\" ")),
+					"4's bridge is listed before its extraction.");
+				ToothChartPainter.GetToothColors(codeExtraction,ProcStat.EO,false,out Color colorDarkEO,out Color colorLightEO);
+				Assert.IsTrue(listOn.Contains("SetBigX \"14\" "+CallLog.Format(colorDarkEO)),"14's X in EO's colour.");
 				Assert.IsTrue(listOn.Any(x => x.StartsWith("SetImplant \"19\" ")),"The implant is drawn.");
 				Assert.IsTrue(listOn.Any(x => x.StartsWith("SetPontic \"4\" ")),"The pontic is drawn.");
 				Assert.IsTrue(listOn.Any(x => x.StartsWith("SetPontic \"7\" ")),"The denture's pontic is drawn.");

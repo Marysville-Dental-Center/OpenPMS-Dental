@@ -202,7 +202,8 @@ namespace ToothChartImageTests {
 		///surfaces or range and status colours. listMissing holds the teeth that are missing or hidden, which turns bridge and denture teeth into
 		///pontics. The caller has already set those teeth missing. As in the Chart module with the extraction graphic off (the default, O-20), a
 		///completed extraction (C, EC or EO) draws nothing: the completion set the tooth missing, which the caller does (PaintCompletedExtraction
-		///draws it as with the setting on). TextBelow (18) goes to the relay's SetTextBelow since TC-5.</summary>
+		///draws it as with the setting on). TextBelow (18) draws nothing in the tooth picture: since TC-5 the Chart module shows its text in the strip
+		///under the date slider (ToothChartPainter.GetTextBelowStripText), as Open Dental 26.2 does.</summary>
 		public static void Paint(ToothChartRelay relay,ToothPaintingType paintType,string toothNum,string surf,StatusColors statusColors,
 			params string[] arrayMissing)
 		{
@@ -283,8 +284,7 @@ namespace ToothChartImageTests {
 					relay.SetText(toothNum,colorDark,surf);//surf holds the procedure code's paint text
 					break;
 				case ToothPaintingType.TextBelow:
-					relay.SetTextBelow(toothNum,colorDark,surf);//surf holds the procedure code's paint text (TC-5)
-					break;
+					break;//Not in the tooth picture: the Chart module's strip under the date slider shows it (TC-5, as Open Dental 26.2).
 				case ToothPaintingType.Veneer:
 					relay.SetVeneer(toothNum,colorLight);
 					break;
@@ -895,19 +895,19 @@ namespace ToothChartImageTests {
 				}
 			});
 			Add(listScenes,group,"text-other","Paint type Text with text other than \"W\" (\"Fx\" on 3, \"?\" on 14, \"ABC\" on 19, \"1\" on 30). The old charts "
-				+"draw nothing for it; the WPF and 2D charts draw it on the crown since TC-5 (O-22).",relay => {
+				+"draw nothing for it; the WPF and 2D charts draw it beyond the root tip, in the watch mark's band, since TC-5 (O-22, as Open Dental).",relay => {
 					Paint(relay,ToothPaintingType.Text,"3","Fx",TP);
 					Paint(relay,ToothPaintingType.Text,"14","?",C);
 					Paint(relay,ToothPaintingType.Text,"19","ABC",EC);
 					Paint(relay,ToothPaintingType.Text,"30","1",Cn);
 				});
 			Add(listScenes,group,"text-other-eo-r","Paint type Text with text other than \"W\" in the two statuses text-other leaves out: \"Rx\" on 5 (EO) and "
-				+"\"2\" on 28 (R). The old charts draw nothing for it; the WPF and 2D charts draw it on the crown since TC-5 (O-22).",relay => {
+				+"\"2\" on 28 (R). The old charts draw nothing for it; the WPF and 2D charts draw it beyond the root tip, in the watch mark's band, since TC-5 (O-22, as Open Dental).",relay => {
 					Paint(relay,ToothPaintingType.Text,"5","Rx",EO);
 					Paint(relay,ToothPaintingType.Text,"28","2",R);
 				});
-			Add(listScenes,group,"text-below-statuses","Paint type TextBelow (18) with the paint text \"IMP\""+statusText+" The old charts draw nothing for it "
-				+"(no caller painted TextBelow); the WPF and 2D charts draw it in the band at the edge, cut to fit the tooth, since TC-5 (O-21).",relay => PaintStatuses(relay,ToothPaintingType.TextBelow,"IMP"));
+			Add(listScenes,group,"text-below-statuses","Paint type TextBelow (18) with the paint text \"IMP\""+statusText+" No chart draws it in the tooth picture: "
+				+"since TC-5 the Chart module shows the paint text in a one-line strip under the date slider, as Open Dental 26.2 does (O-21).",relay => PaintStatuses(relay,ToothPaintingType.TextBelow,"IMP"));
 			Add(listScenes,group,"retained-root","Retained roots (type 16) on 4, 13 and 20 (TP) and 29 (C). Today's chart draws nothing for them (O-23).",
 				relay => {
 					foreach(string toothNum in new[] { "4","13","20" }) {
@@ -1165,8 +1165,9 @@ namespace ToothChartImageTests {
 					PaintCompletedExtraction(relay,"T",C);
 					Paint(relay,ToothPaintingType.Extraction,"K","",TP);
 				}).HasLegacyRecording=false;
-			Add(listScenes,"paint","text-below-with-watch","TextBelow \"IMP\" on 3, 14, 19 and 30, with watch marks on 3 and 30: there the text moves in by "
-				+"one line, under the watch mark at the top and above it at the bottom.",relay => {
+			Add(listScenes,"paint","text-below-with-watch","TextBelow \"IMP\" on 3, 14, 19 and 30, with watch marks on 3 and 30. Since the parity round of "
+				+"TC-5 TextBelow is not in the tooth picture (the Chart module's strip under the date slider shows it, as Open Dental 26.2 does), so only "
+				+"the two watch marks are drawn.",relay => {
 					foreach(string toothNum in new[] { "3","30" }) {
 						Paint(relay,ToothPaintingType.Text,toothNum,"W",TP);
 					}
@@ -1175,8 +1176,9 @@ namespace ToothChartImageTests {
 					Paint(relay,ToothPaintingType.TextBelow,"19","IMP",EC);
 					Paint(relay,ToothPaintingType.TextBelow,"30","IMP",Cn);
 				}).HasLegacyRecording=false;
-			Add(listScenes,"paint","text-below-cut-to-fit","Long TextBelow texts cut to fit the tooth: \"Implant planned\" on 8 and 25, \"Bone graft\" on 1 "
-				+"(at the picture's left edge), and \"Watch\" on primary tooth A (shown) and on primary tooth S (not shown, so not drawn).",relay => {
+			Add(listScenes,"paint","text-below-cut-to-fit","Long TextBelow texts (\"Implant planned\" on 8 and 25, \"Bone graft\" on 1, \"Watch\" on "
+				+"primary teeth A and S) with primary tooth A shown. Since the parity round of TC-5 TextBelow is not in the tooth picture (the Chart "
+				+"module's strip shows it), so only the mixed dentition is drawn.",relay => {
 					SetPrimary(relay,"4");
 					Paint(relay,ToothPaintingType.TextBelow,"8","Implant planned",TP);
 					Paint(relay,ToothPaintingType.TextBelow,"25","Implant planned",TP);
@@ -1185,7 +1187,8 @@ namespace ToothChartImageTests {
 					Paint(relay,ToothPaintingType.TextBelow,"S","Watch",EO);
 				}).HasLegacyRecording=false;
 			Add(listScenes,"paint","text-other-moved-and-missing","Paint type Text on a missing tooth (\"Ext\" on 3), on a tooth shifted 2 mm mesially "
-				+"(\"M\" on 14), on a shown primary tooth (\"P\" on K) and on its neighbour's hidden primary tooth (\"Q\" on L, not drawn).",relay => {
+				+"(\"M\" on 14), on a shown primary tooth (\"P\" on K) and on its neighbour's hidden primary tooth (\"Q\" on L, not drawn), each beyond "
+				+"the root tip in the watch mark's band.",relay => {
 					SetPrimary(relay,"20");
 					SetMissing(relay,"3");
 					relay.MoveTooth("14",0,0,0,2,0,0);
@@ -1202,8 +1205,9 @@ namespace ToothChartImageTests {
 					relay.AddText("right",new PointF(409,0),Color.Green,24);
 				}).HasLegacyRecording=false;
 			ChartScene sceneAll=Add(listScenes,"free-text","text-all-kinds","Every TC-5 drawing together: free-text labels (\"Upper right\" at 30,60 and "
-				+"\"Lower left\" at 260,240), paint text \"Fx\" on 5, TextBelow \"IMP\" on 12 and 21, and the completed-extraction graphic on missing tooth 30 "
-				+"(C), at the chart's sizes, the big window and two sheet aspects included.",relay => {
+				+"\"Lower left\" at 260,240), paint text \"Fx\" on 5 (beyond its root tip), TextBelow \"IMP\" on 12 and 21 (not in the picture since the "
+				+"parity round: the Chart module's strip shows it), and the completed-extraction graphic on missing tooth 30 (C), at the chart's sizes, "
+				+"the big window and two sheet aspects included.",relay => {
 					SetMissing(relay,"30");
 					PaintCompletedExtraction(relay,"30",C);
 					Paint(relay,ToothPaintingType.Text,"5","Fx",TP);
@@ -1216,26 +1220,42 @@ namespace ToothChartImageTests {
 			sceneAll.ListSizesExtra.Add(SizeBigWindow);
 			sceneAll.ListSizesExtra.Add(SizeSheetWide);
 			sceneAll.ListSizesExtra.Add(SizeSheetTall);
-			//TC-5's fix round: a completed implant or pontic in the extracted tooth's place hides the completed extraction's X (the painter's
-			//GetToothNumsReplaced); a planned one does not. Each scene paints what the painter paints with the graphic on.
+			//TC-5's parity round: the extraction graphic is a plain switch, as Open Dental's. A completed extraction draws its X in the painter's order
+			//under a completed implant or pontic too, as under a planned one; each scene paints what the painter paints with the graphic on.
 			Add(listScenes,"paint","extraction-completed-graphic-under-implant","The completed-extraction graphic on, with implants in the extracted "
-				+"teeth's places: 19 extracted (C) with a completed implant and 14 extracted (EO) with an existing implant (EC) and its crown (C) show "
-				+"the implant and no X; 30 extracted (C) with a planned implant (TP) keeps the X over it.",relay => {
+				+"teeth's places: 19 extracted (C) with a completed implant, 14 extracted (EO) with an existing implant (EC) and its crown (C), and 30 "
+				+"extracted (C) with a planned implant (TP). Every extraction draws its X over the implant, in the painter's order (a plain switch, "
+				+"as Open Dental's).",relay => {
 					SetMissing(relay,"14","19","30");
+					PaintCompletedExtraction(relay,"19",C);
 					Paint(relay,ToothPaintingType.Implant,"19","",C);
 					Paint(relay,ToothPaintingType.Implant,"14","",EC);
+					PaintCompletedExtraction(relay,"14",EO);
 					Paint(relay,ToothPaintingType.CrownDark,"14","",C);
-					Paint(relay,ToothPaintingType.Implant,"30","",TP);
 					PaintCompletedExtraction(relay,"30",C);
+					Paint(relay,ToothPaintingType.Implant,"30","",TP);
 				}).HasLegacyRecording=false;
 			Add(listScenes,"paint","extraction-completed-graphic-under-pontic","The completed-extraction graphic on, with bridges over extracted "
-				+"teeth: 4 extracted (C) under the pontic of a completed bridge 3-4-5 shows the pontic and no X; 20 extracted (C) under the pontic of "
-				+"a planned bridge 19-20-21 (TP) keeps the X over it.",relay => {
+				+"teeth: 4 extracted (C) under the pontic of a completed bridge 3-4-5, and 20 extracted (C) under the pontic of a planned bridge "
+				+"19-20-21 (TP). Both draw the X over the pontic, in the painter's order (a plain switch, as Open Dental's).",relay => {
 					string[] arrayMissing={ "4","20" };
 					SetMissing(relay,arrayMissing);
 					foreach(string toothNum in new[] { "3","4","5" }) { Paint(relay,ToothPaintingType.BridgeDark,toothNum,"",C,arrayMissing); }
+					PaintCompletedExtraction(relay,"4",C);
 					foreach(string toothNum in new[] { "19","20","21" }) { Paint(relay,ToothPaintingType.BridgeDark,toothNum,"",TP,arrayMissing); }
 					PaintCompletedExtraction(relay,"20",C);
+				}).HasLegacyRecording=false;
+			//TC-5's parity round: paint text beside a watch mark, as Open Dental 26.2's screenshot shows "UCF" over the "W" under 24 and 25.
+			Add(listScenes,"paint","text-other-with-watch","Paint type Text with a watch mark on the same tooth: \"UCF\" and \"W\" on 24 and 25 (TP), "
+				+"\"Fx\" and \"W\" on 9 (C), and \"Fx\" alone on 8 (C) for comparison. The text sits one line nearer the tooth than the \"W\", which "
+				+"keeps the edge, as in Open Dental 26.2's screenshot.",relay => {
+					foreach(string toothNum in new[] { "24","25" }) {
+						Paint(relay,ToothPaintingType.Text,toothNum,"UCF",TP);
+						Paint(relay,ToothPaintingType.Text,toothNum,"W",TP);
+					}
+					Paint(relay,ToothPaintingType.Text,"9","Fx",C);
+					Paint(relay,ToothPaintingType.Text,"9","W",C);
+					Paint(relay,ToothPaintingType.Text,"8","Fx",C);
 				}).HasLegacyRecording=false;
 		}
 

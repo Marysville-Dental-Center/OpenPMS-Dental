@@ -1,9 +1,0 @@
-Scene: text-below-statuses
-Group: paint
-Description: Paint type TextBelow (18) with the paint text "IMP" in the six status colours (TP, C, EC, EO, R, Cn) on teeth 3, 5, 7, 10, 12, 14 and 30, 28, 26, 23, 21, 19. The old charts draw nothing for it (no caller painted TextBelow); the WPF and 2D charts draw it in the band at the edge, cut to fit the tooth, since TC-5 (O-21).
-Size: 410x307
-Colours: Module
-Engine: Simple2D (ToothChart2D, GDI+)
-Bitmap: 410x307 Format32bppArgb
-Pixels SHA-256: 59d48d1b954d64758fe4f659b78253a1bbf1efff0ce44f6784b4b784cc712c21
-Framework: .NET Framework 4.8, x86

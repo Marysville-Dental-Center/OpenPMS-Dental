@@ -18,12 +18,14 @@ using OpenPmsDentalBusiness;
 namespace ToothChartImageTests {
 	///<summary>The user state a scene runs with: whether the logged-on user has the per-provider tooth colours (ToothChartUsesDiffColorByProv)
 	///and which provider the user is (0 for none). Since TC-5 also the office's extraction graphic setting (ToothChartExtractionGraphic), which
-	///the scenes set the same way and every scene puts back to off.</summary>
+	///the scenes set the same way; every scene puts back the plain state (the setting off) after it.</summary>
 	public class CallLogUser {
 		public bool IsToothColorPref;
 		public long ProvNum;
-		///<summary>The office shows completed extractions with an X (O-20, TC-5). Off in Plain.</summary>
-		public bool IsExtractionGraphicOn;
+		///<summary>The office's extraction graphic (O-20, TC-5): false writes "0" (off, the chart before Open Dental 26.2), true writes "1", and null
+		///deletes the row, so the default applies, which is on since the parity round (Open Dental 26.2's default). Off for every scene that does
+		///not set it, so the scenes older than TC-5 log what they logged on main.</summary>
+		public bool? IsExtractionGraphicOn=false;
 
 		public static readonly CallLogUser Plain=new CallLogUser();
 	}
@@ -387,10 +389,22 @@ namespace ToothChartImageTests {
 			}
 			UserOdPrefs.ClearCache();
 			OpenPmsDental.ToothChartRelay.RefreshToothColorsPrefs();
-			//The extraction graphic (TC-5): saved only when it changes, so the plain scenes never write the row.
-			ToothChartExtractionGraphic.Save(callLogUser.IsExtractionGraphicOn);
-			if(ToothChartExtractionGraphic.IsOn()!=callLogUser.IsExtractionGraphicOn) {
-				throw new InvalidOperationException("The extraction graphic setting did not take: "+callLogUser.IsExtractionGraphicOn);
+			//The extraction graphic (TC-5): null deletes the row, so the default (on) applies; true or false is saved, which writes the row only when the
+			//value changes (the first false over a missing row inserts "0").
+			bool isOnExpected;
+			if(callLogUser.IsExtractionGraphicOn==null) {
+				if(PrefC.GetRawOrDefault(ToothChartExtractionGraphic.PREF_NAME,null)!=null) {
+					DataCore.NonQ("DELETE FROM preference WHERE PrefName='"+POut.String(ToothChartExtractionGraphic.PREF_NAME)+"'");
+					Prefs.RefreshCache();
+				}
+				isOnExpected=true;
+			}
+			else {
+				ToothChartExtractionGraphic.Save(callLogUser.IsExtractionGraphicOn.Value);
+				isOnExpected=callLogUser.IsExtractionGraphicOn.Value;
+			}
+			if(ToothChartExtractionGraphic.IsOn()!=isOnExpected) {
+				throw new InvalidOperationException("The extraction graphic setting did not take: "+(callLogUser.IsExtractionGraphicOn?.ToString()??"unset"));
 			}
 		}
 
@@ -488,9 +502,10 @@ namespace ToothChartImageTests {
 				DateOrthoExam=DateTime.Today,User=new CallLogUser { IsToothColorPref=true,ProvNum=ProvNum1 },IsPrintRecolor=true });
 			listScenes.Add(new ChartModuleScene { Name="ProvColors_TodaysAppointment",PatNum=PatNumProvColors,DateLimit=DateTime.Today,
 				DateOrthoExam=DateTime.Today,User=new CallLogUser { IsToothColorPref=true },HasTodaysAppointment=true });
-			//TC-5: the extraction graphic on (O-20). Completed extractions draw their X over the missing tooth; the slider still shows one completed
-			//after its date as planned, and one planned after its date not at all.
-			CallLogUser userExtractionGraphic=new CallLogUser { IsExtractionGraphicOn=true };
+			//TC-5: the extraction graphic unset (no row), so its default applies: on since the parity round, as in Open Dental 26.2 (O-20). Completed
+			//extractions draw their X over the missing tooth; the slider still shows one completed after its date as planned, and one planned after its
+			//date not at all. The scenes without the suffix set it off.
+			CallLogUser userExtractionGraphic=new CallLogUser { IsExtractionGraphicOn=null };
 			listScenes.Add(new ChartModuleScene { Name="Paint_Today_ExtractionGraphic",PatNum=PatNumPaint,DateLimit=DateTime.Today,
 				DateOrthoExam=DateTime.Today,User=userExtractionGraphic });
 			foreach(DateTime date in GetSliderDates()) {
@@ -511,9 +526,9 @@ namespace ToothChartImageTests {
 			listScenes.Add(new TreatPlanScene { Name="ProvColors_UserIsProvider",PatNum=PatNumProvColors,FuncProceduresFiltered=GetAllProcedures,
 				User=new CallLogUser { IsToothColorPref=true,ProvNum=ProvNum1 } });
 			listScenes.Add(new TreatPlanScene { Name="Paint_ShowCompleted_ExtractionGraphic",PatNum=PatNumPaint,
-				FuncProceduresFiltered=x => GetFilteredProcedures(x,true),User=new CallLogUser { IsExtractionGraphicOn=true } });
+				FuncProceduresFiltered=x => GetFilteredProcedures(x,true),User=new CallLogUser { IsExtractionGraphicOn=null } });
 			listScenes.Add(new TreatPlanScene { Name="Slider_ShowCompleted_ExtractionGraphic",PatNum=PatNumSlider,
-				FuncProceduresFiltered=x => GetFilteredProcedures(x,true),User=new CallLogUser { IsExtractionGraphicOn=true } });
+				FuncProceduresFiltered=x => GetFilteredProcedures(x,true),User=new CallLogUser { IsExtractionGraphicOn=null } });
 			listScenes.Add(new TreatPlanScene { Name="Empty",PatNum=PatNumEmpty,FuncProceduresFiltered=x => GetFilteredProcedures(x,true) });
 			return listScenes;
 		}
@@ -536,9 +551,9 @@ namespace ToothChartImageTests {
 				FuncTreatPlan=GetTreatPlanAllTP,FuncProceduresOverride=x => GetFilteredProcedures(x,true),IsInPatientDashboard=true,
 				HasTodaysAppointment=true,User=new CallLogUser { IsToothColorPref=true } });
 			listScenes.Add(new SheetScene { Name="Paint_Sheet_ShowCompleted_ExtractionGraphic",PatNum=PatNumPaint,ShowCompleted=true,
-				FuncTreatPlan=GetTreatPlanAllTP,User=new CallLogUser { IsExtractionGraphicOn=true } });
+				FuncTreatPlan=GetTreatPlanAllTP,User=new CallLogUser { IsExtractionGraphicOn=null } });
 			listScenes.Add(new SheetScene { Name="Paint_Dashboard_ExtractionGraphic",PatNum=PatNumPaint,ShowCompleted=true,FuncTreatPlan=GetTreatPlanAllTP,
-				FuncProceduresOverride=x => GetFilteredProcedures(x,true),IsInPatientDashboard=true,User=new CallLogUser { IsExtractionGraphicOn=true } });
+				FuncProceduresOverride=x => GetFilteredProcedures(x,true),IsInPatientDashboard=true,User=new CallLogUser { IsExtractionGraphicOn=null } });
 			listScenes.Add(new SheetScene { Name="NoPatient",PatNum=0 });
 			listScenes.Add(new SheetScene { Name="Empty",PatNum=PatNumEmpty,ShowCompleted=true,FuncTreatPlan=GetTreatPlanAllTP });
 			return listScenes;
@@ -552,7 +567,7 @@ namespace ToothChartImageTests {
 			listScenes.Add(new BigChartScene { Name="ProvColors_UserIsProvider",PatNum=PatNumProvColors,User=new CallLogUser { IsToothColorPref=true,ProvNum=ProvNum1 } });
 			listScenes.Add(new BigChartScene { Name="ProvColors_TodaysAppointment",PatNum=PatNumProvColors,HasTodaysAppointment=true,
 				User=new CallLogUser { IsToothColorPref=true } });
-			listScenes.Add(new BigChartScene { Name="Slider_ExtractionGraphic",PatNum=PatNumSlider,User=new CallLogUser { IsExtractionGraphicOn=true } });
+			listScenes.Add(new BigChartScene { Name="Slider_ExtractionGraphic",PatNum=PatNumSlider,User=new CallLogUser { IsExtractionGraphicOn=null } });
 			listScenes.Add(new BigChartScene { Name="Empty",PatNum=PatNumEmpty });
 			return listScenes;
 		}

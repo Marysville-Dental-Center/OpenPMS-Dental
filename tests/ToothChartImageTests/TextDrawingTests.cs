@@ -1,5 +1,6 @@
 // Package TC-5 (docs/specs/wpf-tooth-chart-plan.md, the TC-5 row): what the WPF chart's scene builder makes of free text, paint type Text other
-// than "W" (O-22) and TextBelow (O-21), and the text mover (CursorTool.MoveText) of the shared mouse, the image host and the live view. No
+// than "W" (O-22, in the watch mark's band since the parity round; TextBelow is not in the picture), the text mover (CursorTool.MoveText) and Change
+// Color on a label (CursorTool.ColorChanger) of the shared mouse, the image host and the live view. No
 // database: the scenes are set through the relay as the program's callers set them.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
@@ -97,11 +98,22 @@ namespace ToothChartImageTests {
 		}
 		#endregion Free text
 
-		#region Paint text and TextBelow
+		#region Paint text
+		///<summary>The top of the watch mark's line, as AddWatches places the "W": 153 pixels times the ratio above the centre over a maxillary tooth,
+		///138 below it under a mandibular one, in the projection's pixels, on a whole pixel.</summary>
+		private static int GetWatchBandTop(ToothScene scene,ToothChartData tcData,bool isMaxillary) {
+			float toMm=1f/tcData.ScaleMmToPix;
+			float yMm=isMaxillary ? tcData.PixelScaleRatio*(153f*toMm) : tcData.PixelScaleRatio*(-138f*toMm);
+			scene.ProjectDirectX(ChartMatrix.Identity,0,yMm,-6f,out float xScreen,out float yScreen);
+			return (int)Math.Floor(yScreen);
+		}
+
 		[TestMethod]
-		public void PaintText_OtherThanW_IsCentredOnTheCrown_WStaysTheWatchMark() {
+		public void PaintText_OtherThanW_IsInTheWatchBand_NearerTheToothThanAW_WStaysTheWatchMark() {
+			//The parity round of TC-5 (PT-2): as Open Dental draws it ("Fracture" above maxillary 9, "UCF" under mandibular 24 and 25 with the "W"
+			//under it), not on the crown and not in bold.
 			StaRunner.Run(() => {
-				foreach(ChartSize chartSize in new[] { ChartScenes.SizeModule,ChartScenes.SizeBigWindow }) {
+				foreach(ChartSize chartSize in new[] { ChartScenes.SizeModule,ChartScenes.SizeBigWindow,ChartScenes.SizeSheetTall }) {
 					using ToothChartWrapper wrapper=CreateReset(chartSize.Size,out ToothChartRelay relay);
 					relay.SetPrimary("20");
 					relay.SetMissing("3");
@@ -110,32 +122,46 @@ namespace ToothChartImageTests {
 					relay.SetText("14",Color.Blue,"M");
 					relay.SetText("30",Color.Green,"ABC");
 					relay.SetText("19",Color.Red,"W");
+					relay.SetText("9",Color.DarkBlue,"UCF");
+					relay.SetText("9",Color.DarkBlue,"W");
+					relay.SetText("24",Color.DarkRed,"UCF");
+					relay.SetText("24",Color.DarkRed,"W");
 					relay.SetText("K",Color.Purple,"P");
 					relay.SetText("L",Color.Purple,"Q");
 					relay.SetText("8",Color.Purple,"");
 					ToothChartData tcData=wrapper.TcData;
 					ToothScene scene=ToothSceneBuilder.Build(tcData);
 					string name=chartSize.FolderName;
+					ChartFont fontWatch=ToothSceneBuilder.GetFontWatch(tcData.PixelScaleRatio);
+					int yTop=GetWatchBandTop(scene,tcData,true);
+					int yBottom=GetWatchBandTop(scene,tcData,false);
 					Assert.AreEqual(2f,tcData.ListToothGraphics["14"].ShiftM);
-					CheckCentredOnCrown(scene,tcData,"3",GetShiftedX(tcData,"3"),name);
-					CheckCentredOnCrown(scene,tcData,"14",tcData.GetTransX("14")-2,name);//a left tooth: mesial is toward the midline
-					CheckCentredOnCrown(scene,tcData,"30",GetShiftedX(tcData,"30"),name);
-					CheckCentredOnCrown(scene,tcData,"K",GetShiftedX(tcData,"K"),name);
+					//Without a "W": on the watch mark's own line, above a maxillary root tip and below a mandibular one.
+					CheckPaintText(scene,"3",GetShiftedX(tcData,"3"),yTop,name);
+					CheckPaintText(scene,"14",tcData.GetTransX("14")-2,yTop,name);//a left tooth: mesial is toward the midline
+					CheckPaintText(scene,"30",GetShiftedX(tcData,"30"),yBottom,name);
+					CheckPaintText(scene,"K",GetShiftedX(tcData,"K"),yBottom,name);
+					//With a "W": the text one line nearer the tooth, the "W" at the edge, on both arches.
+					CheckPaintText(scene,"9",GetShiftedX(tcData,"9"),yTop+fontWatch.Height,name);
+					CheckPaintText(scene,"24",GetShiftedX(tcData,"24"),yBottom-fontWatch.Height,name);
+					Assert.AreEqual(yTop,GetItem(scene,"watch of 9").Origin.Y,"The W of 9 keeps the top edge ("+name+").");
+					Assert.AreEqual(yBottom,GetItem(scene,"watch of 24").Origin.Y,"The W of 24 keeps the bottom edge ("+name+").");
 					ToothSceneItem2D item3=GetItem(scene,ToothSceneBuilder.SourcePaintText+"3");
-					Assert.AreEqual(700,item3.Font.Weight,"Bold.");
-					Assert.AreEqual((int)Math.Round(13*tcData.PixelScaleRatio),item3.Font.Height);
-					Assert.AreEqual(Color.FromArgb(255,200,0,0).ToArgb(),item3.Color.ToArgb());
-					Assert.IsTrue(item3.Origin.Y+item3.Font.Height<scene.Size.Height/2,"Maxillary: above the centre line.");
-					Assert.IsTrue(GetItem(scene,ToothSceneBuilder.SourcePaintText+"30").Origin.Y>scene.Size.Height/2,"Mandibular: below it.");
+					Assert.AreEqual(400,item3.Font.Weight,"Regular weight, as Open Dental's.");
+					Assert.AreEqual(fontWatch.Height,item3.Font.Height,"The watch mark's size.");
+					Assert.AreEqual(Color.FromArgb(255,200,0,0).ToArgb(),item3.Color.ToArgb(),"The procedure's colour.");
+					Assert.IsTrue(item3.Origin.Y+item3.Font.Height<=scene.Size.Height/4,"Maxillary: beyond the root tip, at the top ("+name+").");
+					Assert.IsTrue(GetItem(scene,ToothSceneBuilder.SourcePaintText+"30").Origin.Y>=scene.Size.Height*3/4,"Mandibular: at the bottom ("+name+").");
 					Assert.IsNull(GetItem(scene,ToothSceneBuilder.SourcePaintText+"19"),"\"W\" is the watch mark.");
 					Assert.IsTrue(tcData.ListToothGraphics["19"].Watch);
-					Assert.IsNotNull(scene.Items2D.FirstOrDefault(x => x.Source=="watch of 19"));
+					Assert.IsNotNull(GetItem(scene,"watch of 19"));
 					Assert.IsNull(GetItem(scene,ToothSceneBuilder.SourcePaintText+"L"),"A primary tooth that is not shown has no text.");
 					Assert.IsNull(GetItem(scene,ToothSceneBuilder.SourcePaintText+"8"),"Empty text draws nothing.");
 					//After the watches, before the drawings and the numbers.
 					int indexWatch=scene.Items2D.ToList().FindLastIndex(x => x.Source.StartsWith("watch of "));
 					int indexNumber=scene.Items2D.ToList().FindIndex(x => x.Source.StartsWith("number "));
 					Assert.IsTrue(scene.Items2D.IndexOf(item3)>indexWatch && scene.Items2D.IndexOf(item3)<indexNumber);
+					Assert.IsFalse(scene.Items2D.Any(x => x.Source.StartsWith("text below ")),"TextBelow is not in the picture.");
 				}
 			});
 		}
@@ -146,111 +172,53 @@ namespace ToothChartImageTests {
 			return tcData.GetTransX(toothId)+(ToothGraphic.IsRight(toothId) ? toothGraphic.ShiftM : -toothGraphic.ShiftM);
 		}
 
-		private static void CheckCentredOnCrown(ToothScene scene,ToothChartData tcData,string toothId,float xMm,string name) {
+		private static void CheckPaintText(ToothScene scene,string toothId,float xMm,int yExpected,string name) {
 			ToothSceneItem2D item=GetItem(scene,ToothSceneBuilder.SourcePaintText+toothId);
 			Assert.IsNotNull(item,"No paint text on "+toothId+" ("+name+").");
-			float yMm=tcData.GetTransYfacial(toothId)+(ToothGraphic.IsMaxillary(toothId) ? -1 : 1)*ToothSceneBuilder.PaintTextCrownOffsetMm;
-			scene.ProjectDirectX(ChartMatrix.Identity,xMm,yMm,0,out float xScreen,out float yScreen);
-			Assert.AreEqual(xScreen,item.Origin.X+item.WidthPixels/2f,1.01,"Centred across on "+toothId+" ("+name+").");
-			Assert.AreEqual(yScreen,item.Origin.Y+item.Font.Height/2f,1.01,"Centred on the crown of "+toothId+" ("+name+").");
+			scene.ProjectDirectX(ChartMatrix.Identity,xMm,0,0,out float xScreen,out float yScreen);
+			Assert.AreEqual(xScreen,item.Origin.X+item.WidthPixels/2f,1.01,"Centred on "+toothId+" at the watch mark's x ("+name+").");
+			Assert.AreEqual(yExpected,item.Origin.Y,"The band line of "+toothId+" ("+name+").");
+			Assert.AreEqual(ChartFontMeasure.MeasureText(item.Font,item.Text).Width,item.WidthPixels);
 		}
 
 		[TestMethod]
-		public void TextBelow_IsInTheBandAtTheEdge_CutToFitTheTooth_MovedInUnderAWatch() {
-			StaRunner.Run(() => {
-				foreach(ChartSize chartSize in new[] { ChartScenes.SizeModule,ChartScenes.SizePrintout,ChartScenes.SizeSheetWide }) {
-					using ToothChartWrapper wrapper=CreateReset(chartSize.Size,out ToothChartRelay relay);
-					relay.SetPrimary("4");
-					relay.SetTextBelow("14",Color.Blue,"IMP");
-					relay.SetTextBelow("19",Color.Green,"IMP");
-					relay.SetTextBelow("3",Color.Red,"IMP");
-					relay.SetText("3",Color.Red,"W");
-					relay.SetTextBelow("30",Color.Red,"IMP");
-					relay.SetText("30",Color.Red,"W");
-					relay.SetTextBelow("25",Color.Red,"Implant planned");
-					relay.SetTextBelow("A",Color.Red,"Watch");
-					relay.SetTextBelow("S",Color.Red,"Watch");
-					relay.SetTextBelow("1",Color.Red,"Bone graft");
-					ToothChartData tcData=wrapper.TcData;
-					ToothScene scene=ToothSceneBuilder.Build(tcData);
-					string name=chartSize.FolderName;
-					ChartFont fontBelow=ToothSceneBuilder.GetFontTextBelow(tcData.PixelScaleRatio);
-					ChartFont fontWatch=ToothSceneBuilder.GetFontWatch(tcData.PixelScaleRatio);
-					Assert.AreEqual(0,GetItem(scene,ToothSceneBuilder.SourceTextBelow+"14").Origin.Y,"Maxillary: the top edge ("+name+").");
-					Assert.AreEqual(scene.Size.Height-fontBelow.Height,GetItem(scene,ToothSceneBuilder.SourceTextBelow+"19").Origin.Y,"Mandibular: the bottom edge.");
-					Assert.AreEqual(fontWatch.Height,GetItem(scene,ToothSceneBuilder.SourceTextBelow+"3").Origin.Y,"Under the watch mark's line.");
-					Assert.AreEqual(scene.Size.Height-fontBelow.Height-fontWatch.Height,GetItem(scene,ToothSceneBuilder.SourceTextBelow+"30").Origin.Y,
-						"Above the watch mark's line.");
-					float pixelsPerMm=scene.Size.Width/scene.WidthProjection;
-					foreach(ToothSceneItem2D item in scene.Items2D.Where(x => x.Source.StartsWith(ToothSceneBuilder.SourceTextBelow))) {
-						string toothId=item.Source.Substring(ToothSceneBuilder.SourceTextBelow.Length);
-						string toothIdPerm=Tooth.IsPrimary(toothId) ? Tooth.PriToPerm(toothId) : toothId;
-						int widthMax=(int)Math.Floor(ToothGraphic.GetWidth(toothIdPerm)*pixelsPerMm);
-						Assert.IsTrue(item.WidthPixels<=widthMax || item.Text.Length==1,item.Source+" \""+item.Text+"\" is "+item.WidthPixels+" wide, the tooth "+widthMax+".");
-						Assert.IsTrue(item.Origin.X>=0 && item.Origin.X+item.WidthPixels<=scene.Size.Width,item.Source+" stays inside the picture.");
-						Assert.AreEqual(fontBelow.Height,item.Font.Height);
-						Assert.AreEqual(400,item.Font.Weight);
-						if(toothId!="1") {
-							scene.ProjectDirectX(ChartMatrix.Identity,GetShiftedX(tcData,toothId),0,0,out float xScreen,out float yScreen);
-							Assert.AreEqual(xScreen,item.Origin.X+item.WidthPixels/2f,1.01,"Centred on "+toothId+" ("+name+").");
-						}
-					}
-					ToothSceneItem2D item25=GetItem(scene,ToothSceneBuilder.SourceTextBelow+"25");
-					Assert.IsTrue(item25.Text.Length<"Implant planned".Length && "Implant planned".StartsWith(item25.Text),"Cut: \""+item25.Text+"\".");
-					Assert.AreEqual("IMP",GetItem(scene,ToothSceneBuilder.SourceTextBelow+"14").Text);
-					Assert.IsNotNull(GetItem(scene,ToothSceneBuilder.SourceTextBelow+"A"),"A shown primary tooth has its text.");
-					Assert.IsNull(GetItem(scene,ToothSceneBuilder.SourceTextBelow+"S"),"A primary tooth that is not shown has none.");
-				}
-			});
-		}
-
-		[TestMethod]
-		public void TextBelowFitted_DropsCharactersFromTheEnd_KeepsTheFirst() {
-			ChartFont font=ToothSceneBuilder.GetFontTextBelow(1f);
-			int widthIm=ChartFontMeasure.MeasureText(font,"IM").Width;
-			Assert.AreEqual("IM",ToothSceneBuilder.GetTextBelowFitted(font,"IMPLANT",widthIm));
-			Assert.AreEqual("I",ToothSceneBuilder.GetTextBelowFitted(font,"IMPLANT",1));
-			Assert.AreEqual("IMPLANT",ToothSceneBuilder.GetTextBelowFitted(font,"IMPLANT",1000));
-			Assert.AreEqual("",ToothSceneBuilder.GetTextBelowFitted(font,"",10));
-			Assert.AreEqual("",ToothSceneBuilder.GetTextBelowFitted(font,null,10));
-		}
-
-		[TestMethod]
-		public void TextBelowFitted_The2DChartCutsAsTheWpfChart_ImpOn12And21IsNotCut() {
-			//text-all-kinds at 410x307: "IMP" on 12 and 21. The 2D chart measures with GenericTypographic (no padding on each side), so it keeps the
-			//characters the WPF chart keeps; the padded measure of GenericDefault cut it to "IM" (review of TC-5, item 1).
+		public void PaintText_The2DChartDrawsItInItsWatchRows() {
+			//The 2D chart's rows of its watch marks (RenderToothWatch: y 0 at the top, Height-Font.Size-8 at the bottom): text-other's paint text is
+			//drawn there and nowhere else. Its pixels are pinned by Simple2DImageTests.
 			StaRunner.Run(() => {
 				Size size=ChartScenes.SizeModule.Size;
-				using ToothChartWrapper wrapper=CreateReset(size,out ToothChartRelay relay);
-				ToothChartData tcData=wrapper.TcData;
-				ToothScene scene=ToothSceneBuilder.Build(tcData);
-				float pixelsPerMm=scene.Size.Width/scene.WidthProjection;
-				ChartFont fontWpf=ToothSceneBuilder.GetFontTextBelow(tcData.PixelScaleRatio);
-				using Bitmap bitmap=new Bitmap(size.Width,size.Height);
-				using Graphics g=Graphics.FromImage(bitmap);
-				g.TextRenderingHint=System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;//as ToothChart2D.OnPaint draws
-				using StringFormat format=ToothChart2D.CreateTextFormat();
-				Font font2D=wrapper.Font;//the 2D chart's own font, its parent's: 8.25 pt at every size
-				Assert.AreEqual(8.25f,font2D.SizeInPoints,0.01f);
-				foreach(string toothNum in new[] { "12","21" }) {
-					int widthMax2D=(int)Math.Floor(ToothGraphic.GetWidth(toothNum)*tcData.ScaleMmToPix);
-					int widthMaxWpf=(int)Math.Floor(ToothGraphic.GetWidth(toothNum)*pixelsPerMm);
-					Assert.AreEqual(widthMaxWpf,widthMax2D,toothNum+": both charts give the tooth the same width.");
-					string textWpf=ToothSceneBuilder.GetTextBelowFitted(fontWpf,"IMP",widthMaxWpf);
-					string text2D=ToothChart2D.GetTextBelowFitted(g,font2D,format,"IMP",widthMax2D);
-					Assert.AreEqual("IMP",textWpf,toothNum+" in the WPF chart.");
-					Assert.AreEqual(textWpf,text2D,toothNum+" in the 2D chart, "+widthMax2D+" pixels wide.");
-					Assert.IsTrue(g.MeasureString("IMP",font2D).Width>widthMax2D,
-						toothNum+": the padded measure would have cut it, so this test tells the two apart.");
+				using ToothChartWrapper wrapperEmpty=new ToothChartWrapper();
+				wrapperEmpty.Size=size;
+				using Bitmap bitmapEmpty=WpfCharts.Draw(WpfCharts.CreateRelay(wrapperEmpty),ChartScenes.Get("empty-universal"),ChartColorSet.Module);
+				using ToothChartWrapper wrapper=new ToothChartWrapper();
+				wrapper.Size=size;
+				using Bitmap bitmap=WpfCharts.Draw(WpfCharts.CreateRelay(wrapper),ChartScenes.Get("text-other"),ChartColorSet.Module);
+				Assert.AreEqual(DrawingMode.Simple2D,wrapper.DrawMode);
+				int heightRow=wrapper.Font.Height+2;
+				int yBottomRow=(int)(size.Height-wrapper.Font.Size-8f)-2;
+				int countTop=0;
+				int countBottom=0;
+				for(int y=0;y<size.Height;y++) {
+					for(int x=0;x<size.Width;x++) {
+						if(bitmapEmpty.GetPixel(x,y).ToArgb()==bitmap.GetPixel(x,y).ToArgb()) {
+							continue;
+						}
+						Assert.IsTrue(y<heightRow || y>=yBottomRow,"A changed pixel at "+x+","+y+" is outside the watch rows.");
+						if(y<heightRow) {
+							countTop++;
+						}
+						else {
+							countBottom++;
+						}
+					}
 				}
-				Assert.AreEqual("",ToothChart2D.GetTextBelowFitted(g,font2D,format,null,10));
-				Assert.AreEqual("I",ToothChart2D.GetTextBelowFitted(g,font2D,format,"IMPLANT",1),"The first character stays.");
+				Assert.IsTrue(countTop>10 && countBottom>10,"Text in both rows: "+countTop+" and "+countBottom+" pixels.");
 			});
 		}
 
 		[TestMethod]
 		public void TextSizes_The2DChartsFontIsFixed_TheWpfChartsScales() {
-			//Review of TC-5, item 2 (kept as it is, documented in TC-5.md 1.1 to 1.3): the 2D chart draws its TC-5 text in the control's fixed 8.25 pt
+			//Review of TC-5, item 2 (kept as it is, documented in TC-5.md 1.1 and 1.2): the 2D chart draws its TC-5 text in the control's fixed 8.25 pt
 			//font at every size, as its tooth numbers and "W"; the WPF chart scales its fonts by the pixel scale ratio. The measured sizes go to
 			//%TEMP%\ToothChartImageTests\tc5-text-sizes.txt for the port note.
 			List<string> listLines=new List<string>();
@@ -265,16 +233,16 @@ namespace ToothChartImageTests {
 					g.TextRenderingHint=System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;//as ToothChart2D.OnPaint draws
 					using StringFormat format=ToothChart2D.CreateTextFormat();
 					Font font2D=wrapper.Font;
-					ChartFont fontBelow=ToothSceneBuilder.GetFontTextBelow(ratio);
+					ChartFont fontPaint=ToothSceneBuilder.GetFontPaintText(ratio);
 					ChartFont fontFree=ToothSceneBuilder.GetFontFreeText(ratio);
 					listHeights2D.Add(font2D.Height);
-					listHeightsWpf.Add(fontBelow.Height);
+					listHeightsWpf.Add(fontPaint.Height);
 					listLines.Add(chartSize.FolderName+" (ratio "+ratio.ToString("0.###",System.Globalization.CultureInfo.InvariantCulture)+"): 2D "
 						+font2D.Name+" "+font2D.SizeInPoints.ToString(System.Globalization.CultureInfo.InvariantCulture)+" pt, cell "+font2D.Height
-						+" px, \"IMP\" "+Math.Round(g.MeasureString("IMP",font2D,PointF.Empty,format).Width,1).ToString(System.Globalization.CultureInfo.InvariantCulture)
+						+" px, \"UCF\" "+Math.Round(g.MeasureString("UCF",font2D,PointF.Empty,format).Width,1).ToString(System.Globalization.CultureInfo.InvariantCulture)
 						+" px, \"Upper right\" "+Math.Round(g.MeasureString("Upper right",font2D,PointF.Empty,format).Width,1)
 							.ToString(System.Globalization.CultureInfo.InvariantCulture)+" px; "
-						+"WPF TextBelow cell "+fontBelow.Height+" px, \"IMP\" "+ChartFontMeasure.MeasureText(fontBelow,"IMP").Width+" px; "
+						+"WPF paint text cell "+fontPaint.Height+" px, \"UCF\" "+ChartFontMeasure.MeasureText(fontPaint,"UCF").Width+" px; "
 						+"WPF free text cell "+fontFree.Height+" px, \"Upper right\" "+ChartFontMeasure.MeasureText(fontFree,"Upper right").Width+" px.");
 				}
 			});
@@ -284,17 +252,14 @@ namespace ToothChartImageTests {
 		}
 
 		[TestMethod]
-		public void Relay_PassesTheTextPaintTypes_ToTheWrapper() {
+		public void Relay_PassesTheTextPaintType_ToTheWrapper() {
 			StaRunner.Run(() => {
 				using ToothChartWrapper wrapper=CreateReset(ChartScenes.SizeModule.Size,out ToothChartRelay relay);
 				relay.SetText("5",Color.Red,"Rx");
-				relay.SetTextBelow("12",Color.Blue,"IMP");
 				relay.AddText("note",new PointF(5,6),Color.Green,9);
 				Assert.AreEqual("Rx",wrapper.TcData.ListToothGraphics["5"].PaintText);
 				Assert.AreEqual(Color.Red.ToArgb(),wrapper.TcData.ListToothGraphics["5"].colorPaintText.ToArgb());
 				Assert.IsFalse(wrapper.TcData.ListToothGraphics["5"].Watch);
-				Assert.AreEqual("IMP",wrapper.TcData.ListToothGraphics["12"].TextBelow);
-				Assert.AreEqual(Color.Blue.ToArgb(),wrapper.TcData.ListToothGraphics["12"].colorTextBelow.ToArgb());
 				Assert.AreEqual(1,wrapper.TcData.ListFreeTexts.Count);
 				Assert.AreEqual(9,wrapper.TcData.ListFreeTexts[0].ToothInitialNum);
 				relay.SetText("6",Color.Red,"W");
@@ -303,10 +268,9 @@ namespace ToothChartImageTests {
 				relay.SetText("99",Color.Red,"X");//not a tooth: ignored, as every Set method ignores one
 				relay.ResetTeeth();
 				Assert.AreEqual("",wrapper.TcData.ListToothGraphics["5"].PaintText,"ResetTeeth clears the texts.");
-				Assert.AreEqual("",wrapper.TcData.ListToothGraphics["12"].TextBelow);
 			});
 		}
-		#endregion Paint text and TextBelow
+		#endregion Paint text
 
 		#region The text mover
 		private class MoveLog {
@@ -514,5 +478,140 @@ namespace ToothChartImageTests {
 			});
 		}
 		#endregion The text mover
+
+		#region Change Color on free text
+		[TestMethod]
+		public void ColorChanger_RecoloursTheTopMostLabel_WhenNoDrawingIsNear_AndRaisesTextColorChanged() {
+			//Open Dental's manual: Change Color is "to change the color of an existing drawing or text" (the parity round of TC-5).
+			StaRunner.Run(() => {
+				foreach(Size size in new[] { new Size(410,307),new Size(615,461),new Size(926,858) }) {
+					using ToothChartWrapper wrapper=CreateReset(size,out ToothChartRelay relay);
+					relay.AddText("under",new PointF(100,50),Color.Black,41);
+					relay.AddText("recolour me",new PointF(100,50),Color.Black,42);//on top of 41
+					relay.AddText("far",new PointF(300,250),Color.Black,43);
+					ToothChartData tcData=wrapper.TcData;
+					tcData.CursorTool=CursorTool.ColorChanger;
+					tcData.ColorDrawing=Color.Green;
+					MoveLog moveLog=new MoveLog();
+					ToothChartMouse toothChartMouse=CreateMouse(moveLog);
+					List<ToothChartTextColorChangedEventArgs> listChanged=new List<ToothChartTextColorChangedEventArgs>();
+					List<string> listSegments=new List<string>();
+					toothChartMouse.TextColorChanged+=(sender,e) => listChanged.Add(e);
+					toothChartMouse.SegmentDrawn+=(sender,e) => listSegments.Add(e.DrawingSegement);
+					Point point=GetCentre(ToothSceneBuilder.GetFreeTextBoxes(tcData)[1].Bounds);
+					toothChartMouse.MouseDown(tcData,point,size);
+					toothChartMouse.MouseUp(tcData,point,size);
+					Assert.AreEqual(1,listChanged.Count,size.ToString());
+					Assert.AreEqual(42,listChanged[0].ToothInitialNum,"The top-most label under the mouse.");
+					Assert.AreEqual(Color.Green.ToArgb(),listChanged[0].ColorText.ToArgb(),"The pen colour.");
+					Assert.AreEqual(Color.Green.ToArgb(),tcData.ListFreeTexts[1].ColorText.ToArgb(),"Drawn in the new colour at once.");
+					Assert.AreEqual(Color.Black.ToArgb(),tcData.ListFreeTexts[0].ColorText.ToArgb(),"The label under it keeps its colour.");
+					Assert.AreEqual(Color.Black.ToArgb(),tcData.ListFreeTexts[2].ColorText.ToArgb());
+					Assert.AreEqual(1,moveLog.CountChartChanged,"The chart is drawn again.");
+					Assert.AreEqual(0,moveLog.ListMoved.Count);
+					Assert.AreEqual(new PointF(100,50),tcData.ListFreeTexts[1].Location,"Change Color does not move the label.");
+					Assert.AreEqual(0,listSegments.Count);
+					//A press on no label and no drawing does nothing.
+					toothChartMouse.MouseDown(tcData,new Point(2,size.Height/2),size);
+					toothChartMouse.MouseUp(tcData,new Point(2,size.Height/2),size);
+					Assert.AreEqual(1,listChanged.Count);
+				}
+			});
+		}
+
+		[TestMethod]
+		public void ColorChanger_ADrawingNearThePress_IsRecolouredFirst_TheLabelKeepsItsColour() {
+			//The drawings are looked for first, as DirectX's colour changer does; only a press with no drawing near reaches the labels.
+			StaRunner.Run(() => {
+				Size size=ChartScenes.SizeModule.Size;
+				using ToothChartWrapper wrapper=CreateReset(size,out ToothChartRelay relay);
+				relay.AddText("label",new PointF(100,50),Color.Black,5);
+				ToothChartData tcData=wrapper.TcData;
+				Point point=GetCentre(ToothSceneBuilder.GetFreeTextBoxes(tcData)[0].Bounds);
+				PointF pointDrawing=tcData.GetPointMouseScaled(point.X,point.Y,size);
+				string segment=pointDrawing.X.ToString(System.Globalization.CultureInfo.CurrentCulture)+","+pointDrawing.Y.ToString(System.Globalization.CultureInfo.CurrentCulture)
+					+";"+(pointDrawing.X+1).ToString(System.Globalization.CultureInfo.CurrentCulture)+","+pointDrawing.Y.ToString(System.Globalization.CultureInfo.CurrentCulture);
+				relay.AddDrawingSegment(new ToothInitial { InitialType=ToothInitialType.Drawing,DrawingSegment=segment,ColorDraw=Color.Black });
+				tcData.CursorTool=CursorTool.ColorChanger;
+				tcData.ColorDrawing=Color.Red;
+				MoveLog moveLog=new MoveLog();
+				ToothChartMouse toothChartMouse=CreateMouse(moveLog);
+				List<ToothChartTextColorChangedEventArgs> listChanged=new List<ToothChartTextColorChangedEventArgs>();
+				List<string> listSegments=new List<string>();
+				toothChartMouse.TextColorChanged+=(sender,e) => listChanged.Add(e);
+				toothChartMouse.SegmentDrawn+=(sender,e) => listSegments.Add(e.DrawingSegement);
+				toothChartMouse.MouseDown(tcData,point,size);
+				toothChartMouse.MouseUp(tcData,point,size);
+				Assert.AreEqual(1,listSegments.Count,"The drawing is recoloured.");
+				Assert.AreEqual(Color.Red.ToArgb(),tcData.DrawingSegmentList[0].ColorDraw.ToArgb());
+				Assert.AreEqual(0,listChanged.Count,"The label is not.");
+				Assert.AreEqual(Color.Black.ToArgb(),tcData.ListFreeTexts[0].ColorText.ToArgb());
+			});
+		}
+
+		[TestMethod]
+		public void ImageHost_RecoloursALabel_AndTheWrapperAndRelayRaiseTextColorChanged() {
+			StaRunner.Run(() => {
+				using ToothChartWrapper wrapper=WpfCharts.CreateWrapper(ChartScenes.SizeModule.Size);
+				ToothChartRelay relay=WpfCharts.CreateRelay(wrapper);
+				ChartScenes.Prepare(relay,ChartScenes.Get("text-label-moved"),ChartColorSet.Module);
+				relay.CursorTool=CursorTool.ColorChanger;
+				relay.ColorDrawing=Color.DarkOrange;
+				List<ToothChartTextColorChangedEventArgs> listWrapper=new List<ToothChartTextColorChangedEventArgs>();
+				List<ToothChartTextColorChangedEventArgs> listRelay=new List<ToothChartTextColorChangedEventArgs>();
+				wrapper.TextColorChanged+=(sender,e) => listWrapper.Add(e);
+				relay.TextColorChanged+=(sender,e) => listRelay.Add(e);
+				ToothChartImageHost toothChartImageHost=wrapper.ImageHostWpf;
+				toothChartImageHost.Size=wrapper.Size;
+				using(Bitmap bitmap=relay.GetBitmap()) {
+					Assert.IsFalse(wrapper.IsWpfSceneDirty);
+				}
+				Point point=GetCentre(ToothSceneBuilder.GetFreeTextBoxes(wrapper.TcData)[0].Bounds);
+				ToothChartMouseTests.RaiseMouse(toothChartImageHost,"OnMouseDown",point);
+				ToothChartMouseTests.RaiseMouse(toothChartImageHost,"OnMouseUp",point);
+				Assert.AreEqual(1,listWrapper.Count);
+				Assert.AreEqual(1,listRelay.Count);
+				Assert.AreEqual(11,listRelay[0].ToothInitialNum);
+				Assert.AreEqual(Color.DarkOrange.ToArgb(),listRelay[0].ColorText.ToArgb());
+				using(Bitmap bitmap=relay.GetBitmap()) {
+					ToothSceneItem2D item=WpfCharts.BuildScene(wrapper).Items2D.Last();
+					Assert.AreEqual(ToothSceneBuilder.SourceFreeText+"11",item.Source);
+					Assert.AreEqual(Color.DarkOrange.ToArgb(),item.Color.ToArgb(),"Drawn in the new colour.");
+				}
+			});
+		}
+
+		[TestMethod]
+		public void LiveView_RecoloursALabel_AndTheRelayRaisesTextColorChanged() {
+			if(!Environment.UserInteractive) {
+				Assert.Inconclusive("Needs an interactive desktop session: the wrapper must be shown.");
+			}
+			StaRunner.Run(() => {
+				using Form form=WpfCharts.CreateOffscreenForm(ChartScenes.SizeModule.Size);
+				ToothChartWrapper wrapper=WpfCharts.CreateWrapper(ChartScenes.SizeModule.Size);
+				form.Controls.Add(wrapper);
+				ToothChartRelay relay=WpfCharts.CreateRelay(wrapper);
+				form.Show();
+				ToothChartWpfView toothChartWpfView=WpfCharts.WaitForLiveView(wrapper);
+				Assert.IsNotNull(toothChartWpfView,"The live view did not start on a shown wrapper.");
+				ChartScenes.Prepare(relay,ChartScenes.Get("text-label-moved"),ChartColorSet.Module);
+				relay.CursorTool=CursorTool.ColorChanger;
+				relay.ColorDrawing=Color.DarkOrange;
+				List<ToothChartTextColorChangedEventArgs> listRelay=new List<ToothChartTextColorChangedEventArgs>();
+				relay.TextColorChanged+=(sender,e) => listRelay.Add(e);
+				Assert.IsTrue(WpfRendererTests.PumpUntil(() => toothChartWpfView.SceneShown!=null && !wrapper.IsWpfSceneDirty,20000));
+				Point point=GetCentre(ToothSceneBuilder.GetFreeTextBoxes(wrapper.TcData)[0].Bounds);
+				toothChartWpfView.MouseDownForTests(point);
+				toothChartWpfView.MouseUpForTests(point);
+				Assert.AreEqual(1,listRelay.Count);
+				Assert.AreEqual(11,listRelay[0].ToothInitialNum);
+				Assert.AreEqual(Color.DarkOrange.ToArgb(),listRelay[0].ColorText.ToArgb());
+				Assert.IsTrue(WpfRendererTests.PumpUntil(() => !wrapper.IsWpfSceneDirty && toothChartWpfView.SceneShown.Items2D.Last().Color.ToArgb()
+					==Color.DarkOrange.ToArgb(),20000),"The live view shows the label in its new colour.");
+				wrapper.Dispose();
+				form.Close();
+			});
+		}
+		#endregion Change Color on free text
 	}
 }

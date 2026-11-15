@@ -1,6 +1,6 @@
 // Image tests of the Simple 2D chart's drawing of package TC-5 (docs/specs/wpf-tooth-chart-plan.md, the TC-5 row and O-24): free text, paint text
-// other than "W", TextBelow and the completed-extraction graphic, drawn with GDI+ by ToothChart2D, against Baselines\simple2d-net48 with the
-// tolerances of section 7. Only the scenes with TC-5's drawing are gated here: the 2D chart's other pictures are TC-0's recording
+// other than "W" (in the watch mark's band) and the completed-extraction graphic, drawn with GDI+ by ToothChart2D, against Baselines\simple2d-net48
+// with the tolerances of section 7 (TextBelow is not in the picture since the parity round: the Chart module's strip shows it). Only the scenes with TC-5's drawing are gated here: the 2D chart's other pictures are TC-0's recording
 // (Baselines\legacy\Simple2D), which TC-5 does not change.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
@@ -22,10 +22,10 @@ namespace ToothChartImageTests {
 		public const string EnvRecord="OPMS_RECORD_2D_CHART";
 
 		///<summary>The scenes whose 2D picture has TC-5's drawing: the older scenes that the 2D chart now draws more of, and TC-5's own scenes.</summary>
-		public static readonly string[] ArrayScenes={ "text-other","text-other-eo-r","text-below-statuses","text-label-long","text-labels-over-teeth",
+		public static readonly string[] ArrayScenes={ "text-other","text-other-eo-r","text-label-long","text-labels-over-teeth",
 			"text-labels-at-edges","text-label-moved","extraction-completed-graphic","extraction-completed-graphic-primary","text-below-with-watch",
 			"text-below-cut-to-fit","text-other-moved-and-missing","text-label-past-edge","text-all-kinds",
-			"extraction-completed-graphic-under-implant","extraction-completed-graphic-under-pontic" };
+			"extraction-completed-graphic-under-implant","extraction-completed-graphic-under-pontic","text-other-with-watch" };
 
 		///<summary>The folder of the 2D chart's TC-5 baselines on .NET Framework 4.8 x86: tests\ToothChartImageTests\Baselines\simple2d-net48.</summary>
 		public static string Baselines2D {
