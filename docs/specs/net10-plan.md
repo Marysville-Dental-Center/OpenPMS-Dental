@@ -783,6 +783,14 @@ Left for others: the dead `ThreadAbortException` catches (after 3b), `tests/Wind
 (lead, before 3b), the callers that relied on a timeout aborting and the review of long ProgressWin actions for a check point (port note,
 sections 5 and 6).
 
+**Status (2026-11-15), S3a-1b.** S3a-1 merged (`168bd2767`, from `net10/s3a1-2`). Its follow-up S3a-1b done on `net10/s3a1b-1`
+(`docs/port-notes/S3a-1.md` section 8), not merged yet: no database write starts for a cancelled progress action
+(`CodeBase.ODCancellation`, checked in `DataConnection.RunDbAction` and `RemotingClient.SendAndReceive`, shared with RunParallel's pools,
+which then throw on the caller); the 169 ProgressWin callers reviewed, 24 of the 77 that write got a check or a unit
+(`ODCancellation.RunUncancellable`) for a write and its log entry; an exception after a cancel, a worker still running when its window
+closes and an ODThread exception after a timed-out Join are logged; a second ShowDialog keeps the earlier run's token for its action;
+the comments of S3a-1's item 5 corrected. Tests per pattern in M2MISCTests (scratch database `s3a1b_`) and MiddleTierMockTests.
+
 **Full-test gate.** Section 3, plus: the golden outputs and known answers recorded and committed; the source-scan tests pass; the
 launch checks for 3a (section 6) done with screenshots, including a self-update from a standard user; the x64 test runs (S3a-12, S3a-15)
 and the x64 build of `Direct2dWrapper` (S3a-16) pass; the helper's tests pass, and its links are launch-checked where a test PC has the
@@ -800,8 +808,11 @@ S3a-14 read vendor documentation only; no vendor file is downloaded.
 **Risks and mitigations.**
 - Menus look different (native Win32 menus to the ToolStrip renderer: fonts, heights, check marks, `&` accelerators): screenshot pass on
   net48 (section 6); this is the point to catch it, not in 3b.
-- Cancel in progress windows now stops at the next check instead of immediately: review each long action reachable from a ProgressWin
-  for a check point; the cancel test proves no database write after "cancelled".
+- Cancel in progress windows now stops at the next check instead of immediately. The guarantee since S3a-1b: no database write starts
+  for a progress window's action after the user cancelled it (the database layer and the Middle Tier client refuse the action thread's
+  next command, RunParallel pools share its token); at most the command under way finishes, or the rest of a unit the caller runs with
+  `ODCancellation.RunUncancellable` (a write with its log entry). Every ProgressWin caller was reviewed (S3a-1.md section 8: 169 windows,
+  77 that write, each with its check); the cancel tests in M2MISCTests and MiddleTierMockTests prove it per pattern on a scratch database.
 - Hand-written SOAP envelopes could differ from the generated proxies: envelope-equivalence tests run against the old proxies before they
   are deleted, plus one call against the DentalXChange test endpoint (prelive) if credentials allow. ITS has no test account in the
   office, so it is proven by envelope equivalence and the fake endpoint only; the release notes say so.
