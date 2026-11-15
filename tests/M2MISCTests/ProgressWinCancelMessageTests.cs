@@ -201,6 +201,21 @@ namespace M2MISCTests {
 			});
 		}
 
+		///<summary>EDS's Re-validate worker (FormEdsValidation) after the cancel: ValidateClaimNum, which turns every other failure into a failed
+		///call, throws the database layer's refusal of the claim's read on, so the loop stops there instead of giving each claim not yet
+		///revalidated an "EDS could not be reached" result. No database: the read is refused before any connection is opened.</summary>
+		[TestMethod]
+		public void EdsValidateClaimNum_AfterTheCancel_ThrowsTheCancel_NoFailedCall() {
+			using(CancellationTokenSource cancellationTokenSource=new CancellationTokenSource()) {
+				cancellationTokenSource.Cancel();
+				using(ODCancellation.Use(cancellationTokenSource.Token)) {
+					Assert.ThrowsExactly<OperationCanceledException>(
+						() => OpenPmsDentalBusiness.VendorDirect.Eds.EdsClaimValidation.ValidateClaimNum(1,0,TimeSpan.FromSeconds(1)),
+						"The cancel is thrown on, not returned as a failed call.");
+				}
+			}
+		}
+
 		///<summary>The audited callers (S3a-1.md, section 9.4) that showed an error or a result from the worker after the window closed as cancelled
 		///now check IsCancelled first, and the worker-side ones rethrow the cancel or check before their question.</summary>
 		[TestMethod]
@@ -227,6 +242,12 @@ namespace M2MISCTests {
 			string claimL=TestDb.ReadRepoFile("OpenPmsDental","Logic","ClaimL.cs");
 			AssertBefore(claimL,"public static void ValidateXConnectAfterSave(","if(progressWin.IsCancelled || result==null) {","if(result.IsCallFailed) {",
 				"ClaimL, validation after save");
+			string formEdsValidation=TestDb.ReadRepoFile("OpenPmsDental","Forms","FormEdsValidation.cs");
+			AssertBefore(formEdsValidation,"private void Revalidate(","if(progressWin.IsCancelled) {","dictResultsLatest.TryGetValue(",
+				"FormEdsValidation, Re-validate");
+			string formXConnectValidation=TestDb.ReadRepoFile("OpenPmsDental","Forms","FormXConnectValidation.cs");
+			AssertBefore(formXConnectValidation,"private void Revalidate(","if(progressWin.IsCancelled) {","dictResultsLatest.TryGetValue(",
+				"FormXConnectValidation, Re-validate");
 			string reportComplex=TestDb.ReadRepoFile("OpenPmsDental","ReportingComplex","ReportComplex.cs");
 			AssertBefore(reportComplex,"bool wasSubmitted=false;","if(!query.IsQueryStringNullOrEmpty && progressOD.IsCancelled){",
 				"\"There was an error generating this report.\"","ReportComplex");
