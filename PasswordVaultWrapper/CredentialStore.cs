@@ -148,6 +148,18 @@ namespace PasswordVaultWrapper {
 			return string.Equals(name1,name2,StringComparison.OrdinalIgnoreCase);
 		}
 
+		///<summary>The name to save a login under: the one it is already saved under, in that casing, or else the computed one. Windows keeps a
+		///credential for each casing written, but reads, lists and deletes by the name without regard to case and shows only one of the casings;
+		///a login saved in a second casing would stay hidden behind the first (seen on Windows 11, S3a-5f).</summary>
+		private static string GetSavedTargetName(string targetName) {
+			CredentialEntry credentialEntry=CredentialManager.ReadInfo(targetName);
+			return credentialEntry==null ? targetName : credentialEntry.TargetName;
+		}
+
+		///<summary>Deleting the casing Windows shows brings the next hidden one into view, so deletions are repeated up to this many times.
+		///</summary>
+		private const int MAX_CASE_VARIANTS=20;
+
 		///<summary>Saves or replaces the login of this user for this address. Throws for a blank user name or password, which Windows did not store
 		///in the old vault either.</summary>
 		public void WritePassword(string uri,string userName,string password) {
@@ -158,16 +170,19 @@ namespace PasswordVaultWrapper {
 			if(string.IsNullOrEmpty(password)) {
 				throw new ArgumentException("Windows cannot save a blank password.",nameof(password));
 			}
-			CredentialManager.Write(GetTargetName(uri,userName),userName,password);
+			CredentialManager.Write(GetSavedTargetName(GetTargetName(uri,userName)),userName,password);
 			if(!HasSeparator(uri,userName)) {
 				return;
 			}
 			//Saved again under the escaped name: the entry S3a-5 saved under the unescaped one goes, when it is this login's (its own user name).
 			try {
 				string targetNameUnescaped=GetTargetNameUnescaped(uri,userName);
-				CredentialEntry credentialEntry=CredentialManager.ReadInfo(targetNameUnescaped);
-				if(credentialEntry!=null && IsSameName(credentialEntry.UserName,userName)) {
-					CredentialManager.Delete(targetNameUnescaped);
+				for(int i=0;i<MAX_CASE_VARIANTS;i++) {
+					CredentialEntry credentialEntry=CredentialManager.ReadInfo(targetNameUnescaped);
+					if(credentialEntry==null || !IsSameName(credentialEntry.UserName,userName)) {
+						break;
+					}
+					CredentialManager.Delete(credentialEntry.TargetName);
 				}
 			}
 			catch(Exception) {
@@ -223,8 +238,15 @@ namespace PasswordVaultWrapper {
 		///cleared login back.</summary>
 		public void ClearCredentials(string uri) {
 			EnsureMigrated();
-			foreach(CredentialEntry credentialEntry in ListLogins(uri)) {
-				CredentialManager.Delete(credentialEntry.TargetName);
+			//Again until none is left: a deleted login may uncover the same name in another casing (GetSavedTargetName).
+			for(int i=0;i<MAX_CASE_VARIANTS;i++) {
+				List<CredentialEntry> listLogins=ListLogins(uri);
+				if(listLogins.Count==0) {
+					break;
+				}
+				foreach(CredentialEntry credentialEntry in listLogins) {
+					CredentialManager.Delete(credentialEntry.TargetName);
+				}
 			}
 			try {
 				IOldVault oldVault=FuncOpenVault();
