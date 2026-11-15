@@ -1,11 +1,12 @@
-// The in-process half of the harness: the program's own assemblies, loaded in an AppDomain whose base is OpenPmsDental\bin\Debug and whose
-// configuration file is OpenPmsDental.exe.config (so the binding redirects and the probing are the real ones), run the main window on an STA
-// thread as ProgramEntry.Main does, and the checks drive it from a second thread of that AppDomain: they post what a click would run (the
+// The in-process half of the harness: the program's own assemblies, loaded in a process of its own whose application base is
+// OpenPmsDental\bin\Debug and whose configuration file is OpenPmsDental.exe.config (so the binding redirects and the probing are the real ones;
+// InProcHost, TestProbeHost; an AppDomain of the test host before S3a-8b of the .NET 10 move), run the main window on an STA thread as
+// ProgramEntry.Main does, and the checks drive it from a second thread of that process: they post what a click would run (the
 // real menu item's PerformClick, the toolbar's and module bar's handlers) to the window's thread, wait for the windows it opens, read and
 // print them, and close them. Every unhandled exception (Application.ThreadException, AppDomain.UnhandledException, ODThread's, WPF's
 // Dispatcher) is collected and fails the check that was running.
 // The main window is never closed through the program's own closing (its FormClosed ends the process with Environment.Exit): Stop removes
-// those handlers and ends the window's thread, and the AppDomain is unloaded. They are removed before the harness closes any window left open
+// those handlers and ends the window's thread, and the process is ended. They are removed before the harness closes any window left open
 // (Stop, a timed-out or stopped check), and the log-on window is never cancelled (Ui.Close logs on as Admin instead), because a cancelled log-on
 // window reaches the program's exit too.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
@@ -13,15 +14,57 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Windows.Forms;
+using TestProbeHost;
 
 namespace WindowChecksTests.InProc {
-	///<summary>Lives in the program's AppDomain; the test's AppDomain holds a proxy. Only strings and serializable results cross.</summary>
-	public class ProgramDriver:MarshalByRefObject {
+	///<summary>The session process's handler (TestProbeHost): one ProgramDriver per process, and one command per call of the test's InProcHost.
+	///Only text crosses: lists as ProbeText lists, a check's result as CheckResult.ToText.</summary>
+	public static class ProgramDriverHost {
+		public const string COMMAND_PATCH="Patch";
+		public const string COMMAND_START="Start";
+		public const string COMMAND_SET_KEYS="SetKeys";
+		public const string COMMAND_RUN_CHECK="RunCheck";
+		public const string COMMAND_GET_STUCK_STATE="GetStuckState";
+		public const string COMMAND_STOP="Stop";
+		private static readonly ProgramDriver _programDriver=new ProgramDriver();
+
+		public static string Handle(string command,string[] arrayArgs) {
+			switch(command) {
+				case COMMAND_PATCH:
+					return _programDriver.PatchProcessIdentity(arrayArgs[0]);
+				case COMMAND_START:
+					string startError=_programDriver.Start(ProbeText.SplitList(arrayArgs[0]),int.Parse(arrayArgs[1],CultureInfo.InvariantCulture),
+						ProbeText.SplitList(arrayArgs[2]));
+					return ProbeText.JoinList(new[] { startError }.Concat(_programDriver.ListStartPrompts));
+				case COMMAND_SET_KEYS:
+					string[] arrayKeys=ProbeText.SplitList(arrayArgs[0]);
+					Dictionary<string,long> dictKeys=new Dictionary<string,long>();
+					for(int i=0;i<arrayKeys.Length;i+=2) {
+						dictKeys[arrayKeys[i]]=long.Parse(arrayKeys[i+1],CultureInfo.InvariantCulture);
+					}
+					_programDriver.SetKeys(dictKeys);
+					return "";
+				case COMMAND_RUN_CHECK:
+					return _programDriver.RunCheck(arrayArgs[0],arrayArgs[1],int.Parse(arrayArgs[2],CultureInfo.InvariantCulture)).ToText();
+				case COMMAND_GET_STUCK_STATE:
+					return _programDriver.GetStuckState();
+				case COMMAND_STOP:
+					return _programDriver.Stop(int.Parse(arrayArgs[0],CultureInfo.InvariantCulture));
+				default:
+					throw new ArgumentException("Unknown command "+command);
+			}
+		}
+	}
+
+	///<summary>Lives in the session's process; the test's InProcHost reaches it through ProgramDriverHost. Only strings and results as text cross.
+	///</summary>
+	public class ProgramDriver {
 		private Thread _threadUi;
 		private Form _formMain;
 		private int _threadIdUi;
@@ -34,12 +77,9 @@ namespace WindowChecksTests.InProc {
 		private volatile bool _isMainClosingDetached;
 		public Ui UiCur;
 
-		public override object InitializeLifetimeService() {
-			return null;
-		}
-
-		///<summary>Makes this AppDomain look like the program's own process where .NET reads it from the process: Application.StartupPath and
-		///ExecutablePath (the exe's folder, not the test host's) and Assembly.GetEntryAssembly (OpenPmsDental.exe). Returns what was patched.</summary>
+		///<summary>Makes this process look like the program's own where .NET reads it from the process: Application.StartupPath and ExecutablePath
+		///(the exe's, not the copy of TestProbeHost's) and Assembly.GetEntryAssembly (OpenPmsDental.exe, not TestProbeHost). Returns what was
+		///patched.</summary>
 		public string PatchProcessIdentity(string exePath) {
 			List<string> listPatched=new List<string>();
 			FieldInfo fieldStartupPath=typeof(Application).GetField("startupPath",BindingFlags.NonPublic|BindingFlags.Static);
@@ -213,7 +253,7 @@ namespace WindowChecksTests.InProc {
 			}
 		}
 
-		///<summary>Runs one check's in-process script on a thread of this AppDomain and returns its result. A script that does not end in time is
+		///<summary>Runs one check's in-process script on a thread of this process and returns its result. A script that does not end in time is
 		///reported as failed (its windows are closed by Stop).</summary>
 		public CheckResult RunCheck(string id,string title,int timeoutSeconds) {
 			CheckResult checkResult=new CheckResult(id,title);
@@ -268,7 +308,7 @@ namespace WindowChecksTests.InProc {
 				return "not started";
 			}
 			try {
-				//First, so that no window closed below can reach the program's own exit (Environment.Exit would end the test host).
+				//First, so that no window closed below can reach the program's own exit (Environment.Exit would end the session's process).
 				DetachMainClosing(null);
 				UiCur?.CloseStrayWindows(null);
 				_formMain.BeginInvoke((Action)(() => {
@@ -288,8 +328,8 @@ namespace WindowChecksTests.InProc {
 
 		///<summary>Removes the main window's FormClosing and FormClosed handlers on the window's thread and waits for it (up to 30 s; a hung thread
 		///is noted). Done before the harness closes windows left open (a timed-out or stopped check, Stop): a log-on window closed without OK makes
-		///FormOpenDental.ShowLogOn call Application.Exit, and FormOpenDental_FormClosed ends with Environment.Exit, which in process ends the test
-		///host. The rest of the session's checks never close the main window, so they do not need them.</summary>
+		///FormOpenDental.ShowLogOn call Application.Exit, and FormOpenDental_FormClosed ends with Environment.Exit, which ends the session's process
+		///(the test host itself before S3a-8b). The rest of the session's checks never close the main window, so they do not need them.</summary>
 		private void DetachMainClosing(CheckResult checkResult) {
 			if(_isMainClosingDetached || _formMain==null) {
 				return;

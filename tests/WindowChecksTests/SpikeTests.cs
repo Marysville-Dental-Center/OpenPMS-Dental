@@ -1,7 +1,7 @@
 // The spike that settled the harness's approach (its findings are in the report): (1) the real Debug OpenPmsDental.exe started out of process
 // with its command line, its main window printed from the test process with PrintWindow, a menu reached through UI Automation, and the window
-// closed with WM_CLOSE while the exit is timed; (2) the program's assemblies loaded in an AppDomain based on its output folder, the main window
-// started as ProgramEntry.Main does, Help > About reached through the real menu item and printed with PrintWindow and DrawToBitmap.
+// closed with WM_CLOSE while the exit is timed; (2) the program's assemblies loaded in a process based on its output folder (an AppDomain
+// before S3a-8b of the .NET 10 move), the main window started as ProgramEntry.Main does, Help > About reached through the real menu item and printed with PrintWindow and DrawToBitmap.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
 using System.Collections.Generic;
@@ -65,7 +65,7 @@ namespace WindowChecksTests {
 		public void Spike2_InProcess_StartAboutDiagnostics() {
 			WinChkFixture.Begin("SPIKE");
 			using InProcHost inProcHost=InProcHost.Start("chart");
-			CheckResult checkResult=inProcHost.Run("SPIKE","In process: AppDomain on the program's folder, Help > About, Diagnostics");
+			CheckResult checkResult=inProcHost.Run("SPIKE","In process: a process on the program's folder, Help > About, Diagnostics");
 			checkResult.Note("Patched: "+inProcHost.Patched+"; start "+inProcHost.SecondsToStart.ToString("0.0")+" s");
 			WinChkFixture.Finish(checkResult);
 		}

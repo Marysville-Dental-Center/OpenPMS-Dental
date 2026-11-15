@@ -18,6 +18,10 @@
     <Compile Include="..\ProjectFileTests\BuildOutput.cs">
       <Link>BuildOutput.cs</Link>
     </Compile>
+    <!-- The program's managed assembly: OpenPmsDental.dll on .NET (the .exe is the apphost), OpenPmsDental.exe on .NET Framework (S3a-8). -->
+    <Compile Include="..\ProjectFileTests\ProgramAssembly.cs">
+      <Link>ProgramAssembly.cs</Link>
+    </Compile>
     <!-- The packages of a lock file (S2-4 of the .NET 10 move: the library files are the packages' own, no longer copies in "Required dlls"). -->
     <Compile Include="..\ProjectFileTests\NuGetFiles.cs">
       <Link>NuGetFiles.cs</Link>

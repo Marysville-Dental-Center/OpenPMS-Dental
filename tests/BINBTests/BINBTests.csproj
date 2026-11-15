@@ -14,6 +14,14 @@
     <Compile Include="..\ProjectFileTests\ProjectFile.cs">
       <Link>ProjectFile.cs</Link>
     </Compile>
+    <!-- The rule for tests that check a built file: inconclusive when it is not built, a failure with OPMS_REQUIRE_BUILD_OUTPUT=1. -->
+    <Compile Include="..\ProjectFileTests\BuildOutput.cs">
+      <Link>BuildOutput.cs</Link>
+    </Compile>
+    <!-- The program's managed assembly: OpenPmsDental.dll on .NET (the .exe is the apphost), OpenPmsDental.exe on .NET Framework (S3a-8). -->
+    <Compile Include="..\ProjectFileTests\ProgramAssembly.cs">
+      <Link>ProgramAssembly.cs</Link>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <!-- The G15 and G7 texts .NET Framework 4.8 gave for fixture doubles and floats (S3a-3), the record for S3a-4 and stage 3b. -->
@@ -26,5 +34,8 @@
     <ProjectReference Include="..\..\DataConnectionBase\xDataConnectionBase.csproj" />
     <ProjectReference Include="..\..\OpenPmsDentalBusiness\OpenPmsDentalBusiness.csproj" />
     <ProjectReference Include="..\..\PasswordVaultWrapper\PasswordVaultWrapper.csproj" />
+    <!-- The synthetic Topaz control that TopazWrapperTests copy into a search folder as SigPlusNET.dll (S3a-8b of the .NET 10 move: it was
+         compiled at run time before, and .NET has no run-time C# compiler). -->
+    <ProjectReference Include="..\TopazStandIn\TopazStandIn.csproj" />
   </ItemGroup>
 </Project>

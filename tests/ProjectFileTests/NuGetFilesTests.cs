@@ -122,19 +122,19 @@ namespace ProjectFileTests {
 			}
 		}
 
-		///<summary>Writes a synthetic assembly of the name and version, with no types, as folder\name.dll.</summary>
+		///<summary>Writes a synthetic assembly of the name and version, with no types, as folder\name.dll. Mono.Cecil writes it (S3a-8b of the .NET
+		///10 move: AppDomain.DefineDynamicAssembly and AssemblyBuilder.Save are .NET Framework only), a library module of the runtime this test runs
+		///on, as the dynamic assembly was.</summary>
 		private static void WriteAssembly(string folder,string name,Version version) {
 			Directory.CreateDirectory(folder);
-			string folderTemp=Path.Combine(folder,"build-"+Guid.NewGuid().ToString("N"));
-			Directory.CreateDirectory(folderTemp);
-			System.Reflection.AssemblyName assemblyName=new System.Reflection.AssemblyName(name);
-			assemblyName.Version=version;
-			System.Reflection.Emit.AssemblyBuilder assemblyBuilder=AppDomain.CurrentDomain.DefineDynamicAssembly(assemblyName,
-				System.Reflection.Emit.AssemblyBuilderAccess.Save,folderTemp);
-			assemblyBuilder.DefineDynamicModule(name,name+".dll");
-			assemblyBuilder.Save(name+".dll");
-			File.Copy(Path.Combine(folderTemp,name+".dll"),Path.Combine(folder,name+".dll"),true);
-			Directory.Delete(folderTemp,true);
+			Mono.Cecil.ModuleParameters moduleParameters=new Mono.Cecil.ModuleParameters();
+			moduleParameters.Kind=Mono.Cecil.ModuleKind.Dll;
+			moduleParameters.Runtime=Mono.Cecil.TargetRuntime.Net_4_0;
+			using(Mono.Cecil.AssemblyDefinition assemblyDefinition=Mono.Cecil.AssemblyDefinition.CreateAssembly(
+				new Mono.Cecil.AssemblyNameDefinition(name,version),name+".dll",moduleParameters))
+			{
+				assemblyDefinition.Write(Path.Combine(folder,name+".dll"));
+			}
 		}
 
 		///<summary>The lock files the Helix tests read (TC-4) are those of the solution filter's projects: never one of another worktree under

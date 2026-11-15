@@ -25,5 +25,8 @@
     <ProjectReference Include="..\..\OpenPmsDentalBusiness\OpenPmsDentalBusiness.csproj" />
     <ProjectReference Include="..\..\SparksToothChart\SparksToothChart.csproj" />
     <ProjectReference Include="..\..\WpfControlsOD\WpfControlsOD.csproj" />
+    <!-- The second process (SecondProcess): TestProbeHost runs SecondProcessEntry.Run as its Main (S3a-8b of the .NET 10 move: .NET has no
+         run-time C# compiler). -->
+    <ProjectReference Include="..\TestProbeHost\TestProbeHost.csproj" />
   </ItemGroup>
 </Project>

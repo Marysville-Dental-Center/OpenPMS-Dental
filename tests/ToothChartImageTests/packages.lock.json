@@ -345,6 +345,9 @@
           "OpenPmsDentalBusiness": "[1.0.0, )"
         }
       },
+      "testprobehost": {
+        "type": "Project"
+      },
       "wecantspell.hunspell": {
         "type": "Project",
         "dependencies": {
