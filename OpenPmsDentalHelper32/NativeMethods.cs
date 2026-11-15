@@ -37,5 +37,62 @@ namespace OpenPmsDentalHelper32 {
 
 		[DllImport("kernel32.dll")]
 		public static extern IntPtr LocalFree(IntPtr memory);
+
+		//The message-pumping wait between two requests (S3a-14, MessagePumpingStream).
+		public const uint INFINITE=0xFFFFFFFF;
+		public const uint WAIT_OBJECT_0=0;
+		public const uint WAIT_FAILED=0xFFFFFFFF;
+		public const uint QS_ALLINPUT=0x04FF;
+		public const uint MWMO_INPUTAVAILABLE=0x0004;
+		public const uint PM_REMOVE=0x0001;
+
+		[StructLayout(LayoutKind.Sequential)]
+		public struct MSG {
+			public IntPtr hwnd;
+			public uint message;
+			public IntPtr wParam;
+			public IntPtr lParam;
+			public uint time;
+			public int ptX;
+			public int ptY;
+		}
+
+		///<summary>https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-msgwaitformultipleobjectsex</summary>
+		[DllImport("user32.dll",SetLastError=true)]
+		public static extern uint MsgWaitForMultipleObjectsEx(uint count,IntPtr[] handles,uint milliseconds,uint wakeMask,uint flags);
+
+		[DllImport("user32.dll")]
+		[return: MarshalAs(UnmanagedType.Bool)]
+		public static extern bool PeekMessage(out MSG msg,IntPtr hwnd,uint messageFilterMin,uint messageFilterMax,uint removeMessage);
+
+		[DllImport("user32.dll")]
+		[return: MarshalAs(UnmanagedType.Bool)]
+		public static extern bool TranslateMessage(ref MSG msg);
+
+		[DllImport("user32.dll")]
+		public static extern IntPtr DispatchMessage(ref MSG msg);
+
+		///<summary>https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-setforegroundwindow (Schick's exam window; the program
+		///allows the helper to set the foreground window first, Helper32Client.AllowSetForeground).</summary>
+		[DllImport("user32.dll")]
+		[return: MarshalAs(UnmanagedType.Bool)]
+		public static extern bool SetForegroundWindow(IntPtr hWnd);
+
+		[StructLayout(LayoutKind.Sequential)]
+		public struct RECT {
+			public int Left;
+			public int Top;
+			public int Right;
+			public int Bottom;
+		}
+
+		///<summary>The program's window, over which Topaz's signing window is centered.</summary>
+		[DllImport("user32.dll")]
+		[return: MarshalAs(UnmanagedType.Bool)]
+		public static extern bool GetWindowRect(IntPtr hWnd,out RECT rect);
+
+		[DllImport("user32.dll")]
+		[return: MarshalAs(UnmanagedType.Bool)]
+		public static extern bool IsWindow(IntPtr hWnd);
 	}
 }
