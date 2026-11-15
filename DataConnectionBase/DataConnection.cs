@@ -1132,6 +1132,9 @@ namespace DataConnectionBase {
 		///Do not call this directly, instead use RunMySqlAction() or RunOracleAction().</summary>
 		private static void RunDbAction(Action actionDb,System.Data.Common.DbConnection connection,System.Data.Common.DbCommand cmd) {
 			try {
+				//No command starts on the thread of a progress window's action after the user cancelled it (S3a-1b): OperationCanceledException,
+				//and the catch below closes the connection. A no-op on every other thread (ODCancellation).
+				ODCancellation.ThrowIfCancellationRequested();
 				QueryMonitor.Monitor.RunMonitoredQuery(actionDb,cmd);
 			}
 			catch(MySqlException mySqlEx) {

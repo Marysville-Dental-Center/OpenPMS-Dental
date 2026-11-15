@@ -333,6 +333,9 @@ namespace OpenPmsDentalBusiness {
 		///<summary>Optionally set hasConnectionLost true to keep the calling thread here until a connection to the Middle Tier connection can be established
 		///in the event of a web connection failure. Set hasConnectionLost to false if a throw is desired when a connection cannot be made.</summary>
 		internal static string SendAndReceive(DataTransferObject dto,bool hasConnectionLost=true) {
+			//No request goes to the Middle Tier from the thread of a progress window's action after the user cancelled it (S3a-1b), so that the
+			//server writes nothing for it either. A no-op on every other thread (ODCancellation).
+			ODCancellation.ThrowIfCancellationRequested();
 			//Anyone trying to invoke a method other than CheckUserAndPassword must first check the current HasLoginFailed status as to not call the middle tier too often.
 			bool isCheckUserAndPassword=(dto.MethodName==nameof(OpenPmsDentalBusiness)+"."+nameof(Userods)+"."+nameof(Userods.CheckUserAndPassword));
 			if(!isCheckUserAndPassword && HasLoginFailed) {

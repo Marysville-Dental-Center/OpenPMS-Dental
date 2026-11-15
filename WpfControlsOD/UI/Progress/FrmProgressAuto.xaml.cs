@@ -51,6 +51,10 @@ namespace WpfControls.UI {
 		private volatile bool _isCancelRequested=false;
 		///<summary>Set on the main thread (inside the worker's Invoke) when the action has finished, with or without an exception. Used instead of the thread's IsAlive, which stays true for a moment after the action.</summary>
 		private bool _isWorkDone=false;
+		///<summary>Set on the main thread when the window closed as cancelled while the action still ran (IsWorkerStillRunning). The worker then logs how and when it ended. Volatile because the worker thread reads it.</summary>
+		private volatile bool _isLoggingWorkerEnd=false;
+		///<summary>When the window closed with the worker still running. Read by the worker for its log line.</summary>
+		private DateTime _dateTimeClosedWithWorkerRunning;
 
 		public FrmProgressAuto() {
 			InitializeComponent();
@@ -96,12 +100,14 @@ namespace WpfControls.UI {
 
 		private void ODEvent_Fired(ODEventArgs eventArgs) {
 			if(_isCancelRequested && (eventArgs.Tag is string || eventArgs.Tag is ProgressBarHelper)) {
-				if(Thread.CurrentThread==_threadWorker) {
+				if(Thread.CurrentThread==_threadWorker && !ODCancellation.IsInUncancellableUnit) {
 					//The user cancelled. A progress report from the action is where it stops, in place of the old Thread.Abort: the exception ends the
-					//action unless the action catches it, and DoWork drops it.
+					//action unless the action catches it, and DoWork drops it. Not inside a unit that ODCancellation.RunUncancellable runs to its end.
 					throw new OperationCanceledException(CancellationTokenSource.Token);
 				}
-				return;//The window is closing or closed as cancelled, so it shows no more progress.
+				//The window is closing or closed as cancelled, so it shows no more progress. A RunParallel pool thread of the action gets here too:
+				//its pool starts no further action after the cancel (it shares the worker's token), and RunParallel then throws on the worker.
+				return;
 			}
 			//There seem to be a variety of types used that were clearly intended to be shown in progress bar, so we'll include all.
 			//Besides, the msgs only hit this spot if a progress window is open, so it's probably relevant.
@@ -126,18 +132,42 @@ namespace WpfControls.UI {
 
 		///<summary>This happens on background thread.</summary>
 		private void DoWork(){
+			string outcome="finished";
 			try {
-				DoWorkAndReport();
+				//The token belongs to this thread from here on (ODCancellation): after a cancel the database layer and the Middle Tier client start no
+				//command for the action, and the action's RunParallel pools start no further action (S3a-1b).
+				using(ODCancellation.Use(CancellationTokenSource.Token)) {
+					outcome=DoWorkAndReport();
+				}
 			}
 			finally {
 				//The window unsubscribes when it closes too, but after a cancel the worker can outlive the window, and its progress events are its
 				//cancellation points until it ends (ODEvent_Fired).
 				ODEvent.Fired-=ODEvent_Fired;
+				if(_isLoggingWorkerEnd) {
+					ODCancellation.Log("Progress window '"+StartingMessage+"' ("+GetActionName()+"): the action "+outcome+" "
+						+(DateTime.Now-_dateTimeClosedWithWorkerRunning).TotalSeconds.ToString("F1")+" s after the window closed as cancelled.");
+				}
 			}
 		}
 
-		///<summary>Runs the action and reports its outcome to the window on the main thread, unless the user cancelled first. The worker thread is never aborted: the window used to abort it here after the action, which on .NET 5 and later throws PlatformNotSupportedException instead.</summary>
-		private void DoWorkAndReport(){
+		///<summary>The method behind ActionMain, for log lines. Never throws.</summary>
+		private string GetActionName() {
+			try {
+				MethodInfo methodInfo=ActionMain?.Method;
+				if(methodInfo==null) {
+					return "no action";
+				}
+				return methodInfo.DeclaringType?.FullName+"."+methodInfo.Name;
+			}
+			catch(Exception ex) {
+				ex.DoNothing();
+				return "unknown action";
+			}
+		}
+
+		///<summary>Runs the action and reports its outcome to the window on the main thread, unless the user cancelled first. The worker thread is never aborted: the window used to abort it here after the action, which on .NET 5 and later throws PlatformNotSupportedException instead. Returns how the action ended, for the log line of a worker that outlived its window.</summary>
+		private string DoWorkAndReport(){
 			if(ODBuild.IsDebug()){
 				if(TestSleep){
 					Thread.Sleep(3000);
@@ -151,15 +181,21 @@ namespace WpfControls.UI {
 					_isForceClose=true;
 					IsDialogOK=false;
 				});
-				return;
+				return "was aborted";
+			}
+			catch(OperationCanceledException ex) when(_isCancelRequested) {
+				//The user cancelled and the window has closed as cancelled. The action stopped at a cancellation point (the token, the database layer,
+				//or a progress event); nobody waits for its outcome any more. Expected, so not logged (a worker that outlived its window is, in DoWork).
+				ex.DoNothing();
+				return "stopped at a cancellation point";
 			}
 			catch(Exception ex) when(_isCancelRequested) {
-				//The user cancelled and the window has closed as cancelled. The action stopped at a cancellation point (OperationCanceledException from
-				//the token or from a progress event) or failed after the cancel; nobody waits for its outcome any more.
-				ex.DoNothing();
-				return;
+				//The action failed after the user cancelled. Nobody waits for its outcome any more, so it is logged instead of dropped (S3a-1b). No UI.
+				LogExceptionAfterCancel(ex);
+				return "failed";
 			}
 			catch(Exception ex) {//normal exception
+				bool isReported=false;
 				Dispatcher.Invoke(() => {
 					if(_isCancelRequested) {
 						return;//The user's cancel reached the window first, so the window closed as cancelled.
@@ -168,11 +204,15 @@ namespace WpfControls.UI {
 					_isWorkDone=true;
 					_isForceClose=true;
 					IsDialogOK=false;
+					isReported=true;
 				});
-				return;
+				if(!isReported && !(ex is OperationCanceledException)) {
+					LogExceptionAfterCancel(ex);//The cancel came first: logged, not dropped.
+				}
+				return "failed";
 			}
 			if(_isCancelRequested) {
-				return;//The action finished after the user cancelled: the window has closed as cancelled.
+				return "finished";//The action finished after the user cancelled: the window has closed as cancelled.
 			}
 			if(HasHistory && !HistoryClose){
 				Dispatcher.Invoke(() => {
@@ -196,6 +236,13 @@ namespace WpfControls.UI {
 					IsDialogOK=true;
 				});
 			}
+			return "finished";
+		}
+
+		///<summary>Logs an exception that the action threw after the user cancelled (S3a-1b): nobody waits for the action's outcome any more, and the window shows nothing. Never throws.</summary>
+		private void LogExceptionAfterCancel(Exception ex) {
+			ODCancellation.Log("Progress window '"+StartingMessage+"' ("+GetActionName()+"): the action threw after the user cancelled: "
+				+MiscUtils.GetExceptionText(ex));
 		}
 
 		private void UpdateProgress(string status,ProgressBarHelper progressBarHelper) {
@@ -325,6 +372,14 @@ namespace WpfControls.UI {
 			}
 			//Bounded wait. The worker does not need this thread to stop: after the cancel it no longer invokes onto the window.
 			IsWorkerStillRunning=!_threadWorker.Join(WorkerStopWaitMS);
+			if(IsWorkerStillRunning) {
+				//Logged, no UI (S3a-1b, lead decision). The worker logs again when it ends (DoWork).
+				_dateTimeClosedWithWorkerRunning=DateTime.Now;
+				_isLoggingWorkerEnd=true;
+				ODCancellation.Log("Progress window '"+StartingMessage+"' ("+GetActionName()+"): the action was still running "+WorkerStopWaitMS
+					+" ms after the user cancelled; the window closed as cancelled and the action goes on in the background to its next cancellation point"
+					+" or its end.");
+			}
 		}
 		
 	}
