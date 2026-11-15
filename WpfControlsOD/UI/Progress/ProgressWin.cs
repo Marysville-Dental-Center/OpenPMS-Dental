@@ -79,9 +79,19 @@ Cancel (or X, where allowed), the window closes as cancelled and IsCancelled is 
 -ActionCancel is invoked, if set (for an action that waits on something of its own).
 -A progress event (ODEvent.Fire with a string or a ProgressBarHelper) fired by the action after the cancel throws OperationCanceledException,
  so an action that reports progress stops at its next report.
-The window waits a moment (about a second) for the action to stop. If it has not, IsWorkerStillRunning is true: the action runs on in the
-background to its end, and its result or exception is dropped. So an action that writes to the database should check the token before
-each write it must not do after a cancel, or run without a Cancel button (ShowCancelButton=false).
+-No database command starts for the action after the cancel (S3a-1b): the token is the worker thread's ODCancellation token, which the
+ database layer (DataConnection) and the Middle Tier client (RemotingClient) check before every command or request, so the action's next
+ query throws OperationCanceledException. The action's ODThread.RunParallel pools share the token: they start no further action, and
+ RunParallel then throws on the worker. Other threads the action starts do not get the token.
+-Loops that write files or call a vendor check ODCancellation.ThrowIfCancellationRequested() (or this token) before each file or call.
+-A write and what belongs to it (its security log entry, the claim that records what a vendor was sent) can be run as one unit with
+ ODCancellation.RunUncancellable(() => ...): a cancel then stops the action before or after the unit, never in its middle.
+The window waits a moment (about a second) for the action to stop. If it has not, IsWorkerStillRunning is true and a line is logged
+(ODCancellation.Log): the action runs on in the background to its next cancellation point or its end, its result is dropped, and an
+exception it throws is logged. Either way no database write starts after the cancel, only the one under way (or the rest of a unit
+under way) finishes. An action whose writes must not stop part-way at all runs without a Cancel button (ShowCancelButton=false).
+Read CancellationToken on the action's own thread (or pass it on): the property gives each run of ShowDialog its own token, also to an
+earlier run's action that is still running after a cancel.
 
 Events==============================================================================================================================
 Inside of your background thread, you can fire global events:
@@ -140,15 +150,23 @@ Use wait cursors for everything else:
 		public bool TestSleep;
 		///<summary>Cancelled when the user cancels while ActionMain runs. A new one for each ShowDialog after a cancel.</summary>
 		private CancellationTokenSource _cancellationTokenSource=new CancellationTokenSource();
+		///<summary>Every source this ProgressWin has given a run of ShowDialog, the current one included. An earlier run's action that still runs after its cancel keeps reading its own (cancelled) source through CancellationToken, not the next run's (S3a-1b). Locked, because the worker threads read it.</summary>
+		private List<CancellationTokenSource> _listCancellationTokenSources=new List<CancellationTokenSource>();
 
 		public ProgressWin(){
 			//no parameters
 		}
 
-		///<summary>Cancelled when the user cancels while ActionMain runs. ActionMain can check it (IsCancellationRequested, ThrowIfCancellationRequested) or pass it on, to stop early; the window does not abort the action.</summary>
+		///<summary>Cancelled when the user cancels while ActionMain runs. ActionMain can check it (IsCancellationRequested, ThrowIfCancellationRequested) or pass it on, to stop early; the window does not abort the action. Read on the thread of an action of this ProgressWin, it is that run's token: after a cancel and a second ShowDialog, the first action, if it still runs, sees its own cancelled token and the second action a new one.</summary>
 		public CancellationToken CancellationToken {
 			get {
-				return _cancellationTokenSource.Token;
+				CancellationToken cancellationTokenThread=ODCancellation.Current;//the token FrmProgressAuto set on the worker thread of a run
+				lock(_listCancellationTokenSources) {
+					if(cancellationTokenThread.CanBeCanceled && _listCancellationTokenSources.Any(x => x.Token==cancellationTokenThread)) {
+						return cancellationTokenThread;
+					}
+					return _cancellationTokenSource.Token;
+				}
 			}
 		}
 
@@ -157,8 +175,15 @@ Use wait cursors for everything else:
 			if(ActionMain==null) {
 				return;
 			}
-			if(_cancellationTokenSource.IsCancellationRequested) {
-				_cancellationTokenSource=new CancellationTokenSource();//shown again after a cancel
+			lock(_listCancellationTokenSources) {
+				if(_cancellationTokenSource.IsCancellationRequested) {
+					//Shown again after a cancel. The earlier source is kept (not disposed): an earlier action that is still running reads it through
+					//CancellationToken on its own thread.
+					_cancellationTokenSource=new CancellationTokenSource();
+				}
+				if(!_listCancellationTokenSources.Contains(_cancellationTokenSource)) {
+					_listCancellationTokenSources.Add(_cancellationTokenSource);
+				}
 			}
 			WpfControls.UI.FrmProgressAuto frmProgressAuto=new WpfControls.UI.FrmProgressAuto();
 			frmProgressAuto.ActionMain=ActionMain;

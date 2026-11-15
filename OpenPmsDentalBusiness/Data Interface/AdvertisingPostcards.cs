@@ -365,6 +365,9 @@ namespace OpenPmsDentalBusiness {
 			RequireBaaOnFile();
 			PostcardOrderOutcome postcardOrderOutcome=new PostcardOrderOutcome();
 			for(int i=0;i<listOrders.Count;i++) {
+				//The user cancelled the progress window that places the orders: place no further order (S3a-1b). The window warned that one may already
+				//have reached the vendor. A no-op outside a progress window.
+				ODCancellation.ThrowIfCancellationRequested();
 				PcmPostcardOrderRequest request=listOrders[i];
 				if(isRetry) {
 					PcmOrder pcmOrderExisting;

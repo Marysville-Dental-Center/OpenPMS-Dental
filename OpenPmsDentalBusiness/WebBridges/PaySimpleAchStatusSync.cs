@@ -257,6 +257,8 @@ namespace OpenPmsDentalBusiness {
 			List<Payment> listPosted=achGroup.ListPayments.FindAll(x => x.PaymentStatus==PaymentStatus.PaySimpleAchPosted);
 			List<Payment> listSettled=achGroup.ListPayments.FindAll(x => x.PaymentStatus==PaymentStatus.PaySimpleAchSettled);
 			for(int i=0;i<listPosted.Count;i++) {
+				//Run from Setup's progress window that the user cancelled: no further lookup or status change (S3a-1b). A no-op elsewhere.
+				ODCancellation.ThrowIfCancellationRequested();
 				if(i>0) {
 					_actionPause(TimeSpanPace);
 				}
@@ -279,6 +281,7 @@ namespace OpenPmsDentalBusiness {
 			}
 			DateTime dateStart=_funcToday().AddDays(-DaysToTrackSettled);
 			for(int page=1;page<=MAX_SWEEP_PAGES;page++) {
+				ODCancellation.ThrowIfCancellationRequested();//As above (S3a-1b).
 				if(page>1 || listPosted.Count>0) {
 					_actionPause(TimeSpanPace);
 				}

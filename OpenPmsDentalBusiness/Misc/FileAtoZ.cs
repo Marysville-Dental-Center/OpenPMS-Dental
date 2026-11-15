@@ -196,6 +196,8 @@ namespace OpenPmsDentalBusiness.FileIO {
 				}
 				else if(sourceDestination==FileAtoZSourceDestination.AtoZToLocal) {
 					byte[] byteArray=CloudStorage.Download(Path.GetDirectoryName(sourceFileName),Path.GetFileName(sourceFileName));
+					//Run in a progress window that the user cancelled during the download (an export, a temp copy to open): no local file (S3a-1b).
+					ODCancellation.ThrowIfCancellationRequested();
 					File.WriteAllBytes(destinationFileName,byteArray);
 				}
 				else {

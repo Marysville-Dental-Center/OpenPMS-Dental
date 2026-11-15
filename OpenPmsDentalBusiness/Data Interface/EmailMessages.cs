@@ -1105,6 +1105,8 @@ namespace OpenPmsDentalBusiness {
 				List<string> listMsgIds=client.GetMessageUids().ToList();//Get all unique identifiers for each email in the inbox.
 				List<string> listMsgIdsDownloaded=funcGetStoredUids();
 				for(int i=0;i<listMsgIds.Count;i++) {
+					//The user cancelled the progress window that receives (FormEmailInbox): download no further message (S3a-1b). A no-op elsewhere.
+					ODCancellation.ThrowIfCancellationRequested();
 					int msgIndex=i;//MailKit's message indexes are 0-based (OpenPop's were 1-based).
 					string msgId=listMsgIds[i]??"";//Example: 1420562540.886638.p3plgemini22-06.prod.phx.2602059520
 					MimeKit.HeaderList headerList=null;
@@ -1177,6 +1179,9 @@ namespace OpenPmsDentalBusiness {
 						//This can happen if the application is exiting. We need to leave right away so the program does not lock up.
 						//Otherwise, this loop could continue for a while if there are a lot of messages to download.
 						throw;
+					}
+					catch(OperationCanceledException) {
+						throw;//The user cancelled (S3a-1b): the database layer refused the import's next write. Not a failed email; stop.
 					}
 					catch(Exception){
 						//If one particular email fails to download, then skip it for now and move on to the next email.
@@ -1340,6 +1345,8 @@ namespace OpenPmsDentalBusiness {
 			GmailApi.GmailService gmailService=GoogleApiConnector.CreateGmailService(basicEmailAddress);
 			try {
 				for(int i=0;i<listNewIds.Count;i++) {
+					//The user cancelled the progress window that receives (FormEmailInbox): download no further message (S3a-1b). A no-op elsewhere.
+					ODCancellation.ThrowIfCancellationRequested();
 					GmailApi.Data.Message messageResponse=null;
 					while(messageResponse==null) {
 						GmailApi.UsersResource.MessagesResource.GetRequest emailRequest=gmailService.Users.Messages.Get(emailAddressInbox.EmailUsername,listNewIds[i]);
@@ -1420,6 +1427,9 @@ namespace OpenPmsDentalBusiness {
 				//Otherwise, this loop could continue for a while if there are a lot of messages to download.
 				throw;
 			}
+			catch(OperationCanceledException) {
+				throw;//The user cancelled (S3a-1b): the import's next write was refused. No uid either, so the message comes again next time.
+			}
 			catch(Exception ex) {
 				//Something went wrong processing this email. Still insert uid so we don't download it again.
 				ex.DoNothing();
@@ -1477,6 +1487,8 @@ namespace OpenPmsDentalBusiness {
 				EmailMessageUids.GetMsgIdsRecipientAddress(emailAddressInbox.EmailUsername));
 			int countNewEmails=0;
 			for(int i=0;i<listNewIds.Count;i++) {
+				//The user cancelled the progress window that receives (FormEmailInbox): download no further message (S3a-1b). A no-op elsewhere.
+				ODCancellation.ThrowIfCancellationRequested();
 				string messageId=listNewIds[i];
 				MimeKit.MimeMessage mimeMessage;
 				try {
@@ -1505,6 +1517,9 @@ namespace OpenPmsDentalBusiness {
 					//This can happen if the application is exiting. We need to leave right away so the program does not lock up.
 					//Otherwise, this loop could continue for a while if there are a lot of messages to download.
 					throw;
+				}
+				catch(OperationCanceledException) {
+					throw;//The user cancelled (S3a-1b): the import's next write was refused. No uid either, so the message comes again next time.
 				}
 				catch(Exception ex) {
 					//Something went wrong with processing this email. Still add the uid to not download again later.

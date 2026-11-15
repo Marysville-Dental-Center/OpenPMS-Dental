@@ -1314,6 +1314,7 @@ namespace OpenPmsDental{
 				progressWin.StartingMessage="Downloading...";
 				progressWin.ActionMain=() => {
 					byte[] byteArray=CloudStorage.Download(_patFolder.Replace("\\","/"),GetDocumentShowing(0).FileName);
+					progressWin.CancellationToken.ThrowIfCancellationRequested();//Cancelled during the download: no temp file is written (S3a-1b).
 					File.WriteAllBytes(tempFile,byteArray);
 				};
 				progressWin.ShowDialog();

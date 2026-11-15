@@ -267,14 +267,16 @@ namespace OpenPmsDental {
 			progressOD.ActionMain=() => { 
 				int patsMoved=0;
 				int countTotal=listClinicCountsSelected.Sum(x => x.Count);
-				List<Action> listActions=listClinicCountsSelected.Select(x => new Action(() => {
+				//Each clinic's move is one unit with its Audit Trail entries (S3a-1b): after a cancel the moves under way finish with their entries,
+				//RunParallel starts no further clinic and then throws, so the action stops there.
+				List<Action> listActions=listClinicCountsSelected.Select(x => new Action(() => ODCancellation.RunUncancellable(() => {
 					Patients.ChangeClinicsForAll(x.ClinicNum,clinicTo.ClinicNum);//update all clinicNums to newClinic
 					SecurityLogs.MakeLogEntry(EnumPermType.PatientEdit,0,"Clinic changed for "+x.Count.ToString()+" patients from "
 						+Clinics.GetAbbr(x.ClinicNum)+" to "+clinicTo.Abbr+".");
 					patsMoved+=x.Count;
 					ODEvent.Fire(ODEventType.ProgressBar,Lan.g(this,"Moved patients")+": "+patsMoved+" "+Lan.g(this,"out of total")+" "
 						+countTotal.ToString());
-				})).ToList();
+				}))).ToList();
 				//Each move also writes one Audit Trail entry per patient (Patients.ChangeClinicsForAll), so a large clinic needs longer than the
 				//old 2 minutes. The timeout stops the threads, which would leave patients moved without their entries.
 				ODThread.RunParallel(listActions,TimeSpan.FromMinutes(10));

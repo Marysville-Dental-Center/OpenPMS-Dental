@@ -232,6 +232,11 @@ namespace CodeBase {
 			//abort from elsewhere on .NET Framework and goes after the .NET 10 switch (net10-plan, S3a-1).
 			if(_hasJoinTimedOut || e is ThreadAbortException) {
 				//We know that a join failed by exceeding the allotted timeout.
+				if(_hasJoinTimedOut && !(e is ThreadAbortException)) {
+					//Nobody waits for this thread any more, so its exception is logged instead of being dropped silently (S3a-1b). No UI.
+					ODCancellation.Log("ODThread '"+_thread.Name+"' (group '"+GroupName+"') threw after its Join timed out; the thread quits: "
+						+MiscUtils.GetExceptionText(e));
+				}
 				_dateTimeQuit=DateTime.Now;
 				_hasQuit=true;
 				return false;
@@ -312,13 +317,14 @@ namespace CodeBase {
 			}
 		}
 
-		///<summary>Immediately returns after flagging the thread to quit itself asynchronously.  The thread may execute a bit longer.  If the thread has been forgotten, it will be forcefully quit on closing of the main application.</summary>
+		///<summary>Immediately returns after flagging the thread to quit itself asynchronously (HasQuit becomes true and a wait for the next interval is woken up).  The thread runs its current WorkerDelegate to its end, which may take a while; nothing stops it by force (Thread.Abort is gone).  A thread that is still running when the main application closes is not aborted either: QuitSyncAllOdThreads makes it a background thread, which ends with the process.</summary>
 		public NamedResetEvent QuitAsync() {
 			return QuitAsync(true);
 		}
 
-		///<summary>Immediately returns after flagging the thread to quit itself asynchronously.  The thread may execute a bit longer.  
-		///If the thread has been forgotten, it will be forcefully quit on closing of the main application.  
+		///<summary>Immediately returns after flagging the thread to quit itself asynchronously.  The thread runs its current WorkerDelegate to its end.
+		///Nothing stops it by force: a thread that is still running when the main application closes becomes a background thread there
+		///(QuitSyncAllOdThreads), which ends with the process.
 		///Set removeThread false if you want this thread to stay in the global list of ODThreads.
 		///Returns a WaitHandle that will each when the respective thread has officially exited. 
 		///Wait on this handle if you want to quit async and wait for results without joining back to the main thread.</summary>
@@ -336,7 +342,7 @@ namespace CodeBase {
 			return _waitEventAsyncQuitComplete;
 		}
 
-		///<summary>Waits for this thread to quit itself before returning.  If the thread has been forgotten, it will be forcefully quit on closing of the main application.</summary>
+		///<summary>Asks this thread to quit and waits up to timeoutMS for it to finish before returning.  If it has not finished by then, it is not aborted (see Join): it runs its current WorkerDelegate to its end as a background thread, which ends with the process.  Either way it is removed from the global list of ODThreads.</summary>
 		public void QuitSync(int timeoutMS) {
 			_hasQuit=true;
 			//If thread is in waiting on wait event, wake it can quit gracefully.
@@ -345,8 +351,9 @@ namespace CodeBase {
 				Join(timeoutMS);//Wait for allotted time. Then the thread is left to finish on its own (Join no longer aborts).
 			}
 			catch {
-				//Guards against re-entrance into this function just in case the main thread called QuitSyncAllOdThreads() and this thread itself called QuitSync() at the same time.
-				//This will be very rare and if we get to this point, we know that the thread has already been joined or aborted and thus has already finished doing work so it is fine to remove.
+				//Join no longer throws for a timeout and never aborts the thread. What can still throw is the C# Thread.Join under it, for example
+				//ThreadInterruptedException when the waiting thread is interrupted, or a call that races QuitSyncAllOdThreads on the main thread.
+				//The thread is then left running and finishes on its own (nothing aborts it), so it is fine to remove it from the list.
 			}
 			finally {
 				lock(_lockObj) {
@@ -425,9 +432,9 @@ namespace CodeBase {
 			};
 		}
 
-		///<summary>If the thread has not started, then returns 0.  If the thread has started but has not quit yet, then returns the amount of time which has elapsed since the thread was started.  If the thread has quit, returns the time elapsed between when the thread was started and when the thread was quit.</summary>
+		///<summary>If the thread has not started, then returns 0.  If the thread has started but has not finished yet, then returns the amount of time which has elapsed since the thread was started; that includes a thread that was asked to quit (QuitAsync, or a Join that timed out) and still runs its WorkerDelegate.  If the thread has finished, returns the time elapsed between when the thread was started and when it finished.</summary>
 		public TimeSpan GetTimeElapsed() {
-			if(_hasQuit) {
+			if(_hasQuit && _dateTimeQuit>DateTime.MinValue) {//_dateTimeQuit is set when the thread finishes, not when it is asked to quit.
 				return (_dateTimeQuit-_dateTimeStart);
 			}
 			else if(_dateTimeStart>DateTime.MinValue) {
@@ -462,6 +469,9 @@ namespace CodeBase {
 		///If the timeout is reached, the method returns and its threads are told to quit (they are no longer aborted, see Join): each thread runs
 		///the action it is in to its end in the background and starts no further action, so the actions not started yet never run.  This can leave data in an
 		///undefined state, for example, if an action times out before instantiating an object, the object will be null.
+		///If the action that calls this runs for a progress window that the user cancels (ODCancellation), the threads start no further action, the
+		///actions under way stop at their next database command as the calling thread does (the threads share its token; a unit run with
+		///ODCancellation.RunUncancellable finishes), and then this method throws OperationCanceledException on the calling thread (S3a-1b).
 		///Throws exception on main thread if any action throws and unhandled exception and no onException was provided.</summary>
 		public static void RunParallel(List<Action> listActions,TimeSpan timeout,int numThreads=0,ExceptionDelegate onException=null,bool isLegacy=false) {
 			RunParallel(listActions,(int)timeout.TotalMilliseconds,numThreads,onException,isLegacy:isLegacy);
@@ -474,6 +484,9 @@ namespace CodeBase {
 		///If the timeout is reached, the method returns and its threads are told to quit (they are no longer aborted, see Join): each thread runs
 		///the action it is in to its end in the background and starts no further action, so the actions not started yet never run.  This can leave data in an
 		///undefined state, for example, if an action times out before instantiating an object, the object will be null.
+		///If the action that calls this runs for a progress window that the user cancels (ODCancellation), the threads start no further action, the
+		///actions under way stop at their next database command as the calling thread does (the threads share its token; a unit run with
+		///ODCancellation.RunUncancellable finishes), and then this method throws OperationCanceledException on the calling thread (S3a-1b).
 		///Throws exception on main thread if any action throws and unhandled exception and no onException was provided.</summary>
 		public static void RunParallel(List<Action> listActions,int timeoutMS=Timeout.Infinite,int numThreads=0,ExceptionDelegate onException=null,
 			bool doRunOnCurrentThreadIf1Processor=false,bool isLegacy=false) 
@@ -489,6 +502,9 @@ namespace CodeBase {
 				}
 			}
 			Exception exceptionFirst=null;
+			//The calling thread's cancellation (a progress window's action), shared with the pool threads. None when nothing can cancel it, and
+			//inside ODCancellation.RunUncancellable.
+			CancellationToken cancellationToken=ODCancellation.GetTokenForChildThreads();
 			void HandleException(Exception ex) {
 				if(ex!=null) { //One of the actions threw an unhandled exception.
 					if(onException==null) { //No handler was provided so throw. 
@@ -500,6 +516,9 @@ namespace CodeBase {
 			}
 			if(threadCount==1 && doRunOnCurrentThreadIf1Processor) {
 				foreach(Action action in listActions) {
+					if(cancellationToken.IsCancellationRequested) {
+						break;//The user cancelled: start no further action.
+					}
 					try {
 						action();
 					}
@@ -509,15 +528,17 @@ namespace CodeBase {
 				}
 			}
 			else if(!isLegacy) {
-				exceptionFirst=RunParallelImproved(listActions,timeoutMS,threadCount);
+				exceptionFirst=RunParallelImproved(listActions,timeoutMS,threadCount,cancellationToken);
 			}
 			else {
-				exceptionFirst=RunParallelLegacy(listActions,timeoutMS,threadCount);
+				exceptionFirst=RunParallelLegacy(listActions,timeoutMS,threadCount,cancellationToken);
 			}
+			//The parent checks too: the pool threads only stop starting actions, so the caller must not go on as if all of them had run.
+			cancellationToken.ThrowIfCancellationRequested();
 			HandleException(exceptionFirst);
 		}
 
-		private static Exception RunParallelLegacy(List<Action> listActions,int timeoutMS,int threadCount) {
+		private static Exception RunParallelLegacy(List<Action> listActions,int timeoutMS,int threadCount,CancellationToken cancellationToken) {
 			Exception exceptionFirst=null;
 			//Make a group of threads to spread out the workload.
 			List<Action> listActionsCur=new List<Action>();
@@ -534,11 +555,16 @@ namespace CodeBase {
 				if(listActionsCur.Count==actionsPerThread||i==(listActions.Count-1)) {
 					ODThread odThread=new ODThread(new WorkerDelegate((ODThread o) => {
 						List<Action> listActionsThread=(List<Action>)o.Tag;
-						for(int j=0;j<listActionsThread.Count;j++) {
-							if(o.HasQuit) {
-								return;//The timeout was reached (Join asked the thread to quit): start no further action.
+						using(ODCancellation.Use(cancellationToken)) {//The pool thread's writes stop on a cancel as the calling thread's do.
+							for(int j=0;j<listActionsThread.Count;j++) {
+								if(o.HasQuit) {
+									return;//The timeout was reached (Join asked the thread to quit): start no further action.
+								}
+								if(cancellationToken.IsCancellationRequested) {
+									return;//The user cancelled the calling thread's action: start no further action.
+								}
+								listActionsThread[j]();
 							}
-							listActionsThread[j]();
 						}
 					}));
 					odThread.Tag=new List<Action>(listActionsCur);
@@ -569,8 +595,11 @@ namespace CodeBase {
 		///If the timeout is reached, the method returns and its threads are told to quit (they are no longer aborted, see Join): each thread runs
 		///the action it is in to its end in the background and starts no further action, so the actions not started yet never run.  This can leave data in an
 		///undefined state, for example, if an action times out before instantiating an object, the object will be null.
+		///If the action that calls this runs for a progress window that the user cancels (ODCancellation), the threads start no further action, the
+		///actions under way stop at their next database command as the calling thread does (the threads share its token; a unit run with
+		///ODCancellation.RunUncancellable finishes), and then this method throws OperationCanceledException on the calling thread (S3a-1b).
 		///Throws exception on main thread if any action throws and unhandled exception and no onException was provided.</summary>
-		private static Exception RunParallelImproved(List<Action> listActions,int timeoutMS,int threadCount) {
+		private static Exception RunParallelImproved(List<Action> listActions,int timeoutMS,int threadCount,CancellationToken cancellationToken) {
 			Exception exceptionFirst=null;
 			threadCount=Math.Min(threadCount,listActions.Count);
 			ConcurrentQueue<Action> queueActions=new ConcurrentQueue<Action>(listActions);
@@ -583,9 +612,11 @@ namespace CodeBase {
 			List<ODThread> listThreads=new List<ODThread>();
 			for(int i=0;i<threadCount;i++) {
 				ODThread odThread=new ODThread(new WorkerDelegate((ODThread o) => {
-					//HasQuit: the timeout was reached (Join asked the thread to quit), so start no further action.
-					while(!o.HasQuit && queueActions.TryDequeue(out Action action)) {
-						action();
+					using(ODCancellation.Use(cancellationToken)) {//The pool thread's writes stop on a cancel as the calling thread's do.
+						//HasQuit: the timeout was reached (Join asked the thread to quit), so start no further action. The same after a cancel.
+						while(!o.HasQuit && !cancellationToken.IsCancellationRequested && queueActions.TryDequeue(out Action action)) {
+							action();
+						}
 					}
 				}));
 				odThread.Name=threadGroupName+"-"+threadID;

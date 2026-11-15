@@ -303,6 +303,8 @@ namespace CodeBase {
 			if(millisecondsToSleep>0) {
 				System.Threading.Thread.Sleep(millisecondsToSleep);
 			}
+			//Run in a progress window that the user cancelled meanwhile (DexisIntegrator): the program is not started (S3a-1b). A no-op elsewhere.
+			ODCancellation.ThrowIfCancellationRequested();
 			if(!string.IsNullOrEmpty(processPath)) {
 				return Process.Start(processPath,commandLineArgs);
 			}
