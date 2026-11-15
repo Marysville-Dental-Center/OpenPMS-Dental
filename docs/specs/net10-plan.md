@@ -1706,6 +1706,24 @@ The owner answered the plan's questions "as recommended", with the corrections b
     - **Migration code already built stays**, under the no-cut rule, with its tests. That is S3a-5's PasswordVault copy and S3a-10/10f's
       guards and Recopy offer. Nothing is added to it.
     - **The gates and launch checks stay.** They run on a test PC, never at the office.
+23. **Native 64-bit first for every integration (owner, 2026-11-15: "For any integration, use native 64bit first. If the option is not
+    available, fall back to 32bit").** This replaces the helper-first default of S3a-13/S3a-14 and answers O-14. For each integration that
+    loads vendor code (an in-process DLL, a COM server, a driver):
+    - the 64-bit program uses the vendor's 64-bit way when one exists: an AnyCPU or x64 DLL in process, or an out-of-process COM server,
+      which works across bitness;
+    - the 32-bit helper (`OpenPmsDentalHelper32`) is the fallback, chosen when the vendor has no 64-bit way, or at run time when the installed
+      vendor piece is 32-bit only. The helper's modules stay under the no-cut rule.
+    - What is known (S3a-13 and S3a-14 vendor checks, O-14):
+      - Topaz SigPlusNET is AnyCPU (current version), so it is loaded in process; the helper is used only when the installed DLL is
+        32-bit only.
+      - Schick CDR is an out-of-process server (`CDRDicom.exe`), so it is called directly; the helper is used when it is not registered for
+        64-bit callers.
+      - QuickBooks Desktop has a 64-bit QBFC from SDK 15 on (QuickBooks Desktop 2022 and later), so there is a 64-bit path with the helper's
+        QBFC 10 kept for older QuickBooks. The SDK download is behind the owner's Intuit sign-in.
+      - Guru: no 64-bit `MedVisorInterface.dll` is known, so the helper is used.
+      - TWAIN devices with only a 32-bit driver need a 32-bit TWAIN path through the helper. New, for 3b.
+    - The native-first survey (every integration with its 64-bit way and public sources) and package S3a-14h (Topaz and Schick native
+      with the helper as the fallback) follow. The 3b spike (S3b-0) proves each native way loads on .NET 10 x64.
 
 Also recorded for the update path: the Middle Tier client and server switch together (it has never shipped to an office); saved
 passwords get a one-time migration from PasswordVault to the Credential Manager (S3a-5). Also answered on 2026-11-08: signed e-mail

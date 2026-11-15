@@ -993,6 +993,12 @@ and E-10b), where each is set out in full with its recommendation. You first ans
   opaque ones** (branch `chart/tc3c-2`, both reviews pass;
   [port-notes/TC-3c.md](port-notes/TC-3c.md)). Answered on 2026-11-15: "G4 approved". TC-3c is merged.
 
+- **Native 64-bit first for every integration:** your decision (2026-11-15): "For any integration, use native 64bit first. If the
+  option is not available, fall back to 32bit". The 32-bit helper becomes the fallback (net10-plan decision 23; answers O-14). Topaz
+  (AnyCPU) loads in process, Schick CDR is called directly, QuickBooks Desktop gets the 64-bit QBFC path (QuickBooks 2022 and later; the
+  SDK download needs your Intuit sign-in) with the helper kept for older QuickBooks, Guru stays on the helper, and 32-bit-only TWAIN
+  drivers get a helper path in 3b.
+
 ## Not asked again (already settled)
 
 - How package migration levels are numbered (B-ACCT 2, B-PRINT 1, B-SHELL 6, M2-EST 1, M2-UDS 1, V-BRIDGE1 2, V-PEARL2 1, M2-SHELL's old question 4): decided on 2026-11-01 and done: the package steps now have dated levels 2026110101 to 2026110104, and new steps always go above the highest one.
