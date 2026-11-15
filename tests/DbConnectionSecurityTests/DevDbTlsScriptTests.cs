@@ -76,8 +76,9 @@ namespace DbConnectionSecurityTests {
 		}
 
 		///<summary>RunDriver in the given temporary folder (also for DevDbTlsTestNetworkTests). The script-level settings include the test
-		///network's ($Record*Prefix, $TestAdapter*, $Firewall*, $*ProviderName, $CapiProviderType, $TestClient*Name, $PfxFolderName).</summary>
-		internal static string RunDriverIn(string folder,string[] arrayFunctions,string[] arrayBody) {
+		///network's ($Record*Prefix, $TestAdapter*, $Firewall*, $*ProviderName, $CapiProviderType, $TestClient*Name, $PfxFolderName, $TestNetworkJournalName). Asserts the exit code
+		///<paramref name="exitCodeExpected"/> (0 unless a test drives a mode to its own exit).</summary>
+		internal static string RunDriverIn(string folder,string[] arrayFunctions,string[] arrayBody,int exitCodeExpected=0) {
 			string driver=Path.Combine(folder,"driver-"+Guid.NewGuid().ToString("N").Substring(0,8)+".ps1");
 			List<string> listLines=new List<string> {
 				"param([string]$Script, [string]$Folder)",
@@ -87,7 +88,7 @@ namespace DbConnectionSecurityTests {
 				"foreach ($f in $ast.FindAll({ param($a) $a -is [System.Management.Automation.Language.FunctionDefinitionAst] -and $names -contains $a.Name }, $true)) {",
 				"  . ([scriptblock]::Create($f.Extent.Text))",
 				"}",
-				"foreach ($v in $ast.FindAll({ param($a) $a -is [System.Management.Automation.Language.AssignmentStatementAst] -and $a.Left.Extent.Text -match '^\\$(Marker(Begin|End)|Record(Dev|Client|Parent|Address|Adapter|Firewall|Capi|Cng|CapiKey|CngKey)Prefix|(App|Dev|Client|Tls|Pfx)FolderName|(Backup|IniTemp)Suffix|TestAdapter(Name|HardwareId)|Firewall(Group|AllowName|BlockName)|(Capi|Cng)ProviderName|CapiProviderType|TestClient(Capi|Cng)Name)$' }, $false)) {",
+				"foreach ($v in $ast.FindAll({ param($a) $a -is [System.Management.Automation.Language.AssignmentStatementAst] -and $a.Left.Extent.Text -match '^\\$(Marker(Begin|End)|Record(Dev|Client|Parent|Address|Adapter|Firewall|Capi|Cng|CapiKey|CngKey)Prefix|(App|Dev|Client|Tls|Pfx)FolderName|(Backup|IniTemp)Suffix|TestAdapter(Name|HardwareId)|Firewall(Group|AllowName|BlockName)|(Capi|Cng)ProviderName|CapiProviderType|TestClient(Capi|Cng)Name|TestNetworkJournalName)$' }, $false)) {",
 				"  . ([scriptblock]::Create($v.Extent.Text))",
 				"}",
 				"function Stop-Refused([string]$Message) { throw ('REFUSED: ' + $Message) }",
@@ -96,7 +97,7 @@ namespace DbConnectionSecurityTests {
 			listLines.AddRange(arrayBody);
 			File.WriteAllText(driver,string.Join("\r\n",listLines),Encoding.ASCII);
 			int exitCode=RunPowerShell(driver,"-Script \""+GetScriptPath()+"\" -Folder \""+folder+"\"",out string output);
-			Assert.AreEqual(0,exitCode,output);
+			Assert.AreEqual(exitCodeExpected,exitCode,output);
 			return output;
 		}
 
@@ -541,7 +542,7 @@ namespace DbConnectionSecurityTests {
 			//a profile's OpenPmsDental folder, another name, a path with .. segments, a relative path, a created parent that is not the parent.
 			string output=RunDriver(new[] { "Resolve-FullPath","Get-NormalPath","Get-CanonicalPath","Test-ProfileFolder","Get-RecordProblem","Get-RecordedFolders",
 				"Resolve-RecordedFolders","Add-ToMysqldSection","Get-BlockLines","Get-CreatedParents","Get-LocalAppDataRoots","Get-Paths","Get-DefaultClientFolder",
-				"Get-RecordedTestNetwork","Get-TestNetworkRecordProblem","Get-TestAddressFormProblem" },
+				"Get-RecordedTestNetwork","ConvertFrom-TestNetworkLines","Get-TestNetworkRecordProblem","Get-TestAddressFormProblem" },
 				new[] {
 				"$local = Join-Path $Folder 'profiles\\alice\\AppData\\Local'",
 				"$roots = @($local)",

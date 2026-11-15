@@ -187,7 +187,7 @@ namespace DbConnectionSecurityTests {
 
 		[TestMethod]
 		public void TestNetwork_TheBlockRecordsWhatTheRunMade_ForRevertAndRequireSecureTransport_AndRefusesARecordNoRunWrote() {
-			string output=RunDriver(new[] { "Add-ToMysqldSection","Get-BlockLines","Get-CreatedParents","Get-RecordedTestNetwork","Get-TestNetworkRecordProblem",
+			string output=RunDriver(new[] { "Add-ToMysqldSection","Get-BlockLines","Get-CreatedParents","Get-RecordedTestNetwork","ConvertFrom-TestNetworkLines","Get-TestNetworkRecordProblem",
 				"Get-TestAddressFormProblem","Get-ServerOptions","Get-ExpectedBindAddress","Get-BindText","Remove-Block","Test-HasBlock","Get-RecordedFolders",
 				"Get-KeyRecordProblem","ConvertFrom-KeyRecord","ConvertTo-KeyRecord","Get-MachineKeyFolder" },new[] {
 				"function KeyInfo([string]$Kind, [string]$Provider, [string]$Container, [string]$Leaf) { [pscustomobject]@{ Provider = $Provider; Container = $Container; File = (Join-Path (Get-MachineKeyFolder $Kind) $Leaf) } }",
@@ -285,7 +285,7 @@ namespace DbConnectionSecurityTests {
 
 		[TestMethod]
 		public void TestNetwork_RevertsPlan_UndoesEveryStepOfTheEnablePlan_AndRemovesOnlyWhatTheScriptMade() {
-			string output=RunDriver(new[] { "Get-TestNetworkEnablePlan","Get-TestNetworkRevertPlan","Get-TestNetworkStateProblem","Get-FirewallBlockRanges","Test-FirewallOn",
+			string output=RunDriver(new[] { "Get-TestNetworkEnablePlan","Get-TestNetworkRevertPlan","Get-TestNetworkStateProblem","Get-FirewallBlockRanges","Test-FirewallOn","Get-TestNetworkJournalPath",
 				"ConvertFrom-KeyRecord","ConvertTo-KeyRecord","Get-MachineKeyFolder" },new[] {
 				"$capiKey = ConvertTo-KeyRecord ([pscustomobject]@{ Provider = $CapiProviderName; Container = 'dbtls-env-capi'; File = (Join-Path (Get-MachineKeyFolder 'CAPI') 'capi-key-file') })",
 				"$cngKey = ConvertTo-KeyRecord ([pscustomobject]@{ Provider = $CngProviderName; Container = 'dbtls-env-cng'; File = (Join-Path (Get-MachineKeyFolder 'CNG') 'cng-key-file') })",
@@ -365,12 +365,20 @@ namespace DbConnectionSecurityTests {
 			StringAssert.Contains(File.ReadAllText(Path.Combine(_folder,"revert-off.txt")),"No firewall rule to remove");
 			//-Revert removes the test network first, while the record in my.ini still names it, and only what Get-TestNetworkStateProblem allows.
 			string script=TestHelpers.ReadRepoFile("tools","Enable-LocalDbTls.ps1");
-			int indexUndo=script.IndexOf("$netLeft = @(Undo-TestNetwork $recorded $net.Address)",StringComparison.Ordinal);
-			int indexRestore=script.IndexOf("Copy-Item -LiteralPath $paths.Backup -Destination $script:Facts.Ini -Force\r\n\t\tRestart-DbService\r\n\t\t$plain",StringComparison.Ordinal);
-			if(indexRestore<0) {
-				indexRestore=script.IndexOf("Copy-Item -LiteralPath $paths.Backup -Destination $script:Facts.Ini -Force\n\t\tRestart-DbService\n\t\t$plain",StringComparison.Ordinal);
-			}
+			int indexUndo=script.IndexOf("$undone = Undo-TestNetwork $recorded $net.Address",StringComparison.Ordinal);
+			System.Text.RegularExpressions.Match matchRestore=System.Text.RegularExpressions.Regex.Match(script,
+				@"Copy-Item -LiteralPath \$paths\.Backup -Destination \$script:Facts\.Ini -Force\s+Restart-DbService\s+\$plain");
+			Assert.IsTrue(matchRestore.Success,"-Revert's restore of my.ini.");
+			int indexRestore=matchRestore.Index;
 			Assert.IsTrue(indexUndo>0 && indexRestore>indexUndo,"The test network goes before my.ini is restored.");
+			//The order in -Revert's plan: the adapter first, then the certificates, the firewall rules last.
+			int indexPlanAdapter=revert.IndexOf("[adapter] Remove the loopback adapter",StringComparison.Ordinal);
+			int indexPlanCertificate=revert.IndexOf("[client-certificates] Remove",StringComparison.Ordinal);
+			int indexPlanFirewall=revert.IndexOf("[firewall] Remove the firewall rules",StringComparison.Ordinal);
+			Assert.IsTrue(indexPlanAdapter>=0 && indexPlanCertificate>indexPlanAdapter && indexPlanFirewall>indexPlanCertificate,
+				"-Revert's plan removes the adapter first and the firewall rules last: "+revert);
+			StringAssert.Contains(revert,"If the adapter cannot be removed, the rules stay (they keep other computers away from the address)");
+			StringAssert.Contains(enable,@"its record line goes to the journal C:\x\opms-dev-tls\test-network.record");
 			StringAssert.Contains(script,"$netProblem = Get-TestNetworkStateProblem $net $netState");
 		}
 
@@ -485,6 +493,316 @@ namespace DbConnectionSecurityTests {
 			}
 			//Removal checks the hardware id first, in the C# source and in -Revert's state check.
 			StringAssert.Contains(script,"is not a loopback adapter (hardware ids \" + string.Join(\", \", ids) + \"); it is not removed.");
+		}
+
+		///<summary>The driver lines of a journal at $journal (in the test's temporary folder) with what an enable run that got as far as both keys
+		///wrote: the address, the adapter, both rules, both thumbprints and both keys (key "files" named in the computer's key folders, never
+		///touched). Set-ProtectedAcl is replaced: the journal's ACL is not set here (that needs elevation).</summary>
+		private static string[] GetJournalLines() {
+			return new[] {
+				"function Set-ProtectedAcl($Path, $FullSids, $ReadSids) { Write-Host ('ACL ' + (Split-Path -Leaf $Path) + ' full ' + @($FullSids).Count + ' read ' + @($ReadSids).Count) }",
+				"function KeyLine([string]$Kind, [string]$Provider) { ConvertTo-KeyRecord ([pscustomobject]@{ Provider = $Provider; Container = ('dbtls-env-' + $Kind.ToLower()); File = (Join-Path (Get-MachineKeyFolder $Kind) ('keyfile-' + $Kind.ToLower())) }) }",
+				"foreach ($line in @(($RecordAddressPrefix + '192.0.2.25'), ($RecordAdapterPrefix + 'ROOT\\NET\\0042'), ($RecordFirewallPrefix + $FirewallAllowName), ($RecordFirewallPrefix + $FirewallBlockName),",
+				"  ($RecordCapiPrefix + ('A' * 40)), ($RecordCapiKeyPrefix + (KeyLine 'CAPI' $CapiProviderName)), ($RecordCngPrefix + ('B' * 40)), ($RecordCngKeyPrefix + (KeyLine 'CNG' $CngProviderName)))) {",
+				"  Add-TestNetworkJournalLine $journal $line",
+				"}",
+			};
+		}
+
+		[TestMethod]
+		public void TestNetwork_TheJournal_RecordsEachItemBeforeItIsMade_AndReadsBackForRevert() {
+			//Install-TestNetwork with every step that changes this computer replaced: the adapter's creation by a type of the same name that only
+			//reads the journal, the adapter's settings, the firewall rules, the import and the users' read access by functions that only look at
+			//the journal. Nothing is created, imported or changed; the .pfx "files" are three bytes in the test's temporary folder.
+			string output=RunDriver(new[] { "Install-TestNetwork","Get-TestNetworkJournalPath","Add-TestNetworkJournalLine","Add-TestFirewallRules","Get-FirewallBlockRanges",
+				"ConvertTo-KeyRecord","ConvertFrom-KeyRecord","Get-MachineKeyFolder","Read-TestNetworkJournal","ConvertFrom-TestNetworkLines","Get-TestNetworkRecordProblem",
+				"Get-TestAddressFormProblem","Get-KeyRecordProblem","Get-TestNetworkRevertPlan" },new[] {
+				"function Set-ProtectedAcl($Path, $FullSids, $ReadSids) { Write-Host ('ACL ' + (Split-Path -Leaf $Path) + ' full ' + @($FullSids).Count + ' read ' + @($ReadSids).Count) }",
+				"function Add-LoopbackAdapterType { }",
+				"Add-Type -TypeDefinition 'namespace OpenPmsDentalDevDbTls { public static class LoopbackAdapter { public static string JournalPath; public static string Seen; public static string Create(string description, out bool needsReboot) { Seen = System.IO.File.Exists(JournalPath) ? System.IO.File.ReadAllText(JournalPath) : \"<none>\"; needsReboot = false; return @\"ROOT\\NET\\0042\"; } } }'",
+				"function J([string]$Path) { if (Test-Path -LiteralPath $Path) { ([System.IO.File]::ReadAllText($Path)) -replace \"`r`n\", '|' } else { '<none>' } }",
+				"function Set-TestAdapter($InstanceId, $Address) { Write-Host ('SETADAPTER ' + $InstanceId + ' journal ' + (J $script:journal)); 7 }",
+				"function Get-TestAdapterProblem($Index, $Address) { $null }",
+				"function New-NetFirewallRule { param($Name, $DisplayName, $Action, $RemoteAddress, $Group, $Direction, $Protocol, $LocalPort, $LocalAddress, $Profile, $Enabled)",
+				"  Write-Host ('RULE ' + $Name + ' recorded first ' + (J $script:journal).Contains($RecordFirewallPrefix + $Name)) }",
+				"function Import-TestClientCertificate($PfxPath, $Password, $Provider, $Kind, $Thumbprint) {",
+				"  Write-Host ('IMPORT ' + $Kind + ' thumbprint recorded first ' + (J $script:journal).Contains($Thumbprint) + ' pfx there ' + (Test-Path -LiteralPath $PfxPath))",
+				"  [pscustomobject]@{ Kind = $Kind; Provider = $Provider; Container = ('dbtls-env-' + $Kind.ToLower()); File = (Join-Path (Get-MachineKeyFolder $Kind) ('keyfile-' + $Kind.ToLower())); IsMachine = $true }",
+				"}",
+				"function Grant-UsersReadToKeyFile($Path) {",
+				"  Write-Host ('GRANT ' + (Split-Path -Leaf $Path) + ' key recorded first ' + (J $script:journal).Contains($Path.Replace('\\', '/')))",
+				"  if ($script:crashAt -ne '' -and $Path.EndsWith($script:crashAt)) { throw 'synthetic crash before the users get read access' }",
+				"}",
+				"function Run([string]$Name, [string]$CrashAt) {",
+				"  $script:crashAt = $CrashAt",
+				"  $tls = Join-Path $Folder $Name",
+				"  New-Item -ItemType Directory -Path $tls | Out-Null",
+				"  $script:journal = Join-Path $tls $TestNetworkJournalName",
+				"  [OpenPmsDentalDevDbTls.LoopbackAdapter]::JournalPath = $script:journal",
+				"  $net = [pscustomobject]@{ Address = '192.0.2.25'; AdapterId = ''; FirewallRules = @($FirewallAllowName, $FirewallBlockName); CapiThumbprint = ('A' * 40); CngThumbprint = ('B' * 40); CapiKey = ''; CngKey = '' }",
+				"  $set = [pscustomobject]@{ TestCapiPfx = [byte[]](1, 2, 3); TestCngPfx = [byte[]](4, 5, 6); TestCapiThumbprint = ('A' * 40); TestCngThumbprint = ('B' * 40); TestPfxPassword = 'synthetic' }",
+				"  $created = [pscustomobject]@{ AdapterId = ''; FirewallRules = @(); Thumbprints = @(); Keys = @(); PfxFolder = '' }",
+				"  try { Install-TestNetwork ([pscustomobject]@{ TlsFolder = $tls; TestNetwork = $net }) $set $created; Write-Host ($Name + ' INSTALLED') } catch { Write-Host ($Name + ' STOPPED ' + $_.Exception.Message) }",
+				"  Write-Host ($Name + ' SEENATCREATE ' + ([OpenPmsDentalDevDbTls.LoopbackAdapter]::Seen -replace \"`r`n\", '|'))",
+				"  Write-Host ($Name + ' JOURNAL ' + (J $script:journal))",
+				"  $r = Read-TestNetworkJournal $script:journal",
+				"  Write-Host ($Name + ' READ ' + $r.Address + ' ' + $r.AdapterId + ' ' + (@($r.FirewallRules) -join ',') + ' ' + ($r.CapiThumbprint -eq ('A' * 40)) + ' ' + ($r.CngThumbprint -eq ('B' * 40)) + ' ' + ($r.CapiKey -ne '') + ' ' + ($r.CngKey -ne ''))",
+				"  Write-Host ($Name + ' PROBLEM ' + ($null -eq (Get-TestNetworkRecordProblem $r $script:journal -Partial)) + ' ' + ($null -eq (Get-TestNetworkRecordProblem $r)))",
+				"}",
+				"Run 'whole' ''",
+				"Run 'crash' 'keyfile-cng'",
+				//A journal of a run that stopped right after the address line (before the adapter was made): accepted as partial, and -Revert's plan
+				//says there is nothing of the adapter, the certificates or the rules to remove; a journal with a line no run writes is refused.
+				"$early = Join-Path $Folder 'early.record'",
+				"Add-TestNetworkJournalLine $early ($RecordAddressPrefix + '192.0.2.25')",
+				"$e = Read-TestNetworkJournal $early",
+				"'EARLY ' + ($null -eq (Get-TestNetworkRecordProblem $e $early -Partial)) + ' ' + (Get-TestNetworkRecordProblem $e $early)",
+				"$state = [pscustomobject]@{ Adapter = [pscustomobject]@{ Exists = $false; HardwareIds = @(); Addresses = @() }; Rules = @(); Certificates = @(); HasCa = $true }",
+				"[System.IO.File]::WriteAllLines((Join-Path $Folder 'early.txt'), [string[]](Get-TestNetworkRevertPlan $e $state -FromJournal))",
+				"$bad = Join-Path $Folder 'bad.record'",
+				"Add-TestNetworkJournalLine $bad ($RecordAddressPrefix + '192.0.2.25')",
+				"Add-TestNetworkJournalLine $bad ($RecordAdapterPrefix + 'PCI\\VEN_8086&DEV_15B8\\3&11583659&0&FE')",
+				"'BAD ' + (Get-TestNetworkRecordProblem (Read-TestNetworkJournal $bad) $bad -Partial)",
+				"$keyOnly = Join-Path $Folder 'keyonly.record'",
+				"Add-TestNetworkJournalLine $keyOnly ($RecordAddressPrefix + '192.0.2.25')",
+				"Add-TestNetworkJournalLine $keyOnly ($RecordCngKeyPrefix + $CngProviderName + '|x|' + (Join-Path (Get-MachineKeyFolder 'CNG') 'k'))",
+				"'KEYONLY ' + (Get-TestNetworkRecordProblem (Read-TestNetworkJournal $keyOnly) $keyOnly -Partial)",
+				"'NOJOURNAL ' + ($null -eq (Read-TestNetworkJournal (Join-Path $Folder 'none.record')))",
+			});
+			//Write-Host lines end with a bare line feed.
+			output=output.Replace("\r\n","\n");
+			string journalWhole=Path.Combine(_folder,"whole","test-network.record");
+			//Each item's line is in the journal before the item is made.
+			StringAssert.Contains(output,"whole SEENATCREATE # test-address=192.0.2.25|\n","Only the address before the adapter is created.");
+			StringAssert.Contains(output,@"SETADAPTER ROOT\NET\0042 journal # test-address=192.0.2.25|# test-adapter=ROOT\NET\0042|","The adapter's id right after its creation.");
+			StringAssert.Contains(output,"RULE OpenPmsDental-DbTlsTest-Allow3306 recorded first True\n");
+			StringAssert.Contains(output,"RULE OpenPmsDental-DbTlsTest-Block3306 recorded first True\n");
+			StringAssert.Contains(output,"IMPORT CAPI thumbprint recorded first True pfx there True\n");
+			StringAssert.Contains(output,"IMPORT CNG thumbprint recorded first True pfx there True\n");
+			StringAssert.Contains(output,"GRANT keyfile-capi key recorded first True\n","Each key before the users get read access to it.");
+			StringAssert.Contains(output,"GRANT keyfile-cng key recorded first True\n");
+			StringAssert.Contains(output,"ACL test-network.record full 0 read 0\n","The journal gets a protected ACL: Administrators and SYSTEM only.");
+			StringAssert.Contains(output,"whole INSTALLED\n");
+			string capiKey="Microsoft Enhanced RSA and AES Cryptographic Provider|dbtls-env-capi|"
+				+(Environment.GetEnvironmentVariable("ProgramData")+@"\Microsoft\Crypto\RSA\MachineKeys\keyfile-capi").Replace('\\','/');
+			StringAssert.Contains(output,"whole JOURNAL # test-address=192.0.2.25|# test-adapter=ROOT\\NET\\0042|# test-firewall-rule=OpenPmsDental-DbTlsTest-Allow3306|"
+				+"# test-firewall-rule=OpenPmsDental-DbTlsTest-Block3306|# test-client-capi="+new string('A',40)+"|# test-client-capi-key="+capiKey+"|# test-client-cng="
+				+new string('B',40)+"|# test-client-cng-key=Microsoft Software Key Storage Provider|dbtls-env-cng|");
+			StringAssert.Contains(output,@"whole READ 192.0.2.25 ROOT\NET\0042 OpenPmsDental-DbTlsTest-Allow3306,OpenPmsDental-DbTlsTest-Block3306 True True True True");
+			StringAssert.Contains(output,"whole PROBLEM True True\n","The journal of a whole run is a record that -Revert accepts.");
+			//A run that crashes after the CNG import, before the users' read access: the journal already names that key.
+			StringAssert.Contains(output,"crash STOPPED synthetic crash before the users get read access\n");
+			StringAssert.Contains(output,@"crash READ 192.0.2.25 ROOT\NET\0042 OpenPmsDental-DbTlsTest-Allow3306,OpenPmsDental-DbTlsTest-Block3306 True True True True");
+			Assert.IsTrue(File.Exists(journalWhole));
+			StringAssert.Contains(output,"EARLY True "+Path.Combine(_folder,"early.record")+" records the test adapter '', which is not a device this script creates",
+				"Only as a journal (-Partial) may the adapter be missing.");
+			string early=File.ReadAllText(Path.Combine(_folder,"early.txt"));
+			StringAssert.Contains(early,"[adapter] The record names no loopback adapter (the run stopped before it made one): nothing to remove.");
+			StringAssert.Contains(early,"[client-certificates] The record names no test client certificate (the run stopped before it imported one): nothing to remove.");
+			StringAssert.Contains(early,"[firewall] No firewall rule to remove");
+			StringAssert.Contains(early,"my.ini has no block of this script (the run stopped before it wrote it, or its undo restored my.ini)");
+			CollectionAssert.AreEqual(_arrayTags.OrderBy(x => x).ToList(),GetTags(early),"Every tag, also for a journal of a run that stopped early: "+early);
+			StringAssert.Contains(output,"BAD "+Path.Combine(_folder,"bad.record")+@" records the test adapter 'PCI\VEN_8086&DEV_15B8\3&11583659&0&FE', which is not a device");
+			StringAssert.Contains(output,"KEYONLY "+Path.Combine(_folder,"keyonly.record")+" records a key of the CNG test client certificate, but not its thumbprint.");
+			StringAssert.Contains(output,"NOJOURNAL True\n");
+		}
+
+		///<summary>Runs Invoke-Revert in a driver with a journal in a scratch opms-dev-tls folder and no block in a scratch my.ini: everything that
+		///would change this computer (the service, the test network's removal, the files' removal, the confirmation) is replaced by functions that
+		///print what they were given, and the state of the journal's items is synthetic (present until the replaced undo "removes" them, unless
+		///<paramref name="isUndoLeavingItems"/>). With <paramref name="hasBackup"/> a backup of my.ini is there (an undo that restored my.ini
+		///and then failed at the restart); without, there is none (a run interrupted before it copied my.ini).</summary>
+		private string RunRevertWithJournal(string name,bool hasBackup,bool isUndoLeavingItems,int exitCodeExpected) {
+			List<string> listBody=new List<string> {
+				"$root = Join-Path $Folder '"+name+"'",
+				"$tls = Join-Path $root 'opms-dev-tls'",
+				"New-Item -ItemType Directory -Path $tls | Out-Null",
+				"$journal = Join-Path $tls $TestNetworkJournalName",
+			};
+			listBody.AddRange(GetJournalLines());
+			listBody.AddRange(new[] {
+				"$script:Facts = [pscustomobject]@{ Ini = (Join-Path $root 'my.ini'); Home = $root }",
+				"[System.IO.File]::WriteAllText($script:Facts.Ini, \"[mysqld]`r`nport=3306`r`nbind-address=127.0.0.1`r`n\")",
+				"$script:IniFile = [pscustomobject]@{ Text = [System.IO.File]::ReadAllText($script:Facts.Ini); Newline = \"`r`n\" }",
+				"$DryRun = $false",
+				(hasBackup ? "Copy-Item -LiteralPath $script:Facts.Ini -Destination ($script:Facts.Ini + $BackupSuffix)" : "'NO BACKUP'"),
+				"function Assert-LocalServer { }",
+				"function Get-Paths([bool]$ForEnable) { [pscustomobject]@{ TlsFolder = $tls; Ca = (Join-Path $tls 'ca.pem'); DevFolder = (Join-Path $root 'dev'); DevCa = (Join-Path $root 'dev\\ca.pem')",
+				"  ClientFolder = ''; ClientCert = ''; ClientKey = ''; IsRecorded = $false; CreatedParents = @(); Backup = ($script:Facts.Ini + $BackupSuffix); IniTemp = ($script:Facts.Ini + $IniTempSuffix)",
+				"  TestNetwork = (Get-RecordedTestNetwork $script:IniFile.Text) } }",
+				"$script:present = $true",
+				"$script:undoClears = "+(isUndoLeavingItems ? "$false" : "$true"),
+				"function Get-TestNetworkState($Record, [string]$CaPath) {",
+				"  Write-Host ('STATE ' + $Record.AdapterId + ' present ' + $script:present + ' ca ' + (Split-Path -Leaf $CaPath))",
+				"  $certificates = @()",
+				"  foreach ($item in @(@('CAPI', $Record.CapiThumbprint, $TestClientCapiName, $Record.CapiKey), @('CNG', $Record.CngThumbprint, $TestClientCngName, $Record.CngKey))) {",
+				"    $certificates += [pscustomobject]@{ Kind = $item[0]; Thumbprint = $item[1]; Name = $item[2]; Exists = $script:present; Subject = ('CN=' + $item[2] + ', O=Open PMS - Dental local test')",
+				"      IssuedByCa = $true; Key = (ConvertFrom-KeyRecord $item[3] $item[0]); KeyExists = $script:present }",
+				"  }",
+				"  [pscustomobject]@{ Adapter = [pscustomobject]@{ Exists = $script:present; HardwareIds = @('*MSLOOP'); Addresses = @($Record.Address) }",
+				"    Rules = @($Record.FirewallRules | ForEach-Object { [pscustomobject]@{ Name = $_; Exists = $script:present; Group = $FirewallGroup } }); Certificates = $certificates; HasCa = $true }",
+				"}",
+				"function Confirm-Change([string]$Question) { Write-Host ('CONFIRM ' + $Question) }",
+				"function Remove-TestAdapter($InstanceId, $Address) { Write-Host ('UNDO ADAPTER ' + $InstanceId + ' ' + $Address) }",
+				"function Remove-TestClientCertificate($Thumbprint, $RecordedKey) { Write-Host ('UNDO CERT ' + $Thumbprint.Substring(0, 4) + ' ' + $RecordedKey.Container); '' }",
+				"function Remove-TestFirewallRule($Name) { Write-Host ('UNDO RULE ' + $Name); if ($script:undoClears -and $Name -eq $FirewallBlockName) { $script:present = $false } }",
+				"function Restart-DbService { Write-Host 'RESTART' }",
+				"function Get-ServerState([string]$Tls) { [pscustomobject]@{ Ok = $true; Error = '' } }",
+				"function Read-OptionFile([string]$Path) { [pscustomobject]@{ Text = [System.IO.File]::ReadAllText($Path) } }",
+				"function Get-NetTCPConnection { @() }",
+				"function Remove-NewFiles($Paths) { Write-Host ('REMOVEFILES ' + (Split-Path -Leaf $Paths.TlsFolder) + ' journal there ' + (Test-Path -LiteralPath $journal)) }",
+				"Invoke-Revert",
+			});
+			return DevDbTlsScriptTests.RunDriverIn(_folder,new[] { "Invoke-Revert","Get-TestNetworkJournalPath","Read-TestNetworkJournal","ConvertFrom-TestNetworkLines",
+				"Get-RecordedTestNetwork","Get-TestNetworkRecordProblem","Get-TestAddressFormProblem","Get-KeyRecordProblem","ConvertFrom-KeyRecord","ConvertTo-KeyRecord",
+				"Get-MachineKeyFolder","Test-HasBlock","Remove-Block","Get-TestNetworkStateProblem","Get-TestNetworkRevertPlan","Get-TestNetworkLeft","Get-DevFiles",
+				"Get-CreatedParents","Add-TestNetworkJournalLine","Undo-TestNetwork","Get-CreatedKey" },listBody.ToArray(),exitCodeExpected);
+		}
+
+		[TestMethod]
+		public void TestNetwork_Revert_AJournalWithoutABlock_RemovesTheAdapterTheRulesAndTheKeys_AlsoWithoutABackup() {
+			//(b) An interrupted enable run: no backup, no block, the journal. -Revert does not stop at the 'backup is missing' refusal: it plans and
+			//runs the test network's removal from the journal, then the files, and leaves my.ini and the service alone.
+			string output=RunRevertWithJournal("interrupted",hasBackup:false,isUndoLeavingItems:false,exitCodeExpected:0);
+			Assert.IsFalse(output.Contains("REFUSED"),output);
+			Assert.IsFalse(output.Contains("is missing, so the original my.ini cannot be restored"),output);
+			string fileCapiKey=Environment.GetEnvironmentVariable("ProgramData")+@"\Microsoft\Crypto\RSA\MachineKeys\keyfile-capi";
+			string fileCngKey=Environment.GetEnvironmentVariable("ProgramData")+@"\Microsoft\Crypto\Keys\keyfile-cng";
+			StringAssert.Contains(output,"an enable run stopped before it");
+			StringAssert.Contains(output,"First the test network 192.0.2.25 of an enable run that did not finish, as its journal "
+				+Path.Combine(_folder,"interrupted","opms-dev-tls","test-network.record")+" records it");
+			StringAssert.Contains(output,@"[adapter] Remove the loopback adapter ROOT\NET\0042 ('OPMS DB TLS test') first");
+			StringAssert.Contains(output,"[firewall] Remove the firewall rules OpenPmsDental-DbTlsTest-Allow3306 and OpenPmsDental-DbTlsTest-Block3306");
+			StringAssert.Contains(output,"and delete its key first (the recorded file "+fileCapiKey+").");
+			StringAssert.Contains(output,"and delete its key first (the recorded file "+fileCngKey+").");
+			CollectionAssert.AreEqual(_arrayTags.OrderBy(x => x).ToList(),GetTags(output),"-Revert's plan from the journal undoes every step: "+output);
+			//The script's own Undo-TestNetwork, with only the removals replaced: the adapter first, then the certificates with the journal's keys, the
+			//rules last; and an undo that leaves nothing is taken as done (the empty list, not a list that holds it).
+			int indexUndoAdapter=output.IndexOf(@"UNDO ADAPTER ROOT\NET\0042 192.0.2.25",StringComparison.Ordinal);
+			int indexUndoCapi=output.IndexOf("UNDO CERT AAAA dbtls-env-capi",StringComparison.Ordinal);
+			int indexUndoCng=output.IndexOf("UNDO CERT BBBB dbtls-env-cng",StringComparison.Ordinal);
+			int indexUndoAllow=output.IndexOf("UNDO RULE OpenPmsDental-DbTlsTest-Allow3306",StringComparison.Ordinal);
+			int indexUndoBlock=output.IndexOf("UNDO RULE OpenPmsDental-DbTlsTest-Block3306",StringComparison.Ordinal);
+			Assert.IsTrue(indexUndoAdapter>0 && indexUndoCapi>indexUndoAdapter && indexUndoCng>indexUndoCapi && indexUndoAllow>indexUndoCng
+				&& indexUndoBlock>indexUndoAllow,"The adapter first, the rules last: "+output);
+			StringAssert.Contains(output,@"Removed the test network: the adapter ROOT\NET\0042 and 192.0.2.25, both test certificates with their keys, the firewall rules.");
+			Assert.IsFalse(output.Contains("is not fully removed"),output);
+			Assert.IsFalse(output.Contains("RESTART"),"my.ini and the service are not touched: "+output);
+			Assert.IsFalse(output.Contains("Restore "),"No restore of my.ini without a backup: "+output);
+			int indexConfirm=output.IndexOf("CONFIRM",StringComparison.Ordinal);
+			int indexUndo=output.IndexOf("UNDO ",StringComparison.Ordinal);
+			int indexGone=output.IndexOf(@"STATE ROOT\NET\0042 present False",StringComparison.Ordinal);
+			int indexFiles=output.IndexOf("REMOVEFILES opms-dev-tls journal there True",StringComparison.Ordinal);
+			Assert.IsTrue(indexConfirm>0 && indexUndo>indexConfirm && indexGone>indexUndo && indexFiles>indexGone,
+				"The test network goes first, the journal's items are checked gone, and only then the opms-dev-tls folder: "+output);
+			StringAssert.Contains(output,"Removed what the enable run that did not finish had made; my.ini and the service were not touched.");
+			//(a) An undo that restored my.ini and then failed at the restart: a backup, no block, the journal. -Revert removes the test network from
+			//the journal, then restores my.ini, restarts and removes the files.
+			string outputBackup=RunRevertWithJournal("restartfailed",hasBackup:true,isUndoLeavingItems:false,exitCodeExpected:0);
+			Assert.IsFalse(outputBackup.Contains("REFUSED"),outputBackup);
+			StringAssert.Contains(outputBackup,"as its journal "+Path.Combine(_folder,"restartfailed","opms-dev-tls","test-network.record")+" records it");
+			StringAssert.Contains(outputBackup,@"[adapter] Remove the loopback adapter ROOT\NET\0042");
+			CollectionAssert.AreEqual(_arrayTags.OrderBy(x => x).ToList(),GetTags(outputBackup),outputBackup);
+			int indexUndoBackup=outputBackup.IndexOf("UNDO ",StringComparison.Ordinal);
+			int indexRestart=outputBackup.IndexOf("RESTART",StringComparison.Ordinal);
+			int indexFilesBackup=outputBackup.IndexOf("REMOVEFILES",StringComparison.Ordinal);
+			Assert.IsTrue(indexUndoBackup>0 && indexRestart>indexUndoBackup && indexFilesBackup>indexRestart,outputBackup);
+			StringAssert.Contains(outputBackup,"TLS is off again");
+			Assert.IsFalse(File.Exists(Path.Combine(_folder,"restartfailed","my.ini.before-opms-dev-tls")),"The backup is removed at the end.");
+			//An item the journal names is still there after the undo: -Revert stops (exit 4), the opms-dev-tls folder with the journal and ca.pem
+			//stays, and nothing else is changed.
+			string outputLeft=RunRevertWithJournal("left",hasBackup:true,isUndoLeavingItems:true,exitCodeExpected:4);
+			StringAssert.Contains(outputLeft,@"FAILED: the test network is not fully removed: the loopback adapter ROOT\NET\0042 (named in the journal ");
+			StringAssert.Contains(outputLeft,"the key file "+fileCapiKey+" (named in the journal ");
+			StringAssert.Contains(outputLeft,"stays with it, so -Revert can run again once that is put right.");
+			Assert.IsFalse(outputLeft.Contains("REMOVEFILES"),"The opms-dev-tls folder is never deleted while the journal names an item that is there: "+outputLeft);
+			Assert.IsFalse(outputLeft.Contains("RESTART"),outputLeft);
+			Assert.IsTrue(File.Exists(Path.Combine(_folder,"left","my.ini.before-opms-dev-tls")),"The backup stays.");
+			Assert.IsTrue(File.Exists(Path.Combine(_folder,"left","opms-dev-tls","test-network.record")),"The journal stays.");
+		}
+
+		[TestMethod]
+		public void TestNetwork_UndoTestNetwork_TheAdapterFirst_TheRulesLast_AndKeptWhileTheAdapterStays() {
+			//The server may still listen on the test address while -Revert runs (my.ini is restored afterwards), so the block rule goes only once the
+			//address is gone. Every removal is replaced by a function that only notes its call.
+			string output=RunDriver(new[] { "Undo-TestNetwork","Get-CreatedKey" },new[] {
+				"$script:calls = @()",
+				"$script:adapterFails = $false",
+				"function Remove-TestAdapter($InstanceId, $Address) { $script:calls += ('ADAPTER ' + $InstanceId + ' ' + $Address); if ($script:adapterFails) { throw 'DIF_REMOVE failed (synthetic)' } }",
+				"function Remove-TestClientCertificate($Thumbprint, $RecordedKey) { $script:calls += ('CERT ' + $Thumbprint.Substring(0, 4) + ' ' + $RecordedKey.Container); '' }",
+				"function Remove-TestFirewallRule($Name) { $script:calls += ('RULE ' + $Name) }",
+				"$keys = @([pscustomobject]@{ Thumbprint = ('A' * 40); Key = [pscustomobject]@{ Container = 'capi' } }, [pscustomobject]@{ Thumbprint = ('B' * 40); Key = [pscustomobject]@{ Container = 'cng' } })",
+				"$created = [pscustomobject]@{ AdapterId = 'ROOT\\NET\\0042'; FirewallRules = @($FirewallAllowName, $FirewallBlockName); Thumbprints = @(('A' * 40), ('B' * 40)); Keys = $keys; PfxFolder = '' }",
+				"$p = Undo-TestNetwork $created '192.0.2.25'",
+				"'OK calls: ' + ($script:calls -join ', ')",
+				"'OK problems: ' + @($p).Count",
+				"$script:calls = @()",
+				"$script:adapterFails = $true",
+				"$p = Undo-TestNetwork $created '192.0.2.25'",
+				"'FAILS calls: ' + ($script:calls -join ', ')",
+				"'FAILS problems: ' + (@($p) -join ' || ')",
+			});
+			StringAssert.Contains(output,@"OK calls: ADAPTER ROOT\NET\0042 192.0.2.25, CERT AAAA capi, CERT BBBB cng, RULE OpenPmsDental-DbTlsTest-Allow3306, RULE OpenPmsDental-DbTlsTest-Block3306"
+				+"\r\n","The adapter first, then the certificates with their keys, the rules last.");
+			StringAssert.Contains(output,"OK problems: 0\r\n");
+			StringAssert.Contains(output,@"FAILS calls: ADAPTER ROOT\NET\0042 192.0.2.25, CERT AAAA capi, CERT BBBB cng"+"\r\n",
+				"With the adapter still there, Remove-TestFirewallRule is never called; the certificates with their Users-readable keys still go.");
+			StringAssert.Contains(output,@"FAILS problems: the loopback adapter ROOT\NET\0042: DIF_REMOVE failed (synthetic) || the firewall rules "
+				+"OpenPmsDental-DbTlsTest-Allow3306 and OpenPmsDental-DbTlsTest-Block3306 are kept, because the adapter and its address 192.0.2.25 are still there");
+		}
+
+		[TestMethod]
+		public void TestNetwork_AFailedRunsUndo_UndoesTheTestNetwork_AlsoWhenTheRestartFails_AndKeepsTheJournalWhileItIsNotUndone() {
+			//Undo-FailedEnable and the script's own Undo-TestNetwork on scratch files (my.ini, its backup, the journal in the test's temporary
+			//folder); the restart, the adapter's and the rule's removal and the files' undo are replaced by functions that note their call.
+			string output=RunDriver(new[] { "Undo-FailedEnable","Get-TestNetworkJournalPath","Undo-TestNetwork","Get-CreatedKey" },new[] {
+				"function Restart-DbService { $script:calls += 'RESTART'; if ($script:restartFails) { throw 'the service did not start (synthetic)' } }",
+				"function Remove-TestAdapter($InstanceId, $Address) { $script:calls += ('ADAPTER ' + $Address); if ($script:adapterFails) { throw 'synthetic' } }",
+				"function Remove-TestFirewallRule($Name) { $script:calls += ('RULE ' + $Name) }",
+				"function Undo-EnableFiles($Paths, $Saved, [switch]$KeepTlsFolder) { $script:calls += ('FILES keep ' + $KeepTlsFolder) }",
+				"$created = [pscustomobject]@{ AdapterId = 'ROOT\\NET\\0042'; FirewallRules = @($FirewallAllowName); Thumbprints = @(); Keys = @(); PfxFolder = '' }",
+				"function Case([string]$Name, [bool]$RestartFails, [bool]$AdapterFails) {",
+				"  $script:calls = @(); $script:restartFails = $RestartFails; $script:adapterFails = $AdapterFails",
+				"  $root = Join-Path $Folder $Name",
+				"  $tls = Join-Path $root 'opms-dev-tls'",
+				"  New-Item -ItemType Directory -Path $tls | Out-Null",
+				"  $script:Facts = [pscustomobject]@{ Ini = (Join-Path $root 'my.ini') }",
+				"  [System.IO.File]::WriteAllText($script:Facts.Ini, 'with the block')",
+				"  [System.IO.File]::WriteAllText(($script:Facts.Ini + '.before'), 'the old my.ini')",
+				"  [System.IO.File]::WriteAllText((Join-Path $tls $TestNetworkJournalName), '# test-address=192.0.2.25')",
+				"  $paths = [pscustomobject]@{ TlsFolder = $tls; Backup = ($script:Facts.Ini + '.before') }",
+				"  $u = Undo-FailedEnable $paths $null $created '192.0.2.25' $true",
+				"  Write-Host ($Name + ' calls: ' + ($script:calls -join ', '))",
+				"  Write-Host ($Name + ' problems: ' + (@($u.Problems) -join ' || '))",
+				"  Write-Host ($Name + ' ini ' + $u.IniUndone + ' myini ' + [System.IO.File]::ReadAllText($script:Facts.Ini) + ' backup ' + (Test-Path -LiteralPath $paths.Backup) + ' journal ' + (Test-Path -LiteralPath $u.Journal))",
+				"}",
+				"Case 'restartfails' $true $false",
+				"Case 'restartfailsnetleft' $true $true",
+				"Case 'netleft' $false $true",
+				"Case 'allundone' $false $false",
+			});
+			//Write-Host lines end with a bare line feed.
+			output=output.Replace("\r\n","\n");
+			//(a) The restart fails: the test network is still undone; the journal goes once that undo leaves nothing; the backup stays for -Revert.
+			StringAssert.Contains(output,"restartfails calls: RESTART, ADAPTER 192.0.2.25, RULE OpenPmsDental-DbTlsTest-Allow3306\n",
+				"The test network's undo runs although the restart failed.");
+			StringAssert.Contains(output,"restartfails problems: my.ini and the service: the service did not start (synthetic)\n");
+			StringAssert.Contains(output,"restartfails ini False myini the old my.ini backup True journal False\n");
+			//The restart fails and the test network is not undone: the journal stays, the only record once my.ini is the old file again.
+			StringAssert.Contains(output,"restartfailsnetleft calls: RESTART, ADAPTER 192.0.2.25\n","The rule stays while the adapter does.");
+			StringAssert.Contains(output,@"restartfailsnetleft problems: my.ini and the service: the service did not start (synthetic) || the test network could not be undone: "
+				+@"the loopback adapter ROOT\NET\0042: synthetic; the firewall rules OpenPmsDental-DbTlsTest-Allow3306 are kept");
+			StringAssert.Contains(output,"restartfailsnetleft ini False myini the old my.ini backup True journal True\n");
+			//my.ini restored but the test network not undone: the files are undone, the opms-dev-tls folder (the journal, ca.pem) is kept.
+			StringAssert.Contains(output,"netleft calls: RESTART, ADAPTER 192.0.2.25, FILES keep True\n");
+			StringAssert.Contains(output,"netleft ini True myini the old my.ini backup False journal True\n");
+			StringAssert.Contains(output,"allundone calls: RESTART, ADAPTER 192.0.2.25, RULE OpenPmsDental-DbTlsTest-Allow3306, FILES keep False\n");
+			StringAssert.Contains(output,"allundone problems: \n");
+			StringAssert.Contains(output,"allundone ini True myini the old my.ini backup False journal False\n");
+			//The exit-4 text says that -Revert also undoes an interrupted run's test network, from the journal.
+			string script=TestHelpers.ReadRepoFile("tools","Enable-LocalDbTls.ps1");
+			StringAssert.Contains(script,"$undo = Undo-FailedEnable $paths $saved $created $testAddress $changedIni");
+			StringAssert.Contains(script,"interrupted run''s test network: the adapter first, then both test certificates with their keys, the firewall rules last");
 		}
 
 		[TestMethod]

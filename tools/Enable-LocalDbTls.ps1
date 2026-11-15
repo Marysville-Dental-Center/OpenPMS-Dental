@@ -2600,7 +2600,9 @@ function Undo-FailedEnable($Paths, $Saved, $Created, [string]$TestAddress, [bool
 	$journal = Get-TestNetworkJournalPath $Paths.TlsFolder
 	if ($TestAddress -ne '') {
 		try {
-			$netLeft = @(Undo-TestNetwork $Created $TestAddress)
+			# Assigned first, then wrapped: @() around a function that returns , $array would give one element, the array itself.
+			$undone = Undo-TestNetwork $Created $TestAddress
+			$netLeft = @($undone)
 		}
 		catch {
 			$netLeft = @($_.Exception.Message)
@@ -3140,7 +3142,9 @@ function Invoke-Revert {
 			Keys = $recordedKeys; PfxFolder = (Join-Path $paths.TlsFolder $PfxFolderName) }
 		$netLeft = @()
 		try {
-			$netLeft = @(Undo-TestNetwork $recorded $net.Address)
+			# Assigned first, then wrapped: @() around a function that returns , $array would give one element, the array itself.
+			$undone = Undo-TestNetwork $recorded $net.Address
+			$netLeft = @($undone)
 		}
 		catch {
 			$netLeft = @($_.Exception.Message)
@@ -3148,7 +3152,8 @@ function Invoke-Revert {
 		if ($netLeft.Count -eq 0 -and $null -ne $journalNet) {
 			# The journal's items too (the same as the block's, or fewer): the opms-dev-tls folder with the journal goes only when they are gone.
 			try {
-				$netLeft = @(Get-TestNetworkLeft $journalNet (Get-TestNetworkState $journalNet $paths.Ca) | ForEach-Object { "$_ (named in the journal $journal) is still there" })
+				$stillThere = Get-TestNetworkLeft $journalNet (Get-TestNetworkState $journalNet $paths.Ca)
+				$netLeft = @(@($stillThere) | ForEach-Object { "$_ (named in the journal $journal) is still there" })
 			}
 			catch {
 				$netLeft = @("the journal ${journal}: $($_.Exception.Message)")
