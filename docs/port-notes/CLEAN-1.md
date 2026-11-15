@@ -64,6 +64,26 @@ Nothing of TC-8 (the tooth chart engine switch and its files, the solution files
 `tests/ReleaseFlowTests/InstallerTests.cs`, `docs/release-process.md`, `README.md`) is touched; item 19 waits for S3a-11's file, and items
 24 and 34 for TC-9a.
 
-## 4. Build and test record
+## 4. Release notes
 
-(Filled in at the end.)
+`docs/release-notes/next.md`, new section "Small fixes": items 3 and 5 (Word), 29 (the sender entry), 7 (Imaging), 11 (postcards). The
+report designer (items 1 and 2) is built but not shipped (RDL-SRC.md, question 4), and items 4 and 21 are not visible to users, so they have
+no line there.
+
+## 5. Build and test record
+
+- The tests were committed first (with the Word seams, which change no behaviour) and run against the unfixed code: every new test failed
+  as expected (`clean1-before-fix.txt`): S3aM1Tests' two (`IndexOutOfRangeException: Cannot find column 2` and `column 1`), N64ATests' four
+  (the set held 152 hook problems; Word started twice; the broken new object not released; three registration throws expected), ImagingTests'
+  one (the quality read after the insert), M2MISCTests' one (no `if(!isOk) {`), BCLAIMTests' one (no Treating Provider sentence). That run
+  set the database tests' skip variables; four database tests fail under them on `main` too (BCLAIMTests `RuleTests.WriteOffDate_*`,
+  M2MISCTests' two cancel tests that need the database context), so the runs below use each project's own scratch database as usual.
+- Full lane build (Debug, x86) after the fixes: 0 errors, no warning in a changed file.
+- Targeted runs after the fixes, all passed (`clean1-after-fix.txt`, `clean1-docs.txt`): NoHqTests 111, ProjectFileTests 150 (149 passed,
+  1 skipped), N64ATests 38, S3aM1Tests 63, ImagingTests 82, M2MISCTests 98, BCLAIMTests 80, VendorDirectTests 941, MiddleTierMockTests 151
+  (its source check reads `Plugins.cs`), ODOPTSTests 57 (reads `docs/release-notes/next.md`).
+- Not run: GoldenOutputTests (its `gold_` fixture database). Its X12 sender tests use the fixture's billing setting, not Treating Provider,
+  and assert parts of the entries that item 29 does not change. InitSqlTests and ForkMigrationTests are left to the coordinator (no schema
+  change here).
+- `tools/Test-NoEolFlips.ps1 -Base main`: 23 changed text files checked, 0 changed their line ends; `Plugins.cs` keeps its BOM, no other
+  changed file had one. No sln or slnf change, `db/init/new-database.sql` untouched.
