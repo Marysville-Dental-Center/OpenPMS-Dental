@@ -2422,7 +2422,7 @@ namespace fyiReporting.RdlDesign
 		{
 			try
 			{
-				System.Diagnostics.Process.Start(HelpUrl);
+				System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo(HelpUrl) { UseShellExecute = true });//The shell opens the link (the .NET default is false).
 			}
 			catch (Exception ex)
 			{
@@ -2435,7 +2435,7 @@ namespace fyiReporting.RdlDesign
 		{
 			try
 			{
-				System.Diagnostics.Process.Start(SupportUrl);
+				System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo(SupportUrl) { UseShellExecute = true });//The shell opens the link (the .NET default is false).
 			}
 			catch (Exception ex)
 			{
@@ -3459,7 +3459,7 @@ namespace fyiReporting.RdlDesign
 				sw.Close();
 		 // http://localhost:8080/aReport.rdl?rs:Format=HTML
 				string url = string.Format("http://localhost:{0}/{1}?rd:Format=HTML", dc.Port, rdlfile);
-				System.Diagnostics.Process.Start(url);
+				System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo(url) { UseShellExecute = true });//The shell opens the link (the .NET default is false).
 				
 			}
 			catch (Exception ex)

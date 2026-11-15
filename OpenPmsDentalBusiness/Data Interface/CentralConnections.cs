@@ -116,6 +116,7 @@ namespace OpenPmsDentalBusiness{
 				string myAdd=Dns.GetHostEntry(Dns.GetHostName()).AddressList[0].ToString();
 				Logger.LogToPath("Dns.GetHostEntry",LogPath.Startup,LogPhase.End);
 				ProcessStartInfo processStartInfo=new ProcessStartInfo();
+				processStartInfo.UseShellExecute=true;//Through the shell, as on .NET Framework, with the window hidden below (the .NET default is false).
 				processStartInfo.FileName=@"C:\WINDOWS\system32\cmd.exe";//Path for the cmd prompt
 				processStartInfo.Arguments="/c net view > tempCompNames.txt";//Arguments for the command prompt
 				//"/c" tells it to run the following command which is "net view > tempCompNames.txt"

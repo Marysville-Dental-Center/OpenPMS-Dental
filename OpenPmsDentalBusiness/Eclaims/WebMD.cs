@@ -47,6 +47,9 @@ namespace OpenPmsDentalBusiness.Eclaims {
 					process.StartInfo.CreateNoWindow=true;
 					process.StartInfo.WindowStyle=ProcessWindowStyle.Hidden;
 				}
+				else {
+					process.StartInfo.UseShellExecute=true;//Through the shell, the .NET Framework default (the .NET default is false).
+				}
 				process.StartInfo.FileName=clearinghouseClin.ClientProgram;
 				process.StartInfo.Arguments=arguments;
 				progress.UpdateProgress(Lans.g(progress.LanThis,"Contacting web server and downloading reports"),"reports","17%",17);

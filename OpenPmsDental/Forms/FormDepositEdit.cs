@@ -813,7 +813,7 @@ namespace OpenPmsDental{
 			Sheet sheet=CreateAndFillSheet();
 			string filePathAndName=PrefC.GetRandomTempFile(".pdf");
 			SheetPrinting.CreatePdf(sheet,filePathAndName,null);
-			Process.Start(filePathAndName);
+			ODFileUtils.ShellOpen(filePathAndName);
 		}
 
 		private void butEmailPDF_Click(object sender,EventArgs e) {

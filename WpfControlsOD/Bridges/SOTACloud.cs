@@ -71,7 +71,7 @@ namespace OpenPmsDental.Bridges{
 				return;
 			}
 			try {
-				Process.Start(baseUrl);//Launch in external browser per JobNum:55276. SOTA Cloud only supports Chromium browsers.
+				ODFileUtils.ShellOpen(baseUrl);//Launch in external browser per JobNum:55276. SOTA Cloud only supports Chromium browsers.
 			}
 			catch {
 				MessageBox.Show(Lans.g("SOTACloud","Failed to open web browser.  Please make sure you have a default browser set and are connected to the internet then try again."));

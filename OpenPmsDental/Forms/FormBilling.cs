@@ -502,7 +502,7 @@ namespace OpenPmsDental {
 				string tempFileOutputDocument = PrefC.GetRandomTempFile(".pdf");
 				sendStatementsIO.PdfMasterDocument.Save(tempFileOutputDocument);
 				try {
-					Process.Start(tempFileOutputDocument);
+					ODFileUtils.ShellOpen(tempFileOutputDocument);
 				}
 				catch(Exception ex) {
 					MsgBox.Show(Lan.g(this,"Error: Please make sure Adobe Reader is installed.")+ex.Message);

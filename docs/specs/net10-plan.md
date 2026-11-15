@@ -854,6 +854,16 @@ staged `.exe` against `tests/ReleaseFlowTests/Fixtures/ApphostResources.net48.tx
 without a Release build). Left: the launch check (port note section 6), the copier's own runtime check and `VerifyFolder` over the runtime
 files (S3b-7), two owner questions (port note section 8).
 
+**Status (2026-11-15), S3a-2.** Merged from `net10/s3a2-2` (`docs/port-notes/S3a-2.md`; the review fix updates P262LinksTests' MeditLink wiring test), the scan included: `ODFileUtils.ShellOpen(pathOrUrl)`
+and every `ODFileUtils` start build `UseShellExecute=true` (the helper commit `667f0ee68`), through `FuncStartProcessInfo`/`FuncStartProcess`,
+which the tests replace so nothing is started (`tests/MiddleTierMockTests/ODFileUtilsStartTests.cs`); the documents, folders and URLs of
+shipped code open through `ShellOpen`, the executable starts go through `ODFileUtils.ProcessStart`, and every `new Process()`/`new
+ProcessStartInfo(` block sets `UseShellExecute` (true unless redirected; the net view starts keep their hidden window, osk.exe true,
+`EhrStylesheetStarter`/`EhrRenderChildProcess` checked), RdlDesign's and RdlViewer's link opens included; `ExternalException` next to the two
+claim-attachment `OutOfMemoryException` catches and `FrmAtoZFoldersCreate`'s `DirectoryInfo.Create`. No change on net48. The source scan
+`NoHqTests/ShellStartScanTests.cs` is the branch's last commit (`20cde33ac`), merged after S3a-10, with no known pending site (PrefL.cs
+is scanned like the rest). Targeted runs green, P262LinksTests included.
+
 **Full-test gate.** Section 3, plus: the golden outputs and known answers recorded and committed; the source-scan tests pass; the
 launch checks for 3a (section 6) done with screenshots, including a self-update from a standard user; the x64 test runs (S3a-12, S3a-15)
 and the x64 build of `Direct2dWrapper` (S3a-16) pass; the helper's tests pass, and its links are launch-checked where a test PC has the

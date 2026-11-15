@@ -201,7 +201,7 @@ namespace OpenPmsDental{
 				}
 				filePathAndName=PrefC.GetRandomTempFile(".pdf");
 				document.Save(filePathAndName);
-				Process.Start(filePathAndName);
+				ODFileUtils.ShellOpen(filePathAndName);
 				DialogResult=DialogResult.OK;
 			}
 			if(MsgBox.Show(this,MsgBoxButtons.YesNo,"Would you like to save the sheets for the selected patients?")) {

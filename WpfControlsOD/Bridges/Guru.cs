@@ -216,7 +216,7 @@ namespace OpenPmsDental.Bridges {
 				str+="M ";
 			}
 			try {
-				Process.Start(path,str);
+				ODFileUtils.ProcessStart(path,str);
 			}
 			catch(Exception ex) {
 				MessageBox.Show(ex.Message);

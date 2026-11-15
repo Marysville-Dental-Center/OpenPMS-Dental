@@ -376,6 +376,7 @@ namespace OpenPmsDental {
 			//A 32-bit process on a 32-bit OS uses `system32` as there's no need for `sysnative`.
 			if(DoesSnippingToolExist()) {
 				Process processSnippingTool=new Process();
+				processSnippingTool.StartInfo.UseShellExecute=true;//Through the shell, the .NET Framework default (the .NET default is false).
 				string pathToSnippingTool;
 				if(Environment.Is64BitProcess || !Environment.Is64BitOperatingSystem) {
 					pathToSnippingTool="system32";
@@ -496,7 +497,8 @@ namespace OpenPmsDental {
 			catch(System.IO.FileNotFoundException ex) {
 				FriendlyException.Show(Lan.g(this,"The selected file at")+": "+selectedFile+" "+Lan.g(this,"could not be found"),ex);
 			}
-			catch(System.OutOfMemoryException ex) {
+			catch(Exception ex) when(ex is System.OutOfMemoryException || ex is System.Runtime.InteropServices.ExternalException) {
+				//GDI+ reports this as OutOfMemoryException on .NET Framework and as ExternalException on .NET 10.
 				//Image.FromFile() will throw an OOM exception when the image format is invalid or not supported.
 				//See MSDN if you have trust issues:  https://msdn.microsoft.com/en-us/library/stf701f5(v=vs.110).aspx
 				MsgBox.Show(Lan.g(this,"The file does not have a valid image format. Please try again or call support."));

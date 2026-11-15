@@ -54,7 +54,7 @@ namespace OpenPmsDental {
 		}
 
 		private void textRaw_LinkClicked(object sender,LinkClickedEventArgs e) {
-			Process.Start(e.LinkText);
+			CodeBase.ODFileUtils.ShellOpen(e.LinkText);
 		}
 
 	}

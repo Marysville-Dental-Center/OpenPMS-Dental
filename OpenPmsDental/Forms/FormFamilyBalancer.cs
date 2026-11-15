@@ -477,7 +477,7 @@ namespace OpenPmsDental {
 			}
 			if(MsgBox.Show(this,MsgBoxButtons.YesNo,"Log file created.  Would you like to open the file?")) {
 				try {
-					Process.Start(saveFileDialog.FileName);
+					ODFileUtils.ShellOpen(saveFileDialog.FileName);
 				}
 				catch(Exception ex) {
 					FriendlyException.Show("Error opening log file. Please manually open the file.",ex);
