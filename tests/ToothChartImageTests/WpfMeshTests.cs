@@ -125,6 +125,9 @@ namespace ToothChartImageTests {
 							VertexNormal vertexNormal=toothGraphic.VertexNormals[toothGroupMesh.ArraySourceIndices[i]];
 							Assert.AreEqual(new Point3D(vertexNormal.Vertex.X,vertexNormal.Vertex.Y,vertexNormal.Vertex.Z),toothGroupMesh.Mesh.Positions[i]);
 							Assert.AreEqual(new Vector3D(vertexNormal.Normal.X,vertexNormal.Normal.Y,vertexNormal.Normal.Z),toothGroupMesh.Mesh.Normals[i]);
+							//TC-7: the reversed mesh (mirroring transforms, the lingual perio rows) carries the normals negated, which WPF lights as DirectX
+							//lights the mirrored rows (PerioParityTests' tooth probes of the lingual rows).
+							Assert.AreEqual(-new Vector3D(vertexNormal.Normal.X,vertexNormal.Normal.Y,vertexNormal.Normal.Z),toothGroupMesh.MeshReversed.Normals[i]);
 							hashSetUsed.Add(toothGroupMesh.ArraySourceIndices[i]);
 						}
 						//The mesh's triangles, mapped back, are the wound triangles; the reversed mesh's are their reverse.

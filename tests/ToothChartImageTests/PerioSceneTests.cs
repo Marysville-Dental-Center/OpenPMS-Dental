@@ -142,7 +142,7 @@ namespace ToothChartImageTests {
 		[TestMethod]
 		public void PerioScene_OneTooth_MarksInDirectXsOrder_WithTheirColoursAndRedLimits() {
 			ToothChartData tcData=CreatePerioData();
-			AddMeasure(tcData,3,PerioSequenceType.Furcation,1,2,3,-1,-1,-1);
+			AddMeasure(tcData,3,PerioSequenceType.Furcation,1,2,3,-1,-1,-1);//MB 1, B 2, DB 3
 			AddMeasure(tcData,3,PerioSequenceType.Probing,3,4,5,2,-1,0);
 			AddMeasure(tcData,3,PerioSequenceType.GingMargin,0,0,0,0,0,0);
 			AddMeasure(tcData,3,PerioSequenceType.BleedSupPlaqCalc,(int)BleedingFlags.Blood,(int)(BleedingFlags.Blood|BleedingFlags.Suppuration),
@@ -152,25 +152,26 @@ namespace ToothChartImageTests {
 			ToothScene scene=ToothSceneBuilder.Build(tcData);
 			List<ToothSceneItem2D> listOf3=scene.Items2D.Where(x => x.Source.EndsWith(" of 3") || x.Source.Contains(" of 3 ") || x.Source.StartsWith("probing 3 ")
 				|| x.Source.StartsWith("bleeding 3 ") || x.Source.StartsWith("suppuration 3 ")).ToList();
-			CollectionAssert.AreEqual(new[] {
+			Assert.AreEqual(string.Join(" | ",new[] {
 				"mobility of 3",
-				"furcation 1 of 3 DB","furcation 2 of 3 B","furcation 3 of 3 MB","furcation 3 of 3 MB (filled)",
+				"furcation 3 of 3 DB","furcation 3 of 3 DB (filled)","furcation 2 of 3 B","furcation 1 of 3 MB",
 				"probing 3 DB","probing 3 B","probing 3 MB",
 				"bleeding 3 B","bleeding 3 MB",
 				"suppuration 3 DB","suppuration 3 B",
 				"probing 3 ML",
 				"bleeding 3 ML",
-			},listOf3.Select(x => x.Source).ToArray(),"DirectX's order: mobility, then per site of the row furcations, probing, bleeding, suppuration; the "
+			}),string.Join(" | ",listOf3.Select(x => x.Source)),"DirectX's order: mobility, then per site of the row furcations, probing, bleeding, suppuration; the "
 				+"lingual row's marks come in its own row.");
 			Dictionary<string,ToothSceneItem2D> dict=listOf3.GroupBy(x => x.Source).ToDictionary(x => x.Key,x => x.First());
 			Assert.AreEqual(Color.Red.ToArgb(),dict["mobility of 3"].Color.ToArgb(),"Mobility in its own colour.");
 			Assert.AreEqual("2",dict["mobility of 3"].Text);
-			Assert.AreEqual(ChartScenes.PerioFurcations.ToArgb(),dict["furcation 1 of 3 DB"].Color.ToArgb(),"Grade 1 below the red limit 2.");
+			Assert.AreEqual(ChartScenes.PerioFurcations.ToArgb(),dict["furcation 1 of 3 MB"].Color.ToArgb(),"Grade 1 below the red limit 2.");
 			Assert.AreEqual(ChartScenes.PerioFurcationsRed.ToArgb(),dict["furcation 2 of 3 B"].Color.ToArgb(),"Grade 2 at the red limit.");
-			Assert.AreEqual(ChartScenes.PerioFurcationsRed.ToArgb(),dict["furcation 3 of 3 MB (filled)"].Color.ToArgb());
-			Assert.AreEqual(2,dict["furcation 1 of 3 DB"].Polygons.Count,"Grade 1: the two sides from the tip.");
+			Assert.AreEqual(ChartScenes.PerioFurcationsRed.ToArgb(),dict["furcation 3 of 3 DB (filled)"].Color.ToArgb());
+			Assert.AreEqual(2,dict["furcation 1 of 3 MB"].Polygons.Count,"Grade 1: the two sides from the tip.");
 			Assert.AreEqual(3,dict["furcation 2 of 3 B"].Polygons.Count,"Grade 2: the outline.");
-			Assert.AreEqual(1,dict["furcation 3 of 3 MB (filled)"].Polygons.Count,"Grade 3: the outline and the filled triangle.");
+			Assert.AreEqual(3,dict["furcation 3 of 3 DB"].Polygons.Count,"Grade 3: the outline...");
+			Assert.AreEqual(1,dict["furcation 3 of 3 DB (filled)"].Polygons.Count,"...and the filled triangle.");
 			Assert.AreEqual(ChartScenes.PerioProbing.ToArgb(),dict["probing 3 DB"].Color.ToArgb(),"3 mm below the red limit 4.");
 			Assert.AreEqual(ChartScenes.PerioProbingRed.ToArgb(),dict["probing 3 B"].Color.ToArgb(),"4 mm at the red limit.");
 			Assert.AreEqual(ChartScenes.PerioProbingRed.ToArgb(),dict["probing 3 MB"].Color.ToArgb());

@@ -290,7 +290,10 @@ namespace ToothChartImageTests {
 		}
 
 		///<summary>Probes both pictures at every point inside them. A line probe whose DirectX pixel is not the line's colour is left out (the line is
-		///covered there, or the unsmoothed line misses the pixel).</summary>
+		///covered there, or the unsmoothed line misses the pixel). A mark or a line (SampleRadius 0) is sampled in the WPF picture at the pixel of the
+		///3x3 around the point nearest to DirectX's colour: the WPF chart smooths the sloped lines and the triangles that DirectX draws without
+		///smoothing, so an edge drawn later (a GM, CAL or MGJ line over a probing bar) may tint the one pixel by a part of a pixel in one picture
+		///and not in the other. A mark of another colour, or more than a pixel off, still fails.</summary>
 		public static List<PerioProbeOutcome> Probe(string sceneName,Size size,List<PerioProbePoint> listPoints,byte[] arrayDirectX,byte[] arrayWpf,
 			Color colorBackground)
 		{
@@ -303,7 +306,9 @@ namespace ToothChartImageTests {
 				outcome.SceneName=sceneName;
 				outcome.Probe=probe;
 				outcome.ColorDirectX=ParityProbes.Sample(arrayDirectX,size,probe.Point,probe.SampleRadius);
-				outcome.ColorWpf=ParityProbes.Sample(arrayWpf,size,probe.Point,probe.SampleRadius);
+				outcome.ColorWpf=probe.SampleRadius==0
+					? SampleNearest(arrayWpf,size,probe.Point,outcome.ColorDirectX)
+					: ParityProbes.Sample(arrayWpf,size,probe.Point,probe.SampleRadius);
 				if(probe.ColorLine!=null && GetDistance(outcome.ColorDirectX,probe.ColorLine.Value)>MaxLineColourDistance) {
 					continue;
 				}
@@ -314,6 +319,29 @@ namespace ToothChartImageTests {
 				listOutcomes.Add(outcome);
 			}
 			return listOutcomes;
+		}
+
+		///<summary>The pixel of the 3x3 around the point (inside the picture) whose colour is nearest to colorTarget.</summary>
+		public static Color SampleNearest(byte[] arrayPixelsArgb,Size size,PointF point,Color colorTarget) {
+			int xCentre=(int)Math.Floor(point.X);
+			int yCentre=(int)Math.Floor(point.Y);
+			Color colorBest=Color.Empty;
+			double distanceBest=double.MaxValue;
+			for(int y=yCentre-1;y<=yCentre+1;y++) {
+				for(int x=xCentre-1;x<=xCentre+1;x++) {
+					if(x<0 || y<0 || x>=size.Width || y>=size.Height) {
+						continue;
+					}
+					int index=(y*size.Width+x)*4;
+					Color color=Color.FromArgb(255,arrayPixelsArgb[index+2],arrayPixelsArgb[index+1],arrayPixelsArgb[index]);
+					double distance=GetDistance(color,colorTarget);
+					if(distance<distanceBest) {
+						distanceBest=distance;
+						colorBest=color;
+					}
+				}
+			}
+			return colorBest;
 		}
 
 		public static double GetDistance(Color color1,Color color2) {

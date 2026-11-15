@@ -509,6 +509,18 @@ namespace ToothChartImageTests {
 					+"older text scenes show the old engines' pictures (which draw nothing for it) next to the new ones, and the column \"Simple 2D now\" "
 					+"shows the 2D chart's new pictures. Every other WPF picture is unchanged from G1 (the last column).";
 			}
+			if(galleryName=="G3") {
+				return "Gallery G3 (package TC-7): the graphical perio chart on the WPF chart. Open Dental's 25.x and 26.x graphical perio drawing is not "
+					+"public (audit row PERIO-1), so the WPF chart draws it as today's DirectX chart draws it: the four rows of teeth (maxillary facial and "
+					+"lingual, mandibular lingual and facial) in the softer perio light, and over each row, in DirectX's order, the millimetre lines, the "
+					+"mobility numbers, the furcation marks, the probing bars (red from the red limit), the bleeding and suppuration droplets and the "
+					+"gingival margin, CAL and MGJ lines; then the centre line, the numbers and the legend, in the nine perio colours. With two Open Dental "
+					+"24.4 changes: a removed implant (its procedure's graphics hidden) is not drawn, and with Perio Setup's \"Use the term Recession\" "
+					+"option on, the legend calls the gingival margin line \"Recession\" (\"Gingival Margin\" again while the exam has hyperplasia, as the "
+					+"Perio Chart's row label). Each perio picture is checked against TC-0's DirectX picture by the perio parity probes (the caption). The "
+					+"print and the 750x1000 saved image (perio-print, perio-save) are drawn from the WPF picture as the window draws them. The graphical "
+					+"perio window keeps the DirectX chart until TC-8; every other WPF picture is unchanged from G2.";
+			}
 			return "Gallery "+galleryName+" of the WPF chart.";
 		}
 
