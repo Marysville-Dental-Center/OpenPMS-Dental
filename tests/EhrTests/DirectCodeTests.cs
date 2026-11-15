@@ -88,6 +88,27 @@ namespace EhrTests {
 			Assert.IsTrue(pickTwice.IsRefused);
 			Assert.IsTrue(pickTwice.ListRefusals.Any(x => x.StartsWith("other_TEST.xlsx: The pick has more than one file with the value sets")
 				&& x.Contains("ec_value_sets_TEST.xlsx")),string.Join("\r\n",pickTwice.ListRefusals));
+			//The second file was not read: its report gives no counts of its kind, only its name, hash, kind and refusal.
+			EhrValueSetFile fileTwice=pickTwice.ListFiles.Single(x => x.FileName=="other_TEST.xlsx");
+			Assert.IsTrue(fileTwice.IsKindTaken);
+			Assert.IsFalse(pickTwice.ListFiles.Single(x => x.FileName=="ec_value_sets_TEST.xlsx").IsKindTaken);
+			string reportTwice=EhrValueSetImport.GetReport(fileTwice);
+			foreach(string counts in new[] { "found:","Rows read:","Codes to import:","Measures:" }) {
+				Assert.IsFalse(reportTwice.Contains(counts),counts+" in the report of a file not read:\r\n"+reportTwice);
+			}
+			StringAssert.Contains(reportTwice,"File: other_TEST.xlsx");
+			StringAssert.Contains(reportTwice,"SHA-256: "+fileTwice.Sha256);
+			StringAssert.Contains(reportTwice,"Holds: the value sets");
+			StringAssert.Contains(reportTwice,"This file was not read further");
+			//The first file's report keeps its counts.
+			StringAssert.Contains(EhrValueSetImport.GetReport(pickTwice.ListFiles.Single(x => x.FileName=="ec_value_sets_TEST.xlsx")),
+				"Value sets the measures use, found:");
+			//A second Direct Reference Codes file in place of the Code System Versions file: the same.
+			EhrValueSetPick pickTwiceDirect=ValueSetFixtures.ParsePick(new List<KeyValuePair<string,byte[]>> { listFiles[0],listFiles[1],
+				ValueSetFixtures.Entry("other_direct_TEST.xlsx",listFiles[1].Value) });
+			string reportTwiceDirect=EhrValueSetImport.GetReport(pickTwiceDirect.ListFiles.Single(x => x.FileName=="other_direct_TEST.xlsx"));
+			Assert.IsFalse(reportTwiceDirect.Contains("Direct reference codes to import:") || reportTwiceDirect.Contains("Rows read:"),reportTwiceDirect);
+			StringAssert.Contains(reportTwiceDirect,"This file was not read further");
 			//A fourth file, even a good one: refused before any file is read.
 			EhrValueSetPick pickFour=ValueSetFixtures.ParsePick(listFiles.Concat(new[] { pairReadme }).ToList());
 			Assert.IsTrue(pickFour.IsRefused);

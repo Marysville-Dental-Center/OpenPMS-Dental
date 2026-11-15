@@ -1,7 +1,9 @@
 // The import of the release's three files on a database (docs/specs/ehr-2027-measures-plan.md, EHR-6a, sections 7.1, 7.3 and 7.4): the pick
 // writes the value-set codes and the direct reference codes in one swap and records the three files, the code-system versions and the roles;
 // a second pick replaces both kinds together and the roles resolve again; an import that fails part way, or a pick without all three files,
-// leaves every old row of both kinds; the code-system status flags a loaded table older than the release; and a Middle Tier client's list
+// leaves every old row of both kinds, and so does a pick MakePick did not build; a failure while the release is recorded says the codes were
+// replaced; the record keeps both files' measure checks; the code-system status counts the direct reference codes apart from the value-set
+// codes and flags a loaded table older than the release; and a Middle Tier client's list
 // has the direct reference codes after InvalidType.EhrCodes. On this run's ehr6a_ scratch database (Support/ReleaseDb.cs); made-up TEST codes.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
@@ -77,6 +79,7 @@ namespace EhrTests {
 			EhrValueSetRelease release=EhrValueSetImport.GetRelease();
 			Assert.AreEqual(CqmCatalog.RELEASE_LABEL,release.Label);
 			Assert.AreEqual("7 of 7 measures at the 2027 versions",release.MeasureCheck);
+			Assert.AreEqual("7 of 7 measures at the 2027 versions",release.MeasureCheckDirectCodes,"The Direct Reference Codes file's own check.");
 			CollectionAssert.AreEqual(new[] { EhrValueSetFileKind.ValueSets,EhrValueSetFileKind.DirectReferenceCodes,EhrValueSetFileKind.CodeSystemVersions },
 				release.ListFiles.Select(x => x.Kind).ToList());
 			CollectionAssert.AreEqual(listFiles.Select(x => x.Key).ToList(),release.ListFiles.Select(x => x.FileName).ToList());
@@ -95,6 +98,8 @@ namespace EhrTests {
 				StringAssert.Contains(securityLog.LogText,releaseFile.Kind+" '"+releaseFile.FileName+"' SHA-256 "+releaseFile.Sha256);
 			}
 			StringAssert.Contains(securityLog.LogText,"8 of 8 direct-reference-code roles resolved");
+			StringAssert.Contains(securityLog.LogText,"value sets the measures use; 7 of 7 measures at the 2027 versions; direct reference codes: 7 of 7 measures "
+				+"at the 2027 versions;");
 			Assert.IsFalse(securityLog.LogText.Contains("TEST"+"D0"),"No code is logged.");
 			Assert.IsFalse(securityLog.LogText.Contains("TESTM"),"No code is logged.");
 		}
@@ -143,6 +148,115 @@ namespace EhrTests {
 			Assert.IsTrue(pickTwo.IsRefused);
 			StringAssert.Contains(EhrValueSetImport.Import(pickTwo),"Pick the three files of the release together");
 			CollectionAssert.AreEqual(listBefore,ReadRows().Select(x => x.ValueSetOID+" "+x.CodeValue).OrderBy(x => x,StringComparer.Ordinal).ToList());
+		}
+
+		///<summary>The text of the ForkEhrValueSetRelease row in the table, or "" when there is none.</summary>
+		private static string ReadReleaseJson() {
+			return PIn.String(DataCore.GetScalar("SELECT ValueString FROM preference WHERE PrefName='"+EhrValueSetImport.PREF_RELEASE+"'")??"");
+		}
+
+		private static List<string> ReadRowKeys() {
+			return ReadRows().Select(x => x.ValueSetOID+" "+x.CodeValue).OrderBy(x => x,StringComparer.Ordinal).ToList();
+		}
+
+		private static long CountScratchTables() {
+			return PIn.Long(DataCore.GetScalar(@"SELECT COUNT(*) FROM information_schema.TABLES WHERE TABLE_SCHEMA=DATABASE() AND TABLE_NAME LIKE 'ehrcode\_%'"));
+		}
+
+		[TestMethod]
+		public void Import_APickMakePickDidNotBuild_IsRefusedBeforeAnyTableWork_TheRowsAndTheReleaseUnchanged() {
+			Assert.AreEqual("",EhrValueSetImport.Import(PickOrFail(ValueSetFixtures.MakeRelease())));
+			List<string> listBefore=ReadRowKeys();
+			string jsonBefore=ReadReleaseJson();
+			Assert.AreNotEqual("",jsonBefore);
+			//Hand-built picks: none refused, but without the value-set file (the swap would replace every value-set code with none), or empty.
+			EhrValueSetPick pickGood=PickOrFail(ValueSetFixtures.MakeRelease(listDirectCodes:ValueSetFixtures.MakeDirectCodeRows("TESTE")));
+			EhrValueSetPick pickNoValueSets=new EhrValueSetPick();
+			pickNoValueSets.ListFiles=pickGood.ListFiles.ToList();
+			pickNoValueSets.FileDirectCodes=pickGood.FileDirectCodes;
+			pickNoValueSets.FileCodeSystemVersions=pickGood.FileCodeSystemVersions;
+			pickNoValueSets.ListEhrCodesDirect=pickGood.ListEhrCodesDirect.ToList();
+			pickNoValueSets.ListRoles=pickGood.ListRoles.ToList();
+			EhrValueSetPick pickTwoFiles=new EhrValueSetPick();
+			pickTwoFiles.ListFiles=pickGood.ListFiles.Take(2).ToList();
+			pickTwoFiles.FileValueSets=pickGood.FileValueSets;
+			pickTwoFiles.FileDirectCodes=pickGood.FileDirectCodes;
+			pickTwoFiles.FileCodeSystemVersions=pickGood.FileCodeSystemVersions;
+			foreach(EhrValueSetPick pick in new[] { pickNoValueSets,new EhrValueSetPick(),pickTwoFiles }) {
+				Assert.IsFalse(pick.IsRefused);
+				string error=EhrValueSetImport.Import(pick,out bool areRowsReplaced);
+				StringAssert.Contains(error,"The pick is not the release's three files as MakePick reads them. Nothing was imported");
+				Assert.IsFalse(areRowsReplaced);
+				CollectionAssert.AreEqual(listBefore,ReadRowKeys(),"Every old row of both kinds.");
+				Assert.AreEqual(jsonBefore,ReadReleaseJson(),"The release record is unchanged.");
+				Assert.AreEqual(0,CountScratchTables());
+			}
+		}
+
+		[TestMethod]
+		public void Import_AFailureWhileTheReleaseIsRecorded_SaysTheCodesWereReplaced_NotThatTheImportFailed() {
+			Assert.AreEqual("",EhrValueSetImport.Import(PickOrFail(ValueSetFixtures.MakeRelease())));
+			string jsonBefore=ReadReleaseJson();
+			EhrValueSetPick pickSecond=PickOrFail(ValueSetFixtures.MakeRelease(listDirectCodes:ValueSetFixtures.MakeDirectCodeRows("TESTE")));
+			//The swap is done, then the preference row or the log entry cannot be written.
+			EhrValueSetImport.ActionBeforeRecord=() => throw new ApplicationException("TEST record failure");
+			string error;
+			bool areRowsReplaced;
+			try {
+				error=EhrValueSetImport.Import(pickSecond,out areRowsReplaced);
+			}
+			finally {
+				EhrValueSetImport.ActionBeforeRecord=null;
+			}
+			Assert.IsTrue(areRowsReplaced);
+			Assert.AreEqual("The codes of the three files replaced the old ones, but the release record was not saved: TEST record failure. "
+				+"Import the three files again.",error);
+			Assert.IsFalse(error.Contains("unchanged"),error);
+			//The rows are the new ones, of both kinds; the record is the old one; no scratch table is left.
+			List<EhrCode> listRows=ReadRows();
+			Assert.AreEqual(pickSecond.ListEhrCodesAll.Count,listRows.Count);
+			Assert.IsTrue(listRows.Where(x => CqmCatalog.IsDirectCodeKey(x.ValueSetOID)).All(x => x.CodeValue.StartsWith("TESTE")));
+			Assert.AreEqual(jsonBefore,ReadReleaseJson());
+			Assert.AreEqual(0,CountScratchTables());
+			//Importing the three files again records the release.
+			Assert.AreEqual("",EhrValueSetImport.Import(pickSecond,out areRowsReplaced));
+			Assert.IsTrue(areRowsReplaced);
+			Assert.AreNotEqual(jsonBefore,ReadReleaseJson());
+		}
+
+		[TestMethod]
+		public void Import_RecordsTheDirectReferenceCodesFilesOwnMeasureCheck_ApartFromTheValueSetFiles() {
+			//Direct reference codes of two measures only: their file's check differs from the value-set file's 7 of 7.
+			List<TestValueSetRow> listDirectCodes=new List<TestValueSetRow> {
+				TestValueSetRow.MakeDirectCode(CqmCatalog.GetMeasure("CMS68").MeasureId,"SNOMEDCT","TESTD0001"),
+				TestValueSetRow.MakeDirectCode(CqmCatalog.GetMeasure("CMS74").MeasureId,"SNOMEDCT","TESTD0002"),
+			};
+			long securityLogNum=ScratchDb.GetLastSecurityLogNum();
+			Assert.AreEqual("",EhrValueSetImport.Import(PickOrFail(ValueSetFixtures.MakeRelease(listDirectCodes:listDirectCodes))));
+			EhrValueSetRelease release=EhrValueSetImport.GetRelease();
+			Assert.AreEqual("7 of 7 measures at the 2027 versions",release.MeasureCheck);
+			Assert.AreEqual("2 of 7 measures at the 2027 versions",release.MeasureCheckDirectCodes);
+			StringAssert.Contains(ReadReleaseJson(),"\"MeasureCheckDirectCodes\":\"2 of 7 measures at the 2027 versions\"");
+			string logText=ScratchDb.GetSecurityLogsAfter(securityLogNum).Single(x => x.LogText.StartsWith("EHR value sets imported")).LogText;
+			StringAssert.Contains(logText,"; 7 of 7 measures at the 2027 versions; direct reference codes: 2 of 7 measures at the 2027 versions;");
+			//A record written before EHR-6a's fix round 4 has no such check: the log text says so.
+			release.MeasureCheckDirectCodes="";
+			StringAssert.Contains(EhrValueSetImport.GetLogText(release),"direct reference codes: not recorded;");
+		}
+
+		[TestMethod]
+		public void Status_TheValueSetCodes_LeaveOutTheDirectReferenceCodes_CountedApart() {
+			Assert.AreEqual("",EhrValueSetImport.Import(PickOrFail(ValueSetFixtures.MakeRelease())));
+			List<EhrCode> listRows=ReadRows();
+			List<EhrCodeSystemStatus> listStatuses=EhrCodes.GetCodeSystemStatuses();
+			foreach(string codeSystem in new[] { "LOINC","SNOMEDCT","CPT" }) {
+				EhrCodeSystemStatus status=listStatuses.Single(x => x.CodeSystem==codeSystem);
+				int countDirect=listRows.Count(x => x.CodeSystem==codeSystem && CqmCatalog.IsDirectCodeKey(x.ValueSetOID));
+				Assert.IsTrue(countDirect>0,codeSystem+": the synthetic release has direct reference codes of this system.");
+				Assert.AreEqual(listRows.Count(x => x.CodeSystem==codeSystem && !CqmCatalog.IsDirectCodeKey(x.ValueSetOID)),status.CountValueSetCodes,codeSystem);
+				Assert.AreEqual(countDirect,status.CountDirectCodes,codeSystem);
+			}
+			Assert.AreEqual(listRows.Count,listStatuses.Sum(x => x.CountValueSetCodes+x.CountDirectCodes),"Every row counted once.");
 		}
 
 		[TestMethod]
