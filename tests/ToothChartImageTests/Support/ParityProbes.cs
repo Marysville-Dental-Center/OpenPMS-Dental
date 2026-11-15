@@ -147,7 +147,22 @@ namespace ToothChartImageTests {
 			new ParityAllowance("sealant-primary","*","*",null,ReasonUnerupted,false,true),
 			new ParityAllowance("text-watch-primary","*","*",null,ReasonUnerupted,false,true),
 			new ParityAllowance("select-primary-letter","*","*",null,ReasonUnerupted,false,true),
+			//TC-6: what the WPF chart draws as Open Dental does where DirectX 9 drew nothing (ORTHO-1, ORTHO-2, RR-1).
+			new ParityAllowance("ortho-mode","*","*",null,ReasonOrthoMode),
+			new ParityAllowance("ortho-brackets","*","*",ProbeKind.Facial,ReasonBracket),
+			new ParityAllowance("ortho-wires","*","*",ProbeKind.Facial,ReasonBracket),
+			new ParityAllowance("ortho-elastics","*","*",ProbeKind.Facial,ReasonBracket),
+			new ParityAllowance("retained-root","*","*",null,ReasonRetainedRoot),
+			new ParityAllowance("retained-root-statuses","*","*",null,ReasonRetainedRoot),
 		};
+
+		///<summary>TC-6's reasons.</summary>
+		public const string ReasonOrthoMode="On purpose (TC-6, ORTHO-1): in ortho mode the WPF chart draws only the facial rows, moved 14.6 mm toward the "
+			+"centre line, as Open Dental's ortho mode (Capture13, ortho9); DirectX 9 kept the normal layout, so every probe of the scene is elsewhere.";
+		public const string ReasonBracket="On purpose (TC-6, ORTHO-2): a bracket (grey, with its wire or an elastic) sits on this tooth's facial surface "
+			+"where DirectX 9 drew none, as Open Dental draws its brackets; the facial probe lands on it.";
+		public const string ReasonRetainedRoot="On purpose (TC-6, RR-1): the WPF chart draws a retained root as Open Dental does, the root alone in the "
+			+"status colour; DirectX 9 drew the whole tooth, so the crown's probes find the background or the coloured root.";
 
 		///<summary>TC-3c's reason for the probes of unerupted teeth.</summary>
 		public const string ReasonUnerupted="On purpose (TC-3c, LOOK-2): the WPF chart draws an unerupted tooth half-transparent at its own colour (alpha "

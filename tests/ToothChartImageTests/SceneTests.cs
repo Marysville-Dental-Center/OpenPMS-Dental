@@ -175,12 +175,17 @@ namespace ToothChartImageTests {
 				Assert.AreNotEqual(Render2D(ChartScenes.SizeModule.Size,ChartColorSet.Module,ChartScenes.Get("extraction-completed")),
 					Render2D(ChartScenes.SizeModule.Size,ChartColorSet.Module,ChartScenes.Get("extraction-completed-graphic")),
 					"The completed-extraction graphic draws the X in the 2D chart.");
-				//No engine draws orthodontic hardware, retained roots or space maintainers yet (TC-6), and TextBelow is not in the picture (TC-5: the Chart
-				//module's strip under the date slider shows it).
+				//The 2D chart draws no orthodontic hardware, retained roots or space maintainers and has no ortho layout (TC-6), as Open Dental's own 2D
+				//chart (its 24.3 relay sent them only to Sparks3D, "not supported" otherwise; only the WPF chart draws them), and TextBelow is not in the
+				//picture (TC-5: the Chart module's strip under the date slider shows it).
 				foreach(string name in new[] { "ortho-brackets","retained-root","space-maintainer-tooth","retained-root-statuses","space-maintainer-statuses",
-					"text-below-statuses" })
+					"text-below-statuses","ortho-wires","ortho-wire-in-bracket","ortho-elastics","ortho-hardware-normal-layout","space-maintainer-quadrant" })
 				{
 					Assert.AreEqual(hashEmpty,Render2D(ChartScenes.SizeModule.Size,ChartColorSet.Module,ChartScenes.Get(name)),name);
+				}
+				string hashPalmer=Render2D(ChartScenes.SizeModule.Size,ChartColorSet.Module,ChartScenes.Get("empty-palmer"));
+				foreach(string name in new[] { "ortho-mode","ortho-mode-hardware-off" }) {
+					Assert.AreEqual(hashPalmer,Render2D(ChartScenes.SizeModule.Size,ChartColorSet.Module,ChartScenes.Get(name)),name+": ortho mode and its hardware are not drawn in 2D.");
 				}
 			});
 		}
