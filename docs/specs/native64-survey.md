@@ -675,10 +675,12 @@ The labels A1-A5 and B1-B8 below are only for this survey. Existing plan IDs are
   - Windows and focus across processes.
 - **Tests.** FakeTwainDsm in both bitnesses, plus a fake helper.
 
-**B6. Native QBFC17 module.** It is blocked until the owner supplies the SDK.
-- A new embedded interop from QBFC17 (or 16).
+**B6. Native 64-bit QBFC module.** The owner downloaded the newest QuickBooks Desktop SDK, 18.0 (64-bit installer, signed by Intuit),
+on 2026-11-15; it is kept outside the repository with its SHA-256 (`.git/od-tools/downloads/qbsdk18/`). Build on the newest QBFC it
+carries (owner rule: always the latest version).
+- A new embedded interop from the SDK's newest QBFC (18, or the highest it ships).
 - A 64-bit session class behind the same public QuickBooks methods.
-- The run-time test: create QBFC17, then QBFC16, else the helper; fall back to the helper when the connection fails.
+- The run-time test: create the newest QBFC first, then each older 64-bit one down to QBFC15, else the helper; fall back to the helper when the connection fails.
 - The helper's QBFC 10 module stays.
 
 **B7. Launch checks on test PCs, never at the office.**
@@ -705,7 +707,7 @@ The labels A1-A5 and B1-B8 below are only for this survey. Existing plan IDs are
 
 - **Intuit Developer** (only the owner can do this):
   - sign in;
-  - download the QuickBooks Desktop SDK 17.0 64-bit installer (the QBFC17/16 type library and the 64-bit redistributable);
+  - download the newest QuickBooks Desktop SDK 64-bit installer (done 2026-11-15: SDK 18.0, `QBSDK180_x64.exe`);
   - accept the SDK and redistribution licence.
   - Decide whether our setup or the office installs the 64-bit QBFC runtime.
 - **No other sign-in is needed.** TWAINDSM 2.5.1 (GitHub), the DirectX runtime, Microsoft.DXSDK.D3DX, the Belgian eID middleware and scanner drivers are all public.

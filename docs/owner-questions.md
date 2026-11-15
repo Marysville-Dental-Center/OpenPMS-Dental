@@ -999,7 +999,7 @@ and E-10b), where each is set out in full with its recommendation. You first ans
 - **Native 64-bit first for every integration:** your decision (2026-11-15): "For any integration, use native 64bit first. If the
   option is not available, fall back to 32bit". The 32-bit helper becomes the fallback (net10-plan decision 23; answers O-14). Topaz
   (AnyCPU) loads in process, Schick CDR is called directly, QuickBooks Desktop gets the 64-bit QBFC path (QuickBooks 2022 and later; the
-  SDK download needs your Intuit sign-in) with the helper kept for older QuickBooks, Guru stays on the helper, and 32-bit-only TWAIN
+  SDK download needs your Intuit sign-in; you downloaded the newest, SDK 18.0, on 2026-11-15) with the helper kept for older QuickBooks, Guru stays on the helper, and 32-bit-only TWAIN
   drivers get a helper path in 3b.
 
 - **Treatment plan grid's right-click menu** (S3a-M3a, [port-notes/S3a-M3.md](port-notes/S3a-M3.md)). In the Treatment Plan edit window,
