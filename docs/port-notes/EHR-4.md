@@ -227,3 +227,184 @@ No `ehr4a_` or `ehr1_` database was left on the server after the runs. Files cha
 `FormEhrMeasureCalc.designer.cs`, `FormEhrMeasureCalcDetail.cs`, `FormEhrMeasureCalcDetail.designer.cs`, `EhrMeasures.cs` (the floor;
 edited byte for byte, so the `0x92` byte and the CRLF line ends are kept), `MeasureCalcTests.cs`, `Support/MeasureCalcFixture.cs`, this
 note, the plan (the status line, the EHR-4a Work text, section 9.2) and `docs/release-notes/next.md`.
+
+## EHR-4b: the measure fixtures
+
+Package EHR-4b of `docs/specs/ehr-rebuild-plan.md` (section 7, section 9.3), on branch `ehr/ehr4b-1` from `main` `e9c46c233`. Numbers
+that a test has checked against the public specification sheets: for each stage, synthetic patients who meet and who miss each measure the
+engine calculates, a recorded run of the three `SelectAll` calls as golden numbers, and the list below of where the engine and the sheets
+disagree. **No engine code, schema, project file or other test file was changed**: the files are `tests/EhrTests/MeasureSpecTests.cs`,
+`tests/EhrTests/Fixtures/MeasureSpecFixture.cs`, `tests/EhrTests/Fixtures/MeasureSpecGolden.txt` (the test project's default glob compiles
+the fixture; the golden file is read from the repository folder, as the CDA tests read theirs), this section and the plan's status line.
+Engine fixes are follow-ups the lead assigns. Two earlier attempts were stopped; their proposed deviations (D01 to D14 of the lead's
+analysis) were each run here before being listed, and the IDs are kept.
+
+**Public basis.** The CMS EHR Incentive Program specification sheets for eligible professionals (US government works), read as data from the
+lead's download batches M and M2 of 2026-11-14; only their file names, dates and the rules the numbers come from are cited, in a comment
+of each test, with a short paraphrase. The latest edition of each stage is cited first:
+
+| Stage (engine call) | Latest edition (cited first) | Older edition (compared) |
+|---|---|---|
+| Stage 1 (`SelectAll`) | "Stage 1 (2014 Definition)", Last updated: May 2014, the 22 sheets of `EP_MU_TableOfContents.pdf` (`1_CPOE_for_Medication_Orders.pdf` and so on) | "Stage 1 (2013 Definition)", Last Updated: April 2013 (`2013DefinitionEP_*.pdf`): only `VitalSigns` follows it (D05) |
+| Stage 2 (`SelectAllMu2`) | `Stage2_EPCore_1` to `_17` and `Stage2_EPMenu_1` to `_6`, Date issued October 2012 to November 2014; `Stage2_EPCore_15_SummaryCare.pdf` Last Updated: August, 2015. The last Stage 2 edition (2015 on is Modified Stage 2) | none |
+| Modified Stage 2 (`SelectAllMu2Mod`) | "Objectives and Measures for 2018", Updated: July 2018 (`MedicaidEPModStage2_2018_Obj1.pdf` to `Obj10.pdf`) | the 2017 edition (`MedicaidEPStage2_Obj1.pdf` to `Obj10.pdf`, Updated: November 2016): the same numbers for every case here; its only difference that matters, Obj6's time rule (education may count up to the date of attestation), gives the same answer for D10 |
+
+### 1. The fixture and how a case is counted
+
+- **The database.** `Fixtures/MeasureSpecFixture.cs` builds an `ehr4b_<UTC start>_<process>_<random>_main` scratch database on the local
+  MariaDB (127.0.0.1:3306) from `db/init/new-database.sql` and the fork migrations, as `Support/MeasureCalcFixture.cs` builds EHR-4a's; it
+  is dropped by the class cleanup, leftovers older than 12 hours (`ehr4b_` only) first. `EHR_TEST_DB=skip` skips, `EHR_KEEP_DB=1` keeps it.
+  After the runs no `ehr4b_` database was left on the server.
+- **The practice.** One EP with an `ehrprovkey` row and a made-up all-digit NPI (the engine puts NPIs into `IN()` unquoted), one provider
+  with no row, a made-up visit code `TESTV01`, and 87 patients (81 of them seen by the EP in 2014) under keys such as `Vs.Child2` or
+  `Access.TuesdayMonday`, each with only the rows its case reads. Most are adults seen once, on Monday 3 March 2014. Events are written at 11:00, as the program writes them with the
+  time they happened (this is what shows D15).
+- **The period and the ages.** The reporting period is the calendar year 2014, and every patient is born before 14 November 2013. The engine
+  takes two ages on today's date (D03, D04): from 14 November 2026 on, every fixture patient is old enough for both, so the golden numbers do
+  not drift with the date. Modified Stage 2 is calculated on the same 2014 period; its sheets' rules do not depend on the year here (the
+  window's year rule of section 9.2 is EHR-4a's and is not used).
+- **The data rule (plan section 6).** Made-up names; made-up codes starting with `TEST` (`TESTV01`, `TEST0001`, the radiology LOINC-format
+  code `TESTRAD1` of class RAD, which the radiology cases need because `RadiologyDateStartedUsing154` is 2021 in a new database);
+  CDCREC race and ethnicity codes; the program's own "declined" constants; and the two codes the engine's source compares with (a smoking
+  status, the first positive/negative lab result code), read from `EhrMeasures.cs` at run time (`MeasureSpecCodes`), never written. Dates
+  for the `ehrlab` text column are built with `ToString("yyyyMMdd")`. `ValueSetSourceTests.Fixtures_HoldNoLiteralOfACodeFromTheEnginesLists`
+  passes over the new files.
+- **A case's numbers.** The engine's audit table of the measure (`GetAuditTable`: `GetTable`, `GetTableMu2` or `GetTableMu2Mod`, the table
+  `CalcMeasure` counts) for the EP and the period, restricted to the case's patients: its rows are the case's denominator, its met rows the
+  numerator. `AuditTables_AreWhatTheSelectAllCallsCount` checks, for all 56 measures, that the whole table's rows and met rows are exactly
+  the numbers `SelectAll`, `SelectAllMu2` and `SelectAllMu2Mod` return.
+- **A disagreement.** `SpecCheck.Deviation` records the sheet's pair and the engine's recorded pair: the test fails if the engine gives
+  anything else (so a change is noticed), fails if the engine now gives the sheet's pair (take the ID off this list), and is otherwise
+  Inconclusive with the ID. Meet and miss cases that agree are in tests that pass; each deviation has a test of its own.
+
+### 2. The sheet map
+
+Every measure of `GetStageMeasureTypes` (20, 22 and 14) is mapped to its sheet and the sheet's threshold in `GetSheetRules`;
+`SheetMap_EveryMeasureOfEachStage_HasItsSheetOrIsListedWithoutOne` checks the map against the engine's lists, and
+`Thresholds_EachStageAndMeasure_AreTheSheetsMoreThanPercent` checks every threshold the three calls return against it: **all 56 thresholds
+match** ("more than N percent"; Modified Stage 2 `ElectronicCopy`'s "greater than 5 percent" is the same).
+
+| Stage | Measure (engine) | Sheet (rule), threshold |
+|---|---|---|
+| 1 | ProblemList, MedicationList, AllergyList | `3_Maintain_Problem_ListEP`, `5_Active_Medication_List`, `6_Medication_Allergy_List` (Attestation Requirements), 80 |
+| 1 | Demographics | `7_Record_Demographics`, 50 |
+| 1 | Education | `6_Patient-Specific_Education_Resources`, 10 |
+| 1 | ProvOrderEntry; CPOE_MedOrdersOnly | `1_CPOE_for_Medication_Orders`, NUMERATOR / DENOMINATOR; OPTIONAL NUMERATOR / DENOMINATOR, 30 |
+| 1 | CPOE_PreviouslyOrdered | no sheet (D13), 30 |
+| 1 | Rx | `4_e-prescribing`, 40 |
+| 1 | VitalSigns | `2013DefinitionEP_8_Record_Vital_Signs` (April 2013), the first NUMERATOR / DENOMINATOR, 50 (D05) |
+| 1 | VitalSigns2014; VitalSignsBMIOnly; VitalSignsBPOnly | `8_Record_Vital_Signs`: NUMERATOR / DENOMINATOR; EXCLUSION 3; EXCLUSION 4, 50 |
+| 1 | Smoking | `9_Record_Smoking_Status`, 50 |
+| 1 | Lab | `2_Clinical_Lab_Test_Results`, 40 |
+| 1 | ClinicalSummaries | `13_Clinical_Summaries`, 50 |
+| 1 | Reminders | `4_Patient_Reminders`, 20 |
+| 1 | MedReconcile | `7_Medication_Reconciliation`, 50 |
+| 1 | SummaryOfCare | `8_Transition_of_Care_Summary`, 50 |
+| 1 | ElectronicCopyAccess | `11_Patient_Electronic_Access-`, 50 |
+| 2 | CPOE_MedOrdersOnly; CPOE_RadiologyOrdersOnly; CPOE_LabOrdersOnly | `Stage2_EPCore_1_CPOE_MedicationOrders`, Measure 1, 60; Measure 2, 30; Measure 3, 30 |
+| 2 | Rx | `Stage2_EPCore_2_ePrescribing`, 50 |
+| 2 | Demographics | `Stage2_EPCore_3_RecordingDemographics`, 80 |
+| 2 | VitalSigns; VitalSignsBMIOnly; VitalSignsBPOnly | `Stage2_EPCore_4_RecordVitalSigns`: the measure; EXCLUSIONS (3); EXCLUSIONS (4), 80 |
+| 2 | Smoking | `Stage2_EPCore_5_RecordSmokingStatus`, 80 |
+| 2 | ElectronicCopyAccess; ElectronicCopy | `Stage2_EPCore_7_PatientElectronicAccess`, Measure 1, 50; Measure 2, 5 |
+| 2 | ClinicalSummaries | `Stage2_EPCore_8_ClinicalSummaries`, 50 |
+| 2 | Lab | `Stage2_EPCore_10_ClinicalLabTestResults`, 55 |
+| 2 | Reminders | `Stage2_EPCore_12_PreventiveCare`, 10 |
+| 2 | Education | `Stage2_EPCore_13_PatientSpecificEdRes`, 10 |
+| 2 | MedReconcile | `Stage2_EPCore_14_MedicationReconciliation`, 50 |
+| 2 | SummaryOfCare; SummaryOfCareElectronic | `Stage2_EPCore_15_SummaryCare`, MEASURE 1, 50; MEASURE 2, 10 |
+| 2 | SecureMessaging | `Stage2_EPCore_17_UseSecureElectronicMessaging`, 5 |
+| 2 | FamilyHistory; ElectronicNote; LabImages | `Stage2_EPMenu_4_FamilyHealthHistory`, 20; `Stage2_EPMenu_2_ElectronicNotes`, 30; `Stage2_EPMenu_3_ImagingResults`, 10 |
+| MS2 | CPOE_MedOrdersOnly; CPOE_LabOrdersOnly; CPOE_RadiologyOrdersOnly | `MedicaidEPModStage2_2018_Obj3`, Measure 1, 60; Measure 2, 30; Measure 3, 30 |
+| MS2 | Rx | `MedicaidEPModStage2_2018_Obj4`, 50 |
+| MS2 | SummaryOfCareElectronic | `MedicaidEPModStage2_2018_Obj5`, 10 |
+| MS2 | Education | `MedicaidEPModStage2_2018_Obj6`, 10 |
+| MS2 | MedReconcile | `MedicaidEPModStage2_2018_Obj7`, 50 |
+| MS2 | ElectronicCopyAccess; ElectronicCopy | `MedicaidEPModStage2_2018_Obj8`, Measure 1, 50; Measure 2, 5 |
+| MS2 | SecureMessaging | `MedicaidEPModStage2_2018_Obj9`, 5 |
+| MS2 | SummaryOfCare, VitalSigns, Smoking, Demographics | no sheet (D12); Stage 2's 50, 80, 80, 80 |
+
+### 3. Known deviations (EHR4B-Dnn)
+
+Each numeric deviation was confirmed by a run (the test is Inconclusive with the ID; the numbers are the case's, sheet against engine).
+D05, D12, D13 and D14 are entries without a number to compare: an older edition, measures with no sheet, and sheet rules the engine does
+not compute. The IDs are those of the lead's analysis; D15 is new (found by this package's run).
+
+| ID | Stages | The engine | The sheet (latest edition; older where it differs) | Case: sheet / engine |
+|---|---|---|---|---|
+| EHR4B-D01 | 1, 2, MS2 (`ElectronicCopyAccess`) | Deadline: the first visit plus 4 days, plus 2 more only when the visit is after a Tuesday; a Tuesday visit's deadline is the Saturday | Within 4 business days (Monday to Friday): `11_Patient_Electronic_Access-` (May 2014), `Stage2_EPCore_7` (August 2014) Measure 1, `MedicaidEPModStage2_2018_Obj8` Measure 1 | Seen Tuesday 4 March, access Monday 10 March (the fourth business day): 1/1 / 0/1, each stage |
+| EHR4B-D02 | 2 (`ClinicalSummaries`) | Each visit is compared with the patient's first summary ever (`MIN(DateTEvent)`), with no lower bound | Visits whose summary is provided within one business day of that visit: `Stage2_EPCore_8_ClinicalSummaries` (November 2014) | Two visits, one summary on the day of the first: 1/2 / 2/2 |
+| EHR4B-D03 | 1, 2 (`Smoking`; MS2's has no sheet) | Age 13 or older on today's date | Unique patients age 13 or older seen in the period: `9_Record_Smoking_Status` (May 2014), `Stage2_EPCore_5` (October 2012) | A patient of 12 at the visit and all year: 0/0 / 0/1, both stages |
+| EHR4B-D04 | 1 (`VitalSigns`) | Age 2 or older on today's date | Unique patients age 2 or over seen: `2013DefinitionEP_8_Record_Vital_Signs` (April 2013), the first numerator and denominator | An infant of 1 with height and weight: 0/0 / 0/1 (`VitalSigns2014`, Stage 2 and the blood-pressure measure agree with their sheets: 1/1, 1/1, 0/0) |
+| EHR4B-D05 | 1 (`VitalSigns`) | Calculates the April 2013 edition's first numerator and denominator (age 2 or over, all three signs), beside `VitalSigns2014` | The May 2014 edition, `8_Record_Vital_Signs`, has only the newer definition (blood pressure from age 3), which `VitalSigns2014` follows | No number: the engine's `VitalSigns` agrees with the 2013 sheet (1/5 on the vital-signs patients) apart from D04 |
+| EHR4B-D06 | 1 (`Reminders`) | "5 years old or younger" coded as younger than 5 at the start of the period (`Birthdate > start - 5 years`) | Unique patients 65 years old or older or 5 years old or younger: `4_Patient_Reminders` (May 2014) | A child who is 5 on every day of 2014, reminded: 1/1 / 0/0 |
+| EHR4B-D07 | 2 (`Reminders`) | Patients whose primary provider is the EP, with two or more visit dates with any provider in the 24 months before | Two or more office visits with the EP in the 24 months before: `Stage2_EPCore_12_PreventiveCare` (October 2012) | Two visits with the EP, another primary provider, reminded: 1/1 / 0/0; two visits with another provider, the EP primary, reminded: 0/0 / 1/1 |
+| EHR4B-D08 | 1, 2, MS2 (`MedReconcile`) | Counts patients seen by the EP in the period who had a transition received; met only when there are as many reconciliations as transitions | Transitions of care received by the EP in the period; those reconciled: `7_Medication_Reconciliation` (May 2014), `Stage2_EPCore_14` (October 2012), `MedicaidEPModStage2_2018_Obj7` | Two transitions, one reconciled: 1/2 / 0/1; a transition received and reconciled for a patient not seen in the period: 1/1 / 0/0; each stage |
+| EHR4B-D09 | 2 (`SecureMessaging`) | A message from the patient of any date counts | A message sent by the patient to the EP during the reporting period: `Stage2_EPCore_17_UseSecureElectronicMessaging` (October 2012) | A patient seen whose only message is of the year before: 0/1 / 1/1 |
+| EHR4B-D10 | MS2 (`Education`) | Education events of any date count | Within the reporting period when it is a full calendar year (`MedicaidEPModStage2_2018_Obj6`, Additional Information); the 2017 edition: no earlier than the start of the period's calendar year | Resources given only the year before: 0/1 / 1/1. (The Stage 1 and Stage 2 sheets give no time, so those stages are not compared.) |
+| EHR4B-D11 | 1, 2 (`Lab`) | Every lab order by the EP in the period is in the denominator | Only tests whose results are a positive or negative affirmation or a number: `2_Clinical_Lab_Test_Results` (May 2014), `Stage2_EPCore_10` (November 2014) | A test with a free-text result: 0/0 / 0/1, both stages |
+| EHR4B-D12 | MS2 (`SummaryOfCare`, `VitalSigns`, `Smoking`, `Demographics`) | Calculated, with Stage 2's queries and thresholds (50, 80, 80, 80) | No sheet: the 2015-2017 rule removed these objectives; neither the 2018 nor the 2017 edition has them (Obj5 has only the electronic exchange) | No number: `ModifiedStage2_TheMeasuresWithNoSheet_CountAsStage2Does_D12` checks they equal Stage 2's on the fixture; D03 applies to MS2's `Smoking` too |
+| EHR4B-D13 | 1 (`CPOE_PreviouslyOrdered`) | Calculated: the patients for whom the EP previously ordered medications (the engine's comment names CMS FAQ #3257), 30 | No sheet: `1_CPOE_for_Medication_Orders` (May 2014) has the two numerators and denominators only; the FAQ is not in the batches | No number; the golden numbers cover it |
+| EHR4B-D14 | all | Not calculated (`SelectAllMu2` and `SelectAllMu2Mod` remove the types the engine has for them) | Yes/no attestations and public health: Stage 1 (May 2014) `1_Drug_Formulary_Checks`, `2_Drug_Interaction_ChecksEP`, `3_Patient_Lists`, `9_Immunization_Registries_Data_Submission`, `10_Syndromic_Surveillance_Data_SubmissionEP`, `11_Clinical_Decision_Support_Rule`, `15_Core_ProtectElectronicHealthInformation`; Stage 2 `Stage2_EPCore_6_ClinicalDecisionSupport`, `_9_ProtectElectronicHealthInfo`, `_11_PatientLists`, `_16_ImmunizationRegistriesDataSubmission`, `Stage2_EPMenu_1_SyndromicSurveillanceDataSub`, `_5_ReportCancerCases`, `_6_ReportSpecificCases`, and `Stage2_EPCore_15` MEASURE 3; MS2 `Obj1` (security risk analysis), `Obj2` (both CDS measures, drug interaction checks), `Obj10` (public health). Rules inside computed measures: e-prescribing's formulary query (`Stage2_EPCore_2`, `MedicaidEPModStage2_2018_Obj4`: the engine counts prescriptions sent electronically and has no record of the query); Stage 2 e-prescribing's second denominator (with controlled substances) is not offered. The 2013 Stage 1 edition's `2013DefinitionEP_12_Electronic_Copy_of_Health_Information` is not calculated, which agrees with the May 2014 edition (it replaced it by patient electronic access) | No number |
+| EHR4B-D15 | 1, 2, MS2 (`ElectronicCopyAccess`); 2 (`ClinicalSummaries`) | Compares the event's date and time (`PIn.Date` keeps the time) with a deadline at midnight of the last day, so an event during the last day misses (Stage 1's clinical summaries compare dates in SQL and are not affected) | The last business day counts: within 4 business days (the sheets of D01); within one business day (`Stage2_EPCore_8`) | Seen Monday, access Friday 11:00 (the fourth business day): 1/1 / 0/1, each stage; a summary the next business day at 11:00 (Tuesday after a Monday visit, Monday after a Friday visit): 1/1 / 0/1 each |
+
+**Proposed, checked and not listed.** Attempt A's "Stage 1 access threshold 50 against the 2013 sheet's at least 10": the May 2014 edition
+(`11_Patient_Electronic_Access-`) says more than 50 percent, the engine's threshold; the April 2013 sheet's "at least 10 percent"
+(`2013DefinitionEP_5_Patient_Electronic_Access`) belongs to the older timely-access measure, which the engine keeps as the deprecated
+`TimelyAccess` (10) and does not calculate. The engine follows the latest edition, so this is no deviation. **Checked by a case, no
+deviation:** Modified Stage 2 view, download or transmit takes the calendar year (an action of the year before: 0/1, as the 2018 sheet);
+Modified Stage 2 secure messaging counts web mail sent by the EP and not a patient's message alone (1/3, as the 2018 sheet); an imaging
+result still expected (`DocNum` -1) is missed; an unsigned progress note does not count; the e-prescribing example of the plan (4
+prescriptions, 3 electronic: 75 percent) and a controlled substance in no denominator. **By reading only:** family history counts any
+`familyhealth` row, and `FamilyRelationship` has only first-degree relatives (parent, sibling, offspring). Not compared with any sheet: the
+exclusion counts (the sheets' exclusions are attestation choices); they are in the golden numbers.
+
+### 4. Tests
+
+`tests/EhrTests/MeasureSpecTests.cs`, 36 tests: 24 that pass and 12 deviation tests that are Inconclusive by design (one per row above with a
+number, D15 in two: online access and clinical summaries). The meet and miss cases:
+
+| Test | Stages | Meet / miss (sheet numbers) |
+|---|---|---|
+| `SheetMap_EveryMeasureOfEachStage_HasItsSheetOrIsListedWithoutOne` | all | the map of section 2 against `GetStageMeasureTypes` (no database) |
+| `Fixture_TheWeekdaysTheBusinessDayCasesNeed_AndTheEnginesCodesReadAtRunTime` | all | the weekdays, the period, the ages today, the two codes read (no database) |
+| `AuditTables_AreWhatTheSelectAllCallsCount` | all | the 56 measures' audit tables against the three calls |
+| `Thresholds_EachStageAndMeasure_AreTheSheetsMoreThanPercent` | all | the 56 thresholds |
+| `Golden_TheThreeSelectAllCalls_GiveTheRecordedNumbers` | all | `Fixtures/MeasureSpecGolden.txt` (numerator/denominator, threshold and exclusion count of each measure) |
+| `ProblemMedicationAllergyLists_Stage1_...` | 1 | an entry, "none known", nothing: 2/3 each |
+| `Demographics_...` | 1, 2 | all elements, declined, no ethnicity: 2/3 |
+| `VitalSigns_EachNumerator_...` | 1, 2 | five patients: `VitalSigns2014` 2/5, BMI only 3/5, BP only 2/4, the 2013 `VitalSigns` 1/5; Stage 2 2/3 (the patients the sheet's "and/or" does not decide), 3/5, 2/4 |
+| `Smoking_...` | 1, 2 | recorded, not recorded: 1/2 |
+| `ModifiedStage2_TheMeasuresWithNoSheet_CountAsStage2Does_D12` | MS2 | the four measures equal Stage 2's |
+| `Cpoe_...` | 1, 2, MS2 | Stage 1 by patient 1/2 (a patient with no medication in neither); orders 1/2; lab and radiology orders 1/2 each, a radiology order no lab order and the other way round (0/0) |
+| `EPrescribing_...` | 1, 2, MS2 | 4 prescriptions, 3 electronic: 3/4 = 75 percent; a controlled substance in none |
+| `LabResults_...` | 1, 2 | numeric, coded positive/negative (the engine's code), not incorporated, the older order with and without a panel: 3/5; radiology orders 0/0 |
+| `ImagingResults_...` | 2 | attached, expected: 1/2 |
+| `OnlineAccess_WithinFourBusinessDays_...` | 1, 2, MS2 | same day, third business day, sixth, none: 2/4 |
+| `ViewDownloadTransmit_...` | 2, MS2 | in the period, none: 1/2; MS2 the year before: 0/1 |
+| `ClinicalSummaries_WithinTheStagesBusinessDays_...` | 1, 2 | Stage 1: same day, next day, third business day, fourth, none, Friday to Monday: 4/6; two visits one summary 1/2. Stage 2: same day, third, fourth, none: 1/4 |
+| `Education_ResourcesProvided_...` | 1, 2, MS2 | given, none: 1/2 |
+| `Reminders_Stage1_...` | 1 | two of 68 (one reminded), a child of 3, an adult: 2/3 |
+| `PreventiveCare_Stage2_...` | 2 | two prior visits reminded, not reminded, one visit: 1/2 |
+| `MedReconcile_...` | 1, 2, MS2 | reconciled, not: 1/2 |
+| `SummaryOfCare_...` | 1, 2, MS2 | provided, not, electronic: 2/3 (Stage 1, Stage 2 MEASURE 1); electronic 1/3 (Stage 2 MEASURE 2, MS2 Obj5) |
+| `SecureMessaging_...` | 2, MS2 | Stage 2 from the patient, none: 1/2; MS2 web mail sent, none, a patient's message alone: 1/3 |
+| `FamilyHistoryAndElectronicNotes_...` | 2 | a parent, none: 1/2; signed, unsigned, none: 1/3 |
+
+The deviation tests: `..._D01`, `..._D02`, `..._D03`, `..._D04`, `..._D06`, `..._D07`, `..._D08`, `..._D09`, `..._D10`, `..._D11`, and
+`OnlineAccess_OnTheFourthBusinessDay_IsTimely_D15` and `ClinicalSummaries_Stage2_ASummaryDuringTheNextBusinessDay_IsWithinOne_D15`.
+
+### 5. Build and test record
+
+BUILD_AND_TEST_RECORD
+
+### 6. For the lead
+
+- **Engine fixes** (plan section 15) are the numeric deviations D01-D04 and D06-D11, D15; each test fails when its fix lands, saying to take
+  the ID off this list and make the case a sheet case, and the golden file is then recorded again. D01 and D15 together decide the business-day
+  arithmetic of three measures. D05, D12 and D13 are choices for the owner (keep the older or extra measures, or drop them); D14 needs none.
+- **Release notes**: none; the package adds tests only and changes nothing an office sees.
+- **Project baseline**: `tests/EhrTests` gains two `Compile` items by its default glob (`MeasureSpecTests.cs`,
+  `Fixtures/MeasureSpecFixture.cs`); the golden file is not an item. `tools/project-baseline` is re-recorded at the next gate.
+- **Plan section 10.2** names `tests/EhrTests/Support/MeasureCalcFixture.cs` as EHR-4b's; it was not needed and not edited (EHR-4b builds its
+  own fixture under `tests/EhrTests/Fixtures/`).
