@@ -7,7 +7,7 @@ Engine: Wpf3D (RenderTargetBitmap in software, 3D layer at 3x reduced with WIC's
 Bitmap: 410x307 Format24bppRgb
 Alpha: every alpha is 255 (format without an alpha channel)
 Colours in the picture: 5354
-Pixels SHA-256: 44e8bd2c9cfa7b04fc6aca6ad289b86c03b291b986431ca71ab766295883f5ab
+Pixels SHA-256: 60abb90695d007b4d95eb38b54621562ad1674bd41132347680d3794c9171eb0
 Repeatable: yes (a second GetBitmap gave the same pixels)
 Framework: .NET Framework 4.8, x86
 Windows: build 26300.9974 (26H2)
