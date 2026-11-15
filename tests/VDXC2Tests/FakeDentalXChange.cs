@@ -156,13 +156,17 @@ namespace VDXC2Tests {
 
 	public class FakeWebRequest:WebRequest {
 		private readonly Uri _uri;
-		private readonly FakeDeaWebRequestCreate _fakeDeaWebRequestCreate;
+		///<summary>Called with this request and its body when the client asks for the response; returns the response body.</summary>
+		private readonly Func<FakeWebRequest,byte[],byte[]> _funcAnswer;
 		private readonly MemoryStream _memoryStreamRequest=new MemoryStream();
 		private WebHeaderCollection _webHeaderCollection=new WebHeaderCollection();
 
-		public FakeWebRequest(Uri uri,FakeDeaWebRequestCreate fakeDeaWebRequestCreate) {
+		public FakeWebRequest(Uri uri,FakeDeaWebRequestCreate fakeDeaWebRequestCreate) : this(uri,(fakeWebRequest,arrayBytes) => fakeDeaWebRequestCreate.Answer(uri,arrayBytes)) {
+		}
+
+		public FakeWebRequest(Uri uri,Func<FakeWebRequest,byte[],byte[]> funcAnswer) {
 			_uri=uri;
-			_fakeDeaWebRequestCreate=fakeDeaWebRequestCreate;
+			_funcAnswer=funcAnswer;
 		}
 
 		public override string Method { get; set; }="GET";
@@ -182,7 +186,7 @@ namespace VDXC2Tests {
 		}
 
 		public override WebResponse GetResponse() {
-			byte[] arrayBytesResponse=_fakeDeaWebRequestCreate.Answer(_uri,_memoryStreamRequest.ToArray());
+			byte[] arrayBytesResponse=_funcAnswer(this,_memoryStreamRequest.ToArray());
 			return new FakeWebResponse(_uri,arrayBytesResponse);
 		}
 

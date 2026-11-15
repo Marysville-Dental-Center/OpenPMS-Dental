@@ -40,6 +40,8 @@ namespace OpenPmsDentalBusiness {
 		public const string UrlRxEntryPreproduction="https://preproduction.newcropaccounts.com/interfaceV7/rxentry.aspx";
 		public const string UrlUpdate1Production="https://secure.newcropaccounts.com/v7/WebServices/Update1.asmx";
 		public const string UrlUpdate1Preproduction="https://preproduction.newcropaccounts.com/v7/WebServices/Update1.asmx";
+		///<summary>The XML namespace of the Update1 service, in both environments (NewCropSoapClient). A name, not an address.</summary>
+		public const string SoapNamespace="https://secure.newcropaccounts.com/V7/webservices";
 		///<summary>The reseller password was stored as plain text in a preference; an office may also have typed one before this version.</summary>
 		public const LegacyPolicy PasswordLegacyPolicy=LegacyPolicy.AcceptPlaintext;
 		private const string ACCOUNT_ID_CHARS="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";

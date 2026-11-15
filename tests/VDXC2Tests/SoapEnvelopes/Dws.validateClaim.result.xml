@@ -1,0 +1,4 @@
+<textResponse xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Status code="0" description="Approved" xmlns="dxci.common" />
+  <Content>ISA*00*~ST*277*0001~STC*A1:20*20261001*WQ*0~SE*3*0001~</Content>
+</textResponse>

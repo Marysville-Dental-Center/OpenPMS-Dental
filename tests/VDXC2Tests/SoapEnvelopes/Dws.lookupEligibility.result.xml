@@ -1,0 +1,4 @@
+<textResponse xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Status code="0" description="Approved" xmlns="dxci.common" />
+  <Content>&lt;table&gt;&lt;tr&gt;&lt;td&gt;Synthetic&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;</Content>
+</textResponse>
