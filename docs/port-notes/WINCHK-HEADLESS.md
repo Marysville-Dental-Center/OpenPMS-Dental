@@ -102,6 +102,12 @@ hold there:
   sheet editor) still runs and is checked; each of those checks then lists the DirectX picture for a person, graphical perio and I7's
   DirectX Save go to a person with what the program said, and IJTests sets GraphicsSimple back to DirectX in the copy before I11. I11's
   start-up search then saves "invalid", which is listed for a person. B5 lists the DirectX chart for a person with the reason.
+- **The downgrade applies only to a locked session** (review fix). `WhyNotDirectX` gives the "no device" reason only when GetBitmap throws
+  and the session really cannot draw: `Native.GetSessionState` says locked, or `Shot.CanRenderWpf` renders nothing. In a session that can
+  draw, GetBitmap throwing is reported as the program's failure with the exception's type and message. IPREP switches to Simple 2D (and
+  sets I.Simple2D) only for that reason; for any other one (another engine, a fallback logged, GetBitmap throwing at an unlocked screen) it
+  fails and leaves DirectX on, so I1 to I7 and I10 keep their DirectX assertions. B5 keeps "No tooth chart fallback was logged" as an
+  Expect and fails when GetBitmap throws, and I11's "invalid" format is for a person only when IPREP found no device, a failure otherwise.
 
 Groups A, C, G and K were not run (none of their checks changed; C's WPF pictures use the same `ShotElement` and get the same handling). No
 group imports, creates or deletes a certificate or key; J15 opens the Direct certificate window and never presses Import.

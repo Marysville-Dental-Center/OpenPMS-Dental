@@ -46,13 +46,20 @@ namespace WindowChecksTests.InProc {
 			long procNum=AddedKey("procedurelog","ProcNum",procNumBefore,"PatNum=1 AND ToothNum='30' AND ProcStatus=1");
 			SetKey(checkResult,"IPREP.ProcNum",procNum);
 			checkResult.Note("The prep's procedure: ProcNum "+(procNum==0 ? "none found above "+procNumBefore : procNum.ToString())+" (IUNDO deletes only this one)");
-			//Can DirectX draw in this session? While the screen is locked it has no device: every host's chart picture throws. Then the copy draws the
-			//Simple 2D chart for the group (File > Graphics, as I6 does), so the hosts' code still runs; IJTests puts DirectX back before I11.
+			//Can DirectX draw in this session? While the screen is locked it has no device: every host's chart picture throws. Then, and only then, the
+			//copy draws the Simple 2D chart for the group (File > Graphics, as I6 does), so the hosts' code still runs; IJTests puts DirectX back before
+			//I11. Any other reason (another engine, a fallback logged, GetBitmap throwing in a session that can draw) is the program's: it fails here and
+			//DirectX stays on, so the group's DirectX checks fail too.
 			Control toothChartWrapper=(Control)Ui.GetField(controlChart,"toothChartWrapper");
 			string whyNot=WhyNotDirectX(ui,toothChartWrapper);
 			if(whyNot=="") {
 				SetKey(checkResult,"I.Simple2D",0);
 				checkResult.Note("DirectX draws in this session (the chart's off-screen render works)");
+				return;
+			}
+			if(!IsNoDevice(whyNot)) {
+				SetKey(checkResult,"I.Simple2D",0);
+				checkResult.Fail("The chart does not draw in DirectX: "+whyNot+" (DirectX stays on for group I)");
 				return;
 			}
 			string message=SetGraphics(ui,checkResult,isSimple2D:true);
@@ -80,8 +87,19 @@ namespace WindowChecksTests.InProc {
 			return whyNot;
 		}
 
+		///<summary>The start of WhyNotDirectX's reason when the session cannot draw at all (IsNoDevice): only then do the DirectX checks go to a person.
+		///</summary>
+		public const string TEXT_NO_DEVICE="DirectX has no device in this session";
+
+		///<summary>True when WhyNotDirectX's reason is the session's (locked, nothing renders), not the program's.</summary>
+		public static bool IsNoDevice(string whyNotDirectX) {
+			return whyNotDirectX.StartsWith(TEXT_NO_DEVICE);
+		}
+
 		///<summary>"" while the chart draws in DirectX: its engine is DirectX, no fallback is logged in this session, and its off-screen render
-		///(GetBitmap) works, which throws when DirectX has no device (as while the session is locked); otherwise why not.</summary>
+		///(GetBitmap) works; otherwise why not. GetBitmap throws when DirectX has no device, as while the session is locked: that reason (TEXT_NO_DEVICE)
+		///is given only when the session really cannot draw (GetSessionState says locked, or WPF renders nothing either, Shot.CanRenderWpf). In a
+		///session that can draw, GetBitmap throwing is the program's failure and says so. Run on any thread (it calls the window's thread).</summary>
 		public static string WhyNotDirectX(Ui ui,Control toothChartWrapper) {
 			return ui.Invoke(() => {
 				string engine=toothChartWrapper.GetType().GetProperty("Engine").GetValue(toothChartWrapper).ToString();
@@ -96,7 +114,16 @@ namespace WindowChecksTests.InProc {
 					using Bitmap bitmap=(Bitmap)Ui.Call(toothChartWrapper,"GetBitmap");
 				}
 				catch(Exception ex) {
-					return "DirectX has no device in this session: its off-screen render (GetBitmap) threw "+ex.GetBaseException().GetType().Name;
+					Exception exBase=ex.GetBaseException();
+					string session=Native.GetSessionState();
+					//On the window's (STA) thread, as Shot.CanRenderWpf needs.
+					bool canRenderWpf=WindowChecksTests.Shot.CanRenderWpf();
+					if(session.Contains(", locked") || !canRenderWpf) {
+						return TEXT_NO_DEVICE+" ("+session+(canRenderWpf ? "" : ", WPF renders nothing")+"): its off-screen render (GetBitmap) threw "
+							+exBase.GetType().Name;
+					}
+					return "the chart's off-screen render (GetBitmap) threw "+exBase.GetType().Name+": "+exBase.Message+" in a session that can draw ("+session
+						+", WPF renders)";
 				}
 				return "";
 			});

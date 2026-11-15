@@ -108,10 +108,15 @@ namespace WindowChecksTests {
 				}
 				string formatAfter=ScratchDb.Scalar("SELECT DirectXFormat FROM computerpref WHERE ComputerName='"+computerName+"'");
 				checkResultI11.Expect(formatAfter!="","The start-up search saved a DirectXFormat ("+formatAfter+")");
-				if(formatAfter=="invalid") {
-					//The search found no format that works: DirectX has no device in this session (the screen is locked), so the chart falls back.
+				if(formatAfter=="invalid" && InProcHost.GetKey("I.Simple2D")==1) {
+					//The search found no format that works: DirectX has no device in this session (the screen is locked, IPREP found), so the chart falls back.
 					checkResultI11.ForPerson("the start-up search finding a working DirectX format: here it saved 'invalid' (no DirectX device in this session, "
 						+"the screen is locked); at an unlocked screen it saves a format");
+				}
+				else if(formatAfter=="invalid") {
+					//IPREP found that DirectX draws (or failed for the program's own reason): no working format is the program's failure.
+					checkResultI11.Fail("The start-up search saved 'invalid' (no working DirectX format) in a session where IPREP did not find DirectX without a "
+						+"device ("+Native.GetSessionState()+")");
 				}
 				checkResultI11.Note("Before: "+formatBefore+(formatAfter==formatBefore ? " (the same)" : "; restored"));
 				if(formatAfter!=formatBefore) {

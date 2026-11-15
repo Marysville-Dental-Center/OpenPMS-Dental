@@ -147,9 +147,10 @@ namespace WindowChecksTests.InProc {
 				+toothChartWrapper.GetType().GetProperty("DrawMode").GetValue(toothChartWrapper)+")");
 			checkResult.Expect(engine.StartsWith("DirectX"),"The tooth chart runs in DirectX: "+engine,engine);
 			//While the session is locked DirectX has no device: the chart cannot draw at all, here or on screen (WINCHK-3). That is the session's state,
-			//not the program's: the DirectX checks then go to a person.
+			//not the program's: the DirectX checks then go to a person. WhyNotDirectX gives that reason only when the session really cannot draw
+			//(locked, or WPF renders nothing); in any other session a fallback stays an Expect and GetBitmap throwing fails.
 			string whyNotDirectX=WhyNotDirectX(ui,toothChartWrapper);
-			bool hasNoDevice=whyNotDirectX.StartsWith("DirectX has no device");
+			bool hasNoDevice=IsNoDevice(whyNotDirectX);
 			List<string> listFallbacks=ui.Invoke(() => (List<string>)Ui.CallStatic(toothChartWrapper.GetType(),"GetFallbackMessages"));
 			if(hasNoDevice) {
 				checkResult.ForPerson("the DirectX chart at an unlocked screen: "+whyNotDirectX+" (session: "+Native.GetSessionState()+"); fallbacks logged: "
@@ -168,10 +169,20 @@ namespace WindowChecksTests.InProc {
 			checkResult.AddShot(ui.ShotDraw(gridProgPageNav,"B5-pagenav.png"),"The page navigation bar with its arrow images");
 			//The chart's own picture: the DirectX scene rendered off screen (the Save to Images path); none without a device.
 			if(!hasNoDevice) {
+				string error="";
 				ShotInfo shotInfoChart=ui.Invoke(() => {
-					using Bitmap bitmap=(Bitmap)Ui.Call(toothChartWrapper,"GetBitmap");
-					return WindowChecksTests.Shot.Bitmap(bitmap,"B5-chart-bitmap.png");
+					try {
+						using Bitmap bitmap=(Bitmap)Ui.Call(toothChartWrapper,"GetBitmap");
+						return WindowChecksTests.Shot.Bitmap(bitmap,"B5-chart-bitmap.png");
+					}
+					catch(Exception ex) {
+						error=ex.GetBaseException().GetType().Name+": "+ex.GetBaseException().Message;
+						return null;
+					}
 				});
+				if(error!="") {
+					checkResult.Fail("The tooth chart's DirectX picture (GetBitmap) threw "+error+" in a session that can draw ("+Native.GetSessionState()+")");
+				}
 				checkResult.AddShot(shotInfoChart,"The tooth chart's DirectX picture (GetBitmap)");
 			}
 			//The on-screen test (I1, I6 and I11 use the same one): the chart's own window, counted only while the chart really draws in DirectX.
