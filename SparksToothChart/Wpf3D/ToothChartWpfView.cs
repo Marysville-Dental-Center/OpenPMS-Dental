@@ -130,6 +130,7 @@ namespace SparksToothChart.Wpf3D {
 			_toothChartMouse.ActionPenStrokeChanged=() => _livePenLayer.InvalidateVisual();//the stroke alone: the 2D layer and the 3D layer stay
 			_toothChartMouse.SegmentDrawn+=(sender,e) => SegmentDrawn?.Invoke(this,e);
 			_toothChartMouse.ToothSelectionsChanged+=sender => ToothSelectionsChanged?.Invoke(this);
+			_toothChartMouse.TextMoved+=(sender,e) => TextMoved?.Invoke(this,e);
 		}
 
 		#region Events
@@ -138,6 +139,9 @@ namespace SparksToothChart.Wpf3D {
 
 		[Category("OD"),Description("Occurs on mouse up that commits tooth selection.")]
 		public event ToothChartSelectionEventHandler ToothSelectionsChanged=null;
+
+		[Category("OD"),Description("Occurs on mouse up after a free-text label was dragged with the text mover (TC-5).")]
+		public event ToothChartTextMovedEventHandler TextMoved=null;
 		#endregion Events
 
 		#region Properties

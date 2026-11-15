@@ -59,8 +59,11 @@ namespace SparksToothChart {
 				DrawOcclusalView(TcData.ListToothGraphics[t],g);
 			}
 			DrawWatches(g);
+			DrawPaintTexts(g);
+			DrawTextsBelow(g);
 			DrawNumbers(g);
 			DrawDrawingSegments(g);
+			DrawFreeTexts(g);
 			e.Graphics.DrawImage(bitmap,0,0);
 			g.Dispose();
 		}
@@ -418,6 +421,112 @@ namespace SparksToothChart {
 				g.DrawLines(pen,points.ToArray());
 			}
 		}
+
+		#region Text of TC-5
+		///<summary>A point in the scene's mm (origin at the centre, y up) in pixels of this control, as the 3D charts project it.</summary>
+		private PointF MmToPix(float xMm,float yMm) {
+			return new PointF(Width/2f+xMm*TcData.ScaleMmToPix,Height/2f-yMm*TcData.ScaleMmToPix);
+		}
+
+		///<summary>The tooth's x in mm with its mesial shift, as the WPF chart places its watch marks and texts.</summary>
+		private float GetShiftedTransX(ToothGraphic toothGraphic) {
+			if(ToothGraphic.IsRight(toothGraphic.ToothID)) {
+				return TcData.GetTransX(toothGraphic.ToothID)+toothGraphic.ShiftM;
+			}
+			return TcData.GetTransX(toothGraphic.ToothID)-toothGraphic.ShiftM;
+		}
+
+		///<summary>Paint type Text with text other than "W" (O-22, TC-5): centred on the tooth's crown in the facial view, in bold, in the procedure's
+		///colour, as the WPF chart draws it. A primary tooth's text only when the primary tooth is shown.</summary>
+		private void DrawPaintTexts(Graphics g) {
+			Font fontBold=new Font(Font,FontStyle.Bold);
+			for(int t=0;t<TcData.ListToothGraphics.Count;t++) {
+				ToothGraphic toothGraphic=TcData.ListToothGraphics[t];
+				if(toothGraphic.ToothID=="implant" || string.IsNullOrEmpty(toothGraphic.PaintText)) {
+					continue;
+				}
+				if(Tooth.IsPrimary(toothGraphic.ToothID) && !toothGraphic.Visible) {
+					continue;
+				}
+				float yMm=TcData.GetTransYfacial(toothGraphic.ToothID);
+				yMm+=ToothGraphic.IsMaxillary(toothGraphic.ToothID) ? -Wpf3D.ToothSceneBuilder.PaintTextCrownOffsetMm : Wpf3D.ToothSceneBuilder.PaintTextCrownOffsetMm;
+				PointF pointCentre=MmToPix(GetShiftedTransX(toothGraphic),yMm);
+				SizeF sizeText=g.MeasureString(toothGraphic.PaintText,fontBold);
+				using(SolidBrush brush=new SolidBrush(Color.FromArgb(255,toothGraphic.colorPaintText))) {
+					g.DrawString(toothGraphic.PaintText,fontBold,brush,pointCentre.X-sizeText.Width/2f,pointCentre.Y-sizeText.Height/2f);
+				}
+			}
+			fontBold.Dispose();
+		}
+
+		///<summary>Paint type TextBelow (O-21, TC-5): in the band along the top edge over a maxillary tooth and along the bottom edge under a mandibular
+		///one, the rows this chart draws its watch marks in; on a tooth with a watch mark one line further in. Centred on the tooth, in the procedure's
+		///colour, cut to fit the tooth's width (characters dropped from the end, the first one kept).</summary>
+		private void DrawTextsBelow(Graphics g) {
+			List<string> listWatchPositions=new List<string>();
+			for(int t=0;t<TcData.ListToothGraphics.Count;t++) {
+				ToothGraphic toothGraphic=TcData.ListToothGraphics[t];
+				if(toothGraphic.ToothID=="implant" || !toothGraphic.Watch) {
+					continue;
+				}
+				if(!Tooth.IsPrimary(toothGraphic.ToothID)) {
+					listWatchPositions.Add(toothGraphic.ToothID);
+				}
+				else if(toothGraphic.Visible) {
+					listWatchPositions.Add(Tooth.PriToPerm(toothGraphic.ToothID));
+				}
+			}
+			for(int t=0;t<TcData.ListToothGraphics.Count;t++) {
+				ToothGraphic toothGraphic=TcData.ListToothGraphics[t];
+				if(toothGraphic.ToothID=="implant" || string.IsNullOrEmpty(toothGraphic.TextBelow)) {
+					continue;
+				}
+				bool isPrimary=Tooth.IsPrimary(toothGraphic.ToothID);
+				if(isPrimary && !toothGraphic.Visible) {
+					continue;
+				}
+				string toothIdPerm=isPrimary ? Tooth.PriToPerm(toothGraphic.ToothID) : toothGraphic.ToothID;
+				float widthMax=ToothGraphic.GetWidth(toothIdPerm)*TcData.ScaleMmToPix;
+				string text=toothGraphic.TextBelow;
+				while(text.Length>1 && g.MeasureString(text,Font).Width>widthMax) {
+					text=text.Substring(0,text.Length-1);
+				}
+				SizeF sizeText=g.MeasureString(text,Font);
+				float x=MmToPix(GetShiftedTransX(toothGraphic),0).X-sizeText.Width/2f;
+				x=Math.Max(0,Math.Min(x,Width-sizeText.Width));
+				bool hasWatch=listWatchPositions.Contains(toothIdPerm);
+				float y;
+				if(ToothGraphic.IsMaxillary(toothGraphic.ToothID)) {
+					y=hasWatch ? Font.Height : 0;
+				}
+				else {
+					y=Height-Font.Size-8f-(hasWatch ? Font.Height : 0);
+				}
+				using(SolidBrush brush=new SolidBrush(Color.FromArgb(255,toothGraphic.colorTextBelow))) {
+					g.DrawString(text,Font,brush,x,y);
+				}
+			}
+		}
+
+		///<summary>The free-text labels (TC-5), last: each at its point in the 410x307 drawing space, scaled as the drawings are, kept inside the
+		///picture, in its colour. This chart draws them; it does not move them (its mouse code stays its own).</summary>
+		private void DrawFreeTexts(Graphics g) {
+			for(int i=0;i<TcData.ListFreeTexts.Count;i++) {
+				ToothChartFreeText freeText=TcData.ListFreeTexts[i];
+				if(string.IsNullOrEmpty(freeText.Text)) {
+					continue;
+				}
+				SizeF sizeText=g.MeasureString(freeText.Text,Font);
+				float x=TcData.RectTarget.X+freeText.Location.X*TcData.PixelScaleRatio;
+				float y=TcData.RectTarget.Y+freeText.Location.Y*TcData.PixelScaleRatio;
+				x=Math.Max(0,Math.Min(x,Width-sizeText.Width));
+				y=Math.Max(0,Math.Min(y,Height-sizeText.Height));
+				using(SolidBrush brush=new SolidBrush(Color.FromArgb(255,freeText.ColorText))) {
+					g.DrawString(freeText.Text,Font,brush,x,y);
+				}
+			}
+		}
+		#endregion Text of TC-5
 
 		private bool IsValidCoordinate(string[] coordinate,out float x,out float y) {
 			x=0;

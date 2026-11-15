@@ -53,6 +53,7 @@ namespace SparksToothChart.Wpf3D {
 			_toothChartMouse.ActionPenStrokeChanged=Invalidate;//only the stroke is drawn again, over the last image
 			_toothChartMouse.SegmentDrawn+=(sender,e) => OnSegmentDrawn(e.DrawingSegement);
 			_toothChartMouse.ToothSelectionsChanged+=sender => OnToothSelectionsChanged();
+			_toothChartMouse.TextMoved+=(sender,e) => TextMoved?.Invoke(this,e);
 		}
 
 		#region Events
@@ -61,6 +62,9 @@ namespace SparksToothChart.Wpf3D {
 
 		[Category("OD"),Description("Occurs on mouse up that commits tooth selection.")]
 		public event ToothChartSelectionEventHandler ToothSelectionsChanged=null;
+
+		[Category("OD"),Description("Occurs on mouse up after a free-text label was dragged with the text mover (TC-5).")]
+		public event ToothChartTextMovedEventHandler TextMoved=null;
 
 		protected void OnSegmentDrawn(string drawingSegment) {
 			SegmentDrawn?.Invoke(this,new ToothChartDrawEventArgs(drawingSegment));

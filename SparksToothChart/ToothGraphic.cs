@@ -61,6 +61,16 @@ namespace SparksToothChart {
 		///<summary>This gets set to true if tooth has a watch on it.</summary>
 		public bool Watch;
 		public Color colorWatch=Color.Red;
+		///<summary>Paint type Text with text other than "W" (O-22, TC-5): the text drawn on the tooth's crown, or "" for none. "W" is the watch
+		///mark (Watch) instead.</summary>
+		public string PaintText="";
+		///<summary>The colour of PaintText.</summary>
+		public Color colorPaintText;
+		///<summary>Paint type TextBelow (O-21, TC-5): the text drawn in the band at the chart's edge beyond the tooth (the top edge for a maxillary
+		///tooth, the bottom edge for a mandibular one), or "" for none.</summary>
+		public string TextBelow="";
+		///<summary>The colour of TextBelow.</summary>
+		public Color colorTextBelow;
 		///<summary>For perio, 1, 2, or 3.  It's a string because we'll later allow +.  The text gets drawn directly on the front of the tooth.</summary>
 		public string Mobility;
 		///<summary>If a mobility is set, the is the color.</summary>
@@ -161,6 +171,8 @@ namespace SparksToothChart {
 			IsPontic=false;
 			IsSealant=false;
 			Watch=false;
+			PaintText="";
+			TextBelow="";
 		}
 
 		public void SetSurfaceColors(string surfaces,Color color){

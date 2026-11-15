@@ -26,6 +26,7 @@ namespace OpenPmsDental {
 		private void InitializeComponent() {
 			this.checkBoxRxClinicUseSelected = new OpenPmsDental.UI.CheckBox();
 			this.checkChartOrthoTabAutomaticCheckboxes = new OpenPmsDental.UI.CheckBox();
+			this.checkToothChartShowCompletedExtractions = new OpenPmsDental.UI.CheckBox();
 			this.groupBoxFunctionality = new OpenPmsDental.UI.GroupBox();
 			this.comboProcCodeListSort = new OpenPmsDental.UI.ComboBox();
 			this.comboToothNomenclature = new OpenPmsDental.UI.ComboBox();
@@ -85,7 +86,16 @@ namespace OpenPmsDental {
 			this.checkChartOrthoTabAutomaticCheckboxes.TabIndex = 253;
 			this.checkChartOrthoTabAutomaticCheckboxes.Text = "Automatically check and uncheck ortho mode and show grid checkboxes based on sele" +
     "ction of Ortho tab ";
-			// 
+			//
+			// checkToothChartShowCompletedExtractions
+			//
+			this.checkToothChartShowCompletedExtractions.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.checkToothChartShowCompletedExtractions.Location = new System.Drawing.Point(84, 541);
+			this.checkToothChartShowCompletedExtractions.Name = "checkToothChartShowCompletedExtractions";
+			this.checkToothChartShowCompletedExtractions.Size = new System.Drawing.Size(376, 17);
+			this.checkToothChartShowCompletedExtractions.TabIndex = 254;
+			this.checkToothChartShowCompletedExtractions.Text = "Show completed extractions with an X on the tooth chart";
+			//
 			// groupBoxFunctionality
 			// 
 			this.groupBoxFunctionality.Controls.Add(this.comboProcCodeListSort);
@@ -424,6 +434,7 @@ namespace OpenPmsDental {
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
 			this.BackColor = System.Drawing.Color.White;
+			this.Controls.Add(this.checkToothChartShowCompletedExtractions);
 			this.Controls.Add(this.checkChartOrthoTabAutomaticCheckboxes);
 			this.Controls.Add(this.groupBoxFunctionality);
 			this.Controls.Add(this.groupBoxPerio);
@@ -482,5 +493,6 @@ namespace OpenPmsDental {
 		private UI.GroupBox groupBoxPerio;
 		private UI.GroupBox groupBoxFunctionality;
 		private OpenPmsDental.UI.CheckBox checkChartOrthoTabAutomaticCheckboxes;
+		private OpenPmsDental.UI.CheckBox checkToothChartShowCompletedExtractions;
 	}
 }
