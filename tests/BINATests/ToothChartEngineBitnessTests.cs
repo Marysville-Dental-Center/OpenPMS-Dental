@@ -43,7 +43,7 @@ namespace BINATests {
 		}
 
 		///<summary>The file next to the test assembly that records which mode came up in this bitness (ToothChartEngineModes.x86.txt or .x64.txt),
-		///read for the port note: a passing run prints nothing.</summary>
+		///read for the port note (the lane's runners print only counts for a passing run; see Record).</summary>
 		private static string RecordPath() {
 			return Path.Combine(AppDomain.CurrentDomain.BaseDirectory,"ToothChartEngineModes."+Bitness()+".txt");
 		}
@@ -58,9 +58,14 @@ namespace BINATests {
 			}
 		}
 
+		///<summary>Writes line to the record file and to the test's output (Console, which MSTest keeps with the test's result, so a runner or
+		///logger that shows passing tests' output carries it). The lane's runners print only counts and failures, so the port note's evidence is
+		///the record file, copied out of bin before a clean.</summary>
 		private static void Record(string line) {
+			string lineRecord=DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")+" "+Bitness()+" "+line;
+			Console.WriteLine("ToothChartEngineModes: "+lineRecord);
 			lock(_lockRecord) {
-				File.AppendAllText(RecordPath(),DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")+" "+Bitness()+" "+line+Environment.NewLine);
+				File.AppendAllText(RecordPath(),lineRecord+Environment.NewLine);
 			}
 		}
 
