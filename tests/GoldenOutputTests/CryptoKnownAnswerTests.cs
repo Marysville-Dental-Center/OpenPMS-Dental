@@ -150,11 +150,12 @@ namespace GoldenOutputTests {
 		}
 
 		///<summary>The RDL engine's data source reference file starts with a random salt, so its bytes differ on every Create: the file recorded by
-		///the .NET Framework build is committed, and every build must read it back (Retrieve) to the synthetic connection string.</summary>
+		///the .NET Framework build is committed, and every build must read it back (Retrieve) to the synthetic connection string. Record mode writes
+		///it only when it is missing, so recording the other fixtures again does not replace a valid record with new random bytes.</summary>
 		[TestMethod]
 		public void KnownAnswers_RdlDataSourceReference_ReadsTheRecord() {
 			string pathFixture=Golden.GetFixturePath(FIXTURE_DSR);
-			if(Golden.IsRecordMode) {
+			if(Golden.IsRecordMode && !File.Exists(pathFixture)) {
 				string pathTemp=Path.Combine(Path.GetTempPath(),"GoldenOutputTests_"+Guid.NewGuid().ToString("N")+".dsr");
 				try {
 					DataSourceReference.Create(pathTemp,RDL_CONNECTION,RDL_PASSPHRASE);
