@@ -18,9 +18,20 @@ namespace OpenPmsDentalBusiness.UI {
 	///<summary>A helper class used add reference links to context menus</summary>
 	public class PopupHelper {
 		#region Methods - Public
-		///<summary>For a given context menu item, returns a sorted list of menu item links. This supports wiki, patient, task, Job, URL, web, and file explorer.</summary>
+		///<summary>For a given context menu item, returns a sorted list of tool strip menu item links for a ContextMenuStrip. This supports wiki, patient, task, Job, URL, web, and file explorer.</summary>
+		public static List<ToolStripMenuItem> GetToolStripMenuItemLinks(string contextMenuItemText,bool rightClickLinks) {
+			return GetLinks(contextMenuItemText,rightClickLinks).Select(x => new ToolStripMenuItem(x.Text,null,x.EventHandlerClick)).ToList();
+		}
+
+		///<summary>Bridge for S3a-M2 (ODtextBox), removed once it uses GetToolStripMenuItemLinks: the same links as WinForms MenuItems, for a ContextMenu.
+		///For a given context menu item, returns a sorted list of menu item links. This supports wiki, patient, task, Job, URL, web, and file explorer.</summary>
 		public static List<MenuItem> GetContextMenuItemLinks(string contextMenuItemText,bool rightClickLinks) {
-			List<MenuItem> listMenuItemsLinks=new List<MenuItem>();
+			return GetLinks(contextMenuItemText,rightClickLinks).Select(x => new MenuItem(x.Text,x.EventHandlerClick)).ToList();
+		}
+
+		///<summary>The texts and click handlers of the links, sorted. Shared by the ToolStrip and the bridge's MenuItem versions.</summary>
+		private static List<PopupLink> GetLinks(string contextMenuItemText,bool rightClickLinks) {
+			List<PopupLink> listMenuItemsLinks=new List<PopupLink>();
 			List<string> listStringMatches=new List<string>();
 			List<long> listNumMatches=new List<long>();
 			bool doWikiLogic=false;//Default the Wiki logic to false
@@ -41,7 +52,7 @@ namespace OpenPmsDentalBusiness.UI {
 				for(int i=0;i<listStringMatches.Count;i++) {
 					string pageName=listStringMatches[i]; //To avoid lazy eval
 					EventHandler eventHandler=(s,eArg) => { OpenWikiPage(pageName); };
-					listMenuItemsLinks.Add(new MenuItem("Wiki - "+listStringMatches[i],eventHandler));
+					listMenuItemsLinks.Add(new PopupLink("Wiki - "+listStringMatches[i],eventHandler));
 				}
 			}
 			listStringMatches=GetURLsFromText(contextMenuItemText);
@@ -52,26 +63,26 @@ namespace OpenPmsDentalBusiness.UI {
 				}
 				string strMatch=listStringMatches[i]; //To avoid lazy eval
 				EventHandler eventHandler=(s,eArg)=> { OpenWebPage(strMatch); };
-				listMenuItemsLinks.Add(new MenuItem("Web - "+title,eventHandler));
+				listMenuItemsLinks.Add(new PopupLink("Web - "+title,eventHandler));
 			}
 			listStringMatches=ODFileUtils.GetFilePathsFromText(contextMenuItemText);
 			for(int i=0;i<listStringMatches.Count;i++) {
 				string strMatch=listStringMatches[i]; //To avoid lazy eval
 				EventHandler eventHandler=(s,eArg) => { OpenUNCPath(strMatch); };
-				listMenuItemsLinks.Add(new MenuItem("File Explorer - "+listStringMatches[i],eventHandler));
+				listMenuItemsLinks.Add(new PopupLink("File Explorer - "+listStringMatches[i],eventHandler));
 			}
 			if(rightClickLinks) {
 				listNumMatches=GetPatNumsFromText(contextMenuItemText);
 				for(int i=0;i<listNumMatches.Count;i++) {
 					long patNum=listNumMatches[i];
 					EventHandler eventHandler=(s,eArg) => { OpenPatNum(patNum); };
-					listMenuItemsLinks.Add(new MenuItem("PatNum - "+listNumMatches[i],eventHandler));
+					listMenuItemsLinks.Add(new PopupLink("PatNum - "+listNumMatches[i],eventHandler));
 				}
 				listNumMatches=GetTaskNumsFromText(contextMenuItemText);
 				for(int i=0;i<listNumMatches.Count;i++) {
 					long taskNum=listNumMatches[i];
 					EventHandler eventHandler=(s,eArg) => { OpenTaskNum(taskNum); };
-					listMenuItemsLinks.Add(new MenuItem("TaskNum - "+listNumMatches[i],eventHandler));
+					listMenuItemsLinks.Add(new PopupLink("TaskNum - "+listNumMatches[i],eventHandler));
 				}
 			}
 			listMenuItemsLinks=listMenuItemsLinks.OrderByDescending(x => x.Text=="-").ThenBy(x => x.Text).ToList();//alphabetize the link items.
@@ -185,6 +196,19 @@ namespace OpenPmsDentalBusiness.UI {
 			}
 		}
 		#endregion Methods - Private
+
+		#region Class - PopupLink
+		///<summary>One link of the menu: the text it shows and what a click does.</summary>
+		private class PopupLink {
+			public string Text;
+			public EventHandler EventHandlerClick;
+
+			public PopupLink(string text,EventHandler eventHandlerClick) {
+				Text=text;
+				EventHandlerClick=eventHandlerClick;
+			}
+		}
+		#endregion Class - PopupLink
 
 
 	}
