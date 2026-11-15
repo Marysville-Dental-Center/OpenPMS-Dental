@@ -448,8 +448,8 @@ namespace OpenPmsDental {
 		}
 
 		///<summary>The Percent column: "attestation, not calculated" for a yes/no row, "not calculated" for -1, "depends on the removed patient
-		///portal" for a portal measure that is not met (instead of a 0%), "no patients in the denominator" for 0, otherwise the percent with at most
-		///one decimal.</summary>
+		///portal" for a portal measure that is not met (instead of a 0%), "no patients in the denominator" for 0, otherwise the percent of
+		///GetPercentText: one decimal, rounded down, and more decimals when a met row would otherwise show no more than its threshold.</summary>
 		public static string GetResultText(EhrMeasureStage ehrMeasureStage,EhrMeasureType ehrMeasureType,EhrMeasureRequirement ehrMeasureRequirement,
 			int numerator,int denominator)
 		{
@@ -465,17 +465,38 @@ namespace OpenPmsDental {
 			if(denominator==0) {
 				return NO_PATIENTS;
 			}
+			if(ehrMeasureRequirement.Kind==EhrMeasureRequirementKind.MoreThanPercent) {
+				return GetPercentText(numerator,denominator,ehrMeasureRequirement.PercentThreshold);
+			}
 			return GetPercentText(numerator,denominator);
 		}
 
-		///<summary>The percent with at most one decimal, rounded down so a value never shows above the threshold it does not pass: 3 of 4 is "75%",
-		///1 of 3 is "33.3%".</summary>
+		///<summary>The percent with at most one decimal, rounded down, so it never shows more than it is: 3 of 4 is "75%", 1 of 3 is "33.3%".</summary>
 		public static string GetPercentText(int numerator,int denominator) {
+			return GetPercentText(numerator,denominator,-1);
+		}
+
+		///<summary>The most decimals GetPercentText shows. Ten are enough for any int denominator: a percent above a whole-number threshold is above
+		///it by at least 100/denominator of a hundredth, more than 1E-10 for a denominator below 2^31.</summary>
+		private const int PERCENT_DECIMALS_MAX=10;
+
+		///<summary>The percent rounded down (never shown as more than it is), with one decimal; when it is more than percentThreshold but one decimal
+		///shows no more than the threshold, with as many decimals as it takes to show it above (4001 of 5000 against 80 is "80.02%", not "80%"). So a
+		///met row's percent is visibly more than its threshold, and an unmet one is at or below it. -1 for no threshold: one decimal.</summary>
+		public static string GetPercentText(int numerator,int denominator,int percentThreshold) {
 			if(denominator<=0) {
 				return "";
 			}
-			decimal tenths=Math.Floor((decimal)numerator*1000m/denominator);
-			return (tenths/10m).ToString("0.#",CultureInfo.CurrentCulture)+"%";
+			bool isAbove=percentThreshold>=0 && (long)numerator*100>(long)percentThreshold*denominator;
+			decimal scale=1m;
+			for(int decimals=1;decimals<=PERCENT_DECIMALS_MAX;decimals++) {
+				scale*=10m;
+				decimal value=Math.Floor((decimal)numerator*100m*scale/denominator)/scale;
+				if(!isAbove || value>percentThreshold || decimals==PERCENT_DECIMALS_MAX) {
+					return value.ToString("0."+new string('#',decimals),CultureInfo.CurrentCulture)+"%";
+				}
+			}
+			return "";//Not reached.
 		}
 
 		///<summary>A numerator or denominator: "not calculated" for -1.</summary>
