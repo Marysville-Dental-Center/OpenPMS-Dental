@@ -589,10 +589,10 @@ provider. The helpers are private, beside `AddBusinessDays` (the region "The EHR
 | `ClinicalSummaries` (1) | 3 days, 5 after a Wednesday to Friday (a Saturday visit's deadline the Tuesday) | 3 business days (D16) |
 | `ClinicalSummaries` (2) | 1 day, 3 after a Friday (a Saturday visit's deadline the Sunday) | 1 business day (D02, D15) |
 | `ElectronicCopyAccess` (1, 2, MS2) | met by any access, whenever given | the first access no later than the fourth business day after the first visit in the period (D01, D15); N/A with no visit |
-| `Reminders` (1) | today's age; an age of 0 (under 1) read as no birthdate | the age at the period's start (D06); no birthdate is `Birthdate` before 1880 |
+| `Reminders` (1) | today's age; an age of 0 (under 1) read as no birthdate; no visit asked | the age at the period's start (D06); no birthdate is `Birthdate` before 1880; N/A without a completed visit (any provider, as Measure Calc's query) after the day three years before the period's start (`ProcDate>dateStart-INTERVAL 3 YEAR`, no upper bound; the fix round, section 9) |
 | `Reminders` (2) | two visit days in the two years before today, the period included | two visit days in the 24 months before the period; a birthdate entered |
 | `MedReconcile` (1, 2, MS2) | met when the reconciliations of the last year were as many as the transitions | the transitions in the period, each reconciliation counting for one (D08, `MatchReconciliations`) |
-| `Lab` (1, 2) | every `ehrlab` order of the patient (the date range was not applied), met by any result | the orders observed in the period, radiology orders and orders with free-text results only left out (D11); N/A with none left |
+| `Lab` (1, 2) | every `ehrlab` order of the patient (the date range was not applied), met by any result; the older lab orders never listed | the orders observed in the period, radiology orders and orders with free-text results only left out (D11); and the older lab orders (`medicalorder` of type Laboratory, `labpanel`, `labresult`) dated in the period, by the same rule as Measure Calc's `medicalorder` branch (an order whose results are all neither positive/negative nor numeric left out; an order with no result row kept, met when it has a panel; `IsLabResultPosNegOrNumeric(LabResult)`, the C# twin of `GetWhereLabResultPosNegOrNumeric`; the fix round, section 9); N/A with none left |
 | `SecureMessaging` (2) | a message from the patient of any date | dated in the period (D09) |
 | `SecureMessaging` (MS2) | web mail sent at any date | sent in the period's calendar years, as Measure Calc |
 | `Education` (MS2) | any date | the calendar year of a visit in the period (D10 as above); N/A with no visit |
@@ -607,12 +607,14 @@ database, as `FormEHR` does. The cases are the fixture's existing patients over 
 `EhrWindow_AgesOnTheLastVisit_AsMeasureCalc` (`Smoke.Age12` N/A, was not met; `Vs.Infant` N/A in Stage 1 `VitalSigns` and met in the
 others, `Vs.Child2` met in those (2 at the visit, no blood pressure asked), both were not met), `EhrWindow_BusinessDayDeadlines_AsMeasureCalc` (`ClinSum.SaturdayWednesday` met
 in Stage 1, `Win.SaturdayMonday` met in Stage 2, `Access.NextTuesday` not met: each the other way before),
-`EhrWindow_Reminders_AsMeasureCalc` (`Rem1.Child3`, `Rem1.Age5` met, were N/A; `Rem1.Turns65` N/A, was not met),
+`EhrWindow_Reminders_AsMeasureCalc` (`Rem1.Child3`, `Rem1.Age5` met, were N/A; `Rem1.Turns65` N/A, was not met; since the fix round
+`Rem1.NoVisit` and `Rem1.VisitThreeYears` N/A, were met, and `Rem1.VisitInThreeYears2015` met in 2015),
 `EhrWindow_TransitionsLabsMessagesEducation_AsMeasureCalc` (`Win.ReconcileBefore` not met, was met; `Lab.Text` and the radiology orders
-N/A; `Msg.Before` not met in Stage 2; `Edu.Before` and `Edu.CrossBefore` not met in Modified Stage 2). The old window cannot take a period,
-so these tests do not compile against main's engine; the "before" values are read from its code. Not compared, because the window has no
-EP or does not list them: `Rem2.VisitsWithOther` (visits with another provider), the referral's provider, an `ehrlab` order's ordering
-provider, and the older medical-order labs (`Lab.Old*`, `Lab.OldPanel`), which the window never listed.
+N/A; since the fix round the older lab orders of both stages: `Lab.OldPanel`, `Lab.OldNegative`, `Lab.OldCoded`, `Lab.OldNumeric` met,
+`Lab.OldNoPanel` not met, all were N/A, and `Lab.OldText` N/A; `Msg.Before` not met in Stage 2; `Edu.Before` and `Edu.CrossBefore` not met
+in Modified Stage 2). The old window cannot take a period, so these tests do not compile against main's engine; the "before" values are
+read from its code. Not compared, because the window has no EP: `Rem2.VisitsWithOther` (visits with another provider), the referral's
+provider, an `ehrlab` order's ordering provider and a `medicalorder`'s provider.
 
 ### 3. The edge cases of D02 and D08 (as the engine counts them, both measures and the window)
 
@@ -684,3 +686,39 @@ No `ehr` scratch database was left on the server after the runs. `InitSqlTests` 
   re-recorded at the next gate.
 - **Scratch databases**: the runs build EhrTests' existing scratch databases (`ehr1_`, `ehr4a_`, `ehr4b_`; the measure fixture keeps its
   `ehr4b_` prefix), each dropped by its class; EHR-4d adds no database of its own, so none is named `ehr4d_`.
+
+### 9. Fix round (`ehr/ehr4d-3`, the review of `ehr/ehr4d-1`)
+
+Two review findings on item 3 (the EHR window agrees with Measure Calc), both fixed; no schema change, no golden number moved.
+
+- **Stage 1 reminders without a visit.** Measure Calc's Stage 1 denominator (`GetTable`, `Reminders`) takes only patients with a completed
+  visit, broken appointments left out, with any provider, after the day three years before the period's start (`ProcDate>dateStart-INTERVAL
+  3 YEAR`, no upper bound). `GetMu` asked no visit, so a patient of 65 or more with a reminder and no visit was met (or not met without a
+  reminder) in the window and N/A in Measure Calc. `GetMu` now gives N/A ("No visit in the three years before the period.") when
+  `GetVisitDays(listProcs,dateStart.Date.AddYears(-3).AddDays(1),DateTime.MaxValue)` is empty; the procedures are read once for this and
+  the period's visit days. The check uses any provider, as the query does, so the window matches it exactly. Fixture patients (no 2014
+  visit, so in no 2014 line): `Rem1.NoVisit` (68, reminded, no visit) and `Rem1.VisitThreeYears` (68, reminded, a visit on 1 January 2011,
+  three years before the period's start to the day, so not after it) are N/A in 2014 in both; `Rem1.VisitInThreeYears2015` (64 at the start
+  of 2014, 65 at the start of 2015, a visit on 2 January 2012 with the other provider, reminded on 2 March 2015) is N/A in 2014 and met in
+  2015 in both. Its visit is with the other provider so that it stays out of Stage 2's 2014 reminders exclusion count (the EP's procedures
+  of the 24 months before the period); with the EP that count moved from 7 to 8 in a first run, and the golden file was left as recorded.
+- **The older lab orders in the window.** Measure Calc's Stage 1 and Stage 2 `Lab` UNION counts the `medicalorder`/`labpanel` orders (D11
+  filters them since EHR-4d), and `FormEHR` still opens them (`FormEhrMedicalOrders`, `FormEhrMedicalOrderLabEdit`), but `FillMuLab` read
+  only `ehrlab` rows: the `Lab.Old*` cases were met in Measure Calc and N/A in the window, and section 2 listed them as not compared.
+  Option (a) of the review: `FillMuLab` (from `GetMu` and `GetMu2`) also takes the patient's laboratory medical orders dated in the period
+  (`MedicalOrders.GetLabsByDate`, the query's `DATE(DateTimeOrder) BETWEEN`), with the query's rule: an order with no `labresult` row is
+  kept, met when it has a panel; an order whose results are all neither positive/negative nor numeric is left out.
+  `IsLabResultPosNegOrNumeric(LabResult)` is the C# twin of `GetWhereLabResultPosNegOrNumeric`: the first `^` component of the value
+  (spaces trimmed, as `TRIM` and the padded `IN` comparison) in `_snomedLabResult`, or the value POSITIVE, NEGATIVE, POS or NEG (any case),
+  or the value with `^` removed matching the same number pattern. The window has no EP, so an order of any provider counts (the query asks
+  the EP's). `EhrWindow_TransitionsLabsMessagesEducation_AsMeasureCalc` now compares, for Stage 1 and Stage 2, `Lab.OldPanel`,
+  `Lab.OldNegative`, `Lab.OldCoded`, `Lab.OldNumeric` (met), `Lab.OldNoPanel` (not met) and `Lab.OldText` (N/A).
+
+Each new case fails on `ehr/ehr4d-1`'s engine by its code: the old `GetMu` gave the two reminded patients without a visit met, and the old
+`FillMuLab` gave every older order N/A.
+
+Runs (`.git/od-tools/test-results/` of the main checkout): `ehr4d-3-a.txt` (`-Include EhrTests,NoHqTests,MiddleTierMockTests`, before the
+full build, so the other two were not built yet): EhrTests 259 of 260, the golden test failed on `SelectAllMu2 Reminders` exclusions 7 to 8
+(`Rem1.VisitInThreeYears2015`'s visit with the EP; moved to the other provider); `ehr4d-3-b.txt` (EhrTests): 260 of 260. Full lane build of
+`OpenDental.Local.slnf` (Debug|x86) at `4a141d3db`: 0 errors. `ehr4d-3-final.txt` (`-Include EhrTests,NoHqTests,MiddleTierMockTests`):
+EhrTests 260 of 260, NoHqTests 57 of 57, MiddleTierMockTests 125 of 125. `InitSqlTests` and `ForkMigrationTests` not run (no schema change).

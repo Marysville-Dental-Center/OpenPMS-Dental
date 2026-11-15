@@ -728,7 +728,9 @@ The key was a licence check, but it was also the only thing that kept these acti
 ### EHR-4d Measure engine follow-ups; the EHR window on Measure Calc's rules
 
 - **Status (2026-11-15).** Written on `ehr/ehr4d-1` from `main` `f19da99ce`, for review: `docs/port-notes/EHR-4.md` (EHR-4d part: each
-  item, how, the cases, the two golden lines that moved, the edge cases of D02 and D08). No schema change; no saved row changed.
+  item, how, the cases, the two golden lines that moved, the edge cases of D02 and D08). No schema change; no saved row changed. Review
+  fix round on `ehr/ehr4d-3` (EHR-4.md, EHR-4d section 9): the window's Stage 1 reminders ask Measure Calc's visit in the three years
+  before the period, and its Lab counts the older medicalorder/labpanel orders by Measure Calc's rule; no golden number moved.
 - **Goal.** EHR-4c's open ends closed, and the EHR window (FormEHR's per-patient summary) says of a patient what Measure Calc says.
 - **Owns.** `OpenPmsDentalBusiness/Data Interface/EhrMeasures.cs`; `tests/EhrTests/MeasureSpecTests.cs`, `tests/EhrTests/MeasureWindowTests.cs`
   (new, a part of the same test class), `tests/EhrTests/Fixtures/MeasureSpecFixture.cs` (patients added, the header's ages corrected),
