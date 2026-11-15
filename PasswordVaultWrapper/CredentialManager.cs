@@ -127,6 +127,25 @@ namespace PasswordVaultWrapper {
 			}
 		}
 
+		///<summary>The generic credential with this target name, without its secret (the blob is never decoded); null when there is none. Used
+		///where only the existence or the user name of an entry matters.</summary>
+		public static CredentialEntry ReadInfo(string targetName) {
+			IntPtr ptrCredential;
+			if(!CredRead(targetName,CRED_TYPE_GENERIC,0,out ptrCredential)) {
+				int error=Marshal.GetLastWin32Error();
+				if(error==ERROR_NOT_FOUND) {
+					return null;
+				}
+				throw new Win32Exception(error);
+			}
+			try {
+				return ToEntry(ptrCredential,doReadSecret:false);
+			}
+			finally {
+				CredFree(ptrCredential);
+			}
+		}
+
 		///<summary>Deletes the generic credential with exactly this target name. Returns false when there was none.</summary>
 		public static bool Delete(string targetName) {
 			if(CredDelete(targetName,CRED_TYPE_GENERIC,0)) {
@@ -163,7 +182,8 @@ namespace PasswordVaultWrapper {
 						continue;
 					}
 					string targetName=Marshal.PtrToStringUni(credential.TargetName)??"";
-					if(!targetName.StartsWith(targetPrefix,StringComparison.Ordinal)) {
+					//Windows matches target names (and its filter) without regard to case (S3a-5f).
+					if(!targetName.StartsWith(targetPrefix,StringComparison.OrdinalIgnoreCase)) {
 						continue;
 					}
 					listEntries.Add(ToEntry(ptrCredential,doReadSecret:false));

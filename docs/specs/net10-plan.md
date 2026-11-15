@@ -766,6 +766,14 @@ LibraryBindingTests, NoHqTests, MiddleTierMockTests); one test retired on purpos
 Fix round on `net10/s3a5-2`: a vault that cannot be opened on Windows 8 or later (an error that may pass) leaves no record, so the next
 process tries again; only a Windows older than 8 records "PasswordVault not available". Targeted runs green again.
 
+**Status (2026-11-15).** S3a-5f (the S3a-5 review leftovers) merged from `net10/s3a5f-1` (`docs/port-notes/S3a-5.md`, section 7; lead fix 7.7, no test lists the account's vault): target
+names compare case-insensitively, and a login is saved under the casing Windows already shows (Windows keeps one credential per casing
+written but shows one); a login whose address or user contains `|` gets an escaped name without `|` (`%`->`%25`, `|`->`%7C`, joined by
+`%_`) with a read fallback to its S3a-5 name, while every other name stays byte for byte as S3a-5 wrote it; the migration names its failed
+entries in the record and retries only those on later starts, five tries in all; "already there" is checked without decoding the secret;
+the tests clean up first and assert after. Full lane build 0 errors; Targeted runs green (BINBTests, ReleaseFlowTests, LibraryBindingTests,
+NoHqTests, MiddleTierMockTests).
+
 **Status (2026-11-15).** Wave 1: S3a-9 merged (`net10/s3a9-2`, `docs/port-notes/S3a-9.md`): file rights through
 `FileInfo`/`DirectoryInfo` in the connection settings tool, `ExternalException` next to the three GDI+ `OutOfMemoryException` catches (the
 DICOM reader's stays: its only GDI+ call, in the JPEG Baseline decoder, is inside catch(Exception) and becomes a decoder failure, so only a

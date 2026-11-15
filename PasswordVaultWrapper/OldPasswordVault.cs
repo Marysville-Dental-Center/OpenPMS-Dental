@@ -18,7 +18,16 @@ namespace PasswordVaultWrapper {
 		public object Credential;
 	}
 
-	internal class OldPasswordVault {
+	///<summary>What the store needs of the old vault; OldPasswordVault is the real one, the tests give a fake (S3a-5f: a vault that fails
+	///single entries).</summary>
+	internal interface IOldVault {
+		List<OldVaultEntry> RetrieveAll();
+		List<OldVaultEntry> FindAllByResource(string resource);
+		string RetrievePassword(OldVaultEntry oldVaultEntry);
+		void Remove(OldVaultEntry oldVaultEntry);
+	}
+
+	internal class OldPasswordVault : IOldVault {
 		private const string TYPE_VAULT="Windows.Security.Credentials.PasswordVault, Windows.Security.Credentials, ContentType=WindowsRuntime";
 		private const string TYPE_CREDENTIAL="Windows.Security.Credentials.PasswordCredential, Windows.Security.Credentials, ContentType=WindowsRuntime";
 		///<summary>HRESULT_FROM_WIN32(ERROR_NOT_FOUND): what the vault throws when it has no entry to return.</summary>
