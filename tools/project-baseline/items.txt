@@ -1652,6 +1652,7 @@ EhrTests|Compile|NtpReplyTests.cs|
 EhrTests|Compile|PermissionTests.cs|
 EhrTests|Compile|Properties\AssemblyInfo.cs|
 EhrTests|Compile|ProvKeyRuleTests.cs|
+EhrTests|Compile|RemovalTests.cs|
 EhrTests|Compile|Support\MeasureCalcFixture.cs|
 EhrTests|Compile|Support\NtpPacket.cs|
 EhrTests|Compile|Support\ScratchDb.cs|
@@ -5304,8 +5305,6 @@ OpenPmsDentalBusiness|Compile|Db Multi Table\PaymentEdit.cs|
 OpenPmsDentalBusiness|Compile|Db Multi Table\PaymentInvoiceFilter.cs|
 OpenPmsDentalBusiness|Compile|Db Multi Table\ProcEdit.cs|
 OpenPmsDentalBusiness|Compile|Db Multi Table\ProcFeeHelper.cs|
-OpenPmsDentalBusiness|Compile|Db Multi Table\QualityMeasure.cs|
-OpenPmsDentalBusiness|Compile|Db Multi Table\QualityMeasures.cs|
 OpenPmsDentalBusiness|Compile|Db Multi Table\Security.cs|
 OpenPmsDentalBusiness|Compile|Db Multi Table\SplitCollection.cs|
 OpenPmsDentalBusiness|Compile|Db Multi Table\TreatmentPlanModules.EstimateDates.cs|
@@ -7400,14 +7399,6 @@ OpenPmsDental|Compile|Forms\FormEhrProviderKeyEdit.cs|
 OpenPmsDental|Compile|Forms\FormEhrProviderKeyEdit.designer.cs|DependentUpon=FormEhrProviderKeyEdit.cs
 OpenPmsDental|Compile|Forms\FormEhrProviderKeys.cs|
 OpenPmsDental|Compile|Forms\FormEhrProviderKeys.designer.cs|DependentUpon=FormEhrProviderKeys.cs
-OpenPmsDental|Compile|Forms\FormEhrQualityMeasureEdit.Designer.cs|DependentUpon=FormEhrQualityMeasureEdit.cs
-OpenPmsDental|Compile|Forms\FormEhrQualityMeasureEdit.cs|
-OpenPmsDental|Compile|Forms\FormEhrQualityMeasureEdit2014.Designer.cs|DependentUpon=FormEhrQualityMeasureEdit2014.cs
-OpenPmsDental|Compile|Forms\FormEhrQualityMeasureEdit2014.cs|
-OpenPmsDental|Compile|Forms\FormEhrQualityMeasures.Designer.cs|DependentUpon=FormEhrQualityMeasures.cs
-OpenPmsDental|Compile|Forms\FormEhrQualityMeasures.cs|
-OpenPmsDental|Compile|Forms\FormEhrQualityMeasures2014.Designer.cs|DependentUpon=FormEhrQualityMeasures2014.cs
-OpenPmsDental|Compile|Forms\FormEhrQualityMeasures2014.cs|
 OpenPmsDental|Compile|Forms\FormEhrReminders.Designer.cs|DependentUpon=FormEhrReminders.cs
 OpenPmsDental|Compile|Forms\FormEhrReminders.cs|
 OpenPmsDental|Compile|Forms\FormEhrSettings.cs|
@@ -9234,10 +9225,6 @@ OpenPmsDental|EmbeddedResource|Forms\FormEhrPatientSelectSimple.resx|DependentUp
 OpenPmsDental|EmbeddedResource|Forms\FormEhrPatientSmoking.resx|DependentUpon=FormEhrPatientSmoking.cs
 OpenPmsDental|EmbeddedResource|Forms\FormEhrProviderKeyEdit.resx|DependentUpon=FormEhrProviderKeyEdit.cs
 OpenPmsDental|EmbeddedResource|Forms\FormEhrProviderKeys.resx|DependentUpon=FormEhrProviderKeys.cs
-OpenPmsDental|EmbeddedResource|Forms\FormEhrQualityMeasureEdit.resx|DependentUpon=FormEhrQualityMeasureEdit.cs
-OpenPmsDental|EmbeddedResource|Forms\FormEhrQualityMeasureEdit2014.resx|DependentUpon=FormEhrQualityMeasureEdit2014.cs
-OpenPmsDental|EmbeddedResource|Forms\FormEhrQualityMeasures.resx|DependentUpon=FormEhrQualityMeasures.cs
-OpenPmsDental|EmbeddedResource|Forms\FormEhrQualityMeasures2014.resx|DependentUpon=FormEhrQualityMeasures2014.cs
 OpenPmsDental|EmbeddedResource|Forms\FormEhrReminders.resx|DependentUpon=FormEhrReminders.cs
 OpenPmsDental|EmbeddedResource|Forms\FormEhrSettings.resx|DependentUpon=FormEhrSettings.cs
 OpenPmsDental|EmbeddedResource|Forms\FormEhrSetup.resx|DependentUpon=FormEhrSetup.cs
