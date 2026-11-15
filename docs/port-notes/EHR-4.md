@@ -328,8 +328,9 @@ match** ("more than N percent"; Modified Stage 2 `ElectronicCopy`'s "greater tha
 
 Each numeric deviation was confirmed by a run (the test is Inconclusive with the ID; the numbers are the case's, sheet against engine).
 D05, D12, D13 and D14 are entries without a number to compare: an older edition, measures with no sheet, and sheet rules the engine does
-not compute. The IDs are those of the lead's analysis; D15 is new (found by this package's run). **EHR-4c fixed every numeric deviation**
-(D01-D04, D06-D11, D15, marked "fixed" below; the section "EHR-4c" says how); D05, D12, D13 and D14 stay as listed.
+not compute. The IDs are those of the lead's analysis; D15 is new (found by this package's run), and D16 was found by EHR-4c. **EHR-4c
+fixed every numeric deviation** (D01-D04, D06-D11, D15, D16, marked "fixed" below; the section "EHR-4c" says how); D05, D12, D13 and D14
+stay as listed.
 
 | ID | Stages | The engine | The sheet (latest edition; older where it differs) | Case: sheet / engine |
 |---|---|---|---|---|
@@ -348,6 +349,7 @@ not compute. The IDs are those of the lead's analysis; D15 is new (found by this
 | EHR4B-D13 | 1 (`CPOE_PreviouslyOrdered`) | Calculated: the patients for whom the EP previously ordered medications (the engine's comment names CMS FAQ #3257), 30 | No sheet: `1_CPOE_for_Medication_Orders` (May 2014) has the two numerators and denominators only; the FAQ is not in the batches | No number; the golden numbers cover it |
 | EHR4B-D14 | all | Not calculated (`SelectAllMu2` and `SelectAllMu2Mod` remove the types the engine has for them) | Yes/no attestations and public health: Stage 1 (May 2014) `1_Drug_Formulary_Checks`, `2_Drug_Interaction_ChecksEP`, `3_Patient_Lists`, `9_Immunization_Registries_Data_Submission`, `10_Syndromic_Surveillance_Data_SubmissionEP`, `11_Clinical_Decision_Support_Rule`, `15_Core_ProtectElectronicHealthInformation`; Stage 2 `Stage2_EPCore_6_ClinicalDecisionSupport`, `_9_ProtectElectronicHealthInfo`, `_11_PatientLists`, `_16_ImmunizationRegistriesDataSubmission`, `Stage2_EPMenu_1_SyndromicSurveillanceDataSub`, `_5_ReportCancerCases`, `_6_ReportSpecificCases`, and `Stage2_EPCore_15` MEASURE 3; MS2 `Obj1` (security risk analysis), `Obj2` (both CDS measures, drug interaction checks), `Obj10` (public health). Rules inside computed measures: e-prescribing's formulary query (`Stage2_EPCore_2`, `MedicaidEPModStage2_2018_Obj4`: the engine counts prescriptions sent electronically and has no record of the query); Stage 2 e-prescribing's second denominator (with controlled substances) is not offered. The 2013 Stage 1 edition's `2013DefinitionEP_12_Electronic_Copy_of_Health_Information` is not calculated, which agrees with the May 2014 edition (it replaced it by patient electronic access) | No number |
 | EHR4B-D15 (fixed, EHR-4c) | 1, 2, MS2 (`ElectronicCopyAccess`); 2 (`ClinicalSummaries`) | Compares the event's date and time (`PIn.Date` keeps the time) with a deadline at midnight of the last day, so an event during the last day misses (Stage 1's clinical summaries compare dates in SQL and are not affected) | The last business day counts: within 4 business days (the sheets of D01); within one business day (`Stage2_EPCore_8`) | Seen Monday, access Friday 11:00 (the fourth business day): 1/1 / 0/1, each stage; a summary the next business day at 11:00 (Tuesday after a Monday visit, Monday after a Friday visit): 1/1 / 0/1 each |
+| EHR4B-D16 (fixed, EHR-4c) | 1 (`ClinicalSummaries`) | Deadline: the visit plus 5 days after a Wednesday, Thursday or Friday, plus 3 otherwise, so a Saturday visit's deadline is the Tuesday (found by EHR-4c; no EHR-4b case had a Saturday visit) | Within three business days: `13_Clinical_Summaries` (May 2014): after a Saturday, the Wednesday | Seen Saturday 8 March, the summary Wednesday 12 March: 1/1 / 0/1 |
 
 **Proposed, checked and not listed.** Attempt A's "Stage 1 access threshold 50 against the 2013 sheet's at least 10": the May 2014 edition
 (`11_Patient_Electronic_Access-`) says more than 50 percent, the engine's threshold; the April 2013 sheet's "at least 10 percent"
@@ -454,6 +456,7 @@ methods: `AddBusinessDays` (the day N business days, Monday to Friday, after a d
 | D10 | MS2 (`Education`) | Education events from 1 January of the period's first year to 31 December of its last: `MedicaidEPModStage2_2018_Obj6` (July 2018), Additional Information, counts the action within the period when it is a full calendar year, otherwise within the calendar year in which the period occurs; both are that calendar year for a period inside one year. Stage 1 and Stage 2 are unchanged (their sheets give no time) | `Education_ModifiedStage2_ResourcesOfTheYearBefore_DoNotCount_D10`: 0/1 (was 1/1) |
 | D11 | 1, 2 (`Lab`) | An `ehrlab` order whose results are all neither a number (`NM`, `SN`) nor a coded positive/negative result of the engine's list is left out of the denominator; an order with no result yet stays in and is missed, as before; the older `medicalorder` lab orders are as before. The denominator text says so ("except those whose results are neither positive/negative nor numeric"; also Modified Stage 2's, which does not calculate `Lab`) | `LabResults_AFreeTextResult_IsNotInTheDenominator_D11`: 0/0 both stages (was 0/1) |
 | D15 | 1, 2, MS2 (`ElectronicCopyAccess`); 2 (`ClinicalSummaries`) | With D01 and D02: a deadline is a date, and the event's date is compared with it (`.Date`), so an event at any time of the last business day counts | `OnlineAccess_OnTheFourthBusinessDay_IsTimely_D15`: 1/1 each stage (was 0/1); `ClinicalSummaries_Stage2_ASummaryDuringTheNextBusinessDay_IsWithinOne_D15`: `ClinSum.NextDay`, `ClinSum.FridayMonday` 1/1 each (was 0/1) |
+| D16 | 1 (`ClinicalSummaries`) | Found by EHR-4c and fixed in the review round (`ehr/ehr4c-3`): Stage 1's SQL deadline gives a Saturday visit 4 days (the Wednesday); Wednesday to Friday keep 5 and Sunday to Tuesday 3, which were right. Still compared by date in SQL. Two fixture patients were added for it (`ClinSum.SaturdayWednesday`, `ClinSum.SaturdayThursday`, seen Saturday 8 March) | `ClinicalSummaries_Stage1_ASaturdayVisit_TheWednesdayIsTheThirdBusinessDay_D16`: Wednesday 1/1 (was 0/1), Thursday (the fourth business day) 0/1; Stage 2 (one business day, the Monday) 0/2 |
 
 **The day of the age (D03, D04).** No sheet of the batches names a day other than the visit: the latest editions define the denominators
 as "unique patients age 13 or older seen by the EP during the EHR reporting period" (`9_Record_Smoking_Status`, May 2014;
@@ -489,21 +492,34 @@ fixed deviation; no threshold and no exclusion count moved:
 
 `SelectAllMu2 Reminders` stays 2/3 with other patients (D07): `Rem2.OtherPrimary` (met) joins, `Rem2.VisitsWithOther` (met) leaves.
 
+**Recorded again for D16 (review round, 2026-11-15, `ehr/ehr4c-3`).** The two Saturday patients are seen by the EP, so 31 of the 56
+lines moved, each by them; no threshold moved:
+
+| Lines | Before | After | Why |
+|---|---|---|---|
+| Every measure of unique patients seen (`ProblemList`, `Demographics`, `ElectronicCopyAccess` and the rest, all three stages) | N/81 (`VitalSigns` 1/80, `VitalSignsBPOnly` 2/79, `Smoking` 1/76) | N/83 (1/82, 2/81, 1/78) | The two patients join each denominator, met in none. The exclusion counts that count the EP's patients moved by 2 with them (79 to 81, 82 to 84, 76 to 78) |
+| `SelectAll ClinicalSummaries` | 5/82 | 6/84 | D16: `ClinSum.SaturdayWednesday` met (the Wednesday is the third business day), `ClinSum.SaturdayThursday` missed (the fourth) |
+| `SelectAllMu2 ClinicalSummaries` | 4/82 | 4/84 | Both missed: one business day after a Saturday is the Monday |
+
+The numerators of the other lines and the visit-based lines (`ProvOrderEntry`, the CPOE lines, `Rx`, `Lab`, `Reminders`, `MedReconcile`,
+`SummaryOfCare`, `LabImages`) did not move.
+
 ### 4. Tests
 
-`MeasureSpecTests.cs`, 36 tests, all pass, none Inconclusive. The 12 deviation tests keep their names (each ends in its ID) and assert the
+`MeasureSpecTests.cs`, 37 tests (36, and D16's of the review round), all pass, none Inconclusive. The 12 deviation tests keep their names (each ends in its ID) and assert the
 sheet's numbers with `SpecCheck.Sheet`; each comment says what the engine gave before. D03's test also checks Modified Stage 2.
-`SpecCheck.Deviation` stays, unused, for the next deviation found. The fixture (`Fixtures/MeasureSpecFixture.cs`) is unchanged: every case
-EHR-4c needed was there. `MeasureCalcTests.cs` is unchanged: none of its expected numbers moved (its fixture asserts only `ProblemList`'s
+`SpecCheck.Deviation` stays, unused, for the next deviation found. The fixture (`Fixtures/MeasureSpecFixture.cs`) was unchanged in the first round: every case
+of EHR-4b's list was there; the review round added D16's two Saturday patients (and D16's test, and two weekday checks in
+`Fixture_TheWeekdaysTheBusinessDayCasesNeed_AndTheEnginesCodesReadAtRunTime`), as the review finding asked. `MeasureCalcTests.cs` is unchanged: none of its expected numbers moved (its fixture asserts only `ProblemList`'s
 2/4 and that the window gives what the three calls give; `ProviderWithNoKeyRow_NoSqlError_DenominatorZero` still finds 0 everywhere: the
 new reconciliation query reads a referral's provider only when it is positive, so the guard's `-1` never meets an incoming referral's
 `-1`). Nothing else in `tests/EhrTests` changed, and no test assembly was added.
 
 ### 5. Found, not fixed (for the lead)
 
-- **Stage 1 clinical summaries on a Saturday.** The SQL deadline adds 5 days after a Wednesday, Thursday or Friday visit and 3 otherwise,
-  so a Saturday visit's deadline is the Tuesday; the sheet's three business days (`13_Clinical_Summaries`, May 2014) give the Wednesday.
-  No fixture case has a Saturday visit, so it is not in EHR-4b's list; a candidate EHR4B-D16 (one line: `AddBusinessDays(visit, 3)`).
+- **Stage 1 clinical summaries on a Saturday** (found here, fixed in the review round as EHR4B-D16; see section 1 and the list).
+- **The EHR window's Stage 1 clinical summaries** (`GetMu`) have the same Saturday rule (3 days, plus 2 only after a Wednesday to Friday
+  visit). It is not the Measure Calc window and keeps its own rules (next item), so the review round left it.
 - **Holidays.** Business days are Monday to Friday, as the brief says; no sheet defines a holiday calendar.
 - **The fixture's header comment** (`Fixtures/MeasureSpecFixture.cs`, lines 13-16) still says the engine takes two ages on today's date;
   the brief kept that file out of this package. The guard it describes still holds, and the test's own comment now says why it stays.
@@ -519,6 +535,11 @@ file. Then `run-tests.ps1 -Mode Targeted` (result files in `.git/od-tools/test-r
 |---|---|---|---|
 | `ehr4c-run1.txt` (engine and tests committed, the golden file not yet recorded; `-Include EhrTests,NoHqTests`) | 250: 249 passed, 1 failed: the golden test, whose message gave the lines now recorded. Every deviation test passed on this first run | not built yet in this worktree (built by the full build) | not run |
 | `ehr4c-final.txt` (after the full build; `-Include EhrTests,NoHqTests,MiddleTierMockTests`) | 250 of 250 passed (MeasureSpecTests 36; none skipped or inconclusive) | 57 of 57 passed | 125 of 125 passed (its Middle Tier rules accept the three private helpers) |
+
+Review round (`ehr/ehr4c-3`, D16), full lane build of `OpenDental.Local.slnf` at `eabc4e6f1` (the engine fix and the test): 0 errors.
+`ehr4c3-run1.txt` (`-Include EhrTests,NoHqTests,MiddleTierMockTests`): EhrTests 251, 250 passed, 1 failed: the golden test, whose message
+gave the lines then recorded (D16's test passed); NoHqTests 57 of 57; MiddleTierMockTests 125 of 125. `ehr4c3-run2.txt` (the same, after
+the golden file): EhrTests 251 of 251 (MeasureSpecTests 37), NoHqTests 57 of 57, MiddleTierMockTests 125 of 125.
 
 No `ehr` scratch database was left on the server after the runs. EHR-4c adds no database test: the runs build EhrTests' existing
 `ehr1_`, `ehr4a_` and `ehr4b_` scratch databases, each dropped by its class. `InitSqlTests` and `ForkMigrationTests` were not run (no

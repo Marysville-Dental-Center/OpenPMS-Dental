@@ -805,7 +805,7 @@ technology, and they cannot be used to attest or to submit to any program** (the
   (`tempehrmeasure...`, `tempehrquality...`); a newer one may belong to another workstation's calculation and stays.
 - **The Meaningful Use measures now count as CMS's specification sheets define them**: timely online access within 4 business days
   (Monday to Friday) and a Stage 2 clinical summary within one business day of its own visit, the last day counting whatever the time;
-  the smoking and vital-signs ages at the visit, not today; children of 5 in the Stage 1 reminders; Stage 2 preventive care by visits
+  a Stage 1 clinical summary after a Saturday visit on time until the Wednesday (three business days, as after any other day); the smoking and vital-signs ages at the visit, not today; children of 5 in the Stage 1 reminders; Stage 2 preventive care by visits
   with the provider, whoever the primary provider is; medication reconciliation per transition of care received; Stage 2 secure
   messages and Modified Stage 2 education in the reporting period; lab tests with only free-text results left out. Numbers that
   depended on the old rules can change.
