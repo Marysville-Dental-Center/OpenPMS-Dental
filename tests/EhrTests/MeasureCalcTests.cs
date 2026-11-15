@@ -383,8 +383,10 @@ namespace EhrTests {
 					MeasureCalcFixture.ProviderKeyed.ProvNum,() => true,null,null);
 				CollectionAssert.AreEqual(new List<string> { "tempehrmeasure900001","tempehrquality900002" },MeasureCalcFixture.GetWorkTables(db));
 				CollectionAssert.AreEqual(new List<string>(),EhrMeasures.DropOldWorkTables(EhrMeasures.WORK_TABLE_MAX_AGE_SECONDS));
-				//Old enough (an age of 0 seconds stands in for a day): the two work tables of this database go, nothing else.
-				List<string> listDropped=EhrMeasures.DropOldWorkTables(0);
+				//Old enough (an age of 0 seconds stands in for a day; DropOldWorkTables raises it to its one-hour floor, so the rule behind it is
+				//reached directly): the two work tables of this database go, nothing else.
+				CollectionAssert.AreEqual(new List<string>(),EhrMeasures.DropOldWorkTables(0),"The floor.");
+				List<string> listDropped=DropWorkTablesOlderThan(0);
 				listDropped.Sort();
 				CollectionAssert.AreEqual(new List<string> { "tempehrmeasure900001","tempehrquality900002" },listDropped);
 				CollectionAssert.AreEqual(new List<string>(),MeasureCalcFixture.GetWorkTables(db));
@@ -398,6 +400,14 @@ namespace EhrTests {
 				MeasureCalcFixture.DropTable(db,"tempother900003");
 				MeasureCalcFixture.DropTable(dbOther,"tempehrmeasure900004");
 			}
+		}
+
+		///<summary>EhrMeasures' private DropWorkTablesOlderThan: DropOldWorkTables without its one-hour floor.</summary>
+		private static List<string> DropWorkTablesOlderThan(int maxAgeSeconds) {
+			System.Reflection.MethodInfo methodInfo=typeof(EhrMeasures).GetMethod("DropWorkTablesOlderThan",
+				System.Reflection.BindingFlags.NonPublic|System.Reflection.BindingFlags.Static);
+			Assert.IsNotNull(methodInfo);
+			return (List<string>)methodInfo.Invoke(null,new object[] { maxAgeSeconds });
 		}
 
 		[TestMethod]
@@ -416,7 +426,8 @@ namespace EhrTests {
 				MeasureCalcFixture.UseMockMiddleTier();
 				Assert.AreEqual(MiddleTierRole.ClientMT,RemotingClient.MiddleTierRole);
 				CollectionAssert.AreEqual(new List<string>(),EhrMeasures.DropOldWorkTables(EhrMeasures.WORK_TABLE_MAX_AGE_SECONDS),"Too new.");
-				CollectionAssert.AreEqual(new List<string> { "tempehrmeasure900011" },EhrMeasures.DropOldWorkTables(0));
+				CollectionAssert.AreEqual(new List<string>(),EhrMeasures.DropOldWorkTables(0),"The server's floor: still too new.");
+				CollectionAssert.AreEqual(new List<string> { "tempehrmeasure900011" },MeasureCalcFixture.GetWorkTables(db));
 				List<EhrMeasure> listMiddleTier=FormEhrMeasureCalc.RunCalculation(EhrMeasureStage.ModifiedStage2,dateStart,dateEnd,provNum,null,null,null);
 				AssertSameMeasures(listDirect,listMiddleTier,"through the Middle Tier");
 				DataTable tableMiddleTier=EhrMeasures.GetReportingProviders();

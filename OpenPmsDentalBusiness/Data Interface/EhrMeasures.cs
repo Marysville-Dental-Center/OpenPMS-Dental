@@ -7220,6 +7220,9 @@ namespace OpenPmsDentalBusiness{
 		///<summary>The age after which DropOldWorkTables drops a work table: one day. Not "older than this run", because another workstation may be
 		///running a calculation that uses its own work table right now.</summary>
 		public const int WORK_TABLE_MAX_AGE_SECONDS=86400;
+		///<summary>The least age DropOldWorkTables uses: one hour. The server raises a smaller age (0, a negative one) to it, so no caller, a Middle
+		///Tier client included, can drop a work table that a calculation of another workstation is using right now.</summary>
+		public const int WORK_TABLE_MIN_AGE_SECONDS=3600;
 
 		///<summary>Every provider whose last and first name have an ehrprovkey row, by the join the measure queries use (the database's collation:
 		///case-insensitive, trailing spaces ignored), with columns ProvNum and KeyGroup. KeyGroup is the smallest EhrProvKeyNum of the provider's
@@ -7239,13 +7242,20 @@ namespace OpenPmsDentalBusiness{
 		///<summary>Drops the work tables of the measure engines (tempehrmeasure..., EhrMeasures; tempehrquality..., QualityMeasures) that this
 		///database's information_schema says were created more than maxAgeSeconds earlier, by the database server's own clock. The engines drop their
 		///work tables when a measure is done; one is left behind only when a calculation stopped half way (an error, a closed program). Tables of
-		///another database, other tables and work tables whose creation time the server does not know are never dropped. Returns the names
+		///another database, other tables and work tables whose creation time the server does not know are never dropped. An age below
+		///WORK_TABLE_MIN_AGE_SECONDS (one hour) is raised to it here, in the code the server runs, whatever the client sent. Returns the names
 		///dropped. Called before each refresh of the Measure Calc window with WORK_TABLE_MAX_AGE_SECONDS, and by the quality measure windows (EHR-5).
 		///</summary>
 		public static List<string> DropOldWorkTables(int maxAgeSeconds) {
 			if(RemotingClient.MiddleTierRole==MiddleTierRole.ClientMT) {
 				return Meth.GetObject<List<string>>(MethodBase.GetCurrentMethod(),maxAgeSeconds);
 			}
+			return DropWorkTablesOlderThan(Math.Max(maxAgeSeconds,WORK_TABLE_MIN_AGE_SECONDS));
+		}
+
+		///<summary>DropOldWorkTables without the floor, on the server or a direct connection only (private: reached only through DropOldWorkTables,
+		///and by the tests, through reflection, to show which tables an age of 0 would drop).</summary>
+		private static List<string> DropWorkTablesOlderThan(int maxAgeSeconds) {
 			string command="SELECT TABLE_NAME,COALESCE(TIMESTAMPDIFF(SECOND,CREATE_TIME,NOW()),-1) AS AgeSeconds "
 				+"FROM information_schema.TABLES "
 				+"WHERE TABLE_SCHEMA=DATABASE() "
