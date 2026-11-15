@@ -122,10 +122,12 @@ namespace ProjectFileTests {
 			"NuGetRestoreTargets" };
 		///<summary>Properties the .NET SDK computes for an SDK-style project and this reader does not (for a classic project MSBuild leaves them
 		///'', as this reader does): the inferred runtime identifier, the package and assembly info defaults, the restore's output, the publish and
-		///package folders, the analysis level and the analyzers' switch of Microsoft.NET.Sdk.Analyzers.targets.</summary>
+		///package folders, the analysis level and the analyzers' switch of Microsoft.NET.Sdk.Analyzers.targets; and the native executable's
+		///extension (Microsoft.NET.Sdk.Shared.targets) and the container switch (Microsoft.NET.Build.Containers.targets) of an SDK-style exe, which
+		///Microsoft.Testing.Platform.MSBuild's targets (MSTest 4) read inside its targets only.</summary>
 		private static readonly string[] _arrayNotModelledSdkProperties=new[] { "RuntimeIdentifier","VersionPrefix","Authors","Company","AssemblyTitle",
 			"Product","ProjectDepsFilePath","ProjectRuntimeConfigFilePath","PublishDir","PackageOutputPath","AnalysisLevel",
-			"EffectiveAnalysisLevel","EnableNETAnalyzers" };
+			"EffectiveAnalysisLevel","EnableNETAnalyzers","_NativeExecutableExtension","EnableSdkContainerSupport" };
 		///<summary>Properties Microsoft.WebApplication.targets and the Microsoft.Web.Publishing.targets it imports set for a web application
 		///project (the Middle Tier's OpenPmsDentalServer.csproj imports them through $(VSToolsPath)), which this reader does not read: AppConfig is
 		///Web.config when the project has one. Not modelled for a project that imports them.</summary>
@@ -1037,6 +1039,15 @@ namespace ProjectFileTests {
 			}
 			if(IsValueIfKnown("DelaySign","true")==false) {
 				_dictProperties["DelaySign"]="";
+			}
+			//Line 393: BuildInParallel true unless set. Lines 7097-7100: UseMSBuildTestInfrastructure false unless set; 'true' imports
+			//Microsoft.Common.Test.targets, which this reader does not read, so one that is not known to be 'false' throws. Microsoft.Testing.Platform.MSBuild's
+			//targets (MSTest 4, S4-1), which the restore's .nuget.g.targets imports after this file, read both (the stage 4 gate's evaluator check).
+			SetIfEmpty("BuildInParallel","true");
+			SetIfEmpty("UseMSBuildTestInfrastructure","false");
+			if(IsValueIfKnown("UseMSBuildTestInfrastructure","false")!=true) {
+				throw new NotSupportedException(Describe()+": $(UseMSBuildTestInfrastructure) ("+FILE+" line 7100) is not 'false': MSBuild then imports "
+					+"Microsoft.Common.Test.targets, which ProjectFile does not model.");
 			}
 			ApplyNuGetTargetsProperties();
 		}

@@ -44,9 +44,12 @@ namespace ProjectFileTests {
 					"DirectoryBuildPropsPath",fixtureFolder.Combine(@"tests\Directory.Build.props"),"_DirectoryBuildPropsBasePath",fixtureFolder.Combine("tests"),
 					"DirectoryBuildTargetsPath",fixtureFolder.Combine("Directory.Build.targets"),"_DirectoryBuildTargetsBasePath",fixtureFolder.Root,
 					"_InitialMSBuildProjectExtensionsPath",fixtureFolder.Combine(@"tests\Classic\obj\"));
+				//Microsoft.Common.CurrentVersion.targets lines 393 and 7098, which MSTest 4's Microsoft.Testing.Platform.MSBuild targets read.
+				AssertProperties(projectFile,"BuildInParallel","true","UseMSBuildTestInfrastructure","false");
 				//The SDK's own are '' in a classic project, as MSBuild has them.
 				AssertProperties(projectFile,"DisableHandlePackageFileConflicts","","RestoreProjectStyle","","PackRelease","","IsPublishable","",
-					"CopyLocalLockFileAssemblies","","GenerateDocumentationFile","","DocumentationFile","","ProjectAssetsFile","");
+					"CopyLocalLockFileAssemblies","","GenerateDocumentationFile","","DocumentationFile","","ProjectAssetsFile","",
+					"_NativeExecutableExtension","","EnableSdkContainerSupport","");
 			}
 		}
 
@@ -107,6 +110,18 @@ namespace ProjectFileTests {
 				AssertThrows<NotSupportedException>(() => fixtureFolder.Load("Classic"),"$(CustomBeforeDirectoryBuildProps)");
 			}
 		}
+		[TestMethod]
+		public void Classic_TheTestInfrastructureSwitch_KeepsASetValueAndRefusesTheImportItMakes() {
+			using(FixtureFolder fixtureFolder=FixtureFolder.Create()) {
+				//A value the project sets stands (the common targets set them only when ''); 'true' makes MSBuild import Microsoft.Common.Test.targets,
+				//which this reader does not read.
+				fixtureFolder.EditProject("Classic","<TargetFrameworkVersion>v4.8</TargetFrameworkVersion>",
+					"<TargetFrameworkVersion>v4.8</TargetFrameworkVersion><BuildInParallel>false</BuildInParallel>");
+				AssertProperties(fixtureFolder.Load("Classic"),"BuildInParallel","false","UseMSBuildTestInfrastructure","false");
+				fixtureFolder.EditProject("Classic","<BuildInParallel>false</BuildInParallel>","<UseMSBuildTestInfrastructure>true</UseMSBuildTestInfrastructure>");
+				AssertThrows<NotSupportedException>(() => fixtureFolder.Load("Classic"),"Microsoft.Common.Test.targets");
+			}
+		}
 		#endregion The common props and targets
 
 		#region The SDK's
@@ -118,7 +133,11 @@ namespace ProjectFileTests {
 					"IsPublishable","true","CopyLocalLockFileAssemblies","true","GenerateDocumentationFile","false","DocumentationFile","",
 					"ProduceReferenceAssembly","false","Prefer32Bit","false","SubsystemVersion","6.00","HighEntropyVA","true","Utf8Output","true",
 					"PlatformTargetAsMSBuildArchitecture","x86","_TargetFrameworkVersionWithoutV","4.8",
-					"ProjectAssetsFile",fixtureFolder.Combine(@"tests\SdkStyle\obj\project.assets.json"));
+					"ProjectAssetsFile",fixtureFolder.Combine(@"tests\SdkStyle\obj\project.assets.json"),
+					"BuildInParallel","true","UseMSBuildTestInfrastructure","false");
+				//The SDK computes these two after the common targets (Microsoft.NET.Sdk.Shared.targets, Microsoft.NET.Build.Containers.targets): not modelled.
+				AssertThrows<NotSupportedException>(() => projectFile.GetProperty("_NativeExecutableExtension"),"_NativeExecutableExtension");
+				AssertThrows<NotSupportedException>(() => projectFile.GetProperty("EnableSdkContainerSupport"),"EnableSdkContainerSupport");
 			}
 		}
 
