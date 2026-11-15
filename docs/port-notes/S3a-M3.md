@@ -84,11 +84,21 @@ with the same `DataPropertyName` (was `MappingName`), heading, width and read-on
 two-state `DataGridViewCheckBoxColumn`, its rows 14 high as the table style's `PreferredRowHeight`; a table style with `AllowSorting=false`
 makes the columns not sortable. `DGCBColumn` (a column style that moved a ComboBox over the edited cell; no grid uses it, its one use is
 commented out in `GroupingCtl`) is a `DataGridViewColumn` whose cell is edited with a combo box with the column's `CB` items and style (a
-drop-down list, or an editable combo box with `ComboBoxStyle.DropDown`); an empty text is the null value, as the DataGrid's `NullText` was.
+drop-down list, or an editable combo box with `ComboBoxStyle.DropDown`); its cell's value is the text (an emptied cell: see below).
 New `DataGridViewSetup`: the current row as `CurrentRowIndex` gave it (-1 without a current cell), `SetCurrentRowIndex`, `IsCurrentRowData`
 (not the new row), `SetNotSortable`, and `CommitEdits`/`CommitOnLeave`: the DataGrid ended the current row's edit when it lost the focus, so
 what was typed reached the table when the user clicked OK; a DataGridView keeps a row's edit until another row is current. Each grid ends the
 edit when it loses the focus, and each `Apply`/`IsValid` and value-expression button ends it first; an untouched new row is not added.
+
+**An emptied cell stores "".** The DataGrid's text column (and `DGCBColumn`) committed an emptied cell as the string "": its `NullText` was
+"(null)", not "", and its string converter returns "" unchanged. A DataGridView parses an empty text (`cellStyle.NullValue`) to the column's
+`DataSourceNullValue`, DBNull by default, which the dialogs' code does not expect: `DataSetsCtl.Apply` cast a cleared query parameter Value
+to string and threw (after the panels before it had been applied), `DialogValidValues` gave an emptied label as null (main gave ""), and
+an emptied field Name counted as missing. `DataGridViewSetup.KeepEmptyText`, called by every converted grid next to `CommitOnLeave`, sets
+`DataSourceNullValue = ""` on each text and `DGCBColumn` column bound to a string column of the grid's DataTable (again when a column is
+added, its `DataPropertyName` changes or the grid gets another DataSource), so an emptied cell stores "" as before; the cells of a new row
+that are not typed into are not parsed and stay DBNull, as before. `DataSetsCtl.Apply` also writes an empty Value for a query parameter row
+that has only a Name (DBNull Value), where main threw too.
 
 ## 4. The main menus
 
@@ -150,11 +160,13 @@ Inconclusive if it has not been built):
   `ODcodeBox`'s six items and shortcuts; `SheetComboBox`'s escaped options and the click that selects; GridOD unhooking the strip it had;
   FormQuery's `BindGrid` (headings, bound names, check box and blob text columns, width and sorting, cell text in the view's order, DBNull,
   alignment).
-- `M3RdlDesignGridTests` (5): `DialogValidValues` (columns, an untouched new row not added, a typed row reaching the table when the grid loses
+- `M3RdlDesignGridTests` (7): `DialogValidValues` (columns, an untouched new row not added, a typed row reaching the table when the grid loses
   the focus and the `ValidValues` it returns, Delete on a row and on the new row); `DrillParametersDialog` (the read-only name column, a typed
   value that then passes the dialog's every-parameter-has-a-value check); `DGCBColumn` (the editing combo box with the column's items and
   style, filling it does not mark the cell changed, a drop-down list does not take a text that is not an item, an editable one does, the
-  values reach the table, a clone keeps items and style); `RdlDesigner.FindShortcutPath`; the main menu's source (MenuStrip, MDI list,
+  values reach the table, a clone keeps items and style); an emptied cell stores "" (a cleared `QueryParametersCtl` value and a new row with
+  only a name, then `DataSetsCtl.Apply` writes both with an empty Value and does not throw; an emptied `DialogValidValues` label);
+  `RdlDesigner.FindShortcutPath`; the main menu's source (MenuStrip, MDI list,
   DropDownOpening handlers, the shortcut lookup's handlers, shortcuts as Keys).
 
 Changed: `S3aM1Tests/MenuPartsTests` (DropDownMenu is gone), `S3aM1Tests/LanToolStripTests` (the ContextMenu half translates through the bridge's
@@ -163,7 +175,7 @@ Changed: `S3aM1Tests/MenuPartsTests` (DropDownMenu is gone), `S3aM1Tests/LanTool
 check J15 (`tests/WindowChecksTests/InProc/InProcChecks.IJ.cs`). `tests/M2SDVTests/ServiceDateViewUiSourceTests.cs` and
 `tests/BACCTTests/WindowTextTests.cs` read ControlAccount lines that S3a-M2 had already updated; nothing moved for them here.
 
-Runs (lane builds first; full lane build 0 errors, no compiler warning in the changed files): S3aM1Tests 59, NoHqTests 105, P262BillingTests 54,
+Runs (lane builds first; full lane build 0 errors, no compiler warning in the changed files): S3aM1Tests 61, NoHqTests 105, P262BillingTests 54,
 M2SDVTests 47, BACCTTests 41, M2HISTTests 47, MiddleTierMockTests 151, ReportTests 46; the projects whose source-text tests read a changed
 file: AttributionTests 50, BAPPTTests 61, BCLAIMTests 79, BERATests 75, BPAYTests 73, BPERIOTests 55, BPRINTTests 71, BSHELLTests 73,
 CLAIMDCMTests 41, DbConnectionSecurityTests 247 (+3 skipped), ImagingCaptureTests 806, ImagingTests 81, InventoryTests 93, LibWebTests 65,
@@ -205,7 +217,8 @@ Run the Debug x86 build on the test database as an administrator; each step a sc
    on a textbox, a table, a matrix, a chart and a subreport: their menus with the Insert submenu. Dialogs, typing into each grid and clicking
    OK without leaving the row: Data Sets (fields; Delete; Refresh Fields), the data set's Query Parameters, Data (rows typed in), Grouping
    (expressions, Up, Down, the fx button), Sorting (expression, the Sort Ascending check box), Subreport parameters, Drill-through parameters
-   (the name column read-only; Refresh Parameters), Report > Code modules and classes, a parameter's Valid Values. Reopen each: the values
+   (the name column read-only; Refresh Parameters), Report > Code modules and classes, a parameter's Valid Values. Clear a typed value (a
+   query parameter's Value, a valid value) and click OK and Apply: no error, the RDL text has the element with an empty value. Reopen each: the values
    are kept.
 7. **CentralManager.** Start CentralManager.exe and log on: the menu bar (Logoff, File, Setup, Reports, Transfer, Help, their items) above the
    window's controls, none of them covered; resize the window; right-click a connection (Refresh); with the Middle Tier, File > User Settings.

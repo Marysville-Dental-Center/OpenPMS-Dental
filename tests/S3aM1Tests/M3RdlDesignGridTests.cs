@@ -3,7 +3,8 @@
 // The dialogs are built in memory and never shown (their handles are created for the grids' editing). Checked: the columns (names, headings,
 // widths, read-only, not sortable), an edit typed into a cell that reaches the table when the grid loses the focus (as the DataGrid's edit did),
 // an untouched new row that does not, the dialog's own validation after the edit, the combo box column DGCBColumn (items, style, and a drop-down
-// list that takes only its items), and the main menu's shortcut lookup that raises the menus' Opening handlers first.
+// list that takes only its items), an emptied cell that stores "" as the DataGrid did (QueryParametersCtl with DataSetsCtl.Apply, and
+// DialogValidValues), and the main menu's shortcut lookup that raises the menus' Opening handlers first.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
 using System.Collections;
@@ -136,7 +137,7 @@ namespace S3aM1Tests {
 			M2Support.RunSta(() => {
 				System.Xml.XmlDocument xmlDocument=new System.Xml.XmlDocument();
 				xmlDocument.LoadXml(REPORT_QUERY_PARAMETER);
-				using(UserControl draw=(UserControl)Create("DesignXmlDraw"))
+				using(UserControl draw=(UserControl)Activator.CreateInstance(GetType("DesignXmlDraw"),nonPublic:true))//its static constructor makes Create ambiguous
 				using(Form form=new Form()) {
 					Priv.Set(draw,"ReportDocument",xmlDocument);
 					System.Xml.XmlNode nodeDataSet=xmlDocument.SelectSingleNode("/Report/DataSets/DataSet");
