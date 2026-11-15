@@ -171,6 +171,7 @@ namespace GoldenOutputTests {
 		public void PhoneAndTinMissing_BatchRefused_ListsBoth() {
 			Clearinghouse clearinghouseClin=GetClearinghouseWithoutSender(GoldenData.ClearinghouseNum5010);
 			long provNumDefault=PrefC.GetLong(PrefName.PracticeDefaultProv);
+			string phonePractice=PrefC.GetString(PrefName.PracticePhone);
 			Prefs.UpdateString(PrefName.PracticePhone,"555010");
 			Prefs.UpdateLong(PrefName.PracticeDefaultProv,0);
 			Cache.Refresh(InvalidType.Prefs);
@@ -182,7 +183,7 @@ namespace GoldenOutputTests {
 				AssertNoOpenDentalInc(odException.Message);
 			}
 			finally {
-				Prefs.UpdateString(PrefName.PracticePhone,"5035550100");
+				Prefs.UpdateString(PrefName.PracticePhone,phonePractice);
 				Prefs.UpdateLong(PrefName.PracticeDefaultProv,provNumDefault);
 				Cache.Refresh(InvalidType.Prefs);
 			}

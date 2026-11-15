@@ -138,3 +138,23 @@ P262ClaimsTests 42, NoHqTests 84, MiddleTierMockTests 151.
 - ISA05 (the sender ID qualifier) stays as set: ZZ (mutually defined) is usual; some clearinghouses want 30 (federal TIN) for a TIN.
 - Emdeon (ISA08 0135WCH00) still requires 'The practice is the "sender"'; Emdeon may need the practice registered as its submitter first.
 - Send one test batch (ISA15 T) after the change and check the clearinghouse's acknowledgement (997/999) before sending production claims.
+
+## Lead fixes and notes at the merge (from the reviews)
+
+- **ClaimConnect.ValidateClaim** checks the sender before it takes a batch number, so a refused validation no longer uses one up.
+- **Emdeon in FormClearinghouseEdit.** The refusal of a Sender TIN for Emdeon (ISA08 `0135WCH00`) is gone. The practice is always the
+  sender now: through its billing provider (blank Sender TIN) or through a submitter ID Emdeon gives it, entered under "The information
+  below identifies the sender". The row for `FormClearinghouseEdit.cs:491` in section 1 is superseded by this.
+- **Golden test.** `PhoneAndTinMissing_BatchRefused_ListsBoth` restores the practice phone it read before the test, not a fixed value.
+- **No x12s_ database.** The rule tests need no database. The batch tests use GoldenOutputTests' own synthetic per-run `gold_` database on
+  127.0.0.1, which `GoldenDb` drops at the end, so no x12s_ database was made.
+- **Owner questions, in docs/owner-questions.md:**
+  - a billing provider marked SSN (not TIN) is refused as the sender;
+  - clinics that are separate businesses are named with the practice title;
+  - the Emdeon Dental 270's ISA06 `316:`+login (`X270.cs:33`), where 316 may be Open Dental Inc's vendor number at Emdeon.
+- **Later cleanups:**
+  - The 270 is refused for a missing title or phone, although it writes only the TIN. That follows the one rule for every writer; relax it
+    if the owner prefers.
+  - Name the Treating Provider case in the refusal text.
+  - Build the refusal from whole translatable sentences.
+  - Add a `gold_` test with clinics turned on.
