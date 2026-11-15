@@ -113,8 +113,9 @@ namespace ServiceManager {
 				string standardOutput;
 				int exitCode;
 				ServicesHelper.Install(serviceName,_serviceFileInfo,out standardOutput,out exitCode);
-				if(exitCode!=0) {
-					MessageBox.Show("Error. Exit code: "+exitCode+"\r\n"+standardOutput.Trim());
+				int errorCode=ServicesHelper.GetScErrorCode(exitCode,standardOutput);
+				if(errorCode!=0) {
+					MessageBox.Show("Error. Exit code: "+errorCode+"\r\n"+ServicesHelper.GetScErrorText(errorCode)+"\r\n"+standardOutput.Trim());
 				}
 			}
 			catch(Exception ex) {
@@ -152,9 +153,19 @@ namespace ServiceManager {
 				string standardOutput;
 				int exitCode;
 				ServicesHelper.Uninstall(textName.Text,out standardOutput,out exitCode);
-				if(exitCode!=0) {
-					MessageBox.Show("Error. Exit code: "+exitCode+"\r\n"+standardOutput.Trim());
-					return;
+				if(ServicesHelper.IsMySQLService(textPathToExe.Text)) {
+					//mysqld.exe --remove: its own exit code, not sc.exe's.
+					if(exitCode!=0) {
+						MessageBox.Show("Error. Exit code: "+exitCode+"\r\n"+standardOutput.Trim());
+						return;
+					}
+				}
+				else {
+					int errorCode=ServicesHelper.GetScErrorCode(exitCode,standardOutput);
+					if(errorCode!=0) {
+						MessageBox.Show("Error. Exit code: "+errorCode+"\r\n"+ServicesHelper.GetScErrorText(errorCode)+"\r\n"+standardOutput.Trim());
+						return;
+					}
 				}
 			}
 			catch(Exception ex) {
