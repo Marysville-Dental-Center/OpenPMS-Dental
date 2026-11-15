@@ -178,8 +178,19 @@ afterwards.
 - `tc8-host-record1.txt` and `tc8-host-record2.txt`: the host baselines recorded (the first found the 2D picture's own format).
 - `tc8-host-gallery-after*.txt` and `tc8-host-gallery-before.txt`: the gallery's pictures (section 4); the "before" run drew the window of
   `main` (put back for that run only, then restored), so its two window tests failed there as expected.
-- **`tc8-targeted-1.txt`** (after the full build): RESULTS_PLACEHOLDER
-- `tools/Test-NoEolFlips.ps1` against `main`: EOL_PLACEHOLDER
+- **`tc8-targeted-1.txt`** (after the full build, at `dde274036`): all 25 assemblies passed, 0 failed. **ToothChartImageTests 254: 250
+  passed, 0 failed, 4 skipped** (the legacy recorder and its comparison, the gallery writer and the opt-in on-screen times); **ToothChartHostTests 15: 14
+  passed, 1 skipped** (the gallery's window picture, gallery only); BINATests 34, BPERIOTests 55, M2SHEETSTests 53, SheetTests 31, BTPTests 38,
+  BPRINTTests 71, ChartLetterTests 45, NoHqTests 110, LibraryBindingTests 20, S3aM1Tests 61 and ProjectFileTests 150 (149 passed, 1 skipped:
+  the project baseline check, which needs its record) passed. Also the projects whose source tests read a changed file or the solution:
+  N64ATests 34, P262LinksTests 61, P262PerioTests 36, M2MISCTests 97, ReleaseFlowTests 206 (5 skipped), LibSpellTests 23, LibWebTests 65,
+  LibraryUpdateTests 138, MiddleTierMockTests 151, PdfLibraryTests 41, ReportTests 46 and VendorDirectTests 941, all passed.
+- **`tc8-targeted-docs.txt`** (after the docs commit; the projects whose tests read `docs/owner-questions.md`, `docs/release-notes/next.md`
+  or the plan): BSHELLTests 73, DbConnectionSecurityTests 250 (3 skipped), InventoryTests 93, LibraryBindingTests 20, ODOPTSTests 57,
+  P262SchemaTests 28 (4 skipped), PdfLibraryTests 41, ReleaseFlowTests 206 (5 skipped) and NoHqTests 110: all passed.
+- Not run: InitSqlTests and ForkMigrationTests (the coordinator's), and `tests/WindowChecksTests`, which starts the program (section 6).
+- `tools/Test-NoEolFlips.ps1` against `main`: 23 changed text files (before the docs), none changed its line ends; again after the docs (section
+  3.3's last run).
 
 ## 4. Gallery G4, TC-8's part
 
