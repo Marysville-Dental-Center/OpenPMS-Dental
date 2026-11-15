@@ -1,9 +1,10 @@
 // The x64 build of Direct2dWrapper (S3a-16 of the .NET 10 move, docs/port-notes/S3a-16.md): its x64 configurations build into
 // Direct2dWrapper\bin\x64\<Configuration>\ and copy nothing, so the program's folder keeps the x86 DLL of the Win32 build; the x64 DLL exports the
 // same functions as the Win32 one, every entry point the program imports among them; the x64 build treats the pointer-truncation warnings C4311
-// and C4312 as errors; and the solution maps Any CPU to Win32, as x86. The x64 DLL is built by the stage gates (port note, section 5), not by
-// the build lane's slnf build: a test that reads it is inconclusive while it is not built, and fails when OPMS_REQUIRE_BUILD_OUTPUT=1. S3b-4
-// copies the x64 DLL into the program's output and removes the Win32 configurations.
+// and C4312 as errors; and the solution maps Any CPU to Win32, as x86. The x64 DLL is built by the stage gates (port note, section 4), not by
+// the build lane's slnf build: a test that reads it is inconclusive while it is not built, also when OPMS_REQUIRE_BUILD_OUTPUT=1; the gate
+// enforces the x64 build through its two lane build commands, each of which must exit 0. S3b-4 copies the x64 DLL into the program's output
+// and removes the Win32 configurations.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
 using System.Collections.Generic;
@@ -24,10 +25,14 @@ namespace ReleaseFlowTests {
 		private const int MACHINE_X64=0x8664;
 		private static readonly string[] _arrayConfigurations=new[] { "Debug","Release" };
 
-		///<summary>Direct2dWrapper\bin\x64\configuration\Direct2dWrapper.dll, or the test ends through BuildOutput.NotBuilt.</summary>
+		///<summary>Direct2dWrapper\bin\x64\configuration\Direct2dWrapper.dll, or the test ends inconclusive. Not BuildOutput.RequireFile: no slnf
+		///build and no lane step builds the x64 DLL, so OPMS_REQUIRE_BUILD_OUTPUT=1 (set by every lane test run) must not fail the test; the gate
+		///enforces the x64 build through its two lane build commands (port note, section 4), each of which must exit 0.</summary>
 		private static string GetX64Dll(string configuration) {
 			string path=Path.Combine(TestPaths.RepoRoot,"Direct2dWrapper","bin","x64",configuration,DLL);
-			BuildOutput.RequireFile(path,@"Direct2dWrapper\bin\x64\"+configuration+@"\"+DLL+" is not built: build Direct2dWrapper x64 (the gate does).");
+			if(!File.Exists(path)) {
+				Assert.Inconclusive(@"Direct2dWrapper\bin\x64\"+configuration+@"\"+DLL+" is not built: build Direct2dWrapper x64 (the gate does).");
+			}
 			return path;
 		}
 

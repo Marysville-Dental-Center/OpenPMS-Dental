@@ -944,7 +944,9 @@ errors; the project's `Any CPU` mappings in `OpenDental.sln` go to Win32 (four l
 build and its copy into the program's folder are unchanged. First step: both x64 configurations build with the installed v143 (MSVC
 14.44.35207), no C4311 or C4312 before or after, so no C++ change. New `tests/ReleaseFlowTests/Direct2dWrapperX64Tests.cs`: the x64 DLL is
 0x8664, the program folder's copy 0x14C and the Win32 build's bytes, the x64 exports equal the Win32 ones and hold all 66 imports of the
-program (Mono.Cecil, cross-checked with `Direct2d.cs`). For the lead: the gate's two lane commands (port note, section 4).
+program (Mono.Cecil, cross-checked with `Direct2d.cs`); without the x64 build output those tests are inconclusive (not failed, also with
+`OPMS_REQUIRE_BUILD_OUTPUT=1`; fix on `net10/s3a16-2`). For the lead: the gate's two lane commands, which enforce the x64 build (port
+note, section 4).
 
 **Full-test gate.** Section 3, plus: the golden outputs and known answers recorded and committed; the source-scan tests pass; the
 launch checks for 3a (section 6) done with screenshots, including a self-update from a standard user; the x64 test runs (S3a-12, S3a-15)
