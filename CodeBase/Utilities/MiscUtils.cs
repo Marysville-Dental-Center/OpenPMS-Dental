@@ -23,8 +23,15 @@ namespace CodeBase {
 		private static string[] _arrayShortDataSizes=new string[] { "B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB" };
 		private const int KILOBYTE=1024;
 
-		[DllImport("user32.dll")]
-		public static extern int SendMessage(IntPtr hWnd,int wMsg,int wParam,int lParam);
+		///<summary>SendMessage with the int arguments the callers pass. WPARAM, LPARAM and the LRESULT are pointer-sized (8 bytes in a 64-bit
+		///process): the ints are widened here as C widens them (sign-extended) and the result is cut to its low 32 bits. In a 32-bit process this
+		///is the call it always was.</summary>
+		public static int SendMessage(IntPtr hWnd,int wMsg,int wParam,int lParam) {
+			return unchecked((int)SendMessagePtr(hWnd,wMsg,new IntPtr(wParam),new IntPtr(lParam)).ToInt64());
+		}
+
+		[DllImport("user32.dll",EntryPoint="SendMessage")]
+		private static extern IntPtr SendMessagePtr(IntPtr hWnd,int wMsg,IntPtr wParam,IntPtr lParam);
 
 		public static string CreateRandomAlphaNumericString(int length){
 			string result="";

@@ -409,13 +409,15 @@ namespace OpenPmsDental{
 
 		///<summary>Returns true if the Snipping Tool exe can be located.  False otherwise.</summary>
 		public static bool DoesSnippingToolExist() {
-			string windowsFolder=Environment.GetFolderPath(Environment.SpecialFolder.Windows);
-			string snippingToolPath32=$"{windowsFolder}\\sysnative\\SnippingTool.exe";
-			string snippingToolPath64=$"{windowsFolder}\\system32\\SnippingTool.exe";
-			if(System.IO.File.Exists(snippingToolPath64) || System.IO.File.Exists(snippingToolPath32)) {
-				return true;
-			}
-			return false;
+			//The path the start below uses: Sysnative in a 32-bit process on 64-bit Windows, System32 otherwise (ODSystemFolders).
+			return System.IO.File.Exists(GetSnippingToolPath());
+		}
+
+		///<summary>SnippingTool.exe in the folder of the 64-bit Windows tools as this process must name it: Sysnative for a 32-bit process on
+		///64-bit Windows (WOW64 would redirect System32 to SysWOW64, which has no Snipping Tool), System32 for a 64-bit process or on 32-bit
+		///Windows (Sysnative exists only for a 32-bit process).</summary>
+		public static string GetSnippingToolPath() {
+			return System.IO.Path.Combine(ODSystemFolders.GetNativeSystemFolder(),"SnippingTool.exe");
 		}
 
 		///<summary>Attempts to start Snip & Sketch, then Snipping Tool if that fails. Returns true if either started, false if neither did.</summary>
@@ -437,14 +439,7 @@ namespace OpenPmsDental{
 			if(DoesSnippingToolExist()) {
 				Process processSnippingTool=new Process();
 				processSnippingTool.StartInfo.UseShellExecute=true;//Through the shell, the .NET Framework default (the .NET default is false).
-				string pathToSnippingTool;
-				if(!Environment.Is64BitOperatingSystem) {
-					pathToSnippingTool="sysnative";
-				}
-				else {
-					pathToSnippingTool="system32";
-				}
-				processSnippingTool.StartInfo.FileName=$"{Environment.GetFolderPath(Environment.SpecialFolder.Windows)}\\{pathToSnippingTool}\\SnippingTool.exe";
+				processSnippingTool.StartInfo.FileName=GetSnippingToolPath();
 				try {
 					processSnippingTool.Start();
 				}

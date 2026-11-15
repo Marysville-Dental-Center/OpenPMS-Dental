@@ -38,7 +38,7 @@ namespace ImagingDeviceManager.TwainProtocol {
 			}
 			IntPtr hwndRoot=GetUsableRoot(hwnd);
 			if(hwndRoot!=_hwndOwner) {
-				NativeMethods.SetWindowLong(Handle,NativeMethods.GWL_HWNDPARENT,hwndRoot.ToInt32());
+				NativeMethods.SetWindowLongPtr(Handle,NativeMethods.GWL_HWNDPARENT,hwndRoot);
 				_hwndOwner=hwndRoot;
 			}
 			RECT rect;

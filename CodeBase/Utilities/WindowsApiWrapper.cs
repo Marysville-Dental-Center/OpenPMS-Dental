@@ -718,15 +718,26 @@ namespace CodeBase {
 			SWP_NOSENDCHANGING = 0x0400,
 		};
 
-		[DllImport("User32.dll",EntryPoint="SendMessage",CharSet=CharSet.Auto)]
-		public static extern int SendMessage(IntPtr hWnd,int msg,int wparam,IntPtr lparam);
+		//SendMessage with the int arguments the callers pass. WPARAM, LPARAM and the LRESULT are pointer-sized (8 bytes in a 64-bit process): the
+		//ints are widened here as C widens them (sign-extended) and the result is cut to its low 32 bits. In a 32-bit process these are the calls
+		//they always were.
+		public static int SendMessage(IntPtr hWnd,int msg,int wparam,IntPtr lparam) {
+			return unchecked((int)SendMessagePtr(hWnd,msg,new IntPtr(wparam),lparam).ToInt64());
+		}
+
+		public static int SendMessage(IntPtr hWnd,int msg,int wparam,int lparam) {
+			return unchecked((int)SendMessagePtr(hWnd,msg,new IntPtr(wparam),new IntPtr(lparam)).ToInt64());
+		}
+
+		public static int SendMessage(IntPtr hWnd,int msg,IntPtr wparam,int lparam) {
+			return unchecked((int)SendMessagePtr(hWnd,msg,wparam,new IntPtr(lparam)).ToInt64());
+		}
 
 		[DllImport("User32.dll",EntryPoint="SendMessage",CharSet=CharSet.Auto)]
-		public static extern int SendMessage(IntPtr hWnd,int msg,int wparam,int lparam);
+		private static extern IntPtr SendMessagePtr(IntPtr hWnd,int msg,IntPtr wparam,IntPtr lparam);
 
-		[DllImport("User32.dll",EntryPoint = "SendMessage",CharSet = CharSet.Auto)]
-		public static extern int SendMessage(IntPtr hWnd,int msg,IntPtr wparam,int lparam);
-
+		///<summary>For messages whose WPARAM and LPARAM are pointers to DWORDs the window writes (EM_GETSEL): out int passes a pointer, which is
+		///pointer-sized in either bitness. The LRESULT is cut to its low 32 bits.</summary>
 		[DllImport("User32.dll",EntryPoint="SendMessage",CharSet=CharSet.Auto)]
 		public static extern int SendMessageRef(IntPtr hWnd,int msg,out int wparam,out int lparam);
 	}

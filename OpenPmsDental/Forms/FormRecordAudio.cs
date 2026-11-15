@@ -20,7 +20,7 @@ namespace OpenPmsDental {
 		/// <summary>mciSendString uses command strings to control MCI devices.  This link gives an example of using mciSendString():
 		/// http://stackoverflow.com/questions/3694274/how-do-i-record-audio-with-c-wpf. </summary>
 		[DllImport("winmm.dll",EntryPoint="mciSendStringA",CharSet=CharSet.Ansi,SetLastError=true,ExactSpelling=true)]
-		private static extern int mciSendString(string lpstrCommand,string lpstrReturnString,int uReturnLength,int hwndCallback);
+		private static extern int mciSendString(string lpstrCommand,string lpstrReturnString,int uReturnLength,IntPtr hwndCallback);//hwndCallback is a HANDLE, pointer-sized
 
 		private void FormRecordAudio_Load(object sender,EventArgs e) {
 			butPlay.Enabled=false;
@@ -35,8 +35,8 @@ namespace OpenPmsDental {
 			if(butStart.Text==Lan.g(this,"Record")) {
 				timerRecord.Start();
 				_dateRecordStart=DateTime.Now;
-				mciSendString("open new Type waveaudio Alias recsound","",0,0);
-				mciSendString("record recsound","",0,0);
+				mciSendString("open new Type waveaudio Alias recsound","",0,IntPtr.Zero);
+				mciSendString("record recsound","",0,IntPtr.Zero);
 				butStart.Text=Lan.g(this,"Stop");
 				butStart.Image=imageListMain.Images[1];
 				butPlay.Enabled=false;
@@ -46,8 +46,8 @@ namespace OpenPmsDental {
 			//butStart.Text=="Stop"
 			timerRecord.Stop();
 			_tempPath=ODFileUtils.CombinePaths(PrefC.GetTempFolderPath(),"recsound"+".wav");
-			mciSendString("save recsound "+_tempPath,"",0,0);
-			mciSendString("close recsound ","",0,0);
+			mciSendString("save recsound "+_tempPath,"",0,IntPtr.Zero);
+			mciSendString("close recsound ","",0,IntPtr.Zero);
 			butStart.Text=Lan.g(this,"Record");
 			butStart.Image=imageListMain.Images[0];
 			butPlay.Enabled=true;

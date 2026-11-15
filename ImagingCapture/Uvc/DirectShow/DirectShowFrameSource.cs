@@ -675,8 +675,10 @@ namespace ImagingCapture.Uvc.DirectShow {
 					}
 					return;
 				}
-				int value1=param1.ToInt32();
-				int value2=param2.ToInt32();
+				//The event parameters are LONG_PTR. EC_ERRORABORT's first is an HRESULT and EC_DEVICE_LOST's first an IUnknown pointer, which in a
+				//64-bit process need not fit an int: take the low 32 bits (all there is in a 32-bit process) instead of ToInt32, which would throw.
+				int value1=unchecked((int)param1.ToInt64());
+				int value2=unchecked((int)param2.ToInt64());
 				mediaEventEx.FreeEventParams(eventCode,param1,param2);
 				if(eventCode==Ds.EC_DEVICE_LOST && value2==0) {
 					RaiseErrorAsync(UvcErrorKind.DeviceLost,0,"The camera was removed (EC_DEVICE_LOST).");

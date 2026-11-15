@@ -912,6 +912,18 @@ as marked bridges, listed in the note's section 3 for M2/M3 to remove. Review fi
 M2SHELLTests, BPRINTTests, MaintenanceTests, InventoryTests, NoHqTests, MiddleTierMockTests, P262BillingTests, AttributionTests). The
 launch checks (note, section 5) stay the gate's.
 
+**Status (2026-11-15), S3a-12.** Merged from `net10/s3a12-1` (`docs/port-notes/S3a-12.md`; lead notes in section 13: the Direct2d bool is a second x86 difference), the first of wave 3. TWAIN: the
+`MSG` offsets come from a declared `MSG` (in x64 the old offset 4 read half the window handle, so the loop never saw its timers: the x64 hang
+after 87 tests); the owner window through a `SetWindowLongPtr` pair chosen by bitness; `NativeTwainDsm` loads in a 64-bit process, only the
+64-bit `TWAINDSM.dll` of System32; the structures checked against twain.h (unchanged, sizes and offsets in an x86/x64 table) and
+`TW_INFO`'s inline rule kept at the specification's four bytes. DirectShow: the graph event parameters without `ToInt32`; its layouts in an
+x86/x64 table. CodeBase's `SendMessage` overloads, Owandy's, Dpi's `WPARAM` and `DPI_AWARENESS_CONTEXT` handles, Schick's window handle, the
+MCI callback and `APPBARDATA.lParam` pointer-sized; `Direct2dWrapper`'s two `Delete` entry points `void` and its `bool` result one byte; the
+Trojan key read in the 32-bit view; `CodeBase.ODSystemFolders` for Sysnative (the image import window's Snipping Tool test was reversed: the
+one x86 change) and the on-screen keyboard's WOW64 redirection. New `NoHqTests/PointerSizeScanTests.cs` and
+`tests/ImagingCaptureTests/PointerSizeInteropTests.cs`. x64 runs (the lane's x64 test build): ImagingDeviceManagerTests 534 and
+ImagingCaptureTests 806 passed; x86 targeted runs green; the launch check (a TWAIN scan on the x86 build) is the gate's (note section 11).
+
 **Full-test gate.** Section 3, plus: the golden outputs and known answers recorded and committed; the source-scan tests pass; the
 launch checks for 3a (section 6) done with screenshots, including a self-update from a standard user; the x64 test runs (S3a-12, S3a-15)
 and the x64 build of `Direct2dWrapper` (S3a-16) pass; the helper's tests pass, and its links are launch-checked where a test PC has the

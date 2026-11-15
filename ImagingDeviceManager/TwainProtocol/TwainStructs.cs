@@ -4,8 +4,10 @@ using System;
 using System.Runtime.InteropServices;
 
 namespace ImagingDeviceManager.TwainProtocol {
-	//TWAIN data structures as laid out on 32-bit Windows: two-byte packing, 4-byte pointers and handles.
-	//Unit tests check every size against the TWAIN specification.
+	//TWAIN data structures as twain.h (TWAIN 2.x) lays them out on Windows: two-byte packing in both bitnesses. TW_HANDLE, TW_MEMREF and
+	//TW_UINTPTR are pointer-sized (IntPtr: 4 bytes in a 32-bit process, 8 in a 64-bit one); TW_UINT32 and TW_INT32 stay 4 bytes, and so does
+	//TW_IDENTITY.Id on Windows. Where a size differs, the summary gives both (x86/x64). Unit tests check every size and offset against a
+	//table with an x86 and an x64 column (TwainProtocolTests).
 
 	///<summary>TW_FIX32: fixed point number, whole part plus 1/65536 fraction.</summary>
 	[StructLayout(LayoutKind.Sequential,Pack=2)]
@@ -59,7 +61,7 @@ namespace ImagingDeviceManager.TwainProtocol {
 		public string ProductName;
 	}
 
-	///<summary>TW_USERINTERFACE. 8 bytes.</summary>
+	///<summary>TW_USERINTERFACE. 8 bytes (x86) or 12 (x64): hParent is a TW_HANDLE.</summary>
 	[StructLayout(LayoutKind.Sequential,Pack=2)]
 	internal struct TW_USERINTERFACE {
 		public ushort ShowUI;
@@ -67,7 +69,7 @@ namespace ImagingDeviceManager.TwainProtocol {
 		public IntPtr hParent;
 	}
 
-	///<summary>TW_EVENT. 6 bytes. pEvent points to a Windows MSG.</summary>
+	///<summary>TW_EVENT. 6 bytes (x86) or 10 (x64): pEvent is a TW_MEMREF that points to a Windows MSG (NativeMethods.MSG).</summary>
 	[StructLayout(LayoutKind.Sequential,Pack=2)]
 	internal struct TW_EVENT {
 		public IntPtr pEvent;
@@ -88,7 +90,7 @@ namespace ImagingDeviceManager.TwainProtocol {
 		public ushort Data;
 	}
 
-	///<summary>TW_STATUSUTF8. 12 bytes. Status is the input; Size (bytes including the terminating NUL) and the UTF8string handle,
+	///<summary>TW_STATUSUTF8. 12 bytes (x86) or 16 (x64). Status is the input; Size (bytes including the terminating NUL) and the UTF8string handle,
 	///which the application frees (TWAIN 2.4 p.8-61), are the output.</summary>
 	[StructLayout(LayoutKind.Sequential,Pack=2)]
 	internal struct TW_STATUSUTF8 {
@@ -97,7 +99,7 @@ namespace ImagingDeviceManager.TwainProtocol {
 		public IntPtr UTF8string;
 	}
 
-	///<summary>TW_CAPABILITY. 8 bytes. hContainer is a handle to a TW_ONEVALUE, TW_ENUMERATION, TW_ARRAY or TW_RANGE.</summary>
+	///<summary>TW_CAPABILITY. 8 bytes (x86) or 12 (x64). hContainer is a handle to a TW_ONEVALUE, TW_ENUMERATION, TW_ARRAY or TW_RANGE.</summary>
 	[StructLayout(LayoutKind.Sequential,Pack=2)]
 	internal struct TW_CAPABILITY {
 		public ushort Cap;
@@ -129,7 +131,7 @@ namespace ImagingDeviceManager.TwainProtocol {
 		public uint Preferred;
 	}
 
-	///<summary>TW_MEMORY. 12 bytes.</summary>
+	///<summary>TW_MEMORY. 12 bytes (x86) or 16 (x64): TheMem is a TW_MEMREF.</summary>
 	[StructLayout(LayoutKind.Sequential,Pack=2)]
 	internal struct TW_MEMORY {
 		public uint Flags;
@@ -137,7 +139,7 @@ namespace ImagingDeviceManager.TwainProtocol {
 		public IntPtr TheMem;
 	}
 
-	///<summary>TW_IMAGEMEMXFER. 38 bytes. One strip (or tile) of a memory transfer.</summary>
+	///<summary>TW_IMAGEMEMXFER. 38 bytes (x86) or 42 (x64). One strip (or tile) of a memory transfer.</summary>
 	[StructLayout(LayoutKind.Sequential,Pack=2)]
 	internal struct TW_IMAGEMEMXFER {
 		public ushort Compression;
@@ -159,8 +161,8 @@ namespace ImagingDeviceManager.TwainProtocol {
 		public byte[] Colors;
 	}
 
-	///<summary>TW_INFO. 12 bytes. One item of a TW_EXTIMAGEINFO (TWAIN 2.4 p.8-43). Item holds the data itself when it fits in 4 bytes,
-	///otherwise a handle to it, which the application frees (TwExtImageInfo.IsItemHandle).</summary>
+	///<summary>TW_INFO. 12 bytes (x86) or 16 (x64): Item is a TW_UINTPTR. One item of a TW_EXTIMAGEINFO (TWAIN 2.4 p.8-43). Item holds the data
+	///itself when it is at most 4 bytes, otherwise a handle to it, which the application frees (TwExtImageInfo.IsItemHandle).</summary>
 	[StructLayout(LayoutKind.Sequential,Pack=2)]
 	internal struct TW_INFO {
 		public ushort InfoID;
@@ -184,17 +186,22 @@ namespace ImagingDeviceManager.TwainProtocol {
 			return NumInfosSize+index*InfoSize;
 		}
 
+		///<summary>The largest data, in bytes, that a source stores in TW_INFO.Item itself, in both bitnesses: the specification's "four bytes"
+		///(TWAIN 2.4 p.8-43), written when Item was 4 bytes wide. The field is a TW_UINTPTR, 8 bytes in a 64-bit process, but the rule names a
+		///size, not the field, so 5 to 8 bytes of data still come as a handle there. Data of up to 4 bytes fits the field in either bitness.</summary>
+		public const int MaxInlineItemBytes=4;
+
 		///<summary>True when TW_INFO.Item of a successful item is a handle the application frees: a TWTY_HANDLE item, or data larger than
-		///the 4 bytes of the field (TWAIN 2.4 pp.8-25, 8-43).</summary>
+		///MaxInlineItemBytes (TWAIN 2.4 pp.8-25, 8-43). The same in both bitnesses.</summary>
 		public static bool IsItemHandle(ushort itemType,ushort numItems) {
 			if(itemType==Tw.TWTY_HANDLE) {
 				return true;
 			}
-			return (long)TwContainer.ItemSize(itemType)*numItems>4;
+			return (long)TwContainer.ItemSize(itemType)*numItems>MaxInlineItemBytes;
 		}
 	}
 
-	///<summary>TW_ENTRYPOINT. 24 bytes. Memory management functions provided by a version 2 Data Source Manager.</summary>
+	///<summary>TW_ENTRYPOINT. 24 bytes (x86) or 44 (x64): five function pointers after Size. Memory management functions provided by a version 2 Data Source Manager.</summary>
 	[StructLayout(LayoutKind.Sequential,Pack=2)]
 	internal struct TW_ENTRYPOINT {
 		public uint Size;

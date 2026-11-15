@@ -32,13 +32,15 @@ namespace ImagingDeviceManager.Tests {
 
 		[TestMethod]
 		public void ExtImageInfoStructures_HaveTwainSizes() {
-			Assert.AreEqual(12,Marshal.SizeOf(typeof(TW_INFO)),"TW_INFO: four UINT16 and a 4-byte TW_UINTPTR.");
-			Assert.AreEqual(4+3*12,TwExtImageInfo.GetSize(3));
-			Assert.AreEqual(4+12,TwExtImageInfo.GetInfoOffset(1));
+			//TW_UINTPTR is 4 bytes in a 32-bit process and 8 in a 64-bit one (S3a-12: the lane runs this assembly in both bitnesses).
+			int sizeInfo=IntPtr.Size==8 ? 16 : 12;
+			Assert.AreEqual(sizeInfo,Marshal.SizeOf(typeof(TW_INFO)),"TW_INFO: four UINT16 and a TW_UINTPTR.");
+			Assert.AreEqual(4+3*sizeInfo,TwExtImageInfo.GetSize(3));
+			Assert.AreEqual(4+sizeInfo,TwExtImageInfo.GetInfoOffset(1));
 			Assert.IsTrue(TwExtImageInfo.IsItemHandle(Tw.TWTY_HANDLE,1),"A TWTY_HANDLE item is a handle.");
 			Assert.IsFalse(TwExtImageInfo.IsItemHandle(Tw.TWTY_UINT16,1),"2 bytes fit in Item.");
 			Assert.IsFalse(TwExtImageInfo.IsItemHandle(Tw.TWTY_UINT32,1),"4 bytes fit in Item.");
-			Assert.IsTrue(TwExtImageInfo.IsItemHandle(Tw.TWTY_UINT32,2),"8 bytes do not.");
+			Assert.IsTrue(TwExtImageInfo.IsItemHandle(Tw.TWTY_UINT32,2),"8 bytes do not, also where Item is 8 bytes wide.");
 			Assert.IsTrue(TwExtImageInfo.IsItemHandle(Tw.TWTY_STR255,1));
 			Assert.IsTrue(TwExtImageInfo.IsItemHandle(Tw.TWTY_FRAME,1));
 		}
