@@ -135,7 +135,7 @@ namespace WindowChecksTests {
 		[TestMethod]
 		public void CheckResult_TextRoundTrip_KeepsEveryField() {
 			CheckResult checkResult=new CheckResult("I4","Title with\ttab and \"quotes\"");
-			checkResult.Verified("verified é\r\nsecond line");
+			checkResult.Verified("verified \u00e9\r\nsecond line");
 			checkResult.Verified("");
 			checkResult.ForPerson("for a person");
 			checkResult.Fail("failed: (evidence)");
