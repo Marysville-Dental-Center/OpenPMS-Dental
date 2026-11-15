@@ -52,6 +52,8 @@ What this version brings, each in its section below (the roadmap's "Done in the 
 - saved Middle Tier passwords move from the Windows PasswordVault to the Windows Credential Manager on first use; nothing to re-enter;
 - the self-update gets ready for the coming 64-bit version: it never publishes over a release it cannot read, and refuses a release built
   for another runtime with a message to run the new setup;
+- the DirectX and OpenGL tooth charts checked for the coming 64-bit version: a computer where one cannot start uses the next one, down
+  to Simple 2D, as today;
 - two new entries in Help > About > View Licenses, Helix Toolkit and the .NET Community Toolkit: libraries for the coming 3D tooth chart,
   installed with the program from this version on (the tooth chart itself does not change yet);
 - the tooth chart: completed extractions shown with an X, on by default as in Open Dental 26.2, the paint type TextBelow (Open Dental
@@ -417,6 +419,15 @@ release built for another runtime or architecture, such as the 64-bit version, w
 way with "This workstation cannot update itself to that release: run the new setup on it." Update Setup's Recopy refuses both cases too.
 The update itself works as before: UpdateFileCopier now runs from its own temp folder (`%TEMP%\openpms-dental\ForkReleaseCopier`), and
 Windows still asks for administrator consent before it copies the files.
+
+## The tooth chart: ready for the 64-bit version
+
+Nothing changes in this version. The DirectX and OpenGL tooth charts stay in the coming 64-bit version until the coming 3D chart replaces
+them; their libraries were checked to run in a 64-bit program, and both charts started and drew there on the test computer. As today, a
+computer where the DirectX chart cannot start uses the OpenGL chart, and one where OpenGL cannot start either uses the Simple 2D chart,
+without an error message (the ToothChart log names the reason once). The DirectX
+chart needs Microsoft's DirectX End-User Runtime (`d3dx9_43.dll`), and the 64-bit version needs its 64-bit part: a 64-bit computer that
+has only the 32-bit part shows the OpenGL chart in the 64-bit version. The runtime's installer puts both parts on 64-bit Windows.
 
 ## Switch-over: Insurance History leaves the frequency code groups alone
 

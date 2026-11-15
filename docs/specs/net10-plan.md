@@ -952,6 +952,18 @@ lines, updated here. New tests in `tests/S3aM1Tests` (M2 files, 19, no window, p
 BAPPTTests, BACCTTests, BIMGTests, BTASKTests, S3aM1Tests, NoHqTests, MiddleTierMockTests and the 29 projects whose source-text tests read a
 changed file); full lane build 0 errors. The launch checks (note, section 7) stay the gate's.
 
+**Status (2026-11-15), S3a-15.** Merged from `net10/s3a15-3` (`docs/port-notes/S3a-15.md`; lead fix: an undrawn fallback is reported, not failed): the row's decision holds, and the
+x64 run found no fault, so `ToothChartWrapper.cs` and `OpenGLWinFormsControl.cs` do not change. New `tests/BINATests/ToothChartEngineBitnessTests.cs`:
+the five SharpDX and Tao DLLs are IL-only and not 32-bit-required (Mono.Cecil and the CLR's header reader, in `Required dlls` and the test
+folder), load in the process and call only Windows files of both bitnesses plus `d3dx9_43.dll`; every native handle parameter of them, of
+SparksToothChart and of `OpenGLWinFormsControl` is `IntPtr` (Tao's unused `joySetCapture` excepted) and the source passes `control.Handle`
+as it is; `IsDirectXRuntimeAvailable` loads the D3DX of the process's bitness; and an STA test starts each mode on a hidden form (handle
+created, never shown) through `DrawMode`/`StartFirstWorkingMode` and records the mode that came up (a mode that cannot start is
+Inconclusive after its fallback drew). `ToothChartFallbackTests`' D3DX folder follows the process bitness. The lane's x64 test build of
+BINATests needed no separate project; on the build PC DirectX, OpenGL and Simple 2D all started and drew in x86 and x64. Runs: BINATests 31
+in x86 and x64, NoHqTests 94, ToothChartImageTests 223 (4 skipped, as before). The 3b launch check on an x64 workstation is in the note,
+section 6.
+
 **Full-test gate.** Section 3, plus: the golden outputs and known answers recorded and committed; the source-scan tests pass; the
 launch checks for 3a (section 6) done with screenshots, including a self-update from a standard user; the x64 test runs (S3a-12, S3a-15)
 and the x64 build of `Direct2dWrapper` (S3a-16) pass; the helper's tests pass, and its links are launch-checked where a test PC has the

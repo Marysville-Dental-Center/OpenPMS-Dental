@@ -119,8 +119,10 @@ namespace BINATests {
 		public void DirectXRuntimeCheck_FindsTheInstalledFile() {
 			bool isAvailable=ToothChartWrapper.IsDirectXRuntimeAvailable();
 			Assert.AreEqual(isAvailable,ToothChartWrapper.IsDirectXRuntimeAvailable(),"Checked once per process.");
-			//This test process is 32-bit, so Windows loads 32-bit system files from the SysWOW64 folder (System32 on 32-bit Windows).
-			string pathSystem=Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.SystemX86),ToothChartWrapper.D3DX_DLL);
+			//A 32-bit test process loads 32-bit system files from the SysWOW64 folder (System32 on 32-bit Windows), a 64-bit one (the lane's x64
+			//test build, S3a-15) from System32.
+			string folderSystem=Environment.Is64BitProcess?Environment.SystemDirectory:Environment.GetFolderPath(Environment.SpecialFolder.SystemX86);
+			string pathSystem=Path.Combine(folderSystem,ToothChartWrapper.D3DX_DLL);
 			if(File.Exists(pathSystem)) {
 				Assert.IsTrue(isAvailable,pathSystem+" is installed, so DirectX can start.");
 			}
