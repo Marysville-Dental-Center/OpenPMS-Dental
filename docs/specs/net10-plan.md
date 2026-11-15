@@ -746,6 +746,13 @@ and `FrmPatientSelect.xaml.cs` pass from S3a-2 to S3a-12 after wave 1 merges; a 
 3a (the helper's files). `ControlImages.cs` passes from S3a-M2 to S3a-14 (its Topaz lines only). In `tests/ReleaseFlowTests`, S3a-13 and
 S3a-16 add new files only. The lane's x64 test build and `OpenDental.sln` are the lead's.
 
+**Status (2026-11-15).** S3a-5 done on `net10/s3a5-1` (`docs/port-notes/S3a-5.md`): `PasswordVaultWrapper` on the Windows Credential
+Manager (`CredWriteW`/`CredReadW`/`CredDeleteW`/`CredEnumerateW`) behind the same four methods; the first use moves the PasswordVault entries
+under `OpenDental Middle Tier:` once per Windows user, read through the Windows Runtime by reflection on net48 (no `.winmd` needed, so the
+reference went in 3a), and writes a record `OpenPmsDental Middle Tier migration from PasswordVault`; `Required dlls/Windows.winmd` deleted.
+The tests touch only entries under a per-run `OpenPmsDentalTest:<guid>:` prefix. Targeted runs green (BINBTests, ReleaseFlowTests,
+LibraryBindingTests, NoHqTests, MiddleTierMockTests); one test retired on purpose (`PasswordVault_LoadsWithoutTheCopiedWinmd`).
+
 **Full-test gate.** Section 3, plus: the golden outputs and known answers recorded and committed; the source-scan tests pass; the
 launch checks for 3a (section 6) done with screenshots, including a self-update from a standard user; the x64 test runs (S3a-12, S3a-15)
 and the x64 build of `Direct2dWrapper` (S3a-16) pass; the helper's tests pass, and its links are launch-checked where a test PC has the
