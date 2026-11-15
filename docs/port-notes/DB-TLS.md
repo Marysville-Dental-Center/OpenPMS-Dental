@@ -871,3 +871,8 @@ an item the journal names that is still there ends it with exit 4, the folder, t
 `Remove-TestFirewallRule` is not called and the rules are in the list as kept);
 `TestNetwork_AFailedRunsUndo_UndoesTheTestNetwork_AlsoWhenTheRestartFails_AndKeepsTheJournalWhileItIsNotUndone`; the plan test checks the
 new order and the journal line of the enable plan.
+
+Results: the full lane build has no error. Targeted runs, all passed: `DbConnectionSecurityTests` 243 (232 passed; the same 11
+inconclusive by design until the owner's run as in section 11.5), with the four new tests passing; `NoHqTests` 57 passed. `InitSqlTests`
+and `ForkMigrationTests` left out under the rule for every package (no schema change here). Nothing ran elevated or changed a network
+setting, the firewall, the MariaDB service, `my.ini` or a certificate store.
