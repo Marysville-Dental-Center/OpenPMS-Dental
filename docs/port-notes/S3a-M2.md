@@ -140,7 +140,8 @@ NoHqTests 84, MiddleTierMockTests 151, M2SDVTests 47, P262BillingTests 54; and t
 AttributionTests 50, BSHELLTests 73, BTPTests 38, DbConnectionSecurityTests 247 (+3 skipped), GroupNoteTests 54, ImagingCaptureTests 803,
 ImagingTests 81, InventoryTests 93, LibSpellTests 23, LibWebTests 65, M2APPTTests 37, M2CARRIERTests 55, M2IMGTests 25, M2MISCTests 97,
 M2SHELLTests 39, MaintenanceTests 111, P262ApptTests 16, ReleaseFlowTests 181 (+4 skipped), S0FTests 29, SshHostKeyTests 46,
-TaskCategoryTests 21, VPEARL1Tests 23. WindowChecksTests builds (it launches the program, so it is the gate's).
+TaskCategoryTests 21, VPEARL1Tests 23; after the FormSheetFillEdit fix, the readers of that file: M2SHEETSTests 53, BPRINTTests 71,
+M2EFTests 46, ODOPTSTests 57, SignatureTests 55 (and the first ten again, green). Full lane build: 0 errors. WindowChecksTests builds (it launches the program, so it is the gate's).
 
 ## 7. Launch checks (for the gate; screenshots, not run by this package)
 

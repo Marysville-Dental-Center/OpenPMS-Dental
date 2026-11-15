@@ -923,8 +923,8 @@ reads only that format (no BinaryFormatter; an earlier version's copy pastes as 
 `DropDownMenu` callers in `ReportingForRdl`). Overlaps for the lead (note, section 4): `PatientL.cs`, two lines of `FormSheetFillEdit.cs` (a
 right click on a sheet text field would throw otherwise), and the M3-assigned source-text tests that read the changed `ControlAccount`
 lines, updated here. New tests in `tests/S3aM1Tests` (M2 files, 19, no window, private data objects only); Targeted runs green (ApptTests,
-BAPPTTests, BACCTTests, BIMGTests, BTASKTests, S3aM1Tests, NoHqTests, MiddleTierMockTests and the 24 projects whose source-text tests read a
-changed file). The launch checks (note, section 7) stay the gate's.
+BAPPTTests, BACCTTests, BIMGTests, BTASKTests, S3aM1Tests, NoHqTests, MiddleTierMockTests and the 29 projects whose source-text tests read a
+changed file); full lane build 0 errors. The launch checks (note, section 7) stay the gate's.
 
 **Full-test gate.** Section 3, plus: the golden outputs and known answers recorded and committed; the source-scan tests pass; the
 launch checks for 3a (section 6) done with screenshots, including a self-update from a standard user; the x64 test runs (S3a-12, S3a-15)
