@@ -104,6 +104,27 @@ namespace ProjectFileTests {
 			return System.IO.Path.GetFullPath(System.IO.Path.Combine(folderGit,File.ReadAllText(pathCommonDir).Trim().Replace('/','\\')));
 		}
 
+		///<summary>The packages.lock.json files of the C# projects that OpenDental.Local.slnf under repoRoot names, in its order; a project without
+		///one is left out. Taken from the solution filter, as LibraryBindingTests' SolutionProjects reads it, and not from a walk of repoRoot: in
+		///the main checkout a walk goes into every worktree under .claude\worktrees (and their bin, obj and .git trees), so it would judge other
+		///worktrees' projects and builds against this checkout, call a cleaned worktree "not built", and can throw for a path too long or a folder
+		///it may not open (TC-4). The projects the filter names are the ones the build restores and builds. Throws when there is no filter.</summary>
+		public static List<string> ListSolutionLockFiles(string repoRoot) {
+			string pathFilter=System.IO.Path.Combine(repoRoot,"OpenDental.Local.slnf");
+			if(!File.Exists(pathFilter)) {
+				throw new InvalidOperationException(pathFilter+" is not there: the projects whose lock files are read come from the solution filter.");
+			}
+			List<string> listPaths=new List<string>();
+			foreach(Match match in Regex.Matches(File.ReadAllText(pathFilter),@"""([^""]+\.csproj)""")) {
+				string folderProject=System.IO.Path.GetDirectoryName(System.IO.Path.Combine(repoRoot,match.Groups[1].Value.Replace(@"\\",@"\").Replace('/','\\')));
+				string pathLock=System.IO.Path.Combine(folderProject,"packages.lock.json");
+				if(File.Exists(pathLock) && !listPaths.Contains(pathLock,StringComparer.OrdinalIgnoreCase)) {
+					listPaths.Add(pathLock);
+				}
+			}
+			return listPaths;
+		}
+
 		///<summary>The packages of a packages.lock.json, each id and version once (an exe's lock file lists some again for win-x86). Throws for a
 		///package entry without a resolved version, so none is skipped. ContentHash is "" where the entry has none.</summary>
 		public static List<LockedPackage> ReadLockFile(string pathLock) {

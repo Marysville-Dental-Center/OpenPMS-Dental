@@ -141,13 +141,13 @@ namespace ReleaseFlowTests {
 			Assert.AreEqual(0,listProblems.Count,string.Join("\r\n",listProblems));
 		}
 
-		///<summary>Risk W2: no built folder of a project that gets System.Net.Http 4.3.4 (its lock file names it) holds a file of the System.* 4.3.x
+		///<summary>Risk W2: no built folder of a project of the solution filter (NuGetFiles.ListSolutionLockFiles: never another worktree's) that
+		///gets System.Net.Http 4.3.4 (its lock file names it) holds a file of the System.* 4.3.x
 		///packages, and none has a runtimes sub folder (the program's win-x86 restore names runtimes\win\lib files of four of them; the build
 		///keeps the .NET Framework's newer assemblies instead). So the programs bind System.Net.Http and the others to the framework, as before.</summary>
 		[TestMethod]
 		public void BuiltFolders_HoldNoFileOfTheSystemNetHttpPackages() {
-			List<string> listProjects=Directory.GetFiles(TestPaths.RepoRoot,"packages.lock.json",SearchOption.AllDirectories)
-				.Where(x => !x.Split('\\').Any(y => y.Equals("bin",StringComparison.OrdinalIgnoreCase) || y.Equals("obj",StringComparison.OrdinalIgnoreCase)))
+			List<string> listProjects=NuGetFiles.ListSolutionLockFiles(TestPaths.RepoRoot)
 				.Where(x => NuGetFiles.ReadLockFile(x).Any(y => y.Id.Equals("System.Net.Http",StringComparison.OrdinalIgnoreCase)))
 				.Select(x => Path.GetDirectoryName(x)).ToList();
 			Assert.IsTrue(listProjects.Count>=40,"The projects that get Helix Toolkit through SparksToothChart: "+listProjects.Count);
@@ -175,7 +175,8 @@ namespace ReleaseFlowTests {
 			}
 		}
 
-		///<summary>No compilation of a project that gets CommunityToolkit.Mvvm has its analyzers (source generators and code fixes): each SDK-style
+		///<summary>No compilation of a project of the solution filter (never another worktree's) that gets CommunityToolkit.Mvvm has its analyzers
+		///(source generators and code fixes): each SDK-style
 		///compilation records the analyzers it is handed (Directory.Build.targets, ODRecordCompilerAnalyzers, obj\&lt;configuration&gt;\
 		///&lt;project&gt;.analyzers.txt), and no record names one of CommunityToolkit.Mvvm, or the generators of Microsoft.Extensions.Logging.Abstractions
 		///and System.Text.Json, which Directory.Packages.props turns off (Helix's buildTransitive files stay out, so those packages' switches must
@@ -185,8 +186,7 @@ namespace ReleaseFlowTests {
 			string targets=TestPaths.ReadSource("Directory.Build.targets");
 			StringAssert.Contains(targets,"<Target Name=\"ODRemoveCommunityToolkitMvvmAnalyzers\" AfterTargets=\"ResolvePackageDependenciesForBuild;ResolveNuGetPackageAssets\">");
 			StringAssert.Contains(targets,"Condition=\"'%(Analyzer.NuGetPackageId)' == 'CommunityToolkit.Mvvm'\"");
-			List<string> listProjects=Directory.GetFiles(TestPaths.RepoRoot,"packages.lock.json",SearchOption.AllDirectories)
-				.Where(x => !x.Split('\\').Any(y => y.Equals("bin",StringComparison.OrdinalIgnoreCase) || y.Equals("obj",StringComparison.OrdinalIgnoreCase)))
+			List<string> listProjects=NuGetFiles.ListSolutionLockFiles(TestPaths.RepoRoot)
 				.Where(x => NuGetFiles.ReadLockFile(x).Any(y => y.Id.Equals("CommunityToolkit.Mvvm",StringComparison.OrdinalIgnoreCase)))
 				.Select(x => Path.GetDirectoryName(x)).ToList();
 			Assert.IsTrue(listProjects.Count>=40,"The projects that get CommunityToolkit.Mvvm through SparksToothChart: "+listProjects.Count);

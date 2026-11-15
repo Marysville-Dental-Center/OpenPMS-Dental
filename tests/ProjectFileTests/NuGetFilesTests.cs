@@ -137,6 +137,38 @@ namespace ProjectFileTests {
 			Directory.Delete(folderTemp,true);
 		}
 
+		///<summary>The lock files the Helix tests read (TC-4) are those of the solution filter's projects: never one of another worktree under
+		///.claude\worktrees (which, cleaned, has no analyzer record and no build output), nor one in build output or a package folder, nor one of a
+		///project the filter does not name.</summary>
+		[TestMethod]
+		public void ListSolutionLockFiles_TheFiltersProjectsOnly_NoOtherWorktree() {
+			string folder=Path.Combine(Path.GetTempPath(),"ProjectFileTests_Slnf_"+Guid.NewGuid().ToString("N"));
+			string lockMvvm=LOCK_FILE.Replace("Fixture.Package","CommunityToolkit.Mvvm");
+			try {
+				Directory.CreateDirectory(folder);
+				AssertThrows(() => NuGetFiles.ListSolutionLockFiles(folder),"OpenDental.Local.slnf is not there");
+				File.WriteAllText(Path.Combine(folder,"OpenDental.Local.slnf"),"{\r\n  \"solution\": {\r\n    \"path\": \"OpenDental.sln\",\r\n    \"projects\": [\r\n"
+					+"      \"P\\\\xP.csproj\",\r\n      \"NoLock\\\\NoLock.csproj\",\r\n      \"tests\\\\T\\\\T.csproj\",\r\n      \"Direct2dWrapper\\\\Direct2dWrapper.vcxproj\"\r\n"
+					+"    ]\r\n  }\r\n}");
+				foreach(string relative in new[] { "P",@"tests\T",@".claude\worktrees\x\P",@"P\bin\Debug",@"P\obj",@"packages\p\1.0.0",@"Unlisted" }) {
+					Directory.CreateDirectory(Path.Combine(folder,relative));
+					File.WriteAllText(Path.Combine(folder,relative,"packages.lock.json"),lockMvvm);
+				}
+				Directory.CreateDirectory(Path.Combine(folder,"NoLock"));
+				Directory.CreateDirectory(Path.Combine(folder,"Direct2dWrapper"));
+				File.WriteAllText(Path.Combine(folder,"Direct2dWrapper","packages.lock.json"),lockMvvm);
+				List<string> listPaths=NuGetFiles.ListSolutionLockFiles(folder);
+				CollectionAssert.AreEqual(new[] { Path.Combine(folder,"P","packages.lock.json"),Path.Combine(folder,"tests","T","packages.lock.json") },listPaths.ToArray(),
+					"The C# projects of the filter that have a lock file, in its order.");
+				Assert.IsFalse(listPaths.Any(x => x.IndexOf(@"\.claude\",StringComparison.OrdinalIgnoreCase)>=0),"No other worktree's lock file.");
+				Assert.IsTrue(NuGetFiles.ReadLockFile(Path.Combine(folder,@".claude\worktrees\x\P","packages.lock.json")).Any(x => x.Id=="CommunityToolkit.Mvvm"),
+					"The worktree's lock file names the package, and has no obj records: listed, it would be read as not built.");
+			}
+			finally {
+				Directory.Delete(folder,true);
+			}
+		}
+
 		[TestMethod]
 		public void GetPackageFolder_IsTheLowerCaseIdAndVersion_AsNuGetLaysItOut() {
 			Assert.AreEqual(@"C:\packages\microsoft.web.webview2\1.0.2420.47",NuGetFiles.GetPackageFolder(@"C:\packages","Microsoft.Web.WebView2","1.0.2420.47"));
