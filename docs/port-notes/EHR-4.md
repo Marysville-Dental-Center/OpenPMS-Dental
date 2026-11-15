@@ -167,4 +167,14 @@ The program was never started for this package. On a test database with EHR on (
 
 ### 6. Build and test record
 
-(Filled in after the full build.)
+Full lane build of `OpenDental.Local.slnf` (Debug|x86) at `f669d2236`: 0 errors, no warning in a changed file. Targeted runs
+(`run-tests.ps1 -Mode Targeted`) after it:
+
+| Assembly | Result |
+|---|---|
+| EhrTests | 147 of 147 passed (the 18 of section 4 among them; none inconclusive) |
+| MiddleTierMockTests | 125 of 125 passed (its Middle Tier rules read the new business methods' IL) |
+| NoHqTests | 57 of 57 passed |
+
+The negative check of section 3 (the guard at `0`) was a separate build and run, then put back. `InitSqlTests` and `ForkMigrationTests`
+are not affected (no schema change) and were not run. After the runs no `ehr4a_` database was left on the server.
