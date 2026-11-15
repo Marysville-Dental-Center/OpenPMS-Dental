@@ -142,8 +142,21 @@ namespace ToothChartImageTests {
 			StringAssert.Contains(code,"FillTextBelow(null);");
 			Assert.IsTrue(code.IndexOf("FillTextBelow(_listDataRowsProcsForGraphical);")<code.IndexOf("DrawProcGraphics();\n\t\t\tDrawOrthoHardware();"),
 				"Filled from the rows before the painter, which skips Mouth procedures.");
-			StringAssert.Contains(code,"LayoutTextBelowAfterSheet(dictionaryStringControl);");
+			StringAssert.Contains(code,"LayoutTextBelowAfterSheet(sheetFieldLayoutMode,dictionaryStringControl);");
 			StringAssert.Contains(code,"LayoutManager.MoveLocation(textTextBelow,new Point(panelToothTrackBar.Left,panelToothTrackBar.Bottom+LayoutManager.Scale(1)));");
+			//The sheet layout hides every control that is not a sheet field (SheetLayoutController.InitLayoutForSheetDef), the strip too, on each
+			//LayoutControls(), and ModuleSelected lays out after it fills the chart: LayoutTextBelow shows the strip again after the move, only while
+			//the layout places the slider (fix round 5; BSHELLTests.ChartTextBelowLayoutTests runs a real ControlChart through the hide pass).
+			string layoutAfterSheet=SourceText.GetMethod(code,"private void LayoutTextBelowAfterSheet(");
+			StringAssert.Contains(layoutAfterSheet,"dictionaryStringControl.TryGetValue(\"TrackToothProcDates\",out Control controlSlider)");
+			StringAssert.Contains(layoutAfterSheet,"_sheetLayoutController.GetPertinentSheetFieldDefs(sheetFieldLayoutMode).Any(x => x.FieldName==\"TrackToothProcDates\")");
+			string layoutTextBelow=SourceText.GetMethod(code,"private void LayoutTextBelow() {");
+			SourceText.AssertInOrder(layoutTextBelow,"LayoutTextBelow","LayoutManager.MoveLocation(textTextBelow,","SetTextBelowVisible();");
+			StringAssert.Contains(SourceText.GetMethod(code,"private void SetTextBelowVisible() {"),
+				"textTextBelow.Visible=_isTextBelowSliderPlaced && textTextBelow.HasText;");
+			StringAssert.Contains(SourceText.GetMethod(code,"private void FillTextBelow(List<DataRow> listDataRows) {"),"SetTextBelowVisible();");
+			string layoutControls=SourceText.GetMethod(code,"public void LayoutControls() {");
+			SourceText.AssertInOrder(layoutControls,"LayoutControls","_sheetLayoutController.ReloadSheetLayout(","LayoutTextBelowAfterSheet(");
 		}
 
 		[TestMethod]
