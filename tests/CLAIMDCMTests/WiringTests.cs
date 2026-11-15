@@ -132,7 +132,7 @@ namespace CLAIMDCMTests {
 			//M16 integration follow-up: ClaimConnect.CreateAttachment has no caller today; it gets the same guard as the other DentalXChange sends.
 			string source=TestSupport.ReadSource("OpenPmsDentalBusiness","Eclaims","ClaimConnect.cs").Replace("\r\n","\n");
 			string create=MethodBody(source,"public static string CreateAttachment(List<ImageAttachment> listImages,string narrative,Claim claim) {");
-			AssertBefore(create,"ClaimAttachDicom.ThrowIfAnyIsDicom(listImages);","new DentalxchangePartnerService.DeaPartnerService()",
+			AssertBefore(create,"ClaimAttachDicom.ThrowIfAnyIsDicom(listImages);","new DeaSoapClient()",
 				"Refused before the service is created.");
 			AssertBefore(create,"ClaimAttachDicom.ThrowIfAnyIsDicom(listImages);","service.sendCompleteAttachment(","Refused before the call.");
 		}

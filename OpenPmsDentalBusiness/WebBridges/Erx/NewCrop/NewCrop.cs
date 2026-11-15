@@ -61,7 +61,7 @@ namespace OpenPmsDentalBusiness {
 			if(!newCropConfig.IsConfigured()) {
 				return false;
 			}
-			NewCropWebService.Update1 wsNewCrop=newCropConfig.CreateUpdate1Client(3000);//New Crop web services interface.
+			NewCropSoapClient wsNewCrop=newCropConfig.CreateUpdate1Client(3000);//New Crop web services interface.
 			NewCropWebService.Credentials credentials=newCropConfig.GetSoapCredentials();
 			NewCropWebService.AccountRequest accountRequest=newCropConfig.GetSoapAccountRequest();
 			NewCropWebService.PatientRequest patientRequest=new NewCropWebService.PatientRequest();

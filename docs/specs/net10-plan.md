@@ -813,6 +813,16 @@ DICOM reader); `AssemblyBuilder.DefineDynamicAssembly`; the GAC assertion delete
 TestProbeHost on .NET (no renamed apphost, no `.config`), the PDF network control as an `EventListener`, the reference readers that still name
 `OpenPmsDental.exe`; the same APIs outside the row are listed in the note for the lead.
 
+**Status (2026-11-15), S3a-6.** Done on `net10/s3a6-1` (`docs/port-notes/S3a-6.md`), merged: the proxies of DentalXChange DWS, DEA
+and DCI, NewCrop and Change Healthcare ITS are deleted (their data classes and the URL settings stay); the 14 document/literal operations
+and DCI's rpc/encoded `lookupEligibility` (written by hand) go through `WebServices/SoapCaller.cs` (`HttpClient` + `XmlSerializer` with the
+proxies' own `XmlMembersMapping`) and one client per service (`WebServices/SoapClients.cs`); `ClaimConnect`'s `SoapException` catches take
+`SoapFaultException` with the same text. Before the proxies went, `tests/VDXC2Tests/SoapEnvelopeTests.cs` found every operation's
+envelope byte for byte the same as the old proxy's and the responses and faults read the same, and recorded them (`SoapEnvelopes`); the
+VDXC2 fake is an `HttpMessageHandler`, a fake ITS endpoint and the DCI request and synthetic recorded-response tests are in
+VendorDirectTests. The Middle Tier's web reference stays, so the Release dry run still stages both XmlSerializers files. Left: the
+program's unused ITS URL setting (kept), CallFire (O-10), the Middle Tier proxy (3b).
+
 **Full-test gate.** Section 3, plus: the golden outputs and known answers recorded and committed; the source-scan tests pass; the
 launch checks for 3a (section 6) done with screenshots, including a self-update from a standard user; the x64 test runs (S3a-12, S3a-15)
 and the x64 build of `Direct2dWrapper` (S3a-16) pass; the helper's tests pass, and its links are launch-checked where a test PC has the

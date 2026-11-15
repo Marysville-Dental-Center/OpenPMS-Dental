@@ -1,0 +1,2 @@
+SOAPAction: "https://secure.newcropaccounts.com/V7/webservices/GetAccountStatusV2"
+Content-Type: text/xml; charset=utf-8

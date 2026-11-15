@@ -1,0 +1,2 @@
+SOAPAction: "https://secure.newcropaccounts.com/V7/webservices/GetPatientFullMedicationHistory6"
+Content-Type: text/xml; charset=utf-8
