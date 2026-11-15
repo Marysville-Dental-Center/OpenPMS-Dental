@@ -63,6 +63,7 @@
       "tests\\EhrTests\\EhrTests.csproj",
       "tests\\FeeTests\\FeeTests.csproj",
       "tests\\ForkMigrationTests\\ForkMigrationTests.csproj",
+      "tests\\GoldenOutputTests\\GoldenOutputTests.csproj",
       "tests\\GroupNoteTests\\GroupNoteTests.csproj",
       "tests\\ImagingCaptureTests\\ImagingCaptureTests.csproj",
       "tests\\ImagingDeviceManagerTests\\ImagingDeviceManagerTests.csproj",

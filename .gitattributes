@@ -3,3 +3,6 @@
 # The EHR stylesheets are upstream's files byte for byte (LF line ends): no line-ending conversion, so the embedded text keeps the SHA-256 that
 # THIRD-PARTY-NOTICES.txt names (docs/specs/ehr-rebuild-plan.md, EHR-3). Diffs and merges stay text.
 OpenPmsDentalBusiness/Resources/Ehr/** -text
+# The golden outputs of the .NET 10 move are compared byte for byte, line ends included, on every PC and in every checkout: no line-ending
+# conversion (docs/port-notes/S3a-4.md). Diffs and merges stay text.
+tests/GoldenOutputTests/Fixtures/** -text
