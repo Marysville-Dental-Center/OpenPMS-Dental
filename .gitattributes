@@ -6,3 +6,6 @@ OpenPmsDentalBusiness/Resources/Ehr/** -text
 # The golden outputs of the .NET 10 move are compared byte for byte, line ends included, on every PC and in every checkout: no line-ending
 # conversion (docs/port-notes/S3a-4.md). Diffs and merges stay text.
 tests/GoldenOutputTests/Fixtures/** -text
+# The recorded SOAP envelopes and results of S3a-6 are the old proxies' bytes, compared on every PC and in every checkout: no line-ending
+# conversion (docs/port-notes/S3a-6.md). Diffs and merges stay text.
+tests/VDXC2Tests/SoapEnvelopes/** -text
