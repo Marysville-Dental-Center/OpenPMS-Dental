@@ -77,17 +77,25 @@ namespace OpenPmsDental {
 			butImportValueSets.Enabled=(isSetup && !UpdateCodeSystemThread.IsRunning);
 		}
 
-		///<summary>The value-set row's Current Version: the import's date and file, or that nothing was imported.</summary>
+		///<summary>The value-set row's Current Version: the import's date and file, or that nothing was imported. A record of another release than
+		///the one this program needs (EHR-2's import of VSAC's June 2013 release, kept in the same preference row) names that release and says that
+		///the 2026-05-14 release has to be imported.</summary>
 		public static string GetValueSetVersionText(EhrValueSetRelease release) {
 			if(release==null) {
 				return Lan.g("CodeSystemImporter","not imported");
 			}
-			string date=release.DateImportedUtc.Length>=10 ? release.DateImportedUtc.Substring(0,10) : release.DateImportedUtc;
+			string dateImported=release.DateImportedUtc??"";
+			string date=dateImported.Length>=10 ? dateImported.Substring(0,10) : dateImported;
+			if(release.Label!=EhrValueSetImport.RELEASE_LABEL) {
+				string label=string.IsNullOrWhiteSpace(release.Label) ? Lan.g("CodeSystemImporter","an earlier release") : release.Label;
+				return Lan.g("CodeSystemImporter","old release loaded")+" ("+label+", "+Lan.g("CodeSystemImporter","imported")+" "+date+": "
+					+release.FileName+"). "+Lan.g("CodeSystemImporter","Import the release this program needs")+": "+EhrValueSetImport.RELEASE_LABEL+".";
+			}
 			return Lan.g("CodeSystemImporter","imported")+" "+date+": "+release.FileName;
 		}
 
 		///<summary>The code-system status (EHR-2, step 4): each code system's rows in the database next to the minimum the code list expects, the
-		///value-set codes of that system, and (EHR-6a, section 7.4) the loaded table's version next to the version the imported release names.</summary>
+		///value-set codes of that system, apart from them its direct reference codes, and (EHR-6a, section 7.4) the loaded table's version next to the version the imported release names.</summary>
 		private void FillGridStatus() {
 			List<EhrCodeSystemStatus> listStatuses=EhrCodes.GetCodeSystemStatuses();
 			gridStatus.BeginUpdate();
@@ -96,6 +104,7 @@ namespace OpenPmsDental {
 			gridStatus.Columns.Add(new GridColumn(Lan.g("TableCodeSystemStatus","Rows in Database"),105,HorizontalAlignment.Right));
 			gridStatus.Columns.Add(new GridColumn(Lan.g("TableCodeSystemStatus","Minimum Expected"),105,HorizontalAlignment.Right));
 			gridStatus.Columns.Add(new GridColumn(Lan.g("TableCodeSystemStatus","Value-Set Codes"),100,HorizontalAlignment.Right));
+			gridStatus.Columns.Add(new GridColumn(Lan.g("TableCodeSystemStatus","Direct Codes"),80,HorizontalAlignment.Right));
 			gridStatus.Columns.Add(new GridColumn(Lan.g("TableCodeSystemStatus","Loaded Version"),95));
 			gridStatus.Columns.Add(new GridColumn(Lan.g("TableCodeSystemStatus","In the Release"),95));
 			GridColumn col=new GridColumn(Lan.g("TableCodeSystemStatus","Status"),100);
@@ -108,6 +117,7 @@ namespace OpenPmsDental {
 				row.Cells.Add(status.HasTable ? status.CountInDb.ToString("N0") : "");
 				row.Cells.Add(status.HasTable ? (status.CountMinimum+1).ToString("N0") : "");
 				row.Cells.Add(status.CountValueSetCodes.ToString("N0"));
+				row.Cells.Add(status.CountDirectCodes.ToString("N0"));
 				row.Cells.Add(status.VersionLoaded);
 				row.Cells.Add(status.VersionInRelease);
 				row.Cells.Add(GetStatusText(status));
@@ -225,15 +235,24 @@ namespace OpenPmsDental {
 				return;
 			}
 			string error="";
+			bool areRowsReplaced=false;
 			try {
 				ProgressWin progressWin=new ProgressWin();
 				progressWin.StartingMessage=Lan.g(this,"Importing the value sets...");
 				progressWin.ShowCancelButton=false;
-				progressWin.ActionMain=() => error=EhrValueSetImport.Import(pick);
+				progressWin.ActionMain=() => error=EhrValueSetImport.Import(pick,out areRowsReplaced);
 				progressWin.ShowDialog();
 			}
 			catch(Exception ex) {
 				error=ex.Message;
+			}
+			if(error!="" && areRowsReplaced) {
+				//The rows are the new ones, but the release record was not saved (it may be half written): not "Import failed".
+				MsgBox.Show(error);
+				DataValid.SetInvalid(InvalidType.EhrCodes,InvalidType.Prefs);
+				SetStatusValueSets(Lan.g("CodeSystemImporter","Codes replaced, release not recorded")+"! -- "+error);
+				FillGridStatus();
+				return;
 			}
 			if(error!="") {
 				MsgBox.Show(error);
