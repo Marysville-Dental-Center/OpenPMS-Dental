@@ -115,6 +115,10 @@
       <Command>xcopy "$(TargetDir)Direct2dWrapper.dll" "..\OpenPmsDental\bin\Debug\" /Y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
+  <!-- The x64 configurations copy nothing: the program is still x86 (stage 3a of docs/specs/net10-plan.md), so a 64-bit DLL beside it
+       would not load. The x64 DLL stays in bin\x64\$(Configuration)\, where the gate builds it and ReleaseFlowTests checks it; S3b-4
+       copies it into the program's output folder. The pointer-truncation warnings C4311 and C4312 are errors in the x64 build
+       (docs/port-notes/S3a-16.md). -->
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -123,6 +127,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <TreatSpecificWarningsAsErrors>4311;4312;%(TreatSpecificWarningsAsErrors)</TreatSpecificWarningsAsErrors>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -130,9 +135,6 @@
       <EnableUAC>false</EnableUAC>
       <AdditionalDependencies>d2d1.lib;dwrite.lib;D3D11.lib;dxguid.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
-    <PostBuildEvent>
-      <Command>xcopy "$(TargetDir)Direct2dWrapper.dll" "..\OpenPmsDental\bin\Debug\" /Y</Command>
-    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -167,6 +169,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <TreatSpecificWarningsAsErrors>4311;4312;%(TreatSpecificWarningsAsErrors)</TreatSpecificWarningsAsErrors>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -176,9 +179,6 @@
       <EnableUAC>false</EnableUAC>
       <AdditionalDependencies>d2d1.lib;dwrite.lib;D3D11.lib;dxguid.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
-    <PostBuildEvent>
-      <Command>xcopy "$(TargetDir)Direct2dWrapper.dll" "..\OpenPmsDental\bin\Release\" /Y</Command>
-    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="D2DWrapperHwnd.h" />
