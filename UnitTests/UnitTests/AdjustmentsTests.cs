@@ -23,7 +23,7 @@ namespace UnitTests.Adjustments_Tests {
 
 		///<summary>This method will execute just before each test in this class.</summary>
 		[TestInitialize]
-		protected static void SetupTest() {
+		public void SetupTest() {
 			PatientT.ClearPatientTable();
 			ProcedureT.ClearProcedureTable();
 			AdjustmentT.ClearAdjustmentTable();
@@ -37,7 +37,7 @@ namespace UnitTests.Adjustments_Tests {
 
 		///<summary>This method will execute after each test in this class.</summary>
 		[TestCleanup]
-		protected static void TearDownTest() {
+		public void TearDownTest() {
 			Prefs.UpdateLong(PrefName.PracticeDefaultProv,_defaultPracticeProviderOld);
 			Prefs.UpdateLong(PrefName.SalesTaxDefaultProvider,_salesTaxProviderOld);
 		}

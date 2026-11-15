@@ -62,12 +62,25 @@
     <DebugType>pdbonly</DebugType>
   </PropertyGroup>
 
+  <!--
+    MSTest 4 (stage 4 of the .NET 10 move, package S4-1, docs/port-notes/S4-1.md), in place of MSTest v1 from the Visual Studio folder:
+    the framework (MSTest.TestFramework, with MSTest.Analyzers), its VSTest adapter (MSTest.TestAdapter, copied next to each test assembly,
+    where vstest.console finds it) and the VSTest SDK (Microsoft.NET.Test.Sdk), at the versions of Directory.Packages.props.
+  -->
   <ItemGroup Condition="'$(UsingMicrosoftNETSdk)' == 'true'">
-    <!--
-      Every test project uses MSTest v1, referenced by name; Directory.Build.targets (ODAddMSTestV1SearchPath) adds the
-      Visual Studio folder that holds it to the search path. The S1-0 offline check built an SDK-style net48 test project
-      this way with the Build Tools 2026 MSBuild 18.
-    -->
-    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework" />
+    <PackageReference Include="MSTest.TestFramework" />
+    <PackageReference Include="MSTest.TestAdapter" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
   </ItemGroup>
+  <PropertyGroup Condition="'$(UsingMicrosoftNETSdk)' == 'true'">
+    <!--
+      The tests run under VSTest (vstest.console with /Platform:x86, the lane's -Test and the test runners), never as Microsoft Testing
+      Platform programs: no generated entry point, no dotnet test support for the platform. These are the packages' defaults for a
+      library; they are set here so no test project turns the platform on by itself (tests\ProjectFileTests, TestTelemetryTests).
+    -->
+    <EnableMSTestRunner>false</EnableMSTestRunner>
+    <IsTestingPlatformApplication>false</IsTestingPlatformApplication>
+    <GenerateTestingPlatformEntryPoint>false</GenerateTestingPlatformEntryPoint>
+    <TestingPlatformDotnetTestSupport>false</TestingPlatformDotnetTestSupport>
+  </PropertyGroup>
 </Project>

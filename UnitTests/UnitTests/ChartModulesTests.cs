@@ -14,7 +14,7 @@ namespace UnitTests.ChartModules_Tests {
 	public class ChartModulesTests:TestBase {
 
 		[TestInitialize]
-		private void SetupTest() {
+		public void SetupTest() {
 			AppointmentT.ClearAppointmentTable();
 			ProcedureT.ClearProcedureTable();
 		}

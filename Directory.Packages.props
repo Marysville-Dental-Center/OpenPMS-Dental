@@ -95,5 +95,19 @@
     <PackageVersion Include="HelixToolkit.Wpf" Version="3.1.2" />
     <!-- Test tools: Mono.Cecil reads assemblies in four test projects (S1-6). -->
     <PackageVersion Include="Mono.Cecil" Version="0.10.3" />
+    <!-- MSTest 4 (stage 4 of the .NET 10 move, package S4-1, docs/port-notes/S4-1.md; download batch B of 2026-11-14): the test framework,
+         its VSTest adapter and the VSTest SDK, which tests\Directory.Build.props gives every test project (UnitTestsCore takes the framework
+         only, NoHqTests names the three itself). MSTest.Analyzers comes with MSTest.TestFramework at the same version; it is listed so the
+         analyzers' version is pinned here too. The rest of their closure (Microsoft.Testing.Platform and its extensions,
+         Microsoft.TestPlatform.ObjectModel, Microsoft.CodeCoverage, System.Reflection.Metadata, System.Collections.Immutable,
+         Microsoft.ApplicationInsights) has one version in the whole graph and stands in the test projects' lock files. -->
+    <PackageVersion Include="MSTest.TestFramework" Version="4.5.3" />
+    <PackageVersion Include="MSTest.TestAdapter" Version="4.5.3" />
+    <PackageVersion Include="MSTest.Analyzers" Version="4.5.3" />
+    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.12.0" />
+    <!-- System.ValueTuple: Microsoft.TestPlatform.ObjectModel (MSTest.TestAdapter's) asks for 4.5.0, whose lib\net47 file would be copied
+         into a test project's output; MSAL and the other libraries already take 4.6.2, which brings no file for .NET Framework 4.7.1 and
+         later (the framework's own copy binds, tests\LibraryBindingTests). Pinned here so every project resolves 4.6.2. -->
+    <PackageVersion Include="System.ValueTuple" Version="4.6.2" />
   </ItemGroup>
 </Project>

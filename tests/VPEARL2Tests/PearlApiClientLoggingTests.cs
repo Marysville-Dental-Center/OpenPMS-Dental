@@ -285,9 +285,9 @@ namespace VPEARL2Tests {
 		}
 
 		[TestMethod]
-		[ExpectedException(typeof(ArgumentNullException))]
 		public void Constructor_NeedsAnInnerClient() {
-			new PearlApiClientLogging(null);
+			//Exactly ArgumentNullException, as [ExpectedException(typeof(ArgumentNullException))] required under MSTest v1 (S4-1).
+			Assert.ThrowsExactly<ArgumentNullException>(() => new PearlApiClientLogging(null));
 		}
 	}
 }

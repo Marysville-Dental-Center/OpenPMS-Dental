@@ -12,25 +12,41 @@
   -->
 
   <!--
-    UnitTests, UnitTestsCore and the test projects reference MSTest v1
-    (Microsoft.VisualStudio.QualityTools.UnitTestFramework) by name only. Visual Studio
-    and Build Tools install it under Common7\IDE, which MSBuild does not search by default.
-    VsInstallRoot is the instance whose MSBuild builds: Build Tools 2026 keep the file under
-    Common7\IDE\Extensions\TestPlatform, as Build Tools 2022 do. An SDK-style net48 project resolves
-    it the same way (the S1-0 offline check of docs/specs/net10-plan.md).
+    The test projects use MSTest 4 from its packages (S4-1 of the .NET 10 move, docs/port-notes/S4-1.md); nothing references MSTest v1
+    from the Visual Studio folder any more, so the folder is no longer added to the search path.
+
+    No test run sends telemetry. MSTest.TestAdapter 4.5.3 depends on Microsoft.Testing.Extensions.Telemetry, which brings
+    Microsoft.ApplicationInsights; both serve the Microsoft Testing Platform only, which the test projects never use (they run under
+    VSTest, tests\Directory.Build.props). Under VSTest the MSTest adapter has no telemetry sender (MSTestDiscoverer and MSTestExecutor
+    pass none) and does not reference either assembly, and vstest.console sends none unless VSTEST_TELEMETRY_OPTEDIN=1. The extension's
+    registration for a platform entry point (TestingPlatformBuilderHook 98058041-...) and both packages' assemblies are taken out of every
+    project, so no test output folder holds telemetry code at all (tests\ProjectFileTests, TestTelemetryTests, checks it).
   -->
-  <Target Name="ODAddMSTestV1SearchPath" BeforeTargets="ResolveAssemblyReferences" Condition="'$(VsInstallRoot)' != ''">
-    <PropertyGroup>
-      <AssemblySearchPaths Condition="Exists('$(VsInstallRoot)\Common7\IDE\PublicAssemblies')">$(AssemblySearchPaths);$(VsInstallRoot)\Common7\IDE\PublicAssemblies</AssemblySearchPaths>
-      <AssemblySearchPaths Condition="Exists('$(VsInstallRoot)\Common7\IDE\Extensions\TestPlatform')">$(AssemblySearchPaths);$(VsInstallRoot)\Common7\IDE\Extensions\TestPlatform</AssemblySearchPaths>
-    </PropertyGroup>
+  <ItemGroup>
+    <TestingPlatformBuilderHook Remove="98058041-B5B6-4A75-9834-58E6DF796A22" />
+  </ItemGroup>
+  <!--
+    The levels of the MSTest.Analyzers rules (tests\MSTest.globalconfig) for every project that has the analyzers: MSTest.Analyzers.props
+    sets MSTestAnalysisMode for them. Like the package's own file, an EditorConfigFiles item, which reaches the compiler after restore.
+  -->
+  <ItemGroup Condition="'$(MSTestAnalysisMode)' != ''">
+    <EditorConfigFiles Include="$(MSBuildThisFileDirectory)tests\MSTest.globalconfig" />
+  </ItemGroup>
+  <Target Name="ODRemoveTestTelemetryAssemblies" AfterTargets="ResolvePackageAssets" Condition="'$(UsingMicrosoftNETSdk)' == 'true'">
+    <ItemGroup>
+      <_ODTelemetryCompile Include="@(ResolvedCompileFileDefinitions)" Condition="'%(ResolvedCompileFileDefinitions.NuGetPackageId)' == 'Microsoft.Testing.Extensions.Telemetry' or '%(ResolvedCompileFileDefinitions.NuGetPackageId)' == 'Microsoft.ApplicationInsights'" />
+      <ResolvedCompileFileDefinitions Remove="@(_ODTelemetryCompile)" />
+      <_ODTelemetryRuntime Include="@(RuntimeCopyLocalItems)" Condition="'%(RuntimeCopyLocalItems.NuGetPackageId)' == 'Microsoft.Testing.Extensions.Telemetry' or '%(RuntimeCopyLocalItems.NuGetPackageId)' == 'Microsoft.ApplicationInsights'" />
+      <RuntimeCopyLocalItems Remove="@(_ODTelemetryRuntime)" />
+    </ItemGroup>
   </Target>
 
   <!--
     A test project with no app.config of its own builds with tests\BindingRedirects.config, the programs'
     binding redirects. Reference resolution follows them: without them it looks for the exact older version
     a library was built against (System.Memory 4.0.1.2 for MySqlConnector, say), skips the newer copy in
-    "Required dlls" and takes the old one in the test platform folder above. With them the test's output
+    "Required dlls" and takes an old one from another folder on its search path (the test platform folder
+    of Visual Studio, while MSTest v1 came from there, until S4-1). With them the test's output
     gets the files of "Required dlls", and its generated .dll.config redirects to them
     (tests\LibraryBindingTests).
   -->

@@ -2,8 +2,9 @@
   <!--
     UnitTestsCore: the table-type helpers (TableTypes\*T.cs, MultiTypes, Misc) that the legacy UnitTests project uses to create its test
     rows. The SDK's default globs compile every .cs file under this folder (bin\ and obj\ excepted); every file there was a Compile item of
-    the classic project, so nothing is listed. It is outside tests\, so tests\Directory.Build.props does not apply: the MSTest v1 reference
-    is its own, by name, as before (Directory.Build.targets adds the folder that holds it to the search path).
+    the classic project, so nothing is listed. It is outside tests\, so tests\Directory.Build.props does not apply. It is a library of test
+    helpers, not a test assembly: it takes the MSTest 4 framework only (MSTest.TestFramework, with its analyzers), not the adapter or the
+    VSTest SDK (S4-1 of the .NET 10 move, docs/port-notes/S4-1.md).
   -->
   <PropertyGroup>
     <TargetFramework>net48</TargetFramework>
@@ -20,7 +21,8 @@
     <DebugType>pdbonly</DebugType>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <!-- MSTest.TestFramework, the version of Directory.Packages.props. -->
+    <PackageReference Include="MSTest.TestFramework" />
     <!-- Newtonsoft.Json, the version of Directory.Packages.props. -->
     <PackageReference Include="Newtonsoft.Json" />
     <Reference Include="System" />
