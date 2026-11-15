@@ -158,7 +158,13 @@ namespace ToothChartImageTests {
 			new TextAllowance("size-sheet-tall","360x480","number","number 1",ReasonSheetTallNumbers),
 			new TextAllowance("size-sheet-tall","360x480","number","number 20",ReasonSheetTallNumbers),
 			new TextAllowance("size-sheet-tall","360x480","number","number 29",ReasonSheetTallNumbers),
+			//TC-5: the long free-text label at 20,140 runs along the row of the upper numbers, which DirectX drew without it.
+			new TextAllowance("text-label-long","410x307","number","*",ReasonFreeTextOverNumbers),
+			new TextAllowance("text-label-long","500x370","number","*",ReasonFreeTextOverNumbers),
 		};
+
+		private const string ReasonFreeTextOverNumbers="New drawing, not a difference of place (TC-5): the free-text label of this scene is drawn over "
+			+"the row of the upper numbers, which DirectX drew without it, so the label's black ink joins the numbers' ink in the search box.";
 
 		private const string ReasonSheetTallNumbers="The tall sheet's numbers use the D3DX font 13/5, which GDI condenses; the WPF chart scales Arial across to "
 			+"GDI's width of each number (about 0.86), which puts the 1-pixel stems of these small digits between two pixels, so their ink is lighter and the "

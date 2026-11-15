@@ -122,7 +122,16 @@ namespace ToothChartImageTests {
 				+"build-up in DirectX; the WPF chart's build-up silhouette is in the 2D layer, always on top.",true),
 			new ParityAllowance("x-on-implant-tooth","*","*",ProbeKind.BigX,"Known difference (plan 5.1): DirectX draws the implant after the X with "
 				+"depth testing on, so the implant covers the X; the WPF chart's X is in the 2D layer, always on top.",true),
+			//TC-5 (O-22): paint type Text other than "W" is drawn on the crown, which DirectX never drew, so where its letters cover the facial
+			//surface's centre the sample is the text's colour. Each tooth listed is one whose text covers its probe (the others' text misses it).
+			new ParityAllowance("text-other","*","14",ProbeKind.Facial,ReasonPaintText),
+			new ParityAllowance("text-other","*","19",ProbeKind.Facial,ReasonPaintText),
+			new ParityAllowance("text-other-eo-r","*","5",ProbeKind.Facial,ReasonPaintText),
+			new ParityAllowance("text-other-eo-r","*","28",ProbeKind.Facial,ReasonPaintText),
 		};
+
+		private const string ReasonPaintText="New drawing, not a difference of look (TC-5, O-22): the WPF chart draws the paint text on the crown, "
+			+"over the facial surface's centre; DirectX draws nothing for it.";
 
 		///<summary>The probe points of the chart as tcData holds it, at its control size: the surface centres of every visible tooth in both views
 		///(the occlusal view of a permanent tooth only when its primary tooth is not shown over it, as DirectX's DrawOcclusalView) and of every missing
