@@ -949,15 +949,20 @@ and E-10b), where each is set out in full with its recommendation. You first ans
   the batch is refused with a message saying what to fill in, so Open Dental Inc's TIN is never sent. Package X12-SENDER.
 - **A damaged release manifest** (S3a-10, [port-notes/S3a-10.md](port-notes/S3a-10.md) section 8). Every workstation now refuses to publish
   over a manifest it cannot read. If the row were ever really damaged, someone would delete the `documentmisc` rows of types 100 and 101 on
-  the database by hand. Should Recopy on the named update server offer that, after a confirmation?
+  the database by hand. Should Recopy on the named update server offer that, after a confirmation? **Your decision (2026-11-15): yes.**
+  Recopy on the named update server, when the published manifest cannot be read, offers to replace it after a confirmation (package
+  S3a-10f, queued).
 - **The program after an elevated self-update** (S3a-10 section 8). After an over-the-shoulder elevation, the restarted program runs as the
-  account that gave the rights. Keep that, or should 3b start it without those rights?
+  account that gave the rights. Keep that, or should 3b start it without those rights? Your answer (2026-11-15) was "yes"; the lead
+  asked which of the two you mean (3b work, nothing waits for it).
 - **For your information, no answer needed (S3a-7):** ServiceManager now installs every program it offers with the HL7 service's
   settings, Open Dental's own service programs included: own process, automatic start, LocalSystem, display name = service name. InstallUtil
   used to refuse a program that had no installer of its own.
 
 - **E-20 (the UMLS record of the 2026-05-14 value set files):** you cannot download them yet (2026-11-15). EHR-6a and EHR-7 stay
   unmerged, and S3a-M3 waits for EHR-7. Nothing else waits.
+
+- **LOINC's notice years (EHR-6a, `THIRD-PARTY-NOTICES.txt`):** "1995-2026" confirmed by you (2026-11-15).
 
 ## Not asked again (already settled)
 
