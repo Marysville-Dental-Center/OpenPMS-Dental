@@ -154,6 +154,9 @@ namespace OpenPmsDental {
 			}
 			FixFontsForPdf(SheetCur,true);// validate fonts before printing/creating PDF
 			if(SheetCur.SheetType==SheetTypeEnum.PaymentPlan) {
+				if(!AreTopazSignaturesReachable()) {//S3a-14f: the form stays open for a lost Topaz signature
+					return;
+				}
 				SaveSignaturePayPlan();
 			}
 			else {
@@ -231,6 +234,9 @@ namespace OpenPmsDental {
 			}
 			FixFontsForPdf(SheetCur,true);// validate fonts before printing/creating PDF
 			if(SheetCur.SheetType==SheetTypeEnum.PaymentPlan) {
+				if(!AreTopazSignaturesReachable()) {//S3a-14f: the form stays open for a lost Topaz signature
+					return;
+				}
 				SaveSignaturePayPlan();
 			}
 			else {
@@ -283,6 +289,9 @@ namespace OpenPmsDental {
 			}
 			FixFontsForPdf(SheetCur,true);// validate fonts before printing/creating PDF
 			if(SheetCur.SheetType==SheetTypeEnum.PaymentPlan) {
+				if(!AreTopazSignaturesReachable()) {//S3a-14f: the form stays open for a lost Topaz signature
+					return;
+				}
 				SaveSignaturePayPlan();
 			}
 			else {
@@ -332,6 +341,9 @@ namespace OpenPmsDental {
 			}
 			FixFontsForPdf(SheetCur,true);// validate fonts before printing/creating PDF
 			if(SheetCur.SheetType==SheetTypeEnum.PaymentPlan) {
+				if(!AreTopazSignaturesReachable()) {//S3a-14f: the form stays open for a lost Topaz signature
+					return;
+				}
 				SaveSignaturePayPlan();
 			}
 			else {
@@ -2089,7 +2101,8 @@ namespace OpenPmsDental {
 
 		///<summary>False, after showing the message, when a changed Topaz signature box's 32-bit helper cannot be reached, for example it ended after
 		///the patient signed and the signature went with it: the form stays open and nothing is written, so the user can clear the box and sign
-		///again (S3a-14f). TryToSaveData calls this before it writes anything.</summary>
+		///again (S3a-14f). TryToSaveData and VerifyRequiredFields call this before they read or write anything, and the payment plan's
+		///buttons before SaveSignaturePayPlan.</summary>
 		private bool AreTopazSignaturesReachable() {
 			for(int i=0;i<panelMain.Controls.Count;i++) {
 				if(!(panelMain.Controls[i] is OpenPmsDental.UI.SignatureBoxWrapper sigBox) || sigBox.Tag==null) {
@@ -2393,6 +2406,10 @@ namespace OpenPmsDental {
 
 		///<summary>Returns true when all of the sheet fields with IsRequired set to true have a value set. Otherwise, a message box shows and false is returned.</summary>
 		private bool VerifyRequiredFields(){
+			//S3a-14f: SigIsBlank below throws for a Topaz signature the 32-bit helper lost: show it, and the form stays open.
+			if(!AreTopazSignaturesReachable()) {
+				return false;
+			}
 			//SigBoxes are checked separately due to specific properties not in SheetField
 			for(int i=0;i<_listSignatureBoxWrappers.Count;i++) {
 				SheetField sheetField=(SheetField)_listSignatureBoxWrappers[i].Tag;

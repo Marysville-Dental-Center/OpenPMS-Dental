@@ -71,6 +71,17 @@ namespace OpenPmsDental {
 		}
 
 		private void butSave_Click(object sender,EventArgs e) {
+			//Before anything of the note is changed or written: a Topaz signature the 32-bit helper lost would stop the save at GetSignature below,
+			//after the alert was written (S3a-14f). The window stays open, so the user can clear the box and sign again.
+			if(signatureBoxWrapper.GetSigChanged() && signatureBoxWrapper.GetSigIsTopaz()) {
+				try {
+					signatureBoxWrapper.CheckTopazSignatureReachable();
+				}
+				catch(Helper32Exception ex) {
+					MessageBox.Show(ex.Message);
+					return;
+				}
+			}
 			Procedure procedure=ProcedureCur.Copy();
 			ProcedureCur.UserNum=Security.CurUser.UserNum;
 			ProcedureCur.Note=textNotes.Text+"\r\n"
@@ -100,6 +111,14 @@ namespace OpenPmsDental {
 			}
 			try {
 				SaveSignature();
+			}
+			catch(Helper32Exception ex) {
+				//S3a-14f: the Topaz signature the patient signed was lost with the 32-bit helper (it ended after the check above). The note is not
+				//saved without it: the window stays open as it was, so the user can clear the box and sign again.
+				ProcedureCur.Note=procedure.Note;
+				ProcedureCur.UserNum=procedure.UserNum;
+				MessageBox.Show(ex.Message);
+				return;
 			}
 			catch(Exception ex) {
 				MessageBox.Show(Lan.g(this,"Error saving signature.")+"\r\n"+ex.Message);

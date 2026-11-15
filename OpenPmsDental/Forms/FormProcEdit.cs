@@ -2297,6 +2297,10 @@ namespace OpenPmsDental {
 				msgBoxCopyPaste.Text="Error: Procedure Code Invalid";
 				msgBoxCopyPaste.Show();//Use .Show() to make it easy for the user to keep this window open while they call in.
 			};
+			//S3a-14f: SigIsBlank below (and the save's) throws for a Topaz signature the 32-bit helper lost: show it, and the window stays open.
+			if(!IsTopazSignatureReachable()) {
+				return false;
+			}
 			#region Surfaces, Tooth, Sextant, Arch, Date UI
 			if(!textDateTP.IsValid()
 				|| !textDate.IsValid()
@@ -2343,6 +2347,9 @@ namespace OpenPmsDental {
 		///<summary>MUST call EntriesAreValid first.  Used from OK_Click and from butSetComplete_Click</summary>
 		private void SaveAndClose() {
 			if(!NoteMerge_TryResolve()) { return; }//25.4 Procedure Note Merge (M2-NOTES), FormProcEdit.NoteMerge.cs
+			if(!IsTopazSignatureReachable()) {//S3a-14f: before anything is written (the claimprocs below), not only at SaveSignature
+				return;
+			}
 			//
 			// This method is mimicked in OD mobile apps, please inform a mobile app developer if you think changes will be needed on that end as well.
 			//
@@ -2439,6 +2446,12 @@ namespace OpenPmsDental {
 			#region Try save signature, doesn't do anything if _signatureChanged false.
 			try {
 				SaveSignature();
+			}
+			catch(Helper32Exception ex) {
+				//S3a-14f: the Topaz signature the patient signed was lost with the 32-bit helper (it ended after the check at the top of this method).
+				//The procedure is not saved without it: the window stays open, so the user can clear the box and sign again.
+				actionMsgBox.Invoke(ex.Message);
+				return;
 			}
 			catch(Exception ex) {
 				actionMsgBox.Invoke(Lans.g(translationSource,"Error saving signature.")+"\r\n"+ex.Message);
@@ -2581,6 +2594,22 @@ namespace OpenPmsDental {
 				_signatureChanged=true;
 				_hasUserChanged=true;
 			}
+		}
+
+		///<summary>False, after showing the message, when the changed Topaz signature's 32-bit helper cannot be reached, for example it ended after
+		///the patient signed and the signature went with it: nothing is written, and the user can clear the box and sign again (S3a-14f).</summary>
+		private bool IsTopazSignatureReachable() {
+			if(!_signatureChanged || !signatureBoxWrapper.GetSigIsTopaz()) {
+				return true;
+			}
+			try {
+				signatureBoxWrapper.CheckTopazSignatureReachable();
+			}
+			catch(Helper32Exception ex) {
+				MessageBox.Show(this,ex.Message);
+				return false;
+			}
+			return true;
 		}
 
 		private void SaveSignature(){

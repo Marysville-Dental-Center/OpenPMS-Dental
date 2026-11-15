@@ -540,6 +540,24 @@ namespace OpenPmsDental{
 			_hasUserChanged=true;
 		}
 
+		///<summary>False, after showing the message, when a changed Topaz signature's 32-bit helper cannot be reached, for example it ended after
+		///the patient signed and the signature went with it: nothing is written, and the user can clear the box and sign again (S3a-14f).</summary>
+		private bool AreTopazSignaturesReachable() {
+			try {
+				if(_hasSigChanged && signatureBoxWrapper.GetSigIsTopaz()) {
+					signatureBoxWrapper.CheckTopazSignatureReachable();
+				}
+				if(_hasSig2Changed && signatureBoxWrapper2.GetSigIsTopaz()) {
+					signatureBoxWrapper2.CheckTopazSignatureReachable();
+				}
+			}
+			catch(Helper32Exception ex) {
+				MessageBox.Show(this,ex.Message);
+				return false;
+			}
+			return true;
+		}
+
 		private void SaveSignature(){
 			if(_hasSigChanged){
 				string keyData=GetSignatureKey();
@@ -621,6 +639,9 @@ namespace OpenPmsDental{
 			}
 			ProcedureGroup.IsLocked=true;
 			SaveAndClose();//saves all the other various changes that the user made
+			if(DialogResult!=DialogResult.OK) {
+				ProcedureGroup.IsLocked=false;//Not saved (a lost Topaz signature stopped it, S3a-14f): the window stays open and the note is not locked.
+			}
 		}
 
 		///<summary>This button is only visible when proc IsLocked.</summary>
@@ -657,6 +678,10 @@ namespace OpenPmsDental{
 		}
 
 		private bool EntriesAreValid() {
+			//S3a-14f: SigIsBlank below (and the save's) throws for a Topaz signature the 32-bit helper lost: show it, and the window stays open.
+			if(!AreTopazSignaturesReachable()) {
+				return false;
+			}
 			if(!textProcDate.IsValid()) {
 				MsgBox.Show(this,"Please fix data entry errors first.");
 				return false;
@@ -710,6 +735,9 @@ namespace OpenPmsDental{
 		}
 
 		private void SaveAndClose() {
+			if(!AreTopazSignaturesReachable()) {//S3a-14f: before anything is written (the links below), not only at SaveSignature
+				return;
+			}
 			ProcedureGroup.Note=textNotes.Text;
 			List<Procedure> listProceduresAdded=new List<Procedure>();
 			List<Procedure> listProceduresRemoved=new List<Procedure>();
@@ -725,6 +753,12 @@ namespace OpenPmsDental{
 			}
 			try {
 				SaveSignature();
+			}
+			catch(Helper32Exception ex) {
+				//S3a-14f: a Topaz signature the patient signed was lost with the 32-bit helper (it ended after the check at the top of this method).
+				//The group note is not saved without it: the window stays open, so the user can clear the box and sign again.
+				MessageBox.Show(ex.Message);
+				return;
 			}
 			catch(Exception ex){
 				MessageBox.Show(Lan.g(this,"Error saving signature.")+"\r\n"+ex.Message);
