@@ -170,8 +170,9 @@ the improvement notation, each population and stratum with its ID and define, an
   before. An office that picks the workbook and the SVS `.zip` of the same release with the two companions (four files) is refused unread;
   one that picks two value-set files and one companion holds one value-set parse.
 - **The release record** (`ForkEhrValueSetRelease`, `EhrValueSetRelease`): as EHR-2 (label, the value-set file's name and SHA-256, date,
-  counts, the measure check), plus the three files (kind, name, SHA-256, size), the code-system versions, the roles and how each resolved, and
-  the number of direct reference codes. A record written by EHR-2 still reads (the new lists are empty). The Setup security log entry names
+  counts, the measure check), plus the three files (kind, name, SHA-256, size), the code-system versions, the roles and how each resolved, the
+  number of direct reference codes, and the Direct Reference Codes file's own measure check (`MeasureCheckDirectCodes`, section 13). A record
+  written by EHR-2 still reads (the new lists are empty), and the window says it is the old release (section 13). The Setup security log entry names
   the release, the three files with their SHA-256, the counts, the measure check, the roles resolved and the versions recorded; no code.
 - **Sizes (E-30):** unchanged until E-20's record; every value set of the file is still imported (EHR-2's choice).
 
@@ -189,8 +190,9 @@ and the offices' own `VersionCur` values:
 | ICD10CM, CPT, HCPCS | the year |
 | any other (CDCREC, SOP, CDT, ...) | none: both strings are shown, nothing is flagged |
 
-The release may name several versions of one code system: the newest counts. The window (`FormCodeSystemsImport`) gains the columns Loaded
-Version and In the Release, and the status "Loaded, but older than the release's version: codes of the newer value sets are missing from the
+The release may name several versions of one code system: the newest counts. Value-Set Codes counts the value-set rows only; the direct
+reference codes (the `drc:` rows) are counted apart, in Direct Codes (section 13). The window (`FormCodeSystemsImport`) gains the columns
+Direct Codes, Loaded Version and In the Release, and the status "Loaded, but older than the release's version: codes of the newer value sets are missing from the
 pick lists".
 
 ### 5. The window
@@ -341,6 +343,55 @@ Full build through the lane: 0 errors. Targeted run `ehr6a-3-targeted.txt`:
 | Assembly | Result |
 |---|---|
 | EhrTests | 236: 235 passed, 1 skipped (`Catalog_EqualsTheDownloadedPackages_WhenCqmSpecsDirIsSet`, as in section 10), 0 failed |
+| AttributionTests | 50 of 50 passed |
+| MiddleTierMockTests | 125 of 125 passed |
+| NoHqTests | 57 of 57 passed |
+
+No `ehr6a_` database was left on the server after the run.
+
+### 13. Lead fix round 4 (`ehr/ehr6a-4`)
+
+On top of the lead's 9935e7380 (LOINC's notice with the licence's copyright years, 1995-2026):
+
+- **A pick `MakePick` did not build** (`Import`): a pick that is not refused but lacks `FileValueSets`, `FileDirectCodes` or
+  `FileCodeSystemVersions`, or has other than three files (a `new EhrValueSetPick()`), is refused before `DropLeftoverTables` and any table
+  work: "The pick is not the release's three files as MakePick reads them. Nothing was imported, and the value sets in the database are
+  unchanged." Before, such a pick without its value-set file passed the count check (0 of 0 written), swapped in a table without the
+  value-set rows, and only then threw at the release record: data loss, not just an exception.
+- **The count-mismatch refusal** says "Import the three files again."
+- **A failure after the swap**: the release record (`PrefC.UpsertRaw`, the Setup log entry) is in a try/catch. A failure returns
+  `GetRecordFailedText` ("The codes of the three files replaced the old ones, but the release record was not saved: ... Import the three
+  files again."), and `Import(pick,out areRowsReplaced)` tells the window, which then shows "Codes replaced, release not recorded!" (not
+  "Import failed!") and signals `InvalidType.EhrCodes` and `InvalidType.Prefs`. `Import(pick)` stays for the callers that need no flag.
+  The test seam is `ActionBeforeRecord`.
+- **Both measure checks recorded**: `EhrValueSetRelease.MeasureCheckDirectCodes` keeps the Direct Reference Codes file's own check next to
+  the value-set file's `MeasureCheck`; the log entry gives it after the value sets' ("...; 7 of 7 measures at the 2027 versions; direct
+  reference codes: 7 of 7 measures at the 2027 versions; ..."), "not recorded" for a record written before.
+- **The status grid**: `CountValueSetCodes` (Value-Set Codes) leaves out the `drc:` rows; the new `CountDirectCodes` (column Direct Codes)
+  counts them, and a code system only the direct reference codes use is still listed (ActCode).
+- **A second file of a kind** (refused in `AddRawRow` or `ParsePick`) has `IsKindTaken`, and its report gives only its name, SHA-256,
+  "Holds" and the refusal: no "Rows read", "found: 0 of N" or "Measures" line for a file that was never read.
+- **The old release**: `GetValueSetVersionText` of a record whose `Label` is not `RELEASE_LABEL` (EHR-2's June 2013 import, in the same
+  preference row) reads "old release loaded (its label, imported date: file). Import the release this program needs: [RELEASE_LABEL]."
+- **Tests**: `ReleaseIdentityTests` matches the LOINC trademark sentence across the notice's wrap (`\s+` between "registered" and
+  "United"). `CatalogTests` holds no NCQA words (the NCQA measures by `IsNcqa`; CMS155's eight paragraphs derived from the catalog's own
+  field; the recorded SHA-256 still pins each statement), and the guard's self-test samples are built at run time in shapes no code system
+  publishes (five zeros, a LOINC number with the wrong mod-10 check digit, a reserved ICD-10 letter, D0000, 0000F), each of the guard's four
+  patterns firing on one. `LoadTime_AFullSyntheticRelease_LoadsInUnderASecond` keeps its 1 s bound on the best of three cold loads, all three
+  in the timing text. New: `DirectCodeDbTests` `Import_APickMakePickDidNotBuild_IsRefusedBeforeAnyTableWork_TheRowsAndTheReleaseUnchanged`,
+  `Import_AFailureWhileTheReleaseIsRecorded_SaysTheCodesWereReplaced_NotThatTheImportFailed`,
+  `Import_RecordsTheDirectReferenceCodesFilesOwnMeasureCheck_ApartFromTheValueSetFiles` and
+  `Status_TheValueSetCodes_LeaveOutTheDirectReferenceCodes_CountedApart`; `DirectCodeTests` checks the second file's report;
+  `ValueSetDbTests` checks the HCPCS direct code counted apart and the June 2013 record's text.
+- **Comments**: `EhrSteps.cs` names the 2026-05-14 release and its three files. No migration behaviour changes.
+
+Kept for E-20, as before: one `.zip` or three files, the Code System Versions file's release check, the header names, E-30's sizes.
+
+Full build through the lane: 0 errors, no warning in a changed file. Targeted run `ehr6a4-fix-r1.txt`:
+
+| Assembly | Result |
+|---|---|
+| EhrTests | 240: 239 passed, 1 skipped (`Catalog_EqualsTheDownloadedPackages_WhenCqmSpecsDirIsSet`, as in section 10), 0 failed |
 | AttributionTests | 50 of 50 passed |
 | MiddleTierMockTests | 125 of 125 passed |
 | NoHqTests | 57 of 57 passed |
