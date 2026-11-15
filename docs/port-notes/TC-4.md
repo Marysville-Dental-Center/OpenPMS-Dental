@@ -232,8 +232,8 @@ config every library file. The same for the built configs of the other programs 
 No `System.Net.Http.dll` or `System.Security.Cryptography.*.dll` (or any other 4.3.x file) is in any built folder: the Debug folders of all
 42 projects that get Helix, compared before and after (a SHA-256 list of every `bin\Debug` file: 8 new files in each of the 42 folders,
 nothing gone, none of those names anywhere), the Release output and the staged release (section 9), and `HelixPackageTests.
-BuiltFolders_HoldNoFileOfTheSystemNetHttpPackages` checks every `bin\Debug` and `bin\Release` of the projects whose lock file names
-System.Net.Http, and no `runtimes` folder. The cause is the SDK's conflict resolution, not a setting: the .NET Framework 4.8 assemblies of
+BuiltFolders_HoldNoFileOfTheSystemNetHttpPackages` checks every `bin\Debug` and `bin\Release` of the solution filter's projects whose lock
+file names System.Net.Http, and no `runtimes` folder. The cause is the SDK's conflict resolution, not a setting: the .NET Framework 4.8 assemblies of
 those names are newer. `NuGetFiles` models exactly that (section 11). `HelixTypes_TheChartWillUse_LoadFromTheProgramFolder` loads the types
 the chart will use in the program's setting (an AppDomain on `OpenPmsDental\bin\Debug` with `OpenPmsDental.exe.config`): a `MeshBuilder`
 box with `ToMesh().ToWndMeshGeometry3D(true)` gives a WPF `MeshGeometry3D` of 24 positions, every Helix assembly loads from the program
@@ -289,7 +289,22 @@ copies from for the program (every package is in it). None of those files is on 
   a library file (at or below its version), part of the .NET Framework, or exactly `HelixToolkit.Wpf -> SRTM 0.0.8.0` (the one allowed
   missing reference), and none is System.Net.Http; every type of HelixToolkit.Wpf that names a type or member of SRTM (base types, fields,
   properties, signatures, locals, method bodies) is a terrain or hgt type.
-- `tests/ProjectFileTests/NuGetFilesTests.cs`: `ReadCopiedFiles_TheRuntimeTarget_WithoutWhatTheFrameworkReplaces` (synthetic assemblies).
+- `tests/ProjectFileTests/NuGetFilesTests.cs`: `ReadCopiedFiles_TheRuntimeTarget_WithoutWhatTheFrameworkReplaces` (synthetic assemblies);
+  `ListSolutionLockFiles_TheFiltersProjectsOnly_NoOtherWorktree` (fix round 3, below).
+
+**Fix round 3 (review finding: the lock-file scan went into other worktrees).** The two `HelixPackageTests` that pick projects by lock file
+(`BuiltFolders_HoldNoFileOfTheSystemNetHttpPackages`, `Compilations_GetNoCommunityToolkitMvvmAnalyzer`) found them with
+`Directory.GetFiles(RepoRoot,"packages.lock.json",AllDirectories)`, dropping only paths with a `bin` or `obj` segment. In the main checkout
+that walk goes into every worktree under `.claude\worktrees`: a cleaned worktree (its lock files name CommunityToolkit.Mvvm, it has no
+`obj\*.analyzers.txt`) made the analyzer test end as not built, an `Assert.Fail` under `OPMS_REQUIRE_BUILD_OUTPUT=1`; the W2 test judged other
+worktrees' `bin` folders; and the walk could throw for a long path or a folder it may not open. The runs here were inside a worktree, which
+has no nested `.claude`, so they did not show it. Now `NuGetFiles.ListSolutionLockFiles` (`tests/ProjectFileTests/NuGetFiles.cs`) gives the
+lock files of the C# projects that `OpenDental.Local.slnf` names, read as LibraryBindingTests' `SolutionProjects` reads it, and both tests use
+it. Every tracked `packages.lock.json` belongs to a project of the filter (155 lock files; the filter's 156 C# projects, OpenPmsDentalServer
+without one), so nothing the walk used to check is lost. The new fixture test builds a temporary root with a filter and lock files naming
+CommunityToolkit.Mvvm in a listed project, a listed test project, `.claude\worktrees\x\P`, `P\bin\Debug`, `P\obj`, `packages\p\1.0.0`, an
+unlisted project and the filter's vcxproj folder, with no `obj` records: only the two listed C# projects come back, in the filter's order; a
+root without the filter throws.
 
 **Changed** (the plan said "new files only" for these folders; that holds for TC-9b, but a new package changes the lists that pin the
 package files):
@@ -360,3 +375,9 @@ These hold from TC-4's merge on; no chart code uses Helix in TC-4 itself.
   skipped (the opt-in recorder, comparison, gallery and on-screen timing tests), unchanged: Helix changes no pixel. Not run, by the
   coordinator's rules: Core and Full, InitSqlTests, ForkMigrationTests, and the parallel stream's DbConnectionSecurityTests and
   LibraryUpdateTests (the latter reads `NuGetFiles.ReadCopiedFiles`, section 11).
+- **Fix round 3** (branch `chart/tc4-3`, section 11): the full build of the slnf through the lane, 0 errors, 353 warnings. Targeted run
+  (`.git/od-tools/test-results/tc4-3-targeted.txt`, the same six assemblies): all pass. AttributionTests 50/50, LibraryBindingTests 20/20,
+  NoHqTests 57/57, ProjectFileTests 134 passed and 1 skipped (the opt-in baseline check; the new fixture test passes), ReleaseFlowTests 127
+  passed and 1 skipped (`BuildIdFiles_AreAllInTheReleaseOutput`, inconclusive while the Release configuration is not built: the cleaned
+  worktree has no Release output this time), with both changed Helix tests passing on the filter's projects; ToothChartImageTests 174 passed
+  and 4 skipped, as before.
