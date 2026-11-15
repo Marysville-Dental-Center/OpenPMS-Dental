@@ -63,7 +63,10 @@ namespace EhrTests {
 		[TestMethod]
 		public void Requirement_ForEachStageMeasureAndYear_FollowsThe2015To2017Rule() {
 			//Modified Stage 2 (2015-2017 rule): patient electronic access measure 2 (ElectronicCopy) at least 1 patient in 2015 and 2016; secure
-			//messaging a yes/no attestation in 2015 and at least 1 patient in 2016; the engine's "more than" threshold otherwise.
+			//messaging a yes/no attestation in 2015 and at least 1 patient in 2016; the engine's "more than" threshold otherwise. The years come from
+			//the public final rule "Medicare and Medicaid Programs; Electronic Health Record Incentive Program-Stage 3 and Modifications to Meaningful
+			//Use in 2015 Through 2017" (80 FR 62762, 16 October 2015), the eligible professional objectives of 42 CFR 495.22(e) (patient electronic
+			//access, secure messaging), and the CMS EP specification sheets for Modified Stage 2 of 2015-2017 that restate them.
 			int countChecked=0;
 			foreach(EhrMeasureStage stage in _arrayStages) {
 				foreach(EhrMeasureType type in EhrMeasures.GetStageMeasureTypes(stage)) {
@@ -548,6 +551,203 @@ namespace EhrTests {
 			StringAssert.Contains(source,"return Meth.GetObject<EhrMeasure>(MethodBase.GetCurrentMethod(),ehrMeasureStage,ehrMeasure,dateStart,dateEnd,provNum);");
 			StringAssert.Contains(source,"return Meth.GetObject<List<string>>(MethodBase.GetCurrentMethod(),maxAgeSeconds);");
 			StringAssert.Contains(source,"WHERE TABLE_SCHEMA=DATABASE() ");
+		}
+		#endregion
+
+		#region The lead fix round (EHR-4a, round 2)
+		[TestMethod]
+		public void Percent_AJustMetRow_ShowsMoreThanItsThreshold_AnUnmetRowNoMore() {
+			EhrMeasureRequirement moreThan80=new EhrMeasureRequirement(EhrMeasureRequirementKind.MoreThanPercent,80);
+			Assert.IsTrue(EhrMeasureCalcRules.IsMet(moreThan80,4001,5000),"80.02% is more than 80%.");
+			Assert.AreEqual("80.02%",EhrMeasureCalcRules.GetResultText(EhrMeasureStage.Stage1,EhrMeasureType.ProblemList,moreThan80,4001,5000),
+				"A green row beside 'More than 80%' must not show 80%.");
+			Assert.AreEqual("80%",EhrMeasureCalcRules.GetResultText(EhrMeasureStage.Stage1,EhrMeasureType.ProblemList,moreThan80,4000,5000),
+				"Exactly 80% is not met.");
+			Assert.AreEqual("79.9%",EhrMeasureCalcRules.GetResultText(EhrMeasureStage.Stage1,EhrMeasureType.ProblemList,moreThan80,3999,5000),
+				"79.98% is never rounded up to the threshold.");
+			EhrMeasureRequirement moreThan50=new EhrMeasureRequirement(EhrMeasureRequirementKind.MoreThanPercent,50);
+			Assert.AreEqual("50.00000005%",EhrMeasureCalcRules.GetResultText(EhrMeasureStage.Stage1,EhrMeasureType.ProblemList,moreThan50,
+				1000000001,2000000000),"As many decimals as it takes, for the largest denominators too.");
+			//Every numerator of every denominator up to 300, against the engine's thresholds: a met row shows more than its threshold, an unmet one
+			//no more than it, and the shown value is never more than the real one.
+			foreach(int threshold in new[] { 5,10,30,40,50,60,80 }) {
+				EhrMeasureRequirement requirement=new EhrMeasureRequirement(EhrMeasureRequirementKind.MoreThanPercent,threshold);
+				for(int denominator=1;denominator<=300;denominator++) {
+					for(int numerator=0;numerator<=denominator;numerator++) {
+						string text=EhrMeasureCalcRules.GetResultText(EhrMeasureStage.Stage1,EhrMeasureType.ProblemList,requirement,numerator,denominator);
+						Assert.IsTrue(text.EndsWith("%"),text);
+						decimal shown=decimal.Parse(text.TrimEnd('%'),CultureInfo.CurrentCulture);
+						string where=numerator+" of "+denominator+" against "+threshold+": "+text;
+						Assert.IsTrue(shown*denominator<=numerator*100m,"Never more than it is. "+where);
+						if(EhrMeasureCalcRules.IsMet(requirement,numerator,denominator)) {
+							Assert.IsTrue(shown>threshold,"Met: more than the threshold. "+where);
+						}
+						else {
+							Assert.IsTrue(shown<=threshold,"Not met: no more than the threshold. "+where);
+						}
+					}
+				}
+			}
+		}
+
+		[TestMethod]
+		public void Detail_TheAuditTable_IsTheOneAlreadyFetched_OrComesOffTheWindowsThread() {
+			string detail=ReadSource(@"OpenPmsDental\Forms\FormEhrMeasureCalcDetail.cs");
+			//One query, inside an ODThread's worker: never on the window's thread.
+			Assert.AreEqual(1,Regex.Matches(detail,@"EhrMeasures\.GetAuditTable\(").Count);
+			int indexThread=detail.IndexOf("new ODThread(",StringComparison.Ordinal);
+			Assert.IsTrue(indexThread>=0,"The detail starts an ODThread.");
+			string worker=detail.Substring(indexThread,detail.IndexOf("});",indexThread,StringComparison.Ordinal)-indexThread);
+			StringAssert.Contains(worker,"EhrMeasures.GetAuditTable(","The query is the thread's work.");
+			StringAssert.Contains(detail,"this.InvokeIfNotDisposed(","The answer comes back through InvokeIfNotDisposed.");
+			StringAssert.Contains(detail,"private void butCancel_Click(");
+			StringAssert.Contains(detail,"private volatile bool _isCancelRequested;");
+			string designer=ReadSource(@"OpenPmsDental\Forms\FormEhrMeasureCalcDetail.designer.cs");
+			StringAssert.Contains(designer,"this.butCancel.Click += new System.EventHandler(this.butCancel_Click);");
+			//Meanwhile the patient grid is off; Measure Calc hands the detail a table it already has and keeps the one the detail fetched.
+			StringAssert.Contains(detail,"gridAudit.Enabled=!isLoading;");
+			string calc=ReadSource(@"OpenPmsDental\Forms\FormEhrMeasureCalc.cs");
+			StringAssert.Contains(calc,"formEhrMeasureCalcDetail.TableAudit=");
+			StringAssert.Contains(calc,"=formEhrMeasureCalcDetail.TableAudit;");
+		}
+
+		[TestMethod]
+		public void Refresh_AfterAnError_TheProgressLineSaysWhereItStopped_NotDone() {
+			string calc=ReadSource(@"OpenPmsDental\Forms\FormEhrMeasureCalc.cs");
+			string refresh=GetMethodBody(calc,"private void butRefresh_Click(");
+			StringAssert.Contains(refresh,"EhrMeasureCalcRules.GetProgressEndText(","The end of a refresh is worded by the rule, which knows of the error.");
+			Assert.IsFalse(refresh.Contains("\"Done:\""),"No 'Done' regardless of an error.");
+		}
+
+		[TestMethod]
+		public void PeriodNotes_ModifiedStage2_OneStatementOfTheYearShown_AndTheLabelShowsEveryNote() {
+			List<EhrMeasureType> listTypes=EhrMeasures.GetStageMeasureTypes(EhrMeasureStage.ModifiedStage2);
+			for(int yearStart=2013;yearStart<=2018;yearStart++) {
+				foreach(DateTime dateEnd in new[] { new DateTime(yearStart,12,31),new DateTime(yearStart+1,3,31) }) {
+					DateTime dateStart=new DateTime(yearStart,10,1);
+					List<string> listNotes=EhrMeasureCalcRules.GetPeriodNotes(EhrMeasureStage.ModifiedStage2,dateStart,dateEnd);
+					string where=dateStart.ToShortDateString()+" to "+dateEnd.ToShortDateString()+": "+string.Join(" | ",listNotes);
+					List<string> listYearNotes=listNotes.Where(x => Regex.IsMatch(x,@"requirements of \d{4}")).ToList();
+					bool isTwoYears=dateEnd.Year!=yearStart;
+					if(!isTwoYears && yearStart>=2015) {
+						Assert.AreEqual(0,listYearNotes.Count,where);
+						continue;
+					}
+					Assert.AreEqual(1,listYearNotes.Count,"One statement of the year whose requirements are shown. "+where);
+					MatchCollection matches=Regex.Matches(listYearNotes[0],@"requirements of (\d{4})");
+					Assert.AreEqual(1,matches.Count,"One year named. "+where);
+					int yearShown=int.Parse(matches[0].Groups[1].Value,CultureInfo.InvariantCulture);
+					Assert.AreEqual(isTwoYears,listYearNotes[0].Contains("two calendar years"),"The two-year warning is in that statement. "+where);
+					Assert.AreEqual(yearStart<2015,listYearNotes[0].Contains("began in 2015"),where);
+					//The year named is the one whose requirements the grid shows.
+					int reportingYear=EhrMeasureCalcRules.GetReportingYear(dateStart);
+					foreach(EhrMeasureType type in listTypes) {
+						Assert.AreEqual(EhrMeasureCalcRules.GetRequirement(EhrMeasureStage.ModifiedStage2,type,5,yearShown).GetText(),
+							EhrMeasureCalcRules.GetRequirement(EhrMeasureStage.ModifiedStage2,type,5,reportingYear).GetText(),type+" "+where);
+					}
+				}
+			}
+			//The notes area shows every note of the longest combination, in the window's font, without covering the progress line or the grid.
+			string designer=ReadSource(@"OpenPmsDental\Forms\FormEhrMeasureCalc.designer.cs");
+			System.Drawing.Rectangle rectangleNotes=GetDesignerBounds(designer,"labelNotes");
+			System.Drawing.Rectangle rectangleProgress=GetDesignerBounds(designer,"labelProgress");
+			System.Drawing.Rectangle rectangleGrid=GetDesignerBounds(designer,"gridMain");
+			Assert.IsTrue(rectangleNotes.Bottom<=rectangleProgress.Top,"The notes do not cover the progress line.");
+			Assert.IsTrue(rectangleProgress.Bottom<=rectangleGrid.Top,"The progress line does not cover the grid.");
+			int heightMax=0;
+			foreach(EhrMeasureStage stage in _arrayStages) {
+				for(int yearStart=2013;yearStart<=2018;yearStart++) {
+					foreach(DateTime dateEnd in new[] { new DateTime(yearStart,12,31),new DateTime(yearStart+1,3,31) }) {
+						string text=string.Join("\r\n",EhrMeasureCalcRules.GetPeriodNotes(stage,new DateTime(yearStart,10,1),dateEnd));
+						System.Drawing.Size size=MeasureNotes(text,rectangleNotes.Width);
+						heightMax=Math.Max(heightMax,size.Height);
+						Assert.IsTrue(size.Height<=rectangleNotes.Height,stage+" "+yearStart+"-"+dateEnd.Year+": "+size.Height+" px of notes in "
+							+rectangleNotes.Height+" px.");
+					}
+				}
+			}
+			Assert.IsTrue(heightMax>0);
+		}
+
+		///<summary>The size of word-wrapped text in the window's font (FormODBase: Microsoft Sans Serif 8.25 at 96 dpi; the layout manager scales
+		///the font and the control together).</summary>
+		private static System.Drawing.Size MeasureNotes(string text,int width) {
+			using(System.Drawing.Font font=new System.Drawing.Font("Microsoft Sans Serif",8.25f)) {
+				return TextRenderer.MeasureText(text,font,new System.Drawing.Size(width,int.MaxValue),TextFormatFlags.WordBreak|TextFormatFlags.TextBoxControl);
+			}
+		}
+
+		///<summary>A control's location and size as the designer file sets them.</summary>
+		private static System.Drawing.Rectangle GetDesignerBounds(string designer,string name) {
+			Match matchLocation=Regex.Match(designer,@"this\."+name+@"\.Location = new System\.Drawing\.Point\((\d+), (\d+)\);");
+			Match matchSize=Regex.Match(designer,@"this\."+name+@"\.Size = new System\.Drawing\.Size\((\d+), (\d+)\);");
+			Assert.IsTrue(matchLocation.Success && matchSize.Success,name);
+			return new System.Drawing.Rectangle(int.Parse(matchLocation.Groups[1].Value),int.Parse(matchLocation.Groups[2].Value),
+				int.Parse(matchSize.Groups[1].Value),int.Parse(matchSize.Groups[2].Value));
+		}
+
+		[TestMethod]
+		public void WorkTables_TheServerKeepsAFloorOnTheAge_NoClientDropsATableInUse() {
+			MeasureCalcFixture.Begin();
+			string db=MeasureCalcFixture.DbName;
+			MeasureCalcFixture.CreateTable(db,"tempehrmeasure900021");
+			try {
+				CollectionAssert.AreEqual(new List<string>(),EhrMeasures.DropOldWorkTables(0),"Directly: an age of 0 is raised to the floor.");
+				MeasureCalcFixture.UseMockMiddleTier();
+				Assert.AreEqual(MiddleTierRole.ClientMT,RemotingClient.MiddleTierRole);
+				foreach(int maxAgeSeconds in new[] { 0,-1,1,59,int.MinValue }) {
+					CollectionAssert.AreEqual(new List<string>(),EhrMeasures.DropOldWorkTables(maxAgeSeconds),
+						"Through the Middle Tier, "+maxAgeSeconds+" s: the server raises it to the floor.");
+				}
+			}
+			finally {
+				MeasureCalcFixture.UseDirectConnection();
+			}
+			try {
+				CollectionAssert.AreEqual(new List<string> { "tempehrmeasure900021" },MeasureCalcFixture.GetWorkTables(db),"A table made just now stays.");
+				//The floor is applied after the Middle Tier call, in the code the server runs; the window's one day is above it.
+				string source=ReadSource(@"OpenPmsDentalBusiness\Data Interface\EhrMeasures.cs");
+				int start=source.IndexOf("public static List<string> DropOldWorkTables(int maxAgeSeconds)",StringComparison.Ordinal);
+				Assert.IsTrue(start>=0);
+				string body=source.Substring(start,source.IndexOf("\n\t\t}",start,StringComparison.Ordinal)-start);
+				int indexCall=body.IndexOf("return Meth.GetObject<List<string>>(MethodBase.GetCurrentMethod(),maxAgeSeconds);",StringComparison.Ordinal);
+				int indexFloor=body.IndexOf("WORK_TABLE_MIN_AGE_SECONDS",StringComparison.Ordinal);
+				Assert.IsTrue(indexCall>=0 && indexCall<indexFloor,"The server applies the floor.");
+				System.Reflection.FieldInfo fieldInfo=typeof(EhrMeasures).GetField("WORK_TABLE_MIN_AGE_SECONDS");
+				Assert.IsNotNull(fieldInfo);
+				int floor=(int)fieldInfo.GetValue(null);
+				Assert.IsTrue(floor>=3600,"At least an hour.");
+				Assert.IsTrue(floor<=EhrMeasures.WORK_TABLE_MAX_AGE_SECONDS);
+			}
+			finally {
+				MeasureCalcFixture.DropTable(db,"tempehrmeasure900021");
+			}
+		}
+
+		[TestMethod]
+		public void ElectronicCopyAccess_CountsTheRemovedPortalsOnlineAccess_MarkedInEveryStage() {
+			EhrMeasureRequirement moreThan50=new EhrMeasureRequirement(EhrMeasureRequirementKind.MoreThanPercent,50);
+			foreach(EhrMeasureStage stage in _arrayStages) {
+				CollectionAssert.Contains(EhrMeasures.GetStageMeasureTypes(stage),EhrMeasureType.ElectronicCopyAccess,stage.ToString());
+				Assert.IsTrue(EhrMeasureCalcRules.IsPortalMeasure(stage,EhrMeasureType.ElectronicCopyAccess),stage.ToString());
+				Assert.AreEqual(EhrMeasureCalcRules.DEPENDS_ON_REMOVED_PORTAL,
+					EhrMeasureCalcRules.GetResultText(stage,EhrMeasureType.ElectronicCopyAccess,moreThan50,0,40),stage+": not met, marked.");
+				Assert.AreEqual(EhrMeasureCalcRules.DEPENDS_ON_REMOVED_PORTAL,
+					EhrMeasureCalcRules.GetResultText(stage,EhrMeasureType.ElectronicCopyAccess,moreThan50,20,40),stage+": 50% is not met either.");
+				Assert.AreEqual("75%",EhrMeasureCalcRules.GetResultText(stage,EhrMeasureType.ElectronicCopyAccess,moreThan50,30,40),
+					stage+": met from old data, its percent.");
+				//The notes name the row as the grid does.
+				string title=EhrMeasureCalcRules.GetMeasureTitle(stage,EhrMeasureType.ElectronicCopyAccess);
+				Assert.IsTrue(EhrMeasureCalcRules.GetPeriodNotes(stage,new DateTime(2016,1,1),new DateTime(2016,12,31))
+					.Any(x => x.Contains(title) && x.Contains("patient portal")),stage+": "+title);
+			}
+			//Nothing in the program or the business library writes the event it counts any more; the engine only reads it.
+			Regex regexWrite=new Regex(@"EventType\s*=\s*EhrMeasureEventType\.OnlineAccessProvided");
+			foreach(string folder in new[] { "OpenPmsDental","OpenPmsDentalBusiness" }) {
+				foreach(string file in Directory.GetFiles(TestPaths.Combine(folder),"*.cs",SearchOption.AllDirectories)) {
+					Assert.IsFalse(regexWrite.IsMatch(File.ReadAllText(file)),file);
+				}
+			}
 		}
 		#endregion
 	}
