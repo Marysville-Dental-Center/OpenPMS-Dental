@@ -199,6 +199,7 @@ namespace EhrTests {
 			long codeNum=OpenPmsDentalBusiness.Crud.ProcedureCodeCrud.Insert(procedureCode);
 			DiseaseDef diseaseDef=new DiseaseDef();
 			diseaseDef.DiseaseName="Synthetic problem";
+			diseaseDef.SnomedCode="TEST0001";//A made-up code: the engine counts a problem that has a code.
 			long diseaseDefNum=OpenPmsDentalBusiness.Crud.DiseaseDefCrud.Insert(diseaseDef);
 			ListPatientsKeyed.Clear();
 			for(int i=0;i<4;i++) {
