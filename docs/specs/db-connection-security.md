@@ -300,7 +300,10 @@ gives the command that removes the certificate (`Remove-Item Cert:\LocalMachine\
 deleted only when the entry no longer names it; otherwise both keys and the entry stay, the result says how to put the entry right, and the
 save keeps the record (also after a failed save, writing one that names the import), so that no key the tool created is left with no record
 naming it, and a later save whose settings do not use that certificate tries the put-back again; the record names one certificate, so when
-it must name the one the settings use, the result says that no later save tries again (DCFU4 lead fix round, decision 2). If the store
+it must name the one the settings use, the result says that no later save tries again (DCFU4 lead fix round, decision 2); when the
+undo of a failed save records the certificate the settings as they are use over such a record, the error names the other certificate, says
+that no later save tries its put-back again, and gives the steps by hand (check the entry with `certutil -store`, delete the tool's key
+with its `certutil -delkey` command, import the certificate with its earlier key again; fix round 5). If the store
 cannot be read again to check the entry after the put-back, the tool cannot tell which key the entry names: it deletes no key (the
 certificate could otherwise name a key that is gone), keeps the record, and says that the store could not be read again; the next save that
 finds the entry naming its earlier key deletes the tool's key (decision 5). A record that names the entry's earlier key but no tool key

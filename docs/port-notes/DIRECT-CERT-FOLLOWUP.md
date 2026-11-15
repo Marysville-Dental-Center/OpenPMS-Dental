@@ -1794,3 +1794,59 @@ own key, a put-back that fails or cannot be checked, and the save that tries aga
 - **A removal whose store cannot be opened, for a record without an earlier key** (`RemoveImported`'s store exception): the certificate and
   its key are still there and the result says how to remove them, but the record goes with the save, as before; a later save would not try
   again (only records with an earlier key are a pending put-back).
+
+## Round 4, fix round 5 (branch `fix/dcfu4-5`, 2026-11-14)
+
+Cut from `fix/dcfu4-4` (e3d832ed3). One review finding on the lead fix round. Test 1164a8299, code 5f5ce3ad2, docs the commit after,
+results the last commit. No schema change, no record format change, no new dependency, no package or version change.
+
+### A failed save overwrote a put-back still to do (`DbSettingsRunner.UndoImportOfFailedSave`)
+
+Decision 2 made a new kind of record: one kept for a certificate R that the settings no longer use, whose entry still waits for its
+earlier key (a put-back that failed or could not be checked). `UndoImportOfFailedSave` guarded it in its first branch only (an import no
+settings use: the other record is kept). Its other two branches wrote the record of the import's certificate T over it without a word:
+decision 3's branch when T's own put-back failed (`KeepRecordForPutBack(pathRecord,T,null)`), and the "recorded at once" branch (T's
+import had no `KeyBefore`). The concrete sequence: the tool imports R over an administrator's key, the settings use R; a save with the
+password cannot put R's earlier key back (a store that refuses or drops the write), so the record of R is kept; a save with
+`/thumbprint=` T (R's retry fails again); the administrator imports T's `.pfx` while `FreeDentalConfig.xml` is held open, the save fails,
+T's put-back fails for the same reason, and T's record replaced R's. The error said "The tool keeps its record of the client certificate
+T" and nothing about R, whose entry still named the Users-readable key the tool gave it, which no record or message named again.
+
+- **The choice:** of the two the finding offered, the record names T, the certificate the settings as they are use, and the error names R.
+  This is the rule the successful save already follows (the lead fix round's Noticed item: "the record of the new one wins, and the result
+  says that no later save tries again for the other"); with T recorded, a later save that stops using T puts T's earlier key back, while
+  keeping R instead would leave the settings' own certificate with a key the tool made and no record (a later re-import would then take
+  that key for someone else's). An import no settings use keeps the other record as before.
+- **The text** (`ClientCertificateStore.GetPutBackNotTriedAgainText`), after the sentence about T: "The tool's record named the client
+  certificate R as well, whose entry in the computer's certificate store (LocalMachine\My) was still to get its earlier private key
+  (provider P, key container C, in ...) back; the record names one certificate only, so no later save tries that put-back again. Its
+  entry may still name the private key the tool gave it (...), which the computer's users can read. Check the entry as an administrator
+  (certutil -store "My" R); to put it back as it was, delete the tool's key (certutil -csp "P" -delkey "C"), then import the certificate
+  R with its earlier key again." For a record with no tool key (decision 1's older records) it says how to find the key instead. When T's
+  record cannot be written, the record of R stays and the sentence is left out.
+- **`KeepRecordForPutBack`'s refusal** said "which the settings use" also when the other record was a put-back still to do (the first
+  branch); it now says that only when they do, and otherwise "whose entry still waits for its earlier private key, which a later save
+  tries again to put back".
+
+### Tests
+
+- `ClientCertificatePutBackTests.Apply_AFailedSaveRecordingTheSettingsCertificate_NamesThePendingPutBackItNoLongerRetries`, with the
+  put-back seam (`ActionInsteadOfKeyProvInfoPutBackForTests`, refusing): the import of R over a usable key the tool did not create; a save
+  with the password (R's record kept); the settings name T, (a) by a `/thumbprint=` save over a usable key the tool did not create (R's
+  record kept again), or (b) T in the store without a key and `FreeDentalConfig.xml` naming it; a save that imports T's `.pfx` fails, the
+  seam still refusing, so (a) runs decision 3's branch with T's put-back failing and (b) the "recorded at once" branch. The error must name
+  R, say that no later save tries its put-back again, and give the `certutil -delkey` command of R's tool key; the record names T with the
+  tool's key (and its earlier key in (a)); R's entry still names the tool's key; a save with the password then removes T as its record
+  says (the tool's key of T and its file gone, no record), and R's keys stay (the store's clean-up deletes them). Every case runs, and the
+  test fails with each case's failure. For each kind of key.
+
+**Against the code before the change** (1164a8299, the test only): `dcfu4-5-before.txt` in `.git/od-tools/test-results`
+(DbConnectionSecurityTests). Exactly the new test fails, all six cases at step 4 (the error does not name R; the record of R was
+overwritten); every other test passed (217, 11 skipped). NoHqTests was not built for that run (a project build only).
+
+**After the change:** a Targeted run of DbConnectionSecurityTests on 5f5ce3ad2 (`dcfu4-5-after-1.txt`: 229, 218 passed, 0 failed, 11
+skipped).
+
+### Launch checks (administrator only, LocalMachine\My)
+
+Unchanged: the sequence needs a store that refuses the put-back, which only the tests' seam gives.

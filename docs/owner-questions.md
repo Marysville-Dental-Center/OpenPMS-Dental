@@ -846,7 +846,10 @@ a key they did not create) and your answer (b) of 2026-11-13; all are built (bra
   working; until now the save then deleted its record, so no record named the tool's Users-readable key. **Decided: keep the record**
   (after a failed save, write one), so that a later save tries the put-back again, and say so. **Done.** One record names one certificate:
   when it must name the new certificate the settings use, the result says that no later save tries again for the old one, and how to put
-  it right by hand.
+  it right by hand. The undo of a failed save follows the same rule (fix round 5, branch `fix/dcfu4-5`): when it records the certificate
+  the settings use over a record kept for another certificate's put-back, the error names that other certificate and the steps by hand.
+  You could choose the other way (keep the older record and leave the settings' certificate unrecorded); the lead's rule keeps the
+  certificate the settings use recorded, so a later save can still give its copy its earlier key back.
 - **The undo of a failed save whose settings already name the certificate.** The import had given the computer's copy of the certificate
   the tool's key and was recorded at once. **Decided: your answer (b) covers this undo too**: the copy gets its earlier key back, the key
   the save gave it is deleted, and the record is as it was before the save. **Done.** No case was found where this breaks a connection the

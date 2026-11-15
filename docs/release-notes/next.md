@@ -139,7 +139,9 @@ server computer must then connect with `<db-server>` (the name the workstations 
   deleted key file), and for a failed save whose settings already used that certificate (it gets its earlier key back as well); only a
   certificate the computer had without any key, or with the tool's own key from an earlier import, is removed with the tool's key. If the
   earlier key cannot be given back while the certificate still uses the tool's key, the tool keeps its record of the certificate, so a later
-  save tries again, and the result says so; if the store cannot be read again to check it, the tool deletes no key and says so. A save that fails after any other import removes the imported certificate and key again, or records them so that a
+  save tries again, and the result says so (the record holds one certificate: if it must name another one the settings use, the result
+  says which certificate no later save tries again for, and how to put it right by hand); if the store cannot be read again to check it,
+  the tool deletes no key and says so. A save that fails after any other import removes the imported certificate and key again, or records them so that a
   later save removes them; the error still names an earlier key the import left, unless the earlier key was put back, and gives the command
   that deletes it only when the tool could not record that key.
   The tool's record of the certificate it imported (`ConnectionSettings\imported-client-certificate.txt`) now also names the key it
