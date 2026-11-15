@@ -209,7 +209,6 @@ namespace N64ATests {
 			ThrowingPlugin throwingPlugin=new ThrowingPlugin();
 			Plugins.ListPlugins=new List<PluginContainer> { new PluginContainer { Plugin=throwingPlugin,ProgramNum=5,Name="N64aHookPlugin" } };
 			try {
-				int countBefore=Plugins.GetProblemsLogged().Count;
 				throwingPlugin.ExceptionNext=new DllNotFoundException("Unable to load DLL 'n64avendor.dll'");
 				Plugins.HookAddCode(this,"N64aHook.AddCode");
 				Plugins.HookAddCode(this,"N64aHook.AddCode");
@@ -218,7 +217,9 @@ namespace N64ATests {
 				Assert.IsFalse(Plugins.HookMethod(this,"N64aHook.Method"));
 				throwingPlugin.ExceptionNext=new InvalidOperationException("not a library error");
 				Plugins.LaunchToolbarButton(5,0);
-				List<string> listNew=Plugins.GetProblemsLogged().Skip(countBefore).ToList();
+				//Found by the plug-in's name, not by the list's count before: the list keeps only the last 100, so another test that fills it (the
+				//CLEAN-1 cap test) must not change what this one sees, whichever runs first.
+				List<string> listNew=Plugins.GetProblemsLogged().Where(x => x.Contains("N64aHookPlugin")).ToList();
 				Assert.AreEqual(2,listNew.Count,string.Join("\r\n",listNew));
 				Assert.AreEqual("The plug-in N64aHookPlugin failed in N64aHook.AddCode: a library it calls was not found (DllNotFoundException: Unable to load "
 					+"DLL 'n64avendor.dll').",listNew[0]);
