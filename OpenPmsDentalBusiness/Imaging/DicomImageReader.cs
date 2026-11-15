@@ -201,9 +201,12 @@ namespace OpenPmsDentalBusiness {
 			catch(DeclineException ex) {
 				return new DicomImageReadResult(ex.Status,ex.Message,null,parser.TransferSyntaxUid);
 			}
-			//A managed allocation that failed: the parser decodes without GDI+, so .NET 10's ExternalException for GDI+ out-of-memory errors
-			//(https://learn.microsoft.com/en-us/dotnet/core/compatibility/windows-forms/10.0/system-drawing-outofmemory-externalexception) cannot
-			//come from here and needs no catch (docs/port-notes/S3a-9.md, section 2).
+			//A managed allocation that failed, which stays OutOfMemoryException on .NET 10. The only GDI+ call under Parse() is the JPEG Baseline
+			//decoder's (DicomJpegBaselineDecoder.DecodeWithGdiPlus), which sits inside that decoder's catch(Exception), and ReadPixelData catches
+			//every exception a decoder throws as well: on both runtimes a GDI+ error, out of memory or not, becomes a decoder failure (Malformed)
+			//and never reaches here. So .NET 10's ExternalException for GDI+ out-of-memory errors
+			//(https://learn.microsoft.com/en-us/dotnet/core/compatibility/windows-forms/10.0/system-drawing-outofmemory-externalexception)
+			//needs no catch here (docs/port-notes/S3a-9.md, section 2).
 			catch(OutOfMemoryException) {
 				return new DicomImageReadResult(DicomImageReadStatus.TooLarge,"There is not enough memory to read the image.",null,parser.TransferSyntaxUid);
 			}
