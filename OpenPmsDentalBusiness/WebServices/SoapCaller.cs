@@ -397,7 +397,7 @@ namespace OpenPmsDentalBusiness {
 						.ConfigureAwait(false).GetAwaiter().GetResult();
 				}
 				catch(TaskCanceledException ex) {
-					throw new WebException("The operation has timed out",ex,WebExceptionStatus.Timeout,null);
+					throw new WebException("The request was aborted: The operation has timed out.",ex,WebExceptionStatus.Timeout,null);
 				}
 				catch(HttpRequestException ex) {
 					WebException webExceptionInner=ex.InnerException as WebException;
@@ -460,14 +460,23 @@ namespace OpenPmsDentalBusiness {
 			return uri.Port>=1024 && string.Compare(uri.Host,"localHost",StringComparison.OrdinalIgnoreCase)==0;
 		}
 
-		///<summary>The text of a failed response, as RequestResponseUtils.CreateResponseExceptionString wrote it: the status, or the body when the
-		///status is OK and the body is text.</summary>
+		///<summary>The text of a failed response, as RequestResponseUtils.CreateResponseExceptionString wrote it: the status for 400 and above
+		///except 500; otherwise the body (read with its charset, or Encoding.Default and its byte order mark, and HTML-decoded), or "an empty
+		///response" when there is none.</summary>
 		private static string GetFailureText(HttpResponseMessage httpResponseMessage,byte[] arrayBytesResponse,string contentType) {
-			if(httpResponseMessage.StatusCode!=HttpStatusCode.OK) {
-				return "The request failed with HTTP status "+(int)httpResponseMessage.StatusCode+": "+httpResponseMessage.ReasonPhrase+".";
+			int statusCode=(int)httpResponseMessage.StatusCode;
+			if(statusCode>=400 && httpResponseMessage.StatusCode!=HttpStatusCode.InternalServerError) {
+				return "The request failed with HTTP status "+statusCode+": "+httpResponseMessage.ReasonPhrase+".";
 			}
-			Encoding encoding=GetCharset(contentType)??Encoding.UTF8;
-			return "The request failed with the error message:"+Environment.NewLine+"--"+Environment.NewLine+encoding.GetString(arrayBytesResponse)
+			string text="";
+			if(arrayBytesResponse!=null && arrayBytesResponse.Length>0) {
+				using StreamReader streamReader=new StreamReader(new MemoryStream(arrayBytesResponse),GetCharset(contentType)??Encoding.Default,true);
+				text=streamReader.ReadToEnd();
+			}
+			if(text.Length==0) {
+				return "The request failed with an empty response.";
+			}
+			return "The request failed with the error message:"+Environment.NewLine+"--"+Environment.NewLine+WebUtility.HtmlDecode(text)
 				+Environment.NewLine+"--.";
 		}
 		#endregion HTTP

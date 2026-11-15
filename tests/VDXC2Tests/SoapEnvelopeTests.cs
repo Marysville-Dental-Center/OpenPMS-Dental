@@ -418,6 +418,65 @@ namespace VDXC2Tests {
 			StringAssert.Contains(ex.Message,"404");
 		}
 
+		//The expected texts below are what the .NET Framework 4.8 SoapHttpClientProtocol threw for the same responses from a loopback fake
+		//(RequestResponseUtils.CreateResponseExceptionString): the status only for 400 and above other than 500, else the HTML-decoded body or
+		//"an empty response".
+
+		[TestMethod]
+		public void Http500Html_KeepsTheServersText() {
+			_soapCaptureHandler.ResponseBytes=Encoding.UTF8.GetBytes("<html><body><h1>Internal Server Error &amp; more</h1></body></html>");
+			_soapCaptureHandler.StatusCode=HttpStatusCode.InternalServerError;
+			_soapCaptureHandler.ContentType="text/html; charset=utf-8";
+			InvalidOperationException ex=Assert.ThrowsExactly<InvalidOperationException>(
+				() => new DwsSoapClient { Url=NewUrl("dws") }.lookupEligibility(DwsCredentials(),new Dws.textRequest()));
+			Assert.AreEqual("Client found response content type of 'text/html; charset=utf-8', but expected 'text/xml'.\r\n"
+				+"The request failed with the error message:\r\n--\r\n<html><body><h1>Internal Server Error & more</h1></body></html>\r\n--.",ex.Message);
+		}
+
+		[TestMethod]
+		public void Http500HtmlEmpty_IsAnEmptyResponse() {
+			_soapCaptureHandler.ResponseBytes=new byte[0];
+			_soapCaptureHandler.StatusCode=HttpStatusCode.InternalServerError;
+			_soapCaptureHandler.ContentType="text/html";
+			InvalidOperationException ex=Assert.ThrowsExactly<InvalidOperationException>(
+				() => new DwsSoapClient { Url=NewUrl("dws") }.lookupEligibility(DwsCredentials(),new Dws.textRequest()));
+			Assert.AreEqual("Client found response content type of 'text/html', but expected 'text/xml'.\r\n"
+				+"The request failed with an empty response.",ex.Message);
+		}
+
+		[TestMethod]
+		public void Http200XmlEmpty_IsAnEmptyResponse() {
+			//The DCI and DWS empty answer.
+			_soapCaptureHandler.ResponseBytes=new byte[0];
+			_soapCaptureHandler.ContentType="text/xml; charset=utf-8";
+			InvalidOperationException ex=Assert.ThrowsExactly<InvalidOperationException>(
+				() => new DciSoapClient { Url=NewUrl("dci") }.lookupEligibility(DciCredentials(),DciRequest()));
+			Assert.AreEqual("Client found response content type of 'text/xml; charset=utf-8', but expected 'text/xml'.\r\n"
+				+"The request failed with an empty response.",ex.Message);
+		}
+
+		[TestMethod]
+		public void Http302Empty_IsAnEmptyResponse() {
+			_soapCaptureHandler.ResponseBytes=new byte[0];
+			_soapCaptureHandler.StatusCode=HttpStatusCode.Found;
+			_soapCaptureHandler.ContentType="text/html";
+			WebException ex=Assert.ThrowsExactly<WebException>(
+				() => new DwsSoapClient { Url=NewUrl("dws") }.lookupEligibility(DwsCredentials(),new Dws.textRequest()));
+			Assert.AreEqual(WebExceptionStatus.ProtocolError,ex.Status);
+			Assert.AreEqual("The request failed with an empty response.",ex.Message);
+		}
+
+		[TestMethod]
+		public void Http503Html_IsTheStatus() {
+			_soapCaptureHandler.ResponseBytes=Encoding.UTF8.GetBytes("<html><body>Service unavailable</body></html>");
+			_soapCaptureHandler.StatusCode=HttpStatusCode.ServiceUnavailable;
+			_soapCaptureHandler.ContentType="text/html";
+			WebException ex=Assert.ThrowsExactly<WebException>(
+				() => new DwsSoapClient { Url=NewUrl("dws") }.lookupEligibility(DwsCredentials(),new Dws.textRequest()));
+			Assert.AreEqual(WebExceptionStatus.ProtocolError,ex.Status);
+			Assert.AreEqual("The request failed with HTTP status 503: Service Unavailable.",ex.Message);
+		}
+
 		[TestMethod]
 		public void Timeout_IsAWebException() {
 			_soapCaptureHandler.Delay=TimeSpan.FromSeconds(5);
@@ -425,6 +484,7 @@ namespace VDXC2Tests {
 			WebException ex=Assert.ThrowsExactly<WebException>(
 				() => new ItsSoapClient { Url=NewUrl("its"),Timeout=200 }.GetFile("office-login","office-password","MCTG"));
 			Assert.AreEqual(WebExceptionStatus.Timeout,ex.Status);
+			Assert.AreEqual("The request was aborted: The operation has timed out.",ex.Message);
 		}
 		#endregion Transport
 
