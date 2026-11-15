@@ -1,0 +1,15 @@
+Scene: perio-mobility
+Group: perio
+Description: Mobility 0 (black), 1, 2 and 3 (red from 1, the default) on the incisors and molars.
+Size: 649x696
+Colours: Perio
+Engine: Wpf3D (RenderTargetBitmap in software, 3D layer at 3x reduced with WIC's Fant scaler)
+Bitmap: 649x696 Format24bppRgb
+Alpha: every alpha is 255 (format without an alpha channel)
+Colours in the picture: 9614
+Pixels SHA-256: 8952ec058721e719b2af8dbef543d0bb886923414c29050f38400d52c91a6635
+Repeatable: yes (a second GetBitmap gave the same pixels)
+Framework: .NET Framework 4.8, x86
+Windows: build 26300.9974 (26H2)
+Fresh render: yes (both layers drawn again without the layer cache gave the same pixels)
+Screen DPI seen by the test host: 96

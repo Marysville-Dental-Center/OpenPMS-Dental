@@ -1,0 +1,15 @@
+Scene: perio-partial-exam
+Group: perio
+Description: A partial exam: only the maxilla is probed, the mandible has no measurements.
+Size: 649x696
+Colours: Perio
+Engine: Wpf3D (RenderTargetBitmap in software, 3D layer at 3x reduced with WIC's Fant scaler)
+Bitmap: 649x696 Format24bppRgb
+Alpha: every alpha is 255 (format without an alpha channel)
+Colours in the picture: 7219
+Pixels SHA-256: faea77499737a6c74320233b999b19145a12379c42329fc778c02a6454a568c1
+Repeatable: yes (a second GetBitmap gave the same pixels)
+Framework: .NET Framework 4.8, x86
+Windows: build 26300.9974 (26H2)
+Fresh render: yes (both layers drawn again without the layer cache gave the same pixels)
+Screen DPI seen by the test host: 96

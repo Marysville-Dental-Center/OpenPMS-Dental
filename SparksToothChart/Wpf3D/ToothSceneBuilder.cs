@@ -14,7 +14,8 @@ namespace SparksToothChart.Wpf3D {
 	///- 2D layer: everything DirectX draws with depth testing off, and its D3DX text, in DirectX's order: per tooth the big X, the root canal lines
 	///  and the build-up/post silhouette (facial view), and the sealant "S" (occlusal view); then the watches, the drawings, the centre line and the
 	///  numbers (5.1). Points are projected with DirectX's own projection (ToothScene.ProjectToImage), the mapping the camera uses.
-	///The perio chart gets its four rows of teeth with the perio light; its 2D decorations come with TC-7.</summary>
+	///The perio chart (TC-7) follows DrawScenePerio: each row's teeth with the perio light, then that row's decorations in the 2D layer, then the
+	///centre line, the numbers and the legend.</summary>
 	public static class ToothSceneBuilder {
 		///<summary>The specular values of DirectX's GetGroupMaterial: cementum 0.1, near-white enamel colours 0.4, every other colour 1.0.</summary>
 		public const float SpecularCementum=0.1f;
@@ -315,8 +316,8 @@ namespace SparksToothChart.Wpf3D {
 			}
 		}
 
-		///<summary>DirectX's DrawScenePerio and DrawPerioRow, 3D layer only: the four rows of teeth and their implants. The rows' decorations, the
-		///numbers and the legend are 2D-layer items of TC-7.</summary>
+		///<summary>DirectX's DrawScenePerio: the four rows, each its teeth and implants (3D layer) and then its decorations (2D layer, DrawPerioRow), then
+		///the centre line and the numbers (DrawNumbersAndLinesPerio) and the legend (DrawPerioLegend), all in DirectX's order (TC-7).</summary>
 		private static void AddPerioScene(SceneBuilding building) {
 			ToothChartData tcData=building.TcData;
 			float baseY=GetPerioBaseY(tcData);
@@ -334,9 +335,15 @@ namespace SparksToothChart.Wpf3D {
 				}
 			}
 			AddPerioRow(building,listMaxillary,GetPerioRowOrientation(PerioRow.MaxillaryFacial,baseY),"maxillary facial row");
+			AddPerioRowDecorations(building,listMaxillary,GetPerioRowOrientation(PerioRow.MaxillaryFacial,baseY),true,false,"maxillary facial row");
 			AddPerioRow(building,listMaxillary,GetPerioRowOrientation(PerioRow.MaxillaryLingual,baseY),"maxillary lingual row");
+			AddPerioRowDecorations(building,listMaxillary,GetPerioRowOrientation(PerioRow.MaxillaryLingual,baseY),true,true,"maxillary lingual row");
 			AddPerioRow(building,listMandible,GetPerioRowOrientation(PerioRow.MandibularLingual,baseY),"mandibular lingual row");
+			AddPerioRowDecorations(building,listMandible,GetPerioRowOrientation(PerioRow.MandibularLingual,baseY),false,true,"mandibular lingual row");
 			AddPerioRow(building,listMandible,GetPerioRowOrientation(PerioRow.MandibularFacial,baseY),"mandibular facial row");
+			AddPerioRowDecorations(building,listMandible,GetPerioRowOrientation(PerioRow.MandibularFacial,baseY),false,false,"mandibular facial row");
+			AddNumbersAndLinesPerio(building,baseY);
+			AddPerioLegend(building,-60f,baseY-63f);
 		}
 
 		private static void AddPerioRow(SceneBuilding building,List<ToothGraphic> listToothGraphics,ChartMatrix orientation,string rowName) {
@@ -351,6 +358,252 @@ namespace SparksToothChart.Wpf3D {
 					AddImplant(building,toothGraphic,world,"implant of "+toothGraphic.ToothID+" "+rowName);
 				}
 			}
+		}
+
+		///<summary>The start of the Source of the perio items, for tests and messages. None starts with "number ", "sealant " or "watch ", the sources
+		///the chart's DirectX parity tests probe, except the perio numbers, which are the chart's numbers.</summary>
+		public const string SourcePerioLine="perio mm line ";
+		public const string SourceMobility="mobility of ";
+		public const string SourceFurcation="furcation ";
+		public const string SourceProbing="probing ";
+		public const string SourceBleeding="bleeding ";
+		public const string SourceSuppuration="suppuration ";
+		public const string SourceGingivalMargin="gingival margin line ";
+		public const string SourceCAL="CAL line ";
+		public const string SourceMGJ="MGJ line ";
+		public const string SourcePerioCentreLine="perio centre line";
+		public const string SourceLegend="legend ";
+		///<summary>The legend's names, in English as DirectX prints them.</summary>
+		public const string LegendGingivalMargin="Gingival Margin";
+		public const string LegendRecession="Recession";
+
+		///<summary>DirectX's DrawPerioRow after the row's teeth, with depth testing off: the millimetre lines (the 0 line in the text colour, grey lines at
+		///3, 6 and 9 mm toward the roots); then per tooth the mobility number (facial rows only), the furcation triangles, the probing bars and the bleeding
+		///and suppuration droplets of the row's three sites; then the gingival margin, CAL and MGJ lines. Every item in the row's orientation.</summary>
+		private static void AddPerioRowDecorations(SceneBuilding building,List<ToothGraphic> listToothGraphics,ChartMatrix orientation,bool maxillary,
+			bool lingual,string rowName)
+		{
+			ToothChartData tcData=building.TcData;
+			float sign=maxillary?1:-1;
+			const float leftX=-65f;
+			const float rightX=65f;
+			const int mmMax=9;
+			//Draw the horizontal line at 0
+			AddExtendedLineStrip(building,orientation,0,false,tcData.ColorText,0.3f,SourcePerioLine+"0 of the "+rowName,new Vertex3f(leftX,0,0),
+				new Vertex3f(rightX,0,0));
+			//Draw the other horizontal lines
+			for(int mm=3;mm<=mmMax;mm+=3) {
+				AddExtendedLineStrip(building,orientation,0,false,Color.Gray,0.16f,SourcePerioLine+mm+" of the "+rowName,new Vertex3f(leftX,sign*mm,0),
+					new Vertex3f(rightX,sign*mm,0));
+			}
+			PerioSurf[] arraySurfs=lingual
+				? new PerioSurf[] { PerioSurf.DL,PerioSurf.L,PerioSurf.ML }
+				: new PerioSurf[] { PerioSurf.DB,PerioSurf.B,PerioSurf.MB };
+			for(int t=0;t<listToothGraphics.Count;t++) {
+				ToothGraphic toothGraphic=listToothGraphics[t];
+				string toothId=toothGraphic.ToothID;
+				if(!lingual) {
+					//Draw mobility numbers, centred on the tooth by the numbers' measure.
+					SizeF sizeMobility=MeasureStringMm(building,toothGraphic.Mobility);
+					ChartMatrix worldMobility=ChartMatrix.Translation(tcData.GetTransX(toothId)-sizeMobility.Width/2f,0,0)*orientation;
+					AddText(building,toothGraphic.Mobility,worldMobility,0,maxillary?-2.5f:5.5f,0,toothGraphic.colorMobility,building.FontNumbers,
+						SourceMobility+toothId);
+				}
+				ChartMatrix world=ChartMatrix.Translation(tcData.GetTransX(toothId),0,0)*orientation;
+				int intTooth=ToothGraphic.IdToInt(toothId);
+				foreach(PerioSurf perioSurf in arraySurfs) {
+					AddFurcation(building,world,intTooth,perioSurf,maxillary,toothId);
+				}
+				foreach(PerioSurf perioSurf in arraySurfs) {
+					AddProbingBar(building,world,intTooth,perioSurf,toothId);
+				}
+				foreach(PerioSurf perioSurf in arraySurfs) {
+					AddDroplet(building,world,intTooth,perioSurf,true,maxillary,toothId);
+				}
+				foreach(PerioSurf perioSurf in arraySurfs) {
+					AddDroplet(building,world,intTooth,perioSurf,false,maxillary,toothId);
+				}
+			}
+			AddHorizontalLines(building,orientation,PerioSequenceType.GingMargin,maxillary,lingual,tcData.ColorGingivalMargin,SourceGingivalMargin+"of the "+rowName);
+			AddHorizontalLines(building,orientation,PerioSequenceType.CAL,maxillary,lingual,tcData.ColorCAL,SourceCAL+"of the "+rowName);
+			AddHorizontalLines(building,orientation,PerioSequenceType.MGJ,maxillary,lingual,tcData.ColorMGJ,SourceMGJ+"of the "+rowName);
+		}
+
+		///<summary>DirectX's GM, CAL and MGJ lines of a row: each line of GetHorizontalLines as a strip 0.4 mm wide, every joint and end lengthened by 0.04
+		///mm.</summary>
+		private static void AddHorizontalLines(SceneBuilding building,ChartMatrix orientation,PerioSequenceType perioSequenceType,bool maxillary,bool lingual,
+			Color color,string source)
+		{
+			List<LineSimple> listLines=building.TcData.GetHorizontalLines(perioSequenceType,maxillary,!lingual);
+			for(int i=0;i<listLines.Count;i++) {
+				AddExtendedLineStrip(building,orientation,0.04f,true,color,0.4f,source,listLines[i].Vertices.ToArray());
+			}
+		}
+
+		///<summary>DirectX's DrawFurcationTriangle for a site: a grade 1 to 3 at the site's furcation position, pointing toward the crown (its tip at the
+		///position, its base toward the root: up on the maxilla).</summary>
+		private static void AddFurcation(SceneBuilding building,ChartMatrix world,int intTooth,PerioSurf perioSurf,bool maxillary,string toothId) {
+			int furcationValue=building.TcData.GetFurcationValue(intTooth,perioSurf);
+			if(furcationValue<1 || furcationValue>3) {
+				return;
+			}
+			PointF pointSite=building.TcData.GetFurcationPos(intTooth,perioSurf);
+			AddFurcationTriangle(building,world,pointSite.X,pointSite.Y,maxillary,furcationValue,SourceFurcation+furcationValue+" of "+toothId+" "+perioSurf);
+		}
+
+		///<summary>DirectX's GetFurcationColor: the furcation colour, red from the red limit on.</summary>
+		public static Color GetFurcationColor(ToothChartData tcData,int furcationValue) {
+			if(furcationValue>=tcData.RedLimitFurcations) {
+				return tcData.ColorFurcationsRed;
+			}
+			return tcData.ColorFurcations;
+		}
+
+		///<summary>DirectX's DrawFurcationTriangle: an equilateral triangle with 2 mm sides and its tip at (tipX,tipY), its base above the tip when pointUp.
+		///Grade 1 is its two sides from the tip (an open "V"), grade 2 its outline, grade 3 its outline and the triangle filled; lines 0.38 mm wide,
+		///lengthened by 0.1 mm.</summary>
+		private static void AddFurcationTriangle(SceneBuilding building,ChartMatrix world,float tipX,float tipY,bool pointUp,int furcationValue,string source) {
+			const float triSideLenMM=2f;
+			float sign=pointUp?1:-1;
+			Color color=GetFurcationColor(building.TcData,furcationValue);
+			//We form an equilateral triangle.
+			Vertex3f p0=new Vertex3f(tipX+triSideLenMM/2f,tipY+sign*((float)(triSideLenMM*Math.Sqrt(3)/2f)),0);
+			Vertex3f p1=new Vertex3f(tipX,tipY,0);
+			Vertex3f p2=new Vertex3f(tipX-triSideLenMM/2f,tipY+sign*((float)(triSideLenMM*Math.Sqrt(3)/2f)),0);
+			if(furcationValue==1) {
+				AddExtendedLineStrip(building,world,0.1f,false,color,0.38f,source,p0,p1,p2);
+			}
+			else if(furcationValue==2) {
+				AddExtendedLineStrip(building,world,0.1f,true,color,0.38f,source,p0,p1,p2,p0);
+			}
+			else if(furcationValue==3) {
+				AddExtendedLineStrip(building,world,0.1f,true,color,0.38f,source,p0,p1,p2,p0);
+				AddPolygonFan(building,world,color,source+" (filled)",p0,p1,p2);
+			}
+		}
+
+		///<summary>DirectX's DrawProbingBar: the bar of GetProbingLine, 0.6 mm wide, in the probing colour or the red one.</summary>
+		private static void AddProbingBar(SceneBuilding building,ChartMatrix world,int intTooth,PerioSurf perioSurf,string toothId) {
+			const float barWidthMM=0.6f;
+			Color colorBar;
+			LineSimple lineBar=building.TcData.GetProbingLine(intTooth,perioSurf,out colorBar);
+			if(lineBar==null) {
+				return;
+			}
+			RectangleF rectBar=new RectangleF(lineBar.Vertices[0].X-barWidthMM/2f,lineBar.Vertices[0].Y,barWidthMM,lineBar.Vertices[1].Y-lineBar.Vertices[0].Y);
+			AddRectangle(building,world,rectBar,colorBar,SourceProbing+toothId+" "+perioSurf);
+		}
+
+		///<summary>DirectX's DrawDroplet for a site: the bleeding or suppuration droplet at its place from GetBleedingOrSuppuration (none at 0,0), flipped in
+		///Y on the mandible.</summary>
+		private static void AddDroplet(SceneBuilding building,ChartMatrix world,int intTooth,PerioSurf perioSurf,bool isBleeding,bool maxillary,string toothId) {
+			ToothChartData tcData=building.TcData;
+			PointF pointDroplet=tcData.GetBleedingOrSuppuration(intTooth,perioSurf,isBleeding);
+			if(pointDroplet.X==0 && pointDroplet.Y==0) {
+				return;//No droplet to draw at this site.
+			}
+			ChartMatrix worldDroplet=ChartMatrix.Translation(pointDroplet.X,pointDroplet.Y,0)*world;
+			if(!maxillary) {
+				//When the droplet is for a mandibular tooth, flip the droplet about the x-axis (negate y values).
+				worldDroplet=ChartMatrix.Scaling(1f,-1f,1f)*worldDroplet;
+			}
+			Color colorDroplet=isBleeding?tcData.ColorBleeding:tcData.ColorSuppuration;
+			AddDropletShape(building,worldDroplet,0,0,colorDroplet,(isBleeding?SourceBleeding:SourceSuppuration)+toothId+" "+perioSurf);
+		}
+
+		///<summary>DirectX's DrawDroplet(x,y,color): the pentagon of GetDropletVertices moved to (x,y), drawn as DirectX's triangle fan.</summary>
+		private static void AddDropletShape(SceneBuilding building,ChartMatrix world,float x,float y,Color color,string source) {
+			List<Vertex3f> listPoints=new List<Vertex3f>();
+			foreach(Vertex3f vertex in building.TcData.GetDropletVertices()) {
+				listPoints.Add(new Vertex3f(x+vertex.X,y+vertex.Y,vertex.Z));
+			}
+			AddPolygonFan(building,world,color,source,listPoints.ToArray());
+		}
+
+		///<summary>DirectX's DrawColoredPolygon: a triangle fan from the first point, one 2D item of its triangles (DirectX fills each with no culling, so
+		///their union, which the Nonzero rule gives).</summary>
+		private static void AddPolygonFan(SceneBuilding building,ChartMatrix world,Color color,string source,params Vertex3f[] arrayPoints) {
+			if(arrayPoints.Length<3) {
+				return;
+			}
+			PointF[] arrayProjected=ProjectPolygon(building,world,arrayPoints);
+			List<PointF[]> listPolygons=new List<PointF[]>();
+			for(int i=1;i+1<arrayProjected.Length;i++) {
+				listPolygons.Add(new PointF[] { arrayProjected[0],arrayProjected[i],arrayProjected[i+1] });
+			}
+			building.ListItems2D.Add(ToothSceneItem2D.CreatePolygons(color,listPolygons,source));
+		}
+
+		///<summary>DirectX's DrawNumbersAndLinesPerio: the black centre line, 0.5 mm, drawn in the world matrix the last row left set (the mandibular
+		///facial row's, so its y of 45 lands on baseY, between the arches), then the numbers 1-32, never highlighted, 30 mm above baseY on the maxilla and
+		///29 mm below it on the mandible.</summary>
+		private static void AddNumbersAndLinesPerio(SceneBuilding building,float baseY) {
+			AddLineList(building,GetPerioRowOrientation(PerioRow.MandibularFacial,baseY),Color.Black,0.5f,SourcePerioCentreLine,new Vertex3f(-65f,45f,0),
+				new Vertex3f(65f,45f,0));
+			for(int i=1;i<=32;i++) {
+				string toothId=Tooth.FromOrdinal(i);
+				float yOffset=ToothGraphic.IsMaxillary(toothId)?30:-29;
+				AddNumber(building,toothId,false,baseY+yOffset);
+			}
+		}
+
+		///<summary>The legend's name of the gingival margin line (Open Dental 24.4): "Recession" when the office's Perio Setup option is on and the exam
+		///has no hyperplasia (a gingival margin stored over 100), as the Perio Chart's row label (PerioMeasures.GetGingMarginTerm); otherwise "Gingival
+		///Margin", DirectX's text.</summary>
+		public static string GetLegendGingivalMarginText(ToothChartData tcData) {
+			if(!tcData.PerioUseRecessionTerm) {
+				return LegendGingivalMargin;
+			}
+			bool hasHyperplasia=false;
+			foreach(PerioMeasure perioMeasure in tcData.ListPerioMeasure) {
+				if(perioMeasure.SequenceType!=PerioSequenceType.GingMargin) {
+					continue;
+				}
+				foreach(int value in new int[] { perioMeasure.MBvalue,perioMeasure.Bvalue,perioMeasure.DBvalue,perioMeasure.MLvalue,perioMeasure.Lvalue,
+					perioMeasure.DLvalue })
+				{
+					if(PerioMeasures.IsHyperplasia(value)) {
+						hasHyperplasia=true;
+					}
+				}
+			}
+			if(PerioMeasures.GetGingMarginTerm(true,hasHyperplasia)==PerioMeasures.TermRecession) {
+				return LegendRecession;
+			}
+			return LegendGingivalMargin;
+		}
+
+		///<summary>DirectX's DrawPerioLegend at (xLeft,yTop) in mm: three columns of black text with their marks drawn to scale in the perio colours:
+		///bleeding and suppuration droplets and the two probing bars; the gingival margin (or recession), CAL and MGJ lines, 2 pixels high; the three
+		///furcation grades pointing down, in the colour their grade has under the red limit.</summary>
+		private static void AddPerioLegend(SceneBuilding building,float xLeft,float yTop) {
+			ToothChartData tcData=building.TcData;
+			float ySpace=4f;
+			Color textColor=Color.Black;
+			ChartFont font=building.FontNumbers;
+			ChartMatrix world=ChartMatrix.Translation(xLeft,yTop,0);
+			AddText(building,"Bleeding",world,0,0,0,textColor,font,SourceLegend+"text Bleeding");
+			AddDropletShape(building,world,18f,-1.5f,tcData.ColorBleeding,SourceLegend+"bleeding");
+			AddText(building,"Suppuration",world,0,-ySpace,0,textColor,font,SourceLegend+"text Suppuration");
+			AddDropletShape(building,world,18f,-ySpace-1.5f,tcData.ColorSuppuration,SourceLegend+"suppuration");
+			AddText(building,"Probing",world,0,-2*ySpace,0,textColor,font,SourceLegend+"text Probing");
+			AddRectangle(building,world,new RectangleF(18f,-2*ySpace-3f,0.6f,3f),tcData.ColorProbing,SourceLegend+"probing");
+			AddRectangle(building,world,new RectangleF(19f,-2*ySpace-3f,0.6f,3f),tcData.ColorProbingRed,SourceLegend+"probing red");
+			world=world*ChartMatrix.Translation(35f,0,0);
+			string textGingivalMargin=GetLegendGingivalMarginText(tcData);
+			AddText(building,textGingivalMargin,world,0,0,0,textColor,font,SourceLegend+"text "+textGingivalMargin);
+			AddRectangle(building,world,new RectangleF(35f,-1.5f,15f,2f/tcData.ScaleMmToPix),tcData.ColorGingivalMargin,SourceLegend+"gingival margin");
+			AddText(building,"Clinical Attachment Level",world,0,-ySpace,0,textColor,font,SourceLegend+"text Clinical Attachment Level");
+			AddRectangle(building,world,new RectangleF(35f,-ySpace-1.5f,15f,2f/tcData.ScaleMmToPix),tcData.ColorCAL,SourceLegend+"CAL");
+			AddText(building,"Mucogingival Junction",world,0,-2*ySpace,0,textColor,font,SourceLegend+"text Mucogingival Junction");
+			AddRectangle(building,world,new RectangleF(35f,-2*ySpace-1.5f,15f,2f/tcData.ScaleMmToPix),tcData.ColorMGJ,SourceLegend+"MGJ");
+			world=world*ChartMatrix.Translation(65f,0,0);
+			AddText(building,"Furcation 1",world,0,0,0,textColor,font,SourceLegend+"text Furcation 1");
+			AddFurcationTriangle(building,world,17f,-0.5f,false,1,SourceLegend+"furcation 1");
+			AddText(building,"Furcation 2",world,0,-ySpace,0,textColor,font,SourceLegend+"text Furcation 2");
+			AddFurcationTriangle(building,world,17f,-ySpace-0.5f,false,2,SourceLegend+"furcation 2");
+			AddText(building,"Furcation 3",world,0,-2*ySpace,0,textColor,font,SourceLegend+"text Furcation 3");
+			AddFurcationTriangle(building,world,17f,-2*ySpace-0.5f,false,3,SourceLegend+"furcation 3");
 		}
 		#endregion Perio scene
 

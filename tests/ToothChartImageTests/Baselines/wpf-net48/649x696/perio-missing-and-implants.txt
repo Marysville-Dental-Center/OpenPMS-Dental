@@ -1,0 +1,15 @@
+Scene: perio-missing-and-implants
+Group: perio
+Description: The full exam with 1, 5, 16, 17 and 32 skipped (missing), an implant with a crown on 19 and an implant without a crown on 30.
+Size: 649x696
+Colours: Perio
+Engine: Wpf3D (RenderTargetBitmap in software, 3D layer at 3x reduced with WIC's Fant scaler)
+Bitmap: 649x696 Format24bppRgb
+Alpha: every alpha is 255 (format without an alpha channel)
+Colours in the picture: 8401
+Pixels SHA-256: 24490b9c5b579705f5343c5dbf47c488d4d448cb247e0d83029e1e746d0882d0
+Repeatable: yes (a second GetBitmap gave the same pixels)
+Framework: .NET Framework 4.8, x86
+Windows: build 26300.9974 (26H2)
+Fresh render: yes (both layers drawn again without the layer cache gave the same pixels)
+Screen DPI seen by the test host: 96

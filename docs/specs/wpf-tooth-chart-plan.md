@@ -433,6 +433,20 @@ text paint types and the extraction graphic; gallery G2 (its fourth version) wai
   them out. `Baselines/simple2d-net48` gates the 2D chart's TC-5 drawing. The baselines and call logs re-recorded by each round are listed
   in TC-5.md section 2.2.
 
+**TC-7 (2026-11-15, branch `chart/tc7-1`): graphical perio on the WPF chart; gallery G3 approved by the owner on 2026-11-15, merged.** `docs/port-notes/TC-7.md`
+has the details and launch check L-6 written for a person. In short:
+- The wrapper allows perio mode on `Wpf3D`. The scene builder draws the perio scene as DirectX's `DrawScenePerio` draws it (row PERIO-1 is
+  od-unknown): each row's teeth in the perio light, then that row's decorations in the 2D layer in DirectX's order (millimetre lines,
+  mobility, furcations, probing bars, bleeding and suppuration droplets, GM, CAL and MGJ lines), then the centre line, the numbers 1-32 and
+  the legend, in the nine perio colours with the two red limits.
+- Two Open Dental 24.4 changes: the implant rule stays in `FormPerioGraphical` (a removed implant is not passed), and with Perio Setup's
+  Recession option on the legend says "Recession" unless the exam has hyperplasia (`ToothChartRelay.ApplyGraphicalPerioMode` passes the
+  option; `ToothChartWrapper.PerioUseRecessionTerm`). The DirectX legend keeps its fixed text.
+- The reversed meshes carry negated normals, so the mirrored lingual rows are lit as DirectX lights them (5.2).
+- `FormPerioGraphical` keeps DirectX until TC-8; the DEBUG switch opens it on `Wpf3D` (L-6). No program file is edited.
+- 15 perio scenes at 649x696 (five new ones with `HasLegacyRecording=false`) and the print and the 750x1000 save of three of them are WPF
+  baselines; the perio parity probes compare the ten recorded scenes with TC-0's DirectX pictures.
+
 **Why not a separate branch.** The chart must not drift from the stages' rewrites of `ControlChart.cs` and the release files. Dark
 merges keep it on `main`, and the gallery approval comes before each merge (O-27).
 
@@ -558,7 +572,9 @@ WPF draws only front faces: triangles that are counter-clockwise as seen from th
   9-24. It also stores a second index list with every triangle reversed.
 - The scene builder builds each instance's model transform as DirectX does: user movement and rotation, view rotation, tooth position,
   perio row. It leaves out DirectX's handedness flip, which WPF's right-handed camera replaces.
-- When the transform's determinant is negative, the instance uses the reversed list.
+- When the transform's determinant is negative, the instance uses the reversed list. Since TC-7 that list's mesh also carries the normals
+  negated: WPF lights a mirroring model as if its normals pointed the other way (TC-7's first recording showed the lingual perio rows lit
+  by the emissive part alone), and the negated normals give those rows DirectX's light (`docs/port-notes/TC-7.md`, section 1.4).
 - In the normal chart no instance is negative: there are only rotations and translations, and the maxillary implant flip is a rotation
   (937). In the perio chart the two lingual rows are negative, their implants included.
 - Droplets, triangles, bars and lines are 2D-layer items, so the Y flip needs nothing.
@@ -1116,7 +1132,7 @@ Layout sheets and on printouts.
   - Text and TextBelow codes; the extraction setting on and off.
   - The ortho tab's hardware and ortho mode.
 - **L-6 (TC-7).** With the DEBUG developer switch, which the relay's perio gate honours since TC-2: graphical perio from the Perio Chart:
-  display, setup colours, print, save.
+  display, setup colours, print, save. Written step by step for a person in `docs/port-notes/TC-7.md` (section 4), with the Recession option.
 - **L-7 (TC-8).**
   - Every host.
   - A computer with saved DirectX and one with saved OpenGL now show the WPF chart; a 2D computer as O-30 decides.

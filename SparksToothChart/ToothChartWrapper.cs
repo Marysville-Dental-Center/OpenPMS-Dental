@@ -357,10 +357,23 @@ namespace SparksToothChart {
 				return tcData.PerioMode;
 			}
 			set {
-				if(_engine!=ToothChartEngine.DirectX && value==true) {
-					throw new Exception("Only allowed in DirectX");//the WPF chart draws perio from TC-7
+				if(_engine!=ToothChartEngine.DirectX && _engine!=ToothChartEngine.Wpf3D && value==true) {
+					throw new Exception("Only allowed in DirectX");//the WPF chart draws perio since TC-7; Simple 2D and OpenGL cannot
 				}
 				tcData.PerioMode=value;
+				Invalidate();
+			}
+		}
+
+		///<summary>The office's Perio Setup option "Use the term Recession" (Open Dental 24.4): the WPF chart's perio legend names the gingival margin
+		///line "Recession" unless the exam has hyperplasia (TC-7). The DirectX chart's legend keeps its fixed text.</summary>
+		[Browsable(false)]
+		public bool PerioUseRecessionTerm {
+			get {
+				return tcData.PerioUseRecessionTerm;
+			}
+			set {
+				tcData.PerioUseRecessionTerm=value;
 				Invalidate();
 			}
 		}

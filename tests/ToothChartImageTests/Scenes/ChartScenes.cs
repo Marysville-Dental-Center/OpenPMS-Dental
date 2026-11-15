@@ -163,6 +163,7 @@ namespace ToothChartImageTests {
 				relay.ResetTeeth();
 				relay.SetOrthoMode(false);
 				relay.IsPerioMode=true;
+				relay.IsPerioRecessionTerm=false;//the office's Perio Setup option, off unless the scene turns it on (TC-7)
 				scene.Apply?.Invoke(relay);
 				relay.EndUpdate();
 				return;
@@ -463,6 +464,7 @@ namespace ToothChartImageTests {
 				AddSizeScenes(listScenes);
 				AddPerioScenes(listScenes);
 				AddTextAndExtractionScenes(listScenes);
+				AddPerioScenesTc7(listScenes);
 				_listScenes=listScenes;
 			}
 			return _listScenes;
@@ -1373,6 +1375,53 @@ namespace ToothChartImageTests {
 				FuncMGJ=(t,s) => t<=16 && s<3?4:-1,
 				FuncBleeding=(t,s) => t<=16 && (t+s)%5==0?(int)BleedingFlags.Blood:0,
 			});
+		}
+
+		///<summary>TC-7's perio scenes (gallery G3): what the old DirectX chart never drew (the 24.4 Recession term in the legend) or a state TC-0 did not
+		///record (red limits, custom colours, maxillary implants). No DirectX recording (HasLegacyRecording false); added after every older scene, so
+		///no older scene moves.</summary>
+		private static void AddPerioScenesTc7(List<ChartScene> listScenes) {
+			AddPerio(listScenes,"perio-recession-term","The full exam with the office's Perio Setup option \"Use the term Recession\" on (Open Dental "
+				+"24.4): the legend names the gingival margin line \"Recession\".",new PerioExamSpec {
+					FuncFurcation=(t,s) => (t+s)%4==0?1+(t%3):-1,
+					FuncMobility=t => t%7==0?1+(t%2):-1,
+				},relay => relay.IsPerioRecessionTerm=true).HasLegacyRecording=false;
+			AddPerio(listScenes,"perio-recession-term-hyperplasia","The hyperplasia exam with the Recession option on: the exam has hyperplasia, so "
+				+"the legend says \"Gingival Margin\", as the Perio Chart's row label reverts.",new PerioExamSpec {
+					FuncGM=(t,s) => t<=16?101+(t+s)%4:2,
+				},relay => relay.IsPerioRecessionTerm=true).HasLegacyRecording=false;
+			AddPerio(listScenes,"perio-implants-both-arches","Implants on the maxilla and the mandible: an implant with a crown on 3 and on 14 "
+				+"(upside down, as DirectX draws a maxillary implant), an implant without a crown on 19, and 30 skipped; the lingual rows show them "
+				+"from behind. A removed implant (its procedure's graphics hidden, Open Dental 24.4) is not passed to the chart at all.",new PerioExamSpec {
+					ListSkipped=new List<int> { 30 },
+					ListImplants=new List<int> { 3,14,19 },
+					ListImplantCrowns=new List<int> { 3,14 },
+					FuncFurcation=(t,s) => (t+s)%4==0?1+(t%3):-1,
+				},null).HasLegacyRecording=false;
+			AddPerio(listScenes,"perio-red-limits","Deep pockets and furcations 1-3 with other red limits: probing red from 6 mm (5 mm bars in the "
+				+"probing colour), furcations red from grade 3 (grades 1 and 2 in the furcation colour, as the legend's first two marks).",new PerioExamSpec {
+					FuncProbing=(t,s) => 3+(t+s)%5,
+					FuncFurcation=(t,s) => 1+(t+s)%3,
+				},relay => relay.SetPerioColors(PerioBleeding,PerioSuppuration,PerioProbing,PerioProbingRed,PerioGM,PerioCAL,PerioMGJ,PerioFurcations,
+					PerioFurcationsRed,6,3)).HasLegacyRecording=false;
+			AddPerio(listScenes,"perio-custom-colours","The full exam with all nine perio colours changed (Graphical Perio Setup and Misc Colors): "
+				+"bleeding dark red, suppuration gold, probing teal, probing red magenta, gingival margin brown, CAL green, MGJ navy, furcations blue, "
+				+"furcations red crimson; the legend follows them.",new PerioExamSpec {
+					FuncProbing=(t,s) => 2+(t+s)%4,
+					FuncFurcation=(t,s) => (t+s)%3==0?1+(t%3):-1,
+					FuncMobility=t => t%5==0?1+(t%3):-1,
+				},relay => relay.SetPerioColors(Color.DarkRed,Color.Gold,Color.Teal,Color.Magenta,Color.SaddleBrown,Color.Green,Color.Navy,Color.Blue,
+					Color.Crimson,PerioRedProbing,2)).HasLegacyRecording=false;
+		}
+
+		///<summary>A perio scene: applyBefore (the office's settings: the Recession option, other colours or red limits), then the exam.</summary>
+		private static ChartScene AddPerio(List<ChartScene> listScenes,string name,string description,PerioExamSpec spec,Action<ToothChartRelay> applyBefore) {
+			ChartScene scene=Add(listScenes,"perio",name,description,relay => {
+				applyBefore?.Invoke(relay);
+				AddPerioExam(relay,spec);
+			});
+			scene.Kind=ChartSceneKind.Perio;
+			return scene;
 		}
 
 		private static ChartScene AddPerio(List<ChartScene> listScenes,string name,string description,PerioExamSpec spec) {

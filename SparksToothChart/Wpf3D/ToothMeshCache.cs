@@ -68,16 +68,19 @@ namespace SparksToothChart.Wpf3D {
 		}
 	}
 
-	///<summary>One group of a model as frozen WPF meshes: the triangles of ToothMeshWinding, and the same triangles reversed for mirroring
-	///transforms. Each mesh holds only the vertices its triangles use (position and normal of VertexNormals, unchanged), because WPF lights every
-	///vertex of a mesh for every material pass; ArraySourceIndices maps a mesh vertex back to its VertexNormals index.</summary>
+	///<summary>One group of a model as frozen WPF meshes: the triangles of ToothMeshWinding, and the same triangles reversed, with the normals
+	///negated, for mirroring transforms. Each mesh holds only the vertices its triangles use (position and normal of VertexNormals), because WPF
+	///lights every vertex of a mesh for every material pass; ArraySourceIndices maps a mesh vertex back to its VertexNormals index.</summary>
 	public sealed class ToothGroupMesh {
 		public readonly ToothGroupType GroupType;
 		///<summary>For each mesh vertex, its index in the tooth's VertexNormals.</summary>
 		public readonly int[] ArraySourceIndices;
 		///<summary>The triangles wound to agree with the vertex normals.</summary>
 		public readonly MeshGeometry3D Mesh;
-		///<summary>The same positions and normals with every triangle reversed.</summary>
+		///<summary>The same positions with every triangle reversed and every normal negated, for a transform that mirrors (negative determinant: only
+		///the lingual perio rows and their implants). WPF lights such a model as if its normals pointed the other way (TC-7 found the lingual rows lit
+		///by the emissive part alone, with the normals unchanged), so the negated normals give it DirectX's light: DirectX transforms the normals by
+		///the world matrix and lights the mirrored rows as the others.</summary>
 		public readonly MeshGeometry3D MeshReversed;
 
 		public ToothGroupMesh(ToothGroupType groupType,int[] arraySourceIndices,MeshGeometry3D mesh,MeshGeometry3D meshReversed) {
@@ -171,8 +174,13 @@ namespace SparksToothChart.Wpf3D {
 			}
 			point3DCollection.Freeze();
 			vector3DCollection.Freeze();
+			Vector3DCollection vector3DCollectionNegated=new Vector3DCollection(listSource.Count);
+			for(int i=0;i<vector3DCollection.Count;i++) {
+				vector3DCollectionNegated.Add(-vector3DCollection[i]);
+			}
+			vector3DCollectionNegated.Freeze();
 			MeshGeometry3D mesh=CreateMesh(point3DCollection,vector3DCollection,arrayLocal);
-			MeshGeometry3D meshReversed=CreateMesh(point3DCollection,vector3DCollection,ToothMeshWinding.GetReversedTriangles(arrayLocal));
+			MeshGeometry3D meshReversed=CreateMesh(point3DCollection,vector3DCollectionNegated,ToothMeshWinding.GetReversedTriangles(arrayLocal));
 			return new ToothGroupMesh(toothGraphic.Groups[indexGroup].GroupType,listSource.ToArray(),mesh,meshReversed);
 		}
 

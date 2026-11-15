@@ -81,7 +81,8 @@ namespace OpenPmsDental{
 			}
 		}
 
-		///<summary>Sets the wrapper's perio mode to the value given. Turning it on is only allowed in DirectX (the wrapper throws otherwise).</summary>
+		///<summary>Sets the wrapper's perio mode to the value given. Turning it on is only allowed in DirectX and, since TC-7, the WPF chart (the wrapper
+		///throws otherwise).</summary>
 		public bool IsPerioMode{
 			set{
 				_toothChartWrapper.PerioMode=value;
@@ -394,9 +395,10 @@ namespace OpenPmsDental{
 		}
 
 		///<summary>Starts the graphical perio chart's engine (FormPerioGraphical), moved from FormPerioGraphical: DirectX with the computer's DirectX
-		///format, whatever chart the computer uses elsewhere. In DEBUG builds the developer switch starts the WPF chart, whose perio mode follows in
-		///TC-7 (until then turning perio mode on throws, and the window says so and closes).</summary>
+		///format, whatever chart the computer uses elsewhere, until TC-8. In DEBUG builds the developer switch starts the WPF chart, which draws perio
+		///since TC-7 (launch check L-6). Either way the chart gets the office's Recession option (TC-7), which only the WPF chart's legend shows.</summary>
 		public static void ApplyGraphicalPerioMode(ToothChartWrapper toothChartWrapper) {
+			toothChartWrapper.PerioUseRecessionTerm=PerioMeasures.GetUseRecessionTerm();
 			if(IsWpfDeveloperSwitchOn()) {
 				toothChartWrapper.Engine=ToothChartEngine.Wpf3D;
 				return;
@@ -469,6 +471,20 @@ namespace OpenPmsDental{
 			return _toothChartWrapper.RequestBitmapInBackground();
 		}
 		#endregion The dashboard's picture made in the background (TC-3b)
+
+		#region Graphical perio (TC-7)
+		///<summary>The office's Perio Setup option "Use the term Recession" (Open Dental 24.4) for the graphical perio chart: the WPF chart's legend then
+		///names the gingival margin line "Recession", unless the exam has hyperplasia. ApplyGraphicalPerioMode sets it from the preference; the DirectX
+		///chart's legend keeps its fixed text.</summary>
+		public bool IsPerioRecessionTerm{
+			get{
+				return _toothChartWrapper.PerioUseRecessionTerm;
+			}
+			set{
+				_toothChartWrapper.PerioUseRecessionTerm=value;
+			}
+		}
+		#endregion Graphical perio (TC-7)
 	}
 
 	///<summary>How a caller applied the local computer's chart settings before TC-2 (ToothChartRelay.ApplyComputerSettings). The copies differed a

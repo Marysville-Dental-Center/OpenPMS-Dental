@@ -1,0 +1,15 @@
+Scene: perio-bleeding-suppuration
+Group: perio
+Description: Bleeding on every buccal site and suppuration on every lingual site of the anterior teeth 6-11 and 22-27; both on 3 and 30.
+Size: 649x696
+Colours: Perio
+Engine: Wpf3D (RenderTargetBitmap in software, 3D layer at 3x reduced with WIC's Fant scaler)
+Bitmap: 649x696 Format24bppRgb
+Alpha: every alpha is 255 (format without an alpha channel)
+Colours in the picture: 9913
+Pixels SHA-256: c426edaa7db92e56b1045c96c87feaa4c3c4064a339772cc1b7863c07df4cd1a
+Repeatable: yes (a second GetBitmap gave the same pixels)
+Framework: .NET Framework 4.8, x86
+Windows: build 26300.9974 (26H2)
+Fresh render: yes (both layers drawn again without the layer cache gave the same pixels)
+Screen DPI seen by the test host: 96

@@ -1,0 +1,15 @@
+Scene: perio-recession-term-hyperplasia
+Group: perio
+Description: The hyperplasia exam with the Recession option on: the exam has hyperplasia, so the legend says "Gingival Margin", as the Perio Chart's row label reverts.
+Size: 649x696
+Colours: Perio
+Engine: Wpf3D (RenderTargetBitmap in software, 3D layer at 3x reduced with WIC's Fant scaler)
+Bitmap: 649x696 Format24bppRgb
+Alpha: every alpha is 255 (format without an alpha channel)
+Colours in the picture: 8973
+Pixels SHA-256: 85fff72941d5bb40e55bca6220580c5e96c47fc833cb864e5ce1fd575efed93e
+Repeatable: yes (a second GetBitmap gave the same pixels)
+Framework: .NET Framework 4.8, x86
+Windows: build 26300.9974 (26H2)
+Fresh render: yes (both layers drawn again without the layer cache gave the same pixels)
+Screen DPI seen by the test host: 96

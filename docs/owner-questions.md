@@ -938,7 +938,8 @@ and E-10b), where each is set out in full with its recommendation. You first ans
 
 ## Open questions (2026-11-15)
 
-- **Gallery G3: the graphical perio chart (TC-7, branch `chart/tc7-1`, both reviews pass).** TC-7 merges when you approve the gallery.
+- **Gallery G3: the graphical perio chart (TC-7, branch `chart/tc7-1`, both reviews pass).** Answered on 2026-11-15: "G3 looks good".
+  TC-7 is merged.
 - **The 837 claim sender when a clearinghouse has no Sender TIN.** `X12Generator.GetISA06` and `GetGS02` write Open Dental Inc's TIN
   (810624427) as the sender of the claim batch when the clearinghouse's Sender TIN is blank (upstream's behaviour). For this fork that names
   a company the office has no agreement with. Recommended: refuse to build the batch while the Sender TIN is blank, with a message that
