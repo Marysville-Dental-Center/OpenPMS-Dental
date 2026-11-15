@@ -1061,6 +1061,16 @@ out-of-process server in process; an x86-only SigPlusNET, Guru and QBFC 10 in th
 (synthetic PE files, fake COM activations; x86 and x64 runs), the in-process paths call for call with main's code (Helper32Tests,
 BINBTests' TopazWrapperInProcessTests), NoHqTests' vendor scan on the new rule.
 
+**Status (2026-11-15), S3a-11.** Done on `net10/s3a11-1` (`docs/port-notes/S3a-11.md`), not merged yet: the setup has no per-user mode
+(no `PrivilegesRequiredOverridesAllowed`, no `/CURRENTUSER` note, no `IsAdminInstallMode` branch in `SetUpConnection`, the security page or
+the Event Log `[Registry]` entry; `{autodesktop}` is always the common desktop). `tools/Test-Installer.ps1` is an elevated test: unelevated
+it changes nothing and ends with exit code 2; it reads the all-users uninstall entry in the 32-bit view; scenarios A to C use a loopback
+server; the new scenario D gives a server over the network without the office CA and expects the tool's `/silent` run (exit code 5) and
+setup's exit code 10; after each uninstall it checks that the uninstall entry and the Event Log source key are gone; it saves and writes
+back the two keys of an installation already on the PC (the build PC has 0.0 installed) and deletes what it made. O-3 answered: the owner
+runs it from an elevated PowerShell at each gate (the command is in the script's header and the note's first lines). Tests: ReleaseFlowTests
+(InstallerTests), with the script's unelevated refusal run for real. The elevated run is the owner's, at the gate.
+
 **Full-test gate.** Section 3, plus: the golden outputs and known answers recorded and committed; the source-scan tests pass; the
 launch checks for 3a (section 6) done with screenshots, including a self-update from a standard user; the x64 test runs (S3a-12, S3a-15)
 and the x64 build of `Direct2dWrapper` (S3a-16) pass; the helper's tests pass, and its links are launch-checked where a test PC has the
@@ -1815,7 +1825,10 @@ self-contained (open point O-15, decision 20).
 - **O-2. ControlImagesOld after the module choice is gone. Answered 2026-11-08: rebuilt (S0-6).** The window it draws for claim-payment
   EOBs, preauthorization EOBs and EHR amendments (`FormImages`) is rebuilt on the current Imaging code in stage 0, with the same stored
   files. The old module, its option and its code are then removed, so stage 3a has none of it to convert.
-- **O-3. How the installer test runs without per-user mode.** (a) The lead runs `tools/Test-Installer.ps1` from an elevated PowerShell at
+- **O-3. How the installer test runs without per-user mode. Answered 2026-11-15 (S3a-11): (a), and the owner runs it.** The owner runs
+  every elevated script, never an agent: at each gate from 3a on, from PowerShell opened with "Run as administrator", the one line in the
+  header of `tools/Test-Installer.ps1` with the Release dry run's `-Setup` and `-Staging`. The script also saves and writes back the uninstall
+  entry and the Event Log source key of an installation already on the PC. Was: (a) The lead runs `tools/Test-Installer.ps1` from an elevated PowerShell at
   each Release dry run on the build PC: a UAC prompt each time, and machine-wide side effects limited to a `%TEMP%` folder, an uninstall
   entry and the Event Log source key, which the script removes or checks. (b) A disposable Windows VM or Windows Sandbox where the script
   runs elevated; Windows Sandbox is an optional Windows feature, and turning it on changes the build PC's system settings, which only the

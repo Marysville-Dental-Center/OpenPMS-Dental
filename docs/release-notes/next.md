@@ -194,6 +194,7 @@ server computer must then connect with `<db-server>` (the name the workstations 
   holds and how to make a `.pfx` with one client certificate.
 - **Setup exit code 10.** A silent setup that installed the files but could not finish the connection settings (the tool failed, or an
   existing install's settings fail the connection rule) ends with exit code 10, so deployment scripts see it; the setup log says why.
+- **Setup always installs for all users,** as an administrator: 0.0's `/CURRENTUSER` test switch is gone, so every install can run the tool.
 
 ## Library updates for security
 
