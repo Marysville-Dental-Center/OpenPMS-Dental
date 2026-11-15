@@ -322,6 +322,57 @@ namespace DbConnectionSecurityTests {
 			}
 		}
 
+		///<summary>Makes the store's entry for the certificate name a key container of the current user that no provider has (a name made for the
+		///test, "OpenPmsDbSecTest_absent_..."), through this provider and type (a smart-card CSP's name, as a smart card's certificate names its
+		///key, or a software CAPI provider, as an entry whose key file was deleted), with AT_KEYEXCHANGE: an entry in the import's key set whose
+		///key does not open. Nothing is made, opened or deleted for that name; the user key the entry named stays recorded for the clean-up.
+		///Checked by reading the entry again. Returns its key provider information now.</summary>
+		public TestKeyProvInfo NameAbsentKeyForEntry(string thumbprint,string providerName,uint providerType) {
+			TestKeyProvInfo testKeyProvInfo=new TestKeyProvInfo();
+			testKeyProvInfo.IsNamed=true;
+			testKeyProvInfo.ContainerName="OpenPmsDbSecTest_absent_"+Guid.NewGuid().ToString("N");
+			testKeyProvInfo.ProviderName=providerName;
+			testKeyProvInfo.ProviderType=providerType;
+			testKeyProvInfo.Flags=0;//The user key set, the test store's import's.
+			testKeyProvInfo.KeySpec=1;//AT_KEYEXCHANGE
+			using(X509Store x509Store=new X509Store(Name,StoreLocation.CurrentUser)) {
+				x509Store.Open(OpenFlags.ReadWrite|OpenFlags.OpenExistingOnly);
+				X509Certificate2Collection x509Certificate2Collection=x509Store.Certificates.Find(X509FindType.FindByThumbprint,thumbprint,false);
+				try {
+					Assert.AreEqual(1,x509Certificate2Collection.Count,"The test's premise: the store has the certificate.");
+					testKeyProvInfo.Write(x509Certificate2Collection[0]);
+				}
+				finally {
+					foreach(X509Certificate2 x509Certificate2 in x509Certificate2Collection) {
+						x509Certificate2.Reset();
+					}
+				}
+			}
+			using(X509Certificate2 x509Certificate2=Find(thumbprint)) {
+				TestKeyProvInfo testKeyProvInfoNow=TestKeyProvInfo.Read(x509Certificate2);
+				Assert.IsTrue(testKeyProvInfoNow.IsSameAs(testKeyProvInfo),"The test's premise: the store keeps the entry's key provider information as "
+					+"the test set it.");
+				return testKeyProvInfoNow;
+			}
+		}
+
+		///<summary>Adds the .pfx file's certificate (WritePfx) to the store without its key: nothing is stored, and the entry has no key provider
+		///information, as a certificate imported from a .cer file.</summary>
+		public void AddCertificateWithoutKey(string pathPfx) {
+			string thumbprint;
+			using(X509Certificate2 x509Certificate2WithKey=new X509Certificate2(pathPfx,_password,X509KeyStorageFlags.EphemeralKeySet))
+			using(X509Certificate2 x509Certificate2=new X509Certificate2(x509Certificate2WithKey.RawData))
+			using(X509Store x509Store=new X509Store(Name,StoreLocation.CurrentUser))
+			{
+				thumbprint=x509Certificate2.Thumbprint;
+				x509Store.Open(OpenFlags.ReadWrite);//Creates the store.
+				x509Store.Add(x509Certificate2);
+			}
+			using(X509Certificate2 x509Certificate2Entry=Find(thumbprint)) {
+				Assert.IsFalse(TestKeyProvInfo.Read(x509Certificate2Entry).IsNamed,"The test's premise: the entry has no key provider information.");
+			}
+		}
+
 		///<summary>The store's certificate with this thumbprint, or null. The caller disposes it.</summary>
 		public X509Certificate2 Find(string thumbprint) {
 			using(X509Store x509Store=new X509Store(Name,StoreLocation.CurrentUser)) {
@@ -735,6 +786,13 @@ namespace DbConnectionSecurityTests {
 			get {
 				return (Flags & CRYPT_MACHINE_KEYSET)!=0;
 			}
+		}
+
+		///<summary>True when both name the same key exactly: whether named, the container and provider names, the provider type, the flags and the
+		///key spec.</summary>
+		public bool IsSameAs(TestKeyProvInfo testKeyProvInfo) {
+			return IsNamed==testKeyProvInfo.IsNamed && ContainerName==testKeyProvInfo.ContainerName && ProviderName==testKeyProvInfo.ProviderName
+				&& ProviderType==testKeyProvInfo.ProviderType && Flags==testKeyProvInfo.Flags && KeySpec==testKeyProvInfo.KeySpec;
 		}
 
 		///<summary>The certificate's key provider information. Throws when it cannot be read for another reason than its absence.</summary>

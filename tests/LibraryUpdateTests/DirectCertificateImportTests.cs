@@ -923,13 +923,14 @@ namespace LibraryUpdateTests {
 			}
 		}
 
-		///<summary>Third fix round, item 4: IsKeyUsable, TryDeletePrivateKey and GetKeyContainerName ("Never throws") answer instead of throwing for
-		///every exception but the critical ones.</summary>
+		///<summary>Third fix round, item 4: IsKeyUsable, TryDeletePrivateKey and IsEntryKeyUsable ("Never throws") answer instead of throwing for
+		///every exception but the critical ones (GetKeyContainerName is gone since DIRECT-CERT-FOLLOWUP round 4: keys are compared by their key
+		///provider information, which CodeBase reads and never throws).</summary>
 		[TestMethod]
 		public void KeyChecks_NeverThrowButLetTheCriticalExceptionsThrough() {
 			Assert.IsFalse(DirectCertificateImport.IsKeyUsable(null),"A NullReferenceException is not usable.");
 			Assert.AreNotEqual("",DirectCertificateImport.TryDeletePrivateKey(null),"A NullReferenceException is not deleted, with why.");
-			Assert.IsNull(DirectCertificateImport.GetKeyContainerName(null));
+			Assert.IsFalse(DirectCertificateImport.IsEntryKeyUsable(null),"A key provider information that cannot be read is not usable.");
 			Assert.IsTrue(DirectCertificateImport.IsCriticalException(new OutOfMemoryException()));
 			Assert.IsTrue(DirectCertificateImport.IsCriticalException(new StackOverflowException()));
 			foreach(Exception ex in new Exception[] { new CryptographicException(),new NullReferenceException(),new InvalidOperationException(),
@@ -939,7 +940,7 @@ namespace LibraryUpdateTests {
 			}
 			string textBusiness=ReadNormalized(@"OpenPmsDentalBusiness\Email\DirectCertificateImport.cs");
 			StringAssert.Contains(textBusiness,"return ex is OutOfMemoryException || ex is StackOverflowException || ex is ThreadAbortException;");
-			foreach(string method in new[] { "public static bool IsKeyUsable(","internal static string TryDeletePrivateKey(","internal static string GetKeyContainerName(" }) {
+			foreach(string method in new[] { "public static bool IsKeyUsable(","internal static string TryDeletePrivateKey(" }) {
 				int indexStart=textBusiness.IndexOf(method,StringComparison.Ordinal);
 				int indexEnd=textBusiness.IndexOf("\n\t\t}\n",indexStart,StringComparison.Ordinal);
 				string textMethod=textBusiness.Substring(indexStart,indexEnd-indexStart);
@@ -1271,15 +1272,18 @@ namespace LibraryUpdateTests {
 			//The key objects are disposed, and so are the certificates read from a store.
 			Assert.IsFalse(Regex.IsMatch(textBusiness,@"^\s*(RSA rsa|ECDsa ecdsa)=x509Certificate2\.Get(RSA|ECDsa)PrivateKey\(\);",RegexOptions.Multiline),
 				"Every key object of GetRSAPrivateKey or GetECDsaPrivateKey is in a using.");
-			Assert.AreEqual(8,Regex.Matches(textBusiness,@"using\((RSA rsa|ECDsa ecdsa)=x509Certificate2\.Get(RSA|ECDsa)PrivateKey\(\)\)").Count,
-				"IsKeyUsable, TryDeletePrivateKey, GetKeyContainerName and GetMachinePrivateKeyFilePath, RSA and ECDSA each.");
-			Assert.AreEqual(4,Regex.Matches(textBusiness,@"using\(CngKey cngKey=\(\((RSACng|ECDsaCng)\)(rsa|ecdsa)\)\.Key\)").Count,
-				"The CngKey of GetKeyContainerName and GetMachinePrivateKeyFilePath.");
-			//A CAPI key first (.NET Framework's GetRSAPrivateKey gives it as an RSACng): deleted, named and found (the machine key's file, for the
-			//users' read access, which needs administrator rights: launch check 1) through CAPI. The deletion and the name are tested in
+			Assert.AreEqual(6,Regex.Matches(textBusiness,@"using\((RSA rsa|ECDsa ecdsa)=x509Certificate2\.Get(RSA|ECDsa)PrivateKey\(\)\)").Count,
+				"IsKeyUsable, TryDeletePrivateKey and GetMachinePrivateKeyFilePath, RSA and ECDSA each (GetKeyContainerName is gone since "
+				+"DIRECT-CERT-FOLLOWUP round 4).");
+			Assert.AreEqual(2,Regex.Matches(textBusiness,@"using\(CngKey cngKey=\(\((RSACng|ECDsaCng)\)(rsa|ecdsa)\)\.Key\)").Count,
+				"The CngKey of GetMachinePrivateKeyFilePath.");
+			//No key is opened to compare key containers (DIRECT-CERT-FOLLOWUP round 4): they come from the key provider information.
+			Assert.IsFalse(textBusiness.Contains("GetKeyContainerName"),"Keys are compared by their key provider information.");
+			StringAssert.Contains(textBusiness,"return CertificateKeyProvInfo.Read(x509Certificate2,ActionBeforeKeyProvInfoReadForTests);");
+			//A CAPI key first (.NET Framework's GetRSAPrivateKey gives it as an RSACng): deleted and found (the machine key's file, for the
+			//users' read access, which needs administrator rights: launch check 1) through CAPI. The deletion is tested in
 			//ImportPrivateFile_KeepsTheKeyARenewalWithTheSameKeyShares.
-			foreach(string method in new[] { "internal static string TryDeletePrivateKey(","internal static string GetKeyContainerName(",
-				"private static string GetMachinePrivateKeyFilePath(" })
+			foreach(string method in new[] { "internal static string TryDeletePrivateKey(","private static string GetMachinePrivateKeyFilePath(" })
 			{
 				int indexMethod=textBusiness.IndexOf(method,StringComparison.Ordinal);
 				int indexCapi=textBusiness.IndexOf("=GetCapiRsaPrivateKey(x509Certificate2);",indexMethod,StringComparison.Ordinal);

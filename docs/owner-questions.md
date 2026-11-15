@@ -804,22 +804,68 @@ approved all three parts of the follow-up package, DIRECT-CERT-FOLLOWUP
 The last round of [port-notes/DIRECT-CERT-FOLLOWUP.md](port-notes/DIRECT-CERT-FOLLOWUP.md) made the tool pick the client certificate of a
 `.pfx` by what it is, read key locations without opening keys, check that a deleted key is gone, record every key it creates, undo an import
 whose save fails, and never give the users read access to a key it did not create. You answered all three as recommended ("all three as
-recommended", 2026-11-13); one small package (DIRECT-CERT-FOLLOWUP round 4) builds them.
+recommended", 2026-11-13); one small package (DIRECT-CERT-FOLLOWUP round 4) builds them. All three are done (branch `fix/dcfu4-1`, the
+port note's "Round 4").
 
 - **The Direct certificate window's import** (`DirectCertificateImport`) still opens the private keys of the store's other certificates to
   compare key containers, and counts a store entry as usable without checking which key set its key is in. Its store can be the computer's
   (`LocalMachine\My`), where a smart-card or TPM key could ask for a PIN or fail. Should it get the same two changes as the connection
-  settings tool? **Recommended: yes**, as one small package. **Answered: yes.**
+  settings tool? **Recommended: yes**, as one small package. **Answered: yes. Done:** the import compares keys by each certificate's key
+  provider information, read by the same code as the tool's (now in CodeBase), and never opens another certificate's key to do so; a store
+  entry counts as already there only when its key is in the import's key set, and only then is its key opened.
 - **Undoing an import removes the whole store entry.** When the computer already had the client certificate (put there by an administrator,
   say) and the import gave that entry the tool's key, a failed save, or a later save that stops using the certificate, removes the entry with
   the tool's key; the entry's earlier key stays on the computer and the message says where. The choices: (a) as built, remove the entry and
   say so; (b) put the entry's earlier key back on it, so the store is as it was (the tool then writes to a certificate it did not import);
   (c) leave the entry and delete only the tool's key (the entry is then left pointing at no key). **Recommended: (b)**, since it leaves the
-  computer exactly as the administrator had it. **Answered: (b).**
+  computer exactly as the administrator had it. **Answered: (b). Done:** the entry's earlier key provider information is kept in the tool's
+  record; the undo of a failed save, and a later save that stops using the certificate, write it back onto the entry, check it, and only
+  then delete the tool's key. The entry stays, the earlier key is never touched, and the message says what was put back, and exactly what
+  became of the tool's key (deleted, or left and why). This covers every earlier key the tool did not create: one in another key set, a
+  working one, and one in the tool's key set that does not open (a smart card that is not inserted, a TPM or other key that needs a PIN, a
+  key the administrator's rights keep out, a deleted key file); the import no longer offers the command that deletes an earlier key it
+  records (the result asks that it be kept, since the tool names it on the entry again), and says what to do if it was deleted anyway. Only an entry that had no key at all (no key provider information), or whose only key was the tool's own from an earlier
+  import, is removed with the tool's key, as before.
 - **The tool's record holds only the certificate's thumbprint.** If an administrator later gives a recorded certificate another key by hand,
   the tool treats that key as its own: it gives the users read access to it on a re-import and deletes it on a later save. Should the record
   also hold the key's container and provider? That changes the format of `imported-client-certificate.txt` (a record in the old format would
-  still be read). **Recommended: yes.** **Answered: yes.**
+  still be read). **Recommended: yes.** **Answered: yes. Done:** the record (format 2, versioned by its first line) holds the thumbprint,
+  the key the tool created and the entry's earlier key. The tool claims an entry's key only when the record names that very key: a key an
+  administrator gave a recorded certificate by hand gets no read access for the users and is never deleted, and the result names it. A
+  record in the old format is still read, as before, and the next save rewrites it in the new format, naming the certificate's key only
+  when the old rule would have claimed it (a working key of the computer's key set); otherwise it names no key, so a key the tool never
+  made is never recorded as the tool's.
+
+## DIRECT-CERT-FOLLOWUP round 4's review questions (decided by the lead on 2026-11-14)
+
+The review of round 4 and its two fix rounds ([port-notes/DIRECT-CERT-FOLLOWUP.md](port-notes/DIRECT-CERT-FOLLOWUP.md), "Round 4, lead
+fix round") left four questions. The lead decided them under your rule (the tools never leave a Users-readable key behind and never touch
+a key they did not create) and your answer (b) of 2026-11-13; all are built (branch `fix/dcfu4-4`). You can still choose otherwise.
+
+- **A put-back that fails while the certificate still uses the tool's key.** The tool leaves both keys so that the certificate keeps
+  working; until now the save then deleted its record, so no record named the tool's Users-readable key. **Decided: keep the record**
+  (after a failed save, write one), so that a later save tries the put-back again, and say so. **Done.** One record names one certificate:
+  when it must name the new certificate the settings use, the result says that no later save tries again for the old one, and how to put
+  it right by hand. The undo of a failed save follows the same rule (fix round 5, branch `fix/dcfu4-5`): when it records the certificate
+  the settings use over a record kept for another certificate's put-back, the error names that other certificate and the steps by hand.
+  You could choose the other way (keep the older record and leave the settings' certificate unrecorded); the lead's rule keeps the
+  certificate the settings use recorded, so a later save can still give its copy its earlier key back.
+- **The undo of a failed save whose settings already name the certificate.** The import had given the computer's copy of the certificate
+  the tool's key and was recorded at once. **Decided: your answer (b) covers this undo too**: the copy gets its earlier key back, the key
+  the save gave it is deleted, and the record is as it was before the save. **Done.** No case was found where this breaks a connection the
+  settings as they were depend on: the copy gets back exactly the key those settings used.
+- **A copy of the certificate the tool did not record, whose key does not open** (a smart card that is not inserted, a key that needs a
+  PIN, a deleted key file). **Answered by round 4's first fix round:** such a key is left aside with a warning, recorded, and put back by
+  the undo or a later save, as for every other earlier key.
+- **A record of the old format whose certificate an administrator gave another key by hand before the upgrade.** A save with the password
+  without a re-import still removes that copy with whatever key it names, as the old rule did. **Decided: as built** (the old rule), and
+  kept documented: such records exist only on test installs, because database connection security is new in the next version.
+
+Also built in the same round, as the lead decided: a record that names a copy's earlier key but not the tool's key (only an earlier
+build, unreleased, could write one) gets the earlier key back and no key deleted, since the tool cannot tell whether the key it names is
+its own, and the result says which key that is and how an administrator deletes it; the import no longer writes such a record. The
+Direct certificate window now says so, naming the key, when it imports over a copy whose key is in another key set and leaves that key
+untouched. A put-back the tool cannot check (the store cannot be read again) deletes no key and says so.
 
 ---
 
