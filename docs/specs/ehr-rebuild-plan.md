@@ -559,6 +559,10 @@ The key was a licence check, but it was also the only thing that kept these acti
 
 ### EHR-2 Value sets
 
+- **Status (2026-11-14).** Written on `ehr/ehr2-1` from `main` `2e5a61a67`; waiting for review and the merge. Step 2026111401 (`ehrcode`), the
+  loading, the import window and the code-system status are built and tested with synthetic files (`docs/port-notes/EHR-2.md`). Step 5 (the
+  record of the real June 2013 files by someone with a UMLS licence) is not done: the header and element names are provisional until it is.
+  The lead regenerates `db/init/new-database.sql` after the merge and runs InitSqlTests.
 - **Goal.** `EhrCodes.Listt` is filled again, on every workstation and on the Middle Tier server, from the office's own import of the
   June 2013 EP release (section 8). The pick lists and the 2014 CQMs then work.
 - **Owns.**
