@@ -348,6 +348,15 @@ namespace LibraryBindingTests {
 			{ "System.Text.Encodings.Web",new[] { "lib/net462/System.Text.Encodings.Web.dll" } },
 			{ "System.Text.Json",new[] { "lib/net462/System.Text.Json.dll" } },
 			{ "System.Threading.Tasks.Extensions",new[] { "lib/net462/System.Threading.Tasks.Extensions.dll" } },
+			//TC-4: Helix Toolkit 3.1.2 for the WPF tooth chart (SparksToothChart), and the packages of its closure that bring a file the build keeps.
+			{ "HelixToolkit",new[] { "lib/net48/HelixToolkit.dll" } },
+			{ "HelixToolkit.Geometry",new[] { "lib/net48/HelixToolkit.Geometry.dll" } },
+			{ "HelixToolkit.Maths",new[] { "lib/net48/HelixToolkit.Maths.dll" } },
+			{ "HelixToolkit.Wpf",new[] { "lib/net48/HelixToolkit.Wpf.dll" } },
+			{ "CommunityToolkit.Common",new[] { "lib/netstandard2.0/CommunityToolkit.Common.dll" } },
+			{ "CommunityToolkit.Diagnostics",new[] { "lib/netstandard2.0/CommunityToolkit.Diagnostics.dll" } },
+			{ "CommunityToolkit.Mvvm",new[] { "lib/netstandard2.0/CommunityToolkit.Mvvm.dll" } },
+			{ "System.ComponentModel.Annotations",new[] { "lib/net461/System.ComponentModel.Annotations.dll" } },
 		};
 
 		///<summary>Packages of the lock files that bring no library file, each with its reason. An entry here exempts the package from the binding
@@ -357,6 +366,23 @@ namespace LibraryBindingTests {
 		private static readonly Dictionary<string,string> _dictNoLibraries=new Dictionary<string,string>(StringComparer.OrdinalIgnoreCase) {
 			{ "Mono.Cecil","the tests' reader of assembly metadata (S1-6), whose files were never in Required dlls" },
 			{ "System.ValueTuple","no assembly for .NET Framework 4.7.1 and later (lib\\net471\\_._): the framework's own (SystemValueTuple_ComesFromTheFramework)" },
+			//TC-4: System.Net.Http 4.3.4 (HelixToolkit names it for net48) and the packages of the .NET Standard 1.x era it brings. Their files are
+			//older versions of .NET Framework 4.8 assemblies, so the build's conflict resolution keeps the framework's and copies none
+			//(NuGetFiles.IsReplacedByTheFramework; HelixPackageTests checks every built folder), or they hold only placeholders (_._).
+			{ "System.Net.Http","its net46 file (4.1.1.3) is older than the .NET Framework's System.Net.Http 4.2.0.0, which the build keeps (TC-4, risk W2)" },
+			{ "System.IO","its net462 file is older than the .NET Framework's facade, which the build keeps (TC-4)" },
+			{ "System.IO.Compression","its net46 file is older than the .NET Framework's System.IO.Compression 4.2.0.0, which the build keeps (TC-4)" },
+			{ "System.Runtime","its net462 file is older than the .NET Framework's facade, which the build keeps (TC-4)" },
+			{ "System.Security.Cryptography.Algorithms","its file is older than the .NET Framework's facade, which the build keeps (TC-4)" },
+			{ "System.Security.Cryptography.Encoding","its file is older than the .NET Framework's facade, which the build keeps (TC-4)" },
+			{ "System.Security.Cryptography.Primitives","its file is older than the .NET Framework's facade, which the build keeps (TC-4)" },
+			{ "System.Security.Cryptography.X509Certificates","its file is older than the .NET Framework's facade, which the build keeps (TC-4)" },
+			{ "System.Text.RegularExpressions","its net463 file is older than the .NET Framework's facade, which the build keeps (TC-4)" },
+			{ "System.Private.Uri","no assembly for .NET Framework (placeholders only; TC-4)" },
+			{ "Microsoft.NETCore.Platforms","no assembly: the runtime graph of the .NET Standard 1.x packages (TC-4)" },
+			{ "Microsoft.NETCore.Targets","no assembly: the runtime graph of the .NET Standard 1.x packages (TC-4)" },
+			{ "runtime.any.System.IO","no assembly for .NET Framework (lib\\net45\\_._), batch H2 (TC-4)" },
+			{ "runtime.any.System.Runtime","no assembly for .NET Framework (lib\\net45\\_._), batch H2 (TC-4)" },
 		};
 
 		///<summary>The mapped packages, by id.</summary>

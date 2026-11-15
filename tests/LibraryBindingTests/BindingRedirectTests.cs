@@ -36,12 +36,29 @@ namespace LibraryBindingTests {
 			{
 				Assert.IsTrue(listConfigs.Any(x => RepoPaths.Relative(x).Equals(program,StringComparison.OrdinalIgnoreCase)),program+" is not checked.");
 			}
+			//A project's config binds the references between the library files the project gets (its own, those of the projects it references and
+			//the files of every package of its lock file: SolutionProjects.LibrariesInClosure); the shared test config binds those of every library
+			//file. Since TC-4 not every project gets every package: CommunityToolkit.Mvvm and its System.ComponentModel.Annotations come only with
+			//SparksToothChart (Helix Toolkit), so only the configs of the projects above it name the Annotations redirect.
+			Dictionary<string,HashSet<string>> dictConfigLibraries=new Dictionary<string,HashSet<string>>(StringComparer.OrdinalIgnoreCase);
+			foreach(ProjectInfo projectInfo in SolutionProjects.All.Where(x => x.ConfigPath!=null && SolutionProjects.LoadsLibraryAssemblies(x))) {
+				dictConfigLibraries[projectInfo.ConfigPath]=SolutionProjects.LibrariesInClosure(projectInfo);
+			}
 			List<string> listProblems=new List<string>();
 			foreach(string pathConfig in listConfigs) {
-				listProblems.AddRange(BindingRules.FindUnresolvedReferences(Libraries.Assemblies,ConfigFiles.ReadRedirects(pathConfig),
-					RepoPaths.Relative(pathConfig)));
+				Dictionary<string,AssemblyFacts> dictAssemblies=Libraries.Assemblies;
+				if(dictConfigLibraries.TryGetValue(pathConfig,out HashSet<string> hashSetLibraries)) {
+					dictAssemblies=Libraries.Assemblies.Where(x => hashSetLibraries.Contains(x.Value.FileName))
+						.ToDictionary(x => x.Key,x => x.Value,StringComparer.OrdinalIgnoreCase);
+				}
+				listProblems.AddRange(BindingRules.FindUnresolvedReferences(dictAssemblies,ConfigFiles.ReadRedirects(pathConfig),RepoPaths.Relative(pathConfig)));
 			}
 			Assert.AreEqual(0,listProblems.Count,"References that do not bind:\r\n"+string.Join("\r\n",listProblems));
+			//The Helix closure's one new redirect is there (TC-4): CommunityToolkit.Mvvm references System.ComponentModel.Annotations 4.2.0.0.
+			foreach(string config in new[] { @"OpenPmsDental\app.config",@"tests\BindingRedirects.config" }) {
+				Assert.IsTrue(ConfigFiles.ReadRedirects(RepoPaths.Combine(config.Split('\\'))).Any(x => x.Name=="System.ComponentModel.Annotations"
+					&& x.NewVersion==new Version(4,2,1,0) && x.Covers(new Version(4,2,0,0))),config+": the System.ComponentModel.Annotations redirect.");
+			}
 		}
 
 		[TestMethod]
@@ -163,7 +180,18 @@ namespace LibraryBindingTests {
 				foreach(string pathConfig in listConfigs.Distinct(StringComparer.OrdinalIgnoreCase).Where(x => x!=null && File.Exists(x))) {
 					List<BindingRedirect> listRedirects=ConfigFiles.ReadRedirects(pathConfig);
 					string label=RepoPaths.Relative(pathConfig);
-					listProblems.AddRange(BindingRules.FindUnresolvedReferences(dictAssemblies,listRedirects,label+" (built)"));
+					//Another program of the folder (ServiceManager.exe, OpenPmsDentalDbSettings.exe in the program folder) loads only the library files
+					//it gets itself: since TC-4 the folder also holds CommunityToolkit.Mvvm.dll (Helix Toolkit, through SparksToothChart), which
+					//neither of them gets, so its references are not theirs to bind.
+					Dictionary<string,AssemblyFacts> dictAssembliesConfig=dictAssemblies;
+					ProjectInfo projectInfoOther=SolutionProjects.All.FirstOrDefault(x => x!=projectInfo && x.IsExe
+						&& (x.PrimaryOutputName+".config").Equals(Path.GetFileName(pathConfig),StringComparison.OrdinalIgnoreCase));
+					if(projectInfoOther!=null) {
+						HashSet<string> hashSetLibraries=SolutionProjects.LibrariesInClosure(projectInfoOther);
+						dictAssembliesConfig=dictAssemblies.Where(x => Libraries.ByFileName(x.Value.FileName)==null || hashSetLibraries.Contains(x.Value.FileName))
+							.ToDictionary(x => x.Key,x => x.Value,StringComparer.OrdinalIgnoreCase);
+					}
+					listProblems.AddRange(BindingRules.FindUnresolvedReferences(dictAssembliesConfig,listRedirects,label+" (built)"));
 					listProblems.AddRange(BindingRules.FindStaleRedirects(dictAssemblies,listRedirects,label+" (built)"));
 				}
 			}

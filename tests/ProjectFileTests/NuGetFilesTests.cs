@@ -75,6 +75,68 @@ namespace ProjectFileTests {
 			}
 		}
 
+		///<summary>An exe's restore has a win-x86 target, and the build copies from it alone: a package whose win-x86 file differs from its net48 one
+		///(System.Net.Http 4.3.4: lib\net46 and runtimes\win\lib\net46, TC-4) is read as the win-x86 file, not as two files of one name. A managed
+		///file of a name the .NET Framework 4.8 has at a higher assembly version is not copied (the conflict resolution keeps the framework's);
+		///one at a higher version than the framework's is. The package files are synthetic assemblies written here.</summary>
+		[TestMethod]
+		public void ReadCopiedFiles_TheRuntimeTarget_WithoutWhatTheFrameworkReplaces() {
+			if(NuGetFiles.GetFrameworkReferenceFolder()==null || NuGetFiles.GetFrameworkAssemblyVersion("System.Net.Http.dll")==null) {
+				Assert.Inconclusive("The .NET Framework 4.8 reference assemblies are not installed; the build needs them (Visual Studio Build Tools).");
+			}
+			Version versionFramework=NuGetFiles.GetFrameworkAssemblyVersion("System.Net.Http.dll");
+			string folder=Path.Combine(Path.GetTempPath(),"ProjectFileTests_NuGet_"+Guid.NewGuid().ToString("N"));
+			string folderProject=Path.Combine(folder,"Project");
+			string folderPackages=Path.Combine(folder,"packages");
+			Directory.CreateDirectory(Path.Combine(folderProject,"obj"));
+			try {
+				File.WriteAllText(Path.Combine(folderProject,"packages.lock.json"),"{ \"version\": 2, \"dependencies\": { \".NETFramework,Version=v4.8\": {\r\n"
+					+"  \"Fixture.Http\": { \"type\": \"Transitive\", \"resolved\": \"4.3.4\", \"contentHash\": \"aA==\" } },\r\n"
+					+"  \".NETFramework,Version=v4.8/win-x86\": { \"Fixture.Http\": { \"type\": \"Transitive\", \"resolved\": \"4.3.4\", \"contentHash\": \"aA==\" } } } }");
+				string pathAssets=Path.Combine(folderProject,"obj","project.assets.json");
+				File.WriteAllText(pathAssets,"{\r\n  \"version\": 3,\r\n  \"targets\": {\r\n"
+					+"    \".NETFramework,Version=v4.8\": { \"Fixture.Http/4.3.4\": { \"type\": \"package\", \"runtime\": { \"lib/net46/System.Net.Http.dll\": {} } } },\r\n"
+					+"    \".NETFramework,Version=v4.8/win-x86\": { \"Fixture.Http/4.3.4\": { \"type\": \"package\",\r\n"
+					+"      \"runtime\": { \"runtimes/win/lib/net46/System.Net.Http.dll\": {} } } } },\r\n"
+					+"  \"libraries\": { },\r\n"
+					+"  \"packageFolders\": { \""+folderPackages.Replace("\\","\\\\")+"\\\\\": {} } }");
+				CollectionAssert.AreEqual(new[] { "runtimes/win/lib/net46/System.Net.Http.dll" },NuGetFiles.ReadCopiedAssets(pathAssets)["Fixture.Http/4.3.4"].ToArray(),
+					"The win-x86 target's file only.");
+				//Not in a package folder: its version is unknown, so it is listed (and the checks that compare it fail on its missing file).
+				Assert.IsTrue(NuGetFiles.ReadCopiedFiles(folder,folderProject).ContainsKey("System.Net.Http.dll"));
+				string folderAsset=Path.Combine(folderPackages,"fixture.http","4.3.4","runtimes","win","lib","net46");
+				//Below the framework's version (System.Net.Http 4.3.4's own file is 4.1.1.3, the framework's 4.2.0.0): the build keeps the framework's.
+				WriteAssembly(folderAsset,"System.Net.Http",new Version(versionFramework.Major-1,0,0,0));
+				Dictionary<string,PackageFile> dictFiles=NuGetFiles.ReadCopiedFiles(folder,folderProject);
+				Assert.AreEqual(0,dictFiles.Count,string.Join(", ",dictFiles.Values));
+				//Above it: the package's file is copied.
+				WriteAssembly(folderAsset,"System.Net.Http",new Version(versionFramework.Major+5,0,0,0));
+				dictFiles=NuGetFiles.ReadCopiedFiles(folder,folderProject);
+				Assert.AreEqual("runtimes/win/lib/net46/System.Net.Http.dll",dictFiles["System.Net.Http.dll"].Asset);
+				//The same version: which one wins is not modelled.
+				WriteAssembly(folderAsset,"System.Net.Http",versionFramework);
+				AssertThrows(() => NuGetFiles.ReadCopiedFiles(folder,folderProject),"is not modelled by NuGetFiles");
+			}
+			finally {
+				Directory.Delete(folder,true);
+			}
+		}
+
+		///<summary>Writes a synthetic assembly of the name and version, with no types, as folder\name.dll.</summary>
+		private static void WriteAssembly(string folder,string name,Version version) {
+			Directory.CreateDirectory(folder);
+			string folderTemp=Path.Combine(folder,"build-"+Guid.NewGuid().ToString("N"));
+			Directory.CreateDirectory(folderTemp);
+			System.Reflection.AssemblyName assemblyName=new System.Reflection.AssemblyName(name);
+			assemblyName.Version=version;
+			System.Reflection.Emit.AssemblyBuilder assemblyBuilder=AppDomain.CurrentDomain.DefineDynamicAssembly(assemblyName,
+				System.Reflection.Emit.AssemblyBuilderAccess.Save,folderTemp);
+			assemblyBuilder.DefineDynamicModule(name,name+".dll");
+			assemblyBuilder.Save(name+".dll");
+			File.Copy(Path.Combine(folderTemp,name+".dll"),Path.Combine(folder,name+".dll"),true);
+			Directory.Delete(folderTemp,true);
+		}
+
 		[TestMethod]
 		public void GetPackageFolder_IsTheLowerCaseIdAndVersion_AsNuGetLaysItOut() {
 			Assert.AreEqual(@"C:\packages\microsoft.web.webview2\1.0.2420.47",NuGetFiles.GetPackageFolder(@"C:\packages","Microsoft.Web.WebView2","1.0.2420.47"));

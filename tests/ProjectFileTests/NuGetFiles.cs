@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.Serialization.Json;
 using System.Security.Cryptography;
 using System.Text.RegularExpressions;
@@ -124,20 +125,28 @@ namespace ProjectFileTests {
 		}
 
 		///<summary>The files the build copies from each package to a project's output, as the restore picked them in the project's
-		///project.assets.json: the runtime and native assets of the package in every target of the file, by "id/version" as the file names the
-		///package (NuGet's ids ignore case), each a path in the package's folder with '/' (lib/net462/System.Memory.dll). The SDK's
-		///ResolvePackageAssets copies a .NET Framework project's runtime assets of its target, the lib folder of the nearest framework the package
-		///has (lib\net4x for net48), and for an exe, whose target is win-x86, also its native assets (runtimes\win-x86\native). Read with the
-		///.NET Framework's JSON reader (JsonReaderWriterFactory), which gives each JSON member an element of its name, or, for a name that is no XML
-		///name (a target, "id/version", an asset's path), an element 'item' with the name in its attribute 'item'.</summary>
+		///project.assets.json: the runtime and native assets of the package in the target the build copies from, by "id/version" as the file
+		///names the package (NuGet's ids ignore case), each a path in the package's folder with '/' (lib/net462/System.Memory.dll). The SDK's
+		///ResolvePackageAssets takes the target of the project's runtime identifier when it has one, as an x86 exe has (win-x86), else the
+		///framework's: a .NET Framework project's runtime assets there are the lib folder of the nearest framework the package has (lib\net4x for
+		///net48), or a package's own runtimes\win\lib file for win-x86 (System.Net.Http 4.3.4, TC-4), and an exe's win-x86 target adds the
+		///native assets (runtimes\win-x86\native). These are the files the restore offers; ReadCopiedFiles leaves out the ones the build's
+		///conflict resolution then drops. Read with the .NET Framework's JSON reader (JsonReaderWriterFactory), which gives each JSON member an
+		///element of its name, or, for a name that is no XML name (a target, "id/version", an asset's path), an element 'item' with the name in
+		///its attribute 'item'.</summary>
 		public static Dictionary<string,HashSet<string>> ReadCopiedAssets(string pathAssets) {
 			XElement xElementRoot=ReadJson(pathAssets);
 			XElement xElementTargets=GetJsonMember(xElementRoot,"targets");
 			if(xElementTargets==null || !xElementTargets.Elements().Any()) {
 				throw new InvalidOperationException(pathAssets+" has no targets.");
 			}
+			List<XElement> listTargets=xElementTargets.Elements().ToList();
+			List<XElement> listTargetsRuntime=listTargets.Where(x => GetJsonName(x).Contains("/")).ToList();
+			if(listTargetsRuntime.Count>0) {
+				listTargets=listTargetsRuntime;
+			}
 			Dictionary<string,HashSet<string>> dictAssets=new Dictionary<string,HashSet<string>>(StringComparer.OrdinalIgnoreCase);
-			foreach(XElement xElementLibrary in xElementTargets.Elements().SelectMany(x => x.Elements())) {
+			foreach(XElement xElementLibrary in listTargets.SelectMany(x => x.Elements())) {
 				XElement xElementType=GetJsonMember(xElementLibrary,"type");
 				if(xElementType==null || xElementType.Value!="package") {
 					continue;//a project the project references
@@ -170,9 +179,10 @@ namespace ProjectFileTests {
 		///<summary>The files the build copies from packages into the project's output, by file name (ignoring case): the runtime and native assets
 		///its restore picked (ReadCopiedAssets of obj\project.assets.json; MSBuildProjectExtensionsPath is obj\ for every project of the repository),
 		///each of the package at the version the project's packages.lock.json names, with the file in the package's folder (FindPackageFolder).
-		///NuGet's "_._" (no file for this framework) is not a file. Throws for a package of the restore that the lock file does not name or names
-		///at another version, and for two packages that bring a file of the same name. Null when the project is not restored yet (no assets file);
-		///empty when it has no lock file.</summary>
+		///NuGet's "_._" (no file for this framework) is not a file, and neither is a managed file that the build's conflict resolution drops
+		///(IsReplacedByTheFramework). Throws for a package of the restore that the lock file does not name or names at another version, and for
+		///two packages that bring a file of the same name. Null when the project is not restored yet (no assets file); empty when it has no lock
+		///file.</summary>
 		public static Dictionary<string,PackageFile> ReadCopiedFiles(string repoRoot,string folderProject) {
 			Dictionary<string,PackageFile> dictFiles=new Dictionary<string,PackageFile>(StringComparer.OrdinalIgnoreCase);
 			string pathLock=System.IO.Path.Combine(folderProject,"packages.lock.json");
@@ -198,6 +208,9 @@ namespace ProjectFileTests {
 						continue;
 					}
 					packageFile.Path=folderPackage==null ? null : System.IO.Path.Combine(folderPackage,asset.Replace('/','\\'));
+					if(IsReplacedByTheFramework(packageFile)) {
+						continue;
+					}
 					PackageFile packageFileOther;
 					if(dictFiles.TryGetValue(packageFile.FileName,out packageFileOther)) {
 						if(packageFileOther.Id!=packageFile.Id || packageFileOther.Asset!=packageFile.Asset) {
@@ -209,6 +222,54 @@ namespace ProjectFileTests {
 				}
 			}
 			return dictFiles;
+		}
+
+		///<summary>The folder of the .NET Framework 4.8 reference assemblies the build compiles against (Reference Assemblies\Microsoft\Framework\
+		///.NETFramework\v4.8 under Program Files (x86), with its Facades folder); null when it is not installed.</summary>
+		public static string GetFrameworkReferenceFolder() {
+			string folder=System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86),
+				@"Reference Assemblies\Microsoft\Framework\.NETFramework\v4.8");
+			return Directory.Exists(folder) ? folder : null;
+		}
+
+		///<summary>The assembly version of the .NET Framework 4.8 reference assembly of this file name (the folder of GetFrameworkReferenceFolder or
+		///its Facades), or null when the framework has none of that name.</summary>
+		public static Version GetFrameworkAssemblyVersion(string fileName) {
+			string folder=GetFrameworkReferenceFolder();
+			if(folder==null) {
+				return null;
+			}
+			foreach(string path in new[] { System.IO.Path.Combine(folder,fileName),System.IO.Path.Combine(folder,"Facades",fileName) }) {
+				if(File.Exists(path)) {
+					return AssemblyName.GetAssemblyName(path).Version;
+				}
+			}
+			return null;
+		}
+
+		///<summary>True when the build leaves the package's managed file out of the output although the restore offers it: the .NET Framework 4.8
+		///has a reference assembly of the same file name with a higher assembly version, and the SDK's conflict resolution
+		///(ResolvePackageFileConflicts) keeps the higher version, which is the framework's own and is not copied. So System.Net.Http 4.3.4 and the
+		///System.* 4.3.x packages it brings (Helix Toolkit's closure, TC-4) put no file in any output. Native files and files that are not in a
+		///package folder (Path null or missing) are never left out here. Equal versions are not modelled (the SDK then compares file versions):
+		///they throw.</summary>
+		public static bool IsReplacedByTheFramework(PackageFile packageFile) {
+			if(packageFile.Asset.IndexOf("/native/",StringComparison.OrdinalIgnoreCase)>=0
+				|| !packageFile.FileName.EndsWith(".dll",StringComparison.OrdinalIgnoreCase)
+				|| packageFile.Path==null || !File.Exists(packageFile.Path))
+			{
+				return false;
+			}
+			Version versionFramework=GetFrameworkAssemblyVersion(packageFile.FileName);
+			if(versionFramework==null) {
+				return false;
+			}
+			Version versionPackage=AssemblyName.GetAssemblyName(packageFile.Path).Version;
+			if(versionPackage==versionFramework) {
+				throw new InvalidOperationException(packageFile+" has the assembly version of the .NET Framework's "+packageFile.FileName+" ("+versionFramework
+					+"): which one the build keeps is not modelled by NuGetFiles.");
+			}
+			return versionPackage<versionFramework;
 		}
 
 		///<summary>SHA-256 of the file in lower-case hex.</summary>
