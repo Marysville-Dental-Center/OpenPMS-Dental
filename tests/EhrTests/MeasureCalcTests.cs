@@ -156,7 +156,8 @@ namespace EhrTests {
 			foreach(EhrMeasureStage stage in _arrayStages) {
 				countPortal+=EhrMeasures.GetStageMeasureTypes(stage).Count(x => EhrMeasureCalcRules.IsPortalMeasure(stage,x));
 			}
-			Assert.AreEqual(4,countPortal,"Two measures in Stage 2 and two in Modified Stage 2; none in Stage 1.");
+			Assert.AreEqual(7,countPortal,"ElectronicCopyAccess in all three stages (the lead's decision), and ElectronicCopy and SecureMessaging in "
+				+"Stage 2 and Modified Stage 2.");
 			Assert.AreEqual("not calculated",EhrMeasureCalcRules.GetCountText(-1));
 			Assert.AreEqual("12",EhrMeasureCalcRules.GetCountText(12));
 			Assert.AreEqual("",EhrMeasureCalcRules.GetExclusionCountText(-1),"-1: no count applies to the measure.");
@@ -175,8 +176,9 @@ namespace EhrTests {
 			StringAssert.Contains(warning,"2015");
 			Assert.IsTrue(EhrMeasureCalcRules.GetPeriodNotes(EhrMeasureStage.ModifiedStage2,new DateTime(2014,1,1),new DateTime(2014,12,31))
 				.Any(x => x.Contains("began in 2015")));
-			Assert.AreEqual(0,EhrMeasureCalcRules.GetPeriodNotes(EhrMeasureStage.Stage1,new DateTime(2015,10,1),new DateTime(2016,3,31)).Count,
-				"Stage 1 has no portal measure and no year rule.");
+			List<string> listStage1=EhrMeasureCalcRules.GetPeriodNotes(EhrMeasureStage.Stage1,new DateTime(2015,10,1),new DateTime(2016,3,31));
+			Assert.AreEqual(1,listStage1.Count,"Stage 1 has no year rule; only the portal note (ElectronicCopyAccess).");
+			StringAssert.StartsWith(listStage1[0],"ElectronicCopyAccess counts what the patient portal recorded");
 			List<string> listStage2=EhrMeasureCalcRules.GetPeriodNotes(EhrMeasureStage.Stage2,new DateTime(2015,10,1),new DateTime(2016,3,31));
 			Assert.AreEqual(1,listStage2.Count,"Stage 2: only the portal note.");
 			Assert.AreEqual("",EhrMeasureCalcRules.GetDateError(new DateTime(2016,1,1),new DateTime(2016,1,1)));

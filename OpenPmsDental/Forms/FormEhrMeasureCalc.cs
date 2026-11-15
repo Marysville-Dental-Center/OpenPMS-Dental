@@ -422,8 +422,13 @@ namespace OpenPmsDental {
 		}
 
 		///<summary>True for the measures whose numerator came from the patient portal and its web mail, which this program no longer has: patient
-		///electronic access measure 2 (ElectronicCopy) and secure messaging, in Stage 2 and Modified Stage 2.</summary>
+		///electronic access measure 1 (timely online access, ElectronicCopyAccess) in all three stages, which counts OnlineAccessProvided events that
+		///nothing in this build writes any more (the lead's decision on the package's owner question 1); and patient electronic access measure 2
+		///(view, download or transmit, ElectronicCopy) and secure messaging, in Stage 2 and Modified Stage 2.</summary>
 		public static bool IsPortalMeasure(EhrMeasureStage ehrMeasureStage,EhrMeasureType ehrMeasureType) {
+			if(ehrMeasureType==EhrMeasureType.ElectronicCopyAccess) {
+				return true;
+			}
 			if(ehrMeasureStage==EhrMeasureStage.Stage1) {
 				return false;
 			}
@@ -523,23 +528,50 @@ namespace OpenPmsDental {
 			return ehrMeasureType.ToString();
 		}
 
-		///<summary>The notes under the provider and the dates for a refresh: a Modified Stage 2 period across two calendar years, a Modified Stage 2
-		///period before 2015, the alternate exclusions that are not modelled, and the measures that depended on the removed patient portal.</summary>
+		///<summary>The year whose Modified Stage 2 requirements GetRequirement gives for a reporting year: that year from 2015 on; before 2015, when
+		///Modified Stage 2 did not exist, 2017's (the engine's thresholds, which GetRequirement keeps for every year outside 2015 and 2016).</summary>
+		public static int GetRequirementsYearShown(int reportingYear) {
+			if(reportingYear<2015) {
+				return 2017;
+			}
+			return reportingYear;
+		}
+
+		///<summary>The notes under the provider and the dates for a refresh. Modified Stage 2: one statement, when the period spans two calendar
+		///years or starts before 2015, of the year whose requirements are shown (GetRequirementsYearShown), with the two-year warning in it; and the
+		///alternate exclusions that are not modelled. Every stage: the rows that depend on the removed patient portal (IsPortalMeasure), by the
+		///names the grid shows.</summary>
 		public static List<string> GetPeriodNotes(EhrMeasureStage ehrMeasureStage,DateTime dateStart,DateTime dateEnd) {
 			List<string> listNotes=new List<string>();
 			if(ehrMeasureStage==EhrMeasureStage.ModifiedStage2) {
-				if(dateStart.Year!=dateEnd.Year) {
-					listNotes.Add("Warning: the reporting period spans two calendar years. A Modified Stage 2 reporting period lies within one calendar "
-						+"year; the requirements of "+dateStart.Year.ToString(CultureInfo.InvariantCulture)+" are shown.");
-				}
-				if(dateStart.Year<2015) {
-					listNotes.Add("Modified Stage 2 began in 2015; the requirements of 2017 are shown.");
+				bool isTwoYears=dateStart.Year!=dateEnd.Year;
+				bool isBefore2015=dateStart.Year<2015;
+				if(isTwoYears || isBefore2015) {
+					string yearShown=GetRequirementsYearShown(GetReportingYear(dateStart)).ToString(CultureInfo.InvariantCulture);
+					string note="";
+					if(isTwoYears) {
+						note+="Warning: the reporting period spans two calendar years, and a Modified Stage 2 reporting period lies within one. ";
+					}
+					if(isBefore2015) {
+						note+="Modified Stage 2 began in 2015. The requirements of "+yearShown+" are shown.";
+					}
+					else {
+						note+="The requirements of "+yearShown+", the year of the start date, are shown.";
+					}
+					listNotes.Add(note);
 				}
 				listNotes.Add("The alternate exclusions of 2015 for providers who were scheduled to report Stage 1 are not modelled.");
 			}
-			if(ehrMeasureStage!=EhrMeasureStage.Stage1) {
-				listNotes.Add("Patient electronic access (view, download or transmit) and secure messaging count what patients did in the patient portal, "
-					+"which this program no longer has.");
+			List<string> listPortalTitles=EhrMeasures.GetStageMeasureTypes(ehrMeasureStage).Where(x => IsPortalMeasure(ehrMeasureStage,x))
+				.Select(x => GetMeasureTitle(ehrMeasureStage,x)).ToList();
+			if(listPortalTitles.Count==1) {
+				listNotes.Add(listPortalTitles[0]+" counts what the patient portal recorded, which this program no longer has; unless older data meets "
+					+"it, its Percent says \""+DEPENDS_ON_REMOVED_PORTAL+"\".");
+			}
+			else if(listPortalTitles.Count>1) {
+				listNotes.Add(string.Join(", ",listPortalTitles.Take(listPortalTitles.Count-1))+" and "+listPortalTitles.Last()+" count what the patient "
+					+"portal recorded (online access given, views, downloads and transmissions, secure messages), which this program no longer has; "
+					+"unless older data meets one, its Percent says \""+DEPENDS_ON_REMOVED_PORTAL+"\".");
 			}
 			return listNotes;
 		}

@@ -123,16 +123,16 @@ namespace OpenPmsDental {
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.labelNotes.Location = new System.Drawing.Point(12, 62);
 			this.labelNotes.Name = "labelNotes";
-			this.labelNotes.Size = new System.Drawing.Size(976, 56);
+			this.labelNotes.Size = new System.Drawing.Size(976, 80);
 			this.labelNotes.TabIndex = 10;
 			//
 			// labelProgress
 			//
 			this.labelProgress.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelProgress.Location = new System.Drawing.Point(12, 120);
+			this.labelProgress.Location = new System.Drawing.Point(12, 144);
 			this.labelProgress.Name = "labelProgress";
-			this.labelProgress.Size = new System.Drawing.Size(976, 18);
+			this.labelProgress.Size = new System.Drawing.Size(976, 30);
 			this.labelProgress.TabIndex = 11;
 			//
 			// gridMain
@@ -140,9 +140,9 @@ namespace OpenPmsDental {
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
             | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(12, 142);
+			this.gridMain.Location = new System.Drawing.Point(12, 178);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(976, 452);
+			this.gridMain.Size = new System.Drawing.Size(976, 416);
 			this.gridMain.TabIndex = 12;
 			this.gridMain.Title = "Meaningful Use Measures (double-click a measure for its patients)";
 			this.gridMain.TranslationName = "TableEhrMeasureCalc";
