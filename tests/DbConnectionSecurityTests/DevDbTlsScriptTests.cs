@@ -46,10 +46,25 @@ namespace DbConnectionSecurityTests {
 			return directoryInfo.FullName;
 		}
 
-		///<summary>Runs a PowerShell script file without a profile, non-interactively (a question gets no answer, so nothing is ever confirmed).
-		///Returns the exit code; output is the standard output and error.</summary>
+		///<summary>The 64-bit Windows PowerShell on 64-bit Windows, also from the tests' 32-bit process (vstest runs them as x86, and a 32-bit
+		///process that starts powershell.exe gets the 32-bit one of SysWOW64, which the script refuses): System32 through Sysnative.</summary>
+		internal static string GetPowerShellPath() {
+			string folderWindows=Environment.GetFolderPath(Environment.SpecialFolder.Windows);
+			if(Environment.Is64BitOperatingSystem && !Environment.Is64BitProcess) {
+				return Path.Combine(folderWindows,"Sysnative","WindowsPowerShell","v1.0","powershell.exe");
+			}
+			return Path.Combine(folderWindows,"System32","WindowsPowerShell","v1.0","powershell.exe");
+		}
+
+		///<summary>Runs a PowerShell script file without a profile, non-interactively (a question gets no answer, so nothing is ever confirmed),
+		///with the 64-bit Windows PowerShell (GetPowerShellPath). Returns the exit code; output is the standard output and error.</summary>
 		internal static int RunPowerShell(string scriptPath,string arguments,out string output) {
-			ProcessStartInfo processStartInfo=new ProcessStartInfo("powershell.exe",
+			return RunPowerShellWith(GetPowerShellPath(),scriptPath,arguments,out output);
+		}
+
+		///<summary>RunPowerShell with the given powershell.exe (the 32-bit one for the test of the script's refusal of it).</summary>
+		internal static int RunPowerShellWith(string pathPowerShell,string scriptPath,string arguments,out string output) {
+			ProcessStartInfo processStartInfo=new ProcessStartInfo(pathPowerShell,
 				"-NoProfile -NonInteractive -ExecutionPolicy Bypass -File \""+scriptPath+"\" "+arguments) {
 				UseShellExecute=false,
 				CreateNoWindow=true,
@@ -69,7 +84,9 @@ namespace DbConnectionSecurityTests {
 
 		///<summary>Runs a driver that loads the named functions of the script and its script-level settings ($Marker*, $Record*Prefix,
 		///$*FolderName, $*Suffix) from its syntax tree, without running the script, with Stop-Refused throwing 'REFUSED: ...' instead of
-		///ending the process; then the body, with $Script and $Folder (this test's temporary folder). Asserts exit code 0; returns the output.
+		///ending the process; then the body, with $Script and $Folder (this test's temporary folder). Under Set-StrictMode -Version Latest, as
+		///the script runs (without it, '.Count' on a list that had become a string passed here and failed in the owner's run). Asserts exit
+		///code 0; returns the output.
 		///</summary>
 		private string RunDriver(string[] arrayFunctions,string[] arrayBody) {
 			return RunDriverIn(_folder,arrayFunctions,arrayBody);
@@ -82,6 +99,7 @@ namespace DbConnectionSecurityTests {
 			string driver=Path.Combine(folder,"driver-"+Guid.NewGuid().ToString("N").Substring(0,8)+".ps1");
 			List<string> listLines=new List<string> {
 				"param([string]$Script, [string]$Folder)",
+				"Set-StrictMode -Version Latest",
 				"$ErrorActionPreference = 'Stop'",
 				"$ast = [System.Management.Automation.Language.Parser]::ParseFile($Script, [ref]$null, [ref]$null)",
 				"$names = @('"+string.Join("', '",arrayFunctions)+"')",
@@ -99,6 +117,12 @@ namespace DbConnectionSecurityTests {
 			int exitCode=RunPowerShell(driver,"-Script \""+GetScriptPath()+"\" -Folder \""+folder+"\"",out string output);
 			Assert.AreEqual(exitCodeExpected,exitCode,output);
 			return output;
+		}
+
+		///<summary>True when the enable run's dry run refused because the opms-dev-tls folder of an earlier run is there (this PC after the
+		///owner's run of 2026-11-14 ended with exit 4, until the owner's -Revert).</summary>
+		internal static bool IsLeftByAnEnableRun(string output) {
+			return System.Text.RegularExpressions.Regex.IsMatch(output,@"REFUSED: \S.*\\opms-dev-tls exists\. Run -Revert");
 		}
 
 		internal static bool IsElevated() {
@@ -272,6 +296,9 @@ namespace DbConnectionSecurityTests {
 			int exitCode=RunPowerShell(GetScriptPath(),"-DryRun",out string output);
 			if(output.Contains("was not found on this computer") || output.Contains("No connection to 127.0.0.1:3306")) {
 				Assert.Inconclusive("No local MariaDB service on 127.0.0.1:3306: "+output);
+			}
+			if(IsLeftByAnEnableRun(output)) {
+				Assert.Inconclusive("An enable run that did not finish left its opms-dev-tls folder (until the owner's -Revert), so the plan is not shown: "+output);
 			}
 			Assert.AreEqual(0,exitCode,output);
 			string lineIni=output.Split('\n').Select(x => x.Trim()).First(x => x.StartsWith("Option file:"));
