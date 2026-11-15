@@ -164,7 +164,7 @@ namespace LibWebTests {
 					Assert.AreEqual(0,listXslt.Count,fileName+" uses "+string.Join(", ",listXslt));
 				}
 			}
-			using(ModuleDefinition moduleDefinition=ReadModule("OpenPmsDental.exe")) {
+			using(ModuleDefinition moduleDefinition=ReadProgramModule()) {
 				List<string> listReferences=moduleDefinition.GetTypeReferences().Where(x => x.Namespace=="System.Xml.Xsl").Select(x => x.Name).ToList();
 				CollectionAssert.Contains(listReferences,"XslCompiledTransform","The exe's child uses XslCompiledTransform, so the check would see it.");
 				CollectionAssert.DoesNotContain(listReferences,"XslTransform","The old processor is used nowhere.");
@@ -198,7 +198,7 @@ namespace LibWebTests {
 		///Nothing else of the program references the child's class.</summary>
 		[TestMethod]
 		public void Child_HasOneWayIn_FirstInMain() {
-			using(ModuleDefinition moduleDefinition=ReadModule("OpenPmsDental.exe")) {
+			using(ModuleDefinition moduleDefinition=ReadProgramModule()) {
 				List<string> listCallers=new List<string>();
 				List<string> listOtherUses=new List<string>();
 				foreach(TypeDefinition typeDefinition in GetAllTypes(moduleDefinition)) {
@@ -326,6 +326,13 @@ namespace LibWebTests {
 		}
 
 		#region Cecil and source helpers
+		///<summary>The program's managed assembly next to the tests: OpenPmsDental.dll on .NET (the .exe is then the apphost), else
+		///OpenPmsDental.exe (ProgramAssembly.Find, S3a-FU2).</summary>
+		private static ModuleDefinition ReadProgramModule() {
+			string path=ProjectFileTests.ProgramAssembly.Find(AppDomain.CurrentDomain.BaseDirectory,"OpenPmsDental");
+			return ReadModule(path==null ? "OpenPmsDental.exe" : Path.GetFileName(path));
+		}
+
 		private static ModuleDefinition ReadModule(string fileName) {
 			string path=Path.Combine(AppDomain.CurrentDomain.BaseDirectory,fileName);
 			Assert.IsTrue(File.Exists(path),fileName+" is next to the tests (a project reference).");

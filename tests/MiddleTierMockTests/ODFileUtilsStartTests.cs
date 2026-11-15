@@ -231,14 +231,31 @@ namespace MiddleTierMockTests {
 				Assert.AreEqual("StartProcessInfoDefault",startersReplacementSecond.FuncStartProcessInfoReplaced.Method.Name);
 				//The doubled Dispose did not release twice: a replacement on another thread still waits for this one.
 				Task<ODFileUtils.StartersReplacement> taskThird=Task.Run(() => ODFileUtils.ReplaceStartersForTests(x => null,x => false));
-				bool isThirdWaiting=!taskThird.Wait(300);
-				startersReplacementSecond.Dispose();
-				Assert.IsTrue(taskThird.Wait(TimeSpan.FromSeconds(30)),"It goes in once the first is disposed.");
-				using(ODFileUtils.StartersReplacement startersReplacementThird=taskThird.Result) {
-					Assert.AreEqual("StartProcessInfoDefault",startersReplacementThird.FuncStartProcessInfoReplaced.Method.Name,
-						"It replaced the real starters, which the first put back before letting it in.");
+				bool isThirdTaken=false;
+				try {
+					bool isThirdWaiting=!taskThird.Wait(300);
+					startersReplacementSecond.Dispose();
+					Assert.IsTrue(taskThird.Wait(TimeSpan.FromSeconds(30)),"It goes in once the first is disposed.");
+					ODFileUtils.StartersReplacement startersReplacementThird=taskThird.Result;
+					isThirdTaken=true;
+					using(startersReplacementThird) {
+						Assert.AreEqual("StartProcessInfoDefault",startersReplacementThird.FuncStartProcessInfoReplaced.Method.Name,
+							"It replaced the real starters, which the first put back before letting it in.");
+					}
+					Assert.IsTrue(isThirdWaiting,"A second replacement waits while one is in place.");
 				}
-				Assert.IsTrue(isThirdWaiting,"A second replacement waits while one is in place.");
+				finally {
+					if(!isThirdTaken) {
+						//Its wait timed out (or failed before the using): dispose its replacement once it is in, so that every later replacement in
+						//this test process does not wait two minutes for it and throw (S3a-FU2).
+						startersReplacementSecond.Dispose();
+						taskThird.ContinueWith(x => {
+							if(x.Status==TaskStatus.RanToCompletion) {
+								x.Result.Dispose();
+							}
+						},TaskScheduler.Default);
+					}
+				}
 			}
 		}
 

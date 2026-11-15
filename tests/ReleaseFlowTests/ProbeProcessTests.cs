@@ -2,13 +2,16 @@
 // copies of the host that a test process left behind when it died before Dispose are deleted on the next start, and only those; a started
 // child answers and its copy is gone after Dispose; a run-once child is a console program's Main (its exit code and output, the process ends
 // only when its foreground threads have, a timeout ends it). In scratch folders under the temp folder, with synthetic files; the only process
-// started is the host itself, with this assembly's handlers below.
+// started is the host itself, with this assembly's handlers below. S3a-FU2: arguments are quoted as CommandLineToArgvW reads them, and a
+// grandchild (the host again) that holds the run-once child's output does not hold RunOnce past its bounded wait.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
+using System.Text.RegularExpressions;
 using System.Threading;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TestProbeHost;
@@ -171,6 +174,120 @@ namespace ReleaseFlowTests {
 				DeleteQuietly(folder);
 			}
 		}
+
+		[DllImport("shell32.dll",CharSet=CharSet.Unicode,SetLastError=true)]
+		private static extern IntPtr CommandLineToArgvW(string lpCmdLine,out int pNumArgs);
+
+		[DllImport("kernel32.dll")]
+		private static extern IntPtr LocalFree(IntPtr hMem);
+
+		///<summary>The arguments as Windows splits a command line for the program it starts (CommandLineToArgvW), without the program name.</summary>
+		private static string[] SplitAsWindows(string arguments) {
+			IntPtr intPtrArgv=CommandLineToArgvW("TestProbeHost.exe "+arguments,out int count);
+			Assert.AreNotEqual(IntPtr.Zero,intPtrArgv);
+			try {
+				string[] arrayArgs=new string[count-1];
+				for(int i=1;i<count;i++) {
+					arrayArgs[i-1]=Marshal.PtrToStringUni(Marshal.ReadIntPtr(intPtrArgv,i*IntPtr.Size));
+				}
+				return arrayArgs;
+			}
+			finally {
+				LocalFree(intPtrArgv);
+			}
+		}
+
+		///<summary>Arguments that plain quoting breaks: a trailing backslash (a folder), a double quote, backslashes before a quote, an empty one,
+		///spaces and tabs, a UNC path and a non-ASCII letter.</summary>
+		private static readonly string[] _arrayArgsHard=new[] { @"C:\synthetic folder\",@"a""b",@"x\""y","",@"two  spaces","tab	here",@"\\server.example.test\share\",
+			@"ends in two\\",@"\",@"""","\u00e4" };
+
+		///<summary>S3a-FU2: QuoteArgument quotes the way CommandLineToArgvW reads (a backslash run before a quote or the closing quote doubled, a
+		///quote as \"), so every argument comes back as it was; plain quoting joined "C:\folder\" with the next argument.</summary>
+		[TestMethod]
+		public void QuoteArgument_IsReadBackByCommandLineToArgvW() {
+			CollectionAssert.AreEqual(_arrayArgsHard,SplitAsWindows(ProbeProcess.JoinArguments(_arrayArgsHard)),
+				string.Join(" | ",SplitAsWindows(ProbeProcess.JoinArguments(_arrayArgsHard))));
+			Assert.AreEqual("\"C:\\folder\\\\\"",ProbeProcess.QuoteArgument(@"C:\folder\"));
+			Assert.AreEqual("\"a\\\"b\"",ProbeProcess.QuoteArgument("a\"b"));
+			Assert.AreEqual("\"x\\\\\\\"y\"",ProbeProcess.QuoteArgument("x\\\"y"));
+			Assert.AreEqual("\"\"",ProbeProcess.QuoteArgument(""));
+			//Proof that the case bites: plain quoting gives one argument for two.
+			CollectionAssert.AreEqual(new[] { "C:\\folder\" next" },SplitAsWindows("\"C:\\folder\\\" \"next\""));
+		}
+
+		///<summary>S3a-FU2: the run-once child gets those arguments as they were (ASCII ones: its console output is read in the console's code page).
+		///</summary>
+		[TestMethod]
+		public void RunOnce_HardArguments_ReachTheChildAsTheyWere() {
+			string folder=TestPaths.NewTempFolder("probeprocess");
+			try {
+				string[] arrayArgs=_arrayArgsHard.Where(x => x.All(y => y<128)).ToArray();
+				ProbeRunResult probeRunResult=ProbeProcess.RunOnce(folder,null,typeof(ProbeOnceEntry),new[] { "echo" }.Concat(arrayArgs).ToArray(),
+					TimeSpan.FromMinutes(2));
+				Assert.AreEqual(0,probeRunResult.ExitCode,probeRunResult.Output);
+				StringAssert.Contains(probeRunResult.Output,"count: "+arrayArgs.Length+"\r\n",probeRunResult.Output);
+				for(int i=0;i<arrayArgs.Length;i++) {
+					StringAssert.Contains(probeRunResult.Output,"arg "+i+": ["+arrayArgs[i]+"]\r\n",probeRunResult.Output);
+				}
+			}
+			finally {
+				DeleteQuietly(folder);
+			}
+		}
+
+		///<summary>S3a-FU2: a process the entry method started (here the host again, from its own folder, which sleeps) inherits the child's
+		///standard output and error and holds them open after the child has ended. RunOnce then returns once its wait for the streams has passed,
+		///with the child's exit code and IsOutputUnfinished set, instead of waiting for the grandchild (the wait was WaitForExit(), unbounded).
+		///The grandchild ends on its own; the test waits for it.</summary>
+		[TestMethod]
+		public void RunOnce_AGrandchildHoldsTheOutput_TheWaitIsBounded() {
+			string folder=TestPaths.NewTempFolder("probeprocess");
+			int processIdGrandchild=0;
+			try {
+				string pathHost=typeof(ProbeProcess).Assembly.Location;
+				ProbeRunResult probeRunResult=ProbeProcess.RunOnce(folder,null,typeof(ProbeOnceEntry),new[] { "grandchild",pathHost,
+					typeof(ProbeOnceEntry).Assembly.Location,"8000" },TimeSpan.FromMinutes(2),TimeSpan.FromSeconds(2));
+				Match match=Regex.Match(probeRunResult.Output,@"grandchild: (\d+)\r\n");
+				if(match.Success) {
+					processIdGrandchild=int.Parse(match.Groups[1].Value);
+				}
+				Assert.IsFalse(probeRunResult.IsTimedOut,probeRunResult.Output);
+				Assert.AreEqual(5,probeRunResult.ExitCode,probeRunResult.Output);
+				Assert.IsTrue(match.Success,"The grandchild started: "+probeRunResult.Output);
+				Assert.IsTrue(probeRunResult.IsOutputUnfinished,"The grandchild held the streams: "+probeRunResult.Output);
+				Assert.IsTrue(probeRunResult.Elapsed.TotalSeconds<7,"Not the grandchild's 8 s: "+probeRunResult.Elapsed);
+				Assert.AreEqual(0,ListCopies(folder).Count,"The copy is deleted: the grandchild runs from the host's own folder.");
+			}
+			finally {
+				WaitForGrandchild(processIdGrandchild);
+				DeleteQuietly(folder);
+			}
+		}
+
+		///<summary>Waits for the grandchild that a test started through its child to end on its own; ends it after 60 seconds.</summary>
+		private static void WaitForGrandchild(int processId) {
+			if(processId==0) {
+				return;
+			}
+			Process process;
+			try {
+				process=Process.GetProcessById(processId);
+			}
+			catch(ArgumentException) {
+				return;//ended already
+			}
+			using(process) {
+				try {
+					if(!process.WaitForExit(60000)) {
+						process.Kill();//the grandchild this test started, and nothing else
+					}
+				}
+				catch(Exception) {
+					//It ended meanwhile.
+				}
+			}
+		}
 	}
 
 	///<summary>The handler of Start_DeletesTheStaleCopiesFirst_AndDisposeLeavesNoCopy, in the child process. No MSTest type here.</summary>
@@ -208,6 +325,25 @@ namespace ReleaseFlowTests {
 					throw new InvalidOperationException("A synthetic failure out of Run.");
 				case "hang":
 					Thread.Sleep(Timeout.Infinite);
+					return 0;
+				case "echo"://S3a-FU2: each argument after "echo" between brackets
+					Console.WriteLine("count: "+(args.Length-1));
+					for(int i=1;i<args.Length;i++) {
+						Console.WriteLine("arg "+(i-1)+": ["+args[i]+"]");
+					}
+					return 0;
+				case "grandchild"://S3a-FU2: args[1] the host, args[2] this assembly, args[3] how long the grandchild sleeps (ms)
+					ProcessStartInfo processStartInfo=new ProcessStartInfo(args[1],ProbeProcess.JoinArguments(new[] { "--run-once",args[2],
+						typeof(ProbeOnceEntry).FullName,"sleep",args[3] }));
+					processStartInfo.UseShellExecute=false;//inherits this process's handles, the redirected standard streams among them
+					processStartInfo.CreateNoWindow=true;
+					processStartInfo.WorkingDirectory=Path.GetDirectoryName(args[1]);
+					using(Process process=Process.Start(processStartInfo)) {
+						Console.WriteLine("grandchild: "+process.Id);
+					}
+					return 5;
+				case "sleep":
+					Thread.Sleep(int.Parse(args[1]));
 					return 0;
 				default:
 					return 2;

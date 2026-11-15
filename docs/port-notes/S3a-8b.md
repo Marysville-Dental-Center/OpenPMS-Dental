@@ -123,3 +123,35 @@ I1-I11, J1-J17, K10 and Spike2 use in-process sessions) before the stage 3a gate
   - The unbounded `WaitForExit()` after a successful timed wait could hang on a grandchild that holds the pipes, as the old
     `SecondProcess` could.
   - `HelixPackageTests` checks for a System.* 4.3.x file only within the copied closure: say so at the call site.
+
+## 7. S3a-FU2: section 6's cleanups (branch `net10/s3a-fu2-1`)
+
+- **The entry assembly (`tests/WindowChecksTests/HarnessTests.cs`).** `SessionProcess_RunsFromTheProgramFolder_WithItsConfig` asks the
+  child for its own `Assembly.GetEntryAssembly().Location` (new `ProgramDriverHost.COMMAND_GET_ENTRY_ASSEMBLY`) before and after the patch:
+  the host's copy (`TestProbeHost-<hex>.exe`) before, and the program in the folder (`OpenPmsDental.exe`) after.
+- **`CheckResult_TextRoundTrip_KeepsEveryField`** fills `ListNotScripted` (a text with a tab and a non-ASCII letter, and an empty one) and
+  compares it after the round trip.
+- **Quoting (`tests/TestProbeHost/ProbeProcess.cs`).** `QuoteArgument` and `JoinArguments` quote the way `CommandLineToArgvW` (and the
+  .NET Framework's and the C runtime's parsing) reads: a backslash run before a double quote, and before the closing quote, is doubled, and a
+  double quote becomes `\"`. `Start` and `RunOnce` use them; before, `"C:\folder\"` ended in `\"` and joined the next argument. Tests
+  (`tests/ReleaseFlowTests/ProbeProcessTests.cs`): `QuoteArgument_IsReadBackByCommandLineToArgvW` (a trailing backslash, quotes,
+  backslashes before a quote, an empty argument, spaces, a tab, a UNC path, a non-ASCII letter; and the old shape giving one argument for
+  two) and `RunOnce_HardArguments_ReachTheChildAsTheyWere` (the run-once child echoes the ASCII ones).
+- **The bounded wait.** After `RunOnce`'s timed wait succeeds, it waits for the end of standard output and error at most
+  `ProbeProcess.TimeSpanOutputEnd` (10 s; an overload takes another limit) instead of an unbounded `WaitForExit()`, and sets
+  `ProbeRunResult.IsOutputUnfinished` when a stream was still open. `Dispose` bounds its wait for standard error the same way. The two
+  waits run one after the other (`WaitHandle.WaitAll` is not supported on an STA thread, where some tests call `RunOnce`); the events are
+  not disposed, since a reader of a held stream may still set them. Test: `RunOnce_AGrandchildHoldsTheOutput_TheWaitIsBounded`, where the
+  entry method starts the host again from its own folder (it inherits the child's pipes and sleeps 8 s) and returns 5: `RunOnce` returns
+  with exit code 5 and `IsOutputUnfinished` after its 2-second limit, well before the grandchild ends, and its copy is deleted; the test
+  then waits for the grandchild to end on its own (ending it after 60 s).
+- **`HelixPackageTests`.** A comment at `HelixTypes_TheChartWillUse_LoadFromTheProgramFolder`'s check says that only the copied closure is
+  seen there, and that `BuiltFolders_HoldNoFileOfTheSystemNetHttpPackages` checks the built folders themselves.
+- **LibWebTests.** `HtmlGenerationTests` reads the program through `ReadProgramModule` (`ProgramAssembly.Find`: `OpenPmsDental.dll` when it
+  is there, else `OpenPmsDental.exe`), and `IeBrowserRemovedTests.BuiltAssemblies_ReferenceNoIeBrowserType` checks for a built program the
+  same way. `tests/ProjectFileTests/ProgramAssembly.cs` is linked into `LibWebTests.csproj`. So section 6's first note is closed; on
+  .NET Framework both read `OpenPmsDental.exe` as before.
+- **Builds and runs (whole package S3a-FU2).** Full lane build (x86): 0 errors. Targeted runs, all passing: S3aM1Tests 42, MiddleTierMockTests
+  151, NoHqTests 99, WindowChecksTests 3 passed (its 29 opt-in window checks skipped without `OPMS_WINDOW_CHECKS=1`), ReleaseFlowTests 201
+  passed and 5 inconclusive (Release output and x64 files not built here, as before), LibWebTests 65, ImagingDeviceManagerTests 534,
+  ImagingCaptureTests 806, BINATests 33; the lane's x64 run of BINATests 33 of 33. `tools/Test-NoEolFlips.ps1`: no line-end flips.

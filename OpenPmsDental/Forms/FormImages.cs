@@ -681,7 +681,8 @@ namespace OpenPmsDental {
 				}
 			}
 			EZTwain.SetHideUI(!ComputerPrefs.LocalComputer.ScanDocShowOptions);
-			EZTwain.PDF_SetCompression((int)this.Handle,(int)ComputerPrefs.LocalComputer.ScanDocQuality);
+			//The first argument is EZTwain's ignored "reserved" one: 0, not (int)this.Handle (S3a-12's lead note, S3a-FU2).
+			EZTwain.PDF_SetCompression(0,(int)ComputerPrefs.LocalComputer.ScanDocQuality);
 			if(!EZTwain.OpenDefaultSource()) {//if it can't open the scanner successfully
 				MsgBox.Show(this,"Default scanner could not be opened.  Check that the default scanner works from Windows Control Panel and from Windows Fax and Scan.");
 				Cursor=Cursors.Default;

@@ -7,6 +7,8 @@
 // S3a-2f tightened it: Diagnostics.Process.Start( and Process.Start as a method group are starts; a using that hides Process is refused;
 // target-typed new() of a Process or ProcessStartInfo is a construction; UseShellExecute counts only on the constructed object's own name or
 // initializer, within its scope and before its name gets a new object; Process.Start(x) needs x's last assignment to be a checked construction.
+// S3a-FU2: and no declaration of x (a parameter, a local, a lambda's parameter, a pattern's designation, a deconstruction's element, each also
+// as @x), no out/ref x, no tuple assignment to x and no end of an expression body between them; ProcessStartInfo?x (no space) is a declaration.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
 using System.Collections.Generic;
@@ -407,6 +409,196 @@ namespace NoHqTests {
 			});
 		}
 
+		//S3a-FU2: the shapes that round 2's review of S3a-2f found the scan could not see (docs/port-notes/S3a-2.md, section 7.8).
+
+		[TestMethod]
+		public void Scan_AParameterThatShadowsAField_IsFound() {
+			AssertProblems(new[] {
+				"private ProcessStartInfo psi=new ProcessStartInfo(x) { UseShellExecute=true };",
+				"void B(ProcessStartInfo psi) {",
+				"\tProcess.Start(psi);",
+				"}"
+			},"3 Process.Start");
+			AssertProblems(new[] {
+				"private ProcessStartInfo psi=new ProcessStartInfo(x) { UseShellExecute=true };",
+				"void B(int count,ProcessStartInfo? psi) {",
+				"\tProcess.Start(psi);",
+				"}"
+			},"3 Process.Start");
+			//Given another value through out or ref.
+			AssertProblems(new[] {
+				"ProcessStartInfo psi=new ProcessStartInfo(x) { UseShellExecute=true };",
+				"TryGetStartInfo(out psi);",
+				"Process.Start(psi);"
+			},"3 Process.Start");
+			AssertProblems(new[] {
+				"ProcessStartInfo psi=new ProcessStartInfo(x) { UseShellExecute=true };",
+				"Change(ref psi);",
+				"Process.Start(psi);"
+			},"3 Process.Start");
+			//Good lines: the name is used, not declared, between the assignment and the call.
+			AssertProblems(new[] {
+				"ProcessStartInfo psi=new ProcessStartInfo(x) { UseShellExecute=true };",
+				"string fileName=psi.FileName;",
+				"string text=isRemote ? psi.Arguments : \"\";",
+				"bool isSet=isRemote ? psi!=null : false;",
+				"if(psi is null) {",
+				"\treturn;",
+				"}",
+				"Log(nameof(psi),in psi);",
+				"Process process=Process.Start(psi);"
+			});
+		}
+
+		[TestMethod]
+		public void Scan_AnExpressionBodiedMember_IsFound() {
+			//The assignment's member ends at its ; with no closing brace, so the call in the next member was taken as in its scope.
+			AssertProblems(new[] {
+				"private ProcessStartInfo _psi;",
+				"private void A() => _psi=new ProcessStartInfo(x) { UseShellExecute=true };",
+				"private void B() { Process.Start(_psi); }"
+			},"3 Process.Start");
+			AssertProblems(new[] {
+				"private ProcessStartInfo psi=new ProcessStartInfo(x) { UseShellExecute=true };",
+				"private Process B(ProcessStartInfo psi) => Process.Start(psi);"
+			},"2 Process.Start");
+			//An expression lambda's assignment.
+			AssertProblems(new[] {
+				"ProcessStartInfo psi=null;",
+				"RunLater(() => psi=new ProcessStartInfo(x) { UseShellExecute=true });",
+				"Process.Start(psi);"
+			},"3 Process.Start");
+			//Good lines: a lambda with a block body that constructs and starts.
+			AssertProblems(new[] {
+				"listPaths.ForEach(x => {",
+				"\tProcessStartInfo psi=new ProcessStartInfo(x) { UseShellExecute=true };",
+				"\tProcess.Start(psi);",
+				"});"
+			});
+			AssertProblems(new[] {
+				"Func<int> funcCount=() => 1;",
+				"ProcessStartInfo psi=new ProcessStartInfo(x) { UseShellExecute=true };",
+				"Process.Start(psi);"
+			});
+		}
+
+		[TestMethod]
+		public void Scan_ALocalFunctionOrLambdaParameterThatShadowsALocal_IsFound() {
+			AssertProblems(new[] {
+				"void A() {",
+				"\tProcessStartInfo psi=new ProcessStartInfo(x) { UseShellExecute=true };",
+				"\tvoid Local(ProcessStartInfo psi) { Process.Start(psi); }",
+				"}"
+			},"3 Process.Start");
+			AssertProblems(new[] {
+				"ProcessStartInfo psi=new ProcessStartInfo(x) { UseShellExecute=true };",
+				"listStartInfos.ForEach(psi => Process.Start(psi));"
+			},"2 Process.Start");
+			AssertProblems(new[] {
+				"ProcessStartInfo psi=new ProcessStartInfo(x) { UseShellExecute=true };",
+				"listStartInfos.ForEach((psi) => Process.Start(psi));"
+			},"2 Process.Start");
+			AssertProblems(new[] {
+				"ProcessStartInfo psi=new ProcessStartInfo(x) { UseShellExecute=true };",
+				"listStartInfos.Select((psi,i) =>",
+				"\tProcess.Start(psi));"
+			},"3 Process.Start");
+			AssertProblems(new[] {
+				"ProcessStartInfo psi=new ProcessStartInfo(x) { UseShellExecute=true };",
+				"listStartInfos.ForEach((ProcessStartInfo psi) => Process.Start(psi));"
+			},"2 Process.Start");
+			AssertProblems(new[] {
+				"ProcessStartInfo psi=new ProcessStartInfo(x) { UseShellExecute=true };",
+				"foreach(ProcessStartInfo psi in listStartInfos) {",
+				"\tProcess.Start(psi);",
+				"}"
+			},"3 Process.Start");
+			//Good lines: a lambda whose parameter has another name.
+			AssertProblems(new[] {
+				"ProcessStartInfo psi=new ProcessStartInfo(x) { UseShellExecute=true };",
+				"listNames.ForEach(name => Log(name));",
+				"listNames.Select((name,i) => name+i);",
+				"Process.Start(psi);"
+			});
+		}
+
+		[TestMethod]
+		public void Scan_APatternDeconstructionOrVerbatimNameThatShadowsAField_IsFound() {
+			//A pattern's designation after a property pattern: no type name before the name.
+			AssertProblems(new[] {
+				"private ProcessStartInfo psi=new ProcessStartInfo(x) { UseShellExecute=true };",
+				"void B() {",
+				"\tif(GetStartInfo() is {} psi) {",
+				"\t\tProcess.Start(psi);",
+				"\t}",
+				"}"
+			},"4 Process.Start");
+			AssertProblems(new[] {
+				"private ProcessStartInfo psi=new ProcessStartInfo(x) { UseShellExecute=true };",
+				"void B() {",
+				"\tif(GetStartInfo() is ProcessStartInfo { } psi && isReady) {",
+				"\t\tProcess.Start(psi);",
+				"\t}",
+				"}"
+			},"4 Process.Start");
+			AssertProblems(new[] {
+				"private ProcessStartInfo psi=new ProcessStartInfo(x) { UseShellExecute=true };",
+				"void B() {",
+				"\tif(GetStartInfo() is { FileName: not null } psi) {",
+				"\t\tProcess.Start(psi);",
+				"\t}",
+				"}"
+			},"4 Process.Start");
+			//A deconstruction.
+			AssertProblems(new[] {
+				"private ProcessStartInfo psi=new ProcessStartInfo(x) { UseShellExecute=true };",
+				"void B() {",
+				"\tvar (psi,n)=GetPair();",
+				"\tProcess.Start(psi);",
+				"}"
+			},"4 Process.Start");
+			AssertProblems(new[] {
+				"private ProcessStartInfo psi=new ProcessStartInfo(x) { UseShellExecute=true };",
+				"void B() {",
+				"\tforeach(var (psi,n) in listPairs) {",
+				"\t\tProcess.Start(psi);",
+				"\t}",
+				"}"
+			},"4 Process.Start");
+			AssertProblems(new[] {
+				"ProcessStartInfo psi=new ProcessStartInfo(x) { UseShellExecute=true };",
+				"(psi,count)=(GetStartInfo(),1);",
+				"Process.Start(psi);"
+			},"3 Process.Start");
+			//A verbatim parameter.
+			AssertProblems(new[] {
+				"private ProcessStartInfo psi=new ProcessStartInfo(x) { UseShellExecute=true };",
+				"void B(ProcessStartInfo @psi) {",
+				"\tProcess.Start(psi);",
+				"}"
+			},"3 Process.Start");
+			//Good lines: a statement after a block, and a tuple swap of other names.
+			AssertProblems(new[] {
+				"ProcessStartInfo psi=new ProcessStartInfo(x) { UseShellExecute=true };",
+				"if(isRemote) { }",
+				"psi.FileName=path;",
+				"if(isLocal) { }",
+				"psi?.Verb.Trim();",
+				"(a,b)=(b,a);",
+				"Process.Start(psi);"
+			});
+		}
+
+		[TestMethod]
+		public void Scan_NullableDeclarationWithoutASpace_IsChecked() {
+			AssertProblems(new[] { "ProcessStartInfo?psi=new(path);","ODFileUtils.ProcessStart(psi);" },"1 new ProcessStartInfo");
+			AssertProblems(new[] { "private Process?_process;","_process=new();","_process.Start();" },"2 new Process");
+			AssertProblems(new[] { "ProcessStartInfo?psi=new(path);","Process.Start(psi);" },"1 new ProcessStartInfo");
+			//Good lines.
+			AssertProblems(new[] { "ProcessStartInfo?psi=new(path) { UseShellExecute=true };","Process.Start(psi);" });
+			AssertProblems(new[] { "private Process?_process;","_process=new() { StartInfo=new() { UseShellExecute=true } };","_process.Start();" });
+		}
+
 		///<summary>Scans lines (not the helper file) and checks the problems found, each as "line kind".</summary>
 		private static void AssertProblems(string[] arrayLines,params string[] arrayExpected) {
 			ScanResult scanResult=Scan(arrayLines,false);
@@ -531,7 +723,8 @@ namespace NoHqTests {
 			if(nameLast=="StartInfo") {
 				return "ProcessStartInfo";
 			}
-			Match match=Regex.Match(code,@"\b(?:"+PATTERN_QUALIFIER+@")(Process|ProcessStartInfo)\s*\??\s+"+Regex.Escape(nameLast)+@"\b(?!\s*\()");
+			//A nullable declaration may have no space after the ? (ProcessStartInfo?psi, S3a-FU2).
+			Match match=Regex.Match(code,@"\b(?:"+PATTERN_QUALIFIER+@")(Process|ProcessStartInfo)(?:\s*\?\s*|\s+)"+Regex.Escape(nameLast)+@"\b(?!\s*\()");
 			return match.Success ? match.Groups[1].Value : null;
 		}
 
@@ -703,11 +896,74 @@ namespace NoHqTests {
 					}
 				}
 			}
+			string textBetween=code.Substring(matchLast.Index+matchLast.Length,indexCall-(matchLast.Index+matchLast.Length));
+			if(IsNameDeclaredOrPassedByRef(textBetween,name)) {
+				return false;//The name at the call is another variable (a parameter, a local, a lambda's parameter), or may hold another value.
+			}
+			if(IsInExpressionBody(code,matchLast.Index) && textBetween.Contains(";")) {
+				return false;//The assignment's expression body ended before the call: the call is in another member, or outside the lambda.
+			}
 			string textAssigned=code.Substring(matchLast.Index+matchLast.Length);
 			if(Regex.IsMatch(textAssigned,patternNewStartInfo)) {
 				return true;
 			}
 			return Regex.IsMatch(textAssigned,@"^new\s*[({]") && GetDeclaredKind(code,name)=="ProcessStartInfo";
+		}
+
+		///<summary>Words that come before a name without declaring it (return psi, x is psi, case psi:). Any other word before the name is taken
+		///as its type, out or ref.</summary>
+		private static readonly string[] _arrayWordsNotTypes=new[] { "return","in","is","as","await","yield","else","case","throw","new","goto","when",
+			"not","and","or","select","where","orderby","by","on","equals","group","ascending","descending","checked","unchecked" };
+
+		///<summary>True when the text (the code between a name's last assignment and a call that passes the name) declares the name again or may
+		///give it another value (S3a-FU2): a parameter, a local or a local function's parameter (ProcessStartInfo psi, var psi, List&lt;T&gt; psi,
+		///ProcessStartInfo? psi=), a lambda's parameter (psi =&gt;, (psi) =&gt;, (i,psi) =&gt;), a query's range variable (from psi), or out/ref psi;
+		///a pattern's designation after a property or list pattern (is {} psi, is ProcessStartInfo { } psi, case [..] psi:); an element of a
+		///deconstruction or tuple assignment (var (psi,n)=..., (psi,n)=..., foreach(var (psi,n) in ...)); each also with the verbatim @psi.
+		///Each makes the name at the call another variable, such as a parameter that shadows a field of the same name, or another value.</summary>
+		private static bool IsNameDeclaredOrPassedByRef(string text,string name) {
+			string nameEscaped="@?"+Regex.Escape(name);
+			string patternType=@"(?<![\w.])([A-Za-z_]\w*)(?:\s*\.\s*[A-Za-z_]\w*)*(?:\s*<[^;{}()=]*>)?(?:\s*\[[\s,]*\])*";
+			foreach(Match match in Regex.Matches(text,patternType+@"\s+"+nameEscaped+@"\b(?!\s*\()")) {
+				if(!_arrayWordsNotTypes.Contains(match.Groups[1].Value)) {
+					return true;
+				}
+			}
+			//A nullable type: followed by what follows a declaration, so that the conditional operator (x ? psi : y) is not taken for one.
+			if(Regex.IsMatch(text,patternType+@"\s*\?\s*"+nameEscaped+@"\b(?=\s*(?:=(?!=)|[;,)]))")) {
+				return true;
+			}
+			//A pattern's designation after a property pattern or a list pattern: followed by what follows a pattern (S3a-FU2), so that a statement
+			//after a block (if(x) { } psi.FileName=...) is not taken for one.
+			if(Regex.IsMatch(text,@"[}\]]\s*"+nameEscaped+@"\b(?=\s*(?:[)&|,;:]|\?(?![.\[?])|when\b|=>))")) {
+				return true;
+			}
+			if(Regex.IsMatch(text,@"(?<![\w.])"+nameEscaped+@"\s*=>")) {
+				return true;
+			}
+			//A parenthesized list before =>, = or in: a lambda's parameters, a deconstruction or a tuple assignment (one level of nested
+			//parentheses, as in var ((psi,n),m)=...). The name is an element when it is the element's last identifier.
+			foreach(Match match in Regex.Matches(text,@"\(((?:[^()]|\([^()]*\))*)\)\s*(?:=>|=(?![=>])|\bin\b)")) {
+				foreach(string element in match.Groups[1].Value.Replace("(","").Replace(")","").Split(',')) {
+					Match matchName=Regex.Match(element,@"@?([A-Za-z_]\w*)\s*$");
+					if(matchName.Success && matchName.Groups[1].Value==name) {
+						return true;
+					}
+				}
+			}
+			return false;
+		}
+
+		///<summary>True when the code at index is in an expression body: an expression-bodied member (void A() =&gt; psi=...;) or an expression
+		///lambda (x =&gt; psi=...), that is, a =&gt; lies between index and the ;, { or } before it (S3a-FU2). Such a body ends at its statement's ;,
+		///which no closing brace marks.</summary>
+		private static bool IsInExpressionBody(string code,int index) {
+			if(index<=0) {
+				return false;
+			}
+			int indexStart=code.LastIndexOfAny(new[] { ';','{','}' },index-1);
+			string textBefore=code.Substring(indexStart+1,index-(indexStart+1));
+			return textBefore.Contains("=>");
 		}
 
 		private static string Shorten(string text) {
