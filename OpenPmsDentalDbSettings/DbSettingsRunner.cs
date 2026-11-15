@@ -310,8 +310,8 @@ namespace OpenPmsDentalDbSettings {
 				//import left (and that the tool names on the entry again), unless the undo put that key back on the entry, which uses it again.
 				string message=(ex is DbSettingsException) ? ex.Message : "The connection settings could not be saved: "+ex.Message;
 				int exitCode=(ex is DbSettingsException) ? ((DbSettingsException)ex).ExitCode : EXIT_WRITE_FAILED;
-				string undo=UndoImportOfFailedSave(importedCertificateImport,dbConnectionConfigCurrent.ClientCertThumbprint,thumbprintRecorded,pathRecord,
-					entryBefore,out bool isEarlierKeyPutBack);
+				string undo=UndoImportOfFailedSave(importedCertificateImport,dbConnectionConfigCurrent.ClientCertThumbprint,importedCertificateRecorded,
+					pathRecord,entryBefore,out bool isEarlierKeyPutBack);
 				string warningImport=isEarlierKeyPutBack ? warning : AppendSentence(warningEntryKeyLeft,warning);
 				throw new DbSettingsException(exitCode,AppendSentence(AppendSentence(EndSentence(message),warningImport),undo));
 			}
@@ -355,8 +355,20 @@ namespace OpenPmsDentalDbSettings {
 				warning=AppendSentence(warning,"The tool could not record which client certificate it imported ("+ex.Message+"), so it will not remove "
 					+"that certificate when it is replaced.");
 			}
-			if(thumbprintToRemove!="") {
-				warning=AppendSentence(warning,ClientCertificateStore.RemoveImported(importedCertificateRecorded));//The record names it (Plan).
+			//A record whose entry still waits for its earlier key (a put-back that failed or could not be checked, which kept the record: DCFU4 lead
+			//fix round, decision 2), of a certificate that neither the settings as they were nor the saved ones use: this save tries again.
+			bool isPutBackPending=thumbprintToRemove=="" && importedCertificateRecorded!=null && importedCertificateRecorded.KeyBefore!=null
+				&& thumbprintRecorded!="" && thumbprintRecorded!=DbConnectionConfig.NormalizeThumbprint(dbConnectionConfigCurrent.ClientCertThumbprint)
+				&& thumbprintRecorded!=DbConnectionConfig.NormalizeThumbprint(dbConnectionConfigNew.ClientCertThumbprint);
+			if(thumbprintToRemove!="" || isPutBackPending) {
+				//The record names it (Plan, or the pending put-back).
+				warning=AppendSentence(warning,ClientCertificateStore.RemoveImported(importedCertificateRecorded,out bool isPutBackDone,
+					out bool isRecordStillNeeded));
+				if(isRecordStillNeeded) {
+					//The entry may still name the key the tool gave it, which the users can read: the record is kept, unless it names the certificate
+					//the saved settings use now (one record names one certificate).
+					warning=AppendSentence(warning,KeepRecordForPutBack(pathRecord,importedCertificateRecorded,importedCertificateToRecord));
+				}
 			}
 			if(warningRights!="") {
 				throw new DbSettingsException(EXIT_WRITE_FAILED,AppendSentence(warningRights,warning));
@@ -371,32 +383,40 @@ namespace OpenPmsDentalDbSettings {
 		///stays, and is recorded at once, so that the save that later stops using it removes it with that key. When the store held the
 		///certificate before the import and the import left its entry's earlier key aside (importedCertificateImport.KeyBefore), the entry stays
 		///and gets that key back, and only the key this save gave it is deleted (RemoveImported's text says so: DIRECT-CERT-FOLLOWUP round 4,
-		///part B); isEarlierKeyPutBack then says that the entry names that key again, so that the error leaves out the import's warning about it.
-		///Otherwise the removal takes the whole store entry (one that had no key provider information, or the tool's own key that no longer
-		///opened): when the store held the certificate before the import (entryBefore), the text says that this entry was removed, with the key
-		///this save gave it, and, when the import left the entry's earlier key aside but could not read what the entry named, that the key stays
-		///where the import's warning (which the error gives before this text) says. Returns what was done, or the warning that says what is left;
-		///never throws.</summary>
-		private static string UndoImportOfFailedSave(ImportedCertificate importedCertificateImport,string thumbprintCurrent,string thumbprintRecorded,
-			string pathRecord,ClientCertificateEntryBefore entryBefore,out bool isEarlierKeyPutBack)
+		///part B); also when the settings as they still are name that certificate (the DCFU4 lead fix round, decision 3: the owner's answer (b)
+		///of 2026-11-13 covers the undo of a failed save, so the entry is as the administrator had it, and the record as it was before the save).
+		///isEarlierKeyPutBack then says that the entry names that key again, so that the error leaves out the import's warning about it. A
+		///put-back that fails while the entry may still name the tool's key keeps a record naming it (decision 2; KeepRecordForPutBack), so that a
+		///later save tries again. Otherwise the removal takes the whole store entry (one that had no key provider information, or the tool's own
+		///key that no longer opened): when the store held the certificate before the import (entryBefore), the text says that this entry was
+		///removed, with the key this save gave it, and, when the import left the entry's earlier key aside but could not record what the entry
+		///named, that the key stays where the import's warning (which the error gives before this text) says. importedCertificateRecorded: the
+		///record as it was before the save (null for none). Returns what was done, or the warning that says what is left; never throws.</summary>
+		private static string UndoImportOfFailedSave(ImportedCertificate importedCertificateImport,string thumbprintCurrent,
+			ImportedCertificate importedCertificateRecorded,string pathRecord,ClientCertificateEntryBefore entryBefore,out bool isEarlierKeyPutBack)
 		{
 			isEarlierKeyPutBack=false;
 			string thumbprintImported=DbConnectionConfig.NormalizeThumbprint(importedCertificateImport==null ? "" : importedCertificateImport.Thumbprint);
 			thumbprintCurrent=DbConnectionConfig.NormalizeThumbprint(thumbprintCurrent);
-			thumbprintRecorded=DbConnectionConfig.NormalizeThumbprint(thumbprintRecorded);
+			string thumbprintRecorded=DbConnectionConfig.NormalizeThumbprint(importedCertificateRecorded==null ? "" : importedCertificateRecorded.Thumbprint);
 			if(thumbprintImported=="") {
 				return "";
 			}
+			bool isRecordedOther=thumbprintRecorded!="" && thumbprintRecorded!=thumbprintImported;
 			if(thumbprintImported!=thumbprintCurrent && thumbprintImported!=thumbprintRecorded) {
-				string warningRemove=ClientCertificateStore.RemoveImported(importedCertificateImport,out isEarlierKeyPutBack);
+				string warningRemove=ClientCertificateStore.RemoveImported(importedCertificateImport,out isEarlierKeyPutBack,out bool isRecordStillNeeded);
+				if(isRecordStillNeeded) {
+					//The record of the settings as they are (another certificate) is kept: one record names one certificate.
+					return AppendSentence(warningRemove,KeepRecordForPutBack(pathRecord,importedCertificateImport,isRecordedOther ? importedCertificateRecorded : null));
+				}
 				if(warningRemove!="") {
 					return warningRemove;
 				}
 				if(entryBefore==ClientCertificateEntryBefore.InStoreKeyLeft) {
-					//The import could not read what the entry named before, so there was nothing to put back (part B).
+					//The import could not record what the entry named before, so there was nothing to put back (part B).
 					return "The client certificate was already in the computer's certificate store before this save; what its entry named before could "
-						+"not be read, so it could not be put back: it was removed from the store, with the private key this save gave it, and its earlier "
-						+"key was left untouched, where said above.";
+						+"not be recorded, so it could not be put back: it was removed from the store, with the private key this save gave it, and its "
+						+"earlier key was left untouched, where said above.";
 				}
 				if(entryBefore==ClientCertificateEntryBefore.InStore) {
 					return "The client certificate was already in the computer's certificate store before this save, without a private key of anyone "
@@ -404,6 +424,16 @@ namespace OpenPmsDentalDbSettings {
 						+"with the private key this save gave it.";
 				}
 				return "The client certificate this save imported was removed from the computer's certificate store again, with its private key.";
+			}
+			if(entryBefore==ClientCertificateEntryBefore.InStoreKeyLeft && importedCertificateImport.KeyBefore!=null) {
+				//The settings as they are (or the record) name the certificate, and the import left its entry's earlier key aside: the entry gets that
+				//key back, as the administrator had it, the key this save gave it is deleted, and the record stays as it was before the save
+				//(decision 3). A put-back that fails while the entry may still name the tool's key records the import at once, as before.
+				string warningPutBack=ClientCertificateStore.RemoveImported(importedCertificateImport,out isEarlierKeyPutBack,out bool isRecordStillNeeded);
+				if(!isRecordStillNeeded) {
+					return warningPutBack;
+				}
+				return AppendSentence(warningPutBack,KeepRecordForPutBack(pathRecord,importedCertificateImport,null));
 			}
 			//Recorded at once, with the key the import gave its entry; also when the record names the certificate already, since its entry's key is
 			//the import's now (DIRECT-CERT-FOLLOWUP round 4, part C).
@@ -417,6 +447,30 @@ namespace OpenPmsDentalDbSettings {
 					+"Cert:\\LocalMachine\\My\\"+thumbprintImported+" -DeleteKey.";
 			}
 			return "";
+		}
+
+		///<summary>After a put-back that failed or could not be checked, while the store's entry may still name the key the tool gave it, which the
+		///users can read (ClientCertificateStore.RemoveImported's isRecordStillNeeded; the DCFU4 lead fix round, decision 2, owner question 1 of
+		///the round): writes the record of that certificate (importedCertificateToKeep), so that no key the tool created is left with no record
+		///naming it, and a later save tries again (ApplyOrThrow's pending put-back). Not when the record is to name another certificate
+		///(importedCertificateOther: the one the settings use; one record names one certificate): then the sentence says that no later save tries
+		///again. Returns the sentence that says which; never throws.</summary>
+		private static string KeepRecordForPutBack(string pathRecord,ImportedCertificate importedCertificateToKeep,ImportedCertificate importedCertificateOther) {
+			string thumbprint=DbConnectionConfig.NormalizeThumbprint(importedCertificateToKeep.Thumbprint);
+			if(importedCertificateOther!=null && DbConnectionConfig.NormalizeThumbprint(importedCertificateOther.Thumbprint)!=thumbprint) {
+				return "The tool's record names the client certificate "+DbConnectionConfig.NormalizeThumbprint(importedCertificateOther.Thumbprint)+", which "
+					+"the settings use, and names one certificate only, so it cannot keep "+thumbprint+" as well: no later save tries again, so put the entry "
+					+"back by hand, as said above.";
+			}
+			try {
+				ImportedCertificateRecord.Write(pathRecord,importedCertificateToKeep);
+			}
+			catch(Exception ex) when(!ClientCertificateStore.IsCriticalException(ex)) {
+				return "The tool could not keep its record of the client certificate "+thumbprint+" ("+ex.Message.Trim().TrimEnd('.')+"), so no later save "
+					+"tries again: put the entry back by hand, as said above.";
+			}
+			return "The tool keeps its record of the client certificate "+thumbprint+", so that a later save tries again to name its earlier private key "
+				+"on its entry.";
 		}
 
 		///<summary>The text, trimmed, ending with a full stop, so that the next sentence can follow it.</summary>

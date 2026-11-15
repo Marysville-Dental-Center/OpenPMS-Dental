@@ -25,7 +25,10 @@ namespace OpenPmsDentalDbSettings {
 		///<summary>The store entry's key provider information before the tool's import gave the entry its key, when the import left that earlier
 		///key aside (ClientCertificateEntryBefore.InStoreKeyLeft: a key in another key set, an unidentified one, a usable key the tool did not
 		///create, or a key in the import's key set that does not open and that the tool did not create), exactly as
-		///read; null when there was none, or the entry had no key, or its key provider information could not be read.</summary>
+		///read; null when there was none, or the entry had no key, or its key provider information could not be read, or the import could not
+		///read its own key's (KeyTool null): a record with KeyBefore but no KeyTool (only an import before the DCFU4 lead fix round wrote one)
+		///leaves the tool unable to tell which key is its own, so its removal puts the earlier key back and deletes no key
+		///(ClientCertificateStore.IsToolKeyUnknown).</summary>
 		public CertificateKeyProvInfo KeyBefore;
 		///<summary>True when the record was read from a file of the old format (a thumbprint line only).</summary>
 		public bool IsOldFormat;

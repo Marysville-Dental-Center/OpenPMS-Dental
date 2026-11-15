@@ -700,11 +700,20 @@ namespace OpenPmsDentalBusiness {
 				//Another certificate of the file (its CA, one for another address, one already in the store with its key): its key was just stored and
 				//is not used, unless a certificate the import adds, or one of the store, has the same key (a renewal with the same key in one file).
 				listWarnings.AddRange(privateImportRun.DeleteKeys(listUnused,listAdding));
+				//An entry whose key was in another key set: the add gives it the import's key and leaves that key where it is (DCFU4 lead fix round,
+				//decision 4). Said only once every certificate is added: a failure before that puts the store's copy back (Undo).
+				List<string> listWarningsKeyLeft=new List<string>();
 				for(int i=0;i<listAdding.Count;i++) {
 					listAdding[i].FriendlyName=FRIENDLY_NAME_IMPORTED;
-					privateImportRun.Add(listAdding[i]);//Throws when the store refuses: AddPrivate takes back what was written.
+					//Throws when the store refuses: AddPrivate takes back what was written.
+					CertificateKeyProvInfo certificateKeyProvInfoEarlier=privateImportRun.Add(listAdding[i]);
+					string warningKeyLeft=GetEarlierKeyLeftText(listAdding[i],certificateKeyProvInfoEarlier);
+					if(warningKeyLeft!="") {
+						listWarningsKeyLeft.Add(warningKeyLeft);
+					}
 				}
 				directCertificateResult.IsImported=true;
+				listWarnings.AddRange(listWarningsKeyLeft);
 				RemoveReplaced(x509Store,directCertificateResult,listAdding,listWarnings);
 				if(EmailMessages.CertStoreLocation==StoreLocation.LocalMachine) {
 					for(int i=0;i<listAdding.Count;i++) {
@@ -726,6 +735,25 @@ namespace OpenPmsDentalBusiness {
 					directCertificateResult.Warning=JoinLines(directCertificateResult.Warning,string.Join("\r\n",listWarnings));
 				}
 			}
+		}
+
+		///<summary>The warning for a certificate the import added over the store's own entry of it (certificateKeyProvInfoEarlier: that entry's key
+		///provider information, read before the add without opening the key; null when the store had no entry), whose key was in another key set
+		///than the one the import uses (the machine's for the Local Computer's store, the user's for a store of the current user;
+		///IsEntryKeyUsable turned such an entry away): the add gave the entry the import's key, and left the earlier key where it is, untouched,
+		///as the connection settings tool says when it does the same (DCFU4 lead fix round, decision 4). Names the certificate and the earlier key
+		///(provider, key container, key set). "" for any other entry.</summary>
+		private static string GetEarlierKeyLeftText(X509Certificate2 x509Certificate2,CertificateKeyProvInfo certificateKeyProvInfoEarlier) {
+			if(certificateKeyProvInfoEarlier==null || !certificateKeyProvInfoEarlier.IsNamed || certificateKeyProvInfoEarlier.IsUnknown) {
+				return "";
+			}
+			if(certificateKeyProvInfoEarlier.IsMachine==(EmailMessages.CertStoreLocation==StoreLocation.LocalMachine)) {
+				return "";//The import's own key set.
+			}
+			return Lans.g("DirectCertificateImport","The certificate was already in this computer's Direct certificate store with its private key in another "
+				+"key set than the one the import uses")+" ("+x509Certificate2.Subject+", "+x509Certificate2.Thumbprint+"): "
+				+Lans.g("DirectCertificateImport","the import gave it the private key it stored, and left the earlier key untouched")+": "
+				+certificateKeyProvInfoEarlier.Describe()+".";
 		}
 
 		///<summary>Removes the replaced certificates (ListDetailsReplaced) from the store, then deletes the private key of each one this window
@@ -932,15 +960,19 @@ namespace OpenPmsDentalBusiness {
 				return listProblems;
 			}
 
-			///<summary>Adds the certificate to the store. Throws when the store refuses.</summary>
-			public void Add(X509Certificate2 x509Certificate2) {
+			///<summary>Adds the certificate to the store. Throws when the store refuses. Returns the key provider information of the store's own
+			///entry of the same certificate that the added one took the place of, read before the add without opening the key (null when the store
+			///had none), so that the caller can say where that entry's earlier key was left (GetEarlierKeyLeftText).</summary>
+			public CertificateKeyProvInfo Add(X509Certificate2 x509Certificate2) {
 				ActionBeforeStoreAddForTests?.Invoke(x509Certificate2);
 				byte[] byteArrayOverwritten=null;
+				CertificateKeyProvInfo certificateKeyProvInfoOverwritten=null;
 				foreach(X509Certificate2 x509Certificate2Store in _x509Store.Certificates) {
 					if(byteArrayOverwritten==null && x509Certificate2Store.Thumbprint==x509Certificate2.Thumbprint) {
 						//The same certificate without a usable key, which the added one takes the place of. Kept as bytes now: the store's add gives
 						//this object of its entry the added one's properties (its key and friendly name).
 						byteArrayOverwritten=x509Certificate2Store.Export(X509ContentType.SerializedCert);
+						certificateKeyProvInfoOverwritten=ReadKeyProvInfo(x509Certificate2Store);
 					}
 					x509Certificate2Store.Reset();
 				}
@@ -949,6 +981,7 @@ namespace OpenPmsDentalBusiness {
 				if(byteArrayOverwritten!=null) {
 					_dictOverwritten[x509Certificate2]=byteArrayOverwritten;
 				}
+				return certificateKeyProvInfoOverwritten;
 			}
 
 			///<summary>Takes back what this import wrote, after a failure: removes the certificates it added (and puts back the store's copy an added
