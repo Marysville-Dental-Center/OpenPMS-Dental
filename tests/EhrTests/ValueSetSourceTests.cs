@@ -254,8 +254,15 @@ namespace EhrTests {
 			string click=window.Substring(window.IndexOf("private void butImportValueSets_Click",StringComparison.Ordinal));
 			click=click.Substring(0,click.IndexOf("\r\n\t\t}\r\n",StringComparison.Ordinal));
 			Assert.IsFalse(click.Contains("File.ReadAllBytes"),"The file is not read whole into memory.");
-			StringAssert.Contains(click,"new FileStream(path,FileMode.Open,FileAccess.Read,FileShare.Read)");
-			StringAssert.Contains(click,"EhrValueSetImport.Parse(path,fileStream)");
+			StringAssert.Contains(click,"index => new FileStream(listPaths[index],FileMode.Open,FileAccess.Read,FileShare.Read)");
+			//The pick is read as one (one row budget, a second file of a kind refused at its first row), and a pick of other than three files is
+			//refused before any file is read.
+			int indexParsePick=click.IndexOf("EhrValueSetImport.ParsePick(listPaths,",StringComparison.Ordinal);
+			Assert.IsTrue(indexParsePick>0,"The window reads the pick with ParsePick.");
+			Assert.IsFalse(click.Contains("EhrValueSetImport.Parse("),"No file is parsed alone.");
+			int indexCount=click.IndexOf("if(listPaths.Count!=3) {",StringComparison.Ordinal);
+			Assert.IsTrue(indexCount>0 && indexCount<indexParsePick && indexCount<click.IndexOf("new FileInfo(",StringComparison.Ordinal),
+				"The count is checked before any file is read.");
 		}
 
 		[TestMethod]
