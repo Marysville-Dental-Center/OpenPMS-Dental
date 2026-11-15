@@ -1695,9 +1695,10 @@ namespace OpenPmsDentalDbSettings {
 				throw new FileNotFoundException("The private key file was not found.");
 			}
 			SecurityIdentifier securityIdentifierUsers=new SecurityIdentifier(WellKnownSidType.BuiltinUsersSid,null);
-			FileSecurity fileSecurity=File.GetAccessControl(pathKey);
+			FileInfo fileInfoKey=new FileInfo(pathKey);
+			FileSecurity fileSecurity=fileInfoKey.GetAccessControl();
 			fileSecurity.AddAccessRule(new FileSystemAccessRule(securityIdentifierUsers,FileSystemRights.Read,AccessControlType.Allow));
-			File.SetAccessControl(pathKey,fileSecurity);
+			fileInfoKey.SetAccessControl(fileSecurity);
 		}
 
 		///<summary>The file of the certificate's private key, in the key set it lives in (GetCapiKeyFilePath, GetCngKeyFilePath). A CAPI key is
