@@ -44,6 +44,9 @@ namespace OpenPmsDentalBusiness
 			else {
 				endSegment=""+Encoding.ASCII.GetChars(new byte[] { Convert.ToByte(clearinghouseClin.SeparatorSegment,16) })[0]+Environment.NewLine; //Validated to be a 2 digit hexadecimal number in UI.
 			}
+			//X12-SENDER: the clearinghouse's Sender TIN, name and telephone, or the practice's when the Sender TIN is blank. Throws an ODException
+			//(nothing is written) when the practice's are missing. All claims of a batch have the same clinic.
+			X12Sender sender=X12Sender.GetSender(clearinghouseClin,listQueueItems.Count==0 ? 0 : listQueueItems[0].ClinicNum);
 			//Interchange Control Header (Interchange number tracked separately from transactionNum)
 			//We set it to between 1 and 999 for simplicity
 			sw.Write("ISA"+s
@@ -52,7 +55,7 @@ namespace OpenPmsDentalBusiness
 				+"00"+s//ISA03 2/2 Security Information Qualifier: 00=No Security Information Present (No meaningful information in ISA04).
 				+Sout(clearinghouseClin.ISA04,10,10)+s//ISA04 10/10 Security Information: Blank
 				+clearinghouseClin.ISA05+s//ISA05 2/2 Interchange ID Qualifier: ZZ=mutually defined. 30=TIN. Validated
-				+X12Generator.GetISA06(clearinghouseClin)+s//ISA06 15/15 Interchange Sender ID: Sender ID(TIN) Or might be TIN of Open Dental.
+				+X12Generator.GetISA06(sender)+s//ISA06 15/15 Interchange Sender ID: Sender ID(TIN): the clearinghouse's Sender TIN, or the practice's TIN.
 				+clearinghouseClin.ISA07+s//ISA07 2/2 Interchange ID Qualifier: ZZ=mutually defined. 30=TIN. Validated
 				+Sout(clearinghouseClin.ISA08,15,15,true)+s//ISA08 15/15 Interchange Receiver ID: Validated to make sure length is at least 2.
 				+DateTime.Today.ToString("yyMMdd")+s//ISA09 6/6 Interchange Date: today's date.
@@ -65,7 +68,7 @@ namespace OpenPmsDentalBusiness
 				+isa16//ISA16 1/1 Component Element Separator:
 				+endSegment);
 			//Just one functional group.
-			WriteFunctionalGroup(sw,listQueueItems,batchNum,clearinghouseClin,medType);
+			WriteFunctionalGroup(sw,listQueueItems,batchNum,clearinghouseClin,medType,sender);
 			//Interchange Control Trailer
 			sw.Write("IEA"+s
 				+"1"+s//IEA01 1/5 Number of Included Functional Groups:
@@ -75,7 +78,7 @@ namespace OpenPmsDentalBusiness
 
 		///<summary>Throws exception.</summary>
 		private static void WriteFunctionalGroup(StreamWriter sw,List<ClaimSendQueueItem> queueItems,int batchNum,
-			Clearinghouse clearinghouseClin,EnumClaimMedType medType)
+			Clearinghouse clearinghouseClin,EnumClaimMedType medType,X12Sender sender)
 		{
 			#region Functional Group Header
 			int transactionNum=1;//Gets incremented for each carrier. Can be reused in other functional groups and interchanges, so not persisted
@@ -93,7 +96,7 @@ namespace OpenPmsDentalBusiness
 			}
 			sw.Write("GS"+s
 				+"HC"+s//GS01 2/2 Functional Identifier Code: Health Care Claim.
-				+X12Generator.GetGS02(clearinghouseClin)+s//GS02 2/15 Application Sender's Code: Sometimes Jordan Sparks.  Sometimes the sending clinic.
+				+X12Generator.GetGS02(sender)+s//GS02 2/15 Application Sender's Code: the clearinghouse's Sender TIN, or the practice's TIN.
 				+Sout(clearinghouseClin.GS03,15,2,true)+s//GS03 2/15 Application Receiver's Code:
 				+DateTime.Today.ToString("yyyyMMdd")+s//GS04 8/8 Date: today's date.
 				+DateTime.Now.ToString("HHmm")+s//GS05 4/8 TIME: current time.
@@ -161,13 +164,12 @@ namespace OpenPmsDentalBusiness
 				+DateTime.Now.ToString("HHmmss")+s//BHT05 4/8 Time: 
 				+"CH");//BHT06 2/2 Transaction Type Code: CH=Chargable.
 			EndSegment(sw);
-			//1000A Submitter is OPEN DENTAL and sometimes it's the practice
-			//(depends on clearinghouse and Partnership agreements)
+			//1000A Submitter: the clearinghouse's sender, or the practice (X12-SENDER). Never Open Dental Inc.
 			//See 2010AA PER (after REF) for the new billing provider contact phone number
 			//1000A NM1: 41 (medical,institutional,dental) Submitter Name.
-			Write1000A_NM1(sw,clearinghouseClin);
+			Write1000A_NM1(sw,sender);
 			//1000A PER: IC (medical,institutional,dental) Submitter EDI Contact Information. Contact number.
-			Write1000A_PER(sw,clearinghouseClin);
+			Write1000A_PER(sw,clearinghouseClin,sender);
 			//1000B NM1: 40 (medical,institutional,dental) Receiver Name. Always the Clearinghouse.
 			sw.Write("NM1"+s
 				+"40"+s//NM101 2/3 Entity Identifier Code: 40=Receiver.
@@ -2283,18 +2285,11 @@ namespace OpenPmsDentalBusiness
 			return (clearinghouse.ISA08=="RSSLL");
 		}
 
-		///<summary>Sometimes writes the name information for Open Dental. Sometimes it writes practice info.</summary>
-		private static void Write1000A_NM1(StreamWriter sw,Clearinghouse clearinghouseClin) {
-			string name="OPEN DENTAL SOFTWARE";
-			string idCode="810624427";
-			if(IsEmdeonMedical(clearinghouseClin)) {
-				name="Open Dental Software Inc.";
-				idCode="204944520";
-			}
-			if(clearinghouseClin.SenderTIN!="") {
-				name=clearinghouseClin.SenderName;
-				idCode=clearinghouseClin.SenderTIN;
-			}
+		///<summary>Writes the submitter's name and ETIN: the clearinghouse's Sender Name and TIN, or the practice's (X12-SENDER). Upstream wrote Open
+		///Dental Inc's here when the Sender TIN was blank (with another name and TIN for Emdeon Medical); this fork never does.</summary>
+		private static void Write1000A_NM1(StreamWriter sw,X12Sender sender) {
+			string name=sender.Name;
+			string idCode=sender.TIN;
 			sw.Write("NM1"+s
 				+"41"+s//NM101 2/3 Entity Indentifier Code: 41=submitter
 				+"2"+s//NM102 1/1 Entity Type Qualifier: 2=Non-Person Entity.
@@ -2308,18 +2303,11 @@ namespace OpenPmsDentalBusiness
 			EndSegment(sw);//NM110 through NM112 are not used.
 		}
 
-		///<summary>Usually writes the contact information for Open Dental. But for inmediata and AOS clearinghouses, it writes practice contact info.</summary>
-		private static void Write1000A_PER(StreamWriter sw,Clearinghouse clearinghouseClin) {
-			string name="OPEN DENTAL SOFTWARE";
-			string phone="8776861248";
-			if(IsEmdeonMedical(clearinghouseClin)) {
-				name="Open Dental Software Inc.";
-				phone="8662390469";
-			}
-			if(clearinghouseClin.SenderTIN!="") {
-				name=clearinghouseClin.SenderName;
-				phone=clearinghouseClin.SenderTelephone;
-			}
+		///<summary>Writes the submitter's contact: the clearinghouse's Sender Name and Telephone, or the practice's (X12-SENDER). Upstream wrote Open
+		///Dental Inc's here when the Sender TIN was blank (with another name and telephone for Emdeon Medical); this fork never does.</summary>
+		private static void Write1000A_PER(StreamWriter sw,Clearinghouse clearinghouseClin,X12Sender sender) {
+			string name=sender.Name;
+			string phone=sender.Phone;
 			sw.Write("PER"+s
 				+"IC"+s);//PER01 2/2 Contact Function Code: IC=Information Contact.
 			//The following clearinghouses always want PER02, even though the X12 speficiation says not to send if same as NM103 of loop 1000A. They don't seem to care if the value is the same as NM103.
@@ -2793,7 +2781,7 @@ namespace OpenPmsDentalBusiness
 				clinic=Clinics.GetClinic(claim.ClinicNum);
 			}
 			//if(clearhouse.Eformat==ElectronicClaimFormat.X12){//not needed since this is always true
-			X12Validate.ISA(clearinghouseClin,strb);
+			X12Validate.ISA(clearinghouseClin,claim.ClinicNum,strb);
 			if(clearinghouseClin.GS03.Length<2) {
 				Comma(strb);
 				strb.Append("Clearinghouse GS03");

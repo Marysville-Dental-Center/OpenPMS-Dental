@@ -23,8 +23,8 @@ namespace OpenPmsDentalBusiness{
 		public ElectronicClaimFormat Eformat;
 		///<summary>Sender ID Qualifier. Usually ZZ, sometimes 30. Seven other values are allowed as specified in X12 document, but probably never used.</summary>
 		public string ISA05;
-		///<summary>Used in ISA06, GS02, 1000A NM1, and 1000A PER.  If blank, then 810624427 is used to indicate Open Dental.
-		///Can be overridden by clinic-level clearinghouses.</summary>
+		///<summary>Used in ISA06, GS02, 1000A NM1, and 1000A PER.  If blank, the practice is the sender: the TIN of the
+		///practice's billing provider (X12-SENDER, docs/port-notes/X12-SENDER.md). Can be overridden by clinic-level clearinghouses.</summary>
 		public string SenderTIN;
 		///<summary>Receiver ID Qualifier.  Usually ZZ, sometimes 30. Seven other values are allowed as specified in X12 document, but probably never used.</summary>
 		public string ISA07;
@@ -50,10 +50,10 @@ namespace OpenPmsDentalBusiness{
 		///<summary>A clearinghouse usually has a login ID that is used with the password in order to access the remote server.
 		///This value is not usualy used within the actual claim.  Can be overridden by clinic-level clearinghouses.</summary>
 		public string LoginID;
-		///<summary>Used in 1000A NM1 and 1000A PER.  But if SenderTIN is blank, then OPEN DENTAL SOFTWARE is used instead.
-		///Can be overridden by clinic-level clearinghouses.</summary>
+		///<summary>Used in 1000A NM1 and 1000A PER.  But if SenderTIN is blank, then the practice title is used instead
+		///(X12-SENDER). Can be overridden by clinic-level clearinghouses.</summary>
 		public string SenderName;
-		///<summary>Used in 1000A PER.  But if SenderTIN is blank, then 8776861248 is used instead.  10 digit phone is required by WebMD and is 
+		///<summary>Used in 1000A PER.  But if SenderTIN is blank, then the practice's telephone is used instead (X12-SENDER).  10 digit phone is required by WebMD and is 
 		///universally assumed, so for now, this must be either blank or 10 digits.  Can be overridden by clinic-level clearinghouses.</summary>
 		public string SenderTelephone;
 		///<summary>Usually the same as ISA08, but at least one clearinghouse uses a different number here.</summary>

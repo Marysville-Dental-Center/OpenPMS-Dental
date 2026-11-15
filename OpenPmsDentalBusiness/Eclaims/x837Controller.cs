@@ -112,6 +112,10 @@ namespace OpenPmsDentalBusiness.Eclaims
 		{
 			//each batch is already guaranteed to be specific to one clearinghouse, one clinic, and one EnumClaimMedType
 			//Clearinghouse clearhouse=ClearinghouseL.GetClearinghouse(queueItems[0].ClearinghouseNum);
+			//X12-SENDER: refused before any folder or file is made when the practice is the sender and its TIN, name or telephone is missing.
+			if(!CanMakeSender(clearinghouseClin,queueItems,isAutomatic)) {
+				return "";
+			}
 			string saveFile="";
 			if(clearinghouseClin.IsClaimExportAllowed) {
 				saveFile=GetFileName(clearinghouseClin,batchNum,isAutomatic);
@@ -149,8 +153,33 @@ namespace OpenPmsDentalBusiness.Eclaims
 			return messageText;
 		}
 
-		///<summary>Helper method for SendBatch that generates the X837 messagetext. This method is public as it is used in ClaimConnect.cs</summary>
+		///<summary>X12-SENDER: true when the batch has a sender: the clearinghouse's Sender TIN, or the practice's TIN, name and telephone. Otherwise
+		///shows what to fill in and where (unless isAutomatic) and returns false: Open Dental Inc is never the sender.</summary>
+		public static bool CanMakeSender(Clearinghouse clearinghouseClin,List<ClaimSendQueueItem> queueItems,bool isAutomatic) {
+			try {
+				X12Sender.GetSender(clearinghouseClin,GetClinicNum(queueItems));
+			}
+			catch(ODException odex) {
+				if(!isAutomatic) {
+					MessageBox.Show(odex.Message,"x837");
+				}
+				return false;
+			}
+			return true;
+		}
+
+		///<summary>The clinic of a batch's claims: every claim of a batch has the same clinic. 0 for an empty batch.</summary>
+		private static long GetClinicNum(List<ClaimSendQueueItem> queueItems) {
+			if(queueItems==null || queueItems.Count==0) {
+				return 0;
+			}
+			return queueItems[0].ClinicNum;
+		}
+
+		///<summary>Helper method for SendBatch that generates the X837 messagetext. This method is public as it is used in ClaimConnect.cs
+		///Throws an ODException (X12-SENDER) when the clearinghouse has no Sender TIN and the practice's TIN, name or telephone is missing.</summary>
 		public static string GenerateBatch(Clearinghouse clearinghouseClin,List<ClaimSendQueueItem> queueItems,int batchNum,EnumClaimMedType medType) {
+			X12Sender.GetSender(clearinghouseClin,GetClinicNum(queueItems));//X12-SENDER: refused before anything is written.
 			string messageText="";
 			using(MemoryStream ms=new MemoryStream()) {
 				using(StreamWriter sw=new StreamWriter(ms)) {

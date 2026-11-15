@@ -46,6 +46,8 @@ What this version brings, each in its section below (the roadmap's "Done in the 
     them from Medit Link);
   - Glidewell lab cases, ready but not yet able to send: hidden in Program Links until the program can connect to Glidewell, and no patient
     data is sent without a business associate agreement with Glidewell.
+- claim files and benefit requests (X12 837 and 270) name the practice as their sender, with its own TIN, name and telephone, when the
+  clearinghouse has no Sender TIN, instead of Open Dental Inc; a batch is refused while the practice's TIN, name or telephone is missing;
 - the Meaningful Use measures window of EHR (Measure Calc) working again, rebuilt as open code, for internal review only;
 - saved Middle Tier passwords move from the Windows PasswordVault to the Windows Credential Manager on first use; nothing to re-enter;
 - the self-update gets ready for the coming 64-bit version: it never publishes over a release it cannot read, and refuses a release built
@@ -390,6 +392,21 @@ they are, also from SFTP storage.
 ## Claim files: a period in every amount
 
 Claim files (X12 837) and RAMQ amounts now use a period as the decimal separator in every regional setting; before, a regional setting with a decimal comma (such as French (Canada)) wrote a comma there, which neither format allows. With a period, as on every English Windows, the files are byte for byte as before.
+
+## Claim files: the practice is the sender
+
+When a clearinghouse's Sender TIN is blank (Setup > Family/Insurance > Clearinghouses, 'The practice is the "sender"', which Open Dental
+called 'This software is the "sender"'), claim batches (X12 837, 4010 and 5010) and benefit requests (270) named Open Dental Inc as their
+sender: its TIN, name and telephone in ISA06, GS02 and the submitter loop 1000A. They now name the practice (owner decision of 2026-11-15):
+the TIN of the practice's billing provider (the Default Insurance Billing Provider of Setup > Practice, or of the clinic), the practice
+title, and the telephone the claims already send for the billing provider. A clearinghouse with its own Sender TIN works as before.
+
+- **A batch is refused while something is missing.** When the practice's billing provider, its 9 digit TIN (marked TIN, not SSN), the
+  practice title or a 10 digit telephone is missing, Send Claims says what to fill in and where, and makes no file and sends nothing. The
+  claims show it in Missing Info too ("Practice as sender: ...").
+- **Check with your clearinghouse before sending.** A clearinghouse that registered your office under Open Dental's submitter ID may need
+  the practice registered as its own submitter (the TIN above), or a Sender TIN entered in Edit Clearinghouse. Emdeon still requires
+  'The practice is the "sender"'.
 
 ## Self-update: ready for the 64-bit version
 

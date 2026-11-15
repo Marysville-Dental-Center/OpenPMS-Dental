@@ -5,8 +5,9 @@ using System.Text.RegularExpressions;
 
 namespace OpenPmsDentalBusiness {
 	public class X12Validate {
-		///<summary>StringBuilder does not get altered if no invalid data.</summary>
-		public static void ISA(Clearinghouse clearinghouseClin,StringBuilder strb) {
+		///<summary>StringBuilder does not get altered if no invalid data. clinicNum is the clinic of the claim or the 270's patient (0 for none): with
+		///a blank Sender TIN the practice is the sender (X12-SENDER), and what it is missing is listed here.</summary>
+		public static void ISA(Clearinghouse clearinghouseClin,long clinicNum,StringBuilder strb) {
 			if(clearinghouseClin.ISA05!="01" && clearinghouseClin.ISA05!="14" && clearinghouseClin.ISA05!="20" && clearinghouseClin.ISA05!="27" 
 				&& clearinghouseClin.ISA05!="28"	&& clearinghouseClin.ISA05!="29" && clearinghouseClin.ISA05!="30" && clearinghouseClin.ISA05!="33"
 				&& clearinghouseClin.ISA05!="ZZ")
@@ -14,7 +15,13 @@ namespace OpenPmsDentalBusiness {
 				Comma(strb);
 				strb.Append("Clearinghouse ISA05");
 			}
-			if(clearinghouseClin.SenderTIN!="") {//if it IS blank, then we'll be using OD's info as the sender, so no need to validate the rest
+			if(clearinghouseClin.SenderTIN=="") {//X12-SENDER: the practice is the sender. Open Dental Inc's TIN is never sent.
+				foreach(string missing in X12Sender.GetMissing(clearinghouseClin,clinicNum)) {
+					Comma(strb);
+					strb.Append(Lans.g("X12Sender","Practice as sender:")+" "+missing);
+				}
+			}
+			else {
 				if(clearinghouseClin.SenderTIN.Length<2) {
 					Comma(strb);
 					strb.Append("Clearinghouse SenderTIN");

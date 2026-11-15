@@ -375,7 +375,9 @@ namespace OpenPmsDentalBusiness.Eclaims {
 			Dentalxchange2016.textRequest textRequest=new Dentalxchange2016.textRequest();
 			textRequest.outputFormat=Dentalxchange2016.Format.XML;
 			textRequest.validateForAttachment=doValidateForAttachment;
-			//Generate X12 message text.
+			//Generate X12 message text. The sender check comes first (X12-SENDER, lead fix at the merge), so a refused validation takes no batch
+			//number, as in Eclaims.SendBatch and X270.GenerateMessageText.
+			X12Sender.GetSender(clearingHouse,claim.ClinicNum);
 			int batchNum=Clearinghouses.GetNextBatchNumber(clearingHouse);
 			List<ClaimSendQueueItem> listQueueItems=Claims.GetQueueList(claim.ClaimNum,claim.ClinicNum,0).ToList();
 			textRequest.Content=x837Controller.GenerateBatch(clearingHouse,listQueueItems,batchNum,claim.MedType);

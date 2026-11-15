@@ -35,6 +35,13 @@ namespace OpenPmsDentalBusiness.Eclaims
 				MessageBox.Show(Lans.g("Eclaims","Cannot send Canadian claims as part of Eclaims.SendBatch."));
 				return;
 			}
+			//X12-SENDER: an X12 batch is refused before its batch number is taken when the practice is the sender and its TIN, name or telephone
+			//is missing. Open Dental Inc is never the sender.
+			if(clearinghouseClin.Eformat.In(ElectronicClaimFormat.x837D_4010,ElectronicClaimFormat.x837D_5010_dental,ElectronicClaimFormat.x837_5010_med_inst)
+				&& !x837Controller.CanMakeSender(clearinghouseClin,queueItems,false))
+			{
+				return;
+			}
 			//get next batch number for this clearinghouse
 			int batchNum=Clearinghouses.GetNextBatchNumber(clearinghouseClin);
 			//---------------------------------------------------------------------------------------
