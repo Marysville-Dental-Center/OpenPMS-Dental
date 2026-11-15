@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Text;
 
 namespace OpenPmsDentalBusiness.Crud{
 	public class EhrCodeCrud {
@@ -56,7 +57,6 @@ namespace OpenPmsDentalBusiness.Crud{
 				ehrCode.Description  = PIn.String(row["Description"].ToString());
 				ehrCode.CodeSystem   = PIn.String(row["CodeSystem"].ToString());
 				ehrCode.CodeSystemOID= PIn.String(row["CodeSystemOID"].ToString());
-				ehrCode.IsInDb       = PIn.Bool  (row["IsInDb"].ToString());
 				retVal.Add(ehrCode);
 			}
 			return retVal;
@@ -77,7 +77,6 @@ namespace OpenPmsDentalBusiness.Crud{
 			table.Columns.Add("Description");
 			table.Columns.Add("CodeSystem");
 			table.Columns.Add("CodeSystemOID");
-			table.Columns.Add("IsInDb");
 			foreach(EhrCode ehrCode in listEhrCodes) {
 				table.Rows.Add(new object[] {
 					POut.Long  (ehrCode.EhrCodeNum),
@@ -89,7 +88,6 @@ namespace OpenPmsDentalBusiness.Crud{
 					            ehrCode.Description,
 					            ehrCode.CodeSystem,
 					            ehrCode.CodeSystemOID,
-					POut.Bool  (ehrCode.IsInDb),
 				});
 			}
 			return table;
@@ -109,7 +107,7 @@ namespace OpenPmsDentalBusiness.Crud{
 			if(useExistingPK || PrefC.RandomKeys) {
 				command+="EhrCodeNum,";
 			}
-			command+="MeasureIds,ValueSetName,ValueSetOID,QDMCategory,CodeValue,Description,CodeSystem,CodeSystemOID,IsInDb) VALUES(";
+			command+="MeasureIds,ValueSetName,ValueSetOID,QDMCategory,CodeValue,Description,CodeSystem,CodeSystemOID) VALUES(";
 			if(useExistingPK || PrefC.RandomKeys) {
 				command+=POut.Long(ehrCode.EhrCodeNum)+",";
 			}
@@ -119,17 +117,82 @@ namespace OpenPmsDentalBusiness.Crud{
 				+"'"+POut.String(ehrCode.ValueSetOID)+"',"
 				+"'"+POut.String(ehrCode.QDMCategory)+"',"
 				+"'"+POut.String(ehrCode.CodeValue)+"',"
-				+"'"+POut.String(ehrCode.Description)+"',"
+				+    DbHelper.ParamChar+"paramDescription,"
 				+"'"+POut.String(ehrCode.CodeSystem)+"',"
-				+"'"+POut.String(ehrCode.CodeSystemOID)+"',"
-				+    POut.Bool  (ehrCode.IsInDb)+")";
+				+"'"+POut.String(ehrCode.CodeSystemOID)+"')";
+			if(ehrCode.Description==null) {
+				ehrCode.Description="";
+			}
+			OdSqlParameter paramDescription=new OdSqlParameter("paramDescription",OdDbType.Text,POut.StringParam(ehrCode.Description));
 			if(useExistingPK || PrefC.RandomKeys) {
-				Db.NonQ(command);
+				Db.NonQ(command,paramDescription);
 			}
 			else {
-				ehrCode.EhrCodeNum=Db.NonQ(command,true,"EhrCodeNum","ehrCode");
+				ehrCode.EhrCodeNum=Db.NonQ(command,true,"EhrCodeNum","ehrCode",paramDescription);
 			}
 			return ehrCode.EhrCodeNum;
+		}
+
+		///<summary>Inserts many EhrCodes into the database.</summary>
+		public static void InsertMany(List<EhrCode> listEhrCodes) {
+			InsertMany(listEhrCodes,false);
+		}
+
+		///<summary>Inserts many EhrCodes into the database.  Provides option to use the existing priKey.</summary>
+		public static void InsertMany(List<EhrCode> listEhrCodes,bool useExistingPK) {
+			if(!useExistingPK && PrefC.RandomKeys) {
+				foreach(EhrCode ehrCode in listEhrCodes) {
+					Insert(ehrCode);
+				}
+			}
+			else {
+				StringBuilder sbCommands=null;
+				int index=0;
+				int countRows=0;
+				while(index < listEhrCodes.Count) {
+					EhrCode ehrCode=listEhrCodes[index];
+					StringBuilder sbRow=new StringBuilder("(");
+					bool hasComma=false;
+					if(sbCommands==null) {
+						sbCommands=new StringBuilder();
+						sbCommands.Append("INSERT INTO ehrcode (");
+						if(useExistingPK) {
+							sbCommands.Append("EhrCodeNum,");
+						}
+						sbCommands.Append("MeasureIds,ValueSetName,ValueSetOID,QDMCategory,CodeValue,Description,CodeSystem,CodeSystemOID) VALUES ");
+						countRows=0;
+					}
+					else {
+						hasComma=true;
+					}
+					if(useExistingPK) {
+						sbRow.Append(POut.Long(ehrCode.EhrCodeNum)); sbRow.Append(",");
+					}
+					sbRow.Append("'"+POut.String(ehrCode.MeasureIds)+"'"); sbRow.Append(",");
+					sbRow.Append("'"+POut.String(ehrCode.ValueSetName)+"'"); sbRow.Append(",");
+					sbRow.Append("'"+POut.String(ehrCode.ValueSetOID)+"'"); sbRow.Append(",");
+					sbRow.Append("'"+POut.String(ehrCode.QDMCategory)+"'"); sbRow.Append(",");
+					sbRow.Append("'"+POut.String(ehrCode.CodeValue)+"'"); sbRow.Append(",");
+					sbRow.Append("'"+POut.String(ehrCode.Description)+"'"); sbRow.Append(",");
+					sbRow.Append("'"+POut.String(ehrCode.CodeSystem)+"'"); sbRow.Append(",");
+					sbRow.Append("'"+POut.String(ehrCode.CodeSystemOID)+"'"); sbRow.Append(")");
+					if(sbCommands.Length+sbRow.Length+1 > TableBase.MaxAllowedPacketCount && countRows > 0) {
+						Db.NonQ(sbCommands.ToString());
+						sbCommands=null;
+					}
+					else {
+						if(hasComma) {
+							sbCommands.Append(",");
+						}
+						sbCommands.Append(sbRow.ToString());
+						countRows++;
+						if(index==listEhrCodes.Count-1) {
+							Db.NonQ(sbCommands.ToString());
+						}
+						index++;
+					}
+				}
+			}
 		}
 
 		///<summary>Inserts one EhrCode into the database.  Returns the new priKey.  Doesn't use the cache.</summary>
@@ -147,7 +210,7 @@ namespace OpenPmsDentalBusiness.Crud{
 			if(isRandomKeys || useExistingPK) {
 				command+="EhrCodeNum,";
 			}
-			command+="MeasureIds,ValueSetName,ValueSetOID,QDMCategory,CodeValue,Description,CodeSystem,CodeSystemOID,IsInDb) VALUES(";
+			command+="MeasureIds,ValueSetName,ValueSetOID,QDMCategory,CodeValue,Description,CodeSystem,CodeSystemOID) VALUES(";
 			if(isRandomKeys || useExistingPK) {
 				command+=POut.Long(ehrCode.EhrCodeNum)+",";
 			}
@@ -157,15 +220,18 @@ namespace OpenPmsDentalBusiness.Crud{
 				+"'"+POut.String(ehrCode.ValueSetOID)+"',"
 				+"'"+POut.String(ehrCode.QDMCategory)+"',"
 				+"'"+POut.String(ehrCode.CodeValue)+"',"
-				+"'"+POut.String(ehrCode.Description)+"',"
+				+    DbHelper.ParamChar+"paramDescription,"
 				+"'"+POut.String(ehrCode.CodeSystem)+"',"
-				+"'"+POut.String(ehrCode.CodeSystemOID)+"',"
-				+    POut.Bool  (ehrCode.IsInDb)+")";
+				+"'"+POut.String(ehrCode.CodeSystemOID)+"')";
+			if(ehrCode.Description==null) {
+				ehrCode.Description="";
+			}
+			OdSqlParameter paramDescription=new OdSqlParameter("paramDescription",OdDbType.Text,POut.StringParam(ehrCode.Description));
 			if(useExistingPK || isRandomKeys) {
-				Db.NonQ(command);
+				Db.NonQ(command,paramDescription);
 			}
 			else {
-				ehrCode.EhrCodeNum=Db.NonQ(command,true,"EhrCodeNum","ehrCode");
+				ehrCode.EhrCodeNum=Db.NonQ(command,true,"EhrCodeNum","ehrCode",paramDescription);
 			}
 			return ehrCode.EhrCodeNum;
 		}
@@ -178,12 +244,15 @@ namespace OpenPmsDentalBusiness.Crud{
 				+"ValueSetOID  = '"+POut.String(ehrCode.ValueSetOID)+"', "
 				+"QDMCategory  = '"+POut.String(ehrCode.QDMCategory)+"', "
 				+"CodeValue    = '"+POut.String(ehrCode.CodeValue)+"', "
-				+"Description  = '"+POut.String(ehrCode.Description)+"', "
+				+"Description  =  "+DbHelper.ParamChar+"paramDescription, "
 				+"CodeSystem   = '"+POut.String(ehrCode.CodeSystem)+"', "
-				+"CodeSystemOID= '"+POut.String(ehrCode.CodeSystemOID)+"', "
-				+"IsInDb       =  "+POut.Bool  (ehrCode.IsInDb)+" "
+				+"CodeSystemOID= '"+POut.String(ehrCode.CodeSystemOID)+"' "
 				+"WHERE EhrCodeNum = "+POut.Long(ehrCode.EhrCodeNum);
-			Db.NonQ(command);
+			if(ehrCode.Description==null) {
+				ehrCode.Description="";
+			}
+			OdSqlParameter paramDescription=new OdSqlParameter("paramDescription",OdDbType.Text,POut.StringParam(ehrCode.Description));
+			Db.NonQ(command,paramDescription);
 		}
 
 		///<summary>Updates one EhrCode in the database.  Uses an old object to compare to, and only alters changed fields.  This prevents collisions and concurrency problems in heavily used tables.  Returns true if an update occurred.</summary>
@@ -211,7 +280,7 @@ namespace OpenPmsDentalBusiness.Crud{
 			}
 			if(ehrCode.Description != oldEhrCode.Description) {
 				if(command!="") { command+=",";}
-				command+="Description = '"+POut.String(ehrCode.Description)+"'";
+				command+="Description = "+DbHelper.ParamChar+"paramDescription";
 			}
 			if(ehrCode.CodeSystem != oldEhrCode.CodeSystem) {
 				if(command!="") { command+=",";}
@@ -221,16 +290,16 @@ namespace OpenPmsDentalBusiness.Crud{
 				if(command!="") { command+=",";}
 				command+="CodeSystemOID = '"+POut.String(ehrCode.CodeSystemOID)+"'";
 			}
-			if(ehrCode.IsInDb != oldEhrCode.IsInDb) {
-				if(command!="") { command+=",";}
-				command+="IsInDb = "+POut.Bool(ehrCode.IsInDb)+"";
-			}
 			if(command=="") {
 				return false;
 			}
+			if(ehrCode.Description==null) {
+				ehrCode.Description="";
+			}
+			OdSqlParameter paramDescription=new OdSqlParameter("paramDescription",OdDbType.Text,POut.StringParam(ehrCode.Description));
 			command="UPDATE ehrcode SET "+command
 				+" WHERE EhrCodeNum = "+POut.Long(ehrCode.EhrCodeNum);
-			Db.NonQ(command);
+			Db.NonQ(command,paramDescription);
 			return true;
 		}
 
@@ -259,9 +328,6 @@ namespace OpenPmsDentalBusiness.Crud{
 				return true;
 			}
 			if(ehrCode.CodeSystemOID != oldEhrCode.CodeSystemOID) {
-				return true;
-			}
-			if(ehrCode.IsInDb != oldEhrCode.IsInDb) {
 				return true;
 			}
 			return false;

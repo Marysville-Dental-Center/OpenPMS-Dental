@@ -877,7 +877,7 @@ namespace OpenPmsDental {
 			Cursor=Cursors.Default;
 			#region ComboAssessmentType
 			_listEhrCodesAssessments=EhrCodes.GetForValueSetOIDs(new List<string> { "2.16.840.1.113883.3.526.3.1278" },true);//'Tobacco Use Screening' value set
-			//Should only happen if the EHR.dll doesn't exist or the codes in the ehrcode list don't exist in the corresponding table
+			//Happens until the office imports the value sets (Setup, Chart, EHR, Code System Importer), or while the code system's table of these codes is not loaded
 			if(_listEhrCodesAssessments.Count==0) {
 				//disable the tobacco use tab, message box will show if the user tries to select it
 				tabTobaccoUse.Enabled=false;

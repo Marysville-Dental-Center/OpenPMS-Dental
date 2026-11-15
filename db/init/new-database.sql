@@ -1,7 +1,7 @@
 /*
 Open PMS - Dental: a new database.
 
-Creates the 457 tables of a database at fork schema level 2026110801 (the Open Dental 26.2.0 schema and the
+Creates the 458 tables of a database at fork schema level 2026111401 (the Open Dental 26.2.0 schema and the
 fork's), with the rows the program needs to start: preferences, definitions, user groups and permissions, the user Admin,
 program links (all off) and procedure codes (named by their code only). No patients and no office data. Admin has a blank
 password, which the program asks to set at the first logon.
@@ -4499,6 +4499,23 @@ CREATE TABLE `ehrcareplan` (
   `DatePlanned` date NOT NULL DEFAULT '0001-01-01',
   PRIMARY KEY (`EhrCarePlanNum`),
   KEY `PatNum` (`PatNum`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
+
+/*Table structure for table `ehrcode` */
+
+CREATE TABLE `ehrcode` (
+  `EhrCodeNum` bigint(20) NOT NULL AUTO_INCREMENT,
+  `MeasureIds` varchar(255) NOT NULL,
+  `ValueSetName` varchar(255) NOT NULL,
+  `ValueSetOID` varchar(255) NOT NULL,
+  `QDMCategory` varchar(255) NOT NULL,
+  `CodeValue` varchar(255) NOT NULL,
+  `Description` text NOT NULL,
+  `CodeSystem` varchar(255) NOT NULL,
+  `CodeSystemOID` varchar(255) NOT NULL,
+  PRIMARY KEY (`EhrCodeNum`),
+  KEY `ValueSetOID` (`ValueSetOID`),
+  KEY `CodeValueCodeSystem` (`CodeValue`(100),`CodeSystem`(50))
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
 /*Table structure for table `ehrlab` */
@@ -25871,11 +25888,11 @@ INSERT INTO `preference` (`PrefName`,`ValueString`,`PrefNum`,`Comments`) VALUES
 ('BackupIndexesDisabled','1',1163,NULL),
 ('InsOutOfNetworkBlankLikeZero','0',1164,NULL),
 ('EformsSpaceToRightEachField','10',1165,NULL),
-('ForkAdoptedFrom','new=1;source=24.3.63.0;level=2026110801;adopted=db/init/new-database.sql',1166,''),
+('ForkAdoptedFrom','new=1;source=24.3.63.0;level=2026111401;adopted=db/init/new-database.sql',1166,''),
 ('OdSchemaCompat','26.2.0',1167,''),
-('ForkSchemaLevel','2026110801',1168,''),
+('ForkSchemaLevel','2026111401',1168,''),
 ('ForkMigrationInProgress','',1169,NULL),
-('ForkMigrationsApplied','2026101901,2026101902,2026101903,2026101904,2026101905,2026101906,2026101907,2026101951,2026101971,2026102401,2026102402,2026102403,2026102501,2026110101,2026110103,2026110104,2026110201,2026110202,2026110203,2026110204,2026110205,2026110206,2026110207,2026110211,2026110212,2026110213,2026110221,2026110701,2026110731,2026110781,2026110801',1170,NULL),
+('ForkMigrationsApplied','2026101901,2026101902,2026101903,2026101904,2026101905,2026101906,2026101907,2026101951,2026101971,2026102401,2026102402,2026102403,2026102501,2026110101,2026110103,2026110104,2026110201,2026110202,2026110203,2026110204,2026110205,2026110206,2026110207,2026110211,2026110212,2026110213,2026110221,2026110701,2026110731,2026110781,2026110801,2026111401',1170,NULL),
 ('ApptMirrorSecondary','0',1171,NULL),
 ('TaskCategoryShow','0',1172,NULL),
 ('IncomeTransfersLimitToPatPayments','0',1173,NULL),

@@ -559,6 +559,12 @@ The key was a licence check, but it was also the only thing that kept these acti
 
 ### EHR-2 Value sets
 
+- **Status (2026-11-14).** Written on `ehr/ehr2-1` from `main` `2e5a61a67`; waiting for review and the merge. Step 2026111401 (`ehrcode`), the
+  loading, the import window and the code-system status are built and tested with synthetic files (`docs/port-notes/EHR-2.md`). Step 5 (the
+  record of the real June 2013 files by someone with a UMLS licence) is not done: the header and element names are provisional until it is.
+  `db/init/new-database.sql` was regenerated on the branch (`329793122`, fork level 2026111401). The review's findings were fixed on
+  `ehr/ehr2-2` (the port note's fix round): `MeasureIds` within its column, a reader bounded for the 32-bit process, the description's
+  length, an atomic import (a scratch table and one `RENAME TABLE`) and the list read once per method.
 - **Goal.** `EhrCodes.Listt` is filled again, on every workstation and on the Middle Tier server, from the office's own import of the
   June 2013 EP release (section 8). The pick lists and the 2014 CQMs then work.
 - **Owns.**

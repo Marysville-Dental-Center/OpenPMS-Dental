@@ -106,7 +106,7 @@ namespace OpenPmsDental {
 			Cursor=Cursors.Default;
 			#region ComboAssessmentType
 			_listAssessmentCodes=EhrCodes.GetForValueSetOIDs(new List<string> { "2.16.840.1.113883.3.526.3.1278" },true);//'Tobacco Use Screening' value set
-			if(_listAssessmentCodes.Count==0) {//This should only happen if the EHR.dll does not exist or if the codes in the ehrcode list do not exist in the corresponding table
+			if(_listAssessmentCodes.Count==0) {//Happens until the office imports the value sets (Setup, Chart, EHR, Code System Importer), or while the code system's table of these codes is not loaded
 				MsgBox.Show(this,"The codes used for Tobacco Use Screening assessments do not exist in the LOINC table in your database.  You must run the Code System Importer tool in Setup | Chart | EHR to import this code set.");
 				DialogResult=DialogResult.Cancel;
 				return;

@@ -41,12 +41,13 @@ namespace OpenPmsDentalBusiness.ForkMigrations {
 		///<summary>The unique key on patient._portal_active_email.</summary>
 		public const string PortalActiveEmailIndex="portal_active_email_uniq";
 
-		///<summary>The 54 tables that our 24.3 code declares but that exist only in Open Dental's own HQ database. An office database never has them
+		///<summary>The 53 tables that our 24.3 code declares but that exist only in Open Dental's own HQ database. An office database never has them
 		///and Open Dental 25.3 does not either (docs/specs/schema-changes-24.3-to-26.1.md, "HQ-internal tables"). A database made by the 24.3
-		///convert scripts can have a few of them.</summary>
+		///convert scripts can have a few of them. The 54th of that document, ehrcode, is a fork-only table since EHR-2 (EhrTables in EhrSteps.cs):
+		///it is excepted once, as this program's own table.</summary>
 		public static readonly string[] ArrayHqOnlyTables=new string[] {
 			"address","apibilling","bugsubmission","bugsubmissionhash","chatuser","child","childparent","childparentlink","childroom","childroomlog",
-			"cloudbilling","commloghist","ehrcode","eservicebilling","eservicecodelink","faq","job","jobactivelink","jobcontrol","joblink","joblog",
+			"cloudbilling","commloghist","eservicebilling","eservicecodelink","faq","job","jobactivelink","jobcontrol","joblink","joblog",
 			"jobnote","jobnotification","jobpermission","jobproject","jobquote","jobreview","jobsprint","jobsprintlink","jobteam","jobteamuser",
 			"maparea","mapareacontainer","phone","phonecomp","phoneconf","phoneempdefault","phoneempsubgroup","phonegraph","phonemetric",
 			"plannedappt","reseller","resellerservice","sitelink","smsbilling","tasktaken","triagemetric","voicemail","webchataiassistant",

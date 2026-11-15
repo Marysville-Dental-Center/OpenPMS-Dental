@@ -23,6 +23,9 @@ What this version brings, each in its section below (the roadmap's "Done in the 
   prompt never logs off while the user is answering it, and a tidier Edit Email Address window;
 - the Direct certificate of an e-mail address imported from the file the office's Direct provider issued, with the provider's trust anchor,
   in place of the registration with Open Dental's servers, which always failed;
+- the EHR value sets imported from the office's own download of VSAC's June 2013 EP release, so the EHR pick lists (tobacco use,
+  interventions, not-performed reasons) and the 2014 quality measures have their codes again, with a code-system status that shows which
+  code-system tables still have to be loaded;
 - Open Dental 26.2: its database schema and the changes the owner chose on 2026-11-07:
   - Appointments: several blockout types in the Advanced Appointment Search, the practice and clinic schedule notes in the Appointments
     module, and appointment estimates brought up to date when an insurance plan is saved;
@@ -47,8 +50,8 @@ What this version brings, each in its section below (the roadmap's "Done in the 
 - two new entries in Help > About > View Licenses, Helix Toolkit and the .NET Community Toolkit: libraries for the coming 3D tooth chart,
   installed with the program from this version on (the tooth chart itself does not change yet).
 
-The update adds this program's own tables to the database (13 tables, none of Open Dental's schema: five for routine maintenance, seven for
-inventory tracking, one for SSH host keys); they start empty, except the stock ledger's opening rows (Inventory tracking, below). It also
+The update adds this program's own tables to the database (14 tables, none of Open Dental's schema: five for routine maintenance, seven for
+inventory tracking, one for SSH host keys, one for the EHR value sets); they start empty, except the stock ledger's opening rows (Inventory tracking, below). It also
 brings the Open Dental tables to the Open Dental 26.2 schema (three new tables, seven new columns; "Open Dental 26.2: the database schema",
 below).
 
@@ -485,6 +488,33 @@ longer reaches, so it always failed. It now imports the certificate your Direct 
   nobody touches it, but once you move the mouse onto it or press a key it waits for you; X and Esc mean No.
 - **Edit Email Address.** The Email Authentication box is as large as what it shows: one line with only Password, and the chosen sign-in's
   box beside the choices when Gmail or Microsoft 365 is used. Every option is still there.
+
+## EHR: the value sets from your own VSAC download
+
+Open Dental filled the EHR code list (the value sets of the 2014 clinical quality measures and the EHR pick lists) from its closed EHR.dll,
+which this program does not have, so the list was empty: the Tobacco Use tab of the medical window stayed off, and the tobacco, intervention
+and not-performed windows had no codes to offer. This version keeps the list in a table of its own (`ehrcode`, empty after the update), and
+the office fills it from its own download.
+
+- **What to download.** From the Value Set Authority Center (VSAC) of the National Library of Medicine, under your office's own UMLS
+  license: the "June 2013 EP Only Release eCQM Value Sets" (publication date June 14, 2013), the package sorted by CMS ID, as the Excel
+  workbook (`.xlsx`) or the SVS XML (`.xml`), or the `.zip` VSAC gives. These are the value sets of the nine 2014 measure versions this
+  program reports (CMS68v3, CMS69v2, CMS74v3, CMS75v2, CMS127v2, CMS138v2, CMS147v2, CMS155v2, CMS165v2). Later releases use later measure
+  versions: a file with none of the nine at these versions is refused, and a file that has some at other versions (for example CMS74v4 of
+  the 2014 update) is imported with a warning that names them. This program ships no value-set codes.
+- **Where.** Setup > Chart > EHR > Code System Importer, Import Value Sets (Setup permission; not through the Middle Tier, as the CPT
+  import). The window reads and checks the whole file first and shows a report: the codes and value sets it found, which of the 79 value
+  sets the measures use are missing, the measure versions, and the code systems it has no table for. Only after you confirm does it
+  replace every value-set code in the database; a refused file, or an import that fails part way, changes nothing (the new codes are written
+  beside the old ones and take their place in one step). A file over 64 MB, or one whose parts pass 64 MB each or 256 MB in all once
+  uncompressed, is refused; the June 2013 package is far smaller. The import is recorded in the security log (Setup) with the file's name
+  and SHA-256, and the window shows the date and file of the last import.
+- **Code-system status.** The same window lists each code system (SNOMED CT, ICD-9-CM, ICD-10-CM, LOINC, RxNorm, CPT, CDT, HCPCS, CVX,
+  CDCREC, SOP) with its rows in the database and the minimum the code list expects. A value-set code counts for the pick lists and the
+  measures only when its code system's table is loaded; this program does not download them, so load each table directly (CPT with the
+  import above).
+- **Every workstation** reads the new codes after the import, also through the Middle Tier, without a restart.
+- The CPT import in the same window now needs the Setup permission too.
 
 ## Open Dental 26.2: the database schema
 

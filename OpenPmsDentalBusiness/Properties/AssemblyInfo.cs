@@ -26,6 +26,8 @@ using System.Runtime.InteropServices;
 [assembly: InternalsVisibleTo("LibraryUpdateTests")]
 // The inventory tests reach InventoryTracking's test seam (another workstation changing procedures while materials are confirmed).
 [assembly: InternalsVisibleTo("InventoryTests")]
+// The EHR tests reach the value-set import's test seam (a failure while the rows are written).
+[assembly: InternalsVisibleTo("EhrTests")]
 
 // Version information for an assembly consists of the following four values:
 //

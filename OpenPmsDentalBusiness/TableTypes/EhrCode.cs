@@ -1,9 +1,9 @@
 ﻿using System;
 
 namespace OpenPmsDentalBusiness {
-	///<summary>For EHR module, these are all the codes from various code sets that will affect reporting clinical quality measures.  Users cannot edit.  This is not an actual table in the database.  The codes are loaded from the EHR.dll, so it is a static object, no inserts/updates.  Selecting from this 'table' will always use the cache pattern.</summary>
+	///<summary>For EHR module, these are all the codes from various code sets that will affect reporting clinical quality measures.  Users cannot edit.  A fork-only table (EhrTables in Misc\ForkMigrations\EhrSteps.cs, docs/specs/ehr-rebuild-plan.md section 7, EHR-2): Open Dental filled the list from its closed EHR.dll, this program from the office's own import of VSAC's June 2013 EP release (EhrValueSetImport, Setup, Chart, EHR, Code System Importer), which replaces every row.  No window edits a row.  Selecting from this table always uses the cache pattern (EhrCodes.Listt).</summary>
 	[Serializable]
-	[CrudTable(IsMissingInGeneral=true)]
+	[CrudTable(HasBatchWriteMethods=true)]
 	public class EhrCode:TableBase {
 		///<summary>Primary key.</summary>
 		[CrudColumn(IsPriKey=true)]
@@ -18,13 +18,15 @@ namespace OpenPmsDentalBusiness {
 		public string QDMCategory;
 		///<summary>The code from the specified code system.  Example: 653.83.  This code can belong to multiple value sets, in which case this table will contain multiple rows for this code.</summary>
 		public string CodeValue;
-		///<summary>The description for this code.  This will frequently be duplicate data, but keeping it here ensures accurate CQM reporting.</summary>
+		///<summary>The description for this code.  This will frequently be duplicate data, but keeping it here ensures accurate CQM reporting.  Text, because some descriptions in the value sets are longer than 255 characters.</summary>
+		[CrudColumn(SpecialType=CrudSpecialColType.IsText)]
 		public string Description;
-		///<summary>The code system name for this code.  Possible values are: CDCREC, CDT, CPT, CVX, HCPCS, ICD9CM, ICD10CM, LOINC, RXNORM, SNOMEDCT, SOP, and AdministrativeSex.</summary>
+		///<summary>The code system name for this code.  Possible values are: CDCREC, CDT, CPT, CVX, HCPCS, ICD9CM, ICD10CM, LOINC, RXNORM, SNOMEDCT, SOP, and AdministrativeSex.  A code system this program has no table for keeps the name the office's file gives it (for example ICD10PCS).</summary>
 		public string CodeSystem;
 		///<summary>The code system object identifier for reporting CQM.  Example: 2.16.840.1.113883.6.103.</summary>
 		public string CodeSystemOID;
-		///<summary>This is true if the code is in the corresponding table identified by CodeSystem.</summary>
+		///<summary>Not a database column.  True if the code system's table identified by CodeSystem has more rows than the code list expects (EhrCodes.updateCodeExistsHelper).  Set when the list is loaded.</summary>
+		[CrudColumn(IsNotDbColumn=true)]
 		public bool IsInDb;
 
 

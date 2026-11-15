@@ -175,7 +175,7 @@ namespace OpenPmsDentalBusiness {
 			}
 			if(listITypes.Contains(InvalidType.EhrCodes)) {
 				ODEvent.Fire(ODEventType.Cache,prefix+InvalidType.EhrCodes.ToString());
-				EhrCodes.UpdateList();//Unusual pattern for an unusual "table".  Not really a table, but a mishmash of hard coded partial code systems that are needed for CQMs.
+				EhrCodes.UpdateList();//Unusual pattern for an unusual table: the value-set codes the office imported (ehrcode), with IsInDb worked out from the code-system tables. No table is sent; a Middle Tier client drops its list in FillCache.
 			}
 			if(listITypes.Contains(InvalidType.ElectIDs) || isAll) {
 				ODEvent.Fire(ODEventType.Cache,prefix+InvalidType.ElectIDs.ToString());
@@ -519,6 +519,12 @@ namespace OpenPmsDentalBusiness {
 			if(listITypes.Contains(InvalidType.Ebills) || isAll) {
 				ODEvent.Fire(ODEventType.Cache,suffix+InvalidType.Ebills.ToString());
 				Ebills.FillCacheFromTable(ds.Tables["Ebill"]);
+			}
+			if(listITypes.Contains(InvalidType.EhrCodes)) {
+				ODEvent.Fire(ODEventType.Cache,suffix+InvalidType.EhrCodes.ToString());
+				//The server read the table again in GetCacheDs (EhrCodes.UpdateList), but sends no table for it. Drop this client's list, so its next read
+				//of EhrCodes.Listt fetches the new rows from the server (docs/specs/ehr-rebuild-plan.md, EHR-2).
+				EhrCodes.ClearList();
 			}
 			if(listITypes.Contains(InvalidType.ElectIDs) || isAll) {
 				ODEvent.Fire(ODEventType.Cache,suffix+InvalidType.ElectIDs.ToString());
