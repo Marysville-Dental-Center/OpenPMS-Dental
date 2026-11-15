@@ -370,6 +370,7 @@ Repository: Open PMS - Dental, `main` at b9dbf4c35. Read-only survey: no code wa
 - Microsoft's documented .NET 10 way to load a plug-in is a per-plug-in AssemblyLoadContext with AssemblyDependencyResolver and EnableDynamicLoading. Assembly.LoadFile still works.
 - Plug-ins from the Open Dental era fail anyway, because they bind to the old assembly names (adoption D5).
 - The gate check at net10-plan.md:1268 gains a case: an x86 plug-in gets the clear message.
+- Correction (N64-A, docs/port-notes/N64-A.md section 2): a 64-bit .NET Framework process loads an IL-only DLL with both 32BITREQUIRED and 32BITPREFERRED ("any CPU, 32-bit preferred"; the lane's x64 test run), so only 32BITREQUIRED without 32BITPREFERRED, mixed-mode x86 or PE32+ of another machine is refused; row 10's "Preferred32Bit" does not apply to such a DLL.
 
 **Sources**
 
@@ -616,7 +617,7 @@ The labels A1-A5 and B1-B8 below are only for this survey. Existing plan IDs are
   - Correct the TypeLib/IID wording at S3a-14.md:59.
   - Extend launch check S1, and add S4 and S5.
 
-**A2. Plug-in loaders.** This is independent of A1 and can run in parallel in its own worktree.
+**A2. Plug-in loaders.** This is independent of A1 and can run in parallel in its own worktree. **Done** on `net10/n64a-1` (N64-A, docs/port-notes/N64-A.md): `Plugins.LoadPlugin` with `PluginImageCheck` and `CodeBase.PortableExecutableFile`, tests in `tests/N64ATests` (x86 and x64).
 - Add the PE-kind and TargetFramework check before LoadFile in both loaders.
 - Replace the empty catch in Plugins.cs with a logged reason.
 - Catch BadImageFormatException and FileLoadException in PluginLoader.cs and show a clear text.
@@ -627,7 +628,7 @@ The labels A1-A5 and B1-B8 below are only for this survey. Existing plan IDs are
 - Add a new helper CADI module that repeats today's calls and message-only window.
 - This can wait for the CADI registry check (section 5) if the owner prefers.
 
-**A4. Small items.** Any time, independent.
+**A4. Small items.** Any time, independent. **Done** on `net10/n64a-1` (N64-A, docs/port-notes/N64-A.md): all three, with Software\Trojan read after the old key name.
 - Trojan: optionally look in Registry32, then Registry64, with a test.
 - Word: a test that the x64 build compiles the `!DISABLE_MICROSOFT_OFFICE` code, and the HRESULT message for a broken registration.
 - DirectX: optionally, a ToothChart log line naming the folder and bitness of the D3DX that loaded.

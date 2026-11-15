@@ -999,6 +999,16 @@ S3a-M3b": GridOD's ContextMenu path, `PopupHelper.GetContextMenuItemLinks`, Lan'
 `WinFormsMenuScanTests` (FormMedical.cs and the bridge regions the known-pending ones); S3aM1Tests' M3 files; P262BillingTests and window check
 J15 follow the moved text. One change on purpose: `FormTreatPlanCurEdit`'s Go To items now show (they were hidden by an empty ContextMenu).
 
+**Status (2026-11-15), N64-A.** Done on `net10/n64a-1` (`docs/port-notes/N64-A.md`), not merged yet: items A2 and A4 of the native 64-bit survey
+(`docs/specs/native64-survey.md`, decision 23). Both plug-in loaders go through `Plugins.LoadPlugin`, which reads the DLL's PE kind and
+target framework first (`PluginImageCheck`, new `CodeBase.PortableExecutableFile`) and refuses a plug-in this process cannot load with a
+clear reason naming it, logged (`Logger\Plugins`; the Middle Tier's empty catch is gone); BadImageFormatException and FileLoadException get
+a clear text; a hook-time DllNotFoundException or BadImageFormatException is logged once with the plug-in and hook; a loadable plug-in loads
+as before. Trojan's install key: Registry32, then Registry64, under `Software\TROJAN BENEFIT SERVICE`, then `Software\Trojan`. Word: a broken
+registration (REGDB_E_CLASSNOTREG, CO_E_SERVER_EXEC_FAILURE, TYPE_E_* and similar) shows a clear message. DirectX: one ToothChart log line
+names the folder and bitness of the D3DX that loaded. New library-only `tests/N64ATests` (34 tests, x86 and the lane's x64 test build);
+the x64 run showed that a DLL with 32BITREQUIRED and 32BITPREFERRED loads in a 64-bit process, so only 32BITREQUIRED alone is x86 only.
+
 **Full-test gate.** Section 3, plus: the golden outputs and known answers recorded and committed; the source-scan tests pass; the
 launch checks for 3a (section 6) done with screenshots, including a self-update from a standard user; the x64 test runs (S3a-12, S3a-15)
 and the x64 build of `Direct2dWrapper` (S3a-16) pass; the helper's tests pass, and its links are launch-checked where a test PC has the
