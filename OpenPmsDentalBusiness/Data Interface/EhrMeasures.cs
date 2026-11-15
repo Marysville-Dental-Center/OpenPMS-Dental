@@ -2543,8 +2543,9 @@ namespace OpenPmsDentalBusiness{
 								if(vitalsignList[v].Weight>0) {
 									wFound=true;
 								}
-								if(!IsAgeAtLeastAtLastVisit(pat,3,listVisitDays,dateEnd) //3 and older for BP, at the last visit as Measure Calc (EHR-4d)
-									|| (vitalsignList[v].BpDiastolic>0 && vitalsignList[v].BpSystolic>0)) {
+								//EHR-4d: the 2013 edition's first numerator, as Measure Calc's VitalSigns (EHR4B-D05): blood pressure from age 2, as height
+								//and weight (VitalSigns2014 takes it from age 3).
+								if(vitalsignList[v].BpDiastolic>0 && vitalsignList[v].BpSystolic>0) {
 									bpFound=true;
 								}
 							}
