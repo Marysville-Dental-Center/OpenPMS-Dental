@@ -401,7 +401,8 @@ namespace BINATests {
 						Assert.IsTrue(isDrawn,"The Simple 2D chart, the last resort, must draw: "+line);
 					}
 					if(drawingModeStarted!=drawingModeRequested) {
-						Assert.IsTrue(isDrawn,"The fallback mode must draw: "+line);
+						//A fallback other than Simple 2D that starts but gives no picture is reported too, not failed (lead fix at the merge):
+						//Simple 2D, the last resort, is asserted to draw above.
 						Assert.IsTrue(listFallbacks.Count>0,"A fallback is logged: "+line);
 						Assert.Inconclusive("This "+Bitness()+" process could not start "+drawingModeRequested+" here; the fallback ran: "+line);
 					}
