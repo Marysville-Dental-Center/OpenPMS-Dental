@@ -261,6 +261,7 @@
           "ODCrypt": "[1.0.0, )",
           "OpenPmsDental": "[1.0.0, )",
           "OpenPmsDentalBusiness": "[1.0.0, )",
+          "OpenPmsDentalStorage": "[1.0.0, )",
           "PdfSharp-gdi": "[1.0.0, )",
           "SparksToothChart": "[1.0.0, )",
           "UnitTestsCore": "[1.0.0, )",

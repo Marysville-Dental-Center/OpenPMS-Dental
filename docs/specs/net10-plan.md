@@ -14,7 +14,7 @@ and an independent critique of that survey. Nothing was built, run, restored or 
 `main` at `e2251ea96` (the survey) and were re-checked at `8018a815f` for the stage 0 additions. Section 11 lists the owner's decisions of
 2026-11-08, the standing rule first; section 12 the open points (O-1, O-2, O-6, O-7 and O-9 were answered and O-4 resolved on 2026-11-08;
 O-10 is new; O-14 to O-16 come with decision 19, and O-15 was answered the same day, decision 20; O-17 came with the S2-1 review on
-2026-11-09), and the appendix where each finding
+2026-11-09 and was closed by BUILD-HYGIENE on 2026-11-14), and the appendix where each finding
 of the critique is handled. The facts behind decision 19 were checked read-only at `c9463cad1` and on the build PC on 2026-11-08, and
 those behind decision 20 on the build PC the same day (section 9.1).
 
@@ -297,12 +297,17 @@ repository URL or commit, and the build does not read the `.git` folder. S1-1 dr
   slnf; it must exit 0 (zero mismatches, zero silent empties, zero errors; a name the reader throws for as not modelled is allowed).
 - Hash comparisons (from stage 2 on, the lead, 2026-11-09; S2-1's proof): the SHA-256 diffs of output folders and of the staged files
   list these as the files that change on every build, and explain every other difference: `OpenPmsDental.exe` and `.pdb` and their
-  copies (the build stamp `ForkBuildUtc`, and `OpenPmsDental.ContrTable.resources`, which comes out in two forms, open point O-17, so the
-  Release exe's size changes too), `Direct2dWrapper.dll` and `.pdb` (native, linked again), `OpenPmsDentalServer.dll` and `.pdb` (the
-  classic Middle Tier project, not deterministic), and in a Release build `OpenPmsDental.XmlSerializers.dll` and
+  copies (the build stamp `ForkBuildUtc`), `Direct2dWrapper.dll` and `.pdb` (native, linked again), `OpenPmsDentalServer.dll` and `.pdb`
+  (the classic Middle Tier project, not deterministic), and in a Release build `OpenPmsDental.XmlSerializers.dll` and
   `OpenPmsDentalBusiness.XmlSerializers.dll` (SGen numbers its generated types and methods anew). For these the comparison is of
-  Mono.Cecil fingerprints (types, members, IL, references, resources) instead of hashes, with the ContrTable resource's two forms accepted
-  until O-17 is closed and SGen's numbers normalised. New files in output folders follow stage 2's rule ("Identical output in stage 2").
+  Mono.Cecil fingerprints (types, members, IL, references, resources) instead of hashes, with SGen's numbers normalised. New files in
+  output folders follow stage 2's rule ("Identical output in stage 2"). Since BUILD-HYGIENE (2026-11-14, `docs/port-notes/BUILD-HYGIENE.md`)
+  the embedded resources come out the same in every build, so the fingerprints' resources must match too: `OpenPmsDental.ContrTable.resources`
+  and `ODR.ComboBoxMulti.resources` no longer come in two forms (O-17, closed), and `ODR.dll` is no longer a file that changes between
+  builds. The first comparison against a record older than BUILD-HYGIENE sees, once and on purpose: the 43 `.resources` of its part 1
+  (`OpenPmsDental.ContrTable`, `ODR.ComboBoxMulti` and 41 of `RdlDesigner.exe`) smaller, with `OpenPmsDental.exe`, `ODR.dll` and
+  `RdlDesigner.exe`, and every `.config` built from the 18 app.config/Web.config files and `tests/BindingRedirects.config` (seven of them
+  shipped) changed in the comment above the binding redirects only (its part 3).
 - The stage's launch checks (section 6).
 - From the merge of S3a-12 and S3a-16 until the switch: the x64 test runs of the pointer-size tests (S3a-12, S3a-15) pass, and
   `Direct2dWrapper` builds for x64 (S3a-16).
@@ -1550,13 +1555,25 @@ self-contained (open point O-15, decision 20).
   (both DLLs signed by the TWAIN Working Group). It is not a NuGet package and not covered by the approval of the download batches
   (2026-11-08). The lead asks for it when 3b starts, with the file name, the source and the size; nothing is downloaded before. Its
   licence goes into `THIRD-PARTY-NOTICES.txt` (S3b-7).
-- **O-17. The ContrTable resource comes out in two forms (found by the S2-1 review, 2026-11-09; not caused by S2-1).**
+- **O-17. The ContrTable resource comes out in two forms (found by the S2-1 review, 2026-11-09; not caused by S2-1). Closed
+  2026-11-14 by BUILD-HYGIENE (`docs/port-notes/BUILD-HYGIENE.md`, part 1).**
   `OpenPmsDental.ContrTable.resources`, the resources of `ContrTable` embedded in `OpenPmsDental.exe`, is 5,606 or 7,424 bytes from build
   to build: the resource generator in the build node writes the form's `$this.Language` CultureInfo in one of two serialized forms. Both
   occur on `main` and on `net10/s21-1`, in Debug and in Release builds (`docs/port-notes/S2-1.md`, section 4), so the Release exe's size
   and SHA-256 change between builds of the same source even apart from the build stamp. It gets a follow-up of its own (find what
   decides the form and make it one; then the exe differs between builds by the build stamp only). Until then the gates' hash
   comparisons list it with the files that change on every build (section 3).
+  **How it was closed:** the cause was the `.resx` file, not a build setting. `ContrTable.resx`, `ODR/ComboBoxMulti.resx` (the same two
+  forms in `ODR.dll`, found by S2-4) and 41 forms of RdlDesign are the 43 files the Visual Studio .NET 2003 designer last wrote; it kept
+  its own design-time properties (`$this.Language`, `$this.Localizable`, `Locked`, `Modifiers` and the tray and grid settings) as
+  `<data>`, which GenerateResource compiles. `$this.Language` is `CultureInfo.InvariantCulture`, a per-process singleton, and the binary
+  serialization of it includes the lazily created members (its DateTimeFormatInfo, TextInfo, Calendar) that whatever ran earlier in the
+  build node had touched, so its size depended on the node's history. The 2,159 entries are `<metadata>` now, as the designer has written
+  them since Visual Studio 2005 (the other forms of the repository hold them so): the designer reads them, the build does not compile
+  them, and nothing read them at run time. Two cold Release lane builds give the same bytes for all 1,085 `.resources` of the 201 built
+  assemblies; ContrTable's is 225 bytes now, ComboBoxMulti's 1,138. ProjectFileTests fails if a `.resx` holds such an entry as `<data>`
+  again. PDFsharp's `PagePreview.resx` (submodule, upstream bytes, a resource nothing reads) still holds them; its resource came out the
+  same in every build of BUILD-HYGIENE, and the test lists it as the one exception.
 
 ---
 
