@@ -645,15 +645,23 @@ runs at the end of each class (v4 has no other timing). Targeted runs of all 119
 baseline check, and one DbConnectionSecurityTests dry run that the local server's TLS set-up refuses); no leftover scratch database. The test
 runner and the lane's `-Test` ran MSTest 4 unchanged until S4-2.
 
-S4-2 done on `net10/s42-1` (`docs/port-notes/S4-2.md`), not merged yet: both runner copies (`tools/run-tests.ps1` and the
-lead's, whose new version waits as `run-tests.ps1.s42-new` for the merge) keep `/Platform:x86` and the adapter next to each test DLL
+S4-2 merged as `fbe7da4ec` (`docs/port-notes/S4-2.md`; the lead's runner swapped in at the merge): both runner copies (`tools/run-tests.ps1` and the
+lead's) keep `/Platform:x86` and the adapter next to each test DLL
 (checked before each assembly, `NOADAPTER`), read the last `Total tests:` block or the one-line summaries, count skipped tests, fail a run
 with no test or no summary, compare a run with an earlier results file (`-CompareWith`, which in a Full run also names each
 assembly of the record that the run lacks, `missing`), and start vstest with
 `TESTINGPLATFORM_TELEMETRY_OPTOUT=1` and `DOTNET_CLI_TELEMETRY_OPTOUT=1` and without `VSTEST_TELEMETRY_OPTEDIN`; the lane gets the same
 from `tools/Initialize-BuildEnvironment.ps1` and needs no change. No workflow script needed a change. Targeted runs of five assemblies
 with each copy: the counts of S4-1's table, test by test, plus the 8 new ProjectFileTests (TestRunnerScriptTests, TestTelemetryTests).
-Next: the stage gate's Full run with `-CompareWith` the stage 2 record (the lead's); its last `COMPARE` line must say `missing=0`.
+
+**Stage 4 gate passed (2026-11-14, at `fbe7da4ec` in a clean worktree; S4-2.md section 12).** Cold Debug lane build 0 errors; Release
+dry run (`Build-Release.ps1 -SkipInstaller`) exit 0, 89 files staged; the evaluator check found 244 silent-empty values from the names
+MSTest 4's `Microsoft.Testing.Platform.MSBuild` targets read (`BuildInParallel`, `UseMSBuildTestInfrastructure`, and an SDK exe's
+`_NativeExecutableExtension` and `EnableSdkContainerSupport`): the reader now models the first two and leaves the other two not modelled for
+an exe (merge `tools/s4-evaluator`), after which it agrees with MSBuild (exit 0). Two Full runs with `-RequireBuildOutput` and the opt-in
+baseline check, each `DONE ok=True`: run 1 against the stage 2 record `same=109 differs=10 new=0 missing=0`, every difference explained
+(tests added since; NoHqTests 58 to 57 where DIRECT-CERT-FOLLOWUP made two CustomerUpdates tests one); run 2 against run 1
+`same=119 differs=0`. No scratch database left. `tools/project-baseline` re-recorded. Stage 4 done; next: stage 3a.
 
 **Full-test gate.** Section 3, plus identical per-assembly discovered-test counts and outcomes compared to the v1 record (differences
 explained one by one).

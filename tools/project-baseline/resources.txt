@@ -846,6 +846,8 @@ OpenPmsDental|OpenPmsDental.FormXWebTransactions.resources
 OpenPmsDental|OpenPmsDental.FormXchargeSetup.resources
 OpenPmsDental|OpenPmsDental.FormXchargeTokenTool.resources
 OpenPmsDental|OpenPmsDental.FormXchargeTrans.resources
+OpenPmsDental|OpenPmsDental.Forms.FormEhrMeasureCalc.resources
+OpenPmsDental|OpenPmsDental.Forms.FormEhrMeasureCalcDetail.resources
 OpenPmsDental|OpenPmsDental.GraphScheduleDay.resources
 OpenPmsDental|OpenPmsDental.ModuleBar.resources
 OpenPmsDental|OpenPmsDental.ODtextBox.resources
