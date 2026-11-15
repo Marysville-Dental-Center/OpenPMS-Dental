@@ -369,8 +369,8 @@ namespace EhrTests {
 			MakeEvent(SeenPatient("Edu.Before"),EhrMeasureEventType.EducationProvided,new DateTime(2013,6,3),0);
 		}
 
-		///<summary>Vital signs and smoking status. Ages at the visit of 3 March 2014: Vs.Child2 is 2, Vs.Infant 1, Smoke.Age12 12; the others are
-		///adults.</summary>
+		///<summary>Vital signs and smoking status. Ages at the visit of 3 March 2014: Vs.Child2 is 2, Vs.Infant 1, Smoke.Age12 12 (and all
+		///year); the others are adults.</summary>
 		private static void MakeVitalSignRows() {
 			MakeVitalsign(SeenPatient("Vs.Full"),64,150,120,80);
 			MakeVitalsign(SeenPatient("Vs.HeightWeight"),64,150,0,0);
@@ -382,7 +382,9 @@ namespace EhrTests {
 			patientSmoker.SmokingSnoMed=MeasureSpecCodes.GetSmokingStatusCode();
 			OpenPmsDentalBusiness.Crud.PatientCrud.Update(patientSmoker);
 			SeenPatient("Smoke.NotRecorded");
-			SeenPatient("Smoke.Age12",new DateTime(2001,8,1));
+			//12 on every day of the 2014 period (13 on 15 January 2015), so the D03 case holds whichever day of the period the sheet's age is
+			//taken on.
+			SeenPatient("Smoke.Age12",new DateTime(2002,1,15));
 		}
 
 		///<summary>Lab orders and results (ehrlab, by the provider's NPI; and the older medicalorder rows), laboratory and radiology orders, imaging
