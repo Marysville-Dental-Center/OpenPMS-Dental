@@ -432,35 +432,55 @@ namespace EhrTests {
 			foreach(KeyValuePair<string,string[]> pair in dictExpected) {
 				CollectionAssert.AreEquivalent(pair.Value,EhrCodes.GetForValueSetOIDs(new List<string> { pair.Key },true).Select(x => x.CodeValue).ToList(),pair.Key);
 			}
-			//The windows read exactly these value sets, with usingIsInDb (the tobacco tab of FormMedical, FormEhrPatientSmoking).
+			//The windows read exactly these value sets, with usingIsInDb (the tobacco tab of FormMedical, FormEhrPatientSmoking), by the catalog's
+			//constants since EHR-7 (the constants hold these OIDs).
+			Dictionary<string,string> dictConstants=new Dictionary<string,string> {
+				{ OID_TOBACCO_SCREENING,nameof(CqmCatalog.OID_TOBACCO_SCREENING) },
+				{ OID_TOBACCO_USER,nameof(CqmCatalog.OID_TOBACCO_USER) },
+				{ OID_TOBACCO_NON_USER,nameof(CqmCatalog.OID_TOBACCO_NON_USER) },
+				{ OID_TOBACCO_COUNSELING,nameof(CqmCatalog.OID_TOBACCO_COUNSELING) },
+				{ OID_TOBACCO_PHARMACOTHERAPY,nameof(CqmCatalog.OID_TOBACCO_PHARMACOTHERAPY) },
+			};
+			Assert.AreEqual(OID_TOBACCO_SCREENING,CqmCatalog.OID_TOBACCO_SCREENING);
+			Assert.AreEqual(OID_TOBACCO_USER,CqmCatalog.OID_TOBACCO_USER);
+			Assert.AreEqual(OID_TOBACCO_NON_USER,CqmCatalog.OID_TOBACCO_NON_USER);
+			Assert.AreEqual(OID_TOBACCO_COUNSELING,CqmCatalog.OID_TOBACCO_COUNSELING);
+			Assert.AreEqual(OID_TOBACCO_PHARMACOTHERAPY,CqmCatalog.OID_TOBACCO_PHARMACOTHERAPY);
 			foreach(string path in new[] { @"OpenPmsDental\Forms\FormMedical.cs",@"OpenPmsDental\Forms\FormEhrPatientSmoking.cs" }) {
 				string source=TestPaths.ReadSource(path);
 				foreach(string oid in dictExpected.Keys) {
-					StringAssert.Contains(source,"EhrCodes.GetForValueSetOIDs(new List<string> { \""+oid+"\" },true)",path);
+					StringAssert.Contains(source,"EhrCodes.GetForValueSetOIDs(new List<string> { CqmCatalog."+dictConstants[oid]+" },true)",path);
+					Assert.IsFalse(source.Contains("\""+oid+"\""),path+" names the OID itself: "+oid);
 				}
 			}
 		}
 
 		[TestMethod]
-		public void Pregnancy_DiseaseDefsFindsAProblemWhoseCodeIsInBothPregnancyValueSets() {
+		public void Pregnancy_DiseaseDefsFindsAProblemWhoseCodeIsInThePregnancyValueSet_Alone() {
+			//Since EHR-7 the lookup reads "Pregnancy" alone (the 2027 release has no second pregnancy set): a code in it is found whether or not the
+			//2014 diagnosis set holds it too, and a code only in that old set is not.
 			ImportOrFail(ParseWorkbook(TestValueSetRow.Make(OID_PREGNANCY_DX,"ICD9CM","TEST0101"),TestValueSetRow.Make(OID_PREGNANCY,"ICD9CM","TEST0101"),
 				TestValueSetRow.Make(OID_PREGNANCY,"ICD9CM","TEST0102"),TestValueSetRow.Make(OID_PREGNANCY_DX,"SNOMEDCT","TEST0103"),
-				TestValueSetRow.Make(OID_PREGNANCY,"SNOMEDCT","TEST0103")));
+				TestValueSetRow.Make(OID_PREGNANCY,"SNOMEDCT","TEST0103"),TestValueSetRow.Make(OID_PREGNANCY_DX,"ICD9CM","TEST0104")));
 			ValueSetDb.FillCodeTable("icd9","ICD9Code",1501,"TESTI");
 			EhrCodes.UpdateList();
 			DiseaseDef diseaseDefBoth=new DiseaseDef { DiseaseName="TEST pregnancy in both sets",ICD9Code="TEST0101" };
-			DiseaseDef diseaseDefOne=new DiseaseDef { DiseaseName="TEST pregnancy in one set",ICD9Code="TEST0102" };
+			DiseaseDef diseaseDefOne=new DiseaseDef { DiseaseName="TEST pregnancy in Pregnancy alone",ICD9Code="TEST0102" };
 			DiseaseDef diseaseDefSnomed=new DiseaseDef { DiseaseName="TEST pregnancy SNOMED CT, table not loaded",SnomedCode="TEST0103" };
+			DiseaseDef diseaseDefOld=new DiseaseDef { DiseaseName="TEST pregnancy in the 2014 set alone",ICD9Code="TEST0104" };
 			DiseaseDefs.Insert(diseaseDefBoth);
 			DiseaseDefs.Insert(diseaseDefOne);
 			DiseaseDefs.Insert(diseaseDefSnomed);
+			DiseaseDefs.Insert(diseaseDefOld);
 			DiseaseDefs.RefreshCache();
 			try {
 				List<DiseaseDef> listFound=DiseaseDefs.GetAllPregDiseaseDefs();
-				CollectionAssert.AreEqual(new[] { diseaseDefBoth.DiseaseDefNum },listFound.Select(x => x.DiseaseDefNum).ToList());
-				//Its call names the two value sets (DiseaseDefs.cs:404).
-				StringAssert.Contains(TestPaths.ReadSource(@"OpenPmsDentalBusiness\Data Interface\DiseaseDefs.cs"),
-					"EhrCodes.GetCodesExistingInAllSets(new List<string> { \""+OID_PREGNANCY_DX+"\",\""+OID_PREGNANCY+"\" })");
+				CollectionAssert.AreEquivalent(new[] { diseaseDefBoth.DiseaseDefNum,diseaseDefOne.DiseaseDefNum },listFound.Select(x => x.DiseaseDefNum).ToList());
+				//Its call names the one value set, by the catalog's constant (DiseaseDefs.cs).
+				Assert.AreEqual(OID_PREGNANCY,CqmCatalog.OID_PREGNANCY);
+				string source=TestPaths.ReadSource(@"OpenPmsDentalBusiness\Data Interface\DiseaseDefs.cs");
+				StringAssert.Contains(source,"EhrCodes.GetCodesExistingInAllSets(new List<string> { CqmCatalog.OID_PREGNANCY })");
+				Assert.IsFalse(source.Contains(OID_PREGNANCY_DX),"The 2014 pregnancy diagnosis set is gone.");
 			}
 			finally {
 				DataCore.NonQ("DELETE FROM diseasedef WHERE DiseaseName LIKE 'TEST pregnancy%'");
