@@ -377,6 +377,10 @@ storage it saved the image unedited. The image is now attached as the Imaging mo
 always saved where the attachment points, locally and in SFTP storage alike. Unedited images, text, Word and PDF files are attached as
 they are, also from SFTP storage.
 
+## Claim files: a period in every amount
+
+Claim files (X12 837) and RAMQ amounts now use a period as the decimal separator in every regional setting; before, a regional setting with a decimal comma (such as French (Canada)) wrote a comma there, which neither format allows. With a period, as on every English Windows, the files are byte for byte as before.
+
 ## Switch-over: Insurance History leaves the frequency code groups alone
 
 At the switch-over the ten Insurance History code boxes of Open Dental 25.3 (Preferences, Treatment Plan) become Insurance History rows from

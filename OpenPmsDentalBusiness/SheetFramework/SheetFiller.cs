@@ -3912,12 +3912,7 @@ namespace OpenPmsDentalBusiness {
 				}
 				double paymentValue=SheetDataTableUtil.GetDataTableForGridType(sheet,dataSet,"StatementInvoicePayment",Stmt,null).Select()
 					.Sum(x => PIn.Double(x["amt"].ToString()));
-				sLine1+=procAmt.ToString("c");
-				sLine2+=adjAmt.ToString("c");
-				sLine3+=(procAmt+adjAmt+payPlanAmt).ToString("c");
-				sLine4+=paymentValue.ToString("c");
-				sLine5+=(paymentValue + procAmt + adjAmt + payPlanAmt).ToString("c");
-				sLine6+=payPlanAmt.ToString("c");
+				return GetInvoiceTotalValues(procAmt,adjAmt,payPlanAmt,paymentValue);
 			}
 			else if(Stmt.StatementType==StmtType.LimitedStatement) {
 				List<DataRow> listDataRows=dataSet.Tables.OfType<DataTable>().Where(x => x.TableName.StartsWith("account")).SelectMany(x => x.Rows.OfType<DataRow>()).ToList();
@@ -3932,31 +3927,29 @@ namespace OpenPmsDentalBusiness {
 					.ToList()
 					.Sum(x => PIn.Double(x["chargesDouble"].ToString())-PIn.Double(x["creditsDouble"].ToString()));//add charges-credits
 				if(PrefC.GetBool(PrefName.BalancesDontSubtractIns)) {
-					sLine1+=statementTotal.ToString("c");
+					sLine1+=GetMoneyText(statementTotal);
 				}
 				else {
 					double patInsEst=tableMisc.Rows.OfType<DataRow>()
 						.Where(x=>x["descript"].ToString()=="patInsEst")
 						.Sum(x=>PIn.Double(x["value"].ToString()));
-					sLine1+=statementTotal.ToString("c");
-					sLine2+=patInsEst.ToString("c");
-					sLine3+=(statementTotal-patInsEst).ToString("c");
+					return GetTotalInsBalanceValues(statementTotal,patInsEst);
 				}
 			}
 			else if(PrefC.GetBool(PrefName.BalancesDontSubtractIns)) {
 				if(Stmt.SinglePatient) {
-					sLine1+=pat.EstBalance.ToString("c");
+					sLine1+=GetMoneyText(pat.EstBalance);
 				}
 				else {
 					if(Stmt.SuperFamily!=0) {//Superfam statement
 						//If the family is included in superfamily billing, sum their totals into the running total.
 						//don't include families with negative balances in the total balance for super family (per Nathan 5/25/2016)
 						double balTot=Patients.GetSuperFamilyGuarantors(Stmt.SuperFamily).FindAll(x => x.HasSuperBilling && x.BalTotal>0).Sum(x => x.BalTotal);
-						sLine1+=balTot.ToString("c");
+						sLine1+=GetMoneyText(balTot);
 					}
 					else {
 						//Show the current family's balance without subtracting insurance estimates.
-						sLine1+=patGuar.BalTotal.ToString("c");
+						sLine1+=GetMoneyText(patGuar.BalTotal);
 					}
 				}
 			}
@@ -3968,29 +3961,48 @@ namespace OpenPmsDentalBusiness {
 							patInsEst=PIn.Double(tableMisc.Rows[m]["value"].ToString());
 						}
 					}
-					double patBal=pat.EstBalance-patInsEst;
-					sLine1+=pat.EstBalance.ToString("c");
-					sLine2+=patInsEst.ToString("c");
-					sLine3+=patBal.ToString("c");
+					return GetTotalInsBalanceValues(pat.EstBalance,patInsEst);//the balance is pat.EstBalance-patInsEst
 				}
 				else {
 					if(Stmt.SuperFamily!=0) {//Superfam statement
 						List<Patient> listFamilyGuarantors=Patients.GetSuperFamilyGuarantors(Stmt.SuperFamily).FindAll(x => x.HasSuperBilling && (x.BalTotal-x.InsEst)>=0);
 						double balTot=listFamilyGuarantors.Sum(x => x.BalTotal);
 						double insEst=listFamilyGuarantors.Sum(x => x.InsEst);
-						sLine1+=balTot.ToString("c");
-						sLine2+=insEst.ToString("c");
-						sLine3+=(balTot-insEst).ToString("c");
+						return GetTotalInsBalanceValues(balTot,insEst);
 					}
 					else {
-						sLine1+=patGuar.BalTotal.ToString("c");
-						sLine2+=patGuar.InsEst.ToString("c");
-						sLine3+=(patGuar.BalTotal - patGuar.InsEst).ToString("c");
+						return GetTotalInsBalanceValues(patGuar.BalTotal,patGuar.InsEst);
 					}
 				}
 			}
 			//sLine4, sLine5 and sLine6 are only used in invoices
 			return new string[] { sLine1,sLine2,sLine3,sLine4,sLine5,sLine6 };
+		}
+
+		///<summary>A statement or invoice amount as money text in the current culture ("c"), without a sign on an amount that rounds to zero: a sum
+		///of doubles such as -0.80+0.10+0.70 is about -1.1e-16, which .NET Framework writes "$0.00" and .NET "-$0.00" (net10 plan, S3a-3). The
+		///same text as ToString("c") on .NET Framework.</summary>
+		public static string GetMoneyText(double amount) {
+			return ODNumberText.ToStringNoNegativeZero(amount,"c",CultureInfo.CurrentCulture);
+		}
+
+		///<summary>The six invoice value strings of totInsBalValsHelper: procedures, adjustments, their total with pay plan charges, payments,
+		///the balance remaining, and pay plan charges. The sums are added in the order the statement always used.</summary>
+		public static string[] GetInvoiceTotalValues(double procAmt,double adjAmt,double payPlanAmt,double paymentValue) {
+			return new string[] {
+				GetMoneyText(procAmt),
+				GetMoneyText(adjAmt),
+				GetMoneyText(procAmt+adjAmt+payPlanAmt),
+				GetMoneyText(paymentValue),
+				GetMoneyText(paymentValue + procAmt + adjAmt + payPlanAmt),
+				GetMoneyText(payPlanAmt)
+			};
+		}
+
+		///<summary>The value strings of totInsBalValsHelper for a statement that subtracts insurance: the total, the insurance estimate and the
+		///balance (total-insEst). Lines 4 to 6 are empty; they are only used in invoices.</summary>
+		public static string[] GetTotalInsBalanceValues(double total,double insEst) {
+			return new string[] { GetMoneyText(total),GetMoneyText(insEst),GetMoneyText(total-insEst),"","","" };
 		}
 
 		private static int CompareSheetFieldNames(SheetField input1,SheetField input2) {

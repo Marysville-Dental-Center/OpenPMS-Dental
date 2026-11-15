@@ -13,6 +13,12 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <!-- The G15 and G7 texts .NET Framework 4.8 gave for fixture doubles and floats (S3a-3), the record for S3a-4 and stage 3b. -->
+    <Content Include="Fixtures\G15Texts.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\..\CodeBase\xCodeBase.csproj" />
     <ProjectReference Include="..\..\DataConnectionBase\xDataConnectionBase.csproj" />
     <ProjectReference Include="..\..\OpenPmsDentalBusiness\OpenPmsDentalBusiness.csproj" />
