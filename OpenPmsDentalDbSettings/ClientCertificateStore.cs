@@ -968,6 +968,32 @@ namespace OpenPmsDentalDbSettings {
 			return "certutil "+(keyProvInfo.IsMachine ? "" : "-user ")+"-csp \""+keyProvInfo.ProviderName+"\" -delkey \""+keyProvInfo.ContainerName+"\"";
 		}
 
+		///<summary>The sentence for a record of a certificate whose entry still waits for its earlier key (a put-back that failed or could not be
+		///checked, which a later save tries again while the record names it: the DCFU4 lead fix round, decision 2) when the undo of a failed save
+		///writes the record of the certificate the settings use over it (one record names one certificate; DbSettingsRunner, fix round 5): it
+		///names that certificate, its earlier key, that no later save tries the put-back again, and how an administrator puts it right (the
+		///certutil -delkey command of the key the tool gave it, then the import with its earlier key; without a tool key in the record, how to find
+		///the key the entry names). In the tool's store. Never throws.</summary>
+		public static string GetPutBackNotTriedAgainText(ImportedCertificate importedCertificatePending) {
+			string thumbprint=DbConnectionConfig.NormalizeThumbprint(importedCertificatePending.Thumbprint);
+			StoreLocation storeLocation=GetToolStoreLocation();
+			string storeName=GetToolStoreName();
+			string storeText=storeLocation+"\\"+storeName;
+			string howToCheck="certutil "+(storeLocation==StoreLocation.CurrentUser ? "-user " : "")+"-store \""+storeName+"\" "+thumbprint;
+			string text="The tool's record named the client certificate "+thumbprint+" as well, whose entry in the computer's certificate store ("
+				+storeText+") was still to get its earlier private key ("+importedCertificatePending.KeyBefore.Describe()+") back; the record names one "
+				+"certificate only, so no later save tries that put-back again. ";
+			if(importedCertificatePending.KeyTool!=null) {
+				return text+"Its entry may still name the private key the tool gave it ("+importedCertificatePending.KeyTool.Describe()+"), which the "
+					+"computer's users can read. Check the entry as an administrator ("+howToCheck+"); to put it back as it was, delete the tool's key ("
+					+GetCertutilDeleteKeyText(importedCertificatePending.KeyTool)+"), then import the certificate "+thumbprint+" with its earlier key again.";
+			}
+			return text+"Its entry may still name a private key the tool gave it, which the computer's users can read (the tool's record does not say "
+				+"which key that was). Check the entry as an administrator ("+howToCheck+"); if it does not name its earlier key, import the certificate "
+				+thumbprint+" with that key again, and once no certificate names the key the entry named before, delete it if it is not someone else's "
+				+"(certutil -delkey).";
+		}
+
 		///<summary>The warning for the store entry of the certificate the tool's record names when the entry no longer names the key the record
 		///names (RemoveImported): it stays, with the key someone gave it by hand, which is not the tool's to delete.</summary>
 		private static string GetEntryNotToolsText(string thumbprint,string storeText,CertificateKeyProvInfo keyProvInfoEntry,
