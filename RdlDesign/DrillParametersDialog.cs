@@ -41,14 +41,13 @@ namespace fyiReporting.RdlDesign
 	{
 		private string _DrillReport;
 		private DataTable _DataTable;
-		private DataGridTextBoxColumn dgtbName;
-		private DataGridTextBoxColumn dgtbValue;
-		private DataGridTextBoxColumn dgtbOmit;
-		private System.Windows.Forms.DataGridTableStyle dgTableStyle;
+		private DataGridViewTextBoxColumn dgtbName;
+		private DataGridViewTextBoxColumn dgtbValue;
+		private DataGridViewTextBoxColumn dgtbOmit;
 		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.Button bFile;
 		private System.Windows.Forms.TextBox tbReportFile;
-		private System.Windows.Forms.DataGrid dgParms;
+		private System.Windows.Forms.DataGridView dgParms;
 		private System.Windows.Forms.Button bRefreshParms;
 		private System.Windows.Forms.Button bOK;
 		private System.Windows.Forms.Button bCancel;
@@ -73,11 +72,11 @@ namespace fyiReporting.RdlDesign
 			this.tbReportFile.Text = _DrillReport;
 
 			// Initialize the DataGrid columns
-			dgtbName = new DataGridTextBoxColumn();
-			dgtbValue = new DataGridTextBoxColumn();
-			dgtbOmit = new DataGridTextBoxColumn();
+			dgtbName = new DataGridViewTextBoxColumn();
+			dgtbValue = new DataGridViewTextBoxColumn();
+			dgtbOmit = new DataGridViewTextBoxColumn();
 
-			this.dgTableStyle.GridColumnStyles.AddRange(new DataGridColumnStyle[] {
+			this.dgParms.Columns.AddRange(new DataGridViewColumn[] {
 															this.dgtbName,
 															this.dgtbValue,
 															this.dgtbOmit});
@@ -85,19 +84,19 @@ namespace fyiReporting.RdlDesign
 			// dgtbFE
 			// 
 			dgtbName.HeaderText = "Parameter Name";
-			dgtbName.MappingName = "ParameterName";
+			dgtbName.DataPropertyName = "ParameterName";
 			dgtbName.Width = 75;
 			// 
 			// dgtbValue
 			// 
 			this.dgtbValue.HeaderText = "Value";
-			this.dgtbValue.MappingName = "Value";
+			this.dgtbValue.DataPropertyName = "Value";
 			this.dgtbValue.Width = 75;
 			// 
 			// dgtbOmit
 			// 
 			this.dgtbOmit.HeaderText = "Omit";
-			this.dgtbOmit.MappingName = "Omit";
+			this.dgtbOmit.DataPropertyName = "Omit";
 			this.dgtbOmit.Width = 75;
 
 			// Initialize the DataTable
@@ -123,12 +122,13 @@ namespace fyiReporting.RdlDesign
 //			dv.AllowNew = false;
 			this.dgParms.DataSource = _DataTable;
 
-			DataGridTableStyle ts = dgParms.TableStyles[0];
 			
-			ts.GridColumnStyles[0].Width = 140;
-			ts.GridColumnStyles[0].ReadOnly = true;
-			ts.GridColumnStyles[1].Width = 140;
-			ts.GridColumnStyles[2].Width = 70;
+			dgParms.Columns[0].Width = 140;
+			dgParms.Columns[0].ReadOnly = true;
+			dgParms.Columns[1].Width = 140;
+			dgParms.Columns[2].Width = 70;
+			DataGridViewSetup.SetNotSortable(this.dgParms);
+			DataGridViewSetup.CommitOnLeave(this.dgParms);
 
 		}
 
@@ -155,8 +155,7 @@ namespace fyiReporting.RdlDesign
 		private void InitializeComponent()
 		{
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DrillParametersDialog));
-			this.dgParms = new System.Windows.Forms.DataGrid();
-			this.dgTableStyle = new System.Windows.Forms.DataGridTableStyle();
+			this.dgParms = new System.Windows.Forms.DataGridView();
 			this.label1 = new System.Windows.Forms.Label();
 			this.tbReportFile = new System.Windows.Forms.TextBox();
 			this.bFile = new System.Windows.Forms.Button();
@@ -168,21 +167,13 @@ namespace fyiReporting.RdlDesign
 			// 
 			// dgParms
 			// 
-			this.dgParms.CaptionVisible = false;
+			this.dgParms.AutoGenerateColumns = false;
 			this.dgParms.DataMember = "";
-			this.dgParms.HeaderForeColor = System.Drawing.SystemColors.ControlText;
+			this.dgParms.ColumnHeadersDefaultCellStyle.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.dgParms.Location = new System.Drawing.Point(8,40);
 			this.dgParms.Name = "dgParms";
 			this.dgParms.Size = new System.Drawing.Size(384,168);
 			this.dgParms.TabIndex = 2;
-			this.dgParms.TableStyles.AddRange(new System.Windows.Forms.DataGridTableStyle[] {
-            this.dgTableStyle});
-			// 
-			// dgTableStyle
-			// 
-			this.dgTableStyle.AllowSorting = false;
-			this.dgTableStyle.DataGrid = this.dgParms;
-			this.dgTableStyle.HeaderForeColor = System.Drawing.SystemColors.ControlText;
 			// 
 			// label1
 			// 

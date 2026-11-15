@@ -39,14 +39,13 @@ namespace fyiReporting.RdlDesign
 		private DesignXmlDraw _Draw;
 		private XmlNode _SortingParent;
 		private DataTable _DataTable;
-		private DataGridTextBoxColumn dgtbExpr;
-		private DataGridBoolColumn dgtbDir;
+		private DataGridViewTextBoxColumn dgtbExpr;
+		private DataGridViewCheckBoxColumn dgtbDir;
 
 		private System.Windows.Forms.Button bDelete;
-		private System.Windows.Forms.DataGridTableStyle dgTableStyle;
 		private System.Windows.Forms.Button bUp;
 		private System.Windows.Forms.Button bDown;
-		private System.Windows.Forms.DataGrid dgSorting;
+		private System.Windows.Forms.DataGridView dgSorting;
 		private System.Windows.Forms.Button bValueExpr;
 		/// <summary> 
 		/// Required designer variable.
@@ -67,11 +66,11 @@ namespace fyiReporting.RdlDesign
 		private void InitValues()
 		{
 			// Initialize the DataGrid columns
-			dgtbExpr = new DataGridTextBoxColumn();
+			dgtbExpr = new DataGridViewTextBoxColumn();
 		
-			dgtbDir = new DataGridBoolColumn();
+			dgtbDir = new DataGridViewCheckBoxColumn();
 
-			this.dgTableStyle.GridColumnStyles.AddRange(new DataGridColumnStyle[] {
+			this.dgSorting.Columns.AddRange(new DataGridViewColumn[] {
 															this.dgtbExpr,
 															this.dgtbDir});
 			// 
@@ -79,7 +78,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			
 			dgtbExpr.HeaderText = "Sort Expression";
-			dgtbExpr.MappingName = "SortExpression";
+			dgtbExpr.DataPropertyName = "SortExpression";
 			dgtbExpr.Width = 75;
 			// Get the parent's dataset name
 //			string dataSetName = _Draw.GetDataSetNameValue(_SortingParent);
@@ -91,9 +90,9 @@ namespace fyiReporting.RdlDesign
 			// dgtbDir
 			// 
 			dgtbDir.HeaderText = "Sort Ascending";
-			dgtbDir.MappingName = "Direction";
+			dgtbDir.DataPropertyName = "Direction";
 			dgtbDir.Width = 70;
-			dgtbDir.AllowNull = false;
+			dgtbDir.ThreeState = false;		// the DataGrid's AllowNull = false: checked or not, no third state
 
 			// Initialize the DataTable
 			_DataTable = new DataTable();
@@ -117,11 +116,12 @@ namespace fyiReporting.RdlDesign
 
 				_DataTable.Rows.Add(rowValues);
 			}
+			dgSorting.RowTemplate.Height = 14;		// the table style's PreferredRowHeight, before the rows are made
 			this.dgSorting.DataSource = _DataTable;
-			DataGridTableStyle ts = dgSorting.TableStyles[0];
-			ts.PreferredRowHeight = 14;
-			ts.GridColumnStyles[0].Width = 240;
-			ts.GridColumnStyles[1].Width = 90;
+			DataGridViewSetup.SetNotSortable(this.dgSorting);
+			DataGridViewSetup.CommitOnLeave(this.dgSorting);
+			dgSorting.Columns[0].Width = 240;
+			dgSorting.Columns[1].Width = 90;
 		}
 
 		/// <summary> 
@@ -146,8 +146,7 @@ namespace fyiReporting.RdlDesign
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.dgSorting = new System.Windows.Forms.DataGrid();
-			this.dgTableStyle = new System.Windows.Forms.DataGridTableStyle();
+			this.dgSorting = new System.Windows.Forms.DataGridView();
 			this.bDelete = new System.Windows.Forms.Button();
 			this.bUp = new System.Windows.Forms.Button();
 			this.bDown = new System.Windows.Forms.Button();
@@ -157,22 +156,13 @@ namespace fyiReporting.RdlDesign
 			// 
 			// dgSorting
 			// 
-			this.dgSorting.CaptionVisible = false;
+			this.dgSorting.AutoGenerateColumns = false;
 			this.dgSorting.DataMember = "";
-			this.dgSorting.HeaderForeColor = System.Drawing.SystemColors.ControlText;
+			this.dgSorting.ColumnHeadersDefaultCellStyle.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.dgSorting.Location = new System.Drawing.Point(8, 8);
 			this.dgSorting.Name = "dgSorting";
 			this.dgSorting.Size = new System.Drawing.Size(376, 264);
 			this.dgSorting.TabIndex = 0;
-			this.dgSorting.TableStyles.AddRange(new System.Windows.Forms.DataGridTableStyle[] {
-																								  this.dgTableStyle});
-			// 
-			// dgTableStyle
-			// 
-			this.dgTableStyle.AllowSorting = false;
-			this.dgTableStyle.DataGrid = this.dgSorting;
-			this.dgTableStyle.HeaderForeColor = System.Drawing.SystemColors.ControlText;
-			this.dgTableStyle.MappingName = "";
 			// 
 			// bDelete
 			// 
@@ -235,6 +225,7 @@ namespace fyiReporting.RdlDesign
 
 		public void Apply()
 		{
+			DataGridViewSetup.CommitEdits(this.dgSorting);
 			// Remove the old filters
 			XmlNode sorts = null;
 			_Draw.RemoveElement(_SortingParent, "Sorting");
@@ -260,29 +251,30 @@ namespace fyiReporting.RdlDesign
 
 		private void bDelete_Click(object sender, System.EventArgs e)
 		{
-			this._DataTable.Rows.RemoveAt(this.dgSorting.CurrentRowIndex);
+			if (DataGridViewSetup.IsCurrentRowData(this.dgSorting))		// not the new row at the end, which has no row in the table yet
+				this._DataTable.Rows.RemoveAt(DataGridViewSetup.GetCurrentRowIndex(this.dgSorting));
 		}
 
 		private void bUp_Click(object sender, System.EventArgs e)
 		{
-			int cr = dgSorting.CurrentRowIndex;
+			int cr = DataGridViewSetup.GetCurrentRowIndex(dgSorting);
 			if (cr <= 0)		// already at the top
 				return;
 			
 			SwapRow(_DataTable.Rows[cr-1], _DataTable.Rows[cr]);
-			dgSorting.CurrentRowIndex = cr-1;
+			DataGridViewSetup.SetCurrentRowIndex(dgSorting, cr-1);
 		}
 
 		private void bDown_Click(object sender, System.EventArgs e)
 		{
-			int cr = dgSorting.CurrentRowIndex;
+			int cr = DataGridViewSetup.GetCurrentRowIndex(dgSorting);
 			if (cr < 0)			// invalid index
 				return;
 			if (cr + 1 >= _DataTable.Rows.Count)
 				return;			// already at end
 			
 			SwapRow(_DataTable.Rows[cr+1], _DataTable.Rows[cr]);
-			dgSorting.CurrentRowIndex = cr+1;
+			DataGridViewSetup.SetCurrentRowIndex(dgSorting, cr+1);
 		}
 
 		private void SwapRow(DataRow tdr, DataRow fdr)
@@ -304,15 +296,16 @@ namespace fyiReporting.RdlDesign
 
 		private void bValueExpr_Click(object sender, System.EventArgs e)
 		{
-			int cr = dgSorting.CurrentRowIndex;
-			if (cr < 0)
-			{	// No rows yet; create one
+			DataGridViewSetup.CommitEdits(dgSorting);
+			int cr = DataGridViewSetup.GetCurrentRowIndex(dgSorting);
+			if (cr < 0 || cr >= _DataTable.Rows.Count)
+			{	// No rows yet (or the new row at the end, which has no row in the table); create one
 				string[] rowValues = new string[2];
 				rowValues[0] = null;
 				rowValues[1] = null;
 
 				_DataTable.Rows.Add(rowValues);
-				cr = 0;
+				cr = _DataTable.Rows.Count-1;
 			}
 			int cc = 0;
 			DataRow dr = _DataTable.Rows[cr];

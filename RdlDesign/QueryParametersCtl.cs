@@ -40,10 +40,9 @@ namespace fyiReporting.RdlDesign
 	{
 		private DesignXmlDraw _Draw;
 		private DataSetValues _dsv;
-		private DataGridTextBoxColumn dgtbName;
-		private DataGridTextBoxColumn dgtbValue;
-		private System.Windows.Forms.DataGridTableStyle dgTableStyle;
-		private System.Windows.Forms.DataGrid dgParms;
+		private DataGridViewTextBoxColumn dgtbName;
+		private DataGridViewTextBoxColumn dgtbValue;
+		private System.Windows.Forms.DataGridView dgParms;
 		/// <summary> 
 		/// Required designer variable.
 		/// </summary>
@@ -63,23 +62,23 @@ namespace fyiReporting.RdlDesign
 		private void InitValues()
 		{
 			// Initialize the DataGrid columns
-			dgtbName = new DataGridTextBoxColumn();
-			dgtbValue = new DataGridTextBoxColumn();
+			dgtbName = new DataGridViewTextBoxColumn();
+			dgtbValue = new DataGridViewTextBoxColumn();
 
-			this.dgTableStyle.GridColumnStyles.AddRange(new DataGridColumnStyle[] {
+			this.dgParms.Columns.AddRange(new DataGridViewColumn[] {
 															this.dgtbName,
 															this.dgtbValue});
 			// 
 			// dgtbFE
 			// 
 			dgtbName.HeaderText = "Parameter Name";
-			dgtbName.MappingName = "Name";
+			dgtbName.DataPropertyName = "Name";
 			dgtbName.Width = 75;
 			// 
 			// dgtbValue
 			// 
 			this.dgtbValue.HeaderText = "Value";
-			this.dgtbValue.MappingName = "Value";
+			this.dgtbValue.DataPropertyName = "Value";
 			this.dgtbValue.Width = 75;
 //			string[] parms = _Draw.GetReportParameters(true);
 //			if (parms != null)
@@ -88,9 +87,10 @@ namespace fyiReporting.RdlDesign
 			// Initialize the DataGrid
 			this.dgParms.DataSource = _dsv.QueryParameters;
 
-			DataGridTableStyle ts = dgParms.TableStyles[0];
-			ts.GridColumnStyles[0].Width = 140;
-			ts.GridColumnStyles[1].Width = 140;
+			dgParms.Columns[0].Width = 140;
+			dgParms.Columns[1].Width = 140;
+			DataGridViewSetup.SetNotSortable(this.dgParms);
+			DataGridViewSetup.CommitOnLeave(this.dgParms);
 		}
 
 		/// <summary> 
@@ -115,29 +115,19 @@ namespace fyiReporting.RdlDesign
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.dgParms = new System.Windows.Forms.DataGrid();
-			this.dgTableStyle = new System.Windows.Forms.DataGridTableStyle();
+			this.dgParms = new System.Windows.Forms.DataGridView();
 			((System.ComponentModel.ISupportInitialize)(this.dgParms)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// dgParms
 			// 
-			this.dgParms.CaptionVisible = false;
+			this.dgParms.AutoGenerateColumns = false;
 			this.dgParms.DataMember = "";
-			this.dgParms.HeaderForeColor = System.Drawing.SystemColors.ControlText;
+			this.dgParms.ColumnHeadersDefaultCellStyle.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.dgParms.Location = new System.Drawing.Point(8, 8);
 			this.dgParms.Name = "dgParms";
 			this.dgParms.Size = new System.Drawing.Size(384, 168);
 			this.dgParms.TabIndex = 2;
-			this.dgParms.TableStyles.AddRange(new System.Windows.Forms.DataGridTableStyle[] {
-																								this.dgTableStyle});
-			// 
-			// dgTableStyle
-			// 
-			this.dgTableStyle.AllowSorting = false;
-			this.dgTableStyle.DataGrid = this.dgParms;
-			this.dgTableStyle.HeaderForeColor = System.Drawing.SystemColors.ControlText;
-			this.dgTableStyle.MappingName = "";
 			// 
 			// SubreportCtl
 			// 

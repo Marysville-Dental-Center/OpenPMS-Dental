@@ -41,16 +41,15 @@ namespace fyiReporting.RdlDesign
 		private DesignXmlDraw _Draw;
 		private XmlNode _Subreport;
 		private DataTable _DataTable;
-		private DataGridTextBoxColumn dgtbName;
-		private DataGridTextBoxColumn dgtbValue;
-		private System.Windows.Forms.DataGridTableStyle dgTableStyle;
+		private DataGridViewTextBoxColumn dgtbName;
+		private DataGridViewTextBoxColumn dgtbValue;
 		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.Button bFile;
 		private System.Windows.Forms.TextBox tbReportFile;
 		private System.Windows.Forms.TextBox tbNoRows;
 		private System.Windows.Forms.Label label2;
 		private System.Windows.Forms.CheckBox chkMergeTrans;
-		private System.Windows.Forms.DataGrid dgParms;
+		private System.Windows.Forms.DataGridView dgParms;
 		private System.Windows.Forms.Button bRefreshParms;
 		/// <summary> 
 		/// Required designer variable.
@@ -75,17 +74,17 @@ namespace fyiReporting.RdlDesign
 			this.chkMergeTrans.Checked = _Draw.GetElementValue(_Subreport, "MergeTransactions", "false").ToLower() == "true";
 
 			// Initialize the DataGrid columns
-			dgtbName = new DataGridTextBoxColumn();
-			dgtbValue = new DataGridTextBoxColumn();
+			dgtbName = new DataGridViewTextBoxColumn();
+			dgtbValue = new DataGridViewTextBoxColumn();
 
-			this.dgTableStyle.GridColumnStyles.AddRange(new DataGridColumnStyle[] {
+			this.dgParms.Columns.AddRange(new DataGridViewColumn[] {
 															this.dgtbName,
 															this.dgtbValue});
 			// 
 			// dgtbFE
 			// 
 			dgtbName.HeaderText = "Parameter Name";
-			dgtbName.MappingName = "ParameterName";
+			dgtbName.DataPropertyName = "ParameterName";
 			dgtbName.Width = 75;
 			// Get the parent's dataset name
 //			string dataSetName = _Draw.GetDataSetNameValue(_FilterParent);
@@ -97,7 +96,7 @@ namespace fyiReporting.RdlDesign
 			// dgtbValue
 			// 
 			this.dgtbValue.HeaderText = "Value";
-			this.dgtbValue.MappingName = "Value";
+			this.dgtbValue.DataPropertyName = "Value";
 			this.dgtbValue.Width = 75;
 //			string[] parms = _Draw.GetReportParameters(true);
 //			if (parms != null)
@@ -127,10 +126,11 @@ namespace fyiReporting.RdlDesign
 //			dv.AllowNew = false;
 			this.dgParms.DataSource = _DataTable;
 
-			DataGridTableStyle ts = dgParms.TableStyles[0];
-			ts.GridColumnStyles[0].Width = 140;
-			ts.GridColumnStyles[0].ReadOnly = true;
-			ts.GridColumnStyles[1].Width = 140;
+			dgParms.Columns[0].Width = 140;
+			dgParms.Columns[0].ReadOnly = true;
+			dgParms.Columns[1].Width = 140;
+			DataGridViewSetup.SetNotSortable(this.dgParms);
+			DataGridViewSetup.CommitOnLeave(this.dgParms);
 		}
 
 		/// <summary> 
@@ -155,8 +155,7 @@ namespace fyiReporting.RdlDesign
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.dgParms = new System.Windows.Forms.DataGrid();
-			this.dgTableStyle = new System.Windows.Forms.DataGridTableStyle();
+			this.dgParms = new System.Windows.Forms.DataGridView();
 			this.label1 = new System.Windows.Forms.Label();
 			this.tbReportFile = new System.Windows.Forms.TextBox();
 			this.bFile = new System.Windows.Forms.Button();
@@ -169,22 +168,13 @@ namespace fyiReporting.RdlDesign
 			// 
 			// dgParms
 			// 
-			this.dgParms.CaptionVisible = false;
+			this.dgParms.AutoGenerateColumns = false;
 			this.dgParms.DataMember = "";
-			this.dgParms.HeaderForeColor = System.Drawing.SystemColors.ControlText;
+			this.dgParms.ColumnHeadersDefaultCellStyle.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.dgParms.Location = new System.Drawing.Point(8, 112);
 			this.dgParms.Name = "dgParms";
 			this.dgParms.Size = new System.Drawing.Size(384, 168);
 			this.dgParms.TabIndex = 2;
-			this.dgParms.TableStyles.AddRange(new System.Windows.Forms.DataGridTableStyle[] {
-																								this.dgTableStyle});
-			// 
-			// dgTableStyle
-			// 
-			this.dgTableStyle.AllowSorting = false;
-			this.dgTableStyle.DataGrid = this.dgParms;
-			this.dgTableStyle.HeaderForeColor = System.Drawing.SystemColors.ControlText;
-			this.dgTableStyle.MappingName = "";
 			// 
 			// label1
 			// 
@@ -272,6 +262,7 @@ namespace fyiReporting.RdlDesign
 
 		public void Apply()
 		{
+			DataGridViewSetup.CommitEdits(this.dgParms);
 			_Draw.SetElement(_Subreport, "ReportName", this.tbReportFile.Text);
 			if (this.tbNoRows.Text.Trim().Length == 0)
 				_Draw.RemoveElement(_Subreport, "NoRows");

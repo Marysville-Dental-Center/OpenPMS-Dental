@@ -40,10 +40,9 @@ namespace fyiReporting.RdlDesign
 	internal class DialogValidValues : System.Windows.Forms.Form
 	{
 		private DataTable _DataTable;
-		private DataGridTextBoxColumn dgtbLabel;
-		private DataGridTextBoxColumn dgtbValue;
-		private System.Windows.Forms.DataGridTableStyle dgTableStyle;
-		private System.Windows.Forms.DataGrid dgParms;
+		private DataGridViewTextBoxColumn dgtbLabel;
+		private DataGridViewTextBoxColumn dgtbValue;
+		private System.Windows.Forms.DataGridView dgParms;
 		private System.Windows.Forms.Button bOK;
 		private System.Windows.Forms.Button bCancel;
 		private System.Windows.Forms.Button bDelete;
@@ -93,23 +92,23 @@ namespace fyiReporting.RdlDesign
         private void InitValues(List<ParameterValueItem> list)
 		{
 			// Initialize the DataGrid columns
-			dgtbLabel = new DataGridTextBoxColumn();
-			dgtbValue = new DataGridTextBoxColumn();
+			dgtbLabel = new DataGridViewTextBoxColumn();
+			dgtbValue = new DataGridViewTextBoxColumn();
 
-			this.dgTableStyle.GridColumnStyles.AddRange(new DataGridColumnStyle[] {
+			this.dgParms.Columns.AddRange(new DataGridViewColumn[] {
 															this.dgtbValue,
 															this.dgtbLabel});
 			// 
 			// dgtbFE
 			// 
 			dgtbValue.HeaderText = "Value";
-			dgtbValue.MappingName = "Value";
+			dgtbValue.DataPropertyName = "Value";
 			dgtbValue.Width = 75;
 			// 
 			// dgtbValue
 			// 
 			this.dgtbLabel.HeaderText = "Label";
-			this.dgtbLabel.MappingName = "Label";
+			this.dgtbLabel.DataPropertyName = "Label";
 			this.dgtbLabel.Width = 75;
 
 			// Initialize the DataGrid
@@ -132,9 +131,10 @@ namespace fyiReporting.RdlDesign
 			this.dgParms.DataSource = _DataTable;
 
 			////
-			DataGridTableStyle ts = dgParms.TableStyles[0];
-			ts.GridColumnStyles[0].Width = 140;
-			ts.GridColumnStyles[1].Width = 140;
+			dgParms.Columns[0].Width = 140;
+			dgParms.Columns[1].Width = 140;
+			DataGridViewSetup.SetNotSortable(this.dgParms);
+			DataGridViewSetup.CommitOnLeave(this.dgParms);
 		}
 
 		/// <summary> 
@@ -159,8 +159,7 @@ namespace fyiReporting.RdlDesign
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.dgParms = new System.Windows.Forms.DataGrid();
-			this.dgTableStyle = new System.Windows.Forms.DataGridTableStyle();
+			this.dgParms = new System.Windows.Forms.DataGridView();
 			this.bOK = new System.Windows.Forms.Button();
 			this.bCancel = new System.Windows.Forms.Button();
 			this.bDelete = new System.Windows.Forms.Button();
@@ -169,22 +168,13 @@ namespace fyiReporting.RdlDesign
 			// 
 			// dgParms
 			// 
-			this.dgParms.CaptionVisible = false;
+			this.dgParms.AutoGenerateColumns = false;
 			this.dgParms.DataMember = "";
-			this.dgParms.HeaderForeColor = System.Drawing.SystemColors.ControlText;
+			this.dgParms.ColumnHeadersDefaultCellStyle.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.dgParms.Location = new System.Drawing.Point(8, 8);
 			this.dgParms.Name = "dgParms";
 			this.dgParms.Size = new System.Drawing.Size(320, 168);
 			this.dgParms.TabIndex = 2;
-			this.dgParms.TableStyles.AddRange(new System.Windows.Forms.DataGridTableStyle[] {
-																								this.dgTableStyle});
-			// 
-			// dgTableStyle
-			// 
-			this.dgTableStyle.AllowSorting = false;
-			this.dgTableStyle.DataGrid = this.dgParms;
-			this.dgTableStyle.HeaderForeColor = System.Drawing.SystemColors.ControlText;
-			this.dgTableStyle.MappingName = "";
 			// 
 			// bOK
 			// 
@@ -236,7 +226,8 @@ namespace fyiReporting.RdlDesign
 
 		private void bDelete_Click(object sender, System.EventArgs e)
 		{
-			this._DataTable.Rows.RemoveAt(this.dgParms.CurrentRowIndex);
+			if (DataGridViewSetup.IsCurrentRowData(this.dgParms))		// not the new row at the end, which has no row in the table yet
+				this._DataTable.Rows.RemoveAt(DataGridViewSetup.GetCurrentRowIndex(this.dgParms));
 		}
 
 
