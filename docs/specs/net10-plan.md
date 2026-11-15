@@ -864,6 +864,16 @@ claim-attachment `OutOfMemoryException` catches and `FrmAtoZFoldersCreate`'s `Di
 `NoHqTests/ShellStartScanTests.cs` is the branch's last commit (`20cde33ac`), merged after S3a-10, with no known pending site (PrefL.cs
 is scanned like the rest). Targeted runs green, P262LinksTests included.
 
+**Status (2026-11-15), S3a-FU1.** Merged from `net10/s3a-fu1-1` (with the lead's fix: the shared HL7 event log source is never removed) (`docs/port-notes/S3a-7.md` section S3a-FU1, `docs/port-notes/S3a-5.md` section
+7.8), the non-blocking review leftovers of S3a-7 and S3a-5f: the stop after `sc.exe delete` waits 15 seconds; Install registers the Application
+event log source of the service's name (and `OpenPmsDentalHL7` for the HL7 exe) after a successful create and Uninstall removes the name's
+source, behind seams; Uninstall reports its branch, which ServiceManager reads; an exe path ending in `\` is refused; the unused
+`System.Configuration.Install` reference of `ReleaseFlowTests.csproj` and the InstallUtil fallback of the binaries audit are gone. The
+migration's retry line says how many failed entries are not named, a retry start without the vault counts as a try, and `ClearCredentials`
+drops the address from the retry line; the credential tests clean up through `TestCredentialStore.Run` and assert only after a body that
+succeeded. Two processes retrying together is a note only; the project baseline's `ProjectInstaller.cs` line stays for the lead. Full lane
+build 0 errors; Targeted runs green (BINBTests, ReleaseFlowTests, NoHqTests, MiddleTierMockTests, LibraryBindingTests).
+
 **Full-test gate.** Section 3, plus: the golden outputs and known answers recorded and committed; the source-scan tests pass; the
 launch checks for 3a (section 6) done with screenshots, including a self-update from a standard user; the x64 test runs (S3a-12, S3a-15)
 and the x64 build of `Direct2dWrapper` (S3a-16) pass; the helper's tests pass, and its links are launch-checked where a test PC has the
