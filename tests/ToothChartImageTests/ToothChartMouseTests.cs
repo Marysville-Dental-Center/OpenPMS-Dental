@@ -6,8 +6,10 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -266,6 +268,11 @@ namespace ToothChartImageTests {
 			});
 		}
 
+		///<summary>TC-9a: set to 1 to record the DirectX chart's answers of DirectX_GivesTheSameSelectionsAndStrings_ForTheSameInput into
+		///Baselines\legacy-numbers\directx-mouse.txt, while the DirectX engine is still in the build.</summary>
+		public const string EnvRecordDirectXMouse="OPMS_RECORD_DIRECTX_MOUSE";
+		public const string FileDirectXMouse="directx-mouse.txt";
+
 		[TestMethod]
 		public void DirectX_GivesTheSameSelectionsAndStrings_ForTheSameInput() {
 			if(!Environment.UserInteractive) {
@@ -286,12 +293,20 @@ namespace ToothChartImageTests {
 					}
 					//The module size, where GetPointMouseScaled changes nothing; the printout size and 150% of the module, where the SegmentDrawn strings are
 					//scaled into 410x307 and rounded to tenths; and the big chart window.
+					List<string> listRecord=new List<string>();
+					listRecord.Add("# Today's DirectX chart's answers to the input of ToothChartMouseTests (DirectX_GivesTheSameSelectionsAndStrings_ForTheSameInput),");
+					listRecord.Add("# recorded before TC-9a retired the DirectX chart. Per size: each input (tool, kind, point) and the selected teeth after it, then the");
+					listRecord.Add("# SegmentDrawn strings in order, the count of committed selections and the drawings (segment|colour) at the end.");
 					foreach(ChartSize chartSize in new[] { ChartScenes.SizeModule,ChartScenes.SizePrintout,new ChartSize(615,461,ChartColorSet.Module),
 						ChartScenes.SizeBigWindow })
 					{
-						CompareWithDirectX(form,directXFormat,chartSize);
+						CompareWithDirectX(form,directXFormat,chartSize,listRecord);
 					}
 					form.Close();
+					if(Environment.GetEnvironmentVariable(EnvRecordDirectXMouse)=="1") {
+						Directory.CreateDirectory(TestPaths.BaselinesLegacyNumbers);
+						File.WriteAllLines(Path.Combine(TestPaths.BaselinesLegacyNumbers,FileDirectXMouse),listRecord,new UTF8Encoding(false));
+					}
 				}
 				finally {
 					Thread.CurrentThread.CurrentCulture=cultureOld;
@@ -301,7 +316,7 @@ namespace ToothChartImageTests {
 
 		///<summary>The same input to a DirectX chart of the size on the form and to the shared class on a copy of its data: hovers, clicks, a drag, a pen
 		///stroke, the colour changer and the eraser, at points scaled from the module's (the drawings of "drawing-segments" are in the 410x307 space).</summary>
-		private static void CompareWithDirectX(Form form,string directXFormat,ChartSize chartSize) {
+		private static void CompareWithDirectX(Form form,string directXFormat,ChartSize chartSize,List<string> listRecord) {
 			Size size=chartSize.Size;
 			string sizeName=size.Width+"x"+size.Height;
 			using ToothChartWrapper wrapperDirectX=DirectXCharts.CreateWrapper(form,size,directXFormat);
@@ -362,6 +377,16 @@ namespace ToothChartImageTests {
 				}
 				CollectionAssert.AreEquivalent(wrapperDirectX.TcData.SelectedTeeth,tcDataShared.SelectedTeeth,sizeName+": "+input.Item1+" "+input.Item2+" at "
 					+input.Item3);
+				listRecord.Add(sizeName+"\tinput\t"+listInput.IndexOf(input)+"\t"+input.Item1+"\t"+input.Item2+"\t"+input.Item3.X+","+input.Item3.Y+"\t"
+					+string.Join(",",wrapperDirectX.TcData.SelectedTeeth));
+			}
+			for(int i=0;i<listSegmentsDirectX.Count;i++) {
+				listRecord.Add(sizeName+"\tsegment\t"+i+"\t"+listSegmentsDirectX[i]);
+			}
+			listRecord.Add(sizeName+"\tselections\t"+countSelectionsDirectX);
+			for(int i=0;i<wrapperDirectX.TcData.DrawingSegmentList.Count;i++) {
+				listRecord.Add(sizeName+"\tdrawing\t"+i+"\t"+wrapperDirectX.TcData.DrawingSegmentList[i].DrawingSegment+"|"
+					+wrapperDirectX.TcData.DrawingSegmentList[i].ColorDraw.ToArgb());
 			}
 			CollectionAssert.AreEqual(listSegmentsDirectX,mouseLog.ListSegments,sizeName+": the same SegmentDrawn strings, in order.");
 			Assert.AreEqual(countSelectionsDirectX,mouseLog.CountSelectionsChanged,sizeName+": the same commits of the selection.");

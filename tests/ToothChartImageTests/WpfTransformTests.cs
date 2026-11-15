@@ -91,6 +91,50 @@ namespace ToothChartImageTests {
 			});
 		}
 
+		///<summary>TC-9a: set to 1 to record the DirectX chain's screen point of every sample vertex of SampleVertices_... into
+		///Baselines\legacy-numbers\directx-transforms.txt, while SharpDX.Mathematics is still referenced.</summary>
+		public const string EnvRecordDirectXTransforms="OPMS_RECORD_DIRECTX_TRANSFORMS";
+		public const string FileDirectXTransforms="directx-transforms.txt";
+
+		///<summary>The key of a sample vertex in the recording: the scene's index and size, the item's source and group, and the vertex.</summary>
+		public static string GetTransformKey(int indexScene,ToothScene toothScene,ToothSceneItem3D item,int vertex) {
+			return indexScene+"\t"+toothScene.Size.Width+"x"+toothScene.Size.Height+"\t"+item.Source+"\t"+item.GroupIndex+"\t"+vertex;
+		}
+
+		[TestMethod]
+		public void RecordDirectXTransforms() {
+			if(Environment.GetEnvironmentVariable(EnvRecordDirectXTransforms)!="1") {
+				Assert.Inconclusive("Records only with "+EnvRecordDirectXTransforms+"=1.");
+			}
+			StaRunner.Run(() => {
+				List<string> listLines=new List<string>();
+				listLines.Add("# The DirectX chain's screen point (SharpDX.Matrix and Vector3.Project, as ToothChartDirectX computed it) of every sample vertex of");
+				listLines.Add("# WpfTransformTests.SampleVertices_..., recorded before TC-9a retired the DirectX chart and the SharpDX.Mathematics reference.");
+				listLines.Add("# Scene\tSize\tSource\tGroup\tVertex\tX\tY (pixels, DirectX 9's pixel centres on whole numbers; round-trip floats)");
+				int indexScene=0;
+				foreach(KeyValuePair<ToothChartData,ToothScene> pair in BuildTransformScenes()) {
+					ToothChartData tcData=pair.Key;
+					ToothScene toothScene=pair.Value;
+					SharpDX.Matrix matrixProjection=GetDirectXProjection(tcData);
+					foreach(ToothSceneItem3D item in toothScene.Items3D) {
+						ToothGraphic toothGraphicModel=tcData.ListToothGraphics[item.ToothId];
+						SharpDX.Matrix matrixScreen=GetDirectXWorld(tcData,item.Source)*SharpDX.Matrix.Identity*matrixProjection;
+						for(int v=item.GroupIndex%37;v<toothGraphicModel.VertexNormals.Count;v+=37) {
+							Vertex3f vertex=toothGraphicModel.VertexNormals[v].Vertex;
+							SharpDX.Vector3 vectorScreen=SharpDX.Vector3.Project(new SharpDX.Vector3(vertex.X,vertex.Y,vertex.Z),0,0,toothScene.Size.Width,
+								toothScene.Size.Height,0,1,matrixScreen);
+							listLines.Add(GetTransformKey(indexScene,toothScene,item,v)+"\t"+vectorScreen.X.ToString("R",System.Globalization.CultureInfo.InvariantCulture)
+								+"\t"+vectorScreen.Y.ToString("R",System.Globalization.CultureInfo.InvariantCulture));
+						}
+					}
+					indexScene++;
+				}
+				System.IO.Directory.CreateDirectory(TestPaths.BaselinesLegacyNumbers);
+				System.IO.File.WriteAllLines(System.IO.Path.Combine(TestPaths.BaselinesLegacyNumbers,FileDirectXTransforms),listLines,new System.Text.UTF8Encoding(false));
+				Console.WriteLine((listLines.Count-3)+" sample vertices recorded.");
+			});
+		}
+
 		[TestMethod]
 		public void MarkerVertex_LandsOnTheSamePixel_InThe3DLayerAndThe2DLayer() {
 			StaRunner.Run(() => {
