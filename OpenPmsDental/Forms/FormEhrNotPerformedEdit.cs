@@ -47,7 +47,7 @@ namespace OpenPmsDental {
 					break;
 			}
 			List<EhrCode> listEhrCodes=EhrCodes.GetForValueSetOIDs(listValueSetOIDs,true);
-			if(listEhrCodes.Count==0) {//This should only happen if the EHR.dll does not exist or if the codes in the ehrcode list do not exist in the corresponding table
+			if(listEhrCodes.Count==0) {//Happens until the office imports the value sets (Setup, Chart, EHR, Code System Importer), or while the code system's table of these codes is not loaded
 				MsgBox.Show(this,"The codes used for Not Performed items do not exist in the table in your database.  You should run the Code System Importer tool in Setup | Chart | EHR.");
 				DialogResult=DialogResult.Cancel;
 				return;
