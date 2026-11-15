@@ -19,6 +19,7 @@ may not use. So the readers are built from the plan's section 7 and VSAC's publi
 | To record from the real files | What the readers do now (provisional) | If the record differs |
 |---|---|---|
 | The three files' names and formats (`.xlsx`, `.xml`, `.csv`, one file or a `.zip`) | The value sets: `.xlsx`, SVS `.xml` or a `.zip` of them (EHR-2's readers). The Direct Reference Codes and Code System Versions files: `.xlsx` (or a `.zip` holding one). A `.csv` is not read | A CSV reader for the two companions |
+| Whether VSAC gives the three as separate files (the plan's reading) or one `.zip` of all three | Three files, picked together. One `.zip` holding the three is read as one file whose parts are of three kinds, and refused ("more than one of the release's three files") | `MakePick` takes the parts of one `.zip` as the three |
 | Each file's sheets, the rows above the header, the header names exactly | The kind of each sheet is its header row (`EhrValueSetImport.GetSheetKind`): a Value Set OID (or a value-set name or QDM category beside a code) is the value sets; a Code without a value set is the Direct Reference Codes file; a code system and a version without a code is the Code System Versions file. Headers compared without white space and case: CMS ID (also CMS IDs, Measure ID(s), eMeasure ID, Measure); Value Set Name; Value Set OID (also OID); QDM Category (also Category); Code (also Code Value, Direct Reference Code); Description (also Descriptor, Code Description, Display Name, Code Display Name, Display, Code Name); Code System (also Code System Name); Code System OID; Code System Version; Expansion Version (also Definition Version, Value Set Version, Version: the value set's version, or in the Code System Versions file the code system's) | `_dictHeaders` and `GetSheetKind` in `EhrCodes.cs`; the fixtures' `ArrayHeadersDefault`, `ArrayHeadersDirectCodes`, `ArrayHeadersCodeSystemVersions` |
 | How the Direct Reference Codes file names a measure (CMS68v16, CMS68 or another form) and the display of each code | One row per measure, code system and code; the measure as `ParseMeasureIds` reads it (CMS68v16 or 68v16); the role's LOINC display name compared with the Description column, without case and with white space collapsed | `ResolveDirectCodes` |
 | The version string of each code system in the Code System Versions file, and the program's own `codesystem.VersionCur` values | The mapping of section 4 below | `GetComparableVersion` |
@@ -274,4 +275,14 @@ The final runs after the full build are in section 10.
 
 ### 10. Final runs
 
-See the bottom of this section after the full build.
+Full build through the lane: 0 errors, no warning in a changed file. Then the Targeted runs, `ehr6a-1-run3.txt` (without `CQM_SPECS_DIR`):
+
+| Assembly | Result |
+|---|---|
+| EhrTests | 232: 231 passed, 1 skipped (`Catalog_EqualsTheDownloadedPackages_WhenCqmSpecsDirIsSet`, inconclusive without the download folder; it passed in run 2 with it), 0 failed |
+| AttributionTests | 50 of 50 passed |
+| MiddleTierMockTests | 125 of 125 passed |
+| NoHqTests | 57 of 57 passed |
+
+No `ehr6a_` or `ehr2_` database was left on the server after the runs. One `ehr3_..._ccd` database of the EHR-3 tests' own fixture was
+there after the run (not this package's; its stale clean-up drops it after 12 hours), and was left alone.
