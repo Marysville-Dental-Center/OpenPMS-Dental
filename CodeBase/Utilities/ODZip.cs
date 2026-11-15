@@ -38,9 +38,10 @@ namespace CodeBase {
 		}
 
 		///<summary>The bytes DotNetZip stored for an entry it was given as a string: the text in the system's default (ANSI) code page. Callers that
-		///zipped text with DotNetZip use this so the archive content stays the same.</summary>
+		///zipped text with DotNetZip use this so the archive content stays the same. The ANSI page is named explicitly (ODEncodings), because
+		///Encoding.Default is UTF-8 on .NET.</summary>
 		public static byte[] GetDefaultEncodingBytes(string text) {
-			return Encoding.Default.GetBytes(text??"");
+			return ODEncodings.GetAnsiEncoding().GetBytes(text??"");
 		}
 
 		///<summary>The entry name for a file added together with its folders, as DotNetZip's AddFile(path) stored it: the full path without its drive

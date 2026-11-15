@@ -79,7 +79,7 @@ namespace OpenPmsDentalBusiness {
 			FlowDocument flowDocument=new FlowDocument();
 			TextRange textRange=new TextRange(flowDocument.ContentStart,flowDocument.ContentEnd);
 			try {
-				using MemoryStream memoryStream=new MemoryStream(Encoding.Default.GetBytes(rtf));
+				using MemoryStream memoryStream=new MemoryStream(CodeBase.ODEncodings.GetAnsiEncoding().GetBytes(rtf));
 				textRange.Load(memoryStream,DataFormats.Rtf);
 			}
 			catch(Exception) {
