@@ -8,6 +8,7 @@
 // NativeFirstChooser) and its two paths only, the program's in-process file and the helper's module. WpfControlsOD references the QBFC and
 // CDR interops again (embedded) for its two in-process files; nothing else does, and each in-process file reaches the vendor piece only
 // through its chooser.
+// N64-A3 added Mediadent / CADI: its ProgID is created only in its in-process file and the helper's Cadi module, after its chooser.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
 using System.Collections.Generic;
@@ -232,6 +233,32 @@ namespace NoHqTests {
 				"Files that use the in-process paths: "+string.Join(", ",listUsers));
 			//The chooser is CodeBase's one class; no other file reads PE headers to choose a vendor path.
 			StringAssert.Contains(Read(@"CodeBase\Utilities\NativeFirstChooser.cs"),"public sealed class NativeFirstChooser {");
+		}
+
+		[TestMethod]
+		public void Cadi_IsCreatedOnlyInTheInProcessFileAndTheHelpersModule_AfterItsChooser() {
+			//N64-A3: Mediadent / CADI's automation object (ProgID Mediadent.Application) is created in two places only, the program's in-process
+			//file (CADIInProcess.cs, through NativeFirstChooser.Cadi) and the helper's Cadi module (the fallback); CADI.cs asks the chooser first.
+			string pathRoot=GetRoot();
+			Regex regexProgId=new Regex(@"""Mediadent\.Application""");
+			List<string> listNaming=GetFiles(pathRoot,"*.cs")
+				.Where(x => !x.StartsWith(@"tests\",StringComparison.OrdinalIgnoreCase) && !x.StartsWith(@"NoHqTests\",StringComparison.OrdinalIgnoreCase))
+				.Where(x => regexProgId.IsMatch(StripComments(File.ReadAllText(Path.Combine(pathRoot,x)))))
+				.ToList();
+			CollectionAssert.AreEquivalent(new[] { @"WpfControlsOD\Bridges\CADIInProcess.cs",@"OpenPmsDentalHelper32\Cadi\CadiModule.cs" },listNaming,
+				"Files that name CADI's ProgID: "+string.Join(", ",listNaming));
+			string textInProcess=StripComments(Read(@"WpfControlsOD\Bridges\CADIInProcess.cs"));
+			Assert.AreEqual(1,Regex.Matches(textInProcess,@"Type\.GetTypeFromProgID\(PROGRAM_ID\)").Count);
+			Assert.AreEqual(1,Regex.Matches(textInProcess,@"CADIInProcess\.FuncCreateComObject\(\)").Count,"CADINativeWindow.SendData's creation only.");
+			StringAssert.Contains(textInProcess,"return NativeFirstChooser.Cadi.ChooseForComServer(FuncReadRegistration)!=VendorPath.Helper32;");
+			StringAssert.Contains(textInProcess,"catch(Exception ex) when(CADIInProcess.IsRetriedInHelper(ex,isCadiReached)) {");
+			AssertInOrder(Read(@"WpfControlsOD\Bridges\CADI.cs"),"if(CADIInProcess.IsChosen()) {","SendDataToHelper(cadiPatient);","CADI.cs");
+			StringAssert.Contains(Read(@"OpenPmsDentalHelper32\Helper32Host.cs"),"listModules.Add(new Cadi.CadiModule());");
+			//No other file of the program uses CADI's in-process file.
+			List<string> listUsers=GetSourcesMatching(new Regex(@"\bCADIInProcess\s*\.|\bnew\s+CADINativeWindow\b"))
+				.Where(x => !x.StartsWith(@"tests\",StringComparison.OrdinalIgnoreCase)).ToList();
+			CollectionAssert.AreEquivalent(new[] { @"WpfControlsOD\Bridges\CADI.cs",@"WpfControlsOD\Bridges\CADIInProcess.cs" },listUsers,
+				"Files that use CADI's in-process path: "+string.Join(", ",listUsers));
 		}
 
 		///<summary>In text, first occurs once and before second.</summary>
