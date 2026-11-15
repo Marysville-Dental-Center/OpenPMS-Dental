@@ -175,18 +175,29 @@ namespace OpenPmsDental {
 			_document.Description=textDescript.Text;
 			_document.ProvNum=comboProv.GetSelectedProvNum();
 			if(_isSignatureChanged) {
-				if(signatureBoxWrapper.SigIsBlank) {
-					_document.Signature="";
-					_document.SigIsTopaz=false;
-				}
-				else {
-					if(_hashMatch!=EnumChartLetterHashMatch.Match) {
-						MsgBox.Show(this,"The letter's file does not match its stored hash, so it cannot be signed. Open it with Edit Document and save it "
-							+"to store a new version first.");
-						return;
+				//S3a-14g: a Topaz signature the 32-bit helper lost stops the save here, with the message, before the letter is written (SigIsBlank and
+				//GetSignature throw for it); the window stays open, so the user can clear the box and sign again. Before, the program ended.
+				try {
+					if(signatureBoxWrapper.GetSigIsTopaz()) {
+						signatureBoxWrapper.CheckTopazSignatureReachable();
 					}
-					_document.Signature=signatureBoxWrapper.GetSignature(ChartLetters.GetSignatureKeyData(_arrayFileBytes));
-					_document.SigIsTopaz=signatureBoxWrapper.GetSigIsTopaz();
+					if(signatureBoxWrapper.SigIsBlank) {
+						_document.Signature="";
+						_document.SigIsTopaz=false;
+					}
+					else {
+						if(_hashMatch!=EnumChartLetterHashMatch.Match) {
+							MsgBox.Show(this,"The letter's file does not match its stored hash, so it cannot be signed. Open it with Edit Document and save it "
+								+"to store a new version first.");
+							return;
+						}
+						_document.Signature=signatureBoxWrapper.GetSignature(ChartLetters.GetSignatureKeyData(_arrayFileBytes));
+						_document.SigIsTopaz=signatureBoxWrapper.GetSigIsTopaz();
+					}
+				}
+				catch(Helper32Exception ex) {
+					MsgBox.Show(ex.Message);
+					return;
 				}
 			}
 			try {

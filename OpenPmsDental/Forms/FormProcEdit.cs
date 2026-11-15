@@ -40,6 +40,10 @@ namespace OpenPmsDental {
 		private List<PatPlan> _listPatPlans;
 		private List<Benefit> _listBenefits;
 		private bool _signatureChanged;
+		///<summary>The changed signature as TryReadSignatureBeforeWrites read it, before SaveAndClose wrote anything, and its key data; null when
+		///not read (S3a-14g).</summary>
+		private string _signatureRead;
+		private string _keyDataSignatureRead;
 		///<summary>This keeps the noteChanged event from erasing the signature when first loading.</summary>
 		private bool _isStartingUp;
 		private List<Claim> _listClaims;
@@ -2350,6 +2354,9 @@ namespace OpenPmsDental {
 			if(!IsTopazSignatureReachable()) {//S3a-14f: before anything is written (the claimprocs below), not only at SaveSignature
 				return;
 			}
+			if(!TryReadSignatureBeforeWrites()) {//S3a-14g: the signature itself, so that SaveSignature below needs no helper after the claimprocs
+				return;
+			}
 			//
 			// This method is mimicked in OD mobile apps, please inform a mobile app developer if you think changes will be needed on that end as well.
 			//
@@ -2612,10 +2619,39 @@ namespace OpenPmsDental {
 			return true;
 		}
 
+		///<summary>Reads the changed signature with the key data it is saved with, before SaveAndClose writes anything (S3a-14g): the 32-bit helper
+		///could otherwise end between the check at the top of SaveAndClose and SaveSignature, after the claimprocs were written. False, after
+		///showing the message, for a Topaz signature the helper lost: nothing is written. Another failure is left to SaveSignature, as before.</summary>
+		private bool TryReadSignatureBeforeWrites() {
+			_keyDataSignatureRead=null;
+			_signatureRead=null;
+			if(!_signatureChanged) {
+				return true;
+			}
+			string keyData=Procedures.GetSignatureKeyData(_procedure, textNotes.Text);
+			try {
+				_signatureRead=signatureBoxWrapper.GetSignature(keyData);
+				_keyDataSignatureRead=keyData;
+			}
+			catch(Helper32Exception ex) {
+				MessageBox.Show(this,ex.Message);
+				return false;
+			}
+			catch(Exception ex) {
+				ex.DoNothing();//SaveSignature reads it again and says "Error saving signature.", as before S3a-14g.
+			}
+			return true;
+		}
+
 		private void SaveSignature(){
 			if(_signatureChanged){
 				string keyData=Procedures.GetSignatureKeyData(_procedure, textNotes.Text);
-				_procedure.Signature=signatureBoxWrapper.GetSignature(keyData);
+				if(_signatureRead!=null && keyData==_keyDataSignatureRead) {
+					_procedure.Signature=_signatureRead;//read before anything was written (S3a-14g)
+				}
+				else {
+					_procedure.Signature=signatureBoxWrapper.GetSignature(keyData);
+				}
 				_procedure.SigIsTopaz=signatureBoxWrapper.GetSigIsTopaz();
 			}
 		}
@@ -2655,6 +2691,10 @@ namespace OpenPmsDental {
 					{
 						return;
 					}
+				}
+				//S3a-14g: the question above is a dialog, and the 32-bit helper can end while it is open: checked again before the alert is written.
+				if(!IsTopazSignatureReachable()) {
+					return;
 				}
 				_noteMergeUserNumAlertedOnSave=_procedureOld.UserNum;//25.4 Procedure Note Merge (M2-NOTES): this click alerts them, the merge does not again.
 				//Check if user is subcribed to the alertType and create an alert.

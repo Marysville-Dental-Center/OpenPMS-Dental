@@ -30,6 +30,12 @@ namespace OpenPmsDental{
 		///<summary>This keeps the noteChanged event from erasing the signature when first loading.</summary>
 		private bool _isStartingUp;
 		private bool _hasSigChanged;
+		///<summary>The changed signatures as TryReadSignaturesBeforeWrites read them, before SaveAndClose wrote anything, with their key data;
+		///null when not read (S3a-14g).</summary>
+		private string _signatureRead;
+		private string _keyDataSignatureRead;
+		private string _signature2Read;
+		private string _keyDataSignature2Read;
 		private PatField[] _patFieldArray;
 		private Patient _patient;
 		private Family _family;
@@ -558,10 +564,61 @@ namespace OpenPmsDental{
 			return true;
 		}
 
+		///<summary>Reads the changed signatures with the key data they are saved with, before SaveAndClose writes anything (S3a-14g): the 32-bit
+		///helper could otherwise end between the check at the top of SaveAndClose and SaveSignature, after the links were written. The key holds
+		///the links' primary keys, so when isSyncingLinks would add a link (its key is not known before it is written) the signatures are read in
+		///SaveSignature, after the links, as before. False, after showing the message, for a Topaz signature the helper lost: nothing is written.
+		///</summary>
+		private bool TryReadSignaturesBeforeWrites(bool isSyncingLinks) {
+			_keyDataSignatureRead=null;
+			_signatureRead=null;
+			_keyDataSignature2Read=null;
+			_signature2Read=null;
+			if(!_hasSigChanged && !_hasSig2Changed) {
+				return true;
+			}
+			//The links as SaveSignature will read them (GetSignatureKey): those in the database, less the ones ProcGroupItems.SyncForGroup removes.
+			List<ProcGroupItem> listProcGroupItems=ProcGroupItems.GetForGroup(ProcedureGroup.ProcNum);
+			if(isSyncingLinks) {
+				List<long> listProcNumsWanted=ListProcedures.Select(x => x.ProcNum).Where(x => x!=0 && x!=ProcedureGroup.ProcNum).Distinct().ToList();
+				if(listProcNumsWanted.Any(x => !listProcGroupItems.Exists(y => y.ProcNum==x))) {
+					return true;//a link is added
+				}
+				listProcGroupItems=listProcGroupItems.FindAll(x => listProcNumsWanted.Contains(x.ProcNum));
+			}
+			try {
+				if(_hasSigChanged) {
+					string keyData=GroupNotes.GetSignatureKey(ProcedureGroup,listProcGroupItems);
+					_signatureRead=signatureBoxWrapper.GetSignature(keyData);
+					_keyDataSignatureRead=keyData;
+				}
+				if(_hasSig2Changed && !signatureBoxWrapper2.SigIsBlank) {
+					Procedure procedureKey=ProcedureGroup.Copy();
+					procedureKey.UserNum2=_userod2.UserNum;//as SaveSignature2 sets it
+					string keyData2=GroupNoteSignatures.GetSignatureKey2(procedureKey,listProcGroupItems);
+					_signature2Read=signatureBoxWrapper2.GetSignature(keyData2);
+					_keyDataSignature2Read=keyData2;
+				}
+			}
+			catch(Helper32Exception ex) {
+				MessageBox.Show(this,ex.Message);
+				return false;
+			}
+			catch(Exception ex) {
+				ex.DoNothing();//SaveSignature reads them again and says "Error saving signature.", as before S3a-14g.
+			}
+			return true;
+		}
+
 		private void SaveSignature(){
 			if(_hasSigChanged){
 				string keyData=GetSignatureKey();
-				ProcedureGroup.Signature=signatureBoxWrapper.GetSignature(keyData);
+				if(_signatureRead!=null && keyData==_keyDataSignatureRead) {
+					ProcedureGroup.Signature=_signatureRead;//read before anything was written (S3a-14g)
+				}
+				else {
+					ProcedureGroup.Signature=signatureBoxWrapper.GetSignature(keyData);
+				}
 				ProcedureGroup.SigIsTopaz=signatureBoxWrapper.GetSigIsTopaz();
 			}
 			if(_hasSig2Changed) {
@@ -580,7 +637,12 @@ namespace OpenPmsDental{
 			ProcedureGroup.UserNum2=_userod2.UserNum;
 			GetSignatureKey();//Reads the links from the database, which the key needs.
 			string keyData2=GroupNoteSignatures.GetSignatureKey2(ProcedureGroup,ListProcGroupItems);
-			ProcedureGroup.Signature2=signatureBoxWrapper2.GetSignature(keyData2);
+			if(_signature2Read!=null && keyData2==_keyDataSignature2Read) {
+				ProcedureGroup.Signature2=_signature2Read;//read before anything was written (S3a-14g)
+			}
+			else {
+				ProcedureGroup.Signature2=signatureBoxWrapper2.GetSignature(keyData2);
+			}
 			ProcedureGroup.SigIsTopaz2=signatureBoxWrapper2.GetSigIsTopaz();
 		}
 
@@ -635,6 +697,10 @@ namespace OpenPmsDental{
 				return;
 			}
 			if(!TryResolveNoteMerge()) {
+				return;
+			}
+			//S3a-14g: the merge window is a dialog, and the 32-bit helper can end while it is open.
+			if(!AreTopazSignaturesReachable()) {
 				return;
 			}
 			ProcedureGroup.IsLocked=true;
@@ -746,6 +812,11 @@ namespace OpenPmsDental{
 				ProcedureGroup.ProvNum=comboProv.GetSelectedProvNum();
 				listProceduresAdded=GetProceduresAdded();
 				listProceduresRemoved=GetProceduresRemoved();
+			}
+			if(!TryReadSignaturesBeforeWrites(_canEditStructure && (listProceduresAdded.Count>0 || listProceduresRemoved.Count>0))) {
+				return;//S3a-14g: a Topaz signature the 32-bit helper lost, read before the links below are written
+			}
+			if(_canEditStructure) {
 				if(listProceduresAdded.Count>0 || listProceduresRemoved.Count>0) {
 					//Before the signature is saved: the signature key is built from the links in the database.
 					ListProcGroupItems=ProcGroupItems.SyncForGroup(ProcedureGroup.ProcNum,ListProcedures.Select(x => x.ProcNum).ToList());
@@ -814,9 +885,14 @@ namespace OpenPmsDental{
 			if(!TryResolveNoteMerge()) {
 				return;
 			}
+			//S3a-14g: the merge window is a dialog, and the 32-bit helper can end while it is open (the SigIsBlank below would end the program).
+			if(!AreTopazSignaturesReachable()) {
+				return;
+			}
 			if(!ConfirmSecondSignatureRemoved()) {
 				return;
 			}
+			bool isAlertFirstSigner=false;
 			if(_hasUserChanged && !_procedureGroupOld.Signature.IsNullOrEmpty()) {
 				//Ask the user to re-sign if the user has changed, there was a signature when the window loaded, and the signature box is currently blank.
 				if(signatureBoxWrapper.SigIsBlank) {
@@ -826,6 +902,13 @@ namespace OpenPmsDental{
 						return;
 					}
 				}
+				isAlertFirstSigner=true;
+			}
+			//S3a-14g: the questions above are dialogs, and the 32-bit helper can end while one is open: checked again before the alerts are written.
+			if(!AreTopazSignaturesReachable()) {
+				return;
+			}
+			if(isAlertFirstSigner) {
 				//Check if user is subcribed to the alertType.SignatureCleared and create an alert.
 				if(AlertSubs.GetAllAlertTypesForUser(_procedureGroupOld.UserNum).Contains(AlertType.SignatureCleared)) {
 					string procCode=ProcedureCodes.GetStringProcCode(_procedureGroupOld.CodeNum);
@@ -924,6 +1007,11 @@ namespace OpenPmsDental{
 			frmProcNoteMerge.ShowDialog();
 			ProcNoteMergeChoice choice=frmProcNoteMerge.MergeChoice;
 			if(choice==ProcNoteMergeChoice.Cancel || !ProcNoteMerges.IsChoiceAllowed(choice,canChangeText)) {
+				return false;
+			}
+			//S3a-14g: the 32-bit helper can end while the merge window is open; the SigIsBlank calls after the choice (LockForSignedNote, the
+			//caller's) would end the program. Nothing is taken over yet.
+			if(!AreTopazSignaturesReachable()) {
 				return false;
 			}
 			if(choice==ProcNoteMergeChoice.KeepTheirs && !canEditTheirs && IsStructureOrProviderChanged()) {

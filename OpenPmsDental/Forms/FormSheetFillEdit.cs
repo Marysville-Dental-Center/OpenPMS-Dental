@@ -2159,6 +2159,31 @@ namespace OpenPmsDental {
 			FillFieldsFromControls(isSave:true);//this does nothing
 			FillFieldsFromScreenings();
 			bool isNewReferralLetterWithProcsOrChart=IsNewReferralLetterWithProcsOrChart();
+			//S3a-14g: the changed signatures are read here, before anything of the sheet is written, with the key the sheet will have once it is
+			//written. The helper could otherwise end between the check above and GetSignature below, after the sheet and its fields were written.
+			string keyDataBeforeWrites=null;
+			if(isNewReferralLetterWithProcsOrChart) {
+				keyDataBeforeWrites=Sheets.GetSignatureKey(SheetCur);//its fields are not written or read back below
+			}
+			else {
+				keyDataBeforeWrites=Sheets.GetSignatureKeyAfterSave(SheetCur);
+			}
+			Dictionary<OpenPmsDental.UI.SignatureBoxWrapper,string> dictSignaturesBeforeWrites=new Dictionary<OpenPmsDental.UI.SignatureBoxWrapper,string>();
+			for(int i=0;i<panelMain.Controls.Count;i++) {
+				if(!(panelMain.Controls[i] is OpenPmsDental.UI.SignatureBoxWrapper sigBoxRead) || sigBoxRead.Tag==null || !sigBoxRead.GetSigChanged()) {
+					continue;
+				}
+				if(keyDataBeforeWrites==null) {
+					break;//the key cannot be worked out first: the signatures are read after the writes, as before
+				}
+				try {
+					dictSignaturesBeforeWrites[sigBoxRead]=sigBoxRead.GetSignature(keyDataBeforeWrites);
+				}
+				catch(Helper32Exception ex) {
+					MessageBox.Show(this,ex.Message);
+					return false;
+				}
+			}
 			if(SheetCur.IsNew) {
 				Sheets.Insert(SheetCur);
 				Sheets.SaveParameters(SheetCur);
@@ -2205,7 +2230,19 @@ namespace OpenPmsDental {
 					SheetFields.GetFieldsAndParameters(SheetCur);
 				}
 				string keyData=Sheets.GetSignatureKey(SheetCur);
-				string signature=sigBox.GetSignature(keyData);
+				string signature;
+				if(keyData!=keyDataBeforeWrites || !dictSignaturesBeforeWrites.TryGetValue(sigBox,out signature)) {
+					//The key differs from the one worked out before the writes (or none could be): read now, as before S3a-14g.
+					try {
+						signature=sigBox.GetSignature(keyData);
+					}
+					catch(Helper32Exception ex) {
+						//S3a-14g: only when the key read back differs from the one worked out before the writes (not known to happen): the sheet and its
+						//other fields are written, its signature fields are not. The form stays open, so the user can clear the box, sign again and save.
+						MessageBox.Show(this,ex.Message);
+						return false;
+					}
+				}
 				sheetField.DateTimeSig=DateTime.MinValue;
 				if(signature!="") {
 					sheetField.FieldValue="0";
@@ -2508,17 +2545,15 @@ namespace OpenPmsDental {
 				}
 				OpenPmsDental.UI.SignatureBoxWrapper signatureBoxWrapper=(OpenPmsDental.UI.SignatureBoxWrapper)panelMain.Controls[i];
 				if(!signatureBoxWrapper.IsValid) {//invalid sig. Do not save signature.
-					isValidSig=signatureBoxWrapper.IsValid; 
+					isValidSig=signatureBoxWrapper.IsValid;
 					continue;
 				}
-				payPlan.Signature=signatureBoxWrapper.GetSignature(keyData);
-				if(payPlan.Signature!="") {
-					payPlan.SigIsTopaz=false;
-					if(signatureBoxWrapper.GetSigIsTopaz()) {
-						payPlan.SigIsTopaz=true; ;
-					}
+				//S3a-14g: a box whose signature did not change is not read again; the plan keeps its stored signature (a Topaz signature read back from
+				//a 32-bit helper that ended since the sheet opened was "", saved with no message).
+				if(!SignatureBoxSaves.SetPayPlanSignature(payPlan,signatureBoxWrapper,keyData)) {
+					continue;
 				}
-				hasSigChanged=signatureBoxWrapper.GetSigChanged();
+				hasSigChanged=true;
 				PayPlans.Update(payPlan);
 			}
 			//save .pdf file if payPlan is new or signature has changed and signature is valid

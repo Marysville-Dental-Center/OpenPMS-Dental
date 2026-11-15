@@ -216,7 +216,15 @@ namespace OpenPmsDental {
 			ActiveControl=null;
 			//They might have taken control from us if we had control.
 			_isLockedByMe=false;//Another user took control.
-			SaveToDb();//so that other user can see our changes.
+			string errorTopaz=null;
+			try {
+				SaveToDb();//so that other user can see our changes.
+			}
+			catch(Helper32Exception ex) {
+				//S3a-14g: a Topaz signature the 32-bit helper lost: nothing was written (SaveToDb reads the signature first). Told below, once the
+				//window shows the other user's data, so that the next tick does not run into the same message while it is open.
+				errorTopaz=ex.Message;
+			}
 			//Remember that the above changes can happen up to 4 seconds after the other user took control
 			_listOrthoChartRows=OrthoChartRows.GetAllForPatient(_patient.PatNum);
 			_listOrthoChartRows=_listOrthoChartRows.OrderBy(x=>x.DateTimeService).ToList();
@@ -225,6 +233,10 @@ namespace OpenPmsDental {
 			LockControls();
 			labelLocked.Text="Locked by: "+PatientNotes.GetOrthoLockedByText(userNum,Userods.GetName);
 			_userNumLocked=userNum;
+			if(errorTopaz!=null) {
+				MsgBox.Show(Lan.g(this,"Another user just took control. Your changes could not be saved:")+"\r\n"+errorTopaz);
+				return;
+			}
 			if(ODBuild.IsDebug()) {
 				//Helpful to know who when you have multiple windows open for testing.
 				MsgBox.Show(this,Userods.GetName(userNum)+Lan.g(this," has taken control. If you made any changes, they were saved."));
@@ -647,7 +659,13 @@ namespace OpenPmsDental {
 			}
 			SetSignatureButtonVisibility(currentRow);
 			//Try and save the previous row's signature if needed.
-			SaveSignatureToDict(_prevRow);
+			try {
+				SaveSignatureToDict(_prevRow);
+			}
+			catch(Helper32Exception ex) {
+				//S3a-14g: a Topaz signature the 32-bit helper lost is not kept for that row; the user is told, and signs it again there.
+				MessageBox.Show(this,ex.Message);
+			}
 			DisplaySignature(_prevRow);
 			if(_doesTopazNeedSave) {
 				_doesTopazNeedSave=false;
@@ -678,7 +696,12 @@ namespace OpenPmsDental {
 						OrthoChartLogs.Log("gridMain_CellLeave(), old: "+oldText+", new:"+newText,Environment.MachineName,orthoChartRow);
 					}
 					if(_showSigBox) {
-						SaveSignatureToDict(e.Row);
+						try {
+							SaveSignatureToDict(e.Row);
+						}
+						catch(Helper32Exception ex) {
+							MessageBox.Show(this,ex.Message);//S3a-14g: a Topaz signature the 32-bit helper lost, as in SaveAndSetSignatures
+						}
 						DisplaySignature(e.Row);
 					}
 				}
@@ -804,10 +827,11 @@ namespace OpenPmsDental {
 			keyData=OrthoCharts.GetKeyDataForSignatureSaving(listOrthoCharts,dateTime);
 			OrthoSignature orthoSignature=new OrthoSignature();
 			orthoSignature.IsTopaz=signatureBoxWrapper.GetSigIsTopaz();
-			orthoSignature.SigString=signatureBoxWrapper.GetSignature(keyData);
 			if(orthoSignature.IsTopaz && !_doesTopazNeedSave) {
-				return;
+				return;//S3a-14g: before the signature is read, which it was not used for here: a Topaz box not signed again is not read from the helper
 			}
+			//Throws a Helper32Exception for a Topaz signature the 32-bit helper lost (S3a-14f); the callers show it, and nothing is written.
+			orthoSignature.SigString=signatureBoxWrapper.GetSignature(keyData);
 			if(OrthoSignature.GetSigString(orthoChartRow.Signature)!=orthoSignature.SigString) {
 				_hasChanged=true;
 				orthoChartRow.Signature=orthoSignature.ToString();
@@ -1023,7 +1047,12 @@ namespace OpenPmsDental {
 				//This will essentially "refresh" the grid.  We do not want to call FillGrid() because that will lose data in other cells that have not been saved to datatable.
 				if(_showSigBox && frmAutoNoteCompose.StrCompletedNote != "") {
 					signatureBoxWrapper.ClearSignature(false);
-					SaveSignatureToDict(gridMain.SelectedCell.Y);
+					try {
+						SaveSignatureToDict(gridMain.SelectedCell.Y);
+					}
+					catch(Helper32Exception ex) {
+						MessageBox.Show(this,ex.Message);//S3a-14g: a Topaz signature the 32-bit helper lost, as in SaveAndSetSignatures
+					}
 					DisplaySignature(gridMain.SelectedCell.Y);
 				}
 				gridMain.BeginUpdate();
@@ -1246,6 +1275,17 @@ namespace OpenPmsDental {
 		}
 
 		private void butSave_Click(object sender,EventArgs e) {
+			//S3a-14g: the selected row's signature is read first, before the lock is released or anything is written: a Topaz signature the 32-bit
+			//helper lost stops here, with the message, and the window stays open (before, the failure ended the program).
+			if(_showSigBox && gridMain.SelectedCell.Y!=-1) {
+				try {
+					SaveSignatureToDict(gridMain.SelectedCell.Y);
+				}
+				catch(Helper32Exception ex) {
+					MessageBox.Show(this,ex.Message);
+					return;
+				}
+			}
 			//The only way you can click ok is if you have a lock control.
 			PatientNotes.SetUserNumOrthoLocked(_patient.PatNum,0);//Unlock
 			if(!_hasChanged && !signatureBoxWrapper.SigChanged) {
@@ -1254,15 +1294,17 @@ namespace OpenPmsDental {
 				CloseIfNonModal();
 				return;
 			}
-			SaveToDb();
+			SaveToDb(isSignatureInDict:true);//the signature was put in the row above
 			DialogResult=DialogResult.OK;
 			OrthoChartSaved?.Invoke(_patient.PatNum);
 			CloseIfNonModal();
 		}
 
-		///<summary>Used in 4 places: timerLock_tick (if someone took control from us), OK_click, and FormClosing. It the first case, where the form remains open, it's immediately followed by OrthoChartRows.GetAllForPatient to get data from from db.</summary>
-		private void SaveToDb(){
-			if(_showSigBox && gridMain.SelectedCell.Y != -1) {
+		///<summary>Used in 4 places: timerLock_tick (if someone took control from us), OK_click, and FormClosing. It the first case, where the form remains open, it's immediately followed by OrthoChartRows.GetAllForPatient to get data from from db.
+		///Throws a Helper32Exception for a Topaz signature the 32-bit helper lost, before anything is written (S3a-14g); isSignatureInDict when the
+		///caller already put the selected row's signature in its row (SaveSignatureToDict).</summary>
+		private void SaveToDb(bool isSignatureInDict=false){
+			if(_showSigBox && gridMain.SelectedCell.Y != -1 && !isSignatureInDict) {
 				SaveSignatureToDict(gridMain.SelectedCell.Y);
 			}
 			List<OrthoChart> listOrthoChartsNew=new List<OrthoChart>();
@@ -1335,7 +1377,12 @@ namespace OpenPmsDental {
 			OrthoChartCloseActions orthoChartCloseActions=OrthoChartWindowRules.GetCloseActions(OrthoChartWindowRules.GetProgramCloseKind(_orthoChartCloseKind),
 				_isLockedByMe,_isReadOnly);
 			if(orthoChartCloseActions.DoSave) {
-				SaveToDb();//There may be nothing to save, but this also gets rid of extra empty row.
+				try {
+					SaveToDb();//There may be nothing to save, but this also gets rid of extra empty row.
+				}
+				catch(Helper32Exception ex) {
+					MessageBox.Show(this,ex.Message);//S3a-14g: a Topaz signature the 32-bit helper lost; nothing was written
+				}
 			}
 			if(orthoChartCloseActions.DoDeleteEmptyRows) {
 				DeleteRowsIfEmpty();

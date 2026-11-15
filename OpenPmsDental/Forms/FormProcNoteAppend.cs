@@ -87,6 +87,22 @@ namespace OpenPmsDental {
 			ProcedureCur.Note=textNotes.Text+"\r\n"
 				+DateTime.Now.ToShortDateString()+" "+DateTime.Now.ToShortTimeString()+" "+Security.CurUser.UserName+":  "
 				+textAppended.Text;
+			try {
+				SaveSignature();
+			}
+			catch(Helper32Exception ex) {
+				//S3a-14f: the Topaz signature the patient signed was lost with the 32-bit helper (it ended after the check above). The note is not
+				//saved without it: the window stays open as it was, so the user can clear the box and sign again. Since S3a-14g the signature is
+				//read before the alert below is written, so nothing is written.
+				ProcedureCur.Note=procedure.Note;
+				ProcedureCur.UserNum=procedure.UserNum;
+				MessageBox.Show(ex.Message);
+				return;
+			}
+			catch(Exception ex) {
+				MessageBox.Show(Lan.g(this,"Error saving signature.")+"\r\n"+ex.Message);
+				//and continue with the rest of this method
+			}
 			if((procedure.UserNum!=ProcedureCur.UserNum) && !procedure.Signature.IsNullOrEmpty()) {
 				//Check if user is subcribed to the alertType.SignatureCleared and create an alert.
 				if(AlertSubs.GetAllAlertTypesForUser(procedure.UserNum).Contains(AlertType.SignatureCleared)) {
@@ -108,21 +124,6 @@ namespace OpenPmsDental {
 						ClinicNum=procedure.ClinicNum,
 					});
 				}
-			}
-			try {
-				SaveSignature();
-			}
-			catch(Helper32Exception ex) {
-				//S3a-14f: the Topaz signature the patient signed was lost with the 32-bit helper (it ended after the check above). The note is not
-				//saved without it: the window stays open as it was, so the user can clear the box and sign again.
-				ProcedureCur.Note=procedure.Note;
-				ProcedureCur.UserNum=procedure.UserNum;
-				MessageBox.Show(ex.Message);
-				return;
-			}
-			catch(Exception ex) {
-				MessageBox.Show(Lan.g(this,"Error saving signature.")+"\r\n"+ex.Message);
-				//and continue with the rest of this method
 			}
 			Procedures.Update(ProcedureCur,procedure);
 			DialogResult=DialogResult.OK;
