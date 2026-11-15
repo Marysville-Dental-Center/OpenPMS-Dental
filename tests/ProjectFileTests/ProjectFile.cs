@@ -142,6 +142,13 @@ namespace ProjectFileTests {
 		///Sdk.targets on, those of _arrayWebApplicationProperties after an import of the web application targets, and any the evaluation could not
 		///compute (TargetPlatformVersion of a .NET 5+ target without a platform version, say).</summary>
 		private readonly HashSet<string> _hashSetNotModelled=new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+		///<summary>Item types that a package's build files fill from a property this reader does not model, for a target's inputs only: Microsoft.Testing.Platform.MSBuild
+		///2.5.3 (MSTest.TestAdapter's, S4-1) gives _TestingPlatformConfigurationFileInput the files of $(MSBuildAllProjects), which MSBuild computes from
+		///the files it imported. Such an Include does not stop the evaluation: the item type is not modelled in that project (_hashSetNotModelledItemTypes),
+		///so GetItems, GetItem and HasItem throw for it, and GetAllItems and GetItemsMentioning leave it out.</summary>
+		private static readonly string[] _arrayNotModelledItemTypes=new[] { "_TestingPlatformConfigurationFileInput" };
+		///<summary>The item types of _arrayNotModelledItemTypes whose Include this project's evaluation could not compute.</summary>
+		private readonly HashSet<string> _hashSetNotModelledItemTypes=new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 		///<summary>OpenDental.sln by path: its last write time and its project mappings, read once per test run.</summary>
 		private static readonly Dictionary<string,SolutionFile> _dictSolutions=new Dictionary<string,SolutionFile>(StringComparer.OrdinalIgnoreCase);
 		///<summary>The global properties of the evaluation, which no file can change (MSBuild ignores an assignment to one): Configuration and
@@ -1162,6 +1169,9 @@ namespace ProjectFileTests {
 			//SDK installed on 64-bit Windows, per user or machine-wide, is the x64 one, on 32-bit Windows the x86 one. Not a fact of the project
 			//files, so tools\Test-ProjectFileEvaluator.ps1 compares it with MSBuild's for every project. A classic project leaves it ''.
 			_dictProperties["NETCoreSdkRuntimeIdentifier"]=Environment.Is64BitOperatingSystem ? "win-x64" : "win-x86";
+			//The same file sets the SDK's own version, the one global.json pins (rollForward disable): Microsoft.CodeCoverage 18.12.0, which
+			//Microsoft.NET.Test.Sdk brings every test project (S4-1), tests it in a condition. A classic project leaves it '' (not modelled there).
+			_dictProperties["NETCoreSdkVersion"]="10.0.114";
 			_dictProperties["DisableHandlePackageFileConflicts"]="true";
 			SetIfEmpty("Configurations","Debug;Release");
 			SetIfEmpty("Platforms","AnyCPU");
@@ -2000,6 +2010,10 @@ namespace ProjectFileTests {
 		///name), then each entry is unescaped: the item's Include, its file and its metadata are unescaped, as -getItem prints them.</summary>
 		private void AddItems(string itemType,string include,string exclude,Dictionary<string,string> dictMetadata,FileContext fileContext) {
 			string where=fileContext==null ? "the .NET SDK's default "+itemType+" items" : fileContext.Path+": "+itemType+" Include=\""+include+"\"";
+			if(IsUnresolved(include) && _arrayNotModelledItemTypes.Contains(itemType,StringComparer.OrdinalIgnoreCase)) {
+				_hashSetNotModelledItemTypes.Add(itemType);
+				return;
+			}
 			ThrowIfUnresolved(include,where);
 			List<Func<ProjectItem,bool>> listExcludes=exclude==null ? new List<Func<ProjectItem,bool>>() : GetMatchers(exclude,fileContext);
 			List<Regex> listPrunedFolders=exclude==null ? new List<Regex>() : GetPrunedFolders(exclude);
@@ -2853,7 +2867,20 @@ namespace ProjectFileTests {
 		///the build with NETSDK1022 for Compile, EmbeddedResource and Page).</summary>
 		public List<ProjectItem> GetItems(string itemType) {
 			ThrowIfImplicitPackageReferences(itemType);
+			ThrowIfNotModelledItemType(itemType);
 			return _listItems.Where(x => x.ItemType.Equals(itemType,StringComparison.OrdinalIgnoreCase)).ToList();
+		}
+
+		///<summary>Throws for an item type of _arrayNotModelledItemTypes whose Include this project's evaluation could not compute.</summary>
+		private void ThrowIfNotModelledItemType(string itemType) {
+			if(_hashSetNotModelledItemTypes.Contains(itemType)) {
+				throw new NotSupportedException(Describe()+": the "+itemType+" items are not modelled by ProjectFile (an Include of a property it does not model).");
+			}
+		}
+
+		///<summary>The items of every type this reader models in this project: those of _hashSetNotModelledItemTypes are left out.</summary>
+		private IEnumerable<ProjectItem> ModelledItems() {
+			return _listItems.Where(x => !_hashSetNotModelledItemTypes.Contains(x.ItemType));
 		}
 
 		///<summary>The PackageReference items and metadata that the SDK's own files give an SDK-style project and this reader does not; no project of
@@ -2904,17 +2931,18 @@ namespace ProjectFileTests {
 			}
 		}
 
-		///<summary>Every item, of every type. Throws as GetItems("PackageReference") does for the PackageReference items the SDK gives itself
-		///(ThrowIfImplicitPackageReferences).</summary>
+		///<summary>Every item, of every type this reader models in the project (not those of _arrayNotModelledItemTypes it could not compute). Throws as
+		///GetItems("PackageReference") does for the PackageReference items the SDK gives itself (ThrowIfImplicitPackageReferences).</summary>
 		public List<ProjectItem> GetAllItems() {
 			ThrowIfImplicitPackageReferences(null);
-			return _listItems.ToList();
+			return ModelledItems().ToList();
 		}
 
 		///<summary>The first item of the type for the path (relative to the project folder, '\' or '/', or full) or the plain text (a Reference's
 		///Include), or null.</summary>
 		public ProjectItem GetItem(string itemType,string spec) {
 			ThrowIfImplicitPackageReferences(itemType);
+			ThrowIfNotModelledItemType(itemType);
 			string fullPath=TryGetFullPath(spec);
 			string include=NormalizeSlashes(spec);
 			return _listItems.FirstOrDefault(x => x.ItemType.Equals(itemType,StringComparison.OrdinalIgnoreCase) && IsSameItemSpec(x,fullPath,include));
@@ -3025,16 +3053,18 @@ namespace ProjectFileTests {
 		}
 
 		///<summary>The items of any of the types whose Include mentions the text (case-insensitive), for checks that a removed file or library is
-		///gone from the project in either format. No item types means every type. Throws as GetItems("PackageReference") does when the types
-		///include PackageReference (ThrowIfImplicitPackageReferences).</summary>
+		///gone from the project in either format. No item types means every type this reader models in the project (GetAllItems). Throws as
+		///GetItems("PackageReference") does when the types include PackageReference (ThrowIfImplicitPackageReferences), and as GetItems does for a
+		///named type that is not modelled.</summary>
 		public List<ProjectItem> GetItemsMentioning(string text,params string[] arrayItemTypes) {
 			if(arrayItemTypes.Length==0) {
 				ThrowIfImplicitPackageReferences(null);
 			}
 			foreach(string itemType in arrayItemTypes) {
 				ThrowIfImplicitPackageReferences(itemType);
+				ThrowIfNotModelledItemType(itemType);
 			}
-			return _listItems.Where(x => arrayItemTypes.Length==0 || arrayItemTypes.Contains(x.ItemType,StringComparer.OrdinalIgnoreCase))
+			return ModelledItems().Where(x => arrayItemTypes.Length==0 || arrayItemTypes.Contains(x.ItemType,StringComparer.OrdinalIgnoreCase))
 				.Where(x => x.Include.IndexOf(text,StringComparison.OrdinalIgnoreCase)>=0)
 				.ToList();
 		}

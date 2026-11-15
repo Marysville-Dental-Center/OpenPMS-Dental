@@ -82,5 +82,11 @@
     <IsTestingPlatformApplication>false</IsTestingPlatformApplication>
     <GenerateTestingPlatformEntryPoint>false</GenerateTestingPlatformEntryPoint>
     <TestingPlatformDotnetTestSupport>false</TestingPlatformDotnetTestSupport>
+    <!--
+      No code coverage is collected here. Microsoft.CodeCoverage (Microsoft.NET.Test.Sdk's) would otherwise build every project reference
+      once more before each compile (its MsCoverageReferencedPathMaps target) and write .msCoverageSourceRootsMapping_<assembly>, the source
+      folders of the build machine, into the test's output folder.
+    -->
+    <DisableMsCoverageReferencedPathMaps>true</DisableMsCoverageReferencedPathMaps>
   </PropertyGroup>
 </Project>
