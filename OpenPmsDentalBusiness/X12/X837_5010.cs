@@ -686,7 +686,7 @@ namespace OpenPmsDentalBusiness
 				}
 				sw.Write("CLM"+s
 					+Sout(clm01,20)+s//CLM01 1/38 Claim Submitter's Identifier: A unique id. Carriers are not required to handle more than 20 char. 
-					+claimFeeBilled.ToString("f2")+s//CLM02 1/18 Monetary Amount:
+					+claimFeeBilled.ToString("f2",CultureInfo.InvariantCulture)+s//CLM02 1/18 Monetary Amount:
 					+s//CLM03 1/2 Claim Filing Indicator Code: Not used.
 					+s);//CLM04 1/2 Non-Institutional Claim Type Code: Not used.
 				//CLM05 (medical,institutional,dental) Health Care Services Location Information.
@@ -948,7 +948,7 @@ namespace OpenPmsDentalBusiness
 					if(claim.ShareOfCost > 0) {
 						sw.Write("AMT"+s
 						  +"F5"+s//AMT01 1/3 Amount Qualifier Code: F5=Patient Paid Amount.
-						  +claim.ShareOfCost.ToString("F2"));//AMT02 1/18 Monetary Amount:
+						  +AmountToStr(claim.ShareOfCost));//AMT02 1/18 Monetary Amount:
 						EndSegment(sw);//AMT03 is not used.
 					}
 				}
@@ -1622,7 +1622,7 @@ namespace OpenPmsDentalBusiness
 							sw.Write(isa16+Sout(proc.ClaimNote,80));//SV101-7 1/80 Description: Situational.
 						}
 						sw.Write(s//SV101-8 is not used.
-							+claimProcs[j].FeeBilled.ToString()+s);//SV102 1/18 Monetary Amount: Charge Amt.
+							+ODNumberText.ToStringG15(claimProcs[j].FeeBilled,CultureInfo.InvariantCulture)+s);//SV102 1/18 Monetary Amount: Charge Amt.
 						if(proc.UnitQtyType==ProcUnitQtyType.MinutesAnesth) {
 							sw.Write("MJ"+s);//SV103 2/2 Unit or Basis for Measurement Code: MJ=minutes, UN=Unit.
 						}
@@ -1694,7 +1694,7 @@ namespace OpenPmsDentalBusiness
 							sw.Write(isa16+Sout(proc.ClaimNote,80));//SV202-7 1/80 Description: Situational.
 						}
 						sw.Write(s//SV202-8 is not used.
-							+claimProcs[j].FeeBilled.ToString()+s);//SV203 1/18 Monetary Amount: Charge Amt.
+							+ODNumberText.ToStringG15(claimProcs[j].FeeBilled,CultureInfo.InvariantCulture)+s);//SV203 1/18 Monetary Amount: Charge Amt.
 						if(proc.UnitQtyType==ProcUnitQtyType.Days) {
 							sw.Write("DA"+s);//SV204 2/2 Unit or Basis for Measurement Code: DA=Days, UN=Unit.
 						}
@@ -1725,7 +1725,7 @@ namespace OpenPmsDentalBusiness
 							sw.Write(isa16+Sout(proc.ClaimNote,80));//SV301-7 1/80 Description: Situational.
 						}
 						sw.Write(s//SV301-8 is not used.
-							+claimProcs[j].FeeBilled.ToString());//SV302 1/18 Monetary Amount: Charge Amount.
+							+ODNumberText.ToStringG15(claimProcs[j].FeeBilled,CultureInfo.InvariantCulture));//SV302 1/18 Monetary Amount: Charge Amount.
 						string placeService="";
 						if(proc.PlaceService!=claim.PlaceService) {
 							placeService=GetPlaceService(proc.PlaceService);
@@ -1937,7 +1937,7 @@ namespace OpenPmsDentalBusiness
 						if(string.IsNullOrEmpty(provID)) {
 							provID=(provOrderProc??provTreatProc)?.NationalProvID??"";
 						}
-						sw.Write("PS1"+s+provID+s+claimFeeBilled.ToString("f2"));
+						sw.Write("PS1"+s+provID+s+claimFeeBilled.ToString("f2",CultureInfo.InvariantCulture));
 						EndSegment(sw);
 					}
 					#endregion Service PS1
@@ -1953,7 +1953,7 @@ namespace OpenPmsDentalBusiness
 							EndSegment(sw);//LIN04 through LIN31 not used.
 							//2410 CTP: (medical,institutional) Drug Quantity.
 							sw.Write("CTP"+s+s+s+s//CTP01 through CTP03 not used.
-								+proc.DrugQty.ToString()+s//CTP04 1/15 Quantity:
+								+ODNumberText.ToStringG7(proc.DrugQty,CultureInfo.InvariantCulture)+s//CTP04 1/15 Quantity:
 								+GetDrugUnitCode(proc.DrugUnit));//CTP05-1 2/2 Unit or Basis for Measurement Code: Code Qualifier, validated to not be None.
 							EndSegment(sw);//CTP05-2 through CTP05-15 not used. CTP06 through CTP11 not used.
 							//2410 REF (inst) Rx or compound drug association number.  Not supported.
@@ -3491,9 +3491,15 @@ namespace OpenPmsDentalBusiness
 			return false;
 		}
 
+		///<summary>An amount with two decimals and a period ("F2"), without a sign when it rounds to zero, the same on .NET Framework and .NET.
+		///</summary>
+		public static string AmountToStr(double amount) {
+			return ODNumberText.ToStringNoNegativeZero(amount,"F2",CultureInfo.InvariantCulture);
+		}
+
 		///<summary>Removes leading zeros in numbers such as 0.00 or 0.99, for Emdeon and maybe others.</summary>
-		private static string AmountToStrNoLeading(double amount) {
-			string result=amount.ToString("F");
+		public static string AmountToStrNoLeading(double amount) {
+			string result=ODNumberText.ToStringNoNegativeZero(amount,"F",CultureInfo.InvariantCulture);
 			int i=0;
 			while(i<result.Length-1 && result[i]=='0') {
 				i++;

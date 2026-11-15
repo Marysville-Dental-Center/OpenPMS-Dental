@@ -51,7 +51,7 @@ namespace OpenPmsDentalBusiness.Eclaims {
 				dp.ETAB=provClaimTreat.CanadianOfficeNum;//Usually empty.
 				//dp.ADMIS=;//Date of patient admission.  Not currently used.  This would be the same as the date of service for dental claims anyway.
 				//dp.SORTI=;//Date patient discharged.  Not currently used.  This would be the same as the date of service for dental claims anyway.
-				dp.TOT_DEM=claim.ClaimFee.ToString().Replace(".","").PadLeft(6,'0');
+				dp.TOT_DEM=GetClaimTotalDigits(claim.ClaimFee);
 				dp.COMPL=TidyStr(claim.ClaimNote,200);
 				//dp.CS=;//Not sure what this is.  Not currently used.
 				//dp.AUTOR=claim.PreAuthString;//Authorization number when invoicing acrylic prostheses. Required if DAT_AUTOR is present. Not currently used.
@@ -124,7 +124,7 @@ namespace OpenPmsDentalBusiness.Eclaims {
 					acteProc.ROLE="1";//1 for principal role and 2 for assistant role.
 					//acte.MODIF=;//Optional.  Not sure what to put here, so leaving blank for now.
 					acteProc.UNIT=proc.UnitQty.ToString().PadLeft(3,'0');
-					acteProc.MNT=proc.ProcFee.ToString("F").Replace(".","").PadLeft(6,'0');
+					acteProc.MNT=GetAmountDigits(proc.ProcFee);
 					acteProc.DENT=proc.ToothNum.ToString().PadLeft(2,'0');
 					acteProc.SURF=proc.Surf.ToString().PadLeft(2,'0');
 					listProcs.Add(acteProc);
@@ -140,7 +140,7 @@ namespace OpenPmsDentalBusiness.Eclaims {
 							acteLab.ACTE=labProcCode.ProcCode.Substring(0,5);
 						}
 						acteLab.ROLE="1";//1 for principal role and 2 for assistant role.
-						acteLab.MNT=labProc.ProcFee.ToString("F").Replace(".","").PadLeft(6,'0');
+						acteLab.MNT=GetAmountDigits(labProc.ProcFee);
 						listProcs.Add(acteLab);
 					}
 				}
@@ -193,6 +193,18 @@ namespace OpenPmsDentalBusiness.Eclaims {
 				return str.Substring(0,maxwidth);
 			}
 			return str;
+		}
+
+		///<summary>The claim's total (TOT_DEM): the amount as double.ToString() wrote it on .NET Framework (15 significant digits, a period),
+		///without the period, padded to 6 digits. 125.5 gives "001255": trailing zeros are not written, unlike the procedure amounts
+		///(GetAmountDigits). Kept as it was (net10 plan, S3a-3 records it).</summary>
+		public static string GetClaimTotalDigits(double claimFee) {
+			return ODNumberText.ToStringG15(claimFee,CultureInfo.InvariantCulture).Replace(".","").PadLeft(6,'0');
+		}
+
+		///<summary>A procedure or lab amount (MNT): two decimals without the period, padded to 6 digits. 125.5 gives "012550".</summary>
+		public static string GetAmountDigits(double amount) {
+			return ODNumberText.ToStringNoNegativeZero(amount,"F",CultureInfo.InvariantCulture).Replace(".","").PadLeft(6,'0');
 		}
 
 		///<summary>Returns true if the communications were successful, and false if they failed.</summary>
