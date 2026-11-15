@@ -1518,13 +1518,14 @@ namespace OpenPmsDental.UI {
 			if(this.ContextMenuStrip==null) {
 				return;
 			}
-			//A ContextMenuStrip with no items starts its Opening cancelled. The grid's own menu is empty until the first time it opens.
-			bool isEmpty=this.ContextMenuStrip.Items.Count==0;
+			//A ContextMenuStrip with no items that will show starts its Opening cancelled (ToolStripDropDown uses DisplayedItems, which leaves out the
+			//items that are not Available). The grid's own menu is empty until the first time it opens, and a caller's strip may have only hidden items.
+			bool hadNoShownItems=!this.ContextMenuStrip.Items.Cast<ToolStripItem>().Any(x => x.Available);
 			CopyHelperStrip();
 			if(HasLinkDetect) {//Link detect should go after Copy Helper as the "Copy Text" menu item should be above any links.
 				PopupHelperStrip();
 			}
-			if(isEmpty && this.ContextMenuStrip.Items.Count>0) {
+			if(hadNoShownItems && this.ContextMenuStrip.Items.Cast<ToolStripItem>().Any(x => x.Available)) {
 				e.Cancel=false;
 			}
 		}
