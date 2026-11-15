@@ -24,8 +24,8 @@ What this version brings, each in its section below (the roadmap's "Done in the 
 - the Direct certificate of an e-mail address imported from the file the office's Direct provider issued, with the provider's trust anchor,
   in place of the registration with Open Dental's servers, which always failed;
 - the EHR value sets imported from the office's own download of VSAC's June 2013 EP release, so the EHR pick lists (tobacco use,
-  interventions, not-performed reasons) and the 2014 quality measures have their codes again, with a code-system status that shows which
-  code-system tables still have to be loaded;
+  interventions, not-performed reasons) have their codes again, with a code-system status that shows which code-system tables still
+  have to be loaded (the 2014 and 2011 quality-measure windows are removed: the 2027 measures replace them);
 - Open Dental 26.2: its database schema and the changes the owner chose on 2026-11-07:
   - Appointments: several blockout types in the Advanced Appointment Search, the practice and clinic schedule notes in the Appointments
     module, and appointment estimates brought up to date when an insurance plan is saved;
