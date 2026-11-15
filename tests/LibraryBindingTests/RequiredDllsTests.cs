@@ -94,13 +94,9 @@ namespace LibraryBindingTests {
 			//"Required dlls" (4.0.3.0 used to sit there, referenced by nothing) is never used and must not come back.
 			Assert.IsFalse(File.Exists(Path.Combine(RepoPaths.RequiredDlls,"System.ValueTuple.dll")),"Required dlls\\System.ValueTuple.dll is back.");
 			Assert.IsFalse(Libraries.Files.ContainsKey("System.ValueTuple.dll"),"No package brings a System.ValueTuple.dll for .NET Framework 4.8.");
-			List<AssemblyReference> listReferences=Libraries.Assemblies.Values.SelectMany(x => x.ListReferences)
-				.Where(x => x.Name=="System.ValueTuple").ToList();
-			foreach(Version version in listReferences.Select(x => x.Version).Distinct()) {
-				AssemblyName assemblyName=new AssemblyName("System.ValueTuple, Version="+version+", Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51");
-				Assembly assembly=Assembly.Load(assemblyName);//the framework's own assembly, not a file of this repository
-				Assert.IsTrue(assembly.GlobalAssemblyCache,"System.ValueTuple "+version+" should bind to the framework's copy, not "+assembly.Location);
-			}
+			//Until S3a-8 of the .NET 10 move this also loaded System.ValueTuple at every version a library references and asserted that it came
+			//from the global assembly cache. .NET has no global assembly cache (Assembly.GlobalAssemblyCache is always false there), so that
+			//assertion would fail on .NET for the right files; the two checks above keep the rule: no copy of our own, from either source.
 		}
 
 		///<summary>Since S2-4 of the .NET 10 move "Required dlls" holds only the files that have no NuGet package: none of a package the lock files

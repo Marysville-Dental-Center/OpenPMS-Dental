@@ -1,12 +1,14 @@
-// Runs PDF work in a fresh application domain whose configuration turns on the .NET Framework's network tracing (System.Net, System.Net.Sockets,
-// System.Net.Http), and records what the library did there: every network trace line, what it wrote to the console and to Trace, and which
-// assemblies it loaded. A fresh domain also starts with no PDFsharp licence selected and no font resolver.
+// Runs PDF work in a fresh process (TestProbeHost) whose configuration turns on the .NET Framework's network tracing (System.Net,
+// System.Net.Sockets, System.Net.Http), and records what the library did there: every network trace line, what it wrote to the console and to
+// Trace, and which assemblies it loaded. A fresh process also starts with no PDFsharp licence selected and no font resolver. Before S3a-8 of the
+// .NET 10 move this ran in a new application domain, which .NET cannot create.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net.Sockets;
@@ -18,12 +20,12 @@ using OpenPmsDentalBusiness;
 using PdfSharp.Drawing;
 using PdfSharp.Pdf;
 using PdfSharp.Pdf.IO;
+using TestProbeHost;
 using Color=System.Drawing.Color;
 using Document=MigraDoc.DocumentObjectModel.Document;
 
 namespace PdfLibraryTests {
-	///<summary>What happened in the isolated domain.</summary>
-	[Serializable]
+	///<summary>What happened in the isolated process.</summary>
 	public class IsolatedPdfResult {
 		///<summary>The exception type and message of the first PdfDocument made before PdfSharpSetup.Init, or "" when it was made.</summary>
 		public string ErrorWithoutLicence="";
@@ -34,14 +36,35 @@ namespace PdfLibraryTests {
 		public List<string> ListNetworkLinesControl=new List<string>();
 		///<summary>Console output and Trace messages during the PDF work.</summary>
 		public string ConsoleAndTraceOutput="";
-		///<summary>Assemblies loaded in the domain.</summary>
+		///<summary>Assemblies loaded in the process.</summary>
 		public List<string> ListAssemblies=new List<string>();
 		public int PageCountPdfSharp;
 		public int PageCountMigraDoc;
 		public string Producer="";
+
+		///<summary>The result as one ProbeText field, to cross from the child process.</summary>
+		public string ToText() {
+			return ProbeText.JoinList(new[] { ErrorWithoutLicence,ProbeText.JoinList(ListNetworkLinesDuringPdf),ProbeText.JoinList(ListNetworkLinesControl),
+				ConsoleAndTraceOutput,ProbeText.JoinList(ListAssemblies),PageCountPdfSharp.ToString(CultureInfo.InvariantCulture),
+				PageCountMigraDoc.ToString(CultureInfo.InvariantCulture),Producer });
+		}
+
+		public static IsolatedPdfResult FromText(string text) {
+			string[] arrayFields=ProbeText.SplitList(text);
+			IsolatedPdfResult isolatedPdfResult=new IsolatedPdfResult();
+			isolatedPdfResult.ErrorWithoutLicence=arrayFields[0];
+			isolatedPdfResult.ListNetworkLinesDuringPdf=ProbeText.SplitList(arrayFields[1]).ToList();
+			isolatedPdfResult.ListNetworkLinesControl=ProbeText.SplitList(arrayFields[2]).ToList();
+			isolatedPdfResult.ConsoleAndTraceOutput=arrayFields[3];
+			isolatedPdfResult.ListAssemblies=ProbeText.SplitList(arrayFields[4]).ToList();
+			isolatedPdfResult.PageCountPdfSharp=int.Parse(arrayFields[5],CultureInfo.InvariantCulture);
+			isolatedPdfResult.PageCountMigraDoc=int.Parse(arrayFields[6],CultureInfo.InvariantCulture);
+			isolatedPdfResult.Producer=arrayFields[7];
+			return isolatedPdfResult;
+		}
 	}
 
-	///<summary>Records every line the network trace sources write. Named in the isolated domain's configuration.</summary>
+	///<summary>Records every line the network trace sources write. Named in the isolated process's configuration.</summary>
 	public class NetworkTraceRecorder:TraceListener {
 		private static readonly object _lock=new object();
 		private static readonly List<string> _listLines=new List<string>();
@@ -78,8 +101,18 @@ namespace PdfLibraryTests {
 		}
 	}
 
-	///<summary>Lives in the isolated domain and does the PDF work there.</summary>
-	public class IsolatedPdfWorker:MarshalByRefObject {
+	///<summary>Lives in the isolated process and does the PDF work there.</summary>
+	public class IsolatedPdfWorker {
+		public const string COMMAND_RUN="Run";
+
+		///<summary>The child process's handler: Run, once, returns IsolatedPdfResult.ToText.</summary>
+		public static string Handle(string command,string[] arrayArgs) {
+			if(command==COMMAND_RUN) {
+				return new IsolatedPdfWorker().Run().ToText();
+			}
+			throw new ArgumentException("Unknown command "+command);
+		}
+
 		public IsolatedPdfResult Run() {
 			IsolatedPdfResult isolatedPdfResult=new IsolatedPdfResult();
 			NetworkTraceRecorder.TakeLines();
@@ -158,31 +191,13 @@ namespace PdfLibraryTests {
 	}
 
 	public static class IsolatedPdfRun {
-		///<summary>Runs IsolatedPdfWorker in a new domain with this test assembly's configuration (its binding redirects) plus the network trace
-		///sources, and unloads it afterwards.</summary>
+		///<summary>Runs IsolatedPdfWorker in a new process from this test's folder with this test assembly's configuration (its binding redirects)
+		///plus the network trace sources, and ends it afterwards.</summary>
 		public static IsolatedPdfResult Run() {
 			string folder=Path.GetDirectoryName(typeof(IsolatedPdfRun).Assembly.Location);
-			string pathConfig=Path.Combine(Path.GetTempPath(),"libpdf_"+Guid.NewGuid().ToString("N")+".config");
-			File.WriteAllText(pathConfig,CreateConfig(typeof(IsolatedPdfRun).Assembly.Location+".config"));
-			AppDomain appDomain=null;
-			try {
-				AppDomainSetup appDomainSetup=new AppDomainSetup();
-				appDomainSetup.ApplicationBase=folder;
-				appDomainSetup.ConfigurationFile=pathConfig;
-				appDomain=AppDomain.CreateDomain("PdfLibraryTests.Isolated",null,appDomainSetup);
-				IsolatedPdfWorker isolatedPdfWorker=(IsolatedPdfWorker)appDomain.CreateInstanceAndUnwrap(typeof(IsolatedPdfWorker).Assembly.FullName,
-					typeof(IsolatedPdfWorker).FullName);
-				return isolatedPdfWorker.Run();
-			}
-			finally {
-				if(appDomain!=null) {
-					AppDomain.Unload(appDomain);
-				}
-				try {
-					File.Delete(pathConfig);
-				}
-				catch(Exception) {
-				}
+			string configText=CreateConfig(typeof(IsolatedPdfRun).Assembly.Location+".config");
+			using(ProbeProcess probeProcess=ProbeProcess.Start(folder,configText,typeof(IsolatedPdfWorker),TimeSpan.FromMinutes(5))) {
+				return IsolatedPdfResult.FromText(probeProcess.Call(IsolatedPdfWorker.COMMAND_RUN));
 			}
 		}
 

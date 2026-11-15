@@ -154,10 +154,12 @@ namespace VendorDirectTests.DdeBridges {
 			{
 				string path=Path.Combine(GetRoot(),pathRelative);
 				Assert.IsTrue(File.Exists(path),"Build first: "+path);
-				string name=AssemblyName.GetAssemblyName(path).FullName;
-				Assembly assembly=AppDomain.CurrentDomain.ReflectionOnlyGetAssemblies().FirstOrDefault(x => x.FullName==name)
-					??Assembly.ReflectionOnlyLoad(File.ReadAllBytes(path));
-				Assert.IsFalse(assembly.GetReferencedAssemblies().Any(x => x.Name.Equals("NDde",StringComparison.OrdinalIgnoreCase)),pathRelative);
+				//Read with Mono.Cecil from the metadata of a copy of the bytes: nothing is loaded or locked (S3a-8 of the .NET 10 move: .NET has no
+				//reflection-only load).
+				using(MemoryStream memoryStream=new MemoryStream(File.ReadAllBytes(path)))
+				using(Mono.Cecil.ModuleDefinition moduleDefinition=Mono.Cecil.ModuleDefinition.ReadModule(memoryStream)) {
+					Assert.IsFalse(moduleDefinition.AssemblyReferences.Any(x => x.Name.Equals("NDde",StringComparison.OrdinalIgnoreCase)),pathRelative);
+				}
 			}
 		}
 

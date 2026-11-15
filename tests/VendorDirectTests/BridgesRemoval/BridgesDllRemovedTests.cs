@@ -13,6 +13,7 @@ using System.Text.RegularExpressions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenPmsDentalBusiness;
 using ProjectFileTests;
+using TestProbeHost;
 using VendorDirectTests.Foundation;
 
 namespace VendorDirectTests.BridgesRemoval {
@@ -69,13 +70,35 @@ namespace VendorDirectTests.BridgesRemoval {
 			return listFiles;
 		}
 
-		///<summary>The names of the assemblies the file references, read from a copy of its bytes so the file stays unlocked. Reuses a copy that
-		///another test already loaded for reflection, because the same assembly cannot be loaded into that context twice.</summary>
+		///<summary>The names of the assemblies the file references, read with Mono.Cecil from the metadata of a copy of its bytes, so the file stays
+		///unlocked and nothing is loaded (S3a-8 of the .NET 10 move: .NET has no reflection-only load).</summary>
 		private static List<string> GetReferencedAssemblyNames(string path) {
-			string name=AssemblyName.GetAssemblyName(path).FullName;
-			Assembly assembly=AppDomain.CurrentDomain.ReflectionOnlyGetAssemblies().FirstOrDefault(x => x.FullName==name)
-				??Assembly.ReflectionOnlyLoad(File.ReadAllBytes(path));
-			return assembly.GetReferencedAssemblies().Select(x => x.Name).ToList();
+			using(MemoryStream memoryStream=new MemoryStream(File.ReadAllBytes(path)))
+			using(Mono.Cecil.ModuleDefinition moduleDefinition=Mono.Cecil.ModuleDefinition.ReadModule(memoryStream)) {
+				return moduleDefinition.AssemblyReferences.Select(x => x.Name).ToList();
+			}
+		}
+
+		///<summary>Copies the assembly named assemblyName from folderFrom to folderTo, with every assembly it references, directly or through each
+		///other, that folderFrom holds (the framework's own are not there): the files the program would load for it, from its folder.</summary>
+		private static void CopyWithReferences(string folderFrom,string assemblyName,string folderTo) {
+			Queue<string> queueNames=new Queue<string>();
+			HashSet<string> hashSetSeen=new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+			queueNames.Enqueue(assemblyName);
+			while(queueNames.Count>0) {
+				string name=queueNames.Dequeue();
+				if(!hashSetSeen.Add(name)) {
+					continue;
+				}
+				string path=Path.Combine(folderFrom,name+".dll");
+				if(!File.Exists(path)) {
+					continue;
+				}
+				File.Copy(path,Path.Combine(folderTo,name+".dll"));
+				foreach(string nameReference in GetReferencedAssemblyNames(path)) {
+					queueNames.Enqueue(nameReference);
+				}
+			}
 		}
 
 		[TestMethod]
@@ -196,19 +219,26 @@ namespace VendorDirectTests.BridgesRemoval {
 			StringAssert.Matches(File.ReadAllText(pathConfig),
 				new Regex(@"name=""Microsoft\.Bcl\.AsyncInterfaces""[^>]*/>\s*<bindingRedirect oldVersion=""0\.0\.0\.0-10\.0\.0\.15"" newVersion=""10\.0\.0\.15"""),
 				"OpenPmsDental.exe.config needs the binding redirect SSH.NET relies on.");
-			//Load SftpClient the way the program does: from its folder, with its config, in a domain of its own so nothing stays loaded or locked.
-			AppDomainSetup setup=new AppDomainSetup();
-			setup.ApplicationBase=folder;
-			setup.ConfigurationFile=pathConfig;
-			AppDomain domain=AppDomain.CreateDomain("SshNetLoadProbe",null,setup);
+			//Load SftpClient the way the program does: the program's files, with the program's config, in a process of its own so nothing stays
+			//loaded or locked here (S3a-8 of the .NET 10 move: a child process in place of a new AppDomain, which .NET cannot create). The child runs
+			//from a scratch folder that holds Renci.SshNet.dll and the files of the program's folder it references, so nothing is written into the
+			//program's folder.
+			string folderProbe=Path.Combine(Path.GetTempPath(),"vendordirect_sshnet_"+Guid.NewGuid().ToString("N"));
+			Directory.CreateDirectory(folderProbe);
 			try {
-				SshNetLoadProbe probe=(SshNetLoadProbe)domain.CreateInstanceFromAndUnwrap(typeof(SshNetLoadProbe).Assembly.Location,
-					typeof(SshNetLoadProbe).FullName);
-				string error=probe.LoadType("Renci.SshNet","Renci.SshNet.SftpClient");
-				Assert.IsNull(error,"Renci.SshNet.SftpClient does not load from "+folder+": "+error);
+				CopyWithReferences(folder,"Renci.SshNet",folderProbe);
+				using(ProbeProcess probeProcess=ProbeProcess.Start(folderProbe,File.ReadAllText(pathConfig),typeof(SshNetLoadProbe),TimeSpan.FromMinutes(2))) {
+					string error=probeProcess.Call(SshNetLoadProbe.COMMAND_LOAD_TYPE,"Renci.SshNet","Renci.SshNet.SftpClient");
+					Assert.AreEqual("",error,"Renci.SshNet.SftpClient does not load from the files of "+folder+" with its config: "+error);
+				}
 			}
 			finally {
-				AppDomain.Unload(domain);
+				try {
+					Directory.Delete(folderProbe,true);
+				}
+				catch(Exception) {
+					//A file the ended child still held; the temp folder keeps it.
+				}
 			}
 		}
 
@@ -295,17 +325,33 @@ namespace VendorDirectTests.BridgesRemoval {
 		}
 	}
 
-	///<summary>Runs in a separate AppDomain whose base folder and config are the program's, and loads a type there the way the program would.
-	///Uses only mscorlib, so this test assembly needs none of its own references in that domain.</summary>
-	public class SshNetLoadProbe:MarshalByRefObject {
-		///<summary>Loads the type and everything its signatures name. Returns null on success, or the exception chain.</summary>
-		public string LoadType(string assemblyName,string typeName) {
+	///<summary>Runs in a child process (TestProbeHost) whose base folder holds the program's files and whose config is the program's, and loads a
+	///type there the way the program would. Uses only mscorlib, so this test assembly needs none of its own references there.</summary>
+	public static class SshNetLoadProbe {
+		public const string COMMAND_LOAD_TYPE="LoadType";
+
+		///<summary>The child process's handler: LoadType assemblyName typeName.</summary>
+		public static string Handle(string command,string[] arrayArgs) {
+			if(command==COMMAND_LOAD_TYPE) {
+				return LoadType(arrayArgs[0],arrayArgs[1]);
+			}
+			throw new ArgumentException("Unknown command "+command);
+		}
+
+		///<summary>Loads the type and everything its signatures name, by name as the program does. Returns "" on success, or the exception chain;
+		///also when the assembly came from another folder than the process's own.</summary>
+		private static string LoadType(string assemblyName,string typeName) {
 			try {
-				Type type=Assembly.Load(assemblyName).GetType(typeName,true);
+				Assembly assembly=Assembly.Load(assemblyName);
+				Type type=assembly.GetType(typeName,true);
 				type.GetInterfaces();
 				type.GetMethods();
 				type.GetConstructors();
-				return null;
+				string folderBase=Path.GetFullPath(AppDomain.CurrentDomain.BaseDirectory).TrimEnd('\\');
+				if(!string.Equals(Path.GetDirectoryName(assembly.Location),folderBase,StringComparison.OrdinalIgnoreCase)) {
+					return assemblyName+" was loaded from "+assembly.Location+", not from "+folderBase+".";
+				}
+				return "";
 			}
 			catch(Exception ex) {
 				return ex.ToString();

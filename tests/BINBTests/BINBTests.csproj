@@ -5,6 +5,9 @@
   <ItemGroup>
     <Reference Include="System.IO.Compression" />
     <Reference Include="System.Windows.Forms" />
+    <!-- Reads the references of built assemblies without loading them (S3a-8 of the .NET 10 move: .NET has no reflection-only load). The
+         NuGet package, from the offline package folder (nuget.config), at the version of Directory.Packages.props. -->
+    <PackageReference Include="Mono.Cecil" />
   </ItemGroup>
   <ItemGroup>
     <!-- The reader of project files (classic and SDK-style) shared by the tests that check them (S1-T of docs/specs/net10-plan.md). -->

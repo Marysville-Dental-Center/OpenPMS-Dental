@@ -2,8 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Mono.Cecil;
 using ProjectFileTests;
 
 namespace NoHqTests {
@@ -43,17 +43,12 @@ namespace NoHqTests {
 			}
 		}
 
-		///<summary>Reads the assembly references of the file in a separate app domain, so the file is not locked and nothing is loaded here.</summary>
+		///<summary>Reads the assembly references of the file's metadata with Mono.Cecil, from a copy of its bytes, so the file is not locked and
+		///nothing is loaded (S3a-8: in place of a reflection-only load in a separate app domain, neither of which .NET has).</summary>
 		internal static List<string> GetReferencedAssemblyNames(string path) {
-			AppDomainSetup appDomainSetup=new AppDomainSetup();
-			appDomainSetup.ApplicationBase=Path.GetDirectoryName(typeof(ReferenceReader).Assembly.Location);//so the new domain can load this test assembly
-			AppDomain appDomain=AppDomain.CreateDomain("ReferenceReader",null,appDomainSetup);
-			try {
-				ReferenceReader referenceReader=(ReferenceReader)appDomain.CreateInstanceAndUnwrap(typeof(ReferenceReader).Assembly.FullName,typeof(ReferenceReader).FullName);
-				return referenceReader.GetReferencedAssemblyNames(path).ToList();
-			}
-			finally {
-				AppDomain.Unload(appDomain);
+			using(MemoryStream memoryStream=new MemoryStream(File.ReadAllBytes(path)))
+			using(ModuleDefinition moduleDefinition=ModuleDefinition.ReadModule(memoryStream)) {
+				return moduleDefinition.AssemblyReferences.Select(x => x.Name).ToList();
 			}
 		}
 
@@ -73,14 +68,6 @@ namespace NoHqTests {
 			}
 			Assert.Inconclusive("Could not find the repository root (the folder with LICENSE and NOTICE).");
 			return null;
-		}
-	}
-
-	///<summary>Created in a separate app domain by RemovedAssembliesTests.</summary>
-	public class ReferenceReader:MarshalByRefObject {
-		public string[] GetReferencedAssemblyNames(string path) {
-			Assembly assembly=Assembly.ReflectionOnlyLoadFrom(path);
-			return assembly.GetReferencedAssemblies().Select(x => x.Name).ToArray();
 		}
 	}
 }
