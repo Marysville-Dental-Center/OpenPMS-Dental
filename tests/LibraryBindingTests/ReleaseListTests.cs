@@ -22,6 +22,9 @@ namespace LibraryBindingTests {
 				+"LdapCertResolver" },
 			{ "Health.Direct.Config.Store","Health.Direct.ResolverPlugins uses it only for the Direct configuration service; the program uses only its "
 				+"LdapCertResolver" },
+			//TC-4 (docs/port-notes/TC-4.md): no package or file holds SRTM.dll (SRTM 0.0.8.0, the itinero/srtm reader).
+			{ "SRTM","HelixToolkit.Wpf uses it only in its terrain models (HgtTerrainModel and the TerrainVisual3D that loads one); the tooth chart "
+				+"never shows terrain (HelixReferenceTests)" },
 		};
 
 		private static string ProgramFolder {

@@ -586,6 +586,23 @@ The build already restores NuGet packages (`-restore -p:RestorePackagesConfig=tr
 
 Not on NuGet in a maintained form, so keep them as is: Tao Framework (MIT-X11) and the Direct Project libraries (BSD-3-Clause, buildable from source). NDde (permissive in its use terms, but its own licence puts restrictions on recipients that the GPL does not allow) was removed on 2026-11-07; the three program links that used it came back on 2026-11-08 on an in-house DDE client (docs/port-notes/S0-R.md).
 
+### Packages added after the audit, never in `Required dlls`
+
+Helix Toolkit 3.1.2 for the WPF tooth chart (TC-4, 2026-11-14, [port note](port-notes/TC-4.md); owner answers O-17 and O-18 of [the chart plan](specs/wpf-tooth-chart-plan.md)): `SparksToothChart` names the NuGet package `HelixToolkit.Wpf`, which brings eight files that ship next to the program, each the package's own file at the version `OpenPmsDental/packages.lock.json` names (`tools/Build-Release.ps1` checks them), each in `THIRD-PARTY-NOTICES.txt`. All are IL-only and not 32-bit-required.
+
+| File | Size | Vendor and product | License | Class | Recommended action |
+|---|---:|---|---|---|---|
+| `HelixToolkit.Wpf.dll` | 568 KB | Helix Toolkit contributors, Helix Toolkit 3.1.2 | MIT; holds `LoopSubdivision` under a BSD notice that a binary redistribution must reproduce (in the Helix entry of `THIRD-PARTY-NOTICES.txt`), and `CanonicalSplineHelper`, whose source carries its author's 2009 copyright line and no licence | Open source | **NuGet** `HelixToolkit.Wpf` |
+| `HelixToolkit.dll` | 41 KB | Helix Toolkit contributors, Helix Toolkit 3.1.2 | MIT | Open source | **NuGet** `HelixToolkit` |
+| `HelixToolkit.Geometry.dll` | 100 KB | Helix Toolkit contributors, Helix Toolkit 3.1.2 | MIT; `MeshSimplification` is a port of the MIT Fast-Quadric-Mesh-Simplification | Open source | **NuGet** `HelixToolkit.Geometry` |
+| `HelixToolkit.Maths.dll` | 190 KB | Helix Toolkit contributors, Helix Toolkit 3.1.2 | MIT, with MIT code derived from SharpDX and SlimMath | Open source | **NuGet** `HelixToolkit.Maths` |
+| `CommunityToolkit.Common.dll` | 35 KB | .NET Foundation, .NET Community Toolkit 8.3.2 | MIT | Open source | **NuGet** `CommunityToolkit.Common` |
+| `CommunityToolkit.Diagnostics.dll` | 97 KB | .NET Foundation, .NET Community Toolkit 8.3.2 | MIT | Open source | **NuGet** `CommunityToolkit.Diagnostics` |
+| `CommunityToolkit.Mvvm.dll` | 113 KB | .NET Foundation, .NET Community Toolkit 8.3.2 | MIT (the package's source generators never reach a compilation: `Directory.Build.targets`) | Open source | **NuGet** `CommunityToolkit.Mvvm` |
+| `System.ComponentModel.Annotations.dll` | 42 KB | Microsoft, System.ComponentModel.Annotations 5.0.0 | MIT | Open source | **NuGet** `System.ComponentModel.Annotations` |
+
+The other packages of Helix's closure ship no file: `System.Net.Http` 4.3.4 and the nine System.* packages of the 4.3.x era it brings, with `Microsoft.NETCore.Platforms` 1.1.1 and `Microsoft.NETCore.Targets` 1.1.3 (the twelve under the "Microsoft .NET Library" licence) and `runtime.any.System.IO`/`runtime.any.System.Runtime` 4.3.0 (batch H2), have no file the build keeps: the .NET Framework 4.8 assemblies of those names are newer, so the build's conflict resolution keeps the framework's, or the package holds only placeholders (`_._`).
+
 ## Other findings
 
 ### Missing dependencies

@@ -45,11 +45,36 @@ namespace ReleaseFlowTests {
 			{ "System.Text.Encodings.Web",".NET libraries" },
 			{ "System.Text.Json",".NET libraries" },
 			{ "System.Threading.Tasks.Extensions",".NET libraries" },
+			//TC-4: Helix Toolkit 3.1.2 and the packages of its closure that bring a file the build keeps.
+			{ "HelixToolkit","Helix Toolkit" },
+			{ "HelixToolkit.Geometry","Helix Toolkit" },
+			{ "HelixToolkit.Maths","Helix Toolkit" },
+			{ "HelixToolkit.Wpf","Helix Toolkit" },
+			{ "CommunityToolkit.Common",".NET Community Toolkit" },
+			{ "CommunityToolkit.Diagnostics",".NET Community Toolkit" },
+			{ "CommunityToolkit.Mvvm",".NET Community Toolkit" },
+			{ "System.ComponentModel.Annotations",".NET libraries" },
 		};
 
 		///<summary>Packages of the program's lock file that ship no file, with why.</summary>
 		private static readonly Dictionary<string,string> _dictNotShipped=new Dictionary<string,string>(StringComparer.OrdinalIgnoreCase) {
 			{ "System.ValueTuple","no assembly for .NET Framework 4.7.1 and later (lib\\net471\\_._): the framework's own" },
+			//TC-4: System.Net.Http 4.3.4, which HelixToolkit names for net48, and the .NET Standard 1.x packages it brings. Their files are older
+			//versions of .NET Framework 4.8 assemblies, which the build keeps instead (NuGetFiles.IsReplacedByTheFramework), or placeholders.
+			{ "System.Net.Http","the .NET Framework's System.Net.Http 4.2.0.0 is newer than its file (4.1.1.3), so the build copies none (risk W2)" },
+			{ "System.IO","the .NET Framework's facade is newer than its file" },
+			{ "System.IO.Compression","the .NET Framework's System.IO.Compression is newer than its file" },
+			{ "System.Runtime","the .NET Framework's facade is newer than its file" },
+			{ "System.Security.Cryptography.Algorithms","the .NET Framework's facade is newer than its file" },
+			{ "System.Security.Cryptography.Encoding","the .NET Framework's facade is newer than its file" },
+			{ "System.Security.Cryptography.Primitives","the .NET Framework's facade is newer than its file" },
+			{ "System.Security.Cryptography.X509Certificates","the .NET Framework's facade is newer than its file" },
+			{ "System.Text.RegularExpressions","the .NET Framework's facade is newer than its file" },
+			{ "System.Private.Uri","no assembly for .NET Framework (placeholders only)" },
+			{ "Microsoft.NETCore.Platforms","no assembly: the runtime graph of the .NET Standard 1.x packages" },
+			{ "Microsoft.NETCore.Targets","no assembly: the runtime graph of the .NET Standard 1.x packages" },
+			{ "runtime.any.System.IO","no assembly for .NET Framework (lib\\net45\\_._), batch H2" },
+			{ "runtime.any.System.Runtime","no assembly for .NET Framework (lib\\net45\\_._), batch H2" },
 		};
 
 		private static string FolderProgram {
@@ -137,7 +162,7 @@ namespace ReleaseFlowTests {
 			string folder=TestPaths.NewTempFolder("packages");
 			try {
 				List<string> listPackageNames=FillStaging(folder,dictPackageFiles);
-				Assert.AreEqual(30,listPackageNames.Count,"The third-party files of packages: "+string.Join(", ",listPackageNames));
+				Assert.AreEqual(38,listPackageNames.Count,"The third-party files of packages (30, and the 8 of Helix Toolkit's closure, TC-4): "+string.Join(", ",listPackageNames));
 				KeyValuePair<int,List<string>> pairResult=RunBuildRelease("-CheckFolder \""+folder+"\" -Full");
 				Assert.AreEqual(1,pairResult.Key,"Synthetic files fail the other checks.");
 				List<string> listPackageLines=pairResult.Value.Where(x => IsPackageProblem(x)).ToList();
@@ -203,7 +228,7 @@ namespace ReleaseFlowTests {
 				}
 			}
 			Assert.AreEqual(0,listProblems.Count,string.Join("\r\n",listProblems));
-			Assert.AreEqual(30,dictPackageFiles.Count,string.Join(", ",dictPackageFiles.Keys));
+			Assert.AreEqual(38,dictPackageFiles.Count,string.Join(", ",dictPackageFiles.Keys));
 		}
 
 		///<summary>THIRD-PARTY-NOTICES.txt names, for each package of OpenPmsDental's lock file whose files ship, the version the lock file names: in

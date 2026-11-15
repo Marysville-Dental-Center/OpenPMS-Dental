@@ -83,6 +83,16 @@
     <PackageVersion Include="System.Text.Encodings.Web" Version="10.0.14" />
     <PackageVersion Include="System.Text.Json" Version="10.0.14" />
     <PackageVersion Include="System.Threading.Tasks.Extensions" Version="4.6.3" />
+    <!-- The WPF tooth chart's 3D helpers (TC-4, docs/specs/wpf-tooth-chart-plan.md; docs/port-notes/TC-4.md): Helix Toolkit 3.1.2, which
+         SparksToothChart names. Its dependencies come from batch H and H2 of the offline folder and need no version here: every package of
+         Helix's net48 closure that another package also brings is one of the nine above (Microsoft.Bcl.AsyncInterfaces,
+         Microsoft.Extensions.DependencyInjection.Abstractions, Microsoft.Extensions.Logging.Abstractions, System.Buffers,
+         System.Diagnostics.DiagnosticSource, System.Memory, System.Numerics.Vectors, System.Runtime.CompilerServices.Unsafe and
+         System.Threading.Tasks.Extensions), which the transitive pinning above holds at these versions; the others (HelixToolkit,
+         .Geometry, .Maths, CommunityToolkit.Common, .Diagnostics, .Mvvm, System.ComponentModel.Annotations and the System.* 4.3.x packages
+         of System.Net.Http 4.3.4) have one version in the whole graph, so an unlocked restore of every project resolves them with no
+         NU1603, NU1605, NU1608 or NU1107. -->
+    <PackageVersion Include="HelixToolkit.Wpf" Version="3.1.2" />
     <!-- Test tools: Mono.Cecil reads assemblies in four test projects (S1-6). -->
     <PackageVersion Include="Mono.Cecil" Version="0.10.3" />
   </ItemGroup>

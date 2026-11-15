@@ -43,7 +43,9 @@ What this version brings, each in its section below (the roadmap's "Done in the 
     them from Medit Link);
   - Glidewell lab cases, ready but not yet able to send: hidden in Program Links until the program can connect to Glidewell, and no patient
     data is sent without a business associate agreement with Glidewell.
-- the Meaningful Use measures window of EHR (Measure Calc) working again, rebuilt as open code, for internal review only.
+- the Meaningful Use measures window of EHR (Measure Calc) working again, rebuilt as open code, for internal review only;
+- two new entries in Help > About > View Licenses, Helix Toolkit and the .NET Community Toolkit: libraries for the coming 3D tooth chart,
+  installed with the program from this version on (the tooth chart itself does not change yet).
 
 The update adds this program's own tables to the database (13 tables, none of Open Dental's schema: five for routine maintenance, seven for
 inventory tracking, one for SSH host keys); they start empty, except the stock ledger's opening rows (Inventory tracking, below). It also

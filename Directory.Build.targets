@@ -65,6 +65,33 @@
     <Content Update="$(NugetRoot)runtimes\win-x86\native\WebView2Loader.dll" Link="WebView2Loader.dll" />
   </ItemGroup>
 
+  <!--
+    CommunityToolkit.Mvvm 8.3.2, which Helix Toolkit brings to SparksToothChart and every project that references it (TC-4,
+    docs/port-notes/TC-4.md), has two Roslyn analyzers in its package: its source generators (CommunityToolkit.Mvvm.SourceGenerators.dll) and
+    its code fixes (CommunityToolkit.Mvvm.CodeFixers.dll). The restore hands them to the compiler of every such project, although Helix's
+    package asks to leave them out (exclude="Build,Analyzers"), and the package has no switch of its own to turn them off, as
+    Microsoft.Extensions.Logging.Abstractions and System.Text.Json have (Directory.Packages.props). Nothing here uses the toolkit's
+    generators, so they are removed after the SDK adds the package analyzers (ResolveLockFileAnalyzers, part of
+    ResolvePackageDependenciesForBuild; ResolveNuGetPackageAssets in a classic project), as those packages' own targets remove theirs.
+    ODRecordCompilerAnalyzers writes the analyzers each SDK-style compilation gets to obj\<configuration>\$(MSBuildProjectName).analyzers.txt
+    (package id and file name, one per line), so tests\ReleaseFlowTests (HelixPackageTests) can check from the build's output that none of
+    them reaches the compiler.
+  -->
+  <Target Name="ODRemoveCommunityToolkitMvvmAnalyzers" AfterTargets="ResolvePackageDependenciesForBuild;ResolveNuGetPackageAssets">
+    <ItemGroup>
+      <_ODCommunityToolkitMvvmAnalyzer Include="@(Analyzer)" Condition="'%(Analyzer.NuGetPackageId)' == 'CommunityToolkit.Mvvm'" />
+      <Analyzer Remove="@(_ODCommunityToolkitMvvmAnalyzer)" />
+    </ItemGroup>
+  </Target>
+
+  <Target Name="ODRecordCompilerAnalyzers" BeforeTargets="CoreCompile" Condition="'$(UsingMicrosoftNETSdk)' == 'true'">
+    <WriteLinesToFile File="$(IntermediateOutputPath)$(MSBuildProjectName).analyzers.txt" Lines="@(Analyzer->'%(NuGetPackageId)|%(Filename)%(Extension)')"
+      Overwrite="true" WriteOnlyWhenDifferent="true" />
+    <ItemGroup>
+      <FileWrites Include="$(IntermediateOutputPath)$(MSBuildProjectName).analyzers.txt" />
+    </ItemGroup>
+  </Target>
+
   <Target Name="ODDropValueTupleRedirect" AfterTargets="ResolveAssemblyReferences" BeforeTargets="GenerateBindingRedirects">
     <ItemGroup>
       <_ODValueTupleRedirect Include="@(SuggestedBindingRedirects)" Condition="$([System.String]::Copy('%(Identity)').StartsWith('System.ValueTuple,'))" />

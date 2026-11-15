@@ -111,6 +111,23 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <!--
+      Helix Toolkit 3.1.2 (TC-4, docs/port-notes/TC-4.md), the version of Directory.Packages.props, for the WPF chart's meshes (MeshBuilder);
+      no chart code uses it yet.
+      - PrivateAssets adds "compile" to the default (contentfiles, analyzers, build): the projects that reference this one get the files of
+        Helix and its packages at run time (copied to their output, as before for every package), but do not compile against them. Only
+        this project uses Helix. HelixToolkit.dll declares a public System.Runtime.CompilerServices.DefaultInterpolatedStringHandler of its
+        own, which the compiler of a project that references the DLL uses for every interpolated string, and whose AppendFormatted has no
+        "format" parameter: OpenPmsDental's "{value:N0}" strings then fail with CS1739.
+      - ExcludeAssets="buildTransitive" keeps out the buildTransitive files of the packages Helix brings, here and in every project above:
+        CommunityToolkit.Mvvm's (the only package below Helix with any, apart from the nine shared support packages, whose files come
+        through the other projects as well) only set a property for its source generators and remove those generators for a compiler
+        older than Roslyn 4; nothing in them is needed for net48. Directory.Build.targets keeps the package's generators away from the
+        compiler.
+    -->
+    <PackageReference Include="HelixToolkit.Wpf" ExcludeAssets="buildTransitive" PrivateAssets="compile;contentfiles;analyzers;build" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\CodeBase\xCodeBase.csproj" />
     <ProjectReference Include="..\DataConnectionBase\xDataConnectionBase.csproj" />
     <ProjectReference Include="..\OpenPmsDentalBusiness\OpenPmsDentalBusiness.csproj" />

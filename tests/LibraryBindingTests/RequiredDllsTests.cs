@@ -46,7 +46,8 @@ namespace LibraryBindingTests {
 
 		///<summary>The files S2-4 deleted from "Required dlls" that come from no package: System.Security.Cryptography.Pkcs 8.0.1, which nothing
 		///referenced and no release shipped, and the x86 Visual C++ runtime vcruntime140.dll, which nothing used (the setup installs
-		///vc_redist.x86.exe). The 30 files the packages supply are PackageFiles' (RequiredDlls_HoldOnlyTheFilesThatHaveNoPackage).</summary>
+		///vc_redist.x86.exe). The 30 files the packages supply, and the 8 of Helix Toolkit's closure that were never there (TC-4), are PackageFiles'
+		///(RequiredDlls_HoldOnlyTheFilesThatHaveNoPackage).</summary>
 		private static readonly string[] _arrayDeletedWithoutPackage=new[] { "System.Security.Cryptography.Pkcs.dll","vcruntime140.dll" };
 
 		///<summary>fo-dicom 4 (Dicom.Core.dll and its native codecs Dicom.Native.dll), which the in-house DICOM reader replaced, and the packages
@@ -110,7 +111,8 @@ namespace LibraryBindingTests {
 			CollectionAssert.AreEquivalent(_arrayRequiredDllsLeft.Select(x => x.ToLowerInvariant()).ToArray(),
 				RequiredDlls.Files.Keys.Select(x => x.ToLowerInvariant()).ToArray(),"Required dlls: "+string.Join(", ",RequiredDlls.Files.Keys.OrderBy(x => x)));
 			List<string> listPackageFiles=PackageFiles.MappedIds.SelectMany(x => PackageFiles.GetFileNames(x,"PackageFiles")).ToList();
-			Assert.AreEqual(30,listPackageFiles.Count,"The files of S2-1, S2-2 and S2-3 that S2-4 took out of Required dlls: "+string.Join(", ",listPackageFiles));
+			//The 30 files of S2-1, S2-2 and S2-3 that S2-4 took out of Required dlls, and the 8 of Helix Toolkit's closure (TC-4).
+			Assert.AreEqual(38,listPackageFiles.Count,"The files the packages supply: "+string.Join(", ",listPackageFiles));
 			foreach(string fileName in listPackageFiles.Concat(_arrayDeletedWithoutPackage)) {
 				Assert.IsFalse(File.Exists(Path.Combine(RepoPaths.RequiredDlls,fileName)),"Required dlls\\"+fileName+" is back.");
 			}
@@ -241,7 +243,8 @@ namespace LibraryBindingTests {
 			Assert.AreEqual(0,listProblems.Count,string.Join("\r\n",listProblems));
 		}
 
-		///<summary>Each third-party file the release ships that a NuGet package supplies (the 30 that "Required dlls" held until S2-4) is the file of
+		///<summary>Each third-party file the release ships that a NuGet package supplies (the 30 that "Required dlls" held until S2-4, and the 8 of
+		///Helix Toolkit's closure, TC-4) is the file of
 		///the package at the version the lock files name: OpenPmsDental's lock file names that version, the program's restore copies that very asset
 		///of it (tools\Build-Release.ps1 compares each staged file with it: Test-PackageFiles), and the built program folder holds it byte for byte.
 		///The other third-party files of the allow-list are the ones "Required dlls" keeps (the Direct Project, SharpDX, Tao) or are built here.</summary>
@@ -249,7 +252,7 @@ namespace LibraryBindingTests {
 		public void ShippedPackageFiles_AreTheFilesOfTheLockFilesVersions() {
 			List<string> listThird=BuildRelease.ListFiles().Where(x => x.Key=="third").Select(x => x.Value).ToList();
 			List<string> listFromPackages=listThird.Where(x => Libraries.PackageOf(x)!=null).ToList();
-			Assert.AreEqual(30,listFromPackages.Count,string.Join(", ",listFromPackages));
+			Assert.AreEqual(38,listFromPackages.Count,string.Join(", ",listFromPackages));
 			CollectionAssert.AreEquivalent(new[] { "Health.Direct.Agent.dll","Health.Direct.Common.dll","Health.Direct.ResolverPlugins.dll","SharpDX.dll",
 				"SharpDX.Direct3D9.dll","SharpDX.Mathematics.dll","Tao.OpenGl.dll","Tao.Platform.Windows.dll" },
 				listThird.Where(x => RequiredDlls.Files.ContainsKey(x)).ToArray(),"The shipped files of Required dlls.");
@@ -334,8 +337,9 @@ namespace LibraryBindingTests {
 		public void PackageFiles_ReadCopiedAssets_TheRuntimeAndNativeAssetsOnly() {
 			//The form the restore writes project.assets.json in: each target's packages with their compile, runtime, runtimeTargets and native
 			//assets, the projects referenced, and the package folder's whole list of files under "libraries". The build copies a package's runtime
-			//assets of the project's target and the native ones of an exe's win-x86 target, nothing else: not the compile assets (reference
-			//assemblies when a package has them), not runtimeTargets (for .NET's runtime folders), not another framework's lib folder.
+			//and native assets of the target it builds for: an exe's win-x86 target (which names every package again) when the file has one, else
+			//the framework's (TC-4: System.Net.Http 4.3.4 has another file there). Nothing else: not the compile assets (reference assemblies when
+			//a package has them), not runtimeTargets (for .NET's runtime folders), not another framework's lib folder.
 			string folder=Path.Combine(Path.GetTempPath(),"LibraryBindingTests_"+Guid.NewGuid().ToString("N"));
 			Directory.CreateDirectory(folder);
 			try {
@@ -351,13 +355,14 @@ namespace LibraryBindingTests {
 					+"        \"runtime\": { \"bin/placeholder/CodeBase.dll\": {} } } },\r\n"
 					+"    \".NETFramework,Version=v4.8/win-x86\": {\r\n"
 					+"      \"Fixture.Package/1.2.3\": { \"type\": \"package\", \"runtime\": { \"lib/net462/Fixture.Package.dll\": {} },\r\n"
-					+"        \"native\": { \"runtimes/win-x86/native/Fixture.Native.dll\": {} } } } },\r\n"
+					+"        \"native\": { \"runtimes/win-x86/native/Fixture.Native.dll\": {} } },\r\n"
+					+"      \"System.ValueTuple/4.6.2\": { \"type\": \"package\", \"runtime\": { \"lib/net471/_._\": {} } } } },\r\n"
 					+"  \"libraries\": { \"Fixture.Package/1.2.3\": { \"type\": \"package\", \"path\": \"fixture.package/1.2.3\",\r\n"
 					+"    \"files\": [ \"lib/net462/Fixture.Package.dll\", \"lib/netstandard2.0/Fixture.Package.dll\" ] } } }");
 				Dictionary<string,HashSet<string>> dictAssets=NuGetFiles.ReadCopiedAssets(pathAssets);
 				CollectionAssert.AreEquivalent(new[] { "Fixture.Package/1.2.3","System.ValueTuple/4.6.2" },dictAssets.Keys.ToArray(),"Packages only, not a project.");
 				CollectionAssert.AreEquivalent(new[] { "lib/net462/Fixture.Package.dll","runtimes/win-x86/native/Fixture.Native.dll" },
-					dictAssets["fixture.package/1.2.3"].ToArray(),"Both targets; NuGet's ids ignore case.");
+					dictAssets["fixture.package/1.2.3"].ToArray(),"The win-x86 target, the one an exe's build copies from; NuGet's ids ignore case.");
 				CollectionAssert.AreEquivalent(new[] { "lib/net471/_._" },dictAssets["System.ValueTuple/4.6.2"].ToArray());
 				//A file without targets is not read as one without packages.
 				File.WriteAllText(pathAssets,"{ \"version\": 3, \"targets\": { }, \"libraries\": { } }");
