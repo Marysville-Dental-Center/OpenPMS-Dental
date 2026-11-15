@@ -77,7 +77,7 @@ namespace GoldenOutputTests {
 			Patient1=Patients.GetPat(Patient1.PatNum);
 			Patient2=Patients.GetPat(Patient2.PatNum);
 			SeedStatements();
-			SeedWikiList();
+			SeedWikiList(false);
 		}
 
 		///<summary>Every preference the 837 writers, the statements and the reports read for the practice, set here so no default of the init file
@@ -250,8 +250,8 @@ namespace GoldenOutputTests {
 
 		private static Clearinghouse NewClearinghouse(string description,ElectronicClaimFormat electronicClaimFormat) {
 			return new Clearinghouse { Description=description,Eformat=electronicClaimFormat,CommBridge=EclaimsCommBridge.None,ExportPath="",
-				Payors="",ISA02="",ISA04="",ISA05="ZZ",SenderTIN="",ISA07="ZZ",ISA08="SYNRECEIVER",ISA15="T",GS03="SYNRECEIVER",SenderName="",
-				SenderTelephone="",ISA16="",SeparatorData="",SeparatorSegment="",Password="",ResponsePath="",ClientProgram="",LoginID="",LocationID="",
+				Payors="",ISA02="",ISA04="",ISA05="ZZ",SenderTIN="991234567",ISA07="ZZ",ISA08="SYNRECEIVER",ISA15="T",GS03="SYNRECEIVER",SenderName="Golden Synthetic Billing",
+				SenderTelephone="5035550199",ISA16="",SeparatorData="",SeparatorSegment="",Password="",ResponsePath="",ClientProgram="",LoginID="",LocationID="",
 				IsClaimExportAllowed=false,IsEraDownloadAllowed=EraBehaviors.None };
 		}
 
@@ -293,7 +293,11 @@ namespace GoldenOutputTests {
 			PayPlanNum=PayPlans.Insert(payPlan);
 		}
 
+		///<summary>Only the synthetic accounts (the init file's default chart of accounts is removed first), so the Chart of Accounts export shows
+		///nothing but the fixture's rows.</summary>
 		private static void SeedAccounts() {
+			DataCore.NonQ("DELETE FROM account");
+			Accounts.RefreshCache();
 			long accountNumChecking=Accounts.Insert(new Account { Description="Synthetic Checking",AcctType=AccountType.Asset,BankNumber="000111222",
 				AccountColor=Color.White });
 			long accountNumLoan=Accounts.Insert(new Account { Description="Synthetic Loan, long term",AcctType=AccountType.Liability,BankNumber="",
@@ -345,14 +349,14 @@ namespace GoldenOutputTests {
 		}
 
 		///<summary>A wiki list whose items hold text that XML must escape, a non-ASCII name, an empty cell and a line break.</summary>
-		private static void SeedWikiList() {
+		public static void SeedWikiList(bool dropTable) {
 			List<WikiListHeaderWidth> listHeaders=new List<WikiListHeaderWidth> {
 				new WikiListHeaderWidth { ListName=WikiListName,ColName=WikiListName+"Num",ColWidth=60,PickList="" },
 				new WikiListHeaderWidth { ListName=WikiListName,ColName="Supplier",ColWidth=150,PickList="" },
 				new WikiListHeaderWidth { ListName=WikiListName,ColName="Phone",ColWidth=110,PickList="" },
 				new WikiListHeaderWidth { ListName=WikiListName,ColName="Notes",ColWidth=220,PickList="" },
 			};
-			WikiLists.CreateNewWikiList(WikiListName,listHeaders);
+			WikiLists.CreateNewWikiList(WikiListName,listHeaders,dropTable);
 			string[][] arrayRows=new[] {
 				new[] { "Synthetic Supply & Co.","(503)555-0130","Orders <weekly>; \"rush\" fee 0.30" },
 				new[] { "\u00c9clair Dental Lab","(503)555-0131","Caf\u00e9 hours: 8\u20135\r\nClosed Fridays" },

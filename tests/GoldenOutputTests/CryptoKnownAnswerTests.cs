@@ -93,9 +93,10 @@ namespace GoldenOutputTests {
 			}
 		}
 
+		///<summary>The points the stored treatment-plan signature holds: the box writes each coordinate with "0.#", so 30.25 is stored as 30.3 (the
+		///.NET Framework rounding of a midpoint, away from zero).</summary>
 		private static string GetExpectedPoints() {
-			return "points:"+string.Join(";",_arrayPointFs.Select(x => x.X.ToString("R",CultureInfo.InvariantCulture)+","
-				+x.Y.ToString("R",CultureInfo.InvariantCulture)));
+			return "points:10,12.5;30.3,40;0,0;55.5,20.1;300,70";
 		}
 
 		///<summary>The pay plan signature of the eClipboard and patient portal path (PayPlans.SignPayPlan): the points scaled to the box

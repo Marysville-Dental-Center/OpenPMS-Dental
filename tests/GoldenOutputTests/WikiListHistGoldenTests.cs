@@ -49,10 +49,20 @@ namespace GoldenOutputTests {
 				UserNum=Security.CurUser.UserNum,ListName=GoldenData.WikiListName,ListHeaders=wikiListHistCurrent.ListHeaders,
 				ListContent=Golden.IsRecordMode ? wikiListHistCurrent.ListContent : Golden.ReadFixtureText(FIXTURE),DateTimeSaved=GoldenData.DateStatement,
 			};
-			WikiListHists.RevertFrom(wikiListHistRecorded,Security.CurUser.UserNum);
-			string dumpAfter=DumpList();
-			Assert.AreEqual(dumpBefore,dumpAfter,"The list reverted to the recorded history holds the same rows.");
-			Golden.AssertText("wikilist-rows.txt",dumpAfter);
+			string dumpAfter;
+			try {
+				WikiListHists.RevertFrom(wikiListHistRecorded,Security.CurUser.UserNum);
+				dumpAfter=DumpList();
+			}
+			finally {
+				//The revert changed the list (see below): the fixture's list is written again, so the other test sees it whatever the order.
+				GoldenData.SeedWikiList(true);
+			}
+			//The same rows, except that a line break inside a cell comes back as LF alone: XML reading normalises CRLF to LF (DataTable.ReadXml),
+			//which is how a revert has always come out on .NET Framework.
+			Assert.AreEqual(dumpBefore.Replace("\\r\\n","\\n"),dumpAfter,"The list reverted to the recorded history holds the same rows.");
+			Golden.AssertText("wikilist-rows-reverted.txt",dumpAfter);
+			Assert.AreEqual(dumpBefore,DumpList(),"The fixture's list is back.");
 		}
 	}
 }

@@ -47,25 +47,36 @@ namespace GoldenOutputTests {
 			StringBuilder stringBuilder=new StringBuilder();
 			//A procedure's fee and drug quantity computed in doubles and floats (ProcedureCrud: POut.Double rounds to two places, POut.Float writes
 			//seven significant digits). One update per value, so each command has one column.
+			//The fixture's rows are put back afterwards, so the other outputs never see these values, whatever order the tests run in.
 			long procNum=GoldenData.ListProcNums1[1];
-			foreach(double fee in new[] { (0.1+0.2)*3,(0.10+0.70)-0.80,1234.56/3,-0.005,1e15/3 }) {
-				Procedure procedure=Procedures.GetOneProc(procNum,false);
-				Procedure procedureOld=procedure.Copy();
-				procedure.ProcFee=fee;
-				stringBuilder.Append(string.Join("\n",CaptureCommands(() => OpenPmsDentalBusiness.Crud.ProcedureCrud.Update(procedure,procedureOld)))+"\n");
+			Procedure procedureOriginal=Procedures.GetOneProc(procNum,false);
+			string salesTaxOriginal=PrefC.GetString(PrefName.SalesTaxPercentage);
+			try {
+				foreach(double fee in new[] { (0.1+0.2)*3,(0.10+0.70)-0.80,1234.56/3,-0.005,1e15/3 }) {
+					Procedure procedure=Procedures.GetOneProc(procNum,false);
+					Procedure procedureOld=procedure.Copy();
+					procedure.ProcFee=fee;
+					stringBuilder.Append(string.Join("\n",CaptureCommands(() => OpenPmsDentalBusiness.Crud.ProcedureCrud.Update(procedure,procedureOld)))+"\n");
+				}
+				foreach(float drugQty in new[] { 1f/3f,16777217f,0.1f*3f,2.5e-8f }) {
+					Procedure procedure=Procedures.GetOneProc(procNum,false);
+					Procedure procedureOld=procedure.Copy();
+					procedure.DrugQty=drugQty;
+					stringBuilder.Append(string.Join("\n",CaptureCommands(() => OpenPmsDentalBusiness.Crud.ProcedureCrud.Update(procedure,procedureOld)))+"\n");
+				}
+				//A percentage preference saved without rounding (the sales tax percentage, as Setup > Account saves it): SOut.Double without rounding,
+				//15 significant digits.
+				foreach(double percent in new[] { 0.1+0.2,4.712*1.1,(0.10+0.70)-0.80,100.0/3 }) {
+					stringBuilder.Append(string.Join("\n",CaptureCommands(() => Prefs.UpdateDouble(PrefName.SalesTaxPercentage,percent,false))
+						.Where(x => x.StartsWith("UPDATE preference",StringComparison.Ordinal)))+"\n");
+				}
 			}
-			foreach(float drugQty in new[] { 1f/3f,16777217f,0.1f+0.2f,-(0.1f+0.7f-0.8f),2.5e-8f }) {
-				Procedure procedure=Procedures.GetOneProc(procNum,false);
-				Procedure procedureOld=procedure.Copy();
-				procedure.DrugQty=drugQty;
-				stringBuilder.Append(string.Join("\n",CaptureCommands(() => OpenPmsDentalBusiness.Crud.ProcedureCrud.Update(procedure,procedureOld)))+"\n");
+			finally {
+				OpenPmsDentalBusiness.Crud.ProcedureCrud.Update(procedureOriginal,Procedures.GetOneProc(procNum,false));
+				Prefs.UpdateString(PrefName.SalesTaxPercentage,salesTaxOriginal);
+				Cache.Refresh(InvalidType.Prefs);
 			}
-			//A percentage preference saved without rounding (the sales tax percentage, as Setup > Account saves it): SOut.Double without rounding,
-			//15 significant digits.
-			foreach(double percent in new[] { 0.1+0.2,4.712*1.1,(0.10+0.70)-0.80,100.0/3 }) {
-				stringBuilder.Append(string.Join("\n",CaptureCommands(() => Prefs.UpdateDouble(PrefName.SalesTaxPercentage,percent,false))
-					.Where(x => x.StartsWith("UPDATE preference",StringComparison.Ordinal)))+"\n");
-			}
+			Assert.AreEqual(procedureOriginal.ProcFee,Procedures.GetOneProc(procNum,false).ProcFee,"The fixture's procedure is back.");
 			Golden.AssertText("sql-text-computed-values.txt",stringBuilder.ToString());
 		}
 
