@@ -1741,7 +1741,24 @@ the put-back failure test finds no keep-the-record sentence (the record was dele
 Direct test gets no warning; the unchecked put-back says "The entry now is no longer in the store" and deletes the tool's key. Every other
 test passed (212 and 129); NoHqTests was not built for that run (a project build only).
 
-RESULTS_PLACEHOLDER
+**After the change:** a Targeted run of the two assemblies on a3475d520 (`dcfu4-4-after-1.txt`: all passed), then one full lane build
+(`odbuild.ps1`, the whole solution) with 0 errors, then one Targeted run (`dcfu4-4-final.txt`):
+
+| Assembly | Total | Passed | Failed | Skipped |
+|---|---|---|---|---|
+| NoHqTests | 57 | 57 | 0 | 0 |
+| DbConnectionSecurityTests | 228 | 217 | 0 | 11 |
+| LibraryUpdateTests | 130 | 130 | 0 | 0 |
+| VendorDirectTests | 922 | 922 | 0 | 0 |
+| LibraryBindingTests | 17 | 17 | 0 | 0 |
+| ProjectFileTests | 132 | 131 | 0 | 1 |
+
+The skips are the earlier rounds' (see Round 4). DbConnectionSecurityTests has the three new tests more than after the second fix round
+(225), LibraryUpdateTests one. Clean-up: before the first run and after every run, the key files under `%APPDATA%\Microsoft\Crypto\Keys`
+and `RSA\<SID>`, the stores under `HKCU\Software\Microsoft\SystemCertificates`, and the `synthetic` or `example.test` certificates of
+CurrentUser\My and LocalMachine\My (read only) were listed and compared: no name new, none missing, no test store left; each test class's
+own clean-up check (`AssertCleanedUp`) passed. No test opens LocalMachine\My or a real key; the machine-set key provider informations are
+only names written on certificates of the test stores.
 
 ### Launch checks (administrator only, LocalMachine\My)
 
