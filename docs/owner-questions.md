@@ -1016,7 +1016,7 @@ and E-10b), where each is set out in full with its recommendation. You first ans
 
 - **Trojan's registry key names** (N64-A, [port-notes/N64-A.md](port-notes/N64-A.md)). Trojan's install folder is now looked up under
   Software\TROJAN BENEFIT SERVICE (as before) and also under Software\Trojan (the name Open Dental's manual gives), in the 32-bit and then
-  the 64-bit registry view. Recommended: keep both (a lookup that finds nothing changes nothing). Or only the old one?
+  the 64-bit registry view. **Answered on 2026-11-15: keep both.**
 
 ## Not asked again (already settled)
 
