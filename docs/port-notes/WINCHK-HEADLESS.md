@@ -138,3 +138,9 @@ All runs used this worktree's own Debug build, `winchk_` copies on 127.0.0.1:330
   The report after the last run: 50 checks on this commit, PASSED 24, PARTLY 25, SKIPPED 1, none FAILED, no older results; every session
   "remote desktop, locked, WPF renders nothing". The PARTLY items are the pictures WPF and DirectX cannot draw while the screen is locked,
   plus the items that were already for a person. Group I takes about 4 minutes, well inside the 15-minute budget.
+- After the review fix (the downgrade only in a locked session), on 4a24ff605 after the full build (0 errors): groups B and I in one
+  Targeted run with NoHqTests (57 passed), WindowChecksTests passed, none failing, 301 s; P0 and Z PASSED; B5 and I1 to I11 PARTLY with the
+  reason "DirectX has no device in this session (remote desktop, locked, WPF renders nothing): its off-screen render (GetBitmap) threw
+  NullReferenceException", as the session was locked. Without the opt-in: 29 skipped, none failing. The unlocked branch (GetBitmap throwing
+  in a session that can draw is a failure) could not be run here, as every session of this package was locked; it needs a run at an
+  unlocked screen.
