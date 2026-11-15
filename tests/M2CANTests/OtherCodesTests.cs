@@ -234,7 +234,8 @@ namespace M2CANTests {
 			Assert.AreEqual(text,ProcCodesOther.DecodeFileBytes(Encoding.Unicode.GetPreamble().Concat(Encoding.Unicode.GetBytes(text)).ToArray()));
 			Assert.AreEqual(text,ProcCodesOther.DecodeFileBytes(Encoding.BigEndianUnicode.GetPreamble().Concat(Encoding.BigEndianUnicode.GetBytes(text))
 				.ToArray()));
-			if(Encoding.Default.CodePage==1252) {//The ANSI fallback is the computer's code page.
+			//The ANSI fallback is the ANSI page of the culture, 1252 for en-CA on every computer (S3a-3), so no guard on the computer's page.
+			using(new CultureScope("en-CA")) {
 				Assert.AreEqual(text,ProcCodesOther.DecodeFileBytes(Encoding.GetEncoding(1252).GetBytes(text)),"Windows-1252 is not valid UTF-8.");
 			}
 			Assert.AreEqual("",ProcCodesOther.DecodeFileBytes(null));

@@ -117,8 +117,9 @@ namespace BPROCTests {
 		public void DecodeFileBytes_Utf8AndAnsi() {
 			byte[] arrayUtf8Bom=new UTF8Encoding(true).GetPreamble().Concat(Encoding.UTF8.GetBytes("D9931\tSynth\u00e9tique")).ToArray();
 			Assert.AreEqual("D9931\tSynth\u00e9tique",ProcCodeImports.DecodeFileBytes(arrayUtf8Bom));
-			byte[] arrayAnsi=Encoding.Default.GetBytes("D9932\tSynth\u00e9tique");
-			Assert.AreEqual(Encoding.Default.GetString(arrayAnsi),ProcCodeImports.DecodeFileBytes(arrayAnsi),"Invalid UTF-8 falls back to the ANSI code page.");
+			//The ANSI page of the culture (en-US, set in TestInitialize) is 1252 on every computer, so the bytes are built with 1252 (S3a-3).
+			byte[] arrayAnsi=Encoding.GetEncoding(1252).GetBytes("D9932\tSynth\u00e9tique");
+			Assert.AreEqual("D9932\tSynth\u00e9tique",ProcCodeImports.DecodeFileBytes(arrayAnsi),"Invalid UTF-8 falls back to the ANSI code page.");
 			Assert.AreEqual("",ProcCodeImports.DecodeFileBytes(new byte[0]));
 		}
 

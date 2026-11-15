@@ -2,10 +2,12 @@
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using CodeBase;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -52,7 +54,15 @@ namespace BINBTests {
 		public void CreateArchiveFile_WritesAReadableZipFile() {
 			string folder=TestPaths.NewTempFolder("file");
 			string zipPath=Path.Combine(folder,"claims.zip");
-			ODZip.CreateArchiveFile(zipPath,new[] { new KeyValuePair<string,byte[]>("claims.xml",ODZip.GetDefaultEncodingBytes("<x>caf\u00e9</x>")) });
+			//The ANSI page of the culture: 1252 for en-CA (the RAMQ claim zip) on every computer, so the expected bytes are built with 1252 (S3a-3).
+			CultureInfo cultureInfoOld=Thread.CurrentThread.CurrentCulture;
+			Thread.CurrentThread.CurrentCulture=new CultureInfo("en-CA");
+			try {
+				ODZip.CreateArchiveFile(zipPath,new[] { new KeyValuePair<string,byte[]>("claims.xml",ODZip.GetDefaultEncodingBytes("<x>caf\u00e9</x>")) });
+			}
+			finally {
+				Thread.CurrentThread.CurrentCulture=cultureInfoOld;
+			}
 			using(ZipArchive zipArchive=new ZipArchive(File.OpenRead(zipPath),ZipArchiveMode.Read)) {
 				ZipArchiveEntry zipArchiveEntry=zipArchive.Entries.Single();
 				Assert.AreEqual("claims.xml",zipArchiveEntry.FullName);
@@ -60,8 +70,8 @@ namespace BINBTests {
 					using(Stream stream=zipArchiveEntry.Open()) {
 						stream.CopyTo(memoryStream);
 					}
-					CollectionAssert.AreEqual(Encoding.Default.GetBytes("<x>caf\u00e9</x>"),memoryStream.ToArray(),
-						"Text is stored in the default code page, as DotNetZip stored a string entry.");
+					CollectionAssert.AreEqual(Encoding.GetEncoding(1252).GetBytes("<x>caf\u00e9</x>"),memoryStream.ToArray(),
+						"Text is stored in the ANSI code page, as DotNetZip stored a string entry.");
 				}
 			}
 		}
