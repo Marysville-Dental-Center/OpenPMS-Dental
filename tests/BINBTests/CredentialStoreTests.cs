@@ -27,9 +27,21 @@ namespace BINBTests {
 			Store=NewStore();
 		}
 
-		///<summary>Another store with the same names, as a later process of the program would have.</summary>
+		///<summary>Another store with the same names, as a later process of the program would have. Its old vault is the real one seen
+		///through ScopedOldVault: the migration's RetrieveAll returns only this test's own resources, so no test lists the names of the other
+		///entries of the Windows account's vault (owner rule, lead fix at S3a-5f's merge).</summary>
 		public CredentialStore NewStore() {
-			return new CredentialStore(Prefix+"cm:",Prefix+"vault:",Prefix+"record");
+			CredentialStore credentialStore=new CredentialStore(Prefix+"cm:",Prefix+"vault:",Prefix+"record");
+			credentialStore.FuncOpenVault=() => {
+				OldPasswordVault oldPasswordVault=OldPasswordVault.TryOpen();
+				return oldPasswordVault==null ? null : new ScopedOldVault(oldPasswordVault,this);
+			};
+			return credentialStore;
+		}
+
+		///<summary>The old-vault resources this test wrote so far.</summary>
+		public List<string> GetVaultResources() {
+			return _listVaultResources.Distinct().ToList();
 		}
 
 		public string VaultResource(string uri) {
@@ -102,6 +114,48 @@ namespace BINBTests {
 				}
 			}
 			Assert.AreEqual(0,listProblems.Count,"Clean-up: "+string.Join("; ",listProblems));
+		}
+	}
+
+	///<summary>The real old vault, limited to one test's own resources: RetrieveAll asks the vault by resource name for each resource the test
+	///wrote (FindAllByResource) instead of listing every entry of the account. Lookups of another resource name return nothing, and a
+	///password is only read for an entry of the test's own resources.</summary>
+	internal sealed class ScopedOldVault : IOldVault {
+		private readonly OldPasswordVault _oldPasswordVault;
+		private readonly TestCredentialStore _testCredentialStore;
+
+		public ScopedOldVault(OldPasswordVault oldPasswordVault,TestCredentialStore testCredentialStore) {
+			_oldPasswordVault=oldPasswordVault;
+			_testCredentialStore=testCredentialStore;
+		}
+
+		private bool IsOwn(string resource) {
+			return resource!=null && resource.StartsWith(_testCredentialStore.Prefix,StringComparison.OrdinalIgnoreCase);
+		}
+
+		public List<OldVaultEntry> RetrieveAll() {
+			List<OldVaultEntry> listEntries=new List<OldVaultEntry>();
+			foreach(string resource in _testCredentialStore.GetVaultResources()) {
+				listEntries.AddRange(_oldPasswordVault.FindAllByResource(resource).Where(x => IsOwn(x.Resource)));
+			}
+			return listEntries;
+		}
+
+		public List<OldVaultEntry> FindAllByResource(string resource) {
+			if(!IsOwn(resource)) {
+				return new List<OldVaultEntry>();
+			}
+			return _oldPasswordVault.FindAllByResource(resource).Where(x => IsOwn(x.Resource)).ToList();
+		}
+
+		public string RetrievePassword(OldVaultEntry oldVaultEntry) {
+			Assert.IsTrue(IsOwn(oldVaultEntry.Resource),"A test reads only its own vault entries.");
+			return _oldPasswordVault.RetrievePassword(oldVaultEntry);
+		}
+
+		public void Remove(OldVaultEntry oldVaultEntry) {
+			Assert.IsTrue(IsOwn(oldVaultEntry.Resource),"A test removes only its own vault entries.");
+			_oldPasswordVault.Remove(oldVaultEntry);
 		}
 	}
 
