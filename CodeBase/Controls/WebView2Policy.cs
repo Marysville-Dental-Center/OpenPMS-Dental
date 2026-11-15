@@ -296,7 +296,7 @@ namespace CodeBase.Controls {
 			try {
 				ProcessStartInfo processStartInfo=new ProcessStartInfo(url.Trim());
 				processStartInfo.UseShellExecute=true;
-				using(Process.Start(processStartInfo)) {
+				using(ODFileUtils.ProcessStart(processStartInfo)) {
 				}
 				return true;
 			}

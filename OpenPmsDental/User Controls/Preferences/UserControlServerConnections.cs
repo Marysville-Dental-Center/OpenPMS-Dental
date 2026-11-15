@@ -113,7 +113,7 @@ namespace OpenPmsDental {
 				//"net view" lists all the computers on the network
 				//" > tempCompNames.txt" tells dos to put the results in a file called tempCompNames.txt
 				processStartInfo.WindowStyle=ProcessWindowStyle.Hidden;//Hide the window
-				Process.Start(processStartInfo);
+				ODFileUtils.ProcessStart(processStartInfo);
 				StreamReader streamReader = null;
 				string filename = ODFileUtils.CombinePaths(Application.StartupPath,"tempCompNames.txt");
 				Thread.Sleep(200);//sleep for 1/5 second

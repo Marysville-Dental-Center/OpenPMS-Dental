@@ -490,14 +490,18 @@ namespace OpenPmsDental {
 				return;
 			}
 			//There is purposely no validation that the user selected an image as that will be handled on the clearinghouse's end.
+			//Only Image.FromFile's OutOfMemoryException or ExternalException means "not a valid image": the same exceptions from
+			//ShowImageAttachmentItemEdit keep the generic message below (S3a-2f).
+			bool isReadingImage=true;
 			try {
 				using Bitmap bitmap=(Bitmap)Image.FromFile(selectedFile);
+				isReadingImage=false;
 				ShowImageAttachmentItemEdit(bitmap);
 			}
 			catch(System.IO.FileNotFoundException ex) {
 				FriendlyException.Show(Lan.g(this,"The selected file at")+": "+selectedFile+" "+Lan.g(this,"could not be found"),ex);
 			}
-			catch(Exception ex) when(ex is System.OutOfMemoryException || ex is System.Runtime.InteropServices.ExternalException) {
+			catch(Exception ex) when(isReadingImage && (ex is System.OutOfMemoryException || ex is System.Runtime.InteropServices.ExternalException)) {
 				//GDI+ reports this as OutOfMemoryException on .NET Framework and as ExternalException on .NET 10.
 				//Image.FromFile() will throw an OOM exception when the image format is invalid or not supported.
 				//See MSDN if you have trust issues:  https://msdn.microsoft.com/en-us/library/stf701f5(v=vs.110).aspx

@@ -124,7 +124,7 @@ namespace OpenPmsDentalBusiness{
 				//" > tempCompNames.txt" tells dos to put the results in a file called tempCompNames.txt
 				processStartInfo.WindowStyle=ProcessWindowStyle.Hidden;//Hide the window
 				Logger.LogToPath("CMD net view",LogPath.Startup,LogPhase.Start);
-				Process.Start(processStartInfo);
+				ODFileUtils.ProcessStart(processStartInfo);
 				StreamReader streamReader=null; //Gets disposed in close() call at end of method
 				string filename=ODFileUtils.CombinePaths(Application.StartupPath,"tempCompNames.txt");
 				Thread.Sleep(200);//sleep for 1/5 second
