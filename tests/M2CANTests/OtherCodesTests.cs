@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenPmsDentalBusiness;
@@ -11,6 +12,10 @@ using OpenPmsDentalBusiness;
 namespace M2CANTests {
 	[TestClass]
 	public class OtherCodesTests {
+		///<summary>The system locale's ANSI code page, asked of Windows (Encoding.Default is UTF-8 on .NET).</summary>
+		[DllImport("kernel32.dll")]
+		private static extern int GetACP();
+
 		private static List<OtherCodeRow> Parse(string text,out List<string> listErrors) {
 			using(new CultureScope("en-US")) {
 				return ProcCodesOther.Parse(text,out listErrors);
@@ -234,8 +239,15 @@ namespace M2CANTests {
 			Assert.AreEqual(text,ProcCodesOther.DecodeFileBytes(Encoding.Unicode.GetPreamble().Concat(Encoding.Unicode.GetBytes(text)).ToArray()));
 			Assert.AreEqual(text,ProcCodesOther.DecodeFileBytes(Encoding.BigEndianUnicode.GetPreamble().Concat(Encoding.BigEndianUnicode.GetBytes(text))
 				.ToArray()));
-			if(Encoding.Default.CodePage==1252) {//The ANSI fallback is the computer's code page.
-				Assert.AreEqual(text,ProcCodesOther.DecodeFileBytes(Encoding.GetEncoding(1252).GetBytes(text)),"Windows-1252 is not valid UTF-8.");
+			//The ANSI fallback is the system's page (GetACP), as Encoding.Default was on .NET Framework, whatever the thread culture (S3a-3): the
+			//bytes are built with that page (1252 on an English or Western European Windows) and decoded in ja-JP, whose own page is 932.
+			Encoding encodingAnsi=Encoding.GetEncoding(GetACP());
+			using(new CultureScope("ja-JP")) {
+				Assert.AreEqual(encodingAnsi.GetString(encodingAnsi.GetBytes(text)),ProcCodesOther.DecodeFileBytes(encodingAnsi.GetBytes(text)),
+					"The ANSI page is not valid UTF-8 here.");
+				if(GetACP()==1252) {
+					Assert.AreEqual(text,ProcCodesOther.DecodeFileBytes(Encoding.GetEncoding(1252).GetBytes(text)),"Windows-1252 is not valid UTF-8.");
+				}
 			}
 			Assert.AreEqual("",ProcCodesOther.DecodeFileBytes(null));
 		}

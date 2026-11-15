@@ -118,7 +118,9 @@ namespace ImagingDeviceManager.Tests {
 					Assert.AreEqual(2,image.Height);
 				}
 			}
-			catch(OutOfMemoryException) {
+			//GDI+ refuses a format it cannot read with OutOfMemoryException on .NET Framework and with ExternalException on .NET 10
+			//(https://learn.microsoft.com/en-us/dotnet/core/compatibility/windows-forms/10.0/system-drawing-outofmemory-externalexception).
+			catch(Exception ex) when(ex is OutOfMemoryException || ex is System.Runtime.InteropServices.ExternalException) {
 				Assert.Inconclusive("GDI+ on this computer does not read 16-bit grayscale TIFF; the file itself is checked above.");
 			}
 		}

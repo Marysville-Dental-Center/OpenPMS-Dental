@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <!-- Package BIN-B (docs/port-notes/BIN-B.md): binaries we may not redistribute stay out, the zip replacement for DotNetZip, the Topaz pad
-       loaded at run time, the serial terminal without RS232.dll, and the Windows.winmd and installutil reference flags. No database, device or
-       network is needed. Every .cs file under this folder is compiled. -->
+       loaded at run time, the serial terminal without RS232.dll, and the Windows.winmd and installutil reference flags; since S3a-5 the saved
+       logins in the Windows Credential Manager (only entries under each run's own name prefix). No database, device or network is needed. Every .cs file under this folder is compiled. -->
   <ItemGroup>
     <Reference Include="System.IO.Compression" />
     <Reference Include="System.Windows.Forms" />
@@ -11,6 +11,12 @@
     <Compile Include="..\ProjectFileTests\ProjectFile.cs">
       <Link>ProjectFile.cs</Link>
     </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <!-- The G15 and G7 texts .NET Framework 4.8 gave for fixture doubles and floats (S3a-3), the record for S3a-4 and stage 3b. -->
+    <Content Include="Fixtures\G15Texts.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\CodeBase\xCodeBase.csproj" />

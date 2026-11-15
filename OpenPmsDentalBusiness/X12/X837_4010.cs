@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -662,7 +663,7 @@ namespace OpenPmsDentalBusiness {
 				seg++;
 				sw.Write("CLM*"
 					+Sout(claim.ClaimIdentifier,20)+"*"//CLM01: A unique id. Can support 20 char.  By using both PatNum and ClaimNum, it is possible to search for a patient as well as to ensure uniqueness. We might need to allow user to override for claims based on preauths.
-					+claimFeeBilled.ToString("f2")+"*"//CLM02: Claim Fee
+					+claimFeeBilled.ToString("f2",CultureInfo.InvariantCulture)+"*"//CLM02: Claim Fee
 					+"**"//CLM03 & 04 not used
 					+GetPlaceService(claim.PlaceService)+"::1*"//CLM05: place+1. 1=Original claim
 					+"Y*"//CLM06: prov sig on file (always yes)
@@ -848,7 +849,7 @@ namespace OpenPmsDentalBusiness {
 					seg++;
 					sw.WriteLine("AMT*"
 						+"F5*"//AMT01 1/3 Amount Qualifier Code: F5=Patient Amount Paid.
-						+claim.ShareOfCost.ToString("f2")+"~");//AMT02 1/18 Monetary Amount:
+						+ODNumberText.ToStringNoNegativeZero(claim.ShareOfCost,"f2",CultureInfo.InvariantCulture)+"~");//AMT02 1/18 Monetary Amount:
 				}
 				//2300 AMT: Total Purchased Service Amt (medical)
 				//2300 REF: (A bunch of ref segments for medical which we don't need)
@@ -1030,7 +1031,7 @@ namespace OpenPmsDentalBusiness {
 						}
 						seg++;
 						sw.WriteLine("AMT*D*"//AMT01: D=Payor amount paid
-							+paidOtherIns.ToString("F")+"~");//AMT02: Amount
+							+ODNumberText.ToStringNoNegativeZero(paidOtherIns,"F",CultureInfo.InvariantCulture)+"~");//AMT02: Amount
 					}
 					//2320 AMT: (medical) COB Total Non-Covered Amt (A8)
 					//2320 AMT: (medical) Remaining Patient liability (EAF)
@@ -1150,7 +1151,7 @@ namespace OpenPmsDentalBusiness {
 							//SV101 Composite Medical Procedure Identifier
 							+"HC:"//SV101-1: HC=Health Care
 							+Sout(claimProcs[j].CodeSent)+"*"//SV101-2: Procedure code. The rest of SV101 is not supported
-							+claimProcs[j].FeeBilled.ToString()+"*"//SV102: Charge Amt
+							+ODNumberText.ToStringG15(claimProcs[j].FeeBilled,CultureInfo.InvariantCulture)+"*"//SV102: Charge Amt
 							+"MJ*"//SV103: MJ=minutes
 							+"0*");//SV104: Quantity of anesthesia. We don't support, so always 0.
 						if(proc.PlaceService==claim.PlaceService) {
@@ -1195,7 +1196,7 @@ namespace OpenPmsDentalBusiness {
 						seg++;
 						sw.Write("SV3*"
 							+"AD:"+Sout(claimProcs[j].CodeSent,5)+"*"//SV301-1: AD=ADA CDT, SV301-2:Procedure code
-							+claimProcs[j].FeeBilled.ToString()+"*");//SV302: Charge Amount
+							+ODNumberText.ToStringG15(claimProcs[j].FeeBilled,CultureInfo.InvariantCulture)+"*");//SV302: Charge Amount
 						if(proc.PlaceService==claim.PlaceService) {
 							sw.Write("*");//SV303: Location Code if different from claim
 						}

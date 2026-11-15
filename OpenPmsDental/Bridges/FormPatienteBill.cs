@@ -97,7 +97,7 @@ namespace OpenPmsDental {
 			string PatienteBillServer = PatienteBillServerAddress;
 			string authRequest = @"Function=Auth&Source=STM&Username="+loginID+"&Password="+passWord+
                     "&UploaderName=Practice-Web&UploaderVersion=3.0";
-			HttpUtility.UrlEncode(authRequest,System.Text.Encoding.Default);
+			HttpUtility.UrlEncode(authRequest,ODEncodings.GetAnsiEncoding());
 			HttpWebRequest request = null;
 			HttpWebResponse response = null;
 			StreamReader sr = null;
@@ -808,7 +808,7 @@ namespace OpenPmsDental {
 					xmlStream.Close();
 
 					StreamReader xmlUpload = new StreamReader(tempFile);
-					byte[] fileContents = Encoding.Default.GetBytes(xmlUpload.ReadToEnd());
+					byte[] fileContents = ODEncodings.GetAnsiEncoding().GetBytes(xmlUpload.ReadToEnd());
 					xmlUpload.Close();
 
 					HttpWebRequest request1 = (HttpWebRequest)WebRequest.Create(PatienteBillServerAddress + "?" + RequestStr);

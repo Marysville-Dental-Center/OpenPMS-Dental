@@ -30,7 +30,10 @@ namespace OpenPmsDentalBusiness {
 
 	///<summary>Because this enum is stored in the database as strings rather than as numbers, we can do the order alphabetically.  
 	///Deprecated preferences will start with "Deprecated" in the summary section.
-	///Preferences that are missing in general will start with "Missing in general" in the summary section.</summary>
+	///Preferences that are missing in general will start with "Missing in general" in the summary section.
+	///A deprecated preference is marked [Obsolete(...,false)], never with IsError true: PrefName travels through the Middle Tier's XmlSerializer,
+	///which on .NET 10 throws while it builds a serializer for a member marked that way. NoHqTests/ObsoletePrefNamesTests.cs checks both rules:
+	///no member with IsError true, and no code outside this file naming one of the 25 that were errors (docs/port-notes/S3a-9.md, section 4).</summary>
 	public enum PrefName {
 		///<summary>ONLY USED FOR PREF-BOUND UI ELEMENTS or as temporary in memory place holder.  Never in the DB.</summary>
 		[PrefName(ValueType=PrefValueType.NONE)]
@@ -54,7 +57,7 @@ namespace OpenPmsDentalBusiness {
 		[PrefName(ValueType=PrefValueType.BOOL)]
 		AccountShowQuestionnaire,
 		///<summary>DEPRECATED - Use Trojan ProgramLink instead.</summary>
-		[PrefName(ValueType=PrefValueType.BOOL),Obsolete("This preference has been deprecated. Do not use.",true)]
+		[PrefName(ValueType=PrefValueType.BOOL),Obsolete("This preference has been deprecated. Do not use.",false)]
 		AccountShowTrojanExpressCollect,
 		ADAComplianceDateTime,
 		///<summary>Boolean. Open Dental set it after resetting ADA code descriptions on startup. No longer read; procedure code descriptions come
@@ -90,7 +93,7 @@ namespace OpenPmsDentalBusiness {
 		///<summary>DEPRECATED.  Will always be true for aging to use the intermediate table famaging for calculating aging.</summary>
 		AgingIsEnterprise,
 		///<summary>DEPRECATED.  Use AgingProcLifo instead.</summary>
-		[Obsolete("This preference has been deprecated. Do not use.",true)]
+		[Obsolete("This preference has been deprecated. Do not use.",false)]
 		AgingNegativeAdjsByAdjDate,
 		///<summary>YN_DEFAULT_TRUE, 0-unknown,1-yes,2-no.
 		///For job 14902 - "Aging of AR change:  LIFO negative adjustments to (within) attached procedure and positive adjustments."</summary>
@@ -238,7 +241,7 @@ namespace OpenPmsDentalBusiness {
 		///<summary>Keeps the waiting room indicator times current.  Initially 1.</summary>
 		ApptModuleRefreshesEveryMinute,
 		///<summary>Deprecated</summary>
-		[Obsolete("This preference has been deprecated. Do not use.",true)]
+		[Obsolete("This preference has been deprecated. Do not use.",false)]
 		ApptModuleUses2019Overhaul,
 		///<summary>Boolean. True if automated new patient thank yous are enabled for the entire DB. See ApptReminderRules for setup details.
 		///Permissions are still checked here at HQ so manually overriding this value will only make the program behave annoyingly, but won't break anything.</summary>
@@ -725,7 +728,7 @@ namespace OpenPmsDentalBusiness {
 		///<summary>When a number of sessions of Open Dental Cloud is within the maximum minus this number an Alert will be created.</summary>
 		CloudAlertWithinLimit,
 		///<summary>Deprecated. Use the table 'cloudaddress' instead.</summary>
-		[Obsolete("This preference has been deprecated. Do not use.",true)]
+		[Obsolete("This preference has been deprecated. Do not use.",false)]
 		CloudAllowedIpAddresses,
 		///<summary>Hidden preference. Used to prevent customers from increasing their session limit past what a server is capable of.</summary>
 		CloudSessionLimitCap,
@@ -967,7 +970,7 @@ namespace OpenPmsDentalBusiness {
 		///eConnector service.  This only needs to happen once.  This will automatically happen after upgrading past v15.4.
 		///If automatically upgrading the CustListener service to the eConnector service fails, they can click Install in eService Setup.
 		///NEVER programmatically set this preference back to false.</summary>
-		[Obsolete("This preference has been deprecated. Do not use.",true)]
+		[Obsolete("This preference has been deprecated. Do not use.",false)]
 		EConnectorEnabled,
 		///<summary>Office can set to have the EConnector logger clean itself up every number of days. A value of 0 disables this cleanup. Default value is 0</summary>
 		EConnectorCleanupLoggerIntervalDays,
@@ -1016,7 +1019,7 @@ namespace OpenPmsDentalBusiness {
 		///sending mass email or secure email.</summary>
 		EmailHostingUseNoReply,
 		///<summary>Deprecated.  Not used anywhere. Email messages are retreived from Open Dental Service.</summary>
-		[Obsolete("This preference has been deprecated. Do not use.",true)]
+		[Obsolete("This preference has been deprecated. Do not use.",false)]
 		EmailInboxComputerName,
 		///<summary>Time interval in minutes describing how often to automatically check the email inbox for new messages. Default is 5 minutes.</summary>
 		EmailInboxCheckInterval,
@@ -1283,43 +1286,43 @@ namespace OpenPmsDentalBusiness {
 		[PrefName(ValueType=PrefValueType.BOOL)]
 		InsBatchVerifyChangeEffectiveDates,
 		///<summary>Comma delimited list of procedure codes that represent bitewing codes.  Defaults to D codes for all users.</summary>
-		[Obsolete("This preference has been deprecated. Use CodeGroups instead.",true)]
+		[Obsolete("This preference has been deprecated. Use CodeGroups instead.",false)]
 		InsBenBWCodes,
 		///<summary>Comma delimited list of procedure codes that represent exam codes.  Defaults to D codes for all users.</summary>
-		[Obsolete("This preference has been deprecated. Use CodeGroups instead.",true)]
+		[Obsolete("This preference has been deprecated. Use CodeGroups instead.",false)]
 		InsBenExamCodes,
 		///<summary>Comma delimited list of procedure codes that represent pano codes.  Defaults to D codes for all users.</summary>
-		[Obsolete("This preference has been deprecated. Use CodeGroups instead.",true)]
+		[Obsolete("This preference has been deprecated. Use CodeGroups instead.",false)]
 		InsBenPanoCodes,
 		///<summary>Comma delimited list of procedure codes that represent cancer screening codes.  Defaults to D codes for all users.</summary>
-		[Obsolete("This preference has been deprecated. Use CodeGroups instead.",true)]
+		[Obsolete("This preference has been deprecated. Use CodeGroups instead.",false)]
 		InsBenCancerScreeningCodes,
 		///<summary>Comma delimited list of procedure codes that represent prophy codes.  Defaults to D codes for all users.</summary>
-		[Obsolete("This preference has been deprecated. Use CodeGroups instead.",true)]
+		[Obsolete("This preference has been deprecated. Use CodeGroups instead.",false)]
 		InsBenProphyCodes,
 		///<summary>Comma delimited list of procedure codes that represent fluoride codes.  Defaults to D codes for all users.</summary>
-		[Obsolete("This preference has been deprecated. Use CodeGroups instead.",true)]
+		[Obsolete("This preference has been deprecated. Use CodeGroups instead.",false)]
 		InsBenFlourideCodes,
 		///<summary>Comma delimited list of procedure codes that represent sealant codes.  Defaults to D codes for all users.</summary>
-		[Obsolete("This preference has been deprecated. Use CodeGroups instead.",true)]
+		[Obsolete("This preference has been deprecated. Use CodeGroups instead.",false)]
 		InsBenSealantCodes,
 		///<summary>Comma delimited list of procedure codes that represent crown codes.  Defaults to D codes for all users.</summary>
-		[Obsolete("This preference has been deprecated. Use CodeGroups instead.",true)]
+		[Obsolete("This preference has been deprecated. Use CodeGroups instead.",false)]
 		InsBenCrownCodes,
 		///<summary>Comma delimited list of procedure codes that represent SRP codes.  Defaults to D codes for all users.</summary>
-		[Obsolete("This preference has been deprecated. Use CodeGroups instead.",true)]
+		[Obsolete("This preference has been deprecated. Use CodeGroups instead.",false)]
 		InsBenSRPCodes,
 		///<summary>Comma delimited list of procedure codes that represent full debridement codes.  Defaults to D codes for all users.</summary>
-		[Obsolete("This preference has been deprecated. Use CodeGroups instead.",true)]
+		[Obsolete("This preference has been deprecated. Use CodeGroups instead.",false)]
 		InsBenFullDebridementCodes,
 		///<summary>Comma delimited list of procedure codes that represent perio maint codes.  Defaults to D codes for all users.</summary>
-		[Obsolete("This preference has been deprecated. Use CodeGroups instead.",true)]
+		[Obsolete("This preference has been deprecated. Use CodeGroups instead.",false)]
 		InsBenPerioMaintCodes,
 		///<summary>Comma delimited list of procedure codes that represent dentures codes.  Defaults to D codes for all users.</summary>
-		[Obsolete("This preference has been deprecated. Use CodeGroups instead.",true)]
+		[Obsolete("This preference has been deprecated. Use CodeGroups instead.",false)]
 		InsBenDenturesCodes,
 		///<summary>Comma delimited list of procedure codes that represent implant codes.  Defaults to D codes for all users.</summary>
-		[Obsolete("This preference has been deprecated. Use CodeGroups instead.",true)]
+		[Obsolete("This preference has been deprecated. Use CodeGroups instead.",false)]
 		InsBenImplantCodes,
 		///<summary>0=Default practice provider, -1=Treating Provider. Otherwise, FK to provider.ProvNum.</summary>
 		InsBillingProv,
@@ -2342,7 +2345,7 @@ namespace OpenPmsDentalBusiness {
 		StatementAccountsUseChartNumber,
 		StatementsCalcDueDate,
 		///<summary>Deprecated. Not used anywhere. This preference was only used with non-sheet statements.</summary>
-		[Obsolete("This preference has been deprecated. Do not use.",true)]
+		[Obsolete("This preference has been deprecated. Do not use.",false)]
 		StatementShowCreditCard,
 		///<summary>Show payment notes.</summary>
 		StatementShowNotes,
@@ -2352,7 +2355,7 @@ namespace OpenPmsDentalBusiness {
 		///<summary>Deprecated.  Not used anywhere.</summary>
 		StatementSummaryShowInsInfo,
 		///<summary>Deprecated.  Not used anywhere. All statements now use sheets.</summary>
-		[Obsolete("This preference has been deprecated. Do not use.",true)]
+		[Obsolete("This preference has been deprecated. Do not use.",false)]
 		StatementsUseSheets,
 		///<summary>Used by OD HQ. Indicates whether WebCamOD applications should be sending their images to the server or not.</summary>
 		StopWebCamSnapshot,
@@ -2501,16 +2504,16 @@ namespace OpenPmsDentalBusiness {
 		//INSERT INTO preference(PrefName,ValueString) VALUES ('VoicemailTime','');
 		//INSERT INTO preference(PrefName,ValueString) VALUES ('HQSerializedMapContainers','');//deprecated
 		///<summary>DEPRECATED.  Moved to the Trojan Express Collect program link properties.</summary>
-		[Obsolete("This preference has been deprecated. Do not use.",true)]
+		[Obsolete("This preference has been deprecated. Do not use.",false)]
 		TrojanExpressCollectBillingType,
 		///<summary>DEPRECATED.  Moved to the Trojan Express Collect program link properties.</summary>
-		[Obsolete("This preference has been deprecated. Do not use.",true)]
+		[Obsolete("This preference has been deprecated. Do not use.",false)]
 		TrojanExpressCollectPassword,
 		///<summary>DEPRECATED.  Moved to the Trojan Express Collect program link properties.</summary>
-		[Obsolete("This preference has been deprecated. Do not use.",true)]
+		[Obsolete("This preference has been deprecated. Do not use.",false)]
 		TrojanExpressCollectPath,
 		///<summary>DEPRECATED.  Moved to the Trojan Express Collect program link properties.</summary>
-		[Obsolete("This preference has been deprecated. Do not use.",true)]
+		[Obsolete("This preference has been deprecated. Do not use.",false)]
 		TrojanExpressCollectPreviousFileNumber,
 		///<summary>Open Dental 25.4 UDS+ report (fork setting). JSON list that maps procedure codes to the UDS dental service lines; HRSA changes the
 		///lines yearly, so the office edits it in the report's setup. Blank by default (no codes ship with this program). Seeded by Seed26_1.</summary>

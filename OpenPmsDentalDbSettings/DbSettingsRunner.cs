@@ -549,7 +549,7 @@ namespace OpenPmsDentalDbSettings {
 			if(OfficeCaFile.IsElevated()) {
 				fileSecurity.SetOwner(new SecurityIdentifier(WellKnownSidType.BuiltinAdministratorsSid,null));
 			}
-			File.SetAccessControl(configPath,fileSecurity);
+			new FileInfo(configPath).SetAccessControl(fileSecurity);
 		}
 
 		private static string AppendSentence(string text,string sentence) {

@@ -47,6 +47,7 @@ What this version brings, each in its section below (the roadmap's "Done in the 
   - Glidewell lab cases, ready but not yet able to send: hidden in Program Links until the program can connect to Glidewell, and no patient
     data is sent without a business associate agreement with Glidewell.
 - the Meaningful Use measures window of EHR (Measure Calc) working again, rebuilt as open code, for internal review only;
+- saved Middle Tier passwords move from the Windows PasswordVault to the Windows Credential Manager on first use; nothing to re-enter;
 - two new entries in Help > About > View Licenses, Helix Toolkit and the .NET Community Toolkit: libraries for the coming 3D tooth chart,
   installed with the program from this version on (the tooth chart itself does not change yet);
 - the tooth chart: completed extractions shown with an X, on by default as in Open Dental 26.2, the paint type TextBelow (Open Dental
@@ -376,6 +377,10 @@ attachments) listed the attachment but saved no picture file when the images fol
 storage it saved the image unedited. The image is now attached as the Imaging module shows it (without drawings), in its own format, and
 always saved where the attachment points, locally and in SFTP storage alike. Unedited images, text, Word and PDF files are attached as
 they are, also from SFTP storage.
+
+## Claim files: a period in every amount
+
+Claim files (X12 837) and RAMQ amounts now use a period as the decimal separator in every regional setting; before, a regional setting with a decimal comma (such as French (Canada)) wrote a comma there, which neither format allows. With a period, as on every English Windows, the files are byte for byte as before.
 
 ## Switch-over: Insurance History leaves the frequency code groups alone
 

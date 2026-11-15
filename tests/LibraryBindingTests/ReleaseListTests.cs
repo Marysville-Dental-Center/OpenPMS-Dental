@@ -148,8 +148,13 @@ namespace LibraryBindingTests {
 			HashSet<string> hashSetGapsSeen=new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 			foreach(AssemblyFacts assemblyFacts in listShipped.OrderBy(x => x.FileName,StringComparer.OrdinalIgnoreCase)) {
 				foreach(AssemblyReference assemblyReference in assemblyFacts.ListReferences) {
-					//Windows resolves Windows Runtime references (PasswordVaultWrapper's Windows.Security.Credentials) itself.
-					if(assemblyReference.IsWindowsRuntime || hashSetNames.Contains(assemblyReference.Name) || Gac.Has(assemblyReference.Name)) {
+					//No shipped assembly references Windows Runtime metadata since S3a-5 (PasswordVaultWrapper uses the Credential Manager), and .NET 10
+					//could not load one that did.
+					if(assemblyReference.IsWindowsRuntime) {
+						listProblems.Add(assemblyFacts.FileName+" references the Windows Runtime metadata "+assemblyReference.Name+".");
+						continue;
+					}
+					if(hashSetNames.Contains(assemblyReference.Name) || Gac.Has(assemblyReference.Name)) {
 						continue;
 					}
 					if(_dictKnownGaps.ContainsKey(assemblyReference.Name)) {
