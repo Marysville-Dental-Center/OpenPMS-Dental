@@ -11,8 +11,10 @@ output folder:
   powershell -NoProfile -ExecutionPolicy Bypass -File "<repo>\tools\Test-Installer.ps1" -Setup "<dryrun>\OpenPmsDental-<version>-Setup.exe" -Staging "<dryrun>\staging"
 
 Without elevation it changes nothing: it says that it needs an elevated PowerShell and ends with exit code 2. It also changes nothing and
-ends with exit code 3 when the setup or the staging folder is missing, or when this PC has a per-user or a 64-bit view uninstall entry of
-the setup's AppId (neither is made by this setup).
+ends with exit code 3 when it runs in a 32-bit PowerShell (it must read both registry views; the Windows PowerShell that "Run as
+administrator" opens is 64-bit), when the setup or the staging folder is missing, or when this PC has a per-user or a 64-bit view
+uninstall entry of the setup's AppId (neither is made by this setup). If a test install ever lands anywhere but its own test folder, the
+remaining scenarios are skipped (a FAIL line says so), so it never installs over an installation already on the PC more than once.
 
 WHAT IT CHANGES ON THIS PC while it runs, and what it puts back:
 - new folders %TEMP%\OpenPmsDental-installtest-<scenario>-<id>\Open PMS - Dental, the test program folders (setup's /DIR=). The
@@ -24,7 +26,8 @@ WHAT IT CHANGES ON THIS PC while it runs, and what it puts back:
 - When the PC has an installation of the program already (for example v0.0 in C:\Program Files (x86)\Open PMS - Dental), the test
   installs share its uninstall entry and Event Log source key, and each test uninstall deletes them. The script therefore saves both
   first, in memory and as .reg files in -OutDir (uninstall-entry-before.reg, eventlog-source-before.reg; double-click one to put it back
-  by hand if the script was stopped), and writes them back at the end. That installation's folder, files and shortcuts are not touched.
+  by hand if the script was stopped), and writes them back at the end. That installation's folder, files and shortcuts are not touched;
+  the last check compares every Start menu and desktop shortcut of the program with what was there before the test.
   Until the end, Apps does not list it, and the program's Event Log source is missing.
 - the setup and uninstall logs in -OutDir (default: an install-test folder next to the setup), which it keeps.
 Setup installs no shortcut and no Visual C++ runtime (/PREREQS=skip): /NOICONS skips the Start menu entry, and /MERGETASKS="!desktopicon"
@@ -71,6 +74,13 @@ if(-not $principal.IsInRole([System.Security.Principal.WindowsBuiltInRole]::Admi
 	Write-Host 'Open Windows PowerShell with "Run as administrator" and run the line in the header of this script. Nothing was changed.'
 	Write-Host 'Exit code 2'
 	exit 2
+}
+#A 32-bit PowerShell sees HKLM\SOFTWARE\Microsoft redirected to WOW6432Node, so its 64-bit view check would be wrong: refuse it, changing nothing.
+if(-not [Environment]::Is64BitProcess){
+	Write-Host 'Test-Installer.ps1 needs the 64-bit Windows PowerShell (this one is 32-bit). Open Windows PowerShell with "Run as administrator"'
+	Write-Host 'from the Start menu (not "Windows PowerShell (x86)") and run the line in the header of this script. Nothing was changed.'
+	Write-Host 'Exit code 3'
+	exit 3
 }
 
 $RepoRoot=(Resolve-Path (Join-Path $PSScriptRoot '..')).Path
@@ -243,6 +253,10 @@ function Test-Installed([string]$dir){
 		if($ExpectedVersion){ Check ($version -eq $ExpectedVersion) "uninstall entry version $ExpectedVersion (was $version)" }
 		$appPath=[string](Get-RegValue $UninstallKey 'Inno Setup: App Path')
 		Check ($appPath.TrimEnd('\') -eq $dir.TrimEnd('\')) "uninstall entry names the test folder (was $appPath)"
+		if($appPath.TrimEnd('\') -ne $dir.TrimEnd('\')){
+			#Setup did not install into the test folder (/DIR= ignored): stop here rather than install over that folder again.
+			throw "the test install landed in $appPath, not in its test folder; the remaining scenarios are skipped"
+		}
 	}
 	Check (-not (Test-Path $UninstallKeyUser)) 'no per-user uninstall entry'
 	Check (Test-Path $EventLogKey) 'the Event Log source key is registered'
@@ -328,7 +342,8 @@ try {
 	$exit=Invoke-Setup $dirB (Join-Path $OutDir 'b-install-1.log') @('/DBSERVER=127.0.0.1','/DBNAME=opms_first','/DBUSER=first_user')
 	Check ($exit -eq 0) "first setup exit code 0 (was $exit)"
 	$configB=Join-Path $dirB 'FreeDentalConfig.xml'
-	#A server on this computer, so the upgrade's /check passes without an office CA.
+	#A server on this computer, so the upgrade's /check passes without an office CA. The second setup below passes a network name on the
+	#command line on purpose: an upgrade keeps this config and takes no page value, which the checks prove.
 	$saved='<?xml version="1.0" encoding="utf-8"?><ConnectionSettings><DatabaseConnection><ComputerName>localhost</ComputerName><Database>saved_db</Database><User>saved_user</User><Password></Password><MySQLPassHash></MySQLPassHash><NoShowOnStartup>True</NoShowOnStartup></DatabaseConnection><DatabaseType>MySql</DatabaseType><UseDynamicMode>False</UseDynamicMode></ConnectionSettings>'
 	if(Test-Path -LiteralPath $dirB){ [System.IO.File]::WriteAllText($configB,$saved) }
 	$exit=Invoke-Setup $dirB (Join-Path $OutDir 'b-install-2.log') @('/DBSERVER=second.example.test','/DBNAME=opms_second','/DBUSER=second_user')
@@ -424,6 +439,11 @@ finally {
 		}
 	}
 }
+#Every shortcut of the program as before the test: none new, none changed, none missing.
+$shortcutsEnd=Get-Shortcuts
+$changed=@(@($shortcutsBefore.Keys | Where-Object { (-not $shortcutsEnd.ContainsKey($_)) -or ($shortcutsEnd[$_] -ne $shortcutsBefore[$_]) }) +
+	@($shortcutsEnd.Keys | Where-Object { -not $shortcutsBefore.ContainsKey($_) }) | Sort-Object -Unique)
+Check ($changed.Count -eq 0) "at the end every Start menu and desktop shortcut of the program is as before the test (differs: $($changed -join ', '))"
 $exitCode=0
 if($script:Failures.Count -gt 0){ $exitCode=1 }
 Write-Host ("{0} checks passed, {1} failed. Logs: {2}" -f $script:Passes,$script:Failures.Count,$OutDir)

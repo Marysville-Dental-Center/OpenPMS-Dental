@@ -1077,8 +1077,8 @@ and the x64 build of `Direct2dWrapper` (S3a-16) pass; the helper's tests pass, a
 vendor software (S3a-13, S3a-14); the elevated installer test; then the bridge release is built, installed on a test PC over the
 previous release by setup and by self-update, and published to the office.
 
-**Tooling changes.** `Test-Installer.ps1` runs elevated (S3a-11); the lead adjusts the release workflow script in the local tools folder
-that runs it. The new manifest key (S3a-10) is defined here and written by 3b's release. Lane and runners (lead, wave 3): an x64 test
+**Tooling changes.** `Test-Installer.ps1` runs elevated (S3a-11): the release workflow no longer runs it; the dry run stops there and the
+owner runs the elevated line from the script's header (O-3, answered 2026-11-15; unelevated the script ends with exit code 2). The new manifest key (S3a-10) is defined here and written by 3b's release. Lane and runners (lead, wave 3): an x64 test
 build of chosen test projects into `bin\x64\$(Configuration)\` and their run with `/Platform:x64` (S3a-12, S3a-15); the x64 build of
 `Direct2dWrapper` at every gate (S3a-16). Build-Release: the helper's files (S3a-13).
 
@@ -1707,7 +1707,7 @@ The owner answered the plan's questions "as recommended", with the corrections b
    own runtime, so the setup installs their files only; it still installs the x64 Visual C++ runtime when missing, and `/PREREQS=skip`
    stays for managed installs, for that runtime only.
 7. **No per-user setup mode** (S3a-11). Confirmed after the standing rule (owner, 2026-11-08): "Don't need 'Install for me only'". How
-   the installer test then runs is open point O-3.
+   the installer test then runs is open point O-3 (answered 2026-11-15: the owner runs it elevated).
 8. **Windows versions.** Windows 11 is the baseline; the office's workstations run Windows 11. The setup warns (does not refuse) below
    it. Microsoft's .NET 10 list (https://learn.microsoft.com/en-us/dotnet/core/install/windows) supports Windows 10 only in some editions.
    A Middle Tier host runs a Windows Server version on that list.
