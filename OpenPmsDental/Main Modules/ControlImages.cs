@@ -3027,7 +3027,12 @@ namespace OpenPmsDental{
 			}
 			textNote.Text="";
 			sigBox.ClearTablet();
-			TopazWrapper.ClearTopaz(_sigBoxTopaz);
+			try {
+				TopazWrapper.ClearTopaz(_sigBoxTopaz);
+			}
+			catch(Helper32Exception ex) when(ex.Failure!=Helper32Failure.Remote) {
+				ex.DoNothing();//The 32-bit helper that runs Topaz's control failed (S3a-14); a Topaz signature below says so.
+			}
 			if(!panelNote.Visible) {
 				return;
 			}
@@ -3052,17 +3057,26 @@ namespace OpenPmsDental{
 					//if(allowTopaz) {
 					sigBox.Visible=false;
 					_sigBoxTopaz.Visible=true;
-					TopazWrapper.ClearTopaz(_sigBoxTopaz);
-					TopazWrapper.SetTopazCompressionMode(_sigBoxTopaz,0);
-					TopazWrapper.SetTopazEncryptionMode(_sigBoxTopaz,0);
-					TopazWrapper.SetTopazKeyString(_sigBoxTopaz,"0000000000000000");//Clear out the key string
-					string keystring=ImageStore.GetHashString(GetDocumentShowing(0),_patFolder);
-					TryDecryptionForTopaz(keystring);
-					if(TopazWrapper.GetTopazNumberOfTabletPoints(_sigBoxTopaz)==0) {
-						keystring=ImageStore.GetHashString(GetDocumentShowing(0),_patFolder,includeFileInHash:false);
+					try {
+						TopazWrapper.ClearTopaz(_sigBoxTopaz);
+						TopazWrapper.SetTopazCompressionMode(_sigBoxTopaz,0);
+						TopazWrapper.SetTopazEncryptionMode(_sigBoxTopaz,0);
+						TopazWrapper.SetTopazKeyString(_sigBoxTopaz,"0000000000000000");//Clear out the key string
+						string keystring=ImageStore.GetHashString(GetDocumentShowing(0),_patFolder);
 						TryDecryptionForTopaz(keystring);
+						if(TopazWrapper.GetTopazNumberOfTabletPoints(_sigBoxTopaz)==0) {
+							keystring=ImageStore.GetHashString(GetDocumentShowing(0),_patFolder,includeFileInHash:false);
+							TryDecryptionForTopaz(keystring);
+						}
+						if(TopazWrapper.GetTopazNumberOfTabletPoints(_sigBoxTopaz)==0) {
+							labelInvalidSig.Visible=true;
+						}
 					}
-					if(TopazWrapper.GetTopazNumberOfTabletPoints(_sigBoxTopaz)==0) {
+					catch(Helper32Exception ex) when(ex.Failure!=Helper32Failure.Remote) {
+						//The 32-bit helper that runs Topaz's control failed (S3a-14): Topaz could not check the signature, so it is not called invalid.
+						_sigBoxTopaz.Visible=false;
+						_textInvalidSigBeforeTopaz=labelInvalidSig.Text;
+						labelInvalidSig.Text=Lan.g(this,"Topaz signature pad software could not be reached:")+" "+ex.Message;
 						labelInvalidSig.Visible=true;
 					}
 					//}

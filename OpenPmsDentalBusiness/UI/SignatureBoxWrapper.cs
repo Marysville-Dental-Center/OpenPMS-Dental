@@ -44,7 +44,7 @@ Topaz hardware vs our SignatureBox:
 
 Control nesting
 	This control is SignatureBoxWrapper.cs. It is a wrapper with two controls inside of it:
-	1. Topaz SigPlusNET control
+	1. Topaz SigPlusNET control (since S3a-14 a TopazSignatureView: the control lives in the 32-bit helper program, which draws its picture)
 	2. SignatureBox control, our own internal control.
 	For WPF, this control is wrapped in with a WindowsFormsHost container because Topaz does not have a WPF version, and wrapping is what they recommend.
 	This SignatureBoxWrapper also contains two buttons that we need. The buttons are ugly and need an overhaul.
@@ -349,12 +349,19 @@ In FormClosing:
 					}
 					return;
 				}
-				FillSignatureHelperTopaz(keyData.Replace("\r\n","\n"),signature);
-				if(TopazWrapper.GetTopazNumberOfTabletPoints(sigBoxTopaz)==0) {
-					FillSignatureHelperTopaz(keyData,signature);
+				try {
+					FillSignatureHelperTopaz(keyData.Replace("\r\n","\n"),signature);
+					if(TopazWrapper.GetTopazNumberOfTabletPoints(sigBoxTopaz)==0) {
+						FillSignatureHelperTopaz(keyData,signature);
+					}
+					if(TopazWrapper.GetTopazNumberOfTabletPoints(sigBoxTopaz)==0) {
+						FillSignatureHelperTopaz(keyData.Replace("\r\n","\n").Replace("\n","\r\n"),signature);
+					}
 				}
-				if(TopazWrapper.GetTopazNumberOfTabletPoints(sigBoxTopaz)==0) {
-					FillSignatureHelperTopaz(keyData.Replace("\r\n","\n").Replace("\n","\r\n"),signature);
+				catch(Helper32Exception ex) when(ex.Failure!=Helper32Failure.Remote) {
+					//The 32-bit helper that runs Topaz's control failed (S3a-14): Topaz could not check the signature, so it is not called invalid.
+					ShowTopazNotInstalled(signature);
+					labelInvalidSig.Text=Lans.g(this,"Topaz signature pad software could not be reached:")+" "+ex.Message;
 				}
 			}
 			else {
@@ -651,13 +658,21 @@ In FormClosing:
 			}
 			signatureBox.Visible=false;
 			sigBoxTopaz.Visible=true;
-			//if(allowTopaz){
-				TopazWrapper.ClearTopaz(sigBoxTopaz);
-				TopazWrapper.SetTopazEncryptionMode(sigBoxTopaz,0);
-				TopazWrapper.SetTopazState(sigBoxTopaz,1);
-			//}
-			labelInvalidSig.Visible=false;
-			sigBoxTopaz.Focus();
+			try {
+				//if(allowTopaz){
+					TopazWrapper.ClearTopaz(sigBoxTopaz);
+					TopazWrapper.SetTopazEncryptionMode(sigBoxTopaz,0);
+					TopazWrapper.SetTopazState(sigBoxTopaz,1);
+				//}
+				labelInvalidSig.Visible=false;
+				//Since S3a-14 the patient signs in the 32-bit helper's signing window, which holds Topaz's control while the pad captures; before,
+				//this box took the focus and showed the strokes itself. When the window closes, capture stops as it did when the focus left the box.
+				TopazWrapper.ShowSigningWindow(sigBoxTopaz,this);
+				sigBoxTopaz_Leave(sigBoxTopaz,EventArgs.Empty);
+			}
+			catch(Helper32Exception ex) {
+				MessageBox.Show(ex.Message);
+			}
 			OnSignatureChanged();
 		}
 

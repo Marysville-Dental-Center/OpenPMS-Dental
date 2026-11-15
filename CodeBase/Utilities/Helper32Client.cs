@@ -185,6 +185,20 @@ namespace CodeBase {
 			return Call(module,command,args,null,timeSpanTimeout).Results;
 		}
 
+		///<summary>Lets the helper bring its own window, or a vendor window it opens (Schick CDR's exam window, Topaz's signing window), to the
+		///foreground on its next call, as the program could when the vendor code ran in its process: Windows lets only the foreground process do
+		///so, and the program is the foreground process when the user clicks. Starts the helper first when none runs (the grant needs its process
+		///id). A failed grant is not an error: the window then opens behind or flashes on the task bar. (S3a-14.)</summary>
+		public void AllowSetForeground() {
+			lock(_lock) {
+				if(_isDisposed) {
+					throw new ObjectDisposedException(nameof(Helper32Client));
+				}
+				EnsureStarted();
+				NativeMethods.AllowSetForegroundWindow((uint)_processId);
+			}
+		}
+
 		///<summary>Ends the helper: closes its pipe, which ends it, and ends it after 2 seconds if it has not. A later Call throws.</summary>
 		public void Dispose() {
 			lock(_lock) {
@@ -519,6 +533,11 @@ namespace CodeBase {
 
 			[DllImport("kernel32.dll")]
 			public static extern IntPtr LocalFree(IntPtr memory);
+
+			///<summary>https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-allowsetforegroundwindow</summary>
+			[DllImport("user32.dll")]
+			[return: MarshalAs(UnmanagedType.Bool)]
+			public static extern bool AllowSetForegroundWindow(uint processId);
 		}
 	}
 }

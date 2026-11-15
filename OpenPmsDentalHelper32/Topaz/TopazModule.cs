@@ -16,13 +16,6 @@ using System.Runtime.ExceptionServices;
 using System.Windows.Forms;
 
 namespace OpenPmsDentalHelper32.Topaz {
-	///<summary>Thrown for a control id this helper does not know: the program's control lived in a helper that has ended since. The program then
-	///creates its control again (TopazSignatureView).</summary>
-	internal sealed class TopazControlGoneException:Exception {
-		public TopazControlGoneException(string message) : base(message) {
-		}
-	}
-
 	///<summary>The controls of the program's signature boxes, by id, for the helper's lifetime. SigPlusNET.dll is loaded on the first Load or
 	///Create (never in the constructor), from the path the program found (TopazWrapper.FindAssemblyPath: the program folder and Topaz's own
 	///folders). Each control gets its window at once, as it had one inside the program's form; the helper pumps its messages between two requests

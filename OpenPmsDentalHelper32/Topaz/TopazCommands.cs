@@ -111,4 +111,11 @@ namespace OpenPmsDentalHelper32.Topaz {
 			return new IntPtr(long.Parse(text,NumberStyles.AllowLeadingSign,CultureInfo.InvariantCulture));
 		}
 	}
+
+	///<summary>Thrown by the helper for a control id it does not know: the program's control lived in a helper that has ended since. The program
+	///then creates its control again (TopazSignatureView), which it recognizes by this type's full name.</summary>
+	internal sealed class TopazControlGoneException:Exception {
+		public TopazControlGoneException(string message) : base(message) {
+		}
+	}
 }

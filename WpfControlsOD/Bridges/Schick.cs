@@ -1,18 +1,20 @@
 #if !DISABLE_WINDOWS_BRIDGES
 using System;
-using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using CodeBase;
 using OpenPmsDentalBusiness;
 using System.Collections.Generic;
+using OpenPmsDentalHelper32.Schick;
 
 namespace OpenPmsDental.Bridges{
 	///<summary>Provides bridging functionality to Schick CDR.
-	///The algorithm provided below was inspired by the Schick example project named CSAutoApp_2008.</summary>
+	///The algorithm provided below was inspired by the Schick example project named CSAutoApp_2008.
+	///Since S3a-14 of the .NET 10 move (docs/port-notes/S3a-14.md) CDR DICOM's automation objects are created and called in the 32-bit helper
+	///program (OpenPmsDentalHelper32, its Schick module, with the calls this class made before), because the program is 64-bit after stage 3b
+	///and nothing proves yet that CDR's COM classes serve a 64-bit caller (open point O-14).</summary>
 	public class Schick{
-
-		private static CDRDicom.Application _cdrApp=null;
-		private static CDRDicom.ExamDocument _exam=null;
+		///<summary>How long ShowExam may take: CDR starts when it is not running, and creating an exam waits for the user's answer.</summary>
+		private static readonly TimeSpan _timeSpanCall=TimeSpan.FromMinutes(30);
 
 		public Schick() {
 		}
@@ -41,60 +43,22 @@ namespace OpenPmsDental.Bridges{
 			try {
 				ShowExam(pat,patID);
 			}
+			catch(Helper32Exception ex) when(ex.Failure!=Helper32Failure.Remote) {
+				//The helper itself failed (missing, not started, not answering, ended): its own message, so the office knows what to repair.
+				MessageBox.Show("Error launching Schick CDR Dicom.\r\n"+ex.Message);
+			}
 			catch {
 				MessageBox.Show("Error launching Schick CDR Dicom.");
 			}
 		}
 
+		///<summary>The helper's Schick module loads the patient in CDR's exam window, or creates the exam (SchickCommands.SHOW_EXAM). The helper may
+		///bring the exam window to the foreground, as the program did.</summary>
 		private static void ShowExam(Patient pat,string patID) {
-			//If the CDR application is not running yet, then getting a new instance will start the CDR application.
-			//If the CDR application is already running, then getting a new instance will simply reference the existing CDR application.
-			//Thus there can never be more than one CDR application running.
-			_cdrApp=new CDRDicom.Application();
-			LoadExamWindow();
-			if(!_exam.LoadPatient(pat.LName,pat.FName,patID)) {//Attempt to locate an existing patient in the Schick database.				
-				//If the user clicks accross with a new patient when an existing patient is already loaded into Schick, then there are only two options:
-				//1) Reuse the same CDRDicom.Application() object and pass "true" into exam.NewExam() below.  The problem with this option is that
-				//		the user must set the create patient checkbox, otherwise the exam is created for the previous patient, which is terrifying.
-				//2) Quit the application, then create a new exam with the patient create checkbox hidden.  In this specific scenario, Schick will create
-				//	the patient even though the create patient checkbox is neither showing nor allowed, because there is no previous patient currently loaded.
-				//We chose option #2, because it more closely follows our typical bridge patterns.
-				//Quit() causes OnExamClosed() to fire, which sets cdrApp to null so it will be reinitialized in LoadCdrApp().  Var cdrApp is still valid.
-				_cdrApp.Quit();
-				LoadExamWindow();
-				CreateExam(pat,patID);
-			}
+			Helper32Client helper32Client=Helper32Client.Default;
+			helper32Client.AllowSetForeground();
+			helper32Client.Call(SchickCommands.MODULE,SchickCommands.SHOW_EXAM,_timeSpanCall,pat.LName,pat.FName,patID);
 		}
-
-		///<summary>Initializes Schick and loads an empty exam.</summary>
-		private static void LoadExamWindow() {
-			if(_exam==null) {
-				_exam=(CDRDicom.ExamDocument)_cdrApp.CreateExamDocument();
-				_exam.OnClose+=new CDRDicom.IExamDocumentEvents_OnCloseEventHandler(OnExamClosed);
-			}
-			_exam.Visible=true;
-			SetForegroundWindow(new IntPtr(_exam.hWnd));//The exam's hWnd is a 32-bit int; a window handle is that value sign-extended in a 64-bit process.
-		}
-
-		///<summary>When the user clicks OK from the exam window, the patient will be created.  The user can also cancel.</summary>
-		private static void CreateExam(Patient pat,string patID) {
-			CDRDATALib.ICDRPatient patient=(CDRDATALib.ICDRPatient)_exam.Patient;
-			if(patient!=null) {
-				//Copy patient info to the new exam
-				patient.LastName=pat.LName;
-				patient.FirstName=pat.FName;
-				patient.IDNumber=patID;
-				//Then display the new exam window.
-				_exam.NewExam(false);
-			}
-		}
-
-		private static void OnExamClosed() {
-			_exam=null;
-		}
-
-		[DllImport("User32.dll")]
-		public static extern bool SetForegroundWindow(IntPtr hWnd);
 
 	}
 }
