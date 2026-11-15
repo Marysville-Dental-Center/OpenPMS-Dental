@@ -318,7 +318,7 @@ namespace P262LinksTests {
 			string bridge=TestPaths.ReadRepoFile("WpfControlsOD","Bridges","MeditLink.cs");
 			StringAssert.Contains(bridge,"MeditLinkPartner.GetArguments(program,patient,out string problem)");
 			int indexRefused=bridge.IndexOf("if(commandArgs==null) {",StringComparison.Ordinal);
-			int indexStart=bridge.IndexOf("Process.Start(path,commandArgs);",StringComparison.Ordinal);
+			int indexStart=bridge.IndexOf("ODFileUtils.ProcessStart(path,commandArgs);",StringComparison.Ordinal);
 			Assert.IsTrue(indexRefused>0 && indexStart>indexRefused,"A refused Partner ID stops the launch.");
 			StringAssert.Contains(bridge.Substring(indexRefused,indexStart-indexRefused),"return;");
 			Assert.IsFalse(bridge.Contains("E02698AC"),"The command id lives in MeditLinkPartner only.");
