@@ -27,7 +27,9 @@ WHAT IT CHANGES ON THIS PC while it runs, and what it puts back:
   by hand if the script was stopped), and writes them back at the end. That installation's folder, files and shortcuts are not touched.
   Until the end, Apps does not list it, and the program's Event Log source is missing.
 - the setup and uninstall logs in -OutDir (default: an install-test folder next to the setup), which it keeps.
-Setup installs no shortcut (/NOICONS, the desktop task is off) and no Visual C++ runtime (/PREREQS=skip). The script never starts the
+Setup installs no shortcut and no Visual C++ runtime (/PREREQS=skip): /NOICONS skips the Start menu entry, and /MERGETASKS="!desktopicon"
+turns the desktop task off explicitly, because setup would otherwise take the task choice of an installation already on the PC (the
+task's 'unchecked' default applies only when there is none) and so overwrite, then uninstall, its desktop shortcut. The script never starts the
 program (the setup has no [Run] entry) and never connects to a database: scenarios A, B and C give a database server on this computer,
 for which a silent setup runs no connection settings tool, and the tool of scenario D stops before it connects.
 
@@ -151,7 +153,10 @@ function New-TestFolder([string]$name){
 }
 
 function Invoke-Setup([string]$dir,[string]$log,[string[]]$extra){
-	$arguments=@('/VERYSILENT','/SUPPRESSMSGBOXES','/NORESTART','/NOICONS','/PREREQS=skip',"/DIR=`"$dir`"","/LOG=`"$log`"")+$extra
+	#/MERGETASKS="!desktopicon" turns the desktop task off explicitly: the test installs share the AppId of an installation already on
+	#the PC, so setup restores that installation's tasks (UsePreviousTasks), and 'Flags: unchecked' applies only without one. Without it,
+	#an installation set up with the desktop icon would have its common desktop shortcut overwritten and then deleted by the test uninstall.
+	$arguments=@('/VERYSILENT','/SUPPRESSMSGBOXES','/NORESTART','/NOICONS','/MERGETASKS="!desktopicon"','/PREREQS=skip',"/DIR=`"$dir`"","/LOG=`"$log`"")+$extra
 	$process=Start-Process -FilePath $Setup -ArgumentList $arguments -Wait -PassThru
 	return $process.ExitCode
 }

@@ -582,6 +582,13 @@ namespace ReleaseFlowTests {
 			StringAssert.Contains(script,"Check (-not (Test-Path $UninstallKeyUser)) 'no per-user uninstall entry'");
 			StringAssert.Contains(script,"\"/DIR=`\"$dir`\"\"");
 			StringAssert.Contains(script,"Join-Path $env:TEMP (\"OpenPmsDental-installtest-");
+			//The desktop task is off explicitly: setup restores the tasks of an installation already on the PC (same AppId, UsePreviousTasks),
+			//so the task's 'unchecked' flag alone would not keep a test install off that installation's common desktop shortcut.
+			string argumentsLine=script.Split('\n').Single(x => x.TrimStart().StartsWith("$arguments=@("));
+			StringAssert.Contains(argumentsLine,"'/NOICONS'");
+			StringAssert.Contains(argumentsLine,"'/MERGETASKS=\"!desktopicon\"'");
+			Assert.IsTrue(Regex.IsMatch(iss,@"(?m)^Name: ""desktopicon"";"),"The task the script turns off is the .iss's desktop task.");
+			StringAssert.Contains(iss.Split('\n').Single(x => x.StartsWith("Name: \"{autodesktop}")),"Tasks: desktopicon");
 			//The Event Log source key: the .iss's subkey and value, and the uninstall deletes the key (uninsdeletekey).
 			string registryLine=iss.Split('\n').Single(x => x.StartsWith("Root: HKLM;"));
 			string subKey=Regex.Match(registryLine,@"Subkey: ""([^""]+)""").Groups[1].Value.Replace("{#EventLogSource}",ProgramNames.EventLogSource);
