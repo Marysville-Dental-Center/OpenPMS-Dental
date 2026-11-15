@@ -118,6 +118,90 @@ namespace S3aM1Tests {
 			});
 		}
 
+		///<summary>A minimal report (no namespace) with one data source and one data set that has one query parameter and one field.</summary>
+		private const string REPORT_QUERY_PARAMETER=
+			"<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
+			+"<Report>"
+			+"<DataSources><DataSource Name=\"DS1\"><ConnectionProperties><DataProvider>SQL</DataProvider><ConnectString></ConnectString>"
+			+"</ConnectionProperties></DataSource></DataSources>"
+			+"<DataSets><DataSet Name=\"Data\"><Query><DataSourceName>DS1</DataSourceName><CommandText>SELECT 1</CommandText>"
+			+"<QueryParameters><QueryParameter Name=\"@Clinic\"><Value>=Parameters!Clinic.Value</Value></QueryParameter></QueryParameters>"
+			+"</Query><Fields><Field Name=\"A\"><DataField>A</DataField></Field></Fields></DataSet></DataSets>"
+			+"<Body><ReportItems></ReportItems><Height>1in</Height></Body>"
+			+"<Width>8.5in</Width>"
+			+"</Report>";
+
+		[TestMethod]
+		public void QueryParametersCtl_EmptiedValue_StoresEmptyString_DataSetsCtlApplyWritesIt() {
+			M2Support.RunSta(() => {
+				System.Xml.XmlDocument xmlDocument=new System.Xml.XmlDocument();
+				xmlDocument.LoadXml(REPORT_QUERY_PARAMETER);
+				using(UserControl draw=(UserControl)Create("DesignXmlDraw"))
+				using(Form form=new Form()) {
+					Priv.Set(draw,"ReportDocument",xmlDocument);
+					System.Xml.XmlNode nodeDataSet=xmlDocument.SelectSingleNode("/Report/DataSets/DataSet");
+					UserControl dataSetsCtl=(UserControl)Create("DataSetsCtl",draw,nodeDataSet);
+					UserControl queryParametersCtl=(UserControl)Create("QueryParametersCtl",draw,Priv.Get(dataSetsCtl,"DSV"));
+					form.Controls.Add(dataSetsCtl);//disposed with the form
+					form.Controls.Add(queryParametersCtl);
+					IntPtr handle=form.Handle;
+					DataGridView dataGridView=(DataGridView)Priv.Get(queryParametersCtl,"dgParms");
+					IntPtr handleGrid=dataGridView.Handle;
+					DataTable dataTable=(DataTable)Priv.Get(Priv.Get(dataSetsCtl,"DSV"),"QueryParameters");
+					Assert.AreEqual("=Parameters!Clinic.Value",dataTable.Rows[0]["Value"]);
+					//The text columns bound to the table's string columns store "" for an emptied cell, as the DataGrid did.
+					Assert.IsTrue(dataGridView.Columns.Cast<DataGridViewColumn>().All(x => "".Equals(x.DefaultCellStyle.DataSourceNullValue)),
+						"Each string column's null value is \"\".");
+					//The user clears the parameter's value and the grid loses the focus (OK or Apply).
+					TypeInto(dataGridView,0,1,"");
+					Priv.Call(dataGridView,"OnLeave",EventArgs.Empty);
+					Assert.AreEqual("",dataTable.Rows[0]["Value"],"The emptied value is \"\", not DBNull.");
+					//A parameter typed into the new row with only its name: the value cell was not typed into and stays DBNull.
+					TypeInto(dataGridView,1,0,"@Other");
+					Priv.Call(dataGridView,"OnLeave",EventArgs.Empty);
+					Assert.AreEqual(2,dataTable.Rows.Count);
+					Assert.AreEqual("@Other",dataTable.Rows[1]["Name"]);
+					Assert.AreEqual(DBNull.Value,dataTable.Rows[1]["Value"],"An untouched cell of the new row stays DBNull.");
+					//Apply writes both parameters with an empty Value and does not throw (the emptied value threw an InvalidCastException; the
+					//row with only a name threw on main too).
+					Priv.Call(dataSetsCtl,"Apply");
+					System.Xml.XmlNodeList nodeListParameters=xmlDocument.SelectNodes("/Report/DataSets/DataSet/Query/QueryParameters/QueryParameter");
+					Assert.AreEqual(2,nodeListParameters.Count);
+					Assert.AreEqual("@Clinic",nodeListParameters[0].Attributes["Name"].Value);
+					Assert.AreEqual("",nodeListParameters[0].SelectSingleNode("Value").InnerText);
+					Assert.AreEqual("@Other",nodeListParameters[1].Attributes["Name"].Value);
+					Assert.AreEqual("",nodeListParameters[1].SelectSingleNode("Value").InnerText);
+					//The fields grid is set the same way: an emptied field name is "", not DBNull.
+					DataGridView dataGridViewFields=(DataGridView)Priv.Get(dataSetsCtl,"dgFields");
+					Assert.IsTrue(dataGridViewFields.Columns.Cast<DataGridViewColumn>().All(x => "".Equals(x.DefaultCellStyle.DataSourceNullValue)));
+					dataGridView.CurrentCell=null;//leaves the cell before the form and its grids are disposed
+				}
+			});
+		}
+
+		[TestMethod]
+		public void DialogValidValues_EmptiedLabel_IsEmptyString() {
+			M2Support.RunSta(() => {
+				object item=Create("ParameterValueItem");
+				Priv.Set(item,"Value","North");
+				Priv.Set(item,"Label","N");
+				IList list=MakeList("ParameterValueItem",item);
+				using(Form form=(Form)Create("DialogValidValues",new object[] { list })) {
+					IntPtr handle=form.Handle;
+					DataGridView dataGridView=(DataGridView)Priv.Get(form,"dgParms");
+					IntPtr handleGrid=dataGridView.Handle;
+					DataTable dataTable=(DataTable)Priv.Get(form,"_DataTable");
+					TypeInto(dataGridView,0,1,"");
+					Priv.Call(dataGridView,"OnLeave",EventArgs.Empty);
+					Assert.AreEqual("",dataTable.Rows[0]["Label"]);
+					object itemOut=((IEnumerable)Priv.Get(form,"ValidValues")).Cast<object>().Single();
+					Assert.AreEqual("North",Priv.Get(itemOut,"Value"));
+					Assert.AreEqual("",Priv.Get(itemOut,"Label"),"An emptied label is \"\" (the DataGrid's), not null.");
+					dataGridView.CurrentCell=null;
+				}
+			});
+		}
+
 		private static void DataGridViewSetupSetCurrent(DataGridView dataGridView,int row) {
 			CallStatic("DataGridViewSetup","SetCurrentRowIndex",dataGridView,row);
 			Assert.AreEqual(row,(int)CallStatic("DataGridViewSetup","GetCurrentRowIndex",dataGridView));
