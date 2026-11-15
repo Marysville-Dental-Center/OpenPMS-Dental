@@ -637,7 +637,7 @@ NativeFirstTests (x86 and x64) and Helper32Tests. The registry check of section 
 - Word: a test that the x64 build compiles the `!DISABLE_MICROSOFT_OFFICE` code, and the HRESULT message for a broken registration.
 - DirectX: optionally, a ToothChart log line naming the folder and bitness of the D3DX that loaded.
 
-**A5. Record.** In O-14 and the plan, record:
+**A5. Record.** **Done** on `main` by the lead (2026-11-15): the three records are in net10-plan O-14. In O-14 and the plan, record:
 - VisiQuick as dormant with no 64-bit vqdde;
 - Belgian eID as a PKCS#11 port when the feature is turned on;
 - cameras as native, with a helper module only if a camera with a 32-bit-only filter appears.

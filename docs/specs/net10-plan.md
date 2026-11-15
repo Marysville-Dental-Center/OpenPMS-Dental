@@ -1970,6 +1970,14 @@ self-contained (open point O-15, decision 20).
   Guru and QBFC 10 in the helper in a 64-bit program; every piece in process in the 32-bit program. Open for 3b: QBFC 15+ for QuickBooks
   Desktop 2022 and later (a later package, the SDK behind the owner's Intuit sign-in), System.IO.Ports for Topaz's serial pads on .NET 10 (a
   new package), and the launch checks on a test PC with the vendor software (none today).
+  **2026-11-15, later:** the owner downloaded the newest QuickBooks Desktop SDK, 18.0 (survey B6 builds on its newest QBFC, then the older
+  64-bit ones down to QBFC15, else the helper; late-bound, so the SDK need not be installed on the build PC), and approved System.IO.Ports.
+  Mediadent / CADI follows the same rule since N64-A3 (`docs/port-notes/N64-A3.md`). **Recorded by the survey's A5
+  (`docs/specs/native64-survey.md`, rows 7, 14 and 15):** VisiQuick stays dormant (its file is all comment, and there is no 64-bit
+  `vqdde32.dll`; if it is ever revived, a helper module drives VisiQuick.exe over DDE whatever its bitness); the Belgian eID import is a
+  PKCS#11 port (the middleware's 64-bit PKCS#11 module) when the feature is turned on, as `SmartCardWatcher` has no caller today; intraoral
+  and USB cameras stay native in the 64-bit program (DirectShow and UVC, with Windows' camera frame server across bitness), with a helper
+  module only if a camera with a 32-bit-only DirectShow filter appears.
 - **O-15. The helper's runtime after the switch (decision 19). Answered 2026-11-08: (c) self-contained (decision 20).** The helper is
   32-bit because the vendor code it loads is; the program itself has no 32-bit .NET 10 build. In 3a the helper is built like everything
   else (net48, x86). For 3b the options were: (a) it stays on .NET
