@@ -703,7 +703,7 @@ namespace BINBTests {
 			//FormProcEdit and FormProcGroup: the check returns false or returns at the top of EntriesAreValid (before its SigIsBlank) and before
 			//SaveAndClose writes anything.
 			AssertCheckedFirst("FormProcEdit.cs","private bool IsTopazSignatureReachable() {","private bool EntriesAreValid() {",
-				"if(!IsTopazSignatureReachable()) {\n\t\t\t\treturn false;",new[] { ".SigIsBlank","Procedures.EntriesAreValid(" },new[] { "_signatureChanged" });
+				"if(!IsTopazSignatureReachable()) {\n\t\t\t\treturn false;",new[] { ".SigIsBlank","bool result=Procedures.EntriesAreValid(" },new[] { "_signatureChanged" });
 			AssertCheckedFirst("FormProcEdit.cs","private bool IsTopazSignatureReachable() {","private void SaveAndClose() {",
 				"if(!IsTopazSignatureReachable()) {",new[] { "ClaimProcs.Update(","PaySplits.UpdateAttachedPaySplits(","Adjustments.Update(","SaveSignature();",
 				"Procedures.Update(" },new[] { "_signatureChanged" });
