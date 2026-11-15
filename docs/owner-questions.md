@@ -887,7 +887,9 @@ listener on such an address, a server certificate that names it, and two client 
   (`LocalMachine\My`, one key in a CAPI provider, one in the Microsoft Software Key Storage Provider, `BUILTIN\Users` read access as the
   connection settings tool gives). It prints the three values the test needs. `-Revert` undoes every step, and under your rule never leaves
   a key behind that the users can read: both certificates go with their keys (also a key whose certificate was deleted by hand: the
-  record in `my.ini` names each key file), and the `.pfx` files are deleted right after their import.
+  record in `my.ini` names each key file), and the `.pfx` files are deleted right after their import. Before it makes each item the run
+  writes it into a journal (Administrators only), so `-Revert` also removes what a run that was interrupted or failed half-way had made;
+  it removes the adapter first and the firewall rules last, so the test address is never without its block rule.
   Your steps, the lead's test run and the undo, with what to check after each, are in that section.
 
 ---

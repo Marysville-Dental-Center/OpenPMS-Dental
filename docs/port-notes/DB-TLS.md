@@ -577,10 +577,10 @@ IPv4 or takes packets for other interfaces' addresses (weak host receive). The p
 
 | Tag | The enable run | `-Revert` |
 |---|---|---|
-| `[adapter]` | A Microsoft KM-TEST Loopback Adapter (hardware id `*MSLOOP`), created through the SetupAPI from Windows' own `netloop.inf`, named `OPMS DB TLS test`. Loopback adapters that exist already are not touched. | Removes the recorded device (only when its hardware id is `*MSLOOP`) and checks that it and the address are gone. |
+| `[adapter]` | A Microsoft KM-TEST Loopback Adapter (hardware id `*MSLOOP`), created through the SetupAPI from Windows' own `netloop.inf`, named `OPMS DB TLS test`. Loopback adapters that exist already are not touched. | First of all: removes the recorded device (only when its hardware id is `*MSLOOP`) and checks that it and the address are gone. |
 | `[address]` | `192.0.2.x/32` and nothing else: no gateway, no DNS server, no DNS registration; DHCP, forwarding and weak host receive off (checked); duplicate address detection, weak host send, router discovery and NetBIOS over TCP/IP off (a `WARNING` where Windows keeps one). | Goes with the adapter. |
 | `[bindings]` | Every binding but Internet Protocol Version 4 switched off; File and Printer Sharing (`ms_server`), Client for Microsoft Networks (`ms_msclient`) and IPv6 (`ms_tcpip6`) must be off (checked), any other gets a `WARNING` if Windows keeps it. | Go with the adapter. |
-| `[firewall]` | When the firewall is on in any profile: `OpenPmsDental-DbTlsTest-Allow3306` (TCP 3306 on the address from the address itself, this computer) and `OpenPmsDental-DbTlsTest-Block3306` (from every other remote address), group `Open PMS - Dental local test TLS`, every profile. | Removes the recorded rules (only of that group). |
+| `[firewall]` | When the firewall is on in any profile: `OpenPmsDental-DbTlsTest-Allow3306` (TCP 3306 on the address from the address itself, this computer) and `OpenPmsDental-DbTlsTest-Block3306` (from every other remote address), group `Open PMS - Dental local test TLS`, every profile. | Last: removes the recorded rules (only of that group) once the adapter and its address are gone; while the adapter stays (its removal failed), the rules stay too and are named as kept, so the address on which the server may still listen never lacks its block rule, and a later `-Revert` finds them in the record. |
 | `[server-certificate]` | The server certificate also names the address (`IP:`) and the computer's host name (`DNS:`), beside `localhost` and `127.0.0.1`. | Goes with the `opms-dev-tls` folder. |
 | `[client-certificates]` | `CN=opms-dbtls-test-client-capi` and `CN=opms-dbtls-test-client-cng` (RSA 2048, 5 years, clientAuth), signed by the same CA in the same run (its key is still discarded), each as its own `.pfx` (only the certificate and its key; a random password) in `opms-dev-tls\client-pfx` (Administrators only), imported with `certutil -csp ... -importPFX My <file> NoExport,NoChain,NoRoot` into `LocalMachine\My`: the first in `Microsoft Enhanced RSA and AES Cryptographic Provider` (CAPI), the second in `Microsoft Software Key Storage Provider` (CNG). The run checks the provider and the computer's key set, then deletes the `.pfx` files. The block records each key's provider, container and file. | Deletes each key (the CAPI container through the CSP, the CNG key with `CngKey.Delete`), removes the store entry and checks that both, and the key file, are gone. Only a certificate of that name that the test CA issued is removed. A certificate that is gone already (its store entry deleted by hand, in `certlm.msc` or with `certutil -delstore`, which leave the key file) does not end it: the recorded key is deleted when its file is still there, once its container opens as that very file. |
 | `[key-access]` | `BUILTIN\Users` read access to both key files, as `ClientCertificateStore.GrantUsersReadToPrivateKey` gives it, so the lead's unelevated run can use them. | Goes with the keys: no key that the users can read is left behind (the owner's rule). |
@@ -611,8 +611,22 @@ script's of its kind, with a path in its container name, or whose file is not di
 adapter that is not a loopback adapter, a rule of another group, and a certificate of another name or not issued by the test CA.
 `-RequireSecureTransport` keeps the record and checks the listener on the address after its restart. `-Revert` removes the test network
 first, while the record in `my.ini` still names it: when a step fails, nothing else is changed (exit 4) and `-Revert` can run again. A failed
-enable run (exit 3) removes the firewall rules, both certificates with their keys and the adapter again, beside the undo of section 2;
+enable run (exit 3) removes the adapter, both certificates with their keys and the firewall rules again, beside the undo of section 2;
 when that fails too (exit 4) the message names each of them.
+
+**The journal.** The block goes into `my.ini` only after the whole test network is made, so the run also writes each record line to
+`<MariaDB folder>\opms-dev-tls\test-network.record` (a protected ACL: Administrators and SYSTEM only) *before* the item it names is made:
+the address before the adapter is created, the adapter's id right after its creation, each rule name before its rule, each thumbprint
+before `certutil`, each key line right after the import and before `BUILTIN\Users` get read access to the key file. A failed run's undo
+removes the test network in its own step, also when the restore of `my.ini` or the restart failed, and deletes the journal only when that
+removal leaves nothing; while it does not, the `opms-dev-tls` folder (the journal and `ca.pem`) stays. When `my.ini`'s block records no
+test network, `-Revert` reads the journal instead, refuses one with a line no run writes (as for the block, but items the run had not
+made yet may be missing), checks what it names (`*MSLOOP`, the rule group, the certificates' names and the test CA of `ca.pem`), and
+removes it before anything else: an interrupted run (Ctrl+C in a wait, a closed window, a crash: no backup, no block) or a failed run whose
+undo restored `my.ini` and then could not restart the service or remove the test network (a backup, no block). Without a backup and a block
+it leaves `my.ini` and the service alone and removes only what the stopped run made, so the enable run can start again. It removes the
+`opms-dev-tls` folder only once nothing the journal names is there (else exit 4, nothing else changed). The journal stays as long as the
+test network does; after a whole run it holds the same lines as the block.
 
 **How the adapter is made without a download.** Windows 11 has `netloop.inf` in `%windir%\INF` and in the driver store
 (`netloop.inf_amd64_*`), so no driver is needed. Neither of Windows' own command-line tools creates a device: `pnputil` stages and
@@ -675,8 +689,12 @@ tools find at the same path).
    ```
 
    Send those three lines, and any `WARNING` line, to the lead. `FAILED` with `Undone:` (exit code 3) means nothing stayed changed, the
-   test network included; `Undoing failed too` (exit code 4) names what to remove by hand, in this elevated window. For each test
-   certificate it names the key file and the command that deletes the key, **before** the store entry:
+   test network included; `Undoing failed too` (exit code 4) names what is left. Then run `-DryRun -Revert` and `-Revert` in this
+   elevated window (section 11.4): it also undoes the test network of a run that did not finish, from the journal when `my.ini` has no
+   block. The same after a run that was interrupted (Ctrl+C, a closed window, a crash): the enable run refuses to start again while the
+   `opms-dev-tls` folder is there, and `-Revert` removes what the stopped run made. By hand instead: the adapter first (Device Manager,
+   Network adapters), then each test certificate (the message names the key file and the command that deletes the key, **before** the
+   store entry), the firewall rules last:
 
    ```powershell
    certutil -csp "<provider>" -delkey "<container>"
@@ -728,17 +746,26 @@ the plan's gate. The variables live only in that window; the 3b gate runs the sa
 ### 11.4 The undo (elevated, the owner)
 
 1. Look at the plan: `powershell -NoProfile -ExecutionPolicy Bypass -File tools\Enable-LocalDbTls.ps1 -DryRun -Revert`.
-   **Check:** it starts with the test network: `[firewall]` (the two rules), `[client-certificates]` (each thumbprint, "its key in a CAPI
-   provider" and "in a CNG provider", each with its recorded key file; for a certificate deleted by hand meanwhile, "but its key file ...
-   is still there ...: delete that key"), `[key-access]`, `[adapter]` (`ROOT\NET\nnnn`), `[address] [bindings]`, `[bind-address]`,
-   `[server-certificate]`, then the restore of `my.ini`, the restart and the files of section 2. A `REFUSED:` line means the record or what
-   it names is not this script's (section 11.1); nothing is touched then.
+   **Check:** it starts with the test network, in the order of its removal: `[adapter]` (`ROOT\NET\nnnn`, first) with `[address]
+   [bindings]`, `[client-certificates]` (each thumbprint, "its key in a CAPI provider" and "in a CNG provider", each with its recorded key
+   file; for a certificate deleted by hand meanwhile, "but its key file ... is still there ...: delete that key"), `[key-access]`,
+   `[firewall]` (the two rules, last, "If the adapter cannot be removed, the rules stay"), `[bind-address]`, `[server-certificate]`, then the
+   restore of `my.ini`, the restart and the files of section 2. After a run that did not finish, the test network comes from the journal:
+   "First the test network 192.0.2.25 of an enable run that did not finish, as its journal ...\test-network.record records it", with
+   only the items that run had made ("The record names no loopback adapter (the run stopped before it made one)" and the like); without a
+   backup the plan also says "an enable run stopped before it changed my.ini" and has no restore and no restart. A `REFUSED:` line means
+   the record or the journal, or what it names, is not this script's (section 11.1); nothing is touched then.
 2. Run `powershell -NoProfile -ExecutionPolicy Bypass -File tools\Enable-LocalDbTls.ps1 -Revert`, then `YES`.
-   **Check:** `Removed the test network: the firewall rules, both test certificates with their keys, the adapter ROOT\NET\nnnn and
-   192.0.2.25.` and `TLS is off again: ...`. Optional: `Get-NetAdapter -Name 'OPMS DB TLS test'` and `Get-NetIPAddress -IPAddress
+   **Check:** `Removed the test network: the adapter ROOT\NET\nnnn and 192.0.2.25, both test certificates with their keys, the firewall
+   rules.` and `TLS is off again: ...` (after a run that stopped before it changed `my.ini`: `Removed what the enable run that did not finish
+   had made; my.ini and the service were not touched.`). Optional: `Get-NetAdapter -Name 'OPMS DB TLS test'` and `Get-NetIPAddress -IPAddress
    192.0.2.25` find nothing, `Get-NetFirewallRule -Group 'Open PMS - Dental local test TLS'` finds nothing, `certlm.msc` shows no
-   `opms-dbtls-test-client` certificate, the two key files the plan named are gone (`Test-Path`), and `Get-NetTCPConnection -LocalPort 3306 -State Listen` shows `127.0.0.1` only.
-   `FAILED: the test network is not fully removed` (exit code 4) changed nothing else; put right what it names and run `-Revert` again.
+   `opms-dbtls-test-client` certificate, the two key files the plan named are gone (`Test-Path`), the `opms-dev-tls` folder is gone, and
+   `Get-NetTCPConnection -LocalPort 3306 -State Listen` shows `127.0.0.1` only.
+   `FAILED: the test network is not fully removed` (exit code 4) changed nothing else: the record (the block, or the journal with the
+   `opms-dev-tls` folder and `ca.pem`) stays. When the adapter could not be removed, the firewall rules are kept with it ("are kept,
+   because the adapter and its address ... are still there"). Put right what it names (for the adapter: Device Manager, or a restart of the
+   computer when Windows asks for one) and run `-Revert` again.
 
 There is no switch that drops only the test network: `-Revert` and the enable run without `-WithTestNetwork` (a new CA) do that.
 
@@ -799,3 +826,48 @@ broadcast addresses, a leading zero, the one-number form, another documentation 
 Results: the full lane build has no error. Targeted runs, all passed: `DbConnectionSecurityTests` 239 (228 passed; the same 11
 inconclusive by design until the owner's run as in section 11.5), with the two new tests passing; `NoHqTests` 57 passed. `InitSqlTests`
 and `ForkMigrationTests` left out under the rule for every package (no schema change here).
+
+### 11.7 The second fix round (branch `tools/dbtls-env-3`, 2026-11-14)
+
+1. **`-Revert` could not find the test network of a run that did not finish.** Its only record was the block in `my.ini`, written after
+   the whole test network was made. (a) When a failed run's undo copied the backup over `my.ini` and then the restart threw (exit 4), the
+   test network was never undone, `my.ini` was the old file again (no record) and the backup stayed: a later `-Revert` restored, restarted,
+   deleted the `opms-dev-tls` folder with `ca.pem` and said "TLS is off again" (exit 0), leaving the adapter, the rules and both keys that
+   `BUILTIN\Users` can read, which could then no longer be checked against the test CA. (b) An interrupted run (Ctrl+C in the waits of
+   up to 60 and 20 seconds, a closed window, a crash) skipped the undo and left all of it with no backup and no block: `-Revert` refused
+   ("remove the block between the marker lines by hand", but there was none), and the enable run refused because the folder was there.
+   **Fixed:** the journal of section 11.1, written before each item is made; the failed run's undo (`Undo-FailedEnable`) removes the test
+   network in its own step whatever happened to `my.ini` and the restart, and keeps the journal and the folder while that removal is not
+   complete; `-Revert` reads the journal when the block records no test network, checks it and what it names, and removes it before the
+   "backup is missing" refusal and before the folder; with no backup and no block it removes only what the stopped run made. The exit-4
+   text says that `-Revert` also undoes an interrupted run's test network (section 11.2, step 3; section 11.4).
+2. **The block rule went before the adapter.** `Undo-TestNetwork` removed the firewall rules first and the adapter last, while `-Revert`
+   restores `my.ini` and restarts only afterwards, so the server still listened on `192.0.2.x:3306` without its block rule until the
+   adapter was gone, and for good when the adapter's removal failed (exit 4). With the firewall on, the enable run does not check for
+   interfaces that forward IPv4 or receive for other interfaces' addresses (it relies on the block rule), so on a computer with Internet
+   Connection Sharing or a Hyper-V or WSL switch the address could have been reached from beyond it. **Fixed:** the adapter first
+   (`Remove-TestAdapter` waits until the address is gone), then the certificates with their keys, the rules last and only when the adapter
+   step succeeded; otherwise they are kept and named, and the record that names them stays. `-Revert`'s plan follows that order
+   (section 11.1 table, section 11.4).
+3. **Found on the way: every `-Revert` with a test network would have stopped with exit 4.** `Undo-TestNetwork` returns its list with
+   `return , $problems`, and the callers wrapped the call in `@()`: in Windows PowerShell 5.1 that gives one element, the list itself (an
+   empty list counts 1; checked here with a two-line script), so a removal that left nothing still printed "the test network is not fully
+   removed" and kept the record, run after run; a failed enable run's undo would always have said "Undoing failed too". The callers now
+   assign first and wrap after (also for the new `Get-TestNetworkLeft`). The new driver tests run the real `Undo-TestNetwork` through
+   `Invoke-Revert` and `Undo-FailedEnable`, so this is now covered.
+
+Tests (`DevDbTlsTestNetworkTests`, no elevation; every step that would change this computer replaced by a function that only notes its
+call, all files in the test's temporary folder):
+`TestNetwork_TheJournal_RecordsEachItemBeforeItIsMade_AndReadsBackForRevert` (`Install-TestNetwork` with the adapter's creation replaced
+by a type of the same name that reads the journal: the address before the creation, the id right after, each rule before
+`New-NetFirewallRule`, each thumbprint before the import, each key before the users' read access, also with a crash there; read back as a
+record `-Revert` accepts; a journal of a run that stopped after the address gives a plan with every tag and nothing to remove; a journal
+line no run writes, and a key without its thumbprint, refused);
+`TestNetwork_Revert_AJournalWithoutABlock_RemovesTheAdapterTheRulesAndTheKeys_AlsoWithoutABackup` (`Invoke-Revert` on a scratch `my.ini`
+without a block: without a backup no "backup is missing" refusal, no restore and no restart; with a backup the restore after the removal;
+the plan names the adapter, both rules and both keys with every tag; the adapter, the certificates and the rules removed in that order;
+an item the journal names that is still there ends it with exit 4, the folder, the journal and the backup kept);
+`TestNetwork_UndoTestNetwork_TheAdapterFirst_TheRulesLast_AndKeptWhileTheAdapterStays` (with `Remove-TestAdapter` throwing,
+`Remove-TestFirewallRule` is not called and the rules are in the list as kept);
+`TestNetwork_AFailedRunsUndo_UndoesTheTestNetwork_AlsoWhenTheRestartFails_AndKeepsTheJournalWhileItIsNotUndone`; the plan test checks the
+new order and the journal line of the enable plan.
