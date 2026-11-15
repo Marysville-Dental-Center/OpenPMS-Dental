@@ -648,11 +648,12 @@ runner and the lane's `-Test` run MSTest 4 unchanged; S4-2 next.
 S4-2 done on `net10/s42-1` (`docs/port-notes/S4-2.md`), not merged yet: both runner copies (`tools/run-tests.ps1` and the
 lead's, whose new version waits as `run-tests.ps1.s42-new` for the merge) keep `/Platform:x86` and the adapter next to each test DLL
 (checked before each assembly, `NOADAPTER`), read the last `Total tests:` block or the one-line summaries, count skipped tests, fail a run
-with no test or no summary, compare a run with an earlier results file (`-CompareWith`), and start vstest with
+with no test or no summary, compare a run with an earlier results file (`-CompareWith`, which in a Full run also names each
+assembly of the record that the run lacks, `missing`), and start vstest with
 `TESTINGPLATFORM_TELEMETRY_OPTOUT=1` and `DOTNET_CLI_TELEMETRY_OPTOUT=1` and without `VSTEST_TELEMETRY_OPTEDIN`; the lane gets the same
 from `tools/Initialize-BuildEnvironment.ps1` and needs no change. No workflow script needed a change. Targeted runs of five assemblies
 with each copy: the counts of S4-1's table, test by test, plus the 8 new ProjectFileTests (TestRunnerScriptTests, TestTelemetryTests).
-Next: the stage gate's Full run with `-CompareWith` the stage 2 record (the lead's).
+Next: the stage gate's Full run with `-CompareWith` the stage 2 record (the lead's); its last `COMPARE` line must say `missing=0`.
 
 **Full-test gate.** Section 3, plus identical per-assembly discovered-test counts and outcomes compared to the v1 record (differences
 explained one by one).
