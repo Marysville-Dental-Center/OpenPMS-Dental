@@ -759,8 +759,8 @@ The questions of the EHR plan, [specs/ehr-rebuild-plan.md](specs/ehr-rebuild-pla
 - **Identity:** QRDA files carry this program's name and the office's identity instead of Open Dental's; HL7 follows later (E-15).
 - **Left out:** current measure versions, Stage 3 / MIPS and the newer C-CDA guide, which only count with certification (E-16);
   other EHR gaps, the radiology-orders alert and the unused measure columns become follow-ups or stay as they are (E-17 to E-19).
-- **Counsel (E-6, E-8 to E-11):** the work goes ahead and nothing licensed is shipped; the CQM reports (EHR-5) merge after
-  counsel answers E-10, and the other counsel answers are applied when they come (the code lists already in the engine stay until
+- **Counsel (E-6, E-8 to E-11):** the work goes ahead and nothing licensed is shipped; the CQM reports (EHR-5) no longer wait for
+  counsel: the owner decided on 2026-11-14 that the NCQA measures may be built (E-10b) and E-10 is withdrawn (2027 plan, E-40); the other counsel answers are applied when they come (the code lists already in the engine stay until
   counsel answers E-8 and E-9).
 
 ---
@@ -891,6 +891,40 @@ listener on such an address, a server certificate that names it, and two client 
   writes it into a journal (Administrators only), so `-Revert` also removes what a run that was interrupted or failed half-way had made;
   it removes the adapter first and the firewall rules last, so the test address is never without its block rule.
   Your steps, the lead's test run and the undo, with what to check after each, are in that section.
+
+## The EHR quality measures move to the 2027 versions (answered on 2026-11-14)
+
+The questions of the 2027 measure plan, [specs/ehr-2027-measures-plan.md](specs/ehr-2027-measures-plan.md), section 14 (E-20 to E-40,
+and E-10b), where each is set out in full with its recommendation. You first answered E-21 ("delete the 2011 engine too") and E-10b
+("open-source program is okay"), and then all the others: "all as recommended". The EHR plan's section 13 records the same answers.
+
+- **What is built:** the 2027 versions of the seven measures CMS still publishes for eligible clinicians (CMS68, CMS69, CMS74, CMS75,
+  CMS138, CMS155, CMS165), each calculated by a C# translation of its measure logic, with no CQL engine (E-22). Names carry no year, and a
+  yearly update after each May release is its own package (E-31). QRDA I is built as well as QRDA III (E-33).
+- **What is deleted on purpose:** the 2014 versions (your decision) and, with them, the 2011 engine, its window and its PQRI XML export,
+  everything only they use and their tests (E-21: "delete the 2011 engine too"). Saved database rows stay.
+- **The NCQA measures** (CMS138, CMS155, CMS165): built in this open-source program in the normal order, and nothing waits for counsel
+  (E-10b: "open-source program is okay"). NCQA's copyright and disclaimer statements stay with them wherever they are shown, printed or
+  written to QRDA, and the four CMS measures' statements are shown the same way (E-38). E-10 is withdrawn from counsel's list; the
+  catalog's names and categories stay in counsel's E-8 (E-40).
+- **Value sets and codes:** someone with a UMLS licence records the three files of the 2026-05-14 release once, and nothing from them
+  enters the repository; that record comes before the import package merges (E-20). The import tells several LOINC codes of one measure
+  apart by their display names, and the vital-sign windows keep their LOINC codes, with LOINC's notice added (E-23, E-37). If the
+  release is too large for the 32-bit importer, only the value sets the program needs are kept (E-30). The recommended encounter and
+  pregnancy codes come from your own import instead of fixed codes (E-32).
+- **How the office's data is read:** completed procedures count as visits, one per day (E-24); diagnosis codes on procedures count, and a
+  problem marked Resolved or Inactive without a stop date ends on the day it was last changed (E-26); interventions count by code, and
+  dialysis interventions count for the blood-pressure measure (E-28); every medication counts as taken over its dates and as an order on
+  its start date (E-39); the BMI finding the vital-signs window stores counts as the over- or underweight diagnosis, the adult BMI range
+  is the 2027 one, and the vital-sign windows use the age on the exam date (E-35). Data the program has no place for is shown as
+  missing in the window's notes (E-27).
+- **Data entry:** a new not-performed item, "BMI follow-up", for the BMI measure's medical-reason exception (E-34); the influenza item
+  stays, with a note that no 2027 measure uses it (E-25).
+- **The window:** a calendar year by default, other dates allowed with a warning, in the window and in QRDA (E-29).
+- **Schedule:** an EHR package takes only a writer slot that no stage or chart package is ready for (E-36).
+- **Downloads:** batch Q is approved (E-33): CMS's 2027 QRDA III guide with its schematron and sample, the HL7 QRDA III and QRDA I guides,
+  QDM 5.6, the CQL specification, CMS's eCQM guidance, and the measures' test cases only if they are public without a sign-in. The 2027
+  measure table PDF is kept as one reference copy (the lead's decision). Nothing downloaded enters the repository.
 
 ---
 

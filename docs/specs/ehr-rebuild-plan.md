@@ -4,8 +4,10 @@
 Open PMS - Dental. Package briefs are cut from it the same way as from `docs/specs/net10-plan.md`. Each package names its goal, the files
 it owns, its public basis and licence, its work, its tests and its window.
 
-**Date.** 2026-11-08. **Status.** Decided: the owner answered E-1 to E-19 as recommended on 2026-11-08 (section 13). EHR-5 merges
-after counsel's answer to E-10; the other counsel items (E-6, E-8, E-9, E-11) are applied when counsel answers.
+**Date.** 2026-11-08. **Status.** Decided: the owner answered E-1 to E-19 as recommended on 2026-11-08, and E-20 to E-40 as
+recommended on 2026-11-14 (section 13). The quality measures move to their 2027 versions under `docs/specs/ehr-2027-measures-plan.md`
+(decided 2026-11-14; below: "the 2027 plan"), which replaces EHR-5 and the June 2013 release of section 8. E-10 gates nothing any more
+(E-40); the other counsel items (E-6, E-8, E-9, E-11) are applied when counsel answers.
 
 **Owner decision (2026-11-08).** "Allow EHR again. build what EHR.dll would provide". The standing rule applies: keep and port everything.
 That an office does not use a feature is no reason to cut it. Nothing is decompiled; only public sources are used.
@@ -41,9 +43,9 @@ so, and the lead makes the change.
 | **EHR-2 Value sets** | `EhrCodes.Listt` (H1): a fork-only `ehrcode` table, filled by an import of the office's own VSAC download of the June 2013 EP release | Stage 2 after EHR-3, or stage 4; **before the bridge release** | M, 5-7 days |
 | **EHR-4a Measure Calc window** | The Meaningful Use measures window and its drill-down (H3, H4), on the existing open engine | After S1-5 and EHR-1; stage 2 or stage 4 | M, 4-6 days |
 | **EHR-4b Measure fixtures** | Spec-derived meet and miss cases for the three stages, golden numbers and a known-deviation list | After EHR-4a; stage 4 or later | M, 4-6 days |
-| **EHR-5 CQM reports and QRDA** | The 2014 and 2011 quality-measure windows reopened, with this program's own identity in what QRDA writes | After EHR-2 and counsel's E-10; stage 4 or 3a wave 1 | S-M, 3-4 days |
+| **EHR-5 CQM reports and QRDA** (replaced, section 7) | Replaced by the 2027 plan: the 2014 and 2011 quality-measure code deleted (EHR-6b); the 2027 catalog and import (EHR-6a), data entry (EHR-7), engine and measures (EHR-8a1 to EHR-8d), window (EHR-5a) and QRDA (EHR-5b, EHR-5c1, EHR-5c2), with this program's own identity in what QRDA writes | Stage 4 and 3a (the 2027 plan, section 13.2) | about 10 agent-days in all (the 2027 plan; agent-days, never added to this table's dev-days) |
 
-Total: about 26-36 dev-days. These are rough figures for orientation.
+Total: about 26-36 dev-days. These are rough figures for orientation; the 2027 plan counts in agent-days (section 17).
 
 **Decisions in short.**
 1. Turning EHR on works again, in Show Features and in the Setup Wizard, with the same confirmation in both.
@@ -253,17 +255,18 @@ stays in the database and is not read.
 | Gate (file:line) | Today | Becomes | Package |
 |---|---|---|---|
 | Saving a key, `FormEhrProviderKeyEdit.cs:50` | `ProvKeyIsValid` is false, so "Invalid provider key" | Valid when the last and first names are not blank, a provider has exactly those names (the comparison the measure SQL uses, `EhrMeasures.cs:333-338`), and the year has two digits (already checked at `:44-49`). The key text is optional and stored as typed. The message names the missing provider. New `EhrProvKeys.GetSaveError` | EHR-1 |
-| CQM provider lists, `FormEhrQualityMeasures.cs:38`, `FormEhrQualityMeasures2014.cs:43` | Nobody is listed: "No providers found with ehr keys." | Listed when `EhrProvKeys.HasProvHadKey(LName,FName)` (`EhrProvKeys.cs:50`): any row for those names, any year. The message says where to add them | EHR-5 (E-10) |
+| CQM provider lists, `FormEhrQualityMeasures.cs:38`, `FormEhrQualityMeasures2014.cs:43` | Nobody is listed: "No providers found with ehr keys." | Listed when `EhrProvKeys.HasProvHadKey(LName,FName)` (`EhrProvKeys.cs:50`): any row for those names, any year. The message says where to add them | none: EHR-6b deletes both windows (2027 plan, owner decisions 2 and 4) |
 | SNOMED "Map to ICD9", `FormSnomeds.cs:33-49` | Hidden unless the logged-on user is a provider with a valid key ("to prevent Snomeds from being used in non-member nations") | Shown when the user has the Setup permission and the `snomed` table has rows. The office imports SNOMED under its own licence (E-6) | EHR-1 |
 | EHR window labels, `FormEHR.cs:45-56` | "(no ehr provider key entered)" | "(not marked for EHR reporting)". The same row test | EHR-1 |
 | CPOE, `Userods.cs:464`; lab windows, `FormEhrLabOrders.cs:116`, `FormEhrLabOrderEdit2014.cs:531`, `FormEhrLabOrderImport.cs:179` | Row tests that already work | Unchanged. Adding a row turns CPOE on for that provider's user at 9 call sites, as in Open Dental | none |
 | First key row, `FormEhrProviderKeyEdit.cs:60-67`; last row deleted, `:32-37` | Turns `IsAlertRadiologyProcsEnabled` on, and off again | Unchanged. Nothing in this program raises its alert (section 15, E-18) | none |
 | `QuarterlyKeyIsValid`, `FormEHR.cs:632-634` | No caller | Deleted (E-5) | EHR-1 |
-| `ProvKeyIsValid`, `FormEHR.cs:626-628` | Stub | Deleted when its last callers (the CQM windows) move | EHR-5 |
+| `ProvKeyIsValid`, `FormEHR.cs:626-628` | Stub | Deleted with its last callers, the two CQM windows (the 2027 plan's EHR-6b) | EHR-6b |
 | Measure dates (the old `EhrQuarterlyKeys.FindStartDate` and `ValidateDateRange`, removed in `31caf62fd`) | none | No date gate | EHR-4a |
 
 - Provider names stay locked while a key row exists (`FormProvEdit.cs:104-111`), so a row keeps matching its provider.
-- The two CQM windows keep calling `ProvKeyIsValid`, which stays false, until EHR-5. That keeps counsel's E-10 apart from EHR-1.
+- The two CQM windows keep calling `ProvKeyIsValid`, which stays false, until the 2027 plan's EHR-6b deletes both windows and the method
+  (the owner's decisions of 2026-11-14). That kept counsel's E-10 apart from EHR-1.
 
 ### 5.1 Permissions once the key gate is gone
 
@@ -559,9 +562,11 @@ The key was a licence check, but it was also the only thing that kept these acti
 
 ### EHR-2 Value sets
 
-- **Status (2026-11-14).** Written on `ehr/ehr2-1` from `main` `2e5a61a67`; waiting for review and the merge. Step 2026111401 (`ehrcode`), the
+- **Status (2026-11-14).** Merged to `main` at `5737519bf` (from `ehr/ehr2-2` at `8f44b0892`); written on `ehr/ehr2-1` from `main`
+  `2e5a61a67`. Step 2026111401 (`ehrcode`), the
   loading, the import window and the code-system status are built and tested with synthetic files (`docs/port-notes/EHR-2.md`). Step 5 (the
   record of the real June 2013 files by someone with a UMLS licence) is not done: the header and element names are provisional until it is.
+  The 2027 plan supersedes step 5 with its E-20 (the record of the 2026-05-14 release's three files), and EHR-6a replaces the release.
   `db/init/new-database.sql` was regenerated on the branch (`329793122`, fork level 2026111401). The review's findings were fixed on
   `ehr/ehr2-2` (the port note's fix round): `MeasureIds` within its column, a reader bounded for the 32-bit process, the description's
   length, an atomic import (a scratch table and one `RENAME TABLE`) and the list read once per method.
@@ -642,7 +647,7 @@ The key was a licence check, but it was also the only thing that kept these acti
 
 ### EHR-4a Measure Calc window
 
-- **Status (2026-11-14).** Written on `ehr/ehr4a-1`; both review rounds passed; the lead fix round is on `ehr/ehr4a-2`, not merged:
+- **Status (2026-11-14).** Merged as `d33a8f330` (`ehr/ehr4a-2`: both review rounds passed, then the lead fix round and its review):
   `docs/port-notes/EHR-4.md` (EHR-4a part, with its deviations, launch checks and the lead fix round). No schema change.
 - **Goal.** The window behind "Measure Calc" (`FormEHR.designer.cs:61`), built on the open engine (section 9.1).
 - **Owns.**
@@ -699,63 +704,31 @@ The key was a licence check, but it was also the only thing that kept these acti
   - A recorded run of `SelectAll`, `SelectAllMu2` and `SelectAllMu2Mod` on the fixture as golden numbers.
 - **Order and size.** After EHR-4a. Stage 4 or later; it changes no schema and may land after the bridge release. M, about 4-6 dev-days.
 
-### EHR-5 CQM reports and QRDA
+### EHR-5 CQM reports and QRDA (replaced by the 2027 plan)
 
-- **Goal.** The 2014 quality-measure window and its QRDA I and III export are reachable and tested, and what they write names this
-  program and the office, never Open Dental.
-- **Owns.**
-  - `FormEhrQualityMeasures.cs` (28-45)
-  - `FormEhrQualityMeasures2014.cs` (30-51, plus a caption line; the QRDA button at 135-204, for the legacy-root warning)
-  - `FormEHR.cs` (624-628: `ProvKeyIsValid` deleted)
-  - `Db Multi Table/QualityMeasures.cs`: 5862-5870 and 5927 (QRDA III author and comment), 7205-7216 and 7273 (QRDA I author and
-    comment), 7845-7865 (the QRDA I zips), the folder where QRDA III is written (5821); nothing else unless a test finds a fault
-  - `tests/EhrTests/CqmTests.cs` and `QrdaTests.cs`
-- **Public basis.**
-  - The 2014 eCQM specifications of the nine measures (`QualityMeasures.cs:5371-5514`), June 2013 versions (section 8.1).
-  - HL7 QRDA Category I and III implementation guides (template IDs only).
-  - Licence: E-10 (steward terms) and section 8.
-- **Work.**
-  - The provider lists use the rule of section 5, and the message changes.
-  - **Identity in QRDA** (E-15). Today both documents write Open Dental's registered OID arc as the author's ID root (`:5866`, `:7209`),
-    although `OIDInternals.cs:15-18` says never to issue identifiers under it. QRDA I also writes Open Dental's street address and phone
-    (`:7210-7211`), and both name "Open Dental" (`:5868`, `:7213-7214`, and the comments written into the output at `:5927`, `:7273`).
-    - The author's ID becomes the office's own root (`_strOIDInternalRoot`, which the export already requires, `:5778-5781`) with the
-      extension `OpenPmsDental`, and no "HL7 OID Registry" authority name.
-    - An office's root may itself have been issued under Open Dental's arc (`LegacyOidArc+".1486.<n>"`, `OIDInternals.cs:15-18`). Such
-      a root is never replaced automatically (`IsLegacyRoot`, `:80-84`), and the custodian, authenticator and provider IDs are written
-      under it (`QualityMeasures.cs:5882`, `:5897`, `:7225`). When `OIDInternals.IsLegacyRoot(_strOIDInternalRoot)`, the export warns
-      that the identifiers carry a root issued under Open Dental's arc and offers the OID window, which already flags such a root
-      (`FormOIDRegistryInternal.cs:31`).
-    - The address and phone become the practice's, from the same preferences the custodian uses.
-    - The software name becomes "Open PMS - Dental" with the version. The two output comments drop the vendor name.
-  - **Encoding.** QRDA I documents declare UTF-8, but the zips store them in the default code page (`ODZip.GetDefaultEncodingBytes`,
-    `:7860-7861`). They are stored as UTF-8 without a BOM.
-  - **Stylesheets.** QRDA I points to `cda.xsl` (`:7029`) and QRDA III to `qrda.xsl` (`:5823`); neither ever shipped. CDA-core-xsl renders
-    any CDA R2 document, so EHR-5 writes it under both names, with the companions, beside the files and into each zip. No HTML (E-13).
-  - A caption says the report is for internal review and the program is not certified (E-1).
-  - The 2011 window gets the same gate. It stays without a button, as in Open Dental: `FormEHR.designer.cs` has no `butQuality`, and
-    `FormEHR.cs:541-545` is a dead handler. It calls EHR-4a's work-table helper before a run.
-- **Tests.**
-  - With synthetic value sets and patients: CMS74v3 and CMS75v2 (the dental measures, CMS-stewarded) checked against their June 2013
-    definitions; all nine recorded as golden numbers.
-  - QRDA I and III written and checked structurally: template IDs, and III's aggregate counts equal the report.
-  - No generated QRDA I or III has an `id` root equal to `OIDInternals.LegacyOidArc`, and every identifier under that arc starts with
-    the office's own root. None contains Open Dental's street address, phone number or name. One fixture has a synthetic root, and one
-    a legacy root (the warning case).
-  - A non-ASCII patient name reads back correctly from a QRDA I zip.
-  - `InvariantCulture` in QRDA numbers.
-- **Order and size.**
-  - After EHR-2 and counsel's answer to E-10. Stage 4, or 3a wave 1. It changes no schema, so it may also land on `main` after the bridge
-    release.
-  - If S3a-3's grep for machine-read numbers or default encodings lists `QualityMeasures.cs`, EHR-5 merges first.
-  - S-M, about 3-4 dev-days.
+- **Replaced (2026-11-14).** This package reopened the 2014 and 2011 quality-measure windows. The owner decided on 2026-11-14 to delete
+  the 2014 versions (the 2027 plan's owner decision 2) and the 2011 engine, its window and its PQRI XML export (owner decision 4, E-21),
+  and to build the 2027 versions instead. So EHR-5 is not written. It is replaced by the 2027 plan's EHR-5a (the 2027 CQM window), EHR-5b
+  (QRDA III) and EHR-5c1 and EHR-5c2 (QRDA I), on the engine and measures of EHR-8a1 to EHR-8d, after EHR-6a (catalog and import),
+  EHR-6b (the 2014 and 2011 code deleted, `ProvKeyIsValid` with it) and EHR-7 (data entry). Its 2011 part is gone with the 2011 window.
+- **Kept from it** (the 2027 plan, sections 3 and 9.4): the identity in QRDA (E-15: the office's root with the extension `OpenPmsDental`,
+  the practice's address and phone, the legacy-root warning with the OID window), the stylesheets under both names (E-13), the caption
+  (E-1), UTF-8 zip entries and `InvariantCulture`; the 2014 window's legal-authenticator pick and OID-registry fallback are rebuilt in
+  EHR-5b.
+- **As first planned.** The package text is in this file at `5737519bf`.
 
 ---
 
 ## 8. Value sets: the release, the file and licence handling
 
+**The 2027 measures (2026-11-14).** The 2027 plan replaces the June 2013 release with VSAC's "eCQM Value Sets for Eligible Clinicians"
+published 2026-05-14, with that release's "Direct Reference Codes" and "Code System Versions" files, imported together in one pick (the 2027
+plan, section 7; EHR-6a). Sections 8.1-8.4 record the June 2013 basis that EHR-2 was built and merged on, and each names what replaces it.
+
 ### 8.1 The release
 
+- **Now: the 2026-05-14 release.** The engine's nine 2014 versions are deleted (EHR-6b), and the 2027 versions of the seven measures CMS
+  still publishes are built (the 2027 plan, section 4.1). Their value sets come from the 2026-05-14 release (the 2027 plan, section 7.1).
 - **What the engine reports.** The nine 2014 eCQM versions hard-coded in `QualityMeasures.cs:5371-5514` (`GetEMeasureNum`,
   `GetEMeasureVersion`): CMS68v3, CMS69v2, CMS74v3, CMS75v2, CMS127v2, CMS138v2, CMS147v2, CMS155v2 and CMS165v2. The `EhrCode.MeasureIds`
   example "69v2,147v2" agrees.
@@ -772,6 +745,9 @@ The key was a licence check, but it was also the only thing that kept these acti
 
 ### 8.2 The file the office downloads, and how it is read
 
+- **Now: three files, one pick.** The office picks the 2026-05-14 release's workbook or SVS file together with its Direct Reference Codes
+  and Code System Versions files; the version check compares the seven 2027 versions (the 2027 plan, sections 7.1, 7.2 and 7.4). The
+  readers below stay, with the header names of the 2027 plan's E-20 record.
 - **The download.** From the June 2013 EP release on VSAC's Downloadable Resources page, the package sorted by CMS ID: the Excel workbook
   (`.xlsx`), or the XML (SVS) package where the page offers it. VSAC's help page says eCQM packages come in Excel and XML, sorted by CMS
   ID, value set name or QDM category (summary). Which of the two the 2013 package has is recorded in EHR-2's first step.
@@ -797,6 +773,9 @@ The key was a licence check, but it was also the only thing that kept these acti
 
 ### 8.3 What ships and why
 
+**Now.** The 2027 catalog, the direct reference codes by role and the code systems' rules: the 2027 plan, sections 7.3 and 11.2. The
+table below is EHR-2's.
+
 | What | Ships in the repository? | Basis |
 |---|---|---|
 | Value-set OIDs, names, QDM categories, measure IDs (the manifest) | Yes. The OIDs are in the source today; the names and categories come from the CMS eCQM specifications, whose measures NCQA and others steward (E-8, E-10) | CMS eCQM specifications. OIDs and names are facts in the public specifications |
@@ -809,8 +788,10 @@ The key was a licence check, but it was also the only thing that kept these acti
 ### 8.4 What each office does
 
 - It holds its own UMLS licence and sends NLM the yearly usage report.
-- It downloads the June 2013 EP release's package (section 8.2).
-- It imports it in Setup > Chart > EHR > Code System Importer (Setup permission).
+- It downloads the three files of the 2026-05-14 release: "eCQM Value Sets for Eligible Clinicians" (Excel or SVS, sorted by CMS ID),
+  "Direct Reference Codes" and "Code System Versions" (the 2027 plan, section 7.5). Until EHR-6a merges, the program reads the June 2013
+  EP release's package (section 8.2).
+- It imports them in Setup > Chart > EHR > Code System Importer (Setup permission), all three in one pick once EHR-6a has merged.
 - It loads its code-system tables.
 
 ---
@@ -869,11 +850,15 @@ The key was a licence check, but it was also the only thing that kept these acti
   be tested without adding any code to the repository: the tests read those codes from the engine's strings at run time.
 - A spec case that disagrees with the engine is recorded, not fixed in EHR-4b: Inconclusive with an ID, and a line in the deviation list.
 
-### 9.4 The CQM reports (EHR-5)
+### 9.4 The CQM reports (the 2027 plan)
 
-- They work once value sets are imported (EHR-2) and providers are marked (section 5).
-- The engine implements the June 2013 versions. Moving to today's versions (CMS74v15, CMS75v14, QDM 5.6) is new work and not in this plan
-  (E-16).
+- **The owner's decision of 2026-11-14.** The 2027 versions of the seven measures CMS still publishes for eligible clinicians (CMS68v16,
+  CMS69v15, CMS74v16, CMS75v15, CMS138v15, CMS155v15, CMS165v15) are built, and the 2014 versions and the 2011 engine, its window and its
+  PQRI XML export are deleted deliberately. This reverses E-16's "leave out current eCQM versions". The plan is
+  `docs/specs/ehr-2027-measures-plan.md`.
+- The 2027 window lists providers by the rule of section 5 and reads the 2026-05-14 release (the 2027 plan, EHR-5a and section 7).
+- As first planned, the reports worked once value sets were imported (EHR-2), on the June 2013 versions, and today's versions were new
+  work outside this plan (E-16).
 
 ### 9.5 Status of the programs (why the label)
 
@@ -895,17 +880,20 @@ The key was a licence check, but it was also the only thing that kept these acti
 | Stage 1, later | S1-5, S1-6; TC-2, TC-3 | EHR-1 merges if it has not; then EHR-3 written; nothing merges while S1-6 runs | S1-5 and S1-6 run one after the other, and so do TC-2 and TC-3, so one slot stays free. EHR-3's writing starts after EHR-1 merges (one EHR writer). EHR-3 edits tests, and no EHR test edit merges while S1-6 runs |
 | After the stage 1 gate, before S2-4 starts | S2-1 to S2-3 | **EHR-3** merges | Notices and AttributionTests have no owner until S2-4. `ProgramEntry.cs` has none until S3b-4 |
 | Stage 2 | S2-4; TC-3, TC-4 | **EHR-2**, then **EHR-4a** | EHR-2 and EHR-4a edit no project file (globbed files). S2-4 and TC-4 own the notices |
-| Stage 4 | S4-1, S4-2; TC-5, TC-7 | Whatever is left, after S4-1 merges; **EHR-4b**; **EHR-5** after E-10; EHR-3 if it missed its window (after TC-4) | S4-1 owns every test file that fails to compile |
-| 3a, wave 1 | S3a-1 to S3a-11 | EHR-5 if not done (before S3a-3 if it claims `QualityMeasures.cs`) | `FormInfobutton.cs:1117` is S3a-2's; EHR does not touch it. S3a-8 owns `ReleaseIdentityTests.cs`; EHR-5 does not touch it |
-| 3a, wave 2 | S3a-M1 to M3 | none | `FormMedical.cs` and `FormEmailMessageEdit.cs` use WinForms menus and belong to M3. `EmailPreviewControl.*` belongs to M2. EHR edits to them (one EHR-2 comment) are done before |
-| 3a gate, bridge release | – | **EHR-2 required.** EHR-0, EHR-1, EHR-3 and EHR-4a planned; EHR-4b and EHR-5 if ready | Rollback rule (section 6). EHR-4b and EHR-5 change no schema and may land later, on net10 |
+| Stage 4 | S4-1, S4-2; TC-5, TC-7 | Whatever is left, after S4-1 merges; **EHR-4b**; EHR-3 if it missed its window (after TC-4). The 2027 plan (section 13.2): **EHR-6a** written while S4-1 runs, with provisional header names until E-20, and merged after S4-1 and E-20's record; then **EHR-6b** and **EHR-7**; EHR-8a1 if the slot is still free; EHR-4b where the lead places it (after EHR-7 recommended) | S4-1 owns every test file that fails to compile, so nothing EHR merges while it runs. After it, three writers: S4-2, one chart package, one EHR package. No stage 4 package owns `OpenPmsDental.csproj`, `THIRD-PARTY-NOTICES.txt` or `ReleaseIdentityTests.cs` |
+| 3a, wave 1 | S3a-1 to S3a-11 | What stage 4 left of EHR-6b and EHR-7 first (EHR-6b before S3a-3 takes `QualityMeasures.cs`; EHR-7 before wave 2), then **EHR-8a1, 8a2, 8b, 5a**, in free writer slots only (E-36) | `FormInfobutton.cs:1117` is S3a-2's; EHR does not touch it. S3a-8 owns `ReleaseIdentityTests.cs`, so EHR-6a's notice edit is done before. The packages from EHR-8a1 on add new files, plus `FormEHR.cs` (no other owner) |
+| 3a, wave 2 | S3a-M1 to M3 | **EHR-8c, 8d, 5b**, in free writer slots only (E-36); EHR-7 must have merged before M3 starts | `FormMedical.cs` and `FormEmailMessageEdit.cs` use WinForms menus and belong to M3. `EmailPreviewControl.*` belongs to M2. EHR edits to them (one EHR-2 comment, EHR-7's `FormMedical.cs` lines) are done before. These EHR packages add new files and edit only `CqmLibraries.cs` and `FormEhrCqm.cs`, which are EHR's |
+| 3a, wave 3 | S3a-12 to S3a-16 | **EHR-5c1, 5c2**, in free writer slots only (E-36) | S3a-13, S3a-14 and TC-9b own `OpenPmsDental.csproj` and `THIRD-PARTY-NOTICES.txt` now; EHR-6a and EHR-6b finished with them in stage 4 |
+| 3a gate, bridge release | – | **EHR-2 required** (merged). EHR-0, EHR-1, EHR-3 and EHR-4a planned; EHR-4b if ready. The 2027 plan: **EHR-6a and EHR-6b required**, EHR-7 recommended, the rest if merged | Rollback rule (section 6). The release notes on `main` name the June 2013 release since EHR-2's merge, and EHR-6a rewrites them. EHR-4b and the 2027 packages change no schema and may land later; nothing EHR merges in 3b, and what is left is finished after the switch (the 2027 plan, section 13.2) |
 | 3b | S3b-0 to S3b-7 | none | S3b-3 retargets the business library; `XslCompiledTransform` exists on .NET 10. S3b-4 keeps the `/ehr-render` branch first in `Main`; it creates no window, so `SetDefaultFont` and the code-page registration line come after it, and the child needs no code page (it reads UTF-8 only). S3b-5 runs `tests/EhrTests` on x64 and re-records a golden file only with a reason |
 
 ### 10.2 Shared files and their order
 
+The rows of the 2027 plan's section 13.3 are merged here (2026-11-14).
+
 | File | EHR packages | Other owners | Order |
 |---|---|---|---|
-| `OpenPmsDental/Forms/FormEHR.cs` | EHR-1 (29-30, 45-56, 571-575, 630-634), EHR-4a (526-529), EHR-5 (624-628) | none | EHR-1, EHR-4a, EHR-5 |
+| `OpenPmsDental/Forms/FormEHR.cs` | EHR-1 (29-30, 45-56, 571-575, 630-634), EHR-4a (526-529), EHR-6b (547-564, 624-628), EHR-5a (553-564) | none | EHR-1, EHR-4a, EHR-6b, EHR-5a |
 | `Main Modules/FormOpenDentalThreads.cs` | EHR-0 | none (S3a-1 owns `FormOpenDental.cs:6840`, not this file) | EHR-0 only |
 | `Misc/WindowsTime.cs`, `Misc/NTPv4.cs` | EHR-0 | S3a-12 reviews every `DllImport`; ReleaseFlowTests pins their Event Log source | EHR-0 before 3a |
 | `Main Modules/ControlChart.cs:28-30` | none | TC-2 (it edits line 27), then S3a-1 and S3a-M2 | The lead adds the 3-line deletion to TC-2's brief, or to S3a-M2's if TC-2 has merged |
@@ -914,19 +902,31 @@ The key was a licence check, but it was also the only thing that kept these acti
 | `tests/EhrTests/*.csproj` | EHR-0 creates it; EHR-1 adds items while it is classic | S1-6 (conversion), S4-1 | No EHR test edit while S1-6 or S4-1 runs |
 | `tests/LibWebTests/HtmlGenerationTests.cs` | EHR-3 | S1-6 (the project file only), S4-1 (if it fails to compile) | EHR-3 after S1-6, not while S4-1 runs |
 | `tests/LibWebTests/WebView2PolicyTests.cs` | EHR-3 runs it; edits only if a pin of `FormEhrSummaryCcdEdit` must change (255, 273) | TC-2 (275) | not at the same time as TC-2 |
-| `THIRD-PARTY-NOTICES.txt` | EHR-3 | S2-4, TC-4, S3a-13, TC-9b, S3b-7 | EHR-3 before S2-4, or after TC-4 and before 3a wave 1 |
+| `THIRD-PARTY-NOTICES.txt` | EHR-3; EHR-6a (LOINC's notice) | S2-4, TC-4, S3a-13, TC-9b, S3b-7 | EHR-3 before S2-4, or after TC-4 and before 3a wave 1; EHR-6a in stage 4, before S3a-13 and TC-9b, never while S3b-7 runs |
 | `docs/third-party-binaries-audit.md` | EHR-0 (133) | TC-4, TC-9b | EHR-0 in stage 1, before TC-4 |
-| `tests/AttributionTests/ReleaseIdentityTests.cs` | EHR-3 (18-22) | TC-4, TC-9b, S3a-8 (wave 1) | EHR-3 before TC-4, or after TC-4 and before 3a wave 1 |
+| `tests/AttributionTests/ReleaseIdentityTests.cs` | EHR-3 (18-22); EHR-6a (18-22, the licence-title check) | TC-4, TC-9b, S3a-8 (wave 1), S4-1 (if it fails to compile) | EHR-3 before TC-4, or after TC-4 and before 3a wave 1; EHR-6a after S4-1, before 3a wave 1 |
 | `OpenPmsDentalBusiness/Properties/Resources.resx` | EHR-3 | none (TC-9b edits the program's own `Resources.resx`) | EHR-3 only |
 | `Main Modules/ProgramEntry.cs` | EHR-3 (20-21) | S3b-4; PdfLibraryTests (`LibraryFilesTests.cs:185`), S0FTests (`ExitWatchdogTests.cs:139`) and ReleaseFlowTests (`ProgramNamesTests.cs:223`) read it | EHR-3 before 3b |
 | `tests/ReleaseFlowTests/ProgramNamesTests.cs` | EHR-3 (one entry in the map at 217-240) | S3a-7 (183-196), S4-1 (if it fails to compile) | EHR-3 before 3a wave 1, not while S4-1 runs |
-| `FormMedical.cs` | EHR-2 (880, a comment) | S3a-M3 | EHR-2 before 3a wave 2 |
+| `FormMedical.cs` | EHR-2 (880, a comment); EHR-7 | S3a-M3 | EHR-2, then EHR-7, before 3a wave 2 |
 | `Misc/ForkMigrations/SchemaVerifier.cs`, `README.md` | EHR-2 | none | EHR-2 only |
 | `OpenPmsDentalBusiness/Cache/Cache.cs` | EHR-2 (`FillCache`) | none | EHR-2 only |
-| `Db Multi Table/QualityMeasures.cs` | EHR-5 | possibly S3a-3 | EHR-5 first |
+| `Db Multi Table/QualityMeasures.cs`, `QualityMeasure.cs` (deleted) | EHR-6b | S3a-3 named the first for the QRDA zip encoding | EHR-6b first; then S3a-3 has nothing to do there |
 | `Data Interface/EhrMeasures.cs` | EHR-4a | none | EHR-4a only |
 | `User Controls/Preferences/UserControlChartGeneral.cs` | none (the radiology follow-up, section 15) | TC-5 | the follow-up after TC-5 |
 | `tools/SyntheticData/allowed-differences.adoption.json` | EHR-2 | S1-1 converts its project only | any time |
+| `Data Interface/EhrCodes.cs`, `FormCodeSystemsImport.*` | EHR-2 (merged), EHR-6a | none | EHR-6a |
+| `docs/release-notes/next.md` (26-28, 492-517) | EHR-6a | the lead (release notes of every package) | EHR-6a; the lead first, if a release is cut before |
+| `OpenPmsDental/OpenPmsDental.csproj` (the eight items of the four 2014 and 2011 forms, 1043-1054 and 3906-3917) | EHR-6b | S3a-13, S3a-14 (wave 3), TC-9b, S3b-4 | EHR-6b in stage 4 or 3a waves 1-2 |
+| `tools/project-baseline/*` | EHR-6b (names the removed items) | the lead (re-record) | the lead re-records after EHR-6b's merge |
+| `Db Multi Table/Cqm/CqmCatalog.cs` | EHR-6a; EHR-8c only for a correction | none | EHR-6a |
+| `Db Multi Table/Cqm/CqmLibraries.cs` | EHR-8a2, EHR-8b, EHR-8d (appended) | none | as listed |
+| `tests/EhrTests/ValueSetSourceTests.cs` | EHR-6a, EHR-6b, EHR-7 | S4-1 (if it fails to compile) | as listed, after S4-1 |
+| `tests/EhrTests/ValueSetDbTests.cs` | EHR-6a, EHR-7 | S4-1 (if it fails to compile) | EHR-6a, then EHR-7 |
+| `tests/EhrTests/ProvKeyRuleTests.cs` | EHR-6b | none | EHR-6b |
+| `tests/EhrTests/Support/MeasureCalcFixture.cs` | EHR-4b (EHR-8a1 writes a new `CqmFixture.cs` beside it) | none | not edited by the 2027 packages |
+| `docs/port-notes/FORK-ENUMS.md` (E-34) | EHR-7 | any package adding a fork-only enum value | EHR-7 |
+| `tests/EhrTests/*` | every package (new files) | S4-1 (MSTest 4) | no EHR test edit while S4-1 runs |
 
 ---
 
@@ -989,7 +989,8 @@ The key was a licence check, but it was also the only thing that kept these acti
   - The fixture rule and a test that enforces it.
   - The import reads only the office's file. Counsel E-8 and E-9.
 - **Measure steward terms.** NCQA permits internal non-commercial use by providers but asks vendors who embed its measures for a licence.
-  - The engine was already distributed in v0.0. EHR-5 waits for counsel (E-10).
+  - The engine was already distributed in v0.0. The owner decided on 2026-11-14 that building the NCQA measures in this open-source
+    program is okay (E-10b); nothing waits for counsel, and E-10 is withdrawn (`docs/specs/ehr-2027-measures-plan.md`, E-40).
 - **The wrong value-set release.** A later release fills the lists with codes of later measure versions.
   - Section 8.1 names the release, and the importer checks the measure versions.
 - **The archived release is withdrawn, or its files differ from what the parsers expect.**
@@ -1047,16 +1048,45 @@ headers (EHR-2's first step; nothing from it enters the repository).
 | **E-7** (owner) | Value sets by file import of the June 2013 EP release only (Excel workbook or SVS XML), with no API for now? Can someone with a UMLS licence open the archived package once and record its files and headers (nothing enters the repository)? | Yes to both. The API with the "MU2 EP Update 2013-06-14" profile is a later option |
 | **E-8** (counsel) | Is shipping only the manifest (OIDs; names and QDM categories taken from specifications whose measures NCQA, the AMA-PCPI and CMS steward; measure IDs) plus an importer outside UMLS §3, §4 and §5? Is the office's import its own internal use under §12? May the code lists already in the engine's SQL (SNOMED CT lab results, RxNorm and CPT lists) stay? Are ICD-10-CM codes (WHO notice) and SOP codes free for test fixtures? | Expected yes. Ship no members. The inherited lists stay until counsel answers (v0.0 already distributed them), and move to the office's import if counsel says so |
 | **E-9** (counsel) | Do CDT codes inside value sets fall under the ADA's terms even without descriptors? Do the two CDT code numbers in the Demographics measure's SQL? | Import only, never ship descriptors. Counsel says whether the two code numbers may stay |
-| **E-10** (counsel) | Steward terms of the 2014 CQMs whose logic is in `QualityMeasures.cs` (NCQA and AMA-PCPI measures; CMS74 and CMS75 are CMS's), and of the manifest's names and categories. Does the open distribution need a licence? May the window be reopened? | Keep the code. Counsel answers before the release that contains EHR-5 |
+| **E-10** (counsel) | Steward terms of the 2014 CQMs whose logic is in `QualityMeasures.cs` (NCQA and AMA-PCPI measures; CMS74 and CMS75 are CMS's), and of the manifest's names and categories. Does the open distribution need a licence? May the window be reopened? | Keep the code. Counsel answers before the release that contains EHR-5. **2026-11-14: gates nothing now, and is withdrawn from counsel's list (E-40).** The 2014 and 2011 code is deleted (EHR-6b), the 2027 NCQA measures are the owner's decision (E-10b), and the catalog's names and categories are in E-8 (extended, the 2027 plan's section 11.2) |
 | **E-11** (owner, counsel) | Ship HL7 CDA-core-xsl v4.1.0-beta.2 (May 2024, the latest release; iframes sandboxed and PDF off by default; every release since 4.0.2-beta8 carries the same security notice) and the AAFP `ccr.xsl` at a pinned revision, unmodified, under Apache-2.0 within the GPL v3 distribution, with notices? Write the Apache-2.0 text beside file exports? If the AAFP dates render wrongly: ship unmodified with the defect, or a copy marked as modified? A second reason for that copy: it can also drop the five `disable-output-escaping` attributes (EHR-3 step 2; the child's escaping writer covers them either way). Keep in the tests a copy of upstream's `CCD-full.xml` with its licensed codes replaced, marked as modified? Approve download batch E (section 14)? | Yes; yes, unless counsel says the files' headers are enough; a copy marked as modified, for the dates and the five attributes, with the changes listed in the notices; yes; yes |
 | **E-12** (owner) | Run XSLT in a child process of the program's own exe (`/ehr-render`), with the LIB-WEB test rewritten to allow XSLT only there? Or in a new small exe (keeps "no XSLT in the program's assemblies" literally, one more release file), or replace XSLT with a C# renderer (different from what recipients see)? The first changes the rule of `a48f7ccc6` from "no XSLT in the program's assemblies" to "no XSLT in the program's process, and no received stylesheet anywhere" | The program's own exe |
 | **E-13** (owner) | File exports also write a rendered HTML: `ccd.html` for one document, one per patient for Patient Export (one batch child per run)? E-mails stay XML plus stylesheet files? QRDA files get the stylesheet files but no HTML? | Yes. The smaller alternative for Patient Export is no HTML |
 | **E-14** (owner) | A stylesheet that arrives with an e-mail still never runs, and received documents show with the program's own stylesheet? | Yes (`a48f7ccc6` stands) |
 | **E-15** (owner) | Outgoing documents carry Open Dental's identity. QRDA: the author's ID root (Open Dental's OID arc), address, phone, names and output comments (`QualityMeasures.cs:5866-5868`, `:5927`, `:7209-7214`, `:7273`). HL7: MSH-3 (`EhrVXU.cs:85`, `EhrADT_A01.cs:100`, `EhrORU.cs:46`) and the PID-3.4 assigning authority (`EhrVXU.cs:562,575`, `EhrADT_A01.cs:281,294`). Change them to this program and the office? | QRDA now (EHR-5): the office's root with the extension `OpenPmsDental`, the practice's address and phone, "Open PMS - Dental". A legacy office root (issued under Open Dental's arc) stays until the office changes it in the OID window; the export warns. HL7 in a small follow-up, unless an office has a live registry interface that knows the old names |
-| **E-16** (owner) | Leave out current eCQM versions (CMS74v15, CMS75v14), Stage 3 or MIPS PI, C-CDA Companion Guide R4.1 with USCDI v3, and the alternate exclusions of 2015 for Stage 1 providers? None counts without certification | Leave them out. A separate plan if wanted |
+| **E-16** (owner) | Leave out current eCQM versions (CMS74v15, CMS75v14), Stage 3 or MIPS PI, C-CDA Companion Guide R4.1 with USCDI v3, and the alternate exclusions of 2015 for Stage 1 providers? None counts without certification | Leave them out. A separate plan if wanted. **Current eCQM versions reversed by the owner on 2026-11-14:** the 2027 versions are built and the 2014 versions deleted (the 2027 plan; section 9.4). The rest of E-16 stands |
 | **E-17** (owner) | Code-system tables stay "loaded directly" with EHR-2's status view? Other EHR gaps not from EHR.dll go to the follow-ups of section 15? | Yes. Plan the follow-ups after EHR-5 |
 | **E-18** (owner) | The radiology-orders alert: a key row turns on `IsAlertRadiologyProcsEnabled`, but the service that raised the alert was closed and is gone; its query remains (`Procedures.cs:584-607`). Rebuild it as a check on the database server's PC, like the time check, or relabel the check box on the Chart preferences page as having no effect? | Rebuild it in a follow-up after TC-5, which owns that page (keep everything) |
 | **E-19** (owner) | `EhrMeasures.Update` and the `ehrmeasure` table's Numerator and Denominator columns were used only by `EHR.dll`. Keep them, unused, with no schema change? | Yes, recorded in `docs/port-notes/EHR-4.md` |
+
+**Answered 2026-11-14 (the 2027 measures).** The questions of the 2027 plan, section 14, where each is set out in full with its
+recommendation. The owner answered E-21 and E-10b first, in their own words, and then all the others "all as recommended", with download
+batch Q approved with E-33. Every answer below is that recommendation.
+
+| # | Question | Answer (2026-11-14) |
+|---|---|---|
+| **E-10b** (owner) | Does building CMS138, CMS155 and CMS165 in a free, open-source program need NCQA's approval, and must the three wait for counsel? | "open-source program is okay": built in the normal order, nothing waits for counsel; NCQA's copyright and disclaimer statements stay with the three wherever they are shown, printed or written to QRDA (owner decision 5) |
+| **E-20** (owner, office) | Can someone with a UMLS licence record the three files of the 2026-05-14 release once (names, formats, sizes, sheets, headers, code cells, SVS elements, the companions' headers, the code-system version strings)? | Yes; nothing enters the repository; it gates EHR-6a's merge |
+| **E-21** (owner) | Keep the 2011 engine and its window, or delete them with the 2014 versions? | "delete the 2011 engine too": deleted deliberately with the 2014 versions, with its window, the PQRI XML export, everything only they use and their tests (EHR-6b); saved rows stay (owner decision 4) |
+| **E-22** (owner) | How are the 2027 measures calculated? | A C# translation of each measure's CQL, one method per `define`; no CQL engine |
+| **E-23** (owner) | How does the importer tell apart several LOINC direct codes of one measure without codes in the repository? | The catalog holds the three LOINC display names, with LOINC's notice, which EHR-6a adds |
+| **E-24** (owner) | Count completed procedures whose code is in a qualifying encounter value set as encounters? | Yes, for every measure; one day, one encounter; the departures from the CQL are listed |
+| **E-25** (owner) | Keep the not-performed influenza item, whose measure (CMS147) is retired? | Kept, with the CVX list and a note that no 2027 measure uses it |
+| **E-26** (owner) | ICD-10 codes on procedures as diagnoses; a problem's authored date; when a Resolved or Inactive problem without a stop date ends; an unset start date | Yes to procedure codes; authored is `DateStart`, otherwise `DateTStamp`; such a problem ends on its `DateTStamp` date; an unset start is open |
+| **E-27** (owner) | Data the program has no place for (inpatient discharges, some assessments, devices, encounter class, hospice and palliative-care interventions) | Absent and listed now; data entry in a later package only if the owner wants it |
+| **E-28** (owner) | Interventions by code, and dialysis and kidney-transplant interventions for CMS165 | Counted by code; "Dialysis" maps to "Dialysis Services"; those rows are read as Procedure, Performed (a listed deviation); no new enum value |
+| **E-29** (owner) | Custom dates beside the calendar year? | Allowed, with a warning in the window and in QRDA |
+| **E-30** (owner) | A release too large for the 32-bit importer | Decided from E-20's sizes; past 64 MB per sheet, only the manifest's value sets are kept |
+| **E-31** (owner) | Names without a year, and a yearly update package after each May release? | Yes to both |
+| **E-32** (owner) | The recommended encounter and pregnancy codes from the office's import instead of literals? | Yes to both; the literals go |
+| **E-33** (owner) | Build QRDA I as well; approve download batch Q? | Yes to both; batch Q approved (the measures' test cases only if public without a sign-in) |
+| **E-34** (owner) | A fifth not-performed item, "BMI follow-up", for CMS69's follow-up exception? | Added in EHR-7, with its own rule in `docs/port-notes/FORK-ENUMS.md` |
+| **E-35** (owner) | The BMI finding in `vitalsign.WeightCode` as a diagnosis, the 2027 adult BMI range, and the vital signs' age on the exam date | (a): `WeightCode` read as the diagnosis, the 2027 range for every adult; yes to the age rule; a row with a value and no exam code is read as that exam (listed) |
+| **E-36** (owner) | May an EHR package take a writer slot from the stage packages in 3a? | Only a free slot; no stage or chart package waits for EHR |
+| **E-37** (owner) | The vital-sign windows' LOINC literals | Kept, with LOINC's notice |
+| **E-38** (owner) | The four CMS measures' own copyright and disclaimer statements | Shown the same way as NCQA's, for all seven |
+| **E-39** (owner) | When is a medication row also a medication order? | Every row with a set `DateStart` |
+| **E-40** (owner) | Withdraw E-10 from counsel's list? | Withdrawn; the catalog's names and categories stay in E-8 (extended) |
 
 ---
 
@@ -1113,8 +1143,13 @@ headers (EHR-2's first step; nothing from it enters the repository).
 
 ## 17. Size
 
-Seven packages, about 26-36 dev-days in all: EHR-0 3-4, EHR-1 1.5-2, EHR-3 5-7, EHR-2 5-7, EHR-4a 4-6, EHR-4b 4-6, EHR-5 3-4. Counsel
-time for E-6 and E-8 to E-11 is extra. EHR-5 waits for E-10.
+Seven packages, about 26-36 dev-days in all: EHR-0 3-4, EHR-1 1.5-2, EHR-3 5-7, EHR-2 5-7, EHR-4a 4-6, EHR-4b 4-6, EHR-5 3-4 (as first
+planned; EHR-5 is replaced by the 2027 plan). These figures are rough developer-days. Counsel time for E-6, E-8, E-9 and E-11 is extra;
+E-10 is withdrawn (E-40).
+
+The 2027 plan (`docs/specs/ehr-2027-measures-plan.md`) gives its total as "about 10 agent-days (11 with EHR-9; 10-13 with fix rounds)",
+in agent-days: agent time with reviews. This plan's M packages are rated at 4-7 dev-days and took about half an agent-day each, so the two
+units are never added together.
 
 ---
 

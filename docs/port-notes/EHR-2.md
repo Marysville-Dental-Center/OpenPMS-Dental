@@ -255,6 +255,11 @@ times. Before EHR-2 `ehrcode` was one of the skipped HQ-only types. The database
 
 ### Owner questions
 
+**Both superseded (2026-11-14).** The owner moved the quality measures to their 2027 versions and answered every question of
+`docs/specs/ehr-2027-measures-plan.md` as recommended (its section 14). Question 1 is replaced by its E-20: the record of the three files of
+the 2026-05-14 release, which gates EHR-6a's merge. Question 2 is no longer needed: EHR-6a builds the manifest from the 2027 catalog and
+checks the catalog against the 2027 packages already downloaded. The two questions stay below as they were asked.
+
 1. **Step 5 (E-7):** can someone with a UMLS licence open VSAC's archived June 2013 EP release once and record, in this note, the file
    names and formats, each workbook's sheet and header names, how code cells are stored, and one SVS file's element and Group names
    (section 0)? Nothing from it enters the repository. The readers' names are provisional until then.
