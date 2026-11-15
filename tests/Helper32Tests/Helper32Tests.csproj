@@ -3,7 +3,7 @@
        (start, call, reply, error, a crash during a call, timeout, a missing helper, no helper left after the program's process ends, one helper
        per program process, the pipe's security), and the QuickBooks module against a fake of the QBFC session interfaces that records each
        call. No test opens a QuickBooks session or creates a real QBFC object; every helper a test starts is a copy of the helper in this
-       folder, ended and deleted by the test. S3a-14 added the Schick CDR, Topaz and Guru modules against fakes of their vendor interfaces and the message pump between requests. Every .cs file under this
+       folder, ended and deleted by the test. S3a-14 added the Schick CDR, Topaz and Guru modules against fakes of their vendor interfaces and the message pump between requests; S3a-14n the program's in-process paths of Schick CDR, QuickBooks Desktop and Guru against the same fakes. Every .cs file under this
        folder is compiled. -->
   <ItemGroup>
     <!--
@@ -75,6 +75,18 @@
     </Compile>
     <Compile Include="..\..\OpenPmsDentalHelper32\Topaz\TopazSigningWindow.cs">
       <Link>Linked\TopazSigningWindow.cs</Link>
+    </Compile>
+    <!-- The program's in-process paths of S3a-14n (native first), compiled here against the interop the fakes implement and against CodeBase's
+         NativeFirstChooser, so each scenario of the module tests also runs on them and is compared with today's code. Guru's file declares
+         MedVisorInterface.dll's functions, which no test calls. -->
+    <Compile Include="..\..\WpfControlsOD\Bridges\SchickInProcess.cs">
+      <Link>Linked\SchickInProcess.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WpfControlsOD\Bridges\QuickBooksInProcess.cs">
+      <Link>Linked\QuickBooksInProcess.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WpfControlsOD\Bridges\GuruInProcess.cs">
+      <Link>Linked\GuruInProcess.cs</Link>
     </Compile>
   </ItemGroup>
   <ItemGroup>

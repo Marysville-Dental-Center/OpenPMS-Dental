@@ -1,7 +1,9 @@
 // The helper's QuickBooks Desktop module against a fake of QBFC's session interfaces (S3a-13 of the .NET 10 move, docs/port-notes/S3a-13.md,
 // section 6): for every command, success and failure, the module makes the calls today's code made (QuickBooksToday, the code of
 // WpfControlsOD/Bridges/QuickBooks.cs before S3a-13), with the same arguments in the same order, and gives the same results and messages; the
-// main scenarios are also pinned call by call. No QuickBooks session is opened and no real QBFC object is created.
+// main scenarios are also pinned call by call. Since S3a-14n every scenario also runs on the program's in-process path
+// (WpfControlsOD/Bridges/QuickBooksInProcess.cs, linked, through NativeFirstChooser.QuickBooksDesktop as a 32-bit program chooses), which must
+// make the same calls as today's code too. No QuickBooks session is opened and no real QBFC object is created.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
 using System.Collections.Generic;
@@ -9,7 +11,9 @@ using System.Globalization;
 using System.Linq;
 using System.Runtime.InteropServices;
 using Interop.QBFC10;
+using CodeBase;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OpenPmsDental.Bridges;
 using OpenPmsDentalHelper32;
 using OpenPmsDentalHelper32.QuickBooks;
 
@@ -30,17 +34,48 @@ namespace Helper32Tests.QuickBooks {
 		///<summary>A scenario's script: what the fake QBFC objects return. Every new session manager starts from it.</summary>
 		private delegate void Script(QbfcRecorder recorder);
 
-		///<summary>Runs action on today's code and on the module, each with a fresh recorder that the same script drives, and checks that both made
-		///the same calls and gave the same result. Returns the module's run.</summary>
-		private static Run RunBoth(Script script,Func<string> funcToday,Func<QuickBooksModule,string> funcModule) {
+		///<summary>Runs action on today's code, on the module and on the program's in-process path (S3a-14n), each with a fresh recorder that the
+		///same script drives, and checks that all three made the same calls and gave the same result. Returns the module's run.</summary>
+		private static Run RunBoth(Script script,Func<string> funcToday,Func<QuickBooksModule,string> funcModule,Func<string> funcInProcess) {
 			Run runToday=RunToday(script,funcToday);
 			Run runModule=RunModule(script,funcModule);
-			CollectionAssert.AreEqual(runToday.ListCalls,runModule.ListCalls,"The calls differ from today's.\ntoday:\n  "
-				+string.Join("\n  ",runToday.ListCalls)+"\nmodule:\n  "+string.Join("\n  ",runModule.ListCalls));
-			Assert.AreEqual(runToday.Result,runModule.Result);
-			Assert.AreEqual(runToday.ErrorMessage,runModule.ErrorMessage);
-			Assert.AreEqual(runToday.CountSessions,runModule.CountSessions);
+			Run runInProcess=RunInProcess(script,funcInProcess);
+			foreach(Tuple<string,Run> tuple in new[] { Tuple.Create("module",runModule),Tuple.Create("in-process path",runInProcess) }) {
+				CollectionAssert.AreEqual(runToday.ListCalls,tuple.Item2.ListCalls,"The calls differ from today's.\ntoday:\n  "
+					+string.Join("\n  ",runToday.ListCalls)+"\n"+tuple.Item1+":\n  "+string.Join("\n  ",tuple.Item2.ListCalls));
+				Assert.AreEqual(runToday.Result,tuple.Item2.Result,tuple.Item1);
+				Assert.AreEqual(runToday.ErrorMessage,tuple.Item2.ErrorMessage,tuple.Item1);
+				Assert.AreEqual(runToday.CountSessions,tuple.Item2.CountSessions,tuple.Item1);
+			}
 			return runModule;
+		}
+
+		///<summary>The in-process path as QuickBooks.cs takes it in a 32-bit program: a new process's chooser (ResetForTests(false)), IsChosen
+		///before each call (InProcess, the call below), and the session managers from the recorder.</summary>
+		private static Run RunInProcess(Script script,Func<string> func) {
+			QbfcRecorder recorder=new QbfcRecorder();
+			script(recorder);
+			Run run=new Run();
+			NativeFirstChooser.QuickBooksDesktop.ResetForTests(false);
+			QuickBooksInProcess.ResetForTests();
+			Func<QBSessionManager> funcCreateSessionManagerOld=QuickBooksInProcess.FuncCreateSessionManager;
+			QuickBooksInProcess.FuncCreateSessionManager=() => { run.CountSessions++; return recorder.Create<QBSessionManager>("session"); };
+			try {
+				Execute(run,func);
+			}
+			finally {
+				QuickBooksInProcess.FuncCreateSessionManager=funcCreateSessionManagerOld;
+				QuickBooksInProcess.ResetForTests();
+				NativeFirstChooser.QuickBooksDesktop.ResetForTests();
+			}
+			run.ListCalls=recorder.ListCalls;
+			return run;
+		}
+
+		///<summary>func on the in-process path, after QuickBooks.cs's IsChosen, which a 32-bit program answers with this process.</summary>
+		private static T InProcess<T>(Func<T> func) {
+			Assert.IsTrue(QuickBooksInProcess.IsChosen(),"A 32-bit program runs QBFC 10 in its own process.");
+			return func();
 		}
 
 		private static Run RunToday(Script script,Func<string> func) {
@@ -122,7 +157,8 @@ namespace Helper32Tests.QuickBooks {
 		[TestMethod]
 		public void TestConnection_Success_MakesTodaysCalls() {
 			Run run=RunBoth(ScriptSession,() => QuickBooksToday.TestConnection(COMPANY_FILE),
-				module => Join(module.Handle(Request(QuickBooksCommands.TEST_CONNECTION,COMPANY_FILE)).Results));
+				module => Join(module.Handle(Request(QuickBooksCommands.TEST_CONNECTION,COMPANY_FILE)).Results),
+				() => InProcess(() => QuickBooksInProcess.TestConnection(COMPANY_FILE)));
 			Assert.AreEqual("Connection to QuickBooks was successful.",run.Result);
 			CollectionAssert.AreEqual(new[] {
 				"session.CreateMsgSetRequest(\"US\",1,0)",
@@ -142,7 +178,8 @@ namespace Helper32Tests.QuickBooks {
 				recorder.On("session.BeginSession",x => throw new COMException("Synthetic: the company file could not be opened.",unchecked((int)0x80040408)));
 			};
 			Run run=RunBoth(script,() => QuickBooksToday.TestConnection(COMPANY_FILE),
-				module => Join(module.Handle(Request(QuickBooksCommands.TEST_CONNECTION,COMPANY_FILE)).Results));
+				module => Join(module.Handle(Request(QuickBooksCommands.TEST_CONNECTION,COMPANY_FILE)).Results),
+				() => InProcess(() => QuickBooksInProcess.TestConnection(COMPANY_FILE)));
 			Assert.AreEqual("Error: Synthetic: the company file could not be opened.",run.Result);
 			Assert.AreEqual("session.CloseConnection()",run.ListCalls.Last(),"The connection was open, the session not.");
 			Assert.IsFalse(run.ListCalls.Contains("session.EndSession()"));
@@ -155,7 +192,8 @@ namespace Helper32Tests.QuickBooks {
 				recorder.On("session.OpenConnection",x => throw new COMException("Synthetic: QuickBooks is not installed."));
 			};
 			Run run=RunBoth(script,() => QuickBooksToday.TestConnection(COMPANY_FILE),
-				module => Join(module.Handle(Request(QuickBooksCommands.TEST_CONNECTION,COMPANY_FILE)).Results));
+				module => Join(module.Handle(Request(QuickBooksCommands.TEST_CONNECTION,COMPANY_FILE)).Results),
+				() => InProcess(() => QuickBooksInProcess.TestConnection(COMPANY_FILE)));
 			Assert.AreEqual("Error: Synthetic: QuickBooks is not installed.",run.Result);
 			Assert.AreEqual("session.OpenConnection(\"\",\"Open Dental\")",run.ListCalls.Last());
 		}
@@ -174,7 +212,8 @@ namespace Helper32Tests.QuickBooks {
 				Tuple.Create(0,ENResponseType.rtClassQueryRs,(Func<object>)(() => ScriptNames<IClassRetList,IClassRet>(recorder,"classes","Not a class"))),
 				Tuple.Create(0,ENResponseType.rtAccountQueryRs,(Func<object>)null));
 			Run run=RunBoth(script,() => Join(QuickBooksToday.GetListOfAccounts().ToArray()),
-				module => Join(module.Handle(Request(QuickBooksCommands.GET_LIST_OF_ACCOUNTS,COMPANY_FILE)).Results));
+				module => Join(module.Handle(Request(QuickBooksCommands.GET_LIST_OF_ACCOUNTS,COMPANY_FILE)).Results),
+				() => InProcess(() => Join(QuickBooksInProcess.GetListOfAccounts(COMPANY_FILE).ToArray())));
 			Assert.AreEqual("Checking|Income:Patient Payments|Savings",run.Result,"Status 0 and warnings (>0), account responses only.");
 			CollectionAssert.AreEqual(new[] {
 				"session.CreateMsgSetRequest(\"US\",8,0)",
@@ -196,7 +235,8 @@ namespace Helper32Tests.QuickBooks {
 				recorder.On("response.ResponseList",x => null);
 			};
 			Run run=RunBoth(script,() => Join(QuickBooksToday.GetListOfAccounts().ToArray()),
-				module => Join(module.Handle(Request(QuickBooksCommands.GET_LIST_OF_ACCOUNTS,COMPANY_FILE)).Results));
+				module => Join(module.Handle(Request(QuickBooksCommands.GET_LIST_OF_ACCOUNTS,COMPANY_FILE)).Results),
+				() => InProcess(() => Join(QuickBooksInProcess.GetListOfAccounts(COMPANY_FILE).ToArray())));
 			Assert.AreEqual("",run.Result);
 		}
 
@@ -207,7 +247,8 @@ namespace Helper32Tests.QuickBooks {
 				recorder.On("session.DoRequests",x => throw new COMException("Synthetic: QuickBooks closed the connection."));
 			};
 			Run run=RunBoth(script,() => Join(QuickBooksToday.GetListOfAccounts().ToArray()),
-				module => Join(module.Handle(Request(QuickBooksCommands.GET_LIST_OF_ACCOUNTS,COMPANY_FILE)).Results));
+				module => Join(module.Handle(Request(QuickBooksCommands.GET_LIST_OF_ACCOUNTS,COMPANY_FILE)).Results),
+				() => InProcess(() => Join(QuickBooksInProcess.GetListOfAccounts(COMPANY_FILE).ToArray())));
 			Assert.AreEqual(typeof(COMException).FullName+": Synthetic: QuickBooks closed the connection.",run.ErrorMessage);
 			CollectionAssert.AreEqual(new[] { "session.DoRequests(request)","session.EndSession()","session.CloseConnection()" },
 				run.ListCalls.Skip(run.ListCalls.Count-3).ToArray());
@@ -220,7 +261,8 @@ namespace Helper32Tests.QuickBooks {
 					"Clinic West",null))),
 				Tuple.Create(0,ENResponseType.rtAccountQueryRs,(Func<object>)(() => ScriptNames<IAccountRetList,IAccountRet>(recorder,"accounts","Checking"))));
 			Run run=RunBoth(script,() => Join(QuickBooksToday.GetListOfClasses().ToArray()),
-				module => Join(module.Handle(Request(QuickBooksCommands.GET_LIST_OF_CLASSES,COMPANY_FILE)).Results));
+				module => Join(module.Handle(Request(QuickBooksCommands.GET_LIST_OF_CLASSES,COMPANY_FILE)).Results),
+				() => InProcess(() => Join(QuickBooksInProcess.GetListOfClasses(COMPANY_FILE).ToArray())));
 			Assert.AreEqual("Clinic East|Clinic West",run.Result);
 			CollectionAssert.AreEqual(new[] {
 				"request.AppendClassQueryRq()",
@@ -243,10 +285,20 @@ namespace Helper32Tests.QuickBooks {
 			return "";
 		}
 
+		///<summary>CreateDeposit on the in-process path, with the two preferences as QuickBooks.cs passes them.</summary>
+		private static string DepositInProcess(string classRef,bool isClassRefsEnabled,double amount=1234.5) {
+			return InProcess(() => {
+				QuickBooksInProcess.CreateDeposit(COMPANY_FILE,_dateDeposit,"Checking","Income:Deposits",amount,"Deposit 2026-11-14 (synthetic)",classRef,
+					isClassRefsEnabled);
+				return "";
+			});
+		}
+
 		[TestMethod]
 		public void CreateDeposit_WithAClass_MakesTodaysCalls() {
 			Script script=recorder => ScriptResponses(recorder,Tuple.Create(0,ENResponseType.rtDepositAddRs,(Func<object>)null));
-			Run run=RunBoth(script,() => DepositToday("Clinic East",true),module => Deposit(module,"Clinic East",true));
+			Run run=RunBoth(script,() => DepositToday("Clinic East",true),module => Deposit(module,"Clinic East",true),
+				() => DepositInProcess("Clinic East",true));
 			Assert.IsNull(run.ErrorMessage);
 			const string line="request.AppendDepositAddRq().DepositLineAddList.Append().ORDepositLineAdd.DepositInfo.";
 			CollectionAssert.AreEqual(new[] {
@@ -277,7 +329,8 @@ namespace Helper32Tests.QuickBooks {
 			Script script=recorder => ScriptResponses(recorder,Tuple.Create(0,ENResponseType.rtDepositAddRs,(Func<object>)null));
 			foreach(Tuple<string,bool> tuple in new[] { Tuple.Create("",true),Tuple.Create((string)null,true),Tuple.Create("Clinic East",false) }) {
 				Run run=RunBoth(script,() => DepositToday(tuple.Item1,tuple.Item2),
-					module => Deposit(module,tuple.Item1,!string.IsNullOrEmpty(tuple.Item1) && tuple.Item2));
+					module => Deposit(module,tuple.Item1,!string.IsNullOrEmpty(tuple.Item1) && tuple.Item2),
+					() => DepositInProcess(tuple.Item1,tuple.Item2));
 				Assert.IsFalse(run.ListCalls.Any(x => x.Contains("ClassRef")),string.Join("\n",run.ListCalls));
 			}
 		}
@@ -286,7 +339,8 @@ namespace Helper32Tests.QuickBooks {
 		public void CreateDeposit_AmountIsTheProgramsText() {
 			Script script=recorder => ScriptResponses(recorder,Tuple.Create(0,ENResponseType.rtDepositAddRs,(Func<object>)null));
 			foreach(double amount in new[] { 0.01,10,99999.995,1234567.891 }) {
-				Run run=RunBoth(script,() => DepositToday("",false,amount),module => Deposit(module,"",false,amount));
+				Run run=RunBoth(script,() => DepositToday("",false,amount),module => Deposit(module,"",false,amount),
+					() => DepositInProcess("",false,amount));
 				CollectionAssert.Contains(run.ListCalls,"request.AppendDepositAddRq().DepositLineAddList.Append().ORDepositLineAdd.DepositInfo.Amount.SetAsString(\""
 					+amount.ToString("F")+"\")");
 			}
@@ -296,7 +350,7 @@ namespace Helper32Tests.QuickBooks {
 		public void CreateDeposit_ResponseWithAStatusAboveZero_ThrowsItsMessage() {
 			Script script=recorder => ScriptResponses(recorder,Tuple.Create(0,ENResponseType.rtDepositAddRs,(Func<object>)null),
 				Tuple.Create(3120,ENResponseType.rtDepositAddRs,(Func<object>)null));
-			Run run=RunBoth(script,() => DepositToday("",false),module => Deposit(module,"",false));
+			Run run=RunBoth(script,() => DepositToday("",false),module => Deposit(module,"",false),() => DepositInProcess("",false));
 			Assert.AreEqual("System.Exception: Synthetic status message 3120",run.ErrorMessage);
 			Assert.AreEqual("responses[1].StatusMessage",run.ListCalls.Last());
 		}
@@ -307,7 +361,8 @@ namespace Helper32Tests.QuickBooks {
 				ScriptSession(recorder);
 				recorder.On("session.BeginSession",x => throw new COMException("Synthetic: another user has the company file open in single-user mode."));
 			};
-			Run run=RunBoth(script,() => DepositToday("Clinic East",true),module => Deposit(module,"Clinic East",true));
+			Run run=RunBoth(script,() => DepositToday("Clinic East",true),module => Deposit(module,"Clinic East",true),
+				() => DepositInProcess("Clinic East",true));
 			Assert.AreEqual(typeof(COMException).FullName+": Synthetic: another user has the company file open in single-user mode.",run.ErrorMessage);
 			Assert.AreEqual("session.CloseConnection()",run.ListCalls.Last());
 		}
@@ -340,7 +395,49 @@ namespace Helper32Tests.QuickBooks {
 					return first+" / "+exception.Message;
 				}
 				return first;
+			},() => {
+				string first=InProcess(() => QuickBooksInProcess.TestConnection(COMPANY_FILE));
+				try {
+					InProcess(() => QuickBooksInProcess.GetListOfClasses(COMPANY_FILE));
+				}
+				catch(Exception exception) {
+					return first+" / "+exception.Message;
+				}
+				return first;
 			});
+		}
+
+		///<summary>S3a-14n: the in-process path in a 64-bit program, where QBFC 10 (a 32-bit in-process server) is not registered: IsChosen
+		///activates once, gets REGDB_E_CLASSNOTREG, chooses the helper (false) and makes no QBFC call; later calls do not activate again. In a 32-bit
+		///program the same failure keeps this process (IsChosen true), and the method reports it as before S3a-13.</summary>
+		[TestMethod]
+		public void InProcess_QbfcNotRegisteredForThisBitness_TheHelperIn64Bit_TheOldMessageIn32Bit() {
+			int countActivations=0;
+			Func<QBSessionManager> funcCreateSessionManagerOld=QuickBooksInProcess.FuncCreateSessionManager;
+			QuickBooksInProcess.FuncCreateSessionManager=() => {
+				countActivations++;
+				throw new COMException("Synthetic: class not registered",NativeFirstChooser.REGDB_E_CLASSNOTREG);
+			};
+			try {
+				NativeFirstChooser.QuickBooksDesktop.ResetForTests(true);
+				QuickBooksInProcess.ResetForTests();
+				Assert.IsFalse(QuickBooksInProcess.IsChosen());
+				Assert.IsFalse(QuickBooksInProcess.IsChosen());
+				Assert.AreEqual(1,countActivations,"Activated once per process.");
+				Assert.AreEqual(VendorPath.Helper32,NativeFirstChooser.QuickBooksDesktop.Choice);
+				NativeFirstChooser.QuickBooksDesktop.ResetForTests(false);
+				QuickBooksInProcess.ResetForTests();
+				Assert.IsTrue(QuickBooksInProcess.IsChosen());
+				Assert.AreEqual(VendorPath.InProcess,NativeFirstChooser.QuickBooksDesktop.Choice);
+				Assert.AreEqual("Error: Synthetic: class not registered",QuickBooksInProcess.TestConnection(COMPANY_FILE),
+					"As before S3a-13: new QBSessionManager() failed inside TestConnection's try.");
+				Assert.AreEqual(3,countActivations);
+			}
+			finally {
+				QuickBooksInProcess.FuncCreateSessionManager=funcCreateSessionManagerOld;
+				QuickBooksInProcess.ResetForTests();
+				NativeFirstChooser.QuickBooksDesktop.ResetForTests();
+			}
 		}
 
 		[TestMethod]

@@ -77,12 +77,27 @@ namespace Helper32Tests.Guru {
 			return listStructures[0].Take(SIZE_WRITTEN).ToArray();
 		}
 
+		///<summary>The written bytes of the program's in-process path (S3a-14n: WpfControlsOD/Bridges/GuruInProcess.cs, linked), the structure its
+		///MVSendPatient passes to MedVisorInterface.dll.</summary>
+		private static byte[] GetInProcessBytes(MVPatient mvPatient) {
+			IntPtr pointer=OpenPmsDental.Bridges.GuruInProcess.ToCPlusPlusStructure(mvPatient);
+			try {
+				return ReadBytes(pointer,SIZE_WRITTEN);
+			}
+			finally {
+				OpenPmsDental.Bridges.GuruInProcess.DestroyCPlusPlusStruct(pointer);
+			}
+		}
+
 		private static void AssertSameStructure(Patient patient) {
 			byte[] arrayToday=GetTodaysBytes(patient.Today);
 			byte[] arrayNow=SendThroughTheModule(patient.Now,0,out string[] arrayResults);
 			CollectionAssert.AreEqual(arrayToday,arrayNow,"The structure differs from today's at byte "
 				+Enumerable.Range(0,SIZE_WRITTEN).FirstOrDefault(i => arrayToday[i]!=arrayNow[i]));
 			CollectionAssert.AreEqual(new[] { "0" },arrayResults);
+			byte[] arrayInProcess=GetInProcessBytes(patient.Now);
+			CollectionAssert.AreEqual(arrayToday,arrayInProcess,"The in-process structure differs from today's at byte "
+				+Enumerable.Range(0,SIZE_WRITTEN).FirstOrDefault(i => arrayToday[i]!=arrayInProcess[i]));
 		}
 
 		[TestMethod]
@@ -164,7 +179,22 @@ namespace Helper32Tests.Guru {
 			StringAssert.Contains(source,"ex.RemoteTypeName==typeof(DllNotFoundException).FullName");
 			StringAssert.Contains(source,"Could not find MedVisorInterface.dll. Verify that Guru is installed.");
 			Assert.IsFalse(source.Contains("DllImport"),"Guru.cs loads no MedVisorInterface.dll itself.");
-			Assert.IsFalse(source.Contains("ToCPlusPlusStructure("),"The structure is built in the helper.");
+			Assert.IsFalse(source.Contains("ToCPlusPlusStructure("),"The structure is built in GuruInProcess or in the helper.");
+			//S3a-14n: native first. Each of the two calls asks the chooser first and runs in the program's process when it chose it (GuruInProcess,
+			//which declares MedVisorInterface.dll's two functions as Guru.cs did before S3a-14); the helper is the fallback.
+			foreach(string call in new[] { "return GuruInProcess.MVStart();","return GuruInProcess.MVSendPatient(mvPatient);" }) {
+				int indexCall=source.IndexOf(call,StringComparison.Ordinal);
+				Assert.IsTrue(indexCall>0,call);
+				int indexCheck=source.LastIndexOf("if(GuruInProcess.IsChosen()) {",indexCall,StringComparison.Ordinal);
+				Assert.IsTrue(indexCheck>0 && indexCall-indexCheck<80,call+" follows the chooser's check.");
+				int indexHelper=source.IndexOf("Helper32Client.Default.Call(GuruCommands.MODULE,",indexCall,StringComparison.Ordinal);
+				Assert.IsTrue(indexHelper>indexCall,"The helper's call after "+call);
+			}
+			string sourceInProcess=TestPaths.ReadSource("WpfControlsOD","Bridges","GuruInProcess.cs");
+			StringAssert.Contains(sourceInProcess,"NativeFirstChooser.Guru.ChooseForNativeDll(DLL_FILE_NAME,PeImageInfo.IMAGE_FILE_MACHINE_I386)==VendorPath.InProcess");
+			StringAssert.Contains(sourceInProcess,"[DllImport(\"MedVisorInterface.dll\")]\n\t\tpublic static extern int MVStart();".Replace("\n",
+				sourceInProcess.Contains("\r\n") ? "\r\n" : "\n"));
+			Assert.AreEqual("MedVisorInterface.dll",OpenPmsDental.Bridges.GuruInProcess.DLL_FILE_NAME);
 		}
 	}
 }

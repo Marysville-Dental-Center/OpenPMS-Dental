@@ -125,15 +125,15 @@ namespace CodeBase {
 		}
 
 		///<summary>The choice for a native DLL loaded by its file name (DllImport), made from the PE header of the first fileName found where the
-		///loader looks (GetNativeDllSearchFolders). When none is found the piece counts as machineIfNotFound, the vendor's known build, so a missing
-		///DLL is reported by the path that would have loaded it.</summary>
-		public VendorPath ChooseForNativeDll(string fileName,ushort machineIfNotFound) {
+		///loader looks (GetNativeDllSearchFolders; a test passes its own folders). When none is found the piece counts as machineIfNotFound, the
+		///vendor's known build, so a missing DLL is reported by the path that would have loaded it.</summary>
+		public VendorPath ChooseForNativeDll(string fileName,ushort machineIfNotFound,IEnumerable<string> listFolders=null) {
 			lock(_lock) {
 				if(_vendorPath!=null) {
 					return _vendorPath.Value;
 				}
 				bool is64BitProcess=_is64BitProcessOverride??Environment.Is64BitProcess;
-				string path=FindNativeDll(fileName);
+				string path=FindNativeDll(fileName,listFolders);
 				if(path=="") {
 					PeImageInfo peImageInfoKnown=new PeImageInfo { Kind=PeImageKind.Native,Machine=machineIfNotFound,
 						IsPe32Plus=machineIfNotFound!=PeImageInfo.IMAGE_FILE_MACHINE_I386 };
@@ -262,9 +262,9 @@ namespace CodeBase {
 			return listFolders.Where(x => !string.IsNullOrWhiteSpace(x)).ToList();
 		}
 
-		///<summary>The first fileName in GetNativeDllSearchFolders, or "".</summary>
-		public static string FindNativeDll(string fileName) {
-			foreach(string folder in GetNativeDllSearchFolders()) {
+		///<summary>The first fileName in listFolders (null: GetNativeDllSearchFolders), or "".</summary>
+		public static string FindNativeDll(string fileName,IEnumerable<string> listFolders=null) {
+			foreach(string folder in listFolders??GetNativeDllSearchFolders()) {
 				try {
 					string path=Path.Combine(folder,fileName);
 					if(File.Exists(path)) {
