@@ -1,7 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <!--
     The 32-bit helper program (S3a-13 of the .NET 10 move, docs/specs/net10-plan.md; docs/port-notes/S3a-13.md). It runs the vendor code that
-    exists only as 32-bit code (QuickBooks Desktop's QBFC, S3a-13; Schick CDR, Topaz and Guru, S3a-14) for the program, which is 64-bit after
+    exists only as 32-bit code (QuickBooks Desktop's QBFC, S3a-13; Schick CDR, Topaz and Guru, S3a-14; Mediadent / CADI as the fallback,
+    N64-A3) for the program, which is 64-bit after
     stage 3b. The program starts it from its own folder on first use (CodeBase\Utilities\Helper32Client.cs), one helper per program process,
     and talks to it over a named pipe that only the current user may open (Helper32Protocol.cs, linked into CodeBase). It has no window.
 
@@ -54,6 +55,9 @@
       <HintPath>..\Required dlls\Interop.CDRDicom.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
+    <!-- The C# runtime binder of the framework: Cadi\CadiModule.cs calls CADI's automation object late-bound (dynamic), as
+         WpfControlsOD\Bridges\CADI.cs did before N64-A3. -->
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <!-- Topaz's signature control is a WinForms control, drawn into a picture and shown in the helper's signing window (Topaz\). -->
