@@ -1,14 +1,14 @@
 ﻿using System;
 
 namespace OpenPmsDentalBusiness {
-	///<summary>For EHR module, these are all the codes from various code sets that will affect reporting clinical quality measures.  Users cannot edit.  A fork-only table (EhrTables in Misc\ForkMigrations\EhrSteps.cs, docs/specs/ehr-rebuild-plan.md section 7, EHR-2): Open Dental filled the list from its closed EHR.dll, this program from the office's own import of VSAC's June 2013 EP release (EhrValueSetImport, Setup, Chart, EHR, Code System Importer), which replaces every row.  No window edits a row.  Selecting from this table always uses the cache pattern (EhrCodes.Listt).</summary>
+	///<summary>For EHR module, these are all the codes from various code sets that will affect reporting clinical quality measures.  Users cannot edit.  A fork-only table (EhrTables in Misc\ForkMigrations\EhrSteps.cs, docs/specs/ehr-rebuild-plan.md section 7, EHR-2): Open Dental filled the list from its closed EHR.dll, this program from the office's own import of VSAC's 2026-05-14 release for the 2027 measures with its Direct Reference Codes and Code System Versions files (EhrValueSetImport, Setup, Chart, EHR, Code System Importer; docs/specs/ehr-2027-measures-plan.md, EHR-6a), which replaces every row.  A direct reference code's row has a drc: key as its ValueSetOID (CqmCatalog.GetDirectCodeKey).  No window edits a row.  Selecting from this table always uses the cache pattern (EhrCodes.Listt).</summary>
 	[Serializable]
 	[CrudTable(HasBatchWriteMethods=true)]
 	public class EhrCode:TableBase {
 		///<summary>Primary key.</summary>
 		[CrudColumn(IsPriKey=true)]
 		public long EhrCodeNum;
-		///<summary>Clinical quality measure test ID's that utilize this code.  Comma delimited list.  Example: 69v2,147v2.</summary>
+		///<summary>Clinical quality measure test ID's that utilize this code.  Comma delimited list.  Example: 69v15,165v15.</summary>
 		public string MeasureIds;
 		///<summary>The National Library of Medicine Value Set Authority Center assigned value set name.  Example: Influenza Vaccination.</summary>
 		public string ValueSetName;

@@ -82,7 +82,7 @@ namespace OpenPmsDental{
 			this.labelStatus.Name = "labelStatus";
 			this.labelStatus.Size = new System.Drawing.Size(857, 34);
 			this.labelStatus.TabIndex = 29;
-			this.labelStatus.Text = "The value sets name codes of the code systems below. A code counts for the EHR pick lists and the quality measures only when its code system's table is loaded: load each table directly into the database (CPT with the import above).";
+			this.labelStatus.Text = "The value sets name codes of the code systems below. A code counts for the EHR pick lists and the quality measures only when its code system's table is loaded: load each table directly into the database (CPT with the import above). In the Release is the version the imported release names.";
 			//
 			// FormCodeSystemsImport
 			//
