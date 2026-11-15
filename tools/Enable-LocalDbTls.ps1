@@ -1811,8 +1811,15 @@ namespace OpenPmsDentalDevDbTls {
 }
 
 function Add-LoopbackAdapterType {
-	if ($null -eq ('OpenPmsDentalDevDbTls.LoopbackAdapter' -as [type])) {
+	$type = 'OpenPmsDentalDevDbTls.LoopbackAdapter' -as [type]
+	if ($null -eq $type) {
 		Add-Type -TypeDefinition (Get-LoopbackAdapterSource) -Language CSharp
+		return
+	}
+	# Add-Type cannot replace a type a PowerShell session has loaded: a session that ran an older copy of this script keeps the
+	# older adapter type (the owner's -Revert of 2026-11-14 met one without Exists). Refuse with what to do instead.
+	if ($null -eq $type.GetMethod('Exists')) {
+		throw 'This PowerShell session holds an older copy of this script''s loopback adapter code. Run the script in a new process: powershell -NoProfile -ExecutionPolicy Bypass -File tools\Enable-LocalDbTls.ps1 ...'
 	}
 }
 

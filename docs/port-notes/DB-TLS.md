@@ -1010,3 +1010,26 @@ while the owner's `opms-dev-tls` folder is there), with the five new tests passi
 `ForkMigrationTests` left out under the rule for every package (no schema change here). Nothing ran elevated or changed a network
 setting, the firewall, the MariaDB service, `my.ini` or a certificate store; the new test's real run of the script was a `-DryRun` in
 the 32-bit PowerShell, refused before the service was looked at.
+
+### 11.9 The owner's second run and the lead's test run (2026-11-14)
+
+- **A stale type in the elevated window.** The owner's first `-Revert` after the fix ran in the window of the failed first run, which
+  had loaded the older `OpenPmsDentalDevDbTls.LoopbackAdapter` (`Add-Type` cannot replace a loaded type), and stopped with
+  "does not contain a method named 'Exists'" before its plan, changing nothing. Run in a new process (`powershell -NoProfile
+  -ExecutionPolicy Bypass -File tools\Enable-LocalDbTls.ps1 ...`) it worked. `Add-LoopbackAdapterType` now refuses such a session
+  with that instruction instead of failing later.
+- **`-Revert`** (new process) removed the two firewall rules and `opms-dev-tls`, reported the adapter, the address, both certificates
+  and their key files as already gone, and left `my.ini` and the service untouched (exit 0).
+- **The enable run** with `-WithClientCertificate -WithTestNetwork 192.0.2.25`: the adapter `ROOT\NET\0000` with 192.0.2.25/32, the
+  two rules, both client certificates (CAPI and CNG, Users read), TLSv1.3 on, the server certificate verified at 127.0.0.1, the service
+  listening on 127.0.0.1:3306 and 192.0.2.25:3306, and the expected NOTE that the server refused root at 192.0.2.25 (1130) with the
+  SAN of `server-cert.pem` checked instead. It printed the three `OPMS_DB_TLS_TEST_*` values.
+- **The lead's run** of DbConnectionSecurityTests (not elevated) with those values: `NonLoopbackServer_VerifyFull_X509User_WithACapiKeyAndWithACngKey`
+  passed, so the program's own connection string opens a `VerifyFull` session at the non-loopback address as a `REQUIRE X509` user with
+  a CAPI key and with a CNG key from `LocalMachine\My` (S2-2 section 6; the 3b gate's database TLS check). One older test,
+  `TestHelpersConnection_DevDbTlsApply_IsEncrypted_TheServerHasTls12And13Only`, expected `bind_address` to be `127.0.0.1` exactly; it
+  now accepts `127.0.0.1` with at most the test network's one 192.0.2.x address after it. Then: 248 total, 245 passed, 0 failed, 3
+  skipped (`WhenTheServerRequiresTls_...` until `-RequireSecureTransport`, the enable dry run while TLS is on, and the no-variables
+  check while the variables are set).
+- **Still to do:** `-RequireSecureTransport` (the owner, elevated) when the other sessions' dev tools use TLS; `-Revert` removes the test
+  network whenever the owner wants it gone.
