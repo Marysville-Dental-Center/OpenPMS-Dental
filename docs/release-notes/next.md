@@ -42,7 +42,8 @@ What this version brings, each in its section below (the roadmap's "Done in the 
     Suni retired, and a Partner ID for Medit Link that assigns the cases created from the Chart to the office's lab (the office still sends
     them from Medit Link);
   - Glidewell lab cases, ready but not yet able to send: hidden in Program Links until the program can connect to Glidewell, and no patient
-    data is sent without a business associate agreement with Glidewell.
+    data is sent without a business associate agreement with Glidewell;
+- EHR: the Meaningful Use measures window (Measure Calc) works again, rebuilt as open code, for internal review only.
 
 The update adds this program's own tables to the database (13 tables, none of Open Dental's schema: five for routine maintenance, seven for
 inventory tracking, one for SSH host keys); they start empty, except the stock ledger's opening rows (Inventory tracking, below). It also
@@ -724,3 +725,30 @@ around the connection is in place:
   this program: the 3Shape TRIOS, iTero and Medit Link scanner connections; for Alliedstar, CEREC, DEXIS, Heron IOS and Planmeca, a pointer
   to the steps on Glidewell's Submit a Digital Case page; STL files from any other scanner uploaded through Glidewell's My Account portal
   (an office not registered for it calls Glidewell at 800-854-7256); and the GL-421 paper Rx.
+
+## EHR: the Meaningful Use measures window (Measure Calc)
+
+With EHR turned on, the EHR window's **Measure Calc** button opens the Meaningful Use measures window again. Open Dental's window lived in its
+closed EHR.dll, which this program does not have; this one is new open code on the program's own measure engine, built from the public CMS
+specification sheets and Open Dental's public manual. **Its numbers are for internal review only: this program is not certified EHR
+technology, and they cannot be used to attest or to submit to any program** (the window and its printout say so).
+
+- **Choose** a provider (every provider whose last and first name are in Setup, Chart, EHR, Provider Keys; two provider records with the
+  same names count together, as before), the reporting period (this calendar year by default) and the stage (Stage 1, Stage 2 or Modified
+  Stage 2; by default the provider's Meaningful Use stage, or the global setting), then **Refresh**. The measures are calculated one at a
+  time; **Cancel** stops after the measure being calculated. The window lists patients across the practice, and like Open Dental's it needs
+  no permission of its own beyond opening the EHR window.
+- **Each row**: numerator, denominator, percent, the requirement and the exclusion count. A met row is green. A value the program could not
+  calculate shows "not calculated".
+- **Modified Stage 2 by year**, as the 2015-2017 rule set it: patient electronic access (view, download or transmit) needs at least one
+  patient in 2015 and 2016, secure messaging is a yes/no attestation in 2015 ("attestation, not calculated") and needs at least one patient
+  in 2016; from 2017 both need more than 5%. A period across two calendar years gets a warning. The 2015 alternate exclusions for providers
+  who were scheduled for Stage 1 are not modelled, and the window says so.
+- **The patient portal is gone**, so the two measures that counted what patients did there (view, download or transmit, and secure
+  messaging) show "depends on the removed patient portal" instead of 0%.
+- **Double-click a measure** for its texts, its exclusion count and its list of patients with the reason each one is met or not;
+  double-click a patient to switch the Chart to that patient. **Print** shows the list with the provider, the period, the stage and the
+  internal-review line.
+- Each refresh first removes the measure engines' work tables that a calculation stopped half way left in the database more than a day ago
+  (`tempehrmeasure...`, `tempehrquality...`); a newer one may belong to another workstation's calculation and stays.
+- Nothing is stored: the `ehrmeasure` table keeps its rows as they are.

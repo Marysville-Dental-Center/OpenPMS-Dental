@@ -636,6 +636,8 @@ The key was a licence check, but it was also the only thing that kept these acti
 
 ### EHR-4a Measure Calc window
 
+- **Status (2026-11-14).** Written on `ehr/ehr4a-1`, ready for review, not merged: `docs/port-notes/EHR-4.md` (EHR-4a part, with its
+  deviations and launch checks). No schema change.
 - **Goal.** The window behind "Measure Calc" (`FormEHR.designer.cs:61`), built on the open engine (section 9.1).
 - **Owns.**
   - new `OpenPmsDental/Forms/FormEhrMeasureCalc.cs`, `.designer.cs`, `.resx`
