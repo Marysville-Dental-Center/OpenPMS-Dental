@@ -183,16 +183,22 @@ namespace OpenPmsDentalBusiness {
 		}
 
 		///<summary>The code-system status that the Code System Importer shows (EHR-2, step 4; owner decision of 2026-10-18, E-17): for every code
-		///system the list knows, and every other code system the imported value sets use, the rows in its table next to the minimum the code list
-		///expects and the number of value-set codes of that system. The office then knows which code-system tables it still has to load
+		///system the list knows, and every other code system the imported value sets or direct reference codes use, the rows in its table next to
+		///the minimum the code list expects, the number of value-set codes of that system and, apart from them, the number of its direct reference
+		///codes (the drc: rows, EHR-6a). The office then knows which code-system tables it still has to load
 		///directly. Since EHR-6a also the version of each loaded table (codesystem.VersionCur) next to the version the imported release names in its
 		///Code System Versions file, and whether the loaded table is older, where the two can be compared (EhrValueSetImport.CompareCodeSystemVersions).</summary>
 		public static List<EhrCodeSystemStatus> GetCodeSystemStatuses() {
 			Meth.NoCheckMiddleTierRole();
 			List<EhrCode> listEhrCodes=Listt;
-			Dictionary<string,int> dictCountCodes=listEhrCodes.GroupBy(x => x.CodeSystem??"").ToDictionary(x => x.Key,x => x.Count());
+			//The direct reference codes (drc: keys) are counted apart: they belong to no value set.
+			Dictionary<string,int> dictCountCodes=listEhrCodes.Where(x => !CqmCatalog.IsDirectCodeKey(x.ValueSetOID))
+				.GroupBy(x => x.CodeSystem??"").ToDictionary(x => x.Key,x => x.Count());
+			Dictionary<string,int> dictCountDirectCodes=listEhrCodes.Where(x => CqmCatalog.IsDirectCodeKey(x.ValueSetOID))
+				.GroupBy(x => x.CodeSystem??"").ToDictionary(x => x.Key,x => x.Count());
 			List<string> listCodeSystems=ArrayCodeSystems.ToList();
-			listCodeSystems.AddRange(dictCountCodes.Keys.Where(x => !ArrayCodeSystems.Contains(x)).OrderBy(x => x,StringComparer.Ordinal));
+			listCodeSystems.AddRange(dictCountCodes.Keys.Union(dictCountDirectCodes.Keys).Where(x => !ArrayCodeSystems.Contains(x))
+				.OrderBy(x => x,StringComparer.Ordinal));
 			Dictionary<string,string> dictVersionsLoaded=new Dictionary<string,string>(StringComparer.Ordinal);
 			foreach(CodeSystem codeSystemRow in CodeSystems.GetForCurrentVersion(true)) {
 				dictVersionsLoaded[codeSystemRow.CodeSystemName??""]=codeSystemRow.VersionCur??"";
@@ -213,6 +219,7 @@ namespace OpenPmsDentalBusiness {
 				status.CountInDb=status.HasTable ? GetCodeCountInDb(codeSystem) : -1;
 				status.IsInDb=IsCodeSystemInDb(codeSystem,status.CountInDb);
 				dictCountCodes.TryGetValue(codeSystem,out status.CountValueSetCodes);
+				dictCountDirectCodes.TryGetValue(codeSystem,out status.CountDirectCodes);
 				dictVersionsLoaded.TryGetValue(codeSystem,out status.VersionLoaded);
 				status.VersionLoaded=status.VersionLoaded??"";
 				dictVersionsRelease.TryGetValue(codeSystem,out status.VersionInRelease);
@@ -471,8 +478,10 @@ namespace OpenPmsDentalBusiness {
 		public bool HasTable;
 		///<summary>True when the value-set codes of this system count as in the database (IsInDb).</summary>
 		public bool IsInDb;
-		///<summary>Rows of the imported value sets (and direct reference codes) with this code system.</summary>
+		///<summary>Rows of the imported value sets with this code system, without the direct reference codes (CountDirectCodes).</summary>
 		public int CountValueSetCodes;
+		///<summary>Rows of the imported Direct Reference Codes file (drc: keys) with this code system (EHR-6a).</summary>
+		public int CountDirectCodes;
 		///<summary>The version of the loaded table (codesystem.VersionCur), or "".</summary>
 		public string VersionLoaded="";
 		///<summary>The version the imported release names for this code system in its Code System Versions file, or "".</summary>
@@ -596,6 +605,9 @@ namespace OpenPmsDentalBusiness {
 		public List<EhrDirectCode> ListDirectCodes=new List<EhrDirectCode>();
 		///<summary>A Code System Versions file's rows: one per code system.</summary>
 		public List<EhrCodeSystemVersion> ListCodeSystemVersions=new List<EhrCodeSystemVersion>();
+		///<summary>True when the file was refused as a second file of a kind the pick already has (ParsePick): it was not read further, so its
+		///report gives no counts.</summary>
+		public bool IsKindTaken;
 
 		public bool IsRefused {
 			get {
@@ -625,8 +637,10 @@ namespace OpenPmsDentalBusiness {
 		public int CountValueSets;
 		public int CountManifestFound;
 		public int CountManifest;
-		///<summary>"7 of 7 measures at the 2027 versions", or that the versions could not be checked.</summary>
+		///<summary>The value-set file's measure-version check: "7 of 7 measures at the 2027 versions", or that the versions could not be checked.</summary>
 		public string MeasureCheck="";
+		///<summary>The Direct Reference Codes file's own measure-version check, written as MeasureCheck (EHR-6a). "" in a record written before it.</summary>
+		public string MeasureCheckDirectCodes="";
 		///<summary>Rows of the Direct Reference Codes file written (part of CountCodes).</summary>
 		public int CountDirectCodes;
 		///<summary>The three files: kind, name, SHA-256 and size.</summary>
@@ -708,6 +722,8 @@ namespace OpenPmsDentalBusiness {
 		///<summary>A test seam (tests/EhrTests): called after each batch of rows the import writes, with the number of rows written so far. Null in
 		///the program.</summary>
 		internal static Action<int> ActionAfterInsertBatch;
+		///<summary>A test seam (tests/EhrTests): called after the swap, before the release is recorded. Null in the program.</summary>
+		internal static Action ActionBeforeRecord;
 
 		///<summary>The catalog's seven measures at their 2027 versions, as VSAC's files name them (CqmCatalog.GetMeasureIds): CMS68v16, CMS69v15,
 		///CMS74v16, CMS75v15, CMS138v15, CMS155v15, CMS165v15.</summary>
@@ -1735,6 +1751,7 @@ namespace OpenPmsDentalBusiness {
 			if(pickBudget!=null) {
 				if(pickBudget.DictFileNamesKept.TryGetValue(kind,out string fileNameKept)) {
 					file.Kind=kind;
+					file.IsKindTaken=true;
 					file.ListRefusals.Add(GetKindTakenText(kind,fileNameKept));
 					return false;
 				}
@@ -2067,7 +2084,10 @@ namespace OpenPmsDentalBusiness {
 			foreach(string skipped in file.ListPartsSkipped) {
 				stringBuilder.AppendLine(Lans.g(LANS,"Not read")+": "+skipped);
 			}
-			if(file.Kind==EhrValueSetFileKind.DirectReferenceCodes) {
+			if(file.IsKindTaken) {
+				//Refused as a second file of a kind at its first row of that kind: it was not read, so it has no counts to give.
+			}
+			else if(file.Kind==EhrValueSetFileKind.DirectReferenceCodes) {
 				stringBuilder.AppendLine(Lans.g(LANS,"Rows read")+": "+file.CountRowsRead+"; "+Lans.g(LANS,"without a code or a measure (skipped)")+": "
 					+file.CountRowsSkipped+"; "+Lans.g(LANS,"repeated (merged)")+": "+file.CountRowsMerged);
 				stringBuilder.AppendLine(Lans.g(LANS,"Direct reference codes to import")+": "+file.ListDirectCodes.Count+" "+Lans.g(LANS,"of")+" "
@@ -2087,7 +2107,7 @@ namespace OpenPmsDentalBusiness {
 				stringBuilder.AppendLine(Lans.g(LANS,"Value sets the measures use, found")+": "+file.ListManifestOidsFound.Count+" "+Lans.g(LANS,"of")+" "
 					+dictManifest.Count+"; "+Lans.g(LANS,"other value sets of the release")+": "+file.CountOtherValueSets);
 			}
-			if(file.AreVersionsChecked) {
+			if(file.AreVersionsChecked && !file.IsKindTaken) {
 				stringBuilder.AppendLine(Lans.g(LANS,"Measures")+": "+GetMeasureCheckText(file)
 					+(file.ListMeasuresMatched.Count>0 ? " ("+string.Join(", ",file.ListMeasuresMatched)+")" : ""));
 			}
@@ -2148,6 +2168,7 @@ namespace OpenPmsDentalBusiness {
 				if(!file.IsRefused && isKindOfRelease) {
 					if(pickBudget.DictFileNamesKept.TryGetValue(file.Kind,out string fileNameKept)) {
 						//AddRawRow refuses such a file at its first row of the kind; this is the same refusal, should a file get here.
+						file.IsKindTaken=true;
 						file.ListRefusals.Add(GetKindTakenText(file.Kind,fileNameKept));
 					}
 					else {
@@ -2319,10 +2340,18 @@ namespace OpenPmsDentalBusiness {
 		///without a message, as well as by the window) and a direct connection: it refuses under the Middle Tier, as the CPT import does. A refused
 		///pick (not the three files, or a refused file) writes nothing. MyISAM has no transactions, so the rows are written into a scratch table of
 		///the same definition (ehrcode_import_[run], CREATE TABLE ... LIKE), which one RENAME TABLE swaps with ehrcode; the old table is dropped
-		///afterwards. A failure before the swap (the server stops, the disk is full) drops the scratch table and leaves every old row of both kinds.
+		///afterwards. A failure before the swap (the server stops, the disk is full) drops the scratch table and leaves every old row of both kinds;
+		///a failure after it, while the release is recorded, returns GetRecordFailedText (the rows are the new ones, the record is not saved).
 		///Scratch tables an import left more than a day ago (the program was stopped half way) are dropped first. The caller signals
 		///InvalidType.EhrCodes and InvalidType.Prefs.</summary>
 		public static string Import(EhrValueSetPick pick) {
+			return Import(pick,out bool _);
+		}
+
+		///<summary>Import, with areRowsReplaced true once the swap has replaced every row of ehrcode with the pick's: a result other than "" is then
+		///that the release record was not saved (GetRecordFailedText), not that the value sets are unchanged.</summary>
+		public static string Import(EhrValueSetPick pick,out bool areRowsReplaced) {
+			areRowsReplaced=false;
 			if(RemotingClient.MiddleTierRole==MiddleTierRole.ClientMT) {
 				return Lans.g(LANS,"Value sets cannot be imported when using the middle tier.");
 			}
@@ -2335,6 +2364,13 @@ namespace OpenPmsDentalBusiness {
 			}
 			if(pick.IsRefused) {
 				return string.Join("\r\n",pick.ListRefusals);
+			}
+			if(pick.FileValueSets==null || pick.FileDirectCodes==null || pick.FileCodeSystemVersions==null || pick.ListFiles==null
+				|| pick.ListFiles.Count!=3)
+			{
+				//A pick MakePick did not build (or did not finish): without the value-set file the swap would replace every value-set code with none.
+				return Lans.g(LANS,"The pick is not the release's three files as MakePick reads them. Nothing was imported, and the value sets in the "
+					+"database are unchanged.");
 			}
 			EhrValueSetFile file=pick.FileValueSets;
 			List<EhrCode> listEhrCodes=pick.ListEhrCodesAll.Select(x => x.Copy()).ToList();
@@ -2354,7 +2390,7 @@ namespace OpenPmsDentalBusiness {
 				long countWritten=PIn.Long(Db.GetScalar("SELECT COUNT(*) FROM `"+tableImport+"`"));
 				if(countWritten!=listEhrCodes.Count) {
 					return Lans.g(LANS,"The import wrote")+" "+countWritten+" "+Lans.g(LANS,"of")+" "+listEhrCodes.Count+" "
-						+Lans.g(LANS,"codes, so the value sets in the database are unchanged. Import the file again.");
+						+Lans.g(LANS,"codes, so the value sets in the database are unchanged. Import the three files again.");
 				}
 				Db.NonQ("RENAME TABLE ehrcode TO `"+tableOld+"`, `"+tableImport+"` TO ehrcode");//One statement: other workstations see the old rows or the new.
 				isSwapped=true;
@@ -2367,27 +2403,45 @@ namespace OpenPmsDentalBusiness {
 					DropTableQuietly(tableImport);
 				}
 			}
+			//Every row is now the pick's: from here on a failure is not "unchanged" (areRowsReplaced tells the window so).
+			areRowsReplaced=true;
 			DropTableQuietly(tableOld);
-			EhrValueSetRelease release=new EhrValueSetRelease();
-			release.Label=RELEASE_LABEL;
-			release.FileName=file.FileName;
-			release.Sha256=file.Sha256;
-			release.DateImportedUtc=DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ssZ",CultureInfo.InvariantCulture);
-			release.CountCodes=listEhrCodes.Count;
-			release.CountValueSets=file.CountValueSets;
-			release.CountManifestFound=file.ListManifestOidsFound.Count;
-			release.CountManifest=GetManifest().Count;
-			release.MeasureCheck=GetMeasureCheckText(file);
-			release.CountDirectCodes=pick.ListEhrCodesDirect.Count;
-			foreach(EhrValueSetFile filePicked in new[] { pick.FileValueSets,pick.FileDirectCodes,pick.FileCodeSystemVersions }) {
-				release.ListFiles.Add(new EhrValueSetReleaseFile { Kind=filePicked.Kind,FileName=filePicked.FileName,Sha256=filePicked.Sha256,
-					CountBytes=filePicked.CountBytes });
+			try {
+				ActionBeforeRecord?.Invoke();
+				EhrValueSetRelease release=new EhrValueSetRelease();
+				release.Label=RELEASE_LABEL;
+				release.FileName=file.FileName;
+				release.Sha256=file.Sha256;
+				release.DateImportedUtc=DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ssZ",CultureInfo.InvariantCulture);
+				release.CountCodes=listEhrCodes.Count;
+				release.CountValueSets=file.CountValueSets;
+				release.CountManifestFound=file.ListManifestOidsFound.Count;
+				release.CountManifest=GetManifest().Count;
+				release.MeasureCheck=GetMeasureCheckText(file);
+				release.MeasureCheckDirectCodes=GetMeasureCheckText(pick.FileDirectCodes);
+				release.CountDirectCodes=pick.ListEhrCodesDirect.Count;
+				foreach(EhrValueSetFile filePicked in new[] { pick.FileValueSets,pick.FileDirectCodes,pick.FileCodeSystemVersions }) {
+					release.ListFiles.Add(new EhrValueSetReleaseFile { Kind=filePicked.Kind,FileName=filePicked.FileName,Sha256=filePicked.Sha256,
+						CountBytes=filePicked.CountBytes });
+				}
+				release.ListCodeSystemVersions=pick.FileCodeSystemVersions.ListCodeSystemVersions.ToList();
+				release.ListRoles=pick.ListRoles.ToList();
+				PrefC.UpsertRaw(PREF_RELEASE,JsonConvert.SerializeObject(release));
+				SecurityLogs.MakeLogEntry(EnumPermType.Setup,0,GetLogText(release));
 			}
-			release.ListCodeSystemVersions=pick.FileCodeSystemVersions.ListCodeSystemVersions.ToList();
-			release.ListRoles=pick.ListRoles.ToList();
-			PrefC.UpsertRaw(PREF_RELEASE,JsonConvert.SerializeObject(release));
-			SecurityLogs.MakeLogEntry(EnumPermType.Setup,0,GetLogText(release));
+			catch(Exception ex) {
+				return GetRecordFailedText(ex.Message);
+			}
 			return "";
+		}
+
+		///<summary>The result of an import whose rows replaced the old ones but whose release record (the ForkEhrValueSetRelease row, or the
+		///security log entry) was not saved.</summary>
+		public static string GetRecordFailedText(string message) {
+			Meth.NoCheckMiddleTierRole();
+			return Lans.g(LANS,"The codes of the three files replaced the old ones, but the release record was not saved")+": "
+				+(message??"").Trim().TrimEnd('.')+". "
+				+Lans.g(LANS,"Import the three files again.");
 		}
 
 		///<summary>The names of the import's scratch tables: the prefix, the UTC time the import started (yyyyMMddHHmmss), "_" and six hex digits.</summary>
@@ -2485,7 +2539,8 @@ namespace OpenPmsDentalBusiness {
 			int countRolesResolved=(release.ListRoles??new List<EhrDirectCodeRoleResult>()).Count(x => x.IsResolved);
 			return "EHR value sets imported (Code System Importer): "+release.Label+"; files "+files+"; "+release.CountCodes+" codes ("
 				+release.CountDirectCodes+" direct reference codes) in "+release.CountValueSets+" value sets, "+release.CountManifestFound+" of the "
-				+release.CountManifest+" value sets the measures use; "+release.MeasureCheck+"; "+countRolesResolved+" of "
+				+release.CountManifest+" value sets the measures use; "+release.MeasureCheck+"; direct reference codes: "
+				+(string.IsNullOrEmpty(release.MeasureCheckDirectCodes) ? "not recorded" : release.MeasureCheckDirectCodes)+"; "+countRolesResolved+" of "
 				+(release.ListRoles??new List<EhrDirectCodeRoleResult>()).Count+" direct-reference-code roles resolved; "
 				+(release.ListCodeSystemVersions??new List<EhrCodeSystemVersion>()).Count+" code-system versions recorded. Every earlier value-set code "
 				+"and direct reference code was replaced.";
