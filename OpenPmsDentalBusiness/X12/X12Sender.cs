@@ -92,14 +92,23 @@ namespace OpenPmsDentalBusiness {
 			string whereBillingProv=(clinic==null
 				? Lans.g("X12Sender","Setup > Practice > Default Insurance Billing Provider and Default Provider")
 				: Lans.g("X12Sender","Lists > Clinics > ")+clinicName+Lans.g("X12Sender"," > Default Insurance Billing Provider and Default Provider"));
+			//Treating Provider names no single provider, so the entry says whose Default Provider's TIN is used (CLEAN-1).
+			string treatingProvider="";
+			if(insBillingProv==-1) {
+				treatingProvider=" "+(clinic!=null && clinic.DefaultProv>0
+					? Lans.g("X12Sender","The Default Insurance Billing Provider is Treating Provider, which names no single provider, so the sender TIN is "
+						+"that of the clinic's Default Provider.")
+					: Lans.g("X12Sender","The Default Insurance Billing Provider is Treating Provider, which names no single provider, so the sender TIN is "
+						+"that of the practice's Default Provider."));
+			}
 			string tin="";
 			if(provider==null || provider.ProvNum==0) {
-				listMissing.Add(Lans.g("X12Sender","the practice's billing provider, whose TIN is the sender TIN")+" ("+whereBillingProv+")");
+				listMissing.Add(Lans.g("X12Sender","the practice's billing provider, whose TIN is the sender TIN")+" ("+whereBillingProv+")"+treatingProvider);
 			}
 			else if(!provider.UsingTIN || !Regex.IsMatch(provider.SSN??"","^[0-9]{9}$")) {
 				listMissing.Add(Lans.g("X12Sender","the 9 digit TIN of the practice's billing provider")+" "+provider.Abbr+", "
 					+Lans.g("X12Sender","marked TIN, not SSN")+" ("+Lans.g("X12Sender","Lists > Providers > ")+provider.Abbr
-					+Lans.g("X12Sender"," > SSN or TIN")+")");
+					+Lans.g("X12Sender"," > SSN or TIN")+")"+treatingProvider);
 			}
 			else {
 				tin=provider.SSN;

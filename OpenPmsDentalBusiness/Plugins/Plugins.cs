@@ -128,12 +128,15 @@ namespace OpenPmsDentalBusiness {
 
 		///<summary>The Logger sub folder of the plug-in problems (N64-A).</summary>
 		public const string LOG_SUB_DIRECTORY="Plugins";
-		///<summary>Lock object for _listProblemsLogged and _hashSetHookProblemsLogged.</summary>
+		///<summary>Lock object for _listProblemsLogged, _hashSetHookProblemsLogged and _queueHookProblemsLogged.</summary>
 		private static readonly object _lockProblems=new object();
 		///<summary>The plug-in problems of this process so far, the last 100, in order (GetProblemsLogged).</summary>
 		private static readonly List<string> _listProblemsLogged=new List<string>();
-		///<summary>The hook-time problems already written once in this process: plug-in name, exception type and message.</summary>
+		///<summary>The hook-time problems already written once in this process, the last 100: plug-in name, exception type and message.</summary>
 		private static readonly HashSet<string> _hashSetHookProblemsLogged=new HashSet<string>();
+		///<summary>The entries of _hashSetHookProblemsLogged in the order they were written, so the oldest is dropped first, as in
+		///_listProblemsLogged (CLEAN-1).</summary>
+		private static readonly Queue<string> _queueHookProblemsLogged=new Queue<string>();
 
 		///<summary>Loads the plug-in DLL at dllPath, as both loaders did: Assembly.LoadFile, the type [file name without extension].Plugin,
 		///Activator.CreateInstance, then Host=host. Before LoadFile, PluginImageCheck.GetRefusalReason reads the file's PE header and target
@@ -213,8 +216,13 @@ namespace OpenPmsDentalBusiness {
 			}
 			string name=pluginContainer?.Name ?? "";
 			lock(_lockProblems) {
-				if(!_hashSetHookProblemsLogged.Add(name+"\t"+exceptionLoad.GetType().Name+"\t"+exceptionLoad.Message)) {
+				string key=name+"\t"+exceptionLoad.GetType().Name+"\t"+exceptionLoad.Message;
+				if(!_hashSetHookProblemsLogged.Add(key)) {
 					return;
+				}
+				_queueHookProblemsLogged.Enqueue(key);
+				if(_queueHookProblemsLogged.Count>100) {
+					_hashSetHookProblemsLogged.Remove(_queueHookProblemsLogged.Dequeue());
 				}
 			}
 			string what=(exceptionLoad is DllNotFoundException)

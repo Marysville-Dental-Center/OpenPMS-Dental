@@ -84,23 +84,51 @@ namespace OpenPmsDentalBusiness{
 		///The object is Word's "Word.Application" automation object, late bound: callers use it as dynamic.</summary>
 		public static object GetWordApp() {
 			Meth.NoCheckMiddleTierRole();
+			bool isWordNew=false;
 			if(_word_Application==null) {
 				_word_Application=CreateWordApp();
+				isWordNew=true;
 			}
 			try {
 				_word_Application.GetType().InvokeMember("Activate",BindingFlags.InvokeMethod,null,_word_Application,null);
 			}
+			catch(Exception ex) when(isWordNew && GetWordRegistrationErrorHResult(ex)!=0) {
+				//The Word just started fails its first call because its registration is broken. Another start would meet the same registration
+				//and leave a second Word running before the message, so release this one and give the message now (CLEAN-1).
+				ReleaseWordApp();
+				throw CreateWordRegistrationException(ex);
+			}
 			catch {
+				//The object of an earlier call no longer works (the user closed Word, for example): start Word again.
 				_word_Application=CreateWordApp();
 				try {
 					_word_Application.GetType().InvokeMember("Activate",BindingFlags.InvokeMethod,null,_word_Application,null);
 				}
 				catch(Exception ex) when(GetWordRegistrationErrorHResult(ex)!=0) {
-					_word_Application=null;
+					ReleaseWordApp();
 					throw CreateWordRegistrationException(ex);
 				}
 			}
 			return _word_Application;
+		}
+
+		///<summary>Releases the kept Word object (it failed with a registration error) and keeps none, so the next call starts Word again. Never
+		///throws.</summary>
+		private static void ReleaseWordApp() {
+			object application=_word_Application;
+			_word_Application=null;
+			if(ActionReleaseWordAppForTests!=null) {
+				ActionReleaseWordAppForTests(application);
+				return;
+			}
+			try {
+				if(application!=null && System.Runtime.InteropServices.Marshal.IsComObject(application)) {
+					System.Runtime.InteropServices.Marshal.ReleaseComObject(application);
+				}
+			}
+			catch(Exception exRelease) {
+				CodeBase.ODExceptionExtensions.DoNothing(exRelease);
+			}
 		}
 
 		///<summary>Starts the word processor registered for "Word.Application" and makes it visible. Throws if none is installed, and a
