@@ -28,6 +28,8 @@ using System.Runtime.InteropServices;
 [assembly: InternalsVisibleTo("InventoryTests")]
 // The EHR tests reach the value-set import's test seam (a failure while the rows are written).
 [assembly: InternalsVisibleTo("EhrTests")]
+// The N64-A tests reach Word's test seams (a fake Word object; Word is never started) (CLEAN-1).
+[assembly: InternalsVisibleTo("N64ATests")]
 
 // Version information for an assembly consists of the following four values:
 //

@@ -75,6 +75,10 @@ namespace OpenPmsDentalBusiness{
 
 #if !DISABLE_MICROSOFT_OFFICE
 		private static object _word_Application;
+		///<summary>Tests only (CLEAN-1): when set, CreateWordApp returns what this returns instead of starting Word.</summary>
+		internal static Func<object> FuncCreateWordAppForTests;
+		///<summary>Tests only (CLEAN-1): when set, ReleaseWordApp passes the object to this instead of releasing it.</summary>
+		internal static Action<object> ActionReleaseWordAppForTests;
 
 		///<summary>This is a static reference to a word application. That way, we can reuse it instead of having to reopen Word each time. Surround with try/catch. Will throw exception if Word is not installed.
 		///The object is Word's "Word.Application" automation object, late bound: callers use it as dynamic.</summary>
@@ -102,6 +106,9 @@ namespace OpenPmsDentalBusiness{
 		///<summary>Starts the word processor registered for "Word.Application" and makes it visible. Throws if none is installed, and a
 		///WordRegistrationException with a clear message when Word's registration in Windows is broken (N64-A).</summary>
 		private static object CreateWordApp() {
+			if(FuncCreateWordAppForTests!=null) {
+				return FuncCreateWordAppForTests();
+			}
 			Type type=Type.GetTypeFromProgID("Word.Application");
 			if(type==null) {
 				throw new ApplicationException("Microsoft Word is not installed.");
