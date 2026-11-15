@@ -11809,6 +11809,8 @@ HAVING cnt>1";
 			int countMoved=0;
 			int countErrors=0;
 			for(int i=0;i<listFileNamesIn.Count;i++){
+				//Run from Database Maintenance's progress window that the user cancelled: move no further file (S3a-1b). A no-op elsewhere.
+				ODCancellation.ThrowIfCancellationRequested();
 				string fileNameNew=listFileNamesIn[i].Replace(charSeparator+"In_",charSeparator+"In"+charSeparator);
 				try {
 					FileAtoZ.Move(listFileNamesIn[i],fileNameNew);
@@ -11821,6 +11823,7 @@ HAVING cnt>1";
 				countMoved++;
 			}
 			for(int i=0;i<listFileNamesOut.Count;i++){
+				ODCancellation.ThrowIfCancellationRequested();//As above (S3a-1b).
 				string fileNameNew=listFileNamesOut[i].Replace(charSeparator+"Out_",charSeparator+"Out"+charSeparator);
 				try {
 					FileAtoZ.Move(listFileNamesOut[i],fileNameNew);
@@ -12184,6 +12187,8 @@ HAVING cnt>1";
 			//Delete all the attachment files within the images folder that aren't linked to a email message.
 			ODEvent.Fire(ODEventType.ProgressBar,Lans.g("DatabaseMaintenance","Deleting unlinked attachments in the EmailAttachments folder..."));
 			for(int i=0;i<listAttachmentFilesToDelete.Count;i++) {
+				//Run from Database Maintenance's progress window that the user cancelled: delete no further file (S3a-1b). A no-op elsewhere.
+				ODCancellation.ThrowIfCancellationRequested();
 				try {
 					string attachFilePath=FileAtoZ.CombinePaths(attachPath,listAttachmentFilesToDelete[i]);
 					if(FileAtoZ.Exists(attachFilePath)) {
