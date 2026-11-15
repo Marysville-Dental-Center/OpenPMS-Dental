@@ -23,7 +23,7 @@ namespace M2MISCTests {
 		#region Helpers
 		///<summary>Runs the action on a new STA thread (WPF and WinForms windows need one) and waits for it. What the action throws is thrown again here.
 		///</summary>
-		private static void RunSta(Action action) {
+		internal static void RunSta(Action action) {
 			Exception exception=null;
 			Thread thread=new Thread(() => {
 				try {
@@ -53,7 +53,7 @@ namespace M2MISCTests {
 
 		///<summary>Shows progressWin on this (STA) thread. Once funcIsTimeToClose returns true, the progress window is closed the way the user's X
 		///closes it, from a timer on this thread (so inside the window's modal loop). Returns the exception ShowDialog threw, or null.</summary>
-		private static Exception ShowAndCloseWhen(ProgressWin progressWin,Func<FrmProgressAutoView,bool> funcIsTimeToClose) {
+		internal static Exception ShowAndCloseWhen(ProgressWin progressWin,Func<FrmProgressAutoView,bool> funcIsTimeToClose) {
 			System.Windows.Forms.Timer timer=null;
 			if(funcIsTimeToClose!=null) {
 				timer=new System.Windows.Forms.Timer();
@@ -86,7 +86,7 @@ namespace M2MISCTests {
 		}
 
 		///<summary>What the tests read of the open progress window.</summary>
-		private class FrmProgressAutoView {
+		internal class FrmProgressAutoView {
 			private readonly WpfControls.UI.FrmProgressAuto _frmProgressAuto;
 
 			public FrmProgressAutoView(FormFrame formFrame) {
