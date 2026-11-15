@@ -88,22 +88,93 @@ namespace OpenPmsDentalBusiness{
 			}
 			catch {
 				_word_Application=CreateWordApp();
-				_word_Application.GetType().InvokeMember("Activate",BindingFlags.InvokeMethod,null,_word_Application,null);
+				try {
+					_word_Application.GetType().InvokeMember("Activate",BindingFlags.InvokeMethod,null,_word_Application,null);
+				}
+				catch(Exception ex) when(GetWordRegistrationErrorHResult(ex)!=0) {
+					_word_Application=null;
+					throw CreateWordRegistrationException(ex);
+				}
 			}
 			return _word_Application;
 		}
 
-		///<summary>Starts the word processor registered for "Word.Application" and makes it visible. Throws if none is installed.</summary>
+		///<summary>Starts the word processor registered for "Word.Application" and makes it visible. Throws if none is installed, and a
+		///WordRegistrationException with a clear message when Word's registration in Windows is broken (N64-A).</summary>
 		private static object CreateWordApp() {
 			Type type=Type.GetTypeFromProgID("Word.Application");
 			if(type==null) {
 				throw new ApplicationException("Microsoft Word is not installed.");
 			}
-			object application=Activator.CreateInstance(type);
-			type.InvokeMember("Visible",BindingFlags.SetProperty,null,application,new object[] { true });
-			return application;
+			try {
+				object application=Activator.CreateInstance(type);
+				type.InvokeMember("Visible",BindingFlags.SetProperty,null,application,new object[] { true });
+				return application;
+			}
+			catch(Exception ex) when(GetWordRegistrationErrorHResult(ex)!=0) {
+				throw CreateWordRegistrationException(ex);
+			}
+		}
+
+		///<summary>The WordRegistrationException for ex, written to the log (Logger, sub folder Word) with the HRESULT and ex's text.</summary>
+		private static WordRegistrationException CreateWordRegistrationException(Exception ex) {
+			WordRegistrationException wordRegistrationException=new WordRegistrationException(GetWordRegistrationErrorHResult(ex),ex);
+			try {
+				CodeBase.Logger.WriteLine(wordRegistrationException.Message+" "+ex.GetType().Name+": "+ex.Message,"Word");
+			}
+			catch(Exception exLog) {
+				CodeBase.ODExceptionExtensions.DoNothing(exLog);
+			}
+			return wordRegistrationException;
 		}
 #endif
+
+		///<summary>The HRESULTs that mean Word's COM registration in Windows is broken rather than Word failing (N64-A, item A4 of
+		///docs/specs/native64-survey.md, row 9): the class or its server is not registered or cannot start, or the type library or an interface
+		///is not registered (orphaned TypeLib or Interface keys, for example after Office was changed from 32-bit to 64-bit or removed badly:
+		///https://learn.microsoft.com/en-us/office365/troubleshoot/administration/com-net-errors-after-migration). Word is reached out of process,
+		///so this program's bitness is not the cause and the 32-bit helper would meet the same registration.</summary>
+		public static readonly Dictionary<int,string> DictWordRegistrationErrors=new Dictionary<int,string> {
+			{ unchecked((int)0x80040154),"REGDB_E_CLASSNOTREG, class not registered" },
+			{ unchecked((int)0x80040155),"REGDB_E_IIDNOTREG, interface not registered" },
+			{ unchecked((int)0x800401F3),"CO_E_CLASSSTRING, invalid class string" },
+			{ unchecked((int)0x80080005),"CO_E_SERVER_EXEC_FAILURE, server execution failed" },
+			{ unchecked((int)0x80004002),"E_NOINTERFACE, no such interface supported" },
+			{ unchecked((int)0x8002801C),"TYPE_E_REGISTRYACCESS, error accessing the registry" },
+			{ unchecked((int)0x8002801D),"TYPE_E_LIBNOTREGISTERED, library not registered" },
+			{ unchecked((int)0x80029C4A),"TYPE_E_CANTLOADLIBRARY, error loading type library" },
+		};
+
+		///<summary>The HRESULT of ex, or of the first exception it wraps, that is one of DictWordRegistrationErrors (a COMException, or the
+		///InvalidCastException that a failed QueryInterface gives), or 0 when there is none.</summary>
+		public static int GetWordRegistrationErrorHResult(Exception ex) {
+			for(Exception exception=ex;exception!=null;exception=exception.InnerException) {
+				if((exception is System.Runtime.InteropServices.COMException || exception is InvalidCastException)
+					&& DictWordRegistrationErrors.ContainsKey(exception.HResult))
+				{
+					return exception.HResult;
+				}
+			}
+			return 0;
+		}
+
+		///<summary>The message for a broken Word registration with that HRESULT, naming it and what to do.</summary>
+		public static string GetWordRegistrationErrorText(int hResult) {
+			DictWordRegistrationErrors.TryGetValue(hResult,out string name);
+			return "Microsoft Word is installed, but its registration in Windows is broken, so this program cannot start it (0x"+hResult.ToString("X8")
+				+(string.IsNullOrEmpty(name) ? "" : ", "+name)+"). This often follows a change of Office between 32-bit and 64-bit or an incomplete "
+				+"removal of another Office version. Repair Office (Windows Settings, Apps, Microsoft Office, Modify, Quick Repair, then Online Repair "
+				+"if needed), then try again.";
+		}
+
+		///<summary>For a caller that could not start Word: the clear message of a WordRegistrationException (its Message), otherwise
+		///textDefault, the caller's own message as before.</summary>
+		public static string GetWordStartFailureText(Exception ex,string textDefault) {
+			if(ex is WordRegistrationException) {
+				return ex.Message;
+			}
+			return textDefault;
+		}
 		#endregion Word automation
 
 		///<summary>Inserts this lettermerge into database.</summary>
@@ -147,6 +218,18 @@ namespace OpenPmsDentalBusiness{
 
 
 
+	///<summary>Word is installed (its ProgID is registered) but cannot be started or called because its COM registration in Windows is broken
+	///(LetterMerges.DictWordRegistrationErrors). Message is the clear text for the user (LetterMerges.GetWordRegistrationErrorText).</summary>
+	public class WordRegistrationException:ApplicationException {
+		///<summary>The HRESULT that showed the broken registration.</summary>
+		public int HResultRegistration { get; }
+
+		public WordRegistrationException(int hResult,Exception innerException)
+			:base(LetterMerges.GetWordRegistrationErrorText(hResult),innerException)
+		{
+			HResultRegistration=hResult;
+		}
+	}
 }
 
 
