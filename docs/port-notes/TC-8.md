@@ -191,6 +191,10 @@ afterwards.
 - **`tc8-targeted-docs.txt`** (after the docs commit; the projects whose tests read `docs/owner-questions.md`, `docs/release-notes/next.md`
   or the plan): BSHELLTests 73, DbConnectionSecurityTests 250 (3 skipped), InventoryTests 93, LibraryBindingTests 20, ODOPTSTests 57,
   P262SchemaTests 28 (4 skipped), PdfLibraryTests 41, ReleaseFlowTests 206 (5 skipped) and NoHqTests 110: all passed.
+- **`tc8-2-targeted.txt`** (review fix round, the medical wording kept, after a full build with 0 errors): ToothChartImageTests 254 (250
+  passed, 4 skipped), ToothChartHostTests 15 (14 passed, 1 skipped), BINATests 34, BPERIOTests 55, M2SHEETSTests 53, SheetTests 31, BTPTests 38,
+  BPRINTTests 71, ChartLetterTests 45, NoHqTests 110, LibraryBindingTests 20, S3aM1Tests 61, ProjectFileTests 150 (1 skipped), InventoryTests
+  93, ODOPTSTests 57 and ReleaseFlowTests 206 (5 skipped): all passed, 0 failed.
 - Not run: InitSqlTests and ForkMigrationTests (the coordinator's), and `tests/WindowChecksTests`, which starts the program (section 6).
 - `tools/Test-NoEolFlips.ps1` against `main` (merge base `e2fc2306f`), after the docs: 23 changed text files, none changed its line ends.
 
