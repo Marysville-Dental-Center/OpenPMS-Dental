@@ -50,7 +50,7 @@ What this version brings, each in its section below (the roadmap's "Done in the 
 - two new entries in Help > About > View Licenses, Helix Toolkit and the .NET Community Toolkit: libraries for the coming 3D tooth chart,
   installed with the program from this version on (the tooth chart itself does not change yet);
 - the tooth chart: completed extractions shown with an X if the office chooses (Open Dental 26.2), the paint type TextBelow (Open Dental
-  26.2), the text of text procedures, and free text, drawn by the Simple 2D chart now and by the coming 3D chart.
+  26.2), the text of text procedures, and free text; the X shows on every chart, the texts on Simple 2D now and on the coming 3D chart.
 
 The update adds this program's own tables to the database (14 tables, none of Open Dental's schema: five for routine maintenance, seven for
 inventory tracking, one for SSH host keys, one for the EHR value sets); they start empty, except the stock ledger's opening rows (Inventory tracking, below). It also
@@ -641,8 +641,10 @@ documents (`docs/port-notes/P262-PERIO.md`). No database change.
   When it is on, the tooth stays missing and the big X is drawn over its place in the colour of the extraction's status (C, EC or EO), in the
   Chart module, the big chart, the Treatment Plan printout, sheets and the Patient Dashboard. One setting for the whole office: a change is
   recorded in the Audit Trail (Setup), and the other workstations pick it up. The Chart module's date slider works as before: an extraction
-  completed after the slider's date shows as planned, and one planned after it does not show. Open Dental's own name for this setting is not
-  public, so an office that comes from Open Dental 26.2 turns it on again here.
+  completed after the slider's date shows as planned, and one planned after it does not show. Where a completed implant, or the pontic of a
+  completed bridge or denture, now stands in the extracted tooth's place, the chart shows the implant or the pontic and no X over it; under a
+  planned implant or bridge the X stays, and a planned extraction always shows its X. Open Dental's own name for this setting is not public,
+  so an office that comes from Open Dental 26.2 turns it on again here.
 - **Text procedures (paint type Text).** A procedure code with the paint type Text and a paint text other than "W" now shows that text on the
   tooth, centred on the crown, in the procedure's colour. "W" stays the watch mark.
 - **TextBelow (paint type 18, Open Dental 26.2).** The procedure code windows now offer TextBelow, with its paint text (the paint text box

@@ -2,12 +2,14 @@
 
 Package TC-5 of the WPF tooth chart track ([docs/specs/wpf-tooth-chart-plan.md](../specs/wpf-tooth-chart-plan.md), the TC-5 row of
 section 4; sections 2, 3, 5, 7, 8 and 10, owner answers O-20, O-21 and O-22 decided as recommended): branch `chart/tc5-1` from `main`
-(`b8e931cea`). **Status: done; waiting for the owner's approval of gallery G2** (section 3), after which it merges. Nothing was downloaded
-and no program was started; the tests ran in the lead's desktop session as the chart's other tests do.
+(`b8e931cea`), then fix round 1 of the review on `chart/tc5-2`. **Status: done; waiting for the owner's approval of gallery G2** (section
+3, its second version), after which it merges. Nothing was downloaded and no program was started; the tests ran in the lead's desktop
+session as the chart's other tests do.
 
 Commits: `61f9b4f12` (this note's first part, the setting's business class, TextBelow in the paint type lists), `627d1ddb6` (the drawing,
 the text mover, the relay and painter, the Chart preferences page), `35fdc50ac` (a fix the tests found, and free text on the nearest
-pixel), `74134ffd4` (tests, scenes, baselines, call logs), `6ce016b89` (parity allowances), then the docs commit with this note.
+pixel), `74134ffd4` (tests, scenes, baselines, call logs), `6ce016b89` (parity allowances), `ebda24a76` (this note). Fix round 1:
+`fd85e4a59` (the code), `06b17717a` (tests and scenes), `a6df3a9eb` (baselines and parity allowances), then the docs commit.
 
 ## 1. What the row asks, and how it is built
 
@@ -27,8 +29,22 @@ pixel), `74134ffd4` (tests, scenes, baselines, call logs), `6ce016b89` (parity a
   label follows the mouse, and the release raises `ToothChartWrapper.TextMoved` with the label's number and its new top left in the 410x307
   space. TC-2's relay helper (`ToothChartRelay.MoveTextLabel`) clamps and rounds the point, and `ControlChart` saves the label and refills.
   A press that is not on a label does nothing. The shared mouse class (`ToothChartMouse`) does this for the image host and for the live view.
-- The 2D chart (`ToothChart2D`) draws the labels with `DrawString` in its own font. It does not move them: its mouse code stays its own (a
-  difference the plan keeps for the 2D chart's other tools too).
+  The press does not change the label's point (fix round 1): the first move puts the label at the point it is drawn at plus the drag, so a
+  press that never reaches the release (the mouse capture lost, a dialog, Alt-Tab) leaves the chart's data as it was.
+- The 2D chart (`ToothChart2D`) draws the labels with `DrawString` in the control's own font. It does not move them: its mouse code stays its
+  own (a difference the plan keeps for the 2D chart's other tools too).
+- **The 2D chart's text size.** The 2D chart draws all of TC-5's text (free text, paint text in bold, TextBelow) in the control's fixed
+  font, Microsoft Sans Serif 8.25 pt, at every chart size, as it draws its own tooth numbers and its "W" watch mark; it is not scaled as the
+  WPF chart's text is (14 or 13 pixels times the pixel scale ratio). It measures and draws with `StringFormat.GenericTypographic`
+  (`ToothChart2D.CreateTextFormat`), without the padding `GenericDefault` adds on each side, so a text is about as wide as the WPF chart
+  measures it at 410x307 and both charts cut TextBelow alike. Measured by `TextDrawingTests.TextSizes_The2DChartsFontIsFixed_TheWpfChartsScales`:
+
+  | Chart size (ratio) | 2D: cell, "IMP", "Upper right" | WPF TextBelow: cell, "IMP" | WPF free text: cell, "Upper right" |
+  |---|---|---|---|
+  | 410x307 (1) | 13 px, 19.6 px, 54.3 px | 13 px, 19 px | 14 px, 53 px |
+  | 926x858 (2.259) | 13 px, 19.6 px, 54.3 px | 29 px, 44 px | 32 px, 134 px |
+
+  So at the Chart module's size the two charts' text is about the same size; in the big chart window the 2D chart's text stays small.
 
 ### 1.2 Paint type Text (15) with text other than "W" (O-22)
 
@@ -37,6 +53,7 @@ pixel), `74134ffd4` (tests, scenes, baselines, call logs), `6ce016b89` (parity a
 - The WPF chart centres it on the tooth's facial view, on the crown, in the procedure's colour, in bold Arial with a cell height of 13 pixels
   times the ratio. It follows the tooth's mesial shift as the watch mark does. A primary tooth's text shows only when the primary tooth is
   shown. A missing tooth's text still shows, as its watch mark does.
+- The 2D chart centres it at the same point, in bold in its fixed font (1.1).
 
 ### 1.3 TextBelow (18) (O-21)
 
@@ -47,6 +64,10 @@ pixel), `74134ffd4` (tests, scenes, baselines, call logs), `6ce016b89` (parity a
   characters are dropped from the end until the text is no wider than the tooth's place in the layout (its width in
   `ToothGraphic.GetWidth`). The picture keeps its size, so every sheet field keeps its aspect. On a tooth that also has a watch mark (which
   sits in the same band), the text moves in by one line, so both show.
+- The 2D chart draws it in the same bands, in its fixed font (1.1), and cuts it by the same rule: `ToothChart2D.GetTextBelowFitted` drops
+  characters while the typographic width is more than `floor(GetWidth * ScaleMmToPix)` pixels, as `ToothSceneBuilder.GetTextBelowFitted`
+  does with `floor(GetWidth * pixels per mm)`. In round 1 the 2D chart measured with `GenericDefault`'s padding and cut one character more
+  ("IM" for "IMP" on 12 and 21 at 410x307); `TextBelowFitted_The2DChartCutsAsTheWpfChart_ImpOn12And21IsNotCut` pins the fix.
 - `ProcedureCodes.GetPaintTypesForList` now lists TextBelow, and the procedure code window shows the paint text box for both Text and
   TextBelow. `FormProcCodeNew` casts the list index to the paint type, which stays valid because the values are 0 to 18 with no gap and
   TextBelow is the last; `PaintTypeListTests` pins this.
@@ -57,6 +78,8 @@ pixel), `74134ffd4` (tests, scenes, baselines, call logs), `6ce016b89` (parity a
   `OpenPmsDentalBusiness/Logic/ToothChartExtractionGraphic.cs`, read and written by name (`PrefC.GetRawOrDefault`, `PrefC.UpsertRaw`), as
   `RecallProphyPerioSwitch` does. It is not in `PrefName`, and a missing row reads as off, so there is no `Pref.cs`, `PrefInfos.xml`,
   convert-script or migration change, and no adoption change (Open Dental 25.3.48 has no such setting).
+- The check box has no `PrefInfos.xml` entry either (the plan, review row 10), so the Preferences window gives it no help text; that is as
+  planned.
 - Setup > Preferences > Chart - General has the check box "Show completed extractions with an X on the tooth chart". Saving the page saves
   it with an audit line (Setup) when it changed; the page's `Changed` flag makes the Preferences window send the preference signal, and the
   Chart module's settings snapshot includes the setting, so the chart redraws.
@@ -64,6 +87,17 @@ pixel), `74134ffd4` (tests, scenes, baselines, call logs), `6ce016b89` (parity a
   extraction (C, EC or EO) is no longer skipped: it draws the big X in its status's colour, and the tooth stays missing (its missing initial
   hides it, as before). Every caller paints through that one painter, so the Chart module, the big chart, the Treatment Plan printout, sheets
   and the Patient Dashboard all show it.
+- **No X under a completed implant or pontic** (fix round 1). Where something completed now stands in the extracted tooth's place, the chart
+  shows that and not the X: before its loop the painter collects the teeth with a completed (C, EC or EO) implant (paint type Implant), and
+  the teeth that are missing or hidden under a completed bridge (BridgeDark, BridgeLight) or denture (DentureDark, DentureLight), which it
+  draws as pontics (`ToothChartPainter.GetToothNumsReplaced`); a completed extraction on one of them draws no X. A planned extraction always
+  draws its X, and so does a completed one under a planned implant or bridge or under a hidden procedure. The list is the one the painter
+  draws, so in the Chart module it is after the date slider: an implant completed after the slider's date is drawn as planned there and does
+  not hide the X. The painter feeds every engine (WPF, 2D, DirectX and OpenGL), so they all follow the rule. Scenes
+  `extraction-completed-graphic-under-implant` and `extraction-completed-graphic-under-pontic` show it, and the call-log test
+  `ExtractionGraphic_NoXUnderACompletedImplantOrPontic_APlannedOneKeepsIt` (which fails without the change) pins it.
+- A completed primary extraction's X is drawn at the primary tooth's place, over the permanent tooth beneath, as a planned one is (scene
+  `extraction-completed-graphic-primary`: A and T completed, K planned).
 - The Chart module's date slider is unchanged: the procedure filter already drops an extraction whose dates the slider has not reached, and
   shows one completed after the slider date as planned (`ShouldRowShowGraphical`), so it gets the planned X in either setting.
 - The 2D chart draws the X with its existing lines (`ToothChart2D.DrawFacialView`).
@@ -80,7 +114,8 @@ pixel), `74134ffd4` (tests, scenes, baselines, call logs), `6ce016b89` (parity a
   `Wpf3D/ToothSceneBuilder.cs` (the three kinds of text, `GetFreeTextBoxes`, their fonts), `Wpf3D/ToothChartImageHost.cs` and
   `Wpf3D/ToothChartWpfView.cs` (`TextMoved` passed on).
 - **Edited, relay:** `WpfControlsOD/UI/ToothChart/ToothChartRelay.cs` (`AddText`, `SetText`, the new `SetTextBelow` at the end of the
-  relay, `IToothChartPaintTarget.SetTextBelow`, the painter's TextBelow case and completed-extraction skip, the settings snapshot).
+  relay, `IToothChartPaintTarget.SetTextBelow`, the painter's TextBelow case and completed-extraction skip with `GetToothNumsReplaced`, the
+  settings snapshot).
 - **Edited, program and business layer:** `ProcedureCodes.cs` (`GetPaintTypesForList`), `FormProcCodeEdit.cs`, `FormProcCodeNew.cs`
   (comment), `UserControlChartGeneral.cs`/`.Designer.cs`, `Enumerations.cs` (`TextBelow`'s summary).
 - **Edited, tests:** `tests/P262SchemaTests/PaintTypeListTests.cs`; in `tests/ToothChartImageTests`: `Scenes/ChartScenes.cs` (new scenes,
@@ -118,9 +153,18 @@ pixel), `74134ffd4` (tests, scenes, baselines, call logs), `6ce016b89` (parity a
 - **Call logs**: every caller's logs re-recorded; the only changed lines are the Paint fixtures' TextBelow procedure, which now logs
   `SetTextBelow` (it logged nothing before), and the header counts. New logs with the setting on: the Chart module (`Paint_Today` and every
   slider date), the Treatment Plan printout, sheets, the dashboard and the big chart.
-- **Images**: `ChartScenes_MatchTheWpfBaselines` with the 31 new or re-recorded WPF pictures; `Simple2DImageTests` gates the 2D chart's
-  pictures of the 14 scenes with TC-5 drawing (28 at the standard sizes, 31 with `text-all-kinds`' extra sizes) and checks that the older ones
-  now differ from TC-0's 2D recording; `Scenes_DrawDifferentPictures_InSimple2D` moves the text scenes to the drawn list.
+- **Images**: `ChartScenes_MatchTheWpfBaselines` with the 35 new or re-recorded WPF pictures; `Simple2DImageTests` gates the 2D chart's
+  pictures of the 16 scenes with TC-5 drawing (32 at the standard sizes, 35 with `text-all-kinds`' extra sizes) and checks that the older ones
+  now differ from TC-0's 2D recording; `Scenes_DrawDifferentPictures_InSimple2D` moves the text scenes to the drawn list. The
+  `simple2d-net48` baselines pin GDI+ text drawn with ClearType (`TextRenderingHint.ClearTypeGridFit`) under this PC's ClearType settings
+  (font smoothing, ClearType tuning, DPI); on another PC the text's pixels may differ. Re-record them there (`OPMS_RECORD_2D_CHART=1`)
+  rather than treat such a difference as a defect.
+- **Fix round 1** (`TextDrawingTests`, `TextAndExtractionDbTests`): the 2D chart's TextBelow cut equals the WPF chart's for "IMP" on 12 and
+  21 at 410x307; the 2D and WPF text sizes (1.1); a MoveText press with no move and no release keeps the label's stored point; the painter
+  draws no X under a completed implant, bridge pontic or denture pontic and keeps it under planned or hidden ones; a source pin of the Chart
+  module's `toothChartRelay_TextMoved` (the `Find` of the text label, `ToothChartRelay.MoveTextLabel(toothInitial,e.Location)`,
+  `ToothInitials.Update(toothInitial)`, `FillToothChart(retainSelection:true)`, in that order) and of its subscription
+  `_toothChartRelay.TextMoved+=toothChartRelay_TextMoved;`, because the round trip's `TextMoved` handler is a copy of it.
 - **P262SchemaTests** (`PaintTypeListTests`): every paint type in number order, TextBelow last with no gap (the cast of `FormProcCodeNew`),
   the same list whatever the code has, and the paint text box for Text and TextBelow in the window's source.
 
@@ -131,11 +175,15 @@ pixel), `74134ffd4` (tests, scenes, baselines, call logs), `6ce016b89` (parity a
   pictures (the parity probes' target) draw nothing for it, so the parity probes' allowance lists name what the new drawing covers, each
   with its reason ("new drawing, not a difference of look"): the facial surface probes of the teeth whose paint text covers the probe's centre
   (`text-other` 14 and 19, `text-other-eo-r` 5 and 28; the text of 3 and 30 misses it), and the upper numbers' ink boxes of
-  `text-label-long`, whose label runs along that row (its black ink joins the numbers' ink in the search box). The TextBelow bands and the
-  other labels miss every probe.
-- **New (17):** `extraction-completed-graphic`, `extraction-completed-graphic-primary`, `text-below-with-watch`, `text-below-cut-to-fit`,
-  `text-other-moved-and-missing`, `text-label-past-edge` at 410x307 and 500x370, and `text-all-kinds` at those and 926x858, 640x320 and
-  360x480.
+  `text-label-long`, whose label runs along that row (its black ink joins the numbers' ink in the search box): one allowance per number,
+  numbers 5, 9 and 11 at 410x307 and numbers 2 to 12 at 500x370, the numbers that fail with no allowance (fix round 1 replaced round 1's
+  wildcard, which would have let any number of the scene move). The TextBelow bands and the other labels miss every probe.
+- **New (21):** `extraction-completed-graphic`, `extraction-completed-graphic-primary`, `extraction-completed-graphic-under-implant`,
+  `extraction-completed-graphic-under-pontic` (fix round 1), `text-below-with-watch`, `text-below-cut-to-fit`, `text-other-moved-and-missing`,
+  `text-label-past-edge` at 410x307 and 500x370, and `text-all-kinds` at those and 926x858, 640x320 and 360x480.
+- **Simple 2D (fix round 1):** with the typographic measure, 25 of round 1's 31 pictures were re-recorded (the extraction-only scenes and
+  `text-below-with-watch` kept their pixels: an uncut text away from the edge lands where it did, because the padding was the same on both
+  sides), and the two new scenes added (35 pictures).
 - Every other WPF baseline is unchanged: a recording of every scene into a scratch folder gave the committed pixel SHA-256 for all of them,
   so only these files and the manifest's rows for them change. The new `.txt` files have the two lines of TC-1's fix round ("Fresh render",
   "Screen DPI seen by the test host"); every re-recorded and new picture was repeatable and gave the same pixels in a fresh render.
@@ -198,10 +246,12 @@ down. Do every step once at 100% display scale and once at 150%.
    at first). Setup > Preferences > Chart - General: tick "Show completed extractions with an X on the tooth chart", OK. *Expected:* the
    Chart module redraws and shows the X over 30's place in the completed colour; Audit Trail (Setup) has "Show completed extractions with an X
    on the tooth chart changed from 'False' to 'True'". On a second workstation (or after its next refresh) the X shows too. Move the date
-   slider before the extraction's completion date: *Expected:* the X in the planned colour and tooth 30 back, as before. Untick the setting:
-   *Expected:* the X is gone.
+   slider before the extraction's completion date: *Expected:* the X in the planned colour and tooth 30 back, as before. Move the slider back
+   to today. Chart an implant on 30 as treatment-planned: *Expected:* the X stays over the planned implant. Set the implant complete:
+   *Expected:* the implant shows and the X is gone. Untick the setting: *Expected:* no X anywhere.
 10. **Printouts.** With the setting on and the texts above, open the Treatment Plan print preview and a sheet with a tooth chart.
     *Expected:* the X and the texts show there too (both use the same painter and the WPF chart's picture).
 11. **The 2D chart.** Setup > Graphics: choose Simple 2D, restart. *Expected:* the free text, `Fx`, `IMP` and the X show in the 2D chart;
-    free text cannot be moved there (as planned). Set Graphics back.
+    free text cannot be moved there (as planned). In the big chart window the 2D chart's text keeps its small size (as its tooth numbers
+    do). Set Graphics back.
 12. **Write down:** for each step, as expected or what differed, with a screenshot of anything that differed (synthetic data only).

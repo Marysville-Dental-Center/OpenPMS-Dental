@@ -408,7 +408,8 @@ packages; an unlocked restore of the whole slnf gave no NU warning and changed 4
 analyzers; the release ships eight new files (four Helix, three .NET Community Toolkit, System.ComponentModel.Annotations), each noticed, and no
 System.Net.Http or other 4.3.x file. The rules for the chart's Helix use are in the TC-4 row and in `docs/port-notes/TC-4.md`.
 
-**TC-5 (2026-11-14, branch `chart/tc5-1`): free text, the text paint types and the extraction graphic; gallery G2 waits for the owner.**
+**TC-5 (2026-11-14, branch `chart/tc5-1`, fix round 1 on `chart/tc5-2`): free text, the text paint types and the extraction graphic;
+gallery G2 (its second version) waits for the owner.**
 `docs/port-notes/TC-5.md` has the details and launch check L-5 written for a person. In short:
 - The WPF chart and the 2D chart draw free text (last, over everything, kept inside the picture), paint type Text other than "W" on the
   crown (O-22) and TextBelow in a band at the picture's edge, cut to fit the tooth and one line further in under a watch mark (O-21). The
@@ -416,11 +417,14 @@ System.Net.Http or other 4.3.x file. The rules for the chart's Helix use are in 
   the 2D chart draws but does not move labels. DirectX and OpenGL draw none of it until TC-9a retires them.
 - The extraction graphic (O-20) is `ForkToothChartShowCompletedExtractions` in `ToothChartExtractionGraphic`, read and written by name, off
   when the row is missing; the Chart preferences page's check box saves it with an audit line and the preference signal, and the settings
-  snapshot redraws the Chart module. With it on, the painter draws a completed extraction's X in its status's colour over the missing tooth.
+  snapshot redraws the Chart module. With it on, the painter draws a completed extraction's X in its status's colour over the missing tooth,
+  except where a completed implant or a completed bridge's or denture's pontic fills the tooth's place (fix round 1).
+- The 2D chart draws its TC-5 text in its fixed 8.25 pt font at every size, as its tooth numbers, measured without GDI+'s padding so it
+  cuts TextBelow as the WPF chart does (fix round 1).
 - `GetPaintTypesForList` lists TextBelow; the paint text box shows for Text and TextBelow.
 - New scenes carry `HasLegacyRecording=false` (the old engines never drew them), so the DirectX parity probes and the legacy recorder leave
-  them out. 14 WPF baselines were re-recorded (the older text scenes, whose drawing this package adds) and 17 added; the other WPF baselines
-  are unchanged. `Baselines/simple2d-net48` gates the 2D chart's TC-5 drawing.
+  them out. 14 WPF baselines were re-recorded (the older text scenes, whose drawing this package adds) and 21 added; the other WPF baselines
+  are unchanged. `Baselines/simple2d-net48` gates the 2D chart's TC-5 drawing (35 pictures).
 
 **Why not a separate branch.** The chart must not drift from the stages' rewrites of `ControlChart.cs` and the release files. Dark
 merges keep it on `main`, and the gallery approval comes before each merge (O-27).
