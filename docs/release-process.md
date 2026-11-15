@@ -98,7 +98,7 @@ The **update server** is the workstation named in the `WebServiceServerName` pre
 
 1. Build the solution in Release. `OpenPmsDental.csproj` copies `UpdateFileCopier.exe` next to `OpenPmsDental.exe`, because every release ships it.
 2. Install the build on the update server with its setup ([Building the installer](#building-the-installer)), and start it as an administrator. Builds from before the rename to `OpenPmsDental.exe` (2026-11-01) cannot be upgraded in place, because UpdateFileCopier never deletes the exe and DLLs of the old names: install a renamed build into a clean folder ([port-notes/RENAME.md](port-notes/RENAME.md)). The first release after 0.0 is published only when 0.0 is uninstalled on every workstation: until then, click Cancel at the publish offer below ([db-connection-security.md](db-connection-security.md), section 0).
-3. At startup, `PrefL.CheckProgramVersion` sees that this build isn't the published one and asks whether to publish it. If you click Cancel, this workstation runs the build without publishing it. Update Setup's Recopy button publishes the running build at any time, under the same rules: with a blank `WebServiceServerName` it refuses to replace a different published build that this one isn't known to be newer than. A silent run publishes only when nothing is published yet. It never replaces a published release, because nobody is asked.
+3. At startup, `PrefL.CheckProgramVersion` sees that this build isn't the published one and asks whether to publish it. If you click Cancel, this workstation runs the build without publishing it. Update Setup's Recopy button publishes the running build at any time, under the same rules: with a blank `WebServiceServerName` it refuses to replace a different published build that this one isn't known to be newer than. A silent run publishes only when nothing is published yet. It never replaces a published release, because nobody is asked. On the named update server, Recopy also replaces a published release whose manifest cannot be read, after asking (see [A manifest that cannot be read](#a-manifest-that-cannot-be-read)).
 4. Publishing (`ForkReleases.Publish`) works like this:
    - While it runs, `UpdateInProgressOnComputerName` is set, so other workstations wait.
    - It zips the installation folder, except local files: `FreeDentalConfig.xml`, logs, files with `__` in the name, and Open Dental's `Manifest.txt`. The `OpenDentalReplicationService` sub folder is included (a `Sparks3D` folder no longer is: Sparks3D was removed in BIN-A).
@@ -130,6 +130,18 @@ the switch itself (section 10 step 3 of [specs/net10-plan.md](specs/net10-plan.m
 release by the usual rules for publishing (the named update server, or a newer build with a blank `WebServiceServerName`), at its first
 start after the new setup or through Recopy, and writes its `Runtime` line so the .NET Framework workstations refuse it. It never pulls a
 .NET Framework release, and no .NET Framework build ever publishes over a .NET release.
+
+### A manifest that cannot be read
+
+If the published manifest row is really damaged (it is written last and in one statement, so a broken publish leaves the old row), the
+named update server can replace it (S3a-10f, the owner's decision of 2026-11-15; [port-notes/S3a-10.md](port-notes/S3a-10.md) section 12).
+At startup its message about the unreadable manifest ends with "Recopy in Update Setup offers to replace the published release with this
+build". Update Setup > Recopy on that computer then asks, Yes/No with No as the default, whether to replace it: Yes deletes the
+`documentmisc` rows of types 100 and 101 and publishes this build as for a first release, and the other workstations update to it when
+they start. A security log entry (Update Install) records the replacement and the reason. No changes nothing. Answer No when a newer
+version of the program may have published that release (a newer version installed on another computer): its manifest is unreadable to an
+older build, and Yes would replace it with the older build. Nothing else ever replaces it: a silent run, startup, a blank
+`WebServiceServerName` and every other workstation only refuse, as above.
 
 ### What the other workstations do
 
@@ -200,7 +212,9 @@ vstest.console.exe tests/ReleaseFlowTests/bin/Debug/ReleaseFlowTests.dll /Platfo
 - The release-channel guards (S3a-10): the `Runtime` and runtime part lines; an unreadable, a foreign and a .NET 10 manifest refused for
   every update server role and never downloaded; UpdateFileCopier's files copied and the copier started through ShellExecute; the
   execution level, versions and icon of every staged `.exe` against the net48 record (`ApphostResourceTests`, inconclusive without a
-  Release build).
+  Release build, and with a stale one: an exe missing or older than the newest commit to its project).
+- Recopy over an unreadable manifest (S3a-10f, `ReplaceUnreadableDbTests`): on the named update server Yes replaces the rows and logs it,
+  No changes nothing; another workstation, a blank `WebServiceServerName` and a silent run are never asked.
 - The publish/pull decision for the named, blank and other update server cases, with and without build times; the restart rule of `IsDbConnectionSafe`; and the build time stamped into `OpenPmsDental.exe`.
 - An adopted copy with only `ForkSchemaLevel`, or `ForkSchemaLevel` and `OdSchemaCompat`, removed: refused (exit 173) and never adopted again.
 - Source checks: `OpenPmsDental.exe` reports `0.0` and `24.3.63.0`; the legacy chain is frozen; the guard code has no Debug bypass; Open Dental's update file types are only ever deleted; no downgrade prompt; UpdateFileCopier checks the manifest before copying.

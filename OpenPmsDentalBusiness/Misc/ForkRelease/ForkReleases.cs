@@ -67,6 +67,30 @@ namespace OpenPmsDentalBusiness {
 		public string Message="";
 	}
 
+	///<summary>What Recopy did with a published manifest that is not readable (ForkReleases.ReplaceUnreadableRelease, S3a-10f).</summary>
+	public enum ReleaseReplaceOutcome {
+		///<summary>No offer: the published manifest is readable or none is published, this computer is not the named update server, or the run is
+		///silent. Nothing was asked and nothing changed; Recopy goes on with its usual rules (and refuses the unreadable manifest).</summary>
+		NotOffered,
+		///<summary>The person answered No. Nothing changed.</summary>
+		Declined,
+		///<summary>The published manifest changed while the question was shown (another computer published, or the row changed). Nothing was
+		///replaced.</summary>
+		Changed,
+		///<summary>The person answered Yes, but publishing did not finish (the caller showed why). The previous rows stay.</summary>
+		Failed,
+		///<summary>The rows of types ForkReleaseManifest and ForkReleaseSegment were replaced by this build, published as for a first release.</summary>
+		Replaced,
+	}
+
+	public class ReleaseReplaceResult {
+		public ReleaseReplaceOutcome Outcome;
+		///<summary>The manifest now published; null unless Replaced.</summary>
+		public ReleaseManifest Manifest;
+		///<summary>Why nothing was replaced, for Changed; "" otherwise.</summary>
+		public string Message="";
+	}
+
 	public class ReleaseDownloadResult {
 		public bool IsOk;
 		public ReleaseManifest Manifest;
@@ -421,6 +445,36 @@ namespace OpenPmsDentalBusiness {
 				+"tell the person who looks after the program, and do not publish a release until they have looked at it.";
 		}
 
+		///<summary>The question Recopy asks before it replaces a published manifest that is not readable (S3a-10f, the owner's decision of
+		///2026-11-15), or "" when it does not offer that: only on the named update server (WebServiceServerName is this computer), only for a
+		///manifest that is not readable or names another product (Decide's RefuseUnreadable: a null manifest with an error), and never in a silent
+		///run, so it is never automatic. Every other computer, and the blank WebServiceServerName, keeps refusing it as before.</summary>
+		public static string GetReplaceUnreadableQuestion(ReleaseManifest releaseManifestPublished,string errorPublished,
+			ReleaseIdentity releaseIdentityRunning,UpdateServerRole updateServerRole,bool isSilent)
+		{
+			if(isSilent || updateServerRole!=UpdateServerRole.ThisComputer || releaseManifestPublished!=null || string.IsNullOrEmpty(errorPublished)) {
+				return "";
+			}
+			return errorPublished+"\r\n\r\n"
+				+"This computer is the update server. Replace the published release with this build?\r\n"
+				+"Yes deletes the published release from the database (the release manifest and its archive: the documentmisc rows of types "
+				+(int)DocumentMiscType.ForkReleaseManifest+" and "+(int)DocumentMiscType.ForkReleaseSegment+") and publishes this build, "
+				+releaseIdentityRunning+", as for a first release. The other workstations then update to this build when they start.\r\n"
+				+"If a newer version of the program published that release (a newer version installed on another computer), click No: Yes would "
+				+"replace that release with this older build. Click Yes only when the person who looks after the program has looked at it.\r\n"
+				+"No changes nothing.";
+		}
+
+		///<summary>The line the startup message of RefuseUnreadable gets on the named update server, where Recopy offers to replace the manifest
+		///(GetReplaceUnreadableQuestion); "" wherever it does not.</summary>
+		public static string GetReplaceUnreadableHint(ReleaseManifest releaseManifestPublished,string errorPublished,UpdateServerRole updateServerRole) {
+			if(GetReplaceUnreadableQuestion(releaseManifestPublished,errorPublished,new ReleaseIdentity(),updateServerRole,isSilent:false)=="") {
+				return "";
+			}
+			return "This computer is the update server. Once that has been looked at, Recopy in Update Setup offers to replace the published "
+				+"release with this build.";
+		}
+
 		///<summary>A runtime for people: ".NET Framework 4.8 (win-x86)" or ".NET 10.0.14 (win-x64)"; another framework by its own name.</summary>
 		public static string DescribeRuntime(ReleaseRuntime releaseRuntime) {
 			string framework=releaseRuntime.Framework;
@@ -543,6 +597,59 @@ namespace OpenPmsDentalBusiness {
 			DocumentMiscs.ReplaceForkRelease(Convert.ToBase64String(Encoding.UTF8.GetBytes(releaseManifest.Serialize())),listSegments);
 			ForkVersions.SetMarker(ForkVersions.PREF_FORK_PROGRAM_VERSION,FormatProgramVersion(releaseIdentity));
 			return releaseManifest;
+		}
+
+		///<summary>Recopy over a published manifest that is not readable (S3a-10f, docs/port-notes/S3a-10.md section 12). When
+		///GetReplaceUnreadableQuestion offers it (the named update server, a manifest Decide refuses as RefuseUnreadable, not silent), asks
+		///funcConfirm with that question; on Yes it reads the manifest again, and only when it is still unreadable for the same reason it replaces
+		///the rows of types ForkReleaseManifest and ForkReleaseSegment with this build through Publish (as for a first release: Publish deletes every
+		///row of both types and writes the new ones) and writes a security log entry. funcConfirm is the seam the program answers with a Yes/No box
+		///whose default is No, and the tests answer themselves. funcRunPublish runs the publish (the program wraps it with
+		///UpdateInProgressOnComputerName and its progress window, and returns null when it failed); null runs Publish directly. Nothing is asked and
+		///nothing changes for NotOffered, Declined and Changed.</summary>
+		public static ReleaseReplaceResult ReplaceUnreadableRelease(string folder,ReleaseIdentity releaseIdentity,string publishedBy,string compName,
+			UpdateServerRole updateServerRole,bool isSilent,Func<string,bool> funcConfirm,
+			Func<Func<ReleaseManifest>,ReleaseManifest> funcRunPublish=null,DateTime? dateTimeUtc=null)
+		{
+			Meth.NoCheckMiddleTierRole();
+			ReleaseReplaceResult releaseReplaceResult=new ReleaseReplaceResult();
+			if(RemotingClient.MiddleTierRole==MiddleTierRole.ClientMT) {
+				return releaseReplaceResult;//Releases are published over a direct connection only (Publish); Recopy then refuses as before.
+			}
+			ReleaseManifest releaseManifestPublished=GetPublishedManifest(out string errorPublished);
+			string question=GetReplaceUnreadableQuestion(releaseManifestPublished,errorPublished,releaseIdentity,updateServerRole,isSilent);
+			if(question=="" || funcConfirm==null) {
+				return releaseReplaceResult;
+			}
+			if(!funcConfirm(question)) {
+				releaseReplaceResult.Outcome=ReleaseReplaceOutcome.Declined;
+				return releaseReplaceResult;
+			}
+			ReleaseManifest releaseManifestNow=GetPublishedManifest(out string errorNow);
+			if(releaseManifestNow!=null || errorNow!=errorPublished) {
+				releaseReplaceResult.Outcome=ReleaseReplaceOutcome.Changed;
+				releaseReplaceResult.Message="The published release changed while the question was shown, so nothing was replaced. Click Recopy again "
+					+"to see what is published now.";
+				return releaseReplaceResult;
+			}
+			Func<ReleaseManifest> funcPublish=() => Publish(folder,releaseIdentity,publishedBy,dateTimeUtc);
+			ReleaseManifest releaseManifest=funcRunPublish==null ? funcPublish() : funcRunPublish(funcPublish);
+			if(releaseManifest==null) {
+				releaseReplaceResult.Outcome=ReleaseReplaceOutcome.Failed;
+				return releaseReplaceResult;
+			}
+			SecurityLog securityLog=new SecurityLog();
+			securityLog.PermType=EnumPermType.UpdateInstall;
+			securityLog.UserNum=Security.CurUser?.UserNum??0;
+			securityLog.LogDateTime=DateTime.Now;
+			securityLog.LogText="Recopy on the update server replaced a published release manifest that was not readable ("+errorPublished
+				.Replace("\r"," ").Replace("\n"," ")+"). Release "+releaseIdentity+" published as for a first release with "+releaseManifest.ListFiles.Count
+				+" files.";
+			securityLog.CompName=compName??"";
+			SecurityLogs.MakeLogEntry(securityLog);
+			releaseReplaceResult.Outcome=ReleaseReplaceOutcome.Replaced;
+			releaseReplaceResult.Manifest=releaseManifest;
+			return releaseReplaceResult;
 		}
 		#endregion Publish
 

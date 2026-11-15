@@ -201,8 +201,10 @@ namespace ReleaseFlowTests {
 		}
 
 		///<summary>The folder whose .exe files are read: OPMS_RELEASE_STAGING, or the Release output Build-Release.ps1 stages from. Inconclusive
-		///when it has no Release build.</summary>
-		private static string GetReleaseFolder() {
+		///when it has no Release build, and when that build is stale (S3a-10f): it lacks one of the exe files (the staged ones, and in a compare
+		///run the record's too), or one of them was written before the newest commit that touched its project (the folder named as the exe) or
+		///SharedAssemblyInfo.cs. The message lists the exe files' write times. Without git the commit check is skipped.</summary>
+		internal static string GetReleaseFolder(List<string> listExeNames,bool isRecording) {
 			string folder=Environment.GetEnvironmentVariable(STAGING_VARIABLE);
 			if(string.IsNullOrWhiteSpace(folder)) {
 				folder=Path.Combine(TestPaths.RepoRoot,"OpenPmsDental","bin","Release");
@@ -212,10 +214,70 @@ namespace ReleaseFlowTests {
 					+"make: run the Release dry run first (tools\\Build-Release.ps1 -BuildLane <odbuild.ps1> -OutDir <folder> -SkipInstaller), as the "
 					+"stage gate does before the Full run.");
 			}
+			List<string> listNames=listExeNames.ToList();
+			if(!isRecording) {
+				listNames=listNames.Union(ReadRecord().Keys,StringComparer.OrdinalIgnoreCase).ToList();
+			}
+			listNames=listNames.OrderBy(x => x,StringComparer.OrdinalIgnoreCase).ToList();
+			List<string> listProblems=new List<string>();
+			List<string> listTimes=new List<string>();
+			foreach(string name in listNames) {
+				string path=Path.Combine(folder,name);
+				if(!File.Exists(path)) {
+					listProblems.Add(name+" is missing");
+					listTimes.Add(name+": missing");
+					continue;
+				}
+				DateTime dateTimeWriteUtc=File.GetLastWriteTimeUtc(path);
+				string project=Path.GetFileNameWithoutExtension(name);
+				DateTime? dateTimeCommitUtc=GetNewestCommitUtc(project,"SharedAssemblyInfo.cs");
+				listTimes.Add(name+": written "+FormatUtc(dateTimeWriteUtc)
+					+(dateTimeCommitUtc==null ? "" : ", newest commit touching "+project+" or SharedAssemblyInfo.cs "+FormatUtc(dateTimeCommitUtc.Value)));
+				if(dateTimeCommitUtc!=null && dateTimeWriteUtc<dateTimeCommitUtc.Value) {
+					listProblems.Add(name+" is older than the newest commit touching "+project);
+				}
+			}
+			if(listProblems.Count>0) {
+				Assert.Inconclusive("The Release build at "+folder+" is stale ("+string.Join("; ",listProblems)+"), so its resources say nothing about "
+					+"this commit: run tools/Build-Release.ps1 first (tools\\Build-Release.ps1 -BuildLane <odbuild.ps1> -OutDir <folder> -SkipInstaller), "
+					+"as the stage gate does before the Full run, then run this test again.\nWrite times of the exe files:\n"+string.Join("\n",listTimes));
+			}
 			return folder;
 		}
 
-		private static Dictionary<string,string> ReadRecord() {
+		private static string FormatUtc(DateTime dateTimeUtc) {
+			return dateTimeUtc.ToString("yyyy-MM-dd HH:mm:ss",CultureInfo.InvariantCulture)+" UTC";
+		}
+
+		///<summary>The committer time (UTC) of the newest commit that touched any of the paths (relative to the repository root), from git log. Null
+		///when git cannot tell (no git on the PATH, not a work tree, no such commit).</summary>
+		internal static DateTime? GetNewestCommitUtc(params string[] arrayPaths) {
+			ProcessStartInfo processStartInfo=new ProcessStartInfo("git.exe","log -1 --format=%ct -- "+string.Join(" ",arrayPaths.Select(x => "\""+x+"\"")));
+			processStartInfo.WorkingDirectory=TestPaths.RepoRoot;
+			processStartInfo.UseShellExecute=false;
+			processStartInfo.RedirectStandardOutput=true;
+			processStartInfo.RedirectStandardError=true;
+			processStartInfo.CreateNoWindow=true;
+			try {
+				using(Process process=Process.Start(processStartInfo)) {
+					System.Threading.Tasks.Task<string> taskError=process.StandardError.ReadToEndAsync();
+					string output=process.StandardOutput.ReadToEnd().Trim();
+					if(!process.WaitForExit(60000) || process.ExitCode!=0) {
+						return null;
+					}
+					long seconds;
+					if(!long.TryParse(output,NumberStyles.None,CultureInfo.InvariantCulture,out seconds)) {
+						return null;
+					}
+					return new DateTime(1970,1,1,0,0,0,DateTimeKind.Utc).AddSeconds(seconds);
+				}
+			}
+			catch(Win32Exception) {
+				return null;//No git.exe on the PATH.
+			}
+		}
+
+		internal static Dictionary<string,string> ReadRecord() {
 			Dictionary<string,string> dictLines=new Dictionary<string,string>(StringComparer.OrdinalIgnoreCase);
 			foreach(string lineRaw in TestPaths.ReadSource(_arrayRecordPath).Split('\n')) {
 				string line=lineRaw.Trim();
@@ -231,9 +293,10 @@ namespace ReleaseFlowTests {
 		public void StagedExes_CarryTheResourcesOfTheNet48Record() {
 			List<string> listExeNames=GetStagedExeNames();
 			Assert.IsTrue(listExeNames.Count>=4,"Build-Release.ps1 stages "+string.Join(", ",listExeNames));
-			string folder=GetReleaseFolder();
+			bool isRecording=Environment.GetEnvironmentVariable(RECORD_VARIABLE)=="1";
+			string folder=GetReleaseFolder(listExeNames,isRecording);
 			List<ExeResources> listResources=listExeNames.Select(x => ExeResourceReader.Read(Path.Combine(folder,x))).ToList();
-			if(Environment.GetEnvironmentVariable(RECORD_VARIABLE)=="1") {
+			if(isRecording) {
 				Assert.IsTrue(Environment.Version.Major<5,"The record is of the net48 build; 3b compares with it and never records.");
 				StringBuilder stringBuilder=new StringBuilder();
 				stringBuilder.Append("# The Win32 resources of every .exe that tools\\Build-Release.ps1 stages, recorded from the net48 Release build by\n");
@@ -293,6 +356,66 @@ namespace ReleaseFlowTests {
 			Assert.AreEqual("false",exeResources.UiAccess);
 			Assert.AreEqual(1,exeResources.ListIconSha256.Count);
 			Assert.AreEqual("0.0",exeResources.ProductVersion);
+		}
+
+		///<summary>A stale Release output (S3a-10f: one from before an exe was staged, or older than a commit to an exe's project) ends the record
+		///test as inconclusive with "run tools/Build-Release.ps1 first" and the exe files' write times, never with a FileNotFoundException.
+		///Synthetic files in a staging folder named by OPMS_RELEASE_STAGING; nothing is read as a resource.</summary>
+		[TestMethod]
+		public void StaleReleaseOutput_IsInconclusive_WithTheWriteTimes() {
+			List<string> listRecordNames=ReadRecord().Keys.OrderBy(x => x,StringComparer.OrdinalIgnoreCase).ToList();
+			string valueBefore=Environment.GetEnvironmentVariable(STAGING_VARIABLE);
+			string folder=TestPaths.NewTempFolder("s3a10f_stale");
+			try {
+				Environment.SetEnvironmentVariable(STAGING_VARIABLE,folder);
+				//An output from before the helper existed: the program, but not every exe the record names.
+				File.WriteAllText(Path.Combine(folder,"OpenPmsDental.exe"),"synthetic");
+				string message=GetInconclusiveMessage(() => GetReleaseFolder(new List<string> { "OpenPmsDental.exe" },isRecording:false));
+				StringAssert.Contains(message,"run tools/Build-Release.ps1 first");
+				foreach(string name in listRecordNames.Where(x => x!="OpenPmsDental.exe")) {
+					StringAssert.Contains(message,name+" is missing");
+					StringAssert.Contains(message,name+": missing");
+				}
+				StringAssert.Contains(message,"OpenPmsDental.exe: written ");
+				//Every exe there and newer than any commit: the folder is used.
+				foreach(string name in listRecordNames) {
+					File.WriteAllText(Path.Combine(folder,name),"synthetic");
+					File.SetLastWriteTimeUtc(Path.Combine(folder,name),DateTime.UtcNow.AddDays(1));
+				}
+				Assert.AreEqual(folder,GetReleaseFolder(listRecordNames,isRecording:false));
+				//Older than the newest commit that touched its project.
+				DateTime? dateTimeCommitUtc=GetNewestCommitUtc("OpenPmsDental","SharedAssemblyInfo.cs");
+				if(dateTimeCommitUtc==null) {
+					Assert.Inconclusive("git cannot tell the newest commit of OpenPmsDental here (no git.exe on the PATH, or not a work tree): the commit "
+						+"check is skipped then. The missing-file check passed.");
+				}
+				File.SetLastWriteTimeUtc(Path.Combine(folder,"OpenPmsDental.exe"),dateTimeCommitUtc.Value.AddMinutes(-1));
+				message=GetInconclusiveMessage(() => GetReleaseFolder(listRecordNames,isRecording:false));
+				StringAssert.Contains(message,"run tools/Build-Release.ps1 first");
+				StringAssert.Contains(message,"OpenPmsDental.exe is older than the newest commit touching OpenPmsDental");
+				StringAssert.Contains(message,"OpenPmsDental.exe: written "+FormatUtc(dateTimeCommitUtc.Value.AddMinutes(-1))+", newest commit touching "
+					+"OpenPmsDental or SharedAssemblyInfo.cs "+FormatUtc(dateTimeCommitUtc.Value));
+				Assert.IsFalse(message.Contains("ServiceManager.exe is older"),message);
+			}
+			finally {
+				Environment.SetEnvironmentVariable(STAGING_VARIABLE,valueBefore);
+				try {
+					Directory.Delete(folder,true);
+				}
+				catch(Exception) {
+				}
+			}
+		}
+
+		private static string GetInconclusiveMessage(Action action) {
+			try {
+				action();
+			}
+			catch(AssertInconclusiveException ex) {
+				return ex.Message;
+			}
+			Assert.Fail("Not inconclusive.");
+			return "";
 		}
 	}
 }
