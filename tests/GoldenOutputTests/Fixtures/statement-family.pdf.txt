@@ -1,0 +1,99 @@
+=== page 1 ===
+Amount Due
+Date Due
+Amount Enclosed
+-603.95
+Upon Receipt
+0-30
+31-60
+61-90
+over 90
+0.00
+0.00
+0.00
+42.11
+Payment Plans
+Date
+Description
+Charges
+Credits
+Balance
+Payment Plan.
+
+Original Loan Principal: $0.00
+
+Amount Remaining: $0.00
+
+Patient: Goldtest, Ava Q
+Payment Plan Amount Due: $0.00
+Date
+Patient
+Code
+Tooth
+Description
+Charges
+Credits
+Balance
+03/10/2025
+Ava
+Z9101
+ Synthetic periodic exam 
+57.25
+57.25
+03/10/2025
+Ava
+Z9103
+3
+ Synthetic crown 
+1,234.56
+1,291.81
+03/10/2025
+Ava
+Z9102
+30
+MOD Synthetic filling, three surfaces 
+0.30
+1,292.11
+03/10/2025
+Ava
+Claim
+Pri Claim $1,292.11 Synthetic Mutual Dental
+
+Waiting to Send
+
+Estimated Payment Pending: $646.06
+
+Est. Patient Portion: $646.05
+05/01/2025
+Ava
+PayPln
+Payment Plan
+1,250.00
+42.11
+STATEMENT
+Golden Synthetic Dental
+100 Example Way
+Suite 2
+Exampleton, OR 97000
+(503)555-0100
+6/30/2025
+Account Number 9101
+CREDIT CARD TYPE
+#
+3 DIGIT CSV
+Ava Q Goldtest
+1 Example Street
+Apt 4
+Exampleton, OR 97001
+EXPIRES
+AMOUNT APPROVED
+NAME
+SIGNATURE
+PLEASE DETACH AND RETURN THE UPPER PORTION WITH YOUR PAYMENT
+$42.11
+Total:
+-Ins Estimate:
+$646.06
+=Balance:
+($603.95)
+Synthetic statement note

@@ -1,0 +1,4 @@
+goldensyntheticNum | Supplier | Phone | Notes
+2 | Éclair Dental Lab | (503)555-0131 | Café hours: 8–5\nClosed Fridays
+3 | Empty Notes Ltd. |  | 
+1 | Synthetic Supply & Co. | (503)555-0130 | Orders <weekly>; "rush" fee 0.30

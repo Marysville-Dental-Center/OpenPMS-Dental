@@ -1,0 +1,5 @@
+PatNum,DateOfBirth,Sex,Zip,Race,RaceCodes,Ethnicity,EthnicityCodes,PreferredLanguage,InsuranceType,InsuranceFilingCode,VisitDate,ProcCodes,UdsLine,UdsService
+9101,1980-02-03,Female,97001,,,,,,Private,,2025-03-10,Z9101,28,Oral exams
+9101,1980-02-03,Female,97001,,,,,,Private,,2025-03-10,Z9102;Z9103,32,Restorative services
+9101,1980-02-03,Female,97001,,,,,,Private,,2025-03-10,Z9101;Z9102;Z9103,34,Rehabilitative services
+9102,1975-11-12,Male,97002,,,,,,None/Uninsured,,2025-04-01,Z9104,34,Rehabilitative services

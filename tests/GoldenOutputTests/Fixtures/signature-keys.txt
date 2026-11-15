@@ -1,0 +1,8 @@
+treatplan.keydata=Synthetic plan note20250415Ava Q GoldtestGrace GoldsmithSynthetic crown617.28Synthetic filling, three surfaces0.15Synthetic small charge0.00
+treatplan.hash=003f003f000d003f00240050003f003f003f0009003f003f006c0019003c004b
+treatplan.computed.keydata=Synthetic plan note20250415Ava Q GoldtestGrace GoldsmithSynthetic crown411.52Synthetic filling, three surfaces0.15Synthetic small charge0.00
+treatplan.computed.hash=003f00270005003f0057003f0062003f003f0073003f00290024003f003f003f
+payplan.keydata=18.512114.58MonthlyAva GoldtestAva Goldtest
+payplan.hash=00420037003f004f003f003f0004003f006c006a003f003f0045000b003f0035
+payplan.computed.keydata=0.312114.58MonthlyAva GoldtestAva Goldtest
+payplan.computed.hash=00520079003f003f003f003f003f003f003f003f0000003f003f0030003f0038
