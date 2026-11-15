@@ -371,5 +371,157 @@ namespace EhrTests {
 			StringAssert.Contains(report,"Value sets the measures use, found: 1 of "+EhrValueSetImport.GetManifest().Count);
 		}
 		#endregion Zip and refused files
+
+		#region Fix round: measure IDs, column lengths and the limits of a 32-bit process
+		///<summary>The bytes allocated in this application domain while the action runs (the reader's working memory, not only what it keeps).</summary>
+		private static long GetBytesAllocated(Action action) {
+			AppDomain.MonitoringIsEnabled=true;
+			long countBefore=AppDomain.CurrentDomain.MonitoringTotalAllocatedMemorySize;
+			action();
+			return AppDomain.CurrentDomain.MonitoringTotalAllocatedMemorySize-countBefore;
+		}
+
+		[TestMethod]
+		public void Workbook_AValueSetListedUnder64Measures_ImportsEveryCode_WithTheNineItListsAsMeasureIds() {
+			//The supplemental data elements (Payer, race, ethnicity, sex) are listed under every measure of the June 2013 EP release, about 64 of
+			//them: the nine this program reports and made-up others here.
+			const string OID_PAYER="2.16.840.1.114222.4.11.3591";
+			const string OID_OTHER="2.16.840.1.113883.3.999999.7";
+			List<string> listMeasures=EhrValueSetImport.ArrayMeasureIds.ToList();
+			for(int i=0;listMeasures.Count<64;i++) {
+				listMeasures.Add("CMS"+(1000+i)+"v1");
+			}
+			List<TestValueSetRow> listRows=new List<TestValueSetRow>();
+			foreach(string measureId in listMeasures) {//As the release sorted by CMS ID lists them: each code once under each measure.
+				for(int j=1;j<=3;j++) {
+					listRows.Add(TestValueSetRow.Make(OID_PAYER,"SOP","TEST000"+j,measureId));
+				}
+				listRows.Add(TestValueSetRow.Make(OID_OTHER,"SNOMEDCT","TEST0004",measureId));
+			}
+			//A manifest value set the file lists only under other measures, and a made-up one likewise.
+			listRows.Add(TestValueSetRow.Make(OID_TOBACCO_SCREENING,"SNOMEDCT","TEST0005","CMS1000v1"));
+			listRows.Add(TestValueSetRow.Make("2.16.840.1.113883.3.999999.8","SNOMEDCT","TEST0006","CMS1001v1"));
+			EhrValueSetFile file=EhrValueSetImport.Parse("vs.xlsx",ValueSetFixtures.MakeWorkbook(MakeSheet("All",listRows.ToArray())));
+			Assert.IsFalse(file.IsRefused,EhrValueSetImport.GetReport(file));
+			Assert.AreEqual(0,file.CountRowsTooLong,EhrValueSetImport.GetReport(file));
+			CollectionAssert.AreEquivalent(new[] { "TEST0001","TEST0002","TEST0003","TEST0004","TEST0005","TEST0006" },
+				file.ListEhrCodes.Select(x => x.CodeValue).ToList(),"Every code imported.");
+			Assert.IsTrue(file.ListEhrCodes.All(x => x.MeasureIds.Length<=EhrValueSetImport.MAX_COLUMN_LENGTH),
+				string.Join("\r\n",file.ListEhrCodes.Select(x => x.MeasureIds.Length+" "+x.MeasureIds)));
+			const string NINE="68v3,69v2,74v3,75v2,127v2,138v2,147v2,155v2,165v2";
+			foreach(string codeValue in new[] { "TEST0001","TEST0002","TEST0003","TEST0004" }) {
+				Assert.AreEqual(NINE,file.ListEhrCodes.Single(x => x.CodeValue==codeValue).MeasureIds,"Only the nine this program reports: "+codeValue);
+			}
+			Assert.AreEqual("138v2",file.ListEhrCodes.Single(x => x.CodeValue=="TEST0005").MeasureIds,"None of the nine left: the manifest's.");
+			Assert.AreEqual("",file.ListEhrCodes.Single(x => x.CodeValue=="TEST0006").MeasureIds,"None of the nine, not in the manifest: none.");
+			//The version check still sees every measure of the file.
+			Assert.AreEqual(64,file.ListMeasureIdsInFile.Count);
+			CollectionAssert.AreEqual(EhrValueSetImport.ArrayMeasureIds,file.ListMeasuresMatched);
+			Assert.AreEqual(64*4-4,file.CountRowsMerged);
+		}
+
+		[TestMethod]
+		public void Svs_ADescriptionPastTheTextColumn_IsNotImported_CountedByItsUtf8Bytes() {
+			//The description is a text column: 65,535 bytes, which utf8mb3 fills with 21,845 characters of three bytes each.
+			TestValueSetRow rowFull=TestValueSetRow.Make(OID_TOBACCO_SCREENING,"SNOMEDCT","TEST0001");
+			rowFull.Description=new string('€',21845);
+			TestValueSetRow rowOneCharacterMore=TestValueSetRow.Make(OID_TOBACCO_SCREENING,"SNOMEDCT","TEST0002");
+			rowOneCharacterMore.Description=new string('€',21846);
+			TestValueSetRow rowAsciiOneByteMore=TestValueSetRow.Make(OID_TOBACCO_SCREENING,"SNOMEDCT","TEST0003");
+			rowAsciiOneByteMore.Description="TEST "+new string('D',65536-5);
+			List<TestValueSetRow> listRows=new List<TestValueSetRow> { rowFull,rowOneCharacterMore,rowAsciiOneByteMore,
+				TestValueSetRow.Make(OID_TOBACCO_SCREENING,"SNOMEDCT","TEST0004") };
+			EhrValueSetFile file=EhrValueSetImport.Parse("vs.xml",ValueSetFixtures.MakeSvs(listRows,hasGroups:true));
+			Assert.IsFalse(file.IsRefused,EhrValueSetImport.GetReport(file));
+			Assert.AreEqual(2,file.CountRowsTooLong);
+			CollectionAssert.AreEquivalent(new[] { "TEST0001","TEST0004" },file.ListEhrCodes.Select(x => x.CodeValue).ToList());
+			Assert.IsTrue(file.ListWarnings.Any(x => x.Contains("longer than 255") && x.Contains("65,535 bytes")),string.Join("\r\n",file.ListWarnings));
+		}
+
+		[TestMethod]
+		public void Workbook_ManyCellsInColumnZZZ_AreNotHeld_AndASheetOfNothingElseIsRefusedWithAMessage() {
+			//Each row holds one cell in column ZZZ (index 18,277): a few bytes of the file each, which a reader that pads every row up to its last
+			//column turns into about 18,000 entries per row.
+			ValueSetFixtures.Sheet sheetWide=new ValueSetFixtures.Sheet();
+			sheetWide.Name="Wide";
+			sheetWide.ArrayHeaders=null;
+			sheetWide.ColumnExtraCell="ZZZ";
+			sheetWide.CountExtraRows=3000;
+			byte[] arrayBytes=ValueSetFixtures.MakeWorkbook(sheetWide);
+			Assert.IsTrue(arrayBytes.Length<300*1024,arrayBytes.Length.ToString());
+			EhrValueSetFile file=null;
+			long countAllocated=GetBytesAllocated(() => file=EhrValueSetImport.Parse("wide.xlsx",arrayBytes));
+			Assert.IsTrue(file.IsRefused);
+			string refusal=string.Join(" ",file.ListRefusals);
+			StringAssert.Contains(refusal,"The file has no value-set codes to import.");
+			Assert.IsFalse(refusal.Contains("could not be read"),"Refused for what it holds, not for running out of memory: "+refusal);
+			StringAssert.Contains(EhrValueSetImport.GetReport(file),"to the right of column IV");
+			Assert.IsTrue(countAllocated<64L*1024*1024,"Allocated while reading: "+countAllocated.ToString("N0"));
+		}
+
+		[TestMethod]
+		public void Workbook_CellsToTheRightOfColumnIV_AreIgnoredAndCounted_TheRowsUnderTheHeaderImport() {
+			ValueSetFixtures.Sheet sheet=MakeSheet("CMS138v2",TestValueSetRow.Make(OID_TOBACCO_SCREENING,"SNOMEDCT","TEST0001"),
+				TestValueSetRow.Make(OID_TOBACCO_SCREENING,"SNOMEDCT","TEST0002"));
+			sheet.ColumnExtraCell="ZZZ";
+			sheet.CountExtraRows=3000;
+			byte[] arrayBytes=ValueSetFixtures.MakeWorkbook(sheet);
+			EhrValueSetFile file=null;
+			long countAllocated=GetBytesAllocated(() => file=EhrValueSetImport.Parse("vs.xlsx",arrayBytes));
+			Assert.IsFalse(file.IsRefused,EhrValueSetImport.GetReport(file));
+			CollectionAssert.AreEquivalent(new[] { "TEST0001","TEST0002" },file.ListEhrCodes.Select(x => x.CodeValue).ToList());
+			Assert.AreEqual(2,file.CountRowsRead,"The rows that hold only an ignored cell are empty rows.");
+			//The header row, the two rows and the 3,000 others.
+			StringAssert.Contains(EhrValueSetImport.GetReport(file),"3003 cells to the right of column IV");
+			Assert.IsTrue(countAllocated<64L*1024*1024,"Allocated while reading: "+countAllocated.ToString("N0"));
+		}
+
+		///<summary>An SVS file of the given size: the response element around that many spaces (no value set).</summary>
+		private static void AddLargeSvs(StoredZip storedZip,string name,long countSpaces,long sizeClaimed=-1) {
+			storedZip.AddDeflated(name,Encoding.UTF8.GetBytes("<?xml version=\"1.0\"?><RetrieveMultipleValueSetsResponse>"),(byte)' ',countSpaces,
+				Encoding.UTF8.GetBytes("</RetrieveMultipleValueSetsResponse>"),sizeClaimed);
+		}
+
+		[TestMethod]
+		public void Zip_AnEntryThatInflatesPastThePartLimit_IsRefusedWithAMessage_WhateverItsHeaderSays() {
+			byte[] arrayWorkbook=ValueSetFixtures.MakeWorkbook(MakeSheet("CMS138v2",TestValueSetRow.Make(OID_TOBACCO_SCREENING,"SNOMEDCT","TEST0001")));
+			foreach(bool isSizeUnderstated in new[] { false,true }) {
+				StoredZip storedZip=new StoredZip();
+				storedZip.Add("EP_2013/by_cms_id.xlsx",arrayWorkbook);
+				AddLargeSvs(storedZip,"EP_2013/large.xml",65L*1024*1024,isSizeUnderstated ? 1000 : -1);
+				byte[] arrayZip=storedZip.ToArray();
+				Assert.IsTrue(arrayZip.Length<1024*1024,"A small file: "+arrayZip.Length);
+				EhrValueSetFile file=EhrValueSetImport.Parse("ep_2013.zip",arrayZip);
+				Assert.IsTrue(file.IsRefused,"understated="+isSizeUnderstated+"\r\n"+EhrValueSetImport.GetReport(file));
+				string refusal=string.Join(" ",file.ListRefusals);
+				StringAssert.Contains(refusal,"larger, uncompressed, than the importer reads","understated="+isSizeUnderstated);
+				StringAssert.Contains(refusal,"64 MB");
+				StringAssert.Contains(refusal,"EP_2013/large.xml");
+				Assert.AreEqual(0,file.ListEhrCodes.Count);
+			}
+		}
+
+		[TestMethod]
+		public void Zip_PartsThatTogetherInflatePastTheTotalLimit_AreRefusedWithAMessage() {
+			StoredZip storedZip=new StoredZip();
+			storedZip.Add("EP_2013/a_by_cms_id.xlsx",ValueSetFixtures.MakeWorkbook(MakeSheet("CMS138v2",TestValueSetRow.Make(OID_TOBACCO_SCREENING,"SNOMEDCT","TEST0001"))));
+			for(int i=1;i<=5;i++) {
+				AddLargeSvs(storedZip,"EP_2013/svs/large"+i+".xml",60L*1024*1024);//Each under the part limit, 300 MB in all.
+			}
+			EhrValueSetFile file=EhrValueSetImport.Parse("ep_2013.zip",storedZip.ToArray());
+			Assert.IsTrue(file.IsRefused,EhrValueSetImport.GetReport(file));
+			string refusal=string.Join(" ",file.ListRefusals);
+			StringAssert.Contains(refusal,"256 MB");
+			Assert.AreEqual(0,file.ListEhrCodes.Count);
+		}
+
+		[TestMethod]
+		public void Limits_AreWhatA32BitProcessHolds() {
+			//The program is an x86 process: the limits are far above the June 2013 EP package and far below what such a process can hold.
+			Assert.IsTrue(EhrValueSetImport.MAX_FILE_BYTES<=64L*1024*1024,EhrValueSetImport.MAX_FILE_BYTES.ToString());
+			Assert.IsTrue(EhrValueSetImport.MAX_TOTAL_BYTES<=256L*1024*1024,EhrValueSetImport.MAX_TOTAL_BYTES.ToString());
+			Assert.IsTrue(EhrValueSetImport.MAX_ROWS<=1000000,EhrValueSetImport.MAX_ROWS.ToString());
+		}
+		#endregion Fix round: measure IDs, column lengths and the limits of a 32-bit process
 	}
 }

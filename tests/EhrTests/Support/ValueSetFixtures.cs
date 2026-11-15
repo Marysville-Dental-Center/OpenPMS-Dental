@@ -3,12 +3,14 @@
 // layout of VSAC's SVS API (DescribedValueSet, ConceptList/Concept, Group/Keyword), and .zip files of them. Every code is a made-up code
 // that starts with TEST (the builders refuse any other); the value-set and code-system OIDs are the real ones, taken from the manifest and
 // from the code list at run time. No VSAC, UMLS, CPT, CDT or SNOMED CT content is in any of them. The zip files are written by StoredZip below
-// (entries stored, not compressed, with their CRC-32), because this project does not reference System.IO.Compression; the importer reads them
-// with ZipArchive as it reads any zip.
+// (entries stored, not compressed, with their CRC-32; or deflated with DeflateStream, which is in System.dll, for an entry that inflates to a
+// large part), because this project does not reference System.IO.Compression.dll (ZipArchive); the importer reads them with ZipArchive as it
+// reads any zip.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Security;
 using System.Text;
@@ -100,6 +102,11 @@ namespace EhrTests {
 			public List<TestValueSetRow> ListRows=new List<TestValueSetRow>();
 			///<summary>Every text as an inline string (t="inlineStr") instead of a shared string, as some exporters write it.</summary>
 			public bool UseInlineStrings;
+			///<summary>When set (for example "ZZZ", the last column a three-letter reference names), every row also gets a number cell in that
+			///column, after its other cells.</summary>
+			public string ColumnExtraCell;
+			///<summary>Rows after the others that hold only the cell in ColumnExtraCell.</summary>
+			public int CountExtraRows;
 		}
 
 		///<summary>An Excel workbook (.xlsx bytes) with the sheets. Text goes into the shared strings (or inline strings), as Excel writes it.</summary>
@@ -145,7 +152,14 @@ namespace EhrTests {
 						}
 						stringBuilder.Append("<c r=\""+reference+"\" t=\"s\"><v>"+indexShared+"</v></c>");
 					}
+					if(sheet.ColumnExtraCell!=null) {
+						stringBuilder.Append("<c r=\""+sheet.ColumnExtraCell+indexRow+"\"><v>1</v></c>");
+					}
 					stringBuilder.Append("</row>");
+					indexRow++;
+				}
+				for(int i=0;i<sheet.CountExtraRows;i++) {
+					stringBuilder.Append("<row r=\""+indexRow+"\"><c r=\""+sheet.ColumnExtraCell+indexRow+"\"><v>1</v></c></row>");
 					indexRow++;
 				}
 				stringBuilder.Append("</sheetData></worksheet>");
@@ -309,35 +323,65 @@ namespace EhrTests {
 		private static uint[] _arrayCrcTable;
 
 		public void Add(string name,byte[] arrayBytes) {
+			AddEntry(name,arrayBytes,method:0,GetCrc32(arrayBytes),arrayBytes.Length);
+		}
+
+		///<summary>Adds a deflated entry (method 8, written with DeflateStream of System.dll) whose content is the head, then countFill bytes of
+		///fill, then the tail: a small entry that inflates to a large part. The headers give the real uncompressed size, or sizeClaimed when it is
+		///set (a header that understates the size, which the reader must not trust).</summary>
+		public void AddDeflated(string name,byte[] arrayHead,byte fill,long countFill,byte[] arrayTail,long sizeClaimed=-1) {
+			uint crc=0xFFFFFFFFu;
+			long countUncompressed=0;
+			byte[] arrayCompressed;
+			using(MemoryStream memoryStream=new MemoryStream()) {
+				using(DeflateStream deflateStream=new DeflateStream(memoryStream,CompressionMode.Compress,leaveOpen:true)) {
+					crc=UpdateCrc32(crc,arrayHead,arrayHead.Length);
+					deflateStream.Write(arrayHead,0,arrayHead.Length);
+					byte[] arrayFill=Enumerable.Repeat(fill,1024*1024).ToArray();
+					for(long countLeft=countFill;countLeft>0;) {
+						int count=(int)Math.Min(countLeft,arrayFill.Length);
+						crc=UpdateCrc32(crc,arrayFill,count);
+						deflateStream.Write(arrayFill,0,count);
+						countLeft-=count;
+					}
+					crc=UpdateCrc32(crc,arrayTail,arrayTail.Length);
+					deflateStream.Write(arrayTail,0,arrayTail.Length);
+				}
+				arrayCompressed=memoryStream.ToArray();
+			}
+			countUncompressed=arrayHead.Length+countFill+arrayTail.Length;
+			AddEntry(name,arrayCompressed,method:8,crc^0xFFFFFFFFu,sizeClaimed>=0 ? sizeClaimed : countUncompressed);
+		}
+
+		private void AddEntry(string name,byte[] arrayData,ushort method,uint crc,long sizeUncompressed) {
 			byte[] arrayName=new UTF8Encoding(false).GetBytes(name);
-			uint crc=GetCrc32(arrayBytes);
 			long offset=_memoryStream.Position;
 			BinaryWriter writer=new BinaryWriter(_memoryStream);
 			writer.Write(0x04034b50u);//Local file header.
 			writer.Write((ushort)20);//Version needed.
 			writer.Write((ushort)0x0800);//Flags: UTF-8 names.
-			writer.Write((ushort)0);//Stored.
+			writer.Write(method);//0 stored, 8 deflated.
 			writer.Write((ushort)0);//Time.
 			writer.Write((ushort)0x5B6E);//Date: 2025-11-14.
 			writer.Write(crc);
-			writer.Write((uint)arrayBytes.Length);
-			writer.Write((uint)arrayBytes.Length);
+			writer.Write((uint)arrayData.Length);
+			writer.Write((uint)sizeUncompressed);
 			writer.Write((ushort)arrayName.Length);
 			writer.Write((ushort)0);
 			writer.Write(arrayName);
-			writer.Write(arrayBytes);
+			writer.Write(arrayData);
 			writer.Flush();
 			BinaryWriter writerCentral=new BinaryWriter(_memoryStreamCentral);
 			writerCentral.Write(0x02014b50u);//Central directory header.
 			writerCentral.Write((ushort)20);//Version made by.
 			writerCentral.Write((ushort)20);//Version needed.
 			writerCentral.Write((ushort)0x0800);
-			writerCentral.Write((ushort)0);
+			writerCentral.Write(method);
 			writerCentral.Write((ushort)0);
 			writerCentral.Write((ushort)0x5B6E);
 			writerCentral.Write(crc);
-			writerCentral.Write((uint)arrayBytes.Length);
-			writerCentral.Write((uint)arrayBytes.Length);
+			writerCentral.Write((uint)arrayData.Length);
+			writerCentral.Write((uint)sizeUncompressed);
 			writerCentral.Write((ushort)arrayName.Length);
 			writerCentral.Write((ushort)0);//Extra field.
 			writerCentral.Write((ushort)0);//Comment.
@@ -371,6 +415,11 @@ namespace EhrTests {
 
 		///<summary>The CRC-32 of ZIP (polynomial 0xEDB88320).</summary>
 		public static uint GetCrc32(byte[] arrayBytes) {
+			return UpdateCrc32(0xFFFFFFFFu,arrayBytes,arrayBytes.Length)^0xFFFFFFFFu;
+		}
+
+		///<summary>The running CRC-32 (start with 0xFFFFFFFF, end with an exclusive or of 0xFFFFFFFF) over the first count bytes.</summary>
+		private static uint UpdateCrc32(uint crc,byte[] arrayBytes,int count) {
 			if(_arrayCrcTable==null) {
 				uint[] arrayTable=new uint[256];
 				for(uint i=0;i<256;i++) {
@@ -382,11 +431,10 @@ namespace EhrTests {
 				}
 				_arrayCrcTable=arrayTable;
 			}
-			uint crc=0xFFFFFFFFu;
-			foreach(byte b in arrayBytes) {
-				crc=_arrayCrcTable[(crc^b)&0xFF]^(crc>>8);
+			for(int i=0;i<count;i++) {
+				crc=_arrayCrcTable[(crc^arrayBytes[i])&0xFF]^(crc>>8);
 			}
-			return crc^0xFFFFFFFFu;
+			return crc;
 		}
 	}
 }

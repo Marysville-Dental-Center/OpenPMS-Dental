@@ -546,6 +546,9 @@ namespace OpenPmsDentalBusiness {
 		///<summary>Longest value of a varchar column of ehrcode.</summary>
 		public const int MAX_COLUMN_LENGTH=255;
 		private const string LANS="EhrValueSetImport";
+		///<summary>A test seam (tests/EhrTests): called after each batch of rows the import writes, with the number of rows written so far. Null in
+		///the program.</summary>
+		internal static Action<int> ActionAfterInsertBatch;
 
 		///<summary>The nine 2014 eCQM versions QualityMeasures reports (GetEMeasureNum and GetEMeasureVersion), as VSAC's files name them.</summary>
 		public static readonly string[] ArrayMeasureIds=new string[] {
@@ -1469,6 +1472,7 @@ namespace OpenPmsDentalBusiness {
 			Db.NonQ("DELETE FROM ehrcode");
 			List<EhrCode> listEhrCodes=file.ListEhrCodes.Select(x => x.Copy()).ToList();
 			Crud.EhrCodeCrud.InsertMany(listEhrCodes);
+			ActionAfterInsertBatch?.Invoke(listEhrCodes.Count);
 			long countWritten=PIn.Long(Db.GetScalar("SELECT COUNT(*) FROM ehrcode"));
 			if(countWritten!=listEhrCodes.Count) {
 				return Lans.g(LANS,"The import wrote")+" "+countWritten+" "+Lans.g(LANS,"of")+" "+listEhrCodes.Count+" "

@@ -147,6 +147,7 @@ namespace EhrTests {
 			ImportOrFail(ParseWorkbook(TestValueSetRow.Make(OID_TOBACCO_SCREENING,"SNOMEDCT","TEST0001"),
 				TestValueSetRow.Make(OID_TOBACCO_USER,"SNOMEDCT","TEST0002")));
 			Assert.AreEqual(2,CountRows());
+			CollectionAssert.AreEqual(new string[0],ListScratchTables(),"The scratch table became ehrcode, the old table was dropped.");
 			EhrValueSetFile fileSecond=ParseWorkbook(TestValueSetRow.Make(OID_TOBACCO_NON_USER,"SNOMEDCT","TEST0003"),
 				TestValueSetRow.Make(OID_TOBACCO_COUNSELING,"SNOMEDCT","TEST0004"),TestValueSetRow.Make(OID_TOBACCO_PHARMACOTHERAPY,"RXNORM","TEST0005"));
 			ImportOrFail(fileSecond);
@@ -197,6 +198,66 @@ namespace EhrTests {
 			Assert.AreEqual(releaseBefore.Sha256,EhrValueSetImport.GetRelease().Sha256);
 			Assert.AreNotEqual("",EhrValueSetImport.Import(null));
 			Assert.AreEqual(1,CountRows());
+		}
+
+		///<summary>The tables of this database whose names start with ehrcode_ (the import's scratch tables), sorted.</summary>
+		private static List<string> ListScratchTables() {
+			DataTable table=DataCore.GetTable(@"SELECT TABLE_NAME FROM information_schema.TABLES WHERE TABLE_SCHEMA=DATABASE() AND TABLE_NAME LIKE 'ehrcode\_%'");
+			return table.Rows.Cast<DataRow>().Select(x => x[0].ToString()).OrderBy(x => x,StringComparer.Ordinal).ToList();
+		}
+
+		[TestMethod]
+		public void Import_AFailureWhileWritingTheRows_LeavesTheOldRows_AndNoScratchTable() {
+			ImportOrFail(ParseWorkbook(TestValueSetRow.Make(OID_TOBACCO_SCREENING,"SNOMEDCT","TEST0001")));
+			EhrValueSetRelease releaseBefore=EhrValueSetImport.GetRelease();
+			EhrValueSetFile fileSecond=ParseWorkbook(TestValueSetRow.Make(OID_TOBACCO_USER,"SNOMEDCT","TEST0002"),
+				TestValueSetRow.Make(OID_TOBACCO_NON_USER,"SNOMEDCT","TEST0003"));
+			//The rows are written, then the server fails (as a full disk or a lost connection would).
+			EhrValueSetImport.ActionAfterInsertBatch=countWritten => throw new ApplicationException("TEST failure after "+countWritten+" rows were written");
+			string error;
+			try {
+				error=EhrValueSetImport.Import(fileSecond);
+			}
+			finally {
+				EhrValueSetImport.ActionAfterInsertBatch=null;
+			}
+			StringAssert.Contains(error,"TEST failure after 2 rows were written");
+			StringAssert.Contains(error,"unchanged");
+			CollectionAssert.AreEqual(new[] { "TEST0001" },EhrCodes.GetAllFromDb().Select(x => x.CodeValue).ToList(),"The old rows, all of them.");
+			Assert.AreEqual(releaseBefore.Sha256,EhrValueSetImport.GetRelease().Sha256,"The release is not recorded.");
+			CollectionAssert.AreEqual(new string[0],ListScratchTables(),"No scratch table is left.");
+			//The next import works.
+			ImportOrFail(fileSecond);
+			CollectionAssert.AreEquivalent(new[] { "TEST0002","TEST0003" },EhrCodes.GetAllFromDb().Select(x => x.CodeValue).ToList());
+			CollectionAssert.AreEqual(new string[0],ListScratchTables());
+		}
+
+		[TestMethod]
+		public void Import_DropsTheScratchTablesAnImportLeftADayAgo_AndKeepsTheOthers() {
+			string recent="ehrcode_import_"+DateTime.UtcNow.ToString("yyyyMMddHHmmss",System.Globalization.CultureInfo.InvariantCulture)+"_0a1b2c";
+			string[] arrayTables=new[] { "ehrcode_import_20200101000000_0a1b2c","ehrcode_old_20200101000000_0a1b2c",recent,"ehrcode_import_test" };
+			try {
+				foreach(string table in arrayTables) {
+					DataCore.NonQ("CREATE TABLE "+table+" LIKE ehrcode");
+				}
+				ImportOrFail(ParseWorkbook(TestValueSetRow.Make(OID_TOBACCO_SCREENING,"SNOMEDCT","TEST0001")));
+				CollectionAssert.AreEqual(new[] { recent,"ehrcode_import_test" }.OrderBy(x => x,StringComparer.Ordinal).ToList(),ListScratchTables(),
+					"Another import's table of today, and a table of a name this program does not write, are left alone.");
+				Assert.AreEqual(1,CountRows());
+			}
+			finally {
+				foreach(string table in arrayTables) {
+					DataCore.NonQ("DROP TABLE IF EXISTS "+table);
+				}
+			}
+		}
+
+		[TestMethod]
+		public void Import_ADescriptionAsLongAsTheTextColumn_IsStoredWhole() {
+			TestValueSetRow row=TestValueSetRow.Make(OID_TOBACCO_SCREENING,"SNOMEDCT","TEST0001");
+			row.Description=new string('€',21845);//65,535 bytes in UTF-8.
+			ImportOrFail(ParseWorkbook(row));
+			Assert.AreEqual(row.Description,EhrCodes.GetAllFromDb().Single().Description);
 		}
 
 		[TestMethod]

@@ -220,6 +220,29 @@ namespace EhrTests {
 		}
 
 		[TestMethod]
+		public void EhrCodes_TheListsConsumers_ReadListtOnce_IntoALocal() {
+			//Listt is read again when the codes change (InvalidType.EhrCodes): a method that read it on every pass of a loop could mix two lists.
+			string source=TestPaths.ReadSource(@"OpenPmsDentalBusiness\Data Interface\EhrCodes.cs");
+			source=Regex.Replace(source,@"/\*.*?\*/","",RegexOptions.Singleline);//The methods Open Dental left commented out.
+			source=Regex.Replace(source,@"//[^\r\n]*","");
+			int start=source.IndexOf("public class EhrCodes {",StringComparison.Ordinal);
+			string classEhrCodes=source.Substring(start,source.IndexOf("public class EhrCodeSystemStatus",StringComparison.Ordinal)-start);
+			List<string> listLines=classEhrCodes.Split('\n').Where(x => Regex.IsMatch(x,@"\bListt\s*[\[.]")).Select(x => x.Trim()).ToList();
+			Assert.AreEqual(0,listLines.Count,"Listt indexed or called in place of a local copy:\r\n"+string.Join("\r\n",listLines));
+			Assert.IsTrue(Regex.Matches(classEhrCodes,@"=\s*Listt\s*;").Count>=7,"Each consumer copies the list to a local once.");
+		}
+
+		[TestMethod]
+		public void Window_ReadsTheValueSetFileAsAStream_NotWhole() {
+			string window=TestPaths.ReadSource(@"OpenPmsDental\Forms\FormCodeSystemsImport.cs");
+			string click=window.Substring(window.IndexOf("private void butImportValueSets_Click",StringComparison.Ordinal));
+			click=click.Substring(0,click.IndexOf("\r\n\t\t}\r\n",StringComparison.Ordinal));
+			Assert.IsFalse(click.Contains("File.ReadAllBytes"),"The file is not read whole into memory.");
+			StringAssert.Contains(click,"new FileStream(path,FileMode.Open,FileAccess.Read,FileShare.Read)");
+			StringAssert.Contains(click,"EhrValueSetImport.Parse(path,fileStream)");
+		}
+
+		[TestMethod]
 		public void Fixtures_RefuseACodeThatIsNotATestCode() {
 			Expect.Throws<ArgumentException>(() => ValueSetFixtures.MakeWorkbook(new ValueSetFixtures.Sheet {
 				ListRows=new List<TestValueSetRow> { TestValueSetRow.Make("2.16.840.1.113883.3.526.3.1278","SNOMEDCT","NOTTEST1") } }));
