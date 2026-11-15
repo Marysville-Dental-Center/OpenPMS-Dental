@@ -1845,7 +1845,22 @@ T" and nothing about R, whose entry still named the Users-readable key the tool 
 overwritten); every other test passed (217, 11 skipped). NoHqTests was not built for that run (a project build only).
 
 **After the change:** a Targeted run of DbConnectionSecurityTests on 5f5ce3ad2 (`dcfu4-5-after-1.txt`: 229, 218 passed, 0 failed, 11
-skipped).
+skipped), then one full lane build (`odbuild.ps1`, the whole solution) with 0 errors, then one Targeted run (`dcfu4-5-final.txt`):
+
+| Assembly | Total | Passed | Failed | Skipped |
+|---|---|---|---|---|
+| NoHqTests | 57 | 57 | 0 | 0 |
+| DbConnectionSecurityTests | 229 | 218 | 0 | 11 |
+| LibraryUpdateTests | 130 | 130 | 0 | 0 |
+| VendorDirectTests | 922 | 922 | 0 | 0 |
+| LibraryBindingTests | 17 | 17 | 0 | 0 |
+| ProjectFileTests | 132 | 131 | 0 | 1 |
+
+The skips are the earlier rounds'. DbConnectionSecurityTests has the one new test more than after the lead fix round (228). Clean-up:
+before the first run and after every run, the key files under `%APPDATA%\Microsoft\Crypto\Keys` and `RSA\<SID>`, the stores under
+`HKCU\Software\Microsoft\SystemCertificates`, and the `synthetic` or `example.test` certificates of CurrentUser\My and LocalMachine\My
+(read only) were listed and compared: no name new, none missing, no test store left; each test class's own clean-up check
+(`AssertCleanedUp`) passed. No test opens LocalMachine\My or a real key.
 
 ### Launch checks (administrator only, LocalMachine\My)
 
