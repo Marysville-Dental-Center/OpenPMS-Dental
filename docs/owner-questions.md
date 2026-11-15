@@ -976,11 +976,13 @@ and E-10b), where each is set out in full with its recommendation. You first ans
   falls back to the clinic's, then the practice's, Default Provider).
   - **A billing provider marked SSN, not TIN, is refused as the sender.** Upstream sent Open Dental Inc's TIN then. Recommended: keep the
     refusal, because a person's SSN in the file's envelope is not what a TIN field is for. Such an office enters a TIN or the submitter ID
-    its clearinghouse gave it under Setup > Clearinghouses. Or should the SSN be sent?
+    its clearinghouse gave it under Setup > Clearinghouses. Or should the SSN be sent? **Answered on 2026-11-15: refuse.**
   - **The sender name is the practice title, also for clinics.** Clinics that are separate businesses can enter their own Sender TIN, name
-    and phone on their clinic's clearinghouse. Recommended: keep it.
+    and phone on their clinic's clearinghouse. Recommended: keep it. **Answered on 2026-11-15: keep the practice title.**
   - **Emdeon Dental's eligibility request (270)** writes ISA06 as `316:` plus the clearinghouse login, as upstream does; 316 may be Open
     Dental Inc's vendor number at Emdeon. Recommended: leave it until an office uses Emdeon for eligibility, then confirm with Emdeon.
+    **Answered on 2026-11-15: "Login only".** (Blank is not possible: ISA06 is a required 15-character field.) ISA06 is now the office's
+    Emdeon login alone, padded to 15, with no "316:"; an office that uses Emdeon for eligibility confirms the format with Emdeon first.
 
 - **The bridge release:** your decision (2026-11-15): "skip Bridge release". Stage 3a ends with its gate and no .NET Framework release.
   The office goes from 0.0 to the .NET 10 setup, uninstalling 0.0 on every workstation first. Net10-plan decision 21 lists the

@@ -48,6 +48,7 @@ What this version brings, each in its section below (the roadmap's "Done in the 
     data is sent without a business associate agreement with Glidewell.
 - claim files and benefit requests (X12 837 and 270) name the practice as their sender, with its own TIN, name and telephone, when the
   clearinghouse has no Sender TIN, instead of Open Dental Inc; a batch is refused while the practice's TIN, name or telephone is missing;
+  Emdeon Dental eligibility requests send the office's Emdeon login alone as the sender, without Open Dental Inc's "316:" vendor prefix;
 - the Meaningful Use measures window of EHR (Measure Calc) working again, rebuilt as open code, for internal review only;
 - saved Middle Tier passwords move from the Windows PasswordVault to the Windows Credential Manager on first use; nothing to re-enter;
 - the self-update gets ready for the coming 64-bit version: it never publishes over a release it cannot read, and refuses a release built

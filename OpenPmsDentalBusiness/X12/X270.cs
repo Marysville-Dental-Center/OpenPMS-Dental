@@ -29,7 +29,9 @@ namespace OpenPmsDentalBusiness
 			if(IsEmdeonDental(clearinghouseClin)) {
 				strb.Append("00*"+Sout(clearinghouseClin.Password,10,10)+"*"//ISA03,ISA04: 00 + emdeon password padded to 10 characters
 					+clearinghouseClin.ISA05+"*"//ISA05: Sender ID type: ZZ=mutually defined. 30=TIN. Validated
-					+"316:"+Sout(clearinghouseClin.LoginID,11,11)+"*"//ISA06: Emdeon vendor number + username
+					//ISA06: the office's Emdeon login alone, padded to 15. Upstream wrote "316:" before an 11-character login: very likely
+					//Open Dental Inc's vendor number at Emdeon, which this program does not send (owner, 2026-11-15: "Login only").
+					+Sout(clearinghouseClin.LoginID,15,15)+"*"
 					+clearinghouseClin.ISA07+"*"//ISA07: Receiver ID type: ZZ=mutually defined. 30=TIN. Validated
 					+Sout("EMDEONDENTAL",15,15)+"*");//ISA08: Receiver ID. Validated to make sure length is at least 2.
 			}

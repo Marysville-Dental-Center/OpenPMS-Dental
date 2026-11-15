@@ -152,6 +152,8 @@ P262ClaimsTests 42, NoHqTests 84, MiddleTierMockTests 151.
   - a billing provider marked SSN (not TIN) is refused as the sender;
   - clinics that are separate businesses are named with the practice title;
   - the Emdeon Dental 270's ISA06 `316:`+login (`X270.cs:33`), where 316 may be Open Dental Inc's vendor number at Emdeon.
+  - Answered on 2026-11-15: the SSN refusal and the practice title stay; the Emdeon Dental 270's ISA06 is the login alone, padded to 15
+    ("Login only"; lead change on `main`, test `X12SenderGoldenTests.X270_EmdeonDental_Isa06IsTheLoginOnly`).
 - **Later cleanups:**
   - The 270 is refused for a missing title or phone, although it writes only the TIN. That follows the one rule for every writer; relax it
     if the owner prefers.

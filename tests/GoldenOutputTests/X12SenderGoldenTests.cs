@@ -140,6 +140,28 @@ namespace GoldenOutputTests {
 			AssertNoOpenDentalInc(message);
 		}
 
+		///<summary>Emdeon Dental's 270 (ISA08 0135WCH00): ISA06 is the office's Emdeon login alone, padded to 15, with no "316:" before it
+		///(owner, 2026-11-15). ISA04 is still the Emdeon password padded to 10, and GS02 the sender as for every clearinghouse.</summary>
+		[TestMethod]
+		public void X270_EmdeonDental_Isa06IsTheLoginOnly() {
+			Claim claim=Claims.GetClaim(GoldenData.ClaimNum);
+			InsPlan insPlan=InsPlans.GetPlan(claim.PlanNum,new List<InsPlan>());
+			InsSub insSub=InsSubs.GetSub(claim.InsSubNum,null);
+			Carrier carrier=Carriers.GetCarrier(insPlan.CarrierNum);
+			Patient patient=Patients.GetPat(claim.PatNum);
+			Provider provBill=Providers.GetProv(Providers.GetBillingProvNum(patient.PriProv,patient.ClinicNum));
+			Clearinghouse clearinghouseClin=GetClearinghouseWithoutSender(GoldenData.ClearinghouseNum4010).Copy();
+			clearinghouseClin.ISA08="0135WCH00";
+			clearinghouseClin.LoginID="SYNLOGIN";
+			clearinghouseClin.Password="SYNPASS";
+			string message=X270.GenerateMessageText(clearinghouseClin,carrier,provBill,null,insPlan,patient,insSub,patient);
+			List<string> listLines=message.Split(new[] { "\r\n" },StringSplitOptions.None).ToList();
+			StringAssert.StartsWith(listLines[0],"ISA*00*          *00*SYNPASS   *ZZ*SYNLOGIN       *ZZ*EMDEONDENTAL   *");
+			StringAssert.StartsWith(listLines[1],"GS*HS*123456789*EMDEONDENTAL   *");
+			Assert.IsFalse(message.Contains("316:"),"No vendor number before the login.");
+			AssertNoOpenDentalInc(message);
+		}
+
 		[TestMethod]
 		public void PracticeTitleBlank_BatchRefused_ClaimShowsWhatIsMissing() {
 			Clearinghouse clearinghouseClin=GetClearinghouseWithoutSender(GoldenData.ClearinghouseNum5010);
