@@ -21,12 +21,69 @@ namespace OpenPmsDental.Bridges {
 		private static DataTable dataTablePatient;
 		private static DataTable dataTableTrojan;
 
-		///<summary>HKEY_LOCAL_MACHINE\Software\TROJAN BENEFIT SERVICE in the 32-bit registry view, or null when it is missing. Trojan's 32-bit
-		///installer writes it there (WOW6432Node on 64-bit Windows), and the 32-bit program has always read it there through WOW64 redirection;
-		///naming the view keeps the same key in a 64-bit process. The caller disposes it.</summary>
+		///<summary>The value under Trojan's install key that names the folder of Trojan's program and files.</summary>
+		public const string INSTALL_DIR_VALUE_NAME="INSTALLDIR";
+		///<summary>The key the program has always read (HKEY_LOCAL_MACHINE).</summary>
+		public const string INSTALL_KEY_PATH="Software\\TROJAN BENEFIT SERVICE";
+		///<summary>The key Open Dental's manual names for Trojan (https://www.opendental.com/manual/trojan.html: HKEY_LOCAL_MACHINE\SOFTWARE\Trojan),
+		///read after INSTALL_KEY_PATH (N64-A).</summary>
+		public const string INSTALL_KEY_PATH_MANUAL="Software\\Trojan";
+
+		///<summary>Trojan's install key in HKEY_LOCAL_MACHINE, or null when it is missing. The caller disposes it. Looked for in this order
+		///(GetInstallKeyLookupOrder): Software\TROJAN BENEFIT SERVICE in the 32-bit registry view, where Trojan's 32-bit installer writes it
+		///(WOW6432Node on 64-bit Windows) and the 32-bit program has always read it through WOW64 redirection; the same key in the 64-bit view
+		///(a 64-bit installer, or a key added by hand with the 64-bit regedit); then Software\Trojan, the key Open Dental's manual names, in the
+		///32-bit and the 64-bit view (N64-A, item A4 of docs/specs/native64-survey.md). The first key that has an INSTALLDIR value wins; when none
+		///has one, the first key found, so the callers' message for a missing INSTALLDIR stays as before.</summary>
 		public static RegistryKey OpenInstallRegistryKey() {
-			using(RegistryKey registryKeyBase=RegistryKey.OpenBaseKey(RegistryHive.LocalMachine,RegistryView.Registry32)) {
-				return registryKeyBase.OpenSubKey("Software\\TROJAN BENEFIT SERVICE");
+			return FindInstallKey(OpenLocalMachineSubKey,x => x.GetValue(INSTALL_DIR_VALUE_NAME)!=null);
+		}
+
+		///<summary>The places OpenInstallRegistryKey looks, in order: (registry view, key path under HKEY_LOCAL_MACHINE).</summary>
+		public static List<Tuple<RegistryView,string>> GetInstallKeyLookupOrder() {
+			return new List<Tuple<RegistryView,string>> {
+				Tuple.Create(RegistryView.Registry32,INSTALL_KEY_PATH),
+				Tuple.Create(RegistryView.Registry64,INSTALL_KEY_PATH),
+				Tuple.Create(RegistryView.Registry32,INSTALL_KEY_PATH_MANUAL),
+				Tuple.Create(RegistryView.Registry64,INSTALL_KEY_PATH_MANUAL),
+			};
+		}
+
+		///<summary>The lookup of OpenInstallRegistryKey over a registry seam, so tests use a fake one: funcOpen opens (view, path) or returns null,
+		///funcHasInstallDir tells whether a key has the INSTALLDIR value. Returns the first key in GetInstallKeyLookupOrder that has it, otherwise
+		///the first key found, otherwise null; every other key opened is disposed. A view the system does not have (Registry64 on 32-bit Windows
+		///opens the 32-bit view again) only finds the same key twice.</summary>
+		public static T FindInstallKey<T>(Func<RegistryView,string,T> funcOpen,Func<T,bool> funcHasInstallDir) where T:class,IDisposable {
+			T keyFirst=null;
+			foreach(Tuple<RegistryView,string> tupleLocation in GetInstallKeyLookupOrder()) {
+				T key=funcOpen(tupleLocation.Item1,tupleLocation.Item2);
+				if(key==null) {
+					continue;
+				}
+				if(funcHasInstallDir(key)) {
+					keyFirst?.Dispose();
+					return key;
+				}
+				if(keyFirst==null) {
+					keyFirst=key;
+				}
+				else {
+					key.Dispose();
+				}
+			}
+			return keyFirst;
+		}
+
+		///<summary>HKEY_LOCAL_MACHINE\path in the named registry view, or null when missing or not readable.</summary>
+		private static RegistryKey OpenLocalMachineSubKey(RegistryView registryView,string path) {
+			try {
+				using(RegistryKey registryKeyBase=RegistryKey.OpenBaseKey(RegistryHive.LocalMachine,registryView)) {
+					return registryKeyBase.OpenSubKey(path);
+				}
+			}
+			catch(Exception ex) {//no access (SecurityException, UnauthorizedAccessException): the next place is tried
+				ex.DoNothing();
+				return null;
 			}
 		}
 

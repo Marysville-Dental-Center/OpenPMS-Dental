@@ -588,6 +588,7 @@ namespace SparksToothChart {
 		///optimisation (SharpDX.Direct3D9.Font, D3DX.OptimizeFaces). Windows itself ships d3d9.dll but not this file.</summary>
 		public const string D3DX_DLL="d3dx9_43.dll";
 		private static bool? _isDirectXRuntimeAvailable;
+		private static string _directXRuntimeLogLine;
 		///<summary>The fallback kinds whose first message has been written to the log in this process.</summary>
 		private static readonly HashSet<ToothChartFallbackKind> _hashSetKindsLogged=new HashSet<ToothChartFallbackKind>();
 
@@ -604,9 +605,45 @@ namespace SparksToothChart {
 		///per process.</summary>
 		public static bool IsDirectXRuntimeAvailable() {
 			if(_isDirectXRuntimeAvailable==null) {
-				_isDirectXRuntimeAvailable=CanLoadLibrary(D3DX_DLL);
+				_isDirectXRuntimeAvailable=CanLoadLibrary(D3DX_DLL,out string pathLoaded);
+				if(_isDirectXRuntimeAvailable.Value) {
+					//One ToothChart log line per process, at the first chart's start: the folder and bitness of the D3DX that loaded (N64-A).
+					_directXRuntimeLogLine=DescribeLoadedD3dx(pathLoaded,Environment.Is64BitProcess);
+					try {
+						CodeBase.Logger.WriteLine(_directXRuntimeLogLine,"ToothChart");
+					}
+					catch(Exception ex) {
+						ex.DoNothing();
+					}
+				}
 			}
 			return _isDirectXRuntimeAvailable.Value;
+		}
+
+		///<summary>The ToothChart log line IsDirectXRuntimeAvailable wrote, naming the folder and bitness of the d3dx9_43.dll this process loaded,
+		///or "" before the check and when the file could not be loaded (the chart's fallback line says so). For tests: Logger writes nothing in a
+		///unit test process.</summary>
+		public static string GetDirectXRuntimeLogLine() {
+			return _directXRuntimeLogLine??"";
+		}
+
+		///<summary>The log line for the D3DX file at pathLoaded (the loaded module's path): its folder, its PE bitness and this process's, for
+		///example "DirectX: d3dx9_43.dll loaded from C:\Windows\System32, a native 64-bit (x64) PE32+ file, in this 64-bit process." A file of the
+		///other bitness could not have loaded; the line still says what the file is.</summary>
+		public static string DescribeLoadedD3dx(string pathLoaded,bool is64BitProcess) {
+			string bitnessProcess=is64BitProcess ? "64-bit" : "32-bit";
+			if(string.IsNullOrEmpty(pathLoaded)) {
+				return "DirectX: "+D3DX_DLL+" loaded (its path could not be read) in this "+bitnessProcess+" process.";
+			}
+			string describe;
+			try {
+				describe=CodeBase.PortableExecutableFile.Read(pathLoaded).DescribeBitness();
+			}
+			catch(Exception ex) {
+				describe="its header could not be read ("+ex.GetType().Name+")";
+			}
+			return "DirectX: "+System.IO.Path.GetFileName(pathLoaded)+" loaded from "+System.IO.Path.GetDirectoryName(pathLoaded)+", "+describe
+				+", in this "+bitnessProcess+" process.";
 		}
 
 		///<summary>Starts the first mode that works, beginning with drawingModeRequested and following GetFallbackDrawMode: DirectX, then OpenGL,
@@ -791,11 +828,23 @@ namespace SparksToothChart {
 			}
 		}
 
-		private static bool CanLoadLibrary(string fileName) {
+		///<summary>True when fileName loads in this process; pathLoaded is then the loaded module's full path (GetModuleFileName), or "" when
+		///that could not be read.</summary>
+		private static bool CanLoadLibrary(string fileName,out string pathLoaded) {
+			pathLoaded="";
 			try {
 				IntPtr intPtrModule=LoadLibrary(fileName);
 				if(intPtrModule==IntPtr.Zero) {
 					return false;
+				}
+				try {
+					StringBuilder stringBuilder=new StringBuilder(1024);
+					if(GetModuleFileName(intPtrModule,stringBuilder,stringBuilder.Capacity)>0) {
+						pathLoaded=stringBuilder.ToString();
+					}
+				}
+				catch(Exception ex) {
+					ex.DoNothing();
 				}
 				FreeLibrary(intPtrModule);
 				return true;
@@ -808,6 +857,9 @@ namespace SparksToothChart {
 
 		[System.Runtime.InteropServices.DllImport("kernel32.dll",CharSet=System.Runtime.InteropServices.CharSet.Unicode,SetLastError=true)]
 		private static extern IntPtr LoadLibrary(string lpFileName);
+
+		[System.Runtime.InteropServices.DllImport("kernel32.dll",CharSet=System.Runtime.InteropServices.CharSet.Unicode,SetLastError=true)]
+		private static extern int GetModuleFileName(IntPtr hModule,StringBuilder lpFilename,int nSize);
 
 		[System.Runtime.InteropServices.DllImport("kernel32.dll",SetLastError=true)]
 		private static extern bool FreeLibrary(IntPtr hModule);

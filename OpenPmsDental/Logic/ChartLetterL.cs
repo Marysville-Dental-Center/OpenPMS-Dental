@@ -157,8 +157,9 @@ namespace OpenPmsDental {
 				wordApplication=LetterMerges.GetWordApp();
 			}
 			catch(Exception ex) {
-				FriendlyException.Show(Lan.g(LAN,"This template is in an older format that needs a word processor to merge, and none could be started. "
-					+"Save the template in the .docx format and select that file in the letter's setup."),ex);
+				string textDefault=Lan.g(LAN,"This template is in an older format that needs a word processor to merge, and none could be started. "
+					+"Save the template in the .docx format and select that file in the letter's setup.");
+				FriendlyException.Show(LetterMerges.GetWordStartFailureText(ex,textDefault),ex);//a clear message for a broken registration (N64-A)
 				return null;
 			}
 			dynamic wordDocument=wordApplication.Documents.Open(templateFile);
