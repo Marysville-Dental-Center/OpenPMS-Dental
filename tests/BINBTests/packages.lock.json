@@ -163,6 +163,9 @@
           "PdfSharp.System": "[1.0.0, )"
         }
       },
+      "openpmsdentalhelper32": {
+        "type": "Project"
+      },
       "openpmsdentalstorage": {
         "type": "Project",
         "dependencies": {

@@ -17,6 +17,7 @@
     <PackageReference Remove="Microsoft.NET.Test.Sdk" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
 </Project>

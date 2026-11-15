@@ -1,11 +1,17 @@
 // The Topaz signature pad without SigPlusNET.dll in the build: absent, the program says so; present (a synthetic stand-in, tests\TopazStandIn,
-// never Topaz's file), the wrapper loads it from the search folders at run time and makes the same calls the compiled code made.
+// never Topaz's file), the wrapper finds it in the search folders at run time and makes the same calls the compiled code made. Since S3a-14 of
+// the .NET 10 move the control runs in the 32-bit helper program: these tests start a copy of the helper (Helper32Tests' HelperCopy), which
+// loads the stand-in, and end it and delete it afterwards; the calls are read back from the stand-in in the helper.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using System.Diagnostics;
+using System.Drawing;
+using CodeBase;
+using Helper32Tests.Support;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Mono.Cecil;
 using OpenPmsDental.UI;
@@ -15,12 +21,21 @@ namespace BINBTests {
 	public class TopazWrapperTests {
 		private static string _folderFake;
 		private static string _folderEmpty;
+		private static HelperCopy _helperCopy;
+		private static Helper32Client _helper32Client;
 
 		[ClassInitialize]
 		public static void ClassInitialize(TestContext testContext) {
 			_folderEmpty=TestPaths.NewTempFolder("topaz_none");
 			_folderFake=TestPaths.NewTempFolder("topaz_fake");
 			WriteStandIn(Path.Combine(_folderFake,TopazWrapper.ASSEMBLY_FILE_NAME));
+			_helperCopy=HelperCopy.Create();
+			_helper32Client=new Helper32Client(_helperCopy.PathExe);
+		}
+
+		///<summary>Only these folders are searched, and the controls live in this class's copy of the helper.</summary>
+		private static void Reset(params string[] arrayFolders) {
+			TopazWrapper.ResetLoader(arrayFolders.ToList(),_helper32Client);
 		}
 
 		///<summary>Writes the synthetic stand-in (tests\TopazStandIn: Topaz.SigPlusNET with the public methods the wrapper calls, every call recorded in
@@ -43,10 +58,23 @@ namespace BINBTests {
 		[ClassCleanup]
 		public static void ClassCleanup() {
 			TopazWrapper.ResetLoader();
+			try {
+				_helper32Client?.Dispose();
+			}
+			finally {
+				_helperCopy?.Dispose();//waits for the copy's process to end (ends it after 15 seconds) and deletes the copy
+			}
+			Assert.AreEqual(0,_helperCopy==null ? 0 : _helperCopy.GetProcesses().Count,"No helper is left.");
 		}
 
+		///<summary>The calls the stand-in recorded, read back from the helper's process, where the control lives.</summary>
 		private static List<string> GetCalls(Control control) {
-			return (List<string>)control.GetType().GetField("Calls").GetValue(null);
+			string text=(string)((TopazSignatureView)control).Call("GetRecordedCalls");
+			return text=="" ? new List<string>() : text.Split('\n').ToList();
+		}
+
+		private static void ClearCalls(Control control) {
+			((TopazSignatureView)control).Call("ClearRecordedCalls");
 		}
 
 		[TestMethod]
@@ -56,7 +84,7 @@ namespace BINBTests {
 
 		[TestMethod]
 		public void NotInstalled_GetTopazThrowsTheNotInstalledMessage() {
-			TopazWrapper.ResetLoader(new List<string> { _folderEmpty });
+			Reset(_folderEmpty);
 			Assert.AreEqual("",TopazWrapper.FindAssemblyPath());
 			Assert.IsFalse(TopazWrapper.IsInstalled());
 			TopazWrapper.TopazNotInstalledException topazNotInstalledException=Expect.Throws<TopazWrapper.TopazNotInstalledException>(
@@ -66,7 +94,7 @@ namespace BINBTests {
 
 		[TestMethod]
 		public void NotInstalled_EveryCallOnTheMissingControlDoesNothing() {
-			TopazWrapper.ResetLoader(new List<string> { _folderEmpty });
+			Reset(_folderEmpty);
 			Assert.AreEqual(0,TopazWrapper.GetTopazNumberOfTabletPoints(null));
 			Assert.AreEqual(0,TopazWrapper.GetTopazState(null));
 			Assert.AreEqual("",TopazWrapper.GetTopazString(null));
@@ -84,7 +112,7 @@ namespace BINBTests {
 
 		[TestMethod]
 		public void NotInstalled_SignatureBoxShowsTheMessage_ThenItsOwnTextAgain() {
-			TopazWrapper.ResetLoader(new List<string> { _folderEmpty });
+			Reset(_folderEmpty);
 			using(SignatureBoxWrapper signatureBoxWrapper=new SignatureBoxWrapper()) {
 				Label labelInvalidSig=(Label)signatureBoxWrapper.Controls.Find("labelInvalidSig",true).Single();
 				string textOwn=labelInvalidSig.Text;
@@ -122,7 +150,7 @@ namespace BINBTests {
 		[TestMethod]
 		public void NotInstalled_TreatPlanTriesTheOtherKind_TheMessageStays() {
 			//FormTPsign and SheetDrawingJob.GetSigTPHelper: a Topaz signature that does not show is filled once more as the program's own.
-			TopazWrapper.ResetLoader(new List<string> { _folderEmpty });
+			Reset(_folderEmpty);
 			using(SignatureBoxWrapper signatureBoxWrapper=new SignatureBoxWrapper()) {
 				signatureBoxWrapper.SignatureMode=SignatureBoxWrapper.SigMode.TreatPlan;
 				Label labelInvalidSig=GetLabel(signatureBoxWrapper);
@@ -144,7 +172,7 @@ namespace BINBTests {
 		[TestMethod]
 		public void NotInstalled_OwnKindFirstThenTopaz_TheMessageShows() {
 			//The same retry when the SigIsTopaz column says the program's own box: both orders end with the same message.
-			TopazWrapper.ResetLoader(new List<string> { _folderEmpty });
+			Reset(_folderEmpty);
 			using(SignatureBoxWrapper signatureBoxWrapper=new SignatureBoxWrapper()) {
 				signatureBoxWrapper.SignatureMode=SignatureBoxWrapper.SigMode.TreatPlan;
 				Label labelInvalidSig=GetLabel(signatureBoxWrapper);
@@ -160,7 +188,7 @@ namespace BINBTests {
 		[TestMethod]
 		public void NotInstalled_TheOwnSignatureOfATopazMarkedPlanStillShows() {
 			//One SigIsTopaz column for two boxes: the column says Topaz, but this box was signed in the program's own box.
-			TopazWrapper.ResetLoader(new List<string> { _folderEmpty });
+			Reset(_folderEmpty);
 			string signature=GetOwnTreatPlanSignature(KEY_DATA);
 			Assert.IsFalse(SignatureBoxWrapper.IsTopazShaped(signature),"The program's own box stores base 64, not Topaz's hex: "+signature);
 			using(SignatureBoxWrapper signatureBoxWrapper=new SignatureBoxWrapper()) {
@@ -193,7 +221,7 @@ namespace BINBTests {
 		[TestMethod]
 		public void NotInstalled_OwnSignatureWithChangedKeyData_OwnKindFirst_SaysInvalidSignature() {
 			//SigIsTopaz=false: FillSignature(false) fails, then FillSignature(true) without Topaz. A tampered or changed plan is still flagged.
-			TopazWrapper.ResetLoader(new List<string> { _folderEmpty });
+			Reset(_folderEmpty);
 			string signature=GetOwnTreatPlanSignature(KEY_DATA);
 			using(SignatureBoxWrapper signatureBoxWrapper=new SignatureBoxWrapper()) {
 				signatureBoxWrapper.SignatureMode=SignatureBoxWrapper.SigMode.TreatPlan;
@@ -220,7 +248,7 @@ namespace BINBTests {
 		[TestMethod]
 		public void NotInstalled_OwnSignatureWithChangedKeyData_TopazFirst_SaysInvalidSignature() {
 			//SigIsTopaz=true but this box was signed in the program's own box: FillSignature(true) without Topaz, then FillSignature(false) fails.
-			TopazWrapper.ResetLoader(new List<string> { _folderEmpty });
+			Reset(_folderEmpty);
 			string signature=GetOwnTreatPlanSignature(KEY_DATA);
 			using(SignatureBoxWrapper signatureBoxWrapper=new SignatureBoxWrapper()) {
 				signatureBoxWrapper.SignatureMode=SignatureBoxWrapper.SigMode.TreatPlan;
@@ -247,7 +275,7 @@ namespace BINBTests {
 		[TestMethod]
 		public void NotInstalled_TopazShapedSignature_BothFormTPsignOrders_TheMessageShows() {
 			//The earlier fix still holds for a real Topaz-shaped string in FormTPsign's own retry order, whichever kind the column says.
-			TopazWrapper.ResetLoader(new List<string> { _folderEmpty });
+			Reset(_folderEmpty);
 			foreach(bool sigIsTopaz in new[] { true,false }) {
 				using(SignatureBoxWrapper signatureBoxWrapper=new SignatureBoxWrapper()) {
 					signatureBoxWrapper.SignatureMode=SignatureBoxWrapper.SigMode.TreatPlan;
@@ -275,7 +303,7 @@ namespace BINBTests {
 		[TestMethod]
 		public void NotInstalled_AnotherSignatureAfterTheMessage_GetsTheOwnText() {
 			//The message is kept only for the signature Topaz could not check, never for a different one.
-			TopazWrapper.ResetLoader(new List<string> { _folderEmpty });
+			Reset(_folderEmpty);
 			using(SignatureBoxWrapper signatureBoxWrapper=new SignatureBoxWrapper()) {
 				signatureBoxWrapper.SignatureMode=SignatureBoxWrapper.SigMode.TreatPlan;
 				Label labelInvalidSig=GetLabel(signatureBoxWrapper);
@@ -295,7 +323,7 @@ namespace BINBTests {
 		[TestMethod]
 		public void Installed_TreatPlanTriesTheOtherKind_InvalidAsBefore() {
 			//With Topaz installed a Topaz signature that fails both checks says the label's own text, as before.
-			TopazWrapper.ResetLoader(new List<string> { _folderFake });
+			Reset(_folderFake);
 			using(SignatureBoxWrapper signatureBoxWrapper=new SignatureBoxWrapper()) {
 				signatureBoxWrapper.SignatureMode=SignatureBoxWrapper.SigMode.TreatPlan;
 				Label labelInvalidSig=GetLabel(signatureBoxWrapper);
@@ -311,22 +339,25 @@ namespace BINBTests {
 
 		[TestMethod]
 		public void Installed_LoadsTheControlFromASearchFolderAtRunTime() {
-			TopazWrapper.ResetLoader(new List<string> { _folderEmpty,_folderFake });
+			Reset(_folderEmpty,_folderFake);
 			string pathExpected=Path.Combine(_folderFake,TopazWrapper.ASSEMBLY_FILE_NAME);
 			Assert.AreEqual(pathExpected,TopazWrapper.FindAssemblyPath());
 			Assert.IsTrue(TopazWrapper.IsInstalled());
 			using(Control control=TopazWrapper.GetTopaz()) {
-				Assert.AreEqual(TopazWrapper.CONTROL_TYPE_NAME,control.GetType().FullName);
-				Assert.AreEqual(Path.GetFullPath(pathExpected).ToLowerInvariant(),Path.GetFullPath(control.GetType().Assembly.Location).ToLowerInvariant());
+				Assert.IsInstanceOfType(control,typeof(TopazSignatureView),"The program's window gets the view of the helper's control.");
+				//The helper loaded the file the program found; the program's process loads no SigPlusNET.
+				string location=(string)((TopazSignatureView)control).Call("GetAssemblyLocation");
+				Assert.AreEqual(Path.GetFullPath(pathExpected).ToLowerInvariant(),Path.GetFullPath(location).ToLowerInvariant());
+				StringAssert.StartsWith(((TopazSignatureView)control).HelperControlId,_helper32Client.ProcessId.ToString()+"-");
+				Assert.IsFalse(AppDomain.CurrentDomain.GetAssemblies().Any(x => x.GetName().Name=="SigPlusNET"));
 			}
 		}
 
 		[TestMethod]
 		public void Installed_WrapperMakesTheSameCallsAsTheCompiledCode() {
-			TopazWrapper.ResetLoader(new List<string> { _folderFake });
+			Reset(_folderFake);
 			using(Control control=TopazWrapper.GetTopaz()) {
-				List<string> listCalls=GetCalls(control);
-				listCalls.Clear();
+				ClearCalls(control);
 				TopazWrapper.ClearTopaz(control);
 				TopazWrapper.SetTopazCompressionMode(control,2);
 				TopazWrapper.SetTopazEncryptionMode(control,3);
@@ -335,6 +366,7 @@ namespace BINBTests {
 				TopazWrapper.SetTopazAutoKeyANSIData(control,"key two");
 				TopazWrapper.SetTopazState(control,1);
 				TopazWrapper.SetTopazSigString(control,"valid");
+				List<string> listCalls=GetCalls(control);
 				CollectionAssert.AreEqual(new[] { "ClearTablet","SetTabletLogicalXSize:2000","SetTabletLogicalYSize:600","SetSigCompressionMode:2",
 					"SetEncryptionMode:3","SetKeyString:0000000000000000","AutoKeyStart","SetAutoKeyData:key one","AutoKeyFinish","AutoKeyStart",
 					"SetAutoKeyANSIData:key two","AutoKeyFinish","SetTabletState:1","SetSigString:valid" },listCalls);
@@ -347,31 +379,94 @@ namespace BINBTests {
 
 		[TestMethod]
 		public void Installed_FillSignatureEncodings_UsesTheControlsPrivateKeyMethod() {
-			TopazWrapper.ResetLoader(new List<string> { _folderFake });
+			Reset(_folderFake);
 			using(Control control=TopazWrapper.GetTopaz()) {
-				List<string> listCalls=GetCalls(control);
-				listCalls.Clear();
+				ClearCalls(control);
 				TopazWrapper.FillSignatureEncodings(control,"key","needs-bytes",SignatureBoxWrapper.SigMode.Default);
 				Assert.AreEqual(250,TopazWrapper.GetTopazNumberOfTabletPoints(control));
+				List<string> listCalls=GetCalls(control);
 				Assert.AreEqual(1,listCalls.Count(x => x=="Sig.SetAutoKeyData"),"Stops at the first encoding that shows the signature.");
 			}
 		}
 
 		[TestMethod]
 		public void Installed_SignatureBoxShowsATopazSignature() {
-			TopazWrapper.ResetLoader(new List<string> { _folderFake });
+			Reset(_folderFake);
 			using(SignatureBoxWrapper signatureBoxWrapper=new SignatureBoxWrapper()) {
 				Label labelInvalidSig=(Label)signatureBoxWrapper.Controls.Find("labelInvalidSig",true).Single();
 				signatureBoxWrapper.FillSignature(true,"synthetic key data","valid");
 				Assert.AreEqual(250,signatureBoxWrapper.GetNumberOfTabletPoints(true));
 				Assert.AreEqual(signatureBoxWrapper.LabelText,labelInvalidSig.Text);
 				Assert.AreNotEqual(TopazWrapper.NOT_INSTALLED_MESSAGE,labelInvalidSig.Text);
+				Assert.IsTrue(signatureBoxWrapper.IsValid);
+				Assert.IsTrue(signatureBoxWrapper.GetSigIsTopaz());
+				//The stored signature shows as the helper's picture of its control: the stand-in draws a black frame and diagonal for a signature.
+				using(Bitmap bitmap=signatureBoxWrapper.GetSigImage()) {
+					Assert.IsTrue(IsBlack(bitmap.GetPixel(0,0)),"The picture of the signature, drawn by the helper.");
+					Assert.IsFalse(IsBlack(bitmap.GetPixel(bitmap.Width-10,10)));
+				}
+				//Saving reads the signature with the key data, from the helper's control, as before.
+				Assert.AreEqual("valid",signatureBoxWrapper.GetSignature("synthetic key data"));
+			}
+		}
+
+		private static bool IsBlack(Color color) {
+			return color.R<64 && color.G<64 && color.B<64;
+		}
+
+		[TestMethod]
+		public void Installed_HelperEndedBetweenTwoSignatures_TheControlIsCreatedAgain() {
+			Reset(_folderFake);
+			using(SignatureBoxWrapper signatureBoxWrapper=new SignatureBoxWrapper()) {
+				signatureBoxWrapper.FillSignature(true,"synthetic key data","valid");
+				Assert.AreEqual(250,signatureBoxWrapper.GetNumberOfTabletPoints(true));
+				int processId=_helper32Client.ProcessId;
+				using(Process process=Process.GetProcessById(processId)) {
+					process.Kill();//this test's copy of the helper, as a crash of vendor code would end it
+					Assert.IsTrue(process.WaitForExit(10000));
+				}
+				//The next fill starts a new helper and creates the control there again; the signature shows and is checked as before.
+				signatureBoxWrapper.FillSignature(true,"synthetic key data","valid");
+				Assert.AreEqual(250,signatureBoxWrapper.GetNumberOfTabletPoints(true));
+				Assert.IsTrue(signatureBoxWrapper.IsValid);
+				Assert.AreNotEqual(processId,_helper32Client.ProcessId);
+			}
+		}
+
+		[TestMethod]
+		public void NotInstalled_NoHelperIsStarted() {
+			//Most offices have no Topaz software: no SigPlusNET.dll is found, and no helper is started for a signature box.
+			using(Helper32Client helper32Client=new Helper32Client(_helperCopy.PathExe)) {
+				TopazWrapper.ResetLoader(new List<string> { _folderEmpty },helper32Client);
+				using(SignatureBoxWrapper signatureBoxWrapper=new SignatureBoxWrapper()) {
+					signatureBoxWrapper.FillSignature(true,"synthetic key data",SIG_TOPAZ_SHAPED);
+					Assert.IsFalse(signatureBoxWrapper.IsValid);
+				}
+				Assert.AreEqual(0,helper32Client.ProcessId);
+			}
+		}
+
+		[TestMethod]
+		public void HelperMissing_TopazCountsAsNotInstalled_WithTheHelpersMessage() {
+			string pathMissing=Path.Combine(_folderEmpty,Helper32Client.HELPER_FILE_NAME);
+			using(Helper32Client helper32Client=new Helper32Client(pathMissing)) {
+				TopazWrapper.ResetLoader(new List<string> { _folderFake },helper32Client);
+				Assert.IsFalse(TopazWrapper.IsInstalled());
+				StringAssert.StartsWith(TopazWrapper.GetNotInstalledMessage(),TopazWrapper.NOT_INSTALLED_MESSAGE+"\r\n"+Path.Combine(_folderFake,
+					TopazWrapper.ASSEMBLY_FILE_NAME)+" could not be loaded: ");
+				StringAssert.Contains(TopazWrapper.GetNotInstalledMessage(),"was not found at "+pathMissing);
+				Expect.Throws<TopazWrapper.TopazNotInstalledException>(() => TopazWrapper.GetTopaz());
+				using(SignatureBoxWrapper signatureBoxWrapper=new SignatureBoxWrapper()) {
+					signatureBoxWrapper.FillSignature(true,"synthetic key data",SIG_TOPAZ_SHAPED);
+					Assert.AreEqual(TopazWrapper.NOT_INSTALLED_MESSAGE,GetLabel(signatureBoxWrapper).Text);
+				}
 			}
 		}
 
 		[TestMethod]
 		public void DefaultSearch_StartsWithTheProgramFolder() {
 			TopazWrapper.ResetLoader();
+			Assert.AreSame(Helper32Client.Default,TopazWrapper.GetHelper32Client(),"Without a test's client the program's helper runs the controls.");
 			List<string> listFolders=TopazWrapper.GetSearchFolders();
 			Assert.AreEqual(AppDomain.CurrentDomain.BaseDirectory,listFolders[0]);
 			Assert.IsTrue(listFolders.Any(x => x.EndsWith("\\SigPlus",StringComparison.OrdinalIgnoreCase)),string.Join("; ",listFolders));

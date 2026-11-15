@@ -15,7 +15,24 @@ namespace UnitTests.SignatureBoxWrapper_Tests {
 		///<summary>This method will execute only once, just before any tests in this class run.</summary>
 		[ClassInitialize]
 		public static void SetupClass(TestContext testContext) {
+			//Since S3a-14 Topaz's control runs in the 32-bit helper program. These tests use a copy of it under a name of their own, which they end
+			//and delete afterwards; no helper starts when no SigPlusNET.dll is found (the tests are then Inconclusive).
+			string folder=System.IO.Path.GetDirectoryName(typeof(SignatureBoxWrapperTests).Assembly.Location);
+			string pathHelper=System.IO.Path.Combine(folder,Helper32Client.HELPER_FILE_NAME);
+			if(OpenPmsDental.UI.TopazWrapper.FindAssemblyPath()=="" || !System.IO.File.Exists(pathHelper)) {
+				return;
+			}
+			_pathHelperCopy=System.IO.Path.Combine(folder,"OpenPmsDentalHelper32-"+Guid.NewGuid().ToString("N").Substring(0,12)+".exe");
+			System.IO.File.Copy(pathHelper,_pathHelperCopy);
+			if(System.IO.File.Exists(pathHelper+".config")) {
+				System.IO.File.Copy(pathHelper+".config",_pathHelperCopy+".config");
+			}
+			_helper32Client=new Helper32Client(_pathHelperCopy);
+			OpenPmsDental.UI.TopazWrapper.ResetLoader(null,_helper32Client);
 		}
+
+		private static string _pathHelperCopy;
+		private static Helper32Client _helper32Client;
 
 		///<summary>This method will execute just before each test in this class.</summary>
 		[TestInitialize]
@@ -30,11 +47,27 @@ namespace UnitTests.SignatureBoxWrapper_Tests {
 		///<summary>This method will execute only once, just after all tests in this class have run.</summary>
 		[ClassCleanup]
 		public static void TearDownClass() {
+			OpenPmsDental.UI.TopazWrapper.ResetLoader();
+			if(_helper32Client==null) {
+				return;
+			}
+			_helper32Client.Dispose();//closes the pipe; the copy ends, and is ended after 2 seconds if it has not
+			for(int i=0;i<40;i++) {
+				try {
+					System.IO.File.Delete(_pathHelperCopy);
+					System.IO.File.Delete(_pathHelperCopy+".config");
+					break;
+				}
+				catch(Exception ex) when(ex is System.IO.IOException || ex is UnauthorizedAccessException) {
+					System.Threading.Thread.Sleep(250);//the copy's process is still going away
+				}
+			}
 		}
 
-		///<summary>The Topaz tests need Topaz's own SigPlusNET.dll, which the program does not ship: TopazWrapper loads it from the program folder or
-		///Topaz's install folders when the office has installed the Topaz software. Without it a Topaz signature cannot be read, so these tests are
-		///Inconclusive rather than failed; on a computer with the Topaz software they run in full.</summary>
+		///<summary>The Topaz tests need Topaz's own SigPlusNET.dll, which the program does not ship: TopazWrapper finds it in the program folder or
+		///Topaz's install folders when the office has installed the Topaz software, and the 32-bit helper program loads it (S3a-14). Without it a
+		///Topaz signature cannot be read, so these tests are Inconclusive rather than failed; on a computer with the Topaz software they run in full,
+		///through a copy of the helper (SetupClass).</summary>
 		private static void AssertTopazInstalled() {
 			if(!OpenPmsDental.UI.TopazWrapper.IsInstalled()) {
 				Assert.Inconclusive(OpenPmsDental.UI.TopazWrapper.GetNotInstalledMessage()+" Install the Topaz signature pad software (it provides "

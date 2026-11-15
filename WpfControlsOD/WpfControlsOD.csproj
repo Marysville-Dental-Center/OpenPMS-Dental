@@ -76,7 +76,7 @@
     </Compile>
     <!-- The commands of the helper's Schick CDR and Guru modules (S3a-14), compiled into the helper and into this assembly, so
          Bridges\Schick.cs, Bridges\Guru.cs and the modules name them alike (and cross Guru's patient alike). Their types are internal.
-         Since S3a-14 CDR DICOM's interop (Interop.CDRDATALib, Interop.CDRDicom) is referenced by the helper only. -->
+         Since S3a-14 CDR DICOM's two interop files are referenced by the helper only. -->
     <Compile Include="..\OpenPmsDentalHelper32\Schick\SchickCommands.cs">
       <Link>Bridges\SchickCommands.cs</Link>
     </Compile>
