@@ -120,12 +120,18 @@ namespace OpenPmsDental {
 			if(PrefC.HasClinicsEnabled) {
 				clinicNum=comboClinic.ClinicNumSelected;
 			}
+			List<Appointment> listAppointmentsASAP=null;
 			ProgressWin progressOD=new ProgressWin();
 			progressOD.ActionMain=() => { 
-				_listAppointmentsASAP=Appointments.RefreshASAP(comboProv.GetSelectedProvNum(),siteNum,clinicNum,listAppStatuses,codeRangeFilter.StartRange,
+				listAppointmentsASAP=Appointments.RefreshASAP(comboProv.GetSelectedProvNum(),siteNum,clinicNum,listAppStatuses,codeRangeFilter.StartRange,
 					codeRangeFilter.EndRange);
 				};
 			progressOD.ShowDialog();
+			//Cancelled (S3a-1c): the grid and its list stay as they were. The list was null on the first fill, and the worker can still be running.
+			if(progressOD.IsCancelled) {
+				return;
+			}
+			_listAppointmentsASAP=listAppointmentsASAP;
 			int scrollVal=gridAppts.ScrollValue;
 			List<long> listAptNumsSelected=gridAppts.SelectedTags<Appointment>().Select(x => x.AptNum).ToList();
 			gridAppts.BeginUpdate();
