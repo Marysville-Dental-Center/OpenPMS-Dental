@@ -1464,6 +1464,12 @@ self-contained (open point O-15, decision 20).
     since the program exempts loopback connections from it;
   - a `REQUIRE X509` account on the temporary server takes the certificate logins.
   The stage 2 and 3b gates need this test to pass (it is skipped only when the MariaDB binaries are missing, and the gate then fails).
+  **Superseded by O-12** (the check runs against the local test server on port 3306), and **the environment decided on 2026-11-14:** a
+  Windows virtual loopback adapter (the Microsoft KM-TEST Loopback Adapter) with one private address from 192.0.2.0/24, which no other
+  computer can reach; the local MariaDB also listens there; nothing is exposed on the office network; `-Revert` removes the adapter. The
+  owner runs `tools/Enable-LocalDbTls.ps1 -WithTestNetwork 192.0.2.x` elevated (agents never do, and never change this PC's network,
+  firewall or MariaDB service). The one exception to "only `127.0.0.1:3306`": the tests may connect to that test address on port 3306
+  (`OPMS_DB_TLS_TEST_SERVER`), nothing else. The steps: `docs/port-notes/DB-TLS.md` section 11 (DB-TLS-ENV).
 - **O-9. The developer windows in the legacy UnitTests project. Answered 2026-11-08 by the standing rule: kept.** Its `UI Testing`
   folder holds 23 developer windows. One of them, `FormWpfConverter`, is the only front end of the `WpfConverter` class
   (`OpenPmsDental/UIManagement/WpfConverter.cs`, compiled into the program) and the only launcher of the WPF test windows
@@ -1508,7 +1514,10 @@ self-contained (open point O-15, decision 20).
   the TLS and certificate-login test of S2-2 runs against this server, so the temporary server of O-8 is no longer needed; the server
   then refuses unencrypted connections (`require_secure_transport`; other sessions are told first); and the old test database
   (`opendental_dev`) is dropped and rebuilt with `tools/New-DevDatabase.ps1` over the encrypted connection (confirmed with the owner
-  right before the drop).
+  right before the drop). Built by DB-TLS (`docs/port-notes/DB-TLS.md`). S2-2's check also needs an address of this computer that is not
+  loopback; the owner's decision of 2026-11-14 (O-8 above) is a loopback adapter with a 192.0.2.x address, made by the same script with
+  `-WithTestNetwork` together with the server certificate's extra names and the CAPI and CNG client certificates (DB-TLS-ENV, DB-TLS
+  section 11); the tests may connect to that address on port 3306 and to nothing else beside `127.0.0.1:3306`.
 - **O-13. Direct certificates without Open Dental. Answered 2026-11-08: a local certificate import. Done by the DIRECT-CERT package
   (`docs/port-notes/DIRECT-CERT.md`, branch `dev/directcert-2`).** The e-mail address window's
   Register certificate button opens `FormEmailCertRegister`, which registered the address's Direct certificate with Open Dental's own

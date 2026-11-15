@@ -867,6 +867,27 @@ its own, and the result says which key that is and how an administrator deletes 
 Direct certificate window now says so, naming the key, when it imports over a copy whose key is in another key set and leaves that key
 untouched. A put-back the tool cannot check (the store cannot be read again) deletes no key and says so.
 
+## The database TLS test environment (DB-TLS-ENV, answered on 2026-11-14)
+
+S2-2's database TLS check (a `REQUIRE X509` login with `SslMode=VerifyFull` over an address of this computer that is not loopback, once with
+a CAPI key and once with a CNG key; [port-notes/S2-2.md](port-notes/S2-2.md) section 6) needed three things the TLS script did not make: a
+listener on such an address, a server certificate that names it, and two client certificates in the computer's store.
+
+- **Your decision (2026-11-14):** a Windows virtual loopback network adapter (the Microsoft KM-TEST Loopback Adapter, Windows' own driver)
+  with one private address from the documentation range 192.0.2.0/24, which no other computer can reach; the local MariaDB also listens on
+  that address; nothing is exposed on the office network; `-Revert` removes the adapter again. You run the script elevated; the agents never
+  run it elevated, and never install an adapter or change a network setting, the firewall or the MariaDB service on this PC.
+- **The exception to "only 127.0.0.1:3306":** the tests may also connect to that one local test address on port 3306
+  (`OPMS_DB_TLS_TEST_SERVER`), and to nothing else. Every other connection of the tests and tools stays on `127.0.0.1:3306`.
+- **Built** (DB-TLS-ENV, branch `tools/dbtls-env-1`, [port-notes/DB-TLS.md](port-notes/DB-TLS.md) section 11): `tools/Enable-LocalDbTls.ps1
+  -WithTestNetwork 192.0.2.x` adds the adapter (created through Windows' SetupAPI from the driver Windows ships, no download and no
+  devcon), its address with no gateway and no DNS, only IPv4 bound, the second `bind-address`, two firewall rules for port 3306 on that
+  address only from this computer, the address and the computer name in the server certificate, and the two client certificates
+  (`LocalMachine\My`, one key in a CAPI provider, one in the Microsoft Software Key Storage Provider, `BUILTIN\Users` read access as the
+  connection settings tool gives). It prints the three values the test needs. `-Revert` undoes every step, and under your rule never leaves
+  a key behind that the users can read: both certificates go with their keys, and the `.pfx` files are deleted right after their import.
+  Your steps, the lead's test run and the undo, with what to check after each, are in that section.
+
 ---
 
 ## Not asked again (already settled)
