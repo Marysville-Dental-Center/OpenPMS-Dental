@@ -5,24 +5,15 @@ using System.Text.RegularExpressions;
 
 namespace OpenPmsDentalBusiness{
 	public class X12Generator {
-		///<summary>If clearinghouseClin.SenderTIN is blank, then 810624427 will be used to indicate Open Dental.</summary>
-		public static string GetISA06(Clearinghouse clearinghouseClin) {
-			if(clearinghouseClin.SenderTIN=="") {
-				return Sout("810624427",15,15);//TIN of OD.
-			}
-			else {
-				return Sout(clearinghouseClin.SenderTIN,15,15);//already validated to be length at least 2.
-			}
+		///<summary>ISA06: the sender's TIN, padded to 15. X12-SENDER: the clearinghouse's Sender TIN, or the practice's TIN when it is blank
+		///(X12Sender.GetSender). Upstream wrote Open Dental Inc's TIN here when the Sender TIN was blank; this fork never does.</summary>
+		public static string GetISA06(X12Sender sender) {
+			return Sout(sender.TIN,15,15);//Validated to be length at least 2 (clearinghouse) or 9 digits (practice).
 		}
 
-		/// <summary>Sometimes SenderTIN, sometimes OD's TIN.</summary>
-		public static string GetGS02(Clearinghouse clearinghouseClin) {
-			if(clearinghouseClin.SenderTIN=="") {
-				return Sout("810624427",15,2);
-			}
-			else {
-				return Sout(clearinghouseClin.SenderTIN,15,2);//already validated to be length at least 2.
-			}
+		///<summary>GS02: the sender's TIN. X12-SENDER: the clearinghouse's Sender TIN, or the practice's TIN when it is blank.</summary>
+		public static string GetGS02(X12Sender sender) {
+			return Sout(sender.TIN,15,2);//Validated to be length at least 2 (clearinghouse) or 9 digits (practice).
 		}
 
 		///<summary>Returns the Provider Taxonomy code for the given specialty. Always 10 characters, validated.</summary>
