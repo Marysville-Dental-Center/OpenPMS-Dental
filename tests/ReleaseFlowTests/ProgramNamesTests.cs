@@ -185,6 +185,9 @@ namespace ReleaseFlowTests {
 			Assert.IsFalse(File.Exists(Path.Combine(TestPaths.RepoRoot,"OpenPmsDentalHL7","ProjectInstaller.cs")),"ProjectInstaller.cs is back.");
 			string csproj=File.ReadAllText(Path.Combine(TestPaths.RepoRoot,"OpenPmsDentalHL7","OpenPmsDentalHL7.csproj"));
 			Assert.IsFalse(csproj.Contains("System.Configuration.Install"),"OpenPmsDentalHL7.csproj references System.Configuration.Install again.");
+			//Nor does this test project, since S3a-FU1 (its only user was the InstallUtil check this test replaced).
+			string csprojTests=File.ReadAllText(Path.Combine(TestPaths.RepoRoot,"tests","ReleaseFlowTests","ReleaseFlowTests.csproj"));
+			Assert.IsFalse(csprojTests.Contains("System.Configuration.Install"),"ReleaseFlowTests.csproj references System.Configuration.Install again.");
 			foreach(string path in Directory.GetFiles(Path.Combine(TestPaths.RepoRoot,"OpenPmsDentalHL7"),"*.cs",SearchOption.AllDirectories)) {
 				if(path.Contains(Path.DirectorySeparatorChar+"obj"+Path.DirectorySeparatorChar) || path.Contains(Path.DirectorySeparatorChar+"bin"+Path.DirectorySeparatorChar)) {
 					continue;
