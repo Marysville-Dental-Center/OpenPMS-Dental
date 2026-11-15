@@ -216,8 +216,9 @@ namespace M2MISCTests {
 			}
 		}
 
-		///<summary>The audited callers (S3a-1.md, section 9.4) that showed an error or a result from the worker after the window closed as cancelled
-		///now check IsCancelled first, and the worker-side ones rethrow the cancel or check before their question.</summary>
+		///<summary>The audited callers (S3a-1.md, section 9.4) that showed an error or a result from the worker after the window closed as cancelled,
+		///or threw on a result the cancel left null, now check IsCancelled first, and the worker-side ones rethrow the cancel or check before their
+		///question.</summary>
 		[TestMethod]
 		public void Source_CallersCheckTheCancelBeforeTheirMessage() {
 			string formBilling=TestDb.ReadRepoFile("OpenPmsDental","Forms","FormBilling.cs");
@@ -248,6 +249,17 @@ namespace M2MISCTests {
 			string formXConnectValidation=TestDb.ReadRepoFile("OpenPmsDental","Forms","FormXConnectValidation.cs");
 			AssertBefore(formXConnectValidation,"private void Revalidate(","if(progressWin.IsCancelled) {","dictResultsLatest.TryGetValue(",
 				"FormXConnectValidation, Re-validate");
+			string formAsap=TestDb.ReadRepoFile("OpenPmsDental","Forms","FormASAP.cs");
+			AssertBefore(formAsap,"private void FillGridAppts(){","if(progressOD.IsCancelled) {","_listAppointmentsASAP=listAppointmentsASAP;",
+				"FormASAP, the grid's list only from a fill that was not cancelled");
+			AssertBefore(formAsap,"private void FillGridAppts(){","if(progressOD.IsCancelled) {","gridAppts.BeginUpdate();","FormASAP, the grid");
+			string formUnsched=TestDb.ReadRepoFile("OpenPmsDental","Forms","FormUnsched.cs");
+			AssertBefore(formUnsched,"Dictionary<long,string> dictPatNames=null;","if(progressOD.IsCancelled) {",
+				"_listAppointmentsUnsched=listAppointmentsUnsched;","FormUnsched, the grid's list only from a fill that was not cancelled");
+			AssertBefore(formUnsched,"Dictionary<long,string> dictPatNames=null;","if(progressOD.IsCancelled) {","dictPatNames.TryGetValue(",
+				"FormUnsched, the names");
+			string formTrackNext=TestDb.ReadRepoFile("OpenPmsDental","Forms","FormTrackNext.cs");
+			AssertBefore(formTrackNext,"private void FillGrid(){","if(progressOD.IsCancelled) {","listPatients.Find(","FormTrackNext");
 			string reportComplex=TestDb.ReadRepoFile("OpenPmsDental","ReportingComplex","ReportComplex.cs");
 			AssertBefore(reportComplex,"bool wasSubmitted=false;","if(!query.IsQueryStringNullOrEmpty && progressOD.IsCancelled){",
 				"\"There was an error generating this report.\"","ReportComplex");
