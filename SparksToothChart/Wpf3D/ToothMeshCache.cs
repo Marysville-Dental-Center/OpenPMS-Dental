@@ -109,7 +109,9 @@ namespace SparksToothChart.Wpf3D {
 	///<summary>The WPF chart's meshes, built from the embedded .obj models once per process on the render thread and frozen, so they can be used
 	///from any thread (docs/specs/wpf-tooth-chart-plan.md, sections 5.2 and 5.4). Each model is loaded by its own ToothGraphic, made here, so the
 	///render thread never reads a chart's ToothChartData; the scene's 3D items name a model by tooth ID and group index, and the groups come in the
-	///same order from the same file. Not thread-safe: one cache belongs to one thread (the renderer's).</summary>
+	///same order from the same file. TC-6 adds one shape that is no tooth: ToothSceneShapes.Box, a unit box made with Helix Toolkit's MeshBuilder
+	///(the brackets and the space maintainers' bars, each item scaling it by its transform). Not thread-safe: one cache belongs to one thread (the
+	///renderer's).</summary>
 	public sealed class ToothMeshCache {
 		private readonly Dictionary<string,ToothMeshSet> _dictMeshSets=new Dictionary<string,ToothMeshSet>();
 
@@ -119,7 +121,12 @@ namespace SparksToothChart.Wpf3D {
 			if(_dictMeshSets.TryGetValue(toothId,out toothMeshSet)) {
 				return toothMeshSet;
 			}
-			toothMeshSet=BuildMeshSet(new ToothGraphic(toothId));
+			if(toothId==ToothSceneShapes.Box) {
+				toothMeshSet=BuildBoxMeshSet();
+			}
+			else {
+				toothMeshSet=BuildMeshSet(new ToothGraphic(toothId));
+			}
 			_dictMeshSets[toothId]=toothMeshSet;
 			return toothMeshSet;
 		}
@@ -148,6 +155,32 @@ namespace SparksToothChart.Wpf3D {
 				arrayGroups[g]=BuildGroupMesh(toothGraphic,g);
 			}
 			return new ToothMeshSet(toothGraphic.ToothID,toothGraphic.VertexNormals.Count,arrayGroups);
+		}
+
+		///<summary>TC-6: the unit box (1 x 1 x 1 mm, centred on the origin) of ToothSceneShapes.Box, made with Helix Toolkit's MeshBuilder.AddBox and
+		///ToMesh().ToWndMeshGeometry3D(true), the calls docs/port-notes/TC-4.md (section 13) allows. Each face has its own four vertices with the face's
+		///normal, and Helix winds every triangle counter-clockwise seen from outside, so the faces toward the camera are the front faces of section 5.2
+		///(WpfMeshTests checks it). As for a tooth, the reversed mesh has every triangle reversed and every normal negated, for a mirroring transform
+		///(the chart has none for the box). One group, ToothGroupType.None, with no VertexNormals behind it.</summary>
+		public static ToothMeshSet BuildBoxMeshSet() {
+			HelixToolkit.Geometry.MeshBuilder meshBuilder=new HelixToolkit.Geometry.MeshBuilder();
+			meshBuilder.AddBox(new System.Numerics.Vector3(0f,0f,0f),1f,1f,1f);
+			MeshGeometry3D meshHelix=HelixToolkit.Wpf.ConverterExtensions.ToWndMeshGeometry3D(meshBuilder.ToMesh(),true);
+			Point3DCollection point3DCollection=new Point3DCollection(meshHelix.Positions);
+			point3DCollection.Freeze();
+			Vector3DCollection vector3DCollection=new Vector3DCollection(meshHelix.Normals);
+			vector3DCollection.Freeze();
+			Vector3DCollection vector3DCollectionNegated=new Vector3DCollection(vector3DCollection.Count);
+			for(int i=0;i<vector3DCollection.Count;i++) {
+				vector3DCollectionNegated.Add(-vector3DCollection[i]);
+			}
+			vector3DCollectionNegated.Freeze();
+			int[] arrayTriangles=new int[meshHelix.TriangleIndices.Count];
+			meshHelix.TriangleIndices.CopyTo(arrayTriangles,0);
+			MeshGeometry3D mesh=CreateMesh(point3DCollection,vector3DCollection,arrayTriangles);
+			MeshGeometry3D meshReversed=CreateMesh(point3DCollection,vector3DCollectionNegated,ToothMeshWinding.GetReversedTriangles(arrayTriangles));
+			ToothGroupMesh toothGroupMesh=new ToothGroupMesh(ToothGroupType.None,new int[0],mesh,meshReversed);
+			return new ToothMeshSet(ToothSceneShapes.Box,0,new ToothGroupMesh[] { toothGroupMesh });
 		}
 
 		private static ToothGroupMesh BuildGroupMesh(ToothGraphic toothGraphic,int indexGroup) {

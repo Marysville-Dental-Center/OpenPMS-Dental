@@ -1,0 +1,15 @@
+Scene: ortho-hardware-moved-teeth
+Group: ortho
+Description: ortho9's hardware on moved teeth in all four quadrants, mirrored teeth included (6 and 13 rotated, 7, 10 and 26 tipped mesially or distally, 21 tipped buccally, 22 shifted mesially, 11 and 28 shifted occlusally and apically, 29 shifted buccally): the brackets, wires and elastics follow the teeth.
+Size: 500x370
+Colours: Printout
+Engine: Wpf3D (RenderTargetBitmap in software, 3D layer at 3x reduced with WIC's Fant scaler)
+Bitmap: 500x370 Format24bppRgb
+Alpha: every alpha is 255 (format without an alpha channel)
+Colours in the picture: 3724
+Pixels SHA-256: 298faf40e5143324214d424484f8776ab99193c1b6f12015beb8b309f318c741
+Repeatable: yes (a second GetBitmap gave the same pixels)
+Framework: .NET Framework 4.8, x86
+Windows: build 26300.9974 (26H2)
+Fresh render: yes (both layers drawn again without the layer cache gave the same pixels)
+Screen DPI seen by the test host: 96

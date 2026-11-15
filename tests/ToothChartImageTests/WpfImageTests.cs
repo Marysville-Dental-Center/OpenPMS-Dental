@@ -533,6 +533,17 @@ namespace ToothChartImageTests {
 					+"compared by place. The Simple 2D chart already draws all three as Open Dental's 2D chart does. Every other WPF picture is unchanged "
 					+"from G3 (the last column).";
 			}
+			if(galleryName=="G5") {
+				return "Gallery G5 (package TC-6): orthodontic hardware, ortho mode, retained roots and space maintainers, drawn as Open Dental's "
+					+"DirectX 11 chart shows them in its public screenshots (the owner's rule of 2026-11-14; parity rows ORTHO-1, ORTHO-2, RR-1 and SM-1). "
+					+"ORTHO-1: ortho mode draws only the facial rows, moved 14.6 mm toward the centre line with the Palmer numbers between them, the teeth at "
+					+"their size (measured in Capture13 and ortho9). ORTHO-2: brackets with a flat face, darker tie wings and a slot on each crown's facial "
+					+"surface, wires and elastics as thin lines, in ortho mode and in the normal layout. RR-1: a retained root is the root alone in the "
+					+"status colour, a small crescent in the occlusal row, gone once the tooth is extracted. SM-1: a space maintainer is a flat bar in the "
+					+"status colour across each empty space at crown height, never over a tooth. DirectX 9 drew none of it, so the older scenes' parity "
+					+"captions allow those probes; the new scenes have no DirectX picture. The Simple 2D chart draws none of it, as Open Dental's own 2D "
+					+"chart. Every other WPF picture is unchanged from the approved one (the last column).";
+			}
 			return "Gallery "+galleryName+" of the WPF chart.";
 		}
 

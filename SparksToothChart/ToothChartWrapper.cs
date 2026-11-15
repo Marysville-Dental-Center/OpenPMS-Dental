@@ -1548,6 +1548,7 @@ namespace SparksToothChart {
 			tcData.SelectedTeeth.Clear();
 			tcData.DrawingSegmentList=new List<ToothInitial>();
 			tcData.ListFreeTexts=new List<ToothChartFreeText>();
+			tcData.ListOrthoWires=new List<ToothChartOrthoWire>();
 			tcData.PointList=new List<PointF>();
 			Invalidate();
 		}
@@ -1792,6 +1793,87 @@ namespace SparksToothChart {
 			}
 			Invalidate();
 			//toothChartOpenGL.AddDrawingSegment(drawingSegment);
+		}
+
+		///<summary>Paint type RetainedRoot (TC-6, RR-1): only the root of the tooth, in the colour, in both views, as Open Dental's DirectX 11 chart draws
+		///it (the crown is not drawn; the occlusal row shows the root as a small crescent). Drawn only while the tooth is shown, so a completed
+		///extraction, which marks the tooth missing, hides it. Only the WPF chart draws it; DirectX, OpenGL and Simple 2D do not, as Open Dental's
+		///own did not.</summary>
+		public void SetRetainedRoot(string toothID,Color color) {
+			if(!ToothGraphic.IsValidToothID(toothID)) {
+				return;
+			}
+			tcData.ListToothGraphics[toothID].IsRetainedRoot=true;
+			tcData.ListToothGraphics[toothID].colorRetainedRoot=color;
+			Invalidate();
+		}
+
+		///<summary>Paint type SpaceMaintainer (TC-6, SM-1), for one tooth of the procedure (the painter sends each tooth of a range or quadrant): a
+		///solid bar in the colour across the tooth's space at about crown height on the facial view, only when no tooth is drawn in that space, as
+		///Open Dental's DirectX 11 chart draws it. A primary tooth stands for its permanent tooth's space. Only the WPF chart draws it.</summary>
+		public void SetSpaceMaintainer(string toothID,Color color) {
+			if(!ToothGraphic.IsValidToothID(toothID)) {
+				return;
+			}
+			tcData.ListToothGraphics[toothID].IsSpaceMaintainer=true;
+			tcData.ListToothGraphics[toothID].colorSpaceMaintainer=color;
+			Invalidate();
+		}
+
+		///<summary>An orthodontic bracket on the tooth's facial surface (TC-6, ORTHO-2), in the colour of its hardware spec. Only the WPF chart draws
+		///it, in ortho mode and in the normal layout alike.</summary>
+		public void SetBracket(string toothID,Color color) {
+			if(!ToothGraphic.IsValidToothID(toothID)) {
+				return;
+			}
+			tcData.ListToothGraphics[toothID].HasBracket=true;
+			tcData.ListToothGraphics[toothID].colorBracket=color;
+			Invalidate();
+		}
+
+		///<summary>A wire from the bracket of one tooth to that of the next (TC-6, ORTHO-2): a thin line in the colour. Only the WPF chart draws it.</summary>
+		public void AddOrthoWireBetweenBrackets(string toothIDstart,string toothIDend,Color color) {
+			if(!ToothGraphic.IsValidToothID(toothIDstart) || !ToothGraphic.IsValidToothID(toothIDend)) {
+				return;
+			}
+			tcData.ListOrthoWires.Add(new ToothChartOrthoWire(ToothChartOrthoWireKind.BetweenBrackets,toothIDstart,toothIDend,color));
+			Invalidate();
+		}
+
+		///<summary>A wire across one tooth's bracket, through its slot (TC-6, ORTHO-2). Only the WPF chart draws it.</summary>
+		public void AddOrthoWireInBracket(string toothID,Color color) {
+			if(!ToothGraphic.IsValidToothID(toothID)) {
+				return;
+			}
+			tcData.ListOrthoWires.Add(new ToothChartOrthoWire(ToothChartOrthoWireKind.InBracket,toothID,"",color));
+			Invalidate();
+		}
+
+		///<summary>An elastic from the bracket of one tooth to that of another, in the same arch or across the arches (TC-6, ORTHO-2): a thin line in
+		///the colour. Only the WPF chart draws it.</summary>
+		public void AddOrthoElastic(string toothIDstart,string toothIDend,Color color) {
+			if(!ToothGraphic.IsValidToothID(toothIDstart) || !ToothGraphic.IsValidToothID(toothIDend)) {
+				return;
+			}
+			tcData.ListOrthoWires.Add(new ToothChartOrthoWire(ToothChartOrthoWireKind.Elastic,toothIDstart,toothIDend,color));
+			Invalidate();
+		}
+
+		///<summary>Ortho mode (TC-6, ORTHO-1): the WPF chart draws only the facial rows, moved toward the centre line, as Open Dental's ortho mode shows
+		///them; the callers switch the numbers to Palmer themselves. The other engines ignore it, as Open Dental's own did. ResetTeeth keeps it.</summary>
+		public void SetOrthoMode(bool isOrthoMode) {
+			if(tcData.IsOrthoMode==isOrthoMode) {
+				return;
+			}
+			tcData.IsOrthoMode=isOrthoMode;
+			Invalidate();
+		}
+
+		///<summary>True in ortho mode (SetOrthoMode).</summary>
+		public bool IsOrthoMode {
+			get {
+				return tcData.IsOrthoMode;
+			}
 		}
 
 		///<summary>Returns a bitmap of what is showing in the control.  Used for printing.</summary>

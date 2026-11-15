@@ -1,13 +1,13 @@
 Scene: retained-root
 Group: paint
-Description: Retained roots (type 16) on 4, 13 and 20 (TP) and 29 (C). Today's chart draws nothing for them (O-23).
+Description: Retained roots (type 16) on 4, 13 and 20 (TP) and 29 (C). The old charts draw nothing for them; the WPF chart draws the root alone in the status colour since TC-6 (RR-1, as Open Dental).
 Size: 500x370
 Colours: Printout
 Engine: Wpf3D (RenderTargetBitmap in software, 3D layer at 3x reduced with WIC's Fant scaler)
 Bitmap: 500x370 Format24bppRgb
 Alpha: every alpha is 255 (format without an alpha channel)
-Colours in the picture: 3111
-Pixels SHA-256: a0856d3615c370bf03afda779a7262ec704d77fb4701fbdd930bde774a7620cb
+Colours in the picture: 3609
+Pixels SHA-256: 28017c653decddc0ccb47799661ead3d55f6d2d43f9b23fc7bd2bd6f9c930c88
 Repeatable: yes (a second GetBitmap gave the same pixels)
 Framework: .NET Framework 4.8, x86
 Windows: build 26300.9974 (26H2)

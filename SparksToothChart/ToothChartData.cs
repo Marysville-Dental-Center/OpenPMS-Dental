@@ -64,6 +64,13 @@ namespace SparksToothChart {
 		///<summary>The office's Perio Setup option "Use the term Recession" (Open Dental 24.4; PerioMeasures.GetUseRecessionTerm). The WPF chart's perio
 		///legend then names the gingival margin line "Recession", unless the exam has hyperplasia (TC-7). Not cleared by ResetTeeth.</summary>
 		public bool PerioUseRecessionTerm;
+		///<summary>Ortho mode (TC-6, ORTHO-1): the WPF chart draws only the facial rows, moved toward the centre line, as Open Dental's ortho mode shows
+		///them; the callers switch the numbers to Palmer. The DirectX, OpenGL and Simple 2D charts ignore it, as Open Dental's own did. Not cleared by
+		///ResetTeeth: the callers set it before every refill (SetOrthoMode).</summary>
+		public bool IsOrthoMode;
+		///<summary>The orthodontic wires and elastics (TC-6, ORTHO-2), in the order the painter adds them. Cleared by the wrapper's ResetTeeth. Only the
+		///WPF chart draws them.</summary>
+		public List<ToothChartOrthoWire> ListOrthoWires;
 
 		public ToothChartData() {
 			ListToothGraphics=new ToothGraphicCollection();
@@ -80,6 +87,7 @@ namespace SparksToothChart {
 			Font=new System.Drawing.Font(FontFamily.GenericSansSerif,8.25f);
 			PointList=new List<PointF>();
 			ListPerioMeasure=new List<PerioMeasure>();
+			ListOrthoWires=new List<ToothChartOrthoWire>();
 		}
 
 		///<summary></summary>
@@ -105,6 +113,10 @@ namespace SparksToothChart {
 			tcd.ListPerioMeasure=new List<PerioMeasure>();
 			foreach(PerioMeasure pm in ListPerioMeasure) {
 				tcd.ListPerioMeasure.Add(pm.Copy());
+			}
+			tcd.ListOrthoWires=new List<ToothChartOrthoWire>();
+			foreach(ToothChartOrthoWire orthoWire in ListOrthoWires) {
+				tcd.ListOrthoWires.Add(orthoWire.Copy());
 			}
 			return tcd;
 		}

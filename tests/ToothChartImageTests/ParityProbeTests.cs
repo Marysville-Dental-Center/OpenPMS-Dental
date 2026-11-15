@@ -205,7 +205,21 @@ namespace ToothChartImageTests {
 			new TextAllowance("shifto-unerupted","500x370","number","number 11",ReasonUneruptedNextToNumbers),
 			new TextAllowance("shifto-unerupted","500x370","number","number 22",ReasonUneruptedNextToNumbers),
 			new TextAllowance("shifto-unerupted","500x370","number","number 27",ReasonUneruptedNextToNumbers),
+			//TC-6: the retained roots' occlusal crescents (RR-1) and ortho mode's layout (ORTHO-1) beside these numbers.
+			new TextAllowance("retained-root-statuses","410x307","number","number 3",ReasonRetainedRootNextToNumbers),
+			new TextAllowance("retained-root-statuses","410x307","number","number 14",ReasonRetainedRootNextToNumbers),
+			new TextAllowance("ortho-mode","500x370","number","number 3",ReasonOrthoModeNextToNumbers),
+			new TextAllowance("ortho-mode","500x370","number","number 14",ReasonOrthoModeNextToNumbers),
 		};
+
+		private const string ReasonRetainedRootNextToNumbers="On purpose, not a difference of place (TC-6, RR-1): the WPF chart draws this tooth's retained "
+			+"root as Open Dental does, its root alone in the status colour, which in the occlusal row is a dark crescent right above the number; its "
+			+"pixels in the search box count as the number's ink and the WPF ink box grows upward by 2 to 3 pixels. DirectX 9 drew the whole tooth there, "
+			+"pale. The glyphs sit in the same cells.";
+
+		private const string ReasonOrthoModeNextToNumbers="On purpose, not a difference of place (TC-6, ORTHO-1): in ortho mode the WPF chart draws no "
+			+"occlusal row, as Open Dental's ortho mode, so the shaded occlusal teeth that DirectX 9 drew right above these numbers no longer count as their "
+			+"ink and the WPF ink box is 3 pixels shorter at the top. The numbers sit in the same cells.";
 
 		private const string ReasonUneruptedNextToNumbers="On purpose, not a difference of place (TC-3c, LOOK-2): the unerupted tooth beside this number "
 			+"is dark (half colour) in DirectX 9's picture, so its dark pixels in the search box count as the number's ink and DirectX's ink box grows by "

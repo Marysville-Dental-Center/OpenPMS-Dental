@@ -72,7 +72,10 @@ namespace SparksToothChart.Wpf3D {
 		///numbers. TC-5 adds what DirectX does not draw: the paint text in the watch band after the watches, and the free-text
 		///labels last, over everything. TC-3c (LOOK-2): the half-transparent unerupted teeth go into the scene's Items3DUnder, a 3D layer beneath
 		///the opaque teeth: they blend over the background, and every opaque tooth covers them whatever their depth, as Open Dental's 2023
-		///mixed-dentition screenshot shows (the primary teeth's roots crisp over the pale permanent crowns).</summary>
+		///mixed-dentition screenshot shows (the primary teeth's roots crisp over the pale permanent crowns). TC-6 adds what only Open Dental's
+		///DirectX 11 chart drew: ortho mode's facial-only layout (no occlusal views, ORTHO-1), the retained roots and the brackets in each facial
+		///view (RR-1, ORTHO-2), the space maintainers' bars after the teeth (SM-1), and the wires and elastics as thin lines in the 2D layer after
+		///the teeth's own 2D items, under the watches and numbers (ORTHO-2).</summary>
 		private static void AddChartScene(SceneBuilding building) {
 			ToothChartData tcData=building.TcData;
 			for(int t=0;t<tcData.ListToothGraphics.Count;t++) {
@@ -80,8 +83,12 @@ namespace SparksToothChart.Wpf3D {
 					continue;
 				}
 				AddFacialView(building,tcData.ListToothGraphics[t]);
-				AddOcclusalView(building,tcData.ListToothGraphics[t]);
+				if(!tcData.IsOrthoMode) {
+					AddOcclusalView(building,tcData.ListToothGraphics[t]);
+				}
 			}
+			AddSpaceMaintainers(building);
+			AddOrthoWires(building);
 			AddWatches(building);
 			AddPaintTexts(building);
 			AddDrawingSegments(building);
@@ -89,14 +96,20 @@ namespace SparksToothChart.Wpf3D {
 			AddFreeTexts(building);
 		}
 
-		///<summary>DirectX's DrawFacialView: the tooth, then (depth off) the big X, the root canal lines and the build-up/post, then the implant.</summary>
+		///<summary>DirectX's DrawFacialView: the tooth, then (depth off) the big X, the root canal lines and the build-up/post, then the implant. TC-6:
+		///a retained root on a tooth that is shown draws only its root (RR-1), and a bracket goes on a crown that is drawn (ORTHO-2), after the
+		///implant; in ortho mode the row is moved toward the centre line (GetTransYfacial, ORTHO-1).</summary>
 		private static void AddFacialView(SceneBuilding building,ToothGraphic toothGraphic) {
 			ToothChartData tcData=building.TcData;
 			string toothId=toothGraphic.ToothID;
-			ChartMatrix toothTrans=ChartMatrix.Translation(tcData.GetTransX(toothId),tcData.GetTransYfacial(toothId),0);
-			ChartMatrix world=GetUserRotationAndTranslation(toothGraphic)*toothTrans;
+			ChartMatrix world=GetFacialWorld(tcData,toothGraphic);
 			if(toothGraphic.Visible || (toothGraphic.IsCrown && toothGraphic.IsImplant) || toothGraphic.IsPontic) {
-				AddTooth(building,toothGraphic,world,toothId+" facial");
+				if(IsRetainedRootShown(toothGraphic)) {
+					AddRetainedRoot(building,toothGraphic,world,toothId+" facial");
+				}
+				else {
+					AddTooth(building,toothGraphic,world,toothId+" facial");
+				}
 			}
 			if(toothGraphic.DrawBigX) {//Extraction
 				string source="big X of "+toothId;
@@ -120,6 +133,9 @@ namespace SparksToothChart.Wpf3D {
 			}
 			if(toothGraphic.IsImplant) {
 				AddImplant(building,toothGraphic,world,"implant of "+toothId);
+			}
+			if(toothGraphic.HasBracket && IsCrownDrawnFacial(toothGraphic)) {
+				AddBracket(building,toothGraphic,world);
 			}
 		}
 
@@ -160,9 +176,14 @@ namespace SparksToothChart.Wpf3D {
 				|| (toothGraphic.IsCrown && toothGraphic.IsImplant))//a crown on an implant will paint
 			//pontics won't paint, because tooth is invisible
 			{
-				AddTooth(building,toothGraphic,world,toothId+" occlusal");
+				if(IsRetainedRootShown(toothGraphic)) {
+					AddRetainedRoot(building,toothGraphic,world,toothId+" occlusal");//TC-6 (RR-1): the root seen from occlusal, a small crescent
+				}
+				else {
+					AddTooth(building,toothGraphic,world,toothId+" occlusal");
+				}
 			}
-			if(toothGraphic.Visible && toothGraphic.IsSealant) {//draw sealant
+			if(toothGraphic.Visible && toothGraphic.IsSealant && !IsRetainedRootShown(toothGraphic)) {//draw sealant (a retained root has no crown)
 				float toMm=1f/tcData.ScaleMmToPix;
 				ChartMatrix worldSealant=GetUserTranslation(toothGraphic)*toothRot*toothTrans;
 				ChartFont font=building.FontSealant;
@@ -674,12 +695,12 @@ namespace SparksToothChart.Wpf3D {
 				float toMm=1f/tcData.ScaleMmToPix;
 				string source="watch of "+toothGraphic.ToothID;
 				if(ToothGraphic.IsMaxillary(toothGraphic.ToothID)) {
-					AddText(building,"W",toothTrans,tcData.PixelScaleRatio*(-6f*toMm),tcData.PixelScaleRatio*(153f*toMm),-6f,toothGraphic.colorWatch,
-						building.FontWatch,source);
+					AddText(building,"W",toothTrans,tcData.PixelScaleRatio*(-6f*toMm),tcData.PixelScaleRatio*(153f*toMm)-GetOrthoShift(tcData),-6f,
+						toothGraphic.colorWatch,building.FontWatch,source);
 				}
 				else {
-					AddText(building,"W",toothTrans,tcData.PixelScaleRatio*(-6f*toMm),tcData.PixelScaleRatio*(-138f*toMm),-6f,toothGraphic.colorWatch,
-						building.FontWatch,source);
+					AddText(building,"W",toothTrans,tcData.PixelScaleRatio*(-6f*toMm),tcData.PixelScaleRatio*(-138f*toMm)+GetOrthoShift(tcData),-6f,
+						toothGraphic.colorWatch,building.FontWatch,source);
 				}
 			}
 		}
@@ -955,7 +976,7 @@ namespace SparksToothChart.Wpf3D {
 				bool isMaxillary=ToothGraphic.IsMaxillary(toothId);
 				//The watch mark's line (AddWatches): its top at 153 pixels times the ratio above the centre over a maxillary tooth, 138 below it under a
 				//mandibular one.
-				float yMm=isMaxillary ? tcData.PixelScaleRatio*(153f*toMm) : tcData.PixelScaleRatio*(-138f*toMm);
+				float yMm=isMaxillary ? tcData.PixelScaleRatio*(153f*toMm)-GetOrthoShift(tcData) : tcData.PixelScaleRatio*(-138f*toMm)+GetOrthoShift(tcData);
 				float xScreen;
 				float yScreen;
 				building.Scene.ProjectDirectX(ChartMatrix.Identity,GetShiftedTransX(tcData,toothGraphic),yMm,-6f,out xScreen,out yScreen);
@@ -1058,6 +1079,328 @@ namespace SparksToothChart.Wpf3D {
 			return listBoxes;
 		}
 		#endregion Text of TC-5: paint text and free text
+
+		#region Orthodontics, retained roots and space maintainers (TC-6)
+		///<summary>ORTHO-1: how far ortho mode moves each facial row toward the centre line, in mm. Measured in Open Dental's ortho-mode screenshots
+		///against its normal chart (Capture17, 2024): the teeth keep their size there (a central incisor about 70 pixels long, the 16 teeth as wide as
+		///in the normal chart), and the crowns' edges are 46 pixels nearer the centre line than in the normal chart in Capture13 (2024) and 46.5 in
+		///ortho9 (2022, on the molars) at 410 pixels across, 3.154 pixels a mm: 14.6 mm. The numbers between the rows stay where they are.</summary>
+		public const float OrthoFacialShiftMm=14.6f;
+		///<summary>ORTHO-2: the bracket's base, a flat face 2.8 mm wide and 2.2 mm high (about 9 by 7 pixels at the module's size, as Open Dental's
+		///brackets in ortho9), its middle 4 mm from the crown's incisal or occlusal edge toward the root (measured: 13 pixels in ortho9 and
+		///Capture13).</summary>
+		public const float BracketWidthMm=2.8f;
+		public const float BracketHeightMm=2.2f;
+		public const float BracketFromEdgeMm=4f;
+		///<summary>The base's depth: from 0.4 mm inside the crown's facial surface to 0.3 mm in front of it.</summary>
+		public const float BracketBaseBackMm=0.4f;
+		public const float BracketBaseFrontMm=0.3f;
+		///<summary>The four tie wings on the base, darker, 0.4 mm in front of it: 0.65 by 0.8 mm each, 0.3 mm in from the base's sides, leaving the
+		///slot (0.6 mm high, across the middle) and a gap between the left and right wings, as ortho9's brackets show (a 9 by 7 pixel square with
+		///two dark 2-pixel wings above and below a 2-pixel slot).</summary>
+		public const float BracketWingWidthMm=0.65f;
+		public const float BracketWingHeightMm=0.8f;
+		public const float BracketWingInsetMm=0.3f;
+		public const float BracketWingDepthMm=0.4f;
+		public const float BracketSlotHeightMm=0.6f;
+		///<summary>The wings' colour: the bracket's colour times this (ortho9: wings about 124 against a base of 180).</summary>
+		public const float BracketWingShade=0.7f;
+		///<summary>The specular value of the boxes (brackets, bars): none, as ortho9's brackets (a lit silver base of 180, not a highlight).</summary>
+		public const float SpecularBox=0f;
+		///<summary>The width of a wire or an elastic, in mm: one pixel at the module's size (410 pixels across 130 mm), as ortho9's wires and
+		///elastics (ORTHO-2: thin lines of about 1 to 2 pixels).</summary>
+		public const float OrthoLineWidthMm=0.32f;
+		///<summary>SM-1: the bar's height and depth in mm (space-main-chart.png: about 4.7 pixels high at 407 pixels across), and how far its middle is
+		///from the facial row's line toward the crowns (its middle 24.1 mm above the centre line there, the row's line at 29 mm).</summary>
+		public const float SpaceMaintainerHeightMm=1.5f;
+		public const float SpaceMaintainerDepthMm=1f;
+		public const float SpaceMaintainerFromRowMm=5f;
+		public const string SourceBracket="bracket of ";
+		public const string SourceWireInBracket="wire in bracket of ";
+		public const string SourceWire="wire ";
+		public const string SourceElastic="elastic ";
+		public const string SourceSpaceMaintainer="space maintainer ";
+		public const string SourceRetainedRootSuffix=" retained root";
+		private static readonly object _lockBracketPlacements=new object();
+		private static readonly Dictionary<string,BracketPlacement> _dictBracketPlacements=new Dictionary<string,BracketPlacement>();
+
+		///<summary>Where a tooth model's bracket sits, in the model's own mm: the middle of the base face (x 0), and the z of the crown's facial
+		///surface under the bracket.</summary>
+		public struct BracketPlacement {
+			public float CenterY;
+			public float FaceZ;
+		}
+
+		///<summary>ORTHO-1: how far the facial rows move toward the centre line: OrthoFacialShiftMm in ortho mode, else 0.</summary>
+		public static float GetOrthoShift(ToothChartData tcData) {
+			return tcData.IsOrthoMode ? OrthoFacialShiftMm : 0f;
+		}
+
+		///<summary>The y of a tooth's facial view in mm: ToothChartData.GetTransYfacial (DirectX's place), moved toward the centre line by
+		///OrthoFacialShiftMm in ortho mode (ORTHO-1). ToothChartData's own method stays DirectX's: the OpenGL chart reads it.</summary>
+		public static float GetTransYfacial(ToothChartData tcData,string toothId) {
+			float y=tcData.GetTransYfacial(toothId);
+			if(ToothGraphic.IsMaxillary(toothId)) {
+				return y-GetOrthoShift(tcData);
+			}
+			return y+GetOrthoShift(tcData);
+		}
+
+		///<summary>DirectX's world matrix of a tooth's facial view: the user's rotations and translation, then the tooth's place (in ortho mode the
+		///moved row).</summary>
+		public static ChartMatrix GetFacialWorld(ToothChartData tcData,ToothGraphic toothGraphic) {
+			string toothId=toothGraphic.ToothID;
+			ChartMatrix toothTrans=ChartMatrix.Translation(tcData.GetTransX(toothId),GetTransYfacial(tcData,toothId),0);
+			return GetUserRotationAndTranslation(toothGraphic)*toothTrans;
+		}
+
+		///<summary>RR-1: a retained root is drawn only on a tooth that is shown. A completed extraction marks the tooth missing (Open Dental:
+		///"once the root's extraction is complete, the root graphic is gone"), and so hides it.</summary>
+		public static bool IsRetainedRootShown(ToothGraphic toothGraphic) {
+			return toothGraphic.IsRetainedRoot && toothGraphic.Visible;
+		}
+
+		///<summary>True when the facial view draws the tooth's crown: a tooth that is shown, a crown on an implant or a pontic, but not a retained root,
+		///which has no crown.</summary>
+		public static bool IsCrownDrawnFacial(ToothGraphic toothGraphic) {
+			return (toothGraphic.Visible || (toothGraphic.IsCrown && toothGraphic.IsImplant) || toothGraphic.IsPontic) && !IsRetainedRootShown(toothGraphic);
+		}
+
+		///<summary>RR-1, as Open Dental's DirectX 11 chart draws a retained root (https://odtechblog.files.wordpress.com/2021/01/retained-chart.png):
+		///only the tooth's root (its cementum groups), in the procedure's colour, lit like the teeth. In the facial view that is the root; in the
+		///occlusal view, where the crown no longer covers it, the near side of the root seen from occlusal: a small crescent. An unerupted tooth's root
+		///is translucent like the rest of an unerupted tooth (GetGroupColor's rule) and goes beneath the opaque teeth.</summary>
+		private static void AddRetainedRoot(SceneBuilding building,ToothGraphic toothGraphic,ChartMatrix world,string source) {
+			for(int g=0;g<toothGraphic.Groups.Count;g++) {
+				ToothGroup group=toothGraphic.Groups[g];
+				if(!group.Visible || group.Faces.Count==0 || group.GroupType!=ToothGroupType.Cementum) {
+					continue;
+				}
+				Color color=Color.FromArgb(255,toothGraphic.colorRetainedRoot);
+				if(toothGraphic.ShiftO<-10) {//if unerupted
+					color=Color.FromArgb(UneruptedAlpha,color.R,color.G,color.B);
+				}
+				ToothSceneItem3D item=new ToothSceneItem3D(toothGraphic.ToothID,g,group.GroupType,color,GetGroupSpecular(group),world,source+SourceRetainedRootSuffix);
+				if(color.A<255) {
+					building.ListItems3DUnder.Add(item);
+				}
+				else {
+					building.ListItems3D.Add(item);
+				}
+			}
+		}
+
+		///<summary>Where the model of toothGraphic's tooth takes a bracket (cached per tooth ID: the models never change). The crown is every group but
+		///the root, the build-up and the unnamed ones. Its edge is the crown's lowest point on a maxillary tooth (the crowns point down) and its
+		///highest on a mandibular one; the bracket's middle is BracketFromEdgeMm from there toward the root, and its face sits on the crown's most
+		///facial point (largest z) under the bracket.</summary>
+		public static BracketPlacement GetBracketPlacement(ToothGraphic toothGraphic) {
+			string toothId=toothGraphic.ToothID;
+			lock(_lockBracketPlacements) {
+				BracketPlacement bracketPlacement;
+				if(_dictBracketPlacements.TryGetValue(toothId,out bracketPlacement)) {
+					return bracketPlacement;
+				}
+				HashSet<int> hashSetCrown=new HashSet<int>();
+				for(int g=0;g<toothGraphic.Groups.Count;g++) {
+					ToothGroupType groupType=toothGraphic.Groups[g].GroupType;
+					if(groupType==ToothGroupType.Cementum || groupType==ToothGroupType.Buildup || groupType==ToothGroupType.None
+						|| groupType==ToothGroupType.Canals || groupType==ToothGroupType.Implant)
+					{
+						continue;
+					}
+					foreach(int index in toothGraphic.Groups[g].GetTriangleIndices()) {
+						hashSetCrown.Add(index);
+					}
+				}
+				bool isMaxillary=ToothGraphic.IsMaxillary(toothId);
+				float edgeY=isMaxillary ? float.MaxValue : float.MinValue;
+				float maxZ=float.MinValue;
+				foreach(int index in hashSetCrown) {
+					Vertex3f vertex=toothGraphic.VertexNormals[index].Vertex;
+					edgeY=isMaxillary ? Math.Min(edgeY,vertex.Y) : Math.Max(edgeY,vertex.Y);
+					maxZ=Math.Max(maxZ,vertex.Z);
+				}
+				if(hashSetCrown.Count==0) {
+					edgeY=0;
+					maxZ=0;
+				}
+				float centerY=isMaxillary ? edgeY+BracketFromEdgeMm : edgeY-BracketFromEdgeMm;
+				float faceZ=float.MinValue;
+				foreach(int index in hashSetCrown) {
+					Vertex3f vertex=toothGraphic.VertexNormals[index].Vertex;
+					if(Math.Abs(vertex.X)<=BracketWidthMm/2f && Math.Abs(vertex.Y-centerY)<=BracketHeightMm/2f) {
+						faceZ=Math.Max(faceZ,vertex.Z);
+					}
+				}
+				if(faceZ==float.MinValue) {
+					faceZ=maxZ;//no crown point under the bracket: in front of the whole crown
+				}
+				bracketPlacement=new BracketPlacement();
+				bracketPlacement.CenterY=centerY;
+				bracketPlacement.FaceZ=faceZ;
+				_dictBracketPlacements[toothId]=bracketPlacement;
+				return bracketPlacement;
+			}
+		}
+
+		///<summary>The world matrix of a tooth's bracket: its place on the model (GetBracketPlacement), then the tooth's facial world, so the bracket
+		///follows the tooth's movements and rotations.</summary>
+		public static ChartMatrix GetBracketWorld(ToothChartData tcData,ToothGraphic toothGraphic) {
+			BracketPlacement bracketPlacement=GetBracketPlacement(toothGraphic);
+			return ChartMatrix.Translation(0,bracketPlacement.CenterY,bracketPlacement.FaceZ)*GetFacialWorld(tcData,toothGraphic);
+		}
+
+		///<summary>ORTHO-2, as Open Dental draws a bracket (ortho9 and Capture13): a flat face with a slot. Five boxes of ToothSceneShapes.Box in the 3D
+		///layer, lit like the teeth: the base in the hardware's colour, and four darker tie wings in front of it, two above and two below the
+		///slot.</summary>
+		private static void AddBracket(SceneBuilding building,ToothGraphic toothGraphic,ChartMatrix worldFacial) {
+			BracketPlacement bracketPlacement=GetBracketPlacement(toothGraphic);
+			ChartMatrix world=ChartMatrix.Translation(0,bracketPlacement.CenterY,bracketPlacement.FaceZ)*worldFacial;
+			string source=SourceBracket+toothGraphic.ToothID;
+			Color colorBase=Color.FromArgb(255,toothGraphic.colorBracket);
+			Color colorWing=Color.FromArgb(255,(int)Math.Round(colorBase.R*BracketWingShade),(int)Math.Round(colorBase.G*BracketWingShade),
+				(int)Math.Round(colorBase.B*BracketWingShade));
+			float baseDepth=BracketBaseBackMm+BracketBaseFrontMm;
+			AddBox(building,world,0,0,(BracketBaseFrontMm-BracketBaseBackMm)/2f,BracketWidthMm,BracketHeightMm,baseDepth,colorBase,source);
+			float wingX=BracketWidthMm/2f-BracketWingInsetMm-BracketWingWidthMm/2f;
+			float wingY=BracketSlotHeightMm/2f+BracketWingHeightMm/2f;
+			float wingZ=BracketBaseFrontMm+BracketWingDepthMm/2f;
+			foreach(float signY in new float[] { 1f,-1f }) {
+				foreach(float signX in new float[] { -1f,1f }) {
+					AddBox(building,world,signX*wingX,signY*wingY,wingZ,BracketWingWidthMm,BracketWingHeightMm,BracketWingDepthMm,colorWing,source+" wing");
+				}
+			}
+		}
+
+		///<summary>One box of ToothSceneShapes.Box in the 3D layer: the unit box scaled to the size, moved to the centre, then by world. Lit like the
+		///teeth but matte (no specular part: ortho9's brackets show none, a silver base 180 and its wings 124, which the diffuse and ambient parts
+		///give: 178 and 124), or unlit in its colour exactly when isFlat.</summary>
+		private static void AddBox(SceneBuilding building,ChartMatrix world,float x,float y,float z,float width,float height,float depth,Color color,
+			string source,bool isFlat=false)
+		{
+			ChartMatrix transform=ChartMatrix.Scaling(width,height,depth)*ChartMatrix.Translation(x,y,z)*world;
+			building.ListItems3D.Add(new ToothSceneItem3D(ToothSceneShapes.Box,0,ToothGroupType.None,Color.FromArgb(255,color),SpecularBox,transform,source,
+				isFlat));
+		}
+
+		///<summary>A point of a tooth's bracket in scene mm: x along the slot (0 the middle, half the width its ends), at the front of the wings.</summary>
+		public static Vertex3f GetBracketPoint(ToothChartData tcData,ToothGraphic toothGraphic,float x) {
+			ChartMatrix world=GetBracketWorld(tcData,toothGraphic);
+			float xOut;
+			float yOut;
+			float zOut;
+			world.TransformCoordinate(x,0,BracketBaseFrontMm+BracketWingDepthMm,out xOut,out yOut,out zOut);
+			return new Vertex3f(xOut,yOut,zOut);
+		}
+
+		///<summary>ORTHO-2, as Open Dental draws them (ortho9: thin grey wires through the bracket slots, thin yellow elastics from bracket to
+		///bracket): every wire and elastic as a line OrthoLineWidthMm wide in the 2D layer, in its colour, in the order the painter gave them. A wire
+		///in a bracket runs across the slot; a wire between brackets from the end of one slot to the facing end of the next; an elastic from the
+		///middle of one bracket to the middle of the other. The points follow each tooth's movements; a missing tooth's place is used as it is.</summary>
+		private static void AddOrthoWires(SceneBuilding building) {
+			ToothChartData tcData=building.TcData;
+			foreach(ToothChartOrthoWire orthoWire in tcData.ListOrthoWires) {
+				ToothGraphic toothGraphicStart=tcData.ListToothGraphics[orthoWire.ToothIDstart];
+				if(toothGraphicStart==null) {
+					continue;
+				}
+				if(orthoWire.Kind==ToothChartOrthoWireKind.InBracket) {
+					AddLineList(building,ChartMatrix.Identity,orthoWire.ColorDraw,OrthoLineWidthMm,SourceWireInBracket+orthoWire.ToothIDstart,
+						GetBracketPoint(tcData,toothGraphicStart,-BracketWidthMm/2f),GetBracketPoint(tcData,toothGraphicStart,BracketWidthMm/2f));
+					continue;
+				}
+				ToothGraphic toothGraphicEnd=tcData.ListToothGraphics[orthoWire.ToothIDend];
+				if(toothGraphicEnd==null) {
+					continue;
+				}
+				Vertex3f pointStart=GetBracketPoint(tcData,toothGraphicStart,0);
+				Vertex3f pointEnd=GetBracketPoint(tcData,toothGraphicEnd,0);
+				if(orthoWire.Kind==ToothChartOrthoWireKind.Elastic) {
+					AddLineList(building,ChartMatrix.Identity,orthoWire.ColorDraw,OrthoLineWidthMm,SourceElastic+orthoWire.ToothIDstart+"-"+orthoWire.ToothIDend,
+						pointStart,pointEnd);
+					continue;
+				}
+				//Between brackets: from the slot's end that faces the other bracket.
+				float sign=pointStart.X<=pointEnd.X ? 1f : -1f;
+				AddLineList(building,ChartMatrix.Identity,orthoWire.ColorDraw,OrthoLineWidthMm,SourceWire+orthoWire.ToothIDstart+"-"+orthoWire.ToothIDend,
+					GetBracketPoint(tcData,toothGraphicStart,sign*BracketWidthMm/2f),GetBracketPoint(tcData,toothGraphicEnd,-sign*BracketWidthMm/2f));
+			}
+		}
+
+		///<summary>SM-1: true when a tooth's crown is drawn in its space at crown height: a shown tooth that has erupted (a retained root counts: the
+		///tooth is there), a pontic, or a crown on an implant. A missing or hidden tooth, and an unerupted one (its crown is moved into the root's
+		///place), leave the space empty.</summary>
+		public static bool IsToothInSpace(ToothGraphic toothGraphic) {
+			if(toothGraphic==null) {
+				return false;
+			}
+			return (toothGraphic.Visible && toothGraphic.ShiftO>=-10) || toothGraphic.IsPontic || (toothGraphic.IsCrown && toothGraphic.IsImplant);
+		}
+
+		///<summary>SM-1, as Open Dental's DirectX 11 chart draws a space maintainer (https://odtechblog.files.wordpress.com/2021/01/space-main-chart.png;
+		///"designed to not ever draw in the same space where a tooth already exists", https://www.opendentalsoft.com:8085/forum/viewtopic.php?t=7522):
+		///for every permanent tooth's space that has a space maintainer (on the permanent tooth or on its primary tooth) and no tooth in it
+		///(IsToothInSpace for both), a solid bar of ToothSceneShapes.Box in the procedure's colour, unlit (the screenshot's bar is the TP colour
+		///198,0,0 itself, flat), across the space, at about crown height on the
+		///facial view (SpaceMaintainerFromRowMm from the facial row's line toward the crowns; in ortho mode on the moved row). Neighbouring spaces of
+		///the same colour make one bar. The bar is 3D, behind the teeth's facial surfaces, so a neighbour moved into the space covers it.</summary>
+		private static void AddSpaceMaintainers(SceneBuilding building) {
+			ToothChartData tcData=building.TcData;
+			foreach(bool isMaxillary in new bool[] { true,false }) {
+				int start=isMaxillary ? 1 : 17;
+				float yBar=isMaxillary ? GetTransYfacial(tcData,"3")-SpaceMaintainerFromRowMm : GetTransYfacial(tcData,"30")+SpaceMaintainerFromRowMm;
+				float left=0;
+				float right=0;
+				Color colorRun=Color.Empty;
+				string sourceRun=null;
+				for(int i=start;i<start+16;i++) {
+					string permId=i.ToString();
+					ToothGraphic toothGraphicPerm=tcData.ListToothGraphics[permId];
+					string priId=Tooth.PermToPri(permId);
+					ToothGraphic toothGraphicPri=priId=="" ? null : tcData.ListToothGraphics[priId];
+					bool isBar=false;
+					Color color=Color.Empty;
+					if(toothGraphicPerm!=null && toothGraphicPerm.IsSpaceMaintainer) {
+						isBar=true;
+						color=toothGraphicPerm.colorSpaceMaintainer;
+					}
+					else if(toothGraphicPri!=null && toothGraphicPri.IsSpaceMaintainer) {
+						isBar=true;
+						color=toothGraphicPri.colorSpaceMaintainer;
+					}
+					if(isBar && (IsToothInSpace(toothGraphicPerm) || IsToothInSpace(toothGraphicPri))) {
+						isBar=false;
+					}
+					float x=tcData.GetTransX(permId);
+					float halfWidth=ToothGraphic.GetWidth(permId)/2f;
+					float leftSpace=Math.Min(x-halfWidth,x+halfWidth);
+					float rightSpace=Math.Max(x-halfWidth,x+halfWidth);
+					color=Color.FromArgb(255,color);
+					if(sourceRun!=null && (!isBar || color.ToArgb()!=colorRun.ToArgb())) {
+						AddBox(building,ChartMatrix.Identity,(left+right)/2f,yBar,0,right-left,SpaceMaintainerHeightMm,SpaceMaintainerDepthMm,colorRun,sourceRun,true);
+						sourceRun=null;
+					}
+					if(!isBar) {
+						continue;
+					}
+					if(sourceRun==null) {
+						left=leftSpace;
+						right=rightSpace;
+						colorRun=color;
+						sourceRun=SourceSpaceMaintainer+permId;
+						continue;
+					}
+					left=Math.Min(left,leftSpace);
+					right=Math.Max(right,rightSpace);
+					sourceRun+=","+permId;
+				}
+				if(sourceRun!=null) {
+					AddBox(building,ChartMatrix.Identity,(left+right)/2f,yBar,0,right-left,SpaceMaintainerHeightMm,SpaceMaintainerDepthMm,colorRun,sourceRun,true);
+				}
+			}
+		}
+		#endregion Orthodontics, retained roots and space maintainers (TC-6)
 
 		#region Fonts
 		///<summary>DirectX's PrepareForDirectX: the numbers' font, Arial with a cell height of 14 and an average width of 5 pixels at the original
