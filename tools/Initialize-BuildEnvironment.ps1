@@ -23,6 +23,8 @@ Initialize-BuildEnvironment sets, for this process and the programs it starts:
   the repository's git folder (the common git folder, the same for every worktree), if that folder exists.
 - DOTNET_NOLOGO, DOTNET_CLI_TELEMETRY_OPTOUT, DOTNET_CLI_WORKLOAD_UPDATE_NOTIFY_DISABLE and
   NUGET_CERT_REVOCATION_MODE=offline: no banner, no telemetry, no check that would go online.
+- TESTINGPLATFORM_TELEMETRY_OPTOUT=1, and VSTEST_TELEMETRY_OPTEDIN removed: no telemetry from a test run either (the lane's
+  -Test runs vstest in this environment; tools\run-tests.ps1 sets the same for its own runs).
 It returns what it found: SdkVersion, SdkFolder (empty when the pinned SDK is not installed) and OfflineFolder.
 Nothing is downloaded or installed, and nothing outside this process changes.
 #>
@@ -56,6 +58,10 @@ function Initialize-BuildEnvironment {
 	$ErrorActionPreference='Continue'
 	$env:DOTNET_NOLOGO='1'
 	$env:DOTNET_CLI_TELEMETRY_OPTOUT='1'
+	#The test runs of the lane (-Test) inherit this: no telemetry from MSTest 4's Microsoft Testing Platform parts, and none from
+	#vstest.console, which sends it only when VSTEST_TELEMETRY_OPTEDIN is 1 (docs/port-notes/S4-2.md).
+	$env:TESTINGPLATFORM_TELEMETRY_OPTOUT='1'
+	Remove-Item Env:VSTEST_TELEMETRY_OPTEDIN -ErrorAction SilentlyContinue
 	$env:DOTNET_CLI_WORKLOAD_UPDATE_NOTIFY_DISABLE='1'
 	$env:NUGET_CERT_REVOCATION_MODE='offline'
 	#The pinned SDK.
