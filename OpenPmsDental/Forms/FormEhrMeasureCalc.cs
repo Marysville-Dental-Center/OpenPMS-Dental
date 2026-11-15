@@ -26,6 +26,11 @@ namespace OpenPmsDental {
 		private List<EhrMeasureCalcProvider> _listEhrMeasureCalcProviders=new List<EhrMeasureCalcProvider>();
 		///<summary>The measures calculated so far by the last refresh, in the engine's order.</summary>
 		private List<EhrMeasure> _listEhrMeasures=new List<EhrMeasure>();
+		///<summary>The audit tables the detail fetched for the last refresh's measures, by measure type (a null table: the engine has no patient
+		///list for the measure), handed to the detail when the measure is opened again. Cleared by each refresh. The engine's CalcMeasure keeps
+		///only the counts of the table it builds; sending every measure's patient list back with its numbers would carry them all over the Middle
+		///Tier on every refresh, so only the ones opened are kept.</summary>
+		private Dictionary<EhrMeasureType,DataTable> _dictTablesAudit=new Dictionary<EhrMeasureType,DataTable>();
 		///<summary>What the last refresh calculated: the grid, the detail and the printout use these, not the controls, which may have changed.</summary>
 		private EhrMeasureStage _ehrMeasureStage;
 		private DateTime _dateStart;
@@ -123,6 +128,7 @@ namespace OpenPmsDental {
 			_provNum=ehrMeasureCalcProvider.ProvNum;
 			_provText=ehrMeasureCalcProvider.Text;
 			_listEhrMeasures=new List<EhrMeasure>();
+			_dictTablesAudit.Clear();
 			labelNotes.Text=string.Join("\r\n",EhrMeasureCalcRules.GetPeriodNotes(_ehrMeasureStage,_dateStart,_dateEnd));
 			FillGrid();
 			_isCancelRequested=false;
@@ -243,7 +249,14 @@ namespace OpenPmsDental {
 			formEhrMeasureCalcDetail.RequirementText=ehrMeasureRequirement.GetText();
 			formEhrMeasureCalcDetail.ResultText=EhrMeasureCalcRules.GetResultText(_ehrMeasureStage,ehrMeasure.MeasureType,ehrMeasureRequirement,
 				ehrMeasure.Numerator,ehrMeasure.Denominator);
+			if(_dictTablesAudit.TryGetValue(ehrMeasure.MeasureType,out DataTable tableAudit)) {
+				formEhrMeasureCalcDetail.TableAudit=tableAudit;
+				formEhrMeasureCalcDetail.HasTableAudit=true;
+			}
 			formEhrMeasureCalcDetail.ShowDialog();
+			if(formEhrMeasureCalcDetail.HasTableAudit) {
+				_dictTablesAudit[ehrMeasure.MeasureType]=formEhrMeasureCalcDetail.TableAudit;
+			}
 			if(!EhrMeasureCalcRules.IsPatientPicked(formEhrMeasureCalcDetail.DialogResult,formEhrMeasureCalcDetail.SelectedPatNum)) {
 				return;
 			}

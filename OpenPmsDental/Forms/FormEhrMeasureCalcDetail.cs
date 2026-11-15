@@ -10,8 +10,10 @@ using OpenPmsDentalBusiness;
 
 namespace OpenPmsDental {
 	///<summary>One measure of a Measure Calc refresh: Objective, Measure, the numerator, denominator and exclusion explanations, the exclusion count
-	///with its description, and the audit grid of GetTable, GetTableMu2 or GetTableMu2Mod (patient, explanation, Met). A patient double-clicked
-	///is returned in SelectedPatNum with DialogResult.OK.</summary>
+	///with its description, and the audit grid of GetTable, GetTableMu2 or GetTableMu2Mod (patient, explanation, Met). The audit table is the one
+	///Measure Calc passes in (fetched by an earlier opening of this measure's detail), otherwise it is fetched on an ODThread, with Cancel, the
+	///patient grid off meanwhile, and the answer brought back through InvokeIfNotDisposed. A patient double-clicked is returned in SelectedPatNum
+	///with DialogResult.OK.</summary>
 	public partial class FormEhrMeasureCalcDetail:FormODBase {
 		///<summary>The measure as Measure Calc calculated it.</summary>
 		public EhrMeasure EhrMeasureCur;
@@ -28,6 +30,14 @@ namespace OpenPmsDental {
 		public string ResultText="";
 		///<summary>The patient double-clicked, or 0. Set together with DialogResult.OK.</summary>
 		public long SelectedPatNum;
+		///<summary>The measure's audit table (null: the engine has no patient list for the measure), valid when HasTableAudit is true. Measure Calc
+		///sets both when it has the table; otherwise the detail fetches it and sets both, and Measure Calc keeps it for the next opening.</summary>
+		public DataTable TableAudit;
+		public bool HasTableAudit;
+		///<summary>The thread fetching the audit table, otherwise null.</summary>
+		private ODThread _odThread;
+		///<summary>Set by Cancel (or by closing the window): the table the thread brings back is not shown.</summary>
+		private volatile bool _isCancelRequested;
 
 		public FormEhrMeasureCalcDetail() {
 			InitializeComponent();
@@ -53,7 +63,71 @@ namespace OpenPmsDental {
 			textResult.Text=Lan.g(this,"Numerator")+" "+EhrMeasureCalcRules.GetCountText(EhrMeasureCur.Numerator)+", "
 				+Lan.g(this,"denominator")+" "+EhrMeasureCalcRules.GetCountText(EhrMeasureCur.Denominator)+": "+ResultText+". "
 				+Lan.g(this,"Requirement")+": "+RequirementText+".";
+			if(HasTableAudit) {
+				FillGrid();
+				SetControlsForLoading(isLoading:false);
+				return;
+			}
 			FillGrid();
+			StartLoading();
+		}
+
+		private void SetControlsForLoading(bool isLoading) {
+			gridAudit.Enabled=!isLoading;
+			butCancel.Enabled=isLoading;
+		}
+
+		///<summary>Fetches the audit table on an ODThread: the engine's query can take as long as the measure did. The window stays responsive;
+		///Cancel and closing the window only stop waiting, and the answer then goes nowhere.</summary>
+		private void StartLoading() {
+			_isCancelRequested=false;
+			SetControlsForLoading(isLoading:true);
+			labelHint.Text=Lan.g(this,"Loading the patient list...");
+			EhrMeasureStage ehrMeasureStage=EhrMeasureStageCur;
+			EhrMeasureType ehrMeasureType=EhrMeasureCur.MeasureType;
+			DateTime dateStart=DateStart;
+			DateTime dateEnd=DateEnd;
+			long provNum=ProvNum;
+			DataTable tableLoaded=null;
+			Exception exceptionLoad=null;
+			ODThread odThread=new ODThread(o => {
+				tableLoaded=EhrMeasures.GetAuditTable(ehrMeasureStage,ehrMeasureType,dateStart,dateEnd,provNum);
+			});
+			odThread.Name="EhrMeasureCalcDetail";
+			odThread.AddExceptionHandler(ex => {
+				exceptionLoad=ex;
+				this.InvokeIfNotDisposed(() => {
+					if(!_isCancelRequested) {
+						FriendlyException.Show(Lan.g(this,"The patient list could not be loaded."),ex);
+					}
+				});
+			});
+			odThread.AddExitHandler(o => this.InvokeIfNotDisposed(() => {
+				_odThread=null;
+				if(_isCancelRequested) {
+					return;//Cancel already said so and put the controls back.
+				}
+				SetControlsForLoading(isLoading:false);
+				if(exceptionLoad!=null) {
+					labelHint.Text=Lan.g(this,"The patient list could not be loaded:")+" "+exceptionLoad.Message;
+					return;
+				}
+				TableAudit=tableLoaded;
+				HasTableAudit=true;
+				FillGrid();
+			}));
+			_odThread=odThread;
+			odThread.Start(true);
+		}
+
+		private void butCancel_Click(object sender,EventArgs e) {
+			if(_odThread==null) {
+				return;
+			}
+			_isCancelRequested=true;
+			SetControlsForLoading(isLoading:false);
+			butCancel.Enabled=false;
+			labelHint.Text=Lan.g(this,"Cancelled: the patient list was not loaded. Close this window and double-click the measure again to load it.");
 		}
 
 		private string GetStageText() {
@@ -67,15 +141,9 @@ namespace OpenPmsDental {
 			}
 		}
 
+		///<summary>The audit grid from TableAudit: empty until the table is there.</summary>
 		private void FillGrid() {
-			Cursor=Cursors.WaitCursor;
-			DataTable table;
-			try {
-				table=EhrMeasures.GetAuditTable(EhrMeasureStageCur,EhrMeasureCur.MeasureType,DateStart,DateEnd,ProvNum);
-			}
-			finally {
-				Cursor=Cursors.Default;
-			}
+			DataTable table=HasTableAudit ? TableAudit : null;
 			gridAudit.BeginUpdate();
 			gridAudit.Columns.Clear();
 			gridAudit.Columns.Add(new GridColumn(Lan.g("TableEhrMeasureCalcAudit","PatNum"),60));
@@ -95,8 +163,14 @@ namespace OpenPmsDental {
 				}
 			}
 			gridAudit.EndUpdate();
+			if(!HasTableAudit) {
+				return;
+			}
 			if(table==null) {
 				labelHint.Text=Lan.g(this,"The engine has no patient list for this measure.");
+			}
+			else {
+				labelHint.Text=Lan.g(this,"Double-click a patient to close these windows and switch the Chart to that patient.");
 			}
 		}
 
@@ -115,6 +189,11 @@ namespace OpenPmsDental {
 
 		private void butClose_Click(object sender,EventArgs e) {
 			Close();
+		}
+
+		private void FormEhrMeasureCalcDetail_FormClosing(object sender,FormClosingEventArgs e) {
+			//A fetch still running ends on its own; its table goes nowhere (InvokeIfNotDisposed).
+			_isCancelRequested=true;
 		}
 	}
 }
