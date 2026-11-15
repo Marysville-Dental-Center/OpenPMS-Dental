@@ -476,40 +476,36 @@ namespace OpenPmsDental {
 			}
 			ProgressWin progressOD=new ProgressWin();
 			progressOD.ActionMain=() => {
-				//Saves in place, or at the new effective date (and keeps fee schedule groups in sync).
-				listFees=Fees.SaveIncrease(listFees,percent,round,dateEffectiveNew);
-				//The fees are saved: their security log entries are one unit with them (S3a-1b). A cancel during the save stops it at its next database
-				//command (no entries then, as no fee list comes back); a cancel during the entries lets them finish.
-				ODCancellation.RunUncancellable(() => {
+				//Saves in place, or at the new effective date (and keeps fee schedule groups in sync). Each fee's save and its two security log
+				//entries are one unit (S3a-1c): a cancel stops the increase between two fees, and every fee saved has its entries.
+				Fees.SaveIncrease(listFees,percent,round,dateEffectiveNew,fee => {
 					string procCode;
-					for(int i=0;i<listFees.Count;i++) {
-						try {
-							procCode=ProcedureCodes.GetStringProcCode(listFees[i].CodeNum);
-						}
-						catch(Exception) {//if CodeNum is not in the procedurecode table, don't make securitylog entry
-							continue;
-						}
-						string logText="Procedure: "+procCode+", "
-							+"Fee: "+listFees[i].Amount.ToString("c")+", "
-							+"Fee Schedule: "+FeeScheds.GetDescription(listFees[i].FeeSched)
-							+Fees.GetDateEffectiveLogText(listFees[i].DateEffective);
-						if(PrefC.HasClinicsEnabled) {
-							if(Clinics.GetAbbr(clinicNum)=="") {
-								logText+=", at Headquarters";
-							}
-							else {
-								logText+=", at clinic: "+Clinics.GetAbbr(clinicNum);
-							}
-						}
-						if(provNum!=0) {
-							logText+=", for provider: "+Providers.GetAbbr(provNum);
-						}
-						logText+=". Fee increased by "+((float)percent/100.0f).ToString("p")+" using the increase "
-							+"button in the Fee Tools window.";
-						SecurityLogs.MakeLogEntry(EnumPermType.ProcFeeEdit,0,logText,listFees[i].CodeNum,DateTime.MinValue);
-						SecurityLogs.MakeLogEntry(EnumPermType.LogFeeEdit,0,"Fee Updated",listFees[i].FeeNum,listFees[i].SecDateTEdit);
-						ODEvent.Fire(ODEventType.ProgressBar,"Modifying fees, please wait...");
+					try {
+						procCode=ProcedureCodes.GetStringProcCode(fee.CodeNum);
 					}
+					catch(Exception) {//if CodeNum is not in the procedurecode table, don't make securitylog entry
+						return;
+					}
+					string logText="Procedure: "+procCode+", "
+						+"Fee: "+fee.Amount.ToString("c")+", "
+						+"Fee Schedule: "+FeeScheds.GetDescription(fee.FeeSched)
+						+Fees.GetDateEffectiveLogText(fee.DateEffective);
+					if(PrefC.HasClinicsEnabled) {
+						if(Clinics.GetAbbr(clinicNum)=="") {
+							logText+=", at Headquarters";
+						}
+						else {
+							logText+=", at clinic: "+Clinics.GetAbbr(clinicNum);
+						}
+					}
+					if(provNum!=0) {
+						logText+=", for provider: "+Providers.GetAbbr(provNum);
+					}
+					logText+=". Fee increased by "+((float)percent/100.0f).ToString("p")+" using the increase "
+						+"button in the Fee Tools window.";
+					SecurityLogs.MakeLogEntry(EnumPermType.ProcFeeEdit,0,logText,fee.CodeNum,DateTime.MinValue);
+					SecurityLogs.MakeLogEntry(EnumPermType.LogFeeEdit,0,"Fee Updated",fee.FeeNum,fee.SecDateTEdit);
+					ODEvent.Fire(ODEventType.ProgressBar,"Modifying fees, please wait...");
 				});
 			};
 			progressOD.StartingMessage=Lan.g(this,"Preparing to modify fees")+"...";

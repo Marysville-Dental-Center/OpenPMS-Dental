@@ -460,6 +460,12 @@ namespace OpenPmsDental {
 			catch(Exception ex) {
 				exDisconnect=ex;
 			}
+			if(progressWin.IsCancelled) {
+				//S3a-1c: not "Could not disconnect" and no "disconnected" log entry after the user cancelled. The local connection stays unless its
+				//clearing was under way (the next use then asks to reconnect); the cache is refreshed either way.
+				DataValid.SetInvalid(InvalidType.Programs);
+				return;
+			}
 			if(exDisconnect!=null) {
 				ShowError(exDisconnect,Lan.g(this,"Could not disconnect."));
 			}

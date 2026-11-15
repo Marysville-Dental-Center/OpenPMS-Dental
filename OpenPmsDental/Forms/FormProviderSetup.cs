@@ -630,6 +630,9 @@ namespace OpenPmsDental{
 			progressOD.StartingMessage=Lan.g(this,"Gathering patient and provider details")+"...";
 			progressOD.ShowDialog();
 			Cursor=Cursors.Default;
+			if(progressOD.IsCancelled) {
+				return;//S3a-1c: not "No patients to reassign", and no reassignment of a part-gathered list.
+			}
 			if(listPatProvsSeen.Count==0){
 				MsgBox.Show(this,"No patients to reassign.");
 				return;
@@ -654,6 +657,9 @@ namespace OpenPmsDental{
 			Cursor=Cursors.Default;
 			//changed=true;//We didn't change any providers
 			FillGrid();
+			if(progressOD.IsCancelled) {
+				return;//S3a-1c: not "Done" after a cancel; the grid shows the patients reassigned before it.
+			}
 			MsgBox.Show(this,"Done");
 		}
 

@@ -308,6 +308,9 @@ namespace OpenPmsDental {
 						byteArray=CloudStorage.Download(SheetUtil.GetImagePath(),comboFieldName.Text);
 					};
 					progressWin.ShowDialog();
+					if(progressWin.IsCancelled) {
+						return;//S3a-1c: the user cancelled the download, so not "Select a valid image first".
+					}
 					if(byteArray==null || byteArray.Length==0){
 						MsgBox.Show(this,"Select a valid image first.");
 						return;
