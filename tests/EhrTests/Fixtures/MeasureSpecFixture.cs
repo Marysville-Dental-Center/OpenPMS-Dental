@@ -619,9 +619,10 @@ namespace EhrTests {
 			MakeVisit(patient,new DateTime(2011,1,1),ProviderEp.ProvNum);
 			MakeEvent(patient,EhrMeasureEventType.ReminderSent,D(3,3),0);
 			//64 at the start of 2014 (in no 2014 denominator), 65 at the start of 2015; one visit on 2 January 2012, the first day after the three
-			//years before 1 January 2015; reminded on 2 March 2015.
+			//years before 1 January 2015, with the other provider (the three years count a visit with any provider; and so the visit is not in
+			//Stage 2's 2014 reminders exclusion count, the EP's procedures of the 24 months before 2014); reminded on 2 March 2015.
 			patient=MakePatient("Rem1.VisitInThreeYears2015",new DateTime(1949,6,1),ProviderEp.ProvNum);
-			MakeVisit(patient,new DateTime(2012,1,2),ProviderEp.ProvNum);
+			MakeVisit(patient,new DateTime(2012,1,2),ProviderOther.ProvNum);
 			MakeEvent(patient,EhrMeasureEventType.ReminderSent,DateMonday2015,0);
 		}
 

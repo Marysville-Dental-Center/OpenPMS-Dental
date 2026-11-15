@@ -163,7 +163,7 @@ namespace EhrTests {
 			//Only the patients with a completed visit after the day three years before the period's start (the EHR-4d fix; any provider, so the
 			//window can tell). Rem1.NoVisit (no visit) and Rem1.VisitThreeYears (a visit on 1 January 2011, three years to the day) are N/A; before
 			//the fix the window asked no visit and gave met (both were reminded), and Measure Calc has neither. Rem1.VisitInThreeYears2015
-			//is 64 at the start of 2014 and, in 2015, met by a visit on 2 January 2012, the first day of the three years.
+			//is 64 at the start of 2014 and, in 2015, met by a visit on 2 January 2012 (the first day of the three years) with the other provider.
 			check.Agree(S1,EhrMeasureType.Reminders,MuMet.NA,"Rem1.NoVisit","Rem1.VisitThreeYears","Rem1.VisitInThreeYears2015");
 			check.AgreeInPeriod(S1,EhrMeasureType.Reminders,MeasureSpecFixture.DateStart2015,MeasureSpecFixture.DateEnd2015,MuMet.True,
 				"Rem1.VisitInThreeYears2015");
