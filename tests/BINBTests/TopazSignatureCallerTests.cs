@@ -60,9 +60,12 @@ namespace BINBTests {
 			int indexSigLoop=textFill.IndexOf("//After pulling all other fields, we can pull signatures from sigboxes",StringComparison.Ordinal);
 			Assert.IsTrue(indexSigLoop>=0,"The signature loop (update this test if the method changed).");
 			string textSigLoop=textFill.Substring(indexSigLoop);
-			int indexFilter=textSigLoop.IndexOf("if(eFormField!=null && ListEFormFields[i]!=eFormField){",StringComparison.Ordinal);
+			//S3a-14n: the filter applies to a Topaz box on the helper's path only; every other box is read as before S3a-14g.
+			int indexFilter=textSigLoop.IndexOf("if(eFormField!=null && ListEFormFields[i]!=eFormField && signatureBoxWrapper.IsTopazInHelper()){",
+				StringComparison.Ordinal);
 			int indexSigBox=textSigLoop.IndexOf("if(ListEFormFields[i].FieldType!=EnumEFormFieldType.SigBox){",StringComparison.Ordinal);
-			Assert.IsTrue(indexFilter>=0 && indexFilter<indexSigBox,"The signature loop honours the field filter.");
+			int indexRead=textSigLoop.IndexOf("SignatureBoxSaves.GetEFormSignatureValue(",StringComparison.Ordinal);
+			Assert.IsTrue(indexSigBox>=0 && indexFilter>indexSigBox && indexRead>indexFilter,"The signature loop honours the field filter for such a box.");
 			StringAssert.Contains(textSigLoop,"ListEFormFields[i].ValueString=OpenPmsDental.UI.SignatureBoxSaves.GetEFormSignatureValue(ListEFormFields[i].ValueString,");
 			Assert.IsFalse(textFill.Contains(".GetSignature("),"FillFieldsFromControls reads no box itself (SignatureBoxSaves skips unchanged ones).");
 			string textCheck=GetMethodText(sourceCtrl,"public void CheckTopazSignaturesReachable(){");
@@ -77,7 +80,8 @@ namespace BINBTests {
 				int indexTry=sourceFrm.LastIndexOf("try {\n",match.Index,StringComparison.Ordinal);
 				Assert.IsTrue(indexTry>=0,"A try before the call at "+match.Index);
 				string textBetween=sourceFrm.Substring(indexTry,match.Index-indexTry);
-				Assert.IsTrue(Regex.IsMatch(textBetween,@"^try \{\n(\t+ctrlEFormFill\.CheckTopazSignaturesReachable\(\);\n)?$"),
+				//The match starts at the line end before the call, so the text between is "try {" alone, or with the check's line after it.
+				Assert.IsTrue(Regex.IsMatch(textBetween,@"^try \{(\n\t+ctrlEFormFill\.CheckTopazSignaturesReachable\(\);)?$"),
 					"The call at "+match.Index+" is first in its try: "+textBetween);
 				Assert.IsTrue(listTryBlocks.Exists(x => x.Item1.Contains("FillFieldsFromControls();")),"The try's first catch is "+CATCH_HELPER);
 			}

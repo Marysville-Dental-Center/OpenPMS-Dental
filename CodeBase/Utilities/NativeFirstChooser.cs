@@ -37,7 +37,7 @@ namespace CodeBase {
 		///32-bit only.</summary>
 		public static readonly NativeFirstChooser Topaz=new NativeFirstChooser("Topaz SigPlusNET.dll");
 		///<summary>Schick CDR DICOM's automation server, CDRDicom.Application (Schick.cs), whose client is its own program, CDRDicom.exe.</summary>
-		public static readonly NativeFirstChooser SchickCdr=new NativeFirstChooser("Schick CDR DICOM (CDRDicom.Application)");
+		public static readonly NativeFirstChooser SchickCdr=new NativeFirstChooser("Schick CDR DICOM (the CDRDicom automation server)");
 		///<summary>Guru's native MedVisorInterface.dll (Guru.cs). No 64-bit one is known.</summary>
 		public static readonly NativeFirstChooser Guru=new NativeFirstChooser("Guru MedVisorInterface.dll");
 		///<summary>QuickBooks Desktop's QBFC 10 session manager, an in-process COM server that is 32-bit only (QuickBooks.cs).</summary>

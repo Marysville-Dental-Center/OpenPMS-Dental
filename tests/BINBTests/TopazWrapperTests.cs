@@ -350,7 +350,10 @@ namespace BINBTests {
 				string location=(string)((TopazSignatureView)control).Call("GetAssemblyLocation");
 				Assert.AreEqual(Path.GetFullPath(pathExpected).ToLowerInvariant(),Path.GetFullPath(location).ToLowerInvariant());
 				StringAssert.StartsWith(((TopazSignatureView)control).HelperControlId,_helper32Client.ProcessId.ToString()+"-");
-				Assert.IsFalse(AppDomain.CurrentDomain.GetAssemblies().Any(x => x.GetName().Name=="SigPlusNET"));
+				//(TopazWrapperInProcessTests loads its own stand-in into this process, from its own folder: the in-process path of S3a-14n.)
+				Assert.IsFalse(AppDomain.CurrentDomain.GetAssemblies().Any(x => !x.IsDynamic && x.GetName().Name=="SigPlusNET"
+					&& string.Equals(Path.GetDirectoryName(x.Location),_folderFake.TrimEnd('\\'),StringComparison.OrdinalIgnoreCase)),
+					"This process loaded nothing from the folder the helper loads its stand-in from.");
 			}
 		}
 
@@ -755,12 +758,17 @@ namespace BINBTests {
 			Assert.IsTrue(textSavePayPlan.IndexOf("SetPayPlanSignature(",StringComparison.Ordinal)<textSavePayPlan.IndexOf("PayPlans.Update(",StringComparison.Ordinal),
 				"The plan is saved only after a box was read.");
 			Assert.AreEqual(1,Regex.Matches(textSavePayPlan,@"PayPlans\.Update\(").Count);
+			//S3a-14n: a box that was read sets the changed flag as before S3a-14g (the last box read decides, as on main).
+			StringAssert.Contains(textSavePayPlan,"hasSigChanged=signatureBoxWrapper.GetSigChanged();\n\t\t\t\tPayPlans.Update(payPlan);");
 			string sourceSaves=TestPaths.ReadSource("OpenPmsDentalBusiness","UI","SignatureBoxSaves.cs").Replace("\r\n","\n");
+			//S3a-14n: the stored signature is kept only for an unchanged Topaz box on the helper's path; every other box is read as before.
+			StringAssert.Contains(GetMethodText(sourceSaves,"public static bool IsStoredSignatureKept(SignatureBoxWrapper signatureBoxWrapper) {"),
+				"return !signatureBoxWrapper.GetSigChanged() && signatureBoxWrapper.IsTopazInHelper();");
 			foreach(string signature in new[] { "public static bool SetPayPlanSignature(PayPlan payPlan,SignatureBoxWrapper signatureBoxWrapper,string keyData) {",
 				"public static string GetEFormSignatureValue(string valueStringStored,SignatureBoxWrapper signatureBoxWrapper,string keyData) {" })
 			{
 				string textStep=GetMethodText(sourceSaves,signature);
-				Match matchSkip=Regex.Match(textStep,@"\{\n\t+if\(!signatureBoxWrapper\.GetSigChanged\(\)\) \{\n\t+return (false|valueStringStored);\n\t+\}\n");
+				Match matchSkip=Regex.Match(textStep,@"\{\n\t+if\(IsStoredSignatureKept\(signatureBoxWrapper\)\) \{\n\t+return (false|valueStringStored);\n\t+\}\n");
 				Assert.IsTrue(matchSkip.Success && matchSkip.Index==signature.Length-1,"An unchanged box is skipped first: "+textStep);
 				Assert.IsTrue(textStep.IndexOf(".GetSignature(",StringComparison.Ordinal)>matchSkip.Index+matchSkip.Length,"The box is read after the skip.");
 			}

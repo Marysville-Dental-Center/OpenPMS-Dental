@@ -35,7 +35,8 @@
     <!--
       QuickBooks Desktop's QBFC 10 interop (Intuit's type library QBFC10Lib, "Required dlls"), with its types embedded as the program had them
       before S3a-13, so Interop.QBFC10.dll is never shipped (tools\Build-Release.ps1 denies Interop.*.dll): QuickBooks' own QBFC installation
-      registers the COM classes on the workstation. No other project references it (tests\NoHqTests, Helper32VendorScanTests).
+      registers the COM classes on the workstation. Besides the helper's tests, only WpfControlsOD references it, embedded too, for the program's
+      in-process path of S3a-14n (native first; this module is the fallback); tests\NoHqTests, Helper32VendorScanTests.
     -->
     <Reference Include="Interop.QBFC10">
       <HintPath>..\Required dlls\Interop.QBFC10.dll</HintPath>
