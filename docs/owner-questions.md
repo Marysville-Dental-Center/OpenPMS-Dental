@@ -946,7 +946,9 @@ and E-10b), where each is set out in full with its recommendation. You first ans
   points to Setup > Clearinghouses. The other choice is to use the practice's own TIN. **Your decision (2026-11-15): "send your practice's
   own TIN".** Wherever upstream names Open Dental Inc as the sender, the practice is named instead: ISA06, GS02, 1000A NM1 and PER, 837
   4010 and 5010, the 270, and the Emdeon Medical variant. That means the practice's TIN, name and telephone. When one of them is missing,
-  the batch is refused with a message saying what to fill in, so Open Dental Inc's TIN is never sent. Package X12-SENDER.
+  the batch is refused with a message saying what to fill in, so Open Dental Inc's TIN is never sent. Package X12-SENDER. **Done** on
+  branch `claims/x12-sender-1` ([port-notes/X12-SENDER.md](port-notes/X12-SENDER.md)): the TIN of the practice's billing provider, the
+  practice title and the telephone the claims send; with clinics, the clinic's billing provider and phone.
 - **A damaged release manifest** (S3a-10, [port-notes/S3a-10.md](port-notes/S3a-10.md) section 8). Every workstation now refuses to publish
   over a manifest it cannot read. If the row were ever really damaged, someone would delete the `documentmisc` rows of types 100 and 101 on
   the database by hand. Should Recopy on the named update server offer that, after a confirmation?
