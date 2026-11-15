@@ -94,14 +94,17 @@ namespace fyiReporting.RdlDesign
 
 		public override void InitializeEditingControl(int rowIndex, object initialFormattedValue, DataGridViewCellStyle dataGridViewCellStyle)
 		{
-			base.InitializeEditingControl(rowIndex, initialFormattedValue, dataGridViewCellStyle);
 			DGCBEditingControl editingControl = DataGridView.EditingControl as DGCBEditingControl;
 			if (editingControl == null)
+			{
+				base.InitializeEditingControl(rowIndex, initialFormattedValue, dataGridViewCellStyle);
 				return;
+			}
 			DGCBColumn dgcbColumn = OwningColumn as DGCBColumn;
 			editingControl.IsInitializing = true;
 			try
 			{
+				base.InitializeEditingControl(rowIndex, initialFormattedValue, dataGridViewCellStyle);
 				editingControl.Items.Clear();
 				editingControl.DropDownStyle = dgcbColumn == null? ComboBoxStyle.DropDownList: dgcbColumn.CB.DropDownStyle;
 				if (dgcbColumn != null)
