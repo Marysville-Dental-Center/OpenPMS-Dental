@@ -92,7 +92,9 @@ namespace UnitTests.Adjustments_Tests {
 			Procedures.Update(updatedProc,proc);
 			Prefs.UpdateLong(PrefName.PracticeDefaultProv,_defaultPracticeProvider.ProvNum);
 			Prefs.UpdateLong(PrefName.SalesTaxDefaultProvider,0);
-			Adjustments.CreateAdjustmentForSalesTax(proc);
+			//The procedure with the clinic (S4-1: under MSTest v1 SetupTest never ran, every provider number was 0 and this test passed with the
+			//procedure that has no clinic).
+			Adjustments.CreateAdjustmentForSalesTax(updatedProc);
 			List<Adjustment> listAdjustments=Adjustments.GetListForProc(proc.ProcNum);
 			Assert.AreEqual(1,listAdjustments.Count);
 			Assert.AreEqual(_clinicProv.ProvNum,listAdjustments[0].ProvNum);
