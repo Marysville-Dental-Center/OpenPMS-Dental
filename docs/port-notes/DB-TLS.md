@@ -740,3 +740,8 @@ There is no switch that drops only the test network: `-Revert` and the enable ru
   every step and changes nothing; the SetupAPI source compiled (never called) and no download in the script.
 - Nothing here ran elevated, created an adapter, or changed a network setting, the firewall, the MariaDB service, `my.ini` or a
   certificate store; every database connection went to `127.0.0.1:3306`.
+- Results: the full lane build has no error. Targeted runs, all passed: `DbConnectionSecurityTests` 237 (226 passed; 11 inconclusive by
+  design until the owner's run: the nine `DevDbTlsServerTests`, `DataConnection_Loopback_WithTheLocalTestServersCa_VerifyCa` and
+  `TlsCertificateLoginTests.NonLoopbackServer_VerifyFull_X509User_WithACapiKeyAndWithACngKey`, whose variables are not set here), with the
+  eight new `DevDbTlsTestNetworkTests` and the updated `DevDbTlsScriptTests` passing; `NoHqTests` 57. `InitSqlTests` and
+  `ForkMigrationTests` left out under the rule for every package (no schema change here).
