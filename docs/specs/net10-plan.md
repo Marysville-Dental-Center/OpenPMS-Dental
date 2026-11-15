@@ -748,7 +748,8 @@ S3a-16 add new files only. The lane's x64 test build and `OpenDental.sln` are th
 
 **Status (2026-11-15).** Wave 1: S3a-9 done on `net10/s3a9-1` (`docs/port-notes/S3a-9.md`), not merged yet: file rights through
 `FileInfo`/`DirectoryInfo` in the connection settings tool, `ExternalException` next to the three GDI+ `OutOfMemoryException` catches (the
-DICOM reader's is managed and stays), both network guards also set `HttpClient.DefaultProxy`, the 25 `PrefName` errors are warnings with
+DICOM reader's stays: its only GDI+ call, in the JPEG Baseline decoder, is inside catch(Exception) and becomes a decoder failure, so only a
+managed allocation failure reaches it), both network guards also set `HttpClient.DefaultProxy`, the 25 `PrefName` errors are warnings with
 `NoHqTests/ObsoletePrefNamesTests.cs`, and the sending sites say "not a valid email address" (`AddressRulesTests` pins `a..b@example.com`).
 Left for others: `FormClaimAttachment.cs`/`FormImageSelectClaimAttach.cs` (S3a-2), `FrmAtoZFoldersCreate.xaml.cs:74` (S3a-2),
 `DirectCertificateImport.cs:1383,1385` (no owner yet), `OfficeCaFile.cs:115`'s `FileStream` with `FileSecurity` (3b).
