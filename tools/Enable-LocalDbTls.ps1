@@ -44,7 +44,9 @@ routes) that this computer does not use, in a range no route of this computer le
      SetupAPI (P/Invoke, no download, no devcon) and named 'OPMS DB TLS test'. Loopback adapters that exist already are not touched.
   b. Its IPv4 address with a /32 prefix and nothing else: no gateway, no DNS server, no DNS registration, NetBIOS over TCP/IP off, DHCP,
      duplicate address detection, forwarding, weak host send and receive and router discovery off, and every binding but Internet
-     Protocol Version 4 switched off (File and Printer Sharing, Client for Microsoft Networks, IPv6 and the rest).
+     Protocol Version 4 switched off (File and Printer Sharing, Client for Microsoft Networks, IPv6 and the rest). The address, no
+     gateway, DHCP, forwarding and weak host receive off and those three bindings off are checked; the rest gets a WARNING where
+     Windows keeps it.
   c. When the Windows firewall is on in any profile: two inbound rules for TCP port 3306 on that address only, one that allows it from
      the address itself (this computer) and one that blocks every other remote address.
   d. The server certificate also names the address and the computer's host name.
@@ -198,6 +200,9 @@ $TestClientCapiName = 'opms-dbtls-test-client-capi'
 $TestClientCngName = 'opms-dbtls-test-client-cng'
 # The .pfx files of the two test client certificates live here (inside the opms-dev-tls folder, Administrators only) until their import.
 $PfxFolderName = 'client-pfx'
+# The bindings that must be off on the test adapter (Get-TestAdapterProblem checks them): File and Printer Sharing, Client for Microsoft
+# Networks and IPv6. Every other binding but IPv4 is switched off too; one that Windows does not let go of only gets a WARNING.
+$RequiredOffBindings = @('ms_server', 'ms_msclient', 'ms_tcpip6')
 
 # A check refused: say why and stop with exit code 1. Every check runs before the first change, so nothing needs undoing.
 function Stop-Refused([string]$Message) {
@@ -1161,7 +1166,9 @@ function Get-TestNetworkEnablePlan([string]$Address, [string]$HostName, $Facts, 
 	$lines += '     off, DHCP, duplicate address detection, forwarding, weak host send and receive and router discovery off. No other computer'
 	$lines += '     can reach the address: 192.0.2.0/24 is the documentation range, which no network routes.'
 	$lines += "     [bindings] Switch off every binding of the adapter but Internet Protocol Version 4 (ms_tcpip): File and Printer Sharing,"
-	$lines += '     Client for Microsoft Networks, IPv6, QoS, the link-layer discovery protocols and the rest. Then check all of it.'
+	$lines += '     Client for Microsoft Networks, IPv6, QoS, the link-layer discovery protocols and the rest. Then check the address, the'
+	$lines += '     settings above and that File and Printer Sharing, Client for Microsoft Networks and IPv6 are off (any other binding,'
+	$lines += '     duplicate address detection, weak host send, router discovery or NetBIOS that Windows keeps on gets a WARNING).'
 	if (Test-FirewallOn $Facts) {
 		$lines += "#. [firewall] Add two inbound firewall rules (group '$FirewallGroup', every profile) for TCP port 3306 on $Address only:"
 		$lines += "     $FirewallAllowName allows it from $Address itself (this computer), $FirewallBlockName blocks"
@@ -1687,28 +1694,52 @@ function Wait-TestNetAdapter([string]$InstanceId) {
 }
 
 # Steps a and b: names the new adapter, switches off every binding but IPv4, and gives it the address and nothing else. Returns its
-# interface index.
+# interface index. What keeps other computers away (no gateway, DHCP, forwarding and weak host receive off, the bindings of
+# $RequiredOffBindings) must succeed; the rest (duplicate address detection, weak host send, router discovery, NetBIOS, other bindings)
+# is switched off where Windows allows it, with a WARNING otherwise.
 function Set-TestAdapter([string]$InstanceId, [string]$Address) {
 	$adapter = Wait-TestNetAdapter $InstanceId
 	Rename-NetAdapter -Name $adapter.Name -NewName $TestAdapterName -Confirm:$false
 	$index = [int]$adapter.InterfaceIndex
 	foreach ($binding in @(Get-NetAdapterBinding -Name $TestAdapterName -ErrorAction SilentlyContinue | Where-Object { $_.ComponentID -ne 'ms_tcpip' -and $_.Enabled })) {
-		Disable-NetAdapterBinding -Name $TestAdapterName -ComponentID $binding.ComponentID -Confirm:$false
+		try {
+			Disable-NetAdapterBinding -Name $TestAdapterName -ComponentID $binding.ComponentID -Confirm:$false
+		}
+		catch {
+			if ($RequiredOffBindings -contains $binding.ComponentID) {
+				throw
+			}
+			Write-Host "WARNING: the binding $($binding.ComponentID) ($($binding.DisplayName)) of the test adapter stays on: $($_.Exception.Message)"
+		}
 	}
-	Set-NetIPInterface -InterfaceIndex $index -AddressFamily IPv4 -Dhcp Disabled -DadTransmits 0 -Forwarding Disabled -WeakHostSend Disabled -WeakHostReceive Disabled -RouterDiscovery Disabled
+	Set-NetIPInterface -InterfaceIndex $index -AddressFamily IPv4 -Dhcp Disabled -Forwarding Disabled -WeakHostReceive Disabled
+	foreach ($setting in @(@{ DadTransmits = [uint32]0 }, @{ WeakHostSend = 'Disabled' }, @{ RouterDiscovery = 'Disabled' })) {
+		try {
+			Set-NetIPInterface -InterfaceIndex $index -AddressFamily IPv4 @setting
+		}
+		catch {
+			Write-Host "WARNING: $(@($setting.Keys)[0]) of the test adapter stays as Windows set it: $($_.Exception.Message)"
+		}
+	}
 	New-NetIPAddress -InterfaceIndex $index -AddressFamily IPv4 -IPAddress $Address -PrefixLength 32 | Out-Null
 	Set-DnsClient -InterfaceIndex $index -RegisterThisConnectionsAddress $false
 	Set-DnsClientServerAddress -InterfaceIndex $index -ResetServerAddresses
-	$configuration = Get-CimInstance -ClassName Win32_NetworkAdapterConfiguration -Filter "InterfaceIndex=$index"
-	$result = Invoke-CimMethod -InputObject $configuration -MethodName SetTcpipNetbios -Arguments @{ TcpipNetbiosOptions = [uint32]2 }
-	if ([int]$result.ReturnValue -ne 0 -and [int]$result.ReturnValue -ne 1) {
-		throw "Switching off NetBIOS over TCP/IP on the test adapter failed (SetTcpipNetbios returned $($result.ReturnValue))."
+	try {
+		$configuration = Get-CimInstance -ClassName Win32_NetworkAdapterConfiguration -Filter "InterfaceIndex=$index"
+		$result = Invoke-CimMethod -InputObject $configuration -MethodName SetTcpipNetbios -Arguments @{ TcpipNetbiosOptions = [uint32]2 }
+		if ([int]$result.ReturnValue -ne 0 -and [int]$result.ReturnValue -ne 1) {
+			Write-Host "WARNING: NetBIOS over TCP/IP of the test adapter stays on (SetTcpipNetbios returned $($result.ReturnValue))."
+		}
+	}
+	catch {
+		Write-Host "WARNING: NetBIOS over TCP/IP of the test adapter stays on: $($_.Exception.Message)"
 	}
 	return $index
 }
 
 # Why the configured adapter (interface $Index) is not as steps a and b make it, or $null: its only IPv4 address is $Address/32 (preferred), no
-# gateway, no DNS server, no DNS registration, DHCP, forwarding and weak host receive off, no binding but IPv4. Waits up to 20 seconds.
+# gateway, no DNS server, no DNS registration, DHCP, forwarding and weak host receive off, none of $RequiredOffBindings on. Waits up to 20
+# seconds.
 function Get-TestAdapterProblem([int]$Index, [string]$Address) {
 	$deadline = [DateTime]::UtcNow.AddSeconds(20)
 	$problem = 'not checked'
@@ -1733,7 +1764,7 @@ function Get-TestAdapterProblem([int]$Index, [string]$Address) {
 				$problem = "DHCP $($interface.Dhcp), forwarding $($interface.Forwarding), weak host receive $($interface.WeakHostReceive)"
 			}
 			else {
-				$bound = @(Get-NetAdapterBinding -Name $TestAdapterName -ErrorAction SilentlyContinue | Where-Object { $_.Enabled -and $_.ComponentID -ne 'ms_tcpip' } | ForEach-Object { $_.ComponentID })
+				$bound = @(Get-NetAdapterBinding -Name $TestAdapterName -ErrorAction SilentlyContinue | Where-Object { $_.Enabled -and $RequiredOffBindings -contains $_.ComponentID } | ForEach-Object { $_.ComponentID })
 				if ($bound.Count -gt 0) {
 					$problem = "bindings still on: $($bound -join ', ')"
 				}
