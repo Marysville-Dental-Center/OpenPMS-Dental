@@ -1342,7 +1342,7 @@ Here is the desired behavior:
 			CopyToClipboard(includeDrawings:false);
 		}
 
-		///<summary>Three to four objects will end up on clipboard: 1:NodeTypeAndKey, 2:Bitmap(if it's an image type), 3:FileDrop, 4:Database name (if NodeTypeAndKey is not null). For images, the filedrop will point to a temp copy of the saved bitmap.  For non-images, filedrop will point to the original file. With includeDrawings false, the bitmap and the file have no drawings. Pasting inside this program uses NodeTypeAndKey, which never copies drawings.</summary>
+		///<summary>Up to three objects will end up on clipboard: 1:NodeTypeAndKey with the database name (NodeTypeAndKeyClipboard), 2:Bitmap(if it's an image type), 3:FileDrop. For images, the filedrop will point to a temp copy of the saved bitmap.  For non-images, filedrop will point to the original file. With includeDrawings false, the bitmap and the file have no drawings. Pasting inside this program uses NodeTypeAndKey, which never copies drawings.</summary>
 		private void CopyToClipboard(bool includeDrawings){
 			//not enabled when pdf selected
 			NodeTypeAndKey nodeTypeAndKey=null;
@@ -1438,8 +1438,8 @@ Here is the desired behavior:
 			}
 			System.Windows.DataObject dataObject=new System.Windows.DataObject();
 			if(nodeTypeAndKey!=null){
-				dataObject.SetData(nodeTypeAndKey);//DataFormat automatically determined
-				dataObject.SetData("stringDbNameOrUri",dbNameOrUri);//this is in addition to the other DataFormat with the nodeTypeAndKey
+				//A JSON string with the database under the program's own format, read back by the paste; no BinaryFormatter (S3a-M2).
+				NodeTypeAndKeyClipboard.SetData(dataObject,nodeTypeAndKey,dbNameOrUri);
 			}
 			if(bitmapCopy!=null){
 				dataObject.SetData(DataFormats.Bitmap,bitmapCopy);
@@ -1846,8 +1846,8 @@ Here is the desired behavior:
 				MsgBox.Show(this,"Clipboard is empty.");
 				return;
 			}
-			nodeTypeAndKey=(NodeTypeAndKey)iDataObject.GetData(typeof(NodeTypeAndKey));
-			dbNameOrUriCopied=(string)iDataObject.GetData("stringDbNameOrUri");//safe even if null
+			//Only the program's own format is read (NodeTypeAndKeyClipboard): no object of another program or format is deserialized.
+			nodeTypeAndKey=NodeTypeAndKeyClipboard.GetData(iDataObject,out dbNameOrUriCopied);
 			string dbNameOrUri=DataConnectionBase.DataConnection.GetDatabaseName();
 			if(RemotingClient.MiddleTierRole!=MiddleTierRole.ClientDirect) {//using Middle Tier
 				dbNameOrUri=RemotingClient.ServerURI;
