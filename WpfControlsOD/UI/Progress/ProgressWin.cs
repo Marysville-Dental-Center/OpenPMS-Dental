@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.ExceptionServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using CodeBase;
@@ -70,6 +71,18 @@ if(progressWin.IsCancelled){
 	return;
 }	
 
+Cancel==============================================================================================================================
+Cancel no longer aborts the background thread (Thread.Abort throws PlatformNotSupportedException on .NET 5 and later). When the user clicks
+Cancel (or X, where allowed), the window closes as cancelled and IsCancelled is true, as before, and the action is asked to stop:
+-ProgressWin.CancellationToken is cancelled. A long action should check it, e.g. progressWin.CancellationToken.ThrowIfCancellationRequested(),
+ or pass it to the methods it calls.
+-ActionCancel is invoked, if set (for an action that waits on something of its own).
+-A progress event (ODEvent.Fire with a string or a ProgressBarHelper) fired by the action after the cancel throws OperationCanceledException,
+ so an action that reports progress stops at its next report.
+The window waits a moment (about a second) for the action to stop. If it has not, IsWorkerStillRunning is true: the action runs on in the
+background to its end, and its result or exception is dropped. So an action that writes to the database should check the token before
+each write it must not do after a cancel, or run without a Cancel button (ShowCancelButton=false).
+
 Events==============================================================================================================================
 Inside of your background thread, you can fire global events:
 ODEvent.Fire(ODEventType.ProgressBar,"Done with step "+i.ToString());
@@ -96,12 +109,14 @@ Use wait cursors for everything else:
 
 */
 
-	///<summary>Replacement for ODProgress and ProgressOD. Uses WPF.  Create an instance, set ActionMain, and ShowDialog.  Shows a progress bar dialog in the main thread, and runs the action in a background thread.  Once the long action has completed, then the progress window will automatically close.  User can Cancel/Abort the thread at any time.  Sample boilerplate is at top of this file.</summary>
+	///<summary>Replacement for ODProgress and ProgressOD. Uses WPF.  Create an instance, set ActionMain, and ShowDialog.  Shows a progress bar dialog in the main thread, and runs the action in a background thread.  Once the long action has completed, then the progress window will automatically close.  User can Cancel at any time: the window closes as cancelled and the action is asked to stop (see "Cancel" at the top of this file); it is not aborted.  Sample boilerplate is at top of this file.</summary>
 	public class ProgressWin{
 		///<summary>This action can include computations, db calls, etc.  It can read from UI elements, but should not write to them because it's on a different thread.</summary>
 		public Action ActionMain=null;
-		///<summary>Only used in one spot.</summary>
+		///<summary>Invoked on the main thread when the user cancels while ActionMain runs, before the window waits for the action to stop. Used by a few actions that wait on a CancellationTokenSource of their own.</summary>
 		public Action ActionCancel=null;
+		///<summary>True if the user cancelled and ActionMain had not stopped within about a second. The action runs on in the background to its end; whatever it returns or throws then is dropped. IsCancelled is true as well.</summary>
+		public bool IsWorkerStillRunning;
 		///<summary>Indicates that the progress form is in "history" mode which will show a text box with all messages it takes action on and then will stay open, forcing the user to click Close.</summary>
 		public bool HasHistory=false;
 		///<summary>Used with HasHistory and HistoryMsg.  Set to true to close a progress even though it does have history.</summary>
@@ -123,9 +138,18 @@ Use wait cursors for everything else:
 		public string MessageCancel;
 		///<summary>If this is set to true, a 3 second sleep will be added to the Action, giving you time to click Cancel during testing.  In case you forget to remove it when you're done, it only works in Debug.  It's totally harmless to leave it in place permanently.</summary>
 		public bool TestSleep;
+		///<summary>Cancelled when the user cancels while ActionMain runs. A new one for each ShowDialog after a cancel.</summary>
+		private CancellationTokenSource _cancellationTokenSource=new CancellationTokenSource();
 
 		public ProgressWin(){
 			//no parameters
+		}
+
+		///<summary>Cancelled when the user cancels while ActionMain runs. ActionMain can check it (IsCancellationRequested, ThrowIfCancellationRequested) or pass it on, to stop early; the window does not abort the action.</summary>
+		public CancellationToken CancellationToken {
+			get {
+				return _cancellationTokenSource.Token;
+			}
 		}
 
 		///<summary>This can be surrounded with a try/catch.</summary>
@@ -133,8 +157,12 @@ Use wait cursors for everything else:
 			if(ActionMain==null) {
 				return;
 			}
+			if(_cancellationTokenSource.IsCancellationRequested) {
+				_cancellationTokenSource=new CancellationTokenSource();//shown again after a cancel
+			}
 			WpfControls.UI.FrmProgressAuto frmProgressAuto=new WpfControls.UI.FrmProgressAuto();
 			frmProgressAuto.ActionMain=ActionMain;
+			frmProgressAuto.CancellationTokenSource=_cancellationTokenSource;
 			frmProgressAuto.HasHistory=HasHistory;
 			frmProgressAuto.HistoryClose=ForceCloseHistory;
 			frmProgressAuto.HistoryMsg=HistoryMsg;
@@ -147,6 +175,7 @@ Use wait cursors for everything else:
 			//Set the CancelAction callback to be executed when the cancel button is clicked
 			frmProgressAuto.CancelAction=ActionCancel;
 			frmProgressAuto.ShowDialog();
+			IsWorkerStillRunning=frmProgressAuto.IsWorkerStillRunning;
 			if(frmProgressAuto.ExceptionGenerated!=null){
 				//leave both of the below false
 			}

@@ -6749,8 +6749,14 @@ namespace OpenPmsDental{
 						});
 					});
 					threadCloseForm.Start();
-					threadCloseForm.Join(1000);//Give the form a limited amount of time to close, and continue if not responsive.
+					bool hasJoined=threadCloseForm.Join(1000);//Give the form a limited amount of time to close, and continue if not responsive.
 					this.Invoke(Application.DoEvents);//Run on main thread so that ShowDialog() for the form will continue in the parent context immediately.
+					if(!hasJoined) {
+						//Join no longer aborts the thread (net10-plan, S3a-1). It is usually still waiting for the main thread to run its Close, which the
+						//DoEvents above has just done, so give it one more limited wait to finish and report any error. If it still has not, the form is
+						//disposed below like a form that failed to close, and the thread ends on its own (it is a background thread now).
+						threadCloseForm.Join(1000);
+					}
 					if(hasError || !IsDisposedOrClosed(formToClose)) {
 						formToClose.Invoke(formToClose.Dispose);//If failed to close, kill window so that the ShowDialog() call can continue in parent context.
 					}

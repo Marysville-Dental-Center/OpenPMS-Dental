@@ -833,7 +833,11 @@ namespace OpenPmsDental {
 					ODThreadGetBitmap.QuitAsync();
 					return;
 				}
-				ODThreadGetBitmap.Join(2000);//give thread some time to finish before trying to display the image.
+				if(!ODThreadGetBitmap.Join(2000)) {//give thread some time to finish before trying to display the image.
+					//Join no longer aborts the thread (net10-plan, S3a-1): it finishes the download on its own and nothing reads its bitmap.
+					MessageBox.Show(Lan.g(this,"The image did not finish downloading. Please try again."));
+					return;
+				}
 				if(_formImageViewer==null || !_formImageViewer.Visible) {
 					_formImageViewer=new FormImageViewer();
 					_formImageViewer.Show();
