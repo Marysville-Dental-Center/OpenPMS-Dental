@@ -178,7 +178,8 @@ namespace AttributionTests {
 			StringAssert.Contains(textLoinc,"https://loinc.org/license");
 			//The licence's notice names the copyright years, 1995 to the year of the latest LOINC release.
 			StringAssert.Matches(textLoinc,new System.Text.RegularExpressions.Regex(@"LOINC is copyright \(C\) 1995-20[2-9][0-9],\s+Regenstrief Institute"));
-			StringAssert.Contains(textLoinc,"registered United");
+			//The notice wraps at its own column, so the trademark sentence may break anywhere between its words.
+			StringAssert.Matches(textLoinc,new Regex(@"LOINC \(R\) is a registered\s+United States trademark of Regenstrief Institute"));
 			Assert.IsFalse(textLoinc.Contains("Permission is hereby granted"),"No standard licence text under LOINC's notice.");
 		}
 

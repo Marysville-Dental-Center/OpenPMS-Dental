@@ -1,6 +1,7 @@
 // The EHR value sets (docs/specs/ehr-rebuild-plan.md, package EHR-2): the fork-only table ehrcode and the step that creates it, level 2026111401
 // of the EHR range 2026111401 to 2026111410 (the nine levels after it are kept for the EHR packages). No step writes a row: the office fills the
-// table with its own import of VSAC's June 2013 EP release (EhrValueSetImport, Setup, Chart, EHR, Code System Importer).
+// table with its own import of VSAC's 2026-05-14 eligible-clinician release (CqmCatalog.RELEASE_LABEL), its three files picked together
+// (EhrValueSetImport, Setup, Chart, EHR, Code System Importer).
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
 
@@ -44,7 +45,8 @@ namespace OpenPmsDentalBusiness.ForkMigrations.FeatureSteps {
 		}
 	}
 
-	///<summary>EHR value sets: the table the office's import of the June 2013 EP release fills. Creates the empty table; writes no row. A table of
+	///<summary>EHR value sets: the table the office's import of the 2026-05-14 eligible-clinician release (CqmCatalog.RELEASE_LABEL, its three
+	///files) fills. Creates the empty table; writes no row. A table of
 	///that name with another definition (made by something other than this step) stops the step with a message that names the differences: the
 	///step never changes or drops a table it did not make.</summary>
 	[ForkMigration(2026111401,"EHR value sets: add the ehrcode table")]

@@ -256,10 +256,11 @@ namespace EhrTests {
 				StringAssert.StartsWith(measure.Copyright,"<p>",row[0]);
 				StringAssert.Contains(measure.Disclaimer,"WITHOUT WARRANTY OF ANY KIND",row[0]);
 			}
+			//NCQA's words are held only in CqmCatalog.cs (plan section 11.1): the recorded SHA-256 above pins each statement verbatim, so this test
+			//checks only which measures carry NCQA's statement, and that it is there.
+			CollectionAssert.AreEqual(new[] { "CMS138","CMS155","CMS165" },CqmCatalog.GetMeasures().Where(x => x.IsNcqa).Select(x => x.CmsId).ToList());
 			foreach(CqmMeasure measure in CqmCatalog.GetMeasures().Where(x => x.IsNcqa)) {
-				StringAssert.Contains(measure.Copyright,"owned","NCQA's statement: "+measure.CmsId);
-				StringAssert.Contains(measure.Copyright,"National Committee for Quality Assurance (NCQA)",measure.CmsId);
-				StringAssert.Contains(measure.Copyright,"must be approved by NCQA",measure.CmsId);
+				Assert.IsFalse(string.IsNullOrWhiteSpace(CqmCatalog.GetStatementText(measure.Copyright)),"NCQA's statement: "+measure.CmsId);
 			}
 			foreach(CqmMeasure measure in CqmCatalog.GetMeasures().Where(x => !x.IsNcqa)) {
 				StringAssert.Contains(measure.Copyright,"Centers for Medicare &amp; Medicaid Services (CMS)",measure.CmsId);
@@ -272,10 +273,14 @@ namespace EhrTests {
 			string html="<p>TEST one &amp; two</p>\n<p>TEST&nbsp;three"+(char)0x202F+"and   four</p>\n<p></p>";
 			Assert.AreEqual("TEST one & two\r\n\r\nTEST three and four",CqmCatalog.GetStatementText(html));
 			Assert.AreEqual("",CqmCatalog.GetStatementText(null));
-			string text=CqmCatalog.GetStatementText(CqmCatalog.GetMeasure("CMS155").Copyright);
+			string copyright=CqmCatalog.GetMeasure("CMS155").Copyright;
+			string text=CqmCatalog.GetStatementText(copyright);
 			Assert.IsFalse(text.Contains("<p>") || text.Contains("&amp;") || text.Contains("&nbsp;"),text);
-			StringAssert.Contains(text,"(C) 2012-2026 National Committee for Quality Assurance. All Rights Reserved.");
-			Assert.AreEqual(8,Regex.Matches(text,"\r\n\r\n").Count+1,"The eight paragraphs of CMS155's copyright statement.");
+			//The expected text comes from the catalog's own field, paragraph by paragraph (NCQA's words are held only in CqmCatalog.cs).
+			List<string> listParagraphsExpected=Regex.Split(copyright,@"</p\s*>",RegexOptions.IgnoreCase).Select(x => CqmCatalog.GetStatementText(x))
+				.Where(x => x!="").ToList();
+			Assert.AreEqual(8,listParagraphsExpected.Count,"The eight paragraphs of CMS155's copyright statement.");
+			Assert.AreEqual(string.Join("\r\n\r\n",listParagraphsExpected),text);
 		}
 		#endregion The statements
 
@@ -303,10 +308,42 @@ namespace EhrTests {
 				}
 			}
 			Assert.AreEqual(0,listProblems.Count,"Looks like a code: "+string.Join("; ",listProblems.Distinct()));
-			//The guard finds what it is for (made-up strings of each shape).
-			foreach(string sample in new[] { "TEST 12345 TEST","TEST 1234-5 TEST","TEST A12.3 TEST","TEST D1234 TEST","TEST 1234F TEST" }) {
-				Assert.IsTrue(_arrayRegexCodeLike.Any(x => x.IsMatch(sample)),sample);
+			//The guard finds what it is for: a made-up string of each shape, built here at run time so no code shape is a literal of this source, and
+			//each one a shape no code system publishes: five zeros (no SNOMED CT, RxNorm or CPT code), a LOINC number with the wrong check digit, an
+			//ICD-10 shape of a reserved letter, a CDT number below the first CDT code, and a CPT Category II number below the first one.
+			string digits=new string('0',5);
+			string loincNumber=new string('7',4);
+			string loincWrong=loincNumber+"-"+((GetLoincCheckDigit(loincNumber)+1)%10).ToString(CultureInfo.InvariantCulture);
+			List<string> listSamples=new List<string> {
+				digits,
+				loincWrong,
+				((char)('A'+20)).ToString()+digits.Substring(0,2)+"."+digits.Substring(0,1),
+				((char)('A'+3)).ToString()+digits.Substring(0,4),
+				digits.Substring(0,4)+((char)('A'+5)).ToString(),
+			};
+			foreach(string sample in listSamples) {
+				Assert.IsTrue(_arrayRegexCodeLike.Any(x => x.IsMatch("TEST "+sample+" TEST")),sample);
 			}
+			for(int i=0;i<_arrayRegexCodeLike.Length;i++) {
+				Assert.IsTrue(listSamples.Any(x => _arrayRegexCodeLike[i].IsMatch("TEST "+x+" TEST")),"No sample for the guard's pattern "+i+".");
+			}
+		}
+
+		///<summary>LOINC's mod-10 check digit of the number before the hyphen: from the right, every other digit doubled (starting with the last), the
+		///digits summed, and the difference to the next multiple of ten.</summary>
+		private static int GetLoincCheckDigit(string number) {
+			int sum=0;
+			for(int i=0;i<number.Length;i++) {
+				int digit=number[number.Length-1-i]-'0';
+				if(i%2==0) {
+					digit*=2;
+					if(digit>9) {
+						digit-=9;
+					}
+				}
+				sum+=digit;
+			}
+			return (10-sum%10)%10;
 		}
 
 		[TestMethod]
