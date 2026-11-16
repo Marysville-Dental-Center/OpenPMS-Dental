@@ -163,6 +163,7 @@ namespace ToothChartImageTests {
 					listFailures.Add(name+": no baseline (record with "+WpfImageTests.EnvRecord+"=1).");
 					continue;
 				}
+				pathPng=WpfCharts.ForThisBitness(pathPng);//TC-10: the x64 picture, in a 64-bit process, where the x64 set has one
 				string hashBaseline=LegacyComparison.ReadPixelsSha256(Path.ChangeExtension(pathPng,".txt"));
 				if(listIdentical!=null && hashBaseline!=null && hashBaseline==ChartImageCompare.Sha256(ChartImageCompare.GetPixelsArgb(bitmap))) {
 					listIdentical.Add(name);

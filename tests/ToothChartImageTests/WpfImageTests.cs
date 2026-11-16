@@ -135,6 +135,7 @@ namespace ToothChartImageTests {
 				listFailures.Add(name+": no baseline (record with "+EnvRecord+"=1).");
 				return WpfSceneOutcome.Skipped;
 			}
+			pathPng=WpfCharts.ForThisBitness(pathPng);//TC-10: the x64 picture, in a 64-bit process, where the x64 set has one
 			string hashBaseline=LegacyComparison.ReadPixelsSha256(Path.ChangeExtension(pathPng,".txt"));
 			if(listIdentical!=null && hashBaseline!=null && hashBaseline==ChartImageCompare.Sha256(ChartImageCompare.GetPixelsArgb(bitmap))) {
 				listIdentical.Add(name);
@@ -342,7 +343,8 @@ namespace ToothChartImageTests {
 			PngWriter.Save(bitmap,pathPng);
 			SetParity(picture,wrapper,scene,chartSize,bitmap);
 			picture.PixelsSha256=ChartImageCompare.Sha256(ChartImageCompare.GetPixelsArgb(bitmap));
-			picture.PixelsSha256Merged=LegacyComparison.ReadPixelsSha256(Path.ChangeExtension(WpfCharts.GetPicturePath(WpfCharts.BaselinesWpf,chartSize,scene),".txt"));
+			picture.PixelsSha256Merged=LegacyComparison.ReadPixelsSha256(Path.ChangeExtension(
+				WpfCharts.ForThisBitness(WpfCharts.GetPicturePath(WpfCharts.BaselinesWpf,chartSize,scene)),".txt"));
 			if(folderApproved==null) {
 				return picture;
 			}

@@ -20,6 +20,39 @@ namespace ToothChartImageTests {
 			}
 		}
 
+		///<summary>The pictures the 64-bit .NET Framework 4.8 draws beyond the tolerances of the x86 baselines (TC-10, docs/port-notes/TC-10.md):
+		///tests\ToothChartImageTests\Baselines\wpf-net48-x64, the same &lt;size&gt;\&lt;scene&gt;.png layout, and only those pictures (README.md there
+		///says why each is there). Simple 2D's are in Baselines\simple2d-net48-x64.</summary>
+		public static string BaselinesWpfX64 {
+			get {
+				return Path.Combine(TestPaths.ProjectFolder,"Baselines","wpf-net48-x64");
+			}
+		}
+
+		///<summary>The baseline a picture is compared with in this process (TC-10): in a 64-bit process, the picture of the same path in the x64 set
+		///of its baseline folder (Baselines\wpf-net48 to Baselines\wpf-net48-x64, Baselines\simple2d-net48 to Baselines\simple2d-net48-x64) when the x64
+		///set has it; otherwise the path as given. In a 32-bit process always the path as given. The .txt beside the picture comes with it.</summary>
+		public static string ForThisBitness(string pathBaseline) {
+			if(!Environment.Is64BitProcess) {
+				return pathBaseline;
+			}
+			string folderBaselines=Path.Combine(TestPaths.ProjectFolder,"Baselines")+"\\";
+			if(!pathBaseline.StartsWith(folderBaselines,StringComparison.OrdinalIgnoreCase)) {
+				return pathBaseline;
+			}
+			string relative=pathBaseline.Substring(folderBaselines.Length);
+			int indexSlash=relative.IndexOf('\\');
+			if(indexSlash<0) {
+				return pathBaseline;
+			}
+			string set=relative.Substring(0,indexSlash);
+			if(!set.Equals("wpf-net48",StringComparison.OrdinalIgnoreCase) && !set.Equals("simple2d-net48",StringComparison.OrdinalIgnoreCase)) {
+				return pathBaseline;
+			}
+			string pathX64=Path.Combine(folderBaselines+set+"-x64",relative.Substring(indexSlash+1));
+			return File.Exists(pathX64)?pathX64:pathBaseline;
+		}
+
 		///<summary>A wrapper of the given size on the Wpf3D engine, as a caller would make one: size first, then the engine. Not shown.</summary>
 		public static ToothChartWrapper CreateWrapper(Size size) {
 			ToothChartWrapper wrapper=new ToothChartWrapper();

@@ -1,0 +1,15 @@
+Scene: buildup-under-moved-neighbour
+Group: known-difference
+Description: TP build-ups on 12 and 28, with 13 and 29 shifted 3 mm mesially over them (plan 5.1).
+Size: 410x307
+Colours: Module
+Engine: Wpf3D (RenderTargetBitmap in software, 3D layer at 3x reduced with WIC's Fant scaler)
+Bitmap: 410x307 Format24bppRgb
+Alpha: every alpha is 255 (format without an alpha channel)
+Colours in the picture: 3546
+Pixels SHA-256: 9426a9acfc98e5a89e1f128f9ca27566510edb21ee32063fb1b668a00407491c
+Repeatable: yes (a second GetBitmap gave the same pixels)
+Framework: .NET Framework 4.8, x64
+Windows: build 26300.9974 (26H2)
+Fresh render: yes (both layers drawn again without the layer cache gave the same pixels)
+Screen DPI seen by the test host: 96

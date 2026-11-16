@@ -314,7 +314,9 @@ namespace ToothChartImageTests {
 			StringAssert.Contains(result.Output,"SHA256 "+hashFirst,"A second process gives the same bytes.");
 			//And the bytes of the committed baseline (the same scene, size and colours, the same hash of GetPixelsArgb), whose .txt names the screen
 			//DPI it was recorded at (100%): a run with the desktop at 150% (launch check L-2) that passes has the bytes of the 100% run.
-			string pathBaselineText=Path.ChangeExtension(WpfCharts.GetPicturePath(WpfCharts.BaselinesWpf,ChartScenes.SizeModule,ChartScenes.Get("restored-adult")),".txt");
+			//TC-10: in a 64-bit process the x64 set's picture (Baselines\wpf-net48-x64), whose bytes the 64-bit .NET Framework gives.
+			string pathBaselineText=Path.ChangeExtension(WpfCharts.ForThisBitness(
+				WpfCharts.GetPicturePath(WpfCharts.BaselinesWpf,ChartScenes.SizeModule,ChartScenes.Get("restored-adult"))),".txt");
 			string hashBaseline=LegacyComparison.ReadPixelsSha256(pathBaselineText);
 			int dpiScreen=GetScreenDpi();
 			WpfCharts.WriteEvidence("determinism.txt","restored-adult at "+ChartScenes.SizeModule.FolderName+", module colours: pixels SHA-256 "+hashFirst

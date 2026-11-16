@@ -1,0 +1,15 @@
+Scene: restored-adult
+Group: paint
+Description: A heavily restored adult: 1, 16, 17, 32 missing; bridge 12-13-14 (13 missing, EO); implant with crown on 30 (missing, C); RCT, post and crown on 3 (C); crowns on 8 and 9 (EC); fillings MOD 4, DO 5, O 15, MO 18, OB 19, MOD 20, DO 29, MO 31 (EC and EO); sealants 2 and 31 (EO); veneers 23-26 (EO); TP: MOD 21, crown 28, X on 2, RCT and build-up on 14, watch on 19.
+Size: 410x307
+Colours: Module
+Engine: Wpf3D (RenderTargetBitmap in software, 3D layer at 3x reduced with WIC's Fant scaler)
+Bitmap: 410x307 Format24bppRgb
+Alpha: every alpha is 255 (format without an alpha channel)
+Colours in the picture: 7378
+Pixels SHA-256: 73782da67f4fdf328a23ecd21748b2805a0767688957214a5145ea425959f51e
+Repeatable: yes (a second GetBitmap gave the same pixels)
+Framework: .NET Framework 4.8, x64
+Windows: build 26300.9974 (26H2)
+Fresh render: yes (both layers drawn again without the layer cache gave the same pixels)
+Screen DPI seen by the test host: 96

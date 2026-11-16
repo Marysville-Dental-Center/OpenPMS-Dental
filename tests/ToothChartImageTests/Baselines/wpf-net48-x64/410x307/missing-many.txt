@@ -1,0 +1,15 @@
+Scene: missing-many
+Group: states
+Description: Third and second molars and the second premolars 4, 13, 20 and 29 missing.
+Size: 410x307
+Colours: Module
+Engine: Wpf3D (RenderTargetBitmap in software, 3D layer at 3x reduced with WIC's Fant scaler)
+Bitmap: 410x307 Format24bppRgb
+Alpha: every alpha is 255 (format without an alpha channel)
+Colours in the picture: 2837
+Pixels SHA-256: 37f54c3b8e418c1f864817872f116c46b6146b02da930a510514361967795963
+Repeatable: yes (a second GetBitmap gave the same pixels)
+Framework: .NET Framework 4.8, x64
+Windows: build 26300.9974 (26H2)
+Fresh render: yes (both layers drawn again without the layer cache gave the same pixels)
+Screen DPI seen by the test host: 96

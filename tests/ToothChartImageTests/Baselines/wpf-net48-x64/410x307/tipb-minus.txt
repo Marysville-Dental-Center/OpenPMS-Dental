@@ -1,0 +1,15 @@
+Scene: tipb-minus
+Group: states
+Description: Tipped lingually (TipB -15 degrees) on teeth 4, 7, 10, 13, 20, 23, 26 and 29 (all four quadrants, mirrored teeth included).
+Size: 410x307
+Colours: Module
+Engine: Wpf3D (RenderTargetBitmap in software, 3D layer at 3x reduced with WIC's Fant scaler)
+Bitmap: 410x307 Format24bppRgb
+Alpha: every alpha is 255 (format without an alpha channel)
+Colours in the picture: 3461
+Pixels SHA-256: 3ea4a148aab664f4dda0a06bce369704e419a13640b0b3f4718e372641e738ec
+Repeatable: yes (a second GetBitmap gave the same pixels)
+Framework: .NET Framework 4.8, x64
+Windows: build 26300.9974 (26H2)
+Fresh render: yes (both layers drawn again without the layer cache gave the same pixels)
+Screen DPI seen by the test host: 96

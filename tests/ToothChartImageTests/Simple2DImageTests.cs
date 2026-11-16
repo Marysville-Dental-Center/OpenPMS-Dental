@@ -34,6 +34,15 @@ namespace ToothChartImageTests {
 			}
 		}
 
+		///<summary>The folder a recording writes to and a comparison starts from: Baselines2D, or in a 64-bit process that records,
+		///Baselines\simple2d-net48-x64 (TC-10, docs/port-notes/TC-10.md), so an x64 recording never overwrites the x86 baselines.</summary>
+		public static string Baselines2DForThisProcess(bool isRecording) {
+			if(isRecording && Environment.Is64BitProcess) {
+				return Path.Combine(TestPaths.ProjectFolder,"Baselines","simple2d-net48-x64");
+			}
+			return Baselines2D;
+		}
+
 		[TestMethod]
 		public void Tc5Scenes_MatchTheSimple2DBaselines() {
 			bool isRecording=Environment.GetEnvironmentVariable(EnvRecord)=="1";
@@ -49,7 +58,9 @@ namespace ToothChartImageTests {
 					ChartScene scene=ChartScenes.Get(sceneName);
 					foreach(ChartSize chartSize in ChartScenes.GetSizes(scene)) {
 						string name=chartSize.FolderName+"/"+scene.Name;
-						string pathPng=Path.Combine(Baselines2D,chartSize.FolderName,scene.Name+".png");
+						//TC-10: a 64-bit process records into Baselines\simple2d-net48-x64 (keep only the pictures beyond tolerance there, README.md) and
+						//compares with the x64 picture where that set has one.
+						string pathPng=Path.Combine(Baselines2DForThisProcess(isRecording),chartSize.FolderName,scene.Name+".png");
 						using ToothChartWrapper wrapper=new ToothChartWrapper();
 						wrapper.Size=chartSize.Size;
 						ToothChartRelay relay=WpfCharts.CreateRelay(wrapper);
@@ -77,7 +88,7 @@ namespace ToothChartImageTests {
 							listFailures.Add(name+": no baseline (record with "+EnvRecord+"=1).");
 							continue;
 						}
-						using Bitmap bitmapBaseline=WpfImageTests.LoadBitmap(pathPng);
+						using Bitmap bitmapBaseline=WpfImageTests.LoadBitmap(WpfCharts.ForThisBitness(pathPng));
 						ChartImageCompareResult result=ChartImageCompare.Compare(bitmapBaseline,bitmap);
 						countCompared++;
 						if(!result.IsPass) {
@@ -88,7 +99,7 @@ namespace ToothChartImageTests {
 				}
 			});
 			if(isRecording) {
-				Console.WriteLine(countWritten+" Simple 2D baselines written to "+Baselines2D+".");
+				Console.WriteLine(countWritten+" Simple 2D baselines written to "+Baselines2DForThisProcess(true)+".");
 				return;
 			}
 			Assert.AreEqual(0,listFailures.Count,listFailures.Count+" scenes differ from the Simple 2D baselines:\r\n"+string.Join("\r\n",listFailures));
