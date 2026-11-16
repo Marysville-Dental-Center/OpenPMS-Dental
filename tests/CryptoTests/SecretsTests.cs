@@ -120,7 +120,8 @@ namespace CryptoTests {
 			Assert.AreEqual(KnownCiphertext,CodeBase.SecretBox.Seal(KnownPlaintext,arrayIv));
 		}
 
-		///<summary>Decrypts the known value with the framework's AesManaged and an independently derived key, to pin the documented format:
+		///<summary>Decrypts the known value with the framework's AES (Aes.Create; on .NET the obsolete AesManaged, SYSLIB0021, is the same
+		///operating system implementation) and an independently derived key, to pin the documented format:
 		///"osd1$" + base64(IV || AES-256-CBC-PKCS7(UTF-8 plaintext) || tag).</summary>
 		[TestMethod]
 		public void KnownCiphertext_MatchesDocumentedFormat() {
@@ -129,7 +130,7 @@ namespace CryptoTests {
 			byte[] arrayCipher=new byte[arrayPayload.Length-16-32];
 			Buffer.BlockCopy(arrayPayload,0,arrayIv,0,16);
 			Buffer.BlockCopy(arrayPayload,16,arrayCipher,0,arrayCipher.Length);
-			using(AesManaged aes=new AesManaged()) {
+			using(Aes aes=Aes.Create()) {
 				aes.Key=TestUtil.FromHex(KnownEncryptionKeyHex);
 				aes.IV=arrayIv;
 				aes.Mode=CipherMode.CBC;
