@@ -4,16 +4,17 @@
     build every .xaml file under this folder as a Page, compile every .cs file and embed every .resx file (bin\ and obj\ excepted), so a new
     window needs no edit here. Every other file under the folder is a None item unless an item below makes it something else. Only items with
     their own metadata are listed: the linked SharedAssemblyInfo.cs, the designer and generated files, the code-behind of each .xaml file, the
-    class-based resource names and the WPF resources. x86 like the other projects (Directory.Build.props).
+    class-based resource names and the WPF resources. net10.0-windows x64 (Directory.Build.props, Directory.Build.Net.props; S3b-4 of
+    docs/specs/net10-plan.md, docs/port-notes/S3b-4.md), with WPF and Windows Forms.
   -->
   <PropertyGroup>
-    <TargetFramework>net48</TargetFramework>
     <OutputType>Library</OutputType>
     <RootNamespace>WpfControls</RootNamespace>
     <AssemblyName>WpfControlsOD</AssemblyName>
     <LangVersion>8.0</LangVersion>
     <Platforms>AnyCPU;x86</Platforms>
     <UseWPF>true</UseWPF>
+    <UseWindowsForms>true</UseWindowsForms>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
@@ -40,35 +41,15 @@
       <HintPath>..\Required dlls\Interop.QBFC10.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
-    <Reference Include="Microsoft.VisualBasic" />
-    <!-- The WebView2 SDK, the version of Directory.Packages.props (UI\Controls\WebView2.xaml). Its build files are left out
-         (ExcludeAssets="build"): in a library they would only copy the native WebView2Loader.dll into this output folder and every one that
-         references it; the program and the tests that open WebView2 windows take it themselves (Directory.Build.targets). -->
-    <PackageReference Include="Microsoft.Web.WebView2" ExcludeAssets="build" />
+    <!-- The WebView2 SDK, the version of Directory.Packages.props (1.0.4314.35 for .NET 10; UI\Controls\WebView2.xaml), with its build
+         files, as CodeBase has it since S3b-2: they reference the WebView2 assemblies built for .NET (lib_manual), the same files the program
+         gets (S3b-0 item 5). Its buildTransitive folder adds the native x64 WebView2Loader.dll, which Directory.Build.targets lands flat. -->
+    <PackageReference Include="Microsoft.Web.WebView2" />
     <!-- Newtonsoft.Json, the version of Directory.Packages.props. -->
     <PackageReference Include="Newtonsoft.Json" />
-    <Reference Include="ReachFramework" />
-    <Reference Include="System.Printing" />
-    <Reference Include="System" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Drawing" />
-    <!-- The ReadOnlySpan<char> overloads of WeCantSpell.Hunspell's WordList need it to compile; SpellCheckL calls the string ones. -->
-    <PackageReference Include="System.Memory" />
-    <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.ServiceModel" />
-    <Reference Include="System.ServiceProcess" />
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xaml" />
-    <Reference Include="WindowsBase" />
-    <Reference Include="PresentationCore" />
-    <Reference Include="PresentationFramework" />
-    <Reference Include="WindowsFormsIntegration" />
+    <!-- The .NET Framework references (System.Xaml, ReachFramework, System.Printing, WindowsFormsIntegration and the others) are parts of
+         Microsoft.NETCore.App and Microsoft.WindowsDesktop.App on .NET (UseWPF, UseWindowsForms); System.Memory is built in. System.ServiceModel
+         is not part of .NET: Bridges\DivvyPostcardService.cs keeps its WCF client for the .NET Framework only (open point O-10). -->
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\third-party\build\PdfSharp-gdi\PdfSharp-gdi.csproj" />
