@@ -52,6 +52,15 @@ Built for the version after 0.0; what each one changes is in its release notes, 
 
 ### .NET Framework 4.8 to .NET 10
 
+**Status (2026-11-16): the switch is done on the integration branch `net10/switch`, and reaches `main` with the stage 3b gate.** The
+program, its libraries, tools and services are `net10.0-windows` x64, self-contained on one x64 .NET runtime in the program folder, with the
+32-bit helper self-contained on its own x86 runtime in `Helper32\` (S3b-1 to S3b-4); the Middle Tier is an ASP.NET Core server (S3b-6); the
+release, the 64-bit setup and the self-update are built for it (S3b-7, `docs/port-notes/S3b-7.md`): Build-Release stages the x64 release with
+the runtime files read from the runtime packs' own lists and refuses mixed or old runtimes, the setup installs into `Program Files` in
+64-bit mode with no .NET runtime to install and the 64-bit TWAIN data source manager, and the release channel publishes the runtime as a
+part of its own, pulled only when it changes. Still open before the gate: the test projects' move (S3b-5), the number formatting of
+decision 24 (S3b-FMT), the full test run, the Release dry run with the owner's elevated `Test-Installer.ps1`, and the launch checks.
+
 Target: .NET 10, the long-term release, supported until November 14, 2028 (.NET 8 and .NET 9 support ends on November 10, 2026; .NET 12, the
 next long-term release, is expected in late 2027). Gains: faster start-up and memory handling, current C#, modern project files and NuGet,
 monthly security servicing, better high-DPI support in WinForms, and current libraries (Helix Toolkit 3.x for the tooth chart among them).
@@ -76,9 +85,11 @@ Decided with the owner on 2026-11-07:
   .NET Framework, the 64-bit preparation among them, ending with the last .NET Framework release (the "bridge release"); then the
   program, the business library, the tests and the Middle Tier on .NET 10 and 64-bit in one step (owner, 2026-11-08: "no go directly to
   64."), with no 32-bit .NET 10 version (see "32-bit to 64-bit").
-- **Switching the office**: the bridge release first, then the new 64-bit setup once on every workstation; it moves the program from
-  `Program Files (x86)` to `Program Files`, installs the program with its own .NET 10 runtime (nothing is downloaded for .NET), and
-  drops its "install for me only" mode. Windows 11 is the baseline.
+- **Switching the office**: the new 64-bit setup once on every workstation; it installs into `Program Files`, with the program's own
+  .NET 10 runtime (nothing is downloaded for .NET), and has no "install for me only" mode. Windows 11 is the baseline. Changed on
+  2026-11-15 (decisions 21 and 22 of the plan): no bridge release, and no OpenPMS install to migrate (nothing in production runs this
+  program; the office switches from Open Dental once every workstream is done), so the setup is built for new installs and the
+  self-update for updates from one .NET 10 release to the next.
 
 The stage plan, made from a read-only survey of every project, library, API and tool the move touches and an independent critique, is
 `docs/specs/net10-plan.md`. Its owner questions were answered on 2026-11-08 (`docs/owner-questions.md`, "The move to .NET 10"). The
