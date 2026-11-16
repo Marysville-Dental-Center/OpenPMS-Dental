@@ -59,7 +59,8 @@ What this version brings, each in its section below (the roadmap's "Done in the 
   runtime and no special graphics; computers set to Simple 2D keep it; File > Graphics offers "3D chart" and "Simple 2D chart" with a
   "Draw in software" switch and a preview; the graphical perio chart opens on every computer ("The tooth chart: the 3D chart on every
   computer", below);
-- the DirectX and OpenGL tooth charts are removed; the DirectX runtime is no longer used;
+- the DirectX and OpenGL tooth charts are removed, with their libraries SharpDX and Tao, which setup deletes from the program folder; the
+  DirectX End-User Runtime is no longer needed ("The tooth chart: SharpDX, Tao and the DirectX runtime leave the program folder", below);
 - two new entries in Help > About > View Licenses, Helix Toolkit and the .NET Community Toolkit: libraries of the 3D tooth chart,
   installed with the program from this version on;
 - the tooth chart: completed extractions shown with an X, on by default as in Open Dental 26.2, the paint type TextBelow (Open Dental
@@ -769,6 +770,18 @@ Treatment Plan printouts, sheets, referral letters, the Patient Dashboard, the s
 - **Start-up** no longer searches for a DirectX format on a computer that has none saved (that could take minutes).
 - If the 3D chart cannot start on a computer, the chart shows the Simple 2D chart without an error message, and the ToothChart log says why
   once; the graphical perio chart then says it needs the 3D chart.
+
+## The tooth chart: SharpDX, Tao and the DirectX runtime leave the program folder
+
+The libraries of the removed DirectX and OpenGL charts no longer ship: SharpDX 4.0.1 (`SharpDX.dll`, `SharpDX.Direct3D9.dll`,
+`SharpDX.Mathematics.dll`) and the Tao Framework (`Tao.OpenGl.dll`, `Tao.Platform.Windows.dll`). Nothing in the program uses them, so
+**Microsoft's DirectX End-User Runtime is no longer needed** on any computer: a new computer needs only what the setup checks for (the
+.NET Framework 4.8, the Visual C++ runtime and the WebView2 runtime). The setup has never installed the DirectX runtime and installs nothing
+of DirectX now; a computer that has it keeps it, and the program does not use it.
+
+- **Upgrading.** Setup deletes the five files from the program folder, and the release channel never publishes them again.
+- **Licences.** Help > About > View Licenses and `THIRD-PARTY-NOTICES.txt` no longer list SharpDX or the Tao Framework. Helix Toolkit's entry
+  still carries SharpDX's MIT notice, because Helix Toolkit's maths library holds code derived from SharpDX.
 
 ## Open Dental 26.2: tools
 

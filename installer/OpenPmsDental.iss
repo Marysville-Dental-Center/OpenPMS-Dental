@@ -137,6 +137,13 @@ Type: files; Name: "{app}\MigraDoc.Rendering.dll"
 ; The spell checker: NHunspell and its native Hunspell (v0.0 shipped the x86 one only), replaced by the managed WeCantSpell.Hunspell.dll.
 Type: files; Name: "{app}\NHunspell.dll"
 Type: files; Name: "{app}\Hunspellx86.dll"
+; SharpDX and the Tao Framework, the libraries of the DirectX and OpenGL tooth charts (retired in TC-9a; the files leave in TC-9b). The 3D
+; chart needs neither them nor the DirectX End-User Runtime, which this setup has never installed.
+Type: files; Name: "{app}\SharpDX.dll"
+Type: files; Name: "{app}\SharpDX.Direct3D9.dll"
+Type: files; Name: "{app}\SharpDX.Mathematics.dll"
+Type: files; Name: "{app}\Tao.OpenGl.dll"
+Type: files; Name: "{app}\Tao.Platform.Windows.dll"
 
 [Files]
 Source: "{#StagingDir}\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs

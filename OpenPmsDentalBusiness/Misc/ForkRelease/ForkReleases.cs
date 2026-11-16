@@ -149,6 +149,13 @@ namespace OpenPmsDentalBusiness {
 			//NHunspell and its native Hunspell, replaced by the managed WeCantSpell.Hunspell (2026-11-02).
 			"NHunspell.dll",
 			"Hunspellx86.dll",
+			//SharpDX and the Tao Framework, the libraries of the DirectX and OpenGL tooth charts that TC-9a retired; the WPF 3D chart needs neither
+			//them nor the DirectX End-User Runtime (TC-9b, 2026-11-15).
+			"SharpDX.dll",
+			"SharpDX.Direct3D9.dll",
+			"SharpDX.Mathematics.dll",
+			"Tao.OpenGl.dll",
+			"Tao.Platform.Windows.dll",
 		};
 		///<summary>Key of the AssemblyMetadata attribute that holds the build time of OpenPmsDental.exe (written by OpenPmsDental.csproj).</summary>
 		public const string BUILD_UTC_METADATA_KEY="ForkBuildUtc";

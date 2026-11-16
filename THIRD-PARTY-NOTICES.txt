@@ -151,20 +151,6 @@ License:   GNU Affero General Public License, version 3 (LICENSE-AGPL-3.0.txt), 
 Source:    https://github.com/empira/PDFsharp (tag v6.5.0; MigraDoc is part of it); as built, in
            the source archive of each release (third-party/PDFsharp and third-party/build)
 
---- Component: SharpDX
-Files:     SharpDX.dll, SharpDX.Direct3D9.dll, SharpDX.Mathematics.dll
-Version:   4.0.1
-Copyright: Alexandre Mutel
-License:   MIT License (the project's own text follows)
-Source:    https://github.com/sharpdx/SharpDX
-
---- Component: Tao Framework
-Files:     Tao.OpenGl.dll, Tao.Platform.Windows.dll
-Version:   2.1
-Copyright: The Tao Framework Team
-License:   MIT X11 License (the project's own text follows)
-Source:    https://sourceforge.net/projects/taoframework/
-
 --- Component: Helix Toolkit
 Files:     HelixToolkit.dll, HelixToolkit.Geometry.dll, HelixToolkit.Maths.dll, HelixToolkit.Wpf.dll
 Version:   3.1.2 (NuGet packages HelixToolkit, HelixToolkit.Geometry, HelixToolkit.Maths and

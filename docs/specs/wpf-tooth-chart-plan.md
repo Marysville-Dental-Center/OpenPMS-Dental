@@ -480,6 +480,19 @@ it on 2026-11-15 and O-32:
 - For TC-10: the lane's x64 test build of ToothChartImageTests stops at `tests/TestProbeHost` (NETSDK1047, an exe with no win-x64 restore),
   before any test; BINATests and N64ATests pass in the x64 test build.
 
+**TC-9b (2026-11-15, branch `chart/tc9b-1` from `main` at `071c0b18b`): SharpDX, Tao and the DirectX runtime requirement leave the release.
+Done on the branch, waiting for review and merge.** `docs/port-notes/TC-9b.md` has the details and L-8's TC-9b part written for a person. In
+short, under O-26 as the owner revised it on 2026-11-15 (no DirectX ships after the switch):
+- Deleted as the row writes: the five DLLs from `Required dlls`; the program's SharpDX and Tao references (`OpenPmsDental.csproj`,
+  `xCodeBase.csproj`, `UnitTests.csproj`) and the `Resources\SharpDX.txt` item; the licence window's `SharpDX` and `Tao Framework` vendor
+  texts with both resources (hand-edited `Resources.resx` and `Resources.Designer.cs`) and the two `.txt` files; the two components of
+  `THIRD-PARTY-NOTICES.txt`. `Build-Release.ps1`: the five left `ThirdPartyFiles` and joined the deny-list as retired files, with
+  `ListRetiredFiles` and `[InstallDelete]`; the `Microsoft.DirectX*.dll` and `d3dx*.dll` patterns and Helix's SharpDX MIT notice stay.
+- Tests: `ReleaseIdentityTests`' shipped lists, `LibraryBindingTests`' shipped-but-unused list (now empty) and `RequiredDllsTests`' two lists
+  lose the five; new `BINBTests/SharpDXTaoRemovedTests.cs` and `ReleaseFlowTests/SharpDXTaoRetiredTests.cs`.
+- Release dry run (`-SkipInstaller`): exit 0, 0 build errors, 86 files staged, none of the five. L-8's install over the previous release is
+  the person's (TC-9b.md section 6).
+
 **Why not a separate branch.** The chart must not drift from the stages' rewrites of `ControlChart.cs` and the release files. Dark
 merges keep it on `main`, and the gallery approval comes before each merge (O-27).
 

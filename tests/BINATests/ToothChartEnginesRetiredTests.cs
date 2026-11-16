@@ -57,7 +57,8 @@ namespace BINATests {
 			List<string> listReferences=assemblyChart.GetReferencedAssemblies().Select(x => x.Name).ToList();
 			Assert.IsFalse(listReferences.Any(x => x.StartsWith("SharpDX") || x.StartsWith("Tao.")),"SparksToothChart references "+string.Join(", ",listReferences));
 			Assert.IsNull(typeof(CodeBase.ODFileUtils).Assembly.GetType("CodeBase.OpenGLWinFormsControl"),"CodeBase's OpenGL control was deleted.");
-			//The chart project names no SharpDX or Tao reference; the program's own (OpenPmsDental, CodeBase, UnitTests) stay until TC-9b.
+			//The chart project names no SharpDX or Tao reference; the program's own (OpenPmsDental, CodeBase, UnitTests) went in TC-9b, with the
+			//five DLLs (BINBTests, SharpDXTaoRemovedTests).
 			string project=RepoFiles.Read(@"SparksToothChart\SparksToothChart.csproj");
 			StringAssert.DoesNotMatch(project,new Regex(@"<Reference\s+Include=""(SharpDX|Tao)"),"SparksToothChart.csproj");
 			StringAssert.DoesNotMatch(project,new Regex(@"ToothChartDirectX|ToothChartOpenGL"),"SparksToothChart.csproj");
