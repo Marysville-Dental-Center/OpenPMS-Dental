@@ -1,0 +1,10 @@
+# The analyzer settings of the repository's C# code, which the .NET SDK hands the compiler of every SDK-style project below this folder
+# (stage 3b of the .NET 10 move, package S3b-1: docs/port-notes/S3b-1.md). No formatting rules are set here.
+# root: the search for .editorconfig files stops at this folder, so a checkout or worktree inside another one gets only its own.
+root = true
+
+[*.cs]
+# WFO1000 (a public property of a Windows Forms control without a designer serialization setting, DesignerSerializationVisibility or
+# DefaultValue) is an error by default on .NET 10. A warning for the switch, as the plan's S3b-1 row says; the layer packages decide each
+# property (https://learn.microsoft.com/en-us/dotnet/desktop/winforms/compiler-messages/wfo1000).
+dotnet_diagnostic.WFO1000.severity = warning

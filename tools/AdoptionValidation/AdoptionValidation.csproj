@@ -12,9 +12,6 @@
     <RootNamespace>AdoptionValidation</RootNamespace>
     <AssemblyName>AdoptionValidation</AssemblyName>
     <LangVersion>8.0</LangVersion>
-    <!-- MySqlConnector and the business layer need binding redirects, as OpenPmsDental.exe gets them. -->
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
     <Platforms>x86</Platforms>
     <!-- Every source file under this folder except the test project (its own project, in the sub folder) and build output. -->
     <DefaultItemExcludes>$(DefaultItemExcludes);AdoptionValidation.Tests\**</DefaultItemExcludes>

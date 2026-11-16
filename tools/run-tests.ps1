@@ -5,7 +5,7 @@ Runs the fork's MSTest assemblies (tests/*, NoHqTests, the legacy UnitTests and 
 .DESCRIPTION
 The test assemblies are the *Tests / *.Tests projects listed in OpenDental.Local.slnf, the legacy UnitTests project among them
 (it builds 'Unit Tests.exe'; -Include and -List name it UnitTests, and it makes and drops its own database). Build them first
-(Debug|x86, see README.md).
+(Debug|x86, see README.md; Debug|x64 for the .NET 10 build of stage 3b, run with -Platform x64).
 
 Targeted mode runs NoHqTests plus the assemblies named in -Include. Core mode runs every assembly except the slow migration and
 adoption ones (add them back with -Include). Full mode runs everything.
@@ -19,7 +19,9 @@ vstest.console.exe is the one of Visual Studio 2026 or its Build Tools (vstest 1
 (tools\Initialize-BuildEnvironment.ps1). -Toolset 2022 takes that of Visual Studio 2022 instead, the fallback until the
 stage 1 gate of the .NET 10 move (docs/specs/net10-plan.md, section 2.4); -VsTestPath names one directly.
 
-The tests are MSTest 4 (docs/port-notes/S4-1.md). vstest runs each assembly with /Platform:x86 (testhost.x86.exe) and finds the
+The tests are MSTest 4 (docs/port-notes/S4-1.md). vstest runs each assembly with /Platform:x86 (testhost.x86.exe), or with
+/Platform:x64 (testhost.exe) when -Platform x64 says so: the .NET 10 build of stage 3b is x64 (docs/specs/net10-plan.md, S3b-1). The
+assemblies are found in the same flat bin\Debug folders either way. vstest finds the
 MSTest adapter (MSTest.TestAdapter.dll) next to the assembly, where the build copies it; an assembly without it is reported as
 exit=NOADAPTER and not run. The counts come from vstest's summary, in either of its formats: the block that starts with
 "Total tests:" (vstest.console) or the one-line "Passed! - Failed: 0, Passed: 5, Skipped: 0, Total: 5" (dotnet test and newer
@@ -41,6 +43,7 @@ stage gates' Full runs use it).
 .EXAMPLE
 powershell -NoProfile -ExecutionPolicy Bypass -File tools\run-tests.ps1 -Mode Targeted -Include BPAYTests,PayPlanTests
 powershell -NoProfile -ExecutionPolicy Bypass -File tools\run-tests.ps1 -Mode Core
+powershell -NoProfile -ExecutionPolicy Bypass -File tools\run-tests.ps1 -Mode Targeted -Include CryptoTests -Platform x64
 powershell -NoProfile -ExecutionPolicy Bypass -File tools\run-tests.ps1 -Mode Full
 powershell -NoProfile -ExecutionPolicy Bypass -File tools\run-tests.ps1 -Mode Full -RequireBuildOutput -CompareWith earlier-full.txt
 powershell -NoProfile -ExecutionPolicy Bypass -File tools\run-tests.ps1 -WaitOnly
@@ -60,7 +63,9 @@ param(
 	[ValidateSet('2026', '2022')][string]$Toolset = '2026',
 	[string]$VsTestPath = '',
 	[switch]$RequireBuildOutput,
-	[string]$CompareWith = ''
+	[string]$CompareWith = '',
+	# The test host's platform: x86 (testhost.x86.exe) for the .NET Framework 4.8 build, x64 (testhost.exe) for the .NET 10 build of stage 3b.
+	[ValidateSet('x86', 'x64')][string]$Platform = 'x86'
 )
 $ErrorActionPreference = 'Stop'
 # Below-normal priority: vstest and its testhost processes inherit it, so test runs never starve the desktop.
@@ -181,6 +186,13 @@ function Write-Comparison([string]$EarlierPath, $Earlier = $null) {
 	Add-Content $Out "COMPARE same=$same differs=$differ new=$new missing=$missing" -Encoding utf8
 }
 
+# The arguments of one vstest run: the assembly, quoted, and the test host's platform ('/Platform:x86' by default, as since S4-2;
+# '/Platform:x64' for the .NET 10 build, -Platform x64).
+function Get-VsTestArguments([string]$Dll, [string]$Platform) {
+	$platformArgument = if ($Platform -eq 'x64') { '/Platform:x64' } else { '/Platform:x86' }
+	return @("`"$Dll`"", $platformArgument)
+}
+
 function Show-Summary {
 	if (-not (Test-Path $Out)) { Write-Output "No results yet at $Out"; return }
 	Get-Content $Out
@@ -266,7 +278,7 @@ while ($queue.Count -gt 0 -or $running.Count -gt 0) {
 			$allOk = $false
 			continue
 		}
-		$proc = Start-Process -FilePath $vstest -ArgumentList @("`"$($a.Dll)`"", '/Platform:x86') -WorkingDirectory (Split-Path $a.Dll) -NoNewWindow -PassThru -RedirectStandardOutput $log -RedirectStandardError ($log + '.err')
+		$proc = Start-Process -FilePath $vstest -ArgumentList (Get-VsTestArguments $a.Dll $Platform) -WorkingDirectory (Split-Path $a.Dll) -NoNewWindow -PassThru -RedirectStandardOutput $log -RedirectStandardError ($log + '.err')
 		$null = $proc.Handle  # cache the handle so ExitCode is available after the process exits
 		$running += [pscustomobject]@{ A = $a; P = $proc; Log = $log; Start = Get-Date }
 	}

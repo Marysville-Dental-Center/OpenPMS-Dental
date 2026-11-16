@@ -44,6 +44,12 @@
       brought none, and the code relies on neither: the third-party source builds hold what the logging generator writes for PDFsharp and
       MigraDoc (third-party\build\SourceBuild.props), and a second copy would not compile. Each package's own switch takes its generator out
       again (its buildTransitive targets), so every project compiles as before.
+      On .NET 10 (S3b-1's decision, docs/port-notes/S3b-1.md): Microsoft.Extensions.Logging.Abstractions is not part of the shared framework
+      of a desktop project, so the package and its generator stay, and so does its switch. System.Text.Json is part of the shared framework:
+      NuGet prunes the package from a net10.0-windows project's graph, so its build files, and with them this switch, never reach it; the
+      compiler gets the framework's own generator from the targeting pack instead, which no switch turns off and which writes nothing for
+      code without [JsonSerializable], as is all of this repository's. The switch therefore only matters for the projects that still target
+      .NET Framework 4.8 on the integration branch, and goes when the last of them does (S3b-5).
     -->
     <DisableMicrosoftExtensionsLoggingSourceGenerator>true</DisableMicrosoftExtensionsLoggingSourceGenerator>
     <DisableSystemTextJsonSourceGenerator>true</DisableSystemTextJsonSourceGenerator>
@@ -64,8 +70,11 @@
     <PackageVersion Include="MySqlConnector" Version="2.6.2" />
     <PackageVersion Include="Newtonsoft.Json" Version="13.0.4" />
     <PackageVersion Include="SSH.NET" Version="2026.0.0" />
-    <!-- The WebView2 SDK (S2-3): Microsoft.Web.WebView2.Core, .WinForms and .Wpf (lib\net45) and the native WebView2Loader.dll. -->
-    <PackageVersion Include="Microsoft.Web.WebView2" Version="1.0.2420.47" />
+    <!-- The WebView2 SDK (S2-3): Microsoft.Web.WebView2.Core, .WinForms and .Wpf (lib\net45) and the native WebView2Loader.dll. A .NET 10
+         project takes 1.0.4314.35 (download batch D of the .NET 10 plan; S3b-0 item 5 proved its net10.0-windows x64 layout, S3b-4 moves the
+         program to it); the condition is read with the project's final target framework, as every item condition is. -->
+    <PackageVersion Include="Microsoft.Web.WebView2" Version="1.0.2420.47" Condition="'$(TargetFramework)' != '$(ODTargetFramework)'" />
+    <PackageVersion Include="Microsoft.Web.WebView2" Version="1.0.4314.35" Condition="'$(TargetFramework)' == '$(ODTargetFramework)'" />
     <!-- The support packages (polyfills) they and MySqlConnector use on the .NET Framework. The three Microsoft packages that were on
          8.0.x are on 10.0 since S2-2 (MySqlConnector 2.6.2 asks for 8.0.x; the pinning above gives it these); System.Security.Cryptography.Pkcs,
          the 26th identical file, was used by nothing and left "Required dlls" in S2-4. -->
@@ -93,8 +102,9 @@
          of System.Net.Http 4.3.4) have one version in the whole graph, so an unlocked restore of every project resolves them with no
          NU1603, NU1605, NU1608 or NU1107. -->
     <PackageVersion Include="HelixToolkit.Wpf" Version="3.1.2" />
-    <!-- Test tools: Mono.Cecil reads assemblies in four test projects (S1-6). -->
-    <PackageVersion Include="Mono.Cecil" Version="0.10.3" />
+    <!-- Test tools: Mono.Cecil reads assemblies in four test projects (S1-6); 0.11.6 for a test project on .NET 10 (batch D; S3b-5). -->
+    <PackageVersion Include="Mono.Cecil" Version="0.10.3" Condition="'$(TargetFramework)' != '$(ODTargetFramework)'" />
+    <PackageVersion Include="Mono.Cecil" Version="0.11.6" Condition="'$(TargetFramework)' == '$(ODTargetFramework)'" />
     <!-- MSTest 4 (stage 4 of the .NET 10 move, package S4-1, docs/port-notes/S4-1.md; download batch B of 2026-11-14): the test framework,
          its VSTest adapter and the VSTest SDK, which tests\Directory.Build.props gives every test project (UnitTestsCore takes the framework
          only, NoHqTests names the three itself). MSTest.Analyzers comes with MSTest.TestFramework at the same version; it is listed so the
@@ -109,5 +119,28 @@
          into a test project's output; MSAL and the other libraries already take 4.6.2, which brings no file for .NET Framework 4.7.1 and
          later (the framework's own copy binds, tests\LibraryBindingTests). Pinned here so every project resolves 4.6.2. -->
     <PackageVersion Include="System.ValueTuple" Version="4.6.2" />
+    <!-- The .NET 10 build (stage 3b, download batch D of docs/specs/net10-plan.md section 5, in the offline folder since S3b-0; S3b-1 gives
+         them their versions here, so a layer package names a package in its project and changes no shared file). The Windows libraries that
+         left the .NET Framework: WMI (System.Management, CodeBase and the business library), the service controller, DPAPI
+         (System.Security.Cryptography.ProtectedData, OpenPmsDentalStorage), the event log, domain login
+         (System.DirectoryServices.AccountManagement with System.DirectoryServices.Protocols), voice perio charting (System.Speech, decision 13),
+         System.CodeDom; the dashboard and graph charts (WinForms.DataVisualization, decision 10); the RDL <Code> compiler (Roslyn's Visual
+         Basic compiler, decision 14); the XmlSerializers files (Microsoft.XmlSerializer.Generator, S3b-3 and S3b-4); the Middle Tier host and
+         its tests (S3b-6). Each Microsoft id at the runtime version of the pinned SDK (10.0.15 with SDK 10.0.115); each SDK bump moves them
+         with the runtime packs (section 2.4). -->
+    <PackageVersion Include="System.Management" Version="10.0.15" />
+    <PackageVersion Include="System.CodeDom" Version="10.0.15" />
+    <PackageVersion Include="System.ServiceProcess.ServiceController" Version="10.0.15" />
+    <PackageVersion Include="System.Security.Cryptography.ProtectedData" Version="10.0.15" />
+    <PackageVersion Include="System.Diagnostics.EventLog" Version="10.0.15" />
+    <PackageVersion Include="System.DirectoryServices.AccountManagement" Version="10.0.15" />
+    <PackageVersion Include="System.DirectoryServices.Protocols" Version="10.0.15" />
+    <PackageVersion Include="System.Speech" Version="10.0.15" />
+    <PackageVersion Include="WinForms.DataVisualization" Version="1.10.2" />
+    <PackageVersion Include="Microsoft.CodeAnalysis.VisualBasic" Version="5.12.0" />
+    <PackageVersion Include="Microsoft.CodeAnalysis.Common" Version="5.12.0" />
+    <PackageVersion Include="Microsoft.XmlSerializer.Generator" Version="10.0.15" />
+    <PackageVersion Include="Microsoft.Extensions.Hosting.WindowsServices" Version="10.0.15" />
+    <PackageVersion Include="Microsoft.AspNetCore.Mvc.Testing" Version="10.0.15" />
   </ItemGroup>
 </Project>

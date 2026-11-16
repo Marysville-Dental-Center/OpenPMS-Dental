@@ -13,8 +13,6 @@
     <RootNamespace>DevDbTool</RootNamespace>
     <AssemblyName>DevDbTool</AssemblyName>
     <LangVersion>8.0</LangVersion>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
     <Platforms>x86</Platforms>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">

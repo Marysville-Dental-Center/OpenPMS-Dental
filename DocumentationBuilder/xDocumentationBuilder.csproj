@@ -14,7 +14,9 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>DocumentationBuilder</RootNamespace>
     <AssemblyName>DocumentationBuilder</AssemblyName>
-    <LangVersion>latest</LangVersion>
+    <!-- Pinned to the version "latest" gave with the pinned SDK's compiler (Roslyn 5.0, SDK 10.0.115; S3b-1), so a newer compiler does not
+         change it. -->
+    <LangVersion>14.0</LangVersion>
     <Platforms>AnyCPU;x86</Platforms>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">

@@ -4,11 +4,12 @@
     globs compile every .cs file under this folder (bin\ and obj\ excepted); every file there was a Compile item of the classic project.
     Only the two shared files from tests\ProjectFileTests are listed, which the globs do not reach. The project is outside tests\, so
     tests\Directory.Build.props does not apply: it sets what that file would (the three MSTest 4 packages and the VSTest-only switches of
-    S4-1, docs/port-notes/S4-1.md, and the generated binding redirects in NoHqTests.dll.config, from tests\BindingRedirects.config as it
-    has no app.config).
+    S4-1, docs/port-notes/S4-1.md, and the generated binding redirects in NoHqTests.dll.config). It stays on .NET Framework 4.8 until
+    S3b-5 of the .NET 10 move retargets the tests; ODTestProject gives it the test projects' .NET 10 settings then (Directory.Build.Net.props).
   -->
   <PropertyGroup>
     <TargetFramework>net48</TargetFramework>
+    <ODTestProject>true</ODTestProject>
     <OutputType>Library</OutputType>
     <RootNamespace>NoHqTests</RootNamespace>
     <AssemblyName>NoHqTests</AssemblyName>

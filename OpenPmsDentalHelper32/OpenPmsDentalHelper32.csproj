@@ -21,7 +21,6 @@
     <Platforms>x86</Platforms>
     <!-- 32-bit in every configuration: the vendor code it loads is 32-bit only. -->
     <PlatformTarget>x86</PlatformTarget>
-    <Prefer32Bit>false</Prefer32Bit>
     <!-- Guru\GuruModule.cs builds MedVisorInterface.dll's structure with the unsafe code Guru.cs had (S3a-14). -->
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>

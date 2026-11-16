@@ -5,7 +5,6 @@
     <RootNamespace>MySQLManager</RootNamespace>
     <AssemblyName>MySQLManager</AssemblyName>
     <LangVersion>8.0</LangVersion>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Platforms>AnyCPU;x86</Platforms>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
