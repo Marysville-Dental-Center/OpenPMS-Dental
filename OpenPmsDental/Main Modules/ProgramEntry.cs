@@ -20,6 +20,13 @@ namespace OpenPmsDental {
 		static void Main(string[] args) {
 			//The stylesheet child of EhrStylesheetStarter (docs/port-notes/EHR-3.md): first, with no window, database, ODInitialize or Application call.
 			if(args.Length==2 && args[0]=="/ehr-render") { Environment.Exit(EhrRenderChild.Run(args[1])); }
+			//Then, before anything creates a window (S3b-4 of docs/specs/net10-plan.md; before the splash screen and the NoDpi handling below):
+			//the .NET Framework's default font, which about 72 plain forms rely on (.NET's is Segoe UI 9; SetDefaultFont throws once a window
+			//exists, and it applies the Windows text scale factor, decision 9), then per-monitor DPI awareness, which the .NET Framework build read
+			//from its app.config (.NET does not read that section). Dpi.SetUnaware below still makes the thread DPI unaware where asked.
+			//ODInitialize.Initialize registers the code pages.
+			Application.SetDefaultFont(new System.Drawing.Font("Microsoft Sans Serif",8.25f));
+			Application.SetHighDpiMode(HighDpiMode.PerMonitorV2);
 			System.Windows.Media.RenderOptions.ProcessRenderMode=System.Windows.Interop.RenderMode.SoftwareOnly;
 			//Application.EnableVisualStyles() uses version 6 of comctl32.dll instead of version 5.
 			//See https://support.microsoft.com/en-us/topic/system-accessviolationexception-occurs-with-tooltips-in-windows-forms-application-71a775b2-8a03-6846-f810-76930766cda0?ui=en-us&rs=en-us&ad=us

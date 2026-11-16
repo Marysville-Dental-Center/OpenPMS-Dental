@@ -2,7 +2,11 @@
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <!-- net10.0-windows x64, self-contained, win-x64 (Directory.Build.props, Directory.Build.Net.props; S3b-2). Its one window is Windows
-         Forms. -->
+         Forms. OpenPmsDental.csproj copies its four files (.exe, .dll, .runtimeconfig.json, .deps.json) next to the program, whose runtime it
+         uses. It has no app.config and no Settings.settings (S3b-4): the app.config held only the .NET Framework's startup section, and the
+         settings file defined no setting, so nothing it reads would be missing where OpenFileCopier starts it from a temp folder without a
+         .dll.config. -->
+
     <UseWindowsForms>true</UseWindowsForms>
     <RootNamespace>UpdateFileCopier</RootNamespace>
     <AssemblyName>UpdateFileCopier</AssemblyName>
@@ -93,11 +97,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Update="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <!--
@@ -116,11 +115,5 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <None Update="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
   </ItemGroup>
 </Project>

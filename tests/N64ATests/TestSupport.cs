@@ -91,7 +91,10 @@ namespace N64ATests {
 
 		///<summary>Writes folder\name.dll: an assembly named name with one public type [name].Plugin derived from PluginBase (a public constructor
 		///that calls the base one), as a plug-in has. targetFramework is its TargetFrameworkAttribute's value, or null for none. A non-null
-		///versionSystemRuntime adds a reference to System.Runtime of that version (the core library of .NET). Returns the path.</summary>
+		///versionSystemRuntime adds a reference to System.Runtime of that version (the core library of .NET). Returns the path.
+		///The framework's types it names (void, string, TargetFrameworkAttribute) are references into the module's own core library, mscorlib
+		///(Runtime Net_4_0), built by name: importing them from this process would name System.Private.CoreLib when the tests run on .NET
+		///(S3b-4), so the image is the same whichever framework writes it.</summary>
 		public static string WritePlugin(string folder,string name,SyntheticPlatform syntheticPlatform,string targetFramework,
 			Version versionSystemRuntime=null)
 		{
@@ -118,16 +121,22 @@ namespace N64ATests {
 					|Mono.Cecil.TypeAttributes.BeforeFieldInit,moduleDefinition.ImportReference(typeof(PluginBase)));
 				MethodDefinition methodDefinitionCtor=new MethodDefinition(".ctor",Mono.Cecil.MethodAttributes.Public|Mono.Cecil.MethodAttributes.HideBySig
 					|Mono.Cecil.MethodAttributes.SpecialName|Mono.Cecil.MethodAttributes.RTSpecialName,moduleDefinition.TypeSystem.Void);
-				ConstructorInfo constructorInfoBase=typeof(PluginBase).GetConstructor(BindingFlags.Instance|BindingFlags.Public|BindingFlags.NonPublic,
-					null,Type.EmptyTypes,null);
+				//PluginBase's parameterless constructor, protected or public.
+				Assert.IsNotNull(typeof(PluginBase).GetConstructor(BindingFlags.Instance|BindingFlags.Public|BindingFlags.NonPublic,null,Type.EmptyTypes,null));
+				MethodReference methodReferenceBase=new MethodReference(".ctor",moduleDefinition.TypeSystem.Void,moduleDefinition.ImportReference(typeof(PluginBase))) {
+					HasThis=true
+				};
 				ILProcessor ilProcessor=methodDefinitionCtor.Body.GetILProcessor();
 				ilProcessor.Emit(OpCodes.Ldarg_0);
-				ilProcessor.Emit(OpCodes.Call,moduleDefinition.ImportReference(constructorInfoBase));
+				ilProcessor.Emit(OpCodes.Call,methodReferenceBase);
 				ilProcessor.Emit(OpCodes.Ret);
 				typeDefinition.Methods.Add(methodDefinitionCtor);
 				moduleDefinition.Types.Add(typeDefinition);
 				if(targetFramework!=null) {
-					MethodReference methodReferenceAttribute=moduleDefinition.ImportReference(typeof(TargetFrameworkAttribute).GetConstructor(new[] { typeof(string) }));
+					TypeReference typeReferenceAttribute=new TypeReference(typeof(TargetFrameworkAttribute).Namespace,nameof(TargetFrameworkAttribute),
+						moduleDefinition,moduleDefinition.TypeSystem.CoreLibrary);
+					MethodReference methodReferenceAttribute=new MethodReference(".ctor",moduleDefinition.TypeSystem.Void,typeReferenceAttribute) { HasThis=true };
+					methodReferenceAttribute.Parameters.Add(new ParameterDefinition(moduleDefinition.TypeSystem.String));
 					CustomAttribute customAttribute=new CustomAttribute(methodReferenceAttribute);
 					customAttribute.ConstructorArguments.Add(new CustomAttributeArgument(moduleDefinition.TypeSystem.String,targetFramework));
 					assemblyDefinition.CustomAttributes.Add(customAttribute);

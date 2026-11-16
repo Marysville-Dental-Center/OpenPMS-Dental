@@ -67,7 +67,9 @@ namespace OpenPmsDental {
 					continue;//Nothing to do.
 				}
 				//The dll was found, try and load it in. Plugins.LoadPlugin checks first that this process can load it (its PE kind and target
-				//framework, N64-A), and writes the reason for a plug-in it refuses or that fails to load to the log, naming the plug-in.
+				//framework, N64-A), and writes the reason for a plug-in it refuses or that fails to load to the log, naming the plug-in. On .NET 10 a
+				//plug-in built for the .NET Framework is refused with a clear message and not loaded (decision 16 of docs/specs/net10-plan.md, S3b-4):
+				//its TargetFrameworkAttribute is read with System.Reflection.Metadata (CodeBase.PortableExecutableFile), without loading the file.
 				PluginContainer pluginContainer=Plugins.LoadPlugin(dllPath,listPrograms[i].PluginDllName,listPrograms[i].ProgramNum,host,out string error);
 				if(pluginContainer==null) {
 					//Never try and show message boxes when on the middle tier, there is no UI.  We should instead log to a file or the event viewer.

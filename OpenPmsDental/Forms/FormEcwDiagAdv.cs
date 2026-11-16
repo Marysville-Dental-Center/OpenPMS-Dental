@@ -162,7 +162,7 @@ namespace OpenPmsDental {
 			UTF8Encoding utf8Encoding=new UTF8Encoding();
 			try {
 				byte[] byteArray=Convert.FromBase64String(encString);
-				Aes aes=new AesCryptoServiceProvider();
+				Aes aes=Aes.Create();//SYSLIB0021 (S3b-4): the same OS AES as AesCryptoServiceProvider on .NET; key, IV, CBC and PKCS7 as before
 				aes.Key=utf8Encoding.GetBytes("AKQjlLUjlcABVbqp");//Random string will be key
 				aes.IV=new byte[16];
 				ICryptoTransform iCryptoTransform=aes.CreateDecryptor(aes.Key,aes.IV);

@@ -71,7 +71,11 @@ namespace N64ATests {
 			Assert.IsTrue(portableExecutableFile.Is32BitPreferred);
 			Assert.IsTrue(portableExecutableFile.IsAnyCpu);
 			Assert.IsTrue(portableExecutableFile.CanLoadInProcess(PortableExecutableFile.IMAGE_FILE_MACHINE_I386));
-			Assert.IsTrue(portableExecutableFile.CanLoadInProcess(PortableExecutableFile.IMAGE_FILE_MACHINE_AMD64));
+			//A 64-bit .NET Framework process maps it (N64-A); a 64-bit .NET process does not (S3b-4; EachBitness_RefusedExactlyWhenThisProcessCannotLoadIt).
+			Assert.IsTrue(portableExecutableFile.CanLoadInProcess(PortableExecutableFile.IMAGE_FILE_MACHINE_AMD64,isNetFrameworkProcess:true));
+			Assert.IsFalse(portableExecutableFile.CanLoadInProcess(PortableExecutableFile.IMAGE_FILE_MACHINE_AMD64,isNetFrameworkProcess:false));
+			Assert.IsTrue(portableExecutableFile.CanLoadInProcess(PortableExecutableFile.IMAGE_FILE_MACHINE_I386,isNetFrameworkProcess:false));
+			Assert.AreEqual(Environment.Version.Major<5,portableExecutableFile.CanLoadInProcess(PortableExecutableFile.IMAGE_FILE_MACHINE_AMD64));
 			Assert.AreEqual("a .NET assembly for any CPU, 32-bit preferred",portableExecutableFile.DescribeBitness());
 		}
 
