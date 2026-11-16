@@ -7,6 +7,7 @@ using System.Data;
 using System.Net;
 using System.Reflection;
 using Microsoft.VisualBasic.Devices;
+using System.Management;
 using System.Linq;
 
 namespace OpenPmsDentalBusiness {
@@ -73,10 +74,24 @@ namespace OpenPmsDentalBusiness {
 		///<summary>Returns specific information regarding the current version of Windows that is running.</summary>
 		public static string GetOSVersionInfo() {
 			string versionInfo="";
-			//Utilize the visual basic ComputerInfo class in order to get the most accurate OS version.
-			//This is because Environment.OSVersion was always returning a version that represented Windows 8.
-			ComputerInfo computerInfo=new ComputerInfo();
-			versionInfo=computerInfo.OSFullName+(Environment.Is64BitOperatingSystem ? " 64-bit":" 32-bit");	//OSFullName will be blank on wine
+			//The name of Windows ("Microsoft Windows 11 Pro"), as the visual basic ComputerInfo.OSFullName of .NET Framework gave it: that read
+			//WMI's Win32_OperatingSystem.Name up to its first '|'. On .NET, OSFullName is RuntimeInformation.OSDescription ("Microsoft Windows
+			//10.0.26300", no edition), so the name is read as .NET Framework read it, with OSFullName only when WMI fails (S3b-3).
+			string osName="";
+			try {
+				using(ManagementObjectSearcher managementObjectSearcher=new ManagementObjectSearcher("SELECT Name FROM Win32_OperatingSystem"))
+				using(ManagementObjectCollection managementObjectCollection=managementObjectSearcher.Get()) {
+					ManagementObject managementObject=managementObjectCollection.Cast<ManagementObject>().FirstOrDefault();
+					osName=((managementObject?["Name"] as string)??"").Split('|')[0];
+				}
+			}
+			catch(Exception e) {
+				e.DoNothing();
+			}
+			if(osName=="") {
+				osName=new ComputerInfo().OSFullName;
+			}
+			versionInfo=osName+(Environment.Is64BitOperatingSystem ? " 64-bit":" 32-bit");	//OSFullName will be blank on wine
 			//On .NET Framework, Environment.OSVersion said 6.2 to a program not manifested for Windows 8.1 or 10, so the build came from WMI
 			//(Win32_OperatingSystem.Version). .NET 5 and later read the real version (RtlGetVersion), so that workaround is gone (S3b-3 of the .NET 10
 			//plan); the text is the same: major.minor.build, as WMI gave it.
