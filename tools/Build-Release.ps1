@@ -153,7 +153,7 @@ $OwnFiles=[ordered]@{
 #  package's file, the runtime or native asset the program's restore names (Test-PackageFiles). Nothing of these comes from "Required dlls" any
 #  more (S2-4).
 #- 'Required dlls': a byte copy of the repository's "Required dlls" file, for the files that have no NuGet package (the plan's "Left in
-#  Required dlls after stage 2": the Direct Project, SharpDX and Tao).
+#  Required dlls after stage 2": the Direct Project; SharpDX and Tao left with TC-9b, docs/port-notes/TC-9b.md).
 #- otherwise the project output it is built from.
 $ThirdPartyFiles=[ordered]@{
 	'BouncyCastle.Cryptography.dll'='package:BouncyCastle.Cryptography'
@@ -188,9 +188,6 @@ $ThirdPartyFiles=[ordered]@{
 	'MySqlConnector.dll'='package:MySqlConnector'
 	'Newtonsoft.Json.dll'='package:Newtonsoft.Json'
 	'Renci.SshNet.dll'='package:SSH.NET'
-	'SharpDX.dll'='Required dlls'
-	'SharpDX.Direct3D9.dll'='Required dlls'
-	'SharpDX.Mathematics.dll'='Required dlls'
 	'System.Buffers.dll'='package:System.Buffers'
 	'System.ComponentModel.Annotations.dll'='package:System.ComponentModel.Annotations'
 	'System.Diagnostics.DiagnosticSource.dll'='package:System.Diagnostics.DiagnosticSource'
@@ -202,8 +199,6 @@ $ThirdPartyFiles=[ordered]@{
 	'System.Text.Encodings.Web.dll'='package:System.Text.Encodings.Web'
 	'System.Text.Json.dll'='package:System.Text.Json'
 	'System.Threading.Tasks.Extensions.dll'='package:System.Threading.Tasks.Extensions'
-	'Tao.OpenGl.dll'='Required dlls'
-	'Tao.Platform.Windows.dll'='Required dlls'
 	#The native x86 loader: the package's runtimes\win-x86\native asset, which NuGet copies for the program's win-x86 target and the package's
 	#build files copy to the top of the output (Directory.Build.targets).
 	'WebView2Loader.dll'='package:Microsoft.Web.WebView2'
@@ -331,7 +326,14 @@ $DenyList=@(
 	@('OpenPmsDentalCloud.dll','the storage library of v0.0, renamed OpenPmsDentalStorage.dll on 2026-11-02; a leftover of an older build'),
 	@('PdfSharp.dll','PDFsharp 1.2 of v0.0; PDFsharp 6.5 ships as PdfSharp-gdi.dll'),
 	@('PdfSharp.Charting.dll','PDFsharp 1.2 of v0.0; PDFsharp 6.5 ships as PdfSharp.Charting-gdi.dll'),
-	@('MigraDoc.Rendering.dll','MigraDoc 1.2 of v0.0; MigraDoc 6.5 ships as MigraDoc.Rendering-gdi.dll')
+	@('MigraDoc.Rendering.dll','MigraDoc 1.2 of v0.0; MigraDoc 6.5 ships as MigraDoc.Rendering-gdi.dll'),
+	#SharpDX 4.0.1 and the Tao Framework 2.1 of v0.0, the libraries of the retired DirectX and OpenGL tooth charts (TC-9a): the WPF 3D chart
+	#needs neither them nor the DirectX End-User Runtime (TC-9b, docs/port-notes/TC-9b.md).
+	@('SharpDX.dll','SharpDX 4.0.1 of v0.0: the library of the retired DirectX tooth chart (TC-9b)'),
+	@('SharpDX.Direct3D9.dll','SharpDX 4.0.1 of v0.0: the library of the retired DirectX tooth chart (TC-9b)'),
+	@('SharpDX.Mathematics.dll','SharpDX 4.0.1 of v0.0: the library of the retired DirectX tooth chart (TC-9b)'),
+	@('Tao.OpenGl.dll','the Tao Framework of v0.0: the library of the retired OpenGL tooth chart (TC-9b)'),
+	@('Tao.Platform.Windows.dll','the Tao Framework of v0.0: the library of the retired OpenGL tooth chart (TC-9b)')
 )
 #endregion The lists
 

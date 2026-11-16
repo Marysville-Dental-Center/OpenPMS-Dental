@@ -149,8 +149,6 @@ namespace OpenPmsDental{
 			dictVendorTexts.Add("SSH.NET",Properties.Resources.SshNet);
 			dictVendorTexts.Add("PDFsharp",Properties.Resources.PdfSharp.TrimEnd()+"\r\n\r\n"+Properties.Resources.LicenseAgpl3);
 			dictVendorTexts.Add("MigraDoc",Properties.Resources.MigraDoc.TrimEnd()+"\r\n\r\n"+Properties.Resources.LicenseAgpl3);
-			dictVendorTexts.Add("SharpDX",Properties.Resources.SharpDX);
-			dictVendorTexts.Add("Tao Framework",Properties.Resources.Tao_OpenGL);
 			dictVendorTexts.Add("WeCantSpell.Hunspell",Properties.Resources.WeCantSpellHunspell);
 			dictVendorTexts.Add("TWAIN",Properties.Resources.Twain);
 			dictVendorTexts.Add("Pearl API notice",Properties.Resources.Pearl);
