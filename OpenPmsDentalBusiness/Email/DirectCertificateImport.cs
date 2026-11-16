@@ -511,7 +511,7 @@ namespace OpenPmsDentalBusiness {
 			X509Certificate2Collection x509Certificate2Collection=new X509Certificate2Collection();
 			try {
 				//EphemeralKeySet: the keys stay in memory only, nothing is written to a key store until the import.
-				x509Certificate2Collection.Import(byteArrayFile,password??"",X509KeyStorageFlags.EphemeralKeySet);
+				ImportCertificates(x509Certificate2Collection,byteArrayFile,password??"",X509KeyStorageFlags.EphemeralKeySet);
 			}
 			catch(CryptographicException) {
 				//Windows' text names no secret, but a wrong password is what it nearly always means.
@@ -644,7 +644,7 @@ namespace OpenPmsDentalBusiness {
 			try {
 				ActionBeforeKeysStoredForTests?.Invoke();
 				//Never the Exportable flag: the private key can't be exported from this computer again.
-				x509Certificate2Collection.Import(byteArrayFile,password??"",x509KeyStorageFlags);
+				ImportCertificates(x509Certificate2Collection,byteArrayFile,password??"",x509KeyStorageFlags);
 			}
 			catch(CryptographicException ex) {
 				//.NET gives no certificate when the import throws, so this import knows of no key to delete; Windows may have stored one of the file's
@@ -1077,10 +1077,10 @@ namespace OpenPmsDentalBusiness {
 				List<byte[]> listPem=GetPemCertificates(byteArrayFile);
 				if(listPem.Count==0) {
 					//DER, or Base64 without the PEM lines.
-					x509Certificate2Collection.Import(byteArrayFile,"",X509KeyStorageFlags.EphemeralKeySet);
+					ImportCertificates(x509Certificate2Collection,byteArrayFile,"",X509KeyStorageFlags.EphemeralKeySet);
 				}
 				for(int i=0;i<listPem.Count;i++) {
-					x509Certificate2Collection.Import(listPem[i],"",X509KeyStorageFlags.EphemeralKeySet);
+					ImportCertificates(x509Certificate2Collection,listPem[i],"",X509KeyStorageFlags.EphemeralKeySet);
 				}
 			}
 			catch(Exception ex) when(ex is CryptographicException || ex is FormatException) {
@@ -1131,11 +1131,40 @@ namespace OpenPmsDentalBusiness {
 					return null;
 				}
 				directCertificateResult.ListDetails.Add(directCertificateDetails);
-				return new X509Certificate2(x509Certificate2File.RawData);
+				return X509CertificateLoader.LoadCertificate(x509Certificate2File.RawData);//DER, as the byte constructor read it (SYSLIB0057).
 			}
 			finally {
 				ResetAll(x509Certificate2Collection);
 			}
+		}
+
+		///<summary>Adds the certificates of a file's bytes to the collection, as X509Certificate2Collection.Import(byte[],string,X509KeyStorageFlags)
+		///did on .NET Framework, which .NET 10 marks obsolete (SYSLIB0057; stage 3b, docs/port-notes/S3b-3.md). A certificate (DER, or Base64 with
+		///or without the PEM lines) goes through X509CertificateLoader.LoadCertificate, a PKCS#12 file (.pfx, .p12) through LoadPkcs12Collection
+		///with the password and the flags, and without the loader's default limits (Pkcs12LoaderLimits.DangerousNoLimits): those would drop the
+		///storage provider and key name the file names, which decide where Windows stores the key, and refuse files Import read. The formats the
+		///loader has no method for (PKCS#7, a serialized certificate or store, a signed file) still go through Import, which works on .NET 10.
+		///Throws CryptographicException for bytes that are no certificate, a wrong password, and an empty file, as Import did.</summary>
+		private static void ImportCertificates(X509Certificate2Collection x509Certificate2Collection,byte[] byteArray,string password,
+			X509KeyStorageFlags x509KeyStorageFlags)
+		{
+			X509ContentType x509ContentType;
+			try {
+				x509ContentType=X509Certificate2.GetCertContentType(byteArray);
+			}
+			catch(ArgumentException ex) {//An empty array, for which Import threw CryptographicException.
+				throw new CryptographicException(ex.Message,ex);
+			}
+			if(x509ContentType==X509ContentType.Cert) {
+				x509Certificate2Collection.Add(X509CertificateLoader.LoadCertificate(byteArray));
+				return;
+			}
+			if(x509ContentType==X509ContentType.Pkcs12) {
+				x509Certificate2Collection.AddRange(X509CertificateLoader.LoadPkcs12Collection(byteArray,password,x509KeyStorageFlags,
+					Pkcs12LoaderLimits.DangerousNoLimits));
+				return;
+			}
+			x509Certificate2Collection.Import(byteArray,password,x509KeyStorageFlags);
 		}
 
 		///<summary>The certificates of a PEM file (between "-----BEGIN CERTIFICATE-----" and "-----END CERTIFICATE-----"), decoded. None for a file

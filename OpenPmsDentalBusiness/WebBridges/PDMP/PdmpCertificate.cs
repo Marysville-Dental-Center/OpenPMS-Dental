@@ -32,6 +32,30 @@ namespace OpenPmsDentalBusiness {
 			get { return Lans.g("PDMP","Not set: import the certificate issued for this software."); }
 		}
 
+		///<summary>The certificate of a file's bytes, as the X509Certificate2(byte[],string,X509KeyStorageFlags) constructor gave it on .NET Framework,
+		///which .NET 10 marks obsolete (SYSLIB0057; stage 3b, docs/port-notes/S3b-3.md): a PKCS#12 file (.pfx, .p12) through
+		///X509CertificateLoader.LoadPkcs12 with the password and the flags (the certificate with the private key), without the loader's default
+		///limits (Pkcs12LoaderLimits.DangerousNoLimits), which would drop the storage provider the file names and refuse files the constructor
+		///read; a certificate without a key (DER or PEM) through LoadCertificate. Throws CryptographicException for anything else, a wrong password
+		///and an empty array, as the constructor did for every file this program is given (the constructor also read a Windows serialized
+		///certificate, which no issuer hands out).</summary>
+		internal static X509Certificate2 LoadFile(byte[] arrayBytes,string password,X509KeyStorageFlags x509KeyStorageFlags) {
+			X509ContentType x509ContentType;
+			try {
+				x509ContentType=X509Certificate2.GetCertContentType(arrayBytes);
+			}
+			catch(ArgumentException ex) {//An empty array.
+				throw new CryptographicException(ex.Message,ex);
+			}
+			if(x509ContentType==X509ContentType.Pkcs12) {
+				return X509CertificateLoader.LoadPkcs12(arrayBytes,password,x509KeyStorageFlags,Pkcs12LoaderLimits.DangerousNoLimits);
+			}
+			if(x509ContentType==X509ContentType.Cert) {
+				return X509CertificateLoader.LoadCertificate(arrayBytes);
+			}
+			throw new CryptographicException("Not a PKCS#12 or certificate file: "+x509ContentType+".");
+		}
+
 		///<summary>Loads a PKCS#12 file for validation only, with EphemeralKeySet so the private key never touches a key store, and checks it: it opens with
 		///the password, has a private key, is inside its validity dates, and, if it has an extended key usage extension, allows Client Authentication.
 		///Returns the certificate (the caller disposes it). Throws PdmpException(NotConfigured) with a message for the user.</summary>
@@ -42,7 +66,7 @@ namespace OpenPmsDentalBusiness {
 			}
 			X509Certificate2 certificate;
 			try {
-				certificate=new X509Certificate2(arrayPfxBytes,password??"",X509KeyStorageFlags.EphemeralKeySet);
+				certificate=LoadFile(arrayPfxBytes,password??"",X509KeyStorageFlags.EphemeralKeySet);
 			}
 			catch(CryptographicException ex) {
 				throw new PdmpException(PdmpErrorKind.NotConfigured,
@@ -147,7 +171,7 @@ namespace OpenPmsDentalBusiness {
 				case PdmpCertificateSource.Database:
 					try {
 						byte[] arrayBytes=Convert.FromBase64String(pdmpProperty.BambooClientKey);
-						certificate=new X509Certificate2(arrayBytes,pdmpProperty.BambooClientPassword??"",X509KeyStorageFlags.UserKeySet);
+						certificate=LoadFile(arrayBytes,pdmpProperty.BambooClientPassword??"",X509KeyStorageFlags.UserKeySet);
 					}
 					catch(Exception ex) {
 						throw new PdmpException(PdmpErrorKind.NotConfigured,

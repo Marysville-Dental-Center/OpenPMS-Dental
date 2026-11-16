@@ -172,8 +172,11 @@ namespace CodeBase {
 			return false;//This code is unreachable but the compiler doesn't realize it.
 		}
 
+#if NETFRAMEWORK
 		///<summary>Filters the current IEnumerable of objects based on the func provided.
-		///C# does not provide a way to do listObj.Distinct(x => x.Field).  This extension allows us to do listObj.DistinctBy(x => x.Field)</summary>
+		///C# does not provide a way to do listObj.Distinct(x => x.Field).  This extension allows us to do listObj.DistinctBy(x => x.Field)
+		///On .NET 10 this is System.Linq's Enumerable.DistinctBy, which does the same (a HashSet of the keys with the default comparer, the
+		///first item of each key in source order, deferred); with both, every call that imports System.Linq and CodeBase was ambiguous (CS0121).</summary>
 		public static IEnumerable<T> DistinctBy<T, TKey>(this IEnumerable<T> listSource,Func<T,TKey> keySelector) {
 			HashSet<TKey> hashSet=new HashSet<TKey>();
 			foreach(T source in listSource) {
@@ -182,6 +185,7 @@ namespace CodeBase {
 				}
 			}
 		}
+#endif
 
 		///<summary>Deprecated. Use a for i loop. Loops through the IEnumerable and performs the action on each item.</summary>
 		public static void ForEach<T>(this IEnumerable<T> listSource,Action<T> action) {

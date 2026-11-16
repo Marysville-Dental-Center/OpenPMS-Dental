@@ -7,7 +7,6 @@ using System.Data;
 using System.Net;
 using System.Reflection;
 using Microsoft.VisualBasic.Devices;
-using System.Management;
 using System.Linq;
 
 namespace OpenPmsDentalBusiness {
@@ -78,17 +77,11 @@ namespace OpenPmsDentalBusiness {
 			//This is because Environment.OSVersion was always returning a version that represented Windows 8.
 			ComputerInfo computerInfo=new ComputerInfo();
 			versionInfo=computerInfo.OSFullName+(Environment.Is64BitOperatingSystem ? " 64-bit":" 32-bit");	//OSFullName will be blank on wine
-			//This chunk is to get the correct version number.  If we use Environment.OSVersion, it will return an incorrect number.
-			//This is because the application isn't manifested to windows 8.1 or 10.  As a result is will always return a version num of 6.2.
-			//https://msdn.microsoft.com/en-us/library/windows/desktop/ms724832(v=vs.85).aspx
-			try {
-				ManagementObjectSearcher mangementQuery=new ManagementObjectSearcher("SELECT * FROM Win32_OperatingSystem");
-				ManagementObject systemInfo=mangementQuery.Get().Cast<ManagementObject>().FirstOrDefault();
-				versionInfo+=" Build "+systemInfo.Properties["Version"].Value;
-			}
-			catch(Exception e) {
-				e.DoNothing();
-			}
+			//On .NET Framework, Environment.OSVersion said 6.2 to a program not manifested for Windows 8.1 or 10, so the build came from WMI
+			//(Win32_OperatingSystem.Version). .NET 5 and later read the real version (RtlGetVersion), so that workaround is gone (S3b-3 of the .NET 10
+			//plan); the text is the same: major.minor.build, as WMI gave it.
+			Version version=Environment.OSVersion.Version;
+			versionInfo+=" Build "+version.Major+"."+version.Minor+"."+version.Build;
 			return versionInfo;
 		}
 

@@ -111,7 +111,8 @@ namespace OpenPmsDentalBusiness {
 			diagnosticsText.AddLine("Program version (preference)",() => PrefC.GetString(PrefName.ProgramVersion));
 			diagnosticsText.AddLine("OpenPmsDentalBusiness version",() => MiscData.GetAssemblyVersion());
 			diagnosticsText.AddLine("Program path",() => GetProgramPath());
-			diagnosticsText.AddLine(".NET runtime",() => "CLR "+Environment.Version);
+			//The runtime by name and version (".NET 10.0.15"); "CLR "+Environment.Version on .NET Framework (S3b-3 of the .NET 10 plan).
+			diagnosticsText.AddLine(".NET runtime",() => RuntimeInformation.FrameworkDescription);
 			diagnosticsText.AddLine(".NET Framework release",() => GetNetFrameworkRelease());
 			diagnosticsText.AddLine("Process",() => Environment.Is64BitProcess ? "64-bit" : "32-bit");
 			diagnosticsText.AddLine("Middle tier role",() => RemotingClient.MiddleTierRole.ToString());

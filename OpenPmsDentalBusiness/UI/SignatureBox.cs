@@ -158,7 +158,7 @@ namespace OpenPmsDental.UI {
 				MemoryStream memoryStream=new MemoryStream();
 				//ms.Write(encryptedBytes,0,(int)encryptedBytes.Length);
 				//create a crypto stream
-				Rijndael rijndael=Rijndael.Create();
+				Aes rijndael=Aes.Create();//Rijndael with a 128-bit block is AES; on .NET Rijndael.Create() wraps Aes.Create() (SYSLIB0022).
 				rijndael.KeySize=128;//16 bytes;
 				rijndael.Key=hash;
 				rijndael.IV=new byte[16];

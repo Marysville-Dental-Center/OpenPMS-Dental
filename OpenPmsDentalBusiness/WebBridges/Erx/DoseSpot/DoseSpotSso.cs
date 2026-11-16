@@ -40,7 +40,7 @@ namespace OpenPmsDentalBusiness {
 		public static string CreatePhrase() {
 			StringBuilder stringBuilder=new StringBuilder(PhraseLength);
 			byte[] arrayBytes=new byte[1];
-			using(RNGCryptoServiceProvider rng=new RNGCryptoServiceProvider()) {
+			using(RandomNumberGenerator rng=RandomNumberGenerator.Create()) {//The system CSPRNG, as RNGCryptoServiceProvider on .NET (SYSLIB0023).
 				while(stringBuilder.Length<PhraseLength) {
 					rng.GetBytes(arrayBytes);
 					//248 is the largest multiple of 62 below 256: rejecting the rest keeps every character equally likely.
