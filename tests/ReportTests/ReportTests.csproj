@@ -20,6 +20,15 @@
     <Compile Include="..\ProjectFileTests\BuildOutput.cs">
       <Link>BuildOutput.cs</Link>
     </Compile>
+    <!-- Package S3b-2b (docs/port-notes/S3b-2.md, part B): the RDL <Code> reports of tests\RdlCodeTests, run without a database. -->
+    <Compile Include="..\RdlCodeTests\RdlCodeReport.cs">
+      <Link>RdlCodeReport.cs</Link>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <!-- What the .NET Framework 4.8 engine gave for those reports, and the S3a-4 record of the fixture report (RdlCodeBlockReportTests). -->
+    <None Include="..\RdlCodeTests\Fixtures\*.txt" Link="RdlCodeFixtures\%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\GoldenOutputTests\Fixtures\rdl-code-report.txt" Link="RdlCodeFixtures\golden\rdl-code-report.txt" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\CodeBase\xCodeBase.csproj" />

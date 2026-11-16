@@ -129,6 +129,20 @@ namespace ProjectFileTests {
 		}
 
 		[TestMethod]
+		public void OS_IsMSBuildsReservedWindowsNT() {
+			//MSBuild's reserved $(OS) is Windows_NT on Windows; Microsoft.TestPlatform.TestHost's build\net8.0 props, which a .NET 10 test project's
+			//restore output imports, read it in a Condition (S3b-2b).
+			using(FixtureFolder fixtureFolder=FixtureFolder.Create()) {
+				string text=File.ReadAllText(fixtureFolder.ProjectPath("SdkStyle"));
+				fixtureFolder.WriteFile(@"tests\SdkStyle\SdkStyle.csproj",text.Replace("</Project>","<PropertyGroup>"
+					+"<FixtureWindows Condition=\"'$(OS)' == 'Windows_NT'\">yes</FixtureWindows></PropertyGroup></Project>"));
+				ProjectFile projectFile=fixtureFolder.Load("SdkStyle");
+				Assert.AreEqual("Windows_NT",projectFile.GetProperty("OS"));
+				Assert.AreEqual("yes",projectFile.GetProperty("FixtureWindows"));
+			}
+		}
+
+		[TestMethod]
 		public void MSBuildToolsVersion_ComparesAsTheVisualStudioVersion_OnlyWhereMSBuildDoesSo() {
 			//MSBuild's StringExpressionNode: an operand of < > <= >= written exactly '$(MSBuildToolsVersion)' that expands to "Current" is the
 			//Visual Studio version of the MSBuild that evaluates (18.0), so the WebView2 package's '$(MSBuildToolsVersion)' <= '15' is false (S2-3).

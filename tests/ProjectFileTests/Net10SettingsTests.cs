@@ -255,7 +255,9 @@ namespace ProjectFileTests {
 				if(!projectFile.GetProperty("WarningsAsErrors").Split(';').Contains("WFDEV006")) {
 					listProblems.Add(name+": no WFDEV006 in WarningsAsErrors");
 				}
-				List<string> listOptions=HostOptions(projectFile);
+				//The repository's options; a .NET test project that is restored also gets the MSTest adapter's own (its build files'
+				//MSTest.EnableParentProcessQuery, read from the restore output since tests\RdlCodeTests, S3b-2b).
+				List<string> listOptions=HostOptions(projectFile).Where(x => !(isTest && x.StartsWith("MSTest.",StringComparison.Ordinal))).ToList();
 				bool hasNls=listOptions.SequenceEqual(new[] { "System.Globalization.UseNls=true" });
 				if((isExe || isTest) ? !hasNls : listOptions.Count!=0) {
 					listProblems.Add(name+": RuntimeHostConfigurationOption "+string.Join(",",listOptions));
