@@ -287,7 +287,11 @@ Copyright: The TWAIN Working Group
 License:   TWAIN Working Group toolkit license, kept from Open Dental's license list (its text follows);
            TWAINDSM.dll: GNU Lesser General Public License, version 2.1 (LICENSE-LGPL-2.1.txt)
 Source:    https://twain.org/
-           https://github.com/twain/twain-dsm/releases/tag/v2.5.1 (TWAINDSM.dll and its source, twain-dsm-2.5.1.zip)
+           TWAINDSM.dll: the source archive of each release, OpenPmsDental-<version>-source.zip next to the setup,
+           carries the source of the release it comes from as third-party-source/twain-dsm-2.5.1.zip, byte for
+           byte the TWAIN Working Group's twain-dsm-2.5.1.zip of
+           https://github.com/twain/twain-dsm/releases/tag/v2.5.1 (SHA-256
+           67e5aebda9c7aa85e39a38b8c9c8b99bd720d4b318134b3e274aec97d4977e0f; SOURCE-COMMITS.txt names it)
 
 --- Component: Pearl API notice
 Files:     none; the Pearl bridge calls Pearl's service when an office enables it

@@ -36,10 +36,11 @@ not typed in here. The release channel publishes the runtime files as the releas
    into <OutDir>, checks that the files the compiler packed are exactly the staged files and TWAINDSM.dll, and adds the setup's SHA-256 to
    SHA256SUMS.txt.
 6. Writes the source archive, <OutDir>\OpenPmsDental-<version>-source.zip: the repository at the release commit (git archive HEAD) with
-   every submodule at the commit the release commit pins (PDFsharp/MigraDoc and WeCantSpell.Hunspell), and SOURCE-COMMITS.txt naming them,
-   so the Corresponding Source of everything the setup ships is published with the release even if an upstream repository goes away. Its
-   SHA-256 goes into SHA256SUMS.txt. A submodule that is not checked out at its pinned commit fails the script: the shipped files were
-   built from the checkout.
+   every submodule at the commit the release commit pins (PDFsharp/MigraDoc and WeCantSpell.Hunspell), the source of the setup's
+   TWAINDSM.dll (the approved twain-dsm-2.5.1.zip, byte for byte, as third-party-source/twain-dsm-2.5.1.zip), and SOURCE-COMMITS.txt naming
+   them, so the Corresponding Source of everything the setup ships is published with the release even if an upstream repository goes away.
+   Its SHA-256 goes into SHA256SUMS.txt. A submodule that is not checked out at its pinned commit fails the script (the shipped files were
+   built from the checkout), and so does a missing TWAIN DSM source download or one with another SHA-256; both are checked before the build.
 7. With -CopyTo, copies the setup, the source archive, SHA256SUMS.txt and the release notes (docs\release-notes\v<version>.md) there.
 
 The staging folder is exactly what the installer puts in the program folder. The uninstaller goes to the program folder's "uninstall"
@@ -66,6 +67,10 @@ dry run names OpenPmsDental,xDirect2dWrapper here. Default: the whole solution f
 .PARAMETER TwainDsmZip
 The approved download of the TWAIN Working Group's TWAIN DSM release (dsm_020501.zip). Default: od-tools\downloads\s3b7-twaindsm-20261116\
 in the repository's common git folder. Its windows\64\TWAINDSM.dll must have the pinned SHA-256 and a valid TWAIN Working Group signature.
+
+.PARAMETER TwainDsmSourceZip
+The approved download of the source of that TWAIN DSM release (twain-dsm-2.5.1.zip, LGPL 2.1). Default: the same download folder. It must
+have the pinned SHA-256; the source archive carries it as third-party-source/twain-dsm-2.5.1.zip. Without it no source archive is written.
 
 .PARAMETER SkipBuild
 Use the Release output that is already there. It must come from a Release build of the current source.
@@ -105,8 +110,9 @@ Only write the setup's two pages, setup-info.txt and setup-license.txt, into thi
 into <OutDir>. Nothing is built or checked. Used by tests\ReleaseFlowTests\InstallerTests.cs.
 
 .PARAMETER WriteSourceArchive
-Only write the source archive (step 6) into this folder (created if missing) and print its path. Nothing is built or checked. Used by
-tests\PdfLibraryTests\SourceArchiveTests.cs.
+Only write the source archive (step 6) into this folder (created if missing) and print its path. Nothing is built; only the submodules and
+the TWAIN DSM source download are checked, as for a release. Used by tests\PdfLibraryTests\SourceArchiveTests.cs and
+tests\ReleaseFlowTests\InstallerTests.cs.
 
 .EXAMPLE
 powershell -NoProfile -ExecutionPolicy Bypass -File tools\Build-Release.ps1 -BuildLane C:\path\to\odbuild.ps1 -CopyTo D:\releases\v0.0
@@ -117,6 +123,7 @@ param(
 	[int]$LaneWaitMinutes=15,
 	[string[]]$LaneProjects=@(),
 	[string]$TwainDsmZip='',
+	[string]$TwainDsmSourceZip='',
 	[switch]$SkipBuild,
 	[string]$MSBuildPath='',
 	[string]$OutDir='',
@@ -360,6 +367,13 @@ $TwainDsmSha256='25869f88a2bc76ded62a13aaea9f2084f0165bfdbbb7f46b9c3a43298938d46
 $TwainDsmVersion='2.5.1.0'
 $TwainDsmSigner='O=TWAIN Working Group'
 $SetupFiles=@('TWAINDSM.dll')
+#The source of that release (twain-dsm-2.5.1.zip of the same GitHub release, from the same download folder): TWAINDSM.dll is under the
+#LGPL 2.1, whose section 4 asks for its source to go with the object code, so the source archive carries it byte for byte as
+#third-party-source/twain-dsm-2.5.1.zip (-TwainDsmSourceZip), checked against this SHA-256; a release without it stops.
+$TwainDsmSourceZipName='twain-dsm-2.5.1.zip'
+$TwainDsmSourceSha256='67e5aebda9c7aa85e39a38b8c9c8b99bd720d4b318134b3e274aec97d4977e0f'
+$TwainDsmSourceEntry='third-party-source/twain-dsm-2.5.1.zip'
+$TwainDsmSourceUrl='https://github.com/twain/twain-dsm/releases/download/v2.5.1/twain-dsm-2.5.1.zip'
 #Read once (Get-OfflineFolder).
 $script:OfflineFolderCached=$null
 
@@ -756,6 +770,29 @@ function Get-TwainDsm([string]$folder){
 		$result.Problems.Add("TWAINDSM.dll has no valid signature of the TWAIN Working Group (status $($signature.Status), signer '$subject').")
 	}
 	if($result.Problems.Count -eq 0){ $result.Path=$target }
+	return $result
+}
+
+#The approved download of the TWAIN DSM release's source (-TwainDsmSourceZip; by default twain-dsm-2.5.1.zip in the TWAIN DSM download
+#folder), checked against its pinned SHA-256. Returns Path (only when it passes), Missing and Problems.
+function Find-TwainDsmSource {
+	$result=[pscustomobject]@{ Path=$null; Missing=$false; Problems=(New-Object 'System.Collections.Generic.List[string]') }
+	$zip=$TwainDsmSourceZip
+	if(-not $zip){
+		$common=Get-GitCommonFolder
+		if($common){ $zip=Join-Path $common "od-tools\downloads\$TwainDsmDownloadFolder\$TwainDsmSourceZipName" }
+	}
+	if(-not $zip -or -not (Test-Path -LiteralPath $zip -PathType Leaf)){
+		$result.Missing=$true
+		$result.Problems.Add("Missing: the source of TWAINDSM.dll, no approved $TwainDsmSourceZipName at '$zip' (od-tools\downloads\$TwainDsmDownloadFolder in the common git folder, or -TwainDsmSourceZip). The LGPL 2.1 asks for it with the release.")
+		return $result
+	}
+	$sha=Get-Sha256 $zip
+	if($sha -ne $TwainDsmSourceSha256){
+		$result.Problems.Add("$zip is not the approved source of TWAINDSM.dll: SHA-256 $sha, approved $TwainDsmSourceSha256.")
+		return $result
+	}
+	$result.Path=(Resolve-Path -LiteralPath $zip).Path
 	return $result
 }
 
@@ -1172,10 +1209,18 @@ function Test-SubmoduleCheckouts {
 	return ,$problems
 }
 
-#Writes <folder>\OpenPmsDental-<version>-source.zip and returns its path: the repository at the release commit (git archive HEAD) and every
-#submodule at the commit HEAD pins, under one top folder, with SOURCE-COMMITS.txt naming the commits. git archive writes each part; the parts
-#are joined into one zip (an entry two parts share, the folder of a submodule, is written once).
+#Writes <folder>\OpenPmsDental-<version>-source.zip and returns its path: the repository at the release commit (git archive HEAD), every
+#submodule at the commit HEAD pins, and the source of the setup's TWAINDSM.dll ($TwainDsmSourceEntry, the approved download byte for byte),
+#under one top folder, with SOURCE-COMMITS.txt naming them. git archive writes each part; the parts are joined into one zip (an entry two
+#parts share, the folder of a submodule, is written once). Assert-SourceArchivePossible runs first.
 function Write-SourceArchive([string]$folder,[string]$version){
+	#The TWAIN DSM source again, as it is copied: a release never carries another file under its name.
+	$twainDsmSource=Find-TwainDsmSource
+	if($twainDsmSource.Problems.Count -gt 0){
+		Write-Problems $twainDsmSource.Problems 'The TWAIN DSM source check'
+		if($twainDsmSource.Missing){ exit 4 }
+		exit 1
+	}
 	Add-Type -AssemblyName System.IO.Compression
 	Add-Type -AssemblyName System.IO.Compression.FileSystem
 	New-Item -ItemType Directory -Force -Path $folder | Out-Null
@@ -1224,6 +1269,17 @@ function Write-SourceArchive([string]$folder,[string]$version){
 				}
 				finally{ $zipSource.Dispose() }
 			}
+			#The TWAIN DSM source, stored as it is (already a zip), from the bytes whose SHA-256 was checked.
+			$sourceBytes=[System.IO.File]::ReadAllBytes($twainDsmSource.Path)
+			$hasher=[System.Security.Cryptography.SHA256]::Create()
+			try{ $sourceSha=(($hasher.ComputeHash($sourceBytes) | ForEach-Object { $_.ToString('x2') }) -join '') }
+			finally{ $hasher.Dispose() }
+			if($sourceSha -ne $TwainDsmSourceSha256){ throw "$($twainDsmSource.Path) changed while the source archive was written: SHA-256 $sourceSha, approved $TwainDsmSourceSha256." }
+			$entrySource=$zipTarget.CreateEntry("$name/$TwainDsmSourceEntry",[System.IO.Compression.CompressionLevel]::NoCompression)
+			$entrySource.LastWriteTime=[System.IO.File]::GetLastWriteTime($twainDsmSource.Path)
+			$streamSource=$entrySource.Open()
+			try{ $streamSource.Write($sourceBytes,0,$sourceBytes.Length) }
+			finally{ $streamSource.Dispose() }
 			$lines=New-Object 'System.Collections.Generic.List[string]'
 			$lines.Add("Open PMS - Dental $version`: the source of this release")
 			$lines.Add('')
@@ -1231,6 +1287,9 @@ function Write-SourceArchive([string]$folder,[string]$version){
 			$lines.Add('')
 			$lines.Add('Submodules, each at the commit the release commit pins, built from this source by third-party/build:')
 			foreach($submodule in $submodules){ $lines.Add("$($submodule.Path): commit $($submodule.Commit), $($submodule.Url)") }
+			$lines.Add('')
+			$lines.Add('The source of TWAINDSM.dll, which the setup installs into the Windows system folder (GNU LGPL 2.1, LICENSE-LGPL-2.1.txt):')
+			$lines.Add("$TwainDsmSourceEntry`: SHA-256 $TwainDsmSourceSha256, the TWAIN Working Group's source of the release TWAINDSM.dll $TwainDsmVersion comes from, as $TwainDsmSourceUrl publishes it")
 			$lines.Add('')
 			$lines.Add('Build and upgrade steps: README.md and docs/third-party-source-builds.md.')
 			$entryCommits=$zipTarget.CreateEntry("$name/SOURCE-COMMITS.txt",[System.IO.Compression.CompressionLevel]::Optimal)
@@ -1258,6 +1317,13 @@ function Assert-SourceArchivePossible {
 	if($problems.Count -gt 0){
 		Write-Problems $problems 'The submodule check'
 		if(@($problems | Where-Object { $_.StartsWith('Missing:') }).Count -gt 0){ exit 4 }
+		exit 1
+	}
+	#The source of the setup's TWAINDSM.dll (LGPL 2.1): exit 4 when the approved download is missing, 1 when it is another file.
+	$twainDsmSource=Find-TwainDsmSource
+	if($twainDsmSource.Problems.Count -gt 0){
+		Write-Problems $twainDsmSource.Problems 'The TWAIN DSM source check'
+		if($twainDsmSource.Missing){ exit 4 }
 		exit 1
 	}
 }
