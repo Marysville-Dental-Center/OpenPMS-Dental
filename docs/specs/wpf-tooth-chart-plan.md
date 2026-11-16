@@ -481,7 +481,7 @@ it on 2026-11-15 and O-32:
   before any test; BINATests and N64ATests pass in the x64 test build.
 
 **TC-9b (2026-11-15, branch `chart/tc9b-1` from `main` at `071c0b18b`): SharpDX, Tao and the DirectX runtime requirement leave the release.
-Done on the branch, waiting for review and merge.** `docs/port-notes/TC-9b.md` has the details and L-8's TC-9b part written for a person. In
+Merged from `chart/tc9b-1` (2026-11-15).** `docs/port-notes/TC-9b.md` has the details and L-8's TC-9b part written for a person. In
 short, under O-26 as the owner revised it on 2026-11-15 (no DirectX ships after the switch):
 - Deleted as the row writes: the five DLLs from `Required dlls`; the program's SharpDX and Tao references (`OpenPmsDental.csproj`,
   `xCodeBase.csproj`, `UnitTests.csproj`) and the `Resources\SharpDX.txt` item; the licence window's `SharpDX` and `Tao Framework` vendor
