@@ -9,6 +9,12 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>TestProbeHost</RootNamespace>
     <AssemblyName>TestProbeHost</AssemblyName>
+    <!-- The restore of both runtime identifiers an exe of this framework gets from its platform (TC-10 of the WPF chart plan,
+         docs/port-notes/TC-10.md). The SDK gives a .NET Framework exe the runtime identifier of its PlatformTarget (win-x86 from the
+         repository's x86, win-x64 in the lane's x64 test build of the test projects that reference this one, S3a-12), and the build needs
+         that identifier's target in the assets file (NETSDK1047 without it). The restore, which runs for x86 in both builds, writes both
+         targets here; the x86 build still uses win-x86 and its output does not change. -->
+    <RuntimeIdentifiers>win-x86;win-x64</RuntimeIdentifiers>
   </PropertyGroup>
   <ItemGroup>
     <!-- No test framework: tests\Directory.Build.props gives every project under tests\ the three MSTest 4 packages. -->

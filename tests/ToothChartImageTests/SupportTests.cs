@@ -462,7 +462,7 @@ namespace ToothChartImageTests {
 				//The approved picture: the branch's baseline with a block painted over, as an older approved picture would differ.
 				string pathApproved=WpfCharts.GetPicturePath(folderApproved,chartSize,scene);
 				Directory.CreateDirectory(Path.GetDirectoryName(pathApproved));
-				using(Bitmap bitmapApproved=WpfImageTests.LoadBitmap(WpfCharts.GetPicturePath(WpfCharts.BaselinesWpf,chartSize,scene))) {
+				using(Bitmap bitmapApproved=WpfImageTests.LoadBitmap(WpfCharts.ForThisBitness(WpfCharts.GetPicturePath(WpfCharts.BaselinesWpf,chartSize,scene)))) {
 					using(Graphics g=Graphics.FromImage(bitmapApproved)) {
 						g.FillRectangle(Brushes.Magenta,100,100,20,20);
 					}
