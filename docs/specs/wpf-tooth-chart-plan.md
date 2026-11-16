@@ -493,6 +493,22 @@ short, under O-26 as the owner revised it on 2026-11-15 (no DirectX ships after 
 - Release dry run (`-SkipInstaller`): exit 0, 0 build errors, 86 files staged, none of the five. L-8's install over the previous release is
   the person's (TC-9b.md section 6).
 
+**TC-10 (2026-11-15, branch `chart/tc10-1` from `main` at `e4d345d72`): the WPF chart on x64, in S3a-15's place.** `docs/port-notes/TC-10.md`
+has the details. In short:
+- The blocker TC-9a found: `tests/TestProbeHost` (an exe) now restores `win-x86;win-x64` (`RuntimeIdentifiers`, and the empty win-x64 target
+  in its lock file), so the lane's x64 test build of ToothChartImageTests gets past NETSDK1047; the lane and the x86 build are unchanged.
+- The lane's x64 run of ToothChartImageTests: 260 tests, 254 passed, 6 skipped (the recorders), 0 failed, against the same tolerances.
+  Beyond tolerance in x64, with their reason in a `README.md`: `Baselines/wpf-net48-x64/` (163 pictures: the tooth number "5" at 410x307
+  and the perio legend's second row are placed one pixel apart, because `AddText` rounds a `float` projection that the 32-bit JIT computes
+  at double precision and the 64-bit JIT in single precision) and `Baselines/simple2d-net48-x64/` (18 pictures: GDI+ tooth numbers). In a
+  64-bit process the tests take the x64 copy when there is one (`WpfCharts.ForThisBitness`).
+- New `ChartBitnessTests.cs`: the chart's libraries load as built for the process (PE32+ AMD64 in x64), the Helix files are IL-only and not
+  32-bit-required, the normal build stays 32-bit-required, and the big chart at 3x matches its baseline with its memory measured (about
+  120 MB for the first draw, nothing per further draw, in both bitnesses).
+- BINATests' new `ToothChartBitnessTests.cs` brings back S3a-15's two checks for what stays: SparksToothChart's six gdi32 P/Invokes take and
+  return handles as `IntPtr`, and the Simple 2D chart (and the WPF chart a stored DirectX or OpenGL choice starts) starts and draws on a
+  hidden form; x86 and x64, 22 of 22 each. The sentence for net10-plan's S3a-15 text is proposed in the note (section 6), for the lead.
+
 **Why not a separate branch.** The chart must not drift from the stages' rewrites of `ControlChart.cs` and the release files. Dark
 merges keep it on `main`, and the gallery approval comes before each merge (O-27).
 
