@@ -10,6 +10,7 @@
     AutoGenerateBindingRedirects is left to its default, on for an exe, as for the classic project.
   -->
   <PropertyGroup>
+    <TargetFramework>net48</TargetFramework>
     <OutputType>WinExe</OutputType>
     <RootNamespace>DocumentationBuilder</RootNamespace>
     <AssemblyName>DocumentationBuilder</AssemblyName>

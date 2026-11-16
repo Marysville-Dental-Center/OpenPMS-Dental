@@ -7,6 +7,7 @@
     their LogicalName, the WPF resources, the Content items and the web references.
   -->
   <PropertyGroup>
+    <TargetFramework>net48</TargetFramework>
     <OutputType>Library</OutputType>
     <RootNamespace>OpenPmsDentalBusiness</RootNamespace>
     <AssemblyName>OpenPmsDentalBusiness</AssemblyName>

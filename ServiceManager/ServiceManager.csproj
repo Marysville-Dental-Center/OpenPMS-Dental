@@ -6,6 +6,7 @@
     ServiceManager.exe.config is app.config as it is.
   -->
   <PropertyGroup>
+    <TargetFramework>net48</TargetFramework>
     <OutputType>WinExe</OutputType>
     <RootNamespace>ServiceManager</RootNamespace>
     <AssemblyName>ServiceManager</AssemblyName>

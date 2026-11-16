@@ -8,6 +8,7 @@
     Loaded into OpenPmsDental.exe, which is x86, like the business layer it calls (Directory.Build.props).
   -->
   <PropertyGroup>
+    <TargetFramework>net48</TargetFramework>
     <OutputType>Library</OutputType>
     <RootNamespace>OpenDentalReporting</RootNamespace>
     <AssemblyName>ODR</AssemblyName>

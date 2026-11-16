@@ -5,6 +5,7 @@
     this folder is compiled.
   -->
   <PropertyGroup>
+    <TargetFramework>net48</TargetFramework>
     <OutputType>WinExe</OutputType>
     <RootNamespace>fyiReporting.RdlDesign</RootNamespace>
     <AssemblyName>RdlDesigner</AssemblyName>

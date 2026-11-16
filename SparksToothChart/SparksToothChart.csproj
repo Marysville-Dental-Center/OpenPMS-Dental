@@ -6,6 +6,7 @@
     no UseWPF; the WPF assemblies it draws with are plain references below.
   -->
   <PropertyGroup>
+    <TargetFramework>net48</TargetFramework>
     <OutputType>Library</OutputType>
     <RootNamespace>SparksToothChart</RootNamespace>
     <AssemblyName>SparksToothChart</AssemblyName>

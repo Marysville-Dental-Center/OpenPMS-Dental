@@ -11,6 +11,7 @@
     this folder is compiled.
   -->
   <PropertyGroup>
+    <TargetFramework>net48</TargetFramework>
     <OutputType>WinExe</OutputType>
     <RootNamespace>OpenPmsDentalHelper32</RootNamespace>
     <AssemblyName>OpenPmsDentalHelper32</AssemblyName>

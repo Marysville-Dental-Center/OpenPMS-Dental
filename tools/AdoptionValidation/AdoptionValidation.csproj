@@ -7,6 +7,7 @@
     sentinels and an Open Dental-style startup check. Synthetic data on the local server only. See README.md.
   -->
   <PropertyGroup>
+    <TargetFramework>net48</TargetFramework>
     <OutputType>Exe</OutputType>
     <RootNamespace>AdoptionValidation</RootNamespace>
     <AssemblyName>AdoptionValidation</AssemblyName>

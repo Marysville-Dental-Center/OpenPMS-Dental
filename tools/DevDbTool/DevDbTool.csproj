@@ -8,6 +8,7 @@
     that regenerates that file (tests\ForkMigrationTests\InitSqlRegenerationTests.cs).
   -->
   <PropertyGroup>
+    <TargetFramework>net48</TargetFramework>
     <OutputType>Exe</OutputType>
     <RootNamespace>DevDbTool</RootNamespace>
     <AssemblyName>DevDbTool</AssemblyName>

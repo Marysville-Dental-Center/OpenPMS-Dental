@@ -6,6 +6,7 @@
     is newer than the business layer. See README.md.
   -->
   <PropertyGroup>
+    <TargetFramework>net48</TargetFramework>
     <OutputType>Exe</OutputType>
     <RootNamespace>SyntheticData</RootNamespace>
     <AssemblyName>SyntheticData</AssemblyName>

@@ -8,13 +8,14 @@
     never set it, so they build exactly as before. Stage 1 of the .NET 10 move (docs/specs/net10-plan.md, section 2.3)
     converts the C# projects to SDK-style one by one; with these settings they keep today's output folders and files.
 
-    Stage 3b (package S3b-1, docs/port-notes/S3b-1.md): the SDK-style projects target .NET 10 for Windows, 64-bit. The target
-    framework is set here, once; a project that still names net48 itself (the test projects through tests\Directory.Build.props
-    until S3b-5, NoHqTests, the third-party source builds through third-party\build\SourceBuild.props until S3b-2) stays a .NET
-    Framework 4.8 x86 project with the settings below, exactly as on main. What only a .NET 10 project gets (x64, the runtime
-    identifier, self-contained exes, NLS, the platform attributes, WFDEV006 as an error) is in Directory.Build.Net.props, which
-    the SDK imports right after the project's own properties (BeforeMicrosoftNETSdkTargets, below), where the project's target
-    framework, output type and name are known.
+    Stage 3b (package S3b-1, docs/port-notes/S3b-1.md): the SDK-style projects move to .NET 10 for Windows, 64-bit. The target
+    framework is set here, once. A project that still names net48 itself stays a .NET Framework 4.8 x86 project with the settings
+    below, exactly as on main: every project keeps its own net48 line until its layer package retargets it by deleting the line
+    (S3b-2, S3b-3 and S3b-4 bottom-up, since a net48 project cannot reference a net10.0 one), the test projects get net48 from
+    tests\Directory.Build.props until S3b-5, and the third-party source builds from third-party\build\SourceBuild.props until S3b-2.
+    What only a .NET 10 project gets (x64, the runtime identifier, self-contained exes, NLS, the platform attributes, WFDEV006 as
+    an error) is in Directory.Build.Net.props, which the SDK imports right after the project's own properties
+    (BeforeMicrosoftNETSdkTargets, below), where the project's target framework, output type and name are known.
   -->
   <PropertyGroup Condition="'$(UsingMicrosoftNETSdk)' == 'true'">
     <!--
@@ -74,8 +75,8 @@
     <EmbedUntrackedSources>false</EmbedUntrackedSources>
     <ChecksumAlgorithm>SHA256</ChecksumAlgorithm>
     <!--
-      AutoGenerateBindingRedirects is not set here: binding redirects mean nothing on .NET (S3b-1 removed it from the projects that
-      named it). A .NET Framework project that leaves it empty gets it on, as before: the SDK turns it on for every .NET Framework exe
+      AutoGenerateBindingRedirects is not set here: binding redirects mean nothing on .NET (S3b-1 removed it from the exes that named
+      it; for a .NET Framework exe it was the SDK's default anyway). A .NET Framework project that leaves it empty gets it on, as before: the SDK turns it on for every .NET Framework exe
       and test project (Microsoft.NET.Sdk.BeforeCommon.targets), and MSBuild's common targets for every project that targets .NET
       Framework 4.7.2 or later (Microsoft.Common.CurrentVersion.targets).
     -->

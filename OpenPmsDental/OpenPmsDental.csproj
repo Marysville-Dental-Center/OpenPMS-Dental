@@ -16,6 +16,7 @@
   -->
   <Import Project="Sdk.props" Sdk="Microsoft.NET.Sdk" />
   <PropertyGroup>
+    <TargetFramework>net48</TargetFramework>
     <OutputType>WinExe</OutputType>
     <RootNamespace>OpenPmsDental</RootNamespace>
     <AssemblyName>OpenPmsDental</AssemblyName>

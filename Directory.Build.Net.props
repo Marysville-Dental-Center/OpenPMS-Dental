@@ -7,8 +7,8 @@
     runtime identifier inference, the apphost, the restore's targets and lock files, the runtime packs) sees them.
 
     Everything here is for a project that targets the .NET build's framework (ODTargetFramework of Directory.Build.props, net10.0-windows).
-    A project that still targets net48 (the test projects until S3b-5, NoHqTests, the third-party source builds until S3b-2) gets nothing
-    from this file and builds as on main: x86, .NET Framework 4.8.
+    A project that still targets net48 (each project until its layer package of stage 3b deletes its own net48 line, the test projects until
+    S3b-5, the third-party source builds until S3b-2) gets nothing from this file and builds as on main: x86, .NET Framework 4.8.
   -->
   <PropertyGroup Condition="'$(UsingMicrosoftNETSdk)' == 'true' and '$(TargetFramework)' == '$(ODTargetFramework)'">
     <!--

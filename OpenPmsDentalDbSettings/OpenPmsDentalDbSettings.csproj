@@ -2,6 +2,7 @@
   <!-- The connection settings tool: changes this computer's database connection settings only, as an administrator
        (docs/specs/db-connection-security.md). Shipped in the program folder as OpenPmsDentalDbSettings.exe (ProgramNames.DbSettingsExeFileName). -->
   <PropertyGroup>
+    <TargetFramework>net48</TargetFramework>
     <OutputType>WinExe</OutputType>
     <RootNamespace>OpenPmsDentalDbSettings</RootNamespace>
     <AssemblyName>OpenPmsDentalDbSettings</AssemblyName>
