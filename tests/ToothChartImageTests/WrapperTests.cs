@@ -48,9 +48,10 @@ namespace ToothChartImageTests {
 				wrapper.TcData.PerioMode=true;//as a DirectX chart in perio mode has it
 				relay.IsPerioMode=false;
 				Assert.IsFalse(wrapper.PerioMode,"false turns perio mode off.");
-				//Turning it on is still the wrapper's rule: DirectX only.
+				//Turning it on is still the wrapper's rule: DirectX or, since TC-7, the WPF chart; since TC-8 the message names the 3D chart, which the
+				//graphical perio chart asks for on every computer (O-31).
 				Exception ex=Expect.Throws<Exception>(() => relay.IsPerioMode=true);
-				StringAssert.Contains(ex.Message,"DirectX");
+				StringAssert.Contains(ex.Message,"needs the 3D tooth chart");
 				Assert.IsFalse(wrapper.PerioMode);
 			});
 		}

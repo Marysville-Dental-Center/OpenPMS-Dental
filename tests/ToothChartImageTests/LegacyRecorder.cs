@@ -477,7 +477,8 @@ namespace ToothChartImageTests {
 				wrapper.DeviceFormat=new ToothChartDirectX.DirectXDeviceFormat(directXFormat??"invalid");
 			}
 			_formHost.Controls.Add(wrapper);
-			wrapper.DrawMode=engine;
+			//The engine itself (ToothChartEngine has DrawingMode's values): since TC-8 DrawMode's DirectX and OpenGL start the WPF chart.
+			wrapper.Engine=(ToothChartEngine)engine;
 			Application.DoEvents();
 			return wrapper;
 		}
@@ -530,8 +531,8 @@ namespace ToothChartImageTests {
 			_formHost.Controls.Add(wrapperTest);
 			try {
 				wrapperTest.DeviceFormat=new ToothChartDirectX.DirectXDeviceFormat(directXFormat);
-				wrapperTest.DrawMode=DrawingMode.DirectX;
-				if(wrapperTest.DrawMode!=DrawingMode.DirectX) {
+				wrapperTest.Engine=ToothChartEngine.DirectX;//the DirectX engine itself (since TC-8 DrawMode's DirectX starts the WPF chart)
+				if(wrapperTest.Engine!=ToothChartEngine.DirectX) {
 					return false;
 				}
 				using Bitmap bitmap=wrapperTest.GetBitmap();

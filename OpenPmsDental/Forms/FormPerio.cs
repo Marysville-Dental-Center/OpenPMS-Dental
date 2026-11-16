@@ -1112,7 +1112,7 @@ namespace OpenPmsDental{
 //		}
 
 		private void butGraphical_Click(object sender,EventArgs e) {
-			//The graphical perio chart draws only in DirectX, which must be chosen and installed (d3dx9_43.dll); the relay says why not.
+			//The relay's gate: since TC-8 the graphical perio chart opens on the WPF chart on every computer (O-31), so it no longer refuses.
 			if(!ToothChartRelay.CanOpenGraphicalPerio(out string message)) {
 				MsgBox.Show(this,message);
 				return;

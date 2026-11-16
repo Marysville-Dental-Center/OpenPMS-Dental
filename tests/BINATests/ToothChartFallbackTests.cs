@@ -131,18 +131,47 @@ namespace BINATests {
 		[TestMethod]
 		public void Wrapper_UsesTheFallbackWithoutADialog() {
 			string wrapper=RepoFiles.Read(@"SparksToothChart\ToothChartWrapper.cs");
+			//The old engines' fallback stays for Engine (the legacy recorder and the tests) until TC-9a deletes them.
 			StringAssert.Contains(wrapper,"drawMode=StartFirstWorkingMode(value,IsDirectXRuntimeAvailable(),TryStartDrawMode,LogFallbackOnce);");
 			StringAssert.DoesNotMatch(wrapper,new Regex(@"MessageBox\.|MsgBox\."),"A fallback never shows a dialog.");
-			//Callers that test DirectX must treat any other mode as failure, because the chart may now fall back to OpenGL instead of 2D. The
-			//format test and search moved from FormGraphics to the wrapper in TC-2; Setup > Graphics calls the wrapper's.
-			StringAssert.Contains(wrapper,"if(toothChartWrapperTest.DrawMode!=DrawingMode.DirectX) {");
+			//Callers that test DirectX must treat any other engine as failure, because the chart may fall back to OpenGL instead of 2D. The format test
+			//and search moved from FormGraphics to the wrapper in TC-2; since TC-8 they start the DirectX engine itself (Engine), because DrawMode's
+			//DirectX starts the WPF chart, and only the legacy recorder and the tests call them.
+			StringAssert.Contains(wrapper,"toothChartWrapperTest.Engine=ToothChartEngine.DirectX;");
+			StringAssert.Contains(wrapper,"if(toothChartWrapperTest.Engine!=ToothChartEngine.DirectX) {");
 			StringAssert.Contains(wrapper,"if(!ToothChartWrapper.IsDirectXRuntimeAvailable()) {");
-			StringAssert.Contains(RepoFiles.Read(@"OpenPmsDental\Forms\FormGraphics.cs"),"ToothChartWrapper.TestDirectXFormat(this,_directXFormatSelected)");
-			//A computer with no working DirectX format is set to the next mode, OpenGL, rather than straight to Simple 2D. The start-up search moved
-			//from FormOpenDental to the relay in TC-2.
-			StringAssert.Contains(RepoFiles.Read(@"WpfControlsOD\UI\ToothChart\ToothChartRelay.cs"),
-				"ComputerPrefs.LocalComputer.GraphicsSimple=SparksToothChart.ToothChartWrapper.GetFallbackDrawMode(DrawingMode.DirectX);");
+			//TC-8: a stored DirectX or OpenGL request starts the WPF chart, which falls back to Simple 2D with one log line (Wpf3DStart).
+			StringAssert.Contains(wrapper,"if(value!=DrawingMode.Simple2D) {");
+			StringAssert.Contains(wrapper,"Engine=ToothChartEngine.Wpf3D;//TC-8: the stored DirectX and OpenGL choices start the WPF chart");
+			StringAssert.Contains(wrapper,"LogFallbackOnce(ToothChartFallbackKind.Wpf3DStart,\"The \"+ToothChartEngine.Wpf3D+\" tooth chart could not start (\"");
+			//Setup > Graphics tests no DirectX format (TC-8 rebuilt it), and the start-up search is a no-op: no computer is moved to OpenGL any more.
+			Assert.IsFalse(RepoFiles.Read(@"OpenPmsDental\Forms\FormGraphics.cs").Contains("TestDirectXFormat"));
+			string relay=RepoFiles.Read(@"WpfControlsOD\UI\ToothChart\ToothChartRelay.cs");
+			Assert.IsFalse(relay.Contains("GetFallbackDrawMode("),"The relay moves no computer to the next old engine.");
+			Assert.IsFalse(relay.Contains("GetPreferredDirectXFormat("),"The relay searches no DirectX format.");
 			StringAssert.Contains(RepoFiles.Read(@"OpenPmsDental\Main Modules\FormOpenDental.cs"),"if(ToothChartRelay.ChooseStartupDirectXFormat(this)) {");
+		}
+
+		[TestMethod]
+		public void StoredDirectXAndOpenGLRequests_StartTheWpfChart_AndSimple2DStays_O30() {
+			//TC-8: the wrapper's DrawMode is the stored choice. 0 (DirectX) and 2 (OpenGL) start the WPF chart, so no computer reaches the old engines or
+			//their fallback any more, and 1 stays the 2D chart. On this test's own thread: the wrapper makes no WPF object on a caller's thread, and
+			//its picture comes from the chart's render thread.
+			foreach(DrawingMode drawingMode in new[] { DrawingMode.DirectX,DrawingMode.OpenGL,DrawingMode.Simple2D }) {
+				using(ToothChartWrapper wrapper=new ToothChartWrapper()) {
+					wrapper.Size=new Size(410,307);
+					int countBefore=ToothChartWrapper.GetCountFallbackMessages();
+					wrapper.DrawMode=drawingMode;
+					Assert.AreEqual(drawingMode==DrawingMode.Simple2D ? ToothChartEngine.Simple2D : ToothChartEngine.Wpf3D,wrapper.Engine,drawingMode.ToString());
+					Assert.AreEqual(drawingMode==DrawingMode.Simple2D ? DrawingMode.Simple2D : DrawingMode.DirectX,wrapper.DrawMode,
+						drawingMode+": the WPF chart reads as the stored DirectX it replaces (it has no stored form).");
+					using(Bitmap bitmap=wrapper.GetBitmap()) {
+						Assert.AreEqual(new Size(410,307),bitmap.Size);
+					}
+					List<string> listMessages=ToothChartWrapper.GetFallbackMessagesSince(countBefore);
+					Assert.AreEqual(0,listMessages.Count,drawingMode+": "+string.Join("; ",listMessages));
+				}
+			}
 		}
 
 		[TestMethod]

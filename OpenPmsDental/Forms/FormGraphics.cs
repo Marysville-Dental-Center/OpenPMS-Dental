@@ -1,22 +1,21 @@
 using System;
-using System.Drawing;
 using System.Windows.Forms;
 using OpenPmsDentalBusiness;
 using CodeBase;
-using Tao.Platform.Windows;
 using OpenPmsDental.UI;
-using SparksToothChart;
 
 namespace OpenPmsDental{
+	///<summary>File > Graphics, the computer's tooth chart setting, rebuilt in TC-8 (docs/specs/wpf-tooth-chart-plan.md, the TC-8 row): two choices,
+	///"3D chart" (the WPF chart) and "Simple 2D chart", the per-computer "Draw in software" check box of the 3D chart, and a live preview of what
+	///the choices give on this computer. No DirectX device format grid and no OpenGL pixel format grid: the old engines no longer draw. Saving
+	///follows the relay's save rule (ToothChartRelay.SetGraphicsChoice); the chart settings themselves are the relay's, so this window names no
+	///engine. Opened from Setup > Computers for another computer, it saves without testing, as before.</summary>
 	public partial class FormGraphics : FormODBase {
-		private OpenGLWinFormsControl.PixelFormatValue[] _pixelFormatValueArray=new OpenGLWinFormsControl.PixelFormatValue[0];
-		private ToothChartDirectX.DirectXDeviceFormat[] _directXDeviceFormatArray=new ToothChartDirectX.DirectXDeviceFormat[0];
-		private int _formatNumSelected=0;
-		private string _directXFormatSelected="";
-		//private bool refreshAllowed=false;
 		public ComputerPref ComputerPrefCur;
 		///<summary>True when we are editing another computers ComputerPrefs.</summary>
 		private bool _isRemoteEdit;
+		///<summary>True once Load has set the choices, so the preview is drawn only from then on.</summary>
+		private bool _isLoaded;
 
 		///<summary></summary>
 		public FormGraphics(){
@@ -26,7 +25,6 @@ namespace OpenPmsDental{
 			InitializeComponent();
 			InitializeLayoutManager();
 			Lan.F(this);
-			
 		}
 
 		private void FormGraphics_Load(object sender,EventArgs e) {
@@ -37,252 +35,66 @@ namespace OpenPmsDental{
 				if(ComputerPrefCur!=ComputerPrefs.LocalComputer) {
 					_isRemoteEdit=true;
 				}
-				MsgBox.Show(this,"Warning, editing another computers graphical settings should be done from that computer to ensure the selected settings work." 
+				MsgBox.Show(this,"Warning, editing another computers graphical settings should be done from that computer to ensure the selected settings work."
 					+" We do not recommend editing this way. If you make changes for another computer you should still verifiy that they work on that machine.");
 					SecurityLogs.MakeLogEntry(EnumPermType.GraphicsRemoteEdit,0,"Edited graphical settings for "+ComputerPrefCur.ComputerName);
 			}
 			Text+=" - "+ComputerPrefCur.ComputerName;
-			if(ComputerPrefCur.ComputerOS==PlatformOD.Undefined){//Remote computer has not updated yet. 
+			if(ComputerPrefCur.ComputerOS==PlatformOD.Undefined){//Remote computer has not updated yet.
 				MsgBox.Show(this,"Selected computer needs to be updated before being able to remotely change its graphical settings.");
 				DialogResult=DialogResult.Cancel;
 				return;
 			}
+			//A stored DirectX (0) or OpenGL (2) choice starts the 3D chart, and Simple 2D (1) stays the 2D chart (O-30).
+			radio3DChart.Checked=ToothChartRelay.Is3DChart(ComputerPrefCur);
+			radioSimpleChart.Checked=!radio3DChart.Checked;
+			checkDrawInSoftware.Checked=ToothChartRelay.IsDrawnInSoftware(ComputerPrefCur);
+			if(Clinics.IsMedicalPracticeOrClinic(Clinics.ClinicNum)) {//Medical wording, as Open Dental words this window for a medical practice or clinic.
+				groupToothChart.Text="Graphics";
+				radio3DChart.Text="Use 3D Graphics (recommended)";
+				radioSimpleChart.Text="Use Simple Graphics";
+			}
 			if(ComputerPrefCur.ComputerOS==PlatformOD.Unix) {//Force simple mode on Unix systems.
 				MsgBox.Show(this,"Linux users must use simple tooth chart.");
-				radioDirectXChart.Enabled=false;
-				radioOpenGLChart.Enabled=false;
-				group3DToothChart.Enabled=false;
+				radio3DChart.Enabled=false;
+				radioSimpleChart.Checked=true;
+			}
+			if(_isRemoteEdit) {
+				labelPreview.Text=Lan.g(this,"The preview is drawn by this computer, not by the computer being edited.");
+			}
+			_isLoaded=true;
+			RefreshPreview();
+		}
+
+		///<summary>Draws the preview with the window's choices (ToothChartRelay.ApplyGraphicsPreview), so a computer whose graphics show no 3D chart shows
+		///it at once, and says which chart started. The check box applies to the 3D chart only.</summary>
+		private void RefreshPreview() {
+			if(!_isLoaded) {
 				return;
 			}
-			//ComputerPref computerPref=ComputerPrefs.GetForLocalComputer();
-			checkHardwareAccel.Checked=ComputerPrefCur.GraphicsUseHardware;
-			checkDoubleBuffering.Checked=ComputerPrefCur.GraphicsDoubleBuffering;
-			_formatNumSelected=ComputerPrefCur.PreferredPixelFormatNum;
-			_directXFormatSelected=ComputerPrefCur.DirectXFormat;
-			textSelected.Text="";
-			//The DirectX 11 tooth chart settings (the DirectX11ToothChartUseIfAvail preference and this computer's GraphicsUseDirectX11) were for
-			//Open Dental's closed Sparks3D.dll chart, removed on 2026-11-01. They stay in the database, unread. SparksToothChart is the only chart.
-			if(ComputerPrefCur.GraphicsSimple==DrawingMode.Simple2D) {
-				radioSimpleChart.Checked=true;
-				group3DToothChart.Enabled=false;
-			}
-			else if(ComputerPrefCur.GraphicsSimple==DrawingMode.DirectX) {
-				radioDirectXChart.Checked=true;
-				group3DToothChart.Enabled=true;
-				groupFilters.Enabled=false;
-			}
-			else{//OpenGL
-				radioOpenGLChart.Checked=true;
-				group3DToothChart.Enabled=true;
-				groupFilters.Enabled=true;
-			}
-			if(Clinics.IsMedicalPracticeOrClinic(Clinics.ClinicNum)) {
-				radioDirectXChart.Text="Use DirectX Graphics (recommended)";
-				radioSimpleChart.Text="Use Simple Graphics";
-				radioOpenGLChart.Text="Use OpenGL Graphics";
-				group3DToothChart.Text="Options For 3D Graphics";
-				label3DChart.Text="Most users will never need to change any of these options.  These are only used when the 3D graphics are not working "
-					+"properly.";
-			}
-			RefreshFormats();
+			checkDrawInSoftware.Enabled=radio3DChart.Checked;
+			ToothChartRelay.ApplyGraphicsPreview(toothChartWrapper,radio3DChart.Checked,checkDrawInSoftware.Checked);
+			labelPreviewStatus.Text=Lan.g(this,ToothChartRelay.GetGraphicsPreviewStatus(toothChartWrapper,radio3DChart.Checked));
 		}
 
-		private void FillGrid() {
-			int idxSelected=-1;
-			gridFormats.BeginUpdate();
-			gridFormats.ListGridRows.Clear();
-			if(this.radioDirectXChart.Checked){
-				textSelected.Text="";
-				gridFormats.BeginUpdate();
-				gridFormats.Columns.Clear();
-				GridColumn col=new GridColumn(Lan.g(this,"FormatNum"),80);
-				gridFormats.Columns.Add(col);
-				col=new GridColumn(Lan.g(this,"Adapter"),60);
-				gridFormats.Columns.Add(col);
-				col=new GridColumn(Lan.g(this,"Accelerated"),80);
-				gridFormats.Columns.Add(col);
-				col=new GridColumn(Lan.g(this,"Buffered"),75);
-				gridFormats.Columns.Add(col);
-				col=new GridColumn(Lan.g(this,"ColorBits"),75);
-				gridFormats.Columns.Add(col);
-				col=new GridColumn(Lan.g(this,"ColorFormat"),75);
-				gridFormats.Columns.Add(col);
-				col=new GridColumn(Lan.g(this,"DepthBits"),75);
-				gridFormats.Columns.Add(col);
-				col=new GridColumn(Lan.g(this,"DepthFormat"),75);
-				gridFormats.Columns.Add(col);
-				col=new GridColumn(Lan.g(this,"Antialiasing"),75);
-				gridFormats.Columns.Add(col);
-				gridFormats.EndUpdate();
-				for(int i=0;i<_directXDeviceFormatArray.Length;i++) {
-					GridRow row=new GridRow();
-					row.Cells.Add((i+1).ToString());
-					row.Cells.Add(_directXDeviceFormatArray[i].adapterIndex.ToString());
-					row.Cells.Add(_directXDeviceFormatArray[i].IsHardware?"Yes":"No");//Supports hardware acceleration?
-					row.Cells.Add("Yes");//Supports double-buffering. All DirectX devices support double-buffering as required.
-					row.Cells.Add(ToothChartDirectX.GetFormatBitCount(_directXDeviceFormatArray[i].BackBufferFormat).ToString());//Color bits.
-					row.Cells.Add(_directXDeviceFormatArray[i].BackBufferFormat);
-					row.Cells.Add(ToothChartDirectX.GetFormatBitCount(_directXDeviceFormatArray[i].DepthStencilFormat).ToString());//Depth buffer bits.
-					row.Cells.Add(_directXDeviceFormatArray[i].DepthStencilFormat);
-					row.Cells.Add(_directXDeviceFormatArray[i].MultiSampleCount.ToString());
-					gridFormats.ListGridRows.Add(row);
-					if(_directXDeviceFormatArray[i].ToString()==_directXFormatSelected) {
-					  idxSelected=i;
-						textSelected.Text=(i+1).ToString();
-					}
-				}
-			}
-			else if(this.radioOpenGLChart.Checked){
-				textSelected.Text=_formatNumSelected.ToString();
-				gridFormats.BeginUpdate();
-				gridFormats.Columns.Clear();
-				GridColumn col=new GridColumn(Lan.g(this,"FormatNum"),80);
-				gridFormats.Columns.Add(col);
-				col=new GridColumn(Lan.g(this,"OpenGL"),60);
-				gridFormats.Columns.Add(col);
-				col=new GridColumn(Lan.g(this,"Windowed"),80);
-				gridFormats.Columns.Add(col);
-				col=new GridColumn(Lan.g(this,"Bitmapped"),80);
-				gridFormats.Columns.Add(col);
-				col=new GridColumn(Lan.g(this,"Palette"),75);
-				gridFormats.Columns.Add(col);
-				col=new GridColumn(Lan.g(this,"Accelerated"),80);
-				gridFormats.Columns.Add(col);
-				col=new GridColumn(Lan.g(this,"Buffered"),75);
-				gridFormats.Columns.Add(col);
-				col=new GridColumn(Lan.g(this,"ColorBits"),75);
-				gridFormats.Columns.Add(col);
-				col=new GridColumn(Lan.g(this,"DepthBits"),75);
-				gridFormats.Columns.Add(col);
-				gridFormats.EndUpdate();
-				for(int i=0;i<_pixelFormatValueArray.Length;i++) {
-					GridRow row=new GridRow();
-					row.Cells.Add(_pixelFormatValueArray[i].formatNumber.ToString());
-					row.Cells.Add(OpenGLWinFormsControl.FormatSupportsOpenGL(_pixelFormatValueArray[i].pfd)?"Yes":"No");
-					row.Cells.Add(OpenGLWinFormsControl.FormatSupportsWindow(_pixelFormatValueArray[i].pfd)?"Yes":"No");
-					row.Cells.Add(OpenGLWinFormsControl.FormatSupportsBitmap(_pixelFormatValueArray[i].pfd)?"Yes":"No");
-					row.Cells.Add(OpenGLWinFormsControl.FormatUsesPalette(_pixelFormatValueArray[i].pfd)?"Yes":"No");
-					row.Cells.Add(OpenGLWinFormsControl.FormatSupportsAcceleration(_pixelFormatValueArray[i].pfd)?"Yes":"No");
-					row.Cells.Add(OpenGLWinFormsControl.FormatSupportsDoubleBuffering(_pixelFormatValueArray[i].pfd)?"Yes":"No");
-					row.Cells.Add(_pixelFormatValueArray[i].pfd.cColorBits.ToString());
-					row.Cells.Add(_pixelFormatValueArray[i].pfd.cDepthBits.ToString());
-					gridFormats.ListGridRows.Add(row);
-					if(_pixelFormatValueArray[i].formatNumber==_formatNumSelected) {
-						idxSelected=i;
-					}
-				}
-			}
-			gridFormats.EndUpdate();
-			if(idxSelected>=0) {
-				gridFormats.SetSelected(idxSelected,true);
-			}
-		}
-
-		///<Summary>Get all formats for the grid based on the current filters.</Summary>
-		private void RefreshFormats() {
-			this.Cursor=Cursors.WaitCursor;
-			gridFormats.ListGridRows.Clear();
-			gridFormats.Invalidate();
-			textSelected.Text="";
-			Application.DoEvents();
-			if(this.radioDirectXChart.Checked){
-				_directXDeviceFormatArray=ToothChartDirectX.GetStandardDeviceFormats();
-			}
-			else if(this.radioOpenGLChart.Checked){
-				using OpenGLWinFormsControl openGLWinFormsControl=new OpenGLWinFormsControl();
-				//Get raw formats.
-				Gdi.PIXELFORMATDESCRIPTOR[] rawformats=OpenGLWinFormsControl.GetPixelFormats(openGLWinFormsControl.GetHDC());
-				if(checkAllFormats.Checked){
-					_pixelFormatValueArray=new OpenGLWinFormsControl.PixelFormatValue[rawformats.Length];
-					for(int i=0;i<rawformats.Length;i++) {
-						_pixelFormatValueArray[i]=new OpenGLWinFormsControl.PixelFormatValue();
-						_pixelFormatValueArray[i].formatNumber=i+1;
-						_pixelFormatValueArray[i].pfd=rawformats[i];
-					}
-				}
-				else{
-					//Prioritize formats as requested by the user.
-					_pixelFormatValueArray=OpenGLWinFormsControl.PrioritizePixelFormats(rawformats,checkDoubleBuffering.Checked,checkHardwareAccel.Checked);
-				}
-			}
-			//Update the format grid to reflect possible changes in formats.
-			FillGrid();
-			this.Cursor=Cursors.Default;
+		private void radio3DChart_Click(object sender,EventArgs e) {
+			RefreshPreview();
 		}
 
 		private void radioSimpleChart_Click(object sender,EventArgs e) {
-			group3DToothChart.Enabled=false;
+			RefreshPreview();
 		}
 
-		private void radioDirectXChart_Click(object sender,EventArgs e) {
-			group3DToothChart.Enabled=true;
-			groupFilters.Enabled=false;
-			RefreshFormats();
-		}
-
-		private void radioOpenGLChart_Click(object sender,EventArgs e) {
-			group3DToothChart.Enabled=true;
-			groupFilters.Enabled=true;
-			RefreshFormats();
-		}
-
-		private void checkHardwareAccel_Click(object sender,EventArgs e) {
-			RefreshFormats();
-		}
-
-		private void checkDoubleBuffering_Click(object sender,EventArgs e) {
-			RefreshFormats();
-		}
-
-		private void checkAllFormats_Click(object sender,EventArgs e) {
-			checkHardwareAccel.Enabled=!checkAllFormats.Checked;
-			checkDoubleBuffering.Enabled=!checkAllFormats.Checked;
-			RefreshFormats();
-		}
-
-		private void gridFormats_CellClick(object sender,ODGridClickEventArgs e) {
-			int formatNum=Convert.ToInt32(gridFormats.ListGridRows[e.Row].Cells[0].Text);
-			textSelected.Text=formatNum.ToString();
-			if(radioDirectXChart.Checked) {
-				_directXFormatSelected=_directXDeviceFormatArray[formatNum-1].ToString();
-			}
-			else if(this.radioOpenGLChart.Checked){
-				_formatNumSelected=formatNum;
-			}
+		private void checkDrawInSoftware_Click(object sender,EventArgs e) {
+			RefreshPreview();
 		}
 
 		private void butSave_Click(object sender,System.EventArgs e) {
 			//ComputerPrefCur doesn't change until here, so make the old copy exactly when we need it instead of when the form is created.
 			ComputerPref computerPrefOld=ComputerPrefCur.Copy();
-			//ComputerPref computerPref=ComputerPrefs.GetForLocalComputer();
-			if(radioDirectXChart.Checked) {
-				if(!_isRemoteEdit && !ToothChartWrapper.TestDirectXFormat(this,_directXFormatSelected)){
-					MessageBox.Show(Lan.g(this,"Please choose a different device format, "+
-						"the selected device format will not support the DirectX 3D tooth chart on this computer"));
-					return;
-				}
-				ComputerPrefCur.GraphicsSimple=DrawingMode.DirectX;
-				ComputerPrefCur.DirectXFormat=_directXFormatSelected;
-			}
-			else if(radioSimpleChart.Checked) {
-				ComputerPrefCur.GraphicsSimple=DrawingMode.Simple2D;
-			}
-			else { //OpenGL
-				using OpenGLWinFormsControl openGLWinFormsControl=new OpenGLWinFormsControl();
-				try {
-					if(!_isRemoteEdit && openGLWinFormsControl.TaoInitializeContexts(_formatNumSelected)!=_formatNumSelected) {
-						throw new Exception(Lan.g(this,"Could not initialize pixel format ")+_formatNumSelected.ToString()+".");
-					}
-				} 
-				catch(Exception ex) {
-					MessageBox.Show(Lan.g(this,"Please choose a different pixel format, the selected pixel format will not support the 3D tooth chart on this computer: "+ex.Message));
-					return;
-				}
-				ComputerPrefCur.GraphicsUseHardware=checkHardwareAccel.Checked;
-				ComputerPrefCur.GraphicsDoubleBuffering=checkDoubleBuffering.Checked;
-				ComputerPrefCur.PreferredPixelFormatNum=_formatNumSelected;
-				ComputerPrefCur.GraphicsSimple=DrawingMode.OpenGL;
-			}
+			//"Simple 2D chart" writes 1; "3D chart" writes 0 only when the stored value was 1, so a stored 0 or 2 is kept; "Draw in software" writes or
+			//clears its value in DirectXFormat. Nothing is tested first: the 3D chart falls back to the 2D chart on its own, logged once.
+			ToothChartRelay.SetGraphicsChoice(ComputerPrefCur,radio3DChart.Checked,checkDrawInSoftware.Checked);
 			ComputerPrefs.Update(ComputerPrefCur,computerPrefOld);
 			DialogResult=DialogResult.OK;
 		}

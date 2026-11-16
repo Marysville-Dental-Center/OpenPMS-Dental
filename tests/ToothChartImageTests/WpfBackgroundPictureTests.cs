@@ -244,7 +244,7 @@ namespace ToothChartImageTests {
 				ToothChartWrapper wrapperDirectX=DirectXCharts.CreateWrapper(form,ChartScenes.SizeModule.Size,directXFormat);
 				try {
 					if(wrapperDirectX.Engine==ToothChartEngine.DirectX) {
-						Assert.IsNull(wrapperDirectX.RequestBitmapInBackground(),"DirectX keeps its GetBitmap until TC-8.");
+						Assert.IsNull(wrapperDirectX.RequestBitmapInBackground(),"The DirectX engine (reached only through Engine since TC-8) keeps its GetBitmap.");
 					}
 				}
 				finally {

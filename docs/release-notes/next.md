@@ -55,16 +55,19 @@ What this version brings, each in its section below (the roadmap's "Done in the 
 - saved Middle Tier passwords move from the Windows PasswordVault to the Windows Credential Manager on first use; nothing to re-enter;
 - the self-update gets ready for the coming 64-bit version: it never publishes over a release it cannot read, and refuses a release built
   for another runtime with a message to run the new setup;
-- the DirectX and OpenGL tooth charts checked for the coming 64-bit version: a computer where one cannot start uses the next one, down
-  to Simple 2D, as today;
-- two new entries in Help > About > View Licenses, Helix Toolkit and the .NET Community Toolkit: libraries for the coming 3D tooth chart,
-  installed with the program from this version on (the tooth chart itself does not change yet);
+- **the 3D tooth chart on every computer that used the DirectX or OpenGL chart**: drawn by the program itself, so it needs no DirectX
+  runtime and no special graphics; computers set to Simple 2D keep it; File > Graphics offers "3D chart" and "Simple 2D chart" with a
+  "Draw in software" switch and a preview; the graphical perio chart opens on every computer ("The tooth chart: the 3D chart on every
+  computer", below);
+- the DirectX and OpenGL tooth charts, checked earlier for the coming 64-bit version, are no longer used: a later version removes them;
+- two new entries in Help > About > View Licenses, Helix Toolkit and the .NET Community Toolkit: libraries of the 3D tooth chart,
+  installed with the program from this version on;
 - the tooth chart: completed extractions shown with an X, on by default as in Open Dental 26.2, the paint type TextBelow (Open Dental
   26.2) in a line under the Chart module's date slider, the text of text procedures, and free text; the X and the TextBelow line show
-  on every chart, the other texts on Simple 2D now and on the coming 3D chart;
-- the coming 3D tooth chart: its "W", centre line and unerupted teeth look as in Open Dental (a plain "W", the centre line in the chart's
+  on every chart, the other texts on the 3D chart and on Simple 2D;
+- the 3D tooth chart: its "W", centre line and unerupted teeth look as in Open Dental (a plain "W", the centre line in the chart's
   text colour, unerupted teeth half-transparent);
-- the coming 3D tooth chart: orthodontic brackets, wires and elastics, Open Dental's ortho mode (front views only, close to the centre
+- the 3D tooth chart: orthodontic brackets, wires and elastics, Open Dental's ortho mode (front views only, close to the centre
   line), retained roots and space maintainers, drawn as in Open Dental.
 
 The update adds this program's own tables to the database (14 tables, none of Open Dental's schema: five for routine maintenance, seven for
@@ -444,12 +447,10 @@ Windows still asks for administrator consent before it copies the files.
 
 ## The tooth chart: ready for the 64-bit version
 
-Nothing changes in this version. The DirectX and OpenGL tooth charts stay in the coming 64-bit version until the coming 3D chart replaces
-them; their libraries were checked to run in a 64-bit program, and both charts started and drew there on the test computer. As today, a
-computer where the DirectX chart cannot start uses the OpenGL chart, and one where OpenGL cannot start either uses the Simple 2D chart,
-without an error message (the ToothChart log names the reason once). The DirectX
-chart needs Microsoft's DirectX End-User Runtime (`d3dx9_43.dll`), and the 64-bit version needs its 64-bit part: a 64-bit computer that
-has only the 32-bit part shows the OpenGL chart in the 64-bit version. The runtime's installer puts both parts on 64-bit Windows.
+The DirectX and OpenGL tooth charts' libraries were checked to run in a 64-bit program, and both charts started and drew there on the test
+computer. **Since this version no computer uses them** (the 3D chart replaces them: "The tooth chart: the 3D chart on every computer",
+below), so Microsoft's DirectX End-User Runtime (`d3dx9_43.dll`) is no longer needed, and a later version removes the two charts; the
+64-bit version will not carry them.
 
 ## Switch-over: Insurance History leaves the frequency code groups alone
 
@@ -734,19 +735,40 @@ These follow Open Dental 26.2 as its public notes and screenshots show it.
   nothing to show. **The tooth picture used for sheets, Treatment Plan printouts, the big chart window and the Patient Dashboard does not
   carry TextBelow** (the earlier test builds drew it at the picture's edge; that is gone).
 - **Free text.** Text added on the Chart module's Draw tab (Add Text) is drawn on the chart at its place, over the teeth, and is kept inside
-  the chart. With Move Text, the coming 3D chart moves a label by dragging it, and its new place is saved. With Change Color, it gives a
+  the chart. With Move Text, the 3D chart moves a label by dragging it, and its new place is saved. With Change Color, it gives a
   label the colour of the colour box, as Open Dental's Change Color does for "an existing drawing or text", and the colour is saved.
-- **Which chart draws what.** The DirectX and OpenGL charts, which most computers use until the coming 3D chart replaces them, draw the X of
-  completed extractions but not the text: free text and text procedures show on computers set to the Simple 2D chart (File > Graphics)
-  now, and on every computer once the 3D chart comes. The TextBelow box is part of the Chart module, so it shows whatever the chart.
+- **Which chart draws what.** The 3D chart, which every computer set to DirectX or OpenGL now uses, and the Simple 2D chart draw the X,
+  free text and text procedures. (The DirectX and OpenGL charts, which no computer uses any more, drew the X but not the text.) The TextBelow box is part of the Chart module, so it shows whatever the chart.
   Showing free text and text procedures on the Simple 2D chart goes beyond Open Dental, whose older chart modes show only the "W".
-- **The graphical perio chart on the coming 3D chart.** The coming 3D chart can draw the graphical perio chart (Perio Chart, Graphical) as
+- **The graphical perio chart on the 3D chart.** The 3D chart draws the graphical perio chart (Perio Chart, Graphical) as
   today's DirectX chart draws it: the four rows of teeth, the probing bars (red from the red limit), bleeding and suppuration, furcations,
   mobility, the gingival margin, CAL and MGJ lines, the numbers and the legend, in the colours of Graphical Perio Setup, and its print and
   saved image as before. Two Open Dental 24.4 changes come with it: a removed implant (its procedure's graphics hidden) is not drawn, as
   today, and with Perio Setup's "Use the term Recession" option on, the legend names the gingival margin line "Recession" ("Gingival
-  Margin" again while the exam has hyperplasia, as the Perio Chart's row). **Nothing changes in this version:** the graphical perio chart
-  keeps today's DirectX chart, and its legend keeps "Gingival Margin", until the 3D chart replaces the older charts on every computer.
+  Margin" again while the exam has hyperplasia, as the Perio Chart's row). It opens on every computer, those set to Simple 2D too, and no
+  longer asks for DirectX ("The tooth chart: the 3D chart on every computer", below).
+
+## The tooth chart: the 3D chart on every computer
+
+From this version the tooth chart of every computer set to DirectX or OpenGL (File > Graphics; a new computer is set to DirectX) is the 3D
+chart: the program draws it itself, in software, so it works the same on every computer and needs neither Microsoft's DirectX End-User
+Runtime nor particular graphics hardware, and the setup installs none. It is the same chart in the Chart module, the big chart window, the
+Treatment Plan printouts, sheets, referral letters, the Patient Dashboard, the sheet editor's preview and the graphical perio chart.
+
+- **On screen** the Chart module shows a quick live view of the chart, whose tooth edges are a little less smooth than in a printout. On a
+  computer that prefers the smoothed picture, or where the chart does not show properly, File > Graphics' **"Draw in software"** shows the
+  same picture as the printouts on screen; a refill then takes a little longer (about half a second). The switch is per computer.
+- **File > Graphics** now offers two choices, "3D chart" and "Simple 2D chart", the "Draw in software" check box and a preview of what the
+  choices give on this computer, with made-up work. The lists of DirectX and OpenGL formats are gone. Setup > Computers opens the same window
+  for another computer (its preview is drawn by the computer you are on), and "Use Simple Graphics" there works as before.
+- **Computers set to Simple 2D stay on Simple 2D**: nothing is changed for them. To give such a computer the 3D chart, choose "3D chart" in
+  File > Graphics on it (or from Setup > Computers) and Save.
+- Saving "3D chart" on a computer that was set to DirectX or OpenGL keeps that setting as it was, so a workstation that goes back to Open
+  Dental finds its own chart setting there.
+- **The graphical perio chart** (Perio Chart, Graphical) opens on every computer, those set to Simple 2D too; it no longer asks for DirectX.
+- **Start-up** no longer searches for a DirectX format on a computer that has none saved (that could take minutes).
+- If the 3D chart cannot start on a computer, the chart shows the Simple 2D chart without an error message, and the ToothChart log says why
+  once; the graphical perio chart then says it needs the 3D chart.
 
 ## Open Dental 26.2: tools
 
