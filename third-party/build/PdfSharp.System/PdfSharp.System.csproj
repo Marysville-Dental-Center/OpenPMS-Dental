@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project>
   <!-- PdfSharp.System 6.5.0 from empira's source in the submodule third-party\PDFsharp (src\foundation\src\shared\src\PdfSharp.System), as
-       upstream's PdfSharp.System.csproj builds it for netstandard2.0. docs\third-party-source-builds.md. -->
+       upstream's PdfSharp.System.csproj builds it for net10.0 (netstandard2.0 until S3b-2). docs\third-party-source-builds.md. -->
   <Import Project="Sdk.props" Sdk="Microsoft.NET.Sdk" />
   <PropertyGroup>
     <RootNamespace>PdfSharp</RootNamespace>
@@ -11,13 +11,10 @@
   <Import Project="..\PDFsharp.props" />
   <PropertyGroup>
     <SourceBuildUpstreamProject>$(PdfSharpSourceRoot)shared\src\PdfSharp.System\PdfSharp.System.csproj</SourceBuildUpstreamProject>
-    <DefineConstants>TRACE;$(PdfSharpNetStandard20Symbols);$(PdfSharpUpstreamConstants)</DefineConstants>
+    <DefineConstants>TRACE;$(PdfSharpUpstreamConstants)</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
-    <PackageReference Include="System.Memory" />
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
     <!-- Upstream: every .cs file of the project folder. -->

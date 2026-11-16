@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project>
   <!-- PdfSharp.Charting-gdi 6.5.0 from empira's source in the submodule third-party\PDFsharp, as upstream's
-       src\foundation\src\PDFsharp\src\PdfSharp.Charting-gdi\PdfSharp.Charting-gdi.csproj builds it for net462: the source files of the
+       src\foundation\src\PDFsharp\src\PdfSharp.Charting-gdi\PdfSharp.Charting-gdi.csproj builds it for net10.0-windows (net462 until S3b-2): the source files of the
        shared PdfSharp.Charting folder. docs\third-party-source-builds.md. -->
   <Import Project="Sdk.props" Sdk="Microsoft.NET.Sdk" />
   <PropertyGroup>
@@ -12,15 +12,11 @@
   <Import Project="..\PDFsharp.props" />
   <PropertyGroup>
     <SourceBuildUpstreamProject>$(PdfSharpSourceRoot)PDFsharp\src\PdfSharp.Charting-gdi\PdfSharp.Charting-gdi.csproj</SourceBuildUpstreamProject>
-    <DefineConstants>TRACE;$(PdfSharpNet462Symbols);$(PdfSharpUpstreamConstants)</DefineConstants>
+    <DefineConstants>TRACE;$(PdfSharpUpstreamConstants)</DefineConstants>
+    <!-- Upstream's UseWindowsForms (the framework reference; ImplicitUsings stays off, GlobalUsings.WindowsForms.cs below has its usings). -->
+    <UseWindowsForms>true</UseWindowsForms>
     <PdfSharpChartingFolder>$(PdfSharpSourceRoot)PDFsharp\src\PdfSharp.Charting\</PdfSharpChartingFolder>
   </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows.Forms" />
-  </ItemGroup>
   <ItemGroup>
     <!-- Upstream links every .cs file of the PdfSharp.Charting folder. -->
     <Compile Include="$(PdfSharpChartingFolder)**\*.cs" Exclude="$(PdfSharpChartingFolder)bin\**;$(PdfSharpChartingFolder)obj\**">
