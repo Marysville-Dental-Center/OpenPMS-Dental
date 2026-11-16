@@ -14,6 +14,8 @@ namespace Helper32Tests.QuickBooks {
 	public abstract class QbfcFakeBase {
 		public QbfcRecorder Recorder;
 		public string FakeName;
+		///<summary>The QBFC 10 interface the fake was made for (N64-B6: LateBoundQbfc reaches its members by name, as IDispatch does).</summary>
+		public Type FakeInterface;
 
 		///<summary>Called by every method of the fake (the emitted code); a by-reference argument comes as null.</summary>
 		public object Invoke(string methodName,object[] arrayArgs,Type typeReturn) {
@@ -115,6 +117,7 @@ namespace Helper32Tests.QuickBooks {
 			QbfcFakeBase fake=(QbfcFakeBase)Activator.CreateInstance(GetFakeType(typeInterface));
 			fake.Recorder=recorder;
 			fake.FakeName=name;
+			fake.FakeInterface=typeInterface;
 			return fake;
 		}
 

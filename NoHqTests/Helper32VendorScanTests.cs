@@ -9,6 +9,8 @@
 // CDR interops again (embedded) for its two in-process files; nothing else does, and each in-process file reaches the vendor piece only
 // through its chooser.
 // N64-A3 added Mediadent / CADI: its ProgID is created only in its in-process file and the helper's Cadi module, after its chooser.
+// N64-B6 added QuickBooks Desktop's 64-bit QBFC, late-bound: its ProgIDs are named and created only in QuickBooksLateBound.cs, through its
+// chooser, with no interop; QuickBooks.cs asks it first in a 64-bit program and keeps QBFC 10's path for the 32-bit one.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
 using System.Collections.Generic;
@@ -259,6 +261,50 @@ namespace NoHqTests {
 				.Where(x => !x.StartsWith(@"tests\",StringComparison.OrdinalIgnoreCase)).ToList();
 			CollectionAssert.AreEquivalent(new[] { @"WpfControlsOD\Bridges\CADI.cs",@"WpfControlsOD\Bridges\CADIInProcess.cs" },listUsers,
 				"Files that use CADI's in-process path: "+string.Join(", ",listUsers));
+		}
+
+		[TestMethod]
+		public void QuickBooks64BitQbfc_IsCreatedOnlyInTheLateBoundFile_ThroughItsChooser_AskedFirstIn64Bit() {
+			//N64-B6: the 64-bit QBFC's session managers (ProgIDs QBFCnn.QBSessionManager...) are named only in QuickBooksLateBound.cs, created there
+			//by ProgID only (Type.GetTypeFromProgID, no interop), the first one through NativeFirstChooser.QuickBooksDesktopNative64.
+			const string PATH_LATE_BOUND=@"WpfControlsOD\Bridges\QuickBooksLateBound.cs";
+			string pathRoot=GetRoot();
+			Regex regexProgId=new Regex(@"""QBFC\d+\.QBSessionManager");
+			List<string> listNaming=GetFiles(pathRoot,"*.cs")
+				.Where(x => !x.StartsWith(@"tests\",StringComparison.OrdinalIgnoreCase) && !x.StartsWith(@"NoHqTests\",StringComparison.OrdinalIgnoreCase))
+				.Where(x => regexProgId.IsMatch(StripComments(File.ReadAllText(Path.Combine(pathRoot,x)))))
+				.ToList();
+			CollectionAssert.AreEquivalent(new[] { PATH_LATE_BOUND },listNaming,"Files that name a QBFC ProgID: "+string.Join(", ",listNaming));
+			string textLateBound=StripComments(Read(PATH_LATE_BOUND));
+			Assert.AreEqual(1,Regex.Matches(textLateBound,@"Type\.GetTypeFromProgID\(").Count);
+			Assert.AreEqual(1,Regex.Matches(textLateBound,@"Activator\.CreateInstance\(").Count);
+			StringAssert.Contains(textLateBound,"internal static Func<string,object> FuncCreateComObject=progId => CreateComObject(progId);");
+			StringAssert.Contains(textLateBound,"NativeFirstChooser.QuickBooksDesktopNative64.ActivateNewestComServer(ArrayProgIds,FuncReadRegistration,"
+				+"FuncCreateComObject,");
+			Assert.AreEqual(1,Regex.Matches(textLateBound,@"\bFuncCreateComObject\(").Count,"The chosen ProgID's later sessions only.");
+			StringAssert.Contains(textLateBound,"return FuncCreateComObject(_progIdChosen);");
+			Assert.IsFalse(Regex.IsMatch(textLateBound,@"\bInterop\.|QBFC\d+Lib"),"Late-bound: no interop type.");
+			//QuickBooks.cs: each public method asks the late-bound path first in a 64-bit program, else QBFC 10 in process (the 32-bit program, as
+			//before), then the helper.
+			string textQuickBooksBridge=Read(@"WpfControlsOD\Bridges\QuickBooks.cs");
+			foreach(string pair in new[] { "TestConnection|QuickBooksCommands.TEST_CONNECTION","GetListOfAccounts|QuickBooksCommands.GET_LIST_OF_ACCOUNTS",
+				"GetListOfClasses|QuickBooksCommands.GET_LIST_OF_CLASSES","CreateDeposit|QuickBooksCommands.CREATE_DEPOSIT" })
+			{
+				string[] arrayParts=pair.Split('|');
+				Match matchMethod=Regex.Match(textQuickBooksBridge,@"\n\t\tpublic static [^\n(]* "+arrayParts[0]+@"\(");
+				Assert.IsTrue(matchMethod.Success,"QuickBooks."+arrayParts[0]);
+				int indexMethod=matchMethod.Index;
+				string textMethod=textQuickBooksBridge.Substring(indexMethod,textQuickBooksBridge.IndexOf("\n\t\t}\n",indexMethod,StringComparison.Ordinal)-indexMethod);
+				string[] arrayInOrder=new[] { "if(QuickBooksLateBound.Is64BitProcess) {","QuickBooksLateBound.Try"+arrayParts[0]+"(",
+					"else if(QuickBooksInProcess.IsChosen()) {","QuickBooksInProcess."+arrayParts[0]+"(",arrayParts[1] };
+				for(int i=1;i<arrayInOrder.Length;i++) {
+					AssertInOrder(textMethod,arrayInOrder[i-1],arrayInOrder[i],"QuickBooks."+arrayParts[0]);
+				}
+			}
+			List<string> listUsers=GetSourcesMatching(new Regex(@"\bQuickBooksLateBound\s*\."))
+				.Where(x => !x.StartsWith(@"tests\",StringComparison.OrdinalIgnoreCase)).ToList();
+			CollectionAssert.AreEquivalent(new[] { @"WpfControlsOD\Bridges\QuickBooks.cs" },listUsers,
+				"Files that use the late-bound path: "+string.Join(", ",listUsers));
 		}
 
 		///<summary>In text, first occurs once and before second.</summary>

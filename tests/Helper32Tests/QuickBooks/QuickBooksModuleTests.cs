@@ -3,7 +3,10 @@
 // WpfControlsOD/Bridges/QuickBooks.cs before S3a-13), with the same arguments in the same order, and gives the same results and messages; the
 // main scenarios are also pinned call by call. Since S3a-14n every scenario also runs on the program's in-process path
 // (WpfControlsOD/Bridges/QuickBooksInProcess.cs, linked, through NativeFirstChooser.QuickBooksDesktop as a 32-bit program chooses), which must
-// make the same calls as today's code too. No QuickBooks session is opened and no real QBFC object is created.
+// make the same calls as today's code too. Since N64-B6 the scenarios that connect also run on a 64-bit program's late-bound path
+// (WpfControlsOD/Bridges/QuickBooksLateBound.cs, linked, through NativeFirstChooser.QuickBooksDesktopNative64 as a 64-bit program chooses),
+// whose dynamic calls reach the same fakes by name (LateBoundQbfc.cs) and must be today's calls too; its own cases (the choice, a failed
+// connection and the helper) are in QuickBooksLateBoundTests. No QuickBooks session is opened and no real QBFC object is created.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
 using System.Collections.Generic;
@@ -20,27 +23,39 @@ using OpenPmsDentalHelper32.QuickBooks;
 namespace Helper32Tests.QuickBooks {
 	[TestClass]
 	public class QuickBooksModuleTests {
-		private const string COMPANY_FILE=@"C:\QuickBooks\Synthetic Company.qbw";
-		private static readonly DateTime _dateDeposit=new DateTime(2026,11,14);
+		internal const string COMPANY_FILE=@"C:\QuickBooks\Synthetic Company.qbw";
+		internal static readonly DateTime _dateDeposit=new DateTime(2026,11,14);
 
 		///<summary>What one run did: the calls on the fakes, and the result or the exception's message.</summary>
-		private sealed class Run {
+		internal sealed class Run {
 			public List<string> ListCalls;
 			public string Result;
 			public string ErrorMessage;
 			public int CountSessions;
+			///<summary>The late-bound path's argument types (N64-B6); null on the other paths.</summary>
+			public LateBoundCallLog CallLog;
 		}
 
 		///<summary>A scenario's script: what the fake QBFC objects return. Every new session manager starts from it.</summary>
-		private delegate void Script(QbfcRecorder recorder);
+		internal delegate void Script(QbfcRecorder recorder);
 
-		///<summary>Runs action on today's code, on the module and on the program's in-process path (S3a-14n), each with a fresh recorder that the
-		///same script drives, and checks that all three made the same calls and gave the same result. Returns the module's run.</summary>
-		private static Run RunBoth(Script script,Func<string> funcToday,Func<QuickBooksModule,string> funcModule,Func<string> funcInProcess) {
+		///<summary>Runs action on today's code, on the module and on the program's in-process path (S3a-14n), and with funcLateBound on a 64-bit
+		///program's late-bound path (N64-B6), each with a fresh recorder that the same script drives, and checks that all of them made the same
+		///calls and gave the same result, the late-bound path with the automation type of each QBFC 10 parameter. Returns the module's run.
+		///</summary>
+		private static Run RunBoth(Script script,Func<string> funcToday,Func<QuickBooksModule,string> funcModule,Func<string> funcInProcess,
+			Func<string> funcLateBound=null)
+		{
 			Run runToday=RunToday(script,funcToday);
 			Run runModule=RunModule(script,funcModule);
 			Run runInProcess=RunInProcess(script,funcInProcess);
-			foreach(Tuple<string,Run> tuple in new[] { Tuple.Create("module",runModule),Tuple.Create("in-process path",runInProcess) }) {
+			List<Tuple<string,Run>> listRuns=new List<Tuple<string,Run>> { Tuple.Create("module",runModule),Tuple.Create("in-process path",runInProcess) };
+			if(funcLateBound!=null) {
+				Run runLateBound=RunLateBound(script,funcLateBound);
+				CollectionAssert.AreEqual(new string[0],runLateBound.CallLog.ListMismatches,"Late-bound arguments of another type than QBFC 10's.");
+				listRuns.Add(Tuple.Create("late-bound path",runLateBound));
+			}
+			foreach(Tuple<string,Run> tuple in listRuns) {
 				CollectionAssert.AreEqual(runToday.ListCalls,tuple.Item2.ListCalls,"The calls differ from today's.\ntoday:\n  "
 					+string.Join("\n  ",runToday.ListCalls)+"\n"+tuple.Item1+":\n  "+string.Join("\n  ",tuple.Item2.ListCalls));
 				Assert.AreEqual(runToday.Result,tuple.Item2.Result,tuple.Item1);
@@ -72,13 +87,52 @@ namespace Helper32Tests.QuickBooks {
 			return run;
 		}
 
+		///<summary>The late-bound path as QuickBooks.cs takes it in a 64-bit program (N64-B6): a new process's chooser
+		///(ResetForTests(true)), the QBFC 16 ProgID registered as a 64-bit InprocServer32 and activating, the session managers from the recorder
+		///reached by name (LateBoundQbfc), and QBFC 10's enum values as the type library's.</summary>
+		internal static Run RunLateBound(Script script,Func<string> func) {
+			QbfcRecorder recorder=new QbfcRecorder();
+			script(recorder);
+			Run run=new Run { CallLog=new LateBoundCallLog() };
+			using(new LateBoundScope(progId => { run.CountSessions++; return new LateBoundQbfc(recorder.Create<QBSessionManager>("session"),run.CallLog); })) {
+				Execute(run,func);
+			}
+			run.ListCalls=recorder.ListCalls;
+			return run;
+		}
+
+		///<summary>func on the late-bound path, whose Try method must not send the call to the helper.</summary>
+		internal static string LateBound(Func<Tuple<bool,string>> func) {
+			Assert.IsTrue(QuickBooksLateBound.Is64BitProcess,"A 64-bit program takes the late-bound path.");
+			Tuple<bool,string> tuple=func();
+			Assert.IsTrue(tuple.Item1,"The call stays in this process.");
+			return tuple.Item2;
+		}
+
+		internal static string LateBoundTestConnection() {
+			return LateBound(() => Tuple.Create(QuickBooksLateBound.TryTestConnection(COMPANY_FILE,out string result),result));
+		}
+
+		internal static string LateBoundAccounts() {
+			return LateBound(() => Tuple.Create(QuickBooksLateBound.TryGetListOfAccounts(COMPANY_FILE,out List<string> listAccounts),Join(listAccounts.ToArray())));
+		}
+
+		internal static string LateBoundClasses() {
+			return LateBound(() => Tuple.Create(QuickBooksLateBound.TryGetListOfClasses(COMPANY_FILE,out List<string> listClasses),Join(listClasses.ToArray())));
+		}
+
+		internal static string LateBoundDeposit(string classRef,bool isClassRefsEnabled,double amount=1234.5) {
+			return LateBound(() => Tuple.Create(QuickBooksLateBound.TryCreateDeposit(COMPANY_FILE,_dateDeposit,"Checking","Income:Deposits",amount,
+				"Deposit 2026-11-14 (synthetic)",classRef,isClassRefsEnabled),""));
+		}
+
 		///<summary>func on the in-process path, after QuickBooks.cs's IsChosen, which a 32-bit program answers with this process.</summary>
 		private static T InProcess<T>(Func<T> func) {
 			Assert.IsTrue(QuickBooksInProcess.IsChosen(),"A 32-bit program runs QBFC 10 in its own process.");
 			return func();
 		}
 
-		private static Run RunToday(Script script,Func<string> func) {
+		internal static Run RunToday(Script script,Func<string> func) {
 			QbfcRecorder recorder=new QbfcRecorder();
 			script(recorder);
 			Run run=new Run();
@@ -100,7 +154,7 @@ namespace Helper32Tests.QuickBooks {
 			return run;
 		}
 
-		private static void Execute(Run run,Func<string> func) {
+		internal static void Execute(Run run,Func<string> func) {
 			try {
 				run.Result=func();
 			}
@@ -110,14 +164,14 @@ namespace Helper32Tests.QuickBooks {
 		}
 
 		///<summary>The request and response objects of a session, by name: "request" and "response" with its list "responses".</summary>
-		private static void ScriptSession(QbfcRecorder recorder) {
+		internal static void ScriptSession(QbfcRecorder recorder) {
 			recorder.On("session.CreateMsgSetRequest",x => recorder.Create<IMsgSetRequest>("request"));
 			recorder.On("session.DoRequests",x => recorder.Create<IMsgSetResponse>("response"));
 			recorder.On("response.ResponseList",x => recorder.Create<IResponseList>("responses"));
 		}
 
 		///<summary>Responses: one per entry, each its status code, its type and its detail (or none).</summary>
-		private static void ScriptResponses(QbfcRecorder recorder,params Tuple<int,ENResponseType,Func<object>>[] arrayResponses) {
+		internal static void ScriptResponses(QbfcRecorder recorder,params Tuple<int,ENResponseType,Func<object>>[] arrayResponses) {
 			ScriptSession(recorder);
 			recorder.On("responses.Count",x => arrayResponses.Length);
 			recorder.On("responses.GetAt",x => recorder.Create<IResponse>("responses["+x[0]+"]"));
@@ -133,7 +187,7 @@ namespace Helper32Tests.QuickBooks {
 		}
 
 		///<summary>A list of names (accounts or classes) as a fake ret list: null for an entry without FullName.</summary>
-		private static object ScriptNames<TList,TRet>(QbfcRecorder recorder,string listName,params string[] arrayNames) where TList:class where TRet:class {
+		internal static object ScriptNames<TList,TRet>(QbfcRecorder recorder,string listName,params string[] arrayNames) where TList:class where TRet:class {
 			recorder.On(listName+".Count",x => arrayNames.Length);
 			recorder.On(listName+".GetAt",x => recorder.Create<TRet>(listName+"["+x[0]+"]"));
 			for(int i=0;i<arrayNames.Length;i++) {
@@ -149,7 +203,7 @@ namespace Helper32Tests.QuickBooks {
 			return new Helper32Request { Module=QuickBooksCommands.MODULE,Command=command,Args=args };
 		}
 
-		private static string Join(string[] arrayValues) {
+		internal static string Join(string[] arrayValues) {
 			return string.Join("|",arrayValues);
 		}
 
@@ -158,7 +212,7 @@ namespace Helper32Tests.QuickBooks {
 		public void TestConnection_Success_MakesTodaysCalls() {
 			Run run=RunBoth(ScriptSession,() => QuickBooksToday.TestConnection(COMPANY_FILE),
 				module => Join(module.Handle(Request(QuickBooksCommands.TEST_CONNECTION,COMPANY_FILE)).Results),
-				() => InProcess(() => QuickBooksInProcess.TestConnection(COMPANY_FILE)));
+				() => InProcess(() => QuickBooksInProcess.TestConnection(COMPANY_FILE)),LateBoundTestConnection);
 			Assert.AreEqual("Connection to QuickBooks was successful.",run.Result);
 			CollectionAssert.AreEqual(new[] {
 				"session.CreateMsgSetRequest(\"US\",1,0)",
@@ -213,7 +267,7 @@ namespace Helper32Tests.QuickBooks {
 				Tuple.Create(0,ENResponseType.rtAccountQueryRs,(Func<object>)null));
 			Run run=RunBoth(script,() => Join(QuickBooksToday.GetListOfAccounts().ToArray()),
 				module => Join(module.Handle(Request(QuickBooksCommands.GET_LIST_OF_ACCOUNTS,COMPANY_FILE)).Results),
-				() => InProcess(() => Join(QuickBooksInProcess.GetListOfAccounts(COMPANY_FILE).ToArray())));
+				() => InProcess(() => Join(QuickBooksInProcess.GetListOfAccounts(COMPANY_FILE).ToArray())),LateBoundAccounts);
 			Assert.AreEqual("Checking|Income:Patient Payments|Savings",run.Result,"Status 0 and warnings (>0), account responses only.");
 			CollectionAssert.AreEqual(new[] {
 				"session.CreateMsgSetRequest(\"US\",8,0)",
@@ -236,7 +290,7 @@ namespace Helper32Tests.QuickBooks {
 			};
 			Run run=RunBoth(script,() => Join(QuickBooksToday.GetListOfAccounts().ToArray()),
 				module => Join(module.Handle(Request(QuickBooksCommands.GET_LIST_OF_ACCOUNTS,COMPANY_FILE)).Results),
-				() => InProcess(() => Join(QuickBooksInProcess.GetListOfAccounts(COMPANY_FILE).ToArray())));
+				() => InProcess(() => Join(QuickBooksInProcess.GetListOfAccounts(COMPANY_FILE).ToArray())),LateBoundAccounts);
 			Assert.AreEqual("",run.Result);
 		}
 
@@ -248,7 +302,7 @@ namespace Helper32Tests.QuickBooks {
 			};
 			Run run=RunBoth(script,() => Join(QuickBooksToday.GetListOfAccounts().ToArray()),
 				module => Join(module.Handle(Request(QuickBooksCommands.GET_LIST_OF_ACCOUNTS,COMPANY_FILE)).Results),
-				() => InProcess(() => Join(QuickBooksInProcess.GetListOfAccounts(COMPANY_FILE).ToArray())));
+				() => InProcess(() => Join(QuickBooksInProcess.GetListOfAccounts(COMPANY_FILE).ToArray())),LateBoundAccounts);
 			Assert.AreEqual(typeof(COMException).FullName+": Synthetic: QuickBooks closed the connection.",run.ErrorMessage);
 			CollectionAssert.AreEqual(new[] { "session.DoRequests(request)","session.EndSession()","session.CloseConnection()" },
 				run.ListCalls.Skip(run.ListCalls.Count-3).ToArray());
@@ -262,7 +316,7 @@ namespace Helper32Tests.QuickBooks {
 				Tuple.Create(0,ENResponseType.rtAccountQueryRs,(Func<object>)(() => ScriptNames<IAccountRetList,IAccountRet>(recorder,"accounts","Checking"))));
 			Run run=RunBoth(script,() => Join(QuickBooksToday.GetListOfClasses().ToArray()),
 				module => Join(module.Handle(Request(QuickBooksCommands.GET_LIST_OF_CLASSES,COMPANY_FILE)).Results),
-				() => InProcess(() => Join(QuickBooksInProcess.GetListOfClasses(COMPANY_FILE).ToArray())));
+				() => InProcess(() => Join(QuickBooksInProcess.GetListOfClasses(COMPANY_FILE).ToArray())),LateBoundClasses);
 			Assert.AreEqual("Clinic East|Clinic West",run.Result);
 			CollectionAssert.AreEqual(new[] {
 				"request.AppendClassQueryRq()",
@@ -279,7 +333,7 @@ namespace Helper32Tests.QuickBooks {
 			return "";
 		}
 
-		private static string DepositToday(string classRef,bool isClassRefsEnabled,double amount=1234.5) {
+		internal static string DepositToday(string classRef,bool isClassRefsEnabled,double amount=1234.5) {
 			QuickBooksToday.IsClassRefsEnabled=isClassRefsEnabled;
 			QuickBooksToday.CreateDeposit(_dateDeposit,"Checking","Income:Deposits",amount,"Deposit 2026-11-14 (synthetic)",classRef);
 			return "";
@@ -298,7 +352,7 @@ namespace Helper32Tests.QuickBooks {
 		public void CreateDeposit_WithAClass_MakesTodaysCalls() {
 			Script script=recorder => ScriptResponses(recorder,Tuple.Create(0,ENResponseType.rtDepositAddRs,(Func<object>)null));
 			Run run=RunBoth(script,() => DepositToday("Clinic East",true),module => Deposit(module,"Clinic East",true),
-				() => DepositInProcess("Clinic East",true));
+				() => DepositInProcess("Clinic East",true),() => LateBoundDeposit("Clinic East",true));
 			Assert.IsNull(run.ErrorMessage);
 			const string line="request.AppendDepositAddRq().DepositLineAddList.Append().ORDepositLineAdd.DepositInfo.";
 			CollectionAssert.AreEqual(new[] {
@@ -330,7 +384,7 @@ namespace Helper32Tests.QuickBooks {
 			foreach(Tuple<string,bool> tuple in new[] { Tuple.Create("",true),Tuple.Create((string)null,true),Tuple.Create("Clinic East",false) }) {
 				Run run=RunBoth(script,() => DepositToday(tuple.Item1,tuple.Item2),
 					module => Deposit(module,tuple.Item1,!string.IsNullOrEmpty(tuple.Item1) && tuple.Item2),
-					() => DepositInProcess(tuple.Item1,tuple.Item2));
+					() => DepositInProcess(tuple.Item1,tuple.Item2),() => LateBoundDeposit(tuple.Item1,tuple.Item2));
 				Assert.IsFalse(run.ListCalls.Any(x => x.Contains("ClassRef")),string.Join("\n",run.ListCalls));
 			}
 		}
@@ -340,7 +394,7 @@ namespace Helper32Tests.QuickBooks {
 			Script script=recorder => ScriptResponses(recorder,Tuple.Create(0,ENResponseType.rtDepositAddRs,(Func<object>)null));
 			foreach(double amount in new[] { 0.01,10,99999.995,1234567.891 }) {
 				Run run=RunBoth(script,() => DepositToday("",false,amount),module => Deposit(module,"",false,amount),
-					() => DepositInProcess("",false,amount));
+					() => DepositInProcess("",false,amount),() => LateBoundDeposit("",false,amount));
 				CollectionAssert.Contains(run.ListCalls,"request.AppendDepositAddRq().DepositLineAddList.Append().ORDepositLineAdd.DepositInfo.Amount.SetAsString(\""
 					+amount.ToString("F")+"\")");
 			}
@@ -350,7 +404,8 @@ namespace Helper32Tests.QuickBooks {
 		public void CreateDeposit_ResponseWithAStatusAboveZero_ThrowsItsMessage() {
 			Script script=recorder => ScriptResponses(recorder,Tuple.Create(0,ENResponseType.rtDepositAddRs,(Func<object>)null),
 				Tuple.Create(3120,ENResponseType.rtDepositAddRs,(Func<object>)null));
-			Run run=RunBoth(script,() => DepositToday("",false),module => Deposit(module,"",false),() => DepositInProcess("",false));
+			Run run=RunBoth(script,() => DepositToday("",false),module => Deposit(module,"",false),() => DepositInProcess("",false),
+				() => LateBoundDeposit("",false));
 			Assert.AreEqual("System.Exception: Synthetic status message 3120",run.ErrorMessage);
 			Assert.AreEqual("responses[1].StatusMessage",run.ListCalls.Last());
 		}
@@ -399,6 +454,15 @@ namespace Helper32Tests.QuickBooks {
 				string first=InProcess(() => QuickBooksInProcess.TestConnection(COMPANY_FILE));
 				try {
 					InProcess(() => QuickBooksInProcess.GetListOfClasses(COMPANY_FILE));
+				}
+				catch(Exception exception) {
+					return first+" / "+exception.Message;
+				}
+				return first;
+			},() => {
+				string first=LateBoundTestConnection();
+				try {
+					LateBoundClasses();
 				}
 				catch(Exception exception) {
 					return first+" / "+exception.Message;

@@ -75,7 +75,7 @@ namespace OpenPmsDental.Bridges {
 		}
 
 		///<summary>The session manager: the first time, the newest of ArrayProgIds that activates here (the chooser, which logs its choice) with
-		///its type library's enum values; later, a new one of the chosen ProgID, as new QBSessionManager() made one per connection. Throws when
+		///its type library's enum values; later, a new one of the chosen ProgID, one per connection as QBFC 10's path makes them. Throws when
 		///none activated (the chooser picked the helper) or the enum values cannot be read, which QuickBooks.cs takes as a failed connection.</summary>
 		private static dynamic CreateSessionManager() {
 			if(_progIdChosen!="") {
