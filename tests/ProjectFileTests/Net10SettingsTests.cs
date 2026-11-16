@@ -205,7 +205,7 @@ namespace ProjectFileTests {
 			int countExes=0;
 			int countTests=0;
 			int countLibraries=0;
-			foreach(string path in ProjectFile.GetSolutionFilterProjects(Path.Combine(root,"OpenDental.Local.slnf"))) {
+			foreach(string path in ProjectFile.GetModelledSolutionFilterProjects(Path.Combine(root,"OpenDental.Local.slnf"))) {
 				ProjectFile projectFileNow=ProjectFile.Load(path);
 				if(!projectFileNow.IsSdkStyle) {
 					continue;
@@ -284,7 +284,7 @@ namespace ProjectFileTests {
 			//third-party source builds (third-party\build: upstream's language versions, latest and preview) are S3b-2's.
 			string root=FixtureFolder.RepoRoot();
 			List<string> listProblems=new List<string>();
-			foreach(string path in ProjectFile.GetSolutionFilterProjects(Path.Combine(root,"OpenDental.Local.slnf"))) {
+			foreach(string path in ProjectFile.GetModelledSolutionFilterProjects(Path.Combine(root,"OpenDental.Local.slnf"))) {
 				if(path.Substring(root.Length+1).StartsWith(@"third-party\",StringComparison.OrdinalIgnoreCase)) {
 					continue;
 				}
@@ -353,12 +353,12 @@ namespace ProjectFileTests {
 			{
 				dictMappings[match.Groups[1].Value]=match.Groups[2].Value;
 			}
-			//The exceptions keep their x86 project configuration for the x64 solution platforms. OpenPmsDentalServer, the one classic C# project
-			//until S3b-6 rewrites it, has Debug|x86 and Release|x86 groups but none for x64 (built as Debug|x64 it would have no OutputPath and stop
-			//in _CheckForInvalidConfigurationAndPlatform); OpenPmsDentalHelper32 names x86 as its only platform (O-15), as its Any CPU mappings do.
-			string[] arrayX86Projects=new[] { "{712C6A2B-88E1-49E9-AC67-F6372F0047BC}","{CDB4F87A-1B32-436C-9096-74BE4D9FD071}" };
-			StringAssert.Contains(textSln,"\"OpenPmsDentalServer\", \"OpenPmsDentalServer\\OpenPmsDentalServer.csproj\", \""+arrayX86Projects[0]+"\"");
-			StringAssert.Contains(textSln,"\""+HELPER+"\", \""+HELPER+"\\"+HELPER+".csproj\", \""+arrayX86Projects[1]+"\"");
+			//The exception keeps its x86 project configuration for the x64 solution platforms: OpenPmsDentalHelper32 names x86 as its only
+			//platform (O-15), as its Any CPU mappings do. OpenPmsDentalServer, the classic project that kept x86 until S3b-6 (it had no x64
+			//configuration), is an SDK-style project since then and maps x64 to x64 like the others.
+			string[] arrayX86Projects=new[] { "{CDB4F87A-1B32-436C-9096-74BE4D9FD071}" };
+			StringAssert.Contains(textSln,"\""+HELPER+"\", \""+HELPER+"\\"+HELPER+".csproj\", \""+arrayX86Projects[0]+"\"");
+			StringAssert.Contains(textSln,"\t\t{712C6A2B-88E1-49E9-AC67-F6372F0047BC}.Debug|x64.ActiveCfg = Debug|x64\r\n","OpenPmsDentalServer (S3b-6).");
 			List<string> listProblems=new List<string>();
 			int countX86=0;
 			foreach(KeyValuePair<string,string> pair in dictMappings.Where(x => x.Key.Contains("|x86."))) {
@@ -387,7 +387,7 @@ namespace ProjectFileTests {
 			string root=FixtureFolder.RepoRoot();
 			List<string> listProblems=new List<string>();
 			int countClassic=0;
-			foreach(string path in ProjectFile.GetSolutionFilterProjects(Path.Combine(root,"OpenDental.Local.slnf"))) {
+			foreach(string path in ProjectFile.GetModelledSolutionFilterProjects(Path.Combine(root,"OpenDental.Local.slnf"))) {
 				if(!path.EndsWith(".csproj",StringComparison.OrdinalIgnoreCase) || ProjectFile.Load(path).IsSdkStyle) {
 					continue;
 				}
@@ -408,7 +408,55 @@ namespace ProjectFileTests {
 				}
 			}
 			Assert.AreEqual(0,listProblems.Count,string.Join("; ",listProblems));
-			Assert.IsTrue(countClassic>=1,"OpenPmsDentalServer is classic until S3b-6.");
+			//OpenPmsDentalServer, the last classic C# project of the filter, became SDK-style in S3b-6, so the loop finds none since then; the
+			//check stays for any classic project added later.
+			Assert.IsTrue(ProjectFile.IsSdkStyleDocument(XDocument.Load(Path.Combine(root,"OpenPmsDentalServer","OpenPmsDentalServer.csproj"))),
+				"OpenPmsDentalServer is SDK-style since S3b-6 ("+countClassic+" classic projects).");
+		}
+
+		///<summary>The Middle Tier server (S3b-6) is a Microsoft.NET.Sdk.Web project, which ProjectFile does not model, so the tests that evaluate
+		///every project of the filter leave it out (GetModelledSolutionFilterProjects). It is the only one, and its file is checked here: a .NET 10
+		///exe (no target framework of its own, so the repository's net10.0-windows with the settings of Directory.Build.Net.props), its pinned
+		///language version, Windows Forms for the business library, central package versions, the shared assembly info. When it is built, its
+		///runtimeconfig names the three runtimes it carries (self-contained) and NLS.</summary>
+		[TestMethod]
+		public void TheMiddleTierServer_IsTheOneWebSdkProject_ANet10Exe() {
+			string root=FixtureFolder.RepoRoot();
+			string pathServer=Path.Combine(root,"OpenPmsDentalServer","OpenPmsDentalServer.csproj");
+			List<string> listUnmodelled=ProjectFile.GetSolutionFilterProjects(Path.Combine(root,"OpenDental.Local.slnf"))
+				.Where(x => ProjectFile.GetUnmodelledSdk(x)!=null).ToList();
+			CollectionAssert.AreEqual(new[] { pathServer },listUnmodelled);
+			Assert.AreEqual("Microsoft.NET.Sdk.Web",ProjectFile.GetUnmodelledSdk(pathServer));
+			AssertThrows<NotSupportedException>(() => ProjectFile.Load(pathServer),"the SDK Microsoft.NET.Sdk.Web is not modelled");
+			XDocument xDocument=XDocument.Load(pathServer);
+			Dictionary<string,string> dictProperties=new Dictionary<string,string>();
+			foreach(XElement xElementGroup in xDocument.Root.Elements().Where(x => x.Name.LocalName=="PropertyGroup" && x.Attribute("Condition")==null)) {
+				foreach(XElement xElementProperty in xElementGroup.Elements()) {
+					dictProperties[xElementProperty.Name.LocalName]=xElementProperty.Value.Trim();
+				}
+			}
+			Assert.IsFalse(dictProperties.ContainsKey("TargetFramework"),"The repository's net10.0-windows.");
+			Assert.IsFalse(dictProperties.ContainsKey("TargetFrameworks"));
+			Assert.AreEqual("Exe",dictProperties["OutputType"]);
+			Assert.AreEqual("OpenPmsDentalServer",dictProperties["AssemblyName"]);
+			Assert.AreEqual("8.0",dictProperties["LangVersion"]);
+			Assert.AreEqual("true",dictProperties["UseWindowsForms"]);
+			List<XElement> listPackageReferences=xDocument.Descendants().Where(x => x.Name.LocalName=="PackageReference").ToList();
+			Assert.IsTrue(listPackageReferences.Any(x => (string)x.Attribute("Include")=="Microsoft.Extensions.Hosting.WindowsServices"));
+			Assert.IsTrue(listPackageReferences.All(x => x.Attribute("Version")==null),"Versions come from Directory.Packages.props.");
+			Assert.IsTrue(xDocument.Descendants().Any(x => x.Name.LocalName=="ProjectReference"
+				&& (string)x.Attribute("Include")==@"..\OpenPmsDentalBusiness\OpenPmsDentalBusiness.csproj"));
+			Assert.IsTrue(xDocument.Descendants().Any(x => x.Name.LocalName=="Compile" && (string)x.Attribute("Include")==@"..\SharedAssemblyInfo.cs"));
+			string pathRuntimeConfig=Path.Combine(root,"OpenPmsDentalServer","bin","Debug","OpenPmsDentalServer.runtimeconfig.json");
+			if(!File.Exists(pathRuntimeConfig)) {
+				return;//not built: the file's checks above are the test
+			}
+			string textRuntimeConfig=File.ReadAllText(pathRuntimeConfig);
+			StringAssert.Contains(textRuntimeConfig,"\"includedFrameworks\"","Self-contained.");
+			foreach(string framework in new[] { "Microsoft.NETCore.App","Microsoft.WindowsDesktop.App","Microsoft.AspNetCore.App" }) {
+				StringAssert.Contains(textRuntimeConfig,"\""+framework+"\"");
+			}
+			StringAssert.Contains(textRuntimeConfig,"\"System.Globalization.UseNls\": true");
 		}
 
 		[TestMethod]

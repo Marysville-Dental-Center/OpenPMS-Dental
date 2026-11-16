@@ -23,7 +23,9 @@ namespace MiddleTierMockTests {
 	///<summary>The s0t2_ copy of ScratchDb's database and the SELECT-only account of this run. A test connects to the copy in [TestInitialize]
 	///(BeginTest) and goes back to ScratchDb's database in [TestCleanup] (EndTest), so a test of another class never runs on the copy.</summary>
 	public static class ScratchDbCopy {
-		public const string PREFIX="s0t2_";
+		///<summary>s0t2_: ScratchDb's prefix with 2 before its last underscore (s3b6_mt2_ for S0T_DB_PREFIX=s3b6_mt_), so ScratchDb's clean-up,
+		///which wants a date right after its own prefix, never takes these names.</summary>
+		public static readonly string PREFIX=ScratchDb.PREFIX.Substring(0,ScratchDb.PREFIX.Length-1)+"2_";
 		///<summary>Accounts are made at this host only: a TCP connection to 127.0.0.1 matches it whether or not the server resolves host names.</summary>
 		public const string AccountHost="127.0.0.1";
 		private static readonly TimeSpan _timeSpanStale=TimeSpan.FromHours(12);
@@ -220,14 +222,16 @@ namespace MiddleTierMockTests {
 			List<string> listDatabases=new List<string>();
 			List<string> listAccounts=new List<string>();
 			using(MySqlConnection connection=ScratchDb.OpenServer()) {
-				using(MySqlCommand command=new MySqlCommand("SELECT SCHEMA_NAME FROM information_schema.SCHEMATA WHERE SCHEMA_NAME LIKE 's0t2\\_%'",connection))
+				using(MySqlCommand command=new MySqlCommand("SELECT SCHEMA_NAME FROM information_schema.SCHEMATA WHERE SCHEMA_NAME LIKE '"
+					+ScratchDb.LikePrefix(PREFIX)+"'",connection))
 				using(MySqlDataReader reader=command.ExecuteReader())
 				{
 					while(reader.Read()) {
 						listDatabases.Add(reader.GetString(0));
 					}
 				}
-				using(MySqlCommand command=new MySqlCommand("SELECT User FROM mysql.user WHERE User LIKE 's0t2\\_%' AND Host='"+AccountHost+"'",connection))
+				using(MySqlCommand command=new MySqlCommand("SELECT User FROM mysql.user WHERE User LIKE '"+ScratchDb.LikePrefix(PREFIX)+"' AND Host='"
+					+AccountHost+"'",connection))
 				using(MySqlDataReader reader=command.ExecuteReader())
 				{
 					while(reader.Read()) {

@@ -1,1 +1,0 @@
-﻿<%@ WebService Language="C#" CodeBehind="ServiceMain.asmx.cs" Class="OpenPmsDentalServer.ServiceMain" %>

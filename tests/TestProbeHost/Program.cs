@@ -112,7 +112,13 @@ namespace TestProbeHost {
 			string pathFull=Path.GetFullPath(path);
 			string folderBase=Path.GetFullPath(AppDomain.CurrentDomain.BaseDirectory).TrimEnd('\\');
 			if(string.Equals(Path.GetDirectoryName(pathFull).TrimEnd('\\'),folderBase,StringComparison.OrdinalIgnoreCase)) {
-				return Assembly.Load(AssemblyName.GetAssemblyName(pathFull));
+				try {
+					return Assembly.Load(AssemblyName.GetAssemblyName(pathFull));
+				}
+				catch(FileNotFoundException) {
+					//.NET (S3b-6): the default load context knows only the files of TestProbeHost.deps.json by name. LoadFrom loads the file into it
+					//and finds its references in the same folder; a later load by the same name gets that copy.
+				}
 			}
 			return Assembly.LoadFrom(pathFull);
 		}

@@ -37,7 +37,7 @@ namespace ProjectFileTests {
 			string pathItems=Path.Combine(folder,"items.txt");
 			Assert.IsTrue(File.Exists(pathItems),"No record at "+pathItems);
 			List<string> listRecorded=File.ReadAllLines(pathItems).Where(x => x!="").ToList();
-			List<ProjectFile> listProjects=ProjectFile.GetSolutionFilterProjects(Path.Combine(root,"OpenDental.Local.slnf")).Select(x => ProjectFile.Load(x)).ToList();
+			List<ProjectFile> listProjects=ProjectFile.GetModelledSolutionFilterProjects(Path.Combine(root,"OpenDental.Local.slnf")).Select(x => ProjectFile.Load(x)).ToList();
 			List<string> listEvaluated=BaselineRecord.GetItemLines(listProjects,root);
 			//Every project is in the record, so a project the script skipped cannot pass by being absent.
 			HashSet<string> hashSetRecordedProjects=new HashSet<string>(listRecorded.Select(x => x.Split('|')[0]),StringComparer.Ordinal);

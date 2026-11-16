@@ -283,7 +283,9 @@ namespace TestProbeHost {
 		///first (DeleteStaleCopies).</summary>
 		private static string CopyHost(string folderBase,string configText) {
 			DeleteStaleCopies(folderBase);
-			string pathHost=typeof(ProbeProcess).Assembly.Location;//TestProbeHost.exe, next to the test assembly that references it
+			//TestProbeHost.exe, next to the test assembly that references it. On .NET the assembly is TestProbeHost.dll and the exe beside it is its
+			//apphost, which starts TestProbeHost.dll with TestProbeHost.runtimeconfig.json from its own folder whatever the copy is named (S3b-6).
+			string pathHost=Path.ChangeExtension(typeof(ProbeProcess).Assembly.Location,".exe");
 			string pathExe=Path.Combine(folderBase,COPY_PREFIX+Guid.NewGuid().ToString("N").Substring(0,COPY_HEX_LENGTH)+".exe");
 			File.Copy(pathHost,pathExe);
 			//File.Copy keeps the source's last write time; the creation time says when this copy was made, which DeleteStaleCopies reads.

@@ -276,6 +276,35 @@ namespace ProjectFileTests {
 				.ToList();
 		}
 
+		///<summary>GetSolutionFilterProjects without the projects of an SDK this reader does not model (GetUnmodelledSdk), which Load refuses: since
+		///S3b-6 of the .NET 10 move the Middle Tier server, OpenPmsDentalServer, a Microsoft.NET.Sdk.Web project. The tests that evaluate every
+		///project of the filter take this list; Net10SettingsTests checks the server from its file.</summary>
+		public static List<string> GetModelledSolutionFilterProjects(string pathSlnf) {
+			return GetSolutionFilterProjects(pathSlnf).Where(x => GetUnmodelledSdk(x)==null).ToList();
+		}
+
+		///<summary>The first SDK the project file names (Project Sdk="...", an Sdk element, Import Sdk="...") that is not Microsoft.NET.Sdk, the
+		///only one this reader models (CheckSdkName); null when there is none, a classic project included.</summary>
+		public static string GetUnmodelledSdk(string path) {
+			XElement xElementRoot=XDocument.Load(path).Root;
+			if(xElementRoot==null) {
+				return null;
+			}
+			List<string> listSdks=new List<string>();
+			listSdks.Add((string)xElementRoot.Attribute("Sdk"));
+			listSdks.AddRange(xElementRoot.Elements().Where(x => x.Name.LocalName=="Sdk").Select(x => (string)x.Attribute("Name")));
+			listSdks.AddRange(xElementRoot.Descendants().Where(x => x.Name.LocalName=="Import").Select(x => (string)x.Attribute("Sdk")));
+			foreach(string sdks in listSdks.Where(x => !string.IsNullOrWhiteSpace(x))) {
+				foreach(string sdk in sdks.Split(';').Select(x => x.Trim()).Where(x => x!="")) {
+					string name=sdk.Split('/')[0].Trim();
+					if(!name.Equals("Microsoft.NET.Sdk",StringComparison.OrdinalIgnoreCase)) {
+						return name;
+					}
+				}
+			}
+			return null;
+		}
+
 		private void Evaluate(XDocument xDocument) {
 			//Every value is kept as MSBuild keeps it, escaped (Escape, Unescape): the global properties and the reserved ones hold the escaped
 			//value.

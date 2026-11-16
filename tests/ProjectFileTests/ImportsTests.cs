@@ -513,10 +513,12 @@ namespace ProjectFileTests {
 			Assert.AreEqual("4.92.0",projectFile.GetPackageVersion("Microsoft.Identity.Client"));
 			Assert.AreEqual("13.0.4",projectFile.GetPackageVersion("Newtonsoft.Json"));
 			Assert.AreEqual("compile",projectFile.GetPackageReference("Google.Apis").GetMetadata("PrivateAssets"));
-			ProjectFile projectFileServer=ProjectFile.Load(Path.Combine(root,"OpenPmsDentalServer","OpenPmsDentalServer.csproj"));
-			Assert.IsFalse(projectFileServer.IsSdkStyle);
-			Assert.AreEqual("",projectFileServer.GetProperty("ManagePackageVersionsCentrally"));
-			Assert.AreEqual(0,projectFileServer.GetItems("PackageVersion").Count);
+			//A classic project gets none of them: the fixture Classic shows it
+			//(DirectoryPackagesProps_IsImported_AfterDirectoryBuildProps_AndGivesTheCentralVersions). The repository's last classic one, the
+			//Middle Tier server, became a Microsoft.NET.Sdk.Web project in S3b-6 (Net10SettingsTests checks its file), and the repository has no
+			//classic C# project since.
+			string pathServer=Path.Combine(root,"OpenPmsDentalServer","OpenPmsDentalServer.csproj");
+			Assert.AreEqual("Microsoft.NET.Sdk.Web",ProjectFile.GetUnmodelledSdk(pathServer));
 		}
 		#endregion Central package versions
 

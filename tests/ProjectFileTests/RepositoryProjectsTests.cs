@@ -18,7 +18,7 @@ namespace ProjectFileTests {
 
 		private static List<ProjectFile> Projects() {
 			if(_listProjects==null) {
-				_listProjects=ProjectFile.GetSolutionFilterProjects(Path.Combine(FixtureFolder.RepoRoot(),"OpenDental.Local.slnf"))
+				_listProjects=ProjectFile.GetModelledSolutionFilterProjects(Path.Combine(FixtureFolder.RepoRoot(),"OpenDental.Local.slnf"))
 					.Select(x => ProjectFile.Load(x)).ToList();
 			}
 			return _listProjects;
@@ -66,6 +66,13 @@ namespace ProjectFileTests {
 			Assert.IsTrue(listPaths.Count>Projects().Count,"The repository holds more project files than the solution filter lists.");
 			List<string> listProblems=new List<string>();
 			foreach(string path in listPaths) {
+				//A project of an SDK this reader does not model is refused, as it must be (S3b-6: the Middle Tier server, Microsoft.NET.Sdk.Web);
+				//Net10SettingsTests checks it from its file.
+				if(ProjectFile.GetUnmodelledSdk(path)!=null) {
+					NotSupportedException notSupportedException=Assert.ThrowsExactly<NotSupportedException>(() => ProjectFile.Load(path));
+					StringAssert.Contains(notSupportedException.Message,"is not modelled by ProjectFile");
+					continue;
+				}
 				try {
 					ProjectFile.Load(path);
 				}

@@ -1264,6 +1264,20 @@ program folder flat but `Helper32\` (x64 files 0x8664, the helper's 0x14C), ever
 section 7 plug-in test) 45/45 (49/49 with the review fix's four Divvy tests), NoHqTests 112/112, BINATests 21/22 (the WPF picture test, disconnected session); the program starts headless in
 its `/ehr-render` mode on its own folder's runtime and renders a CDA document. 83 test projects have all references on .NET 10; 45 wait for
 UnitTestsCore, TestProbeHost or TopazStandIn (S3b-5).
+**Status (2026-11-16), S3b-6.** On `net10/s3b6-1` (`docs/port-notes/S3b-6.md`): OpenPmsDentalServer is a `Microsoft.NET.Sdk.Web` project
+(net10.0-windows x64, self-contained win-x64 with the NETCore, WindowsDesktop and ASP.NET Core runtimes, 442 files flat; C# 8.0): one POST
+endpoint at `{PathBase}/ServiceMain.asmx` and `{PathBase}/` (setting `MiddleTier:PathBase`, default `/OpenDentalServer`), raw UTF-8 body,
+`ProcessDto` synchronously on a new thread per request with the `ServerMT` role set on it, 1 GiB in Kestrel, IIS and the endpoint (413),
+no execution timeout, HTTPS only (403 for HTTP; Main refuses a plain HTTP address), a Windows service by default (`AddWindowsService`) and
+IIS in-process by `web.config`; the ASMX, its code-behind, the old Web.config and the classic project file are gone. The client
+`OpenDentalServerHttp` on one cached HttpClient (one hour, the proxy of MiddleTierProxyConfig.xml or the system's, the old User-Agent,
+`SendAsync(...).GetAwaiter().GetResult()`); RemotingClient and Meth retry on `HttpRequestError.ConnectionError`; `OpenDentalServerReal.cs`
+and `Web References/OpenDentalServer/*` deleted; DtoProcessor's `FixPackageAssembly` gone. MiddleTierMockTests 151 of 151 (the `PrefName`,
+`ClinicPref` and `Adjustment` round trips included) on .NET 10 x64 with UnitTestsCore and TestProbeHost retargeted (S3b-5 skips them);
+the new MiddleTierHostTests 19 of 19 (each server in its own load context on the test server; two users on two databases; runs against a
+server URL for the gate, section 7 of the note); BSERVERTests 57 of 57 on .NET 10; NoHqTests 104 + 8 inconclusive. ProjectFileTests reads
+the Web SDK project from its file (its reader does not model that SDK); LibraryBindingTests, ReleaseFilesTests and Test-NoOldNames follow.
+The gate's Windows-service check is the owner's or lead's (elevated).
 
 **Order on the branch.** S3b-0 (spike) and S3b-1 first; then S3b-2, S3b-3 strictly in sequence (each layer must be net10 before the
 layer above can build); then S3b-4 with S3b-6 and S3b-7 in parallel (disjoint files: the Middle Tier package owns the Remoting and

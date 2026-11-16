@@ -54,7 +54,6 @@ $AllowList=@(
 	@{ Path='WpfControlsOD\Bridges\PracticeByNumbers.cs'; Match='(?i)opendental\.com/manual/'; Reason='Practice by Numbers portal page on the Open Dental manual site (still to be pointed at the vendor).' }
 
 	#--- Not network access.
-	@{ Path='OpenPmsDentalServer\ServiceMain.asmx.cs'; Match='WebService\(Namespace='; Reason='XML namespace identifier of the middle tier web service. Never contacted.' }
 	@{ Path='OpenPmsDental\Main Modules\ControlChart.cs'; Match='UpdateServerAddress\)\.ToLower\(\)\.Contains\('; Reason='String comparison on an old preference value. Nothing is contacted.' }
 	@{ Path='OpenPmsDentalBusiness\WebServiceTests.cs'; Match='@opendental\.com'; Reason='Sample e-mail address used only by unit tests.' }
 

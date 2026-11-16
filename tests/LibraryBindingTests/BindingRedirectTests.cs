@@ -32,7 +32,9 @@ namespace LibraryBindingTests {
 			List<string> listConfigs=GetConfigsOfLibraryUsers();
 			//The shipped programs are among them, so a project list that went wrong cannot pass by checking nothing.
 			foreach(string program in new[] { @"OpenPmsDental\app.config",@"ServiceManager\app.config",@"OpenPmsDentalHL7\app.config",
-				@"CentralManager\app.config",@"DatabaseIntegrityCheck\app.config",@"MySQLManager\App.config",@"OpenPmsDentalServer\Web.config" })
+				@"CentralManager\app.config",@"DatabaseIntegrityCheck\app.config",@"MySQLManager\App.config" })
+			//OpenPmsDentalServer\Web.config was among them until S3b-6: the Middle Tier server is an ASP.NET Core project on .NET 10 since then, whose
+			//web.config only configures IIS (binding redirects mean nothing on .NET), and SolutionProjects leaves it out.
 			{
 				Assert.IsTrue(listConfigs.Any(x => RepoPaths.Relative(x).Equals(program,StringComparison.OrdinalIgnoreCase)),program+" is not checked.");
 			}

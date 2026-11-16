@@ -353,7 +353,7 @@ namespace OpenPmsDentalBusiness {
 			try {
 				return QueryMonitor.Monitor.ProcessMonitoredPayload(service.ProcessRequest,dtoString);
 			}
-			catch(WebException wex) {
+			catch(System.Net.Http.HttpRequestException hex) {
 				//Check the global setting for automatically retrying the sending of payloads after a web connection failure.
 				if(!HasAutomaticConnectionLostRetry) {
 					throw;
@@ -362,11 +362,11 @@ namespace OpenPmsDentalBusiness {
 				if(!hasConnectionLost) {
 					throw;
 				}
-				//Check that this is a WebException that indicates a connection failure.
-				//WebException class: https://docs.microsoft.com/en-us/dotnet/api/system.net.webexception?view=netframework-4.7.2
-				//WebException.Status property: https://docs.microsoft.com/en-us/dotnet/api/system.net.webexception.status?view=netframework-4.7.2
-				//Handling WebExceptions: https://docs.microsoft.com/en-us/dotnet/framework/network-programming/handling-errors?view=netframework-4.7.2
-				if(wex.Status!=WebExceptionStatus.ConnectFailure) {
+				//Check that this is an exception that indicates a connection failure: HttpClient's HttpRequestError.ConnectionError (the HTTP client of
+				//S3b-6, OpenDentalServerHttp), as WebExceptionStatus.ConnectFailure was for the SOAP proxy. An error answer of the server, a name that
+				//does not resolve or a timeout is not retried, as before.
+				//HttpRequestError: https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httprequesterror
+				if(!OpenPmsDentalBusiness.WebServices.OpenDentalServerHttp.IsConnectionFailure(hex)) {
 					throw;
 				}
 				//The calling method wants to automatically retry connecting to the Middle Tier until it comes back.

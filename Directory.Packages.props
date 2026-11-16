@@ -146,5 +146,8 @@
     <PackageVersion Include="Microsoft.XmlSerializer.Generator" Version="10.0.15" />
     <PackageVersion Include="Microsoft.Extensions.Hosting.WindowsServices" Version="10.0.15" />
     <PackageVersion Include="Microsoft.AspNetCore.Mvc.Testing" Version="10.0.15" />
+    <!-- The in-process test server of tests/MiddleTierHostTests (S3b-6): the package Mvc.Testing brings, from batch D's folder, named alone
+         because the tests build the Middle Tier's own host on it instead of a WebApplicationFactory. -->
+    <PackageVersion Include="Microsoft.AspNetCore.TestHost" Version="10.0.15" />
   </ItemGroup>
 </Project>
