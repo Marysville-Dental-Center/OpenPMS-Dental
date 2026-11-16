@@ -1836,6 +1836,14 @@ The owner answered the plan's questions "as recommended", with the corrections b
       - TWAIN devices with only a 32-bit driver need a 32-bit TWAIN path through the helper. New, for 3b.
     - The native-first survey (every integration with its 64-bit way and public sources) and package S3a-14h (Topaz and Schick native
       with the helper as the fallback) follow. The 3b spike (S3b-0) proves each native way loads on .NET 10 x64.
+24. **Numbers are formatted as .NET Framework formatted them (owner, 2026-11-16: "Keep Open Dental's 1.01").** .NET (Core 3.0 and later)
+    formats a `double` exactly; .NET Framework rounded it to 15 significant digits first. With a fixed-decimal format the text differs
+    for a value on a half step: 1.005 with `0.00` gives 1.01 on .NET Framework and 1.00 on .NET 10 (found by S3b-2b in RDL reports). Open
+    Dental stores money as `double`, so the program keeps .NET Framework's text: every place that formats a `double` or `float` with a
+    format (reports, money columns, `ToString("c"/"n"/"F2"/...)`, `string.Format` with a numeric format) rounds to 15 significant digits
+    first, e.g. through `(decimal)value` or one shared helper, with tests that pin half-step values against the net48 results. The RDL
+    engine's `Style.GetFormatedString` already writes unformatted doubles as .NET Framework did (S3b-2b); its formatted path follows.
+    Package S3b-FMT does it on `net10/switch` once the program compiles (after S3b-4), with a scan that finds every such call site.
 
 Also recorded for the update path: the Middle Tier client and server switch together (it has never shipped to an office); saved
 passwords get a one-time migration from PasswordVault to the Credential Manager (S3a-5). Also answered on 2026-11-08: signed e-mail
