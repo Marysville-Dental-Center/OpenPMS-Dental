@@ -9,11 +9,12 @@
        test_srcref_pdf_), with synthetic data only, dropped afterwards; they are inconclusive when the server does not answer or when
        LIBPDF_TEST_DB=skip. Tests that need a Windows font or printer this computer lacks are inconclusive. Every .cs file under this folder
        is compiled. -->
-  <ItemGroup>
-    <!-- The source archive (SourceArchiveTests). -->
-    <Reference Include="System.IO.Compression" />
-    <Reference Include="System.Windows.Forms" />
-  </ItemGroup>
+  <PropertyGroup>
+    <!-- .NET 10 (S3b-5 of docs/specs/net10-plan.md): Windows Forms and WPF from the Windows Desktop framework, in place of the
+         .NET Framework assembly references; it also keeps the Windows Desktop packages out of the restore (S3b-3). -->
+    <UseWindowsForms>true</UseWindowsForms>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
   <ItemGroup>
     <!-- The reader of project files (classic and SDK-style) shared by the tests that check them (S1-T of docs/specs/net10-plan.md). -->
     <Compile Include="..\ProjectFileTests\ProjectFile.cs">

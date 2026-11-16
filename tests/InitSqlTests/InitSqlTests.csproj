@@ -4,6 +4,11 @@
        root, blank password) with a name unique to the run, dropped afterwards, and are skipped (inconclusive) when it does not answer or when
        INITSQL_TEST_DB=skip. The test that regenerates the file builds a database, so it lives with the slow assemblies:
        tests/ForkMigrationTests/InitSqlRegenerationTests.cs. Every .cs file under this folder is compiled. -->
+  <PropertyGroup>
+    <!-- .NET 10 (S3b-5 of docs/specs/net10-plan.md): Windows Forms from the Windows Desktop framework, in place of the
+         .NET Framework assembly references; it also keeps the Windows Desktop packages out of the restore (S3b-3). -->
+    <UseWindowsForms>true</UseWindowsForms>
+  </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\CodeBase\xCodeBase.csproj" />
     <ProjectReference Include="..\..\DataConnectionBase\xDataConnectionBase.csproj" />

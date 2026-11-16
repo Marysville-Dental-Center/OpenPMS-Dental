@@ -3,9 +3,12 @@
        the owned windows, reports and enum descriptions, that the new text fits its controls, the report headers against the data columns they
        sit over, the report export keys that stay as they were, and the Blue Book estimate log. Database tests use a scratch MariaDB database with a unique per-run name and synthetic rows only.
        Every .cs file under this folder is compiled. -->
-  <ItemGroup>
-    <Reference Include="System.Windows.Forms" />
-  </ItemGroup>
+  <PropertyGroup>
+    <!-- .NET 10 (S3b-5 of docs/specs/net10-plan.md): Windows Forms and WPF from the Windows Desktop framework, in place of the
+         .NET Framework assembly references; it also keeps the Windows Desktop packages out of the restore (S3b-3). -->
+    <UseWindowsForms>true</UseWindowsForms>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
   <ItemGroup>
     <!-- Scratch database helpers shared with the fork migration tests (database names start with forkmig_). -->
     <Compile Include="..\ForkMigrationTests\TestDb.cs">

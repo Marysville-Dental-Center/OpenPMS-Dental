@@ -8,18 +8,17 @@
     output folder unchanged. A test project that adds an app.config lists it as a None item (EnableDefaultNoneItems is off below).
 
     As in the repository's file, everything here is for SDK-style projects only. Every test project is one since S1-6 of the .NET 10
-    move (docs/specs/net10-plan.md): stages 2, 4 and 3b change this one file instead of every test project file.
+    move (docs/specs/net10-plan.md): stages 2, 4 and 3b changed this one file instead of every test project file.
   -->
   <Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)..\'))" />
 
   <PropertyGroup Condition="'$(UsingMicrosoftNETSdk)' == 'true'">
     <!--
-      Every test project targets .NET Framework 4.8 (x86 from the repository's file) until S3b-5 of the .NET 10 move retargets them
-      together with their code (docs/specs/net10-plan.md, stage 3b): the test runners run x86 test hosts until then. S3b-5 deletes this
-      line; the test projects then get the repository's target framework, net10.0-windows, and with it the settings
-      Directory.Build.Net.props gives a test project: x64, the runtime identifier win-x64, framework-dependent (SelfContained=false), NLS.
+      No target framework here (S3b-5 of the .NET 10 move, docs/specs/net10-plan.md, stage 3b): every test project gets the repository's,
+      net10.0-windows (Directory.Build.props), and with it the settings Directory.Build.Net.props gives a test project: x64, the runtime
+      identifier win-x64, framework-dependent (SelfContained=false), NLS. Only tests\TopazStandIn, a stand-in for a .NET Framework
+      control on purpose, names net48 itself.
     -->
-    <TargetFramework>net48</TargetFramework>
     <!-- Every project that imports this file is a test project (Directory.Build.Net.props). -->
     <ODTestProject>true</ODTestProject>
     <!--
@@ -31,16 +30,6 @@
     <Platforms>x86;x64</Platforms>
     <!-- C# 8.0, the language version of almost every test project; the few on 7.3 set it themselves. -->
     <LangVersion>8.0</LangVersion>
-  </PropertyGroup>
-  <!--
-    .NET Framework only: every test project generates its binding redirects into its .dll.config from reference resolution. MSBuild's
-    common targets write that file for a library only when GenerateBindingRedirectsOutputType is true (Microsoft.Common.CurrentVersion.targets
-    sets it for an exe or winexe); the test projects are libraries, apart from UnitTests (tests\LibraryBindingTests checks both). Binding
-    redirects mean nothing on .NET, so a test project on net10.0-windows gets neither setting.
-  -->
-  <PropertyGroup Condition="'$(UsingMicrosoftNETSdk)' == 'true' and '$(TargetFramework)' == 'net48'">
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
   </PropertyGroup>
   <PropertyGroup Condition="'$(UsingMicrosoftNETSdk)' == 'true'">
     <!--

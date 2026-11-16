@@ -2,9 +2,12 @@
   <!-- Package BIN-B (docs/port-notes/BIN-B.md): binaries we may not redistribute stay out, the zip replacement for DotNetZip, the Topaz pad
        loaded at run time, the serial terminal without RS232.dll, and the Windows.winmd and installutil reference flags; since S3a-5 the saved
        logins in the Windows Credential Manager (only entries under each run's own name prefix). No database, device or network is needed. Every .cs file under this folder is compiled. -->
+  <PropertyGroup>
+    <!-- .NET 10 (S3b-5 of docs/specs/net10-plan.md): Windows Forms from the Windows Desktop framework, in place of the
+         .NET Framework assembly references; it also keeps the Windows Desktop packages out of the restore (S3b-3). -->
+    <UseWindowsForms>true</UseWindowsForms>
+  </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System.IO.Compression" />
-    <Reference Include="System.Windows.Forms" />
     <!-- Reads the references of built assemblies without loading them (S3a-8 of the .NET 10 move: .NET has no reflection-only load). The
          NuGet package, from the offline package folder (nuget.config), at the version of Directory.Packages.props. -->
     <PackageReference Include="Mono.Cecil" />

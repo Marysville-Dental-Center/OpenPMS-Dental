@@ -14,17 +14,15 @@
        the text up in the language table, and inserts a row there for a text it has not seen, when a database connection is open. The EHR-0
        tests open none; the database tests of EHR-1 set the en-US culture first (ScratchDb.Begin), so only the scratch database could be
        touched. -->
+  <PropertyGroup>
+    <!-- .NET 10 (S3b-5 of docs/specs/net10-plan.md): Windows Forms and WPF from the Windows Desktop framework, in place of the
+         .NET Framework assembly references; it also keeps the Windows Desktop packages out of the restore (S3b-3). -->
+    <UseWindowsForms>true</UseWindowsForms>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
   <ItemGroup>
     <!-- MySqlConnector (EHR-1): Support/ScratchDb.cs creates, loads and drops the ehr1_ scratch database on the local MariaDB itself, as
          tests/InventoryTests does. It comes as a package through the projects below. -->
-    <!-- PresentationCore, PresentationFramework, System.Xaml and WindowsBase: the program's windows derive from types that use WPF. -->
-    <Reference Include="PresentationCore" />
-    <Reference Include="PresentationFramework" />
-    <!-- ServiceControllerStatus and ServiceStartMode: the Windows Time states of the manual time window. -->
-    <Reference Include="System.ServiceProcess" />
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xaml" />
-    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\CodeBase\xCodeBase.csproj" />

@@ -5,14 +5,12 @@
        (127.0.0.1:3306, root, blank password) whose name starts with s0f_ and is unique to the run, built from db/init/new-database.sql and the
        fork migrations and dropped afterwards, and a scratch A-to-Z folder in the temp folder; they are skipped (inconclusive) when the server does
        not answer or when S0F_TEST_DB=skip. No window of the program is shown. Synthetic data only. Every .cs file under this folder is compiled. -->
-  <ItemGroup>
-    <!-- PresentationCore, PresentationFramework, System.Xaml and WindowsBase: InputBox (WpfControlsOD) is a WPF window class. -->
-    <Reference Include="PresentationCore" />
-    <Reference Include="PresentationFramework" />
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xaml" />
-    <Reference Include="WindowsBase" />
-  </ItemGroup>
+  <PropertyGroup>
+    <!-- .NET 10 (S3b-5 of docs/specs/net10-plan.md): Windows Forms and WPF from the Windows Desktop framework, in place of the
+         .NET Framework assembly references; it also keeps the Windows Desktop packages out of the restore (S3b-3). -->
+    <UseWindowsForms>true</UseWindowsForms>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\CodeBase\xCodeBase.csproj" />
     <ProjectReference Include="..\..\DataConnectionBase\xDataConnectionBase.csproj" />

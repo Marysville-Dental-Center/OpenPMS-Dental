@@ -5,6 +5,11 @@
        whose name starts with test_p262reports_ and is unique to the run, built from db/init/new-database.sql and the fork migrations and
        dropped afterwards; they are skipped (inconclusive) when the server does not answer or when P262REPORTS_TEST_DB=skip. The window code
        that needs a screen is checked from its source. Synthetic data only. Every .cs file under this folder is compiled. -->
+  <PropertyGroup>
+    <!-- .NET 10 (S3b-5 of docs/specs/net10-plan.md): Windows Forms from the Windows Desktop framework, in place of the
+         .NET Framework assembly references; it also keeps the Windows Desktop packages out of the restore (S3b-3). -->
+    <UseWindowsForms>true</UseWindowsForms>
+  </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\CodeBase\xCodeBase.csproj" />
     <ProjectReference Include="..\..\DataConnectionBase\xDataConnectionBase.csproj" />

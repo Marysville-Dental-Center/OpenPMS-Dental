@@ -4,9 +4,12 @@
        procedures are completed, un-completed and deleted, the implant lot on the procedure, the alerts, the opening-balance migration and
        the repair. Database tests use scratch MariaDB databases on 127.0.0.1 whose
        names start with test_inv_, synthetic rows only, and drop them afterwards. Every .cs file under this folder is compiled. -->
-  <ItemGroup>
-    <Reference Include="System.Windows.Forms" />
-  </ItemGroup>
+  <PropertyGroup>
+    <!-- .NET 10 (S3b-5 of docs/specs/net10-plan.md): Windows Forms and WPF from the Windows Desktop framework, in place of the
+         .NET Framework assembly references; it also keeps the Windows Desktop packages out of the restore (S3b-3). -->
+    <UseWindowsForms>true</UseWindowsForms>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\CodeBase\xCodeBase.csproj" />
     <ProjectReference Include="..\..\DataConnectionBase\xDataConnectionBase.csproj" />

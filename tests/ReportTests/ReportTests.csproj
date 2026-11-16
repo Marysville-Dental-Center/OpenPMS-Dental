@@ -4,9 +4,11 @@
        with synthetic rows on the local MariaDB. Every .cs file under this folder is compiled.
        Package RDL-SRC (docs/port-notes/RDL-SRC.md): the RDL reports that load ODR.dll, rendered by RdlEngine and RdlViewer built from source,
        on a scratch database built from the 24.3.63 seed and the fork migrations (TestDb.cs of the fork migration tests, names forkmig_). -->
-  <ItemGroup>
-    <Reference Include="System.Windows.Forms" />
-  </ItemGroup>
+  <PropertyGroup>
+    <!-- .NET 10 (S3b-5 of docs/specs/net10-plan.md): Windows Forms from the Windows Desktop framework, in place of the
+         .NET Framework assembly references; it also keeps the Windows Desktop packages out of the restore (S3b-3). -->
+    <UseWindowsForms>true</UseWindowsForms>
+  </PropertyGroup>
   <ItemGroup>
     <!-- Scratch database helpers shared with the fork migration tests (database names start with forkmig_). -->
     <Compile Include="..\ForkMigrationTests\TestDb.cs">

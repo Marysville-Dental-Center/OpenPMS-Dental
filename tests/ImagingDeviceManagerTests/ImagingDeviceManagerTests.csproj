@@ -5,11 +5,13 @@
     Every .cs file under this folder is compiled.
   -->
   <PropertyGroup>
+    <!-- .NET 10 (S3b-5 of docs/specs/net10-plan.md): Windows Forms from the Windows Desktop framework, in place of the
+         .NET Framework assembly references; it also keeps the Windows Desktop packages out of the restore (S3b-3). -->
+    <UseWindowsForms>true</UseWindowsForms>
+  </PropertyGroup>
+  <PropertyGroup>
     <LangVersion>7.3</LangVersion>
   </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="System.Windows.Forms" />
-  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\third-party\build\PdfSharp-gdi\PdfSharp-gdi.csproj" />
     <ProjectReference Include="..\..\ImagingDeviceManager\xImagingDeviceManager.csproj" />

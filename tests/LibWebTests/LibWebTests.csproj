@@ -8,6 +8,12 @@
        moved out of the legacy UnitTests project (package S0-T of the .NET 10 plan), uses one scratch database on the local MariaDB (127.0.0.1,
        root, blank password) whose name starts with s0t_, built from the seed dump and dropped afterwards; it is inconclusive without the server.
        No other test uses a database. Every .cs file under this folder is compiled. -->
+  <PropertyGroup>
+    <!-- .NET 10 (S3b-5 of docs/specs/net10-plan.md): Windows Forms and WPF from the Windows Desktop framework, in place of the
+         .NET Framework assembly references; it also keeps the Windows Desktop packages out of the restore (S3b-3). -->
+    <UseWindowsForms>true</UseWindowsForms>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
   <ItemGroup>
     <!-- Reads the built assemblies' type references without loading them. The NuGet package, from the offline package folder (nuget.config),
          at the version of Directory.Packages.props. -->
@@ -17,12 +23,6 @@
     <PackageReference Include="Microsoft.Web.WebView2" />
     <!-- The scratch database of EmailPreviewTemplateTests (ScratchDb.cs) uses MySqlConnector, which comes as a package through the
          projects below. -->
-    <!-- PresentationCore, PresentationFramework, System.Xaml and WindowsBase: FrmMessageReplacements (WpfControlsOD) is a WPF window class. -->
-    <Reference Include="PresentationCore" />
-    <Reference Include="PresentationFramework" />
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xaml" />
-    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <!-- The reader of project files (classic and SDK-style) shared by the tests that check them (S1-T of docs/specs/net10-plan.md). -->

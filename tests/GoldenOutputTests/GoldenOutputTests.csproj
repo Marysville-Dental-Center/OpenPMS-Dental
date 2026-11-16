@@ -6,9 +6,11 @@
        synthetic rows only and dropped afterwards; the database tests are skipped (inconclusive) when the server does not answer or when
        GOLDEN_TEST_DB=skip. OPMS_GOLDEN_RECORD=1 writes the fixtures anew instead of comparing (off by default). Every .cs file under this
        folder is compiled. -->
-  <ItemGroup>
-    <Reference Include="System.Windows.Forms" />
-  </ItemGroup>
+  <PropertyGroup>
+    <!-- .NET 10 (S3b-5 of docs/specs/net10-plan.md): Windows Forms from the Windows Desktop framework, in place of the
+         .NET Framework assembly references; it also keeps the Windows Desktop packages out of the restore (S3b-3). -->
+    <UseWindowsForms>true</UseWindowsForms>
+  </PropertyGroup>
   <ItemGroup>
     <!-- Reads the statement PDF's text back (the statement PDF tests of package LIB-PDF). -->
     <Compile Include="..\PdfLibraryTests\PdfRead.cs">

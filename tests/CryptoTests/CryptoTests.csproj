@@ -4,10 +4,6 @@
     compiled.
   -->
   <PropertyGroup>
-    <!-- .NET 10 ahead of the other test projects (S3b-2 of docs/specs/net10-plan.md): it references only CodeBase and ODCrypt, which are
-         net10.0-windows since S3b-2. It replaces the net48 of tests\Directory.Build.props, so Directory.Build.Net.props gives it the settings
-         of a .NET 10 test project: x64, win-x64, framework-dependent, NLS. The line goes when S3b-5 deletes the shared net48 line. -->
-    <TargetFramework>$(ODTargetFramework)</TargetFramework>
     <LangVersion>7.3</LangVersion>
     <!-- The solution also builds this project as Any CPU; it compiles for x64 all the same (PlatformTarget, Directory.Build.Net.props), like
          CodeBase, which holds the Secrets and TamperHash code under test. -->

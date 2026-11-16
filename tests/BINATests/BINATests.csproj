@@ -3,11 +3,8 @@
        the bridges that needed VBbridges say they are not available, and the tooth chart's old DirectX and OpenGL engines stay retired (TC-9a:
        the WPF chart or the Simple 2D chart, docs/port-notes/TC-9a.md). -->
   <PropertyGroup>
-    <!-- .NET 10 ahead of the other test projects (S3b-3 of docs/specs/net10-plan.md): every project it references is net10.0-windows since
-         S3b-3. It replaces the net48 of tests\Directory.Build.props, so Directory.Build.Net.props gives it the settings of a .NET 10 test
-         project: x64, win-x64, framework-dependent, NLS. The line goes when S3b-5 deletes the shared net48 line. Windows Forms (the tooth
-         chart's control) in place of the System.Windows.Forms reference; it also keeps the Windows Desktop packages out of the restore. -->
-    <TargetFramework>$(ODTargetFramework)</TargetFramework>
+    <!-- S3b-5 of docs/specs/net10-plan.md: every test project is .NET 10 (tests\Directory.Build.props). Windows Forms (the tooth chart's
+         control) in place of the System.Windows.Forms reference; it also keeps the Windows Desktop packages out of the restore. -->
     <UseWindowsForms>true</UseWindowsForms>
   </PropertyGroup>
   <ItemGroup>

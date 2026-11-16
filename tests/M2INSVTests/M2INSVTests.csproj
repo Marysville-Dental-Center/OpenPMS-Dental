@@ -4,9 +4,12 @@
        Database tests use a scratch database on the local MariaDB (127.0.0.1:3306, root, blank password) with a unique per-run name, dropped
        afterwards, and are skipped (inconclusive) when it does not answer, or when FORKMIGRATION_TEST_DB=skip. Every .cs file under this folder is
        compiled. -->
-  <ItemGroup>
-    <Reference Include="System.Windows.Forms" />
-  </ItemGroup>
+  <PropertyGroup>
+    <!-- .NET 10 (S3b-5 of docs/specs/net10-plan.md): Windows Forms and WPF from the Windows Desktop framework, in place of the
+         .NET Framework assembly references; it also keeps the Windows Desktop packages out of the restore (S3b-3). -->
+    <UseWindowsForms>true</UseWindowsForms>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
   <ItemGroup>
     <!-- Scratch-database helper shared with the fork migration tests. -->
     <Compile Include="..\ForkMigrationTests\TestDb.cs">

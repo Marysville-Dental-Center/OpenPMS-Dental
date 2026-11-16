@@ -5,6 +5,11 @@
        (EDS.ImageAttachment.Create). The windows themselves are checked from their source. No database and no network are used: the preference
        cache is filled in memory and a temporary folder stands in for the patient's A to Z folder. Every .cs file under this folder is
        compiled. -->
+  <PropertyGroup>
+    <!-- .NET 10 (S3b-5 of docs/specs/net10-plan.md): Windows Forms from the Windows Desktop framework, in place of the
+         .NET Framework assembly references; it also keeps the Windows Desktop packages out of the restore (S3b-3). -->
+    <UseWindowsForms>true</UseWindowsForms>
+  </PropertyGroup>
   <ItemGroup>
     <!-- The reader of project files (classic and SDK-style) shared by the tests that check them (S1-T of docs/specs/net10-plan.md). -->
     <Compile Include="..\ProjectFileTests\ProjectFile.cs">

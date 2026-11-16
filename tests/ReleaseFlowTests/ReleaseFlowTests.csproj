@@ -2,8 +2,12 @@
   <!-- Tests for the version guard, database adoption and the release channel (backlog M1-03, Risk R1; docs/release-process.md).
        Database tests use scratch databases on the local MariaDB (127.0.0.1:3306, root, blank password) with synthetic data only, and are
        inconclusive when no server answers or RELEASEFLOW_TEST_DB=skip. Every .cs file under this folder is compiled. -->
+  <PropertyGroup>
+    <!-- .NET 10 (S3b-5 of docs/specs/net10-plan.md): Windows Forms from the Windows Desktop framework, in place of the
+         .NET Framework assembly references; it also keeps the Windows Desktop packages out of the restore (S3b-3). -->
+    <UseWindowsForms>true</UseWindowsForms>
+  </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System.IO.Compression" />
     <!-- Reads which assemblies of the program folder the Helix load needs, without loading them (S3a-8b of the .NET 10 move). The NuGet
          package, from the offline package folder (nuget.config), at the version of Directory.Packages.props. -->
     <PackageReference Include="Mono.Cecil" />

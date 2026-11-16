@@ -5,15 +5,15 @@
        (127.0.0.1:3306, root, blank password; the name starts with test_srcref_spell_ and the database is dropped afterwards; skipped, inconclusive,
        when the server does not answer), and NHunspell with its native files gone for good. Synthetic words only. Nothing reaches the internet.
        Every .cs file under this folder is compiled. -->
+  <PropertyGroup>
+    <!-- .NET 10 (S3b-5 of docs/specs/net10-plan.md): Windows Forms and WPF from the Windows Desktop framework, in place of the
+         .NET Framework assembly references; it also keeps the Windows Desktop packages out of the restore (S3b-3). -->
+    <UseWindowsForms>true</UseWindowsForms>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
   <ItemGroup>
     <!-- The ReadOnlySpan<char> overloads of WeCantSpell.Hunspell's WordList need System.Memory to compile; it comes as a package through the
          projects below. -->
-    <!-- TextRich (WpfControlsOD) is a WPF control; the tests build it, never shown, on an STA thread. -->
-    <Reference Include="PresentationCore" />
-    <Reference Include="PresentationFramework" />
-    <Reference Include="WindowsBase" />
-    <Reference Include="System.Xaml" />
-    <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
     <!-- The reader of project files (classic and SDK-style) shared by the tests that check them (S1-T of docs/specs/net10-plan.md). -->

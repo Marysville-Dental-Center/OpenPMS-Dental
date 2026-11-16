@@ -1,6 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <!-- Tests for the registries that must match Open Dental 25.3 (package M1-02 in docs/specs/port-backlog.md): enum numbers, preference names,
        permissions and the security tree, and the seed rows for databases that come from 24.3. Every .cs file under this folder is compiled. -->
+  <PropertyGroup>
+    <!-- .NET 10 (S3b-5 of docs/specs/net10-plan.md): Windows Forms from the Windows Desktop framework, in place of the
+         .NET Framework assembly references; it also keeps the Windows Desktop packages out of the restore (S3b-3). -->
+    <UseWindowsForms>true</UseWindowsForms>
+  </PropertyGroup>
   <ItemGroup>
     <!-- Enum names and numbers from Open Dental's published 25.3 database documentation (names and numbers only). -->
     <Content Include="Data\OdEnums25_3.txt">

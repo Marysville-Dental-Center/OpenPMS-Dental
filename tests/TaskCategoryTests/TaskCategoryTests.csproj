@@ -3,6 +3,11 @@
        renamed task.Category column, the TaskCategoryShow preference, the category choices and grid text, and that the HQ triage position is
        never shown. Database tests use a scratch MariaDB database with the Open Dental 25.3.48 schema and synthetic rows only. Every .cs file
        under this folder is compiled. -->
+  <PropertyGroup>
+    <!-- .NET 10 (S3b-5 of docs/specs/net10-plan.md): Windows Forms from the Windows Desktop framework, in place of the
+         .NET Framework assembly references; it also keeps the Windows Desktop packages out of the restore (S3b-3). -->
+    <UseWindowsForms>true</UseWindowsForms>
+  </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\CodeBase\xCodeBase.csproj" />
     <ProjectReference Include="..\..\DataConnectionBase\xDataConnectionBase.csproj" />

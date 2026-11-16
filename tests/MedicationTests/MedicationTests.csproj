@@ -1,6 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <!-- Tests for hidden medications (package A-MED in docs/specs/port-backlog.md, feature v25_1-misc-medication-hide). Every .cs file under this
        folder is compiled. Database tests use a scratch MariaDB database on this computer, filled with synthetic rows only. -->
+  <PropertyGroup>
+    <!-- .NET 10 (S3b-5 of docs/specs/net10-plan.md): Windows Forms and WPF from the Windows Desktop framework, in place of the
+         .NET Framework assembly references; it also keeps the Windows Desktop packages out of the restore (S3b-3). -->
+    <UseWindowsForms>true</UseWindowsForms>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\CodeBase\xCodeBase.csproj" />
     <ProjectReference Include="..\..\DataConnectionBase\xDataConnectionBase.csproj" />

@@ -1,10 +1,15 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <!-- Tests for the vendor-direct integrations (docs/specs/vendor-direct/README.md). Each package puts its tests in its own folder
        (Foundation, Qbo, Usps, ...). Every .cs file under this folder is compiled, so no package edits this project file. -->
+  <PropertyGroup>
+    <!-- .NET 10 (S3b-5 of docs/specs/net10-plan.md): Windows Forms and WPF from the Windows Desktop framework, in place of the
+         .NET Framework assembly references; it also keeps the Windows Desktop packages out of the restore (S3b-3). -->
+    <UseWindowsForms>true</UseWindowsForms>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
   <ItemGroup>
     <!-- MimeKit (the Microsoft 365 and Gmail tests build and read MIME messages), Newtonsoft.Json and MySqlConnector come as packages through
          the projects below. -->
-    <Reference Include="System.Net.Http" />
     <!-- Reads the references of built assemblies without loading them (S3a-8 of the .NET 10 move: .NET has no reflection-only load). The
          NuGet package, from the offline package folder (nuget.config), at the version of Directory.Packages.props. -->
     <PackageReference Include="Mono.Cecil" />

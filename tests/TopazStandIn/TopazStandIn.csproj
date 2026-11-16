@@ -6,6 +6,11 @@
        SigPlusNET.dll (BINBTests' RemovedBinariesTests). Not a test project: its name does not end with Tests, so the test runner never runs it
        and Directory.Build.targets gives it no shared test config. Every .cs file under this folder is compiled. -->
   <PropertyGroup>
+    <!-- .NET Framework 4.8 on purpose (S3b-1 section 9, S3b-5 of docs/specs/net10-plan.md): Topaz's SigPlusNET.dll is a .NET Framework
+         Windows Forms control, which the .NET 10 program loads in compatibility mode (in its own x64 process when the file is any CPU, in
+         the x86 helper otherwise); the stand-in stays what it stands in for. x86 (32BITREQUIRED) from the repository's file, as Topaz's
+         x86-only builds; the in-process tests write an any-CPU copy with Mono.Cecil. The only project that names its own framework. -->
+    <TargetFramework>net48</TargetFramework>
     <OutputType>Library</OutputType>
     <RootNamespace>Topaz</RootNamespace>
     <AssemblyName>TopazStandIn</AssemblyName>

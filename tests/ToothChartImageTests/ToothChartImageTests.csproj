@@ -5,16 +5,12 @@
        Package TC-2 adds the call-log tests of the chart's painting code, the only tests here with a database: synthetic patients in a scratch
        database on the local MariaDB (Support\ChartTestDb.cs). No program code: the scenes set their state through ToothChartRelay only. The
        project references WpfControlsOD and the libraries below it, never the program. Every .cs file under this folder is compiled. -->
-  <ItemGroup>
-    <Reference Include="PresentationCore" />
-    <Reference Include="PresentationFramework" />
-    <Reference Include="System.Management" />
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xaml" />
-    <Reference Include="WindowsBase" />
-    <!-- TC-3's live view tests: the live view is an ElementHost (SparksToothChart\Wpf3D\ToothChartWpfView.cs). -->
-    <Reference Include="WindowsFormsIntegration" />
-  </ItemGroup>
+  <PropertyGroup>
+    <!-- .NET 10 (S3b-5 of docs/specs/net10-plan.md): Windows Forms and WPF from the Windows Desktop framework, in place of the
+         .NET Framework assembly references; it also keeps the Windows Desktop packages out of the restore (S3b-3). -->
+    <UseWindowsForms>true</UseWindowsForms>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\CodeBase\xCodeBase.csproj" />
     <ProjectReference Include="..\..\DataConnectionBase\xDataConnectionBase.csproj" />
