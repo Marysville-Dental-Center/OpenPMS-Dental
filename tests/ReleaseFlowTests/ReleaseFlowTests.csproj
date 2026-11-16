@@ -2,8 +2,16 @@
   <!-- Tests for the version guard, database adoption and the release channel (backlog M1-03, Risk R1; docs/release-process.md).
        Database tests use scratch databases on the local MariaDB (127.0.0.1:3306, root, blank password) with synthetic data only, and are
        inconclusive when no server answers or RELEASEFLOW_TEST_DB=skip. Every .cs file under this folder is compiled. -->
+  <PropertyGroup>
+    <!-- .NET 10 ahead of the other test projects (S3b-7 of docs/specs/net10-plan.md, docs/port-notes/S3b-7.md): every project it references
+         (CodeBase, DataConnectionBase, the business library, TestProbeHost) is .NET 10. It replaces the net48 of tests\Directory.Build.props, so
+         Directory.Build.Net.props gives it the settings of a .NET 10 test project: x64, win-x64, framework-dependent, NLS; Mono.Cecil 0.11.6
+         (Directory.Packages.props). Windows Forms: the business library's Windows Desktop framework (S3b-3). The line goes when S3b-5 deletes
+         the shared net48 line. System.IO.Compression is in the shared framework, so it needs no reference. -->
+    <TargetFramework>$(ODTargetFramework)</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+  </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System.IO.Compression" />
     <!-- Reads which assemblies of the program folder the Helix load needs, without loading them (S3a-8b of the .NET 10 move). The NuGet
          package, from the offline package folder (nuget.config), at the version of Directory.Packages.props. -->
     <PackageReference Include="Mono.Cecil" />
