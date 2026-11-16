@@ -116,7 +116,11 @@ those files had merged, and no parallel stream was writing.
   select DirectX."
 - **I7**: File > Graphics > "3D chart" > Save: no message (no DirectX format is tested), the Chart draws Wpf3D, and the stored row follows the
   save rule (over the stored 1 of I6 it writes 0); then "Draw in software" on (`DirectXFormat` "WpfSoftware") and off again (the row as it was).
-  `SetGraphics` picks `radio3DChart` or `radioSimpleChart`, and `SaveGraphics` is the shared Save.
+  `SetGraphics` picks `radio3DChart` or `radioSimpleChart`, and `SaveGraphics` is the shared Save. `SetDrawInSoftware` casts
+  `checkDrawInSoftware` to `OpenPmsDental.UI.CheckBox`, its field's type (the review's fix in `chart/tc9a-3`: the first version cast it to
+  the WinForms `CheckBox`, which would have thrown `InvalidCastException` at the gate). `ToothChartHostTests/GraphicsWindowCheckCastTests`
+  pins every cast of a File > Graphics control in `InProcChecks.I.cs` and `InProcChecks.IJ.cs` against the field FormGraphics declares, with
+  the short name resolved through the file's own using directives.
 - **I8, I9**: no `OPMS_TOOTHCHART_WPF` (TC-8 removed the switch); I9's skip says so.
 - **I11** (IJTests): no longer puts DirectX back; the start with no DirectX format saved searches and saves nothing (`DirectXFormat` stays
   empty) and keeps the stored choice.
@@ -138,6 +142,10 @@ those files had merged, and no parallel stream was writing.
   SshHostKeyTests 46, EhrTests 260, AttributionTests 50, BPRINTTests 71, M2SHEETSTests 53, SheetTests 31, MaintenanceTests 111,
   InventoryTests 93, ReleaseFlowTests 206 (5 skipped), DbConnectionSecurityTests 250 (3 skipped), NoHqTests 110: all passed.
 - Section 8 has the runs after the docs and the full build.
+- `chart/tc9a-3` (the review's fix): the full build with 0 errors, then `tc9a-3-targeted-2.txt`: ToothChartImageTests 256 (250 passed,
+  6 skipped), ToothChartHostTests 16 (15 passed, the gallery skipped), BINATests 19, BINBTests 99, BPERIOTests 55, N64ATests 34, NoHqTests
+  110, LibraryBindingTests 20, ProjectFileTests 150 (1 skipped), S3aM1Tests 61: all passed. (`tc9a-3-targeted.txt`, the run before it, failed
+  the new pin's first version, which wrongly refused `InProcChecks.I.cs` for its `using OpenPmsDental.UI;`.)
 - Not run: InitSqlTests and ForkMigrationTests (the coordinator's), and WindowChecksTests (section 5).
 
 ## 7. The x64 test build (for TC-10)
