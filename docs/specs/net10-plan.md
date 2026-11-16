@@ -1204,6 +1204,18 @@ PE32+ AMD64, no CA1416; their project changes left to S3b-2); the full slnf buil
 and with the new `-TargetFramework`, both without a finding. Before S3b-2: the lane's restore of the whole slnf fails once CodeBase is net10
 (NU1201 above it until S3b-5), and NoHqTests then cannot build on net48 (the note's section 9).
 
+**Status (2026-11-16), S3b-2 part B (S3b-2b: RdlEngine, RdlViewer, RdlDesign).** On `net10/s3b2b-1` (`docs/port-notes/S3b-2.md`, part B):
+the three projects are net10.0-windows x64 (RdlDesign a self-contained win-x64 exe), 0 errors in the lane's scoped x64 build, flat output.
+RDL `<Code>` blocks keep working (decision 14): `VbCodeCompiler` compiles the generated source with Roslyn 5.12.0 with the options the .NET
+Framework compile had (measured: VB 2012, Strict Off, Infer Off, no project-wide imports) against the runtime's assemblies and loads it from
+memory; today's message and line are kept (one difference: after a syntax error Roslyn adds BC30198); RdlDesign's syntax check uses the same
+compile. Unformatted doubles in reports are written as on .NET Framework (G15), so the S3a-4 golden report is unchanged. The SQL Server, ODBC
+and OLE DB code of RdlEngine and RdlDesign is kept under `#if NETFRAMEWORK` and gives a clear message naming O-10 on .NET (after the host's
+check hook). RdlDesigner's WinForms ToolBar and StatusBar (WFDEV006) became a Panel and a StatusStrip. New `tests/RdlCodeTests` (net10 x64,
+RdlEngine only): the fixture report equals the net48 engine's output (recorded by `Record-Net48.ps1`) and the S3a-4 record, 10 of 10 passed;
+the row's ReportTests file (`RdlCodeBlockReportTests.cs`) runs when S3b-5 retargets ReportTests. Found for the lead: formatted doubles follow
+.NET's exact formatting (note B2).
+
 **Order on the branch.** S3b-0 (spike) and S3b-1 first; then S3b-2, S3b-3 strictly in sequence (each layer must be net10 before the
 layer above can build); then S3b-4 with S3b-6 and S3b-7 in parallel (disjoint files: the Middle Tier package owns the Remoting and
 WebServices files, the release package owns ForkReleases/DocumentMiscs/PrefL/UpdateFileCopier's `FormMain.cs`/setup/Build-Release;
