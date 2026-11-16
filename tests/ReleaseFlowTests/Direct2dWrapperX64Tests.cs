@@ -1,10 +1,9 @@
-// The x64 build of Direct2dWrapper (S3a-16 of the .NET 10 move, docs/port-notes/S3a-16.md): its x64 configurations build into
-// Direct2dWrapper\bin\x64\<Configuration>\ and copy nothing, so the program's folder keeps the x86 DLL of the Win32 build; the x64 DLL exports the
-// same functions as the Win32 one, every entry point the program imports among them; the x64 build treats the pointer-truncation warnings C4311
-// and C4312 as errors; and the solution maps Any CPU to Win32, as x86. The x64 DLL is built by the stage gates (port note, section 4), not by
-// the build lane's slnf build: a test that reads it is inconclusive while it is not built, also when OPMS_REQUIRE_BUILD_OUTPUT=1; the gate
-// enforces the x64 build through its two lane build commands, each of which must exit 0. S3b-4 copies the x64 DLL into the program's output
-// and removes the Win32 configurations.
+// The x64 build of Direct2dWrapper (S3a-16 of the .NET 10 move, docs/port-notes/S3a-16.md), as stage 3b made it the only one (S3b-4; these
+// tests follow it in S3b-7, which owns ReleaseFlowTests): its x64 configurations build into Direct2dWrapper\bin\x64\<Configuration>\ and copy
+// the DLL into the x64 program's output of the same configuration; the Win32 configurations are gone with the x86 program; the x64 build treats
+// the pointer-truncation warnings C4311 and C4312 as errors; the solution maps Any CPU, x64 and x86 to x64; the program's folder holds the x64
+// DLL (PE machine 0x8664), byte for byte its build; and the DLL exports every entry point the program imports (Direct2d.cs). A test that reads
+// a DLL that is not built ends inconclusive (the build of the slnf builds it; the lane's scoped builds do when xDirect2dWrapper is named).
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
 using System.Collections.Generic;
@@ -36,11 +35,6 @@ namespace ReleaseFlowTests {
 			return path;
 		}
 
-		///<summary>The Win32 DLL of the configuration (Direct2dWrapper\bin\configuration\), or null when it is not built.</summary>
-		private static string FindWin32Dll(string configuration) {
-			string path=Path.Combine(TestPaths.RepoRoot,"Direct2dWrapper","bin",configuration,DLL);
-			return File.Exists(path) ? path : null;
-		}
 
 		///<summary>The configuration's property groups and item definition groups of the project, by "Configuration|Platform".</summary>
 		private static Dictionary<string,List<XElement>> ReadConfigurationGroups() {
@@ -63,42 +57,39 @@ namespace ReleaseFlowTests {
 			return listGroups.SelectMany(x => x.Descendants()).Where(x => x.Name.LocalName==localName).ToList();
 		}
 
-		///<summary>The x64 configurations copy nothing (no post-build step), the Win32 ones still copy their DLL into the program's folder of the
-		///same configuration; the x64 compile treats C4311 and C4312 as errors; every configuration keeps the v143 toolset.</summary>
+		///<summary>The project has the x64 configurations only (S3b-4); each copies its DLL into the x64 program's folder of the same configuration
+		///(the post-build step the Win32 ones had); the x64 compile treats C4311 and C4312 as errors; every configuration keeps the v143 toolset.
+		///</summary>
 		[TestMethod]
-		public void Project_X64CopiesNothing_AndTreatsPointerTruncationAsErrors() {
+		public void Project_X64CopiesIntoTheProgramFolder_AndTreatsPointerTruncationAsErrors() {
 			Dictionary<string,List<XElement>> dictGroups=ReadConfigurationGroups();
+			CollectionAssert.AreEquivalent(new[] { "Debug|x64","Release|x64" },dictGroups.Keys.ToArray(),"No Win32 configuration any more.");
 			foreach(string configuration in _arrayConfigurations) {
 				List<XElement> listX64=dictGroups[configuration+"|x64"];
-				Assert.AreEqual(0,GetDescendants(listX64,"PostBuildEvent").Count,configuration+"|x64 copies nothing.");
-				Assert.AreEqual(0,GetDescendants(listX64,"Command").Count,configuration+"|x64 runs no command.");
+				List<XElement> listCommands=GetDescendants(listX64,"Command");
+				Assert.AreEqual(1,listCommands.Count,configuration+"|x64");
+				Assert.AreEqual("xcopy \"$(TargetDir)Direct2dWrapper.dll\" \"..\\OpenPmsDental\\bin\\"+configuration+"\\\" /Y",listCommands[0].Value.Trim(),
+					configuration+"|x64 copies its DLL into the program's folder.");
 				List<XElement> listErrors=GetDescendants(listX64,"TreatSpecificWarningsAsErrors");
 				Assert.AreEqual(1,listErrors.Count,configuration+"|x64");
 				Assert.IsTrue(listErrors[0].Parent.Name.LocalName=="ClCompile",configuration+"|x64: a compiler setting.");
 				CollectionAssert.IsSubsetOf(new[] { "4311","4312" },listErrors[0].Value.Split(';').Select(x => x.Trim()).ToArray(),configuration+"|x64");
 				Assert.AreEqual(@"$(ProjectDir)bin\$(Platform)\$(Configuration)\",GetDescendants(listX64,"OutDir").Single().Value.Trim(),configuration+"|x64");
-				List<XElement> listWin32=dictGroups[configuration+"|Win32"];
-				List<XElement> listCommands=GetDescendants(listWin32,"Command");
-				Assert.AreEqual(1,listCommands.Count,configuration+"|Win32");
-				Assert.AreEqual("xcopy \"$(TargetDir)Direct2dWrapper.dll\" \"..\\OpenPmsDental\\bin\\"+configuration+"\\\" /Y",listCommands[0].Value.Trim(),
-					configuration+"|Win32 still copies its DLL into the program's folder.");
-				foreach(string platform in new[] { "Win32","x64" }) {
-					Assert.AreEqual("v143",GetDescendants(dictGroups[configuration+"|"+platform],"PlatformToolset").Single().Value.Trim(),configuration+"|"+platform);
-				}
+				Assert.AreEqual("v143",GetDescendants(listX64,"PlatformToolset").Single().Value.Trim(),configuration+"|x64");
 			}
 		}
 
-		///<summary>In OpenDental.sln the project's Any CPU and x86 solution platforms both map to Win32, so no solution build puts the 64-bit DLL
-		///beside the 32-bit program, and no solution platform builds the x64 configurations (the gate builds them from the project).</summary>
+		///<summary>In OpenDental.sln the project's Any CPU, x64 and x86 solution platforms all map to its x64 configurations (S3b-4): every solution
+		///build puts the 64-bit DLL beside the 64-bit program.</summary>
 		[TestMethod]
-		public void Solution_MapsEveryPlatformToWin32() {
+		public void Solution_MapsEveryPlatformToX64() {
 			string text=TestPaths.ReadSource("OpenDental.sln");
 			List<string> listLines=text.Split('\n').Select(x => x.Trim()).Where(x => x.StartsWith(PROJECT_GUID+".",StringComparison.OrdinalIgnoreCase)).ToList();
 			List<string> listExpected=new List<string>();
 			foreach(string configuration in _arrayConfigurations) {
-				foreach(string platform in new[] { "Any CPU","x86" }) {
-					listExpected.Add(PROJECT_GUID+"."+configuration+"|"+platform+".ActiveCfg = "+configuration+"|Win32");
-					listExpected.Add(PROJECT_GUID+"."+configuration+"|"+platform+".Build.0 = "+configuration+"|Win32");
+				foreach(string platform in new[] { "Any CPU","x64","x86" }) {
+					listExpected.Add(PROJECT_GUID+"."+configuration+"|"+platform+".ActiveCfg = "+configuration+"|x64");
+					listExpected.Add(PROJECT_GUID+"."+configuration+"|"+platform+".Build.0 = "+configuration+"|x64");
 				}
 			}
 			CollectionAssert.AreEquivalent(listExpected,listLines);
@@ -112,18 +103,18 @@ namespace ReleaseFlowTests {
 			}
 		}
 
-		///<summary>The program's folder of the test's own configuration (bin\Debug from the build lane) has the x86 DLL of the Win32 build, byte for
-		///byte, not the x64 one.</summary>
+		///<summary>The program's folder of the test's own configuration (bin\Debug from the build lane) has the x64 DLL, byte for byte its build.
+		///</summary>
 		[TestMethod]
-		public void ProgramFolder_HasTheX86Dll() {
+		public void ProgramFolder_HasTheX64Dll() {
 			string configuration=Path.GetFileName(Path.GetDirectoryName(typeof(Direct2dWrapperX64Tests).Assembly.Location));
 			AssertProgramFolderCopy(configuration,isRequired:true);
 		}
 
-		///<summary>The other configuration's program folder (bin\Release, which Build-Release.ps1 stages from) has the x86 DLL too. Inconclusive
+		///<summary>The other configuration's program folder (bin\Release, which Build-Release.ps1 stages from) has the x64 DLL too. Inconclusive
 		///while that configuration's DLL is not built there: the build lane makes the Debug build, the Release dry run of the gate the Release one.</summary>
 		[TestMethod]
-		public void ProgramFolder_OtherConfiguration_HasTheX86Dll() {
+		public void ProgramFolder_OtherConfiguration_HasTheX64Dll() {
 			string configurationTests=Path.GetFileName(Path.GetDirectoryName(typeof(Direct2dWrapperX64Tests).Assembly.Location));
 			string configuration=configurationTests.Equals("Release",StringComparison.OrdinalIgnoreCase) ? "Debug" : "Release";
 			AssertProgramFolderCopy(configuration,isRequired:false);
@@ -131,7 +122,7 @@ namespace ReleaseFlowTests {
 
 		private static void AssertProgramFolderCopy(string configuration,bool isRequired) {
 			string path=Path.Combine(TestPaths.RepoRoot,"OpenPmsDental","bin",configuration,DLL);
-			string message=@"OpenPmsDental\bin\"+configuration+@"\"+DLL+" is not built. Build OpenDental.Local.slnf ("+configuration+"|x86) first.";
+			string message=@"OpenPmsDental\bin\"+configuration+@"\"+DLL+" is not built. Build OpenPmsDental and xDirect2dWrapper ("+configuration+"|x64) first.";
 			if(!File.Exists(path)) {
 				if(isRequired) {
 					BuildOutput.NotBuilt(message);
@@ -139,31 +130,34 @@ namespace ReleaseFlowTests {
 				Assert.Inconclusive(message);
 			}
 			byte[] arrayCopy=File.ReadAllBytes(path);
-			Assert.AreEqual(MACHINE_X86,PeExports.GetMachine(arrayCopy),path);
-			string pathWin32=FindWin32Dll(configuration);
-			Assert.IsNotNull(pathWin32,@"The program's folder has a "+DLL+" but Direct2dWrapper\\bin\\"+configuration+" has none.");
-			CollectionAssert.AreEqual(File.ReadAllBytes(pathWin32),arrayCopy,"The program's folder has the Win32 build's DLL of "+configuration+".");
+			Assert.AreEqual(MACHINE_X64,PeExports.GetMachine(arrayCopy),path);
+			string pathX64=Path.Combine(TestPaths.RepoRoot,"Direct2dWrapper","bin","x64",configuration,DLL);
+			Assert.IsTrue(File.Exists(pathX64),@"The program's folder has a "+DLL+" but Direct2dWrapper\\bin\\x64\\"+configuration+" has none.");
+			CollectionAssert.AreEqual(File.ReadAllBytes(pathX64),arrayCopy,"The program's folder has the x64 build's DLL of "+configuration+".");
 		}
 
-		///<summary>The x64 DLL of each configuration exports exactly the functions of the Win32 DLL (of the same configuration when it is built,
-		///otherwise of the other one: the exports do not depend on it), and every entry point the program imports from Direct2dWrapper.dll is among
-		///them. The imports are read from the built program with Mono.Cecil and cross-checked with the DllImports of Direct2d.cs, its comments
-		///removed (one block of commented-out imports is there).</summary>
+		///<summary>The x64 DLL of each built configuration exports every entry point the program imports from Direct2dWrapper.dll, and both
+		///configurations export the same functions when both are built. The Win32 DLL whose exports S3a-16 compared with is gone with the x86
+		///program (S3b-4), so the program's imports are the measure (the S3b-4 handoff): they are read from the built program with Mono.Cecil and
+		///cross-checked with the DllImports of Direct2d.cs, its comments removed (one block of commented-out imports is there).</summary>
 		[TestMethod]
-		public void X64Exports_EqualTheWin32Exports_AndHoldEveryImport() {
+		public void X64Exports_HoldEveryImport() {
 			List<string> listImports=ReadImportsFromProgram();
 			CollectionAssert.AreEquivalent(ReadImportsFromSource(),listImports,"The program's imports from "+DLL+" are those of Direct2d.cs.");
 			Assert.IsTrue(listImports.Count>=60,"Direct2d.cs imports "+listImports.Count+" functions.");
-			foreach(string configuration in _arrayConfigurations) {
+			List<string> listBuilt=_arrayConfigurations.Where(x => File.Exists(Path.Combine(TestPaths.RepoRoot,"Direct2dWrapper","bin","x64",x,DLL))).ToList();
+			if(listBuilt.Count==0) {
+				GetX64Dll(_arrayConfigurations[0]);//Inconclusive: no x64 DLL is built.
+			}
+			List<string> listExportsFirst=null;
+			foreach(string configuration in listBuilt) {
 				List<string> listX64=PeExports.ReadExportNames(File.ReadAllBytes(GetX64Dll(configuration)));
-				string pathWin32=FindWin32Dll(configuration)??FindWin32Dll(_arrayConfigurations.First(x => x!=configuration));
-				if(pathWin32==null) {
-					BuildOutput.NotBuilt(@"Direct2dWrapper\bin\Debug\"+DLL+" is not built. Build OpenDental.Local.slnf (Debug|x86) first.");
-				}
-				List<string> listWin32=PeExports.ReadExportNames(File.ReadAllBytes(pathWin32));
-				CollectionAssert.AreEqual(listWin32,listX64,configuration+": the x64 exports equal "+pathWin32+"'s.");
 				List<string> listMissing=listImports.Except(listX64,StringComparer.Ordinal).ToList();
 				Assert.AreEqual(0,listMissing.Count,configuration+": imported, not exported by the x64 DLL: "+string.Join(", ",listMissing));
+				if(listExportsFirst!=null) {
+					CollectionAssert.AreEqual(listExportsFirst,listX64,configuration+": the same exports as "+listBuilt[0]+".");
+				}
+				listExportsFirst=listExportsFirst??listX64;
 			}
 		}
 

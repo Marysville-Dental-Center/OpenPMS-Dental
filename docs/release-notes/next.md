@@ -6,6 +6,7 @@ This file collects the notes of the version after 0.0 until it is released; the 
 
 What this version brings, each in its section below (the roadmap's "Done in the next version", `docs/roadmap.md`):
 
+- **a 64-bit program on .NET 10 that brings its own runtime**: installed to `C:\Program Files\Open PMS - Dental`, with nothing to install for .NET ("64-bit, with its own .NET runtime", below);
 - encrypted database connections with the program's own database account;
 - the security updates of the libraries (SSH.NET, MailKit and MimeKit 4, Newtonsoft.Json 13, MSAL, the Google APIs), with remembered SSH
   host keys;
@@ -117,6 +118,21 @@ section 0):
 A database on the same computer (`localhost`, `127.0.0.1`, `::1`) needs no certificates: such connections are exempt from the program's
 rule. But once `require_secure_transport` is ON, MariaDB refuses connections without TLS from the server computer too, so a program on the
 server computer must then connect with `<db-server>` (the name the workstations use), not `localhost`, set up like any workstation.
+
+## 64-bit, with its own .NET runtime
+
+This version is a 64-bit program on .NET 10 (Open Dental and version 0.0 are 32-bit programs on .NET Framework 4.8). What changes for the office:
+
+- **Where it installs.** Setup installs to `C:\Program Files\Open PMS - Dental` (no longer `Program Files (x86)`), only on 64-bit Windows.
+- **No .NET to install.** The program brings its own .NET runtime in its folder, and the setup no longer checks for or installs .NET Framework 4.8 or any .NET runtime. The 64-bit Visual C++ runtime is still needed: setup checks for it and gets it from Microsoft (`/PREREQS=` covers only that runtime now).
+- **Windows.** Windows 11 is the baseline. On an older Windows (below build 22000) setup warns that .NET 10 supports Windows 10 only in some editions (https://learn.microsoft.com/en-us/dotnet/core/install/windows) and lets you go on; Windows 10 version 1903 stays the minimum.
+- **32-bit vendor parts.** Each program link and device uses its vendor's 64-bit way when there is one. Where a vendor has only 32-bit code, the program runs it in a small 32-bit helper program that is installed with it, in the `Helper32` folder inside the program folder, with its own 32-bit runtime.
+- **Scanning (TWAIN).** Setup installs the 64-bit TWAIN manager (`TWAINDSM.dll` 2.5.1 from the TWAIN Working Group) in the Windows system folder when it is missing or older. It is a shared file that the uninstall leaves in place. Its source is in the release's source archive.
+- **Self-update.** A release now has two parts: the program and its runtime. A workstation downloads the runtime part only when the runtime changes (about once a month, with Microsoft's .NET security releases), and checks every runtime file before it records the update. If a runtime file does not match, it says to run the setup.
+- **Text size.** With Windows' "Make text bigger" set above 100%, the text in about 70 older plain windows is slightly larger than before.
+- **Plug-ins.** A plug-in built for .NET Framework is not loaded; the program names it and says it must be rebuilt for .NET 10.
+- **Not available yet:** CallFire text messages and Divvy postcards (both used web services that .NET 10 cannot call): the program says so when you use them, and nothing is recorded as sent.
+- **Middle Tier.** The Middle Tier server is new (HTTPS only, a Windows service, or IIS as an option). Workstations and the server must run the same version. The office runs no Middle Tier server.
 
 ## QuickBooks Desktop, Topaz signature pads, Schick CDR and Guru
 

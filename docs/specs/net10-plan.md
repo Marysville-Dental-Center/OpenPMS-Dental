@@ -1291,6 +1291,23 @@ module load, the Middle Tier's IIS site root. The section 7 default-font tests (
 helper, the x64 columns of the pointer-size tests. Runs (x64, `-RequireBuildOutput`): 122 assemblies, 10,342 tests, 31 failed: S3b-FMT's
 formatting (GoldenOutputTests 6, BINBTests 1), S3b-7's release files (ReleaseFlowTests 18, LibraryBindingTests 3), one headless WPF picture,
 one open ZIP message (EhrTests); not run: InitSqlTests, ForkMigrationTests (coordinator) and the WPF picture projects (S3b-5W).
+**Status (2026-11-16), S3b-7.** On `net10/s3b7-1` (`docs/port-notes/S3b-7.md`). **Decisions 21 and 22 removed part of the row:** no move
+from the 32-bit install (no search of the 32-bit uninstall entry, no copy of `FreeDentalConfig.xml` and the flag files, no run of the old
+uninstaller, no clean-up of the old folder, no service report), no Test-Installer scenario over a 32-bit bridge install and no manual
+upgrade over the bridge release; S3a-5's and S3a-10/10f's migration code stays with its tests, nothing added. Built: the runtime part
+(`DocumentMiscType` 102/103 in FORK-ENUMS.md, `DocumentMiscs.ReplaceForkRuntime`; the runtime files are what the `.deps.json` files name
+from the runtime packs, one version per folder; `Publish` writes them only when the key changes, a pull downloads them only when the key
+differs from the installation's and checks both parts before anything is copied; `CopyFileCopier` puts the copier's x64 runtime beside it in
+the temp folder and refuses another version; UpdateFileCopier copies `Helper32\`, stops every process of the program folder and checks
+every runtime file before it writes the manifest; PrefL refuses another architecture before the copier starts). Build-Release: Release x64,
+the apphost files, `Helper32\`, both XmlSerializers, Roslyn, the runtime allow list from each pack's `data/RuntimeList.xml` byte-compared
+with the packs, PE checks, the refusals (mixed versions, a different helper runtime, older than the newest 10.0.x runtime pack offline),
+TWAINDSM.dll (the newest TWAIN Working Group release is still 2.5.1, downloaded to `s3b7-twaindsm-20261116`, checked by SHA-256 and
+signature) as a setup file, the setup's packed list against the staged list. Setup: 64-bit mode, `{commonpf64}`, no .NET gate or runtime,
+the x64 VC++ check in both views, the Windows 11 warning, TWAINDSM into `{sys}` as a shared file. Test-Installer: the 64-bit view, the
+loaded-module check, the staged list against Build-Release's (the owner's elevated run is due). ReleaseFlowTests on .NET 10 x64 with
+`RuntimePartTests` and `RuntimePartDbTests`; handoffs to S3b-5 in the note (RegistryTests' count of fork values, AttributionTests' shipped
+files, TestProbeHost's CopyHost).
 
 **Order on the branch.** S3b-0 (spike) and S3b-1 first; then S3b-2, S3b-3 strictly in sequence (each layer must be net10 before the
 layer above can build); then S3b-4 with S3b-6 and S3b-7 in parallel (disjoint files: the Middle Tier package owns the Remoting and
