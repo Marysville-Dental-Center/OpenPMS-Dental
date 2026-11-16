@@ -3845,7 +3845,6 @@ namespace OpenPmsDental {
 			toothChartRelay.ColorText=listDefs[15].ItemColor;
 			toothChartRelay.ResetTeeth();
 			toothChartRelay.EndUpdate();
-			//toothChartRelay.AutoFinish=true;/??
 			//no need to dispose beforehand, since this function currently only runs once
 			_imageToothChart=toothChartRelay.GetBitmap();
 			toothChartWrapper.Dispose();

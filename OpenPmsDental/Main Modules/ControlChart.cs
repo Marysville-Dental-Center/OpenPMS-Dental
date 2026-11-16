@@ -358,9 +358,6 @@ namespace OpenPmsDental {
 			SetChartView(_listChartViews[newIdx]);
 		}
 
-		private void butLoadDirectX_Click(object sender,EventArgs e) {
-			//toothChart.LoadDirectX();
-		}
 
 		private void butNewTP_Click(object sender,EventArgs e) {
 			using FormTreatPlanCurEdit formTreatPlanCurEdit=new FormTreatPlanCurEdit();
@@ -4479,7 +4476,7 @@ namespace OpenPmsDental {
 					LayoutManager.Add(tabOrtho,tabControlProc);
 				}
 			}
-			//The computer's chart settings: this restarts the chart's engine and saves the pixel format it chose.
+			//The computer's chart settings (the 3D tooth chart settings and "Draw in software"): this restarts the chart's engine and saves nothing.
 			ToothChartRelay.ApplyComputerSettings(toothChartWrapper);
 			if(_isModuleSelected) {
 				FillToothChart(retainSelection:true);
@@ -4545,14 +4542,14 @@ namespace OpenPmsDental {
 				return;
 			}
 			_isInitializedOnStartup=true;
-			//SparksToothChart is the only tooth chart. Open Dental's closed DirectX 11 chart (Sparks3D.dll) and its DirectX11ToothChartUseIfAvail
-			//preference and GraphicsUseDirectX11 computer setting were removed on 2026-11-01; the preference and column stay in the database, unread.
+			//SparksToothChart is the only tooth chart. Open Dental's closed DirectX 11 chart (Sparks3D.dll) was removed on 2026-11-01; its global and
+			//per-computer settings now choose the WPF 3D chart in its place, through the relay (TC-8b).
 			_toothChartRelay= new ToothChartRelay();
 			_toothChartRelay.SetToothChartWrapper(toothChartWrapper);
 			_toothChartRelay.TextMoved+=toothChartRelay_TextMoved;
 			_toothChartRelay.TextColorChanged+=toothChartRelay_TextColorChanged;
 			toothChartWrapper.Visible=true;
-			//Triggers ResetControls. Falls back to OpenGL, then Simple 2D.
+			//Triggers ResetControls. The WPF chart falls back to Simple 2D on its own when it cannot start.
 			ToothChartRelay.ApplyComputerSettings(toothChartWrapper);
 			_procStatNew=ProcStat.TP;
 			if(GetIsTPChartingAvailable()) {

@@ -1112,7 +1112,8 @@ namespace OpenPmsDental{
 //		}
 
 		private void butGraphical_Click(object sender,EventArgs e) {
-			//The relay's gate: since TC-8 the graphical perio chart opens on the WPF chart on every computer (O-31), so it no longer refuses.
+			//The relay's gate: the graphical perio chart opens only on a computer that uses the 3D tooth chart (TC-8b, ENG-5); on a computer that draws
+			//the Simple 2D chart it refuses with a message that names File > Graphics.
 			if(!ToothChartRelay.CanOpenGraphicalPerio(out string message)) {
 				MsgBox.Show(this,message);
 				return;
