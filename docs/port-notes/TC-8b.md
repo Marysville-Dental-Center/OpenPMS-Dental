@@ -219,7 +219,8 @@ tests/ToothChartHostTests/Baselines` is empty: every WPF, Simple 2D, legacy, smo
 
 ## 5. The gallery (outside the repository)
 
-On the build PC, in the main checkout's `.git/od-tools/test-results/tc8b-gallery/` (zipped as `tc8b-gallery.zip`):
+On the build PC, in the main checkout's `.git/od-tools/test-results/tc8b-gallery/` (zipped there as `tc8b-gallery.zip`, 3 MB; the page is made
+by `tc8b-make_gallery.py` in the same folder from the test run `tc8b-gallery-run2.txt`):
 
 - **`tc8b.html`**, the page to show the owner: Open Dental's public screenshot (its URL, and a copy fetched for the page), File > Graphics
   before (TC-8's window as TC-8's gallery drew it: the live view, and "Draw in software") and after in seven states, each drawn off the desktop
@@ -232,7 +233,25 @@ On the build PC, in the main checkout's `.git/od-tools/test-results/tc8b-gallery
 
 ## 6. Builds and runs (build PC, `.git/od-tools/test-results/`)
 
-Section 7 of this note is filled in after the full build; see there.
+- **Builds** through the lane: single projects while iterating (OpenPmsDental; then ToothChartImageTests, ToothChartHostTests, BINATests and
+  WindowChecksTests, which builds and is never run here), then the full build of `OpenDental.Local.slnf` (Debug x86) at `2dce31de7`: 0 errors.
+- `tc8b-run1.txt` and `tc8b-run2.txt` (before the full build): ToothChartHostTests 20 (19 passed, the gallery skipped), BINATests 19,
+  ToothChartImageTests 259 (253 passed, 6 skipped: the three recorders, the legacy comparison, the gallery writer and the opt-in on-screen
+  times); NoHqTests was not built yet then.
+- `tc8b-gallery-run.txt`: the gallery's first pictures; they showed the preview's status line cut at one line, so the line got two
+  (`2dce31de7`).
+- **After the full build:** `tc8b-final1.txt`: ToothChartHostTests 20 (19 passed, 1 skipped: the gallery), BINATests 19, BPERIOTests 55,
+  M2SHEETSTests 53, SheetTests 31, BTPTests 38, BPRINTTests 71, ChartLetterTests 45, LibraryBindingTests 20, S3aM1Tests 63, ProjectFileTests
+  150 (149 passed, 1 skipped: the project baseline check), N64ATests 41, P262LinksTests 61, P262SchemaTests 28 (24 passed, 4 skipped), NoHqTests
+  112: all passed. `tc8b-final2.txt`: ToothChartImageTests 259 (253 passed, 0 failed, 6 skipped), NoHqTests 112. `tc8b-final3.txt`, the projects
+  whose tests read a file TC-8b changed (`ControlChart.cs`, `FormPerio.cs`) or the docs: BAPPTTests 61, BSHELLTests 73, EhrTests 260,
+  GroupNoteTests 54, LibWebTests 65, M2CARRIERTests 55, M2SHELLTests 39, VendorDirectTests 941, M2MISCTests 98, ODOPTSTests 57, P262PerioTests
+  36, DbConnectionSecurityTests 250 (3 skipped), InventoryTests 93, PdfLibraryTests 41, ReleaseFlowTests 210 (5 skipped), NoHqTests 112: all
+  passed. `tc8b-gallery-run2.txt`: ToothChartHostTests 20 with the gallery, all passed.
+- Every run set `OPMS_CHART_HOST_TEST_DB_PREFIX=tc8b_`, so the host tests' scratch databases were named `tc8b_...` and dropped at the end.
+  (ToothChartImageTests, BPERIOTests and ChartLetterTests make their own scratch databases under their own prefixes, as before.)
+- Not run: InitSqlTests and ForkMigrationTests (the coordinator's), and WindowChecksTests (it starts the program; built with 0 errors).
+- Line ends and BOMs: section 8.
 
 ## 7. Launch check L-7, updated for TC-8b (for a person)
 
