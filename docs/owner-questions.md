@@ -741,6 +741,9 @@ of 2026-11-08: "1. As recommended 2. Ship dlls we need. Use Helix. It's decided.
   section "Open Dental parity (2026-11-14)". So O-20 (on by default; the tooth hidden with a thin X, as Open Dental's 26.2 screenshot
   shows; no other exceptions), O-21 (TextBelow in a one-line box under the date slider, not in the tooth picture) and O-22 (paint text
   beyond the root tip, in the W band) changed.
+- **S3a-M3b before EHR-7 (your decision, 2026-11-15: "yes, go ahead").** FormMedical's last two WinForms menus are converted now, on
+  `main`, so stage 3a's gate and stage 3b no longer wait for the E-20 download; EHR-7 (`ehr/ehr7-3`, about 28 lines of FormMedical) is
+  redone on top when E-20 arrives.
 - **S3a-11, the elevated installer test (run on 2026-11-15 by you):** 97 checks passed, 0 failed, exit code 0 on the build PC; your 0.0
   installation's Apps entry and Event Log source were written back and its shortcuts are unchanged. Nothing more is asked here; you run
   the same line again at each stage gate.
