@@ -123,6 +123,8 @@ namespace OpenPmsDentalBusiness.WebServices {
 					//Otherwise the system's proxy (HttpClient.DefaultProxy), as the SOAP proxy took WebRequest.DefaultWebProxy.
 					//A pooled connection is made again after 15 minutes, so a server that moved to another address is found.
 					socketsHttpHandler.PooledConnectionLifetime=TimeSpan.FromMinutes(15);
+					//No redirects, as the SOAP proxy (SoapHttpClientProtocol) followed none: a 301 or 302 would turn the POST into a GET.
+					socketsHttpHandler.AllowAutoRedirect=false;
 					httpClient=new HttpClient(socketsHttpHandler,true);
 				}
 				httpClient.Timeout=TimeSpanTimeout;

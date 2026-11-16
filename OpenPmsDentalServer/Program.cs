@@ -20,6 +20,13 @@ namespace OpenPmsDentalServer {
 			}
 			catch(InvalidOperationException ex) {
 				Console.Error.WriteLine(ex.Message);
+				//As a Windows service standard error goes nowhere, so the reason also goes to the Application event log.
+				try {
+					System.Diagnostics.EventLog.WriteEntry(ServerHost.SERVICE_NAME,ex.Message,System.Diagnostics.EventLogEntryType.Error);
+				}
+				catch(Exception) {
+					//No right to create the event source (a console run as a standard user): standard error above is all there is.
+				}
 				return 1;
 			}
 			List<string> listProblems=ServerHost.GetHttpsProblems(webApplication.Configuration,ServerHost.IsHostedByIis());
