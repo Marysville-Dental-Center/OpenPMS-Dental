@@ -19,6 +19,11 @@ namespace OpenPmsDentalHelper32 {
 		///the pipe or ends. Between two requests the thread dispatches its window messages (MessagePumpingStream).</summary>
 		[STAThread]
 		private static int Main(string[] args) {
+			//Before anything creates a window (S3b-4 of docs/specs/net10-plan.md): the .NET Framework's default font, which the forms were laid out
+			//with (.NET's is Segoe UI 9; SetDefaultFont throws once a window exists), then per-monitor DPI awareness, the program's mode (the
+			//.NET Framework build of the program set it in its app.config, which .NET does not read).
+			System.Windows.Forms.Application.SetDefaultFont(new System.Drawing.Font("Microsoft Sans Serif",8.25f));
+			System.Windows.Forms.Application.SetHighDpiMode(System.Windows.Forms.HighDpiMode.PerMonitorV2);
 			//No Windows error dialog for this process (a missing drive, a crash): the program reports a helper that failed. This sets the mode of
 			//this process only (and of the processes it starts), never a system setting.
 			NativeMethods.SetErrorMode(NativeMethods.SEM_FAILCRITICALERRORS|NativeMethods.SEM_NOGPFAULTERRORBOX|NativeMethods.SEM_NOOPENFILEERRORBOX);

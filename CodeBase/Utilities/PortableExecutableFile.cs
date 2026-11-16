@@ -2,14 +2,22 @@
 // .NET 10 move, docs/port-notes/N64-A.md; the native 64-bit integration survey, docs/specs/native64-survey.md, items A2 and A4): the PE header's
 // machine type and PE32 or PE32+ (Microsoft PE/COFF specification), and for a .NET assembly its CLI header flags (ECMA-335 II.25.3.3), the
 // metadata version string (II.24.2.1), its TargetFrameworkAttribute and the core library it references (the Assembly, AssemblyRef, TypeRef,
-// MemberRef and CustomAttribute tables, II.22). The .NET Framework has no System.Reflection.Metadata, and the program ships no Mono.Cecil, so
-// this small reader does it; tests/N64ATests checks it against Mono.Cecil on every assembly of its output folder.
+// MemberRef and CustomAttribute tables, II.22). On .NET the metadata part (the version string, the core library and the TargetFrameworkAttribute)
+// is read with System.Reflection.Metadata, part of .NET (S3b-4 of docs/specs/net10-plan.md, the plug-in loader's check of decision 16): a
+// PEReader over the same bytes, so nothing is loaded. The .NET Framework has no System.Reflection.Metadata, and the program shipped no
+// Mono.Cecil, so for a .NET Framework build this small reader of the tables does it (ReadMetadata). The PE and CLI headers are read by this
+// file's own code on both. tests/N64ATests checks the reader against Mono.Cecil on every assembly of its output folder.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
+#if !NETFRAMEWORK
+using System.Collections.Immutable;
+using System.Reflection.Metadata;
+using System.Reflection.PortableExecutable;
+#endif
 
 namespace CodeBase {
 	///<summary>What a PE file (DLL or EXE) is, read from its headers and, for a .NET assembly, its metadata tables. Nothing is loaded. Read
@@ -251,8 +259,90 @@ namespace CodeBase {
 				MetadataError="The CLI header's metadata directory is outside the file.";
 				return;
 			}
+#if NETFRAMEWORK
 			ReadMetadata(bytes,offsetMetadata);
+#else
+			ReadMetadataWithMetadataReader(bytes);
+#endif
 		}
+
+#if !NETFRAMEWORK
+		///<summary>On .NET: MetadataVersion, CoreLibraryName and CoreLibraryVersion, and TargetFramework, read with System.Reflection.Metadata's
+		///PEReader and MetadataReader over the image's bytes (S3b-4), the same facts ReadMetadata reads from the tables on the .NET Framework.
+		///Nothing is loaded. A malformed image sets MetadataError and leaves what was not read at its default.</summary>
+		private void ReadMetadataWithMetadataReader(byte[] bytes) {
+			try {
+				using PEReader peReader=new PEReader(ImmutableArray.Create(bytes));
+				if(!peReader.HasMetadata) {
+					MetadataError="The image has no metadata.";
+					return;
+				}
+				MetadataReader metadataReader=peReader.GetMetadataReader();
+				MetadataVersion=metadataReader.MetadataVersion;
+				string[] arrayCoreNames=new[] { "System.Private.CoreLib","System.Runtime","netstandard","mscorlib" };
+				int rankFound=int.MaxValue;
+				foreach(AssemblyReferenceHandle assemblyReferenceHandle in metadataReader.AssemblyReferences) {
+					AssemblyReference assemblyReference=metadataReader.GetAssemblyReference(assemblyReferenceHandle);
+					string name=metadataReader.GetString(assemblyReference.Name);
+					int rank=Array.IndexOf(arrayCoreNames,name);
+					if(rank>=0 && rank<rankFound) {//an assembly that references several (a facade) is named by the newest
+						rankFound=rank;
+						CoreLibraryName=name;
+						CoreLibraryVersion=assemblyReference.Version;
+					}
+				}
+				if(!metadataReader.IsAssembly) {
+					return;
+				}
+				foreach(CustomAttributeHandle customAttributeHandle in metadataReader.GetAssemblyDefinition().GetCustomAttributes()) {
+					CustomAttribute customAttribute=metadataReader.GetCustomAttribute(customAttributeHandle);
+					if(!IsTargetFrameworkAttribute(metadataReader,customAttribute.Constructor)) {
+						continue;
+					}
+					BlobReader blobReader=metadataReader.GetBlobReader(customAttribute.Value);
+					if(blobReader.Length<3 || blobReader.ReadUInt16()!=0x0001) {//the prolog
+						continue;
+					}
+					string value=blobReader.ReadSerializedString();
+					if(value==null) {
+						continue;
+					}
+					TargetFramework=value;
+					return;
+				}
+			}
+			catch(Exception ex) {//BadImageFormatException and the like for a malformed image
+				MetadataError="The metadata could not be read ("+ex.GetType().Name+").";
+			}
+		}
+
+		///<summary>Whether the attribute constructor belongs to System.Runtime.Versioning.TargetFrameworkAttribute, referenced (a MemberRef of a
+		///TypeRef, as in every assembly but the core library) or defined in the image (a MethodDef of a TypeDef).</summary>
+		private static bool IsTargetFrameworkAttribute(MetadataReader metadataReader,EntityHandle entityHandleConstructor) {
+			StringHandle stringHandleName;
+			StringHandle stringHandleNamespace;
+			if(entityHandleConstructor.Kind==HandleKind.MemberReference) {
+				EntityHandle entityHandleParent=metadataReader.GetMemberReference((MemberReferenceHandle)entityHandleConstructor).Parent;
+				if(entityHandleParent.Kind!=HandleKind.TypeReference) {
+					return false;
+				}
+				TypeReference typeReference=metadataReader.GetTypeReference((TypeReferenceHandle)entityHandleParent);
+				stringHandleName=typeReference.Name;
+				stringHandleNamespace=typeReference.Namespace;
+			}
+			else if(entityHandleConstructor.Kind==HandleKind.MethodDefinition) {
+				TypeDefinitionHandle typeDefinitionHandle=metadataReader.GetMethodDefinition((MethodDefinitionHandle)entityHandleConstructor).GetDeclaringType();
+				TypeDefinition typeDefinition=metadataReader.GetTypeDefinition(typeDefinitionHandle);
+				stringHandleName=typeDefinition.Name;
+				stringHandleNamespace=typeDefinition.Namespace;
+			}
+			else {
+				return false;
+			}
+			return metadataReader.StringComparer.Equals(stringHandleName,"TargetFrameworkAttribute")
+				&& metadataReader.StringComparer.Equals(stringHandleNamespace,"System.Runtime.Versioning");
+		}
+#endif
 
 		///<summary>The file offset of rva, or -1 when no section holds it.</summary>
 		private static int RvaToOffset(List<uint[]> listSections,uint rva,int lengthFile) {
@@ -270,7 +360,8 @@ namespace CodeBase {
 			return -1;
 		}
 
-		///<summary>The metadata root (II.24.2.1), its stream headers (II.24.2.2) and the #~ stream (II.24.2.6).</summary>
+		///<summary>The metadata root (II.24.2.1), its stream headers (II.24.2.2) and the #~ stream (II.24.2.6). The .NET Framework build's reader;
+		///on .NET ReadMetadataWithMetadataReader reads the same facts.</summary>
 		private void ReadMetadata(byte[] bytes,int offsetRoot) {
 			if(ReadUInt32(bytes,offsetRoot)!=METADATA_SIGNATURE) {
 				MetadataError="The metadata root has no BSJB signature.";
