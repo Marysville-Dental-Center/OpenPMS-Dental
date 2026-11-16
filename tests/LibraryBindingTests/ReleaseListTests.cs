@@ -30,10 +30,8 @@ namespace LibraryBindingTests {
 		///<summary>Files the release still ships although nothing in the program references them, each with why. Keep this list short and exact.
 		///</summary>
 		private static readonly Dictionary<string,string> _dictShippedUnused=new Dictionary<string,string>(StringComparer.OrdinalIgnoreCase) {
-			//TC-9a (docs/port-notes/TC-9a.md) deleted the DirectX chart and SparksToothChart's SharpDX and Tao references; the program's own SharpDX.dll
-			//and Tao references stay until TC-9b, which removes all five files from Required dlls, tools\Build-Release.ps1 and the notices.
-			{ "SharpDX.Direct3D9.dll","only the DirectX chart referenced it (through SparksToothChart), retired in TC-9a; TC-9b removes it from the release" },
-			{ "SharpDX.Mathematics.dll","only the DirectX chart referenced it (through SparksToothChart), retired in TC-9a; TC-9b removes it from the release" },
+			//Empty since TC-9b (docs/port-notes/TC-9b.md): SharpDX.Direct3D9.dll and SharpDX.Mathematics.dll, which TC-9a left shipped but unused,
+			//left the release with SharpDX.dll and the two Tao files.
 		};
 
 		private static string ProgramFolder {

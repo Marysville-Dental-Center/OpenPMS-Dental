@@ -37,11 +37,12 @@ namespace LibraryBindingTests {
 		};
 
 		///<summary>What "Required dlls" holds after stage 2 of the .NET 10 move: the files that have no NuGet package (docs/specs/net10-plan.md, "Left
-		///in Required dlls after stage 2"). The Direct Project's three files, the interop of Schick (CDR) and QuickBooks Desktop, SharpDX and Tao.
-		///Windows.winmd left with S3a-5 (the Credential Manager in place of PasswordVault; BINBTests, RemovedBinariesTests).</summary>
+		///in Required dlls after stage 2"). The Direct Project's three files and the interop of Schick (CDR) and QuickBooks Desktop.
+		///Windows.winmd left with S3a-5 (the Credential Manager in place of PasswordVault; BINBTests, RemovedBinariesTests), and SharpDX and Tao
+		///with TC-9b (BINBTests, SharpDXTaoRemovedTests).</summary>
 		private static readonly string[] _arrayRequiredDllsLeft=new[] {
 			"Health.Direct.Agent.dll","Health.Direct.Common.dll","Health.Direct.ResolverPlugins.dll","Interop.CDRDATALib.dll","Interop.CDRDicom.dll",
-			"Interop.QBFC10.dll","SharpDX.Direct3D9.dll","SharpDX.Mathematics.dll","SharpDX.dll","Tao.OpenGl.dll","Tao.Platform.Windows.dll",
+			"Interop.QBFC10.dll",
 		};
 
 		///<summary>The files S2-4 deleted from "Required dlls" that come from no package: System.Security.Cryptography.Pkcs 8.0.1, which nothing
@@ -244,14 +245,14 @@ namespace LibraryBindingTests {
 		///Helix Toolkit's closure, TC-4) is the file of
 		///the package at the version the lock files name: OpenPmsDental's lock file names that version, the program's restore copies that very asset
 		///of it (tools\Build-Release.ps1 compares each staged file with it: Test-PackageFiles), and the built program folder holds it byte for byte.
-		///The other third-party files of the allow-list are the ones "Required dlls" keeps (the Direct Project, SharpDX, Tao) or are built here.</summary>
+		///The other third-party files of the allow-list are the ones "Required dlls" keeps (the Direct Project; SharpDX and Tao left with TC-9b) or
+		///are built here.</summary>
 		[TestMethod]
 		public void ShippedPackageFiles_AreTheFilesOfTheLockFilesVersions() {
 			List<string> listThird=BuildRelease.ListFiles().Where(x => x.Key=="third").Select(x => x.Value).ToList();
 			List<string> listFromPackages=listThird.Where(x => Libraries.PackageOf(x)!=null).ToList();
 			Assert.AreEqual(38,listFromPackages.Count,string.Join(", ",listFromPackages));
-			CollectionAssert.AreEquivalent(new[] { "Health.Direct.Agent.dll","Health.Direct.Common.dll","Health.Direct.ResolverPlugins.dll","SharpDX.dll",
-				"SharpDX.Direct3D9.dll","SharpDX.Mathematics.dll","Tao.OpenGl.dll","Tao.Platform.Windows.dll" },
+			CollectionAssert.AreEquivalent(new[] { "Health.Direct.Agent.dll","Health.Direct.Common.dll","Health.Direct.ResolverPlugins.dll" },
 				listThird.Where(x => RequiredDlls.Files.ContainsKey(x)).ToArray(),"The shipped files of Required dlls.");
 			string folderProgram=RepoPaths.Combine("OpenPmsDental");
 			List<LockedPackage> listLocked=NuGetFiles.ReadLockFile(Path.Combine(folderProgram,"packages.lock.json"));
