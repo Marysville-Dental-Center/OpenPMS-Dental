@@ -9,6 +9,9 @@
 // N64-A3 (docs/port-notes/N64-A3.md) added Mediadent / CADI: a late-bound automation server whose ProgID's registration is read in both
 // registry views first (ComServerRegistration), and whose activation or first call failing in a way that says this process cannot reach the
 // server (ChooseHelperAfterFailure) moves the choice to the helper.
+// N64-B6 (docs/port-notes/N64-B6.md) added QuickBooks Desktop's 64-bit QBFC for a 64-bit program: the newest of a list of late-bound session
+// managers whose registration (both views) and activation say it can run here (ActivateNewestComServer), and the move to the helper when
+// connecting to QuickBooks failed on that path (ChooseHelperAfterConnectionFailure).
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
 using System.Collections.Generic;
@@ -53,6 +56,10 @@ namespace CodeBase {
 		///<summary>Mediadent / CADI's automation server, Mediadent.Application (CADI.cs, N64-A3), called late-bound through IDispatch. Very
 		///probably a 32-bit server program of its own (LocalServer32), which a 64-bit caller reaches as well.</summary>
 		public static readonly NativeFirstChooser Cadi=new NativeFirstChooser("Mediadent / CADI (the Mediadent.Application automation server)");
+		///<summary>QuickBooks Desktop's 64-bit QBFC (15 and later, for QuickBooks Desktop 2022 and later), whose session manager a 64-bit program
+		///creates late-bound by its ProgID, the newest first (QuickBooksLateBound.cs, N64-B6). A 32-bit program never uses it: it keeps
+		///QuickBooksDesktop's QBFC 10.</summary>
+		public static readonly NativeFirstChooser QuickBooksDesktopNative64=new NativeFirstChooser("QuickBooks Desktop 64-bit QBFC (QBSessionManager, late-bound)");
 
 		private readonly object _lock=new object();
 		private readonly string _vendorName;
@@ -254,6 +261,90 @@ namespace CodeBase {
 		public static bool IsComServerUnreachableHere(Exception ex) {
 			int hResult=GetHResult(ex);
 			return hResult==REGDB_E_CLASSNOTREG || hResult==CO_E_SERVER_EXEC_FAILURE || hResult==E_NOINTERFACE || hResult==TYPE_E_LIBNOTREGISTERED;
+		}
+
+		///<summary>For a vendor piece with several COM classes, one per version (QuickBooks Desktop's 64-bit QBFC, N64-B6): activates the first of
+		///listProgIds (the newest first) that can run here and returns its object, with its ProgID in progIdActivated; null means the 32-bit helper
+		///is chosen and nothing was activated here. Used only while nothing is chosen, so the walk runs once per process; once a class activated,
+		///the caller creates that ProgID itself. Each ProgID in turn:
+		///- its registration is read (funcReadRegistration, ComServerRegistration.Read, both registry views, read only); one that cannot be
+		///created from this process's bitness (registered nowhere, or only as an InprocServer32 of the other bitness) is skipped without being
+		///activated. A registry that cannot be read does not skip it: the activation decides.
+		///- funcActivate(progId) activates it. Success chooses this process (logged with the ProgID, its registration and the ProgIDs skipped).
+		///A failure that says this process cannot reach the server (IsComServerUnreachableHere: REGDB_E_CLASSNOTREG, CO_E_SERVER_EXEC_FAILURE,
+		///E_NOINTERFACE, TYPE_E_LIBNOTREGISTERED, also inside a TargetInvocationException) moves on to the next older ProgID. Any other failure is
+		///thrown and chooses nothing.
+		///When none activated, a 64-bit process chooses the helper (logged with each ProgID's reason). A 32-bit process chooses nothing and gets
+		///null: its helper is 32-bit too, and the caller keeps its own 32-bit path (QBFC 10 for QuickBooks).</summary>
+		public object ActivateNewestComServer(IList<string> listProgIds,Func<string,ComServerRegistration> funcReadRegistration,Func<string,object> funcActivate,
+			out string progIdActivated)
+		{
+			progIdActivated="";
+			lock(_lock) {
+				if(_vendorPath==VendorPath.Helper32) {
+					return null;
+				}
+				bool is64BitProcess=_is64BitProcessOverride??Environment.Is64BitProcess;
+				List<string> listSkipped=new List<string>();
+				foreach(string progId in listProgIds) {
+					ComServerRegistration comServerRegistration=null;
+					try {
+						comServerRegistration=funcReadRegistration(progId);
+					}
+					catch(Exception ex) {
+						ex.DoNothing();//Read only; the activation below decides.
+					}
+					if(comServerRegistration!=null && !comServerRegistration.CanCreateFrom(is64BitProcess)) {
+						listSkipped.Add(comServerRegistration.Describe());
+						continue;
+					}
+					object obj;
+					try {
+						obj=funcActivate(progId);
+					}
+					catch(Exception ex) when(IsComServerUnreachableHere(ex)) {
+						listSkipped.Add(progId+": activating it here failed with 0x"+GetHResult(ex).ToString("X8")+" ("+ex.Message.Trim()+")");
+						continue;
+					}
+					if(obj==null) {
+						listSkipped.Add(progId+": activating it here gave no object");
+						continue;
+					}
+					progIdActivated=progId;
+					if(_vendorPath==null) {
+						string why=progId+" activated in this process"+(comServerRegistration==null ? "" : " ("+comServerRegistration.Describe()+")");
+						if(listSkipped.Count>0) {
+							why+="; before it: "+string.Join("; ",listSkipped);
+						}
+						SetChoice(VendorPath.InProcess,why);
+					}
+					return obj;
+				}
+				if(is64BitProcess) {
+					SetChoice(VendorPath.Helper32,"none of "+string.Join(", ",listProgIds)+" activated in this process"
+						+(listSkipped.Count==0 ? "" : ": "+string.Join("; ",listSkipped)));
+				}
+				return null;
+			}
+		}
+
+		///<summary>After connecting to the vendor's program failed on this process's path (QuickBooks Desktop's 64-bit QBFC, N64-B6: creating the
+		///session manager, CreateMsgSetRequest, OpenConnection or BeginSession, whatever the failure): true when the 32-bit helper is chosen now or
+		///was chosen before, in a 64-bit process; the new choice is logged with the failure and the earlier choice, and the caller sends this call
+		///to the helper once and every later call there. False in a 32-bit process, whose helper could do nothing better.</summary>
+		public bool ChooseHelperAfterConnectionFailure(Exception ex) {
+			lock(_lock) {
+				if(!(_is64BitProcessOverride??Environment.Is64BitProcess)) {
+					return false;
+				}
+				if(_vendorPath==VendorPath.Helper32) {
+					return true;
+				}
+				int hResult=GetHResult(ex);
+				SetChoice(VendorPath.Helper32,"connecting failed in this process with "+(hResult==0 ? "" : "0x"+hResult.ToString("X8")+" ")+"("+ex.GetType().Name+": "
+					+ex.Message.Trim()+")"+(_vendorPath==null ? "" : ", after this process had been chosen ("+_reason+")"));
+				return true;
+			}
 		}
 
 		private static int GetHResult(Exception ex) {
