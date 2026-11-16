@@ -205,7 +205,7 @@ namespace ToothChartImageTests {
 		[TestMethod]
 		public void OtherEnginesAndWrappersThatCannotTakeThePictureBack_GiveNoRequest() {
 			StaRunner.Run(() => {
-				//Simple 2D keeps GetBitmap (as DirectX and OpenGL do, below when they start here).
+				//Simple 2D keeps GetBitmap (as the DirectX and OpenGL charts did until TC-9a).
 				using(ToothChartWrapper wrapper2D=new ToothChartWrapper()) {
 					wrapper2D.Size=ChartScenes.SizeModule.Size;
 					wrapper2D.Visible=false;
@@ -227,30 +227,6 @@ namespace ToothChartImageTests {
 				//An empty chart.
 				using(ToothChartWrapper wrapperEmpty=CreateHiddenWrapperWithHandle(new Size(0,0))) {
 					Assert.IsNull(wrapperEmpty.RequestBitmapInBackground());
-				}
-			});
-			if(!Environment.UserInteractive) {
-				return;//DirectX needs a shown window
-			}
-			StaRunner.Run(() => {
-				using Form form=WpfCharts.CreateOffscreenForm(ChartScenes.SizeModule.Size);
-				form.Show();
-				Application.DoEvents();
-				string directXFormat=DirectXCharts.FindFormat(form);
-				if(directXFormat==null) {
-					Console.WriteLine("DirectX does not start here; Simple 2D was checked.");
-					return;
-				}
-				ToothChartWrapper wrapperDirectX=DirectXCharts.CreateWrapper(form,ChartScenes.SizeModule.Size,directXFormat);
-				try {
-					if(wrapperDirectX.Engine==ToothChartEngine.DirectX) {
-						Assert.IsNull(wrapperDirectX.RequestBitmapInBackground(),"The DirectX engine (reached only through Engine since TC-8) keeps its GetBitmap.");
-					}
-				}
-				finally {
-					form.Controls.Remove(wrapperDirectX);
-					wrapperDirectX.Dispose();
-					form.Close();
 				}
 			});
 		}

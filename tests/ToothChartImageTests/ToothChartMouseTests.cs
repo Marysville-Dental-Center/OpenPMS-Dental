@@ -1,6 +1,6 @@
 // Mouse tests of the WPF chart (package TC-3, docs/specs/wpf-tooth-chart-plan.md section 7 item 7): the shared ToothChartMouse with synthesised
 // input gives the selection, the drag fill-in and the SegmentDrawn strings that ToothChartData's own functions give for the same points, and the
-// DirectX chart gives the same for the same input.
+// DirectX chart's answers to the same input, recorded before TC-9a retired that chart (Baselines\legacy-numbers\directx-mouse.txt).
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
 using System.Collections.Generic;
@@ -268,45 +268,30 @@ namespace ToothChartImageTests {
 			});
 		}
 
-		///<summary>TC-9a: set to 1 to record the DirectX chart's answers of DirectX_GivesTheSameSelectionsAndStrings_ForTheSameInput into
-		///Baselines\legacy-numbers\directx-mouse.txt, while the DirectX engine is still in the build.</summary>
+		///<summary>TC-9a: the switch with which DirectX_GivesTheSameSelectionsAndStrings_ForTheSameInput wrote the DirectX chart's answers, while the
+		///DirectX engine was still in the build (RecordDirectXMouse).</summary>
 		public const string EnvRecordDirectXMouse="OPMS_RECORD_DIRECTX_MOUSE";
 		public const string FileDirectXMouse="directx-mouse.txt";
 
+		///<summary>The DirectX chart's answers to the input below, recorded before TC-9a retired that chart (Baselines\legacy-numbers\directx-mouse.txt):
+		///the shared class gives the same selections after each input, the same SegmentDrawn strings in order, the same commits of the selection and
+		///the same drawings, recoloured and erased alike, at the module size (where GetPointMouseScaled changes nothing), the printout size and 150%
+		///of the module (where the SegmentDrawn strings are scaled into 410x307 and rounded to tenths) and the big chart window.</summary>
 		[TestMethod]
 		public void DirectX_GivesTheSameSelectionsAndStrings_ForTheSameInput() {
-			if(!Environment.UserInteractive) {
-				Assert.Inconclusive("Needs an interactive desktop session: the DirectX chart draws on a shown window.");
-			}
-			if(!ToothChartWrapper.IsDirectXRuntimeAvailable()) {
-				Assert.Inconclusive(ToothChartWrapper.D3DX_DLL+" is not installed: no DirectX chart to compare with.");
-			}
+			Dictionary<string,List<string[]>> dictRecorded=ReadRecordedDirectXMouse();
 			StaRunner.Run(() => {
 				CultureInfo cultureOld=Thread.CurrentThread.CurrentCulture;
 				try {
 					Thread.CurrentThread.CurrentCulture=new CultureInfo("en-US");
-					using Form form=WpfCharts.CreateOffscreenForm(ChartScenes.SizeModule.Size);
-					form.Show();
-					string directXFormat=DirectXCharts.FindFormat(form);
-					if(directXFormat==null) {
-						Assert.Inconclusive("No standard DirectX format starts on this computer.");
-					}
-					//The module size, where GetPointMouseScaled changes nothing; the printout size and 150% of the module, where the SegmentDrawn strings are
-					//scaled into 410x307 and rounded to tenths; and the big chart window.
-					List<string> listRecord=new List<string>();
-					listRecord.Add("# Today's DirectX chart's answers to the input of ToothChartMouseTests (DirectX_GivesTheSameSelectionsAndStrings_ForTheSameInput),");
-					listRecord.Add("# recorded before TC-9a retired the DirectX chart. Per size: each input (tool, kind, point) and the selected teeth after it, then the");
-					listRecord.Add("# SegmentDrawn strings in order, the count of committed selections and the drawings (segment|colour) at the end.");
 					foreach(ChartSize chartSize in new[] { ChartScenes.SizeModule,ChartScenes.SizePrintout,new ChartSize(615,461,ChartColorSet.Module),
 						ChartScenes.SizeBigWindow })
 					{
-						CompareWithDirectX(form,directXFormat,chartSize,listRecord);
+						string sizeName=chartSize.Size.Width+"x"+chartSize.Size.Height;
+						Assert.IsTrue(dictRecorded.ContainsKey(sizeName),"No DirectX answers recorded at "+sizeName);
+						CompareWithDirectX(chartSize,dictRecorded[sizeName]);
 					}
-					form.Close();
-					if(Environment.GetEnvironmentVariable(EnvRecordDirectXMouse)=="1") {
-						Directory.CreateDirectory(TestPaths.BaselinesLegacyNumbers);
-						File.WriteAllLines(Path.Combine(TestPaths.BaselinesLegacyNumbers,FileDirectXMouse),listRecord,new UTF8Encoding(false));
-					}
+					Assert.AreEqual(4,dictRecorded.Count,"The four sizes, and no other: "+string.Join(", ",dictRecorded.Keys));
 				}
 				finally {
 					Thread.CurrentThread.CurrentCulture=cultureOld;
@@ -314,21 +299,43 @@ namespace ToothChartImageTests {
 			});
 		}
 
-		///<summary>The same input to a DirectX chart of the size on the form and to the shared class on a copy of its data: hovers, clicks, a drag, a pen
-		///stroke, the colour changer and the eraser, at points scaled from the module's (the drawings of "drawing-segments" are in the 410x307 space).</summary>
-		private static void CompareWithDirectX(Form form,string directXFormat,ChartSize chartSize,List<string> listRecord) {
+		///<summary>Recorded Baselines\legacy-numbers\directx-mouse.txt with OPMS_RECORD_DIRECTX_MOUSE=1 on the build PC: the input of CompareWithDirectX
+		///raised on a DirectX chart of each size on a shown form (the chart's own OnMouseDown, OnMouseMove and OnMouseUp), and the DirectX chart's
+		///selections, SegmentDrawn strings, commits and drawings, while the same run checked the shared class against the live chart. The recording
+		///is kept (O-32); it cannot be made again.</summary>
+		[TestMethod]
+		[Ignore("The DirectX engine was retired in TC-9a: its answers to the mouse input cannot be recorded again. The recording it made "
+			+"(Baselines\\legacy-numbers\\directx-mouse.txt) is kept, and DirectX_GivesTheSameSelectionsAndStrings_ForTheSameInput compares with it.")]
+		public void RecordDirectXMouse() {
+			Assert.Inconclusive("Retired in TC-9a.");
+		}
+
+		///<summary>The recording of the DirectX chart's answers, by size ("410x307"): each line's fields after the size (kind, then the kind's fields).
+		///</summary>
+		private static Dictionary<string,List<string[]>> ReadRecordedDirectXMouse() {
+			string path=Path.Combine(TestPaths.BaselinesLegacyNumbers,FileDirectXMouse);
+			Assert.IsTrue(File.Exists(path),"The recording of the DirectX chart's answers is missing: "+path);
+			Dictionary<string,List<string[]>> dictRecorded=new Dictionary<string,List<string[]>>();
+			foreach(string line in File.ReadAllLines(path,Encoding.UTF8)) {
+				if(line.StartsWith("#") || line.Trim()=="") {
+					continue;
+				}
+				string[] arrayFields=line.Split('\t');
+				if(!dictRecorded.ContainsKey(arrayFields[0])) {
+					dictRecorded[arrayFields[0]]=new List<string[]>();
+				}
+				dictRecorded[arrayFields[0]].Add(arrayFields.Skip(1).ToArray());
+			}
+			return dictRecorded;
+		}
+
+		///<summary>The same input as the DirectX chart of the size got when it was recorded, to the shared class on a copy of its data: hovers, clicks,
+		///a drag, a pen stroke, the colour changer and the eraser, at points scaled from the module's (the drawings of "drawing-segments" are in the
+		///410x307 space). listRecorded holds the DirectX chart's answers at this size.</summary>
+		private static void CompareWithDirectX(ChartSize chartSize,List<string[]> listRecorded) {
 			Size size=chartSize.Size;
 			string sizeName=size.Width+"x"+size.Height;
-			using ToothChartWrapper wrapperDirectX=DirectXCharts.CreateWrapper(form,size,directXFormat);
-			Assert.AreEqual(ToothChartEngine.DirectX,wrapperDirectX.Engine,"DirectX started at "+sizeName+".");
-			Control controlDirectX=wrapperDirectX.Controls.Cast<Control>().Single();
 			using ToothChartWrapper wrapperShared=CreatePrepared("drawing-segments",chartSize);
-			ToothChartRelay relayDirectX=WpfCharts.CreateRelay(wrapperDirectX);
-			ChartScenes.Prepare(relayDirectX,ChartScenes.Get("drawing-segments"),chartSize.ColorSet);
-			List<string> listSegmentsDirectX=new List<string>();
-			int countSelectionsDirectX=0;
-			wrapperDirectX.SegmentDrawn+=(sender,e) => listSegmentsDirectX.Add(e.DrawingSegement);
-			wrapperDirectX.ToothSelectionsChanged+=sender => countSelectionsDirectX++;
 			MouseLog mouseLog=new MouseLog();
 			ToothChartMouse toothChartMouse=CreateMouse(mouseLog);
 			ToothChartData tcDataShared=wrapperShared.TcData;
@@ -358,14 +365,16 @@ namespace ToothChartImageTests {
 			listInput.Add(Tuple.Create(CursorTool.Eraser,"down",pointEraser));
 			listInput.Add(Tuple.Create(CursorTool.Eraser,"move",pointEraser));
 			listInput.Add(Tuple.Create(CursorTool.Eraser,"up",pointEraser));
-			foreach(Tuple<CursorTool,string,Point> input in listInput) {
-				wrapperDirectX.CursorTool=input.Item1;
+			List<string[]> listRecordedInput=listRecorded.Where(x => x[0]=="input").ToList();
+			Assert.AreEqual(listInput.Count,listRecordedInput.Count,sizeName+": the recorded input is this input.");
+			for(int i=0;i<listInput.Count;i++) {
+				Tuple<CursorTool,string,Point> input=listInput[i];
+				string[] arrayRecorded=listRecordedInput[i];
+				//The recorded input: its index, tool, kind and point, and the teeth DirectX had selected after it.
+				Assert.AreEqual(i+"|"+input.Item1+"|"+input.Item2+"|"+input.Item3.X+","+input.Item3.Y,string.Join("|",arrayRecorded.Skip(1).Take(4)),
+					sizeName+": the recorded input "+i+" is this input.");
 				tcDataShared.CursorTool=input.Item1;
 				tcDataShared.ColorDrawing=Color.Orange;
-				wrapperDirectX.ColorDrawing=Color.Orange;
-				string method=input.Item2=="down"?"OnMouseDown":input.Item2=="up"?"OnMouseUp":"OnMouseMove";
-				RaiseMouse(controlDirectX,method,input.Item3);
-				Application.DoEvents();
 				if(input.Item2=="down") {
 					toothChartMouse.MouseDown(tcDataShared,input.Item3,size);
 				}
@@ -375,31 +384,22 @@ namespace ToothChartImageTests {
 				else {
 					toothChartMouse.MouseMove(tcDataShared,input.Item3,size);
 				}
-				CollectionAssert.AreEquivalent(wrapperDirectX.TcData.SelectedTeeth,tcDataShared.SelectedTeeth,sizeName+": "+input.Item1+" "+input.Item2+" at "
-					+input.Item3);
-				listRecord.Add(sizeName+"\tinput\t"+listInput.IndexOf(input)+"\t"+input.Item1+"\t"+input.Item2+"\t"+input.Item3.X+","+input.Item3.Y+"\t"
-					+string.Join(",",wrapperDirectX.TcData.SelectedTeeth));
+				List<string> listSelectedDirectX=arrayRecorded[5]=="" ? new List<string>() : arrayRecorded[5].Split(',').ToList();
+				CollectionAssert.AreEquivalent(listSelectedDirectX,tcDataShared.SelectedTeeth,sizeName+": "+input.Item1+" "+input.Item2+" at "+input.Item3);
 			}
-			for(int i=0;i<listSegmentsDirectX.Count;i++) {
-				listRecord.Add(sizeName+"\tsegment\t"+i+"\t"+listSegmentsDirectX[i]);
-			}
-			listRecord.Add(sizeName+"\tselections\t"+countSelectionsDirectX);
-			for(int i=0;i<wrapperDirectX.TcData.DrawingSegmentList.Count;i++) {
-				listRecord.Add(sizeName+"\tdrawing\t"+i+"\t"+wrapperDirectX.TcData.DrawingSegmentList[i].DrawingSegment+"|"
-					+wrapperDirectX.TcData.DrawingSegmentList[i].ColorDraw.ToArgb());
-			}
+			List<string> listSegmentsDirectX=listRecorded.Where(x => x[0]=="segment").Select(x => x[2]).ToList();
+			int countSelectionsDirectX=int.Parse(listRecorded.Single(x => x[0]=="selections")[1]);
+			List<string> listDrawingsDirectX=listRecorded.Where(x => x[0]=="drawing").Select(x => x[2]).ToList();
 			CollectionAssert.AreEqual(listSegmentsDirectX,mouseLog.ListSegments,sizeName+": the same SegmentDrawn strings, in order.");
 			Assert.AreEqual(countSelectionsDirectX,mouseLog.CountSelectionsChanged,sizeName+": the same commits of the selection.");
-			CollectionAssert.AreEqual(wrapperDirectX.TcData.DrawingSegmentList.Select(x => x.DrawingSegment+"|"+x.ColorDraw.ToArgb()).ToList(),
-				tcDataShared.DrawingSegmentList.Select(x => x.DrawingSegment+"|"+x.ColorDraw.ToArgb()).ToList(),sizeName+": the same drawings, recoloured and "
-				+"erased alike.");
+			CollectionAssert.AreEqual(listDrawingsDirectX,tcDataShared.DrawingSegmentList.Select(x => x.DrawingSegment+"|"+x.ColorDraw.ToArgb()).ToList(),
+				sizeName+": the same drawings, recoloured and erased alike.");
 			Assert.IsTrue(listSegmentsDirectX.Count==3,sizeName+": the pen stroke, the recoloured drawing and the erased one: "
 				+string.Join(" / ",listSegmentsDirectX));
 			Assert.IsTrue(countSelectionsDirectX==2 && tcDataShared.SelectedTeeth.Count==11,sizeName+": 30, then 3 to 12: "+string.Join(",",tcDataShared.SelectedTeeth));
 			if(size!=ChartScenes.SizeModule.Size) {
 				Assert.IsTrue(listSegmentsDirectX[0].Contains("."),sizeName+": the stroke's points are scaled into 410x307 and rounded to tenths: "+listSegmentsDirectX[0]);
 			}
-			form.Controls.Remove(wrapperDirectX);
 		}
 
 		///<summary>A point of the module's 410x307 chart at the same place of a chart of the size, rounded to whole pixels.</summary>

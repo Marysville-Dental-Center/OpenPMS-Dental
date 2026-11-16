@@ -2,7 +2,7 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 
 [assembly: AssemblyTitle("N64ATests")]
-[assembly: AssemblyDescription("Tests of the plug-in loaders' bitness and framework check, Trojan's registry lookup, Word's registration message and the D3DX log line.")]
+[assembly: AssemblyDescription("Tests of the plug-in loaders' bitness and framework check, Trojan's registry lookup, Word's registration message and that no D3DX is loaded.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyProduct("N64ATests")]
 [assembly: AssemblyCopyright("GPL v2 or later")]

@@ -83,49 +83,6 @@ namespace ToothChartHostTests {
 				return bitmap;
 			}
 		}
-
-		///<summary>For gallery G4: writes name.directx.png, today's DirectX picture of the same host (the DirectX engine is still in the build until
-		///TC-9a, reached only through ToothChartWrapper.Engine), when a gallery is made and DirectX starts here. funcBitmap draws it on a wrapper that
-		///runs DirectX on a form drawn off screen. Returns what happened, for the gallery's caption.</summary>
-		public static string WriteDirectXPicture(string name,Size size,Func<SparksToothChart.ToothChartWrapper,Bitmap> funcBitmap) {
-			string galleryFolder=GalleryFolder;
-			if(galleryFolder==null) {
-				return "no gallery";
-			}
-			string result="";
-			StaRunner.Run(() => {
-				using(System.Windows.Forms.Form form=HostForms.CreateOffscreenForm(size)) {
-					form.Show();
-					System.Windows.Forms.Application.DoEvents();
-					string directXFormat=SparksToothChart.ToothChartWrapper.GetPreferredDirectXFormat(form);
-					if(directXFormat=="invalid") {
-						result="DirectX does not start here";
-						return;
-					}
-					SparksToothChart.ToothChartWrapper wrapper=new SparksToothChart.ToothChartWrapper();
-					wrapper.Location=new Point(0,0);
-					wrapper.Size=size;
-					wrapper.DeviceFormat=new SparksToothChart.ToothChartDirectX.DirectXDeviceFormat(directXFormat);
-					form.Controls.Add(wrapper);
-					wrapper.Engine=SparksToothChart.ToothChartEngine.DirectX;
-					System.Windows.Forms.Application.DoEvents();
-					if(wrapper.Engine!=SparksToothChart.ToothChartEngine.DirectX) {
-						result="DirectX fell back to "+wrapper.Engine;
-					}
-					else {
-						using(Bitmap bitmap=funcBitmap(wrapper)) {
-							PngWriter.Save(bitmap,Path.Combine(galleryFolder,name+".directx.png"));
-						}
-						result="DirectX "+directXFormat;
-					}
-					form.Controls.Remove(wrapper);
-					wrapper.Dispose();
-					form.Close();
-				}
-			});
-			File.WriteAllText(Path.Combine(galleryFolder,name+".directx.txt"),result);
-			return result;
-		}
 	}
 
 	///<summary>Forms of the tests, shown only off the desktop, as tests/ToothChartImageTests does (WpfCharts.CreateOffscreenForm).</summary>

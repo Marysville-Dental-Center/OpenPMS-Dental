@@ -66,8 +66,6 @@ namespace ToothChartHostTests {
 				HostPictures.Check("sheet",image,new Size(500,370));
 			}
 			AssertNothingFellBack();
-			HostPictures.WriteDirectXPicture("sheet",new Size(500,370),wrapper => HostDirectX.PaintLikeGetToothChartHelper(wrapper,HostFixtures.PatNumWork,false,null,null,
-				false,null,null));
 		}
 
 		[TestMethod]
@@ -78,8 +76,6 @@ namespace ToothChartHostTests {
 				HostPictures.Check("treatplan-sheet",image,new Size(500,370));
 			}
 			AssertNothingFellBack();
-			HostPictures.WriteDirectXPicture("treatplan-sheet",new Size(500,370),wrapper => HostDirectX.PaintLikeGetToothChartHelper(wrapper,HostFixtures.PatNumWork,true,
-				treatPlan,null,false,null,null));
 		}
 
 		[TestMethod]
@@ -93,8 +89,6 @@ namespace ToothChartHostTests {
 				HostPictures.Check("referral-letter",image,new Size(500,370));
 			}
 			AssertNothingFellBack();
-			HostPictures.WriteDirectXPicture("referral-letter",new Size(500,370),wrapper => HostDirectX.PaintLikeGetToothChartHelper(wrapper,HostFixtures.PatNumWork,false,
-				null,listProcedures,false,null,null));
 		}
 
 		[TestMethod]
@@ -161,7 +155,7 @@ namespace ToothChartHostTests {
 				using(Form form=new Form())
 				using(ToothChartWrapper wrapper=new ToothChartWrapper()) {
 					wrapper.Size=new Size(410,307);
-					ToothChartRelay.ApplyComputerSettings(wrapper,ToothChartSettingsUse.StoredMode);
+					ToothChartRelay.ApplyComputerSettings(wrapper);
 					form.Controls.Add(wrapper);
 					using(Bitmap bitmap=wrapper.GetBitmap()) {
 					}
@@ -176,9 +170,6 @@ namespace ToothChartHostTests {
 			}
 			Assert.AreEqual("Wpf3D",engineOnWorker,"The dashboard's wrapper on the MTA worker is still the WPF chart afterwards.");
 			AssertNothingFellBack();
-			TreatPlan treatPlan=TreatPlans.GetActiveForPat(patient.PatNum);
-			HostPictures.WriteDirectXPicture("dashboard",new Size(410,307),wrapper => HostDirectX.PaintLikeGetToothChartHelper(wrapper,patient.PatNum,true,treatPlan,
-				OpenPmsDentalBusiness.SheetPrinting.FilterProceduresForToothChart(null,treatPlan,true),true,patient,Appointments.GetTodaysApptsForPat(patient.PatNum)));
 		}
 		#endregion The Patient Dashboard
 
@@ -201,17 +192,6 @@ namespace ToothChartHostTests {
 				image?.Dispose();
 			}
 			AssertNothingFellBack();
-			HostPictures.WriteDirectXPicture("sheet-editor-preview",new Size(500,370),wrapper => {
-				ToothChartRelay toothChartRelay=new ToothChartRelay();
-				toothChartRelay.SetToothChartWrapper(wrapper);
-				toothChartRelay.SetToothNumberingNomenclature((ToothNumberingNomenclature)PrefC.GetInt(PrefName.UseInternationalToothNumbers));
-				List<Def> listDefs=Defs.GetDefsForCategory(DefCat.ChartGraphicColors);
-				toothChartRelay.ColorBackgroundMain=listDefs[14].ItemColor;
-				toothChartRelay.ColorText=listDefs[15].ItemColor;
-				toothChartRelay.ResetTeeth();
-				toothChartRelay.EndUpdate();
-				return toothChartRelay.GetBitmap();
-			});
 		}
 		#endregion The sheet editor's preview
 
@@ -225,7 +205,6 @@ namespace ToothChartHostTests {
 			List<DataRow> listDataRowsProcs=tableProgNotes.Copy().Select().Where(x => x["ProcNum"].ToString()!="0" && x["ProcNum"].ToString()!="").ToList();
 			Bitmap bitmap=null;
 			string engine="";
-			ToothChartData toothChartData=null;
 			StaRunner.Run(() => {
 				using(FormToothChartingBig formToothChartingBig=new FormToothChartingBig(false)) {
 					formToothChartingBig.PatientCur=patient;
@@ -239,7 +218,6 @@ namespace ToothChartHostTests {
 						.GetValue(formToothChartingBig);
 					engine=wrapper.Engine.ToString();
 					bitmap=wrapper.GetBitmap();
-					toothChartData=wrapper.TcData.Copy();
 				}
 			});
 			try {
@@ -250,10 +228,6 @@ namespace ToothChartHostTests {
 				bitmap?.Dispose();
 			}
 			AssertNothingFellBack();
-			HostPictures.WriteDirectXPicture("big-chart",new Size(926,858),wrapper => {
-				wrapper.TcData=toothChartData;
-				return wrapper.GetBitmap();
-			});
 		}
 		#endregion The big chart window
 
@@ -283,7 +257,6 @@ namespace ToothChartHostTests {
 			Bitmap bitmapSave=null;
 			string engine="";
 			bool isPerioMode=false;
-			ToothChartData toothChartData=null;
 			StaRunner.Run(() => {
 				using(FormPerioGraphical formPerioGraphical=new FormPerioGraphical(perioExam,patient)) {
 					typeof(FormPerioGraphical).GetMethod("LayoutTeeth",BindingFlags.NonPublic|BindingFlags.Instance).Invoke(formPerioGraphical,null);
@@ -292,7 +265,6 @@ namespace ToothChartHostTests {
 					engine=wrapper.Engine.ToString();
 					isPerioMode=wrapper.PerioMode;
 					bitmapChart=wrapper.GetBitmap();
-					toothChartData=wrapper.TcData.Copy();
 					Bitmap bitmap=new Bitmap(750,1000);
 					using(Graphics g=Graphics.FromImage(bitmap)) {
 						g.Clear(Color.White);
@@ -319,10 +291,6 @@ namespace ToothChartHostTests {
 				bitmapSave?.Dispose();
 			}
 			AssertNothingFellBack();
-			HostPictures.WriteDirectXPicture(name+"-chart",new Size(649,696),wrapper => {
-				wrapper.TcData=toothChartData;
-				return wrapper.GetBitmap();
-			});
 		}
 		#endregion The graphical perio chart
 
@@ -353,38 +321,5 @@ namespace ToothChartHostTests {
 			Assert.IsFalse(snapshot.HasChanged(),"Still off.");
 		}
 		#endregion The settings snapshot
-	}
-
-	///<summary>For gallery G4 only: today's DirectX picture of the same host, painted on a DirectX wrapper with the program's own painter calls of
-	///SheetPrinting.GetToothChartHelper (the host's wrapper is made and dropped inside the program), so only the engine differs.</summary>
-	public static class HostDirectX {
-		public static Bitmap PaintLikeGetToothChartHelper(ToothChartWrapper toothChartWrapper,long patNum,bool showCompleted,TreatPlan treatPlan,
-			List<Procedure> listProceduresFilteredOverride,bool isInPatientDashboard,Patient patCur,List<Appointment> listAppts)
-		{
-			ToothChartRelay toothChartRelay=new ToothChartRelay(false);
-			toothChartRelay.SetToothChartWrapper(toothChartWrapper);
-			toothChartRelay.SetToothNumberingNomenclature((ToothNumberingNomenclature)PrefC.GetInt(PrefName.UseInternationalToothNumbers));
-			List<Def> listDefs=Defs.GetDefsForCategory(DefCat.ChartGraphicColors);
-			toothChartRelay.ColorBackgroundMain=listDefs[isInPatientDashboard ? 10 : 14].ItemColor;
-			toothChartRelay.ColorText=listDefs[isInPatientDashboard ? 11 : 15].ItemColor;
-			toothChartRelay.ResetTeeth();
-			toothChartRelay.SetOrthoMode(false);
-			List<ToothInitial> toothInitialList=patNum==0 ? new List<ToothInitial>() : ToothInitials.GetPatientData(patNum);
-			ToothChartPainter.PaintPrimaryTeeth(toothChartRelay,toothInitialList);
-			ToothChartPainter.PaintToothInitials(toothChartRelay,toothInitialList);
-			List<Procedure> listProceduresFiltered=new List<Procedure>();
-			if(listProceduresFilteredOverride!=null) {
-				listProceduresFiltered=listProceduresFilteredOverride;
-			}
-			else if(patNum>0) {
-				listProceduresFiltered=OpenPmsDentalBusiness.SheetPrinting.FilterProceduresForToothChart(Procedures.Refresh(patNum),treatPlan,showCompleted);
-			}
-			listProceduresFiltered.Sort(OpenPmsDentalBusiness.SheetPrinting.CompareProcListFiltered);
-			ToothChartPainter.PaintProcedures(toothChartRelay,ToothChartPaintProc.FromProcedures(listProceduresFiltered),toothInitialList,
-				ToothChartPaintOptions.ForSheet(isInPatientDashboard,patCur,listAppts));
-			ToothChartPainter.PaintOrthoHardware(toothChartRelay,OrthoHardwares.GetPatientData(patNum));
-			toothChartRelay.EndUpdate();
-			return toothChartRelay.GetBitmap();
-		}
 	}
 }

@@ -1,10 +1,13 @@
 // Transform and layer tests of the WPF chart (package TC-1, docs/specs/wpf-tooth-chart-plan.md sections 5.1 to 5.3): sample vertices through WPF's
-// camera chain and through the DirectX chain computed with SharpDX.Mathematics land within 0.001 mm of each other, and a marker vertex lands on the
-// same pixel in the 3D layer and in the 2D layer.
+// camera chain land within 0.001 mm of the DirectX chain's screen points, which were computed with SharpDX.Mathematics and recorded before TC-9a
+// retired the DirectX chart (Baselines\legacy-numbers\directx-transforms.txt), and a marker vertex lands on the same pixel in the 3D layer and in
+// the 2D layer.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Windows.Media.Media3D;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -42,25 +45,23 @@ namespace ToothChartImageTests {
 
 		[TestMethod]
 		public void SampleVertices_LandWithinAThousandthOfAMm_InWpfAndInDirectX() {
+			//The DirectX side is the recording of the DirectX chain (SharpDX.Matrix and Vector3.Project, as ToothChartDirectX computed it), made before
+			//TC-9a retired the DirectX chart and the SharpDX.Mathematics reference (RecordDirectXTransforms): every sample vertex's screen point.
+			Dictionary<string,PointF> dictRecorded=ReadRecordedDirectXPoints();
 			StaRunner.Run(() => {
 				int countPoints=0;
 				double maxDifferenceMm=0;
 				string worst="";
+				HashSet<string> hashSetKeys=new HashSet<string>();
+				int indexScene=0;
 				foreach(KeyValuePair<ToothChartData,ToothScene> pair in BuildTransformScenes()) {
 					ToothChartData tcData=pair.Key;
 					ToothScene toothScene=pair.Value;
 					Viewport3DVisual viewport3DVisual=new Viewport3DVisual();
 					viewport3DVisual.Camera=ToothChartRenderer.CreateCamera(toothScene);
 					viewport3DVisual.Viewport=new System.Windows.Rect(0,0,toothScene.Size.Width,toothScene.Size.Height);
-					SharpDX.Matrix matrixProjection=GetDirectXProjection(tcData);
-					Dictionary<string,ToothGraphic> dictModels=new Dictionary<string,ToothGraphic>();
 					foreach(ToothSceneItem3D item in toothScene.Items3D) {
-						if(!dictModels.TryGetValue(item.ToothId,out ToothGraphic toothGraphicModel)) {
-							toothGraphicModel=tcData.ListToothGraphics[item.ToothId];
-							dictModels[item.ToothId]=toothGraphicModel;
-						}
-						SharpDX.Matrix matrixWorld=GetDirectXWorld(tcData,item.Source);
-						SharpDX.Matrix matrixScreen=matrixWorld*SharpDX.Matrix.Identity*matrixProjection;
+						ToothGraphic toothGraphicModel=tcData.ListToothGraphics[item.ToothId];
 						ModelVisual3D modelVisual3D=new ModelVisual3D();
 						modelVisual3D.Transform=new MatrixTransform3D(ToothChartRenderer.ToMatrix3D(item.Transform));
 						viewport3DVisual.Children.Add(modelVisual3D);
@@ -68,31 +69,52 @@ namespace ToothChartImageTests {
 						//Sample vertices: every 37th of the model.
 						for(int v=item.GroupIndex%37;v<toothGraphicModel.VertexNormals.Count;v+=37) {
 							Vertex3f vertex=toothGraphicModel.VertexNormals[v].Vertex;
-							SharpDX.Vector3 vectorScreen=SharpDX.Vector3.Project(new SharpDX.Vector3(vertex.X,vertex.Y,vertex.Z),0,0,toothScene.Size.Width,
-								toothScene.Size.Height,0,1,matrixScreen);
+							string key=GetTransformKey(indexScene,toothScene,item,v);
+							Assert.IsTrue(dictRecorded.TryGetValue(key,out PointF pointDirectX),"No recorded DirectX point for "+key.Replace("\t"," "));
+							Assert.IsTrue(hashSetKeys.Add(key),"A sample vertex twice: "+key.Replace("\t"," "));
 							Assert.IsTrue(generalTransform3DTo2D.TryTransform(new Point3D(vertex.X,vertex.Y,vertex.Z),out System.Windows.Point pointWpf));
 							//WPF's pixel centres are on halves, DirectX 9's on whole numbers (ToothScene.CameraCenterX).
-							double dxPixels=(pointWpf.X-0.5)-vectorScreen.X;
-							double dyPixels=(pointWpf.Y-0.5)-vectorScreen.Y;
+							double dxPixels=(pointWpf.X-0.5)-pointDirectX.X;
+							double dyPixels=(pointWpf.Y-0.5)-pointDirectX.Y;
 							double differenceMm=Math.Sqrt(dxPixels*dxPixels+dyPixels*dyPixels)/tcData.ScaleMmToPix;
 							if(differenceMm>maxDifferenceMm) {
 								maxDifferenceMm=differenceMm;
 								worst=item.Source+" "+item.ToothId+" vertex "+v+" at "+toothScene.Size.Width+"x"+toothScene.Size.Height+": WPF "+pointWpf
-									+", DirectX "+vectorScreen.X+","+vectorScreen.Y;
+									+", DirectX "+pointDirectX.X+","+pointDirectX.Y;
 							}
 							countPoints++;
 						}
 						viewport3DVisual.Children.Remove(modelVisual3D);
 					}
+					indexScene++;
 				}
-				Console.WriteLine(countPoints+" vertices compared; the largest difference is "+maxDifferenceMm.ToString("0.000000")+" mm ("+worst+").");
+				Console.WriteLine(countPoints+" vertices compared with the recorded DirectX chain; the largest difference is "+maxDifferenceMm.ToString("0.000000")
+					+" mm ("+worst+").");
 				Assert.IsTrue(countPoints>5000,"Compared "+countPoints);
+				Assert.AreEqual(dictRecorded.Count,countPoints,"Every recorded sample vertex is compared, and no other: the scenes are the recorded ones.");
 				Assert.IsTrue(maxDifferenceMm<0.001,"WPF and DirectX differ by "+maxDifferenceMm+" mm: "+worst);
 			});
 		}
 
-		///<summary>TC-9a: set to 1 to record the DirectX chain's screen point of every sample vertex of SampleVertices_... into
-		///Baselines\legacy-numbers\directx-transforms.txt, while SharpDX.Mathematics is still referenced.</summary>
+		///<summary>The recording of the DirectX chain (Baselines\legacy-numbers\directx-transforms.txt), made by RecordDirectXTransforms before TC-9a:
+		///the key of each sample vertex (GetTransformKey) and its DirectX screen point.</summary>
+		public static Dictionary<string,PointF> ReadRecordedDirectXPoints() {
+			string path=Path.Combine(TestPaths.BaselinesLegacyNumbers,FileDirectXTransforms);
+			Assert.IsTrue(File.Exists(path),"The recording of the DirectX chain is missing: "+path);
+			Dictionary<string,PointF> dictRecorded=new Dictionary<string,PointF>();
+			foreach(string line in File.ReadAllLines(path)) {
+				if(line.StartsWith("#") || line.Trim()=="") {
+					continue;
+				}
+				string[] arrayFields=line.Split('\t');
+				Assert.AreEqual(7,arrayFields.Length,"A recorded line: "+line);
+				string key=string.Join("\t",arrayFields.Take(5));
+				dictRecorded.Add(key,new PointF(float.Parse(arrayFields[5],CultureInfo.InvariantCulture),float.Parse(arrayFields[6],CultureInfo.InvariantCulture)));
+			}
+			return dictRecorded;
+		}
+
+		///<summary>TC-9a: the switch with which RecordDirectXTransforms wrote the recording, while SharpDX.Mathematics was still referenced.</summary>
 		public const string EnvRecordDirectXTransforms="OPMS_RECORD_DIRECTX_TRANSFORMS";
 		public const string FileDirectXTransforms="directx-transforms.txt";
 
@@ -101,38 +123,15 @@ namespace ToothChartImageTests {
 			return indexScene+"\t"+toothScene.Size.Width+"x"+toothScene.Size.Height+"\t"+item.Source+"\t"+item.GroupIndex+"\t"+vertex;
 		}
 
+		///<summary>Recorded Baselines\legacy-numbers\directx-transforms.txt (24,254 sample vertices) with OPMS_RECORD_DIRECTX_TRANSFORMS=1 on the build
+		///PC, from the DirectX chain computed with SharpDX.Mathematics (copies of ToothChartDirectX's matrix code: Render, DrawScene, DrawFacialView,
+		///DrawOcclusalView, DrawImplant, DrawScenePerio, DrawPerioRow, ToothTranslationMatrix, ToothRotationMatrix). The recording is kept (O-32);
+		///it cannot be made again.</summary>
 		[TestMethod]
+		[Ignore("The DirectX engine was retired in TC-9a, with this project's SharpDX.Mathematics reference: the DirectX chain cannot be computed again. "
+			+"The recording it made (Baselines\\legacy-numbers\\directx-transforms.txt) is kept, and SampleVertices_... compares with it.")]
 		public void RecordDirectXTransforms() {
-			if(Environment.GetEnvironmentVariable(EnvRecordDirectXTransforms)!="1") {
-				Assert.Inconclusive("Records only with "+EnvRecordDirectXTransforms+"=1.");
-			}
-			StaRunner.Run(() => {
-				List<string> listLines=new List<string>();
-				listLines.Add("# The DirectX chain's screen point (SharpDX.Matrix and Vector3.Project, as ToothChartDirectX computed it) of every sample vertex of");
-				listLines.Add("# WpfTransformTests.SampleVertices_..., recorded before TC-9a retired the DirectX chart and the SharpDX.Mathematics reference.");
-				listLines.Add("# Scene\tSize\tSource\tGroup\tVertex\tX\tY (pixels, DirectX 9's pixel centres on whole numbers; round-trip floats)");
-				int indexScene=0;
-				foreach(KeyValuePair<ToothChartData,ToothScene> pair in BuildTransformScenes()) {
-					ToothChartData tcData=pair.Key;
-					ToothScene toothScene=pair.Value;
-					SharpDX.Matrix matrixProjection=GetDirectXProjection(tcData);
-					foreach(ToothSceneItem3D item in toothScene.Items3D) {
-						ToothGraphic toothGraphicModel=tcData.ListToothGraphics[item.ToothId];
-						SharpDX.Matrix matrixScreen=GetDirectXWorld(tcData,item.Source)*SharpDX.Matrix.Identity*matrixProjection;
-						for(int v=item.GroupIndex%37;v<toothGraphicModel.VertexNormals.Count;v+=37) {
-							Vertex3f vertex=toothGraphicModel.VertexNormals[v].Vertex;
-							SharpDX.Vector3 vectorScreen=SharpDX.Vector3.Project(new SharpDX.Vector3(vertex.X,vertex.Y,vertex.Z),0,0,toothScene.Size.Width,
-								toothScene.Size.Height,0,1,matrixScreen);
-							listLines.Add(GetTransformKey(indexScene,toothScene,item,v)+"\t"+vectorScreen.X.ToString("R",System.Globalization.CultureInfo.InvariantCulture)
-								+"\t"+vectorScreen.Y.ToString("R",System.Globalization.CultureInfo.InvariantCulture));
-						}
-					}
-					indexScene++;
-				}
-				System.IO.Directory.CreateDirectory(TestPaths.BaselinesLegacyNumbers);
-				System.IO.File.WriteAllLines(System.IO.Path.Combine(TestPaths.BaselinesLegacyNumbers,FileDirectXTransforms),listLines,new System.Text.UTF8Encoding(false));
-				Console.WriteLine((listLines.Count-3)+" sample vertices recorded.");
-			});
+			Assert.Inconclusive("Retired in TC-9a.");
 		}
 
 		[TestMethod]
@@ -218,130 +217,5 @@ namespace ToothChartImageTests {
 			}
 			return Rectangle.FromLTRB(left,top,right+1,bottom+1);
 		}
-
-		#region The DirectX chain, as ToothChartDirectX computes it
-		//Copies of the DirectX chart's private matrix code (ToothChartDirectX: Render, DrawScene, DrawFacialView, DrawOcclusalView, DrawImplant,
-		//DrawScenePerio, DrawPerioRow, ToothTranslationMatrix, ToothRotationMatrix), with SharpDX.Mathematics, so the scene builder's ChartMatrix
-		//code is checked against the library DirectX used.
-
-		private static SharpDX.Matrix GetDirectXProjection(ToothChartData tcData) {
-			float heightProj=tcData.SizeOriginalProjection.Height;
-			float widthProj=tcData.SizeOriginalProjection.Width;
-			int width=tcData.SizeControl.Width;
-			int height=tcData.SizeControl.Height;
-			if(tcData.IsWide) {
-				widthProj=heightProj*width/height;
-			}
-			else {
-				heightProj=widthProj*height/width;
-			}
-			return SharpDX.Matrix.OrthoLH(widthProj,heightProj,0,1000.0f);
-		}
-
-		///<summary>DirectX's world matrix of the item, from its source: "8 facial", "8 occlusal", "implant of 3", or in perio "8 maxillary facial row"
-		///and "implant of 3 maxillary lingual row".</summary>
-		private static SharpDX.Matrix GetDirectXWorld(ToothChartData tcData,string source) {
-			bool isImplant=source.StartsWith("implant of ");
-			string rest=isImplant?source.Substring("implant of ".Length):source;
-			string toothId=rest.Split(' ')[0];
-			string view=rest.Substring(toothId.Length).Trim();
-			ToothGraphic toothGraphic=tcData.ListToothGraphics[toothId];
-			SharpDX.Matrix world;
-			if(tcData.PerioMode) {
-				world=SharpDX.Matrix.Translation(tcData.GetTransX(toothId),0,0)*GetDirectXPerioRow(tcData,view);
-			}
-			else {
-				SharpDX.Matrix defOrient=SharpDX.Matrix.Identity;
-				defOrient.ScaleVector=new SharpDX.Vector3(1f,1f,-1f);
-				SharpDX.Matrix trans=SharpDX.Matrix.Identity;
-				trans.TranslationVector=new SharpDX.Vector3(0f,0f,400f);
-				defOrient=defOrient*trans;
-				if(view=="occlusal") {
-					SharpDX.Matrix toothTrans=SharpDX.Matrix.Translation(tcData.GetTransX(toothId),tcData.GetTransYocclusal(toothId),0);
-					SharpDX.Matrix toothRot=SharpDX.Matrix.Identity;
-					if(ToothGraphic.IsMaxillary(toothId)) {
-						toothRot=toothRot*SharpDX.Matrix.RotationX((float)((-110f*Math.PI)/180f));
-					}
-					else if(ToothGraphic.IsAnterior(toothId)) {
-						toothRot=toothRot*SharpDX.Matrix.RotationX((float)((110f*Math.PI)/180f));
-					}
-					else {
-						toothRot=toothRot*SharpDX.Matrix.RotationX((float)((120f*Math.PI)/180f));
-					}
-					world=GetDirectXRotation(toothGraphic)*GetDirectXTranslation(toothGraphic)*toothRot*toothTrans*defOrient;
-				}
-				else {//facial, and the implant, which is drawn after the facial view
-					SharpDX.Matrix toothTrans=SharpDX.Matrix.Translation(tcData.GetTransX(toothId),tcData.GetTransYfacial(toothId),0);
-					world=GetDirectXRotation(toothGraphic)*GetDirectXTranslation(toothGraphic)*toothTrans*defOrient;
-				}
-			}
-			if(isImplant && ToothGraphic.IsMaxillary(toothId)) {
-				world=SharpDX.Matrix.RotationZ((float)Math.PI)*world;//DrawImplant: flip the implant upside down
-			}
-			return world;
-		}
-
-		private static SharpDX.Matrix GetDirectXPerioRow(ToothChartData tcData,string rowName) {
-			const float maxYmm=63f;
-			float baseY=tcData.SizeControl.Height/(2f*tcData.ScaleMmToPix)-maxYmm;
-			SharpDX.Matrix defOrient=SharpDX.Matrix.Scaling(1f,1f,-1f)*SharpDX.Matrix.Translation(0,baseY,400f);
-			switch(rowName) {
-				case "maxillary facial row":
-					return SharpDX.Matrix.Translation(0,45f,0)*defOrient;
-				case "maxillary lingual row":
-					return SharpDX.Matrix.Scaling(1f,1f,-1f)*SharpDX.Matrix.Translation(0,12f,0)*defOrient;
-				case "mandibular lingual row":
-					return SharpDX.Matrix.Scaling(1f,1f,-1f)*SharpDX.Matrix.Translation(0,-12f,0)*defOrient;
-				case "mandibular facial row":
-					return SharpDX.Matrix.Translation(0,-45f,0)*defOrient;
-				default:
-					throw new ArgumentException("Unknown perio row: "+rowName);
-			}
-		}
-
-		private static SharpDX.Matrix GetDirectXTranslation(ToothGraphic toothGraphic) {
-			if(ToothGraphic.IsRight(toothGraphic.ToothID)) {
-				if(ToothGraphic.IsMaxillary(toothGraphic.ToothID)) {//UR
-					return SharpDX.Matrix.Translation(toothGraphic.ShiftM,-toothGraphic.ShiftO,toothGraphic.ShiftB);
-				}
-				return SharpDX.Matrix.Translation(toothGraphic.ShiftM,toothGraphic.ShiftO,toothGraphic.ShiftB);//LR
-			}
-			if(ToothGraphic.IsMaxillary(toothGraphic.ToothID)) {//UL
-				return SharpDX.Matrix.Translation(-toothGraphic.ShiftM,-toothGraphic.ShiftO,toothGraphic.ShiftB);
-			}
-			return SharpDX.Matrix.Translation(-toothGraphic.ShiftM,toothGraphic.ShiftO,toothGraphic.ShiftB);//LL
-		}
-
-		private static SharpDX.Matrix GetDirectXRotation(ToothGraphic toothGraphic) {
-			SharpDX.Matrix rotM;
-			SharpDX.Matrix rotB;
-			SharpDX.Matrix rot;
-			if(ToothGraphic.IsRight(toothGraphic.ToothID)) {
-				if(ToothGraphic.IsMaxillary(toothGraphic.ToothID)) {//UR
-					rotM=SharpDX.Matrix.RotationZ(((float)(toothGraphic.TipM*Math.PI)/180));
-					rotB=SharpDX.Matrix.RotationX(((float)(-toothGraphic.TipB*Math.PI)/180));
-					rot=SharpDX.Matrix.RotationY(((float)(toothGraphic.Rotate*Math.PI)/180));
-				}
-				else {//LR
-					rotM=SharpDX.Matrix.RotationZ(((float)(-toothGraphic.TipM*Math.PI)/180));
-					rotB=SharpDX.Matrix.RotationX(((float)(toothGraphic.TipB*Math.PI)/180));
-					rot=SharpDX.Matrix.RotationY(((float)(-toothGraphic.Rotate*Math.PI)/180));
-				}
-			}
-			else {
-				if(ToothGraphic.IsMaxillary(toothGraphic.ToothID)) {//UL
-					rotM=SharpDX.Matrix.RotationZ(((float)(-toothGraphic.TipM*Math.PI)/180));
-					rotB=SharpDX.Matrix.RotationX(((float)(-toothGraphic.TipB*Math.PI)/180));
-					rot=SharpDX.Matrix.RotationY(((float)(toothGraphic.Rotate*Math.PI)/180));
-				}
-				else {//LL
-					rotM=SharpDX.Matrix.RotationZ(((float)(toothGraphic.TipM*Math.PI)/180));
-					rotB=SharpDX.Matrix.RotationX(((float)(toothGraphic.TipB*Math.PI)/180));
-					rot=SharpDX.Matrix.RotationY(((float)(-toothGraphic.Rotate*Math.PI)/180));
-				}
-			}
-			return rot*rotB*rotM;
-		}
-		#endregion The DirectX chain, as ToothChartDirectX computes it
 	}
 }

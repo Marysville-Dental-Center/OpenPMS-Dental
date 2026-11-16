@@ -81,7 +81,7 @@ namespace ToothChartImageTests {
 				"toothChartWrapper.Engine=GetEngineForStoredMode(computerPref.GraphicsSimple);");
 			StringAssert.DoesNotMatch(method,new System.Text.RegularExpressions.Regex(@"ComputerPrefs\.Update|DeviceFormat|UseHardware|PreferredPixelFormat"));
 			string settings=SourceText.GetMethod(SourceText.ReadCode(@"WpfControlsOD\UI\ToothChart\ToothChartRelay.cs"),
-				"public static void ApplyComputerSettings(ToothChartWrapper toothChartWrapper,ToothChartSettingsUse toothChartSettingsUse) {");
+				"public static void ApplyComputerSettings(ToothChartWrapper toothChartWrapper) {");//TC-9a: the wrapper only (ToothChartSettingsUse went)
 			StringAssert.Contains(settings,"ApplyComputerPref(toothChartWrapper,ComputerPrefs.LocalComputer);");
 			StringAssert.DoesNotMatch(settings,new System.Text.RegularExpressions.Regex(@"ComputerPrefs\.Update"),"No ComputerPrefs.Update when an image is made.");
 		}
