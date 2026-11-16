@@ -1248,6 +1248,22 @@ NativeFirstTests 43 of 43, BINATests 20 of 22 (one layer C output, one WPF pictu
 build but create `synth_*` databases, so the Full run runs them. 48 other test projects qualify by their references but use scratch
 databases (S3b-5); 68 stay blocked by UnitTestsCore, the program, WpfControlsOD, TestProbeHost and the helper.
 
+**Status (2026-11-16), S3b-4.** On `net10/s3b4-1` (`docs/port-notes/S3b-4.md`): WpfControlsOD, ImagingCapture, OpenPmsDental, the tools
+(CrudGenerator, DatabaseIntegrityCheck, MySQLManager, CentralManager) and PluginExample (SDK-style, in the sln and slnf, built, not shipped) are
+`net10.0-windows` x64; DocumentationBuilder's project file too, its build waits for UnitTests (S3b-5); the helper is x86, self-contained for
+win-x86, and `CopyHelper32` puts its whole output with its own runtime into `Helper32\`, where `Helper32Client` starts it; UpdateFileCopier's four
+files are copied next to the program, its app.config and `Settings.settings` gone; Direct2dWrapper is x64 only and copies into the program's
+output. Every Windows Forms exe's `Main` calls `SetDefaultFont` (Microsoft Sans Serif 8.25) and then `SetHighDpiMode(PerMonitorV2)` before any
+window (the program after `/ehr-render`), with the code pages where `ODInitialize` does not register them. The program's app.config keeps the
+application settings only; System.Speech is a package; `OpenPmsDental.XmlSerializers.dll` comes from the generator (CallFire's two messages) and
+pairs by MVID; CallFire (SOAP) and Divvy (WCF) compile for the .NET Framework only and give a message naming O-10 on .NET. The plug-in check
+reads the target framework with System.Reflection.Metadata; the x64 run found that .NET loads an "any CPU, 32-bit preferred" assembly into an x86
+process only, so the check refuses it in the 64-bit program. Scoped lane rebuild of the owned projects: 0 errors, no CA1416/NU/MSB/WFDEV006;
+program folder flat but `Helper32\` (x64 files 0x8664, the helper's 0x14C), every runtimeconfig on 10.0.15. N64ATests (now .NET 10, with the
+section 7 plug-in test) 45/45, NoHqTests 112/112, BINATests 21/22 (the WPF picture test, disconnected session); the program starts headless in
+its `/ehr-render` mode on its own folder's runtime and renders a CDA document. 83 test projects have all references on .NET 10; 45 wait for
+UnitTestsCore, TestProbeHost or TopazStandIn (S3b-5).
+
 **Order on the branch.** S3b-0 (spike) and S3b-1 first; then S3b-2, S3b-3 strictly in sequence (each layer must be net10 before the
 layer above can build); then S3b-4 with S3b-6 and S3b-7 in parallel (disjoint files: the Middle Tier package owns the Remoting and
 WebServices files, the release package owns ForkReleases/DocumentMiscs/PrefL/UpdateFileCopier's `FormMain.cs`/setup/Build-Release;
