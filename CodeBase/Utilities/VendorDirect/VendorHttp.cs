@@ -203,7 +203,8 @@ namespace CodeBase.VendorDirect {
 		///Pass isEphemeral false only if the TLS stack in use can't present an ephemeral key.</summary>
 		public static X509Certificate2 LoadClientCertificate(byte[] pfxBytes,string password,bool isEphemeral=true) {
 			X509KeyStorageFlags flags=isEphemeral ? X509KeyStorageFlags.EphemeralKeySet : X509KeyStorageFlags.UserKeySet;
-			return new X509Certificate2(pfxBytes,password,flags);
+			//X509CertificateLoader replaces the PKCS#12 constructor of X509Certificate2 on .NET (SYSLIB0057), with the same flags.
+			return X509CertificateLoader.LoadPkcs12(pfxBytes,password,flags);
 		}
 
 		///<summary>Runs an async vendor call from synchronous code on a pool thread, so it never deadlocks on the UI thread's context.</summary>

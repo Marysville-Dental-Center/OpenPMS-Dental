@@ -4,8 +4,10 @@ using System;
 using System.Security.Cryptography;
 
 namespace CodeBase {
-	///<summary>HMAC-SHA256 (RFC 2104) over SHA256CryptoServiceProvider. The framework's HMACSHA256 class uses SHA256Managed, which throws on
-	///machines with Windows FIPS policy enforced; the CryptoAPI provider used here doesn't. Not thread safe: lock around shared instances.</summary>
+	///<summary>HMAC-SHA256 (RFC 2104) over SHA256.Create(). On .NET Framework the HMACSHA256 class used SHA256Managed, which throws on
+	///machines with Windows FIPS policy enforced, so this class hashed with the CryptoAPI provider (SHA256CryptoServiceProvider). On .NET every
+	///SHA-256 class, that provider included (obsolete there, SYSLIB0021), is the operating system's CNG implementation, which SHA256.Create()
+	///returns: the same hash, and it works under the FIPS policy. Not thread safe: lock around shared instances.</summary>
 	internal sealed class HmacSha256 : IDisposable {
 		private const int BlockSize=64;
 		private readonly byte[] _arrayInnerPad;
@@ -16,7 +18,7 @@ namespace CodeBase {
 			if(arrayKey==null) {
 				throw new ArgumentNullException(nameof(arrayKey));
 			}
-			_sha256=new SHA256CryptoServiceProvider();
+			_sha256=SHA256.Create();
 			if(arrayKey.Length>BlockSize) {
 				arrayKey=_sha256.ComputeHash(arrayKey);
 			}
@@ -47,7 +49,7 @@ namespace CodeBase {
 
 		///<summary>SHA-256 of data.</summary>
 		internal static byte[] Sha256(byte[] data) {
-			using(SHA256 sha256=new SHA256CryptoServiceProvider()) {
+			using(SHA256 sha256=SHA256.Create()) {
 				return sha256.ComputeHash(data);
 			}
 		}

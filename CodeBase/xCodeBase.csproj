@@ -1,11 +1,15 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net48</TargetFramework>
     <OutputType>Library</OutputType>
     <RootNamespace>CodeBase</RootNamespace>
     <AssemblyName>CodeBase</AssemblyName>
     <LangVersion>8.0</LangVersion>
     <Platforms>AnyCPU;x86</Platforms>
+    <!-- net10.0-windows x64 from Directory.Build.props and Directory.Build.Net.props (stage 3b, S3b-2 of docs/specs/net10-plan.md). The
+         progress windows, message boxes, print preview and WebView2 control are Windows Forms; WPF as in the classic project's
+         PresentationCore reference. The framework references flow to every project that references this one. -->
+    <UseWindowsForms>true</UseWindowsForms>
+    <UseWPF>true</UseWPF>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugType>full</DebugType>
@@ -15,22 +19,15 @@
     <DocumentationFile>bin\Release\CodeBase.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.VisualBasic" />
-    <!-- The WebView2 SDK, the version of Directory.Packages.props (ODWebView2). Its build files are left out (ExcludeAssets="build"): in a
-         library they would only copy the native WebView2Loader.dll into this output folder and every one that references it; the program
-         and the tests that open WebView2 windows take it themselves (Directory.Build.targets). -->
-    <PackageReference Include="Microsoft.Web.WebView2" ExcludeAssets="build" />
-    <Reference Include="PresentationCore" />
-    <Reference Include="System" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.IO.Compression" />
-    <Reference Include="System.Management" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Security" />
-    <Reference Include="System.ServiceProcess" />
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml" />
+    <!-- The WebView2 SDK, the version of Directory.Packages.props for .NET 10 (1.0.4314.35). Its build files are used (S3b-0 item 5): for
+         .NET they reference the lib_manual builds of the WebView2 assemblies, the same files the program gets, instead of the lib\net462
+         ones NuGet would pick; its x64 WebView2Loader.dll lands flat (Directory.Build.targets). -->
+    <PackageReference Include="Microsoft.Web.WebView2" />
+    <!-- Not in the .NET 10 shared frameworks: WMI (System.Management) and the service control (System.ServiceProcess.ServiceController),
+         the versions of Directory.Packages.props. The rest of the .NET Framework references (System.Data, System.Drawing, System.Security,
+         System.Net.Http, ...) are part of Microsoft.NETCore.App and Microsoft.WindowsDesktop.App; Microsoft.VisualBasic is not used. -->
+    <PackageReference Include="System.Management" />
+    <PackageReference Include="System.ServiceProcess.ServiceController" />
   </ItemGroup>
   <ItemGroup>
     <!-- Newtonsoft.Json, the version of Directory.Packages.props. -->

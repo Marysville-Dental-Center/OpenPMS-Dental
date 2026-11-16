@@ -65,13 +65,16 @@ namespace CodeBase {
 		public ODException(string message,Exception ex) : base(message,ex) {
 		}
 
-		///<summary>Used for serialization.</summary>
+		///<summary>Used for serialization. Formatter-based serialization (BinaryFormatter) does not exist on .NET, where the base members are
+		///obsolete (SYSLIB0051); kept, marked as the base marks them.</summary>
+		[Obsolete("Formatter-based serialization is obsolete and not supported on .NET.",DiagnosticId="SYSLIB0051",UrlFormat="https://aka.ms/dotnet-warnings/{0}")]
 		protected ODException(SerializationInfo info,StreamingContext context) : base(info,context) {
 			_errorCode=info.GetInt32(nameof(ErrorCode));
 			_query=info.GetString(nameof(Query));
 		}
 
-		///<summary>Used for serialization.</summary>
+		///<summary>Used for serialization (see the serialization constructor).</summary>
+		[Obsolete("Formatter-based serialization is obsolete and not supported on .NET.",DiagnosticId="SYSLIB0051",UrlFormat="https://aka.ms/dotnet-warnings/{0}")]
 		public override void GetObjectData(SerializationInfo info,StreamingContext context) {
 			if(info==null) {
 				throw new ArgumentNullException("info");
