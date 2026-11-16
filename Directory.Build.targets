@@ -65,6 +65,12 @@
   -->
   <ItemGroup Condition="'$(WebView2ProjectKind)' == 'managed' and '$(NugetRoot)' != ''">
     <Content Update="$(NugetRoot)runtimes\win-x86\native\WebView2Loader.dll" Link="WebView2Loader.dll" />
+    <!--
+      The x64 loader of a .NET 10 project (PlatformTarget x64, S3b-1): the same rule, so it lands flat too. Version 1.0.4314.35, which a
+      .NET 10 project takes (Directory.Packages.props), also has a buildTransitive folder, which ExcludeAssets="build" does not leave out, so
+      a library on .NET 10 gets the Content item as well (S3b-1's build of CodeBase; S3b-0 item 5).
+    -->
+    <Content Update="$(NugetRoot)runtimes\win-x64\native\WebView2Loader.dll" Link="WebView2Loader.dll" />
   </ItemGroup>
 
   <!--
