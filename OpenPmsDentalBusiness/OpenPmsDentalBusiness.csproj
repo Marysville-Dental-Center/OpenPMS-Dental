@@ -40,7 +40,7 @@
       host cannot resolve it and the build only warns (S3b-0 item 10). Its version is the PackageReference's (CLI tool items take no central
       version).
     - SGenTypes: without a list the generator takes every public type and stops at the first two that share an XML name. SGen of .NET
-      Framework took the web service proxy only, the Middle Tier's, which .NET 10 does not compile (S3b-6 replaces it); the list is the Middle
+      Framework took the web service proxy only, the Middle Tier's, which S3b-6 replaced with an HTTP client; the list is the Middle
       Tier's envelopes instead, the DataTransferObject classes that RemotingClient and DtoProcessor serialize for every request
       (DataTransferObject.Serialize and Deserialize), with Credentials and DtoObject inside them.
     - The package gives this project its build targets only (IncludeAssets): its lib folder holds the tool itself, which nothing compiles
@@ -141,8 +141,8 @@
     <Compile Update="UI\SignatureBoxWrapper.Designer.cs">
       <DependentUpon>SignatureBoxWrapper.cs</DependentUpon>
     </Compile>
-    <!-- The classes generated from the Reference.map of the web references: the Middle Tier's proxy, and the data classes of the five vendor
-         services whose proxies S3a-6 replaced with WebServices/SoapClients.cs (docs/port-notes/S3a-6.md). -->
+    <!-- The classes generated from the Reference.map of the web references: the data classes of the five vendor services whose proxies S3a-6
+         replaced with WebServices/SoapClients.cs (docs/port-notes/S3a-6.md). The Middle Tier's proxy went in S3b-6. -->
     <Compile Update="Web References\*\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -239,9 +239,9 @@
   <ItemGroup>
     <!--
       The vendor services' web references (DentalXChange DWS, DEA and DCI, NewCrop, Change Healthcare ITS) went in S3a-6: their calls go through
-      SoapCaller, and their folders keep the WSDL and the generated data classes. The Middle Tier's (OpenDentalServer) is compiled for .NET
-      Framework only (S3b-6 replaces it); its WebReferenceUrl item, whose only effect on the build was MSBuild's SGen, went in S3b-3 (the
-      XmlSerializer generator above). WebReferences and WCFMetadata are the folders Visual Studio keeps them in.
+      SoapCaller, and their folders keep the WSDL and the generated data classes. The Middle Tier's went in S3b-6 (WebServices\
+      OpenDentalServerHttp.cs, an HTTP client, replaced its proxy); its WebReferenceUrl item, whose only effect on the build was MSBuild's
+      SGen, went in S3b-3 (the XmlSerializer generator above). WebReferences and WCFMetadata are the folders Visual Studio keeps them in.
     -->
     <WebReferences Include="Web References\" />
     <WCFMetadata Include="Service References\" />
