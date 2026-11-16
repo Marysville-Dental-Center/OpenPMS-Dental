@@ -23,7 +23,7 @@ namespace OpenPmsDentalBusiness {
 			byte[] arrayEncryptBytes=Encoding.UTF8.GetBytes(encrypt);
 			MemoryStream ms=new MemoryStream();
 			CryptoStream cs=null;
-			Aes aes=new AesManaged();
+			Aes aes=Aes.Create();//On .NET AesManaged wraps the same implementation (SYSLIB0021); CBC and PKCS7 by default.
 			aes.Key=enc.GetBytes("AKQjlLUjlcABVbqp");
 			aes.IV=new byte[16];
 			ICryptoTransform encryptor=aes.CreateEncryptor(aes.Key,aes.IV);

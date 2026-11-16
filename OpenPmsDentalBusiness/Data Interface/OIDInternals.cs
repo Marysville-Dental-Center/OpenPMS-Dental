@@ -35,7 +35,7 @@ namespace OpenPmsDentalBusiness{
 		///concern. The result matches ^2\.25\.[1-9][0-9]{0,38}$ and is at most 44 characters long. Works offline; nothing is sent anywhere.</summary>
 		public static string GenerateUuidRoot() {
 			byte[] arrayBytes=new byte[16];
-			using(RNGCryptoServiceProvider rng=new RNGCryptoServiceProvider()) {
+			using(RandomNumberGenerator rng=RandomNumberGenerator.Create()) {//The system CSPRNG, as RNGCryptoServiceProvider on .NET (SYSLIB0023).
 				rng.GetBytes(arrayBytes);
 			}
 			return UuidArc+"."+UuidBytesToDecimal(arrayBytes);

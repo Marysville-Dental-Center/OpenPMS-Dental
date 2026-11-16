@@ -2,16 +2,18 @@
   <!--
     The tooth chart: the chart model, the Simple 2D engine and the WPF engine in Wpf3D (docs/specs/wpf-tooth-chart-plan.md). The DirectX 9 and
     OpenGL engines and their SharpDX and Tao references were retired in TC-9a (docs/port-notes/TC-9a.md). Every .cs file under this folder is
-    compiled and every .resx embedded, so a package that adds a file does not edit this project file. No XAML page is left, so the project needs
-    no UseWPF; the WPF assemblies it draws with are plain references below.
+    compiled and every .resx embedded, so a package that adds a file does not edit this project file. No XAML page is left; on .NET 10
+    (S3b-3) the WPF assemblies it draws with, and WindowsFormsIntegration's ElementHost, come from UseWPF and UseWindowsForms.
   -->
   <PropertyGroup>
-    <TargetFramework>net48</TargetFramework>
     <OutputType>Library</OutputType>
     <RootNamespace>SparksToothChart</RootNamespace>
     <AssemblyName>SparksToothChart</AssemblyName>
     <LangVersion>7.3</LangVersion>
     <Platforms>AnyCPU;x86</Platforms>
+    <!-- net10.0-windows x64 from Directory.Build.props and Directory.Build.Net.props (stage 3b, S3b-3 of docs/specs/net10-plan.md). -->
+    <UseWindowsForms>true</UseWindowsForms>
+    <UseWPF>true</UseWPF>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugType>full</DebugType>
@@ -19,18 +21,6 @@
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <DebugType>pdbonly</DebugType>
   </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="PresentationCore" />
-    <Reference Include="PresentationFramework" />
-    <Reference Include="System" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xaml" />
-    <Reference Include="System.Xml" />
-    <Reference Include="WindowsBase" />
-    <Reference Include="WindowsFormsIntegration" />
-  </ItemGroup>
   <ItemGroup>
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>

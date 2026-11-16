@@ -736,7 +736,7 @@ namespace OpenPmsDentalBusiness{
 			byte[] ecryptBytes=Encoding.UTF8.GetBytes(str);
 			MemoryStream memoryStream=new MemoryStream();
 			CryptoStream cryptoStream=null;
-			AesCryptoServiceProvider aesCryptoServiceProvider=new AesCryptoServiceProvider();
+			Aes aesCryptoServiceProvider=Aes.Create();//The same OS AES as AesCryptoServiceProvider, CBC and PKCS7 by default (SYSLIB0021).
 			aesCryptoServiceProvider.Key=key;
 			aesCryptoServiceProvider.IV=new byte[16];
 			ICryptoTransform iCryptoTransformEncryptor=aesCryptoServiceProvider.CreateEncryptor(aesCryptoServiceProvider.Key,aesCryptoServiceProvider.IV);
@@ -764,7 +764,7 @@ namespace OpenPmsDentalBusiness{
 				MemoryStream memoryStream=null;
 				CryptoStream cryptoStream=null;
 				StreamReader streamReader=null;
-				Aes aes=new AesCryptoServiceProvider();
+				Aes aes=Aes.Create();//The same OS AES as AesCryptoServiceProvider (SYSLIB0021).
 				aes.Key=key;
 				aes.IV=new byte[16];
 				ICryptoTransform iCryptoTransformDecryptor=aes.CreateDecryptor(aes.Key,aes.IV);

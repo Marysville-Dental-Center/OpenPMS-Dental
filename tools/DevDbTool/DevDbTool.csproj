@@ -8,12 +8,19 @@
     that regenerates that file (tests\ForkMigrationTests\InitSqlRegenerationTests.cs).
   -->
   <PropertyGroup>
-    <TargetFramework>net48</TargetFramework>
     <OutputType>Exe</OutputType>
     <RootNamespace>DevDbTool</RootNamespace>
     <AssemblyName>DevDbTool</AssemblyName>
     <LangVersion>8.0</LangVersion>
     <Platforms>x86</Platforms>
+    <!-- net10.0-windows x64, a self-contained win-x64 exe, from Directory.Build.props and Directory.Build.Net.props (stage 3b, S3b-3 of
+         docs/specs/net10-plan.md): it moves with the business library it references. A console program; the .NET Framework references
+         below went (part of .NET 10's shared framework). -->
+    <!-- The Windows Desktop framework, which the business library uses (Windows Forms, WPF, System.DirectoryServices, ...), named here as well:
+         NuGet leaves out of the restore the packages a project's own frameworks hold (package pruning), and without it the restore asks for
+         System.DirectoryServices, System.Configuration.ConfigurationManager and System.Security.Cryptography.Pkcs as packages
+         (System.DirectoryServices.AccountManagement's dependencies), which the offline folder does not have and the program never ships. -->
+    <UseWindowsForms>true</UseWindowsForms>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugType>full</DebugType>
@@ -21,14 +28,6 @@
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <DebugType>pdbonly</DebugType>
   </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
-  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\ODCrypt\xODCrypt.csproj" />
     <ProjectReference Include="..\..\CodeBase\xCodeBase.csproj" />

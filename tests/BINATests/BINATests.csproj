@@ -2,8 +2,15 @@
   <!-- Tests for package BIN-A (docs/port-notes/BIN-A.md): Open Dental's closed Suni capture driver, VBbridges.dll and Sparks3D stay removed,
        the bridges that needed VBbridges say they are not available, and the tooth chart's old DirectX and OpenGL engines stay retired (TC-9a:
        the WPF chart or the Simple 2D chart, docs/port-notes/TC-9a.md). -->
+  <PropertyGroup>
+    <!-- .NET 10 ahead of the other test projects (S3b-3 of docs/specs/net10-plan.md): every project it references is net10.0-windows since
+         S3b-3. It replaces the net48 of tests\Directory.Build.props, so Directory.Build.Net.props gives it the settings of a .NET 10 test
+         project: x64, win-x64, framework-dependent, NLS. The line goes when S3b-5 deletes the shared net48 line. Windows Forms (the tooth
+         chart's control) in place of the System.Windows.Forms reference; it also keeps the Windows Desktop packages out of the restore. -->
+    <TargetFramework>$(ODTargetFramework)</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+  </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System.Windows.Forms" />
     <!-- Reads the references of built assemblies without loading them (S3a-8 of the .NET 10 move: .NET has no reflection-only load). The
          NuGet package, from the offline package folder (nuget.config), at the version of Directory.Packages.props. -->
     <PackageReference Include="Mono.Cecil" />

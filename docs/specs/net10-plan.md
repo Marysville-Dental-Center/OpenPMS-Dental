@@ -1229,6 +1229,25 @@ RdlEngine only): the fixture report equals the net48 engine's output (recorded b
 the row's ReportTests file (`RdlCodeBlockReportTests.cs`) runs when S3b-5 retargets ReportTests. Found for the lead: formatted doubles follow
 .NET's exact formatting (note B2).
 
+**Status (2026-11-16), S3b-3.** On `net10/s3b3-1` (`docs/port-notes/S3b-3.md`): OpenPmsDentalBusiness, OpenPmsDentalGraph, SparksToothChart
+(WPF with Helix Toolkit and Windows Forms; no SharpDX, Tao or Microsoft.VisualC was left), OpenPmsDentalHL7 and ServiceManager (self-contained
+win-x64 exes, ServiceController, the code pages first in `Main`), ODR, DevDbTool and AdoptionValidation are `net10.0-windows` x64. Packages:
+System.DirectoryServices.AccountManagement with .Protocols, System.Management, ServiceController, WinForms.DataVisualization 1.10.2 (decision
+10), and System.IO.Ports 10.0.15 for the BCBS Georgia terminal, which batch D lacked (fetched under the standing rule with its runtime.native
+closure; a new `PackageVersion`). System.Speech (decision 13) has no user in layer B: it goes into the program with S3b-4.
+`OpenPmsDentalBusiness.XmlSerializers.dll` comes from Microsoft.XmlSerializer.Generator (build assets only, a `DotNetCliToolReference`,
+`SGenTypes` = the Middle Tier's twelve DTO envelopes; SGen off, the `WebReferenceUrl` gone) and pairs with the library by MVID in Debug and
+Release. The Middle Tier's ASMX proxy compiles for .NET Framework only until S3b-6. SYSLIB0021/0022/0023/0050/0051 and the certificate loads
+moved to the .NET 10 APIs with the same behaviour (a `.pfx` keeps its private-key refusal; measured against `Import` in 26 cases); SYSLIB0014
+(16 vendor web calls), three SYSLIB0057 without a loader and one SYSLIB0028 stay as warnings, with reasons. LocalDiagnostics reports
+`RuntimeInformation.FrameworkDescription`; `MiscData.GetOSVersionInfo` drops the OSVersion WMI workaround (and keeps the Windows name, which
+.NET's `ComputerInfo.OSFullName` no longer gives). CodeBase's `MiscUtils.DistinctBy` is .NET Framework only (CS0121 with `Enumerable.DistinctBy`).
+Scoped lane rebuild: 0 errors, 315 warnings (no CA1416, NU, MSB3245 or WFDEV), flat output, PE32+ 0x8664. NoHqTests, NativeFirstTests,
+BINATests, SyntheticData.Tests and AdoptionValidation.Tests are .NET 10 x64: NoHqTests 104 passed and 8 inconclusive (layer C not built),
+NativeFirstTests 43 of 43, BINATests 20 of 22 (one layer C output, one WPF picture in the disconnected session); the two tools' test projects
+build but create `synth_*` databases, so the Full run runs them. 48 other test projects qualify by their references but use scratch
+databases (S3b-5); 68 stay blocked by UnitTestsCore, the program, WpfControlsOD, TestProbeHost and the helper.
+
 **Order on the branch.** S3b-0 (spike) and S3b-1 first; then S3b-2, S3b-3 strictly in sequence (each layer must be net10 before the
 layer above can build); then S3b-4 with S3b-6 and S3b-7 in parallel (disjoint files: the Middle Tier package owns the Remoting and
 WebServices files, the release package owns ForkReleases/DocumentMiscs/PrefL/UpdateFileCopier's `FormMain.cs`/setup/Build-Release;

@@ -7,12 +7,14 @@
     OpenPmsDentalHL7.exe.config is app.config as it is.
   -->
   <PropertyGroup>
-    <TargetFramework>net48</TargetFramework>
     <OutputType>WinExe</OutputType>
     <RootNamespace>OpenPmsDentalHL7</RootNamespace>
     <AssemblyName>OpenPmsDentalHL7</AssemblyName>
     <LangVersion>7.3</LangVersion>
     <Platforms>AnyCPU;x86</Platforms>
+    <!-- net10.0-windows x64, a self-contained win-x64 exe, from Directory.Build.props and Directory.Build.Net.props (stage 3b, S3b-3 of
+         docs/specs/net10-plan.md; decision 20). Windows Forms for its debug window. -->
+    <UseWindowsForms>true</UseWindowsForms>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugType>full</DebugType>
@@ -21,12 +23,9 @@
     <DebugType>pdbonly</DebugType>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.ServiceProcess" />
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml" />
+    <!-- The service base class (ServiceBase) and the service control, not part of .NET 10's shared frameworks: the package, the version of
+         Directory.Packages.props. The other .NET Framework references are part of the shared frameworks. -->
+    <PackageReference Include="System.ServiceProcess.ServiceController" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CodeBase\xCodeBase.csproj" />

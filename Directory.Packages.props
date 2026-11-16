@@ -136,6 +136,10 @@
     <PackageVersion Include="System.DirectoryServices.AccountManagement" Version="10.0.15" />
     <PackageVersion Include="System.DirectoryServices.Protocols" Version="10.0.15" />
     <PackageVersion Include="System.Speech" Version="10.0.15" />
+    <!-- The serial port of the BCBS Georgia dial-up terminal (OpenPmsDentalBusiness, Eclaims/TerminalConnector.cs; decision 11 keeps it):
+         part of System.dll on .NET Framework, a package on .NET. Not in batch D; fetched by S3b-3 under the standing rule
+         (od-tools/downloads/s3b3-system-io-ports-20261116, with its runtime.native closure, which names 16 non-Windows packages). -->
+    <PackageVersion Include="System.IO.Ports" Version="10.0.15" />
     <PackageVersion Include="WinForms.DataVisualization" Version="1.10.2" />
     <PackageVersion Include="Microsoft.CodeAnalysis.VisualBasic" Version="5.12.0" />
     <PackageVersion Include="Microsoft.CodeAnalysis.Common" Version="5.12.0" />

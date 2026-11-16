@@ -219,7 +219,7 @@ namespace OpenPmsDentalBusiness {
 		public static string GenerateAccountId() {
 			StringBuilder stringBuilder=new StringBuilder(AccountIdPrefix+"-");
 			byte[] arrayBytes=new byte[1];
-			using(RNGCryptoServiceProvider rng=new RNGCryptoServiceProvider()) {
+			using(RandomNumberGenerator rng=RandomNumberGenerator.Create()) {//The system CSPRNG, as RNGCryptoServiceProvider on .NET (SYSLIB0023).
 				int count=0;
 				while(count<AccountIdRandomLength) {
 					rng.GetBytes(arrayBytes);

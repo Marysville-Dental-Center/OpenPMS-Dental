@@ -10,10 +10,17 @@
     <DirectoryBuildPropsPath>$(MSBuildThisFileDirectory)..\..\..\tests\Directory.Build.props</DirectoryBuildPropsPath>
   </PropertyGroup>
   <Import Project="Sdk.props" Sdk="Microsoft.NET.Sdk" />
-  <ItemGroup>
-    <!-- HttpClient, for NetworkGuardTests. -->
-    <Reference Include="System.Net.Http" />
-  </ItemGroup>
+  <PropertyGroup>
+    <!-- .NET 10 ahead of the test projects under tests\ (S3b-3 of docs/specs/net10-plan.md): every project it references is net10.0-windows
+         since S3b-3. It replaces the net48 of tests\Directory.Build.props, so Directory.Build.Net.props gives it the settings of a .NET 10 test
+         project: x64, win-x64, framework-dependent, NLS. The line goes when S3b-5 deletes the shared net48 line. -->
+    <TargetFramework>$(ODTargetFramework)</TargetFramework>
+    <!-- The Windows Desktop framework, which the business library uses (Windows Forms, WPF, System.DirectoryServices, ...), named here as well:
+         NuGet leaves out of the restore the packages a project's own frameworks hold (package pruning), and without it the restore asks for
+         System.DirectoryServices, System.Configuration.ConfigurationManager and System.Security.Cryptography.Pkcs as packages
+         (System.DirectoryServices.AccountManagement's dependencies), which the offline folder does not have and the program never ships. -->
+    <UseWindowsForms>true</UseWindowsForms>
+  </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\SyntheticData.csproj" />
     <!-- Only to cross-check the enum numbers that already existed in 24.3; the tool itself does not use the business layer. -->

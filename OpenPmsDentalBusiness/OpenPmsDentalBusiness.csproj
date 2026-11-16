@@ -7,7 +7,6 @@
     their LogicalName, the WPF resources, the Content items and the web references.
   -->
   <PropertyGroup>
-    <TargetFramework>net48</TargetFramework>
     <OutputType>Library</OutputType>
     <RootNamespace>OpenPmsDentalBusiness</RootNamespace>
     <AssemblyName>OpenPmsDentalBusiness</AssemblyName>
@@ -15,6 +14,11 @@
     <Platforms>AnyCPU;x86</Platforms>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+    <!-- net10.0-windows x64 from Directory.Build.props and Directory.Build.Net.props (stage 3b, S3b-3 of docs/specs/net10-plan.md;
+         docs/port-notes/S3b-3.md). Windows Forms (the grids, the signature boxes, the dialogs) and WPF (the classic project's
+         PresentationCore, PresentationFramework and WindowsBase references, and the WPF resources below). -->
+    <UseWindowsForms>true</UseWindowsForms>
+    <UseWPF>true</UseWPF>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugType>full</DebugType>
@@ -24,12 +28,32 @@
     <DebugType>pdbonly</DebugType>
     <WarningLevel>3</WarningLevel>
     <DocumentationFile>bin\Release\OpenPmsDentalBusiness.xml</DocumentationFile>
-    <!--
-      GenerateSerializationAssemblies stays at its default, Auto: a Release build runs SGen because the project has a WebReferenceUrl item
-      (the Middle Tier's, below; it stays until stage 3b of the .NET 10 move), and OpenPmsDentalBusiness.XmlSerializers.dll ships
-      (tools/Build-Release.ps1). MSBuild turns SGen off for Debug builds.
-    -->
   </PropertyGroup>
+  <!--
+    OpenPmsDentalBusiness.XmlSerializers.dll, which ships (tools/Build-Release.ps1; kept by the owner's standing rule), is written by
+    Microsoft.XmlSerializer.Generator (download batch D; S3b-3 of docs/specs/net10-plan.md, docs/port-notes/S3b-3.md): MSBuild's SGen, which
+    wrote it on .NET Framework because the project had the Middle Tier's WebReferenceUrl item, does not run for .NET, so it is off here
+    (GenerateSerializationAssemblies), and the WebReferenceUrl item is gone. The generator's build target runs after every build, Debug too,
+    reads obj\...\OpenPmsDentalBusiness.dll and copies the new file into the output folder; its ParentAssemblyId is that assembly's MVID, which
+    .NET's XmlSerializer compares before it uses the file (the A8 window check reads both).
+    - DotNetCliToolReference: the target runs "dotnet Microsoft.XmlSerializer.Generator", a per-project CLI tool; without the item the dotnet
+      host cannot resolve it and the build only warns (S3b-0 item 10). Its version is the PackageReference's (CLI tool items take no central
+      version).
+    - SGenTypes: without a list the generator takes every public type and stops at the first two that share an XML name. SGen of .NET
+      Framework took the web service proxy only, the Middle Tier's, which .NET 10 does not compile (S3b-6 replaces it); the list is the Middle
+      Tier's envelopes instead, the DataTransferObject classes that RemotingClient and DtoProcessor serialize for every request
+      (DataTransferObject.Serialize and Deserialize), with Credentials and DtoObject inside them.
+    - The package gives this project its build targets only (IncludeAssets): its lib folder holds the tool itself, which nothing compiles
+      against or ships; PrivateAssets keeps it from the projects that reference this one.
+  -->
+  <PropertyGroup>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <SGenTypes>OpenPmsDentalBusiness.DtoGetDS;OpenPmsDentalBusiness.DtoGetTable;OpenPmsDentalBusiness.DtoGetTableLow;OpenPmsDentalBusiness.DtoGetSerializableDictionary;OpenPmsDentalBusiness.DtoGetLong;OpenPmsDentalBusiness.DtoGetInt;OpenPmsDentalBusiness.DtoGetDouble;OpenPmsDentalBusiness.DtoGetVoid;OpenPmsDentalBusiness.DtoGetObject;OpenPmsDentalBusiness.DtoGetString;OpenPmsDentalBusiness.DtoGetBool;OpenPmsDentalBusiness.DtoException</SGenTypes>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.XmlSerializer.Generator" IncludeAssets="build" PrivateAssets="all" />
+    <DotNetCliToolReference Include="Microsoft.XmlSerializer.Generator" Version="10.0.15" />
+  </ItemGroup>
   <ItemGroup>
     <!-- Google APIs Client Library for .NET 1.78 (lib\net462) and the Gmail API 1.77.0.4295, for Gmail send and download (GoogleApiConnector).
          Since 1.50 the library has no PlatformServices assemblies. Only this project compiles against them (PrivateAssets compile): their
@@ -63,35 +87,22 @@
     <Reference Include="Health.Direct.ResolverPlugins">
       <HintPath>..\Required dlls\Health.Direct.ResolverPlugins.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.VisualBasic" />
     <PackageReference Include="MySqlConnector" />
-    <Reference Include="PresentationCore" />
-    <Reference Include="PresentationFramework" />
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.DirectoryServices" />
-    <Reference Include="System.DirectoryServices.AccountManagement" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.EnterpriseServices" />
-    <Reference Include="System.Management" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.Security" />
-    <Reference Include="System.ServiceModel" />
-    <Reference Include="System.ServiceProcess" />
-    <Reference Include="System.Transactions" />
-    <Reference Include="System.Web" />
-    <Reference Include="System.Web.Extensions" />
-    <Reference Include="System.Web.Services" />
-    <Reference Include="System.Windows" />
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xaml" />
-    <Reference Include="System.Xml" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.IO.Compression" />
-    <Reference Include="WindowsBase" />
+    <!--
+      Not in the .NET 10 shared frameworks (S3b-3): WMI (System.Management: LocalDiagnostics, MiscData, the computer and printer lists),
+      the service control (System.ServiceProcess.ServiceController) and the domain login (System.DirectoryServices.AccountManagement,
+      DomainLogin, with System.DirectoryServices.Protocols, its dependency, named so its version is this project's too). The versions are
+      those of Directory.Packages.props. The other .NET Framework references of the net48 project (System.Data, System.Drawing,
+      System.DirectoryServices, System.Net.Http, System.Security, System.Web's HttpUtility, System.Xaml, WindowsBase, ...) are part of
+      Microsoft.NETCore.App and Microsoft.WindowsDesktop.App; System.EnterpriseServices, System.ServiceModel, System.Transactions and
+      System.Web.Extensions were referenced but not used.
+    -->
+    <PackageReference Include="System.DirectoryServices.AccountManagement" />
+    <PackageReference Include="System.DirectoryServices.Protocols" />
+    <!-- The serial port of the BCBS Georgia dial-up terminal (Eclaims/TerminalConnector.cs), part of System.dll on .NET Framework. -->
+    <PackageReference Include="System.IO.Ports" />
+    <PackageReference Include="System.Management" />
+    <PackageReference Include="System.ServiceProcess.ServiceController" />
   </ItemGroup>
   <ItemGroup>
     <!-- PDFsharp 6.5 (GDI+ build) and the two assemblies it loads at run time, built from empira's source (third-party\build), so every
@@ -178,8 +189,8 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <!-- WPF resources in OpenPmsDentalBusiness.g.resources (resources/deletex10.gif, ...). The .NET Framework WinFX targets build them, as for
-         the classic project: the SDK imports those targets for a .NETFramework project without UseWPF. -->
+    <!-- WPF resources in OpenPmsDentalBusiness.g.resources (resources/deletex10.gif, ...), built by the WPF targets of UseWPF (on .NET
+         Framework the WinFX targets built them, as for the classic project). -->
     <Resource Include="Resources\deleteX10.gif" />
     <Resource Include="Resources\eSig.gif" />
     <Resource Include="Resources\topazPen10.gif" />
@@ -227,23 +238,12 @@
   </ItemGroup>
   <ItemGroup>
     <!--
-      The web reference of the Middle Tier (OpenDentalServer). With it, a Release build runs SGen (GenerateSerializationAssemblies Auto) and
-      writes OpenPmsDentalBusiness.XmlSerializers.dll (critique W1 of docs/specs/net10-plan.md). The vendor services' web references (DentalXChange
-      DWS, DEA and DCI, NewCrop, Change Healthcare ITS) went in S3a-6: their calls go through SoapCaller, and their folders keep the WSDL and
-      the generated data classes. WebReferences and WCFMetadata are the folders Visual Studio keeps them in.
+      The vendor services' web references (DentalXChange DWS, DEA and DCI, NewCrop, Change Healthcare ITS) went in S3a-6: their calls go through
+      SoapCaller, and their folders keep the WSDL and the generated data classes. The Middle Tier's (OpenDentalServer) is compiled for .NET
+      Framework only (S3b-6 replaces it); its WebReferenceUrl item, whose only effect on the build was MSBuild's SGen, went in S3b-3 (the
+      XmlSerializer generator above). WebReferences and WCFMetadata are the folders Visual Studio keeps them in.
     -->
     <WebReferences Include="Web References\" />
     <WCFMetadata Include="Service References\" />
-    <WebReferenceUrl Include="http://localhost/OpenDentalServer/ServiceMain.asmx">
-      <UrlBehavior>Dynamic</UrlBehavior>
-      <RelPath>Web References\OpenDentalServer\</RelPath>
-      <UpdateFromURL>http://localhost/OpenDentalServer/ServiceMain.asmx</UpdateFromURL>
-      <ServiceLocationURL>
-      </ServiceLocationURL>
-      <CachedDynamicPropName>
-      </CachedDynamicPropName>
-      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
-      <CachedSettingsPropName>OpenDentBusiness_OpenDentalServer_ServiceMain</CachedSettingsPropName>
-    </WebReferenceUrl>
   </ItemGroup>
 </Project>

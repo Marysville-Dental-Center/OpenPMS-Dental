@@ -213,7 +213,8 @@ namespace ServiceManager {
 		}
 
 		private void butBrowse_Click(object sender,EventArgs e) {
-			OpenFileDialog fdlg=new OpenFileDialog();
+			//Named in full: on .NET 10 CodeBase's WPF framework reference also brings WPF's Microsoft.Win32.OpenFileDialog (CS0104).
+			System.Windows.Forms.OpenFileDialog fdlg=new System.Windows.Forms.OpenFileDialog();
 			fdlg.Title="Select a Service";
 			fdlg.InitialDirectory=Directory.GetCurrentDirectory();
 			fdlg.Filter="Executable files(*.exe)|*.exe";
