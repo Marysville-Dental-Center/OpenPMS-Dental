@@ -7,7 +7,8 @@ owner approves it.** Nothing was downloaded into the repository and no package o
 a window on the desktop (the tests draw forms off the desktop, as the chart's image tests do).
 
 Commits: `97a41c7c4` (the design), `616724865` (the business layer: the relay, the wrapper, `ComputerPref(s)`), `e0d6dc33e` (File > Graphics
-and the comments), `4cdcab201` (the tests), then the docs and the fixes after the full build (section 6).
+and the comments), `4cdcab201` (the tests), `2dce31de7` (the docs, and the preview's status line given two lines after the gallery's first
+pictures), `5e79d81a9` and this note's last section (the docs).
 
 ## 1. The owner's answers in force
 
@@ -288,3 +289,9 @@ these replace steps 1 to 5 and 8:
    without an error box, File > Graphics' status "Fell back: " and a reason, and Graphical's message as in step 3 only if that computer is set
    to "Do not use" (otherwise the graphical perio window says the 3D chart could not start).
 9. **Write down** for each step: as expected, or what differed, with a screenshot of anything that differed (synthetic data only).
+
+## 8. Line ends and BOMs
+
+`tools/Test-NoEolFlips.ps1 -Base main` at `5e79d81a9` (merge base `3d910a435`): 30 changed text files checked, 0 changed their line ends. No
+modified file gained or lost a BOM (the first bytes of each file's blob at `main` and at the head compared with `git cat-file blob`); the new
+`docs/port-notes/TC-8b.md` has none, as the other notes.
