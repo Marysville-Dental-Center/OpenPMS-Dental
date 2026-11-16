@@ -97,8 +97,8 @@ namespace CodeBase {
 
 		#region UpdateFileCopier defaults
 		///<summary>The installation folder UpdateFileCopier copies into when it is started without one (debugging only; the program always passes
-		///its own folder).</summary>
-		public const string DefaultInstallFolder=@"C:\Program Files (x86)\Open PMS - Dental";
+		///its own folder). The 64-bit setup's default folder, {commonpf64} (S3b-7).</summary>
+		public const string DefaultInstallFolder=@"C:\Program Files\Open PMS - Dental";
 		#endregion UpdateFileCopier defaults
 
 		///<summary>True when serviceName starts with ServicePrefix or with LegacyServicePrefix. Use it only where installed services are looked

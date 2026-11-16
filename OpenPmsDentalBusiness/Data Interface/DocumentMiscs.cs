@@ -102,6 +102,55 @@ namespace OpenPmsDentalBusiness{
 			Crud.DocumentMiscCrud.Insert(documentMiscManifest);
 		}
 
+		///<summary>The manifest row of the published release's runtime part (DocumentMiscType.ForkRuntimeManifest, S3b-7), or null when none was
+		///published.</summary>
+		public static DocumentMisc GetForkRuntimeManifest() {
+			if(RemotingClient.MiddleTierRole==MiddleTierRole.ClientMT) {
+				return Meth.GetObject<DocumentMisc>(MethodBase.GetCurrentMethod());
+			}
+			string command="SELECT * FROM documentmisc WHERE DocMiscType="+POut.Int((int)DocumentMiscType.ForkRuntimeManifest)
+				+" ORDER BY DocMiscNum DESC LIMIT 1";
+			return Crud.DocumentMiscCrud.SelectOne(command);
+		}
+
+		///<summary>All segments of the published runtime part's archive (DocumentMiscType.ForkRuntimeSegment), with their data, ordered by segment
+		///number.</summary>
+		public static List<DocumentMisc> GetForkRuntimeSegments() {
+			if(RemotingClient.MiddleTierRole==MiddleTierRole.ClientMT) {
+				return Meth.GetObject<List<DocumentMisc>>(MethodBase.GetCurrentMethod());
+			}
+			string command="SELECT * FROM documentmisc WHERE DocMiscType="+POut.Int((int)DocumentMiscType.ForkRuntimeSegment)
+				+" ORDER BY FileName,DocMiscNum";
+			return Crud.DocumentMiscCrud.SelectMany(command);
+		}
+
+		///<summary>Replaces the published runtime part (S3b-7): deletes the old runtime manifest and segments, inserts the new segments, then the
+		///manifest last, as ReplaceForkRelease does, so a reader that finds a runtime manifest finds its segments too (its archive hash catches a
+		///half-written runtime part). The program part's rows are not touched; ForkReleases.Publish writes them afterwards, their manifest last.
+		///</summary>
+		public static void ReplaceForkRuntime(string manifestBase64,List<string> listSegmentsBase64) {
+			if(RemotingClient.MiddleTierRole==MiddleTierRole.ClientMT) {
+				Meth.GetVoid(MethodBase.GetCurrentMethod(),manifestBase64,listSegmentsBase64);
+				return;
+			}
+			DeleteAllForType(DocumentMiscType.ForkRuntimeManifest);
+			DeleteAllForType(DocumentMiscType.ForkRuntimeSegment);
+			for(int i=0;i<listSegmentsBase64.Count;i++) {
+				DocumentMisc documentMiscSegment=new DocumentMisc();
+				documentMiscSegment.DateCreated=DateTime.Today;
+				documentMiscSegment.DocMiscType=DocumentMiscType.ForkRuntimeSegment;
+				documentMiscSegment.FileName=(i+1).ToString().PadLeft(4,'0');
+				documentMiscSegment.RawBase64=listSegmentsBase64[i];
+				Crud.DocumentMiscCrud.Insert(documentMiscSegment);
+			}
+			DocumentMisc documentMiscManifest=new DocumentMisc();
+			documentMiscManifest.DateCreated=DateTime.Today;
+			documentMiscManifest.DocMiscType=DocumentMiscType.ForkRuntimeManifest;
+			documentMiscManifest.FileName="ForkRuntime.manifest";
+			documentMiscManifest.RawBase64=manifestBase64;
+			Crud.DocumentMiscCrud.Insert(documentMiscManifest);
+		}
+
 		///<summary>Deletes Open Dental's update file rows (DocumentMiscType.UpdateFiles and UpdateFilesSegment) without reading them. Used only by
 		///database adoption. Returns the number of rows deleted.</summary>
 		public static long DeleteOpenDentalUpdateFiles() {

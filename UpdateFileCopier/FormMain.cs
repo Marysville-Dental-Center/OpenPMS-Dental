@@ -24,6 +24,12 @@ namespace UpdateFileCopier {
 		///<summary>Set to true if the source folder is not exactly the release its manifest describes (product name, file list, sizes, SHA-256).
 		///Nothing is copied then.</summary>
 		private bool _hasVerifyFailed=false;
+		///<summary>Set to true when, after the copy, a runtime file of the installation folder does not match the runtime part the release names
+		///(S3b-7). The release manifest is then not written, so the workstation never claims runtime files of two versions; the setup carries the
+		///full runtime.</summary>
+		private bool _hasRuntimeMismatch=false;
+		///<summary>The release manifest of the source folder, read by VerifyRelease. Null until then.</summary>
+		private ReleaseManifest _releaseManifest;
 		///<summary>If anything goes wrong with the file copying, this string should be used to hold more details about the error to show later.</summary>
 		private string _error="";
 		///<summary>This indicates whether the file copier should kill all services before copying files.</summary>
@@ -36,6 +42,8 @@ namespace UpdateFileCopier {
 		///E.g. "\\Parent", "\\Parent\\Child", and "\\Gramps\\Dad\\Bro" are all valid directory names.</summary>
 		private readonly List<string> _listSpecialDirs=new List<string>() {
 			"\\OpenDentalReplicationService",
+			//The 32-bit helper program with its own x86 runtime (OpenPmsDentalBusiness.ForkReleases.ListSpecialDirs; S3b-7).
+			"\\Helper32",
 		};
 
 		///<summary>Temporary directory that will be used to copy any files present in the destination folder before attempting to copy.</summary>
@@ -85,6 +93,9 @@ namespace UpdateFileCopier {
 				KillProcess("CentralManager");
 				KillProcess("DatabaseIntegrityCheck");
 				KillProcess("ServiceManager");
+				//Every other process that runs from the installation folder (S3b-7): the programs there share one runtime (the x64 one beside the
+				//exes, the helper's in Helper32\), so the connection settings tool, the helper and the HL7 service hold runtime files too.
+				KillProcessesInFolder(_destDirectory);
 				//Create a separate thread to copy over the files from the UpdateFiles folder share.
 				//In putting this logic in a thread, the user can close the window and not disrupt the copying process.
 			}
@@ -121,6 +132,43 @@ namespace UpdateFileCopier {
 			}
 		}
 
+		///<summary>Stops every process whose program file is in the folder or one of its sub folders (Helper32\), except this one. A process whose
+		///path cannot be read (another user's, a protected one) is left alone; the files-in-use check then names the file it holds.</summary>
+		private static void KillProcessesInFolder(string folder) {
+			if(string.IsNullOrWhiteSpace(folder)) {
+				return;
+			}
+			string folderFull=Path.GetFullPath(folder).TrimEnd('\\')+"\\";
+			int processIdThis=Environment.ProcessId;
+			foreach(Process process in Process.GetProcesses()) {
+				try {
+					if(process.Id==processIdThis) {
+						continue;
+					}
+					string path=GetProcessPath(process);
+					if(path!="" && Path.GetFullPath(path).StartsWith(folderFull,StringComparison.OrdinalIgnoreCase)) {
+						process.Kill();
+					}
+				}
+				catch {
+					//The process ended meanwhile, or it may not be stopped by this user. The files-in-use check reports a file it still holds.
+				}
+				finally {
+					process.Dispose();
+				}
+			}
+		}
+
+		///<summary>The full path of the process's program file, or "" when it cannot be read.</summary>
+		private static string GetProcessPath(Process process) {
+			try {
+				return process.MainModule?.FileName??"";
+			}
+			catch {
+				return "";
+			}
+		}
+
 		///<summary>Attempts to open files that will be updated in the destination dir to check if any are currently in use.
 		///Attempts to create temporary directories that will house the installation files temporarily.
 		///Attempts to copy all files in the destination directory to a temp directory so that files can be reverted in case of a catastrophic failure.
@@ -134,6 +182,7 @@ namespace UpdateFileCopier {
 			_hasFilesInUse=false;
 			_hasCopyFailed=false;
 			_hasVerifyFailed=false;
+			_hasRuntimeMismatch=false;
 			//Only a fork release whose manifest names our product and whose every file matches its SHA-256 is ever copied.
 			if(!VerifyRelease(_sourceDirectory)) {
 				_hasVerifyFailed=true;
@@ -185,11 +234,23 @@ namespace UpdateFileCopier {
 					return false;
 				}
 				ReleaseManifest releaseManifest=ReleaseManifest.Parse(File.ReadAllText(pathManifest));
-				List<string> listProblems=releaseManifest.VerifyFolder(folder);
+				//The runtime part comes along only when the pull found a new runtime key (S3b-7). Then the folder holds its manifest, which must name the
+				//runtime part the release needs, and every runtime file must belong to that one key: never a mix of two runtime versions.
+				string pathRuntimeManifest=ODFileUtils.CombinePaths(folder,ReleaseRuntimePart.MANIFEST_FILE_NAME);
+				bool hasRuntimePart=File.Exists(pathRuntimeManifest);
+				if(hasRuntimePart) {
+					ReleaseRuntimePart releaseRuntimePart=ReleaseRuntimePart.ParseManifest(File.ReadAllText(pathRuntimeManifest));
+					if(!releaseRuntimePart.IsSameAs(releaseManifest.RuntimePart) || releaseRuntimePart.ArchiveSha256!=releaseManifest.RuntimePart.ArchiveSha256) {
+						_error="The runtime part in the update folder is not the one the release needs. Nothing was copied.";
+						return false;
+					}
+				}
+				List<string> listProblems=releaseManifest.VerifyFolder(folder,hasRuntimePart);
 				if(listProblems.Count>0) {
 					_error="The update files do not match their release manifest. Nothing was copied.\r\n"+string.Join("\r\n",listProblems.Take(10));
 					return false;
 				}
+				_releaseManifest=releaseManifest;
 			}
 			catch(Exception ex) {
 				_error="The release manifest could not be checked: "+ex.Message+" Nothing was copied.";
@@ -332,6 +393,9 @@ namespace UpdateFileCopier {
 					sourceManifest=ODFileUtils.CombinePaths(TempPathSource+sourceFile.SubDir,sourceFile.FileInfoCur.Name);
 					continue;
 				}
+				if(sourceFile.SubDir=="" && sourceFile.FileInfoCur.Name==ReleaseRuntimePart.MANIFEST_FILE_NAME) {
+					continue;//The runtime part's manifest stays in the update folder; the release manifest lists its files (RuntimeFile lines).
+				}
 				SetLabelText("Verifying: "+sourceFile.FileInfoCur.Name);
 				string destDir=_destDirectory+sourceFile.SubDir;
 				string source=ODFileUtils.CombinePaths(TempPathSource+sourceFile.SubDir,sourceFile.FileInfoCur.Name);
@@ -345,6 +409,27 @@ namespace UpdateFileCopier {
 				catch {
 					//SetLabelText("Copying files from temp to destination failed.");
 					return false;
+				}
+			}
+			//Every runtime file of the installation folder must be the one the release's runtime part lists, whether this run copied the runtime part or
+			//the folder kept its own (the same key). Otherwise no release manifest is written: the folder would claim a release whose runtime files are
+			//of another version (S3b-7). Nothing is reverted; the setup carries the full runtime.
+			if(_releaseManifest?.RuntimePart!=null) {
+				SetLabelText("Checking the runtime files...");
+				List<string> listRuntimeProblems=_releaseManifest.RuntimePart.VerifyFiles(_destDirectory);
+				if(listRuntimeProblems.Count>0) {
+					_hasRuntimeMismatch=true;
+					//The previous release's manifest goes too: it would still name the old runtime key, so the next pull would trust it instead of
+					//keying on the real runtime files (ForkReleases.GetInstalledRuntimeKey) and would never download the runtime part that repairs them.
+					try {
+						File.Delete(Path.Combine(_destDirectory,ReleaseManifest.FILE_NAME));
+					}
+					catch(Exception) {
+						//Left as it is: the post-copy check fails again on the next run, and the message below says to run the setup.
+					}
+					_error="The runtime files in "+_destDirectory+" do not all match the runtime of the release (.NET "+_releaseManifest.RuntimePart.Version
+						+"), so the release was not recorded as installed.\r\n"+string.Join("\r\n",listRuntimeProblems.Take(10));
+					return true;//The files were copied; LaunchOpenDental reports the mismatch instead of starting the program.
 				}
 			}
 			//Save the release manifest for last, so the installation folder only claims a release once all of its files are in place.
@@ -413,6 +498,11 @@ namespace UpdateFileCopier {
 			else if(_hasVerifyFailed) {
 				//A failed check is not retried: the files will not change. The workstation keeps its current program.
 				SetLabelText(_error+"\r\n\r\nPublish the release again from the update server, then start the program.",isLongText:true);
+			}
+			else if(_hasRuntimeMismatch) {
+				//Not retried: the runtime files of the folder are not the release's. Only the setup puts the whole runtime back.
+				SetLabelText(_error+"\r\n\r\nRun the setup of this release on this workstation as an administrator: it carries the full runtime.",
+					isLongText:true);
 			}
 			else if(_hasCopyFailed) {
 				SetLabelText("Some files failed to copy.  Verify network access and permissions are correct, then click Retry.");

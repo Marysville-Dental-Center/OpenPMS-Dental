@@ -14,11 +14,11 @@ PDFsharp and MigraDoc 6.5.0 (empira's AGPL source, tag v6.5.0) and WeCantSpell.H
 
 The program's namespaces, assemblies and executable carry its code name, `OpenPmsDental` (`OpenPmsDental.exe`, `OpenPmsDentalBusiness.dll`; the mapping from Open Dental's names is in [docs/port-notes/RENAME.md](docs/port-notes/RENAME.md)). The product name, "Open PMS - Dental", appears in the window title, the splash, the About box, the program's messages, the file properties of every shipped assembly (version 0.0), the product identity sent to vendors, and this repository's documents. Names that existing installations and databases depend on keep Open Dental's spelling: the database (tables, columns, preference names, stored enum values), `FreeDentalConfig.xml`, the Middle Tier's web service names and IIS path, and internal type names such as `FormOpenDental`. The solution files keep their names, `OpenDental.sln` and `OpenDental.Local.slnf`.
 
-Open PMS - Dental is a Windows desktop practice management system written in C#: WinForms, with some WPF, on .NET Framework 4.8, backed by MariaDB.
+Open PMS - Dental is a Windows desktop practice management system written in C#: WinForms, with some WPF, on .NET 10 (64-bit, self-contained: the program carries its own .NET runtime), backed by MariaDB. Version 0.0 was the .NET Framework 4.8 build (32-bit); the move is [docs/specs/net10-plan.md](docs/specs/net10-plan.md).
 
 ## Installing in an office
 
-A release is a setup program, `OpenPmsDental-<version>-Setup.exe`, with its `SHA256SUMS.txt` and release notes ([docs/release-notes/v0.0.md](docs/release-notes/v0.0.md) for 0.0). `tools/Build-Release.ps1` builds it from a **Release | x86** build ([docs/release-process.md](docs/release-process.md#building-the-installer)). Nothing here contacts Open Dental's servers, and nothing is installed on the database server by this program.
+A release is a setup program, `OpenPmsDental-<version>-Setup.exe`, with its `SHA256SUMS.txt` and release notes ([docs/release-notes/v0.0.md](docs/release-notes/v0.0.md) for 0.0). `tools/Build-Release.ps1` builds it from a **Release | x64** build ([docs/release-process.md](docs/release-process.md#building-the-installer)). Nothing here contacts Open Dental's servers, and nothing is installed on the database server by this program.
 
 ### Database server
 
@@ -45,18 +45,20 @@ max_allowed_packet=40M
 
 Prerequisites:
 
-- Windows 10 version 1903 or later, or Windows 11
-- **.NET Framework 4.8** (Windows 10 1903 and later and Windows 11 already have it; the setup stops if it is missing)
-- **Microsoft Visual C++ 2015-2022 Redistributable, x86** (`vc_redist.x86.exe`; `Direct2dWrapper.dll` needs it)
-- **Microsoft Edge WebView2 Runtime, x86** (Evergreen; Windows 11 already has it). Every window that shows a page uses it: the wiki, email previews, PDFs in the Imaging module, vendor pages. The program keeps its WebView2 data per Windows user in `%LOCALAPPDATA%\OpenPMS-Dental\WebView2`.
-- For scanners and sensors: the device's own TWAIN driver, which brings the TWAIN data source manager
+- **Windows 11, 64-bit** (the baseline). The setup also runs on Windows 10 version 1903 or later, after a warning: Microsoft supports .NET 10 on Windows 10 only in some editions ([its list](https://learn.microsoft.com/en-us/dotnet/core/install/windows)).
+- **No .NET to install.** The program, its tools and the 32-bit helper carry their own .NET 10 runtime (x64 beside the programs, x86 in the `Helper32` sub folder); the setup installs them with the program, also in a silent install.
+- **Microsoft Visual C++ 2015-2022 Redistributable, x64** (`vc_redist.x64.exe`; `Direct2dWrapper.dll` needs it)
+- **Microsoft Edge WebView2 Runtime** (Evergreen; Windows 11 already has it). Every window that shows a page uses it: the wiki, email previews, PDFs in the Imaging module, vendor pages. The program keeps its WebView2 data per Windows user in `%LOCALAPPDATA%\OpenPMS-Dental\WebView2`.
+- For scanners and sensors: the device's own 64-bit TWAIN driver. The setup installs the TWAIN Working Group's 64-bit TWAIN data source manager (`TWAINDSM.dll`, into the Windows system folder) when it is missing or older.
 
-When the Visual C++ runtime is missing, the setup offers to download Microsoft's installer from Microsoft and run it, or to skip it. The setup only checks for the WebView2 Runtime: when it is missing, the setup says so and how to install it (Microsoft's Evergreen Bootstrapper or Standalone Installer, Windows Update or device management), and it never downloads it.
+When the Visual C++ runtime is missing, the setup offers to download Microsoft's installer from Microsoft and run it, or to skip it (`/PREREQS=ask|download|skip`). The setup only checks for the WebView2 Runtime: when it is missing, the setup says so and how to install it (Microsoft's Evergreen Bootstrapper or Standalone Installer, Windows Update or device management), and it never downloads it.
+
+Version 0.0, the .NET Framework 4.8 build, needed the **.NET Framework 4.8**, the **Microsoft Visual C++ 2015-2022 Redistributable, x86** (`vc_redist.x86.exe`) and the **Microsoft Edge WebView2 Runtime, x86**, and installed into `C:\Program Files (x86)\Open PMS - Dental\` ([docs/release-notes/v0.0.md](docs/release-notes/v0.0.md)). The .NET 10 setup is a separate 64-bit installation; no office runs 0.0, so nothing moves from it.
 
 Steps:
 
 1. Install the program on the **update server** first: the workstation named in the `WebServiceServerName` preference (Setup > Update Setup).
-2. Check the setup's SHA-256 against `SHA256SUMS.txt`, then run it as an administrator. It installs into `C:\Program Files (x86)\Open PMS - Dental\`, creates the Start menu shortcut "Open PMS - Dental", and writes `FreeDentalConfig.xml` from its database connection page (server, database, user; never a password). For a database server over the network the next page asks for the office CA certificate and the client certificate (`.pfx`). Setup then opens the connection settings tool, `OpenPmsDentalDbSettings.exe`, which imports the client certificate or stores the database password on this computer with Windows DPAPI; for a database on the same computer it opens in password mode (Cancel when the database user has no password). The setup is not signed, so SmartScreen may warn.
+2. Check the setup's SHA-256 against `SHA256SUMS.txt`, then run it as an administrator. It installs into `C:\Program Files\Open PMS - Dental\` (64-bit), creates the Start menu shortcut "Open PMS - Dental", and writes `FreeDentalConfig.xml` from its database connection page (server, database, user; never a password). For a database server over the network the next page asks for the office CA certificate and the client certificate (`.pfx`). Setup then opens the connection settings tool, `OpenPmsDentalDbSettings.exe`, which imports the client certificate or stores the database password on this computer with Windows DPAPI; for a database on the same computer it opens in password mode (Cancel when the database user has no password). The setup is not signed, so SmartScreen may warn.
 3. Start the program from the Start menu. It never asks for the database password: to change the connection later, an administrator runs `OpenPmsDentalDbSettings.exe` in the program folder.
 4. On the update server, the program offers to publish the release at that first start, so the other workstations update to it.
 5. On the other workstations repeat steps 2 and 3. A workstation that runs an older build pulls the published one when it starts.
@@ -75,7 +77,6 @@ A new build reaches the office through the release channel described in [docs/re
 - **Visual Studio 2026** (any edition) or **Build Tools for Visual Studio 2026** (version 18; both install under `Microsoft Visual Studio\18\`), with:
   - .NET desktop build tools (`Microsoft.VisualStudio.Workload.ManagedDesktopBuildTools`)
   - Desktop development with C++ (`Microsoft.VisualStudio.Workload.VCTools`) and its MSVC v143 toolset (`Microsoft.VisualStudio.Component.VC.14.44.17.14.x86.x64`, MSVC 14.44), for `Direct2dWrapper` (native, toolset v143; the default toolset of 2026 is v145)
-  - Web development build tools (`Microsoft.VisualStudio.Workload.WebBuildTools`), for `OpenPmsDentalServer`
   - .NET Framework 4.8 SDK and the 4.8 and 4.7.2 targeting packs (`Microsoft.Net.Component.4.8.SDK`, `Microsoft.Net.Component.4.8.TargetingPack`, `Microsoft.Net.Component.4.7.2.TargetingPack`)
   - Testing tools core (`Microsoft.VisualStudio.Component.TestTools.BuildTools`), for `vstest.console.exe`, which runs the MSTest test projects
   - NuGet build tools (`Microsoft.VisualStudio.Component.NuGet.BuildTools`) and the Windows 11 SDK 10.0.26100 (`Microsoft.VisualStudio.Component.Windows11SDK.26100`)
@@ -85,7 +86,7 @@ A new build reaches the office through the release channel described in [docs/re
 One command installs the Build Tools with everything above, from the installer of the Visual Studio 2026 channel (`https://aka.ms/vs/18/stable/vs_buildtools.exe`):
 
 ```bash
-vs_buildtools.exe --passive --wait --norestart --add Microsoft.VisualStudio.Workload.ManagedDesktopBuildTools --add Microsoft.VisualStudio.Workload.VCTools --includeRecommended --add Microsoft.VisualStudio.Component.VC.14.44.17.14.x86.x64 --add Microsoft.VisualStudio.Workload.WebBuildTools --add Microsoft.Net.Component.4.8.TargetingPack --add Microsoft.Net.Component.4.8.SDK --add Microsoft.Net.Component.4.7.2.TargetingPack --add Microsoft.VisualStudio.Component.NuGet.BuildTools --add Microsoft.VisualStudio.Component.TestTools.BuildTools --add Microsoft.VisualStudio.Component.Windows11SDK.26100
+vs_buildtools.exe --passive --wait --norestart --add Microsoft.VisualStudio.Workload.ManagedDesktopBuildTools --add Microsoft.VisualStudio.Workload.VCTools --includeRecommended --add Microsoft.VisualStudio.Component.VC.14.44.17.14.x86.x64 --add Microsoft.Net.Component.4.8.TargetingPack --add Microsoft.Net.Component.4.8.SDK --add Microsoft.Net.Component.4.7.2.TargetingPack --add Microsoft.VisualStudio.Component.NuGet.BuildTools --add Microsoft.VisualStudio.Component.TestTools.BuildTools --add Microsoft.VisualStudio.Component.Windows11SDK.26100
 ```
 
 ### Get the source
@@ -101,20 +102,20 @@ Without them the build stops with "The upstream source is missing".
 
 ### Build
 
-Open **`OpenDental.Local.slnf`** in Visual Studio, not `OpenDental.sln`, and build `Debug | x86` (or `Release | x86` for an office). From the command line, in PowerShell at the repository root:
+Open **`OpenDental.Local.slnf`** in Visual Studio, not `OpenDental.sln`, and build `Debug | x64` (or `Release | x64` for an office). While some test projects are still .NET Framework (stage 3b of the .NET 10 move, until package S3b-5), the restore of the whole filter fails (NU1201): build the projects you need, for example `OpenPmsDental` and `xDirect2dWrapper`, through a solution filter of only those. From the command line, in PowerShell at the repository root:
 
 ```powershell
 . .\tools\Initialize-BuildEnvironment.ps1; Initialize-BuildEnvironment -RepoRoot (Get-Location).Path
-& "C:\Program Files (x86)\Microsoft Visual Studio\18\BuildTools\MSBuild\Current\Bin\MSBuild.exe" OpenDental.Local.slnf -restore -p:RestoreLockedMode=true -p:Configuration=Debug -p:Platform=x86 -m -nodeReuse:false
+& "C:\Program Files (x86)\Microsoft Visual Studio\18\BuildTools\MSBuild\Current\Bin\MSBuild.exe" OpenDental.Local.slnf -restore -p:RestoreLockedMode=true -p:Configuration=Debug -p:Platform=x64 -m -nodeReuse:false
 ```
 
-`Initialize-BuildEnvironment` sets, for that PowerShell window only, what the build needs: with a per-user .NET SDK, `DOTNET_MSBUILD_SDK_RESOLVER_CLI_DIR` and `PATH`, so MSBuild finds that SDK; `OPMS_NUGET_OFFLINE` when it is not set; no .NET telemetry. The tool scripts under `tools/` call it themselves. With a per-user SDK, start Visual Studio from that window, so it finds the SDK too. With Visual Studio installed instead of Build Tools, replace `BuildTools` in the path with your edition, e.g. `Community`. A clean build produces many compiler warnings and no errors. The main program is `OpenPmsDental\bin\Debug\OpenPmsDental.exe` (`OpenPmsDental\bin\Release\` for a Release build). The build also copies `UpdateFileCopier.exe` and the native file the program loads at run time, `WebView2Loader.dll` (x86, from the WebView2 package), next to it.
+`Initialize-BuildEnvironment` sets, for that PowerShell window only, what the build needs: with a per-user .NET SDK, `DOTNET_MSBUILD_SDK_RESOLVER_CLI_DIR` and `PATH`, so MSBuild finds that SDK; `OPMS_NUGET_OFFLINE` when it is not set; no .NET telemetry. The tool scripts under `tools/` call it themselves. With a per-user SDK, start Visual Studio from that window, so it finds the SDK too. With Visual Studio installed instead of Build Tools, replace `BuildTools` in the path with your edition, e.g. `Community`. A clean build produces many compiler warnings and no errors. The main program is `OpenPmsDental\bin\Debug\OpenPmsDental.exe` (`OpenPmsDental\bin\Release\` for a Release build). Every program there is its apphost (`.exe`) with its `.dll`, `.runtimeconfig.json` and `.deps.json`, beside the folder's own x64 .NET runtime. The build also copies UpdateFileCopier's four files, the native file the program loads at run time, `WebView2Loader.dll` (x64, from the WebView2 package), and `Direct2dWrapper.dll` (x64) next to it, and the 32-bit helper with its own x86 runtime into `Helper32\`.
 
 ### The solution and the solution filter
 
 - **`OpenDental.Local.slnf`** loads the program and its libraries, services and tools, the adoption and synthetic-data tools under `tools/`, and every test project under `tests/`. The older or standalone projects listed under [Repository layout](#repository-layout) are not in it. `OpenDental.sln` lists the same projects, so either one builds the same set. The build scripts read the filter, so add a new project to both.
 - **`Directory.Build.targets`** gives the test projects their binding redirects, keeps the Microsoft Testing Platform's telemetry extension out of every output folder and applies the MSTest analyzer levels of `tests/MSTest.globalconfig` (the test projects use MSTest 4 from its NuGet packages since S4-1 of the .NET 10 move, `docs/port-notes/S4-1.md`). Every project is built from source: a missing project fails the build, and nothing is swapped for a DLL in `Required dlls/`.
-- **`Directory.Build.props`** and **`tests/Directory.Build.props`** hold the settings of the SDK-style projects only (flat `bin\Debug\` and `bin\Release\` output, x86, lock files, no generated assembly info); the classic projects ignore them. **`Directory.Packages.props`** names the version of every NuGet package (central package management); a project's `PackageReference` names none. **`global.json`** pins the .NET SDK, **`nuget.config`** the offline package folder. `tools\Get-ProjectBaseline.ps1` records what each project compiles, embeds and outputs, and compares that with the record in `tools/project-baseline/` taken before the change of project format.
+- **`Directory.Build.props`** and **`tests/Directory.Build.props`** hold the settings of the SDK-style projects only (flat `bin\Debug\` and `bin\Release\` output, x64 on .NET 10 and the helper x86, lock files, no generated assembly info); the classic projects ignore them. **`Directory.Packages.props`** names the version of every NuGet package (central package management); a project's `PackageReference` names none. **`global.json`** pins the .NET SDK, **`nuget.config`** the offline package folder. `tools\Get-ProjectBaseline.ps1` records what each project compiles, embeds and outputs, and compares that with the record in `tools/project-baseline/` taken before the change of project format.
 - **Version numbers:** `SharedAssemblyInfo.cs` in the repository root gives every shipped assembly its product name, copyright and release version (`0.0`). Each project's `AssemblyVersion` stays on its own line; for `OpenPmsDental.exe` and `OpenPmsDentalBusiness.dll` that is the compatibility version `24.3.63.0`, which the database checks use ([docs/release-process.md](docs/release-process.md)).
 - **We don't merge from upstream.** Open Dental's public source stops at 24.3.63; later features are re-implemented from public documentation ([docs/decoupling-plan.md](docs/decoupling-plan.md)).
 - **`.gitignore`** ignores build output (`bin/`, `obj/`, `packages/`, `.vs/`). The `ConversionFiles` already tracked under `OpenPmsDental/bin/Debug` remain tracked.
@@ -187,7 +188,7 @@ Then build the solution (see [Build](#build)), start `OpenPmsDental\bin\Debug\Op
 | `ImagingDeviceManager/`, `ImagingCapture/` | Open source TWAIN scanning and native image capture for the Imaging module ([docs/imaging-capture-design.md](docs/imaging-capture-design.md)) |
 | `ODCrypt/` | Standard hash, random and compression helpers |
 | `xCrudGenerator/` | Generates `OpenPmsDentalBusiness/Crud/*` from the table types. Run it after changing a table type |
-| `OpenPmsDentalServer/` | Middle-tier web service (ASP.NET ASMX, hosted in IIS). Its IIS path stays /OpenDentalServer, so the workstations' saved addresses and logins keep working |
+| `OpenPmsDentalServer/` | Middle-tier server (ASP.NET Core, one HTTPS endpoint, run as a Windows service or in IIS, self-contained x64; S3b-6). Its path stays /OpenDentalServer, so the workstations' saved addresses and logins keep working |
 | `OpenPmsDentalHL7/`, `ServiceManager/`, `CentralManager/`, `DatabaseIntegrityCheck/`, `MySQLManager/`, `UpdateFileCopier/` | Supporting services and tools; `UpdateFileCopier.exe` installs a pulled release |
 | `OpenPmsDentalStorage/`, `OpenPmsDentalGraph/`, `SparksToothChart/`, `Direct2dWrapper/`, `PasswordVaultWrapper/` | SFTP A to Z storage, dashboards, tooth chart rendering, native Direct2D, and Windows Credential Manager libraries |
 | `tests/` | MSTest 4 test projects (run by vstest), one per package, in the solution filter. Tests that need a database create a scratch database with a unique name on `127.0.0.1:3306` and drop it afterwards |

@@ -31,20 +31,20 @@ namespace ReleaseFlowTests {
 			{ "MySqlConnector","MySqlConnector" },
 			{ "Newtonsoft.Json","Newtonsoft.Json" },
 			{ "SSH.NET","SSH.NET" },
-			{ "Microsoft.Bcl.AsyncInterfaces",".NET libraries" },
-			{ "Microsoft.Bcl.Cryptography",".NET libraries" },
 			{ "Microsoft.Extensions.DependencyInjection.Abstractions",".NET libraries" },
 			{ "Microsoft.Extensions.Logging.Abstractions",".NET libraries" },
-			{ "System.Buffers",".NET libraries" },
-			{ "System.Diagnostics.DiagnosticSource",".NET libraries" },
-			{ "System.Formats.Asn1",".NET libraries" },
-			{ "System.IO.Pipelines",".NET libraries" },
-			{ "System.Memory",".NET libraries" },
-			{ "System.Numerics.Vectors",".NET libraries" },
-			{ "System.Runtime.CompilerServices.Unsafe",".NET libraries" },
-			{ "System.Text.Encodings.Web",".NET libraries" },
-			{ "System.Text.Json",".NET libraries" },
-			{ "System.Threading.Tasks.Extensions",".NET libraries" },
+			//Since stage 3b (S3b-7): the .NET library packages that are not part of the shared runtime, Roslyn (decision 14) and the charts'
+			//library (decision 10). The packages whose types are part of .NET 10 (System.Memory, System.Text.Json and the others the .NET
+			//Framework build shipped) are pruned by the restore: their files of those names are the runtime part's.
+			{ "System.DirectoryServices.AccountManagement",".NET libraries" },
+			{ "System.DirectoryServices.Protocols",".NET libraries" },
+			{ "System.IO.Ports",".NET libraries" },
+			{ "System.Management",".NET libraries" },
+			{ "System.ServiceProcess.ServiceController",".NET libraries" },
+			{ "System.Speech",".NET libraries" },
+			{ "Microsoft.CodeAnalysis.Common",".NET libraries" },
+			{ "Microsoft.CodeAnalysis.VisualBasic",".NET libraries" },
+			{ "WinForms.DataVisualization",".NET libraries" },
 			//TC-4: Helix Toolkit 3.1.2 and the packages of its closure that bring a file the build keeps.
 			{ "HelixToolkit","Helix Toolkit" },
 			{ "HelixToolkit.Geometry","Helix Toolkit" },
@@ -53,7 +53,6 @@ namespace ReleaseFlowTests {
 			{ "CommunityToolkit.Common",".NET Community Toolkit" },
 			{ "CommunityToolkit.Diagnostics",".NET Community Toolkit" },
 			{ "CommunityToolkit.Mvvm",".NET Community Toolkit" },
-			{ "System.ComponentModel.Annotations",".NET libraries" },
 		};
 
 		///<summary>Packages of the program's lock file that ship no file, with why.</summary>
@@ -75,7 +74,26 @@ namespace ReleaseFlowTests {
 			{ "Microsoft.NETCore.Targets","no assembly: the runtime graph of the .NET Standard 1.x packages" },
 			{ "runtime.any.System.IO","no assembly for .NET Framework (lib\\net45\\_._), batch H2" },
 			{ "runtime.any.System.Runtime","no assembly for .NET Framework (lib\\net45\\_._), batch H2" },
+			//Stage 3b (S3b-7).
+			{ "Microsoft.CodeAnalysis.Analyzers","Roslyn's analyzers for the build only; no runtime file" },
+			{ "Microsoft.XmlSerializer.Generator","a build tool: it writes OpenPmsDental.XmlSerializers.dll, the program's own file" },
+			{ "runtime.native.System.IO.Ports","no file for win-x64: System.IO.Ports' native files are for other platforms" },
 		};
+
+		///<summary>Package files that the package's own build files copy instead of its restore assets, as Build-Release.ps1's $PackageBuildFiles
+		///names them: the WebView2 package's managed .NET files (lib_manual).</summary>
+		private static readonly Dictionary<string,string> _dictBuildFiles=new Dictionary<string,string>(StringComparer.OrdinalIgnoreCase) {
+			{ "Microsoft.Web.WebView2.Core.dll","lib_manual/netcoreapp3.0/Microsoft.Web.WebView2.Core.dll" },
+			{ "Microsoft.Web.WebView2.WinForms.dll","lib_manual/netcoreapp3.0/Microsoft.Web.WebView2.WinForms.dll" },
+			{ "Microsoft.Web.WebView2.Wpf.dll","lib_manual/net5.0-windows10.0.17763.0/Microsoft.Web.WebView2.Wpf.dll" },
+		};
+
+		///<summary>True for a package of the program's lock file that ships no file: _dictNotShipped, or one of System.IO.Ports' native packages for
+		///another platform (runtime.<rid>.runtime.native.System.IO.Ports).</summary>
+		private static bool IsNotShipped(string id) {
+			return _dictNotShipped.ContainsKey(id)
+				|| (id.StartsWith("runtime.",StringComparison.OrdinalIgnoreCase) && id.EndsWith(".runtime.native.System.IO.Ports",StringComparison.OrdinalIgnoreCase));
+		}
 
 		private static string FolderProgram {
 			get { return Path.Combine(TestPaths.RepoRoot,"OpenPmsDental"); }
@@ -130,9 +148,16 @@ namespace ReleaseFlowTests {
 				string pathStaged=Path.Combine(folder,path);
 				Directory.CreateDirectory(Path.GetDirectoryName(pathStaged));
 				PackageFile packageFile;
+				if(line.StartsWith("setup|")) {
+					continue;//The setup's TWAINDSM.dll, never a file of the program folder.
+				}
 				if(line.StartsWith("third|") && dictPackageFiles.TryGetValue(path,out packageFile)) {
 					Assert.IsNotNull(packageFile.Path,packageFile+" is neither in the offline folder nor in the restore's global packages folder.");
 					File.Copy(packageFile.Path,pathStaged);
+					listPackageNames.Add(path);
+				}
+				else if(line.StartsWith("third|") && _dictBuildFiles.ContainsKey(path)) {
+					File.Copy(GetBuildFile(path),pathStaged);
 					listPackageNames.Add(path);
 				}
 				else if(path=="THIRD-PARTY-NOTICES.txt") {
@@ -143,6 +168,16 @@ namespace ReleaseFlowTests {
 				}
 			}
 			return listPackageNames;
+		}
+
+		///<summary>The package file of a name of _dictBuildFiles, from the offline folder, at the version OpenPmsDental's lock file names.</summary>
+		private static string GetBuildFile(string fileName) {
+			LockedPackage lockedPackage=NuGetFiles.ReadLockFile(Path.Combine(FolderProgram,"packages.lock.json")).First(x => x.Id=="Microsoft.Web.WebView2");
+			string folderOffline=NuGetFiles.GetOfflineFolder(TestPaths.RepoRoot);
+			Assert.IsNotNull(folderOffline,"No offline package folder.");
+			string path=Path.Combine(NuGetFiles.GetPackageFolder(folderOffline,lockedPackage.Id,lockedPackage.Version),_dictBuildFiles[fileName].Replace('/','\\'));
+			Assert.IsTrue(File.Exists(path),path);
+			return path;
 		}
 
 		private static bool IsPackageProblem(string line) {
@@ -162,7 +197,7 @@ namespace ReleaseFlowTests {
 			string folder=TestPaths.NewTempFolder("packages");
 			try {
 				List<string> listPackageNames=FillStaging(folder,dictPackageFiles);
-				Assert.AreEqual(38,listPackageNames.Count,"The third-party files of packages (30, and the 8 of Helix Toolkit's closure, TC-4): "+string.Join(", ",listPackageNames));
+				Assert.AreEqual(35,listPackageNames.Count,"The third-party files of packages (since S3b-7: 28, the 4 Helix Toolkit and 3 Community Toolkit files of Helix Toolkit's closure, TC-4, and the 3 WebView2 files the package's build files copy): "+string.Join(", ",listPackageNames));
 				KeyValuePair<int,List<string>> pairResult=RunBuildRelease("-CheckFolder \""+folder+"\" -Full");
 				Assert.AreEqual(1,pairResult.Key,"Synthetic files fail the other checks.");
 				List<string> listPackageLines=pairResult.Value.Where(x => IsPackageProblem(x)).ToList();
@@ -211,7 +246,7 @@ namespace ReleaseFlowTests {
 			Dictionary<string,PackageFile> dictPackageFiles=ReadProgramPackageFiles();
 			List<string> listProblems=new List<string>();
 			foreach(PackageFile packageFile in dictPackageFiles.Values.OrderBy(x => x.FileName,StringComparer.OrdinalIgnoreCase)) {
-				if(_dictNotShipped.ContainsKey(packageFile.Id)) {
+				if(IsNotShipped(packageFile.Id)) {
 					listProblems.Add(packageFile+" is copied, but the package is listed as shipping no file.");
 					continue;
 				}
@@ -227,8 +262,13 @@ namespace ReleaseFlowTests {
 					listProblems.Add("Build-Release.ps1 does not name "+packageFile.FileName+" as a file of the package "+packageFile.Id+".");
 				}
 			}
+			//The WebView2 package's managed files come from its build files, not its restore assets (_dictBuildFiles).
+			foreach(string fileName in _dictBuildFiles.Keys) {
+				CollectionAssert.Contains(listThird,fileName);
+				StringAssert.Contains(script,"'"+fileName+"'=@('Microsoft.Web.WebView2','"+_dictBuildFiles[fileName]+"')");
+			}
 			Assert.AreEqual(0,listProblems.Count,string.Join("\r\n",listProblems));
-			Assert.AreEqual(38,dictPackageFiles.Count,string.Join(", ",dictPackageFiles.Keys));
+			Assert.AreEqual(32,dictPackageFiles.Count,string.Join(", ",dictPackageFiles.Keys));
 		}
 
 		///<summary>THIRD-PARTY-NOTICES.txt names, for each package of OpenPmsDental's lock file whose files ship, the version the lock file names: in
@@ -241,7 +281,7 @@ namespace ReleaseFlowTests {
 			Assert.IsTrue(listLocked.Count>=25,"The program's lock file names its packages.");
 			List<string> listProblems=new List<string>();
 			foreach(LockedPackage lockedPackage in listLocked.OrderBy(x => x.Id,StringComparer.OrdinalIgnoreCase)) {
-				if(_dictNotShipped.ContainsKey(lockedPackage.Id)) {
+				if(IsNotShipped(lockedPackage.Id)) {
 					continue;
 				}
 				string component;

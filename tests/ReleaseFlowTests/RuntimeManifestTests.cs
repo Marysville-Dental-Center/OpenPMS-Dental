@@ -170,12 +170,16 @@ namespace ReleaseFlowTests {
 			Assert.AreNotEqual(key,releaseRuntimePartChanged.ComputeKey());
 		}
 
+		///<summary>Since stage 3b these tests run on .NET 10 x64 (S3b-7 retargeted ReleaseFlowTests), as the program does: GetRunning names the
+		///.NET runtime by its own version (Environment.Version, three parts) and win-x64.</summary>
 		[TestMethod]
-		public void RunningRuntime_OfTheTestProcess_IsTheNetFramework() {
+		public void RunningRuntime_OfTheTestProcess_IsDotNetX64() {
 			ReleaseRuntime releaseRuntime=ReleaseRuntime.GetRunning();
-			Assert.AreEqual(ReleaseRuntime.FRAMEWORK_NET_FRAMEWORK,releaseRuntime.Framework,"These tests run on .NET Framework 4.8 until stage 3b.");
-			Assert.AreEqual("4.8",releaseRuntime.Version);
-			Assert.AreEqual(Environment.Is64BitProcess ? "win-x64" : "win-x86",releaseRuntime.Architecture);
+			Assert.AreEqual(ReleaseRuntime.FRAMEWORK_NET_CORE_APP,releaseRuntime.Framework,"These tests run on .NET 10 since stage 3b.");
+			Assert.AreEqual(Environment.Version.ToString(3),releaseRuntime.Version);
+			StringAssert.StartsWith(releaseRuntime.Version,"10.0.");
+			Assert.IsTrue(Environment.Is64BitProcess,"The x64 test host.");
+			Assert.AreEqual("win-x64",releaseRuntime.Architecture);
 		}
 
 		[TestMethod]

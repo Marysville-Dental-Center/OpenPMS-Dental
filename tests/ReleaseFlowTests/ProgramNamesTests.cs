@@ -64,7 +64,8 @@ namespace ReleaseFlowTests {
 			Assert.AreEqual("OpenPmsDentalHL7.Main",ProgramNames.EventLogSourceHL7Main);
 			Assert.AreEqual("OpenPmsDental",ProgramNames.ServicePrefix);
 			Assert.AreEqual("OpenDent",ProgramNames.LegacyServicePrefix,"Services installed before the rename carry this prefix; it never changes.");
-			Assert.AreEqual(@"C:\Program Files (x86)\Open PMS - Dental",ProgramNames.DefaultInstallFolder);
+			//The 64-bit setup's folder, {commonpf64} (S3b-7; the .NET Framework build installed into Program Files (x86)).
+			Assert.AreEqual(@"C:\Program Files\Open PMS - Dental",ProgramNames.DefaultInstallFolder);
 			Assert.IsTrue(ProgramNames.HL7ServiceName.StartsWith(ProgramNames.ServicePrefix),"The HL7 service must carry the service prefix.");
 		}
 
@@ -225,7 +226,8 @@ namespace ReleaseFlowTests {
 			Dictionary<string,string[]> dictForbidden=new Dictionary<string,string[]> {
 				[@"UpdateFileCopier\FormMain.cs"]=new[] { "KillProcess(\"OpenDental\")","KillProcess(\"OpenPmsDental\")","\"OpenDental.exe\"","\"OpenPmsDental.exe\"",
 					"\"opendental\"","\"openpms-dental\"","\"updatefilecopier\"" },
-				[@"UpdateFileCopier\Program.cs"]=new[] { @"@""C:\Program Files\Open Dental""",@"@""C:\Program Files (x86)\Open PMS - Dental""" },
+				[@"UpdateFileCopier\Program.cs"]=new[] { @"@""C:\Program Files\Open Dental""",@"@""C:\Program Files (x86)\Open PMS - Dental""",
+					@"@""C:\Program Files\Open PMS - Dental""" },
 				[@"OpenPmsDental\Main Modules\ProgramEntry.cs"]=new[] { "ProcessName.StartsWith(" },
 				[@"OpenPmsDental\Main Modules\FormOpenDental.cs"]=new[] { "ProcessName==\"OpenDental\"","ProcessName==\"OpenPmsDental\"","Contains(\"updatefilecopier\")" },
 				[@"OpenPmsDentalStorage\Storage\Sftp.cs"]=new[] { "ProcessName.StartsWith(","\"OpenDental\",\"Stash\"","\"OpenPMS-Dental\",\"Stash\"" },

@@ -44,10 +44,13 @@ namespace OpenPmsDentalBusiness {
 		///<summary>The fork-only values that version 0.0 released before the tinyint ranges were set. A released value is never renumbered, so they
 		///keep their numbers, and no feature may take them in their enum: the release channel's DocumentMiscType 100 and 101 (below every range),
 		///and the Patient Forms view's UserOdFkeyType 114 (package B-EF, inside inventory tracking's tinyint range, which in UserOdFkeyType
-		///therefore has 114 taken).</summary>
+		///therefore has 114 taken). The release channel's runtime part (S3b-7 of the .NET 10 move) takes the next two values beside its first two,
+		///DocumentMiscType 102 and 103, so the release channel keeps one block below every range; they are listed here with it.</summary>
 		public static readonly List<ForkEnumEarlierValue> ListEarlierValues=new List<ForkEnumEarlierValue>() {
 			new ForkEnumEarlierValue(DocumentMiscType.ForkReleaseManifest,FEATURE_RELEASE_CHANNEL),
 			new ForkEnumEarlierValue(DocumentMiscType.ForkReleaseSegment,FEATURE_RELEASE_CHANNEL),
+			new ForkEnumEarlierValue(DocumentMiscType.ForkRuntimeManifest,FEATURE_RELEASE_CHANNEL),
+			new ForkEnumEarlierValue(DocumentMiscType.ForkRuntimeSegment,FEATURE_RELEASE_CHANNEL),
 			new ForkEnumEarlierValue(UserOdFkeyType.PatientFormsView,FEATURE_PATIENT_FORMS_VIEW),
 		};
 

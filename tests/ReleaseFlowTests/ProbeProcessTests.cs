@@ -19,6 +19,27 @@ using TestProbeHost;
 namespace ReleaseFlowTests {
 	[TestClass]
 	public class ProbeProcessTests {
+		///<summary>Ends the test inconclusive, naming the handoff, while TestProbeHost's ProbeProcess cannot start its copy of the host outside the
+		///host's own output folder on .NET: CopyHost copies the framework-dependent apphost alone, and on .NET the apphost needs TestProbeHost.dll,
+		///.runtimeconfig.json and .deps.json beside it ("The application to execute does not exist"). The fix is in tests\TestProbeHost, S3b-5's
+		///(the S3b-6 handoff, docs/port-notes/S3b-6.md "Lead notes at the merge"); ReleaseFlowTests runs on .NET since S3b-7. Any other failure of
+		///the start fails the test as before.</summary>
+		internal static void RequireHostCopyStarts() {
+			string folder=TestPaths.NewTempFolder("probehost_check");
+			try {
+				ProbeRunResult probeRunResult=ProbeProcess.RunOnce(folder,null,typeof(ProbeOnceEntry),new[] { "exit","check" },TimeSpan.FromMinutes(2));
+				if(probeRunResult.ExitCode!=7 && probeRunResult.Output.Contains("The application to execute does not exist")
+					&& probeRunResult.Output.Contains("TestProbeHost.dll"))
+				{
+					Assert.Inconclusive("TestProbeHost's copy of the host cannot start outside its own output folder on .NET (ProbeProcess.CopyHost copies "
+						+"the apphost alone): the S3b-6 handoff to S3b-5, tests\\TestProbeHost. "+probeRunResult.Output.Trim());
+				}
+			}
+			finally {
+				DeleteQuietly(folder);
+			}
+		}
+
 		private static void DeleteQuietly(string folder) {
 			try {
 				Directory.Delete(folder,true);
@@ -113,6 +134,7 @@ namespace ReleaseFlowTests {
 		///</summary>
 		[TestMethod]
 		public void Start_DeletesTheStaleCopiesFirst_AndDisposeLeavesNoCopy() {
+			RequireHostCopyStarts();
 			string folder=TestPaths.NewTempFolder("probeprocess");
 			try {
 				DateTime dateOld=ProcessStartUtc().AddHours(-1);
@@ -141,6 +163,7 @@ namespace ReleaseFlowTests {
 		///the process with the host's exit code for it, a hang is ended at the timeout, and no copy is left.</summary>
 		[TestMethod]
 		public void RunOnce_IsTheProcesssMain() {
+			RequireHostCopyStarts();
 			string folder=TestPaths.NewTempFolder("probeprocess");
 			try {
 				ProbeRunResult probeRunResult=ProbeProcess.RunOnce(folder,null,typeof(ProbeOnceEntry),new[] { "exit",
@@ -220,6 +243,7 @@ namespace ReleaseFlowTests {
 		///</summary>
 		[TestMethod]
 		public void RunOnce_HardArguments_ReachTheChildAsTheyWere() {
+			RequireHostCopyStarts();
 			string folder=TestPaths.NewTempFolder("probeprocess");
 			try {
 				string[] arrayArgs=_arrayArgsHard.Where(x => x.All(y => y<128)).ToArray();
@@ -242,6 +266,7 @@ namespace ReleaseFlowTests {
 		///The grandchild ends on its own; the test waits for it.</summary>
 		[TestMethod]
 		public void RunOnce_AGrandchildHoldsTheOutput_TheWaitIsBounded() {
+			RequireHostCopyStarts();
 			string folder=TestPaths.NewTempFolder("probeprocess");
 			int processIdGrandchild=0;
 			try {
