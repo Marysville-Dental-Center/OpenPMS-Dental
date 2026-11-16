@@ -1,7 +1,8 @@
 // The right-click menus of GridOD and GridOld (package S3a-M1): the grid's own menu is a ContextMenuStrip now, and its items, their order,
-// separators and enabled states are compared with what the WinForms ContextMenu path (the bridge for S3a-M2/M3) puts in a ContextMenu for the
-// same grid, cell, row and selection. The grids are built in memory with a window handle for their layout and are never shown; the menus'
-// Opening and Popup are raised directly, with the grid as their source control, instead of by a right click.
+// separators and enabled states are the ones the WinForms ContextMenu path (the bridge for S3a-M2/M3) put in a ContextMenu for the same grid,
+// cell, row and selection. S3a-M1 compared the two; the bridges are gone (GridOld's with S3a-M2, GridOD's with S3a-M3b), and the expected lists
+// are the ones the bridge gave. The grids are built in memory with a window handle for their layout and are never shown; the menus' Opening is
+// raised directly, with the grid as its source control, instead of by a right click.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
 using System.Collections.Generic;
@@ -57,8 +58,8 @@ namespace S3aM1Tests {
 		}
 
 		///<summary>Sets what a right mouse down on the cell leaves behind (OnMouseDown): the clicked row, column and point and the right button, and
-		///selects the row or not.</summary>
-		private static void RightClickCell(Control grid,int row,int col,bool isRowSelected) {
+		///selects the row or not. Also used by M3LiveMenuTests.</summary>
+		internal static void RightClickCell(Control grid,int row,int col,bool isRowSelected) {
 			Point point=Point.Empty;
 			bool isFound=false;
 			for(int y=0;y<grid.Height && !isFound;y++) {
@@ -105,13 +106,7 @@ namespace S3aM1Tests {
 			return cancelEventArgs.Cancel;
 		}
 
-		///<summary>Raises the WinForms ContextMenu's Popup as showing it over grid does (the bridge).</summary>
-		private static void Popup(ContextMenu contextMenu,Control grid) {
-			SetSourceControl(contextMenu,grid);
-			Priv.Call(contextMenu,"OnPopup",EventArgs.Empty);
-		}
-
-		///<summary>The source control of a ContextMenuStrip or ContextMenu, which showing the menu sets. Both keep it in an internal member.</summary>
+		///<summary>The source control of a ContextMenuStrip, which showing the menu sets. It keeps it in an internal member.</summary>
 		private static void SetSourceControl(object menu,Control control) {
 			foreach(string name in new[] { "SourceControlInternal","sourceControl","_sourceControl" }) {
 				try {
@@ -131,11 +126,6 @@ namespace S3aM1Tests {
 				.Select(x => x is ToolStripSeparator ? "-" : x.Text+(x.Enabled ? "" : " (disabled)")+(x.Available ? "" : " (hidden)")).ToList();
 		}
 
-		private static List<string> Describe(ContextMenu contextMenu) {
-			return contextMenu.MenuItems.Cast<MenuItem>()
-				.Select(x => x.Text=="-" ? "-" : x.Text+(x.Enabled ? "" : " (disabled)")+(x.Visible ? "" : " (hidden)")).ToList();
-		}
-
 		///<summary>A caller's strip whose only item is hidden until the caller's own Opening shows it (ControlFamily's "View DOB").</summary>
 		private static ContextMenuStrip MakeCallerStripHiddenOnly() {
 			ContextMenuStrip contextMenuStrip=new ContextMenuStrip();
@@ -145,12 +135,6 @@ namespace S3aM1Tests {
 			return contextMenuStrip;
 		}
 
-		private static ContextMenu MakeCallerMenuHiddenOnly() {
-			MenuItem menuItem=new MenuItem("View DOB");
-			menuItem.Visible=false;
-			return new ContextMenu(new[] { menuItem });
-		}
-
 		private static ContextMenuStrip MakeCallerStrip() {
 			ContextMenuStrip contextMenuStrip=new ContextMenuStrip();
 			contextMenuStrip.Items.Add(new ToolStripMenuItem("Edit"));
@@ -158,36 +142,25 @@ namespace S3aM1Tests {
 			contextMenuStrip.Items.Add(new ToolStripMenuItem("Delete"));
 			return contextMenuStrip;
 		}
-
-		private static ContextMenu MakeCallerMenu() {
-			return new ContextMenu(new[] { new MenuItem("Edit"),new MenuItem("-"),new MenuItem("Delete") });
-		}
 		#endregion Helpers
 
 		#region GridOD
 		[TestMethod]
 		public void GridOD_OwnMenu_FirstOpening_HasTheItemsOfTheWinFormsMenu() {
-			using(GridOD grid=MakeGrid<GridOD>("gridMain"))
-			using(GridOD gridLegacy=MakeGrid<GridOD>("gridLegacy")) {
+			using(GridOD grid=MakeGrid<GridOD>("gridMain")) {
 				RightClickCell(grid,0,1,isRowSelected:true);
 				ContextMenuStrip contextMenuStrip=SetOwnMenu(grid);
 				Assert.IsFalse(Open(contextMenuStrip,grid),"The empty menu's opening is no longer cancelled once the grid adds its items.");
-				List<string> listExpected=new List<string> { "Copy Cell Text","Copy Rows","-",LINK };
-				CollectionAssert.AreEqual(listExpected,Describe(contextMenuStrip));
-				//The bridge: a new WinForms ContextMenu on the grid, as OnMouseUp made it before.
-				RightClickCell(gridLegacy,0,1,isRowSelected:true);
-				gridLegacy.ContextMenu=new ContextMenu();
-				Popup(gridLegacy.ContextMenu,gridLegacy);
-				CollectionAssert.AreEqual(listExpected,Describe(gridLegacy.ContextMenu));
+				//What the bridge's new WinForms ContextMenu (as OnMouseUp made it before S3a-M1) held for the same click.
+				CollectionAssert.AreEqual(new List<string> { "Copy Cell Text","Copy Rows","-",LINK },Describe(contextMenuStrip));
 			}
 		}
 
 		[TestMethod]
 		public void GridOD_OwnMenu_NextOpenings_FollowTheClickedCellAndRow() {
-			using(GridOD grid=MakeGrid<GridOD>("gridMain"))
-			using(GridOD gridLegacy=MakeGrid<GridOD>("gridLegacy")) {
+			using(GridOD grid=MakeGrid<GridOD>("gridMain")) {
 				ContextMenuStrip contextMenuStrip=SetOwnMenu(grid);
-				gridLegacy.ContextMenu=new ContextMenu();
+				//The lists the bridge's ContextMenu gave for the same clicks when S3a-M1 compared them.
 				List<(int row,int col,bool isSelected,List<string> listExpected)> listClicks=new List<(int,int,bool,List<string>)> {
 					(0,1,true,new List<string> { "Copy Cell Text","Copy Rows","-",LINK }),
 					//An empty cell of a row that is not selected: both disabled, and the links of row 0 are gone (row 1 has none).
@@ -200,9 +173,6 @@ namespace S3aM1Tests {
 					RightClickCell(grid,row,col,isSelected);
 					Assert.IsFalse(Open(contextMenuStrip,grid));
 					CollectionAssert.AreEqual(listExpected,Describe(contextMenuStrip),"Row "+row+", column "+col+".");
-					RightClickCell(gridLegacy,row,col,isSelected);
-					Popup(gridLegacy.ContextMenu,gridLegacy);
-					CollectionAssert.AreEqual(listExpected,Describe(gridLegacy.ContextMenu),"Bridge, row "+row+", column "+col+".");
 				}
 			}
 		}
@@ -223,7 +193,6 @@ namespace S3aM1Tests {
 		public void GridOD_CallersStrip_WithDoAddGridItems_GetsTheItemsTheCallersContextMenuGets() {
 			foreach(bool isFlagSetFirst in new[] { true,false }) {
 				using(GridOD grid=MakeGrid<GridOD>("gridMain"))
-				using(GridOD gridLegacy=MakeGrid<GridOD>("gridLegacy"))
 				using(ContextMenuStrip contextMenuStrip=MakeCallerStrip()) {
 					if(isFlagSetFirst) {
 						grid.DoAddGridItemsToContextMenuStrip=true;
@@ -233,15 +202,12 @@ namespace S3aM1Tests {
 						grid.ContextMenuStrip=contextMenuStrip;
 						grid.DoAddGridItemsToContextMenuStrip=true;
 					}
-					gridLegacy.ContextMenu=MakeCallerMenu();
+					//What the bridge put in the caller's ContextMenu (Edit, a separator, Delete) for the same clicks.
 					List<string> listExpected=new List<string> { "Edit","-","Delete","-","Copy Cell Text","Copy Rows","-",LINK };
 					for(int i=0;i<2;i++) {//the second opening adds nothing twice
 						RightClickCell(grid,0,1,isRowSelected:true);
 						Assert.IsFalse(Open(contextMenuStrip,grid));
 						CollectionAssert.AreEqual(listExpected,Describe(contextMenuStrip),"Flag set first: "+isFlagSetFirst+", opening "+i+".");
-						RightClickCell(gridLegacy,0,1,isRowSelected:true);
-						Popup(gridLegacy.ContextMenu,gridLegacy);
-						CollectionAssert.AreEqual(listExpected,Describe(gridLegacy.ContextMenu),"Bridge, opening "+i+".");
 					}
 					//Turned off again: the strip shows its own items and the ones already added, and nothing changes them any more.
 					grid.DoAddGridItemsToContextMenuStrip=false;
@@ -279,24 +245,68 @@ namespace S3aM1Tests {
 		[TestMethod]
 		public void GridOD_CallersStrip_WithDoAddGridItems_AndOnlyHiddenItems_Opens() {
 			using(GridOD grid=MakeGrid<GridOD>("gridPat"))
-			using(GridOD gridLegacy=MakeGrid<GridOD>("gridLegacy"))
 			using(ContextMenuStrip contextMenuStrip=MakeCallerStripHiddenOnly()) {
 				//Without the grid items, the strip of hidden items stays cancelled, as any such strip does.
 				grid.ContextMenuStrip=contextMenuStrip;
 				RightClickCell(grid,1,0,isRowSelected:true);
 				Assert.IsTrue(Open(contextMenuStrip,grid));
 				CollectionAssert.AreEqual(new List<string> { "View DOB (hidden)" },Describe(contextMenuStrip));
-				//With them, it opens with the items the bridge's ContextMenu shows.
+				//With them, it opens with the items the bridge's ContextMenu showed (as FormMedical's grids, whose one item is hidden on most rows).
 				grid.DoAddGridItemsToContextMenuStrip=true;
-				gridLegacy.ContextMenu=MakeCallerMenuHiddenOnly();
 				List<string> listExpected=new List<string> { "View DOB (hidden)","-","Copy Cell Text","Copy Rows" };
 				for(int i=0;i<2;i++) {
 					RightClickCell(grid,1,0,isRowSelected:true);
 					Assert.IsFalse(Open(contextMenuStrip,grid),"Opening "+i+": the grid's items show, so the menu opens.");
 					CollectionAssert.AreEqual(listExpected,Describe(contextMenuStrip),"Opening "+i+".");
-					RightClickCell(gridLegacy,1,0,isRowSelected:true);
-					Popup(gridLegacy.ContextMenu,gridLegacy);
-					CollectionAssert.AreEqual(listExpected,Describe(gridLegacy.ContextMenu),"Bridge, opening "+i+".");
+				}
+			}
+		}
+
+		[TestMethod]
+		public void GridOD_RightMouseUp_MakesItsOwnMenuOnlyWithoutACallersStrip() {
+			//OnMouseUp makes the grid's own strip only when no ContextMenuStrip is set and ShowContextMenu is true (before S3a-M3b it also checked
+			//for a WinForms ContextMenu). The cases that make no menu are run here; making one also shows it, which a test must not.
+			using(GridOD grid=MakeGrid<GridOD>("gridMain"))
+			using(ContextMenuStrip contextMenuStrip=MakeCallerStrip()) {
+				grid.DoAddGridItemsToContextMenuStrip=true;
+				grid.ContextMenuStrip=contextMenuStrip;
+				RightClickCell(grid,0,1,isRowSelected:true);
+				Priv.Call(grid,"OnMouseUp",new MouseEventArgs(MouseButtons.Right,1,5,5,0));
+				Assert.AreSame(contextMenuStrip,grid.ContextMenuStrip,"A caller's strip stays the grid's menu.");
+				Assert.IsNull(Priv.Get(grid,"_contextMenuStripGrid"),"No menu of the grid's own.");
+			}
+			using(GridOD grid=MakeGrid<GridOD>("gridMain")) {
+				grid.ShowContextMenu=false;
+				RightClickCell(grid,0,1,isRowSelected:true);
+				Priv.Call(grid,"OnMouseUp",new MouseEventArgs(MouseButtons.Right,1,5,5,0));
+				Assert.IsNull(grid.ContextMenuStrip,"ShowContextMenu=false: no menu.");
+				Assert.IsNull(Priv.Get(grid,"_contextMenuStripGrid"));
+			}
+		}
+
+		[TestMethod]
+		public void GridOD_PopupHelper_Lan_HaveNoWinFormsMenuBridge() {
+			//S3a-M3b removed the regions "Bridge for S3a-M3b": GridOD's ContextMenu path, PopupHelper's MenuItem links and Lan's translation of a
+			//grid's ContextMenu. What covers the paths that replaced them: the strip tests above and M3LiveMenuTests' FormMedical test (GridOD),
+			//MenuPartsTests (PopupHelper), LanToolStripTests (Lan).
+			BindingFlags bindingFlags=BindingFlags.Public|BindingFlags.NonPublic|BindingFlags.Instance|BindingFlags.Static|BindingFlags.DeclaredOnly;
+			foreach(string name in new[] { "OnContextMenuChanged","ContextMenu_Popup","ContextMenuAddPopupLinks","IsWinFormsContextMenuSet" }) {
+				Assert.AreEqual(0,typeof(GridOD).GetMethods(bindingFlags).Count(x => x.Name==name),"GridOD."+name);
+			}
+			Assert.IsNull(typeof(GridOD).GetField("_listMenuItemsLinks",bindingFlags));
+			Assert.AreEqual(0,typeof(OpenPmsDentalBusiness.UI.PopupHelper).GetMethods(bindingFlags).Count(x => x.Name=="GetContextMenuItemLinks"));
+			foreach(string name in new[] { "TranslateGridWinFormsContextMenu","TranslateMenuItems" }) {
+				Assert.AreEqual(0,typeof(OpenPmsDental.Lan).GetMethods(bindingFlags).Count(x => x.Name==name),"Lan."+name);
+			}
+			//No field or method of the three has a WinForms menu type in its signature.
+			Type[] arrayTypesMenu=new[] { typeof(Menu),typeof(List<MenuItem>) };
+			Func<Type,bool> isMenuType=x => arrayTypesMenu.Any(y => y.IsAssignableFrom(x));
+			foreach(Type type in new[] { typeof(GridOD),typeof(OpenPmsDentalBusiness.UI.PopupHelper),typeof(OpenPmsDental.Lan) }) {
+				foreach(FieldInfo fieldInfo in type.GetFields(bindingFlags)) {
+					Assert.IsFalse(isMenuType(fieldInfo.FieldType),type.Name+"."+fieldInfo.Name);
+				}
+				foreach(MethodInfo methodInfo in type.GetMethods(bindingFlags)) {
+					Assert.IsFalse(isMenuType(methodInfo.ReturnType) || methodInfo.GetParameters().Any(x => isMenuType(x.ParameterType)),type.Name+"."+methodInfo.Name);
 				}
 			}
 		}

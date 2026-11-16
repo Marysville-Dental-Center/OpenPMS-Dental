@@ -1,6 +1,7 @@
 // Package S3a-M3a: representative converted menus and grids built in memory (never shown, on an STA thread): forms whose designer menus are
 // ContextMenuStrips on their grids with the grid's own items, the code-built menus of ODcodeBox and SheetComboBox, the grid that unhooks a strip
-// it no longer shows, and the User Query window's DataGridView (columns, cell text, alignment). Nothing needs a database.
+// it no longer shows, and the User Query window's DataGridView (columns, cell text, alignment). S3a-M3b: FormMedical's Allergies and Problems
+// grids (their convert items, shown only for an "Other" entry, then the grid's items). Nothing needs a database.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
 using System.Collections.Generic;
@@ -73,6 +74,87 @@ namespace S3aM1Tests {
 					Assert.AreEqual((int)PatScreenPerm.Refused,contextMenuStrip.Items.IndexOf((ToolStripItem)Priv.Get(form,"menuItemRefused")));
 				}
 			});
+		}
+
+		[TestMethod]
+		public void FormMedical_GridMenus_ConvertItemOnlyForOther_ThenTheGridItems() {
+			//S3a-M3b: the two WinForms ContextMenus of InitOtherConvertMenus are ContextMenuStrips, set with DoAddGridItemsToContextMenuStrip. Their
+			//Opening (was the Popup) runs before the grid's and sets the convert item's Visible only; the grid then adds its separator, Copy Cell Text
+			//and Copy Rows, in the order the bridge added them to the ContextMenu. Problem definitions come from an in-memory cache; an allergy's
+			//definition is read from the database, so the allergy cases are the ones that need none (no row, an allergy not saved).
+			List<DiseaseDef> listDiseaseDefs=new List<DiseaseDef> {
+				new DiseaseDef { DiseaseDefNum=1,DiseaseName=OtherEntryConverts.OTHER_NAME,ItemOrder=0 },
+				new DiseaseDef { DiseaseDefNum=2,DiseaseName="Asthma",ItemOrder=1 },
+			};
+			DiseaseDefs.FillCacheFromTable(OpenPmsDentalBusiness.Crud.DiseaseDefCrud.ListToTable(listDiseaseDefs));
+			try {
+				M2Support.RunSta(() => {
+					using(FormMedical formMedical=new FormMedical(new PatientNote(),new Patient { PatNum=1 })) {
+						Priv.Call(formMedical,"InitOtherConvertMenus");
+						GridOD gridAllergies=(GridOD)Priv.Get(formMedical,"gridAllergies");
+						GridOD gridDiseases=(GridOD)Priv.Get(formMedical,"gridDiseases");
+						const string ALLERGY="Convert \"Other\" allergy... ->menuItemConvertOtherAllergy_Click";
+						const string PROBLEM="Convert \"Other\" problem... ->menuItemConvertOtherProblem_Click";
+						foreach((GridOD grid,string item) in new[] { (gridAllergies,ALLERGY),(gridDiseases,PROBLEM) }) {
+							Assert.IsTrue(grid.DoAddGridItemsToContextMenuStrip,grid.Name);
+							Assert.IsNull(grid.ContextMenu,grid.Name+": no WinForms ContextMenu.");
+							CollectionAssert.AreEqual(new[] { item },M2Support.Describe(grid.ContextMenuStrip),grid.Name+": the item, visible until the first opening.");
+							List<string> listOpening=M2Support.GetOpeningHandlerNames(grid.ContextMenuStrip);
+							Assert.AreEqual(2,listOpening.Count,grid.Name+": "+string.Join(", ",listOpening));
+							StringAssert.StartsWith(listOpening[0],"<InitOtherConvertMenus>",grid.Name+": the form's Opening first, as its Popup ran first.");
+							Assert.AreEqual("ContextMenuStrip_Opening",listOpening[1],grid.Name);
+						}
+						Assert.AreNotSame(gridAllergies.ContextMenuStrip,gridDiseases.ContextMenuStrip);
+						//Allergies: one allergy, not saved (AllergyNum 0), so never "Other".
+						SetRows(gridAllergies,"Peanuts","Hives");
+						Priv.Set(formMedical,"_listAllergies",new List<Allergy> { new Allergy { AllergyNum=0,AllergyDefNum=5,Reaction="Hives" } });
+						GridMenuTests.RightClickCell(gridAllergies,0,0,isRowSelected:true);
+						Assert.IsFalse(M2Support.Open(gridAllergies.ContextMenuStrip,gridAllergies),"The first opening is not cancelled.");
+						CollectionAssert.AreEqual(new[] { ALLERGY+" (hidden)","-","Copy Cell Text ->CopyCellClick","Copy Rows ->CopyRowsClick" },
+							M2Support.Describe(gridAllergies.ContextMenuStrip));
+						GridMenuTests.RightClickCell(gridAllergies,0,0,isRowSelected:false);//no row selected: no allergy
+						Assert.IsFalse(M2Support.Open(gridAllergies.ContextMenuStrip,gridAllergies));
+						CollectionAssert.AreEqual(new[] { ALLERGY+" (hidden)","-","Copy Cell Text ->CopyCellClick","Copy Rows ->CopyRowsClick (disabled)" },
+							M2Support.Describe(gridAllergies.ContextMenuStrip));
+						//Problems: row 0 an "Other" problem, row 1 a listed one.
+						SetRows(gridDiseases,OtherEntryConverts.OTHER_NAME,"wheezing","Asthma","");
+						Priv.Set(formMedical,"_listDiseases",new List<Disease> {
+							new Disease { DiseaseNum=10,DiseaseDefNum=1,PatNote="wheezing" },new Disease { DiseaseNum=11,DiseaseDefNum=2 } });
+						List<(int row,bool isSelected,string[] arrayExpected)> listClicks=new List<(int,bool,string[])> {
+							(0,true,new[] { PROBLEM,"-","Copy Cell Text ->CopyCellClick","Copy Rows ->CopyRowsClick" }),
+							(1,true,new[] { PROBLEM+" (hidden)","-","Copy Cell Text ->CopyCellClick","Copy Rows ->CopyRowsClick" }),
+							(0,true,new[] { PROBLEM,"-","Copy Cell Text ->CopyCellClick","Copy Rows ->CopyRowsClick" }),//shown again
+							(0,false,new[] { PROBLEM+" (hidden)","-","Copy Cell Text ->CopyCellClick","Copy Rows ->CopyRowsClick (disabled)" }),
+						};
+						foreach((int row,bool isSelected,string[] arrayExpected) in listClicks) {
+							gridDiseases.SetAll(false);
+							GridMenuTests.RightClickCell(gridDiseases,row,0,isSelected);
+							Assert.IsFalse(M2Support.Open(gridDiseases.ContextMenuStrip,gridDiseases),"Row "+row);
+							CollectionAssert.AreEqual(arrayExpected,M2Support.Describe(gridDiseases.ContextMenuStrip),
+								"Row "+row+", selected "+isSelected+": "+string.Join(" | ",M2Support.Describe(gridDiseases.ContextMenuStrip)));
+						}
+						//The items' clicks reach the form's handlers (above); with no row selected they return before opening anything.
+						((ToolStripItem)Priv.Get(formMedical,"_menuItemConvertOtherAllergy")).PerformClick();
+						((ToolStripItem)Priv.Get(formMedical,"_menuItemConvertOtherProblem")).PerformClick();
+					}
+				});
+			}
+			finally {
+				DiseaseDefs.ClearCache();
+			}
+		}
+
+		///<summary>Two columns and one row per pair of cell texts, as the form's Fill methods make them.</summary>
+		private static void SetRows(GridOD grid,params string[] arrayCells) {
+			grid.BeginUpdate();
+			grid.Columns.Clear();
+			grid.Columns.Add(new GridColumn("Name",150));
+			grid.Columns.Add(new GridColumn("Note",150));
+			grid.ListGridRows.Clear();
+			for(int i=0;i+1<arrayCells.Length;i+=2) {
+				grid.ListGridRows.Add(new GridRow(arrayCells[i],arrayCells[i+1]));
+			}
+			grid.EndUpdate();
 		}
 		#endregion Forms
 

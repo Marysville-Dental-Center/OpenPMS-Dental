@@ -328,8 +328,13 @@ namespace BMEDTests {
 			StringAssert.Contains(source,"InitOtherConvertMenus();");
 			StringAssert.Contains(source,"Convert \\\"Other\\\" allergy...");
 			StringAssert.Contains(source,"Convert \\\"Other\\\" problem...");
-			StringAssert.Contains(source,"gridAllergies.ContextMenu=contextMenuAllergies;");
-			StringAssert.Contains(source,"gridDiseases.ContextMenu=contextMenuProblems;");
+			//S3a-M3b: ContextMenuStrips with the grid's own items, as the WinForms ContextMenus had them.
+			StringAssert.Contains(source,"gridAllergies.DoAddGridItemsToContextMenuStrip=true;");
+			StringAssert.Contains(source,"gridAllergies.ContextMenuStrip=contextMenuAllergies;");
+			StringAssert.Contains(source,"gridDiseases.DoAddGridItemsToContextMenuStrip=true;");
+			StringAssert.Contains(source,"gridDiseases.ContextMenuStrip=contextMenuProblems;");
+			StringAssert.Contains(source,"contextMenuAllergies.Opening+=(sender,e) => _menuItemConvertOtherAllergy.Visible=OtherEntryConverts.IsOtherAllergy(GetAllergySelected());");
+			StringAssert.Contains(source,"contextMenuProblems.Opening+=(sender,e) => _menuItemConvertOtherProblem.Visible=OtherEntryConverts.IsOtherProblem(GetDiseaseSelected());");
 			StringAssert.Contains(source,"OtherEntryConvertL.ConvertOtherAllergy(allergy.Copy(),allergy.Reaction,keepTextAsReaction:null)");
 			StringAssert.Contains(source,"OtherEntryConvertL.ConvertOtherProblem(disease.Copy(),disease.PatNote,keepTextAsNote:null)");
 		}

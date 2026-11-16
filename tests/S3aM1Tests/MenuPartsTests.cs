@@ -1,6 +1,6 @@
-// The other menu parts of package S3a-M1, built in memory and never shown: PopupHelper's links as ToolStripMenuItems (the same texts and order
-// as the MenuItems of the bridge), the toolbar button's drop-down members, ODR's ComboBoxMulti list on a ContextMenuStrip, and the sheet combo
-// box texts that SheetFields escapes for a menu.
+// The other menu parts of package S3a-M1, built in memory and never shown: PopupHelper's links as ToolStripMenuItems (the texts and order the
+// MenuItems of the bridge had; S3a-M3b removed the bridge), the toolbar button's drop-down members, ODR's ComboBoxMulti list on a
+// ContextMenuStrip, and the sheet combo box texts that SheetFields escapes for a menu.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
 using System.Collections;
@@ -26,12 +26,19 @@ namespace S3aM1Tests {
 		[TestMethod]
 		public void PopupHelper_ToolStripLinks_SameTextsAndOrderAsTheMenuItemLinks() {
 			string text="Notes: www.example.test and https://portal.example.test/a, also (www.b.example.test). patnum:42 tasknum:7 PatNum:5";
+			//The texts and order the bridge's MenuItem links had for this text when S3a-M1 compared the two (S3a-M3b removed the bridge).
+			Dictionary<bool,List<string>> dictExpected=new Dictionary<bool,List<string>> {
+				{ false,new List<string> { "Web - https://portal.example.t...","Web - www.b.example.test","Web - www.example.test" } },
+				{ true,new List<string> { "PatNum - 42","PatNum - 5","TaskNum - 7","Web - https://portal.example.t...","Web - www.b.example.test",
+					"Web - www.example.test" } },
+			};
 			foreach(bool isRightClickLinks in new[] { false,true }) {
 				List<ToolStripMenuItem> listToolStripMenuItems=PopupHelper.GetToolStripMenuItemLinks(text,isRightClickLinks);
-				List<MenuItem> listMenuItems=PopupHelper.GetContextMenuItemLinks(text,isRightClickLinks);
-				CollectionAssert.AreEqual(listMenuItems.Select(x => x.Text).ToList(),listToolStripMenuItems.Select(x => x.Text).ToList());
 				Assert.IsTrue(listToolStripMenuItems.All(x => x.Enabled && x.Available && x.DropDownItems.Count==0));
 				List<string> listTexts=listToolStripMenuItems.Select(x => x.Text).ToList();
+				CollectionAssert.AreEqual(dictExpected[isRightClickLinks],listTexts,string.Join("; ",listTexts));
+				//Each item has its link's one click handler.
+				Assert.IsTrue(listToolStripMenuItems.All(x => M2Support.GetClickHandlerNames(x).Count==1),"One click handler per link.");
 				CollectionAssert.AreEqual(listTexts.OrderBy(x => x).ToList(),listTexts,"Sorted, as before.");
 				Assert.IsTrue(listTexts.Contains("Web - www.example.test"));
 				Assert.IsTrue(listTexts.Contains("Web - https://portal.example.t..."),"Cut after 24 characters: "+string.Join("; ",listTexts));
@@ -40,6 +47,25 @@ namespace S3aM1Tests {
 				Assert.AreEqual(isRightClickLinks,listTexts.Contains("TaskNum - 7"));
 			}
 			Assert.AreEqual(0,PopupHelper.GetToolStripMenuItemLinks("no links here",true).Count);
+		}
+
+		[TestMethod]
+		public void PopupHelper_ToolStripLink_ClickReachesTheLinksHandler() {
+			//A TaskNum link's click goes to Tasks.NavTaskDelegate with its number, as the MenuItem link's did (the other links open a browser, a
+			//folder or a patient, which a test must not).
+			Tasks.NavToTaskDelegate navToTaskDelegateOld=Tasks.NavTaskDelegate;
+			List<long> listTaskNums=new List<long>();
+			try {
+				Tasks.NavTaskDelegate=x => listTaskNums.Add(x);
+				List<ToolStripMenuItem> listToolStripMenuItems=PopupHelper.GetToolStripMenuItemLinks("see tasknum:7 and tasknum:12",true);
+				CollectionAssert.AreEqual(new[] { "TaskNum - 12","TaskNum - 7" },listToolStripMenuItems.Select(x => x.Text).ToArray());
+				listToolStripMenuItems[1].PerformClick();
+				listToolStripMenuItems[0].PerformClick();
+				CollectionAssert.AreEqual(new List<long> { 7,12 },listTaskNums);
+			}
+			finally {
+				Tasks.NavTaskDelegate=navToTaskDelegateOld;
+			}
 		}
 		#endregion PopupHelper
 
