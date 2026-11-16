@@ -352,7 +352,7 @@ namespace ProjectFileTests {
 
 		///<summary>NuGet.props' branch for a project that no Directory.Packages.props is found for, reached without a file above the scratch
 		///folder: _DirectoryPackagesPropsFile is set (in tests\Directory.Build.props, before NuGet.props) to a name with a new GUID, which no folder
-		///has, so the search walks up to the root of the drive, as MSBuild's does, and finds nothing. What NuGet.props (SDK 10.0.114, the same file
+		///has, so the search walks up to the root of the drive, as MSBuild's does, and finds nothing. What NuGet.props (SDK 10.0.115, the same file
 		///as Visual Studio's copy in the Build Tools 2026) does then:
 		///- line 22: ImportDirectoryPackagesProps true, as it was not set;
 		///- line 29: the group runs, as the switch is true and DirectoryPackagesPropsPath is '';
@@ -400,7 +400,7 @@ namespace ProjectFileTests {
 		[TestMethod]
 		public void ThePackageReferencesTheSdkGivesItself_ThrowFromEveryItemQuery() {
 			using(FixtureFolder fixtureFolder=FixtureFolder.Create()) {
-				//Microsoft.NET.Sdk.DefaultItems.props and Microsoft.NET.Sdk.DefaultItems.Shared.targets (SDK 10.0.114) add PackageReference items or
+				//Microsoft.NET.Sdk.DefaultItems.props and Microsoft.NET.Sdk.DefaultItems.Shared.targets (SDK 10.0.115) add PackageReference items or
 				//metadata this reader does not: each query that can return PackageReference items throws, so none of them is left out silently.
 				foreach(string[] arrayCase in new[] {
 					//The implicit NETStandard.Library and Microsoft.NETCore.App.

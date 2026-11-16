@@ -259,6 +259,16 @@ repository URL or commit, and the build does not read the `.git` folder. S1-1 dr
   4. Full slnf build and a Core run on `main`; the next stage gate runs Full as usual.
   5. Open worktrees rebase onto the new pin (with `rollForward` `disable`, a worktree on an SDK that is no longer installed fails at once
      with "SDK not found"). With band (a), remove the old SDK after all of them have.
+- **Bumps done** (band (a); each line: date, old -> new, why, the lock-file result, the runs; details in the package's port note):
+  - 2026-11-15, SDK-BUMP ([SDK-BUMP.md](../port-notes/SDK-BUMP.md)): **10.0.114 -> 10.0.115** (runtime 10.0.14 -> 10.0.15), the security
+    release of 2026-11-10, before stage 3b (S3b-0's note asks for it). The SDK's props and targets differ from 10.0.114's in version values
+    only; the project-file evaluator's `NETCoreSdkVersion` follows (now tested against `global.json`). Lock files: the lane's locked restore
+    of the whole slnf passed, no `packages.lock.json` changed (the net48 projects have no SDK-implicit package). Runs: full slnf lane build
+    0 errors, 353 warnings, the same warning classes as on 10.0.114, every SDK-style project compiled with `sdk\10.0.115\Roslyn\bincore\csc.exe`;
+    the evaluator check agrees with MSBuild (165 projects, 0 findings); the Targeted runs pass; the Core run passed 119 of 121
+    assemblies, and its 28 failures (ToothChartHostTests, ToothChartImageTests) are blank WPF pictures of a session that was disconnected
+    during the run, where RenderTargetBitmap draws nothing (WINCHK-HEADLESS); those two are re-run with the session unlocked before the pin
+    reaches `main`. 10.0.114 stays installed until open worktrees have moved (step 5, the lead's).
 - **Monthly runtime release (from stage 3b, decision 20).** Every shipped exe carries its own .NET 10 runtime, so Microsoft Update does
   not patch it: its security fixes reach the office only with this program's releases. Each month, after the .NET 10 patch release
   (Patch Tuesday), the lead runs the bump procedure above for the SDK patch that bundles that runtime, with the runtime packs at that
