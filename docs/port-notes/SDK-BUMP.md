@@ -91,3 +91,7 @@ the SDK adds no implicit package to a net48 project (no `Microsoft.NETFramework.
 as 10.0.114 is installed, and one on 10.0.115 needs 10.0.115. Remove 10.0.114 (per user: its `sdk\10.0.114` folder and the 10.0.14
 `host\fxr`, `shared` and `packs` folders it brought, unless another SDK needs them) after every open worktree has moved. The runtime packs
 at 10.0.14 in the offline folder can then go as well, once no branch restores them.
+
+## Merged with one rerun owed (lead, 2026-11-15)
+
+Merged on `main` without the WPF picture rerun: the owner's desktop session stays disconnected, in which WPF draws nothing. The SDK change touches only version values in four `.props` files and the compiler is still Roslyn 5.0.0, and both picture assemblies passed on 10.0.114 the same evening, so the risk is low. **Owed:** a Targeted run of ToothChartImageTests and ToothChartHostTests on `main` in a connected, unlocked session (check `query user` first), before the next stage gate at the latest.
