@@ -1,7 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net48</TargetFramework>
     <OutputType>WinExe</OutputType>
+    <!-- net10.0-windows x64, self-contained, win-x64 (Directory.Build.props, Directory.Build.Net.props; S3b-2). Its one window is Windows
+         Forms. -->
+    <UseWindowsForms>true</UseWindowsForms>
     <RootNamespace>UpdateFileCopier</RootNamespace>
     <AssemblyName>UpdateFileCopier</AssemblyName>
     <ApplicationManifest>app.manifest</ApplicationManifest>
@@ -15,17 +17,6 @@
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <DebugType>pdbonly</DebugType>
   </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="PresentationCore" />
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml" />
-  </ItemGroup>
   <ItemGroup>
     <!--
       UpdateFileCopier replaces CodeBase.dll and the other program files while it runs, so it references none of them: it compiles its own
@@ -110,8 +101,10 @@
   </ItemGroup>
   <ItemGroup>
     <!--
-      The linked .resx keeps the name its Link gives it, UpdateFileCopier.MsgBoxCopyPaste.resources, as before: a net48 project names a .resx
-      without DependentUpon by its folder (EmbeddedResourceUseDependentUponConvention is off for .NET Framework).
+      The linked .resx is named after the class of the .cs file beside it (EmbeddedResourceUseDependentUponConvention, on for .NET):
+      CodeBase.MsgBoxCopyPaste.resources, the name MsgBoxCopyPaste's ComponentResourceManager looks up (typeof(MsgBoxCopyPaste)). Until S3b-2
+      (net48, where the convention is off) it was named by its folder, UpdateFileCopier.MsgBoxCopyPaste.resources, which that lookup does not
+      find.
     -->
     <EmbeddedResource Include="..\CodeBase\Utilities\MsgBoxCopyPaste.resx">
       <Link>MsgBoxCopyPaste.resx</Link>

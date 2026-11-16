@@ -14,6 +14,9 @@ namespace OpenPmsDentalDbSettings {
 	internal static class Program {
 		[STAThread]
 		private static int Main(string[] arrayArgs) {
+			//First: the Windows code pages for Encoding.GetEncoding (.NET has only the Unicode encodings, ASCII and Latin-1 built in). This
+			//program does not call ODInitialize.Initialize, which registers them for the others (S3b-2).
+			System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
 			bool isSilentRaw=arrayArgs.Any(x => x.Trim().Equals("/silent",StringComparison.OrdinalIgnoreCase)

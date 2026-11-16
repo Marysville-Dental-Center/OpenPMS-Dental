@@ -40,13 +40,15 @@ namespace OpenPmsDentalDbSettings {
 			string text=Encoding.ASCII.GetString(arrayBytes);
 			MatchCollection matchCollection=_regexPemCertificate.Matches(text);
 			try {
+				//X509CertificateLoader.LoadCertificate (one DER or PEM certificate) replaces the byte constructor of X509Certificate2 on .NET
+				//(SYSLIB0057).
 				if(matchCollection.Count>0) {
 					foreach(Match match in matchCollection) {
-						listCertificates.Add(new X509Certificate2(Convert.FromBase64String(match.Groups["base64"].Value)));
+						listCertificates.Add(X509CertificateLoader.LoadCertificate(Convert.FromBase64String(match.Groups["base64"].Value)));
 					}
 				}
 				else {
-					listCertificates.Add(new X509Certificate2(arrayBytes));//DER
+					listCertificates.Add(X509CertificateLoader.LoadCertificate(arrayBytes));//DER
 				}
 			}
 			catch(Exception ex) when(ex is CryptographicException || ex is FormatException) {
@@ -111,8 +113,10 @@ namespace OpenPmsDentalDbSettings {
 			if(File.Exists(pathTemp)) {
 				File.Delete(pathTemp);
 			}
-			//A new file with its own protected security from the start, never one a user may have made (FileMode.CreateNew).
-			using(FileStream fileStream=new FileStream(pathTemp,FileMode.CreateNew,FileSystemRights.Write,FileShare.None,4096,FileOptions.WriteThrough,
+			//A new file with its own protected security from the start, never one a user may have made (FileMode.CreateNew). On .NET the
+			//FileStream constructor with a FileSecurity is gone; FileSystemAclExtensions.Create opens the file the same way, with the same rights,
+			//sharing, options and security.
+			using(FileStream fileStream=FileSystemAclExtensions.Create(new FileInfo(pathTemp),FileMode.CreateNew,FileSystemRights.Write,FileShare.None,4096,FileOptions.WriteThrough,
 				GetFileSecurity()))
 			{
 				fileStream.Write(arrayBytes,0,arrayBytes.Length);

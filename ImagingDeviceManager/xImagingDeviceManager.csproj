@@ -3,12 +3,15 @@
     Open source TWAIN scanning library. Replaces the proprietary ImagingDeviceManager.dll,
     which wrapped the commercial EZTwain library (Eztwain4.dll). Talks directly to the standard
     TWAIN Data Source Manager (TWAINDSM.dll, or the legacy twain_32.dll) through P/Invoke.
-    TWAIN on Windows is 32-bit here, so the assembly is always built for x86 (Directory.Build.props).
+    Built for net10.0-windows x64 like the program (Directory.Build.props, Directory.Build.Net.props; S3b-2 of docs/specs/net10-plan.md):
+    TWAIN runs in the 64-bit process through the 64-bit TWAINDSM.dll of the system folder only (NativeTwainDsm, S3a-12; the setup installs
+    it, S3b-7).
     Every .cs file under this folder is compiled, so packages that add files never conflict over this project file.
   -->
   <PropertyGroup>
-    <TargetFramework>net48</TargetFramework>
     <OutputType>Library</OutputType>
+    <!-- The status and Cancel window and the notices of device acquisitions (UI folder) are Windows Forms. -->
+    <UseWindowsForms>true</UseWindowsForms>
     <RootNamespace>ImagingDeviceManager</RootNamespace>
     <AssemblyName>ImagingDeviceManager</AssemblyName>
     <LangVersion>7.3</LangVersion>
@@ -20,13 +23,6 @@
   <PropertyGroup Condition=" '$(Configuration)' != 'Debug' ">
     <DebugType>pdbonly</DebugType>
   </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Drawing" />
-    <!-- The status and Cancel window and the notices of device acquisitions (UI folder). -->
-    <Reference Include="System.Windows.Forms" />
-  </ItemGroup>
   <ItemGroup>
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>

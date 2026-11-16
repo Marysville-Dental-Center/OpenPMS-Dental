@@ -23,10 +23,14 @@ namespace ImagingDeviceManager {
 			ErrorCode=errorCode;
 		}
 
+		///<summary>Formatter-based serialization does not exist on .NET, where the base members are obsolete (SYSLIB0051); kept, marked as the
+		///base marks them.</summary>
+		[Obsolete("Formatter-based serialization is obsolete and not supported on .NET.",DiagnosticId="SYSLIB0051",UrlFormat="https://aka.ms/dotnet-warnings/{0}")]
 		protected ImagingDeviceException(SerializationInfo info,StreamingContext context):base(info,context) {
 			ErrorCode=(EZTwainErrorCode)info.GetInt32(nameof(ErrorCode));
 		}
 
+		[Obsolete("Formatter-based serialization is obsolete and not supported on .NET.",DiagnosticId="SYSLIB0051",UrlFormat="https://aka.ms/dotnet-warnings/{0}")]
 		public override void GetObjectData(SerializationInfo info,StreamingContext context) {
 			base.GetObjectData(info,context);
 			info.AddValue(nameof(ErrorCode),(int)ErrorCode);

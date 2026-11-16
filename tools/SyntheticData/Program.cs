@@ -17,6 +17,8 @@ namespace SyntheticData {
 		public const int ExitUnexpectedDifferences=5;
 
 		public static int Main(string[] args) {
+			//First: the Windows code pages for Encoding.GetEncoding (.NET has only the Unicode encodings, ASCII and Latin-1 built in; S3b-2).
+			System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
 			Options options;
 			try {
 				options=Options.Parse(args);

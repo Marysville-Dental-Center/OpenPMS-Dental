@@ -8,6 +8,9 @@ namespace UpdateFileCopier {
 		/// <summary>The main entry point for the application.  Takes the following arguments: sourcedir processid destdir doKillServices</summary>
 		[STAThread]
 		static void Main(string[] arguments) {
+			//First: the Windows code pages for Encoding.GetEncoding (.NET has only the Unicode encodings, ASCII and Latin-1 built in). This
+			//program does not call ODInitialize.Initialize, which registers them for the others (S3b-2).
+			System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
 			if(arguments.Length==9) {
