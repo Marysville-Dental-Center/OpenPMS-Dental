@@ -42,6 +42,14 @@ namespace LibWebTests {
 				+"(Microsoft365_SignInUsesTheSystemBrowser)" },
 		};
 
+		///<summary>True for a file of the shared frameworks this test runs on (Microsoft.NETCore.App and Microsoft.WindowsDesktop.App of the same
+		///version), as the program's self-contained runtime carries them.</summary>
+		private static bool IsRuntimeFile(string fileName) {
+			string folderCore=Path.GetDirectoryName(typeof(object).Assembly.Location);
+			string folderDesktop=Path.Combine(Path.GetDirectoryName(Path.GetDirectoryName(folderCore)),"Microsoft.WindowsDesktop.App",Path.GetFileName(folderCore));
+			return File.Exists(Path.Combine(folderCore,fileName)) || File.Exists(Path.Combine(folderDesktop,fileName));
+		}
+
 		private static bool IsCommentLine(string line) {
 			string trimmed=line.TrimStart();
 			return trimmed.StartsWith("//") || trimmed.StartsWith("*") || trimmed.StartsWith("/*") || trimmed.StartsWith("<!--");
@@ -112,6 +120,11 @@ namespace LibWebTests {
 				if(listSubmodules.Any(x => path.StartsWith(x+@"\",StringComparison.OrdinalIgnoreCase))) {
 					continue;
 				}
+				//Nor for a project of an SDK the reader does not model (the Middle Tier server's Microsoft.NET.Sdk.Web, S3b-6): its text is checked
+				//above, and it compiles no XAML.
+				if(ProjectFile.GetUnmodelledSdk(path)!=null) {
+					continue;
+				}
 				ProjectFile projectFile=ProjectFile.Load(path);
 				if(projectFile.GetItemsMentioning(@"UI\Controls\WebBrowser.xaml").Count>0) {
 					listViolations.Add(TestPaths.Relative(path)+": the WPF WebBrowser control (evaluated)");
@@ -134,23 +147,27 @@ namespace LibWebTests {
 			foreach(string name in new[] { "Microsoft.Web.WebView2.Core.dll","Microsoft.Web.WebView2.WinForms.dll","Microsoft.Web.WebView2.Wpf.dll","WebView2Loader.dll" }) {
 				Assert.IsFalse(File.Exists(Path.Combine(folder,name)),"Required dlls\\"+name+" is back; the package supplies it.");
 			}
-			string folderPackage=NuGetFiles.FindPackageFolder(TestPaths.RepoRoot,"Microsoft.Web.WebView2","1.0.2420.47",
+			//On .NET 10 (S3b-1, S3b-5) the SDK version is 1.0.4314.35, whose build files reference the assemblies built for .NET (lib_manual:
+			//Core and WinForms of netcoreapp3.0, Wpf of net5.0-windows10.0.17763.0) and add the x64 loader.
+			string folderPackage=NuGetFiles.FindPackageFolder(TestPaths.RepoRoot,"Microsoft.Web.WebView2","1.0.4314.35",
 				Path.Combine(TestPaths.RepoRoot,"OpenPmsDental","obj","project.assets.json"));
 			if(folderPackage==null) {
-				BuildOutput.NotBuilt("Microsoft.Web.WebView2 1.0.2420.47 is neither in the offline package folder nor restored for OpenPmsDental yet.");
+				BuildOutput.NotBuilt("Microsoft.Web.WebView2 1.0.4314.35 is neither in the offline package folder nor restored for OpenPmsDental yet.");
 			}
-			foreach(string name in new[] { "Microsoft.Web.WebView2.Core","Microsoft.Web.WebView2.WinForms","Microsoft.Web.WebView2.Wpf" }) {
-				string path=Path.Combine(folderPackage,"lib","net45",name+".dll");
-				Assert.IsTrue(File.Exists(path),name);
-				Assert.AreEqual(new Version(1,0,2420,47),System.Reflection.AssemblyName.GetAssemblyName(path).Version,name);
+			foreach(string relative in new[] { @"lib_manual\netcoreapp3.0\Microsoft.Web.WebView2.Core.dll",@"lib_manual\netcoreapp3.0\Microsoft.Web.WebView2.WinForms.dll",
+				@"lib_manual\net5.0-windows10.0.17763.0\Microsoft.Web.WebView2.Wpf.dll" })
+			{
+				string path=Path.Combine(folderPackage,relative);
+				Assert.IsTrue(File.Exists(path),relative);
+				Assert.AreEqual(new Version(1,0,4314,35),System.Reflection.AssemblyName.GetAssemblyName(path).Version,relative);
 			}
-			Assert.IsTrue(File.Exists(Path.Combine(folderPackage,"runtimes","win-x86","native","WebView2Loader.dll")));
+			Assert.IsTrue(File.Exists(Path.Combine(folderPackage,"runtimes","win-x64","native","WebView2Loader.dll")));
 			//The projects take it from the WebView2 package at that same version, by no HintPath.
 			foreach(string[] arrayProject in new[] { new[] { "CodeBase","xCodeBase.csproj" },new[] { "WpfControlsOD","WpfControlsOD.csproj" },
 				new[] { "OpenPmsDental","OpenPmsDental.csproj" },new[] { "tests","LibWebTests","LibWebTests.csproj" } })
 			{
 				ProjectFile projectFile=ProjectFile.Load(Path.Combine(TestPaths.RepoRoot,Path.Combine(arrayProject)));
-				Assert.AreEqual("1.0.2420.47",projectFile.GetPackageVersion("Microsoft.Web.WebView2"),projectFile.Name);
+				Assert.AreEqual("1.0.4314.35",projectFile.GetPackageVersion("Microsoft.Web.WebView2"),projectFile.Name);
 				Assert.IsFalse(projectFile.GetItems("Reference").Any(x => x.Include.StartsWith("Microsoft.Web.WebView2",StringComparison.OrdinalIgnoreCase)),
 					projectFile.Name+": no HintPath to Required dlls any more.");
 			}
@@ -180,6 +197,11 @@ namespace LibWebTests {
 					countChecked++;
 					string name=Path.GetFileName(path);
 					if(_dictThirdPartyIeUnused.ContainsKey(name)) {
+						continue;
+					}
+					//The .NET runtime's own files, which the self-contained program carries beside it (decision 20): Windows Forms' and WPF's
+					//WebBrowser controls among them, which the program never uses (ShippedSource_UsesNoInternetExplorerBrowser). S3b-5.
+					if(IsRuntimeFile(name)) {
 						continue;
 					}
 					foreach(AssemblyNameReference assemblyNameReference in moduleDefinition.AssemblyReferences) {

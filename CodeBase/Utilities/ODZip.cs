@@ -57,6 +57,10 @@ namespace CodeBase {
 			return zipArchiveEntry.FullName.EndsWith("/") || zipArchiveEntry.FullName.EndsWith("\\");
 		}
 
+		///<summary>The .NET Framework's invalid path characters (GetSafeExtractPath).</summary>
+		private static readonly char[] _arrayInvalidPathCharsNetFramework=new[] { '"','<','>','|' }
+			.Concat(Enumerable.Range(0,32).Select(x => (char)x)).ToArray();
+
 		///<summary>The full path the entry would be extracted to under folderDest, or null when that path would not be inside folderDest: an empty
 		///name, an absolute or rooted path, a drive letter or other ':' (alternate data streams), a ".." that climbs out, a name that resolves to the
 		///folder itself, or a name that is not a valid path. Both '/' and '\' count as separators.</summary>
@@ -66,6 +70,11 @@ namespace CodeBase {
 			}
 			string relative=entryName.Replace('/','\\');
 			if(relative.StartsWith("\\") || relative.Contains(":")) {
+				return null;
+			}
+			//The characters the .NET Framework's Path.GetFullPath refused (its Path.GetInvalidPathChars: '"', '<', '>', '|' and the control
+			//characters), so such a name is still never extracted on .NET, whose GetFullPath takes them (S3b-5).
+			if(relative.IndexOfAny(_arrayInvalidPathCharsNetFramework)>=0) {
 				return null;
 			}
 			try {

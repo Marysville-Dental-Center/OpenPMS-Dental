@@ -35,6 +35,17 @@
     <Compile Include="..\ProjectFileTests\NuGetFiles.cs">
       <Link>NuGetFiles.cs</Link>
     </Compile>
+    <!-- The copy of the self-contained x86 helper from the program's output (S3b-5): Qbo\QuickBooksDesktopHelperTests.cs. FakeModule is the
+         protocol tests' module that HelperCopy names. -->
+    <Compile Include="..\Helper32Tests\Support\HelperCopy.cs">
+      <Link>Helper32\HelperCopy.cs</Link>
+    </Compile>
+    <Compile Include="..\Helper32Tests\Support\ProcessList.cs">
+      <Link>Helper32\ProcessList.cs</Link>
+    </Compile>
+    <Compile Include="..\Helper32Tests\Support\FakeModule.cs">
+      <Link>Helper32\FakeModule.cs</Link>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\CodeBase\xCodeBase.csproj" />

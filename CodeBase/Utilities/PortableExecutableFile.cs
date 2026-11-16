@@ -92,7 +92,9 @@ namespace CodeBase {
 		///<summary>A managed IL-only PE32 x86 image without 32BITREQUIRED, or with both 32BITREQUIRED and 32BITPREFERRED ("any CPU, 32-bit
 		///preferred"): an "any CPU" assembly, which loads in a 32-bit and in a 64-bit process. The lane's x64 test run of tests/N64ATests showed
 		///that a 64-bit .NET Framework process loads a DLL with both flags (N64-A, docs/port-notes/N64-A.md); a 64-bit .NET process does not
-		///(S3b-4, CanLoadInProcess).</summary>
+		///(S3b-4, CanLoadInProcess). So true here does not mean that this .NET 10 program can load the image in its 64-bit process: a caller that
+		///decides where an assembly runs asks CanLoadInProcess, which knows the process's runtime, never IsAnyCpu alone (S3b-4's handoff, S3b-5;
+		///NativeFirstChooser's PeImageInfo, NativeFirstTests pins which rule it follows).</summary>
 		public bool IsAnyCpu {
 			get {
 				return IsManaged && IsIlOnly && !IsPe32Plus && Machine==IMAGE_FILE_MACHINE_I386 && (!Is32BitRequired || Is32BitPreferred);

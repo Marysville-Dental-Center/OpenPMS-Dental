@@ -64,5 +64,7 @@
     <ProjectReference Include="..\CodeBase\xCodeBase.csproj" />
     <ProjectReference Include="..\DataConnectionBase\xDataConnectionBase.csproj" />
     <ProjectReference Include="..\OpenPmsDentalBusiness\OpenPmsDentalBusiness.csproj" />
+    <!-- A fresh process for the default font test (DefaultFontTests, S3b-5): SetDefaultFont throws once a window exists in a process. -->
+    <ProjectReference Include="..\tests\TestProbeHost\TestProbeHost.csproj" />
   </ItemGroup>
 </Project>

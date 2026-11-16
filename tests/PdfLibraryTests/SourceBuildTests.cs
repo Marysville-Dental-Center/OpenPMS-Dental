@@ -119,7 +119,8 @@ namespace PdfLibraryTests {
 				}
 				CollectionAssert.AreEquivalent(arrayOwnFiles.Select(x => Path.GetFullPath(Path.Combine(buildFolder,x.Replace('/','\\'))).ToLowerInvariant()).ToArray(),
 					listOwn.Select(x => x.ToLowerInvariant()).ToArray(),project+": the files of the build folder.");
-				CollectionAssert.AreEquivalent(new[] { "SourceBuildInfo.g.cs",".NETFramework,Version=v4.8.AssemblyAttributes.cs" },
+				//On .NET 10 (S3b-2, S3b-5): the target framework's attributes and the SDK's two platform attributes (Directory.Build.Net.props).
+				CollectionAssert.AreEquivalent(new[] { "SourceBuildInfo.g.cs",".NETCoreApp,Version=v10.0.AssemblyAttributes.cs",project+".AssemblyInfo.cs" },
 					listGenerated.Select(Path.GetFileName).ToArray(),project+": the generated files.");
 				//Resources: the same files as upstream, under the names of empira's files.
 				HashSet<string> hashSetUpstreamResources=SourceBuild.GetUpstreamItems(Path.Combine(sourceRoot,upstream),"EmbeddedResource");
@@ -162,6 +163,20 @@ namespace PdfLibraryTests {
 					}
 					countFolders++;
 					Assert.IsNotNull(dictPackageFiles,project+" is built, so it is restored.");
+					//On .NET a library's build copies no package file into its folder (the exe or test that ships it does); its .deps.json names the
+					//packages it was built with, which the runtime then binds by that list instead of by binding redirects: each package file of the
+					//lock file must be there at the lock file's version (S3b-5, the .NET 10 equivalent of the copies compared below).
+					string pathDeps=Directory.GetFiles(folder,"*.deps.json").FirstOrDefault();
+					if(pathDeps!=null) {
+						HashSet<string> hashSetLibraries=new HashSet<string>(System.Text.Json.JsonDocument.Parse(File.ReadAllText(pathDeps)).RootElement
+							.GetProperty("libraries").EnumerateObject().Select(x => x.Name),StringComparer.OrdinalIgnoreCase);
+						foreach(PackageFile packageFileDeps in dictPackageFiles.Values) {
+							countCompared++;
+							if(!hashSetLibraries.Contains(packageFileDeps.Id+"/"+packageFileDeps.Version)) {
+								listProblems.Add(SourceBuild.Relative(pathDeps)+" does not name "+packageFileDeps.Id+" "+packageFileDeps.Version+" (the lock file's).");
+							}
+						}
+					}
 					foreach(string path in Directory.GetFiles(folder,"*.dll")) {
 						string pathRequired=Path.Combine(folderRequired,Path.GetFileName(path));
 						if(File.Exists(pathRequired) && !File.ReadAllBytes(path).SequenceEqual(File.ReadAllBytes(pathRequired))) {
@@ -223,9 +238,10 @@ namespace PdfLibraryTests {
 				//No prebuilt file: no HintPath at all, so never a PDFsharp, MigraDoc or WeCantSpell file.
 				List<string> listHintPaths=projectFile.GetItems("Reference").Select(x => x.GetMetadata("HintPath")).Where(x => x!="").ToList();
 				Assert.AreEqual(0,listHintPaths.Count,name+": "+string.Join(", ",listHintPaths));
-				//.NET Framework 4.8, x86 like the program (SourceBuild.props for the classic projects, the SDK's net48 and Directory.Build.props for SDK-style).
-				Assert.IsTrue(projectFile.GetProperty("TargetFrameworkVersion")=="v4.8" || projectFile.GetProperty("TargetFramework")=="net48",name);
-				Assert.AreEqual("x86",projectFile.GetProperty("PlatformTarget"),name);
+				//.NET 10, x64 like the program (S3b-2: the repository's target framework, net10.0-windows, and Directory.Build.Net.props; .NET Framework
+				//4.8 and x86 before stage 3b).
+				Assert.AreEqual("net10.0-windows",projectFile.GetProperty("TargetFramework"),name);
+				Assert.AreEqual("x64",projectFile.GetProperty("PlatformTarget"),name);
 				if(name!="WeCantSpell.Hunspell") {
 					CollectionAssert.Contains(projectFile.FilesRead,Path.Combine(buildFolder,"PDFsharp.props"),name);
 					Assert.AreEqual("true",projectFile.GetProperty("SignAssembly"),name);

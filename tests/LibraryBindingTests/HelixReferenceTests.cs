@@ -25,8 +25,10 @@ namespace LibraryBindingTests {
 			new[] { "CommunityToolkit.Common.dll","CommunityToolkit.Common","8.3.0.0" },
 			new[] { "CommunityToolkit.Diagnostics.dll","CommunityToolkit.Diagnostics","8.3.0.0" },
 			new[] { "CommunityToolkit.Mvvm.dll","CommunityToolkit.Mvvm","8.3.0.0" },
-			new[] { "System.ComponentModel.Annotations.dll","System.ComponentModel.Annotations","4.2.1.0" },
 		};
+		///<summary>System.ComponentModel.Annotations (4.2.1.0, the eighth file of TC-4 on .NET Framework) is part of .NET 10's shared framework: the
+		///package is pruned, and Helix's closure takes the framework's assembly (S3b-5).</summary>
+		private const string NAME_ANNOTATIONS="System.ComponentModel.Annotations";
 
 		///<summary>The one reference no shipped file and no part of the .NET Framework answers: HelixToolkit.Wpf's to SRTM 0.0.8.0 (itinero/srtm).</summary>
 		private const string NAME_SRTM="SRTM";
@@ -74,7 +76,7 @@ namespace LibraryBindingTests {
 						}
 						continue;
 					}
-					if(Gac.Has(assemblyReference.Name)) {
+					if(SharedFramework.Has(assemblyReference.Name)) {
 						continue;
 					}
 					if(assemblyReference.Name==NAME_SRTM) {
@@ -82,7 +84,7 @@ namespace LibraryBindingTests {
 						continue;
 					}
 					listProblems.Add(arrayRow[0]+" references "+assemblyReference.Name+" "+assemblyReference.Version+", which is neither a library file nor part of the "
-						+".NET Framework.");
+						+"shared framework.");
 				}
 			}
 			Assert.AreEqual(0,listProblems.Count,string.Join("\r\n",listProblems));

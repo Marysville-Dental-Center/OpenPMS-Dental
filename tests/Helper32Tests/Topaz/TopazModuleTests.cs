@@ -20,9 +20,27 @@ using OpenPmsDentalHelper32.Topaz;
 namespace Helper32Tests.Topaz {
 	[TestClass]
 	public class TopazModuleTests {
+		private static string _pathStandIn;
+
+		///<summary>The module runs in this test process here, which is x64 since S3b-5 (the helper's x86 process runs it in
+		///VendorModulesProcessTests): so the stand-in, built x86 like Topaz's x86-only builds, is written for any CPU (Mono.Cecil) into a folder
+		///of its own, as an any-CPU SigPlusNET.dll would be (S3a-14n's in-process path).</summary>
 		private static string PathStandIn {
 			get {
-				return Path.Combine(HelperCopy.Folder,"TopazStandIn.dll");
+				if(_pathStandIn==null) {
+					string folder=Path.Combine(HelperCopy.FolderTests,"topaz-anycpu-"+Guid.NewGuid().ToString("N").Substring(0,8));
+					Directory.CreateDirectory(folder);
+					string path=Path.Combine(folder,"TopazStandIn.dll");
+					using(Mono.Cecil.ModuleDefinition moduleDefinition=Mono.Cecil.ModuleDefinition.ReadModule(Path.Combine(HelperCopy.FolderTests,
+						"TopazStandIn.dll"),new Mono.Cecil.ReaderParameters { InMemory=true }))
+					{
+						moduleDefinition.Architecture=Mono.Cecil.TargetArchitecture.I386;
+						moduleDefinition.Attributes=Mono.Cecil.ModuleAttributes.ILOnly;
+						moduleDefinition.Write(path);
+					}
+					_pathStandIn=path;
+				}
+				return _pathStandIn;
 			}
 		}
 

@@ -47,9 +47,14 @@ namespace S3aM1Tests {
 			return File.ReadAllText(RepoFile(arrayParts)).Replace("\r\n","\n");
 		}
 
-		///<summary>The names of the methods subscribed to the event of a component (EventClick of ToolStripItem, EventOpening of ToolStripDropDown).</summary>
+		///<summary>The names of the methods subscribed to the event of a component (EventClick of ToolStripItem, EventOpening of ToolStripDropDown).
+		///The key field has the .NET Framework's name (EventClick) or .NET's (s_clickEvent; S3b-5).</summary>
 		public static List<string> GetHandlerNames(Component component,Type typeDeclaring,string eventKeyField) {
 			FieldInfo fieldInfoKey=typeDeclaring.GetField(eventKeyField,BindingFlags.NonPublic|BindingFlags.Static);
+			if(fieldInfoKey==null && eventKeyField.StartsWith("Event")) {
+				string nameNet="s_"+char.ToLowerInvariant(eventKeyField[5])+eventKeyField.Substring(6)+"Event";
+				fieldInfoKey=typeDeclaring.GetField(nameNet,BindingFlags.NonPublic|BindingFlags.Static);
+			}
 			Assert.IsNotNull(fieldInfoKey,typeDeclaring.Name+"."+eventKeyField);
 			EventHandlerList eventHandlerList=(EventHandlerList)typeof(Component).GetProperty("Events",BindingFlags.NonPublic|BindingFlags.Instance)
 				.GetValue(component);

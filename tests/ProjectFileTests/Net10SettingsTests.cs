@@ -134,22 +134,27 @@ namespace ProjectFileTests {
 		}
 
 		[TestMethod]
-		public void ATestProject_IsNet48X86UntilS3b5_ThenNet10X64FrameworkDependent() {
+		public void ATestProject_IsNet10X64FrameworkDependent_SinceS3b5_AndOneThatNamesNet48StaysOnIt() {
 			using(FixtureFolder fixtureFolder=CreateWithRepositorySettings()) {
-				ProjectFile projectFile=LoadProject(fixtureFolder,@"tests\Sample.Tests\Sample.Tests.csproj","");
-				Assert.AreEqual("net48",projectFile.GetProperty("TargetFramework"),"tests\\Directory.Build.props, until S3b-5.");
+				//A project under tests\ that names net48 itself (TopazStandIn): .NET Framework 4.8 and x86 as before stage 3b, and no binding
+				//redirects of its own (a library); the shared test settings still apply.
+				ProjectFile projectFile=LoadProject(fixtureFolder,@"tests\Sample.Tests\Sample.Tests.csproj","<TargetFramework>net48</TargetFramework>");
+				Assert.AreEqual("net48",projectFile.GetProperty("TargetFramework"),"Its own line.");
 				Assert.AreEqual("true",projectFile.GetProperty("ODTestProject"));
 				Assert.AreEqual("x86",projectFile.GetProperty("PlatformTarget"));
 				Assert.AreEqual("",projectFile.GetProperty("SelfContained"));
 				Assert.AreEqual(0,HostOptions(projectFile).Count);
 				Assert.AreEqual("false",projectFile.GetProperty("GenerateAssemblyInfo"));
-				Assert.AreEqual("true",projectFile.GetProperty("AutoGenerateBindingRedirects"));
-				Assert.AreEqual("true",projectFile.GetProperty("GenerateBindingRedirectsOutputType"));
+				//The SDK's default for .NET Framework 4.7.2 and later is AutoGenerateBindingRedirects true, but a library writes no .config without
+				//GenerateBindingRedirectsOutputType, which only tests\Directory.Build.props set until S3b-5.
+				Assert.AreEqual("",projectFile.GetProperty("GenerateBindingRedirectsOutputType"));
 				Assert.AreEqual("8.0",projectFile.GetProperty("LangVersion"));
-				//S3b-5's shape: tests\Directory.Build.props without its net48 line, so the test projects get the repository's net10.0-windows.
-				fixtureFolder.EditFile(@"tests\Directory.Build.props","<TargetFramework>net48</TargetFramework>","");
+				//Since S3b-5 tests\Directory.Build.props names no target framework: every other test project gets the repository's net10.0-windows.
+				StringAssert.DoesNotMatch(File.ReadAllText(fixtureFolder.Combine(@"tests\Directory.Build.props")),
+					new System.Text.RegularExpressions.Regex("<TargetFramework>"));
 				projectFile=LoadProject(fixtureFolder,@"tests\Net.Tests\Net.Tests.csproj","");
 				Assert.AreEqual(NET10,projectFile.GetProperty("TargetFramework"));
+				Assert.AreEqual("",projectFile.GetProperty("AppConfig"),"No shared binding-redirect config (tests\\BindingRedirects.config went in S3b-5).");
 				Assert.AreEqual("x64",projectFile.GetProperty("PlatformTarget"));
 				Assert.AreEqual("win-x64",projectFile.GetProperty("RuntimeIdentifier"));
 				Assert.AreEqual("false",projectFile.GetProperty("SelfContained"),"Runs on the build PC's machine-wide x64 runtime.");
@@ -302,42 +307,66 @@ namespace ProjectFileTests {
 		}
 
 		[TestMethod]
-		public void DirectoryBuildTargets_BindingRedirectSettings_ApplyToNetFrameworkOnly() {
-			//S3b-1 keeps both binding-redirect rules of Directory.Build.targets while any project targets .NET Framework 4.8 (every project on the
-			//branch until its layer package retargets it), and gives a .NET 10 project neither; S3b-5 deletes them with tests\BindingRedirects.config.
+		public void DirectoryBuildTargets_BindingRedirectRules_OnlyTheValueTupleOneIsLeft_ForNetFrameworkOnly() {
+			//S3b-1 kept both binding-redirect rules of Directory.Build.targets while projects targeted .NET Framework 4.8; S3b-5, which retargets
+			//the test projects, deleted the test projects' AppConfig rule with tests\BindingRedirects.config. The System.ValueTuple target stays for
+			//.NET Framework only, as long as tests\TopazStandIn targets it (a library, which generates no redirects).
 			const string FRAMEWORK_ONLY="'$(TargetFrameworkIdentifier)' == '.NETFramework'";
-			XDocument xDocument=XDocument.Load(Path.Combine(FixtureFolder.RepoRoot(),"Directory.Build.targets"));
+			string root=FixtureFolder.RepoRoot();
+			XDocument xDocument=XDocument.Load(Path.Combine(root,"Directory.Build.targets"));
 			XNamespace xNamespace=xDocument.Root.Name.Namespace;
 			List<XElement> listTargets=xDocument.Root.Elements(xNamespace+"Target").Where(x => (string)x.Attribute("Name")=="ODDropValueTupleRedirect").ToList();
 			Assert.AreEqual(1,listTargets.Count,"The System.ValueTuple redirect target stays for .NET Framework.");
 			Assert.AreEqual(FRAMEWORK_ONLY,(string)listTargets[0].Attribute("Condition"));
-			List<XElement> listAppConfig=xDocument.Root.Elements(xNamespace+"PropertyGroup").Where(x => x.Element(xNamespace+"AppConfig")!=null).ToList();
-			Assert.AreEqual(1,listAppConfig.Count,"The test projects' default app.config stays for .NET Framework.");
-			StringAssert.StartsWith((string)listAppConfig[0].Attribute("Condition"),FRAMEWORK_ONLY+" and ");
+			Assert.AreEqual(0,xDocument.Root.Descendants(xNamespace+"AppConfig").Count(),"No AppConfig rule (S3b-5).");
+			Assert.IsFalse(File.Exists(Path.Combine(root,@"tests\BindingRedirects.config")),"tests\\BindingRedirects.config went with S3b-5.");
 			using(FixtureFolder fixtureFolder=CreateWithRepositorySettings()) {
-				//A net48 test project without an app.config gets the shared one, as on main.
+				//A test project without an app.config gets none, on .NET 10 and on .NET Framework alike.
 				ProjectFile projectFile=LoadProject(fixtureFolder,@"tests\Sample.Tests\Sample.Tests.csproj","");
-				Assert.AreEqual(".NETFramework",projectFile.GetProperty("TargetFrameworkIdentifier"));
-				Assert.AreEqual(fixtureFolder.Combine(@"tests\BindingRedirects.config"),projectFile.GetProperty("AppConfig"));
-				//A net48 library or exe gets none (the rule is for test projects), as on main.
-				projectFile=LoadProject(fixtureFolder,@"Old\Old.csproj","<TargetFramework>net48</TargetFramework>");
-				Assert.AreEqual("",projectFile.GetProperty("AppConfig"));
-				//S3b-5's shape: a test project on net10.0-windows gets none.
-				fixtureFolder.EditFile(@"tests\Directory.Build.props","<TargetFramework>net48</TargetFramework>","");
-				projectFile=LoadProject(fixtureFolder,@"tests\Net.Tests\Net.Tests.csproj","");
 				Assert.AreEqual(".NETCoreApp",projectFile.GetProperty("TargetFrameworkIdentifier"));
 				Assert.AreEqual("",projectFile.GetProperty("AppConfig"));
+				projectFile=LoadProject(fixtureFolder,@"tests\Old.Tests\Old.Tests.csproj","<TargetFramework>net48</TargetFramework>");
+				Assert.AreEqual(".NETFramework",projectFile.GetProperty("TargetFrameworkIdentifier"));
+				Assert.AreEqual("",projectFile.GetProperty("AppConfig"));
 			}
-			//The repository's own net48 test projects: SshHostKeyTests has no app.config of its own. (CryptoTests, the example until S3b-2, is
-			//net10.0-windows since then and gets none.)
-			string root=FixtureFolder.RepoRoot();
-			Assert.IsFalse(File.Exists(Path.Combine(root,@"tests\SshHostKeyTests\app.config")));
+			//The repository's own test projects: SshHostKeyTests (no app.config of its own, the example until S3b-5) is .NET 10 and gets none;
+			//TopazStandIn is the one project that names net48.
 			ProjectFile projectFileSsh=ProjectFile.Load(Path.Combine(root,@"tests\SshHostKeyTests\SshHostKeyTests.csproj"));
-			Assert.AreEqual("net48",projectFileSsh.GetProperty("TargetFramework"));
-			Assert.AreEqual(Path.Combine(root,@"tests\BindingRedirects.config"),projectFileSsh.GetProperty("AppConfig"));
-			ProjectFile projectFileCrypto=ProjectFile.Load(Path.Combine(root,@"tests\CryptoTests\CryptoTests.csproj"));
-			Assert.AreEqual(NET10,projectFileCrypto.GetProperty("TargetFramework"));
-			Assert.AreEqual("",projectFileCrypto.GetProperty("AppConfig"));
+			Assert.AreEqual(NET10,projectFileSsh.GetProperty("TargetFramework"));
+			Assert.AreEqual("",projectFileSsh.GetProperty("AppConfig"));
+			ProjectFile projectFileTopaz=ProjectFile.Load(Path.Combine(root,@"tests\TopazStandIn\TopazStandIn.csproj"));
+			Assert.AreEqual("net48",projectFileTopaz.GetProperty("TargetFramework"));
+			Assert.AreEqual("",projectFileTopaz.GetProperty("AppConfig"));
+		}
+
+		///<summary>Each DotNetCliToolReference (the per-project CLI tool of Microsoft.XmlSerializer.Generator, which builds the business library's
+		///and the program's XmlSerializers files, S3b-3 and S3b-4) names the version of Directory.Packages.props: central package management does
+		///not cover that item, so an SDK bump that moves the PackageVersion must move both items too (S3b-4's handoff, S3b-5).</summary>
+		[TestMethod]
+		public void EveryDotNetCliToolReference_HasTheCentralPackageVersion() {
+			string root=FixtureFolder.RepoRoot();
+			XDocument xDocumentPackages=XDocument.Load(Path.Combine(root,"Directory.Packages.props"));
+			Dictionary<string,List<string>> dictVersions=xDocumentPackages.Descendants().Where(x => x.Name.LocalName=="PackageVersion")
+				.GroupBy(x => (string)x.Attribute("Include"),StringComparer.OrdinalIgnoreCase)
+				.ToDictionary(x => x.Key,x => x.Select(y => (string)y.Attribute("Version")).ToList(),StringComparer.OrdinalIgnoreCase);
+			List<string> listFound=new List<string>();
+			List<string> listProblems=new List<string>();
+			foreach(string pathProject in Directory.GetFiles(root,"*.csproj",SearchOption.AllDirectories)
+				.Where(x => !x.Contains(@"\bin\") && !x.Contains(@"\obj\") && !x.Contains(@"\third-party\") && !x.Contains(@"\.claude\") && !x.Contains(@"\spike\")))
+			{
+				foreach(XElement xElement in XDocument.Load(pathProject).Descendants().Where(x => x.Name.LocalName=="DotNetCliToolReference")) {
+					string include=(string)xElement.Attribute("Include");
+					string version=(string)xElement.Attribute("Version");
+					string label=pathProject.Substring(root.Length).TrimStart('\\')+": "+include+" "+version;
+					listFound.Add(label);
+					if(!dictVersions.TryGetValue(include,out List<string> listVersions) || listVersions.Count!=1 || listVersions[0]!=version) {
+						listProblems.Add(label+", Directory.Packages.props: "+(listVersions==null ? "none" : string.Join(", ",listVersions)));
+					}
+				}
+			}
+			CollectionAssert.AreEquivalent(new[] { "OpenPmsDental\\OpenPmsDental.csproj","OpenPmsDentalBusiness\\OpenPmsDentalBusiness.csproj" },
+				listFound.Select(x => x.Substring(0,x.IndexOf(':'))).ToArray(),string.Join("\r\n",listFound));
+			Assert.AreEqual(0,listProblems.Count,string.Join("\r\n",listProblems));
 		}
 
 		[TestMethod]

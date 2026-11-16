@@ -241,7 +241,9 @@ namespace AttributionTests {
 			List<string> listWithIcon=new List<string>();
 			foreach(string name in assembly.GetManifestResourceNames().Where(x => x.EndsWith(".resources"))) {
 				using Stream stream=assembly.GetManifestResourceStream(name);
-				using ResourceReader resourceReader=new ResourceReader(stream);
+				//On .NET a form's .resources with non-string values (an icon) is written for System.Resources.Extensions' reader (the SDK's
+				//preserialized resources), which ResourceReader refuses; that reader reads the plain ones too (S3b-5).
+				using IResourceReader resourceReader=new System.Resources.Extensions.DeserializingResourceReader(stream);
 				IDictionaryEnumerator enumerator=resourceReader.GetEnumerator();
 				while(enumerator.MoveNext()) {
 					if((string)enumerator.Key=="$this.Icon") {

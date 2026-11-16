@@ -1,5 +1,6 @@
 // Package S3a-M3a: the report designer's grids, WinForms DataGrids before, are DataGridViews bound to the same DataTables. The designer (RdlDesign,
-// RdlDesigner.exe) is loaded from its build folder, since no test project references it; its classes are internal and reached by reflection.
+// RdlDesigner.dll, the managed assembly beside its apphost RdlDesigner.exe on .NET; S3b-2's handoff, S3b-5) is loaded from its build folder,
+// since no test project references it; its classes are internal and reached by reflection.
 // The dialogs are built in memory and never shown (their handles are created for the grids' editing). Checked: the columns (names, headings,
 // widths, read-only, not sortable), an edit typed into a cell that reaches the table when the grid loses the focus (as the DataGrid's edit did),
 // an untouched new row that does not, the dialog's own validation after the edit, the combo box column DGCBColumn (items, style, and a drop-down
@@ -23,18 +24,20 @@ namespace S3aM1Tests {
 		private const BindingFlags FLAGS=BindingFlags.Instance|BindingFlags.Static|BindingFlags.Public|BindingFlags.NonPublic;
 		private static Assembly _assemblyRdlDesign;
 
-		///<summary>RdlDesigner.exe from its build folder (Debug, else any configuration). Inconclusive when it has not been built.</summary>
+		///<summary>RdlDesigner.dll from its build folder (Debug, else any configuration): on .NET the managed assembly is the .dll, and
+		///RdlDesigner.exe is the native apphost, which Assembly.LoadFrom refuses (BadImageFormatException). Inconclusive when it has not been built.
+		///</summary>
 		private static Assembly GetRdlDesign() {
 			if(_assemblyRdlDesign!=null) {
 				return _assemblyRdlDesign;
 			}
 			string pathBin=M2Support.RepoFile("RdlDesign","bin");
-			string path=Path.Combine(pathBin,"Debug","RdlDesigner.exe");
+			string path=Path.Combine(pathBin,"Debug","RdlDesigner.dll");
 			if(!File.Exists(path) && Directory.Exists(pathBin)) {
-				path=Directory.EnumerateFiles(pathBin,"RdlDesigner.exe",SearchOption.AllDirectories).FirstOrDefault()??path;
+				path=Directory.EnumerateFiles(pathBin,"RdlDesigner.dll",SearchOption.AllDirectories).FirstOrDefault()??path;
 			}
 			if(!File.Exists(path)) {
-				Assert.Inconclusive("RdlDesigner.exe is not built ("+path+"); build ReportDesigner first.");
+				Assert.Inconclusive("RdlDesigner.dll is not built ("+path+"); build ReportDesigner first.");
 			}
 			_assemblyRdlDesign=Assembly.LoadFrom(path);
 			return _assemblyRdlDesign;

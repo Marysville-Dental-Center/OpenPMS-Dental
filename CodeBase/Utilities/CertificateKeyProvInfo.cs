@@ -174,6 +174,28 @@ namespace CodeBase {
 			}
 		}
 
+		///<summary>The certificate's RSA private key as the CAPI key container its key provider information names (a provider type other than 0),
+		///opened through CAPI, as the .NET Framework's X509Certificate2.PrivateKey opened it; null for a CNG key (type 0), no key, or a key
+		///information that cannot be read. .NET's PrivateKey and GetRSAPrivateKey open a CAPI key through CNG first and give an RSACng (measured
+		///on .NET 10 in S3b-5: DbConnectionSecurityTests, LibraryUpdateTests), whose Key.Delete leaves the CAPI container; so the connection
+		///settings tool and the Direct certificate import open a CAPI key here instead. The caller owns the object. The key is not touched: the
+		///constructor opens the existing container (UseExistingKey) and throws CryptographicException when it does not open (a smart card that is
+		///not there, a container that is gone).</summary>
+		public static System.Security.Cryptography.RSACryptoServiceProvider OpenCapiRsaPrivateKey(X509Certificate2 x509Certificate2) {
+			CertificateKeyProvInfo certificateKeyProvInfo=Read(x509Certificate2);
+			if(!certificateKeyProvInfo.IsNamed || certificateKeyProvInfo.IsUnknown || certificateKeyProvInfo.ProviderType==0) {
+				return null;
+			}
+			System.Security.Cryptography.CspParameters cspParameters=new System.Security.Cryptography.CspParameters(certificateKeyProvInfo.ProviderType,
+				certificateKeyProvInfo.ProviderName,certificateKeyProvInfo.ContainerName);
+			cspParameters.KeyNumber=(int)certificateKeyProvInfo.KeySpec;
+			cspParameters.Flags=System.Security.Cryptography.CspProviderFlags.UseExistingKey;
+			if(certificateKeyProvInfo.IsMachine) {
+				cspParameters.Flags|=System.Security.Cryptography.CspProviderFlags.UseMachineKeyStore;
+			}
+			return new System.Security.Cryptography.RSACryptoServiceProvider(cspParameters);
+		}
+
 		///<summary>True when these two key provider informations name one key for certain, for a tool's claim that a key is its own: both named
 		///and readable, the same key container in the same key set (Identity), and the same provider, its type and its name (without case).
 		///Identity leaves the provider out on purpose, for the comparison before a key is deleted, where a false match only keeps a key; here a

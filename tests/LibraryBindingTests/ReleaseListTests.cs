@@ -25,6 +25,12 @@ namespace LibraryBindingTests {
 			//TC-4 (docs/port-notes/TC-4.md): no package or file holds SRTM.dll (SRTM 0.0.8.0, the itinero/srtm reader).
 			{ "SRTM","HelixToolkit.Wpf uses it only in its terrain models (HgtTerrainModel and the TerrainVisual3D that loads one); the tooth chart "
 				+"never shows terrain (HelixReferenceTests)" },
+			//S3b-5: the two references .NET 10's shared framework does not answer, which the .NET Framework did (its System.ServiceModel) or which
+			//the .NET builds brought. Recorded for the lead (docs/port-notes/S3b-5.md): each needs a launch check before the office release.
+			{ "System.ServiceModel","Health.Direct.ResolverPlugins (a .NET Framework file of Required dlls) references the .NET Framework's WCF for the "
+				+"Direct configuration service's client, as Health.Direct.Config.Client above; the program uses only its LdapCertResolver" },
+			{ "Microsoft.Windows.SDK.NET","Microsoft.Web.WebView2.Wpf of lib_manual/net5.0-windows10.0.17763.0 (the WebView2 package's build files) "
+				+"references the Windows SDK projection for its WinRT interop members, which the program's WebView2 control does not use" },
 		};
 
 		///<summary>Files the release still ships although nothing in the program references them, each with why. Keep this list short and exact.
@@ -166,7 +172,7 @@ namespace LibraryBindingTests {
 						listProblems.Add(assemblyFacts.FileName+" references the Windows Runtime metadata "+assemblyReference.Name+".");
 						continue;
 					}
-					if(hashSetNames.Contains(assemblyReference.Name) || Gac.Has(assemblyReference.Name)) {
+					if(hashSetNames.Contains(assemblyReference.Name) || SharedFramework.Has(assemblyReference.Name)) {
 						continue;
 					}
 					if(_dictKnownGaps.ContainsKey(assemblyReference.Name)) {
@@ -174,7 +180,7 @@ namespace LibraryBindingTests {
 						continue;
 					}
 					listProblems.Add(assemblyFacts.FileName+" references "+assemblyReference.Name+" "+assemblyReference.Version
-						+", which neither ships nor is part of the .NET Framework.");
+						+", which neither ships nor is part of the shared framework.");
 				}
 			}
 			foreach(string name in _dictKnownGaps.Keys.Where(x => !hashSetGapsSeen.Contains(x))) {

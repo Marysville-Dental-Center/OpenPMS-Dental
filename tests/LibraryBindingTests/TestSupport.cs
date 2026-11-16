@@ -306,57 +306,63 @@ namespace LibraryBindingTests {
 		}
 	}
 
-	///<summary>The files each package of the lock files brings into the output of a .NET Framework project that gets it (NuGet copies them, used
-	///or not), as assets of the package: the paths in the package's folder, with '/', that the restore picks for net48 and an exe's win-x86 target
-	///(the packages of S2-1, S2-2 and S2-3 of the .NET 10 move, whose files "Required dlls" held until S2-4: docs/port-notes/S2-1.md, section 2).
-	///Named per package, not made from its id: a package's files need not carry its id (SSH.NET brings Renci.SshNet.dll; Microsoft.Web.WebView2
-	///brings Microsoft.Web.WebView2.Core.dll, .WinForms.dll and .Wpf.dll and the native WebView2Loader.dll). GetAssets throws for a package in
-	///neither list, so a package that a later package adds fails every check that reads the projects until it is mapped here, instead of dropping
-	///out of the binding checks. RequiredDllsTests checks every mapping against the assets the restore picks, and each file of the package at its
-	///locked version.</summary>
+	///<summary>The files each package of the lock files brings into the output of an exe or test project that gets it (NuGet's assets of the
+	///project's win-x64 target, which the build copies flat; a library's own build copies none on .NET), as assets of the package: the paths in
+	///the package's folder, with '/'. Since S3b-5 of the .NET 10 move these are the .NET 10 assets: lib\net10.0 (or the nearest .NET one), and
+	///runtimes\win\lib\net10.0 where a package has a Windows implementation (System.Management and the like), the file the win-x64 target picks
+	///in place of the lib folder's PlatformNotSupported stub; the support packages of the .NET Framework build (System.Memory and the like) are
+	///part of the shared framework and pruned from every lock file. Named per package, not made from its id: a package's files need not carry
+	///its id (SSH.NET brings Renci.SshNet.dll; Microsoft.Web.WebView2 the native WebView2Loader.dll, its assemblies come from its build files'
+	///lib_manual references, which no lock file names). GetAssets throws for a package in neither list, so a package that a later package adds
+	///fails every check that reads the projects until it is mapped here, instead of dropping out of the binding checks. RequiredDllsTests
+	///checks every mapping against the assets the restore picks, and each file of the package at its locked version.</summary>
 	internal static class PackageFiles {
 		///<summary>Package id (NuGet's ids ignore case) to its assets, at least one each.</summary>
 		private static readonly Dictionary<string,string[]> _dictAssets=new Dictionary<string,string[]>(StringComparer.OrdinalIgnoreCase) {
-			{ "BouncyCastle.Cryptography",new[] { "lib/net461/BouncyCastle.Cryptography.dll" } },
-			{ "Google.Apis",new[] { "lib/net462/Google.Apis.dll" } },
-			{ "Google.Apis.Auth",new[] { "lib/net462/Google.Apis.Auth.dll" } },
-			{ "Google.Apis.Core",new[] { "lib/net462/Google.Apis.Core.dll" } },
-			{ "Google.Apis.Gmail.v1",new[] { "lib/net462/Google.Apis.Gmail.v1.dll" } },
-			{ "MailKit",new[] { "lib/net48/MailKit.dll" } },
-			{ "MimeKit",new[] { "lib/net48/MimeKit.dll" } },
-			{ "Microsoft.Identity.Client",new[] { "lib/net472/Microsoft.Identity.Client.dll" } },
-			{ "Microsoft.IdentityModel.Abstractions",new[] { "lib/net472/Microsoft.IdentityModel.Abstractions.dll" } },
-			//S2-3: the WebView2 SDK, 1.0.2420.47: its three assemblies and the native loader, which NuGet copies for an exe's win-x86 target (the
-			//package's build files copy the same file, Directory.Build.targets). None carries the id.
-			{ "Microsoft.Web.WebView2",new[] { "lib/net45/Microsoft.Web.WebView2.Core.dll","lib/net45/Microsoft.Web.WebView2.WinForms.dll",
-				"lib/net45/Microsoft.Web.WebView2.Wpf.dll","runtimes/win-x86/native/WebView2Loader.dll" } },
-			//S2-2: the database client, 2.6.2.
-			{ "MySqlConnector",new[] { "lib/net48/MySqlConnector.dll" } },
-			{ "Newtonsoft.Json",new[] { "lib/net45/Newtonsoft.Json.dll" } },
-			{ "SSH.NET",new[] { "lib/net462/Renci.SshNet.dll" } },
-			{ "Microsoft.Bcl.AsyncInterfaces",new[] { "lib/net462/Microsoft.Bcl.AsyncInterfaces.dll" } },
-			{ "Microsoft.Bcl.Cryptography",new[] { "lib/net462/Microsoft.Bcl.Cryptography.dll" } },
-			{ "Microsoft.Extensions.DependencyInjection.Abstractions",new[] { "lib/net462/Microsoft.Extensions.DependencyInjection.Abstractions.dll" } },
-			{ "Microsoft.Extensions.Logging.Abstractions",new[] { "lib/net462/Microsoft.Extensions.Logging.Abstractions.dll" } },
-			{ "System.Buffers",new[] { "lib/net462/System.Buffers.dll" } },
-			{ "System.Diagnostics.DiagnosticSource",new[] { "lib/net462/System.Diagnostics.DiagnosticSource.dll" } },
-			{ "System.Formats.Asn1",new[] { "lib/net462/System.Formats.Asn1.dll" } },
-			{ "System.IO.Pipelines",new[] { "lib/net462/System.IO.Pipelines.dll" } },
-			{ "System.Memory",new[] { "lib/net462/System.Memory.dll" } },
-			{ "System.Numerics.Vectors",new[] { "lib/net462/System.Numerics.Vectors.dll" } },
-			{ "System.Runtime.CompilerServices.Unsafe",new[] { "lib/net462/System.Runtime.CompilerServices.Unsafe.dll" } },
-			{ "System.Text.Encodings.Web",new[] { "lib/net462/System.Text.Encodings.Web.dll" } },
-			{ "System.Text.Json",new[] { "lib/net462/System.Text.Json.dll" } },
-			{ "System.Threading.Tasks.Extensions",new[] { "lib/net462/System.Threading.Tasks.Extensions.dll" } },
+			{ "BouncyCastle.Cryptography",new[] { "lib/net6.0/BouncyCastle.Cryptography.dll" } },
+			{ "Google.Apis",new[] { "lib/net6.0/Google.Apis.dll" } },
+			{ "Google.Apis.Auth",new[] { "lib/net6.0/Google.Apis.Auth.dll" } },
+			{ "Google.Apis.Core",new[] { "lib/net6.0/Google.Apis.Core.dll" } },
+			{ "Google.Apis.Gmail.v1",new[] { "lib/net6.0/Google.Apis.Gmail.v1.dll" } },
+			{ "MailKit",new[] { "lib/net10.0/MailKit.dll" } },
+			{ "MimeKit",new[] { "lib/net10.0/MimeKit.dll" } },
+			{ "Microsoft.Identity.Client",new[] { "lib/net8.0/Microsoft.Identity.Client.dll" } },
+			{ "Microsoft.IdentityModel.Abstractions",new[] { "lib/net9.0/Microsoft.IdentityModel.Abstractions.dll" } },
+			//The WebView2 SDK, 1.0.4314.35 on .NET 10: the native x64 loader (runtimes/win-x64/native), which Directory.Build.targets lands flat;
+			//its three assemblies come from the package's build files (lib_manual), not from the restore's assets (S3b-0 item 5).
+			{ "Microsoft.Web.WebView2",new[] { "runtimes/win-x64/native/WebView2Loader.dll" } },
+			{ "MySqlConnector",new[] { "lib/net10.0/MySqlConnector.dll" } },
+			{ "Newtonsoft.Json",new[] { "lib/net6.0/Newtonsoft.Json.dll" } },
+			{ "SSH.NET",new[] { "lib/net10.0/Renci.SshNet.dll" } },
+			{ "Microsoft.Extensions.DependencyInjection.Abstractions",new[] { "lib/net10.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll" } },
+			{ "Microsoft.Extensions.Logging.Abstractions",new[] { "lib/net10.0/Microsoft.Extensions.Logging.Abstractions.dll" } },
+			//The Middle Tier server's Windows service support (S3b-6), which MiddleTierHostTests gets through the server.
+			{ "Microsoft.Extensions.Hosting.WindowsServices",new[] { "lib/net10.0/Microsoft.Extensions.Hosting.WindowsServices.dll" } },
+			//Roslyn, which RdlEngine compiles a report's <Code> block with (S3b-2b, decision 14).
+			{ "Microsoft.CodeAnalysis.Common",new[] { "lib/net10.0/Microsoft.CodeAnalysis.dll" } },
+			{ "Microsoft.CodeAnalysis.VisualBasic",new[] { "lib/net10.0/Microsoft.CodeAnalysis.VisualBasic.dll" } },
+			//The .NET Framework assemblies that are packages on .NET (S3b-1, batch D), with their Windows implementations.
+			{ "System.CodeDom",new[] { "lib/net10.0/System.CodeDom.dll" } },
+			{ "System.Diagnostics.EventLog",new[] { "runtimes/win/lib/net10.0/System.Diagnostics.EventLog.dll",
+				"runtimes/win/lib/net10.0/System.Diagnostics.EventLog.Messages.dll" } },
+			{ "System.DirectoryServices.AccountManagement",new[] { "runtimes/win/lib/net10.0/System.DirectoryServices.AccountManagement.dll" } },
+			{ "System.DirectoryServices.Protocols",new[] { "runtimes/win/lib/net10.0/System.DirectoryServices.Protocols.dll" } },
+			{ "System.IO.Ports",new[] { "runtimes/win/lib/net10.0/System.IO.Ports.dll" } },
+			{ "System.Management",new[] { "runtimes/win/lib/net10.0/System.Management.dll" } },
+			{ "System.Security.Cryptography.ProtectedData",new[] { "lib/net10.0/System.Security.Cryptography.ProtectedData.dll" } },
+			{ "System.ServiceProcess.ServiceController",new[] { "runtimes/win/lib/net10.0/System.ServiceProcess.ServiceController.dll" } },
+			{ "System.Speech",new[] { "runtimes/win/lib/net10.0/System.Speech.dll" } },
+			//The community port of the Windows Forms chart control (decision 10).
+			{ "WinForms.DataVisualization",new[] { "lib/net9.0-windows7.0/WinForms.DataVisualization.dll",
+				"lib/net9.0-windows7.0/WinForms.DataVisualization.Utilities.dll" } },
 			//TC-4: Helix Toolkit 3.1.2 for the WPF tooth chart (SparksToothChart), and the packages of its closure that bring a file the build keeps.
-			{ "HelixToolkit",new[] { "lib/net48/HelixToolkit.dll" } },
-			{ "HelixToolkit.Geometry",new[] { "lib/net48/HelixToolkit.Geometry.dll" } },
-			{ "HelixToolkit.Maths",new[] { "lib/net48/HelixToolkit.Maths.dll" } },
-			{ "HelixToolkit.Wpf",new[] { "lib/net48/HelixToolkit.Wpf.dll" } },
-			{ "CommunityToolkit.Common",new[] { "lib/netstandard2.0/CommunityToolkit.Common.dll" } },
-			{ "CommunityToolkit.Diagnostics",new[] { "lib/netstandard2.0/CommunityToolkit.Diagnostics.dll" } },
-			{ "CommunityToolkit.Mvvm",new[] { "lib/netstandard2.0/CommunityToolkit.Mvvm.dll" } },
-			{ "System.ComponentModel.Annotations",new[] { "lib/net461/System.ComponentModel.Annotations.dll" } },
+			{ "HelixToolkit",new[] { "lib/net8.0/HelixToolkit.dll" } },
+			{ "HelixToolkit.Geometry",new[] { "lib/net8.0/HelixToolkit.Geometry.dll" } },
+			{ "HelixToolkit.Maths",new[] { "lib/net8.0/HelixToolkit.Maths.dll" } },
+			{ "HelixToolkit.Wpf",new[] { "lib/net8.0-windows7.0/HelixToolkit.Wpf.dll" } },
+			{ "CommunityToolkit.Common",new[] { "lib/net8.0/CommunityToolkit.Common.dll" } },
+			{ "CommunityToolkit.Diagnostics",new[] { "lib/net8.0/CommunityToolkit.Diagnostics.dll" } },
+			{ "CommunityToolkit.Mvvm",new[] { "lib/net8.0/CommunityToolkit.Mvvm.dll" } },
 		};
 
 		///<summary>Packages of the lock files that bring no library file, each with its reason. An entry here exempts the package from the binding
@@ -405,6 +411,29 @@ namespace LibraryBindingTests {
 			{ "System.Collections.Immutable","the MSTest adapter's (through System.Reflection.Metadata and Microsoft.TestPlatform.ObjectModel, S4-1): "
 				+"test projects only" },
 			{ "System.Reflection.Metadata","the MSTest adapter's (S4-1): test projects only" },
+			//Stage 3b of the .NET 10 move (S3b-5 maps the lock files of the .NET 10 build).
+			{ "Microsoft.TestPlatform.TestHost","VSTest's .NET test host (testhost.dll), which Microsoft.NET.Test.Sdk brings to a .NET test project: "
+				+"test projects only" },
+			{ "Microsoft.AspNetCore.TestHost","the in-process test server of MiddleTierHostTests (S3b-6): that test project only" },
+			{ "Microsoft.CodeAnalysis.Analyzers","Roslyn analyzers only, which Microsoft.CodeAnalysis.Common names (S3b-2b)" },
+			{ "Microsoft.XmlSerializer.Generator","the build's generator of the XmlSerializers files (S3b-3, S3b-4): build files and its own tool only" },
+			{ "runtime.native.System.IO.Ports","System.IO.Ports' native part for other operating systems (S3b-3): no Windows file" },
+			{ "runtime.android-arm.runtime.native.System.IO.Ports","native, Android only (S3b-3)" },
+			{ "runtime.android-arm64.runtime.native.System.IO.Ports","native, Android only (S3b-3)" },
+			{ "runtime.android-x64.runtime.native.System.IO.Ports","native, Android only (S3b-3)" },
+			{ "runtime.android-x86.runtime.native.System.IO.Ports","native, Android only (S3b-3)" },
+			{ "runtime.linux-arm.runtime.native.System.IO.Ports","native, Linux only (S3b-3)" },
+			{ "runtime.linux-arm64.runtime.native.System.IO.Ports","native, Linux only (S3b-3)" },
+			{ "runtime.linux-bionic-arm64.runtime.native.System.IO.Ports","native, Linux only (S3b-3)" },
+			{ "runtime.linux-bionic-x64.runtime.native.System.IO.Ports","native, Linux only (S3b-3)" },
+			{ "runtime.linux-musl-arm.runtime.native.System.IO.Ports","native, Linux only (S3b-3)" },
+			{ "runtime.linux-musl-arm64.runtime.native.System.IO.Ports","native, Linux only (S3b-3)" },
+			{ "runtime.linux-musl-x64.runtime.native.System.IO.Ports","native, Linux only (S3b-3)" },
+			{ "runtime.linux-x64.runtime.native.System.IO.Ports","native, Linux only (S3b-3)" },
+			{ "runtime.maccatalyst-arm64.runtime.native.System.IO.Ports","native, macOS only (S3b-3)" },
+			{ "runtime.maccatalyst-x64.runtime.native.System.IO.Ports","native, macOS only (S3b-3)" },
+			{ "runtime.osx-arm64.runtime.native.System.IO.Ports","native, macOS only (S3b-3)" },
+			{ "runtime.osx-x64.runtime.native.System.IO.Ports","native, macOS only (S3b-3)" },
 		};
 
 		///<summary>Folders of a package of _dictNoLibraries that no build copies from, with the reason: the check that such a package holds no file of a
@@ -456,15 +485,17 @@ namespace LibraryBindingTests {
 			return GetAssets(packageId,where).Select(x => x.Substring(x.LastIndexOf('/')+1)).ToArray();
 		}
 
-		///<summary>Throws unless the assets are at least one, each a file of a lib folder or of runtimes/win-x86/native, and none named as a file
-		///"Required dlls" holds (a file has one source).</summary>
+		///<summary>Throws unless the assets are at least one, each a file of a lib folder, of runtimes/win/lib/&lt;framework&gt; (a package's Windows
+		///implementation, which the win-x64 target picks) or of runtimes/win-x64/native, and none named as a file "Required dlls" holds (a file has
+		///one source).</summary>
 		public static void CheckMapping(string packageId,string[] arrayAssets,string where) {
-			List<string> listWrong=arrayAssets.Where(x => !Regex.IsMatch(x,@"^(lib/[^/]+|runtimes/win-x86/native)/[^/]+\.dll$",RegexOptions.IgnoreCase)).ToList();
+			List<string> listWrong=arrayAssets.Where(x => !Regex.IsMatch(x,@"^(lib/[^/]+|runtimes/win/lib/[^/]+|runtimes/win-x64/native)/[^/]+\.dll$",
+				RegexOptions.IgnoreCase)).ToList();
 			List<string> listInRequiredDlls=arrayAssets.Where(x => RequiredDlls.Files.ContainsKey(x.Substring(x.LastIndexOf('/')+1))).ToList();
 			if(arrayAssets.Length==0 || listWrong.Count>0 || listInRequiredDlls.Count>0) {
 				throw new InvalidOperationException("PackageFiles maps the package "+packageId+" ("+where+") to "
 					+(arrayAssets.Length==0 ? "no file"
-					: listWrong.Count>0 ? string.Join(", ",listWrong)+", which is no file of a lib or runtimes/win-x86/native folder"
+					: listWrong.Count>0 ? string.Join(", ",listWrong)+", which is no file of a lib, runtimes/win/lib or runtimes/win-x64/native folder"
 					: string.Join(", ",listInRequiredDlls)+", which \"Required dlls\" holds too")
 					+": every mapped package brings at least one file, from its package only.");
 			}
@@ -517,35 +548,29 @@ namespace LibraryBindingTests {
 		}
 	}
 
-	///<summary>The .NET Framework's global assembly caches (the 4.0 one and the 2.0 one), looked up by folder name. Nothing is loaded.</summary>
-	internal static class Gac {
-		private static readonly string[] _arrayRoots=new[] {
-			@"Microsoft.NET\assembly\GAC_MSIL",@"Microsoft.NET\assembly\GAC_32",@"Microsoft.NET\assembly\GAC_64",
-			@"assembly\GAC_MSIL",@"assembly\GAC_32",@"assembly\GAC_64",@"assembly\GAC",
-		};
+	///<summary>The shared framework the .NET 10 build runs on (Microsoft.NETCore.App and Microsoft.WindowsDesktop.App of the runtime this test
+	///runs on, the version the program's self-contained folder carries), looked up by file name. Nothing is loaded. It takes the place of the
+	///.NET Framework's global assembly cache, which these checks read before S3b-5 (.NET has none: Assembly.GlobalAssemblyCache is always false).
+	///</summary>
+	internal static class SharedFramework {
+		private static List<string> _listFolders;
 
-		private static IEnumerable<string> AssemblyFolders(string name) {
-			string windows=Environment.GetFolderPath(Environment.SpecialFolder.Windows);
-			return _arrayRoots.Select(x => Path.Combine(windows,x,name)).Where(x => Directory.Exists(x));
+		///<summary>The folders of the two shared frameworks: this runtime's (System.Private.CoreLib's folder) and the Windows Desktop one of the
+		///same version beside it.</summary>
+		public static List<string> Folders {
+			get {
+				if(_listFolders==null) {
+					string folderCore=Path.GetDirectoryName(typeof(object).Assembly.Location);
+					string folderDesktop=Path.Combine(Path.GetDirectoryName(Path.GetDirectoryName(folderCore)),"Microsoft.WindowsDesktop.App",
+						Path.GetFileName(folderCore));
+					_listFolders=new[] { folderCore,folderDesktop }.Where(x => Directory.Exists(x)).ToList();
+				}
+				return _listFolders;
+			}
 		}
 
 		public static bool Has(string name) {
-			return AssemblyFolders(name).Any();
-		}
-
-		///<summary>True when the cache holds this exact version and token ("v4.0_4.0.0.0__b77a5c561934e089" or "2.0.0.0__b77a5c561934e089").</summary>
-		public static bool HasVersion(string name,Version version,string token) {
-			foreach(string folder in AssemblyFolders(name)) {
-				foreach(string folderVersion in Directory.GetDirectories(folder).Select(x => Path.GetFileName(x))) {
-					Match match=Regex.Match(folderVersion,@"^(?:v[\d.]+_)?(?<version>\d+\.\d+\.\d+\.\d+)_[^_]*_(?<token>[0-9a-f]+)$",RegexOptions.IgnoreCase);
-					if(match.Success && Version.Parse(match.Groups["version"].Value)==version
-						&& match.Groups["token"].Value.Equals(token,StringComparison.OrdinalIgnoreCase))
-					{
-						return true;
-					}
-				}
-			}
-			return false;
+			return Folders.Any(x => File.Exists(Path.Combine(x,name+".dll")));
 		}
 	}
 
@@ -585,8 +610,9 @@ namespace LibraryBindingTests {
 			}
 		}
 
+		///<summary>The managed assembly: AssemblyName.dll for an exe too on .NET, where the .exe is the native apphost (S3b-5).</summary>
 		public string PrimaryOutputName {
-			get { return AssemblyName+(IsExe ? ".exe" : ".dll"); }
+			get { return AssemblyName+".dll"; }
 		}
 	}
 
@@ -733,9 +759,12 @@ namespace LibraryBindingTests {
 	}
 
 	internal static class BindingRules {
-		///<summary>Each reference from one of the assemblies to another of them (strong-named, the same key) at a version other than the one there must
-		///be covered by a redirect of the config to that version. Returns one line per reference that is not.</summary>
-		public static List<string> FindUnresolvedReferences(Dictionary<string,AssemblyFacts> dictAssemblies,List<BindingRedirect> listRedirects,string label) {
+		///<summary>How .NET binds a reference between the assemblies (S3b-5; the .NET Framework's binding-redirect rule retired with the .NET
+		///Framework build): the runtime loads the one file of a name that its .deps.json names, and takes it for any reference to the same name and
+		///key at that version or below; a reference to a higher version than the file fails to load (FileLoadException). There is no config to
+		///redirect with. So each reference from one of the assemblies to another of them (strong-named, the same key) must ask for the version
+		///there or a lower one. Returns one line per reference that asks for more.</summary>
+		public static List<string> FindReferencesAboveTheVersionThere(Dictionary<string,AssemblyFacts> dictAssemblies,string label) {
 			List<string> listProblems=new List<string>();
 			foreach(AssemblyFacts assemblyFacts in dictAssemblies.Values.OrderBy(x => x.FileName,StringComparer.OrdinalIgnoreCase)) {
 				foreach(AssemblyReference assemblyReference in assemblyFacts.ListReferences) {
@@ -746,44 +775,10 @@ namespace LibraryBindingTests {
 					if(assemblyReference.Token=="" || assemblyReference.Token!=assemblyFactsTarget.Token) {
 						continue;
 					}
-					if(assemblyReference.Version==assemblyFactsTarget.Version) {
-						continue;
-					}
-					bool isRedirected=listRedirects.Any(x => x.Name.Equals(assemblyReference.Name,StringComparison.OrdinalIgnoreCase)
-						&& x.Token==assemblyFactsTarget.Token && x.NewVersion==assemblyFactsTarget.Version && x.Covers(assemblyReference.Version));
-					if(!isRedirected) {
+					if(assemblyReference.Version>assemblyFactsTarget.Version) {
 						listProblems.Add(label+": "+assemblyFacts.FileName+" references "+assemblyReference.Name+" "+assemblyReference.Version+", but "
-							+assemblyFactsTarget.FileName+" is "+assemblyFactsTarget.Version+". Add "+ConfigFiles.FormatRedirect(assemblyFactsTarget));
+							+assemblyFactsTarget.FileName+" is "+assemblyFactsTarget.Version+", lower: it does not load on .NET.");
 					}
-				}
-			}
-			return listProblems;
-		}
-
-		///<summary>Every redirect must name the version that is there: in the folder of assemblies, else among the library files (Libraries), else in
-		///the .NET Framework. Also no assembly may have two redirect entries. Returns one line per problem.</summary>
-		public static List<string> FindStaleRedirects(Dictionary<string,AssemblyFacts> dictAssemblies,List<BindingRedirect> listRedirects,string label) {
-			List<string> listProblems=new List<string>();
-			foreach(IGrouping<string,BindingRedirect> grouping in listRedirects.GroupBy(x => x.Name.ToLowerInvariant()+"|"+x.Token).Where(x => x.Count()>1)) {
-				listProblems.Add(label+": "+grouping.Count()+" redirects for "+grouping.First().Name+"; keep one.");
-			}
-			foreach(BindingRedirect bindingRedirect in listRedirects) {
-				if(!dictAssemblies.TryGetValue(bindingRedirect.Name,out AssemblyFacts assemblyFacts)) {
-					Libraries.Assemblies.TryGetValue(bindingRedirect.Name,out assemblyFacts);
-				}
-				if(assemblyFacts!=null) {
-					if(bindingRedirect.Token!=assemblyFacts.Token) {
-						listProblems.Add(label+": the redirect "+bindingRedirect+" has another key than "+assemblyFacts.FileName+" ("+assemblyFacts.Token+").");
-					}
-					else if(bindingRedirect.NewVersion!=assemblyFacts.Version) {
-						listProblems.Add(label+": the redirect "+bindingRedirect+" names a version that is not there; "+assemblyFacts.FileName+" is "
-							+assemblyFacts.Version+".");
-					}
-					continue;
-				}
-				if(!Gac.HasVersion(bindingRedirect.Name,bindingRedirect.NewVersion,bindingRedirect.Token)) {
-					listProblems.Add(label+": the redirect "+bindingRedirect+" names an assembly version that is neither among the library files nor in the .NET "
-						+"Framework.");
 				}
 			}
 			return listProblems;

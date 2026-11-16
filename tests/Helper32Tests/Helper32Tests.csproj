@@ -31,6 +31,11 @@
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
   </ItemGroup>
+  <ItemGroup>
+    <!-- Writes the any-CPU copy of this assembly into the helper's folder (Support\HelperCopy.cs), whose test module the 32-bit helper loads.
+         The NuGet package, from the offline package folder (nuget.config), at the version of Directory.Packages.props. -->
+    <PackageReference Include="Mono.Cecil" />
+  </ItemGroup>
   <PropertyGroup>
     <!-- Guru\GuruModule.cs (linked below) builds MedVisorInterface.dll's structure with unsafe code (S3a-14). -->
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -111,7 +116,8 @@
   <ItemGroup>
     <!-- Helper32Client, the program's side. -->
     <ProjectReference Include="..\..\CodeBase\xCodeBase.csproj" />
-    <!-- The helper: OpenPmsDentalHelper32.exe and its .exe.config land in this folder, where each test copies it under a name of its own. -->
+    <!-- The helper, built before the tests. The tests start it from the program output's Helper32\ folder, where it has its own x86 runtime
+         (Support\HelperCopy.cs, S3b-5): a copy of the self-contained apphost in this folder could not start. -->
     <ProjectReference Include="..\..\OpenPmsDentalHelper32\OpenPmsDentalHelper32.csproj" />
     <!-- The program processes of the tests that end a program (a TestProbeHost child that starts its own helper). -->
     <ProjectReference Include="..\TestProbeHost\TestProbeHost.csproj" />

@@ -130,7 +130,7 @@ namespace DbConnectionSecurityTests {
 				if(!isCng) {
 					RSACryptoServiceProvider rsaCryptoServiceProvider=null;
 					try {
-						rsaCryptoServiceProvider=x509Certificate2.PrivateKey as RSACryptoServiceProvider;
+						rsaCryptoServiceProvider=CodeBase.CertificateKeyProvInfo.OpenCapiRsaPrivateKey(x509Certificate2);//as the .NET Framework's PrivateKey gave it (S3b-5)
 					}
 					catch(CryptographicException) {
 						rsaCryptoServiceProvider=null;
