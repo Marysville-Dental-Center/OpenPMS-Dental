@@ -39,6 +39,7 @@ WHAT IT CHANGES ON THIS PC while it runs, and what it puts back:
   uninstall leaves in place, and counts it in HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\SharedDLLs. The script saves that count first
   and writes it back at the end; when the PC had no TWAINDSM.dll before, it deletes the one the test installs put there, so the PC ends as
   it was (a TWAIN driver's own setup installs the DSM where it needs one).
+  When the PC had an OLDER TWAINDSM.dll, setup replaces it with 2.5.1 and it stays replaced: the script does not put the old file back.
 - scenario A starts the installed connection settings tool (OpenPmsDentalDbSettings.exe, its window, without arguments, so it connects to
   nothing), reads which files the process loaded and closes it.
 - the setup and uninstall logs in -OutDir (default: an install-test folder next to the setup), which it keeps.

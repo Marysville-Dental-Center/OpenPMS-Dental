@@ -419,6 +419,14 @@ namespace UpdateFileCopier {
 				List<string> listRuntimeProblems=_releaseManifest.RuntimePart.VerifyFiles(_destDirectory);
 				if(listRuntimeProblems.Count>0) {
 					_hasRuntimeMismatch=true;
+					//The previous release's manifest goes too: it would still name the old runtime key, so the next pull would trust it instead of
+					//keying on the real runtime files (ForkReleases.GetInstalledRuntimeKey) and would never download the runtime part that repairs them.
+					try {
+						File.Delete(Path.Combine(_destDirectory,ReleaseManifest.FILE_NAME));
+					}
+					catch(Exception) {
+						//Left as it is: the post-copy check fails again on the next run, and the message below says to run the setup.
+					}
 					_error="The runtime files in "+_destDirectory+" do not all match the runtime of the release (.NET "+_releaseManifest.RuntimePart.Version
 						+"), so the release was not recorded as installed.\r\n"+string.Join("\r\n",listRuntimeProblems.Take(10));
 					return true;//The files were copied; LaunchOpenDental reports the mismatch instead of starting the program.

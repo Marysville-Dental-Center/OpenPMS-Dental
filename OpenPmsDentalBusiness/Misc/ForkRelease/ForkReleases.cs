@@ -900,7 +900,9 @@ namespace OpenPmsDentalBusiness {
 				}
 				return GetRuntimePart(folderInstall)?.Key??"";
 			}
-			catch(Exception ex) when(ex is FormatException || ex is IOException || ex is UnauthorizedAccessException) {
+			//InvalidDataException: mixed runtime versions, a missing runtime file or an unreadable .deps.json (GetRuntimePart). The pull then
+			//downloads the runtime part, which repairs the folder.
+			catch(Exception ex) when(ex is FormatException || ex is IOException || ex is UnauthorizedAccessException || ex is InvalidDataException) {
 				return "";
 			}
 		}

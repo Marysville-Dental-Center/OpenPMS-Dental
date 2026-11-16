@@ -180,6 +180,25 @@ namespace ReleaseFlowTests {
 			}
 		}
 
+		///<summary>An installation with no release manifest (a fresh setup, or one whose copier found a runtime mismatch and removed it) and a
+		///runtime file missing or of two versions has no runtime key: GetInstalledRuntimeKey returns "" instead of throwing, so the next pull
+		///downloads the runtime part, which repairs the folder (lead fix at the S3b-7 merge).</summary>
+		[TestMethod]
+		public void GetInstalledRuntimeKey_BrokenRuntimeWithoutManifest_IsEmpty_SoThePullBringsTheRuntime() {
+			string folder=TestPaths.NewTempFolder("s3b7_repair");
+			try {
+				SyntheticBuild.Write(folder,"10.0.15");
+				Assert.AreEqual(ForkReleases.GetRuntimePart(folder).Key,ForkReleases.GetInstalledRuntimeKey(folder),"A whole runtime keys on its files.");
+				File.Delete(Path.Combine(folder,"coreclr.dll"));
+				Assert.AreEqual("",ForkReleases.GetInstalledRuntimeKey(folder),"A runtime file missing (antivirus quarantine, say).");
+				SyntheticBuild.Write(folder,"10.0.15",versionHelper:"10.0.14");
+				Assert.AreEqual("",ForkReleases.GetInstalledRuntimeKey(folder),"Two runtime versions.");
+			}
+			finally {
+				DeleteQuietly(folder);
+			}
+		}
+
 		///<summary>The runtime part's own manifest (the row of type ForkRuntimeManifest and the copy in its archive) round-trips and is strict.</summary>
 		[TestMethod]
 		public void RuntimePartManifest_RoundTrips_AndIsStrict() {
