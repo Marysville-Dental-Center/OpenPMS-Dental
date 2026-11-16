@@ -179,7 +179,7 @@ namespace OpenPmsDental{
 					timeSpanHoursEntered=ClockEvents.ParseHours(textHours.Text);
 				}
 				else {
-					timeSpanHoursEntered=TimeSpan.FromHours(Double.Parse(textHours.Text));
+					timeSpanHoursEntered=CodeBase.ODTimeSpan.FromHours(Double.Parse(textHours.Text));
 				}
 			}
 			catch {

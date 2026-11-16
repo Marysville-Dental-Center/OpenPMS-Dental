@@ -39,7 +39,9 @@ namespace SshHostKeyTests {
 
 		[TestMethod]
 		public void OnlyTheStorageProject_ReferencesSshNet() {
-			List<string> listProjects=GetProductSourceFiles("*.csproj").Where(x => File.ReadAllText(x).Contains("Renci.SshNet")).ToList();
+			//The package (SSH.NET, whose assembly is Renci.SshNet) or the file: since S3b-2 the storage project names only the package (S3b-5).
+			List<string> listProjects=GetProductSourceFiles("*.csproj").Where(x => File.ReadAllText(x).Contains("Renci.SshNet")
+				|| Regex.IsMatch(File.ReadAllText(x),@"<PackageReference\s+Include=""SSH\.NET""")).ToList();
 			Assert.AreEqual(1,listProjects.Count,string.Join("\r\n",listProjects));
 			StringAssert.EndsWith(listProjects[0],"OpenPmsDentalStorage.csproj");
 		}

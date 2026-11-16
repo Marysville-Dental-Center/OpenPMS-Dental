@@ -126,7 +126,7 @@ namespace ImagingCapture.UI {
 			AttachHotkeyWindow();
 			//Begin (the banner's 2 s, design 7.3 step 2) waits for Shown: the window is not on the screen yet.
 			_dispatcherTimer=new DispatcherTimer();
-			_dispatcherTimer.Interval=TimeSpan.FromMilliseconds(TickMs);
+			_dispatcherTimer.Interval=CodeBase.ODTimeSpan.FromMilliseconds(TickMs);
 			_dispatcherTimer.Tick+=dispatcherTimer_Tick;
 			_dispatcherTimer.Start();
 			RefreshView();

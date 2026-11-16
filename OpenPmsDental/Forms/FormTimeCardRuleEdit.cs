@@ -116,7 +116,7 @@ namespace OpenPmsDental {
 						timeSpanOverHoursPerDay=TimeSpan.Parse(textOverHoursPerDay.Text);
 					}
 					else{
-						timeSpanOverHoursPerDay=TimeSpan.FromHours(PIn.Double(textOverHoursPerDay.Text));
+						timeSpanOverHoursPerDay=CodeBase.ODTimeSpan.FromHours(PIn.Double(textOverHoursPerDay.Text));
 					}
 				}
 				catch {

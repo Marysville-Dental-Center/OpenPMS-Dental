@@ -2167,7 +2167,7 @@ namespace OpenPmsDental{
 				if(formPopupDisplay.MinutesDisabled>0){
 					PopupEvent popupEvent=new PopupEvent();
 					popupEvent.PopupNum=listPopups[i].PopupNum;
-					popupEvent.DateTimeDisableUntil=DateTime.Now+TimeSpan.FromMinutes(formPopupDisplay.MinutesDisabled);
+					popupEvent.DateTimeDisableUntil=DateTime.Now+CodeBase.ODTimeSpan.FromMinutes(formPopupDisplay.MinutesDisabled);
 					popupEvent.DateTimeLastViewed=DateTime.Now;
 					_listPopupEvents.Add(popupEvent);
 					_listPopupEvents.Sort();
@@ -3085,7 +3085,7 @@ namespace OpenPmsDental{
 			if(sigInactiveMin==0) {
 				return true;
 			}
-			DateTime dateTimeToSignalInactive=Security.DateTimeLastActivity+TimeSpan.FromMinutes(sigInactiveMin);
+			DateTime dateTimeToSignalInactive=Security.DateTimeLastActivity+CodeBase.ODTimeSpan.FromMinutes(sigInactiveMin);
 			if(DateTime.Now > dateTimeToSignalInactive) {
 				return false;
 			}

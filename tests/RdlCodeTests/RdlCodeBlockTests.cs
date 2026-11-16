@@ -102,6 +102,30 @@ namespace RdlCodeTests {
 		}
 		#endregion Helpers
 
+		///<summary>The program's own output carries what VbCodeCompiler needs (S3b-4's handoff, S3b-5): RdlEngine.dll as this test's, and the two
+		///Roslyn files at the versions RdlEngine references (decision 14), so a report's &lt;Code&gt; block compiles in the program as it does here.
+		///Not built: BuildOutput's rule.</summary>
+		[TestMethod]
+		public void ProgramOutput_HasTheEngineAndTheRoslynFilesTheCompilerUses() {
+			string configuration=new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory.TrimEnd(Path.DirectorySeparatorChar)).Name;
+			string folderProgram=Path.Combine(Root(),"OpenPmsDental","bin",configuration);
+			if(!File.Exists(Path.Combine(folderProgram,"OpenPmsDental.dll"))) {
+				BuildOutput.NotBuilt(@"OpenPmsDental\bin\"+configuration+" is not built. Build OpenDental.Local.slnf (x64) first.");
+			}
+			string pathEngine=typeof(RDLParser).Assembly.Location;
+			CollectionAssert.AreEqual(File.ReadAllBytes(pathEngine),File.ReadAllBytes(Path.Combine(folderProgram,"RdlEngine.dll")),
+				"The program's RdlEngine.dll is this test's.");
+			foreach(AssemblyName assemblyNameReference in typeof(RDLParser).Assembly.GetReferencedAssemblies()
+				.Where(x => x.Name=="Microsoft.CodeAnalysis" || x.Name=="Microsoft.CodeAnalysis.VisualBasic"))
+			{
+				string path=Path.Combine(folderProgram,assemblyNameReference.Name+".dll");
+				Assert.IsTrue(File.Exists(path),assemblyNameReference.Name+".dll is not in the program's output.");
+				Assert.AreEqual(assemblyNameReference.Version,AssemblyName.GetAssemblyName(path).Version,assemblyNameReference.Name);
+			}
+			Assert.AreEqual(2,typeof(RDLParser).Assembly.GetReferencedAssemblies().Count(x => x.Name.StartsWith("Microsoft.CodeAnalysis",StringComparison.Ordinal)),
+				"RdlEngine references both Roslyn files.");
+		}
+
 		[TestMethod]
 		public void Process_IsDotNet10_X64_WithTheNet10Engine() {
 			Assert.IsTrue(Environment.Is64BitProcess,"A 64-bit process.");

@@ -87,6 +87,9 @@ namespace UnitTests {
 		[AssemblyInitialize]
 		public static void Initialize(TestContext context) {
 			OpenPmsDentalTests.TestCodePages.Register();//the code pages first, as the program registers them (tests\Shared\TestCodePages.cs)
+			//The program's default font before any window exists, as every exe's Main sets it (S3b-4): .NET's own default is Segoe UI 9, which
+			//lays the UI tests' text boxes out differently (the ODtextBox spell check tests count wavy lines; S3b-5).
+			System.Windows.Forms.Application.SetDefaultFont(new System.Drawing.Font("Microsoft Sans Serif",8.25f));
 			ODBuild.IsUnitTest=true;//Causes FormFriendlyException to throw rather than displaying a MessageBox.
 			ODInitialize.Initialize();
 			PdfSharpSetup.Init();//The PDF library's licence and font fallback, as OpenPmsDental sets them at start.

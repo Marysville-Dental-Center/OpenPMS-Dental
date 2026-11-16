@@ -4545,7 +4545,7 @@ namespace OpenPmsDentalBusiness {
 					continue;
 				}
 				TimeSpan waitDays = TimeSpan.FromDays(0);
-				waitDays = TimeSpan.FromDays(insPlanCur.OrthoAutoClaimDaysWait);
+				waitDays = CodeBase.ODTimeSpan.FromDays(insPlanCur.OrthoAutoClaimDaysWait);
 				DateTime procWaitDays = procCur.ProcDate + waitDays;
 				procWaitDays=procWaitDays.AddMonths(1);//Always push the next claim date out a month, even after the "wait days" preference.
 				patPlanCur.OrthoAutoNextClaimDate = new DateTime(procWaitDays.Year,procWaitDays.Month,1);

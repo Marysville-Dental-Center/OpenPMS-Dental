@@ -62,7 +62,7 @@ namespace NoHqTests {
 					continue;
 				}
 				string text=File.ReadAllText(path);
-				if(Regex.IsMatch(text,@"static (void|int) Main\(") && text.Contains("Application.Run(")) {
+				if(Regex.IsMatch(text,@"static (void|int) Main\(") && Regex.IsMatch(text,@"(?<![\w.])Application\.Run\(")) {//not webApplication.Run (the Middle Tier server)
 					listRunners.Add(relative);
 				}
 			}

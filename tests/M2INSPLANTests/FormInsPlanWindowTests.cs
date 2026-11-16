@@ -21,8 +21,11 @@ namespace M2INSPLANTests {
 	public class FormInsPlanWindowTests {
 		///<summary>Control.STATE_VISIBLE. A control's own visible flag: Control.Visible also needs every parent shown, and this window never is.</summary>
 		private const int STATE_VISIBLE=0x2;
-		private static readonly MethodInfo _methodGetState=typeof(Control).GetMethod("GetState",BindingFlags.Instance|BindingFlags.NonPublic,null,
-			new[] { typeof(int) },null);
+		///<summary>Control.GetState: GetState(int) on the .NET Framework, GetState(States) on .NET, whose internal States enum has the same values
+		///(S3b-5).</summary>
+		private static readonly MethodInfo _methodGetState=typeof(Control).GetMethods(BindingFlags.Instance|BindingFlags.NonPublic)
+			.Single(x => x.Name=="GetState" && x.GetParameters().Length==1
+				&& (x.GetParameters()[0].ParameterType==typeof(int) || x.GetParameters()[0].ParameterType.IsEnum));
 		private static int _countFixtures;
 		///<summary>PrintWindow flag: render the whole window, child windows included, even where it is off screen.</summary>
 		private const uint PW_RENDERFULLCONTENT=2;
@@ -123,7 +126,8 @@ namespace M2INSPLANTests {
 		}
 
 		private static bool IsSetVisible(Control control) {
-			return (bool)_methodGetState.Invoke(control,new object[] { STATE_VISIBLE });
+			Type typeState=_methodGetState.GetParameters()[0].ParameterType;
+			return (bool)_methodGetState.Invoke(control,new object[] { typeState.IsEnum ? Enum.ToObject(typeState,STATE_VISIBLE) : (object)STATE_VISIBLE });
 		}
 
 		///<summary>The control's containers up to the form (not included); fails when the chain does not reach it.</summary>

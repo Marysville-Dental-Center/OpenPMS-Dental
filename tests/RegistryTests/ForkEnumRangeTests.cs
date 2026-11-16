@@ -145,7 +145,11 @@ namespace RegistryTests {
 				catch(ReflectionTypeLoadException ex) {
 					arrayTypes=ex.Types.Where(x => x!=null).ToArray();
 				}
-				foreach(Type type in arrayTypes.Where(x => x.IsEnum && !ForkEnums.ArrayEnums.Contains(x) && !x.IsDefined(typeof(FlagsAttribute),false))) {
+				//Not an enum nested in a generic class (open: no value of it exists to store), whose values .NET cannot box (Enum.Parse throws "Specified
+				//type is not supported"; the .NET Framework parsed them; S3b-5).
+				foreach(Type type in arrayTypes.Where(x => x.IsEnum && !x.ContainsGenericParameters && !ForkEnums.ArrayEnums.Contains(x)
+					&& !x.IsDefined(typeof(FlagsAttribute),false)))
+				{
 					List<string> listHigh=Enum.GetNames(type).Where(x => Convert.ToDecimal(Enum.Parse(type,x))>=ForkEnums.FIRST_VALUE).ToList();
 					if(listHigh.Count>0) {
 						listProblems.Add(type.FullName+": "+string.Join(", ",listHigh));

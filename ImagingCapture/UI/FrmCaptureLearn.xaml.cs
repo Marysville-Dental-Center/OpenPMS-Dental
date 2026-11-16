@@ -102,7 +102,7 @@ namespace ImagingCapture.UI {
 			_learnSampler.CameraError+=learnSampler_CameraError;
 			_learnSampler.Start();
 			_dispatcherTimer=new DispatcherTimer();
-			_dispatcherTimer.Interval=TimeSpan.FromMilliseconds(RefreshMs);
+			_dispatcherTimer.Interval=CodeBase.ODTimeSpan.FromMilliseconds(RefreshMs);
 			_dispatcherTimer.Tick+=dispatcherTimer_Tick;
 			_dispatcherTimer.Start();
 			RefreshView();

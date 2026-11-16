@@ -253,7 +253,7 @@ namespace OpenPmsDental {
 				getAlerts(null);
 				return;
 			}
-			int checkAlertsIntervalMS=(int)TimeSpan.FromSeconds(PrefC.GetInt(PrefName.AlertCheckFrequencySeconds)).TotalMilliseconds;
+			int checkAlertsIntervalMS=(int)CodeBase.ODTimeSpan.FromSeconds(PrefC.GetInt(PrefName.AlertCheckFrequencySeconds)).TotalMilliseconds;
 			if(checkAlertsIntervalMS==0) {
 				//Office has disabled alert checking. We won't periodically check alerts, but we will do it when the user does something alert related.
 				return;
@@ -278,7 +278,7 @@ namespace OpenPmsDental {
 			if(PrefC.GetBool(PrefName.ClaimReportReceivedByService)) {
 				return;
 			}
-			int claimReportRetrieveIntervalMS=(int)TimeSpan.FromMinutes(PrefC.GetInt(PrefName.ClaimReportReceiveInterval)).TotalMilliseconds;
+			int claimReportRetrieveIntervalMS=(int)CodeBase.ODTimeSpan.FromMinutes(PrefC.GetInt(PrefName.ClaimReportReceiveInterval)).TotalMilliseconds;
 			ODThread odThread=new ODThread(claimReportRetrieveIntervalMS,(o) => {
 				string claimReportComputer=PrefC.GetString(PrefName.ClaimReportComputerName);
 				if(claimReportComputer=="" || claimReportComputer!=Dns.GetHostName()) {
@@ -501,7 +501,7 @@ namespace OpenPmsDental {
 					return;
 				}
 			}
-			DateTime dtDeadline=Security.DateTimeLastActivity+TimeSpan.FromMinutes(logOffTimerMins);
+			DateTime dtDeadline=Security.DateTimeLastActivity+CodeBase.ODTimeSpan.FromMinutes(logOffTimerMins);
 			//Debug.WriteLine("Now:"+DateTime.Now.ToLongTimeString()+", Deadline:"+dtDeadline.ToLongTimeString());
 			if(DateTime.Now<dtDeadline) {
 				return;

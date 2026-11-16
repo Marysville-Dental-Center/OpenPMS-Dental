@@ -42,7 +42,7 @@ namespace OpenPmsDentalBusiness {
 				return TimeReview.TotalHours;
 			}
 			set {
-				TimeReview=TimeSpan.FromHours(value);
+				TimeReview=CodeBase.ODTimeSpan.FromHours(value);
 			}
 		}
 		
@@ -52,7 +52,7 @@ namespace OpenPmsDentalBusiness {
 				return TimeReview.TotalMinutes;
 			}
 			set {
-				TimeReview=TimeSpan.FromMinutes(value);
+				TimeReview=CodeBase.ODTimeSpan.FromMinutes(value);
 			}
 		}
 	}

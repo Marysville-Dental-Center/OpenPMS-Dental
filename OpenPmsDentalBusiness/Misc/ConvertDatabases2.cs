@@ -2749,8 +2749,8 @@ VALUES('MercuryDE','"+POut.String(@"C:\MercuryDE\Temp\")+@"','0','','1','','','1
 					timeAdjustNum=PIn.Long(table.Rows[i]["TimeAdjustNum"].ToString());
 					regDouble=PIn.Double(table.Rows[i]["RegHours"].ToString());
 					oTimeDouble=PIn.Double(table.Rows[i]["OTimeHours"].ToString());
-					regSpan=TimeSpan.FromHours(regDouble);
-					oTimeSpan=TimeSpan.FromHours(oTimeDouble);
+					regSpan=CodeBase.ODTimeSpan.FromHours(regDouble);
+					oTimeSpan=CodeBase.ODTimeSpan.FromHours(oTimeDouble);
 					command="UPDATE timeadjust "
 						+"SET RegHours='"+POut.TSpan(regSpan)+"', "
 						+"OTimeHours='"+POut.TSpan(oTimeSpan)+"' "
