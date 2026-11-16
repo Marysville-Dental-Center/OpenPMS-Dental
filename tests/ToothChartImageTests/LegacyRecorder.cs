@@ -1,7 +1,7 @@
-// Records today's tooth chart (DirectX 9, OpenGL and Simple 2D) for every synthetic scene: the "before" pictures of the WPF chart track (package
-// TC-0 of docs/specs/wpf-tooth-chart-plan.md, launch check L-1). Opt-in: it runs only with OPMS_RECORD_LEGACY_CHART=1, on the desktop of an
-// interactive session, because the DirectX and OpenGL charts need a visible window and a graphics device. No database: the scenes set their state
-// through ToothChartRelay only.
+// The recording of the old tooth chart (DirectX 9, OpenGL and Simple 2D) for every synthetic scene: the "before" pictures of the WPF chart track
+// (package TC-0 of docs/specs/wpf-tooth-chart-plan.md, launch check L-1). TC-9a retired the DirectX and OpenGL engines, so the recorder no longer
+// records (a skipped test says so); the recording it made (Baselines\legacy, Baselines\legacy-smoothed) is kept (O-32) and still read: the parity
+// probes, the gallery, the manifest and index, and the check of a recording against it (CompareLegacyRecording).
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
 using System.Collections.Generic;
@@ -49,7 +49,8 @@ namespace ToothChartImageTests {
 		}
 	}
 
-	///<summary>The recorder of the legacy chart pictures and the check of a re-recording.
+	///<summary>The recorder of the legacy chart pictures (retired in TC-9a with the DirectX and OpenGL engines: RecordLegacyChart is skipped) and the
+	///check of a recording against the kept one. Until TC-9a, as follows.
 	///
 	///Record (the lead's run, L-1; from the repository root, after a build of OpenDental.Local.slnf through the build lane) with the lane's vstest
 	///of Visual Studio Build Tools 2026, which
@@ -106,31 +107,16 @@ namespace ToothChartImageTests {
 			new SmoothedPicture("perio-full-exam",ChartScenes.SizePerio),
 		};
 
+		///<summary>Recorded Baselines\legacy (DirectX, OpenGL and Simple 2D, without multisampling) and Baselines\legacy-smoothed (a few DirectX pictures
+		///multisampled, for the gallery) on a visible window of the lead's desktop, through each engine's GetBitmap, with a .txt of the facts of each
+		///picture. TC-9a deleted the DirectX and OpenGL engines and with them the recording code (the host form, the DirectX format search without
+		///multisampling, the adapter and pixel-format facts); the 715 pictures of TC-0's recording, and those recorded since, are kept (O-32) and can
+		///never be recorded again. The Simple 2D chart that stays is guarded by its own baselines (Baselines\simple2d-net48).</summary>
 		[TestMethod]
+		[Ignore("The DirectX and OpenGL engines were retired in TC-9a: today's chart cannot be recorded again. The recording (Baselines\\legacy and "
+			+"Baselines\\legacy-smoothed) is kept and read by the parity probes, the gallery and CompareLegacyRecording.")]
 		public void RecordLegacyChart() {
-			if(Environment.GetEnvironmentVariable(EnvRecord)!="1") {
-				Assert.Inconclusive("The legacy chart recorder runs only with "+EnvRecord+"=1, on an interactive desktop (TC-0, launch check L-1).");
-			}
-			if(!Environment.UserInteractive) {
-				Assert.Inconclusive("The legacy chart recorder needs an interactive desktop session: the DirectX and OpenGL charts draw in a visible window.");
-			}
-			string folderOut=Environment.GetEnvironmentVariable(EnvOut);
-			if(string.IsNullOrWhiteSpace(folderOut)) {
-				folderOut=TestPaths.BaselinesLegacy;
-			}
-			List<DrawingMode> listEngines=ParseEngines(Environment.GetEnvironmentVariable(EnvEngines));
-			//The scenes of today's chart: those added after TC-0's recording (TC-5 on) show what the old engines never drew.
-			List<ChartScene> listScenes=ChartScenes.GetAll().Where(x => x.HasLegacyRecording).ToList();
-			List<string> listNames=ParseSceneNames(Environment.GetEnvironmentVariable(EnvScenes));
-			bool isAllScenes=listNames==null;
-			if(!isAllScenes) {
-				listScenes=listNames.Select(x => ChartScenes.Get(x)).ToList();
-			}
-			SmoothedMode smoothedMode=ParseSmoothed(Environment.GetEnvironmentVariable(EnvSmoothed));
-			LegacyRecording legacyRecording=StaRunner.Run(() => LegacyRecording.Record(folderOut,listEngines,listScenes,isAllScenes,
-				Environment.GetEnvironmentVariable(EnvDirectXFormat),smoothedMode));
-			Console.WriteLine(legacyRecording.GetSummary());
-			Assert.AreEqual(0,legacyRecording.ListFailures.Count,"Some pictures could not be made:\r\n"+string.Join("\r\n",legacyRecording.ListFailures));
+			Assert.Inconclusive("Retired in TC-9a.");
 		}
 
 		[TestMethod]
@@ -184,150 +170,9 @@ namespace ToothChartImageTests {
 		}
 	}
 
-	///<summary>One run of the recorder.</summary>
+	///<summary>What is left of the recorder after TC-9a: the reading of a recording's .txt files, its manifest and index, and the rule that decided
+	///whether a run drew the smoothed pictures (kept with its test, as the record of how Baselines\legacy-smoothed was made).</summary>
 	public class LegacyRecording {
-		public List<string> ListWritten=new List<string>();
-		public List<string> ListWrittenSmoothed=new List<string>();
-		public List<string> ListFailures=new List<string>();
-		public List<string> ListNotes=new List<string>();
-		private string _folderOut;
-		private string _environmentText;
-		private string _directXFormat;
-		///<summary>The format the standard search found, before multisampling was turned off; or why there is none.</summary>
-		private string _directXFormatSearched;
-		///<summary>True when the DirectX format was given (OPMS_RECORD_LEGACY_CHART_DIRECTX_FORMAT) rather than searched.</summary>
-		private bool _isDirectXFormatGiven;
-		private Form _formHost;
-
-		///<summary>Draws every scene in every mode at every size of the scene, writes a PNG and a .txt for each, then the smoothed DirectX pictures
-		///(per smoothedMode), then rewrites manifest.txt and index.html from all the .txt files in folderOut and its smoothed folder. When
-		///isAllScenes, the old files of the recorded modes are deleted before the first picture, once the recorder's window is known to be visible,
-		///and the old smoothed pictures once CanRecordSmoothed says they will be drawn again. Runs on an STA thread.</summary>
-		public static LegacyRecording Record(string folderOut,List<DrawingMode> listEngines,List<ChartScene> listScenes,bool isAllScenes,
-			string directXFormatGiven,SmoothedMode smoothedMode=SmoothedMode.Also)
-		{
-			LegacyRecording legacyRecording=new LegacyRecording();
-			legacyRecording._folderOut=folderOut;
-			legacyRecording.Run(listEngines,listScenes,isAllScenes,directXFormatGiven,smoothedMode);
-			return legacyRecording;
-		}
-
-		private void Run(List<DrawingMode> listEngines,List<ChartScene> listScenes,bool isAllScenes,string directXFormatGiven,SmoothedMode smoothedMode) {
-			Directory.CreateDirectory(_folderOut);
-			_environmentText=ReadEnvironment();
-			using(_formHost=CreateHostForm()) {
-				_formHost.Show();
-				_formHost.Activate();
-				Application.DoEvents();
-				if(!_formHost.Visible || !IsWindowVisible(_formHost.Handle)) {
-					//Checked before anything is deleted, so a run without a desktop leaves the recording as it is.
-					throw new AssertInconclusiveException("The recorder's window is not visible: no interactive desktop.");
-				}
-				if(isAllScenes && smoothedMode!=SmoothedMode.Only) {
-					foreach(DrawingMode engine in listEngines) {
-						string folderEngine=Path.Combine(_folderOut,engine.ToString());
-						if(Directory.Exists(folderEngine)) {
-							Directory.Delete(folderEngine,true);
-						}
-					}
-				}
-				bool isDirectX=listEngines.Contains(DrawingMode.DirectX);
-				if(isDirectX) {
-					_directXFormat=FindDirectXFormat(directXFormatGiven);
-				}
-				if(smoothedMode!=SmoothedMode.Only) {
-					foreach(DrawingMode engine in listEngines) {
-						RecordEngine(engine,listScenes);
-					}
-				}
-				if(smoothedMode!=SmoothedMode.None) {
-					if(isDirectX) {
-						RecordSmoothed(listScenes,isAllScenes);
-					}
-					else {
-						ListNotes.Add("No smoothed pictures: they are DirectX pictures, and DirectX is not recorded in this run.");
-					}
-				}
-				_formHost.Close();
-			}
-			WriteManifestAndIndex(_folderOut);
-		}
-
-		private void RecordEngine(DrawingMode engine,List<ChartScene> listScenes) {
-			//Chart scenes: one wrapper per size, reused from scene to scene as the Chart module reuses its chart. Standard sizes first, then the
-			//extra sizes in scene order.
-			List<ChartScene> listChartScenes=listScenes.Where(x => x.Kind==ChartSceneKind.Chart).ToList();
-			List<ChartSize> listSizes=new List<ChartSize>();
-			foreach(ChartSize chartSize in ChartScenes.GetStandardSizes(ChartSceneKind.Chart).Concat(listChartScenes.SelectMany(x => x.ListSizesExtra))) {
-				if(!listSizes.Contains(chartSize)) {
-					listSizes.Add(chartSize);
-				}
-			}
-			foreach(ChartSize chartSize in listSizes) {
-				List<ChartScene> listForSize=listChartScenes.Where(x => ChartScenes.GetSizes(x).Contains(chartSize)).ToList();
-				if(listForSize.Count==0) {
-					continue;
-				}
-				ToothChartWrapper wrapper=CreateWrapper(engine,chartSize.Size,_directXFormat);
-				try {
-					ToothChartRelay relay=new ToothChartRelay();
-					relay.SetToothChartWrapper(wrapper);
-					foreach(ChartScene scene in listForSize) {
-						RecordScene(wrapper,relay,engine,scene,chartSize,false);
-					}
-				}
-				finally {
-					DisposeWrapper(wrapper);
-				}
-			}
-			//Perio scenes: DirectX only, as FormPerioGraphical forces DirectX. Each gets a new wrapper, because ResetTeeth keeps perio measures.
-			if(engine!=DrawingMode.DirectX) {
-				return;
-			}
-			foreach(ChartScene scene in listScenes.Where(x => x.Kind==ChartSceneKind.Perio)) {
-				foreach(ChartSize chartSize in ChartScenes.GetSizes(scene)) {
-					ToothChartWrapper wrapper=CreateWrapper(engine,chartSize.Size,_directXFormat);
-					try {
-						ToothChartRelay relay=new ToothChartRelay();
-						relay.SetToothChartWrapper(wrapper);
-						RecordScene(wrapper,relay,engine,scene,chartSize,false);
-					}
-					finally {
-						DisposeWrapper(wrapper);
-					}
-				}
-			}
-		}
-
-		///<summary>The smoothed DirectX pictures of LegacyRecorder.ListSmoothed whose scene is in listScenes, each on a new wrapper with the standard
-		///search's format as it is (multisampled), as the program saves it for a computer with no format saved. Only when CanRecordSmoothed says so;
-		///otherwise a note says why and the smoothed folder is left as it is. The folder is emptied (when isAllScenes) only after that check.</summary>
-		private void RecordSmoothed(List<ChartScene> listScenes,bool isAllScenes) {
-			if(!CanRecordSmoothed(_isDirectXFormatGiven,_directXFormatSearched,_directXFormat,out string reasonSkip)) {
-				ListNotes.Add("No smoothed pictures, and the smoothed folder is left as it is: "+reasonSkip);
-				return;
-			}
-			string folderSmoothed=LegacyRecorder.GetSmoothedFolder(_folderOut);
-			if(isAllScenes && Directory.Exists(folderSmoothed)) {
-				Directory.Delete(folderSmoothed,true);
-			}
-			foreach(SmoothedPicture smoothedPicture in LegacyRecorder.ListSmoothed) {
-				ChartScene scene=listScenes.FirstOrDefault(x => x.Name==smoothedPicture.SceneName);
-				if(scene==null) {
-					continue;
-				}
-				ToothChartWrapper wrapper=CreateWrapper(DrawingMode.DirectX,smoothedPicture.ChartSize.Size,_directXFormatSearched);
-				try {
-					ToothChartRelay relay=new ToothChartRelay();
-					relay.SetToothChartWrapper(wrapper);
-					RecordScene(wrapper,relay,DrawingMode.DirectX,scene,smoothedPicture.ChartSize,true);
-				}
-				finally {
-					DisposeWrapper(wrapper);
-				}
-			}
-		}
-
 		///<summary>Whether this run can draw the smoothed pictures, decided from the DirectX formats alone (no device): formatUsed is the baseline's
 		///format (null when DirectX cannot start), formatSearched the standard search's own and isFormatGiven whether formatUsed came from
 		///OPMS_RECORD_LEGACY_CHART_DIRECTX_FORMAT. They are drawn only with a device format the standard search found that differs from the
@@ -353,200 +198,6 @@ namespace ToothChartImageTests {
 			return reasonSkip==null;
 		}
 
-		///<summary>Draws the scene and writes its PNG and .txt: into &lt;folderOut&gt;\&lt;engine&gt;\&lt;size&gt;, or, for a smoothed picture,
-		///into the smoothed folder's &lt;size&gt;. A smoothed picture that DirectX did not draw is a failure, and no PNG is left for it.</summary>
-		private void RecordScene(ToothChartWrapper wrapper,ToothChartRelay relay,DrawingMode engine,ChartScene scene,ChartSize chartSize,bool isSmoothed) {
-			string folder;
-			string pathRelative;
-			if(isSmoothed) {
-				string folderSmoothed=LegacyRecorder.GetSmoothedFolder(_folderOut);
-				folder=Path.Combine(folderSmoothed,chartSize.FolderName);
-				pathRelative=Path.GetFileName(folderSmoothed)+"/"+chartSize.FolderName+"/"+scene.Name+".png";
-			}
-			else {
-				folder=Path.Combine(_folderOut,engine.ToString(),chartSize.FolderName);
-				pathRelative=engine+"/"+chartSize.FolderName+"/"+scene.Name+".png";
-			}
-			Directory.CreateDirectory(folder);
-			string pathPng=Path.Combine(folder,scene.Name+".png");
-			string pathText=Path.Combine(folder,scene.Name+".txt");
-			List<string> listLines=new List<string>();
-			listLines.Add("Scene: "+scene.Name);
-			listLines.Add("Group: "+scene.Group);
-			listLines.Add("Description: "+scene.Description);
-			listLines.Add("Size: "+chartSize.FolderName);
-			listLines.Add("Colours: "+GetColorSetText(chartSize.ColorSet));
-			listLines.Add("Requested mode: "+engine);
-			listLines.Add("Started mode: "+wrapper.DrawMode);
-			listLines.Add("Device or pixel format: "+GetDeviceOrPixelFormat(wrapper));
-			if(wrapper.DrawMode==DrawingMode.DirectX) {
-				if(isSmoothed) {
-					listLines.Add("DirectX standard search: "+_directXFormatSearched+" (used as it is, multisampled, as the program saves it for this computer)");
-					listLines.Add("Smoothed: yes, for the gallery only. Never compared: with multisampling a second draw of the same scene can give other pixels "
-						+"along the edges. The baseline of this scene and size, without multisampling, is in the recording folder.");
-				}
-				else {
-					listLines.Add("DirectX standard search: "+_directXFormatSearched+(!_isDirectXFormatGiven && _directXFormatSearched!=_directXFormat
-						?" (multisampling turned off: with it a draw is not repeatable on every driver)":""));
-				}
-			}
-			try {
-				if(isSmoothed && wrapper.DrawMode!=DrawingMode.DirectX) {
-					//The catch below fails the run and deletes the PNG: a fallback's picture must never stand under "DirectX, smoothed" in the gallery.
-					throw new Exception("DirectX did not start with "+_directXFormatSearched+" (the chart fell back to "+wrapper.DrawMode
-						+"), and a smoothed picture is DirectX's only.");
-				}
-				_formHost.Activate();
-				Application.DoEvents();
-				ChartScenes.Prepare(relay,scene,chartSize.ColorSet);
-				using Bitmap bitmap=relay.GetBitmap();
-				if(bitmap==null) {
-					throw new Exception("GetBitmap returned nothing.");
-				}
-				BitmapFacts bitmapFacts=ChartImageCompare.DescribeBitmap(bitmap);
-				if(wrapper.DrawMode==DrawingMode.DirectX) {
-					listLines.Add("DirectX adapter: "+GetDirectXAdapter(wrapper));
-				}
-				if(wrapper.DrawMode==DrawingMode.OpenGL) {
-					listLines.Add("OpenGL: "+GetOpenGLStrings());
-				}
-				PngWriter.Save(bitmap,pathPng);
-				//A second picture of the same state: a recording is only worth comparing with a later one if the same state gives the same pixels.
-				string pixelsSecond;
-				using(Bitmap bitmapSecond=relay.GetBitmap()) {
-					pixelsSecond=ChartImageCompare.DescribeBitmap(bitmapSecond).PixelsSha256;
-				}
-				bool isRepeatable=pixelsSecond==bitmapFacts.PixelsSha256;
-				listLines.Add("Bitmap: "+bitmapFacts.Size.Width+"x"+bitmapFacts.Size.Height+" "+bitmapFacts.PixelFormat);
-				listLines.Add("Alpha: "+bitmapFacts.GetAlphaText());
-				listLines.Add("Colours in the picture: "+bitmapFacts.CountColors+(bitmapFacts.IsBlank?" (blank)":""));
-				listLines.Add("Pixels SHA-256: "+bitmapFacts.PixelsSha256);
-				listLines.Add("Repeatable: "+(isRepeatable?"yes (a second GetBitmap gave the same pixels)":"no (a second GetBitmap gave other pixels)"));
-				if(bitmapFacts.IsBlank) {
-					ListNotes.Add(pathRelative+" is blank (one colour).");
-				}
-				if(!isRepeatable && !isSmoothed) {
-					ListNotes.Add(pathRelative+" is not repeatable: a second GetBitmap gave other pixels.");
-				}
-				if(wrapper.DrawMode!=engine) {
-					ListNotes.Add(pathRelative+" was drawn by "+wrapper.DrawMode+": "+engine+" did not start.");
-				}
-				if(isSmoothed) {
-					ListWrittenSmoothed.Add(pathRelative+(isRepeatable?" (repeatable)":" (not repeatable)"));
-				}
-				else {
-					ListWritten.Add(pathRelative);
-				}
-			}
-			catch(Exception ex) {
-				listLines.Add("Failed: "+ex.GetType().Name+": "+ex.Message.Replace("\r"," ").Replace("\n"," "));
-				ListFailures.Add(pathRelative+": "+ex.GetType().Name+": "+ex.Message);
-				if(File.Exists(pathPng)) {
-					File.Delete(pathPng);
-				}
-			}
-			listLines.AddRange(_environmentText.Split(new[] { "\r\n" },StringSplitOptions.RemoveEmptyEntries));
-			File.WriteAllLines(pathText,listLines,new UTF8Encoding(false));
-		}
-
-		#region Wrappers
-		private static Form CreateHostForm() {
-			Form form=new Form();
-			form.Text="Tooth chart recorder (TC-0)";
-			form.FormBorderStyle=FormBorderStyle.None;
-			form.ShowInTaskbar=false;
-			form.StartPosition=FormStartPosition.Manual;
-			Rectangle rectangleWork=System.Windows.Forms.Screen.PrimaryScreen.WorkingArea;
-			form.Location=new Point(rectangleWork.Left+20,rectangleWork.Top+20);
-			form.ClientSize=ChartScenes.SizeModule.Size;
-			form.TopMost=true;
-			form.BackColor=Color.Black;
-			return form;
-		}
-
-		///<summary>A wrapper on the visible host form, set up as a new computer has it (ComputerPrefs.GetForLocalComputer: no hardware flag, pixel format
-		///0) and with the given DirectX device format, then started in engine. The fallback may start another mode: the .txt says which.</summary>
-		private ToothChartWrapper CreateWrapper(DrawingMode engine,Size size,string directXFormat) {
-			_formHost.ClientSize=size;
-			ToothChartWrapper wrapper=new ToothChartWrapper();
-			wrapper.Location=new Point(0,0);
-			wrapper.Size=size;
-			wrapper.UseHardware=false;
-			wrapper.PreferredPixelFormatNumber=0;
-			if(engine==DrawingMode.DirectX) {
-				wrapper.DeviceFormat=new ToothChartDirectX.DirectXDeviceFormat(directXFormat??"invalid");
-			}
-			_formHost.Controls.Add(wrapper);
-			//The engine itself (ToothChartEngine has DrawingMode's values): since TC-8 DrawMode's DirectX and OpenGL start the WPF chart.
-			wrapper.Engine=(ToothChartEngine)engine;
-			Application.DoEvents();
-			return wrapper;
-		}
-
-		private void DisposeWrapper(ToothChartWrapper wrapper) {
-			_formHost.Controls.Remove(wrapper);
-			wrapper.Dispose();
-			Application.DoEvents();
-		}
-
-		///<summary>The DirectX device format to record with: the given one, or the first standard format that starts and gives a picture (the search
-		///FormOpenDental makes for a computer with no format saved, ToothChartWrapper.GetPreferredDirectXFormat, formerly in FormGraphics) with multisampling turned off. With
-		///multisampling a draw is not repeatable on every driver: on the build PC (2026-11-08) every GetBitmap of the same scene with four samples gave
-		///other pixels along the edges, so a re-recording could never be compared byte for byte. Without it the same scene gives the same pixels.
-		///Null when DirectX cannot start.</summary>
-		private string FindDirectXFormat(string directXFormatGiven) {
-			if(!string.IsNullOrWhiteSpace(directXFormatGiven)) {
-				ListNotes.Add("DirectX device format given: "+directXFormatGiven);
-				_isDirectXFormatGiven=true;
-				_directXFormatSearched="not searched (given)";
-				return directXFormatGiven;
-			}
-			if(!ToothChartWrapper.IsDirectXRuntimeAvailable()) {
-				ListNotes.Add("DirectX cannot start: "+ToothChartWrapper.D3DX_DLL+" is missing.");
-				_directXFormatSearched="none ("+ToothChartWrapper.D3DX_DLL+" is missing)";
-				return null;
-			}
-			foreach(ToothChartDirectX.DirectXDeviceFormat directXDeviceFormat in ToothChartDirectX.GetStandardDeviceFormats()) {
-				if(!TestDirectXFormat(directXDeviceFormat.ToString())) {
-					continue;
-				}
-				_directXFormatSearched=directXDeviceFormat.ToString();
-				directXDeviceFormat.MultiSampleCount=0;
-				if(directXDeviceFormat.ToString()!=_directXFormatSearched && !TestDirectXFormat(directXDeviceFormat.ToString())) {
-					ListNotes.Add("DirectX device format found: "+_directXFormatSearched+"; it does not start without multisampling, so it is used as it is.");
-					return _directXFormatSearched;
-				}
-				ListNotes.Add("DirectX device format found: "+_directXFormatSearched+"; recorded without multisampling: "+directXDeviceFormat);
-				return directXDeviceFormat.ToString();
-			}
-			ListNotes.Add("No standard DirectX device format works on this computer.");
-			_directXFormatSearched="none (no standard format starts)";
-			return null;
-		}
-
-		///<summary>ToothChartWrapper.TestDirectXFormat (formerly in FormGraphics): an invisible wrapper on the host form starts DirectX with the format and returns a picture.</summary>
-		private bool TestDirectXFormat(string directXFormat) {
-			using ToothChartWrapper wrapperTest=new ToothChartWrapper();
-			wrapperTest.Visible=false;
-			_formHost.Controls.Add(wrapperTest);
-			try {
-				wrapperTest.DeviceFormat=new ToothChartDirectX.DirectXDeviceFormat(directXFormat);
-				wrapperTest.Engine=ToothChartEngine.DirectX;//the DirectX engine itself (since TC-8 DrawMode's DirectX starts the WPF chart)
-				if(wrapperTest.Engine!=ToothChartEngine.DirectX) {
-					return false;
-				}
-				using Bitmap bitmap=wrapperTest.GetBitmap();
-				return bitmap!=null;
-			}
-			catch {
-				return false;
-			}
-			finally {
-				_formHost.Controls.Remove(wrapperTest);
-			}
-		}
-		#endregion Wrappers
-
 		#region Facts
 		private static string GetColorSetText(ChartColorSet chartColorSet) {
 			switch(chartColorSet) {
@@ -557,138 +208,6 @@ namespace ToothChartImageTests {
 				default:
 					return "perio (white, black and the perio colours)";
 			}
-		}
-
-		private string GetDeviceOrPixelFormat(ToothChartWrapper wrapper) {
-			switch(wrapper.DrawMode) {
-				case DrawingMode.DirectX:
-					return "DirectX device format "+(wrapper.DeviceFormat==null?"none":wrapper.DeviceFormat.ToString());
-				case DrawingMode.OpenGL:
-					return "OpenGL pixel format "+wrapper.PreferredPixelFormatNumber+" ("+DescribePixelFormat(wrapper)+")";
-				default:
-					return "GDI+ (no device)";
-			}
-		}
-
-		///<summary>The adapter that drew the DirectX picture, read from the chart's own device as the engine created it
-		///(ToothChartDirectX.DirectXDeviceFormat.CreateDevice): the device's adapter index and device type (IDirect3DDevice9::GetCreationParameters),
-		///then that adapter's description, driver version and file, display and PCI ids (IDirect3D9::GetAdapterIdentifier, on the device's own
-		///IDirect3D9). For example "0 (Hardware device): NVIDIA RTX A1000, driver 32.0.15.9671 (nvldumd.dll), display \\.\DISPLAY1, PCI 10DE:25B0".
-		///The driver file is the user-mode driver of the host's bitness: the x86 test host records the 32-bit one (nvldumd.dll on that adapter), a
-		///64-bit host the 64-bit one (nvldumdx.dll). Read through reflection, because this project does not reference SharpDX (see WrapperTests).</summary>
-		public static string GetDirectXAdapter(ToothChartWrapper wrapper) {
-			ToothChartDirectX toothChartDirectX=wrapper.Controls.OfType<ToothChartDirectX>().FirstOrDefault();
-			if(toothChartDirectX==null) {
-				return "unknown (no DirectX control)";
-			}
-			object device=typeof(ToothChartDirectX).GetField("device").GetValue(toothChartDirectX);
-			if(device==null) {
-				return "unknown (no device)";
-			}
-			try {
-				object creationParameters=device.GetType().GetProperty("CreationParameters").GetValue(device);
-				Type typeCreation=creationParameters.GetType();
-				int adapterIndex=(int)typeCreation.GetField("AdapterOrdinal").GetValue(creationParameters);
-				string deviceType=typeCreation.GetField("DeviceType").GetValue(creationParameters).ToString();
-				object direct3D=device.GetType().GetProperty("Direct3D").GetValue(device);//AddRef'd by GetDirect3D; released below
-				try {
-					object adapterDetails=direct3D.GetType().GetMethod("GetAdapterIdentifier",new[] { typeof(int) }).Invoke(direct3D,new object[] { adapterIndex });
-					Type typeDetails=adapterDetails.GetType();
-					string description=(string)typeDetails.GetField("Description").GetValue(adapterDetails);
-					string driver=(string)typeDetails.GetField("Driver").GetValue(adapterDetails);
-					string deviceName=(string)typeDetails.GetField("DeviceName").GetValue(adapterDetails);
-					int vendorId=(int)typeDetails.GetField("VendorId").GetValue(adapterDetails);
-					int deviceId=(int)typeDetails.GetField("DeviceId").GetValue(adapterDetails);
-					object driverVersion=typeDetails.GetProperty("DriverVersion").GetValue(adapterDetails);
-					return adapterIndex+" ("+deviceType+" device): "+description.Trim()+", driver "+driverVersion+" ("+driver.Trim()+"), display "+deviceName.Trim()
-						+", PCI "+vendorId.ToString("X4")+":"+deviceId.ToString("X4");
-				}
-				finally {
-					(direct3D as IDisposable)?.Dispose();
-				}
-			}
-			catch(Exception ex) {
-				Exception exInner=ex.InnerException??ex;
-				return "unknown ("+exInner.GetType().Name+": "+exInner.Message.Replace("\r"," ").Replace("\n"," ")+")";
-			}
-		}
-
-		///<summary>The OpenGL pixel format of the engine control: colour, depth and stencil bits, double buffering and acceleration.</summary>
-		private static string DescribePixelFormat(ToothChartWrapper wrapper) {
-			if(wrapper.Controls.Count==0) {
-				return "no engine control";
-			}
-			IntPtr hwnd=wrapper.Controls[0].Handle;
-			IntPtr hdc=GetDC(hwnd);
-			try {
-				PIXELFORMATDESCRIPTOR pfd=new PIXELFORMATDESCRIPTOR();
-				pfd.nSize=(ushort)Marshal.SizeOf(typeof(PIXELFORMATDESCRIPTOR));
-				pfd.nVersion=1;
-				if(DescribePixelFormat(hdc,wrapper.PreferredPixelFormatNumber,(uint)pfd.nSize,ref pfd)==0) {
-					return "not described";
-				}
-				const uint PFD_DOUBLEBUFFER=0x1;
-				const uint PFD_GENERIC_FORMAT=0x40;
-				const uint PFD_GENERIC_ACCELERATED=0x1000;
-				string acceleration="accelerated";
-				if((pfd.dwFlags&PFD_GENERIC_FORMAT)!=0) {
-					acceleration=(pfd.dwFlags&PFD_GENERIC_ACCELERATED)!=0?"generic accelerated":"generic (software)";
-				}
-				return pfd.cColorBits+"-bit colour, "+pfd.cAlphaBits+"-bit alpha, "+pfd.cDepthBits+"-bit depth, "+pfd.cStencilBits+"-bit stencil, "
-					+((pfd.dwFlags&PFD_DOUBLEBUFFER)!=0?"double buffered":"single buffered")+", "+acceleration;
-			}
-			finally {
-				ReleaseDC(hwnd,hdc);
-			}
-		}
-
-		///<summary>The OpenGL vendor, renderer and version of the current context (the chart's, after a picture).</summary>
-		private static string GetOpenGLStrings() {
-			const uint GL_VENDOR=0x1F00;
-			const uint GL_RENDERER=0x1F01;
-			const uint GL_VERSION=0x1F02;
-			try {
-				return Marshal.PtrToStringAnsi(glGetString(GL_VENDOR))+"; "+Marshal.PtrToStringAnsi(glGetString(GL_RENDERER))+"; "
-					+Marshal.PtrToStringAnsi(glGetString(GL_VERSION));
-			}
-			catch(Exception ex) {
-				return "unknown ("+ex.GetType().Name+")";
-			}
-		}
-
-		///<summary>The Windows build, the display adapters with their drivers and the screen DPI: the lines every .txt ends with. The adapter that drew
-		///a DirectX picture is named on its own line (GetDirectXAdapter); these lines list every adapter of the computer.</summary>
-		private static string ReadEnvironment() {
-			StringBuilder stringBuilder=new StringBuilder();
-			string windows=Environment.OSVersion.VersionString;
-			try {
-				using RegistryKey registryKeyBase=RegistryKey.OpenBaseKey(RegistryHive.LocalMachine,RegistryView.Registry64);
-				using RegistryKey registryKey=registryKeyBase.OpenSubKey(@"SOFTWARE\Microsoft\Windows NT\CurrentVersion");
-				if(registryKey!=null) {
-					windows="build "+registryKey.GetValue("CurrentBuild")+"."+registryKey.GetValue("UBR")+" ("+registryKey.GetValue("DisplayVersion")+")";
-				}
-			}
-			catch(Exception ex) {
-				ex.ToString();//the version string above is enough
-			}
-			stringBuilder.Append("Windows: "+windows+"\r\n");
-			try {
-				using ManagementObjectSearcher managementObjectSearcher=new ManagementObjectSearcher("SELECT Name, DriverVersion FROM Win32_VideoController");
-				List<string> listAdapters=new List<string>();
-				foreach(ManagementBaseObject managementBaseObject in managementObjectSearcher.Get()) {
-					listAdapters.Add(managementBaseObject["Name"]+", driver "+managementBaseObject["DriverVersion"]);
-				}
-				foreach(string adapter in listAdapters.OrderBy(x => x,StringComparer.Ordinal)) {
-					stringBuilder.Append("Adapter: "+adapter+"\r\n");
-				}
-			}
-			catch(Exception ex) {
-				stringBuilder.Append("Adapter: unknown ("+ex.GetType().Name+")\r\n");
-			}
-			using(Graphics g=Graphics.FromHwnd(IntPtr.Zero)) {
-				stringBuilder.Append("Screen DPI seen by the test host: "+g.DpiX+"\r\n");
-			}
-			return stringBuilder.ToString();
 		}
 		#endregion Facts
 
@@ -858,76 +377,6 @@ namespace ToothChartImageTests {
 			sb.Append("</td>");
 		}
 		#endregion Manifest and index
-
-		///<summary>What happened: counts, notes and failures.</summary>
-		public string GetSummary() {
-			StringBuilder stringBuilder=new StringBuilder();
-			stringBuilder.Append(ListWritten.Count+" pictures written to "+_folderOut+", "+ListWrittenSmoothed.Count+" smoothed pictures to "
-				+LegacyRecorder.GetSmoothedFolder(_folderOut)+", "+ListFailures.Count+" failed.\r\n");
-			foreach(DrawingMode engine in LegacyRecorder.ArrayEngines) {
-				foreach(IGrouping<string,string> grouping in ListWritten.Where(x => x.StartsWith(engine+"/")).GroupBy(x => x.Split('/')[1]).OrderBy(x => x.Key)) {
-					stringBuilder.Append("  "+engine+" "+grouping.Key+": "+grouping.Count()+"\r\n");
-				}
-			}
-			foreach(string smoothed in ListWrittenSmoothed) {
-				stringBuilder.Append("Smoothed: "+smoothed+"\r\n");
-			}
-			foreach(string note in ListNotes) {
-				stringBuilder.Append("Note: "+note+"\r\n");
-			}
-			foreach(string failure in ListFailures) {
-				stringBuilder.Append("Failed: "+failure+"\r\n");
-			}
-			return stringBuilder.ToString();
-		}
-
-		#region Native
-		[StructLayout(LayoutKind.Sequential)]
-		private struct PIXELFORMATDESCRIPTOR {
-			public ushort nSize;
-			public ushort nVersion;
-			public uint dwFlags;
-			public byte iPixelType;
-			public byte cColorBits;
-			public byte cRedBits;
-			public byte cRedShift;
-			public byte cGreenBits;
-			public byte cGreenShift;
-			public byte cBlueBits;
-			public byte cBlueShift;
-			public byte cAlphaBits;
-			public byte cAlphaShift;
-			public byte cAccumBits;
-			public byte cAccumRedBits;
-			public byte cAccumGreenBits;
-			public byte cAccumBlueBits;
-			public byte cAccumAlphaBits;
-			public byte cDepthBits;
-			public byte cStencilBits;
-			public byte cAuxBuffers;
-			public byte iLayerType;
-			public byte bReserved;
-			public uint dwLayerMask;
-			public uint dwVisibleMask;
-			public uint dwDamageMask;
-		}
-
-		[DllImport("gdi32.dll",SetLastError=true)]
-		private static extern int DescribePixelFormat(IntPtr hdc,int iPixelFormat,uint nBytes,ref PIXELFORMATDESCRIPTOR ppfd);
-
-		[DllImport("user32.dll")]
-		private static extern IntPtr GetDC(IntPtr hWnd);
-
-		[DllImport("user32.dll")]
-		private static extern int ReleaseDC(IntPtr hWnd,IntPtr hDC);
-
-		[DllImport("user32.dll")]
-		[return: MarshalAs(UnmanagedType.Bool)]
-		private static extern bool IsWindowVisible(IntPtr hWnd);
-
-		[DllImport("opengl32.dll")]
-		private static extern IntPtr glGetString(uint name);
-		#endregion Native
 	}
 
 	///<summary>The check of a re-recording against the legacy baseline (LegacyRecorder.CompareLegacyRecording). Every baseline picture of the compared

@@ -1,6 +1,7 @@
 // The on-screen render times of TC-3 (docs/specs/wpf-tooth-chart-plan.md, TC-3's row and gallery G1): a refill plus the screen's update, with
 // the Patient Dashboard visible (the refill also makes the dashboard's image, ControlChart's GetBitmap) and hidden, and a selection-only change,
-// for today's DirectX chart, the WPF chart's live view and the WPF chart drawn in software; and the live view's frame, which WPF's render thread
+// for the WPF chart's live view and the WPF chart drawn in software (and today's DirectX chart until TC-9a retired it; TC-3's DirectX times are in
+// gallery G1); and the live view's frame, which WPF's render thread
 // draws after the UI thread's work, in software as the program draws it (O-34). Since TC-3b also the WPF chart's refill with the dashboard's
 // picture asked for in the background, as ControlChart makes it now, and the time until that picture arrives.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
@@ -47,24 +48,13 @@ namespace ToothChartImageTests {
 				return;
 			}
 			StaRunner.Run(() => {
-				string directXFormat=null;
-				using(Form form=WpfCharts.CreateOffscreenForm(ChartScenes.SizeModule.Size)) {
-					form.Show();
-					Application.DoEvents();
-					directXFormat=DirectXCharts.FindProgramFormat(form);
-					form.Close();
-				}
-				report.ListNotes.Add(directXFormat==null?"No DirectX times: no standard DirectX format starts here."
-					:"DirectX device format: "+directXFormat+" (the program's own pick on a computer with none saved, ToothChartWrapper.GetPreferredDirectXFormat).");
+				report.ListNotes.Add("No DirectX times: the DirectX chart was retired in TC-9a (TC-3's DirectX times are in gallery G1).");
 				report.ListNotes.Add("Each engine and size had "+CountWarmUp+" unmeasured runs of each kind before its measured runs.");
 				foreach(Size size in new[] { ChartScenes.SizeModule.Size,WpfTimings.Size150 }) {
 					string sizeName=size.Width+"x"+size.Height;
 					using(Form form=WpfCharts.CreateOffscreenForm(size)) {
 						form.Show();
 						Application.DoEvents();
-						if(directXFormat!=null) {
-							MeasureDirectX(report,form,size,sizeName,countRepeats,directXFormat);
-						}
 						MeasureWpf(report,form,size,sizeName,countRepeats,false);
 						MeasureWpf(report,form,size,sizeName,countRepeats,true);
 						form.Close();
@@ -77,23 +67,6 @@ namespace ToothChartImageTests {
 		///<summary>True when this process draws WPF in software, as the program does (RenderOptions.ProcessRenderMode SoftwareOnly).</summary>
 		public static bool IsProcessSoftware() {
 			return System.Windows.Media.RenderOptions.ProcessRenderMode==System.Windows.Interop.RenderMode.SoftwareOnly;
-		}
-
-		private static void MeasureDirectX(WpfTimingReport report,Form form,Size size,string sizeName,int countRepeats,string directXFormat) {
-			ToothChartWrapper wrapper=DirectXCharts.CreateWrapper(form,size,directXFormat);
-			try {
-				if(wrapper.Engine!=ToothChartEngine.DirectX) {
-					report.ListNotes.Add("No DirectX times at "+sizeName+": the chart fell back to "+wrapper.Engine+".");
-					return;
-				}
-				ToothChartRelay relay=WpfCharts.CreateRelay(wrapper);
-				MeasureEngine(report,sizeName+".directx","DirectX (today's chart)",relay,() => wrapper.Refresh(),countRepeats,false);
-			}
-			finally {
-				form.Controls.Remove(wrapper);
-				wrapper.Dispose();
-				Application.DoEvents();
-			}
 		}
 
 		private static void MeasureWpf(WpfTimingReport report,Form form,Size size,string sizeName,int countRepeats,bool isSoftware) {

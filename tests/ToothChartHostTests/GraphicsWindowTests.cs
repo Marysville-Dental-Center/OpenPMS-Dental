@@ -140,7 +140,7 @@ namespace ToothChartHostTests {
 				StaRunner.Run(() => {
 					using(ToothChartWrapper wrapper=new ToothChartWrapper()) {
 						wrapper.Size=new Size(410,307);
-						ToothChartRelay.ApplyComputerSettings(wrapper,ToothChartSettingsUse.StoredMode);
+						ToothChartRelay.ApplyComputerSettings(wrapper);
 						Assert.AreEqual((bool)arrayCase[2] ? ToothChartEngine.Wpf3D : ToothChartEngine.Simple2D,wrapper.Engine,what);
 						Assert.AreEqual((bool)arrayCase[3],wrapper.WpfDrawInSoftware,what);
 					}

@@ -135,7 +135,7 @@ namespace OpenPmsDental {
 			ToothChartRelay toothChartRelay= new ToothChartRelay(false);
 			toothChartRelay.SetToothChartWrapper(toothChartWrapper);
 			toothChartWrapper.Size=new Size(width,height);
-			ToothChartRelay.ApplyComputerSettings(toothChartWrapper,ToothChartSettingsUse.StoredMode);
+			ToothChartRelay.ApplyComputerSettings(toothChartWrapper);
 			formOldBitmap=new Form();
 			formOldBitmap.FormBorderStyle=FormBorderStyle.None;
 			formOldBitmap.Size=new Size(width,height);
@@ -166,7 +166,6 @@ namespace OpenPmsDental {
 				ToothChartPaintOptions.ForSheet(isInPatientDashboard,patCur,listAppts));
 			List<OrthoHardware> listOrthoHardwares=OrthoHardwares.GetPatientData(patNum);
 			ToothChartPainter.PaintOrthoHardware(toothChartRelay,listOrthoHardwares);
-			toothChartWrapper.AutoFinish=true;
 			toothChartRelay.EndUpdate();
 			Image retVal=toothChartRelay.GetBitmap();
 			formOldBitmap.Close();//automatically disposes, too

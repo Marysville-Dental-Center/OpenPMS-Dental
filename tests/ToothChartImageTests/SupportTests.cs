@@ -316,17 +316,15 @@ namespace ToothChartImageTests {
 		}
 
 		[TestMethod]
-		public void Recorder_SmoothedList_NamesSizesOfItsScenes_AndDirectXNeedsAControlForTheAdapter() {
+		public void Recorder_SmoothedList_NamesSizesOfItsScenes() {
 			Assert.IsTrue(LegacyRecorder.ListSmoothed.Count>=8 && LegacyRecorder.ListSmoothed.Count<=12,"About ten smoothed pictures.");
 			Assert.AreEqual(LegacyRecorder.ListSmoothed.Count,LegacyRecorder.ListSmoothed.Select(x => x.PathRelative).Distinct().Count());
 			foreach(SmoothedPicture smoothedPicture in LegacyRecorder.ListSmoothed) {
 				Assert.IsTrue(ChartScenes.GetSizes(ChartScenes.Get(smoothedPicture.SceneName)).Contains(smoothedPicture.ChartSize),smoothedPicture.PathRelative);
 			}
 			CollectionAssert.IsSubsetOf(new[] { "410x307","500x370","649x696" },LegacyRecorder.ListSmoothed.Select(x => x.ChartSize.FolderName).Distinct().ToList());
-			StaRunner.Run(() => {
-				using SparksToothChart.ToothChartWrapper wrapper=new SparksToothChart.ToothChartWrapper();
-				Assert.AreEqual("unknown (no DirectX control)",LegacyRecording.GetDirectXAdapter(wrapper));
-			});
+			//Until TC-9a this test also checked the recorder's adapter fact (GetDirectXAdapter: "unknown (no DirectX control)" on a wrapper without a
+			//DirectX chart), which went with the DirectX chart and the recording code.
 		}
 
 		[TestMethod]

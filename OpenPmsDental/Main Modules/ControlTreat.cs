@@ -1612,7 +1612,7 @@ namespace OpenPmsDental{
 			_toothChartRelay= new ToothChartRelay(false);
 			_toothChartRelay.SetToothChartWrapper(_toothChartWrapper);
 			_toothChartWrapper.Size=new Size(500,370);
-			ToothChartRelay.ApplyComputerSettings(_toothChartWrapper,ToothChartSettingsUse.StoredMode);
+			ToothChartRelay.ApplyComputerSettings(_toothChartWrapper);
 			this.Controls.Add(_toothChartWrapper);
 			_toothChartWrapper.BringToFront();
 			_toothChartRelay.SetToothNumberingNomenclature((ToothNumberingNomenclature)PrefC.GetInt(PrefName.UseInternationalToothNumbers));
@@ -1629,7 +1629,6 @@ namespace OpenPmsDental{
 			ToothChartPainter.PaintProcedures(_toothChartRelay,ToothChartPaintProc.FromProcedures(_listProceduresFiltered),_listToothInitials,
 				ToothChartPaintOptions.ForTreatPlanPrintout());
 			ToothChartPainter.PaintOrthoHardware(_toothChartRelay,OrthoHardwares.GetPatientData(PatientCur.PatNum));
-			_toothChartWrapper.AutoFinish=true;
 			_toothChartRelay.EndUpdate();
 			_bitmapToothChart=_toothChartRelay.GetBitmap();
 			Controls.Remove(_toothChartWrapper);

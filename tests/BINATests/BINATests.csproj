@@ -1,6 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <!-- Tests for package BIN-A (docs/port-notes/BIN-A.md): Open Dental's closed Suni capture driver, VBbridges.dll and Sparks3D stay removed,
-       the bridges that needed VBbridges say they are not available, and the tooth chart falls back from DirectX to OpenGL to Simple 2D. -->
+       the bridges that needed VBbridges say they are not available, and the tooth chart's old DirectX and OpenGL engines stay retired (TC-9a:
+       the WPF chart or the Simple 2D chart, docs/port-notes/TC-9a.md). -->
   <ItemGroup>
     <Reference Include="System.Windows.Forms" />
     <!-- Reads the references of built assemblies without loading them (S3a-8 of the .NET 10 move: .NET has no reflection-only load). The

@@ -242,13 +242,15 @@ namespace ToothChartImageTests {
 			}
 		}
 
-		///<summary>"log-kinds": a DirectX fallback line first (as a computer without DirectX writes one), then two WPF render failures (the render
-		///thread held past a short timeout). The WPF render failure gets its own logged-once line.</summary>
+		///<summary>"log-kinds": a fallback line of another kind first (a cursor that could not be made; until TC-9a this was a DirectX fallback line,
+		///as a computer without DirectX wrote one, a kind that went with the DirectX chart), then two WPF render failures (the render thread held past
+		///a short timeout). The WPF render failure gets its own logged-once line.</summary>
 		private static void RunLogKinds() {
 			ODBuild.IsUnitTest=true;
-			MethodInfo methodInfoLog=typeof(ToothChartWrapper).GetMethod("LogFallbackOnce",BindingFlags.NonPublic|BindingFlags.Static,null,new[] { typeof(string) },null);
-			methodInfoLog.Invoke(null,new object[] { "The DirectX tooth chart could not start (a test line). Using OpenGL." });
-			Console.WriteLine("log lines after a DirectX fallback: "+ToothChartWrapper.GetCountFallbackLinesWritten());
+			MethodInfo methodInfoLog=typeof(ToothChartWrapper).GetMethod("LogFallbackOnce",BindingFlags.NonPublic|BindingFlags.Static,null,
+				new[] { typeof(ToothChartFallbackKind),typeof(string) },null);
+			methodInfoLog.Invoke(null,new object[] { ToothChartFallbackKind.Cursor,"The pen cursor could not be made (a test line). Using the arrow." });
+			Console.WriteLine("log lines after a line of another kind: "+ToothChartWrapper.GetCountFallbackLinesWritten());
 			using(ToothChartWrapper wrapper=WpfCharts.CreateWrapper(ChartScenes.SizeModule.Size)) {
 				if(wrapper.Engine!=ToothChartEngine.Wpf3D) {
 					throw new InvalidOperationException("The chart fell back to "+wrapper.Engine+".");

@@ -99,9 +99,9 @@ namespace ToothChartImageTests {
 			Assert.IsFalse(ToothChartWrapper.IsWpfSoftwareFormat(null));
 			Assert.IsFalse(ToothChartWrapper.IsWpfSoftwareFormat(""));
 			Assert.IsFalse(ToothChartWrapper.IsWpfSoftwareFormat("0;Hardware;64;D16;X8R8G8B8;None"),"A DirectX format means the live view.");
-			//An older build reads it as a DirectX format: with no ';' it keeps its default format (O-19 (b)).
-			ToothChartDirectX.DirectXDeviceFormat directXDeviceFormat=new ToothChartDirectX.DirectXDeviceFormat(ToothChartWrapper.DirectXFormatWpfSoftware);
-			Assert.AreEqual(new ToothChartDirectX.DirectXDeviceFormat().ToString(),directXDeviceFormat.ToString());
+			//A build that still has the DirectX chart (Open Dental, or this one before TC-9a) reads it as a DirectX device format: with no ';' it keeps
+			//its default format (O-19 (b)). Until TC-9a this test parsed it with ToothChartDirectX.DirectXDeviceFormat, which gave the default format.
+			Assert.IsFalse(ToothChartWrapper.DirectXFormatWpfSoftware.Contains(";"),"The software value holds no ';', so a DirectX build reads no device format from it.");
 		}
 
 		[TestMethod]

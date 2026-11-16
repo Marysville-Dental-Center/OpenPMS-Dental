@@ -158,16 +158,13 @@ namespace OpenPmsDental {
 			InitializeComponent();
 			Font=LayoutManagerForms.FontInitial;
 			this.toothChartWrapper = new SparksToothChart.ToothChartWrapper();//these lines were causing designer to crash
-			this.toothChartWrapper.AutoFinish = false;
 			this.toothChartWrapper.ColorBackground = System.Drawing.Color.FromArgb(((int)(((byte)(150)))), ((int)(((byte)(145)))), ((int)(((byte)(152)))));
 			this.toothChartWrapper.Cursor = System.Windows.Forms.Cursors.Default;
 			this.toothChartWrapper.CursorTool = SparksToothChart.CursorTool.Pointer;
-			this.toothChartWrapper.DeviceFormat = null;
 			this.toothChartWrapper.DrawMode = OpenPmsDentalBusiness.DrawingMode.Simple2D;
 			this.toothChartWrapper.Location = new System.Drawing.Point(0, 26);
 			this.toothChartWrapper.Name = "toothChartWrapper";
 			this.toothChartWrapper.PerioMode = false;
-			this.toothChartWrapper.PreferredPixelFormatNumber = 0;
 			this.toothChartWrapper.Size = new System.Drawing.Size(410, 307);
 			this.toothChartWrapper.TabIndex = 194;
 			this.toothChartWrapper.Visible = false;
@@ -939,15 +936,6 @@ namespace OpenPmsDental {
 			}
 			try {
 				ImageStore.Import(bitmapChart,defNum,ImageType.Photo,Pd.Patient,doPrintHeading:true);
-			}
-			catch(Exception ex) when(ToothChartWrapper.IsGraphicsDeviceException(ex)) {
-				using MsgBoxCopyPaste errorMsg=new MsgBoxCopyPaste(Lan.g(this,"Failed to capture tooth chart image from graphics card. \r\n"
-					+"Please contact support to help with graphics troubleshooting:\r\n")
-					+ex.Message+"\r\n"
-					+ex.StackTrace
-				);
-				errorMsg.ShowDialog();
-				return;
 			}
 			catch(Exception ex) {
 				MessageBox.Show(Lan.g(this,"Unable to save file: ")+ex.Message);
@@ -4492,7 +4480,7 @@ namespace OpenPmsDental {
 				}
 			}
 			//The computer's chart settings: this restarts the chart's engine and saves the pixel format it chose.
-			ToothChartRelay.ApplyComputerSettings(toothChartWrapper,ToothChartSettingsUse.StoredMode);
+			ToothChartRelay.ApplyComputerSettings(toothChartWrapper);
 			if(_isModuleSelected) {
 				FillToothChart(retainSelection:true);
 			}
@@ -4565,7 +4553,7 @@ namespace OpenPmsDental {
 			_toothChartRelay.TextColorChanged+=toothChartRelay_TextColorChanged;
 			toothChartWrapper.Visible=true;
 			//Triggers ResetControls. Falls back to OpenGL, then Simple 2D.
-			ToothChartRelay.ApplyComputerSettings(toothChartWrapper,ToothChartSettingsUse.StartupMode);
+			ToothChartRelay.ApplyComputerSettings(toothChartWrapper);
 			_procStatNew=ProcStat.TP;
 			if(GetIsTPChartingAvailable()) {
 				FillListPriorities();//Mimics old ChartLayoutHelper logic
