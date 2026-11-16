@@ -63,6 +63,18 @@
   </PropertyGroup>
 
   <!--
+    The code pages (S3b-5 of the .NET 10 move): every test assembly registers CodePagesEncodingProvider before its first test, as the program
+    does first in ODInitialize.Initialize() and in every Main (tests\Shared\TestCodePages.cs). The [AssemblyInitialize] that does it comes from
+    tests\Shared\TestCodePagesAssemblySetup.cs unless the project has its own (ODOwnAssemblyInitialize), which calls TestCodePages.Register()
+    first. Not for the two projects that are no test assemblies (TopazStandIn and TestProbeHost set ODTestCodePages to false; TestProbeHost's
+    Main registers them itself).
+  -->
+  <ItemGroup Condition="'$(UsingMicrosoftNETSdk)' == 'true' and '$(ODTestCodePages)' != 'false'">
+    <Compile Include="$(MSBuildThisFileDirectory)Shared\TestCodePages.cs" Link="Shared\TestCodePages.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Shared\TestCodePagesAssemblySetup.cs" Link="Shared\TestCodePagesAssemblySetup.cs"
+      Condition="'$(ODOwnAssemblyInitialize)' != 'true'" />
+  </ItemGroup>
+  <!--
     MSTest 4 (stage 4 of the .NET 10 move, package S4-1, docs/port-notes/S4-1.md), in place of MSTest v1 from the Visual Studio folder:
     the framework (MSTest.TestFramework, with MSTest.Analyzers), its VSTest adapter (MSTest.TestAdapter, copied next to each test assembly,
     where vstest.console finds it) and the VSTest SDK (Microsoft.NET.Test.Sdk), at the versions of Directory.Packages.props.

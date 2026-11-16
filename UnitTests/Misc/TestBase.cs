@@ -86,6 +86,7 @@ namespace UnitTests {
 		/// Do this first so that the time the Initialize and ClassInitialize methods take doesn't get counted in the test times. </summary>
 		[AssemblyInitialize]
 		public static void Initialize(TestContext context) {
+			OpenPmsDentalTests.TestCodePages.Register();//the code pages first, as the program registers them (tests\Shared\TestCodePages.cs)
 			ODBuild.IsUnitTest=true;//Causes FormFriendlyException to throw rather than displaying a MessageBox.
 			ODInitialize.Initialize();
 			PdfSharpSetup.Init();//The PDF library's licence and font fallback, as OpenPmsDental sets them at start.

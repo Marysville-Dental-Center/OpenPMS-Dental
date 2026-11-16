@@ -41,6 +41,7 @@ namespace ToothChartHostTests {
 		///is drawn in software. CodeBase's logger is told it runs in a unit test, so the chart's fallback lines write no log file.</summary>
 		[AssemblyInitialize]
 		public static void AssemblyInitialize(TestContext testContext) {
+			OpenPmsDentalTests.TestCodePages.Register();//the code pages first, as the program registers them (tests\Shared\TestCodePages.cs)
 			System.Windows.Media.RenderOptions.ProcessRenderMode=System.Windows.Interop.RenderMode.SoftwareOnly;
 			ODBuild.IsUnitTest=true;
 		}

@@ -14,6 +14,8 @@
     <OutputType>Library</OutputType>
     <RootNamespace>Topaz</RootNamespace>
     <AssemblyName>TopazStandIn</AssemblyName>
+    <!-- No test assembly: no shared code-page set-up (tests/Directory.Build.props). -->
+    <ODTestCodePages>false</ODTestCodePages>
   </PropertyGroup>
   <ItemGroup>
     <!-- No test framework: tests\Directory.Build.props gives every project under tests\ the three MSTest 4 packages. -->

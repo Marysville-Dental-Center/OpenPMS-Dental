@@ -299,7 +299,9 @@ namespace S3aM1Tests {
 				Assert.AreEqual(0,typeof(OpenPmsDental.Lan).GetMethods(bindingFlags).Count(x => x.Name==name),"Lan."+name);
 			}
 			//No field or method of the three has a WinForms menu type in its signature.
+#pragma warning disable WFDEV006 //the .NET Framework menu types, kept by .NET 10 for binary compatibility only: checked for absence (S3b-5)
 			Type[] arrayTypesMenu=new[] { typeof(Menu),typeof(List<MenuItem>) };
+#pragma warning restore WFDEV006
 			Func<Type,bool> isMenuType=x => arrayTypesMenu.Any(y => y.IsAssignableFrom(x));
 			foreach(Type type in new[] { typeof(GridOD),typeof(OpenPmsDentalBusiness.UI.PopupHelper),typeof(OpenPmsDental.Lan) }) {
 				foreach(FieldInfo fieldInfo in type.GetFields(bindingFlags)) {

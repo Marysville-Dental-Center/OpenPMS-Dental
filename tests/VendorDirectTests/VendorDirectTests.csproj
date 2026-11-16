@@ -7,6 +7,10 @@
     <UseWindowsForms>true</UseWindowsForms>
     <UseWPF>true</UseWPF>
   </PropertyGroup>
+  <PropertyGroup>
+    <!-- Its own [AssemblyInitialize] registers the code pages (tests\Shared\TestCodePages.cs; S3b-5). -->
+    <ODOwnAssemblyInitialize>true</ODOwnAssemblyInitialize>
+  </PropertyGroup>
   <ItemGroup>
     <!-- MimeKit (the Microsoft 365 and Gmail tests build and read MIME messages), Newtonsoft.Json and MySqlConnector come as packages through
          the projects below. -->

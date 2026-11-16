@@ -18,6 +18,7 @@ namespace EhrTests {
 	public class AssemblySetup {
 		[AssemblyInitialize]
 		public static void Initialize(TestContext testContext) {
+			OpenPmsDentalTests.TestCodePages.Register();//the code pages first, as the program registers them (tests\Shared\TestCodePages.cs)
 			ClockGuard.Install();
 		}
 	}

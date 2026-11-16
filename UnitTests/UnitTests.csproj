@@ -26,9 +26,15 @@
     <AssemblyName>Unit Tests</AssemblyName>
     <LangVersion>7.3</LangVersion>
     <ApplicationManifest>app.manifest</ApplicationManifest>
+    <!-- Its own Main (Program.cs, the test window): on .NET the VSTest SDK would add an entry point of its own to a test exe (CS0017; S3b-5). -->
+    <GenerateProgramFile>false</GenerateProgramFile>
     <!-- The solution also builds this project as Any CPU; it compiles for x64 all the same (PlatformTarget,
          Directory.Build.Net.props), a framework-dependent test exe since S3b-5. -->
     <Platforms>AnyCPU;x86</Platforms>
+  </PropertyGroup>
+  <PropertyGroup>
+    <!-- Its own [AssemblyInitialize] registers the code pages (tests\Shared\TestCodePages.cs; S3b-5). -->
+    <ODOwnAssemblyInitialize>true</ODOwnAssemblyInitialize>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Health.Direct.Common, Version=1.2.0.8, Culture=neutral, processorArchitecture=MSIL">

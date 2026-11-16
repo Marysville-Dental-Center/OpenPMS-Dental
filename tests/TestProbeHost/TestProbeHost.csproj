@@ -14,6 +14,8 @@
     <!-- The Windows Desktop framework in TestProbeHost.runtimeconfig.json: the handlers it loads (MiddleTierMockTests' HostSeamProbe, through
          the business library) need Windows Forms and WPF. -->
     <UseWindowsForms>true</UseWindowsForms>
+    <!-- No test assembly: no shared code-page set-up (tests/Directory.Build.props). -->
+    <ODTestCodePages>false</ODTestCodePages>
   </PropertyGroup>
   <ItemGroup>
     <!-- No test framework: tests\Directory.Build.props gives every project under tests\ the three MSTest 4 packages. -->

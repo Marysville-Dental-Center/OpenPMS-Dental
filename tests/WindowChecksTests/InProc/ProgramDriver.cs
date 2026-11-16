@@ -86,8 +86,11 @@ namespace WindowChecksTests.InProc {
 		///patched.</summary>
 		public string PatchProcessIdentity(string exePath) {
 			List<string> listPatched=new List<string>();
-			FieldInfo fieldStartupPath=typeof(Application).GetField("startupPath",BindingFlags.NonPublic|BindingFlags.Static);
-			FieldInfo fieldExecutablePath=typeof(Application).GetField("executablePath",BindingFlags.NonPublic|BindingFlags.Static);
+			//The fields' names on .NET Framework (startupPath, executablePath) and on .NET (s_startupPath, s_executablePath).
+			FieldInfo fieldStartupPath=typeof(Application).GetField("startupPath",BindingFlags.NonPublic|BindingFlags.Static)
+				??typeof(Application).GetField("s_startupPath",BindingFlags.NonPublic|BindingFlags.Static);
+			FieldInfo fieldExecutablePath=typeof(Application).GetField("executablePath",BindingFlags.NonPublic|BindingFlags.Static)
+				??typeof(Application).GetField("s_executablePath",BindingFlags.NonPublic|BindingFlags.Static);
 			if(fieldStartupPath!=null) {
 				fieldStartupPath.SetValue(null,Path.GetDirectoryName(exePath));
 				listPatched.Add("Application.StartupPath");
@@ -97,16 +100,16 @@ namespace WindowChecksTests.InProc {
 				listPatched.Add("Application.ExecutablePath");
 			}
 			Assembly assemblyExe=Assembly.Load("OpenPmsDental");
-			AppDomainManager appDomainManager=new AppDomainManager();
-			FieldInfo fieldEntry=typeof(AppDomainManager).GetField("m_entryAssembly",BindingFlags.NonPublic|BindingFlags.Instance);
-			FieldInfo fieldManager=typeof(AppDomain).GetField("_domainManager",BindingFlags.NonPublic|BindingFlags.Instance);
-			if(fieldEntry!=null && fieldManager!=null && AppDomain.CurrentDomain.DomainManager==null) {
-				fieldEntry.SetValue(appDomainManager,assemblyExe);
-				fieldManager.SetValue(AppDomain.CurrentDomain,appDomainManager);
+			//.NET has no AppDomainManager to patch (the .NET Framework way, before S3b-5); Assembly.SetEntryAssembly (.NET 9 and later) sets what
+			//Assembly.GetEntryAssembly returns.
+			if(Assembly.GetEntryAssembly()!=assemblyExe) {
+				Assembly.SetEntryAssembly(assemblyExe);
 				listPatched.Add("Assembly.GetEntryAssembly");
 			}
+			//The application config: on .NET, System.Configuration reads APP_CONFIG_FILE when the host set it, else the entry assembly's .dll.config.
+			string config=AppContext.GetData("APP_CONFIG_FILE") as string;
 			return string.Join(", ",listPatched)+"; OpenPmsDental loaded from "+assemblyExe.Location+"; config "
-				+AppDomain.CurrentDomain.SetupInformation.ConfigurationFile;
+				+(config??(assemblyExe.Location+".config"));
 		}
 
 		///<summary>Starts the main window with the command line, as ProgramEntry.Main does, and waits until it is shown and the user is logged on.

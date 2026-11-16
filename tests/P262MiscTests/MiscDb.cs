@@ -38,6 +38,7 @@ namespace P262MiscTests {
 
 		[AssemblyInitialize]
 		public static void AssemblyInitialize(TestContext testContext) {
+			OpenPmsDentalTests.TestCodePages.Register();//the code pages first, as the program registers them (tests\Shared\TestCodePages.cs)
 			Thread.CurrentThread.CurrentCulture=new CultureInfo("en-US");
 			SkipReason=GetSkipReason();
 			if(SkipReason!=null) {

@@ -27,6 +27,9 @@ namespace TestProbeHost {
 		///With RUN_ONCE first: RUN_ONCE, the assembly file, the type, then the entry method's arguments (see RunOnce).</summary>
 		[MTAThread]
 		public static int Main(string[] args) {
+			//The code pages, as the program registers them first (ODInitialize, S3b-2): .NET has only the Unicode encodings, ASCII and Latin-1
+			//built in, and the probes run the libraries' code (S3b-5).
+			Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 			if(args.Length>0 && args[0]==RUN_ONCE) {
 				return RunOnce(args.Skip(1).ToArray());
 			}

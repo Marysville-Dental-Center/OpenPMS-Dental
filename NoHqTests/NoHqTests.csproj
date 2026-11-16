@@ -56,6 +56,9 @@
     <Compile Include="..\tests\ProjectFileTests\ProgramAssembly.cs">
       <Link>ProgramAssembly.cs</Link>
     </Compile>
+    <!-- The code pages before the first test, as tests\Directory.Build.props gives every test project (S3b-5). -->
+    <Compile Include="..\tests\Shared\TestCodePages.cs" Link="Shared\TestCodePages.cs" />
+    <Compile Include="..\tests\Shared\TestCodePagesAssemblySetup.cs" Link="Shared\TestCodePagesAssemblySetup.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CodeBase\xCodeBase.csproj" />

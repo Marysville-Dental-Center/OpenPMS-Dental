@@ -13,6 +13,10 @@
     <UseWindowsForms>true</UseWindowsForms>
     <UseWPF>true</UseWPF>
   </PropertyGroup>
+  <PropertyGroup>
+    <!-- Its own [AssemblyInitialize] registers the code pages (tests\Shared\TestCodePages.cs; S3b-5). -->
+    <ODOwnAssemblyInitialize>true</ODOwnAssemblyInitialize>
+  </PropertyGroup>
   <ItemGroup>
     <!-- Reads a built assembly's identity and attributes without loading it (AssemblyProbe; S3a-8b of the .NET 10 move: .NET has no
          reflection-only load). The NuGet package, from the offline package folder (nuget.config), at the version of

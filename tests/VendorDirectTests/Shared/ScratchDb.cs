@@ -73,6 +73,7 @@ namespace VendorDirectTests {
 	public class ScratchDbAssemblySetup {
 		[AssemblyInitialize]
 		public static void AssemblyInitialize(TestContext testContext) {
+			OpenPmsDentalTests.TestCodePages.Register();//the code pages first, as the program registers them (tests\Shared\TestCodePages.cs)
 			if(Environment.GetEnvironmentVariable("VENDORDIRECT_TEST_DB")=="skip") {
 				return;
 			}

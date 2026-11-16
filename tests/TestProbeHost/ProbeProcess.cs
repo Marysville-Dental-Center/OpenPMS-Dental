@@ -287,6 +287,7 @@ namespace TestProbeHost {
 			//apphost, which starts TestProbeHost.dll with TestProbeHost.runtimeconfig.json from its own folder whatever the copy is named (S3b-6).
 			string pathHost=Path.ChangeExtension(typeof(ProbeProcess).Assembly.Location,".exe");
 			string pathExe=Path.Combine(folderBase,COPY_PREFIX+Guid.NewGuid().ToString("N").Substring(0,COPY_HEX_LENGTH)+".exe");
+			CopyHostFiles(Path.GetDirectoryName(pathHost),folderBase);
 			File.Copy(pathHost,pathExe);
 			//File.Copy keeps the source's last write time; the creation time says when this copy was made, which DeleteStaleCopies reads.
 			File.SetCreationTimeUtc(pathExe,DateTime.UtcNow);
@@ -294,6 +295,29 @@ namespace TestProbeHost {
 				File.WriteAllText(pathExe+".config",configText,new UTF8Encoding(false));
 			}
 			return pathExe;
+		}
+
+		///<summary>The files the apphost needs beside it, which a folder other than the host's own does not have (S3b-5, S3b-6's handoff): the
+		///host's assembly TestProbeHost.dll, which the apphost starts whatever its copy is named, with TestProbeHost.runtimeconfig.json (the
+		///frameworks) and TestProbeHost.deps.json. Copied when missing or different (Helper32Tests' helper folder, the probe folders of
+		///VendorDirectTests and ReleaseFlowTests); left there afterwards, as another probe may run from the same folder. On .NET Framework the copy
+		///of the exe was enough, and its .exe.config the probe's config: on .NET a config's binding redirects mean nothing, so a caller's config
+		///text only lands as a file beside the copy.</summary>
+		private static void CopyHostFiles(string folderHost,string folderBase) {
+			if(string.Equals(Path.GetFullPath(folderHost).TrimEnd('\\'),Path.GetFullPath(folderBase).TrimEnd('\\'),StringComparison.OrdinalIgnoreCase)) {
+				return;
+			}
+			foreach(string fileName in new[] { "TestProbeHost.dll","TestProbeHost.runtimeconfig.json","TestProbeHost.deps.json" }) {
+				string pathSource=Path.Combine(folderHost,fileName);
+				string pathTarget=Path.Combine(folderBase,fileName);
+				if(!File.Exists(pathSource)) {
+					throw new FileNotFoundException("TestProbeHost's "+fileName+" is not beside it.",pathSource);
+				}
+				if(File.Exists(pathTarget) && File.ReadAllBytes(pathTarget).SequenceEqual(File.ReadAllBytes(pathSource))) {
+					continue;
+				}
+				File.Copy(pathSource,pathTarget,true);
+			}
 		}
 
 		private const string COPY_PREFIX="TestProbeHost-";
