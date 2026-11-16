@@ -10,6 +10,8 @@ process), and printed with PrintWindow, DrawToBitmap or RenderTargetBitmap. Noth
   folder (default `%TEMP%\stage1-windows-headless`); `OPMS_WINDOW_CHECKS_BUDGET_MINUTES` (default 15) is the run's time budget (WINCHK-3).
 - The harness writes `REPORT.md` itself at the end of every run (AssemblyCleanup, after Z), from `results.tsv` in the results folder.
 - Merged on main as 1173acc6a (WINCHK-HEADLESS, two review rounds). The review notes left over from both rounds are done in WINCHK-3 below.
+- Each run's copy is brought to this build's fork schema level before any check starts the program, and RdlDesigner's menu is reached
+  through its MenuStrip (WINCHK-4 below).
 
 ## WINCHK-3: the review notes of both rounds
 
@@ -144,3 +146,107 @@ All runs used this worktree's own Debug build, `winchk_` copies on 127.0.0.1:330
   NullReferenceException", as the session was locked. Without the opt-in: 29 skipped, none failing. The unlocked branch (GetBitmap throwing
   in a session that can draw is a failure) could not be run here, as every session of this package was locked; it needs a run at an
   unlocked screen.
+
+## WINCHK-4: the copy at this build's fork schema level, RdlDesigner's MenuStrip
+
+Branch `winchk/w4-1`. The stage 3a gate run (lead, 2026-11-15, main 43fc52af1) failed for two reasons that were the harness's, not the
+program's. Both are fixed in the harness; the dump, the database it was made from and the program are unchanged.
+
+### 1. The scratch copy is migrated before any check starts the program
+
+The gate's dump predates EHR-2's fork step 2026111401 (`EhrSteps.cs`, the `ehrcode` table): its copy was at fork schema level 2026110801, so
+the program's start-up asked "The database will now be updated from schema level 2026110801 to 2026111401" (A1 failed on that message box,
+and every in-process start of F1 to F4 and I1 to I7 timed out waiting for the main window behind it).
+
+- `Harness/CopyMigration.cs`: right after `ScratchDb` restores the dump into its `winchk_` copy, the copy is brought to this build's fork
+  schema level with the program's own code, as start-up runs it (`PrefL.RunForkMigrations`) but without its prompt: the business layer of
+  the test process is connected to the copy (127.0.0.1:3306, the name must start with `winchk_`, and `SELECT DATABASE()` must name it before
+  anything is written), `ForkVersionGuard.Evaluate` decides from the copy's markers, and `ForkMigrationHandOff.Runner.RunPending` runs the
+  pending steps (the runner's log goes into run.log). The guard is asked again afterwards; nothing may be pending.
+- P0 records the line: "Fork schema level: migrated the copy from 2026110801 to 2026111401: steps 2026111401 ..." or "already at <level>".
+- When the copy cannot be brought there, P0 fails with the reason and no check runs (the program is never started on that copy, so no
+  prompt is ever shown): a dump older than the adoption point (no fork markers: the guard says ProceedCompat or NeedsAdoption), one a newer
+  build updated (NeedsNewerBuild), inconsistent markers (Refuse), a step that throws (the step left in progress is named), or a step still
+  pending afterwards. The copy is dropped at once; the first check test of the run fails with P0's reason, the others are Inconclusive
+  ("Not run: P0 failed"), and REPORT.md is still written.
+
+### 2. H1 and H2 choose RdlDesigner's menu items through its MenuStrip
+
+S3a-M3a turned RdlDesigner's WinForms MainMenu into a MenuStrip. A MenuStrip has no native HMENU, so the Win32 `GetMenu` lookup H1 and H2
+used (`Native.FindMenuCommand`, then WM_COMMAND) found nothing: "View > RDL Text is in the menu bar" and "View > Preview is in the menu
+bar" failed.
+
+- `Uia.ChooseMenuStripItem` (RdlDesigner runs out of process, so UI Automation): the menu bar among the window's children whose items hold
+  the path's first text, the menu expanded (ExpandCollapsePattern: the drop-down shows and its DropDownOpening runs, as when a person opens
+  it, so RdlDesigner's `menuView_Popup` sets the items' Enabled states), the item found by its text (ampersands and a tab's shortcut text
+  ignored), checked enabled, and invoked (InvokePattern, the item's PerformClick; no SendInput, as the other out-of-process clicks). A menu
+  left open is collapsed again. Every UI Automation call has a timeout; an Invoke whose Click shows a modal window counts as chosen after
+  10 s. H1 and H2 report the strip's texts as evidence when an item is absent.
+- `Native`'s classic-menu region (GetMenu, FindMenuCommand, PostMenuCommand) is removed: nothing else used it.
+- The other checks were searched for a MainMenu, ContextMenu, MenuItems or GetMenu lookup that S3a-M1, M2 or M3 made stale: none. Every
+  in-process check reaches the program's menus as ToolStripMenuItems (`InProcChecks.GetMenuItem`); J15 reads the Send button's
+  `ContextMenuStripDropDown` (changed in S3a-M3) and keeps a `ContextMenu` branch for a control that still has one, which finds nothing
+  and fails nothing. K1 (CentralManager, whose main menu S3a-M3a also moved to a MenuStrip) uses no menu.
+
+### Self-tests (no program start, no opt-in)
+
+`HarnessMigrationMenuTests` (WindowChecksTests):
+
+- `CopyMigration_MigratesAnOlderCopy_RefusesUnadoptedAndNewer`: planted databases `winchk_selftest_<12 hex>` on 127.0.0.1 that hold only
+  the preference table. An adopted copy with every step but 2026111401 applied (as the gate's dump was) is migrated: exactly that step runs,
+  `ehrcode` exists, every level of the build is applied, `ForkSchemaLevel` is the build's latest, nothing is left in progress, and the line
+  names both levels and the step; a second run says "already at". With an applied level this build does not have it is refused
+  (NeedsNewerBuild) and left unchanged; a 24.3.63 database without fork markers is refused as older than the adoption point, and no row
+  and no table is added. A name without `winchk_` is refused before any connection. Both databases are dropped (the name never matches a
+  run's copy, `winchk_` and ten digits, so `DropLeftovers` never takes it).
+- `MenuStripLookup_ChoosesItemsByText`: a MenuStrip laid out as RdlDesigner's (File; View > Designer, RDL Text, Preview, Properties...,
+  with their shortcuts and a DropDownOpening handler that sets Preview's Enabled state) on a form built in the test process on a thread of
+  its own, off every screen, never activated and not in the taskbar; its drop-downs are fully transparent while they show (a drop-down is
+  moved onto the nearest screen). View > RDL Text is found, its menu opened (the handler ran), its Click run once and the menu closed
+  again; a disabled Preview is found, reported disabled and not clicked; an absent item and an absent menu are reported with the texts
+  that are there.
+
+### Runs
+
+Worktree build of cb7dcfdf9 (the code as committed; only this section was added after): the full Debug lane build (0 errors) and a Release
+lane build of the worktree (`-Configuration Release`, 0 errors) for A7 to A9; the gate's dump `.git/od-tools/winchk-gate3a/opendental_dev.sql`,
+`OPMS_WINDOW_CHECKS_BUDGET_MINUTES=18`, one Targeted run per group set with `-RequireBuildOutput`, WindowChecksTests and NoHqTests (112 passed
+every time). Every session was "remote desktop, unlocked, WPF renders". Each run's copy was migrated from 2026110801 to 2026111401 (step
+2026111401, 1.4 to 1.8 s) and dropped (run.log; `SHOW DATABASES LIKE 'winchk%'` empty afterwards).
+
+| Run | Groups | Results folder (REPORT.md) | WindowChecksTests | Time |
+|---|---|---|---|---|
+| winchk4-1 | A, B, C, D, E | `%TEMP%\winchk4-1` | 1 failed (A9, see below) | 284 s |
+| winchk4-2 | F, G, H | `%TEMP%\winchk4-2` | passed, none failing | 126 s |
+| winchk4-3 | I, J, K | `%TEMP%\winchk4-3` | passed, none failing | 465 s |
+| winchk4-4 | A, B, C, D, E | `%TEMP%\winchk4-4` | passed, none failing | 284 s |
+
+Run winchk4-1 used a copy of main's Release folder (`OPMS_WINDOW_CHECKS_RELEASE`), as this worktree had no Release build yet. A9 then
+failed on that set-up only: it compares the Release `UpdateFileCopier.exe` with the worktree's own `UpdateFileCopier\bin\Release`, which did
+not exist. After the worktree's own Release lane build, run winchk4-4 repeated the same groups on `<rel>` (no override): A9 PARTLY, as at the
+gate. Neither is a program defect.
+
+Each check's status (P0 and Z PASSED in every run; A from winchk4-4):
+
+| Check | Status | Check | Status | Check | Status | Check | Status |
+|---|---|---|---|---|---|---|---|
+| A1 | PARTLY (failed at the gate) | B6 | PARTLY | D3 | PARTLY | I4 | PASSED (failed at the gate) |
+| A2 | PASSED | B7 | PASSED | D4 | PASSED | I5 | PARTLY (failed at the gate) |
+| A3 | PASSED | C1 to C14 | PASSED | D5 | PASSED | I6 | PASSED (failed at the gate) |
+| A4 | PASSED | C15 | PARTLY | E1 to E4 | PARTLY | I7 | PARTLY (failed at the gate) |
+| A5 | PARTLY | D1 | PASSED | F1 | PARTLY (failed at the gate) | I8 | PARTLY |
+| A6 | PASSED | D2 | PASSED | F2 to F4 | PASSED (failed at the gate) | I9 | SKIPPED |
+| A7 | PASSED | G1 | PARTLY | H1 | PARTLY (failed at the gate) | I10 | PASSED (failed at the gate) |
+| A8 | PASSED | G2 | PASSED | H2 | PARTLY (failed at the gate) | I11 | PASSED |
+| A9 | PARTLY | I1 | PARTLY (failed at the gate) | J1 to J17 | PASSED | K1, K4 to K6, K8, K10 | PASSED |
+| B1 | PARTLY | I2 | PARTLY (failed at the gate) | K2 | PARTLY | K3, K7, K9 | SKIPPED |
+| B2 to B5 | PASSED | I3 | PARTLY (failed at the gate) | | | | |
+
+No check FAILED. The PARTLY items are the ones for a person that were already there (pictures to compare with stage 0, H1's mouse work on
+the design surface, H2's preview messages that RdlViewer draws itself, and so on); H1's and H2's menu steps are all verified now
+("View > RDL Text is in the menu bar (the MenuStrip's items: System, File, Edit, View, Data, Format, Tools, Window, Help / Designer, RDL
+Text, Preview, Show Report in Browser, Properties...)", "is enabled (after its menu opened)", "chosen", then the XML in the editor and the
+preview). "System" is the maximized MDI child's own menu, which WinForms merges into the strip. The counts of the reports: winchk4-2
+PASSED 4, PARTLY 4; winchk4-3 PASSED 27, PARTLY 7, SKIPPED 4; winchk4-4 PASSED 29, PARTLY 11.
+
+Without `OPMS_WINDOW_CHECKS`: WindowChecksTests 34 tests, 5 passed (the harness self-tests), 29 skipped (Inconclusive), none failing.
