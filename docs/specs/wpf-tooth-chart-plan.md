@@ -462,7 +462,7 @@ the owner revised it on 2026-11-15 (the parity rows ENG-1 to NEW-1 below were no
   program on a `tc8_` scratch database, with 9 new baselines; no existing baseline changed. The Chart module and the classic Treatment Plan
   document are L-7's. `tests/WindowChecksTests` still expects the DirectX chart and needs the lead's rewrite.
 
-**TC-9a (2026-11-15, branch `chart/tc9a-1` from `chart/tc8-2`; merges right after TC-8): the old engines' code retired. Done on the branch.**
+**TC-9a (2026-11-15, branch `chart/tc9a-1` from `chart/tc8-2`, fixes on `chart/tc9a-3`): the old engines' code retired. Merged from `chart/tc9a-3`.**
 `docs/port-notes/TC-9a.md` has the details and launch check L-8 (TC-9a's part) written for a person. In short, under O-26 as the owner revised
 it on 2026-11-15 and O-32:
 - Deleted as the row writes: `ToothChartDirectX.*`, `ToothChartOpenGL.*`, `CodeBase/Controls/OpenGLWinFormsControl.cs` (`xCodeBase.csproj`
