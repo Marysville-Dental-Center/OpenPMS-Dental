@@ -1040,7 +1040,9 @@ sheets and the dashboard (TC-1's gallery G0, `timings.txt`). TC-3's fix round fo
 - **O-29. The business layer's chart image** (BIN-A 2, `owner-questions.md:254`; `ToothChartHelper.cs:195-212`). **Recommended:** keep
   the placeholder. The paths are unshipped and their entry methods have no callers in the repository. The renderer sits above the
   business library, and moving it below is a later package if those paths ship.
-- **O-30. Computers saved as Simple 2D.** Such a computer is often set by Setup > Computers, "Use Simple Graphics"
+- **O-30. Computers saved as Simple 2D.** *Revised by the owner on 2026-11-15 ("Match Open Dental 26.2" for File > Graphics): parity
+  rows ENG-1, ENG-2, ENG-3, ENG-5 and NEW-1 are confirmed and built in TC-8b after TC-9a, which also revises O-31 and O-34 (b1). The text
+  below is the earlier answer, kept as history.* Such a computer is often set by Setup > Computers, "Use Simple Graphics"
   (`FormComputers.cs:53-62`, `ComputerPrefs.cs:205-211`), after a DirectX crash. The scope says the new chart "becomes everyone's chart".
   - **Recommended:** keep them on 2D, with no data change, so a rollback is safe. The release notes say how to switch, and the owner can
     switch a computer from Setup > Computers.

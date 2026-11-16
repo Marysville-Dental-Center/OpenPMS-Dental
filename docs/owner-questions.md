@@ -741,12 +741,19 @@ of 2026-11-08: "1. As recommended 2. Ship dlls we need. Use Helix. It's decided.
   section "Open Dental parity (2026-11-14)". So O-20 (on by default; the tooth hidden with a thin X, as Open Dental's 26.2 screenshot
   shows; no other exceptions), O-21 (TextBelow in a one-line box under the date slider, not in the tooth picture) and O-22 (paint text
   beyond the root tip, in the W band) changed.
+- **S3a-11, the elevated installer test (run on 2026-11-15 by you):** 97 checks passed, 0 failed, exit code 0 on the build PC; your 0.0
+  installation's Apps entry and Event Log source were written back and its shortcuts are unchanged. Nothing more is asked here; you run
+  the same line again at each stage gate.
 - **Gallery G4, TC-8's part (answered on 2026-11-15: "Approve TC-8").** Every host on the WPF chart, File > Graphics with "3D chart",
   "Simple 2D chart", "Draw in software" and a live preview, graphical perio on every computer, Simple 2D computers kept on 2D. TC-8 merged.
-  **Still open (not answered; nothing waits on it):** File > Graphics on Open Dental 26.2's layout (parity rows ENG-1 to NEW-1 of the chart
-  plan: an office-wide 3D setting, per-computer "use the office setting / use if available / do not use", an "older technology" group).
-  It would change three earlier answers (the smoothed picture as the on-screen default, Simple 2D computers moved to 3D, graphical perio
-  refused on 2D computers). Recommended and kept: TC-8's version; Open Dental's layout would be a later package.
+  **File > Graphics on Open Dental 26.2's layout: your decision (2026-11-15): "Match Open Dental 26.2".** Package TC-8b builds the
+  parity rows ENG-1, ENG-2, ENG-3, ENG-5 and NEW-1 of the chart plan after TC-9a: an office-wide "3D tooth chart on all computers"
+  setting, per computer "Use the global setting / Use if available / Do not use", a status line, Simple 2D in an "older technology"
+  group; Open Dental's stored `DirectX11ToothChartUseIfAvail` and `computerpref.GraphicsUseDirectX11` reused (no schema change; this
+  answers BIN-A 5: keep them); the smoothed picture as the on-screen default with the live view kept as a per-computer option; graphical
+  perio refused on a 2D computer with a message naming File > Graphics. This revises your earlier answers to O-30, O-31 and O-34 (b1),
+  kept below as history. ENG-6 (whether Setup > Computers' "Use Simple Graphics" also sets "Do not use") is built as the closest
+  documented reading and listed as unconfirmed. TC-8b's gallery comes before it merges.
 - **Gallery G2 part 2, TC-6 (answered on 2026-11-15: "TC-6 approved").** Ortho mode with the facial rows only, brackets with a slot,
   thin wires and elastics, root-only retained roots and flat space-maintainer bars, as Open Dental shows them, are approved. TC-6
   merged. Its build folder is named G5; the page called it G2 part 2, and the later 3b gallery keeps the name G5.
