@@ -48,6 +48,12 @@ namespace OpenPmsDentalDbSettings {
 					}
 				}
 				else {
+					//The byte constructor of net48 loaded a .pfx without a password, key included, and the private key check below refused it.
+					//LoadCertificate throws on any PKCS#12 blob, so the .pfx is recognized here to keep that message.
+					if(X509Certificate2.GetCertContentType(arrayBytes)==X509ContentType.Pkcs12) {
+						throw new DbSettingsException(DbSettingsRunner.EXIT_BAD_VALUE,"The office CA certificate file "+path+" holds a private key "
+							+"(a .pfx). Give only the certificate (ca.pem), never the CA's key.");
+					}
 					listCertificates.Add(X509CertificateLoader.LoadCertificate(arrayBytes));//DER
 				}
 			}

@@ -224,6 +224,11 @@ namespace DataConnectionBase {
 					}
 				}
 				else {
+					//LoadCertificate throws on any PKCS#12 blob; a .pfx gets the same guidance as in the DbSettings tool.
+					if(X509Certificate2.GetCertContentType(arrayBytes)==X509ContentType.Pkcs12) {
+						return "the office CA certificate file "+caPath+" holds a private key (a .pfx); give only the certificate (ca.pem), never "
+							+"the CA's key";
+					}
 					listCa.Add(X509CertificateLoader.LoadCertificate(arrayBytes));
 				}
 			}
