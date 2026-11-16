@@ -493,7 +493,7 @@ short, under O-26 as the owner revised it on 2026-11-15 (no DirectX ships after 
 - Release dry run (`-SkipInstaller`): exit 0, 0 build errors, 86 files staged, none of the five. L-8's install over the previous release is
   the person's (TC-9b.md section 6).
 
-**TC-10 (2026-11-15, branch `chart/tc10-1` from `main` at `e4d345d72`): the WPF chart on x64, in S3a-15's place.** `docs/port-notes/TC-10.md`
+**TC-10 (2026-11-15, branch `chart/tc10-1` from `main` at `e4d345d72`): the WPF chart on x64, in S3a-15's place. Merged from `chart/tc10-1`.** `docs/port-notes/TC-10.md`
 has the details. In short:
 - The blocker TC-9a found: `tests/TestProbeHost` (an exe) now restores `win-x86;win-x64` (`RuntimeIdentifiers`, and the empty win-x64 target
   in its lock file), so the lane's x64 test build of ToothChartImageTests gets past NETSDK1047; the lane and the x86 build are unchanged.
