@@ -27,6 +27,8 @@ param(
 $ErrorActionPreference='Stop'
 if([Environment]::Is64BitProcess){ throw 'Run this in the 32-bit Windows PowerShell 5.1 (SysWOW64).' }
 if($PSVersionTable.PSVersion.Major -ne 5 -or $PSVersionTable.CLRVersion.Major -ne 4){ throw 'Run this in Windows PowerShell 5.1 (.NET Framework 4).' }
+# The records are in en-US (the culture the .NET 10 tests set): numbers are written in the current culture.
+if([System.Threading.Thread]::CurrentThread.CurrentCulture.Name -ne 'en-US'){ throw 'Run this with the culture en-US (the records were made in en-US).' }
 $RdlEngine=(Resolve-Path -LiteralPath $RdlEngine).Path
 $MySqlConnector=(Resolve-Path -LiteralPath $MySqlConnector).Path
 if((Split-Path -Leaf $MySqlConnector) -ne 'MySqlConnector.dll'){ throw '-MySqlConnector names MySqlConnector.dll.' }
