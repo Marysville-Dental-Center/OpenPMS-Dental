@@ -6,13 +6,16 @@
     resource names.
   -->
   <PropertyGroup>
-    <TargetFramework>net48</TargetFramework>
     <OutputType>Library</OutputType>
     <RootNamespace>OpenPmsDentalGraph</RootNamespace>
     <AssemblyName>OpenPmsDentalGraph</AssemblyName>
     <LangVersion>8.0</LangVersion>
     <Platforms>AnyCPU;x86</Platforms>
     <WarningLevel>3</WarningLevel>
+    <!-- net10.0-windows x64 from Directory.Build.props and Directory.Build.Net.props (stage 3b, S3b-3 of docs/specs/net10-plan.md). Windows
+         Forms; nothing here uses WPF (the classic project's PresentationCore and WindowsBase references were unused; CodeBase's framework
+         reference brings WPF anyway). -->
+    <UseWindowsForms>true</UseWindowsForms>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugType>full</DebugType>
@@ -24,18 +27,10 @@
     <PackageReference Include="MySqlConnector" />
     <!-- Newtonsoft.Json, the version of Directory.Packages.props. -->
     <PackageReference Include="Newtonsoft.Json" />
-    <Reference Include="PresentationCore" />
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Windows.Forms.DataVisualization" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
-    <Reference Include="WindowsBase" />
+    <!-- The charts of the dashboard and the graphs: System.Windows.Forms.DataVisualization, part of .NET Framework, is not part of .NET; the
+         community port WinForms.DataVisualization (MIT, the same namespace and types; decision 10 of the plan), the version of
+         Directory.Packages.props. The other .NET Framework references are part of the .NET 10 shared frameworks. -->
+    <PackageReference Include="WinForms.DataVisualization" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\third-party\build\PdfSharp-gdi\PdfSharp-gdi.csproj" />

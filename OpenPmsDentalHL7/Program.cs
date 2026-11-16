@@ -14,6 +14,9 @@ namespace OpenPmsDentalHL7 {
 		/// The main entry point for the application.
 		/// </summary>
 		static void Main(string[] args) {
+			//First: the Windows code pages for Encoding.GetEncoding (.NET has only the Unicode encodings, ASCII and Latin-1 built in). This
+			//program does not call ODInitialize.Initialize, which registers them for the others (S3b-3 of the .NET 10 plan).
+			System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
 			if(ODBuild.IsDebug()) {
 				Application.EnableVisualStyles();
 				Application.SetCompatibleTextRenderingDefault(false);
