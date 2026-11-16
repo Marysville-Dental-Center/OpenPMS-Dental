@@ -76,6 +76,14 @@ namespace ProjectFileTests {
 				Assert.AreEqual("en",projectFile.GetProperty("SatelliteResourceLanguages"));
 				Assert.AreEqual("false",projectFile.GetProperty("PublishTrimmed"));
 				Assert.AreEqual("8.0",projectFile.GetProperty("LangVersion"),"The project's own.");
+				//What the SDK computes for a .NET exe (the evaluator since S3b-1): the managed assembly is Program.dll, the apphost Program.exe.
+				Assert.AreEqual(".dll",projectFile.GetProperty("TargetExt"));
+				Assert.AreEqual("Program.dll",projectFile.GetProperty("TargetFileName"));
+				Assert.AreEqual("true",projectFile.GetProperty("UseAppHost"));
+				Assert.AreEqual(".exe",projectFile.GetProperty("_NativeExecutableExtension"));
+				Assert.AreEqual("true",projectFile.GetProperty("GenerateRuntimeConfigurationFiles"));
+				Assert.AreEqual("true",projectFile.GetProperty("GenerateResourceUsePreserializedResources"));
+				Assert.AreEqual("true",projectFile.GetProperty("NoStdLib"));
 				CollectionAssert.AreEqual(new[] { "System.Globalization.UseNls=true" },HostOptions(projectFile),"Decision 4.");
 				//The SDK writes only its two platform attributes; AssemblyInfo.cs and SharedAssemblyInfo.cs keep the rest.
 				Assert.AreEqual("true",projectFile.GetProperty("GenerateAssemblyInfo"));
@@ -103,6 +111,9 @@ namespace ProjectFileTests {
 				Assert.AreEqual("x64",projectFile.GetProperty("PlatformTarget"));
 				Assert.AreEqual("",projectFile.GetProperty("SelfContained"));
 				Assert.IsFalse(projectFile.IsPropertyKnown("RuntimeIdentifier"),"None set; the SDK's inference is not modelled (MSBuild: '').");
+				Assert.AreEqual(".dll",projectFile.GetProperty("TargetExt"));
+				Assert.AreEqual("",projectFile.GetProperty("GenerateRuntimeConfigurationFiles"),"No runtime output.");
+				Assert.AreEqual("",projectFile.GetProperty("_NativeExecutableExtension"));
 				Assert.AreEqual(0,HostOptions(projectFile).Count);
 				Assert.AreEqual("true",projectFile.GetProperty("GenerateAssemblyInfo"));
 				Assert.AreEqual(@"bin\Debug\",projectFile.GetProperty("OutputPath"));
@@ -141,6 +152,7 @@ namespace ProjectFileTests {
 				Assert.AreEqual("x64",projectFile.GetProperty("PlatformTarget"));
 				Assert.AreEqual("win-x64",projectFile.GetProperty("RuntimeIdentifier"));
 				Assert.AreEqual("false",projectFile.GetProperty("SelfContained"),"Runs on the build PC's machine-wide x64 runtime.");
+				Assert.AreEqual(".exe",projectFile.GetProperty("_NativeExecutableExtension"),"From its runtime identifier (Microsoft.NET.Sdk.Shared.targets).");
 				CollectionAssert.AreEqual(new[] { "System.Globalization.UseNls=true" },HostOptions(projectFile));
 				Assert.AreEqual("",projectFile.GetProperty("AutoGenerateBindingRedirects"));
 				Assert.AreEqual("",projectFile.GetProperty("GenerateBindingRedirectsOutputType"));
@@ -163,6 +175,8 @@ namespace ProjectFileTests {
 				Assert.AreEqual(0,HostOptions(projectFile).Count);
 				Assert.IsFalse(projectFile.GetProperty("WarningsAsErrors").Split(';').Contains("WFDEV006"));
 				Assert.AreEqual("true",projectFile.GetProperty("AutoGenerateBindingRedirects"),"The SDK's default for a .NET Framework exe.");
+				Assert.AreEqual(".exe",projectFile.GetProperty("TargetExt"));
+				Assert.AreEqual("",projectFile.GetProperty("NoStdLib"));
 				Assert.AreEqual(@"bin\Debug\",projectFile.GetProperty("OutputPath"));
 			}
 		}

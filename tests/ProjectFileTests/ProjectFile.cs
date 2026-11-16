@@ -1291,6 +1291,7 @@ namespace ProjectFileTests {
 			//The flag that packages with analyzers for several Roslyn versions read (System.Text.Json's and Microsoft.Extensions.Logging.Abstractions'
 			//build files): always true.
 			_dictProperties["SupportsRoslynComponentVersioning"]="true";
+			ApplySdkTargetsNetProperties();
 			//Microsoft.PackageDependencyResolution.targets lines 31-42. A name these lines read that is not known (the target framework,
 			//HasRuntimeOutput, EnableDynamicLoading: an environment variable no file set, or a value not known) makes it not known.
 			if(GetValue("CopyLocalLockFileAssemblies")=="") {
@@ -1365,6 +1366,37 @@ namespace ProjectFileTests {
 				SetIfEmpty("DefaultXamlRuntime","Wpf");
 			}
 			_listItemSteps.Add(new ItemStep { Builtin=STEP_SDK_TARGETS_ITEMS });
+		}
+
+		///<summary>What Microsoft.NET.Sdk.targets (SDK 10.0.115) and the files it imports compute for a .NET project at evaluation (S3b-1 of the
+		///.NET 10 move, from tools\Test-ProjectFileEvaluator.ps1 -TargetFramework net10.0-windows): DisableStandardFrameworkResolution from
+		///_IsNETCoreOrNETStandard (line 33) and, when it is 'true', Microsoft.NET.DisableStandardFrameworkResolution.targets (line 1374: NoStdLib
+		///true, FrameworkPathOverride and TargetFrameworkDirectory ''); GenerateRuntimeConfigurationFiles for a .NET project with runtime output,
+		///COM hosting or dynamic loading (line 37); GenerateResourceUsePreserializedResources from .NET Core 3.0 on (lines 131-133); and
+		///_NativeExecutableExtension .exe for a Windows runtime identifier a file names (Microsoft.NET.Sdk.Shared.targets line 33; the one the
+		///SDK infers for an exe stays not modelled). Each only when unset; a name these lines read that is not known leaves the value unset.</summary>
+		private void ApplySdkTargetsNetProperties() {
+			SetIfEmpty("DisableStandardFrameworkResolution",GetValue("_IsNETCoreOrNETStandard"));
+			bool? isNetCoreApp=IsValueIfKnown("TargetFrameworkIdentifier",".NETCoreApp");
+			bool? hasRuntimeConfig=isNetCoreApp & (IsValueIfKnown("HasRuntimeOutput","true") | IsValueIfKnown("EnableComHosting","true")
+				| IsValueIfKnown("EnableDynamicLoading","true"));
+			if(GetValue("GenerateRuntimeConfigurationFiles")=="" && hasRuntimeConfig==true) {
+				_dictProperties["GenerateRuntimeConfigurationFiles"]="true";
+			}
+			string versionText=GetValueIfKnown("_TargetFrameworkVersionWithoutV");
+			Version versionFramework;
+			if(isNetCoreApp==true && versionText!=null && Version.TryParse(versionText,out versionFramework) && versionFramework>=new Version(3,0)) {
+				SetIfEmpty("GenerateResourceUsePreserializedResources","true");
+			}
+			if(IsValueIfKnown("DisableStandardFrameworkResolution","true")==true) {
+				_dictProperties["NoStdLib"]="true";
+				_dictProperties["FrameworkPathOverride"]="";
+				_dictProperties["TargetFrameworkDirectory"]="";
+			}
+			string runtimeIdentifier=_dictProperties.ContainsKey("RuntimeIdentifier") ? GetValueIfKnown("RuntimeIdentifier") : null;
+			if(GetValue("_NativeExecutableExtension")=="" && runtimeIdentifier!=null && runtimeIdentifier.StartsWith("win",StringComparison.OrdinalIgnoreCase)) {
+				_dictProperties["_NativeExecutableExtension"]=".exe";
+			}
 		}
 
 		///<summary>Sdk.targets line 13 (SDK 10.0.115): &lt;Import Project="$(BeforeMicrosoftNETSdkTargets)" Condition="'$(BeforeMicrosoftNETSdkTargets)'
@@ -1590,6 +1622,34 @@ namespace ProjectFileTests {
 			}
 			else if(isBindingRedirected.Value) {
 				SetIfEmpty("AutoGenerateBindingRedirects","true");
+			}
+			//Lines 91-93 and 107-115 (S3b-1): _IsNETCoreOrNETStandard, and for such a project the .dll extension unless set, an exe too (the SDK's
+			//apphost is the .exe); a target framework identifier not known makes TargetExt not known.
+			bool? isNetCoreOrStandard=IsValueIfKnown("TargetFrameworkIdentifier",".NETCoreApp",".NETStandard");
+			if(GetValue("_IsNETCoreOrNETStandard")=="" && isNetCoreOrStandard==true) {
+				_dictProperties["_IsNETCoreOrNETStandard"]="true";
+			}
+			if(IsValueIfKnown("_IsNETCoreOrNETStandard","true")==true) {
+				SetIfEmpty("TargetExt",".dll");
+			}
+			else if(isNetCoreOrStandard==null && GetValue("TargetExt")=="") {
+				_dictProperties["TargetExt"]=NotKnown("TargetExt","Microsoft.NET.Sdk.BeforeCommon.targets","TargetFrameworkIdentifier");
+			}
+			//Microsoft.NET.RuntimeIdentifierInference.targets (S3b-1): for a .NET project with runtime output, SelfContained false unless set, and
+			//UseAppHost true from .NET Core 3.0 on unless set, for a runtime identifier a file names that has an apphost (Windows here) or none;
+			//a runtime identifier the SDK would infer or one not known leaves UseAppHost not modelled.
+			if(IsValueIfKnown("TargetFrameworkIdentifier",".NETCoreApp")==true && IsValueIfKnown("HasRuntimeOutput","true")==true) {
+				SetIfEmpty("SelfContained","false");
+				string runtimeIdentifier=_dictProperties.ContainsKey("RuntimeIdentifier") ? GetValueIfKnown("RuntimeIdentifier") : null;
+				string versionCore=GetValueIfKnown("_TargetFrameworkVersionWithoutV");
+				Version versionAppHost;
+				bool isAppHostVersion=versionCore!=null && Version.TryParse(versionCore,out versionAppHost) && versionAppHost>=new Version(3,0);
+				if(isAppHostVersion && runtimeIdentifier!=null && (runtimeIdentifier=="" || runtimeIdentifier.StartsWith("win",StringComparison.OrdinalIgnoreCase))) {
+					SetIfEmpty("UseAppHost","true");
+				}
+				else if(GetValue("UseAppHost")=="") {
+					_hashSetNotModelled.Add("UseAppHost");
+				}
 			}
 			//Lines 301-313: the XML documentation file.
 			if(GetValue("GenerateDocumentationFile")=="") {
