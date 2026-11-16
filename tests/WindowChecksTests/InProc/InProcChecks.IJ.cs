@@ -309,7 +309,9 @@ namespace WindowChecksTests.InProc {
 			checkResult.Note("The Chart's wrapper draws in software after the Save: "+isDrawnInSoftware);
 			message=SetDrawInSoftware(ui,checkResult,false);
 			string rowAfter=DataCore.GetScalar(sqlRow);
-			checkResult.Expect(message=="" && rowAfter==rowAfter3D,"Draw in software off > Save: no message, the row is as it was ("+rowAfter+")",message);
+			//Turning the switch off clears DirectXFormat (TC-8's save rule), so an old DirectX device format a former build saved there is gone too.
+			checkResult.Expect(message=="" && rowAfter==rowAfter3D.Split(' ')[0]+" ","Draw in software off > Save: no message, the choice is kept and "
+				+"DirectXFormat is empty ("+rowAfter+")",message);
 			checkResult.ForPerson("the Chart's 3D chart after each Save: the live view, then the smoothed picture drawn in software, then the live view again");
 		}
 
