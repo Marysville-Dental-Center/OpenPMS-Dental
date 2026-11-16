@@ -58,6 +58,11 @@ namespace WindowChecksTests {
 		[AssemblyCleanup]
 		public static void AssemblyCleanup() {
 			if(!ScratchDb.IsMade) {
+				if(_hasPrechecked) {
+					//P0 failed (the copy could not be brought to this build's fork schema level; the copy is already dropped): the report still shows why.
+					string reportErrorP0=Report.Write();
+					Results.Log(reportErrorP0=="" ? "REPORT.md written" : "REPORT.md not written: "+reportErrorP0);
+				}
 				return;
 			}
 			try {
@@ -83,13 +88,22 @@ namespace WindowChecksTests {
 		}
 
 		///<summary>Call first in a check test: skips the test (inconclusive) when the checks are off, the group is not asked for, or the copy of
-		///the database cannot be made.</summary>
+		///the database cannot be made. When the copy was restored but cannot be brought to this build's fork schema level, P0 is recorded FAILED with
+		///the reason, the first check test fails with it, and no check runs (the program is never started on that copy).</summary>
 		public static void Begin(string group) {
 			string skipReason=WinChkEnv.GetSkipReason(group);
 			if(skipReason!=null) {
 				Assert.Inconclusive(skipReason);
 			}
 			skipReason=ScratchDb.GetSkipReason();
+			if(skipReason!=null && ScratchDb.IsMigrationFailed) {
+				if(!_hasPrechecked) {
+					_hasPrechecked=true;
+					PZTests.RecordMigrationFailure();
+					Assert.Fail("P0 FAILED: "+ScratchDb.MigrationText+"; no check runs");
+				}
+				Assert.Inconclusive("Not run: P0 failed ("+ScratchDb.MigrationText+")");
+			}
 			if(skipReason!=null) {
 				Assert.Inconclusive(skipReason);
 			}
