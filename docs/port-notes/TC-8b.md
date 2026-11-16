@@ -251,6 +251,16 @@ by `tc8b-make_gallery.py` in the same folder from the test run `tc8b-gallery-run
   GroupNoteTests 54, LibWebTests 65, M2CARRIERTests 55, M2SHELLTests 39, VendorDirectTests 941, M2MISCTests 98, ODOPTSTests 57, P262PerioTests
   36, DbConnectionSecurityTests 250 (3 skipped), InventoryTests 93, PdfLibraryTests 41, ReleaseFlowTests 210 (5 skipped), NoHqTests 112: all
   passed. `tc8b-gallery-run2.txt`: ToothChartHostTests 20 with the gallery, all passed.
+- **Fix round 1 (`chart/tc8b-2`, `6108ca74b`):** the save rule writes `GraphicsSimple` 1 on every Save that leaves the computer on Simple 2D,
+  not only when the choices turned it there (section 2.2; a computer already on Simple 2D with a stored 0 or 2 kept it, so Open Dental drew
+  its DirectX 9 or OpenGL chart after a return). The engine tests' Simple-2D-after rows and the window test's two new rows pin it. Full
+  build through the lane: 0 errors. `tc8b-2-targeted.txt`: ToothChartImageTests 259 (253 passed, 6 skipped), ToothChartHostTests 20 (19
+  passed, the gallery skipped), BINATests 19, BPERIOTests 55, M2SHEETSTests 53, SheetTests 31, BTPTests 38, BPRINTTests 71, ChartLetterTests
+  45, NoHqTests 112, LibraryBindingTests 20, S3aM1Tests 63, ProjectFileTests 150 (1 skipped), N64ATests 41, P262LinksTests 61,
+  P262SchemaTests 28 (4 skipped), ODOPTSTests 57 (it reads the release notes): all passed. That run left the host tests' prefix unset (their
+  default `tc8_`, dropped at the end, none left on the server), so `tc8b-2-host.txt` ran ToothChartHostTests 20 (19 passed, the gallery
+  skipped) and NoHqTests 112 again with `tc8b_`: all passed. No baseline changed; the gallery is unchanged
+  (the window looks the same, only the stored row after a Save differs).
 - Every run set `OPMS_CHART_HOST_TEST_DB_PREFIX=tc8b_`, so the host tests' scratch databases were named `tc8b_...` and dropped at the end.
   (ToothChartImageTests, BPERIOTests and ChartLetterTests make their own scratch databases under their own prefixes, as before.)
 - Not run: InitSqlTests and ForkMigrationTests (the coordinator's), and WindowChecksTests (it starts the program; built with 0 errors).
