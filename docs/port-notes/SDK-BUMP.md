@@ -73,7 +73,16 @@ the SDK adds no implicit package to a net48 project (no `Microsoft.NETFramework.
   folder): all pass. ProjectFileTests 151 (150 passed, 1 skipped, as before: the solution-filter case that needs a recorded item list),
   ReleaseFlowTests 216 (211 passed, 5 skipped, as before: Release and x64 outputs not built), LibraryBindingTests 20, LibraryUpdateTests
   138, VendorDirectTests 941, NoHqTests 112.
-- **Core run** (`-Mode Core -RequireBuildOutput`, record `od-tools\test-results\sdkbump-core.txt`): pending (waiting for the machine-wide test lock).
+- **Core run** (`-Mode Core -RequireBuildOutput`, record `od-tools\test-results\sdkbump-core.txt`, 23:07-23:26): **not
+  green, for a reason outside the bump.** 121 assemblies, 10,462 tests: 10,381 passed, 53 skipped, 28 failed; 119 assemblies pass. The 28
+  failures are all in the two assemblies that draw WPF pictures: ToothChartHostTests (13 of 20) and ToothChartImageTests (15 of 263). Every
+  one is a picture that came out blank or wrong ("sheet: blank", "The tooth was drawn", "The same bytes as the committed baseline"). The
+  desktop session went from connected to disconnected during the run (`query user`: state `Disc`, idle 13 minutes at 23:26; the lock screen's
+  LogonUI running), and in that state WPF's RenderTargetBitmap draws nothing, as WINCHK-HEADLESS found ("Found by the runs: a locked
+  session"): a probe that renders a red 40x40 square with RenderTargetBitmap in an STA PowerShell right after the run got 0 red pixels of
+  1,600. The same two assemblies passed in the stage 3a gate's Full run on 10.0.114 earlier the same evening (`gate3a-full.txt`: 19 of 20
+  and 257 of 263, the same skips), the compiler is the same Roslyn 5.0.0 and no rendering code changed. **To finish step 4:** with the
+  session unlocked, a Targeted run of `ToothChartHostTests,ToothChartImageTests` (or the Core run again) on this branch's build.
 - `tools\Test-NoEolFlips.ps1`: no changed file changed its line ends.
 
 ## Step 5 (the lead's)
