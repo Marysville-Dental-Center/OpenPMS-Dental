@@ -489,7 +489,7 @@ owner's "Match Open Dental 26.2" of 2026-11-15, which revises O-30, O-31 and O-3
   Technology" with Simple 2D, the options with "Draw in software", the live preview and Open Dental's medical wording kept.
 - Open Dental's rows chose the chart, no schema change: `DirectX11ToothChartUseIfAvail` (default 1) and `computerpref.GraphicsUseDirectX11`
   (Unknown = the global); a computer that does not use the 3D chart draws Simple 2D, the one older technology left. The save rule writes only
-  what a choice changes, `GraphicsSimple` by TC-8's rule when the chart changes, so a return to Open Dental reads the same. The BINA guard
+  what a choice changes, `GraphicsSimple` 1 on every Save that leaves the computer on Simple 2D and 0 over a stored 1 when it turns to the 3D chart (fix round on `chart/tc8b-2`), so a return to Open Dental reads the same. The BINA guard
   allows exactly the relay's reads and "Use Simple Graphics"' write (ENG-6, od-unknown).
 - The smoothed picture is the on-screen default; "Draw in software" unticked (`WpfLiveView`) is the quick live view. Graphical perio opens only
   when the computer uses the 3D chart, otherwise Open Dental's 24.3 sentence naming File > Graphics. No baseline changed. Window checks I6 and
