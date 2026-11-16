@@ -1256,11 +1256,12 @@ files are copied next to the program, its app.config and `Settings.settings` gon
 output. Every Windows Forms exe's `Main` calls `SetDefaultFont` (Microsoft Sans Serif 8.25) and then `SetHighDpiMode(PerMonitorV2)` before any
 window (the program after `/ehr-render`), with the code pages where `ODInitialize` does not register them. The program's app.config keeps the
 application settings only; System.Speech is a package; `OpenPmsDental.XmlSerializers.dll` comes from the generator (CallFire's two messages) and
-pairs by MVID; CallFire (SOAP) and Divvy (WCF) compile for the .NET Framework only and give a message naming O-10 on .NET. The plug-in check
+pairs by MVID; CallFire (SOAP) and Divvy (WCF) compile for the .NET Framework only and give a message naming O-10 on .NET (Divvy's stand-in
+answers Failure and `FormRecallList` records no recall as mailed unless every postcard was sent; review fix on `net10/s3b4-2`). The plug-in check
 reads the target framework with System.Reflection.Metadata; the x64 run found that .NET loads an "any CPU, 32-bit preferred" assembly into an x86
 process only, so the check refuses it in the 64-bit program. Scoped lane rebuild of the owned projects: 0 errors, no CA1416/NU/MSB/WFDEV006;
 program folder flat but `Helper32\` (x64 files 0x8664, the helper's 0x14C), every runtimeconfig on 10.0.15. N64ATests (now .NET 10, with the
-section 7 plug-in test) 45/45, NoHqTests 112/112, BINATests 21/22 (the WPF picture test, disconnected session); the program starts headless in
+section 7 plug-in test) 45/45 (49/49 with the review fix's four Divvy tests), NoHqTests 112/112, BINATests 21/22 (the WPF picture test, disconnected session); the program starts headless in
 its `/ehr-render` mode on its own folder's runtime and renders a CDA document. 83 test projects have all references on .NET 10; 45 wait for
 UnitTestsCore, TestProbeHost or TopazStandIn (S3b-5).
 
