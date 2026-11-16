@@ -5,7 +5,6 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Data;
-using System.Text;
 using System.Windows.Forms;
 using CodeBase;
 using OpenPmsDentalBusiness;
@@ -281,9 +280,6 @@ namespace SparksToothChart {
 				catch(Exception ex) {
 					ex.DoNothing();//neither call throws; the tool is chosen whatever happens to its cursor
 				}
-				//if(drawMode!=DrawingMode.Simple2D) {
-				//	toothChartOpenGL.CursorTool=value;
-				//}
 			}
 		}
 
@@ -592,19 +588,51 @@ namespace SparksToothChart {
 		}
 
 		#region Wpf3D live view and the software switch
-		///<summary>The value of computerpref.DirectXFormat that turns the WPF chart's on-screen view to the software render on a computer (O-19 (b)):
-		///empty, or a DirectX device format, means the live view. Since TC-8 Setup > Graphics stores it ("Draw in software") and
-		///ToothChartRelay.ApplyComputerSettings reads it. It holds no ';', so a build that still has the DirectX chart (Open Dental, or this one before
-		///TC-9a) reads no device format from it and keeps its default DirectX format.</summary>
+		///<summary>A value of computerpref.DirectXFormat that keeps the WPF chart's on-screen view on the software render, the smoothed picture
+		///(O-19 (b)). TC-8's "Draw in software" wrote it; since TC-8b (ENG-3) the smoothed picture is every computer's default, so it means the same as
+		///an empty value, and File > Graphics writes it no more but keeps it where it is stored. It holds no ';', so a build that still has the DirectX
+		///chart (Open Dental) reads no device format from it and keeps its default DirectX format.</summary>
 		public const string DirectXFormatWpfSoftware="WpfSoftware";
 
-		///<summary>True when a stored computerpref.DirectXFormat value is DirectXFormatWpfSoftware: the computer draws the WPF chart in software.</summary>
+		///<summary>The value of computerpref.DirectXFormat that turns the WPF chart's on-screen view to the quick live view on a computer (TC-8b, ENG-3:
+		///the per-computer option, File > Graphics' "Draw in software" unticked). Every other value, empty included, is the smoothed picture. It holds
+		///no ';', as DirectXFormatWpfSoftware.</summary>
+		public const string DirectXFormatWpfLiveView="WpfLiveView";
+
+		///<summary>True when a stored computerpref.DirectXFormat value is DirectXFormatWpfSoftware.</summary>
 		public static bool IsWpfSoftwareFormat(string directXFormat) {
 			return directXFormat!=null && directXFormat.Trim()==DirectXFormatWpfSoftware;
 		}
 
-		///<summary>The per-computer "Draw in software" switch of the WPF chart (O-19 (b); since TC-8 ToothChartRelay.ApplyComputerSettings sets it from
-		///computerpref.DirectXFormat before it starts the engine, and Setup > Graphics shows it). Off (the default): a shown wrapper on an STA thread shows the live view, which WPF's render thread draws as it draws every
+		///<summary>True when a stored computerpref.DirectXFormat value is DirectXFormatWpfLiveView: the computer shows the WPF chart's quick live view on
+		///screen instead of the smoothed picture (TC-8b, ENG-3).</summary>
+		public static bool IsWpfLiveViewFormat(string directXFormat) {
+			return directXFormat!=null && directXFormat.Trim()==DirectXFormatWpfLiveView;
+		}
+
+		///<summary>Whether the WPF chart can start in this process (File > Graphics' status on this computer, TC-8b, NEW-1): starts the WPF chart's
+		///renderer as Engine does (a check image the first time on its thread; a failure is kept for the process, so a later call fails at once) and
+		///returns true, or false with the reason the chart fell back to Simple 2D. Linux keeps the 2D chart, as Engine does. Writes no log line: Engine
+		///writes the one line when a chart falls back.</summary>
+		public static bool CanStartWpf3D(out string reason) {
+			reason="";
+			if(Environment.OSVersion.Platform==PlatformID.Unix) {
+				reason="Linux computers use the "+ToothChartEngine.Simple2D+" chart.";
+				return false;
+			}
+			try {
+				ToothChartRenderer.Instance.EnsureStarted();
+				return true;
+			}
+			catch(Exception ex) {
+				reason=ex.Message;
+				return false;
+			}
+		}
+
+		///<summary>The per-computer "Draw in software" switch of the WPF chart (O-19 (b); ToothChartRelay.ApplyComputerSettings sets it from
+		///computerpref.DirectXFormat before it starts the engine, and File > Graphics shows it; since TC-8b, ENG-3, a computer's default is on, the
+		///smoothed picture). Off (a new wrapper's own value, before the relay sets it): a shown wrapper on an STA thread shows the live view, which WPF's render thread draws as it draws every
 		///WPF window of the process. On: it shows the renderer's image of the scene, the same image as GetBitmap's (the 3D layer supersampled and
 		///smoothed), which no graphics driver can change (for a PC whose driver draws no WPF 3D, dotnet/wpf#7076). In OpenPmsDental.exe both are
 		///software: the program sets RenderOptions.ProcessRenderMode to SoftwareOnly for the whole process (ProgramEntry.Main, from upstream), so the
@@ -1530,13 +1558,12 @@ namespace SparksToothChart {
 				tcData.DrawingSegmentList.Add(drawingSegment);
 			}
 			Invalidate();
-			//toothChartOpenGL.AddDrawingSegment(drawingSegment);
 		}
 
 		///<summary>Paint type RetainedRoot (TC-6, RR-1): only the root of the tooth, in the colour, in both views, as Open Dental's DirectX 11 chart draws
 		///it (the crown is not drawn; the occlusal row shows the root as a small crescent). Drawn only while the tooth is shown, so a completed
-		///extraction, which marks the tooth missing, hides it. Only the WPF chart draws it; DirectX, OpenGL and Simple 2D do not, as Open Dental's
-		///own did not.</summary>
+		///extraction, which marks the tooth missing, hides it. Only the WPF chart draws it; the Simple 2D chart does not, as Open Dental's older
+		///charts do not (its Graphics page lists the paint type as unavailable with the older technology).</summary>
 		public void SetRetainedRoot(string toothID,Color color) {
 			if(!ToothGraphic.IsValidToothID(toothID)) {
 				return;
