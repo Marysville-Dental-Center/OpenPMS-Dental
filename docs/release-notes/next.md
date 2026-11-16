@@ -769,8 +769,9 @@ letters, the Patient Dashboard, the sheet editor's preview and the graphical per
     as the printouts. Unticked, the chart shows a quick live view that redraws about twice as fast but has slightly jagged edges. Per
     computer.
   - A preview of what the choices give on this computer, with made-up work.
-  The settings are Open Dental's own (the same rows in the database), so a workstation that goes back to Open Dental finds the same choice
-  there. Setup > Computers opens the same window for another computer (its preview and status are those of the computer you are on), and
+  The settings are Open Dental's own (the same rows in the database), so after a Save in this window a workstation that goes back to Open
+  Dental finds the same choice there: the 3D chart, or Simple 2D (a computer on Simple 2D whose Open Dental setting was still its DirectX 9
+  or OpenGL chart is switched to Simple 2D by that Save). Setup > Computers opens the same window for another computer (its preview and status are those of the computer you are on), and
   saves without a test, as before.
 - **On screen** the chart is now the smooth picture by default, as Open Dental's 3D chart looks; a refill takes a little longer than with
   the quick live view of the previous version (about a third of a second).

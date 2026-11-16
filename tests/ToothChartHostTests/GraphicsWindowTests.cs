@@ -178,6 +178,8 @@ namespace ToothChartHostTests {
 				new object[] { DrawingMode.DirectX,YN.Unknown,"",true,false,YN.Unknown,true,"1 0 |0" },//the global Do not use: this computer to Simple 2D
 				new object[] { DrawingMode.Simple2D,YN.Unknown,"",false,true,YN.Unknown,true,"0 0 |1" },//the global Use if available: to the 3D chart
 				new object[] { DrawingMode.DirectX,YN.Yes,"",true,false,YN.Yes,true,"0 1 |0" },//the global changes, this computer's chart does not
+				new object[] { DrawingMode.DirectX,YN.Unknown,"",false,false,YN.Unknown,true,"1 0 |0" },//Simple 2D before and after: 1 over a stored 0
+				new object[] { DrawingMode.OpenGL,YN.No,"",true,true,YN.No,true,"1 2 |1" },//Simple 2D before and after: 1 over a stored 2
 				new object[] { DrawingMode.DirectX,YN.Unknown,"",true,true,YN.Unknown,false,"0 0 WpfLiveView|1" },//the quick live view
 				new object[] { DrawingMode.DirectX,YN.Unknown,ToothChartWrapper.DirectXFormatWpfLiveView,true,true,YN.Unknown,true,"0 0 |1" },//the default again
 				new object[] { DrawingMode.DirectX,YN.Unknown,FORMAT_DIRECTX,true,true,YN.Unknown,true,"0 0 "+FORMAT_DIRECTX+"|1" },//kept for a return

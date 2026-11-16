@@ -18,8 +18,8 @@ namespace OpenPmsDentalBusiness {
 		///<summary>Enum:DrawingMode Set to 1 to use the low-quality 2D tooth chart in the chart module. Set to 0 to use a 3D DirectX based tooth chart in the chart module. This option helps the program run even when the local graphics hardware is buggy or unavailable.
 		///Open Dental's older tooth chart technology, which applies only when the computer does not use the 3D tooth chart (GraphicsUseDirectX11 and the
 		///DirectX11ToothChartUseIfAvail preference, TC-8b): of 0 (DirectX 9), 1 (Simple 2D) and 2 (OpenGL) only Simple 2D is left since TC-9a, so such a
-		///computer draws Simple 2D whatever is stored. The stored values stay 0, 1 and 2 and gain no new one. File > Graphics writes 1 when its choices turn
-		///the computer to Simple 2D, and 0 over a stored 1 when they turn it to the 3D chart; a stored 0 or 2 is otherwise kept. Setup > Computers'
+		///computer draws Simple 2D whatever is stored. The stored values stay 0, 1 and 2 and gain no new one. File > Graphics writes 1 on every Save that
+		///leaves the computer on Simple 2D, and 0 over a stored 1 when its choices turn it to the 3D chart (a stored 0 or 2 is kept there). Setup > Computers'
 		///"Use Simple Graphics" writes 1 (with GraphicsUseDirectX11 "Do not use", ENG-6).</summary>
 		public DrawingMode GraphicsSimple;
 		///<summary>Indicates the type of Suni sensor connected to the local computer (if any). This can be a value of A, B, C, or D.

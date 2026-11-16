@@ -369,7 +369,8 @@ namespace OpenPmsDental{
 		///<summary>The engine a computer draws with (TC-8b, ENG-2): the WPF chart when it uses the 3D tooth chart (IsChart3DUsed), which falls back to
 		///Simple 2D on its own, logged once, when it cannot start. Otherwise the older technology, which Open Dental chooses with computerpref.GraphicsSimple
 		///("only Do not use lets GraphicsSimple apply"): of Open Dental's three (DirectX 9, Simple 2D, OpenGL) only Simple 2D is left since TC-9a, so every
-		///stored value draws Simple 2D; a stored 0 or 2 is kept for a return to Open Dental (decision 22), which draws its DirectX 9 or OpenGL chart there.
+		///stored value draws Simple 2D. Reading changes nothing; the next Save in File > Graphics on such a computer writes 1 (SetGraphicsChoice), so a
+		///return to Open Dental (decision 22) draws Simple 2D there too.
 		///A computer stored as Simple 2D (1) gets the 3D chart unless its setting is "Do not use" (revises O-30).</summary>
 		public static ToothChartEngine GetEngineForComputer(bool isChart3DOnAllComputers,ComputerPref computerPref) {
 			if(IsChart3DUsed(isChart3DOnAllComputers,GetChart3DThisComputer(computerPref))) {
@@ -442,9 +443,11 @@ namespace OpenPmsDental{
 		///setting is saved by the caller (SetChart3DOnAllComputers). Only the columns a choice changes are written, and the stored values stay Open
 		///Dental's, so a return to Open Dental (decision 22) reads the same:
 		///- The per-computer setting writes GraphicsUseDirectX11 (Unknown, Yes or No) when it changed.
-		///- GraphicsSimple follows TC-8's rule for the chart the computer draws, written only when the window's choices change that chart (the global
-		///  setting before and after, the computer's setting before and after): a change to Simple 2D writes 1, so Open Dental, whose older technology
-		///  then applies, draws Simple 2D too; a change to the 3D chart writes 0 only over a stored 1, and a stored 0 or 2 is kept.
+		///- GraphicsSimple follows TC-8's rule for the chart the computer draws after the save (the global setting and the computer's setting as
+		///  chosen): every save that leaves the computer on Simple 2D writes 1 over any other stored value, whether or not the choices changed the
+		///  chart, because Simple 2D is the older technology the window shows checked and the one that applies, so Open Dental, whose older
+		///  technology then applies, draws Simple 2D too (as Open Dental's own Save always writes GraphicsSimple from that group); a change to the
+		///  3D chart writes 0 only over a stored 1, and a stored 0 or 2 is kept while the computer stays on the 3D chart.
 		///- "Draw in software" (ticked, the default since ENG-3) clears the live view's value; unticked it writes ToothChartWrapper.DirectXFormatWpfLiveView.
 		///  Any other stored value (TC-8's "WpfSoftware", a DirectX device format an older build saved) is kept while the box stays ticked.</summary>
 		public static void SetGraphicsChoice(ComputerPref computerPref,bool isChart3DOnAllComputersBefore,bool isChart3DOnAllComputers,
@@ -455,8 +458,10 @@ namespace OpenPmsDental{
 			if(computerPref.GraphicsUseDirectX11!=chart3DThisComputer) {
 				computerPref.GraphicsUseDirectX11=chart3DThisComputer;
 			}
-			if(is3DBefore && !is3DAfter) {
-				computerPref.GraphicsSimple=DrawingMode.Simple2D;
+			if(!is3DAfter) {
+				if(computerPref.GraphicsSimple!=DrawingMode.Simple2D) {
+					computerPref.GraphicsSimple=DrawingMode.Simple2D;
+				}
 			}
 			else if(!is3DBefore && is3DAfter && computerPref.GraphicsSimple==DrawingMode.Simple2D) {
 				computerPref.GraphicsSimple=DrawingMode.DirectX;

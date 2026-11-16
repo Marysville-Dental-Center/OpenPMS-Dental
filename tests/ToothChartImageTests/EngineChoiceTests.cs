@@ -271,12 +271,17 @@ namespace ToothChartImageTests {
 		public void SaveRule_WritesOnlyWhatAChoiceChanges_AndGraphicsSimpleStaysReadableByOpenDental() {
 			//(global before, global after, this computer before, this computer after, GraphicsSimple before) -> GraphicsSimple after
 			object[][] arrayCases=new object[][] {
-				//No change of the chart the computer draws: GraphicsSimple is kept, whatever it is.
+				//The 3D chart before and after: GraphicsSimple is kept, whatever it is (Open Dental does not read it there).
 				new object[] { true,true,YN.Unknown,YN.Unknown,DrawingMode.Simple2D,DrawingMode.Simple2D },
 				new object[] { true,true,YN.Unknown,YN.Yes,DrawingMode.Simple2D,DrawingMode.Simple2D },
 				new object[] { true,true,YN.Unknown,YN.Unknown,DrawingMode.OpenGL,DrawingMode.OpenGL },
-				new object[] { false,false,YN.No,YN.Unknown,DrawingMode.DirectX,DrawingMode.DirectX },
 				new object[] { true,false,YN.Yes,YN.Yes,DrawingMode.OpenGL,DrawingMode.OpenGL },
+				//Simple 2D before and after: 1 over a stored 0 or 2, so Open Dental, whose older technology applies, draws the Simple 2D the window
+				//shows checked, not its DirectX 9 or OpenGL chart (as Open Dental's own Save always writes GraphicsSimple from that group).
+				new object[] { false,false,YN.No,YN.Unknown,DrawingMode.DirectX,DrawingMode.Simple2D },
+				new object[] { false,false,YN.Unknown,YN.Unknown,DrawingMode.DirectX,DrawingMode.Simple2D },
+				new object[] { true,true,YN.No,YN.No,DrawingMode.OpenGL,DrawingMode.Simple2D },
+				new object[] { false,false,YN.No,YN.No,DrawingMode.Simple2D,DrawingMode.Simple2D },
 				//To Simple 2D: 1, so Open Dental, whose older technology then applies, draws Simple 2D too.
 				new object[] { true,true,YN.Unknown,YN.No,DrawingMode.DirectX,DrawingMode.Simple2D },
 				new object[] { true,true,YN.Yes,YN.No,DrawingMode.OpenGL,DrawingMode.Simple2D },
@@ -303,13 +308,13 @@ namespace ToothChartImageTests {
 				computerPrefBefore.GraphicsUseDirectX11=computerPref.GraphicsUseDirectX11;
 				AssertFieldsEqual(computerPrefBefore,computerPref,what+": no other column is written.");
 				//Open Dental reads the saved row as this program does: its DirectX 11 chart where this one draws the WPF chart, and its older
-				//technology's Simple 2D where this one draws Simple 2D (a stored 0 or 2 there is its DirectX 9 or OpenGL chart, which this program
-				//retired; such a row is only kept, never written, for a computer that draws Simple 2D here).
+				//technology's Simple 2D where this one draws Simple 2D (every save that leaves the computer on Simple 2D stores 1, so no saved row
+				//leaves Open Dental a stored 0 or 2, its DirectX 9 or OpenGL chart, which this program retired).
 				bool isDrawn3D=ToothChartRelay.GetEngineForComputer((bool)arrayCase[1],computerPref)==ToothChartEngine.Wpf3D;
 				bool isOpenDental3DChart=ToothChartRelay.IsChart3DUsed((bool)arrayCase[1],computerPref.GraphicsUseDirectX11);
 				Assert.AreEqual(isDrawn3D,isOpenDental3DChart,what);
-				if(!isDrawn3D && ToothChartRelay.IsChart3DUsed((bool)arrayCase[0],chart3DThisComputerBefore)) {
-					Assert.AreEqual(DrawingMode.Simple2D,computerPref.GraphicsSimple,what+": turned to Simple 2D, Open Dental draws Simple 2D too.");
+				if(!isDrawn3D) {
+					Assert.AreEqual(DrawingMode.Simple2D,computerPref.GraphicsSimple,what+": on Simple 2D after the save, Open Dental draws Simple 2D too.");
 				}
 			}
 		}

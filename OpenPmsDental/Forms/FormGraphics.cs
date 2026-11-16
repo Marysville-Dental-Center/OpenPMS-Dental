@@ -139,9 +139,9 @@ namespace OpenPmsDental{
 			bool isChart3DOnAllComputers=radioChart3DAllUse.Checked;
 			//ComputerPrefCur doesn't change until here, so make the old copy exactly when we need it instead of when the form is created.
 			ComputerPref computerPrefOld=ComputerPrefCur.Copy();
-			//Only what a choice changes is written: this computer's 3D setting, GraphicsSimple when the choices change the chart the computer draws (1 for
-			//Simple 2D; 0 over a stored 1 for the 3D chart), and the live view's value for "Draw in software" unticked. Nothing is tested first: the 3D
-			//chart falls back to the 2D chart on its own, logged once.
+			//Only what a choice changes is written: this computer's 3D setting, GraphicsSimple for the chart the computer draws after the save (1 whenever
+			//it is Simple 2D, the older technology this window shows checked; 0 over a stored 1 when the choices turn it to the 3D chart), and the live
+			//view's value for "Draw in software" unticked. Nothing is tested first: the 3D chart falls back to the 2D chart on its own, logged once.
 			ToothChartRelay.SetGraphicsChoice(ComputerPrefCur,_isChart3DOnAllComputersLoaded,isChart3DOnAllComputers,GetChart3DThisComputerChosen(),
 				checkDrawInSoftware.Checked);
 			ComputerPrefs.Update(ComputerPrefCur,computerPrefOld);

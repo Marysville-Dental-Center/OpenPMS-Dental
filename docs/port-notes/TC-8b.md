@@ -89,12 +89,14 @@ Built the same way in the relay's settings helpers:
   when the global setting changes the chart) and the perio gate use it. TC-8's `GetEngineForStoredMode` and `Is3DChart` are gone. The
   wrapper's own `DrawMode` request is unchanged (0 and 2 start the WPF chart, 1 the 2D chart).
 - **The save rule** (`SetGraphicsChoice(computerPref,globalBefore,globalAfter,thisComputer,isDrawnInSoftware)`): only what a choice changes.
-  `GraphicsUseDirectX11` when this computer's choice changed. `GraphicsSimple` by TC-8's rule, and only when the window's choices change the
-  chart the computer draws: a change to Simple 2D writes 1 (so Open Dental, whose older technology then applies, draws Simple 2D too); a
-  change to the 3D chart writes 0 over a stored 1 and keeps a stored 0 or 2. So a return to Open Dental reads the same chart: its DirectX 11
-  chart where this program draws the WPF chart, its Simple 2D where this program drew Simple 2D after a change. A row that is only kept (a
-  computer that draws Simple 2D here under "Do not use" with a stored 0 or 2 nobody changed) is Open Dental's DirectX 9 or OpenGL chart there,
-  which this program retired. `DirectXFormat`: ENG-3.
+  `GraphicsUseDirectX11` when this computer's choice changed. `GraphicsSimple` by TC-8's rule for the chart the computer draws after the
+  save: every save that leaves the computer on Simple 2D writes 1 over any other stored value, whether or not the choices changed the chart
+  (Simple 2D is the older technology the window shows checked and the one that applies, and Open Dental's own Save always writes
+  `GraphicsSimple` from that group, 24.3's `FormGraphics.butSave`); a change to the 3D chart writes 0 over a stored 1 and keeps a stored 0
+  or 2 while the computer stays on the 3D chart (Open Dental does not read it there). So a return to Open Dental reads the same chart after
+  any save: its DirectX 11 chart where this program draws the WPF chart, its Simple 2D where this program draws Simple 2D. Only a row never
+  saved in File > Graphics since the move (a computer under "Do not use" with a stored 0 or 2) still has Open Dental's DirectX 9 or OpenGL
+  chart there; this program draws Simple 2D for it and changes it at the next Save. `DirectXFormat`: ENG-3.
 - **The guard** `tests/BINATests/ProprietaryBinariesRemovedTests.cs` (`GraphicsWindow_HasNoDirectX11Settings`, which failed any read of the two
   settings) is rewritten as `DirectX11Settings_ChooseTheWpfChart_ReadOnlyByTheRelay_TC8b`: in the program, the business layer, the chart
   libraries and CodeBase (comments, Open Dental's CRUD, table type, preference list and conversion steps left out), the settings are named
