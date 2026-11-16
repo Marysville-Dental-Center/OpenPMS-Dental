@@ -1002,6 +1002,14 @@ S3a-M3b": GridOD's ContextMenu path, `PopupHelper.GetContextMenuItemLinks`, Lan'
 `WinFormsMenuScanTests` (FormMedical.cs and the bridge regions the known-pending ones); S3aM1Tests' M3 files; P262BillingTests and window check
 J15 follow the moved text. One change on purpose: `FormTreatPlanCurEdit`'s Go To items now show (they were hidden by an empty ContextMenu).
 
+**Status (2026-11-15), S3a-M3b. S3a-M3 complete.** From `net10/s3am3b-1` (`docs/port-notes/S3a-M3.md`, section "S3a-M3b"); before EHR-7 by
+the owner's decision of 2026-11-15 (EHR-7 is redone on top; FormMedical's changed lines are listed in the note). FormMedical's Allergies and
+Problems grids have ContextMenuStrips with the grid's items (`DoAddGridItemsToContextMenuStrip`), their Opening lambdas setting the convert
+item's Visible before the grid's Opening, as the Popups did; the Medical window behaves as before. Removed: the three regions "Bridge for
+S3a-M3b" (GridOD's ContextMenu path, `PopupHelper.GetContextMenuItemLinks`, Lan's translation of a grid's ContextMenu). `WinFormsMenuScanTests`
+has no pending file or region left; S3aM1Tests' bridge comparisons are tests of the strip path (each removed comparison's replacement is
+listed in the note), with a new FormMedical test; BMEDTests follows the moved lines.
+
 **Status (2026-11-15), N64-A.** Merged from `net10/n64a-1` (`docs/port-notes/N64-A.md`): items A2 and A4 of the native 64-bit survey
 (`docs/specs/native64-survey.md`, decision 23). Both plug-in loaders go through `Plugins.LoadPlugin`, which reads the DLL's PE kind and
 target framework first (`PluginImageCheck`, new `CodeBase.PortableExecutableFile`) and refuses a plug-in this process cannot load with a
