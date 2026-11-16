@@ -18,7 +18,9 @@ namespace ProjectFileTests {
 	///<summary>A project file evaluated as MSBuild evaluates its properties and items, for one configuration and platform: by default the ones
 	///OpenDental.sln builds the project with for the build lane's Debug|x86 (Debug|x86, or Debug|AnyCPU for WpfControlsOD and CryptoTests).
 	///What it models: the properties of the project file and of the files it imports from the repository (Directory.Build.props above the
-	///project, through Microsoft.Common.props, which the project imports itself or the common targets import for it; Directory.Build.targets;
+	///project, through Microsoft.Common.props, which the project imports itself or the common targets import for it; the file
+	///BeforeMicrosoftNETSdkTargets names, which Sdk.targets imports after the project's own properties (the repository's
+	///Directory.Build.Net.props, S3b-1: ImportBeforeMicrosoftNETSdkTargets); Directory.Build.targets;
 	///relative imports such as third-party\build\SourceBuild.props; the project's .user file; the project extension files of NuGet's restore,
 	///obj\Project.csproj.*.props and .*.targets, and the build files of packages they import, ReadPackageImport), with their conditions; the
 	///properties that MSBuild's and the SDK's own files compute for the projects of the repository, each at the point of the evaluation where
@@ -208,6 +210,21 @@ namespace ProjectFileTests {
 		}
 
 		public static ProjectFile Load(string path,string configuration,string platform) {
+			return Load(path,configuration,platform,null);
+		}
+
+		///<summary>The project file evaluated for the configuration and platform OpenDental.sln builds it with for Debug|x86 (Load(path)), with
+		///more global properties, as MSBuild's -p:Name=Value gives them: they win over every assignment of the files read, as the solution's do.
+		///S3b-1 of the .NET 10 move evaluates each project with TargetFramework net10.0-windows this way: what the project gets once its layer
+		///package of stage 3b deletes its own net48 line.</summary>
+		public static ProjectFile Load(string path,IDictionary<string,string> dictGlobalProperties) {
+			string configuration;
+			string platform;
+			GetSolutionConfiguration(Path.GetFullPath(path),"Debug","x86",out configuration,out platform);
+			return Load(path,configuration,platform,dictGlobalProperties);
+		}
+
+		public static ProjectFile Load(string path,string configuration,string platform,IDictionary<string,string> dictGlobalProperties) {
 			string fullPath=Path.GetFullPath(path);
 			if(!File.Exists(fullPath)) {
 				throw new FileNotFoundException("No project file at "+fullPath,fullPath);
@@ -227,6 +244,11 @@ namespace ProjectFileTests {
 				projectFile._dictGlobalProperties["SolutionName"]=Path.GetFileNameWithoutExtension(pathSln);
 				projectFile._dictGlobalProperties["SolutionExt"]=Path.GetExtension(pathSln);
 				projectFile._dictGlobalProperties["SolutionFileName"]=Path.GetFileName(pathSln);
+			}
+			if(dictGlobalProperties!=null) {
+				foreach(KeyValuePair<string,string> pair in dictGlobalProperties) {
+					projectFile._dictGlobalProperties[pair.Key]=pair.Value;
+				}
 			}
 			XDocument xDocument=XDocument.Load(fullPath);
 			projectFile.IsSdkStyle=IsSdkStyleDocument(xDocument);
@@ -1248,10 +1270,10 @@ namespace ProjectFileTests {
 		///(ApplySdkLanguageProperties); then, for a WPF or Windows Forms project, Microsoft.NET.Sdk.WindowsDesktop.targets with its defaults and
 		///Page removals.</summary>
 		private void ImportSdkTargets() {
-			//Sdk.targets line 13: a file of the project's choice first; lines 16-23: the cross-targeting targets instead of the rest when
-			//IsCrossTargetingBuild is 'true' (line 16 sets it for TargetFrameworks without a TargetFramework, which
-			//ApplySdkBeforeCommonProperties refuses; otherwise a file or an environment variable may set it).
-			ThrowIfImportHook("BeforeMicrosoftNETSdkTargets","Sdk.targets");
+			//Sdk.targets line 13: a file of the project's choice first (the repository's Directory.Build.Net.props since S3b-1); lines 16-23: the
+			//cross-targeting targets instead of the rest when IsCrossTargetingBuild is 'true' (line 16 sets it for TargetFrameworks without a
+			//TargetFramework, which ApplySdkBeforeCommonProperties refuses; otherwise a file or an environment variable may set it).
+			ImportBeforeMicrosoftNETSdkTargets();
 			if(!(GetValue("TargetFrameworks")!="" && GetValue("TargetFramework")=="") && IsValueIfKnown("IsCrossTargetingBuild","true")!=false) {
 				ThrowIfImportHook("IsCrossTargetingBuild","Sdk.targets");
 			}
@@ -1343,6 +1365,32 @@ namespace ProjectFileTests {
 				SetIfEmpty("DefaultXamlRuntime","Wpf");
 			}
 			_listItemSteps.Add(new ItemStep { Builtin=STEP_SDK_TARGETS_ITEMS });
+		}
+
+		///<summary>Sdk.targets line 13 (SDK 10.0.115): &lt;Import Project="$(BeforeMicrosoftNETSdkTargets)" Condition="'$(BeforeMicrosoftNETSdkTargets)'
+		///!= ''"/&gt;, right after the project's own properties and before Microsoft.NET.Sdk.BeforeCommon.targets. The repository's
+		///Directory.Build.props names Directory.Build.Net.props there (S3b-1 of the .NET 10 move): the settings of a .NET 10 project, which depend
+		///on the project's target framework and output type. A file that a file this reader read names is read as MSBuild reads it, with a full
+		///path; a relative one (MSBuild resolves it from the folder of Sdk.targets, which this reader does not read) and a file that is not there
+		///(the import has no Exists condition: MSB4019) throw. A value from an environment variable, or one that is not known, throws as every
+		///import hook does (ThrowIfImportHook).</summary>
+		private void ImportBeforeMicrosoftNETSdkTargets() {
+			const string NAME="BeforeMicrosoftNETSdkTargets";
+			string value=GetValueIfKnown(NAME);
+			if(value==null && IsEnvironmentVariable(NAME)) {
+				ThrowIfImportHook(NAME,"Sdk.targets");
+			}
+			ThrowIfUnresolved(GetValue(NAME),Describe()+": $("+NAME+") (Sdk.targets)");
+			if(value=="") {
+				return;
+			}
+			if(!Path.IsPathRooted(value)) {
+				throw new NotSupportedException(Describe()+": a relative $("+NAME+") (Sdk.targets) is not modelled by ProjectFile: "+value);
+			}
+			if(!File.Exists(value)) {
+				throw new NotSupportedException(Describe()+": $("+NAME+") (Sdk.targets) names a file that is not there, which MSBuild refuses: "+value);
+			}
+			ReadImportedFile(Path.GetFullPath(value));
 		}
 
 		///<summary>The part of Microsoft.NET.Sdk.BeforeCommon.targets (SDK 10.0.115) that comes before the common targets: whether the project is

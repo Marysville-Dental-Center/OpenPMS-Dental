@@ -156,7 +156,19 @@ namespace ProjectFileTests {
 			Assert.IsTrue(indexSet>0,"run-tests.ps1 calls Set-TestRunEnvironment at the top level.");
 			Assert.IsTrue(indexStart>indexSet,"run-tests.ps1 starts vstest after Set-TestRunEnvironment.");
 			Assert.AreEqual(indexStart,text.LastIndexOf("Start-Process",StringComparison.Ordinal),"run-tests.ps1 starts vstest in one place.");
-			Assert.IsTrue(text.Contains("'/Platform:x86'"),"run-tests.ps1 runs the tests in the 32-bit test host (S4-2 keeps /Platform:x86).");
+			Assert.IsTrue(text.Contains("Start-Process -FilePath $vstest -ArgumentList (Get-VsTestArguments $a.Dll $Platform)"),
+				"run-tests.ps1 starts vstest with the arguments of Get-VsTestArguments for -Platform.");
+		}
+
+		[TestMethod]
+		public void RunTests_RunsTheX86TestHostByDefault_AndTheX64OneForPlatformX64() {
+			//S4-2 runs the 32-bit test host (/Platform:x86); the .NET 10 build of stage 3b is x64 (S3b-1), so -Platform x64 runs the 64-bit one.
+			List<string> listOutput=RunPowerShell(Harness(RunTestsPath(),Path.GetTempPath(),
+				"(Get-VsTestArguments 'C:\\work\\A Tests.dll' 'x86') -join '|'\r\n(Get-VsTestArguments 'C:\\work\\B.dll' 'x64') -join '|'"));
+			CollectionAssert.AreEqual(new[] { "\"C:\\work\\A Tests.dll\"|/Platform:x86","\"C:\\work\\B.dll\"|/Platform:x64" },listOutput,
+				string.Join(" | ",listOutput));
+			string text=File.ReadAllText(RunTestsPath());
+			StringAssert.Contains(text,"[ValidateSet('x86', 'x64')][string]$Platform = 'x86'","-Platform is x86 unless it says x64.");
 		}
 
 		[TestMethod]
