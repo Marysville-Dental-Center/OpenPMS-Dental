@@ -91,7 +91,8 @@ namespace ReleaseFlowTests {
 			}
 		}
 
-		///<summary>The allow-list as Build-Release.ps1 -ListFiles prints it: kind ("own", "third", "doc") and path.</summary>
+		///<summary>The allow-list as Build-Release.ps1 -ListFiles prints it: kind ("own", "third", "doc", "runtime", and "setup" for the file the setup
+		///installs outside the program folder) and path.</summary>
 		private static List<KeyValuePair<string,string>> ListFiles() {
 			ScriptResult scriptResult=RunBuildRelease("-ListFiles");
 			Assert.AreEqual(0,scriptResult.ExitCode,scriptResult.Output);
@@ -104,10 +105,11 @@ namespace ReleaseFlowTests {
 			return listFiles;
 		}
 
-		///<summary>A fake staging folder with every allowed file: synthetic text named after the file, and the real THIRD-PARTY-NOTICES.txt.</summary>
+		///<summary>A fake staging folder with every allowed file of the program folder (not the setup's TWAINDSM.dll): synthetic text named after the
+		///file, and the real THIRD-PARTY-NOTICES.txt.</summary>
 		private static string NewFakeStaging(string name) {
 			string folder=TestPaths.NewTempFolder(name);
-			foreach(KeyValuePair<string,string> pair in ListFiles()) {
+			foreach(KeyValuePair<string,string> pair in ListFiles().Where(x => x.Key!="setup")) {
 				string path=Path.Combine(folder,pair.Value);
 				Directory.CreateDirectory(Path.GetDirectoryName(path));
 				if(pair.Value=="THIRD-PARTY-NOTICES.txt") {
@@ -156,12 +158,25 @@ namespace ReleaseFlowTests {
 		public void AllowList_ShipsTheRuntimeFiles_TheDocuments_AndEveryBuildIdFile() {
 			List<KeyValuePair<string,string>> listFiles=ListFiles();
 			List<string> listPaths=listFiles.Select(x => x.Value).ToList();
-			foreach(string name in new[] { "WebView2Loader.dll","WeCantSpell.Hunspell.dll","ODR.dll","OpenPmsDental.exe","OpenPmsDental.exe.config","UpdateFileCopier.exe",
-				"ImagingDeviceManager.dll","ImagingCapture.dll","RdlEngine.dll","RdlViewer.dll","Direct2dWrapper.dll",ProgramNames.DbSettingsExeFileName,
-				ProgramNames.DbSettingsExeFileName+".config" })
+			//Each .NET 10 exe is its apphost, its assembly, its .runtimeconfig.json and .deps.json, and an app.config becomes <name>.dll.config
+			//(S3b-4, S3b-7); no *.exe.config is staged (section 7 of docs/specs/net10-plan.md, "Config file name").
+			foreach(string name in new[] { "WebView2Loader.dll","WeCantSpell.Hunspell.dll","ODR.dll","OpenPmsDental.exe","OpenPmsDental.dll","OpenPmsDental.dll.config",
+				"OpenPmsDental.runtimeconfig.json","OpenPmsDental.deps.json","UpdateFileCopier.exe","UpdateFileCopier.dll","UpdateFileCopier.runtimeconfig.json",
+				"UpdateFileCopier.deps.json","ImagingDeviceManager.dll","ImagingCapture.dll","RdlEngine.dll","RdlViewer.dll","Direct2dWrapper.dll",
+				ProgramNames.DbSettingsExeFileName,"OpenPmsDentalDbSettings.dll.config","Microsoft.CodeAnalysis.dll","Microsoft.CodeAnalysis.VisualBasic.dll" })
 			{
 				CollectionAssert.Contains(listPaths,name);
 			}
+			Assert.IsFalse(listPaths.Any(x => x.EndsWith(".exe.config",StringComparison.OrdinalIgnoreCase)),"No *.exe.config is staged.");
+			//The runtime part: the x64 runtime beside the programs and the helper's x86 runtime in Helper32\, from the runtime packs' lists.
+			foreach(string name in new[] { "coreclr.dll","hostfxr.dll","hostpolicy.dll","System.Private.CoreLib.dll","PresentationFramework.dll",
+				@"Helper32\coreclr.dll",@"Helper32\hostfxr.dll",@"Helper32\System.Windows.Forms.dll" })
+			{
+				Assert.IsTrue(listFiles.Any(x => x.Key=="runtime" && x.Value==name),"Not on the runtime list: "+name);
+			}
+			Assert.IsFalse(listFiles.Any(x => x.Key=="runtime" && x.Value==@"Helper32\PresentationFramework.dll"),"The helper takes WinForms only.");
+			//TWAINDSM.dll is a setup file (the 64-bit system folder), never a file of the program folder.
+			CollectionAssert.AreEqual(new[] { "TWAINDSM.dll" },listFiles.Where(x => x.Key=="setup").Select(x => x.Value).ToArray());
 			foreach(string path in _arrayDocuments) {
 				Assert.IsTrue(listFiles.Any(x => x.Key=="doc" && x.Value==path),"Not staged: "+path);
 			}
@@ -169,14 +184,17 @@ namespace ReleaseFlowTests {
 				Assert.IsTrue(listFiles.Any(x => x.Key=="own" && x.Value==name),"A build id file is not shipped as the program's own: "+name);
 			}
 			Assert.AreEqual(listPaths.Count,listPaths.Distinct(StringComparer.OrdinalIgnoreCase).Count(),"No file twice.");
-			foreach(string path in listPaths) {
+			foreach(string path in listFiles.Where(x => x.Key!="setup").Select(x => x.Value)) {
 				string name=Path.GetFileName(path);
 				Assert.IsFalse(_arrayDenied.Contains(name,StringComparer.OrdinalIgnoreCase),"Allowed although denied: "+path);
 				Assert.IsFalse(name.EndsWith(".pdb",StringComparison.OrdinalIgnoreCase),path);
 				Assert.IsFalse(name.StartsWith("unins",StringComparison.OrdinalIgnoreCase),"The uninstaller is not staged: "+path);
 				Assert.IsFalse(name.StartsWith("OpenDent",StringComparison.OrdinalIgnoreCase),"A pre-rename name: "+path);
 			}
-			Assert.IsTrue(listFiles.Where(x => x.Key!="doc").All(x => !x.Value.Contains("\\")),"The program's files are all at the top level.");
+			Assert.IsTrue(listFiles.Where(x => x.Key!="doc").All(x => !x.Value.Contains("\\") || x.Value.StartsWith(@"Helper32\")),
+				"The program's files are all at the top level, but for the one sub folder Helper32\\.");
+			Assert.IsTrue(listFiles.Where(x => x.Key=="own" && x.Value.Contains("\\")).All(x => x.Value.StartsWith(@"Helper32\OpenPmsDentalHelper32.")),
+				"Only the helper's own files are in Helper32\\.");
 		}
 
 		[TestMethod]
@@ -340,10 +358,11 @@ namespace ReleaseFlowTests {
 				dictOutDirs.Add(match.Groups[1].Value+"|"+match.Groups[2].Value,
 					xElementOutDir.Value.Trim().Replace("$(Configuration)",match.Groups[1].Value).Replace("$(Platform)",match.Groups[2].Value));
 			}
-			CollectionAssert.AreEquivalent(new[] { "Debug|Win32","Debug|x64","Release|Win32","Release|x64" },dictOutDirs.Keys.ToArray());
-			Assert.AreEqual(4,dictOutDirs.Values.Distinct(StringComparer.OrdinalIgnoreCase).Count(),"One output folder per configuration.");
-			Assert.AreEqual(@"$(ProjectDir)bin\Release\",dictOutDirs["Release|Win32"]);
-			StringAssert.Contains(TestPaths.ReadSource("tools","Build-Release.ps1"),@"'Direct2dWrapper.dll'='Direct2dWrapper\bin\Release'");
+			//Since S3b-4 the project has x64 configurations only (the Win32 ones went with the x86 program); the release takes the x64 Release build.
+			CollectionAssert.AreEquivalent(new[] { "Debug|x64","Release|x64" },dictOutDirs.Keys.ToArray());
+			Assert.AreEqual(2,dictOutDirs.Values.Distinct(StringComparer.OrdinalIgnoreCase).Count(),"One output folder per configuration.");
+			Assert.AreEqual(@"$(ProjectDir)bin\x64\Release\",dictOutDirs["Release|x64"]);
+			StringAssert.Contains(TestPaths.ReadSource("tools","Build-Release.ps1"),@"'Direct2dWrapper.dll'='Direct2dWrapper\bin\x64\Release'");
 		}
 
 		[TestMethod]
@@ -365,8 +384,9 @@ namespace ReleaseFlowTests {
 			Assert.AreEqual("{#AppName}",SetupDirective(iss,"AppName"));
 			Assert.AreEqual("{#AppVersion}",SetupDirective(iss,"AppVersion"));
 			Assert.AreEqual(version+".0.0",SetupDirective(iss,"VersionInfoVersion"));
-			Assert.AreEqual(@"{commonpf32}\Open PMS - Dental",SetupDirective(iss,"DefaultDirName"));
-			Assert.AreEqual(ProgramNames.DefaultInstallFolder,@"C:\Program Files (x86)\Open PMS - Dental");
+			//A 64-bit install into Program Files (decision 19, S3b-7).
+			Assert.AreEqual(@"{commonpf64}\Open PMS - Dental",SetupDirective(iss,"DefaultDirName"));
+			Assert.AreEqual(ProgramNames.DefaultInstallFolder,@"C:\Program Files\Open PMS - Dental");
 			Assert.AreEqual("OpenPmsDental-{#AppVersion}-Setup",SetupDirective(iss,"OutputBaseFilename"));
 			//The License Agreement page is the text Build-Release.ps1 writes from installer\setup-license.txt (LicensePage_ test below), not the
 			//GPL version 2 of LICENSE: as installed, with PDFsharp and MigraDoc, the program is conveyed under the GPL version 3.
@@ -462,19 +482,61 @@ namespace ReleaseFlowTests {
 			}
 		}
 
+		///<summary>The setup's prerequisites since stage 3b (decisions 6, 8, 19 and 20; S3b-7): no .NET runtime, no .NET Framework gate (the program
+		///carries its own runtime), the x64 Visual C++ redistributable checked in both registry views and downloaded only from Microsoft with the same
+		///signature check, the WebView2 runtime only checked, and the warning below Windows 11 with MinVersion as the hard floor.</summary>
 		[TestMethod]
 		public void Iss_ChecksThePrerequisites_AndDownloadsOnlyFromMicrosoft() {
 			string iss=ReadIss();
-			StringAssert.Contains(iss,"NetFx48Release = 528040;");
-			StringAssert.Contains(iss,@"'SOFTWARE\Microsoft\VisualStudio\14.0\VC\Runtimes\x86'");
+			Assert.IsFalse(iss.Contains("NetFx48"),"No .NET Framework gate.");
+			Assert.IsFalse(Regex.IsMatch(iss,@"(?i)dotnet-runtime|windowsdesktop-runtime|dotnet\.microsoft\.com/download"),"No .NET runtime download.");
+			StringAssert.Contains(iss,@"VcRedistKey = 'SOFTWARE\Microsoft\VisualStudio\14.0\VC\Runtimes\x64';");
+			StringAssert.Contains(iss,"VcRedistUrl = 'https://aka.ms/vs/17/release/vc_redist.x64.exe';");
+			StringAssert.Contains(iss,"Result := HasVcRedistKey(HKLM64) or HasVcRedistKey(HKLM32);");
+			Assert.IsFalse(iss.Contains("vc_redist.x86"),"The x86 redistributable went with the x86 program.");
 			StringAssert.Contains(iss,@"'SOFTWARE\Microsoft\EdgeUpdate\Clients\{F3017226-FE2A-4295-8BDF-00C3A9A7E4C5}'");
 			StringAssert.Contains(iss,"function IsSignedByMicrosoft(");
+			StringAssert.Contains(iss,"if not IsSignedByMicrosoft(Path) then begin");
+			//Windows 11 is the baseline: a warning below build 22000 that names Microsoft's list and lets the user go on; MinVersion is the floor.
+			StringAssert.Contains(iss,"Windows11Build = 22000;");
+			StringAssert.Contains(iss,"DotNetWindowsUrl = 'https://learn.microsoft.com/en-us/dotnet/core/install/windows';");
+			StringAssert.Contains(iss,"if Version.Build < Windows11Build then");
+			StringAssert.Contains(iss,"SuppressibleMsgBox(OldWindows, mbConfirmation, MB_YESNO, IDYES)");
+			Assert.AreEqual("10.0.18362",SetupDirective(iss,"MinVersion"));
 			foreach(Match match in Regex.Matches(iss,@"https?://[^\s'""]+")) {
-				string url=match.Value;
-				bool isMicrosoft=url.StartsWith("https://aka.ms/") || url.StartsWith("https://go.microsoft.com/") || url.StartsWith("https://dotnet.microsoft.com/");
+				string url=match.Value.TrimEnd(')',':','.',',',';');
+				bool isMicrosoft=url.StartsWith("https://aka.ms/") || url.StartsWith("https://go.microsoft.com/") || url.StartsWith("https://learn.microsoft.com/");
 				bool isSource=url.StartsWith("https://github.com/Marysville-Dental-Center/opendental");
-				Assert.IsTrue(isMicrosoft || isSource,"Unexpected address: "+url);
+				bool isInnoSetupHelp=url=="https://jrsoftware.org/ishelp/index.php?topic=64bitinstallation";
+				Assert.IsTrue(isMicrosoft || isSource || isInnoSetupHelp,"Unexpected address: "+url);
 			}
+			//The setup downloads only the Visual C++ redistributable: one DownloadPrereq call, with its Microsoft address.
+			Assert.AreEqual(1,Regex.Matches(iss,@"DownloadPrereq\(Vc").Count);
+		}
+
+		///<summary>The 64-bit install (decision 19, S3b-7): x64compatible in 64-bit mode, Program Files, and the 64-bit TWAINDSM.dll into the 64-bit
+		///system folder as a shared file the uninstall leaves, installed when missing or older (no ignoreversion); never into the program folder.
+		///</summary>
+		[TestMethod]
+		public void Iss_InstallsIn64BitMode_AndTheTwainDsmIntoTheSystemFolder() {
+			string iss=ReadIss();
+			Assert.AreEqual("x64compatible",SetupDirective(iss,"ArchitecturesAllowed"));
+			Assert.AreEqual("x64compatible",SetupDirective(iss,"ArchitecturesInstallIn64BitMode"));
+			Assert.AreEqual("yes",SetupDirective(iss,"UsePreviousAppDir"));
+			Assert.IsFalse(iss.Contains("{commonpf32}"),"Never Program Files (x86).");
+			Assert.IsFalse(iss.Contains("{syswow64}"),"Never the 32-bit system folder.");
+			string dsmLine=iss.Split('\n').Single(x => x.StartsWith("Source: \"{#TwainDsmFile}\""));
+			StringAssert.Contains(dsmLine,"DestDir: \"{sys}\"");
+			StringAssert.Contains(dsmLine,"sharedfile");
+			StringAssert.Contains(dsmLine,"uninsneveruninstall");
+			Assert.IsFalse(dsmLine.Contains("ignoreversion"),"Only when missing or older.");
+			StringAssert.Contains(iss,"#define TwainDsmFile \"bin\\setup-files\\TWAINDSM.dll\"");
+			//Build-Release passes the checked file and refuses one in the program folder.
+			string script=TestPaths.ReadSource("tools","Build-Release.ps1");
+			StringAssert.Contains(script,"\"/DTwainDsmFile=$($twainDsm.Path)\"");
+			StringAssert.Contains(script,"$TwainDsmSha256='25869f88a2bc76ded62a13aaea9f2084f0165bfdbbb7f46b9c3a43298938d467'");
+			StringAssert.Contains(script,"$TwainDsmSigner='O=TWAIN Working Group'");
+			StringAssert.Contains(script,"@('TWAINDSM.dll',");
 		}
 
 		[TestMethod]
@@ -560,7 +622,10 @@ namespace ReleaseFlowTests {
 			StringAssert.Contains(header,"The owner runs it, never an agent");
 			StringAssert.Contains(header,"WHAT IT CHANGES ON THIS PC");
 			StringAssert.Contains(header,@"%TEMP%\OpenPmsDental-installtest-");
-			StringAssert.Contains(header,@"HKLM\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\{D5640A25-F302-4CAD-96DC-84AAA8B22F98}_is1");
+			StringAssert.Contains(header,@"HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{D5640A25-F302-4CAD-96DC-84AAA8B22F98}_is1");
+			StringAssert.Contains(header,@"C:\Windows\System32\TWAINDSM.dll");
+			StringAssert.Contains(header,@"HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\SharedDLLs");
+			StringAssert.Contains(TestPaths.ReadSource("docs","port-notes","S3b-7.md"),COMMAND);
 			StringAssert.Contains(header,@"HKLM\SYSTEM\CurrentControlSet\Services\EventLog\Application\"+ProgramNames.EventLogSource);
 			StringAssert.Contains(TestPaths.ReadSource("docs","port-notes","S3a-11.md"),COMMAND);
 			//ASCII only (Windows PowerShell 5.1 reads a file without a byte order mark in the ANSI code page).
@@ -577,8 +642,11 @@ namespace ReleaseFlowTests {
 			Assert.IsFalse(script.IndexOf("/CURRENTUSER",StringComparison.OrdinalIgnoreCase)>=0,"No per-user install.");
 			string appId=SetupDirective(iss,"AppId").Substring(1);
 			Assert.AreEqual(appId+"_is1",ScriptValue(script,"AppId"));
-			Assert.AreEqual(@"HKLM:\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\$AppId",ScriptValue(script,"UninstallKey"));
-			StringAssert.Contains(script,"Check (Test-Path $UninstallKey) 'all-users uninstall entry written (32-bit view)'");
+			//The 64-bit setup's entry is in the 64-bit view (S3b-7); the 32-bit view's is an installation of v0.0, compared at the end.
+			Assert.AreEqual(@"HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$AppId",ScriptValue(script,"UninstallKey"));
+			Assert.AreEqual(@"HKLM:\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\$AppId",ScriptValue(script,"UninstallKey32"));
+			StringAssert.Contains(script,"Check (Test-Path $UninstallKey) 'all-users uninstall entry written (64-bit view)'");
+			StringAssert.Contains(script,"'the 32-bit view''s uninstall entry (an installation of v0.0) is as before the test'");
 			StringAssert.Contains(script,"Check (-not (Test-Path $UninstallKeyUser)) 'no per-user uninstall entry'");
 			StringAssert.Contains(script,"\"/DIR=`\"$dir`\"\"");
 			StringAssert.Contains(script,"Join-Path $env:TEMP (\"OpenPmsDental-installtest-");
@@ -600,9 +668,11 @@ namespace ReleaseFlowTests {
 			foreach(string scenario in new[] { "after A","after B","after D" }) {
 				StringAssert.Contains(script,"Test-Uninstalled '"+scenario+"'");
 			}
-			//It never starts the program: no Start-Process but the setup and the uninstaller.
+			//It never starts the program: no Start-Process but the setup, the uninstaller and the installed connection settings tool, whose loaded
+			//modules show the install folder's own runtime (S3b-7).
 			List<string> listStarts=Regex.Matches(script,@"Start-Process -FilePath (\S+)").Cast<Match>().Select(x => x.Groups[1].Value).ToList();
-			CollectionAssert.AreEquivalent(new[] { "$Setup","$uninstaller" },listStarts);
+			CollectionAssert.AreEquivalent(new[] { "$Setup","$uninstaller","$tool" },listStarts);
+			StringAssert.Contains(script,"$tool=Join-Path $dir $DbSettingsExe");
 			List<string> listCalls=Regex.Matches(script,@"(?m)^\s*& (\S+)").Cast<Match>().Select(x => x.Groups[1].Value).ToList();
 			CollectionAssert.AreEquivalent(new[] { "reg.exe" },listCalls,"Only reg.exe export, for the saved keys.");
 			//An installation that was there before keeps its two keys: the script saves them and writes them back.

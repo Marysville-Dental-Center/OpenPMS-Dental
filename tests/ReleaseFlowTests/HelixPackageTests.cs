@@ -21,7 +21,9 @@ using TestProbeHost;
 namespace ReleaseFlowTests {
 	[TestClass]
 	public class HelixPackageTests {
-		///<summary>The files of Helix Toolkit's closure that ship, and the package of each.</summary>
+		///<summary>The files of Helix Toolkit's closure that ship, and the package of each. System.ComponentModel.Annotations.dll, the eighth on .NET
+		///Framework, is a file of the .NET runtime on .NET 10 (the restore prunes the package; the runtime part ships the runtime's file, S3b-7).
+		///</summary>
 		private static readonly string[][] _arrayHelixFiles=new[] {
 			new[] { "HelixToolkit.dll","HelixToolkit" },
 			new[] { "HelixToolkit.Geometry.dll","HelixToolkit.Geometry" },
@@ -30,7 +32,6 @@ namespace ReleaseFlowTests {
 			new[] { "CommunityToolkit.Common.dll","CommunityToolkit.Common" },
 			new[] { "CommunityToolkit.Diagnostics.dll","CommunityToolkit.Diagnostics" },
 			new[] { "CommunityToolkit.Mvvm.dll","CommunityToolkit.Mvvm" },
-			new[] { "System.ComponentModel.Annotations.dll","System.ComponentModel.Annotations" },
 		};
 
 		///<summary>The files of System.Net.Http 4.3.4 and the System.* 4.3.x packages it brings. The .NET Framework 4.8 has newer assemblies of
@@ -99,7 +100,10 @@ namespace ReleaseFlowTests {
 		[TestMethod]
 		public void AllowList_ShipsTheHelixFiles_FromTheirPackages_AndNoSystemNetHttp() {
 			string script=TestPaths.ReadSource("tools","Build-Release.ps1");
-			List<string> listThird=ListReleaseFiles().Where(x => x.StartsWith("third|")).Select(x => x.Substring("third|".Length)).ToList();
+			List<string> listRelease=ListReleaseFiles();
+			List<string> listThird=listRelease.Where(x => x.StartsWith("third|")).Select(x => x.Substring("third|".Length)).ToList();
+			CollectionAssert.Contains(listRelease,"runtime|System.ComponentModel.Annotations.dll","The runtime's file on .NET 10.");
+			Assert.IsFalse(listThird.Contains("System.ComponentModel.Annotations.dll",StringComparer.OrdinalIgnoreCase),"Not the package's any more.");
 			foreach(string[] arrayRow in _arrayHelixFiles) {
 				CollectionAssert.Contains(listThird,arrayRow[0]);
 				StringAssert.Contains(script,"'"+arrayRow[0]+"'='package:"+arrayRow[1]+"'");
@@ -116,7 +120,7 @@ namespace ReleaseFlowTests {
 		[TestMethod]
 		public void ProgramFolder_HoldsTheHelixFiles_ILOnly_AndNot32BitRequired() {
 			if(!File.Exists(Path.Combine(FolderProgram,"OpenPmsDental.exe"))) {
-				BuildOutput.NotBuilt(@"OpenPmsDental\bin\Debug is not built. Build OpenDental.Local.slnf (Debug|x86) first.");
+				BuildOutput.NotBuilt(@"OpenPmsDental\bin\Debug is not built. Build OpenPmsDental (Debug|x64) first.");
 				return;
 			}
 			Dictionary<string,PackageFile> dictPackageFiles=NuGetFiles.ReadCopiedFiles(TestPaths.RepoRoot,Path.Combine(TestPaths.RepoRoot,"OpenPmsDental"));
@@ -152,8 +156,19 @@ namespace ReleaseFlowTests {
 			List<string> listProjects=NuGetFiles.ListSolutionLockFiles(TestPaths.RepoRoot)
 				.Where(x => NuGetFiles.ReadLockFile(x).Any(y => y.Id.Equals("System.Net.Http",StringComparison.OrdinalIgnoreCase)))
 				.Select(x => Path.GetDirectoryName(x)).ToList();
-			Assert.IsTrue(listProjects.Count>=40,"The projects that get Helix Toolkit through SparksToothChart: "+listProjects.Count);
-			Assert.IsTrue(listProjects.Any(x => Path.GetFileName(x)=="OpenPmsDental"),"The program gets it.");
+			//The .NET Framework projects that are left (the test projects until S3b-5 retargets them). On .NET 10 the restore prunes System.Net.Http
+			//and the System.* 4.3.x packages (the runtime has newer assemblies of those names), so the program's lock file names none of them, and
+			//the files of those names in its folder are the runtime part's (S3b-7).
+			string pathProgramLock=Path.Combine(TestPaths.RepoRoot,"OpenPmsDental","packages.lock.json");
+			Assert.IsFalse(NuGetFiles.ReadLockFile(pathProgramLock).Any(y => y.Id.Equals("System.Net.Http",StringComparison.OrdinalIgnoreCase)),
+				"The program's restore prunes System.Net.Http on .NET 10.");
+			listProjects.Remove(Path.GetDirectoryName(pathProgramLock));
+			if(File.Exists(Path.Combine(FolderProgram,"OpenPmsDental.deps.json"))) {
+				Dictionary<string,OpenPmsDentalBusiness.ReleaseRuntime> dictRuntime=OpenPmsDentalBusiness.ForkReleases.GetRuntimeFileNames(FolderProgram);
+				foreach(string fileName in _arrayFrameworkFiles.Where(x => File.Exists(Path.Combine(FolderProgram,x)))) {
+					Assert.IsTrue(dictRuntime.ContainsKey(fileName),fileName+" in the program folder is a runtime file of its .deps.json.");
+				}
+			}
 			List<string> listProblems=new List<string>();
 			int countBuilt=0;
 			foreach(string folderProject in listProjects) {
@@ -227,18 +242,21 @@ namespace ReleaseFlowTests {
 		///or locked here.</summary>
 		[TestMethod]
 		public void HelixTypes_TheChartWillUse_LoadFromTheProgramFolder() {
+			//On .NET the program has no OpenPmsDental.exe.config and no binding redirects (S3b-4): the probe gets an empty configuration then.
 			string pathConfig=Path.Combine(FolderProgram,"OpenPmsDental.exe.config");
-			if(!File.Exists(Path.Combine(FolderProgram,"HelixToolkit.Wpf.dll")) || !File.Exists(pathConfig)) {
-				BuildOutput.NotBuilt(@"OpenPmsDental\bin\Debug is not built (HelixToolkit.Wpf.dll, OpenPmsDental.exe.config). Build OpenDental.Local.slnf (Debug|x86) first.");
+			if(!File.Exists(Path.Combine(FolderProgram,"HelixToolkit.Wpf.dll"))) {
+				BuildOutput.NotBuilt(@"OpenPmsDental\bin\Debug is not built (HelixToolkit.Wpf.dll). Build OpenPmsDental (Debug|x64) first.");
 				return;
 			}
+			ProbeProcessTests.RequireHostCopyStarts();
+			string configText=File.Exists(pathConfig) ? File.ReadAllText(pathConfig) : "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<configuration />\r\n";
 			string folderProbe=Path.Combine(Path.GetTempPath(),"releaseflow_helix_"+Guid.NewGuid().ToString("N"));
 			Directory.CreateDirectory(folderProbe);
 			string[] arrayLines;
 			List<string> listCopied;
 			try {
 				listCopied=CopyWithReferences(FolderProgram,new[] { "HelixToolkit","HelixToolkit.Geometry","HelixToolkit.Maths","HelixToolkit.Wpf" },folderProbe);
-				using(ProbeProcess probeProcess=ProbeProcess.Start(folderProbe,File.ReadAllText(pathConfig),typeof(HelixLoadProbe),TimeSpan.FromMinutes(3))) {
+				using(ProbeProcess probeProcess=ProbeProcess.Start(folderProbe,configText,typeof(HelixLoadProbe),TimeSpan.FromMinutes(3))) {
 					arrayLines=ProbeText.SplitList(probeProcess.Call(HelixLoadProbe.COMMAND_RUN));
 				}
 			}

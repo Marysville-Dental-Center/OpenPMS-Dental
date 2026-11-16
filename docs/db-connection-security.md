@@ -331,7 +331,7 @@ only when they are given. Without those switches setup only checks the settings 
 window when they fail). To change the settings of an installed workstation, run the tool itself from an elevated command prompt:
 
 ```bat
-start "" /wait "C:\Program Files (x86)\Open PMS - Dental\OpenPmsDentalDbSettings.exe" /silent /ca=\\<file-share>\office-ca.pem ^
+start "" /wait "C:\Program Files\Open PMS - Dental\OpenPmsDentalDbSettings.exe" /silent /ca=\\<file-share>\office-ca.pem ^
   /pfx=\\<file-share>\client.pfx /secretsfile=C:\Temp\dbsecrets.txt /log=C:\Temp\dbsettings.log /test
 echo %ERRORLEVEL%
 del C:\Temp\dbsecrets.txt

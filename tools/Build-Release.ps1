@@ -638,7 +638,12 @@ function Test-RuntimeVersions([string]$folder,[switch]$AnyVersion){
 	if(Test-Path -LiteralPath $helperPath -PathType Container){ $depsFiles+=@(Get-ChildItem -LiteralPath $helperPath -Filter '*.deps.json' -File) }
 	foreach($deps in $depsFiles){
 		$key=if($deps.DirectoryName.TrimEnd('\') -eq $helperPath.TrimEnd('\')){ $HelperFolder }else{ '' }
-		foreach($pack in Get-DepsRuntimePacks $deps.FullName){
+		try{ $packs=Get-DepsRuntimePacks $deps.FullName }
+		catch{
+			$result.Problems.Add("Not readable: $($deps.Name) is not a .deps.json ($($_.Exception.Message))")
+			continue
+		}
+		foreach($pack in $packs){
 			$version=$pack.Split('/')[-1]
 			if(-not $byFolder[$key].Contains($version)){ $byFolder[$key].Add($version) }
 		}
@@ -659,7 +664,11 @@ function Test-RuntimeVersions([string]$folder,[switch]$AnyVersion){
 	$configs=@(Get-ChildItem -LiteralPath $folder -Filter '*.runtimeconfig.json' -File -ErrorAction SilentlyContinue)
 	if(Test-Path -LiteralPath $helperPath -PathType Container){ $configs+=@(Get-ChildItem -LiteralPath $helperPath -Filter '*.runtimeconfig.json' -File) }
 	foreach($config in $configs){
-		$options=Get-JsonValue ([System.IO.File]::ReadAllText($config.FullName) | ConvertFrom-Json) 'runtimeOptions'
+		try{ $options=Get-JsonValue ([System.IO.File]::ReadAllText($config.FullName) | ConvertFrom-Json) 'runtimeOptions' }
+		catch{
+			$result.Problems.Add("Not readable: $($config.Name) is not a .runtimeconfig.json ($($_.Exception.Message))")
+			continue
+		}
 		$frameworks=@(Get-JsonValue $options 'includedFrameworks')
 		if($frameworks.Count -eq 0 -or $null -eq $frameworks[0]){
 			$result.Problems.Add("Not self-contained: $($config.Name) includes no framework.")
