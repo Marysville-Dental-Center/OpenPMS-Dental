@@ -1279,6 +1279,19 @@ server URL for the gate, section 7 of the note); BSERVERTests 57 of 57 on .NET 1
 the Web SDK project from its file (its reader does not model that SDK); LibraryBindingTests, ReleaseFilesTests and Test-NoOldNames follow.
 The gate's Windows-service check is the owner's or lead's (elevated).
 
+**Status (2026-11-16), S3b-5.** On `net10/s3b5-1` (`docs/port-notes/S3b-5.md`): every test project is `net10.0-windows` x64,
+framework-dependent (`tests\Directory.Build.props` names no target framework; UnitTests with its `UI Testing` windows; TopazStandIn stays net48
+on purpose); every test assembly registers the code pages in an `[AssemblyInitialize]` (`tests\Shared\TestCodePages.cs`). The lane's full
+`OpenDental.Local.slnf` build x64 without a scoped restore: 0 errors, NU1201 gone; DocumentationBuilder builds with its lock file.
+LibraryBindingTests' binding-redirect and GAC checks retired for their .NET 10 equivalents (`.deps.json` and lock-file versions, the .NET
+binding rule, the shared framework); `tests\BindingRedirects.config`, the AppConfig rule and every app.config's redirect and startup sections
+went. Product fixes, same behaviour as net48: `TimeSpan.FromX` rounded to the millisecond (`CodeBase.ODTimeSpan`, 86 calls), CAPI keys opened
+from the key provider information (SYSLIB0028/0057 cleared), ODZip's path characters, the chooser's 32-bit-preferred rule, the helper's test
+module load, the Middle Tier's IIS site root. The section 7 default-font tests (NoHqTests), the helper tests on the program's `Helper32\`
+helper, the x64 columns of the pointer-size tests. Runs (x64, `-RequireBuildOutput`): 122 assemblies, 10,342 tests, 31 failed: S3b-FMT's
+formatting (GoldenOutputTests 6, BINBTests 1), S3b-7's release files (ReleaseFlowTests 18, LibraryBindingTests 3), one headless WPF picture,
+one open ZIP message (EhrTests); not run: InitSqlTests, ForkMigrationTests (coordinator) and the WPF picture projects (S3b-5W).
+
 **Order on the branch.** S3b-0 (spike) and S3b-1 first; then S3b-2, S3b-3 strictly in sequence (each layer must be net10 before the
 layer above can build); then S3b-4 with S3b-6 and S3b-7 in parallel (disjoint files: the Middle Tier package owns the Remoting and
 WebServices files, the release package owns ForkReleases/DocumentMiscs/PrefL/UpdateFileCopier's `FormMain.cs`/setup/Build-Release;
