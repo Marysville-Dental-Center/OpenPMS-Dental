@@ -1,6 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net48</TargetFramework>
+    <!-- net10.0-windows x64, self-contained for win-x64 like every exe (Directory.Build.props, Directory.Build.Net.props; S3b-4 of
+         docs/specs/net10-plan.md, docs/port-notes/S3b-4.md); not shipped. Its .NET Framework references are parts of Microsoft.NETCore.App
+         and Microsoft.WindowsDesktop.App on .NET (UseWindowsForms). Its app.config (binding redirects and startup, which .NET ignores) goes
+         with LibraryBindingTests' redirect checks in S3b-5. -->
+    <UseWindowsForms>true</UseWindowsForms>
     <OutputType>WinExe</OutputType>
     <RootNamespace>MySQLManager</RootNamespace>
     <AssemblyName>MySQLManager</AssemblyName>
@@ -14,16 +18,6 @@
     <DebugType>pdbonly</DebugType>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\SharedAssemblyInfo.cs">
