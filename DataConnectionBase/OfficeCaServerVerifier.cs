@@ -216,13 +216,15 @@ namespace DataConnectionBase {
 			}
 			try {
 				MatchCollection matchCollection=_regexPemCertificate.Matches(Encoding.ASCII.GetString(arrayBytes));
+				//X509CertificateLoader.LoadCertificate (one DER or PEM certificate) replaces the byte constructor of X509Certificate2 on .NET
+				//(SYSLIB0057).
 				if(matchCollection.Count>0) {
 					foreach(Match match in matchCollection) {
-						listCa.Add(new X509Certificate2(Convert.FromBase64String(match.Groups["base64"].Value)));
+						listCa.Add(X509CertificateLoader.LoadCertificate(Convert.FromBase64String(match.Groups["base64"].Value)));
 					}
 				}
 				else {
-					listCa.Add(new X509Certificate2(arrayBytes));
+					listCa.Add(X509CertificateLoader.LoadCertificate(arrayBytes));
 				}
 			}
 			catch(Exception ex) when(ex is CryptographicException || ex is FormatException) {

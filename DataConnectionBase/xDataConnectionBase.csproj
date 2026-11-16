@@ -1,6 +1,5 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net48</TargetFramework>
     <OutputType>Library</OutputType>
     <RootNamespace>DataConnectionBase</RootNamespace>
     <AssemblyName>DataConnectionBase</AssemblyName>
@@ -14,32 +13,18 @@
     <DebugType>pdbonly</DebugType>
   </PropertyGroup>
   <ItemGroup>
-    <!-- MySqlConnector (the package, at the version of Directory.Packages.props, since S2-2 of docs/specs/net10-plan.md) and the support
-         packages it needs, below, so every program that uses the database copies them. The programs' configs redirect the older versions
-         MySqlConnector was built against to these (tests/LibraryBindingTests). -->
+    <!-- MySqlConnector (the package, at the version of Directory.Packages.props, since S2-2 of docs/specs/net10-plan.md), so every program
+         that uses the database gets it. net10.0-windows, no UI of its own: System.Drawing (SIn, SOut) is part of
+         Microsoft.WindowsDesktop.App, which the CodeBase reference brings (its UseWindowsForms framework reference flows to this project). -->
     <PackageReference Include="MySqlConnector" />
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <!-- The support assemblies MySqlConnector needs, with theirs (Logging.Abstractions needs DependencyInjection.Abstractions, which needs
-         Bcl.AsyncInterfaces), at the versions of Directory.Packages.props. -->
-    <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" />
+    <!-- The support assemblies MySqlConnector needs that .NET 10 does not have built in (Logging.Abstractions needs
+         DependencyInjection.Abstractions), at the versions of Directory.Packages.props. The .NET Framework polyfills (Microsoft.Bcl.AsyncInterfaces,
+         System.Buffers, System.Diagnostics.DiagnosticSource, System.Memory, System.Numerics.Vectors, System.Runtime.CompilerServices.Unsafe,
+         System.Threading.Tasks.Extensions) are part of Microsoft.NETCore.App: NuGet prunes them on net10.0 (S3b-2). -->
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
-    <PackageReference Include="System.Buffers" />
-    <PackageReference Include="System.Diagnostics.DiagnosticSource" />
-    <PackageReference Include="System.Memory" />
-    <PackageReference Include="System.Numerics.Vectors" />
-    <PackageReference Include="System.Runtime.CompilerServices.Unsafe" />
-    <PackageReference Include="System.Threading.Tasks.Extensions" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\SharedAssemblyInfo.cs">
