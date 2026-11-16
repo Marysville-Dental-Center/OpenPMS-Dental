@@ -95,6 +95,9 @@ namespace OpenPmsDentalBusiness {
 		public bool IsOk;
 		public ReleaseManifest Manifest;
 		public List<string> ListProblems=new List<string>();
+		///<summary>True when the download folder holds the runtime part too (its files and ReleaseRuntimePart.MANIFEST_FILE_NAME), because the
+		///published runtime key differs from this workstation's (S3b-7). False when the program part alone was downloaded.</summary>
+		public bool IsRuntimeIncluded;
 	}
 
 	///<summary>The fork's own release channel. The update server stores its binaries in documentmisc rows of the fork-only types
@@ -104,16 +107,23 @@ namespace OpenPmsDentalBusiness {
 	public class ForkReleases {
 		///<summary>Bytes of archive per segment row. 786,432 bytes is 1MB of base64, well under the default max_allowed_packet.</summary>
 		public const int SEGMENT_BYTES=786432;
-		///<summary>Sub folders of the installation folder that are published too (not recursive), the same ones UpdateFileCopier copies.</summary>
+		///<summary>Sub folders of the installation folder that are published too (not recursive), the same ones UpdateFileCopier copies. Helper32 is
+		///the 32-bit helper program with its own x86 runtime (S3a-13, decision 20; its runtime files belong to the runtime part, S3b-7).</summary>
 		public static readonly List<string> ListSpecialDirs=new List<string>() {
 			"OpenDentalReplicationService",
+			HELPER32_FOLDER_NAME,
 		};
+		///<summary>The sub folder of the installation folder with the 32-bit helper program and its x86 runtime (CodeBase's Helper32Client starts it
+		///from there; Build-Release accepts this one sub folder).</summary>
+		public const string HELPER32_FOLDER_NAME="Helper32";
 		///<summary>The program's own assemblies. The build id is the SHA-256 over their names and SHA-256 values, so any rebuilt assembly gives a new
 		///build id while third-party files are not hashed at every startup. ComputeBuildId skips a missing file silently, so the program-named
 		///files come from ProgramNames (the one place a rename changes them), and ReleaseFlowTests checks that every file is in the build output.
 		///</summary>
 		public static readonly List<string> ListBuildIdFiles=new List<string>() {
 			ProgramNames.ExeFileName,
+			//On .NET the exe is the apphost and the program's code is in its .dll (S3b-7); on the .NET Framework build ComputeBuildId skips it.
+			ProgramNames.ProcessName+".dll",
 			ProgramNames.BusinessDllFileName,
 			"CodeBase.dll",
 			"DataConnectionBase.dll",
@@ -156,6 +166,17 @@ namespace OpenPmsDentalBusiness {
 			"SharpDX.Mathematics.dll",
 			"Tao.OpenGl.dll",
 			"Tao.Platform.Windows.dll",
+			//The .NET Framework settings files of the programs (S3b-7): on .NET the SDK writes <name>.dll.config instead, and the helper moved into
+			//Helper32\ without one.
+			ProgramNames.ExeFileName+".config",
+			"ServiceManager.exe.config",
+			ProgramNames.DbSettingsExeFileName+".config",
+			"OpenPmsDentalHelper32.exe.config",
+			//Packages of the .NET Framework build whose types are part of .NET 10, so the restore prunes them and nothing ships them (S3b-7). The
+			//other packages the .NET Framework build shipped for the same reason (System.Memory.dll, System.Text.Json.dll and others) are not
+			//retired: the runtime part has files of those names.
+			"Microsoft.Bcl.AsyncInterfaces.dll",
+			"Microsoft.Bcl.Cryptography.dll",
 		};
 		///<summary>Key of the AssemblyMetadata attribute that holds the build time of OpenPmsDental.exe (written by OpenPmsDental.csproj).</summary>
 		public const string BUILD_UTC_METADATA_KEY="ForkBuildUtc";
@@ -510,7 +531,7 @@ namespace OpenPmsDentalBusiness {
 		public static bool ShouldPublishFile(string fileName) {
 			if(fileName.In(ProgramNames.ConfigFileName,ProgramNames.MiddleTierConfigFileName,"ProximitySettings.txt",
 				ProgramNames.ReplicationServiceConfigFileName,
-				ReleaseManifest.FILE_NAME,"Manifest.txt"))
+				ReleaseManifest.FILE_NAME,ReleaseRuntimePart.MANIFEST_FILE_NAME,"Manifest.txt"))
 			{
 				return false;
 			}
@@ -523,12 +544,15 @@ namespace OpenPmsDentalBusiness {
 			return true;
 		}
 
-		///<summary>Lists the files of the installation folder that a release contains, as paths relative to the folder.</summary>
+		///<summary>Lists the files of the installation folder that a release's program part contains, as paths relative to the folder. The runtime
+		///files (GetRuntimeFileNames: what the .deps.json files of a self-contained build name from the runtime packs) are left out: they are the
+		///runtime part, published apart (S3b-7). A .NET Framework build has none.</summary>
 		public static List<string> GetReleaseFiles(string folder) {
+			HashSet<string> hashSetRuntime=new HashSet<string>(GetRuntimeFileNames(folder).Keys,StringComparer.OrdinalIgnoreCase);
 			List<string> listRelative=new List<string>();
 			foreach(string path in Directory.GetFiles(folder)) {
 				string name=Path.GetFileName(path);
-				if(ShouldPublishFile(name)) {
+				if(ShouldPublishFile(name) && !hashSetRuntime.Contains(name)) {
 					listRelative.Add(name);
 				}
 			}
@@ -539,7 +563,7 @@ namespace OpenPmsDentalBusiness {
 				}
 				foreach(string path in Directory.GetFiles(folderSpecial)) {
 					string name=Path.GetFileName(path);
-					if(ShouldPublishFile(name)) {
+					if(ShouldPublishFile(name) && !hashSetRuntime.Contains(specialDir+"\\"+name)) {
 						listRelative.Add(specialDir+"\\"+name);
 					}
 				}
@@ -547,10 +571,141 @@ namespace OpenPmsDentalBusiness {
 			return listRelative.OrderBy(x => x,StringComparer.OrdinalIgnoreCase).ToList();
 		}
 
+		///<summary>The runtime files of a self-contained build in the folder, by path relative to it (backslashes), each with the runtime identifier
+		///and version of its runtime pack: every file that a .deps.json at the top of the folder or in Helper32\ names as an asset (runtime or native)
+		///of a library of type "runtimepack" (runtimepack.Microsoft.NETCore.App.Runtime.win-x64/10.0.15 and the WindowsDesktop one). That is the
+		///list the SDK copied from the runtime packs' own file lists (data/RuntimeList.xml) when it built the program. Empty for a .NET Framework
+		///build, whose folder has no .deps.json. Throws InvalidDataException for a .deps.json that cannot be read.</summary>
+		public static Dictionary<string,ReleaseRuntime> GetRuntimeFileNames(string folder) {
+			Dictionary<string,ReleaseRuntime> dictionaryFiles=new Dictionary<string,ReleaseRuntime>(StringComparer.OrdinalIgnoreCase);
+			List<string> listDeps=Directory.GetFiles(folder,"*.deps.json").OrderBy(x => x,StringComparer.OrdinalIgnoreCase).ToList();
+			string folderHelper=Path.Combine(folder,HELPER32_FOLDER_NAME);
+			if(Directory.Exists(folderHelper)) {
+				listDeps.AddRange(Directory.GetFiles(folderHelper,"*.deps.json").OrderBy(x => x,StringComparer.OrdinalIgnoreCase));
+			}
+			foreach(string pathDeps in listDeps) {
+				string prefix=Path.GetDirectoryName(pathDeps).TrimEnd('\\').Equals(folderHelper.TrimEnd('\\'),StringComparison.OrdinalIgnoreCase)
+					? HELPER32_FOLDER_NAME+"\\" : "";
+				foreach(KeyValuePair<string,ReleaseRuntime> pair in ReadDepsRuntimeFiles(pathDeps)) {
+					//Two programs of one folder share its runtime files, so they must name them at one version (decision 20: one runtime per folder).
+					if(dictionaryFiles.TryGetValue(prefix+pair.Key,out ReleaseRuntime releaseRuntimeOther) && releaseRuntimeOther.Version!=pair.Value.Version) {
+						throw new InvalidDataException("The runtime file "+prefix+pair.Key+" is named at "+releaseRuntimeOther.Version+" and at "
+							+pair.Value.Version+" (in "+Path.GetFileName(pathDeps)+"). The programs of one folder run on one runtime version.");
+					}
+					dictionaryFiles[prefix+pair.Key]=pair.Value;
+				}
+			}
+			return dictionaryFiles;
+		}
+
+		///<summary>The runtime files one .deps.json names (file name to the runtime pack's runtime identifier and version), from the libraries of type
+		///"runtimepack" in its runtime target. Empty when it names none (a framework-dependent program). Throws InvalidDataException when the file
+		///is not a .deps.json this reads, or a runtime pack's name has no version.</summary>
+		public static Dictionary<string,ReleaseRuntime> ReadDepsRuntimeFiles(string pathDeps) {
+			Dictionary<string,ReleaseRuntime> dictionaryFiles=new Dictionary<string,ReleaseRuntime>(StringComparer.OrdinalIgnoreCase);
+			try {
+				using(System.Text.Json.JsonDocument jsonDocument=System.Text.Json.JsonDocument.Parse(File.ReadAllBytes(pathDeps))) {
+					System.Text.Json.JsonElement root=jsonDocument.RootElement;
+					string target=root.GetProperty("runtimeTarget").GetProperty("name").GetString();
+					System.Text.Json.JsonElement elementTarget=root.GetProperty("targets").GetProperty(target);
+					foreach(System.Text.Json.JsonProperty jsonPropertyLibrary in root.GetProperty("libraries").EnumerateObject()) {
+						if(!jsonPropertyLibrary.Value.TryGetProperty("type",out System.Text.Json.JsonElement elementType)
+							|| elementType.GetString()!="runtimepack")
+						{
+							continue;
+						}
+						//runtimepack.Microsoft.NETCore.App.Runtime.win-x64/10.0.15
+						string[] arrayNameParts=jsonPropertyLibrary.Name.Split('/');
+						int indexRid=arrayNameParts[0].LastIndexOf(".Runtime.",StringComparison.OrdinalIgnoreCase);
+						if(arrayNameParts.Length!=2 || indexRid<0) {
+							throw new InvalidDataException("The runtime pack "+jsonPropertyLibrary.Name+" has no version or runtime identifier.");
+						}
+						ReleaseRuntime releaseRuntime=new ReleaseRuntime(ReleaseRuntime.FRAMEWORK_NET_CORE_APP,arrayNameParts[1],
+							arrayNameParts[0].Substring(indexRid+".Runtime.".Length));
+						if(!elementTarget.TryGetProperty(jsonPropertyLibrary.Name,out System.Text.Json.JsonElement elementLibrary)) {
+							continue;
+						}
+						foreach(string section in new[] { "runtime","native" }) {
+							if(!elementLibrary.TryGetProperty(section,out System.Text.Json.JsonElement elementSection)) {
+								continue;
+							}
+							foreach(System.Text.Json.JsonProperty jsonPropertyAsset in elementSection.EnumerateObject()) {
+								dictionaryFiles[jsonPropertyAsset.Name.Split('/').Last()]=releaseRuntime;
+							}
+						}
+					}
+				}
+			}
+			catch(Exception ex) when(ex is System.Text.Json.JsonException || ex is KeyNotFoundException || ex is InvalidOperationException) {
+				throw new InvalidDataException("The file "+pathDeps+" is not a .deps.json that names its runtime: "+ex.Message,ex);
+			}
+			return dictionaryFiles;
+		}
+
+		///<summary>The runtime part of the self-contained build in the folder (S3b-7, decision 20): its runtime files (GetRuntimeFileNames) with
+		///their sizes and SHA-256, the version and the architectures (the program's first, then the helper's), and the key over them. Null for a
+		///.NET Framework build (no runtime files). Throws InvalidDataException when the folder's runtime files are of more than one version (a
+		///workstation must never mix runtime versions) or a named runtime file is missing.</summary>
+		public static ReleaseRuntimePart GetRuntimePart(string folder) {
+			Dictionary<string,ReleaseRuntime> dictionaryFiles=GetRuntimeFileNames(folder);
+			if(dictionaryFiles.Count==0) {
+				return null;
+			}
+			List<string> listVersions=dictionaryFiles.Values.Select(x => x.Version).Distinct().OrderBy(x => x,StringComparer.Ordinal).ToList();
+			if(listVersions.Count>1) {
+				throw new InvalidDataException("The runtime files in "+folder+" are of more than one version ("+string.Join(", ",listVersions)
+					+"). Run the setup, which carries the full runtime.");
+			}
+			ReleaseRuntimePart releaseRuntimePart=new ReleaseRuntimePart();
+			releaseRuntimePart.Version=listVersions[0];
+			//The program's architecture first (the files at the top of the folder), then the helper's.
+			releaseRuntimePart.ListArchitectures=dictionaryFiles
+				.OrderBy(x => x.Key.StartsWith(HELPER32_FOLDER_NAME+"\\",StringComparison.OrdinalIgnoreCase) ? 1 : 0)
+				.Select(x => x.Value.Architecture).Distinct(StringComparer.OrdinalIgnoreCase).ToList();
+			foreach(string relative in dictionaryFiles.Keys.OrderBy(x => x,StringComparer.OrdinalIgnoreCase)) {
+				string path=Path.Combine(folder,relative);
+				if(!File.Exists(path)) {
+					throw new InvalidDataException("The runtime file "+relative+" is missing from "+folder+". Run the setup, which carries the full runtime.");
+				}
+				ReleaseManifestFile releaseManifestFile=new ReleaseManifestFile();
+				releaseManifestFile.RelativePath=relative;
+				releaseManifestFile.Size=new FileInfo(path).Length;
+				releaseManifestFile.Sha256=ReleaseManifest.ComputeSha256File(path);
+				releaseRuntimePart.ListFiles.Add(releaseManifestFile);
+			}
+			releaseRuntimePart.Key=releaseRuntimePart.ComputeKey();
+			return releaseRuntimePart;
+		}
+
+		///<summary>Builds the zipped archive of the runtime part: every runtime file under its relative path ('/' separators), then the runtime part's
+		///manifest without the archive hash (ReleaseRuntimePart.MANIFEST_FILE_NAME). Sets the part's ArchiveSha256 and returns the archive. Each file
+		///is read once and must still have the size and SHA-256 the part lists.</summary>
+		public static byte[] BuildRuntimeArchive(string folder,ReleaseRuntimePart releaseRuntimePart) {
+			byte[] arrayArchive;
+			using(MemoryStream memoryStream=new MemoryStream()) {
+				using(ZipArchive zipArchive=new ZipArchive(memoryStream,ZipArchiveMode.Create,leaveOpen:true)) {
+					foreach(ReleaseManifestFile releaseManifestFile in releaseRuntimePart.ListFiles.OrderBy(x => x.RelativePath,StringComparer.OrdinalIgnoreCase)) {
+						byte[] arrayBytes=File.ReadAllBytes(Path.Combine(folder,releaseManifestFile.RelativePath));
+						if(arrayBytes.LongLength!=releaseManifestFile.Size || ReleaseManifest.ComputeSha256(arrayBytes)!=releaseManifestFile.Sha256) {
+							throw new InvalidDataException("The runtime file "+releaseManifestFile.RelativePath+" changed while the release was built.");
+						}
+						ODZip.AddEntry(zipArchive,releaseManifestFile.RelativePath.Replace('\\','/'),arrayBytes);
+					}
+					ODZip.AddEntry(zipArchive,ReleaseRuntimePart.MANIFEST_FILE_NAME,
+						Encoding.UTF8.GetBytes(releaseRuntimePart.SerializeManifest(includeArchiveHash:false)));
+				}
+				arrayArchive=memoryStream.ToArray();
+			}
+			releaseRuntimePart.ArchiveSha256=ReleaseManifest.ComputeSha256(arrayArchive);
+			return arrayArchive;
+		}
+
 		///<summary>Builds the manifest and zipped archive for the files of the folder. The archive holds the files and a copy of the manifest without
-		///the archive hash; the returned manifest has it.</summary>
+		///the archive hash; the returned manifest has it. With releaseRuntimePart (S3b-7, a self-contained build: GetRuntimePart, with its
+		///ArchiveSha256 set), the manifest names the runtime part the release needs (its five lines) and the Runtime line its runtime: the version
+		///and the program's architecture of its files. The runtime files are never in this archive (GetReleaseFiles).</summary>
 		public static ReleaseManifest BuildRelease(string folder,ReleaseIdentity releaseIdentity,string publishedBy,DateTime dateTimeUtc,
-			out byte[] arrayArchive)
+			out byte[] arrayArchive,ReleaseRuntimePart releaseRuntimePart=null)
 		{
 			ReleaseManifest releaseManifest=new ReleaseManifest();
 			releaseManifest.ReleaseVersion=releaseIdentity.ReleaseVersion;
@@ -564,6 +719,12 @@ namespace OpenPmsDentalBusiness {
 			//new setup") instead of reading it as one of its own. A bridge release writes no Runtime line, as before. S3b-7 adds the runtime part.
 			if(releaseIdentity.Runtime!=null && !releaseIdentity.Runtime.IsSameFrameworkAndArchitecture(ReleaseRuntime.NetFramework48X86)) {
 				releaseManifest.Runtime=releaseIdentity.Runtime;
+			}
+			if(releaseRuntimePart!=null) {
+				//The runtime the release's files carry (S3b-7): what a workstation that pulls it will run on.
+				releaseManifest.Runtime=new ReleaseRuntime(ReleaseRuntime.FRAMEWORK_NET_CORE_APP,releaseRuntimePart.Version,
+					releaseRuntimePart.ListArchitectures[0]);
+				releaseManifest.RuntimePart=releaseRuntimePart;
 			}
 			//The archive layout: every file under its relative path with '/' separators, in GetReleaseFiles order, then the manifest at the root.
 			using(MemoryStream memoryStream=new MemoryStream()) {
@@ -587,23 +748,44 @@ namespace OpenPmsDentalBusiness {
 		}
 
 		///<summary>Publishes the files of the folder as the current release: stores the archive segments and the manifest, then sets the
-		///ForkProgramVersion marker. Direct connection only. Callers set UpdateInProgressOnComputerName around it so other workstations wait.</summary>
+		///ForkProgramVersion marker. Direct connection only. Callers set UpdateInProgressOnComputerName around it so other workstations wait.
+		///A self-contained build (S3b-7, decision 20) is published in two parts. The runtime part (GetRuntimePart: the runtime files of both
+		///architectures) is written first, and only when its key differs from the published runtime part's (DocumentMiscs.ReplaceForkRuntime, its
+		///manifest last); with the same key no runtime row is written and the program part names the published one. Then the program part, its
+		///manifest last, as before. A .NET Framework build has no runtime part and writes no runtime row.</summary>
 		public static ReleaseManifest Publish(string folder,ReleaseIdentity releaseIdentity,string publishedBy,DateTime? dateTimeUtc=null) {
 			Meth.NoCheckMiddleTierRole();
 			if(RemotingClient.MiddleTierRole==MiddleTierRole.ClientMT) {
 				//The whole archive would travel as one Middle Tier payload. Publishing stays a direct-connection operation, as before S0-T.
 				throw new ApplicationException("Releases can only be published over a direct database connection.");
 			}
+			ReleaseRuntimePart releaseRuntimePart=GetRuntimePart(folder);
+			if(releaseRuntimePart!=null) {
+				ReleaseRuntimePart releaseRuntimePartPublished=GetPublishedRuntimePart(out string errorRuntime);
+				if(releaseRuntimePartPublished!=null && releaseRuntimePartPublished.IsSameAs(releaseRuntimePart)) {
+					releaseRuntimePart.ArchiveSha256=releaseRuntimePartPublished.ArchiveSha256;//Unchanged: no runtime row is written.
+				}
+				else {
+					byte[] arrayRuntime=BuildRuntimeArchive(folder,releaseRuntimePart);
+					DocumentMiscs.ReplaceForkRuntime(Convert.ToBase64String(Encoding.UTF8.GetBytes(releaseRuntimePart.SerializeManifest())),
+						SplitSegments(arrayRuntime));
+				}
+			}
 			byte[] arrayArchive;
-			ReleaseManifest releaseManifest=BuildRelease(folder,releaseIdentity,publishedBy,dateTimeUtc??DateTime.UtcNow,out arrayArchive);
+			ReleaseManifest releaseManifest=BuildRelease(folder,releaseIdentity,publishedBy,dateTimeUtc??DateTime.UtcNow,out arrayArchive,releaseRuntimePart);
+			DocumentMiscs.ReplaceForkRelease(Convert.ToBase64String(Encoding.UTF8.GetBytes(releaseManifest.Serialize())),SplitSegments(arrayArchive));
+			ForkVersions.SetMarker(ForkVersions.PREF_FORK_PROGRAM_VERSION,FormatProgramVersion(releaseIdentity));
+			return releaseManifest;
+		}
+
+		///<summary>The archive as base64 segments of SEGMENT_BYTES bytes each, the rows of a release part.</summary>
+		private static List<string> SplitSegments(byte[] arrayArchive) {
 			List<string> listSegments=new List<string>();
 			for(int offset=0;offset<arrayArchive.Length;offset+=SEGMENT_BYTES) {
 				int length=Math.Min(SEGMENT_BYTES,arrayArchive.Length-offset);
 				listSegments.Add(Convert.ToBase64String(arrayArchive,offset,length));
 			}
-			DocumentMiscs.ReplaceForkRelease(Convert.ToBase64String(Encoding.UTF8.GetBytes(releaseManifest.Serialize())),listSegments);
-			ForkVersions.SetMarker(ForkVersions.PREF_FORK_PROGRAM_VERSION,FormatProgramVersion(releaseIdentity));
-			return releaseManifest;
+			return listSegments;
 		}
 
 		///<summary>Recopy over a published manifest that is not readable (S3a-10f, docs/port-notes/S3a-10.md section 12). When
@@ -684,6 +866,45 @@ namespace OpenPmsDentalBusiness {
 			return releaseManifest;
 		}
 
+		///<summary>The published runtime part (its manifest row, DocumentMiscType.ForkRuntimeManifest, S3b-7), or null. Null with error "" when none
+		///is published; null with error saying why when the row does not parse (ReleaseRuntimePart.ParseManifest).</summary>
+		public static ReleaseRuntimePart GetPublishedRuntimePart(out string error) {
+			error="";
+			DocumentMisc documentMisc=DocumentMiscs.GetForkRuntimeManifest();
+			if(documentMisc==null) {
+				return null;
+			}
+			try {
+				return ReleaseRuntimePart.ParseManifest(Encoding.UTF8.GetString(Convert.FromBase64String(documentMisc.RawBase64??"")));
+			}
+			catch(Exception ex) {
+				error="The published runtime part manifest is not readable: "+ex.Message;
+				return null;
+			}
+		}
+
+		///<summary>The runtime key of the installation folder (S3b-7): the runtime part its release manifest (ForkRelease.manifest, which
+		///UpdateFileCopier writes after it checked every runtime file) names; for a folder without one (a fresh install by the setup) the key over its
+		///runtime files (GetRuntimePart). "" when it has neither, or they cannot be read: then a pull downloads the runtime part.</summary>
+		public static string GetInstalledRuntimeKey(string folderInstall) {
+			if(string.IsNullOrEmpty(folderInstall) || !Directory.Exists(folderInstall)) {
+				return "";
+			}
+			try {
+				string pathManifest=Path.Combine(folderInstall,ReleaseManifest.FILE_NAME);
+				if(File.Exists(pathManifest)) {
+					ReleaseManifest releaseManifestInstalled=ReleaseManifest.Parse(File.ReadAllText(pathManifest));
+					if(releaseManifestInstalled.RuntimePart!=null) {
+						return releaseManifestInstalled.RuntimePart.Key;
+					}
+				}
+				return GetRuntimePart(folderInstall)?.Key??"";
+			}
+			catch(Exception ex) when(ex is FormatException || ex is IOException || ex is UnauthorizedAccessException) {
+				return "";
+			}
+		}
+
 		///<summary>The published manifest (for its build time and runtime), or, when it is missing or another build's, a manifest with only the
 		///release version and build id of the ForkProgramVersion marker, whose build order is then unknown. Null when the published manifest is not
 		///readable or names another product: this workstation can neither pull nor publish then (RefuseUnreadable), so MayRunUnpublishedBuild lets it
@@ -705,8 +926,14 @@ namespace OpenPmsDentalBusiness {
 		///<summary>Downloads the published release into the empty or missing folder and checks it: product name, archive SHA-256, only listed files,
 		///safe paths, the archive's own manifest equal to the published one, and every file's size and SHA-256. On any problem IsOk is false and the
 		///folder must not be used. With releaseIdentityRunning (the program passes its own), a release for another framework or architecture is
-		///refused before anything is downloaded (GetRuntimeRefusal); null, or an identity without a runtime, skips that check.</summary>
-		public static ReleaseDownloadResult DownloadAndVerify(string folderDest,ReleaseIdentity releaseIdentityRunning=null) {
+		///refused before anything is downloaded (GetRuntimeRefusal); null, or an identity without a runtime, skips that check.
+		///A release with a runtime part (S3b-7): when its runtime key equals folderInstall's (GetInstalledRuntimeKey) only the program part is
+		///downloaded, and the folder must hold no runtime file. Otherwise the runtime part is downloaded into the same folder too and checked in full
+		///before anything is copied: its manifest row must be the one the program part names (key, version, architectures, archive SHA-256), its
+		///archive must match that SHA-256, its own manifest inside must equal the published one, and every runtime file must have its size and
+		///SHA-256, which give the key (IsRuntimeIncluded). A runtime file that does not belong to that one key fails the check, so nothing of it is
+		///copied.</summary>
+		public static ReleaseDownloadResult DownloadAndVerify(string folderDest,ReleaseIdentity releaseIdentityRunning=null,string folderInstall=null) {
 			ReleaseDownloadResult releaseDownloadResult=new ReleaseDownloadResult();
 			ReleaseManifest releaseManifest=GetPublishedManifest(out string error);
 			if(releaseManifest==null) {
@@ -743,9 +970,72 @@ namespace OpenPmsDentalBusiness {
 			if(releaseDownloadResult.ListProblems.Count>0) {
 				return releaseDownloadResult;
 			}
-			releaseDownloadResult.ListProblems.AddRange(releaseManifest.VerifyFolder(folderDest));
+			if(releaseManifest.RuntimePart!=null && GetInstalledRuntimeKey(folderInstall)!=releaseManifest.RuntimePart.Key) {
+				releaseDownloadResult.IsRuntimeIncluded=true;
+				releaseDownloadResult.ListProblems.AddRange(DownloadRuntimePart(folderDest,releaseManifest.RuntimePart));
+				if(releaseDownloadResult.ListProblems.Count>0) {
+					return releaseDownloadResult;
+				}
+			}
+			releaseDownloadResult.ListProblems.AddRange(releaseManifest.VerifyFolder(folderDest,releaseDownloadResult.IsRuntimeIncluded));
 			releaseDownloadResult.IsOk=releaseDownloadResult.ListProblems.Count==0;
 			return releaseDownloadResult;
+		}
+
+		///<summary>Downloads the published runtime part into folderDest, beside the program part already there, and checks it against the runtime
+		///part the program part names (releaseRuntimePartNeeded): the manifest row names the same key, version and architectures and archive SHA-256,
+		///the joined segments match that SHA-256, and the archive holds only the listed runtime files and its own manifest, equal to the published one.
+		///Writes the runtime part's manifest (ReleaseRuntimePart.MANIFEST_FILE_NAME) into the folder. Returns the problems found; the files' sizes
+		///and SHA-256 are checked afterwards by ReleaseManifest.VerifyFolder.</summary>
+		private static List<string> DownloadRuntimePart(string folderDest,ReleaseRuntimePart releaseRuntimePartNeeded) {
+			List<string> listProblems=new List<string>();
+			ReleaseRuntimePart releaseRuntimePartPublished=GetPublishedRuntimePart(out string error);
+			if(releaseRuntimePartPublished==null) {
+				listProblems.Add((error=="" ? "The runtime part this release needs is not published." : error)
+					+" Publish the release again from the update server.");
+				return listProblems;
+			}
+			if(!releaseRuntimePartPublished.IsSameAs(releaseRuntimePartNeeded)
+				|| releaseRuntimePartPublished.ArchiveSha256!=releaseRuntimePartNeeded.ArchiveSha256)
+			{
+				listProblems.Add("The published runtime part (.NET "+releaseRuntimePartPublished.Version+", key "
+					+releaseRuntimePartPublished.Key.Substring(0,Math.Min(12,releaseRuntimePartPublished.Key.Length))+") is not the one this release needs (.NET "
+					+releaseRuntimePartNeeded.Version+", key "+releaseRuntimePartNeeded.Key.Substring(0,Math.Min(12,releaseRuntimePartNeeded.Key.Length))
+					+"). Publish the release again from the update server.");
+				return listProblems;
+			}
+			byte[] arrayArchive;
+			try {
+				arrayArchive=JoinSegments(DocumentMiscs.GetForkRuntimeSegments());
+			}
+			catch(Exception ex) {
+				listProblems.Add("The runtime part's archive is not readable: "+ex.Message);
+				return listProblems;
+			}
+			if(ReleaseManifest.ComputeSha256(arrayArchive)!=releaseRuntimePartNeeded.ArchiveSha256.ToLowerInvariant()) {
+				listProblems.Add("The runtime part's archive does not match its SHA-256. It may be incomplete; publish the release again from the update "
+					+"server.");
+				return listProblems;
+			}
+			listProblems.AddRange(ExtractEntries(arrayArchive,folderDest,releaseRuntimePartNeeded.ListFiles,ReleaseRuntimePart.MANIFEST_FILE_NAME,
+				releaseRuntimePartNeeded.SerializeManifest(includeArchiveHash:false),"runtime part"));
+			if(listProblems.Count>0) {
+				return listProblems;
+			}
+			File.WriteAllText(Path.Combine(folderDest,ReleaseRuntimePart.MANIFEST_FILE_NAME),releaseRuntimePartNeeded.SerializeManifest(),
+				new UTF8Encoding(false));
+			return listProblems;
+		}
+
+		///<summary>The segment rows' base64 joined into the archive bytes. Throws FormatException for a row that is not base64.</summary>
+		private static byte[] JoinSegments(List<DocumentMisc> listSegments) {
+			using(MemoryStream memoryStream=new MemoryStream()) {
+				foreach(DocumentMisc documentMisc in listSegments) {
+					byte[] arrayBytes=Convert.FromBase64String(documentMisc.RawBase64??"");
+					memoryStream.Write(arrayBytes,0,arrayBytes.Length);
+				}
+				return memoryStream.ToArray();
+			}
 		}
 
 		///<summary>The largest manifest read from a release archive. A real one is a few hundred bytes per file.</summary>
@@ -756,13 +1046,29 @@ namespace OpenPmsDentalBusiness {
 		///that appears twice, one the manifest does not list, or one that inflates beyond its listed size is refused, and the archive's own manifest
 		///must equal the published one. File sizes and SHA-256 are checked afterwards by ReleaseManifest.VerifyFolder.</summary>
 		public static List<string> ExtractArchive(byte[] arrayArchive,string folderDest,ReleaseManifest releaseManifest) {
-			List<string> listProblems=new List<string>();
 			if(Directory.Exists(folderDest)) {
 				Directory.Delete(folderDest,true);
 			}
 			Directory.CreateDirectory(folderDest);
+			List<string> listProblems=ExtractEntries(arrayArchive,folderDest,releaseManifest.ListFiles,ReleaseManifest.FILE_NAME,
+				releaseManifest.Serialize(includeArchiveHash:false),"release");
+			if(listProblems.Count>0) {
+				return listProblems;
+			}
+			File.WriteAllText(Path.Combine(folderDest,ReleaseManifest.FILE_NAME),releaseManifest.Serialize(),new UTF8Encoding(false));
+			return listProblems;
+		}
+
+		///<summary>Extracts the entries of a release part's archive (the program part's or the runtime part's, what) into folderDest, which exists, and
+		///returns the problems found: an entry with an unsafe path, one that appears twice, one that listFiles does not list, one that inflates beyond
+		///its listed size, and an archive whose manifest entry (manifestFileName) is missing or differs from manifestExpected. Writes nothing outside
+		///folderDest and does not write the manifest itself.</summary>
+		private static List<string> ExtractEntries(byte[] arrayArchive,string folderDest,List<ReleaseManifestFile> listFiles,string manifestFileName,
+			string manifestExpected,string what)
+		{
+			List<string> listProblems=new List<string>();
 			Dictionary<string,ReleaseManifestFile> dictionaryListed=new Dictionary<string,ReleaseManifestFile>(StringComparer.OrdinalIgnoreCase);
-			foreach(ReleaseManifestFile releaseManifestFile in releaseManifest.ListFiles) {
+			foreach(ReleaseManifestFile releaseManifestFile in listFiles) {
 				dictionaryListed[releaseManifestFile.RelativePath.Replace('/','\\')]=releaseManifestFile;
 			}
 			HashSet<string> hashSetSeen=new HashSet<string>(StringComparer.OrdinalIgnoreCase);
@@ -776,14 +1082,14 @@ namespace OpenPmsDentalBusiness {
 						}
 						string relative=zipArchiveEntry.FullName.Replace('/','\\');
 						if(!ReleaseManifest.IsSafeRelativePath(relative)) {
-							listProblems.Add("Unsafe path in the release archive: "+zipArchiveEntry.FullName);
+							listProblems.Add("Unsafe path in the "+what+" archive: "+zipArchiveEntry.FullName);
 							continue;
 						}
 						if(!hashSetSeen.Add(relative)) {
-							listProblems.Add("In the release archive twice: "+relative);
+							listProblems.Add("In the "+what+" archive twice: "+relative);
 							continue;
 						}
-						if(relative.Equals(ReleaseManifest.FILE_NAME,StringComparison.OrdinalIgnoreCase)) {
+						if(relative.Equals(manifestFileName,StringComparison.OrdinalIgnoreCase)) {
 							manifestInside=Encoding.UTF8.GetString(ODZip.ReadEntry(zipArchiveEntry,MAX_MANIFEST_BYTES));
 							continue;
 						}
@@ -793,7 +1099,7 @@ namespace OpenPmsDentalBusiness {
 						}
 						string pathDest=ODZip.GetSafeExtractPath(folderDest,relative);
 						if(pathDest==null) {
-							listProblems.Add("Unsafe path in the release archive: "+zipArchiveEntry.FullName);
+							listProblems.Add("Unsafe path in the "+what+" archive: "+zipArchiveEntry.FullName);
 							continue;
 						}
 						Directory.CreateDirectory(Path.GetDirectoryName(pathDest));
@@ -805,25 +1111,24 @@ namespace OpenPmsDentalBusiness {
 						}
 						catch(ODZip.EntryTooLargeException) {
 							File.Delete(pathDest);
-							listProblems.Add("Larger in the release archive than the manifest says: "+relative);
+							listProblems.Add("Larger in the "+what+" archive than the manifest says: "+relative);
 						}
 					}
 				}
 			}
 			catch(Exception ex) when(ex is InvalidDataException || ex is ODZip.EntryTooLargeException) {
 				//A corrupt archive, or a manifest entry that inflates beyond MAX_MANIFEST_BYTES.
-				listProblems.Add("The release archive is not a readable zip archive: "+ex.Message);
+				listProblems.Add("The "+what+" archive is not a readable zip archive: "+ex.Message);
 				return listProblems;
 			}
 			if(manifestInside==null) {
-				listProblems.Add("The release archive has no manifest.");
+				listProblems.Add("The "+what+" archive has no manifest.");
 				return listProblems;
 			}
-			if(manifestInside!=releaseManifest.Serialize(includeArchiveHash:false)) {
-				listProblems.Add("The manifest inside the release archive differs from the published manifest.");
+			if(manifestInside!=manifestExpected) {
+				listProblems.Add("The manifest inside the "+what+" archive differs from the published manifest.");
 				return listProblems;
 			}
-			File.WriteAllText(Path.Combine(folderDest,ReleaseManifest.FILE_NAME),releaseManifest.Serialize(),new UTF8Encoding(false));
 			return listProblems;
 		}
 		#endregion Pull
@@ -863,15 +1168,42 @@ namespace OpenPmsDentalBusiness {
 
 		///<summary>Copies every file UpdateFileCopier needs (GetFileCopierFiles) from folderSource into folderDest, which is emptied first, so it
 		///never mixes the files of two copiers. Returns the path of the copied exe. Throws when the exe is missing or a file cannot be copied (an
-		///earlier copier still running from folderDest, for example).</summary>
-		public static string CopyFileCopier(string folderSource,string folderDest) {
+		///earlier copier still running from folderDest, for example).
+		///With folderRuntime (S3b-7: the .NET 10 copier is self-contained and runs on the x64 runtime beside it), the runtime files that the
+		///copier's .deps.json names are copied too, from folderRuntime: the download folder when the pull brought a new runtime part, otherwise the
+		///program folder, whose runtime then has the same version. So the copier runs from the temp folder on one x64 runtime and holds no file of
+		///the program folder. Throws InvalidDataException when the copier names another runtime version than folderRuntime's program
+		///(ProgramNames.ProcessName.deps.json there), and FileNotFoundException when a runtime file it names is missing.</summary>
+		public static string CopyFileCopier(string folderSource,string folderDest,string folderRuntime=null) {
 			List<string> listFileNames=GetFileCopierFiles(folderSource);
+			Dictionary<string,ReleaseRuntime> dictionaryRuntime=new Dictionary<string,ReleaseRuntime>(StringComparer.OrdinalIgnoreCase);
+			string baseName=Path.GetFileNameWithoutExtension(ProgramNames.UpdateFileCopierExeFileName);
+			string pathDepsCopier=Path.Combine(folderSource,baseName+".deps.json");
+			if(folderRuntime!=null && File.Exists(pathDepsCopier)) {
+				dictionaryRuntime=ReadDepsRuntimeFiles(pathDepsCopier);
+				string pathDepsProgram=Path.Combine(folderRuntime,ProgramNames.ProcessName+".deps.json");
+				if(dictionaryRuntime.Count>0 && File.Exists(pathDepsProgram)) {
+					List<string> listVersionsProgram=ReadDepsRuntimeFiles(pathDepsProgram).Values.Select(x => x.Version).Distinct().ToList();
+					List<string> listVersionsCopier=dictionaryRuntime.Values.Select(x => x.Version).Distinct().ToList();
+					if(listVersionsProgram.Count>0 && !listVersionsCopier.SequenceEqual(listVersionsProgram)) {
+						throw new InvalidDataException("The update file copier runs on .NET "+string.Join(", ",listVersionsCopier)+", but the runtime files in "
+							+folderRuntime+" are .NET "+string.Join(", ",listVersionsProgram)+". Nothing was copied; run the setup, which carries the full runtime.");
+					}
+				}
+			}
 			if(Directory.Exists(folderDest)) {
 				Directory.Delete(folderDest,true);
 			}
 			Directory.CreateDirectory(folderDest);
 			foreach(string fileName in listFileNames) {
 				File.Copy(Path.Combine(folderSource,fileName),Path.Combine(folderDest,fileName),false);
+			}
+			foreach(string fileName in dictionaryRuntime.Keys.OrderBy(x => x,StringComparer.OrdinalIgnoreCase)) {
+				string pathRuntime=Path.Combine(folderRuntime,fileName);
+				if(!File.Exists(pathRuntime)) {
+					throw new FileNotFoundException("The runtime file "+fileName+" that the update file copier needs is not in "+folderRuntime+".",pathRuntime);
+				}
+				File.Copy(pathRuntime,Path.Combine(folderDest,fileName),true);
 			}
 			return Path.Combine(folderDest,ProgramNames.UpdateFileCopierExeFileName);
 		}

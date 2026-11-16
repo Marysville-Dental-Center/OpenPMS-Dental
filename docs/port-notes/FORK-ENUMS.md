@@ -56,6 +56,9 @@ the owner decides.
 **Earlier values.** Version 0.0 released three tinyint fork-only values before these ranges were set. They keep their numbers, and no
 feature may take them in their enum: `DocumentMiscType` 100 and 101 (the release channel, below every range), and `UserOdFkeyType` 114
 (the Patient Forms view of package B-EF, inside inventory tracking's range, so in `UserOdFkeyType` inventory tracking has 114 taken).
+The release channel's runtime part (package S3b-7 of the .NET 10 move, `docs/port-notes/S3b-7.md`) takes the next two values beside its
+first two: `DocumentMiscType` 102 `ForkRuntimeManifest` and 103 `ForkRuntimeSegment`, the same table and column, so no schema change. The
+release channel keeps one block, 100 to 103, below every range; `ForkEnums.ListEarlierValues` lists the four with it.
 
 ## Every fork-only value
 
@@ -73,6 +76,8 @@ feature may take them in their enum: `DocumentMiscType` 100 and 101 (the release
 | FormType         | 119   | FormSupplyInventory   | Inventory tracking  |
 | DocumentMiscType | 100   | ForkReleaseManifest   | Release channel     |
 | DocumentMiscType | 101   | ForkReleaseSegment    | Release channel     |
+| DocumentMiscType | 102   | ForkRuntimeManifest   | Release channel     |
+| DocumentMiscType | 103   | ForkRuntimeSegment    | Release channel     |
 | UserOdFkeyType   | 114   | PatientFormsView      | Patient Forms view  |
 
 ## Code that was unsafe for high values (fixed with routine maintenance)

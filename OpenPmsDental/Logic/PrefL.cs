@@ -386,7 +386,8 @@ namespace OpenPmsDental {
 			try {
 				ProgressWin progressWin=new ProgressWin();
 				progressWin.StartingMessage=Lan.g("Prefs","Downloading the release...");
-				progressWin.ActionMain=() => releaseDownloadResult=ForkReleases.DownloadAndVerify(folderUpdate,releaseIdentityRunning);
+				//The runtime part comes along only when its key differs from this installation's (S3b-7); both parts are checked before anything is copied.
+				progressWin.ActionMain=() => releaseDownloadResult=ForkReleases.DownloadAndVerify(folderUpdate,releaseIdentityRunning,Application.StartupPath);
 				progressWin.ShowCancelButton=false;
 				progressWin.ShowDialog();
 			}
@@ -407,8 +408,18 @@ namespace OpenPmsDental {
 				ReleaseVersion=releaseDownloadResult.Manifest.ReleaseVersion,
 				BuildId=releaseDownloadResult.Manifest.BuildId
 			};
+			//Never start a copier for a release of another architecture or runtime than this process (decision 19): the download checked it, and it is
+			//checked again on what was downloaded, right before the copier starts.
+			string refusalArchitecture=ForkReleases.GetRuntimeRefusal(releaseDownloadResult.Manifest,releaseIdentityRunning);
+			if(refusalArchitecture!="") {
+				FormOpenDental.ExitCode=ForkVersionGuard.EXIT_CODE_RELEASE_INVALID;
+				MessageBox.Show(refusalArchitecture);
+				return;
+			}
 			if(MessageBox.Show(Lan.g("Prefs","Files will now be copied.")+"\r\n"
-				+Lan.g("Prefs","This workstation will be updated from")+" "+releaseIdentityRunning+" "+Lan.g("Prefs","to")+" "+releaseIdentityPublished+".",
+				+Lan.g("Prefs","This workstation will be updated from")+" "+releaseIdentityRunning+" "+Lan.g("Prefs","to")+" "+releaseIdentityPublished+"."
+				+(releaseDownloadResult.IsRuntimeIncluded ? "\r\n"+Lan.g("Prefs","The release brings a new .NET runtime")+" ("
+					+releaseDownloadResult.Manifest.RuntimePart.Version+")." : ""),
 				"",MessageBoxButtons.OKCancel)!=DialogResult.OK)
 			{
 				return;
@@ -612,10 +623,17 @@ namespace OpenPmsDental {
 				updateFileCopierLocation=folderUpdate;
 			}
 			//Every file the copier needs, not only its exe, into a folder of its own (S3a-10: the .NET 10 copier is an apphost with its .dll and
-			//runtime files beside it).
+			//runtime files beside it). The x64 runtime it runs on comes with it (S3b-7): from the download folder when the pull brought a new runtime
+			//part (and the copier is the new release's), otherwise from the program folder, whose runtime is then the same version. The copier then
+			//holds no file of the program folder while it replaces them.
+			string folderRuntime=destDir;
+			if(!useLocalUpdateFileCopier && File.Exists(ODFileUtils.CombinePaths(folderUpdate,ReleaseRuntimePart.MANIFEST_FILE_NAME))) {
+				folderRuntime=folderUpdate;
+			}
 			string startFileName;
 			try {
-				startFileName=ForkReleases.CopyFileCopier(updateFileCopierLocation,ODFileUtils.CombinePaths(tempDir,ForkReleases.FILE_COPIER_FOLDER_NAME));
+				startFileName=ForkReleases.CopyFileCopier(updateFileCopierLocation,ODFileUtils.CombinePaths(tempDir,ForkReleases.FILE_COPIER_FOLDER_NAME),
+					folderRuntime);
 			}
 			catch(Exception ex) {
 				FriendlyException.Show(Lans.g("Prefs","Unable to copy ")+"UpdateFileCopier.exe "+Lans.g("Prefs","from ")+updateFileCopierLocation+".",ex);

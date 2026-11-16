@@ -109,6 +109,9 @@ namespace OpenPmsDentalBusiness {
 	///files, the program's first, separated by single spaces), RuntimeArchiveSha256 (the zipped runtime part), RuntimeKey (ComputeKey) and one
 	///"RuntimeFile=sha256|size|relative path" line per file.</summary>
 	public class ReleaseRuntimePart {
+		///<summary>Name of the runtime part's own manifest: inside its archive, in its database row (DocumentMiscType.ForkRuntimeManifest) and in a
+		///download folder that holds the runtime part's files beside the program part's (S3b-7). Never in the installation folder.</summary>
+		public const string MANIFEST_FILE_NAME="ForkRuntime.manifest";
 		public string Version="";
 		public List<string> ListArchitectures=new List<string>();
 		///<summary>Lower-case hex SHA-256 of the zipped runtime part.</summary>
@@ -127,6 +130,132 @@ namespace OpenPmsDentalBusiness {
 					+releaseManifestFile.Size.ToString(CultureInfo.InvariantCulture)+"|"+releaseManifestFile.Sha256.ToLowerInvariant()+"\n");
 			}
 			return ReleaseManifest.ComputeSha256(Encoding.UTF8.GetBytes(stringBuilder.ToString()));
+		}
+
+		///<summary>The runtime part's own manifest (S3b-7: the row of DocumentMiscType.ForkRuntimeManifest and the copy inside the runtime part's
+		///archive): Format, Product, Runtime (the framework, the version and the program's architecture), then the five runtime part lines the program
+		///part's manifest carries too. Pass includeArchiveHash=false for the copy inside the archive, which cannot hold its own hash. A program part
+		///names the runtime part it needs with the same lines, so the runtime part's key and archive hash are checked against both.</summary>
+		public string SerializeManifest(bool includeArchiveHash=true) {
+			StringBuilder stringBuilder=new StringBuilder();
+			stringBuilder.Append("# Runtime part of a release. Checked with SHA-256 before any file is used.\n");
+			stringBuilder.Append("Format="+ReleaseManifest.FORMAT.ToString(CultureInfo.InvariantCulture)+"\n");
+			stringBuilder.Append("Product="+ReleaseManifest.PRODUCT_NAME+"\n");
+			stringBuilder.Append("Runtime="+ReleaseRuntime.FRAMEWORK_NET_CORE_APP+" "+Version+" "+(ListArchitectures.Count>0 ? ListArchitectures[0] : "")+"\n");
+			AppendLines(stringBuilder,includeArchiveHash);
+			return stringBuilder.ToString();
+		}
+
+		///<summary>The five runtime part lines (RuntimeVersion, RuntimeArchitectures, RuntimeArchiveSha256 unless left out, RuntimeKey, one RuntimeFile
+		///per file in path order), as both manifests write them.</summary>
+		internal void AppendLines(StringBuilder stringBuilder,bool includeArchiveHash) {
+			stringBuilder.Append("RuntimeVersion="+ReleaseManifest.Clean(Version)+"\n");
+			stringBuilder.Append("RuntimeArchitectures="+ReleaseManifest.Clean(string.Join(" ",ListArchitectures))+"\n");
+			if(includeArchiveHash) {
+				stringBuilder.Append("RuntimeArchiveSha256="+ReleaseManifest.Clean(ArchiveSha256)+"\n");
+			}
+			stringBuilder.Append("RuntimeKey="+ReleaseManifest.Clean(Key)+"\n");
+			foreach(ReleaseManifestFile releaseManifestFile in ListFiles.OrderBy(x => x.RelativePath,StringComparer.OrdinalIgnoreCase)) {
+				stringBuilder.Append("RuntimeFile="+ReleaseManifest.FormatFileLine(releaseManifestFile)+"\n");
+			}
+		}
+
+		///<summary>Parses the runtime part's own manifest (SerializeManifest). Throws FormatException for anything malformed: an unknown format or key,
+		///another product, a Runtime line that is not Microsoft.NETCore.App or does not fit the runtime part's version and first architecture, a missing
+		///line (RuntimeArchiveSha256 may be missing only when requireArchiveHash is false, for the copy inside the archive), a file listed twice, an
+		///unsafe path, or a key that does not match the files.</summary>
+		public static ReleaseRuntimePart ParseManifest(string text,bool requireArchiveHash=true) {
+			if(text==null) {
+				throw new FormatException("The runtime part manifest is empty.");
+			}
+			ReleaseRuntimePart releaseRuntimePart=new ReleaseRuntimePart();
+			HashSet<string> hashSetKeys=new HashSet<string>();
+			ReleaseRuntime releaseRuntime=null;
+			string product=null;
+			bool hasFormat=false;
+			foreach(string lineRaw in text.Replace("\r\n","\n").Split('\n')) {
+				string line=lineRaw.Trim();
+				if(line=="" || line.StartsWith("#")) {
+					continue;
+				}
+				int indexEquals=line.IndexOf('=');
+				if(indexEquals<=0) {
+					throw new FormatException("Bad runtime part manifest line: "+line);
+				}
+				string key=line.Substring(0,indexEquals);
+				string value=line.Substring(indexEquals+1);
+				if(key!="RuntimeFile" && !hashSetKeys.Add(key)) {
+					throw new FormatException("The runtime part manifest has "+key+" twice.");
+				}
+				switch(key) {
+					case "Format":
+						if(value!=ReleaseManifest.FORMAT.ToString(CultureInfo.InvariantCulture)) {
+							throw new FormatException("Unknown runtime part manifest format: "+value);
+						}
+						hasFormat=true;
+						break;
+					case "Product":
+						product=value;
+						break;
+					case "Runtime":
+						releaseRuntime=ReleaseRuntime.Parse(value);
+						break;
+					case "RuntimeVersion":
+					case "RuntimeArchitectures":
+					case "RuntimeArchiveSha256":
+					case "RuntimeKey":
+						ReleaseManifest.ParseRuntimePartLine(releaseRuntimePart,key,value);
+						break;
+					case "RuntimeFile":
+						hashSetKeys.Add(key);
+						releaseRuntimePart.ListFiles.Add(ReleaseManifest.ParseFileLine(value));
+						break;
+					default:
+						throw new FormatException("Unknown runtime part manifest key: "+key);
+				}
+			}
+			if(!hasFormat) {
+				throw new FormatException("The runtime part manifest has no Format line.");
+			}
+			if(product!=ReleaseManifest.PRODUCT_NAME) {
+				throw new FormatException("The runtime part manifest is for another product ("+product+").");
+			}
+			if(releaseRuntime==null || !releaseRuntime.Framework.Equals(ReleaseRuntime.FRAMEWORK_NET_CORE_APP,StringComparison.OrdinalIgnoreCase)) {
+				throw new FormatException("The runtime part manifest names no .NET runtime ("+ReleaseRuntime.FRAMEWORK_NET_CORE_APP+").");
+			}
+			foreach(string key in new[] { "RuntimeVersion","RuntimeArchitectures","RuntimeKey","RuntimeFile" }) {
+				if(!hashSetKeys.Contains(key)) {
+					throw new FormatException("The runtime part manifest has no "+key+" line.");
+				}
+			}
+			if(requireArchiveHash && !hashSetKeys.Contains("RuntimeArchiveSha256")) {
+				throw new FormatException("The runtime part manifest has no RuntimeArchiveSha256 line.");
+			}
+			ReleaseManifest releaseManifestCheck=new ReleaseManifest();
+			releaseManifestCheck.Runtime=releaseRuntime;
+			ReleaseManifest.CheckRuntimePart(releaseManifestCheck,releaseRuntimePart,
+				new HashSet<string>(new[] { "RuntimeVersion","RuntimeArchitectures","RuntimeArchiveSha256","RuntimeKey","RuntimeFile" }));
+			return releaseRuntimePart;
+		}
+
+		///<summary>True when both name the same runtime files: the same key, version and architectures (the key covers the version and every file).
+		///</summary>
+		public bool IsSameAs(ReleaseRuntimePart releaseRuntimePart) {
+			return releaseRuntimePart!=null && Key.Equals(releaseRuntimePart.Key,StringComparison.OrdinalIgnoreCase)
+				&& Version==releaseRuntimePart.Version
+				&& string.Join(" ",ListArchitectures).Equals(string.Join(" ",releaseRuntimePart.ListArchitectures),StringComparison.OrdinalIgnoreCase);
+		}
+
+		///<summary>Checks every runtime file in the folder: present, with the listed size and SHA-256. Other files of the folder are not looked at.
+		///UpdateFileCopier runs it on the installation folder after copying, before it writes the release manifest (S3b-7), so a workstation never
+		///claims a release whose runtime files are of another version. Returns the problems found; an empty list means every runtime file matches.
+		///</summary>
+		public List<string> VerifyFiles(string folder) {
+			List<string> listProblems=new List<string>();
+			foreach(ReleaseManifestFile releaseManifestFile in ListFiles) {
+				listProblems.AddRange(ReleaseManifest.VerifyFile(folder,releaseManifestFile,"runtime file"));
+			}
+			return listProblems;
 		}
 	}
 
@@ -192,13 +321,7 @@ namespace OpenPmsDentalBusiness {
 				stringBuilder.Append("Runtime="+Clean(Runtime.ToString())+"\n");
 			}
 			if(RuntimePart!=null) {
-				stringBuilder.Append("RuntimeVersion="+Clean(RuntimePart.Version)+"\n");
-				stringBuilder.Append("RuntimeArchitectures="+Clean(string.Join(" ",RuntimePart.ListArchitectures))+"\n");
-				stringBuilder.Append("RuntimeArchiveSha256="+Clean(RuntimePart.ArchiveSha256)+"\n");
-				stringBuilder.Append("RuntimeKey="+Clean(RuntimePart.Key)+"\n");
-				foreach(ReleaseManifestFile releaseManifestFile in RuntimePart.ListFiles.OrderBy(x => x.RelativePath,StringComparer.OrdinalIgnoreCase)) {
-					stringBuilder.Append("RuntimeFile="+FormatFileLine(releaseManifestFile)+"\n");
-				}
+				RuntimePart.AppendLines(stringBuilder,includeArchiveHash:true);
 			}
 			foreach(ReleaseManifestFile releaseManifestFile in ListFiles.OrderBy(x => x.RelativePath,StringComparer.OrdinalIgnoreCase)) {
 				stringBuilder.Append("File="+FormatFileLine(releaseManifestFile)+"\n");
@@ -206,7 +329,7 @@ namespace OpenPmsDentalBusiness {
 			return stringBuilder.ToString();
 		}
 
-		private static string FormatFileLine(ReleaseManifestFile releaseManifestFile) {
+		internal static string FormatFileLine(ReleaseManifestFile releaseManifestFile) {
 			return releaseManifestFile.Sha256+"|"+releaseManifestFile.Size.ToString(CultureInfo.InvariantCulture)+"|"+Clean(releaseManifestFile.RelativePath);
 		}
 
@@ -300,7 +423,7 @@ namespace OpenPmsDentalBusiness {
 			return releaseManifest;
 		}
 
-		private static void ParseRuntimePartLine(ReleaseRuntimePart releaseRuntimePart,string key,string value) {
+		internal static void ParseRuntimePartLine(ReleaseRuntimePart releaseRuntimePart,string key,string value) {
 			switch(key) {
 				case "RuntimeVersion":
 					releaseRuntimePart.Version=value;
@@ -331,7 +454,7 @@ namespace OpenPmsDentalBusiness {
 		///<summary>A runtime part needs the Runtime line and every one of its own lines: its version is the Runtime line's, the Runtime line's
 		///architecture is the first of its architectures, it lists at least one file, none twice and none that the program part lists too, and its
 		///key is the one its version and files give.</summary>
-		private static void CheckRuntimePart(ReleaseManifest releaseManifest,ReleaseRuntimePart releaseRuntimePart,HashSet<string> hashSetKeys) {
+		internal static void CheckRuntimePart(ReleaseManifest releaseManifest,ReleaseRuntimePart releaseRuntimePart,HashSet<string> hashSetKeys) {
 			if(releaseManifest.Runtime==null) {
 				throw new FormatException("The release manifest has a runtime part but no Runtime line.");
 			}
@@ -372,7 +495,7 @@ namespace OpenPmsDentalBusiness {
 			return dateTime;
 		}
 
-		private static ReleaseManifestFile ParseFileLine(string value) {
+		internal static ReleaseManifestFile ParseFileLine(string value) {
 			string[] arrayParts=value.Split(new char[] { '|' },3);
 			if(arrayParts.Length!=3 || !IsSha256Hex(arrayParts[0])) {
 				throw new FormatException("Bad file line in the release manifest: "+value);
@@ -440,32 +563,34 @@ namespace OpenPmsDentalBusiness {
 		///not listed (other than the manifest file itself) are reported too, because the copier would install them. Returns the problems found; an
 		///empty list means the folder holds exactly this release.</summary>
 		public List<string> VerifyFolder(string folder) {
+			return VerifyFolder(folder,includeRuntimePart:false);
+		}
+
+		///<summary>VerifyFolder for a folder that holds the program part and, with includeRuntimePart, the runtime part too (S3b-7: a pull whose
+		///published runtime key differs from this workstation's downloads both parts into one folder). With includeRuntimePart every RuntimeFile line
+		///must be in the folder with its size and SHA-256, counts as listed, and the runtime part's own manifest (ReleaseRuntimePart.MANIFEST_FILE_NAME)
+		///is allowed beside this one; a manifest without a runtime part is then a problem. Without it, a runtime file in the folder is "Not in the
+		///manifest" as any other file, so a program part download never carries runtime files of its own.</summary>
+		public List<string> VerifyFolder(string folder,bool includeRuntimePart) {
 			List<string> listProblems=new List<string>();
 			if(!IsOurProduct()) {
 				listProblems.Add("The manifest is for another product: "+Product);
 				return listProblems;
 			}
 			HashSet<string> hashSetListed=new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-			foreach(ReleaseManifestFile releaseManifestFile in ListFiles) {
-				if(!IsSafeRelativePath(releaseManifestFile.RelativePath)) {
-					listProblems.Add("Unsafe path: "+releaseManifestFile.RelativePath);
-					continue;
+			List<ReleaseManifestFile> listFilesChecked=ListFiles.ToList();
+			if(includeRuntimePart) {
+				if(RuntimePart==null) {
+					listProblems.Add("The release names no runtime part, but the folder is checked with one.");
+					return listProblems;
 				}
-				string relativeNormalized=releaseManifestFile.RelativePath.Replace('/','\\');
-				hashSetListed.Add(relativeNormalized);
-				string path=Path.Combine(folder,relativeNormalized);
-				if(!File.Exists(path)) {
-					listProblems.Add("Missing: "+releaseManifestFile.RelativePath);
-					continue;
+				listFilesChecked.AddRange(RuntimePart.ListFiles);
+			}
+			foreach(ReleaseManifestFile releaseManifestFile in listFilesChecked) {
+				if(IsSafeRelativePath(releaseManifestFile.RelativePath)) {
+					hashSetListed.Add(releaseManifestFile.RelativePath.Replace('/','\\'));
 				}
-				FileInfo fileInfo=new FileInfo(path);
-				if(fileInfo.Length!=releaseManifestFile.Size) {
-					listProblems.Add("Wrong size: "+releaseManifestFile.RelativePath);
-					continue;
-				}
-				if(ComputeSha256File(path)!=releaseManifestFile.Sha256) {
-					listProblems.Add("Wrong SHA-256: "+releaseManifestFile.RelativePath);
-				}
+				listProblems.AddRange(VerifyFile(folder,releaseManifestFile,""));
 			}
 			string folderFull=Path.GetFullPath(folder).TrimEnd('\\')+"\\";
 			foreach(string pathFile in Directory.GetFiles(folder,"*",SearchOption.AllDirectories)) {
@@ -473,9 +598,37 @@ namespace OpenPmsDentalBusiness {
 				if(relative.Equals(FILE_NAME,StringComparison.OrdinalIgnoreCase)) {
 					continue;
 				}
+				if(includeRuntimePart && relative.Equals(ReleaseRuntimePart.MANIFEST_FILE_NAME,StringComparison.OrdinalIgnoreCase)) {
+					continue;
+				}
 				if(!hashSetListed.Contains(relative)) {
 					listProblems.Add("Not in the manifest: "+relative);
 				}
+			}
+			return listProblems;
+		}
+
+		///<summary>The problems of one listed file in the folder: an unsafe path, missing, the wrong size or the wrong SHA-256. what ("" or "runtime
+		///file") goes before the path in each problem.</summary>
+		internal static List<string> VerifyFile(string folder,ReleaseManifestFile releaseManifestFile,string what) {
+			List<string> listProblems=new List<string>();
+			string prefix=what=="" ? "" : what+" ";
+			if(!IsSafeRelativePath(releaseManifestFile.RelativePath)) {
+				listProblems.Add("Unsafe path: "+prefix+releaseManifestFile.RelativePath);
+				return listProblems;
+			}
+			string path=Path.Combine(folder,releaseManifestFile.RelativePath.Replace('/','\\'));
+			if(!File.Exists(path)) {
+				listProblems.Add("Missing: "+prefix+releaseManifestFile.RelativePath);
+				return listProblems;
+			}
+			FileInfo fileInfo=new FileInfo(path);
+			if(fileInfo.Length!=releaseManifestFile.Size) {
+				listProblems.Add("Wrong size: "+prefix+releaseManifestFile.RelativePath);
+				return listProblems;
+			}
+			if(ComputeSha256File(path)!=releaseManifestFile.Sha256) {
+				listProblems.Add("Wrong SHA-256: "+prefix+releaseManifestFile.RelativePath);
 			}
 			return listProblems;
 		}
@@ -502,7 +655,7 @@ namespace OpenPmsDentalBusiness {
 		}
 
 		///<summary>Values are single-line; line breaks would let a value forge another key.</summary>
-		private static string Clean(string value) {
+		internal static string Clean(string value) {
 			return (value??"").Replace("\r"," ").Replace("\n"," ");
 		}
 	}
