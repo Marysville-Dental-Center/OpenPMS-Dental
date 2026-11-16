@@ -295,7 +295,7 @@ namespace ProjectFileTests {
 				//MSBuild 18 -getProperty gives this fixture DefineConstants TRACE;DEBUG (S1-T2's review), as it gives the SDK-style projects of the
 				//repository TRACE;DEBUG and NoWarn 1701;1702 (RepositoryProjectsTests): TRACE and 1701;1702 from Microsoft.NET.Sdk.CSharp.props
 				//before the project's own properties, DEBUG from Microsoft.NET.Sdk.CSharp.targets after them. The others as Microsoft.NET.Sdk.props,
-				//Microsoft.NET.Sdk.CSharp.props and .targets and Microsoft.NET.Sdk.Analyzers.targets of SDK 10.0.114 set them.
+				//Microsoft.NET.Sdk.CSharp.props and .targets and Microsoft.NET.Sdk.Analyzers.targets of SDK 10.0.115 set them.
 				ProjectFile projectFile=fixtureFolder.Load("SdkStyle");
 				foreach(string[] arrayCase in new[] { new[] { "DefineConstants","TRACE;DEBUG" },new[] { "ImplicitConfigurationDefine","DEBUG" },
 					new[] { "NoWarn","1701;1702" },new[] { "WarningsAsErrors",";NU1605" },new[] { "WarningLevel","4" },new[] { "Configurations","Debug;Release" },
@@ -428,6 +428,20 @@ namespace ProjectFileTests {
 					AssertThrows<NotSupportedException>(() => projectFile.GetProperty(name),"$("+name+")");
 				}
 				Assert.AreEqual("portable",projectFile.GetProperty("DebugType"),"Microsoft.NET.Sdk.props is the same for every language.");
+			}
+		}
+
+		///<summary>The SDK version the reader models is the one global.json pins (rollForward disable), so a bump of the pin (section 2.4 of
+		///docs/specs/net10-plan.md, docs/port-notes/SDK-BUMP.md) cannot leave the reader on the old SDK.</summary>
+		[TestMethod]
+		public void Sdk_NETCoreSdkVersion_IsTheVersionGlobalJsonPins() {
+			string textGlobalJson=System.IO.File.ReadAllText(System.IO.Path.Combine(FixtureFolder.RepoRoot(),"global.json"));
+			System.Text.RegularExpressions.Match match=System.Text.RegularExpressions.Regex.Match(textGlobalJson,"\"version\"\\s*:\\s*\"([0-9.]+)\"");
+			Assert.IsTrue(match.Success,"global.json names an SDK version.");
+			StringAssert.Contains(textGlobalJson,"\"rollForward\": \"disable\"","Exactly that SDK, no other.");
+			using(FixtureFolder fixtureFolder=FixtureFolder.Create()) {
+				Assert.AreEqual(match.Groups[1].Value,fixtureFolder.Load("SdkStyle").GetProperty("NETCoreSdkVersion"));
+				AssertThrows<NotSupportedException>(() => fixtureFolder.Load("Classic").GetProperty("NETCoreSdkVersion"),"$(NETCoreSdkVersion)");
 			}
 		}
 		#endregion The SDK's compiler defaults
