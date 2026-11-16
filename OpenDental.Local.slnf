@@ -126,6 +126,7 @@
       "tests\\PdfLibraryTests\\PdfLibraryTests.csproj",
       "tests\\ProjectFileTests\\ProjectFileTests.csproj",
       "tests\\QueryMonitorTests\\QueryMonitorTests.csproj",
+      "tests\\RdlCodeTests\\RdlCodeTests.csproj",
       "tests\\RegistryTests\\RegistryTests.csproj",
       "tests\\ReleaseFlowTests\\ReleaseFlowTests.csproj",
       "tests\\ReportTests\\ReportTests.csproj",

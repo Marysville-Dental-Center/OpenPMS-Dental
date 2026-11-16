@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- Tests of RDL <Code> blocks on .NET 10 (package S3b-2b of the .NET 10 move, docs/port-notes/S3b-2.md, part B; decision 14 of
+       docs/specs/net10-plan.md): RdlEngine compiles a report's <Code> block with Roslyn's Visual Basic compiler in place of CodeDom's
+       VBCodeProvider, which throws on .NET. The tests run the fixture report of S3a-4 and <Code> blocks with compile errors through RdlEngine
+       and compare the text with what the .NET Framework 4.8 engine gave for the same reports (Fixtures\*.net48.txt, written by
+       Record-Net48.ps1 from the net48 build of main's RdlEngine source), and check the report designer's syntax check (RdlDesign, loaded from
+       its build folder). It references RdlEngine only (the business layer's ReportTests cannot build on .NET 10 before S3b-3), so it is a
+       .NET 10 x64 test project already, ahead of the other test projects (S3b-5 retargets those): the target framework is the repository's
+       (ODTargetFramework), which gives it the settings of a .NET 10 test project (x64, win-x64, framework-dependent, NLS). No database, no
+       network, no window. Every .cs file under this folder is compiled. -->
+  <PropertyGroup>
+    <TargetFramework>$(ODTargetFramework)</TargetFramework>
+    <!-- RdlEngine draws with System.Drawing; RdlDesigner.dll, which a test loads, is a WinForms program. -->
+    <UseWindowsForms>true</UseWindowsForms>
+  </PropertyGroup>
+  <ItemGroup>
+    <!-- The rule for tests that check a built file: inconclusive when it is not built, a failure with OPMS_REQUIRE_BUILD_OUTPUT=1. -->
+    <Compile Include="..\ProjectFileTests\BuildOutput.cs">
+      <Link>BuildOutput.cs</Link>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <!-- What the .NET Framework 4.8 engine gave (Record-Net48.ps1), and the S3a-4 record of the same fixture report. -->
+    <None Include="Fixtures\*.txt" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\GoldenOutputTests\Fixtures\rdl-code-report.txt" Link="Fixtures\golden\rdl-code-report.txt" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+  <ItemGroup>
+    <!-- The fixture report's MySQL.NET data provider names MySqlConnector.dll as its code module: the engine loads it from this folder before
+         it asks the host's connection hook, which gives it the fixture connection. Nothing of it runs. -->
+    <PackageReference Include="MySqlConnector" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\RdlEngine\RdlEngine.csproj" />
+  </ItemGroup>
+</Project>

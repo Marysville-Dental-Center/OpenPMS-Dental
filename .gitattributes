@@ -9,3 +9,6 @@ tests/GoldenOutputTests/Fixtures/** -text
 # The recorded SOAP envelopes and results of S3a-6 are the old proxies' bytes, compared on every PC and in every checkout: no line-ending
 # conversion (docs/port-notes/S3a-6.md). Diffs and merges stay text.
 tests/VDXC2Tests/SoapEnvelopes/** -text
+# What the .NET Framework 4.8 RDL engine gave for the reports of RdlCodeTests (package S3b-2b, docs/port-notes/S3b-2.md, part B), compared
+# byte for byte, line ends included: no line-ending conversion. Diffs and merges stay text.
+tests/RdlCodeTests/Fixtures/** -text
