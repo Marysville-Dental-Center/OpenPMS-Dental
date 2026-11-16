@@ -741,6 +741,9 @@ of 2026-11-08: "1. As recommended 2. Ship dlls we need. Use Helix. It's decided.
   section "Open Dental parity (2026-11-14)". So O-20 (on by default; the tooth hidden with a thin X, as Open Dental's 26.2 screenshot
   shows; no other exceptions), O-21 (TextBelow in a one-line box under the date slider, not in the tooth picture) and O-22 (paint text
   beyond the root tip, in the W band) changed.
+- **Half-cent rounding on .NET 10 (your decision, 2026-11-16: "Keep Open Dental's 1.01").** .NET 10 formats numbers exactly (1.005 with
+  two decimals gives 1.00) where .NET Framework rounded to 15 digits first (1.01). The program keeps Open Dental's text in reports and
+  wherever it formats money (net10-plan decision 24; package S3b-FMT after S3b-4).
 - **S3a-M3b before EHR-7 (your decision, 2026-11-15: "yes, go ahead").** FormMedical's last two WinForms menus are converted now, on
   `main`, so stage 3a's gate and stage 3b no longer wait for the E-20 download; EHR-7 (`ehr/ehr7-3`, about 28 lines of FormMedical) is
   redone on top when E-20 arrives.
