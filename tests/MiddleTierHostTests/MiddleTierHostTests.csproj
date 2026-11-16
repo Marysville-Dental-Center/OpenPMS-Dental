@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- The Middle Tier host round trips (package S3b-6 of the .NET 10 move, docs/port-notes/S3b-6.md): the program's HTTP client
+       (OpenDentalServerHttp, through RemotingClient and Meth) against the server's own ASP.NET Core application (OpenPmsDentalServer's
+       ServerHost), on the in-process test server. Each server runs in an assembly load context of its own, with its own copy of the business
+       layer's static state, as each ASMX application had its own AppDomain in IIS, so two servers on two databases and the client share
+       nothing but the process. The scratch databases on the local MariaDB (127.0.0.1:3306, root, blank password) are built from
+       db/init/new-database.sql with the fork migrations; their names start with s3b6_ht_ and are unique to the run, and they are dropped
+       afterwards. With MIDDLETIER_TEST_URL the same tests run against a running server instead (the 3b gate's check of the Windows service;
+       docs/port-notes/S3b-6.md, section 7). Synthetic data only. Every .cs file under this folder is compiled. -->
+  <PropertyGroup>
+    <!-- .NET 10 ahead of the other test projects, as the server and every project it references are: it replaces the net48 of
+         tests\Directory.Build.props, so Directory.Build.Net.props gives it the settings of a .NET 10 test project (x64, win-x64,
+         framework-dependent, NLS). The line goes when S3b-5 deletes the shared net48 line. Windows Forms: the restore prunes what the business
+         library's Windows Desktop framework holds (S3b-3). -->
+    <TargetFramework>$(ODTargetFramework)</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+  </PropertyGroup>
+  <ItemGroup>
+    <!-- The in-process test server (TestServer), from the offline package folder at the version of Directory.Packages.props. -->
+    <PackageReference Include="Microsoft.AspNetCore.TestHost" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\CodeBase\xCodeBase.csproj" />
+    <ProjectReference Include="..\..\DataConnectionBase\xDataConnectionBase.csproj" />
+    <ProjectReference Include="..\..\OpenPmsDentalBusiness\OpenPmsDentalBusiness.csproj" />
+    <ProjectReference Include="..\..\OpenPmsDentalServer\OpenPmsDentalServer.csproj" />
+  </ItemGroup>
+</Project>

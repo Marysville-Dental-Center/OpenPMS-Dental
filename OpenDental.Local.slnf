@@ -108,6 +108,7 @@
       "tests\\M2UDSTests\\M2UDSTests.csproj",
       "tests\\MaintenanceTests\\MaintenanceTests.csproj",
       "tests\\MedicationTests\\MedicationTests.csproj",
+      "tests\\MiddleTierHostTests\\MiddleTierHostTests.csproj",
       "tests\\MiddleTierMockTests\\MiddleTierMockTests.csproj",
       "tests\\N64ATests\\N64ATests.csproj",
       "tests\\NativeFirstTests\\NativeFirstTests.csproj",
