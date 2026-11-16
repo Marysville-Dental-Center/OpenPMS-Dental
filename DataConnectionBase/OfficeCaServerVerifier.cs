@@ -232,7 +232,8 @@ namespace DataConnectionBase {
 					listCa.Add(X509CertificateLoader.LoadCertificate(arrayBytes));
 				}
 			}
-			catch(Exception ex) when(ex is CryptographicException || ex is FormatException) {
+			//ArgumentException: GetCertContentType on an empty file (net48's byte constructor threw it too); it gets the same message.
+			catch(Exception ex) when(ex is CryptographicException || ex is FormatException || ex is ArgumentException) {
 				listCa.Clear();
 				return "the office CA certificate file "+caPath+" is not a certificate file (PEM or DER)";
 			}

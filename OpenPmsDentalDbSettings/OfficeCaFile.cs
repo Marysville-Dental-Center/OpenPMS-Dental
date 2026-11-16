@@ -57,7 +57,8 @@ namespace OpenPmsDentalDbSettings {
 					listCertificates.Add(X509CertificateLoader.LoadCertificate(arrayBytes));//DER
 				}
 			}
-			catch(Exception ex) when(ex is CryptographicException || ex is FormatException) {
+			//ArgumentException: GetCertContentType on an empty file (net48's byte constructor threw it too); it gets the same message.
+			catch(Exception ex) when(ex is CryptographicException || ex is FormatException || ex is ArgumentException) {
 				throw new DbSettingsException(DbSettingsRunner.EXIT_BAD_VALUE,"The office CA certificate file "+path+" is not a certificate file "
 					+"(PEM or DER).");
 			}
