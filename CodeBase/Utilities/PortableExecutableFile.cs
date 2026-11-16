@@ -91,7 +91,8 @@ namespace CodeBase {
 
 		///<summary>A managed IL-only PE32 x86 image without 32BITREQUIRED, or with both 32BITREQUIRED and 32BITPREFERRED ("any CPU, 32-bit
 		///preferred"): an "any CPU" assembly, which loads in a 32-bit and in a 64-bit process. The lane's x64 test run of tests/N64ATests showed
-		///that a 64-bit .NET Framework process loads a DLL with both flags (N64-A, docs/port-notes/N64-A.md).</summary>
+		///that a 64-bit .NET Framework process loads a DLL with both flags (N64-A, docs/port-notes/N64-A.md); a 64-bit .NET process does not
+		///(S3b-4, CanLoadInProcess).</summary>
 		public bool IsAnyCpu {
 			get {
 				return IsManaged && IsIlOnly && !IsPe32Plus && Machine==IMAGE_FILE_MACHINE_I386 && (!Is32BitRequired || Is32BitPreferred);
@@ -112,14 +113,24 @@ namespace CodeBase {
 			}
 		}
 
-		///<summary>True when a process of machine type machineProcess (IMAGE_FILE_MACHINE_...) can map this image. For an assembly, the rule of
-		///the runtime's binder: an any-CPU assembly (IsAnyCpu) loads in every process, every other one (32BITREQUIRED without 32BITPREFERRED;
-		///mixed mode; PE32+) only in a process of its machine type. A native DLL only in a process of its machine type.</summary>
+		///<summary>True when a process of machine type machineProcess (IMAGE_FILE_MACHINE_...) on this process's runtime can map this image. See
+		///the other overload.</summary>
 		public bool CanLoadInProcess(ushort machineProcess) {
+			return CanLoadInProcess(machineProcess,isNetFrameworkProcess:Environment.Version.Major<5);
+		}
+
+		///<summary>True when a process of machine type machineProcess (IMAGE_FILE_MACHINE_...) on the .NET Framework (isNetFrameworkProcess) or on
+		///.NET can map this image. For an assembly, the rule of the runtime's binder: an any-CPU assembly (IsAnyCpu) loads in every process, every
+		///other one (32BITREQUIRED without 32BITPREFERRED; mixed mode; PE32+) only in a process of its machine type. One difference between the
+		///runtimes: .NET maps an image with 32BITREQUIRED only into an x86 process, also when it has 32BITPREFERRED ("any CPU, 32-bit
+		///preferred"), which the .NET Framework also maps into a 64-bit process (measured by tests/N64ATests in both: Assembly.LoadFile of such a
+		///DLL in a 64-bit .NET 10 process throws FileLoadException, "The assembly architecture is not compatible with the current process
+		///architecture"; S3b-4). A native DLL only in a process of its machine type.</summary>
+		public bool CanLoadInProcess(ushort machineProcess,bool isNetFrameworkProcess) {
 			if(!IsPe) {
 				return false;
 			}
-			if(IsAnyCpu) {
+			if(IsAnyCpu && (isNetFrameworkProcess || !Is32BitRequired || machineProcess==IMAGE_FILE_MACHINE_I386)) {
 				return true;
 			}
 			return Machine==machineProcess;

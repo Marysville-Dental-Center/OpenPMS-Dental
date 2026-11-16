@@ -96,7 +96,8 @@ namespace OpenPmsDentalBusiness {
 		///versionProcess can load the plug-in DLL at dllPath, or a clear reason, naming the plug-in, why it is refused:
 		///- not a PE file, or a native DLL: not a .NET plug-in;
 		///- a .NET assembly the process cannot map (PortableExecutableFile.CanLoadInProcess): 32BITREQUIRED without 32BITPREFERRED (platform
-		///  x86) or mixed-mode x86 in a 64-bit process, x64 (PE32+) in a 32-bit one;
+		///  x86) or mixed-mode x86 in a 64-bit process, on .NET also 32BITREQUIRED with 32BITPREFERRED (any CPU, 32-bit preferred; S3b-4), x64
+		///  (PE32+) in a 32-bit one;
 		///- a framework the process cannot host: on the .NET Framework, .NET (Core) and .NET Standard 2.1 or later; on .NET, the .NET Framework
 		///  (decision 16 of docs/specs/net10-plan.md) and a .NET newer than the process's.
 		///An assembly whose framework the file does not tell is not refused for it (it loads as before). A file that cannot be read is not refused
@@ -120,12 +121,15 @@ namespace OpenPmsDentalBusiness {
 				return namePlugin+" is not loaded: it is "+portableExecutableFile.DescribeBitness()+", not a .NET plug-in assembly. Check the plug-in's "
 					+"file name in the program link's setup.";
 			}
-			if(!portableExecutableFile.CanLoadInProcess(machineProcess)) {
+			if(!portableExecutableFile.CanLoadInProcess(machineProcess,isNetFrameworkProcess:frameworkProcess==FRAMEWORK_NET_FRAMEWORK)) {
 				string rebuild=(machineProcess==PortableExecutableFile.IMAGE_FILE_MACHINE_I386)
 					? "Ask its author for a build for any CPU (AnyCPU) or x86."
 					: "Ask its author for a build for any CPU (AnyCPU) or "+PortableExecutableFile.GetMachineName(machineProcess)+".";
 				string only=(portableExecutableFile.Machine==PortableExecutableFile.IMAGE_FILE_MACHINE_I386) ? "32-bit only"
 					: (portableExecutableFile.IsPe32Plus ? "64-bit only" : PortableExecutableFile.GetMachineName(portableExecutableFile.Machine)+" only");
+				if(portableExecutableFile.IsAnyCpu) {//32-bit preferred, which .NET maps into a 32-bit process only (S3b-4)
+					only="which .NET loads into a 32-bit process only";
+				}
 				return namePlugin+" is not loaded: it is "+portableExecutableFile.DescribeBitness()+" ("+only+"), and this program is a "+bitnessProcess
 					+" process. "+rebuild;
 			}

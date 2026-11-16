@@ -20,6 +20,14 @@ namespace N64ATests {
 		private static string _folder;
 		private static readonly Version _version48=new Version(4,8);
 		private static readonly Version _version10=new Version(10,0);
+		///<summary>The TargetFrameworkAttribute of a plug-in that this process's framework loads: the .NET Framework 4.8 of the tests' .NET Framework
+		///build (stage 3a), .NET 10 since S3b-4 moved this project to .NET 10, where decision 16 refuses .NET Framework plug-ins.</summary>
+		private static readonly string _targetFrameworkLoadable=
+#if NETFRAMEWORK
+			".NETFramework,Version=v4.8";
+#else
+			".NETCoreApp,Version=v10.0";
+#endif
 
 		[ClassInitialize]
 		public static void ClassInitialize(TestContext testContext) {
@@ -40,13 +48,16 @@ namespace N64ATests {
 			List<string> listResults=new List<string>();
 			foreach(SyntheticPlatform syntheticPlatform in Enum.GetValues(typeof(SyntheticPlatform))) {
 				string name="N64aLoad"+syntheticPlatform;
-				string path=TestSupport.WritePlugin(_folder,name,syntheticPlatform,".NETFramework,Version=v4.8");
+				string path=TestSupport.WritePlugin(_folder,name,syntheticPlatform,_targetFrameworkLoadable);
 				string reason=PluginImageCheck.GetRefusalReason(path,name+".dll");
 				bool isLoadFailing=false;
 				try {
 					Assembly.LoadFile(path);
 				}
-				catch(BadImageFormatException) {
+				catch(BadImageFormatException) {//the .NET Framework
+					isLoadFailing=true;
+				}
+				catch(FileLoadException) {//.NET: "The assembly architecture is not compatible with the current process architecture."
 					isLoadFailing=true;
 				}
 				listResults.Add(syntheticPlatform+": refused "+(reason!=null)+", LoadFile fails "+isLoadFailing);
@@ -62,8 +73,13 @@ namespace N64ATests {
 					Assert.IsNull(pluginContainer);
 					Assert.AreEqual(reason,error);
 					StringAssert.Contains(reason,"The plug-in "+name+".dll ("+path+") is not loaded");
-					StringAssert.Contains(reason,Environment.Is64BitProcess ? "(32-bit only), and this program is a 64-bit process"
-						: "(64-bit only), and this program is a 32-bit process");
+					if(syntheticPlatform==SyntheticPlatform.X86Preferred) {//refused by a 64-bit .NET process only (S3b-4)
+						StringAssert.Contains(reason,"32-bit preferred (which .NET loads into a 32-bit process only), and this program is a 64-bit process");
+					}
+					else {
+						StringAssert.Contains(reason,Environment.Is64BitProcess ? "(32-bit only), and this program is a 64-bit process"
+							: "(64-bit only), and this program is a 32-bit process");
+					}
 					StringAssert.Contains(reason,"Ask its author for a build for any CPU (AnyCPU) or "+(Environment.Is64BitProcess ? "x64" : "x86"));
 					CollectionAssert.Contains(Plugins.GetProblemsLogged(),reason,"The reason is logged.");
 					continue;
@@ -95,6 +111,13 @@ namespace N64ATests {
 					PluginImageCheck.FRAMEWORK_NET_FRAMEWORK,_version48);
 				Assert.AreEqual(syntheticPlatform==SyntheticPlatform.X64,reason32!=null,syntheticPlatform+" in 32-bit: "+reason32);
 				Assert.AreEqual(syntheticPlatform==SyntheticPlatform.X86,reason64!=null,syntheticPlatform+" in 64-bit: "+reason64);
+				//On .NET (S3b-4) the same, except that a 32-bit preferred assembly maps into a 32-bit process only.
+				PortableExecutableFile portableExecutableFile=PortableExecutableFile.Read(path);
+				Assert.AreEqual(syntheticPlatform!=SyntheticPlatform.X64,portableExecutableFile.CanLoadInProcess(PortableExecutableFile.IMAGE_FILE_MACHINE_I386,
+					isNetFrameworkProcess:false),syntheticPlatform+" in a 32-bit .NET process");
+				Assert.AreEqual(syntheticPlatform==SyntheticPlatform.AnyCpu || syntheticPlatform==SyntheticPlatform.X64,
+					portableExecutableFile.CanLoadInProcess(PortableExecutableFile.IMAGE_FILE_MACHINE_AMD64,isNetFrameworkProcess:false),
+					syntheticPlatform+" in a 64-bit .NET process");
 			}
 		}
 
@@ -137,11 +160,18 @@ namespace N64ATests {
 			Assert.IsNotNull(PluginImageCheck.GetRefusalReason(pathCore,"p",machine,core,new Version(8,0)),"A .NET 10 plug-in on .NET 8.");
 		}
 
+		///<summary>The framework of this process as the check sees it: .NET Framework 4.8 in the tests' .NET Framework build (stage 3a), .NET 10
+		///since S3b-4.</summary>
 		[TestMethod]
-		public void ProcessFramework_IsTheNetFramework() {
+		public void ProcessFramework_IsThisRunsFramework() {
 			PluginImageCheck.GetProcessFramework(out string framework,out Version version);
+#if NETFRAMEWORK
 			Assert.AreEqual(PluginImageCheck.FRAMEWORK_NET_FRAMEWORK,framework,"The tests run on .NET Framework 4.8 in stage 3a.");
 			Assert.AreEqual(_version48,version);
+#else
+			Assert.AreEqual(PluginImageCheck.FRAMEWORK_NET_CORE_APP,framework,"The tests run on .NET 10 since S3b-4.");
+			Assert.AreEqual(_version10,version);
+#endif
 		}
 
 		///<summary>A file that is not a .NET assembly is refused before LoadFile, naming it; a missing file is left to LoadFile (its own error, as
@@ -166,7 +196,7 @@ namespace N64ATests {
 		///("Error loading Plugin:" and it), and the log names the plug-in and the exception.</summary>
 		[TestMethod]
 		public void LoadableFileWithoutPluginType_FailsAsBefore_AndIsLogged() {
-			string pathWritten=TestSupport.WritePlugin(_folder,"N64aWrongName",SyntheticPlatform.AnyCpu,".NETFramework,Version=v4.8");
+			string pathWritten=TestSupport.WritePlugin(_folder,"N64aWrongName",SyntheticPlatform.AnyCpu,_targetFrameworkLoadable);
 			string path=Path.Combine(_folder,"N64aOtherName.dll");
 			File.Copy(pathWritten,path);
 			Assert.IsNull(PluginImageCheck.GetRefusalReason(path,"N64aOtherName.dll"));

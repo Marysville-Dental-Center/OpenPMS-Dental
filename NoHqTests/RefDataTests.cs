@@ -67,10 +67,15 @@ namespace NoHqTests {
 
 		#region Helpers
 		///<summary>Loads an assembly from OpenPmsDental\bin\Debug (or Release), the folder the solution builds OpenPmsDental.exe into. The test is inconclusive
-		///when it has not been built.</summary>
+		///when it has not been built. For the program (ProgramNames.ExeFileName) it loads the program's managed assembly: OpenPmsDental.dll on .NET,
+		///where OpenPmsDental.exe is the native apphost (S3b-4), OpenPmsDental.exe on the .NET Framework (ProgramAssembly).</summary>
 		private static Assembly LoadBuiltAssembly(string fileName) {
 			string dirTests=Path.GetDirectoryName(typeof(RefDataTests).Assembly.Location);//NoHqTests\bin\Debug
 			string dirConfiguration=Path.GetFileName(dirTests);
+			if(fileName==ProgramNames.ExeFileName) {
+				return ProgramAssembly.Load(Path.GetFullPath(Path.Combine(dirTests,"..","..","..","OpenPmsDental","bin",dirConfiguration)),
+					ProgramNames.ProcessName);
+			}
 			string path=Path.GetFullPath(Path.Combine(dirTests,"..","..","..","OpenPmsDental","bin",dirConfiguration,fileName));
 			if(!File.Exists(path)) {
 				BuildOutput.NotBuilt(fileName+" is not built: "+path);
