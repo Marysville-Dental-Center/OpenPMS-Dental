@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
@@ -51,7 +52,14 @@ namespace ReleaseFlowTests {
 		private const string LGPL_SHA256_LF="20e50fe7aae3e56378ebf0417d9de904f55a0e61e4df315333e632a4d3555d95";
 
 		///<summary>The components of THIRD-PARTY-NOTICES.txt that ship under the LGPL 2.1, and so with its text.</summary>
-		private static readonly string[] _arrayLgplComponents=new string[] { "WeCantSpell.Hunspell","Hunspell en_US dictionary","RDL Project" };
+		private static readonly string[] _arrayLgplComponents=new string[] { "WeCantSpell.Hunspell","Hunspell en_US dictionary","RDL Project","TWAIN" };
+
+		///<summary>SHA-256 of twain-dsm-2.5.1.zip, the TWAIN Working Group's source of the setup's TWAINDSM.dll (the approved download of
+		///od-tools\downloads\s3b7-twaindsm-20261116), which the source archive carries.</summary>
+		private const string TWAIN_DSM_SOURCE_SHA256="67e5aebda9c7aa85e39a38b8c9c8b99bd720d4b318134b3e274aec97d4977e0f";
+
+		///<summary>Where the source archive carries the TWAIN DSM source, under its top folder.</summary>
+		private const string TWAIN_DSM_SOURCE_ENTRY="third-party-source/twain-dsm-2.5.1.zip";
 
 		#region Helpers
 		private class ScriptResult {
@@ -317,8 +325,8 @@ namespace ReleaseFlowTests {
 
 		[TestMethod]
 		public void LgplText_IsTheLicenceVerbatim_AndEveryLgplComponentPointsToIt() {
-			//RdlEngine.dll, RdlViewer.dll, WeCantSpell.Hunspell.dll and the en_US word list ship under the LGPL 2.1, which asks for a copy of the
-			//licence with every copy of the library. The release stages the text (the allow-list test above) from this file.
+			//RdlEngine.dll, RdlViewer.dll, WeCantSpell.Hunspell.dll, the en_US word list and the setup's TWAINDSM.dll ship under the LGPL 2.1, which
+			//asks for a copy of the licence with every copy of the library. The release stages the text (the allow-list test above) from this file.
 			string text=TestPaths.ReadSource(LGPL_FILE).Replace("\r\n","\n");
 			StringAssert.StartsWith(text.TrimStart(),"GNU LESSER GENERAL PUBLIC LICENSE");
 			StringAssert.Contains(text,"Version 2.1, February 1999");
@@ -550,6 +558,108 @@ namespace ReleaseFlowTests {
 			Assert.AreEqual("uninsdeletekey",Regex.Match(registryLine,@"Flags: ([^;]+)").Groups[1].Value.Trim());
 		}
 		#endregion installer/OpenPmsDental.iss
+
+		#region The source archive
+		private static string Sha256Hex(Stream stream) {
+			using(SHA256 sha=SHA256.Create()) {
+				return string.Concat(sha.ComputeHash(stream).Select(x => x.ToString("x2")));
+			}
+		}
+
+		///<summary>TWAINDSM.dll, which the setup installs, is under the LGPL 2.1 (section 4: its source goes with the object code). The source
+		///archive, a release asset with its SHA-256 in SHA256SUMS.txt, carries the approved twain-dsm-2.5.1.zip byte for byte, and its
+		///SOURCE-COMMITS.txt names it with that SHA-256 and the upstream address.</summary>
+		[TestMethod]
+		public void SourceArchive_CarriesTheSourceOfTheSetupsTwainDsm() {
+			string folder=Path.Combine(Path.GetTempPath(),"ReleaseFlowTests_source_"+Guid.NewGuid().ToString("N"));
+			try {
+				ScriptResult scriptResult=RunBuildRelease("-WriteSourceArchive",Quote(folder));
+				Assert.AreEqual(0,scriptResult.ExitCode,scriptResult.Output);
+				string pathArchive=Directory.GetFiles(folder,"OpenPmsDental-*-source.zip").Single();
+				CollectionAssert.Contains(scriptResult.Lines,"Wrote "+pathArchive,scriptResult.Output);
+				string top=Path.GetFileNameWithoutExtension(pathArchive);
+				using(ZipArchive zipArchive=ZipFile.OpenRead(pathArchive)) {
+					ZipArchiveEntry zipArchiveEntry=zipArchive.GetEntry(top+"/"+TWAIN_DSM_SOURCE_ENTRY);
+					Assert.IsNotNull(zipArchiveEntry,"The source archive does not carry the source of TWAINDSM.dll.");
+					Assert.AreEqual(15006960L,zipArchiveEntry.Length);
+					using(Stream stream=zipArchiveEntry.Open()) {
+						Assert.AreEqual(TWAIN_DSM_SOURCE_SHA256,Sha256Hex(stream),"The approved twain-dsm-2.5.1.zip, byte for byte.");
+					}
+					//It is the release's source: its own top folder holds the DSM's licence.
+					using(ZipArchive zipArchiveSource=new ZipArchive(zipArchiveEntry.Open(),ZipArchiveMode.Read)) {
+						Assert.IsTrue(zipArchiveSource.Entries.Any(x => x.FullName.EndsWith("TWAIN_DSM/license.txt")),"No TWAIN_DSM/license.txt in the TWAIN DSM source.");
+					}
+					ZipArchiveEntry zipArchiveEntryCommits=zipArchive.GetEntry(top+"/SOURCE-COMMITS.txt");
+					Assert.IsNotNull(zipArchiveEntryCommits);
+					string commits;
+					using(StreamReader streamReader=new StreamReader(zipArchiveEntryCommits.Open(),Encoding.UTF8)) {
+						commits=streamReader.ReadToEnd();
+					}
+					StringAssert.Contains(commits,TWAIN_DSM_SOURCE_ENTRY+": SHA-256 "+TWAIN_DSM_SOURCE_SHA256);
+					StringAssert.Contains(commits,"https://github.com/twain/twain-dsm/releases/download/v2.5.1/twain-dsm-2.5.1.zip");
+					StringAssert.Contains(commits,"GNU LGPL 2.1, LICENSE-LGPL-2.1.txt");
+				}
+			}
+			finally {
+				if(Directory.Exists(folder)) {
+					Directory.Delete(folder,true);
+				}
+			}
+		}
+
+		///<summary>No source archive without that source: a missing download stops the script with exit 4, another file under its name with exit 1,
+		///both before anything is written (and so, in a release, before the build).</summary>
+		[TestMethod]
+		public void SourceArchive_RefusesAMissingOrOtherTwainDsmSource() {
+			string folder=Path.Combine(Path.GetTempPath(),"ReleaseFlowTests_source_"+Guid.NewGuid().ToString("N"));
+			try {
+				Directory.CreateDirectory(folder);
+				string folderOut=Path.Combine(folder,"out");
+				string pathOther=Path.Combine(folder,"twain-dsm-2.5.1.zip");
+				File.WriteAllText(pathOther,"synthetic, not the TWAIN DSM source");
+				ScriptResult scriptResultOther=RunBuildRelease("-WriteSourceArchive",Quote(folderOut),"-TwainDsmSourceZip",Quote(pathOther));
+				Assert.AreEqual(1,scriptResultOther.ExitCode,scriptResultOther.Output);
+				StringAssert.Contains(scriptResultOther.Output,"is not the approved source of TWAINDSM.dll");
+				ScriptResult scriptResultMissing=RunBuildRelease("-WriteSourceArchive",Quote(folderOut),"-TwainDsmSourceZip",
+					Quote(Path.Combine(folder,"missing.zip")));
+				Assert.AreEqual(4,scriptResultMissing.ExitCode,scriptResultMissing.Output);
+				StringAssert.Contains(scriptResultMissing.Output,"Missing: the source of TWAINDSM.dll");
+				Assert.IsFalse(Directory.Exists(folderOut),"Nothing is written.");
+			}
+			finally {
+				if(Directory.Exists(folder)) {
+					Directory.Delete(folder,true);
+				}
+			}
+		}
+
+		///<summary>The script pins the source's SHA-256 beside the DSM's, checks it before the build, and the documents say where the release
+		///carries the source.</summary>
+		[TestMethod]
+		public void BuildRelease_PinsTheTwainDsmSource_AndTheDocumentsSayWhereItIs() {
+			string script=TestPaths.ReadSource("tools","Build-Release.ps1");
+			Assert.AreEqual(TWAIN_DSM_SOURCE_SHA256,ScriptValue(script,"TwainDsmSourceSha256"));
+			Assert.AreEqual(TWAIN_DSM_SOURCE_ENTRY,ScriptValue(script,"TwainDsmSourceEntry"));
+			Assert.AreEqual("s3b7-twaindsm-20261116",ScriptValue(script,"TwainDsmDownloadFolder"));
+			Match matchAssert=Regex.Match(script,@"(?ms)^function Assert-SourceArchivePossible \{.*?^\}");
+			Assert.IsTrue(matchAssert.Success);
+			StringAssert.Contains(matchAssert.Value,"Find-TwainDsmSource");
+			Match matchWrite=Regex.Match(script,@"(?ms)^function Write-SourceArchive\(.*?^\}");
+			Assert.IsTrue(matchWrite.Success);
+			StringAssert.Contains(matchWrite.Value,"Find-TwainDsmSource");
+			StringAssert.Contains(matchWrite.Value,"$TwainDsmSourceEntry");
+			string notices=TestPaths.ReadSource("THIRD-PARTY-NOTICES.txt").Replace("\r\n","\n");
+			Match matchTwain=Regex.Match(notices,@"(?ms)^--- Component: TWAIN\n.*?(?=^--- )");
+			Assert.IsTrue(matchTwain.Success);
+			string twain=Regex.Replace(matchTwain.Value,@"\s+"," ");
+			StringAssert.Contains(twain,"OpenPmsDental-<version>-source.zip");
+			StringAssert.Contains(twain,TWAIN_DSM_SOURCE_ENTRY);
+			StringAssert.Contains(twain,TWAIN_DSM_SOURCE_SHA256);
+			string releaseProcess=TestPaths.ReadSource("docs","release-process.md");
+			StringAssert.Contains(releaseProcess,"the source of the setup's `TWAINDSM.dll` as `"+TWAIN_DSM_SOURCE_ENTRY+"`");
+			StringAssert.Contains(releaseProcess,"LGPL 2.1 section 4 for the setup's `TWAINDSM.dll`, whose source it carries");
+		}
+		#endregion The source archive
 
 		#region tools/Test-Installer.ps1
 		private static string ReadTestInstaller() {
