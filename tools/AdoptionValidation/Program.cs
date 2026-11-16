@@ -97,6 +97,9 @@ database server (runbook step 0.0). Exit codes: 0 pass, 1 error, 2 usage or refu
 6 a validation failed (or, for connections and float-check, something was found).";
 
 		public static int Main(string[] args) {
+			//First: the Windows code pages for Encoding.GetEncoding (.NET has only the Unicode encodings, ASCII and Latin-1 built in). This
+			//program does not call ODInitialize.Initialize, which registers them for the others (S3b-3 of the .NET 10 plan).
+			System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
 			NetworkGuard.Install();
 			int exitCode;
 			try {

@@ -4,25 +4,29 @@
     globs compile every .cs file under this folder (bin\ and obj\ excepted); every file there was a Compile item of the classic project.
     Only the two shared files from tests\ProjectFileTests are listed, which the globs do not reach. The project is outside tests\, so
     tests\Directory.Build.props does not apply: it sets what that file would (the three MSTest 4 packages and the VSTest-only switches of
-    S4-1, docs/port-notes/S4-1.md, and the generated binding redirects in NoHqTests.dll.config). It stays on .NET Framework 4.8 until
-    S3b-5 of the .NET 10 move retargets the tests; ODTestProject gives it the test projects' .NET 10 settings then (Directory.Build.Net.props).
+    S4-1, docs/port-notes/S4-1.md). It is net10.0-windows since S3b-3 of the .NET 10 move (docs/specs/net10-plan.md), ahead of the other test
+    projects, because it references only CodeBase, DataConnectionBase and the business library: with no target framework of its own it gets
+    the repository's (Directory.Build.props), and ODTestProject gives it the test projects' .NET 10 settings (Directory.Build.Net.props): x64,
+    win-x64, framework-dependent, NLS. Its .NET Framework settings (the generated binding redirects) and references went with net48.
   -->
   <PropertyGroup>
-    <TargetFramework>net48</TargetFramework>
     <ODTestProject>true</ODTestProject>
     <OutputType>Library</OutputType>
     <RootNamespace>NoHqTests</RootNamespace>
     <AssemblyName>NoHqTests</AssemblyName>
     <LangVersion>7.3</LangVersion>
     <Platforms>AnyCPU;x86</Platforms>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
     <!-- VSTest only, as in tests\Directory.Build.props. -->
     <EnableMSTestRunner>false</EnableMSTestRunner>
     <IsTestingPlatformApplication>false</IsTestingPlatformApplication>
     <GenerateTestingPlatformEntryPoint>false</GenerateTestingPlatformEntryPoint>
     <TestingPlatformDotnetTestSupport>false</TestingPlatformDotnetTestSupport>
     <DisableMsCoverageReferencedPathMaps>true</DisableMsCoverageReferencedPathMaps>
+    <!-- The Windows Desktop framework, which the business library uses (Windows Forms, WPF, System.DirectoryServices, ...), named here as well:
+         NuGet leaves out of the restore the packages a project's own frameworks hold (package pruning), and without it the restore asks for
+         System.DirectoryServices, System.Configuration.ConfigurationManager and System.Security.Cryptography.Pkcs as packages
+         (System.DirectoryServices.AccountManagement's dependencies), which the offline folder does not have and the program never ships. -->
+    <UseWindowsForms>true</UseWindowsForms>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugType>full</DebugType>
@@ -38,11 +42,6 @@
     <!-- Reads the references and resources of built assemblies without loading them (S3a-8 of the .NET 10 move: .NET has no
          reflection-only load). The NuGet package, from the offline package folder (nuget.config), at the version of Directory.Packages.props. -->
     <PackageReference Include="Mono.Cecil" />
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
-    <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
     <!-- The reader of project files (classic and SDK-style) shared by the tests that check them (S1-T of docs/specs/net10-plan.md). -->

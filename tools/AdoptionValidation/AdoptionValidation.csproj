@@ -7,7 +7,6 @@
     sentinels and an Open Dental-style startup check. Synthetic data on the local server only. See README.md.
   -->
   <PropertyGroup>
-    <TargetFramework>net48</TargetFramework>
     <OutputType>Exe</OutputType>
     <RootNamespace>AdoptionValidation</RootNamespace>
     <AssemblyName>AdoptionValidation</AssemblyName>
@@ -15,6 +14,14 @@
     <Platforms>x86</Platforms>
     <!-- Every source file under this folder except the test project (its own project, in the sub folder) and build output. -->
     <DefaultItemExcludes>$(DefaultItemExcludes);AdoptionValidation.Tests\**</DefaultItemExcludes>
+    <!-- net10.0-windows x64, a self-contained win-x64 exe, from Directory.Build.props and Directory.Build.Net.props (stage 3b, S3b-3 of
+         docs/specs/net10-plan.md): it moves with the business library it references. A console program; its .NET Framework references went
+         (part of .NET 10's shared framework). -->
+    <!-- The Windows Desktop framework, which the business library uses (Windows Forms, WPF, System.DirectoryServices, ...), named here as well:
+         NuGet leaves out of the restore the packages a project's own frameworks hold (package pruning), and without it the restore asks for
+         System.DirectoryServices, System.Configuration.ConfigurationManager and System.Security.Cryptography.Pkcs as packages
+         (System.DirectoryServices.AccountManagement's dependencies), which the offline folder does not have and the program never ships. -->
+    <UseWindowsForms>true</UseWindowsForms>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugType>full</DebugType>
@@ -26,11 +33,6 @@
     <PackageReference Include="MySqlConnector" />
     <!-- Newtonsoft.Json, the version of Directory.Packages.props. -->
     <PackageReference Include="Newtonsoft.Json" />
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <!-- Runbook step 0.6: copied next to the program, so the folder copied to the database server (<tools> in the runbook) has it. -->
