@@ -6,13 +6,10 @@
     is newer than the business layer. See README.md.
   -->
   <PropertyGroup>
-    <TargetFramework>net48</TargetFramework>
     <OutputType>Exe</OutputType>
     <RootNamespace>SyntheticData</RootNamespace>
     <AssemblyName>SyntheticData</AssemblyName>
     <LangVersion>8.0</LangVersion>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
     <Platforms>x86</Platforms>
     <!-- Every source file under this folder except the test project (its own project, in the sub folder) and build output. -->
     <DefaultItemExcludes>$(DefaultItemExcludes);SyntheticData.Tests\**</DefaultItemExcludes>

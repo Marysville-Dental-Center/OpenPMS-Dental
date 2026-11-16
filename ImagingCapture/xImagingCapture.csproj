@@ -9,7 +9,6 @@
     excepted), so packages that add files never conflict over this project file.
   -->
   <PropertyGroup>
-    <TargetFramework>net48</TargetFramework>
     <OutputType>Library</OutputType>
     <RootNamespace>ImagingCapture</RootNamespace>
     <AssemblyName>ImagingCapture</AssemblyName>

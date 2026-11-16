@@ -7,7 +7,6 @@
     before.
   -->
   <PropertyGroup>
-    <TargetFramework>net48</TargetFramework>
     <OutputType>Library</OutputType>
     <RootNamespace>RdlViewer</RootNamespace>
     <AssemblyName>RdlViewer</AssemblyName>

@@ -7,7 +7,6 @@
     OpenPmsDentalHL7.exe.config is app.config as it is.
   -->
   <PropertyGroup>
-    <TargetFramework>net48</TargetFramework>
     <OutputType>WinExe</OutputType>
     <RootNamespace>OpenPmsDentalHL7</RootNamespace>
     <AssemblyName>OpenPmsDentalHL7</AssemblyName>

@@ -8,7 +8,6 @@
     as it is.
   -->
   <PropertyGroup>
-    <TargetFramework>net48</TargetFramework>
     <OutputType>WinExe</OutputType>
     <RootNamespace>CentralManager</RootNamespace>
     <AssemblyName>CentralManager</AssemblyName>

@@ -7,7 +7,6 @@
     class-based resource names and the WPF resources. x86 like the other projects (Directory.Build.props).
   -->
   <PropertyGroup>
-    <TargetFramework>net48</TargetFramework>
     <OutputType>Library</OutputType>
     <RootNamespace>WpfControls</RootNamespace>
     <AssemblyName>WpfControlsOD</AssemblyName>

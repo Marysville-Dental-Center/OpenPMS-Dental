@@ -42,26 +42,12 @@
   </Target>
 
   <!--
-    A test project with no app.config of its own builds with tests\BindingRedirects.config, the programs'
-    binding redirects. Reference resolution follows them: without them it looks for the exact older version
-    a library was built against (System.Memory 4.0.1.2 for MySqlConnector, say), skips the newer copy in
-    "Required dlls" and takes an old one from another folder on its search path (the test platform folder
-    of Visual Studio, while MSTest v1 came from there, until S4-1). With them the test's output
-    gets the files of "Required dlls", and its generated .dll.config redirects to them
-    (tests\LibraryBindingTests).
+    Stage 3b (S3b-1, docs/port-notes/S3b-1.md) removed two .NET Framework settings that mean nothing on .NET: the default app.config of
+    the test projects (tests\BindingRedirects.config, the programs' binding redirects, for a test project without an app.config of its own)
+    and the target that dropped the build's suggested System.ValueTuple binding redirect. The test projects that still target .NET
+    Framework 4.8 until S3b-5 generate their binding redirects from reference resolution alone (tests\Directory.Build.props).
   -->
-  <PropertyGroup Condition="'$(AppConfig)' == '' and $(MSBuildProjectName.EndsWith('Tests')) and !Exists('$(MSBuildProjectDirectory)\app.config')">
-    <AppConfig>$(MSBuildThisFileDirectory)tests\BindingRedirects.config</AppConfig>
-  </PropertyGroup>
 
-  <!--
-    System.ValueTuple comes from the .NET Framework: 4.7 and later bind every 4.0.x reference to the copy in the
-    global assembly cache (4.0.0.0), and "Required dlls" has none (tests\LibraryBindingTests). The libraries
-    reference different 4.0.x versions (PDFsharp and MigraDoc 6.5: 4.0.2.0; SSH.NET, System.Text.Json,
-    System.Formats.Asn1 and Microsoft.Bcl.Cryptography: 4.0.5.0), so reference resolution suggests a redirect to
-    4.0.5.0, a version no computer has; a .config with that redirect makes every load of System.ValueTuple
-    fail. The suggestion is dropped, so the framework's own binding stays in charge.
-  -->
   <!--
     The native WebView2Loader.dll of the WebView2 package (Microsoft.Web.WebView2 1.0.2420.47, S2-3 of the .NET 10 move), next to the
     program. Microsoft.Web.WebView2.Core.dll loads it for every WebView2 window; the program, and the test projects that open such
@@ -108,10 +94,4 @@
     </ItemGroup>
   </Target>
 
-  <Target Name="ODDropValueTupleRedirect" AfterTargets="ResolveAssemblyReferences" BeforeTargets="GenerateBindingRedirects">
-    <ItemGroup>
-      <_ODValueTupleRedirect Include="@(SuggestedBindingRedirects)" Condition="$([System.String]::Copy('%(Identity)').StartsWith('System.ValueTuple,'))" />
-      <SuggestedBindingRedirects Remove="@(_ODValueTupleRedirect)" />
-    </ItemGroup>
-  </Target>
 </Project>

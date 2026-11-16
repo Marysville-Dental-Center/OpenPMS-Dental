@@ -7,7 +7,6 @@
     Every .cs file under this folder is compiled, so packages that add files never conflict over this project file.
   -->
   <PropertyGroup>
-    <TargetFramework>net48</TargetFramework>
     <OutputType>Library</OutputType>
     <RootNamespace>ImagingDeviceManager</RootNamespace>
     <AssemblyName>ImagingDeviceManager</AssemblyName>

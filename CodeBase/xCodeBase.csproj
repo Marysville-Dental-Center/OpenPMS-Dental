@@ -1,11 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net48</TargetFramework>
     <OutputType>Library</OutputType>
     <RootNamespace>CodeBase</RootNamespace>
     <AssemblyName>CodeBase</AssemblyName>
     <LangVersion>8.0</LangVersion>
     <Platforms>AnyCPU;x86</Platforms>
+    <!-- Windows Forms and WPF from the WindowsDesktop framework on .NET 10 (S3b-1's build check, as S3b-0's spike built CodeBase; S3b-2
+         goes on from here). -->
+    <UseWindowsForms>true</UseWindowsForms>
+    <UseWPF>true</UseWPF>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugType>full</DebugType>
@@ -35,6 +38,9 @@
   <ItemGroup>
     <!-- Newtonsoft.Json, the version of Directory.Packages.props. -->
     <PackageReference Include="Newtonsoft.Json" />
+    <!-- WMI and the service controller, which left the framework on .NET (download batch D, the versions of Directory.Packages.props). -->
+    <PackageReference Include="System.Management" />
+    <PackageReference Include="System.ServiceProcess.ServiceController" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\SharedAssemblyInfo.cs">
