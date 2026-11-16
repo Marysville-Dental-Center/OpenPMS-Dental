@@ -216,7 +216,7 @@ namespace ReleaseFlowTests {
 			}
 			List<string> listNames=listExeNames.ToList();
 			if(!isRecording) {
-				listNames=listNames.Union(ReadRecord().Keys,StringComparer.OrdinalIgnoreCase).ToList();
+				listNames=listNames.Union(ReadRecord().Keys.Select(x => GetStagedPath(x)),StringComparer.OrdinalIgnoreCase).ToList();
 			}
 			listNames=listNames.OrderBy(x => x,StringComparer.OrdinalIgnoreCase).ToList();
 			List<string> listProblems=new List<string>();
@@ -277,6 +277,15 @@ namespace ReleaseFlowTests {
 			}
 		}
 
+		///<summary>Where the release stages an exe the record names by its file name: since stage 3b the 32-bit helper is in the sub folder Helper32\
+		///(S3b-4, S3b-7); every other exe is at the top. The record keeps the net48 file names.</summary>
+		internal static string GetStagedPath(string fileName) {
+			if(Environment.Version.Major>=5 && fileName.Equals("OpenPmsDentalHelper32.exe",StringComparison.OrdinalIgnoreCase)) {
+				return @"Helper32\"+fileName;
+			}
+			return fileName;
+		}
+
 		internal static Dictionary<string,string> ReadRecord() {
 			Dictionary<string,string> dictLines=new Dictionary<string,string>(StringComparer.OrdinalIgnoreCase);
 			foreach(string lineRaw in TestPaths.ReadSource(_arrayRecordPath).Split('\n')) {
@@ -309,7 +318,8 @@ namespace ReleaseFlowTests {
 				Assert.Inconclusive("Recorded "+listResources.Count+" files from "+folder+". Review and commit the record.");
 			}
 			Dictionary<string,string> dictRecord=ReadRecord();
-			CollectionAssert.AreEquivalent(dictRecord.Keys.ToArray(),listExeNames.ToArray(),"The record names every staged .exe, and only those.");
+			CollectionAssert.AreEquivalent(dictRecord.Keys.Select(x => GetStagedPath(x)).ToArray(),listExeNames.ToArray(),
+				"The record names every staged .exe, and only those (the helper in Helper32\\ since stage 3b).");
 			List<string> listDifferences=new List<string>();
 			foreach(ExeResources exeResources in listResources) {
 				if(exeResources.ToLine()!=dictRecord[exeResources.FileName]) {
