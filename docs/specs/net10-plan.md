@@ -1120,6 +1120,18 @@ S3a-14 read vendor documentation only; no vendor file is downloaded.
 **Size.** 19 packages (11 + 3 menu packages + 5 for 64-bit); extra large; about 30-47 dev-days, of which the menus are about 6-10 and the
 64-bit preparation about 9-15.
 
+**Stage 3a gate passed (2026-11-15, at `43fc52af1` on `main`; the window checks again at `9df72f394` after WINCHK-4).** Debug lane build
+0 errors; Release dry run with the setup (`Build-Release.ps1`, out of the repository) exit 0, 86 files staged, setup SHA-256
+`ec791c0fa00fc9ae65d198e25a6fbc2817084dc41fafaa658774a1c7032a8e9f`; `Direct2dWrapper` x64 Release and Debug 0 errors; x64 test runs green
+(ImagingDeviceManagerTests 535, ImagingCaptureTests 806, BINATests 22, NativeFirstTests 43, N64ATests 41, ToothChartImageTests 257 + 6
+skipped); one Full run with `-RequireBuildOutput` against the stage 4 record `DONE ok=True`, 125 assemblies, 0 failed,
+`same=95 differs=24 new=6 missing=0`, every difference new tests (`gate3a-full.txt`); the owner's elevated `Test-Installer.ps1` on the
+gate's setup 97/97, exit 0 (S3a-11.md); the project baseline re-recorded in a clean worktree (`c0ea1367f`); the opt-in headless window
+checks, after WINCHK-4 (their scratch copy brought to the build's fork level; RdlDesigner's MenuStrip through UI Automation;
+WINCHK-HEADLESS.md), no check FAILED: the rest PASSED, PARTLY (items for a person) or SKIPPED by design. No bridge release (decision 21):
+the bridge-only launch checks move to 3b. Every 3a package is merged, S3a-M3b before EHR-7 by the owner's decision of 2026-11-15, so
+EHR-6a and EHR-7 (waiting for E-20) no longer hold the switch.
+
 ---
 
 ### Stage 3b - Switch to net10.0-windows x64
