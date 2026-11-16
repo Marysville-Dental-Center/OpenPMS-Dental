@@ -19,7 +19,23 @@ namespace BSERVERTests {
 	public static class ServerTestDb {
 		public const string SERVER="127.0.0.1";
 		private const string SERVER_CONNECTION="Server=127.0.0.1;Port=3306;User ID=root;Password=;Connection Timeout=3";
-		private const string PREFIX="bsrvtest_";
+		///<summary>bsrvtest_, or the prefix the BSERVER_DB_PREFIX variable names (lower-case letters, digits and underscores, ending with an
+		///underscore, at most 16 characters): a package whose rules give its scratch databases a prefix of its own runs the tests with it (S3b-6
+		///ran them with s3b6_bs_). Only databases with it are ever created or dropped.</summary>
+		private static readonly string PREFIX=GetPrefix();
+
+		private static string GetPrefix() {
+			string prefix=Environment.GetEnvironmentVariable("BSERVER_DB_PREFIX");
+			if(string.IsNullOrWhiteSpace(prefix)) {
+				return "bsrvtest_";
+			}
+			prefix=prefix.Trim();
+			if(prefix.Length>16 || !Regex.IsMatch(prefix,"^[a-z][a-z0-9_]*_$")) {
+				throw new ArgumentException("BSERVER_DB_PREFIX must be lower-case letters, digits and underscores, end with an underscore and have at "
+					+"most 16 characters: "+prefix);
+			}
+			return prefix;
+		}
 		private static readonly string _runId=DateTime.UtcNow.ToString("yyMMddHHmmss")+"_"+System.Diagnostics.Process.GetCurrentProcess().Id+"_"
 			+new Random().Next(1000,10000);
 
