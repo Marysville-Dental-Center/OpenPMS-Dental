@@ -11,9 +11,8 @@
 //    TableStyles, GridColumnStyles and SetDataBinding, and the toolbar's old DropDownMenu.
 // 3. In the same files: the members only WinForms menus have (MenuItems, GetContextMenu, MergedMenu), except the lines of _listNotWinForms
 //    (WebView2's own context menu has MenuItems).
-// Known pending, for S3a-M3b (after EHR-7): OpenPmsDental\Forms\FormMedical.cs (its Allergies and Problems grids), and the bridges it needs, in
-// regions named "Bridge for S3a-M3b" in GridOD.cs, PopupHelper.cs and Lan.cs. The test fails when one of them no longer has a WinForms menu,
-// so that M3b removes it from the list. It needs no build, database or network, and starts nothing.
+// No file or region is exempt: S3a-M3b converted the last one (FormMedical.cs's Allergies and Problems grids) and removed the bridges it
+// needed (the regions "Bridge for S3a-M3b" of GridOD.cs, PopupHelper.cs and Lan.cs). It needs no build, database or network, and starts nothing.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
 using System.Collections.Generic;
@@ -26,13 +25,10 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace NoHqTests {
 	[TestClass]
 	public class WinFormsMenuScanTests {
-		///<summary>The one file that keeps WinForms menus until S3a-M3b (FormMedical is EHR-7's until it merges).</summary>
-		public static readonly string[] ArrayFilesPending=new[] { @"OpenPmsDental\Forms\FormMedical.cs" };
-		///<summary>The files whose regions named "Bridge for S3a-M3b" keep the WinForms code FormMedical needs: GridOD's ContextMenu path, the links as
-		///MenuItems for it, and Lan's translation of a grid's ContextMenu. Removed by S3a-M3b with FormMedical's menus.</summary>
-		public static readonly string[] ArrayFilesBridge=new[] { @"OpenPmsDentalBusiness\UI\GridOD.cs",@"OpenPmsDentalBusiness\UI\PopupHelper.cs",
-			@"OpenPmsDental\Logic\Lan.cs" };
-		public const string BRIDGE_REGION="Bridge for S3a-M3b";
+		///<summary>The files S3a-M3b converted last: FormMedical (its grids' menus) and the files that held the bridges for it (GridOD's ContextMenu
+		///path, PopupHelper's MenuItem links, Lan's translation of a grid's ContextMenu). They are scanned like every other file, with no exception.</summary>
+		public static readonly string[] ArrayFilesConvertedLast=new[] { @"OpenPmsDental\Forms\FormMedical.cs",@"OpenPmsDentalBusiness\UI\GridOD.cs",
+			@"OpenPmsDentalBusiness\UI\PopupHelper.cs",@"OpenPmsDental\Logic\Lan.cs" };
 
 		private const string TYPES=@"ContextMenu|MenuItem|MainMenu|Menu|DataGrid|DataGridTableStyle|DataGridColumnStyle|DataGridTextBoxColumn|DataGridTextBox|DataGridBoolColumn"
 			+@"|DataGridCell|DataGridLineStyle|GridColumnStylesCollection|GridTableStylesCollection|Shortcut|MenuMerge";
@@ -74,32 +70,21 @@ namespace NoHqTests {
 			}
 			List<SourceFile> listFiles=ReadFiles(pathRoot,listFolders);
 			Assert.IsTrue(listFiles.Count>1000,"Expected the shipped source files, found "+listFiles.Count+".");
-			foreach(string file in ArrayFilesPending.Concat(ArrayFilesBridge)) {
+			foreach(string file in ArrayFilesConvertedLast) {
 				Assert.IsTrue(listFiles.Any(x => x.PathRelative.Equals(file,StringComparison.OrdinalIgnoreCase)),"The scan must read "+file+".");
 			}
 			//Sanity: the scan sees the ToolStrip menus and DataGridViews that replaced them, so a broken reader cannot pass by finding nothing.
 			Assert.IsTrue(listFiles.Count(x => x.Code.Contains("ContextMenuStrip"))>=100,"Expected the ContextMenuStrips of the program.");
 			Assert.IsTrue(listFiles.Count(x => x.Code.Contains("DataGridView"))>=11,"Expected the DataGridViews of FormQuery and RdlDesign.");
+			//FormMedical's grids get their menus as ContextMenuStrips with the grid's items (S3a-M3b), so a scan that lost them would be found here.
+			SourceFile sourceFileMedical=listFiles.First(x => x.PathRelative.Equals(ArrayFilesConvertedLast[0],StringComparison.OrdinalIgnoreCase));
+			Assert.AreEqual(2,sourceFileMedical.ArrayCode.Count(x => Regex.IsMatch(x,@"\bgrid(?:Allergies|Diseases)\s*\.\s*ContextMenuStrip\s*=")));
 			List<string> listProblems=new List<string>();
-			Dictionary<string,int> dictCountsPending=new Dictionary<string,int>(StringComparer.OrdinalIgnoreCase);
 			foreach(SourceFile sourceFile in listFiles) {
-				List<Finding> listFindings=FindUses(sourceFile);
-				if(ArrayFilesPending.Contains(sourceFile.PathRelative,StringComparer.OrdinalIgnoreCase)) {
-					dictCountsPending[sourceFile.PathRelative]=listFindings.Count;
-					continue;
-				}
-				if(ArrayFilesBridge.Contains(sourceFile.PathRelative,StringComparer.OrdinalIgnoreCase)) {
-					dictCountsPending[sourceFile.PathRelative]=listFindings.Count(x => x.IsInBridgeRegion);
-				}
-				listProblems.AddRange(listFindings.Where(x => !x.IsInBridgeRegion || !ArrayFilesBridge.Contains(sourceFile.PathRelative,StringComparer.OrdinalIgnoreCase))
-					.Select(x => sourceFile.PathRelative+":"+x.Line+": "+x.Rule+": "+x.Text));
+				listProblems.AddRange(FindUses(sourceFile).Select(x => sourceFile.PathRelative+":"+x.Line+": "+x.Rule+": "+x.Text));
 			}
 			Assert.AreEqual(0,listProblems.Count,"WinForms menus or DataGrids, which .NET 10 cannot instantiate (S3a-M3, docs/port-notes/S3a-M3.md): use "
 				+"ContextMenuStrip, ToolStripMenuItem, MenuStrip and DataGridView.\r\n"+string.Join("\r\n",listProblems));
-			foreach(string file in ArrayFilesPending.Concat(ArrayFilesBridge)) {
-				Assert.IsTrue(dictCountsPending[file]>0,file+" has no WinForms menu left (in its \""+BRIDGE_REGION+"\" regions for a bridge file): S3a-M3b "
-					+"removes it from ArrayFilesPending or ArrayFilesBridge, and removes the bridges once FormMedical is converted.");
-			}
 		}
 
 		#region Self-test of the scanner
@@ -151,7 +136,9 @@ namespace NoHqTests {
 		}
 
 		[TestMethod]
-		public void Scan_BridgeRegion_IsMarked() {
+		public void Scan_Regions_ExemptNothing() {
+			//S3a-M3a allowed WinForms menus inside regions named "Bridge for S3a-M3b" of three files until S3a-M3b removed them; a region of that
+			//name (or any other), in any file, is now scanned like the rest, and its #region lines are not code.
 			string[] arrayLines=new[] {
 				"using System.Windows.Forms;",
 				"class GridOD {",
@@ -164,9 +151,11 @@ namespace NoHqTests {
 				"\tprivate MenuItem _menuItemOutside;",
 				"}",
 			};
-			List<Finding> listFindings=FindUses(new SourceFile(@"Test\Planted.cs",arrayLines));
-			CollectionAssert.AreEqual(new[] { 4,6,9 },listFindings.Select(x => x.Line).ToArray(),string.Join(" | ",listFindings.Select(x => x.Line+" "+x.Rule)));
-			CollectionAssert.AreEqual(new[] { true,true,false },listFindings.Select(x => x.IsInBridgeRegion).ToArray());
+			foreach(string path in new[] { @"Test\Planted.cs",@"OpenPmsDentalBusiness\UI\GridOD.cs" }) {
+				List<Finding> listFindings=FindUses(new SourceFile(path,arrayLines));
+				CollectionAssert.AreEqual(new[] { "4 bare type","6 bare type","9 bare type" },listFindings.Select(x => x.Line+" "+x.Rule).ToArray(),
+					path+": "+string.Join(" | ",listFindings.Select(x => x.Line+" "+x.Rule)));
+			}
 		}
 
 		private static void AssertFound(string[] arrayLines,params string[] arrayExpected) {
@@ -181,7 +170,6 @@ namespace NoHqTests {
 			public int Line;
 			public string Rule;
 			public string Text;
-			public bool IsInBridgeRegion;
 		}
 
 		///<summary>The WinForms menu and DataGrid uses of a file, one per line and rule.</summary>
@@ -192,18 +180,9 @@ namespace NoHqTests {
 			List<string> listAliases=sourceFile.ArrayCode.Select(x => _regexAliasNamespace.Match(x)).Where(x => x.Success).Select(x => x.Groups[1].Value).ToList();
 			Regex regexAlias=listAliases.Count==0 ? null
 				: new Regex(@"(?<![\.\w])(?:"+string.Join("|",listAliases.Select(x => Regex.Escape(x)))+@")\s*\.\s*(?:"+TYPES+@")\b");
-			List<string> listRegions=new List<string>();
 			for(int i=0;i<sourceFile.ArrayCode.Length;i++) {
 				string code=sourceFile.ArrayCode[i];
-				Match matchRegion=_regexRegion.Match(code);
-				if(matchRegion.Success) {
-					listRegions.Add(sourceFile.ArrayRaw[i].Trim());
-					continue;
-				}
-				if(_regexEndRegion.IsMatch(code)) {
-					if(listRegions.Count>0) {
-						listRegions.RemoveAt(listRegions.Count-1);
-					}
+				if(_regexRegion.IsMatch(code) || _regexEndRegion.IsMatch(code)) {//a region's name is not code
 					continue;
 				}
 				string rule=null;
@@ -225,8 +204,7 @@ namespace NoHqTests {
 				if(rule==null) {
 					continue;
 				}
-				listFindings.Add(new Finding { Line=i+1,Rule=rule,Text=sourceFile.ArrayRaw[i].Trim(),
-					IsInBridgeRegion=listRegions.Any(x => x.Contains("#region "+BRIDGE_REGION)) });
+				listFindings.Add(new Finding { Line=i+1,Rule=rule,Text=sourceFile.ArrayRaw[i].Trim() });
 			}
 			return listFindings;
 		}

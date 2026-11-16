@@ -3,7 +3,8 @@
 Package S3a-M3 of stage 3a of the .NET 10 move ([docs/specs/net10-plan.md](../specs/net10-plan.md), the S3a-M3 row, wave 2 after S3a-M1, next
 to S3a-M2). The lead split it on 2026-11-15: **S3a-M3a** (this note so far) does the row for every file except
 `OpenPmsDental/Forms/FormMedical.cs`, which is EHR-7's until that package merges (it is the only EHR-7 file with WinForms menus);
-**S3a-M3b** converts FormMedical's two menus after EHR-7 merges and removes the bridges they still need (section 5).
+**S3a-M3b** converts FormMedical's two menus and removes the bridges they still need (section 5; done, section "S3a-M3b" at the end, before
+EHR-7 by the owner's decision of 2026-11-15).
 
 S3a-M3a: branch `net10/s3am3a-1` from `main` (`92f7506a0`). Every WinForms `ContextMenu`, `MenuItem`, `MainMenu` and `Menu` left after S3a-M1
 and S3a-M2, and every WinForms `DataGrid`, moves to `ContextMenuStrip`, `ToolStripMenuItem`/`ToolStripSeparator`, `MenuStrip` and `DataGridView`.
@@ -121,9 +122,9 @@ the Middle Tier.
 |---|---|
 | `ODToolBarButton.DropDownMenu` and ToolBarOD's `DropDownMenu` branch | **Removed.** Every setter is converted. `tests/P262BillingTests/WiringSourceTests.cs` (the arrow test reads `if(toolBarButton.ContextMenuStripDropDown==null){`) and window check J15 (the Send button's `ContextMenuStripDropDown`) follow. |
 | `Lan.C(Control,params Menu[])`, `Lan.C(string,params Menu[])` | **Removed.** No caller passes a WinForms menu. |
-| GridOD's ContextMenu path (`OnContextMenuChanged`, `ContextMenu_Popup`, `ContextMenuAddPopupLinks`, `_listMenuItemsLinks`, new `IsWinFormsContextMenuSet` for `OnMouseUp`) | **Left for M3b**, region "Bridge for S3a-M3b" of `GridOD.cs`. Its only caller: `FormMedical.InitOtherConvertMenus` (`gridAllergies`, `gridDiseases`). |
-| `PopupHelper.GetContextMenuItemLinks` | **Left for M3b**, region "Bridge for S3a-M3b" of `PopupHelper.cs` (GridOD's bridge calls it). |
-| Lan's translation of a grid's WinForms ContextMenu (`TranslateGridWinFormsContextMenu`, `TranslateMenuItems`) | **Left for M3b**, region "Bridge for S3a-M3b" of `Lan.cs` (with GridOD's bridge; FormMedical sets its menus in Load, after `Lan.F`, so today nothing reaches it). |
+| GridOD's ContextMenu path (`OnContextMenuChanged`, `ContextMenu_Popup`, `ContextMenuAddPopupLinks`, `_listMenuItemsLinks`, new `IsWinFormsContextMenuSet` for `OnMouseUp`) | **Left for M3b**, region "Bridge for S3a-M3b" of `GridOD.cs`. Its only caller: `FormMedical.InitOtherConvertMenus` (`gridAllergies`, `gridDiseases`). **Removed by S3a-M3b.** |
+| `PopupHelper.GetContextMenuItemLinks` | **Left for M3b**, region "Bridge for S3a-M3b" of `PopupHelper.cs` (GridOD's bridge calls it). **Removed by S3a-M3b.** |
+| Lan's translation of a grid's WinForms ContextMenu (`TranslateGridWinFormsContextMenu`, `TranslateMenuItems`) | **Left for M3b**, region "Bridge for S3a-M3b" of `Lan.cs` (with GridOD's bridge; FormMedical sets its menus in Load, after `Lan.F`, so today nothing reaches it). **Removed by S3a-M3b.** |
 
 **For S3a-M3b.** `FormMedical.cs:692-705`: the two `MenuItem`s become `ToolStripMenuItem`s (`new ToolStripMenuItem(text,null,handler)`), the
 two `ContextMenu`s `ContextMenuStrip`s with the item, their `Popup` lambdas `Opening` lambdas (they set `Visible` only, which a ToolStripItem
@@ -141,7 +142,8 @@ It fails on a qualified `System.Windows.Forms.ContextMenu`, `MenuItem`, `MainMen
 (also through a using alias); in a file that imports `System.Windows.Forms` and none of the WPF namespaces with types of the same names
 (`System.Windows.Controls`, `WpfControls.UI`, `WpfControls`), on the bare type names and on `.ContextMenu`, `.Menu` (not `Keys.Menu` or a WPF
 type named by its namespace), `.Popup` subscriptions, `.TableStyles`, `.GridColumnStyles`, `SetDataBinding`, `.DropDownMenu`, `.MenuItems`,
-`GetContextMenu` and `MergedMenu`. One listed exception: `ODWebView2`'s `e.MenuItems` (WebView2's own context menu). Known pending:
+`GetContextMenu` and `MergedMenu`. One listed exception: `ODWebView2`'s `e.MenuItems` (WebView2's own context menu). *Since S3a-M3b no file or region is exempt and nothing is pending (section S3a-M3b); the rest of this paragraph is how it was
+before.* Known pending:
 `OpenPmsDental\Forms\FormMedical.cs`, and the regions named "Bridge for S3a-M3b" in `GridOD.cs`, `PopupHelper.cs` and `Lan.cs`; the test also
 fails when one of them has no WinForms menu left, so M3b removes it. Self-tests plant each rule's shapes, the WPF and mixed files, the
 replacements that must not be found, and the bridge region.
@@ -237,3 +239,83 @@ Run the Debug x86 build on the test database as an administrator; each step a sc
 Lead notes at the merge (round 2's review):
 - **For a later cleanup:** `RdlDesign/SortingCtl.SwapRow` swaps a third column on a two-column table, so Up or Down on a sort row throws, on main too (pre-existing); drop the column-3 block. A new sort row with only an expression shows its Direction unchecked where the DataGrid showed it grayed; Apply treats it as Ascending in both. Both done in `net10/clean1-1` (CLEAN-1 items 1 and 2).
 - **Owner question:** FormTreatPlanCurEdit's Go To Appointment and Go To Planned Appointment now show on right-click (main's empty ContextMenu hid them); kept until the owner says otherwise (docs/owner-questions.md).
+
+## S3a-M3b: FormMedical's grid menus, and the last bridges removed
+
+Branch `net10/s3am3b-1` from `main` (`263f4d0da`). The owner decided on 2026-11-15 that S3a-M3b goes before EHR-7 (branch `ehr/ehr7-3`,
+waiting for the E-20 download) so that stage 3a does not wait; EHR-7 is redone on top of it later. With this package **S3a-M3 is complete**:
+no WinForms `ContextMenu`, `MenuItem`, `MainMenu`, `Menu` or `DataGrid` is left in the scanned code, and `WinFormsMenuScanTests` has no
+exception. No schema change, no new package or reference, nothing downloaded, no window shown.
+
+Commits: `67b8c472b` (FormMedical), `eb3c2c9f2` (the bridges), `0c8fb41cc` (tests), and this section with the plan's status line.
+
+### What changed
+
+**FormMedical** (`OpenPmsDental/Forms/FormMedical.cs`, `InitOtherConvertMenus` and its two fields), as section 5's "For S3a-M3b" said: the
+two `MenuItem`s are `ToolStripMenuItem`s (`new ToolStripMenuItem(text,null,handler)`, the same `Lan.g(this,...)` texts and handlers), the
+two `ContextMenu`s are `ContextMenuStrip`s holding them, the `Popup` lambdas are `Opening` lambdas (they set `Visible` only), and each grid
+gets its strip through `ContextMenuStrip` with `DoAddGridItemsToContextMenuStrip=true`. The lambdas are subscribed before the grid hooks the
+strip, so they run before the grid's own Opening, as the Popups ran before GridOD's `ContextMenu_Popup`. The first opening is never
+cancelled: the item is visible until a lambda hides it, and GridOD un-cancels a strip whose items were all hidden once it adds its own.
+
+**Behaviour in the Medical window is unchanged.** Right-click on the Allergies or Problems grid: "Convert "Other" allergy..." (or problem)
+shows only when the selected row is an "Other" entry (`OtherEntryConverts.IsOtherAllergy`/`IsOtherProblem`, as the Popup decided), then
+the grid's separator, Copy Cell Text and Copy Rows (enabled for the clicked cell and selection as before) and the row's links, in the same
+order. The item texts are translated by `Lan.g` when they are made, as before; the strips are set in Load after `Lan.F`, as the
+ContextMenus were, so Lan's grid translation does not reach them, as it did not reach the ContextMenus. The menu is drawn by the ToolStrip
+renderer, like every other converted menu (section 2). No release note: nothing else a user sees changed.
+
+**For EHR-7's later merge.** Only these lines of `FormMedical.cs` changed; every other line is byte for byte as on `main` (`263f4d0da`),
+the file stays CRLF without a BOM:
+
+| Lines on `main` | Lines after S3a-M3b | Change |
+|---|---|---|
+| 692-693 | 692-693 | the two fields: `System.Windows.Forms.MenuItem` to `ToolStripMenuItem` |
+| 698-701 | 698-703 | the allergy item (`ToolStripMenuItem`, a `null` image), the strip, its `Items.Add`, `Opening` for `Popup`, `DoAddGridItemsToContextMenuStrip=true`, `gridAllergies.ContextMenuStrip=` |
+| 702-705 | 704-709 | the same for the problem item and `gridDiseases` |
+
+EHR-7's own FormMedical lines (about 28) are outside `InitOtherConvertMenus`; if any of them sits in lines 692-709, keep S3a-M3b's lines and
+re-apply EHR-7's change there. `tests/BMEDTests/OtherConvertTests.cs` (`MedicalWindow_HasRightClickConvertItems`) reads the new lines.
+
+**The bridges removed** (the three regions "Bridge for S3a-M3b"):
+
+| Bridge | Removed | What covers the path that replaced it |
+|---|---|---|
+| GridOD's WinForms ContextMenu path: `OnContextMenuChanged`, `ContextMenu_Popup`, `ContextMenuAddPopupLinks`, `_listMenuItemsLinks`, `IsWinFormsContextMenuSet` (`OpenPmsDentalBusiness/UI/GridOD.cs`) | The region; `OnMouseUp` makes the grid's own strip when `ContextMenuStrip==null && ShowContextMenu`, as before without the ContextMenu check. The summary of `DoAddGridItemsToContextMenuStrip` no longer names a WinForms ContextMenu. | `S3aM1Tests/GridMenuTests` (every GridOD case kept, with the lists the bridge's ContextMenu gave when S3a-M1 compared them; new `GridOD_RightMouseUp_MakesItsOwnMenuOnlyWithoutACallersStrip`, `GridOD_PopupHelper_Lan_HaveNoWinFormsMenuBridge`); new `M3LiveMenuTests.FormMedical_GridMenus_ConvertItemOnlyForOther_ThenTheGridItems` |
+| `PopupHelper.GetContextMenuItemLinks` (`OpenPmsDentalBusiness/UI/PopupHelper.cs`) | The region; `GetLinks`' summary says it serves `GetToolStripMenuItemLinks` only. WPF's `PopupHelper2.GetContextMenuItemLinks` (WPF `MenuItem`s) is not a bridge and stays. | `MenuPartsTests.PopupHelper_ToolStripLinks_SameTextsAndOrderAsTheMenuItemLinks` (the texts and order the MenuItem links had, written out, one click handler per link); new `PopupHelper_ToolStripLink_ClickReachesTheLinksHandler` (a TaskNum link's click reaches `Tasks.NavTaskDelegate` with its number) |
+| Lan's `TranslateGridWinFormsContextMenu` and `TranslateMenuItems` (`OpenPmsDental/Logic/Lan.cs`) | The region and its call in `TranslateGrid`, which still translates the grid's ContextMenuStrip. | `LanToolStripTests.C_Strip_TranslatesLikeTheContextMenu_WithTheSameKeys` (the strip's half, with the keys the ContextMenu had but "-"); new `C_GridWithStrip_TranslatesTheStripWithTheGridsTranslationName` (Lan.C on a grid: its strip translated with the grid's TranslationName, no key under the caller's class) |
+
+### Tests
+
+- `S3aM1Tests/GridMenuTests`: the GridOD tests that compared the strip with a bridge ContextMenu (`GridOD_OwnMenu_FirstOpening_...`,
+  `GridOD_OwnMenu_NextOpenings_...`, `GridOD_CallersStrip_WithDoAddGridItems_...`, `..._AndOnlyHiddenItems_Opens`) keep their strip half
+  and its expected lists, which are the ones the bridge gave, as S3a-M2 did for GridOld; the `Popup`, `Describe(ContextMenu)` and
+  `MakeCallerMenu*` helpers went with the bridge. New: right mouse up with a caller's strip keeps it and makes no menu of the grid's own,
+  and with `ShowContextMenu=false` makes none (the case that makes one also shows it, which no test does); reflection finds no bridge member
+  in GridOD, PopupHelper or Lan and no field or method with a WinForms menu type in its signature. `RightClickCell` is internal for
+  M3LiveMenuTests.
+- `S3aM1Tests/MenuPartsTests`: the PopupHelper test compares with the written-out list instead of the MenuItem links; new click test.
+- `S3aM1Tests/LanToolStripTests`: the ContextMenu half (through the bridge's `TranslateMenuItems`) is now the grid test above. Both run on
+  this assembly's scratch database as before (`S3aM1Db`, names `s3am1_`); no new database.
+- `S3aM1Tests/M3LiveMenuTests`: new FormMedical test. The form is built in memory on an STA thread and never shown; `InitOtherConvertMenus`
+  is called directly. Both strips hold their item, visible until the first opening, with the form's Opening before the grid's. Problems
+  (definitions from an in-memory DiseaseDefs cache, cleared after): the item shows for an "Other" problem, hides for a listed one and with no
+  row, and shows again; Allergies (a definition is read from the database, so only the cases that read none): hidden for an unsaved allergy
+  and with no row. Each opening is not cancelled and ends with the separator, Copy Cell Text and Copy Rows. The items' click handlers are
+  checked by name (M2Support.Describe); they are not clicked, since a hidden item raises no Click (lead, from the review).
+- `NoHqTests/WinFormsMenuScanTests`: `ArrayFilesPending`, `ArrayFilesBridge` and the region exemption are gone; the scan still must read
+  FormMedical.cs, GridOD.cs, PopupHelper.cs and Lan.cs (`ArrayFilesConvertedLast`) and finds FormMedical's two `ContextMenuStrip=` lines;
+  the self-test `Scan_BridgeRegion_IsMarked` is `Scan_Regions_ExemptNothing` (a region named "Bridge for S3a-M3b", in a planted file and
+  under GridOD.cs's path, is scanned like the rest; its `#region` lines are not code).
+- `BMEDTests/OtherConvertTests.MedicalWindow_HasRightClickConvertItems` reads the new lines (the strips, the flag, the Opening lambdas).
+
+Runs (lane builds first; full lane build 0 errors): S3aM1Tests 68 (the RdlDesign tests run once RdlDesigner.exe is built), NoHqTests 112,
+M2MISCTests 98, ODOPTSTests 57, ProjectFileTests 150 (149 passed, the opt-in baseline check skipped as always), LibraryBindingTests 20; the
+projects whose source-text tests read a changed file: BMEDTests 31, EhrTests 260, MedicationTests 11, AttributionTests 50. All passed.
+`tools/Test-NoEolFlips.ps1` passes.
+
+### Launch check (for the gate; a screenshot, not run by this package)
+
+Medical window (Chart > Medical) of a patient with an eForm "Other" allergy and an "Other" problem and listed ones: right-click the "Other"
+allergy (Convert "Other" allergy..., a separator, Copy Cell Text, Copy Rows; Convert opens the allergy list pre-searched), a listed allergy
+(the separator and the grid items only), the same on the Problems tab; Copy Cell Text and Copy Rows copy as before.
