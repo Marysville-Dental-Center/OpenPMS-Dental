@@ -154,7 +154,16 @@ those files had merged, and no parallel stream was writing.
 
 ## 8. After the docs
 
-See the end of this note (the last full build and Targeted run, and the line-end check).
+- **Full build** of `OpenDental.Local.slnf` (Debug x86) through the lane at `a01df7819`: 0 errors.
+- **`tc9a-final1.txt`**: ToothChartHostTests 15 (14 passed, 1 skipped: the gallery's window picture), BINATests 19, BINBTests 99, BPERIOTests
+  55, N64ATests 34, LibraryBindingTests 20, ProjectFileTests 150 (1 skipped: the project baseline check), S3aM1Tests 61, and the projects whose
+  tests read the plan, the release notes or the port notes: ODOPTSTests 57, P262SchemaTests 28 (4 skipped), PdfLibraryTests 41, BSHELLTests
+  73, InventoryTests 93; NoHqTests 110. All passed.
+- **`tc9a-final2.txt`**: ToothChartImageTests 256, 250 passed, 0 failed, 6 skipped; NoHqTests 110.
+- **`tc9a-final3.txt`**: VendorDirectTests 941, ImagingTests 81, ReleaseFlowTests 206 (5 skipped), DbConnectionSecurityTests 250 (3
+  skipped), NoHqTests 110. All passed.
+- **`tools/Test-NoEolFlips.ps1`** against `chart/tc8-2` (merge base `9d9ee9cb5`): 42 changed text files, none changed its line ends; no
+  modified file gained or lost a BOM (the blobs' first bytes compared with `git cat-file`).
 
 ## 9. Launch check L-8, for a person (TC-9a's part)
 
