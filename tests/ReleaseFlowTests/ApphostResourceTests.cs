@@ -373,7 +373,8 @@ namespace ReleaseFlowTests {
 		///Synthetic files in a staging folder named by OPMS_RELEASE_STAGING; nothing is read as a resource.</summary>
 		[TestMethod]
 		public void StaleReleaseOutput_IsInconclusive_WithTheWriteTimes() {
-			List<string> listRecordNames=ReadRecord().Keys.OrderBy(x => x,StringComparer.OrdinalIgnoreCase).ToList();
+			//Where the release stages each recorded exe (the helper in Helper32\ since stage 3b).
+			List<string> listRecordNames=ReadRecord().Keys.Select(x => GetStagedPath(x)).OrderBy(x => x,StringComparer.OrdinalIgnoreCase).ToList();
 			string valueBefore=Environment.GetEnvironmentVariable(STAGING_VARIABLE);
 			string folder=TestPaths.NewTempFolder("s3a10f_stale");
 			try {
@@ -389,6 +390,7 @@ namespace ReleaseFlowTests {
 				StringAssert.Contains(message,"OpenPmsDental.exe: written ");
 				//Every exe there and newer than any commit: the folder is used.
 				foreach(string name in listRecordNames) {
+					Directory.CreateDirectory(Path.GetDirectoryName(Path.Combine(folder,name)));
 					File.WriteAllText(Path.Combine(folder,name),"synthetic");
 					File.SetLastWriteTimeUtc(Path.Combine(folder,name),DateTime.UtcNow.AddDays(1));
 				}
