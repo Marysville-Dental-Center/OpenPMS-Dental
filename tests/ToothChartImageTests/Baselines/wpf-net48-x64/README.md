@@ -12,7 +12,7 @@ computes that on the x87 unit at double precision (control word 0x0009001F), the
 the same on every thread), so a value that is a whole pixel in one process can be a hair beside it in the other. Measured in both bitnesses
 on the same scene data (TC-10.md section 3):
 
-- `410x307/` (142 pictures, every chart scene at the module size): the tooth number "5" starts at x 121 instead of 120. 31 pixels of its glyph
+- `410x307/` (142 of the 149 module-size scenes; the 7 others draw no Universal "5" there): the tooth number "5" starts at x 121 instead of 120. 31 pixels of its glyph
   differ; the worst 16x16 block has 31 of them, over the limit of 24. The other sizes put the "5" on the same pixel in both bitnesses.
 - `649x696/` (15 perio scenes), `perio-print/` and `perio-save/` (3 each): the perio legend's second row ("Suppuration", "Clinical
   Attachment Level", "Furcation 2") starts at y 648 instead of 649. 1380 pixels differ in the chart (2862 in the print and the saved image).

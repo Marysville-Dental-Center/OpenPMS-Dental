@@ -45,6 +45,12 @@ namespace ToothChartImageTests {
 			bool isRecording=Environment.GetEnvironmentVariable(EnvRecord)=="1";
 			string folderBaseline=WpfCharts.BaselinesWpf;
 			string folderOut=Environment.GetEnvironmentVariable(EnvRecordOut);
+			if(isRecording && Environment.Is64BitProcess && string.IsNullOrWhiteSpace(folderOut)) {
+				//TC-10 (lead): a 64-bit recording would write its pictures over the x86 set Baselines\wpf-net48, and wpf-net48-x64 holds only the
+				//pictures beyond tolerance, so it is refused without a folder of its own (Baselines\wpf-net48-x64\README.md says how to record).
+				Assert.Inconclusive("A 64-bit WPF recording needs "+EnvRecordOut+" set to a scratch folder; then copy only the pictures beyond "
+					+"tolerance into Baselines\\wpf-net48-x64. Nothing was written.");
+			}
 			if(isRecording && !string.IsNullOrWhiteSpace(folderOut)) {
 				folderBaseline=folderOut;
 			}
