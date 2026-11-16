@@ -532,16 +532,21 @@ namespace OpenPmsDental.DivvyConnect {
 	///open/close/send timeouts 1 minute, receive 10 minutes, the default web proxy, message size and buffer 65536, pool 524288, reader quotas
 	///depth 32, string 8192, array 16384, bytes per read 4096, name table 16384. The port gives the client that binding in code.</summary>
 	public partial class PostcardServiceClient {
-		///<summary>The text of the exception SendPostcards throws on .NET 10, naming the plan row.</summary>
+		///<summary>The message of the Failure answer SendPostcards gives on .NET 10, naming the plan row.</summary>
 		public const string NotPortedMessage="Divvy postcards are not available yet in the .NET 10 build of Open PMS - Dental: the WCF client they use "
 			+"is not part of .NET, and its port is open point O-10 of the .NET 10 plan (docs/specs/net10-plan.md). No postcard was sent.";
 
 		public PostcardServiceClient() {
 		}
 
-		///<summary>Throws NotSupportedException with NotPortedMessage: nothing is sent (open point O-10).</summary>
+		///<summary>Sends nothing (open point O-10) and answers Failure with NotPortedMessage, so FormRecallList shows the message and records no
+		///recall or reactivation as mailed (DivvyPostcardSending.RecordIfAllSent). It does not throw: an exception would leave FormRecallList's
+		///answer at its default, CompletedSucessfully.</summary>
 		public OpenPmsDental.DivvyConnect.PostcardReturnMessage SendPostcards(System.Guid apiKey,string username,string password,OpenPmsDental.DivvyConnect.Postcard[] postcards,OpenPmsDental.DivvyConnect.Practice practice) {
-			throw new System.NotSupportedException(NotPortedMessage);
+			return new OpenPmsDental.DivvyConnect.PostcardReturnMessage {
+				MessageCode=OpenPmsDental.DivvyConnect.MessageCode.Failure,
+				Message=NotPortedMessage,
+			};
 		}
 	}
 #endif
