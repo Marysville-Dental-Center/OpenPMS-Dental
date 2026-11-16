@@ -102,6 +102,11 @@
     <Compile Include="..\..\WpfControlsOD\Bridges\CADIInProcess.cs">
       <Link>Linked\CADIInProcess.cs</Link>
     </Compile>
+    <!-- N64-B6: a 64-bit program's late-bound QBFC session (QuickBooksLateBound.cs), run against the recording QBFC fakes reached through
+         IDispatch-like dynamic calls (QuickBooks\LateBoundQbfc.cs) and compared call for call with today's code and the QBFC 10 path. -->
+    <Compile Include="..\..\WpfControlsOD\Bridges\QuickBooksLateBound.cs">
+      <Link>Linked\QuickBooksLateBound.cs</Link>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <!-- Helper32Client, the program's side. -->

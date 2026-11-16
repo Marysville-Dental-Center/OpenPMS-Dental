@@ -1985,6 +1985,12 @@ self-contained (open point O-15, decision 20).
   new package), and the launch checks on a test PC with the vendor software (none today).
   **2026-11-15, later:** the owner downloaded the newest QuickBooks Desktop SDK, 18.0 (survey B6 builds on its newest QBFC, then the older
   64-bit ones down to QBFC15, else the helper; late-bound, so the SDK need not be installed on the build PC), and approved System.IO.Ports.
+  **Built by N64-B6 (`docs/port-notes/N64-B6.md`, branch `net10/n64b6-1`), late-bound:** a 64-bit program creates the newest listed 64-bit
+  QBFC session manager by its ProgID (registry in both views, then N64-A3's HRESULT rule; only `QBFC16.QBSessionManager.1` is listed, as no
+  public page gives the ProgIDs of QBFC 15, 17 or 18) and makes QBFC 10's calls through IDispatch with the enum values of the activated
+  QBFC's type library; none activating, or a failed connection there, sends QuickBooks Desktop to the helper's QBFC 10 module (a failed
+  connection's call once more there); the 32-bit program keeps QBFC 10 in process as on main. Open: the ProgIDs of QBFC 15, 17 and 18 and the
+  launch checks on a test PC with QuickBooks Desktop 2022 or later (the note's section 8).
   Mediadent / CADI follows the same rule since N64-A3 (`docs/port-notes/N64-A3.md`). **Recorded by the survey's A5
   (`docs/specs/native64-survey.md`, rows 7, 14 and 15):** VisiQuick stays dormant (its file is all comment, and there is no 64-bit
   `vqdde32.dll`; if it is ever revived, a helper module drives VisiQuick.exe over DDE whatever its bitness); the Belgian eID import is a

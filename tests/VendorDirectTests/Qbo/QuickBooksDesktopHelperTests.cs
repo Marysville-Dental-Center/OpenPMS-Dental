@@ -99,6 +99,16 @@ namespace VendorDirectTests.Qbo {
 				Assert.AreEqual(@"stand-in TestConnection C:\QuickBooks\Synthetic Company.qbw",QuickBooks.TestConnection(@"C:\QuickBooks\Synthetic Company.qbw"));
 				int processId=client.ProcessId;
 				Assert.AreNotEqual(0,processId);
+				//N64-B6: a 64-bit program whose 64-bit QBFC chooser picked the helper (no 64-bit QBFC, or a failed connection) reaches the same
+				//helper module, and never asks QBFC 10's chooser (no QBFC 10 activation in a 64-bit process).
+				NativeFirstChooser.QuickBooksDesktop.ResetForTests();
+				NativeFirstChooser.QuickBooksDesktopNative64.ResetForTests(true);
+				NativeFirstChooser.QuickBooksDesktopNative64.ForceChoiceForTests(VendorPath.Helper32);
+				Assert.AreEqual(@"stand-in TestConnection C:\QuickBooks\Synthetic Company.qbw",QuickBooks.TestConnection(@"C:\QuickBooks\Synthetic Company.qbw"));
+				Assert.AreEqual(processId,client.ProcessId,"The same helper.");
+				Assert.IsNull(NativeFirstChooser.QuickBooksDesktop.Choice,"QBFC 10's chooser is not used in a 64-bit program.");
+				NativeFirstChooser.QuickBooksDesktopNative64.ResetForTests();
+				NativeFirstChooser.QuickBooksDesktop.ForceChoiceForTests(VendorPath.Helper32);
 				fieldDefault.SetValue(null,new Helper32Client(Path.Combine(folder,"OpenPmsDentalHelper32-000000000000.exe")));
 				StringAssert.StartsWith(QuickBooks.TestConnection(@"C:\QuickBooks\Synthetic Company.qbw"),"Error: The 32-bit helper program "
 					+"OpenPmsDentalHelper32.exe was not found");
@@ -107,6 +117,7 @@ namespace VendorDirectTests.Qbo {
 				string nameCopy=Path.GetFileNameWithoutExtension(pathCopy);
 				try {
 					NativeFirstChooser.QuickBooksDesktop.ResetForTests();
+					NativeFirstChooser.QuickBooksDesktopNative64.ResetForTests();
 					fieldDefault.SetValue(null,clientBefore);
 					client.Dispose();
 					for(int i=0;i<40 && Process.GetProcesses().Any(x => SafeName(x)==nameCopy);i++) {
