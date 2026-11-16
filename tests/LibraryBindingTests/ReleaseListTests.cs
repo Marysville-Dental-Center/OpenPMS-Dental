@@ -27,6 +27,15 @@ namespace LibraryBindingTests {
 				+"never shows terrain (HelixReferenceTests)" },
 		};
 
+		///<summary>Files the release still ships although nothing in the program references them, each with why. Keep this list short and exact.
+		///</summary>
+		private static readonly Dictionary<string,string> _dictShippedUnused=new Dictionary<string,string>(StringComparer.OrdinalIgnoreCase) {
+			//TC-9a (docs/port-notes/TC-9a.md) deleted the DirectX chart and SparksToothChart's SharpDX and Tao references; the program's own SharpDX.dll
+			//and Tao references stay until TC-9b, which removes all five files from Required dlls, tools\Build-Release.ps1 and the notices.
+			{ "SharpDX.Direct3D9.dll","only the DirectX chart referenced it (through SparksToothChart), retired in TC-9a; TC-9b removes it from the release" },
+			{ "SharpDX.Mathematics.dll","only the DirectX chart referenced it (through SparksToothChart), retired in TC-9a; TC-9b removes it from the release" },
+		};
+
 		private static string ProgramFolder {
 			get { return RepoPaths.Combine("OpenPmsDental","bin","Debug"); }
 		}
@@ -95,8 +104,13 @@ namespace LibraryBindingTests {
 			foreach(string fileName in hashSetNeeded.Where(x => !listAllowed.Contains(x,StringComparer.OrdinalIgnoreCase)).OrderBy(x => x)) {
 				listProblems.Add(fileName+": the program needs it, but tools\\Build-Release.ps1 does not ship it (add it to the allow-list, with its notice).");
 			}
-			foreach(string fileName in listAllowed.Where(x => !hashSetNeeded.Contains(x)).OrderBy(x => x)) {
+			foreach(string fileName in listAllowed.Where(x => !hashSetNeeded.Contains(x) && !_dictShippedUnused.ContainsKey(x)).OrderBy(x => x)) {
 				listProblems.Add(fileName+": tools\\Build-Release.ps1 ships it, but nothing in the program uses it.");
+			}
+			//The known unused files: still shipped, and still unused (one that a program file needs again is no longer an exception).
+			foreach(string fileName in _dictShippedUnused.Keys) {
+				Assert.IsTrue(listAllowed.Contains(fileName,StringComparer.OrdinalIgnoreCase),fileName+" is no longer shipped: remove it from _dictShippedUnused.");
+				Assert.IsFalse(hashSetNeeded.Contains(fileName),fileName+" is used again: remove it from _dictShippedUnused.");
 			}
 			foreach(string fileName in hashSetNeeded.Where(x => !File.Exists(Path.Combine(ProgramFolder,x))).OrderBy(x => x)) {
 				listProblems.Add(fileName+": the program needs it, but the build did not copy it to OpenPmsDental\\bin\\Debug.");

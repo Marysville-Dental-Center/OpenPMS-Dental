@@ -713,11 +713,12 @@ namespace ToothChartImageTests {
 		}
 
 		[TestMethod]
-		public void LogLines_OfWpfRenderFailures_AreWrittenEvenAfterADirectXFallbackLine() {
+		public void LogLines_OfWpfRenderFailures_AreWrittenEvenAfterALineOfAnotherKind() {
+			//Until TC-9a the line before was a DirectX fallback's; that kind went with the DirectX chart, and the rule is the same for every kind.
 			SecondProcessResult result=SecondProcess.Run(120000,"log-kinds");
 			Console.WriteLine(result.Output);
 			Assert.AreEqual(0,result.ExitCode,result.Output);
-			StringAssert.Contains(result.Output,"log lines after a DirectX fallback: 1");
+			StringAssert.Contains(result.Output,"log lines after a line of another kind: 1");
 			StringAssert.Contains(result.Output,"log lines after a WPF render failure: 2","The WPF render failure has its own logged-once line.");
 			StringAssert.Contains(result.Output,"log lines after a second WPF render failure: 2","And only one.");
 		}
