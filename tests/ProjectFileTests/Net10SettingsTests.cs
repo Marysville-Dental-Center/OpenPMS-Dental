@@ -13,6 +13,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Xml.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace ProjectFileTests {
@@ -299,10 +300,38 @@ namespace ProjectFileTests {
 		}
 
 		[TestMethod]
-		public void DirectoryBuildTargets_HasNoBindingRedirectSettings() {
-			string text=File.ReadAllText(Path.Combine(FixtureFolder.RepoRoot(),"Directory.Build.targets"));
-			Assert.IsFalse(text.Contains("ODDropValueTupleRedirect"),"S3b-1 removed the System.ValueTuple redirect target.");
-			Assert.IsFalse(text.Contains("<AppConfig>"),"S3b-1 removed the test projects' default app.config.");
+		public void DirectoryBuildTargets_BindingRedirectSettings_ApplyToNetFrameworkOnly() {
+			//S3b-1 keeps both binding-redirect rules of Directory.Build.targets while any project targets .NET Framework 4.8 (every project on the
+			//branch until its layer package retargets it), and gives a .NET 10 project neither; S3b-5 deletes them with tests\BindingRedirects.config.
+			const string FRAMEWORK_ONLY="'$(TargetFrameworkIdentifier)' == '.NETFramework'";
+			XDocument xDocument=XDocument.Load(Path.Combine(FixtureFolder.RepoRoot(),"Directory.Build.targets"));
+			XNamespace xNamespace=xDocument.Root.Name.Namespace;
+			List<XElement> listTargets=xDocument.Root.Elements(xNamespace+"Target").Where(x => (string)x.Attribute("Name")=="ODDropValueTupleRedirect").ToList();
+			Assert.AreEqual(1,listTargets.Count,"The System.ValueTuple redirect target stays for .NET Framework.");
+			Assert.AreEqual(FRAMEWORK_ONLY,(string)listTargets[0].Attribute("Condition"));
+			List<XElement> listAppConfig=xDocument.Root.Elements(xNamespace+"PropertyGroup").Where(x => x.Element(xNamespace+"AppConfig")!=null).ToList();
+			Assert.AreEqual(1,listAppConfig.Count,"The test projects' default app.config stays for .NET Framework.");
+			StringAssert.StartsWith((string)listAppConfig[0].Attribute("Condition"),FRAMEWORK_ONLY+" and ");
+			using(FixtureFolder fixtureFolder=CreateWithRepositorySettings()) {
+				//A net48 test project without an app.config gets the shared one, as on main.
+				ProjectFile projectFile=LoadProject(fixtureFolder,@"tests\Sample.Tests\Sample.Tests.csproj","");
+				Assert.AreEqual(".NETFramework",projectFile.GetProperty("TargetFrameworkIdentifier"));
+				Assert.AreEqual(fixtureFolder.Combine(@"tests\BindingRedirects.config"),projectFile.GetProperty("AppConfig"));
+				//A net48 library or exe gets none (the rule is for test projects), as on main.
+				projectFile=LoadProject(fixtureFolder,@"Old\Old.csproj","<TargetFramework>net48</TargetFramework>");
+				Assert.AreEqual("",projectFile.GetProperty("AppConfig"));
+				//S3b-5's shape: a test project on net10.0-windows gets none.
+				fixtureFolder.EditFile(@"tests\Directory.Build.props","<TargetFramework>net48</TargetFramework>","");
+				projectFile=LoadProject(fixtureFolder,@"tests\Net.Tests\Net.Tests.csproj","");
+				Assert.AreEqual(".NETCoreApp",projectFile.GetProperty("TargetFrameworkIdentifier"));
+				Assert.AreEqual("",projectFile.GetProperty("AppConfig"));
+			}
+			//The repository's own net48 test projects: CryptoTests has no app.config of its own.
+			string root=FixtureFolder.RepoRoot();
+			Assert.IsFalse(File.Exists(Path.Combine(root,@"tests\CryptoTests\app.config")));
+			ProjectFile projectFileCrypto=ProjectFile.Load(Path.Combine(root,@"tests\CryptoTests\CryptoTests.csproj"));
+			Assert.AreEqual("net48",projectFileCrypto.GetProperty("TargetFramework"));
+			Assert.AreEqual(Path.Combine(root,@"tests\BindingRedirects.config"),projectFileCrypto.GetProperty("AppConfig"));
 		}
 
 		[TestMethod]
@@ -318,12 +347,18 @@ namespace ProjectFileTests {
 			{
 				dictMappings[match.Groups[1].Value]=match.Groups[2].Value;
 			}
+			//The exceptions keep their x86 project configuration for the x64 solution platforms. OpenPmsDentalServer, the one classic C# project
+			//until S3b-6 rewrites it, has Debug|x86 and Release|x86 groups but none for x64 (built as Debug|x64 it would have no OutputPath and stop
+			//in _CheckForInvalidConfigurationAndPlatform); OpenPmsDentalHelper32 names x86 as its only platform (O-15), as its Any CPU mappings do.
+			string[] arrayX86Projects=new[] { "{712C6A2B-88E1-49E9-AC67-F6372F0047BC}","{CDB4F87A-1B32-436C-9096-74BE4D9FD071}" };
+			StringAssert.Contains(textSln,"\"OpenPmsDentalServer\", \"OpenPmsDentalServer\\OpenPmsDentalServer.csproj\", \""+arrayX86Projects[0]+"\"");
+			StringAssert.Contains(textSln,"\""+HELPER+"\", \""+HELPER+"\\"+HELPER+".csproj\", \""+arrayX86Projects[1]+"\"");
 			List<string> listProblems=new List<string>();
 			int countX86=0;
 			foreach(KeyValuePair<string,string> pair in dictMappings.Where(x => x.Key.Contains("|x86."))) {
 				countX86++;
 				string keyX64=pair.Key.Replace("|x86.","|x64.");
-				string expected=Regex.Replace(pair.Value,@"\|(x86|Win32)$","|x64");
+				string expected=arrayX86Projects.Any(x => pair.Key.StartsWith(x+".")) ? pair.Value : Regex.Replace(pair.Value,@"\|(x86|Win32)$","|x64");
 				string actual;
 				if(!dictMappings.TryGetValue(keyX64,out actual)) {
 					listProblems.Add(keyX64+" missing");
@@ -335,6 +370,39 @@ namespace ProjectFileTests {
 			Assert.AreEqual(countX86,dictMappings.Count-countX86,"As many x64 mappings as x86 ones.");
 			Assert.IsTrue(countX86>300,countX86+" x86 mappings.");
 			Assert.AreEqual(0,listProblems.Count,string.Join("; ",listProblems.Take(20)));
+		}
+
+		[TestMethod]
+		public void EveryClassicProject_HasTheConfigurationItsX64SolutionPlatformMapsTo() {
+			//A classic project reads its OutputPath from a Configuration|Platform group; for a project configuration it has no group for, MSBuild's
+			//default bin\<platform>\<configuration>\ stands in for the evaluation and the build stops in _CheckForInvalidConfigurationAndPlatform
+			//(ProjectFormatTests.Classic_TheConfigurationDecidesTheConditionalProperties). So the x64 solution platforms must map every classic project
+			//to a configuration that gives it the OutputPath of its x86 mapping, which the build lane uses today.
+			string root=FixtureFolder.RepoRoot();
+			List<string> listProblems=new List<string>();
+			int countClassic=0;
+			foreach(string path in ProjectFile.GetSolutionFilterProjects(Path.Combine(root,"OpenDental.Local.slnf"))) {
+				if(!path.EndsWith(".csproj",StringComparison.OrdinalIgnoreCase) || ProjectFile.Load(path).IsSdkStyle) {
+					continue;
+				}
+				countClassic++;
+				foreach(string configuration in new[] { "Debug","Release" }) {
+					string configurationX86;
+					string platformX86;
+					ProjectFile.GetSolutionConfiguration(path,configuration,"x86",out configurationX86,out platformX86);
+					string configurationX64;
+					string platformX64;
+					ProjectFile.GetSolutionConfiguration(path,configuration,"x64",out configurationX64,out platformX64);
+					string outputPathX86=ProjectFile.Load(path,configurationX86,platformX86).GetProperty("OutputPath");
+					string outputPathX64=ProjectFile.Load(path,configurationX64,platformX64).GetProperty("OutputPath");
+					if(outputPathX64!=outputPathX86) {
+						listProblems.Add(Path.GetFileName(path)+" "+configuration+"|x64 -> "+configurationX64+"|"+platformX64+": OutputPath "+outputPathX64
+							+", for "+configuration+"|x86 "+outputPathX86);
+					}
+				}
+			}
+			Assert.AreEqual(0,listProblems.Count,string.Join("; ",listProblems));
+			Assert.IsTrue(countClassic>=1,"OpenPmsDentalServer is classic until S3b-6.");
 		}
 
 		[TestMethod]
