@@ -34,7 +34,7 @@ namespace WindowChecksTests {
 			RemotingClient.MiddleTierRole=MiddleTierRole.ClientDirect;
 			new DataConnection().SetDb(ScratchDb.Server+":"+ScratchDb.Port,database,"root","","","",DatabaseType.MySql,true,DevDbTls.GetSslCa(ScratchDb.Server));
 			//The business layer's connection must be this copy, and nothing else, before anything is written.
-			string databaseConnected=Db.GetScalar("SELECT DATABASE()");
+			string databaseConnected=DataCore.GetScalar("SELECT DATABASE()");
 			if(databaseConnected!=database) {
 				throw new InvalidOperationException("The business layer is connected to '"+databaseConnected+"', not to "+database+".");
 			}
