@@ -12,23 +12,35 @@ output folder:
 
 Without elevation it changes nothing: it says that it needs an elevated PowerShell and ends with exit code 2. It also changes nothing and
 ends with exit code 3 when it runs in a 32-bit PowerShell (it must read both registry views; the Windows PowerShell that "Run as
-administrator" opens is 64-bit), when the setup or the staging folder is missing, or when this PC has a per-user or a 64-bit view
-uninstall entry of the setup's AppId (neither is made by this setup). If a test install ever lands anywhere but its own test folder, the
-remaining scenarios are skipped (a FAIL line says so), so it never installs over an installation already on the PC more than once.
+administrator" opens is 64-bit), when the setup or the staging folder is missing, or when this PC has a per-user uninstall entry of the
+setup's AppId (this setup makes none). If a test install ever lands anywhere but its own test folder, the remaining scenarios are skipped
+(a FAIL line says so), so it never installs over an installation already on the PC more than once.
+Since stage 3b (docs\port-notes\S3b-7.md) the setup is 64-bit: it installs in 64-bit mode into Program Files, with its uninstall entry in
+the 64-bit registry view, and the program carries its own .NET runtime (x64 beside the programs, x86 in Helper32\ for the helper), so no
+.NET runtime is installed and none is needed. An installation of v0.0 (32-bit, its uninstall entry in the 32-bit view) is a separate
+installation for this setup: the script does not touch it and checks at the end that its uninstall entry is as before.
 
 WHAT IT CHANGES ON THIS PC while it runs, and what it puts back:
 - new folders %TEMP%\OpenPmsDental-installtest-<scenario>-<id>\Open PMS - Dental, the test program folders (setup's /DIR=). The
   uninstall removes each one; the script then deletes the parent folders, which it made, and the A to Z folder of scenario B.
-- the uninstall entry HKLM\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\{D5640A25-F302-4CAD-96DC-84AAA8B22F98}_is1
-  (the setup is 32-bit, so Windows keeps it in the 32-bit view) and the Event Log source key
+- the uninstall entry HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{D5640A25-F302-4CAD-96DC-84AAA8B22F98}_is1
+  (the setup installs in 64-bit mode, so Windows keeps it in the 64-bit view; before stage 3b it was
+  HKLM\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\{D5640A25-F302-4CAD-96DC-84AAA8B22F98}_is1, the 32-bit view of the
+  32-bit setup) and the Event Log source key
   HKLM\SYSTEM\CurrentControlSet\Services\EventLog\Application\OpenPMS-Dental. Setup writes both; each uninstall deletes both, which
   the script checks. Whatever an uninstall leaves of the two, the script deletes at the end (a FAIL line says so).
-- When the PC has an installation of the program already (for example v0.0 in C:\Program Files (x86)\Open PMS - Dental), the test
-  installs share its uninstall entry and Event Log source key, and each test uninstall deletes them. The script therefore saves both
-  first, in memory and as .reg files in -OutDir (uninstall-entry-before.reg, eventlog-source-before.reg; double-click one to put it back
-  by hand if the script was stopped), and writes them back at the end. That installation's folder, files and shortcuts are not touched;
-  the last check compares every Start menu and desktop shortcut of the program with what was there before the test.
-  Until the end, Apps does not list it, and the program's Event Log source is missing.
+- When the PC has a 64-bit installation of the program already (C:\Program Files\Open PMS - Dental), the test installs share its
+  uninstall entry and Event Log source key, and each test uninstall deletes them; an installation of v0.0 shares the Event Log source key.
+  The script therefore saves both first, in memory and as .reg files in -OutDir (uninstall-entry-before.reg, eventlog-source-before.reg;
+  double-click one to put it back by hand if the script was stopped), and writes them back at the end. That installation's folder, files and
+  shortcuts are not touched; the last check compares every Start menu and desktop shortcut of the program with what was there before the
+  test. Until the end, Apps does not list it, and the program's Event Log source is missing.
+- the 64-bit TWAIN data source manager C:\Windows\System32\TWAINDSM.dll: setup installs it when it is missing or older, as a shared file its
+  uninstall leaves in place, and counts it in HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\SharedDLLs. The script saves that count first
+  and writes it back at the end; when the PC had no TWAINDSM.dll before, it deletes the one the test installs put there, so the PC ends as
+  it was (a TWAIN driver's own setup installs the DSM where it needs one).
+- scenario A starts the installed connection settings tool (OpenPmsDentalDbSettings.exe, its window, without arguments, so it connects to
+  nothing), reads which files the process loaded and closes it.
 - the setup and uninstall logs in -OutDir (default: an install-test folder next to the setup), which it keeps.
 Setup installs no shortcut and no Visual C++ runtime (/PREREQS=skip): /NOICONS skips the Start menu entry, and /MERGETASKS="!desktopicon"
 turns the desktop task off explicitly, because setup would otherwise take the task choice of an installation already on the PC (the
@@ -37,13 +49,18 @@ program (the setup has no [Run] entry) and never connects to a database: scenari
 for which a silent setup runs no connection settings tool, and the tool of scenario D stops before it connects.
 
 A. Fresh install with the connection page's values on the command line (/DBSERVER=localhost:3307, /DBNAME, /DBUSER) and /NOICONS:
-   - the program folder holds exactly the staging folder (same files, same SHA-256), FreeDentalConfig.xml and the uninstall folder;
+   - the program folder holds exactly the staging folder (same files, same SHA-256), FreeDentalConfig.xml and the uninstall folder, and the
+     staging folder holds exactly Build-Release's list (tools\Build-Release.ps1 -ListFiles: the program part, the runtime part, Helper32\);
+   - the program's own runtime: the installed connection settings tool, started with /PREREQS=skip and no .NET installed by setup, runs on
+     the install folder's runtime (coreclr.dll and hostfxr.dll load from the install folder, nothing from %ProgramFiles%\dotnet), and closes;
+   - the 64-bit TWAINDSM.dll is in the 64-bit system folder (x64, version 2.5.1.0 or later, signed by the TWAIN Working Group) and stays
+     there after the uninstall (a shared file);
    - FreeDentalConfig.xml has the given values, no password and NoShowOnStartup False, and setup added no access rule to it: it keeps
      the folder's rights, so BUILTIN\Users get no modify right from setup (only an administrator changes the connection settings, with
      the connection settings tool, docs/specs/db-connection-security.md);
    - a server on this computer, silent, needs no connection settings tool: the setup log has no run of it, and setup exits 0;
    - no uninstaller file at the top level, no new or changed Start menu or desktop shortcut (all users or this user);
-   - the all-users uninstall entry (32-bit view) names this folder and the setup's version; there is no per-user entry;
+   - the all-users uninstall entry (64-bit view) names this folder and the setup's version; there is no per-user entry;
    - the Event Log source key, with its message file;
    then the silent uninstall: the folder, the uninstall entry and the Event Log source key ([Registry] Flags: uninsdeletekey) are gone.
 B. Reinstall over an installation: FreeDentalConfig.xml (a server on this computer) is kept as it is, and the upgrade runs the tool's
@@ -85,14 +102,19 @@ if(-not [Environment]::Is64BitProcess){
 
 $RepoRoot=(Resolve-Path (Join-Path $PSScriptRoot '..')).Path
 $AppId='{D5640A25-F302-4CAD-96DC-84AAA8B22F98}_is1'
-#The setup is a 32-bit program, so Windows keeps its all-users uninstall entry in the 32-bit view (S3b-7 moves it to the 64-bit view).
-$UninstallKey="HKLM:\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\$AppId"
-$UninstallKeyNative="HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$AppId"
+#The setup installs in 64-bit mode (S3b-7), so Windows keeps its all-users uninstall entry in the 64-bit view. The 32-bit view's entry is that of
+#an installation of v0.0 (the 32-bit setup), which the test leaves alone.
+$UninstallKey="HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$AppId"
+$UninstallKey32="HKLM:\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\$AppId"
 $UninstallKeyUser="HKCU:\Software\Microsoft\Windows\CurrentVersion\Uninstall\$AppId"
 #The program's Event Log source ([Registry] of installer\OpenPmsDental.iss, ProgramNames.EventLogSource).
 $EventLogKey='HKLM:\SYSTEM\CurrentControlSet\Services\EventLog\Application\OpenPMS-Dental'
 $EventMessageFile='%SystemRoot%\Microsoft.NET\Framework\v4.0.30319\EventLogMessages.dll'
 $DbSettingsExe='OpenPmsDentalDbSettings.exe'
+#The 64-bit TWAIN data source manager the setup installs into the 64-bit system folder ([Files] of the .iss), and its shared-file count.
+$TwainDsmPath=Join-Path ([Environment]::SystemDirectory) 'TWAINDSM.dll'
+$TwainDsmMinimumVersion=[version]'2.5.1.0'
+$SharedDllsKey='HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\SharedDLLs'
 $NetworkServer='dbserver.example.test:3307'
 $ShortcutFolders=@('CommonPrograms','CommonDesktopDirectory','Programs','Desktop') | ForEach-Object { [Environment]::GetFolderPath($_) }
 $script:Failures=New-Object 'System.Collections.Generic.List[string]'
@@ -201,6 +223,76 @@ function Read-Log([string]$path){
 }
 
 #The program folder holds exactly the staging folder, FreeDentalConfig.xml and the uninstall folder.
+#Build-Release's list of the program folder (tools\Build-Release.ps1 -ListFiles): path to kind (own, third, doc, runtime); the setup file
+#(setup|TWAINDSM.dll) goes elsewhere. $null when the script fails.
+function Get-ReleaseList {
+	$lines=@(& powershell.exe -NoProfile -ExecutionPolicy Bypass -File (Join-Path $RepoRoot 'tools\Build-Release.ps1') -ListFiles 2>$null)
+	if($LASTEXITCODE -ne 0){ return $null }
+	$map=@{}
+	foreach($line in $lines){
+		$parts="$line".Split('|')
+		if($parts.Count -eq 2 -and $parts[0] -ne 'setup'){ $map[$parts[1]]=$parts[0] }
+	}
+	return $map
+}
+
+#The staging folder is exactly Build-Release's list: the program part (own, third-party and document files), the runtime part (the x64 runtime
+#and, in Helper32\, the helper's x86 runtime) and the helper itself.
+function Test-StagingIsTheReleaseList {
+	if($null -eq $releaseList){ Check $false 'Build-Release.ps1 -ListFiles ran'; return }
+	$missing=@($releaseList.Keys | Where-Object { -not $stagingMap.ContainsKey($_) } | Sort-Object)
+	$extra=@($stagingMap.Keys | Where-Object { -not $releaseList.ContainsKey($_) } | Sort-Object)
+	$runtime=@($releaseList.Keys | Where-Object { $releaseList[$_] -eq 'runtime' })
+	$helper=@($releaseList.Keys | Where-Object { $_.StartsWith('Helper32\') })
+	Check ($missing.Count -eq 0 -and $extra.Count -eq 0) ("the staging folder is Build-Release's list: {0} files, the runtime part {1}, the program part {2}, {3} in Helper32\ (not staged: {4}; not listed: {5})" -f $releaseList.Count,$runtime.Count,($releaseList.Count-$runtime.Count),$helper.Count,($missing -join ', '),($extra -join ', '))
+	Check ($runtime.Count -gt 0 -and @($runtime | Where-Object { $_.StartsWith('Helper32\') }).Count -gt 0) 'the list has both runtimes, the x64 one and the helper''s x86 one in Helper32\'
+}
+
+#The installed connection settings tool runs on the install folder's own runtime (decision 20): started without arguments (its window; it
+#connects to nothing), its process loads coreclr.dll and hostfxr.dll from the install folder and nothing from %ProgramFiles%\dotnet, even on a
+#PC with machine-wide .NET runtimes. Then it is closed, and it must have ended.
+function Test-OwnRuntime([string]$dir){
+	$tool=Join-Path $dir $DbSettingsExe
+	if(-not (Test-Path -LiteralPath $tool)){ Check $false "$DbSettingsExe installed"; return }
+	$process=Start-Process -FilePath $tool -WorkingDirectory $dir -PassThru
+	$modules=@()
+	try {
+		$deadline=(Get-Date).AddSeconds(60)
+		while((Get-Date) -lt $deadline -and -not $process.HasExited){
+			try { $process.Refresh(); $modules=@($process.Modules | ForEach-Object { $_.FileName }) } catch { $modules=@() }
+			if(@($modules | Where-Object { (Split-Path $_ -Leaf) -eq 'coreclr.dll' }).Count -gt 0){ break }
+			Start-Sleep -Milliseconds 500
+		}
+	}
+	finally {
+		if(-not $process.HasExited){
+			[void]$process.CloseMainWindow()
+			if(-not $process.WaitForExit(10000)){ $process.Kill(); [void]$process.WaitForExit(10000) }
+		}
+	}
+	$folder=$dir.TrimEnd('\')+'\'
+	$coreclr=@($modules | Where-Object { (Split-Path $_ -Leaf) -eq 'coreclr.dll' })
+	$hostfxr=@($modules | Where-Object { (Split-Path $_ -Leaf) -eq 'hostfxr.dll' })
+	Check ($coreclr.Count -eq 1 -and $coreclr[0].StartsWith($folder,[StringComparison]::OrdinalIgnoreCase)) "the installed $DbSettingsExe runs on the install folder's coreclr.dll (loaded: $($coreclr -join ', '))"
+	Check ($hostfxr.Count -eq 1 -and $hostfxr[0].StartsWith($folder,[StringComparison]::OrdinalIgnoreCase)) "its hostfxr.dll is the install folder's (loaded: $($hostfxr -join ', '))"
+	$dotnet=(Join-Path $env:ProgramFiles 'dotnet').TrimEnd('\')+'\'
+	$machineWide=@($modules | Where-Object { $_.StartsWith($dotnet,[StringComparison]::OrdinalIgnoreCase) })
+	Check ($machineWide.Count -eq 0) "nothing loaded from $dotnet (loaded: $($machineWide -join ', '))"
+	Check $process.HasExited "the connection settings tool was closed"
+}
+
+#The 64-bit TWAIN data source manager in the 64-bit system folder: x64, at least the approved version, signed by the TWAIN Working Group.
+function Test-TwainDsm([string]$what){
+	if(-not (Test-Path -LiteralPath $TwainDsmPath)){ Check $false "TWAINDSM.dll is in the 64-bit system folder $what"; return }
+	$bytes=[System.IO.File]::ReadAllBytes($TwainDsmPath)
+	$offset=[BitConverter]::ToInt32($bytes,0x3C)
+	$machine=[BitConverter]::ToUInt16($bytes,$offset+4)
+	$version=[version]([System.Diagnostics.FileVersionInfo]::GetVersionInfo($TwainDsmPath).FileVersion)
+	$signature=Get-AuthenticodeSignature -LiteralPath $TwainDsmPath
+	$subject=if($signature.SignerCertificate){ $signature.SignerCertificate.Subject }else{ '' }
+	Check (($machine -eq 0x8664) -and ($version -ge $TwainDsmMinimumVersion) -and ($signature.Status -eq 'Valid') -and ($subject -like '*O=TWAIN Working Group*')) ("the 64-bit TWAINDSM.dll is in the system folder {0} (machine 0x{1:X}, version {2}, signature {3}, {4})" -f $what,$machine,$version,$signature.Status,$subject)
+}
+
 function Test-ProgramFolder([string]$dir){
 	Check (Test-Path -LiteralPath (Join-Path $dir 'OpenPmsDental.exe')) 'OpenPmsDental.exe installed'
 	if(-not (Test-Path -LiteralPath $dir)){ return }
@@ -245,7 +337,7 @@ function Test-SetupConfig([string]$dir,[string]$server){
 
 #What an installation leaves in the registry: the all-users uninstall entry of this folder, no per-user one, and the Event Log source.
 function Test-Installed([string]$dir){
-	Check (Test-Path $UninstallKey) 'all-users uninstall entry written (32-bit view)'
+	Check (Test-Path $UninstallKey) 'all-users uninstall entry written (64-bit view)'
 	if(Test-Path $UninstallKey){
 		$name=[string](Get-RegValue $UninstallKey 'DisplayName')
 		Check ($name -ceq 'Open PMS - Dental') "uninstall entry name Open PMS - Dental (was $name)"
@@ -287,9 +379,14 @@ if(-not $Setup -or -not (Test-Path -LiteralPath $Setup -PathType Leaf)){ Stop-Un
 if(-not (Test-Path -LiteralPath $Staging -PathType Container)){ Stop-Unchanged "No staging folder at $Staging; pass -Staging with the dry run's staging folder." }
 $Setup=(Resolve-Path -LiteralPath $Setup).Path
 $Staging=(Resolve-Path -LiteralPath $Staging).Path
-foreach($key in @($UninstallKeyNative,$UninstallKeyUser)){
+foreach($key in @($UninstallKeyUser)){
 	if(Test-Path $key){ Stop-Unchanged "This PC has an uninstall entry of the program that this setup does not make ($key). Remove that installation first, or run the test on another PC." }
 }
+#An installation of v0.0 (32-bit view): not touched; its entry is compared at the end.
+$savedUninstall32=Save-HklmKey $UninstallKey32
+#The 64-bit TWAINDSM.dll and its shared-file count, as they were: written back at the end.
+$twainDsmBefore=Test-Path -LiteralPath $TwainDsmPath
+$sharedCountBefore=Get-RegValue $SharedDllsKey $TwainDsmPath
 #An installation of the program on this PC: the test installs share these two keys, so they are saved here and written back at the end.
 $savedUninstall=Save-HklmKey $UninstallKey
 $savedEventLog=Save-HklmKey $EventLogKey
@@ -316,6 +413,7 @@ Write-Host ("Setup SHA-256: {0}" -f (Get-FileHash -LiteralPath $Setup -Algorithm
 Write-Host "Staging: $Staging"
 $pidsBefore=Get-Pids 'OpenPmsDental'
 $stagingMap=Get-FileMap $Staging
+$releaseList=Get-ReleaseList
 
 try {
 	#region A. Fresh install, a database server on this computer
@@ -323,9 +421,12 @@ try {
 	$dirA=New-TestFolder 'a'
 	$exit=Invoke-Setup $dirA (Join-Path $OutDir 'a-install.log') @('/DBSERVER=localhost:3307','/DBNAME=opms_test','/DBUSER=opms_user')
 	Check ($exit -eq 0) "setup exit code 0 (was $exit)"
+	Test-StagingIsTheReleaseList
 	Test-ProgramFolder $dirA
 	Test-SetupConfig $dirA 'localhost:3307'
 	Test-Installed $dirA
+	Test-TwainDsm 'after the install'
+	Test-OwnRuntime $dirA
 	$logA=Read-Log (Join-Path $OutDir 'a-install.log')
 	Check ($logA -match 'Installation process succeeded') 'the setup log says the installation succeeded'
 	Check ($logA -match 'Wrote FreeDentalConfig\.xml') 'the setup log records the config file'
@@ -334,6 +435,7 @@ try {
 	Check ($exit -eq 0) "uninstall exit code 0 (was $exit)"
 	Check (-not (Test-Path -LiteralPath $dirA)) 'the program folder is gone after the uninstall'
 	Test-Uninstalled 'after A'
+	Test-TwainDsm 'after the uninstall (a shared file the uninstall leaves)'
 	#endregion
 
 	#region B. Reinstall, self-update files, A to Z folder
@@ -432,6 +534,16 @@ finally {
 		}
 		catch { $script:Failures.Add("putting back $($pair[1])"); Write-Host "  FAIL  $($pair[1]) could not be put back: $($_.Exception.Message)" }
 	}
+	#The 64-bit TWAINDSM.dll and its shared-file count as they were before the test.
+	try {
+		if($null -ne $sharedCountBefore){ Set-ItemProperty -Path $SharedDllsKey -Name $TwainDsmPath -Value $sharedCountBefore -Type DWord }
+		elseif($null -ne (Get-RegValue $SharedDllsKey $TwainDsmPath)){ Remove-ItemProperty -Path $SharedDllsKey -Name $TwainDsmPath }
+		if(-not $twainDsmBefore -and (Test-Path -LiteralPath $TwainDsmPath)){
+			Remove-Item -LiteralPath $TwainDsmPath -Force
+			Write-Host "Removed the TWAINDSM.dll the test installs put into $([Environment]::SystemDirectory) (there was none before)."
+		}
+	}
+	catch { $script:Failures.Add("putting back $TwainDsmPath"); Write-Host "  FAIL  $TwainDsmPath or its shared-file count could not be put back: $($_.Exception.Message)" }
 	foreach($parent in $script:TestFolders){
 		if(Test-Path -LiteralPath $parent){
 			try { Remove-Item -LiteralPath $parent -Recurse -Force }
@@ -444,6 +556,9 @@ $shortcutsEnd=Get-Shortcuts
 $changed=@(@($shortcutsBefore.Keys | Where-Object { (-not $shortcutsEnd.ContainsKey($_)) -or ($shortcutsEnd[$_] -ne $shortcutsBefore[$_]) }) +
 	@($shortcutsEnd.Keys | Where-Object { -not $shortcutsBefore.ContainsKey($_) }) | Sort-Object -Unique)
 Check ($changed.Count -eq 0) "at the end every Start menu and desktop shortcut of the program is as before the test (differs: $($changed -join ', '))"
+#An installation of v0.0 in the 32-bit view is a separate installation for the 64-bit setup: its uninstall entry is as before.
+$uninstall32End=Save-HklmKey $UninstallKey32
+Check ((($null -eq $savedUninstall32) -and ($null -eq $uninstall32End)) -or (($null -ne $savedUninstall32) -and ($null -ne $uninstall32End) -and (($savedUninstall32 | ForEach-Object { "$($_[0])=$($_[1])" }) -join '|') -eq (($uninstall32End | ForEach-Object { "$($_[0])=$($_[1])" }) -join '|'))) 'the 32-bit view''s uninstall entry (an installation of v0.0) is as before the test'
 $exitCode=0
 if($script:Failures.Count -gt 0){ $exitCode=1 }
 Write-Host ("{0} checks passed, {1} failed. Logs: {2}" -f $script:Passes,$script:Failures.Count,$OutDir)

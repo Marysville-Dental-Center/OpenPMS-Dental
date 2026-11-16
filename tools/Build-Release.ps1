@@ -1,23 +1,40 @@
 <#
 .SYNOPSIS
-Builds an Open PMS - Dental release: a Release x86 build, one checked staging folder, SHA256SUMS.txt and the Inno Setup installer.
+Builds an Open PMS - Dental release: a Release x64 build, one checked staging folder, SHA256SUMS.txt and the Inno Setup installer.
 
 .DESCRIPTION
-1. Builds OpenDental.Local.slnf as Release x86, through the shared build lane when -BuildLane is given. PDFsharp/MigraDoc and
-   WeCantSpell.Hunspell build from their source in the git submodules under third-party\ (docs\third-party-source-builds.md).
-2. Checks OpenPmsDental\bin\Release: every file must be on the allow-list below or be one the release never ships (debug symbols,
-   XML documentation). A file on the deny-list, an unknown file or a sub folder fails the script.
+Since stage 3b of the .NET 10 move (docs\specs\net10-plan.md, package S3b-7) the program and every exe beside it are net10.0-windows x64,
+self-contained on one x64 .NET runtime in the program folder; the 32-bit helper program is self-contained with its own x86 runtime in the
+one sub folder Helper32\ (decisions 19 and 20). A release is staged in three lists: the program's own files, the third-party files, and the
+runtime files, which are read from the runtime packs' own file lists (data\RuntimeList.xml of Microsoft.NETCore.App.Runtime and
+Microsoft.WindowsDesktop.App.Runtime, win-x64 and win-x86, in the offline NuGet folder: the lists the SDK's ResolveRuntimePackAssets reads),
+not typed in here. The release channel publishes the runtime files as the release's runtime part (ForkReleases.GetRuntimePart).
+
+1. Builds as Release x64, through the shared build lane when -BuildLane is given (with -LaneProjects, only those projects and what they
+   reference, through the lane's scoped restore). PDFsharp/MigraDoc and WeCantSpell.Hunspell build from their source in the git
+   submodules under third-party\ (docs\third-party-source-builds.md).
+2. Checks OpenPmsDental\bin\Release: every file must be on the allow-lists below or be one the release never ships (debug symbols,
+   XML documentation). A file on the deny-list, an unknown file or a sub folder other than Helper32\ fails the script. The release-flow
+   checks refuse a build whose .deps.json files name more than one runtime version, whose helper runs on another runtime version than the
+   program, or whose runtime is older than the newest 10.0.x Microsoft.NETCore.App.Runtime.win-x64 in the offline folder (the monthly
+   runtime release, section 2.4 of the plan).
 3. Stages the allowed files into one folder (<OutDir>\staging), with LICENSE, LICENSE-GPL-3.0.txt, LICENSE-AGPL-3.0.txt,
    LICENSE-LGPL-2.1.txt, NOTICE, THIRD-PARTY-NOTICES.txt, db\init\new-database.sql and db\README.md, and checks the staging folder again: allow-list, deny-list, every allowed file present,
    every third-party file named in THIRD-PARTY-NOTICES.txt, every file built from this repository equal to its project's own output, every
    third-party file of a NuGet package byte for byte the package's file at the version OpenPmsDental\packages.lock.json names (from the
    offline package folder or the global packages folder the restore used; Test-PackageFiles), every other third-party file equal to its copy
-   in "Required dlls", the native files x86 and free of the debug C runtime, and OpenPmsDental.exe's versions (file version 24.3.63.0, the
-   database compatibility version; product version the release version of SharedAssemblyInfo.cs).
+   in "Required dlls", every runtime file byte for byte its runtime pack's file, the PE machine of every exe and native file (0x8664 at the
+   top and for the x64 runtime, 0x14C for Helper32\; a managed file IL only or of its folder's machine), the native files free of the debug
+   C runtime, every .runtimeconfig.json of one runtime version, and OpenPmsDental.exe's versions (file version 24.3.63.0, the database
+   compatibility version; product version the release version of SharedAssemblyInfo.cs).
+   The 64-bit TWAINDSM.dll is a setup file, never a file of the program folder (which still refuses one): it is taken from the approved
+   download of the TWAIN Working Group's release (-TwainDsmZip), checked against its pinned SHA-256 and its TWAIN Working Group signature,
+   and passed to the setup, which installs it into the 64-bit system folder.
 4. Prints the build id (ForkReleases.ComputeBuildId over ForkReleases.ListBuildIdFiles) and writes <OutDir>\SHA256SUMS.txt.
 5. Writes the setup's information page (installer\setup-info.txt with NOTICE) and License Agreement page (installer\setup-license.txt:
    how the installed program is licensed, then LICENSE-GPL-3.0.txt) into <OutDir>, compiles installer\OpenPmsDental.iss with Inno Setup 6
-   into <OutDir>, and adds the setup's SHA-256 to SHA256SUMS.txt.
+   into <OutDir>, checks that the files the compiler packed are exactly the staged files and TWAINDSM.dll, and adds the setup's SHA-256 to
+   SHA256SUMS.txt.
 6. Writes the source archive, <OutDir>\OpenPmsDental-<version>-source.zip: the repository at the release commit (git archive HEAD) with
    every submodule at the commit the release commit pins (PDFsharp/MigraDoc and WeCantSpell.Hunspell), and SOURCE-COMMITS.txt naming them,
    so the Corresponding Source of everything the setup ships is published with the release even if an upstream repository goes away. Its
@@ -40,6 +57,15 @@ folder), with a locked restore first.
 
 .PARAMETER LaneWaitMinutes
 How long the build lane waits for another build to finish. Default 15.
+
+.PARAMETER LaneProjects
+With -BuildLane: build only these projects (names as in OpenDental.sln) and what they reference, through the lane's scoped restore
+(-ScopedRestore). While some projects of the solution filter are still .NET Framework, its whole restore fails (NU1201), so the stage 3b
+dry run names OpenPmsDental,xDirect2dWrapper here. Default: the whole solution filter.
+
+.PARAMETER TwainDsmZip
+The approved download of the TWAIN Working Group's TWAIN DSM release (dsm_020501.zip). Default: od-tools\downloads\s3b7-twaindsm-20261116\
+in the repository's common git folder. Its windows\64\TWAINDSM.dll must have the pinned SHA-256 and a valid TWAIN Working Group signature.
 
 .PARAMETER SkipBuild
 Use the Release output that is already there. It must come from a Release build of the current source.
@@ -70,7 +96,9 @@ every file built here equal to its project's Release output, every third-party f
 the native files and the versions. Used by tests\ReleaseFlowTests\PackageFilesTests.cs.
 
 .PARAMETER ListFiles
-Only print the allow-list, one "own|name", "third|name" or "doc|path" line per file.
+Only print the allow-list, one "own|path", "third|name", "doc|path" or "runtime|path" line per file of the program folder (path relative to
+it: Helper32\ for the helper and its runtime), then "setup|TWAINDSM.dll" for the file the setup installs outside the program folder. The
+runtime lines come from the runtime packs of the newest 10.0.x runtime in the offline folder, the one a release must have.
 
 .PARAMETER WriteSetupTexts
 Only write the setup's two pages, setup-info.txt and setup-license.txt, into this folder (created if missing), as a release writes them
@@ -87,6 +115,8 @@ powershell -NoProfile -ExecutionPolicy Bypass -File tools\Build-Release.ps1 -Bui
 param(
 	[string]$BuildLane='',
 	[int]$LaneWaitMinutes=15,
+	[string[]]$LaneProjects=@(),
+	[string]$TwainDsmZip='',
 	[switch]$SkipBuild,
 	[string]$MSBuildPath='',
 	[string]$OutDir='',
@@ -109,13 +139,18 @@ $RepoRoot=(Resolve-Path (Join-Path $PSScriptRoot '..')).Path
 #The database compatibility version. Every AssemblyVersion and OpenPmsDental.exe's file version stay on it (ForkVersions.CompatVersion).
 $CompatVersion='24.3.63.0'
 
-#Files built from this repository, at the top of the program folder. Value: the project output (repository-relative) the staged file must
-#equal, so that a prebuilt file of the same name can never ship in its place (Open Dental's closed ImagingDeviceManager.dll had this
+#Files built from this repository, by their path in the program folder. Value: the project output (repository-relative) the staged file
+#must equal, so that a prebuilt file of the same name can never ship in its place (Open Dental's closed ImagingDeviceManager.dll had this
 #name; ODR.dll ships only when built from source; Direct2dWrapper.dll must be the Release build). '' = OpenPmsDental's own output or a
-#generated file.
+#generated file. Each .NET 10 exe is its apphost (.exe), its assembly (.dll) and the two files that tell the host how to run it
+#(.runtimeconfig.json, .deps.json); an app.config becomes <name>.dll.config, and no *.exe.config is written any more (S3b-4).
 $OwnFiles=[ordered]@{
 	'OpenPmsDental.exe'=''
-	'OpenPmsDental.exe.config'=''
+	'OpenPmsDental.dll'=''
+	'OpenPmsDental.dll.config'=''
+	'OpenPmsDental.runtimeconfig.json'=''
+	'OpenPmsDental.deps.json'=''
+	#Both XmlSerializers files, from Microsoft.XmlSerializer.Generator since S3b-3 and S3b-4 (the plan's critique W1).
 	'OpenPmsDental.XmlSerializers.dll'=''
 	'OpenPmsDentalBusiness.dll'='OpenPmsDentalBusiness\bin\Release'
 	'OpenPmsDentalBusiness.dll.config'=''
@@ -134,18 +169,35 @@ $OwnFiles=[ordered]@{
 	'ImagingDeviceManager.dll'='ImagingDeviceManager\bin\Release'
 	'ImagingCapture.dll'='ImagingCapture\bin\Release'
 	'ODR.dll'='ODR\bin\Release'
-	'Direct2dWrapper.dll'='Direct2dWrapper\bin\Release'
+	#The x64 build of the drawing library (S3a-16, S3b-4): its x64 configuration's output folder.
+	'Direct2dWrapper.dll'='Direct2dWrapper\bin\x64\Release'
 	'ServiceManager.exe'='ServiceManager\bin\Release'
-	'ServiceManager.exe.config'=''
+	'ServiceManager.dll'='ServiceManager\bin\Release'
+	'ServiceManager.dll.config'=''
+	'ServiceManager.runtimeconfig.json'=''
+	'ServiceManager.deps.json'=''
+	#The update file copier: OpenPmsDental.csproj copies its four files next to the program; it runs on the program folder's runtime, and a
+	#pull starts it from a temp folder with a copy of that runtime (ForkReleases.CopyFileCopier). It has no .dll.config (S3b-4).
 	'UpdateFileCopier.exe'='UpdateFileCopier\bin\Release'
-	#The connection settings tool (docs/specs/db-connection-security.md); the installer runs it for the connection page.
+	'UpdateFileCopier.dll'='UpdateFileCopier\bin\Release'
+	'UpdateFileCopier.runtimeconfig.json'=''
+	'UpdateFileCopier.deps.json'=''
+	#The connection settings tool (docs/specs/db-connection-security.md); the installer runs it from the program folder for the connection page.
 	'OpenPmsDentalDbSettings.exe'='OpenPmsDentalDbSettings\bin\Release'
-	'OpenPmsDentalDbSettings.exe.config'=''
-	#The 32-bit helper program (S3a-13 of the .NET 10 move, docs/port-notes/S3a-13.md): it runs QuickBooks Desktop's 32-bit QBFC (S3a-14: Schick
-	#CDR, Topaz, Guru) for the program, which starts it from its own folder. Both files must be the helper project's own Release output.
-	'OpenPmsDentalHelper32.exe'='OpenPmsDentalHelper32\bin\Release'
-	'OpenPmsDentalHelper32.exe.config'='OpenPmsDentalHelper32\bin\Release'
+	'OpenPmsDentalDbSettings.dll'='OpenPmsDentalDbSettings\bin\Release'
+	'OpenPmsDentalDbSettings.dll.config'=''
+	'OpenPmsDentalDbSettings.runtimeconfig.json'=''
+	'OpenPmsDentalDbSettings.deps.json'=''
+	#The 32-bit helper program (S3a-13 of the .NET 10 move, docs/port-notes/S3a-13.md): it runs the vendor pieces that exist only as 32-bit code
+	#(QuickBooks Desktop's QBFC, and Schick CDR, Topaz and Guru as the fallback of decision 23) for the program, which starts it from Helper32\.
+	#Self-contained for win-x86 with its own x86 runtime beside it (decision 20); Helper32\ is the one sub folder of the program folder.
+	'Helper32\OpenPmsDentalHelper32.exe'='OpenPmsDentalHelper32\bin\Release'
+	'Helper32\OpenPmsDentalHelper32.dll'='OpenPmsDentalHelper32\bin\Release'
+	'Helper32\OpenPmsDentalHelper32.runtimeconfig.json'='OpenPmsDentalHelper32\bin\Release'
+	'Helper32\OpenPmsDentalHelper32.deps.json'='OpenPmsDentalHelper32\bin\Release'
 }
+#The one sub folder of the program folder: the helper and its x86 runtime (ForkReleases.HELPER32_FOLDER_NAME).
+$HelperFolder='Helper32'
 
 #Third-party files. Each must be named in THIRD-PARTY-NOTICES.txt. Value: where its bytes come from:
 #- 'package:<id>': a file of the NuGet package <id> (stage 2 of the .NET 10 move, docs/specs/net10-plan.md). The build copies it into the
@@ -175,10 +227,11 @@ $ThirdPartyFiles=[ordered]@{
 	'HelixToolkit.Maths.dll'='package:HelixToolkit.Maths'
 	'HelixToolkit.Wpf.dll'='package:HelixToolkit.Wpf'
 	'MailKit.dll'='package:MailKit'
-	'Microsoft.Bcl.AsyncInterfaces.dll'='package:Microsoft.Bcl.AsyncInterfaces'
-	'Microsoft.Bcl.Cryptography.dll'='package:Microsoft.Bcl.Cryptography'
 	'Microsoft.Extensions.DependencyInjection.Abstractions.dll'='package:Microsoft.Extensions.DependencyInjection.Abstractions'
 	'Microsoft.Extensions.Logging.Abstractions.dll'='package:Microsoft.Extensions.Logging.Abstractions'
+	#Roslyn's compiler, which RdlEngine uses to compile a report's VB <Code> block on .NET (decision 14, S3b-2): MIT, named in the notices.
+	'Microsoft.CodeAnalysis.dll'='package:Microsoft.CodeAnalysis.Common'
+	'Microsoft.CodeAnalysis.VisualBasic.dll'='package:Microsoft.CodeAnalysis.VisualBasic'
 	'Microsoft.Identity.Client.dll'='package:Microsoft.Identity.Client'
 	'Microsoft.IdentityModel.Abstractions.dll'='package:Microsoft.IdentityModel.Abstractions'
 	'Microsoft.Web.WebView2.Core.dll'='package:Microsoft.Web.WebView2'
@@ -188,20 +241,29 @@ $ThirdPartyFiles=[ordered]@{
 	'MySqlConnector.dll'='package:MySqlConnector'
 	'Newtonsoft.Json.dll'='package:Newtonsoft.Json'
 	'Renci.SshNet.dll'='package:SSH.NET'
-	'System.Buffers.dll'='package:System.Buffers'
-	'System.ComponentModel.Annotations.dll'='package:System.ComponentModel.Annotations'
-	'System.Diagnostics.DiagnosticSource.dll'='package:System.Diagnostics.DiagnosticSource'
-	'System.Formats.Asn1.dll'='package:System.Formats.Asn1'
-	'System.IO.Pipelines.dll'='package:System.IO.Pipelines'
-	'System.Memory.dll'='package:System.Memory'
-	'System.Numerics.Vectors.dll'='package:System.Numerics.Vectors'
-	'System.Runtime.CompilerServices.Unsafe.dll'='package:System.Runtime.CompilerServices.Unsafe'
-	'System.Text.Encodings.Web.dll'='package:System.Text.Encodings.Web'
-	'System.Text.Json.dll'='package:System.Text.Json'
-	'System.Threading.Tasks.Extensions.dll'='package:System.Threading.Tasks.Extensions'
-	#The native x86 loader: the package's runtimes\win-x86\native asset, which NuGet copies for the program's win-x86 target and the package's
+	#Packages of .NET's own libraries that are not part of the shared runtime, so a .NET 10 program carries them (S3b-3, S3b-4): their
+	#runtimes\win\lib\net10.0 files, the Windows implementations.
+	'System.DirectoryServices.AccountManagement.dll'='package:System.DirectoryServices.AccountManagement'
+	'System.DirectoryServices.Protocols.dll'='package:System.DirectoryServices.Protocols'
+	'System.IO.Ports.dll'='package:System.IO.Ports'
+	'System.Management.dll'='package:System.Management'
+	'System.ServiceProcess.ServiceController.dll'='package:System.ServiceProcess.ServiceController'
+	'System.Speech.dll'='package:System.Speech'
+	#The native x64 loader: the package's runtimes\win-x64\native asset, which NuGet copies for the program's win-x64 target and the package's
 	#build files copy to the top of the output (Directory.Build.targets).
 	'WebView2Loader.dll'='package:Microsoft.Web.WebView2'
+	#The charts' library: the community port of Windows Forms DataVisualization for .NET (decision 10), MIT.
+	'WinForms.DataVisualization.dll'='package:WinForms.DataVisualization'
+	'WinForms.DataVisualization.Utilities.dll'='package:WinForms.DataVisualization'
+}
+#Package files that the package's own build files copy instead of its restore assets: name to the package id and the file's path in the
+#package. The WebView2 package's targets copy its managed .NET files from lib_manual (netcoreapp3.0, the WPF one net5.0-windows10.0.17763.0)
+#for a .NET project (WebView2ProjectKind
+#managed, S3b-0 item 5); its restore assets for net10.0 are reference files only.
+$PackageBuildFiles=@{
+	'Microsoft.Web.WebView2.Core.dll'=@('Microsoft.Web.WebView2','lib_manual/netcoreapp3.0/Microsoft.Web.WebView2.Core.dll')
+	'Microsoft.Web.WebView2.WinForms.dll'=@('Microsoft.Web.WebView2','lib_manual/netcoreapp3.0/Microsoft.Web.WebView2.WinForms.dll')
+	'Microsoft.Web.WebView2.Wpf.dll'=@('Microsoft.Web.WebView2','lib_manual/net5.0-windows10.0.17763.0/Microsoft.Web.WebView2.Wpf.dll')
 }
 #The program whose restore names the package files: its lock file and the restore's record of the files it copies (MSBuildProjectExtensionsPath
 #is obj\ for every project of the repository).
@@ -233,7 +295,7 @@ $DocumentFiles=[ordered]@{
 	'db\init\new-database.sql'='db\init\new-database.sql'
 	'db\README.md'='db\README.md'
 }
-$StagedFolders=@('db','db\init')
+$StagedFolders=@('db','db\init','Helper32')
 
 #Files the program cannot run or ship without, and why. They are on the allow-list too; these get a reason when missing.
 $RequiredReasons=[ordered]@{
@@ -250,22 +312,56 @@ $RequiredReasons=[ordered]@{
 #(third-party\PDFsharp, third-party\WeCantSpell.Hunspell) at the commit the release commit pins (git ls-tree HEAD, .gitmodules).
 $SourceArchiveName='OpenPmsDental-{0}-source'
 
-#Native files: they must be x86 and must not need the debug C runtime, which may not be redistributed. WebView2Loader.dll is the WebView2
-#package's (runtimes\win-x86\native, since S2-3 of the .NET 10 move): an x64 or arm64 loader of the same package fails here.
-$NativeFiles=@('Direct2dWrapper.dll','WebView2Loader.dll')
+#Native files of the program folder: every apphost and native DLL is x64 (PE machine 0x8664, decision 19) and must not need the debug C
+#runtime, which may not be redistributed. WebView2Loader.dll is the WebView2 package's runtimes\win-x64\native asset: an x86 or arm64 loader
+#of the same package fails here.
+$NativeFiles=@('OpenPmsDental.exe','ServiceManager.exe','UpdateFileCopier.exe','OpenPmsDentalDbSettings.exe','Direct2dWrapper.dll','WebView2Loader.dll')
 #Files that are x86 whatever the program is (S3a-13): the 32-bit helper program loads vendor code that exists only as 32-bit code, so it stays
-#x86 after stage 3b, when the program and everything else is x64. PE machine 0x14C, and for a managed file the CLR header's 32BITREQUIRED flag
-#(an AnyCPU file has machine 0x14C too, and would run as a 64-bit process on 64-bit Windows); after 3b the helper's .exe is a native x86 apphost.
-$X86OnlyFiles=@('OpenPmsDentalHelper32.exe')
+#x86 when the program and everything else is x64. PE machine 0x14C, and for a managed file the CLR header's 32BITREQUIRED flag (an AnyCPU file
+#has machine 0x14C too, and would run as a 64-bit process on 64-bit Windows); the helper's .exe is a native x86 apphost (no CLR header), its
+#.dll the managed assembly.
+$X86OnlyFiles=@('Helper32\OpenPmsDentalHelper32.exe','Helper32\OpenPmsDentalHelper32.dll')
 $DebugRuntimeNames=@('VCRUNTIME140D.dll','MSVCP140D.dll','ucrtbased.dll','VCRUNTIME140_1D.dll')
+#The managed files built here for the x64 program: x64 (PE32+ machine 0x8664) or IL only (machine 0x14C, ILONLY, not 32BITREQUIRED).
+$PeMachineX64=0x8664
+$PeMachineX86=0x14C
 
-#Files of OpenPmsDental's Release output that are never shipped.
-$NotShippedPatterns=@('*.pdb','OpenPmsDental.xml','OpenPmsDentalBusiness.xml','CodeBase.xml')
+#Files of OpenPmsDental's Release output that are never shipped: symbols and XML documentation (the WebView2 package's too).
+$NotShippedPatterns=@('*.pdb','OpenPmsDental.xml','OpenPmsDentalBusiness.xml','CodeBase.xml','Microsoft.Web.WebView2.*.xml')
 
-#ForkReleases.ListBuildIdFiles: the build id is the SHA-256 over these files' lower-case names and SHA-256 values.
-$BuildIdFiles=@('OpenPmsDental.exe','OpenPmsDentalBusiness.dll','CodeBase.dll','DataConnectionBase.dll','WpfControlsOD.dll',
+#ForkReleases.ListBuildIdFiles: the build id is the SHA-256 over these files' lower-case names and SHA-256 values. On .NET the program's code
+#is in OpenPmsDental.dll (the .exe is the apphost).
+$BuildIdFiles=@('OpenPmsDental.exe','OpenPmsDental.dll','OpenPmsDentalBusiness.dll','CodeBase.dll','DataConnectionBase.dll','WpfControlsOD.dll',
 	'OpenPmsDentalGraph.dll','OpenPmsDentalStorage.dll','SparksToothChart.dll','ODCrypt.dll','PasswordVaultWrapper.dll','ImagingDeviceManager.dll',
 	'ImagingCapture.dll','UpdateFileCopier.exe')
+
+#The runtime part (decision 20): the runtime packs whose file lists (data\RuntimeList.xml) name the runtime files of the program folder. Each
+#entry: the folder in the program folder ('' the top, Helper32 the helper's), the pack id, its runtime identifier, the profiles the program
+#there uses ('' every file; WindowsForms: only the files whose Profile names it, as the SDK takes them for a project that uses
+#Windows Forms only) and the PE machine of its native files. Resources (the language folders) never ship: SatelliteResourceLanguages=en.
+$RuntimePacks=@(
+	@('','Microsoft.NETCore.App.Runtime','win-x64','',0x8664),
+	@('','Microsoft.WindowsDesktop.App.Runtime','win-x64','',0x8664),
+	@('Helper32','Microsoft.NETCore.App.Runtime','win-x86','',0x14C),
+	@('Helper32','Microsoft.WindowsDesktop.App.Runtime','win-x86','WindowsForms',0x14C)
+)
+#The runtime pack whose newest 10.0.x patch in the offline folder a release must have (the monthly runtime release, section 2.4 of the plan).
+$RuntimeBandPack='Microsoft.NETCore.App.Runtime.win-x64'
+$RuntimeBand='10.0'
+
+#The 64-bit TWAIN data source manager (decision 19, O-16): a file of the setup, which installs it into the 64-bit system folder as a shared
+#file when it is missing or older; never a file of the program folder (the deny-list refuses one there). The newest release of the TWAIN
+#Working Group's official GitHub releases on 2026-11-16 (v2.5.1, dsm_020501.zip), downloaded under the owner's standing rule; its record is
+#od-tools\downloads\s3b7-twaindsm-20261116 (SOURCES.txt, SHA256SUMS.txt, MANIFEST.txt) in the repository's common git folder.
+$TwainDsmDownloadFolder='s3b7-twaindsm-20261116'
+$TwainDsmZipName='dsm_020501.zip'
+$TwainDsmEntry='dsm_020501/windows/64/TWAINDSM.dll'
+$TwainDsmSha256='25869f88a2bc76ded62a13aaea9f2084f0165bfdbbb7f46b9c3a43298938d467'
+$TwainDsmVersion='2.5.1.0'
+$TwainDsmSigner='O=TWAIN Working Group'
+$SetupFiles=@('TWAINDSM.dll')
+#Read once (Get-OfflineFolder).
+$script:OfflineFolderCached=$null
 
 #Never shipped, at any depth (matched against file and folder names, ignoring case), with the reason (report-release.md section 2;
 #docs/port-notes/BIN-A.md, BIN-B.md).
@@ -288,8 +384,8 @@ $DenyList=@(
 	@('AxInterop.*.dll','ActiveX interop generated from a proprietary type library (Adobe)'),
 	@('*.winmd','Windows SDK metadata, part of Windows'),
 	@('installutil.exe','part of the .NET Framework'),
-	@('vcruntime*.dll','the Visual C++ runtime comes from vc_redist.x86.exe'),
-	@('msvcp*.dll','the Visual C++ runtime comes from vc_redist.x86.exe'),
+	@('vcruntime*.dll','the Visual C++ runtime comes from vc_redist.x64.exe (the .NET runtime files of the runtime packs are not checked against this list)'),
+	@('msvcp*.dll','the Visual C++ runtime comes from vc_redist.x64.exe (the .NET runtime files of the runtime packs are not checked against this list)'),
 	@('msvcr*.dll','an old Visual C++ runtime, not redistributed with the program'),
 	@('ucrtbase*.dll','the Universal C runtime is part of Windows'),
 	@('Microsoft.DirectX*.dll',"DirectX, redistributable only through Microsoft's installer"),
@@ -312,7 +408,7 @@ $DenyList=@(
 	@('NHunspell.dll','NHunspell 0.9.6, a wrapper of the native Hunspell 1.2 (replaced by the managed WeCantSpell.Hunspell in the library updates)'),
 	@('Hunspellx*.dll',"NHunspell's native Hunspell 1.2 (removed with NHunspell; WeCantSpell.Hunspell needs no native file)"),
 	@('PdfSharp.License.dll',"empira's closed licence check of PDFsharp 6.5, whose source is not published; the PdfSharp-gdi.dll built here holds the AGPL licence check itself (third-party\build\PdfSharp-gdi\PdfSharpLicense.cs)"),
-	@('TWAINDSM.dll',"the TWAIN data source manager comes with the scanner's driver; one in the program folder would be loaded first"),
+	@('TWAINDSM.dll',"the TWAIN data source manager is a setup file installed into the Windows system folder; one in the program folder would be loaded first"),
 	@('FreeDentalConfig.xml','the connection settings of each computer; the installer writes it, a release never carries it'),
 	@('OpenDentalServerConfig.xml','the Middle Tier settings of each server'),
 	@('ForkRelease.manifest','written by the release channel on each workstation'),
@@ -333,7 +429,15 @@ $DenyList=@(
 	@('SharpDX.Direct3D9.dll','SharpDX 4.0.1 of v0.0: the library of the retired DirectX tooth chart (TC-9b)'),
 	@('SharpDX.Mathematics.dll','SharpDX 4.0.1 of v0.0: the library of the retired DirectX tooth chart (TC-9b)'),
 	@('Tao.OpenGl.dll','the Tao Framework of v0.0: the library of the retired OpenGL tooth chart (TC-9b)'),
-	@('Tao.Platform.Windows.dll','the Tao Framework of v0.0: the library of the retired OpenGL tooth chart (TC-9b)')
+	@('Tao.Platform.Windows.dll','the Tao Framework of v0.0: the library of the retired OpenGL tooth chart (TC-9b)'),
+	#The .NET Framework settings files of the programs: on .NET the SDK writes <name>.dll.config instead (S3b-7).
+	@('OpenPmsDental.exe.config','the .NET Framework settings file of v0.0; the .NET 10 program reads OpenPmsDental.dll.config'),
+	@('ServiceManager.exe.config','the .NET Framework settings file of v0.0; the .NET 10 ServiceManager reads ServiceManager.dll.config'),
+	@('OpenPmsDentalDbSettings.exe.config','the .NET Framework settings file of v0.0; the .NET 10 tool reads OpenPmsDentalDbSettings.dll.config'),
+	@('OpenPmsDentalHelper32.exe.config','the .NET Framework settings file of the helper; the .NET 10 helper in Helper32\ has none'),
+	#Packages of v0.0 whose types are part of .NET 10, so the restore prunes them (S3b-7).
+	@('Microsoft.Bcl.AsyncInterfaces.dll','a package of the .NET Framework build whose types are part of .NET 10'),
+	@('Microsoft.Bcl.Cryptography.dll','a package of the .NET Framework build whose types are part of .NET 10')
 )
 #endregion The lists
 
@@ -446,12 +550,204 @@ function Read-InstallerVersion {
 	return $match.Groups[1].Value
 }
 
-function Get-AllowedPaths {
+#The program's own files, the third-party files and the documents, then (with a runtime) the runtime files (Get-RuntimeFiles).
+function Get-AllowedPaths($runtime=$null){
 	$list=New-Object 'System.Collections.Generic.List[string]'
 	foreach($key in $OwnFiles.Keys){ $list.Add($key) }
 	foreach($key in $ThirdPartyFiles.Keys){ $list.Add($key) }
 	foreach($key in $DocumentFiles.Keys){ $list.Add($key) }
+	if($runtime){ foreach($key in $runtime.Keys){ $list.Add($key) } }
 	return $list
+}
+
+#The offline NuGet folder the restore reads (OPMS_NUGET_OFFLINE, tools\Initialize-BuildEnvironment.ps1), where the runtime packs are.
+function Get-OfflineFolder {
+	if(-not $script:OfflineFolderCached){
+		$script:OfflineFolderCached=[string](Initialize-BuildEnvironment -RepoRoot $RepoRoot).OfflineFolder
+	}
+	return $script:OfflineFolderCached
+}
+
+#The newest 10.0.x version of the band's runtime pack in the offline folder (a version folder of three numbers, no prerelease), or $null.
+function Get-NewestRuntimeVersion {
+	$offline=Get-OfflineFolder
+	if(-not $offline){ return $null }
+	$folder=Join-Path $offline $RuntimeBandPack.ToLowerInvariant()
+	if(-not (Test-Path -LiteralPath $folder -PathType Container)){ return $null }
+	$versions=@(Get-ChildItem -LiteralPath $folder -Directory | Where-Object { $_.Name -match ('^'+[regex]::Escape($RuntimeBand)+'\.\d+$') } |
+		ForEach-Object { [version]$_.Name } | Sort-Object)
+	if($versions.Count -eq 0){ return $null }
+	return $versions[-1].ToString()
+}
+
+#The runtime files of the program folder for the runtime version, read from the runtime packs' own file lists ($RuntimePacks: data\RuntimeList.xml
+#in the offline folder): an ordered map from the path in the program folder (Helper32\ for the helper's) to its record (the pack files it may
+#be, its type, the PE machine of its folder). Resources never ship; a profile limits a pack to the files whose
+#Profile attribute names it (WindowsFormsIntegration.dll, which has none, is WPF's and stays out). Throws when a pack or its list is missing (the restore needs them too).
+function Get-RuntimeFiles([string]$version){
+	$offline=Get-OfflineFolder
+	$files=[ordered]@{}
+	foreach($pack in $RuntimePacks){
+		$packFolder=Join-Path $offline (($pack[1]+'.'+$pack[2]).ToLowerInvariant()+'\'+$version)
+		$listPath=Join-Path $packFolder 'data\RuntimeList.xml'
+		if(-not (Test-Path -LiteralPath $listPath -PathType Leaf)){
+			throw "No runtime pack $($pack[1]).$($pack[2]) $version in the offline folder ($listPath is missing). Fetch it under the monthly runtime approval (section 2.4 of the plan)."
+		}
+		[xml]$list=[System.IO.File]::ReadAllText($listPath)
+		foreach($file in @($list.FileList.File)){
+			if($file.Type -eq 'Resources'){ continue }
+			if($pack[3]){
+				$profileValue=$file.GetAttribute('Profile')
+				if(-not $profileValue -or (@($profileValue.Split(";")) -notcontains $pack[3])){ continue }
+			}
+			$name=$file.Path.Split('/')[-1]
+			$relative=if($pack[0]){ $pack[0]+'\'+$name }else{ $name }
+			$packFile=Join-Path $packFolder ($file.Path.Replace('/','\'))
+			#A name in both packs of a folder (Microsoft.VisualBasic.dll, System.Drawing.dll, WindowsBase.dll: a facade in NETCore, the
+			#implementation in WindowsDesktop): the SDK keeps one of them, so the staged file must be one of the two.
+			if($files.Contains($relative)){
+				$files[$relative].PackFiles+=@($packFile)
+				continue
+			}
+			$files[$relative]=[pscustomobject]@{ PackFiles=@($packFile); Type=$file.Type; Machine=$pack[4] }
+		}
+	}
+	return $files
+}
+
+#The runtime packs a .deps.json names (its libraries of type runtimepack): a list of "id/version" names.
+function Get-DepsRuntimePacks([string]$path){
+	$deps=[System.IO.File]::ReadAllText($path) | ConvertFrom-Json
+	$list=New-Object 'System.Collections.Generic.List[string]'
+	$libraries=Get-JsonValue $deps 'libraries'
+	if(-not $libraries){ return ,$list }
+	foreach($library in $libraries.PSObject.Properties){
+		if((Get-JsonValue $library.Value 'type') -eq 'runtimepack'){ $list.Add($library.Name) }
+	}
+	return ,$list
+}
+
+#The release-flow checks of the runtime (S3b-7, section 2.4 of the plan): the runtime version the folder's .deps.json files name (Version, the
+#program's) and the problems: more than one version among them, a helper on another version than the program, a .runtimeconfig.json whose
+#frameworks are of another version, and (unless -AnyVersion) a version older than the newest 10.0.x runtime pack in the offline folder.
+function Test-RuntimeVersions([string]$folder,[switch]$AnyVersion){
+	$result=[pscustomobject]@{ Version=$null; Problems=(New-Object 'System.Collections.Generic.List[string]') }
+	$byFolder=@{ ''=(New-Object 'System.Collections.Generic.List[string]'); $HelperFolder=(New-Object 'System.Collections.Generic.List[string]') }
+	$depsFiles=@(Get-ChildItem -LiteralPath $folder -Filter '*.deps.json' -File -ErrorAction SilentlyContinue)
+	$helperPath=Join-Path $folder $HelperFolder
+	if(Test-Path -LiteralPath $helperPath -PathType Container){ $depsFiles+=@(Get-ChildItem -LiteralPath $helperPath -Filter '*.deps.json' -File) }
+	foreach($deps in $depsFiles){
+		$key=if($deps.DirectoryName.TrimEnd('\') -eq $helperPath.TrimEnd('\')){ $HelperFolder }else{ '' }
+		foreach($pack in Get-DepsRuntimePacks $deps.FullName){
+			$version=$pack.Split('/')[-1]
+			if(-not $byFolder[$key].Contains($version)){ $byFolder[$key].Add($version) }
+		}
+	}
+	$all=@(@($byFolder['']) + @($byFolder[$HelperFolder]) | Sort-Object -Unique)
+	if($all.Count -eq 0){
+		$result.Problems.Add('No runtime: no .deps.json of the folder names a runtime pack, so it is not a self-contained .NET build.')
+		return $result
+	}
+	if($byFolder[''].Count -gt 1){ $result.Problems.Add("Mixed runtime versions: the programs' .deps.json files name $($byFolder[''] -join ', '). The programs of one folder run on one runtime (decision 20).") }
+	if($byFolder[$HelperFolder].Count -gt 1){ $result.Problems.Add("Mixed runtime versions in ${HelperFolder}: $($byFolder[$HelperFolder] -join ', ').") }
+	if($byFolder[''].Count -ge 1){ $result.Version=$byFolder[''][0] }else{ $result.Version=$byFolder[$HelperFolder][0] }
+	if($byFolder[$HelperFolder].Count -eq 0){ $result.Problems.Add("No helper runtime: $HelperFolder\ has no .deps.json that names a runtime pack.") }
+	elseif(@($byFolder[$HelperFolder] | Where-Object { $_ -ne $result.Version }).Count -gt 0){
+		$result.Problems.Add("A different helper runtime: the helper in $HelperFolder\ runs on .NET $($byFolder[$HelperFolder] -join ', '), the program on .NET $($result.Version). Both come from one SDK and its runtime packs.")
+	}
+	#Every .runtimeconfig.json (the helper's too) includes the frameworks of that one version.
+	$configs=@(Get-ChildItem -LiteralPath $folder -Filter '*.runtimeconfig.json' -File -ErrorAction SilentlyContinue)
+	if(Test-Path -LiteralPath $helperPath -PathType Container){ $configs+=@(Get-ChildItem -LiteralPath $helperPath -Filter '*.runtimeconfig.json' -File) }
+	foreach($config in $configs){
+		$options=Get-JsonValue ([System.IO.File]::ReadAllText($config.FullName) | ConvertFrom-Json) 'runtimeOptions'
+		$frameworks=@(Get-JsonValue $options 'includedFrameworks')
+		if($frameworks.Count -eq 0 -or $null -eq $frameworks[0]){
+			$result.Problems.Add("Not self-contained: $($config.Name) includes no framework.")
+			continue
+		}
+		foreach($framework in $frameworks){
+			if((Get-JsonValue $framework 'version') -ne $result.Version){
+				$result.Problems.Add("Mixed runtime versions: $($config.Name) includes $((Get-JsonValue $framework 'name')) $((Get-JsonValue $framework 'version')), the program's runtime is $($result.Version).")
+			}
+		}
+	}
+	if(-not $AnyVersion){
+		$newest=Get-NewestRuntimeVersion
+		if(-not $newest){ $result.Problems.Add("No $RuntimeBandPack $RuntimeBand.x in the offline folder ($(Get-OfflineFolder)), so the runtime cannot be checked.") }
+		elseif([version]$result.Version -lt [version]$newest){
+			$result.Problems.Add("An older runtime: the release runs on .NET $($result.Version), but the offline folder has $RuntimeBandPack $newest. Do the monthly runtime bump first (section 2.4 of docs\specs\net10-plan.md), then build again.")
+		}
+	}
+	return $result
+}
+
+#Whether a PE file fits its folder: at the top x64 (machine 0x8664) or IL only (machine 0x14C, ILONLY, not 32BITREQUIRED); in Helper32\ x86
+#(0x14C, native or managed). Returns a problem or $null; a file that is not a PE file (json, config) fits.
+function Test-PeFile([string]$path,[string]$relative){
+	$machine=Get-PeMachine $path
+	if($machine -lt 0){ return $null }
+	$clrFlags=Get-ClrFlags $path
+	if($relative.StartsWith($HelperFolder+'\',[StringComparison]::OrdinalIgnoreCase)){
+		if($machine -ne $PeMachineX86){ return ("Not an x86 file in ${HelperFolder}: {0} (PE machine 0x{1:X}); the helper and its runtime are x86" -f $relative,$machine) }
+		return $null
+	}
+	if($machine -eq $PeMachineX64){ return $null }
+	if($clrFlags -ge 0 -and $machine -eq $PeMachineX86 -and ($clrFlags -band 0x1) -ne 0 -and ($clrFlags -band 0x2) -eq 0){ return $null }
+	if($clrFlags -lt 0){ return ("Not an x64 file: {0} (PE machine 0x{1:X}); every native file and apphost of the program folder is x64 (decision 19)" -f $relative,$machine) }
+	return ("Not an x64 or IL-only file: {0} (PE machine 0x{1:X}, CLR flags 0x{2:X})" -f $relative,$machine,$clrFlags)
+}
+
+#The repository's common git folder (for a worktree, the main repository's .git), where od-tools\downloads keeps the approved downloads.
+function Get-GitCommonFolder {
+	$git=Find-Git
+	if(-not $git){ return $null }
+	$output=@(& $git -C $RepoRoot rev-parse --git-common-dir 2>$null)
+	if($LASTEXITCODE -ne 0 -or $output.Count -eq 0){ return $null }
+	$path=$output[0].Trim()
+	if(-not [System.IO.Path]::IsPathRooted($path)){ $path=Join-Path $RepoRoot $path }
+	return (Resolve-Path -LiteralPath $path).Path
+}
+
+#The 64-bit TWAINDSM.dll from the approved download (-TwainDsmZip), written to <folder>\TWAINDSM.dll after its checks: the pinned SHA-256, the
+#file version, PE machine 0x8664, and a valid Authenticode signature of the TWAIN Working Group. Returns Path and Problems.
+function Get-TwainDsm([string]$folder){
+	$result=[pscustomobject]@{ Path=$null; Problems=(New-Object 'System.Collections.Generic.List[string]') }
+	$zip=$TwainDsmZip
+	if(-not $zip){
+		$common=Get-GitCommonFolder
+		if($common){ $zip=Join-Path $common "od-tools\downloads\$TwainDsmDownloadFolder\$TwainDsmZipName" }
+	}
+	if(-not $zip -or -not (Test-Path -LiteralPath $zip -PathType Leaf)){
+		$result.Problems.Add("No approved TWAIN DSM download at '$zip' (od-tools\downloads\$TwainDsmDownloadFolder in the common git folder, or -TwainDsmZip).")
+		return $result
+	}
+	Add-Type -AssemblyName System.IO.Compression
+	Add-Type -AssemblyName System.IO.Compression.FileSystem
+	New-Item -ItemType Directory -Force -Path $folder | Out-Null
+	$target=Join-Path $folder 'TWAINDSM.dll'
+	$archive=[System.IO.Compression.ZipFile]::OpenRead($zip)
+	try{
+		$entry=$archive.GetEntry($TwainDsmEntry)
+		if(-not $entry){
+			$result.Problems.Add("The TWAIN DSM download $zip has no $TwainDsmEntry.")
+			return $result
+		}
+		[System.IO.Compression.ZipFileExtensions]::ExtractToFile($entry,$target,$true)
+	}
+	finally{ $archive.Dispose() }
+	$sha=Get-Sha256 $target
+	if($sha -ne $TwainDsmSha256){ $result.Problems.Add("TWAINDSM.dll is not the approved download: SHA-256 $sha, approved $TwainDsmSha256.") }
+	$machine=Get-PeMachine $target
+	if($machine -ne $PeMachineX64){ $result.Problems.Add(("TWAINDSM.dll is not the 64-bit DSM (PE machine 0x{0:X})." -f $machine)) }
+	$fileVersion=[System.Diagnostics.FileVersionInfo]::GetVersionInfo($target).FileVersion
+	if($fileVersion -ne $TwainDsmVersion){ $result.Problems.Add("TWAINDSM.dll is version $fileVersion, the approved download $TwainDsmVersion.") }
+	$signature=Get-AuthenticodeSignature -LiteralPath $target
+	$subject=if($signature.SignerCertificate){ $signature.SignerCertificate.Subject }else{ '' }
+	if($signature.Status -ne 'Valid' -or $subject -notlike "*$TwainDsmSigner*"){
+		$result.Problems.Add("TWAINDSM.dll has no valid signature of the TWAIN Working Group (status $($signature.Status), signer '$subject').")
+	}
+	if($result.Problems.Count -eq 0){ $result.Path=$target }
+	return $result
 }
 
 #The setup's two pages, written into the folder: setup-info.txt (the information page: installer\setup-info.txt with NOTICE) and
@@ -488,9 +784,9 @@ function Get-JsonValue($object,[string]$name){
 #asset (its path in the package, with '/'), the content hash OpenPmsDental\packages.lock.json names for that package, and the package's folders
 #the file may be compared with: the global packages folder the restore used (project.assets.json, packageFolders) and the offline package folder
 #nuget.config restores from (OPMS_NUGET_OFFLINE, tools\Initialize-BuildEnvironment.ps1). The assets are the runtime and native ones of the
-#target the SDK copies from: the program's win-x86 target (lib\net4x of .NET Framework 4.8, runtimes\win-x86\native, and a package's own
-#runtimes\win\lib file where it has one). A file the build then leaves out because the .NET Framework has a newer assembly of that name (the
-#System.* 4.3.x files of System.Net.Http 4.3.4, TC-4) is named here too; no such file is on the allow-list.
+#target the SDK copies from: the program's win-x64 target (its lib folder for net10.0 or older .NET, runtimes\win-x64\native, and a package's own
+#runtimes\win\lib file where it has one). A file the build then leaves out because the shared runtime has that assembly (a package the restore
+#did not prune) is named here too; no such file is on the allow-list.
 #Returns Files (name to record) and Problems (what could not be read).
 function Get-ProgramPackageFiles {
 	$result=[pscustomobject]@{ Files=@{}; Problems=(New-Object 'System.Collections.Generic.List[string]') }
@@ -530,9 +826,9 @@ function Get-ProgramPackageFiles {
 	if($folders){ $packageFolders=@($folders.PSObject.Properties | ForEach-Object { $_.Name }) }
 	$offline=(Initialize-BuildEnvironment -RepoRoot $RepoRoot).OfflineFolder
 	$libraries=Get-JsonValue $assets 'libraries'
-	#The target the build copies from: the program's win-x86 target (the SDK's ResolvePackageAssets takes the target of the project's runtime
-	#identifier when it has one, as an x86 exe does), else the framework's. A package can have other files there: System.Net.Http 4.3.4 has
-	#lib\net46 for net48 and runtimes\win\lib\net46 for win-x86 (TC-4); the build keeps neither, the .NET Framework's own is newer.
+	#The target the build copies from: the program's win-x64 target (the SDK's ResolvePackageAssets takes the target of the project's runtime
+	#identifier when it has one, as the x64 exe does), else the framework's. A package can have other files there: System.Net.Http 4.3.4 had
+	#lib\net46 for net48 and runtimes\win\lib\net46 for win-x86 (TC-4), neither of which the .NET Framework build kept.
 	$targets=@((Get-JsonValue $assets 'targets').PSObject.Properties)
 	$ridTargets=@($targets | Where-Object { $_.Name.Contains('/') })
 	if($ridTargets.Count -gt 0){ $targets=$ridTargets }
@@ -572,6 +868,18 @@ function Get-ProgramPackageFiles {
 				}
 			}
 		}
+	}
+	#Files a package's own build files copy rather than its restore assets ($PackageBuildFiles): the locked package and the file's path in it.
+	foreach($name in $PackageBuildFiles.Keys){
+		if($result.Files.Contains($name)){ continue }
+		$id=$PackageBuildFiles[$name][0]
+		$entry=$locked[$id]
+		if(-not $entry){ continue }
+		$relative=$id.ToLowerInvariant()+'/'+$entry.Version.ToLowerInvariant()
+		$restored=@($packageFolders | ForEach-Object { Join-Path $_ ($relative.Replace('/','\')) })
+		$result.Files[$name]=[pscustomobject]@{ Id=$entry.Id; Version=$entry.Version; ContentHash=$entry.ContentHash; Asset=$PackageBuildFiles[$name][1]
+			RestoredFolders=$restored
+			OfflineFolder=$(if($offline){ Join-Path $offline ($entry.Id.ToLowerInvariant()+'\'+$entry.Version.ToLowerInvariant()) }else{ '' }) }
 	}
 	return $result
 }
@@ -644,23 +952,41 @@ function Test-PackageFiles([string]$folder){
 	return ,$problems
 }
 
-#The checks of a staging folder. -Full adds the checks that need the real build: built-from-source copies, package files, native files, versions.
+#The checks of a staging folder. -Full adds the checks that need the real build: built-from-source copies, package files, runtime files, the
+#release-flow checks of the runtime, PE machines, native files, versions. The runtime list is that of the folder's runtime version with -Full
+#(Test-RuntimeVersions), otherwise that of the newest 10.0.x runtime in the offline folder (the one a release must have).
 #Returns the problems found; none means the folder may ship.
 function Test-StagingFolder([string]$folder,[switch]$Full){
 	$problems=New-Object 'System.Collections.Generic.List[string]'
 	$folder=(Resolve-Path -LiteralPath $folder).Path.TrimEnd('\')
-	$allowed=Get-AllowedPaths
+	$runtimeVersion=$null
+	if($Full){
+		$runtimeCheck=Test-RuntimeVersions $folder
+		foreach($problem in $runtimeCheck.Problems){ $problems.Add($problem) }
+		$runtimeVersion=$runtimeCheck.Version
+	}
+	if(-not $runtimeVersion){ $runtimeVersion=Get-NewestRuntimeVersion }
+	$runtime=[ordered]@{}
+	if($runtimeVersion){
+		try{ $runtime=Get-RuntimeFiles $runtimeVersion }
+		catch{ $problems.Add("The runtime list: $($_.Exception.Message)") }
+	}
+	else{ $problems.Add("No $RuntimeBandPack $RuntimeBand.x in the offline folder ($(Get-OfflineFolder)), so the runtime files cannot be listed.") }
+	$allowed=Get-AllowedPaths $runtime
 	$allowedSet=New-Object 'System.Collections.Generic.HashSet[string]' ([StringComparer]::OrdinalIgnoreCase)
 	foreach($path in $allowed){ [void]$allowedSet.Add($path) }
 	$folderSet=New-Object 'System.Collections.Generic.HashSet[string]' ([StringComparer]::OrdinalIgnoreCase)
 	foreach($path in $StagedFolders){ [void]$folderSet.Add($path) }
-	#The lists themselves: nothing allowed may be denied.
-	foreach($path in $allowed){
+	#The lists themselves: nothing allowed may be denied (the runtime packs' own files are Microsoft's runtime and not looked up here: the
+	#WindowsDesktop runtime carries its own vcruntime140_cor3.dll), and no file is on two lists.
+	foreach($path in Get-AllowedPaths){
 		$reason=Get-DenyReason (Split-Path $path -Leaf)
 		if($reason){ $problems.Add("The allow-list names a denied file: $path ($reason)") }
+		if($runtime.Contains($path)){ $problems.Add("On the runtime list and on another list: $path") }
 	}
 	foreach($item in Get-ChildItem -LiteralPath $folder -Recurse -Force){
 		$relative=$item.FullName.Substring($folder.Length).TrimStart('\')
+		if($runtime.Contains($relative)){ continue }
 		$reason=Get-DenyReason $item.Name
 		if($item.PSIsContainer){
 			if($reason){ $problems.Add("Denied folder: $relative ($reason)") }
@@ -692,7 +1018,7 @@ function Test-StagingFolder([string]$folder,[switch]$Full){
 	#Built from this repository, or byte copies of the repository's own files (repository-relative source paths). The files of NuGet packages
 	#are compared with their packages (Test-PackageFiles).
 	$sources=[ordered]@{}
-	foreach($key in $OwnFiles.Keys){ if($OwnFiles[$key]){ $sources[$key]=$OwnFiles[$key]+'\'+$key } }
+	foreach($key in $OwnFiles.Keys){ if($OwnFiles[$key]){ $sources[$key]=$OwnFiles[$key]+'\'+(Split-Path $key -Leaf) } }
 	foreach($key in $ThirdPartyFiles.Keys){
 		if(-not $ThirdPartyFiles[$key].StartsWith('package:')){ $sources[$key]=$ThirdPartyFiles[$key]+'\'+$key }
 	}
@@ -710,11 +1036,31 @@ function Test-StagingFolder([string]$folder,[switch]$Full){
 	}
 	$packageProblems=Test-PackageFiles $folder
 	foreach($problem in $packageProblems){ $problems.Add($problem) }
+	#Every runtime file is byte for byte its runtime pack's file, the pack in the offline folder at the runtime version.
+	foreach($relative in $runtime.Keys){
+		$staged=Join-Path $folder $relative
+		if(-not (Test-Path -LiteralPath $staged -PathType Leaf)){ continue }
+		$record=$runtime[$relative]
+		$missingPackFiles=@($record.PackFiles | Where-Object { -not (Test-Path -LiteralPath $_ -PathType Leaf) })
+		if($missingPackFiles.Count -gt 0){ $problems.Add("Not in its runtime pack: $relative ($($missingPackFiles -join ', ') is missing)"); continue }
+		$stagedSha=Get-Sha256 $staged
+		if(@($record.PackFiles | Where-Object { (Get-Sha256 $_) -eq $stagedSha }).Count -eq 0){
+			$problems.Add("Not the runtime pack's file: $relative differs from $($record.PackFiles -join ' and ')")
+		}
+	}
+	#The PE machine of every file of the folder: x64 or IL only at the top (the apphosts, the native DLLs and the x64 runtime 0x8664), x86 in
+	#Helper32\ (the helper and its runtime 0x14C); an IL-only file is checked as IL only (decision 19).
+	foreach($item in Get-ChildItem -LiteralPath $folder -Recurse -File -Force){
+		$relative=$item.FullName.Substring($folder.Length).TrimStart('\')
+		if($relative.StartsWith('db\',[StringComparison]::OrdinalIgnoreCase)){ continue }
+		$problem=Test-PeFile $item.FullName $relative
+		if($problem){ $problems.Add($problem) }
+	}
 	foreach($name in $NativeFiles){
 		$path=Join-Path $folder $name
 		if(-not (Test-Path -LiteralPath $path -PathType Leaf)){ continue }
 		$machine=Get-PeMachine $path
-		if($machine -ne 0x14C){ $problems.Add(("Not an x86 file: {0} (PE machine 0x{1:X})" -f $name,$machine)) }
+		if($machine -ne $PeMachineX64){ $problems.Add(("Not an x64 file: {0} (PE machine 0x{1:X})" -f $name,$machine)) }
 		$text=[System.Text.Encoding]::GetEncoding(28591).GetString([System.IO.File]::ReadAllBytes($path))
 		foreach($debugName in $DebugRuntimeNames){
 			if($text.IndexOf($debugName,[StringComparison]::OrdinalIgnoreCase) -ge 0){
@@ -726,7 +1072,7 @@ function Test-StagingFolder([string]$folder,[switch]$Full){
 		$path=Join-Path $folder $name
 		if(-not (Test-Path -LiteralPath $path -PathType Leaf)){ continue }
 		$machine=Get-PeMachine $path
-		if($machine -ne 0x14C){
+		if($machine -ne $PeMachineX86){
 			$problems.Add(("Not an x86 file: {0} (PE machine 0x{1:X}); the 32-bit helper program stays x86" -f $name,$machine))
 			continue
 		}
@@ -736,7 +1082,7 @@ function Test-StagingFolder([string]$folder,[switch]$Full){
 		}
 	}
 	$releaseVersion=Read-ReleaseVersion
-	foreach($name in @('OpenPmsDental.exe','OpenPmsDentalBusiness.dll')){
+	foreach($name in @('OpenPmsDental.exe','OpenPmsDental.dll','OpenPmsDentalBusiness.dll')){
 		$path=Join-Path $folder $name
 		if(-not (Test-Path -LiteralPath $path -PathType Leaf)){ continue }
 		$info=[System.Diagnostics.FileVersionInfo]::GetVersionInfo($path)
@@ -921,6 +1267,18 @@ if($ListFiles){
 	foreach($key in $OwnFiles.Keys){ Write-Output "own|$key" }
 	foreach($key in $ThirdPartyFiles.Keys){ Write-Output "third|$key" }
 	foreach($key in $DocumentFiles.Keys){ Write-Output "doc|$key" }
+	$newestRuntime=Get-NewestRuntimeVersion
+	if(-not $newestRuntime){
+		Write-Host "No $RuntimeBandPack $RuntimeBand.x in the offline folder ($(Get-OfflineFolder)), so the runtime files cannot be listed."
+		exit 4
+	}
+	try{ $runtimeFiles=Get-RuntimeFiles $newestRuntime }
+	catch{
+		Write-Host $_.Exception.Message
+		exit 4
+	}
+	foreach($key in $runtimeFiles.Keys){ Write-Output "runtime|$key" }
+	foreach($name in $SetupFiles){ Write-Output "setup|$name" }
 	exit 0
 }
 
@@ -972,8 +1330,17 @@ if(-not $SkipBuild){
 			Write-Host "No build lane script at $BuildLane"
 			exit 4
 		}
-		& powershell.exe -NoProfile -ExecutionPolicy Bypass -File $BuildLane -Root $RepoRoot -Configuration Release -Platform x86 -WaitMinutes $LaneWaitMinutes
+		$laneArguments=@('-NoProfile','-ExecutionPolicy','Bypass','-File',$BuildLane,'-Root',$RepoRoot,'-Configuration','Release','-Platform','x64',
+			'-WaitMinutes',$LaneWaitMinutes)
+		$projects=@($LaneProjects | ForEach-Object { $_ -split ',' } | ForEach-Object { $_.Trim() } | Where-Object { $_ })
+		if($projects.Count -gt 0){ $laneArguments+=@('-Projects',($projects -join ','),'-ScopedRestore') }
+		& powershell.exe @laneArguments
 		$exitBuild=$LASTEXITCODE
+		#The lane answers 98 while another build holds it: wait for it once more, as a person would run it again.
+		if($exitBuild -eq 98){
+			& powershell.exe @laneArguments
+			$exitBuild=$LASTEXITCODE
+		}
 	}
 	else{
 		if(-not $MSBuildPath){ $MSBuildPath=Find-MSBuild }
@@ -984,7 +1351,7 @@ if(-not $SkipBuild){
 		#The pinned .NET SDK and the offline NuGet folder for this process; the restore is locked to the committed lock files.
 		$buildEnvironment=Initialize-BuildEnvironment -RepoRoot $RepoRoot
 		Write-Host "MSBuild $MSBuildPath, .NET SDK $($buildEnvironment.SdkVersion) from '$($buildEnvironment.SdkFolder)'"
-		& $MSBuildPath (Join-Path $RepoRoot 'OpenDental.Local.slnf') /restore /p:RestoreLockedMode=true /p:Configuration=Release /p:Platform=x86 /m /nodeReuse:false /v:minimal /nologo
+		& $MSBuildPath (Join-Path $RepoRoot 'OpenDental.Local.slnf') /restore /p:RestoreLockedMode=true /p:Configuration=Release /p:Platform=x64 /m /nodeReuse:false /v:minimal /nologo
 		$exitBuild=$LASTEXITCODE
 	}
 	if($exitBuild -ne 0){
@@ -997,27 +1364,47 @@ if(-not $SkipBuild){
 #region Release output
 $releaseOutput=Join-Path $RepoRoot 'OpenPmsDental\bin\Release'
 if(-not (Test-Path -LiteralPath $releaseOutput -PathType Container)){
-	Write-Host "No Release output at $releaseOutput. Build Release x86 first."
+	Write-Host "No Release output at $releaseOutput. Build Release x64 first."
 	exit 4
 }
 $problems=New-Object 'System.Collections.Generic.List[string]'
+#The release-flow checks of the runtime come first: a build on mixed or old runtime files is never staged.
+$runtimeCheck=Test-RuntimeVersions $releaseOutput
+if($runtimeCheck.Problems.Count -gt 0){
+	Write-Problems $runtimeCheck.Problems 'The runtime check of the Release output'
+	exit 1
+}
+try{ $runtimeFiles=Get-RuntimeFiles $runtimeCheck.Version }
+catch{
+	Write-Host $_.Exception.Message
+	exit 4
+}
+Write-Host "Runtime .NET $($runtimeCheck.Version): $($runtimeFiles.Count) runtime files from the runtime packs' file lists"
 $allowedSet=New-Object 'System.Collections.Generic.HashSet[string]' ([StringComparer]::OrdinalIgnoreCase)
 foreach($key in $OwnFiles.Keys){ [void]$allowedSet.Add($key) }
 foreach($key in $ThirdPartyFiles.Keys){ [void]$allowedSet.Add($key) }
-foreach($item in Get-ChildItem -LiteralPath $releaseOutput -Force){
+foreach($key in $runtimeFiles.Keys){ [void]$allowedSet.Add($key) }
+#The top of the Release output and Helper32\, the one sub folder.
+$outputItems=@(Get-ChildItem -LiteralPath $releaseOutput -Force)
+$helperOutput=Join-Path $releaseOutput $HelperFolder
+if(Test-Path -LiteralPath $helperOutput -PathType Container){ $outputItems+=@(Get-ChildItem -LiteralPath $helperOutput -Force) }
+foreach($item in $outputItems){
+	$relative=$item.FullName.Substring($releaseOutput.TrimEnd('\').Length+1)
 	if($item.PSIsContainer){
+		if($relative -eq $HelperFolder){ continue }
 		$reason=Get-DenyReason $item.Name
-		if($reason){ $problems.Add("Denied folder in the Release output: $($item.Name) ($reason)") }
-		else{ $problems.Add("Unexpected folder in the Release output: $($item.Name)") }
+		if($reason){ $problems.Add("Denied folder in the Release output: $relative ($reason)") }
+		else{ $problems.Add("Unexpected folder in the Release output: $relative") }
 		continue
 	}
 	$notShipped=$false
 	foreach($pattern in $NotShippedPatterns){ if($item.Name -like $pattern){ $notShipped=$true } }
 	if($notShipped){ continue }
+	if($runtimeFiles.Contains($relative)){ continue }
 	$reason=Get-DenyReason $item.Name
-	if($reason){ $problems.Add("Denied file in the Release output: $($item.Name) ($reason)") }
-	elseif(-not $allowedSet.Contains($item.Name)){
-		$problems.Add("Unexpected file in the Release output: $($item.Name) (add it to the allow-list of tools\Build-Release.ps1, with its notice if it is third-party, or remove it from the build)")
+	if($reason){ $problems.Add("Denied file in the Release output: $relative ($reason)") }
+	elseif(-not $allowedSet.Contains($relative)){
+		$problems.Add("Unexpected file in the Release output: $relative (add it to the allow-list of tools\Build-Release.ps1, with its notice if it is third-party, or remove it from the build)")
 	}
 }
 foreach($name in $allowedSet){
@@ -1041,8 +1428,10 @@ if(Test-Path -LiteralPath $staging){
 	Remove-Item -LiteralPath $staging -Recurse -Force
 }
 New-Item -ItemType Directory -Path $staging | Out-Null
+New-Item -ItemType Directory -Path (Join-Path $staging $HelperFolder) | Out-Null
 foreach($name in $OwnFiles.Keys){ Copy-Item -LiteralPath (Join-Path $releaseOutput $name) -Destination (Join-Path $staging $name) }
 foreach($name in $ThirdPartyFiles.Keys){ Copy-Item -LiteralPath (Join-Path $releaseOutput $name) -Destination (Join-Path $staging $name) }
+foreach($name in $runtimeFiles.Keys){ Copy-Item -LiteralPath (Join-Path $releaseOutput $name) -Destination (Join-Path $staging $name) }
 foreach($path in $DocumentFiles.Keys){
 	$target=Join-Path $staging $path
 	New-Item -ItemType Directory -Force -Path (Split-Path $target -Parent) | Out-Null
@@ -1064,6 +1453,9 @@ foreach($relative in $stagedFiles){
 }
 $sumsPath=Join-Path $OutDir 'SHA256SUMS.txt'
 Write-Sums $sumsPath $sumLines.ToArray()
+#The staged list in two parts, as the release channel publishes it (ForkReleases.GetRuntimePart): the runtime part and the program part.
+$runtimeStaged=@($stagedFiles | Where-Object { $runtimeFiles.Contains($_) })
+Write-Host "The runtime part: $($runtimeStaged.Count) files (.NET $($runtimeCheck.Version), win-x64 and $HelperFolder\ win-x86); the program part: $($stagedFiles.Count-$runtimeStaged.Count) files"
 #endregion Stage
 
 #region Installer
@@ -1080,12 +1472,38 @@ if(-not $SkipInstaller){
 	$setupTexts=Write-SetupTexts $OutDir $releaseVersion
 	$infoPath=$setupTexts[0]
 	$licensePath=$setupTexts[1]
+	#The 64-bit TWAINDSM.dll from the approved download, checked, beside the staging folder: a setup file, never a file of the program folder.
+	$twainDsm=Get-TwainDsm (Join-Path $OutDir 'setup-files')
+	if($twainDsm.Problems.Count -gt 0){
+		Write-Problems $twainDsm.Problems 'The TWAIN DSM check'
+		exit 1
+	}
+	Write-Host "TWAINDSM.dll $TwainDsmVersion (x64, signed by the TWAIN Working Group, SHA-256 $TwainDsmSha256)"
 	if(Test-Path -LiteralPath $setupPath){ Remove-Item -LiteralPath $setupPath -Force }
-	& $Iscc "/DStagingDir=$staging" "/DInfoFile=$infoPath" "/DLicenseTextFile=$licensePath" "/O$OutDir" '/Q' (Join-Path $RepoRoot 'installer\OpenPmsDental.iss')
-	if($LASTEXITCODE -ne 0 -or -not (Test-Path -LiteralPath $setupPath -PathType Leaf)){
-		Write-Host "The installer did not compile (ISCC exit $LASTEXITCODE)."
+	#Not quiet: ISCC names every file it packs ("Compressing: <path>"), which is checked against the staged list below.
+	$isccOutput=@(& $Iscc "/DStagingDir=$staging" "/DInfoFile=$infoPath" "/DLicenseTextFile=$licensePath" "/DTwainDsmFile=$($twainDsm.Path)" "/O$OutDir" (Join-Path $RepoRoot 'installer\OpenPmsDental.iss') 2>&1 | ForEach-Object { "$_" })
+	$exitIscc=$LASTEXITCODE
+	if($exitIscc -ne 0 -or -not (Test-Path -LiteralPath $setupPath -PathType Leaf)){
+		$isccOutput | Select-Object -Last 20 | ForEach-Object { Write-Host $_ }
+		Write-Host "The installer did not compile (ISCC exit $exitIscc)."
 		exit 3
 	}
+	foreach($line in $isccOutput){ if($line -match '^\s*Warning:'){ Write-Host "ISCC $($line.Trim())" } }
+	#The setup's file list is the staged list and TWAINDSM.dll, nothing more and nothing less.
+	$packed=New-Object 'System.Collections.Generic.HashSet[string]' ([StringComparer]::OrdinalIgnoreCase)
+	foreach($line in $isccOutput){
+		if($line -match '^\s*Compressing: (.+?)(\s+\(\d+(\.\d+)*\))?\s*$'){ [void]$packed.Add([System.IO.Path]::GetFullPath($Matches[1])) }
+	}
+	$expected=New-Object 'System.Collections.Generic.HashSet[string]' ([StringComparer]::OrdinalIgnoreCase)
+	foreach($relative in $stagedFiles){ [void]$expected.Add([System.IO.Path]::GetFullPath((Join-Path $staging $relative))) }
+	[void]$expected.Add([System.IO.Path]::GetFullPath($twainDsm.Path))
+	$notPacked=@($expected | Where-Object { -not $packed.Contains($_) })
+	$notStaged=@($packed | Where-Object { -not $expected.Contains($_) })
+	if($notPacked.Count -gt 0 -or $notStaged.Count -gt 0){
+		Write-Host "The setup's file list differs from the staged list: not in the setup: $($notPacked -join ', '); not staged: $($notStaged -join ', ')."
+		exit 3
+	}
+	Write-Host "The setup packs the $($stagedFiles.Count) staged files and TWAINDSM.dll."
 	$setupSha=Get-Sha256 $setupPath
 	$sumLines.Insert(0,$setupSha+'  '+$setupName)
 	Write-Sums $sumsPath $sumLines.ToArray()

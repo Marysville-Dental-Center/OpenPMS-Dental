@@ -36,9 +36,11 @@ files, at the version named below: the build takes them from the package, and
 the release checks each one against the package that the program's lock file
 (OpenPmsDental/packages.lock.json) names. Files in the repository's "Required
 dlls" folder that are not listed here are not part of the release (see
-docs/third-party-binaries-audit.md). The MariaDB server, the .NET Framework,
-the Visual C++ runtime, the WebView2 runtime and the TWAIN data source manager
-are installed separately and are not shipped. DICOM images are read and
+docs/third-party-binaries-audit.md). The MariaDB server, the Visual C++
+runtime and the WebView2 runtime are installed separately and are not shipped.
+The .NET runtime ships with the program, which is self-contained (".NET
+libraries" below), and the setup installs the 64-bit TWAIN data source manager
+into the Windows system folder ("TWAIN" below). DICOM images are read and
 written by the program's own code, written from the DICOM standard (NEMA
 PS3); no DICOM library ships.
 
@@ -54,25 +56,35 @@ License:   MIT License
 Source:    https://github.com/mysql-net/MySqlConnector
 
 --- Component: .NET libraries
-Files:     Microsoft.Bcl.AsyncInterfaces.dll, Microsoft.Bcl.Cryptography.dll,
-           Microsoft.Extensions.DependencyInjection.Abstractions.dll,
-           Microsoft.Extensions.Logging.Abstractions.dll, System.Buffers.dll, System.ComponentModel.Annotations.dll,
+Files:     Microsoft.Extensions.DependencyInjection.Abstractions.dll,
+           Microsoft.Extensions.Logging.Abstractions.dll, System.DirectoryServices.AccountManagement.dll,
+           System.DirectoryServices.Protocols.dll, System.IO.Ports.dll, System.Management.dll,
+           System.ServiceProcess.ServiceController.dll, System.Speech.dll;
+           Microsoft.CodeAnalysis.dll, Microsoft.CodeAnalysis.VisualBasic.dll (Roslyn, the .NET compiler: the
+           report engine compiles a report's VB <Code> block with it);
+           WinForms.DataVisualization.dll, WinForms.DataVisualization.Utilities.dll (the charts);
+           and the .NET runtime: every file that the runtime packs Microsoft.NETCore.App.Runtime and
+           Microsoft.WindowsDesktop.App.Runtime (win-x64, beside the programs) and the same two packs for win-x86
+           (in Helper32, Windows Forms files only, for the 32-bit helper) list in their data/RuntimeList.xml,
+           English only, among them System.Buffers.dll, System.ComponentModel.Annotations.dll,
            System.Diagnostics.DiagnosticSource.dll, System.Formats.Asn1.dll, System.IO.Pipelines.dll,
            System.Memory.dll, System.Numerics.Vectors.dll, System.Runtime.CompilerServices.Unsafe.dll,
-           System.Text.Encodings.Web.dll, System.Text.Json.dll, System.Threading.Tasks.Extensions.dll
-Version:   NuGet packages Microsoft.Bcl.AsyncInterfaces 10.0.15, Microsoft.Bcl.Cryptography 10.0.10,
-           Microsoft.Extensions.DependencyInjection.Abstractions 10.0.15,
-           Microsoft.Extensions.Logging.Abstractions 10.0.15, System.Buffers 4.6.1,
-           System.ComponentModel.Annotations 5.0.0,
-           System.Diagnostics.DiagnosticSource 10.0.15, System.Formats.Asn1 10.0.13,
-           System.IO.Pipelines 10.0.14, System.Memory 4.6.3, System.Numerics.Vectors 4.6.1,
-           System.Runtime.CompilerServices.Unsafe 6.1.2, System.Text.Encodings.Web 10.0.14,
-           System.Text.Json 10.0.14, System.Threading.Tasks.Extensions 4.6.3
-Copyright: .NET Foundation and Contributors
+           System.Text.Encodings.Web.dll, System.Text.Json.dll, System.Threading.Tasks.Extensions.dll,
+           coreclr.dll, hostfxr.dll and the Windows Desktop runtime's own vcruntime140_cor3.dll
+Version:   NuGet packages Microsoft.Extensions.DependencyInjection.Abstractions 10.0.15,
+           Microsoft.Extensions.Logging.Abstractions 10.0.15, System.DirectoryServices.AccountManagement 10.0.15,
+           System.DirectoryServices.Protocols 10.0.15, System.IO.Ports 10.0.15, System.Management 10.0.15,
+           System.ServiceProcess.ServiceController 10.0.15, System.Speech 10.0.15,
+           Microsoft.CodeAnalysis.Common and Microsoft.CodeAnalysis.VisualBasic 5.12.0,
+           WinForms.DataVisualization 1.10.2; the runtime packs at the release's .NET runtime version (10.0.15
+           in this repository; each monthly runtime release brings the newest 10.0 patch)
+Copyright: .NET Foundation and Contributors; WinForms.DataVisualization: .NET Foundation and Contributors and
+           the contributors of its port
 License:   MIT License
-Source:    https://github.com/dotnet/runtime
-           https://github.com/dotnet/maintenance-packages (System.Buffers, System.Memory, System.Numerics.Vectors,
-           System.Runtime.CompilerServices.Unsafe, System.Threading.Tasks.Extensions)
+Source:    https://github.com/dotnet/runtime, https://github.com/dotnet/windowsdesktop,
+           https://github.com/dotnet/winforms, https://github.com/dotnet/wpf (the runtime and the libraries)
+           https://github.com/dotnet/roslyn (Microsoft.CodeAnalysis)
+           https://github.com/kirsan31/winforms-datavisualization (WinForms.DataVisualization)
 
 --- Component: Newtonsoft.Json
 Files:     Newtonsoft.Json.dll
@@ -257,19 +269,25 @@ Note:      Apache License 2.0 is compatible with GNU GPL version 3 but not with 
 
 --- Component: Microsoft Edge WebView2 SDK
 Files:     Microsoft.Web.WebView2.Core.dll, Microsoft.Web.WebView2.WinForms.dll, Microsoft.Web.WebView2.Wpf.dll,
-           WebView2Loader.dll (x86)
-Version:   1.0.2420.47 (NuGet package Microsoft.Web.WebView2)
+           WebView2Loader.dll (x64)
+Version:   1.0.4314.35 (NuGet package Microsoft.Web.WebView2)
 Copyright: Microsoft Corporation
 License:   BSD 3-Clause License (Microsoft's own text is LICENSE.txt in the NuGet package)
-Source:    https://www.nuget.org/packages/Microsoft.Web.WebView2/1.0.2420.47, the NuGet package the files
-           come from as it holds them (lib/net45, and runtimes/win-x86/native for WebView2Loader.dll)
+Source:    https://www.nuget.org/packages/Microsoft.Web.WebView2/1.0.4314.35, the NuGet package the files
+           come from as it holds them (its .NET build of the managed files, and runtimes/win-x64/native for
+           WebView2Loader.dll)
 
 --- Component: TWAIN
-Files:     none; ImagingDeviceManager.dll implements the TWAIN protocol from the TWAIN specification
-Version:   TWAIN 2.4
+Files:     TWAINDSM.dll (x64), the TWAIN Working Group's data source manager, which the setup installs into the
+           Windows system folder as a shared file (never into the program folder); ImagingDeviceManager.dll
+           implements the TWAIN protocol from the TWAIN specification
+Version:   TWAIN 2.4; TWAINDSM.dll 2.5.1 (dsm_020501.zip of the TWAIN Working Group's release v2.5.1, signed by
+           the TWAIN Working Group)
 Copyright: The TWAIN Working Group
-License:   TWAIN Working Group toolkit license, kept from Open Dental's license list (its text follows)
+License:   TWAIN Working Group toolkit license, kept from Open Dental's license list (its text follows);
+           TWAINDSM.dll: GNU Lesser General Public License, version 2.1 (LICENSE-LGPL-2.1.txt)
 Source:    https://twain.org/
+           https://github.com/twain/twain-dsm/releases/tag/v2.5.1 (TWAINDSM.dll and its source, twain-dsm-2.5.1.zip)
 
 --- Component: Pearl API notice
 Files:     none; the Pearl bridge calls Pearl's service when an office enables it
