@@ -53,7 +53,7 @@ namespace ProjectFileTests {
 			string textSln=File.ReadAllText(Path.Combine(root,"OpenDental.sln"));
 			List<string> listProblems=new List<string>();
 			int countAnyCpu=0;
-			foreach(string path in ProjectFile.GetSolutionFilterProjects(Path.Combine(root,"OpenDental.Local.slnf"))) {
+			foreach(string path in ProjectFile.GetModelledSolutionFilterProjects(Path.Combine(root,"OpenDental.Local.slnf"))) {
 				//The mapping read straight from the solution, as tools\Get-ProjectBaseline.ps1 reads it.
 				string relative=path.Substring(root.Length+1);
 				Match matchProject=Regex.Match(textSln,"Project\\(\"\\{[^}]+\\}\"\\) = \"[^\"]+\", \""+Regex.Escape(relative)+"\", \"(\\{[^}]+\\})\"",RegexOptions.IgnoreCase);

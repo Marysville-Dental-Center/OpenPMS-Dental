@@ -604,11 +604,13 @@ namespace LibraryBindingTests {
 			}
 		}
 
-		///<summary>The full paths of the C# project files of OpenDental.Local.slnf, in its order.</summary>
+		///<summary>The full paths of the C# project files of OpenDental.Local.slnf, in its order, without the projects of an SDK that ProjectFile
+		///does not model (since S3b-6 the Middle Tier server, a Microsoft.NET.Sdk.Web project on .NET 10, which has no binding redirects).</summary>
 		public static List<string> ProjectPaths {
 			get {
 				string slnf=RepoPaths.ReadText("OpenDental.Local.slnf");
-				return Regex.Matches(slnf,@"""([^""]+\.csproj)""").Cast<Match>().Select(x => RepoPaths.Combine(x.Groups[1].Value.Replace(@"\\",@"\"))).ToList();
+				return Regex.Matches(slnf,@"""([^""]+\.csproj)""").Cast<Match>().Select(x => RepoPaths.Combine(x.Groups[1].Value.Replace(@"\\",@"\")))
+					.Where(x => ProjectFile.GetUnmodelledSdk(x)==null).ToList();
 			}
 		}
 

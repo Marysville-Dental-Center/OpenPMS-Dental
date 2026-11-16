@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Xml.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ProjectFileTests;
 
@@ -28,6 +29,7 @@ namespace ReleaseFlowTests {
 			new ShippedProject("ODR","xODR.csproj","4.6.1",null),
 			new ShippedProject("OpenPmsDental","OpenPmsDental.csproj","24.3.63.0",null),
 			new ShippedProject("OpenPmsDentalGraph","OpenPmsDentalGraph.csproj","16.1.1.0","16.1.1.0"),
+			//The Middle Tier server: a Microsoft.NET.Sdk.Web project since S3b-6, with the same file name, AssemblyInfo.cs and link.
 			new ShippedProject("OpenPmsDentalServer","OpenPmsDentalServer.csproj","24.3.63.0",null),
 			new ShippedProject("OpenPmsDentalStorage","OpenPmsDentalStorage.csproj","16.4.0.0","1.0.0.0"),
 			new ShippedProject("OpenPmsDentalBusiness","OpenPmsDentalBusiness.csproj","24.3.63.0",null),
@@ -73,8 +75,19 @@ namespace ReleaseFlowTests {
 		public void SharedAssemblyInfo_IsLinkedIntoEveryShippedProject_WhichKeepsItsVersions() {
 			foreach(ShippedProject shippedProject in _listShippedProjects) {
 				//The evaluated items, so the check holds for the classic project files and the SDK-style ones of the .NET 10 move alike.
-				ProjectFile projectFile=ProjectFile.Load(Path.Combine(TestPaths.RepoRoot,shippedProject.Folder,shippedProject.ProjectFile));
-				Assert.AreEqual(@"Properties\SharedAssemblyInfo.cs",projectFile.AssertItem("Compile",@"..\SharedAssemblyInfo.cs").GetMetadata("Link"),shippedProject.Folder);
+				string pathProject=Path.Combine(TestPaths.RepoRoot,shippedProject.Folder,shippedProject.ProjectFile);
+				if(ProjectFile.GetUnmodelledSdk(pathProject)!=null) {
+					//The Middle Tier server (S3b-6), a Microsoft.NET.Sdk.Web project, which ProjectFile does not model: the link from its file.
+					XElement xElementCompile=XDocument.Load(pathProject).Descendants().Single(x => x.Name.LocalName=="Compile"
+						&& (string)x.Attribute("Include")==@"..\SharedAssemblyInfo.cs");
+					Assert.AreEqual(@"Properties\SharedAssemblyInfo.cs",xElementCompile.Elements().Single(x => x.Name.LocalName=="Link").Value,
+						shippedProject.Folder);
+				}
+				else {
+					ProjectFile projectFile=ProjectFile.Load(pathProject);
+					Assert.AreEqual(@"Properties\SharedAssemblyInfo.cs",projectFile.AssertItem("Compile",@"..\SharedAssemblyInfo.cs").GetMetadata("Link"),
+						shippedProject.Folder);
+				}
 				string assemblyInfo=TestPaths.ReadSource(shippedProject.Folder,"Properties","AssemblyInfo.cs");
 				foreach(string attribute in new[] { "AssemblyProduct","AssemblyCompany","AssemblyCopyright","AssemblyInformationalVersion" }) {
 					Assert.IsFalse(Regex.IsMatch(assemblyInfo,@"(?m)^\s*\[assembly:\s*"+attribute+@"\("),shippedProject.Folder+" still sets "+attribute+".");

@@ -1,5 +1,5 @@
-// The Middle Tier server's own settings (package S3b-6 of the .NET 10 move, docs/port-notes/S3b-6.md): the section "OpenDentalServer" of
-// appsettings.json, the command line or the environment (OpenDentalServer__PathBase), read once at start.
+// The Middle Tier server's own settings (package S3b-6 of the .NET 10 move, docs/port-notes/S3b-6.md): the section "MiddleTier" of
+// appsettings.json, the command line or the environment (MiddleTier__PathBase), read once at start.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
 using System.Globalization;
@@ -11,7 +11,7 @@ namespace OpenPmsDentalServer {
 	///which the business layer reads on the first request, as before).</summary>
 	public class ServerSettings {
 		///<summary>The configuration section of these settings.</summary>
-		public const string SECTION="OpenDentalServer";
+		public const string SECTION="MiddleTier";
 		///<summary>The application path of the ASMX web service in IIS, which every workstation's saved address names
 		///(https://server/OpenDentalServer/ServiceMain.asmx): the default, so those addresses keep working.</summary>
 		public const string DEFAULT_PATH_BASE="/OpenDentalServer";

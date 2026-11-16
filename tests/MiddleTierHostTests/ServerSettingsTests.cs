@@ -29,17 +29,17 @@ namespace MiddleTierHostTests {
 		[TestMethod]
 		public void Settings_AreRead_AndAWrongOneIsRefused() {
 			ServerSettings serverSettings=ServerSettings.Read(Configuration(new Dictionary<string,string> {
-				{ "OpenDentalServer:PathBase","/Clinic2/" },{ "OpenDentalServer:MaxRequestBodySize","2048" } }));
+				{ "MiddleTier:PathBase","/Clinic2/" },{ "MiddleTier:MaxRequestBodySize","2048" } }));
 			Assert.AreEqual("/Clinic2",serverSettings.PathBase.Value);
 			Assert.AreEqual(2048L,serverSettings.MaxRequestBodySize);
-			Assert.IsFalse(ServerSettings.Read(Configuration(new Dictionary<string,string> { { "OpenDentalServer:PathBase","/" } })).PathBase.HasValue,
+			Assert.IsFalse(ServerSettings.Read(Configuration(new Dictionary<string,string> { { "MiddleTier:PathBase","/" } })).PathBase.HasValue,
 				"/ is the site root.");
 			Assert.ThrowsExactly<InvalidOperationException>(() => ServerSettings.Read(Configuration(new Dictionary<string,string> {
-				{ "OpenDentalServer:PathBase","OpenDentalServer" } })));
+				{ "MiddleTier:PathBase","Clinic2" } })));
 			Assert.ThrowsExactly<InvalidOperationException>(() => ServerSettings.Read(Configuration(new Dictionary<string,string> {
-				{ "OpenDentalServer:MaxRequestBodySize","0" } })));
+				{ "MiddleTier:MaxRequestBodySize","0" } })));
 			Assert.ThrowsExactly<InvalidOperationException>(() => ServerSettings.Read(Configuration(new Dictionary<string,string> {
-				{ "OpenDentalServer:MaxRequestBodySize","1GB" } })));
+				{ "MiddleTier:MaxRequestBodySize","1GB" } })));
 		}
 
 		///<summary>The application ServerHost builds gives Kestrel and IIS the server's limit (1 GiB by default), as the old Web.config gave IIS and
@@ -50,7 +50,7 @@ namespace MiddleTierHostTests {
 			Directory.CreateDirectory(contentRoot);
 			try {
 				foreach(long? limit in new long?[] { null,4096 }) {
-					WebApplication webApplication=ServerHost.Build(limit==null ? new string[0] : new[] { "--OpenDentalServer:MaxRequestBodySize="+limit },
+					WebApplication webApplication=ServerHost.Build(limit==null ? new string[0] : new[] { "--MiddleTier:MaxRequestBodySize="+limit },
 						contentRoot,null);
 					try {
 						long expected=limit??1073741824L;
