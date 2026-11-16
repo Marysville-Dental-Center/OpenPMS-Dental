@@ -323,7 +323,7 @@ namespace WindowChecksTests.InProc {
 			IntPtr hwndGraphics=openedGraphics.Hwnd;
 			ui.Invoke(() => {
 				((RadioButton)FindControl(ui,hwndGraphics,"radio3DChart",true)).Checked=true;
-				((CheckBox)FindControl(ui,hwndGraphics,"checkDrawInSoftware",true)).Checked=isOn;
+				((OpenPmsDental.UI.CheckBox)FindControl(ui,hwndGraphics,"checkDrawInSoftware",true)).Checked=isOn;
 			});
 			return SaveGraphics(ui,checkResult,openedGraphics);
 		}
