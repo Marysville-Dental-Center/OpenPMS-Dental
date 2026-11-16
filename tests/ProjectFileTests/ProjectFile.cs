@@ -302,6 +302,15 @@ namespace ProjectFileTests {
 			//The machine's own: from the start. The toolset's and the SDK's are added where MSBuild's files set them (ApplyCommonTargetsProperties,
 			//ApplySdkBeforeCommonProperties): before that point a name nothing set is '', as MSBuild has it there.
 			_hashSetNotModelled.UnionWith(_arrayNotModelledProperties);
+			//$(OS), which the .NET test SDK's package files test (S3b-2: Microsoft.TestPlatform.TestHost.props of a .NET 10 test project): an
+			//environment variable that Windows gives every process as Windows_NT, read by MSBuild like any other (it sets Unix or OSX itself
+			//elsewhere). Read from this process; any other value is not known here.
+			if(Environment.GetEnvironmentVariable("OS")=="Windows_NT") {
+				_dictProperties["OS"]="Windows_NT";
+			}
+			else {
+				_hashSetNotModelled.Add("OS");
+			}
 			if(IsSdkStyle) {
 				_dictProperties["UsingMicrosoftNETSdk"]="true";
 				if(!IsCSharpProject()) {
@@ -1775,6 +1784,61 @@ namespace ProjectFileTests {
 			}
 		}
 
+		///<summary>[MSBuild]::IsTargetFrameworkCompatible(target, candidate): whether a project for target can use what is built for candidate,
+		///as NuGet's rules answer it, for the frameworks TryParseTargetFramework reads (S3b-2: the WebView2 package's build files ask it of every
+		///.NET 10 project that gets them). The same framework at the same or a lower version; .NET Standard from .NET Core 2.0 (up to 2.0) and
+		///3.0 (up to 2.1), and from .NET Framework 4.6.1 (up to 2.0); a candidate with a platform only for a target with the same platform at the
+		///same or a higher platform version. Null (not modelled, so the caller throws) for anything else, such as .NET Standard from a .NET
+		///Framework before 4.6.1 or a platform version that only the candidate names.</summary>
+		internal static bool? IsTargetFrameworkCompatible(string target,string candidate) {
+			if(!TryParseTargetFramework(target,out string frameworkTarget,out string versionTarget,out string platformTarget,out string platformVersionTarget)
+				|| !TryParseTargetFramework(candidate,out string frameworkCandidate,out string versionCandidate,out string platformCandidate,
+					out string platformVersionCandidate))
+			{
+				return null;
+			}
+			Version versionT=Version.Parse(versionTarget);
+			Version versionC=Version.Parse(versionCandidate);
+			if(platformCandidate!="") {
+				if(!platformCandidate.Equals(platformTarget,StringComparison.OrdinalIgnoreCase)) {
+					return false;
+				}
+				if(platformVersionCandidate!="") {
+					if(platformVersionTarget=="") {
+						return null;
+					}
+					if(Version.Parse(NormalizeVersionText(platformVersionTarget))<Version.Parse(NormalizeVersionText(platformVersionCandidate))) {
+						return false;
+					}
+				}
+			}
+			if(frameworkTarget==frameworkCandidate) {
+				return versionT>=versionC;
+			}
+			if(frameworkCandidate==".NETStandard") {
+				if(frameworkTarget==".NETCoreApp") {
+					if(versionT>=new Version(3,0)) {
+						return versionC<=new Version(2,1);
+					}
+					if(versionT>=new Version(2,0)) {
+						return versionC<=new Version(2,0);
+					}
+					return null;
+				}
+				if(frameworkTarget==".NETFramework" && versionT>=new Version(4,6,1)) {
+					return versionC<=new Version(2,0);
+				}
+				return null;
+			}
+			//.NET Framework and .NET (Core) never use each other's builds, and .NET Standard uses neither.
+			return false;
+		}
+
+		///<summary>A platform version as Version reads it: "7" is "7.0".</summary>
+		private static string NormalizeVersionText(string text) {
+			return text.Contains(".") ? text : text+".0";
+		}
+
 		///<summary>[MSBuild]::GetTargetFrameworkIdentifier, GetTargetFrameworkVersion(..., 2), GetTargetPlatformIdentifier and
 		///GetTargetPlatformVersion for the short names NuGet gives the frameworks this repository targets or moves to: netNN[N] (.NET Framework,
 		///one digit per version part: net48 is 4.8, net472 4.7.2), netX.Y from 5.0 on (.NET, with an optional -platform and platform version, as
@@ -2623,6 +2687,13 @@ namespace ProjectFileTests {
 							}
 							string path=FindFileAbove(listArguments[1],Path.GetFullPath(Path.Combine(Folder,listArguments[0])));
 							return path==null ? "" : Path.GetDirectoryName(path);
+						}
+					case "istargetframeworkcompatible": {
+							if(listArguments.Count!=2) {
+								return null;
+							}
+							bool? isCompatible=IsTargetFrameworkCompatible(listArguments[0],listArguments[1]);
+							return isCompatible==null ? null : (isCompatible.Value ? "True" : "False");
 						}
 					default:
 						return null;
