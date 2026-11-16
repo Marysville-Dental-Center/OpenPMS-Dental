@@ -20,15 +20,21 @@
     For additional information, email info@fyireporting.com or visit
     the website www.fyiReporting.com.
 */
+// Changed by Open PMS - Dental contributors, 2026-11-16 (package S3b-2b of the .NET 10 move, docs/port-notes/S3b-2.md part B): the SQL Server,
+// ODBC and OLE DB code (System.Data.SqlClient, System.Data.Odbc, System.Data.OleDb, packages on .NET) is compiled for .NET Framework only, until
+// the port of the RDL providers (open point O-10 of docs/specs/net10-plan.md); on .NET RdlEngineConfig.GetConnection gives the message that
+// names O-10 for those providers, which the designer shows.
 using System;
 using System.Xml;
 using System.IO;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
+#if NETFRAMEWORK
 using System.Data.OleDb;
 using System.Data.Odbc;
 using System.Data.SqlClient;
+#endif
 using System.Text;
 using System.Drawing;
 using System.Windows.Forms;
@@ -241,10 +247,12 @@ namespace fyiReporting.RdlDesign
 					cols.Add(sc);
 				}
 			}
+#if NETFRAMEWORK
 			catch (SqlException sqle)
 			{
 				MessageBox.Show(sqle.Message, "SQL Error");
 			}
+#endif
 			catch (Exception e)
 			{
 				MessageBox.Show(e.InnerException == null? e.Message:e.InnerException.Message, "Error");
@@ -311,12 +319,14 @@ namespace fyiReporting.RdlDesign
 				cnSQL.Open();
 
                 // Take advantage of .Net metadata if available
+#if NETFRAMEWORK
                 if (cnSQL is System.Data.SqlClient.SqlConnection)
                     return GetSchemaInfo((System.Data.SqlClient.SqlConnection) cnSQL, schemaList);
                 if (cnSQL is System.Data.Odbc.OdbcConnection)
                     return GetSchemaInfo((System.Data.Odbc.OdbcConnection)cnSQL, schemaList);
                 if (cnSQL is System.Data.OleDb.OleDbConnection)
                     return GetSchemaInfo((System.Data.OleDb.OleDbConnection)cnSQL, schemaList);
+#endif
 
 				// Obtain the query needed to get table/view list
 				string sql = RdlEngineConfig.GetTableSelect(dataProvider, cnSQL);
@@ -343,10 +353,12 @@ namespace fyiReporting.RdlDesign
 					schemaList.Add(ssi);
 				}
 			}
+#if NETFRAMEWORK
 			catch (SqlException sqle)
 			{
 				MessageBox.Show(sqle.Message, "SQL Error");
 			}
+#endif
 			catch (Exception e)
 			{
 				MessageBox.Show(e.InnerException == null? e.Message: e.InnerException.Message, "Error");
@@ -368,6 +380,7 @@ namespace fyiReporting.RdlDesign
 			return schemaList;
 		}
 
+#if NETFRAMEWORK
         static internal List<SqlSchemaInfo> GetSchemaInfo(System.Data.SqlClient.SqlConnection con, List<SqlSchemaInfo> schemaList)
         {
             try
@@ -454,6 +467,7 @@ namespace fyiReporting.RdlDesign
             }
             return schemaList;
         }
+#endif
 
 		static internal bool TestConnection(string dataProvider, string connection)
 		{

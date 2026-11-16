@@ -20,6 +20,9 @@
     For additional information, email info@fyireporting.com or visit
     the website www.fyiReporting.com.
 */
+// Changed by Open PMS - Dental contributors, 2026-11-16 (package S3b-2b of the .NET 10 move, docs/port-notes/S3b-2.md part B; decision 14 of
+// docs/specs/net10-plan.md): Check Syntax compiles with RdlEngine's VbCodeCompiler (Roslyn), as the engine compiles the Code element, in place
+// of CodeDom's VBCodeProvider, which throws on .NET; the check itself is CheckCode, without the window.
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -32,9 +35,7 @@ using System.Xml;
 using System.IO;
 using System.Threading;
 using System.Reflection;
-using System.CodeDom;
-using System.CodeDom.Compiler;
-using Microsoft.VisualBasic;
+using fyiReporting.RDL;
 
 namespace fyiReporting.RdlDesign
 {
@@ -226,10 +227,28 @@ namespace fyiReporting.RdlDesign
 		{
 			lbErrors.Items.Clear();					// clear out existing items
 
+			List<string> listErrorLines = CheckCode(this.tbCode.Text);
+			if(listErrorLines.Count > 0)
+			{
+				foreach (string errorLine in listErrorLines)
+				{
+					lbErrors.Items.Add(errorLine);
+				}
+			}
+			else
+				MessageBox.Show("No errors", "Code Verification");
+
+			return ;
+		}
+
+		///<summary>The syntax check without the window (S3b-2b): the lines of the error list, "Ln n- text" with n the line in the code (the
+		///generated source's line minus 5), none when the code compiles. The code is compiled with RdlEngine's VbCodeCompiler, as the engine
+		///compiles a report's Code element, in place of CodeDom's VBCodeProvider, which throws on .NET.</summary>
+		static internal List<string> CheckCode(string code)
+		{
 			// Generate the proxy source code
 			List<string> lines = new List<string>();		// hold lines in array in case of error
 
-			VBCodeProvider vbcp =  new VBCodeProvider();
 			StringBuilder sb = new StringBuilder();
 			//  Generate code with the following general form
 
@@ -249,7 +268,7 @@ namespace fyiReporting.RdlDesign
 			lines.Add("Sub New()");
 			lines.Add("End Sub");
 			// Read and write code as lines
-			StringReader tr = new StringReader(this.tbCode.Text);
+			StringReader tr = new StringReader(code);
 			while (tr.Peek() >= 0)
 			{
 				string line = tr.ReadLine();
@@ -263,26 +282,13 @@ namespace fyiReporting.RdlDesign
 
 			string vbcode = sb.ToString();
 
-			// Create Assembly
-			CompilerParameters cp = new CompilerParameters();
-			cp.ReferencedAssemblies.Add("System.dll");
-			cp.GenerateExecutable = false;
-			cp.GenerateInMemory = true;
-			cp.IncludeDebugInformation = false; 
-			
-			CompilerResults cr = vbcp.CompileAssemblyFromSource(cp, vbcode);
-			if(cr.Errors.Count > 0)
+			// Check the code
+			List<string> listErrorLines = new List<string>();
+			foreach (VbCodeError ce in VbCodeCompiler.Check(vbcode))
 			{
-				StringBuilder err = new StringBuilder(string.Format("Code has {0} error(s).", cr.Errors.Count));
-				foreach (CompilerError ce in cr.Errors)
-				{
-					lbErrors.Items.Add(string.Format("Ln {0}- {1}", ce.Line - 5, ce.ErrorText));
-				}
+				listErrorLines.Add(string.Format("Ln {0}- {1}", ce.Line - 5, ce.ErrorText));
 			}
-			else
-				MessageBox.Show("No errors", "Code Verification");
-
-			return ;
+			return listErrorLines;
 		}
 
 		private void lbErrors_SelectedIndexChanged(object sender, System.EventArgs e)
