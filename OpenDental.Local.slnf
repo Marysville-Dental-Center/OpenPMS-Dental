@@ -23,6 +23,7 @@
       "OpenPmsDentalServer\\OpenPmsDentalServer.csproj",
       "OpenPmsDentalStorage\\OpenPmsDentalStorage.csproj",
       "PasswordVaultWrapper\\PasswordVaultWrapper.csproj",
+      "PluginExample\\PluginExample.csproj",
       "RdlDesign\\ReportDesigner.csproj",
       "RdlEngine\\RdlEngine.csproj",
       "RdlViewer\\RdlViewer.csproj",
