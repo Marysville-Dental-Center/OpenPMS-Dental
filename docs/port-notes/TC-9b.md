@@ -74,7 +74,24 @@ The row's list, item by item (the row's line numbers were from when it was writt
 
 ## 5. Builds and runs (build PC, `.git/od-tools/test-results/`)
 
-RUNS
+- **Builds** through the lane: the full build of `OpenDental.Local.slnf` (Debug x86) after the release commit, the five test projects
+  after the tests commit, and the full build at `ba553f427` (after the docs): 0 errors each.
+- `tc9b-run1.txt` (after the tests): AttributionTests 50, BINBTests 104, BINATests 19, N64ATests 41, LibraryBindingTests 20,
+  LibraryUpdateTests 138, PdfLibraryTests 41, ProjectFileTests 150 (1 skipped: the opt-in project baseline check), ReleaseFlowTests 216 (5
+  skipped), NoHqTests 112. All passed.
+- `tc9b-run2.txt`, the projects whose source-text tests read a file TC-9b changed (`Required dlls`, `THIRD-PARTY-NOTICES.txt`,
+  `Build-Release.ps1`, `Resources.resx`, `OpenPmsDental.iss`, `xCodeBase.csproj`, the release notes): DicomReaderTests 103,
+  ImagingDeviceManagerTests 535, LibSpellTests 23, EhrTests 260, LibWebTests 65, ODOPTSTests 57, ReportTests 46, DbConnectionSecurityTests
+  250 (3 skipped), SshHostKeyTests 46, VendorDirectTests 941, NoHqTests 112. All passed.
+- `tc9b-final1.txt` (after the full build at `ba553f427`, with the dry run's Release build in place): the package's ten projects as in
+  run 1, ReleaseFlowTests 216 with 2 skipped (the apphost record test runs once a Release build exists). All passed.
+- `tc9b-final2.txt`: ToothChartImageTests 256 (250 passed, 6 skipped, as after TC-9a; `CallerSourceTests` reads `FormLicense.cs` and
+  `Resources.Designer.cs`), ReportTests 46 (reads the binaries audit), ODOPTSTests 57 (reads the release notes), NoHqTests 112. All passed.
+- **`tools/Test-NoEolFlips.ps1`** against `main` (merge base `071c0b18b`): 18 changed text files, none changed its line ends. No modified
+  file gained or lost a BOM (`.csproj`, `.resx` and `Resources.Designer.cs` keep theirs; the blobs' first bytes compared with
+  `git cat-file`). The two new test files and this note are new files (LF, as git stores a new file with `core.autocrlf` true).
+- Not run: InitSqlTests and ForkMigrationTests (the coordinator's; no schema changed), WindowChecksTests (it starts the program), and
+  ToothChartHostTests (TC-8b's; TC-9b changes no host).
 
 ## 6. Launch check L-8, for a person (TC-9b's part)
 
