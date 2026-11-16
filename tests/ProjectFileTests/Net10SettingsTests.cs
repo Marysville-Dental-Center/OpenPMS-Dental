@@ -255,11 +255,10 @@ namespace ProjectFileTests {
 				if(!projectFile.GetProperty("WarningsAsErrors").Split(';').Contains("WFDEV006")) {
 					listProblems.Add(name+": no WFDEV006 in WarningsAsErrors");
 				}
-				List<string> listOptions=HostOptions(projectFile);
-				//A test project whose restore is .NET 10 (CryptoTests since S3b-2) also gets the MSTest adapter's own options from its package
-				//files (MSTest.EnableParentProcessQuery); the repository adds only NLS.
-				bool hasNls=listOptions.Where(x => !(isTest && x.StartsWith("MSTest.",StringComparison.Ordinal)))
-					.SequenceEqual(new[] { "System.Globalization.UseNls=true" });
+				//The repository's options; a .NET test project that is restored also gets the MSTest adapter's own (its build files'
+				//MSTest.EnableParentProcessQuery, read from the restore output since tests\RdlCodeTests, S3b-2b).
+				List<string> listOptions=HostOptions(projectFile).Where(x => !(isTest && x.StartsWith("MSTest.",StringComparison.Ordinal))).ToList();
+				bool hasNls=listOptions.SequenceEqual(new[] { "System.Globalization.UseNls=true" });
 				if((isExe || isTest) ? !hasNls : listOptions.Count!=0) {
 					listProblems.Add(name+": RuntimeHostConfigurationOption "+string.Join(",",listOptions));
 				}

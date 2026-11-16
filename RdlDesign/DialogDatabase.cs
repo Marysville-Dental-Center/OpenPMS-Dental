@@ -20,6 +20,8 @@
     For additional information, email info@fyireporting.com or visit
     the website www.fyiReporting.com.
 */
+// Changed by Open PMS - Dental contributors, 2026-11-16 (package S3b-2b of the .NET 10 move, docs/port-notes/S3b-2.md part B): the usings of
+// System.Data.SqlClient, System.Data.Odbc and System.Data.OleDb (packages on .NET, open point O-10) for .NET Framework only.
 using System;
 using System.Drawing;
 using System.Collections;
@@ -28,9 +30,11 @@ using System.ComponentModel;
 using System.Windows.Forms;
 using System.Text;
 using System.Data;
+#if NETFRAMEWORK
 using System.Data.OleDb;
 using System.Data.Odbc;
 using System.Data.SqlClient;
+#endif
 using System.IO;
 using System.Globalization;
 using System.Xml;

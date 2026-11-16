@@ -298,19 +298,13 @@ namespace ProjectFileTests {
 			//environment variable VisualStudioVersion when there is one (Toolset.GenerateSubToolsetVersion; the property is set only when it is
 			//not set yet): not known then.
 			_dictProperties["MSBuildToolsVersion"]="Current";
+			//MSBuild's reserved OS (ReservedPropertyNames.osName): Windows_NT on Windows, whatever the environment variable OS holds. A .NET test
+			//project's restore output imports Microsoft.TestPlatform.TestHost's build\net8.0 props, whose Condition reads it (S3b-2b).
+			_dictProperties["OS"]="Windows_NT";
 			SetIfEmpty("VisualStudioVersion",VISUAL_STUDIO_VERSION);
 			//The machine's own: from the start. The toolset's and the SDK's are added where MSBuild's files set them (ApplyCommonTargetsProperties,
 			//ApplySdkBeforeCommonProperties): before that point a name nothing set is '', as MSBuild has it there.
 			_hashSetNotModelled.UnionWith(_arrayNotModelledProperties);
-			//$(OS), which the .NET test SDK's package files test (S3b-2: Microsoft.TestPlatform.TestHost.props of a .NET 10 test project): an
-			//environment variable that Windows gives every process as Windows_NT, read by MSBuild like any other (it sets Unix or OSX itself
-			//elsewhere). Read from this process; any other value is not known here.
-			if(Environment.GetEnvironmentVariable("OS")=="Windows_NT") {
-				_dictProperties["OS"]="Windows_NT";
-			}
-			else {
-				_hashSetNotModelled.Add("OS");
-			}
 			if(IsSdkStyle) {
 				_dictProperties["UsingMicrosoftNETSdk"]="true";
 				if(!IsCSharpProject()) {

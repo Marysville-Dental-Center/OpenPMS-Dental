@@ -1,0 +1,7 @@
+parse message: Severity: 4 - Code element has 3 error(s).  Line numbers are relative to Code element.
+Line 3 '  Return Foo1()' : BC30451 'Foo1' is not declared. It may be inaccessible due to its protection level.
+Line 6 '  Return Foo2(' : BC30451 'Foo2' is not declared. It may be inaccessible due to its protection level.
+Line 6 '  Return Foo2(' : BC30201 Expression expected.
+parse message: Severity: 8 - Expression '=Code.Value()' failed to parse: Value is not a Code method.  Verify the name of the method and its arguments match an existing code function.
+=== page 1 ===
+1807,1807,36135,1807: Value is not a Code method.  Verify the name of the method and its arguments match an existing code function.

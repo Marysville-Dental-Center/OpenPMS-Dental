@@ -20,6 +20,8 @@
     For additional information, email info@fyireporting.com or visit
     the website www.fyiReporting.com.
 */
+// Changed by Open PMS - Dental contributors, 2026-11-16 (package S3b-2b of the .NET 10 move, docs/port-notes/S3b-2.md part B): without the
+// unused using of System.Data.SqlClient, a package on .NET (open point O-10).
 
 using System;
 using System.Xml;
@@ -27,7 +29,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Data;
-using System.Data.SqlClient;
 
 namespace fyiReporting.RDL
 {

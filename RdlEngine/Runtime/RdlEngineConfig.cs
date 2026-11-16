@@ -27,6 +27,10 @@
 // CheckConnection hook, when one is set, before it creates any connection.
 // Changed by Open PMS - Dental contributors, 2026-11-11 (docs/port-notes/S2-2.md section 3.6, DB-SEC 3): GetConnection asks the host's
 // CreateConnection hook, when one is set, for the connection of a configured provider class before it creates one itself.
+// Changed by Open PMS - Dental contributors, 2026-11-16 (package S3b-2b of the .NET 10 move, docs/port-notes/S3b-2.md part B): on .NET the SQL,
+// ODBC and OLEDB providers (System.Data.SqlClient, System.Data.Odbc, System.Data.OleDb) are packages that come with their port (open point O-10
+// of docs/specs/net10-plan.md); until then GetConnection still calls the CheckConnection hook with the same class names and then reports that
+// the provider is not available yet, and GetTableSelect finds an ODBC connection by its class name. The .NET Framework code is kept.
 using System;
 using System.Xml;
 using System.Collections;
@@ -34,9 +38,11 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Reflection;
 using System.Data;
+#if NETFRAMEWORK
 using System.Data.SqlClient;
 using System.Data.OleDb;
 using System.Data.Odbc;
+#endif
 using System.IO;
 using fyiReporting.RDL;
 
@@ -48,6 +54,11 @@ namespace fyiReporting.RDL
 	public class RdlEngineConfig
 	{
 		static internal IDictionary SqlEntries=new ListDictionary();	// list of entries
+		///<summary>The connection classes of the SQL, ODBC and OLEDB providers, as the CheckConnection hook gets them (their full names on .NET
+		///Framework, where they are part of System.Data).</summary>
+		const string SqlConnectionClassName = "System.Data.SqlClient.SqlConnection";
+		const string OdbcConnectionClassName = "System.Data.Odbc.OdbcConnection";
+		const string OleDbConnectionClassName = "System.Data.OleDb.OleDbConnection";
 		///<summary>Set by the host program: called with the data provider name, the name of the connection class the engine would create
 		///(SqlConnection, OdbcConnection, OleDbConnection, or the configured class of the provider) and the connection string, before any
 		///connection is created. It throws to refuse the connection. Null: no check.</summary>
@@ -325,20 +336,34 @@ namespace fyiReporting.RDL
 					// can't connect unless information provided;
 					//   when user wants to set the connection programmatically this they should do this
 					if (checkConnection != null)
-						checkConnection(provider, typeof(SqlConnection).FullName, cstring);
+						checkConnection(provider, SqlConnectionClassName, cstring);
 					if (cstring.Length > 0)
+					{
+#if NETFRAMEWORK
 						cn = new SqlConnection(cstring);
+#else
+						throw ProviderNotPorted(provider);
+#endif
+					}
 					break;
 				case "odbc":
 					if (checkConnection != null)
-						checkConnection(provider, typeof(OdbcConnection).FullName, cstring);
+						checkConnection(provider, OdbcConnectionClassName, cstring);
+#if NETFRAMEWORK
 					cn = new OdbcConnection(cstring);
 					break;
+#else
+					throw ProviderNotPorted(provider);
+#endif
 				case "oledb":
 					if (checkConnection != null)
-						checkConnection(provider, typeof(OleDbConnection).FullName, cstring);
+						checkConnection(provider, OleDbConnectionClassName, cstring);
+#if NETFRAMEWORK
 					cn = new OleDbConnection(cstring);
 					break;
+#else
+					throw ProviderNotPorted(provider);
+#endif
 				default:
 					SqlConfigEntry sce = SqlEntries[provider] as SqlConfigEntry;
 					if (sce == null || sce.CodeModule == null)
@@ -387,19 +412,38 @@ namespace fyiReporting.RDL
 			{
 				if (cn != null)
 				{
-					OdbcConnection oc = cn as OdbcConnection;
-					if (oc != null && oc.Driver.ToLower().IndexOf("my") >= 0)	// not a good way but ...
+					if (IsOdbcMySql(cn))	// not a good way but ...
 						return "SHOW TABLES";					// mysql syntax is non-standard 
 				}
 				return "SELECT TABLE_NAME, TABLE_TYPE FROM INFORMATION_SCHEMA.TABLES ORDER BY 2, 1";
 			}
 			if (cn != null)
 			{
-				OdbcConnection oc = cn as OdbcConnection;
-				if (oc != null && oc.Driver.ToLower().IndexOf("my") >= 0)	// not a good way but ...
+				if (IsOdbcMySql(cn))	// not a good way but ...
 					return "SHOW TABLES";					// mysql syntax is non-standard 
 			}
 			return sce.TableSelect;
+		}
+
+		///<summary>True for an ODBC connection whose driver name has "my" in it, as (cn as OdbcConnection).Driver was checked. By the class name and
+		///its Driver property, so the engine needs no reference to System.Data.Odbc, a package on .NET (open point O-10).</summary>
+		static bool IsOdbcMySql(IDbConnection cn)
+		{
+			if (cn.GetType().FullName != OdbcConnectionClassName)
+				return false;
+			PropertyInfo pi = cn.GetType().GetProperty("Driver");
+			string driver = pi == null ? null : pi.GetValue(cn, null) as string;
+			return driver != null && driver.ToLower().IndexOf("my") >= 0;
+		}
+
+		///<summary>The SQL, ODBC and OLEDB providers (System.Data.SqlClient, System.Data.Odbc, System.Data.OleDb) are part of .NET Framework and
+		///packages on .NET, which come with the port of the RDL providers (open point O-10 of docs/specs/net10-plan.md). Until then a report on one
+		///of them gets this message as its data source's error.</summary>
+		static Exception ProviderNotPorted(string provider)
+		{
+			return new NotSupportedException(string.Format("The data provider '{0}' (SQL Server, ODBC or OLE DB) is not available yet in the .NET 10 build "
+				+ "of the report engine: its port is open point O-10 of the .NET 10 plan (docs/specs/net10-plan.md). Reports on the MySQL.NET data "
+				+ "provider are not affected.", provider));
 		}
 
 		static public string[] GetProviders()

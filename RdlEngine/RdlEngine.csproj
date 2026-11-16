@@ -5,9 +5,11 @@
     Changed by Open PMS - Dental contributors, 2026-11-01: targets .NET Framework 4.8 like the program (was 4.5); no MySql.Data reference,
     package or app.config (no compiled file used MySql.Data; the MySQL.NET data provider is loaded by name, see Runtime\RdlEngineConfig.cs).
     2026-11-08: SDK-style project (stage 1 of the .NET 10 move, docs/specs/net10-plan.md); every .cs file in this folder is compiled, as before.
+    2026-11-16: .NET 10, x64 (package S3b-2b, docs/port-notes/S3b-2.md part B): the repository's target framework and its .NET settings
+    (Directory.Build.Net.props); System.Drawing from the Windows Forms framework; a report's <Code> block compiled with Roslyn's Visual Basic
+    compiler (Definition\VbCodeCompiler.cs) in place of CodeDom's VBCodeProvider, which throws on .NET (decision 14).
   -->
   <PropertyGroup>
-    <TargetFramework>net48</TargetFramework>
     <OutputType>Library</OutputType>
     <RootNamespace>RdlEngine</RootNamespace>
     <AssemblyName>RdlEngine</AssemblyName>
@@ -15,6 +17,8 @@
     <Platforms>AnyCPU;x86</Platforms>
     <BaseAddress>285212672</BaseAddress>
     <FileAlignment>4096</FileAlignment>
+    <!-- System.Drawing (Graphics, Bitmap, Font, Color) is part of the Windows Forms framework on .NET. -->
+    <UseWindowsForms>true</UseWindowsForms>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugType>full</DebugType>
@@ -24,9 +28,7 @@
     <DebugType>none</DebugType>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Xml" />
+    <!-- Compiles a report's <Code> block (decision 14 of the plan; S3b-0 item 10). -->
+    <PackageReference Include="Microsoft.CodeAnalysis.VisualBasic" />
   </ItemGroup>
 </Project>

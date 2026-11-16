@@ -20,13 +20,12 @@
     For additional information, email info@fyireporting.com or visit
     the website www.fyiReporting.com.
 */
+// Changed by Open PMS - Dental contributors, 2026-11-16 (package S3b-2b of the .NET 10 move, docs/port-notes/S3b-2.md part B): without the
+// unused usings of System.Data.SqlClient, System.Data.OleDb, System.Data.Odbc, packages on .NET (open point O-10).
 
 using System;
 using System.Xml;
 using System.Data;
-using System.Data.SqlClient;
-using System.Data.OleDb;
-using System.Data.Odbc;
 using System.IO;
 
 namespace fyiReporting.RDL
