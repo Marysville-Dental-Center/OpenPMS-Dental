@@ -268,7 +268,7 @@ namespace OpenPmsDental {
 			this.groupPreview.Controls.Add(this.labelPreview);
 			this.groupPreview.Location = new System.Drawing.Point(431, 240);
 			this.groupPreview.Name = "groupPreview";
-			this.groupPreview.Size = new System.Drawing.Size(430, 378);
+			this.groupPreview.Size = new System.Drawing.Size(430, 392);
 			this.groupPreview.TabIndex = 6;
 			this.groupPreview.TabStop = false;
 			this.groupPreview.Text = "Preview";
@@ -284,12 +284,12 @@ namespace OpenPmsDental {
 			//
 			this.labelPreviewStatus.Location = new System.Drawing.Point(10, 331);
 			this.labelPreviewStatus.Name = "labelPreviewStatus";
-			this.labelPreviewStatus.Size = new System.Drawing.Size(410, 18);
+			this.labelPreviewStatus.Size = new System.Drawing.Size(410, 30);
 			this.labelPreviewStatus.TabIndex = 1;
 			//
 			// labelPreview
 			//
-			this.labelPreview.Location = new System.Drawing.Point(10, 351);
+			this.labelPreview.Location = new System.Drawing.Point(10, 364);
 			this.labelPreview.Name = "labelPreview";
 			this.labelPreview.Size = new System.Drawing.Size(410, 18);
 			this.labelPreview.TabIndex = 2;
