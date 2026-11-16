@@ -462,6 +462,24 @@ the owner revised it on 2026-11-15 (the parity rows ENG-1 to NEW-1 below were no
   program on a `tc8_` scratch database, with 9 new baselines; no existing baseline changed. The Chart module and the classic Treatment Plan
   document are L-7's. `tests/WindowChecksTests` still expects the DirectX chart and needs the lead's rewrite.
 
+**TC-9a (2026-11-15, branch `chart/tc9a-1` from `chart/tc8-2`; merges right after TC-8): the old engines' code retired. Done on the branch.**
+`docs/port-notes/TC-9a.md` has the details and launch check L-8 (TC-9a's part) written for a person. In short, under O-26 as the owner revised
+it on 2026-11-15 and O-32:
+- Deleted as the row writes: `ToothChartDirectX.*`, `ToothChartOpenGL.*`, `CodeBase/Controls/OpenGLWinFormsControl.cs` (`xCodeBase.csproj`
+  names no item for it), the wrapper's DirectX and OpenGL branches with `D3DX_DLL`, `IsDirectXRuntimeAvailable`, `CanLoadLibrary`,
+  `UseHardware`, `PreferredPixelFormatNumber`, `DeviceFormat` (and `AutoFinish`), the two DirectX format helpers, the start-up search and its
+  `FormOpenDental` call, `IsGraphicsDeviceException`, and `SparksToothChart.csproj`'s SharpDX and Tao references. `ToothChartEngine` is
+  Simple2D (1) and Wpf3D (3); `DrawingMode` keeps 0, 1 and 2. `ApplyComputerSettings` takes the wrapper only (`ToothChartSettingsUse` went,
+  with its six callers and their pins). N64-A's D3DX log line went with the runtime check; N64ATests pins that no D3DX is loaded.
+- Tests: `ToothChartFallbackTests.cs` and S3a-15's `ToothChartEngineBitnessTests.cs` deleted, `ToothChartEnginesRetiredTests.cs` new. The
+  TC-1 transform test and the DirectX mouse test compare with numbers recorded before the deletion (`Baselines/legacy-numbers/`); the
+  recorders, the legacy recorder included, are skipped tests; all 769 + 10 legacy pictures are kept and read (O-32); no baseline changed.
+  The window checks (B5, I1 to I11) are rewritten for TC-8's chart, built and not run.
+- Stays for TC-9b: the program's own SharpDX and Tao references and the five DLLs with their release entries; `LibraryBindingTests` lists
+  `SharpDX.Direct3D9.dll` and `SharpDX.Mathematics.dll` as shipped but unused until TC-9b removes them.
+- For TC-10: the lane's x64 test build of ToothChartImageTests stops at `tests/TestProbeHost` (NETSDK1047, an exe with no win-x64 restore),
+  before any test; BINATests and N64ATests pass in the x64 test build.
+
 **Why not a separate branch.** The chart must not drift from the stages' rewrites of `ControlChart.cs` and the release files. Dark
 merges keep it on `main`, and the gallery approval comes before each merge (O-27).
 

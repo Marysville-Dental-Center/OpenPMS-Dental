@@ -56,7 +56,7 @@ What this version brings, each in its section below (the roadmap's "Done in the 
   runtime and no special graphics; computers set to Simple 2D keep it; File > Graphics offers "3D chart" and "Simple 2D chart" with a
   "Draw in software" switch and a preview; the graphical perio chart opens on every computer ("The tooth chart: the 3D chart on every
   computer", below);
-- the DirectX and OpenGL tooth charts, checked earlier for the coming 64-bit version, are no longer used: a later version removes them;
+- the DirectX and OpenGL tooth charts are removed; the DirectX runtime is no longer used;
 - two new entries in Help > About > View Licenses, Helix Toolkit and the .NET Community Toolkit: libraries of the 3D tooth chart,
   installed with the program from this version on;
 - the tooth chart: completed extractions shown with an X, on by default as in Open Dental 26.2, the paint type TextBelow (Open Dental
@@ -445,7 +445,7 @@ Windows still asks for administrator consent before it copies the files.
 
 The DirectX and OpenGL tooth charts' libraries were checked to run in a 64-bit program, and both charts started and drew there on the test
 computer. **Since this version no computer uses them** (the 3D chart replaces them: "The tooth chart: the 3D chart on every computer",
-below), so Microsoft's DirectX End-User Runtime (`d3dx9_43.dll`) is no longer needed, and a later version removes the two charts; the
+below), so Microsoft's DirectX End-User Runtime (`d3dx9_43.dll`) is no longer needed, and this version removes the two charts; the
 64-bit version will not carry them.
 
 ## Switch-over: Insurance History leaves the frequency code groups alone
