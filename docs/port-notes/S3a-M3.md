@@ -142,7 +142,8 @@ It fails on a qualified `System.Windows.Forms.ContextMenu`, `MenuItem`, `MainMen
 (also through a using alias); in a file that imports `System.Windows.Forms` and none of the WPF namespaces with types of the same names
 (`System.Windows.Controls`, `WpfControls.UI`, `WpfControls`), on the bare type names and on `.ContextMenu`, `.Menu` (not `Keys.Menu` or a WPF
 type named by its namespace), `.Popup` subscriptions, `.TableStyles`, `.GridColumnStyles`, `SetDataBinding`, `.DropDownMenu`, `.MenuItems`,
-`GetContextMenu` and `MergedMenu`. One listed exception: `ODWebView2`'s `e.MenuItems` (WebView2's own context menu). Known pending:
+`GetContextMenu` and `MergedMenu`. One listed exception: `ODWebView2`'s `e.MenuItems` (WebView2's own context menu). *Since S3a-M3b no file or region is exempt and nothing is pending (section S3a-M3b); the rest of this paragraph is how it was
+before.* Known pending:
 `OpenPmsDental\Forms\FormMedical.cs`, and the regions named "Bridge for S3a-M3b" in `GridOD.cs`, `PopupHelper.cs` and `Lan.cs`; the test also
 fails when one of them has no WinForms menu left, so M3b removes it. Self-tests plant each rule's shapes, the WPF and mixed files, the
 replacements that must not be found, and the bridge region.
@@ -300,8 +301,8 @@ re-apply EHR-7's change there. `tests/BMEDTests/OtherConvertTests.cs` (`MedicalW
   is called directly. Both strips hold their item, visible until the first opening, with the form's Opening before the grid's. Problems
   (definitions from an in-memory DiseaseDefs cache, cleared after): the item shows for an "Other" problem, hides for a listed one and with no
   row, and shows again; Allergies (a definition is read from the database, so only the cases that read none): hidden for an unsaved allergy
-  and with no row. Each opening is not cancelled and ends with the separator, Copy Cell Text and Copy Rows. The items' clicks with no row
-  selected reach the handlers, which return before opening anything.
+  and with no row. Each opening is not cancelled and ends with the separator, Copy Cell Text and Copy Rows. The items' click handlers are
+  checked by name (M2Support.Describe); they are not clicked, since a hidden item raises no Click (lead, from the review).
 - `NoHqTests/WinFormsMenuScanTests`: `ArrayFilesPending`, `ArrayFilesBridge` and the region exemption are gone; the scan still must read
   FormMedical.cs, GridOD.cs, PopupHelper.cs and Lan.cs (`ArrayFilesConvertedLast`) and finds FormMedical's two `ContextMenuStrip=` lines;
   the self-test `Scan_BridgeRegion_IsMarked` is `Scan_Regions_ExemptNothing` (a region named "Bridge for S3a-M3b", in a planted file and

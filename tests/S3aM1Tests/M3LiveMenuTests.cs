@@ -133,9 +133,8 @@ namespace S3aM1Tests {
 							CollectionAssert.AreEqual(arrayExpected,M2Support.Describe(gridDiseases.ContextMenuStrip),
 								"Row "+row+", selected "+isSelected+": "+string.Join(" | ",M2Support.Describe(gridDiseases.ContextMenuStrip)));
 						}
-						//The items' clicks reach the form's handlers (above); with no row selected they return before opening anything.
-						((ToolStripItem)Priv.Get(formMedical,"_menuItemConvertOtherAllergy")).PerformClick();
-						((ToolStripItem)Priv.Get(formMedical,"_menuItemConvertOtherProblem")).PerformClick();
+						//The items' click handlers are checked by name above (M2Support.Describe's '->menuItemConvertOther..._Click'); they are not
+						//clicked here, since a hidden item's PerformClick raises no Click and a shown one would open the convert window.
 					}
 				});
 			}
