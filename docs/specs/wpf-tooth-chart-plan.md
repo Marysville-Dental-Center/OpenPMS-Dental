@@ -447,8 +447,8 @@ has the details and launch check L-6 written for a person. In short:
 - 15 perio scenes at 649x696 (five new ones with `HasLegacyRecording=false`) and the print and the 750x1000 save of three of them are WPF
   baselines; the perio parity probes compare the ten recorded scenes with TC-0's DirectX pictures.
 
-**TC-8 (2026-11-15, branch `chart/tc8-1` from `main` at `e2fc2306f`): the engine choice moves to the WPF chart; every host. Done on the
-branch; gallery G4's final part (`g4-tc8.html`) waits for the owner, and TC-8 merges only after the owner approves it.**
+**TC-8 (2026-11-15, branch `chart/tc8-1` from `main` at `e2fc2306f`, review fix on `chart/tc8-2`): the engine choice moves to the WPF chart;
+every host. Merged from `chart/tc8-2`: the owner approved gallery G4's final part (`g4-tc8.html`) on 2026-11-15 ("Approve TC-8").**
 `docs/port-notes/TC-8.md` has the details and launch check L-7 written for a person. In short, under O-19 and O-34 (b1), O-30, O-31 and O-26 as
 the owner revised it on 2026-11-15 (the parity rows ENG-1 to NEW-1 below were not confirmed and are not built):
 - A stored DirectX (0) or OpenGL (2) choice starts the WPF chart (the wrapper's `DrawMode`; the relay's `GetEngineForStoredMode`), which falls

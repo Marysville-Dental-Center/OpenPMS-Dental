@@ -741,6 +741,12 @@ of 2026-11-08: "1. As recommended 2. Ship dlls we need. Use Helix. It's decided.
   section "Open Dental parity (2026-11-14)". So O-20 (on by default; the tooth hidden with a thin X, as Open Dental's 26.2 screenshot
   shows; no other exceptions), O-21 (TextBelow in a one-line box under the date slider, not in the tooth picture) and O-22 (paint text
   beyond the root tip, in the W band) changed.
+- **Gallery G4, TC-8's part (answered on 2026-11-15: "Approve TC-8").** Every host on the WPF chart, File > Graphics with "3D chart",
+  "Simple 2D chart", "Draw in software" and a live preview, graphical perio on every computer, Simple 2D computers kept on 2D. TC-8 merged.
+  **Still open (not answered; nothing waits on it):** File > Graphics on Open Dental 26.2's layout (parity rows ENG-1 to NEW-1 of the chart
+  plan: an office-wide 3D setting, per-computer "use the office setting / use if available / do not use", an "older technology" group).
+  It would change three earlier answers (the smoothed picture as the on-screen default, Simple 2D computers moved to 3D, graphical perio
+  refused on 2D computers). Recommended and kept: TC-8's version; Open Dental's layout would be a later package.
 - **Gallery G2 part 2, TC-6 (answered on 2026-11-15: "TC-6 approved").** Ortho mode with the facial rows only, brackets with a slot,
   thin wires and elastics, root-only retained roots and flat space-maintainer bars, as Open Dental shows them, are approved. TC-6
   merged. Its build folder is named G5; the page called it G2 part 2, and the later 3b gallery keeps the name G5.
