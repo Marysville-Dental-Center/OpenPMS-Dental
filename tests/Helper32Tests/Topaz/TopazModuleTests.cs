@@ -30,13 +30,17 @@ namespace Helper32Tests.Topaz {
 				if(_pathStandIn==null) {
 					string folder=Path.Combine(HelperCopy.FolderTests,"topaz-anycpu-"+Guid.NewGuid().ToString("N").Substring(0,8));
 					Directory.CreateDirectory(folder);
-					string path=Path.Combine(folder,"TopazStandIn.dll");
-					using(Mono.Cecil.ModuleDefinition moduleDefinition=Mono.Cecil.ModuleDefinition.ReadModule(Path.Combine(HelperCopy.FolderTests,
+					//A name of its own: the x86 TopazStandIn.dll beside this test is in the test's own .deps.json, so a load of an assembly of that
+					//name by path would get that one; and not SigPlusNET, which Constructor_LoadsNoVendorCode looks for in this process.
+					string path=Path.Combine(folder,"TopazStandInAnyCpu.dll");
+					using(Mono.Cecil.AssemblyDefinition assemblyDefinition=Mono.Cecil.AssemblyDefinition.ReadAssembly(Path.Combine(HelperCopy.FolderTests,
 						"TopazStandIn.dll"),new Mono.Cecil.ReaderParameters { InMemory=true }))
 					{
-						moduleDefinition.Architecture=Mono.Cecil.TargetArchitecture.I386;
-						moduleDefinition.Attributes=Mono.Cecil.ModuleAttributes.ILOnly;
-						moduleDefinition.Write(path);
+						assemblyDefinition.Name.Name="TopazStandInAnyCpu";
+						assemblyDefinition.MainModule.Name="TopazStandInAnyCpu.dll";
+						assemblyDefinition.MainModule.Architecture=Mono.Cecil.TargetArchitecture.I386;
+						assemblyDefinition.MainModule.Attributes=Mono.Cecil.ModuleAttributes.ILOnly;
+						assemblyDefinition.Write(path);
 					}
 					_pathStandIn=path;
 				}

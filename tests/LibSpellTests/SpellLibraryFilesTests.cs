@@ -134,9 +134,8 @@ namespace LibSpellTests {
 			//System.Runtime.CompilerServices.Unsafe) are part of the shared framework (S3b-2, S3b-5).
 			CollectionAssert.AreEquivalent(new string[0],
 				projectFile.GetItems("PackageReference").Select(x => x.Include).ToArray(),"WeCantSpell.Hunspell.csproj asks NuGet for no package.");
-			foreach(string package in new[] { "System.Buffers","System.Memory","System.Runtime.CompilerServices.Unsafe" }) {
-				Assert.IsFalse(string.IsNullOrEmpty(projectFile.GetPackageVersion(package)),package+": the version of Directory.Packages.props.");
-			}
+			//(Until S3b-5 each of the three packages had the version of Directory.Packages.props here; with no package reference there is none to
+			//check.)
 			Assert.AreNotEqual("true",projectFile.GetProperty("SignAssembly").ToLowerInvariant(),"WeCantSpell.Hunspell.csproj is not signed.");
 			Assert.AreEqual(COMMIT,projectFile.GetProperty("SourceBuildCommit"));
 			Assert.AreEqual(INFORMATIONAL_VERSION,projectFile.GetProperty("SourceBuildInformationalVersion"));

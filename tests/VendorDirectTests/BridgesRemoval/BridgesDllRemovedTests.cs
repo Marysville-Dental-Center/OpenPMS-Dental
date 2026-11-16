@@ -338,11 +338,20 @@ namespace VendorDirectTests.BridgesRemoval {
 			throw new ArgumentException("Unknown command "+command);
 		}
 
-		///<summary>Loads the type and everything its signatures name, by name as the program does. Returns "" on success, or the exception chain;
-		///also when the assembly came from another folder than the process's own.</summary>
+		///<summary>Loads the type and everything its signatures name from the process's folder, as the program binds its own files. Returns "" on
+		///success, or the exception chain; also when the assembly came from another folder than the process's own. On .NET the probe's default
+		///context knows only TestProbeHost's files, so a load by name would take the test's copy: the files of the folder load in a context of
+		///their own that resolves every reference from the folder first, then from the shared framework, as the program's .deps.json does (S3b-5;
+		///on the .NET Framework the folder was the application base).</summary>
 		private static string LoadType(string assemblyName,string typeName) {
 			try {
-				Assembly assembly=Assembly.Load(assemblyName);
+				string folder=Path.GetFullPath(AppDomain.CurrentDomain.BaseDirectory);
+				System.Runtime.Loader.AssemblyLoadContext assemblyLoadContext=new System.Runtime.Loader.AssemblyLoadContext("ProgramFolder");
+				assemblyLoadContext.Resolving+=(context,assemblyNameReference) => {
+					string path=Path.Combine(folder,assemblyNameReference.Name+".dll");
+					return File.Exists(path) ? context.LoadFromAssemblyPath(path) : null;
+				};
+				Assembly assembly=assemblyLoadContext.LoadFromAssemblyPath(Path.Combine(folder,assemblyName+".dll"));
 				Type type=assembly.GetType(typeName,true);
 				type.GetInterfaces();
 				type.GetMethods();

@@ -31,6 +31,8 @@ namespace LibraryBindingTests {
 				+"Direct configuration service's client, as Health.Direct.Config.Client above; the program uses only its LdapCertResolver" },
 			{ "Microsoft.Windows.SDK.NET","Microsoft.Web.WebView2.Wpf of lib_manual/net5.0-windows10.0.17763.0 (the WebView2 package's build files) "
 				+"references the Windows SDK projection for its WinRT interop members, which the program's WebView2 control does not use" },
+			{ "WinRT.Runtime","Microsoft.Web.WebView2.Wpf of lib_manual/net5.0-windows10.0.17763.0 references C#/WinRT's runtime for the same WinRT "
+				+"interop members (Microsoft.Windows.SDK.NET above)" },
 		};
 
 		///<summary>Files the release still ships although nothing in the program references them, each with why. Keep this list short and exact.

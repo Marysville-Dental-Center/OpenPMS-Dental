@@ -9,6 +9,9 @@ using OpenPmsDentalBusiness;
 using UnitTestsCore;
 
 namespace UnitTests.TimeCardRules_Tests {
+	///<summary>A clock time of a fractional number of hours or minutes is added as CodeBase.ODTimeSpan gives it, rounded to the millisecond as
+	///DateTime.AddHours and AddMinutes did on the .NET Framework (.NET keeps every tick, and the time a scratch row keeps loses the fraction of a
+	///second below; S3b-5), so each test builds the clock events it built on the .NET Framework.</summary>
 	[TestClass]
 	public class TimeCardRulesTests:TestBase {
 
@@ -321,13 +324,13 @@ namespace UnitTests.TimeCardRules_Tests {
 			DateTime dateTime22=dateStart.AddDays(14);
 			TimeAdjust timeAdjust95=TimeAdjustT.CreateTimeAdjust(employee.EmployeeNum,dateTime22,regHours:TimeSpan.FromHours(9.5));
 			DateTime dateTime23=dateStart.AddDays(15);
-			long clockEvent1=ClockEventT.InsertWorkPeriod(employee.EmployeeNum,dateTime23.AddHours(7.5),dateTime23.AddHours(15.5));
+			long clockEvent1=ClockEventT.InsertWorkPeriod(employee.EmployeeNum,dateTime23.Add(CodeBase.ODTimeSpan.FromHours(7.5)),dateTime23.Add(CodeBase.ODTimeSpan.FromHours(15.5)));
 			DateTime dateTime24=dateStart.AddDays(16);
-			long clockEvent2=ClockEventT.InsertWorkPeriod(employee.EmployeeNum,dateTime24.AddHours(7.5),dateTime24.AddHours(15.5));
+			long clockEvent2=ClockEventT.InsertWorkPeriod(employee.EmployeeNum,dateTime24.Add(CodeBase.ODTimeSpan.FromHours(7.5)),dateTime24.Add(CodeBase.ODTimeSpan.FromHours(15.5)));
 			DateTime dateTime25=dateStart.AddDays(17);
-			long clockEvent3=ClockEventT.InsertWorkPeriod(employee.EmployeeNum,dateTime25.AddHours(7.5),dateTime25.AddHours(16.5));
+			long clockEvent3=ClockEventT.InsertWorkPeriod(employee.EmployeeNum,dateTime25.Add(CodeBase.ODTimeSpan.FromHours(7.5)),dateTime25.Add(CodeBase.ODTimeSpan.FromHours(16.5)));
 			DateTime dateTime26=dateStart.AddDays(18);
-			long clockEvent4=ClockEventT.InsertWorkPeriod(employee.EmployeeNum,dateTime26.AddHours(7.5),dateTime26.AddHours(16.5));
+			long clockEvent4=ClockEventT.InsertWorkPeriod(employee.EmployeeNum,dateTime26.Add(CodeBase.ODTimeSpan.FromHours(7.5)),dateTime26.Add(CodeBase.ODTimeSpan.FromHours(16.5)));
 			//Calculate weekly overtime for the first payperiod.
 			TimeCardRules.CalculateWeeklyOvertime(employee,payPeriod1.DateStart,payPeriod1.DateStop);
 			//There should be no overtime for the first payperiod.
@@ -666,15 +669,15 @@ namespace UnitTests.TimeCardRules_Tests {
 			//Week 1 - 40.4 hours
 			long clockEvent1=ClockEventT.InsertWorkPeriod(emp.EmployeeNum,startDate.AddDays(0).AddHours(6),startDate.AddDays(0).AddHours(6+8),0);//Mon
 			long clockEvent2=ClockEventT.InsertWorkPeriod(emp.EmployeeNum,startDate.AddDays(1).AddHours(6),startDate.AddDays(1).AddHours(6+8),0);//Tue
-			long clockEvent3=ClockEventT.InsertWorkPeriod(emp.EmployeeNum,startDate.AddDays(2).AddHours(6),startDate.AddDays(2).AddHours(6+8.76),0,0.06);//Wed
-			long clockEvent4=ClockEventT.InsertWorkPeriod(emp.EmployeeNum,startDate.AddDays(3).AddHours(6),startDate.AddDays(3).AddHours(6+8.72),0,0.73);//Thurs
-			long clockEvent5=ClockEventT.InsertWorkPeriod(emp.EmployeeNum,startDate.AddDays(4).AddHours(6),startDate.AddDays(4).AddHours(6+8.12),0,0.41);//Fri
+			long clockEvent3=ClockEventT.InsertWorkPeriod(emp.EmployeeNum,startDate.AddDays(2).AddHours(6),startDate.AddDays(2).Add(CodeBase.ODTimeSpan.FromHours(6+8.76)),0,0.06);//Wed
+			long clockEvent4=ClockEventT.InsertWorkPeriod(emp.EmployeeNum,startDate.AddDays(3).AddHours(6),startDate.AddDays(3).Add(CodeBase.ODTimeSpan.FromHours(6+8.72)),0,0.73);//Thurs
+			long clockEvent5=ClockEventT.InsertWorkPeriod(emp.EmployeeNum,startDate.AddDays(4).AddHours(6),startDate.AddDays(4).Add(CodeBase.ODTimeSpan.FromHours(6+8.12)),0,0.41);//Fri
 			//Week 2 - 41.23 hours
-			long clockEvent6=ClockEventT.InsertWorkPeriod(emp.EmployeeNum,startDate.AddDays(7).AddHours(6),startDate.AddDays(7).AddHours(6+8.79),0,0.4);//Mon
-			long clockEvent7=ClockEventT.InsertWorkPeriod(emp.EmployeeNum,startDate.AddDays(8).AddHours(6),startDate.AddDays(8).AddHours(6+8.85),0,0.38);//Tue
-			long clockEvent8=ClockEventT.InsertWorkPeriod(emp.EmployeeNum,startDate.AddDays(9).AddHours(6),startDate.AddDays(9).AddHours(6+7.78),0,0.29);//Wed
-			long clockEvent9=ClockEventT.InsertWorkPeriod(emp.EmployeeNum,startDate.AddDays(10).AddHours(6),startDate.AddDays(10).AddHours(6+8.88),0,0.02);//Thurs
-			long clockEvent10=ClockEventT.InsertWorkPeriod(emp.EmployeeNum,startDate.AddDays(11).AddHours(6),startDate.AddDays(11).AddHours(6+8.59),0,0.57);//Fri
+			long clockEvent6=ClockEventT.InsertWorkPeriod(emp.EmployeeNum,startDate.AddDays(7).AddHours(6),startDate.AddDays(7).Add(CodeBase.ODTimeSpan.FromHours(6+8.79)),0,0.4);//Mon
+			long clockEvent7=ClockEventT.InsertWorkPeriod(emp.EmployeeNum,startDate.AddDays(8).AddHours(6),startDate.AddDays(8).Add(CodeBase.ODTimeSpan.FromHours(6+8.85)),0,0.38);//Tue
+			long clockEvent8=ClockEventT.InsertWorkPeriod(emp.EmployeeNum,startDate.AddDays(9).AddHours(6),startDate.AddDays(9).Add(CodeBase.ODTimeSpan.FromHours(6+7.78)),0,0.29);//Wed
+			long clockEvent9=ClockEventT.InsertWorkPeriod(emp.EmployeeNum,startDate.AddDays(10).AddHours(6),startDate.AddDays(10).Add(CodeBase.ODTimeSpan.FromHours(6+8.88)),0,0.02);//Thurs
+			long clockEvent10=ClockEventT.InsertWorkPeriod(emp.EmployeeNum,startDate.AddDays(11).AddHours(6),startDate.AddDays(11).Add(CodeBase.ODTimeSpan.FromHours(6+8.59)),0,0.57);//Fri
 			TimeCardRules.CalculateWeeklyOvertime(emp,payP1.DateStart,payP1.DateStop);
 			//Validate
 			List<TimeAdjust> listAdjusts=TimeAdjusts.GetValidList(emp.EmployeeNum,startDate,startDate.AddDays(28)).OrderBy(x=>x.OTimeHours).ToList();
@@ -701,11 +704,11 @@ namespace UnitTests.TimeCardRules_Tests {
 			TimeCardRules.RefreshCache();
 			//Each of these are 11 hour days. Should have 4 hours of OT with clinic 3 in the second pay period and 11 hours for clinic 4.
 			//Week 1 - 40.13 (Note: These appear as they should after CalculateDaily is run.)
-			long clockEvent1=ClockEventT.InsertWorkPeriod(emp.EmployeeNum,startDate.AddDays(0).AddHours(6),startDate.AddDays(0).AddHours(6+8.06),0);//Mon
+			long clockEvent1=ClockEventT.InsertWorkPeriod(emp.EmployeeNum,startDate.AddDays(0).AddHours(6),startDate.AddDays(0).Add(CodeBase.ODTimeSpan.FromHours(6+8.06)),0);//Mon
 			long clockEvent2=ClockEventT.InsertWorkPeriod(emp.EmployeeNum,startDate.AddDays(1).AddHours(6),startDate.AddDays(1).AddHours(6+8),0);//Tue
-			long clockEvent3=ClockEventT.InsertWorkPeriod(emp.EmployeeNum,startDate.AddDays(2).AddHours(6),startDate.AddDays(2).AddHours(6+8.08),0);//Wed
+			long clockEvent3=ClockEventT.InsertWorkPeriod(emp.EmployeeNum,startDate.AddDays(2).AddHours(6),startDate.AddDays(2).Add(CodeBase.ODTimeSpan.FromHours(6+8.08)),0);//Wed
 			long clockEvent4=ClockEventT.InsertWorkPeriod(emp.EmployeeNum,startDate.AddDays(3).AddHours(6),startDate.AddDays(3).AddHours(6+8),0,0.02);//Thurs
-			long clockEvent5=ClockEventT.InsertWorkPeriod(emp.EmployeeNum,startDate.AddDays(4).AddHours(6),startDate.AddDays(4).AddHours(6+8.01),0);//Fri
+			long clockEvent5=ClockEventT.InsertWorkPeriod(emp.EmployeeNum,startDate.AddDays(4).AddHours(6),startDate.AddDays(4).Add(CodeBase.ODTimeSpan.FromHours(6+8.01)),0);//Fri
 			//SATURDAY - 4.1 HRS OF OVERTIME 
 			ClockEvent ce=new ClockEvent();
 			ce.ClinicNum=0;
@@ -719,10 +722,10 @@ namespace UnitTests.TimeCardRules_Tests {
 			ce.ClockEventNum=ClockEvents.Insert(ce);
 			ClockEvents.Update(ce);
 			//Week 2 - 41.06
-			long clockEvent6=ClockEventT.InsertWorkPeriod(emp.EmployeeNum,startDate.AddDays(7).AddHours(6),startDate.AddDays(7).AddHours(6+8.02),0);//Mon
+			long clockEvent6=ClockEventT.InsertWorkPeriod(emp.EmployeeNum,startDate.AddDays(7).AddHours(6),startDate.AddDays(7).Add(CodeBase.ODTimeSpan.FromHours(6+8.02)),0);//Mon
 			long clockEvent7=ClockEventT.InsertWorkPeriod(emp.EmployeeNum,startDate.AddDays(8).AddHours(6),startDate.AddDays(8).AddHours(6+8),0);//Tue
 			long clockEvent8=ClockEventT.InsertWorkPeriod(emp.EmployeeNum,startDate.AddDays(9).AddHours(6),startDate.AddDays(9).AddHours(6+8),0);//Wed
-			long clockEvent9=ClockEventT.InsertWorkPeriod(emp.EmployeeNum,startDate.AddDays(10).AddHours(6),startDate.AddDays(10).AddHours(6+9.04),0);//Thurs
+			long clockEvent9=ClockEventT.InsertWorkPeriod(emp.EmployeeNum,startDate.AddDays(10).AddHours(6),startDate.AddDays(10).Add(CodeBase.ODTimeSpan.FromHours(6+9.04)),0);//Thurs
 			long clockEvent10=ClockEventT.InsertWorkPeriod(emp.EmployeeNum,startDate.AddDays(11).AddHours(6),startDate.AddDays(11).AddHours(6+8),0);//Fri
 			TimeCardRules.CalculateWeeklyOvertime(emp,payP1.DateStart,payP1.DateStop);
 			//Validate
@@ -794,7 +797,7 @@ namespace UnitTests.TimeCardRules_Tests {
 			Prefs.UpdateBool(PrefName.TimeCardsMakesAdjustmentsForOverBreaks,true);
 			TimeCardRuleT.CreateAMTimeRule(emp.EmployeeNum,TimeSpan.FromHours(6));
 			TimeCardRules.RefreshCache();
-			long clockEvent1=ClockEventT.InsertWorkPeriod(emp.EmployeeNum,startDate.AddHours(4),startDate.AddHours(5.5),0);
+			long clockEvent1=ClockEventT.InsertWorkPeriod(emp.EmployeeNum,startDate.AddHours(4),startDate.Add(CodeBase.ODTimeSpan.FromHours(5.5)),0);
 			CalculateDailyOvertime(emp,payP1.DateStart,payP1.DateStop);
 			//Validate
 			Assert.AreEqual(TimeSpan.FromMinutes(90),ClockEvents.GetOne(clockEvent1).Rate2Auto);

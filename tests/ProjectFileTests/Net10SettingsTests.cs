@@ -351,8 +351,9 @@ namespace ProjectFileTests {
 				.ToDictionary(x => x.Key,x => x.Select(y => (string)y.Attribute("Version")).ToList(),StringComparer.OrdinalIgnoreCase);
 			List<string> listFound=new List<string>();
 			List<string> listProblems=new List<string>();
+			//Filtered by the path below the root (a worktree's own root lies under .claude\).
 			foreach(string pathProject in Directory.GetFiles(root,"*.csproj",SearchOption.AllDirectories)
-				.Where(x => !x.Contains(@"\bin\") && !x.Contains(@"\obj\") && !x.Contains(@"\third-party\") && !x.Contains(@"\.claude\") && !x.Contains(@"\spike\")))
+				.Where(x => !Regex.IsMatch(x.Substring(root.Length),@"\\(bin|obj|third-party|\.claude|spike)\\",RegexOptions.IgnoreCase)))
 			{
 				foreach(XElement xElement in XDocument.Load(pathProject).Descendants().Where(x => x.Name.LocalName=="DotNetCliToolReference")) {
 					string include=(string)xElement.Attribute("Include");
