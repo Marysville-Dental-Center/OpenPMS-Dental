@@ -16,15 +16,18 @@ namespace CodeBase {
 		///<summary>This method is called from all Open Dental programs or projects. This method can throw. There is a good
 		///chance you should not let the user continue if the method throws as it can cause the program to behave in unexpecting ways.</summary>
 		public static void Initialize() {
+			//First: the Windows code pages (1252 and the other ANSI and OEM pages) for Encoding.GetEncoding. .NET has only the Unicode
+			//encodings, ASCII and Latin-1 built in; without the provider ODEncodings.GetAnsiEncoding and every reader of ANSI text throws
+			//NotSupportedException (S3b-0 item 6). Registering it again is harmless.
+			Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 #if !DOT_NET_CORE && !DOT_NET_STANDARD
 			//Causes all Application threads to use the same short date format.  Namely, forces computers with a two digit year format (e.g. M/d/yy) to use
 			//a four digit format inside OpenPmsDental (bug manifested as DateTime.MinValue being pulled into OD as 01/01/2001), as well as two digit month 
 			//and year formatting, which is essential for threads that use date strings in validation.
 			DateTimeOD.NormalizeApplicationShortDateFormat();
 #endif
-			//The default SecurityProtocol is "Ssl3|Tls".  We must add Tls12 in order to support Tls1.2 web reference handshakes, 
-			//without breaking any web references using Ssl3 or Tls. This is necessary for XWeb payments.
-			ServicePointManager.SecurityProtocol|=SecurityProtocolType.Tls12;
+			//No ServicePointManager.SecurityProtocol (obsolete on .NET, SYSLIB0014): on .NET the default, SystemDefault, lets Windows choose,
+			//which includes TLS 1.2 and 1.3, and HttpClient does not read the setting.
 			HasInitialized=true;
 		}
 

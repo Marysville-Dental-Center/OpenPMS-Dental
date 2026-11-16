@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project>
   <!-- MigraDoc.DocumentObjectModel 6.5.0 from empira's source in the submodule third-party\PDFsharp
-       (src\foundation\src\MigraDoc\src\MigraDoc.DocumentObjectModel), as upstream's MigraDoc.DocumentObjectModel.csproj builds it for net462.
+       (src\foundation\src\MigraDoc\src\MigraDoc.DocumentObjectModel), as upstream's MigraDoc.DocumentObjectModel.csproj builds it for net10.0
+       (net462 until S3b-2).
        docs\third-party-source-builds.md. -->
   <Import Project="Sdk.props" Sdk="Microsoft.NET.Sdk" />
   <PropertyGroup>
@@ -13,15 +14,13 @@
   <PropertyGroup>
     <SourceBuildUpstreamProject>$(PdfSharpSourceRoot)MigraDoc\src\MigraDoc.DocumentObjectModel\MigraDoc.DocumentObjectModel.csproj</SourceBuildUpstreamProject>
     <SourceBuildProduct>MigraDoc</SourceBuildProduct>
-    <!-- Upstream clears the project's symbols (DefineConstants ";"), so this one has no TRACE. -->
-    <DefineConstants>$(PdfSharpNet462Symbols);$(PdfSharpUpstreamConstants)</DefineConstants>
+    <!-- Upstream clears the project's symbols (DefineConstants ";"), so this one has no TRACE; the SDK adds the target framework's. -->
+    <DefineConstants>$(PdfSharpUpstreamConstants)</DefineConstants>
     <MigraDocDomFolder>$(PdfSharpSourceRoot)MigraDoc\src\MigraDoc.DocumentObjectModel\</MigraDocDomFolder>
   </PropertyGroup>
   <ItemGroup>
     <!-- Its logging source generator stays off (Directory.Packages.props): LoggerMessages.cs below is what it writes (SourceBuild.props). -->
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
     <!-- Upstream: every .cs file of the project folder, and the compiler attributes it links from PdfSharp.System. -->

@@ -361,7 +361,8 @@ namespace CodeBase {
 			byte[] arrayEncryptBytes=Encoding.UTF8.GetBytes(encrypt);
 			MemoryStream ms=new MemoryStream();
 			CryptoStream cs=null;
-			Aes aes=new AesCryptoServiceProvider();
+			//Aes.Create(): the operating system's AES, as AesCryptoServiceProvider (obsolete on .NET, SYSLIB0021); the same defaults (CBC, PKCS7).
+			Aes aes=Aes.Create();
 			aes.Key=enc.GetBytes("AKQjlLUjlcABVbqp");
 			aes.IV=new byte[16];
 			ICryptoTransform encryptor=aes.CreateEncryptor(aes.Key,aes.IV);
@@ -385,7 +386,7 @@ namespace CodeBase {
 				MemoryStream ms=null;
 				CryptoStream cs=null;
 				StreamReader sr=null;
-				Aes aes=new AesCryptoServiceProvider();
+				Aes aes=Aes.Create();//As in Encrypt.
 				UTF8Encoding enc=new UTF8Encoding();
 				aes.Key=enc.GetBytes("AKQjlLUjlcABVbqp");
 				aes.IV=new byte[16];

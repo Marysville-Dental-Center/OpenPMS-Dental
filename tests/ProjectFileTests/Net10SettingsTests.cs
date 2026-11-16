@@ -256,7 +256,10 @@ namespace ProjectFileTests {
 					listProblems.Add(name+": no WFDEV006 in WarningsAsErrors");
 				}
 				List<string> listOptions=HostOptions(projectFile);
-				bool hasNls=listOptions.SequenceEqual(new[] { "System.Globalization.UseNls=true" });
+				//A test project whose restore is .NET 10 (CryptoTests since S3b-2) also gets the MSTest adapter's own options from its package
+				//files (MSTest.EnableParentProcessQuery); the repository adds only NLS.
+				bool hasNls=listOptions.Where(x => !(isTest && x.StartsWith("MSTest.",StringComparison.Ordinal)))
+					.SequenceEqual(new[] { "System.Globalization.UseNls=true" });
 				if((isExe || isTest) ? !hasNls : listOptions.Count!=0) {
 					listProblems.Add(name+": RuntimeHostConfigurationOption "+string.Join(",",listOptions));
 				}
@@ -326,12 +329,16 @@ namespace ProjectFileTests {
 				Assert.AreEqual(".NETCoreApp",projectFile.GetProperty("TargetFrameworkIdentifier"));
 				Assert.AreEqual("",projectFile.GetProperty("AppConfig"));
 			}
-			//The repository's own net48 test projects: CryptoTests has no app.config of its own.
+			//The repository's own net48 test projects: SshHostKeyTests has no app.config of its own. (CryptoTests, the example until S3b-2, is
+			//net10.0-windows since then and gets none.)
 			string root=FixtureFolder.RepoRoot();
-			Assert.IsFalse(File.Exists(Path.Combine(root,@"tests\CryptoTests\app.config")));
+			Assert.IsFalse(File.Exists(Path.Combine(root,@"tests\SshHostKeyTests\app.config")));
+			ProjectFile projectFileSsh=ProjectFile.Load(Path.Combine(root,@"tests\SshHostKeyTests\SshHostKeyTests.csproj"));
+			Assert.AreEqual("net48",projectFileSsh.GetProperty("TargetFramework"));
+			Assert.AreEqual(Path.Combine(root,@"tests\BindingRedirects.config"),projectFileSsh.GetProperty("AppConfig"));
 			ProjectFile projectFileCrypto=ProjectFile.Load(Path.Combine(root,@"tests\CryptoTests\CryptoTests.csproj"));
-			Assert.AreEqual("net48",projectFileCrypto.GetProperty("TargetFramework"));
-			Assert.AreEqual(Path.Combine(root,@"tests\BindingRedirects.config"),projectFileCrypto.GetProperty("AppConfig"));
+			Assert.AreEqual(NET10,projectFileCrypto.GetProperty("TargetFramework"));
+			Assert.AreEqual("",projectFileCrypto.GetProperty("AppConfig"));
 		}
 
 		[TestMethod]

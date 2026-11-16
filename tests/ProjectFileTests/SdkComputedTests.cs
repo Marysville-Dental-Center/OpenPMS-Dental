@@ -257,6 +257,27 @@ namespace ProjectFileTests {
 			}
 		}
 
+		[TestMethod]
+		public void IsTargetFrameworkCompatible_AnswersAsNuGetsRules() {
+			//S3b-2: the WebView2 package's build files ask $([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net5.0')) of every
+			//.NET 10 project that gets them (CodeBase and every project above it).
+			foreach(string[] arrayCase in new[] {
+				new[] { "net10.0-windows","net5.0","True" },new[] { "net10.0-windows","netcoreapp3.0","True" },new[] { "net10.0","net10.0","True" },
+				new[] { "net10.0-windows","net8.0-windows","True" },new[] { "net10.0","net8.0-windows","False" },new[] { "net8.0","net10.0","False" },
+				new[] { "net10.0-windows","netstandard2.1","True" },new[] { "net10.0-windows","net48","False" },new[] { "net48","net5.0","False" },
+				new[] { "net48","net462","True" },new[] { "net462","net48","False" },new[] { "net48","netstandard2.0","True" },
+				new[] { "net48","netstandard2.1","False" },new[] { "net48","netstandard1.6","True" },new[] { "netstandard2.0","net48","False" },
+				new[] { "net10.0-windows10.0.19041.0","net8.0-windows10.0.17763.0","True" },
+				new[] { "net10.0-windows10.0.17763.0","net8.0-windows10.0.19041.0","False" } })
+			{
+				Assert.AreEqual(arrayCase[2]=="True",ProjectFile.IsTargetFrameworkCompatible(arrayCase[0],arrayCase[1]),arrayCase[0]+" with "+arrayCase[1]);
+			}
+			//Not modelled: the caller throws instead of guessing.
+			Assert.IsNull(ProjectFile.IsTargetFrameworkCompatible("net45","netstandard1.1"));
+			Assert.IsNull(ProjectFile.IsTargetFrameworkCompatible("net10.0-windows","net8.0-windows10.0.17763.0"));
+			Assert.IsNull(ProjectFile.IsTargetFrameworkCompatible("uap10.0","net5.0"));
+		}
+
 		///<summary>The SdkLinks fixture as it is, with its own TargetFramework.</summary>
 		private static void WriteSdkLinksWithTargetFramework(FixtureFolder fixtureFolder,string targetFramework) {
 			string text=System.IO.File.ReadAllText(System.IO.Path.Combine(FixtureFolder.RepoRoot(),"tests","ProjectFileTests","Fixtures","SdkLinks.csproj.fixture"));

@@ -5,11 +5,13 @@
     ReportAccountingGenLedger.txt, and possibly an office's own reports in the A to Z folder. Built from this source and copied next to
     OpenPmsDental.exe by OpenPmsDental.csproj's reference (package RDL-SRC, docs/port-notes/RDL-SRC.md); there is no prebuilt ODR.dll any more.
     The assembly name ODR and the ODR.* class names are named inside report definitions, so they never change.
-    Loaded into OpenPmsDental.exe, which is x86, like the business layer it calls (Directory.Build.props).
+    Loaded into OpenPmsDental.exe: net10.0-windows x64 like the program and the business layer it calls (Directory.Build.props,
+    Directory.Build.Net.props; retargeted in S3b-2 of docs/specs/net10-plan.md, it builds once S3b-3 has moved the business library).
   -->
   <PropertyGroup>
-    <TargetFramework>net48</TargetFramework>
     <OutputType>Library</OutputType>
+    <!-- The parameter window and its controls are Windows Forms. -->
+    <UseWindowsForms>true</UseWindowsForms>
     <RootNamespace>OpenDentalReporting</RootNamespace>
     <AssemblyName>ODR</AssemblyName>
     <LangVersion>8.0</LangVersion>
@@ -24,11 +26,6 @@
   <ItemGroup>
     <!-- The program's MySQL client (MySql.Data is not shipped). -->
     <PackageReference Include="MySqlConnector" />
-    <Reference Include="System" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\SharedAssemblyInfo.cs">

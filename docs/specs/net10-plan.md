@@ -1204,6 +1204,19 @@ PE32+ AMD64, no CA1416; their project changes left to S3b-2); the full slnf buil
 and with the new `-TargetFramework`, both without a finding. Before S3b-2: the lane's restore of the whole slnf fails once CodeBase is net10
 (NU1201 above it until S3b-5), and NoHqTests then cannot build on net48 (the note's section 9).
 
+**Status (2026-11-16), S3b-2 part A.** On `net10/s3b2a-1` (`docs/port-notes/S3b-2.md`, part A; part B, the RDL projects, is S3b-2b's):
+CodeBase, ODCrypt, DataConnectionBase, OpenPmsDentalStorage, PasswordVaultWrapper, the seven third-party source builds, UpdateFileCopier,
+OpenPmsDentalDbSettings, ImagingDeviceManager and SyntheticData are `net10.0-windows` x64 (net48 lines and lock files deleted, new lock files
+from the offline folder, nothing downloaded); the source builds take the SDK's net10 symbols and upstream's own (WeCantSpell's net10.0
+`HAS_...` set), C# 14.0; the polyfill packages and `Sftp.TypeAsyncInterfacesDependency` are gone; the code pages are registered first in
+`ODInitialize.Initialize()` and in the three `Main`s of part A; `ServicePointManager.SecurityProtocol` is gone; the DbSettings tool writes the
+office CA file through `FileSystemAclExtensions.Create`; S3b-0's SYSLIB list is replaced with the .NET 10 APIs (two other SYSLIB warnings of
+the DbSettings tool wait for DbConnectionSecurityTests on .NET 10, S3b-5). ODR's project file is retargeted, but it references the business
+library and builds with S3b-3; DevDbTool and AdoptionValidation move with the business library. The scoped lane's rebuild of the 16
+projects and CryptoTests: 0 errors, 48 warnings (WFO1000 12), flat output, PE32+ 0x8664. CryptoTests is .NET 10 x64 ahead of S3b-5: 40 of
+40 passed with `-Platform x64` (NoHqTests not built, as expected). ProjectFileTests' evaluator computes `IsTargetFrameworkCompatible` and
+`$(OS)` for the .NET 10 projects' package files.
+
 **Order on the branch.** S3b-0 (spike) and S3b-1 first; then S3b-2, S3b-3 strictly in sequence (each layer must be net10 before the
 layer above can build); then S3b-4 with S3b-6 and S3b-7 in parallel (disjoint files: the Middle Tier package owns the Remoting and
 WebServices files, the release package owns ForkReleases/DocumentMiscs/PrefL/UpdateFileCopier's `FormMain.cs`/setup/Build-Release;

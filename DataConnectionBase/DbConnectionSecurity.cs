@@ -579,6 +579,9 @@ namespace DataConnectionBase {
 			ListMissing=new List<string>();
 		}
 
+		///<summary>Formatter-based serialization does not exist on .NET, where the base constructor is obsolete (SYSLIB0051); kept, marked as
+		///the base marks it.</summary>
+		[Obsolete("Formatter-based serialization is obsolete and not supported on .NET.",DiagnosticId="SYSLIB0051",UrlFormat="https://aka.ms/dotnet-warnings/{0}")]
 		protected DbConnectionRefusedException(System.Runtime.Serialization.SerializationInfo info,System.Runtime.Serialization.StreamingContext context)
 			:base(info,context)
 		{

@@ -128,7 +128,9 @@ namespace CodeBase {
 		}
 
 		private static Aes CreateAes() {
-			Aes aes=new AesCryptoServiceProvider();
+			//Aes.Create(): the operating system's AES (CNG), which AesCryptoServiceProvider also is on .NET, where that class is obsolete
+			//(SYSLIB0021). The same cipher, key size, mode and padding.
+			Aes aes=Aes.Create();
 			aes.KeySize=256;
 			aes.Key=_arrayKeyEncrypt;
 			aes.Mode=CipherMode.CBC;
