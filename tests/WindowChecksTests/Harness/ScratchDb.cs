@@ -2,7 +2,8 @@
 // MariaDB's own mysql.exe into a new database winchk_<time>, on 127.0.0.1:3306 only. Every check runs against this copy, and the copy is
 // dropped at the end; a copy an earlier run left (the runner killed it before its clean-up) is dropped at the start of the next run with the
 // same results folder (DropLeftovers). Only names starting with winchk_ are ever created or dropped. The copy's A to Z folder is moved to a scratch folder in
-// the temp folder, so no check writes into the test database's own images folder.
+// the temp folder, so no check writes into the test database's own images folder. Right after the restore the copy is brought to this build's fork
+// schema level (CopyMigration, WINCHK-4), so the program never asks to update it; when that cannot be done, P0 fails and no check runs.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
 using System.Collections.Generic;
@@ -23,6 +24,10 @@ namespace WindowChecksTests {
 		private static string _name;
 		private static string _atoZFolder;
 		private static string _skipReason;
+		///<summary>P0's line on the fork schema level of the copy (CopyMigrationResult.Text): migrated, already there, or why not.</summary>
+		private static string _migrationText;
+		///<summary>True when the copy could not be brought to this build's fork schema level: P0 fails and no check runs.</summary>
+		private static bool _isMigrationFailed;
 		private static bool _hasTried;
 		private static readonly object _lock=new object();
 
@@ -51,6 +56,23 @@ namespace WindowChecksTests {
 		public static bool IsMade {
 			get {
 				return _name!=null && _skipReason==null;
+			}
+		}
+
+		///<summary>P0's line on the copy's fork schema level ("migrated the copy from A to B: steps ...", "already at A", or why it could not be done);
+		///null before the restore.</summary>
+		public static string MigrationText {
+			get {
+				Ensure();
+				return _migrationText;
+			}
+		}
+
+		///<summary>True when the copy was restored but could not be brought to this build's fork schema level (the copy is dropped at once).</summary>
+		public static bool IsMigrationFailed {
+			get {
+				Ensure();
+				return _isMigrationFailed;
 			}
 		}
 
@@ -122,6 +144,24 @@ namespace WindowChecksTests {
 			string patient=Scalar("SELECT CONCAT(LName,', ',FName) FROM patient WHERE PatNum=1");
 			if(patient!="Gatetest, Stage") {
 				throw new Exception("Patient #1 is '"+patient+"', not the synthetic 'Gatetest, Stage'.");
+			}
+			//This build's fork schema level, with the program's own migration code, before any check starts the program (start-up would ask).
+			stopwatch.Restart();
+			CopyMigrationResult copyMigrationResult;
+			try {
+				copyMigrationResult=CopyMigration.Run(name);
+			}
+			catch(Exception ex) {
+				copyMigrationResult=new CopyMigrationResult { Text="the copy could not be brought to this build's fork schema level: "+ex.GetBaseException().Message };
+			}
+			foreach(string line in copyMigrationResult.ListLog) {
+				Results.Log("  "+line);
+			}
+			_migrationText=copyMigrationResult.Text;
+			Results.Log("Fork schema level of "+name+": "+copyMigrationResult.Text+" ("+stopwatch.Elapsed.TotalSeconds.ToString("0.0")+" s)");
+			if(!copyMigrationResult.IsDone) {
+				_isMigrationFailed=true;
+				throw new Exception(copyMigrationResult.Text);
 			}
 			_atoZFolder=Path.Combine(Path.GetTempPath(),"winchk",name,"AtoZ");
 			Directory.CreateDirectory(_atoZFolder);

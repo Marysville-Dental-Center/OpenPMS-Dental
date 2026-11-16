@@ -1,6 +1,6 @@
 // Groups F, G and H of the checklist: the dashboard and its graph cells' menus (in process), the reports (in process; G2's RDL file is copied into the scratch copy's A to Z
 // folder before the program starts, as the Custom Reports menu is built at start-up, and deleted afterwards), and RdlDesigner (out of process,
-// its classic menu chosen by WM_COMMAND).
+// its main menu, a MenuStrip since S3a-M3a, chosen through UI Automation by the items' texts).
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
 using System.Collections.Generic;
@@ -104,19 +104,19 @@ namespace WindowChecksTests {
 					checkResultH1.Expect(listChildTexts.Any(x => x.Contains("Unsched Treat Plans.rdl")) || Native.GetText(hwnd).Contains("Unsched Treat Plans.rdl"),
 						"The copy is open in the designer (its window names Unsched Treat Plans.rdl)",Native.GetText(hwnd)+"; "+string.Join(", ",listChildTexts.Take(12)));
 					checkResultH1.AddShot(Shot.Window(hwnd,"H1-designer.png"),"RdlDesigner with the copy open (Designer view)");
-					//View > RDL Text, by the menu item's WM_COMMAND (a classic MainMenu); the XML shows in the editor.
-					if(ChooseMenu(hwnd,new[] { "View","RDL Text" },checkResultH1)) {
+					//View > RDL Text, through the MenuStrip by UI Automation (Uia.ChooseMenuStripItem); the XML shows in the editor.
+					if(ChooseMenu(programProcess,hwnd,new[] { "View","RDL Text" },checkResultH1)) {
 						Thread.Sleep(2500);
 						string textXml=Native.GetChildren(hwnd).Select(x => Native.GetText(x)).FirstOrDefault(x => x.Contains("<Report"))??"";
 						checkResultH1.Expect(textXml!="","View > RDL Text shows the XML ("+textXml.Length+" characters, '<Report' found in the editor)");
 						checkResultH1.AddShot(Shot.Window(hwnd,"H1-rdltext.png"),"RdlDesigner, View > RDL Text");
-						ChooseMenu(hwnd,new[] { "View","Designer" },checkResultH1);
+						ChooseMenu(programProcess,hwnd,new[] { "View","Designer" },checkResultH1);
 						Thread.Sleep(1500);
 					}
 					checkResultH1.ForPerson("adding a Text box to the page header (the toolbar's Text, then a click on the design surface) and File > Save are mouse work "
 						+"on RdlDesigner's design surface: an on-screen pass");
-					//H2: View > Preview (F5), by its WM_COMMAND.
-					if(ChooseMenu(hwnd,new[] { "View","Preview" },checkResultH2)) {
+					//H2: View > Preview (F5), through the MenuStrip by UI Automation.
+					if(ChooseMenu(programProcess,hwnd,new[] { "View","Preview" },checkResultH2)) {
 						Thread.Sleep(6000);
 						checkResultH2.Expect(!programProcess.HasExited,"RdlDesigner is still running after View > Preview (no crash)");
 						List<IntPtr> listDialogs=programProcess.GetWindows().Where(x => x!=hwnd).ToList();
@@ -194,16 +194,21 @@ namespace WindowChecksTests {
 			Assert.AreEqual("",string.Join(" || ",new[] { checkResultH1,checkResultH2 }.Where(x => x.Status==CheckStatus.Failed).Select(x => x.Id+": "+x.Summary)));
 		}
 
-		///<summary>Chooses the menu item at the path of the window by its WM_COMMAND (RdlDesigner has a classic MainMenu, whose native HMENU names the
-		///items); false (and a failure) when the item is absent.</summary>
-		private static bool ChooseMenu(IntPtr hwnd,string[] arrayPath,CheckResult checkResult) {
-			int id=Native.FindMenuCommand(hwnd,arrayPath,out bool isDisabled,out string found);
+		///<summary>Chooses the menu item at the path of the window through its MenuStrip by UI Automation (RdlDesigner's main menu is a MenuStrip since
+		///S3a-M3a: it has no native HMENU, so GetMenu and WM_COMMAND, which this check used with the MainMenu, find nothing): the menu is opened
+		///(its DropDownOpening sets the items' Enabled states) and the item invoked; false (and a failure) when the item is absent, disabled or not
+		///chosen.</summary>
+		private static bool ChooseMenu(ProgramProcess programProcess,IntPtr hwnd,string[] arrayPath,CheckResult checkResult) {
+			Uia.MenuChoice menuChoice=Uia.ChooseMenuStripItem(hwnd,programProcess.Process.Id,arrayPath);
 			string path=string.Join(" > ",arrayPath);
-			if(!checkResult.Expect(id>0,path+" is in the menu bar",found)) {
+			string evidence=menuChoice.Found+(menuChoice.Error=="" ? "" : "; UI Automation: "+menuChoice.Error);
+			if(!checkResult.Expect(menuChoice.IsFound,path+" is in the menu bar (the MenuStrip's items: "+menuChoice.Found+")",evidence)) {
 				return false;
 			}
-			checkResult.Expect(!isDisabled,path+" is enabled");
-			return checkResult.Expect(Native.PostMenuCommand(hwnd,id),path+" chosen (WM_COMMAND "+id+")");
+			if(!checkResult.Expect(!menuChoice.IsDisabled,path+" is enabled (after its menu opened)",evidence)) {
+				return false;
+			}
+			return checkResult.Expect(menuChoice.IsInvoked,path+" chosen ("+menuChoice.Note+")",evidence);
 		}
 	}
 }
