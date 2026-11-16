@@ -1,0 +1,5 @@
+parse message: Severity: 4 - Code element has 1 error(s).  Line numbers are relative to Code element.
+Line 3 '  Return UCase("a")' : BC30451 'UCase' is not declared. It may be inaccessible due to its protection level.
+parse message: Severity: 8 - Expression '=Code.Value()' failed to parse: Value is not a Code method.  Verify the name of the method and its arguments match an existing code function.
+=== page 1 ===
+1807,1807,36135,1807: Value is not a Code method.  Verify the name of the method and its arguments match an existing code function.
