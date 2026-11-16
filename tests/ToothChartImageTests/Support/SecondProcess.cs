@@ -197,6 +197,9 @@ namespace ToothChartImageTests {
 			foreach(string message in listMessages) {
 				Console.WriteLine("message: "+message);
 			}
+			//File > Graphics' status on this computer (TC-8b, NEW-1) after the real start failure: the reason, and no log line of its own.
+			Console.WriteLine("status: "+ToothChartRelay.GetChart3DStatus());
+			Console.WriteLine("log lines after the status: "+ToothChartWrapper.GetCountFallbackLinesWritten());
 		}
 
 		///<summary>"start-interrupted": the caller of the cold start is interrupted (Thread.Interrupt, as an ODThread's finite Join can abort it)

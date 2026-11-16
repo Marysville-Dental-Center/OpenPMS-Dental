@@ -54,7 +54,8 @@ namespace ToothChartHostTests {
 					}
 				}
 			}
-			//I.cs: radioSimpleChart, butSave. IJ.cs: radio3DChart twice, checkDrawInSoftware, butSave three times (a name match, so Show Features'
+			//Since TC-8b I.cs has none (I6 uses IJ.cs' SetGraphics). IJ.cs: SetGraphics' three radio buttons of this computer, I7's look at the window
+			//(seven radio buttons and checkDrawInSoftware), SetDrawInSoftware's checkDrawInSoftware, and butSave (a name match, so Show Features'
 			//butSave is checked against FormGraphics' too; both are Buttons).
 			Assert.IsTrue(countChecked>=8,"Only "+countChecked+" casts of File > Graphics' controls were found; the pattern no longer matches the checks.");
 			StringAssert.Contains(File.ReadAllText(Path.Combine(HostPaths.RepoRoot,_arrayFiles[1])),"FindControl(ui,hwndGraphics,\"checkDrawInSoftware\",true)",

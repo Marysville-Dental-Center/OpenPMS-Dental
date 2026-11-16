@@ -1,5 +1,5 @@
 // Groups I and J's in-process scripts (the parts this harness reaches): the tooth chart (the filling entered as Enter Treatment does it, the
-// refill, Show Big, Save to Images, File > Graphics > 3D chart) and EHR-0 and EHR-1 (Show Features with its confirmation and restart messages, the
+// refill, Show Big, Save to Images, File > Graphics' 3D Tooth Chart settings) and EHR-0 and EHR-1 (Show Features with its confirmation and restart messages, the
 // SNOMED CT window, the e-mail Send drop-down and the Direct certificate window's import buttons). The rest of I and J is in InProcChecks.I.cs
 // and InProcChecks.J.cs.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
@@ -96,15 +96,21 @@ namespace WindowChecksTests.InProc {
 			});
 		}
 
-		///<summary>File > Graphics > "3D chart" or "Simple 2D chart" > Save. Returns "" when the window closed, or the message Save showed (answered).
-		///</summary>
-		private static string SetGraphics(Ui ui,CheckResult checkResult,bool isSimple2D) {
+		///<summary>File > Graphics > this computer's "3D Tooth Chart" (TC-8b): "Use the global setting" (Unknown), "Use if available" (Yes) or "Do not use"
+		///(No) > Save, the global setting and "Draw in software" left as they are. Used by I6 (Do not use) and I7 (Use the global setting). Returns ""
+		///when the window closed, or the message Save showed (answered).</summary>
+		private static string SetGraphics(Ui ui,CheckResult checkResult,YN chart3DThisComputer) {
 			Ui.Opened openedGraphics=OpenMenu(ui,"File","Graphics");
 			if(!InspectWindow(ui,checkResult,openedGraphics,"FormGraphics",null,close:false)) {
 				return "File > Graphics did not open";
 			}
 			IntPtr hwndGraphics=openedGraphics.Hwnd;
-			ui.Invoke(() => ((RadioButton)FindControl(ui,hwndGraphics,isSimple2D ? "radioSimpleChart" : "radio3DChart",true)).Checked=true);
+			ui.Invoke(() => {
+				RadioButton radioButton=chart3DThisComputer==YN.Yes ? ((RadioButton)FindControl(ui,hwndGraphics,"radioChart3DThisUse",true))
+					: chart3DThisComputer==YN.No ? ((RadioButton)FindControl(ui,hwndGraphics,"radioChart3DThisDontUse",true))
+					: ((RadioButton)FindControl(ui,hwndGraphics,"radioChart3DThisGlobal",true));
+				radioButton.Checked=true;
+			});
 			return SaveGraphics(ui,checkResult,openedGraphics);
 		}
 
@@ -264,69 +270,75 @@ namespace WindowChecksTests.InProc {
 			return isClosed;
 		}
 
-		///<summary>I7: File > Graphics > "3D chart" > Save, which puts back the 3D chart I6 left on Simple 2D (since TC-8 the window has "3D chart" and
-		///"Simple 2D chart" and the "Draw in software" switch, and tests no DirectX format); then "Draw in software" on and off again. Each Save closes
-		///the window with no message, and the stored row follows the save rule (ToothChartRelay.SetGraphicsChoice): "3D chart" over a stored 1 writes
-		///0, the switch writes "WpfSoftware" to DirectXFormat and clears only that value when it goes off.</summary>
+		///<summary>I7: File > Graphics on Open Dental's layout (TC-8b): the window's controls are checked (the global setting, this computer's three
+		///choices, the status, Simple 2D as the older technology, "Draw in software" ticked by default), then this computer's "Use the global setting" >
+		///Save, which puts back the 3D chart I6 left on Simple 2D ("Do not use"); then "Draw in software" unticked (the quick live view) and ticked
+		///again. Each Save closes the window with no message, and the stored row follows the save rule (ToothChartRelay.SetGraphicsChoice): the
+		///computer's setting written, GraphicsSimple 0 over the 1 I6's "Do not use" wrote, "WpfLiveView" in DirectXFormat while the box is unticked.</summary>
 		public static void CheckI7(Ui ui,CheckResult checkResult) {
-			string sqlRow="SELECT CONCAT(GraphicsSimple,' ',DirectXFormat) FROM computerpref WHERE ComputerName='"+POut.String(CodeBase.ODEnvironment.MachineName)+"'";
+			string sqlRow="SELECT CONCAT(GraphicsSimple,' ',GraphicsUseDirectX11,' ',DirectXFormat) FROM computerpref WHERE ComputerName='"
+				+POut.String(CodeBase.ODEnvironment.MachineName)+"'";
 			string rowBefore=DataCore.GetScalar(sqlRow);
-			checkResult.Note("computerpref before: "+rowBefore);
+			checkResult.Note("computerpref before (GraphicsSimple GraphicsUseDirectX11 DirectXFormat): "+rowBefore);
 			Ui.Opened opened=OpenMenu(ui,"File","Graphics");
 			if(!InspectWindow(ui,checkResult,opened,"FormGraphics",null,close:false)) {
 				return;
 			}
 			checkResult.AddShot(ui.Shot(opened.Hwnd,"I7.png"),"Graphics");
 			IntPtr hwnd=opened.Hwnd;
-			ui.Invoke(() => ((RadioButton)FindControl(ui,hwnd,"radio3DChart",true)).Checked=true);
-			List<IntPtr> listBefore=ui.GetWindows();
-			ui.Post("Save",() => ((System.Windows.Forms.Button)FindControl(ui,hwnd,"butSave",true)).PerformClick());
-			System.Threading.Thread.Sleep(3000);
-			List<IntPtr> listNew=ui.GetWindows().Where(x => !listBefore.Contains(x)).ToList();
-			foreach(IntPtr hwndNew in listNew) {
-				checkResult.Fail("Save showed: "+ui.DescribeWindow(hwndNew));
-				ui.Close(hwndNew);
-			}
-			checkResult.Expect(ui.WaitGone(hwnd,30000),"3D chart > Save: no message, the window closes (no DirectX format is tested since TC-8)");
+			string state=ui.Invoke(() => string.Join(",",
+				((RadioButton)FindControl(ui,hwnd,"radioChart3DAllUse",true)).Checked,
+				((RadioButton)FindControl(ui,hwnd,"radioChart3DAllDontUse",true)).Checked,
+				((RadioButton)FindControl(ui,hwnd,"radioChart3DThisGlobal",true)).Checked,
+				((RadioButton)FindControl(ui,hwnd,"radioChart3DThisUse",true)).Checked,
+				((RadioButton)FindControl(ui,hwnd,"radioChart3DThisDontUse",true)).Checked,
+				((RadioButton)FindControl(ui,hwnd,"radioStatusAvailable",true)).Checked,
+				((RadioButton)FindControl(ui,hwnd,"radioSimpleChart",true)).Checked,
+				((OpenPmsDental.UI.CheckBox)FindControl(ui,hwnd,"checkDrawInSoftware",true)).Checked));
+			//As I6 left it: global "Use if available" (the new database's), this computer "Do not use", the 3D chart available, Simple 2D, the default box.
+			checkResult.Expect(state=="True,False,False,False,True,True,True,True","The window shows the global setting, this computer's Do not use (I6), "
+				+"Available, Simple 2D and Draw in software ticked ("+state+")",state);
+			ui.Close(hwnd);
 			opened.Posted.Wait();
+			ui.CloseStrayWindows(checkResult);
+			string message=SetGraphics(ui,checkResult,YN.Unknown);
+			checkResult.Expect(message=="","3D Tooth Chart > Use the global setting > Save: no message, the window closes",message);
 			GoToModule(ui,EnumModuleType.Account);
 			GoToModule(ui,EnumModuleType.Chart);
 			Control toothChartWrapper=(Control)Ui.GetField(ModuleControl("controlChart"),"toothChartWrapper");
 			string engine=ui.Invoke(() => toothChartWrapper.GetType().GetProperty("Engine").GetValue(toothChartWrapper).ToString());
 			checkResult.Expect(engine=="Wpf3D","The Chart draws the 3D chart (the WPF chart) again ("+engine+")");
 			string rowAfter3D=DataCore.GetScalar(sqlRow);
-			bool isStoredSimple2D=rowBefore.StartsWith("1 ");
-			checkResult.Expect(isStoredSimple2D ? rowAfter3D.StartsWith("0 ") : rowAfter3D.Split(' ')[0]==rowBefore.Split(' ')[0],
-				"3D chart > Save: "+(isStoredSimple2D ? "over the stored 1 (Simple 2D, from I6) it writes 0" : "a stored 0 or 2 is kept")+" ("+rowBefore+" -> "
-				+rowAfter3D+")",rowAfter3D);
-			//"Draw in software" on, then off again, each with Save.
-			string message=SetDrawInSoftware(ui,checkResult,true);
-			string rowSoftware=DataCore.GetScalar(sqlRow);
-			bool isDrawnInSoftware=ui.Invoke(() => (bool)toothChartWrapper.GetType().GetProperty("WpfDrawInSoftware").GetValue(toothChartWrapper));
-			checkResult.Expect(message=="" && rowSoftware==rowAfter3D.Split(' ')[0]+" WpfSoftware","Draw in software > Save: no message, DirectXFormat is "
-				+"'WpfSoftware' and the choice is kept ("+rowSoftware+")",
-				message);
-			checkResult.Note("The Chart's wrapper draws in software after the Save: "+isDrawnInSoftware);
+			string[] arrayBefore=rowBefore.Split(' ');
+			string[] arrayAfter3D=rowAfter3D.Split(' ');
+			bool isStoredSimple2D=arrayBefore[0]=="1";
+			checkResult.Expect(arrayAfter3D[1]=="0" && (isStoredSimple2D ? arrayAfter3D[0]=="0" : arrayAfter3D[0]==arrayBefore[0]),
+				"Use the global setting > Save: GraphicsUseDirectX11 0, and "+(isStoredSimple2D ? "over the stored 1 (Simple 2D, from I6) GraphicsSimple 0"
+				: "a stored 0 or 2 is kept")+" ("+rowBefore+" -> "+rowAfter3D+")",rowAfter3D);
+			//"Draw in software" unticked (the quick live view), then ticked again (the default), each with Save.
 			message=SetDrawInSoftware(ui,checkResult,false);
+			string rowLiveView=DataCore.GetScalar(sqlRow);
+			bool isDrawnInSoftware=ui.Invoke(() => (bool)toothChartWrapper.GetType().GetProperty("WpfDrawInSoftware").GetValue(toothChartWrapper));
+			checkResult.Expect(message=="" && rowLiveView==arrayAfter3D[0]+" 0 WpfLiveView","Draw in software unticked > Save: no message, DirectXFormat is "
+				+"'WpfLiveView' and the choices are kept ("+rowLiveView+")",message);
+			checkResult.Note("The Chart's wrapper draws in software after the Save: "+isDrawnInSoftware);
+			message=SetDrawInSoftware(ui,checkResult,true);
 			string rowAfter=DataCore.GetScalar(sqlRow);
-			//Turning the switch off clears DirectXFormat (TC-8's save rule), so an old DirectX device format a former build saved there is gone too.
-			checkResult.Expect(message=="" && rowAfter==rowAfter3D.Split(' ')[0]+" ","Draw in software off > Save: no message, the choice is kept and "
+			//Ticking the box again clears the live view's value (TC-8b's save rule): the default, the smoothed picture.
+			checkResult.Expect(message=="" && rowAfter==arrayAfter3D[0]+" 0 ","Draw in software ticked > Save: no message, the choices are kept and "
 				+"DirectXFormat is empty ("+rowAfter+")",message);
-			checkResult.ForPerson("the Chart's 3D chart after each Save: the live view, then the smoothed picture drawn in software, then the live view again");
+			checkResult.ForPerson("the Chart's 3D chart after each Save: the smoothed picture, then the quick live view, then the smoothed picture again");
 		}
 
-		///<summary>File > Graphics > "3D chart" with "Draw in software" ticked or unticked > Save. Returns "" when the window closed, or the message Save
-		///showed (answered).</summary>
+		///<summary>File > Graphics > "Draw in software" ticked or unticked > Save, the 3D settings left as they are. Returns "" when the window closed,
+		///or the message Save showed (answered).</summary>
 		private static string SetDrawInSoftware(Ui ui,CheckResult checkResult,bool isOn) {
 			Ui.Opened openedGraphics=OpenMenu(ui,"File","Graphics");
 			if(!InspectWindow(ui,checkResult,openedGraphics,"FormGraphics",null,close:false)) {
 				return "File > Graphics did not open";
 			}
 			IntPtr hwndGraphics=openedGraphics.Hwnd;
-			ui.Invoke(() => {
-				((RadioButton)FindControl(ui,hwndGraphics,"radio3DChart",true)).Checked=true;
-				((OpenPmsDental.UI.CheckBox)FindControl(ui,hwndGraphics,"checkDrawInSoftware",true)).Checked=isOn;
-			});
+			ui.Invoke(() => ((OpenPmsDental.UI.CheckBox)FindControl(ui,hwndGraphics,"checkDrawInSoftware",true)).Checked=isOn);
 			return SaveGraphics(ui,checkResult,openedGraphics);
 		}
 

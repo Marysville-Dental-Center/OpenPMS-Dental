@@ -1,5 +1,5 @@
 // Group I's scripts for the tooth chart's other hosts, in process: the Treatment Plan's print previews (classic and sheet, I3), the referral
-// letter (I4), the patient dashboard widget (I5), graphical perio, also on a Simple 2D computer (I6), and the sheet editor's preview with the undo of
+// letter (I4), the patient dashboard widget (I5), graphical perio, refused on a Simple 2D computer since TC-8b (I6), and the sheet editor's preview with the undo of
 // I5 and
 // I6 (I10). The previews run through the program's own print path (a Debug build previews instead of printing) into its preview windows, which
 // are printed with PrintWindow; the chart images the hosts draw are taken from the hosts themselves (GetBitmap, the sheet's parameter, the
@@ -450,48 +450,34 @@ namespace WindowChecksTests.InProc {
 			openedGraphical.Posted.Wait();
 			ui.Close(hwndPerio);
 			openedPerio.Posted.Wait();
-			//File > Graphics > Simple 2D > Save.
-			Ui.Opened openedGraphics=OpenMenu(ui,"File","Graphics");
-			if(InspectWindow(ui,checkResult,openedGraphics,"FormGraphics",null,close:false)) {
-				IntPtr hwndGraphics=openedGraphics.Hwnd;
-				ui.Invoke(() => ((RadioButton)FindControl(ui,hwndGraphics,"radioSimpleChart",true)).Checked=true);
-				ui.Post("Save",() => ((System.Windows.Forms.Button)FindControl(ui,hwndGraphics,"butSave",true)).PerformClick());
-				checkResult.Expect(ui.WaitGone(hwndGraphics,30000),"File > Graphics > Simple 2D (pie shapes) > Save");
-				openedGraphics.Posted.Wait();
-				ui.CloseStrayWindows(checkResult);
-			}
+			//File > Graphics > this computer's 3D Tooth Chart "Do not use" > Save: the computer draws the Simple 2D chart (TC-8b, ENG-2).
+			string message=SetGraphics(ui,checkResult,YN.No);
+			checkResult.Expect(message=="","File > Graphics > 3D Tooth Chart > Do not use > Save: no message, the window closes",message);
 			CheckPerioOnSimple2D(ui,checkResult);
 			checkResult.Note("The exam stays until I10, the 2D setting until I7");
 		}
 
-		///<summary>Perio Chart > the exam > Graphical with the Simple 2D chart: since TC-8 (O-31) the graphical perio chart opens on the WPF chart on every
-		///computer, 2D included, with no message (until TC-8 it said 'In the Graphics setup window, you must first select DirectX.'). Its chart is the
-		///WPF chart in perio mode, and its picture is taken.</summary>
+		///<summary>Perio Chart > the exam > Graphical on a computer that draws the Simple 2D chart: since TC-8b (ENG-5, revising O-31) the graphical perio
+		///chart opens only on a computer that uses the 3D tooth chart, so Graphical shows the relay's message, which names File > Graphics (Open Dental's
+		///24.3 sentence with the 3D tooth chart in DirectX's place; TC-8 opened it here with no message), and no graphical perio window opens.</summary>
 		private static void CheckPerioOnSimple2D(Ui ui,CheckResult checkResult) {
+			const string TEXT_EXPECTED="In the Graphics setup window (File > Graphics), you must first select the 3D tooth chart.";
 			GoToModule(ui,EnumModuleType.Chart);
 			Ui.Opened openedPerio2=OpenChartPerio(ui,ModuleControl("controlChart"));
 			if(InspectWindow(ui,checkResult,openedPerio2,"FormPerio",null,close:false)) {
 				Ui.Opened openedGraphical=OpenByButton(ui,openedPerio2.Hwnd,"butGraphical",allowMessage:true);
 				string text=openedGraphical.IsOpen && Native.IsDialogClass(openedGraphical.Hwnd) ? Native.GetDialogMessage(openedGraphical.Hwnd).Trim() : "";
 				if(text!="") {
-					checkResult.AddShot(ui.Shot(openedGraphical.Hwnd,"I6-2d-message.png"),"A message instead of the graphical perio chart");
+					checkResult.AddShot(ui.Shot(openedGraphical.Hwnd,"I6-2d-message.png"),"The message instead of the graphical perio chart");
 					ReadAndCloseMessage(ui,openedGraphical);
-					checkResult.Fail("Graphical with Simple 2D showed a message instead of the graphical perio chart (O-31): '"+text+"'");
+					checkResult.Expect(text==TEXT_EXPECTED,"Graphical with Simple 2D: the message names File > Graphics (ENG-5): '"+text+"'",text);
 				}
-				else if(InspectWindow(ui,checkResult,openedGraphical,"FormPerioGraphical",null,close:false)) {
-					System.Threading.Thread.Sleep(2500);
-					string state=ui.Invoke(() => {
-						object toothChartWrapper=Ui.GetField(Control.FromHandle(openedGraphical.Hwnd),"toothChartWrapper");
-						return toothChartWrapper.GetType().GetProperty("Engine").GetValue(toothChartWrapper)+" "
-							+toothChartWrapper.GetType().GetProperty("PerioMode").GetValue(toothChartWrapper);
-					});
-					checkResult.Expect(state=="Wpf3D True","Graphical with Simple 2D: the graphical perio chart opens on the WPF chart in perio mode, no message "
-						+"(O-31): "+state,state);
-					AddBitmapShot(ui,checkResult,() => {
-						object toothChartWrapper=Ui.GetField(Control.FromHandle(openedGraphical.Hwnd),"toothChartWrapper");
-						return (Image)Ui.Call(toothChartWrapper,"GetBitmap");
-					},"I6-perio-2d.png","The graphical perio chart on a Simple 2D computer (its WPF picture)");
-					checkResult.Expect(ui.Close(openedGraphical.Hwnd),"The graphical perio window closes");
+				else {
+					if(openedGraphical.IsOpen && Native.IsWindow(openedGraphical.Hwnd)) {
+						checkResult.AddShot(ui.Shot(openedGraphical.Hwnd,"I6-perio-2d.png"),"What Graphical opened instead of the message");
+						ui.Close(openedGraphical.Hwnd);
+					}
+					checkResult.Fail("Graphical with Simple 2D showed no message (ENG-5 expects '"+TEXT_EXPECTED+"')");
 				}
 				openedGraphical.Posted.Wait();
 				ui.CloseStrayWindows(checkResult);
