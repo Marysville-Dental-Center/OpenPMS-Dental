@@ -296,6 +296,15 @@ namespace SparksToothChart.Wpf3D {
 			}
 		}
 
+		///<summary>For tests only, never called by the program: makes the kept start failure exception (a later EnsureStarted throws it, as on a computer
+		///where WPF cannot draw), or clears it with null, so File > Graphics' status line and preview can be checked on a computer whose 3D chart falls
+		///back (TC-8b) without a second process. Clearing it lets the renderer start again as it did before.</summary>
+		public static void SetStartFailureForTests(Exception exception) {
+			lock(_instance._lockState) {
+				_instance._exceptionStart=exception;
+			}
+		}
+
 		private void ThrowIfStartFailed() {
 			Exception exceptionStart;
 			lock(_lockState) {

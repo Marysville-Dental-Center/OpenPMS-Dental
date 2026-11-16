@@ -82,8 +82,8 @@ namespace SparksToothChart {
 		public bool HasBracket;
 		public Color colorBracket;
 
-		///<summary>Shallow copy. The model holds no graphics device objects: each DirectX chart keeps its own buffers for the models, keyed by tooth
-		///and group (ToothChartDirectX), so a copy can be drawn by any chart.</summary>
+		///<summary>Shallow copy. The model holds no graphics device objects (the WPF chart builds its meshes from it in ToothMeshCache), so a copy can
+		///be drawn by any chart.</summary>
 		public ToothGraphic Copy() {
 			//We do not need a deep copy of VertexNormals, because the list is meant for read-only purposes.
 			//We do not need a deep copy of Groups, because the list is meant for read-only purposes.
@@ -96,7 +96,7 @@ namespace SparksToothChart {
 			
 		}
 
-		///<summary>Only called from ToothChartWrapper.ResetTeeth or from ToothChartOpenGL.ResetTeeth when program first loads.  Constructor requires passing in the toothID.  Exception will be thrown if not one of the following: 1-32 or A-T.  Always loads graphics data from local resources even if in simplemode.</summary>
+		///<summary>Called from ToothChartWrapper.ResetTeeth and the WPF chart's ToothMeshCache.  Constructor requires passing in the toothID.  Exception will be thrown if not one of the following: 1-32 or A-T.  Always loads graphics data from local resources even if in simplemode.</summary>
 		public ToothGraphic(string tooth_id) {
 			if(tooth_id!="implant" && !IsValidToothID(tooth_id)) {
 				///<summary>This will only happen if bugs in program</summary>

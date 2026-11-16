@@ -509,6 +509,21 @@ has the details. In short:
   return handles as `IntPtr`, and the Simple 2D chart (and the WPF chart a stored DirectX or OpenGL choice starts) starts and draws on a
   hidden form; x86 and x64, 22 of 22 each. The sentence for net10-plan's S3a-15 text is proposed in the note (section 6), for the lead.
 
+**TC-8b (2026-11-15, branch `chart/tc8b-1` from `main` at `3d910a435`): File > Graphics as Open Dental 26.2 has it (section 10's rows ENG-1,
+ENG-2, ENG-3, ENG-5, NEW-1 and ENG-6). Merged from `chart/tc8b-2` after the owner approved its gallery (`tc8b.html`) on
+2026-11-15, with ENG-6, the neutral window text and NEW-1's status kept as built.** `docs/port-notes/TC-8b.md` has the details, the od-unknowns and launch check L-7's update for a person. In short, under the
+owner's "Match Open Dental 26.2" of 2026-11-15, which revises O-30, O-31 and O-34 (b1):
+- File > Graphics on Open Dental's layout with the WPF 3D chart in DirectX 11's place: "3D Tooth Chart on all computers", this computer's "Use
+  the global setting / Use if available / Do not use", the status on this computer ("Available" or "Fell back: <reason>"), "Older Tooth Chart
+  Technology" with Simple 2D, the options with "Draw in software", the live preview and Open Dental's medical wording kept.
+- Open Dental's rows chose the chart, no schema change: `DirectX11ToothChartUseIfAvail` (default 1) and `computerpref.GraphicsUseDirectX11`
+  (Unknown = the global); a computer that does not use the 3D chart draws Simple 2D, the one older technology left. The save rule writes only
+  what a choice changes, `GraphicsSimple` 1 on every Save that leaves the computer on Simple 2D and 0 over a stored 1 when it turns to the 3D chart (fix round on `chart/tc8b-2`), so a return to Open Dental reads the same. The BINA guard
+  allows exactly the relay's reads and "Use Simple Graphics"' write (ENG-6, od-unknown).
+- The smoothed picture is the on-screen default; "Draw in software" unticked (`WpfLiveView`) is the quick live view. Graphical perio opens only
+  when the computer uses the 3D chart, otherwise Open Dental's 24.3 sentence naming File > Graphics. No baseline changed. Window checks I6 and
+  I7 rewritten (built, not run).
+
 **Why not a separate branch.** The chart must not drift from the stages' rewrites of `ControlChart.cs` and the release files. Dark
 merges keep it on `main`, and the gallery approval comes before each merge (O-27).
 
@@ -1095,7 +1110,10 @@ sheets and the dashboard (TC-1's gallery G0, `timings.txt`). TC-3's fix round fo
     switch a computer from Setup > Computers.
   - Alternative: move every stored 1 to the 3D chart once. That is a data change that a rollback to an older build would meet as
     DirectX, on the PCs where DirectX crashed.
-- **O-31. Graphical perio on a 2D computer after TC-8.** Today `FormPerio.cs:1114-1123` refuses unless DirectX is chosen and installed.
+- **O-31. Graphical perio on a 2D computer after TC-8.** *Revised by the owner on 2026-11-15 ("Match Open Dental 26.2"): parity row ENG-5,
+  built in TC-8b (`chart/tc8b-1`), takes O-31's alternative: graphical perio opens only on a computer that uses the 3D tooth chart, and a
+  computer that draws Simple 2D gets a message naming File > Graphics. The text below is the earlier answer, kept as history.* Today
+  `FormPerio.cs:1114-1123` refuses unless DirectX is chosen and installed.
   - **Recommended:** open it on the WPF chart on every computer. The 2D choice then applies to the tooth chart only. The 2D engine cannot
     draw perio, and the WPF chart renders in software on any PC.
   - Alternative: keep refusing on 2D computers, with a message that names Setup > Graphics.
@@ -1114,7 +1132,10 @@ sheets and the dashboard (TC-1's gallery G0, `timings.txt`). TC-3's fix round fo
 
 **Asked with TC-3's results (gallery G1; the lead puts it to the owner with G1):**
 
-- **O-34. The program draws every WPF window in software, the live view included.**
+- **O-34. The program draws every WPF window in software, the live view included.** *Answer (b1) revised by the owner on 2026-11-15
+  ("Match Open Dental 26.2"): parity row ENG-3, built in TC-8b (`chart/tc8b-1`), makes the smoothed picture the on-screen default and keeps the
+  quick live view as the per-computer option ("Draw in software" unticked). The line in `ProgramEntry.cs` stays. The text below, the (b1)
+  answer included, is kept as history.*
   - **Facts.** `OpenPmsDental/Main Modules/ProgramEntry.cs:21` sets `RenderOptions.ProcessRenderMode=RenderMode.SoftwareOnly` for the
     whole process before any window exists. Upstream added it in 24.2.48 and again in 24.3.15 (`d4d86a572`) with no comment, so its
     reason is not recorded; it is the program's only render-mode setting, and it covers every WPF window and control of the program
@@ -1175,23 +1196,28 @@ its gallery (G2 part 2, built as G5) on 2026-11-15 and it is merged on `main`.**
 
 **TC-8** (revises O-30, O-31 and O-34 before it starts; the owner confirms):
 
+**Done in package TC-8b, branch `chart/tc8b-1` from `main` (2026-11-15; `docs/port-notes/TC-8b.md`), after the owner's "Match Open Dental
+26.2" of 2026-11-15; its gallery (`tc8b.html`) waits for the owner's approval before it merges.** The first note below is TC-8's, kept as history.
+
 *Not built in TC-8 (2026-11-15): the owner has not confirmed these rows, so TC-8 follows O-19 and O-34 (b1), O-30 and O-31 as answered;
 the rows stay open for the owner (`docs/port-notes/TC-8.md`, section 6).*
 
 | Row | Change | Open Dental source | Caveats |
 |---|---|---|---|
-| ENG-1 | Build File > Graphics (not Setup > Graphics; `FormOpenDentalMenus.cs:127`) on Open Dental's layout with the WPF 3D chart in DirectX 11's place: a global "3D tooth chart on all computers" setting, a per-computer "Use the global setting / Use if available / Do not use", a status line, then an "Older tooth chart technology" group (Simple 2D, and DirectX 9 and OpenGL until TC-9a). "Draw in software" goes under options. | https://www.opendental.com/manual/graphics.html | Stated. |
-| ENG-2 | Read Open Dental's existing rows with no schema change: `DirectX11ToothChartUseIfAvail` (global, default 1) and `computerpref.GraphicsUseDirectX11` (per computer, Unknown = the global) choose the WPF chart; only "Do not use" lets `GraphicsSimple` apply. Revises O-30: a computer stored as Simple 2D gets the 3D chart unless its setting is "Do not use". | https://www.opendental.com/manual/graphics.html | Stated. The guard `tests/BINATests/ProprietaryBinariesRemovedTests.cs:134-138` fails any read of `PrefName.DirectX11ToothChartUseIfAvail` or `LocalComputer.GraphicsUseDirectX11` in `ControlChart.cs` and the relay; TC-8 rewrites it. Reusing the rows answers owner question BIN-A 5 (`docs/owner-questions.md:441`, delete or keep them): keep. ENG-6 (Setup > Computers "Use Simple Graphics" setting the 3D setting to "Do not use" too) needs the owner, since Open Dental's behaviour there is unknown. |
-| ENG-3 | Make the smoothed picture the default on screen and keep the jagged live view as the per-computer option (no feature cut). Revises O-34 (b1); weigh G1's refill times first. | https://i0.wp.com/odtechblog.wordpress.com/wp-content/uploads/2026/08/image-6.png?ssl=1 | Implied from screenshots. |
-| ENG-5 | Graphical perio opens on the WPF chart only when the computer resolves to the 3D chart; on Simple 2D it refuses with a message naming File > Graphics. Revises O-31 (O-31's alternative). | https://www.opendental.com/manual/graphics.html ; https://www.opendental.com/manual/graphicalperiochart.html | "DirectX 11: allowed" is inferred: graphics.html states only DirectX 9 allowed and Simple 2D and OpenGL not allowed, and graphicalperiochart.html names no graphics mode. Nothing built is cut, but a planned capability (perio on 2D computers) is withdrawn: the owner decides. |
-| NEW-1 | The two-level 3D setting and its status line ("Available", or "Fell back: <reason>"), covered by ENG-1 and ENG-2. | https://www.opendental.com/manual/graphics.html | Stated. |
+| ENG-1 | **Done (TC-8b, `chart/tc8b-1`).** Build File > Graphics (not Setup > Graphics; `FormOpenDentalMenus.cs:127`) on Open Dental's layout with the WPF 3D chart in DirectX 11's place: a global "3D tooth chart on all computers" setting, a per-computer "Use the global setting / Use if available / Do not use", a status line, then an "Older tooth chart technology" group (Simple 2D, and DirectX 9 and OpenGL until TC-9a). "Draw in software" goes under options. | https://www.opendental.com/manual/graphics.html | Stated. |
+| ENG-2 | **Done (TC-8b, `chart/tc8b-1`).** Read Open Dental's existing rows with no schema change: `DirectX11ToothChartUseIfAvail` (global, default 1) and `computerpref.GraphicsUseDirectX11` (per computer, Unknown = the global) choose the WPF chart; only "Do not use" lets `GraphicsSimple` apply. Revises O-30: a computer stored as Simple 2D gets the 3D chart unless its setting is "Do not use". | https://www.opendental.com/manual/graphics.html | Stated. The guard `tests/BINATests/ProprietaryBinariesRemovedTests.cs:134-138` fails any read of `PrefName.DirectX11ToothChartUseIfAvail` or `LocalComputer.GraphicsUseDirectX11` in `ControlChart.cs` and the relay; TC-8 rewrites it. Reusing the rows answers owner question BIN-A 5 (`docs/owner-questions.md:441`, delete or keep them): keep. ENG-6 (Setup > Computers "Use Simple Graphics" setting the 3D setting to "Do not use" too) needs the owner, since Open Dental's behaviour there is unknown. **TC-8b:** the guard is rewritten to allow exactly the relay's reads and ENG-6's write; ENG-6 is built as the closest documented reading (the Computers page: "Set another computer's Graphics Preferences to simple"), od-unknown. |
+| ENG-3 | **Done (TC-8b, `chart/tc8b-1`).** Make the smoothed picture the default on screen and keep the jagged live view as the per-computer option (no feature cut). Revises O-34 (b1); weigh G1's refill times first. | https://i0.wp.com/odtechblog.wordpress.com/wp-content/uploads/2026/08/image-6.png?ssl=1 | Implied from screenshots. |
+| ENG-5 | **Done (TC-8b, `chart/tc8b-1`).** Graphical perio opens on the WPF chart only when the computer resolves to the 3D chart; on Simple 2D it refuses with a message naming File > Graphics. Revises O-31 (O-31's alternative). | https://www.opendental.com/manual/graphics.html ; https://www.opendental.com/manual/graphicalperiochart.html | "DirectX 11: allowed" is inferred: graphics.html states only DirectX 9 allowed and Simple 2D and OpenGL not allowed, and graphicalperiochart.html names no graphics mode. Nothing built is cut, but a planned capability (perio on 2D computers) is withdrawn: the owner decides. |
+| NEW-1 | **Done (TC-8b, `chart/tc8b-1`).** The two-level 3D setting and its status line ("Available", or "Fell back: <reason>"), covered by ENG-1 and ENG-2. | https://www.opendental.com/manual/graphics.html | Stated. |
 
 **Open Dental unknown (od-unknown), kept as built until a screenshot from an Open Dental 26.2 install settles them:** EXT-1 (the
 preference's name, tab and label), EXT-5 (the X under a completed implant or pontic: built as a plain switch, the closest documented
 reading), EXT-7 (which hosts draw the X), EXT-8 (a completed primary extraction), EXT-9 (the audit text), TB-4 (how several TextBelow
 items stack and how long text is cut: built as one line joined by "; "), TB-6 (TextBelow on a hidden or missing tooth), TB-3's colour
 (built black), FT-1 (free-text font and colour), FT-3 (labels past an edge), LOOK-1 (camera, light, shading), LOOK-3 (overlays over a
-neighbour), ENG-4 (the software render mode after 24.3) and PERIO-1 (the graphical perio drawing). Also from the critic: which statuses
+neighbour), ENG-4 (the software render mode after 24.3), PERIO-1 (the graphical perio drawing) and, from TC-8b (`docs/port-notes/TC-8b.md`,
+section 4), ENG-6 ("Use Simple Graphics" also writing "Do not use"), ENG-5's 26.2 wording, NEW-1's status under "Do not use" and the medical
+wording of the 3D groups. Also from the critic: which statuses
 count as completed for the X (C, EC, EO built; ask for an EO screenshot), whether the X and TextBelow follow a code's colour override,
 the engines that may draw RR, SM and non-W Text (Open Dental limits them by graphics mode) and the strip's place in custom Chart
 Layout sheets and on printouts.

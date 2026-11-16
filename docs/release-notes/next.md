@@ -55,10 +55,11 @@ What this version brings, each in its section below (the roadmap's "Done in the 
 - saved Middle Tier passwords move from the Windows PasswordVault to the Windows Credential Manager on first use; nothing to re-enter;
 - the self-update gets ready for the coming 64-bit version: it never publishes over a release it cannot read, and refuses a release built
   for another runtime with a message to run the new setup;
-- **the 3D tooth chart on every computer that used the DirectX or OpenGL chart**: drawn by the program itself, so it needs no DirectX
-  runtime and no special graphics; computers set to Simple 2D keep it; File > Graphics offers "3D chart" and "Simple 2D chart" with a
-  "Draw in software" switch and a preview; the graphical perio chart opens on every computer ("The tooth chart: the 3D chart on every
-  computer", below);
+- **the 3D tooth chart on every computer**, in the place of Open Dental's DirectX 11 chart: drawn by the program itself, so it needs no
+  DirectX runtime and no special graphics; File > Graphics has Open Dental 26.2's layout (the 3D tooth chart on all computers, each
+  computer's "Use the global setting / Use if available / Do not use", the status, Simple 2D as the older technology, "Draw in software"
+  and a preview); the smooth picture is the default on screen; the graphical perio chart opens on computers that use the 3D chart ("The
+  tooth chart: the 3D chart on every computer", below);
 - the DirectX and OpenGL tooth charts are removed, with their libraries SharpDX and Tao, which setup deletes from the program folder; the
   DirectX End-User Runtime is no longer needed ("The tooth chart: SharpDX, Tao and the DirectX runtime leave the program folder", below);
 - two new entries in Help > About > View Licenses, Helix Toolkit and the .NET Community Toolkit: libraries of the 3D tooth chart,
@@ -738,7 +739,7 @@ These follow Open Dental 26.2 as its public notes and screenshots show it.
 - **Free text.** Text added on the Chart module's Draw tab (Add Text) is drawn on the chart at its place, over the teeth, and is kept inside
   the chart. With Move Text, the 3D chart moves a label by dragging it, and its new place is saved. With Change Color, it gives a
   label the colour of the colour box, as Open Dental's Change Color does for "an existing drawing or text", and the colour is saved.
-- **Which chart draws what.** The 3D chart, which every computer set to DirectX or OpenGL now uses, and the Simple 2D chart draw the X,
+- **Which chart draws what.** The 3D chart, which every computer now uses unless set to "Do not use" in File > Graphics, and the Simple 2D chart draw the X,
   free text and text procedures. (The DirectX and OpenGL charts, which no computer uses any more, drew the X but not the text.) The TextBelow box is part of the Chart module, so it shows whatever the chart.
   Showing free text and text procedures on the Simple 2D chart goes beyond Open Dental, whose older chart modes show only the "W".
 - **The graphical perio chart on the 3D chart.** The 3D chart draws the graphical perio chart (Perio Chart, Graphical) as
@@ -746,30 +747,43 @@ These follow Open Dental 26.2 as its public notes and screenshots show it.
   mobility, the gingival margin, CAL and MGJ lines, the numbers and the legend, in the colours of Graphical Perio Setup, and its print and
   saved image as before. Two Open Dental 24.4 changes come with it: a removed implant (its procedure's graphics hidden) is not drawn, as
   today, and with Perio Setup's "Use the term Recession" option on, the legend names the gingival margin line "Recession" ("Gingival
-  Margin" again while the exam has hyperplasia, as the Perio Chart's row). It opens on every computer, those set to Simple 2D too, and no
-  longer asks for DirectX ("The tooth chart: the 3D chart on every computer", below).
+  Margin" again while the exam has hyperplasia, as the Perio Chart's row). It opens on every computer that uses the 3D chart and no longer
+  asks for DirectX; on a computer set to the Simple 2D chart it says to choose the 3D tooth chart in File > Graphics, as Open Dental allows
+  its graphical perio chart only on its 3D charts ("The tooth chart: the 3D chart on every computer", below).
 
 ## The tooth chart: the 3D chart on every computer
 
-From this version the tooth chart of every computer set to DirectX or OpenGL (File > Graphics; a new computer is set to DirectX) is the 3D
-chart: the program draws it itself, in software, so it works the same on every computer and needs neither Microsoft's DirectX End-User
-Runtime nor particular graphics hardware, and the setup installs none. It is the same chart in the Chart module, the big chart window, the
-Treatment Plan printouts, sheets, referral letters, the Patient Dashboard, the sheet editor's preview and the graphical perio chart.
+From this version the tooth chart is the 3D chart wherever Open Dental would show its DirectX 11 chart: the program draws it itself, in
+software, so it works the same on every computer and needs neither Microsoft's DirectX End-User Runtime nor particular graphics hardware, and
+the setup installs none. It is the same chart in the Chart module, the big chart window, the Treatment Plan printouts, sheets, referral
+letters, the Patient Dashboard, the sheet editor's preview and the graphical perio chart.
 
-- **On screen** the Chart module shows a quick live view of the chart, whose tooth edges are a little less smooth than in a printout. On a
-  computer that prefers the smoothed picture, or where the chart does not show properly, File > Graphics' **"Draw in software"** shows the
-  same picture as the printouts on screen; a refill then takes a little longer (about half a second). The switch is per computer.
-- **File > Graphics** now offers two choices, "3D chart" and "Simple 2D chart", the "Draw in software" check box and a preview of what the
-  choices give on this computer, with made-up work. The lists of DirectX and OpenGL formats are gone. Setup > Computers opens the same window
-  for another computer (its preview is drawn by the computer you are on), and "Use Simple Graphics" there works as before.
-- **Computers set to Simple 2D stay on Simple 2D**: nothing is changed for them. To give such a computer the 3D chart, choose "3D chart" in
-  File > Graphics on it (or from Setup > Computers) and Save.
-- Saving "3D chart" on a computer that was set to DirectX or OpenGL keeps that setting as it was, so a workstation that goes back to Open
-  Dental finds its own chart setting there.
-- **The graphical perio chart** (Perio Chart, Graphical) opens on every computer, those set to Simple 2D too; it no longer asks for DirectX.
+- **File > Graphics** has Open Dental 26.2's layout, with the 3D tooth chart in the place of Open Dental's DirectX 11 chart:
+  - **"3D Tooth Chart on all computers"**: "Use if available" (the default) or "Do not use", for the whole office.
+  - **"3D Tooth Chart"** for this computer: "Use the global setting" (the default), "Use if available" or "Do not use". This computer's
+    choice wins over the office's.
+  - **"3D Tooth Chart status on this computer"**: "Available", or "Fell back:" and the reason when the 3D chart cannot start here (the
+    program then shows the Simple 2D chart). It cannot be changed by hand.
+  - **"Older Tooth Chart Technology"**: "Simple 2D (pie shapes)", used on a computer that does not use the 3D chart. The DirectX 9 and
+    OpenGL charts are gone, and so are their format lists.
+  - **"Options For The 3D Tooth Chart"**: **"Draw in software"**, ticked by default: the 3D chart on screen is the smooth picture, the same
+    as the printouts. Unticked, the chart shows a quick live view that redraws about twice as fast but has slightly jagged edges. Per
+    computer.
+  - A preview of what the choices give on this computer, with made-up work.
+  The settings are Open Dental's own (the same rows in the database), so after a Save in this window a workstation that goes back to Open
+  Dental finds the same choice there: the 3D chart, or Simple 2D (a computer on Simple 2D whose Open Dental setting was still its DirectX 9
+  or OpenGL chart is switched to Simple 2D by that Save). Setup > Computers opens the same window for another computer (its preview and status are those of the computer you are on), and
+  saves without a test, as before.
+- **On screen** the chart is now the smooth picture by default, as Open Dental's 3D chart looks; a refill takes a little longer than with
+  the quick live view of the previous version (about a third of a second).
+- **Computers that were set to Simple 2D now get the 3D chart** unless "Do not use" is chosen for them (or for the office), as in Open
+  Dental 26.2. To keep a computer on the Simple 2D chart, choose "Do not use" in File > Graphics on it, or "Use Simple Graphics" in Setup >
+  Computers, which now also sets "Do not use" for that computer.
+- **The graphical perio chart** (Perio Chart, Graphical) opens on every computer that uses the 3D chart; it no longer asks for DirectX. On a
+  computer set to the Simple 2D chart it says "In the Graphics setup window (File > Graphics), you must first select the 3D tooth chart."
 - **Start-up** no longer searches for a DirectX format on a computer that has none saved (that could take minutes).
-- If the 3D chart cannot start on a computer, the chart shows the Simple 2D chart without an error message, and the ToothChart log says why
-  once; the graphical perio chart then says it needs the 3D chart.
+- If the 3D chart cannot start on a computer, the chart shows the Simple 2D chart without an error message, the ToothChart log says why
+  once, and File > Graphics' status says "Fell back:" with the reason; the graphical perio chart then says it needs the 3D chart.
 
 ## The tooth chart: SharpDX, Tao and the DirectX runtime leave the program folder
 

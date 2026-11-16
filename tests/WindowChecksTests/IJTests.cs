@@ -26,7 +26,7 @@ namespace WindowChecksTests {
 				CheckResult checkResultPrep=inProcHostI.Run("IPREP","I prep: D2391 on 30 O");
 				foreach(string[] arrayCheck in new[] { new[] { "I1","Refill, slider, Show Big" },new[] { "I2","Save to Images" },
 					new[] { "I3","Treatment Plan print preview, classic and sheet" },new[] { "I4","Referral letter" },new[] { "I5","Dashboard widget, open and closed" },
-					new[] { "I6","Graphical perio, also on the Simple 2D chart" },new[] { "I7","Graphics: save the 3D chart, Draw in software" } })
+					new[] { "I6","Graphical perio, refused on the Simple 2D chart" },new[] { "I7","Graphics: the 3D Tooth Chart settings, Draw in software" } })
 				{
 					if(inProcHostI.NeedsNewSession) {
 						inProcHostI.Dispose();

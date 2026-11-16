@@ -1,6 +1,7 @@
 // The scratch database of the chart's host tests (package TC-8): a new database loaded from db/init/new-database.sql, as an office gets it, on the
 // local MariaDB only (127.0.0.1:3306, root, blank password), then filled with synthetic patients by HostFixtures. Nothing here reads or copies an
-// office database. The database is made the first time a test asks for it and dropped when the test run ends. Its name starts with "tc8_", and a
+// office database. The database is made the first time a test asks for it and dropped when the test run ends. Its name starts with "tc8_" (or the
+// prefix OPMS_CHART_HOST_TEST_DB_PREFIX names, such as "tc8b_"), and a
 // run drops only names of that pattern that are more than 12 hours old (left by a crash, or kept with OPMS_CHART_HOST_TEST_KEEP_DB=1).
 // OPMS_CHART_HOST_TEST_DB=skip skips the tests (inconclusive), as does a server that does not answer.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
@@ -24,7 +25,9 @@ namespace ToothChartHostTests {
 		public const string Server="127.0.0.1";
 		public const string User="root";
 		public const string Password="";
-		private const string PREFIX="tc8_";
+		///<summary>"tc8_", or the prefix a run names in OPMS_CHART_HOST_TEST_DB_PREFIX ("tc8", lowercase letters or digits, then "_"; for example
+		///"tc8b_"), so a package's runs make, and drop when stale, only scratch databases of their own name.</summary>
+		private static readonly string PREFIX=GetPrefix();
 		private static readonly TimeSpan _timeSpanStale=TimeSpan.FromHours(12);
 		///<summary>Unique to this run: the start time (UTC), the process id and a random number, because several worktrees share the one server.</summary>
 		public static readonly string DbName=PREFIX+DateTime.UtcNow.ToString("yyMMddHHmmss")+"_"+System.Diagnostics.Process.GetCurrentProcess().Id
@@ -134,7 +137,8 @@ namespace ToothChartHostTests {
 			Regex regex=new Regex("^"+PREFIX+@"(\d{12})_\d+_\d+$");
 			List<string> listNames=new List<string>();
 			using(MySqlConnection connection=OpenServer())
-			using(MySqlCommand command=new MySqlCommand("SELECT SCHEMA_NAME FROM information_schema.SCHEMATA WHERE SCHEMA_NAME LIKE 'tc8\\_%'",connection))
+			using(MySqlCommand command=new MySqlCommand("SELECT SCHEMA_NAME FROM information_schema.SCHEMATA WHERE SCHEMA_NAME LIKE '"
+				+PREFIX.Replace("_","\\_")+"%'",connection))
 			using(MySqlDataReader reader=command.ExecuteReader()) {
 				while(reader.Read()) {
 					listNames.Add(reader.GetString(0));
@@ -157,6 +161,14 @@ namespace ToothChartHostTests {
 					//Another run may be dropping it at the same time.
 				}
 			}
+		}
+
+		private static string GetPrefix() {
+			string prefix=Environment.GetEnvironmentVariable("OPMS_CHART_HOST_TEST_DB_PREFIX");
+			if(!string.IsNullOrEmpty(prefix) && Regex.IsMatch(prefix,"^tc8[a-z0-9]*_$")) {
+				return prefix;
+			}
+			return "tc8_";
 		}
 
 		private static void Drop(string name) {

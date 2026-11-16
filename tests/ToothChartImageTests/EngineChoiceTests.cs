@@ -1,7 +1,9 @@
-// Tests of package TC-8 (docs/specs/wpf-tooth-chart-plan.md, the TC-8 row; docs/port-notes/TC-8.md): the engine choice moves to the WPF chart.
-// The mapping (a stored 0 and 2 start the WPF chart, 1 stays the 2D chart, O-30), Setup > Graphics' save rule, the "Draw in software" switch set
-// before the engine, Wpf3D's lack of a stored form, the wrapper's DrawMode request, the dashboard's MTA path, and the live view's fallback when
-// WPF's render thread fails on the UI thread. No database: the settings are passed as ComputerPref objects (ToothChartRelay.ApplyComputerPref);
+// Tests of packages TC-8 and TC-8b (docs/specs/wpf-tooth-chart-plan.md, the TC-8 row and section 10's parity rows; docs/port-notes/TC-8.md and
+// TC-8b.md): the engine choice moves to the WPF chart, chosen since TC-8b by Open Dental's own 3D settings. The mapping of every combination of
+// the global setting, this computer's setting and GraphicsSimple (ENG-2), File > Graphics' save rule, the smoothed picture as the on-screen
+// default (ENG-3), the status line (NEW-1), the graphical perio gate (ENG-5), the "Draw in software" switch set before the engine, Wpf3D's lack of
+// a stored form, the wrapper's DrawMode request, the dashboard's MTA path, and the live view's fallback when WPF's render thread fails on the UI
+// thread. No database: the settings are passed as ComputerPref objects (ToothChartRelay.ApplyComputerPref);
 // the host tests (tests/ToothChartHostTests) check the same through the program on a scratch database.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
@@ -21,55 +23,107 @@ using SparksToothChart.Wpf3D;
 namespace ToothChartImageTests {
 	[TestClass]
 	public class EngineChoiceTests {
-		private static ComputerPref NewComputerPref(DrawingMode drawingMode,string directXFormat) {
+		private static ComputerPref NewComputerPref(DrawingMode drawingMode,string directXFormat,YN chart3DThisComputer=YN.Unknown) {
 			return new ComputerPref { ComputerName="SYNTHETIC-PC",GraphicsSimple=drawingMode,DirectXFormat=directXFormat,GraphicsUseHardware=true,
-				PreferredPixelFormatNum=7,GraphicsDoubleBuffering=true,GraphicsUseDirectX11=YN.Unknown,ComputerOS=PlatformOD.Win32NT };
+				PreferredPixelFormatNum=7,GraphicsDoubleBuffering=true,GraphicsUseDirectX11=chart3DThisComputer,ComputerOS=PlatformOD.Win32NT };
 		}
 
-		#region The mapping
+		#region The mapping (TC-8b, ENG-2)
+		///<summary>The YN values of computerpref.GraphicsUseDirectX11 the tests try: Unknown, Yes, No, and a number Open Dental never stores (read as
+		///"Use the global setting").</summary>
+		private static readonly YN[] _arrayChart3DThisComputer=new[] { YN.Unknown,YN.Yes,YN.No,(YN)7 };
+
 		[TestMethod]
-		public void StoredModes_ZeroAndTwoGiveWpf3D_OneGivesSimple2D() {
-			Assert.AreEqual(ToothChartEngine.Wpf3D,ToothChartRelay.GetEngineForStoredMode(DrawingMode.DirectX),"0 (DirectX) starts the WPF chart.");
-			Assert.AreEqual(ToothChartEngine.Simple2D,ToothChartRelay.GetEngineForStoredMode(DrawingMode.Simple2D),"1 stays the 2D chart (O-30).");
-			Assert.AreEqual(ToothChartEngine.Wpf3D,ToothChartRelay.GetEngineForStoredMode(DrawingMode.OpenGL),"2 (OpenGL) starts the WPF chart.");
-			Assert.AreEqual(ToothChartEngine.Wpf3D,ToothChartRelay.GetEngineForStoredMode((DrawingMode)5),"Any other stored number, as the wrapper's DrawMode.");
-			Assert.IsTrue(ToothChartRelay.Is3DChart(NewComputerPref(DrawingMode.DirectX,"")));
-			Assert.IsTrue(ToothChartRelay.Is3DChart(NewComputerPref(DrawingMode.OpenGL,"")));
-			Assert.IsFalse(ToothChartRelay.Is3DChart(NewComputerPref(DrawingMode.Simple2D,"")));
-			//The stored values stay 0, 1 and 2: DrawingMode gets no new value, and Wpf3D is the in-memory engine only.
+		public void Mapping_EveryCombinationOfTheGlobalSetting_ThisComputersSetting_AndGraphicsSimple() {
+			//ENG-2: the 3D tooth chart (the WPF chart) when this computer's setting is "Use if available", or "Use the global setting" with the global
+			//setting on; otherwise Open Dental's older technology (GraphicsSimple), of which only Simple 2D is left, whatever is stored. O-30 revised: a
+			//computer stored as Simple 2D gets the 3D chart unless its setting is "Do not use".
+			int countCases=0;
+			foreach(bool isChart3DOnAllComputers in new[] { true,false }) {
+				foreach(YN chart3DThisComputer in _arrayChart3DThisComputer) {
+					foreach(DrawingMode drawingMode in new[] { DrawingMode.DirectX,DrawingMode.Simple2D,DrawingMode.OpenGL,(DrawingMode)5 }) {
+						ComputerPref computerPref=NewComputerPref(drawingMode,"",chart3DThisComputer);
+						bool isExpected3D=chart3DThisComputer==YN.Yes || (chart3DThisComputer!=YN.No && isChart3DOnAllComputers);
+						string what="global "+isChart3DOnAllComputers+", this computer "+chart3DThisComputer+", GraphicsSimple "+drawingMode;
+						Assert.AreEqual(isExpected3D,ToothChartRelay.IsChart3DUsed(isChart3DOnAllComputers,chart3DThisComputer),what);
+						Assert.AreEqual(isExpected3D ? ToothChartEngine.Wpf3D : ToothChartEngine.Simple2D,
+							ToothChartRelay.GetEngineForComputer(isChart3DOnAllComputers,computerPref),what);
+						Assert.AreEqual(chart3DThisComputer,ToothChartRelay.GetChart3DThisComputer(computerPref),what);
+						countCases++;
+					}
+				}
+			}
+			Assert.AreEqual(32,countCases);
+			Assert.AreEqual(YN.Unknown,ToothChartRelay.GetChart3DThisComputer(null),"A null computer uses the global setting.");
+			Assert.AreEqual(ToothChartEngine.Wpf3D,ToothChartRelay.GetEngineForComputer(true,null));
+			Assert.AreEqual(ToothChartEngine.Simple2D,ToothChartRelay.GetEngineForComputer(false,null));
+			//The global setting is Open Dental's preference, "Use if available" when the row or the cache is missing (default 1), as Open Dental 24.3 read it.
+			Assert.IsTrue(ToothChartRelay.IsChart3DOnAllComputers(),"No database here, or the new database's 1: Use if available.");
+			string relay=SourceText.ReadCode(@"WpfControlsOD\UI\ToothChart\ToothChartRelay.cs");
+			StringAssert.Contains(SourceText.GetMethod(relay,"public static bool IsChart3DOnAllComputers() {"),
+				"return PrefC.GetBoolSilent(PrefName.DirectX11ToothChartUseIfAvail,true);");
+			StringAssert.Contains(SourceText.GetMethod(relay,"public static bool SetChart3DOnAllComputers(bool isChart3DOnAllComputers) {"),
+				"return Prefs.UpdateBool(PrefName.DirectX11ToothChartUseIfAvail,isChart3DOnAllComputers);");
+			//The stored values stay 0, 1 and 2: DrawingMode gets no new value, Wpf3D is the in-memory engine only, and YN keeps Open Dental's three.
 			CollectionAssert.AreEqual(new[] { 0,1,2 },Enum.GetValues(typeof(DrawingMode)).Cast<int>().ToArray());
 			Assert.IsFalse(Enum.GetNames(typeof(DrawingMode)).Contains("Wpf3D"),"Wpf3D has no stored form.");
+			CollectionAssert.AreEqual(new[] { 0,1,2 },Enum.GetValues(typeof(YN)).Cast<int>().ToArray());
 		}
 
 		[TestMethod]
-		public void SoftwareSwitch_ReadsTheStoredValue() {
-			Assert.IsFalse(ToothChartRelay.IsDrawnInSoftware(null));
-			Assert.IsFalse(ToothChartRelay.IsDrawnInSoftware(NewComputerPref(DrawingMode.DirectX,"")),"Empty is the live view.");
-			Assert.IsFalse(ToothChartRelay.IsDrawnInSoftware(NewComputerPref(DrawingMode.DirectX,"0;Hardware;64;D16;R5G6B5;FourSamples")),
-				"A DirectX device format an older build saved is the live view.");
-			Assert.IsTrue(ToothChartRelay.IsDrawnInSoftware(NewComputerPref(DrawingMode.DirectX,ToothChartWrapper.DirectXFormatWpfSoftware)));
-			Assert.IsTrue(ToothChartRelay.IsDrawnInSoftware(NewComputerPref(DrawingMode.OpenGL," WpfSoftware ")));
-			Assert.IsFalse(ToothChartRelay.IsDrawnInSoftware(NewComputerPref(DrawingMode.DirectX,"wpfsoftware")),"The stored value is exact.");
+		public void SoftwareSwitch_TheSmoothedPictureIsTheDefault_OnlyTheLiveViewValueIsTheLiveView() {
+			//ENG-3 (revises O-34 (b1)): the smoothed picture is every computer's default on screen; "Draw in software" unticked (WpfLiveView) is the quick
+			//live view.
+			Assert.IsTrue(ToothChartRelay.IsDrawnInSoftware(null),"A null computer: the default.");
+			Assert.IsTrue(ToothChartRelay.IsDrawnInSoftware(NewComputerPref(DrawingMode.DirectX,"")),"Empty is the default, the smoothed picture.");
+			Assert.IsTrue(ToothChartRelay.IsDrawnInSoftware(NewComputerPref(DrawingMode.DirectX,"0;Hardware;64;D16;R5G6B5;FourSamples")),
+				"A DirectX device format an older build saved is the default.");
+			Assert.IsTrue(ToothChartRelay.IsDrawnInSoftware(NewComputerPref(DrawingMode.DirectX,ToothChartWrapper.DirectXFormatWpfSoftware)),
+				"TC-8's value means the same as the default.");
+			Assert.IsFalse(ToothChartRelay.IsDrawnInSoftware(NewComputerPref(DrawingMode.DirectX,ToothChartWrapper.DirectXFormatWpfLiveView)));
+			Assert.IsFalse(ToothChartRelay.IsDrawnInSoftware(NewComputerPref(DrawingMode.OpenGL," WpfLiveView ")));
+			Assert.IsTrue(ToothChartRelay.IsDrawnInSoftware(NewComputerPref(DrawingMode.DirectX,"wpfliveview")),"The stored value is exact.");
+			Assert.AreEqual("WpfLiveView",ToothChartWrapper.DirectXFormatWpfLiveView);
+			Assert.IsFalse(ToothChartWrapper.DirectXFormatWpfLiveView.Contains(";"),"No ';', so a DirectX build reads no device format from it.");
 		}
 
 		[TestMethod]
-		public void ApplyComputerPref_StartsTheEngineOfTheStoredMode_WithTheSwitchFirst() {
+		public void OnScreenDefault_IsTheSmoothedPicture_ForAComputerWithNothingStored() {
+			//ENG-3: a new computer's row (GraphicsSimple 0, GraphicsUseDirectX11 0, DirectXFormat empty) gets the WPF chart drawn in software, the
+			//renderer's smoothed picture, on screen.
 			StaRunner.Run(() => {
-				foreach(DrawingMode drawingMode in new[] { DrawingMode.DirectX,DrawingMode.Simple2D,DrawingMode.OpenGL }) {
-					foreach(string directXFormat in new[] { "","0;Hardware;64;D16;R5G6B5;FourSamples",ToothChartWrapper.DirectXFormatWpfSoftware }) {
-						using(ToothChartWrapper wrapper=WpfCharts.CreateWrapper(ChartScenes.SizeModule.Size)) {
-							wrapper.Engine=ToothChartEngine.Simple2D;
-							int countBefore=ToothChartWrapper.GetCountFallbackMessages();
-							ComputerPref computerPref=NewComputerPref(drawingMode,directXFormat);
-							ComputerPref computerPrefBefore=computerPref.Copy();
-							ToothChartRelay.ApplyComputerPref(wrapper,computerPref);
-							string what=drawingMode+" with \""+directXFormat+"\"";
-							Assert.AreEqual(drawingMode==DrawingMode.Simple2D ? ToothChartEngine.Simple2D : ToothChartEngine.Wpf3D,wrapper.Engine,what);
-							Assert.AreEqual(directXFormat==ToothChartWrapper.DirectXFormatWpfSoftware,wrapper.WpfDrawInSoftware,what);
-							Assert.AreEqual(drawingMode==DrawingMode.Simple2D ? DrawingMode.Simple2D : DrawingMode.DirectX,wrapper.DrawMode,
-								what+": Wpf3D reads as DirectX, so a caller that saves DrawMode keeps the 3D chart.");
-							Assert.AreEqual(0,ToothChartWrapper.GetFallbackMessagesSince(countBefore).Count,what+": nothing fell back.");
-							AssertFieldsEqual(computerPrefBefore,computerPref,what+": the settings are read, never changed.");
+				using(ToothChartWrapper wrapper=WpfCharts.CreateWrapper(ChartScenes.SizeModule.Size)) {
+					ToothChartRelay.ApplyComputerPref(wrapper,new ComputerPref { ComputerName="SYNTHETIC-PC" });
+					Assert.AreEqual(ToothChartEngine.Wpf3D,wrapper.Engine);
+					Assert.IsTrue(wrapper.WpfDrawInSoftware,"The smoothed picture is the on-screen default.");
+				}
+			});
+		}
+
+		[TestMethod]
+		public void ApplyComputerPref_StartsTheEngineTheComputerDrawsWith_WithTheSwitchFirst() {
+			//No database in this process, or the new database's global "Use if available": the computer's own setting decides.
+			StaRunner.Run(() => {
+				foreach(YN chart3DThisComputer in new[] { YN.Unknown,YN.Yes,YN.No }) {
+					foreach(DrawingMode drawingMode in new[] { DrawingMode.DirectX,DrawingMode.Simple2D,DrawingMode.OpenGL }) {
+						foreach(string directXFormat in new[] { "","0;Hardware;64;D16;R5G6B5;FourSamples",ToothChartWrapper.DirectXFormatWpfSoftware,
+							ToothChartWrapper.DirectXFormatWpfLiveView })
+						{
+							using(ToothChartWrapper wrapper=WpfCharts.CreateWrapper(ChartScenes.SizeModule.Size)) {
+								wrapper.Engine=ToothChartEngine.Simple2D;
+								int countBefore=ToothChartWrapper.GetCountFallbackMessages();
+								ComputerPref computerPref=NewComputerPref(drawingMode,directXFormat,chart3DThisComputer);
+								ComputerPref computerPrefBefore=computerPref.Copy();
+								ToothChartRelay.ApplyComputerPref(wrapper,computerPref);
+								string what=chart3DThisComputer+", "+drawingMode+" with \""+directXFormat+"\"";
+								bool is3D=chart3DThisComputer!=YN.No;
+								Assert.AreEqual(is3D ? ToothChartEngine.Wpf3D : ToothChartEngine.Simple2D,wrapper.Engine,what);
+								Assert.AreEqual(directXFormat!=ToothChartWrapper.DirectXFormatWpfLiveView,wrapper.WpfDrawInSoftware,what);
+								Assert.AreEqual(is3D ? DrawingMode.DirectX : DrawingMode.Simple2D,wrapper.DrawMode,
+									what+": Wpf3D reads as DirectX, so a caller that saves DrawMode keeps the 3D chart.");
+								Assert.AreEqual(0,ToothChartWrapper.GetFallbackMessagesSince(countBefore).Count,what+": nothing fell back.");
+								AssertFieldsEqual(computerPrefBefore,computerPref,what+": the settings are read, never changed.");
+							}
 						}
 					}
 				}
@@ -78,7 +132,7 @@ namespace ToothChartImageTests {
 			string method=SourceText.GetMethod(SourceText.ReadCode(@"WpfControlsOD\UI\ToothChart\ToothChartRelay.cs"),
 				"public static void ApplyComputerPref(ToothChartWrapper toothChartWrapper,ComputerPref computerPref) {");
 			SourceText.AssertInOrder(method,"ApplyComputerPref","toothChartWrapper.WpfDrawInSoftware=IsDrawnInSoftware(computerPref);",
-				"toothChartWrapper.Engine=GetEngineForStoredMode(computerPref.GraphicsSimple);");
+				"toothChartWrapper.Engine=GetEngineForComputer(computerPref);");
 			StringAssert.DoesNotMatch(method,new System.Text.RegularExpressions.Regex(@"ComputerPrefs\.Update|DeviceFormat|UseHardware|PreferredPixelFormat"));
 			string settings=SourceText.GetMethod(SourceText.ReadCode(@"WpfControlsOD\UI\ToothChart\ToothChartRelay.cs"),
 				"public static void ApplyComputerSettings(ToothChartWrapper toothChartWrapper) {");//TC-9a: the wrapper only (ToothChartSettingsUse went)
@@ -102,11 +156,12 @@ namespace ToothChartImageTests {
 					form.Controls.Add(wrapper);
 					form.Show();
 					Application.DoEvents();
-					//A shown wrapper that already runs the WPF chart's live view, as the Chart module's does, then gets a computer drawn in software.
-					ToothChartRelay.ApplyComputerPref(wrapper,NewComputerPref(DrawingMode.DirectX,""));
+					//A shown wrapper that runs the WPF chart's quick live view (the per-computer option since TC-8b), then gets a computer with the default,
+					//the smoothed picture drawn in software.
+					ToothChartRelay.ApplyComputerPref(wrapper,NewComputerPref(DrawingMode.DirectX,ToothChartWrapper.DirectXFormatWpfLiveView));
 					WpfLiveViewTests.WaitForLiveView(wrapper);
 					int countViewsBefore=countViewsMade;
-					ToothChartRelay.ApplyComputerPref(wrapper,NewComputerPref(DrawingMode.OpenGL,ToothChartWrapper.DirectXFormatWpfSoftware));
+					ToothChartRelay.ApplyComputerPref(wrapper,NewComputerPref(DrawingMode.OpenGL,""));
 					ToothChartRelay relay=WpfCharts.CreateRelay(wrapper);
 					ChartScenes.Prepare(relay,ChartScenes.Get("restored-adult"),ChartColorSet.Module);
 					ToothChartImageHost toothChartImageHost=wrapper.ImageHostWpf;
@@ -156,53 +211,137 @@ namespace ToothChartImageTests {
 			StringAssert.Contains(result.Output,"). Using Simple2D.");
 			Assert.IsFalse(result.Output.Contains("DirectX tooth chart"),"No DirectX fallback line.");
 			Assert.IsFalse(result.Output.Contains("OpenGL tooth chart"),"No OpenGL fallback line.");
+			//NEW-1 (TC-8b): File > Graphics' status on this computer says why, and reading it writes no log line.
+			StringAssert.Contains(result.Output,"status: Fell back: The WPF tooth chart's renderer could not start: A forced start failure.");
+			StringAssert.Contains(result.Output,"log lines after the status: 1");
 		}
-		#endregion The mapping
+		#endregion The mapping (TC-8b, ENG-2)
+
+		#region The status line (TC-8b, NEW-1)
+		[TestMethod]
+		public void Status_IsAvailable_WhenTheWpfChartStarts_AndFellBackWithTheReason_WhenItCannot() {
+			Assert.AreEqual("Available",ToothChartRelay.Chart3DStatusAvailable);
+			Assert.AreEqual("Fell back: ",ToothChartRelay.Chart3DStatusFellBackPrefix);
+			Assert.AreEqual("Available",ToothChartRelay.GetChart3DStatus(),"The WPF chart starts in this process.");
+			Assert.IsTrue(ToothChartWrapper.CanStartWpf3D(out string reason));
+			Assert.AreEqual("",reason);
+			//A start failure kept by the renderer (the test hook stands in for a computer where WPF cannot draw; the second-process test above checks the
+			//real path), then cleared again: the status says why, and the chart starts again afterwards.
+			int countBefore=ToothChartWrapper.GetCountFallbackMessages();
+			SparksToothChart.Wpf3D.ToothChartRenderer.SetStartFailureForTests(new InvalidOperationException("A synthetic driver failure."));
+			try {
+				Assert.AreEqual("Fell back: The WPF tooth chart's renderer could not start: A synthetic driver failure.",ToothChartRelay.GetChart3DStatus());
+				Assert.IsFalse(ToothChartWrapper.CanStartWpf3D(out reason));
+				Assert.AreEqual("The WPF tooth chart's renderer could not start: A synthetic driver failure.",reason);
+			}
+			finally {
+				SparksToothChart.Wpf3D.ToothChartRenderer.SetStartFailureForTests(null);
+			}
+			Assert.AreEqual(0,ToothChartWrapper.GetFallbackMessagesSince(countBefore).Count,"Reading the status logs nothing.");
+			Assert.AreEqual("Available",ToothChartRelay.GetChart3DStatus(),"Cleared: the renderer starts again.");
+		}
+		#endregion The status line (TC-8b, NEW-1)
+
+		#region The graphical perio gate (TC-8b, ENG-5)
+		[TestMethod]
+		public void PerioGate_OpensOnlyOnAComputerThatUsesThe3DChart_AndNamesFileGraphicsOtherwise() {
+			//ENG-5 (revises O-31): Open Dental opens the graphical perio chart only on its 3D charts; a computer that draws Simple 2D is refused with
+			//Open Dental's 24.3 sentence, the 3D tooth chart in DirectX's place and the menu named.
+			Assert.AreEqual("In the Graphics setup window (File > Graphics), you must first select the 3D tooth chart.",ToothChartRelay.PerioNeeds3DChartMessage);
+			foreach(bool isChart3DOnAllComputers in new[] { true,false }) {
+				foreach(YN chart3DThisComputer in _arrayChart3DThisComputer) {
+					foreach(DrawingMode drawingMode in new[] { DrawingMode.DirectX,DrawingMode.Simple2D,DrawingMode.OpenGL }) {
+						ComputerPref computerPref=NewComputerPref(drawingMode,"",chart3DThisComputer);
+						bool isOpen=ToothChartRelay.CanOpenGraphicalPerio(isChart3DOnAllComputers,computerPref,out string message);
+						string what="global "+isChart3DOnAllComputers+", this computer "+chart3DThisComputer+", GraphicsSimple "+drawingMode;
+						bool is3D=ToothChartRelay.GetEngineForComputer(isChart3DOnAllComputers,computerPref)==ToothChartEngine.Wpf3D;
+						Assert.AreEqual(is3D,isOpen,what);
+						Assert.AreEqual(is3D ? "" : ToothChartRelay.PerioNeeds3DChartMessage,message,what);
+					}
+				}
+			}
+			string relay=SourceText.ReadCode(@"WpfControlsOD\UI\ToothChart\ToothChartRelay.cs");
+			StringAssert.Contains(SourceText.GetMethod(relay,"public static bool CanOpenGraphicalPerio(out string message) {"),
+				"return CanOpenGraphicalPerio(IsChart3DOnAllComputers(),ComputerPrefs.LocalComputer,out message);");
+		}
+		#endregion The graphical perio gate (TC-8b, ENG-5)
 
 		#region The save rule
 		[TestMethod]
-		public void SaveRule_3DChartWritesZeroOnlyOverOne_AndKeepsAStoredZeroOrTwo() {
-			//(stored, "3D chart") -> stored after the save
+		public void SaveRule_WritesOnlyWhatAChoiceChanges_AndGraphicsSimpleStaysReadableByOpenDental() {
+			//(global before, global after, this computer before, this computer after, GraphicsSimple before) -> GraphicsSimple after
 			object[][] arrayCases=new object[][] {
-				new object[] { DrawingMode.Simple2D,true,DrawingMode.DirectX },
-				new object[] { DrawingMode.DirectX,true,DrawingMode.DirectX },
-				new object[] { DrawingMode.OpenGL,true,DrawingMode.OpenGL },
-				new object[] { DrawingMode.DirectX,false,DrawingMode.Simple2D },
-				new object[] { DrawingMode.OpenGL,false,DrawingMode.Simple2D },
-				new object[] { DrawingMode.Simple2D,false,DrawingMode.Simple2D },
+				//The 3D chart before and after: GraphicsSimple is kept, whatever it is (Open Dental does not read it there).
+				new object[] { true,true,YN.Unknown,YN.Unknown,DrawingMode.Simple2D,DrawingMode.Simple2D },
+				new object[] { true,true,YN.Unknown,YN.Yes,DrawingMode.Simple2D,DrawingMode.Simple2D },
+				new object[] { true,true,YN.Unknown,YN.Unknown,DrawingMode.OpenGL,DrawingMode.OpenGL },
+				new object[] { true,false,YN.Yes,YN.Yes,DrawingMode.OpenGL,DrawingMode.OpenGL },
+				//Simple 2D before and after: 1 over a stored 0 or 2, so Open Dental, whose older technology applies, draws the Simple 2D the window
+				//shows checked, not its DirectX 9 or OpenGL chart (as Open Dental's own Save always writes GraphicsSimple from that group).
+				new object[] { false,false,YN.No,YN.Unknown,DrawingMode.DirectX,DrawingMode.Simple2D },
+				new object[] { false,false,YN.Unknown,YN.Unknown,DrawingMode.DirectX,DrawingMode.Simple2D },
+				new object[] { true,true,YN.No,YN.No,DrawingMode.OpenGL,DrawingMode.Simple2D },
+				new object[] { false,false,YN.No,YN.No,DrawingMode.Simple2D,DrawingMode.Simple2D },
+				//To Simple 2D: 1, so Open Dental, whose older technology then applies, draws Simple 2D too.
+				new object[] { true,true,YN.Unknown,YN.No,DrawingMode.DirectX,DrawingMode.Simple2D },
+				new object[] { true,true,YN.Yes,YN.No,DrawingMode.OpenGL,DrawingMode.Simple2D },
+				new object[] { true,false,YN.Unknown,YN.Unknown,DrawingMode.DirectX,DrawingMode.Simple2D },
+				new object[] { true,true,YN.Unknown,YN.No,DrawingMode.Simple2D,DrawingMode.Simple2D },
+				//To the 3D chart: 0 only over a stored 1; a stored 0 or 2 is kept (TC-8's rule).
+				new object[] { true,true,YN.No,YN.Unknown,DrawingMode.Simple2D,DrawingMode.DirectX },
+				new object[] { false,false,YN.No,YN.Yes,DrawingMode.Simple2D,DrawingMode.DirectX },
+				new object[] { false,true,YN.Unknown,YN.Unknown,DrawingMode.Simple2D,DrawingMode.DirectX },
+				new object[] { true,true,YN.No,YN.Yes,DrawingMode.OpenGL,DrawingMode.OpenGL },
+				new object[] { false,true,YN.Unknown,YN.Unknown,DrawingMode.DirectX,DrawingMode.DirectX },
 			};
 			foreach(object[] arrayCase in arrayCases) {
-				ComputerPref computerPref=NewComputerPref((DrawingMode)arrayCase[0],"");
+				YN chart3DThisComputerBefore=(YN)arrayCase[2];
+				YN chart3DThisComputerAfter=(YN)arrayCase[3];
+				ComputerPref computerPref=NewComputerPref((DrawingMode)arrayCase[4],"",chart3DThisComputerBefore);
 				ComputerPref computerPrefBefore=computerPref.Copy();
-				ToothChartRelay.SetGraphicsChoice(computerPref,(bool)arrayCase[1],false);
-				string what="stored "+arrayCase[0]+", 3D chart "+arrayCase[1];
-				Assert.AreEqual((DrawingMode)arrayCase[2],computerPref.GraphicsSimple,what);
+				ToothChartRelay.SetGraphicsChoice(computerPref,(bool)arrayCase[0],(bool)arrayCase[1],chart3DThisComputerAfter,true);
+				string what="global "+arrayCase[0]+" -> "+arrayCase[1]+", this computer "+chart3DThisComputerBefore+" -> "+chart3DThisComputerAfter
+					+", GraphicsSimple "+arrayCase[4];
+				Assert.AreEqual((DrawingMode)arrayCase[5],computerPref.GraphicsSimple,what);
+				Assert.AreEqual(chart3DThisComputerAfter,computerPref.GraphicsUseDirectX11,what);
 				computerPrefBefore.GraphicsSimple=computerPref.GraphicsSimple;
+				computerPrefBefore.GraphicsUseDirectX11=computerPref.GraphicsUseDirectX11;
 				AssertFieldsEqual(computerPrefBefore,computerPref,what+": no other column is written.");
+				//Open Dental reads the saved row as this program does: its DirectX 11 chart where this one draws the WPF chart, and its older
+				//technology's Simple 2D where this one draws Simple 2D (every save that leaves the computer on Simple 2D stores 1, so no saved row
+				//leaves Open Dental a stored 0 or 2, its DirectX 9 or OpenGL chart, which this program retired).
+				bool isDrawn3D=ToothChartRelay.GetEngineForComputer((bool)arrayCase[1],computerPref)==ToothChartEngine.Wpf3D;
+				bool isOpenDental3DChart=ToothChartRelay.IsChart3DUsed((bool)arrayCase[1],computerPref.GraphicsUseDirectX11);
+				Assert.AreEqual(isDrawn3D,isOpenDental3DChart,what);
+				if(!isDrawn3D) {
+					Assert.AreEqual(DrawingMode.Simple2D,computerPref.GraphicsSimple,what+": on Simple 2D after the save, Open Dental draws Simple 2D too.");
+				}
 			}
 		}
 
 		[TestMethod]
-		public void SaveRule_DrawInSoftware_WritesOrClearsOnlyItsValue() {
+		public void SaveRule_DrawInSoftware_WritesOrClearsOnlyTheLiveViewValue() {
 			string formatDirectX="0;Hardware;64;D16;R5G6B5;FourSamples";
 			//(stored DirectXFormat, "Draw in software") -> DirectXFormat after the save
 			string[][] arrayCases=new string[][] {
-				new[] { "","on",ToothChartWrapper.DirectXFormatWpfSoftware },
-				new[] { formatDirectX,"on",ToothChartWrapper.DirectXFormatWpfSoftware },
+				new[] { "","on","" },
+				new[] { formatDirectX,"on",formatDirectX },
 				new[] { ToothChartWrapper.DirectXFormatWpfSoftware,"on",ToothChartWrapper.DirectXFormatWpfSoftware },
-				new[] { ToothChartWrapper.DirectXFormatWpfSoftware,"off","" },
-				new[] { " WpfSoftware ","off","" },
-				new[] { formatDirectX,"off",formatDirectX },
-				new[] { "","off","" },
+				new[] { ToothChartWrapper.DirectXFormatWpfLiveView,"on","" },
+				new[] { " WpfLiveView ","on","" },
+				new[] { "","off",ToothChartWrapper.DirectXFormatWpfLiveView },
+				new[] { formatDirectX,"off",ToothChartWrapper.DirectXFormatWpfLiveView },
+				new[] { ToothChartWrapper.DirectXFormatWpfSoftware,"off",ToothChartWrapper.DirectXFormatWpfLiveView },
+				new[] { ToothChartWrapper.DirectXFormatWpfLiveView,"off",ToothChartWrapper.DirectXFormatWpfLiveView },
 			};
-			foreach(bool is3DChart in new[] { true,false }) {
+			foreach(YN chart3DThisComputer in new[] { YN.Unknown,YN.No }) {
 				foreach(string[] arrayCase in arrayCases) {
-					ComputerPref computerPref=NewComputerPref(DrawingMode.DirectX,arrayCase[0]);
-					ToothChartRelay.SetGraphicsChoice(computerPref,is3DChart,arrayCase[1]=="on");
-					Assert.AreEqual(arrayCase[2],computerPref.DirectXFormat,"\""+arrayCase[0]+"\", "+arrayCase[1]+", 3D chart "+is3DChart);
+					ComputerPref computerPref=NewComputerPref(DrawingMode.DirectX,arrayCase[0],chart3DThisComputer);
+					ToothChartRelay.SetGraphicsChoice(computerPref,true,true,chart3DThisComputer,arrayCase[1]=="on");
+					string what="\""+arrayCase[0]+"\", "+arrayCase[1]+", this computer "+chart3DThisComputer;
+					Assert.AreEqual(arrayCase[2],computerPref.DirectXFormat,what);
 					//What was saved reads back as the window's choice.
-					Assert.AreEqual(arrayCase[1]=="on",ToothChartRelay.IsDrawnInSoftware(computerPref));
-					Assert.AreEqual(is3DChart,ToothChartRelay.Is3DChart(computerPref));
+					Assert.AreEqual(arrayCase[1]=="on",ToothChartRelay.IsDrawnInSoftware(computerPref),what);
 				}
 			}
 		}
@@ -211,15 +350,18 @@ namespace ToothChartImageTests {
 		public void SaveRule_SavedThenApplied_GivesTheWindowsChoice() {
 			StaRunner.Run(() => {
 				foreach(DrawingMode drawingModeStored in new[] { DrawingMode.DirectX,DrawingMode.Simple2D,DrawingMode.OpenGL }) {
-					foreach(bool is3DChart in new[] { true,false }) {
-						foreach(bool isDrawnInSoftware in new[] { true,false }) {
-							ComputerPref computerPref=NewComputerPref(drawingModeStored,"");
-							ToothChartRelay.SetGraphicsChoice(computerPref,is3DChart,isDrawnInSoftware);
-							using(ToothChartWrapper wrapper=WpfCharts.CreateWrapper(ChartScenes.SizeModule.Size)) {
-								ToothChartRelay.ApplyComputerPref(wrapper,computerPref);
-								string what="stored "+drawingModeStored+", 3D "+is3DChart+", software "+isDrawnInSoftware;
-								Assert.AreEqual(is3DChart ? ToothChartEngine.Wpf3D : ToothChartEngine.Simple2D,wrapper.Engine,what);
-								Assert.AreEqual(isDrawnInSoftware,wrapper.WpfDrawInSoftware,what);
+					foreach(YN chart3DThisComputerStored in new[] { YN.Unknown,YN.Yes,YN.No }) {
+						foreach(YN chart3DThisComputer in new[] { YN.Unknown,YN.Yes,YN.No }) {
+							foreach(bool isDrawnInSoftware in new[] { true,false }) {
+								ComputerPref computerPref=NewComputerPref(drawingModeStored,"",chart3DThisComputerStored);
+								//The global setting of this process ("Use if available") before and after, as File > Graphics saves it.
+								ToothChartRelay.SetGraphicsChoice(computerPref,true,true,chart3DThisComputer,isDrawnInSoftware);
+								using(ToothChartWrapper wrapper=WpfCharts.CreateWrapper(ChartScenes.SizeModule.Size)) {
+									ToothChartRelay.ApplyComputerPref(wrapper,computerPref);
+									string what="stored "+drawingModeStored+" "+chart3DThisComputerStored+", chosen "+chart3DThisComputer+", software "+isDrawnInSoftware;
+									Assert.AreEqual(chart3DThisComputer!=YN.No ? ToothChartEngine.Wpf3D : ToothChartEngine.Simple2D,wrapper.Engine,what);
+									Assert.AreEqual(isDrawnInSoftware,wrapper.WpfDrawInSoftware,what);
+								}
 							}
 						}
 					}

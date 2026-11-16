@@ -15,9 +15,9 @@ namespace SparksToothChart {
 	///raises TextMoved on mouse up with its new place. With no drawing near, the colour changer gives the free-text label under the mouse the pen
 	///colour and raises TextColorChanged (TC-5).
 	///The control asks for a new image through ActionChartChanged (selection or drawings changed) and redraws only the stroke in progress through
-	///ActionPenStrokeChanged, as DirectX draws the stroke over the teeth without drawing them again. No visible hover, as today. The 2D chart keeps
-	///its own mouse code: it toggles only the tooth under the cursor, a difference that stays. The DirectX chart keeps its own handlers until TC-9a
-	///deletes it; ToothChartImageTests drives both with the same input.</summary>
+	///ActionPenStrokeChanged, drawing the stroke over the teeth without drawing them again, as the DirectX chart did. No visible hover. The 2D chart
+	///keeps its own mouse code: it toggles only the tooth under the cursor, a difference that stays. ToothChartImageTests drives this class with the
+	///input whose answers the DirectX chart gave before TC-9a retired it (Baselines/legacy-numbers/directx-mouse.txt) and compares them.</summary>
 	public class ToothChartMouse {
 		///<summary>The eraser's radius in the 410x307 drawing space, and the offset of its centre from the cursor in pixels (the centre of
 		///EraseCircle.cur), both by trial and error for the best feel (DirectX).</summary>

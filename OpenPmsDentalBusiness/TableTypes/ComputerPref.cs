@@ -16,8 +16,11 @@ namespace OpenPmsDentalBusiness {
 		///Not read since TC-8 (docs/specs/wpf-tooth-chart-plan.md): no computer starts the OpenGL chart. The column stays, as in Open Dental's schema.</summary>
 		public bool GraphicsUseHardware;
 		///<summary>Enum:DrawingMode Set to 1 to use the low-quality 2D tooth chart in the chart module. Set to 0 to use a 3D DirectX based tooth chart in the chart module. This option helps the program run even when the local graphics hardware is buggy or unavailable.
-		///Since TC-8 (docs/specs/wpf-tooth-chart-plan.md) 0 (DirectX) and 2 (OpenGL) start the WPF 3D chart and 1 the Simple 2D chart; the stored values stay 0, 1 and 2 and
-		///gain no new one. Setup > Graphics writes 1 for "Simple 2D chart", and for "3D chart" writes 0 only when the value was 1, so a stored 0 or 2 is kept.</summary>
+		///Open Dental's older tooth chart technology, which applies only when the computer does not use the 3D tooth chart (GraphicsUseDirectX11 and the
+		///DirectX11ToothChartUseIfAvail preference, TC-8b): of 0 (DirectX 9), 1 (Simple 2D) and 2 (OpenGL) only Simple 2D is left since TC-9a, so such a
+		///computer draws Simple 2D whatever is stored. The stored values stay 0, 1 and 2 and gain no new one. File > Graphics writes 1 on every Save that
+		///leaves the computer on Simple 2D, and 0 over a stored 1 when its choices turn it to the 3D chart (a stored 0 or 2 is kept there). Setup > Computers'
+		///"Use Simple Graphics" writes 1 (with GraphicsUseDirectX11 "Do not use", ENG-6).</summary>
 		public DrawingMode GraphicsSimple;
 		///<summary>Indicates the type of Suni sensor connected to the local computer (if any). This can be a value of A, B, C, or D.
 		///Not used: Suni support is removed (Open Dental 26.2; P262-LINKS). The four Suni columns stay because Open Dental's 26.2 schema keeps them.
@@ -48,9 +51,10 @@ namespace OpenPmsDentalBusiness {
 		///<summary>Holds a semi-colon separated list of enumeration names and values representing a DirectX format. If blank, then
 		///no format is currently set and the best theoretical format will be chosen at program startup. If this value is set to
 		///'opengl' then this computer is using OpenGL and a DirectX format will not be picked.
-		///Since TC-8 (docs/specs/wpf-tooth-chart-plan.md, O-19 (b)) it holds the WPF chart's per-computer "Draw in software" switch: 'WpfSoftware' (SparksToothChart's
-		///ToothChartWrapper.DirectXFormatWpfSoftware) shows the renderer's smoothed picture on screen; empty, or a DirectX format an older build saved, shows the live view.
-		///No DirectX format is chosen or read any more; Setup > Graphics writes 'WpfSoftware' or clears it, and keeps any other value.</summary>
+		///It holds the WPF chart's per-computer "Draw in software" switch (docs/specs/wpf-tooth-chart-plan.md, O-19 (b); TC-8b, ENG-3): 'WpfLiveView' (SparksToothChart's
+		///ToothChartWrapper.DirectXFormatWpfLiveView, the box unticked) shows the quick live view on screen; every other value, empty included, shows the renderer's
+		///smoothed picture, the default ('WpfSoftware', which TC-8 wrote, means the same). No DirectX format is chosen or read any more; File > Graphics writes
+		///'WpfLiveView' or clears it, and keeps any other value.</summary>
 		public string DirectXFormat;
 		///<summary>Show the select scanner dialog when scanning documents.</summary>
 		public bool ScanDocSelectSource;
@@ -81,8 +85,10 @@ namespace OpenPmsDentalBusiness {
 		public PlatformOD ComputerOS;
 		///<summary>Deprecated.</summary>
 		public double HelpButtonXAdjustment;
-		///<summary>Enum:YN Unknown, Yes, No. Open Dental's DirectX 11 chart setting for this computer; not read since Sparks3D was removed (2026-11-01). The column
-		///stays (owner question BIN-A 5).</summary>
+		///<summary>Enum:YN Unknown, Yes, No. Open Dental's per-computer "DirectX 11 Tooth Chart" setting: "Use the global setting" (Unknown, the
+		///DirectX11ToothChartUseIfAvail preference), "Use if available" (Yes) or "Do not use" (No). Since TC-8b (ENG-2) it chooses the WPF 3D chart, which
+		///takes the place of Open Dental's DirectX 11 chart (Sparks3D, removed on 2026-11-01); File > Graphics shows it as "3D Tooth Chart". Owner question
+		///BIN-A 5: kept.</summary>
 		public YN GraphicsUseDirectX11;
 		///<summary>Default 0.  Typically a bit above 100. Example 120. Below 100 is allowed but rare, like 80. In addition to normal monitor scale set in Windows. 0 is treated the same as 100, or no additional zoom.</summary>
 		public int Zoom;

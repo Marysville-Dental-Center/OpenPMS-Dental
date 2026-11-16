@@ -1,7 +1,8 @@
 // Each host of the tooth chart checked end to end through the program's own code (package TC-8, the TC-8 row's "Each host checked end to end";
 // plan section 7, "Host tests"): the picture is made by the WPF chart (no fallback is logged, and it matches the baseline the WPF chart made), has
 // the expected size, is opaque, has the pixel format TC-0 recorded for DirectX and is not blank. The local computer is the scratch database's row
-// for this machine, set to a stored DirectX choice (0) unless a test says otherwise, and put back after each test. The hosts that only a shown
+// for this machine, set to a new computer's settings (GraphicsSimple 0, "Use the global setting", the default on-screen picture) under the global
+// "Use if available" unless a test says otherwise, and put back after each test (TC-8b: Open Dental's 3D settings choose the chart). The hosts that only a shown
 // window of the program can check (the Chart module's refill, selection, Draw tab and Save to Images, and the classic Treatment Plan document,
 // whose module needs the main window) are launch check L-7 (docs/port-notes/TC-8.md).
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
@@ -25,6 +26,7 @@ namespace ToothChartHostTests {
 	public class HostTests {
 		private DrawingMode _drawingModeBefore;
 		private string _directXFormatBefore;
+		private YN _chart3DThisComputerBefore;
 		private int _countFallbacksBefore;
 
 		[TestInitialize]
@@ -33,7 +35,9 @@ namespace ToothChartHostTests {
 			HostDb.SetCulture();
 			_drawingModeBefore=ComputerPrefs.LocalComputer.GraphicsSimple;
 			_directXFormatBefore=ComputerPrefs.LocalComputer.DirectXFormat;
+			_chart3DThisComputerBefore=ComputerPrefs.LocalComputer.GraphicsUseDirectX11;
 			SetLocalComputer(DrawingMode.DirectX,"");
+			ToothChartRelay.SetChart3DOnAllComputers(true);
 			_countFallbacksBefore=ToothChartWrapper.GetCountFallbackMessages();
 		}
 
@@ -42,13 +46,16 @@ namespace ToothChartHostTests {
 			if(ComputerPrefs.IsLocalComputerNull()) {
 				return;
 			}
-			SetLocalComputer(_drawingModeBefore,_directXFormatBefore);
+			SetLocalComputer(_drawingModeBefore,_directXFormatBefore,_chart3DThisComputerBefore);
+			ToothChartRelay.SetChart3DOnAllComputers(true);//the new database's value
 		}
 
-		///<summary>The local computer's stored chart choice, in memory, as the program reads it (ComputerPrefs.LocalComputer).</summary>
-		public static void SetLocalComputer(DrawingMode drawingMode,string directXFormat) {
+		///<summary>The local computer's stored chart settings, in memory, as the program reads them (ComputerPrefs.LocalComputer): GraphicsSimple, the
+		///"Draw in software" value and, since TC-8b, its 3D tooth chart setting (Unknown: "Use the global setting").</summary>
+		public static void SetLocalComputer(DrawingMode drawingMode,string directXFormat,YN chart3DThisComputer=YN.Unknown) {
 			ComputerPrefs.LocalComputer.GraphicsSimple=drawingMode;
 			ComputerPrefs.LocalComputer.DirectXFormat=directXFormat;
+			ComputerPrefs.LocalComputer.GraphicsUseDirectX11=chart3DThisComputer;
 		}
 
 		///<summary>No fallback since the test began: the WPF chart started and drew every picture (a failed WPF render gives the 2D picture and a
@@ -102,35 +109,63 @@ namespace ToothChartHostTests {
 		}
 
 		[TestMethod]
-		public void Sheet_OfAComputerStoredAsSimple2D_IsThe2DChartsPicture_O30() {
-			//O-30: a computer stored as Simple 2D stays 2D, with no data change.
+		public void Sheet_OfAComputerStoredAsSimple2D_IsTheWpfChartsPicture_UnlessItsSettingIsDoNotUse_ENG2() {
+			//ENG-2 (revises O-30): a computer stored as Simple 2D (1) gets the 3D chart unless its setting is "Do not use", with no data change.
 			SetLocalComputer(DrawingMode.Simple2D,"");
-			using(Image image=SheetPrinting.GetToothChartHelper(HostFixtures.PatNumWork,false))
-			using(Image imageWpf=GetSheetPictureAs(DrawingMode.DirectX)) {
-				HostPictures.Check("sheet-simple2d",image,new Size(500,370),System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-				Assert.IsFalse(ChartImageCompare.Compare((Bitmap)imageWpf,(Bitmap)image).IsPass,"The 2D chart's picture, not the WPF chart's.");
+			using(Image image=SheetPrinting.GetToothChartHelper(HostFixtures.PatNumWork,false)) {
+				HostPictures.Check("sheet",image,new Size(500,370));
 			}
 			Assert.AreEqual(DrawingMode.Simple2D,ComputerPrefs.LocalComputer.GraphicsSimple,"Nothing changed the stored choice.");
+			Assert.AreEqual(YN.Unknown,ComputerPrefs.LocalComputer.GraphicsUseDirectX11,"Nothing changed the stored choice.");
 			AssertNothingFellBack();
 		}
 
-		private static Image GetSheetPictureAs(DrawingMode drawingMode) {
-			DrawingMode drawingModeBefore=ComputerPrefs.LocalComputer.GraphicsSimple;
-			ComputerPrefs.LocalComputer.GraphicsSimple=drawingMode;
+		[TestMethod]
+		public void Sheet_OfAComputerThatDoesNotUseThe3DChart_IsThe2DChartsPicture() {
+			//"Do not use" on this computer, or "Use the global setting" with the global "Do not use": Open Dental's older technology, of which Simple 2D is
+			//left, whatever GraphicsSimple holds. The 2D picture is the one TC-8 recorded for a computer stored as Simple 2D (the same chart and data).
+			foreach(DrawingMode drawingMode in new[] { DrawingMode.DirectX,DrawingMode.Simple2D,DrawingMode.OpenGL }) {
+				foreach(bool isGlobalDoNotUse in new[] { false,true }) {
+					ToothChartRelay.SetChart3DOnAllComputers(!isGlobalDoNotUse);
+					SetLocalComputer(drawingMode,"",isGlobalDoNotUse ? YN.Unknown : YN.No);
+					using(Image image=SheetPrinting.GetToothChartHelper(HostFixtures.PatNumWork,false))
+					using(Image imageWpf=GetSheetPictureOfThe3DChart()) {
+						HostPictures.Check("sheet-simple2d",image,new Size(500,370),System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+						Assert.IsFalse(ChartImageCompare.Compare((Bitmap)imageWpf,(Bitmap)image).IsPass,"The 2D chart's picture, not the WPF chart's.");
+					}
+					Assert.AreEqual(drawingMode,ComputerPrefs.LocalComputer.GraphicsSimple,"Nothing changed the stored choice.");
+				}
+			}
+			//"Use if available" on this computer wins over the global "Do not use".
+			ToothChartRelay.SetChart3DOnAllComputers(false);
+			SetLocalComputer(DrawingMode.Simple2D,"",YN.Yes);
+			using(Image image=SheetPrinting.GetToothChartHelper(HostFixtures.PatNumWork,false)) {
+				HostPictures.Check("sheet",image,new Size(500,370));
+			}
+			AssertNothingFellBack();
+		}
+
+		///<summary>The sheet picture with this computer set to "Use if available", the WPF chart's, then the settings as they were.</summary>
+		private static Image GetSheetPictureOfThe3DChart() {
+			YN chart3DThisComputerBefore=ComputerPrefs.LocalComputer.GraphicsUseDirectX11;
+			ComputerPrefs.LocalComputer.GraphicsUseDirectX11=YN.Yes;
 			try {
 				return SheetPrinting.GetToothChartHelper(HostFixtures.PatNumWork,false);
 			}
 			finally {
-				ComputerPrefs.LocalComputer.GraphicsSimple=drawingModeBefore;
+				ComputerPrefs.LocalComputer.GraphicsUseDirectX11=chart3DThisComputerBefore;
 			}
 		}
 
 		[TestMethod]
-		public void Sheet_OfAComputerDrawnInSoftware_IsTheSamePicture() {
-			//The "Draw in software" switch changes only the screen: every picture is the renderer's either way.
-			SetLocalComputer(DrawingMode.DirectX,ToothChartWrapper.DirectXFormatWpfSoftware);
-			using(Image image=SheetPrinting.GetToothChartHelper(HostFixtures.PatNumWork,false)) {
-				HostPictures.Check("sheet",image,new Size(500,370));
+		public void Sheet_OfAComputerWithTheQuickLiveView_IsTheSamePicture() {
+			//The "Draw in software" switch changes only the screen (ENG-3: ticked, the smoothed picture, is the default; unticked the quick live view):
+			//every picture is the renderer's either way.
+			foreach(string directXFormat in new[] { ToothChartWrapper.DirectXFormatWpfLiveView,ToothChartWrapper.DirectXFormatWpfSoftware }) {
+				SetLocalComputer(DrawingMode.DirectX,directXFormat);
+				using(Image image=SheetPrinting.GetToothChartHelper(HostFixtures.PatNumWork,false)) {
+					HostPictures.Check("sheet",image,new Size(500,370));
+				}
 			}
 			AssertNothingFellBack();
 		}
@@ -238,8 +273,21 @@ namespace ToothChartHostTests {
 		}
 
 		[TestMethod]
-		public void GraphicalPerio_OnA2DComputer_OpensOnTheWpfChart_O31() {
-			//O-31: the graphical perio chart opens on the WPF chart on every computer; the 2D choice applies to the tooth chart only.
+		public void GraphicalPerio_OnA2DComputer_IsRefused_WithAMessageNamingFileGraphics_ENG5() {
+			//ENG-5 (revises O-31): on a computer that draws Simple 2D ("Do not use" here, or the global "Do not use") the gate refuses, as Open Dental
+			//opens its graphical perio chart only on its 3D charts.
+			foreach(bool isGlobalDoNotUse in new[] { false,true }) {
+				ToothChartRelay.SetChart3DOnAllComputers(!isGlobalDoNotUse);
+				SetLocalComputer(DrawingMode.Simple2D,"",isGlobalDoNotUse ? YN.Unknown : YN.No);
+				Assert.IsFalse(ToothChartRelay.CanOpenGraphicalPerio(out string message));
+				Assert.AreEqual("In the Graphics setup window (File > Graphics), you must first select the 3D tooth chart.",message);
+			}
+		}
+
+		[TestMethod]
+		public void GraphicalPerio_OnAComputerStoredAsSimple2D_ThatUsesThe3DChart_Opens_ENG2() {
+			//ENG-2: a computer stored as Simple 2D with "Use the global setting" uses the 3D chart, so its graphical perio chart opens, with the same
+			//pictures.
 			SetLocalComputer(DrawingMode.Simple2D,"");
 			Assert.IsTrue(ToothChartRelay.CanOpenGraphicalPerio(out string message),message);
 			Assert.AreEqual("",message);
@@ -296,29 +344,44 @@ namespace ToothChartHostTests {
 
 		#region The settings snapshot
 		[TestMethod]
-		public void SettingsSnapshot_SeesAnEngineOrSoftwareChange_NotAChangeBetweenZeroAndTwo() {
-			//FormOpenDental redraws the Chart module after a refresh only when the snapshot changed (NeedsRedraw("ChartModule")). Since TC-8 it holds the
-			//engine of the stored mode and the "Draw in software" switch in place of the DirectX and OpenGL fields.
+		public void SettingsSnapshot_SeesAnEngineOrSoftwareChange_NotAChangeThatKeepsTheChart() {
+			//FormOpenDental redraws the Chart module after a refresh only when the snapshot changed (NeedsRedraw("ChartModule")). It holds the engine the
+			//computer draws with (TC-8b: the global 3D setting, this computer's and GraphicsSimple) and the "Draw in software" switch in place of the
+			//DirectX and OpenGL fields.
 			ToothChartSettingsSnapshot snapshot=new ToothChartSettingsSnapshot();
 			Assert.IsTrue(snapshot.HasChanged(),"Nothing taken yet.");
 			snapshot.Take();
 			Assert.IsFalse(snapshot.HasChanged());
 			SetLocalComputer(DrawingMode.OpenGL,"");
 			Assert.IsFalse(snapshot.HasChanged(),"0 and 2 start the same chart.");
+			SetLocalComputer(DrawingMode.Simple2D,"");
+			Assert.IsFalse(snapshot.HasChanged(),"A stored 1 under \"Use the global setting\" is the 3D chart too (ENG-2).");
 			ComputerPrefs.LocalComputer.PreferredPixelFormatNum=ComputerPrefs.LocalComputer.PreferredPixelFormatNum+1;
 			ComputerPrefs.LocalComputer.GraphicsUseHardware=!ComputerPrefs.LocalComputer.GraphicsUseHardware;
 			Assert.IsFalse(snapshot.HasChanged(),"The OpenGL fields are not read any more.");
-			SetLocalComputer(DrawingMode.Simple2D,"");
-			Assert.IsTrue(snapshot.HasChanged(),"The 2D chart.");
+			SetLocalComputer(DrawingMode.Simple2D,"",YN.No);
+			Assert.IsTrue(snapshot.HasChanged(),"\"Do not use\": the 2D chart.");
 			snapshot.Take();
-			SetLocalComputer(DrawingMode.Simple2D,ToothChartWrapper.DirectXFormatWpfSoftware);
-			Assert.IsTrue(snapshot.HasChanged(),"The software switch.");
+			SetLocalComputer(DrawingMode.DirectX,"",YN.No);
+			Assert.IsFalse(snapshot.HasChanged(),"Still the 2D chart.");
+			SetLocalComputer(DrawingMode.DirectX,"",YN.Unknown);
+			Assert.IsTrue(snapshot.HasChanged(),"The global setting, \"Use if available\": the 3D chart.");
 			snapshot.Take();
-			SetLocalComputer(DrawingMode.Simple2D,"0;Hardware;64;D16;R5G6B5;FourSamples");
-			Assert.IsTrue(snapshot.HasChanged(),"Off again (a DirectX format an older build saved is off).");
+			ToothChartRelay.SetChart3DOnAllComputers(false);
+			Assert.IsTrue(snapshot.HasChanged(),"The global setting \"Do not use\": the 2D chart.");
 			snapshot.Take();
-			SetLocalComputer(DrawingMode.Simple2D,"");
-			Assert.IsFalse(snapshot.HasChanged(),"Still off.");
+			SetLocalComputer(DrawingMode.DirectX,"",YN.No);
+			Assert.IsFalse(snapshot.HasChanged(),"\"Do not use\" under the global \"Do not use\": the same chart.");
+			ToothChartRelay.SetChart3DOnAllComputers(true);
+			snapshot.Take();
+			SetLocalComputer(DrawingMode.DirectX,ToothChartWrapper.DirectXFormatWpfLiveView);
+			Assert.IsTrue(snapshot.HasChanged(),"The 3D chart again, with the quick live view.");
+			snapshot.Take();
+			SetLocalComputer(DrawingMode.DirectX,"0;Hardware;64;D16;R5G6B5;FourSamples");
+			Assert.IsTrue(snapshot.HasChanged(),"The default again (a DirectX format an older build saved is the default, the smoothed picture).");
+			snapshot.Take();
+			SetLocalComputer(DrawingMode.DirectX,ToothChartWrapper.DirectXFormatWpfSoftware);
+			Assert.IsFalse(snapshot.HasChanged(),"TC-8's value is the default too.");
 		}
 		#endregion The settings snapshot
 	}

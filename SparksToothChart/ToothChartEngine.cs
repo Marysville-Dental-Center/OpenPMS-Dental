@@ -3,8 +3,9 @@ using System;
 namespace SparksToothChart {
 	///<summary>The engine a ToothChartWrapper draws with (ToothChartWrapper.Engine). In memory only: it is never stored, and it is outside the
 	///business layer, so docs/port-notes/FORK-ENUMS.md does not apply to it. The stored DrawingMode (computerpref.GraphicsSimple) keeps its three
-	///values, 0 DirectX, 1 Simple 2D and 2 OpenGL (docs/specs/wpf-tooth-chart-plan.md, section 1 item 5): since TC-8 the stored 0 and 2 start Wpf3D
-	///(ToothChartWrapper.DrawMode, ToothChartRelay.GetEngineForStoredMode) and 1 starts Simple2D, and Wpf3D has no stored form. TC-9a retired the
+	///values, 0 DirectX, 1 Simple 2D and 2 OpenGL (docs/specs/wpf-tooth-chart-plan.md, section 1 item 5): a DrawMode request of 0 or 2 starts Wpf3D
+	///and 1 starts Simple2D (ToothChartWrapper.DrawMode), and Wpf3D has no stored form. Which engine a computer draws with is the relay's choice
+	///(ToothChartRelay.GetEngineForComputer, TC-8b): Open Dental's 3D tooth chart settings, and Simple2D when this computer does not use it. TC-9a retired the
 	///DirectX 9 engine (0, through SharpDX) and the OpenGL engine (2, through Tao); the two engines left keep their numbers, so Simple2D still has
 	///the value of DrawingMode.Simple2D.</summary>
 	public enum ToothChartEngine {
