@@ -9,8 +9,8 @@
 // .NET cannot create), which stands for a Middle Tier worker that has just started (no database connection, nothing cached) and leaves this
 // assembly's own state alone: its scratch database connection, the program cache and the logger. No database is used:
 // the config files written here hold a connection string that does not parse, so no connection is attempted. Files go to a folder of the
-// temporary folder, deleted afterwards. PluginLoader (WpfControlsOD, which this assembly does not reference) and ServiceMain.asmx.cs (an ASP.NET
-// page) are checked in their source. Synthetic values only; the client addresses are from the documentation range 192.0.2.0/24.
+// temporary folder, deleted afterwards. PluginLoader (WpfControlsOD, which this assembly does not reference) and the server's endpoint
+// (OpenPmsDentalServer\MiddleTierEndpoint.cs since S3b-6, ServiceMain.asmx.cs before) are checked in their source. Synthetic values only; the client addresses are from the documentation range 192.0.2.0/24.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
 using System.Collections.Generic;
@@ -224,12 +224,13 @@ namespace MiddleTierMockTests {
 			Assert.AreEqual("",string.Join("\r\n",listHits));
 		}
 
-		///<summary>The ASMX code-behind gives ProcessDto's host form the System.Web values the libraries read themselves before, and the mock server
+		///<summary>The server's endpoint gives ProcessDto's host form the content root, the application name and the client's address (the
+		///System.Web values of the ASMX code-behind until S3b-6; tests/MiddleTierHostTests check the values the endpoint gives), and the mock server
 		///keeps the form without host values. Both plug-in loaders take the request folder from the host context.</summary>
 		[TestMethod]
 		public void Source_TheHostFillsTheContext_TheMockServerDoesNot_BothPluginLoadersReadIt() {
-			StringAssert.Contains(ReadCode(@"OpenPmsDentalServer\ServiceMain.asmx.cs"),"returnDtoProcessor.ProcessDto(dtoString,"
-				+"HostingEnvironment.ApplicationPhysicalPath,HostingEnvironment.ApplicationVirtualPath,Context.Request.UserHostAddress);");
+			StringAssert.Contains(ReadCode(@"OpenPmsDentalServer\MiddleTierEndpoint.cs"),"returnOpenPmsDentalBusiness.DtoProcessor.ProcessDto(dtoString,"
+				+"_contentRoot,applicationName,clientIp);");
 			StringAssert.Contains(ReadCode(@"OpenPmsDentalBusiness\WebServices\OpenDentalServerMockIIS.cs"),
 				"returnRunWebMethod(()=>DtoProcessor.ProcessDto(dtoString));");
 			foreach(string path in new[] { @"OpenPmsDentalBusiness\Plugins\Plugins.cs",@"WpfControlsOD\Bridges\PluginLoader.cs" }) {

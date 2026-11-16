@@ -3,15 +3,22 @@
        project before the .NET 10 move (docs/specs/net10-plan.md, stage 0, package S0-T). Every Middle Tier call of a test goes through
        OpenDentalServerMockIIS, so its arguments and its result pass through DtoProcessor and XmlSerializer as they do on a real Middle Tier.
        The tests use one scratch database on the local MariaDB (127.0.0.1:3306, root, blank password) built from the seed dump with the convert
-       scripts and the fork migrations; its name starts with s0t_ and is unique to the run, and it is dropped afterwards. They are skipped
-       (inconclusive) when the server does not answer or when S0T_TEST_DB=skip. Synthetic data only. Every .cs file under this folder is
-       compiled. -->
+       scripts and the fork migrations; its name starts with s0t_ (or the prefix S0T_DB_PREFIX names) and is unique to the run, and it is
+       dropped afterwards. They are skipped (inconclusive) when the server does not answer or when S0T_TEST_DB=skip. Synthetic data only. Every
+       .cs file under this folder is compiled. -->
+  <PropertyGroup>
+    <!-- .NET 10 ahead of the other test projects (S3b-6 of docs/specs/net10-plan.md, docs/port-notes/S3b-6.md): its references, UnitTestsCore
+         and TestProbeHost included, are .NET 10. It replaces the net48 of tests\Directory.Build.props, so Directory.Build.Net.props gives it
+         the settings of a .NET 10 test project: x64, win-x64, framework-dependent, NLS. The line goes when S3b-5 deletes the shared net48 line.
+         Windows Forms: ODThread's members name WinForms types (Control), and the restore prunes what the business library's Windows Desktop
+         framework holds (S3b-3). -->
+    <TargetFramework>$(ODTargetFramework)</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+  </PropertyGroup>
   <ItemGroup>
     <!-- Reads the business layer's IL for the Middle Tier source rules (ParamCheckTests). The NuGet package, from the offline package
          folder (nuget.config), at the version of Directory.Packages.props. -->
     <PackageReference Include="Mono.Cecil" />
-    <!-- ODThread's members name WinForms types (Control). -->
-    <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\CodeBase\xCodeBase.csproj" />
