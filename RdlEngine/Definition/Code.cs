@@ -20,13 +20,14 @@
     For additional information, email info@fyireporting.com or visit
     the website www.fyiReporting.com.
 */
+// Changed by Open PMS - Dental contributors, 2026-11-16 (package S3b-2b of the .NET 10 move, docs/port-notes/S3b-2.md part B; decision 14 of
+// docs/specs/net10-plan.md): GetAssembly compiles the generated source with VbCodeCompiler (Roslyn's Visual Basic compiler, the compile options of
+// the .NET Framework build) and loads the assembly from memory, in place of CodeDom's VBCodeProvider, which throws on .NET. The generated source
+// and the error message, with the line relative to the Code element, are unchanged.
 
 using System;
 using System.Xml;
 using System.Reflection;
-using System.CodeDom;
-using System.CodeDom.Compiler;
-using Microsoft.VisualBasic;
 using System.Text;
 using System.IO;
 using System.Threading;
@@ -61,7 +62,6 @@ namespace fyiReporting.RDL
 			// Generate the proxy source code
             List<string> lines = new List<string>();		// hold lines in array in case of error
 
-			VBCodeProvider vbcp =  new VBCodeProvider();
 			StringBuilder sb = new StringBuilder();
 			//  Generate code with the following general form
 
@@ -101,17 +101,13 @@ namespace fyiReporting.RDL
 //						tsw.Close();
 			// debug code !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!   
 
-			// Create Assembly
-			CompilerParameters cp = new CompilerParameters();
-			cp.ReferencedAssemblies.Add("System.dll");
-			cp.GenerateExecutable = false;
-			cp.GenerateInMemory = false;			// just loading into memory causes problems when instantiating
-			cp.IncludeDebugInformation = false; 
-			CompilerResults cr = vbcp.CompileAssemblyFromSource(cp, vbcode);
-			if(cr.Errors.Count > 0)
+			// Create Assembly (with Roslyn, VbCodeCompiler; CodeDom's VBCodeProvider wrote it to a file, which was loaded with Assembly.LoadFrom)
+			List<VbCodeError> listErrors;
+			Assembly assembly = VbCodeCompiler.Compile(vbcode, out listErrors);
+			if(listErrors.Count > 0)
 			{
-				StringBuilder err = new StringBuilder(string.Format("Code element has {0} error(s).  Line numbers are relative to Code element.", cr.Errors.Count));
-				foreach (CompilerError ce in cr.Errors)
+				StringBuilder err = new StringBuilder(string.Format("Code element has {0} error(s).  Line numbers are relative to Code element.", listErrors.Count));
+				foreach (VbCodeError ce in listErrors)
 				{
 					string l;
 					if (ce.Line >= 1 && ce.Line <= lines.Count)
@@ -124,8 +120,7 @@ namespace fyiReporting.RDL
 				return null;
 			}
 
-			return Assembly.LoadFrom(cr.PathToAssembly);	// We need an assembly loaded from the file system
-			//   or instantiation of object complains
+			return assembly;
 		}
 
 		internal Type CodeType()

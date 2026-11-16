@@ -20,6 +20,8 @@
     For additional information, email info@fyireporting.com or visit
     the website www.fyiReporting.com.
 */
+// Changed by Open PMS - Dental contributors, 2026-11-16 (package S3b-2b of the .NET 10 move, docs/port-notes/S3b-2.md part B): a double or a
+// float without a format is written as .NET Framework wrote it (GetFormatedString, ToStringNoFormat).
 
 using System;
 using System.Xml;
@@ -1188,18 +1190,41 @@ namespace fyiReporting.RDL
                         }
                     }
                     else    
-                        t = o.ToString();       // No format provided
+                        t = ToStringNoFormat(o);       // No format provided
                 }
                 else
                 {   // No style provided
-                    t = o.ToString();
+                    t = ToStringNoFormat(o);
                 }
 			}
 			catch
 			{
-				t = o.ToString();       // probably type mismatch from expectation
+				t = ToStringNoFormat(o);       // probably type mismatch from expectation
 			}
 			return t;
+		}
+
+		///<summary>A value's text without a format, as .NET Framework's ToString() gave it. .NET Framework writes a double with 15 significant
+		///digits and a float with 7, and zero without a sign; .NET (since Core 3.0) writes the shortest text that reads back as the same value
+		///("0.8999999999999999" for 0.3 * 3) and "-0" for negative zero. "G15" and "G7" give the .NET Framework text on .NET, in the current
+		///culture as ToString() did (tests\RdlCodeTests, the S3a-4 golden report).</summary>
+		static internal string ToStringNoFormat(object o)
+		{
+			if (o is double)
+			{
+				double d = (double) o;
+				if (d == 0)
+					d = 0;		// negative zero is written as zero
+				return d.ToString("G15");
+			}
+			if (o is float)
+			{
+				float f = (float) o;
+				if (f == 0)
+					f = 0;
+				return f.ToString("G7");
+			}
+			return o.ToString();
 		}
 
 		private bool IsConstant()
