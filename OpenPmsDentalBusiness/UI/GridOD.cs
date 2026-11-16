@@ -570,8 +570,8 @@ using OpenPmsDental.UI;
 		public bool ShowContextMenu { get; set; } = true;
 
 		///<summary>False by default: a ContextMenuStrip that a caller sets shows only its own items, as before. True: the grid adds Copy Cell Text,
-		///Copy Rows and the links to it each time it opens, as it does to its own menu and to a WinForms ContextMenu a caller sets. For S3a-M3,
-		///which turns those ContextMenus into ContextMenuStrips and keeps their grid items with this.</summary>
+		///Copy Rows and the links to it each time it opens, as it does to its own menu. S3a-M1 to S3a-M3b turned the WinForms ContextMenus that
+		///callers set on grids (which always got the grid items) into ContextMenuStrips with this set to true.</summary>
 		[Category("OD")]
 		[Description("Set to true to add Copy Cell Text, Copy Rows and the links to the ContextMenuStrip set on the grid.")]
 		[DefaultValue(false)]
@@ -2075,129 +2075,6 @@ using OpenPmsDental.UI;
 			}
 		}
 
-		#region Bridge for S3a-M3b - WinForms ContextMenu set by a caller
-		//S3a-M3 converted every caller but FormMedical (its Allergies and Problems grids, S3a-M3b after EHR-7). Removed by S3a-M3b once no caller sets
-		//the grid's ContextMenu (they set ContextMenuStrip and DoAddGridItemsToContextMenuStrip instead). NoHqTests' WinFormsMenuScanTests allows
-		//WinForms menus in this region only.
-		///<summary>The links added to a WinForms ContextMenu that a caller set.</summary>
-		private List<MenuItem> _listMenuItemsLinks;
-
-		///<summary>True if a caller set a WinForms ContextMenu on the grid (it shows instead of any ContextMenuStrip).</summary>
-		private bool IsWinFormsContextMenuSet() {
-			return ContextMenu!=null;
-		}
-
-		///<summary>Several locations throughout the program the context menu changes. This subscribes each menu to use the popup helper below.</summary>
-		protected override void OnContextMenuChanged(EventArgs e) {
-			//this event fires when the ContextMenu property of GridOD changes.
-			base.OnContextMenuChanged(e);
-			if(ContextMenu==null) {
-				ContextMenu=new ContextMenu();
-			}
-			ContextMenu.Popup+=ContextMenu_Popup;
-		}
-
-		///<summary>Just prior to displaying the context menu, add wiki links if neccesary.</summary>
-		protected virtual void ContextMenu_Popup(object sender,EventArgs e) {
-			//If multiple grids add the same instance of ContextMenu, then all of them will raise this event any time any of them raise the event.
-			//Only allow the event to operate if this is the grid that actually fired the event.
-			try {
-				if(((ContextMenu)sender).SourceControl.Name != this.Name) {
-					return;
-				}
-			}
-			catch(Exception ex) {
-				ex.DoNothing();
-				return;
-			}
-			if(this.ContextMenu==null) {
-				return;
-			}
-			//Todo: this is a bad selector:
-			MenuItem menuItemCopy = this.ContextMenu.MenuItems.OfType<MenuItem>().FirstOrDefault(x => x.Text == "Copy Cell Text");
-			List<MenuItem> listMenuItems = new List<MenuItem>();
-			if(menuItemCopy==null) {//Add it the first time
-				menuItemCopy = new MenuItem("Copy Cell Text",CopyCellClick);
-				if(this.ContextMenu.MenuItems.Count > 0) {
-					listMenuItems.Add(new MenuItem("-"));
-				}
-				listMenuItems.Add(menuItemCopy);
-				listMenuItems.ForEach(x => this.ContextMenu.MenuItems.Add(x));
-			}
-			if(!(0<=_mouseDownRow && _mouseDownRow<=ListGridRows.Count-1)
-				|| !(0<=_mouseDownCol && _mouseDownCol<=ListGridRows[_mouseDownRow].Cells.Count-1)
-				|| string.IsNullOrEmpty(ListGridRows[_mouseDownRow].Cells[_mouseDownCol].Text)) 
-			{
-				menuItemCopy.Enabled = false;
-			}
-			else {
-				menuItemCopy.Enabled = true;
-			}
-			//Copy Rows----------------------------------------------------
-			MenuItem menuItemCopyRows=this.ContextMenu.MenuItems.OfType<MenuItem>().FirstOrDefault(x => x.Text == "Copy Rows");
-			if(menuItemCopyRows==null) {//Add it the first time
-				menuItemCopyRows=new MenuItem("Copy Rows",CopyRowsClick);
-				this.ContextMenu.MenuItems.Add(menuItemCopyRows);
-			}
-			if(!_listSelectedIndices.Contains(_mouseDownRow)//If clicked row is not selected.
-				|| !(0<=_mouseDownCol && _mouseDownCol<=ListGridRows[_mouseDownRow].Cells.Count-1))//If clicked column is not in the row's cells.
-			{
-				menuItemCopyRows.Enabled = false;
-			}
-			else {
-				menuItemCopyRows.Enabled = true;
-			}
-			//Link items----------------------------------------------------
-			if(HasLinkDetect) {//Links go below any "Copy Text" menu items.
-				ContextMenuAddPopupLinks(sender);
-			}
-		}
-
-		///<summary>Just prior to displaying the context menu, add wiki links if neccesary.</summary>
-		private void ContextMenuAddPopupLinks(object sender) {
-			//If multiple grids add the same instance of ContextMenu then all of them will raise this event any time any of them raise the event.
-			//Only allow the event to operate if this is the grid that actually fired the event.
-			try {
-				if(((ContextMenu)sender).SourceControl.Name != this.Name) {
-					return;
-				}
-			}
-			catch(Exception ex) {
-				ex.DoNothing();
-				return;
-			}
-			if(ContextMenu!=null && _listMenuItemsLinks!=null) {
-			//Removes all previous wiki and web links from context menu.
-				for(int i=_listMenuItemsLinks.Count-1;i>=0;i--) {//backward because removing
-					ContextMenu.MenuItems.Remove(_listMenuItemsLinks[i]);
-				}
-			}
-			int rowClick = PointToRow(_mouseClickLocation.Y);
-			int colClick = PointToCol(_mouseClickLocation.X);
-			if(rowClick<0 || colClick<0) {//don't diplay links, not on grid row.
-				return;
-			}
-			if(_mouseButtonLastPressed==MouseButtons.Right && rowClick<=this.ListGridRows.Count) {
-				GridRow gridRow = this.ListGridRows[rowClick];
-				if(this.ContextMenu==null) {
-					this.ContextMenu=new ContextMenu();
-					return;
-				}
-				_listMenuItemsLinks=new List<MenuItem>();
-				if(this.ContextMenu.MenuItems.Count>0) {
-					_listMenuItemsLinks.Add(new MenuItem("-"));
-				}
-				StringBuilder stringBuilder = new StringBuilder();
-				gridRow.Cells.OfType<GridCell>().ToList().ForEach(x => stringBuilder.AppendLine(x.Text));
-				stringBuilder.AppendLine(gridRow.Note);
-				_listMenuItemsLinks.AddRange(OpenPmsDentalBusiness.UI.PopupHelper.GetContextMenuItemLinks(stringBuilder.ToString(),DoShowRightClickLinks));
-				if(_listMenuItemsLinks.Any(x=>x.Text!="-")) {//at least one REAL menu item that is not the divider.
-					_listMenuItemsLinks.ForEach(x => this.ContextMenu.MenuItems.Add(x));
-				}
-			}
-		}
-		#endregion Bridge for S3a-M3b - WinForms ContextMenu set by a caller
-
 		private void CopyCellClick(object sender,EventArgs e) {
 			try {
 				string copyText = ListGridRows[_mouseDownRow].Cells[_mouseDownCol].Text;
@@ -2463,7 +2340,7 @@ using OpenPmsDental.UI;
 			//if(e.Button==MouseButtons.Right){
 			//	return;
 			//}		
-			if(!IsWinFormsContextMenuSet() && this.ContextMenuStrip==null && this.ShowContextMenu) {
+			if(this.ContextMenuStrip==null && this.ShowContextMenu) {
 				if(e.Button==MouseButtons.Right) {
 					//The grid's own menu. Later right clicks show it as the grid's ContextMenuStrip.
 					_contextMenuStripGrid?.Dispose();
