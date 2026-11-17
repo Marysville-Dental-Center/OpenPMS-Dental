@@ -383,8 +383,8 @@ namespace Helper32Tests.Twain {
 			Assert.AreEqual(0,client.ProcessId,"The helper client ended the helper that did not answer.");
 		}
 
-		///<summary>The helper is missing: a stored 32-bit choice fails to open with the reason, and an unmarked one is reported not found by the
-		///in-process session, as before; nothing is started.</summary>
+		///<summary>The helper is missing: a stored 32-bit choice fails to open with the reason, and so does an unmarked one the program's DSM does
+		///not list (review fix 3 of S3b-8: not "not found", which would send the staff to Setup); nothing is started.</summary>
 		[TestMethod]
 		public void HelperMissing_32BitChoiceFailsWithTheReason_NothingStarted() {
 			string folder=NewFolder();
@@ -400,7 +400,10 @@ namespace Helper32Tests.Twain {
 			Assert.IsTrue(router.WaitForClose(TimeSpan.Zero));
 			TwainCaptureSessionRouter routerOld=NewRouter(NativeLister("Native Scanner"),channel,folder,TimeSpan.FromSeconds(10));
 			TwainCaptureOpenResult resultOld=routerOld.Open(TwainTestDsm.SENSOR,NewOptions());
-			Assert.AreEqual(TwainCaptureOpenError.SourceNotFound,resultOld.Error,resultOld.ErrorText);
+			Assert.AreEqual(TwainCaptureOpenError.Other,resultOld.Error,resultOld.ErrorText);
+			StringAssert.Contains(resultOld.ErrorText,"is not listed by the 64-bit TWAIN data source manager, and the 32-bit sources could not be checked");
+			StringAssert.Contains(resultOld.ErrorText,"was not found");
+			Assert.IsTrue(routerOld.WaitForClose(TimeSpan.FromSeconds(15)));
 			Assert.AreEqual(0,client.ProcessId);
 		}
 
