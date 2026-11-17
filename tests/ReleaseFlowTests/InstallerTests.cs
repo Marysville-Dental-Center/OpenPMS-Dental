@@ -200,7 +200,8 @@ namespace ReleaseFlowTests {
 				Assert.IsFalse(name.StartsWith("unins",StringComparison.OrdinalIgnoreCase),"The uninstaller is not staged: "+path);
 				Assert.IsFalse(name.StartsWith("OpenDent",StringComparison.OrdinalIgnoreCase),"A pre-rename name: "+path);
 			}
-			Assert.IsTrue(listFiles.Where(x => x.Key!="doc").All(x => !x.Value.Contains("\\") || x.Value.StartsWith(@"Helper32\")),
+			//The setup files are not files of the program folder (setup|x86\TWAINDSM.dll goes into the 32-bit system folder, S3b-8).
+			Assert.IsTrue(listFiles.Where(x => x.Key!="doc" && x.Key!="setup").All(x => !x.Value.Contains("\\") || x.Value.StartsWith(@"Helper32\")),
 				"The program's files are all at the top level, but for the one sub folder Helper32\\.");
 			Assert.IsTrue(listFiles.Where(x => x.Key=="own" && x.Value.Contains("\\")).All(x => x.Value.StartsWith(@"Helper32\OpenPmsDentalHelper32.")),
 				"Only the helper's own files are in Helper32\\.");

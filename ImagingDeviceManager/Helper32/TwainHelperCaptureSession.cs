@@ -183,8 +183,10 @@ namespace ImagingDeviceManager.Helper32 {
 				_processIdOpen=0;
 				byte[] dataReply;
 				TimeSpan timeout=(optionsOpen.OpenTimeout>TimeSpan.Zero ? optionsOpen.OpenTimeout : TimeSpan.FromSeconds(60))+OpenTimeoutExtra;
+				TwainCaptureQuarantineContext context=QuarantineContext;
 				_channel.Call(TwainHelperCommands.Open,new[] { _sessionId,productNameOpen,SessionGuid.ToString("D"),_funcReadMetadataKeys!=null ? "1" : "0",
-					_folderImagingTest },TwainHelperWire.Write(w => TwainHelperWire.WriteOptions(w,optionsOpen)),out dataReply,timeout);
+					_folderImagingTest,context.PatNum.ToString(CultureInfo.InvariantCulture),context.PatientName },
+					TwainHelperWire.Write(w => TwainHelperWire.WriteOptions(w,optionsOpen)),out dataReply,timeout);
 				_processIdOpen=_channel.ProcessId;
 				result=TwainHelperWire.Read(dataReply,TwainHelperWire.ReadOpenResult);
 			}

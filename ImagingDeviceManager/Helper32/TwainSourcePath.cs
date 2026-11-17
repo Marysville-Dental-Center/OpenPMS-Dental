@@ -76,6 +76,9 @@ namespace ImagingDeviceManager.Helper32 {
 		///<summary>The 32-bit helper path can be used here: a 64-bit process with a helper channel.</summary>
 		public bool CanUseHelper => _is64BitProcess && _funcChannel!=null;
 
+		///<summary>How long each call of a listing may take (TimeSpanListHelper); tests shorten it.</summary>
+		internal TimeSpan ListTimeout { get; set; }=TimeSpanListHelper;
+
 		#region Listing
 		///<summary>The sources of the program's own DSM, by ProductName (each once). Empty with errorText when it cannot be loaded or opened.</summary>
 		public List<TwainSourceEntry> ListNative(out string errorText) {
@@ -130,13 +133,13 @@ namespace ImagingDeviceManager.Helper32 {
 			try {
 				ITwainHelperChannel channel=_funcChannel();
 				byte[] dataReply;
-				string[] arrayHello=channel.Call(TwainHelperCommands.Hello,new string[0],null,out dataReply,TimeSpanListHelper);
+				string[] arrayHello=channel.Call(TwainHelperCommands.Hello,new string[0],null,out dataReply,ListTimeout);
 				if(arrayHello==null || arrayHello.Length<1 || arrayHello[0]!=TwainHelperCommands.VERSION.ToString(CultureInfo.InvariantCulture)) {
 					errorText="The 32-bit helper's TWAIN module is another version ("+(arrayHello==null || arrayHello.Length<1 ? "none" : arrayHello[0])
 						+", expected "+TwainHelperCommands.VERSION+"). Update the program again.";
 					return new List<TwainSourceEntry>();
 				}
-				string[] arrayResults=channel.Call(TwainHelperCommands.ListSources,new string[0],null,out dataReply,TimeSpanListHelper);
+				string[] arrayResults=channel.Call(TwainHelperCommands.ListSources,new string[0],null,out dataReply,ListTimeout);
 				if(arrayResults!=null && arrayResults.Length>1) {
 					errorText=arrayResults[1]??"";
 				}

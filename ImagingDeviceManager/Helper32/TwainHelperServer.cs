@@ -58,7 +58,8 @@ namespace ImagingDeviceManager.Helper32 {
 			switch(command) {
 				case TwainHelperCommands.Hello:
 					return new[] { TwainHelperCommands.VERSION.ToString(CultureInfo.InvariantCulture),Environment.Is64BitProcess ? "64" : "32",
-						GetDsmLibraryOrEmpty() };
+						GetDsmLibraryOrEmpty(),System.Runtime.InteropServices.Marshal.SizeOf(typeof(TW_USERINTERFACE)).ToString(CultureInfo.InvariantCulture),
+						System.Runtime.InteropServices.Marshal.SizeOf(typeof(TW_IMAGEMEMXFER)).ToString(CultureInfo.InvariantCulture) };
 				case TwainHelperCommands.ListSources:
 					return ListSources(out dataReply);
 				case TwainHelperCommands.Open:
@@ -180,10 +181,13 @@ namespace ImagingDeviceManager.Helper32 {
 			}
 			bool isReadingMetadataKeys=Arg(args,3)=="1";
 			string folderTest=Arg(args,4);
+			long patNum=Arg(args,5)=="" ? 0 : ParseLong(Arg(args,5));
+			string patientName=Arg(args,6);
 			TwainCaptureOptions options=TwainHelperWire.Read(data,TwainHelperWire.ReadOptions);
 			CaptureFolders folders=_isTestFolderAllowed && folderTest!="" ? CaptureFolders.CreateForFolder(folderTest) : CaptureFolders.CreateDefault();
 			TwainCaptureSession capture=new TwainCaptureSession(_dsmLoader,folders,_funcNow);
 			capture.SessionGuid=sessionGuid;
+			capture.QuarantineContext=new TwainCaptureQuarantineContext(patNum,patientName);
 			if(isReadingMetadataKeys) {
 				capture.FuncReadMetadataKeys=_funcReadMetadataKeys;
 			}

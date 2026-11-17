@@ -11,14 +11,15 @@ namespace ImagingDeviceManager.Helper32 {
 		///<summary>The version of these commands and TwainHelperWire's layout. Hello returns it; the program refuses another.</summary>
 		public const int VERSION=1;
 
-		///<summary>No arguments. Results: VERSION, the helper's process bitness ("32"), and the DSM library the helper would load ("" when none).
-		///</summary>
+		///<summary>No arguments. Results: VERSION, the helper's process bitness ("32"), the DSM library the helper would load ("" when none), and
+		///the sizes of TW_USERINTERFACE and TW_IMAGEMEMXFER in its process (8 and 38 in a 32-bit one, S3a-12's x86 column), for the tests.</summary>
 		public const string Hello="Hello";
 		///<summary>No arguments. Results: the DSM's library name (TWAINDSM.dll or twain_32.dll; "" when none loads), the error text ("" when none).
 		///Data: the sources (TwainHelperWire.WriteSources).</summary>
 		public const string ListSources="ListSources";
 		///<summary>Args: session id, ProductName, SessionGuid ("D"), "1" to read the capture metadata keys (CaptureMetadataParser) or "0", the
-		///capture folder for tests ("" = the default; honoured only by a helper started with the test DSM). Data: TwainCaptureOptions. Blocks
+		///capture folder for tests ("" = the default; honoured only by a helper started with the test DSM), the QuarantineContext's PatNum and
+		///patient name. Data: TwainCaptureOptions. Blocks
 		///until the source is open or failed (TwainCaptureSession.Open). Data back: TwainCaptureOpenResult.</summary>
 		public const string Open="Open";
 		///<summary>Args: session id, the program's enable id, "1" for a redelivery enable or "0". Data: TwainEnableRequest (without Tag).
