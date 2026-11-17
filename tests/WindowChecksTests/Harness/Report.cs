@@ -191,8 +191,11 @@ namespace WindowChecksTests {
 					listLines.Add(arrayExe[0]+" exe: none at <worktree>\\"+Relative(pathExe));
 					continue;
 				}
+				//On .NET the exe is the apphost, which the build rewrites only when it changes: the time of the build is the managed assembly's,
+				//OpenPmsDental.dll beside it (WINCHK-5; ProgramAssembly gives the .exe on .NET Framework).
+				pathExe=ProjectFileTests.ProgramAssembly.Find(arrayExe[1],"OpenPmsDental")??pathExe;
 				DateTime dateWrite=File.GetLastWriteTime(pathExe);
-				listLines.Add(arrayExe[0]+" exe <worktree>\\"+Relative(pathExe)+": "+dateWrite.ToString("yyyy-MM-dd HH:mm:ss")+" local ("
+				listLines.Add(arrayExe[0]+" program <worktree>\\"+Relative(pathExe)+": "+dateWrite.ToString("yyyy-MM-dd HH:mm:ss")+" local ("
 					+dateWrite.ToUniversalTime().ToString("yyyy-MM-dd HH:mm:ss")+" UTC)");
 			}
 			listLines.Add("Database: a scratch copy per run, winchk_<MMddHHmmss> on "+ScratchDb.Server+":"+ScratchDb.Port+", restored from the dump "

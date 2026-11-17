@@ -18,8 +18,15 @@ namespace WindowChecksTests.InProc {
 		private static FormOpenDental _formOpenDental;
 
 		///<summary>What ProgramEntry.Main does before the main window exists, on the window's (STA) thread. MouseWatcher (a low-level mouse hook
-		///for an auto-hidden taskbar) and the per-process DPI calls are left out: they act on the whole test process.</summary>
+		///for an auto-hidden taskbar, which acts on the whole desktop) and the NoDpi.txt and no-high-DPI branches (Dpi.SetUnaware; A5 starts the
+		///program out of process for them) are left out.</summary>
 		public static void InitializeAsProgramEntry() {
+			//As ProgramEntry.Main on .NET 10 (S3b-4), before anything creates a window: the .NET Framework's default font (.NET's is Segoe UI 9;
+			//decision 9), then per-monitor DPI awareness, which the .NET Framework build read from its app.config. The session's process is the
+			//program's own (WINCHK-5), so these per-process calls act on the program alone, as in a real start; without them every plain form of
+			//the in-process pictures drew in Segoe UI 9.
+			Application.SetDefaultFont(new System.Drawing.Font("Microsoft Sans Serif",8.25f));
+			Application.SetHighDpiMode(HighDpiMode.PerMonitorV2);
 			System.Windows.Media.RenderOptions.ProcessRenderMode=System.Windows.Interop.RenderMode.SoftwareOnly;
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);

@@ -4,8 +4,9 @@
        OPT-IN: without OPMS_WINDOW_CHECKS=1 every test is inconclusive, so Core and Full runs are unaffected. With it, the tests copy a dump of
        the synthetic test database (OPMS_WINDOW_CHECKS_DUMP) into a scratch database on the local MariaDB (127.0.0.1:3306, root, blank
        password) whose name starts with winchk_, run every check against that copy and drop it afterwards; results and screenshots go to
-       OPMS_WINDOW_CHECKS_OUT. The program's own output folder (OpenPmsDental\bin\Debug) is the one started or loaded: the in-process checks load
-       it in a process of their own whose base is that folder and whose configuration file is the exe's own (TestProbeHost; an AppDomain before
+       OPMS_WINDOW_CHECKS_OUT. The program's own output folder (OpenPmsDental\bin\Debug) is the one started or loaded: the in-process checks run
+       in the program's own process, its apphost started from that folder with TestProbeHost's startup hook, so its runtime, runtimeconfig,
+       deps.json and .dll.config are the program's (WINCHK-5; a copy of TestProbeHost with the exe's config on .NET Framework, an AppDomain before
        S3a-8b of the .NET 10 move). Every .cs file under this folder is compiled. -->
   <PropertyGroup>
     <!-- .NET 10 (S3b-5 of docs/specs/net10-plan.md): Windows Forms and WPF from the Windows Desktop framework, in place of the
@@ -37,8 +38,8 @@
     <ProjectReference Include="..\..\CodeBase\xCodeBase.csproj" />
     <ProjectReference Include="..\..\DataConnectionBase\xDataConnectionBase.csproj" />
     <ProjectReference Include="..\..\OpenPmsDentalBusiness\OpenPmsDentalBusiness.csproj" />
-    <!-- The in-process checks create the program's windows in a process based on OpenPmsDental\bin\Debug; the copies in this project's
-         own output folder are never loaded there (the process probes its own base first). -->
+    <!-- The in-process checks create the program's windows in the program's own process in OpenPmsDental\bin\Debug; the copies in this
+         project's own output folder are never loaded there (the program's .deps.json binds every file of the program from its own folder). -->
     <ProjectReference Include="..\..\OpenPmsDental\OpenPmsDental.csproj" />
     <ProjectReference Include="..\..\WpfControlsOD\WpfControlsOD.csproj" />
     <!-- The process of an in-process session (TestProbeHost, S3a-8b of the .NET 10 move: .NET has no new AppDomain). -->
