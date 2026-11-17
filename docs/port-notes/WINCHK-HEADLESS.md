@@ -13,7 +13,8 @@ process), and printed with PrintWindow, DrawToBitmap or RenderTargetBitmap. Noth
 - Each run's copy is brought to this build's fork schema level before any check starts the program, and RdlDesigner's menu is reached
   through its MenuStrip (WINCHK-4 below).
 - On .NET 10 x64 an in-process session is the program's own process (its apphost with TestProbeHost's startup hook), the stage 3b checks
-  C16 to C20, F5 and G3 are added, and the stage 3b screenshot pass with its before/after pairs is done (WINCHK-5 below).
+  C16 to C26, D6, F5, G3 to G5 and H3 are added, every part of section 6's 3b item is either checked, covered by another suite or
+  listed for a person (the coverage table in WINCHK-5 section 3), and the before/after pairs are made (WINCHK-5 below).
 
 ## WINCHK-3: the review notes of both rounds
 
@@ -334,9 +335,79 @@ From section 6's "Stage 3b (net10)" item, what the harness did not do yet, each 
 
 A form that sets no font of its own (C16 to C18) must have Microsoft Sans Serif at 8.25 pt times the text scale factor (decision 9);
 C19's and C20's pictures (a line of text: 3 and 5 colours) are checked as text on a background, not by a window's "more than 5 colours".
-Already there: the splash (A1), dashboards and their print preview (F1 to F4), the eForm and treatment plan print previews (D5, I3), the
-RDL viewer (G2). Not reachable headless and still for a person (section 6): "Make text bigger" above 100 %, 150 % and two monitors of
-different scaling, dragging between monitors, real prints to a PDF printer, voice perio, e-mail and clearinghouse sends, the self-update.
+
+**Added by the fix round** (`net10/winchk5-2`, the review's finding that the first round's "complete" rested on items with no check): the
+rest of the item that the harness can do without input, each as a picture.
+
+| Check | What | Group |
+|---|---|---|
+| C21 | FormSnap, the snap-layout window. The program never shows it (`FormODBase` and `FormFrame.timerHoverSnap_Tick` return before it, hidden as in Open Dental); shown as that code would show it: its default font, its 288 x 112 layout | C (`C21toC26_CommonControlsAndCaptureWindows`) |
+| C22 | MonthCalendar (Raw Population Data, `FormRpPHRawPop`) and DateTimePicker (Payment Plans, `FormRpPayPlans`) from Reports > Standard; neither report runs | C |
+| C23 | A TreeView with check boxes: Setup > Auto Notes > Export (`FormAutoNoteExport`), Select All; a synthetic category and two auto notes made by the business layer and deleted | C |
+| C24 | RichTextBox text: the program's `ODtextBox` (a RichTextBox with its spell check) on Edit Patient Information, three synthetic lines with a misspelt word; Cancel, the patient row unchanged | C |
+| C25 | The capture notice and the acquisition status window of ImagingDeviceManager, shown by its production `WinFormsCaptureUi` (internal, by reflection); they set the message box font themselves (design 7.1), which the check asserts | C |
+| C26 | The EOB viewer (`FormImages`, S0-6) with its hosted WPF ToolBar and ZoomSlider, as View EOB opens it: a synthetic EOB page imported for an unused claim payment key and deleted again (row and file) | C |
+| D6 | The WPF pop-ups of a Frm in FormFrame (Select Patient): the combo box's picker as its mouse-up handler opens it, the month calendar as DatePicker opens it, `WpfControls.UI.ToolTip` without delay; the keyboard focus after opening is noted | D (`D6_WpfPopups`) |
+| F2, F4 | Now also assert the default font of Edit Cell (`FormDashboardEditCell`) and Print Settings (`FormPrintSettings`), plain forms | F |
+| G4 | Reports > Custom Reports: a report whose expressions call three VB functions of its `<Code>` block, on the copy's patients through the program's report connection; the page's texts read from the viewer's pages equal the functions' results computed from the same rows | G (`G4G5_RdlCodeReports`) |
+| G5 | A report whose `<Code>` does not compile: the viewer reports BC30451; the viewer's messages dialog (`DialogMessages`) and RdlViewer's `DataSourcePassword`, both plain forms on the default font | G |
+| H3 | RdlDesigner opens G4's report; View > Properties, the Code tab shows the block; Check Syntax compiles it ("Code Verification": "No errors"); Cancel, nothing saved | H (`H3_RdlDesignerCode`) |
+
+`SourceScanTests` (no opt-in): no ImageList is made outside a designer, and every designer ImageList loads an ImageStream or sets its
+ColorDepth (so none takes .NET 8's new Depth32Bit default); no production Frm has a WPF DatePicker (only the developer test Frms), which is
+why D6 shows the month calendar below a combo box.
+
+**Coverage of the item.** One row for each part of section 6's "Stage 3b (net10)" item (and its "On x64" part): the check that covers
+it, the other suite that does, or "for a person" and why. "For a person" means an on-screen pass on a test PC: the harness sends no input,
+answers no UAC prompt, prints nothing, sends nothing and changes no Windows setting of the session.
+
+| Item of section 6 | Covered by | For a person |
+|---|---|---|
+| The main window and every module: toolbars, grids, `MenuOD` main menu, custom borders | A1 (main window), B1 to B7 (each module), C20 (the main menu's font), A6 (borders off) and every window picture (borders on); pairs | - |
+| Default font: splash screen | A1 (`A1-splash.png`) | - |
+| Default font: clinic picker | C18 (`FormComboPicker`, the clinic picker's drop-down) | - |
+| Default font: `ToolTipOD` | C19 | - |
+| Default font: progress windows | C17 (`FormProgressStatus`, `FormProgressExtended`) | - |
+| Default font: `MsgBoxCopyPaste` | C16 | - |
+| Default font: capture notice/status windows | C25 (they set the message box font on purpose; asserted) | - |
+| Default font: ODR parameter input | G2 (`G2-params-n.png`) | - |
+| Default font: dashboard edit and print dialogs | F2 (Edit Cell), F3 (Edit Tab), F4 (Print Settings); F2 and F4 assert the default font | - |
+| Default font: RDL viewer dialogs | G2 (the viewer), G5 (`DialogMessages`, `DataSourcePassword`) | - |
+| Default font: `FormSnap` | C21 (shown as the hidden code would show it) | - |
+| Default font: DbSettings, ServiceManager and UpdateFileCopier windows | A9 checks their manifests and icons; K3 and K7 SKIPPED | Yes: each asks for administrator rights and the harness never answers a UAC prompt; UpdateFileCopier runs only in a self-update |
+| The default-font windows with "Make text bigger" above 100 % | NoHqTests' `DefaultFontTests` (section 7) check the size times the text scale factor | Yes: a Windows setting of the person's session (changing it would change the owner's desktop) |
+| DPI changes when dragging a window between monitors | - | Yes: two monitors of different scaling and a mouse drag |
+| Dashboards and income/production graphs and their printing (`WinForms.DataVisualization`) | F1 to F5 (F4: the print settings' page image); the chart labels' fix pinned by FormatParityTests | Real prints (the harness never prints) |
+| Print previews and real prints to a PDF printer (sheets, statements, claim forms, RDL reports) | Previews: D5 (eForm), G1, G3 (FormPrintPreview), I3 (classic and sheet), F4; the RDL viewer G2, G4 | Real prints to a PDF printer: margins, fonts, page counts (the harness never prints) |
+| WPF Frm screens hosted in FormFrame | D1 to D5, E1 to E4, J1 to J14 | - |
+| Their combo, calendar and tooltip pop-ups | D6 (`WindowComboPicker`, `WindowMonthCalendar`, `WpfControls.UI.ToolTip`) | - |
+| Their keyboard focus | D6 notes where the focus is after opening | Yes: Tab order, typing and Alt shortcuts are keyboard input |
+| The Images module's hosted strips | B6 (the module with its WPF toolbars), C26 (the EOB viewer's ToolBar and ZoomSlider) | - |
+| The EOB viewer | C26 | - |
+| The tooth chart in WPF/2D, DirectX and OpenGL modes | I1 to I8, I11; S3b-5W's ToothChartImageTests and ToothChartHostTests (the gallery) | - |
+| Voice perio charting | - | Yes: speech recognition with a microphone |
+| WebView2 panes at each DPI | C15 (the Wiki's WebView2) at 100 % | Yes, above 100 %: a display setting of the session |
+| ImageLists created in code (icon edges with 32-bit depth) | `SourceScanTests.ImageLists_TakeTheirDepthFromAStreamOrSetIt` (none takes the new default); C23 notes the tree's ImageList; the icons in the B and C pairs | - |
+| TreeView check boxes | C23 | - |
+| DateTimePicker, MonthCalendar | C22 | The DateTimePicker's drop-down calendar (opens only on a click on its arrow) |
+| RichTextBox text | C24 | - |
+| E-mail receive and send | - | Yes: a mail server and a send (the harness sends nothing) |
+| A clearinghouse send to a sandbox | - | Yes: a send |
+| A Word letter merge | - | Yes: it starts Microsoft Word through COM and leaves the letter in Word's own window, another product the harness does not drive |
+| An RDL report with a VB `<Code>` function | G4, G5; RdlCodeTests (S3b-2 part B: the functions' pages equal the net48 engine's) and ReportTests' `RdlCodeBlockReportTests` | - |
+| RdlDesign opens, edits and previews a report | H1 (opens, RDL text), H2 (preview) | The edit: adding a text box on the design surface and File > Save are mouse work (H1's PARTLY) |
+| RdlDesign checks a `<Code>` block | H3 (Check Syntax: "No errors"); RdlCodeTests' `DesignerSyntaxCheck_UsesTheSameCompile` | - |
+| CentralManager and DocumentationBuilder start and do their main task | K1, K2 | DocumentationBuilder's Build (it opens the written XML in a browser; K2's PARTLY) |
+| PluginExample loads, and a .NET Framework plugin DLL gets the clear message | N64ATests' `PluginDecision16Tests` (`RebuiltPluginExample_Loads`, `NetFrameworkPlugin_GetsTheClearMessage_AndIsNotLoaded`, `RealNetFrameworkAssembly_IsRefused_WithoutLoadingIt`) | - |
+| The self-update end to end between two .NET 10 builds from a standard user (unchanged runtime; a new runtime patch) | ReleaseFlowTests (`RuntimePartTests`, `RuntimePartDbTests`, S3b-7) | Yes: a test update server, two test PCs and the UAC prompt of UpdateFileCopier |
+| The setup on a clean VM without any .NET | S3b-7's Test-Installer (the owner's elevated run is due) | Yes: a clean VM and an elevated setup |
+| The setup over the bridge release | Removed: no bridge release (decision 21) and no install to migrate (decision 22) | - |
+| On x64: Help > About and the diagnostics show a 64-bit process | A2 (`Process: 64-bit`, `.NET runtime: .NET 10.`) | - |
+| On x64: TWAIN capture with the clinic's sensor and a document scan through the 64-bit TWAINDSM | E1 to E4 (the capture windows); ImagingCapture's tests | Yes: the real sensor and scanner |
+| On x64: each helper link where a test PC has the vendor software | Helper32Tests | Yes: the vendors' software |
+| On x64: the tooth chart in DirectX and OpenGL, and a mode that cannot start falling back | I7, I11; S3b-5W's tests | - |
+| On x64: the Snipping Tool start of the claim attachment windows and the on-screen keyboard | - | Yes: they start Windows' own programs on the person's desktop |
+| On x64: the setup's move from a 32-bit bridge install; a mixed pair of workstations | Removed by decision 22 (no install to migrate, no mixed workstations) | - |
 
 ### 4. Program defects found and fixed (same behaviour as net48)
 
@@ -356,7 +427,8 @@ different scaling, dragging between monitors, real prints to a PDF printer, voic
 
 Without `OPMS_WINDOW_CHECKS`: WindowChecksTests 38 tests, 6 passed (the harness self-tests: AssemblyProbe, the session process, the event
 keys, the result round trip, the copy migration, the MenuStrip lookup), 32 skipped (Inconclusive), none failing
-(`winchk5-self-3.txt`, `winchk5-self-4.txt`). FormatParityTests 21 of 21 (`winchk5-fmt-1.txt`). NoHqTests 115 of 115 in every run.
+(`winchk5-self-3.txt`, `winchk5-self-4.txt`). FormatParityTests 21 of 21 (`winchk5-fmt-1.txt`). NoHqTests 115 of 115 in every run. After the fix
+round: 44 tests, 8 passed (with `SourceScanTests`' two), 36 skipped, none failing (`winchk5-2-self-1.txt`).
 
 ### 6. The runs
 
@@ -373,13 +445,28 @@ session started the program within 5 s.
 | winchk-3b-1 | A, B, C, D, E | 37eeebc3d | passed, none failing | PASSED 34, PARTLY 11 | 260 s |
 | winchk-3b-2 | F, G, H | 1a14e4c84 | passed, none failing | PASSED 4, PARTLY 6 | 159 s |
 | winchk-3b-3 | I, J, K | 1a14e4c84 | passed, none failing | PASSED 27, PARTLY 7, SKIPPED 4 | 383 s |
+| winchk-3b-4 | C, D (fix round) | 9760531a5 | passed, none failing | PASSED 26, PARTLY 6 | 164 s |
+| winchk-3b-5 | F, G, H (fix round) | ff88665d7 | passed, none failing | PASSED 6, PARTLY 7 | 210 s |
 
 The commits after 37eeebc3d touched nothing groups A to E reach (the chart labels, I3's page count, G3, K2). The earlier runs are kept
 beside them as evidence of what was fixed: `winchk-3b-1-first` (A7, C18, C19 failed; every Stop waited 60 s), `-1-second` (all passed,
 before the menu fix), `-1-third` (C20's picture rule), `winchk-3b-2-first` and `-second` (the chart labels; G3 without its page count),
-`winchk-3b-3-first` (I3's page count, K2's message).
+`winchk-3b-3-first` (I3's page count, K2's message). The fix round (`net10/winchk5-2`) ran the groups with new checks again: C and D
+(`winchk-3b-4`, every check passed at the first run; the commit after it changed only G5, H3 and G4's report) and F, G and H
+(`winchk-3b-5-first`: G5 and H3 failed, both harness assumptions, fixed in ff88665d7; `-second` and `winchk-3b-5` passed). A, B, E, I, J and K
+have no new check and nothing they reach changed, so `winchk-3b-1` to `-3` stand for them. The fix round's two harness fixes:
 
-No check FAILED. SKIPPED by design: I9 (TC-8 removed the developer switch), K3, K7 and K9 (elevation; the harness never answers a UAC
+- **H3: UI Automation inside a modal window.** Report Properties is modal inside View > Properties' Click, whose UI Automation Invoke does not
+  return until it closes, and UI Automation did not answer that process meanwhile ("did not answer within 15 s"). The tab is selected with
+  `TCM_SETCURFOCUS` (on a tab control without buttons it sends TCN_SELCHANGING and TCN_SELCHANGE as a click does) and Check Syntax and
+  Cancel are pressed with `BM_CLICK`: window messages, no input.
+- **G5: what the warning button shows.** The expression that calls the missing function is a severity 8 error, so the viewer shows its
+  error page ("Errors processing report", with BC30451 on it), and its warning button's DialogMessages lists the warnings of that page's own
+  run: RdlViewer.GetReportErrorMsg gives the page a data source with the provider "xxx", which no connection opens ("Unable to connect to
+  datasource 'DS1'", on any runtime; its rows are inline). The check now compares the dialog with the messages the viewer hands it and
+  asserts the compile error on the page.
+
+No check FAILED in the last run of each group. SKIPPED by design: I9 (TC-8 removed the developer switch), K3, K7 and K9 (elevation; the harness never answers a UAC
 prompt). **Every PARTLY item, for a person:**
 
 - A1: compare A1-main.png and A1-splash.png with stage 0's pictures (looks only).
@@ -388,11 +475,15 @@ prompt). **Every PARTLY item, for a person:**
 - B1: B1-appts-day.png and B1-appts-week.png against stage 0's 03b and 03c.
 - B6: B6-images.png against stage 0's 01 (tree and toolbar).
 - C15: the exit time after a session that opened the Wiki (stage 0 finding 2) needs File > Exit in a real run.
+- C22: the DateTimePicker's drop-down calendar (it opens only on a click on its arrow). C24: the text in C24.png, its font, line breaks
+  and the spell check's red underline. C26: the EOB viewer's toolbar and zoom slider (WPF hosted in Windows Forms) and the page fitted.
+- D6: the keyboard focus in a Frm (Tab order, typing, Alt shortcuts are keyboard input).
 - D3: the red underline's look in D3.png.
 - E1 to E3: bold, wrapped and multi-line labels in E1.png to E3.png; E4: the device line, the bold 'Settings in effect' and the wrapped red
   check line in E4.png.
 - F1: the graphs in F1.png (empty on synthetic data but the 30-day one); F5: the graphs' axes, legends and fonts in F5-1.png to F5-6.png.
-- G1: paging through the report's pages (one page here). G3: the page in G3.png (margins, fonts, the time card's grid).
+- G1: paging through the report's pages (one page here). G3: the page in G3.png (margins, fonts, the time card's grid). G4: the page in
+  G4.png (the title from Code.Title(), the table's rows).
 - H1: adding a Text box to the page header and File > Save (mouse work on RdlDesigner's design surface). H2: the preview's messages in
   H2-preview.png (RdlViewer draws them itself).
 - I1: the filling on 30 and the date slider in I1-chart.png (the big chart is the same picture). I2: both Save to Images pictures show the
@@ -401,7 +492,12 @@ prompt). **Every PARTLY item, for a person:**
   mouse work; the memory after Show Big and after closing it.
 - K2: Build OD Documentation is not pressed headless (it opens the written XML in a browser).
 
-These are the items the .NET Framework runs had (WINCHK-4), plus F5's and G3's for the new pictures.
+These are the items the .NET Framework runs had (WINCHK-4), plus those of the new checks (F5, G3, C22, C24, C26, D6, G4). With them, the
+parts of section 6's item that only a person can do (section 3's coverage table, "For a person"): "Make text bigger" above 100 %, 150 % and
+two monitors of different scaling with a window dragged between them, WebView2 above 100 %, real prints to a PDF printer, voice perio
+charting, e-mail receive and send, a clearinghouse send, the Word letter merge, RdlDesign's edit on its design surface, DocumentationBuilder's
+Build, the DbSettings, ServiceManager and UpdateFileCopier windows (elevation), the self-update end to end and the setup on a clean VM, and
+on x64 the real sensor and scanner, the vendors' helper links and the Snipping Tool and on-screen keyboard starts.
 
 ### 7. The before/after pairs
 
@@ -409,14 +505,14 @@ These are the items the .NET Framework runs had (WINCHK-4), plus F5's and G3's f
   `.git/od-tools/test-results/winchk-before-net48/` before anything else (with WINCHK-4's net48 runs `winchk4-1` to `-4`, which hold the
   pictures the gate's runs lack: its F, H and I checks failed on the stale copy that WINCHK-4 fixed). 111 of the 145 pairs take the gate's
   picture, 34 WINCHK-4's.
-- **After:** the three runs above.
+- **After:** the runs above; a picture comes from the first of `winchk-3b-5`, `-4`, `-1`, `-2`, `-3` that has it.
 - **The page:** `.git/od-tools/test-results/winchk-pairs-3b/index.html` (relative paths to `before/`, `after/` and `diff/` beside it;
   `winchk-pairs-3b.zip`; outside the repository). A summary in plain words for the owner at the top, an overview of every pair with its
   share of changed pixels, then each group's pairs, the most changed first: the net48 picture, the .NET 10 picture and a difference image
   (the after picture faded to grey, pixels that differ by more than 16 in a colour channel in red, an area only one picture has in magenta)
   with its numbers, and the pictures only one set has. Made by a script of the scratchpad (`Make-Pairs.ps1`, System.Drawing).
-- **What it shows:** 145 pairs, 53 identical to the pixel; 18 pictures only in the .NET 10 set (the new checks); none only in the net48
-  set. Most of the rest differ where the time or the copy's name shows (the Appointments module's "now" line and today, the 30-day graph's
+- **What it shows:** 145 pairs, 53 identical to the pixel; 37 pictures only in the .NET 10 set (the new checks, 18 of the first round and
+  19 of the fix round); none only in the net48 set. The new checks' pictures have no net48 picture: the .NET Framework runs never took them. Most of the rest differ where the time or the copy's name shows (the Appointments module's "now" line and today, the 30-day graph's
   dates, Help > About's database). Different on purpose: the Release publish prompt (S3b-7's text naming .NET 10), the .NET crash dialog of
   DocumentationBuilder, RdlDesigner's toolbar (S3b-2b's Panel) and its error texts naming the missing file's path. For a person, from the new
   runtime and none changing what a person can do: print previews place and scale the page a few pixels differently (G1, I3, D5, F4), the
@@ -429,3 +525,6 @@ These are the items the .NET Framework runs had (WINCHK-4), plus F5's and G3's f
 - Full Debug x64 lane build of `OpenDental.Local.slnf` after the last product change: 0 errors (and again at the end of the package).
 - `tools/Test-NoEolFlips.ps1 -Base net10/switch`: no changed text file changed its line ends.
 - No `winchk_` database left on 127.0.0.1:3306; no TestProbeHost file left in the program folders.
+- Fix round (`net10/winchk5-2`, test code and these notes only, no product change): a full Debug x64 lane build at the end, 0 errors;
+  Targeted WindowChecksTests, NoHqTests and FormatParityTests without the opt-in (`winchk5-2-final.txt`); `Test-NoEolFlips.ps1` clean; no
+  `winchk_` database left (`SHOW DATABASES LIKE 'winchk%'` empty), `%TEMP%\stage1-rdl-code` gone.
