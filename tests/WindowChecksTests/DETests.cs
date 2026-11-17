@@ -17,6 +17,13 @@ namespace WindowChecksTests {
 			},"chart");
 		}
 
+		///<summary>Stage 3b (WINCHK-5's fix round): the WPF pop-ups of a Frm hosted in FormFrame.</summary>
+		[TestMethod]
+		public void D6_WpfPopups() {
+			WinChkFixture.Begin("D");
+			CTests.RunInProcess(new[] { new[] { "D6","WPF pop-ups of a Frm: combo box picker, month calendar, tool tip" } },"chart");
+		}
+
 		[TestMethod]
 		public void E1toE4_CaptureWindows() {
 			WinChkFixture.Begin("E");

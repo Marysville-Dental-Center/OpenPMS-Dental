@@ -21,7 +21,36 @@ namespace OpenPmsDentalGraph {
 			if(!IsNumberValueType(e.ValueType) || !IsNumberFormat(e.Format)) {
 				return;
 			}
+			if(!string.IsNullOrEmpty(e.Format) && e.Format.Contains("{")) {
+				//A composite format ("{0:0}", "${0:0.0}", "{0:0,}K": GraphQuantityOverTime's y axis), which the chart writes with string.Format. As a
+				//number format it wrote "${1:0}" for 10 (WINCHK-5): its "{0:...}" items are written through ToStringNetFx instead.
+				e.LocalizedValue=string.Format(new NetFxFormatProvider(CultureInfo.CurrentCulture),e.Format,e.Value);
+				return;
+			}
 			e.LocalizedValue=e.Value.ToStringNetFx(string.IsNullOrEmpty(e.Format) ? null : e.Format,CultureInfo.CurrentCulture);
+		}
+
+		///<summary>string.Format's items of a double, written as the .NET Framework wrote them (ODNumberText.ToStringNetFx in the culture).</summary>
+		private class NetFxFormatProvider:System.IFormatProvider,System.ICustomFormatter {
+			private readonly CultureInfo _cultureInfo;
+
+			public NetFxFormatProvider(CultureInfo cultureInfo) {
+				_cultureInfo=cultureInfo;
+			}
+
+			public object GetFormat(System.Type formatType) {
+				return formatType==typeof(System.ICustomFormatter) ? this : _cultureInfo.GetFormat(formatType);
+			}
+
+			public string Format(string format,object arg,System.IFormatProvider formatProvider) {
+				if(arg is double value) {
+					return value.ToStringNetFx(string.IsNullOrEmpty(format) ? null : format,_cultureInfo);
+				}
+				if(arg is System.IFormattable formattable) {
+					return formattable.ToString(format,_cultureInfo);
+				}
+				return arg?.ToString()??"";
+			}
 		}
 
 		///<summary>The value types the chart writes as numbers (not dates or times, which it writes from the date the double stands for).</summary>

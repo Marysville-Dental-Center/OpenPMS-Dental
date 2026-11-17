@@ -61,7 +61,9 @@ namespace WindowChecksTests.InProc {
 				if(printPreviewControl==null) {
 					return -1;
 				}
-				Array arrayPages=Ui.GetField(printPreviewControl,"pageInfo") as Array;
+				//The laid-out pages: the field is pageInfo on .NET Framework and _pageInfo in .NET's Windows Forms (WINCHK-5: the .NET Framework
+				//name found nothing on .NET 10, so every preview counted 0 pages).
+				Array arrayPages=(Ui.GetField(printPreviewControl,"pageInfo")??Ui.GetField(printPreviewControl,"_pageInfo")) as Array;
 				return arrayPages?.Length??0;
 			});
 		}

@@ -1330,6 +1330,32 @@ loaded-module check, the staged list against Build-Release's (the owner's elevat
 `RuntimePartTests` and `RuntimePartDbTests`; handoffs to S3b-5 in the note (RegistryTests' count of fork values, AttributionTests' shipped
 files, TestProbeHost's CopyHost).
 
+**Status (2026-11-16), WINCHK-5 (the gate's screenshot pass).** On `net10/winchk5-1` and its fix round `net10/winchk5-2`
+(`docs/port-notes/WINCHK-HEADLESS.md`, section WINCHK-5): the window checks run on .NET 10 x64 at the owner's connected desktop, every group
+A to K, no check failed in the last run of each group (PARTLY items for a person listed there; SKIPPED only by design). An in-process session
+is now the program's own process (its apphost with TestProbeHost's startup hook: its runtime, runtimeconfig, deps.json and .dll.config), which
+fixes the gate's `SessionProcess_RunsFromTheProgramFolder_WithItsConfig`; the other .NET Framework assumptions the runs found are fixed in the
+harness (Form's event keys, PrintPreviewControl's pages, the build time of the managed assembly, an exception text). 3b checks added: the
+default-font windows (MsgBoxCopyPaste, the progress windows, the clinic picker's drop-down, ToolTipOD, the main menu, FormSnap, the dashboard's
+Edit Cell and Print Settings, the RDL viewer's DialogMessages and DataSourcePassword), the dashboard graphs one by one, a classic print
+preview, MonthCalendar, DateTimePicker, a TreeView with check boxes, RichTextBox text, the capture notice and status windows, the EOB viewer
+with its hosted strips, the WPF Frm combo, calendar and tool tip pop-ups, an RDL report with VB `<Code>` functions and one whose `<Code>` does
+not compile, RdlDesigner's Code tab and Check Syntax; a source scan shows no ImageList takes .NET 8's new default depth. Two program defects
+fixed with net48's behaviour: MenuOD drew every main menu in Segoe UI 9, and the dashboard's y axes read "${1:0}" (S3b-FMT's ChartNumberText
+and composite formats). Before/after pairs at 100 % on one monitor: the 3a gate's net48 pictures beside the .NET 10 x64 ones with difference
+images, `.git/od-tools/test-results/winchk-pairs-3b/index.html` (and `.zip`); 145 pairs, 53 identical, the rest explained there, and 37
+pictures of new checks with no net48 picture. **The screenshot pass of section 6 is complete in this sense:** every part of the "Stage 3b
+(net10)" item has a row in the note's coverage table (WINCHK-5 section 3) naming the check that covers it, the other suite that does (RdlCodeTests
+and ReportTests for `<Code>`, N64ATests for PluginExample and the .NET Framework plugin message, S3b-5W's tooth chart tests, ReleaseFlowTests,
+NoHqTests' default-font tests), or that it is for a person. **Still for a person** (an on-screen pass on a test PC: input, elevation, printing,
+sending or a changed display setting): "Make text bigger" above 100 %, 150 % and two monitors of different scaling with a window dragged
+between them, WebView2 above 100 %, real prints to a PDF printer (sheets, statements, claim forms, RDL reports), voice perio charting, e-mail
+receive and send, a clearinghouse send to a sandbox, the Word letter merge, the keyboard focus in the WPF Frms, a DateTimePicker's drop-down,
+RdlDesign's edit on its design surface, DocumentationBuilder's Build, the DbSettings, ServiceManager and UpdateFileCopier windows, the self-update
+end to end and the setup on a clean VM, and on x64 the real sensor and a document scanner, the helper links with the vendors' software, and
+the Snipping Tool and on-screen keyboard starts. The setup over the bridge release, the move from a 32-bit install and the mixed pair of
+workstations are gone with decisions 21 and 22.
+
 **Order on the branch.** S3b-0 (spike) and S3b-1 first; then S3b-2, S3b-3 strictly in sequence (each layer must be net10 before the
 layer above can build); then S3b-4 with S3b-6 and S3b-7 in parallel (disjoint files: the Middle Tier package owns the Remoting and
 WebServices files, the release package owns ForkReleases/DocumentMiscs/PrefL/UpdateFileCopier's `FormMain.cs`/setup/Build-Release;

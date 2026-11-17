@@ -3,9 +3,11 @@
 // makes it equal.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Threading;
 using System.Windows.Forms.DataVisualization.Charting;
 using System.Xml.Serialization;
@@ -115,6 +117,48 @@ namespace FormatParityTests {
 			Assert.IsTrue(OpenPmsDentalGraph.ChartNumberText.IsNumberFormat("#,##0.00"));
 			Assert.IsFalse(OpenPmsDentalGraph.ChartNumberText.IsNumberFormat("MM/dd/yy"));
 			Assert.IsFalse(OpenPmsDentalGraph.ChartNumberText.IsNumberValueType(ChartValueType.DateTime));
+		}
+
+		///<summary>A composite format ("{0:0}" with text around it), as GraphQuantityOverTime gives its y axis: the chart writes it with
+		///string.Format, and so does ChartNumberText, its items through the helper. Taken as a number format it wrote "${1:0}" for 10 (the
+		///dashboard of the window checks, WINCHK-5). The axis labels and a point label of the same format.</summary>
+		[TestMethod]
+		public void ChartLabels_CompositeFormat_IsWrittenAsTheChartWritesIt() {
+			Chart chart=new Chart();
+			chart.Width=300;
+			chart.Height=200;
+			ChartArea chartArea=new ChartArea("a");
+			chartArea.AxisY.LabelStyle.Format="${0:0}";
+			chartArea.AxisY.Minimum=0;
+			chartArea.AxisY.Maximum=10;
+			chartArea.AxisY.Interval=2;
+			chart.ChartAreas.Add(chartArea);
+			Series series=new Series("s");
+			series.ChartArea="a";
+			series.ChartType=SeriesChartType.Column;
+			series.IsValueShownAsLabel=true;
+			series.LabelFormat="{0:0.00} pts";
+			series.Points.AddXY(1,1.005);
+			chart.Series.Add(series);
+			OpenPmsDentalGraph.ChartNumberText.Attach(chart);
+			List<string> listAxisLabels=new List<string>();
+			string label=null;
+			chart.FormatNumber+=(sender,e) => {
+				if(e.ElementType==ChartElementType.DataPoint) {
+					label=e.LocalizedValue;
+				}
+				else if(e.ElementType==ChartElementType.AxisLabels && e.Format=="${0:0}") {
+					listAxisLabels.Add(e.LocalizedValue);
+				}
+			};
+			using(MemoryStream memoryStream=new MemoryStream()) {
+				chart.SaveImage(memoryStream,ChartImageFormat.Png);
+			}
+			CollectionAssert.Contains(listAxisLabels,"$10",string.Join(", ",listAxisLabels));
+			CollectionAssert.Contains(listAxisLabels,"$0",string.Join(", ",listAxisLabels));
+			Assert.IsFalse(listAxisLabels.Any(x => x.Contains("{")),string.Join(", ",listAxisLabels));
+			//1.005 with "0.00": 1.01 on the .NET Framework, 1.00 with .NET's own formatter (the exact binary value is below 1.005).
+			Assert.AreEqual("1.01 pts",label);
 		}
 
 		[TestMethod]
