@@ -274,17 +274,29 @@ namespace LibraryBindingTests {
 			Assert.IsTrue(listNotCopied.Count<dictMapped.Count/2,"Mapped packages no build copies: "+string.Join(", ",listNotCopied));
 		}
 
-		///<summary>Each third-party file the release ships that a NuGet package supplies (the 30 that "Required dlls" held until S2-4, and the 8 of
-		///Helix Toolkit's closure, TC-4) is the file of
-		///the package at the version the lock files name: OpenPmsDental's lock file names that version, the program's restore copies that very asset
-		///of it (tools\Build-Release.ps1 compares each staged file with it: Test-PackageFiles), and the built program folder holds it byte for byte.
-		///The other third-party files of the allow-list are the ones "Required dlls" keeps (the Direct Project; SharpDX and Tao left with TC-9b) or
-		///are built here.</summary>
+		///<summary>Each third-party file the .NET 10 release ships that a NuGet package's restore assets supply is the file of the package at the
+		///version the lock files name: OpenPmsDental's lock file names that version, the program's restore copies that very asset of it
+		///(tools\Build-Release.ps1 compares each staged file with it: Test-PackageFiles), and the built program folder holds it byte for byte.
+		///The list is pinned name by name: on .NET 10 the Microsoft.Bcl and System.* support packages of the net48 list are pruned (the shared
+		///framework has them, and the files it shares with a package ship as Build-Release's "runtime" files), and Roslyn (the report engine's VB
+		///code), the System.* Windows packages and WinForms.DataVisualization are new. The three WebView2 managed files come from the WebView2
+		///package's own build files (lib_manual), not its restore assets, so PackageOf maps none of them: Build-Release checks them through
+		///$PackageBuildFiles (Test-PackageFiles), not this test. The other third-party files of the allow-list are the ones "Required dlls" keeps
+		///(the Direct Project; SharpDX and Tao left with TC-9b) or are built here.</summary>
 		[TestMethod]
 		public void ShippedPackageFiles_AreTheFilesOfTheLockFilesVersions() {
 			List<string> listThird=BuildRelease.ListFiles().Where(x => x.Key=="third").Select(x => x.Value).ToList();
 			List<string> listFromPackages=listThird.Where(x => Libraries.PackageOf(x)!=null).ToList();
-			Assert.AreEqual(38,listFromPackages.Count,string.Join(", ",listFromPackages));
+			CollectionAssert.AreEquivalent(new[] {
+				"BouncyCastle.Cryptography.dll","CommunityToolkit.Common.dll","CommunityToolkit.Diagnostics.dll","CommunityToolkit.Mvvm.dll",
+				"Google.Apis.dll","Google.Apis.Auth.dll","Google.Apis.Core.dll","Google.Apis.Gmail.v1.dll","HelixToolkit.dll","HelixToolkit.Geometry.dll",
+				"HelixToolkit.Maths.dll","HelixToolkit.Wpf.dll","MailKit.dll","Microsoft.Extensions.DependencyInjection.Abstractions.dll",
+				"Microsoft.Extensions.Logging.Abstractions.dll","Microsoft.CodeAnalysis.dll","Microsoft.CodeAnalysis.VisualBasic.dll",
+				"Microsoft.Identity.Client.dll","Microsoft.IdentityModel.Abstractions.dll","MimeKit.dll","MySqlConnector.dll","Newtonsoft.Json.dll",
+				"Renci.SshNet.dll","System.DirectoryServices.AccountManagement.dll","System.DirectoryServices.Protocols.dll","System.IO.Ports.dll",
+				"System.Management.dll","System.ServiceProcess.ServiceController.dll","System.Speech.dll","WebView2Loader.dll",
+				"WinForms.DataVisualization.dll","WinForms.DataVisualization.Utilities.dll" },
+				listFromPackages.ToArray(),string.Join(", ",listFromPackages));
 			CollectionAssert.AreEquivalent(new[] { "Health.Direct.Agent.dll","Health.Direct.Common.dll","Health.Direct.ResolverPlugins.dll" },
 				listThird.Where(x => RequiredDlls.Files.ContainsKey(x)).ToArray(),"The shipped files of Required dlls.");
 			string folderProgram=RepoPaths.Combine("OpenPmsDental");
@@ -324,7 +336,7 @@ namespace LibraryBindingTests {
 			}
 			Assert.AreEqual(0,listProblems.Count,string.Join("\r\n",listProblems));
 			if(!isBuilt) {
-				BuildOutput.NotBuilt(@"OpenPmsDental\bin\Debug is not built, so its copies are not compared. Build OpenDental.Local.slnf (Debug|x86) first.");
+				BuildOutput.NotBuilt(@"OpenPmsDental\bin\Debug is not built, so its copies are not compared. Build OpenDental.Local.slnf (Debug|x64) first.");
 			}
 		}
 

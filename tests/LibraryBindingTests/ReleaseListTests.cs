@@ -1,7 +1,8 @@
 // The release ships exactly the library files the programs need (those of "Required dlls" and, since S2-4 of the .NET 10 move, the NuGet
 // packages' own files at the lock files' versions): tools\Build-Release.ps1's allow-list (which is also what installer\OpenPmsDental.iss
-// installs, since it installs the staging folder as a whole) against what the built program references, all the way down, and every assembly a
-// shipped file references is shipped too or is part of the .NET Framework.
+// installs, since it installs the staging folder as a whole, plus the setup files it installs into the Windows system folder) against what the
+// built program references, all the way down, and every assembly a shipped file references is shipped too or is part of the .NET 10 shared
+// framework (Microsoft.NETCore.App and Microsoft.WindowsDesktop.App), which the self-contained release ships whole as its "runtime" files.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
 using System.Collections.Generic;
@@ -48,15 +49,17 @@ namespace LibraryBindingTests {
 
 		private static void SkipUnlessBuilt() {
 			if(!File.Exists(Path.Combine(ProgramFolder,"OpenPmsDental.exe"))) {
-				BuildOutput.NotBuilt(@"OpenPmsDental\bin\Debug is not built. Build OpenDental.Local.slnf (Debug|x86) first.");
+				BuildOutput.NotBuilt(@"OpenPmsDental\bin\Debug is not built. Build OpenDental.Local.slnf (Debug|x64) first.");
 			}
 		}
 
 		///<summary>The program's own assemblies in its output folder (and the third-party ones built from this repository): the files on the
-		///allow-list that are no library files (Libraries).</summary>
+		///allow-list that are no library files (Libraries). Only the "own" and "third" kinds: the "runtime" files are the shared framework itself
+		///(among them its compatibility facades, such as System.Data.dll, which type-forward to packages outside the shared framework), which
+		///Build-Release -Full byte-compares with the runtime packs; they are no program assemblies.</summary>
 		private static List<AssemblyFacts> GetBuiltAssemblies() {
 			List<AssemblyFacts> listAssemblies=new List<AssemblyFacts>();
-			foreach(KeyValuePair<string,string> pair in BuildRelease.ListFiles().Where(x => x.Key!="doc" && MetadataReader.IsBinary(x.Value))) {
+			foreach(KeyValuePair<string,string> pair in BuildRelease.ListFiles().Where(x => (x.Key=="own" || x.Key=="third") && MetadataReader.IsBinary(x.Value))) {
 				string path=Path.Combine(ProgramFolder,pair.Value);
 				if(Libraries.Files.ContainsKey(pair.Value) || !File.Exists(path)) {
 					continue;//OpenPmsDental.XmlSerializers.dll and OpenPmsDentalBusiness.XmlSerializers.dll come with Release builds only.
@@ -106,8 +109,19 @@ namespace LibraryBindingTests {
 			SkipUnlessBuilt();
 			HashSet<string> hashSetNeeded=GetLibrariesTheProgramNeeds();
 			List<string> listAllowed=BuildRelease.ListFiles().Where(x => x.Key=="third" && Libraries.Files.ContainsKey(x.Value)).Select(x => x.Value).ToList();
+			//The self-contained release ships the shared framework whole (decision 20): a package file that is also a file of the runtime packs
+			//(System.CodeDom, System.Diagnostics.EventLog and System.Security.Cryptography.ProtectedData of Microsoft.WindowsDesktop.App) ships as
+			//Build-Release's "runtime" file beside the programs, never on the third-party list as well (Build-Release refuses a file on two lists).
+			List<string> listRuntime=BuildRelease.ListFiles().Where(x => x.Key=="runtime" && !x.Value.Contains("\\")).Select(x => x.Value).ToList();
 			List<string> listProblems=new List<string>();
-			foreach(string fileName in hashSetNeeded.Where(x => !listAllowed.Contains(x,StringComparer.OrdinalIgnoreCase)).OrderBy(x => x)) {
+			foreach(string fileName in hashSetNeeded.Where(x => listAllowed.Contains(x,StringComparer.OrdinalIgnoreCase)
+				&& listRuntime.Contains(x,StringComparer.OrdinalIgnoreCase)).OrderBy(x => x))
+			{
+				listProblems.Add(fileName+": tools\\Build-Release.ps1 lists it as a runtime file and as a third-party file: keep it on the runtime list only.");
+			}
+			foreach(string fileName in hashSetNeeded.Where(x => !listAllowed.Contains(x,StringComparer.OrdinalIgnoreCase)
+				&& !listRuntime.Contains(x,StringComparer.OrdinalIgnoreCase)).OrderBy(x => x))
+			{
 				listProblems.Add(fileName+": the program needs it, but tools\\Build-Release.ps1 does not ship it (add it to the allow-list, with its notice).");
 			}
 			foreach(string fileName in listAllowed.Where(x => !hashSetNeeded.Contains(x) && !_dictShippedUnused.ContainsKey(x)).OrderBy(x => x)) {
@@ -122,12 +136,17 @@ namespace LibraryBindingTests {
 				listProblems.Add(fileName+": the program needs it, but the build did not copy it to OpenPmsDental\\bin\\Debug.");
 			}
 			Assert.AreEqual(0,listProblems.Count,string.Join("\r\n",listProblems));
-			//The support assemblies the first library step added for the packages that follow ship once a shipped library uses them: the tier 1
-			//updates (SSH.NET 2026, MailKit 4, MSAL 4.92 with System.Text.Json) use them all. System.Security.Cryptography.Pkcs, which nothing
-			//used, left "Required dlls" in S2-4 of the .NET 10 move: it is no library file, in no lock file and not on the allow-list.
-			foreach(string fileName in new[] { "System.Formats.Asn1.dll","System.IO.Pipelines.dll","Microsoft.Bcl.Cryptography.dll" }) {
-				CollectionAssert.Contains(listAllowed,fileName);
+			//The support assemblies the first library step added for the packages that follow: on .NET 10, System.Formats.Asn1 and
+			//System.IO.Pipelines are files of the shared framework, so they ship as "runtime" files and not as third-party ones, and
+			//Microsoft.Bcl.Cryptography is pruned (the framework has its types): on no list and in no lock file. System.Security.Cryptography.Pkcs,
+			//which nothing used, left "Required dlls" in S2-4 of the .NET 10 move: it is no library file, in no lock file and not on the allow-list.
+			foreach(string fileName in new[] { "System.Formats.Asn1.dll","System.IO.Pipelines.dll" }) {
+				CollectionAssert.Contains(listRuntime,fileName);
+				CollectionAssert.DoesNotContain(listAllowed,fileName);
 			}
+			Assert.IsFalse(BuildRelease.ListFiles().Any(x => x.Value.EndsWith("Microsoft.Bcl.Cryptography.dll",StringComparison.OrdinalIgnoreCase)),
+				"Microsoft.Bcl.Cryptography.dll is pruned on .NET 10: on no list.");
+			Assert.IsFalse(Libraries.LockedVersions.ContainsKey("Microsoft.Bcl.Cryptography"),"Microsoft.Bcl.Cryptography is pruned on .NET 10: in no lock file.");
 			Assert.IsFalse(Libraries.Files.ContainsKey("System.Security.Cryptography.Pkcs.dll"));
 			Assert.IsFalse(Libraries.LockedVersions.ContainsKey("System.Security.Cryptography.Pkcs"),"No project gets the package.");
 			CollectionAssert.DoesNotContain(listAllowed,"System.Security.Cryptography.Pkcs.dll","Nothing shipped uses it.");
@@ -142,7 +161,25 @@ namespace LibraryBindingTests {
 			List<string> listStaging=listSources.Where(x => x.StartsWith(@"Source: ""{#StagingDir}\*""")).ToList();
 			Assert.AreEqual(1,listStaging.Count,"One [Files] entry installs the staging folder, which holds exactly the allow-list:\r\n"+string.Join("\r\n",listSources));
 			StringAssert.Contains(listStaging[0],"recursesubdirs");
-			foreach(string source in listSources.Except(listStaging)) {
+			//The setup files (Build-Release's $SetupFiles: the 64-bit TWAINDSM.dll): each is one [Files] line of its own, a shared system file in
+			//the Windows system folder that the uninstall leaves (other programs use it), never in the program folder.
+			List<string> listSetupLines=new List<string>();
+			foreach(string name in BuildRelease.ListFiles().Where(x => x.Key=="setup").Select(x => x.Value)) {
+				//The installer names TWAINDSM.dll through its TwainDsmFile define (Build-Release passes the checked download's path).
+				string defineName=name.Equals("TWAINDSM.dll",StringComparison.OrdinalIgnoreCase) ? @"Source: ""{#TwainDsmFile}""" : null;
+				List<string> listLines=listSources.Where(x => Regex.IsMatch(x,@"^Source:\s*""[^""]*\\"+Regex.Escape(name)+@"""",RegexOptions.IgnoreCase)
+					|| (defineName!=null && x.StartsWith(defineName))).ToList();
+				Assert.AreEqual(1,listLines.Count,"One [Files] line installs the setup file "+name+":\r\n"+string.Join("\r\n",listSources));
+				StringAssert.Contains(listLines[0],@"DestDir: ""{sys}""",listLines[0]);
+				Assert.IsFalse(listLines[0].Contains("{app}"),"A setup file is never installed into the program folder: "+listLines[0]);
+				Match matchFlags=Regex.Match(listLines[0],@"Flags:\s*([^;]*)");
+				Assert.IsTrue(matchFlags.Success,listLines[0]);
+				List<string> listFlags=matchFlags.Groups[1].Value.Split(new[] { ' ' },StringSplitOptions.RemoveEmptyEntries).ToList();
+				CollectionAssert.Contains(listFlags,"sharedfile",listLines[0]);
+				CollectionAssert.Contains(listFlags,"uninsneveruninstall",listLines[0]);
+				listSetupLines.AddRange(listLines);
+			}
+			foreach(string source in listSources.Except(listStaging).Except(listSetupLines)) {
 				//Only the connection settings that setup writes itself.
 				StringAssert.Contains(source,"external",source);
 				Assert.IsFalse(Regex.IsMatch(source,@"\.(dll|exe)""",RegexOptions.IgnoreCase),"The installer names a program file of its own: "+source);

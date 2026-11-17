@@ -788,7 +788,8 @@ namespace LibraryBindingTests {
 	internal static class BuildRelease {
 		private static List<KeyValuePair<string,string>> _listFiles;
 
-		///<summary>The allow-list as tools\Build-Release.ps1 -ListFiles prints it: kind ("own", "third", "doc") and path. Nothing is built.</summary>
+		///<summary>The allow-list as tools\Build-Release.ps1 -ListFiles prints it: kind ("own", "third", "doc", "runtime" or "setup") and path
+		///(a "runtime" file of the 32-bit helper starts with Helper32\). Nothing is built.</summary>
 		public static List<KeyValuePair<string,string>> ListFiles() {
 			if(_listFiles!=null) {
 				return _listFiles;
