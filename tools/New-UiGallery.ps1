@@ -316,11 +316,14 @@ function Get-UiApprovalHtml {
 }
 
 # The Approve/Change inputs of one picture; where says which copy (the table or the picture's card), so the radio groups differ.
+# data-pic is the picture's relative path, not its place on the page: the page keeps the answers by picture (with the masked SHA-256 answered),
+# so a gallery rebuilt under the same name and commit in another order never moves an answer onto another picture.
 function Get-UiAnswerHtml {
-	param([string]$Id, [string]$Where)
-	return '<span class="ans"><label><input type="radio" name="a-' + $Id + '-' + $Where + '" value="Approve" data-pic="' + $Id + '"> Approve</label> ' +
-		'<label><input type="radio" name="a-' + $Id + '-' + $Where + '" value="Change" data-pic="' + $Id + '"> Change</label> ' +
-		'<input type="text" class="note" placeholder="note" data-pic="' + $Id + '" aria-label="note"></span>'
+	param([string]$Id, [string]$Picture, [string]$Where)
+	$pic = ConvertTo-UiHtml $Picture
+	return '<span class="ans"><label><input type="radio" name="a-' + $Id + '-' + $Where + '" value="Approve" data-pic="' + $pic + '"> Approve</label> ' +
+		'<label><input type="radio" name="a-' + $Id + '-' + $Where + '" value="Change" data-pic="' + $pic + '"> Change</label> ' +
+		'<input type="text" class="note" placeholder="note" data-pic="' + $pic + '" aria-label="note"></span>'
 }
 
 function Get-UiImageHtml {
@@ -395,7 +398,7 @@ img.px{display:block;image-rendering:pixelated;image-rendering:crisp-edges;max-w
 		[void]$sb.Append('<tr ' + (Get-UiDataAttributes -Entry $e -Id $id) + '><td><a href="#' + $id + '">' + (& $enc $e.Picture) + '</a></td><td>' + (& $enc $e.Group) + '</td><td>' +
 			(& $enc $e.Status) + '</td><td class="num">' + $(if ($e.Status -eq 'changed' -or $e.Status -eq 'same') { Format-UiPercent $e.Percent } else { '' }) +
 			'</td><td>' + (& $enc (Get-UiSizeText -Entry $e)) + '</td><td class="num">' + $(if ($e.ClipNotes.Count -gt 0) { '<span class="hot">' + $e.ClipNotes.Count + '</span>' } else { '' }) +
-			'</td><td>' + (Get-UiApprovalHtml -Entry $e) + '</td><td>' + (Get-UiAnswerHtml -Id $id -Where 't') + "</td></tr>`r`n")
+			'</td><td>' + (Get-UiApprovalHtml -Entry $e) + '</td><td>' + (Get-UiAnswerHtml -Id $id -Picture $e.Picture -Where 't') + "</td></tr>`r`n")
 	}
 	[void]$sb.Append("</tbody></table></div>`r`n")
 	foreach ($g in $groups) {
@@ -422,7 +425,7 @@ img.px{display:block;image-rendering:pixelated;image-rendering:crisp-edges;max-w
 				foreach ($n in $e.ClipNotes) { [void]$sb.Append('<li>' + (& $enc $n) + '</li>') }
 				[void]$sb.Append("</ul>`r`n")
 			}
-			[void]$sb.Append('<div>Your answer: ' + (Get-UiAnswerHtml -Id $id -Where 'c') + "</div>`r`n")
+			[void]$sb.Append('<div>Your answer: ' + (Get-UiAnswerHtml -Id $id -Picture $e.Picture -Where 'c') + "</div>`r`n")
 			$pathBefore = if ($e.BeforeWidth -gt 0) { 'before/' + $e.Picture } else { '' }
 			$pathAfter = if ($e.AfterWidth -gt 0) { 'after/' + $e.Picture } else { '' }
 			if ($e.Status -eq 'same') {
@@ -456,20 +459,26 @@ q('img.px').forEach(function(i){i.addEventListener('click',function(){i.classLis
 window.addEventListener('resize',size);
 function load(){try{var s=window.localStorage.getItem(key);if(s){answers=JSON.parse(s)||{};}}catch(e){answers={};}}
 function save(){try{window.localStorage.setItem(key,JSON.stringify(answers));}catch(e){}}
-function show(){q('[data-pic]').forEach(function(el){var a=answers[el.getAttribute('data-pic')]||{};if(el.type==='radio'){el.checked=(a.answer===el.value);}else if(document.activeElement!==el){el.value=a.note||'';}});
-var n=0,t=q('section.pic').length;for(var k in answers){if(answers[k].answer){n++;}}document.getElementById('answered').textContent=n+' of '+t+' answered';}
-q('[data-pic]').forEach(function(el){el.addEventListener(el.type==='radio'?'change':'input',function(){var id=el.getAttribute('data-pic'),a=answers[id]||(answers[id]={});if(el.type==='radio'){a.answer=el.value;}else{a.note=el.value;}save();show();filter();});});
+//Answers are kept by picture (its relative path), each with the masked SHA-256 and size it was given for. An answer saved for another
+//SHA-256 or size (the picture changed in a rebuilt gallery of the same name and commit) does not count: the picture shows as unanswered.
+var pics={};q('section.pic').forEach(function(el){pics[el.getAttribute('data-picture')]={sha:el.getAttribute('data-sha')||'',size:el.getAttribute('data-size')||''};});
+function own(o,k){return Object.prototype.hasOwnProperty.call(o,k);}
+function got(p){var a=own(answers,p)?answers[p]:null,c=own(pics,p)?pics[p]:null;return (a&&c&&a.sha===c.sha&&a.size===c.size)?a:null;}
+function show(){q('[data-pic]').forEach(function(el){var a=got(el.getAttribute('data-pic'))||{};if(el.type==='radio'){el.checked=(a.answer===el.value);}else if(document.activeElement!==el){el.value=a.note||'';}});
+var n=0,t=q('section.pic').length;for(var k in pics){if(own(pics,k)){var a=got(k);if(a&&a.answer){n++;}}}document.getElementById('answered').textContent=n+' of '+t+' answered';}
+q('[data-pic]').forEach(function(el){el.addEventListener(el.type==='radio'?'change':'input',function(){var p=el.getAttribute('data-pic'),a=got(p);
+if(!a){if(!own(pics,p)){return;}a=answers[p]={sha:pics[p].sha,size:pics[p].size};}if(el.type==='radio'){a.answer=el.value;}else{a.note=el.value;}save();show();filter();});});
 function filter(){var g=document.getElementById('fGroup').value,s=document.getElementById('fStatus').value,n=document.getElementById('fName').value.toLowerCase();
 q('[data-picture]').forEach(function(el){var ok=(!g||el.getAttribute('data-group')===g)&&(!n||el.getAttribute('data-picture').toLowerCase().indexOf(n)>=0);
 var st=el.getAttribute('data-status');if(s==='changed'){ok=ok&&st==='changed';}else if(s==='new'){ok=ok&&(st==='only after'||st==='only before');}else if(s==='same'){ok=ok&&st==='same';}
 else if(s==='clip'){ok=ok&&el.getAttribute('data-clip')!=='0';}else if(s==='unapproved'){ok=ok&&el.getAttribute('data-approved')!=='same';}
-else if(s==='unanswered'){var a=answers[el.getAttribute('data-id')];ok=ok&&!(a&&a.answer);}el.style.display=ok?'':'none';});
+else if(s==='unanswered'){var a=got(el.getAttribute('data-picture'));ok=ok&&!(a&&a.answer);}el.style.display=ok?'':'none';});
 q('div.group').forEach(function(d){d.style.display=d.querySelector('section.pic:not([style*="none"])')?'':'none';});}
 ['fGroup','fStatus'].forEach(function(id){document.getElementById(id).addEventListener('change',filter);});document.getElementById('fName').addEventListener('input',filter);
 function clean(t){return String(t||'').replace(/[\t\r\n]+/g,' ');}
 function tsv(){var d=new Date(),day=d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2);
 var lines=['picture\tsize\tsha256\tgallery\tcommit\tdate\tanswer\tnote'];
-q('section.pic').forEach(function(el){var a=answers[el.getAttribute('data-id')];if(!a||!(a.answer||a.note)){return;}
+q('section.pic').forEach(function(el){var a=got(el.getAttribute('data-picture'));if(!a||!(a.answer||a.note)){return;}
 lines.push([el.getAttribute('data-picture'),el.getAttribute('data-size'),el.getAttribute('data-sha'),GALLERY,COMMIT,day,clean(a.answer),clean(a.note)].join('\t'));});
 return lines.join('\r\n')+'\r\n';}
 document.getElementById('dl').addEventListener('click',function(){var b=new Blob([tsv()],{type:'text/tab-separated-values'}),u=URL.createObjectURL(b),a=document.createElement('a');

@@ -138,7 +138,10 @@ page's "Show: with clip notes" filter lists those pictures.
   `approved.tsv`: "approved", "changed since approval", "not approved yet"), mask rows for another size, the clip notes; then before, after
   and the difference.
 - **The Approve/Change column.** In the overview table and under each picture (the two stay in step): Approve or Change, and a note. The
-  answers stay in the browser (localStorage, per gallery and commit; the page works without it). **Download answers** saves
+  answers stay in the browser (localStorage, per gallery and commit; the page works without it). They are kept by picture (its relative
+  path, the inputs' `data-pic`), never by place on the page, each with the masked SHA-256 and size it was given for; an answer saved for
+  another SHA-256 or size counts nowhere (not shown, not counted, not written), so a gallery rebuilt under the same name and commit, in
+  another order or with a picture changed, never shows or writes an answer the owner did not give for that picture. **Download answers** saves
   `answers-<gallery>.tsv`, **Copy answers** puts the same text on the clipboard:
 
       picture  size  sha256  gallery  commit  date  answer  note
@@ -171,6 +174,8 @@ pixelated enlargement, and the zip with forward-slash entry names (the same func
   Approve/Change, the answers' columns, encoded notes, no local path, ASCII) and the zip (forward slashes, every file);
 - the builder refuses a folder that is not a gallery and one that overlaps a picture folder, empties and rewrites an earlier gallery,
   honours `-NoZip` and `-Threshold`, works without a before folder, and refuses a run without `-After`; its helpers dot-sourced;
+- a gallery rebuilt under the same name and commit with the order changed: every answer input names its picture (HTML-encoded), not its
+  place, in that picture's row and card, and the page counts an answer only for the SHA-256 and size it was given for;
 - the ASCII and no-secret checks of the owner's scripts (`LaunchCheckScriptTests.OwnerScripts_AreAscii_AndHoldNoSecret`: no thumbprint,
   password, key, address other than 127.0.0.1 and 192.0.2.x, host name or developer-PC path) on the script, the mask file and the rule's
   source, and the script parses without errors. The builder is a lead's and agent's tool, not one of the owner's scripts, so it has its own
