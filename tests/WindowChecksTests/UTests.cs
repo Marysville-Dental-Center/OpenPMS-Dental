@@ -3,7 +3,8 @@
 // program's own handlers on the scratch copy's synthetic patient, measured by the walker after its Load and printed, and closed with Cancel. A
 // window the synthetic dump cannot fill is recorded SKIPPED with the reason its row gives. The check U0 runs at the end of the run
 // (WinChkFixture.AssemblyCleanup), over the pictures of every group the run took. Opt-in like every group: OPMS_WINDOW_CHECKS=1 and the dump;
-// OPMS_WINDOW_CHECKS_GROUPS=U for this group alone. It needs the owner's connected, unlocked session: WPF draws nothing in a locked one.
+// OPMS_WINDOW_CHECKS_GROUPS=U for this group alone (or its parts UW, UM, UD). It needs the owner's connected, unlocked session: WPF draws
+// nothing in a locked one.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,26 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace WindowChecksTests {
 	[TestClass]
 	public class UTests {
+		///<summary>Group U's parts, each also a group name of OPMS_WINDOW_CHECKS_GROUPS, so a run that would not fit the runner's 20 minutes can be
+		///split: UW the common windows, UM the main window and its modules, UD the dashboard. U runs all three.</summary>
+		public static readonly string[] ArrayParts=new[] { "UW","UM","UD" };
+
+		///<summary>True when the run includes group U or one of its parts (U0 then runs at the end of the run).</summary>
+		public static bool IsInRun {
+			get {
+				return WinChkEnv.GetSkipReason("U")==null || ArrayParts.Any(x => WinChkEnv.GetSkipReason(x)==null);
+			}
+		}
+
+		///<summary>WinChkFixture.Begin for group U, or for the part alone when the run names it and not U.</summary>
+		private static void BeginPart(string part) {
+			if(WinChkEnv.GetSkipReason("U")!=null && WinChkEnv.GetSkipReason(part)==null) {
+				WinChkFixture.Begin(part);
+				return;
+			}
+			WinChkFixture.Begin("U");
+		}
+
 		///<summary>The rows of windows.tsv whose id has the prefix (U, UM or UD).</summary>
 		private static List<UiWindowRow> GetRows(string prefix) {
 			return UiWindows.Read().Where(x => System.Text.RegularExpressions.Regex.IsMatch(x.Id,"^"+prefix+@"\d+$")).ToList();
@@ -41,19 +62,19 @@ namespace WindowChecksTests {
 
 		[TestMethod]
 		public void U1toU68_CommonWindows() {
-			WinChkFixture.Begin("U");
+			BeginPart("UW");
 			RunRows(GetRows("U"),"");
 		}
 
 		[TestMethod]
 		public void UM1toUM21_MainWindowAndModules() {
-			WinChkFixture.Begin("U");
+			BeginPart("UM");
 			RunRows(GetRows("UM"),"");
 		}
 
 		[TestMethod]
 		public void UD1_PatientDashboard() {
-			WinChkFixture.Begin("U");
+			BeginPart("UD");
 			RunRows(GetRows("UD"),"");
 		}
 	}

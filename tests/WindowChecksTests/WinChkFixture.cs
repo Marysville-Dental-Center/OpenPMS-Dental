@@ -84,7 +84,7 @@ namespace WindowChecksTests {
 				}
 			}
 			//U0 (group U, UI-0c): every picture of this commit's run against the owner's approvals, once every group of the run has taken its pictures.
-			if(WinChkEnv.GetSkipReason("U")==null) {
+			if(UTests.IsInRun) {
 				UiApprovalCheck.Run();
 			}
 			//The report, from every result in results.tsv (the last of each check), so the run that ends last leaves the whole report.

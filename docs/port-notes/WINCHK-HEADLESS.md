@@ -15,6 +15,9 @@ process), and printed with PrintWindow, DrawToBitmap or RenderTargetBitmap. Noth
 - On .NET 10 x64 an in-process session is the program's own process (its apphost with TestProbeHost's startup hook), the stage 3b checks
   C16 to C26, D6, F5, G3 to G5 and H3 are added, every part of section 6's 3b item is either checked, covered by another suite or
   listed for a person (the coverage table in WINCHK-5 section 3), and the before/after pairs are made (WINCHK-5 below).
+- Group U (the UI refresh's package UI-0c): the common windows the other groups do not reach, the main window at fixed sizes with each
+  module, the patient dashboard, the walker that measures and records each window after its Load, and the check U0 against the owner's
+  approved pictures (UI-0c below; [UI-0c.md](UI-0c.md)).
 
 ## WINCHK-3: the review notes of both rounds
 
@@ -533,3 +536,28 @@ on x64 the real sensor and scanner, the vendors' helper links and the Snipping T
 - Fix round (`net10/winchk5-2`, test code and these notes only, no product change): a full Debug x64 lane build at the end, 0 errors;
   Targeted WindowChecksTests, NoHqTests and FormatParityTests without the opt-in (`winchk5-2-final.txt`); `Test-NoEolFlips.ps1` clean; no
   `winchk_` database left (`SHOW DATABASES LIKE 'winchk%'` empty), `%TEMP%\stage1-rdl-code` gone.
+
+## UI-0c: group U (the UI refresh's windows, walker and U0)
+
+Branch `ui/ui0c-1`; the whole note is [UI-0c.md](UI-0c.md). In short:
+
+- **The windows.** `tests/WindowChecksTests/UiGallery/windows.tsv` names each check (`U1` to `U68`, `UM1` to `UM21`, `UD1`), its picture, the
+  window's type, whether patient #1 is selected, the module, how the program opens it (a main menu path, a module handler, a module
+  button, a double-click on a module grid's row, the Account grid's claim row, or a script for a window opened from another one) and the
+  tables it could write. 60 common windows the other groups do not reach (claims, recall, confirmation, schedules, pay plans, billing,
+  procedure codes, definitions, security, tasks, medical, Rx, labs, the lists and the setup windows), 8 the synthetic dump cannot fill
+  (SKIPPED with the reason: no payment plan, prescription, lab case, task, recall, referral, patient allergy or statement in the dump), the
+  main window at 1366x768 and 1920x1080 with each module (with and without a patient at 1366x768), and the patient dashboard with a widget
+  sheet definition (a synthetic one is added to the scratch copy when it has none, and deleted again by its key).
+- **Each check** (`InProc/InProcChecks.U.cs`, in the in-process session of WINCHK-5): the window opened by the program's own handler on the
+  scratch copy's synthetic patient, the walker after its Load, the picture (`PrintWindow`), Cancel, and the guard tables' row counts
+  compared (nothing saved). No input is sent and no UAC prompt is answered, as in every group.
+- **The walker** (`Harness/UiWalker.cs`) measures the window's text and records every control's bounds with UI-0b's shared files
+  (`tests/UiRefreshTests/Shared/TextFit*.cs`, linked into this project); with `OPMS_WINDOW_CHECKS_UI_FONT` it also measures a font option
+  after the picture; it suggests mask rows for dates and the clock and writes the gallery's clip notes (`<results>\ui-walker\`).
+- **U0** (`Harness/UiApprovalCheck.cs`), at the end of a run with group U: every picture of the run against
+  `tests/WindowChecksTests/UiApproved/approved.tsv` through UI-0a's masking and hashing rule (`tools/UiGallery/UiPictureMask.cs`, linked).
+  An empty approved.tsv reports every picture as not approved yet, never as a failure, until the before set is approved.
+- **Opt-in** as every group: `OPMS_WINDOW_CHECKS_GROUPS=U` (or its parts `UW`, `UM`, `UD`); it needs the owner's connected, unlocked session
+  (WPF draws nothing in a locked or disconnected one). It was not run in UI-0c (the owner's session was disconnected); the lead runs it
+  with the before set. Self-tests without the opt-in: `UiHarnessTests` (UI-0c.md, section 6).
