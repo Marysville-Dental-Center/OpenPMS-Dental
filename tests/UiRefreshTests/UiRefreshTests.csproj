@@ -1,0 +1,34 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- The UI refresh's tools and records (package UI-0b of docs/specs/ui-refresh-plan.md, docs/port-notes/UI-0b.md): the tier 1 text-fit
+       scan, which builds every WinForms window and UserControl of the program and of the plain exes off screen (the base constructor and
+       InitializeComponent only, InitializeLayoutManager when the type's own constructor calls it) and measures its text, the self-sizing
+       controls and the bounds; the test-side font swap; the layout snapshot of the designer files (Data\layout-snapshot.tsv) and its test.
+       Shared\TextFit*.cs are the measuring rules and the bounds-record format that tests\WindowChecksTests compiles in as linked files
+       (UI-0c), so they use only Windows Forms, System.Drawing and reflection. No database (a guard refuses every connection before the
+       network), no window is shown, no network. Every .cs file under this folder is compiled. -->
+  <PropertyGroup>
+    <!-- .NET 10 (tests\Directory.Build.props): Windows Forms and WPF from the Windows Desktop framework; the program's windows host WPF
+         controls (ElementHost) and the WPF controls library. -->
+    <UseWindowsForms>true</UseWindowsForms>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+  <ItemGroup>
+    <!-- The rule for tests that check a built file: inconclusive when it is not built, a failure with OPMS_REQUIRE_BUILD_OUTPUT=1 (the plain
+         exes' assemblies are read from their own build folders). -->
+    <Compile Include="..\ProjectFileTests\BuildOutput.cs">
+      <Link>BuildOutput.cs</Link>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <!-- The layout snapshot and the list of fit fixes (section 5.4 of the plan), read from the repository by the tests. -->
+    <None Include="Data\*.tsv" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\CodeBase\xCodeBase.csproj" />
+    <ProjectReference Include="..\..\DataConnectionBase\xDataConnectionBase.csproj" />
+    <ProjectReference Include="..\..\OpenPmsDentalBusiness\OpenPmsDentalBusiness.csproj" />
+    <!-- The program's windows and UserControls are built in this test process, never shown. -->
+    <ProjectReference Include="..\..\OpenPmsDental\OpenPmsDental.csproj" />
+    <ProjectReference Include="..\..\WpfControlsOD\WpfControlsOD.csproj" />
+  </ItemGroup>
+</Project>
