@@ -243,6 +243,8 @@ namespace WindowChecksTests.InProc {
 								+printPreviewControl.Document?.DocumentName;
 						});
 						checkResult.Note("The preview: "+pages);
+						int countPages=CountPreviewPages(ui,openedPreview.Hwnd);
+						checkResult.Expect(countPages>0,"The preview has laid out its page(s): "+countPages);
 						checkResult.AddShot(ui.Shot(openedPreview.Hwnd,"G3.png"),"The time cards' print preview (FormPrintPreview)");
 						checkResult.ForPerson("the page in G3.png (margins, fonts, the time card's grid; a check new in WINCHK-5, with no .NET Framework picture)");
 						checkResult.Expect(ui.Close(openedPreview.Hwnd),"The print preview closes (Print never pressed)");

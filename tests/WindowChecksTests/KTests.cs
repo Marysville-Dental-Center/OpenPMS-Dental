@@ -175,7 +175,10 @@ namespace WindowChecksTests {
 							checkResult.AddShot(Shot.Window(hwndWindow,"K2-load-exception.png"),"The start-up exception dialog");
 							string details=string.Join(" | ",Native.GetChildren(hwndWindow).Select(x => Native.GetText(x)).Where(x => x!="" && x.Length<400));
 							checkResult.Note("At start: '"+title+"': "+details);
-							if(details.Contains("must be greater than or equal to zero")) {
+							//The same ArgumentOutOfRangeException of new Version(major,-1,...): the .NET Framework's text, then .NET's (WINCHK-5).
+							if(details.Contains("must be greater than or equal to zero")
+								|| (details.Contains("minor ('-1') must be a non-negative value") && details.Contains("(Parameter 'minor')")))
+							{
 								checkResult.Note("Pre-existing: the database's DataBaseVersion is the 99.0.0.0 sentinel, so no previous version can be made");
 							}
 							else {
