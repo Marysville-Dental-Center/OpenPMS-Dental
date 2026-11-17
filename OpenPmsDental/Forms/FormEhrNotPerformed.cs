@@ -43,6 +43,9 @@ namespace OpenPmsDental {
 			col=new GridColumn("Note",150);
 			gridMain.Columns.Add(col);
 			listNotPerf=EhrNotPerformeds.Refresh(PatCur.PatNum);
+			List<EhrCode> listEhrCodes=EhrCodes.Listt;//Read once for every row
+			//Before the office imports the 2027 release every row but the CVX rows is "other": the label says why, so the row is not taken for a code of no item.
+			bool isReleaseImported=CqmDataEntry.IsReleaseImported();
 			gridMain.ListGridRows.Clear();
 			GridRow row;
 			for(int i=0;i<listNotPerf.Count;i++) {
@@ -50,28 +53,41 @@ namespace OpenPmsDental {
 				row.Cells.Add(listNotPerf[i].DateEntry.ToShortDateString());
 				row.Cells.Add(Providers.GetAbbr(listNotPerf[i].ProvNum));
 				//Item not performed------------------------------------------------------------
-				switch(listNotPerf[i].CodeValue) {
-					case "39156-5"://BMI exam
-						row.Cells.Add(EhrNotPerformedItem.BMIExam.ToString());
-						break;
-					case "428191000124101"://CurrentMedsDocumented
-						row.Cells.Add(EhrNotPerformedItem.DocumentCurrentMeds.ToString());
-						break;
-					case "11366-2"://History of tobacco use Narrative
-					case "68535-4"://Have you used tobacco in the last 30 days
-					case "68536-2"://Have you used smokeless tobacco in last 30 days
-						row.Cells.Add(EhrNotPerformedItem.TobaccoScreening.ToString());
-						break;
-					default://We will default to Influenza Vaccine, there are 26 codes, for this item
-						row.Cells.Add(EhrNotPerformedItem.InfluenzaVaccination.ToString());
-						break;
+				//By role, catalog membership and the CVX table (EHR-7, section 8): a code of no item is "other", never a guessed item. The row keeps its
+				//item, or null for "other", in its Tag, and the double-click reads the Tag, never this label.
+				EhrNotPerformedItem? itemNotPerformed=CqmDataEntry.GetNotPerformedItem(listNotPerf[i].CodeValue,listNotPerf[i].CodeSystem,listEhrCodes);
+				if(itemNotPerformed==null && !isReleaseImported) {
+					row.Cells.Add(Lan.g(this,"other (2027 value sets not imported)"));
 				}
+				else if(itemNotPerformed==null) {
+					row.Cells.Add(Lan.g(this,"other"));
+				}
+				else {
+					row.Cells.Add(itemNotPerformed.Value.ToString());
+				}
+				row.Tag=itemNotPerformed;
 				//Code not performed------------------------------------------------------------
 				row.Cells.Add(listNotPerf[i].CodeValue+" ("+listNotPerf[i].CodeSystem+")");
 				//Description of code not performed---------------------------------------------
 				string descript="";
-				//to get description, first determine which table the code is from.  EhrNotPerformed is allowed to be CPT, CVX, LOINC, SNOMEDCT.
+				//to get description, first determine which table the code is from.  EhrNotPerformed is allowed to be CPT, CVX, LOINC, SNOMEDCT, and
+				//since the BMI follow-up item (EHR-7, E-34) also HCPCS, ICD10CM and RXNORM.
 				switch(listNotPerf[i].CodeSystem) {
+					case "HCPCS":
+						Hcpcs hcpcsCur=Hcpcses.GetByCode(listNotPerf[i].CodeValue);
+						if(hcpcsCur!=null) {
+							descript=hcpcsCur.DescriptionShort;
+						}
+						break;
+					case "ICD10CM":
+						Icd10 icd10Cur=Icd10s.GetByCode(listNotPerf[i].CodeValue);
+						if(icd10Cur!=null) {
+							descript=icd10Cur.Description;
+						}
+						break;
+					case "RXNORM":
+						descript=RxNorms.GetDescByRxCui(listNotPerf[i].CodeValue);
+						break;
 					case "CPT":
 						Cpt cptCur=Cpts.GetByCode(listNotPerf[i].CodeValue);
 						if(cptCur!=null) {
@@ -120,7 +136,14 @@ namespace OpenPmsDental {
 		private void gridMain_CellDoubleClick(object sender,ODGridClickEventArgs e) {
 			using FormEhrNotPerformedEdit FormEE=new FormEhrNotPerformedEdit();
 			FormEE.EhrNotPerfCur=listNotPerf[e.Row];
-			FormEE.SelectedItemIndex=(int)Enum.Parse(typeof(EhrNotPerformedItem),gridMain.ListGridRows[e.Row].Cells[2].Text,true);//Parse the text displayed from the enum and convert to int
+			//The row's item from its Tag (EHR-7): an "other" row (null) opens read-only, so the edit window never gets an index of no item.
+			EhrNotPerformedItem? itemNotPerformed=gridMain.ListGridRows[e.Row].Tag as EhrNotPerformedItem?;
+			if(itemNotPerformed==null) {
+				FormEE.IsReadOnly=true;
+			}
+			else {
+				FormEE.SelectedItemIndex=(int)itemNotPerformed.Value;
+			}
 			FormEE.ShowDialog();
 			FillGrid();
 		}

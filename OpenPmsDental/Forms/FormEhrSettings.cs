@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using OpenPmsDentalBusiness;
@@ -40,7 +41,6 @@ namespace OpenPmsDental {
 			string defaultPregCodeSystem=PrefC.GetString(PrefName.PregnancyDefaultCodeSystem);
 			NewPregCodeSystem=defaultPregCodeSystem;
 			OldPregListSelectedIdx=-1;
-			int countNotInSnomedTable=0;
 			for(int i=0;i<ListRecPregCodes.Count;i++) {
 				if(i==0) {
 					comboPregCodes.Items.Add(ListRecPregCodes[i]);
@@ -51,10 +51,7 @@ namespace OpenPmsDental {
 					}
 					continue;
 				}
-				if(!Snomeds.CodeExists(ListRecPregCodes[i])) {
-					countNotInSnomedTable++;
-					continue;
-				}
+				//Every recommended code is in the snomed table (CqmDataEntry.GetRecommendedPregnancyCodes), so the list and the combo keep one index.
 				comboPregCodes.Items.Add(ListRecPregCodes[i]);
 				if(ListRecPregCodes[i]==defaultPregCode && defaultPregCodeSystem=="SNOMEDCT") {
 					comboPregCodes.SelectedIndex=i;
@@ -63,8 +60,8 @@ namespace OpenPmsDental {
 					textPregCodeDescript.Text=Snomeds.GetByCode(ListRecPregCodes[i]).Description;//Guaranteed to exist in snomed table from above check
 				}
 			}
-			if(countNotInSnomedTable>0) {
-				MsgBox.Show(this,"The snomed table does not contain one or more codes from the list of recommended pregnancy codes.  The snomed table should be updated by running the Code System Importer tool found in Setup | Chart | EHR.");
+			if(ListRecPregCodes.Count<2) {
+				MsgBox.Show(this,"There are no recommended pregnancy codes: they are the SNOMED CT codes of the imported Pregnancy value set that the snomed table holds.  Import the EHR value sets and the SNOMED CT table by running the Code System Importer tool found in Setup | Chart | EHR.");
 			}
 			if(comboPregCodes.SelectedIndex==-1) {//default preg code set to code not in recommended list and not 'none'
 				switch(defaultPregCodeSystem) {
@@ -103,33 +100,20 @@ namespace OpenPmsDental {
 		}
 
 		private void FillRecEncCodesList() {
-			//All of the recommended codes are SNOMEDCT codes
+			//All of the recommended codes are SNOMEDCT codes: those of the office's imported qualifying-encounter value sets that its snomed table
+			//holds (EHR-7, E-32), in place of the nine SNOMED CT codes picked for the 2014 versions.
 			ListRecEncCodes=new List<string>();
 			ListRecEncCodes.Add("none");
-			ListRecEncCodes.Add("90526000");//Initial evaluation and management of healthy individual (procedure)
-			ListRecEncCodes.Add("185349003");//Encounter for "check-up" (procedure)
-			ListRecEncCodes.Add("185463005");//Visit out of hours (procedure)
-			ListRecEncCodes.Add("185465003");//Weekend visit (procedure)
-			ListRecEncCodes.Add("270427003");//Patient-initiated encounter (procedure)
-			ListRecEncCodes.Add("270430005");//Provider-initiated encounter (procedure)
-			ListRecEncCodes.Add("308335008");//Patient encounter procedure (procedure)
-			ListRecEncCodes.Add("390906007");//Follow-up encounter (procedure)
-			ListRecEncCodes.Add("406547006");//Urgent follow-up (procedure)
+			ListRecEncCodes.AddRange(CqmDataEntry.GetRecommendedEncounterCodes().Select(x => x.SnomedCode));
 		}
 
 		private void FillRecPregCodesList() {
-			//All of the recommended codes are SNOMEDCT codes
+			//All of the recommended codes are SNOMEDCT codes: those of the office's imported "Pregnancy" value set that its snomed table holds
+			//(EHR-7, E-32), in place of the nine SNOMED CT codes picked for the 2014 pregnancy sets. Each falls in "Pregnancy", which CMS69, CMS155 and
+			//CMS165 read.
 			ListRecPregCodes=new List<string>();
 			ListRecPregCodes.Add("none");
-			ListRecPregCodes.Add("72892002");//Normal pregnancy (finding)
-			ListRecPregCodes.Add("77386006");//Patient currently pregnant (finding)
-			ListRecPregCodes.Add("83074005");//Unplanned pregnancy (finding)
-			ListRecPregCodes.Add("169560008");//Pregnant - urine test confirms (finding)
-			ListRecPregCodes.Add("169563005");//Pregnant - on history (finding)
-			ListRecPregCodes.Add("169565003");//Pregnant - planned (finding)
-			ListRecPregCodes.Add("237238006");//Pregnancy with uncertain dates (finding)
-			ListRecPregCodes.Add("248985009");//Presentation of pregnancy (finding)
-			ListRecPregCodes.Add("314204000");//Early stage of pregnancy (finding)
+			ListRecPregCodes.AddRange(CqmDataEntry.GetRecommendedPregnancyCodes().Select(x => x.SnomedCode));
 		}
 
 		private void FillDefaultEncCode() {
@@ -137,7 +121,6 @@ namespace OpenPmsDental {
 			string defaultEncCodeSystem=PrefC.GetString(PrefName.CQMDefaultEncounterCodeSystem);
 			NewEncCodeSystem=defaultEncCodeSystem;
 			OldEncListSelectedIdx=-1;
-			int countNotInSnomedTable=0;
 			for(int i=0;i<ListRecEncCodes.Count;i++) {
 				if(i==0) {
 					comboEncCodes.Items.Add(ListRecEncCodes[i]);
@@ -148,10 +131,7 @@ namespace OpenPmsDental {
 					}
 					continue;
 				}
-				if(!Snomeds.CodeExists(ListRecEncCodes[i])) {
-					countNotInSnomedTable++;
-					continue;
-				}
+				//Every recommended code is in the snomed table (CqmDataEntry.GetRecommendedEncounterCodes), so the list and the combo keep one index.
 				comboEncCodes.Items.Add(ListRecEncCodes[i]);
 				if(ListRecEncCodes[i]==defaultEncCode && defaultEncCodeSystem=="SNOMEDCT") {
 					comboEncCodes.SelectedIndex=i;
@@ -160,8 +140,8 @@ namespace OpenPmsDental {
 					textEncCodeDescript.Text=Snomeds.GetByCode(ListRecEncCodes[i]).Description;//Guaranteed to exist in snomed table from above check
 				}
 			}
-			if(countNotInSnomedTable>0) {
-				MsgBox.Show(this,"The snomed table does not contain one or more codes from the list of recommended encounter codes.  The snomed table should be updated by running the Code System Importer tool found in Setup | Chart | EHR.");
+			if(ListRecEncCodes.Count<2) {
+				MsgBox.Show(this,"There are no recommended encounter codes: they are the SNOMED CT codes of the imported qualifying-encounter value sets that the snomed table holds.  Import the EHR value sets and the SNOMED CT table by running the Code System Importer tool found in Setup | Chart | EHR.");
 			}
 			if(comboEncCodes.SelectedIndex==-1) {//default enc code set to code not in recommended list and not 'none'
 				switch(defaultEncCodeSystem) {

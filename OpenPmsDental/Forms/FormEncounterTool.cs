@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
+using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using OpenPmsDentalBusiness;
@@ -22,17 +23,15 @@ namespace OpenPmsDental {
 
 		private void FormEncounterTool_Load(object sender,EventArgs e) {
 			FillRecEncCodesList();
-			int countNotInSnomedTable=0;
 			for(int i=0;i<_listRecommendedEncCodes.Count;i++) {
-				if(!Snomeds.CodeExists(_listRecommendedEncCodes[i])) {
-					countNotInSnomedTable++;
-					continue;
-				}
 				comboEncCodes.Items.Add(_listRecommendedEncCodes[i]);
 			}
-			if(countNotInSnomedTable>0) {
-				MsgBox.Show(this,"The snomed table does not contain one or more codes from the list of recommended encounter codes.  The snomed table should "
-					+"be updated by running the Code System Importer tool found in Setup | Chart | EHR.");
+			if(_listRecommendedEncCodes.Count==0) {
+				MsgBox.Show(this,"There are no recommended encounter codes: they are the SNOMED CT codes of the imported qualifying-encounter value sets that "
+					+"the snomed table holds.  Import the EHR value sets and the SNOMED CT table by running the Code System Importer tool found in Setup | Chart | EHR.");
+			}
+			if(SelectedIdxEncounterList>=comboEncCodes.Items.Count) {//Should never happen: FormEhrSettings fills its list from the same codes
+				SelectedIdxEncounterList=-1;
 			}
 			comboEncCodes.SelectedIndex=SelectedIdxEncounterList;
 			textEncCodeValue.Text=EncCodeValue;
@@ -41,17 +40,9 @@ namespace OpenPmsDental {
 		}
 
 		private void FillRecEncCodesList() {
-			//All of the recommended codes are SNOMEDCT codes
-			_listRecommendedEncCodes=new List<string>();
-			_listRecommendedEncCodes.Add("90526000");//Initial evaluation and management of healthy individual (procedure)
-			_listRecommendedEncCodes.Add("185349003");//Encounter for "check-up" (procedure)
-			_listRecommendedEncCodes.Add("185463005");//Visit out of hours (procedure)
-			_listRecommendedEncCodes.Add("185465003");//Weekend visit (procedure)
-			_listRecommendedEncCodes.Add("270427003");//Patient-initiated encounter (procedure)
-			_listRecommendedEncCodes.Add("270430005");//Provider-initiated encounter (procedure)
-			_listRecommendedEncCodes.Add("308335008");//Patient encounter procedure (procedure)
-			_listRecommendedEncCodes.Add("390906007");//Follow-up encounter (procedure)
-			_listRecommendedEncCodes.Add("406547006");//Urgent follow-up (procedure)
+			//All of the recommended codes are SNOMEDCT codes: those of the office's imported qualifying-encounter value sets that its snomed table
+			//holds (EHR-7, E-32), as FormEhrSettings lists them, in place of the nine SNOMED CT codes picked for the 2014 versions.
+			_listRecommendedEncCodes=CqmDataEntry.GetRecommendedEncounterCodes().Select(x => x.SnomedCode).ToList();
 		}
 
 		private void comboEncCodes_SelectionChangeCommitted(object sender,EventArgs e) {

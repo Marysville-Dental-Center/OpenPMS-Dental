@@ -269,8 +269,8 @@ namespace OpenPmsDentalBusiness {
 		}
 
 		///<summary>The vital sign entry for the given values, dated dateTaken, before it is inserted. Values not imported stay 0, as in the vital sign
-		///window. With height and weight: the BMI percentile for a patient aged 3 to 16 on January 1 of that year (else -1) and its LOINC code, and the
-		///weight code (SNOMED CT 238131007 overweight, 248342006 underweight, for a patient 18 or older), as the vital sign window works them out. LOINC
+		///window. With height and weight: the BMI percentile for a patient aged 3 to 17 on the day taken (else -1; EHR-7, E-35) and its LOINC code, and the
+		///weight code (SNOMED CT 238131007 overweight, 248342006 underweight, for a patient 18 or older that day), as the vital sign window works them out. LOINC
 		///exam codes (8302-2 height, 29463-7 weight) only when the value is imported. A code is set only when it is in the office's LOINC or SNOMED CT
 		///table: loincExists and snomedExists decide that (null means it is not).</summary>
 		public static Vitalsign CreateVitalsign(Patient patient,DateTime dateTaken,List<EFormVitalImport> listImports,Func<string,bool> loincExists,
@@ -311,8 +311,9 @@ namespace OpenPmsDentalBusiness {
 			}
 			if(vitalsign.Height>0 && vitalsign.Weight>0) {
 				float bmi=Vitalsigns.CalcBMI(vitalsign.Weight,vitalsign.Height);
-				int ageBeforeJanFirst=dateTaken.Year-patient.Birthdate.Year-1;
-				if(patient.Birthdate.Year>1880 && ageBeforeJanFirst>2 && ageBeforeJanFirst<17) {
+				//The age on the day taken (EHR-7, E-35), as the vital sign window takes it: the percentile at 3 to 17, the class from 18.
+				int ageOnDateTaken=Vitalsigns.GetAgeOnDateTaken(patient.Birthdate,dateTaken);
+				if(patient.Birthdate.Year>1880 && Vitalsigns.IsBMIPercentileAge(ageOnDateTaken)) {
 					try {
 						vitalsign.BMIPercentile=Vitalsigns.GetBMIPercentile(bmi,patient,dateTaken.Date,Vitalsigns.GetListLMS());
 					}
@@ -326,7 +327,7 @@ namespace OpenPmsDentalBusiness {
 				}
 				if(patient.Birthdate.Year>1880) {
 					//Vitalsigns.SetWeightCodes, with the table check passed in.
-					InterventionCodeSet interventionCodeSet=Vitalsigns.GetBMIInterventionCode(bmi,ageBeforeJanFirst);
+					InterventionCodeSet interventionCodeSet=Vitalsigns.GetBMIInterventionCode(bmi,ageOnDateTaken);
 					if(interventionCodeSet==InterventionCodeSet.AboveNormalWeight && snomedExists("238131007")) {
 						vitalsign.WeightCode="238131007";
 					}
