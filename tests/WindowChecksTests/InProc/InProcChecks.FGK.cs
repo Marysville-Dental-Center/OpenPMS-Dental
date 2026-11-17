@@ -87,6 +87,8 @@ namespace WindowChecksTests.InProc {
 				if(InspectWindow(ui,checkResult,openedEdit,"FormDashboardEditCell",null,close:false)) {
 					string title=Native.GetText(openedEdit.Hwnd);
 					checkResult.Expect(title.StartsWith("Edit Cell"),"'Edit Cell' opens ('"+title+"')");
+					//A plain form on the default font (section 6, stage 3b: the dashboard edit and print dialogs).
+					ExpectDefaultFont(checkResult,ui.GetForm(openedEdit.Hwnd),"Edit Cell (FormDashboardEditCell)");
 					checkResult.AddShot(ui.Shot(openedEdit.Hwnd,"F2.png"),"Edit Cell");
 					checkResult.Expect(ui.Close(openedEdit.Hwnd),"Edit Cell closes (Cancel)");
 				}
@@ -153,6 +155,7 @@ namespace WindowChecksTests.InProc {
 					System.Threading.Thread.Sleep(1500);
 					string title=Native.GetText(openedPrint.Hwnd);
 					checkResult.Expect(title=="Print Settings","'Print Settings' opens ('"+title+"')");
+					ExpectDefaultFont(checkResult,ui.GetForm(openedPrint.Hwnd),"Print Settings (FormPrintSettings)");
 					checkResult.AddShot(ui.Shot(openedPrint.Hwnd,"F4.png"),"Print Settings");
 					//The graph image it previews: the page bitmap it drew the chart and legend into.
 					ShotInfo shotInfoPage=ui.Invoke(() => {

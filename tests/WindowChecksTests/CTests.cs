@@ -36,6 +36,18 @@ namespace WindowChecksTests {
 			new[] { "C20","Default font: the main menu (MenuOD) in its window's font" },
 		};
 
+		///<summary>The rest of the stage 3b item of section 6 that the harness can do without input (WINCHK-5's fix round): FormSnap, the common
+		///controls MonthCalendar, DateTimePicker, TreeView with check boxes and RichTextBox, the capture notice and status windows, and the EOB viewer
+		///with its hosted WPF strips.</summary>
+		public static readonly string[][] ArrayChecks3b=new[] {
+			new[] { "C21","Default font: FormSnap (the snap-layout window the program keeps hidden)" },
+			new[] { "C22","MonthCalendar and DateTimePicker (standard report windows)" },
+			new[] { "C23","TreeView with check boxes (Auto Note Export)" },
+			new[] { "C24","RichTextBox text (ODtextBox in Edit Patient Information)" },
+			new[] { "C25","Capture notice and acquisition status windows (ImagingDeviceManager)" },
+			new[] { "C26","EOB viewer with its hosted WPF strips (FormImages)" },
+		};
+
 		///<summary>Runs the in-process checks in one session, starting a new session after a check that did not end; records every result and
 		///fails the test when one failed.</summary>
 		public static void RunInProcess(string[][] arrayChecks,string module="",Action<CheckResult> actionAfterEach=null) {
@@ -77,6 +89,12 @@ namespace WindowChecksTests {
 		public void C16toC20_DefaultFontWindows() {
 			WinChkFixture.Begin("C");
 			RunInProcess(ArrayChecksDefaultFont,"chart");
+		}
+
+		[TestMethod]
+		public void C21toC26_CommonControlsAndCaptureWindows() {
+			WinChkFixture.Begin("C");
+			RunInProcess(ArrayChecks3b,"chart");
 		}
 	}
 }
