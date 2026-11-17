@@ -143,6 +143,10 @@
     <PackageVersion Include="WinForms.DataVisualization" Version="1.10.2" />
     <PackageVersion Include="Microsoft.CodeAnalysis.VisualBasic" Version="5.12.0" />
     <PackageVersion Include="Microsoft.CodeAnalysis.Common" Version="5.12.0" />
+    <!-- The C# compiler for tools\FormatSweep and tests\FormatParityTests (S3b-FMT, decision 24): the scan of every place that writes a
+         double as text. Not in batch D; fetched by S3b-FMT under the standing rule (od-tools/downloads/s3bfmt-roslyn-csharp-20261116), the
+         newest stable version, which pins Microsoft.CodeAnalysis.Common 5.12.0 exactly. -->
+    <PackageVersion Include="Microsoft.CodeAnalysis.CSharp" Version="5.12.0" />
     <PackageVersion Include="Microsoft.XmlSerializer.Generator" Version="10.0.15" />
     <PackageVersion Include="Microsoft.Extensions.Hosting.WindowsServices" Version="10.0.15" />
     <PackageVersion Include="Microsoft.AspNetCore.Mvc.Testing" Version="10.0.15" />

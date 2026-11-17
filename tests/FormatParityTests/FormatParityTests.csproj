@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- Package S3b-FMT of the .NET 10 move (decision 24 of docs/specs/net10-plan.md, docs/port-notes/S3b-FMT.md): doubles, floats and
+       fractional times as the .NET Framework wrote and computed them. The truth table (tests\FormatParity\net48-truth.txt, recorded on .NET
+       Framework 4.8) row by row against ODNumberText.ToStringNetFx, AsNetFx, ODDateTimeAdd and ODTimeSpan; pins of the cases decision 24
+       names; and the guard: the scan of tools\FormatSweep over the shipped projects finds no place that writes a double as text, or adds a
+       fractional time, without the helpers (allow list: tools\FormatSweep\allowed-sites.txt). The guard reads the compile inputs of the last
+       lane build (Directory.Build.targets, ODRecordCompileInputs); without them it is inconclusive, and fails with OPMS_REQUIRE_BUILD_OUTPUT=1.
+       No database, device or network. Every .cs file under this folder is compiled. -->
+  <PropertyGroup>
+    <!-- .NET 10 (S3b-5 of docs/specs/net10-plan.md): Windows Forms from the Windows Desktop framework, which CodeBase uses. -->
+    <UseWindowsForms>true</UseWindowsForms>
+  </PropertyGroup>
+  <ItemGroup>
+    <!-- The rule for tests that check a built file: inconclusive when it is not built, a failure with OPMS_REQUIRE_BUILD_OUTPUT=1. -->
+    <Compile Include="..\ProjectFileTests\BuildOutput.cs">
+      <Link>BuildOutput.cs</Link>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <!-- The .NET Framework 4.8 record and the formats it was recorded with (tests\FormatParity, Make-Net48Truth.ps1). -->
+    <Content Include="..\FormatParity\net48-truth.txt">
+      <Link>FormatParity\net48-truth.txt</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\CodeBase\xCodeBase.csproj" />
+    <ProjectReference Include="..\..\DataConnectionBase\xDataConnectionBase.csproj" />
+    <!-- The scan (a self-contained exe, which a test project may reference, S3b-0 item 7): its Scanner, AllowList and Site classes. -->
+    <ProjectReference Include="..\..\tools\FormatSweep\FormatSweep.csproj" />
+  </ItemGroup>
+</Project>
