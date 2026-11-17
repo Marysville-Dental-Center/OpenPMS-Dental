@@ -548,7 +548,7 @@ Branch `ui/ui0c-1`; the whole note is [UI-0c.md](UI-0c.md). In short:
   procedure codes, definitions, security, tasks, medical, Rx, labs, the lists and the setup windows), 8 the synthetic dump cannot fill
   (SKIPPED with the reason: no payment plan, prescription, lab case, task, recall, referral, patient allergy or statement in the dump), the
   main window at 1366x768 and 1920x1080 with each module (with and without a patient at 1366x768), and the patient dashboard with a widget
-  sheet definition (a synthetic one is added to the scratch copy when it has none, and deleted again by its key).
+  sheet definition (its own synthetic one, always added to the scratch copy and deleted again by its key, so the picture does not depend on run order).
 - **Each check** (`InProc/InProcChecks.U.cs`, in the in-process session of WINCHK-5): the window opened by the program's own handler on the
   scratch copy's synthetic patient, the walker after its Load, the picture (`PrintWindow`), Cancel, and the guard tables' row counts
   compared (nothing saved). No input is sent and no UAC prompt is answered, as in every group.

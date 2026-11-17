@@ -404,13 +404,13 @@ namespace WindowChecksTests.InProc {
 				SelectPatientU(ui,checkResult,true);
 				GoToModule(ui,(EnumModuleType)Enum.Parse(typeof(EnumModuleType),row.Module));
 				int countWidgets=Count("SELECT COUNT(*) FROM sheetdef WHERE SheetType="+(int)SheetTypeEnum.PatientDashboardWidget);
-				SheetDef sheetDefWidget;
+				//Always its own synthetic widget, whatever the copy holds, so the picture does not depend on run order (a widget another check made,
+				//such as group I's I5 copy, is not used).
 				if(countWidgets>0) {
-					long sheetDefNum=PIn.Long(DataCore.GetScalar("SELECT MIN(SheetDefNum) FROM sheetdef WHERE SheetType="+(int)SheetTypeEnum.PatientDashboardWidget));
-					sheetDefWidget=SheetDefs.GetSheetDef(sheetDefNum);
-					checkResult.Note("The copy has "+countWidgets+" widget sheet definition(s); the first is used: "+sheetDefWidget.Description);
+					checkResult.Note("The copy has "+countWidgets+" widget sheet definition(s); UD1 adds and shows its own synthetic one");
 				}
-				else {
+				SheetDef sheetDefWidget;
+				{
 					sheetDefWidget=SheetsInternal.GetSheetDef(SheetInternalType.PatientDashboard).Copy();
 					sheetDefWidget.IsNew=true;
 					sheetDefWidget.Description="UI-0c synthetic widget";
@@ -420,8 +420,11 @@ namespace WindowChecksTests.InProc {
 					long sheetDefNumBefore=MaxKey("sheetdef","SheetDefNum");
 					SheetDefs.InsertOrUpdate(sheetDefWidget);
 					sheetDefNumAdded=AddedKey("sheetdef","SheetDefNum",sheetDefNumBefore,"SheetType="+(int)SheetTypeEnum.PatientDashboardWidget);
-					checkResult.Expect(sheetDefNumAdded>0 && sheetDefNumAdded==sheetDefWidget.SheetDefNum,"The copy has no widget sheet definition: a synthetic one is "
+					checkResult.Expect(sheetDefNumAdded>0 && sheetDefNumAdded==sheetDefWidget.SheetDefNum,"A synthetic widget sheet definition is "
 						+"added (SheetDefNum "+sheetDefNumAdded+", "+sheetDefWidget.SheetFieldDefs.Count+" fields; deleted at the end of this check)");
+					if(sheetDefNumAdded<=0 && sheetDefWidget.SheetDefNum>sheetDefNumBefore) {
+						sheetDefNumAdded=sheetDefWidget.SheetDefNum;//the row InsertOrUpdate made, so the finally deletes it
+					}
 					SetKey(checkResult,"UD1.SheetDefNumWidget",sheetDefNumAdded);
 				}
 				SheetDefs.RefreshCache();

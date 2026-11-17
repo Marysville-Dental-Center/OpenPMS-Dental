@@ -121,7 +121,7 @@ appointments) by its day arrows, so its pictures do not move with the date; only
 window's size and state are put back after each check. A size Windows refuses (a screen smaller than the size) is listed for a person with
 both sizes, not failed. The walker measures the main window but never swaps its fonts (it stays open for the next checks).
 
-**The patient dashboard** (UD1): the copy's own widget sheet definition when it has one; the synthetic dump has none, so a synthetic one
+**The patient dashboard** (UD1): always its own synthetic widget sheet definition, even when the copy holds others (so the picture does not depend on run order: group I's I5 copy is never used), and the delete falls back to the key InsertOrUpdate returned. The synthetic one
 is added to the scratch copy by the business layer: a copy of the internal "Patient Dashboard Default" (the patient picture, labels, the
 appointment grid, the individual and family insurance fields) named "UI-0c synthetic widget", with two more labels, one with the font name
 "Microsoft Sans Serif" and one without (section 5.1's content fonts). Admin's group gets the Dashboard Widget permission for it when it has

@@ -17,7 +17,7 @@
 #            accountrow  a double-click on the Account grid's first row whose account table column is not 0
 #            script      a script of InProcChecks.U.cs (ScriptU<target>), for a window opened from another window
 #            main        the main window at the size, in the module, with or without patient #1
-#            dashboard   the patient dashboard with a widget sheet definition (a synthetic one is added to the scratch copy when it has none)
+#            dashboard   the patient dashboard with its own synthetic widget sheet definition (always added to the scratch copy, deleted at the end)
 #            none        the synthetic dump cannot fill the window: target says why; the check is SKIPPED with that reason
 #   target   what "opened" needs (see above)
 #   guard    the tables the window could write, comma-separated (their row counts are compared before and after), or -
