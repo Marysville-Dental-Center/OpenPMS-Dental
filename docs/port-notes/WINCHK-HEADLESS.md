@@ -386,7 +386,7 @@ answers no UAC prompt, prints nothing, sends nothing and changes no Windows sett
 | The EOB viewer | C26 | - |
 | The tooth chart in WPF/2D, DirectX and OpenGL modes | I1 to I8, I11; S3b-5W's ToothChartImageTests and ToothChartHostTests (the gallery) | - |
 | Voice perio charting | - | Yes: speech recognition with a microphone |
-| WebView2 panes at each DPI | C15 (the Wiki's WebView2) at 100 % | Yes, above 100 %: a display setting of the session |
+| WebView2 panes at each DPI | C15 (the Wiki's WebView2) at 100 %; D7 (LAUNCH-3b: the e-mail preview and the WPF WebView2 control, `Microsoft.Web.WebView2.Wpf`) | Yes, above 100 %: a display setting of the session |
 | ImageLists created in code (icon edges with 32-bit depth) | `SourceScanTests.ImageLists_TakeTheirDepthFromAStreamOrSetIt` (none takes the new default); C23 notes the tree's ImageList; the icons in the B and C pairs | - |
 | TreeView check boxes | C23 | - |
 | DateTimePicker, MonthCalendar | C22 | The DateTimePicker's drop-down calendar (opens only on a click on its arrow) |
@@ -400,13 +400,18 @@ answers no UAC prompt, prints nothing, sends nothing and changes no Windows sett
 | CentralManager and DocumentationBuilder start and do their main task | K1, K2 | DocumentationBuilder's Build (it opens the written XML in a browser; K2's PARTLY) |
 | PluginExample loads, and a .NET Framework plugin DLL gets the clear message | N64ATests' `PluginDecision16Tests` (`RebuiltPluginExample_Loads`, `NetFrameworkPlugin_GetsTheClearMessage_AndIsNotLoaded`, `RealNetFrameworkAssembly_IsRefused_WithoutLoadingIt`) | - |
 | The self-update end to end between two .NET 10 builds from a standard user (unchanged runtime; a new runtime patch) | ReleaseFlowTests (`RuntimePartTests`, `RuntimePartDbTests`, S3b-7) | Yes: a test update server, two test PCs and the UAC prompt of UpdateFileCopier |
-| The setup on a clean VM without any .NET | S3b-7's Test-Installer (the owner's elevated run is due) | Yes: a clean VM and an elevated setup |
+| The setup on a clean VM without any .NET | S3b-7's Test-Installer (the owner's elevated run is due); `tools/Test-CleanInstall.ps1` in Windows Sandbox (LAUNCH-3b) | Yes: the owner runs Test-CleanInstall.ps1 (docs/launch-checks-3b.md, check 3) |
 | The setup over the bridge release | Removed: no bridge release (decision 21) and no install to migrate (decision 22) | - |
 | On x64: Help > About and the diagnostics show a 64-bit process | A2 (`Process: 64-bit`, `.NET runtime: .NET 10.`) | - |
 | On x64: TWAIN capture with the clinic's sensor and a document scan through the 64-bit TWAINDSM | E1 to E4 (the capture windows); ImagingCapture's tests | Yes: the real sensor and scanner |
 | On x64: each helper link where a test PC has the vendor software | Helper32Tests | Yes: the vendors' software |
 | On x64: the tooth chart in DirectX and OpenGL, and a mode that cannot start falling back | I7, I11; S3b-5W's tests | - |
 | On x64: the Snipping Tool start of the claim attachment windows and the on-screen keyboard | - | Yes: they start Windows' own programs on the person's desktop |
+
+**The launch checks (LAUNCH-3b, decision 25).** Every "For a person" row above, the PARTLY items of section 6 and the gate's other person
+checks (the Middle Tier as a Windows service, the clean install, the Direct LDAP resolver, the WebView2 windows) are one checklist for the
+owner: [docs/launch-checks-3b.md](../launch-checks-3b.md), with the command or steps, the time, what each changes and what to send back.
+D7 (group D, `DETests.D7_WebView2Windows`) is the WebView2 window check of that list; the lead runs it at the next connected session.
 | On x64: the setup's move from a 32-bit bridge install; a mixed pair of workstations | Removed by decision 22 (no install to migrate, no mixed workstations) | - |
 
 ### 4. Program defects found and fixed (same behaviour as net48)
