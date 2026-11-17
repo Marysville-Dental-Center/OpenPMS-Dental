@@ -5,7 +5,7 @@ asked for it on 2026-11-17 ("Do ui refresh. Modernize icons, buttons, styles. Ke
 same day (section 1). Package briefs are cut from this document the same way as from `docs/specs/net10-plan.md` and
 `docs/specs/wpf-tooth-chart-plan.md`.
 
-**Date.** 2026-11-17. **Status.** Proposed, review round 1 applied (section 12). Waiting for the owner's answers to UQ-1 to UQ-9
+**Date.** 2026-11-17. **Status.** Proposed, review rounds 1 and 2 applied (section 12). Waiting for the owner's answers to UQ-1 to UQ-9
 (section 11) and for gallery G-UI1 part 1 (section 8), which shows the design before any window changes.
 
 **Basis.**
@@ -13,7 +13,7 @@ same day (section 1). Package briefs are cut from this document the same way as 
   measurements on the build PC at 96 DPI), and the tooling for pictures and approval.
 - The public Fluent UI System Icons repository and npm registry (checked 2026-11-17).
 - The WCAG 2.2 contrast rules (level AA: 4.5:1 for normal text, 3:1 for large text, 3:1 for the outline of a control and for focus).
-- One review of this plan (2026-11-17). Its findings were checked against `main` at `ee264d7b5` and applied; where the review was
+- Two reviews of this plan (2026-11-17). Their findings were checked against `main` at `ee264d7b5` and applied; where a review was
   wrong or a better fix exists, section 12 says why.
 - Nothing was built, run or edited for this plan. Line numbers are at `8d34b27a0` (the code they point to is the same at `ee264d7b5`).
   Each brief greps them again.
@@ -70,7 +70,8 @@ font, and one icon family. Staff who switch from Open Dental find every control 
 - Windows high-contrast themes win. When `SystemInformation.HighContrast` (WinForms) or `SystemParameters.HighContrast` (WPF) is set,
   the colour tokens return the matching `SystemColors` (3.2).
 - The look switches that already exist keep working: `NoCustomBorders.txt`, `NoD2D.txt` and `NoDpi.txt` beside the exe (section 6).
-- The title bar does not change colour when a window is inactive, as today (FormODBase and FormFrame have no inactive state).
+- The title bar does not change colour when a window is inactive, as today (FormODBase and FormFrame have no inactive state). The one
+  frame state that exists, the floating image windows' selected and unselected frame, is restyled (3.6).
 
 ---
 
@@ -98,10 +99,11 @@ They paint in `OnPaint` with GDI+.
 | Tabs | `OpenPmsDental/UI/TabControl/TabControl.cs` | grey border, selected 170,190,230 | 55 / 47 |
 | Others | `SplitContainer`, `MonthCalendarOD`, `ComboBoxClinicPicker`, `ODDatePicker`, `ODDateRangePicker`, `PanelOD`, `ToolTipOD`, `ODButtonPanel`, `LightSignalGrid`, the appointment and imaging sliders | hard-coded colours, some `ColorOD` | |
 
-Every file in `OpenPmsDental/UI` and `WpfControlsOD/UI/Controls` has an owning package or a reason in the coverage table (2.1).
+Every file in `OpenPmsDental/UI`, `WpfControlsOD/UI` and `WpfControlsOD/Themes` has an owning package or a reason in the coverage
+table (2.1).
 
 **Shared controls (WPF).** About 35 UserControls in `WpfControlsOD/UI/Controls` with XAML templates and brushes set in code. Shared
-dictionaries: `Generic.xaml` (74 lines), `TabControlDict.xaml` (195), `DataGridDict.xaml` (142). Most used: Label 799, Button 487,
+dictionaries, in `WpfControlsOD/Themes` (not under `UI`): `Generic.xaml` (74 lines), `TabControlDict.xaml` (195), `DataGridDict.xaml` (142). Most used: Label 799, Button 487,
 TextBox 382, CheckBox 170, ComboBox 73, GroupBox 69, ListBox 60, Grid 42 (instances). The WPF controls already use Segoe UI 11.5 DIP
 (`WpfControlsOD/Frame/FrmODBase.cs:244-245`), so only their colours, corners and icons change.
 
@@ -116,6 +118,10 @@ are the only look colours an office can change.
 **Fonts.**
 - WinForms gets Microsoft Sans Serif 8.25 from three places: `Application.SetDefaultFont` in 12 exe `Main`s (used by the 78 plain forms),
   FormODBase's constructor (used by its subclasses), and `LayoutManagerForms.FontInitial` (55 uses, by UserControls).
+- `LayoutManagerForms` records each control's font size once. A window's designer controls are recorded in its constructor
+  (`LayoutManagerForms.cs:133-143`, which `FormODBase.InitializeLayoutManager` runs at `FormODBase.cs:653`; the `Control96Info`
+  constructor reads `FontSize96` at line 1391). Controls added later are recorded in `AddToList96` (line 211, size at 226-229), which
+  `LayoutManager.Add` (177), `Synch` (475) and the tooth chart's engine control (1118) call.
 - `LayoutManagerForms` rebuilds every control's font when it scales. It keeps the family and changes only the size (lines 868-914).
   It sets a new font only when the size differs (Job 55866: setting a font fires `TextChanged`, which once cleared signatures in
   ProcedureInfo and GroupNote), and it multiplies Label and RadioButton fonts by 0.96 (line 902).
@@ -168,9 +174,10 @@ safe on more than one thread (3.2).
 
 ### 2.1 Coverage: every shared control file
 
-Every file in `OpenPmsDental/UI` and `WpfControlsOD/UI` (designer, `.resx` and `.xaml.cs` files go with their main file) has a row here
-with its package or the reason it keeps its look. A NoHq test (UI-1) fails when a file in those folders has no row, so a new control
-cannot slip through. The table lives in `tests/UiRefreshTests/Data/coverage.tsv`; this is its first version.
+Every file in `OpenPmsDental/UI`, `WpfControlsOD/UI` and `WpfControlsOD/Themes` (designer, `.resx` and `.xaml.cs` files go with their
+main file) has a row here with its package or the reason it keeps its look. The WPF shared dictionaries are not under `UI`, so their
+rows give the full path. A NoHq test (UI-1) fails when a file in those three folders has no row, so a new control or a
+new shared dictionary cannot slip through. The table lives in `tests/UiRefreshTests/Data/coverage.tsv`; this is its first version.
 
 | Files | Package |
 |---|---|
@@ -185,10 +192,10 @@ cannot slip through. The table lives in `tests/UiRefreshTests/Data/coverage.tsv`
 | WinForms `SheetLayoutController` | keeps its look: sheet content |
 | WinForms `MessageBox`, `FolderBrowserDialog` | keep the Windows look (section 1) |
 | WinForms `ControlDoubleBuffered`, `FormLauncherHelper`, `ClinicSelector/ClinicPrefHelper`, `BordersDpi/MouseWatcher/*`, `Voice/*`, `TestForWpf` | no drawing of their own; windows among them get the frame and controls like any window |
-| WPF `Button`, `CheckBox`, `RadioButton`, `GroupBox`, `Panel`, `PanelAutoScroll`, `Label`, `LinkLabel`, `PictureBox` (border only), `ToolTip`, and their styles in `Themes/Generic.xaml` | UI-4a |
-| WPF `ComboBox`, `ComboClinic`, `ListBox`, `ListView`, `TreeView`, `TabControl`, `TabPage`, `SplitContainer`, `DatePicker`, `MonthCalendar`, `TextBox`, `TextPassword`, `TextRich`, `TextVDate`, `TextVDouble`, `TextVInt`, `TextVTime`, `Supplemental/WindowComboPicker`, `Supplemental/WindowMonthCalendar`, `Supplemental/PopupHelper2`, `Themes/TabControlDict.xaml`, their styles in `Generic.xaml` | UI-4b |
+| WPF `Button`, `CheckBox`, `RadioButton`, `GroupBox`, `Panel`, `PanelAutoScroll`, `Label`, `LinkLabel`, `PictureBox` (border only), `ToolTip`, and their styles in `WpfControlsOD/Themes/Generic.xaml` | UI-4a |
+| WPF `ComboBox`, `ComboClinic`, `ListBox`, `ListView`, `TreeView`, `TabControl`, `TabPage`, `SplitContainer`, `DatePicker`, `MonthCalendar`, `TextBox`, `TextPassword`, `TextRich`, `TextVDate`, `TextVDouble`, `TextVInt`, `TextVTime`, `Supplemental/WindowComboPicker`, `Supplemental/WindowMonthCalendar`, `Supplemental/PopupHelper2`, `WpfControlsOD/Themes/TabControlDict.xaml`, their styles in `WpfControlsOD/Themes/Generic.xaml` | UI-4b |
 | WPF `ImagingModule/*` (`ImageDockHeader`, `ImageSelector`, `ImageSelectorTypes`, `UnmountedBar`, `WindowImageFloatWindows`, `WindowingSlider`, `ZoomSlider`), `SignatureBoxWrapper` (border only; the signature is content), `Progress/*`, `DatabaseIntegrity/WarningIntegrity`, `Dialogs/FrmColorDialog`, `ToothChart/ToothChartTextBelowStrip` (by UQ-6) | UI-4c |
-| WPF `Grid`, `Supplemental/Grid*`, `Themes/DataGridDict.xaml` | UI-5 |
+| WPF `Grid`, `Supplemental/Grid*`, `WpfControlsOD/Themes/DataGridDict.xaml` | UI-5 |
 | WPF `ToolBar`, `ToolBarButton`, `Menu`, `MenuItem`, `ContextMenu` | UI-6 |
 | WPF `IconLibrary/*` | UI-7a, UI-7b |
 | WPF `ColorOD`, `ColorODtemp`, `Graphics` | UI-1 (tokens), UI-11 (ColorOD points at the tokens) |
@@ -344,8 +351,9 @@ Nothing here moves a control. Every change is how the control paints inside its 
     (`ParentForm_KeyDown`, `GridOD.cs:2724`); that behaviour stays and draws the unfocused bar.
   - WPF controls get the same through one `FocusVisualStyle` in `Generic.xaml`.
 - **Buttons** (`UI.Button`, WPF `Button`). Flat `SurfaceRaised` fill, 1 px `Stroke` border, 4 px corners, `Text`. Hover `ButtonHover`,
-  pressed `ButtonPressed`. Disabled: `#F5F5F5` fill, `TextDisabled`. The icon stays on the left in the same image rectangle, tinted
-  `Text` (or its role colour, UQ-4). No gradient and no text glow.
+  pressed `ButtonPressed`. Disabled: `#F5F5F5` fill, `TextDisabled`. The icon stays on the left in the same image rectangle. Once it is
+  a Fluent icon it is tinted `Text` (or its role colour, UQ-4): `EnumIcons` icons from UI-7b, pictures from the UI-9a slices. Until
+  then UI-4a draws the button's icon as today. No gradient and no text glow.
 - **The default button.** WinForms: the form's `AcceptButton` (87 designer lines) is filled `Accent` with white text, `AccentHover`
   and `AccentPressed`. WPF Frms have no `AcceptButton`: each Frm wires Enter in its own `KeyDown` (`FrmODBase.cs:810`). UI-4a adds an
   `IsPrimary` property to the WpfControlsOD `Button` that only changes its look (not `IsDefault`, which in WPF also means Enter), and
@@ -370,9 +378,17 @@ Nothing here moves a control. Every change is how the control paints inside its 
   `SetDefaultFont` and `SetHighDpiMode`, so Central Manager, the graph and the other programs get it too. WinForms keeps this renderer
   per UI thread, so the same call runs where the program starts another UI thread (2, "Extra UI threads"); the brief confirms that
   behaviour in the .NET 10 source.
+  - Two exes do not make the call: `UpdateFileCopier` and `OpenPmsDentalHelper32` (x86) reference no CodeBase and have no menu or tool
+    strip. They keep only their font literal (5.1). No CodeBase reference is added to them.
+  - RdlDesign also references no CodeBase (`RdlDesign/ReportDesigner.csproj`), but it has a stock `MenuStrip` (`RdlDesigner.cs:1493`),
+    a `StatusStrip` (284) and 5 context menus (`DesignCtl.cs`). It compiles in the two files it needs, the WinForms colours of
+    `UiTheme` and the renderer, as linked files, the way it already links `CodeBase/Utilities/ODNumberTextNetFx.cs`
+    (`ReportDesigner.csproj:47`). So those two files use only WinForms and `System.Drawing` (UI-1 keeps the WPF brushes in a file of
+    their own).
 - **Module bar** (`ModuleBar`). `SurfaceSubtle` background with a 1 px `Gridline` divider on its right. Hover `SubtleHover` with 6 px
   corners, inset 4 px inside the button's bounds. Selected: `SurfaceRaised` fill, a 3 px `Accent` mark on the left, the icon in its
-  Filled style tinted `Accent`, caption in `Text`. Unselected icons Regular style in `Text`. Captions Segoe UI 8.
+  Filled style tinted `Accent`, caption in `Text`. Unselected icons Regular style in `Text`. Captions Segoe UI 8. The module icons are
+  `EnumIcons`, so their Fluent Regular and Filled styles come from UI-7b, which UI-6 waits for (section 7).
 - **Tabs** (`UI.TabControl`, WPF `TabControl`, 11 stock `TabControl`s keep the Windows look). Headers keep their sizes. Unselected:
   transparent, `TextSecondary`. Hover `SubtleHover`. Selected: `Text` and a 2 px `Accent` line along the header's bottom. Page border
   1 px `Stroke`, page background `Surface`.
@@ -392,6 +408,11 @@ Nothing here moves a control. Every change is how the control paints inside its 
   flat: minimise and maximise hover `CaptionHover`, close hover `Danger`. Caption glyphs are Fluent (Subtract, Maximize, Square Multiple,
   Dismiss). 1 px outline in `AccentPressed`. Window background `Surface`. With `NoCustomBorders.txt` (`AreBordersMS`) the Windows
   frame stays: the client area is restyled, and the title bar tokens and Misc Colors do not apply.
+  - Floating image windows (`FormImageFloat`) show which one is selected, even without focus (`IsImageFloatSelected`,
+    `FormODBase.cs:279`). Today `PanelBorders_Paint` mixes a fixed 65,94,154 with white for the two states (`FormODBase.cs:687-699`;
+    a copy in `FormFrame.cs:513-526`, which the UI-3 brief checks is reached), and Misc Colors do not apply. New: selected, `Accent`
+    with white text; unselected, `SurfaceSubtle` with `Text` (14.9:1) and a 1 px `Stroke` outline. Caption button hover: `CaptionHover`
+    on the selected one, `SubtleHover` on the unselected one; close hover `Danger` on both. Misc Colors still do not apply.
 - **Dialogs.** Windows message boxes stay as they are. The program's own small dialogs (input boxes, `MsgBoxCopyPaste`, progress
   windows) are ordinary windows and get the frame and controls above. Progress bars in self-drawn progress windows fill with `Accent`.
 
@@ -512,11 +533,17 @@ the token to Segoe UI 9 pt (or 8.25 after UQ-1) together with the last fit fixes
   the Windows text scale factor.
 - `FormODBase.cs:137`, `LayoutManagerForms.FontInitial` (`LayoutManagerForms.cs:84`), `FormFrame.cs:104`, and the title fonts
   (`FormODBase.cs:806-807`, `FormFrame.cs:627-628`).
-- **A family mapping in `LayoutManagerForms.AddToList96`** (line 211; `FontSize96` is recorded at about 226). When a control is added,
-  a Microsoft Sans Serif font becomes the token font by the rule of 3.4, keeping Bold, Italic and Underline. This runs once per control,
-  when the window builds its layout (`InitializeLayoutManager`, before `Load` and before any data or signature is loaded), so setting the
-  font there cannot fire a `TextChanged` that clears a signature (Job 55866). Every FormODBase window passes through this one place, so the
-  418 designer fonts in 134 files change without editing designer files.
+- **A family mapping wherever `LayoutManagerForms` records a control.** One helper turns a Microsoft Sans Serif font into the token
+  font by the rule of 3.4, keeping Bold, Italic and Underline. It runs in both places a `Control96Info` is made (section 2, Fonts), and
+  before `FontSize96` is read, so the recorded size is the mapped one:
+  - the constructor's loop over the window's designer controls (`LayoutManagerForms.cs:133-143`), before `new Control96Info` (whose
+    constructor reads `FontSize96` at line 1391);
+  - `AddToList96` (line 211), before line 213, for controls added later through `LayoutManager.Add` (177), `Synch` (475) and the tooth
+    chart's engine control (1118).
+  - When: the constructor runs in `InitializeLayoutManager` (`FormODBase.cs:651-653`), which each window calls right after
+    `InitializeComponent`, before `Load` and before any data or signature is loaded, so setting the font there cannot fire a
+    `TextChanged` that clears a signature (Job 55866). Every FormODBase window builds its layout there, so the designer fonts of
+    FormODBase windows (most of the 418) change without editing designer files.
 - **The rebuild** (`LayoutControlBoundsAndFonts`, 868-914) keeps its rule: it keeps the control's current family and sets a new font
   only when the size differs. It changes in one way: it keeps Italic and Underline as well as Bold (today it keeps only Bold), and it
   then compares style as well as size before setting a font. A font that code sets on a control after it was added keeps the family the
@@ -524,13 +551,25 @@ the token to Segoe UI 9 pt (or 8.25 after UQ-1) together with the last fit fixes
 - **Controls added after `Load`.** Some windows add controls later through `LayoutManager.Add` with handlers already attached
   (`FormSheetFillEdit` fields, for example). The brief lists every `LayoutManager.Add` outside `InitializeLayoutManager` from a grep, and
   checks each one either is excluded as content (below) or has no handler a font change could trigger.
-- **Content is excluded from the mapping.** `LayoutManagerForms.MarkContent(Control)` marks a control; `AddToList96` skips the
-  mapping for a marked control and everything inside it. Marked in UI-2a: `FormSheetFillEdit`'s `panelMain` (each field `TextBox` takes
-  the sheet field's stored font, `FormSheetFillEdit.cs:1414`, and is added at 1436), `ContrPerio` (it draws the graphical perio chart
-  with its inherited font, `ContrPerio.cs:2230`; UQ-6), `ToothChartWrapper` and everything inside it, the `FormSheetDefEdit` and
-  `FormClaimFormEdit` canvases, and `ODPrintPreviewControl`. RdlDesign's report canvas (`RdlDesign/DesignCtl.cs`) draws report items
-  with the report's fonts and is not under LayoutManager; RdlDesign's designer font edits leave it alone. A test: a synthetic sheet with
-  a Microsoft Sans Serif field keeps that font in `FormSheetFillEdit` after the flip.
+- **Content is excluded from the mapping.** The mapping skips a control when it, or any control it sits in, is content:
+  - Content types, checked by type: `ToothChartWrapper`, `ContrPerio` (UQ-6) and `ODPrintPreviewControl`. A type needs no call at the
+    right moment, so the tooth chart is covered in every window that hosts it (`ControlChart`, `FormGraphics`, `FormSheetFillEdit` and
+    others).
+  - Marked panels, for panels that are content in one window only: `FormSheetFillEdit`'s `panelMain` (each field `TextBox` takes the
+    sheet field's stored font, `FormSheetFillEdit.cs:1414`, and is added at 1436), and the `FormSheetDefEdit` and `FormClaimFormEdit`
+    canvases. `LayoutManagerForms.MarkContent(Control)` records the panel. Because the mapping of designer controls runs in
+    `InitializeLayoutManager`, a window marks its panels before it calls `InitializeLayoutManager`; `MarkContent` throws when the
+    panel's window has already built its layout, so a mark in the wrong place fails the first time a test opens the window.
+  - In the constructor's loop the check walks up `Control.Parent`. In `AddToList96` it walks up from the `parent` argument, because
+    `Add` records a control before it is parented (the sheet fields at `FormSheetFillEdit.cs:1436`).
+  - RdlDesign's report canvas (`RdlDesign/DesignCtl.cs`) draws report items with the report's fonts and is not under LayoutManager;
+    RdlDesign's font edits (below) leave it alone.
+  - A test: a synthetic sheet with a Microsoft Sans Serif field keeps that font in `FormSheetFillEdit` after the flip.
+- **Content that inherits its font pins it.** Skipping the mapping does not hold a font the control never set: a control without a
+  font of its own takes its window's font, which becomes the token. So the content controls that draw with an inherited font pin it to
+  Microsoft Sans Serif 8.25 (today's value) in their own constructor, in UI-2a-1: `ToothChart2D` (5.2) and `ContrPerio` (it draws the
+  graphical perio chart with `Font`, `ContrPerio.cs:2230`, and sets none; UQ-6). `ContrPerio`'s pin also holds the copy that
+  `FormClaimEdit` builds on its own for the claim attachment (5.2). The brief checks every other content control for an inherited font.
 - **No container scales by font.** Every `AutoScaleMode.Font` container listed in section 2 changes in its designer in UI-2a:
   - UserControls that a FormODBase window hosts through LayoutManager (`ControlImageDisplay`, `ControlImageDock`, `PrintPanel`,
     `ODWebView2`, `ToothChart2D`, `ToothChartWrapper`, and the OpenPmsDentalGraph controls where a FormODBase window hosts them) get
@@ -541,13 +580,28 @@ the token to Segoe UI 9 pt (or 8.25 after UQ-1) together with the last fit fixes
     them tiny at 150%. `Dpi` keeps the DPI part and drops the font part.
   - With today's font the change is invisible at 96 DPI. Above 96 DPI the plain exes scale by the DPI ratio instead of the font-metric
     ratio, which is nearly the same; G-UI4 pictures them. The brief records which host each graph control has.
+  - The trade-off: under `AutoScaleMode.Font` the plain exes' layout also grows with Windows' text size setting today
+    (`SetDefaultFont` applies the factor, so the font-to-6×13 ratio rises). `Dpi` drops that part: at text size 125% the text grows but
+    the layout does not, so labels and buttons in Central Manager, Service Manager and the other plain exes can clip. The scan's
+    text-scale run includes these forms (5.4), and G-UI4 pictures them at text size 125%. What clips goes to the UI-10 slices as
+    size-only fixes, or to the owner. If size-only fixes cannot cover it, the fallback for a form is to keep `AutoScaleMode.Font` with
+    `AutoScaleDimensions` set to the new font's metric in UI-2b (the ratio is then 1 at normal text size and grows with it, as today),
+    and to list that file in the ban's allow list.
   - The NoHq source scan bans `AutoScaleMode.Font` outside `UnitTests` and `PluginExample` from then on.
 - The 78 plain forms that do not use `LayoutManager` (RdlDesign 21-22, CentralManager 18, OpenPmsDental 5, OpenPmsDentalGraph 5,
-  ServiceManager 3, others): RdlDesign's 61 designer fonts and the others are edited in their designers to read the token.
+  ServiceManager 3, others) mostly take the exe's default font, so they follow its literal. Few of their designer fonts name
+  Microsoft Sans Serif: on `main` about 14 outside OpenPmsDental (Central Manager 4, the graph 6, xCrudGenerator 2, RdlDesign 2), plus
+  those of OpenPmsDental's plain forms; the brief greps again. RdlDesign's other designer fonts are the 55 Arial 8.25 Bold Italic
+  headings of 3.4 and a few Wingdings and Courier New fonts, which stay by the rule of 3.4.
+  - A designer file cannot point at the token: the Visual Studio designer writes the property back as a literal the next time it saves
+    the form. So a Microsoft Sans Serif 8.25 Regular font on a control whose parent has the default font is removed, and the control
+    inherits the default. Any other (Bold, other sizes) stays a literal in the designer; UI-2b changes it together with the exe
+    literals, and a NoHq test checks each one's family and size against the token by the rule of 3.4 (UI-2a-4).
 - Code that creates screen fonts: `ToolBarOD.cs:89`, `UI/ListBox.cs:391`, `ODButtonPanel.cs:64`, `ModuleBar.cs:323`,
-  `ControlAppt.cs:3182, 3187`, `FormClaimEdit.cs:2506, 2509`, and the rest of the about 59 code lines and about 40 `GenericSansSerif`
-  files that draw on screen. Each brief lists its sites from a fresh grep, and sorts each into screen chrome (changes), print (5.2) or
-  content (5.2). The appointment book's fonts are content unless UQ-8 says otherwise (5.2).
+  `ControlAppt.cs:3182, 3187`, and the rest of the about 59 code lines and about 40 `GenericSansSerif` files that draw on screen. Each
+  brief lists its sites from a fresh grep, and sorts each into screen chrome (changes), print (5.2) or document and content (5.2). Code
+  that draws into a picture with `Graphics.FromImage` and saves, attaches or exports it makes a document, not screen chrome (for example
+  the claim perio attachment, 5.2). The appointment book's fonts are content unless UQ-8 says otherwise (5.2).
 - GridOD's India setting switches the grid to Arial (`GridOD.cs:1408`). UI-5 checks whether Segoe UI draws the rupee sign, the likely
   reason; if it does, the switch goes.
 
@@ -565,7 +619,13 @@ the token to Segoe UI 9 pt (or 8.25 after UQ-1) together with the last fit fixes
   (2960, 3193, 3275) draw with the screen fonts today. UI-2a first gives them their own print fonts, pinned to today's sans serif 8.5
   and 10 Bold and today's print colours (UQ-5). `GridOld.cs` and `Tables Old Grids/ContrTable.cs` get the same check.
 - **The perio chart's print font.** `FormPerio.cs:1170` sets `contrPerio.Font` to Microsoft Sans Serif 8.25 inside `butPrint_Click`,
-  only for `PrinterL.TryPrint`. It is a print site and stays as it is. On screen `ContrPerio` is excluded from the mapping (5.1, UQ-6).
+  only for `PrinterL.TryPrint`. It is a print site and stays as it is. On screen `ContrPerio` is excluded from the mapping and pins its
+  font (5.1, UQ-6).
+- **The claim perio attachment.** `FormClaimEdit.butAttachPerioHelper` (`FormClaimEdit.cs:2479-2545`) builds a `ContrPerio` on its own,
+  draws the chart into a picture with the patient's name and the practice title above it in Microsoft Sans Serif 12 and 9 Bold (lines
+  2506 and 2509), and saves it as a JPG that is attached to the claim. It is a document: both fonts stay Microsoft Sans Serif and are
+  on the NoHq allow list, the chart keeps its font through `ContrPerio`'s pin (5.1), and the print guard compares the attachment
+  picture before and after.
 - **The appointment book** (`OpenPmsDental/UI/Appt/ControlApptPanel*.cs`). Its fonts (`_font`, `_fontMinutes`, `_fontMinutesBold`,
   `_fontOpsHeaders`, lines 142-150, rebuilt at 720-724 from `GenericSansSerif`) draw appointment boxes, time bars and operatory headers,
   and the same panel prints the schedule: `PrintPage` (line 1477) sets `_isPrinting` and draws with the same fonts, and the print colours
@@ -598,10 +658,20 @@ with all of that.
 
 ### 5.4 The scan
 
-**Tier 1, no database** (UI-0, `tests/UiRefreshTests`). In its own process, it sets the font under test as the default, then builds every
-Form and UserControl type (about 892 forms and 153 UserControls) like this: create an empty object, run only the base constructor
+**Tier 1, no database** (UI-0b, `tests/UiRefreshTests`). In its own process, it builds every Form and UserControl type (about 892
+forms and 153 UserControls, the plain exes' forms included) like this: create an empty object, run only the base constructor
 (FormODBase, Form or UserControl), then call the type's `InitializeComponent` and `InitializeLayoutManager` by reflection. This skips each
 window's own constructor, so constructor arguments and database calls do not matter. Types that throw are listed.
+
+**The font under test.** Setting the application default is not enough. FormODBase sets its own font in its constructor
+(`FormODBase.cs:137`, the token after UI-2a-1), and the designer fonts are explicit Microsoft Sans Serif, so a FormODBase window ignores
+the default; only plain forms and code that reads `Control.DefaultFont` follow it. So the scan sets the default and also:
+- until UI-2a-1 merges: applies UI-0b's test-side font swap to each window once it is built. The swap sets the form's and every
+  container's font as well as the controls', so `AutoScaleMode.Font` containers rescale as they would, and the bounds record catches it;
+- from UI-2a-1 on: sets a test-only token override (`UiTheme.SetFontForTest`, only in test processes) before any window is built, so the
+  product's own path runs: FormODBase's constructor, the mapping of 5.1 and the code sites.
+
+The bounds comparison and the UI-10 galleries use the same mechanism as the scan at that point.
 
 It then walks every visible control with text and measures it with the control's own way of drawing:
 - `TextRenderer` for stock Label, LinkLabel, RadioButton, CheckBox, Button and GroupBox;
@@ -615,7 +685,8 @@ control into a bitmap and looks for ink in the last row or column.
 window's `LayoutManagerForms` (`LayoutManagerForms.cs:626`) at 1.0, 1.25, 1.5, 1.75 and 2.0, plus one program zoom step through
 `ZoomTest` (line 104). Stock controls that scale their own fonts from the real DPI are not fully simulated this way, so real 125% and
 150% desktops are still checked by hand (section 8). One more run sets the default font as Windows does at text scale 125%
-(`SetDefaultFont` applies the factor), at 96 DPI.
+(`SetDefaultFont` applies the factor), at 96 DPI. It matters most for the plain exes' forms, which take the default font and, with
+`AutoScaleMode.Dpi`, no longer grow their layout with it (5.1).
 
 **Bounds.** The same walk records every control's `Bounds` once the window is built, for the before set (old font) and for the font
 under test. Any difference that is not in `fit-fixes.tsv` is reported: it catches run-time scaling the designer snapshot cannot see
@@ -627,7 +698,7 @@ without touching a neighbour. Each row is "fixable by size only" or "needs the o
 **When it runs.** At the end of every control package (UI-3 to UI-6, UI-9b), because each changes what fits (button padding, the check
 box glyph, toolbar padding, image rectangles). Its counts go into that package's gallery. UI-10 slices always work from the latest run.
 
-**Tier 2, with real data** (UI-0, the harness). A walker in the new harness group U measures every window the harness opens, after `Load`,
+**Tier 2, with real data** (UI-0c, the harness). A walker in the new harness group U measures every window the harness opens, after `Load`,
 so text set at run time is covered (about 975 such assignments in 241 files).
 
 **The fixes** (UI-10 slices). Size-only edits to `Width` and `Height` in designers, from the scan's TSV for the new font. A fix that
@@ -687,7 +758,8 @@ remove them:
 - A package merges only after its gallery is approved (section 8). A package with no visible change (UI-0, UI-1, UI-7a, UI-2a) merges
   when its tests pass and the harness's U0 check shows no changed picture.
 - No package is bigger than one writer and one review can handle: at most about 40 designer files, or one module, or one control family
-  (WinForms and WPF together). The large jobs are cut into numbered slices below.
+  (WinForms and WPF together). The large jobs are cut into numbered slices below. A name without its slice number (UI-0, UI-2a, UI-9a)
+  means all its slices.
 - `main` never shows clipped text: the fit fixes merge before the font flips (5.4).
 - Until the last package, `main` shows a mixed look. Nothing is in production (owner, 2026-11-15), so that is accepted. A release cut in
   that window says so in its notes.
@@ -695,49 +767,71 @@ remove them:
   branches and waits for the overlapping ones.
 
 **Order.** Each line needs the lines above it unless it says otherwise.
-1. UI-0 (tools, scans, the before set).
+1. UI-0a (gallery builder) and UI-0b (scan and layout records) side by side, UI-0c (harness group U) after UI-0a, then the before set.
 2. UI-1 (tokens, design sheet, coverage test).
-3. UI-7a (icon pipeline and the glyphs the controls need) and UI-2a (font plumbing, no visible change). They share no files and may
-   run side by side.
+3. UI-7a (icon pipeline and the glyphs the controls need) and UI-2a-1 (font token and mapping, no visible change). They share no files
+   and may run side by side. Then UI-2a-2 (no font scaling), UI-2a-3 (print fonts) and UI-2a-4 to UI-2a-n (code font sites), side by
+   side where they share no files; the UI-2a-4 slices start after UI-2a-3, whose print guard they run.
 4. UI-3 (frame), then UI-4a, UI-4b, UI-4c (controls), UI-5 (grids), UI-6 (toolbars, menus, module bar). UI-7b (the `EnumIcons`) and
-   UI-8 (dental icons) own only icon files and may run beside them.
+   UI-8 (dental icons) own only icon files and may run beside them, but UI-6 starts only after UI-7b has merged: the module bar draws
+   the `EnumIcons` in their Fluent Regular and Filled styles (3.6).
 5. UI-9a-1 to UI-9a-6 and UI-9b-1 to UI-9b-4 (pictures to icons).
 6. UI-10-1 to UI-10-n (fit fixes, made for the new font while `main` still shows the old one).
 7. UI-2b (the flip to Segoe UI).
 8. UI-11-1 to UI-11-n (chrome `BackColor` values), then UI-11-final (sweep, leftovers, notes).
 
-**UI-0: tools, scans and the before set** (tests and tools only; no product change)
-- Owns: `tools/New-UiGallery.ps1` (the in-repository successor of the lost `Make-Pairs.ps1`), `tools/ui-gallery-masks.tsv`, the new test
-  project `tests/UiRefreshTests` (the lead adds it to `OpenDental.sln` and `OpenDental.Local.slnf`), `tests/WindowChecksTests` group U
-  (`InProc/InProcChecks.U.cs`, `UiGallery/windows.tsv`, the walker) and `tests/WindowChecksTests/UiApproved/approved.tsv` (empty).
-- Work: the gallery builder (before, after, diff, % changed, the after picture's pixel SHA-256, masks for the clock, dates and the copy's
-  database name, clip notes, `index.html` that shows pictures at 1:1 device pixels with a zoom toggle (section 8), a zip with forward
-  slashes). Group U: about 50 common windows the harness does not reach yet (claims, recall, confirmation, schedules, pay plans,
-  billing, procedure codes, definitions, security, tasks, medical, Rx, labs and others listed by the tooling survey), opened by their own
-  handlers on synthetic patients and closed with Cancel; the main window at fixed sizes 1366×768 and 1920×1080; each module with and
-  without a patient. The tier 1 text-fit scan with its scales, text-scale run and bounds record (5.4). The layout snapshot
-  (`tests/UiRefreshTests/Data/layout-snapshot.tsv`) and its test. The check U0 (compare each picture with `approved.tsv`). A test-side
-  font swap: it walks a built window and replaces Microsoft Sans Serif with a given font (the rule of 3.4, the 0.96 factor included),
-  so galleries can show real windows in a font option before the product changes (G-UI1 part 1, UI-10).
-- Tests: the builder's self-tests (no program, no database); the scan runs on today's font and reports nothing new.
-- Gallery: none. It ends with **the before set**: one full harness run (groups A to K and U) at the base commit, in the owner's connected
-  session, frozen in `.git/od-tools/test-results/ui-before/` with the commit, the dump's hash, the DPI and the bounds record.
+**UI-0: tools, scans and the before set** (tests and tools only; no product change). Three packages with separate files, then one
+closing step. None has a gallery.
+
+**UI-0a: the gallery builder**
+- Owns: `tools/New-UiGallery.ps1` (the in-repository successor of the lost `Make-Pairs.ps1`), `tools/ui-gallery-masks.tsv`,
+  `tests/WindowChecksTests/UiApproved/approved.tsv` (empty).
+- Work: the gallery builder (before, after, diff, % changed, the after picture's masked pixel SHA-256, masks for the clock, dates and
+  the copy's database name, clip notes, `index.html` that shows pictures at 1:1 device pixels with a zoom toggle (section 8), a zip with
+  forward slashes). The masking and hashing rule is one function that UI-0c's check U0 calls too.
+- Tests: the builder's self-tests (no program, no database).
+
+**UI-0b: the text-fit scan and the layout records**
+- Owns: the new test project `tests/UiRefreshTests` (the lead adds it to `OpenDental.sln` and `OpenDental.Local.slnf`), the tier 1
+  builder and scan, the test-side font swap, `tests/UiRefreshTests/Data/layout-snapshot.tsv` and its test, the bounds record.
+- Work: the tier 1 text-fit scan with its scales, the text-scale run (the plain exes' forms included), the ink check and the bounds
+  record (5.4). The layout snapshot and its test. The test-side font swap: it walks a built window and replaces Microsoft Sans Serif
+  with a given font (the rule of 3.4, the 0.96 factor included), setting the form's and the containers' fonts as well, so galleries
+  and the scan can show real windows in a font option before the product changes (G-UI1 part 1; from UI-2a-1 on, the token override
+  takes its place, 5.4).
+- Tests: the scan runs on today's font and reports nothing new; the swap gives the same fonts as the rule of 3.4 on a test window.
+
+**UI-0c: harness group U**
+- Owns: `tests/WindowChecksTests` group U (`InProc/InProcChecks.U.cs`, `UiGallery/windows.tsv`, the walker) and the check U0.
+- Needs: UI-0a (U0 uses its masking and hashing rule).
+- Work: about 50 common windows the harness does not reach yet (claims, recall, confirmation, schedules, pay plans, billing, procedure
+  codes, definitions, security, tasks, medical, Rx, labs and others listed by the tooling survey), opened by their own handlers on
+  synthetic patients and closed with Cancel; the main window at fixed sizes 1366×768 and 1920×1080; each module with and without a
+  patient. The walker that measures text after `Load` and records bounds (5.4). The check U0 (compare each picture with `approved.tsv`).
+- Tests: group U runs on the synthetic dump; a window the dump cannot fill is listed with its reason.
+
+**The before set** (the lead, once UI-0a to UI-0c have merged): one full harness run (groups A to K and U) at that commit, in the
+owner's connected session, frozen in `.git/od-tools/test-results/ui-before/` with the commit, the dump's hash, the DPI and the bounds
+record.
 
 **UI-1: tokens, the design sheet and the coverage test** (no visible change in the program)
-- Owns: `CodeBase/UI/UiTheme.cs` (new: colours as `System.Drawing.Color`, frozen WPF brushes, per-thread cached GDI+ pens and brushes
+- Owns: `CodeBase/UI/UiTheme*.cs` (new: colours as `System.Drawing.Color`, frozen WPF brushes, per-thread cached GDI+ pens and brushes
   (3.2), the high-contrast mapping, font family and sizes, corners, lines, the pixel-snapping helpers of 3.3, spacing, icon sizes, and
   `UiTheme.InitWinForms()`, empty until UI-6), `tests/UiRefreshTests/DesignSheet*.cs`, `tests/UiRefreshTests/Data/coverage.tsv`, the
-  NoHq source scans. `ColorOD` is not touched: it keeps today's values (section 6).
+  NoHq source scans. `ColorOD` is not touched: it keeps today's values (section 6). `UiTheme` is split into partial files so that the
+  WinForms colours use only WinForms and `System.Drawing` and RdlDesign can link that file (3.6, Menus); the WPF brushes are in their
+  own file.
+- Needs: UI-0b (the test project and the builder).
 - Work: the tokens of section 3. The design sheet: a test without database that renders the swatches with names, hex values and contrast
   ratios; the type ramp; the spacing and corners; a drawing of every control state made from the tokens (normal, hover, pressed,
   focused, disabled, checked, selected, selected without focus), at 100, 125, 150, 175 and 200%; the high-contrast mapping. It shows the
   options of UQ-1 to UQ-4 side by side. Real windows for G-UI1 part 1 (section 8): `FormPatientEdit`, `FormProcEdit`, the Account
-  module, a module toolbar with a grid, and one Frm, each built off-screen with UI-0's builder and drawn with the test-side font swap in
-  each UQ-1 and UQ-2 option.
+  module, a module toolbar with a grid, and one Frm, each built off-screen with UI-0b's builder and drawn with the test-side font swap
+  in each UQ-1 and UQ-2 option.
 - Tests: the contrast test (every text, border, focus and selection pair of 3.2 and 3.6 meets its ratio, in the normal and the
   high-contrast mapping); a test that paints two self-drawn test controls with the token pens on two STA threads at once, many times,
-  without an exception; the coverage test (each file in `OpenPmsDental/UI` and `WpfControlsOD/UI` has a row in `coverage.tsv`); the
-  source scan that flags new `Color.FromArgb` and hex colours in `OpenPmsDental/UI`, `OpenPmsDentalBusiness/UI/GridOD.cs` and
+  without an exception; the coverage test (each file in `OpenPmsDental/UI`, `WpfControlsOD/UI` and `WpfControlsOD/Themes` has a row
+  in `coverage.tsv`); the source scan that flags new `Color.FromArgb` and hex colours in `OpenPmsDental/UI`, `OpenPmsDentalBusiness/UI/GridOD.cs` and
   `WpfControlsOD/UI/Controls` beyond an allow list that shrinks with each package; the scan that bans `using` or `Dispose` around
   `UiTheme` pens and brushes.
 - Gallery: **G-UI1 part 1, the design.** Every later package follows what the owner approves here.
@@ -753,35 +847,62 @@ remove them:
   and NoDpi mode draw the same glyphs; the generated file matches the manifest and the SVGs; the Fluent licence and notice are present.
 - Gallery: none of its own; the glyphs appear in G-UI1 part 2 with the controls.
 
-**UI-2a: the font plumbing** (no visible change in the program)
-- Owns: the 12 exe `Main`s, `FormODBase.cs` (font lines only), `FormFrame.cs` (font lines only), `LayoutManagerForms.cs` (the mapping,
-  `MarkContent`, the rebuild's style rule), `SparksToothChart/ToothChart2D.cs` (font pin only), the 48 files with `AutoScaleMode.Font`
-  (section 2 and 5.1), `GridOD.cs` (print/screen font split), `GridOld.cs` and
-  `ContrTable.cs` if they print, the content marks of 5.1 (`FormSheetFillEdit`, `FormPerio`, `ControlChart` for the wrapper,
-  `FormSheetDefEdit`, `FormClaimFormEdit`, `FormPrintPreview`), the plain forms' designer fonts (pointed at the token), the screen font
-  sites of 5.1, the font tests of section 9.
-- Work: section 5.1 and 5.2 with the token still holding Microsoft Sans Serif 8.25. Print fonts are split out and pinned. Tests that
-  pinned "Microsoft Sans Serif" now compare with the token, so the flip later changes no test.
-- Tests: section 9's font group; the print guard (GridOD print and sheet output, sheets, claim forms, the perio chart print, identical
-  before and after); the tooth chart baselines unchanged with the test default font set to Segoe UI (the pin proved before the flip);
-  the content-exclusion test (a Microsoft Sans Serif sheet field keeps its font with the token set to Segoe UI in the test); a signature
-  test: open `FormProcEdit` with a signed group note on the synthetic dump, change the program zoom and resize the window, save, and
-  check the signature is still valid; the `AutoScaleMode.Font` ban; the bounds record unchanged from the before set; the scan's report
-  for Segoe UI attached to the brief's result.
-- Gallery: none (no visible change). The harness's U0 check must show no changed picture.
+**UI-2a: the font plumbing** (no visible change in the program). Section 5.1 and 5.2 with the token still holding Microsoft Sans Serif
+8.25. It is cut into fixed slices: the risky logic (the mapping, the print split) is kept apart from the mechanical edits. No slice has
+a gallery; in each, the harness's U0 check must show no changed picture and the bounds record must equal the before set.
+
+**UI-2a-1: the token and the mapping**
+- Owns: the font part of `UiTheme` (the token and its test-only override `SetFontForTest`, 5.4), the 12 exe `Main`s (their literal
+  stays today's font; a test checks it equals the token), `FormODBase.cs` and `FormFrame.cs` (font lines only), `LayoutManagerForms.cs`
+  (the mapping in the constructor's loop and in `AddToList96`, the content types, `MarkContent`, the rebuild's style rule), the marks in
+  `FormSheetFillEdit`, `FormSheetDefEdit` and `FormClaimFormEdit` (before their `InitializeLayoutManager`), the font pins in
+  `SparksToothChart/ToothChart2D.cs` and `OpenPmsDental/User Controls/ContrPerio.cs`, the font test rows of section 9.
+- Work: 5.1's token, mapping, content rules and pins. Tests that pinned "Microsoft Sans Serif" now compare with the token, so the flip
+  later changes no test.
+- Tests: section 9's font group; the tooth chart baselines unchanged with the test default font set to Segoe UI (the pin proved before
+  the flip); the content-exclusion test (a Microsoft Sans Serif sheet field keeps its font with the token override set to Segoe UI); a
+  perio chart picture (`ContrPerio` on a synthetic exam) unchanged with the override set to Segoe UI; `MarkContent` after
+  `InitializeLayoutManager` throws; a signature test: open `FormProcEdit` with a signed group note on the synthetic dump, change the
+  program zoom and resize the window, save, and check the signature is still valid; the scan's report for Segoe UI through the override
+  attached to the brief's result.
+
+**UI-2a-2: no container scales by font**
+- Owns: the about 50 files with `AutoScaleMode.Font` (section 2; the brief recounts), the NoHq ban.
+- Needs: UI-2a-1.
+- Work: 5.1, "No container scales by font".
+- Tests: the ban; the bounds record unchanged from the before set at 96 DPI; the scan's text-scale run over the plain exes' forms, with
+  its clip list attached for the UI-10 slices (5.1, the trade-off).
+
+**UI-2a-3: print fonts**
+- Owns: `GridOD.cs` (print and screen font split), `GridOld.cs` and `Tables Old Grids/ContrTable.cs` if they print, the print guard.
+- Needs: UI-2a-1.
+- Work: 5.2, GridOD's print path. Print fonts are split out and pinned to today's.
+- Tests: the print guard (section 9: GridOD print and sheet output, sheets, claim forms, the perio chart print, the claim perio
+  attachment, eForm PDF output, reports, RDL and MigraDoc output, identical before and after).
+
+**UI-2a-4 to UI-2a-n: the code font sites and the plain forms' designer fonts**
+- Slices: by folder, in the folder order of UI-9a, at most about 40 files each; the brief sets the cut from a fresh grep.
+- Owns per slice: its files among the about 59 code lines naming Microsoft Sans Serif and the about 40 `GenericSansSerif` files, and
+  the plain forms' designer fonts in its folders (5.1).
+- Needs: UI-2a-1, and UI-2a-3 (its print guard).
+- Work: each site sorted into screen chrome (to the token), print, or document and content (stays, 5.2; `Graphics.FromImage` pictures
+  that are saved, attached or exported are documents). Plain forms: a default font is removed so the control inherits, any other stays
+  a literal for UI-2b (5.1).
+- Tests: the "Microsoft Sans Serif" allow list scan; the plain forms' literal test; the print guard; the scan's report.
 
 **UI-3: the window frame**
 - Owns: `FormODBase.cs` and `FormFrame.cs` (frame drawing). Ideally one shared border painter in a new file both call
   (`OpenPmsDental/UI/BordersDpi/` cannot be reached from `WpfControlsOD`, so it lives in `WpfControlsOD/Frame/FramePainter.cs` or in
   CodeBase; the brief decides from the project references), the Definitions window's "(program default)" note for Misc Colors.
 - Needs: UI-7a (caption glyphs).
-- Work: 3.6 window frame; Misc Colors per item (section 6, UQ-3); `AreBordersMS` keeps the Windows frame (section 6); try DWM
-  rounded corners (`DWMWA_WINDOW_CORNER_PREFERENCE`) with the program's own non-client area and keep them only if the harness pictures
-  are clean.
-- Tests: a frame test that both painters give the same pixels for the same title; the Misc Colors test with per-item cases (all stock;
-  only the text changed; only the outline changed; all changed); window check A6 and `PopupHelperTests` stay green.
-- Gallery: **G-UI2** (main window, modules, a few dialogs), with a stock and a customised office, and one run each with
-  `NoCustomBorders.txt` and with `NoD2D.txt` beside the exe.
+- Work: 3.6 window frame, the floating image windows' selected and unselected frame included; Misc Colors per item (section 6, UQ-3);
+  `AreBordersMS` keeps the Windows frame (section 6); try DWM rounded corners (`DWMWA_WINDOW_CORNER_PREFERENCE`) with the program's own
+  non-client area and keep them only if the harness pictures are clean.
+- Tests: a frame test that both painters give the same pixels for the same title; a frame test of `FormImageFloat` selected and
+  unselected; the Misc Colors test with per-item cases (all stock; only the text changed; only the outline changed; all changed);
+  window check A6 and `PopupHelperTests` stay green.
+- Gallery: **G-UI2** (main window, modules, a few dialogs, the Imaging module with two floating image windows, one selected), with a
+  stock and a customised office, and one run each with `NoCustomBorders.txt` and with `NoD2D.txt` beside the exe.
 
 **UI-4a: core controls, part 1**
 - Owns: WinForms `Button.cs`, `CheckBox.cs`, `GroupBox.cs`, `PanelOD.cs`, `ToolTipOD.cs`; WPF `Button`, `CheckBox`, `RadioButton`,
@@ -797,8 +918,8 @@ remove them:
 
 **UI-4b: core controls, part 2**
 - Owns: WinForms `ComboBox.cs`, `ListBox.cs`, `TabControl/*`, `Splitters/*`, `MonthCalendarOD`, `ODDatePicker`, `ODDateRangePicker`,
-  `ClinicSelector/ComboBoxClinicPicker`, `ClinicSelector/FormComboPicker`; the WPF files of the UI-4b row of 2.1, `TabControlDict.xaml`
-  and their styles in `Generic.xaml`; the pinned copies for `CtrlEFormFill` of the templates it changes.
+  `ClinicSelector/ComboBoxClinicPicker`, `ClinicSelector/FormComboPicker`; the WPF files of the UI-4b row of 2.1,
+  `WpfControlsOD/Themes/TabControlDict.xaml` and their styles in `WpfControlsOD/Themes/Generic.xaml`; the pinned copies for `CtrlEFormFill` of the templates it changes.
 - Needs: UI-4a (it shares `Generic.xaml` and the focus style), UI-7a (chevrons).
 - Work, tests and gallery as UI-4a, for these controls.
 
@@ -812,7 +933,7 @@ remove them:
 
 **UI-5: grids**
 - Owns: `OpenPmsDentalBusiness/UI/GridOD.cs` (screen drawing), `GridOld.cs` if still used, `WpfControlsOD/UI/Controls/Grid.xaml(.cs)`,
-  `Supplemental/Grid*`, `DataGridDict.xaml`.
+  `Supplemental/Grid*`, `WpfControlsOD/Themes/DataGridDict.xaml`.
 - Work: 3.6 grids, the selection bar and the focused row. Header and title heights follow the font, inside the control. Row height by
   UQ-2. Print colours stay.
 - Tests: `BrandingTests.BrandColor_IsTheProgramsGridTitleBlue` moves to the token; the print guard; a grid picture test of title,
@@ -822,12 +943,14 @@ remove them:
 **UI-6: toolbars, menus and the module bar**
 - Owns: `ToolBarOD.cs`, `ODToolBarButton*.cs`, `WpfControlsOD/UI/Controls/ToolBar*.xaml(.cs)`, `MenuOD.cs` (`MenuRenderer`), WPF
   `Menu`, `MenuItem`, `ContextMenu`, `ModuleBar.cs`, `ODButtonPanel.cs`, `ODPanelItem.cs`, `LightSignalGrid`, the body of
-  `UiTheme.InitWinForms()` (the token renderer), and its call in every exe's `Main` and at every extra UI thread's start.
-- Needs: UI-7a (chevrons).
+  `UiTheme.InitWinForms()` (the token renderer), and its call in every exe's `Main` (not `UpdateFileCopier` or
+  `OpenPmsDentalHelper32`, 3.6) and at every extra UI thread's start, and RdlDesign's linked files in `RdlDesign/ReportDesigner.csproj`.
+- Needs: UI-7a (chevrons), UI-7b (the module icons in their Fluent Regular and Filled styles).
 - Work: 3.6 toolbars, menus, module bar. Item widths keep today's formula (3.3, UQ-9).
 - Tests: C20 (MenuOD font equals the form's font); a toolbar test for every module toolbar and the main menu at window widths 1024,
   1366 and 1920 px: the items keep their order and none runs past the right edge (or the overflow is listed for the owner); the
-  renderer is set in every exe and on a second UI thread; picture tests of each state; the scan rerun.
+  renderer is set in every exe and on a second UI thread (the test names its two exceptions, `UpdateFileCopier` and
+  `OpenPmsDentalHelper32`, and checks RdlDesign through its linked renderer); picture tests of each state; the scan rerun.
 - Gallery: G-UI2, with each module toolbar and the menu bar as before and after strips.
 
 **UI-7b: the IconLibrary icons**
@@ -885,14 +1008,17 @@ own 26.2 overlap check before it starts. The first cut is below; a brief that fi
   first); then UI-10-2 to UI-10-n, each the next files of the scan's TSV in order, at most about 40 designer files. With 422 files at
   9 pt that is about 11 slices; with 182 files at 8.25 pt about 5.
 - Owns per slice: its designer files (size edits only) and its rows of `tests/UiRefreshTests/Data/fit-fixes.tsv`.
-- Needs: UQ-1 answered; UI-4a to UI-6 and UI-9b merged (they change what fits), and the scan's run after them.
+- Needs: UQ-1 answered; UI-4a to UI-6 and UI-9b merged (they change what fits), and the scan's run after them. The plain exes' forms
+  that clip in the text-scale run (UI-2a-2) are part of the TSV.
 - Work: section 5.4, "the fixes", against the new font while `main` still shows the old one.
 - Tests: the slice's files report nothing new in the scan for the new font, or every remaining item is named and approved; the layout
   snapshot and the bounds record.
-- Gallery: G-UI3, the slice's windows drawn with the test-side font swap, before and after the fixes, and the "needs the owner" list.
+- Gallery: G-UI3, the slice's windows drawn in the new font through the token override (5.4), before and after the fixes, and the
+  "needs the owner" list.
 
 **UI-2b: the flip**
-- Owns: the token value, the 12 exe literals, the tests' expected token if any test names it, and the note in
+- Owns: the token value, the 12 exe literals, the plain forms' remaining literal designer fonts (5.1, UI-2a-4), the tests' expected
+  token if any test names it, and the note in
   `docs/specs/net10-plan.md` (decision 9, the S3b-4 row and the "Default font" row) that this plan replaces them.
 - Needs: every UI-10 slice merged.
 - Work: the token becomes Segoe UI 9 pt (or 8.25, UQ-1).
@@ -935,14 +1061,16 @@ pixelated`), with a zoom toggle for a closer look.
   icons. Approving part 1 sets the look for everything after it.
 - **G-UI2, the main window and modules.** The main window at 1366×768 and 1920×1080, the About box, the menu bar, and the seven modules
   with and without a patient, each also at one program zoom step. The tooth chart area of the Chart module is checked as unchanged, not
-  shown as a change. UI-3's run adds a stock and a customised Misc Colors office and the `NoCustomBorders.txt` and `NoD2D.txt` runs;
+  shown as a change. UI-3's run adds a stock and a customised Misc Colors office, the Imaging module with two floating image windows
+  (one selected, one not), and the `NoCustomBorders.txt` and `NoD2D.txt` runs;
   UI-6's adds the toolbar and menu strips before and after; the appointment module shows both UQ-8 options until it is answered.
 - **G-UI3, the common windows.** The about 45 windows the harness already pictures plus the about 50 of group U, with the clip report.
   The UI-9 and UI-10 slices each show their own windows; UI-4a adds the list of the 87 `AcceptButton`s with the 13 that are not OK or
   Save marked for the owner.
 - **G-UI4, everything else.** An off-screen sweep of every window with a parameterless constructor (582 candidates), on the scratch copy,
   with a deny list for windows that call a network or e-service on Load and a check that the database name starts with `winchk_`; plus the
-  separate programs (report designer, Central Manager, tools). Each window gets a picture or a reason. Approved by exception: the owner
+  separate programs (report designer, Central Manager, tools), whose forms are pictured once more with the default font at Windows text
+  size 125% (5.1, the trade-off). Each window gets a picture or a reason. Approved by exception: the owner
   looks at the list of changes, not every picture.
 
 **How the owner answers.** The lead publishes each gallery as a private page. Each screen has "Approve" or "Change" and a note. The answers
@@ -989,18 +1117,23 @@ branding icon tests, and the 1,682 + 18 tooth chart baselines, which must stay i
 
 **New tests.**
 - `tests/UiRefreshTests` (UI-0): the layout snapshot test; the tier 1 text-fit scan with its scales, text-scale run and bounds record;
-  the test-side font swap; the design sheet (UI-1); the contrast test with focus, selection and high-contrast pairs (UI-1); the
+  the test-side font swap; the token override `UiTheme.SetFontForTest` (UI-2a-1); the design sheet (UI-1); the contrast test with focus, selection and high-contrast pairs (UI-1); the
   two-thread paint test (UI-1); the coverage test (UI-1); control state pictures (UI-4a to UI-6).
 - NoHq source scans: no new hard-coded colours in the shared controls (UI-1); no `using` or `Dispose` around `UiTheme` pens and brushes
-  (UI-1); no "Microsoft Sans Serif" outside an allow list (the token itself, the tooth chart, print code, document design canvases,
-  `FormPerio`'s print font) (UI-2a); no `AutoScaleMode.Font` outside `UnitTests` and `PluginExample` (UI-2a); each exe's font literal
-  equals the token (UI-2a); no bitmap toolbar pictures outside an allow list (UI-9b).
-- Print guard (UI-2a, again in UI-2b): GridOD's print and sheet output, sheets, claim forms, the perio chart print, eForm PDF output,
-  reports, RDL and MigraDoc output identical before and after; a printed appointment schedule too if UQ-8 changes the appointment book.
-- Content and signatures (UI-2a): a Microsoft Sans Serif sheet field keeps its font in `FormSheetFillEdit`; a signed group note in
-  `FormProcEdit` stays valid after a zoom change, a resize and a save.
-- Misc Colors per item (UI-3); toolbar order and right-edge fit at 1024, 1366 and 1920 px, and the renderer on every exe and a second UI
-  thread (UI-6); a toolbar button set by `ImageIndex` still draws (UI-9b).
+  (UI-1); no "Microsoft Sans Serif" outside an allow list (the token itself, the tooth chart and `ContrPerio` pins, print code,
+  document design canvases, `FormPerio`'s print font, the claim perio attachment's two fonts in `FormClaimEdit`, the plain forms'
+  literal designer fonts until UI-2b) (UI-2a); no `AutoScaleMode.Font` outside `UnitTests` and `PluginExample` (UI-2a-2); each exe's
+  font literal, and each plain form's literal designer font, matches the token by the rule of 3.4 (UI-2a); no bitmap toolbar pictures
+  outside an allow list (UI-9b).
+- Print guard (UI-2a-3, again in UI-2b): GridOD's print and sheet output, sheets, claim forms, the perio chart print, the claim perio
+  attachment picture, eForm PDF output, reports, RDL and MigraDoc output identical before and after; a printed appointment schedule too
+  if UQ-8 changes the appointment book.
+- Content and signatures (UI-2a-1): a Microsoft Sans Serif sheet field keeps its font in `FormSheetFillEdit`; a perio chart picture is
+  unchanged with the token override set to Segoe UI; a late `MarkContent` throws; a signed group note in `FormProcEdit` stays valid
+  after a zoom change, a resize and a save.
+- Misc Colors per item and the floating image windows' two frames (UI-3); toolbar order and right-edge fit at 1024, 1366 and 1920 px,
+  and the renderer on every exe but the two named exceptions and on a second UI thread (UI-6); a toolbar button set by `ImageIndex`
+  still draws (UI-9b).
 - Icon tests (UI-7a, UI-7b, UI-8): manifest complete, every icon draws at every size on GDI+, Direct2D and WPF, on the OnlyGDI path and
   in NoDpi mode; generated file in step; notices present.
 - Harness (UI-0): group U, the walker with its bounds record, the check U0.
@@ -1019,10 +1152,15 @@ branding icon tests, and the 1,682 + 18 tooth chart baselines, which must stay i
 - **Windows grow at run time.** About 50 containers scale their children by font (`AutoScaleMode.Font`), so a font change moves and
   grows them where no designer file shows it. Mitigation: those containers change in UI-2a, a source scan bans the mode, and the scan
   and the walker compare run-time bounds (3.7).
-- **Documents on screen change.** The family mapping would also reach filled sheets and the perio chart. Mitigation: `MarkContent`
-  and its test (5.1).
-- **Printouts change by accident.** GridOD prints with its screen fonts today, and so does the appointment book. Mitigation: print
-  fonts split and pinned first (UI-2a), the appointment book left alone unless UQ-8 says otherwise, and the print guard.
+- **The plain programs clip at a larger Windows text size.** With `AutoScaleMode.Dpi` their text grows with the text size setting but
+  their layout no longer does (5.1). Mitigation: the scan's text-scale run over their forms, G-UI4 at text size 125%, size-only fixes
+  in UI-10, and the fallback of 5.1 for a form that size-only fixes cannot cover.
+- **Documents on screen change.** The family mapping would also reach filled sheets and the perio chart, and a content control that
+  sets no font of its own would take the window's new font anyway. Mitigation: the content types, `MarkContent` and the font pins, with
+  their tests (5.1).
+- **Printouts change by accident.** GridOD prints with its screen fonts today, and so does the appointment book; some code draws a
+  document into a picture (the claim perio attachment). Mitigation: print fonts split and pinned first (UI-2a-3), the appointment book
+  left alone unless UQ-8 says otherwise, `Graphics.FromImage` documents sorted as documents (5.1), and the print guard.
 - **A font change clears a signature.** Setting a font fires `TextChanged` (Job 55866). Mitigation: the mapping runs once, before data
   loads; the rebuild still sets a font only when size or style changes; the signature test (UI-2a).
 - **Random paint crashes from shared GDI+ objects.** Two UI threads drawing with one cached pen throw "Object is currently in use
@@ -1123,13 +1261,14 @@ right, the plan follows the code on `main` instead:
   schedule would get taller and show fewer hours. The conclusion holds and is stronger: the plan keeps the appointment book's fonts by
   default and asks UQ-8.
 - **Where the family mapping runs.** The plan already put the mapping in `AddToList96` as well as in the rebuild. The review's fix
-  makes the rebuild compare the family too. The plan instead maps once in `AddToList96` and leaves the rebuild keeping each control's
-  current family: a font that code sets after the control was added (for example `ControlAppt.cs:3182`) would otherwise be turned back
+  makes the rebuild compare the family too. The plan instead maps once where each control is recorded (corrected in round 2: the
+  constructor's loop as well as `AddToList96`) and leaves the rebuild keeping each control's current family: a font that code sets after the control was added (for example `ControlAppt.cs:3182`) would otherwise be turned back
   by every rebuild, and every rebuild would be one more chance to fire `TextChanged` (Job 55866). The rebuild only learns to keep
   Italic and Underline, and compares style as well as size.
 - **Accessibility tokens.** No `AccentDisabled` token: a disabled default button draws like any disabled button, as Windows 11 does.
   No `TitleInactive` token: the program's title bar has no inactive state today (FormODBase and FormFrame have no activation handling
-  for the frame colour), so adding one would be new behaviour, not a restyle. The review's darker selection fill (`#C5D5EE`) was not
+  for the frame colour), so adding one would be new behaviour, not a restyle. (Round 2: one frame state does exist, the floating image
+  windows' selected and unselected frame; it is now in 3.6.) The review's darker selection fill (`#C5D5EE`) was not
   used: it is still only 1.49:1 on white, short of 3:1, and lowers the text contrast; the 2 px `Accent` bar meets 3:1 on its own (3.2).
 - **Default buttons that are not OK.** The review said some `AcceptButton`s are Search buttons. None is on `main`: of the 87, 40 are
   `butSave`, 34 `butOK` or `butOk`, 5 `butPrint`, 2 `butSend`, and one each `butTryAgain`, `butRunReport`, `butEdit`, `butCreate`,
@@ -1145,3 +1284,32 @@ right, the plan follows the code on `main` instead:
 - **Fit fixes before the flip.** The review asked for the font flip to land together with the fit fixes. The plan merges the fixes in
   slices first, while `main` still shows the old font, and flips last (UI-2b). That keeps each slice small for review and for the 26.2
   overlap check, and `main` never shows clipped text.
+
+The second review (2026-11-17) raised 10 problems. All were applied. Its facts held on `main`; where its fix was not quite right, or
+checking it turned up more, the plan follows the code:
+
+- **The mapping's place.** Right: designer controls are recorded in the `LayoutManagerForms` constructor (133-143, `FontSize96` at
+  1391), not in `AddToList96`, so the round 1 plan would have left the designer fonts unmapped. The mapping now runs in both places
+  (5.1). The review's fix for content (every `MarkContent` call before `InitializeLayoutManager`) was taken for marked panels only; the
+  tooth chart, `ContrPerio` and `ODPrintPreviewControl` are recognised by type, which needs no call order and covers every window that
+  hosts them. And checking it showed a gap the review did not name: `ContrPerio` sets no font (its constructor, `ContrPerio.cs:127-135`),
+  so it inherits its window's font, which the token changes whether or not the mapping skips it. It now pins its font, like
+  `ToothChart2D` (5.1).
+- **The claim perio attachment.** Right (`FormClaimEdit.cs:2479-2545`). Besides the review's fix (the two fonts as a document, the
+  allow list, the print guard), the chart in the picture comes from a `ContrPerio` built on its own (2485), which takes the application
+  default font; after the flip it would draw in Segoe UI. `ContrPerio`'s pin covers it.
+- **Plain forms' designer fonts.** Right that a designer cannot hold a reference to the token. But the round 1 plan, and the review
+  after it, sized the job from "RdlDesign's 61 designer fonts". Most of those are the 55 Arial 8.25 Bold Italic headings, with a few
+  Wingdings and Courier New fonts, which stay by the rule of 3.4; only 2 of RdlDesign's name Microsoft Sans Serif, and about 14 outside
+  OpenPmsDental do in all (`git grep 'Font("Microsoft Sans Serif"' main`). Removing an explicit font works only where it equals the default; a Bold or other-size
+  font stays a literal, which UI-2b changes and a NoHq test checks (5.1). So UI-2a-4's slices are mostly the code font sites.
+- **The renderer in every exe.** Right about `UpdateFileCopier` and `OpenPmsDentalHelper32`. The review missed RdlDesign, which also
+  references no CodeBase (`RdlDesign/ReportDesigner.csproj`) but has a stock `MenuStrip` (`RdlDesigner.cs:1493`), a `StatusStrip` and
+  5 context menus. Exempting it would leave the report designer's menus in the old look, so it links the token colours and the renderer
+  as it already links `ODNumberTextNetFx.cs` (3.6).
+- **Plain exes and text size.** Right. The plan notes the trade-off, scans and pictures the plain exes' forms at text size 125%, and
+  names a fallback: a form can keep `AutoScaleMode.Font` with the new font's `AutoScaleDimensions` (5.1).
+- **UI-6 and UI-7b.** Right. UI-6 now waits for UI-7b. The order keeps UI-6 last in its line rather than moving the module bar's icon
+  states into UI-7b, so that UI-7b stays an icon-files-only package.
+- The tier 1 scan's font, the UI-0 and UI-2a slices, the floating image windows' frame and the `WpfControlsOD/Themes` path were applied
+  as the review proposed.
