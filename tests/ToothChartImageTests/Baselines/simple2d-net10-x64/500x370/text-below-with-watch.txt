@@ -1,0 +1,9 @@
+Scene: text-below-with-watch
+Group: paint
+Description: TextBelow "IMP" on 3, 14, 19 and 30, with watch marks on 3 and 30. Since the parity round of TC-5 TextBelow is not in the tooth picture (the Chart module's strip under the date slider shows it, as Open Dental 26.2 does), so only the two watch marks are drawn.
+Size: 500x370
+Colours: Printout
+Engine: Simple2D (ToothChart2D, GDI+)
+Bitmap: 500x370 Format32bppArgb
+Pixels SHA-256: 6d04cfde641a988807222b61a8f5c46e7decf51a72c61d25314c16f3236d1608
+Framework: .NET 10.0, x64

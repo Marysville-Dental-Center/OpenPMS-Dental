@@ -1,0 +1,6 @@
+Host: referral-letter
+Size: 500x370
+Bitmap: Format24bppRgb
+Colours in the picture: 4420
+Pixels SHA-256: 0c2d08f656d944d99880286020984376715cf7114a2ce1b7f1666481cba3a427
+Framework: .NET 10.0.14, x64

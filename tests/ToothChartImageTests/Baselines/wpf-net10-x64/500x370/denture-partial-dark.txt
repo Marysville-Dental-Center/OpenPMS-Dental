@@ -1,0 +1,15 @@
+Scene: denture-partial-dark
+Group: paint
+Description: Upper partial denture over the range 3, 4, 13, 14 (missing), dark TP.
+Size: 500x370
+Colours: Printout
+Engine: Wpf3D (RenderTargetBitmap in software, 3D layer at 3x reduced with WIC's Fant scaler)
+Bitmap: 500x370 Format24bppRgb
+Alpha: every alpha is 255 (format without an alpha channel)
+Colours in the picture: 3994
+Pixels SHA-256: 78d68380a27442c8d6d6221608fd26ef02910e6840c7d2cecaf8da59ef450a75
+Repeatable: yes (a second GetBitmap gave the same pixels)
+Framework: .NET 10.0, x64
+Windows: build 26300.9974 (26H2)
+Fresh render: yes (both layers drawn again without the layer cache gave the same pixels)
+Screen DPI seen by the test host: 96

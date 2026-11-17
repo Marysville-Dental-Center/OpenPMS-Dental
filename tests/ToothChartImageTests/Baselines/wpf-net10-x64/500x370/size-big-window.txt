@@ -1,0 +1,15 @@
+Scene: size-big-window
+Group: sizes
+Description: The restored-adult work with teeth 3 and 19 selected, also drawn at 926x858 with the module colours (the big chart window, FormToothChartBig).
+Size: 500x370
+Colours: Printout
+Engine: Wpf3D (RenderTargetBitmap in software, 3D layer at 3x reduced with WIC's Fant scaler)
+Bitmap: 500x370 Format24bppRgb
+Alpha: every alpha is 255 (format without an alpha channel)
+Colours in the picture: 4353
+Pixels SHA-256: 04deed2ea42c971f70f05033a4d3dac38068622b337787bc07aa6e092f5d127c
+Repeatable: yes (a second GetBitmap gave the same pixels)
+Framework: .NET 10.0, x64
+Windows: build 26300.9974 (26H2)
+Fresh render: yes (both layers drawn again without the layer cache gave the same pixels)
+Screen DPI seen by the test host: 96

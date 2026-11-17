@@ -1,0 +1,15 @@
+Scene: colour-custom-chart-colours
+Group: colours
+Description: Chart colours changed in Definitions: dark blue background, yellow numbers, white highlight text on red; teeth 3, 8 and 30 selected, crowns on 3 and 14 (TP).
+Size: 500x370
+Colours: Printout
+Engine: Wpf3D (RenderTargetBitmap in software, 3D layer at 3x reduced with WIC's Fant scaler)
+Bitmap: 500x370 Format24bppRgb
+Alpha: every alpha is 255 (format without an alpha channel)
+Colours in the picture: 4975
+Pixels SHA-256: ab0362f5e6daa7f4469a8438bc3d4859162872ee4ffdd368b29274ea0825e792
+Repeatable: yes (a second GetBitmap gave the same pixels)
+Framework: .NET 10.0, x64
+Windows: build 26300.9974 (26H2)
+Fresh render: yes (both layers drawn again without the layer cache gave the same pixels)
+Screen DPI seen by the test host: 96

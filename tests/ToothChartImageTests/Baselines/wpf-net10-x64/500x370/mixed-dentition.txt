@@ -1,0 +1,15 @@
+Scene: mixed-dentition
+Group: empty
+Description: Mixed dentition: primary canines and molars A, B, C, H, I, J, K, L, M, R, S and T with the permanent teeth 4-6, 11-13, 20-22 and 27-29 unerupted under them; permanent incisors and first molars erupted; second and third molars missing.
+Size: 500x370
+Colours: Printout
+Engine: Wpf3D (RenderTargetBitmap in software, 3D layer at 3x reduced with WIC's Fant scaler)
+Bitmap: 500x370 Format24bppRgb
+Alpha: every alpha is 255 (format without an alpha channel)
+Colours in the picture: 3585
+Pixels SHA-256: bf454ce57eb45a0b2efeea387ef49083e79d44b418a2285d0abb23414c3043fc
+Repeatable: yes (a second GetBitmap gave the same pixels)
+Framework: .NET 10.0, x64
+Windows: build 26300.9974 (26H2)
+Fresh render: yes (both layers drawn again without the layer cache gave the same pixels)
+Screen DPI seen by the test host: 96

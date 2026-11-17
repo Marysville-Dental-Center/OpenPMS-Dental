@@ -1,0 +1,6 @@
+Host: treatplan-sheet
+Size: 500x370
+Bitmap: Format24bppRgb
+Colours in the picture: 6636
+Pixels SHA-256: bab2e54e45af0031fa3090e3483d140ac1ba1d6de1c4bac04458190bddc46b3c
+Framework: .NET 10.0.14, x64

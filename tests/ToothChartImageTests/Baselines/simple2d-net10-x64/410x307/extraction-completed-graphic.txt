@@ -1,0 +1,9 @@
+Scene: extraction-completed-graphic
+Group: paint
+Description: The completed-extraction graphic on (O-20): C on 2 and 31, EC on 12, EO on 21, each tooth missing with the big X in its status's colour (the same teeth as extraction-completed, which shows the setting off).
+Size: 410x307
+Colours: Module
+Engine: Simple2D (ToothChart2D, GDI+)
+Bitmap: 410x307 Format32bppArgb
+Pixels SHA-256: e4a644d3d58f1774b0dfaa0e84f47ada0aae4e9dac2e268acd0183f5439663e8
+Framework: .NET 10.0, x64

@@ -1,0 +1,15 @@
+Scene: perio-implants-both-arches
+Group: perio
+Description: Implants on the maxilla and the mandible: an implant with a crown on 3 and on 14 (upside down, as DirectX draws a maxillary implant), an implant without a crown on 19, and 30 skipped; the lingual rows show them from behind. A removed implant (its procedure's graphics hidden, Open Dental 24.4) is not passed to the chart at all.
+Size: 649x696
+Colours: Perio
+Engine: Wpf3D (RenderTargetBitmap in software, 3D layer at 3x reduced with WIC's Fant scaler)
+Bitmap: 649x696 Format24bppRgb
+Alpha: every alpha is 255 (format without an alpha channel)
+Colours in the picture: 9153
+Pixels SHA-256: 8453a5ba99d2a1b383909eafb7ce6a8a9ac252f9fda10bc6ef7fdc568e6a5c0a
+Repeatable: yes (a second GetBitmap gave the same pixels)
+Framework: .NET 10.0, x64
+Windows: build 26300.9974 (26H2)
+Fresh render: yes (both layers drawn again without the layer cache gave the same pixels)
+Screen DPI seen by the test host: 96

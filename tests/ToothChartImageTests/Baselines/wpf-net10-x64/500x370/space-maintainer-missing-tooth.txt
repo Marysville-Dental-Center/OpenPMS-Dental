@@ -1,0 +1,15 @@
+Scene: space-maintainer-missing-tooth
+Group: paint
+Description: Space maintainers on single missing teeth, as Open Dental's screenshot: 9 (TP) and 29 (C), both missing; the bar crosses each space at crown height (SM-1).
+Size: 500x370
+Colours: Printout
+Engine: Wpf3D (RenderTargetBitmap in software, 3D layer at 3x reduced with WIC's Fant scaler)
+Bitmap: 500x370 Format24bppRgb
+Alpha: every alpha is 255 (format without an alpha channel)
+Colours in the picture: 3071
+Pixels SHA-256: d926066748f01eb9d0a67b047b6ed8b14652a2309322196de3c992eb99272e8a
+Repeatable: yes (a second GetBitmap gave the same pixels)
+Framework: .NET 10.0, x64
+Windows: build 26300.9974 (26H2)
+Fresh render: yes (both layers drawn again without the layer cache gave the same pixels)
+Screen DPI seen by the test host: 96

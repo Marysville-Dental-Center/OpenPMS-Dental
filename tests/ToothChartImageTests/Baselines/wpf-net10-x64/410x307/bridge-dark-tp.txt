@@ -1,0 +1,15 @@
+Scene: bridge-dark-tp
+Group: paint
+Description: Dark TP bridges 3-4-5 and 19-20-21: 4 and 20 missing (pontics), the others crowned.
+Size: 410x307
+Colours: Module
+Engine: Wpf3D (RenderTargetBitmap in software, 3D layer at 3x reduced with WIC's Fant scaler)
+Bitmap: 410x307 Format24bppRgb
+Alpha: every alpha is 255 (format without an alpha channel)
+Colours in the picture: 4805
+Pixels SHA-256: 455beb8854a8a1b0e4f331fa83f9325889b19cbef2c9cd1b1d3834aede19e39a
+Repeatable: yes (a second GetBitmap gave the same pixels)
+Framework: .NET 10.0, x64
+Windows: build 26300.9974 (26H2)
+Fresh render: yes (both layers drawn again without the layer cache gave the same pixels)
+Screen DPI seen by the test host: 96

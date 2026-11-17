@@ -1,0 +1,6 @@
+Host: big-chart
+Size: 926x858
+Bitmap: Format24bppRgb
+Colours in the picture: 10523
+Pixels SHA-256: 8a43775f31e5faa938787faaeb0a3ade1e8bb6b99c5ad06c17e58efbc1524729
+Framework: .NET 10.0.14, x64

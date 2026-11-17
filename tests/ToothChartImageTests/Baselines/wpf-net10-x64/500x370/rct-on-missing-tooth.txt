@@ -1,0 +1,15 @@
+Scene: rct-on-missing-tooth
+Group: paint
+Description: A TP root canal on missing tooth 3 (not drawn) and on present tooth 14.
+Size: 500x370
+Colours: Printout
+Engine: Wpf3D (RenderTargetBitmap in software, 3D layer at 3x reduced with WIC's Fant scaler)
+Bitmap: 500x370 Format24bppRgb
+Alpha: every alpha is 255 (format without an alpha channel)
+Colours in the picture: 3249
+Pixels SHA-256: a67068e1272bddc660b6bc95fc7e9b8d86e933c8609593cb3063e026846ddb6c
+Repeatable: yes (a second GetBitmap gave the same pixels)
+Framework: .NET 10.0, x64
+Windows: build 26300.9974 (26H2)
+Fresh render: yes (both layers drawn again without the layer cache gave the same pixels)
+Screen DPI seen by the test host: 96

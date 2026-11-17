@@ -1,0 +1,15 @@
+Scene: perio-recession-term
+Group: perio
+Description: The full exam with the office's Perio Setup option "Use the term Recession" on (Open Dental 24.4): the legend names the gingival margin line "Recession".
+Size: 649x696
+Colours: Perio
+Engine: Wpf3D (RenderTargetBitmap in software, 3D layer at 3x reduced with WIC's Fant scaler)
+Bitmap: 649x696 Format24bppRgb
+Alpha: every alpha is 255 (format without an alpha channel)
+Colours in the picture: 9842
+Pixels SHA-256: c344ef9bbf8494ec0a1a09beb5a45b2a7ccc35295b2d55a16c6393f62246e73a
+Repeatable: yes (a second GetBitmap gave the same pixels)
+Framework: .NET 10.0, x64
+Windows: build 26300.9974 (26H2)
+Fresh render: yes (both layers drawn again without the layer cache gave the same pixels)
+Screen DPI seen by the test host: 96

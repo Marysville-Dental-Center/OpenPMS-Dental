@@ -1,0 +1,15 @@
+Scene: perio-fdi
+Group: perio
+Description: The full exam in FDI numbering.
+Size: 649x696
+Colours: Perio
+Engine: Wpf3D (RenderTargetBitmap in software, 3D layer at 3x reduced with WIC's Fant scaler)
+Bitmap: 649x696 Format24bppRgb
+Alpha: every alpha is 255 (format without an alpha channel)
+Colours in the picture: 9842
+Pixels SHA-256: 5c9ab859b99c614d29be32b8e1658f80f3c1e0b2c8f0e00abf11d7aae32e3d76
+Repeatable: yes (a second GetBitmap gave the same pixels)
+Framework: .NET 10.0, x64
+Windows: build 26300.9974 (26H2)
+Fresh render: yes (both layers drawn again without the layer cache gave the same pixels)
+Screen DPI seen by the test host: 96

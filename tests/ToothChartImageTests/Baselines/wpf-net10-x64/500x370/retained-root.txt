@@ -1,0 +1,15 @@
+Scene: retained-root
+Group: paint
+Description: Retained roots (type 16) on 4, 13 and 20 (TP) and 29 (C). The old charts draw nothing for them; the WPF chart draws the root alone in the status colour since TC-6 (RR-1, as Open Dental).
+Size: 500x370
+Colours: Printout
+Engine: Wpf3D (RenderTargetBitmap in software, 3D layer at 3x reduced with WIC's Fant scaler)
+Bitmap: 500x370 Format24bppRgb
+Alpha: every alpha is 255 (format without an alpha channel)
+Colours in the picture: 3609
+Pixels SHA-256: 04a7cd15138235ba710eff11def3e3bed0a2118b5b84f6aa059adf7e951c5cb0
+Repeatable: yes (a second GetBitmap gave the same pixels)
+Framework: .NET 10.0, x64
+Windows: build 26300.9974 (26H2)
+Fresh render: yes (both layers drawn again without the layer cache gave the same pixels)
+Screen DPI seen by the test host: 96

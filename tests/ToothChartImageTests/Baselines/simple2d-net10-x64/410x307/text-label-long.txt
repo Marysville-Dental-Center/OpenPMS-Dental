@@ -1,0 +1,9 @@
+Scene: text-label-long
+Group: free-text
+Description: A long free-text label ("Patient reports sensitivity to cold on the upper right") at 20,140. The old charts draw no free text; the WPF and 2D charts do since TC-5, the long label running to the picture's right edge.
+Size: 410x307
+Colours: Module
+Engine: Simple2D (ToothChart2D, GDI+)
+Bitmap: 410x307 Format32bppArgb
+Pixels SHA-256: 3c47dd3949b3c61b6a88afc66d8d9025e424486aa7f57f33128586a5e195b0ec
+Framework: .NET 10.0, x64

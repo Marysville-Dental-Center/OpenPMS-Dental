@@ -1,0 +1,15 @@
+Scene: filling-light-posterior
+Group: paint
+Description: Light EC fillings: 2 MO, 3 MOD, 4 DO, 5 O, 12 MODB, 13 OL, 14 MODBL, 15 B, 18 MO, 19 DOB, 20 V, 21 MOD, 28 O, 29 MODBL, 30 OL, 31 MO.
+Size: 410x307
+Colours: Module
+Engine: Wpf3D (RenderTargetBitmap in software, 3D layer at 3x reduced with WIC's Fant scaler)
+Bitmap: 410x307 Format24bppRgb
+Alpha: every alpha is 255 (format without an alpha channel)
+Colours in the picture: 5393
+Pixels SHA-256: abea1045567363217bdf9fcef56c11760dc3860b59d59bbd0cac6ce5344fae62
+Repeatable: yes (a second GetBitmap gave the same pixels)
+Framework: .NET 10.0, x64
+Windows: build 26300.9974 (26H2)
+Fresh render: yes (both layers drawn again without the layer cache gave the same pixels)
+Screen DPI seen by the test host: 96

@@ -1,0 +1,15 @@
+Scene: space-maintainer-tooth
+Group: paint
+Description: Space maintainers (type 17) on single teeth 4 (TP) and 29 (C). Today's chart draws nothing for them (O-23).
+Size: 500x370
+Colours: Printout
+Engine: Wpf3D (RenderTargetBitmap in software, 3D layer at 3x reduced with WIC's Fant scaler)
+Bitmap: 500x370 Format24bppRgb
+Alpha: every alpha is 255 (format without an alpha channel)
+Colours in the picture: 3111
+Pixels SHA-256: 333fed49df42ce8d49e3f1e80dd824cd4164d1e738bfa6ca4ed27c9f1e728159
+Repeatable: yes (a second GetBitmap gave the same pixels)
+Framework: .NET 10.0, x64
+Windows: build 26300.9974 (26H2)
+Fresh render: yes (both layers drawn again without the layer cache gave the same pixels)
+Screen DPI seen by the test host: 96

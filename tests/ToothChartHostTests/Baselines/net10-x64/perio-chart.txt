@@ -1,0 +1,6 @@
+Host: perio-chart
+Size: 649x696
+Bitmap: Format24bppRgb
+Colours in the picture: 7772
+Pixels SHA-256: 9455b60f2a068433882f7a919406701dca2f9da7d7e4358fae44740f8f37ef7e
+Framework: .NET 10.0.14, x64

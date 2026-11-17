@@ -1,0 +1,6 @@
+Host: sheet-editor-preview
+Size: 500x370
+Bitmap: Format24bppRgb
+Colours in the picture: 3111
+Pixels SHA-256: 333fed49df42ce8d49e3f1e80dd824cd4164d1e738bfa6ca4ed27c9f1e728159
+Framework: .NET 10.0.14, x64
