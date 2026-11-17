@@ -31,6 +31,18 @@ namespace WindowChecksTests.InProc {
 				what+" uses the program's default font, Microsoft Sans Serif ("+font+"; the default font is "+arrayFont[2]+" "+arrayFont[3]+" pt)",font);
 		}
 
+		///<summary>AddShot for a picture of a line of text on one background (a tooltip, a menu bar): such a picture has few colours (text drawn
+		///without smoothing), so not AddShot's "more than 5 colours" of a window; it is drawn when it has two colours or more and part of it is not
+		///background.</summary>
+		private static void AddTextShot(CheckResult checkResult,ShotInfo shotInfo,string whatItShows) {
+			if(!checkResult.Expect(shotInfo.Error=="",shotInfo.FileName+" is taken",shotInfo.Error)) {
+				return;
+			}
+			checkResult.ListShots.Add(shotInfo.FileName);
+			checkResult.Expect(shotInfo.Width>0 && shotInfo.Height>0 && shotInfo.CountColors>=2 && shotInfo.ShareNonBackground>0.05,
+				whatItShows+" is drawn: its text on its background ("+shotInfo+")",shotInfo.ToString());
+		}
+
 		public static void CheckC16(Ui ui,CheckResult checkResult) {
 			string text="Window checks (WINCHK-5): a text in MsgBoxCopyPaste, as the program shows a long message or an error's details."+Environment.NewLine
 				+Environment.NewLine+"Line 3: 0123456789 ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz";
@@ -128,14 +140,7 @@ namespace WindowChecksTests.InProc {
 			checkResult.Expect(isVisible,"ToolTipOD shows the text");
 			string font=ui.Invoke(() => Control.FromHandle(hwnd).Font.Name+" "+Control.FromHandle(hwnd).Font.SizeInPoints.ToString("0.##")+" pt");
 			checkResult.Note("ToolTipOD's font (the main window's): "+font);
-			//A one-line tooltip draws its text without smoothing on one background: few colours, so not AddShot's "more than 5 colours" of a
-			//window; its text is there when part of it is not background.
-			ShotInfo shotInfo=ui.Shot(hwnd,"C19.png");
-			if(checkResult.Expect(shotInfo.Error=="","C19.png is taken",shotInfo.Error)) {
-				checkResult.ListShots.Add(shotInfo.FileName);
-				checkResult.Expect(shotInfo.Width>0 && shotInfo.Height>0 && shotInfo.CountColors>=2 && shotInfo.ShareNonBackground>0.05,
-					"ToolTipOD is drawn: its text on its background ("+shotInfo+")",shotInfo.ToString());
-			}
+			AddTextShot(checkResult,ui.Shot(hwnd,"C19.png"),"ToolTipOD");
 			ui.Invoke(() => ((Form)Control.FromHandle(hwnd)).Close());
 			checkResult.Expect(ui.WaitGone(hwnd),"ToolTipOD closes");
 		}
@@ -156,7 +161,7 @@ namespace WindowChecksTests.InProc {
 			checkResult.Expect(arrayFonts[2]==arrayFonts[1] && arrayFonts[3]==arrayFonts[1],"The menu strip and its items draw in MenuOD's font ("+arrayFonts[2]+", "
 				+arrayFonts[3]+"), not ToolStrip's Segoe UI 9",arrayFonts[2]+" / "+arrayFonts[3]);
 			Control controlMenu=ui.Invoke(() => (Control)Ui.GetField(ui.FormMain,"menuMain"));
-			checkResult.AddShot(ui.ShotDraw(controlMenu,"C20-menu.png"),"The main menu bar");
+			AddTextShot(checkResult,ui.ShotDraw(controlMenu,"C20-menu.png"),"The main menu bar");
 		}
 
 		public static void CheckF5(Ui ui,CheckResult checkResult) {
