@@ -249,7 +249,7 @@ namespace WindowChecksTests {
 
 		///<summary>Stage 3b (WINCHK-5's fix round): RdlDesigner opens the report with VB Code functions (G4's), its Report Properties' Code tab
 		///shows the block, and Check Syntax compiles it (CodeCtl.CheckCode: RdlEngine's VbCodeCompiler, Roslyn on .NET 10) and says "No errors".
-		///Out of process: the menu, the tab and the buttons through UI Automation patterns, the message box by window messages; no input is sent.
+		///Out of process: the menu through UI Automation patterns, the tab, the buttons and the message box by window messages; no input is sent.
 		///Report Properties is closed with Cancel and RdlDesigner without saving. designerstate.xml is handled as H1 handles it.</summary>
 		[TestMethod]
 		public void H3_RdlDesignerCode() {
@@ -289,8 +289,7 @@ namespace WindowChecksTests {
 							checkResult.AddShot(Shot.Window(hwndProperties,"H3-properties.png"),"Report Properties (its Report tab)");
 							CheckCodeTab(programProcess,hwndProperties,checkResult);
 							//Cancel: nothing is applied.
-							Uia.Try(() => Uia.Invoke(System.Windows.Automation.AutomationElement.FromHandle(hwndProperties),System.Windows.Automation.ControlType.Button,
-								"Cancel"),10000,out string errorCancel);
+							string errorCancel=ClickFormsButton(hwndProperties,"Cancel") ? "" : "no Cancel button";
 							Stopwatch stopwatch=Stopwatch.StartNew();
 							while(Native.IsWindow(hwndProperties) && Native.IsWindowVisible(hwndProperties) && stopwatch.ElapsedMilliseconds<10000) {
 								Thread.Sleep(200);
@@ -335,30 +334,30 @@ namespace WindowChecksTests {
 			WinChkFixture.Finish(checkResult);
 		}
 
-		///<summary>H3: selects Report Properties' Code tab (SelectionItemPattern), checks the block shows, prints it, presses Check Syntax
-		///(InvokePattern; its "No errors" message box is modal, so the call is not waited for) and reads and closes the message.</summary>
+		///<summary>H3: selects Report Properties' Code tab (TCM_SETCURFOCUS), checks the block shows, prints it, presses Check Syntax
+		///(BM_CLICK, posted: its "No errors" message box is modal) and reads and closes the message.</summary>
 		private static void CheckCodeTab(ProgramProcess programProcess,IntPtr hwndProperties,CheckResult checkResult) {
-			bool isSelected=Uia.Try(() => {
-				System.Windows.Automation.AutomationElement automationElementTab=Uia.Find(System.Windows.Automation.AutomationElement.FromHandle(hwndProperties),
-					System.Windows.Automation.ControlType.TabItem,"Code");
-				if(automationElementTab==null) {
-					return false;
-				}
-				((System.Windows.Automation.SelectionItemPattern)automationElementTab.GetCurrentPattern(System.Windows.Automation.SelectionItemPattern.Pattern)).Select();
-				return true;
-			},15000,out string errorTab);
-			if(!checkResult.Expect(isSelected,"The Code tab is selected (UI Automation SelectionItemPattern)",errorTab)) {
+			//The dialog is modal inside the menu item's Click, whose UI Automation Invoke has not returned, and UI Automation does not answer the
+			//process until it does (the first run: "did not answer within 15 s"). So the tab and the buttons are reached by window messages: the tab
+			//control's TCM_SETCURFOCUS, which on a tab control without buttons selects the tab and sends TCN_SELCHANGING and TCN_SELCHANGE as a click
+			//on it does (Windows Forms switches the page on those), and BM_CLICK on the buttons (Windows Forms' ButtonBase raises its Click).
+			//The Code tab is the fifth page (PropertyDialog.BuildReportTabs: Report, Parameters, XML Rendering, Body, Code, Modules/Classes).
+			IntPtr hwndTabs=Native.GetChildren(hwndProperties).FirstOrDefault(x => Native.GetClass(x).Contains("SysTabControl32"));
+			if(!checkResult.Expect(hwndTabs!=IntPtr.Zero,"Report Properties has its tab control")) {
 				return;
 			}
+			int countTabs=(int)Native.SendMessage(hwndTabs,TCM_GETITEMCOUNT,IntPtr.Zero,IntPtr.Zero);
+			checkResult.Expect(countTabs==6,"The tab control has the six report tabs ("+countTabs+")");
+			Native.PostMessage(hwndTabs,TCM_SETCURFOCUS,(IntPtr)4,IntPtr.Zero);
 			Thread.Sleep(1500);
 			string codeShown=Native.GetChildren(hwndProperties).Select(x => Native.GetText(x)).FirstOrDefault(x => x.Contains("Public Function"))??"";
 			checkResult.Expect(NormalizeSpace(codeShown)==NormalizeSpace(RdlCodeReports.CODE_BLOCK),"The Code tab shows the report's Code block ("+codeShown.Length
 				+" characters)",codeShown);
 			checkResult.AddShot(Shot.Window(hwndProperties,"H3-code.png"),"Report Properties, the Code tab");
 			List<IntPtr> listBefore=programProcess.GetWindows();
-			Uia.Try(() => Uia.Invoke(System.Windows.Automation.AutomationElement.FromHandle(hwndProperties),System.Windows.Automation.ControlType.Button,"Check Syntax"),
-				3000,out string errorInvoke);
-			checkResult.Note("Check Syntax invoked"+(errorInvoke=="" ? "" : " ("+errorInvoke+": the message box it shows is modal)"));
+			if(!checkResult.Expect(ClickFormsButton(hwndProperties,"Check Syntax"),"Check Syntax is pressed (BM_CLICK)")) {
+				return;
+			}
 			IntPtr hwndMessage=programProcess.WaitForWindow((h,className,title) => className=="#32770" && !listBefore.Contains(h),TimeSpan.FromSeconds(30));
 			if(checkResult.Expect(hwndMessage!=IntPtr.Zero,"Check Syntax answers with a message box")) {
 				string title=Native.GetText(hwndMessage);
@@ -372,6 +371,20 @@ namespace WindowChecksTests {
 				}
 				checkResult.Expect(!Native.IsWindow(hwndMessage),"The message closes (OK)");
 			}
+		}
+
+		private const int TCM_GETITEMCOUNT=0x1304;
+		private const int TCM_SETCURFOCUS=0x1330;
+
+		///<summary>Posts BM_CLICK to the window's visible Windows Forms button with this text (no ampersands); false when there is none.</summary>
+		private static bool ClickFormsButton(IntPtr hwnd,string text) {
+			IntPtr hwndButton=Native.GetChildren(hwnd).FirstOrDefault(x => Native.GetClass(x).IndexOf("BUTTON",StringComparison.OrdinalIgnoreCase)>=0
+				&& Native.IsWindowVisible(x) && string.Equals(Native.GetText(x).Replace("&",""),text,StringComparison.OrdinalIgnoreCase));
+			if(hwndButton==IntPtr.Zero) {
+				return false;
+			}
+			Native.PostMessage(hwndButton,Native.BM_CLICK,IntPtr.Zero,IntPtr.Zero);
+			return true;
 		}
 
 		///<summary>The text's words joined by single spaces (line ends and indents as an edit box shows them do not count).</summary>

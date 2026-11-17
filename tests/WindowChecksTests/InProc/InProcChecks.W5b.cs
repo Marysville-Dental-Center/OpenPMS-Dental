@@ -407,6 +407,11 @@ namespace WindowChecksTests.InProc {
 			countPages=count;
 		}
 
+		///<summary>The text's words joined by single spaces.</summary>
+		private static string NormalizeSpaceInProc(string text) {
+			return string.Join(" ",(text??"").Split(new[] { ' ','\r','\n','\t' },StringSplitOptions.RemoveEmptyEntries));
+		}
+
 		///<summary>Opens a report of Reports > Custom Reports (the .rdl files of the A to Z folder's report folder, listed at start-up) and returns
 		///the FormReportCustom (no parameter window: the G4 and G5 reports have no parameters).</summary>
 		private static Ui.Opened OpenCustomReport(Ui ui,string name) {
@@ -443,8 +448,9 @@ namespace WindowChecksTests.InProc {
 
 		public static void CheckG5(Ui ui,CheckResult checkResult) {
 			//A report whose <Code> block does not compile: the viewer reports the compile error (BC30451, the name it does not declare) either as its
-			//warning (the button that opens DialogMessages) or as its error page. The viewer's messages dialog (DialogMessages, a plain form on the
-			//default font) is opened as its warning button opens it (WarningClick), or with the same messages when the viewer showed its error page.
+			//warning or on its error page ("Errors processing report"; the expression that calls the missing function is a severity 8 error, so the
+			//report does not load). The viewer's messages dialog (DialogMessages, a plain form on the default font) is opened as its warning button
+			//opens it (WarningClick), with the messages the viewer holds then; without the button, with the compile error.
 			Ui.Opened opened=OpenCustomReport(ui,RdlCodeReports.NAME_CODE_ERROR);
 			if(!InspectWindow(ui,checkResult,opened,"FormReportCustom",null,close:false)) {
 				return;
@@ -458,14 +464,21 @@ namespace WindowChecksTests.InProc {
 			checkResult.AddShot(ui.Shot(opened.Hwnd,"G5.png"),"The report whose Code does not compile, in the RDL viewer");
 			Type typeDialog=viewer.GetType().Assembly.GetType("fyiReporting.RdlViewer.DialogMessages",true);
 			Ui.Opened openedMessages;
+			List<string> listForDialog;
 			if(isWarningVisible) {
+				//The messages WarningClick hands DialogMessages, read just before the click. With the error page they are the warnings of the error page's
+				//own run: RdlViewer.GetReportErrorMsg gives that page a data source with the provider "xxx", which no connection opens ("Unable to
+				//connect to datasource 'DS1'"), on any runtime; its rows are inline, so the page still shows the messages.
+				listForDialog=ui.Invoke(() => ((IList)Ui.GetField(viewer,"_errorMsgs"))?.Cast<object>().Select(x => x?.ToString()??"").ToList()??new List<string>());
+				checkResult.Note("The warning button's messages: "+string.Join(" || ",listForDialog));
 				openedMessages=ui.Open("The viewer's warning button (WarningClick)",() => Ui.Call(viewer,"WarningClick",viewer,EventArgs.Empty));
 			}
 			else {
-				checkResult.Note("No warning button (the viewer showed its error page): DialogMessages is opened with the same messages");
-				IList listForDialog=new ArrayList(listError.Count>0 ? listError : listAll);
+				checkResult.Note("No warning button: DialogMessages is opened with the compile error");
+				listForDialog=listError.Count>0 ? listError : listAll;
+				IList listDialog=new ArrayList(listForDialog);
 				openedMessages=ui.Open("DialogMessages with the viewer's messages",() => {
-					using Form form=(Form)Activator.CreateInstance(typeDialog,new object[] { listForDialog });
+					using Form form=(Form)Activator.CreateInstance(typeDialog,new object[] { listDialog });
 					form.ShowDialog();
 				});
 			}
@@ -473,7 +486,9 @@ namespace WindowChecksTests.InProc {
 				Form formMessages=ui.GetForm(openedMessages.Hwnd);
 				ExpectDefaultFont(checkResult,formMessages,"DialogMessages");
 				string textShown=ui.Invoke(() => string.Join(" ",Ui.AllControls(formMessages).Select(x => x.Text)));
-				checkResult.Expect(textShown.Contains("BC30451") || textShown.Contains(RdlCodeReports.NAME_UNDECLARED),"DialogMessages shows the compile error");
+				List<string> listNotShown=listForDialog.Where(x => !NormalizeSpaceInProc(textShown).Contains(NormalizeSpaceInProc(x))).ToList();
+				checkResult.Expect(listForDialog.Count>0 && listNotShown.Count==0,"DialogMessages shows the "+listForDialog.Count+" message(s) it was given",
+					"not shown: "+string.Join(" || ",listNotShown));
 				checkResult.AddShot(ui.Shot(openedMessages.Hwnd,"G5-messages.png"),"The RDL viewer's messages dialog (DialogMessages)");
 				checkResult.Expect(ui.Close(openedMessages.Hwnd),"DialogMessages closes");
 			}

@@ -94,7 +94,7 @@ End Function
         <Style><BorderStyle><Default>Solid</Default></BorderStyle></Style>
         <TableColumns>
           <TableColumn><Width>3in</Width></TableColumn>
-          <TableColumn><Width>2in</Width></TableColumn>
+          <TableColumn><Width>3in</Width></TableColumn>
         </TableColumns>
         <Header>
           <TableRows>
@@ -102,7 +102,7 @@ End Function
               <Height>.25in</Height>
               <TableCells>
                 <TableCell><ReportItems><Textbox Name=""HeaderPatient""><Value>Patient (Code.PatientName)</Value><Style><FontWeight>Bold</FontWeight></Style></Textbox></ReportItems></TableCell>
-                <TableCell><ReportItems><Textbox Name=""HeaderTriple""><Value>PatNum times 3 (Code.Triple)</Value><Style><FontWeight>Bold</FontWeight></Style></Textbox></ReportItems></TableCell>
+                <TableCell><ReportItems><Textbox Name=""HeaderTriple""><Value>Times 3 (Code.Triple)</Value><Style><FontWeight>Bold</FontWeight></Style></Textbox></ReportItems></TableCell>
               </TableCells>
             </TableRow>
           </TableRows>
