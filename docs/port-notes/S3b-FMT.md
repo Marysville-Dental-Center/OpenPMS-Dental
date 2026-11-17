@@ -252,6 +252,12 @@ EhrTests, and NoHqTests in every run. Not run: InitSqlTests and ForkMigrationTes
 (ToothChartImageTests, ToothChartHostTests, WindowChecksTests) and BINATests (its `WpfChart_StartsOnAHiddenForm`), AdoptionValidation.Tests
 and SyntheticData.Tests (tools, unchanged by this package).
 
+**s3bfmt-2 (the review fixes; `od-tools/test-results/s3bfmt-2-*.txt`), after a full lane build of the filter, x64, 0 errors:** all pass:
+FormatParityTests 20, GoldenOutputTests 28, BINBTests 105 (7 net48-only inconclusive, as before), ProjectFileTests 168 (1 skipped, as
+before), UnitTests 1,731 (3 skipped), and a Core-sized sample of the money and report suites: ReportTests, StatementTests, PayPlanTests,
+AccountingTests, RdlCodeTests, Helper32Tests, MiddleTierMockTests, P262ReportsTests, LibraryBindingTests, PdfLibraryTests, BIMGTests,
+BPAYTests, FeeTests, InsuranceTests; NoHqTests in every run.
+
 Test changes that follow the sweep: LibraryBindingTests maps the new package (not shipped) and counts 38 package files; P262ReportsTests
 and BIMGTests read `ToStringNetFx` in the source they check; Helper32Tests' QuickBooks reference (`QuickBooksToday.cs`) writes the deposit
 amount with `ToStringNetFx`, the text the program sends (99999.995 with `F`: 100000.00, as the .NET Framework).
