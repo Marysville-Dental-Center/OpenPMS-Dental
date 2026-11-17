@@ -417,15 +417,30 @@ namespace WindowChecksTests.InProc {
 			}
 		}
 
-		private static void RemoveEventHandlers(Component component,string keyName) {
-			FieldInfo fieldKey=typeof(Form).GetField(keyName,BindingFlags.NonPublic|BindingFlags.Static);
+		///<summary>The .NET Framework's names of Form's event keys and the names .NET's Windows Forms gives the same keys (WINCHK-5: on .NET 10 the
+		///.NET Framework name found no field, so the closing was never detached and Stop threw on the window's thread).</summary>
+		private static readonly Dictionary<string,string> _dictEventKeysNet=new Dictionary<string,string> {
+			{ "EVENT_FORMCLOSING","s_formClosingEvent" },
+			{ "EVENT_FORMCLOSED","s_formClosedEvent" },
+		};
+
+		///<summary>Removes every handler of the form's event (EVENT_FORMCLOSING or EVENT_FORMCLOSED, by the .NET Framework's key name) and returns
+		///how many delegates were removed. Throws when this runtime's Form has no such key (HarnessTests checks it does).</summary>
+		public static int RemoveEventHandlers(Component component,string keyName) {
+			FieldInfo fieldKey=typeof(Form).GetField(keyName,BindingFlags.NonPublic|BindingFlags.Static)
+				??typeof(Form).GetField(_dictEventKeysNet[keyName],BindingFlags.NonPublic|BindingFlags.Static);
+			if(fieldKey==null) {
+				throw new MissingFieldException(typeof(Form).FullName,keyName+" / "+_dictEventKeysNet[keyName]);
+			}
 			PropertyInfo propertyEvents=typeof(Component).GetProperty("Events",BindingFlags.NonPublic|BindingFlags.Instance);
 			EventHandlerList eventHandlerList=(EventHandlerList)propertyEvents.GetValue(component);
 			object key=fieldKey.GetValue(null);
 			Delegate handler=eventHandlerList[key];
-			if(handler!=null) {
-				eventHandlerList.RemoveHandler(key,handler);
+			if(handler==null) {
+				return 0;
 			}
+			eventHandlerList.RemoveHandler(key,handler);
+			return handler.GetInvocationList().Length;
 		}
 	}
 }

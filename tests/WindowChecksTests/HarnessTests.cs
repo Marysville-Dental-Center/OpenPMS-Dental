@@ -198,6 +198,46 @@ namespace WindowChecksTests {
 			CollectionAssert.AreEqual(listFilesBefore,Directory.GetFiles(folder).OrderBy(x => x).ToList(),"The program's folder is as it was.");
 		}
 
+		///<summary>The main window's closing is detached through Form's event keys (ProgramDriver.RemoveEventHandlers, before Stop and before the
+		///harness closes windows left open): on this runtime the keys are found (.NET's Windows Forms names them s_formClosingEvent and
+		///s_formClosedEvent, the .NET Framework EVENT_FORMCLOSING and EVENT_FORMCLOSED; WINCHK-5 found the lookup failing on .NET 10), every
+		///handler is removed and closing the form then runs none of them. A form of this test, never shown, on an STA thread of its own.</summary>
+		[TestMethod]
+		public void MainClosing_IsDetachedThroughFormsEventKeys() {
+			Exception exception=null;
+			System.Threading.Thread thread=new System.Threading.Thread(() => {
+				try {
+					using System.Windows.Forms.Form form=new System.Windows.Forms.Form();
+					int countClosing=0;
+					int countClosed=0;
+					form.FormClosing+=(sender,e) => countClosing++;
+					form.FormClosing+=(sender,e) => countClosing++;
+					form.FormClosed+=(sender,e) => countClosed++;
+					Assert.AreEqual(2,ProgramDriver.RemoveEventHandlers(form,"EVENT_FORMCLOSING"));
+					Assert.AreEqual(1,ProgramDriver.RemoveEventHandlers(form,"EVENT_FORMCLOSED"));
+					Assert.AreEqual(0,ProgramDriver.RemoveEventHandlers(form,"EVENT_FORMCLOSING"),"Nothing is left to remove.");
+					//The handlers would run on a close (WM_CLOSE to the form's window, which is made but never shown): they are gone. A control
+					//handler added afterwards does run, so the close really raised the events.
+					IntPtr hwnd=form.Handle;
+					Assert.AreNotEqual(IntPtr.Zero,hwnd);
+					bool isClosingRaised=false;
+					form.FormClosing+=(sender,e) => isClosingRaised=true;
+					form.Close();
+					Assert.IsTrue(isClosingRaised,"The close raised FormClosing.");
+					Assert.AreEqual(0,countClosing+countClosed,"No removed handler ran on the close.");
+				}
+				catch(Exception ex) {
+					exception=ex;
+				}
+			});
+			thread.SetApartmentState(System.Threading.ApartmentState.STA);
+			thread.Start();
+			thread.Join();
+			if(exception!=null) {
+				System.Runtime.ExceptionServices.ExceptionDispatchInfo.Capture(exception).Throw();
+			}
+		}
+
 		///<summary>A check's result crosses from the session's process as text (CheckResult.ToText, FromText) with every field as it was: texts with
 		///tabs, line ends, quotes and non-ASCII letters, empty lists and empty strings, and the row keys.</summary>
 		[TestMethod]

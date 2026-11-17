@@ -102,11 +102,12 @@ namespace WindowChecksTests.InProc {
 					Ui.Call(combo,"OnMouseDown",new MouseEventArgs(MouseButtons.Left,1,combo.Width-8,combo.Height/2,0));
 				});
 				if(InspectWindow(ui,checkResult,openedPicker,"FormComboPicker",null,close:false)) {
-					checkResult.Note("The drop-down of "+comboName+": "+string.Join(", ",ui.Invoke(() => ((List<string>)Ui.GetField(ui.GetForm(openedPicker.Hwnd),
+					//Control.FromHandle on the window's thread (ui.GetForm would invoke onto the thread it is already on).
+					checkResult.Note("The drop-down of "+comboName+": "+string.Join(", ",ui.Invoke(() => ((List<string>)Ui.GetField(Control.FromHandle(openedPicker.Hwnd),
 						"ListStrings")).Take(8))));
 					checkResult.AddShot(ui.Shot(openedPicker.Hwnd,"C18-picker.png"),"The combo box drop-down (FormComboPicker)");
 					checkResult.AddShot(ui.Shot(hwndPatient,"C18.png"),"Edit Patient Information with the drop-down open");
-					ui.Invoke(() => ui.GetForm(openedPicker.Hwnd).Close());
+					ui.Invoke(() => ((Form)Control.FromHandle(openedPicker.Hwnd)).Close());
 					checkResult.Expect(ui.WaitGone(openedPicker.Hwnd),"The drop-down closes");
 				}
 			}
@@ -127,7 +128,14 @@ namespace WindowChecksTests.InProc {
 			checkResult.Expect(isVisible,"ToolTipOD shows the text");
 			string font=ui.Invoke(() => Control.FromHandle(hwnd).Font.Name+" "+Control.FromHandle(hwnd).Font.SizeInPoints.ToString("0.##")+" pt");
 			checkResult.Note("ToolTipOD's font (the main window's): "+font);
-			checkResult.AddShot(ui.Shot(hwnd,"C19.png"),"ToolTipOD");
+			//A one-line tooltip draws its text without smoothing on one background: few colours, so not AddShot's "more than 5 colours" of a
+			//window; its text is there when part of it is not background.
+			ShotInfo shotInfo=ui.Shot(hwnd,"C19.png");
+			if(checkResult.Expect(shotInfo.Error=="","C19.png is taken",shotInfo.Error)) {
+				checkResult.ListShots.Add(shotInfo.FileName);
+				checkResult.Expect(shotInfo.Width>0 && shotInfo.Height>0 && shotInfo.CountColors>=2 && shotInfo.ShareNonBackground>0.05,
+					"ToolTipOD is drawn: its text on its background ("+shotInfo+")",shotInfo.ToString());
+			}
 			ui.Invoke(() => ((Form)Control.FromHandle(hwnd)).Close());
 			checkResult.Expect(ui.WaitGone(hwnd),"ToolTipOD closes");
 		}
@@ -180,7 +188,8 @@ namespace WindowChecksTests.InProc {
 				if(InspectWindow(ui,checkResult,opened,"FormTimeCardManage",null,close:false)) {
 					IntPtr hwndManage=opened.Hwnd;
 					checkResult.AddShot(ui.Shot(hwndManage,"G3-timecards.png"),"Time Card Manage");
-					Ui.Opened openedPreview=ui.Open("Print All",() => Ui.Call(ui.GetForm(hwndManage),"butPrintAll_Click",ui.GetForm(hwndManage),EventArgs.Empty),
+					Form formManage=ui.GetForm(hwndManage);
+					Ui.Opened openedPreview=ui.Open("Print All",() => Ui.Call(formManage,"butPrintAll_Click",formManage,EventArgs.Empty),
 						allowMessage:true);
 					if(openedPreview.IsOpen && Native.IsDialogClass(openedPreview.Hwnd)) {
 						//No printer to preview for (the printout's settings need one): what the program said is for a person.
@@ -190,7 +199,7 @@ namespace WindowChecksTests.InProc {
 					else if(InspectWindow(ui,checkResult,openedPreview,"FormPrintPreview",null,close:false)) {
 						System.Threading.Thread.Sleep(2000);//the preview control draws its pages in the background
 						string pages=ui.Invoke(() => {
-							PrintPreviewControl printPreviewControl=Ui.AllControls(ui.GetForm(openedPreview.Hwnd)).OfType<PrintPreviewControl>().FirstOrDefault();
+							PrintPreviewControl printPreviewControl=Ui.AllControls(Control.FromHandle(openedPreview.Hwnd)).OfType<PrintPreviewControl>().FirstOrDefault();
 							return printPreviewControl==null ? "no PrintPreviewControl" : "page "+(printPreviewControl.StartPage+1)+", document "
 								+printPreviewControl.Document?.DocumentName;
 						});
