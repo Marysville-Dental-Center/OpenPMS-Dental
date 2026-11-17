@@ -1060,6 +1060,13 @@ record.
   `WpfControlsOD/UI/Controls` beyond an allow list that shrinks with each package; the scan that bans `using` or `Dispose` around
   `UiTheme` pens and brushes.
 - Gallery: **G-UI1 part 1, the design.** Every later package follows what the owner approves here.
+- **Status (2026-11-17).** Done on `ui/ui1-1` (`docs/port-notes/UI-1.md`), not merged yet: `CodeBase/UI/UiTheme*.cs` (30 colour tokens: the
+  25 of 3.2 and five role names for white on the accent, text on a selection and the title bar, each with its high-contrast partner); the
+  sheet and the real windows in `tests/UiRefreshTests/DesignSheet*.cs`; `Data/coverage.tsv` and the NoHq scans in
+  `NoHqTests/UiThemeScanTests.cs` with the allow list `Data/colour-literals.tsv` (323 rows). The gallery is in
+  `.git/od-tools/test-results/g-ui1-part1/`; the WPF Frm waits for a connected session (WPF draws nothing while it is disconnected). Measured:
+  the Account grid's rows are 14 px today, 17 px at Segoe UI 9 and 16 px at 8.25, as UQ-2 says. For the owner: the selection bar without
+  focus (`StrokeStrong`) is 3.5:1 on white but 2.7:1 against the selection fill beside it (the note's section 6).
 
 **UI-7a: the icon pipeline and the control glyphs** (no visible change in the program)
 - Owns: `third-party/fluentui-system-icons/`, `icons/manifest.json`, `icons/README.md`, `tools/New-IconData.ps1`,
