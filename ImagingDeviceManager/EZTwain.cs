@@ -106,7 +106,23 @@ namespace ImagingDeviceManager {
 			Session.ClearError();
 			CloseEnabledSourceFirst();
 			ApplyCaptureConfig();
-			return Session.OpenSource(sourceName);
+			Helper32.TwainSourceChoice choice=Helper32.TwainSourceChoice.Parse(sourceName);
+			if(choice.Dsm!=Helper32.TwainDsmKind.Helper32) {
+				return Session.OpenSource(sourceName);
+			}
+			//A device set to a source of the 32-bit DSM (S3b-8): its ProductName here, which opens when the source has a 64-bit driver by now
+			//(native first). Otherwise these calls cannot reach it: only the capture session runs a 32-bit source, through the 32-bit helper.
+			if(Session.OpenSource(choice.ProductName)) {
+				return true;
+			}
+			if(Session.ErrorCode==EZTwainErrorCode.EZTEC_NO_SUCH_DS || Session.ErrorCode==EZTwainErrorCode.EZTEC_OPEN_DS
+				|| Session.ErrorCode==EZTwainErrorCode.EZTEC_LOAD_DSM || Session.ErrorCode==EZTwainErrorCode.EZTEC_OPEN_DSM)
+			{
+				Session.SetError(Session.ErrorCode,"The TWAIN source \""+choice.ProductName+"\" has only a 32-bit driver. In this 64-bit program it runs "
+					+"through the 32-bit helper in the capture session only (Mount/Acquire with a Twain Radiograph device whose capture settings were "
+					+"saved); install the source's 64-bit TWAIN driver to scan with it here.");
+			}
+			return false;
 		}
 
 		///<summary>Closes the open source, discarding any images not yet transferred (for a source opened by name they go to the capture

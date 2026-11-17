@@ -114,9 +114,14 @@ namespace OpenPmsDentalHelper32 {
 		public string TestModuleAssembly;
 		public string TestModuleType;
 		public string TestModuleName;
+		///<summary>Tests only (Helper32Protocol.ARG_TEST_TWAIN_DSM): the assembly name, the type and the scenario of a fake TWAIN DSM; null without.
+		///</summary>
+		public string TestTwainDsmAssembly;
+		public string TestTwainDsmType;
+		public string TestTwainDsmScenario;
 
 		///<summary>The arguments, or null when they are not the helper's: --pipe and --parent once each, with a pipe name of Helper32Protocol's
-		///form and a process id; optionally --test-module.</summary>
+		///form and a process id; optionally --test-module and --test-twain-dsm.</summary>
 		public static HelperArguments Parse(string[] args) {
 			HelperArguments helperArguments=new HelperArguments();
 			for(int i=0;i<args.Length;i++) {
@@ -135,6 +140,11 @@ namespace OpenPmsDentalHelper32 {
 					if(i+1<args.Length && !args[i+1].StartsWith("--")) {
 						helperArguments.TestModuleName=args[++i];
 					}
+				}
+				else if(args[i]==Helper32Protocol.ARG_TEST_TWAIN_DSM && i+3<args.Length && helperArguments.TestTwainDsmAssembly==null) {
+					helperArguments.TestTwainDsmAssembly=args[++i];
+					helperArguments.TestTwainDsmType=args[++i];
+					helperArguments.TestTwainDsmScenario=args[++i];
 				}
 				else {
 					return null;

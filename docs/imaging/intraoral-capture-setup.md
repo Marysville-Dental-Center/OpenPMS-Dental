@@ -40,13 +40,12 @@ The runbook names no sensor, camera or software vendor. It uses these terms:
 ## 2. Prerequisites (every capture computer)
 
 1. **Windows accounts.** Staff run Open PMS - Dental as ordinary Windows users, not administrators. You need an administrator account only for the setup steps.
-2. **32-bit TWAIN data source manager.** Open PMS - Dental is a 32-bit program and uses the first of these files that exists:
-   1. `TWAINDSM.dll` next to `OpenPmsDental.exe`;
-   2. `C:\Windows\SysWOW64\TWAINDSM.dll`;
-   3. `C:\Windows\twain_32.dll`, which is part of Windows.
+2. **TWAIN data source managers.** Open PMS - Dental is a 64-bit program (stage 3b of the .NET 10 move). Its setup installs both TWAIN data source managers of the TWAIN Working Group (`TWAINDSM.dll` 2.5.1) when they are missing or older:
+   1. the 64-bit one, `C:\Windows\System32\TWAINDSM.dll`, which the program itself uses (never a copy next to `OpenPmsDental.exe`);
+   2. the 32-bit one, `C:\Windows\SysWOW64\TWAINDSM.dll`, which the 32-bit helper program (`Helper32\OpenPmsDentalHelper32.exe` in the program folder) uses for a source that has only a 32-bit driver; if it is missing, the helper uses `C:\Windows\twain_32.dll`, which is part of Windows.
 
-   If none exists, no TWAIN source can be listed or opened. If the sensor's source is missing from the Twain Name list (section 6) while only `twain_32.dll` is present, install the TWAIN Working Group's signed 32-bit data source manager (`TWAINDSM.dll`) and check again.
-3. **The sensor's TWAIN source.** Install it, and the sensor's driver, with the supplier's own installer. Open PMS - Dental installs and configures nothing for it. It must be a 32-bit source. Connect the sensor.
+   The Twain Name list (section 6) shows the sources of the 64-bit manager first, then those that only the 32-bit manager lists, marked `(32-bit TWAIN)` (docs/port-notes/S3b-8.md). If the sensor's source is missing from the list, run the setup again (it restores both managers) and check again.
+3. **The sensor's TWAIN source.** Install it, and the sensor's driver, with the supplier's own installer. Open PMS - Dental installs and configures nothing for it. Use the supplier's 64-bit TWAIN source when there is one: it runs in the program itself. A source with only a 32-bit driver runs its whole session in the 32-bit helper, in the capture session and in Test capture (not in the older scan and Twain Multi calls, which name that limit). Connect the sensor.
 4. **The source's contract.** Get the contract for the installed version of the source. Record its version line. While it is marked as a draft, record its revision identifier as well. Keep a copy with the acceptance record.
 5. **Installation settings.** The contract lists the source's installation settings that change what the source delivers or how its sessions end. Typical examples:
    - a mode that overrides how many images a session delivers;
@@ -412,7 +411,7 @@ Run this on the test computer first, with a phantom and a test patient record on
 ### 12.1 Steps
 
 1. **Installation and source gate.**
-   1. The Twain Name list shows the sensor's source (with `twain_32.dll`, or with `TWAINDSM.dll` if needed). Record which data source manager is in use.
+   1. The Twain Name list shows the sensor's source. Record which data source manager is in use: the 64-bit one (the name alone; Test capture's DSM line says `TWAINDSM.dll`) or the 32-bit one through the helper (the name with `(32-bit TWAIN)`; Test capture's DSM line says "32-bit, in the helper").
    2. The sensor software starts when Open PMS - Dental runs as an ordinary Windows user. Record whether it needs write access to its own installation folder.
    3. Every installation setting in the contract has its neutral value (or the recorded exception of section 4.3), checked by a person or from the source's log. If the contract lists more than one kind of delivered 8-bit image, record which one real exposures deliver.
    4. Record the contract version (and its revision identifier while it is a draft).

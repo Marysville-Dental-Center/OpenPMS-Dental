@@ -113,6 +113,29 @@
       <Link>Linked\QuickBooksLateBound.cs</Link>
     </Compile>
   </ItemGroup>
+  <!--
+    S3b-8, the 32-bit TWAIN path: ImagingDeviceManager's TWAIN code as the helper compiles it (OpenPmsDentalHelper32.csproj), with its Helper32
+    folder (the program's TwainHelperCaptureSession, TwainSourcePath and the router; the helper's TwainHelperServer), ImagingCapture's metadata
+    parser and its TwainHelperChannel (the program's adapter on Helper32Client), and ImagingDeviceManagerTests' fake DSM and contract 1.1 source
+    (FakeTwainDsm, FakeDsmMemory, FakeHelperSource). Twain\TwainTestDsm.cs gives the helper that fake (its any-CPU copy of this assembly, with
+    the helper argument test-twain-dsm), and the tests run the same fake in this process for the in-process baseline. Compiled, not referenced: the any-CPU copy
+    the 32-bit helper loads must not need the program's x64 ImagingDeviceManager.dll.
+  -->
+  <ItemGroup>
+    <Compile Include="..\..\ImagingDeviceManager\**\*.cs"
+             Exclude="..\..\ImagingDeviceManager\bin\**;..\..\ImagingDeviceManager\obj\**;..\..\ImagingDeviceManager\Properties\**;..\..\ImagingDeviceManager\EZTwain.cs;..\..\ImagingDeviceManager\EZTwain.Capture.cs;..\..\ImagingDeviceManager\Imaging\PdfPageWriter.cs">
+      <Link>Linked\ImagingDeviceManager\%(RecursiveDir)%(Filename)%(Extension)</Link>
+    </Compile>
+    <Compile Include="..\..\ImagingCapture\Metadata\CaptureMetadata.cs;..\..\ImagingCapture\Metadata\CaptureMetadataParser.cs;..\..\ImagingCapture\Metadata\JsonReader.cs">
+      <Link>Linked\ImagingCapture\Metadata\%(Filename)%(Extension)</Link>
+    </Compile>
+    <Compile Include="..\..\ImagingCapture\Session\TwainHelperChannel.cs">
+      <Link>Linked\ImagingCapture\Session\TwainHelperChannel.cs</Link>
+    </Compile>
+    <Compile Include="..\ImagingDeviceManagerTests\FakeTwainDsm.cs;..\ImagingDeviceManagerTests\FakeDsmMemory.cs;..\ImagingDeviceManagerTests\FakeHelperSource.cs">
+      <Link>Linked\ImagingDeviceManagerTests\%(Filename)%(Extension)</Link>
+    </Compile>
+  </ItemGroup>
   <ItemGroup>
     <!-- Helper32Client, the program's side. -->
     <ProjectReference Include="..\..\CodeBase\xCodeBase.csproj" />

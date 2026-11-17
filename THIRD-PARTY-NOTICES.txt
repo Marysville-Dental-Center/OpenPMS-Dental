@@ -278,11 +278,13 @@ Source:    https://www.nuget.org/packages/Microsoft.Web.WebView2/1.0.4314.35, th
            WebView2Loader.dll)
 
 --- Component: TWAIN
-Files:     TWAINDSM.dll (x64), the TWAIN Working Group's data source manager, which the setup installs into the
-           Windows system folder as a shared file (never into the program folder); ImagingDeviceManager.dll
-           implements the TWAIN protocol from the TWAIN specification
-Version:   TWAIN 2.4; TWAINDSM.dll 2.5.1 (dsm_020501.zip of the TWAIN Working Group's release v2.5.1, signed by
-           the TWAIN Working Group)
+Files:     TWAINDSM.dll (x64 and x86), the TWAIN Working Group's data source manager, which the setup installs
+           as a shared file into the 64-bit Windows system folder (x64) and the 32-bit one, SysWOW64 (x86, for
+           TWAIN sources with only a 32-bit driver, which run in the 32-bit helper); never into the program
+           folder; ImagingDeviceManager.dll implements the TWAIN protocol from the TWAIN specification, and
+           the 32-bit helper OpenPmsDentalHelper32 carries the same code
+Version:   TWAIN 2.4; TWAINDSM.dll 2.5.1, both bitnesses (windows/64 and windows/32 of dsm_020501.zip of the TWAIN
+           Working Group's release v2.5.1, signed by the TWAIN Working Group)
 Copyright: The TWAIN Working Group
 License:   TWAIN Working Group toolkit license, kept from Open Dental's license list (its text follows);
            TWAINDSM.dll: GNU Lesser General Public License, version 2.1 (LICENSE-LGPL-2.1.txt)
