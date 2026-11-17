@@ -214,7 +214,7 @@ namespace UiRefreshTests.Scan {
 				scanTypeResult.Reason+=(scanTypeResult.Reason=="" ? "" : "; ")+run+" throws: "+Describe(exception);
 				return;
 			}
-			string window=scanType.Type.FullName;
+			string window=scanType.WindowKey;
 			foreach(ScanSnapshot snapshotAfter in listAfter) {
 				ScanSnapshot snapshotBefore=listBefore.First(x => x.Scale==snapshotAfter.Scale);
 				string keyExisting=run+"\t"+snapshotAfter.Scale.ToString(CultureInfo.InvariantCulture);
@@ -267,7 +267,7 @@ namespace UiRefreshTests.Scan {
 				dictRowsBefore.TryGetValue(difference.Row.Path,out rowBefore);
 				Rectangle rectangleBefore=rowBefore==null ? difference.Row.Bounds : rowBefore.Bounds;
 				ScanSelfSizing scanSelfSizing=new ScanSelfSizing {
-					Run=run,Window=scanType.Type.FullName,Kind=scanType.Kind,Path=difference.Row.Path,ControlType=difference.Row.Type,Scale=snapshotAfter.Scale,
+					Run=run,Window=scanType.WindowKey,Kind=scanType.Kind,Path=difference.Row.Path,ControlType=difference.Row.Type,Scale=snapshotAfter.Scale,
 					What=difference.Kind,Other=difference.Other,BoundsBefore=rectangleBefore,BoundsAfter=difference.Row.Bounds,
 				};
 				scanSelfSizing.IsFixable=IsSelfSizingFixable(snapshotAfter,difference.Row,rectangleBefore);
@@ -323,8 +323,10 @@ namespace UiRefreshTests.Scan {
 			float[] arrayScales)
 		{
 			DefaultFontOverride.Set(fontOption,textScale);
+			StaRunner.TakeExceptionInCallback();
 			List<ScanSnapshot> listSnapshots=new List<ScanSnapshot>();
 			using(BuiltWindow builtWindow=WindowBuilder.Build(scanType)) {
+				ThrowExceptionInCallback();
 				CheckNothingShown(builtWindow);
 				if(fontSwap!=null) {
 					TextFitFontSwap.Swap(builtWindow.Form,fontSwap);
@@ -336,9 +338,20 @@ namespace UiRefreshTests.Scan {
 				if(builtWindow.Scale!=1f) {
 					builtWindow.LayOutAt(1f);
 				}
+				ThrowExceptionInCallback();
 				CheckNothingShown(builtWindow);
 			}
+			ThrowExceptionInCallback();
 			return listSnapshots;
+		}
+
+		///<summary>Throws what WinForms caught in a window procedure while the type was built (a control that reads the database when its
+		///handle is made, say), so the type is listed with it.</summary>
+		private static void ThrowExceptionInCallback() {
+			Exception exception=StaRunner.TakeExceptionInCallback();
+			if(exception!=null) {
+				throw new InvalidOperationException("In a window procedure: "+exception.Message,exception);
+			}
 		}
 
 		///<summary>Fails the scan when a window became visible: building must never show one.</summary>
@@ -358,7 +371,7 @@ namespace UiRefreshTests.Scan {
 		public static ScanSnapshot Snapshot(BuiltWindow builtWindow) {
 			ScanSnapshot snapshot=new ScanSnapshot();
 			snapshot.Scale=builtWindow.Scale;
-			string window=builtWindow.ScanType.Type.FullName;
+			string window=builtWindow.ScanType.WindowKey;
 			Control root=builtWindow.Root;
 			snapshot.ListRows=TextFitBoundsRecord.Collect(window,root);
 			Dictionary<string,TextFitBoundsRow> dictRows=snapshot.ListRows.ToDictionary(x => x.Path);

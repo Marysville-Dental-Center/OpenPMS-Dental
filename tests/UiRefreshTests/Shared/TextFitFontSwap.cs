@@ -169,6 +169,10 @@ namespace UiRefreshTests.TextFit {
 		public static int Swap(Control root,string family,float sizeBody) {
 			object layoutManager=GetLayoutManager(root);
 			Dictionary<Control,object> dictInfos=GetControl96Infos(layoutManager);
+			//Every control's font before the swap: a child that inherits its font shows the new family once its parent has it, and must still
+			//be mapped from the old one.
+			Dictionary<Control,Font> dictFontsBefore=new Dictionary<Control,Font>();
+			CollectFonts(root,dictFontsBefore);
 			int countChanged=0;
 			if(!IsContent(root)) {
 				Font fontMapped=MapFont(root.Font,family,sizeBody);
@@ -176,7 +180,7 @@ namespace UiRefreshTests.TextFit {
 					root.Font=fontMapped;
 					countChanged++;
 				}
-				countChanged+=SwapChildren(root,family,sizeBody,dictInfos);
+				countChanged+=SwapChildren(root,family,sizeBody,dictInfos,dictFontsBefore);
 			}
 			if(layoutManager!=null) {
 				LayOutAgain(root,layoutManager);
@@ -184,19 +188,29 @@ namespace UiRefreshTests.TextFit {
 			return countChanged;
 		}
 
-		private static int SwapChildren(Control parent,string family,float sizeBody,Dictionary<Control,object> dictInfos) {
+		private static void CollectFonts(Control control,Dictionary<Control,Font> dictFonts) {
+			dictFonts[control]=control.Font;
+			foreach(Control child in control.Controls) {
+				CollectFonts(child,dictFonts);
+			}
+		}
+
+		private static int SwapChildren(Control parent,string family,float sizeBody,Dictionary<Control,object> dictInfos,
+			Dictionary<Control,Font> dictFontsBefore)
+		{
 			int countChanged=0;
 			for(int i=0;i<parent.Controls.Count;i++) {
 				Control control=parent.Controls[i];
 				if(IsContent(control)) {
 					continue;
 				}
+				Font fontBefore=dictFontsBefore[control];
 				object info;
 				if(dictInfos.TryGetValue(control,out info)) {
 					//Recorded by LayoutManagerForms: map the recorded 96 dpi size, as the product's mapping will before it records it.
 					FieldInfo fieldSize=info.GetType().GetField("FontSize96");
 					float size96=(float)fieldSize.GetValue(info);
-					using(Font font96=new Font(control.Font.FontFamily,size96,control.Font.Style,GraphicsUnit.Point)) {
+					using(Font font96=new Font(fontBefore.FontFamily,size96,fontBefore.Style,GraphicsUnit.Point)) {
 						Font fontMapped=MapFont(font96,family,sizeBody);
 						if(!ReferenceEquals(fontMapped,font96)) {
 							fieldSize.SetValue(info,fontMapped.SizeInPoints);
@@ -206,13 +220,13 @@ namespace UiRefreshTests.TextFit {
 					}
 				}
 				else if(control.Controls.Count>0 || control is ContainerControl || HasOwnFont(control)) {
-					Font fontMapped=MapFont(control.Font,family,sizeBody);
-					if(!ReferenceEquals(fontMapped,control.Font)) {
+					Font fontMapped=MapFont(fontBefore,family,sizeBody);
+					if(!ReferenceEquals(fontMapped,fontBefore)) {
 						control.Font=fontMapped;
 						countChanged++;
 					}
 				}
-				countChanged+=SwapChildren(control,family,sizeBody,dictInfos);
+				countChanged+=SwapChildren(control,family,sizeBody,dictInfos,dictFontsBefore);
 			}
 			return countChanged;
 		}

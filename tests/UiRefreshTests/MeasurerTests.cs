@@ -106,7 +106,8 @@ namespace UiRefreshTests {
 					using(StringFormat stringFormat=TextFitMeasurer.CreateStringFormat(ContentAlignment.TopLeft)) {
 						Size sizeTextPlus=TextFitMeasurer.MeasureLineGdiPlus("Hg",font,stringFormat);
 						Assert.IsFalse(TextFitMeasurer.IsInkPastBoxGdiPlus("Hg",font,sizeTextPlus,stringFormat));
-						Assert.IsTrue(TextFitMeasurer.IsInkPastBoxGdiPlus("Hg",font,new Size(sizeTextPlus.Width/2,sizeTextPlus.Height),stringFormat));
+						//DrawString trims what does not fit the width (StringFormat.Trimming), so only the height can show ink past the box.
+						Assert.IsTrue(TextFitMeasurer.IsInkPastBoxGdiPlus("Hg",font,new Size(sizeTextPlus.Width,sizeTextPlus.Height/2),stringFormat));
 					}
 				}
 			});

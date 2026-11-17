@@ -43,6 +43,9 @@ namespace UiRefreshTests.Scan {
 		public string Assembly="";
 		///<summary>Why the kind was chosen, for the types list.</summary>
 		public string Note="";
+		///<summary>The window's key in the reports and the bounds record: the type's full name, with "@assembly" when two assemblies have a
+		///type of that name (CodeBase and the program each have a MsgBoxCopyPaste).</summary>
+		public string WindowKey="";
 
 		public bool IsUnderLayoutManager {
 			get { return Kind==BuildKind.LayoutManagerWindow || Kind==BuildKind.UserControlAdd || Kind==BuildKind.UserControlAddUnscaled; }
@@ -135,6 +138,11 @@ namespace UiRefreshTests.Scan {
 			foreach(string[] arrayExe in ArrayPlainExes) {
 				Assembly assembly=LoadPlainExe(arrayExe[0],arrayExe[1]);
 				listScanTypes.AddRange(GetScanTypes(assembly,sourceIndex,setAddUnscaled,isProgram:false,isPlain:true));
+			}
+			foreach(IGrouping<string,ScanType> group in listScanTypes.GroupBy(x => x.Type.FullName)) {
+				foreach(ScanType scanType in group) {
+					scanType.WindowKey=group.Count()==1 ? scanType.Type.FullName : scanType.Type.FullName+"@"+scanType.Assembly;
+				}
 			}
 			return listScanTypes.OrderBy(x => x.Assembly,StringComparer.Ordinal).ThenBy(x => x.Type.FullName,StringComparer.Ordinal).ToList();
 		}
@@ -330,7 +338,8 @@ namespace UiRefreshTests.Scan {
 		///a Show.</summary>
 		public static BuiltWindow LoadWithoutShow(FormODBase formODBase,LayoutManagerForms layoutManager) {
 			BuiltWindow builtWindow=new BuiltWindow();
-			builtWindow.ScanType=new ScanType { Type=formODBase.GetType(),Kind=BuildKind.LayoutManagerWindow,Assembly=formODBase.GetType().Assembly.GetName().Name };
+			builtWindow.ScanType=new ScanType { Type=formODBase.GetType(),Kind=BuildKind.LayoutManagerWindow,Assembly=formODBase.GetType().Assembly.GetName().Name,
+				WindowKey=formODBase.GetType().FullName };
 			builtWindow.Form=formODBase;
 			builtWindow.Root=formODBase;
 			builtWindow.LayoutManager=layoutManager;

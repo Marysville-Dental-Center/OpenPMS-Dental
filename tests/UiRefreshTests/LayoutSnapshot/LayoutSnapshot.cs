@@ -99,7 +99,7 @@ namespace UiRefreshTests.LayoutSnapshot {
 						dictRows[control]=row;
 						listRows.Add(row);
 					}
-					string value=match.Groups[4].Value+","+match.Groups[5].Value;
+					string value=match.Groups[3].Value+","+match.Groups[4].Value;
 					switch(match.Groups[2].Value) {
 						case "Location":
 							row.Location=value;

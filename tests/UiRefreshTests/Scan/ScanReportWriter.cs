@@ -40,7 +40,7 @@ namespace UiRefreshTests.Scan {
 				if(result.Reason!="") {
 					note=(note=="" ? "" : note+"; ")+result.Reason;
 				}
-				yield return string.Join("\t",result.ScanType.Assembly,result.ScanType.Type.FullName,result.ScanType.Kind.ToString(),result.Status,
+				yield return string.Join("\t",result.ScanType.Assembly,result.ScanType.WindowKey,result.ScanType.Kind.ToString(),result.Status,
 					result.CountControls.ToString(CultureInfo.InvariantCulture),result.CountMeasured.ToString(CultureInfo.InvariantCulture),note);
 			}
 		}
@@ -138,7 +138,7 @@ namespace UiRefreshTests.Scan {
 				List<TextFitBoundsDifference> listBounds=scanReport.ListBoundsDifferences.Where(x => x.Item1==run).Select(x => x.Item2).ToList();
 				listLines.Add("Bounds differences at 100%: "+listBounds.Count+" in "+listBounds.Select(x => x.Row.Window).Distinct().Count()+" windows ("
 					+string.Join(", ",listBounds.GroupBy(x => x.Kind).OrderBy(x => x.Key).Select(x => x.Key+" "+x.Count()))+")");
-				Dictionary<string,BuildKind> dictKinds=scanReport.ListTypeResults.ToDictionary(x => x.ScanType.Type.FullName,x => x.ScanType.Kind);
+				Dictionary<string,BuildKind> dictKinds=scanReport.ListTypeResults.ToDictionary(x => x.ScanType.WindowKey,x => x.ScanType.Kind);
 				listLines.Add("Bounds differences at 100% by build: "+string.Join(", ",listBounds.GroupBy(x => dictKinds[x.Row.Window]).OrderBy(x => x.Key)
 					.Select(x => x.Key+" "+x.Count()+" in "+x.Select(y => y.Row.Window).Distinct().Count()+" windows")));
 				listLines.Add("Bounds differences at 100% by window (the largest 20): "+string.Join(", ",listBounds.GroupBy(x => ShortType(x.Row.Window))
@@ -146,9 +146,10 @@ namespace UiRefreshTests.Scan {
 			}
 			listLines.Add("");
 			listLines.Add("== Types not built");
-			foreach(ScanTypeResult result in scanReport.ListTypeResults.Where(x => x.Status!="built").OrderBy(x => x.Status).ThenBy(x => x.ScanType.Type.FullName)) {
-				listLines.Add(result.Status+"\t"+result.ScanType.Type.FullName+"\t"+result.Reason);
+			foreach(ScanTypeResult result in scanReport.ListTypeResults.Where(x => x.Status!="built").OrderBy(x => x.Status).ThenBy(x => x.ScanType.WindowKey)) {
+				listLines.Add(result.Status+"\t"+result.ScanType.WindowKey+"\t"+result.Reason);
 			}
+			listLines.Add("not-loadable\tOpenPmsDentalHelper32 (every form)\t"+WindowBuilder.NOTE_HELPER32);
 			return listLines;
 		}
 	}

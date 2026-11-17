@@ -82,6 +82,15 @@ namespace UiRefreshTests.Scan {
 			_fieldDefaultFont.SetValue(null,font);
 			_fieldDefaultFontScaled?.SetValue(null,fontScaled);
 			Font fontExpected=fontScaled??font;
+			//Control keeps the default font it first read (and its GDI handle); those take the new one too.
+			foreach(FieldInfo fieldInfo in typeof(Control).GetFields(BindingFlags.Static|BindingFlags.NonPublic)) {
+				if(fieldInfo.FieldType==typeof(Font)) {
+					fieldInfo.SetValue(null,fontExpected);
+				}
+				else if(fieldInfo.FieldType.Name.Contains("FontHandleWrapper")) {
+					fieldInfo.SetValue(null,null);
+				}
+			}
 			Font fontNow=Control.DefaultFont;
 			if(fontNow.Name!=fontExpected.Name || fontNow.SizeInPoints!=fontExpected.SizeInPoints) {
 				throw new InvalidOperationException("The default font is "+fontNow.Name+" "+fontNow.SizeInPoints+" after setting "+fontExpected.Name+" "
@@ -96,6 +105,17 @@ namespace UiRefreshTests.Scan {
 
 	///<summary>Runs an action on a new STA thread and rethrows what it throws, as it was thrown (an assertion stays an assertion).</summary>
 	public static class StaRunner {
+		///<summary>The first exception WinForms caught in a window procedure on this thread since TakeExceptionInCallback (Application.ThreadException).</summary>
+		[ThreadStatic]
+		public static Exception ExceptionInCallback;
+
+		///<summary>Returns ExceptionInCallback and clears it.</summary>
+		public static Exception TakeExceptionInCallback() {
+			Exception exception=ExceptionInCallback;
+			ExceptionInCallback=null;
+			return exception;
+		}
+
 		public static void Run(Action action) {
 			Run(action,TimeSpan.FromMinutes(10));
 		}
@@ -106,9 +126,15 @@ namespace UiRefreshTests.Scan {
 			Exception exceptionThrown=null;
 			Thread thread=new Thread(() => {
 				try {
-					//An exception in a control's window procedure (a handle some designer code creates) is thrown to the builder, which lists the
-					//type, instead of WinForms showing its "Unhandled exception" dialog, a window the scan must never show.
-					Application.SetUnhandledExceptionMode(UnhandledExceptionMode.ThrowException,true);
+					//An exception in a control's window procedure (a handle some designer code creates, a child shown inside a hidden window) is
+					//kept for the builder, which lists the type, instead of WinForms showing its "Unhandled exception" dialog, a window the scan
+					//must never show, or the exception ending the process from inside the native callback.
+					Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException,true);
+					Application.ThreadException+=(sender,e) => {
+						if(ExceptionInCallback==null) {
+							ExceptionInCallback=e.Exception;
+						}
+					};
 					action();
 				}
 				catch(Exception exception) {
