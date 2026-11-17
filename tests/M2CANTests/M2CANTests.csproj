@@ -3,9 +3,12 @@
        file, the RAMQ suffix on claims, Pay Labs, the confirmation phrase of the Advanced Options, and the 26.1 rule that procedure codes have no
        commas or hyphens (with its Database Maintenance check). Synthetic codes and descriptions only: no licensed code text. Database tests use a
        scratch MariaDB database with a unique name per run, dropped afterwards. Every .cs file under this folder is compiled. -->
-  <ItemGroup>
-    <Reference Include="System.Windows.Forms" />
-  </ItemGroup>
+  <PropertyGroup>
+    <!-- .NET 10 (S3b-5 of docs/specs/net10-plan.md): Windows Forms and WPF from the Windows Desktop framework, in place of the
+         .NET Framework assembly references; it also keeps the Windows Desktop packages out of the restore (S3b-3). -->
+    <UseWindowsForms>true</UseWindowsForms>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\CodeBase\xCodeBase.csproj" />
     <ProjectReference Include="..\..\DataConnectionBase\xDataConnectionBase.csproj" />

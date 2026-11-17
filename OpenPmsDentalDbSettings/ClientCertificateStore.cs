@@ -1457,7 +1457,9 @@ namespace OpenPmsDentalDbSettings {
 		private static RSACryptoServiceProvider GetCapiRsaPrivateKey(X509Certificate2 x509Certificate2) {
 			try {
 				ActionBeforePrivateKeyOpenForTests?.Invoke(x509Certificate2);
-				return x509Certificate2.PrivateKey as RSACryptoServiceProvider;
+				//Through its key provider information, as the .NET Framework's PrivateKey opened it: .NET opens a CAPI key through CNG first (an
+				//RSACng), so its PrivateKey no longer tells the two apart (S3b-5; also SYSLIB0028). The caller owns the object now.
+				return CertificateKeyProvInfo.OpenCapiRsaPrivateKey(x509Certificate2);
 			}
 			catch(Exception ex) when(!IsCriticalException(ex)) {
 				return null;//.NET Framework: "Invalid provider type specified" for a CNG key, NotSupportedException for an ECDSA one.
@@ -1614,7 +1616,11 @@ namespace OpenPmsDentalDbSettings {
 			X509Certificate2Collection x509Certificate2Collection=new X509Certificate2Collection();
 			try {
 				//Never X509KeyStorageFlags.Exportable: the private key cannot be exported from this computer again (owner decision Q2).
-				x509Certificate2Collection.Import(pfxPath,password??"",x509KeyStorageFlags);
+				//X509CertificateLoader in place of Import (SYSLIB0057, S3b-5), without the loader's default limits (Pkcs12LoaderLimits.DangerousNoLimits,
+				//as DirectCertificateImport.ImportCertificates since S3b-3): those drop the storage provider and key name the .pfx names, which decide
+				//where Windows stores the key (the CAPI container the tool's records and DbConnectionSecurityTests expect), and refuse files Import read.
+				x509Certificate2Collection.AddRange(X509CertificateLoader.LoadPkcs12CollectionFromFile(pfxPath,password??"",x509KeyStorageFlags,
+					Pkcs12LoaderLimits.DangerousNoLimits));
 			}
 			catch(CryptographicException) {
 				//The exception text is Windows' own and names no secret, but "wrong password" is what it nearly always means.

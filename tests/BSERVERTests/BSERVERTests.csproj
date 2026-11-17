@@ -4,11 +4,8 @@
        replica). Database tests use scratch databases with synthetic rows on the local MariaDB (names start with bsrvtest_, or the prefix
        BSERVER_DB_PREFIX names). Every .cs file under this folder is compiled. -->
   <PropertyGroup>
-    <!-- .NET 10 ahead of the other test projects (S3b-6 of docs/specs/net10-plan.md, docs/port-notes/S3b-6.md, the row's BSERVERTests): every
-         project it references is .NET 10. It replaces the net48 of tests\Directory.Build.props, so Directory.Build.Net.props gives it the
-         settings of a .NET 10 test project: x64, win-x64, framework-dependent, NLS. The line goes when S3b-5 deletes the shared net48 line.
-         Windows Forms: the restore prunes what the business library's Windows Desktop framework holds (S3b-3). -->
-    <TargetFramework>$(ODTargetFramework)</TargetFramework>
+    <!-- S3b-5 of docs/specs/net10-plan.md: every test project is .NET 10 (tests\Directory.Build.props). Windows Forms: the restore prunes
+         what the business library's Windows Desktop framework holds (S3b-3). -->
     <UseWindowsForms>true</UseWindowsForms>
   </PropertyGroup>
   <ItemGroup>

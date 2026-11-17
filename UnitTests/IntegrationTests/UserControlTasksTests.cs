@@ -19,7 +19,7 @@ namespace UnitTests.IntegrationTests.UserControlTasks_Tests {
 		private TaskList _taskListGrandchild;
 		private OpenPmsDentalBusiness.Task _task;
 		private UserControlTasks _userControlTasksInstance;
-		private PrivateObject _userControlTasksAccessor;
+		private PrivateMembers _userControlTasksAccessor;
 
 		[ClassInitialize]
 		public static void SetupClass(TestContext testContext) {
@@ -45,7 +45,7 @@ namespace UnitTests.IntegrationTests.UserControlTasks_Tests {
 				Assert.Fail("Failed to update current user task list inbox.");//Error updating user.
 			}
 			_userControlTasksInstance=new UserControlTasks();
-			_userControlTasksAccessor=new PrivateObject(_userControlTasksInstance);
+			_userControlTasksAccessor=new PrivateMembers(_userControlTasksInstance);
 			//Artificially set that we are viewing _listTaskListParent.
 			_userControlTasksAccessor.SetField("_listTaskListTreeHistory",new List<TaskList>() { _taskListParent });
 			_userControlTasksAccessor.SetField("_dictTaskLists",new Dictionary<long,TaskList>());
@@ -186,6 +186,65 @@ namespace UnitTests.IntegrationTests.UserControlTasks_Tests {
 			_userControlTasksAccessor.Invoke("RefreshMainLists",parent,DateTime.Today,true);//A full refresh should clear the list of sent signalNums.
 			listTrackedSignalNums=(List<long>)_userControlTasksAccessor.GetField("_listSignalNumsSentTask");
 			Assert.AreEqual(0,listTrackedSignalNums.Count);
+		}
+	}
+
+	///<summary>The private fields and methods of an object, as MSTest's PrivateObject gave them on .NET Framework (MSTest 4 has PrivateObject for
+	///.NET Framework only; S3b-5 of the .NET 10 move).</summary>
+	internal class PrivateMembers {
+		private const BindingFlags FLAGS=BindingFlags.Instance|BindingFlags.Public|BindingFlags.NonPublic;
+		private readonly object _target;
+
+		public PrivateMembers(object target) {
+			_target=target;
+		}
+
+		private FieldInfo Field(string name) {
+			for(Type type=_target.GetType();type!=null;type=type.BaseType) {
+				FieldInfo fieldInfo=type.GetField(name,FLAGS|BindingFlags.DeclaredOnly);
+				if(fieldInfo!=null) {
+					return fieldInfo;
+				}
+			}
+			throw new MissingFieldException(_target.GetType().FullName,name);
+		}
+
+		public object GetField(string name) {
+			return Field(name).GetValue(_target);
+		}
+
+		public void SetField(string name,object value) {
+			Field(name).SetValue(_target,value);
+		}
+
+		///<summary>Calls the method of that name whose parameters take the arguments; an exception it throws is rethrown as it was thrown.</summary>
+		public object Invoke(string name,params object[] args) {
+			for(Type type=_target.GetType();type!=null;type=type.BaseType) {
+				foreach(MethodInfo methodInfo in type.GetMethods(FLAGS|BindingFlags.DeclaredOnly).Where(x => x.Name==name)) {
+					ParameterInfo[] arrayParameters=methodInfo.GetParameters();
+					if(arrayParameters.Length!=args.Length) {
+						continue;
+					}
+					bool isMatch=true;
+					for(int i=0;i<args.Length;i++) {
+						if(args[i]==null ? arrayParameters[i].ParameterType.IsValueType : !arrayParameters[i].ParameterType.IsInstanceOfType(args[i])) {
+							isMatch=false;
+							break;
+						}
+					}
+					if(!isMatch) {
+						continue;
+					}
+					try {
+						return methodInfo.Invoke(_target,args);
+					}
+					catch(TargetInvocationException ex) {
+						System.Runtime.ExceptionServices.ExceptionDispatchInfo.Capture(ex.InnerException).Throw();
+						throw;
+					}
+				}
+			}
+			throw new MissingMethodException(_target.GetType().FullName,name);
 		}
 	}
 }

@@ -61,8 +61,8 @@ How long the build lane waits for another build to finish. Default 15.
 
 .PARAMETER LaneProjects
 With -BuildLane: build only these projects (names as in OpenDental.sln) and what they reference, through the lane's scoped restore
-(-ScopedRestore). While some projects of the solution filter are still .NET Framework, its whole restore fails (NU1201), so the stage 3b
-dry run names OpenPmsDental,xDirect2dWrapper here. Default: the whole solution filter.
+(-ScopedRestore). Default: the whole solution filter, which restores whole since S3b-5 (no .NET 10 project references a .NET
+Framework one any more); a release builds it whole. Naming projects (OpenPmsDental,xDirect2dWrapper) is for a quick dry run.
 
 .PARAMETER TwainDsmZip
 The approved download of the TWAIN Working Group's TWAIN DSM release (dsm_020501.zip). Default: od-tools\downloads\s3b7-twaindsm-20261116\

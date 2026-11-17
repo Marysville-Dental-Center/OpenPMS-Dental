@@ -627,7 +627,7 @@ namespace OpenPmsDental.UI{
 				if(value==_minPerIncr){
 					return;
 				}
-				TimeSpan timeScrollOriginal=TimeSpan.FromHours(vScrollBar1.Value/_heightLine/_rowsPerHr);//also in RowsPerIncr
+				TimeSpan timeScrollOriginal=CodeBase.ODTimeSpan.FromHours(vScrollBar1.Value/_heightLine/_rowsPerHr);//also in RowsPerIncr
 				_minPerIncr=value;
 				_minPerRow=_minPerIncr/RowsPerIncr;
 				_rowsPerHr=60f/_minPerIncr*RowsPerIncr;
@@ -660,7 +660,7 @@ namespace OpenPmsDental.UI{
 					return;
 				}
 				//When we change this, we want to keep the scrolltime the same instead of bouncing around randomly.  Also in MinPerIncr
-				TimeSpan timeScrollOriginal=TimeSpan.FromHours(vScrollBar1.Value/_heightLine/_rowsPerHr);
+				TimeSpan timeScrollOriginal=CodeBase.ODTimeSpan.FromHours(vScrollBar1.Value/_heightLine/_rowsPerHr);
 				//int h=_heightMain-_heightMainVisible+vScrollBar1.LargeChange;		
 				//int j=(int)(_lineH*24*_rowsPerHr)+1;
 				_rowsPerIncr=value;
@@ -708,7 +708,7 @@ namespace OpenPmsDental.UI{
 				//	return;
 				//}
 				//When we change this, we want to keep the scrolltime the same instead of bouncing around randomly.  Also in MinPerIncr and RowsPerIncr
-				TimeSpan timeScrollOriginal=TimeSpan.FromHours(vScrollBar1.Value/_heightLine/_rowsPerHr);
+				TimeSpan timeScrollOriginal=CodeBase.ODTimeSpan.FromHours(vScrollBar1.Value/_heightLine/_rowsPerHr);
 				//int h=_heightMain-_heightMainVisible+vScrollBar1.LargeChange;		
 				//int j=(int)(_lineH*24*_rowsPerHr)+1;
 				_sizeFont96=value;
@@ -2235,7 +2235,7 @@ namespace OpenPmsDental.UI{
 			double totalIncrements=timeSpanIn.TotalHours/base10Increment;//not rounded, this is how many increments since midnight.
 			double truncatedIncrements=Math.Truncate(totalIncrements);//rounded down
 			double totalHours=truncatedIncrements*base10Increment;//for example, 8:10a would be 8.167
-			TimeSpan timeSpanTruncated=TimeSpan.FromHours(totalHours);//but there might be a stray second
+			TimeSpan timeSpanTruncated=CodeBase.ODTimeSpan.FromHours(totalHours);//but there might be a stray second
 			return new TimeSpan(timeSpanTruncated.Hours,timeSpanTruncated.Minutes,0);
 		}
 
@@ -2245,7 +2245,7 @@ namespace OpenPmsDental.UI{
 			double totalIncrements=timeSpanIn.TotalHours/base10Increment;//not rounded, this is how many increments since midnight.
 			double roundedIncrements=Math.Round(totalIncrements);
 			double totalHours=roundedIncrements*base10Increment;//for example, 8:10a would be 8.167
-			TimeSpan timeSpanRounded=TimeSpan.FromHours(totalHours);//but there might be a stray second
+			TimeSpan timeSpanRounded=CodeBase.ODTimeSpan.FromHours(totalHours);//but there might be a stray second
 			return new TimeSpan(timeSpanRounded.Hours,timeSpanRounded.Minutes,0);
 		}
 		#endregion Methods - Public Static
@@ -2344,7 +2344,7 @@ namespace OpenPmsDental.UI{
 			}
 			float yMain=yPos-_heightProvOpHeaders+vScrollBar1.Value;//now it's in bitmapMain coordinates
 			double hours=yMain/_rowsPerHr/_heightLine;//this is hours and decimal minutes
-			TimeSpan timeSpan=TimeSpan.FromHours(hours);
+			TimeSpan timeSpan=CodeBase.ODTimeSpan.FromHours(hours);
 			return timeSpan;
 		}		
 		#endregion Methods - Public Dropping

@@ -20,15 +20,24 @@ namespace OpenPmsDentalServer {
 		public const long DEFAULT_MAX_REQUEST_BODY_SIZE=1073741824;
 
 		///<summary>The path the endpoint answers under on Kestrel (the Windows service) and the test server: {PathBase}/ServiceMain.asmx and
-		///{PathBase}/. Empty for an endpoint at the site root ("/" or "" in the settings). In IIS the application's virtual path is the path base
-		///and this setting is not used.</summary>
+		///{PathBase}/. Empty for an endpoint at the site root ("/" or "" in the settings). Empty in IIS too, whatever the setting says: there the
+		///application's virtual path is the request's path base (empty for an application at the site root), and the setting is not used
+		///(S3b-5; before, an install at an IIS site root had to set it to /).</summary>
 		public PathString PathBase { get; private set; }
 		///<summary>The largest request body the server reads, in bytes; a larger request gets 413. Kestrel's and IIS's limits are set to it too.
 		///</summary>
 		public long MaxRequestBodySize { get; private set; }
 
-		///<summary>Reads the settings. Throws InvalidOperationException, with the setting's name, for a value the server cannot use.</summary>
+		///<summary>Reads the settings of the process: in IIS when the ASP.NET Core Module started it (ServerHost.IsHostedByIis). Throws
+		///InvalidOperationException, with the setting's name, for a value the server cannot use.</summary>
 		public static ServerSettings Read(IConfiguration configuration) {
+			return Read(configuration,ServerHost.IsHostedByIis());
+		}
+
+		///<summary>Reads the settings; isIis: the process runs in IIS, so PathBase stays empty (IIS gives the request its path base). A PathBase
+		///that is not a path is refused either way, so a wrong file fails the same in IIS and in the Windows service. Throws
+		///InvalidOperationException, with the setting's name, for a value the server cannot use.</summary>
+		public static ServerSettings Read(IConfiguration configuration,bool isIis) {
 			IConfigurationSection section=configuration.GetSection(SECTION);
 			ServerSettings serverSettings=new ServerSettings();
 			string pathBase=section["PathBase"];
@@ -40,7 +49,7 @@ namespace OpenPmsDentalServer {
 				throw new InvalidOperationException(SECTION+":PathBase must start with / (for example "+DEFAULT_PATH_BASE+"), or be / for the site root: '"
 					+section["PathBase"]+"'.");
 			}
-			serverSettings.PathBase=new PathString(pathBase);
+			serverSettings.PathBase=isIis ? PathString.Empty : new PathString(pathBase);
 			string maxRequestBodySize=section["MaxRequestBodySize"];
 			if(string.IsNullOrWhiteSpace(maxRequestBodySize)) {
 				serverSettings.MaxRequestBodySize=DEFAULT_MAX_REQUEST_BODY_SIZE;

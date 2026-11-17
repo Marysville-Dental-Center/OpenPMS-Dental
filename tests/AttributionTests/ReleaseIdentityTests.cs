@@ -24,7 +24,7 @@ namespace AttributionTests {
 
 		///<summary>Files of every listed component that ships in the output folder.</summary>
 		private static readonly string[] _arrayShippedFiles=new string[] {
-			"MySqlConnector.dll","Microsoft.Bcl.AsyncInterfaces.dll","Microsoft.Bcl.Cryptography.dll",
+			"MySqlConnector.dll",
 			"Microsoft.Extensions.DependencyInjection.Abstractions.dll","Microsoft.Extensions.Logging.Abstractions.dll","System.Buffers.dll",
 			"System.Diagnostics.DiagnosticSource.dll","System.Formats.Asn1.dll","System.IO.Pipelines.dll","System.Memory.dll",
 			"System.Numerics.Vectors.dll","System.Runtime.CompilerServices.Unsafe.dll","System.Text.Encodings.Web.dll","System.Text.Json.dll",
@@ -38,6 +38,10 @@ namespace AttributionTests {
 			//The WPF tooth chart's 3D helpers (TC-4): Helix Toolkit 3.1.2, the .NET Community Toolkit and System.ComponentModel.Annotations.
 			"HelixToolkit.dll","HelixToolkit.Geometry.dll","HelixToolkit.Maths.dll","HelixToolkit.Wpf.dll","CommunityToolkit.Common.dll",
 			"CommunityToolkit.Diagnostics.dll","CommunityToolkit.Mvvm.dll","System.ComponentModel.Annotations.dll",
+			//The .NET 10 release (S3b-7): the Windows packages of the .NET libraries, Roslyn for the report engine's VB code, and the charts.
+			"Microsoft.CodeAnalysis.dll","Microsoft.CodeAnalysis.VisualBasic.dll","System.DirectoryServices.AccountManagement.dll",
+			"System.DirectoryServices.Protocols.dll","System.IO.Ports.dll","System.Management.dll","System.ServiceProcess.ServiceController.dll",
+			"System.Speech.dll","WinForms.DataVisualization.dll","WinForms.DataVisualization.Utilities.dll",
 		};
 
 		///<summary>Names of the entries Open Dental's list had that are gone: its commercial registration-key terms, the removed API's and the ADA's
@@ -140,9 +144,10 @@ namespace AttributionTests {
 				Assert.IsTrue(licenseText!="" || noticeSection.GetField("License").Contains("https://") || noticeSection.GetField("License")=="Public domain"
 					|| noticeSection.Title=="Hunspell en_US dictionary",noticeSection.Title+" has no license text and no address.");
 				LicenseEntry licenseEntry=listLicenseEntries.Single(x => x.Name==noticeSection.Title);
-				StringAssert.Contains(licenseEntry.Text,noticeSection.GetField("Copyright"));
+				//GetField joins a field's continuation lines with a space, while the entry keeps the notices file's line breaks: compare both unwrapped.
+				StringAssert.Contains(Unwrap(licenseEntry.Text),noticeSection.GetField("Copyright"));
 				if(licenseText!="") {
-					StringAssert.Contains(licenseEntry.Text,licenseText);
+					StringAssert.Contains(Unwrap(licenseEntry.Text),Unwrap(licenseText));
 				}
 			}
 			//Each project text kept from Open Dental's list belongs to a listed component.
@@ -350,11 +355,19 @@ namespace AttributionTests {
 			string readme=ReadRepoFile("README.md");
 			foreach(string text in new[] {
 				"## Installing in an office","MariaDB Server","**10.11**","sql_mode=","default-storage-engine=MyISAM","max_allowed_packet=40M",
-				"at least 40 MB",".NET Framework 4.8","Visual C++ 2015-2022 Redistributable, x86","vc_redist.x86.exe","WebView2 Runtime, x86",
-				"(db/README.md)","db/init/new-database.sql","(docs/release-process.md)","C:\\Program Files (x86)\\Open PMS - Dental\\",
-				"(docs/adoption-runbook.md)" })
+				"at least 40 MB","Windows 11, 64-bit","No .NET to install","Visual C++ 2015-2022 Redistributable, x64","vc_redist.x64.exe",
+				"(db/README.md)","db/init/new-database.sql","(docs/release-process.md)","C:\\Program Files\\Open PMS - Dental\\","TWAINDSM.dll",
+				"**Release | x64**","(docs/adoption-runbook.md)" })
 			{
 				StringAssert.Contains(readme,text);
+			}
+			//Version 0.0, the .NET Framework 4.8 x86 build, keeps its own paragraph: its prerequisites and install folder are named only there.
+			string paragraphV00=readme.Split(new[] { "\r\n","\n" },StringSplitOptions.None).Single(x => x.StartsWith("Version 0.0, the .NET Framework 4.8 build"));
+			foreach(string text in new[] {
+				".NET Framework 4.8","Visual C++ 2015-2022 Redistributable, x86","vc_redist.x86.exe","WebView2 Runtime, x86",
+				"C:\\Program Files (x86)\\Open PMS - Dental\\" })
+			{
+				StringAssert.Contains(paragraphV00,text);
 			}
 		}
 

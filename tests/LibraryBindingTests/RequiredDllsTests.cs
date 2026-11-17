@@ -24,8 +24,9 @@ namespace LibraryBindingTests {
 			//S2-2 of the .NET 10 move: the three Microsoft packages that were on 8.0.x, and Microsoft.Bcl.AsyncInterfaces with them, at 10.0.15.
 			new[] { "Microsoft.Bcl.AsyncInterfaces.dll","10.0.0.15","10.0.1526.53008","10.0.15" },
 			new[] { "Microsoft.Bcl.Cryptography.dll","10.0.0.10","10.0.1026.32716","10.0.10" },
-			new[] { "Microsoft.Extensions.DependencyInjection.Abstractions.dll","10.0.0.15","10.0.1526.53008","10.0.15" },
-			new[] { "Microsoft.Extensions.Logging.Abstractions.dll","10.0.0.15","10.0.1526.53008","10.0.15" },
+			//The net10.0 builds of the two packages that stay packages on .NET 10 carry the assembly version 10.0.0.0 (lib\net462's: 10.0.0.15; S3b-5).
+			new[] { "Microsoft.Extensions.DependencyInjection.Abstractions.dll","10.0.0.0","10.0.1526.53008","10.0.15" },
+			new[] { "Microsoft.Extensions.Logging.Abstractions.dll","10.0.0.0","10.0.1526.53008","10.0.15" },
 			new[] { "System.Buffers.dll","4.0.5.0","4.600.125.16908","4.6.1" },
 			new[] { "System.Diagnostics.DiagnosticSource.dll","10.0.0.15","10.0.1526.53008","10.0.15" },
 			new[] { "System.Formats.Asn1.dll","10.0.0.13","10.0.1326.50504","10.0.13" },
@@ -63,12 +64,32 @@ namespace LibraryBindingTests {
 			"System.Text.Encoding.CodePages.dll","System.Threading.Channels.dll","fo-dicom.core.dll","fo-dicom.Imaging.Desktop.dll",
 		};
 
+		///<summary>On .NET 10 (S3b-5) two of the support packages are still packages, at the versions of the library updates: the
+		///Microsoft.Extensions abstractions, which a desktop project's shared framework does not hold. The others are part of the shared framework
+		///(System.Memory, System.Buffers and the like), so NuGet prunes them from every lock file and no build copies a file of them; Microsoft.Bcl.*
+		///are not needed on .NET (their types are in the framework, and the .NET builds of the libraries do not reference them). Each of those is in
+		///no lock file and among no library files, and either the shared framework holds it or no library file references it.</summary>
 		[TestMethod]
-		public void SupportAssemblies_AreTheVersionsOfTheLibraryUpdates() {
+		public void SupportAssemblies_AreTheVersionsOfTheLibraryUpdates_OrTheSharedFrameworks() {
 			List<string> listProblems=new List<string>();
+			string[] arrayStillPackages=new[] { "Microsoft.Extensions.DependencyInjection.Abstractions","Microsoft.Extensions.Logging.Abstractions" };
 			foreach(string[] arrayRow in _arraySupportAssemblies) {
 				string packageId=Path.GetFileNameWithoutExtension(arrayRow[0]);
 				string versionLocked;
+				if(!arrayStillPackages.Contains(packageId)) {
+					if(Libraries.LockedVersions.TryGetValue(packageId,out versionLocked)) {
+						listProblems.Add("The lock files name "+packageId+" "+versionLocked+": on .NET 10 it is pruned (the shared framework holds it).");
+					}
+					if(Libraries.Files.ContainsKey(arrayRow[0])) {
+						listProblems.Add(arrayRow[0]+" is among the library files.");
+					}
+					List<string> listReferencing=Libraries.Assemblies.Values.Where(x => x.ListReferences.Any(y => y.Name.Equals(packageId,StringComparison.OrdinalIgnoreCase)))
+						.Select(x => x.FileName).ToList();
+					if(!SharedFramework.Has(packageId) && listReferencing.Count>0) {
+						listProblems.Add(string.Join(", ",listReferencing)+" reference "+packageId+", which neither a package nor the shared framework brings.");
+					}
+					continue;
+				}
 				if(!Libraries.LockedVersions.TryGetValue(packageId,out versionLocked) || versionLocked!=arrayRow[3]) {
 					listProblems.Add("The lock files name "+packageId+" "+(versionLocked??"nowhere")+", not "+arrayRow[3]+".");
 					continue;
@@ -91,13 +112,13 @@ namespace LibraryBindingTests {
 
 		[TestMethod]
 		public void SystemValueTuple_ComesFromTheFramework() {
-			//.NET Framework 4.7 and later have System.ValueTuple in the global assembly cache and bind every 4.0.x reference to it, so a copy in
-			//"Required dlls" (4.0.3.0 used to sit there, referenced by nothing) is never used and must not come back.
+			//The framework has System.ValueTuple (.NET Framework 4.7 and later in the global assembly cache, .NET in its shared framework), so a copy
+			//in "Required dlls" (4.0.3.0 used to sit there, referenced by nothing) is never used and must not come back.
 			Assert.IsFalse(File.Exists(Path.Combine(RepoPaths.RequiredDlls,"System.ValueTuple.dll")),"Required dlls\\System.ValueTuple.dll is back.");
-			Assert.IsFalse(Libraries.Files.ContainsKey("System.ValueTuple.dll"),"No package brings a System.ValueTuple.dll for .NET Framework 4.8.");
+			Assert.IsFalse(Libraries.Files.ContainsKey("System.ValueTuple.dll"),"No package brings a System.ValueTuple.dll.");
 			//Until S3a-8 of the .NET 10 move this also loaded System.ValueTuple at every version a library references and asserted that it came
-			//from the global assembly cache. .NET has no global assembly cache (Assembly.GlobalAssemblyCache is always false there), so that
-			//assertion would fail on .NET for the right files; the two checks above keep the rule: no copy of our own, from either source.
+			//from the global assembly cache, which .NET does not have; on .NET 10 the shared framework holds it (S3b-5).
+			Assert.IsTrue(SharedFramework.Has("System.ValueTuple"),"System.ValueTuple.dll of the shared framework.");
 		}
 
 		///<summary>Since S2-4 of the .NET 10 move "Required dlls" holds only the files that have no NuGet package: none of a package the lock files
@@ -108,8 +129,9 @@ namespace LibraryBindingTests {
 			CollectionAssert.AreEquivalent(_arrayRequiredDllsLeft.Select(x => x.ToLowerInvariant()).ToArray(),
 				RequiredDlls.Files.Keys.Select(x => x.ToLowerInvariant()).ToArray(),"Required dlls: "+string.Join(", ",RequiredDlls.Files.Keys.OrderBy(x => x)));
 			List<string> listPackageFiles=PackageFiles.MappedIds.SelectMany(x => PackageFiles.GetFileNames(x,"PackageFiles")).ToList();
-			//The 30 files of S2-1, S2-2 and S2-3 that S2-4 took out of Required dlls, and the 8 of Helix Toolkit's closure (TC-4).
-			Assert.AreEqual(38,listPackageFiles.Count,"The files the packages supply: "+string.Join(", ",listPackageFiles));
+			//The files of the packages on .NET 10 (S3b-5): 37, every one the asset an exe's or test's win-x64 target copies (until S3b-5 the 38 .NET
+			//Framework files: the 30 of S2-1, S2-2 and S2-3 that S2-4 took out of Required dlls and the 8 of Helix Toolkit's closure, TC-4).
+			Assert.AreEqual(37,listPackageFiles.Count,"The files the packages supply: "+string.Join(", ",listPackageFiles));
 			foreach(string fileName in listPackageFiles.Concat(_arrayDeletedWithoutPackage)) {
 				Assert.IsFalse(File.Exists(Path.Combine(RepoPaths.RequiredDlls,fileName)),"Required dlls\\"+fileName+" is back.");
 			}
@@ -156,6 +178,11 @@ namespace LibraryBindingTests {
 				string pathAssets=ProjectFile.Load(pathProject).GetProperty("ProjectAssetsFile");
 				if(!File.Exists(pathAssets)) {
 					listNotRestored.Add(RepoPaths.Relative(pathAssets));
+					continue;
+				}
+				//On .NET only an exe or a test project copies package files into its output, from its runtime identifier's target (win-x64); a
+				//library's build copies none, and its assets file has no such target (S3b-5).
+				if(!File.ReadAllText(pathAssets).Contains("/win-x64\"")) {
 					continue;
 				}
 				foreach(KeyValuePair<string,HashSet<string>> pairAssets in NuGetFiles.ReadCopiedAssets(pathAssets)) {
@@ -220,11 +247,15 @@ namespace LibraryBindingTests {
 				return;
 			}
 			int countFiles=0;
+			List<string> listNotCopied=new List<string>();
 			HashSet<string> hashSetFolders=new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 			foreach(KeyValuePair<string,string[]> pair in dictMapped.OrderBy(x => x.Key,StringComparer.OrdinalIgnoreCase)) {
 				HashSet<string> hashSetCopied;
 				if(!dictCopied.TryGetValue(pair.Key,out hashSetCopied)) {
-					listProblems.Add(pair.Key+" ("+dictWhere[pair.Key]+") is in no project's assets file: build again, so the restore writes them.");
+					//On .NET 10 a package that only libraries name, and that every exe and test gets from its shared framework instead (the Windows
+					//Desktop runtime holds System.Security.Cryptography.ProtectedData, for one), is in no win-x64 target: no build copies a file of
+					//it (S3b-5). It is still mapped and checked against its package above.
+					listNotCopied.Add(pair.Key);
 					continue;
 				}
 				foreach(string asset in pair.Value.Where(x => !hashSetCopied.Contains(x))) {
@@ -239,19 +270,33 @@ namespace LibraryBindingTests {
 			Console.WriteLine(dictPackages.Count+" packages in the lock files; "+countFiles+" mapped files, each an asset the build copies, from "
 				+string.Join(", ",hashSetFolders.OrderBy(x => x))+".");
 			Assert.AreEqual(0,listProblems.Count,string.Join("\r\n",listProblems));
+			//Most mapped packages reach an exe's or a test's folder; the few that do not are named.
+			Assert.IsTrue(listNotCopied.Count<dictMapped.Count/2,"Mapped packages no build copies: "+string.Join(", ",listNotCopied));
 		}
 
-		///<summary>Each third-party file the release ships that a NuGet package supplies (the 30 that "Required dlls" held until S2-4, and the 8 of
-		///Helix Toolkit's closure, TC-4) is the file of
-		///the package at the version the lock files name: OpenPmsDental's lock file names that version, the program's restore copies that very asset
-		///of it (tools\Build-Release.ps1 compares each staged file with it: Test-PackageFiles), and the built program folder holds it byte for byte.
-		///The other third-party files of the allow-list are the ones "Required dlls" keeps (the Direct Project; SharpDX and Tao left with TC-9b) or
-		///are built here.</summary>
+		///<summary>Each third-party file the .NET 10 release ships that a NuGet package's restore assets supply is the file of the package at the
+		///version the lock files name: OpenPmsDental's lock file names that version, the program's restore copies that very asset of it
+		///(tools\Build-Release.ps1 compares each staged file with it: Test-PackageFiles), and the built program folder holds it byte for byte.
+		///The list is pinned name by name: on .NET 10 the Microsoft.Bcl and System.* support packages of the net48 list are pruned (the shared
+		///framework has them, and the files it shares with a package ship as Build-Release's "runtime" files), and Roslyn (the report engine's VB
+		///code), the System.* Windows packages and WinForms.DataVisualization are new. The three WebView2 managed files come from the WebView2
+		///package's own build files (lib_manual), not its restore assets, so PackageOf maps none of them: Build-Release checks them through
+		///$PackageBuildFiles (Test-PackageFiles), not this test. The other third-party files of the allow-list are the ones "Required dlls" keeps
+		///(the Direct Project; SharpDX and Tao left with TC-9b) or are built here.</summary>
 		[TestMethod]
 		public void ShippedPackageFiles_AreTheFilesOfTheLockFilesVersions() {
 			List<string> listThird=BuildRelease.ListFiles().Where(x => x.Key=="third").Select(x => x.Value).ToList();
 			List<string> listFromPackages=listThird.Where(x => Libraries.PackageOf(x)!=null).ToList();
-			Assert.AreEqual(38,listFromPackages.Count,string.Join(", ",listFromPackages));
+			CollectionAssert.AreEquivalent(new[] {
+				"BouncyCastle.Cryptography.dll","CommunityToolkit.Common.dll","CommunityToolkit.Diagnostics.dll","CommunityToolkit.Mvvm.dll",
+				"Google.Apis.dll","Google.Apis.Auth.dll","Google.Apis.Core.dll","Google.Apis.Gmail.v1.dll","HelixToolkit.dll","HelixToolkit.Geometry.dll",
+				"HelixToolkit.Maths.dll","HelixToolkit.Wpf.dll","MailKit.dll","Microsoft.Extensions.DependencyInjection.Abstractions.dll",
+				"Microsoft.Extensions.Logging.Abstractions.dll","Microsoft.CodeAnalysis.dll","Microsoft.CodeAnalysis.VisualBasic.dll",
+				"Microsoft.Identity.Client.dll","Microsoft.IdentityModel.Abstractions.dll","MimeKit.dll","MySqlConnector.dll","Newtonsoft.Json.dll",
+				"Renci.SshNet.dll","System.DirectoryServices.AccountManagement.dll","System.DirectoryServices.Protocols.dll","System.IO.Ports.dll",
+				"System.Management.dll","System.ServiceProcess.ServiceController.dll","System.Speech.dll","WebView2Loader.dll",
+				"WinForms.DataVisualization.dll","WinForms.DataVisualization.Utilities.dll" },
+				listFromPackages.ToArray(),string.Join(", ",listFromPackages));
 			CollectionAssert.AreEquivalent(new[] { "Health.Direct.Agent.dll","Health.Direct.Common.dll","Health.Direct.ResolverPlugins.dll" },
 				listThird.Where(x => RequiredDlls.Files.ContainsKey(x)).ToArray(),"The shipped files of Required dlls.");
 			string folderProgram=RepoPaths.Combine("OpenPmsDental");
@@ -291,7 +336,7 @@ namespace LibraryBindingTests {
 			}
 			Assert.AreEqual(0,listProblems.Count,string.Join("\r\n",listProblems));
 			if(!isBuilt) {
-				BuildOutput.NotBuilt(@"OpenPmsDental\bin\Debug is not built, so its copies are not compared. Build OpenDental.Local.slnf (Debug|x86) first.");
+				BuildOutput.NotBuilt(@"OpenPmsDental\bin\Debug is not built, so its copies are not compared. Build OpenDental.Local.slnf (Debug|x64) first.");
 			}
 		}
 
@@ -300,15 +345,19 @@ namespace LibraryBindingTests {
 			//A package a later package adds and does not map: every check that reads the projects throws instead of leaving its files out.
 			AssertThrows<InvalidOperationException>(() => PackageFiles.GetAssets("Fixture.Unmapped","x\\packages.lock.json"),"names the package Fixture.Unmapped");
 			CollectionAssert.AreEqual(new[] { "Renci.SshNet.dll" },PackageFiles.GetFileNames("ssh.net","x"),"NuGet's ids ignore case.");
-			//S2-3's Microsoft.Web.WebView2 brings files whose names are not its id: its three assemblies and the native loader of the win-x86 target
-			//(PackagesOfTheLockFiles_MapToTheFilesTheBuildCopies checks each against the assets the build copies from it).
-			CollectionAssert.AreEqual(new[] { "lib/net45/Microsoft.Web.WebView2.Core.dll","lib/net45/Microsoft.Web.WebView2.WinForms.dll",
-				"lib/net45/Microsoft.Web.WebView2.Wpf.dll","runtimes/win-x86/native/WebView2Loader.dll" },PackageFiles.GetAssets("Microsoft.Web.WebView2","x"));
+			//Microsoft.Web.WebView2 brings a file whose name is not its id: on .NET 10 the native loader of the win-x64 target (its three assemblies
+			//come from its build files' lib_manual references; S3b-5). PackagesOfTheLockFiles_MapToTheFilesTheBuildCopies checks it against the
+			//assets the build copies from it.
+			CollectionAssert.AreEqual(new[] { "runtimes/win-x64/native/WebView2Loader.dll" },PackageFiles.GetAssets("Microsoft.Web.WebView2","x"));
+			CollectionAssert.AreEqual(new[] { "runtimes/win/lib/net10.0/System.Management.dll" },PackageFiles.GetAssets("System.Management","x"),
+				"The Windows implementation, not the lib folder's PlatformNotSupported stub.");
 			CollectionAssert.AreEqual(new string[0],PackageFiles.GetAssets("System.ValueTuple","x"));
 			//A mapping to no file, to a file of another folder, or to a file "Required dlls" holds too fails the same way.
 			AssertThrows<InvalidOperationException>(() => PackageFiles.CheckMapping("Fixture.Package",new string[0],"x"),"to no file");
 			AssertThrows<InvalidOperationException>(() => PackageFiles.CheckMapping("Fixture.Package",new[] { "lib/net45/Fixture.dll","ref/net45/Fixture.dll" },"x"),
-				"ref/net45/Fixture.dll, which is no file of a lib or runtimes/win-x86/native folder");
+				"ref/net45/Fixture.dll, which is no file of a lib, runtimes/win/lib or runtimes/win-x64/native folder");
+			AssertThrows<InvalidOperationException>(() => PackageFiles.CheckMapping("Fixture.Package",new[] { "runtimes/win-x86/native/Fixture.dll" },"x"),
+				"runtimes/win-x86/native/Fixture.dll, which is no file of");
 			AssertThrows<InvalidOperationException>(() => PackageFiles.CheckMapping("Fixture.Package",new[] { "lib/net45/Health.Direct.Common.dll" },"x"),
 				"Health.Direct.Common.dll, which \"Required dlls\" holds too");
 			//A package entry of a lock file without its resolved version is not skipped either.

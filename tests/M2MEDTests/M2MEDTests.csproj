@@ -3,6 +3,11 @@
        (v26_1-lists-problem-merge-keep), the Allergy Setup search (v26_1-setup-allergy-search) and the database maintenance check for allergies
        with a missing definition (v26_1-tools-dbm-missing-allergydefs). Database tests use scratch MariaDB databases on this computer with unique
        names and synthetic rows only. Every .cs file under this folder is compiled. -->
+  <PropertyGroup>
+    <!-- .NET 10 (S3b-5 of docs/specs/net10-plan.md): Windows Forms from the Windows Desktop framework, in place of the
+         .NET Framework assembly references; it also keeps the Windows Desktop packages out of the restore (S3b-3). -->
+    <UseWindowsForms>true</UseWindowsForms>
+  </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\CodeBase\xCodeBase.csproj" />
     <ProjectReference Include="..\..\DataConnectionBase\xDataConnectionBase.csproj" />

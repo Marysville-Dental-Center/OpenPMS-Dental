@@ -5,6 +5,11 @@
        call. No test opens a QuickBooks session or creates a real QBFC object; every helper a test starts is a copy of the helper in this
        folder, ended and deleted by the test. S3a-14 added the Schick CDR, Topaz and Guru modules against fakes of their vendor interfaces and the message pump between requests; S3a-14n the program's in-process paths of Schick CDR, QuickBooks Desktop and Guru against the same fakes. Every .cs file under this
        folder is compiled. -->
+  <PropertyGroup>
+    <!-- .NET 10 (S3b-5 of docs/specs/net10-plan.md): Windows Forms from the Windows Desktop framework, in place of the
+         .NET Framework assembly references; it also keeps the Windows Desktop packages out of the restore (S3b-3). -->
+    <UseWindowsForms>true</UseWindowsForms>
+  </PropertyGroup>
   <ItemGroup>
     <!--
       QuickBooks Desktop's QBFC 10 interop ("Required dlls"), not embedded here: QuickBooksModule.cs (linked below) is compiled against its
@@ -25,11 +30,11 @@
       <HintPath>..\..\Required dlls\Interop.CDRDicom.dll</HintPath>
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
-    <!-- The C# runtime binder: CADI's calls are late-bound (dynamic) in CadiModule.cs, CADIInProcess.cs and the tests' copy of today's code
-         (N64-A3). -->
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows.Forms" />
+  </ItemGroup>
+  <ItemGroup>
+    <!-- Writes the any-CPU copy of this assembly into the helper's folder (Support\HelperCopy.cs), whose test module the 32-bit helper loads.
+         The NuGet package, from the offline package folder (nuget.config), at the version of Directory.Packages.props. -->
+    <PackageReference Include="Mono.Cecil" />
   </ItemGroup>
   <PropertyGroup>
     <!-- Guru\GuruModule.cs (linked below) builds MedVisorInterface.dll's structure with unsafe code (S3a-14). -->
@@ -111,7 +116,8 @@
   <ItemGroup>
     <!-- Helper32Client, the program's side. -->
     <ProjectReference Include="..\..\CodeBase\xCodeBase.csproj" />
-    <!-- The helper: OpenPmsDentalHelper32.exe and its .exe.config land in this folder, where each test copies it under a name of its own. -->
+    <!-- The helper, built before the tests. The tests start it from the program output's Helper32\ folder, where it has its own x86 runtime
+         (Support\HelperCopy.cs, S3b-5): a copy of the self-contained apphost in this folder could not start. -->
     <ProjectReference Include="..\..\OpenPmsDentalHelper32\OpenPmsDentalHelper32.csproj" />
     <!-- The program processes of the tests that end a program (a TestProbeHost child that starts its own helper). -->
     <ProjectReference Include="..\TestProbeHost\TestProbeHost.csproj" />

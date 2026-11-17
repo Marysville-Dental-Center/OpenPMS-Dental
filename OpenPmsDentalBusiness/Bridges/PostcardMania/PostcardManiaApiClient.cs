@@ -343,7 +343,7 @@ namespace OpenPmsDentalBusiness.PostcardMania {
 				if((int)response.StatusCode!=429 || isRetriedByVendorHttp || attempt>=MaxRateLimitTries) {
 					return response;
 				}
-				TimeSpan delay=GetRetryAfter(response)??TimeSpan.FromSeconds(Math.Pow(2,attempt-1));
+				TimeSpan delay=GetRetryAfter(response)??CodeBase.ODTimeSpan.FromSeconds(Math.Pow(2,attempt-1));
 				if(delay>MaxRetryAfter) {
 					return response;
 				}
@@ -352,7 +352,7 @@ namespace OpenPmsDentalBusiness.PostcardMania {
 					msJitter=_random.NextDouble()*250;
 				}
 				response.Dispose();
-				await _funcDelay(delay+TimeSpan.FromMilliseconds(msJitter),cancellationToken).ConfigureAwait(false);
+				await _funcDelay(delay+CodeBase.ODTimeSpan.FromMilliseconds(msJitter),cancellationToken).ConfigureAwait(false);
 			}
 		}
 

@@ -231,11 +231,11 @@ namespace OpenPmsDental {
 		}
 
 		private void Run() {
-			Thread.Sleep(TimeSpan.FromSeconds(GraceSeconds));
+			Thread.Sleep(CodeBase.ODTimeSpan.FromSeconds(GraceSeconds));
 			//Still running: the closing did not end the process.
 			ODException.SwallowAnyException(() => ActionLog(GetReport()));
 			Thread threadKill=new Thread(() => {
-				Thread.Sleep(TimeSpan.FromSeconds(KillSeconds));
+				Thread.Sleep(CodeBase.ODTimeSpan.FromSeconds(KillSeconds));
 				ODException.SwallowAnyException(() => ActionLog("Environment.Exit did not end the process within "+KillSeconds+" seconds either. "
 					+"The process is ended now."));
 				ActionTerminate();

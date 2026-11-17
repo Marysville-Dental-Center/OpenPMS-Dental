@@ -3,6 +3,11 @@
        and 26.1 database documents, the 272 renumbering, permissions and the security tree, the 25.4 and 26.1 preferences, the Display Fields
        lists, the Employee Titles definition setup, and the Seed26_1 rows. Database tests use scratch MariaDB databases with unique names and
        synthetic rows only. Every .cs file under this folder is compiled. -->
+  <PropertyGroup>
+    <!-- .NET 10 (S3b-5 of docs/specs/net10-plan.md): Windows Forms from the Windows Desktop framework, in place of the
+         .NET Framework assembly references; it also keeps the Windows Desktop packages out of the restore (S3b-3). -->
+    <UseWindowsForms>true</UseWindowsForms>
+  </PropertyGroup>
   <ItemGroup>
     <!-- Enum names and numbers from Open Dental's published 25.4 and 26.1 database documents (names and numbers only). -->
     <Content Include="Data\OdEnums26_1Changes.txt">

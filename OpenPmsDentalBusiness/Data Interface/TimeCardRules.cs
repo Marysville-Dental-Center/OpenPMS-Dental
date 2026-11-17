@@ -953,7 +953,7 @@ namespace OpenPmsDentalBusiness{
 				//this tracks each OT entry as it occurs, in the order it occurred, so that we can properly account for negative adjustments later.
 				List<ClinicNumTimeSpan> listClinicNumsTimeSpansOTEntries=new List<ClinicNumTimeSpan>();
 				for(int k=0;k<listClinicNumTimeSpans.Count;k++) {
-					TimeSpan timeSpanPrevTotal=TimeSpan.FromHours(timeSpanWeeklyHours.TotalHours);//deep copy of timeSpan.
+					TimeSpan timeSpanPrevTotal=CodeBase.ODTimeSpan.FromHours(timeSpanWeeklyHours.TotalHours);//deep copy of timeSpan.
 					timeSpanWeeklyHours=timeSpanWeeklyHours.Add(listClinicNumTimeSpans[k].TimeSpan);//add new timespan to running total.
 					if(listClinicNumTimeSpans[k].TimeSpan<TimeSpan.Zero) { //negative span
 						TimeSpan timeSpanNeg=-listClinicNumTimeSpans[k].TimeSpan;//store as positive balance to simplify comparisons below.
@@ -991,7 +991,7 @@ namespace OpenPmsDentalBusiness{
 					if(timeSpanWeeklyHours.TotalHours>40) {//this clock event put us into overtime.
 						ClinicNumTimeSpan clinicNumTimeSpan=new ClinicNumTimeSpan();
 						clinicNumTimeSpan.ClinicNum=listClinicNumTimeSpans[k].ClinicNum;
-						clinicNumTimeSpan.TimeSpan=TimeSpan.FromHours(timeSpanWeeklyHours.TotalHours-Math.Max(40,timeSpanPrevTotal.TotalHours));
+						clinicNumTimeSpan.TimeSpan=CodeBase.ODTimeSpan.FromHours(timeSpanWeeklyHours.TotalHours-Math.Max(40,timeSpanPrevTotal.TotalHours));
 						if(clinicNumTimeSpan.TimeSpan>TimeSpan.Zero) {
 							listClinicNumsTimeSpansOTEntries.Add(clinicNumTimeSpan);
 						}
@@ -1000,7 +1000,7 @@ namespace OpenPmsDentalBusiness{
 				//======ADD OT ADJUSTMENTS FOR ONE WEEK AFTER ALL CALCULATIONS FOR THAT WEEK HAVE BEEN COMPLETED======
 				List<long> listClinicNums=listClinicNumsTimeSpansOTEntries.Select(x=>x.ClinicNum).Distinct().ToList();
 				for(int c=0;c<listClinicNums.Count;c++) {
-					TimeSpan timeSpanForClinic=TimeSpan.FromHours(listClinicNumsTimeSpansOTEntries.FindAll(x=>x.ClinicNum==listClinicNums[c]).Sum(x=>x.TimeSpan.TotalHours));
+					TimeSpan timeSpanForClinic=CodeBase.ODTimeSpan.FromHours(listClinicNumsTimeSpansOTEntries.FindAll(x=>x.ClinicNum==listClinicNums[c]).Sum(x=>x.TimeSpan.TotalHours));
 					if(timeSpanForClinic<=TimeSpan.Zero) {
 						continue;
 					}

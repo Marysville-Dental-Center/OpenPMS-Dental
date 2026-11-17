@@ -34,10 +34,13 @@ namespace OpenPmsDentalHelper32 {
 				throw new ArgumentException("A test module cannot take the place of the helper's own module.");
 			}
 			string folder=AppDomain.CurrentDomain.BaseDirectory;
-			if(!File.Exists(Path.Combine(folder,assemblyName+".dll"))) {
+			string path=Path.Combine(folder,assemblyName+".dll");
+			if(!File.Exists(path)) {
 				throw new FileNotFoundException("No test assembly "+assemblyName+".dll in the helper's folder.");
 			}
-			Assembly assembly=Assembly.Load(new AssemblyName(assemblyName));
+			//By its path in the helper's folder: on .NET the default load context knows only the assemblies of the helper's .deps.json, so a load
+			//by name finds no other file of the folder, as the .NET Framework's probing of the application base did (S3b-5).
+			Assembly assembly=Assembly.LoadFrom(path);
 			Type type=assembly.GetType(typeName,true);
 			MethodInfo methodHandle=type.GetMethod("Handle",BindingFlags.Public|BindingFlags.Static,null,
 				new[] { typeof(string),typeof(string[]),typeof(byte[]),typeof(byte[]).MakeByRefType() },null);

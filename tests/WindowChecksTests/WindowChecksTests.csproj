@@ -7,15 +7,17 @@
        OPMS_WINDOW_CHECKS_OUT. The program's own output folder (OpenPmsDental\bin\Debug) is the one started or loaded: the in-process checks load
        it in a process of their own whose base is that folder and whose configuration file is the exe's own (TestProbeHost; an AppDomain before
        S3a-8b of the .NET 10 move). Every .cs file under this folder is compiled. -->
+  <PropertyGroup>
+    <!-- .NET 10 (S3b-5 of docs/specs/net10-plan.md): Windows Forms and WPF from the Windows Desktop framework, in place of the
+         .NET Framework assembly references; it also keeps the Windows Desktop packages out of the restore (S3b-3). -->
+    <UseWindowsForms>true</UseWindowsForms>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+  <PropertyGroup>
+    <!-- Its own [AssemblyInitialize] registers the code pages (tests\Shared\TestCodePages.cs; S3b-5). -->
+    <ODOwnAssemblyInitialize>true</ODOwnAssemblyInitialize>
+  </PropertyGroup>
   <ItemGroup>
-    <Reference Include="PresentationCore" />
-    <Reference Include="PresentationFramework" />
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xaml" />
-    <Reference Include="UIAutomationClient" />
-    <Reference Include="UIAutomationTypes" />
-    <Reference Include="WindowsBase" />
-    <Reference Include="WindowsFormsIntegration" />
     <!-- Reads a built assembly's identity and attributes without loading it (AssemblyProbe; S3a-8b of the .NET 10 move: .NET has no
          reflection-only load). The NuGet package, from the offline package folder (nuget.config), at the version of
          Directory.Packages.props. -->

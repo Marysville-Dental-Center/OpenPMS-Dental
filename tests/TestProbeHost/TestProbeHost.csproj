@@ -9,16 +9,13 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>TestProbeHost</RootNamespace>
     <AssemblyName>TestProbeHost</AssemblyName>
-    <!-- .NET 10 ahead of the other test projects (S3b-6 of docs/specs/net10-plan.md, docs/port-notes/S3b-6.md): MiddleTierMockTests needs it,
-         and it references no project. It replaces the net48 of tests\Directory.Build.props, so Directory.Build.Net.props gives it the settings
-         of a .NET 10 test project: x64, win-x64, framework-dependent (an apphost that runs on the machine-wide runtime, so ProbeProcess can copy
-         it under a name of its own beside TestProbeHost.dll and its .runtimeconfig.json; a self-contained exe copied without its runtime
-         cannot start, S3b-0 item 7), NLS. The line goes when S3b-5 deletes the shared net48 line. The win-x86 and win-x64 runtime identifiers
-         of the .NET Framework build (TC-10) went with it: the .NET 10 build has the one runtime identifier, win-x64. -->
-    <TargetFramework>$(ODTargetFramework)</TargetFramework>
+    <!-- A framework-dependent test exe (Directory.Build.Net.props): an apphost that runs on the machine-wide runtime, so ProbeProcess can copy
+         it under a name of its own beside TestProbeHost.dll, .runtimeconfig.json and .deps.json (S3b-6, S3b-5). -->
     <!-- The Windows Desktop framework in TestProbeHost.runtimeconfig.json: the handlers it loads (MiddleTierMockTests' HostSeamProbe, through
          the business library) need Windows Forms and WPF. -->
     <UseWindowsForms>true</UseWindowsForms>
+    <!-- No test assembly: no shared code-page set-up (tests/Directory.Build.props). -->
+    <ODTestCodePages>false</ODTestCodePages>
   </PropertyGroup>
   <ItemGroup>
     <!-- No test framework: tests\Directory.Build.props gives every project under tests\ the three MSTest 4 packages. -->

@@ -47,6 +47,7 @@ namespace MiddleTierMockTests {
 		///library set-up, then the scratch database and its user.</summary>
 		[AssemblyInitialize]
 		public static void AssemblyInitialize(TestContext testContext) {
+			OpenPmsDentalTests.TestCodePages.Register();//the code pages first, as the program registers them (tests\Shared\TestCodePages.cs)
 			ODBuild.IsUnitTest=true;//Causes FormFriendlyException to throw rather than displaying a MessageBox.
 			ODInitialize.Initialize();
 			PdfSharpSetup.Init();

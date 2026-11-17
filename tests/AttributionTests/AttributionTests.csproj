@@ -1,9 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <!-- Tests for decoupling Phase 4 attribution: README.md, NOTICE and the About box (docs/decoupling-plan.md, Phase 4), and the branding
        (branding/README.md, BrandingTests.cs). -->
-  <ItemGroup>
-    <Reference Include="System.Windows.Forms" />
-  </ItemGroup>
+  <PropertyGroup>
+    <!-- .NET 10 (S3b-5 of docs/specs/net10-plan.md): Windows Forms and WPF from the Windows Desktop framework, in place of the
+         .NET Framework assembly references; it also keeps the Windows Desktop packages out of the restore (S3b-3). -->
+    <UseWindowsForms>true</UseWindowsForms>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\CodeBase\xCodeBase.csproj" />
     <ProjectReference Include="..\..\OpenPmsDental\OpenPmsDental.csproj" />

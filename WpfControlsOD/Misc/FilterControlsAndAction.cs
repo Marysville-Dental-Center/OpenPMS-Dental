@@ -167,7 +167,7 @@ but understand that RefreshFromDb will happen on the main thread in this case, w
 
 		///<summary>Default 1 second. The number of milliseconds to wait after the last user input on one of the specified filter controls to wait before calling ActionFilter.</summary>
 		public void SetInterval(int intervalMs){
-			_dispatcherTimer.Interval=TimeSpan.FromMilliseconds(intervalMs);
+			_dispatcherTimer.Interval=CodeBase.ODTimeSpan.FromMilliseconds(intervalMs);
 		}
 
 		///<summary>0 by default. Allowed 0 to 10. Rarely used. If this is set, it prevents refresh when sum of the number of characters in all textboxes is less than this value. For example, when searching for a patient, it would be silly to run a query when only "s" had been entered. Setting this to 3 makes it wait until "smi" is entered, resulting in less useless slow queries. 3 is a typical reasonable number. This is used in FrmPatientSelect(...) along with the pref PatientSelectSearchMinChars. If user backspaces until there are 0 characters, then normally a query would still run and would get a huge list of everything. By setting MinChars, we can prevent that behavior. But a backspace will result in a stale list unless you manually refresh with a button. So a Refresh button is recommended if user wants to bypass MinChars for some reason.</summary>

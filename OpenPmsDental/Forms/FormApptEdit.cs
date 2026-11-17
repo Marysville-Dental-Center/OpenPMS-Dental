@@ -149,7 +149,7 @@ namespace OpenPmsDental{
 			_isOnLoad=true;
 			_timerLockDelay=new Timer();
 			_timerLockDelay.Tick+=timerLockDelay_Tick;
-			_timerLockDelay.Interval=Math.Max((int)(TimeSpan.FromSeconds(PrefC.GetDouble(PrefName.FormClickDelay,doUseEnUSFormat: true)).TotalMilliseconds),1);
+			_timerLockDelay.Interval=Math.Max((int)(CodeBase.ODTimeSpan.FromSeconds(PrefC.GetDouble(PrefName.FormClickDelay,doUseEnUSFormat: true)).TotalMilliseconds),1);
 			_timerLockDelay.Start();
 			_loadData=ApptEdit.GetLoadData(_appointment,IsNew);
 			_listProceduresForAppointment=_loadData.ListProceduresForAppointment;
@@ -2497,7 +2497,7 @@ namespace OpenPmsDental{
 				&& _appointment.Pattern.Length!=contrApptProvSlider.Pattern.Length
 				&& !Security.IsAuthorized(EnumPermType.AppointmentResize,suppressMessage:true))
 			{
-				TimeSpan timeSpan=TimeSpan.FromMinutes(_appointment.Pattern.Length*5);
+				TimeSpan timeSpan=CodeBase.ODTimeSpan.FromMinutes(_appointment.Pattern.Length*5);
 				string message=Lans.g("Security","Not authorized for")+" "+GroupPermissions.GetDesc(EnumPermType.AppointmentResize)
 					+"\r\n"+Lan.g(this,"The appointment length needs to be")+" "+timeSpan.ToString("h':'mm");
 				MsgBox.Show(message);

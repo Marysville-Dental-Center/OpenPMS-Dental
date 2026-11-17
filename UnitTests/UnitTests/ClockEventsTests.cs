@@ -1156,7 +1156,8 @@ namespace UnitTests {
 			Assert.AreEqual(rateRatioOTExpected.TimeSpanRate3OTHours,PIn.Time(tableTimeCardManage.Rows[0]["rate3OTHours"].ToString()));
 		}
 
-		///<summary>Helper class that executes all of the math for manually calculating time card rates and OT ratios.</summary>
+		///<summary>Helper class that executes all of the math for manually calculating time card rates and OT ratios. Its times are rounded to the
+		///millisecond as the program rounds them (CodeBase.ODTimeSpan, the .NET Framework's rule; S3b-5).</summary>
 		private class RateRatioOT {
 			public double TotalHours;
 			public double Rate1Hours;
@@ -1169,13 +1170,13 @@ namespace UnitTests {
 			public double Rate3OTHours;
 			public double Rate3Ratio;
 
-			public TimeSpan TimeSpanTotalHours => TimeSpan.FromHours(TotalHours);
-			public TimeSpan TimeSpanRate1Hours => TimeSpan.FromHours(Rate1Hours);
-			public TimeSpan TimeSpanRate1OTHours => TimeSpan.FromHours(Rate1OTHours);
-			public TimeSpan TimeSpanRate2Hours => TimeSpan.FromHours(Rate2Hours);
-			public TimeSpan TimeSpanRate2OTHours => TimeSpan.FromHours(Rate2OTHours);
-			public TimeSpan TimeSpanRate3Hours => TimeSpan.FromHours(Rate3Hours);
-			public TimeSpan TimeSpanRate3OTHours => TimeSpan.FromHours(Rate3OTHours);
+			public TimeSpan TimeSpanTotalHours => CodeBase.ODTimeSpan.FromHours(TotalHours);
+			public TimeSpan TimeSpanRate1Hours => CodeBase.ODTimeSpan.FromHours(Rate1Hours);
+			public TimeSpan TimeSpanRate1OTHours => CodeBase.ODTimeSpan.FromHours(Rate1OTHours);
+			public TimeSpan TimeSpanRate2Hours => CodeBase.ODTimeSpan.FromHours(Rate2Hours);
+			public TimeSpan TimeSpanRate2OTHours => CodeBase.ODTimeSpan.FromHours(Rate2OTHours);
+			public TimeSpan TimeSpanRate3Hours => CodeBase.ODTimeSpan.FromHours(Rate3Hours);
+			public TimeSpan TimeSpanRate3OTHours => CodeBase.ODTimeSpan.FromHours(Rate3OTHours);
 
 			public RateRatioOT(double rate1,double rate2,double rate3) {
 				TotalHours=rate1 + rate2 + rate3;

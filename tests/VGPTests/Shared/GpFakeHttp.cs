@@ -231,6 +231,7 @@ namespace VGPTests {
 		///<summary>Lans.g only skips its database lookup for en-US, and notes show amounts in the current culture.</summary>
 		[AssemblyInitialize]
 		public static void AssemblyInitialize(TestContext testContext) {
+			OpenPmsDentalTests.TestCodePages.Register();//the code pages first, as the program registers them (tests\Shared\TestCodePages.cs)
 			CultureInfo cultureInfo=new CultureInfo("en-US");
 			CultureInfo.DefaultThreadCurrentCulture=cultureInfo;
 			CultureInfo.DefaultThreadCurrentUICulture=cultureInfo;

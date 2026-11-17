@@ -165,6 +165,7 @@ namespace BACCTTests {
 
 		[AssemblyInitialize]
 		public static void AssemblyInitialize(TestContext testContext) {
+			OpenPmsDentalTests.TestCodePages.Register();//the code pages first, as the program registers them (tests\Shared\TestCodePages.cs)
 			SkipReason=TestDb.GetSkipReason();
 		}
 

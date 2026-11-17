@@ -42,21 +42,10 @@
   </Target>
 
   <!--
-    A .NET Framework test project with no app.config of its own builds with tests\BindingRedirects.config, the programs'
-    binding redirects. Reference resolution follows them: without them it looks for the exact older version
-    a library was built against (System.Memory 4.0.1.2 for MySqlConnector, say), skips the newer copy in
-    "Required dlls" and takes an old one from another folder on its search path (the test platform folder
-    of Visual Studio, while MSTest v1 came from there, until S4-1). With them the test's output
-    gets the files of "Required dlls", and its generated .dll.config redirects to them
-    (tests\LibraryBindingTests).
-
-    Binding redirects mean nothing on .NET, so a project on net10.0-windows gets no AppConfig from here (stage 3b, S3b-1,
-    docs/port-notes/S3b-1.md). The rule stays for .NET Framework while any test project still targets it: S3b-5, which retargets
-    the test projects, deletes it together with tests\BindingRedirects.config and LibraryBindingTests' checks of it.
+    The .NET Framework test projects' shared binding-redirect config (tests\BindingRedirects.config, the AppConfig of a test project
+    without an app.config of its own) went with S3b-5 of the .NET 10 move: every test project is .NET 10, where binding redirects mean
+    nothing and the runtime binds the versions each .deps.json names (tests\LibraryBindingTests checks those against the lock files).
   -->
-  <PropertyGroup Condition="'$(TargetFrameworkIdentifier)' == '.NETFramework' and '$(AppConfig)' == '' and $(MSBuildProjectName.EndsWith('Tests')) and !Exists('$(MSBuildProjectDirectory)\app.config')">
-    <AppConfig>$(MSBuildThisFileDirectory)tests\BindingRedirects.config</AppConfig>
-  </PropertyGroup>
 
   <!--
     System.ValueTuple comes from the .NET Framework: 4.7 and later bind every 4.0.x reference to the copy in the
@@ -67,7 +56,7 @@
     fail. The suggestion is dropped, so the framework's own binding stays in charge.
 
     .NET Framework only (stage 3b, S3b-1): a .NET project generates no binding redirects. The target goes once no project
-    targets .NET Framework any more (S3b-5 and S3b-6, the last to retarget).
+    targets .NET Framework any more: since S3b-5 only tests\TopazStandIn does, on purpose (a library, which generates no redirects).
   -->
   <Target Name="ODDropValueTupleRedirect" AfterTargets="ResolveAssemblyReferences" BeforeTargets="GenerateBindingRedirects"
     Condition="'$(TargetFrameworkIdentifier)' == '.NETFramework'">

@@ -393,7 +393,7 @@ namespace CodeBase.VendorDirect {
 				jitter=_random.NextDouble();
 			}
 			double ms=msBase+msBase*0.5*jitter;
-			return TimeSpan.FromMilliseconds(Math.Min(ms,_options.MaxRetryWait.TotalMilliseconds));
+			return CodeBase.ODTimeSpan.FromMilliseconds(Math.Min(ms,_options.MaxRetryWait.TotalMilliseconds));
 		}
 	}
 }

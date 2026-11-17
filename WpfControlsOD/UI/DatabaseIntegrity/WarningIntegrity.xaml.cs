@@ -80,7 +80,7 @@ Jordan is the only one allowed to edit this file.
 				return;
 			}
 			_timerTriangle=new DispatcherTimer();
-			_timerTriangle.Interval=TimeSpan.FromMilliseconds(interval);
+			_timerTriangle.Interval=CodeBase.ODTimeSpan.FromMilliseconds(interval);
 			_timerTriangle.IsEnabled=true;
 			_timerTriangle.Tick+=TimerTriangle_Tick;
 		}

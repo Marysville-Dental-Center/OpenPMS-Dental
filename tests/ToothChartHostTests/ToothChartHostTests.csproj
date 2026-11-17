@@ -11,6 +11,16 @@
        and drawn off screen, as tests\ToothChartImageTests does. Every .cs file under this folder is compiled.
        The program carries every library these tests use; the libraries the tests compile against are named as well, because the test projects
        turn the SDK's transitive project references off (tests\Directory.Build.props), as S3aM1Tests names them. -->
+  <PropertyGroup>
+    <!-- .NET 10 (S3b-5 of docs/specs/net10-plan.md): Windows Forms and WPF from the Windows Desktop framework, in place of the
+         .NET Framework assembly references; it also keeps the Windows Desktop packages out of the restore (S3b-3). -->
+    <UseWindowsForms>true</UseWindowsForms>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+  <PropertyGroup>
+    <!-- Its own [AssemblyInitialize] registers the code pages (tests\Shared\TestCodePages.cs; S3b-5). -->
+    <ODOwnAssemblyInitialize>true</ODOwnAssemblyInitialize>
+  </PropertyGroup>
   <ItemGroup>
     <!-- The image tests' comparer, PNG writer and STA runner (namespace ToothChartImageTests), so the host pictures are compared with the same
          tolerance and written the same way. -->
@@ -23,14 +33,6 @@
     <Compile Include="..\ToothChartImageTests\Support\StaRunner.cs">
       <Link>Shared\StaRunner.cs</Link>
     </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Include="PresentationCore" />
-    <Reference Include="PresentationFramework" />
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xaml" />
-    <Reference Include="WindowsBase" />
-    <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
     <!-- The program: SheetPrinting.GetToothChartHelper, DashToothChart, FormSheetDefEdit, FormToothChartingBig, FormPerioGraphical and

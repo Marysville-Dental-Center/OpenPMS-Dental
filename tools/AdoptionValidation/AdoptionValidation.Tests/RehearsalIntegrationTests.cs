@@ -971,7 +971,11 @@ namespace AdoptionValidation.Tests {
 		[TestMethod]
 		public void RunbookDryRun_PassesThroughAForwardedPort_WithTheRunbookCommands() {
 			SkipIfNeeded();
-			string tools=AppDomain.CurrentDomain.BaseDirectory;
+			//The tools run from AdoptionValidation's own output folder (tools\AdoptionValidation\bin\<configuration>\), where its self-contained
+			//runtime is: the copies of the self-contained exes in this test's folder cannot start (S3b-0 item 7; S3b-3's handoff, S3b-5).
+			string folderTests=AppDomain.CurrentDomain.BaseDirectory.TrimEnd('\\');
+			string tools=Path.GetFullPath(Path.Combine(folderTests,"..","..","..","bin",Path.GetFileName(folderTests)))+"\\";
+			Assert.IsTrue(File.Exists(Path.Combine(tools,"AdoptionValidation.exe")),"AdoptionValidation is not built: "+tools);
 			string script=Path.Combine(tools,"Invoke-RunbookDryRun.ps1");
 			for(DirectoryInfo dir=new DirectoryInfo(tools);!File.Exists(script) && dir!=null;dir=dir.Parent) {
 				script=Path.Combine(dir.FullName,"tools","AdoptionValidation","Invoke-RunbookDryRun.ps1");

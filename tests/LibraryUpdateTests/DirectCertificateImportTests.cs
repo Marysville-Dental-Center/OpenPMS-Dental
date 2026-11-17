@@ -1253,14 +1253,16 @@ namespace LibraryUpdateTests {
 				>textQuestion.IndexOf("directCertificateResult.ListDetails.Select(x => x.DescribeShort())",StringComparison.Ordinal),"Then the store's.");
 			Assert.IsFalse(textQuestion.ToLowerInvariant().Contains("older"));
 			StringAssert.Contains(textBusiness,"if(EmailMessages.CertStoreLocation==StoreLocation.LocalMachine) {\n\t\t\t\tx509KeyStorageFlags|=X509KeyStorageFlags.MachineKeySet;");
-			StringAssert.Contains(textBusiness,"x509Certificate2Collection.Import(byteArrayFile,password??\"\",X509KeyStorageFlags.EphemeralKeySet);");
+			//Since S3b-3 the imports go through ImportCertificates (X509CertificateLoader on .NET 10, SYSLIB0057), with the same arguments (S3b-5).
+			StringAssert.Contains(textBusiness,"ImportCertificates(x509Certificate2Collection,byteArrayFile,password??\"\",X509KeyStorageFlags.EphemeralKeySet);");
 			//The trust anchor's DER and PEM paths read with EphemeralKeySet: a key in the file is never written anywhere.
-			StringAssert.Contains(textBusiness,"x509Certificate2Collection.Import(byteArrayFile,\"\",X509KeyStorageFlags.EphemeralKeySet);");
-			StringAssert.Contains(textBusiness,"x509Certificate2Collection.Import(listPem[i],\"\",X509KeyStorageFlags.EphemeralKeySet);");
+			StringAssert.Contains(textBusiness,"ImportCertificates(x509Certificate2Collection,byteArrayFile,\"\",X509KeyStorageFlags.EphemeralKeySet);");
+			StringAssert.Contains(textBusiness,"ImportCertificates(x509Certificate2Collection,listPem[i],\"\",X509KeyStorageFlags.EphemeralKeySet);");
 			//No import with the default key flags (third fix round, item 8): one argument, a password and no flags, or DefaultKeySet. The check
 			//finds each of those in a sample, and none in the business layer's four imports.
 			List<string> listImportsDefault=GetImportsWithDefaultKeyFlags(textBusiness,out int countImports);
-			Assert.AreEqual(4,countImports,"The private file's check and import, the anchor's DER and PEM reads.");
+			Assert.AreEqual(5,countImports,"The private file's check and import, the anchor's DER and PEM reads, and ImportCertificates' own Import of "
+				+"the formats X509CertificateLoader has no method for (with the caller's flags).");
 			CollectionAssert.AreEqual(new List<string>(),listImportsDefault,"No import with the default key flags.");
 			Assert.IsFalse(textBusiness.Contains("DefaultKeySet"));
 			string textSamples="x509Certificate2Collection.Import(byteArrayFile);\nx509Certificate2Collection.Import(byteArrayFile,password??\"\");\n"
@@ -1315,7 +1317,8 @@ namespace LibraryUpdateTests {
 		///flags), or flags that name DefaultKeySet. countImports: every Import(...) call found.</summary>
 		private static List<string> GetImportsWithDefaultKeyFlags(string text,out int countImports) {
 			List<string> listImports=new List<string>();
-			MatchCollection matchCollection=Regex.Matches(text,@"\.Import\(([^;]*)\);");
+			//X509Certificate2Collection.Import, and DirectCertificateImport.ImportCertificates with the collection as its first argument (S3b-3).
+			MatchCollection matchCollection=Regex.Matches(text,@"(?:\.Import\(|ImportCertificates\(x509Certificate2Collection,)([^;]*)\);");
 			countImports=matchCollection.Count;
 			foreach(Match match in matchCollection) {
 				string[] arrayArguments=match.Groups[1].Value.Split(',');
@@ -1423,7 +1426,7 @@ namespace LibraryUpdateTests {
 				//A CAPI key first: .NET Framework's GetRSAPrivateKey gives it as an RSACng (a .pfx without a CNG provider, as WritePfxSharedKey writes).
 				RSACryptoServiceProvider rsaCryptoServiceProviderCapi=null;
 				try {
-					rsaCryptoServiceProviderCapi=x509Certificate2.PrivateKey as RSACryptoServiceProvider;
+					rsaCryptoServiceProviderCapi=CodeBase.CertificateKeyProvInfo.OpenCapiRsaPrivateKey(x509Certificate2);//as the .NET Framework's PrivateKey gave it (S3b-5)
 				}
 				catch(CryptographicException) {
 					//A CNG key.

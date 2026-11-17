@@ -1392,7 +1392,9 @@ namespace OpenPmsDentalBusiness {
 		private static RSACryptoServiceProvider GetCapiRsaPrivateKey(X509Certificate2 x509Certificate2) {
 			try {
 				ActionBeforePrivateKeyOpenForTests?.Invoke(x509Certificate2);
-				return x509Certificate2.PrivateKey as RSACryptoServiceProvider;
+				//Through its key provider information, as the .NET Framework's PrivateKey opened it: .NET opens a CAPI key through CNG first (an
+				//RSACng), so its PrivateKey no longer tells the two apart (S3b-5; also SYSLIB0028). The caller owns the object now.
+				return CertificateKeyProvInfo.OpenCapiRsaPrivateKey(x509Certificate2);
 			}
 			catch(Exception ex) when(!IsCriticalException(ex)) {
 				return null;//.NET Framework: "Invalid provider type specified" for a CNG key, NotSupportedException for an ECDSA one.

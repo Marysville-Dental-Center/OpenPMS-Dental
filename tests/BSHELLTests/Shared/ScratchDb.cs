@@ -25,6 +25,7 @@ namespace BSHELLTests {
 
 		[AssemblyInitialize]
 		public static void AssemblyInitialize(TestContext testContext) {
+			OpenPmsDentalTests.TestCodePages.Register();//the code pages first, as the program registers them (tests\Shared\TestCodePages.cs)
 			//Lans.g returns the English text without touching the database only in en-US.
 			Thread.CurrentThread.CurrentCulture=new CultureInfo("en-US");
 			Thread.CurrentThread.CurrentUICulture=new CultureInfo("en-US");

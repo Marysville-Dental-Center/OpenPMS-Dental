@@ -286,7 +286,7 @@ namespace OpenPmsDental {
 			if(hrMin.Length > 1) {
 				min=hrMin[1];
 			}
-			timeSpan=TimeSpan.FromHours(PIn.Double(hr))+TimeSpan.FromMinutes(PIn.Double(min));
+			timeSpan=CodeBase.ODTimeSpan.FromHours(PIn.Double(hr))+CodeBase.ODTimeSpan.FromMinutes(PIn.Double(min));
 			if(isAfterPM && timeSpan.Hours < 12) {
 				timeSpan=timeSpan+TimeSpan.FromHours(12);
 			}

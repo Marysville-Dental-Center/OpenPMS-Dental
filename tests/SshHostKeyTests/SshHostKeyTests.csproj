@@ -4,6 +4,11 @@
        refusals, accepting and removing keys, their audit entries, the Security Admin checks), the migration step on scratch databases, and the
        wiring of every SSH path. Database tests use scratch MariaDB databases named test_fussh_* with synthetic rows only; host keys are generated
        for each run with BouncyCastle. No test reaches the internet. Every .cs file under this folder is compiled. -->
+  <PropertyGroup>
+    <!-- .NET 10 (S3b-5 of docs/specs/net10-plan.md): Windows Forms from the Windows Desktop framework, in place of the
+         .NET Framework assembly references; it also keeps the Windows Desktop packages out of the restore (S3b-3). -->
+    <UseWindowsForms>true</UseWindowsForms>
+  </PropertyGroup>
   <ItemGroup>
     <!-- BouncyCastle (the tests generate host keys with it, and the fake SSH server does its key exchange with it; SSH.NET uses it itself) and
          SSH.NET come as packages through OpenPmsDentalStorage, below, and MySqlConnector (the scratch databases) through the projects below. -->

@@ -256,7 +256,7 @@ namespace OpenPmsDentalBusiness {
 				return TimeEstimateConcept.TotalHours;
 			}
 			set {
-				TimeEstimateConcept=TimeSpan.FromHours(value);
+				TimeEstimateConcept=CodeBase.ODTimeSpan.FromHours(value);
 			}
 		}
 		
@@ -267,7 +267,7 @@ namespace OpenPmsDentalBusiness {
 				return TimeEstimateWriteup.TotalHours;
 			}
 			set {
-				TimeEstimateWriteup=TimeSpan.FromHours(value);
+				TimeEstimateWriteup=CodeBase.ODTimeSpan.FromHours(value);
 			}
 		}
 		
@@ -278,7 +278,7 @@ namespace OpenPmsDentalBusiness {
 				return TimeEstimateDevelopment.TotalHours;
 			}
 			set {
-				TimeEstimateDevelopment=TimeSpan.FromHours(value);
+				TimeEstimateDevelopment=CodeBase.ODTimeSpan.FromHours(value);
 			}
 		}
 		
@@ -289,7 +289,7 @@ namespace OpenPmsDentalBusiness {
 				return TimeEstimateReview.TotalHours;
 			}
 			set {
-				TimeEstimateReview=TimeSpan.FromHours(value);
+				TimeEstimateReview=CodeBase.ODTimeSpan.FromHours(value);
 			}
 		}
 		
@@ -316,7 +316,7 @@ namespace OpenPmsDentalBusiness {
 					return TimeTesting.TotalHours;
 				}
 				set {
-					TimeTesting=TimeSpan.FromHours(value);
+					TimeTesting=CodeBase.ODTimeSpan.FromHours(value);
 				}
 		}
 		

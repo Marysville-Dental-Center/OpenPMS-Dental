@@ -4,16 +4,17 @@
 // clipboard would: the program's JSON, a block that starts with the serialized-object GUID (an object that the WinForms data object's own
 // GetData deserializes), and oversize or garbage blocks. It is read directly and wrapped by a WinForms or WPF DataObject, as the paste's
 // Clipboard.GetDataObject wraps another program's data. Never the system clipboard; nothing is shown. The proofs that a block bites use
-// .NET Framework's WinForms GetData, which deserializes it; on .NET 10 (stage 3b) that route no longer deserializes, and the proofs change.
+// .NET Framework's WinForms GetData, which deserialized it; on .NET 10 (stage 3b) that route no longer deserializes, and the proofs check the
+// block with .NET's own reader of the format instead (S3b-5).
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
 using System.Runtime.Serialization;
-using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenPmsDental;
@@ -59,11 +60,25 @@ namespace S3aM1Tests {
 		public void PrivateOleDataObject_ASerializedObjectBlock_IsNeverDeserialized() {
 			M2Support.RunSta(() => {
 				byte[] byteArrayWitness=SerializedObjectBlock(new DeserializationWitness());
-				//Proof that the block bites: the WinForms data object's own GetData, the route the paste took before, deserializes it.
+				//The block is the serialized witness: .NET's own reader of the format (System.Formats.Nrbf) reads the witness's class from it.
+				using(MemoryStream memoryStream=new MemoryStream(byteArrayWitness,16,byteArrayWitness.Length-16)) {
+					System.Formats.Nrbf.SerializationRecord serializationRecord=System.Formats.Nrbf.NrbfDecoder.Decode(memoryStream);
+					Assert.AreEqual(typeof(DeserializationWitness).FullName,serializationRecord.TypeName.FullName);
+					Assert.AreEqual(typeof(DeserializationWitness).Assembly.FullName,serializationRecord.TypeName.AssemblyName.FullName);
+				}
+				//On .NET Framework the WinForms data object's own GetData, the route the paste took before, deserialized it: the proof that the block
+				//bites (S3a-FU2). On .NET 10 (stage 3b) that route has no BinaryFormatter and deserializes nothing either, whatever it gives back.
 				DeserializationWitness.CountDeserialized=0;
 				System.Windows.Forms.DataObject dataObjectProof=new System.Windows.Forms.DataObject(new OleDataObjectPrivate(byteArrayWitness));
-				Assert.IsInstanceOfType(dataObjectProof.GetData(NodeTypeAndKeyClipboard.Format,false),typeof(DeserializationWitness));
-				Assert.AreEqual(1,DeserializationWitness.CountDeserialized,"The old route deserializes the block.");
+				object dataOldRoute=null;
+				try {
+					dataOldRoute=dataObjectProof.GetData(NodeTypeAndKeyClipboard.Format,false);
+				}
+				catch(Exception) {
+					//Refused: nothing deserialized.
+				}
+				Assert.IsNotInstanceOfType(dataOldRoute,typeof(DeserializationWitness),"The old route on .NET 10.");
+				Assert.AreEqual(0,DeserializationWitness.CountDeserialized,"The old route on .NET 10 deserializes nothing.");
 				//The paste's read, through WinForms and WPF wrappers and directly: rejected, and never deserialized.
 				DeserializationWitness.CountDeserialized=0;
 				Assert.IsNull(NodeTypeAndKeyClipboard.GetData(new System.Windows.Forms.DataObject(new OleDataObjectPrivate(byteArrayWitness)),
@@ -143,12 +158,45 @@ namespace S3aM1Tests {
 		}
 
 		///<summary>The memory block that the WinForms data object writes for an object under a custom format: the GUID, then the BinaryFormatter's
-		///bytes of the object.</summary>
+		///bytes of the object (the .NET Remoting Binary Format, MS-NRBF). .NET 10 has no BinaryFormatter (it throws PlatformNotSupportedException,
+		///and SYSLIB0011 is an error), so the bytes are written here record by record, as the .NET Framework's BinaryFormatter wrote them for the
+		///two kinds of object these tests use (S3b-5): a string (SerializationHeaderRecord, BinaryObjectString, MessageEnd) and an object of a
+		///class without instance fields (SerializationHeaderRecord, BinaryLibrary with the assembly's full name, ClassWithMembersAndTypes with no
+		///members, MessageEnd); https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-nrbf.</summary>
 		private static byte[] SerializedObjectBlock(object obj) {
-			using(MemoryStream memoryStream=new MemoryStream()) {
-				byte[] byteArrayGuid=NodeTypeAndKeyClipboard.GuidSerializedObject.ToByteArray();
-				memoryStream.Write(byteArrayGuid,0,byteArrayGuid.Length);
-				new BinaryFormatter().Serialize(memoryStream,obj);
+			using(MemoryStream memoryStream=new MemoryStream())
+			using(BinaryWriter binaryWriter=new BinaryWriter(memoryStream,new UTF8Encoding(false))) {
+				binaryWriter.Write(NodeTypeAndKeyClipboard.GuidSerializedObject.ToByteArray());
+				//SerializationHeaderRecord: RootId 1, HeaderId -1, version 1.0.
+				binaryWriter.Write((byte)0x00);
+				binaryWriter.Write(1);
+				binaryWriter.Write(-1);
+				binaryWriter.Write(1);
+				binaryWriter.Write(0);
+				if(obj is string text) {
+					//BinaryObjectString: ObjectId 1, the value as a LengthPrefixedString (BinaryWriter.Write(string) writes the same 7-bit length).
+					binaryWriter.Write((byte)0x06);
+					binaryWriter.Write(1);
+					binaryWriter.Write(text);
+				}
+				else {
+					Type type=obj.GetType();
+					Assert.AreEqual(0,type.GetFields(BindingFlags.Instance|BindingFlags.Public|BindingFlags.NonPublic).Length,
+						type.Name+": only a class without instance fields is written here.");
+					//BinaryLibrary: LibraryId 2, the assembly's full name.
+					binaryWriter.Write((byte)0x0C);
+					binaryWriter.Write(2);
+					binaryWriter.Write(type.Assembly.FullName);
+					//ClassWithMembersAndTypes: ObjectId 1, the type's full name, no members, LibraryId 2.
+					binaryWriter.Write((byte)0x05);
+					binaryWriter.Write(1);
+					binaryWriter.Write(type.FullName);
+					binaryWriter.Write(0);
+					binaryWriter.Write(2);
+				}
+				//MessageEnd.
+				binaryWriter.Write((byte)0x0B);
+				binaryWriter.Flush();
 				return memoryStream.ToArray();
 			}
 		}

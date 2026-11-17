@@ -42,6 +42,44 @@ namespace MiddleTierHostTests {
 				{ "MiddleTier:MaxRequestBodySize","1GB" } })));
 		}
 
+		///<summary>In IIS the request's path base is the application's virtual path, empty for an application at a site root, so the configured
+		///PathBase is not used there (S3b-5; S3b-6's merge note: a site-root install had to set it to /): a site-root request reaches the endpoint
+		///with the default setting, and a request under the default path base is not found there. A wrong value is refused in IIS too.</summary>
+		[TestMethod]
+		public void InIis_ThePathBaseSettingIsNotUsed_AndTheSiteRootWorks() {
+			ServerSettings serverSettingsIis=ServerSettings.Read(Configuration(new Dictionary<string,string>()),true);
+			Assert.IsFalse(serverSettingsIis.PathBase.HasValue,"In IIS the request's own path base counts.");
+			Assert.IsFalse(ServerSettings.Read(Configuration(new Dictionary<string,string> { { "MiddleTier:PathBase","/Clinic2" } }),true)
+				.PathBase.HasValue);
+			Assert.AreEqual("/OpenDentalServer",ServerSettings.Read(Configuration(new Dictionary<string,string>()),false).PathBase.Value,
+				"The Windows service matches the setting.");
+			Assert.ThrowsExactly<InvalidOperationException>(() => ServerSettings.Read(Configuration(new Dictionary<string,string> {
+				{ "MiddleTier:PathBase","Clinic2" } }),true));
+			string contentRoot=Path.GetTempPath();
+			//IIS at the site root: empty request path base. GET, so a matched path gives 405 without a body or a database; not matched gives 404.
+			Assert.AreEqual(405,Send(new MiddleTierEndpoint(serverSettingsIis,contentRoot),"","/ServiceMain.asmx"));
+			Assert.AreEqual(405,Send(new MiddleTierEndpoint(serverSettingsIis,contentRoot),"","/"));
+			Assert.AreEqual(404,Send(new MiddleTierEndpoint(serverSettingsIis,contentRoot),"","/OpenDentalServer/ServiceMain.asmx"));
+			//IIS under an application path: IIS gives it as the request's path base.
+			Assert.AreEqual(405,Send(new MiddleTierEndpoint(serverSettingsIis,contentRoot),"/OpenDentalServer","/ServiceMain.asmx"));
+			//The same site-root request on the Windows service with the default setting is not the endpoint's.
+			ServerSettings serverSettingsService=ServerSettings.Read(Configuration(new Dictionary<string,string>()),false);
+			Assert.AreEqual(404,Send(new MiddleTierEndpoint(serverSettingsService,contentRoot),"","/ServiceMain.asmx"));
+			Assert.AreEqual(405,Send(new MiddleTierEndpoint(serverSettingsService,contentRoot),"","/OpenDentalServer/ServiceMain.asmx"));
+		}
+
+		///<summary>A GET over HTTPS with the given path base and path through the endpoint; returns the status code.</summary>
+		private static int Send(MiddleTierEndpoint middleTierEndpoint,string pathBase,string path) {
+			Microsoft.AspNetCore.Http.DefaultHttpContext httpContext=new Microsoft.AspNetCore.Http.DefaultHttpContext();
+			httpContext.Request.Scheme="https";
+			httpContext.Request.Method="GET";
+			httpContext.Request.PathBase=new Microsoft.AspNetCore.Http.PathString(pathBase);
+			httpContext.Request.Path=new Microsoft.AspNetCore.Http.PathString(path);
+			httpContext.Response.Body=new MemoryStream();
+			middleTierEndpoint.HandleAsync(httpContext).GetAwaiter().GetResult();
+			return httpContext.Response.StatusCode;
+		}
+
 		///<summary>The application ServerHost builds gives Kestrel and IIS the server's limit (1 GiB by default), as the old Web.config gave IIS and
 		///ASP.NET. It is built, not started.</summary>
 		[TestMethod]

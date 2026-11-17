@@ -32,9 +32,12 @@ namespace LibraryUpdateTests {
 			new[] { "Renci.SshNet.dll","2026.0.0.1","2026.0.0.1","SSH.NET 2026.0.0" },
 			//The database client, upgraded from 2.3.7 in S2-2 of the .NET 10 move (its assembly version stays 2.0.0.0).
 			new[] { "MySqlConnector.dll","2.0.0.0","2.6.2.0","MySqlConnector 2.6.2" },
-			new[] { "System.Text.Json.dll","10.0.0.14","10.0.1426.52326","System.Text.Json 10.0.14" },
-			new[] { "System.Text.Encodings.Web.dll","10.0.0.14","10.0.1426.52326","System.Text.Encodings.Web 10.0.14" },
 		};
+
+		///<summary>The libraries of the update that .NET 10 has in its shared framework (S3b-5): NuGet prunes their packages from every lock file,
+		///and the program gets the framework's own files (the self-contained runtime beside it). Until S3b-5 rows of _arrayLibraries:
+		///System.Text.Json and System.Text.Encodings.Web 10.0.14.</summary>
+		private static readonly string[] _arrayInTheSharedFramework={ "System.Text.Json","System.Text.Encodings.Web" };
 
 		///<summary>The assemblies that went, by assembly name (the file is the name plus .dll).</summary>
 		private static readonly string[] _arrayRemoved={ "OpenPop","Tamir.SharpSSH","Org.Mentalis.Security","DiffieHellman","Google.Apis.PlatformServices",
@@ -86,6 +89,14 @@ namespace LibraryUpdateTests {
 				}
 				if(File.Exists(Path.Combine(RepoRoot,"Required dlls",arrayRow[0]))) {
 					listProblems.Add("Required dlls\\"+arrayRow[0]+" is back; the build takes it from "+arrayRow[3]+".");
+				}
+			}
+			foreach(string packageId in _arrayInTheSharedFramework) {
+				if(listLocked.Any(x => x.Id.Equals(packageId,StringComparison.OrdinalIgnoreCase))) {
+					listProblems.Add("OpenPmsDental's lock file names "+packageId+", which .NET 10's shared framework holds (the package is pruned).");
+				}
+				if(File.Exists(Path.Combine(RepoRoot,"Required dlls",packageId+".dll"))) {
+					listProblems.Add("Required dlls\\"+packageId+".dll is back.");
 				}
 			}
 			Assert.AreEqual(0,listProblems.Count,string.Join("\r\n",listProblems));

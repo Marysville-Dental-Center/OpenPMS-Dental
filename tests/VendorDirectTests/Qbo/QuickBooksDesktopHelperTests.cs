@@ -77,16 +77,11 @@ namespace VendorDirectTests.Qbo {
 		///QuickBooks class reaches the module "QuickBooks" with the company file; a missing helper gives TestConnection's "Error: " message.</summary>
 		[TestMethod]
 		public void TestConnection_GoesThroughTheHelper_AndAMissingHelperIsAnErrorMessage() {
-			string folder=Path.GetDirectoryName(typeof(QuickBooksDesktopHelperTests).Assembly.Location);
-			string pathSource=Path.Combine(folder,Helper32Client.HELPER_FILE_NAME);
-			Assert.IsTrue(File.Exists(pathSource),"The helper is copied next to these tests: "+pathSource);
-			byte[] arrayRandom=new byte[6];
-			using(RandomNumberGenerator randomNumberGenerator=RandomNumberGenerator.Create()) {
-				randomNumberGenerator.GetBytes(arrayRandom);
-			}
-			string pathCopy=Path.Combine(folder,"OpenPmsDentalHelper32-"+string.Concat(arrayRandom.Select(x => x.ToString("x2")))+".exe");
-			File.Copy(pathSource,pathCopy);
-			File.Copy(pathSource+".config",pathCopy+".config");
+			//A copy of the helper in a helper folder of this test process (Helper32Tests' HelperCopy, linked): since S3b-5 the helper is the program
+			//output's self-contained x86 one (Helper32\), with this assembly written for any CPU beside it for the stand-in module.
+			Helper32Tests.Support.HelperCopy helperCopy=Helper32Tests.Support.HelperCopy.Create();
+			string folder=Helper32Tests.Support.HelperCopy.Folder;
+			string pathCopy=helperCopy.PathExe;
 			FieldInfo fieldDefault=typeof(Helper32Client).GetField("_clientDefault",BindingFlags.NonPublic|BindingFlags.Static);
 			Assert.IsNotNull(fieldDefault);
 			object clientBefore=fieldDefault.GetValue(null);
@@ -129,8 +124,7 @@ namespace VendorDirectTests.Qbo {
 					//CLEAN-1 (S3a-13's later cleanups): the copy is deleted even when a check above failed, as HelperTestBase does. A copy still
 					//running (only this test starts a helper of this random name) is ended first, so its file can be deleted.
 					EndCopiesStillRunning(nameCopy);
-					DeleteIfThere(pathCopy);
-					DeleteIfThere(pathCopy+".config");
+					helperCopy.Dispose();
 				}
 			}
 		}

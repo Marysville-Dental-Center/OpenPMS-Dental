@@ -1,10 +1,19 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <!-- Tests for the vendor-direct integrations (docs/specs/vendor-direct/README.md). Each package puts its tests in its own folder
        (Foundation, Qbo, Usps, ...). Every .cs file under this folder is compiled, so no package edits this project file. -->
+  <PropertyGroup>
+    <!-- .NET 10 (S3b-5 of docs/specs/net10-plan.md): Windows Forms and WPF from the Windows Desktop framework, in place of the
+         .NET Framework assembly references; it also keeps the Windows Desktop packages out of the restore (S3b-3). -->
+    <UseWindowsForms>true</UseWindowsForms>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+  <PropertyGroup>
+    <!-- Its own [AssemblyInitialize] registers the code pages (tests\Shared\TestCodePages.cs; S3b-5). -->
+    <ODOwnAssemblyInitialize>true</ODOwnAssemblyInitialize>
+  </PropertyGroup>
   <ItemGroup>
     <!-- MimeKit (the Microsoft 365 and Gmail tests build and read MIME messages), Newtonsoft.Json and MySqlConnector come as packages through
          the projects below. -->
-    <Reference Include="System.Net.Http" />
     <!-- Reads the references of built assemblies without loading them (S3a-8 of the .NET 10 move: .NET has no reflection-only load). The
          NuGet package, from the offline package folder (nuget.config), at the version of Directory.Packages.props. -->
     <PackageReference Include="Mono.Cecil" />
@@ -25,6 +34,17 @@
     <!-- The packages of a lock file (S2-4 of the .NET 10 move: the library files are the packages' own, no longer copies in "Required dlls"). -->
     <Compile Include="..\ProjectFileTests\NuGetFiles.cs">
       <Link>NuGetFiles.cs</Link>
+    </Compile>
+    <!-- The copy of the self-contained x86 helper from the program's output (S3b-5): Qbo\QuickBooksDesktopHelperTests.cs. FakeModule is the
+         protocol tests' module that HelperCopy names. -->
+    <Compile Include="..\Helper32Tests\Support\HelperCopy.cs">
+      <Link>Helper32\HelperCopy.cs</Link>
+    </Compile>
+    <Compile Include="..\Helper32Tests\Support\ProcessList.cs">
+      <Link>Helper32\ProcessList.cs</Link>
+    </Compile>
+    <Compile Include="..\Helper32Tests\Support\FakeModule.cs">
+      <Link>Helper32\FakeModule.cs</Link>
     </Compile>
   </ItemGroup>
   <ItemGroup>

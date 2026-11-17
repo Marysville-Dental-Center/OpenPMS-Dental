@@ -6,10 +6,8 @@
        the choice for the bitness it runs at. No vendor DLL is loaded, no COM class is activated, nothing is shown; the synthetic files are
        written to a folder of the test's own under the temporary folder and deleted. Every .cs file under this folder is compiled. -->
   <PropertyGroup>
-    <!-- .NET 10 ahead of the other test projects (S3b-3 of docs/specs/net10-plan.md): it references only CodeBase, net10.0-windows since
-         S3b-2. It replaces the net48 of tests\Directory.Build.props, so Directory.Build.Net.props gives it the settings of a .NET 10 test
-         project: x64, win-x64, framework-dependent, NLS. The line goes when S3b-5 deletes the shared net48 line. -->
-    <TargetFramework>$(ODTargetFramework)</TargetFramework>
+    <!-- Its own [AssemblyInitialize] registers the code pages (tests\Shared\TestCodePages.cs; S3b-5). -->
+    <ODOwnAssemblyInitialize>true</ODOwnAssemblyInitialize>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\CodeBase\xCodeBase.csproj" />

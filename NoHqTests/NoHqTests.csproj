@@ -56,10 +56,15 @@
     <Compile Include="..\tests\ProjectFileTests\ProgramAssembly.cs">
       <Link>ProgramAssembly.cs</Link>
     </Compile>
+    <!-- The code pages before the first test, as tests\Directory.Build.props gives every test project (S3b-5). -->
+    <Compile Include="..\tests\Shared\TestCodePages.cs" Link="Shared\TestCodePages.cs" />
+    <Compile Include="..\tests\Shared\TestCodePagesAssemblySetup.cs" Link="Shared\TestCodePagesAssemblySetup.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CodeBase\xCodeBase.csproj" />
     <ProjectReference Include="..\DataConnectionBase\xDataConnectionBase.csproj" />
     <ProjectReference Include="..\OpenPmsDentalBusiness\OpenPmsDentalBusiness.csproj" />
+    <!-- A fresh process for the default font test (DefaultFontTests, S3b-5): SetDefaultFont throws once a window exists in a process. -->
+    <ProjectReference Include="..\tests\TestProbeHost\TestProbeHost.csproj" />
   </ItemGroup>
 </Project>

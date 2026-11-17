@@ -17,7 +17,9 @@ namespace Helper32Tests {
 		private static ProbeProcess StartProgram() {
 			string pathConfig=typeof(ProgramProbe).Assembly.Location+".config";
 			string configText=File.Exists(pathConfig) ? File.ReadAllText(pathConfig) : null;
-			return ProbeProcess.Start(HelperCopy.Folder,configText,typeof(ProgramProbe),TimeSpan.FromMinutes(2));
+			//From this test's own folder (S3b-5): the helper's folder holds the helper's own x86 runtime, beside which the x64 TestProbeHost cannot
+			//start; the probe gets the helper copy's full path.
+			return ProbeProcess.Start(HelperCopy.FolderTests,configText,typeof(ProgramProbe),TimeSpan.FromMinutes(2));
 		}
 
 		private static bool WaitForEnd(int processId,string exeFile,TimeSpan timeSpan) {

@@ -704,7 +704,7 @@ namespace OpenPmsDentalBusiness {
 			lock(randomUse) {
 				jitterMs=randomUse.NextDouble()*1000;
 			}
-			TimeSpan timeSpan=TimeSpan.FromSeconds(1<<exponent)+TimeSpan.FromMilliseconds(jitterMs);
+			TimeSpan timeSpan=TimeSpan.FromSeconds(1<<exponent)+CodeBase.ODTimeSpan.FromMilliseconds(jitterMs);
 			return (timeSpan>MaxBackoffDelay) ? MaxBackoffDelay : timeSpan;
 		}
 

@@ -78,9 +78,10 @@ namespace WindowChecksTests.InProc {
 				string text=ui.Invoke(() => Ui.AllControls(Control.FromHandle(openedDiagnostics.Hwnd)).OfType<TextBoxBase>()
 					.Select(x => x.Text).OrderByDescending(x => x.Length).FirstOrDefault()??"");
 				string[] arrayLines=text.Replace("\r","").Split('\n').Select(x => x.Trim()).ToArray();
-				checkResult.Expect(arrayLines.Contains("Process: 32-bit"),"Diagnostics: 'Process: 32-bit'");
+				//The .NET 10 program (S3b-5; S3b-3's LocalDiagnostics reports RuntimeInformation.FrameworkDescription): a 64-bit process on .NET 10.
+				checkResult.Expect(arrayLines.Contains("Process: 64-bit"),"Diagnostics: 'Process: 64-bit'");
 				string lineRuntime=arrayLines.FirstOrDefault(x => x.StartsWith(".NET runtime:"))??"";
-				checkResult.Expect(lineRuntime.StartsWith(".NET runtime: CLR 4.0.30319."),"Diagnostics: '"+lineRuntime+"'",lineRuntime);
+				checkResult.Expect(lineRuntime.StartsWith(".NET runtime: .NET 10."),"Diagnostics: '"+lineRuntime+"'",lineRuntime);
 				string lineRelease=arrayLines.FirstOrDefault(x => x.StartsWith(".NET Framework release:"))??"";
 				checkResult.Expect(lineRelease.Contains("(4.8.1 or later)"),"Diagnostics: '"+lineRelease+"'",lineRelease);
 				string linePath=arrayLines.FirstOrDefault(x => x.StartsWith("Program path:"))??"";

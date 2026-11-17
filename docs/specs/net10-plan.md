@@ -1279,6 +1279,24 @@ server URL for the gate, section 7 of the note); BSERVERTests 57 of 57 on .NET 1
 the Web SDK project from its file (its reader does not model that SDK); LibraryBindingTests, ReleaseFilesTests and Test-NoOldNames follow.
 The gate's Windows-service check is the owner's or lead's (elevated).
 
+**Status (2026-11-16), S3b-5.** On `net10/s3b5-1` (`docs/port-notes/S3b-5.md`): every test project is `net10.0-windows` x64,
+framework-dependent (`tests\Directory.Build.props` names no target framework; UnitTests with its `UI Testing` windows; TopazStandIn stays net48
+on purpose); every test assembly registers the code pages in an `[AssemblyInitialize]` (`tests\Shared\TestCodePages.cs`). The lane's full
+`OpenDental.Local.slnf` build x64 without a scoped restore: 0 errors, NU1201 gone; DocumentationBuilder builds with its lock file.
+LibraryBindingTests' binding-redirect and GAC checks retired for their .NET 10 equivalents (`.deps.json` and lock-file versions, the .NET
+binding rule, the shared framework); `tests\BindingRedirects.config`, the AppConfig rule and every app.config's redirect and startup sections
+went. Product fixes, same behaviour as net48: `TimeSpan.FromX` rounded to the millisecond (`CodeBase.ODTimeSpan`, 86 calls), CAPI keys opened
+from the key provider information (SYSLIB0028/0057 cleared), ODZip's path characters, the chooser's 32-bit-preferred rule, the helper's test
+module load, the Middle Tier's IIS site root. The section 7 default-font tests (NoHqTests), the helper tests on the program's `Helper32\`
+helper, the x64 columns of the pointer-size tests. Runs (x64, `-RequireBuildOutput`): 122 assemblies, 10,342 tests, 31 failed: S3b-FMT's
+formatting (GoldenOutputTests 6, BINBTests 1), S3b-7's release files (ReleaseFlowTests 18, LibraryBindingTests 3), one headless WPF picture,
+one open ZIP message (EhrTests); not run: InitSqlTests, ForkMigrationTests (coordinator) and the WPF picture projects (S3b-5W).
+After the merge of S3b-7, the fix round on `net10/s3b5-2` (tests and docs only): AttributionTests 50, LibraryBindingTests 18, RegistryTests
+39, EhrTests 260 (the ZIP message pinned, accepted by the lead), ReleaseFlowTests 240 and NoHqTests 115 of the same, all passing x64 with
+`-RequireBuildOutput`, with the section 7 encodings test (fresh process, `--no-code-pages`) and the WMI test (System.Management from the
+program folder, the package's `runtimes\win` file); the Release dry run without `-LaneProjects` builds the whole filter, stages 557 files and
+compiles the setup. Left: S3b-FMT's seven (with the fractional DateTime sweep, decision 24) and S3b-5W's pictures; the Direct LDAP resolver
+and WebView2 launch checks are in the full-test gate.
 **Status (2026-11-16), S3b-7.** On `net10/s3b7-1` (`docs/port-notes/S3b-7.md`). **Decisions 21 and 22 removed part of the row:** no move
 from the 32-bit install (no search of the 32-bit uninstall entry, no copy of `FreeDentalConfig.xml` and the flag files, no run of the old
 uninstaller, no clean-up of the old folder, no service report), no Test-Installer scenario over a 32-bit bridge install and no manual
@@ -1309,7 +1327,10 @@ difference is explained and accepted by the owner or fixed); the behaviour tests
 non-loopback; environment per O-8) passes; the screenshot pass of section 6 is complete with before/after pairs; the self-update between
 two .NET 10 builds works from a standard user; the release is built, installed on a clean VM without any .NET and over the bridge
 release; the new Middle Tier is checked for real on the build PC: started as a Windows service on a loopback address with a test
-certificate, with the host round-trip tests (S3b-6) and a client session run against it. The office runs no Middle Tier server
+certificate, with the host round-trip tests (S3b-6) and a client session run against it; two launch checks of references the shared
+framework does not answer (S3b-5, LibraryBindingTests' known gaps): a Direct message sent with a certificate found through the LDAP
+resolver (`Health.Direct.ResolverPlugins`, which references the .NET Framework's System.ServiceModel), and a WebView2 window (eForm or
+e-mail preview) opens (`Microsoft.Web.WebView2.Wpf`'s WinRT references). The office runs no Middle Tier server
 (B-SERVER 5 in `docs/owner-questions.md`, open point O-7), so there is no office hosting check. The 64-bit checks (decision 19): PE
 machine 0x8664 for every staged exe and native DLL, the x64 runtime part's included, and 0x14C for the helper's folder; TWAIN capture
 from the x64 program with the clinic's real sensor through the 64-bit TWAINDSM and the driver project's 64-bit data sources (entry
@@ -1951,6 +1972,11 @@ The owner answered the plan's questions "as recommended", with the corrections b
     first, e.g. through `(decimal)value` or one shared helper, with tests that pin half-step values against the net48 results. The RDL
     engine's `Style.GetFormatedString` already writes unformatted doubles as .NET Framework did (S3b-2b); its formatted path follows.
     Package S3b-FMT does it on `net10/switch` once the program compiles (after S3b-4), with a scan that finds every such call site.
+    **S3b-FMT also sweeps fractional `DateTime` arithmetic (lead, 2026-11-16):** `DateTime.AddHours`, `AddMinutes`, `AddSeconds` and
+    `AddMilliseconds` no longer round a non-integral argument to the millisecond on .NET (the same .NET change as `TimeSpan.FromX`, which
+    S3b-5 routed through `CodeBase.ODTimeSpan`). A scan (with the compiler's types, since an argument's type is not visible to a text scan)
+    finds every such call whose argument is not integral, and routes it through an `ODTimeSpan`-style helper that rounds as the .NET
+    Framework did, with tests that pin fractional values against the net48 results (`docs/port-notes/S3b-5.md` section 9).
 
 Also recorded for the update path: the Middle Tier client and server switch together (it has never shipped to an office); saved
 passwords get a one-time migration from PasswordVault to the Credential Manager (S3a-5). Also answered on 2026-11-08: signed e-mail

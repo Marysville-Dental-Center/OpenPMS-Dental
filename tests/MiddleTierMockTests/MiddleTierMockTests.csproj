@@ -7,13 +7,13 @@
        dropped afterwards. They are skipped (inconclusive) when the server does not answer or when S0T_TEST_DB=skip. Synthetic data only. Every
        .cs file under this folder is compiled. -->
   <PropertyGroup>
-    <!-- .NET 10 ahead of the other test projects (S3b-6 of docs/specs/net10-plan.md, docs/port-notes/S3b-6.md): its references, UnitTestsCore
-         and TestProbeHost included, are .NET 10. It replaces the net48 of tests\Directory.Build.props, so Directory.Build.Net.props gives it
-         the settings of a .NET 10 test project: x64, win-x64, framework-dependent, NLS. The line goes when S3b-5 deletes the shared net48 line.
-         Windows Forms: ODThread's members name WinForms types (Control), and the restore prunes what the business library's Windows Desktop
-         framework holds (S3b-3). -->
-    <TargetFramework>$(ODTargetFramework)</TargetFramework>
+    <!-- S3b-5 of docs/specs/net10-plan.md: every test project is .NET 10 (tests\Directory.Build.props). Windows Forms: ODThread's members
+         name WinForms types (Control), and the restore prunes what the business library's Windows Desktop framework holds (S3b-3). -->
     <UseWindowsForms>true</UseWindowsForms>
+  </PropertyGroup>
+  <PropertyGroup>
+    <!-- Its own [AssemblyInitialize] registers the code pages (tests\Shared\TestCodePages.cs; S3b-5). -->
+    <ODOwnAssemblyInitialize>true</ODOwnAssemblyInitialize>
   </PropertyGroup>
   <ItemGroup>
     <!-- Reads the business layer's IL for the Middle Tier source rules (ParamCheckTests). The NuGet package, from the offline package

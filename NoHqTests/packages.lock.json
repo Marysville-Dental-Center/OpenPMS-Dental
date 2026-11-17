@@ -249,8 +249,7 @@
         "type": "Project",
         "dependencies": {
           "CodeBase": "[1.0.0, )",
-          "SSH.NET": "[2026.0.0, )",
-          "System.Security.Cryptography.ProtectedData": "[10.0.15, )"
+          "SSH.NET": "[2026.0.0, )"
         }
       },
       "passwordvaultwrapper": {
@@ -279,6 +278,9 @@
           "Microsoft.Extensions.Logging.Abstractions": "[10.0.15, )",
           "PdfSharp.Shared": "[1.0.0, )"
         }
+      },
+      "testprobehost": {
+        "type": "Project"
       },
       "BouncyCastle.Cryptography": {
         "type": "CentralTransitive",
@@ -376,8 +378,7 @@
         "resolved": "4.18.2",
         "contentHash": "aYnwCCq+ZgQIsnHSJd3TMeGqf/Rz/9jYEItXpOoG3E2REOCZtLishwBSDFl2wQ/W2SB5wBsvE38DgHZ0IEyz4Q==",
         "dependencies": {
-          "BouncyCastle.Cryptography": "2.7.0",
-          "System.Security.Cryptography.Pkcs": "10.0.13"
+          "BouncyCastle.Cryptography": "2.7.0"
         }
       },
       "MSTest.Analyzers": {
@@ -412,26 +413,12 @@
           "Microsoft.Extensions.Logging.Abstractions": "8.0.3"
         }
       },
-      "System.CodeDom": {
-        "type": "CentralTransitive",
-        "requested": "[10.0.15, )",
-        "resolved": "10.0.15",
-        "contentHash": "6oO8bbuYBjHWA9lZgDYRzVwtDwN5M1uW8MUcjiEHcHIEKM9B+xolkxVY9NCqzEn8yqGonMaat44cYKvv9TgYXw=="
-      },
-      "System.Diagnostics.EventLog": {
-        "type": "CentralTransitive",
-        "requested": "[10.0.15, )",
-        "resolved": "10.0.15",
-        "contentHash": "d1ynyO/BvCyi8SI1m6/xASazxrZm20V/mTDJay4qmL947RsA5MEiMk1JWvafw6JX005VVBAHvjWQP1dRRBvYKw=="
-      },
       "System.DirectoryServices.AccountManagement": {
         "type": "CentralTransitive",
         "requested": "[10.0.15, )",
         "resolved": "10.0.15",
         "contentHash": "JYXATFNIJLZc9IDEmiB58btoKDLn7aERJRWP3NQWMfg7y3h6EKVhldy7gjL7thGUfIhG4zuZQg8ZkpKOTg8Wrw==",
         "dependencies": {
-          "System.Configuration.ConfigurationManager": "10.0.15",
-          "System.DirectoryServices": "10.0.15",
           "System.DirectoryServices.Protocols": "10.0.15"
         }
       },
@@ -454,25 +441,13 @@
         "type": "CentralTransitive",
         "requested": "[10.0.15, )",
         "resolved": "10.0.15",
-        "contentHash": "U21LynVbH2ayLFLTqlLnd3hx52Fe/acpCXO4BAUIqfWs8CwFWT0zxlg8WR2+LZ7zcLgi/d08eq7rp4iLMMt+4w==",
-        "dependencies": {
-          "System.CodeDom": "10.0.15"
-        }
-      },
-      "System.Security.Cryptography.ProtectedData": {
-        "type": "CentralTransitive",
-        "requested": "[10.0.15, )",
-        "resolved": "10.0.15",
-        "contentHash": "AG49oTxB0R4YQJzeIIHRgqyaI3SOT8Q8vEfGUcju2WxOvsBkDJU4FKTQ8gYQAYCxmHOHqyJL0UDGcCf8nzRoiw=="
+        "contentHash": "U21LynVbH2ayLFLTqlLnd3hx52Fe/acpCXO4BAUIqfWs8CwFWT0zxlg8WR2+LZ7zcLgi/d08eq7rp4iLMMt+4w=="
       },
       "System.ServiceProcess.ServiceController": {
         "type": "CentralTransitive",
         "requested": "[10.0.15, )",
         "resolved": "10.0.15",
-        "contentHash": "F76lv6rSZM/tooJREAFeq9RUPEyW48ubG4co8oPN1RBG/h/Ob7dUjQfLRhaApCWqwhAeIPxzAHIPrUkE2eatzg==",
-        "dependencies": {
-          "System.Diagnostics.EventLog": "10.0.15"
-        }
+        "contentHash": "F76lv6rSZM/tooJREAFeq9RUPEyW48ubG4co8oPN1RBG/h/Ob7dUjQfLRhaApCWqwhAeIPxzAHIPrUkE2eatzg=="
       }
     },
     "net10.0-windows7.0/win-x64": {
@@ -562,20 +537,12 @@
         "resolved": "1.0.4314.35",
         "contentHash": "x5MFf2W03xueU1mMNvivXfHSsQ+ODo7vJ36qw/dLtU5Gs+8d7+7N7zzmNNDoT3ffosmcvZNBtUnlzyiDUuBkSQ=="
       },
-      "System.Diagnostics.EventLog": {
-        "type": "CentralTransitive",
-        "requested": "[10.0.15, )",
-        "resolved": "10.0.15",
-        "contentHash": "d1ynyO/BvCyi8SI1m6/xASazxrZm20V/mTDJay4qmL947RsA5MEiMk1JWvafw6JX005VVBAHvjWQP1dRRBvYKw=="
-      },
       "System.DirectoryServices.AccountManagement": {
         "type": "CentralTransitive",
         "requested": "[10.0.15, )",
         "resolved": "10.0.15",
         "contentHash": "JYXATFNIJLZc9IDEmiB58btoKDLn7aERJRWP3NQWMfg7y3h6EKVhldy7gjL7thGUfIhG4zuZQg8ZkpKOTg8Wrw==",
         "dependencies": {
-          "System.Configuration.ConfigurationManager": "10.0.15",
-          "System.DirectoryServices": "10.0.15",
           "System.DirectoryServices.Protocols": "10.0.15"
         }
       },
@@ -598,19 +565,13 @@
         "type": "CentralTransitive",
         "requested": "[10.0.15, )",
         "resolved": "10.0.15",
-        "contentHash": "U21LynVbH2ayLFLTqlLnd3hx52Fe/acpCXO4BAUIqfWs8CwFWT0zxlg8WR2+LZ7zcLgi/d08eq7rp4iLMMt+4w==",
-        "dependencies": {
-          "System.CodeDom": "10.0.15"
-        }
+        "contentHash": "U21LynVbH2ayLFLTqlLnd3hx52Fe/acpCXO4BAUIqfWs8CwFWT0zxlg8WR2+LZ7zcLgi/d08eq7rp4iLMMt+4w=="
       },
       "System.ServiceProcess.ServiceController": {
         "type": "CentralTransitive",
         "requested": "[10.0.15, )",
         "resolved": "10.0.15",
-        "contentHash": "F76lv6rSZM/tooJREAFeq9RUPEyW48ubG4co8oPN1RBG/h/Ob7dUjQfLRhaApCWqwhAeIPxzAHIPrUkE2eatzg==",
-        "dependencies": {
-          "System.Diagnostics.EventLog": "10.0.15"
-        }
+        "contentHash": "F76lv6rSZM/tooJREAFeq9RUPEyW48ubG4co8oPN1RBG/h/Ob7dUjQfLRhaApCWqwhAeIPxzAHIPrUkE2eatzg=="
       }
     }
   }

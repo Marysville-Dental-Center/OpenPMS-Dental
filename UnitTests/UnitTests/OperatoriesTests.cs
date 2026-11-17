@@ -40,7 +40,9 @@ namespace UnitTests.Operatories_Tests {
 			controlAppt.MoveAppointments(listAppts,listApptsOld,op);
 		}
 
-		[TestMethod]
+		//STA: moving the appointment builds WPF windows (FrmApptProvPrompt). MSTest ran the .NET Framework build's tests on an STA thread; on .NET
+		//its threads are MTA unless a test asks (S3b-5).
+		[STATestMethod]
 		public void Operatory_UpdateAll_DifferentProviderOnAppt() {
 			string suffix=MethodBase.GetCurrentMethod().Name;
 			//create provider,patient, and appointment
@@ -57,7 +59,9 @@ namespace UnitTests.Operatories_Tests {
 			Assert.AreEqual(apt.ProvNum,provNumOp);
 		}
 
-		[TestMethod]
+		//STA: moving the appointment builds WPF windows (FrmApptProvPrompt). MSTest ran the .NET Framework build's tests on an STA thread; on .NET
+		//its threads are MTA unless a test asks (S3b-5).
+		[STATestMethod]
 		public void Operatory_UpdateAll_DifferentProviderAndHygieneOnAppt() {
 			string suffix=MethodBase.GetCurrentMethod().Name;
 			//create provider,patient, and appointment

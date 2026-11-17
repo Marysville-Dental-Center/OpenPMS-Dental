@@ -1,6 +1,8 @@
 // Topaz in the program's own process, the native-first path (S3a-14n of the .NET 10 move, docs/port-notes/S3a-14.md, section "S3a-14n: native
-// first"): TopazWrapper asks NativeFirstChooser.Topaz about the SigPlusNET.dll it found, and in this x86 test process (as in the x86 program)
-// the chooser picks the program's process. The synthetic stand-in (tests\TopazStandIn, never Topaz's file) is then loaded into this process,
+// first"): TopazWrapper asks NativeFirstChooser.Topaz about the SigPlusNET.dll it found, and the chooser picks the program's process. Since
+// S3b-5 this test process is x64, as the program is, so the stand-in is written for any CPU (an any-CPU SigPlusNET, which the 64-bit program
+// loads itself; an x86-only one goes to the helper, TopazWrapperTests). The synthetic stand-in (tests\TopazStandIn, never Topaz's file, a
+// .NET Framework control like Topaz's, loaded in compatibility mode) is then loaded into this process,
 // as main loaded Topaz's file before S3a-14, and these are main's TopazWrapperTests of before S3a-14 (commit 7b1c76c55), with the checks
 // that the in-process path is the one taken and that the S3a-14f/14g steps of the helper's path stay out of it. TopazWrapperTests runs the
 // fallback path (a copy of the helper) with its own folder; this class has its own folder, so the stand-in each path loads is told apart.
@@ -33,7 +35,8 @@ namespace BINBTests {
 			WriteStandIn(Path.Combine(_folderFake,TopazWrapper.ASSEMBLY_FILE_NAME));
 		}
 
-		///<summary>The stand-in as SigPlusNET.dll under the assembly name SigPlusNET (Mono.Cecil), as TopazWrapperTests writes it.</summary>
+		///<summary>The stand-in as SigPlusNET.dll under the assembly name SigPlusNET (Mono.Cecil), as TopazWrapperTests writes it, but for any CPU
+		///(no 32BITREQUIRED): the x64 column of the native-first choice (S3b-5).</summary>
 		private static void WriteStandIn(string path) {
 			string pathStandIn=Path.Combine(Path.GetDirectoryName(typeof(TopazWrapperInProcessTests).Assembly.Location),"TopazStandIn.dll");
 			Assert.IsTrue(File.Exists(pathStandIn),pathStandIn+" is not built (tests\\TopazStandIn, which BINBTests references).");
@@ -41,6 +44,8 @@ namespace BINBTests {
 			using(AssemblyDefinition assemblyDefinition=AssemblyDefinition.ReadAssembly(memoryStream)) {
 				assemblyDefinition.Name.Name=Path.GetFileNameWithoutExtension(TopazWrapper.ASSEMBLY_FILE_NAME);
 				assemblyDefinition.MainModule.Name=TopazWrapper.ASSEMBLY_FILE_NAME;
+				assemblyDefinition.MainModule.Architecture=TargetArchitecture.I386;
+				assemblyDefinition.MainModule.Attributes=ModuleAttributes.ILOnly;
 				assemblyDefinition.Write(path);
 			}
 		}
@@ -70,14 +75,15 @@ namespace BINBTests {
 		}
 
 		[TestMethod]
-		public void Chooser_PicksTheProgramsProcess_ForTheStandInInThisX86Process() {
+		public void Chooser_PicksTheProgramsProcess_ForTheAnyCpuStandInInThisX64Process() {
 			Reset(_folderFake);
-			Assert.IsFalse(Environment.Is64BitProcess,"BINBTests runs as x86, as the program does in 3a.");
+			Assert.IsTrue(Environment.Is64BitProcess,"BINBTests runs as x64, as the program does since stage 3b.");
 			Assert.IsTrue(TopazWrapper.IsInstalled());
 			Assert.AreEqual(VendorPath.InProcess,NativeFirstChooser.Topaz.Choice);
-			//The stand-in is built x86 (32BITREQUIRED): a 32-bit process runs it itself; a 64-bit one would use the helper.
-			StringAssert.Contains(NativeFirstChooser.Topaz.Reason,"a managed IL-only assembly that requires 32-bit (x86)");
-			StringAssert.StartsWith(NativeFirstChooser.Topaz.LogLine,"Topaz SigPlusNET.dll: in the program's process (32-bit process); ");
+			//The stand-in is written for any CPU: the 64-bit process runs it itself. The x86-only build (TopazStandIn.dll as built, 32BITREQUIRED)
+			//goes to the helper (TopazWrapperTests).
+			StringAssert.Contains(NativeFirstChooser.Topaz.Reason,"a managed IL-only assembly for any CPU");
+			StringAssert.StartsWith(NativeFirstChooser.Topaz.LogLine,"Topaz SigPlusNET.dll: in the program's process (64-bit process); ");
 			//No SigPlusNET.dll found: nothing to choose, and no choice is made.
 			Reset(_folderEmpty);
 			Assert.IsFalse(TopazWrapper.IsInstalled());

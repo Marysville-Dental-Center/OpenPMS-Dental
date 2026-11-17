@@ -1069,7 +1069,7 @@ namespace OpenPmsDentalBusiness{
 				}
 				dataRow["aptDate"]=dateTApt.ToShortDateString();
 				dataRow["aptDay"]=dateTApt.ToString("dddd");
-				timeSpan=TimeSpan.FromMinutes(tableRaw.Rows[d]["apptPattern"].ToString().Length*5);
+				timeSpan=CodeBase.ODTimeSpan.FromMinutes(tableRaw.Rows[d]["apptPattern"].ToString().Length*5);
 				hours=timeSpan.Hours;
 				minutes=timeSpan.Minutes;
 				if(hours==0) {
@@ -4102,7 +4102,7 @@ namespace OpenPmsDentalBusiness{
 			}
 			//Start and end time of the apt we are validating.
 			DateTime dateTimeMovedAptStart=appointment.AptDateTime;
-			DateTime dateTimeMovedAptEnd=appointment.AptDateTime.Add(TimeSpan.FromMinutes(appointment.Pattern.Length*5));
+			DateTime dateTimeMovedAptEnd=appointment.AptDateTime.Add(CodeBase.ODTimeSpan.FromMinutes(appointment.Pattern.Length*5));
 			//Check for collisions with blockouts if specified, return true if there is one.
 			if(hasBlockoutCheck) {
 				List<Schedule> listSchedulesBlockoutsOverlapping=GetBlockoutsOverlappingNoSchedule(appointment);
@@ -4116,7 +4116,7 @@ namespace OpenPmsDentalBusiness{
 			foreach(Appointment curApt in listAppointments) {
 				//Start and end time of another apt in this op.
 				DateTime dateTimeAptScheduledStart=curApt.AptDateTime;
-				DateTime dateTimeAptScheduledEnd=curApt.AptDateTime.Add(TimeSpan.FromMinutes(curApt.Pattern.Length*5));
+				DateTime dateTimeAptScheduledEnd=curApt.AptDateTime.Add(CodeBase.ODTimeSpan.FromMinutes(curApt.Pattern.Length*5));
 				//Check start time.
 				if(dateTimeMovedAptStart>=dateTimeAptScheduledStart && dateTimeMovedAptStart<dateTimeAptScheduledEnd){//Starts during curApt's blockout time.
 					return true;

@@ -6,12 +6,11 @@
        other network case only checks the built settings and the refusal, which comes before any connection. The certificates of the server
        check (OfficeCaServerVerifierTests, TestCertificateAuthority) are made in memory; nothing is added to a certificate store.
        Every .cs file under this folder is compiled, and DevDbTool's network guard (DevDbNetworkGuardTests; DevDbTool has no test project). -->
-  <ItemGroup>
-    <!-- HttpClient, for DevDbNetworkGuardTests. -->
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Security" />
-    <Reference Include="System.Windows.Forms" />
-  </ItemGroup>
+  <PropertyGroup>
+    <!-- .NET 10 (S3b-5 of docs/specs/net10-plan.md): Windows Forms from the Windows Desktop framework, in place of the
+         .NET Framework assembly references; it also keeps the Windows Desktop packages out of the restore (S3b-3). -->
+    <UseWindowsForms>true</UseWindowsForms>
+  </PropertyGroup>
   <ItemGroup>
     <!-- DevDbTool's network guard, compiled here: a reference to the tool (an exe) would add a project to the lock file. -->
     <Compile Include="..\..\tools\DevDbTool\NetworkGuard.cs">

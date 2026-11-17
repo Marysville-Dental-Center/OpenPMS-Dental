@@ -3,6 +3,11 @@
        decimal and colon format (v25_1-manage-timecard-totals-grid) and the Reports To filter of the Manage module time clock
        (v25_3-manage-timeclock-reportsto). Database tests use a scratch MariaDB database with the current reference schema (Open Dental 26.1.70)
        and synthetic rows only. Every .cs file under this folder is compiled. -->
+  <PropertyGroup>
+    <!-- .NET 10 (S3b-5 of docs/specs/net10-plan.md): Windows Forms from the Windows Desktop framework, in place of the
+         .NET Framework assembly references; it also keeps the Windows Desktop packages out of the restore (S3b-3). -->
+    <UseWindowsForms>true</UseWindowsForms>
+  </PropertyGroup>
   <ItemGroup>
     <!-- The reader of project files (classic and SDK-style) shared by the tests that check them (S1-T of docs/specs/net10-plan.md). -->
     <Compile Include="..\ProjectFileTests\ProjectFile.cs">

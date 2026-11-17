@@ -128,7 +128,8 @@ namespace OpenPmsDentalServer {
 
 		///<summary>The application name of the request, as HostingEnvironment.ApplicationVirtualPath gave it (/OpenDentalServer, or / at the site
 		///root), when the request's path is the endpoint's: {PathBase}/ServiceMain.asmx, {PathBase}/ or {PathBase}. IIS gives the application's
-		///virtual path as the request's PathBase; on Kestrel and the test server the configured PathBase is matched here.</summary>
+		///virtual path as the request's PathBase (empty at a site root) and the setting is empty there (ServerSettings.Read); on Kestrel and the
+		///test server the configured PathBase is matched here.</summary>
 		private bool TryGetApplicationName(HttpRequest request,out string applicationName) {
 			applicationName=null;
 			PathString pathBase=request.PathBase;

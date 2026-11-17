@@ -5,6 +5,8 @@
 // here that step is an action that counts its runs, so no test writes to a database or shows a window.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
+using System.IO;
+using System.Text.RegularExpressions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenPmsDental.DivvyConnect;
 
@@ -75,6 +77,30 @@ namespace N64ATests {
 			PostcardReturnMessage postcardReturnMessageErrors=new PostcardReturnMessage { MessageCode=MessageCode.CompletedWithErrors };
 			Assert.IsFalse(DivvyPostcardSending.RecordIfAllSent(postcardReturnMessageErrors,() => countRecorded++));
 			Assert.AreEqual(1,countRecorded);
+		}
+
+		///<summary>The source of FormRecallList's E-Cards button (S3b-4's handoff, S3b-5): in butECards_Click, ProcessComms(..., CommItemMode.Mail),
+		///which writes the commlogs and the Mailed statuses, runs only inside the action it hands DivvyPostcardSending.RecordIfAllSent, so the
+		///counting tests above cover the window's own path. The window's other buttons call ProcessComms directly, as before.</summary>
+		[TestMethod]
+		public void FormRecallList_ECardsButton_RecordsTheRowsOnlyThroughRecordIfAllSent() {
+			string text=File.ReadAllText(Path.Combine(TestSupport.Root(),"OpenPmsDental","Forms","FormRecallList.cs")).Replace("\r\n","\n");
+			int indexStart=text.IndexOf("private void butECards_Click(object sender,EventArgs e) {",StringComparison.Ordinal);
+			Assert.IsTrue(indexStart>=0,"butECards_Click");
+			int indexEnd=text.IndexOf("\n\t\t}\n",indexStart,StringComparison.Ordinal);
+			string textMethod=text.Substring(indexStart,indexEnd-indexStart);
+			int indexRecord=textMethod.IndexOf("DivvyConnect.DivvyPostcardSending.RecordIfAllSent(postcardReturnMessage,() => {",StringComparison.Ordinal);
+			Assert.IsTrue(indexRecord>=0,"The record step.");
+			int indexRecordEnd=textMethod.IndexOf("\n\t\t\t});",indexRecord,StringComparison.Ordinal);
+			Assert.IsTrue(indexRecordEnd>indexRecord,"The end of the record step's action.");
+			MatchCollection matchCollection=Regex.Matches(textMethod,@"ProcessComms\(");
+			Assert.AreEqual(2,matchCollection.Count,"Recalls and reactivations.");
+			foreach(Match match in matchCollection) {
+				Assert.IsTrue(match.Index>indexRecord && match.Index<indexRecordEnd,"ProcessComms outside RecordIfAllSent's action, at "+match.Index+".");
+				StringAssert.StartsWith(textMethod.Substring(match.Index),"ProcessComms(CommItemTypeAuto.");
+			}
+			StringAssert.Contains(textMethod.Substring(indexRecord,indexRecordEnd-indexRecord),"CommItemMode.Mail);");
+			Assert.IsTrue(textMethod.Contains("DivvyConnect.DivvyPostcardSending.Send("),"The send step.");
 		}
 	}
 }

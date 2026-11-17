@@ -124,12 +124,18 @@ namespace RegistryTests {
 			Assert.AreEqual(119,(int)FormType.FormSupplyInventory);
 			Assert.AreEqual(100,(int)DocumentMiscType.ForkReleaseManifest);
 			Assert.AreEqual(101,(int)DocumentMiscType.ForkReleaseSegment);
+			//S3b-7: the runtime part of a release (published and pulled only when the .NET runtime changes).
+			Assert.AreEqual(102,(int)DocumentMiscType.ForkRuntimeManifest);
+			Assert.AreEqual(103,(int)DocumentMiscType.ForkRuntimeSegment);
 			Assert.AreEqual(114,(int)UserOdFkeyType.PatientFormsView);
 			Assert.AreEqual(ForkEnums.FEATURE_MAINTENANCE,ForkEnums.GetFeature(AlertType.MaintenanceOverdue));
 			Assert.AreEqual(ForkEnums.FEATURE_INVENTORY,ForkEnums.GetFeature(FormType.FormSupplyInventory));
 			Assert.AreEqual(ForkEnums.FEATURE_PATIENT_FORMS_VIEW,ForkEnums.GetFeature(UserOdFkeyType.PatientFormsView));
 			Assert.AreEqual(ForkEnums.FEATURE_SSH_HOST_KEYS,ForkEnums.GetFeature(EnumPermType.SshHostKeys));
-			Assert.AreEqual(13,GetForkValuesInCode().Count,"A new fork-only value goes into FORK-ENUMS.md and into this test.");
+			Assert.AreEqual(ForkEnums.FEATURE_RELEASE_CHANNEL,ForkEnums.GetFeature(DocumentMiscType.ForkReleaseManifest));
+			Assert.AreEqual(ForkEnums.FEATURE_RELEASE_CHANNEL,ForkEnums.GetFeature(DocumentMiscType.ForkRuntimeManifest));
+			Assert.AreEqual(ForkEnums.FEATURE_RELEASE_CHANNEL,ForkEnums.GetFeature(DocumentMiscType.ForkRuntimeSegment));
+			Assert.AreEqual(15,GetForkValuesInCode().Count,"A new fork-only value goes into FORK-ENUMS.md and into this test.");
 		}
 
 		[TestMethod]
@@ -145,7 +151,11 @@ namespace RegistryTests {
 				catch(ReflectionTypeLoadException ex) {
 					arrayTypes=ex.Types.Where(x => x!=null).ToArray();
 				}
-				foreach(Type type in arrayTypes.Where(x => x.IsEnum && !ForkEnums.ArrayEnums.Contains(x) && !x.IsDefined(typeof(FlagsAttribute),false))) {
+				//Not an enum nested in a generic class (open: no value of it exists to store), whose values .NET cannot box (Enum.Parse throws "Specified
+				//type is not supported"; the .NET Framework parsed them; S3b-5).
+				foreach(Type type in arrayTypes.Where(x => x.IsEnum && !x.ContainsGenericParameters && !ForkEnums.ArrayEnums.Contains(x)
+					&& !x.IsDefined(typeof(FlagsAttribute),false)))
+				{
 					List<string> listHigh=Enum.GetNames(type).Where(x => Convert.ToDecimal(Enum.Parse(type,x))>=ForkEnums.FIRST_VALUE).ToList();
 					if(listHigh.Count>0) {
 						listProblems.Add(type.FullName+": "+string.Join(", ",listHigh));
