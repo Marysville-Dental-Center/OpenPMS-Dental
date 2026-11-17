@@ -62,17 +62,35 @@ namespace EhrTests {
 				List<string> listPaths=new List<string> { pathValueSets,pathDirect,pathVersions };
 				GC.Collect();
 				long bytesManagedBefore=GC.GetTotalMemory(true);
+				Process process=Process.GetCurrentProcess();
+				process.Refresh();
+				long bytesPrivateBefore=process.PrivateMemorySize64;
+				//The import's own peak, sampled while it runs: the process's peak working set is that of every test the host ran before.
+				long bytesPrivatePeak=bytesPrivateBefore;
+				long bytesManagedPeak=bytesManagedBefore;
+				ManualResetEvent manualResetEventDone=new ManualResetEvent(false);
+				Thread threadSampler=new Thread(() => {
+					do {
+						Process processNow=Process.GetCurrentProcess();
+						bytesPrivatePeak=Math.Max(bytesPrivatePeak,processNow.PrivateMemorySize64);
+						bytesManagedPeak=Math.Max(bytesManagedPeak,GC.GetTotalMemory(false));
+						processNow.Dispose();
+					} while(!manualResetEventDone.WaitOne(50));
+				});
+				threadSampler.IsBackground=true;
+				threadSampler.Start();
 				Stopwatch stopwatchParse=Stopwatch.StartNew();
 				EhrValueSetPick pick=EhrValueSetImport.ParsePick(listPaths,index => new FileStream(listPaths[index],FileMode.Open,FileAccess.Read,FileShare.Read));
 				stopwatchParse.Stop();
-				long bytesManagedPick=GC.GetTotalMemory(true);
 				string report=EhrValueSetImport.GetReport(pick);
 				Assert.IsFalse(pick.IsRefused,ReportWithoutLists(report));
 				Stopwatch stopwatchImport=Stopwatch.StartNew();
 				string error=EhrValueSetImport.Import(pick);
 				stopwatchImport.Stop();
+				manualResetEventDone.Set();
+				threadSampler.Join();
+				long bytesManagedPick=GC.GetTotalMemory(true);
 				Assert.AreEqual("",error);
-				Process process=Process.GetCurrentProcess();
 				process.Refresh();
 				long bytesPeakWorkingSet=process.PeakWorkingSet64;
 				//The counts.
@@ -126,8 +144,10 @@ namespace EhrTests {
 				}
 				stringBuilderOut.AppendLine("time: parse "+stopwatchParse.ElapsedMilliseconds.ToString("N0",CultureInfo.InvariantCulture)+" ms, import "
 					+stopwatchImport.ElapsedMilliseconds.ToString("N0",CultureInfo.InvariantCulture)+" ms");
-				stringBuilderOut.AppendLine("memory: managed heap before "+(bytesManagedBefore/1024/1024)+" MB, with the pick held "+(bytesManagedPick/1024/1024)
-					+" MB; peak working set of the test host "+(bytesPeakWorkingSet/1024/1024)+" MB");
+				stringBuilderOut.AppendLine("memory: managed heap before "+(bytesManagedBefore/1024/1024)+" MB, peak while reading and importing "
+					+(bytesManagedPeak/1024/1024)+" MB, after with the pick held "+(bytesManagedPick/1024/1024)+" MB; private bytes before "
+					+(bytesPrivateBefore/1024/1024)+" MB, peak while reading and importing "+(bytesPrivatePeak/1024/1024)+" MB; peak working set of the "
+					+"test host over the whole run "+(bytesPeakWorkingSet/1024/1024)+" MB");
 				//The two other sortings of the release: refused by the part limit, naming the workbook to pick.
 				foreach(string pattern in new[] { "ec_*_category_*.xlsx.zip","ec_*_unique_vs_*.xlsx.zip" }) {
 					string pathOther=Directory.GetFiles(folder,pattern).SingleOrDefault();
