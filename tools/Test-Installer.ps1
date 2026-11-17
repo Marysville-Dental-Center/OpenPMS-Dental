@@ -367,7 +367,10 @@ function Test-Installed([string]$dir){
 	Check (Test-Path $UninstallKey) 'all-users uninstall entry written (64-bit view)'
 	if(Test-Path $UninstallKey){
 		$name=[string](Get-RegValue $UninstallKey 'DisplayName')
-		Check ($name -ceq 'Open PMS - Dental') "uninstall entry name Open PMS - Dental (was $name)"
+		#Inno Setup marks the name when the same AppId also has an entry in the other registry view (here a v0.0 install in the 32-bit view):
+		#'Marked uninstall display name to avoid duplicate entries' in the setup log, so Apps lists 'Open PMS - Dental (64-bit)' beside v0.0.
+		$nameExpected=if(Test-Path $UninstallKey32){ 'Open PMS - Dental (64-bit)' } else { 'Open PMS - Dental' }
+		Check ($name -ceq $nameExpected) "uninstall entry name $nameExpected (was $name)"
 		$version=[string](Get-RegValue $UninstallKey 'DisplayVersion')
 		if($ExpectedVersion){ Check ($version -eq $ExpectedVersion) "uninstall entry version $ExpectedVersion (was $version)" }
 		$appPath=[string](Get-RegValue $UninstallKey 'Inno Setup: App Path')
