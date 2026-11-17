@@ -2,45 +2,36 @@
 // .NET Framework and on .NET (net10 plan, package S3a-3). .NET Core 3.0 changed two things: double.ToString() and float.ToString() give the
 // shortest text that round-trips instead of 15 (double) or 7 (float) significant digits, and a negative number that rounds to zero keeps
 // its sign ("-0.00", "-0"). .NET Framework always wrote a value that rounds to zero without a sign. Everything here is a no-op on net48.
+// Since S3b-FMT (decision 24) every double and float the program writes as text goes through ToStringNetFx (ODNumberTextNetFx.cs).
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
 using System.Globalization;
 
 namespace CodeBase {
-	public static class ODNumberText {
-		///<summary>value.ToString(format,formatProvider), except that a negative value (or negative zero) whose text has no digit but zeros is
-		///written as zero, without a sign, as .NET Framework wrote it for every standard and custom format. Example: -0.001 with "F2" gives
-		///"0.00" on both runtimes (.NET gives "-0.00" otherwise).</summary>
+	public static partial class ODNumberText {
+		///<summary>value.ToString(format,formatProvider) as the .NET Framework wrote it (ToStringNetFx, ODNumberTextNetFx.cs): S3a-3 wrote a
+		///negative value (or negative zero) whose text has no digit but zeros as zero, without a sign; since S3b-FMT (decision 24) the digits are
+		///the .NET Framework's too (15 significant digits, rounded half away from zero, then the format). Example: -0.001 with "F2" gives "0.00"
+		///and 1.005 with "F2" gives "1.01" on both runtimes (.NET gives "-0.00" and "1.00" otherwise).</summary>
 		public static string ToStringNoNegativeZero(double value,string format,IFormatProvider formatProvider) {
-			if(value<0 || IsNegativeZero(value)) {
-				string textZero=(0d).ToString(format,formatProvider);
-				if(Math.Abs(value).ToString(format,formatProvider)==textZero) {
-					return textZero;
-				}
-			}
-			return value.ToString(format,formatProvider);
+			return ToStringNetFx(value,format,formatProvider);
 		}
 
-		///<summary>The float version of ToStringNoNegativeZero.</summary>
+		///<summary>The float version of ToStringNoNegativeZero (7 significant digits).</summary>
 		public static string ToStringNoNegativeZero(float value,string format,IFormatProvider formatProvider) {
-			if(value<0 || IsNegativeZero(value)) {
-				string textZero=(0f).ToString(format,formatProvider);
-				if(Math.Abs(value).ToString(format,formatProvider)==textZero) {
-					return textZero;
-				}
-			}
-			return value.ToString(format,formatProvider);
+			return ToStringNetFx(value,format,formatProvider);
 		}
 
-		///<summary>The text double.ToString(formatProvider) gives on .NET Framework: 15 significant digits ("G15"), and no sign on zero. On .NET
-		///double.ToString() gives up to 17 digits (0.1+0.2 is "0.30000000000000004" there, "0.3" here).</summary>
+		///<summary>The text double.ToString(formatProvider) gives on .NET Framework: 15 significant digits ("G15", a value half way between two
+		///15-digit numbers rounded away from zero), and no sign on zero. On .NET double.ToString() gives up to 17 digits (0.1+0.2 is
+		///"0.30000000000000004" there, "0.3" here).</summary>
 		public static string ToStringG15(double value,IFormatProvider formatProvider) {
-			return ToStringNoNegativeZero(value,"G15",formatProvider);
+			return ToStringNetFx(value,formatProvider);
 		}
 
 		///<summary>The text float.ToString(formatProvider) gives on .NET Framework: 7 significant digits ("G7"), and no sign on zero.</summary>
 		public static string ToStringG7(float value,IFormatProvider formatProvider) {
-			return ToStringNoNegativeZero(value,"G7",formatProvider);
+			return ToStringNetFx(value,formatProvider);
 		}
 
 		///<summary>True for -0.0, which equals 0 but has its sign bit set.</summary>

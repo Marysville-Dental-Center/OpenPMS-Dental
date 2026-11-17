@@ -118,4 +118,29 @@
     </ItemGroup>
   </Target>
 
+  <!--
+    The compiler's inputs of every SDK-style C# project, for the scan of S3b-FMT (decision 24 of docs/specs/net10-plan.md,
+    docs/port-notes/S3b-FMT.md): tools\FormatSweep and FormatParityTests build the same compilations from them, with the compiler's types,
+    to find every place that writes a double or float as text or adds a fractional time to a DateTime. One line each: project=, assembly=,
+    langversion=, define= (the constants, escaped), unsafe=, then src= for each Compile item and ref= for each reference the compiler gets.
+    Written to obj\...\$(MSBuildProjectName).compile-inputs.txt only when it changes, so it never makes a build run again.
+  -->
+  <Target Name="ODRecordCompileInputs" BeforeTargets="CoreCompile" Condition="'$(UsingMicrosoftNETSdk)' == 'true' and '$(Language)' == 'C#'">
+    <ItemGroup>
+      <_ODCompileInputsLine Include="project=$(MSBuildProjectFullPath)" />
+      <_ODCompileInputsLine Include="assembly=$(AssemblyName)" />
+      <_ODCompileInputsLine Include="langversion=$(LangVersion)" />
+      <_ODCompileInputsLine Include="define=$([MSBuild]::Escape($(DefineConstants)))" />
+      <_ODCompileInputsLine Include="unsafe=$(AllowUnsafeBlocks)" />
+      <_ODCompileInputsLine Include="@(Compile->'src=%(FullPath)')" />
+      <_ODCompileInputsLine Include="@(ReferencePathWithRefAssemblies->'ref=%(FullPath)')" />
+    </ItemGroup>
+    <WriteLinesToFile File="$(IntermediateOutputPath)$(MSBuildProjectName).compile-inputs.txt" Lines="@(_ODCompileInputsLine)"
+      Overwrite="true" WriteOnlyWhenDifferent="true" />
+    <ItemGroup>
+      <FileWrites Include="$(IntermediateOutputPath)$(MSBuildProjectName).compile-inputs.txt" />
+      <_ODCompileInputsLine Remove="@(_ODCompileInputsLine)" />
+    </ItemGroup>
+  </Target>
+
 </Project>
