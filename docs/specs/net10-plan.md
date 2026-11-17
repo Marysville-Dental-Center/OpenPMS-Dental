@@ -1307,7 +1307,10 @@ Framework 4.8 x64 (G5, with the tests' own tolerance): 193 identical, 173 within
 random per process on .NET (the chart plan's note). ChartBitnessTests and the program-entry source test take their .NET 10 cases.
 ToothChartImageTests 267 (261 passed, 6 skipped), ToothChartHostTests 20 (19, the gallery skipped), BINATests 22 (WpfChart_StartsOnAHiddenForm
 among them) and NoHqTests 115: all passing x64 with `-RequireBuildOutput`, twice against the committed pictures. WindowChecksTests is the
-lead's screenshot pass.
+lead's screenshot pass. Review fix round on `net10/s3b5w-2` (the branch that merges): the DirectX parity probes (`ParityProbes_*`,
+`PerioParity_*`) read the WPF pictures of their runtime (`wpf-net10-x64` on .NET 10 x64) instead of `wpf-net48`; they pass there with two
+64-bit-only allowances for tooth 5's "5" (TC-10's 64-bit text cell, the owner's G5 question 2); no picture changed, G5 unchanged; the four
+test assemblies green twice again (ToothChartImageTests 260 passed, 7 skipped).
 **Status (2026-11-16), S3b-7.** On `net10/s3b7-1` (`docs/port-notes/S3b-7.md`). **Decisions 21 and 22 removed part of the row:** no move
 from the 32-bit install (no search of the 32-bit uninstall entry, no copy of `FreeDentalConfig.xml` and the flag files, no run of the old
 uninstaller, no clean-up of the old folder, no service report), no Test-Installer scenario over a 32-bit bridge install and no manual

@@ -13,7 +13,8 @@ on 127.0.0.1:3306: the host tests with the prefix `tc8s3b5w_` (their prefix rule
 logs with their fixed `tc2_`; all dropped (none left after the runs). No schema change, no package, no download.
 
 Commits: `c7ba82cf0` (the runtime choice of the sets, the G5 comparison, the watch order), `3c39ef732` (the tests' .NET 10 cases),
-`7c95e3a54` (the pictures), then this note with the plans and the owner question.
+`7c95e3a54` (the pictures), then this note with the plans and the owner question. Review fix round: branch `net10/s3b5w-2`, section 9
+(the DirectX parity probes read the pictures of their runtime; no picture changed, G5 unchanged).
 
 ## 1. What was recorded
 
@@ -195,3 +196,43 @@ lead publishes it; the owner's answer goes in `docs/owner-questions.md`.
   reads them but G5 (`GetNet48X64Record`). They can retire with .NET Framework when `main` takes the switch, as their README says.
 - **The lane's failure output** still shows only "Error Message:" without the message lines (TC-10's suggestion); the run logs
   (`<out>.txt.logs\*.log`) have them.
+
+## 9. Fix round 1 (`net10/s3b5w-2`): the parity probes on the pictures of their runtime
+
+The review found that the DirectX parity probes still read the WPF pictures from `Baselines\wpf-net48` directly
+(`ParityProbeTests.ForEachRecordedPicture`, `PerioParityTests.ForEachRecordedPerioPicture`), so on .NET 10 x64 the three `ParityProbes_*`
+and three `PerioParity_*` tests probed the .NET Framework 32-bit pictures, not the `wpf-net10-x64` set that
+`ChartScenes_MatchTheWpfBaselines` holds against fresh renders, and would have lost their input when `wpf-net48` retires. Both now take the
+path through `WpfCharts.ForThisBitness`, as `WpfImageTests.CheckScene` does (a 32-bit process: `wpf-net48`; .NET Framework x64: its
+`wpf-net48-x64` copy where there is one; .NET 10 x64: `wpf-net10-x64`), and both class comments name that chain (`0298b509b`).
+
+**What the probes found on the .NET 10 x64 pictures.** The surface-centre probes (16,852 probes, 645 allowed, 0 failed) and the perio probes
+(7,178 colour probes and 428 text boxes, 0 failed) pass with the allowance lists unchanged. The text-box probe
+(`ParityProbes_NumbersAndMarks_SitWhereDirectXDrawsThem_WithinOnePixel`) failed on two boxes, both tooth 5's number "5" at 410x307:
+`colour-custom-chart-colours` and `select-whole-arch`, DirectX's ink box 120,142 to 126,150 and the WPF one 122,142 to 127,150 (the left edge
+2 pixels off; the 32-bit picture's within 1). Looked at pixel by pixel in the four pictures (DirectX, `wpf-net48`, `wpf-net48-x64`,
+`wpf-net10-x64`) over x 116-130, y 141-151: the 64-bit glyph is the 32-bit glyph one pixel to the right, and the .NET Framework x64 and
+.NET 10 x64 pixels there are the same. So it is not a .NET 10 change but TC-10's 64-bit text cell (section 2: `ToothSceneBuilder.AddText`
+rounds a single-precision projection that lands on a pixel border, x87 in the 32-bit JIT, SSE in every 64-bit one), the same "5" one pixel
+right that the dashboard host picture shows, and the subject of the owner's question 2 of G5. On these two scenes' colours (the selection
+highlight behind the selected arch's numbers; the custom chart colours) the moved glyph's faint left column falls under the probe's 0.4 ink
+threshold, so the box reads one pixel more. Not a drawing fix (the rounding is the owner's question): two named allowances,
+`ParityProbeTests.TextAllowances64Bit`, which the class's static constructor adds to `TextAllowances` only in a 64-bit process, so the 32-bit
+run (where these boxes are within one pixel and an allowance that covers nothing fails) is unchanged; their reason says to remove them if the
+rounding is changed to give the 32-bit place again (`76d385447`). The text-box probe now reports 8,633 boxes, 53 allowed (51 before plus
+these two), 0 failed. That the two new allowances are used at all shows the probes read the 64-bit pictures: on `wpf-net48` the same boxes
+are within one pixel.
+
+**The runs** (all Targeted, x64, `-RequireBuildOutput`, after the full build; the session `Active` by `query user` before and after each,
+and the image tests' own red-square check):
+
+| File | What | Result |
+|---|---|---|
+| `s3b5w2-run1.txt` | ToothChartImageTests after the path fix (NoHqTests not yet built) | 1 failed: the text-box probe's two boxes above |
+| `s3b5w2-run2.txt` | with the two allowances (scoped build, so NoHqTests found the program unbuilt) | ToothChartImageTests passed; NoHqTests 8 "not built" |
+| `s3b5w2-pass1-image.txt`, `s3b5w2-pass1-host.txt` | **pass 1** after the full build | ToothChartImageTests 267 (260 passed, 7 skipped), ToothChartHostTests 20 (19, the gallery skipped), BINATests 22, NoHqTests 115: all passed |
+| `s3b5w2-pass2-image.txt`, `s3b5w2-pass2-host.txt` | **pass 2** | the same counts, all passed; the parity evidence (`%TEMP%\ToothChartImageTests\parity-*.txt`) the same numbers as pass 1 |
+
+The seven skipped image tests are the six opt-in ones of section 5 and `WriteG5Gallery` (opt-in, not run: no picture changed, so G5 stays as
+made at `7c95e3a54`). Full lane build of `OpenDental.Local.slnf` x64 after the last code commit: 0 errors. No scratch database left on
+127.0.0.1:3306.
