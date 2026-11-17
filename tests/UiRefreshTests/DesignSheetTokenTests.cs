@@ -227,7 +227,8 @@ namespace UiRefreshTests {
 		public void Sizes_PixelSnapping_Section33() {
 			float[] arrayScales=new float[] { 1f,1.25f,1.5f,1.75f,2f };
 			int[] arrayLines=new int[] { 1,1,1,1,2 };
-			int[] arrayFocus=new int[] { 2,3,3,4,4 };
+			//Rounded as LayoutManager rounds (a .5 to the even neighbour): 2.5 at 125% gives 2, 3.5 at 175% gives 4.
+			int[] arrayFocus=new int[] { 2,2,3,4,4 };
 			for(int i=0;i<arrayScales.Length;i++) {
 				Assert.AreEqual(arrayLines[i],UiTheme.GetLineWidth(arrayScales[i]),"Line at "+arrayScales[i]);
 				Assert.AreEqual(arrayFocus[i],UiTheme.GetFocusWidth(arrayScales[i]),"Focus at "+arrayScales[i]);
@@ -235,8 +236,14 @@ namespace UiRefreshTests {
 			Assert.AreEqual(5,UiTheme.GetCornerRadius(UiTheme.CORNER_CONTROL,1.25f));
 			Assert.AreEqual(6,UiTheme.GetCornerRadius(UiTheme.CORNER_CONTROL,1.5f));
 			Assert.AreEqual(9,UiTheme.GetCornerRadius(UiTheme.CORNER_CONTAINER,1.5f));
-			//Snapping: each edge on its own, so neighbours keep sharing an edge.
-			Assert.AreEqual(Rectangle.FromLTRB(13,13,38,25),UiTheme.SnapRectangle(new RectangleF(12.5f,12.6f,25f,12.5f)));
+			//The .5 corners: 2 x 1.25 = 2.5, 6 x 1.25 = 7.5, 6 x 1.75 = 10.5, 2 x 1.75 = 3.5.
+			Assert.AreEqual(2,UiTheme.GetCornerRadius(UiTheme.CORNER_CHECKBOX,1.25f));
+			Assert.AreEqual(8,UiTheme.GetCornerRadius(UiTheme.CORNER_CONTAINER,1.25f));
+			Assert.AreEqual(10,UiTheme.GetCornerRadius(UiTheme.CORNER_CONTAINER,1.75f));
+			Assert.AreEqual(4,UiTheme.GetCornerRadius(UiTheme.CORNER_CHECKBOX,1.75f));
+			Assert.AreEqual(12,UiTheme.ScaleI(10,1.25f));
+			//Snapping: each edge on its own, so neighbours keep sharing an edge. 12.5 gives 12 and 37.5 gives 38, as LayoutManager rounds.
+			Assert.AreEqual(Rectangle.FromLTRB(12,13,38,25),UiTheme.SnapRectangle(new RectangleF(12.5f,12.6f,25f,12.5f)));
 			Rectangle rectangleA=UiTheme.ScaleRectangle(new Rectangle(0,0,10,10),1.25f);
 			Rectangle rectangleB=UiTheme.ScaleRectangle(new Rectangle(10,0,10,10),1.25f);
 			Assert.AreEqual(rectangleA.Right,rectangleB.Left,"Shared edge at 125%.");
@@ -249,6 +256,31 @@ namespace UiRefreshTests {
 				Assert.AreEqual(0f,rectangleBounds.Y,0.001f);
 				Assert.AreEqual(20f,rectangleBounds.Width,0.001f);
 				Assert.AreEqual(10f,rectangleBounds.Height,0.001f);
+			}
+		}
+
+		///<summary>Section 3.3: UiTheme holds the helpers "so every control does it the same way", so a control that scales its bounds with
+		///LayoutManager and its inner shapes with UiTheme must get the same pixels. Every 96 DPI value 0 to 200 at the five scales, and every
+		///quarter-pixel edge 0 to 100, against LayoutManagerForms itself (no database: ScaleMy is the MS scale).</summary>
+		[TestMethod]
+		public void Sizes_PixelSnapping_RoundsAsLayoutManager() {
+			float[] arrayScales=new float[] { 1f,1.25f,1.5f,1.75f,2f };
+			OpenPmsDental.LayoutManagerForms layoutManager=new OpenPmsDental.LayoutManagerForms();
+			foreach(float scale in arrayScales) {
+				layoutManager.SetScaleMS(scale);
+				Assert.AreEqual(scale,layoutManager.ScaleMy(),"LayoutManager's scale.");
+				for(int value96=0;value96<=200;value96++) {
+					Assert.AreEqual(layoutManager.Scale(value96),UiTheme.ScaleI(value96,scale),"ScaleI("+value96+") at "+scale);
+				}
+				Assert.AreEqual(layoutManager.Scale(UiTheme.LINE_FOCUS),UiTheme.GetFocusWidth(scale),"Focus at "+scale);
+				//The location as LayoutManager.ScalePoint puts it (the size differs on purpose: SnapRectangle rounds each edge on its own).
+				Rectangle rectangle96=new Rectangle(10,6,30,22);
+				Assert.AreEqual(layoutManager.ScalePoint(rectangle96.Location),UiTheme.ScaleRectangle(rectangle96,scale).Location,"Location at "+scale);
+			}
+			for(int quarters=0;quarters<=400;quarters++) {
+				float edge=quarters/4f;
+				Rectangle rectangleSnapped=UiTheme.SnapRectangle(new RectangleF(edge,edge,0,0));
+				Assert.AreEqual(layoutManager.Round(edge),rectangleSnapped.Left,"Edge "+edge);
 			}
 		}
 

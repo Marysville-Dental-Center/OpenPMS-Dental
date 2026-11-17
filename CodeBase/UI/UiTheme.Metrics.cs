@@ -121,9 +121,11 @@ namespace CodeBase {
 		#endregion Icon sizes (section 3.5)
 
 		#region Pixel snapping (section 3.3)
-		///<summary>A 96 DPI length at the scale, in whole device pixels (rounded half away from zero, as LayoutManager rounds).</summary>
+		///<summary>A 96 DPI length at the scale, in whole device pixels, rounded exactly as LayoutManagerForms.Scale rounds: (int)Math.Round, which
+		///takes a .5 to the even neighbour (2 x 1.25 = 2.5 gives 2, 10 x 1.25 = 12.5 gives 12, 2 x 1.75 = 3.5 gives 4). So a control that scales its
+		///bounds with LayoutManager and its inner shapes with UiTheme gets the same pixels.</summary>
 		public static int ScaleI(int value96,float scale) {
-			return (int)Math.Round(value96*scale,MidpointRounding.AwayFromZero);
+			return (int)Math.Round(value96*scale);
 		}
 
 		///<summary>Borders and separators: max(1, floor(scale)) device pixels, so 1 px at 100% to 175% and 2 px at 200% (a 1.25 or 1.5 px line would
@@ -132,7 +134,8 @@ namespace CodeBase {
 			return Math.Max(1,(int)Math.Floor(scale+0.0001f));
 		}
 
-		///<summary>The focus ring and the selection bar: round(2 x scale) device pixels.</summary>
+		///<summary>The focus ring and the selection bar: round(2 x scale) device pixels, rounded as ScaleI (and LayoutManager) rounds: 2, 2, 3, 4, 4 px
+		///at 100, 125, 150, 175 and 200%.</summary>
 		public static int GetFocusWidth(float scale) {
 			return Math.Max(1,ScaleI(LINE_FOCUS,scale));
 		}
@@ -142,12 +145,13 @@ namespace CodeBase {
 			return ScaleI(radius96,scale);
 		}
 
-		///<summary>A rectangle snapped to whole device pixels: each edge rounded on its own, so two rectangles that share an edge before still share it.</summary>
+		///<summary>A rectangle snapped to whole device pixels: each edge rounded on its own, so two rectangles that share an edge before still share it.
+		///Rounded as LayoutManagerForms.Round rounds ((int)Math.Round, a .5 to the even neighbour: 12.5 gives 12, 37.5 gives 38).</summary>
 		public static Rectangle SnapRectangle(RectangleF rectangleF) {
-			int left=(int)Math.Round(rectangleF.Left,MidpointRounding.AwayFromZero);
-			int top=(int)Math.Round(rectangleF.Top,MidpointRounding.AwayFromZero);
-			int right=(int)Math.Round(rectangleF.Right,MidpointRounding.AwayFromZero);
-			int bottom=(int)Math.Round(rectangleF.Bottom,MidpointRounding.AwayFromZero);
+			int left=(int)Math.Round(rectangleF.Left);
+			int top=(int)Math.Round(rectangleF.Top);
+			int right=(int)Math.Round(rectangleF.Right);
+			int bottom=(int)Math.Round(rectangleF.Bottom);
 			return Rectangle.FromLTRB(left,top,right,bottom);
 		}
 

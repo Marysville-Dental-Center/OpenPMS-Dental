@@ -69,6 +69,11 @@ the font role tokens of section 3.4 (`FontBody` and the rest, holding today's fo
 
 Pixel snapping (section 3.3): `ScaleI`, `GetLineWidth` (max(1, floor(scale))), `GetFocusWidth` (round(2 x scale)), `GetCornerRadius`,
 `SnapRectangle` (each edge rounded on its own), `ScaleRectangle`, `GetStrokeRectangle` (inset by half the width) and `GetRoundedRectanglePath`.
+Every "round" is LayoutManagerForms' own (`(int)Math.Round`, a .5 to the even neighbour), so a control that scales its bounds with
+LayoutManager and its inner shapes with `UiTheme` gets the same pixels: focus ring and selection bar 2, 2, 3, 4, 4 px at 100 to 200%;
+`ScaleI(10, 1.25)` is 12; the check box corner is 2 px at 125% and the group box corner 8 px at 125%, 10 px at 175%. (`ui/ui1-1` rounded
+half away from zero, which gave 3 px focus rings at 125%; fixed on `ui/ui1-2`, `Sizes_PixelSnapping_RoundsAsLayoutManager` compares the
+helpers with `LayoutManagerForms` for every value 0 to 200 at the five scales.)
 Found on the way: GDI+ puts pixel centres on whole numbers in its default `PixelOffsetMode`, so a 1 px line at +0.5 falls between two pixels
 there. The rule's "on the pixel centre (offset 0.5)" holds with `PixelOffsetMode.Half`; the helper says so, and the sheet draws that way.
 

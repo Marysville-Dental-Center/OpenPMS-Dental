@@ -336,6 +336,8 @@ All values are at 96 DPI.
   1.25 or 1.5 px would smear into grey):
   - Borders and separators: `max(1, floor(scale))` device pixels (1 px at 100-175%, 2 px at 200%).
   - Focus ring and the selection bar: `round(2 × scale)` device pixels.
+  - "Round" is LayoutManager's rounding (`(int)Math.Round`, a .5 goes to the even neighbour), so the helpers and LayoutManager give the
+    same pixels: the focus ring is 2, 2, 3, 4, 4 px at 100, 125, 150, 175 and 200%.
   - Every rectangle that is filled or outlined is snapped to whole device pixels before drawing; a 1 px line is drawn on the pixel
     centre (offset 0.5) when antialiasing is on.
   - Corner radii are rounded to whole device pixels.
@@ -1066,7 +1068,9 @@ record.
   `NoHqTests/UiThemeScanTests.cs` with the allow list `Data/colour-literals.tsv` (323 rows). The gallery is in
   `.git/od-tools/test-results/g-ui1-part1/`; the WPF Frm waits for a connected session (WPF draws nothing while it is disconnected). Measured:
   the Account grid's rows are 14 px today, 17 px at Segoe UI 9 and 16 px at 8.25, as UQ-2 says. For the owner: the selection bar without
-  focus (`StrokeStrong`) is 3.5:1 on white but 2.7:1 against the selection fill beside it (the note's section 6).
+  focus (`StrokeStrong`) is 3.5:1 on white but 2.7:1 against the selection fill beside it (the note's section 6). Fixed on `ui/ui1-2`:
+  the snapping helpers round as LayoutManager rounds (a .5 to the even neighbour, so the focus ring is 2 px at 125%, not 3), checked against
+  `LayoutManagerForms` itself; the sheet and the gallery are redrawn.
 
 **UI-7a: the icon pipeline and the control glyphs** (no visible change in the program)
 - Owns: `third-party/fluentui-system-icons/`, `icons/manifest.json`, `icons/README.md`, `tools/New-IconData.ps1`,
