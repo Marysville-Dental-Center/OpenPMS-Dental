@@ -750,7 +750,7 @@ of 2026-11-08: "1. As recommended 2. Ship dlls we need. Use Helix. It's decided.
 - **S3a-11, the elevated installer test (run on 2026-11-15 by you):** 97 checks passed, 0 failed, exit code 0 on the build PC; your 0.0
   installation's Apps entry and Event Log source were written back and its shortcuts are unchanged. Nothing more is asked here; you run
   the same line again at each stage gate.
-- **Gallery G5: the chart on .NET 10, 64-bit (S3b-5W; waiting for your answer since 2026-11-16).** Branch `net10/s3b5w-2` (the
+- **Gallery G5: the chart on .NET 10, 64-bit (S3b-5W). Answered on 2026-11-16: "approve G5"; the pictures are approved as drawn, so the 64-bit one-pixel text rounding (the "5" at 410x307 and the perio legend's second row) stays as the 64-bit program draws it (the default of question 2). S3b-5W is merged into `net10/switch`.** Branch `net10/s3b5w-2` (the
   review fix round of `net10/s3b5w-1`: the tests' DirectX comparisons now check the .NET 10 pictures; no picture changed); the
   pictures were recorded in `7c95e3a54` and the gallery was made at that commit. The page `index.html` (in the main checkout's
   `.git/od-tools/test-results/g5-gallery/`, also zipped as `g5-gallery.zip`) shows each of the 370 pictures the chart tests keep (326 of the
