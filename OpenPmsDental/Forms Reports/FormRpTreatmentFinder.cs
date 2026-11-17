@@ -131,7 +131,7 @@ namespace OpenPmsDental{
 			gridMain.EndUpdate();
 			if(ODBuild.IsDebug()) {
 				sw.Stop();
-				Console.WriteLine("Finished fetching data and filling grid: {0}, Rows: {1}",(sw.Elapsed.Seconds==0?"":(sw.Elapsed.Seconds+" sec "))+(sw.Elapsed.TotalMilliseconds-(sw.Elapsed.Seconds*1000))+" ms",gridMain.ListGridRows.Count);
+				Console.WriteLine("Finished fetching data and filling grid: {0}, Rows: {1}",(sw.Elapsed.Seconds==0?"":(sw.Elapsed.Seconds+" sec "))+(sw.Elapsed.TotalMilliseconds-(sw.Elapsed.Seconds*1000)).ToStringNetFx()+" ms",gridMain.ListGridRows.Count);
 			}
 			Cursor=Cursors.Default;
 		}
@@ -363,7 +363,7 @@ namespace OpenPmsDental{
 					for(int i=0;i<listRows.Count;i++) {
 						string line="";
 						for(int j=0;j<_listHeaders.Count;j++) {
-							string cell=string.Concat(listRows[i][j].ToString().Where(x => !x.In('\r','\n','\t','\"')).ToArray());
+							string cell=string.Concat(ODNumberText.ToStringNetFxIfNumber(listRows[i][j]).Where(x => !x.In('\r','\n','\t','\"')).ToArray());
 							line+=cell+"\t";
 						}
 						sw.WriteLine(line);

@@ -181,8 +181,8 @@ namespace OpenPmsDental{
 					row.Cells.Add("");
 				}
 				else{
-					row.Cells.Add(_listJournalEntries[i].DebitAmt==0?"":_listJournalEntries[i].DebitAmt.ToString("n"));
-					row.Cells.Add(_listJournalEntries[i].CreditAmt==0?"":_listJournalEntries[i].CreditAmt.ToString("n"));
+					row.Cells.Add(_listJournalEntries[i].DebitAmt==0?"":_listJournalEntries[i].DebitAmt.ToStringNetFx("n"));
+					row.Cells.Add(_listJournalEntries[i].CreditAmt==0?"":_listJournalEntries[i].CreditAmt.ToStringNetFx("n"));
 				}
 				row.Cells.Add(bal.ToString("n"));
 				row.Cells.Add(Userods.GetName(_listJournalEntries[i].SecUserNumEntry));

@@ -4,6 +4,7 @@ using System.Windows.Forms;
 using EhrLaboratories;
 using OpenPmsDental.UI;
 using OpenPmsDentalBusiness;
+using CodeBase;
 
 namespace OpenPmsDental {
 	public partial class FormEhrLabResultEdit2014:FormODBase {
@@ -86,9 +87,9 @@ namespace OpenPmsDental {
 			#endregion
 			#region Structured Numeric
 			textStructNumComp.Text			=EhrLabResultCur.ObservationValueComparator;
-			textStructNumFirst.Text			=EhrLabResultCur.ObservationValueNumber1.ToString();
+			textStructNumFirst.Text			=EhrLabResultCur.ObservationValueNumber1.ToStringNetFx();
 			textStructNumSeparator.Text	=EhrLabResultCur.ObservationValueSeparatorOrSuffix;
-			textStructNumSecond.Text		=EhrLabResultCur.ObservationValueNumber2.ToString();
+			textStructNumSecond.Text		=EhrLabResultCur.ObservationValueNumber2.ToStringNetFx();
 			#endregion
 			#region Unit of Measure
 			textObsUnitsCodeSystem.Text		=EhrLabResultCur.UnitsCodeSystemName;
@@ -192,7 +193,7 @@ namespace OpenPmsDental {
 				case HL70125.TS:
 					return EhrLabResultCur.ObservationValueDateTime;
 				case HL70125.NM:
-					return EhrLabResultCur.ObservationValueNumeric.ToString();
+					return EhrLabResultCur.ObservationValueNumeric.ToStringNetFx();
 				case HL70125.FT:
 				case HL70125.ST:
 				case HL70125.TX:

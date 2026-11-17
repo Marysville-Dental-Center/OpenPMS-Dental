@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Text.RegularExpressions;
 using System.Xml.Serialization;
+using CodeBase;
 
 namespace OpenPmsDentalBusiness{
 
@@ -139,9 +140,9 @@ namespace OpenPmsDentalBusiness{
 				if(i>0){
 					DrawingSegment+=";";
 				}
-				DrawingSegment+=listPointFs[i].X.ToString("0.#")//tenth, if present
+				DrawingSegment+=listPointFs[i].X.ToStringNetFx("0.#")//tenth, if present
 					+","
-					+listPointFs[i].Y.ToString("0.#");
+					+listPointFs[i].Y.ToStringNetFx("0.#");
 			}
 		}
 
@@ -181,7 +182,7 @@ namespace OpenPmsDentalBusiness{
 		}
 
 		public void SetScale(float scale,int decimals,string units){
-			DrawingSegment=scale.ToString()+" "+decimals.ToString();
+			DrawingSegment=scale.ToStringNetFx()+" "+decimals.ToString();
 			if(units!=null && units!=""){
 				DrawingSegment+=" "+units;
 			}

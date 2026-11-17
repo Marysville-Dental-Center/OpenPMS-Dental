@@ -1434,16 +1434,16 @@ namespace OpenPmsDentalBusiness{
 			string deductableApplied=Lans.g("X835","deductable applied:");
 			string writeoff=Lans.g("X835","writeoff:");
 			if(!CompareDouble.Equals(claimNew.InsPayAmt,claimOld.InsPayAmt)) {
-				stringBuilderLog.Append($" {old} {insurancePayment} {claimOld.InsPayAmt.ToString("c")}, "+
-					$"{strNew} {insurancePayment} {claimNew.InsPayAmt.ToString("c")}.");
+				stringBuilderLog.Append($" {old} {insurancePayment} {claimOld.InsPayAmt.ToStringNetFx("c")}, "+
+					$"{strNew} {insurancePayment} {claimNew.InsPayAmt.ToStringNetFx("c")}.");
 			}
 			if(!CompareDouble.Equals(claimNew.DedApplied,claimOld.DedApplied)) {
-				stringBuilderLog.Append($" {old} {deductableApplied} {claimOld.DedApplied.ToString("c")}, "+
-					$"{strNew} {deductableApplied} {claimNew.DedApplied.ToString("c")}.");
+				stringBuilderLog.Append($" {old} {deductableApplied} {claimOld.DedApplied.ToStringNetFx("c")}, "+
+					$"{strNew} {deductableApplied} {claimNew.DedApplied.ToStringNetFx("c")}.");
 			}
 			if(!CompareDouble.Equals(claimNew.WriteOff,claimOld.WriteOff)) {
-				stringBuilderLog.Append($" {old} {writeoff} {claimOld.WriteOff.ToString("c")}, "+
-					$"{strNew} {writeoff} {claimNew.WriteOff.ToString("c")}.");
+				stringBuilderLog.Append($" {old} {writeoff} {claimOld.WriteOff.ToStringNetFx("c")}, "+
+					$"{strNew} {writeoff} {claimNew.WriteOff.ToStringNetFx("c")}.");
 			}
 			string stringLog=stringBuilderLog.ToString();
 			SecurityLogs.MakeLogEntry(EnumPermType.InsPayCreate,claimNew.PatNum,stringLog,claimNew.ClaimNum,claimNew.SecDateTEdit);
@@ -1534,14 +1534,14 @@ namespace OpenPmsDentalBusiness{
 				//Log deposit
 				SecurityLogs.MakeLogEntry(EnumPermType.DepositSlips,0
 					,Lans.g("FormClaimPayEdit","Auto Deposit created during automatic processing of ERA:")+" "+deposit.DateDeposit.ToShortDateString()
-					+" "+Lans.g("FormClaimPayEdit","New")+" "+deposit.Amount.ToString("c"));
+					+" "+Lans.g("FormClaimPayEdit","New")+" "+deposit.Amount.ToStringNetFx("c"));
 			}
 			//Insert ClaimPayment and make log that would normally be made in FormClaimPayEdit.butOK_Click()
 			ClaimPayments.Insert(claimPay);
 			SecurityLogs.MakeLogEntry(EnumPermType.InsPayCreate,0,
 				Lans.g("FormClaimPayEdit","Insurance Payment created during automatic processing of ERA.")+" "
 				+Lans.g("FormClaimPayEdit","Carrier Name: ")+claimPay.CarrierName+", "
-				+Lans.g("FormClaimPayEdit","Total Amount: ")+claimPay.CheckAmt.ToString("c")+", "
+				+Lans.g("FormClaimPayEdit","Total Amount: ")+claimPay.CheckAmt.ToStringNetFx("c")+", "
 				+Lans.g("FormClaimPayEdit","Check Date: ")+claimPay.CheckDate.ToShortDateString()+", "//Date the check is entered in the system (i.e. today)
 				+"ClaimPaymentNum: "+claimPay.ClaimPaymentNum);//Column name, not translated.
 			//Update the ClaimPaymentNum and DateCP for ClaimProcs

@@ -130,29 +130,29 @@ namespace OpenPmsDentalBusiness {
 				DataRow insAgingRow;
 				if(dictPatInsAgingRows.TryGetValue(patNumCur,out insAgingRow)) {
 					//check to see if that patient exists in the insurance aging report
-					insAgingRow["PatBal_0_30"]=PIn.Double(row["Bal_0_30"].ToString()) - PIn.Double(insAgingRow["InsPayEst_0_30"].ToString());
-					insAgingRow["PatBal_31_60"]=PIn.Double(row["Bal_31_60"].ToString()) - PIn.Double(insAgingRow["InsPayEst_31_60"].ToString());
-					insAgingRow["PatBal_61_90"]=PIn.Double(row["Bal_61_90"].ToString()) - PIn.Double(insAgingRow["InsPayEst_61_90"].ToString());
-					insAgingRow["PatBal_90"]=PIn.Double(row["BalOver90"].ToString()) - PIn.Double(insAgingRow["InsPayEst_90"].ToString());
-					insAgingRow["PatBal_Total"]=PIn.Double(row["BalTotal"].ToString()) - PIn.Double(insAgingRow["InsPayEst_Total"].ToString());
-					insAgingRow["InsWoChange"]=PIn.Double(row["InsWoEst"].ToString());
-					insAgingRow["PatBalEst"]=PIn.Double(insAgingRow["PatBal_Total"].ToString()) - PIn.Double(insAgingRow["InsWoChange"].ToString());
+					insAgingRow["PatBal_0_30"]=(PIn.Double(row["Bal_0_30"].ToString()) - PIn.Double(insAgingRow["InsPayEst_0_30"].ToString())).ToStringNetFx();
+					insAgingRow["PatBal_31_60"]=(PIn.Double(row["Bal_31_60"].ToString()) - PIn.Double(insAgingRow["InsPayEst_31_60"].ToString())).ToStringNetFx();
+					insAgingRow["PatBal_61_90"]=(PIn.Double(row["Bal_61_90"].ToString()) - PIn.Double(insAgingRow["InsPayEst_61_90"].ToString())).ToStringNetFx();
+					insAgingRow["PatBal_90"]=(PIn.Double(row["BalOver90"].ToString()) - PIn.Double(insAgingRow["InsPayEst_90"].ToString())).ToStringNetFx();
+					insAgingRow["PatBal_Total"]=(PIn.Double(row["BalTotal"].ToString()) - PIn.Double(insAgingRow["InsPayEst_Total"].ToString())).ToStringNetFx();
+					insAgingRow["InsWoChange"]=PIn.Double(row["InsWoEst"].ToString()).ToStringNetFx();
+					insAgingRow["PatBalEst"]=(PIn.Double(insAgingRow["PatBal_Total"].ToString()) - PIn.Double(insAgingRow["InsWoChange"].ToString())).ToStringNetFx();
 				}
 				else {//if pat doesn't exist in ins aging report, create a new row with 0.00 insurance values and fill the patient aging values
 					insAgingRow=insAgingTable.NewRow();
 					insAgingRow["PatName"]=row["PatName"];
-					insAgingRow["InsPayEst_0_30"]=PIn.Double("0.00");
-					insAgingRow["InsPayEst_31_60"]=PIn.Double("0.00");
-					insAgingRow["InsPayEst_61_90"]=PIn.Double("0.00");
-					insAgingRow["InsPayEst_90"]=PIn.Double("0.00");
-					insAgingRow["InsPayEst_Total"]=PIn.Double("0.00");
-					insAgingRow["PatBal_0_30"]=PIn.Double(row["Bal_0_30"].ToString());
-					insAgingRow["PatBal_31_60"]=PIn.Double(row["Bal_31_60"].ToString());
-					insAgingRow["PatBal_61_90"]=PIn.Double(row["Bal_61_90"].ToString());
-					insAgingRow["PatBal_90"]=PIn.Double(row["BalOver90"].ToString());
-					insAgingRow["PatBal_Total"]=PIn.Double(row["BalTotal"].ToString());
-					insAgingRow["InsWoChange"]=PIn.Double(row["InsWoEst"].ToString());
-					insAgingRow["PatBalEst"]=PIn.Double(row["BalTotal"].ToString())-PIn.Double(row["InsWoEst"].ToString())-PIn.Double(row["InsPayEst"].ToString());
+					insAgingRow["InsPayEst_0_30"]=PIn.Double("0.00").ToStringNetFx();
+					insAgingRow["InsPayEst_31_60"]=PIn.Double("0.00").ToStringNetFx();
+					insAgingRow["InsPayEst_61_90"]=PIn.Double("0.00").ToStringNetFx();
+					insAgingRow["InsPayEst_90"]=PIn.Double("0.00").ToStringNetFx();
+					insAgingRow["InsPayEst_Total"]=PIn.Double("0.00").ToStringNetFx();
+					insAgingRow["PatBal_0_30"]=PIn.Double(row["Bal_0_30"].ToString()).ToStringNetFx();
+					insAgingRow["PatBal_31_60"]=PIn.Double(row["Bal_31_60"].ToString()).ToStringNetFx();
+					insAgingRow["PatBal_61_90"]=PIn.Double(row["Bal_61_90"].ToString()).ToStringNetFx();
+					insAgingRow["PatBal_90"]=PIn.Double(row["BalOver90"].ToString()).ToStringNetFx();
+					insAgingRow["PatBal_Total"]=PIn.Double(row["BalTotal"].ToString()).ToStringNetFx();
+					insAgingRow["InsWoChange"]=PIn.Double(row["InsWoEst"].ToString()).ToStringNetFx();
+					insAgingRow["PatBalEst"]=(PIn.Double(row["BalTotal"].ToString())-PIn.Double(row["InsWoEst"].ToString())-PIn.Double(row["InsPayEst"].ToString())).ToStringNetFx();
 					dictPatInsAgingRows[patNumCur]=insAgingRow;
 				}
 			}

@@ -44,7 +44,7 @@ namespace OpenPmsDental{
 				if(_timeAdjust.PtoDefNum==0) {
 					if(_timeAdjust.TimeAdjustNum!=0 && _timeAdjust.RegHours==TimeSpan.Zero) {
 						//Existing adjustments of 0 hours should display as 0.
-						textHours.Text=_timeAdjust.RegHours.TotalHours.ToString("n0");
+						textHours.Text=_timeAdjust.RegHours.TotalHours.ToStringNetFx("n0");
 					}
 					else {
 						textHours.Text=ClockEvents.Format(_timeAdjust.RegHours);

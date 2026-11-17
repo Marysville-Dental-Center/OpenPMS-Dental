@@ -4,6 +4,7 @@ using System.Collections;
 using System.ComponentModel;
 using System.Windows.Forms;
 using OpenPmsDentalBusiness;
+using CodeBase;
 
 namespace OpenPmsDental{
 ///<summary></summary>
@@ -24,8 +25,8 @@ namespace OpenPmsDental{
 
 		private void FormInsAdj_Load(object sender, System.EventArgs e) {
 			textDate.Text=_claimProcCur.ProcDate.ToShortDateString();
-			textInsUsed.Text=_claimProcCur.InsPayAmt.ToString("F");
-			textDedUsed.Text=_claimProcCur.DedApplied.ToString("F");
+			textInsUsed.Text=_claimProcCur.InsPayAmt.ToStringNetFx("F");
+			textDedUsed.Text=_claimProcCur.DedApplied.ToStringNetFx("F");
 		}
 
 		private void butDelete_Click(object sender,EventArgs e) {

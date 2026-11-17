@@ -102,7 +102,7 @@ namespace OpenPmsDental{
 			else{
 				Deposit deposit=Deposits.GetOne(_transaction.DepositNum);
 				textSourceDeposit.Text=deposit.DateDeposit.ToShortDateString()
-					+"  "+deposit.Amount.ToString("c");
+					+"  "+deposit.Amount.ToStringNetFx("c");
 				butAttachDep.Text=Lan.g(this,"Detach");
 			}
 			if(_transaction.PayNum==0) {
@@ -112,7 +112,7 @@ namespace OpenPmsDental{
 			else {
 				Payment payment=Payments.GetPayment(_transaction.PayNum);
 				textSourcePay.Text=Patients.GetPat(payment.PatNum).GetNameFL()+" "
-					+payment.PayDate.ToShortDateString()+" "+payment.PayAmt.ToString("c");
+					+payment.PayDate.ToShortDateString()+" "+payment.PayAmt.ToStringNetFx("c");
 				butAttachPay.Text=Lan.g(this,"Detach");
 			}
 			if(_transaction.TransactionInvoiceNum==0) {
@@ -171,13 +171,13 @@ namespace OpenPmsDental{
 					row.Cells.Add("");
 				}
 				else{
-					row.Cells.Add(_listJournalEntries[i].DebitAmt.ToString("n"));
+					row.Cells.Add(_listJournalEntries[i].DebitAmt.ToStringNetFx("n"));
 				}
 				if(_listJournalEntries[i].CreditAmt==0){
 					row.Cells.Add("");
 				}
 				else{
-					row.Cells.Add(_listJournalEntries[i].CreditAmt.ToString("n"));
+					row.Cells.Add(_listJournalEntries[i].CreditAmt.ToStringNetFx("n"));
 				}
 				row.Cells.Add(_listJournalEntries[i].Memo);
 				row.Cells.Add(_listJournalEntries[i].Payee);
@@ -187,8 +187,8 @@ namespace OpenPmsDental{
 			}
 			gridMain.EndUpdate();
 			checkMemoSame.Checked=isMemoSame;
-			textCredit.Text=credits.ToString("n");
-			textDebit.Text=debits.ToString("n");
+			textCredit.Text=credits.ToStringNetFx("n");
+			textDebit.Text=debits.ToStringNetFx("n");
 		}
 
 		///<summary>Used when switching simple view (0, 1, or 2 journal entries with identical notes).  This function fills in the correct fields in the simple view, and then deletes any journal entries.  2 journal entries will be recreated upon leaving for compound view by CreateTwoEntries.  This is only called once upon going to simple view.  It's not called repeatedly as a way of refreshing the screen.</summary>
@@ -229,7 +229,7 @@ namespace OpenPmsDental{
 				if(_listJournalEntries[0].AccountNum!=_accountOfOrigin.AccountNum){
 					amt=-amt;
 				}
-				textAmount.Text=amt.ToString("n");
+				textAmount.Text=amt.ToStringNetFx("n");
 				if(_listJournalEntries[0].AccountNum==0){
 					_accountPicked=null;
 					textAccount.Text="";
@@ -266,18 +266,18 @@ namespace OpenPmsDental{
 			}
 			if(Accounts.DebitIsPos(_accountOfOrigin.AcctType)){//this is used for checking account
 				if(journalEntry.DebitAmt>0){
-					textAmount.Text=journalEntry.DebitAmt.ToString("n");
+					textAmount.Text=journalEntry.DebitAmt.ToStringNetFx("n");
 				}
 				else{//use the credit
-					textAmount.Text=(-journalEntry.CreditAmt).ToString("n");
+					textAmount.Text=(-journalEntry.CreditAmt).ToStringNetFx("n");
 				}
 			}
 			else{//false for checking acct
 				if(journalEntry.DebitAmt>0) {
-					textAmount.Text=(-journalEntry.DebitAmt).ToString("n");
+					textAmount.Text=(-journalEntry.DebitAmt).ToStringNetFx("n");
 				}
 				else {
-					textAmount.Text=journalEntry.CreditAmt.ToString("n");
+					textAmount.Text=journalEntry.CreditAmt.ToStringNetFx("n");
 				}
 			}
 			if(journalEntryOther.AccountNum==0){
@@ -412,7 +412,7 @@ namespace OpenPmsDental{
 				}
 				_transaction.DepositNum=formDeposits.DepositSelected.DepositNum;
 				textSourceDeposit.Text=formDeposits.DepositSelected.DateDeposit.ToShortDateString()
-					+"  "+formDeposits.DepositSelected.Amount.ToString("c");
+					+"  "+formDeposits.DepositSelected.Amount.ToStringNetFx("c");
 				butAttachDep.Text=Lan.g(this,"Detach");
 				return;
 			}
@@ -642,7 +642,7 @@ namespace OpenPmsDental{
 					}
 					securityentry+=Accounts.GetDescript(_listJournalEntries[i].AccountNum);
 				}
-				securityentry+=". "+tot.ToString("c");
+				securityentry+=". "+tot.ToStringNetFx("c");
 				_listJournalEntries=new List<JournalEntry>();//in case it fails, we don't want to leave this list around.
 			}
 			try {
@@ -817,10 +817,10 @@ namespace OpenPmsDental{
 						continue;//don't show the amount if there is only two splits, because the amount is the same.
 					}
 					if(_listJournalEntries[j].CreditAmt>0) {
-						splits+="  "+_listJournalEntries[j].CreditAmt.ToString("n");
+						splits+="  "+_listJournalEntries[j].CreditAmt.ToStringNetFx("n");
 					}
 					else if(_listJournalEntries[j].DebitAmt>0) {
-						splits+="  "+_listJournalEntries[j].DebitAmt.ToString("n");
+						splits+="  "+_listJournalEntries[j].DebitAmt.ToStringNetFx("n");
 					}
 				}
 				_listJournalEntries[i].Splits=splits;
@@ -837,7 +837,7 @@ namespace OpenPmsDental{
 			}
 			if(IsNew) {
 				SecurityLogs.MakeLogEntry(EnumPermType.AccountingCreate,0,
-					AppendAuditChanges(date.ToShortDateString()+" "+_accountOfOrigin.Description+" "+tot.ToString("c"),auditChanges),
+					AppendAuditChanges(date.ToShortDateString()+" "+_accountOfOrigin.Description+" "+tot.ToStringNetFx("c"),auditChanges),
 					_transaction.TransactionNum,DateTime.MinValue);
 				return true;
 			}
@@ -845,7 +845,7 @@ namespace OpenPmsDental{
 			if(_accountOfOrigin!=null){
 				txt+=" "+_accountOfOrigin.Description;
 			}
-			txt+=" "+tot.ToString("c");
+			txt+=" "+tot.ToStringNetFx("c");
 			SecurityLogs.MakeLogEntry(EnumPermType.AccountingEdit,0,AppendAuditChanges(txt,auditChanges),_transaction.TransactionNum,dateTimePrevious);
 			return true;
 		}

@@ -628,7 +628,7 @@ Examples:
 						break;
 				}
 				float percentage=((float)listRelationships[i].metric_value / totalMetricValue) * 100f;
-				retVal+="\n"+relationshipArea+": "+percentage.ToString("F0")+"%";//Ex: "Enamel: 45%"
+				retVal+="\n"+relationshipArea+": "+percentage.ToStringNetFx("F0")+"%";//Ex: "Enamel: 45%"
 			}
 			return retVal;
 		}

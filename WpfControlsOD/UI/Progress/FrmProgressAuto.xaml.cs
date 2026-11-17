@@ -157,7 +157,7 @@ namespace WpfControls.UI {
 				}
 				if(isLoggingWorkerEnd) {
 					ODCancellation.Log("Progress window '"+StartingMessage+"' ("+GetActionName()+"): the action "+outcome+" "
-						+(DateTime.Now-_dateTimeClosedWithWorkerRunning).TotalSeconds.ToString("F1")+" s after the window closed as cancelled.");
+						+(DateTime.Now-_dateTimeClosedWithWorkerRunning).TotalSeconds.ToStringNetFx("F1")+" s after the window closed as cancelled.");
 				}
 			}
 		}
@@ -305,13 +305,13 @@ namespace WpfControls.UI {
 		private string GetElapsedTime(DateTime start, DateTime end) {
 			TimeSpan timeElapsed=new TimeSpan(end.Ticks-start.Ticks);
 			if(timeElapsed.TotalMinutes>2) {
-				return "Elapsed Time: "+timeElapsed.TotalMinutes.ToString("F1")+" minutes";
+				return "Elapsed Time: "+timeElapsed.TotalMinutes.ToStringNetFx("F1")+" minutes";
 			}
 			else if(timeElapsed.TotalSeconds>2) {
-				return "Elapsed Time: "+timeElapsed.TotalSeconds.ToString("F0")+" seconds";
+				return "Elapsed Time: "+timeElapsed.TotalSeconds.ToStringNetFx("F0")+" seconds";
 			}
 			else {
-				return "Elapsed Time: "+timeElapsed.TotalMilliseconds.ToString("F0")+" milliseconds";
+				return "Elapsed Time: "+timeElapsed.TotalMilliseconds.ToStringNetFx("F0")+" milliseconds";
 			}
 		}
 

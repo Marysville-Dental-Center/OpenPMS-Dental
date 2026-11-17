@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using CodeBase;
 
 namespace OpenPmsDentalBusiness {
 	public class RpUnearnedIncome {
@@ -152,8 +153,8 @@ namespace OpenPmsDentalBusiness {
 				dictPatNames.TryGetValue(guarNum,out guarName);
 				dictFamilyBalances.TryGetValue(guarNum,out famBal);
 				guarRow["Guar"] = guarName;
-				guarRow["FamBal"] = famBal.ToString("f");
-				guarRow["FamUnearned"] = unallocAmt.ToString("f");
+				guarRow["FamBal"] = famBal.ToStringNetFx("f");
+				guarRow["FamUnearned"] = unallocAmt.ToStringNetFx("f");
 				guarRow["FamRemAmt"] = famRemAmt.ToString("f");
 				if(showProvider) { 
 					guarRow["Prov"] = guarRowCur["Abbr"];
@@ -172,7 +173,7 @@ namespace OpenPmsDentalBusiness {
 					}
 					newRow["Code"] = ProcedureCodes.GetStringProcCode(unearnedProc.Proc.CodeNum,listProcCodes);
 					newRow["Date"] = unearnedProc.Proc.ProcDate.ToShortDateString();
-					newRow["Fee"] = unearnedProc.Proc.ProcFeeTotal.ToString("f");
+					newRow["Fee"] = unearnedProc.Proc.ProcFeeTotal.ToStringNetFx("f");
 					newRow["RemAmt"] = unearnedProc.UnallocatedAmt.ToString("f");
 					retVal.Rows.Add(newRow);
 				}
@@ -244,8 +245,8 @@ namespace OpenPmsDentalBusiness {
 				DataRow newRow = retVal.NewRow();
 				newRow["PatientName"] = rowCur["LName"].ToString() + ", " + rowCur["FName"].ToString();
 				newRow["GuarantorName"] = rowCur["GuarL"].ToString() + ", " + rowCur["GuarF"].ToString();
-				newRow["PatUnearnedAmt"] = PIn.Double(rowCur["UnallocatedAmt"].ToString());
-				newRow["FamBal"] = famBal.ToString("f");
+				newRow["PatUnearnedAmt"] = PIn.Double(rowCur["UnallocatedAmt"].ToString()).ToStringNetFx();
+				newRow["FamBal"] = famBal.ToStringNetFx("f");
 				retVal.Rows.Add(newRow);
 			}
 			return retVal;

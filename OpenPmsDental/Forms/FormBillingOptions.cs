@@ -918,8 +918,8 @@ namespace OpenPmsDental{
 				if(dictionaryInstallmentPlans.TryGetValue(listPatAgings[i].PatNum,out installmentPlan) && installmentPlan!=null) {
 					statement.Note=textNote.Text.Replace("[InstallmentPlanTerms]","Installment Plan\r\n"
 						+"Date First Payment: "+installmentPlan.DateFirstPayment.ToShortDateString()+"\r\n"
-						+"Monthly Payment: "+installmentPlan.MonthlyPayment.ToString("c")+"\r\n"
-						+"APR: "+(installmentPlan.APR/100).ToString("P")+"\r\n"
+						+"Monthly Payment: "+installmentPlan.MonthlyPayment.ToStringNetFx("c")+"\r\n"
+						+"APR: "+(installmentPlan.APR/100).ToStringNetFx("P")+"\r\n"
 						+"Note: "+installmentPlan.Note);
 				}
 				else {

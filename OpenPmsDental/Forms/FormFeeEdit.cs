@@ -34,7 +34,7 @@ namespace OpenPmsDental {
 				return;
 			}
 			Location=new Point(Location.X-190,Location.Y-20);
-			textFee.Text=FeeCur.Amount.ToString("F");
+			textFee.Text=FeeCur.Amount.ToStringNetFx("F");
 		}
 
 		private void butSave_Click(object sender, System.EventArgs e) {
@@ -56,7 +56,7 @@ namespace OpenPmsDental {
 				Fees.Update(FeeCur,feeOld);//Fee object always created and inserted externally first
 			}
 			SecurityLogs.MakeLogEntry(EnumPermType.ProcFeeEdit,0,Lan.g(this,"Procedure")+": "+ProcedureCodes.GetStringProcCode(FeeCur.CodeNum)
-				+", "+Lan.g(this,"Fee: ")+""+FeeCur.Amount.ToString("c")+", "+Lan.g(this,"Fee Schedule")+": "+FeeScheds.GetDescription(FeeCur.FeeSched)
+				+", "+Lan.g(this,"Fee: ")+""+FeeCur.Amount.ToStringNetFx("c")+", "+Lan.g(this,"Fee Schedule")+": "+FeeScheds.GetDescription(FeeCur.FeeSched)
 				+". "+Lan.g(this,"Manual edit in Edit Fee window."),FeeCur.CodeNum,DateTime.MinValue);
 			SecurityLogs.MakeLogEntry(EnumPermType.LogFeeEdit,0,Lan.g(this,"Fee Updated"),FeeCur.FeeNum,datePrevious);
 			DialogResult=DialogResult.OK;

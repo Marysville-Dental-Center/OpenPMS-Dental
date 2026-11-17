@@ -8,6 +8,7 @@ using ImagingCapture.Metadata;
 using ImagingCapture.Save;
 using ImagingCapture.Session;
 using ImagingDeviceManager.Capture;
+using CodeBase;
 
 namespace ImagingCapture.UI {
 	///<summary>Test capture's automatic byte-order check of a 16-bit image.</summary>
@@ -340,19 +341,19 @@ namespace ImagingCapture.UI {
 		}
 
 		private string FormatRoughness() {
-			return "neighbour difference "+RoughnessAsRead.ToString("0.#",CultureInfo.InvariantCulture)+" as read, "
-				+RoughnessSwapped.ToString("0.#",CultureInfo.InvariantCulture)+" swapped";
+			return "neighbour difference "+RoughnessAsRead.ToStringNetFx("0.#",CultureInfo.InvariantCulture)+" as read, "
+				+RoughnessSwapped.ToStringNetFx("0.#",CultureInfo.InvariantCulture)+" swapped";
 		}
 
 		private static string FormatDpi(double dpi) {
-			return dpi>0 ? dpi.ToString("0.##",CultureInfo.InvariantCulture) : "?";
+			return dpi>0 ? dpi.ToStringNetFx("0.##",CultureInfo.InvariantCulture) : "?";
 		}
 
 		private static string FormatPercent(int count,int total) {
 			if(total<=0) {
 				return "0%";
 			}
-			return (100.0*count/total).ToString("0.#",CultureInfo.InvariantCulture)+"%";
+			return (100.0*count/total).ToStringNetFx("0.#",CultureInfo.InvariantCulture)+"%";
 		}
 
 		private static string Show(string text) {

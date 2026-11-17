@@ -380,7 +380,7 @@ namespace OpenPmsDentalBusiness {
 				//cancel from Setup's progress window stops the check before or after it, never between the change and what records it.
 				ODCancellation.RunUncancellable(() => {
 					_store.UpdatePayment(payment,paymentOld);
-					_store.MakeSecurityLog(payment,"PaySimple ACH status check changed the payment of "+payment.PayAmt.ToString("c")
+					_store.MakeSecurityLog(payment,"PaySimple ACH status check changed the payment of "+payment.PayAmt.ToStringNetFx("c")
 						+" dated "+payment.PayDate.ToShortDateString()+" from "+paymentOld.PaymentStatus+" to "+payment.PaymentStatus+".");
 					if(paymentStatusNew.Value==PaymentStatus.PaySimpleAchFailed) {
 						result.CountFailed++;
@@ -389,7 +389,7 @@ namespace OpenPmsDentalBusiness {
 								+" correct the account by hand.")+"\r\n"
 							+Lans.g("PaySimple","Patient number")+": "+payment.PatNum+"\r\n"
 							+Lans.g("PaySimple","Payment date")+": "+payment.PayDate.ToShortDateString()+"\r\n"
-							+Lans.g("PaySimple","Amount")+": "+payment.PayAmt.ToString("c")+"\r\n"
+							+Lans.g("PaySimple","Amount")+": "+payment.PayAmt.ToStringNetFx("c")+"\r\n"
 							+Lans.g("PaySimple","PaySimple Transaction Number")+": "+payment.ExternalId+"\r\n"
 							+BuildNoteLine(outcome,paySimplePaymentStatus,_funcToday()));
 					}

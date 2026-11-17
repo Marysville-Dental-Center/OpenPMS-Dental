@@ -363,7 +363,7 @@ namespace OpenPmsDentalBusiness{
 			if((CreditCards.GetCreditCardSourcesForOnlinePayments().Contains(ccSource))) {
 				logSource=LogSources.PaymentPortal;
 			}
-			SecurityLogs.MakeLogEntry(EnumPermType.PaymentCreate,patNum,ccSourceString+" "+Lans.g("Payments.InsertFromXWeb","payment by")+" "+Patients.GetLim(patNum).GetNameLF()+", "+amount.ToString("c"),logSource);
+			SecurityLogs.MakeLogEntry(EnumPermType.PaymentCreate,patNum,ccSourceString+" "+Lans.g("Payments.InsertFromXWeb","payment by")+" "+Patients.GetLim(patNum).GetNameLF()+", "+amount.ToStringNetFx("c"),logSource);
 			return retVal;
 		}
 
@@ -394,7 +394,7 @@ namespace OpenPmsDentalBusiness{
 				logSource=LogSources.PaymentPortal;
 			}
 			SecurityLogs.MakeLogEntry(EnumPermType.PaymentCreate,patNum,Lans.g("Payments.InsertFromPayConnect","PayConnect payment by")+" "
-				+Patients.GetLim(patNum).GetNameLF()+", "+amount.ToString("c"),logSource);
+				+Patients.GetLim(patNum).GetNameLF()+", "+amount.ToStringNetFx("c"),logSource);
 			return ret;
 		}
 
@@ -419,7 +419,7 @@ namespace OpenPmsDentalBusiness{
 			Patient patient=Patients.GetPat(patNum);
 			long payNum=ProcessPaymentForWeb(payment,patient,amount);
 			SecurityLogs.MakeLogEntry(EnumPermType.PaymentCreate,patNum,Lans.g("Payments.InsertFromCareCredit","CareCredit payment by")+" "
-				+patient.GetNameLF()+", "+amount.ToString("c"),LogSources.CareCredit);
+				+patient.GetNameLF()+", "+amount.ToStringNetFx("c"),LogSources.CareCredit);
 			return payNum;
 		}
 
@@ -453,7 +453,7 @@ namespace OpenPmsDentalBusiness{
 				logSource=LogSources.PaymentPortal;
 			}
 			SecurityLogs.MakeLogEntry(EnumPermType.PaymentCreate,patNum,Lans.g("Payments.InsertFromPaySimple","PaySimple payment by") + " "
-				+ Patients.GetLim(patNum).GetNameLF() + ", " + amount.ToString("c"),logSource);
+				+ Patients.GetLim(patNum).GetNameLF() + ", " + amount.ToStringNetFx("c"),logSource);
 			return payNum;
 		}
 
@@ -1010,11 +1010,11 @@ namespace OpenPmsDentalBusiness{
 				if(!string.IsNullOrEmpty(clinicAbbrNew)) {
 					secLogText+=$", clinic '{clinicAbbrNew}'";
 				}
-				secLogText+=$", amount '{paymentNew.PayAmt.ToString("c")}'";
+				secLogText+=$", amount '{paymentNew.PayAmt.ToStringNetFx("c")}'";
 			}
 			else {
 				secLogText=$"Payment edited for {Patients.GetLim(paymentNew.PatNum).GetNameLF()}";
-				secLogText+=SecurityLogEntryTextHelper(paymentNew.PayAmt.ToString("c"),paymentOld.PayAmt.ToString("c"),"amount");
+				secLogText+=SecurityLogEntryTextHelper(paymentNew.PayAmt.ToStringNetFx("c"),paymentOld.PayAmt.ToStringNetFx("c"),"amount");
 				secLogText+=SecurityLogEntryTextHelper(clinicAbbrNew,Clinics.GetAbbr(paymentOld.ClinicNum),"clinic");
 				secLogText+=SecurityLogEntryTextHelper(paymentNew.PayDate.ToShortDateString(),paymentOld.PayDate.ToShortDateString(),"payment date");
 				secLogText+=SecurityLogEntryTextHelper(GetPaymentTypeDesc(paymentNew,listPayTypes),GetPaymentTypeDesc(paymentOld,listPayTypes),"payment type");

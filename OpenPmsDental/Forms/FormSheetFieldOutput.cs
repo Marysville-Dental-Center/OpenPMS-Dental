@@ -61,7 +61,7 @@ namespace OpenPmsDental {
 				comboFontName.Items.Add(SheetFieldDefCur.FontName+" (missing)",SheetFieldDefCur.FontName);
 				comboFontName.SetSelected(comboFontName.Items.Count-1);
 			}
-			textFontSize.Text=SheetFieldDefCur.FontSize.ToString();
+			textFontSize.Text=SheetFieldDefCur.FontSize.ToStringNetFx();
 			checkFontIsBold.Checked=SheetFieldDefCur.FontIsBold;
 			SheetUtilL.FillComboGrowthBehavior(comboGrowthBehavior,SheetFieldDefCur.GrowthBehavior);
 			for(int i=0;i<Enum.GetNames(typeof(System.Windows.Forms.HorizontalAlignment)).Length;i++) {

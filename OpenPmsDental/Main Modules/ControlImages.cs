@@ -1859,7 +1859,7 @@ namespace OpenPmsDental{
 				userOdPref.UserNum=Security.CurUser.UserNum;
 				userOdPref.FkeyType=UserOdFkeyType.ImageSelectorWidth;
 			}
-			userOdPref.ValueString=_widthTree96.ToString();
+			userOdPref.ValueString=_widthTree96.ToStringNetFx();
 			UserOdPrefs.Upsert(userOdPref);
 			DataValid.SetInvalid(InvalidType.UserOdPrefs);
 		}

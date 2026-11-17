@@ -920,8 +920,8 @@ namespace OpenPmsDentalBusiness {
 				if(dictInstallmentPlans.TryGetValue(listPatAgings[i].PatNum,out installmentPlan)&&installmentPlan!=null) {
 					statement.Note=strBillingDefaultNote.Replace("[InstallmentPlanTerms]","Installment Plan\r\n"
 						+"Date First Payment: "+installmentPlan.DateFirstPayment.ToShortDateString()+"\r\n"
-						+"Monthly Payment: "+installmentPlan.MonthlyPayment.ToString("c")+"\r\n"
-						+"APR: "+(installmentPlan.APR/100).ToString("P")+"\r\n"
+						+"Monthly Payment: "+installmentPlan.MonthlyPayment.ToStringNetFx("c")+"\r\n"
+						+"APR: "+(installmentPlan.APR/100).ToStringNetFx("P")+"\r\n"
 						+"Note: "+installmentPlan.Note);
 				}
 				PatAgingData patAgingData;
@@ -1173,7 +1173,7 @@ namespace OpenPmsDentalBusiness {
 			ActionProgressEvent?.Invoke(new ODEventArgs(ODEventType.Billing,
 				new ProgressBarHelper(
 					labelValue: Lans.g("FormBilling","Overall"),
-					percentValue: Math.Ceiling(((double)CurStatementIdx/ListStatementNumsToSend.Count)*100)+"%",
+					percentValue: Math.Ceiling(((double)CurStatementIdx/ListStatementNumsToSend.Count)*100).ToStringNetFx()+"%",
 					blockValue: CurStatementIdx,
 					blockMax: ListStatementNumsToSend.Count,
 					progressStyle: ProgBarStyle.Blocks,
@@ -1181,7 +1181,7 @@ namespace OpenPmsDentalBusiness {
 			ActionProgressEvent?.Invoke(new ODEventArgs(ODEventType.Billing,
 				new ProgressBarHelper(
 					labelValue: Lans.g(this,"Batch")+"\r\n"+CurStatementBatch.BatchNum+" / "+ListStatementBatches.Count,
-					percentValue: Math.Ceiling(((double)CurStatementBatch.CountStatementsProcessed/CurStatementBatch.ListStatements.Count)*100)+"%",
+					percentValue: Math.Ceiling(((double)CurStatementBatch.CountStatementsProcessed/CurStatementBatch.ListStatements.Count)*100).ToStringNetFx()+"%",
 					blockValue: CurStatementBatch.CountStatementsProcessed,
 					blockMax: CurStatementBatch.ListStatements.Count,
 					progressStyle: ProgBarStyle.Blocks,
@@ -1194,7 +1194,7 @@ namespace OpenPmsDentalBusiness {
 			ActionProgressEvent?.Invoke(new ODEventArgs(ODEventType.Billing,
 			new ProgressBarHelper(
 					labelValue: Lans.g("FormBilling","Statement")+"\r\n"+CurStatementIdx+" / "+ListStatementNumsToSend.Count,
-					percentValue: Math.Ceiling(((double)fakePercentage/100)*100)+"%",
+					percentValue: Math.Ceiling(((double)fakePercentage/100)*100).ToStringNetFx()+"%",
 					blockValue: fakePercentage,
 					blockMax: 100,
 					progressStyle: ProgBarStyle.Blocks,

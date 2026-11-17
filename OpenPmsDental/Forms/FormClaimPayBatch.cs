@@ -114,7 +114,7 @@ namespace OpenPmsDental{
 			if(_claimPayment.DateIssued.Year>1800) {
 				textDateIssued.Text=_claimPayment.DateIssued.ToShortDateString();
 			}
-			textAmount.Text=_claimPayment.CheckAmt.ToString("F");
+			textAmount.Text=_claimPayment.CheckAmt.ToStringNetFx("F");
 			textCheckNum.Text=_claimPayment.CheckNum;
 			textBankBranch.Text=_claimPayment.BankBranch;
 			textCarrierName.Text=_claimPayment.CarrierName;
@@ -176,14 +176,14 @@ namespace OpenPmsDental{
 				}
 				row.Cells.Add(_listClaimsAttached[i].Carrier);
 				row.Cells.Add(_listClaimsAttached[i].PatName);
-				row.Cells.Add(_listClaimsAttached[i].FeeBilled.ToString("F"));
-				row.Cells.Add(_listClaimsAttached[i].InsPayAmt.ToString("F"));
+				row.Cells.Add(_listClaimsAttached[i].FeeBilled.ToStringNetFx("F"));
+				row.Cells.Add(_listClaimsAttached[i].InsPayAmt.ToStringNetFx("F"));
 				row.Tag=_listClaimsAttached[i];
 				gridAttached.ListGridRows.Add(row);
 			}
 			gridAttached.Tag=_listClaimsAttached;
 			gridAttached.EndUpdate();
-			textTotal.Text=total.ToString("F");
+			textTotal.Text=total.ToStringNetFx("F");
 			#endregion gridAttached
 			if((IsFromClaim && IsNew) || !_claimPayment.IsPartial) {//gridOut isn't visible
 				//if new batch claim payment opened from a claim, or if it's locked (not partial), gridOut isn't visible so no need to fill it
@@ -250,8 +250,8 @@ namespace OpenPmsDental{
 				}
 				row.Cells.Add(_listClaimsOutstanding[i].Carrier);
 				row.Cells.Add(_listClaimsOutstanding[i].PatName);
-				row.Cells.Add(_listClaimsOutstanding[i].FeeBilled.ToString("F"));
-				row.Cells.Add(_listClaimsOutstanding[i].InsPayAmt.ToString("F"));
+				row.Cells.Add(_listClaimsOutstanding[i].FeeBilled.ToStringNetFx("F"));
+				row.Cells.Add(_listClaimsOutstanding[i].InsPayAmt.ToStringNetFx("F"));
 				row.Tag=_listClaimsOutstanding[i];
 				gridOut.ListGridRows.Add(row);
 			}
@@ -532,12 +532,12 @@ namespace OpenPmsDental{
 				if(!isSilent) {
 					FriendlyException.Show("Amounts do not match.",new ApplicationException("Variables:\r\n"
 						+"NumberFormatInfo.CurrentInfo.NumberDecimalDigits: "+digits+"\r\n"
-						+"amountRaw: "+amountRaw+"\r\n"
-						+"amountRounded: "+amountRounded+"\r\n"
-						+"totalRaw: "+totalRaw+"\r\n"
-						+"totalRounded: "+totalRounded+"\r\n"
+						+"amountRaw: "+amountRaw.ToStringNetFx()+"\r\n"
+						+"amountRounded: "+amountRounded.ToStringNetFx()+"\r\n"
+						+"totalRaw: "+totalRaw.ToStringNetFx()+"\r\n"
+						+"totalRounded: "+totalRounded.ToStringNetFx()+"\r\n"
 						+"The above values need to equate within a small epsilon to be acceptable.  See ODExtensions.IsZero().\r\n"
-						+"Math.Abs("+amountRounded+"-"+totalRounded+") = "+Math.Abs(amountRounded-totalRounded)));
+						+"Math.Abs("+amountRounded.ToStringNetFx()+"-"+totalRounded.ToStringNetFx()+") = "+Math.Abs(amountRounded-totalRounded).ToStringNetFx()));
 				}
 				return false;
 			}

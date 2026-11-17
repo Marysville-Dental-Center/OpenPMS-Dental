@@ -328,7 +328,7 @@ namespace OpenPmsDentalBusiness{
 			}
 			Pref pref=new Pref();
 			pref.PrefName=prefName.ToString();
-			pref.ValueString=newValue.ToString();
+			pref.ValueString=newValue.ToStringNetFx();
 			Prefs.UpdateValueForKey(pref);
 			return retVal;
 		}

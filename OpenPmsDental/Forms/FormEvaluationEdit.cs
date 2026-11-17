@@ -7,6 +7,7 @@ using System.Windows.Forms;
 using OpenPmsDentalBusiness;
 using OpenPmsDental.UI;
 using System.Linq;
+using CodeBase;
 
 namespace OpenPmsDental {
 	public partial class FormEvaluationEdit:FormODBase {
@@ -42,7 +43,7 @@ namespace OpenPmsDental {
 				textStudent.Text=_providerStudent.GetLongDesc();
 			}
 			textCourse.Text=SchoolCourses.GetDescript(_evaluation.SchoolCourseNum);
-			textGradeNumberOverride.Text=_evaluation.OverallGradeNumber.ToString();
+			textGradeNumberOverride.Text=_evaluation.OverallGradeNumber.ToStringNetFx();
 			textGradeShowingOverride.Text=_evaluation.OverallGradeShowing;
 			_listEvaluationCriterions=EvaluationCriterions.Refresh(_evaluation.EvaluationNum);
 			for(int i=0;i<_listEvaluationCriterions.Count;i++) {
@@ -105,7 +106,7 @@ namespace OpenPmsDental {
 						row.Cells.Add(gradingScale.Description);
 					}
 					row.Cells.Add(_listEvaluationCriterions[i].GradeShowing);
-					row.Cells.Add(_listEvaluationCriterions[i].GradeNumber.ToString());
+					row.Cells.Add(_listEvaluationCriterions[i].GradeNumber.ToStringNetFx());
 					row.Cells.Add(_listEvaluationCriterions[i].Notes);
 				}
 				gridCriterion.ListGridRows.Add(row);
@@ -141,7 +142,7 @@ namespace OpenPmsDental {
 				gridGrades.EndUpdate();
 				return;
 			}
-			row.Cells.Add(_listEvaluationCriterions[gridCriterion.SelectedCell.Y].MaxPointsPoss.ToString());
+			row.Cells.Add(_listEvaluationCriterions[gridCriterion.SelectedCell.Y].MaxPointsPoss.ToStringNetFx());
 			gridGrades.ListGridRows.Add(row);
 			gridGrades.EndUpdate();
 		}
@@ -179,7 +180,7 @@ namespace OpenPmsDental {
 			}
 			for(int i=0;i<_dictionaryListsGradingScaleItems[gradingScaleNum].Count;i++) {
 				row=new GridRow();
-				row.Cells.Add(_dictionaryListsGradingScaleItems[gradingScaleNum][i].GradeNumber.ToString());
+				row.Cells.Add(_dictionaryListsGradingScaleItems[gradingScaleNum][i].GradeNumber.ToStringNetFx());
 				row.Cells.Add(_dictionaryListsGradingScaleItems[gradingScaleNum][i].GradeShowing);
 				row.Cells.Add(_dictionaryListsGradingScaleItems[gradingScaleNum][i].Description);
 				gridGrades.ListGridRows.Add(row);
@@ -226,7 +227,7 @@ namespace OpenPmsDental {
 			//Everything below this point assumes changes may have been made to the GradeNumber column.
 			float number=0;
 			if(!float.TryParse(gridCriterion.ListGridRows[gridCriterion.SelectedCell.Y].Cells[3].Text,out number)) {// Cell 3 is the GradeNumber column
-				gridCriterion.ListGridRows[gridCriterion.SelectedCell.Y].Cells[3].Text=_listEvaluationCriterions[gridCriterion.SelectedCell.Y].GradeNumber.ToString();
+				gridCriterion.ListGridRows[gridCriterion.SelectedCell.Y].Cells[3].Text=_listEvaluationCriterions[gridCriterion.SelectedCell.Y].GradeNumber.ToStringNetFx();
 				return;
 			}
 			GradingScale gradingScale=_listGradingScales.Find(x=>x.GradingScaleNum==_listEvaluationCriterions[gridCriterion.SelectedCell.Y].GradingScaleNum);
@@ -243,13 +244,13 @@ namespace OpenPmsDental {
 					}
 				}
 				if(!isValid) {
-					gridCriterion.ListGridRows[gridCriterion.SelectedCell.Y].Cells[3].Text=_listEvaluationCriterions[gridCriterion.SelectedCell.Y].GradeNumber.ToString();
+					gridCriterion.ListGridRows[gridCriterion.SelectedCell.Y].Cells[3].Text=_listEvaluationCriterions[gridCriterion.SelectedCell.Y].GradeNumber.ToStringNetFx();
 					gridCriterion.Invalidate();//Needed to redraw grid without unselecting the row.
 				}
 			}
 			else {
-				_listEvaluationCriterions[gridCriterion.SelectedCell.Y].GradeShowing=number.ToString();
-				gridCriterion.ListGridRows[gridCriterion.SelectedCell.Y].Cells[2].Text=number.ToString();
+				_listEvaluationCriterions[gridCriterion.SelectedCell.Y].GradeShowing=number.ToStringNetFx();
+				gridCriterion.ListGridRows[gridCriterion.SelectedCell.Y].Cells[2].Text=number.ToStringNetFx();
 			}
 			_listEvaluationCriterions[gridCriterion.SelectedCell.Y].GradeNumber=number;
 			RecalculateGrades();
@@ -302,8 +303,8 @@ namespace OpenPmsDental {
 				gradeNumberDisplay=gradeSum;
 			}
 			if(_gradingScale.ScaleType==EnumScaleType.Percentage) {
-				textGradeNumber.Text=gradeNumberDisplay.ToString();
-				textGradeShowing.Text=gradeNumberDisplay.ToString();
+				textGradeNumber.Text=gradeNumberDisplay.ToStringNetFx();
+				textGradeShowing.Text=gradeNumberDisplay.ToStringNetFx();
 			}
 			if(_gradingScale.ScaleType==EnumScaleType.PickList){
 				float dif=float.MaxValue;
@@ -316,12 +317,12 @@ namespace OpenPmsDental {
 						closestShowing=_listGradingScaleItems[i].GradeShowing;
 					}
 				}
-				textGradeNumber.Text=closestNumber.ToString();
+				textGradeNumber.Text=closestNumber.ToStringNetFx();
 				textGradeShowing.Text=closestShowing;
 			}
 			if(_gradingScale.ScaleType==EnumScaleType.Weighted) {
-				textGradeNumber.Text=gradeNumberDisplay.ToString();
-				textGradeShowing.Text=gradeNumberDisplay+"/"+maxPoints;
+				textGradeNumber.Text=gradeNumberDisplay.ToStringNetFx();
+				textGradeShowing.Text=gradeNumberDisplay.ToStringNetFx()+"/"+maxPoints.ToStringNetFx();
 			}
 		}
 

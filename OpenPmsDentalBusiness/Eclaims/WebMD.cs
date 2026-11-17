@@ -80,7 +80,7 @@ namespace OpenPmsDentalBusiness.Eclaims {
 				string[] files=Directory.GetFiles(clearinghouseClin.ExportPath);
 				for(int i=0;i<files.Length;i++) {
 					float overallpercent=33+(i/files.Length)*11;//33 is starting point. 11 is the amount of bar space we have before our next major spot (44%)
-					progress.UpdateProgress(Lans.g(progress.LanThis,"Getting files"),"reports",overallpercent+"%",(int)overallpercent);
+					progress.UpdateProgress(Lans.g(progress.LanThis,"Getting files"),"reports",overallpercent.ToStringNetFx()+"%",(int)overallpercent);
 					//string t=files[i];
 					File.Delete(files[i]);
 				}
@@ -94,7 +94,7 @@ namespace OpenPmsDentalBusiness.Eclaims {
 				files=Directory.GetFiles(clearinghouseClin.ResponsePath);
 				for(int i=0;i<files.Length;i++) {
 					float overallpercent=44+(i/files.Length)*11;//44 is starting point. 11 is the amount of bar space we have before our next major spot (55%)
-					progress.UpdateProgress(Lans.g(progress.LanThis,"Getting files"),"reports",overallpercent+"%",(int)overallpercent);
+					progress.UpdateProgress(Lans.g(progress.LanThis,"Getting files"),"reports",overallpercent.ToStringNetFx()+"%",(int)overallpercent);
 					//string t=files[i];
 					if(Path.GetExtension(files[i])!=".txt") {
 						File.Move(files[i],files[i]+".txt");

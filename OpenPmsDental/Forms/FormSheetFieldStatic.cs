@@ -71,7 +71,7 @@ namespace OpenPmsDental {
 				comboFontName.Items.Add(SheetFieldDefCur.FontName+" (missing)",SheetFieldDefCur.FontName);
 				comboFontName.SetSelected(comboFontName.Items.Count-1);
 			}
-			textFontSize.Text=SheetFieldDefCur.FontSize.ToString();
+			textFontSize.Text=SheetFieldDefCur.FontSize.ToStringNetFx();
 			checkFontIsBold.Checked=SheetFieldDefCur.FontIsBold;
 			SheetUtilL.FillComboGrowthBehavior(comboGrowthBehavior,SheetFieldDefCur.GrowthBehavior);
 			for(int i=0;i<Enum.GetNames(typeof(System.Windows.Forms.HorizontalAlignment)).Length;i++) {
@@ -236,7 +236,7 @@ namespace OpenPmsDental {
 			using Font font=new Font(comboFontName.GetSelected<string>(),float.Parse(textFontSize.Text),fontStyle);
 			using StringFormat stringFormat=new StringFormat(StringFormatFlags.NoClip) {Trimming=StringTrimming.None};
 			SizeF sizeFNew=g.MeasureString(textFieldValue.Text,font,PIn.Int(textWidth.Text),stringFormat);
-			textHeight.Text=Math.Min(Math.Ceiling(sizeFNew.Height),textHeight.MaxVal).ToString();
+			textHeight.Text=Math.Min(Math.Ceiling(sizeFNew.Height),textHeight.MaxVal).ToStringNetFx();
 		}
 
 		private void butDelete_Click(object sender,EventArgs e) {

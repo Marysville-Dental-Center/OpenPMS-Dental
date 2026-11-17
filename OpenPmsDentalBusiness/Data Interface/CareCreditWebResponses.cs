@@ -462,7 +462,7 @@ namespace OpenPmsDentalBusiness{
 				patField.FieldName=patFieldDef.FieldName;
 				patField.PatNum=patNum;
 			}
-			patField.FieldValue=amount.ToString("C");
+			patField.FieldValue=amount.ToStringNetFx("C");
 			if(amount==-1){//Sent by UpsertAvailableCredit()
 				patField.FieldValue="N/A";//Only PreApprovalAmt or AvailableCredit should have a value, not both.
 			}
@@ -483,7 +483,7 @@ namespace OpenPmsDentalBusiness{
 				patField.FieldName=patFieldDef.FieldName;
 				patField.PatNum=patNum;
 			}
-			patField.FieldValue=amount.ToString("C");
+			patField.FieldValue=amount.ToStringNetFx("C");
 			if(amount==-1){//Sent by UpsertPreApprovalAmt()
 				patField.FieldValue="N/A";//Only PreApprovalAmt or AvailableCredit should have a value, not both.
 			}

@@ -95,7 +95,7 @@ namespace OpenPmsDentalBusiness.Eclaims {
 				}
 				for(int i=0;i<listReportTypes.Count;i++) {
 					float overallpercent=33+(i/listReportTypes.Count)*17;//33 is starting point. 17 is the amount of bar space we have before our next major spot (50%)
-					progress.UpdateProgress(Lans.g(progress.LanThis,"Downloading files"),"reports",overallpercent+"%",(int)overallpercent);
+					progress.UpdateProgress(Lans.g(progress.LanThis,"Downloading files"),"reports",overallpercent.ToStringNetFx()+"%",(int)overallpercent);
 					ItsSoapClient itsws=new ItsSoapClient();//S3a-6: SoapCaller in place of the generated ITSWS proxy
 					itsws.Url=(isTest?emdeonITSUrlTest:emdeonITSUrl);
 					EmdeonMedicalReportType reportType=listReportTypes[i];

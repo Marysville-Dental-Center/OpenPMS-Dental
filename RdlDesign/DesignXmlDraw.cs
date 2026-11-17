@@ -20,6 +20,8 @@
     For additional information, email info@fyireporting.com or visit
     the website www.fyiReporting.com.
 */
+// Changed by Open PMS - Dental contributors, 2026-11-16 (package S3b-FMT of the .NET 10 move, decision 24 of docs/specs/net10-plan.md,
+// docs/port-notes/S3b-FMT.md): doubles and floats are written as text as .NET Framework wrote them (ODNumberText.ToStringNetFx, AsNetFx).
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -32,6 +34,7 @@ using System.Xml;
 using System.Globalization;
 using System.Net;
 using fyiReporting.RDL;
+using CodeBase;
 
 namespace fyiReporting.RdlDesign
 {
@@ -1140,14 +1143,14 @@ namespace fyiReporting.RdlDesign
 
 		private void SetReportItemHeightWidth(XmlNode xNode, float height, float width)
 		{
-			this.SetElement(xNode, "Height", string.Format(NumberFormatInfo.InvariantInfo, "{0:0.##}pt", height));
-			this.SetElement(xNode, "Width", string.Format(NumberFormatInfo.InvariantInfo, "{0:0.##}pt", width));
+			this.SetElement(xNode, "Height", string.Format(NumberFormatInfo.InvariantInfo, "{0:0.##}pt", height.AsNetFx()));
+			this.SetElement(xNode, "Width", string.Format(NumberFormatInfo.InvariantInfo, "{0:0.##}pt", width.AsNetFx()));
 		}
 
 		private void SetReportItemXY(XmlNode xNode, float x, float y)
 		{
-			this.SetElement(xNode, "Left", string.Format(NumberFormatInfo.InvariantInfo, "{0:0.##}pt", x));
-			this.SetElement(xNode, "Top", string.Format(NumberFormatInfo.InvariantInfo, "{0:0.##}pt", y));
+			this.SetElement(xNode, "Left", string.Format(NumberFormatInfo.InvariantInfo, "{0:0.##}pt", x.AsNetFx()));
+			this.SetElement(xNode, "Top", string.Format(NumberFormatInfo.InvariantInfo, "{0:0.##}pt", y.AsNetFx()));
 		}
 
 		private void RemoveReportItemLTHW(XmlNode ri)
@@ -2520,7 +2523,7 @@ namespace fyiReporting.RdlDesign
 		{
 			string t = string.Format(NumberFormatInfo.InvariantInfo, 
 				"<ReportItems><Image><Source>Embedded</Source><Height>{0:0.00}in</Height><Width>{1:0.00}in</Width><Sizing>FitProportional</Sizing></Image></ReportItems>",
-									PointsY(img.Height)/POINTSIZED, PointsX(img.Width)/POINTSIZED);
+									(PointsY(img.Height)/POINTSIZED).AsNetFx(), (PointsX(img.Width)/POINTSIZED).AsNetFx());
 			PasteReportItems(parent, t, p);
 			if (_SelectedReportItems.Count != 1)	
 				return;									// Paste must have failed
@@ -3164,7 +3167,7 @@ namespace fyiReporting.RdlDesign
 			if (h < minValue)
 				h = minValue;
 
-			string nv = string.Format(NumberFormatInfo.InvariantInfo, "{0:0.0}pt", h);
+			string nv = string.Format(NumberFormatInfo.InvariantInfo, "{0:0.0}pt", h.AsNetFx());
 			if (b.InnerText != nv)
 			{
 				b.InnerText = nv;
@@ -3190,7 +3193,7 @@ namespace fyiReporting.RdlDesign
 			if (w < minValue)
 				w = minValue;
 
-			string nv = string.Format(NumberFormatInfo.InvariantInfo, "{0:0.0}pt", w);
+			string nv = string.Format(NumberFormatInfo.InvariantInfo, "{0:0.0}pt", w.AsNetFx());
 			if (b.InnerText != nv)
 			{
 				b.InnerText = nv;
@@ -3754,7 +3757,7 @@ namespace fyiReporting.RdlDesign
 			l += PointsX(xInc);
 			if (l < 0)
 				l = 0;
-			string lv = string.Format(NumberFormatInfo.InvariantInfo, "{0:0.0}pt", l);
+			string lv = string.Format(NumberFormatInfo.InvariantInfo, "{0:0.0}pt", l.AsNetFx());
 			if (lNode.InnerText != lv)
 			{
 				lNode.InnerText = lv;
@@ -3766,7 +3769,7 @@ namespace fyiReporting.RdlDesign
 			if (t < 0)
 				t = 0;
 
-			string tv = string.Format(NumberFormatInfo.InvariantInfo, "{0:0.0}pt", t);
+			string tv = string.Format(NumberFormatInfo.InvariantInfo, "{0:0.0}pt", t.AsNetFx());
 			if (tNode.InnerText != tv)
 			{
 				tNode.InnerText = tv;
@@ -3943,28 +3946,28 @@ namespace fyiReporting.RdlDesign
 				if (w < .1)
 					w = .1f;
 			}
-			string tv = string.Format(NumberFormatInfo.InvariantInfo, "{0:0.00}pt", t);
+			string tv = string.Format(NumberFormatInfo.InvariantInfo, "{0:0.00}pt", t.AsNetFx());
 			if (tNode.InnerText != tv)
 			{
 				tNode.InnerText = tv;
 				rc = true;
 			}
 
-			string lv = string.Format(NumberFormatInfo.InvariantInfo, "{0:0.00}pt", l);
+			string lv = string.Format(NumberFormatInfo.InvariantInfo, "{0:0.00}pt", l.AsNetFx());
 			if (lNode.InnerText != lv)
 			{
 				lNode.InnerText = lv;
 				rc = true;
 			}
 
-			string wv = string.Format(NumberFormatInfo.InvariantInfo, "{0:0.00}pt", w);
+			string wv = string.Format(NumberFormatInfo.InvariantInfo, "{0:0.00}pt", w.AsNetFx());
 			if (wNode != null && wNode.InnerText != wv)
 			{
 				wNode.InnerText = wv;
 				rc = true;
 			}
 
-			string hv = string.Format(NumberFormatInfo.InvariantInfo, "{0:0.00}pt", h);
+			string hv = string.Format(NumberFormatInfo.InvariantInfo, "{0:0.00}pt", h.AsNetFx());
 			if (hNode != null && hNode.InnerText != hv)
 			{
 				hNode.InnerText = hv;

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using OpenPmsDentalBusiness;
+using CodeBase;
 
 namespace OpenPmsDentalBusiness.HL7 {
 	///<summary>A VXU message is an Unsolicited Vaccination Record Update.  It is a message sent out from Open Dental detailing vaccinations that were given.
@@ -691,7 +692,7 @@ namespace OpenPmsDentalBusiness.HL7 {
 			}
 			//RXA-6 Administered Amount.  Required (length 1..20).  If amount is not known or not meaningful, then use "999".
 			if(vaccine.AdministeredAmt>0) {
-				_seg.SetField(6,vaccine.AdministeredAmt.ToString());
+				_seg.SetField(6,vaccine.AdministeredAmt.ToStringNetFx());
 			}
 			else {
 				_seg.SetField(6,"999");//Registries that do not collect administered amount should record the value as "999".

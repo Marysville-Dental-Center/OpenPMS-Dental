@@ -184,7 +184,7 @@ namespace OpenPmsDental{
 				checkAllowLegacy.Checked=(ProviderCur.IsErxEnabled==ErxEnabledStatus.EnabledWithLegacy);
 			}
 			textBirthdate.Text="";
-			textProdGoalHr.Text=ProviderCur.HourlyProdGoalAmt.ToString("f");
+			textProdGoalHr.Text=ProviderCur.HourlyProdGoalAmt.ToStringNetFx("f");
 			if(ProviderCur.Birthdate.Year>=1880) {
 				textBirthdate.Text=ProviderCur.Birthdate.ToShortDateString();
 			}
@@ -616,7 +616,7 @@ namespace OpenPmsDental{
 							default:
 								break;
 						}
-						stringBuilderClaimMessage.AppendLine(listClaimPaySplits[i].FeeBilled+"\t"+listClaimPaySplits[i].Carrier);
+						stringBuilderClaimMessage.AppendLine(listClaimPaySplits[i].FeeBilled.ToStringNetFx()+"\t"+listClaimPaySplits[i].Carrier);
 					}
 					using MsgBoxCopyPaste msgBoxCopyPaste=new MsgBoxCopyPaste(stringBuilderClaimMessage.ToString());
 					msgBoxCopyPaste.Text=Lan.g(this,"Outstanding Claims for the Provider Whose Term Has Expired");

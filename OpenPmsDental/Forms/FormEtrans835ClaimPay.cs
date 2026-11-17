@@ -334,25 +334,25 @@ namespace OpenPmsDental {
 					row.Cells.Add(Tooth.Display(procedure.ToothNum));
 					row.Cells.Add(ProcedureCodes.GetProcCode(procedure.CodeNum).Descript);
 				}
-				row.Cells.Add(claimProc.FeeBilled.ToString("F"));
-				row.Cells.Add(claimProc.DedApplied.ToString("F"));
+				row.Cells.Add(claimProc.FeeBilled.ToStringNetFx("F"));
+				row.Cells.Add(claimProc.DedApplied.ToStringNetFx("F"));
 				if(claimProc.AllowedOverride==-1){
 					row.Cells.Add("");
 				}
 				else{
-					row.Cells.Add(claimProc.AllowedOverride.ToString("F"));
+					row.Cells.Add(claimProc.AllowedOverride.ToStringNetFx("F"));
 				}
 				if(claimProc.Status==ClaimProcStatus.Preauth) {
-					row.Cells.Add(claimProc.InsPayEst.ToString("F"));
+					row.Cells.Add(claimProc.InsPayEst.ToStringNetFx("F"));
 				}
 				else {
-					row.Cells.Add(claimProc.InsPayAmt.ToString("F"));
+					row.Cells.Add(claimProc.InsPayAmt.ToStringNetFx("F"));
 				}
 				if(isWOIncluded) {
-					row.Cells.Add(claimProc.WriteOff.ToString("F"));
+					row.Cells.Add(claimProc.WriteOff.ToStringNetFx("F"));
 				}
 				else{
-					row.Cells.Add(0d.ToString("F"));
+					row.Cells.Add(0d.ToStringNetFx("F"));
 				}
 				switch(claimProc.Status){
 					case ClaimProcStatus.Received:
@@ -500,11 +500,11 @@ namespace OpenPmsDental {
 				insPayAmt+=PIn.Double(gridPayments.ListGridRows[i].Cells[_idxInsPayEst].Text);//8.inspayest
 				writeOff+=PIn.Double(gridPayments.ListGridRows[i].Cells[_idxWriteoff].Text);//9.writeoff
 			}
-			textClaimFee.Text=claimFee.ToString("F");
-			textDedApplied.Text=dedApplied.ToString("F");
-			textInsPayAllowed.Text=insPayAmtAllowed.ToString("F");
-			textInsPayAmt.Text=insPayAmt.ToString("F");
-			textWriteOff.Text=writeOff.ToString("F");
+			textClaimFee.Text=claimFee.ToStringNetFx("F");
+			textDedApplied.Text=dedApplied.ToStringNetFx("F");
+			textInsPayAllowed.Text=insPayAmtAllowed.ToStringNetFx("F");
+			textInsPayAmt.Text=insPayAmt.ToStringNetFx("F");
+			textWriteOff.Text=writeOff.ToStringNetFx("F");
 		}
 
 		private List<ClaimProc> GetListClaimProcHypothetical() {
@@ -695,10 +695,10 @@ namespace OpenPmsDental {
 				insPayAmtAllowed+=PIn.Double(gridPayments.ListGridRows[i].Cells[_idxAllowed].Text);
 				insPayAmt+=PIn.Double(gridPayments.ListGridRows[i].Cells[_idxInsPayEst].Text);
 			}
-			if(textEobClaimFee.Text!=claimFee.ToString("F")
-				|| textEobDedApplied.Text!=dedApplied.ToString("F")
-				|| textEobInsPayAllowed.Text!=insPayAmtAllowed.ToString("F")
-				|| textEobInsPayAmt.Text!=insPayAmt.ToString("F"))
+			if(textEobClaimFee.Text!=claimFee.ToStringNetFx("F")
+				|| textEobDedApplied.Text!=dedApplied.ToStringNetFx("F")
+				|| textEobInsPayAllowed.Text!=insPayAmtAllowed.ToStringNetFx("F")
+				|| textEobInsPayAmt.Text!=insPayAmt.ToStringNetFx("F"))
 			{ 
 				return false;
 			}

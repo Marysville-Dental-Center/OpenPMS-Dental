@@ -105,7 +105,7 @@ namespace CodeBase {
 				displaySize=_arrayShortDataSizes[i];
 				//Artificially stop at 5 (PB) because one zettabyte cannot be represented by a long, in bytes, thus we cannot display the size in exabytes.
 				if(upperLimit > byteCount || i>=5) {
-					displayByteCount=Math.Round((double)byteCount/(upperLimit/KILOBYTE),2).ToString();
+					displayByteCount=Math.Round((double)byteCount/(upperLimit/KILOBYTE),2).ToStringNetFx();
 					break;
 				}
 				upperLimit*=KILOBYTE;

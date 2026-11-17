@@ -448,7 +448,7 @@ namespace OpenPmsDental {
 					comboOrthoAutoProcPeriod.SelectedIndex=i;
 				}
 			}
-			textOrthoAutoFee.Text=_insPlan.OrthoAutoFeeBilled.ToString();
+			textOrthoAutoFee.Text=_insPlan.OrthoAutoFeeBilled.ToStringNetFx();
 			checkOrthoWaitDays.Checked=_insPlan.OrthoAutoClaimDaysWait > 0;
 			if(_procedureCodeOrthoAuto==null) {
 				textOrthoAutoProc.Text=ProcedureCodes.GetProcCode(PrefC.GetLong(PrefName.OrthoAutoProcCodeNum)).ProcCode +" ("+ Lan.g(this,"Default")+")";
@@ -616,8 +616,8 @@ namespace OpenPmsDental {
 			comboZeroWriteOffsOnLimitationOrAging.Items.Clear();
 			comboZeroWriteOffsOnLimitationOrAging.Items.AddList(Enum.GetValues(typeof(YN)).Cast<YN>(),(input)=>{ return input==YN.Unknown?"Default":input.GetDescription();});
 			comboZeroWriteOffsOnLimitationOrAging.SetSelectedEnum((int)_insPlan.InsPlansZeroWriteOffsOnFreqOrAgingOverride);
-			textPerVisitPatAmount.Text=_insPlan.PerVisitPatAmount.ToString("f");
-			textPerVisitInsAmount.Text=_insPlan.PerVisitInsAmount.ToString("f");
+			textPerVisitPatAmount.Text=_insPlan.PerVisitPatAmount.ToStringNetFx("f");
+			textPerVisitInsAmount.Text=_insPlan.PerVisitInsAmount.ToStringNetFx("f");
 			FillCarrier(_insPlan.CarrierNum);
 			if(!Security.IsAuthorized(EnumPermType.CarrierCreate,true)) {
 				textCarrier.Enabled=false;
@@ -709,8 +709,8 @@ namespace OpenPmsDental {
 			string s;
 			for(int i=0;i<_arrayListAdj.Count;i++) {
 				s=((ClaimProc)_arrayListAdj[i]).ProcDate.ToShortDateString()+"       Ins Used:  "
-					+((ClaimProc)_arrayListAdj[i]).InsPayAmt.ToString("F")+"       Ded Used:  "
-					+((ClaimProc)_arrayListAdj[i]).DedApplied.ToString("F");
+					+((ClaimProc)_arrayListAdj[i]).InsPayAmt.ToStringNetFx("F")+"       Ded Used:  "
+					+((ClaimProc)_arrayListAdj[i]).DedApplied.ToStringNetFx("F");
 				listAdj.Items.Add(s);
 			}
 		}
@@ -1761,7 +1761,7 @@ namespace OpenPmsDental {
 					//}
 				}
 				else {
-					row.Cells.Add(_listBenefits[i].MonetaryAmt.ToString("n0"));
+					row.Cells.Add(_listBenefits[i].MonetaryAmt.ToStringNetFx("n0"));
 				}
 				if(_listBenefits[i].TimePeriod==BenefitTimePeriod.None) {
 					row.Cells.Add("");

@@ -32,8 +32,8 @@ namespace OpenPmsDental {
 			else{
 				textDatePlaced.Text=SupplyOrderCur.DatePlaced.ToShortDateString();
 			}
-			textAmountTotal.Text=SupplyOrderCur.AmountTotal.ToString("n");
-			textShippingCharge.Text=SupplyOrderCur.ShippingCharge.ToString("n");
+			textAmountTotal.Text=SupplyOrderCur.AmountTotal.ToStringNetFx("n");
+			textShippingCharge.Text=SupplyOrderCur.ShippingCharge.ToStringNetFx("n");
 			if(SupplyOrderCur.DateReceived.Year > 1880) {
 				textDateReceived.Text=SupplyOrderCur.DateReceived.ToShortDateString();
 			}
@@ -83,7 +83,7 @@ namespace OpenPmsDental {
 				SecurityLogs.MakeLogEntry(
 					EnumPermType.SupplyPurchases,
 					patNum:0,
-					"Order Placed - Date Placed: "+SupplyOrderCur.DatePlaced.ToShortDateString()+", Amount: $"+SupplyOrderCur.AmountTotal+", Shipping: $"+SupplyOrderCur.ShippingCharge+", Supplier: "+supplierName
+					"Order Placed - Date Placed: "+SupplyOrderCur.DatePlaced.ToShortDateString()+", Amount: $"+SupplyOrderCur.AmountTotal.ToStringNetFx()+", Shipping: $"+SupplyOrderCur.ShippingCharge.ToStringNetFx()+", Supplier: "+supplierName
 				);
 			}
 			if(_supplyOrderOld.DateReceived.Year<1880 && !textDateReceived.Text.IsNullOrEmpty()) {

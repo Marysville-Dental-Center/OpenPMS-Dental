@@ -165,26 +165,26 @@ namespace OpenPmsDental {
 					}
 					row.Cells.Add(descript);
 				}
-				row.Cells.Add(procFeeTotal.ToString("F"));
-				row.Cells.Add(ClaimProcArray[i].FeeBilled.ToString("F"));
+				row.Cells.Add(procFeeTotal.ToStringNetFx("F"));
+				row.Cells.Add(ClaimProcArray[i].FeeBilled.ToStringNetFx("F"));
 				if(CultureInfo.CurrentCulture.Name.EndsWith("CA")) {//Canadian. en-CA or fr-CA
 					double labFeesForProc=Procedures.GetCanadianLabFees(ClaimProcArray[i].ProcNum,_listProcedures).Sum(x => x.ProcFee);
-					row.Cells.Add(labFeesForProc.ToString("F"));
+					row.Cells.Add(labFeesForProc.ToStringNetFx("F"));
 				}
-				row.Cells.Add(ClaimProcArray[i].DedApplied.ToString("F"));
+				row.Cells.Add(ClaimProcArray[i].DedApplied.ToStringNetFx("F"));
 				if(ClaimProcArray[i].AllowedOverride==-1){
 					row.Cells.Add("");
 				}
 				else{
-					row.Cells.Add(ClaimProcArray[i].AllowedOverride.ToString("F"));
+					row.Cells.Add(ClaimProcArray[i].AllowedOverride.ToStringNetFx("F"));
 				}
-				row.Cells.Add(ClaimProcArray[i].InsPayAmt.ToString("F"));
-				row.Cells.Add(ClaimProcArray[i].WriteOff.ToString("F"));
+				row.Cells.Add(ClaimProcArray[i].InsPayAmt.ToStringNetFx("F"));
+				row.Cells.Add(ClaimProcArray[i].WriteOff.ToStringNetFx("F"));
 				if(_doShowPatResp) {
 					if(ClaimProcArray[i].Status==ClaimProcStatus.Supplemental) {
 						procFeeTotal=0;
 					}
-					row.Cells.Add((procFeeTotal-ClaimProcArray[i].InsPayAmt-ClaimProcArray[i].WriteOff).ToString("F"));
+					row.Cells.Add((procFeeTotal-ClaimProcArray[i].InsPayAmt-ClaimProcArray[i].WriteOff).ToStringNetFx("F"));
 				}
 				switch(ClaimProcArray[i].Status){
 					case ClaimProcStatus.Received:
@@ -275,7 +275,7 @@ namespace OpenPmsDental {
 				double writeOff=PIn.Double(gridRowSelected.Cells[gridMain.Columns.GetIndex(Lan.g("TableClaimProc","Write-off"))].Text);
 				//Calculate the new Pat Resp value and update the text in the corresponding cell.
 				double patResp=procFee-insPayAmt-writeOff;
-				gridRowSelected.Cells[gridMain.Columns.GetIndex(Lan.g("TableClaimProc","Pat Resp"))].Text=patResp.ToString("F");
+				gridRowSelected.Cells[gridMain.Columns.GetIndex(Lan.g("TableClaimProc","Pat Resp"))].Text=patResp.ToStringNetFx("F");
 				gridMain.Invalidate();//Redraw the grid so that the user can see the new value.
 			}
 			//Recalculate all of the Totals text boxes that show up underneath the Procedures grid.
@@ -310,14 +310,14 @@ namespace OpenPmsDental {
 					procFeeTotal+=procFeeCur;
 				}
 			}
-			textClaimFee.Text=claimFee.ToString("F");
-			textLabFees.Text=labFees.ToString("F");
-			textDedApplied.Text=dedApplied.ToString("F");
-			textInsPayAllowed.Text=insPayAmtAllowed.ToString("F");
-			textInsPayAmt.Text=insPayAmt.ToString("F");
-			textWriteOff.Text=writeOff.ToString("F");
+			textClaimFee.Text=claimFee.ToStringNetFx("F");
+			textLabFees.Text=labFees.ToStringNetFx("F");
+			textDedApplied.Text=dedApplied.ToStringNetFx("F");
+			textInsPayAllowed.Text=insPayAmtAllowed.ToStringNetFx("F");
+			textInsPayAmt.Text=insPayAmt.ToStringNetFx("F");
+			textWriteOff.Text=writeOff.ToStringNetFx("F");
 			if(_doShowPatResp) {
-				textPatResp.Text=(procFeeTotal-writeOff-insPayAmt).ToString("F");
+				textPatResp.Text=(procFeeTotal-writeOff-insPayAmt).ToStringNetFx("F");
 			}
 		}
 
@@ -355,7 +355,7 @@ namespace OpenPmsDental {
 					}
 					double claimWriteOffTotal=ClaimProcs.GetClaimWriteOffTotal(ClaimProcArray[0].ClaimNum,ClaimProcArray[i].ProcNum,ClaimProcArray.ToList());
 					if(claimWriteOffTotal+dbl<0) {
-						MsgBox.Show(this,"The current write-off value for supplemental payment "+(i+1).ToString()+" will cause the procedure's total write-off to be negative.  Please change it to be at least "+(dbl-(claimWriteOffTotal+dbl)).ToString()+" to continue.");
+						MsgBox.Show(this,"The current write-off value for supplemental payment "+(i+1).ToString()+" will cause the procedure's total write-off to be negative.  Please change it to be at least "+(dbl-(claimWriteOffTotal+dbl)).ToStringNetFx()+" to continue.");
 						return false;
 					}	
 				}

@@ -102,7 +102,7 @@ namespace OpenPmsDental{
 				//we have decided not to show this textbox in other countries for now.
 				labelTimeUnits.Visible=true;
 				textTimeUnits.Visible=true;
-				textTimeUnits.Text=_procedureCode.CanadaTimeUnits.ToString();
+				textTimeUnits.Text=_procedureCode.CanadaTimeUnits.ToStringNetFx();
 			}
 			checkBypassLockDate.Checked=(_procedureCode.BypassGlobalLock==BypassLockStatus.BypassIfZero);
 			textDiagnosticCodes.Text=_procedureCode.DiagnosticCodes;
@@ -146,7 +146,7 @@ namespace OpenPmsDental{
 					row.Cells.Add("");
 				}
 				else{
-					row.Cells.Add(fee.Amount.ToString("n"));
+					row.Cells.Add(fee.Amount.ToStringNetFx("n"));
 				}
 				gridFees.ListGridRows.Add(row);
 			}

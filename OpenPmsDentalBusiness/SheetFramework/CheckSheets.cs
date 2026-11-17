@@ -167,7 +167,7 @@ namespace OpenPmsDentalBusiness {
 					continue;
 				}
 				double amount=(journalEntry.DebitAmt!=0 ? journalEntry.DebitAmt : journalEntry.CreditAmt);
-				listLines.Add(funcGetAccountDescript(journalEntry.AccountNum)+"  "+amount.ToString("n"));
+				listLines.Add(funcGetAccountDescript(journalEntry.AccountNum)+"  "+amount.ToStringNetFx("n"));
 			}
 			return string.Join("\r\n",listLines);
 		}

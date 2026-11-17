@@ -4,6 +4,7 @@ using System.Data;
 using System.Reflection;
 using System.Text;
 using System.Linq;
+using CodeBase;
 
 namespace OpenPmsDentalBusiness {
 	public class RpProcCodes {
@@ -58,7 +59,7 @@ namespace OpenPmsDentalBusiness {
 								isFound=false;
 							}
 							else {
-								row[4]=amt.ToString("n");
+								row[4]=amt.ToStringNetFx("n");
 							}
 
 						}
@@ -68,7 +69,7 @@ namespace OpenPmsDentalBusiness {
 								isFound=false;
 							}
 							else {
-								row[3]=amt.ToString("n");
+								row[3]=amt.ToStringNetFx("n");
 							}
 						}
 						break;

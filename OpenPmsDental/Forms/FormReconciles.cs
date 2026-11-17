@@ -45,7 +45,7 @@ namespace OpenPmsDental{
 			for(int i=0;i<_listReconciles.Count;i++){
 				row=new OpenPmsDental.UI.GridRow();
 				row.Cells.Add(_listReconciles[i].DateReconcile.ToShortDateString());
-				row.Cells.Add(_listReconciles[i].EndingBal.ToString("F"));
+				row.Cells.Add(_listReconciles[i].EndingBal.ToStringNetFx("F"));
 				grid.ListGridRows.Add(row);
 			}
 			grid.EndUpdate();

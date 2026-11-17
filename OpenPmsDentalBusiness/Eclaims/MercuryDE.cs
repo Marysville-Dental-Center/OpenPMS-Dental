@@ -96,7 +96,7 @@ namespace OpenPmsDentalBusiness.Eclaims
 							byte[] dataBytes=sftpSession.DownloadFile(getFilePath);
 							File.WriteAllBytes(exportFilePath,dataBytes);//Creates or overwrites.
 							float overallpercent=33+(i/fileList.Count)*17;//33 is starting point. 17 is the amount of bar space we have before our next major spot (50%)
-							progress.UpdateProgress(Lans.g(progress.LanThis,"Getting files"),"reports",overallpercent+"%",(int)overallpercent);
+							progress.UpdateProgress(Lans.g(progress.LanThis,"Getting files"),"reports",overallpercent.ToStringNetFx()+"%",(int)overallpercent);
 							if(progress.IsPauseOrCancel()) {
 								progress.UpdateProgress(Lans.g(progress.LanThis,"Canceled by user."));
 								return false;
@@ -146,7 +146,7 @@ namespace OpenPmsDentalBusiness.Eclaims
 						sftpSession.RenameFile(remoteTempFilePath,remoteFilePath);
 						File.Delete(files[i]);//Remove the processed file.
 						float overallpercent=33+(i/files.Length)*17;//33 is starting point. 17 is the amount of bar space we have before our next major spot (50%)
-						progress.UpdateProgress(Lans.g(progress.LanThis,"Uploading files"),"reports",overallpercent+"%",(int)overallpercent);
+						progress.UpdateProgress(Lans.g(progress.LanThis,"Uploading files"),"reports",overallpercent.ToStringNetFx()+"%",(int)overallpercent);
 						if(progress.IsPauseOrCancel()) {
 							progress.UpdateProgress(Lans.g(progress.LanThis,"Canceled by user."));
 							return false;

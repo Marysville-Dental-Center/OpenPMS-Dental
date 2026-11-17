@@ -998,7 +998,7 @@ namespace OpenPmsDentalBusiness{
 				string feeOldStr="";
 				DateTime datePrevious=DateTime.MinValue;
 				if(fee!=null) {
-					feeOldStr="Old Fee: "+fee.Amount.ToString("c")+", ";
+					feeOldStr="Old Fee: "+fee.Amount.ToStringNetFx("c")+", ";
 					datePrevious=fee.SecDateTEdit;
 				}
 				if(feeImportLine.AmountText=="") {//an empty entry deletes an existing fee, but does not insert a blank override
@@ -1033,7 +1033,7 @@ namespace OpenPmsDentalBusiness{
 				}
 				SecurityLogs.MakeLogEntry(EnumPermType.ProcFeeEdit,0,"Procedure: "+feeImportLine.ProcCode+", "
 					+feeOldStr
-					+"New Fee: "+fee.Amount.ToString("c")+", "
+					+"New Fee: "+fee.Amount.ToStringNetFx("c")+", "
 					+"Fee Schedule: "+feeSchedDesc+GetDateEffectiveLogText(dateEffective)+". "
 					+"Fee changed using the Import button in the Fee Tools window.",codeNum,DateTime.MinValue);
 				SecurityLogs.MakeLogEntry(EnumPermType.LogFeeEdit,0,"Fee changed",fee.FeeNum,datePrevious);

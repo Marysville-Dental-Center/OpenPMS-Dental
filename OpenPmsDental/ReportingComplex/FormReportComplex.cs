@@ -687,15 +687,15 @@ namespace OpenPmsDental.ReportingComplex {
 						if(reportObject.Name.Contains("GroupSummaryText")) {
 							if(reportObject.SummaryOperation==SummaryOperation.Sum) {
 								if(reportObject.StringFormat=="") {
-									reportObject.StaticText=GetGroupSummaryValue(reportObject.DataField,reportObject.SummaryGroups,reportObject.SummaryOperation).ToString("c");
+									reportObject.StaticText=GetGroupSummaryValue(reportObject.DataField,reportObject.SummaryGroups,reportObject.SummaryOperation).ToStringNetFx("c");
 								}
 								else{ 
 									reportObject.StaticText=GetGroupSummaryValue(reportObject.DataField,reportObject.SummaryGroups,reportObject.SummaryOperation)
-									.ToString(reportObject.StringFormat);
+									.ToStringNetFx(reportObject.StringFormat);
 								}
 							}
 							else if(reportObject.SummaryOperation==SummaryOperation.Count) {
-								reportObject.StaticText=GetGroupSummaryValue(reportObject.DataField,reportObject.SummaryGroups,reportObject.SummaryOperation).ToString();
+								reportObject.StaticText=GetGroupSummaryValue(reportObject.DataField,reportObject.SummaryGroups,reportObject.SummaryOperation).ToStringNetFx();
 							}
 							int width=(int)g.MeasureString(reportObject.StaticText,reportObject.Font).Width+2;
 							int height=(int)g.MeasureString(reportObject.StaticText,reportObject.Font).Height+2;
@@ -826,7 +826,7 @@ namespace OpenPmsDental.ReportingComplex {
 							if(_myReport.HasGridLines() && isPrintablePage) {
 								g.DrawRectangle(new Pen(Brushes.LightGray),Rectangle.Round(layoutRect));
 							}
-							displayText=queryObj.ReportTable.Rows[i][queryObj.ArrDataFields.IndexOf(fieldObject.DataField)].ToString();
+							displayText=ODNumberText.ToStringNetFxIfNumber(queryObj.ReportTable.Rows[i][queryObj.ArrDataFields.IndexOf(fieldObject.DataField)]);
 							List<string> listString=GetDisplayString(displayText,prevDisplayText,fieldObject,i,queryObj);
 							displayText=listString[0];
 							prevDisplayText=listString[1];
@@ -836,7 +836,7 @@ namespace OpenPmsDental.ReportingComplex {
 							}
 						}
 						else {
-							displayText=fieldObject.GetSummaryValue(queryObj.ReportTable,queryObj.ArrDataFields.IndexOf(fieldObject.SummarizedField)).ToString(fieldObject.StringFormat);
+							displayText=fieldObject.GetSummaryValue(queryObj.ReportTable,queryObj.ArrDataFields.IndexOf(fieldObject.SummarizedField)).ToStringNetFx(fieldObject.StringFormat);
 							using(Font fontBold=new Font(fieldObject.Font.FontFamily,fieldObject.Font.Size,FontStyle.Bold)) {
 								layoutRect=new RectangleF(xPos+fieldObject.Location.X,yPos+fieldObject.Location.Y,fieldObject.Size.Width,
 									g.MeasureString(displayText,fontBold,fieldObject.Size.Width).Height);
@@ -957,15 +957,15 @@ namespace OpenPmsDental.ReportingComplex {
 				}
 			}
 			else if(reportObject.FieldValueType==FieldValueType.Number) {
-				displayText=PIn.Double(dt.Rows[i][queryObj.ArrDataFields.IndexOf(reportObject.DataField)].ToString()).ToString(reportObject.StringFormat);
+				displayText=PIn.Double(dt.Rows[i][queryObj.ArrDataFields.IndexOf(reportObject.DataField)].ToString()).ToStringNetFx(reportObject.StringFormat);
 				if(i>0 && reportObject.SuppressIfDuplicate) {
-					prevDisplayText=PIn.Double(dt.Rows[i-1][queryObj.ArrDataFields.IndexOf(reportObject.DataField)].ToString()).ToString(reportObject.StringFormat);
+					prevDisplayText=PIn.Double(dt.Rows[i-1][queryObj.ArrDataFields.IndexOf(reportObject.DataField)].ToString()).ToStringNetFx(reportObject.StringFormat);
 				}
 			}
 			else if(reportObject.FieldValueType==FieldValueType.String) {
 				displayText=rawText;
 				if(i>0 && reportObject.SuppressIfDuplicate) {
-					prevDisplayText=dt.Rows[i-1][queryObj.ArrDataFields.IndexOf(reportObject.DataField)].ToString();
+					prevDisplayText=ODNumberText.ToStringNetFxIfNumber(dt.Rows[i-1][queryObj.ArrDataFields.IndexOf(reportObject.DataField)]);
 				}
 			}
 			retVals.Add(displayText);
@@ -1094,7 +1094,7 @@ namespace OpenPmsDental.ReportingComplex {
 									}
 									string rawText="";
 									if(reportObj.ObjectType==ReportObjectType.FieldObject) {
-										rawText=query.ExportTable.Rows[i][query.ArrDataFields.IndexOf(reportObj.DataField)].ToString();
+										rawText=ODNumberText.ToStringNetFxIfNumber(query.ExportTable.Rows[i][query.ArrDataFields.IndexOf(reportObj.DataField)]);
 										if(String.IsNullOrWhiteSpace(rawText)) {
 											line+="\t";
 											continue;
@@ -1124,7 +1124,7 @@ namespace OpenPmsDental.ReportingComplex {
 											line+=" \t";
 										}
 									}
-									line+=reportObjQuery.GetSummaryValue(query.ExportTable,query.ArrDataFields.IndexOf(reportObjQuery.SummarizedField)).ToString(reportObjQuery.StringFormat)+"\t";
+									line+=reportObjQuery.GetSummaryValue(query.ExportTable,query.ArrDataFields.IndexOf(reportObjQuery.SummarizedField)).ToStringNetFx(reportObjQuery.StringFormat)+"\t";
 								}
 							}
 							sw.WriteLine(line);

@@ -108,6 +108,7 @@ namespace OpenPmsDentalGraph {
 		#region Ctor
 		public GraphIncome() {
 			InitializeComponent();			
+			ChartNumberText.Attach(chart1);//the number labels as the .NET Framework wrote them (S3b-FMT, decision 24)
 			comboGroupBy.SetDataToEnums<IntervalType>(false,false,(int)IntervalType.Years,(int)IntervalType.Weeks);
 			comboGroupBy.SelectedIndex=2;
 		}

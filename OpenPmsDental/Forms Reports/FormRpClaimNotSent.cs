@@ -123,7 +123,7 @@ namespace OpenPmsDental{
 				row.Cells.Add(table.Rows[i]["ClaimStatus"].ToString());
 				row.Cells.Add(table.Rows[i]["Patient Name"].ToString());
 				row.Cells.Add(table.Rows[i]["CarrierName"].ToString());
-				row.Cells.Add(PIn.Double(table.Rows[i]["ClaimFee"].ToString()).ToString("c"));
+				row.Cells.Add(PIn.Double(table.Rows[i]["ClaimFee"].ToString()).ToStringNetFx("c"));
 				row.Cells.Add(table.Rows[i]["ProcCodes"].ToString());
 				UnsentInsClaim unsentClaim=new UnsentInsClaim();
 				unsentClaim.ClaimNum=PIn.Long(table.Rows[i]["ClaimNum"].ToString());

@@ -545,7 +545,7 @@ namespace OpenPmsDentalBusiness{
 		}
 
 		public static string GetSecurityLogMsgDelete(PaySplit paySplit,Payment payment=null) {
-			return $"Paysplit deleted for: {Patients.GetLim(paySplit.PatNum).GetNameLF()}, {paySplit.SplitAmt.ToString("c")}, with payment type "
+			return $"Paysplit deleted for: {Patients.GetLim(paySplit.PatNum).GetNameLF()}, {paySplit.SplitAmt.ToStringNetFx("c")}, with payment type "
 				+$"'{Payments.GetPaymentTypeDesc(payment??Payments.GetPayment(paySplit.PayNum))}'";
 		}
 
@@ -554,7 +554,7 @@ namespace OpenPmsDentalBusiness{
 			if(RemotingClient.MiddleTierRole==MiddleTierRole.ClientMT) {
 				return Meth.GetString(MethodBase.GetCurrentMethod(),split);
 			}
-			string unhashedText=split.PatNum.ToString()+split.SplitAmt.ToString("F2")+split.DatePay.ToString("yyyy-MM-dd");
+			string unhashedText=split.PatNum.ToString()+split.SplitAmt.ToStringNetFx("F2")+split.DatePay.ToString("yyyy-MM-dd");
 			try {
 				return TamperHash.Compute(unhashedText);
 			}

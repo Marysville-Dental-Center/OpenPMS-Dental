@@ -214,21 +214,21 @@ namespace OpenPmsDental {
 				#region Annual Max
 				//annual max individual
 				if(Benefits.IsAnnualMax(benefit,BenefitCoverageLevel.Individual)) {
-					textAnnualMax.Text=benefit.MonetaryAmt.ToString("n");
+					textAnnualMax.Text=benefit.MonetaryAmt.ToStringNetFx("n");
 				}
 				//annual max family
 				else if(Benefits.IsAnnualMax(benefit,BenefitCoverageLevel.Family)) {
-					textAnnualMaxFam.Text=benefit.MonetaryAmt.ToString("n");
+					textAnnualMaxFam.Text=benefit.MonetaryAmt.ToStringNetFx("n");
 				}
 				#endregion
 				#region General Deductibles
 				//deductible individual
 				else if(Benefits.IsGeneralDeductible(benefit,BenefitCoverageLevel.Individual)) {
-					textDeductible.Text=benefit.MonetaryAmt.ToString("n");
+					textDeductible.Text=benefit.MonetaryAmt.ToStringNetFx("n");
 				}
 				//deductible family
 				else if(Benefits.IsGeneralDeductible(benefit,BenefitCoverageLevel.Family)) {
-					textDeductibleFam.Text=benefit.MonetaryAmt.ToString("n");
+					textDeductibleFam.Text=benefit.MonetaryAmt.ToStringNetFx("n");
 				}
 				#endregion
 				#region Age Limitations
@@ -248,7 +248,7 @@ namespace OpenPmsDental {
 				}
 				//OrthoMax
 				else if(Benefits.IsOrthoMaxBenefit(benefit)) {
-					textOrthoMax.Text=benefit.MonetaryAmt.ToString("n");
+					textOrthoMax.Text=benefit.MonetaryAmt.ToStringNetFx("n");
 				}
 				//OrthoPercent
 				else if(Benefits.IsOrthoPercentBenefit(benefit)) {
@@ -259,31 +259,31 @@ namespace OpenPmsDental {
 				#region Deductible - Diagnostic
 				//deductible diagnostic individual
 				else if(Benefits.IsDiagnosticDeductibleBenefit(benefit,BenefitCoverageLevel.Individual)) {
-					textDeductDiag.Text=benefit.MonetaryAmt.ToString("n");
+					textDeductDiag.Text=benefit.MonetaryAmt.ToStringNetFx("n");
 				}
 				//deductible diagnostic family
 				else if(Benefits.IsDiagnosticDeductibleBenefit(benefit,BenefitCoverageLevel.Family)) {
-					textDeductDiagFam.Text=benefit.MonetaryAmt.ToString("n");
+					textDeductDiagFam.Text=benefit.MonetaryAmt.ToStringNetFx("n");
 				}
 				#endregion
 				#region Deductible - DiagnosticXRay
 				//deductible xray individual
 				else if(Benefits.IsXRayDeductibleBenefit(benefit,BenefitCoverageLevel.Individual)) {
-					textDeductXray.Text=benefit.MonetaryAmt.ToString("n");
+					textDeductXray.Text=benefit.MonetaryAmt.ToStringNetFx("n");
 				}
 				//deductible xray family
 				else if(Benefits.IsXRayDeductibleBenefit(benefit,BenefitCoverageLevel.Family)) {
-					textDeductXrayFam.Text=benefit.MonetaryAmt.ToString("n");
+					textDeductXrayFam.Text=benefit.MonetaryAmt.ToStringNetFx("n");
 				}
 				#endregion
 				#region Deductible - RoutinePreventive
 				//deductible preventive individual
 				else if(Benefits.IsPreventativeDeductibleBenefit(benefit,BenefitCoverageLevel.Individual)) {
-					textDeductPrevent.Text=benefit.MonetaryAmt.ToString("n");
+					textDeductPrevent.Text=benefit.MonetaryAmt.ToStringNetFx("n");
 				}
 				//deductible preventive family
 				else if(Benefits.IsPreventativeDeductibleBenefit(benefit,BenefitCoverageLevel.Family)) {
-					textDeductPreventFam.Text=benefit.MonetaryAmt.ToString("n");
+					textDeductPreventFam.Text=benefit.MonetaryAmt.ToStringNetFx("n");
 				}
 				#endregion
 				#endregion

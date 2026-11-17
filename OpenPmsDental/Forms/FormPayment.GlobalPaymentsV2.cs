@@ -95,7 +95,7 @@ namespace OpenPmsDental {
 				_payment.IsSplit=_listPaySplits.Count>1;
 				Payment paymentVoid=Payments.InsertVoidPayment(_payment,_listPaySplits,receipt,note,CreditCardSource.MeetInTheCloudTerminal);
 				SecurityLogs.MakeLogEntry(EnumPermType.PaymentCreate,paymentVoid.PatNum,Patients.GetLim(paymentVoid.PatNum).GetNameLF()+", "
-					+paymentVoid.PayAmt.ToString("c")+", "+GlobalPaymentsV2.DisplayName+" "+Lan.g(this,"void"));
+					+paymentVoid.PayAmt.ToStringNetFx("c")+", "+GlobalPaymentsV2.DisplayName+" "+Lan.g(this,"void"));
 				if(config.PrintReceipt && receipt!="") {
 					PrintReceipt(receipt,Lan.g(this,"Global Payments V2 receipt printed"));
 				}
@@ -203,7 +203,7 @@ namespace OpenPmsDental {
 			Payment paymentVoid=Payments.InsertVoidPayment(_payment,_listPaySplits,receipt,GlobalPaymentsV2.BuildPayNote(result),
 				CreditCardSource.MeetInTheCloudTerminal);
 			SecurityLogs.MakeLogEntry(EnumPermType.PaymentCreate,paymentVoid.PatNum,Patients.GetLim(paymentVoid.PatNum).GetNameLF()+", "
-				+paymentVoid.PayAmt.ToString("c"));
+				+paymentVoid.PayAmt.ToStringNetFx("c"));
 			if(config.PrintReceipt) {
 				PrintReceipt(receipt,Lan.g(this,"Global Payments V2 receipt printed"));
 			}

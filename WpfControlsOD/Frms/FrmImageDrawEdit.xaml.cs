@@ -10,6 +10,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using OpenPmsDentalBusiness;
 using WpfControls.UI;
+using CodeBase;
 
 namespace OpenPmsDental {
 	public partial class FrmImageDrawEdit:FrmODBase {
@@ -35,15 +36,15 @@ namespace OpenPmsDental {
 			Point pointLoc=new Point();
 			pointLoc.X=ImageDrawCur.GetTextPoint().X;
 			pointLoc.Y=ImageDrawCur.GetTextPoint().Y;
-			textLocX.Text=pointLoc.X.ToString();
-			textLocY.Text=pointLoc.Y.ToString();
+			textLocX.Text=pointLoc.X.ToStringNetFx();
+			textLocY.Text=pointLoc.Y.ToStringNetFx();
 			if(Programs.IsEnabled(ProgramName.Pearl)){
 				groupBoxFont.IsEnabled=false;//show them the global pearl value, but don't let them change it.
 			}
 			_imageDrawFontSizeSync=new ImageDrawFontSizeSync(ZoomVal,ScaleF(1),
 				actionSetActualText:text => textFontSize.Text=text,
 				actionSetApparentText:text => textFontApparent.Text=text);
-			textFontSize.Text=ImageDrawCur.GetFontSize().ToString("#.##");//fills Apparent Size through the text changed event
+			textFontSize.Text=ImageDrawCur.GetFontSize().ToStringNetFx("#.##");//fills Apparent Size through the text changed event
 			//ImageDrawCur.ColorBack can be transparent (0,255,255,255), which is transparent white.
 			panelColor.ColorBack=ColorOD.ToWpf(ImageDrawCur.ColorDraw);
 			if(ImageDrawCur.ColorBack.A==0){//transparent

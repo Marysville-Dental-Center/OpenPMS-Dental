@@ -15,6 +15,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using OpenPmsDentalBusiness;
 using WpfControls.UI;
+using CodeBase;
 
 namespace OpenPmsDental {
 	///<summary></summary>
@@ -112,7 +113,7 @@ namespace OpenPmsDental {
 				gridRowFinal.Cells.Add("Current Ratio: ?");
 			}
 			else {
-				gridRowFinal.Cells.Add(("Current Ratio: ")+(countChildren/countEmployees).ToString());
+				gridRowFinal.Cells.Add(("Current Ratio: ")+(countChildren/countEmployees).ToStringNetFx());
 			}
 			gridMain.ListGridRows.Add(gridRowFinal);
 			gridMain.EndUpdate();

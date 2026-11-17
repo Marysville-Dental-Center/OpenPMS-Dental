@@ -531,7 +531,7 @@ namespace OpenPmsDentalBusiness {
 							//Figure out what the procedure description will be like.
 							string procDescript=ProcedureCodes.GetStringProcCode(listProceduresTPs[i].CodeNum)+", "
 								+Procedures.GetDescription(listProceduresTPs[i])+", "
-								+listProceduresTPs[i].ProcFee.ToString("c");
+								+listProceduresTPs[i].ProcFee.ToStringNetFx("c");
 							//Get the procedure's priority.
 							string priority=Defs.GetName(DefCat.TxPriorities,listProceduresTPs[i].Priority);
 							if(priority=="") {
@@ -635,33 +635,33 @@ namespace OpenPmsDentalBusiness {
 					doubAnnualMax=Benefits.GetAnnualMaxDisplay(benefitList,plan.PlanNum,patPlanNum,false);
 					doubRemain=-1;
 					if(doubAnnualMax!=-1) {
-						insAnnualMax=doubAnnualMax.ToString("c");
+						insAnnualMax=doubAnnualMax.ToStringNetFx("c");
 						doubRemain=doubAnnualMax;
 					}
 					doubDeductible=Benefits.GetDeductGeneralDisplay(benefitList,plan.PlanNum,patPlanNum,BenefitCoverageLevel.Individual);
 					if(doubDeductible!=-1) {
-						insDeductible=doubDeductible.ToString("c");
+						insDeductible=doubDeductible.ToStringNetFx("c");
 					}
 					doubDeductibleUsed=InsPlans.GetDedUsedDisplay(histList,DateTime.Today,plan.PlanNum,patPlanNum,-1,listInsPlans,BenefitCoverageLevel.Individual,patient.PatNum);
 					if(doubDeductibleUsed!=-1) {
-						insDeductibleUsed=doubDeductibleUsed.ToString("c");
+						insDeductibleUsed=doubDeductibleUsed.ToStringNetFx("c");
 					}
 					doubPending=InsPlans.GetPendingDisplay(histList,DateTime.Today,plan,patPlanNum,-1,patient.PatNum,subNum,benefitList);
 					if(doubPending!=-1) {
-						insPending=doubPending.ToString("c");
+						insPending=doubPending.ToStringNetFx("c");
 						if(doubRemain!=-1) {
 							doubRemain-=doubPending;
 						}
 					}
 					doubUsed=InsPlans.GetInsUsedDisplay(histList,DateTime.Today,plan.PlanNum,patPlanNum,-1,listInsPlans,benefitList,patient.PatNum,subNum);
 					if(doubUsed!=-1) {
-						insUsed=doubUsed.ToString("c");
+						insUsed=doubUsed.ToStringNetFx("c");
 						if(doubRemain!=-1) {
 							doubRemain-=doubUsed;
 						}
 					}
 					if(doubRemain!=-1) {
-						insRemaining=doubRemain.ToString("c");
+						insRemaining=doubRemain.ToStringNetFx("c");
 					}
 					for(int j=0;j<benefitList.Count;j++) {
 						if(benefitList[j].PlanNum != plan.PlanNum) {
@@ -721,33 +721,33 @@ namespace OpenPmsDentalBusiness {
 					doubAnnualMax=Benefits.GetAnnualMaxDisplay(benefitList,plan.PlanNum,patPlanNum,false);
 					doubRemain=-1;
 					if(doubAnnualMax!=-1) {
-						ins2AnnualMax=doubAnnualMax.ToString("c");
+						ins2AnnualMax=doubAnnualMax.ToStringNetFx("c");
 						doubRemain=doubAnnualMax;
 					}
 					doubDeductible=Benefits.GetDeductGeneralDisplay(benefitList,plan.PlanNum,patPlanNum,BenefitCoverageLevel.Individual);
 					if(doubDeductible!=-1) {
-						ins2Deductible=doubDeductible.ToString("c");
+						ins2Deductible=doubDeductible.ToStringNetFx("c");
 					}
 					doubDeductibleUsed=InsPlans.GetDedUsedDisplay(histList,DateTime.Today,plan.PlanNum,patPlanNum,-1,listInsPlans,BenefitCoverageLevel.Individual,patient.PatNum);
 					if(doubDeductibleUsed!=-1) {
-						ins2DeductibleUsed=doubDeductibleUsed.ToString("c");
+						ins2DeductibleUsed=doubDeductibleUsed.ToStringNetFx("c");
 					}
 					doubPending=InsPlans.GetPendingDisplay(histList,DateTime.Today,plan,patPlanNum,-1,patient.PatNum,subNum,benefitList);
 					if(doubPending!=-1) {
-						ins2Pending=doubPending.ToString("c");
+						ins2Pending=doubPending.ToStringNetFx("c");
 						if(doubRemain!=-1) {
 							doubRemain-=doubPending;
 						}
 					}
 					doubUsed=InsPlans.GetInsUsedDisplay(histList,DateTime.Today,plan.PlanNum,patPlanNum,-1,listInsPlans,benefitList,patient.PatNum,subNum);
 					if(doubUsed!=-1) {
-						ins2Used=doubUsed.ToString("c");
+						ins2Used=doubUsed.ToStringNetFx("c");
 						if(doubRemain!=-1) {
 							doubRemain-=doubUsed;
 						}
 					}
 					if(doubRemain!=-1) {
-						ins2Remaining=doubRemain.ToString("c");
+						ins2Remaining=doubRemain.ToStringNetFx("c");
 					}
 					for(int j=0;j<benefitList.Count;j++) {
 						if(benefitList[j].PlanNum != plan.PlanNum) {
@@ -1088,13 +1088,13 @@ namespace OpenPmsDentalBusiness {
 					case EnumStaticTextField.apptProcs: staticTextReplacement.NewValue=apptProcs; break;
 					case EnumStaticTextField.apptProvNameFormal: staticTextReplacement.NewValue=apptProvNameFormal; break;
 					case EnumStaticTextField.age: staticTextReplacement.NewValue=Patients.AgeToString(patient.Age); break;
-					case EnumStaticTextField.balTotal: staticTextReplacement.NewValue=family.ListPats[0].BalTotal.ToString("c"); break;
-					case EnumStaticTextField.bal_0_30: staticTextReplacement.NewValue=family.ListPats[0].Bal_0_30.ToString("c"); break;
-					case EnumStaticTextField.bal_31_60: staticTextReplacement.NewValue=family.ListPats[0].Bal_31_60.ToString("c"); break;
-					case EnumStaticTextField.bal_61_90: staticTextReplacement.NewValue=family.ListPats[0].Bal_61_90.ToString("c"); break;
-					case EnumStaticTextField.balOver90: staticTextReplacement.NewValue=family.ListPats[0].BalOver90.ToString("c"); break;
-					case EnumStaticTextField.balInsEst: staticTextReplacement.NewValue=family.ListPats[0].InsEst.ToString("c"); break;
-					case EnumStaticTextField.balTotalMinusInsEst: staticTextReplacement.NewValue=(family.ListPats[0].BalTotal-family.ListPats[0].InsEst).ToString("c"); break;
+					case EnumStaticTextField.balTotal: staticTextReplacement.NewValue=family.ListPats[0].BalTotal.ToStringNetFx("c"); break;
+					case EnumStaticTextField.bal_0_30: staticTextReplacement.NewValue=family.ListPats[0].Bal_0_30.ToStringNetFx("c"); break;
+					case EnumStaticTextField.bal_31_60: staticTextReplacement.NewValue=family.ListPats[0].Bal_31_60.ToStringNetFx("c"); break;
+					case EnumStaticTextField.bal_61_90: staticTextReplacement.NewValue=family.ListPats[0].Bal_61_90.ToStringNetFx("c"); break;
+					case EnumStaticTextField.balOver90: staticTextReplacement.NewValue=family.ListPats[0].BalOver90.ToStringNetFx("c"); break;
+					case EnumStaticTextField.balInsEst: staticTextReplacement.NewValue=family.ListPats[0].InsEst.ToStringNetFx("c"); break;
+					case EnumStaticTextField.balTotalMinusInsEst: staticTextReplacement.NewValue=(family.ListPats[0].BalTotal-family.ListPats[0].InsEst).ToStringNetFx("c"); break;
 					case EnumStaticTextField.BillingType: staticTextReplacement.NewValue=Defs.GetName(DefCat.BillingTypes,patient.BillingType); break;
 					case EnumStaticTextField.Birthdate: staticTextReplacement.NewValue=birthdate; break;
 					case EnumStaticTextField.carrierName: staticTextReplacement.NewValue=carrierName; break;
@@ -1665,7 +1665,7 @@ namespace OpenPmsDentalBusiness {
 			if(rx.DaysOfSupply<=0) {
 				return "";
 			}
-			return Lans.g("Rx","Total Supply:")+" "+rx.DaysOfSupply+" "+((rx.DaysOfSupply > 1)?Lans.g("Rx","Days"):Lans.g("Rx","Day"));
+			return Lans.g("Rx","Total Supply:")+" "+rx.DaysOfSupply.ToStringNetFx()+" "+((rx.DaysOfSupply > 1)?Lans.g("Rx","Days"):Lans.g("Rx","Day"));
 		}
 
 		private static void FillFieldsForRxInstruction(Sheet sheet) {
@@ -1693,7 +1693,7 @@ namespace OpenPmsDentalBusiness {
 						field.FieldValue=rx.Refills;
 						break;
 					case SheetFieldsAvailable.Rx.DaysOfSupply:
-						field.FieldValue=rx.DaysOfSupply.ToString();
+						field.FieldValue=rx.DaysOfSupply.ToStringNetFx();
 						break;
 					case SheetFieldsAvailable.Rx.RxDate:
 						field.FieldValue=rx.RxDate.ToShortDateString();
@@ -2714,11 +2714,11 @@ namespace OpenPmsDentalBusiness {
 			bool hasCashSumTotal=sheet.GetSheetFieldByName("cashSumTotal")!=null;
 			int[] colSize=new int[] {11,33,15,14,0};
 			for(int i=0;i<PatPayList.Count;i++){
-				string amount=PatPayList[i].PayAmt.ToString("F");
+				string amount=PatPayList[i].PayAmt.ToStringNetFx("F");
 				colSize[4]=Math.Max(colSize[4],amount.Length);
 			}
 			for(int i=0;i<ClaimPayList.Length;i++){
-				string amount=ClaimPayList[i].CheckAmt.ToString("F");
+				string amount=ClaimPayList[i].CheckAmt.ToStringNetFx("F");
 				colSize[4]=Math.Max(colSize[4],amount.Length);
 			}
 			decimal cashSumTotal=0;
@@ -2745,7 +2745,7 @@ namespace OpenPmsDentalBusiness {
 					bankBranch=bankBranch.Substring(0,colSize[3]);
 				}
 				depositItem[3]=bankBranch.PadRight(colSize[3],' ')+" ";
-				depositItem[4]=payCur.PayAmt.ToString("F").PadLeft(colSize[4],' ');
+				depositItem[4]=payCur.PayAmt.ToStringNetFx("F").PadLeft(colSize[4],' ');
 				depositList.Add(depositItem);
 				if(hasCashSumTotal && payCur.PayType==PrefC.GetLong(PrefName.AccountingCashPaymentType)) {
 					cashSumTotal+=(decimal)payCur.PayAmt;
@@ -2775,7 +2775,7 @@ namespace OpenPmsDentalBusiness {
 					bankBranch=bankBranch.Substring(0,colSize[3]);
 				}
 				depositItem[3]=bankBranch.PadRight(colSize[3],' ')+" ";
-				depositItem[4]=claimPayCur.CheckAmt.ToString("F").PadLeft(colSize[4],' ');
+				depositItem[4]=claimPayCur.CheckAmt.ToStringNetFx("F").PadLeft(colSize[4],' ');
 				depositList.Add(depositItem);
 				if(hasCashSumTotal && claimPayCur.PayType==PrefC.GetLong(PrefName.AccountingCashPaymentType)) {
 					continue;
@@ -3082,7 +3082,7 @@ namespace OpenPmsDentalBusiness {
 						break;
 					case "amountDueValue":
 						try {
-							field.FieldValue=PIn.Double(SheetDataTableUtil.GetDataTableForGridType(sheet,dataSet,"StatementEnclosed",Stmt,null).Rows[0][0].ToString()).ToString("C");
+							field.FieldValue=PIn.Double(SheetDataTableUtil.GetDataTableForGridType(sheet,dataSet,"StatementEnclosed",Stmt,null).Rows[0][0].ToString()).ToStringNetFx("C");
 						}
 						catch {
 							field.FieldValue=0.ToString("C");
@@ -3099,7 +3099,7 @@ namespace OpenPmsDentalBusiness {
 							tableMisc=new DataTable();	
 						}
 						double payPlanDue=tableMisc.Select().Where(x => x["descript"].ToString()=="payPlanDue").Sum(x => PIn.Double(x["value"].ToString()));
-						field.FieldValue=payPlanDue.ToString("c");
+						field.FieldValue=payPlanDue.ToStringNetFx("c");
 						break;
 					case "invoicePaymentValue"://only for invoices
 						field.FieldValue=totInsBalVals[3];
@@ -4049,10 +4049,10 @@ namespace OpenPmsDentalBusiness {
 						field.FieldValue=payPlan.PayPlanDate.ToShortDateString();
 						break;
 					case "APR":
-						field.FieldValue=payPlan.APR.ToString("f1");
+						field.FieldValue=payPlan.APR.ToStringNetFx("f1");
 						break;
 					case "totalFinanceCharge":
-						field.FieldValue=((double)totFinCharge.ParamValue).ToString("n");
+						field.FieldValue=((double)totFinCharge.ParamValue).ToStringNetFx("n");
 						break;
 					case "totalCostOfLoan":
 						field.FieldValue=totCostLoan.ParamValue.ToString();

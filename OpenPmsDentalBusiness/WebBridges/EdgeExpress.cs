@@ -87,7 +87,7 @@ namespace OpenPmsDentalBusiness {
 					authKey=xwebProperties.AuthKey.Substring(0,countVisibleChars) + new string('X',xwebProperties.AuthKey.Length-countVisibleChars);
 				}
 			}
-			return $"TerminalID:{terminalID}  AuthKey:{authKey}  Amount:{amount:C}";
+			return $"TerminalID:{terminalID}  AuthKey:{authKey}  Amount:{amount.AsNetFx():C}";
 		}
 
 			///<summary> Removes { } [ ] < > ‘ ’ and trailing white space from passed in string </summary>
@@ -216,7 +216,7 @@ namespace OpenPmsDentalBusiness {
 				double amount,bool doPromptForSignature,bool doCreateToken,string aliasToken,string transactionId,decimal cashBackAmt,string expDate) {
 				if(edgeExpressTransactionType.In(EdgeExpressTransType.CreditSale,EdgeExpressTransType.CreditReturn,EdgeExpressTransType.CreditAuth,
 					EdgeExpressTransType.CreditOnlineCapture,EdgeExpressTransType.DebitSale,EdgeExpressTransType.DebitReturn)) {
-					xmlWriter.WriteElementString("AMOUNT",amount.ToString());
+					xmlWriter.WriteElementString("AMOUNT",amount.ToStringNetFx());
 				}
 				//EdgeExpress only Accepts CLERK Id's up to 20 characters long. Payment will fail if UserName is over 20 characters long.
 				if(edgeExpressTransactionType.In(EdgeExpressTransType.CreditSale,EdgeExpressTransType.CreditReturn,EdgeExpressTransType.CreditAuth)) {
@@ -633,7 +633,7 @@ namespace OpenPmsDentalBusiness {
 					case EdgeExpressTransType.CreditSale:
 					case EdgeExpressTransType.CreditAuth:
 						xmlWriter.WriteElementString("ORDERID",orderId);
-						xmlWriter.WriteElementString("AMOUNT",amount.ToString());
+						xmlWriter.WriteElementString("AMOUNT",amount.ToStringNetFx());
 						xmlWriter.WriteElementString("CUSTOMERNAME",customerName);
 						if(doCreateAlias) {
 							xmlWriter.WriteElementString("CREATEALIAS","true");
@@ -649,7 +649,7 @@ namespace OpenPmsDentalBusiness {
 						break;
 					case EdgeExpressTransType.CreditReturn:
 						xmlWriter.WriteElementString("TRANSACTIONID",transactionID);
-						xmlWriter.WriteElementString("AMOUNT",amount.ToString());
+						xmlWriter.WriteElementString("AMOUNT",amount.ToStringNetFx());
 						if(doCreateAlias) {
 							xmlWriter.WriteElementString("CREATEALIAS","true");
 						}
@@ -663,14 +663,14 @@ namespace OpenPmsDentalBusiness {
 						break;
 					case EdgeExpressTransType.CreditVoid:
 						xmlWriter.WriteElementString("TRANSACTIONID",transactionID);
-						xmlWriter.WriteElementString("AMOUNT",amount.ToString());
+						xmlWriter.WriteElementString("AMOUNT",amount.ToStringNetFx());
 						if(!alias.IsNullOrEmpty()) {
 							xmlWriter.WriteElementString("ALIAS",alias);
 						}
 						xmlWriter.WriteElementString("INVOICENO",$"PAT{patNum}");
 						break;
 					case EdgeExpressTransType.CreditOnlineCapture://Force
-						xmlWriter.WriteElementString("AMOUNT",amount.ToString());
+						xmlWriter.WriteElementString("AMOUNT",amount.ToStringNetFx());
 						xmlWriter.WriteElementString("TRANSACTIONID",transactionID);
 						xmlWriter.WriteElementString("INVOICENO",$"PAT{patNum}");
 						if(hasClerk) {
@@ -1326,7 +1326,7 @@ namespace OpenPmsDentalBusiness {
 				alertItem.Actions=ActionType.MarkAsRead|ActionType.Delete|ActionType.ShowItemValue;
 				if(xWebResponse.TransactionStatus==XWebTransactionStatus.EdgeExpressCompletePaymentApproved) {
 					alertItem.Severity=SeverityType.High;
-					alertItem.Description=Lans.g("EdgeExpress","Card payment of")+" "+xWebResponse.Amount.ToString("c")+" "+Lans.g("EdgeExpress","for")+" "
+					alertItem.Description=Lans.g("EdgeExpress","Card payment of")+" "+xWebResponse.Amount.ToStringNetFx("c")+" "+Lans.g("EdgeExpress","for")+" "
 						+patientText+" "+Lans.g("EdgeExpress","was approved after the payment window closed and was not entered automatically. If no payment shows it, attach it or void it.");
 				}
 				else {
@@ -1340,7 +1340,7 @@ namespace OpenPmsDentalBusiness {
 				stringBuilder.AppendLine(Lans.g("EdgeExpress","Transaction ID:")+" "+xWebResponse.TransactionID);
 				stringBuilder.AppendLine(Lans.g("EdgeExpress","Approval code:")+" "+xWebResponse.ApprovalCode);
 				stringBuilder.AppendLine(Lans.g("EdgeExpress","Card:")+" "+xWebResponse.MaskedAcctNum);
-				stringBuilder.AppendLine(Lans.g("EdgeExpress","Amount:")+" "+xWebResponse.Amount.ToString("c"));
+				stringBuilder.AppendLine(Lans.g("EdgeExpress","Amount:")+" "+xWebResponse.Amount.ToStringNetFx("c"));
 				if(payNumOld!=0) {
 					stringBuilder.AppendLine(Lans.g("EdgeExpress","The payment window had payment number")+" "+POut.Long(payNumOld)+" "
 						+Lans.g("EdgeExpress","open. It may have been cancelled since."));

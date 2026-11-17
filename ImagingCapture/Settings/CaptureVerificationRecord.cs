@@ -6,6 +6,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using ImagingDeviceManager.Capture;
+using CodeBase;
 
 namespace ImagingCapture.Settings {
 	///<summary>A Test capture verification record (design 9.3): what Test capture measured on a phantom for one imaging device, what the operator
@@ -283,8 +284,8 @@ namespace ImagingCapture.Settings {
 			Add("Transfer",TransferMechanism);
 			Add("Width",ToText(Width));
 			Add("Height",ToText(Height));
-			Add("XDpi",XDpi.ToString("0.##",CultureInfo.InvariantCulture));
-			Add("YDpi",YDpi.ToString("0.##",CultureInfo.InvariantCulture));
+			Add("XDpi",XDpi.ToStringNetFx("0.##",CultureInfo.InvariantCulture));
+			Add("YDpi",YDpi.ToStringNetFx("0.##",CultureInfo.InvariantCulture));
 			Add("ByteOrder16",ByteOrder16);
 			Add("ByteOrderCheck",ByteOrderCheck);
 			Add("ByteOrderConfirmed",IsByteOrderConfirmed ? "1" : "0");

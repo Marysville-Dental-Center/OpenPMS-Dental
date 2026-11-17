@@ -353,10 +353,10 @@ namespace OpenPmsDental{
 				if(Stmt.StatementType==StmtType.LimitedStatement) {
 					//statementTotal and patInsEstLimited calculated above and used here and in the Floating Balance region
 					if(PrefC.GetBool(PrefName.BalancesDontSubtractIns)) {
-						row.Cells[0].AddParagraph().AddFormattedText(statementTotal.ToString("F"),font);
+						row.Cells[0].AddParagraph().AddFormattedText(statementTotal.ToStringNetFx("F"),font);
 					}
 					else {//this is typical
-						row.Cells[0].AddParagraph().AddFormattedText((statementTotal-patInsEstLimited).ToString("F"),font);
+						row.Cells[0].AddParagraph().AddFormattedText((statementTotal-patInsEstLimited).ToStringNetFx("F"),font);
 					}
 				}
 				else {
@@ -381,14 +381,14 @@ namespace OpenPmsDental{
 					if(installPlan!=null) {
 						//show lesser of normal total balance or the monthly payment amount.
 						if(installPlan.MonthlyPayment < balTotal) {
-							text=installPlan.MonthlyPayment.ToString("F");
+							text=installPlan.MonthlyPayment.ToStringNetFx("F");
 						}
 						else {
-							text=balTotal.ToString("F");
+							text=balTotal.ToStringNetFx("F");
 						}
 					}
 					else {//no installmentplan
-						text=balTotal.ToString("F");
+						text=balTotal.ToStringNetFx("F");
 					}
 					cell=row.Cells[0];
 					par=cell.AddParagraph();
@@ -572,19 +572,19 @@ namespace OpenPmsDental{
 				row.Borders.Bottom.Color = Colors.Gray;
 				row.Borders.Right.Color = Colors.Gray;
 				font = MigraDocHelper.CreateFont(9);
-				text= PatGuar.Bal_0_30.ToString("F");
+				text= PatGuar.Bal_0_30.ToStringNetFx("F");
 				cell = row.Cells[0];
 				par = cell.AddParagraph();
 				par.AddFormattedText(text, font);
-				text = PatGuar.Bal_31_60.ToString("F");
+				text = PatGuar.Bal_31_60.ToStringNetFx("F");
 				cell = row.Cells[1];
 				par = cell.AddParagraph();
 				par.AddFormattedText(text, font);
-				text = PatGuar.Bal_61_90.ToString("F");
+				text = PatGuar.Bal_61_90.ToStringNetFx("F");
 				cell = row.Cells[2];
 				par = cell.AddParagraph();
 				par.AddFormattedText(text, font);
-				text = PatGuar.BalOver90.ToString("F");
+				text = PatGuar.BalOver90.ToStringNetFx("F");
 				cell = row.Cells[3];
 				par = cell.AddParagraph();
 				par.AddFormattedText(text, font);
@@ -719,43 +719,43 @@ namespace OpenPmsDental{
 						}
 					}
 				}
-				text=procAmt.ToString("c");
+				text=procAmt.ToStringNetFx("c");
 				par.AddFormattedText(text,font);
 				par.AddLineBreak();
-				text=adjAmt.ToString("c");
+				text=adjAmt.ToStringNetFx("c");
 				par.AddFormattedText(text,font);
 				par.AddLineBreak();
 				if(PrefC.GetInt(PrefName.PayPlansVersion)==(int)PayPlanVersions.AgeCreditsAndDebits) {
-					text=payplanAmt.ToString("c");
+					text=payplanAmt.ToStringNetFx("c");
 					par.AddFormattedText(text,font);
 					par.AddLineBreak();
-					text=(procAmt+adjAmt+payplanAmt).ToString("c");
+					text=(procAmt+adjAmt+payplanAmt).ToStringNetFx("c");
 				}
 				else {
-					text=(procAmt+adjAmt).ToString("c");
+					text=(procAmt+adjAmt).ToStringNetFx("c");
 				}
 				par.AddFormattedText(text,fontBold);
 			}
 			else if(Stmt.StatementType==StmtType.LimitedStatement) {
 				//statementTotal and patInsEstLimited calculated above and used here and in the Amount Enclosed region
 				if(PrefC.GetBool(PrefName.BalancesDontSubtractIns)) {
-					par.AddFormattedText(statementTotal.ToString("c"),font);
+					par.AddFormattedText(statementTotal.ToStringNetFx("c"),font);
 				}
 				else {//this is typical
-					par.AddFormattedText(statementTotal.ToString("c"),font).AddLineBreak();
-					par.AddFormattedText(patInsEstLimited.ToString("c"),font).AddLineBreak();
-					par.AddFormattedText((statementTotal-patInsEstLimited).ToString("c"),fontBold);
+					par.AddFormattedText(statementTotal.ToStringNetFx("c"),font).AddLineBreak();
+					par.AddFormattedText(patInsEstLimited.ToStringNetFx("c"),font).AddLineBreak();
+					par.AddFormattedText((statementTotal-patInsEstLimited).ToStringNetFx("c"),fontBold);
 				}
 			}
 			else if(PrefC.GetBool(PrefName.BalancesDontSubtractIns)) {
 				if(Stmt.SinglePatient) {
 					//Show the current patient's balance without subtracting insurance estimates.
-					text = pat.EstBalance.ToString("c");
+					text = pat.EstBalance.ToStringNetFx("c");
 					par.AddFormattedText(text,font);
 				}
 				else {
 					//Show the current family's balance without subtracting insurance estimates.
-					text = PatGuar.BalTotal.ToString("c");
+					text = PatGuar.BalTotal.ToStringNetFx("c");
 					par.AddFormattedText(text,fontBold);
 				}
 			}
@@ -768,23 +768,23 @@ namespace OpenPmsDental{
 						}
 					}
 					double patBal=pat.EstBalance-patInsEst;
-					text = pat.EstBalance.ToString("c");
+					text = pat.EstBalance.ToStringNetFx("c");
 					par.AddFormattedText(text,font);
 					par.AddLineBreak();
-					text = patInsEst.ToString("c");
+					text = patInsEst.ToStringNetFx("c");
 					par.AddFormattedText(text,font);
 					par.AddLineBreak();
-					text = patBal.ToString("c");
+					text = patBal.ToStringNetFx("c");
 					par.AddFormattedText(text,fontBold);
 				}
 				else {
-					text = PatGuar.BalTotal.ToString("c");
+					text = PatGuar.BalTotal.ToStringNetFx("c");
 					par.AddFormattedText(text,font);
 					par.AddLineBreak();
-					text = PatGuar.InsEst.ToString("c");
+					text = PatGuar.InsEst.ToStringNetFx("c");
 					par.AddFormattedText(text,font);
 					par.AddLineBreak();
-					text = (PatGuar.BalTotal - PatGuar.InsEst).ToString("c");
+					text = (PatGuar.BalTotal - PatGuar.InsEst).ToStringNetFx("c");
 					par.AddFormattedText(text,fontBold);
 					par.AddLineBreak();
 				}
@@ -869,7 +869,7 @@ namespace OpenPmsDental{
 						payPlanDue=PIn.Double(tableMisc.Rows[m]["value"].ToString());
 					}
 				}
-				par.AddText(Lan.g(this,"Payment Plan Amount Due: ")+payPlanDue.ToString("c"));//PatGuar.PayPlanDue.ToString("c"));
+				par.AddText(Lan.g(this,"Payment Plan Amount Due: ")+payPlanDue.ToStringNetFx("c"));//PatGuar.PayPlanDue.ToString("c"));
 				MigraDocHelper.InsertSpacer(section,10);
 			}
 			#endregion PayPlan grid
@@ -1129,12 +1129,12 @@ namespace OpenPmsDental{
 				MigraDocHelper.DrawString(frame,dashedBankNum,swfont,340,169);
 				//Amount------------------------------------------------------------
 				double amountdue=PatGuar.BalTotal-PatGuar.InsEst;
-				text=amountdue.ToString("F2");
+				text=amountdue.ToStringNetFx("F2");
 				text=text.Substring(0,text.Length-3);
 				swfont=MigraDocHelper.CreateFont(10);
 				MigraDocHelper.DrawString(frame,text,swfont,new RectangleF(50,205,100,25),ParagraphAlignment.Right);
 				MigraDocHelper.DrawString(frame,text,swfont,new RectangleF(290,205,100,25),ParagraphAlignment.Right);
-				text=amountdue.ToString("F2");//eg 92.00
+				text=amountdue.ToStringNetFx("F2");//eg 92.00
 				text=text.Substring(text.Length-2,2);//eg 00
 				MigraDocHelper.DrawString(frame,text,swfont,185,205);
 				MigraDocHelper.DrawString(frame,text,swfont,425,205);
@@ -1193,7 +1193,7 @@ namespace OpenPmsDental{
 				>the number printed without the zeros, but in this case it has the zeros 
 				>and not the dashes.*/
 				swfont=new MigraDoc.DocumentObjectModel.Font("OCR-B 10 BT",12);
-				text="01"+amountdue.ToString("F2").Replace(".","").PadLeft(10,'0');
+				text="01"+amountdue.ToStringNetFx("F2").Replace(".","").PadLeft(10,'0');
 				text+=Modulo10(text).ToString()+">"
 					+referenceNum+"+ "+origBankNum+">";
 				MigraDocHelper.DrawString(frame,text,swfont,255,345);

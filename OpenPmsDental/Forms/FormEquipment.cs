@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using OpenPmsDental.UI;
 using OpenPmsDentalBusiness;
+using CodeBase;
 
 namespace OpenPmsDental {
 	public partial class FormEquipment:FormODBase {
@@ -123,8 +124,8 @@ namespace OpenPmsDental {
 						row.Cells.Add(_listEquipments[i].DateSold.ToShortDateString());
 					}
 				}
-				row.Cells.Add(_listEquipments[i].PurchaseCost.ToString("f"));
-				row.Cells.Add(_listEquipments[i].MarketValue.ToString("f"));
+				row.Cells.Add(_listEquipments[i].PurchaseCost.ToStringNetFx("f"));
+				row.Cells.Add(_listEquipments[i].MarketValue.ToStringNetFx("f"));
 				if(equipmentDisplayMode!=EnumEquipmentDisplayMode.Purchased) {
 					row.Cells.Add(_listEquipments[i].Location);
 				}
@@ -206,7 +207,7 @@ namespace OpenPmsDental {
 				for(int i=0;i<_listEquipments.Count;i++){
 					total+=_listEquipments[i].MarketValue;
 				}
-				g.DrawString(Lan.g(this,"Total Est Value:")+" "+total.ToString("c"),Font,Brushes.Black,550,yPos);
+				g.DrawString(Lan.g(this,"Total Est Value:")+" "+total.ToStringNetFx("c"),Font,Brushes.Black,550,yPos);
 			}
 			g.Dispose();
 		}

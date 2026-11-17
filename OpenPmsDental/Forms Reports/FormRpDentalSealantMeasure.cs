@@ -4,6 +4,7 @@ using System;
 using System.Data;
 using System.Drawing;
 using System.Windows.Forms;
+using CodeBase;
 
 namespace OpenPmsDental {
 	public partial class FormRpDentalSealantMeasure:FormODBase {
@@ -39,7 +40,7 @@ namespace OpenPmsDental {
 			totalsRow["Numerator"]=numerator.ToString();
 			totalsRow["Denominator"]=denominator.ToString();
 			if(denominator > 0) {
-				totalsRow["Percentage Met"]=(numerator/(double)denominator).ToString("P");
+				totalsRow["Percentage Met"]=(numerator/(double)denominator).ToStringNetFx("P");
 			}
 			else {
 				totalsRow["Percentage Met"]=0.ToString("P");

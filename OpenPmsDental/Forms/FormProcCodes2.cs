@@ -635,21 +635,21 @@ namespace OpenPmsDental {
 					row.Cells.Add("");
 				}
 				else {
-					row.Cells.Add(fee1.Amount.ToString("n"));
+					row.Cells.Add(fee1.Amount.ToStringNetFx("n"));
 					row.Cells[row.Cells.Count-1].ColorText=GetColorForFee(fee1);
 				}
 				if(fee2==null || fee2.Amount==-1) {
 					row.Cells.Add("");
 				}
 				else {
-					row.Cells.Add(fee2.Amount.ToString("n"));
+					row.Cells.Add(fee2.Amount.ToStringNetFx("n"));
 					row.Cells[row.Cells.Count-1].ColorText=GetColorForFee(fee2);
 				}
 				if(fee3==null || fee3.Amount==-1) {
 					row.Cells.Add("");
 				}
 				else {
-					row.Cells.Add(fee3.Amount.ToString("n"));
+					row.Cells.Add(fee3.Amount.ToStringNetFx("n"));
 					row.Cells[row.Cells.Count-1].ColorText=GetColorForFee(fee3);
 				}
 				gridMain.ListGridRows.Add(row);
@@ -810,7 +810,7 @@ namespace OpenPmsDental {
 			string feeAmtOld="";
 			if(fee!=null){
 				datePrevious = fee.SecDateTEdit;
-				feeAmtOld=fee.Amount.ToString("n");
+				feeAmtOld=fee.Amount.ToStringNetFx("n");
 			}
 			string feeAmtNewStr=gridMain.ListGridRows[e.Row].Cells[e.Col].Text;
 			double feeAmtNew=0;
@@ -852,7 +852,7 @@ namespace OpenPmsDental {
 				}
 			}
 			if(feeAmtNewStr!="") {
-				gridMain.ListGridRows[e.Row].Cells[e.Col].Text=feeAmtNew.ToString("n"); //Fix the number formatting and display it.
+				gridMain.ListGridRows[e.Row].Cells[e.Col].Text=feeAmtNew.ToStringNetFx("n"); //Fix the number formatting and display it.
 			}
 			if(feeSched.IsGlobal) { //Global fee schedules have only one fee so blindly insert/update the fee. There will be no more localized copy.
 				if(fee==null || (feeAmtNewStr!="" && isDatedEdit && fee.DateEffective.Date!=_dateFeesAsOf)) { //Fee doesn't exist (on this date), insert
@@ -1005,7 +1005,7 @@ namespace OpenPmsDental {
 				}
 			}
 			SecurityLog securityLog=SecurityLogs.MakeLogEntryNoInsert(EnumPermType.ProcFeeEdit,0,"Procedure: "+ProcedureCodes.GetStringProcCode(fee.CodeNum)
-				+", Fee: "+fee.Amount.ToString("c")
+				+", Fee: "+fee.Amount.ToStringNetFx("c")
 				+", Fee Schedule: "+FeeScheds.GetDescription(fee.FeeSched)
 				+Fees.GetDateEffectiveLogText(fee.DateEffective)
 				+". Manual edit in grid from Procedure Codes list.",fee.CodeNum,LogSources.None);

@@ -436,7 +436,7 @@ namespace OpenPmsDentalBusiness.Email {
 			if(length<=lengthMax) {
 				return;
 			}
-			string megabytes=" "+(lengthMax/1000000.0).ToString("0.#")+" MB ";
+			string megabytes=" "+(lengthMax/1000000.0).ToStringNetFx("0.#")+" MB ";
 			if(isEncrypted) {
 				throw new ODException(Lans.g("EmailMessages","An encrypted (Direct) message can be at most")+megabytes
 					+Lans.g("EmailMessages","with Microsoft 365, which rebuilds larger messages without their encryption. Send it with smaller attachments."));

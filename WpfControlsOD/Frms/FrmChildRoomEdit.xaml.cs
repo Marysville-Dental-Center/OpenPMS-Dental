@@ -15,6 +15,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using OpenPmsDentalBusiness;
 using WpfControls.UI;
+using CodeBase;
 
 namespace OpenPmsDental {
 	///<summary></summary>
@@ -36,7 +37,7 @@ namespace OpenPmsDental {
 				textRatio.IsEnabled=false;
 			}
 			else{
-				textRatio.Text=ChildRoomCur.Ratio.ToString();
+				textRatio.Text=ChildRoomCur.Ratio.ToStringNetFx();
 			}
 			textNotes.Text=ChildRoomCur.Notes;
 		}

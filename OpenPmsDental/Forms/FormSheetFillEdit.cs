@@ -1719,7 +1719,7 @@ namespace OpenPmsDental {
 				//Just validation
 				if(SheetCur.SheetFields[i].FontSize<=0) {//Sheet did not save correctly.
 					SheetCur.SheetFields[i].FontSize=SheetCur.FontSize;//Use a best guess so the user does not completely lose this Sheet's data.
-					strErr=$"A text SheetCur.SheetFields[i] was found with an invalid FontSize.  Default size of {SheetCur.FontSize} has been used instead.";
+					strErr=$"A text SheetCur.SheetFields[i] was found with an invalid FontSize.  Default size of {SheetCur.FontSize.AsNetFx()} has been used instead.";
 				}
 				//Drawn in Paint
 			}

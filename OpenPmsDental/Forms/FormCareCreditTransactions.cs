@@ -260,7 +260,7 @@ namespace OpenPmsDental {
 			for(int i = 0;i<listCareCreditWebResponses.Count;++i) {
 				GridRow row=new GridRow();
 				row.Cells.Add(_listPatientNames.Find(x => x.PatNum == listCareCreditWebResponses[i].PatNum).Name);
-				row.Cells.Add(listCareCreditWebResponses[i].Amount.ToString("f"));
+				row.Cells.Add(listCareCreditWebResponses[i].Amount.ToStringNetFx("f"));
 				row.Cells.Add(listCareCreditWebResponses[i].DateTimeCompleted.ToShortDateString());
 				row.Cells.Add(listCareCreditWebResponses[i].TransType.GetDescription());
 				if(PrefC.HasClinicsEnabled) {

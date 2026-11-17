@@ -23,6 +23,8 @@
 // Changed by Open PMS - Dental contributors, 2026-11-16 (package S3b-2b of the .NET 10 move, docs/port-notes/S3b-2.md part B): the toolbar is a
 // Panel and the status bar a StatusStrip, in place of the WinForms ToolBar and StatusBar, which .NET has only as shims that cannot be created
 // (WFDEV006).
+// Changed by Open PMS - Dental contributors, 2026-11-16 (package S3b-FMT of the .NET 10 move, decision 24 of docs/specs/net10-plan.md,
+// docs/port-notes/S3b-FMT.md): doubles and floats are written as text as .NET Framework wrote them (ODNumberText.ToStringNetFx, AsNetFx).
 using System;
 using System.Drawing;
 using System.Collections;
@@ -38,6 +40,7 @@ using System.Diagnostics;
 using fyiReporting.RDL;
 using fyiReporting.RdlViewer;
 using System.Runtime.InteropServices;
+using CodeBase;
 
 namespace fyiReporting.RdlDesign
 {
@@ -1799,7 +1802,7 @@ namespace fyiReporting.RdlDesign
 							if (mc.Zoom == 1)
 								zText = "Actual Size";
 							else
-								zText = string.Format("{0:0}", mc.Zoom*100f);
+								zText = string.Format("{0:0}", (mc.Zoom*100f).AsNetFx());
 							break;
 					}
 					ctlZoom.Text = zText;
@@ -1883,12 +1886,12 @@ namespace fyiReporting.RdlDesign
             if (rinfo.IsMetric)
             {
                 sh = string.Format("   height={0:0.00}cm        ",
-                        h / (DesignXmlDraw.POINTSIZED / 2.54d));
+                        (h / (DesignXmlDraw.POINTSIZED / 2.54d)).AsNetFx());
             }
             else
             {
                 sh = string.Format("   height={0:0.00}\"        ",
-                        h / DesignXmlDraw.POINTSIZED);
+                        (h / DesignXmlDraw.POINTSIZED).AsNetFx());
             }
             statusPosition.Text = sh;
         }
@@ -1933,7 +1936,7 @@ namespace fyiReporting.RdlDesign
 				ctlFont.Text = si.FontFamily;
 			if (ctlFontSize != null)
 			{
-				string rs = string.Format(NumberFormatInfo.InvariantInfo, "{0:0.#}", si.FontSize);
+				string rs = string.Format(NumberFormatInfo.InvariantInfo, "{0:0.#}", si.FontSize.AsNetFx());
 				ctlFontSize.Text = rs;
 			}
 			if (ctlForeColor != null)
@@ -3208,20 +3211,20 @@ namespace fyiReporting.RdlDesign
 				{
 					if (sz.Width == float.MinValue)	// item is in a table/matrix is probably cause
 						spos =  string.Format("   x={0:0.00}cm, y={1:0.00}cm        ",
-                            pos.X / (m72 / 2.54d), pos.Y / (m72 / 2.54d));
+                            (pos.X / (m72 / 2.54d)).AsNetFx(), (pos.Y / (m72 / 2.54d)).AsNetFx());
 					else
 						spos =  string.Format("   x={0:0.00}cm, y={1:0.00}cm, w={2:0.00}cm, h={3:0.00}cm        ", 
-							pos.X / (m72 / 2.54d), pos.Y / (m72 / 2.54d),
-							sz.Width / (m72 / 2.54d), sz.Height / (m72 / 2.54d));
+							(pos.X / (m72 / 2.54d)).AsNetFx(), (pos.Y / (m72 / 2.54d)).AsNetFx(),
+							(sz.Width / (m72 / 2.54d)).AsNetFx(), (sz.Height / (m72 / 2.54d)).AsNetFx());
 				}
 				else
 				{
 					if (sz.Width == float.MinValue)
 						spos =  string.Format("   x={0:0.00}\", y={1:0.00}\"        ", 
-							pos.X/m72, pos.Y/m72);
+							(pos.X/m72).AsNetFx(), (pos.Y/m72).AsNetFx());
 					else
 						spos =  string.Format("   x={0:0.00}\", y={1:0.00}\", w={2:0.00}\", h={3:0.00}\"        ", 
-							pos.X/m72, pos.Y/m72, sz.Width/m72, sz.Height/m72);
+							(pos.X/m72).AsNetFx(), (pos.Y/m72).AsNetFx(), (sz.Width/m72).AsNetFx(), (sz.Height/m72).AsNetFx());
 				}
 			}
 			if (spos != statusPosition.Text)

@@ -96,7 +96,7 @@ namespace OpenPmsDentalBusiness {
 			//Replaced literally: ReplaceTags.ReplaceOneTag passes the value to Regex.Replace as a pattern, where an amount like $0.50 would turn "$0"
 			//into the tag itself.
 			text=ReplaceTagLiteral(text,TAG_NAME_PREF,patientRecipient.GetNameFirstOrPreferred());
-			text=ReplaceTagLiteral(text,TAG_AMOUNT,amount.ToString("c"));
+			text=ReplaceTagLiteral(text,TAG_AMOUNT,amount.ToStringNetFx("c"));
 			text=ReplaceTagLiteral(text,TAG_CARD_LAST4,cardLast4);
 			text=ReplaceTagLiteral(text,TAG_DATE_CHARGE,dateCharge.ToShortDateString());
 			//[NameF], [OfficeName], [OfficePhone], [ClinicName] and the other common tags.
@@ -259,7 +259,7 @@ namespace OpenPmsDentalBusiness {
 			commlog.UserNum=Security.CurUser.UserNum;
 			commlog.CommSource=CommItemSource.User;
 			commlog.Note=Lans.g(LAN,"Recurring charge declined. E-mail sent to")+" "+emailMessage.ToAddress
-				+" ("+Lans.g(LAN,"card ending in")+" "+cardLast4+", "+recurringCharge.ChargeAmt.ToString("c")+").";
+				+" ("+Lans.g(LAN,"card ending in")+" "+cardLast4+", "+recurringCharge.ChargeAmt.ToStringNetFx("c")+").";
 			Commlogs.Insert(commlog);
 			return new RecurringChargeFailEmailResult(RecurringChargeFailEmailStatus.Sent,emailMessage.ToAddress);
 		}

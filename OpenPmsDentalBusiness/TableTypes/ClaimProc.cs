@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using CodeBase;
 
 namespace OpenPmsDentalBusiness{
 
@@ -176,7 +177,7 @@ namespace OpenPmsDentalBusiness{
 		}
 
 		public override string ToString() {
-			return Status.ToString()+ProcDate.ToShortDateString()+" est:"+InsEstTotal.ToString()+" ded:"+DedEst.ToString();
+			return Status.ToString()+ProcDate.ToShortDateString()+" est:"+InsEstTotal.ToStringNetFx()+" ded:"+DedEst.ToStringNetFx();
 		}
 
 		public override int GetHashCode() {

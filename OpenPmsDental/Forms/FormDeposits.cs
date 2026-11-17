@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using OpenPmsDental.UI;
 using OpenPmsDentalBusiness;
 using System.Collections.Generic;
+using CodeBase;
 
 namespace OpenPmsDental{
 	/// <summary>
@@ -71,7 +72,7 @@ namespace OpenPmsDental{
 			for(int i=0;i<_listDeposits.Count;i++){
 				row=new GridRow();
 				row.Cells.Add(_listDeposits[i].DateDeposit.ToShortDateString());
-				row.Cells.Add(_listDeposits[i].Amount.ToString("F"));
+				row.Cells.Add(_listDeposits[i].Amount.ToStringNetFx("F"));
 				if(PrefC.HasClinicsEnabled) {
 					row.Cells.Add(" "+_listDeposits[i].ClinicAbbr);//padding left with space to add separation between amount and clinic abbr
 				}

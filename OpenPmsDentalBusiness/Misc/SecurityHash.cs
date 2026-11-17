@@ -150,7 +150,7 @@ namespace OpenPmsDentalBusiness.Misc {
 				hashedTextOld=PIn.String(table.Rows[i]["SecurityHash"].ToString());
 				splitNum=PIn.Long(table.Rows[i]["SplitNum"].ToString());
 				unhashedText+=PIn.Long(table.Rows[i]["PatNum"].ToString());
-				unhashedText+=PIn.Double(table.Rows[i]["SplitAmt"].ToString()).ToString("F2");
+				unhashedText+=PIn.Double(table.Rows[i]["SplitAmt"].ToString()).ToStringNetFx("F2");
 				unhashedText+=PIn.Date(table.Rows[i]["DatePay"].ToString()).ToString("yyyy-MM-dd");
 				try {
 					hashedTextNew=TamperHash.Compute(unhashedText);
@@ -290,7 +290,7 @@ namespace OpenPmsDentalBusiness.Misc {
 				unhashedText="";
 				payPlanNum=PIn.Long(table.Rows[i]["PayPlanNum"].ToString());
 				unhashedText+=PIn.Long(table.Rows[i]["Guarantor"].ToString());
-				unhashedText+=PIn.Double(table.Rows[i]["PayAmt"].ToString()).ToString("F2");
+				unhashedText+=PIn.Double(table.Rows[i]["PayAmt"].ToString()).ToStringNetFx("F2");
 				unhashedText+=PIn.Bool(table.Rows[i]["IsClosed"].ToString());
 				unhashedText+=PIn.Bool(table.Rows[i]["IsLocked"].ToString());
 				try {
@@ -333,10 +333,10 @@ namespace OpenPmsDentalBusiness.Misc {
 				unhashedText="";
 				claimNum=PIn.Long(table.Rows[i]["ClaimNum"].ToString());
 				hashedTextOld=PIn.String(table.Rows[i]["SecurityHash"].ToString());
-				unhashedText+=PIn.Double(table.Rows[i]["ClaimFee"].ToString()).ToString("F2");
+				unhashedText+=PIn.Double(table.Rows[i]["ClaimFee"].ToString()).ToStringNetFx("F2");
 				unhashedText+=PIn.String(table.Rows[i]["ClaimStatus"].ToString());
-				unhashedText+=PIn.Double(table.Rows[i]["InsPayEst"].ToString()).ToString("F2");
-				unhashedText+=PIn.Double(table.Rows[i]["InsPayAmt"].ToString()).ToString("F2");
+				unhashedText+=PIn.Double(table.Rows[i]["InsPayEst"].ToString()).ToStringNetFx("F2");
+				unhashedText+=PIn.Double(table.Rows[i]["InsPayAmt"].ToString()).ToStringNetFx("F2");
 				try {
 					hashedText=TamperHash.Compute(unhashedText);
 				}
@@ -398,8 +398,8 @@ namespace OpenPmsDentalBusiness.Misc {
 				hashedTextOld=PIn.String(table.Rows[i]["SecurityHash"].ToString());
 				unhashedText+=PIn.Long(table.Rows[i]["ClaimNum"].ToString());
 				unhashedText+=PIn.Int(table.Rows[i]["Status"].ToString());
-				unhashedText+=PIn.Double(table.Rows[i]["InsPayEst"].ToString()).ToString("F2");
-				unhashedText+=PIn.Double(table.Rows[i]["InsPayAmt"].ToString()).ToString("F2");
+				unhashedText+=PIn.Double(table.Rows[i]["InsPayEst"].ToString()).ToStringNetFx("F2");
+				unhashedText+=PIn.Double(table.Rows[i]["InsPayAmt"].ToString()).ToStringNetFx("F2");
 				try {
 					hashedText=TamperHash.Compute(unhashedText);
 				}

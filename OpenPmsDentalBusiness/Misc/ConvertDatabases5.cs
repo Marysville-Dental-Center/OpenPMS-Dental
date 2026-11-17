@@ -8761,7 +8761,7 @@ No Action Required in many cases, check your new patient Web Sched on your web s
 				foreach(DataRow row in tableReviews.Rows) {
 					long reviewNum=PIn.Long(row["JobReviewNum"].ToString());
 					double hours=PIn.Double(row["Hours"].ToString());
-					command="UPDATE jobreview SET jobreview.TimeReview=ROUND("+hours*TimeSpan.TicksPerHour+",0) WHERE jobreview.JobReviewNum="+reviewNum;
+					command="UPDATE jobreview SET jobreview.TimeReview=ROUND("+(hours*TimeSpan.TicksPerHour).ToStringNetFx()+",0) WHERE jobreview.JobReviewNum="+reviewNum;
 					Db.NonQ(command);
 				}
 				//Insert all the new TimeLog reviews for the deprecated TimeActual column

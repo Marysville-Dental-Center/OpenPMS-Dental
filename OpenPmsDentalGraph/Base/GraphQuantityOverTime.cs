@@ -88,7 +88,7 @@ namespace OpenPmsDentalGraph {
 			}
 
 			public override string ToString() {
-				return SeriesName+" "+DateStamp.ToShortDateString()+" - "+Val.ToString();
+				return SeriesName+" "+DateStamp.ToShortDateString()+" - "+Val.ToStringNetFx();
 			}
 		}
 
@@ -308,6 +308,7 @@ namespace OpenPmsDentalGraph {
 		#region Ctor
 		public GraphQuantityOverTime() {
 			InitializeComponent();
+			ChartNumberText.Attach(chart1);//the number labels as the .NET Framework wrote them (S3b-FMT, decision 24)
 			comboChartType.SetDataToEnumsPrimitive<SeriesChartType>(
 				new List<SeriesChartType>(new SeriesChartType[] { SeriesChartType.StackedArea,SeriesChartType.StackedColumn,SeriesChartType.Column,SeriesChartType.Line }));
 			comboGroupBy.SetDataToEnumsPrimitive<IntervalType>((int)IntervalType.Years,(int)IntervalType.Days);
@@ -399,10 +400,10 @@ namespace OpenPmsDentalGraph {
 					Series series=e.HitTestResult.Series;
 					e.Text=series.Name+" - "+DateTime.FromOADate(series.Points[e.HitTestResult.PointIndex].XValue).ToShortDateString()+" - ";
 					if(QtyType==QuantityType.money) {
-						e.Text+=Math.Round(series.Points[e.HitTestResult.PointIndex].YValues[0],2).ToString("c");
+						e.Text+=Math.Round(series.Points[e.HitTestResult.PointIndex].YValues[0],2).ToStringNetFx("c");
 					}
 					else {
-						e.Text+=Math.Round(series.Points[e.HitTestResult.PointIndex].YValues[0],2);
+						e.Text+=Math.Round(series.Points[e.HitTestResult.PointIndex].YValues[0],2).ToStringNetFx();
 					}
 					break;
 			}

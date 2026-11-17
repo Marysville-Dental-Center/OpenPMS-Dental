@@ -7,6 +7,7 @@ using System.Drawing.Printing;
 using System.Windows.Forms;
 using OpenPmsDental.UI;
 using OpenPmsDentalBusiness;
+using CodeBase;
 
 namespace OpenPmsDental {
 	///<summary>Supply Inventory, Inventory, Usage Report. Uses minus restores (and dispensing, by item) in the date range, by ledger date, with the
@@ -51,7 +52,7 @@ namespace OpenPmsDental {
 					double cost=PIn.Double(dataRow["Cost"].ToString());
 					costTotal+=cost;
 					gridMain.ListGridRows.Add(new GridRow(dataRow["CatalogNumber"].ToString(),dataRow["Descript"].ToString(),
-						InventoryTracking.FormatQty(PIn.Double(dataRow["QtyUsed"].ToString())),cost.ToString("n")));
+						InventoryTracking.FormatQty(PIn.Double(dataRow["QtyUsed"].ToString())),cost.ToStringNetFx("n")));
 				}
 			}
 			else {
@@ -69,12 +70,12 @@ namespace OpenPmsDental {
 					string procCode=dataRow["ProcCode"].ToString();
 					gridMain.ListGridRows.Add(new GridRow(procCode==procCodeLast ? "" : procCode,procCode==procCodeLast ? "" : dataRow["CodeDescript"].ToString(),
 						dataRow["Descript"].ToString(),dataRow["CountProcs"].ToString(),InventoryTracking.FormatQty(PIn.Double(dataRow["QtyUsed"].ToString())),
-						cost.ToString("n")));
+						cost.ToStringNetFx("n")));
 					procCodeLast=procCode;
 				}
 			}
 			gridMain.EndUpdate();
-			labelTotal.Text=Lan.g(this,"Total cost")+": "+costTotal.ToString("c");
+			labelTotal.Text=Lan.g(this,"Total cost")+": "+costTotal.ToStringNetFx("c");
 		}
 
 		private void butRefresh_Click(object sender,EventArgs e) {

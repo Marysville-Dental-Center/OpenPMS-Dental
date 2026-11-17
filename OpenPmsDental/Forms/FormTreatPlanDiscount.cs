@@ -6,6 +6,7 @@ using System.Text;
 using System.Windows.Forms;
 using OpenPmsDentalBusiness;
 using System.Linq;
+using CodeBase;
 
 namespace OpenPmsDental {
 	public partial class FormTreatmentPlanDiscount:FormODBase {
@@ -60,8 +61,8 @@ namespace OpenPmsDental {
 				if(_listProcedures[j].Discount!=_listProceduresOld[j].Discount) {//Discount was changed
 					string message=Lan.g(this,"Discount created or changed from Treat Plan module for procedure")
 						+": "+ProcedureCodes.GetProcCode(_listProcedures[j].CodeNum).ProcCode+"  "+Lan.g(this,"Dated")
-						+": "+_listProcedures[j].ProcDate.ToShortDateString()+"  "+Lan.g(this,"With a Fee of")+": "+_listProcedures[j].ProcFee.ToString("c")+".  "+Lan.g(this,"Attributed a")+" "+percent
-					+" "+Lan.g(this,"percent discount, changing the discount value from")+" "+_listProceduresOld[j].Discount.ToString("c")+" "+Lan.g(this,"to")+" "+_listProcedures[j].Discount.ToString("c");
+						+": "+_listProcedures[j].ProcDate.ToShortDateString()+"  "+Lan.g(this,"With a Fee of")+": "+_listProcedures[j].ProcFee.ToStringNetFx("c")+".  "+Lan.g(this,"Attributed a")+" "+percent.ToStringNetFx()
+					+" "+Lan.g(this,"percent discount, changing the discount value from")+" "+_listProceduresOld[j].Discount.ToStringNetFx("c")+" "+Lan.g(this,"to")+" "+_listProcedures[j].Discount.ToStringNetFx("c");
 					SecurityLogs.MakeLogEntry(EnumPermType.TreatPlanDiscountEdit,_listProcedures[j].PatNum,message);
 				}
 				Procedures.Update(_listProcedures[j],_listProceduresOld[j]);

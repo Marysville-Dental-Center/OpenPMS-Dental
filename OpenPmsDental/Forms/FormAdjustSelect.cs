@@ -4,6 +4,7 @@ using System.Windows.Forms;
 using OpenPmsDental.UI;
 using OpenPmsDentalBusiness;
 using System.Linq;
+using CodeBase;
 
 namespace OpenPmsDental {
 	public partial class FormAdjustSelect:FormODBase {
@@ -44,7 +45,7 @@ namespace OpenPmsDental {
 		}
 
 		private void FormAdjustSelect_Load(object sender,EventArgs e) {
-			labelCurSplitAmt.Text=_amtPaySplitDisplay.ToString("C");
+			labelCurSplitAmt.Text=_amtPaySplitDisplay.ToStringNetFx("C");
 			FillGrid();
 		}
 
@@ -87,7 +88,7 @@ namespace OpenPmsDental {
 			decimal amtUsedDisplay=(accountEntry.AmountOriginal-accountEntry.AmountAvailable) * -1;
 			labelAmtUsed.Text=amtUsedDisplay.ToString("C");
 			labelAmtAvail.Text=accountEntry.AmountAvailable.ToString("C");
-			labelAmtEnd.Text=((double)accountEntry.AmountAvailable+_amtPaySplitDisplay).ToString("C");
+			labelAmtEnd.Text=((double)accountEntry.AmountAvailable+_amtPaySplitDisplay).ToStringNetFx("C");
 		}
 
 		private void gridAdjusts_CellDoubleClick(object sender,UI.ODGridClickEventArgs e) {

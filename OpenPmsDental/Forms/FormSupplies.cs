@@ -150,14 +150,14 @@ namespace OpenPmsDental {
 					row.Cells.Add("");
 				}
 				else {
-					row.Cells.Add(_listSupplies[i].Price.ToString("n"));
+					row.Cells.Add(_listSupplies[i].Price.ToStringNetFx("n"));
 				}
 				//stock:
 				if(_listSupplies[i].LevelDesired==0) {
 					row.Cells.Add("");
 				}
 				else {
-					row.Cells.Add(_listSupplies[i].LevelDesired.ToString());
+					row.Cells.Add(_listSupplies[i].LevelDesired.ToStringNetFx());
 				}
 				row.Cells.Add(InventoryTracking.FormatQty(_listSupplies[i].LevelOnHand));
 				//order:

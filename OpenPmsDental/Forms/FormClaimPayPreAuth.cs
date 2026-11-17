@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Windows.Forms;
 using OpenPmsDentalBusiness;
 using OpenPmsDental.UI;
+using CodeBase;
 
 namespace OpenPmsDental
 {
@@ -116,8 +117,8 @@ namespace OpenPmsDental
 					row.Cells.Add(Tooth.Display(procedure.ToothNum));
 				}
 				row.Cells.Add(ProcedureCodes.GetProcCode(procedure.CodeNum).Descript);
-				row.Cells.Add(ListClaimProcs[i].FeeBilled.ToString("F"));
-				row.Cells.Add(ListClaimProcs[i].InsPayEst.ToString("F"));
+				row.Cells.Add(ListClaimProcs[i].FeeBilled.ToStringNetFx("F"));
+				row.Cells.Add(ListClaimProcs[i].InsPayEst.ToStringNetFx("F"));
 				row.Cells.Add(ListClaimProcs[i].Remarks);
 				gridMain.ListGridRows.Add(row);
 			}
@@ -165,7 +166,7 @@ namespace OpenPmsDental
 				
 				}
 			}
-			textTotal.Text=insPayEst.ToString("F");
+			textTotal.Text=insPayEst.ToStringNetFx("F");
 		}
 
 		///<Summary>Surround with try-catch.</Summary>

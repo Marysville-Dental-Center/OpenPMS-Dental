@@ -963,10 +963,10 @@ namespace OpenPmsDentalBusiness {
 				if(PIn.Bool(rawClaimPayRow["IsOverpay"].ToString())) {
 					double insEstTotalOverride=PIn.Double(rawClaimPayRow["InsEstTotalOverride_"].ToString());
 					if(insEstTotalOverride<0) {
-						dataRow["description"]=Lans.g("AccountModule","Insurance Overpayment")+": "+insEstTotalOverride.ToString("f");
+						dataRow["description"]=Lans.g("AccountModule","Insurance Overpayment")+": "+insEstTotalOverride.ToStringNetFx("f");
 					}
 					else {
-						dataRow["description"]=Lans.g("AccountModule","Insurance Underpayment")+": "+insEstTotalOverride.ToString("f");
+						dataRow["description"]=Lans.g("AccountModule","Insurance Underpayment")+": "+insEstTotalOverride.ToStringNetFx("f");
 					}
 				}
 				else {
@@ -1618,7 +1618,7 @@ namespace OpenPmsDentalBusiness {
 					}
 					rcRow["procAmt_"]=procAmt_;
 					//Take every unique ProcNum and get every adjustment associated.
-					rcRow["adjAmt_"]=Adjustments.GetTotForProcs(dictProcNumRows.Keys.ToList());
+					rcRow["adjAmt_"]=Adjustments.GetTotForProcs(dictProcNumRows.Keys.ToList()).ToStringNetFx();
 				}
 			}
 			DateTime daterec;
@@ -3039,7 +3039,7 @@ namespace OpenPmsDentalBusiness {
 			double unearnedAmt=PIn.Double(Db.GetScalar(command));
 			row=table.NewRow();
 			row["descript"]="unearnedIncome";
-			row["value"]=unearnedAmt;
+			row["value"]=unearnedAmt.ToStringNetFx();
 			rows.Add(row);
 			//final prep:
 			for(int i=0;i<rows.Count;i++) {

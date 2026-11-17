@@ -7,6 +7,7 @@ using System.Text;
 using System.Windows.Forms;
 using OpenPmsDental.UI;
 using OpenPmsDentalBusiness;
+using CodeBase;
 
 namespace OpenPmsDental {
 	public partial class FormOnlinePayments:FormODBase {
@@ -99,7 +100,7 @@ namespace OpenPmsDental {
 				}
 				row.Cells.Add(Patients.GetOnePat(_arrayPats,pay.PatNum).GetNameLFnoPref());
 				row.Cells.Add(pay.PayDate.ToShortDateString());
-				row.Cells.Add(pay.PayAmt.ToString("F"));
+				row.Cells.Add(pay.PayAmt.ToStringNetFx("F"));
 				row.Cells.Add(pay.PayNote);
 				row.Tag=pay;
 				gridMain.ListGridRows.Add(row);

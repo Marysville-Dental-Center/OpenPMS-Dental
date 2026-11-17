@@ -9,6 +9,7 @@ using System.Data;
 using System.Text;
 using System.Windows.Forms;
 using OpenPmsDentalBusiness;
+using CodeBase;
 
 namespace SparksToothChart {
 	public partial class ToothChart2D:UserControl {
@@ -665,7 +666,7 @@ namespace SparksToothChart {
 					}
 					PointF pointMouseScaled=TcData.GetPointMouseScaled(TcData.PointList[i].X,TcData.PointList[i].Y,Size);
 					//I could compensate to center point here:
-					drawingSegment+=pointMouseScaled.X+","+pointMouseScaled.Y;
+					drawingSegment+=pointMouseScaled.X.ToStringNetFx()+","+pointMouseScaled.Y.ToStringNetFx();
 				}
 				OnSegmentDrawn(drawingSegment);
 				TcData.PointList=new List<PointF>();

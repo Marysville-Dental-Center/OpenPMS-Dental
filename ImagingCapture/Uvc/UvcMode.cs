@@ -4,6 +4,7 @@ using System;
 using System.Globalization;
 using System.Text;
 using ImagingCapture.Uvc.Interop;
+using CodeBase;
 
 namespace ImagingCapture.Uvc {
 	///<summary>One stream format a camera offers on its capture pin: frame size, subtype and the fastest frame rate. Immutable.</summary>
@@ -56,7 +57,7 @@ namespace ImagingCapture.Uvc {
 		public override string ToString() {
 			string text=Width.ToString(CultureInfo.InvariantCulture)+"x"+Height.ToString(CultureInfo.InvariantCulture)+" "+SubtypeName;
 			if(FrameIntervalMin>0) {
-				text+=" "+MaxFramesPerSecond.ToString("0.#",CultureInfo.InvariantCulture)+" fps";
+				text+=" "+MaxFramesPerSecond.ToStringNetFx("0.#",CultureInfo.InvariantCulture)+" fps";
 			}
 			return text;
 		}

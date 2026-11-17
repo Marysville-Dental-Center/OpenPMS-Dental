@@ -9,6 +9,7 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using ImagingDeviceManager.Journal;
 using ImagingDeviceManager.TwainProtocol;
+using CodeBase;
 
 namespace ImagingDeviceManager.Capture {
 	///<summary>The capture session's TWAIN side (design 7.1 CAP-3, 7.3, 7.4, 7.6): one source opened by ProductName and kept in state 4
@@ -189,7 +190,7 @@ namespace ImagingDeviceManager.Capture {
 			_eventCommand.Set();
 			TimeSpan timeout=GetOpenTimeout(_options);
 			if(!command.EventDone.WaitOne(timeout)) {
-				Log("The source did not finish opening within "+timeout.TotalSeconds.ToString("0",CultureInfo.InvariantCulture)
+				Log("The source did not finish opening within "+timeout.TotalSeconds.ToStringNetFx("0",CultureInfo.InvariantCulture)
 					+" s; the session closes when it does.");
 				BeginClose();
 				return new TwainCaptureOpenResult {

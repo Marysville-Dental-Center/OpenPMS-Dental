@@ -323,7 +323,7 @@ namespace OpenPmsDentalBusiness {
 					}
 					catch(TimeoutException ex) {
 						throw new GoogleAuthException(GoogleAuthReason.TimedOut,"Authorization was cancelled. The browser did not finish within "
-							+Math.Round(Timeout.TotalMinutes)+" minutes.",ex);
+							+Math.Round(Timeout.TotalMinutes).ToStringNetFx()+" minutes.",ex);
 					}
 					if(!oAuthRedirectResult.VerifyState(state)) {
 						throw new GoogleAuthException(GoogleAuthReason.StateMismatch,"The browser's answer did not belong to this authorization request. Try again.");

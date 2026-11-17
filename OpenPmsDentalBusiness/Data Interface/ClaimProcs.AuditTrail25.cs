@@ -30,7 +30,7 @@ namespace OpenPmsDentalBusiness {
 			if(overrideValue==-1) {
 				return OVERRIDE_BLANK_TEXT;
 			}
-			return overrideValue.ToString("C");
+			return overrideValue.ToStringNetFx("C");
 		}
 
 		///<summary>What changed in the Ins Est Total override and the Allowed override between the two copies of one claimproc, or "" when neither
@@ -105,7 +105,7 @@ namespace OpenPmsDentalBusiness {
 			}
 			List<string> listChanges=new List<string>();
 			if(!CompareDouble.IsEqual(claimProcOld.FeeBilled,claimProcNew.FeeBilled)) {
-				listChanges.Add("Fee billed changed from "+claimProcOld.FeeBilled.ToString("C")+" to "+claimProcNew.FeeBilled.ToString("C")+".");
+				listChanges.Add("Fee billed changed from "+claimProcOld.FeeBilled.ToStringNetFx("C")+" to "+claimProcNew.FeeBilled.ToStringNetFx("C")+".");
 			}
 			string codeSentOld=claimProcOld.CodeSent??"";
 			string codeSentNew=claimProcNew.CodeSent??"";

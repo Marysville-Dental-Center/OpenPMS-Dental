@@ -277,7 +277,7 @@ namespace OpenPmsDentalBusiness {
 					if(qty>0) {
 						amt *= qty;
 					}
-					row["procFee"]=amt.ToString("F");
+					row["procFee"]=amt.ToStringNetFx("F");
 					row["ProcNum"]=rowProc["ProcNum"].ToString();
 					row["ProcNumLab"]=rowProc["ProcNumLab"].ToString();
 					row["procStatus"]=Lans.g("enumProcStat",((ProcStat)PIn.Long(rowProc["ProcStatus"].ToString())).ToString());

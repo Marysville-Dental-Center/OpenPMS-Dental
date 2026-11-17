@@ -15,6 +15,7 @@ using ImagingCapture.Session;
 using ImagingDeviceManager.Capture;
 using OpenPmsDental;
 using OpenPmsDentalBusiness;
+using CodeBase;
 
 namespace ImagingCapture.UI {
 	///<summary>The capture session window (design 7.3, 7.5, 7.12, 10.2, 10.3): modal, bound to one patient. The banner shows the patient, the
@@ -697,8 +698,8 @@ namespace ImagingCapture.UI {
 			double width=borderSlots.Width-2;
 			double height=borderSlots.Height-2;
 			List<CaptureSlotTile> listTiles=_viewModel.GetSlotTiles(width,height);
-			string slots=string.Join(";",listTiles.Select(x => x.Idx+"|"+x.State+"|"+x.IsEnableTarget+"|"+x.IsClickable+"|"+x.Left.ToString("0")
-				+"|"+x.Top.ToString("0")));
+			string slots=string.Join(";",listTiles.Select(x => x.Idx+"|"+x.State+"|"+x.IsEnableTarget+"|"+x.IsClickable+"|"+x.Left.ToStringNetFx("0")
+				+"|"+x.Top.ToStringNetFx("0")));
 			if(slots==_slotsShown) {
 				return;
 			}

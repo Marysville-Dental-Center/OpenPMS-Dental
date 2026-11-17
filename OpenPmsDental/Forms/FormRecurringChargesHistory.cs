@@ -135,11 +135,11 @@ namespace OpenPmsDental {
 				row.Cells.Add(listRecurringCharges[i].DateTimeCharge.ToString());
 				row.Cells.Add(Lans.g(this,listRecurringCharges[i].ChargeStatus.GetDescription()));
 				row.Cells.Add(Userods.GetFirstOrDefault(x => x.UserNum==listRecurringCharges[i].UserNum)?.UserName??"");
-				row.Cells.Add(listRecurringCharges[i].FamBal.ToString("c"));
-				row.Cells.Add(listRecurringCharges[i].PayPlanDue.ToString("c"));
-				row.Cells.Add(listRecurringCharges[i].TotalDue.ToString("c"));
-				row.Cells.Add(listRecurringCharges[i].RepeatAmt.ToString("c"));
-				row.Cells.Add(listRecurringCharges[i].ChargeAmt.ToString("c"));
+				row.Cells.Add(listRecurringCharges[i].FamBal.ToStringNetFx("c"));
+				row.Cells.Add(listRecurringCharges[i].PayPlanDue.ToStringNetFx("c"));
+				row.Cells.Add(listRecurringCharges[i].TotalDue.ToStringNetFx("c"));
+				row.Cells.Add(listRecurringCharges[i].RepeatAmt.ToStringNetFx("c"));
+				row.Cells.Add(listRecurringCharges[i].ChargeAmt.ToStringNetFx("c"));
 				row.Tag=listRecurringCharges[i];
 				gridMain.ListGridRows.Add(row);
 			}

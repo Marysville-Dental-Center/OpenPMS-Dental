@@ -104,7 +104,7 @@ namespace OpenPmsDental{
 							row.Cells.Add(Clinics.GetAbbr(clinicNum));
 						}
 					}
-					row.Cells.Add(PIn.Double(queryObj.ReportTable.Rows[j][4].ToString()).ToString("c"));//Amount
+					row.Cells.Add(PIn.Double(queryObj.ReportTable.Rows[j][4].ToString()).ToStringNetFx("c"));//Amount
 					_procTotalAmt+=PIn.Decimal(queryObj.ReportTable.Rows[j][4].ToString());
 					row.Tag=((QueryObject)_myReport.ReportObjects[i]).ReportTable.Rows[j];
 					gridMain.ListGridRows.Add(row);
@@ -285,7 +285,7 @@ namespace OpenPmsDental{
 				row["ProcNum"]=procNumCur;
 				#region Calculate chargesDouble
 				double writeOffCapSum=listPatClaimProcs.Where(x => x.Status==ClaimProcStatus.CapComplete).Sum(y => y.WriteOff);
-				row["chargesDouble"]=procCur.ProcFeeTotal-writeOffCapSum;
+				row["chargesDouble"]=(procCur.ProcFeeTotal-writeOffCapSum).ToStringNetFx();
 				row["ProcNumLab"]=procCur.ProcNumLab;
 				#endregion Calculate chargesDouble
 				table.Rows.Add(row);

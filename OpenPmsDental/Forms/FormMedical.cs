@@ -773,8 +773,8 @@ namespace OpenPmsDental {
 				row=new GridRow();
 				row.Cells.Add(_listVitalSigns[i].DateTaken.ToShortDateString());
 				row.Cells.Add(_listVitalSigns[i].Pulse.ToString()+" bpm");
-				row.Cells.Add(_listVitalSigns[i].Height==0 ? "" : _listVitalSigns[i].Height+" in.");
-				row.Cells.Add(_listVitalSigns[i].Weight==0 ? "" : _listVitalSigns[i].Weight+" lbs.");
+				row.Cells.Add(_listVitalSigns[i].Height==0 ? "" : _listVitalSigns[i].Height.ToStringNetFx()+" in.");
+				row.Cells.Add(_listVitalSigns[i].Weight==0 ? "" : _listVitalSigns[i].Weight.ToStringNetFx()+" lbs.");
 				string bp="";
 				if(_listVitalSigns[i].BpSystolic!=0 || _listVitalSigns[i].BpDiastolic!=0) {
 					bp=_listVitalSigns[i].BpSystolic.ToString()+"/"+_listVitalSigns[i].BpDiastolic.ToString();
@@ -783,7 +783,7 @@ namespace OpenPmsDental {
 				//BMI = (lbs*703)/(in^2)
 				float bmi=Vitalsigns.CalcBMI(_listVitalSigns[i].Weight,_listVitalSigns[i].Height);
 				if(bmi!=0) {
-					row.Cells.Add(bmi.ToString("n1"));
+					row.Cells.Add(bmi.ToStringNetFx("n1"));
 				}
 				else {//leave cell blank because there is not a valid bmi
 					row.Cells.Add("");

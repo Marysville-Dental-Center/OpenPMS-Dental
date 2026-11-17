@@ -683,9 +683,9 @@ namespace OpenPmsDentalBusiness{
 					frequency="on a specific day of each month";
 				}
 			}
-			ReplaceTags.ReplaceOneTag(sb,"[APR]",plan.APR.ToString(),isHtmlEmail);
+			ReplaceTags.ReplaceOneTag(sb,"[APR]",plan.APR.ToStringNetFx(),isHtmlEmail);
 			//ToString("C") formats such that 5 becomes "$5.00". We append an extra $ to escape "$" during a regex replacement, or else nonsense could happen (it'll look for grouping).
-			string strPayAmt=plan.PayAmt.ToString("C");
+			string strPayAmt=plan.PayAmt.ToStringNetFx("C");
 			strPayAmt=strPayAmt.Replace("$","$$");
 			ReplaceTags.ReplaceOneTag(sb,"[PaymentAmt]",strPayAmt,isHtmlEmail);
 			ReplaceTags.ReplaceOneTag(sb,"[NumOfPayments]",plan.NumberOfPayments.ToString(),isHtmlEmail);
@@ -842,7 +842,7 @@ namespace OpenPmsDentalBusiness{
 
 		///<summary>Returns the salted hash for the payplan. Computed by CodeBase.TamperHash. </summary>
 		public static string HashFields(PayPlan payPlan) {
-			string unhashedText=payPlan.Guarantor.ToString()+payPlan.PayAmt.ToString("f2")+payPlan.IsClosed.ToString()+payPlan.IsLocked.ToString();
+			string unhashedText=payPlan.Guarantor.ToString()+payPlan.PayAmt.ToStringNetFx("f2")+payPlan.IsClosed.ToString()+payPlan.IsLocked.ToString();
 			try {
 				return TamperHash.Compute(unhashedText);
 			}
@@ -982,9 +982,9 @@ namespace OpenPmsDentalBusiness{
 				sheetPP.Parameters.Add(new SheetParameter(true,"totalCostOfLoan") {ParamValue=(principal+(decimal)totalInterest).ToString("n")});
 			}
 			else { //The math for this comes from FormPayPlan
-				sheetPP.Parameters.Add(new SheetParameter(true,"Principal") { ParamValue=totalPrincipal.ToString("n") });
+				sheetPP.Parameters.Add(new SheetParameter(true,"Principal") { ParamValue=totalPrincipal.ToStringNetFx("n") });
 				sheetPP.Parameters.Add(new SheetParameter(true,"totalFinanceCharge") { ParamValue=totalInterest });
-				sheetPP.Parameters.Add(new SheetParameter(true,"totalCostOfLoan") { ParamValue=totPrincIntAdj.ToString("n") });
+				sheetPP.Parameters.Add(new SheetParameter(true,"totalCostOfLoan") { ParamValue=totPrincIntAdj.ToStringNetFx("n") });
 			}
 			SheetFiller.FillFields(sheetPP);
 			return sheetPP;

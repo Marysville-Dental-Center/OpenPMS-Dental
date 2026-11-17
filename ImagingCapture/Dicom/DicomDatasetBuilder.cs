@@ -6,6 +6,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
+using CodeBase;
 
 namespace ImagingCapture.Dicom {
 	///<summary>One data element to encode.</summary>
@@ -223,9 +224,9 @@ namespace ImagingCapture.Dicom {
 
 		///<summary>A decimal string (DS) of at most 16 characters.</summary>
 		public static string FormatDecimal(double value) {
-			string text=value.ToString("0.##########",CultureInfo.InvariantCulture);
+			string text=value.ToStringNetFx("0.##########",CultureInfo.InvariantCulture);
 			if(text.Length>16) {
-				text=value.ToString("G9",CultureInfo.InvariantCulture);
+				text=value.ToStringNetFx("G9",CultureInfo.InvariantCulture);
 			}
 			return text;
 		}

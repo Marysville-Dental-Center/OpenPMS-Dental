@@ -34,7 +34,7 @@ namespace OpenPmsDentalBusiness{
 			DateTime date;
 			for(int i=0;i<tableRaw.Rows.Count;i++) {
 				DataRow dataRow=table.NewRow();
-				dataRow["amount"]=PIn.Double(tableRaw.Rows[i]["amount"].ToString()).ToString("F");
+				dataRow["amount"]=PIn.Double(tableRaw.Rows[i]["amount"].ToString()).ToStringNetFx("F");
 				dataRow["payType"]=Defs.GetName(DefCat.InsurancePaymentType,PIn.Long(tableRaw.Rows[i]["PayType"].ToString()));
 				dataRow["BankBranch"]=tableRaw.Rows[i]["BankBranch"].ToString();
 				dataRow["ClaimPaymentNum"]=tableRaw.Rows[i]["ClaimPaymentNum"].ToString();

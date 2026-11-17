@@ -36,8 +36,8 @@ namespace OpenPmsDentalBusiness {
 		///<summary>The OK/Cancel question when the claim fee does not match. Shows both fees.</summary>
 		public static string GetClaimFeeMismatchMessage(double claimFeeOnClaim,double claimFeeOnEra) {
 			return Lans.g(LAN_CLASS,"Claim fee on claim does not match ERA.")+"\r\n"
-				+Lans.g(LAN_CLASS,"Claim fee on claim:")+" "+claimFeeOnClaim.ToString("f2")+"\r\n"
-				+Lans.g(LAN_CLASS,"Expected from ERA:")+" "+claimFeeOnEra.ToString("f2")+"\r\n"
+				+Lans.g(LAN_CLASS,"Claim fee on claim:")+" "+claimFeeOnClaim.ToStringNetFx("f2")+"\r\n"
+				+Lans.g(LAN_CLASS,"Expected from ERA:")+" "+claimFeeOnEra.ToStringNetFx("f2")+"\r\n"
 				+Lans.g(LAN_CLASS,"Continue anyway?");
 		}
 
@@ -45,7 +45,7 @@ namespace OpenPmsDentalBusiness {
 		///several CLP segments).</summary>
 		public static string GetSplitClaimFeeMismatchMessage(double claimFeeOnEra) {
 			return Lans.g(LAN_CLASS,"The procedures on the selected claim do not match this split ERA claim.")+"\r\n"
-				+Lans.g(LAN_CLASS,"Expected from ERA:")+" "+claimFeeOnEra.ToString("f2")+" "+Lans.g(LAN_CLASS,"in matching procedures")+"\r\n"
+				+Lans.g(LAN_CLASS,"Expected from ERA:")+" "+claimFeeOnEra.ToStringNetFx("f2")+" "+Lans.g(LAN_CLASS,"in matching procedures")+"\r\n"
 				+Lans.g(LAN_CLASS,"Continue anyway?");
 		}
 

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using CodeBase;
 
 namespace OpenPmsDentalBusiness {
 	///<summary>Which way the Time Card window shows its period totals. Only window state: it is never saved. The window starts from the
@@ -119,7 +120,7 @@ namespace OpenPmsDentalBusiness {
 		public static string FormatTotal(TimeSpan timeSpan,EnumTimeCardTotalsFormat format,bool showSeconds) {
 			Meth.NoCheckMiddleTierRole();
 			if(format==EnumTimeCardTotalsFormat.Decimal) {
-				return timeSpan.TotalHours.ToString("n");
+				return timeSpan.TotalHours.ToStringNetFx("n");
 			}
 			if(timeSpan==TimeSpan.Zero) {
 				if(showSeconds) {

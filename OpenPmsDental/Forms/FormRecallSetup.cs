@@ -86,8 +86,8 @@ namespace OpenPmsDental{
 			else {
 				radioExcludeFutureNo.Checked=true;
 			}
-			textRight.Text=PrefC.GetDouble(PrefName.RecallAdjustRight).ToString();
-			textDown.Text=PrefC.GetDouble(PrefName.RecallAdjustDown).ToString();
+			textRight.Text=PrefC.GetDouble(PrefName.RecallAdjustRight).ToStringNetFx();
+			textDown.Text=PrefC.GetDouble(PrefName.RecallAdjustDown).ToStringNetFx();
 			List<Def> listDefsUnschedStatus=Defs.GetDefsForCategory(DefCat.RecallUnschedStatus,true);
 			comboStatusMailedRecall.Items.Clear();
 			comboStatusMailedRecall.Items.AddDefs(listDefsUnschedStatus);

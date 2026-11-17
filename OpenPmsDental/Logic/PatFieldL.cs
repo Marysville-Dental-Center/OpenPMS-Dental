@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Linq;
 using OpenPmsDental.UI;
 using OpenPmsDentalBusiness;
+using CodeBase;
 
 namespace OpenPmsDental {
 	public class PatFieldL {
@@ -29,7 +30,7 @@ namespace OpenPmsDental {
 						row.Cells.Add("X");
 					}
 					else if(listPatFieldDefs[i].FieldType==PatFieldType.Currency) {
-						row.Cells.Add(PIn.Double(patField.FieldValue).ToString("c"));
+						row.Cells.Add(PIn.Double(patField.FieldValue).ToStringNetFx("c"));
 					}
 					else {
 						row.Cells.Add(patField.FieldValue);

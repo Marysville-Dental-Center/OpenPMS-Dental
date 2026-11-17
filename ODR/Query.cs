@@ -2,6 +2,7 @@ using System;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using OpenPmsDentalBusiness;
+using CodeBase;
 
 namespace ODR{
 	///<summary></summary>
@@ -148,7 +149,7 @@ namespace ODR{
 								retVal+=((int)p.CurrentValues[i]).ToString();
 								break;
 							case ParamValueType.Number:
-								retVal+=((Double)p.CurrentValues[i]).ToString("n");
+								retVal+=((Double)p.CurrentValues[i]).ToStringNetFx("n");
 								break;
 							case ParamValueType.Enum:
 								retVal+=((int)p.CurrentValues[i]).ToString();//needs some work to convert # to string

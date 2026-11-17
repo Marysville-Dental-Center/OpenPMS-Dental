@@ -7,6 +7,7 @@ using System.Windows.Forms;
 using OpenPmsDentalBusiness;
 using OpenPmsDental.UI;
 using System.Linq;
+using CodeBase;
 
 namespace OpenPmsDental {
 	public partial class FormAdjustmentPicker:FormODBase {
@@ -82,7 +83,7 @@ namespace OpenPmsDental {
 					row.Cells.Add(Clinics.GetAbbr(_listAdjustmentsFiltered[i].ClinicNum));
 				}
 				row.Cells.Add(Defs.GetName(DefCat.AdjTypes,_listAdjustmentsFiltered[i].AdjType));
-				row.Cells.Add(_listAdjustmentsFiltered[i].AdjAmt.ToString("F"));
+				row.Cells.Add(_listAdjustmentsFiltered[i].AdjAmt.ToStringNetFx("F"));
 				string attachedProc="";
 				if(_listAdjustmentsFiltered[i].ProcNum!=0){
 					attachedProc="X";

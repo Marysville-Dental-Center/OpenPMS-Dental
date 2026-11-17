@@ -197,21 +197,21 @@ namespace OpenPmsDentalBusiness.SheetFramework {
 					row=retVal.NewRow();
 					row[0]=guarantor.PatNum;
 					row[1]=guarantor.GetNameFL();
-					row[2]=guarantor.Bal_0_30.ToString("F");
-					row[3]=guarantor.Bal_31_60.ToString("F");
-					row[4]=guarantor.Bal_61_90.ToString("F");
-					row[5]=guarantor.BalOver90.ToString("F");
-					row[6]=guarantor.BalTotal.ToString("F");
+					row[2]=guarantor.Bal_0_30.ToStringNetFx("F");
+					row[3]=guarantor.Bal_31_60.ToStringNetFx("F");
+					row[4]=guarantor.Bal_61_90.ToStringNetFx("F");
+					row[5]=guarantor.BalOver90.ToStringNetFx("F");
+					row[6]=guarantor.BalTotal.ToStringNetFx("F");
 					retVal.Rows.Add(row);
 				}
 			}
 			else {
 				row=retVal.NewRow();
 				patGuar=patGuar??Patients.GetFamily(stmt.PatNum).Guarantor;
-				row[0]=patGuar.Bal_0_30.ToString("F");
-				row[1]=patGuar.Bal_31_60.ToString("F");
-				row[2]=patGuar.Bal_61_90.ToString("F");
-				row[3]=patGuar.BalOver90.ToString("F");
+				row[0]=patGuar.Bal_0_30.ToStringNetFx("F");
+				row[1]=patGuar.Bal_31_60.ToStringNetFx("F");
+				row[2]=patGuar.Bal_61_90.ToStringNetFx("F");
+				row[3]=patGuar.BalOver90.ToStringNetFx("F");
 				retVal.Rows.Add(row);
 			}
 			return retVal;
@@ -289,14 +289,14 @@ namespace OpenPmsDentalBusiness.SheetFramework {
 							installPlanTotal+=plan.MonthlyPayment;
 						}
 						if(installPlanTotal < balTotal) {
-							text=installPlanTotal.ToString("F");
+							text=installPlanTotal.ToStringNetFx("F");
 						}
 						else {
-							text=balTotal.ToString("F");
+							text=balTotal.ToStringNetFx("F");
 						}
 					}
 					else {//No installment plans
-						text=balTotal.ToString("F");
+						text=balTotal.ToStringNetFx("F");
 					}
 				}
 				else {
@@ -310,14 +310,14 @@ namespace OpenPmsDentalBusiness.SheetFramework {
 					if(installPlan!=null) {
 						//show lesser of normal total balance or the monthly payment amount.
 						if(installPlan.MonthlyPayment < balTotal) {
-							text=installPlan.MonthlyPayment.ToString("F");
+							text=installPlan.MonthlyPayment.ToStringNetFx("F");
 						}
 						else {
-							text=balTotal.ToString("F");
+							text=balTotal.ToStringNetFx("F");
 						}
 					}
 					else {//no installmentplan
-						text=balTotal.ToString("F");
+						text=balTotal.ToStringNetFx("F");
 					}
 				}
 			}
@@ -336,13 +336,13 @@ namespace OpenPmsDentalBusiness.SheetFramework {
 					.ToList()
 					.Sum(x => PIn.Double(x["chargesDouble"].ToString())-PIn.Double(x["creditsDouble"].ToString()));//add charges-credits
 				if(PrefC.GetBool(PrefName.BalancesDontSubtractIns)) {
-					text=statementTotal.ToString("c");
+					text=statementTotal.ToStringNetFx("c");
 				}
 				else {
 					double patInsEst=tableMisc.Rows.OfType<DataRow>()
 						.Where(x=>x["descript"].ToString()=="patInsEst")
 						.Sum(x=>PIn.Double(x["value"].ToString()));
-					text=(statementTotal-patInsEst).ToString("c");
+					text=(statementTotal-patInsEst).ToStringNetFx("c");
 				}
 			}
 			#endregion Statement Type LimitedStatement
@@ -387,7 +387,7 @@ namespace OpenPmsDentalBusiness.SheetFramework {
 				row["type"] = tablePaySplits.Rows[i]["TranType"].ToString();
 				row["ProcCode"] = tablePaySplits.Rows[i]["ProcCode"].ToString();
 				row["description"] = tablePaySplits.Rows[i]["Descript"].ToString();
-				row["amt"] = PIn.Double(tablePaySplits.Rows[i]["Amt"].ToString()).ToString("f");
+				row["amt"] = PIn.Double(tablePaySplits.Rows[i]["Amt"].ToString()).ToStringNetFx("f");
 				table.Rows.Add(row);
 			}
 			return table;
@@ -564,16 +564,16 @@ namespace OpenPmsDentalBusiness.SheetFramework {
 				else {
 					runningBalance-=rowPayment;
 				}
-				rowTemp["Balance"]=runningBalance.ToString("n");
+				rowTemp["Balance"]=runningBalance.ToStringNetFx("n");
 				rowTemp["paramIsBold"]=false;
 			}
 			DataRow totalRow=sortRetVal.NewRow();
 			//Fill payment and balance columns/cells to sortRetVal ===============================================================================
-			totalRow["Principal"]=totPrincipal.ToString("n");
-			totalRow["Interest"]=totInterest.ToString("n");
-			totalRow["Due"]=totDue.ToString("n");
-			totalRow["Payment"]=totPayment.ToString("n");
-			totalRow["Adjustment"]=totAdjustment.ToString("n");
+			totalRow["Principal"]=totPrincipal.ToStringNetFx("n");
+			totalRow["Interest"]=totInterest.ToStringNetFx("n");
+			totalRow["Due"]=totDue.ToStringNetFx("n");
+			totalRow["Payment"]=totPayment.ToStringNetFx("n");
+			totalRow["Adjustment"]=totAdjustment.ToStringNetFx("n");
 			totalRow["paramIsBold"]=true;
 			sortRetVal.Rows.Add(totalRow);
 			return sortRetVal;
@@ -646,15 +646,15 @@ namespace OpenPmsDentalBusiness.SheetFramework {
 				else {
 					runningBalance-=rowPayment;
 				}
-				rowTemp["Balance"]=runningBalance.ToString("n");
+				rowTemp["Balance"]=runningBalance.ToStringNetFx("n");
 				rowTemp["paramIsBold"]=false;
 			}
 			DataRow totalRow=dataTablePayPlan.NewRow();
 			//Fill payment and balance columns/cells to sortRetVal ===============================================================================
-			totalRow["Principal"]=totPrincipal.ToString("n");
-			totalRow["Interest"]=totInterest.ToString("n");
-			totalRow["Due"]=totDue.ToString("n");
-			totalRow["Payment"]=totPayment.ToString("n");
+			totalRow["Principal"]=totPrincipal.ToStringNetFx("n");
+			totalRow["Interest"]=totInterest.ToStringNetFx("n");
+			totalRow["Due"]=totDue.ToStringNetFx("n");
+			totalRow["Payment"]=totPayment.ToStringNetFx("n");
 			totalRow["paramIsBold"]=true;
 			dataTablePayPlan.Rows.Add(totalRow);
 			return dataTablePayPlan;
@@ -909,11 +909,11 @@ namespace OpenPmsDentalBusiness.SheetFramework {
 				InsPlan planCur=InsPlans.GetPlan(subCur.PlanNum,insPlanList);
 				double familyMax=Benefits.GetAnnualMaxDisplay(benefitList,planCur.PlanNum,patPlanList[i].PatPlanNum,true);
 				if(!CompareDouble.IsEqual(familyMax,-1)) {
-					retVal.Rows[0][i+1]=familyMax.ToString("F");
+					retVal.Rows[0][i+1]=familyMax.ToStringNetFx("F");
 				}
 				double familyDed=Benefits.GetDeductGeneralDisplay(benefitList,planCur.PlanNum,patPlanList[i].PatPlanNum,BenefitCoverageLevel.Family);
 				if(!CompareDouble.IsEqual(familyDed,-1)) {
-					retVal.Rows[1][i+1]=familyDed.ToString("F");
+					retVal.Rows[1][i+1]=familyDed.ToStringNetFx("F");
 				}
 			}
 			return retVal;
@@ -958,24 +958,24 @@ namespace OpenPmsDentalBusiness.SheetFramework {
 				InsPlan planCur=InsPlans.GetPlan(subCur.PlanNum,insPlanList);
 				double pend=InsPlans.GetPendingDisplay(histList,DateTime.Today,planCur,patPlanList[i].PatPlanNum,-1,patCur.PatNum,patPlanList[i].InsSubNum,benefitList);
 				double used=InsPlans.GetInsUsedDisplay(histList,DateTime.Today,planCur.PlanNum,patPlanList[i].PatPlanNum,-1,insPlanList,benefitList,patCur.PatNum,patPlanList[i].InsSubNum);
-				retVal.Rows[3][i+1]=used.ToString("F");
-				retVal.Rows[4][i+1]=pend.ToString("F");
+				retVal.Rows[3][i+1]=used.ToStringNetFx("F");
+				retVal.Rows[4][i+1]=pend.ToStringNetFx("F");
 				double maxInd=Benefits.GetAnnualMaxDisplay(benefitList,planCur.PlanNum,patPlanList[i].PatPlanNum,false);
 				if(!CompareDouble.IsEqual(maxInd,-1)) {
 					double remain=maxInd-used-pend;
 					if(remain<0) {
 						remain=0;
 					}
-					retVal.Rows[0][i+1]=maxInd.ToString("F");
-					retVal.Rows[5][i+1]=remain.ToString("F");
+					retVal.Rows[0][i+1]=maxInd.ToStringNetFx("F");
+					retVal.Rows[5][i+1]=remain.ToStringNetFx("F");
 				}
 				//deductible:
 				double ded=Benefits.GetDeductGeneralDisplay(benefitList,planCur.PlanNum,patPlanList[i].PatPlanNum,BenefitCoverageLevel.Individual);
 				double dedFam=Benefits.GetDeductGeneralDisplay(benefitList,planCur.PlanNum,patPlanList[i].PatPlanNum,BenefitCoverageLevel.Family);
 				if(!CompareDouble.IsEqual(ded,-1)) {
 					double dedRem=InsPlans.GetDedRemainDisplay(histList,DateTime.Today,planCur.PlanNum,patPlanList[i].PatPlanNum,-1,insPlanList,patCur.PatNum,ded,dedFam);
-					retVal.Rows[1][i+1]=ded.ToString("F");
-					retVal.Rows[2][i+1]=dedRem.ToString("F");
+					retVal.Rows[1][i+1]=ded.ToStringNetFx("F");
+					retVal.Rows[2][i+1]=dedRem.ToStringNetFx("F");
 				}
 			}
 			return retVal;
@@ -1141,7 +1141,7 @@ namespace OpenPmsDentalBusiness.SheetFramework {
 				dataRow["Description"]            =procCode.Descript;
 				dataRow["ToothNum"]               =Tooth.Display(listProcedures[i].ToothNum);
 				dataRow["Surface"]                =listProcedures[i].Surf;
-				dataRow["Fee"]                    =listProcedures[i].ProcFee.ToString("C");
+				dataRow["Fee"]                    =listProcedures[i].ProcFee.ToStringNetFx("C");
 				table.Rows.Add(dataRow);
 			}
 			return table;

@@ -84,7 +84,7 @@ namespace OpenPmsDental {
 			//hide the UI for this feature until it is fully implemented.
 			comboRefundAdjustmentType.Visible=false;
 			labelRefundAdjustmentType.Visible=false;
-			textTaxPercent.Text=PrefC.GetDouble(PrefName.SalesTaxPercentage).ToString();
+			textTaxPercent.Text=PrefC.GetDouble(PrefName.SalesTaxPercentage).ToStringNetFx();
 			string[] arrayDefNums=PrefC.GetString(PrefName.BadDebtAdjustmentTypes).Split(new char[] { ',' }); //comma-delimited list.
 			List<long> listBadAdjDefNums=new List<long>();
 			foreach(string strDefNum in arrayDefNums) {

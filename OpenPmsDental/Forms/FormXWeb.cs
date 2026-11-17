@@ -52,7 +52,7 @@ namespace OpenPmsDental {
 				textZipCode.Text=_creditCard.Zip;
 			}
 			if(!CompareDouble.IsZero(_payAmtOriginal)) {
-				textAmount.Text=_payAmtOriginal.ToString();
+				textAmount.Text=_payAmtOriginal.ToStringNetFx();
 			}
 			if(LockCardInfo) {
 				textCardNumber.ReadOnly=true;

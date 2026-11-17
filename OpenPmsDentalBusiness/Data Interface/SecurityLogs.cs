@@ -404,8 +404,8 @@ namespace OpenPmsDentalBusiness{
 			if(procNew.CodeNum!=procOld.CodeNum) {
 				string oldProcCode=ProcedureCodes.GetStringProcCode(procOld.CodeNum,doThrowIfMissing:false);
 				string newProcCode=ProcedureCodes.GetStringProcCode(procNew.CodeNum,doThrowIfMissing:false);
-				logText+=Lans.g("Procedures","\nCode ")+oldProcCode+Lans.g("Procedures"," with fee of ")+procOld.ProcFee.ToString("F")
-					+Lans.g("Procedures"," changed to code ")+newProcCode+Lans.g("Procedures"," with fee of ")+procNew.ProcFee.ToString("F");
+				logText+=Lans.g("Procedures","\nCode ")+oldProcCode+Lans.g("Procedures"," with fee of ")+procOld.ProcFee.ToStringNetFx("F")
+					+Lans.g("Procedures"," changed to code ")+newProcCode+Lans.g("Procedures"," with fee of ")+procNew.ProcFee.ToStringNetFx("F");
 			}
 			if(procNew.ProcDate!=procOld.ProcDate) {
 				logText+=Lans.g("Procedures","\nProcDate changed from ")+procOld.ProcDate.ToShortDateString()+Lans.g("Procedures"," to ")+procNew.ProcDate.ToShortDateString();

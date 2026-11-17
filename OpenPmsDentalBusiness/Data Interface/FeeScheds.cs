@@ -158,9 +158,9 @@ namespace OpenPmsDentalBusiness{
 					if(listClinicNumsTo[i]!=0){
 						securityLogText+="To Clinic \""+Clinics.GetDesc(listClinicNumsTo[i])+"\", ";
 					}
-					securityLogText+="Proc Code \""+procedureCode.ProcCode+"\", Fee \""+listFeesNew[j].Amount+"\""+Fees.GetDateEffectiveLogText(dateEffective)+", ";
+					securityLogText+="Proc Code \""+procedureCode.ProcCode+"\", Fee \""+listFeesNew[j].Amount.ToStringNetFx()+"\""+Fees.GetDateEffectiveLogText(dateEffective)+", ";
 					if(isReplacementFee) { 
-						securityLogText+="Replacing Previous Fee \""+feeOld.Amount+"\"";
+						securityLogText+="Replacing Previous Fee \""+feeOld.Amount.ToStringNetFx()+"\"";
 					}
 					SecurityLogs.MakeLogEntry(EnumPermType.FeeSchedEdit,0,securityLogText);
 					ODEvent.Fire(ODEventType.ProgressBar,
@@ -198,7 +198,7 @@ namespace OpenPmsDentalBusiness{
 				}
 				double percent=((rowNum*1.0)/listProcedureCodes.Count*100);
 				ODEvent.Fire(ODEventType.ProgressBar,new ProgressBarHelper(
-					"Exporting fees, please wait...",percent.ToString(),blockValue:(int)percent,progressStyle:ProgBarStyle.Blocks));
+					"Exporting fees, please wait...",percent.ToStringNetFx(),blockValue:(int)percent,progressStyle:ProgBarStyle.Blocks));
 				rowNum++;
 			}
 		}
@@ -208,7 +208,7 @@ namespace OpenPmsDentalBusiness{
 		private static void WriteExportLine(StreamWriter streamWriter,ProcedureCode procedureCode,Fee fee,bool doWriteDate,DateTime dateEffective) {
 			streamWriter.Write(procedureCode.ProcCode+"\t");
 			if(fee!=null && fee.Amount!=-1) {
-				streamWriter.Write(fee.Amount.ToString("n"));
+				streamWriter.Write(fee.Amount.ToStringNetFx("n"));
 			}
 			streamWriter.Write("\t");
 			streamWriter.Write(procedureCode.AbbrDesc+"\t");

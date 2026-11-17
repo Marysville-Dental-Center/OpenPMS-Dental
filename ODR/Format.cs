@@ -1,6 +1,7 @@
 using System;
 using System.Windows.Forms;
 using OpenPmsDentalBusiness;
+using CodeBase;
 
 namespace ODR{
 	///<summary></summary>
@@ -14,7 +15,7 @@ namespace ODR{
 			if(num==0){
 				return "";
 			}
-			return num.ToString("N");
+			return num.ToStringNetFx("N");
 			//}
 		}
 

@@ -108,7 +108,7 @@ namespace OpenPmsDental {
 						row.Cells.Add(clinic.Description);//Clinic
 					}
 				}
-				row.Cells.Add(listClaims[i].ClaimFee.ToString("f"));//Claimfee
+				row.Cells.Add(listClaims[i].ClaimFee.ToStringNetFx("f"));//Claimfee
 				gridClaims.ListGridRows.Add(row);
 			}
 			gridClaims.EndUpdate();
@@ -134,7 +134,7 @@ namespace OpenPmsDental {
 					ynIsFeeMatch=YN.Unknown;
 				}
 				else {
-					if(claim.ClaimFee.ToString("f").Contains(textClaimFee.Text)){
+					if(claim.ClaimFee.ToStringNetFx("f").Contains(textClaimFee.Text)){
 						ynIsFeeMatch=YN.Yes;
 					}
 				}
@@ -341,7 +341,7 @@ namespace OpenPmsDental {
 						row.Cells.Add(clinic.Description);//Clinic
 					}
 				}
-				row.Cells.Add(claim.ClaimFee.ToString("f"));//Claimfee
+				row.Cells.Add(claim.ClaimFee.ToStringNetFx("f"));//Claimfee
 				gridClaims.BeginUpdate();
 				gridClaims.ListGridRows[e.Row]=row;
 				gridClaims.EndUpdate();

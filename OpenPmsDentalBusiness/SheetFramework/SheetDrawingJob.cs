@@ -678,12 +678,12 @@ namespace OpenPmsDentalBusiness {
 								g.FillRectangle(Brushes.White,rf);
 								StringFormat sf=new StringFormat();
 								sf.Alignment=StringAlignment.Far;
-								g.DrawString(textAmountDue+payPlanDue.ToString("c"),new Font("Arial",9,FontStyle.Bold),new SolidBrush(Color.Black),rf,sf);
+								g.DrawString(textAmountDue+payPlanDue.ToStringNetFx("c"),new Font("Arial",9,FontStyle.Bold),new SolidBrush(Color.Black),rf,sf);
 							}
 							else {
 								gx.DrawRectangle(Brushes.White,p(sheet.Width-sheetField.Width-60),p(gridSheetRow.YPos-_yPosPrint+_yAdjCurRow),p(sheetField.Width),p(heightGridTitle));
 								using(Font _font=new Font("Arial",9,FontStyle.Bold)) {
-									SheetTextDrawing.DrawStringX(gx,textAmountDue+payPlanDue.ToString("c"),new XFont(_font.FontFamily.ToString(),_font.Size,XFontStyleEx.Bold),XBrushes.Black,new RectangleF(sheet.Width-sheetField.Width-60,gridSheetRow.YPos-_yPosPrint+_yAdjCurRow,sheetField.Width,heightGridTitle),HorizontalAlignment.Right);
+									SheetTextDrawing.DrawStringX(gx,textAmountDue+payPlanDue.ToStringNetFx("c"),new XFont(_font.FontFamily.ToString(),_font.Size,XFontStyleEx.Bold),XBrushes.Black,new RectangleF(sheet.Width-sheetField.Width-60,gridSheetRow.YPos-_yPosPrint+_yAdjCurRow,sheetField.Width,heightGridTitle),HorizontalAlignment.Right);
 								}
 							}
 							break;
@@ -700,20 +700,20 @@ namespace OpenPmsDentalBusiness {
 								StringFormat sf=new StringFormat();
 								sf.Alignment=StringAlignment.Far;
 								if(PrefC.GetBool(PrefName.InvoicePaymentsGridShowNetProd)) {
-									g.DrawString("Total Payments & WriteOffs: "+totalPayments.ToString("c"),new Font("Arial",9,FontStyle.Bold),new SolidBrush(Color.Black),rf,sf);
+									g.DrawString("Total Payments & WriteOffs: "+totalPayments.ToStringNetFx("c"),new Font("Arial",9,FontStyle.Bold),new SolidBrush(Color.Black),rf,sf);
 								}
 								else {
-									g.DrawString("Total Payments: "+totalPayments.ToString("c"),new Font("Arial",9,FontStyle.Bold),new SolidBrush(Color.Black),rf,sf);
+									g.DrawString("Total Payments: "+totalPayments.ToStringNetFx("c"),new Font("Arial",9,FontStyle.Bold),new SolidBrush(Color.Black),rf,sf);
 								}
 							}
 							else {
 								gx.DrawRectangle(Brushes.White,p(sheet.Width-sheetField.Width-60),p(gridSheetRow.YPos-_yPosPrint+_yAdjCurRow),p(sheetField.Width),p(heightGridTitle));
 								using(Font _font = new Font("Arial",9,FontStyle.Bold)) {
 									if(PrefC.GetBool(PrefName.InvoicePaymentsGridShowNetProd)) {
-										SheetTextDrawing.DrawStringX(gx,"Total Payments & WriteOffs: "+totalPayments.ToString("c"),new XFont(_font.FontFamily.ToString(),_font.Size,XFontStyleEx.Bold),XBrushes.Black,new RectangleF(sheet.Width-sheetField.Width-60,gridSheetRow.YPos-_yPosPrint+_yAdjCurRow,sheetField.Width,heightGridTitle),HorizontalAlignment.Right);
+										SheetTextDrawing.DrawStringX(gx,"Total Payments & WriteOffs: "+totalPayments.ToStringNetFx("c"),new XFont(_font.FontFamily.ToString(),_font.Size,XFontStyleEx.Bold),XBrushes.Black,new RectangleF(sheet.Width-sheetField.Width-60,gridSheetRow.YPos-_yPosPrint+_yAdjCurRow,sheetField.Width,heightGridTitle),HorizontalAlignment.Right);
 									}
 									else {
-										SheetTextDrawing.DrawStringX(gx,"Total Payments: "+totalPayments.ToString("c"),new XFont(_font.FontFamily.ToString(),_font.Size,XFontStyleEx.Bold),XBrushes.Black,new RectangleF(sheet.Width-sheetField.Width-60,gridSheetRow.YPos-_yPosPrint+_yAdjCurRow,sheetField.Width,heightGridTitle),HorizontalAlignment.Right);
+										SheetTextDrawing.DrawStringX(gx,"Total Payments: "+totalPayments.ToStringNetFx("c"),new XFont(_font.FontFamily.ToString(),_font.Size,XFontStyleEx.Bold),XBrushes.Black,new RectangleF(sheet.Width-sheetField.Width-60,gridSheetRow.YPos-_yPosPrint+_yAdjCurRow,sheetField.Width,heightGridTitle),HorizontalAlignment.Right);
 									}
 								}
 							}
@@ -1575,8 +1575,8 @@ namespace OpenPmsDentalBusiness {
 				g.DrawString("Sheet Height = "+sheet.HeightPage.ToString(),font,Brushes.Black,112,112);
 				g.DrawString("Sheet Width = "+sheet.WidthPage.ToString(),font,Brushes.Black,112,124);//12px per line
 				g.DrawString("DefaultPrinter = "+settings.PrinterName,font,Brushes.Black,112,136);
-				g.DrawString("HardMarginX = "+e.PageSettings.HardMarginX,font,Brushes.Black,112,148);
-				g.DrawString("HardMarginY = "+e.PageSettings.HardMarginY,font,Brushes.Black,112,160);
+				g.DrawString("HardMarginX = "+e.PageSettings.HardMarginX.ToStringNetFx(),font,Brushes.Black,112,148);
+				g.DrawString("HardMarginY = "+e.PageSettings.HardMarginY.ToStringNetFx(),font,Brushes.Black,112,160);
 			}
 			else {
 				gx.DrawRectangle(XPens.Black,Brushes.White,p(110),p(110),p(480),p(100));
@@ -1584,8 +1584,8 @@ namespace OpenPmsDentalBusiness {
 				gx.DrawString("Sheet Height = "+sheet.HeightPage.ToString(),xfont,XBrushes.Black,p(112),p(112));
 				gx.DrawString("Sheet Width = "+sheet.WidthPage.ToString(),xfont,XBrushes.Black,p(112),p(124));//12px per line
 				gx.DrawString("DefaultPrinter = "+settings.PrinterName,xfont,XBrushes.Black,p(112),p(136));
-				gx.DrawString("HardMarginX = "+settings.DefaultPageSettings.HardMarginX,xfont,XBrushes.Black,p(112),p(148));
-				gx.DrawString("HardMarginY = "+settings.DefaultPageSettings.HardMarginY,xfont,XBrushes.Black,p(112),p(160));
+				gx.DrawString("HardMarginX = "+settings.DefaultPageSettings.HardMarginX.ToStringNetFx(),xfont,XBrushes.Black,p(112),p(148));
+				gx.DrawString("HardMarginY = "+settings.DefaultPageSettings.HardMarginY.ToStringNetFx(),xfont,XBrushes.Black,p(112),p(160));
 				gx.DrawString("PDF TrimMargins ^v<> = "+page.TrimMargins.Top.ToString()+","+page.TrimMargins.Bottom.ToString()+","+page.TrimMargins.Left.ToString()+","+page.TrimMargins.Right.ToString(),xfont,XBrushes.Black,p(112),p(172));
 			}
 			font.Dispose();

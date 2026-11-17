@@ -476,7 +476,7 @@ namespace OpenPmsDental {
 					}
 				}
 				_amtCopied+=(double)fileInfoArray[i].Length/1048576.0; //Number of megabytes.
-				string progressBarMessage=Lan.g(this,"Copied ")+Math.Round(_amtCopied,2).ToString()+"MB "+Lan.g(this,"of ")+maxSize.ToString()+"MB";
+				string progressBarMessage=Lan.g(this,"Copied ")+Math.Round(_amtCopied,2).ToStringNetFx()+"MB "+Lan.g(this,"of ")+maxSize.ToStringNetFx()+"MB";
 				ProgressBarHelper progressBarHelper=new ProgressBarHelper(progressBarMessage,blockValue:(int)(_amtCopied/maxSize*100),blockMax:100);
 				ODEvent.Fire(ODEventType.ProgressBar,progressBarHelper);
 			}

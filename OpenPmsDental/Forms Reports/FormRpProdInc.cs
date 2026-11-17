@@ -559,8 +559,8 @@ namespace OpenPmsDental {
 				else {
 					prodLabel="Total Production (Production + Adjustments - Write-offs)";
 				}
-				tableTotals.Rows.Add(Lan.g(this,prodLabel)+" "+totalProduction.ToString("c"));
-				tableTotals.Rows.Add(Lan.g(this,"Total Income (Pt Income + Ins Income):")+" "+totalIncome.ToString("c"));
+				tableTotals.Rows.Add(Lan.g(this,prodLabel)+" "+totalProduction.ToStringNetFx("c"));
+				tableTotals.Rows.Add(Lan.g(this,"Total Income (Pt Income + Ins Income):")+" "+totalIncome.ToStringNetFx("c"));
 				//Add tableTotals to the report.
 				//No column name and no header because we want to display this table to NOT look like a table.
 				query=report.AddQuery(tableTotals,"","",SplitByKind.None,2,false);
@@ -631,10 +631,10 @@ namespace OpenPmsDental {
 					insIncome+=PIn.Double(dataSetDailyProdSplitByClinic.Tables[i].Rows[j]["Ins Income"].ToString());
 				}
 				if(radioWriteoffBoth.Checked) {
-					tableClinicTotals.Rows.Add(clinicDesc,production,adjust,writeoffest,writeoffadj,ptIncome,insIncome);
+					tableClinicTotals.Rows.Add(clinicDesc,production.ToStringNetFx(),adjust.ToStringNetFx(),writeoffest.ToStringNetFx(),writeoffadj.ToStringNetFx(),ptIncome.ToStringNetFx(),insIncome.ToStringNetFx());
 				}
 				else {
-					tableClinicTotals.Rows.Add(clinicDesc,production,adjust,writeoff,ptIncome,insIncome);
+					tableClinicTotals.Rows.Add(clinicDesc,production.ToStringNetFx(),adjust.ToStringNetFx(),writeoff.ToStringNetFx(),ptIncome.ToStringNetFx(),insIncome.ToStringNetFx());
 				}
 			}
 			return tableClinicTotals;

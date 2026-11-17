@@ -15,6 +15,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using OpenPmsDentalBusiness;
 using WpfControls.UI;
+using CodeBase;
 
 namespace OpenPmsDental {
 	///<summary></summary>
@@ -155,14 +156,14 @@ namespace OpenPmsDental {
 					ratioAllowed=listChildRoomLogs[i].RatioChange;
 				}
 				gridRow.Cells.Add(countUnderTwo.ToString());
-				gridRow.Cells.Add(countChildren.ToString());
+				gridRow.Cells.Add(countChildren.ToStringNetFx());
 				if(ratioAllowed==-1) {
 					gridRow.Cells.Add("Mixed");
 				}
 				else {
-					gridRow.Cells.Add(ratioAllowed.ToString());
+					gridRow.Cells.Add(ratioAllowed.ToStringNetFx());
 				}
-				gridRow.Cells.Add(countEmployees.ToString());
+				gridRow.Cells.Add(countEmployees.ToStringNetFx());
 				double teachersRequired=0;
 				if(ratioAllowed==-1) {
 					//Calculate the number of teachers needed for the current mixed ratio
@@ -173,7 +174,7 @@ namespace OpenPmsDental {
 						teachersRequired=Math.Ceiling(countChildren/ratioAllowed);
 					}
 				}
-				GridCell gridCell=new GridCell(teachersRequired.ToString());
+				GridCell gridCell=new GridCell(teachersRequired.ToStringNetFx());
 				if(countEmployees<teachersRequired) {
 					gridCell.ColorText=Colors.Red;
 				}

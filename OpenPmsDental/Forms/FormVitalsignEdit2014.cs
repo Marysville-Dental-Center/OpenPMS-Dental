@@ -10,6 +10,7 @@ using OpenPmsDentalBusiness;
 using OpenPmsDental;
 using OpenPmsDental.UI;
 using System.Diagnostics;
+using CodeBase;
 
 namespace OpenPmsDental {
 	public partial class FormVitalsignEdit2014:FormODBase {
@@ -47,10 +48,10 @@ namespace OpenPmsDental {
 			textDateTaken.Text=VitalsignCur.DateTaken.ToShortDateString();
 			AgeBeforeJanFirst=PIn.Date(textDateTaken.Text).Year-_patient.Birthdate.Year-1;
 			if(VitalsignCur.Height!=0) {
-				textHeight.Text=VitalsignCur.Height.ToString();
+				textHeight.Text=VitalsignCur.Height.ToStringNetFx();
 			}
 			if(VitalsignCur.Weight!=0) {
-				textWeight.Text=VitalsignCur.Weight.ToString();
+				textWeight.Text=VitalsignCur.Weight.ToStringNetFx();
 			}
 			CalcBMI();
 			if(VitalsignCur.BpDiastolic!=0) {
@@ -299,7 +300,7 @@ namespace OpenPmsDental {
 				return;
 			}
 			float bmi=Vitalsigns.CalcBMI(weight,height);// ((float)(weight*703)/(height*height));
-			textBMI.Text=bmi.ToString("n1");
+			textBMI.Text=bmi.ToStringNetFx("n1");
 			labelWeightCode.Text=CalcOverUnderBMIHelper(bmi);
 			int bmiPercentile=-1;
 			if(AgeBeforeJanFirst<17 && AgeBeforeJanFirst>2) {//calc and show BMI percentile if patient is >= 3 and < 17 on 01/01 of the year of the exam

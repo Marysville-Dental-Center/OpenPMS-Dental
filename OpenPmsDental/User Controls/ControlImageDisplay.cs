@@ -3204,7 +3204,7 @@ Here is the desired behavior:
 						string stringUnits=imageDrawScale.GetScaleUnits();
 						int decimalPlaces=imageDrawScale.GetDecimals();
 						float lengthScaled=length/scaleVal;
-						stringMeasure=lengthScaled.ToString("f"+decimalPlaces.ToString());
+						stringMeasure=lengthScaled.ToStringNetFx("f"+decimalPlaces.ToString());
 						if(!stringUnits.IsNullOrEmpty()){
 							stringMeasure+=" "+stringUnits;
 						}

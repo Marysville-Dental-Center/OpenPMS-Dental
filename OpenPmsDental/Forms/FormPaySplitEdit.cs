@@ -57,7 +57,7 @@ namespace OpenPmsDental {
 			_paySplitCopy=PaySplitCur.Copy();
 			textDateEntry.Text=PaySplitCur.DateEntry.ToShortDateString();
 			textDatePay.Text=PaySplitCur.DatePay.ToShortDateString();
-			textAmount.Text=PaySplitCur.SplitAmt.ToString("F");
+			textAmount.Text=PaySplitCur.SplitAmt.ToStringNetFx("F");
 			comboUnearnedTypes.Items.AddDefNone();
 			comboUnearnedTypes.Items.AddDefs(PaySplitPayPlanAttach.GetUnearnedDefsForSplitEdit());//25.2: also lists the Payment Plan Prepay type
 			comboUnearnedTypes.SetSelectedDefNum(PaySplitCur.UnearnedType); 
@@ -205,7 +205,7 @@ namespace OpenPmsDental {
 		}
 
 		private void butRemainder_Click(object sender, System.EventArgs e) {
-			textAmount.Text=Remain.ToString("F");
+			textAmount.Text=Remain.ToStringNetFx("F");
 		}
 
 		///<summary>PaySplit.Patient is one value that is always kept in synch with the display.  If program changes PaySplit.Patient, then it will run this method to update the display.  If user changes display, then _MouseDown is run to update the PaySplit.Patient.</summary>
@@ -325,36 +325,36 @@ namespace OpenPmsDental {
 			double procPrevPaid=-PaySplits.GetTotForProc(_procedure.ProcNum,listPaySplitsForProc.ToArray(),PaySplitCur,out countSplitsAttached);
 			//Intelligently sum the values associated to the procedure, claim procs, and adjustments via status instead of blindly adding them together.
 			_patPort=ClaimProcs.GetPatPortion(_procedure,listClaimProcs,adjustmentArray.ToList());
-			textProcFee.Text=_procedure.ProcFeeTotal.ToString("F");
+			textProcFee.Text=_procedure.ProcFeeTotal.ToStringNetFx("F");
 			if(procWriteoff==0){
 				textProcWriteoff.Text="";
 			}
 			else{
-				textProcWriteoff.Text=procWriteoff.ToString("F");
+				textProcWriteoff.Text=procWriteoff.ToStringNetFx("F");
 			}
 			if(procInsPaid==0){
 				textProcInsPaid.Text="";
 			}
 			else{
-				textProcInsPaid.Text=procInsPaid.ToString("F");
+				textProcInsPaid.Text=procInsPaid.ToStringNetFx("F");
 			}
 			if(procInsEst==0){
 				textProcInsEst.Text="";
 			}
 			else{
-				textProcInsEst.Text=procInsEst.ToString("F");
+				textProcInsEst.Text=procInsEst.ToStringNetFx("F");
 			}
 			if(procAdj==0){
 				textProcAdj.Text="";
 			}
 			else{
-				textProcAdj.Text=procAdj.ToString("F");
+				textProcAdj.Text=procAdj.ToStringNetFx("F");
 			}
 			if(procPrevPaid==0 && countSplitsAttached==0){
 				textProcPrevPaid.Text="";
 			}
 			else{
-				textProcPrevPaid.Text=procPrevPaid.ToString("F");
+				textProcPrevPaid.Text=procPrevPaid.ToStringNetFx("F");
 			}
 			if(PrefC.HasClinicsEnabled) {
 				comboClinic.ClinicNumSelected=PaySplitCur.ClinicNum;
@@ -405,7 +405,7 @@ namespace OpenPmsDental {
 			}
 			textAdjDate.Text=_adjustment.AdjDate.ToShortDateString();
 			textAdjProv.Text=Providers.GetAbbr(_adjustment.ProvNum);
-			textAdjAmt.Text=_adjustment.AdjAmt.ToString("F");//Adjustment's original amount
+			textAdjAmt.Text=_adjustment.AdjAmt.ToStringNetFx("F");//Adjustment's original amount
 			//Don't include any splits on current payment - Since they could be modified and DB doesn't know about it yet.
 			_adjPrevPaid=Adjustments.GetAmtAllocated(_adjustment.AdjNum,PaySplitCur.PayNum);
 			//ListSplitsCur contains current paysplit, we need to remove it somehow.  PaySplitCur could have SplitNum=0 though.
@@ -417,12 +417,12 @@ namespace OpenPmsDental {
 					_adjPrevPaid-=PaySplitCur.SplitAmt;//To prevent double counting the current split
 				}
 			}
-			textAdjPrevUsed.Text=(-_adjPrevPaid).ToString("F");//How much was previously used
+			textAdjPrevUsed.Text=(-_adjPrevPaid).ToStringNetFx("F");//How much was previously used
 			if(!textAmount.IsValid() || string.IsNullOrWhiteSpace(textAmount.Text)) {
 				textAdjPaidHere.Text="";
 			}
 			else{
-				textAdjPaidHere.Text=PIn.Double(textAmount.Text).ToString("F");//How much is used here
+				textAdjPaidHere.Text=PIn.Double(textAmount.Text).ToStringNetFx("F");//How much is used here
 			}
 			ComputeTotals();
 			butAttachAdjust.Enabled=false;
@@ -459,8 +459,8 @@ namespace OpenPmsDental {
 				textAdjPaidHere.Text="";	
 			}
 			else{
-				textProcPaidHere.Text=procPaidHere.ToString("F");
-				textAdjPaidHere.Text=adjPaidHere.ToString("F");
+				textProcPaidHere.Text=procPaidHere.ToStringNetFx("F");
+				textAdjPaidHere.Text=adjPaidHere.ToStringNetFx("F");
 			}
 			labelAdjRemaining.Text="";
 			labelProcRemain.Text="";
@@ -774,7 +774,7 @@ namespace OpenPmsDental {
 				if(Clinics.GetAbbr(PaySplitCur.ClinicNum)!="") {
 					secLogText+=", clinic "+Clinics.GetAbbr(PaySplitCur.ClinicNum);
 				}
-				secLogText+=", amount "+PaySplitCur.SplitAmt.ToString("F");
+				secLogText+=", amount "+PaySplitCur.SplitAmt.ToStringNetFx("F");
 				secLogText+=PaySplitPayPlanAttach.GetPayPlanLogText(PaySplitCur.PayPlanNum);//25.3
 				SecurityLogs.MakeLogEntry(EnumPermType.PaymentEdit,PaySplitCur.PatNum,secLogText);
 				DialogResult=DialogResult.OK;
@@ -786,7 +786,7 @@ namespace OpenPmsDental {
 			}
 			secLogText+=SecurityLogEntryHelper(Providers.GetAbbr(_paySplitCopy.ProvNum),Providers.GetAbbr(PaySplitCur.ProvNum),"provider");
 			secLogText+=SecurityLogEntryHelper(Clinics.GetAbbr(_paySplitCopy.ClinicNum),Clinics.GetAbbr(PaySplitCur.ClinicNum),"clinic");
-			secLogText+=SecurityLogEntryHelper(_paySplitCopy.SplitAmt.ToString("F"),PaySplitCur.SplitAmt.ToString("F"),"amount");
+			secLogText+=SecurityLogEntryHelper(_paySplitCopy.SplitAmt.ToStringNetFx("F"),PaySplitCur.SplitAmt.ToStringNetFx("F"),"amount");
 			secLogText+=SecurityLogEntryHelper(_paySplitCopy.PatNum.ToString(),PaySplitCur.PatNum.ToString(),"patient number");
 			secLogText+=SecurityLogEntryHelper(_paySplitCopy.PayPlanNum.ToString(),PaySplitCur.PayPlanNum.ToString(),"payment plan number");//25.3
 			SecurityLogs.MakeLogEntry(EnumPermType.PaymentEdit,PaySplitCur.PatNum,secLogText,0,_paySplitCopy.SecDateTEdit);

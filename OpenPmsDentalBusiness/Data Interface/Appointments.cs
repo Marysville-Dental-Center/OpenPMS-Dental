@@ -1759,7 +1759,7 @@ namespace OpenPmsDentalBusiness{
 			dataRow=table.NewRow();
 			dataRow["field"]=Lans.g("FormApptEdit","Total Balance");
 			double totalBalance=PIn.Double(tablePatRaw.Rows[0]["EstBalance"].ToString());
-			dataRow["value"]=totalBalance.ToString("F");
+			dataRow["value"]=totalBalance.ToStringNetFx("F");
 			table.Rows.Add(dataRow);
 			//Patient address and phone notes-------------------------------------------------------
 			dataRow=table.NewRow();
@@ -1773,7 +1773,7 @@ namespace OpenPmsDentalBusiness{
 			dataRow["field"]=Lans.g("FormApptEdit","Family Balance");
 			double balance=PIn.Double(familyBalance.Rows[0]["BalTotal"].ToString())
 				-PIn.Double(familyBalance.Rows[0]["InsEst"].ToString());
-			dataRow["value"]=balance.ToString("F");
+			dataRow["value"]=balance.ToStringNetFx("F");
 			table.Rows.Add(dataRow);
 			//Site----------------------------------------------------------------------------------
 			if(!PrefC.GetBool(PrefName.EasyHidePublicHealth)){
@@ -1897,7 +1897,7 @@ namespace OpenPmsDentalBusiness{
 				if(tableProcRaw.Rows[i]["ToothRange"].ToString()!=""){
 					dataRow["descript"]+=" #"+Tooth.DisplayRange(tableProcRaw.Rows[i]["ToothRange"].ToString());
 				}
-				dataRow["fee"]=PIn.Double(tableProcRaw.Rows[i]["ProcFee"].ToString()).ToString("F");
+				dataRow["fee"]=PIn.Double(tableProcRaw.Rows[i]["ProcFee"].ToString()).ToStringNetFx("F");
 				dataRow["priority"]=Defs.GetName(DefCat.TxPriorities,PIn.Long(tableProcRaw.Rows[i]["Priority"].ToString()));
 				dataRow["Priority"]=tableProcRaw.Rows[i]["Priority"].ToString();
 				dataRow["ProcCode"]=tableProcRaw.Rows[i]["ProcCode"].ToString();

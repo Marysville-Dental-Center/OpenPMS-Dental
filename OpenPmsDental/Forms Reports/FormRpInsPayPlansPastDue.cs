@@ -119,7 +119,7 @@ namespace OpenPmsDental {
 				row.Cells.Add(patName);
 				row.Cells.Add(payPlanCur.DateLastPayment.ToShortDateString());
 				row.Cells.Add(payPlanCur.NumChargesOverdue.ToString());
-				row.Cells.Add(payPlanCur.AmtOverdue.ToString("f"));
+				row.Cells.Add(payPlanCur.AmtOverdue.ToStringNetFx("f"));
 				row.Cells.Add(payPlanCur.DaysOverdue.ToString());
 				row.Cells.Add(carrierNamePhone);
 				gridMain.ListGridRows.Add(row);

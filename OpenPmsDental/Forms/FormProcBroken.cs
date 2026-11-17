@@ -29,7 +29,7 @@ namespace OpenPmsDental {
 		private void FormProcBroken_Load(object sender,EventArgs e) {
 			textDateEntry.Text=_procedure.DateEntryC.ToShortDateString();
 			textProcDate.Text=_procedure.ProcDate.ToShortDateString();
-			textAmount.Text=_procedure.ProcFee.ToString("f");
+			textAmount.Text=_procedure.ProcFee.ToStringNetFx("f");
 			comboClinic.ClinicNumSelected=_procedure.ClinicNum;
 			fillComboProv();
 			comboProv.SetSelectedProvNum(_procedure.ProvNum);
@@ -38,7 +38,7 @@ namespace OpenPmsDental {
 			textAccountNotes.Text=_procedure.BillingNote;
 			labelAmountDescription.Text="";
 			if(_isNonRefundable) {
-				labelAmountDescription.Text=GetAmountTotal().ToString("c")+": Non-Refundable portion";
+				labelAmountDescription.Text=GetAmountTotal().ToStringNetFx("c")+": Non-Refundable portion";
 			}
 		}
 
@@ -116,7 +116,7 @@ namespace OpenPmsDental {
 			_procedure.ClinicNum=comboClinic.ClinicNumSelected;
 			Procedures.Update(_procedure,_procedureOld);
 			ProcedureCode procedureCode=ProcedureCodes.GetProcCode(_procedure.CodeNum);
-			string logText=procedureCode.ProcCode+" ("+_procedure.ProcStatus+"), "+Lan.g(this,"Fee")+": "+_procedure.ProcFee.ToString("c")+", "+procedureCode.Descript;
+			string logText=procedureCode.ProcCode+" ("+_procedure.ProcStatus+"), "+Lan.g(this,"Fee")+": "+_procedure.ProcFee.ToStringNetFx("c")+", "+procedureCode.Descript;
 			SecurityLogs.MakeLogEntry(IsNew ? EnumPermType.ProcComplCreate : EnumPermType.ProcCompleteEdit,_procedure.PatNum,logText);
 			DialogResult=DialogResult.OK;
 		}

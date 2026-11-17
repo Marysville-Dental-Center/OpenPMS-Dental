@@ -97,7 +97,7 @@ namespace OpenPmsDental.Bridges {
 			string classRef)
 		{
 			bool isClassRefUsed=!string.IsNullOrEmpty(classRef) && PrefC.GetBool(PrefName.QuickBooksClassRefsEnabled);
-			return new[] { companyPath,QuickBooksCommands.DateToText(txnDate),depositAcct,incomeAcct,amount.ToString("F"),memo,classRef,
+			return new[] { companyPath,QuickBooksCommands.DateToText(txnDate),depositAcct,incomeAcct,amount.ToStringNetFx("F"),memo,classRef,
 				QuickBooksCommands.BoolToText(isClassRefUsed) };
 		}
 

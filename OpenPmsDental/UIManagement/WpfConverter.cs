@@ -1498,8 +1498,8 @@ if(dateFrom.Year > 1880 && dateTo.Year>1880) {//if both dates are valid
 				string textNew=EscapeForXml(control.Text);
 				s+="Text=\""+textNew+"\" ";
 			}
-			s+="MinVal=\""+validDouble.MinVal.ToString()+"\" ";
-			s+="MaxVal=\""+validDouble.MaxVal.ToString()+"\" ";
+			s+="MinVal=\""+validDouble.MinVal.ToStringNetFx()+"\" ";
+			s+="MaxVal=\""+validDouble.MaxVal.ToStringNetFx()+"\" ";
 			//default left already handled
 			if(validDouble.TextAlign==System.Windows.Forms.HorizontalAlignment.Center){
 				s+="HAlign=\"Center\" ";

@@ -346,7 +346,7 @@ namespace OpenPmsDental.Bridges {
 			//Set field value for income account
 			DepositLineAdd1.ORDepositLineAdd.DepositInfo.AccountRef.FullName.SetValue(incomeAcct);
 			//Set field value for Amount
-			DepositLineAdd1.ORDepositLineAdd.DepositInfo.Amount.SetAsString(amount.ToString("F"));
+			DepositLineAdd1.ORDepositLineAdd.DepositInfo.Amount.SetAsString(amount.ToStringNetFx("F"));
 			//Set field value for ClassRef which is a way they can group deposits together
 			if(!string.IsNullOrEmpty(classRef) && isClassRefsEnabled) {
 				DepositLineAdd1.ORDepositLineAdd.DepositInfo.ClassRef.FullName.SetValue(classRef);

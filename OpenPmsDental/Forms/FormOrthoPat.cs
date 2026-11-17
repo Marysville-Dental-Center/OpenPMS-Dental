@@ -7,6 +7,7 @@ using System.Text;
 using System.Windows.Forms;
 using OpenPmsDentalBusiness;
 using OpenPmsDental.UI;
+using CodeBase;
 
 namespace OpenPmsDental {
 	public partial class FormOrthoPat:FormODBase {
@@ -28,12 +29,12 @@ namespace OpenPmsDental {
 			if(patPlan.OrthoAutoFeeBilledOverride==-1) {
 				checkUseDefaultFee.Checked=true;
 				textFee.ReadOnly=true;
-				textFee.Text=defaultFee.ToString();
+				textFee.Text=defaultFee.ToStringNetFx();
 			}
 			else {
 				checkUseDefaultFee.Checked=false;
 				textFee.ReadOnly=false;
-				textFee.Text=patPlan.OrthoAutoFeeBilledOverride.ToString();
+				textFee.Text=patPlan.OrthoAutoFeeBilledOverride.ToStringNetFx();
 			}
 			if(patPlan.OrthoAutoNextClaimDate.Date != DateTime.MinValue.Date) {
 				textDateNextClaim.Text=patPlan.OrthoAutoNextClaimDate.ToShortDateString();
@@ -46,7 +47,7 @@ namespace OpenPmsDental {
 		private void checkUseDefaultFee_CheckedChanged(object sender,EventArgs e) {
 			textFee.ReadOnly=checkUseDefaultFee.Checked;
 			if(checkUseDefaultFee.Checked) {
-				textFee.Text=_insPlan.OrthoAutoFeeBilled.ToString();
+				textFee.Text=_insPlan.OrthoAutoFeeBilled.ToStringNetFx();
 			}
 		}
 

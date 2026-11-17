@@ -159,15 +159,15 @@ namespace OpenPmsDental {
 				//row.Cells.Add(Employees.GetNameFL(PIn.Long(MainTable.Rows[i]["EmployeeNum"].ToString())));
 				row.Cells.Add(_tableMain.Rows[i]["lastName"]+", "+_tableMain.Rows[i]["firstName"]);
 				if(PrefC.GetBool(PrefName.TimeCardsUseDecimalInsteadOfColon)) {
-					row.Cells.Add(PIn.Time(_tableMain.Rows[i]["totalHours"].ToString()).TotalHours.ToString("n"));
-					row.Cells.Add(PIn.Time(_tableMain.Rows[i]["rate1Hours"].ToString()).TotalHours.ToString("n"));
-					row.Cells.Add(PIn.Time(_tableMain.Rows[i]["rate1OTHours"].ToString()).TotalHours.ToString("n"));
-					row.Cells.Add(PIn.Time(_tableMain.Rows[i]["rate2Hours"].ToString()).TotalHours.ToString("n"));
-					row.Cells.Add(PIn.Time(_tableMain.Rows[i]["rate2OTHours"].ToString()).TotalHours.ToString("n"));
-					row.Cells.Add(PIn.Time(_tableMain.Rows[i]["rate3Hours"].ToString()).TotalHours.ToString("n"));
-					row.Cells.Add(PIn.Time(_tableMain.Rows[i]["rate3OTHours"].ToString()).TotalHours.ToString("n"));
-					row.Cells.Add(PIn.Time(_tableMain.Rows[i]["PTOHours"].ToString()).TotalHours.ToString("n"));
-					row.Cells.Add(PIn.Time(_tableMain.Rows[i]["protectedLeaveHours"].ToString()).TotalHours.ToString("n"));
+					row.Cells.Add(PIn.Time(_tableMain.Rows[i]["totalHours"].ToString()).TotalHours.ToStringNetFx("n"));
+					row.Cells.Add(PIn.Time(_tableMain.Rows[i]["rate1Hours"].ToString()).TotalHours.ToStringNetFx("n"));
+					row.Cells.Add(PIn.Time(_tableMain.Rows[i]["rate1OTHours"].ToString()).TotalHours.ToStringNetFx("n"));
+					row.Cells.Add(PIn.Time(_tableMain.Rows[i]["rate2Hours"].ToString()).TotalHours.ToStringNetFx("n"));
+					row.Cells.Add(PIn.Time(_tableMain.Rows[i]["rate2OTHours"].ToString()).TotalHours.ToStringNetFx("n"));
+					row.Cells.Add(PIn.Time(_tableMain.Rows[i]["rate3Hours"].ToString()).TotalHours.ToStringNetFx("n"));
+					row.Cells.Add(PIn.Time(_tableMain.Rows[i]["rate3OTHours"].ToString()).TotalHours.ToStringNetFx("n"));
+					row.Cells.Add(PIn.Time(_tableMain.Rows[i]["PTOHours"].ToString()).TotalHours.ToStringNetFx("n"));
+					row.Cells.Add(PIn.Time(_tableMain.Rows[i]["protectedLeaveHours"].ToString()).TotalHours.ToStringNetFx("n"));
 				}
 				else if(PrefC.GetBool(PrefName.TimeCardShowSeconds)) {//Colon format with seconds
 					row.Cells.Add(PIn.Time(_tableMain.Rows[i]["totalHours"].ToString()).ToStringHmmss());
@@ -538,12 +538,12 @@ namespace OpenPmsDental {
 			_rate3Time=timeSpanRate3.ToStringHmm();
 			_ptoTime=timeSpanPTO.ToStringHmm();
 			_unpaidProtectedLeaveTime=timeSpanUnpaidProtectedLeave.ToStringHmm();
-			_totalTime2=timeSpanPeriod.TotalHours.ToString("n");
-			_overTime2=timeSpanOT.TotalHours.ToString("n");
-			_rate2Time2=timeSpanRate2.TotalHours.ToString("n");
-			_rate3Time2=timeSpanRate3.TotalHours.ToString("n");
-			_ptoTime2=timeSpanPTO.TotalHours.ToString("n");
-			_unpaidProtectedLeaveTime2=timeSpanUnpaidProtectedLeave.TotalHours.ToString("n");
+			_totalTime2=timeSpanPeriod.TotalHours.ToStringNetFx("n");
+			_overTime2=timeSpanOT.TotalHours.ToStringNetFx("n");
+			_rate2Time2=timeSpanRate2.TotalHours.ToStringNetFx("n");
+			_rate3Time2=timeSpanRate3.TotalHours.ToStringNetFx("n");
+			_ptoTime2=timeSpanPTO.TotalHours.ToStringNetFx("n");
+			_unpaidProtectedLeaveTime2=timeSpanUnpaidProtectedLeave.TotalHours.ToStringNetFx("n");
 			return gridTimeCard;
 		}
 
@@ -986,7 +986,7 @@ namespace OpenPmsDental {
 						case "protectedLeaveHours":
 							//Time must be formatted differently.
 							if(PrefC.GetBool(PrefName.TimeCardsUseDecimalInsteadOfColon)) {
-								row+=PIn.Time(_tableMain.Rows[i][c].ToString()).TotalHours.ToString("n");
+								row+=PIn.Time(_tableMain.Rows[i][c].ToString()).TotalHours.ToStringNetFx("n");
 							}
 							else if(PrefC.GetBool(PrefName.TimeCardShowSeconds)) {//Colon format with seconds
 								row+=PIn.Time(_tableMain.Rows[i][c].ToString()).ToStringHmmss();
@@ -1057,31 +1057,31 @@ namespace OpenPmsDental {
 				if (employeeNum!=0) {
 					employeeName=Employees.GetNameFL(Employees.GetEmp(employeeNum));
 				}
-				string r1hours	=(PIn.TSpan(_tableMain.Rows[i]["rate1Hours"  ].ToString())).TotalHours.ToString("F2");//adp allows 2 digit precision
+				string r1hours	=(PIn.TSpan(_tableMain.Rows[i]["rate1Hours"  ].ToString())).TotalHours.ToStringNetFx("F2");//adp allows 2 digit precision
 				if(r1hours=="0.00"){//Was changing Exactly 80.00 hours with 8 hours.
 					r1hours="";
 				}
-				string r1OThours=(PIn.TSpan(_tableMain.Rows[i]["rate1OTHours"].ToString())).TotalHours.ToString("F2");//adp allows 2 digit precision
+				string r1OThours=(PIn.TSpan(_tableMain.Rows[i]["rate1OTHours"].ToString())).TotalHours.ToStringNetFx("F2");//adp allows 2 digit precision
 				if(r1OThours=="0.00") {
 					r1OThours="";
 				}
-				string r2hours	=(PIn.TSpan(_tableMain.Rows[i]["rate2Hours"].ToString())).TotalHours.ToString("F2");//adp allows 2 digit precision
+				string r2hours	=(PIn.TSpan(_tableMain.Rows[i]["rate2Hours"].ToString())).TotalHours.ToStringNetFx("F2");//adp allows 2 digit precision
 				if(r2hours=="0.00") {
 					r2hours="";
 				}
-				string r2OThours=(PIn.TSpan(_tableMain.Rows[i]["rate2OTHours"].ToString())).TotalHours.ToString("F2");//adp allows 2 digit precision
+				string r2OThours=(PIn.TSpan(_tableMain.Rows[i]["rate2OTHours"].ToString())).TotalHours.ToStringNetFx("F2");//adp allows 2 digit precision
 				if(r2OThours=="0.00") {
 					r2OThours="";
 				}
-				string r3hours  =(PIn.TSpan(_tableMain.Rows[i]["rate3Hours"].ToString())).TotalHours.ToString("F2");//adp allows 2 digit precision
+				string r3hours  =(PIn.TSpan(_tableMain.Rows[i]["rate3Hours"].ToString())).TotalHours.ToStringNetFx("F2");//adp allows 2 digit precision
 				if(r3hours=="0.00") {
 					r3hours="";
 				}
-				string r3OThours=(PIn.TSpan(_tableMain.Rows[i]["rate3OTHours"].ToString())).TotalHours.ToString("F2");//adp allows 2 digit precision
+				string r3OThours=(PIn.TSpan(_tableMain.Rows[i]["rate3OTHours"].ToString())).TotalHours.ToStringNetFx("F2");//adp allows 2 digit precision
 				if(r3OThours=="0.00") {
 					r3OThours="";
 				}
-				string ptoHours=(PIn.TSpan(_tableMain.Rows[i]["PTOHours"].ToString())).TotalHours.ToString("F2");//adp allows 2 digit precision
+				string ptoHours=(PIn.TSpan(_tableMain.Rows[i]["PTOHours"].ToString())).TotalHours.ToStringNetFx("F2");//adp allows 2 digit precision
 				if(ptoHours=="0.00") {
 					ptoHours="";
 				}
@@ -1176,31 +1176,31 @@ namespace OpenPmsDental {
 				#region Columns 6, 7, 11 - Earnings Code, Pay Hours, Rate Code
 				//The ADP Run format requires each type of pay (regular, overtime, etc) and rate of pay (BASE, RATE_2, etc) to be on its own row. 
 				//Must check each MainTable column to create appropriate rows for each employee. Only create a row if it contains hours.
-				string r1hours=(PIn.TSpan(row["rate1Hours"].ToString())).TotalHours.ToString("F2");	//adp run requires 2 digit precision
+				string r1hours=(PIn.TSpan(row["rate1Hours"].ToString())).TotalHours.ToStringNetFx("F2");	//adp run requires 2 digit precision
 				if(r1hours!="0.00") {
 					stringBuilder.AppendLine(textToAdd+"REG,"+r1hours+","+dollars+","+separateCheck+","+workedDepartment+",BASE");
 				}
-				string r1OThours=(PIn.TSpan(row["rate1OTHours"].ToString())).TotalHours.ToString("F2");
+				string r1OThours=(PIn.TSpan(row["rate1OTHours"].ToString())).TotalHours.ToStringNetFx("F2");
 				if(r1OThours!="0.00") {
 					stringBuilder.AppendLine(textToAdd+"OVT,"+r1OThours+","+dollars+","+separateCheck+","+workedDepartment+",BASE");
 				}
-				string r2hours=(PIn.TSpan(row["rate2Hours"].ToString())).TotalHours.ToString("F2");
+				string r2hours=(PIn.TSpan(row["rate2Hours"].ToString())).TotalHours.ToStringNetFx("F2");
 				if(r2hours!="0.00") {
 					stringBuilder.AppendLine(textToAdd+"REG,"+r2hours+","+dollars+","+separateCheck+","+workedDepartment+",RATE_2");
 				}
-				string r2OThours=(PIn.TSpan(row["rate2OTHours"].ToString())).TotalHours.ToString("F2");
+				string r2OThours=(PIn.TSpan(row["rate2OTHours"].ToString())).TotalHours.ToStringNetFx("F2");
 				if(r2OThours!="0.00") {
 					stringBuilder.AppendLine(textToAdd+"OVT,"+r2OThours+","+dollars+","+separateCheck+","+workedDepartment+",RATE_2");
 				}
-				string r3hours=(PIn.TSpan(row["rate3Hours"].ToString())).TotalHours.ToString("F2");
+				string r3hours=(PIn.TSpan(row["rate3Hours"].ToString())).TotalHours.ToStringNetFx("F2");
 				if(r3hours!="0.00") {
 					stringBuilder.AppendLine(textToAdd+"REG,"+r3hours+","+dollars+","+separateCheck+","+workedDepartment+",RATE_3");
 				}
-				string r3OThours=(PIn.TSpan(row["rate3OTHours"].ToString())).TotalHours.ToString("F2");
+				string r3OThours=(PIn.TSpan(row["rate3OTHours"].ToString())).TotalHours.ToStringNetFx("F2");
 				if(r3OThours!="0.00") {
 					stringBuilder.AppendLine(textToAdd+"OVT,"+r3OThours+","+dollars+","+separateCheck+","+workedDepartment+",RATE_3");
 				}
-				string ptoHours=(PIn.TSpan(row["PTOHours"].ToString())).TotalHours.ToString("F2");
+				string ptoHours=(PIn.TSpan(row["PTOHours"].ToString())).TotalHours.ToStringNetFx("F2");
 				if(ptoHours!="0.00") {
 					stringBuilder.AppendLine(textToAdd+"VAC,"+ptoHours+","+dollars+","+separateCheck+","+workedDepartment+",BASE");
 				}
