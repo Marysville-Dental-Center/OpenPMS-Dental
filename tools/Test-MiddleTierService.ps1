@@ -76,7 +76,8 @@ $DbHost='127.0.0.1'
 $DbPort=3306
 $DbUser='root'
 $DbPrefix='mtsvc_'
-$PathBase='/OpenDentalServer'
+#Double quotes: the old-name check allows the IIS path after a double quote (tools\Test-NoOldNames.ps1).
+$PathBase="/OpenDentalServer"
 $CertificateSubject='CN=OpenPmsDentalServer-Test launch check'
 #The event source the service's logging and its start-up error use (ServerHost.SERVICE_NAME; the application name of AddWindowsService).
 $EventLogSourceKey='HKLM:\SYSTEM\CurrentControlSet\Services\EventLog\Application\OpenPmsDentalServer'
