@@ -191,7 +191,7 @@ namespace Helper32Tests.Twain {
 			TwainHelperChannel channel=new TwainHelperChannel(client);
 			byte[] dataReply;
 			string[] arrayHello=channel.Call(TwainHelperCommands.Hello,new string[0],null,out dataReply,TimeSpan.FromSeconds(60));
-			Assert.AreEqual("1",arrayHello[0]);
+			Assert.AreEqual("2",arrayHello[0],"The TWAIN module's version (2 since the open result carries IsSourceNotListed).");
 			Assert.AreEqual("32",arrayHello[1],"The helper is a 32-bit process.");
 			Assert.AreEqual("8",arrayHello[3],"TW_USERINTERFACE in the helper: 8 bytes (x86).");
 			Assert.AreEqual("38",arrayHello[4],"TW_IMAGEMEMXFER in the helper: 38 bytes (x86).");
@@ -206,6 +206,8 @@ namespace Helper32Tests.Twain {
 		///<summary>A source only the 32-bit DSM lists captures through the helper with the same images (the raw 16-bit samples of the memory
 		///transfer, the 8-bit DIB), bit depth, DAT_EXTIMAGEINFO capture metadata (with the keys of the helper's own copy of the parser), end reasons
 		///and journal copies as the same fake source in this process; the device list stores it with the marker, and the stored text opens it.
+		///The in-process baseline runs and closes first: the router asks the program's own DSM first, in a session that waits for, or refuses
+		///next to, another session of this process with the same ProductName (S3b-8 section 2.1), as a real source open twice would be.
 		///</summary>
 		[TestMethod]
 		public void SourceOnlyIn32BitDsm_CapturesThroughTheHelper_SameAsInProcess() {
@@ -234,6 +236,13 @@ namespace Helper32Tests.Twain {
 			captureIn.QuarantineContext=new TwainCaptureQuarantineContext(77,"Doe, Jane");
 			Recorder recorderIn=new Recorder(captureIn);
 			Assert.IsTrue(captureIn.Open(TwainTestDsm.SENSOR,NewOptions()).IsOpen);
+			Dictionary<int,TwainCaptureEnded> dictEndedIn=new Dictionary<int,TwainCaptureEnded>();
+			foreach(int bits in new[] { 16,8 }) {
+				dictEndedIn[bits]=recorderIn.WaitForEnded(captureIn.Enable(new TwainEnableRequest { Bits=bits,Tag=new object(),TargetLabel="Slot "+bits }));
+			}
+			TwainCaptureSourceInfo sourceInfoIn=captureIn.SourceInfo;
+			captureIn.BeginClose();
+			Assert.IsTrue(captureIn.WaitForClose(TimeSpan.FromSeconds(15)),"The baseline session closes.");
 			//Through the helper, as the program opens a stored choice.
 			string folderHelper=NewFolder();
 			TwainCaptureSessionRouter router=NewRouter(dsmLoaderNative,channel,folderHelper,TimeSpan.FromSeconds(60));
@@ -250,11 +259,11 @@ namespace Helper32Tests.Twain {
 			Assert.AreEqual(TwainDsmKind.Helper32,router.Resolution.Dsm);
 			Assert.AreEqual(TwainTestDsm.SENSOR,router.ProductName);
 			StringAssert.Contains(router.SourceInfo.DsmName,"32-bit, in the helper");
-			Assert.IsTrue(captureIn.SourceInfo.DriverIdentity.IsSameAs(router.SourceInfo.DriverIdentity),"The record is tied to the same driver.");
+			Assert.IsTrue(sourceInfoIn.DriverIdentity.IsSameAs(router.SourceInfo.DriverIdentity),"The record is tied to the same driver.");
 			foreach(int bits in new[] { 16,8 }) {
 				object tag=new object();
 				TwainEnableRequest request=new TwainEnableRequest { Bits=bits,Tag=tag,TargetLabel="Slot "+bits };
-				TwainCaptureEnded endedIn=recorderIn.WaitForEnded(captureIn.Enable(request));
+				TwainCaptureEnded endedIn=dictEndedIn[bits];
 				TwainCaptureEnded endedHelper=recorderHelper.WaitForEnded(router.Enable(request));
 				Assert.AreEqual(TwainCaptureEndReason.Completed,endedHelper.Reason,endedHelper.ErrorText);
 				Assert.AreEqual(bits,endedHelper.BitDepthInEffect);
