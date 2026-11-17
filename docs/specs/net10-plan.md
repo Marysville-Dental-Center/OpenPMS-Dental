@@ -1291,6 +1291,12 @@ module load, the Middle Tier's IIS site root. The section 7 default-font tests (
 helper, the x64 columns of the pointer-size tests. Runs (x64, `-RequireBuildOutput`): 122 assemblies, 10,342 tests, 31 failed: S3b-FMT's
 formatting (GoldenOutputTests 6, BINBTests 1), S3b-7's release files (ReleaseFlowTests 18, LibraryBindingTests 3), one headless WPF picture,
 one open ZIP message (EhrTests); not run: InitSqlTests, ForkMigrationTests (coordinator) and the WPF picture projects (S3b-5W).
+After the merge of S3b-7, the fix round on `net10/s3b5-2` (tests and docs only): AttributionTests 50, LibraryBindingTests 18, RegistryTests
+39, EhrTests 260 (the ZIP message pinned, accepted by the lead), ReleaseFlowTests 240 and NoHqTests 115 of the same, all passing x64 with
+`-RequireBuildOutput`, with the section 7 encodings test (fresh process, `--no-code-pages`) and the WMI test (System.Management from the
+program folder, the package's `runtimes\win` file); the Release dry run without `-LaneProjects` builds the whole filter, stages 557 files and
+compiles the setup. Left: S3b-FMT's seven (with the fractional DateTime sweep, decision 24) and S3b-5W's pictures; the Direct LDAP resolver
+and WebView2 launch checks are in the full-test gate.
 **Status (2026-11-16), S3b-7.** On `net10/s3b7-1` (`docs/port-notes/S3b-7.md`). **Decisions 21 and 22 removed part of the row:** no move
 from the 32-bit install (no search of the 32-bit uninstall entry, no copy of `FreeDentalConfig.xml` and the flag files, no run of the old
 uninstaller, no clean-up of the old folder, no service report), no Test-Installer scenario over a 32-bit bridge install and no manual
