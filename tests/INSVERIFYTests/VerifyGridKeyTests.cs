@@ -112,13 +112,15 @@ namespace INSVERIFYTests {
 			//The batch verification (InsVerifies.TryBatchPatInsVerify, which the scheduled processes run) asks the clearinghouse about the patient
 			//rows of the list. With the eligibility row lost it skipped the patient as a benefits-only row. The preferences it changes in the shared
 			//scratch database are put back afterwards, so no later test sees them (INSV2).
-			Dictionary<PrefName,string> dictPrefsBefore=GetPrefValues(PrefName.PracticeDefaultProv,PrefName.PracticePhone,PrefName.PracticeAddress,
+			Dictionary<PrefName,string> dictPrefsBefore=GetPrefValues(PrefName.PracticeDefaultProv,PrefName.PracticeTitle,PrefName.PracticePhone,PrefName.PracticeAddress,
 				PrefName.PracticeCity,PrefName.PracticeST,PrefName.PracticeZip,PrefName.ClearinghouseDefaultEligibility,
 				PrefName.InsBatchVerifyCreateAdjustments,PrefName.InsBatchVerifyCheckAnnualMax,PrefName.InsBatchVerifyCheckDeductible,
 				PrefName.InsBatchVerifyChangeInsHist,PrefName.InsBatchVerifyChangeEffectiveDates);
 			try {
 				long provNum=ProviderT.CreateProvider("SYN"+NextNum(),"Synthetic","Provider",ssn:"123456789",isUsingTIN:true,nationalProvID:"0123456789");
 				Prefs.UpdateLong(PrefName.PracticeDefaultProv,provNum);
+				//The practice is the 270's sender when the clearinghouse has no Sender TIN (X12-SENDER): its TIN (the provider above), title and phone.
+				Prefs.UpdateString(PrefName.PracticeTitle,"Synthetic Dental Practice");
 				Prefs.UpdateString(PrefName.PracticePhone,"5035550100");
 				Prefs.UpdateString(PrefName.PracticeAddress,"100 Example Street");
 				Prefs.UpdateString(PrefName.PracticeCity,"Sample City");

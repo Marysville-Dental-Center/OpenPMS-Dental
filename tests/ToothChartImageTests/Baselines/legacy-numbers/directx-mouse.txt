@@ -1,0 +1,107 @@
+# Today's DirectX chart's answers to the input of ToothChartMouseTests (DirectX_GivesTheSameSelectionsAndStrings_ForTheSameInput),
+# recorded before TC-9a retired the DirectX chart. Per size: each input (tool, kind, point) and the selected teeth after it, then the
+# SegmentDrawn strings in order, the count of committed selections and the drawings (segment|colour) at the end.
+410x307	input	0	Pointer	move	90,163	
+410x307	input	1	Pointer	down	90,163	30
+410x307	input	2	Pointer	up	90,163	30
+410x307	input	3	Pointer	move	75,146	30
+410x307	input	4	Pointer	down	75,146	30,3
+410x307	input	5	Pointer	move	117,146	30,3,5,4
+410x307	input	6	Pointer	move	159,146	30,3,5,4,7,6
+410x307	input	7	Pointer	move	202,146	30,3,5,4,7,6,8
+410x307	input	8	Pointer	move	244,146	30,3,5,4,7,6,8,10,9
+410x307	input	9	Pointer	move	287,146	30,3,5,4,7,6,8,10,9,12,11
+410x307	input	10	Pointer	up	287,146	30,3,5,4,7,6,8,10,9,12,11
+410x307	input	11	Pen	down	30,280	30,3,5,4,7,6,8,10,9,12,11
+410x307	input	12	Pen	move	45,284	30,3,5,4,7,6,8,10,9,12,11
+410x307	input	13	Pen	move	63,290	30,3,5,4,7,6,8,10,9,12,11
+410x307	input	14	Pen	up	63,290	30,3,5,4,7,6,8,10,9,12,11
+410x307	input	15	ColorChanger	down	205,161	30,3,5,4,7,6,8,10,9,12,11
+410x307	input	16	ColorChanger	up	205,161	30,3,5,4,7,6,8,10,9,12,11
+410x307	input	17	Eraser	down	82,212	30,3,5,4,7,6,8,10,9,12,11
+410x307	input	18	Eraser	move	82,212	30,3,5,4,7,6,8,10,9,12,11
+410x307	input	19	Eraser	up	82,212	30,3,5,4,7,6,8,10,9,12,11
+410x307	segment	0	30,280;45,284;63,290
+410x307	segment	1	190,150;205,160;220,150
+410x307	segment	2	60,250;90,220;120,250;150,220;180,250
+410x307	selections	2
+410x307	drawing	0	40,60;120,55;200,50;280,55;370,60|-16777216
+410x307	drawing	1	190,150;205,160;220,150|-23296
+500x370	input	0	Pointer	move	112,195	
+500x370	input	1	Pointer	down	112,195	30
+500x370	input	2	Pointer	up	112,195	30
+500x370	input	3	Pointer	move	92,176	30
+500x370	input	4	Pointer	down	92,176	30,3
+500x370	input	5	Pointer	move	143,176	30,3,5,4
+500x370	input	6	Pointer	move	194,176	30,3,5,4,7,6
+500x370	input	7	Pointer	move	246,176	30,3,5,4,7,6,8
+500x370	input	8	Pointer	move	297,176	30,3,5,4,7,6,8,10,9
+500x370	input	9	Pointer	move	349,176	30,3,5,4,7,6,8,10,9,12,11
+500x370	input	10	Pointer	up	349,176	30,3,5,4,7,6,8,10,9,12,11
+500x370	input	11	Pen	down	37,337	30,3,5,4,7,6,8,10,9,12,11
+500x370	input	12	Pen	move	55,342	30,3,5,4,7,6,8,10,9,12,11
+500x370	input	13	Pen	move	77,350	30,3,5,4,7,6,8,10,9,12,11
+500x370	input	14	Pen	up	77,350	30,3,5,4,7,6,8,10,9,12,11
+500x370	input	15	ColorChanger	down	250,194	30,3,5,4,7,6,8,10,9,12,11
+500x370	input	16	ColorChanger	up	250,194	30,3,5,4,7,6,8,10,9,12,11
+500x370	input	17	Eraser	down	101,257	30,3,5,4,7,6,8,10,9,12,11
+500x370	input	18	Eraser	move	101,257	30,3,5,4,7,6,8,10,9,12,11
+500x370	input	19	Eraser	up	101,257	30,3,5,4,7,6,8,10,9,12,11
+500x370	segment	0	30.3,279.6;45.1,283.8;63.1,290.4
+500x370	segment	1	190,150;205,160;220,150
+500x370	segment	2	60,250;90,220;120,250;150,220;180,250
+500x370	selections	2
+500x370	drawing	0	40,60;120,55;200,50;280,55;370,60|-16777216
+500x370	drawing	1	190,150;205,160;220,150|-23296
+615x461	input	0	Pointer	move	135,242	
+615x461	input	1	Pointer	down	135,242	30
+615x461	input	2	Pointer	up	135,242	30
+615x461	input	3	Pointer	move	111,221	30
+615x461	input	4	Pointer	down	111,221	30,3
+615x461	input	5	Pointer	move	175,221	30,3,5,4
+615x461	input	6	Pointer	move	239,221	30,3,5,4,7,6
+615x461	input	7	Pointer	move	303,221	30,3,5,4,7,6,8
+615x461	input	8	Pointer	move	367,221	30,3,5,4,7,6,8,10,9
+615x461	input	9	Pointer	move	431,221	30,3,5,4,7,6,8,10,9,12,11
+615x461	input	10	Pointer	up	431,221	30,3,5,4,7,6,8,10,9,12,11
+615x461	input	11	Pen	down	45,420	30,3,5,4,7,6,8,10,9,12,11
+615x461	input	12	Pen	move	68,426	30,3,5,4,7,6,8,10,9,12,11
+615x461	input	13	Pen	move	94,435	30,3,5,4,7,6,8,10,9,12,11
+615x461	input	14	Pen	up	94,435	30,3,5,4,7,6,8,10,9,12,11
+615x461	input	15	ColorChanger	down	308,242	30,3,5,4,7,6,8,10,9,12,11
+615x461	input	16	ColorChanger	up	308,242	30,3,5,4,7,6,8,10,9,12,11
+615x461	input	17	Eraser	down	127,322	30,3,5,4,7,6,8,10,9,12,11
+615x461	input	18	Eraser	move	127,322	30,3,5,4,7,6,8,10,9,12,11
+615x461	input	19	Eraser	up	127,322	30,3,5,4,7,6,8,10,9,12,11
+615x461	segment	0	30,279.7;45.3,283.7;62.7,289.7
+615x461	segment	1	190,150;205,160;220,150
+615x461	segment	2	60,250;90,220;120,250;150,220;180,250
+615x461	selections	2
+615x461	drawing	0	40,60;120,55;200,50;280,55;370,60|-16777216
+615x461	drawing	1	190,150;205,160;220,150|-23296
+926x858	input	0	Pointer	move	204,444	
+926x858	input	1	Pointer	down	204,444	30
+926x858	input	2	Pointer	up	204,444	30
+926x858	input	3	Pointer	move	168,416	30
+926x858	input	4	Pointer	down	168,416	30,3
+926x858	input	5	Pointer	move	264,416	30,3,5,4
+926x858	input	6	Pointer	move	360,416	30,3,5,4,7,6
+926x858	input	7	Pointer	move	456,416	30,3,5,4,7,6,8
+926x858	input	8	Pointer	move	552,416	30,3,5,4,7,6,8,10,9
+926x858	input	9	Pointer	move	649,416	30,3,5,4,7,6,8,10,9,12,11
+926x858	input	10	Pointer	up	649,416	30,3,5,4,7,6,8,10,9,12,11
+926x858	input	11	Pen	down	68,783	30,3,5,4,7,6,8,10,9,12,11
+926x858	input	12	Pen	move	102,794	30,3,5,4,7,6,8,10,9,12,11
+926x858	input	13	Pen	move	142,810	30,3,5,4,7,6,8,10,9,12,11
+926x858	input	14	Pen	up	142,810	30,3,5,4,7,6,8,10,9,12,11
+926x858	input	15	ColorChanger	down	463,450	30,3,5,4,7,6,8,10,9,12,11
+926x858	input	16	ColorChanger	up	463,450	30,3,5,4,7,6,8,10,9,12,11
+926x858	input	17	Eraser	down	195,606	30,3,5,4,7,6,8,10,9,12,11
+926x858	input	18	Eraser	move	195,606	30,3,5,4,7,6,8,10,9,12,11
+926x858	input	19	Eraser	up	195,606	30,3,5,4,7,6,8,10,9,12,11
+926x858	segment	0	30.1,280.2;45.2,284.1;62.9,289.8
+926x858	segment	1	190,150;205,160;220,150
+926x858	segment	2	60,250;90,220;120,250;150,220;180,250
+926x858	selections	2
+926x858	drawing	0	40,60;120,55;200,50;280,55;370,60|-16777216
+926x858	drawing	1	190,150;205,160;220,150|-23296

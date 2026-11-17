@@ -49,7 +49,8 @@ namespace AttributionTests {
 				ConstructorInfo constructorInfo=typeof(AssemblyInformationalVersionAttribute).GetConstructor(new[] { typeof(string) });
 				arrayAttributes=new[] { new CustomAttributeBuilder(constructorInfo,new object[] { informationalVersion }) };
 			}
-			return AppDomain.CurrentDomain.DefineDynamicAssembly(assemblyName,AssemblyBuilderAccess.Run,arrayAttributes);
+			//AssemblyBuilder.DefineDynamicAssembly, which .NET has too (AppDomain.DefineDynamicAssembly is .NET Framework only; S3a-8).
+			return AssemblyBuilder.DefineDynamicAssembly(assemblyName,AssemblyBuilderAccess.Run,arrayAttributes);
 		}
 		#endregion Helpers
 

@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <!-- The spell checker on WeCantSpell.Hunspell 7.0.1 (WpfControls.SpellCheckL, used by every ODtextBox and TextRich): correct and misspelled
-       words, suggestions, a long note checked without a stall, the dictionary read once per process (each such test runs in a fresh AppDomain,
+       words, suggestions, a long note checked without a stall, the dictionary read once per process (each such test runs in a fresh process,
        like a program that just started), the office's own words (the dictcustom table) on a scratch database of the local MariaDB
        (127.0.0.1:3306, root, blank password; the name starts with test_srcref_spell_ and the database is dropped afterwards; skipped, inconclusive,
        when the server does not answer), and NHunspell with its native files gone for good. Synthetic words only. Nothing reaches the internet.
@@ -30,5 +30,7 @@
     <!-- For ODtextBox, which the tests build without showing it. -->
     <ProjectReference Include="..\..\OpenPmsDental\OpenPmsDental.csproj" />
     <ProjectReference Include="..\..\WpfControlsOD\WpfControlsOD.csproj" />
+    <!-- The fresh process of the dictionary and custom word tests (TestProbeHost, S3a-8 of the .NET 10 move: .NET has no new AppDomain). -->
+    <ProjectReference Include="..\TestProbeHost\TestProbeHost.csproj" />
   </ItemGroup>
 </Project>

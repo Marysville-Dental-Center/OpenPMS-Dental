@@ -5,10 +5,18 @@
        databases named test_dbsec_*) and the tests' own fake servers on a loopback port (UnverifiedServerTests, reached as "localhost."); every
        other network case only checks the built settings and the refusal, which comes before any connection. The certificates of the server
        check (OfficeCaServerVerifierTests, TestCertificateAuthority) are made in memory; nothing is added to a certificate store.
-       Every .cs file under this folder is compiled. -->
+       Every .cs file under this folder is compiled, and DevDbTool's network guard (DevDbNetworkGuardTests; DevDbTool has no test project). -->
   <ItemGroup>
+    <!-- HttpClient, for DevDbNetworkGuardTests. -->
+    <Reference Include="System.Net.Http" />
     <Reference Include="System.Security" />
     <Reference Include="System.Windows.Forms" />
+  </ItemGroup>
+  <ItemGroup>
+    <!-- DevDbTool's network guard, compiled here: a reference to the tool (an exe) would add a project to the lock file. -->
+    <Compile Include="..\..\tools\DevDbTool\NetworkGuard.cs">
+      <Link>DevDbTool\NetworkGuard.cs</Link>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\CodeBase\xCodeBase.csproj" />

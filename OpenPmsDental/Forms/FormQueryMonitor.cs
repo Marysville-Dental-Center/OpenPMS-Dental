@@ -34,16 +34,17 @@ namespace OpenPmsDental {
 		private void FormQueryMonitor_Load(object sender,EventArgs e) {
 			FillGridColumns();
 			//Add "View DOB" right click option, MenuItemPopup() will show and hide it as needed.
-			if(gridFeed.ContextMenu==null) {
-				gridFeed.ContextMenu=new ContextMenu();//ODGrid will automatically attach the default Popups
+			if(gridFeed.ContextMenuStrip==null || !gridFeed.DoAddGridItemsToContextMenuStrip) {//none yet, or the grid's own strip
+				gridFeed.ContextMenuStrip=new ContextMenuStrip();
+				gridFeed.DoAddGridItemsToContextMenuStrip=true;//ODGrid will automatically attach the default Popups
 			}
-			ContextMenu contextMenu=gridFeed.ContextMenu;
-			System.Windows.Forms.MenuItem menuItemStackTrace=new System.Windows.Forms.MenuItem();
+			ContextMenuStrip contextMenu=gridFeed.ContextMenuStrip;
+			ToolStripMenuItem menuItemStackTrace=new ToolStripMenuItem();
 			menuItemStackTrace.Name="showStackTrace";
 			menuItemStackTrace.Text=Lan.g(this,"View Stack Trace");
 			menuItemStackTrace.Click+= new EventHandler(this.MenuItemShowStackTrace_Click);
-			contextMenu.MenuItems.Add(menuItemStackTrace);
-			contextMenu.Popup+=MenuItemPopupShowStackTrace;
+			contextMenu.Items.Add(menuItemStackTrace);
+			contextMenu.Opening+=MenuItemPopupShowStackTrace;
 			if(!IsPayloadMonitor){
 				LoadActiveFilterGroup();
 				return;
@@ -124,11 +125,11 @@ namespace OpenPmsDental {
 		}
 
 		private void MenuItemPopupShowStackTrace(Object sender, EventArgs e) {
-			System.Windows.Forms.MenuItem menuItem=gridFeed.ContextMenu.MenuItems
-				.OfType<System.Windows.Forms.MenuItem>().FirstOrDefault(x => x.Name=="showStackTrace");
+			ToolStripMenuItem menuItem=gridFeed.ContextMenuStrip.Items
+				.OfType<ToolStripMenuItem>().FirstOrDefault(x => x.Name=="showStackTrace");
 			if(menuItem==null) { return; }//Should not happen
-			System.Windows.Forms.MenuItem menuItemSeperator=gridFeed.ContextMenu.MenuItems
-				.OfType<System.Windows.Forms.MenuItem>().FirstOrDefault(x => x.Text=="-");
+			ToolStripSeparator menuItemSeperator=gridFeed.ContextMenuStrip.Items
+				.OfType<ToolStripSeparator>().FirstOrDefault();//the grid's separator above Copy Cell Text
 			if(menuItemSeperator==null) { return; }//Should not happen
 			int indexRowClick=gridFeed.GetSelectedIndex();
 			if(indexRowClick!=-1) {

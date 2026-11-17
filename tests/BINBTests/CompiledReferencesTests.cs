@@ -9,6 +9,7 @@ using System.Text.RegularExpressions;
 using CodeBase;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenPmsDentalBusiness;
+using ProjectFileTests;
 
 namespace BINBTests {
 	[TestClass]
@@ -17,29 +18,53 @@ namespace BINBTests {
 			"AxInterop.AcroPDFLib","Interop.AcroPDFLib","Interop.Acrobat","Interop.AFORMAUTLib","zxing","zxing.presentation","MigraDoc.RtfRendering",
 			"Tao.FreeGlut","Avalara.AvaTax.RestClient.net45","RS232","Ionic.Zip","installutil" };
 
-		private static List<string> GetRemovedReferences(AssemblyName[] arrayAssemblyNames) {
-			return arrayAssemblyNames.Select(x => x.Name).Where(x => _arrayRemovedAssemblies.Contains(x,StringComparer.OrdinalIgnoreCase)).ToList();
+		///<summary>One assembly reference: its name, and whether it names Windows Runtime metadata (ContentType=WindowsRuntime).</summary>
+		private class AssemblyRef {
+			public string Name;
+			public bool IsWindowsRuntime;
+		}
+
+		private static List<AssemblyRef> ToRefs(AssemblyName[] arrayAssemblyNames) {
+			return arrayAssemblyNames.Select(x => new AssemblyRef { Name=x.Name,IsWindowsRuntime=x.ContentType==AssemblyContentType.WindowsRuntime }).ToList();
+		}
+
+		///<summary>The references of a built file, read with Mono.Cecil from the metadata of a copy of its bytes: nothing is loaded or locked (S3a-8
+		///of the .NET 10 move: .NET has no reflection-only load).</summary>
+		private static List<AssemblyRef> ReadRefs(string path) {
+			using(MemoryStream memoryStream=new MemoryStream(File.ReadAllBytes(path)))
+			using(Mono.Cecil.ModuleDefinition moduleDefinition=Mono.Cecil.ModuleDefinition.ReadModule(memoryStream)) {
+				return moduleDefinition.AssemblyReferences.Select(x => new AssemblyRef { Name=x.Name,IsWindowsRuntime=x.IsWindowsRuntime }).ToList();
+			}
+		}
+
+		private static List<string> GetRemovedReferences(List<AssemblyRef> listRefs) {
+			return listRefs.Select(x => x.Name).Where(x => _arrayRemovedAssemblies.Contains(x,StringComparer.OrdinalIgnoreCase)).ToList();
 		}
 
 		[TestMethod]
 		public void BuiltAssemblies_ReferenceNoneOfTheRemovedAssemblies() {
-			Dictionary<string,AssemblyName[]> dictionaryReferences=new Dictionary<string,AssemblyName[]> {
-				{ "OpenPmsDentalBusiness",typeof(LetterMerges).Assembly.GetReferencedAssemblies() },
-				{ "CodeBase",typeof(ODZip).Assembly.GetReferencedAssemblies() },
-				{ "PasswordVaultWrapper",typeof(PasswordVaultWrapper.WindowsPasswordVaultWrapper).Assembly.GetReferencedAssemblies() },
+			Dictionary<string,List<AssemblyRef>> dictionaryReferences=new Dictionary<string,List<AssemblyRef>> {
+				{ "OpenPmsDentalBusiness",ToRefs(typeof(LetterMerges).Assembly.GetReferencedAssemblies()) },
+				{ "CodeBase",ToRefs(typeof(ODZip).Assembly.GetReferencedAssemblies()) },
+				{ "PasswordVaultWrapper",ToRefs(typeof(PasswordVaultWrapper.WindowsPasswordVaultWrapper).Assembly.GetReferencedAssemblies()) },
 			};
-			//The program itself, when this checkout has built it. Its public references are read without running any of its code.
-			foreach(string relative in new[] { @"OpenPmsDental\bin\Debug\OpenPmsDental.exe",@"ServiceManager\bin\Debug\ServiceManager.exe",
+			//The program itself, when this checkout has built it. Its public references are read without running any of its code. The managed
+			//assemblies of the two programs (ProgramAssembly: the .dll on .NET, where the .exe is the apphost Mono.Cecil cannot read).
+			foreach(string relative in new[] { ProgramAssembly.FindRelative(TestPaths.RepoRoot,@"OpenPmsDental\bin\Debug","OpenPmsDental"),
+				ProgramAssembly.FindRelative(TestPaths.RepoRoot,@"ServiceManager\bin\Debug","ServiceManager"),
 				@"SparksToothChart\bin\Debug\SparksToothChart.dll" })
 			{
 				string path=Path.Combine(TestPaths.RepoRoot,relative);
 				if(File.Exists(path)) {
-					dictionaryReferences.Add(relative,Assembly.ReflectionOnlyLoadFrom(path).GetReferencedAssemblies());
+					dictionaryReferences.Add(relative,ReadRefs(path));
 				}
 			}
 			List<string> listViolations=new List<string>();
-			foreach(KeyValuePair<string,AssemblyName[]> keyValuePair in dictionaryReferences) {
+			foreach(KeyValuePair<string,List<AssemblyRef>> keyValuePair in dictionaryReferences) {
 				listViolations.AddRange(GetRemovedReferences(keyValuePair.Value).Select(x => keyValuePair.Key+" references "+x));
+				//Since S3a-5 (the Credential Manager in place of PasswordVault) no assembly references Windows Runtime metadata (Windows.winmd).
+				listViolations.AddRange(keyValuePair.Value.Where(x => x.IsWindowsRuntime)
+					.Select(x => keyValuePair.Key+" references the Windows Runtime metadata "+x.Name));
 			}
 			Assert.AreEqual(0,listViolations.Count,string.Join("; ",listViolations));
 		}

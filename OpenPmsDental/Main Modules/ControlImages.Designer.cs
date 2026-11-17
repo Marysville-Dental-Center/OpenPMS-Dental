@@ -31,13 +31,13 @@
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ControlImages));
 			this.imageListTools2 = new System.Windows.Forms.ImageList(this.components);
-			this.menuForms = new System.Windows.Forms.ContextMenu();
-			this.menuMounts = new System.Windows.Forms.ContextMenu();
-			this.menuTree = new System.Windows.Forms.ContextMenu();
-			this.menuItemTreePrint = new System.Windows.Forms.MenuItem();
-			this.menuItem9 = new System.Windows.Forms.MenuItem();
-			this.menuItem10 = new System.Windows.Forms.MenuItem();
-			this.menuItemTasks = new System.Windows.Forms.MenuItem();
+			this.menuForms = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.menuMounts = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.menuTree = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.menuItemTreePrint = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItem9 = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItem10 = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemTasks = new System.Windows.Forms.ToolStripMenuItem();
 			this.imageListTree = new System.Windows.Forms.ImageList(this.components);
 			this.panelNote = new System.Windows.Forms.Panel();
 			this.labelInvalidSig = new System.Windows.Forms.Label();
@@ -103,7 +103,7 @@
 			// 
 			// menuTree
 			// 
-			this.menuTree.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+			this.menuTree.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuItemTreePrint,
             this.menuItem9,
             this.menuItem10,
@@ -111,25 +111,21 @@
 			// 
 			// menuItemTreePrint
 			// 
-			this.menuItemTreePrint.Index = 0;
 			this.menuItemTreePrint.Text = "Print";
 			this.menuItemTreePrint.Click += new System.EventHandler(this.menuTree_Click);
 			// 
 			// menuItem9
 			// 
-			this.menuItem9.Index = 1;
 			this.menuItem9.Text = "Delete";
 			this.menuItem9.Click += new System.EventHandler(this.menuTree_Click);
 			// 
 			// menuItem10
 			// 
-			this.menuItem10.Index = 2;
 			this.menuItem10.Text = "Info";
 			this.menuItem10.Click += new System.EventHandler(this.menuTree_Click);
 			// 
 			// menuItemTasks
 			// 
-			this.menuItemTasks.Index = 3;
 			this.menuItemTasks.Text = "Find Tasks";
 			this.menuItemTasks.Click += new System.EventHandler(this.menuTree_Click);
 			// 
@@ -470,16 +466,16 @@
 		}
 
 		#endregion
-		private System.Windows.Forms.ContextMenu menuForms;
+		private System.Windows.Forms.ContextMenuStrip menuForms;
 		private UI.ToolBarOD toolBarPaint;
-		private System.Windows.Forms.ContextMenu menuMounts;
+		private System.Windows.Forms.ContextMenuStrip menuMounts;
 		private System.Windows.Forms.ImageList imageListTools2;
 		private OpenPmsDental.ControlImageDock controlImageDock;
-		private System.Windows.Forms.ContextMenu menuTree;
-		private System.Windows.Forms.MenuItem menuItemTreePrint;
-		private System.Windows.Forms.MenuItem menuItem9;
-		private System.Windows.Forms.MenuItem menuItem10;
-		private System.Windows.Forms.MenuItem menuItemTasks;
+		private System.Windows.Forms.ContextMenuStrip menuTree;
+		private System.Windows.Forms.ToolStripMenuItem menuItemTreePrint;
+		private System.Windows.Forms.ToolStripMenuItem menuItem9;
+		private System.Windows.Forms.ToolStripMenuItem menuItem10;
+		private System.Windows.Forms.ToolStripMenuItem menuItemTasks;
 		private System.Windows.Forms.ImageList imageListTree;
 		private System.Windows.Forms.Panel panelNote;
 		private System.Windows.Forms.Label labelInvalidSig;

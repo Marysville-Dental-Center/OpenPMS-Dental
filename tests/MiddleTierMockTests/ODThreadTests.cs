@@ -2,6 +2,9 @@
 // tests are not ported), moved here by package S0-T of the .NET 10 plan. Each test keeps its name and its arrange, act and assert; only the
 // harness changed: the scratch database of ScratchDb.cs instead of the legacy unittest database and TestBase, and the two SetDb tests connect
 // their thread to a second scratch database whose name starts with s0t_ (the legacy test named it after the test method) on 127.0.0.1.
+// Package S3a-1 (no more Thread.Abort) rewrote the two tests that relied on Join aborting a thread, ODThread_RunParallel_IsSynchronous and
+// ODThread_CatchThreadAbortException, for cooperative cancellation (they keep their names), and added the ODThread_JoinTimeout_ and
+// ODThread_RunParallel_Timeout tests: a Join that times out returns false, asks the thread to quit and lets it finish on its own.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using CodeBase;
 using DataConnectionBase;
@@ -176,53 +179,168 @@ namespace MiddleTierMockTests {
 
 		[TestMethod]
 		///<summary>Tests that RunParallel itself is a synchronous method call, meaning that any subsequent code will not execute until either the timeout
-		///is reached or all actions are completed.</summary>
+		///is reached or all actions are completed. S3a-1: the timeout no longer aborts the action's thread; RunParallel still returns at the timeout,
+		///before the action finished, and the action then runs to its end on its own. Both the legacy and the improved path (the legacy test ran the
+		///improved path twice).</summary>
 		public void ODThread_RunParallel_IsSynchronous() {
-			int timeoutMS=1;
-			DateTime start=DateTime.Now;
+			ODThread_RunParallel_IsSynchronous(isLegacy:true);
+			ODThread_RunParallel_IsSynchronous(isLegacy:false);
+		}
+
+		private void ODThread_RunParallel_IsSynchronous(bool isLegacy) {
+			//Long enough that the pool thread surely reaches the action before the timeout: a Join that times out first sets HasQuit, and then no
+			//action starts at all (on a loaded machine starting the thread can take longer than a timer tick).
+			int timeoutMS=1000;
 			object testObject=null;
-			bool isRunParallelFinished=false;
+			ManualResetEventSlim manualResetEventActionStarted=new ManualResetEventSlim(false);
+			ManualResetEventSlim manualResetEventRunParallelFinished=new ManualResetEventSlim(false);
+			ManualResetEventSlim manualResetEventActionEnded=new ManualResetEventSlim(false);
 			List<Action> listActions=new List<Action>();
 			listActions.Add(() => {
-				while(!isRunParallelFinished) {
-					//Wait here until ODThread.RunParallel finishes.
+				manualResetEventActionStarted.Set();
+				try {
+					//Wait here until ODThread.RunParallel finishes (bounded, so that a failing test cannot leave the thread behind for long).
+					manualResetEventRunParallelFinished.Wait(TimeSpan.FromSeconds(30));
+					testObject=new object();//Runs only after RunParallel returned.
 				}
-				testObject=new object();//This line should never execute.
+				finally {
+					manualResetEventActionEnded.Set();
+				}
 			});
 			int numThreads=4;//Mimic what is used in AccountModules.GetAll(...).
-			ODThread.RunParallel(listActions,timeoutMS,numThreads);
-			isRunParallelFinished=true;
-			Assert.IsNull(testObject);//Thread did not finish naturally; was aborted due to timeout.
-			isRunParallelFinished=false;
-			ODThread.RunParallel(listActions,timeoutMS,numThreads,isLegacy:false);
-			isRunParallelFinished=true;
-			Assert.IsNull(testObject);//Thread did not finish naturally; was aborted due to timeout.
+			ODThread.RunParallel(listActions,timeoutMS,numThreads,isLegacy:isLegacy);
+			Assert.IsTrue(manualResetEventActionStarted.IsSet,"isLegacy="+isLegacy+": the action had not started when the "+timeoutMS+" ms timeout was "
+				+"reached (the machine was too slow to start the thread); the test cannot check anything further.");
+			Assert.IsNull(testObject,"isLegacy="+isLegacy+": RunParallel returned at the timeout, before the action finished.");
+			manualResetEventRunParallelFinished.Set();
+			//The thread was not aborted: the action finishes on its own.
+			Assert.IsTrue(manualResetEventActionEnded.Wait(TimeSpan.FromSeconds(30)),"isLegacy="+isLegacy+": the action ended on its own.");
+			Assert.IsNotNull(testObject,"isLegacy="+isLegacy+": the action ran to its end.");
 		}
 
 		[TestMethod]
-		///<summary>ODThread should be able to catch all exceptions after abort is called on it. If this test fails, an exception is being thrown and 
-		///not being caught from within ODThread.</summary>
+		///<summary>ODThread should be able to catch all exceptions after a Join timed out. If this test fails, an exception is being thrown and
+		///not being caught from within ODThread. S3a-1: Join no longer aborts the thread; a Join that times out wakes the thread and asks it to quit
+		///(HasQuit), the worker stops cooperatively, and the exception it throws then is still caught quietly within ODThread, as the exception
+		///after the old abort was.</summary>
 		public void ODThread_CatchThreadAbortException() {
 			bool result=true;
+			ManualResetEventSlim manualResetEventStarted=new ManualResetEventSlim(false);
 			ODThread thread=new ODThread(o => {
+				manualResetEventStarted.Set();
 				try {
-					Thread.Sleep(TimeSpan.FromMinutes(10));
+					o.Wait((int)TimeSpan.FromMinutes(10).TotalMilliseconds);//The Join that times out wakes this wait.
+					if(o.HasQuit) {
+						throw new OperationCanceledException("The thread was asked to quit.");
+					}
 				}
 				catch(Exception ex) {
-					//The thread abort exception will come in here. Because of some code in this exception, a different type of exception is thrown.
+					//The cancellation comes in here. Because of some code in this exception, a different type of exception is thrown.
 					ex.DoNothing();
 					throw new Exception("Exception that is not a ThreadAbortException");
 				}
 			});
 			thread.AddExceptionHandler(ex => {
-				//If the exception handler is every reached, the exception caused by aborting was not caught correctly.
+				//If the exception handler is every reached, the exception after the timed-out Join was not caught correctly.
 				result=false;
 			});
 			thread.Start();
-			Thread.Sleep(TimeSpan.FromSeconds(1));//Give the thread a chance to start.
-			thread.Join(0);//Will cause abort to occur instantly.
-			thread.Join(Timeout.Infinite);//Now actually join and wait for the thread to finish.
+			Assert.IsTrue(manualResetEventStarted.Wait(TimeSpan.FromSeconds(30)),"Give the thread a chance to start.");
+			Assert.IsFalse(thread.Join(0),"Join times out at once and returns false; it does not throw.");
+			Assert.IsTrue(thread.HasQuit,"The timed-out Join asked the thread to quit.");
+			Assert.IsTrue(thread.Join(30000),"Now actually join and wait for the thread to finish: it stopped on its own.");
 			Assert.IsTrue(result);
+		}
+
+		///<summary>S3a-1: a Join that times out returns false and does not stop the thread: the thread runs on, sees HasQuit, becomes a background
+		///thread (so it cannot keep the program from exiting) and finishes on its own. Its exit handler does not fire, as after the old abort.</summary>
+		[TestMethod]
+		public void ODThread_JoinTimeout_ReturnsFalse_ThreadFinishesOnItsOwn() {
+			ManualResetEventSlim manualResetEventStarted=new ManualResetEventSlim(false);
+			ManualResetEventSlim manualResetEventGo=new ManualResetEventSlim(false);
+			ManualResetEventSlim manualResetEventEnded=new ManualResetEventSlim(false);
+			bool isBackgroundBefore=true;
+			bool isBackgroundAfter=false;
+			bool hasQuitSeen=false;
+			bool hasExitHandlerRun=false;
+			ODThread thread=new ODThread(o => {
+				isBackgroundBefore=Thread.CurrentThread.IsBackground;
+				manualResetEventStarted.Set();
+				manualResetEventGo.Wait(TimeSpan.FromSeconds(30));
+				isBackgroundAfter=Thread.CurrentThread.IsBackground;
+				hasQuitSeen=o.HasQuit;
+				manualResetEventEnded.Set();
+			});
+			thread.AddExitHandler(o => hasExitHandlerRun=true);
+			thread.Name=MethodBase.GetCurrentMethod().Name;
+			thread.Start();
+			Assert.IsTrue(manualResetEventStarted.Wait(TimeSpan.FromSeconds(30)));
+			Assert.IsFalse(thread.Join(10),"The timeout is reached while the worker runs.");
+			Assert.IsFalse(manualResetEventEnded.IsSet,"The worker was not stopped by the Join.");
+			manualResetEventGo.Set();
+			Assert.IsTrue(manualResetEventEnded.Wait(TimeSpan.FromSeconds(30)),"The worker finished on its own.");
+			Assert.IsTrue(thread.Join(30000));
+			Assert.IsFalse(isBackgroundBefore,"An ODThread is a foreground thread until a Join times out.");
+			Assert.IsTrue(isBackgroundAfter,"After the timed-out Join the thread is a background thread.");
+			Assert.IsTrue(hasQuitSeen,"The timed-out Join asked the thread to quit.");
+			Assert.IsFalse(hasExitHandlerRun,"The exit handler does not fire after a Join timed out.");
+		}
+
+		///<summary>S3a-1: a thread that runs on an interval and is waiting for its next run when a Join times out is woken up and quits, in place of
+		///the old abort; it does not run its worker again.</summary>
+		[TestMethod]
+		public void ODThread_JoinTimeout_IntervalThreadQuits() {
+			int countRuns=0;
+			ManualResetEventSlim manualResetEventFirstRun=new ManualResetEventSlim(false);
+			ODThread thread=new ODThread((int)TimeSpan.FromMinutes(10).TotalMilliseconds,o => {
+				Interlocked.Increment(ref countRuns);
+				manualResetEventFirstRun.Set();
+			});
+			thread.Name=MethodBase.GetCurrentMethod().Name;
+			thread.Start();
+			Assert.IsTrue(manualResetEventFirstRun.Wait(TimeSpan.FromSeconds(30)));
+			Assert.IsFalse(thread.Join(50),"The thread waits ten minutes for its next run.");
+			Assert.IsTrue(thread.Join(30000),"Woken up and asked to quit, the thread ends without waiting out its interval.");
+			Assert.AreEqual(1,countRuns);
+		}
+
+		///<summary>S3a-1: when RunParallel's timeout is reached its threads are told to quit: the action each thread is in runs to its end, and no thread
+		///starts another action (they used to be aborted, which also stopped the rest). One thread, two actions; the second never runs.</summary>
+		[TestMethod]
+		public void ODThread_RunParallel_TimeoutStartsNoFurtherAction() {
+			ODThread_RunParallel_TimeoutStartsNoFurtherAction(isLegacy:true);
+			ODThread_RunParallel_TimeoutStartsNoFurtherAction(isLegacy:false);
+		}
+
+		private void ODThread_RunParallel_TimeoutStartsNoFurtherAction(bool isLegacy) {
+			//Long enough that the pool thread surely reaches the first action before the timeout (see ODThread_RunParallel_IsSynchronous).
+			int timeoutMS=1000;
+			ManualResetEventSlim manualResetEventFirstStarted=new ManualResetEventSlim(false);
+			ManualResetEventSlim manualResetEventGo=new ManualResetEventSlim(false);
+			ManualResetEventSlim manualResetEventFirstEnded=new ManualResetEventSlim(false);
+			bool hasFirstRun=false;
+			bool hasSecondRun=false;
+			List<Action> listActions=new List<Action>();
+			listActions.Add(() => {
+				manualResetEventFirstStarted.Set();
+				try {
+					manualResetEventGo.Wait(TimeSpan.FromSeconds(30));
+					hasFirstRun=true;
+				}
+				finally {
+					manualResetEventFirstEnded.Set();
+				}
+			});
+			listActions.Add(() => hasSecondRun=true);
+			ODThread.RunParallel(listActions,timeoutMS,numThreads:1,isLegacy:isLegacy);
+			Assert.IsTrue(manualResetEventFirstStarted.IsSet,"isLegacy="+isLegacy+": the first action had not started when the "+timeoutMS+" ms timeout "
+				+"was reached (the machine was too slow to start the thread); the test cannot check anything further.");
+			Assert.IsFalse(hasFirstRun,"isLegacy="+isLegacy+": RunParallel returned at the timeout.");
+			manualResetEventGo.Set();
+			Assert.IsTrue(manualResetEventFirstEnded.Wait(TimeSpan.FromSeconds(30)));
+			Thread.Sleep(500);//Time in which a thread that went on would have started the second action.
+			Assert.IsTrue(hasFirstRun,"isLegacy="+isLegacy+": the running action finished on its own.");
+			Assert.IsFalse(hasSecondRun,"isLegacy="+isLegacy+": no action starts after the timeout.");
 		}
 
 		[TestMethod]

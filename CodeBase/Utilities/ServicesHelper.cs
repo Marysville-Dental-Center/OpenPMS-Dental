@@ -13,20 +13,61 @@ using System.Xml;
 namespace CodeBase {
 	///<summary>This is a helper class meant to be used to easily manage Windows services.</summary>
 	public class ServicesHelper {
-		///<summary>[CurrentDirectory]/InstallUtil/installutil.exe when an installation has one, else the .NET Framework's own InstallUtil.exe. The
-		///program ships no installutil.exe (it is Microsoft's and not redistributable).</summary>
-		private static string _installUtilPath=GetInstallUtilPath();
+		//Services are installed and removed with the Windows Service Controller, sc.exe (S3a-7 of the .NET 10 move, docs/port-notes/S3a-7.md).
+		//InstallUtil.exe and System.Configuration.Install do not exist on .NET, and InstallUtil cannot load a .NET 10 assembly. sc.exe creates
+		//every service with the settings the HL7 service's ProjectInstaller gave through InstallUtil: its own process, started automatically
+		//(not delayed), normal error control, the LocalSystem account, the display name equal to the service name, and no description.
+		///<summary>sc.exe's type= value: a service in its own process (ServiceInstaller's Win32OwnProcess).</summary>
+		public const string ScServiceType="own";
+		///<summary>sc.exe's start= value: started automatically when Windows starts, not delayed (the ProjectInstaller's
+		///ServiceStartMode.Automatic, DelayedAutoStart false).</summary>
+		public const string ScStartType="auto";
+		///<summary>sc.exe's error= value: Windows logs a start failure and goes on starting (ServiceInstaller's SERVICE_ERROR_NORMAL).</summary>
+		public const string ScErrorControl="normal";
+		///<summary>sc.exe's obj= value: the account the service runs as (the ProjectInstaller's ServiceAccount.LocalSystem).</summary>
+		public const string ScAccount="LocalSystem";
+		///<summary>The exit code (and Win32 error) of sc.exe when the caller may not install or remove services: not run as administrator.</summary>
+		public const int ScErrorAccessDenied=5;
+		///<summary>sc.exe's exit code when no service has the name (ERROR_SERVICE_DOES_NOT_EXIST).</summary>
+		public const int ScErrorServiceDoesNotExist=1060;
+		///<summary>sc.exe's exit code when the service is already marked for deletion (ERROR_SERVICE_MARKED_FOR_DELETE).</summary>
+		public const int ScErrorServiceMarkedForDelete=1072;
+		///<summary>sc.exe's exit code when a service with the name is already installed (ERROR_SERVICE_EXISTS).</summary>
+		public const int ScErrorServiceExists=1073;
 
-		private static string GetInstallUtilPath() {
-			string pathLocal=Path.Combine(Directory.GetCurrentDirectory(),"InstallUtil","installutil.exe");
-			if(File.Exists(pathLocal)) {
-				return pathLocal;
-			}
-			return Path.Combine(System.Runtime.InteropServices.RuntimeEnvironment.GetRuntimeDirectory(),"InstallUtil.exe");
-		}
+		///<summary>Starts a process (file name, arguments, working directory or empty), waits up to 10 seconds for it and returns its standard
+		///output and exit code. Every process ServicesHelper starts (sc.exe, cmd.exe for sc sdshow/sdset, mysqld.exe --remove) goes through it.
+		///Tests replace it with a fake, so that no test runs sc.exe or creates, deletes or configures a real service.</summary>
+		internal static Func<string,string,string,ServiceProcessResult> FuncRunProcess=RunProcess;
+		///<summary>Returns the ImagePath of the installed service with the name, from the registry, without its quotes; null when no service has
+		///the name. Tests replace it with a fake.</summary>
+		internal static Func<string,string> FuncGetImagePath=GetImagePathFromRegistry;
+		///<summary>How long Uninstall waits for the service to stop after sc.exe delete, in seconds (S3a-FU1). InstallUtil's ServiceInstaller
+		///waited 10 seconds for the stop and then slept 5 more; Stop's own default is 7.</summary>
+		public const int UninstallStopTimeoutSeconds=15;
+		///<summary>The Application event log, where InstallUtil's ServiceInstaller registered a source named after the service.</summary>
+		public const string EventLogNameApplication="Application";
+		///<summary>Stops the service with the name and waits for it up to UninstallStopTimeoutSeconds (Stop). Tests replace it with a fake, so that
+		///no test stops a real service.</summary>
+		internal static Func<string,bool> FuncStopService=serviceName => Stop(GetServiceByServiceName(serviceName),timeoutSeconds:UninstallStopTimeoutSeconds);
+		///<summary>Registers the event log source in the Application log when it is not registered yet (RegisterEventLogSource). Called only
+		///after sc.exe create succeeded, so only from an elevated process. Tests replace it with a fake, so that no test creates a real source.
+		///</summary>
+		internal static Action<string> ActionRegisterEventLogSource=RegisterEventLogSource;
+		///<summary>Removes the event log source when it is registered in the Application log (RemoveEventLogSource). Called only after sc.exe delete
+		///succeeded, so only from an elevated process. Tests replace it with a fake, so that no test deletes a real source.</summary>
+		internal static Action<string> ActionRemoveEventLogSource=RemoveEventLogSource;
 
 		///<summary>Executes a process and waits up to 10 seconds for the process to execute.</summary>
 		private static void ExecuteProcess(string fileName,string arguments,out string standardOutput,out int exitCode,string workingDirectory="") {
+			ServiceProcessResult serviceProcessResult=FuncRunProcess(fileName,arguments,workingDirectory??"");
+			standardOutput=serviceProcessResult.StandardOutput??"";
+			exitCode=serviceProcessResult.ExitCode;
+		}
+
+		///<summary>The process start behind FuncRunProcess. Redirects standard output, so it uses CreateProcess (UseShellExecute=false): the caller
+		///must already be elevated to install or remove a service (ServiceManager is, by its manifest).</summary>
+		private static ServiceProcessResult RunProcess(string fileName,string arguments,string workingDirectory) {
 			Process process=new Process();
 			if(!string.IsNullOrEmpty(workingDirectory)) {
 				process.StartInfo.WorkingDirectory=workingDirectory;
@@ -36,9 +77,82 @@ namespace CodeBase {
 			process.StartInfo.UseShellExecute=false;
 			process.StartInfo.RedirectStandardOutput=true;
 			process.Start();
-			standardOutput=process.StandardOutput.ReadToEnd();
+			ServiceProcessResult serviceProcessResult=new ServiceProcessResult();
+			serviceProcessResult.StandardOutput=process.StandardOutput.ReadToEnd();
 			process.WaitForExit(10000);
-			exitCode=process.ExitCode;
+			serviceProcessResult.ExitCode=process.ExitCode;
+			return serviceProcessResult;
+		}
+
+		///<summary>The full path of sc.exe in the Windows system folder: System32 (which file system redirection turns into SysWOW64 for a
+		///32-bit process on 64-bit Windows, which has its own sc.exe), never a sc.exe found on the PATH or in the current folder.</summary>
+		public static string GetScExePath() {
+			return Path.Combine(Environment.SystemDirectory,"sc.exe");
+		}
+
+		///<summary>The arguments of the sc.exe command that installs the service: the name, the exe's full path in quotes as the ImagePath (as
+		///InstallUtil wrote it; the HL7 service finds its own name by the folder of its ImagePath), and the settings of the Sc constants. Throws
+		///ArgumentException for a name or path sc.exe cannot take.</summary>
+		public static string GetScCreateArguments(string serviceName,string exeFullPath) {
+			ValidateServiceName(serviceName);
+			//A path that ends in a backslash would put \" before the closing quote, which sc.exe reads as an escaped quote (S3a-FU1); it names a
+			//folder anyway, not an exe.
+			if(string.IsNullOrWhiteSpace(exeFullPath) || exeFullPath.Contains("\"") || exeFullPath.EndsWith("\\") || !Path.IsPathRooted(exeFullPath)) {
+				throw new ArgumentException("The service's executable must be a full path without quotes that does not end in a backslash: "+exeFullPath);
+			}
+			//binPath= "\"C:\...\x.exe\"": sc.exe takes the quoted path, quotes included, as the ImagePath. sc.exe needs the space after each "=".
+			return "create \""+serviceName+"\""
+				+" binPath= \"\\\""+exeFullPath+"\\\"\""
+				+" type= "+ScServiceType
+				+" start= "+ScStartType
+				+" error= "+ScErrorControl
+				+" obj= "+ScAccount
+				+" DisplayName= \""+serviceName+"\"";
+		}
+
+		///<summary>The arguments of the sc.exe command that removes the service. Throws ArgumentException for a name sc.exe cannot take.</summary>
+		public static string GetScDeleteArguments(string serviceName) {
+			ValidateServiceName(serviceName);
+			return "delete \""+serviceName+"\"";
+		}
+
+		///<summary>A service name is not empty and holds no quote, slash or backslash (Windows refuses slashes in service names).</summary>
+		private static void ValidateServiceName(string serviceName) {
+			if(string.IsNullOrWhiteSpace(serviceName) || serviceName.IndexOfAny(new char[] { '"','/','\\' })>=0) {
+				throw new ArgumentException("Invalid service name: "+serviceName);
+			}
+		}
+
+		///<summary>The Win32 error of an sc.exe run: its exit code when not 0, else the number in a "[SC] ... FAILED nnnn:" line of its output,
+		///else 0 (success).</summary>
+		public static int GetScErrorCode(int exitCode,string standardOutput) {
+			if(exitCode!=0) {
+				return exitCode;
+			}
+			Match match=Regex.Match(standardOutput??"",@"FAILED\s+(\d+)\s*:");
+			if(match.Success && int.TryParse(match.Groups[1].Value,out int errorCode)) {
+				return errorCode;
+			}
+			return 0;
+		}
+
+		///<summary>What an sc.exe error means for the person installing or removing a service, in one sentence; empty for 0 (success). The
+		///output of sc.exe itself is shown below it.</summary>
+		public static string GetScErrorText(int errorCode) {
+			switch(errorCode) {
+				case 0:
+					return "";
+				case ScErrorAccessDenied:
+					return "Access is denied. Installing or removing a service needs an administrator: run the program as administrator.";
+				case ScErrorServiceDoesNotExist:
+					return "No service with this name is installed.";
+				case ScErrorServiceMarkedForDelete:
+					return "The service is already marked for removal. Close the Services window and any program that has the service open, or restart the computer.";
+				case ScErrorServiceExists:
+					return "A service with this name is already installed.";
+				default:
+					return "sc.exe failed with error "+errorCode+".";
+			}
 		}
 
 		///<summary>Returns true if the service was installed successfully.</summary>
@@ -61,15 +175,84 @@ namespace CodeBase {
 			return false;
 		}
 
-		///<summary>Utilizes "installutil.exe" to install the serviceFileInfo with the corresponding serviceName passed in.
-		///The out parameters "standardOutput" and "exitCode" will contain the results of the "Process" execution.</summary>
+		///<summary>Utilizes "sc.exe create" to install the serviceFileInfo with the corresponding serviceName passed in, with the settings of the
+		///Sc constants (GetScCreateArguments). The out parameters "standardOutput" and "exitCode" will contain the results of the "Process"
+		///execution: exitCode is sc.exe's Win32 error, for example ScErrorServiceExists or ScErrorAccessDenied (GetScErrorText).
+		///After a successful create the event log sources of GetEventLogSourcesToRegister are registered in the Application log, as InstallUtil's
+		///ServiceInstaller did for the source named after the service (S3a-FU1).</summary>
 		public static void Install(string serviceName,FileInfo serviceFileInfo,out string standardOutput,out int exitCode) {
-			//Use the Windows Service Controller to show the "security descriptor" for the current service via a command prompt.
-			ExecuteProcess(_installUtilPath
-				,"/ServiceName="+serviceName+" \""+serviceFileInfo.FullName+"\""
+			ExecuteProcess(GetScExePath()
+				,GetScCreateArguments(serviceName,serviceFileInfo.FullName)
 				,out standardOutput
 				,out exitCode
 				,serviceFileInfo.DirectoryName);
+			if(GetScErrorCode(exitCode,standardOutput)!=0) {
+				return;//Nothing installed; a refused create (5) also means this process is not elevated, and registering a source needs that too.
+			}
+			foreach(string source in GetEventLogSourcesToRegister(serviceName,serviceFileInfo.Name)) {
+				ActionRegisterEventLogSource(source);
+			}
+		}
+
+		///<summary>The event log sources Install registers for a new service: the one named after the service (InstallUtil's ServiceInstaller
+		///registered it, and ServiceBase writes the service's start and stop entries under it), and for the HL7 service's exe also
+		///ProgramNames.EventLogSourceHL7, the source its messages are written under whatever the service is named. Registering it while elevated
+		///means a later run that is not elevated (the HL7 debug window) can write without creating it, which needs an administrator.
+		///Uninstall removes only the source named after the service, and never EventLogSourceHL7 (GetEventLogSourceToRemove): every HL7 service
+		///writes its messages under it, whatever it is named, so another one may still be installed.</summary>
+		public static List<string> GetEventLogSourcesToRegister(string serviceName,string exeFileName) {
+			List<string> listSources=new List<string>() { serviceName };
+			if(string.Equals(exeFileName,ProgramNames.HL7ServiceName+".exe",StringComparison.OrdinalIgnoreCase)
+				&& !listSources.Contains(ProgramNames.EventLogSourceHL7,StringComparer.OrdinalIgnoreCase))
+			{
+				listSources.Add(ProgramNames.EventLogSourceHL7);
+			}
+			return listSources;
+		}
+
+		///<summary>The event log source Uninstall removes for the service, or null for none: the source named after the service, except
+		///ProgramNames.EventLogSourceHL7, which the default-named HL7 service shares with every other HL7 service (lead fix at S3a-FU1's merge;
+		///a source left behind does no harm, a removed one makes a later HL7 debug window that is not elevated fail to write).</summary>
+		public static string GetEventLogSourceToRemove(string serviceName) {
+			if(string.Equals(serviceName,ProgramNames.EventLogSourceHL7,StringComparison.OrdinalIgnoreCase)) {
+				return null;
+			}
+			return serviceName;
+		}
+
+		///<summary>The real ActionRegisterEventLogSource: registers the source in the Application log unless it is registered already, in any log.
+		///A failure is ignored: the service is installed, and Windows creates the source at the service's first write (it runs as LocalSystem).
+		///</summary>
+		private static void RegisterEventLogSource(string source) {
+			try {
+				if(!EventLog.SourceExists(source)) {
+					EventLog.CreateEventSource(source,EventLogNameApplication);
+				}
+			}
+			catch(Exception ex) {
+				ex.DoNothing();
+			}
+		}
+
+		///<summary>The real ActionRemoveEventLogSource: removes the source only when it is registered in the Application log and is not the main
+		///program's source (ProgramNames.EventLogSource) or the log's own name; a source of another log is never touched. A failure is ignored: a
+		///source left behind does no harm.</summary>
+		private static void RemoveEventLogSource(string source) {
+			try {
+				if(string.Equals(source,ProgramNames.EventLogSource,StringComparison.OrdinalIgnoreCase)
+					|| string.Equals(source,EventLogNameApplication,StringComparison.OrdinalIgnoreCase))
+				{
+					return;
+				}
+				if(EventLog.SourceExists(source)
+					&& string.Equals(EventLog.LogNameFromSourceName(source,"."),EventLogNameApplication,StringComparison.OrdinalIgnoreCase))
+				{
+					EventLog.DeleteEventSource(source);
+				}
+			}
+			catch(Exception ex) {
+				ex.DoNothing();
+			}
 		}
 
 		public static bool IsMySQLService(string pathToExe) {
@@ -83,7 +266,7 @@ namespace CodeBase {
 				int exitCode;
 				Uninstall(service.ServiceName,out standardOutput,out exitCode);
 				//Check to see if the service was successfully removed.
-				return (GetServiceByServiceName(service.ServiceName)!=null);
+				return (GetServiceByServiceName(service.ServiceName)==null);
 			}
 			catch(Exception ex) {
 				ex.DoNothing();
@@ -92,30 +275,61 @@ namespace CodeBase {
 		}
 
 		private static void UninstallMySQLService(string mySQLServiceImagePath,string serviceName,out string standardOutput,out int exitCode) {
-			Stop(serviceName);
+			FuncStopService(serviceName);
 			string pathToExe=GetMySQLPathToExe(mySQLServiceImagePath);
 			//C:\Program Files\MariaDB 10.5\bin
 			string pathBin=Path.GetDirectoryName(pathToExe);
 			ExecuteProcess("CMD.exe","/C mysqld.exe --remove "+serviceName,out standardOutput,out exitCode,workingDirectory:pathBin);
 		}
 
-		///<summary>Utilizes "installutil.exe" to uninstall the serviceFileInfo with the corresponding serviceName passed in.
-		///Uses the local machines registry in order to find the corresponding service that shares the serviceName passed in.
-		///The out parameters "standardOutput" and "exitCode" will contain the results of the "Process" execution.</summary>
+		///<summary>Utilizes "sc.exe delete" to uninstall the service with the serviceName passed in, then stops it if it runs (Windows removes a
+		///service marked for deletion once it has stopped), in the order InstallUtil's ServiceInstaller used.
+		///Uses the local machines registry in order to find the corresponding service that shares the serviceName passed in: a MariaDB or MySQL
+		///service is removed by its own mysqld.exe --remove instead.
+		///The out parameters "standardOutput" and "exitCode" will contain the results of the "Process" execution: exitCode is sc.exe's Win32
+		///error, for example ScErrorServiceDoesNotExist or ScErrorAccessDenied (GetScErrorText).</summary>
 		public static void Uninstall(string serviceName,out string standardOutput,out int exitCode) {
-			RegistryKey hklm=Registry.LocalMachine;
-			hklm=hklm.OpenSubKey(@"System\CurrentControlSet\Services\"+serviceName);
-			string imagePath=hklm.GetValue("ImagePath").ToString().Replace("\"","");
-			if(IsMySQLService(imagePath)) {
+			Uninstall(serviceName,out standardOutput,out exitCode,out bool _);
+		}
+
+		///<summary>Uninstall, and isMySQLService tells which branch it took (S3a-FU1): true when the registry's ImagePath was a mysqld.exe and the
+		///service was removed by mysqld.exe --remove (exitCode is then mysqld's own exit code), false when sc.exe delete ran (exitCode is
+		///sc.exe's Win32 error, read with GetScErrorCode). The caller reads the result by this, not by a path it has itself.
+		///After a successful sc.exe delete (or 1072, already marked for deletion) the service is stopped and the event log source named after the
+		///service is removed, as InstallUtil's ServiceInstaller did.</summary>
+		public static void Uninstall(string serviceName,out string standardOutput,out int exitCode,out bool isMySQLService) {
+			string imagePath=FuncGetImagePath(serviceName);
+			isMySQLService=(imagePath!=null && IsMySQLService(imagePath));
+			if(isMySQLService) {
 				UninstallMySQLService(imagePath,serviceName,out standardOutput,out exitCode);
+				return;
 			}
-			else {
-				FileInfo serviceFile=new FileInfo(imagePath);
-				ExecuteProcess(_installUtilPath
-					,"/u /ServiceName="+serviceName+" \""+serviceFile.FullName+"\""
-					,out standardOutput
-					,out exitCode
-					,serviceFile.DirectoryName);
+			//No registry key: sc.exe answers ScErrorServiceDoesNotExist (1060) itself.
+			ExecuteProcess(GetScExePath()
+				,GetScDeleteArguments(serviceName)
+				,out standardOutput
+				,out exitCode);
+			int errorCode=GetScErrorCode(exitCode,standardOutput);
+			//Also stop a service already marked for deletion (1072): an earlier delete whose stop timed out leaves it running, and Windows removes
+			//it only once it has stopped.
+			if(errorCode==0 || errorCode==ScErrorServiceMarkedForDelete) {
+				FuncStopService(serviceName);
+				string sourceToRemove=GetEventLogSourceToRemove(serviceName);
+				if(sourceToRemove!=null) {
+					ActionRemoveEventLogSource(sourceToRemove);
+				}
+			}
+		}
+
+		///<summary>The ImagePath of the installed service from HKLM\System\CurrentControlSet\Services\serviceName without its quotes, or null
+		///when there is no such key or value.</summary>
+		private static string GetImagePathFromRegistry(string serviceName) {
+			using(RegistryKey registryKey=Registry.LocalMachine.OpenSubKey(@"System\CurrentControlSet\Services\"+serviceName)) {
+				object imagePath=registryKey?.GetValue("ImagePath");
+				if(imagePath==null) {
+					return null;
+				}
+				return imagePath.ToString().Replace("\"","");
 			}
 		}
 
@@ -588,5 +802,11 @@ namespace CodeBase {
 					}).ToList();
 			}
 		}
+	}
+
+	///<summary>What a process ServicesHelper ran gave back: its standard output and its exit code.</summary>
+	public class ServiceProcessResult {
+		public string StandardOutput="";
+		public int ExitCode;
 	}
 }

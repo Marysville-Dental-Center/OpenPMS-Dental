@@ -34,6 +34,9 @@
     <PackageReference Include="MSTest.TestFramework" />
     <PackageReference Include="MSTest.TestAdapter" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <!-- Reads the references and resources of built assemblies without loading them (S3a-8 of the .NET 10 move: .NET has no
+         reflection-only load). The NuGet package, from the offline package folder (nuget.config), at the version of Directory.Packages.props. -->
+    <PackageReference Include="Mono.Cecil" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
@@ -48,6 +51,10 @@
     <!-- The rule for tests that check a built file: inconclusive when it is not built, a failure with OPMS_REQUIRE_BUILD_OUTPUT=1. -->
     <Compile Include="..\tests\ProjectFileTests\BuildOutput.cs">
       <Link>BuildOutput.cs</Link>
+    </Compile>
+    <!-- The program's managed assembly: OpenPmsDental.dll on .NET (the .exe is the apphost), OpenPmsDental.exe on .NET Framework (S3a-8). -->
+    <Compile Include="..\tests\ProjectFileTests\ProgramAssembly.cs">
+      <Link>ProgramAssembly.cs</Link>
     </Compile>
   </ItemGroup>
   <ItemGroup>

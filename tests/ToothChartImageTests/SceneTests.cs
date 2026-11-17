@@ -165,16 +165,27 @@ namespace ToothChartImageTests {
 			//A scene whose state the 2D chart shows must change the picture; the ones it cannot show (3D only, or drawn by nothing today) are listed.
 			StaRunner.Run(() => {
 				string hashEmpty=Render2D(ChartScenes.SizeModule.Size,ChartColorSet.Module,ChartScenes.Get("empty-universal"));
+				//TC-5: the 2D chart draws free text, paint text other than "W" and the completed-extraction graphic too.
 				foreach(string name in new[] { "empty-fdi","primary-dentition","missing-posterior","hidden-premolars","extraction-statuses","select-one",
-					"drawing-segments","text-watch","colour-custom-chart-colours","extraction-completed","bridge-dark-cn","denture-light-tp-ec-r-cn" })
+					"drawing-segments","text-watch","colour-custom-chart-colours","extraction-completed","bridge-dark-cn","denture-light-tp-ec-r-cn",
+					"text-label-long","text-other","text-other-eo-r","text-label-past-edge","text-other-with-watch" })
 				{
 					Assert.AreNotEqual(hashEmpty,Render2D(ChartScenes.SizeModule.Size,ChartColorSet.Module,ChartScenes.Get(name)),name);
 				}
-				//Today no engine draws free text, orthodontic hardware, retained roots or space maintainers, paint text other than "W" and TextBelow.
-				foreach(string name in new[] { "text-label-long","ortho-brackets","retained-root","space-maintainer-tooth","text-other","text-other-eo-r",
-					"text-below-statuses","retained-root-statuses","space-maintainer-statuses" })
+				Assert.AreNotEqual(Render2D(ChartScenes.SizeModule.Size,ChartColorSet.Module,ChartScenes.Get("extraction-completed")),
+					Render2D(ChartScenes.SizeModule.Size,ChartColorSet.Module,ChartScenes.Get("extraction-completed-graphic")),
+					"The completed-extraction graphic draws the X in the 2D chart.");
+				//The 2D chart draws no orthodontic hardware, retained roots or space maintainers and has no ortho layout (TC-6), as Open Dental's own 2D
+				//chart (its 24.3 relay sent them only to Sparks3D, "not supported" otherwise; only the WPF chart draws them), and TextBelow is not in the
+				//picture (TC-5: the Chart module's strip under the date slider shows it).
+				foreach(string name in new[] { "ortho-brackets","retained-root","space-maintainer-tooth","retained-root-statuses","space-maintainer-statuses",
+					"text-below-statuses","ortho-wires","ortho-wire-in-bracket","ortho-elastics","ortho-hardware-normal-layout","space-maintainer-quadrant" })
 				{
 					Assert.AreEqual(hashEmpty,Render2D(ChartScenes.SizeModule.Size,ChartColorSet.Module,ChartScenes.Get(name)),name);
+				}
+				string hashPalmer=Render2D(ChartScenes.SizeModule.Size,ChartColorSet.Module,ChartScenes.Get("empty-palmer"));
+				foreach(string name in new[] { "ortho-mode","ortho-mode-hardware-off" }) {
+					Assert.AreEqual(hashPalmer,Render2D(ChartScenes.SizeModule.Size,ChartColorSet.Module,ChartScenes.Get(name)),name+": ortho mode and its hardware are not drawn in 2D.");
 				}
 			});
 		}

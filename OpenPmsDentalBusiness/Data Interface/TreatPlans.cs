@@ -261,6 +261,8 @@ namespace OpenPmsDentalBusiness{
 			//tp: Note, DateTP, SignatureText, SignaturePracticeText
 			//each proctp: Descript,PatAmt
 			//The procedures MUST be in the correct order, and we'll use ItemOrder to order them.
+			//The amounts are in the current culture, as every stored signature was made; a negative amount that rounds to zero is written "0.00",
+			//as .NET Framework wrote it, so the key stays the same on .NET (net10 plan, S3a-3).
 			StringBuilder stringBuilder = new StringBuilder();
 			stringBuilder.Append(treatPlan.Note);
 			stringBuilder.Append(treatPlan.DateTP.ToString("yyyyMMdd"));
@@ -268,7 +270,7 @@ namespace OpenPmsDentalBusiness{
 			stringBuilder.Append(treatPlan.SignaturePracticeText);
 			for(int i = 0;i<listProcTPs.Count;i++) {
 				stringBuilder.Append(listProcTPs[i].Descript);
-				stringBuilder.Append(listProcTPs[i].PatAmt.ToString("F2"));
+				stringBuilder.Append(ODNumberText.ToStringNoNegativeZero(listProcTPs[i].PatAmt,"F2",CultureInfo.CurrentCulture));
 			}
 			return stringBuilder.ToString();
 		}

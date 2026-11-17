@@ -487,10 +487,9 @@ namespace OpenPmsDental{
 					}
 				}
 			}//end HQ
-			if(textISA08.Text=="0135WCH00" && !radioSenderOD.Checked) {//Clinic
-				MsgBox.Show(this,"When using Emdeon, this software must be the sender.");
-				return false;
-			}
+			//X12-SENDER (lead fix at the merge): upstream refused a Sender TIN for Emdeon (ISA08 0135WCH00), because Emdeon took Open Dental Inc
+			//as the submitter. The practice is always the sender now, either through its billing provider (blank Sender TIN) or through the
+			//submitter ID Emdeon gives it (entered below), so both are allowed. Emdeon may need the practice registered as its submitter first.
 			if(comboFormat.SelectedIndex==(int)ElectronicClaimFormat.x837D_4010
 				|| comboFormat.SelectedIndex==(int)ElectronicClaimFormat.x837D_5010_dental
 				|| comboFormat.SelectedIndex==(int)ElectronicClaimFormat.x837_5010_med_inst)

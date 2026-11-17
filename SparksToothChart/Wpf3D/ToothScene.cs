@@ -143,16 +143,25 @@ namespace SparksToothChart.Wpf3D {
 		}
 	}
 
+	///<summary>TC-6: the 3D models of the chart that are no tooth. A ToothSceneItem3D names one by its ToothId, with group index 0; ToothMeshCache
+	///makes its mesh.</summary>
+	public static class ToothSceneShapes {
+		///<summary>A unit box (1 x 1 x 1 mm, centred on the origin), made with Helix Toolkit's MeshBuilder; each item scales and places it by its
+		///transform: the parts of an orthodontic bracket (ORTHO-2) and the bar of a space maintainer (SM-1).</summary>
+		public const string Box="box";
+	}
+
 	///<summary>One tooth group drawn in the 3D layer: which mesh (the model of a tooth ID and the index of the group in its ToothGraphic.Groups,
 	///the key of ToothMeshCache), with which colour, specular value and model transform, and with which winding. Immutable.</summary>
 	public sealed class ToothSceneItem3D {
-		///<summary>The model's tooth ID: 1-32, A-T or "implant".</summary>
+		///<summary>The model's tooth ID: 1-32, A-T or "implant"; or, since TC-6, a shape of ToothSceneShapes (ToothSceneShapes.Box).</summary>
 		public readonly string ToothId;
 		///<summary>The index of the group in the model's ToothGraphic.Groups.</summary>
 		public readonly int GroupIndex;
 		public readonly ToothGroupType GroupType;
-		///<summary>As the builder gives it, which is always opaque (alpha 255): the DirectX chart draws with blending off, and WPF does not sort
-		///transparent models. The item keeps the colour as given, so the scene tests guard the builder's colour paths (ToothSceneBuilder.GetGroupColor
+		///<summary>As the builder gives it: opaque (alpha 255), as the DirectX chart draws with blending off, except the chart's unerupted teeth
+		///(TC-3c, ToothSceneBuilder.UneruptedAlpha), which the builder puts into the scene's Items3DUnder, drawn beneath the opaque teeth. The
+		///item keeps the colour as given, so the scene tests guard the builder's colour paths (ToothSceneBuilder.GetGroupColor, GetGroupColorPerio
 		///and GetImplantColor) instead of a clamp here.</summary>
 		public readonly Color Color;
 		///<summary>The specular value of the group's material, 0 to 1 (DirectX's GetGroupMaterial rule).</summary>
@@ -165,8 +174,19 @@ namespace SparksToothChart.Wpf3D {
 		public readonly bool IsReversed;
 		///<summary>What the item is, for tests and messages: for example "8 facial" or "implant of 3".</summary>
 		public readonly string Source;
+		///<summary>TC-6 (SM-1): drawn in its colour exactly, unlit (an emissive-only material), as Open Dental's DirectX 11 chart draws a space
+		///maintainer's bar (198,0,0, the TP colour itself, in its screenshot). False for every tooth, implant and bracket, which are lit.</summary>
+		public readonly bool IsFlat;
 
-		public ToothSceneItem3D(string toothId,int groupIndex,ToothGroupType groupType,Color color,float specular,ChartMatrix transform,string source) {
+		public ToothSceneItem3D(string toothId,int groupIndex,ToothGroupType groupType,Color color,float specular,ChartMatrix transform,string source)
+			:this(toothId,groupIndex,groupType,color,specular,transform,source,false)
+		{
+		}
+
+		public ToothSceneItem3D(string toothId,int groupIndex,ToothGroupType groupType,Color color,float specular,ChartMatrix transform,string source,
+			bool isFlat)
+		{
+			IsFlat=isFlat;
 			ToothId=toothId;
 			GroupIndex=groupIndex;
 			GroupType=groupType;
@@ -179,11 +199,11 @@ namespace SparksToothChart.Wpf3D {
 
 		public bool IsEqualTo(ToothSceneItem3D other) {
 			return ToothId==other.ToothId && GroupIndex==other.GroupIndex && GroupType==other.GroupType && Color.ToArgb()==other.Color.ToArgb()
-				&& Specular==other.Specular && Transform.IsEqualTo(other.Transform) && IsReversed==other.IsReversed;
+				&& Specular==other.Specular && Transform.IsEqualTo(other.Transform) && IsReversed==other.IsReversed && IsFlat==other.IsFlat;
 		}
 
 		public override string ToString() {
-			return Source+": "+ToothId+" group "+GroupIndex+" ("+GroupType+"), #"+Color.ToArgb().ToString("X8")+(IsReversed?", reversed":"");
+			return Source+": "+ToothId+" group "+GroupIndex+" ("+GroupType+"), #"+Color.ToArgb().ToString("X8")+(IsReversed?", reversed":"")+(IsFlat?", flat":"");
 		}
 	}
 
@@ -369,11 +389,23 @@ namespace SparksToothChart.Wpf3D {
 		///<summary>DirectX's ambient and diffuse light: 0.4 and 0.6, or 0.6 and 0.4 in perio mode.</summary>
 		public readonly float LightAmbient;
 		public readonly float LightDiffuse;
+		///<summary>The opaque 3D items, drawn over Items3DUnder with depth testing among themselves.</summary>
 		public readonly ReadOnlyCollection<ToothSceneItem3D> Items3D;
+		///<summary>TC-3c (LOOK-2): the chart's half-transparent unerupted teeth, drawn beneath the opaque teeth: over the background with depth
+		///testing among themselves, and under every opaque item whatever their depth, as Open Dental's mixed-dentition screenshot shows (the
+		///primary teeth's roots crisp over the pale permanent crowns). The renderer and the live view draw them in a 3D layer of their own under
+		///that of Items3D. Empty in every scene without an unerupted tooth, and always in the perio chart.</summary>
+		public readonly ReadOnlyCollection<ToothSceneItem3D> Items3DUnder;
 		public readonly ReadOnlyCollection<ToothSceneItem2D> Items2D;
 
 		public ToothScene(Size size,Color colorBackground,bool isPerio,float widthProjection,float heightProjection,List<ToothSceneItem3D> listItems3D,
 			List<ToothSceneItem2D> listItems2D)
+			:this(size,colorBackground,isPerio,widthProjection,heightProjection,listItems3D,listItems2D,new List<ToothSceneItem3D>())
+		{
+		}
+
+		public ToothScene(Size size,Color colorBackground,bool isPerio,float widthProjection,float heightProjection,List<ToothSceneItem3D> listItems3D,
+			List<ToothSceneItem2D> listItems2D,List<ToothSceneItem3D> listItems3DUnder)
 		{
 			Size=size;
 			ColorBackground=Color.FromArgb(255,colorBackground);
@@ -383,6 +415,7 @@ namespace SparksToothChart.Wpf3D {
 			LightAmbient=isPerio?0.6f:0.4f;
 			LightDiffuse=isPerio?0.4f:0.6f;
 			Items3D=new List<ToothSceneItem3D>(listItems3D).AsReadOnly();
+			Items3DUnder=new List<ToothSceneItem3D>(listItems3DUnder).AsReadOnly();
 			Items2D=new List<ToothSceneItem2D>(listItems2D).AsReadOnly();
 		}
 
@@ -461,16 +494,24 @@ namespace SparksToothChart.Wpf3D {
 			return new PointF(xScreen+0.5f,yScreen+0.5f);
 		}
 
-		///<summary>True when other's 3D layer would give the same pixels: same size, background, light and the same 3D items in the same order. A
-		///change that touches only the 2D layer (selection, drawings, text) keeps the 3D layer, and the renderer reuses its last image.</summary>
+		///<summary>True when other's 3D layer would give the same pixels: same size, background, light and the same 3D items (opaque and beneath) in
+		///the same order. A change that touches only the 2D layer (selection, drawings, text) keeps the 3D layer, and the renderer reuses its last
+		///image.</summary>
 		public bool IsSame3DLayer(ToothScene other) {
 			if(other==null || other.Size!=Size || other.ColorBackground.ToArgb()!=ColorBackground.ToArgb() || other.IsPerio!=IsPerio
-				|| other.WidthProjection!=WidthProjection || other.HeightProjection!=HeightProjection || other.Items3D.Count!=Items3D.Count)
+				|| other.WidthProjection!=WidthProjection || other.HeightProjection!=HeightProjection)
 			{
 				return false;
 			}
-			for(int i=0;i<Items3D.Count;i++) {
-				if(!Items3D[i].IsEqualTo(other.Items3D[i])) {
+			return IsSameItems(Items3D,other.Items3D) && IsSameItems(Items3DUnder,other.Items3DUnder);
+		}
+
+		private static bool IsSameItems(ReadOnlyCollection<ToothSceneItem3D> listItems,ReadOnlyCollection<ToothSceneItem3D> listItemsOther) {
+			if(listItems.Count!=listItemsOther.Count) {
+				return false;
+			}
+			for(int i=0;i<listItems.Count;i++) {
+				if(!listItems[i].IsEqualTo(listItemsOther[i])) {
 					return false;
 				}
 			}
@@ -482,6 +523,9 @@ namespace SparksToothChart.Wpf3D {
 			StringBuilder stringBuilder=new StringBuilder();
 			stringBuilder.AppendLine("Scene "+Size.Width+"x"+Size.Height+(IsPerio?" perio":"")+", background #"+ColorBackground.ToArgb().ToString("X8")
 				+", projection "+WidthProjection.ToString(CultureInfo.InvariantCulture)+"x"+HeightProjection.ToString(CultureInfo.InvariantCulture)+" mm");
+			foreach(ToothSceneItem3D item in Items3DUnder) {
+				stringBuilder.AppendLine("3D under "+item);
+			}
 			foreach(ToothSceneItem3D item in Items3D) {
 				stringBuilder.AppendLine("3D "+item);
 			}

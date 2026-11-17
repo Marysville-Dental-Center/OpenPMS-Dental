@@ -1,0 +1,9 @@
+Scene: text-below-cut-to-fit
+Group: paint
+Description: Long TextBelow texts ("Implant planned" on 8 and 25, "Bone graft" on 1, "Watch" on primary teeth A and S) with primary tooth A shown. Since the parity round of TC-5 TextBelow is not in the tooth picture (the Chart module's strip shows it), so only the mixed dentition is drawn.
+Size: 500x370
+Colours: Printout
+Engine: Simple2D (ToothChart2D, GDI+)
+Bitmap: 500x370 Format32bppArgb
+Pixels SHA-256: b554f457337a0856414358b69b06238103ba2a6f859687504368cf0d25a77542
+Framework: .NET Framework 4.8, x86

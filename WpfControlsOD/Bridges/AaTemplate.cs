@@ -23,7 +23,7 @@ namespace OpenPmsDental.Bridges{
 				//There are two options here, depending on the bridge
 				//1. Launch program without any patient.
 				try {
-					Process.Start(path);//should start AaTemplate without bringing up a pt.
+					CodeBase.ODFileUtils.ProcessStart(path);//should start AaTemplate without bringing up a pt.
 				}
 				catch {
 					MessageBox.Show(path+" is not available.");
@@ -64,7 +64,7 @@ namespace OpenPmsDental.Bridges{
 				str+=pat.SSN;
 			}
 			try {
-				Process.Start(path,str);
+				CodeBase.ODFileUtils.ProcessStart(path,str);
 			}
 			catch(Exception ex) {
 				MessageBox.Show(ex.Message);

@@ -181,15 +181,20 @@ namespace LibraryUpdateTests {
 					if(!name.StartsWith("OpenPmsDental",StringComparison.OrdinalIgnoreCase)) {
 						continue;//The program's own assemblies.
 					}
-					AssemblyName[] arrayReferences;
+					//Read with Mono.Cecil from the metadata of a copy of the bytes, so nothing is loaded or locked and every folder's copy is read (S3a-8 of
+					//the .NET 10 move: .NET has no reflection-only load, which also could not read a second copy of an assembly it had read).
+					List<string> listReferences;
 					try {
-						arrayReferences=Assembly.ReflectionOnlyLoadFrom(path).GetReferencedAssemblies();
+						using(MemoryStream memoryStream=new MemoryStream(File.ReadAllBytes(path)))
+						using(Mono.Cecil.ModuleDefinition moduleDefinition=Mono.Cecil.ModuleDefinition.ReadModule(memoryStream)) {
+							listReferences=moduleDefinition.AssemblyReferences.Select(x => x.Name).ToList();
+						}
 					}
-					catch(Exception) {
-						continue;//Loaded already from another folder; the copy in this test's own folder is checked.
+					catch(BadImageFormatException) {
+						continue;//No managed code: a native file (on .NET, the program's apphost .exe beside its .dll).
 					}
-					listProblems.AddRange(arrayReferences.Where(x => _arrayRemoved.Contains(x.Name,StringComparer.OrdinalIgnoreCase))
-						.Select(x => path+" references "+x.Name));
+					listProblems.AddRange(listReferences.Where(x => _arrayRemoved.Contains(x,StringComparer.OrdinalIgnoreCase))
+						.Select(x => path+" references "+x));
 				}
 			}
 			Assert.AreEqual(0,listProblems.Count,string.Join("\r\n",listProblems));

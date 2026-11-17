@@ -22,6 +22,7 @@ namespace OpenPmsDental {
 		#region Windows Form Designer generated code
 
 		private void InitializeComponent(){
+			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormRpTreatmentFinder));
 			this.label1 = new System.Windows.Forms.Label();
 			this.checkIncludeNoIns = new OpenPmsDental.UI.CheckBox();
@@ -45,9 +46,9 @@ namespace OpenPmsDental {
 			this.butRefresh = new OpenPmsDental.UI.Button();
 			this.datePickerEnd = new OpenPmsDental.UI.ODDatePicker();
 			this.datePickerStart = new OpenPmsDental.UI.ODDatePicker();
-			this.contextRightClick = new System.Windows.Forms.ContextMenu();
-			this.menuItemFamily = new System.Windows.Forms.MenuItem();
-			this.menuItemAccount = new System.Windows.Forms.MenuItem();
+			this.contextRightClick = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.menuItemFamily = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemAccount = new System.Windows.Forms.ToolStripMenuItem();
 			this.gridMain = new OpenPmsDental.UI.GridOD();
 			this.buttonExport = new OpenPmsDental.UI.Button();
 			this.butLettersPreview = new OpenPmsDental.UI.Button();
@@ -295,19 +296,17 @@ namespace OpenPmsDental {
 			// 
 			// contextRightClick
 			// 
-			this.contextRightClick.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+			this.contextRightClick.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuItemFamily,
             this.menuItemAccount});
 			// 
 			// menuItemFamily
 			// 
-			this.menuItemFamily.Index = 0;
 			this.menuItemFamily.Text = "See Family";
 			this.menuItemFamily.Click += new System.EventHandler(this.menuItemFamily_Click);
 			// 
 			// menuItemAccount
 			// 
-			this.menuItemAccount.Index = 1;
 			this.menuItemAccount.Text = "See Account";
 			this.menuItemAccount.Click += new System.EventHandler(this.menuItemAccount_Click);
 			// 
@@ -448,9 +447,9 @@ namespace OpenPmsDental {
 		private OpenPmsDental.UI.GroupBox groupBox1;
 		private UI.Button butPrint;
 		private UI.Button butRefresh;
-		private ContextMenu contextRightClick;
-		private MenuItem menuItemFamily;
-		private MenuItem menuItemAccount;
+		private System.Windows.Forms.ContextMenuStrip contextRightClick;
+		private System.Windows.Forms.ToolStripMenuItem menuItemFamily;
+		private System.Windows.Forms.ToolStripMenuItem menuItemAccount;
 		private UI.Button butGotoFamily;
 		private UI.Button butGotoAccount;
 		private Label label2;

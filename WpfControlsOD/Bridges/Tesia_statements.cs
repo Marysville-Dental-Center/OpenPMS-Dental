@@ -96,7 +96,7 @@ namespace OpenPmsDental.Bridges {
 				writer.WriteElementString("EstInsPayments","");//optional.
 			}
 			else {//this is typical
-				writer.WriteElementString("EstInsPayments",guar.InsEst.ToString("F2"));//optional.
+				writer.WriteElementString("EstInsPayments",OpenPmsDentalBusiness.Bridges.EStatementAmounts.GetText(guar.InsEst));//optional.
 				amountDue-=guar.InsEst;
 			}
 			InstallmentPlan installPlan=InstallmentPlans.GetOneForFam(guar.PatNum);
@@ -106,11 +106,11 @@ namespace OpenPmsDental.Bridges {
 					amountDue=installPlan.MonthlyPayment;
 				}
 			}
-			writer.WriteElementString("AmountDue",amountDue.ToString("F2"));
-			writer.WriteElementString("Bal_0_30",guar.Bal_0_30.ToString("F2"));
-			writer.WriteElementString("Bal_31_60",guar.Bal_31_60.ToString("F2"));
-			writer.WriteElementString("Bal_61_90",guar.Bal_61_90.ToString("F2"));
-			writer.WriteElementString("BalOver90",guar.BalOver90.ToString("F2"));
+			writer.WriteElementString("AmountDue",OpenPmsDentalBusiness.Bridges.EStatementAmounts.GetText(amountDue));
+			writer.WriteElementString("Bal_0_30",OpenPmsDentalBusiness.Bridges.EStatementAmounts.GetText(guar.Bal_0_30));
+			writer.WriteElementString("Bal_31_60",OpenPmsDentalBusiness.Bridges.EStatementAmounts.GetText(guar.Bal_31_60));
+			writer.WriteElementString("Bal_61_90",OpenPmsDentalBusiness.Bridges.EStatementAmounts.GetText(guar.Bal_61_90));
+			writer.WriteElementString("BalOver90",OpenPmsDentalBusiness.Bridges.EStatementAmounts.GetText(guar.BalOver90));
 			writer.WriteEndElement();//AccountSummary
 			//Notes-----------------------------------------------------------------------------------
 			writer.WriteStartElement("Notes");

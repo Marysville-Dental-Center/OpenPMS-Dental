@@ -262,9 +262,13 @@ namespace OpenPmsDental {
 					continue;//Only create an adjustment if the late charge amount is greater than zero.
 				}
 				long provNum=GetProvNumForLateCharge(listStatementDatas[i].ProvNumPriGuarantor);
-				long adjNum=Adjustments.CreateLateChargeAdjustment((double)lateChargeAmount,dateForCharges
+				//S3a-1b: after a cancel no further late charge is made; the one under way is one unit (its log entries, the adjustment and the
+				//statement production rows that point to it). A no-op outside the progress window.
+				ODCancellation.ThrowIfCancellationRequested();
+				long adjNum=0;
+				ODCancellation.RunUncancellable(() => adjNum=Adjustments.CreateLateChargeAdjustment((double)lateChargeAmount,dateForCharges
 					,provNum,listStatementDatas[i].PatNumGuarantor,listStatementDatas[i].DateSent,
-					dateRangeEnd,listProcNumsOnLateCharge,listAdjNumsOnLateCharge,listPayPlanChargeNumsOnLateCharge);
+					dateRangeEnd,listProcNumsOnLateCharge,listAdjNumsOnLateCharge,listPayPlanChargeNumsOnLateCharge));
 				listLateChargeAdjNums.Add(adjNum);
 			}
 			return listLateChargeAdjNums;

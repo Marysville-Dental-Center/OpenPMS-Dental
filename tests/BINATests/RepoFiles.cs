@@ -4,8 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Mono.Cecil;
 
 namespace BINATests {
 	internal static class RepoFiles {
@@ -49,13 +49,13 @@ namespace BINATests {
 			return listFiles;
 		}
 
-		///<summary>The names of the assemblies a built file references, read from a copy of its bytes so the file stays unlocked. Reuses a copy that
-		///another test already loaded for reflection, because the same assembly cannot be loaded into that context twice.</summary>
+		///<summary>The names of the assemblies a built file references, read with Mono.Cecil from the metadata of a copy of its bytes, so the file
+		///stays unlocked and nothing is loaded (S3a-8 of the .NET 10 move: .NET has no reflection-only load).</summary>
 		public static List<string> ReferencedAssemblyNames(string path) {
-			string name=AssemblyName.GetAssemblyName(path).FullName;
-			Assembly assembly=AppDomain.CurrentDomain.ReflectionOnlyGetAssemblies().FirstOrDefault(x => x.FullName==name)
-				??Assembly.ReflectionOnlyLoad(File.ReadAllBytes(path));
-			return assembly.GetReferencedAssemblies().Select(x => x.Name).ToList();
+			using(MemoryStream memoryStream=new MemoryStream(File.ReadAllBytes(path)))
+			using(ModuleDefinition moduleDefinition=ModuleDefinition.ReadModule(memoryStream)) {
+				return moduleDefinition.AssemblyReferences.Select(x => x.Name).ToList();
+			}
 		}
 	}
 }

@@ -1,0 +1,13 @@
+UPDATE procedurelog SET ProcFee = 0.90 WHERE ProcNum = 9702
+UPDATE procedurelog SET ProcFee = 0.00 WHERE ProcNum = 9702
+UPDATE procedurelog SET ProcFee = 411.52 WHERE ProcNum = 9702
+UPDATE procedurelog SET ProcFee = -0.01 WHERE ProcNum = 9702
+UPDATE procedurelog SET ProcFee = 333333333333333.00 WHERE ProcNum = 9702
+UPDATE procedurelog SET DrugQty = 0.3333333 WHERE ProcNum = 9702
+UPDATE procedurelog SET DrugQty = 1.677722E+07 WHERE ProcNum = 9702
+UPDATE procedurelog SET DrugQty = 0.3 WHERE ProcNum = 9702
+UPDATE procedurelog SET DrugQty = 2.5E-08 WHERE ProcNum = 9702
+UPDATE preference SET ValueString = '0.3' WHERE PrefName = 'SalesTaxPercentage'
+UPDATE preference SET ValueString = '5.1832' WHERE PrefName = 'SalesTaxPercentage'
+UPDATE preference SET ValueString = '-1.11022302462516E-16' WHERE PrefName = 'SalesTaxPercentage'
+UPDATE preference SET ValueString = '33.3333333333333' WHERE PrefName = 'SalesTaxPercentage'

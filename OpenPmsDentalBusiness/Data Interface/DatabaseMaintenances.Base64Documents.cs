@@ -101,7 +101,10 @@ namespace OpenPmsDentalBusiness {
 				if(document==null || document.DocNum==0 || !document.Note.StartsWith(DOCUMENT_NOTE_PREFIX_BASE64,StringComparison.Ordinal)) {
 					continue;//Converted or deleted meanwhile, for example by someone opening it in the Images module.
 				}
-				string error=CreateDocumentFromBase64Note(document);
+				//One document is one unit (S3a-1b): the new document with its file and the placeholder's delete. A cancel in Database Maintenance's
+				//progress window stops the loop at the next document's progress event, never between the new document and the old one's delete.
+				string error="";
+				ODCancellation.RunUncancellable(() => error=CreateDocumentFromBase64Note(document));
 				if(error=="") {
 					result.CountCreated++;
 					continue;

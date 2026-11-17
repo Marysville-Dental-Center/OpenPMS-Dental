@@ -175,7 +175,7 @@ namespace OpenPmsDental{
 			ODToolBarButton button=new ODToolBarButton(Lan.g(this,"Consent"),-1,"","Consent");
 			if(SheetDefs.GetCustomForType(SheetTypeEnum.Consent).Count>0) {
 				button.Style=ODToolBarButtonStyle.DropDownButton;
-				button.DropDownMenu=menuConsent;
+				button.ContextMenuStripDropDown=menuConsent;
 			}
 			ToolBarMain.Buttons.Add(button);
 			//ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Save TP"),3,"","Create"));
@@ -343,7 +343,7 @@ namespace OpenPmsDental{
 				MsgBox.Show("Please select a patient.");
 				return;
 			}
-			SheetDef sheetDef=(SheetDef)(((MenuItem)sender).Tag);
+			SheetDef sheetDef=(SheetDef)(((ToolStripMenuItem)sender).Tag);
 			SheetDefs.GetFieldsAndParameters(sheetDef);
 			Sheet sheet=SheetUtil.CreateSheet(sheetDef,PatientCur.PatNum);
 			SheetParameter.SetParameter(sheet,"PatNum",PatientCur.PatNum);
@@ -370,16 +370,17 @@ namespace OpenPmsDental{
 			FormSheetFillEdit.ShowForm(sheet,FormSheetFillEdit_FormClosing);
 		}
 
-		private void menuConsent_Popup(object sender,EventArgs e) {
-			menuConsent.MenuItems.Clear();
+		private void menuConsent_Popup(object sender,CancelEventArgs e) {
+			menuConsent.Items.Clear();
 			List<SheetDef> listSheetDefs=SheetDefs.GetCustomForType(SheetTypeEnum.Consent);
-			MenuItem menuItem;
+			ToolStripMenuItem menuItem;
 			for(int i=0;i<listSheetDefs.Count;i++) {
-				menuItem=new MenuItem(listSheetDefs[i].Description);
+				menuItem=new ToolStripMenuItem(listSheetDefs[i].Description);
 				menuItem.Tag=listSheetDefs[i];
 				menuItem.Click+=new EventHandler(menuConsent_Click);
-				menuConsent.MenuItems.Add(menuItem);
+				menuConsent.Items.Add(menuItem);
 			}
+			e.Cancel=menuConsent.Items.Count==0;//filled here: a ContextMenuStrip without items starts its Opening cancelled
 		}
 
 		private void ToolBarMain_ButtonClick(object sender, OpenPmsDental.UI.ODToolBarButtonClickEventArgs e) {
@@ -1551,7 +1552,7 @@ namespace OpenPmsDental{
 			}
 			List<SheetDef> listSheetDefs=SheetDefs.GetCustomForType(SheetTypeEnum.Consent);
 			if(listSheetDefs.Count>0) {
-				ContextMenu contextMenuConsent=odToolBarButton.DropDownMenu.GetContextMenu();
+				ContextMenuStrip contextMenuConsent=odToolBarButton.ContextMenuStripDropDown;
 				contextMenuConsent.Show(this,new Point(odToolBarButton.Bounds.X,odToolBarButton.Bounds.Y+odToolBarButton.Bounds.Height));
 				return;
 			}
@@ -1611,7 +1612,7 @@ namespace OpenPmsDental{
 			_toothChartRelay= new ToothChartRelay(false);
 			_toothChartRelay.SetToothChartWrapper(_toothChartWrapper);
 			_toothChartWrapper.Size=new Size(500,370);
-			ToothChartRelay.ApplyComputerSettings(_toothChartWrapper,ToothChartSettingsUse.StoredMode);
+			ToothChartRelay.ApplyComputerSettings(_toothChartWrapper);
 			this.Controls.Add(_toothChartWrapper);
 			_toothChartWrapper.BringToFront();
 			_toothChartRelay.SetToothNumberingNomenclature((ToothNumberingNomenclature)PrefC.GetInt(PrefName.UseInternationalToothNumbers));
@@ -1628,7 +1629,6 @@ namespace OpenPmsDental{
 			ToothChartPainter.PaintProcedures(_toothChartRelay,ToothChartPaintProc.FromProcedures(_listProceduresFiltered),_listToothInitials,
 				ToothChartPaintOptions.ForTreatPlanPrintout());
 			ToothChartPainter.PaintOrthoHardware(_toothChartRelay,OrthoHardwares.GetPatientData(PatientCur.PatNum));
-			_toothChartWrapper.AutoFinish=true;
 			_toothChartRelay.EndUpdate();
 			_bitmapToothChart=_toothChartRelay.GetBitmap();
 			Controls.Remove(_toothChartWrapper);
@@ -2878,7 +2878,7 @@ namespace OpenPmsDental{
 		}
 
 		///<summary>Determines if the right click DXC options are grayed out. If the preauth selected does not have a clearinghouse, is not allowed to send attachments, or the clearinghouse is not ClaimConnect, then the options will be grayed out.</summary>
-		private void contextMenuPreAuthGrid_Popup(object sender,EventArgs e) {
+		private void contextMenuPreAuthGrid_Popup(object sender,CancelEventArgs e) {
 			//Hide DXC options outright if Canada user
 			if(CultureInfo.CurrentCulture.Name.EndsWith("CA")) {//Canadian. en-CA or fr-CA
 				menuItemSnipAttachment.Visible=false;

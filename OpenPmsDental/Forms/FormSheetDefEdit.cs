@@ -3838,14 +3838,13 @@ namespace OpenPmsDental {
 			ToothChartRelay toothChartRelay= new ToothChartRelay();
 			toothChartRelay.SetToothChartWrapper(toothChartWrapper);
 			toothChartWrapper.Size=new Size(500,370);
-			ToothChartRelay.ApplyComputerSettings(toothChartWrapper,ToothChartSettingsUse.ModeByName);
+			ToothChartRelay.ApplyComputerSettings(toothChartWrapper);
 			toothChartRelay.SetToothNumberingNomenclature((ToothNumberingNomenclature)PrefC.GetInt(PrefName.UseInternationalToothNumbers));
 			List<Def> listDefs=Defs.GetDefsForCategory(DefCat.ChartGraphicColors);
 			toothChartRelay.ColorBackgroundMain=listDefs[14].ItemColor;
 			toothChartRelay.ColorText=listDefs[15].ItemColor;
 			toothChartRelay.ResetTeeth();
 			toothChartRelay.EndUpdate();
-			//toothChartRelay.AutoFinish=true;/??
 			//no need to dispose beforehand, since this function currently only runs once
 			_imageToothChart=toothChartRelay.GetBitmap();
 			toothChartWrapper.Dispose();

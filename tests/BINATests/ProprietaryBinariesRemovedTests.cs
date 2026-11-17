@@ -85,7 +85,10 @@ namespace BINATests {
 
 		[TestMethod]
 		public void BuiltProgram_ReferencesNoneOfTheRemovedBinaries() {
-			foreach(string pathRelative in new[] { @"OpenPmsDental\bin\Debug\OpenPmsDental.exe",@"WpfControlsOD\bin\Debug\WpfControlsOD.dll" }) {
+			//The program's managed assembly (ProgramAssembly: OpenPmsDental.dll on .NET, where the .exe is the apphost Mono.Cecil cannot read).
+			foreach(string pathRelative in new[] { ProgramAssembly.FindRelative(RepoFiles.Root(),@"OpenPmsDental\bin\Debug","OpenPmsDental"),
+				@"WpfControlsOD\bin\Debug\WpfControlsOD.dll" })
+			{
 				string path=Path.Combine(RepoFiles.Root(),pathRelative);
 				if(!File.Exists(path)) {
 					BuildOutput.NotBuilt(pathRelative+" is not built. Build OpenDental.Local.slnf (Debug|x86) first.");
@@ -129,15 +132,60 @@ namespace BINATests {
 		}
 
 		[TestMethod]
-		public void GraphicsWindow_HasNoDirectX11Settings() {
-			string graphics=RepoFiles.Read(@"OpenPmsDental\Forms\FormGraphics.cs")+RepoFiles.Read(@"OpenPmsDental\Forms\FormGraphics.designer.cs");
-			StringAssert.DoesNotMatch(graphics,new Regex(@"radioDirectX11|Prefs\.UpdateBool\(PrefName\.DirectX11ToothChartUseIfAvail"),
-				"The DirectX 11 settings were only read by the removed Sparks3D chart.");
-			//The chart's computer settings moved from the callers to the relay in TC-2, so the relay is read too.
-			foreach(string relative in new[] { @"OpenPmsDental\Main Modules\ControlChart.cs",@"WpfControlsOD\UI\ToothChart\ToothChartRelay.cs" }) {
-				StringAssert.DoesNotMatch(RepoFiles.Read(relative),new Regex(@"PrefName\.DirectX11ToothChartUseIfAvail|LocalComputer\.GraphicsUseDirectX11"),
-					relative+": the chart no longer reads the Sparks3D settings.");
+		public void DirectX11Settings_ChooseTheWpfChart_ReadOnlyByTheRelay_TC8b() {
+			//Until TC-8b this test forbade any read of Open Dental's DirectX 11 settings, which only the removed Sparks3D chart read. Since TC-8b (the
+			//plan's parity row ENG-2; owner question BIN-A 5: keep the rows) they choose the WPF 3D chart in the closed chart's place, exactly here:
+			//the relay reads and saves the preference (IsChart3DOnAllComputers, SetChart3DOnAllComputers) and reads and saves this computer's column
+			//(GetChart3DThisComputer, SetGraphicsChoice), and Setup > Computers' "Use Simple Graphics" writes "Do not use" (ENG-6). File > Graphics and
+			//the chart's callers go through the relay. Nothing else in the program, the chart or the business layer names them; Open Dental's own CRUD,
+			//table type, preference list and conversion steps are not code that chooses a chart.
+			Regex regex=new Regex(@"PrefName\.DirectX11ToothChartUseIfAvail|\.GraphicsUseDirectX11\b|\bGraphicsUseDirectX11\s*=");
+			Dictionary<string,int> dictExpected=new Dictionary<string,int>(StringComparer.OrdinalIgnoreCase) {
+				//IsChart3DOnAllComputers (PrefC.GetBoolSilent), SetChart3DOnAllComputers (Prefs.UpdateBool), GetChart3DThisComputer (the read),
+				//SetGraphicsChoice (the comparison and the write).
+				{ @"WpfControlsOD\UI\ToothChart\ToothChartRelay.cs",5 },
+				//SetToSimpleGraphics' UPDATE (ENG-6).
+				{ @"OpenPmsDentalBusiness\Data Interface\ComputerPrefs.cs",1 },
+			};
+			string[] arrayOpenDentalOwn=new[] { @"OpenPmsDentalBusiness\Crud\ComputerPrefCrud.cs",@"OpenPmsDentalBusiness\TableTypes\ComputerPref.cs",
+				@"OpenPmsDentalBusiness\TableTypes\Pref.cs" };
+			Dictionary<string,int> dictFound=new Dictionary<string,int>(StringComparer.OrdinalIgnoreCase);
+			foreach(string folder in new[] { "OpenPmsDental","OpenPmsDentalBusiness","WpfControlsOD","SparksToothChart","CodeBase" }) {
+				foreach(string file in Directory.EnumerateFiles(Path.Combine(RepoFiles.Root(),folder),"*.cs",SearchOption.AllDirectories)) {
+					string relative=file.Substring(RepoFiles.Root().Length).TrimStart('\\');
+					if(relative.Contains(@"\obj\") || relative.Contains(@"\bin\") || arrayOpenDentalOwn.Contains(relative,StringComparer.OrdinalIgnoreCase)
+						|| Path.GetFileName(relative).StartsWith("ConvertDatabases",StringComparison.OrdinalIgnoreCase))
+					{
+						continue;
+					}
+					int count=regex.Matches(GetCode(File.ReadAllText(file))).Count;
+					if(count>0) {
+						dictFound[relative]=count;
+					}
+				}
 			}
+			CollectionAssert.AreEquivalent(dictExpected.Keys.ToList(),dictFound.Keys.ToList(),"Files that read Open Dental's DirectX 11 settings: "
+				+string.Join("; ",dictFound.Select(x => x.Key+" "+x.Value)));
+			foreach(KeyValuePair<string,int> pair in dictExpected) {
+				Assert.AreEqual(pair.Value,dictFound[pair.Key],pair.Key);
+			}
+			string relay=GetCode(RepoFiles.Read(@"WpfControlsOD\UI\ToothChart\ToothChartRelay.cs"));
+			StringAssert.Contains(relay,"return PrefC.GetBoolSilent(PrefName.DirectX11ToothChartUseIfAvail,true);");
+			StringAssert.Contains(relay,"return Prefs.UpdateBool(PrefName.DirectX11ToothChartUseIfAvail,isChart3DOnAllComputers);");
+			StringAssert.Contains(relay,"return computerPref.GraphicsUseDirectX11;");
+			StringAssert.Contains(relay,"computerPref.GraphicsUseDirectX11=chart3DThisComputer;");
+			StringAssert.Contains(GetCode(RepoFiles.Read(@"OpenPmsDentalBusiness\Data Interface\ComputerPrefs.cs")),
+				"string command=\"UPDATE computerpref SET GraphicsSimple=1,GraphicsUseDirectX11=\"+POut.Int((int)YN.No)");
+			//File > Graphics has Open Dental's DirectX 11 groups under the 3D tooth chart's name, through the relay, and no Sparks3D.
+			string graphics=RepoFiles.Read(@"OpenPmsDental\Forms\FormGraphics.cs")+RepoFiles.Read(@"OpenPmsDental\Forms\FormGraphics.designer.cs");
+			StringAssert.DoesNotMatch(graphics,new Regex(@"radioDirectX11|Sparks3D|IsSparks3DPresent"),"The window names no DirectX 11 control and no Sparks3D.");
+			StringAssert.Contains(graphics,"ToothChartRelay.IsChart3DOnAllComputers()");
+			StringAssert.Contains(graphics,"ToothChartRelay.SetChart3DOnAllComputers(isChart3DOnAllComputers)");
+		}
+
+		///<summary>The source without its comment lines (a line whose text starts with //, the XML comments included).</summary>
+		private static string GetCode(string source) {
+			return string.Join("\n",source.Replace("\r\n","\n").Split('\n').Where(x => !x.TrimStart().StartsWith("//")));
 		}
 	}
 }

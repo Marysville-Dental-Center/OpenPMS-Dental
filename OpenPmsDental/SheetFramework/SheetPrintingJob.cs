@@ -495,7 +495,9 @@ namespace OpenPmsDental {
 			try {
 				pd_DrawFieldsHelper(sheet,g,null);
 			}
-			catch(OutOfMemoryException ex) {
+			//GDI+ reports an image too large to draw as OutOfMemoryException on .NET Framework and as ExternalException on .NET 10
+			//(https://learn.microsoft.com/en-us/dotnet/core/compatibility/windows-forms/10.0/system-drawing-outofmemory-externalexception).
+			catch(Exception ex) when(ex is OutOfMemoryException || ex is System.Runtime.InteropServices.ExternalException) {
 				//Cancel the print job because there is a static image on this sheet which is to big for the printer to handle.
 				MessageBox.Show(ex.Message);//Custom message that is already translated.
 				e.Cancel=true;

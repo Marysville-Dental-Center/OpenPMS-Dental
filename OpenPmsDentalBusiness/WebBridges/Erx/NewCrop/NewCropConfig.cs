@@ -40,6 +40,8 @@ namespace OpenPmsDentalBusiness {
 		public const string UrlRxEntryPreproduction="https://preproduction.newcropaccounts.com/interfaceV7/rxentry.aspx";
 		public const string UrlUpdate1Production="https://secure.newcropaccounts.com/v7/WebServices/Update1.asmx";
 		public const string UrlUpdate1Preproduction="https://preproduction.newcropaccounts.com/v7/WebServices/Update1.asmx";
+		///<summary>The XML namespace of the Update1 service, in both environments (NewCropSoapClient). A name, not an address.</summary>
+		public const string SoapNamespace="https://secure.newcropaccounts.com/V7/webservices";
 		///<summary>The reseller password was stored as plain text in a preference; an office may also have typed one before this version.</summary>
 		public const LegacyPolicy PasswordLegacyPolicy=LegacyPolicy.AcceptPlaintext;
 		private const string ACCOUNT_ID_CHARS="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -249,14 +251,15 @@ namespace OpenPmsDentalBusiness {
 			return accountRequest;
 		}
 
-		///<summary>An Update1 client pointed at the configured environment, after checking the address (never an Open Dental host; HTTPS only).</summary>
-		public NewCropWebService.Update1 CreateUpdate1Client(int timeoutMs) {
+		///<summary>An Update1 client pointed at the configured environment, after checking the address (never an Open Dental host; HTTPS only).
+		///Sent through SoapCaller (S3a-6).</summary>
+		public NewCropSoapClient CreateUpdate1Client(int timeoutMs) {
 			string url=GetUpdate1Url();
 			VendorUrlProblem vendorUrlProblem=VendorUrlPolicy.Check(url);
 			if(vendorUrlProblem!=VendorUrlProblem.None) {
 				throw new ODException(Lans.g("NewCrop","The NewCrop address was refused:")+" "+VendorUrlPolicy.Describe(vendorUrlProblem));
 			}
-			NewCropWebService.Update1 update1=new NewCropWebService.Update1();
+			NewCropSoapClient update1=new NewCropSoapClient();
 			update1.Url=url;
 			update1.Timeout=timeoutMs;
 			update1.UserAgent=ProductIdentity.UserAgent;
@@ -273,7 +276,7 @@ namespace OpenPmsDentalBusiness {
 				return false;
 			}
 			try {
-				using(NewCropWebService.Update1 update1=CreateUpdate1Client(15000)) {
+				using(NewCropSoapClient update1=CreateUpdate1Client(15000)) {
 					string userId=(Security.CurUser==null) ? "0" : POut.Long(Security.CurUser.UserNum);
 					NewCropWebService.AccountStatusDetailV2Result result=update1.GetAccountStatusV2(GetSoapCredentials(),GetSoapAccountRequest(),"0","Staff",userId);
 					NewCropWebService.Result resultStatus=result?.result;

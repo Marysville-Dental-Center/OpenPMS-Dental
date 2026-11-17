@@ -1,0 +1,15 @@
+Scene: text-below-with-watch
+Group: paint
+Description: TextBelow "IMP" on 3, 14, 19 and 30, with watch marks on 3 and 30. Since the parity round of TC-5 TextBelow is not in the tooth picture (the Chart module's strip under the date slider shows it, as Open Dental 26.2 does), so only the two watch marks are drawn.
+Size: 500x370
+Colours: Printout
+Engine: Wpf3D (RenderTargetBitmap in software, 3D layer at 3x reduced with WIC's Fant scaler)
+Bitmap: 500x370 Format24bppRgb
+Alpha: every alpha is 255 (format without an alpha channel)
+Colours in the picture: 3117
+Pixels SHA-256: 61925d0dddf200fb09ae4ff93f98ce23ef0d8ca92fe1fb5ecf764d7494cb605b
+Repeatable: yes (a second GetBitmap gave the same pixels)
+Framework: .NET Framework 4.8, x86
+Windows: build 26300.9974 (26H2)
+Fresh render: yes (both layers drawn again without the layer cache gave the same pixels)
+Screen DPI seen by the test host: 96

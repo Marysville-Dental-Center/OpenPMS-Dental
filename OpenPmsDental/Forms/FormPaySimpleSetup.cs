@@ -455,7 +455,9 @@ namespace OpenPmsDental {
 				MsgBox.Show(Lan.g(this,"The ACH status check failed:")+" "+ex.Message);
 				return;
 			}
-			if(paySimpleAchSyncResult==null) {
+			//Cancelled: no summary (S3a-1c). The check stops before its next lookup; a result that its worker still set would only list the reads
+			//the cancel refused as problems.
+			if(progressWin.IsCancelled || paySimpleAchSyncResult==null) {
 				return;
 			}
 			using MsgBoxCopyPaste msgBoxCopyPaste=new MsgBoxCopyPaste(paySimpleAchSyncResult.GetSummary());

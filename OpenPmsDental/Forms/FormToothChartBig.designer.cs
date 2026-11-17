@@ -41,22 +41,18 @@ namespace OpenPmsDental {
 			// 
 			// toothChartWrapper
 			// 
-			this.toothChartWrapper.AutoFinish = false;
 			this.toothChartWrapper.ColorBackground = System.Drawing.Color.FromArgb(((int)(((byte)(150)))), ((int)(((byte)(145)))), ((int)(((byte)(152)))));
 			this.toothChartWrapper.Cursor = System.Windows.Forms.Cursors.Default;
 			this.toothChartWrapper.CursorTool = SparksToothChart.CursorTool.Pointer;
-			this.toothChartWrapper.DeviceFormat = null;
 			this.toothChartWrapper.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.toothChartWrapper.DrawMode = OpenPmsDentalBusiness.DrawingMode.Simple2D;
 			this.toothChartWrapper.Location = new System.Drawing.Point(0, 0);
 			this.toothChartWrapper.Name = "toothChartWrapper";
 			this.toothChartWrapper.PerioMode = false;
-			this.toothChartWrapper.PreferredPixelFormatNumber = 0;
 			this.toothChartWrapper.Size = new System.Drawing.Size(926, 858);
 			this.toothChartWrapper.TabIndex = 0;
 			toothChartData1.SizeControl = new System.Drawing.Size(926, 858);
 			this.toothChartWrapper.TcData = toothChartData1;
-			this.toothChartWrapper.UseHardware = false;
 			this.toothChartWrapper.Visible = false;
 			// 
 			// FormToothChartingBig

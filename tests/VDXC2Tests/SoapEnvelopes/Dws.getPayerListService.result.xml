@@ -1,0 +1,15 @@
+<PayerListInfoResponse xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Status code="0" description="Approved" xmlns="dxci.common" />
+  <Payers>
+    <Payer>
+      <PayerIDCode>ZZ999</PayerIDCode>
+      <Name>Synthetic Payer</Name>
+      <Claim isSupported="false" />
+      <Eligibility isSupported="true">
+        <Requirements>
+          <Requirement name="PatientAndSubscriberReqdForElig" value="true" />
+        </Requirements>
+      </Eligibility>
+    </Payer>
+  </Payers>
+</PayerListInfoResponse>

@@ -60,8 +60,8 @@ namespace OpenPmsDental {
 		private FeeIndex _feeIndex;
 		///<summary>The grid column under the last right-click, for the View Fee Schedule Notes menu.</summary>
 		private int _colRightClick=-1;
-		private ContextMenu _contextMenuGrid;
-		private MenuItem _menuItemFeeSchedNotes;
+		private ContextMenuStrip _contextMenuGrid;
+		private ToolStripMenuItem _menuItemFeeSchedNotes;
 
 		///<summary>When canShowHidden is true to the "Hidden" checkbox and "default" button are visible.</summary>
 		public FormProcCodes(bool canShowHidden=false) {
@@ -128,11 +128,12 @@ namespace OpenPmsDental {
 			LayoutManager.MoveLocation(comboFeeSchedGroup3,new Point(LayoutManager.Scale(14),LayoutManager.Scale(96)));
 			FillComboBoxes();
 			textFeesAsOf.Text=_dateFeesAsOf.ToShortDateString();
-			_menuItemFeeSchedNotes=new MenuItem(Lan.g(this,"View Fee Schedule Notes"),menuItemFeeSchedNotes_Click);
-			_contextMenuGrid=new ContextMenu();
-			_contextMenuGrid.MenuItems.Add(_menuItemFeeSchedNotes);
-			_contextMenuGrid.Popup+=contextMenuGrid_Popup;
-			gridMain.ContextMenu=_contextMenuGrid;
+			_menuItemFeeSchedNotes=new ToolStripMenuItem(Lan.g(this,"View Fee Schedule Notes"),null,menuItemFeeSchedNotes_Click);
+			_contextMenuGrid=new ContextMenuStrip();
+			_contextMenuGrid.Items.Add(_menuItemFeeSchedNotes);
+			_contextMenuGrid.Opening+=contextMenuGrid_Popup;
+			gridMain.ContextMenuStrip=_contextMenuGrid;
+			gridMain.DoAddGridItemsToContextMenuStrip=true;
 			gridMain.MouseDown+=gridMain_MouseDown;
 			SynchAndFillListFees(false);
 			_needsSynch=false;

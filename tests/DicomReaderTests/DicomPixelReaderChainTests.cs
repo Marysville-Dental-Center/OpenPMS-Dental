@@ -86,34 +86,20 @@ namespace DicomReaderTests {
 			Assert.IsNotNull(DicomHelper.PixelReader.ReadStream(new MemoryStream(bytes)));
 		}
 
-		///<summary>Runs DicomHelper.GetFromFile in a fresh application domain and reports what it read and whether any DICOM library (fo-dicom 4
-		///Dicom.Core, fo-dicom 5 fo-dicom.core) was loaded.</summary>
-		public sealed class IsolatedRead : MarshalByRefObject {
-			public string Run(string path) {
-				BitmapDicom bitmapDicom=DicomHelper.GetFromFile(path);
-				bool isFoDicomLoaded=AppDomain.CurrentDomain.GetAssemblies().Any(x => x.GetName().Name.StartsWith("Dicom.",StringComparison.OrdinalIgnoreCase)
-					|| x.GetName().Name.StartsWith("fo-dicom",StringComparison.OrdinalIgnoreCase));
-				string read=bitmapDicom==null ? "null" : bitmapDicom.Width+"x"+bitmapDicom.Height+" sum "+bitmapDicom.ArrayDataRaw.Sum(x => (long)x);
-				return read+"|"+(isFoDicomLoaded ? "fo-dicom loaded" : "fo-dicom not loaded");
-			}
+		///<summary>True for a DICOM library's assembly (fo-dicom 4 Dicom.Core, fo-dicom 5 fo-dicom.core).</summary>
+		internal static bool IsDicomLibrary(string assemblyName) {
+			return assemblyName.StartsWith("Dicom.",StringComparison.OrdinalIgnoreCase) || assemblyName.StartsWith("fo-dicom",StringComparison.OrdinalIgnoreCase);
 		}
 
-		private static string RunIsolated(string path) {
-			string folder=Path.GetDirectoryName(typeof(IsolatedRead).Assembly.Location);
-			AppDomainSetup appDomainSetup=new AppDomainSetup();
-			appDomainSetup.ApplicationBase=folder;
-			string pathConfig=typeof(IsolatedRead).Assembly.Location+".config";
-			if(File.Exists(pathConfig)) {
-				appDomainSetup.ConfigurationFile=pathConfig;
-			}
-			AppDomain appDomain=AppDomain.CreateDomain("DicomReaderTests_"+Guid.NewGuid().ToString("N"),null,appDomainSetup);
-			try {
-				IsolatedRead isolatedRead=(IsolatedRead)appDomain.CreateInstanceAndUnwrap(typeof(IsolatedRead).Assembly.FullName,typeof(IsolatedRead).FullName);
-				return isolatedRead.Run(path);
-			}
-			finally {
-				AppDomain.Unload(appDomain);
-			}
+		///<summary>Runs DicomHelper.GetFromFile in this test process and reports what it read and whether any DICOM library is loaded in the process
+		///afterwards. In this process (S3a-8 of the .NET 10 move), not in a fresh application domain, which .NET cannot create: no test of this
+		///assembly loads a DICOM library (none is referenced or built), so one loaded at all fails the check, which is stricter than the domain was.
+		///</summary>
+		private static string ReadInThisProcess(string path) {
+			BitmapDicom bitmapDicom=DicomHelper.GetFromFile(path);
+			bool isFoDicomLoaded=AppDomain.CurrentDomain.GetAssemblies().Any(x => IsDicomLibrary(x.GetName().Name));
+			string read=bitmapDicom==null ? "null" : bitmapDicom.Width+"x"+bitmapDicom.Height+" sum "+bitmapDicom.ArrayDataRaw.Sum(x => (long)x);
+			return read+"|"+(isFoDicomLoaded ? "fo-dicom loaded" : "fo-dicom not loaded");
 		}
 
 		[TestMethod]
@@ -128,8 +114,8 @@ namespace DicomReaderTests {
 				File.WriteAllBytes(pathImplicit,TestFiles.FromOtherWriter(SyntheticDicom.ImplicitVrLittleEndian,10,20,16,16,0,"MONOCHROME2",
 					SyntheticDicom.Words(arrayPixels)));
 				long sum=arrayPixels.Sum(x => (long)x);
-				Assert.AreEqual("20x10 sum "+sum+"|fo-dicom not loaded",RunIsolated(pathSubset),"The subset is read by the in-house subset reader.");
-				Assert.AreEqual("20x10 sum "+sum+"|fo-dicom not loaded",RunIsolated(pathImplicit),"Other files are read by the in-house full reader.");
+				Assert.AreEqual("20x10 sum "+sum+"|fo-dicom not loaded",ReadInThisProcess(pathSubset),"The subset is read by the in-house subset reader.");
+				Assert.AreEqual("20x10 sum "+sum+"|fo-dicom not loaded",ReadInThisProcess(pathImplicit),"Other files are read by the in-house full reader.");
 			}
 			finally {
 				try {

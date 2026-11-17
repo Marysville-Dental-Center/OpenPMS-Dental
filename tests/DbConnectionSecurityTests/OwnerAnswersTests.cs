@@ -125,7 +125,7 @@ namespace DbConnectionSecurityTests {
 			Assert.AreEqual("",ImportedCertificateRecord.Read(pathRecord),"No record: none.");
 			ImportedCertificateRecord.Write(pathRecord,"aa:"+THUMB_A.Substring(2).ToLowerInvariant());
 			Assert.AreEqual(THUMB_A,ImportedCertificateRecord.Read(pathRecord));
-			FileSecurity fileSecurity=File.GetAccessControl(pathRecord);
+			FileSecurity fileSecurity=new FileInfo(pathRecord).GetAccessControl();
 			Assert.IsTrue(fileSecurity.AreAccessRulesProtected,"Nothing inherited.");
 			SecurityIdentifier securityIdentifierUsers=new SecurityIdentifier(WellKnownSidType.BuiltinUsersSid,null);
 			foreach(FileSystemAccessRule fileSystemAccessRule in fileSecurity.GetAccessRules(true,true,typeof(SecurityIdentifier))) {
@@ -188,14 +188,15 @@ namespace DbConnectionSecurityTests {
 			string config=TestHelpers.WriteConfig(_folder,"ComputerName","localhost","Database","opendental","User","root","Password","");
 			//As v0.0's setup left it: an explicit Users modify right.
 			SecurityIdentifier securityIdentifierUsers=new SecurityIdentifier(WellKnownSidType.BuiltinUsersSid,null);
-			FileSecurity fileSecurityBefore=File.GetAccessControl(config);
+			FileInfo fileInfoConfig=new FileInfo(config);
+			FileSecurity fileSecurityBefore=fileInfoConfig.GetAccessControl();
 			fileSecurityBefore.AddAccessRule(new FileSystemAccessRule(securityIdentifierUsers,FileSystemRights.Modify,AccessControlType.Allow));
-			File.SetAccessControl(config,fileSecurityBefore);
-			Assert.IsTrue(File.GetAccessControl(config).GetAccessRules(true,false,typeof(SecurityIdentifier)).Count>0,"The explicit rule is there before.");
+			fileInfoConfig.SetAccessControl(fileSecurityBefore);
+			Assert.IsTrue(fileInfoConfig.GetAccessControl().GetAccessRules(true,false,typeof(SecurityIdentifier)).Count>0,"The explicit rule is there before.");
 			DbSettingsResult dbSettingsResult=DbSettingsRunner.Apply(new DbSettingsRequest() { Database="opendental_test" },config,
 				DbConnectionConfig.GetOfficeCaCopyPath(Path.Combine(_folder,"program")));
 			Assert.AreEqual(DbSettingsRunner.EXIT_OK,dbSettingsResult.ExitCode,dbSettingsResult.Message);
-			FileSecurity fileSecurityAfter=File.GetAccessControl(config);
+			FileSecurity fileSecurityAfter=fileInfoConfig.GetAccessControl();
 			Assert.AreEqual(0,fileSecurityAfter.GetAccessRules(true,false,typeof(SecurityIdentifier)).Count,"No explicit rule is left.");
 			Assert.IsFalse(fileSecurityAfter.AreAccessRulesProtected,"The folder's rules are inherited.");
 			Assert.IsTrue(fileSecurityAfter.GetAccessRules(false,true,typeof(SecurityIdentifier)).Count>0,"The file has the folder's rules.");

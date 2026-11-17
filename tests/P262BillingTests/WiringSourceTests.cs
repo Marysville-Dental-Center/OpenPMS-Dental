@@ -44,14 +44,17 @@ namespace P262BillingTests {
 			Assert.IsTrue(indexButton>0);
 			string statementButton=layout.Substring(indexButton,layout.IndexOf("ToolBarMain.Buttons.Add(toolBarButton);",indexButton,StringComparison.Ordinal)-indexButton);
 			StringAssert.Contains(statementButton,"toolBarButton.Style=ODToolBarButtonStyle.DropDownButton;");
+			//No dropdown menu: neither the WinForms DropDownMenu (gone since S3a-M3) nor the ContextMenuStripDropDown that replaced it.
 			Assert.IsFalse(statementButton.Contains("DropDownMenu=contextMenuStatement"),"No dropdown menu: the arrow opens the window.");
 			Assert.AreEqual(0,CountOf(account,"DropDownMenu=contextMenuStatement"));
+			Assert.AreEqual(0,CountOf(account,"ContextMenuStripDropDown=contextMenuStatement"));
 			Assert.AreEqual(1,CountOf(account,"ConstructStatementOptions();"),"Constructor.");
 			//The button's click still prints the default statement.
 			StringAssert.Contains(account,"ToolBarClick toolBarClick=toolBarButStatement_Click;");
 			string partial=Read("OpenPmsDental","Main Modules","ControlAccount.StatementOptions.cs");
 			StringAssert.Contains(partial,"ToolBarMain.ButtonDropDownClick+=ToolBarMain_ButtonDropDownClick;");
-			StringAssert.Contains(partial,"contextMenuStatement.MenuItems.Cast<MenuItem>()");
+			StringAssert.Contains(partial,"contextMenuStatement.Items.OfType<ToolStripMenuItem>()");//a ContextMenuStrip since S3a-M2
+			StringAssert.Contains(partial,".Where(x => x.Available && x.Enabled","Available: a ToolStripItem is Visible only while its menu shows.");
 			StringAssert.Contains(partial,"using FormStatementChoices formStatementChoices=new FormStatementChoices();");
 			StringAssert.Contains(partial,"listMenuItems[formStatementChoices.IndexSelected-1].PerformClick();");
 			StringAssert.Contains(partial,"toolBarButStatement_Click();");
@@ -62,7 +65,7 @@ namespace P262BillingTests {
 		[TestMethod]
 		public void StatementMenuEntries_EachHasItsChoice() {
 			string designer=Read("OpenPmsDental","Main Modules","ControlAccount.Designer.cs");
-			Match match=Regex.Match(designer,@"this\.contextMenuStatement\.MenuItems\.AddRange\(new System\.Windows\.Forms\.MenuItem\[\] \{(?<items>[^}]*)\}\);");
+			Match match=Regex.Match(designer,@"this\.contextMenuStatement\.Items\.AddRange\(new System\.Windows\.Forms\.ToolStripItem\[\] \{(?<items>[^}]*)\}\);");
 			Assert.IsTrue(match.Success);
 			List<string> listItems=Regex.Matches(match.Groups["items"].Value,@"this\.(\w+)").Cast<Match>().Select(x => x.Groups[1].Value).ToList();
 			Assert.AreEqual(7,listItems.Count,"Walkout, Email, Receipt, Invoice, Limited, Limited (Custom), More Options.");
@@ -72,7 +75,7 @@ namespace P262BillingTests {
 			}
 			//The Service Date View window, added by M2-SDV, too.
 			StringAssert.Contains(Read("OpenPmsDental","Main Modules","ControlAccount.ServiceDateView.cs"),
-				"contextMenuStatement.MenuItems.Add(new MenuItem(Lan.g(this,\"Service Date View Window\"),menuItemServiceDateViewWindow_Click) { Tag=StatementChoice.ServiceDateView });");
+				"contextMenuStatement.Items.Add(new ToolStripMenuItem(Lan.g(this,\"Service Date View Window\"),null,menuItemServiceDateViewWindow_Click) { Tag=StatementChoice.ServiceDateView });");
 			//Every choice except the button itself is an entry.
 			Assert.AreEqual(Enum.GetValues(typeof(StatementChoice)).Length-1,listItems.Count+1);
 		}
@@ -82,7 +85,7 @@ namespace P262BillingTests {
 			string toolBar=Read("OpenPmsDental","UI","ToolBarOD.cs");
 			StringAssert.Contains(toolBar,"public event ODToolBarButtonClickEventHandler ButtonDropDownClick=null;");
 			Assert.IsTrue(Regex.IsMatch(toolBar,
-				@"if\(toolBarButton\.DropDownMenu==null && toolBarButton\.ContextMenuStripDropDown==null\)\{[^\r\n]*\r?\n(\s*[^\r\n]*\r?\n){3}\s*OnButtonDropDownClicked\(toolBarButton\);"),
+				@"if\(toolBarButton\.ContextMenuStripDropDown==null\)\{[^\r\n]*\r?\n(\s*[^\r\n]*\r?\n){3}\s*OnButtonDropDownClicked\(toolBarButton\);"),
 				"Only a dropdown button without a menu raises it.");
 			Assert.AreEqual(1,CountOf(toolBar,"OnButtonDropDownClicked(toolBarButton);"));
 		}

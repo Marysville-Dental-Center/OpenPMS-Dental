@@ -31,11 +31,12 @@ namespace OpenPmsDental {
 		/// </summary>
 		private void InitializeComponent()
 		{
+			this.components = new System.ComponentModel.Container();
 			this.label1 = new System.Windows.Forms.Label();
 			this.label2 = new System.Windows.Forms.Label();
 			this.checkShowAll = new OpenPmsDental.UI.CheckBox();
-			this.contextMenu1 = new System.Windows.Forms.ContextMenu();
-			this.menuItemGoTo = new System.Windows.Forms.MenuItem();
+			this.contextMenu1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.menuItemGoTo = new System.Windows.Forms.ToolStripMenuItem();
 			this.checkShowUnattached = new OpenPmsDental.UI.CheckBox();
 			this.gridMain = new OpenPmsDental.UI.GridOD();
 			this.butRefresh = new OpenPmsDental.UI.Button();
@@ -73,12 +74,11 @@ namespace OpenPmsDental {
 			// 
 			// contextMenu1
 			// 
-			this.contextMenu1.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+			this.contextMenu1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuItemGoTo});
 			// 
 			// menuItemGoTo
 			// 
-			this.menuItemGoTo.Index = 0;
 			this.menuItemGoTo.Text = "Go To Appointment";
 			this.menuItemGoTo.Click += new System.EventHandler(this.menuItemGoTo_Click);
 			// 
@@ -179,8 +179,8 @@ namespace OpenPmsDental {
 		private Label label2;
 		private OpenPmsDental.UI.Button butRefresh;// Required designer variable.
 		private OpenPmsDental.UI.CheckBox checkShowAll;
-		private ContextMenu contextMenu1;
-		private MenuItem menuItemGoTo;
+		private System.Windows.Forms.ContextMenuStrip contextMenu1;
+		private System.Windows.Forms.ToolStripMenuItem menuItemGoTo;
 		private OpenPmsDental.UI.CheckBox checkShowUnattached;
 		private UI.Button butPrint;
 		private UI.ComboBoxClinicPicker comboClinic;

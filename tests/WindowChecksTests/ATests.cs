@@ -21,6 +21,13 @@ namespace WindowChecksTests {
 			}
 		}
 
+		///<summary>The file name of the program's managed assembly in the folder (ProgramAssembly: OpenPmsDental.dll on .NET, where the .exe is the
+		///apphost; OpenPmsDental.exe on .NET Framework), for the checks that read its metadata.</summary>
+		public static string ProgramFileName(string folder) {
+			string path=ProjectFileTests.ProgramAssembly.Find(folder,"OpenPmsDental");
+			return path==null ? "OpenPmsDental.exe" : Path.GetFileName(path);
+		}
+
 		///<summary>Starts the program out of process for patient #1 and waits for its main window. A "database will now be updated" prompt is
 		///cancelled and fails the check; any other message box is a failure too, with its text. Zero when the window never came.</summary>
 		public static IntPtr StartProgram(string exePath,string module,CheckResult checkResult,out ProgramProcess programProcess,
@@ -125,7 +132,7 @@ namespace WindowChecksTests {
 		public void A3_BuildStampOfTheDebugExe() {
 			WinChkFixture.Begin("A");
 			CheckResult checkResult=new CheckResult("A3","Build stamp of the Debug exe");
-			string[] arrayMetadata=AssemblyProbe.Run(WinChkEnv.DebugFolder,x => x.GetMetadata("OpenPmsDental.exe"));
+			string[] arrayMetadata=AssemblyProbe.GetMetadata(WinChkEnv.DebugFolder,ProgramFileName(WinChkEnv.DebugFolder));
 			File.WriteAllLines(Path.Combine(WinChkEnv.OutFolder,"A3-build-stamp.txt"),arrayMetadata);
 			string stamp=arrayMetadata.FirstOrDefault(x => x.StartsWith("\"ForkBuildUtc\""))??"";
 			checkResult.Note("AssemblyMetadata: "+string.Join("; ",arrayMetadata));
@@ -138,7 +145,7 @@ namespace WindowChecksTests {
 				checkResult.Expect(minutes>=0 && minutes<=5,"The stamp is "+minutes.ToString("0.0")+" minutes before the exe's LastWriteTimeUtc ("
 					+dateWrite.ToString("s")+"Z)");
 			}
-			checkResult.Note("Read with a reflection-only load in a throwaway AppDomain (no PowerShell window); text in A3-build-stamp.txt instead of a picture");
+			checkResult.Note("Read with Mono.Cecil from a copy of the file (no PowerShell window, nothing loaded); text in A3-build-stamp.txt instead of a picture");
 			WinChkFixture.Finish(checkResult);
 		}
 
@@ -281,7 +288,7 @@ namespace WindowChecksTests {
 					Exits.CloseProgram(programProcess,hwndMain,"A7",checkResult);
 				}
 			}
-			//The File menu and Help > About of the Release build, in process (an AppDomain on the Release folder); its publish prompt is cancelled.
+			//The File menu and Help > About of the Release build, in process (a process on the Release folder); its publish prompt is cancelled.
 			using(InProcHost inProcHost=InProcHost.Start("chart",folderRelease,new[] { "Publish this build" })) {
 				checkResult.Note("In-process Release start: prompt cancelled: "+(inProcHost.StartPrompts=="" ? "none" : "yes"));
 				Merge(checkResult,inProcHost.Run("A7RELEASE","Release: File menu, Chart, Imaging, About"));
@@ -299,11 +306,11 @@ namespace WindowChecksTests {
 			CheckResult checkResult=new CheckResult("A8","Release XmlSerializers pairing");
 			string folderRelease=WinChkEnv.ReleaseFolder;
 			List<string> listLines=new List<string>();
-			foreach(string[] arrayPair in new[] { new[] { "OpenPmsDental.exe","OpenPmsDental.XmlSerializers.dll" },
+			foreach(string[] arrayPair in new[] { new[] { ProgramFileName(folderRelease),"OpenPmsDental.XmlSerializers.dll" },
 				new[] { "OpenPmsDentalBusiness.dll","OpenPmsDentalBusiness.XmlSerializers.dll" } })
 			{
-				string mvid=AssemblyProbe.Run(folderRelease,x => x.GetMvid(arrayPair[0]));
-				string serializerVersion=AssemblyProbe.Run(folderRelease,x => x.GetSerializerVersion(arrayPair[1]));
+				string mvid=AssemblyProbe.GetMvid(folderRelease,arrayPair[0]);
+				string serializerVersion=AssemblyProbe.GetSerializerVersion(folderRelease,arrayPair[1]);
 				listLines.Add(arrayPair[0]+" MVID "+mvid);
 				listLines.Add(arrayPair[1]+" "+serializerVersion);
 				checkResult.Expect(serializerVersion.Contains("ParentAssemblyId = "+mvid+","),arrayPair[1]+"'s ParentAssemblyId is "+arrayPair[0]+"'s MVID "+mvid

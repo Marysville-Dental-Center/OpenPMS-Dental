@@ -22,7 +22,7 @@ namespace OpenPmsDental {
 			if(!SalesTaxProcs.IsEnabled()) {
 				return;
 			}
-			contextMenuQuickProcs.MenuItems.Add(0,new MenuItem(Lan.g(this,"Sales Tax"),menuItemQuickProcsSalesTax_Click));
+			contextMenuQuickProcs.Items.Insert(0,new ToolStripMenuItem(Lan.g(this,"Sales Tax"),null,menuItemQuickProcsSalesTax_Click));
 			_countQuickProcsLeadingItems=1;
 		}
 

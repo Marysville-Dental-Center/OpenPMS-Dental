@@ -335,6 +335,7 @@
           "OpenPmsDentalBusiness": "[1.0.0, )",
           "OpenPmsDentalDbSettings": "[1.0.0, )",
           "OpenPmsDentalGraph": "[1.0.0, )",
+          "OpenPmsDentalHelper32": "[1.0.0, )",
           "OpenPmsDentalStorage": "[1.0.0, )",
           "PdfSharp-gdi": "[1.0.0, )",
           "PdfSharp.Charting-gdi": "[1.0.0, )",
@@ -386,6 +387,9 @@
           "OpenPmsDentalBusiness": "[1.0.0, )",
           "PdfSharp-gdi": "[1.0.0, )"
         }
+      },
+      "openpmsdentalhelper32": {
+        "type": "Project"
       },
       "openpmsdentalstorage": {
         "type": "Project",
@@ -458,6 +462,9 @@
           "HelixToolkit.Wpf": "[3.1.2, )",
           "OpenPmsDentalBusiness": "[1.0.0, )"
         }
+      },
+      "testprobehost": {
+        "type": "Project"
       },
       "wecantspell.hunspell": {
         "type": "Project",

@@ -137,7 +137,8 @@ namespace OpenPmsDental {
 			}
 			if(status.IsInDb) {
 				if(status.IsOlderThanRelease) {
-					return Lan.g("CodeSystemImporter","Loaded, but older than the release's version: codes of the newer value sets are missing from the pick lists");
+					return Lan.g("CodeSystemImporter","Loaded, but older than the release's version")+": "+status.CountCodesNewer.ToString("N0")+" "
+						+Lan.g("CodeSystemImporter","codes of the value sets are of a newer version and may be missing from the pick lists");
 				}
 				return Lan.g("CodeSystemImporter","Loaded");
 			}
@@ -159,9 +160,10 @@ namespace OpenPmsDental {
 		///<summary>The licence prompt before the three files are chosen (section 7.5 of the 2027 measures plan).</summary>
 		public static string GetValueSetLicensePrompt() {
 			return Lan.g("CodeSystemImporter","The eCQM value sets come from the Value Set Authority Center (VSAC) of the National Library of Medicine. "
-				+"Import only the files your office downloaded itself, under its own UMLS license: VSAC's \"eCQM Value Sets for Eligible Clinicians\" "
-				+"published 2026-05-14 for the 2027 performance period (the Excel workbook (.xlsx) or the SVS XML (.xml), or a .zip of either), with "
-				+"that release's Direct Reference Codes file and its Code System Versions file. Pick the three files together. They hold codes of "
+				+"Import only the files your office downloaded itself, under its own UMLS license: VSAC's eCQM value sets published 2026-05-14 for the "
+				+"2027 performance period, sorted by CMS ID (the Excel workbook, as VSAC gives it in a .zip, or the SVS XML), with that release's Direct "
+				+"Reference Codes file and its Code System Versions file. Pick the three files together; the two other sortings of the value sets are "
+				+"not needed. They hold codes of "
 				+"licensed code systems: CPT (American Medical Association), CDT (American Dental Association) and SNOMED CT, under the terms of the UMLS "
 				+"license and its appendix, for your office's own use. Do not pass the codes on. This program ships none of them.")
 				+"\r\n\r\n"+Lan.g("CodeSystemImporter","The import replaces every value-set code and direct reference code in the database. Click OK to "

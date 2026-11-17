@@ -203,9 +203,18 @@ namespace OpenPmsDentalBusiness {
 			foreach(CodeSystem codeSystemRow in CodeSystems.GetForCurrentVersion(true)) {
 				dictVersionsLoaded[codeSystemRow.CodeSystemName??""]=codeSystemRow.VersionCur??"";
 			}
+			//The versions the imported codes name (section 7.4: each row names the version of its own code); for a record without them, the Code
+			//System Versions file's list, shown and not compared.
 			Dictionary<string,string> dictVersionsRelease=new Dictionary<string,string>(StringComparer.Ordinal);
+			Dictionary<string,List<EhrCodeSystemVersion>> dictVersionsUsed=new Dictionary<string,List<EhrCodeSystemVersion>>(StringComparer.Ordinal);
 			EhrValueSetRelease release=EhrValueSetImport.GetRelease();
-			if(release!=null && release.ListCodeSystemVersions!=null) {
+			if(release!=null && release.ListCodeSystemVersionsUsed!=null && release.ListCodeSystemVersionsUsed.Count>0) {
+				foreach(IGrouping<string,EhrCodeSystemVersion> grouping in release.ListCodeSystemVersionsUsed.GroupBy(x => x.CodeSystem??"")) {
+					dictVersionsUsed.Add(grouping.Key,grouping.ToList());
+					dictVersionsRelease.Add(grouping.Key,EhrValueSetImport.GetVersionsUsedShortText(grouping.Key,grouping.ToList()));
+				}
+			}
+			else if(release!=null && release.ListCodeSystemVersions!=null) {
 				foreach(IGrouping<string,EhrCodeSystemVersion> grouping in release.ListCodeSystemVersions.GroupBy(x => x.CodeSystem??"")) {
 					dictVersionsRelease.Add(grouping.Key,string.Join(", ",grouping.Select(x => x.Version??"").Distinct()));
 				}
@@ -224,9 +233,13 @@ namespace OpenPmsDentalBusiness {
 				status.VersionLoaded=status.VersionLoaded??"";
 				dictVersionsRelease.TryGetValue(codeSystem,out status.VersionInRelease);
 				status.VersionInRelease=status.VersionInRelease??"";
-				int? compare=EhrValueSetImport.CompareCodeSystemVersions(codeSystem,status.VersionLoaded,status.VersionInRelease);
-				status.IsVersionCompared=compare.HasValue;
-				status.IsOlderThanRelease=status.HasTable && status.IsInDb && compare.HasValue && compare.Value<0;
+				int? countNewer=null;
+				if(dictVersionsUsed.TryGetValue(codeSystem,out List<EhrCodeSystemVersion> listUsed)) {
+					countNewer=EhrValueSetImport.CountCodesNewerThanLoaded(codeSystem,status.VersionLoaded,listUsed);
+				}
+				status.IsVersionCompared=countNewer.HasValue;
+				status.CountCodesNewer=countNewer??0;
+				status.IsOlderThanRelease=status.HasTable && status.IsInDb && status.CountCodesNewer>0;
 				listStatuses.Add(status);
 			}
 			return listStatuses;
@@ -484,12 +497,16 @@ namespace OpenPmsDentalBusiness {
 		public int CountDirectCodes;
 		///<summary>The version of the loaded table (codesystem.VersionCur), or "".</summary>
 		public string VersionLoaded="";
-		///<summary>The version the imported release names for this code system in its Code System Versions file, or "".</summary>
+		///<summary>The versions the imported codes of this code system name, newest first (at most three, then how many older), or, for a record
+		///written before EHR-6a-R, the versions its Code System Versions file lists. "" when the release names none.</summary>
 		public string VersionInRelease="";
-		///<summary>True when the two versions could be compared (a mapping exists for this code system and both versions follow it).</summary>
+		///<summary>True when the loaded version could be compared with the versions the imported codes name (a mapping exists for this code system,
+		///the loaded version follows it, and so does at least one of the codes' versions).</summary>
 		public bool IsVersionCompared;
-		///<summary>True when the table is loaded and older than the release's version: codes of the newer value-set expansions are missing from the
-		///pick lists (section 7.4).</summary>
+		///<summary>The imported codes of this code system whose row names a version newer than the loaded table's (0 when not compared).</summary>
+		public int CountCodesNewer;
+		///<summary>True when the table is loaded and imported codes name a newer version than it: those codes may be missing from the table, and so
+		///from the pick lists (section 7.4).</summary>
 		public bool IsOlderThanRelease;
 	}
 
@@ -537,6 +554,9 @@ namespace OpenPmsDentalBusiness {
 		public string CodeSystem="";
 		public string CodeSystemOID="";
 		public string Version="";
+		///<summary>In the versions the imported codes name (ListCodeSystemVersionsUsed): how many of them name this version. 0 in the Code System
+		///Versions file's list.</summary>
+		public int CountCodes;
 	}
 
 	///<summary>One of the three files of an import, as the release record keeps it.</summary>
@@ -595,8 +615,16 @@ namespace OpenPmsDentalBusiness {
 		public List<string> ListMeasuresMatched=new List<string>();
 		public List<string> ListManifestOidsFound=new List<string>();
 		public List<string> ListManifestOidsMissing=new List<string>();
-		///<summary>Value sets of the file that the manifest does not list (other measures of the release). Imported too.</summary>
+		///<summary>Value sets of the file that the manifest does not list (other measures of the release). Not imported: only the manifest's value
+		///sets are kept as the file is read (E-30, docs/port-notes/EHR-6.md).</summary>
 		public int CountOtherValueSets;
+		///<summary>Value-set rows of those other value sets, read and not kept.</summary>
+		public int CountRowsOtherValueSets;
+		///<summary>Direct Reference Codes rows of measures other than the catalog's seven at their 2027 versions, read and not imported.</summary>
+		public int CountRowsOtherMeasures;
+		///<summary>The code-system versions the rows to import name, with the number of codes that name each (section 7.4: each value-set row and
+		///each direct reference code names the version of its code).</summary>
+		public List<EhrCodeSystemVersion> ListCodeSystemVersionsUsed=new List<EhrCodeSystemVersion>();
 		///<summary>Code systems of the file that this program has no table for (for example ICD10PCS), with their code counts.</summary>
 		public List<string> ListCodeSystemsWithoutTable=new List<string>();
 		///<summary>Which of the three files of the release this is, by the rows it holds (EHR-6a).</summary>
@@ -645,8 +673,11 @@ namespace OpenPmsDentalBusiness {
 		public int CountDirectCodes;
 		///<summary>The three files: kind, name, SHA-256 and size.</summary>
 		public List<EhrValueSetReleaseFile> ListFiles=new List<EhrValueSetReleaseFile>();
-		///<summary>The Code System Versions file's rows.</summary>
+		///<summary>The Code System Versions file's rows: the versions the release used.</summary>
 		public List<EhrCodeSystemVersion> ListCodeSystemVersions=new List<EhrCodeSystemVersion>();
+		///<summary>The versions the imported codes name (value-set codes and direct reference codes), each with its count of codes: what the
+		///status grid compares a loaded table with (section 7.4). Empty in a record written before EHR-6a-R.</summary>
+		public List<EhrCodeSystemVersion> ListCodeSystemVersionsUsed=new List<EhrCodeSystemVersion>();
 		///<summary>The direct-reference-code roles and how each resolved.</summary>
 		public List<EhrDirectCodeRoleResult> ListRoles=new List<EhrDirectCodeRoleResult>();
 	}
@@ -685,9 +716,30 @@ namespace OpenPmsDentalBusiness {
 				return listEhrCodes;
 			}
 		}
+
+		///<summary>The code-system versions every row an import writes names, with their counts: the value-set codes' and the direct reference
+		///codes' together (a new list of new items each call).</summary>
+		public List<EhrCodeSystemVersion> ListCodeSystemVersionsUsed {
+			get {
+				List<EhrCodeSystemVersion> listUsed=new List<EhrCodeSystemVersion>();
+				foreach(EhrValueSetFile file in new[] { FileValueSets,FileDirectCodes }.Where(x => x!=null)) {
+					foreach(EhrCodeSystemVersion codeSystemVersion in file.ListCodeSystemVersionsUsed) {
+						EhrCodeSystemVersion codeSystemVersionSum=listUsed.FirstOrDefault(x => x.CodeSystem==codeSystemVersion.CodeSystem
+							&& x.Version==codeSystemVersion.Version);
+						if(codeSystemVersionSum==null) {
+							codeSystemVersionSum=new EhrCodeSystemVersion { CodeSystem=codeSystemVersion.CodeSystem,CodeSystemOID=codeSystemVersion.CodeSystemOID,
+								Version=codeSystemVersion.Version };
+							listUsed.Add(codeSystemVersionSum);
+						}
+						codeSystemVersionSum.CountCodes+=codeSystemVersion.CountCodes;
+					}
+				}
+				return listUsed;
+			}
+		}
 	}
 
-	///<summary>The office's import of VSAC's "eCQM Value Sets for Eligible Clinicians" published 2026-05-14 for the 2027 performance period, with
+	///<summary>The office's import of VSAC's eCQM value sets "EC, HOSPIP and HOSPOP", eCQM Update 2026-05-14, for the 2027 performance period, with
 	///that release's "Direct Reference Codes" and "Code System Versions" files (docs/specs/ehr-2027-measures-plan.md, EHR-6a, sections 7.1-7.4;
 	///owner decision 3): the release whose value sets the 2027 versions of the catalog's seven measures use (CqmCatalog). The office downloads the
 	///three files from VSAC under its own UMLS licence (the value sets as the Excel workbook (.xlsx) or the SVS XML (.xml), or a .zip of either)
@@ -696,18 +748,28 @@ namespace OpenPmsDentalBusiness {
 	///first and checks it (ParsePick reads the pick's three so, under one row budget, refusing a pick of other than three before reading any);
 	///MakePick checks the three together and resolves the roles; Import then replaces every row of ehrcode, both kinds in
 	///one swap, and records the release. A pick without all three files, a file that is refused, or a parse that fails, leaves the old rows.
-	///The header names of the three files are provisional until the record of the real files (E-20; docs/port-notes/EHR-6.md).</summary>
+	///The readers follow the record of the real files (E-20, docs/port-notes/EHR-6.md section 0): the value sets as VSAC's workbook sorted by CMS
+	///ID (one sheet per measure, the header on row 2), the Direct Reference Codes file (the header on row 3, the measure in eCQM ID) and the Code
+	///System Versions file (the header on row 5), each a .zip holding one .xlsx with inline strings. Only the manifest's value sets and the
+	///catalog's seven measures' direct reference codes are kept as the files are read (E-30).</summary>
 	public class EhrValueSetImport {
 		///<summary>The fork-owned preference row with the last import (EhrValueSetRelease as JSON). Read by string (no PrefName).</summary>
 		public const string PREF_RELEASE="ForkEhrValueSetRelease";
 		///<summary>The release this program's measures need (section 7.1).</summary>
 		public const string RELEASE_LABEL=CqmCatalog.RELEASE_LABEL;
 		///<summary>Largest file the importer reads, and largest part inside a .zip or a workbook once uncompressed (counted as it is read). The
-		///program is a 32-bit process, and the parts it holds (a workbook inside a .zip, the rows read) must fit beside the rest of it. The real
-		///sizes of the 2026-05-14 files are E-20's record, which decides E-30 (section 7.2).</summary>
+		///program is a 32-bit process, and the parts it holds (a workbook inside a .zip, the rows read) must fit beside the rest of it. E-20's
+		///record of the 2026-05-14 files: the by-CMS workbook is 17 MB as a .zip, 20.9 MB as the .xlsx inside it, and its largest sheet 33.1 MB
+		///uncompressed, so each part is within this limit; the two other sortings of the release have one sheet of 138 MB and of 185 MB, which it
+		///refuses (the office picks the by-CMS workbook).</summary>
 		public const long MAX_FILE_BYTES=64L*1024*1024;
-		///<summary>Largest total of the uncompressed parts of one file.</summary>
-		public const long MAX_TOTAL_BYTES=256L*1024*1024;
+		///<summary>Largest total of the uncompressed parts of one file, counted as they are read. EHR-2 set 256 MB; the 2026-05-14 by-CMS workbook reads
+		///about 377 MB (its 73 sheets, 355.7 MB, and the 20.9 MB workbook inside the .zip), since it repeats the shared value sets under each of its
+		///73 measures. E-30 (the lead's decision under the owner's answer): 1,024 MB, room for the release to grow nearly threefold. The total does not
+		///decide the memory the import needs: every part is streamed one row at a time (only the one workbook inside a .zip is held, within
+		///MAX_FILE_BYTES), and only the rows of the manifest's value sets are kept as they are read, so what is held is the catalog's value sets,
+		///whatever the size of the rest of the release. The total only bounds the time a file made to inflate without end takes to refuse.</summary>
+		public const long MAX_TOTAL_BYTES=1024L*1024*1024;
 		public const int MAX_ZIP_ENTRIES=20000;
 		///<summary>Most rows (workbook rows or SVS concepts) of one file, counted while it is read.</summary>
 		public const int MAX_ROWS=1000000;
@@ -769,12 +831,17 @@ namespace OpenPmsDentalBusiness {
 		};
 
 		///<summary>Headers by the field they fill, compared after removing white space and ignoring case (sections 7.1 and 7.3), for the three
-		///files: the value-set workbook (CMS ID, Value Set Name, Value Set OID, QDM Category, Code, Description, Code System, Code System OID, Code
-		///System Version, the versions), the Direct Reference Codes file (CMS ID, Code, Description, Code System, Code System OID, Code System
-		///Version) and the Code System Versions file (Code System, Code System OID, Version). **Provisional:** the real files' headers are E-20's
-		///record (docs/port-notes/EHR-6.md); the names VSAC's eCQM files are expected to use come first, then EHR-2's.</summary>
+		///files as E-20 recorded them (docs/port-notes/EHR-6.md, section 0): the by-CMS value-set workbook (CMS ID, Program Candidate, CBE Number,
+		///Value Set Name, Value Set OID, QDM Category, Definition Version, Expansion Version, the four Purpose columns, Code, Description, Code
+		///System, Code System OID, Code System Version, Expansion ID), the Direct Reference Codes file (Code, Description, Code System, Code System
+		///Version, Code System OID, eCQM Type, eCQM Title, eCQM ID, CBE Number, eCQM Version, Measure GUID, Care Setting, Prior Value Set OID) and
+		///the Code System Versions file (Code System Name, Code System Version, Code System OID). The real names come first, then EHR-2's for the
+		///June 2013 workbook. Columns not listed (Program Candidate, CBE Number, the Purpose columns, eCQM Type and Title, Measure GUID, Care Setting,
+		///Prior Value Set OID) are not read. Each name fills one field only: Definition Version and Expansion Version are two columns of one row,
+		///and only one of them is the value set's version (FIELD_EXPANSION_VERSION).</summary>
 		private static readonly Dictionary<string,string[]> _dictHeaders=new Dictionary<string,string[]> {
-			{ nameof(EhrCode.MeasureIds),new[] { "cmsid","cmsids","measureid","measureids","emeasureid","cmsemeasureid","cmsemeasureids","measure" } },
+			{ nameof(EhrCode.MeasureIds),new[] { "cmsid","ecqmid","cmsids","ecqmids","measureid","measureids","emeasureid","cmsemeasureid","cmsemeasureids","measure" } },
+			{ FIELD_MEASURE_VERSION,new[] { "ecqmversion","measureversion" } },
 			{ nameof(EhrCode.ValueSetName),new[] { "valuesetname" } },
 			{ nameof(EhrCode.ValueSetOID),new[] { "valuesetoid","oid" } },
 			{ nameof(EhrCode.QDMCategory),new[] { "qdmcategory","category" } },
@@ -783,13 +850,27 @@ namespace OpenPmsDentalBusiness {
 			{ nameof(EhrCode.CodeSystem),new[] { "codesystem","codesystemname" } },
 			{ nameof(EhrCode.CodeSystemOID),new[] { "codesystemoid" } },
 			{ FIELD_CODE_SYSTEM_VERSION,new[] { "codesystemversion" } },
-			{ FIELD_VALUE_SET_VERSION,new[] { "expansionversion","definitionversion","valuesetversion","version" } },
+			{ FIELD_EXPANSION_VERSION,new[] { "expansionversion","valuesetversion","version" } },
+			{ FIELD_EXPANSION_ID,new[] { "expansionid" } },
+			{ FIELD_DEFINITION_VERSION,new[] { "definitionversion" } },
 		};
 
 		///<summary>The header field of a code-system version (Code System Version).</summary>
 		private const string FIELD_CODE_SYSTEM_VERSION="CodeSystemVersion";
-		///<summary>The header field of a value set's version, or of a code system's in the Code System Versions file (Version).</summary>
-		private const string FIELD_VALUE_SET_VERSION="ValueSetVersion";
+		///<summary>The header field of the value set's version: Expansion Version ("eCQM Update 2026-05-14" in E-20's record), the version of the
+		///expansion whose codes the row lists. In a Code System Versions file with a column Version only (EHR-6a's provisional shape), the code
+		///system's version.</summary>
+		private const string FIELD_EXPANSION_VERSION="ExpansionVersion";
+		///<summary>The header field of the expansion's ID (Expansion ID, 20260514 in E-20's record): the value set's version where a file has no
+		///Expansion Version.</summary>
+		private const string FIELD_EXPANSION_ID="ExpansionId";
+		///<summary>The header field of the value set's definition version (Definition Version: the version of the value set's definition, which
+		///differs from one value set to the next). The value set's version only where a file has neither Expansion Version nor Expansion ID, as
+		///EHR-2 read the June 2013 workbook.</summary>
+		private const string FIELD_DEFINITION_VERSION="DefinitionVersion";
+		///<summary>The header field of a measure's version without its CMS ID (eCQM Version, "16" in E-20's record), joined to a measure ID that
+		///names no version (eCQM ID "CMS68" with eCQM Version "16" is CMS68v16).</summary>
+		private const string FIELD_MEASURE_VERSION="MeasureVersion";
 
 		///<summary>How many rows of a sheet are searched for the header row.</summary>
 		private const int MAX_HEADER_ROW=30;
@@ -833,14 +914,25 @@ namespace OpenPmsDentalBusiness {
 			if(nameKnown!=null) {
 				return nameKnown;
 			}
-			if(string.Equals(nameCompact,"AdministrativeGender",StringComparison.OrdinalIgnoreCase)) {
-				return "AdministrativeSex";
-			}
-			if(string.Equals(nameCompact,"HL7ActCode",StringComparison.OrdinalIgnoreCase)) {
-				return "ActCode";
+			if(_dictCodeSystemByOtherName.TryGetValue(nameCompact,out string nameOther)) {
+				return nameOther;
 			}
 			return nameCompact;
 		}
+
+		///<summary>The other names VSAC's files give code systems the code list knows (by the name without spaces, ignoring case), for a row
+		///without a code-system OID. From E-20's record: the Direct Reference Codes file writes SNOMEDCT_US where the value-set workbook and the Code
+		///System Versions file write SNOMEDCT; the workbook writes "HCPCS Level II" where the Code System Versions file writes HCPCS; both write
+		///SOPT for the Source of Payment Typology, which the code list calls SOP. Each of these rows also gives the OID, which decides first.</summary>
+		private static readonly Dictionary<string,string> _dictCodeSystemByOtherName=new Dictionary<string,string>(StringComparer.OrdinalIgnoreCase) {
+			{ "SNOMEDCT_US","SNOMEDCT" },
+			{ "SNOMEDCT-US","SNOMEDCT" },
+			{ "SNOMED-CT","SNOMEDCT" },
+			{ "HCPCSLevelII","HCPCS" },
+			{ "SOPT","SOP" },
+			{ "AdministrativeGender","AdministrativeSex" },
+			{ "HL7ActCode","ActCode" },
+		};
 
 		///<summary>The OID of a code system the code list knows (by its code list name), or "".</summary>
 		public static string GetCodeSystemOid(string codeSystem) {
@@ -912,6 +1004,23 @@ namespace OpenPmsDentalBusiness {
 			public HashSet<EhrValueSetFileKind> SetKinds=new HashSet<EhrValueSetFileKind>();
 			///<summary>What the earlier files of the pick read (ParsePick). Null when one file is parsed alone.</summary>
 			public PickBudget PickBudget;
+			///<summary>The manifest's value-set OIDs: a value-set row of another value set is counted and not kept (E-30).</summary>
+			public HashSet<string> SetManifestOids=new HashSet<string>(StringComparer.Ordinal);
+			///<summary>The value sets read that the manifest does not list (their OIDs only; their rows are not kept).</summary>
+			public HashSet<string> SetOtherValueSetOids=new HashSet<string>(StringComparer.Ordinal);
+			///<summary>Value-set rows of other value sets, counted and not kept.</summary>
+			public int CountRowsOtherValueSets;
+			///<summary>Every measure the value-set rows name, kept rows or not, in the order read, for the version check.</summary>
+			public List<string> ListMeasureIdsInFile=new List<string>();
+			private HashSet<string> _setMeasureIdsInFile=new HashSet<string>(StringComparer.Ordinal);
+
+			public void AddMeasureIds(List<string> listMeasureIds) {
+				foreach(string measureId in listMeasureIds) {
+					if(_setMeasureIdsInFile.Add(measureId)) {
+						ListMeasureIdsInFile.Add(measureId);
+					}
+				}
+			}
 		}
 
 		///<summary>What the files of a pick read before the one being read (ParsePick): their rows, against one MAX_ROWS for the whole pick, and the
@@ -1001,7 +1110,8 @@ namespace OpenPmsDentalBusiness {
 		}
 
 		private static string GetPartLimitText(string partName) {
-			return Lans.g(LANS,"A part of the file is larger, uncompressed, than the importer reads")+" ("+(MAX_FILE_BYTES/1024/1024)+" MB): "+partName;
+			return Lans.g(LANS,"A part of the file is larger, uncompressed, than the importer reads")+" ("+(MAX_FILE_BYTES/1024/1024)+" MB): "+partName+". "
+				+Lans.g(LANS,"Of VSAC's value-set workbooks, pick the one sorted by CMS ID (one sheet per measure).");
 		}
 
 		private static string GetTotalLimitText(string partName) {
@@ -1047,6 +1157,7 @@ namespace OpenPmsDentalBusiness {
 			}
 			RawRows rawRows=new RawRows();
 			rawRows.PickBudget=pickBudget;
+			rawRows.SetManifestOids.UnionWith(GetManifest().Select(x => x.ValueSetOID));
 			try {
 				stream.Position=0;
 				ReadPart(file,file.FileName,stream,rawRows,isInsideZip:false,new ReadBudget());
@@ -1531,14 +1642,16 @@ namespace OpenPmsDentalBusiness {
 
 		///<summary>The kind of sheet a header row names, or Unknown when it is no header row. A value-set sheet names a Value Set OID (or a value-set
 		///name or QDM category beside a code); a Direct Reference Codes sheet names a Code without a value set; a Code System Versions sheet names a
-		///code system and a version without a code (section 7.1; the real headers are E-20's record).</summary>
+		///code system and a version without a code (section 7.1; E-20's record: the value-set workbook's header has Value Set OID, the Direct
+		///Reference Codes file's Code with eCQM ID and no value set, the Code System Versions file's Code System Name, Code System Version and Code
+		///System OID).</summary>
 		private static EhrValueSetFileKind GetSheetKind(Dictionary<string,int> dictColumns) {
 			if(dictColumns.Count<2) {
 				return EhrValueSetFileKind.Unknown;
 			}
 			bool hasCode=dictColumns.ContainsKey(nameof(EhrCode.CodeValue));
 			bool hasCodeSystem=dictColumns.ContainsKey(nameof(EhrCode.CodeSystem)) || dictColumns.ContainsKey(nameof(EhrCode.CodeSystemOID));
-			bool hasVersion=dictColumns.ContainsKey(FIELD_VALUE_SET_VERSION) || dictColumns.ContainsKey(FIELD_CODE_SYSTEM_VERSION);
+			bool hasVersion=dictColumns.ContainsKey(FIELD_EXPANSION_VERSION) || dictColumns.ContainsKey(FIELD_CODE_SYSTEM_VERSION);
 			if(dictColumns.ContainsKey(nameof(EhrCode.ValueSetOID))
 				|| (hasCode && (dictColumns.ContainsKey(nameof(EhrCode.ValueSetName)) || dictColumns.ContainsKey(nameof(EhrCode.QDMCategory)))))
 			{
@@ -1561,7 +1674,7 @@ namespace OpenPmsDentalBusiness {
 				listMissing.Add("Value Set OID");
 			}
 			if(kind==EhrValueSetFileKind.DirectReferenceCodes && !dictColumns.ContainsKey(nameof(EhrCode.MeasureIds))) {
-				listMissing.Add("CMS ID");
+				listMissing.Add("eCQM ID (or CMS ID)");
 			}
 			if(kind!=EhrValueSetFileKind.CodeSystemVersions && !dictColumns.ContainsKey(nameof(EhrCode.CodeValue))) {
 				listMissing.Add("Code");
@@ -1616,16 +1729,24 @@ namespace OpenPmsDentalBusiness {
 				RawRow rawRow=new RawRow();
 				rawRow.ValueSetOID=GetCell(listRow,dictColumns,nameof(EhrCode.ValueSetOID));
 				rawRow.ValueSetName=GetCell(listRow,dictColumns,nameof(EhrCode.ValueSetName));
-				rawRow.ValueSetVersion=GetCell(listRow,dictColumns,FIELD_VALUE_SET_VERSION);
+				//The value set's version is its expansion's (E-20: Expansion Version "eCQM Update 2026-05-14"), then the expansion's ID, and only
+				//in a file with neither the definition's version (EHR-2's reading of the June 2013 workbook).
+				rawRow.ValueSetVersion=GetCell(listRow,dictColumns,FIELD_EXPANSION_VERSION);
+				if(rawRow.ValueSetVersion=="") {
+					rawRow.ValueSetVersion=GetCell(listRow,dictColumns,FIELD_EXPANSION_ID);
+				}
+				if(rawRow.ValueSetVersion=="" && !dictColumns.ContainsKey(FIELD_EXPANSION_VERSION) && !dictColumns.ContainsKey(FIELD_EXPANSION_ID)) {
+					rawRow.ValueSetVersion=GetCell(listRow,dictColumns,FIELD_DEFINITION_VERSION);
+				}
 				rawRow.QDMCategory=GetCell(listRow,dictColumns,nameof(EhrCode.QDMCategory));
-				rawRow.ListMeasureIds=ParseMeasureIds(GetCell(listRow,dictColumns,nameof(EhrCode.MeasureIds)));
+				rawRow.ListMeasureIds=ParseMeasureIds(GetMeasureCell(listRow,dictColumns));
 				rawRow.CodeValue=GetCell(listRow,dictColumns,nameof(EhrCode.CodeValue));
 				rawRow.Description=GetCell(listRow,dictColumns,nameof(EhrCode.Description));
 				rawRow.CodeSystemName=GetCell(listRow,dictColumns,nameof(EhrCode.CodeSystem));
 				rawRow.CodeSystemOID=GetCell(listRow,dictColumns,nameof(EhrCode.CodeSystemOID));
 				rawRow.CodeSystemVersion=GetCell(listRow,dictColumns,FIELD_CODE_SYSTEM_VERSION);
 				if(kind==EhrValueSetFileKind.CodeSystemVersions && rawRow.CodeSystemVersion=="") {
-					rawRow.CodeSystemVersion=rawRow.ValueSetVersion;//The file's Version column is the code system's.
+					rawRow.CodeSystemVersion=GetCell(listRow,dictColumns,FIELD_EXPANSION_VERSION);//A file's Version column is the code system's.
 				}
 				if(!AddRawRow(file,rawRows,rawRow,kind)) {
 					return true;
@@ -1644,6 +1765,22 @@ namespace OpenPmsDentalBusiness {
 				return "";
 			}
 			return (listRow[index]??"").Trim();
+		}
+
+		///<summary>The row's measure cell (CMS ID, or eCQM ID in the Direct Reference Codes file: CMS68v16 in E-20's record). A measure ID without
+		///a version (CMS68) takes the eCQM Version column's number (16), when the row has one.</summary>
+		private static string GetMeasureCell(List<string> listRow,Dictionary<string,int> dictColumns) {
+			string measure=GetCell(listRow,dictColumns,nameof(EhrCode.MeasureIds));
+			string version=GetCell(listRow,dictColumns,FIELD_MEASURE_VERSION);
+			Match matchVersion=Regex.Match(version,@"^v?\s*(\d{1,3})(?:\.\d+)*$",RegexOptions.IgnoreCase);
+			if(!matchVersion.Success || ParseMeasureIds(measure).Count>0) {
+				return measure;
+			}
+			Match matchMeasure=Regex.Match(measure,@"^(?:CMS)?\s*(\d{1,4})$",RegexOptions.IgnoreCase);
+			if(!matchMeasure.Success) {
+				return measure;
+			}
+			return "CMS"+matchMeasure.Groups[1].Value+"v"+matchVersion.Groups[1].Value;
 		}
 		#endregion Workbook
 
@@ -1684,11 +1821,14 @@ namespace OpenPmsDentalBusiness {
 								rawRow.CodeValue=(xmlReader.GetAttribute("code")??"").Trim();
 								rawRow.CodeSystemOID=(xmlReader.GetAttribute("codeSystem")??"").Trim();
 								rawRow.CodeSystemName=(xmlReader.GetAttribute("codeSystemName")??"").Trim();
+								rawRow.CodeSystemVersion=(xmlReader.GetAttribute("codeSystemVersion")??"").Trim();
 								rawRow.Description=(xmlReader.GetAttribute("displayName")??"").Trim();
 								if(!AddRawRow(file,rawRows,rawRow,EhrValueSetFileKind.ValueSets)) {
 									return;
 								}
-								listRowsOfValueSet.Add(rawRow);
+								if(rawRows.SetManifestOids.Contains(valueSetOID)) {//Only a kept row needs its category and measures (E-30).
+									listRowsOfValueSet.Add(rawRow);
+								}
 								continue;
 							}
 							if(xmlReader.LocalName!="Group" || xmlReader.Depth!=depthValueSet+1) {
@@ -1725,6 +1865,7 @@ namespace OpenPmsDentalBusiness {
 						rawRow.QDMCategory=qdmCategory;
 						rawRow.ListMeasureIds=listMeasureIds;//Read only from here on: the rows of one value set share it.
 					}
+					rawRows.AddMeasureIds(listMeasureIds);//The groups follow the concepts: the version check needs every value set's measures.
 				}
 			}
 			if(countValueSets==0) {
@@ -1781,6 +1922,14 @@ namespace OpenPmsDentalBusiness {
 						file.CountRowsSkipped++;
 						return true;
 					}
+					rawRows.AddMeasureIds(rawRow.ListMeasureIds);
+					if(!rawRows.SetManifestOids.Contains(rawRow.ValueSetOID)) {
+						//E-30: a value set no measure of the catalog uses is counted, not kept, so what is held is the catalog's value sets whatever
+						//the size of the release (the by-CMS workbook of 2026-05-14 lists those of 73 measures).
+						rawRows.CountRowsOtherValueSets++;
+						rawRows.SetOtherValueSetOids.Add(rawRow.ValueSetOID);
+						return true;
+					}
 					rawRows.ListValueSets.Add(rawRow);
 					return true;
 			}
@@ -1809,7 +1958,7 @@ namespace OpenPmsDentalBusiness {
 					FinishCodeSystemVersions(file,rawRows.ListCodeSystemVersions);
 					return;
 				default:
-					FinishValueSets(file,rawRows.ListValueSets);
+					FinishValueSets(file,rawRows);
 					return;
 			}
 		}
@@ -1831,15 +1980,20 @@ namespace OpenPmsDentalBusiness {
 			}
 		}
 
-		///<summary>Merges the value-set rows (one per value set, code system and code, with every measure that lists it), fills in from the manifest
-		///what the file does not give, and makes the checks of sections 7.1 and 7.2.</summary>
-		private static void FinishValueSets(EhrValueSetFile file,List<RawRow> listRawRows) {
+		///<summary>Merges the kept value-set rows (the manifest's value sets, E-30: one per value set, code system and code, with every measure that
+		///lists it), fills in from the manifest what the file does not give, and makes the checks of sections 7.1 and 7.2. The measure check uses
+		///every measure the file names, the rows of other value sets included.</summary>
+		private static void FinishValueSets(EhrValueSetFile file,RawRows rawRows) {
+			List<RawRow> listRawRows=rawRows.ListValueSets;
 			Dictionary<string,EhrValueSetManifestItem> dictManifest=GetManifest().ToDictionary(x => x.ValueSetOID,x => x);
 			HashSet<string> setMeasureIdsReported=new HashSet<string>(ArrayMeasureIds.Select(x => x.Substring(3)),StringComparer.Ordinal);//"68v16"
 			Dictionary<string,EhrCode> dictEhrCodes=new Dictionary<string,EhrCode>(StringComparer.Ordinal);
 			Dictionary<string,List<string>> dictMeasureIds=new Dictionary<string,List<string>>(StringComparer.Ordinal);
-			List<string> listMeasureIdsInFile=new List<string>();
+			//The Code System Version the first row of each code names (each value-set row names the version its code is from).
+			Dictionary<string,string> dictCodeSystemVersions=new Dictionary<string,string>(StringComparer.Ordinal);
+			List<string> listMeasureIdsInFile=rawRows.ListMeasureIdsInFile.ToList();
 			List<string> listVersions=new List<string>();
+			file.CountRowsOtherValueSets=rawRows.CountRowsOtherValueSets;
 			foreach(RawRow rawRow in listRawRows) {
 				string codeSystem=GetCodeSystemName(rawRow.CodeSystemOID,rawRow.CodeSystemName);
 				string codeSystemOID=rawRow.CodeSystemOID!="" ? rawRow.CodeSystemOID : GetCodeSystemOid(codeSystem);
@@ -1857,6 +2011,9 @@ namespace OpenPmsDentalBusiness {
 					if(ehrCodeExisting.Description=="" && rawRow.Description!="") {
 						ehrCodeExisting.Description=rawRow.Description;
 					}
+					if(dictCodeSystemVersions[key]=="" && rawRow.CodeSystemVersion!="") {
+						dictCodeSystemVersions[key]=rawRow.CodeSystemVersion;
+					}
 					continue;
 				}
 				EhrCode ehrCode=new EhrCode();
@@ -1869,6 +2026,7 @@ namespace OpenPmsDentalBusiness {
 				ehrCode.CodeSystemOID=codeSystemOID;
 				dictEhrCodes.Add(key,ehrCode);
 				dictMeasureIds.Add(key,rawRow.ListMeasureIds.ToList());
+				dictCodeSystemVersions.Add(key,rawRow.CodeSystemVersion);
 			}
 			foreach(KeyValuePair<string,EhrCode> pair in dictEhrCodes) {
 				EhrCode ehrCode=pair.Value;
@@ -1890,19 +2048,34 @@ namespace OpenPmsDentalBusiness {
 					continue;
 				}
 				file.ListEhrCodes.Add(ehrCode);
+				AddCodeSystemVersionUsed(file.ListCodeSystemVersionsUsed,ehrCode.CodeSystem,ehrCode.CodeSystemOID,dictCodeSystemVersions[pair.Key]);
 			}
 			AddTooLongWarning(file);
 			//The value sets.
 			HashSet<string> setOids=new HashSet<string>(file.ListEhrCodes.Select(x => x.ValueSetOID),StringComparer.Ordinal);
 			file.ListManifestOidsFound=dictManifest.Keys.Where(x => setOids.Contains(x)).ToList();
 			file.ListManifestOidsMissing=dictManifest.Keys.Where(x => !setOids.Contains(x)).ToList();
-			file.CountOtherValueSets=setOids.Count(x => !dictManifest.ContainsKey(x));
+			file.CountOtherValueSets=rawRows.SetOtherValueSetOids.Count+setOids.Count(x => !dictManifest.ContainsKey(x));
 			AddCodeSystemsWithoutTable(file,file.ListEhrCodes);
 			if(listVersions.Count>0) {
 				file.ListNotes.Add(Lans.g(LANS,"Value-set versions in the file")+": "+string.Join(", ",listVersions.OrderBy(x => x,StringComparer.Ordinal).Take(10))
 					+(listVersions.Count>10 ? ", ..." : ""));
 			}
 			if(file.ListEhrCodes.Count==0) {
+				//A release of other measures only: the measure check names what the file has and the release this program needs.
+				CheckMeasureVersions(file,listMeasureIdsInFile);
+				if(file.IsRefused) {
+					return;
+				}
+				if(file.CountOtherValueSets>0 && !file.AreVersionsChecked) {
+					file.ListRefusals.Add(Lans.g(LANS,"The file names no measures, and none of its value sets is one the measures of this program use."));
+					return;
+				}
+				if(file.CountOtherValueSets>0) {
+					file.ListRefusals.Add(Lans.g(LANS,"None of the file's value sets is one the measures of this program use")+" ("+file.CountOtherValueSets+" "
+						+Lans.g(LANS,"other value sets")+").");
+					return;
+				}
 				file.ListRefusals.Add(Lans.g(LANS,"The file has no value-set codes to import."));
 				return;
 			}
@@ -1928,6 +2101,7 @@ namespace OpenPmsDentalBusiness {
 		///files are picked together (MakePick).</summary>
 		private static void FinishDirectCodes(EhrValueSetFile file,List<RawRow> listRawRows) {
 			Dictionary<string,EhrDirectCode> dictDirectCodes=new Dictionary<string,EhrDirectCode>(StringComparer.Ordinal);
+			HashSet<string> setMeasureIdsReported=new HashSet<string>(ArrayMeasureIds.Select(x => x.Substring(3)),StringComparer.Ordinal);//"68v16"
 			List<string> listMeasureIdsInFile=new List<string>();
 			int countWithoutMeasure=0;
 			foreach(RawRow rawRow in listRawRows) {
@@ -1938,10 +2112,18 @@ namespace OpenPmsDentalBusiness {
 				}
 				string codeSystem=GetCodeSystemName(rawRow.CodeSystemOID,rawRow.CodeSystemName);
 				string codeSystemOID=rawRow.CodeSystemOID!="" ? rawRow.CodeSystemOID : GetCodeSystemOid(codeSystem);
+				bool isKept=false;
 				foreach(string measureId in rawRow.ListMeasureIds) {
 					if(!listMeasureIdsInFile.Contains(measureId)) {
 						listMeasureIdsInFile.Add(measureId);
 					}
+					if(!setMeasureIdsReported.Contains(measureId)) {
+						//E-20's record: the file lists the direct reference codes of every measure of the release (64 measures, the hospital ones
+						//among them, under Eligible Clinicians, Hospital Inpatient and Hospital Outpatient). Only the catalog's seven at their 2027
+						//versions are kept; the measure check below still names another version of one of them.
+						continue;
+					}
+					isKept=true;
 					string cmsId="CMS"+GetMeasureNumber(measureId).ToString(CultureInfo.InvariantCulture);
 					string key=measureId+"\t"+codeSystem+"\t"+rawRow.CodeValue;
 					if(dictDirectCodes.TryGetValue(key,out EhrDirectCode directCodeExisting)) {
@@ -1961,6 +2143,9 @@ namespace OpenPmsDentalBusiness {
 					directCode.CodeSystemVersion=rawRow.CodeSystemVersion;
 					dictDirectCodes.Add(key,directCode);
 				}
+				if(!isKept) {
+					file.CountRowsOtherMeasures++;
+				}
 			}
 			foreach(EhrDirectCode directCode in dictDirectCodes.Values) {
 				if(new[] { directCode.CodeValue,directCode.CodeSystem,directCode.CodeSystemOID }.Any(x => x.Length>MAX_COLUMN_LENGTH)
@@ -1970,16 +2155,37 @@ namespace OpenPmsDentalBusiness {
 					continue;
 				}
 				file.ListDirectCodes.Add(directCode);
+				AddCodeSystemVersionUsed(file.ListCodeSystemVersionsUsed,directCode.CodeSystem,directCode.CodeSystemOID,directCode.CodeSystemVersion);
 			}
 			AddTooLongWarning(file);
 			if(countWithoutMeasure>0) {
 				file.ListWarnings.Add(countWithoutMeasure+" "+Lans.g(LANS,"rows of the Direct Reference Codes file name no measure and are not imported."));
 			}
+			if(listMeasureIdsInFile.Count>0) {
+				//The measure check first: a file of another release has none of the seven at its 2027 version, and says so.
+				CheckMeasureVersions(file,listMeasureIdsInFile);
+				if(file.IsRefused) {
+					return;
+				}
+			}
 			if(file.ListDirectCodes.Count==0) {
 				file.ListRefusals.Add(Lans.g(LANS,"The Direct Reference Codes file has no direct reference codes to import."));
+			}
+		}
+
+		///<summary>Counts one imported code under its code system and the Code System Version its row names (section 7.4: each row names the
+		///version its code is from). A row without a version is not counted.</summary>
+		private static void AddCodeSystemVersionUsed(List<EhrCodeSystemVersion> listUsed,string codeSystem,string codeSystemOID,string version) {
+			version=(version??"").Trim();
+			if(version=="") {
 				return;
 			}
-			CheckMeasureVersions(file,listMeasureIdsInFile);
+			EhrCodeSystemVersion codeSystemVersion=listUsed.FirstOrDefault(x => x.CodeSystem==codeSystem && x.Version==version);
+			if(codeSystemVersion==null) {
+				codeSystemVersion=new EhrCodeSystemVersion { CodeSystem=codeSystem,CodeSystemOID=codeSystemOID,Version=version };
+				listUsed.Add(codeSystemVersion);
+			}
+			codeSystemVersion.CountCodes++;
 		}
 
 		///<summary>The Code System Versions file's rows: one per code system and version (section 7.4).</summary>
@@ -2091,7 +2297,8 @@ namespace OpenPmsDentalBusiness {
 				stringBuilder.AppendLine(Lans.g(LANS,"Rows read")+": "+file.CountRowsRead+"; "+Lans.g(LANS,"without a code or a measure (skipped)")+": "
 					+file.CountRowsSkipped+"; "+Lans.g(LANS,"repeated (merged)")+": "+file.CountRowsMerged);
 				stringBuilder.AppendLine(Lans.g(LANS,"Direct reference codes to import")+": "+file.ListDirectCodes.Count+" "+Lans.g(LANS,"of")+" "
-					+file.ListDirectCodes.Select(x => x.MeasureId).Distinct().Count()+" "+Lans.g(LANS,"measures"));
+					+file.ListDirectCodes.Select(x => x.MeasureId).Distinct().Count()+" "+Lans.g(LANS,"measures")+"; "
+					+Lans.g(LANS,"rows of other measures or versions (not imported)")+": "+file.CountRowsOtherMeasures);
 			}
 			else if(file.Kind==EhrValueSetFileKind.CodeSystemVersions) {
 				stringBuilder.AppendLine(Lans.g(LANS,"Rows read")+": "+file.CountRowsRead+"; "+Lans.g(LANS,"without a code system or a version (skipped)")+": "
@@ -2105,7 +2312,11 @@ namespace OpenPmsDentalBusiness {
 				stringBuilder.AppendLine(Lans.g(LANS,"Codes to import")+": "+file.ListEhrCodes.Count+" "+Lans.g(LANS,"in")+" "+file.CountValueSets+" "
 					+Lans.g(LANS,"value sets"));
 				stringBuilder.AppendLine(Lans.g(LANS,"Value sets the measures use, found")+": "+file.ListManifestOidsFound.Count+" "+Lans.g(LANS,"of")+" "
-					+dictManifest.Count+"; "+Lans.g(LANS,"other value sets of the release")+": "+file.CountOtherValueSets);
+					+dictManifest.Count+"; "+Lans.g(LANS,"other value sets of the release (not imported)")+": "+file.CountOtherValueSets+" ("
+					+file.CountRowsOtherValueSets+" "+Lans.g(LANS,"rows")+")");
+			}
+			if(file.ListCodeSystemVersionsUsed.Count>0 && !file.IsKindTaken) {
+				stringBuilder.AppendLine(Lans.g(LANS,"Code-system versions the codes to import name")+": "+GetCodeSystemVersionsUsedText(file.ListCodeSystemVersionsUsed));
 			}
 			if(file.AreVersionsChecked && !file.IsKindTaken) {
 				stringBuilder.AppendLine(Lans.g(LANS,"Measures")+": "+GetMeasureCheckText(file)
@@ -2238,7 +2449,44 @@ namespace OpenPmsDentalBusiness {
 			pick.FileDirectCodes=pick.ListFiles.Single(x => x.Kind==EhrValueSetFileKind.DirectReferenceCodes);
 			pick.FileCodeSystemVersions=pick.ListFiles.Single(x => x.Kind==EhrValueSetFileKind.CodeSystemVersions);
 			ResolveDirectCodes(pick);
+			CheckCodeSystemVersionsListed(pick);
 			return pick;
+		}
+
+		///<summary>The versions the value-set codes to import name, against the Code System Versions file (section 7.4; E-20's record: that file is
+		///the list of the versions the release's value sets use, several for one code system, for example CPT 2006 to 2026, as each value-set row
+		///names the version its own code is from). A version the value sets name that the file does not list warns: the files may be of different
+		///releases. The direct reference codes are not checked so: the release's file lists versions they do not use and does not list one they do
+		///(HL7 ActCode).</summary>
+		private static void CheckCodeSystemVersionsListed(EhrValueSetPick pick) {
+			HashSet<string> setListed=new HashSet<string>(pick.FileCodeSystemVersions.ListCodeSystemVersions.Select(x => x.CodeSystem+"\t"+x.Version),
+				StringComparer.Ordinal);
+			List<EhrCodeSystemVersion> listNotListed=pick.FileValueSets.ListCodeSystemVersionsUsed
+				.Where(x => !setListed.Contains(x.CodeSystem+"\t"+x.Version)).ToList();
+			if(listNotListed.Count==0) {
+				return;
+			}
+			pick.ListWarnings.Add(Lans.g(LANS,"The value sets name code-system versions the Code System Versions file does not list, so the files may be "
+				+"of different releases")+": "+GetCodeSystemVersionsUsedText(listNotListed)+".");
+		}
+
+		///<summary>"SNOMEDCT 2025-09 (93 codes), 2024-03 (4 codes); LOINC 2.81 (7 codes)": the versions by code system in the order of the list's
+		///code systems, each code system's versions newest first.</summary>
+		public static string GetCodeSystemVersionsUsedText(List<EhrCodeSystemVersion> listUsed) {
+			Meth.NoCheckMiddleTierRole();
+			List<string> listParts=new List<string>();
+			foreach(IGrouping<string,EhrCodeSystemVersion> grouping in (listUsed??new List<EhrCodeSystemVersion>()).GroupBy(x => x.CodeSystem)) {
+				listParts.Add(grouping.Key+" "+string.Join(", ",SortVersionsNewestFirst(grouping.Key,grouping.ToList())
+					.Select(x => x.Version+" ("+x.CountCodes.ToString("N0",CultureInfo.InvariantCulture)+" "+Lans.g(LANS,"codes")+")")));
+			}
+			return string.Join("; ",listParts);
+		}
+
+		///<summary>The versions of one code system newest first: by the comparable value where the code system has a mapping (GetComparableVersion),
+		///otherwise by their text, descending.</summary>
+		private static List<EhrCodeSystemVersion> SortVersionsNewestFirst(string codeSystem,List<EhrCodeSystemVersion> listVersions) {
+			return listVersions.OrderByDescending(x => GetComparableVersion(codeSystem,x.Version)??"",StringComparer.Ordinal)
+				.ThenByDescending(x => x.Version,StringComparer.Ordinal).ToList();
 		}
 
 		///<summary>The direct reference codes as ehrcode rows (section 7.3): ValueSetOID the fork key drc:[CMS ID]:[role], QDMCategory "Direct
@@ -2425,6 +2673,7 @@ namespace OpenPmsDentalBusiness {
 						CountBytes=filePicked.CountBytes });
 				}
 				release.ListCodeSystemVersions=pick.FileCodeSystemVersions.ListCodeSystemVersions.ToList();
+				release.ListCodeSystemVersionsUsed=pick.ListCodeSystemVersionsUsed;
 				release.ListRoles=pick.ListRoles.ToList();
 				PrefC.UpsertRaw(PREF_RELEASE,JsonConvert.SerializeObject(release));
 				SecurityLogs.MakeLogEntry(EnumPermType.Setup,0,GetLogText(release));
@@ -2551,7 +2800,8 @@ namespace OpenPmsDentalBusiness {
 		///(2.80), SNOMED CT, RxNorm and CVX by the date the version names (2025-09, 20250901), ICD-10-CM, CPT and HCPCS by the year. Returns a negative
 		///number when the loaded version is older, 0 when they are the same, a positive one when it is newer, and null when there is no mapping for
 		///the code system or either version does not follow it (the window then shows both strings without a flag). The release may name several
-		///versions of one code system (separated by ", "): the newest counts. **Provisional** until E-20's record of the real file.</summary>
+		///versions of one code system (separated by ", "): the newest counts. The status grid compares by the versions the codes name
+		///(CountCodesNewerThanLoaded); this compares two version strings.</summary>
 		public static int? CompareCodeSystemVersions(string codeSystem,string versionLoaded,string versionRelease) {
 			Meth.NoCheckMiddleTierRole();
 			string keyLoaded=GetComparableVersion(codeSystem,versionLoaded);
@@ -2565,6 +2815,45 @@ namespace OpenPmsDentalBusiness {
 			}
 			string keyRelease=listKeysRelease.OrderByDescending(x => x,StringComparer.Ordinal).First();
 			return Math.Sign(string.CompareOrdinal(keyLoaded,keyRelease));
+		}
+
+		///<summary>The imported codes of the code system whose rows name a version newer than the loaded table's (section 7.4). E-20's record: a
+		///code system has several versions in one release (SNOMEDCT from 2012-07 to 2025-09, CPT from 2006 to 2026), because each value-set row
+		///names the version its code is from, an older one for a code no longer in the newest; so the loaded table is older for the program only
+		///where codes name a newer version than it, and their count says how many may be missing. Null when the loaded version or every version
+		///of the codes has no comparable value (GetComparableVersion): the program cannot tell, and nothing is flagged.</summary>
+		public static int? CountCodesNewerThanLoaded(string codeSystem,string versionLoaded,List<EhrCodeSystemVersion> listVersionsUsed) {
+			Meth.NoCheckMiddleTierRole();
+			string keyLoaded=GetComparableVersion(codeSystem,versionLoaded);
+			if(keyLoaded==null || listVersionsUsed==null) {
+				return null;
+			}
+			bool isAnyCompared=false;
+			int countNewer=0;
+			foreach(EhrCodeSystemVersion codeSystemVersion in listVersionsUsed.Where(x => x.CodeSystem==codeSystem)) {
+				string key=GetComparableVersion(codeSystem,codeSystemVersion.Version);
+				if(key==null) {
+					continue;
+				}
+				isAnyCompared=true;
+				if(string.CompareOrdinal(key,keyLoaded)>0) {
+					countNewer+=codeSystemVersion.CountCodes;
+				}
+			}
+			return isAnyCompared ? countNewer : (int?)null;
+		}
+
+		///<summary>The versions the imported codes of one code system name, as the status grid shows them: newest first, at most three, then how
+		///many older ones ("2025-09, 2025-03, 2024-09 and 16 older").</summary>
+		public static string GetVersionsUsedShortText(string codeSystem,List<EhrCodeSystemVersion> listVersionsUsed) {
+			Meth.NoCheckMiddleTierRole();
+			List<string> listVersions=SortVersionsNewestFirst(codeSystem,listVersionsUsed??new List<EhrCodeSystemVersion>()).Select(x => x.Version)
+				.Distinct().ToList();
+			string text=string.Join(", ",listVersions.Take(3));
+			if(listVersions.Count>3) {
+				text+=" "+Lans.g(LANS,"and")+" "+(listVersions.Count-3)+" "+Lans.g(LANS,"older");
+			}
+			return text;
 		}
 
 		///<summary>The version as a string that compares in order (fixed width), or null when the code system has no mapping or the version does not

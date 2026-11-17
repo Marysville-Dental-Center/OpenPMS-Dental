@@ -137,7 +137,9 @@ namespace SparksToothChart.Wpf3D {
 	///thread, so a caller waiting for it cannot deadlock, and no WPF object is ever made on a caller's thread: the dashboard's MTA worker gets the
 	///WPF chart.
 	///An image: the 3D layer is rendered into a RenderTargetBitmap at 3x (capped at 8 megapixels) over the opaque background and reduced with WIC's
-	///Fant scaler (TransformedBitmap); it is drawn with the 2D layer into a second RenderTargetBitmap at the exact pixel size, and the pixels are
+	///Fant scaler (TransformedBitmap); it has two Viewport3DVisuals with the same camera, the scene's Items3DUnder (TC-3c's translucent unerupted
+	///teeth) in the first and its opaque Items3D over them in the second, so an opaque tooth always covers an unerupted one (each viewport has its
+	///own depth buffer); it is drawn with the 2D layer into a second RenderTargetBitmap at the exact pixel size, and the pixels are
 	///copied out with CopyPixels. One RenderTargetBitmap per pixel size is reused with Clear(), for at most three chart sizes (the least recently
 	///used is freed), so a loop never makes bitmaps fast enough to hit dotnet/wpf#3067. RenderTargetBitmap always renders in software, so no graphics
 	///driver changes an image.
@@ -291,6 +293,15 @@ namespace SparksToothChart.Wpf3D {
 					throw new InvalidOperationException("The WPF tooth chart's renderer could not start: "+ex.Message,ex);
 				}
 				renderThread.IsChecked=true;
+			}
+		}
+
+		///<summary>For tests only, never called by the program: makes the kept start failure exception (a later EnsureStarted throws it, as on a computer
+		///where WPF cannot draw), or clears it with null, so File > Graphics' status line and preview can be checked on a computer whose 3D chart falls
+		///back (TC-8b) without a second process. Clearing it lets the renderer start again as it did before.</summary>
+		public static void SetStartFailureForTests(Exception exception) {
+			lock(_instance._lockState) {
+				_instance._exceptionStart=exception;
 			}
 		}
 
@@ -596,12 +607,14 @@ namespace SparksToothChart.Wpf3D {
 			return factor;
 		}
 
-		///<summary>The three-part material of section 5.3, frozen.</summary>
+		///<summary>The three-part material of section 5.3, frozen. Every brush has the colour's alpha: 255 for all but the chart's unerupted teeth
+		///(TC-3c, ToothSceneBuilder.UneruptedAlpha), whose diffuse pass blends over what is drawn and whose specular and emissive passes add only
+		///that part of their light, so the tooth's lit colour is blended at that alpha.</summary>
 		public static MaterialGroup CreateMaterial(System.Drawing.Color color,float specular,float diffuseFactor,float emissiveFactor) {
 			MaterialGroup materialGroup=new MaterialGroup();
 			materialGroup.Children.Add(new DiffuseMaterial(CreateBrush(color,diffuseFactor)));
 			byte specularByte=ToByte(specular*255.0);
-			SolidColorBrush brushSpecular=new SolidColorBrush(Color.FromRgb(specularByte,specularByte,specularByte));
+			SolidColorBrush brushSpecular=new SolidColorBrush(Color.FromArgb(color.A,specularByte,specularByte,specularByte));
 			brushSpecular.Freeze();
 			materialGroup.Children.Add(new SpecularMaterial(brushSpecular,ToothScene.SpecularPower));
 			materialGroup.Children.Add(new EmissiveMaterial(CreateBrush(color,emissiveFactor)));
@@ -610,7 +623,8 @@ namespace SparksToothChart.Wpf3D {
 		}
 
 		private static SolidColorBrush CreateBrush(System.Drawing.Color color,float factor) {
-			SolidColorBrush brush=new SolidColorBrush(Color.FromRgb(ToByte(color.R*(double)factor),ToByte(color.G*(double)factor),ToByte(color.B*(double)factor)));
+			SolidColorBrush brush=new SolidColorBrush(Color.FromArgb(color.A,ToByte(color.R*(double)factor),ToByte(color.G*(double)factor),
+				ToByte(color.B*(double)factor)));
 			brush.Freeze();
 			return brush;
 		}
@@ -646,18 +660,34 @@ namespace SparksToothChart.Wpf3D {
 			return new Matrix3D(m.M11,m.M12,m.M13,m.M14,m.M21,m.M22,m.M23,m.M24,m.M31,m.M32,m.M33,m.M34,m.M41,m.M42,m.M43,m.M44);
 		}
 
-		///<summary>The scene's 3D models with the one light, frozen: each item's frozen mesh from meshCache (reversed when its transform mirrors) with its
-		///material from materialCache and its transform. A model the cache does not have (a group index past the model's groups) is left out. Shared by
-		///the render thread and the live view (ToothChartWpfView), each with the caches of its own thread.</summary>
+		///<summary>The scene's opaque 3D models (Items3D) with the one light, frozen (BuildModel of the items).</summary>
 		public static Model3DGroup BuildModel(ToothScene scene,ToothMeshCache meshCache,ToothMaterialCache materialCache) {
+			return BuildModel(scene,scene.Items3D,meshCache,materialCache);
+		}
+
+		///<summary>TC-3c: the 3D models drawn beneath the opaque ones (Items3DUnder, the chart's translucent unerupted teeth) with the one light, frozen,
+		///or null when the scene has none, so the layer beneath draws nothing at all.</summary>
+		public static Model3DGroup BuildModelUnder(ToothScene scene,ToothMeshCache meshCache,ToothMaterialCache materialCache) {
+			if(scene.Items3DUnder.Count==0) {
+				return null;
+			}
+			return BuildModel(scene,scene.Items3DUnder,meshCache,materialCache);
+		}
+
+		///<summary>The 3D models of the items with the one light, frozen: each item's frozen mesh from meshCache (reversed when its transform mirrors)
+		///with its material from materialCache and its transform. A model the cache does not have (a group index past the model's groups) is left out.
+		///Shared by the render thread and the live view (ToothChartWpfView), each with the caches of its own thread.</summary>
+		private static Model3DGroup BuildModel(ToothScene scene,IEnumerable<ToothSceneItem3D> listItems,ToothMeshCache meshCache,
+			ToothMaterialCache materialCache)
+		{
 			Model3DGroup model3DGroup=new Model3DGroup();
 			model3DGroup.Children.Add(CreateLight());
-			foreach(ToothSceneItem3D item in scene.Items3D) {
+			foreach(ToothSceneItem3D item in listItems) {
 				MeshGeometry3D mesh=meshCache.GetMesh(item.ToothId,item.GroupIndex,item.IsReversed);
 				if(mesh==null) {
 					continue;
 				}
-				GeometryModel3D geometryModel3D=new GeometryModel3D(mesh,materialCache.GetMaterial(item.Color,item.Specular,scene));
+				GeometryModel3D geometryModel3D=new GeometryModel3D(mesh,materialCache.GetMaterial(item.Color,item.Specular,scene,item.IsFlat));
 				MatrixTransform3D matrixTransform3D=new MatrixTransform3D(ToMatrix3D(item.Transform));
 				matrixTransform3D.Freeze();
 				geometryModel3D.Transform=matrixTransform3D;
@@ -691,6 +721,9 @@ namespace SparksToothChart.Wpf3D {
 			private DrawingVisual _drawingVisualBackground;
 			private Viewport3DVisual _viewport3DVisual;
 			private ModelVisual3D _modelVisual3D;
+			///<summary>TC-3c: the viewport beneath _viewport3DVisual, with the scene's Items3DUnder.</summary>
+			private Viewport3DVisual _viewport3DVisualUnder;
+			private ModelVisual3D _modelVisual3DUnder;
 			private int _countFailuresInRow;
 
 			private RenderThread(ToothChartRenderer toothChartRenderer) {
@@ -816,6 +849,8 @@ namespace SparksToothChart.Wpf3D {
 					_drawingVisualBackground=null;
 					_viewport3DVisual=null;
 					_modelVisual3D=null;
+					_viewport3DVisualUnder=null;
+					_modelVisual3DUnder=null;
 					_toothChartRenderer.CountResetAfterFailures();
 				}
 			}
@@ -869,8 +904,8 @@ namespace SparksToothChart.Wpf3D {
 				return result;
 			}
 
-			///<summary>The 3D layer at the exact pixel size: the background and the lit teeth, rendered at the supersampling factor and reduced with
-			///WIC's Fant scaler, frozen. result, when given, gets the factor, the root's DPI scale and the times of the parts.</summary>
+			///<summary>The 3D layer at the exact pixel size: the background, the lit teeth beneath (Items3DUnder) and the lit opaque teeth over them,
+			///rendered at the supersampling factor and reduced with WIC's Fant scaler, frozen. result, when given, gets the factor, the root's DPI scale and the times of the parts.</summary>
 			public BitmapSource Render3DLayer(ToothScene scene,ToothChartRenderResult result) {
 				int width=scene.Size.Width;
 				int height=scene.Size.Height;
@@ -882,6 +917,9 @@ namespace SparksToothChart.Wpf3D {
 					brushBackground.Freeze();
 					drawingContext.DrawRectangle(brushBackground,null,new Rect(0,0,width,height));
 				}
+				_viewport3DVisualUnder.Viewport=new Rect(0,0,width,height);
+				_viewport3DVisualUnder.Camera=CreateCamera(scene);
+				_modelVisual3DUnder.Content=BuildModelUnder(scene,ToothMeshCache,_toothMaterialCache);
 				_viewport3DVisual.Viewport=new Rect(0,0,width,height);
 				_viewport3DVisual.Camera=CreateCamera(scene);
 				_modelVisual3D.Content=BuildModel(scene,ToothMeshCache,_toothMaterialCache);
@@ -893,6 +931,7 @@ namespace SparksToothChart.Wpf3D {
 				renderTargetBitmap.Render(_containerVisual3D);
 				DpiScale dpiScale=VisualTreeHelper.GetDpi(_containerVisual3D);
 				_modelVisual3D.Content=null;//the frozen models are not kept past the render
+				_modelVisual3DUnder.Content=null;
 				double millisecondsRasterize=stopwatch.Elapsed.TotalMilliseconds;
 				stopwatch.Restart();
 				BitmapSource bitmapSource=renderTargetBitmap;
@@ -926,7 +965,12 @@ namespace SparksToothChart.Wpf3D {
 				_viewport3DVisual=new Viewport3DVisual();
 				_modelVisual3D=new ModelVisual3D();
 				_viewport3DVisual.Children.Add(_modelVisual3D);
+				_viewport3DVisualUnder=new Viewport3DVisual();
+				_modelVisual3DUnder=new ModelVisual3D();
+				_viewport3DVisualUnder.Children.Add(_modelVisual3DUnder);
+				//In drawing order: the background, the teeth beneath (TC-3c), the opaque teeth.
 				_containerVisual3D.Children.Add(_drawingVisualBackground);
+				_containerVisual3D.Children.Add(_viewport3DVisualUnder);
 				_containerVisual3D.Children.Add(_viewport3DVisual);
 			}
 
@@ -986,7 +1030,18 @@ namespace SparksToothChart.Wpf3D {
 		///<summary>A material of three parts: a diffuse brush of the colour times DiffuseFactor, a specular brush of the specular value with power 70,
 		///and an emissive brush of the colour times EmissiveFactor, which is DirectX's ambient term. Made and frozen the first time.</summary>
 		public Material GetMaterial(System.Drawing.Color color,float specular,ToothScene scene) {
-			string key=color.ToArgb()+"|"+specular.ToString("R")+"|"+scene.DiffuseFactor.ToString("R")+"|"+scene.EmissiveFactor.ToString("R");
+			return GetMaterial(color,specular,scene,false);
+		}
+
+		///<summary>GetMaterial; isFlat (TC-6, ToothSceneItem3D.IsFlat) gives the colour exactly, unlit: no diffuse and no specular part, and the whole
+		///colour as the emissive part.</summary>
+		public Material GetMaterial(System.Drawing.Color color,float specular,ToothScene scene,bool isFlat) {
+			float diffuseFactor=isFlat ? 0f : scene.DiffuseFactor;
+			float emissiveFactor=isFlat ? 1f : scene.EmissiveFactor;
+			if(isFlat) {
+				specular=0f;
+			}
+			string key=color.ToArgb()+"|"+specular.ToString("R")+"|"+diffuseFactor.ToString("R")+"|"+emissiveFactor.ToString("R");
 			Material material;
 			if(_dictMaterials.TryGetValue(key,out material)) {
 				return material;
@@ -994,7 +1049,7 @@ namespace SparksToothChart.Wpf3D {
 			if(_dictMaterials.Count>4096) {
 				_dictMaterials.Clear();
 			}
-			material=ToothChartRenderer.CreateMaterial(color,specular,scene.DiffuseFactor,scene.EmissiveFactor);
+			material=ToothChartRenderer.CreateMaterial(color,specular,diffuseFactor,emissiveFactor);
 			_dictMaterials[key]=material;
 			return material;
 		}

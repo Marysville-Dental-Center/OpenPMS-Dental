@@ -46,12 +46,11 @@ namespace fyiReporting.RdlDesign
 		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.TextBox tbSQL;
 		private System.Windows.Forms.Label label2;
-		private System.Windows.Forms.DataGridTableStyle dataGridTableStyle1;
 		private System.Windows.Forms.Button bDeleteField;
 		private System.Windows.Forms.Button bEditSQL;
 		private System.Windows.Forms.Label lDataSource;
 		private System.Windows.Forms.Label lDataSetName;
-		private System.Windows.Forms.DataGrid dgFields;
+		private System.Windows.Forms.DataGridView dgFields;
 		private System.Windows.Forms.Button bRefresh;
 		private System.Windows.Forms.Label label3;
 		private System.Windows.Forms.NumericUpDown tbTimeout;
@@ -79,43 +78,45 @@ namespace fyiReporting.RdlDesign
 		private void InitValues()
 		{
 			// Initialize the DataGrid columns
-			DataGridTextBoxColumn dgtbName = new DataGridTextBoxColumn();
-			DataGridTextBoxColumn dgtbQueryName = new DataGridTextBoxColumn();
-			DataGridTextBoxColumn dgtbValue = new DataGridTextBoxColumn();
-			DataGridTextBoxColumn dgtbTypeName = new DataGridTextBoxColumn();
+			DataGridViewTextBoxColumn dgtbName = new DataGridViewTextBoxColumn();
+			DataGridViewTextBoxColumn dgtbQueryName = new DataGridViewTextBoxColumn();
+			DataGridViewTextBoxColumn dgtbValue = new DataGridViewTextBoxColumn();
+			DataGridViewTextBoxColumn dgtbTypeName = new DataGridViewTextBoxColumn();
 
-			this.dataGridTableStyle1.GridColumnStyles.AddRange(new DataGridColumnStyle[] {
+			this.dgFields.Columns.AddRange(new DataGridViewColumn[] {
 																					  dgtbName,
 																					  dgtbQueryName,
 																					  dgtbValue,
 																					  dgtbTypeName});
+			DataGridViewSetup.CommitOnLeave(this.dgFields);
+			DataGridViewSetup.KeepEmptyText(this.dgFields);
 			// dgtbName
-			dgtbName.Format = "";
-			dgtbName.FormatInfo = null;
+			dgtbName.DefaultCellStyle.Format = "";
+			dgtbName.DefaultCellStyle.FormatProvider = null;
 			dgtbName.HeaderText = "Name";
-			dgtbName.MappingName = "Name";
+			dgtbName.DataPropertyName = "Name";
 			dgtbName.Width = 75;
 
 			// dgtbQueryName
-			dgtbQueryName.Format = "";
-			dgtbQueryName.FormatInfo = null;
+			dgtbQueryName.DefaultCellStyle.Format = "";
+			dgtbQueryName.DefaultCellStyle.FormatProvider = null;
 			dgtbQueryName.HeaderText = "Query Column Name";
-			dgtbQueryName.MappingName = "QueryName";
+			dgtbQueryName.DataPropertyName = "QueryName";
 			dgtbQueryName.Width = 80;
 
 			// dgtbValue
 			// 
-			dgtbValue.Format = "";
-			dgtbValue.FormatInfo = null;
+			dgtbValue.DefaultCellStyle.Format = "";
+			dgtbValue.DefaultCellStyle.FormatProvider = null;
 			dgtbValue.HeaderText = "Value";
-			dgtbValue.MappingName = "Value";
+			dgtbValue.DataPropertyName = "Value";
 			dgtbValue.Width = 175;
 
 			// dgtbTypeName
-			dgtbTypeName.Format = "";
-			dgtbTypeName.FormatInfo = null;
+			dgtbTypeName.DefaultCellStyle.Format = "";
+			dgtbTypeName.DefaultCellStyle.FormatProvider = null;
 			dgtbTypeName.HeaderText = "TypeName";
-			dgtbTypeName.MappingName = "TypeName";
+			dgtbTypeName.DataPropertyName = "TypeName";
 			dgtbTypeName.Width = 150;
 
 			// cbDataSource
@@ -236,8 +237,7 @@ namespace fyiReporting.RdlDesign
 			this.label1 = new System.Windows.Forms.Label();
 			this.tbSQL = new System.Windows.Forms.TextBox();
 			this.label2 = new System.Windows.Forms.Label();
-			this.dgFields = new System.Windows.Forms.DataGrid();
-			this.dataGridTableStyle1 = new System.Windows.Forms.DataGridTableStyle();
+			this.dgFields = new System.Windows.Forms.DataGridView();
 			this.bDeleteField = new System.Windows.Forms.Button();
 			this.bEditSQL = new System.Windows.Forms.Button();
 			this.bRefresh = new System.Windows.Forms.Button();
@@ -311,21 +311,13 @@ namespace fyiReporting.RdlDesign
 			// 
 			// dgFields
 			// 
-			this.dgFields.CaptionVisible = false;
+			this.dgFields.AutoGenerateColumns = false;
 			this.dgFields.DataMember = "";
-			this.dgFields.HeaderForeColor = System.Drawing.SystemColors.ControlText;
+			this.dgFields.ColumnHeadersDefaultCellStyle.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.dgFields.Location = new System.Drawing.Point(8, 152);
 			this.dgFields.Name = "dgFields";
 			this.dgFields.Size = new System.Drawing.Size(376, 104);
 			this.dgFields.TabIndex = 8;
-			this.dgFields.TableStyles.AddRange(new System.Windows.Forms.DataGridTableStyle[] {
-																								 this.dataGridTableStyle1});
-			// 
-			// dataGridTableStyle1
-			// 
-			this.dataGridTableStyle1.DataGrid = this.dgFields;
-			this.dataGridTableStyle1.HeaderForeColor = System.Drawing.SystemColors.ControlText;
-			this.dataGridTableStyle1.MappingName = "";
 			// 
 			// bDeleteField
 			// 
@@ -413,6 +405,7 @@ namespace fyiReporting.RdlDesign
 
 		public void Apply()
 		{
+			DataGridViewSetup.CommitEdits(this.dgFields);
 			XmlNode rNode = _Draw.GetReportNode();
 			XmlNode dsNode = _Draw.GetNamedChildNode(rNode, "DataSets");
 
@@ -438,9 +431,11 @@ namespace fyiReporting.RdlDesign
 				string name = (string) dr[0];
 				if (name.Length <= 0)
 					continue;
+				// S3a-M3: a row typed in with only a Name has no Value (DBNull); it is written as an empty Value (the cast threw here before)
+				string value = dr[1] == DBNull.Value? "": (string) dr[1];
 				XmlNode qpNode = _Draw.CreateElement(qpsNode, "QueryParameter", null);
 				_Draw.SetElementAttribute(qpNode, "Name", name);
-				_Draw.SetElement(qpNode, "Value", (string) dr[1]);	
+				_Draw.SetElement(qpNode, "Value", value);
 			}
 			if (!qpsNode.HasChildNodes)	// if no parameters we don't need to define them
 				_Draw.RemoveElement(qNode, "QueryParameters");
@@ -494,7 +489,8 @@ namespace fyiReporting.RdlDesign
 
 		private void bDeleteField_Click(object sender, System.EventArgs e)
 		{
-			_dsv.Fields.Rows.RemoveAt(this.dgFields.CurrentRowIndex);
+			if (DataGridViewSetup.IsCurrentRowData(this.dgFields))		// not the new row at the end, which has no row in the table yet
+				_dsv.Fields.Rows.RemoveAt(DataGridViewSetup.GetCurrentRowIndex(this.dgFields));
 		}
 
 		private void bRefresh_Click(object sender, System.EventArgs e)

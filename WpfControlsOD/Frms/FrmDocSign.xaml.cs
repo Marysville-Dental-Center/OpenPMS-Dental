@@ -8,6 +8,7 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using CodeBase;
 using OpenPmsDentalBusiness;
 using WpfControls.UI;
 
@@ -92,8 +93,21 @@ namespace OpenPmsDental {
 		}
 
 		private void butSave_Click(object sender, System.EventArgs e){
-			_document.Note=textNote.Text;
-			SaveSignature();
+			//S3a-14g: a Topaz signature the 32-bit helper lost stops the save here, with the message, before the document is written; the window
+			//stays open, so the user can clear the box and sign again. Before, GetSignature's failure ended the program.
+			string noteOld=_document.Note;
+			_document.Note=textNote.Text;//the signature's key data includes the note
+			try {
+				if(_isSignatureChanged && signatureBoxWrapper.GetSigIsTopaz()) {
+					signatureBoxWrapper.CheckTopazSignatureReachable();
+				}
+				SaveSignature();
+			}
+			catch(Helper32Exception ex) {
+				_document.Note=noteOld;
+				MsgBox.Show(ex.Message);
+				return;
+			}
 			Documents.Update(_document);
 			ImageSignaturePermissions.LogSignatureChange(_documentOld,_document);
 			IsDialogOK=true;

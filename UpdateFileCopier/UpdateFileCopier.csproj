@@ -52,6 +52,9 @@
     <Compile Include="..\CodeBase\Utilities\ODBuild.cs">
       <Link>ODBuild.cs</Link>
     </Compile>
+    <Compile Include="..\CodeBase\Utilities\ODCancellation.cs">
+      <Link>ODCancellation.cs</Link>
+    </Compile>
     <Compile Include="..\CodeBase\Utilities\ODClassExtensions.cs">
       <Link>ODClassExtensions.cs</Link>
     </Compile>

@@ -307,6 +307,7 @@ namespace OpenPmsDental {
 				MiscData.FlushTables();
 			}
 			for(int i=0;i<fileInfoArray.Length;i++) {
+				ODCancellation.ThrowIfCancellationRequested();//The user cancelled: copy no further file (S3a-1b).
 				string fromFile=fileInfoArray[i].FullName;
 				string toFile=ODFileUtils.CombinePaths(new string[] { backupToPath,databaseName,fileInfoArray[i].Name });
 				bool doOverwrite=false;
@@ -424,6 +425,8 @@ namespace OpenPmsDental {
 					}
 				}
 				if(containsMaxPathLimit) {
+					//The question comes from the worker thread: none after the user cancelled (S3a-1c). The folder listing above can take a while.
+					ODCancellation.ThrowIfCancellationRequested();
 					if(!MsgBox.Show(MsgBoxButtons.YesNo, "Your AtoZ images folder contains file paths that exceed the length limit, this could result in data loss."
 							+" These will likely be skipped. Continue anyways?")) {
 						throw new ODException("User manually cancelled out of the Backup or Restore.");
@@ -434,6 +437,7 @@ namespace OpenPmsDental {
 				}
 			}
 			for(int i=0;i<directoryInfoArray.Length;i++){
+				ODCancellation.ThrowIfCancellationRequested();//The user cancelled: create or copy nothing further (S3a-1b).
 				string destinationPath=ODFileUtils.CombinePaths(toPath,directoryInfoArray[i].Name);
 				if(!Directory.Exists(destinationPath)){
 					Directory.CreateDirectory(destinationPath);
@@ -443,6 +447,7 @@ namespace OpenPmsDental {
 			}
 			FileInfo[] fileInfoArray=directoryInfo.GetFiles();//of fromPath
 			for(int i=0;i<fileInfoArray.Length;i++){
+				ODCancellation.ThrowIfCancellationRequested();//The user cancelled: copy no further file (S3a-1b), outside the catch below.
 				string fromFile=fileInfoArray[i].FullName;
 				string toFile=ODFileUtils.CombinePaths(toPath,fileInfoArray[i].Name);
 				if(File.Exists(toFile)){
@@ -678,32 +683,35 @@ namespace OpenPmsDental {
 						pass:textArchivePass.Text,
 						doVerify:true);
 				}
-				long numDeleted=0;
-				//Delete the unnecessary data
+				//Delete the unnecessary data. Each delete is one unit with its security log entry (S3a-1b): a cancel (during the backup above, or
+				//during a delete) stops the action before the next delete, never between a delete and its entry, and no delete starts after it.
+				void RunDeleteStep(Func<long> funcDelete,string textRemoved,string logText) {
+					progressOD.CancellationToken.ThrowIfCancellationRequested();
+					ODCancellation.RunUncancellable(() => {
+						long numDeleted=funcDelete();
+						popupMessage+="Successfully removed "+numDeleted+textRemoved;
+						SecurityLogs.MakeLogEntry(EnumPermType.Backup,0,logText);
+					});
+				}
 				if(checkSecurityLog.Checked) {
-					numDeleted=SecurityLogs.DeleteBeforeDateInclusive(dateTimeArchive.Value);//this fires events
-					popupMessage+="Successfully removed "+numDeleted+" SecurityLog entries.\r\n";
-					SecurityLogs.MakeLogEntry(EnumPermType.Backup,0,$"SecurityLog and SecurityLogHashes on/before {dateTimeArchive.Value} deleted.");
+					RunDeleteStep(() => SecurityLogs.DeleteBeforeDateInclusive(dateTimeArchive.Value),//this fires events
+						" SecurityLog entries.\r\n",$"SecurityLog and SecurityLogHashes on/before {dateTimeArchive.Value} deleted.");
 				}
 				if(checkEmailMessage.Checked) {
-					numDeleted=EmailMessages.DeleteBeforeDate(dateTimeArchive.Value);
-					popupMessage+="Successfully removed "+numDeleted+" EmailMessage entries.\r\n";
-					SecurityLogs.MakeLogEntry(EnumPermType.Backup,0,$"EmailMessages on/before {dateTimeArchive.Value} deleted.");
+					RunDeleteStep(() => EmailMessages.DeleteBeforeDate(dateTimeArchive.Value),
+						" EmailMessage entries.\r\n",$"EmailMessages on/before {dateTimeArchive.Value} deleted.");
 				}
 				if(checkWikiListHist.Checked) {
-					numDeleted=WikiListHists.DeleteBeforeDate(dateTimeArchive.Value);
-					popupMessage+="Successfully removed "+numDeleted+" WikiListHist entries.\r\n";
-					SecurityLogs.MakeLogEntry(EnumPermType.Backup,0,$"WikiListHist on/before {dateTimeArchive.Value} deleted.");
+					RunDeleteStep(() => WikiListHists.DeleteBeforeDate(dateTimeArchive.Value),
+						" WikiListHist entries.\r\n",$"WikiListHist on/before {dateTimeArchive.Value} deleted.");
 				}
 				if(checkWikiPageHist.Checked) {
-					numDeleted=WikiPageHists.DeleteBeforeDate(dateTimeArchive.Value);
-					popupMessage+="Successfully removed "+numDeleted+" WikiPageHist entries.\r\n";
-					SecurityLogs.MakeLogEntry(EnumPermType.Backup,0,$"WikiPageHists on/before {dateTimeArchive.Value} deleted.");
+					RunDeleteStep(() => WikiPageHists.DeleteBeforeDate(dateTimeArchive.Value),
+						" WikiPageHist entries.\r\n",$"WikiPageHists on/before {dateTimeArchive.Value} deleted.");
 				}
 				if(checkTaskHist.Checked) {
-					numDeleted=TaskHists.DeleteBeforeDate(dateTimeArchive.Value);
-					popupMessage+="Successfully removed "+numDeleted+" TaskHist entries.";
-					SecurityLogs.MakeLogEntry(EnumPermType.Backup,0,$"TaskHists on/before {dateTimeArchive.Value} deleted.");
+					RunDeleteStep(() => TaskHists.DeleteBeforeDate(dateTimeArchive.Value),
+						" TaskHist entries.",$"TaskHists on/before {dateTimeArchive.Value} deleted.");
 				}
 			};
 			try{
@@ -712,6 +720,13 @@ namespace OpenPmsDental {
 			catch(Exception ex) {
 				FriendlyException.Show("An error occurred backing up the old database. Old data was not removed from the database. "+
 					"Ensure no other machines are currently using Open PMS - Dental and try again.",ex);
+				return;
+			}
+			if(progressOD.IsCancelled) {
+				//S3a-1b: the optimize does not run after a cancel. What was removed before the cancel is still shown.
+				if(!string.IsNullOrEmpty(popupMessage)) {
+					MsgBox.Show(popupMessage);
+				}
 				return;
 			}
 			//The UI enforces a backup to occur above when optimize is checked

@@ -408,6 +408,122 @@ packages; an unlocked restore of the whole slnf gave no NU warning and changed 4
 analyzers; the release ships eight new files (four Helix, three .NET Community Toolkit, System.ComponentModel.Annotations), each noticed, and no
 System.Net.Http or other 4.3.x file. The rules for the chart's Helix use are in the TC-4 row and in `docs/port-notes/TC-4.md`.
 
+**TC-5 (2026-11-14, branch `chart/tc5-1`, fix round 1 on `chart/tc5-2`, the Open Dental parity round on `chart/tc5-4`, fix round 5 on
+`chart/tc5-5`): free text, the
+text paint types and the extraction graphic; gallery G2 (its fourth version) waits for the owner.**
+`docs/port-notes/TC-5.md` has the details and launch check L-5 written for a person. The parity round follows the owner's rule of
+2026-11-14 ("keep it the same as OD latest version"; section 10, "Open Dental parity (2026-11-14)"). In short:
+- The WPF chart and the 2D chart draw free text (last, over everything, kept inside the picture) and paint type Text other than "W"
+  beyond the root tip, in the watch mark's band, at its size in regular weight, one line nearer the tooth when the tooth has a "W" (O-22).
+  The WPF chart moves a label with `CursorTool.MoveText` and recolours it with Change Color (`CursorTool.ColorChanger` with no drawing
+  near), through the shared mouse class (the image host and the live view), raising `TextMoved` and `TextColorChanged`; the Chart module
+  saves both. The 2D chart draws but does not move or recolour labels. DirectX and OpenGL draw none of it until TC-9a retires them.
+- TextBelow is not in the tooth picture: the Chart module shows it in a one-line read-only strip under the date slider (O-21), from the
+  procedures it paints, of any treatment area, joined in ProcDate order with "; ", hidden when there is none, shown again after every
+  layout and never in a layout without the slider (fix round 5). Pictures for sheets,
+  printouts, the big chart and the dashboard do not carry it.
+- The extraction graphic (O-20) is `ForkToothChartShowCompletedExtractions` in `ToothChartExtractionGraphic`, read and written by name,
+  **on** when the row is missing (Open Dental 26.2's default); the Chart preferences page's check box saves it with an audit line and the
+  preference signal, and the settings snapshot redraws the Chart module. On, the painter draws every completed extraction's X in its
+  status's colour over the missing tooth, in list order, whatever else is on the tooth (a plain switch: round 2's implant and pontic
+  exception is removed).
+- The 2D chart draws its TC-5 text in its fixed 8.25 pt font at every size, as its tooth numbers and "W".
+- `GetPaintTypesForList` lists TextBelow; the paint text box shows for Text and TextBelow.
+- New scenes carry `HasLegacyRecording=false` (the old engines never drew them), so the DirectX parity probes and the legacy recorder leave
+  them out. `Baselines/simple2d-net48` gates the 2D chart's TC-5 drawing. The baselines and call logs re-recorded by each round are listed
+  in TC-5.md section 2.2.
+
+**TC-7 (2026-11-15, branch `chart/tc7-1`): graphical perio on the WPF chart; gallery G3 approved by the owner on 2026-11-15, merged.** `docs/port-notes/TC-7.md`
+has the details and launch check L-6 written for a person. In short:
+- The wrapper allows perio mode on `Wpf3D`. The scene builder draws the perio scene as DirectX's `DrawScenePerio` draws it (row PERIO-1 is
+  od-unknown): each row's teeth in the perio light, then that row's decorations in the 2D layer in DirectX's order (millimetre lines,
+  mobility, furcations, probing bars, bleeding and suppuration droplets, GM, CAL and MGJ lines), then the centre line, the numbers 1-32 and
+  the legend, in the nine perio colours with the two red limits.
+- Two Open Dental 24.4 changes: the implant rule stays in `FormPerioGraphical` (a removed implant is not passed), and with Perio Setup's
+  Recession option on the legend says "Recession" unless the exam has hyperplasia (`ToothChartRelay.ApplyGraphicalPerioMode` passes the
+  option; `ToothChartWrapper.PerioUseRecessionTerm`). The DirectX legend keeps its fixed text.
+- The reversed meshes carry negated normals, so the mirrored lingual rows are lit as DirectX lights them (5.2).
+- `FormPerioGraphical` keeps DirectX until TC-8; the DEBUG switch opens it on `Wpf3D` (L-6). No program file is edited.
+- 15 perio scenes at 649x696 (five new ones with `HasLegacyRecording=false`) and the print and the 750x1000 save of three of them are WPF
+  baselines; the perio parity probes compare the ten recorded scenes with TC-0's DirectX pictures.
+
+**TC-8 (2026-11-15, branch `chart/tc8-1` from `main` at `e2fc2306f`, review fix on `chart/tc8-2`): the engine choice moves to the WPF chart;
+every host. Merged from `chart/tc8-2`: the owner approved gallery G4's final part (`g4-tc8.html`) on 2026-11-15 ("Approve TC-8").**
+`docs/port-notes/TC-8.md` has the details and launch check L-7 written for a person. In short, under O-19 and O-34 (b1), O-30, O-31 and O-26 as
+the owner revised it on 2026-11-15 (the parity rows ENG-1 to NEW-1 below were not confirmed and are not built):
+- A stored DirectX (0) or OpenGL (2) choice starts the WPF chart (the wrapper's `DrawMode`; the relay's `GetEngineForStoredMode`), which falls
+  back to Simple 2D with one log line; a stored Simple 2D (1) stays 2D. `ApplyComputerSettings` sets "Draw in software" before the engine and
+  saves nothing; the start-up DirectX search is a no-op; the snapshot holds the engine and the switch; graphical perio opens on the WPF chart on
+  every computer; the developer switch is gone. Only `Engine` still starts DirectX and OpenGL (the legacy recorder and tests) until TC-9a.
+- File > Graphics rebuilt: "3D chart" and "Simple 2D chart", "Draw in software", a live preview; the save rule as the row writes it (decision
+  22: its rollback is a return to Open Dental, which reads 0, 1 and 2 as before).
+- A render-thread failure that WPF throws on the UI thread releases the live view and falls back to the image host, as a failed `ShowScene`.
+- `tests/ToothChartHostTests` (new; sln and slnf entries added on the branch) checks every host it can without the main window through the
+  program on a `tc8_` scratch database, with 9 new baselines; no existing baseline changed. The Chart module and the classic Treatment Plan
+  document are L-7's. `tests/WindowChecksTests` still expects the DirectX chart and needs the lead's rewrite.
+
+**TC-9a (2026-11-15, branch `chart/tc9a-1` from `chart/tc8-2`, fixes on `chart/tc9a-3`): the old engines' code retired. Merged from `chart/tc9a-3`.**
+`docs/port-notes/TC-9a.md` has the details and launch check L-8 (TC-9a's part) written for a person. In short, under O-26 as the owner revised
+it on 2026-11-15 and O-32:
+- Deleted as the row writes: `ToothChartDirectX.*`, `ToothChartOpenGL.*`, `CodeBase/Controls/OpenGLWinFormsControl.cs` (`xCodeBase.csproj`
+  names no item for it), the wrapper's DirectX and OpenGL branches with `D3DX_DLL`, `IsDirectXRuntimeAvailable`, `CanLoadLibrary`,
+  `UseHardware`, `PreferredPixelFormatNumber`, `DeviceFormat` (and `AutoFinish`), the two DirectX format helpers, the start-up search and its
+  `FormOpenDental` call, `IsGraphicsDeviceException`, and `SparksToothChart.csproj`'s SharpDX and Tao references. `ToothChartEngine` is
+  Simple2D (1) and Wpf3D (3); `DrawingMode` keeps 0, 1 and 2. `ApplyComputerSettings` takes the wrapper only (`ToothChartSettingsUse` went,
+  with its six callers and their pins). N64-A's D3DX log line went with the runtime check; N64ATests pins that no D3DX is loaded.
+- Tests: `ToothChartFallbackTests.cs` and S3a-15's `ToothChartEngineBitnessTests.cs` deleted, `ToothChartEnginesRetiredTests.cs` new. The
+  TC-1 transform test and the DirectX mouse test compare with numbers recorded before the deletion (`Baselines/legacy-numbers/`); the
+  recorders, the legacy recorder included, are skipped tests; all 769 + 10 legacy pictures are kept and read (O-32); no baseline changed.
+  The window checks (B5, I1 to I11) are rewritten for TC-8's chart, built and not run.
+- Stays for TC-9b: the program's own SharpDX and Tao references and the five DLLs with their release entries; `LibraryBindingTests` lists
+  `SharpDX.Direct3D9.dll` and `SharpDX.Mathematics.dll` as shipped but unused until TC-9b removes them.
+- For TC-10: the lane's x64 test build of ToothChartImageTests stops at `tests/TestProbeHost` (NETSDK1047, an exe with no win-x64 restore),
+  before any test; BINATests and N64ATests pass in the x64 test build.
+
+**TC-9b (2026-11-15, branch `chart/tc9b-1` from `main` at `071c0b18b`): SharpDX, Tao and the DirectX runtime requirement leave the release.
+Merged from `chart/tc9b-1` (2026-11-15).** `docs/port-notes/TC-9b.md` has the details and L-8's TC-9b part written for a person. In
+short, under O-26 as the owner revised it on 2026-11-15 (no DirectX ships after the switch):
+- Deleted as the row writes: the five DLLs from `Required dlls`; the program's SharpDX and Tao references (`OpenPmsDental.csproj`,
+  `xCodeBase.csproj`, `UnitTests.csproj`) and the `Resources\SharpDX.txt` item; the licence window's `SharpDX` and `Tao Framework` vendor
+  texts with both resources (hand-edited `Resources.resx` and `Resources.Designer.cs`) and the two `.txt` files; the two components of
+  `THIRD-PARTY-NOTICES.txt`. `Build-Release.ps1`: the five left `ThirdPartyFiles` and joined the deny-list as retired files, with
+  `ListRetiredFiles` and `[InstallDelete]`; the `Microsoft.DirectX*.dll` and `d3dx*.dll` patterns and Helix's SharpDX MIT notice stay.
+- Tests: `ReleaseIdentityTests`' shipped lists, `LibraryBindingTests`' shipped-but-unused list (now empty) and `RequiredDllsTests`' two lists
+  lose the five; new `BINBTests/SharpDXTaoRemovedTests.cs` and `ReleaseFlowTests/SharpDXTaoRetiredTests.cs`.
+- Release dry run (`-SkipInstaller`): exit 0, 0 build errors, 86 files staged, none of the five. L-8's install over the previous release is
+  the person's (TC-9b.md section 6).
+
+**TC-10 (2026-11-15, branch `chart/tc10-1` from `main` at `e4d345d72`): the WPF chart on x64, in S3a-15's place. Merged from `chart/tc10-1`.** `docs/port-notes/TC-10.md`
+has the details. In short:
+- The blocker TC-9a found: `tests/TestProbeHost` (an exe) now restores `win-x86;win-x64` (`RuntimeIdentifiers`, and the empty win-x64 target
+  in its lock file), so the lane's x64 test build of ToothChartImageTests gets past NETSDK1047; the lane and the x86 build are unchanged.
+- The lane's x64 run of ToothChartImageTests: 260 tests, 254 passed, 6 skipped (the recorders), 0 failed, against the same tolerances.
+  Beyond tolerance in x64, with their reason in a `README.md`: `Baselines/wpf-net48-x64/` (163 pictures: the tooth number "5" at 410x307
+  and the perio legend's second row are placed one pixel apart, because `AddText` rounds a `float` projection that the 32-bit JIT computes
+  at double precision and the 64-bit JIT in single precision) and `Baselines/simple2d-net48-x64/` (18 pictures: GDI+ tooth numbers). In a
+  64-bit process the tests take the x64 copy when there is one (`WpfCharts.ForThisBitness`).
+- New `ChartBitnessTests.cs`: the chart's libraries load as built for the process (PE32+ AMD64 in x64), the Helix files are IL-only and not
+  32-bit-required, the normal build stays 32-bit-required, and the big chart at 3x matches its baseline with its memory measured (about
+  120 MB for the first draw, nothing per further draw, in both bitnesses).
+- BINATests' new `ToothChartBitnessTests.cs` brings back S3a-15's two checks for what stays: SparksToothChart's six gdi32 P/Invokes take and
+  return handles as `IntPtr`, and the Simple 2D chart (and the WPF chart a stored DirectX or OpenGL choice starts) starts and draws on a
+  hidden form; x86 and x64, 22 of 22 each. The sentence for net10-plan's S3a-15 text is proposed in the note (section 6), for the lead.
+
+**TC-8b (2026-11-15, branch `chart/tc8b-1` from `main` at `3d910a435`): File > Graphics as Open Dental 26.2 has it (section 10's rows ENG-1,
+ENG-2, ENG-3, ENG-5, NEW-1 and ENG-6). Merged from `chart/tc8b-2` after the owner approved its gallery (`tc8b.html`) on
+2026-11-15, with ENG-6, the neutral window text and NEW-1's status kept as built.** `docs/port-notes/TC-8b.md` has the details, the od-unknowns and launch check L-7's update for a person. In short, under the
+owner's "Match Open Dental 26.2" of 2026-11-15, which revises O-30, O-31 and O-34 (b1):
+- File > Graphics on Open Dental's layout with the WPF 3D chart in DirectX 11's place: "3D Tooth Chart on all computers", this computer's "Use
+  the global setting / Use if available / Do not use", the status on this computer ("Available" or "Fell back: <reason>"), "Older Tooth Chart
+  Technology" with Simple 2D, the options with "Draw in software", the live preview and Open Dental's medical wording kept.
+- Open Dental's rows chose the chart, no schema change: `DirectX11ToothChartUseIfAvail` (default 1) and `computerpref.GraphicsUseDirectX11`
+  (Unknown = the global); a computer that does not use the 3D chart draws Simple 2D, the one older technology left. The save rule writes only
+  what a choice changes, `GraphicsSimple` 1 on every Save that leaves the computer on Simple 2D and 0 over a stored 1 when it turns to the 3D chart (fix round on `chart/tc8b-2`), so a return to Open Dental reads the same. The BINA guard
+  allows exactly the relay's reads and "Use Simple Graphics"' write (ENG-6, od-unknown).
+- The smoothed picture is the on-screen default; "Draw in software" unticked (`WpfLiveView`) is the quick live view. Graphical perio opens only
+  when the computer uses the 3D chart, otherwise Open Dental's 24.3 sentence naming File > Graphics. No baseline changed. Window checks I6 and
+  I7 rewritten (built, not run).
+
 **Why not a separate branch.** The chart must not drift from the stages' rewrites of `ControlChart.cs` and the release files. Dark
 merges keep it on `main`, and the gallery approval comes before each merge (O-27).
 
@@ -465,8 +581,8 @@ files with the packages currently running.
 | **TC-3 Drawing parity** (after TC-1 and TC-2; O-19 answered after gallery G0; gallery G1 before merge) | `SparksToothChart/Wpf3D/*`, `ToothChartWrapper.cs` (its WPF paths), new `SparksToothChart/ToothChartMouse.cs`, tests; only if O-19 chose the live view, a new `Wpf3D/ToothChartWpfView.cs` | **Everything DirectX draws in the normal chart:** <br>• Missing and hidden teeth; primary letters. <br>• Unerupted teeth (ShiftO < −10) at half RGB with alpha 255. DirectX halves the alpha too (1002) but blends nothing (516). <br>• The six movements. <br>• Fillings per surface; crowns, pontics, veneers, build-ups and posts. <br>• Implants from `implant.obj`, flipped for maxillary teeth (`DrawImplant`, 933-955). <br>• RCT lines; the big X as 0.71 mm quads (900-909). <br>• The sealant "S" and the watch "W" with its white outline (986-995, 1286-1328), placed with the chart's own projection of DirectX's points; no Helix. <br>• Mobility (none in DirectX's normal chart: only its perio rows draw it, `DrawPerioRow` 661-666, so TC-7 owns it; TC-3's notes, section 2); pen drawings in the 410×307 space; the white centre line (1203). <br>• Numbers in every nomenclature with the selection highlight. Their boxes use DirectX's measure rule (`MeasureStringMm`: width ×1.25, height ×0.8), and the engine sets `TcData.Font` as DirectX does (289). Background and text colours. **Look** (5.3): the specular rule of `GetGroupMaterial` (998-1021): 0.1 for cementum, 0.4 for near-white colours (R>245, G>245, B>235), 1.0 for every other colour (540-543), power 70 (545). The D3DX fonts' height and average width (289-308) become a WPF font size and a horizontal scale, matched to the recordings within one pixel. **How:** <br>• Lines, the X and every decoration are 2D-layer polygons (5.1). WPF 3D has no line primitive, and Helix's screen-space lines update only on `CompositionTarget.Rendering`, so they would be missing from offscreen images. <br>• Text is 2D-layer text placed with the chart's own layout, never billboard text. <br>• **Mouse:** one shared class, taken from the DirectX engine (1360-1527), drives the pointer, pen, eraser (radius 8, offset 8.49) and colour changer (radius 2). It uses the same `GetToothAtPoint`, the same drag fill-in through `GetAffectedTeeth`, the same `SegmentDrawn` strings (`GetPointMouseScaled`, `ToothChartData.cs:1126-1133`), and raises `ToothSelectionsChanged` on mouse up. <br>• The 2D engine keeps its own code; it toggles only the tooth under the cursor, a difference that stays. <br>• No visible hover, as today. Cursors come from the embedded `.cur` files (the `CursorTool` setter, `ToothChartWrapper.cs:275-303`; made and kept by `ToothChartCursorCache`, fix round 4). <br>• **Speed:** a refill changes materials, visibility and transforms only; meshes stay frozen and cached; a change that touches only the 2D layer (selection, drawings, text) reuses the last 3D layer image. <br>• **Live view, only if O-19 chose it:** an `ElementHost` subclass with a `Viewport3D` and the 2D layer as a canvas above it, created only by the first rebuild on screen of a wrapper shown on an STA thread (5.4; fix round 3). | <br>• All parity scenes against the WPF baselines. <br>• Parity probes against the DirectX recordings (section 7). <br>• Mouse tests: synthesised input gives the selection, drag fill-in and `SegmentDrawn` strings that the shared `ToothChartData` functions give for the same points. <br>• Refill-plus-render time against DirectX on the build PC, with the dashboard visible and hidden, and the time of a selection-only change (reported in G1). <br>• BINATests; launch check L-4. | L, 5-8 dd (+1-2 dd for the live view) |
 | **TC-3b The dashboard's chart made in the background** (after TC-3; the owner's G1 answer of 2026-11-09; before TC-8) | `ControlChart.cs` (the dashboard refresh after a refill, about 6414), the dashboard's chart widget (`DashToothChart.cs`, `UserControlDashboard.cs` only where the image arrives), `ToothChartWrapper.cs` and `Wpf3D/ToothChartRenderer.cs` (an image request that does not block the caller), tests | With the Patient Dashboard visible, a Chart refill no longer waits on the UI thread for the dashboard's software picture (G1: about 450 and 730 ms at 100% and 150%, against DirectX's 127 and 144 ms). The renderer makes the picture in the background and the dashboard shows it when it arrives; in a burst of refills only the latest request is made. The picture is the same as today's `GetBitmap` (same renderer, size and colours), so the dashboard looks the same. The DirectX, OpenGL and Simple 2D engines keep today's path until TC-8. No WPF object on a caller's thread (5.4). Tests: the refill returns without waiting for the picture; the dashboard gets the latest scene's picture, identical to `GetBitmap`; a burst makes one picture; a closed dashboard asks for none; the times with the dashboard visible, against the live view's refill. | ToothChartImageTests, BINATests, BSHELLTests, NoHqTests | S, 2-3 days |
 | **TC-4 Helix Toolkit 3.1.2** (after S2-4; before S4-1 starts or after S4-2 merges; batch H approved and in the offline folder, O-17; counsel answers of O-18 before merge; nothing waits for counsel since the owner's answer of 2026-11-08, section 10) **Done 2026-11-14** (`chart/tc4-1`, `docs/port-notes/TC-4.md`; batch H2 added for the program's win-x86 restore) | `Directory.Packages.props` (Helix versions); `SparksToothChart.csproj` (`PackageReference HelixToolkit.Wpf` with `ExcludeAssets="buildTransitive"` and `PrivateAssets` with `compile`: as done, see step 2); `Directory.Build.targets` (the CommunityToolkit.Mvvm analyzers removed, each compilation's analyzers recorded); the lock files in section 3; `tools/Build-Release.ps1` (the shipped Helix files in `ThirdPartyFiles`); `THIRD-PARTY-NOTICES.txt`; `tests/AttributionTests/ReleaseIdentityTests.cs` (the shipped components and files, 18-41); `docs/third-party-binaries-audit.md`; one new file each in `tests/ReleaseFlowTests` and `tests/LibraryBindingTests`, and (as done) the existing files there that pin the package files: `PackageFilesTests.cs`, `TestSupport.cs`, `RequiredDllsTests.cs`, `ReleaseListTests.cs`, `BindingRedirectTests.cs`, with `tests/ProjectFileTests/NuGetFiles.cs` and `NuGetFilesTests.cs`. **Needed (step 1):** the `System.ComponentModel.Annotations` 4.2.0.0 to 4.2.1.0 redirect in `OpenPmsDental/app.config` and `tests/BindingRedirects.config`, and, as the binding check asks, in the configs of the other projects that get the package (CentralManager, DocumentationBuilder, SparksToothChart, UnitTests, WpfControlsOD). **Only if needed (not needed):** `FormLicense.cs`, `Properties/Resources.resx`, `Properties/Resources.Designer.cs` and a new `Resources/*.txt` (only if the Helix entry needs a vendor text of its own, under the licence-list rule of step 2). | **Step 1, offline check** in a scratch folder, as in S1-0 step 1. Restore and build a net48 copy of `SparksToothChart` with HelixToolkit.Wpf from the offline folder only. List: the resolved packages; the DLLs that land in `bin\Debug`; the assembly references of each Helix DLL; any `analyzers` or `build` asset that reaches the project (the CommunityToolkit.Mvvm and Logging.Abstractions generators must not; step 1 found that Helix's `exclude="Build,Analyzers"` does not keep CommunityToolkit.Mvvm's two analyzers or its buildTransitive targets out); the System.Net.Http assembly version that HelixToolkit.dll references, and whether a binding redirect is needed. If a package not in batch H resolves, TC-4 stops for a batch H2 (O-17). (It did: the program's win-x86 restore needs `runtime.any.System.IO` and `runtime.any.System.Runtime` 4.3.0, which a library probe does not show; batch H2, approved and added 2026-11-14.) **Step 2, add the packages.** <br>• Central versions in `Directory.Packages.props`. <br>• **Pinning.** (Premise out of date: S2-1 turned `CentralPackageTransitivePinningEnabled` on centrally, so no chart-scoped setting is needed; the lead's decision.) The nine dependencies the repository already ships resolve to its versions through that central pinning; the proof is an unlocked restore of the whole slnf in the worktree with no NU1603, NU1605, NU1608 or NU1107 in any project, and every changed lock file with the nine at their central versions. Only `HelixToolkit.Wpf` needs a `PackageVersion`. <br>• **Compile references stay in the chart (found in step 2).** HelixToolkit.dll declares a public `System.Runtime.CompilerServices.DefaultInterpolatedStringHandler`, which the compiler of every project that references it uses for interpolated strings (OpenPmsDental's `{value:N0}` fails with CS1739), so `SparksToothChart` adds `compile` to `PrivateAssets`: the projects above get the Helix files at run time only. <br>• **CommunityToolkit.Mvvm's analyzers and buildTransitive targets** (step 1) never reach a compilation: a target in `Directory.Build.targets` removes the analyzers, `ExcludeAssets="buildTransitive"` keeps its targets out (they do nothing for net48, and the tests' project-file reader cannot read their `IsTargetFrameworkCompatible` conditions). <br>• Every new DLL in the staged diff is named, listed and noticed: Helix's MIT text with the BSD notice of `LoopSubdivision.cs`, the MIT notices of the SharpDX- and SlimMath-derived code in HelixToolkit.Maths, and the MIT origin of `MeshSimplification.cs`; CommunityToolkit; System.ComponentModel.Annotations. `ReleaseIdentityTests` lists the new components and files. <br>• **Licence-list rule.** No licence entry is named "BSD" or "Microsoft", and no resource is named "Bsd" or "Microsoft" (`ReleaseIdentityTests.cs:42-44, 173-175`), so the BSD notice of `LoopSubdivision.cs` goes inside the Helix entry. Every vendor-text key in `FormLicense.cs` is a listed component (`ReleaseIdentityTests.cs:145-147`), and a vendor text replaces its component's standard licence text (`LicenseList.GetLicenseText`, `FormLicense.cs:184`): a Helix vendor text therefore carries Helix's MIT text and every notice of that entry. The removed-entry and removed-resource lists of `ReleaseIdentityTests` are not edited. <br>• **Risk W2:** System.Net.Http 4.3.4 carries a real net46 DLL (and, for the program's win-x86 target, a `runtimes\win` one). If step 1 shows it in `bin`, it is kept out with `ExcludeAssets="runtime"` on a central reference, or an equivalent that the step 1 results support. (Not needed: no Helix file references System.Net.Http, and the build's conflict resolution keeps the .NET Framework's newer System.Net.Http and System.* facades, so no built folder holds a 4.3.x file.) `BindingRedirectTests` and a test that loads the Helix types the chart uses prove it. <br>• The `SRTM.dll` reference inside HelixToolkit.Wpf.dll, which the package does not carry, is allowed in the new reference test: the chart never runs terrain code. **Rules for the chart's Helix use (written into later briefs):** <br>• Use `MeshBuilder` (namespace `HelixToolkit.Geometry`, float, `System.Numerics`) with `ToMesh().ToWndMeshGeometry3D(true)`. <br>• Never use `ConverterExtensions.ToWndMatrix3D`: row 3 reads "M31, M32, M32, M34" in 3.1.2 and on develop3. <br>• Never use `AddExtrudedGeometry` (#2459, fix unreleased). <br>• No `BillboardTextVisual3D`, `TextCreator` or screen-space visuals. <br>• 3.x API only: 2.x samples do not compile against 3.x. <br>• (TC-4's step 2) Only `SparksToothChart` compiles against Helix (`PrivateAssets` with `compile`); a project that needs Helix types adds its own `PackageReference` and no interpolated strings. <br>• No interpolated string in `SparksToothChart`: it would bind to HelixToolkit.dll's public `DefaultInterpolatedStringHandler` (with a format it fails with CS1739); use `string.Format`. <br>• No terrain types (`HgtTerrainModel`, `TerrainModel`, `TerrainVisual3D`): they need `SRTM.dll`, which ships nowhere. | <br>• ReleaseFlowTests (the Helix files ship; they are IL-only and not 32-bit-required; no `System.Net.Http.dll` is staged unless decided otherwise). <br>• LibraryBindingTests, AttributionTests. <br>• ToothChartImageTests unchanged: Helix changes no pixel. <br>• Release dry-run diff; NoHqTests. | S, 1-2 dd |
-| **TC-5 Free text, text paint types, the extraction graphic** (after TC-3; O-20, O-21 and O-22 answered; gallery G2 before merge) | `Wpf3D/*`, `ToothChart2D.cs`, `ToothChartWrapper.cs`, `ToothChartRelay.cs` (`AddText` 122, `SetText` 234-239, new `SetTextBelow`, the painter's Text, TextBelow and completed-extraction cases), `ProcedureCodes.cs` (87-97), `FormProcCodeEdit.cs` (367-375), `FormProcCodeNew.cs` (61-67), new `OpenPmsDentalBusiness/Logic/ToothChartExtractionGraphic.cs`, `UserControlChartGeneral.cs`/`.Designer.cs` (the setting's check box), `tests/P262SchemaTests/PaintTypeListTests.cs` (15-42), new test files | **Free text.** `AddText` draws a 2D-layer label at the scaled 410×307 point. With `CursorTool.MoveText` (`ToothChartWrapper.cs:895-896`), a drag moves the label and raises `TextMoved` on mouse up; TC-2 saves it. **Paint type Text (15).** "W" stays the watch mark. Any other text is drawn on the tooth (O-22); today it is dropped (relay 234-239). **TextBelow (18)** is drawn as O-21 decides. `GetPaintTypesForList` lists it, and the PaintText box shows for both Text and TextBelow. `FormProcCodeNew`'s list-index cast stays valid because TextBelow is last; a test pins this. **Extraction graphic (O-20).** The setting is the fork's own preference row `ForkToothChartShowCompletedExtractions` in the new business class, read and written by name (`PrefC.GetRawOrDefault`, `PrefC.UpsertRaw`), as `RecallProphyPerioSwitch` does (`OpenPmsDentalBusiness/Logic/RecallProphyPerioSwitch.cs:33-60`). It is not in `PrefName`, and a missing row reads as off, so there is no `Pref.cs`, `PrefInfos.xml`, convert-script or migration change. A check box on the Chart preferences page saves it with an audit line and a preference signal. The completed-extraction skip, in one place since TC-2, draws the graphic when the setting is on. The slider logic (`ControlChart.cs:6603-6634`) is unchanged, because the procedure filter already drops extractions after the slider date (6578-6601); the call-log tests check this. **2D chart.** Free text, Text and TextBelow are drawn with `DrawString`, and the extraction graphic with the existing X lines (`ToothChart2D.cs:93-112`). Orthodontic hardware stays 3D-only (O-24). | <br>• Scenes and baselines, WPF and 2D. <br>• The free-text add, move and save round trip. <br>• `PaintTypeListTests` now expects TextBelow in the list. <br>• Call-log tests for TextBelow and for the extraction graphic with the setting on and off. <br>• A database test: a missing row reads as off, the first save inserts the row, the name is not in `PrefName` and starts with "Fork" (as `tests/P262MiscTests/RecallSwitchDbTests.cs:70-83`). <br>• P262SchemaTests, RegistryTests, NoHqTests; launch check L-5. | M, 3-4 dd |
-| **TC-6 Orthodontic hardware, retained roots, space maintainers** (after TC-4 and TC-5; O-23 and O-24 answered; gallery G2) | `Wpf3D/*`, the relay (106-114, 156, 184, 215, 227), the painter's orthodontic part, tests | <br>• Brackets: `MeshBuilder.AddBox` on each tooth's facial surface, in the 3D layer, placed from the tooth's layout (`GetDefaultOrthographicXpos` and its movements). <br>• Wires between brackets and within a bracket: `AddTube` through the bracket centres along the arch. <br>• Elastics: thin tubes between two brackets. <br>• Colours come from the hardware rows (`DrawOrthoHardware`, now in the painter). The chart uses no WPF hit testing, so the hardware needs no hit-test setting. <br>• Ortho mode per O-24; today it only switches numbering to Palmer (`ControlChart.cs:6544-6549`). <br>• Retained root (the crown groups hidden, the roots in the colour) and space maintainer (a band on the tooth and a loop across the gap; tooth, range or quadrant), both per O-23. | <br>• Scenes and baselines. <br>• Scene-builder tests: brackets and wires follow tooth movements and mirrored teeth, and their windings follow the rule of 5.2. <br>• Call-log tests; launch check L-5. | M, 3-4 dd |
+| **TC-5 Free text, text paint types, the extraction graphic** (after TC-3; O-20, O-21 and O-22 answered; gallery G2 before merge) | `Wpf3D/*`, `ToothChart2D.cs`, `ToothChartWrapper.cs`, `ToothChartRelay.cs` (`AddText` 122, `SetText` 234-239, new `SetTextBelow`, the painter's Text, TextBelow and completed-extraction cases), `ProcedureCodes.cs` (87-97), `FormProcCodeEdit.cs` (367-375), `FormProcCodeNew.cs` (61-67), new `OpenPmsDentalBusiness/Logic/ToothChartExtractionGraphic.cs`, `UserControlChartGeneral.cs`/`.Designer.cs` (the setting's check box), `tests/P262SchemaTests/PaintTypeListTests.cs` (15-42), new test files | **Free text.** `AddText` draws a 2D-layer label at the scaled 410×307 point. With `CursorTool.MoveText` (`ToothChartWrapper.cs:895-896`), a drag moves the label and raises `TextMoved` on mouse up; TC-2 saves it. **Paint type Text (15).** "W" stays the watch mark. Any other text is drawn beyond the root tip, in the watch band (O-22 as revised on 2026-11-14); today it is dropped (relay 234-239). **TextBelow (18)** is shown as O-21 decides (since 2026-11-14: the Chart module's strip under the date slider, not the picture). `GetPaintTypesForList` lists it, and the PaintText box shows for both Text and TextBelow. `FormProcCodeNew`'s list-index cast stays valid because TextBelow is last; a test pins this. **Extraction graphic (O-20).** The setting is the fork's own preference row `ForkToothChartShowCompletedExtractions` in the new business class, read and written by name (`PrefC.GetRawOrDefault`, `PrefC.UpsertRaw`), as `RecallProphyPerioSwitch` does (`OpenPmsDentalBusiness/Logic/RecallProphyPerioSwitch.cs:33-60`). It is not in `PrefName`, and a missing row reads as on (Open Dental 26.2's default, since 2026-11-14), so there is no `Pref.cs`, `PrefInfos.xml`, convert-script or migration change. A check box on the Chart preferences page saves it with an audit line and a preference signal. The completed-extraction skip, in one place since TC-2, draws the graphic when the setting is on. The slider logic (`ControlChart.cs:6603-6634`) is unchanged, because the procedure filter already drops extractions after the slider date (6578-6601); the call-log tests check this. **2D chart.** Free text and Text are drawn with `DrawString`, and the extraction graphic with the existing X lines (`ToothChart2D.cs:93-112`). Orthodontic hardware stays 3D-only (O-24). | <br>• Scenes and baselines, WPF and 2D. <br>• The free-text add, move and save round trip. <br>• `PaintTypeListTests` now expects TextBelow in the list. <br>• Call-log tests for TextBelow and for the extraction graphic with the setting on and off. <br>• A database test: a missing row reads as on, the first save off inserts the row, the name is not in `PrefName` and starts with "Fork" (as `tests/P262MiscTests/RecallSwitchDbTests.cs:70-83`). <br>• P262SchemaTests, RegistryTests, NoHqTests; launch check L-5. | M, 3-4 dd |
+| **TC-6 Orthodontic hardware, retained roots, space maintainers** (after TC-4 and TC-5; O-23 and O-24 answered; gallery G2, held as G5). **Merged from `chart/tc6-1` (2026-11-15, gallery approved by the owner), as revised by the parity rows ORTHO-1, ORTHO-2, RR-1 and SM-1 (section 10; `docs/port-notes/TC-6.md`): ortho mode facial rows only, brackets as Helix boxes with a slot, thin wires and elastics, the root alone, a flat bar across empty spaces; merges after the owner approves gallery G5.** | `Wpf3D/*`, the relay (106-114, 156, 184, 215, 227), the painter's orthodontic part, tests | <br>• Brackets: `MeshBuilder.AddBox` on each tooth's facial surface, in the 3D layer, placed from the tooth's layout (`GetDefaultOrthographicXpos` and its movements). <br>• Wires between brackets and within a bracket: `AddTube` through the bracket centres along the arch. <br>• Elastics: thin tubes between two brackets. <br>• Colours come from the hardware rows (`DrawOrthoHardware`, now in the painter). The chart uses no WPF hit testing, so the hardware needs no hit-test setting. <br>• Ortho mode per O-24; today it only switches numbering to Palmer (`ControlChart.cs:6544-6549`). <br>• Retained root (the crown groups hidden, the roots in the colour) and space maintainer (a band on the tooth and a loop across the gap; tooth, range or quadrant), both per O-23. | <br>• Scenes and baselines. <br>• Scene-builder tests: brackets and wires follow tooth movements and mirrored teeth, and their windings follow the rule of 5.2. <br>• Call-log tests; launch check L-5. | M, 3-4 dd |
 | **TC-7 Graphical perio on WPF** (after TC-3; may run before TC-5 and TC-6; gallery G3) | `Wpf3D/*` (the perio scene), `ToothChartWrapper.cs` (`PerioMode` allowed for `Wpf3D`, 216-227), the relay's perio helpers (the DEBUG switch), tests | The perio scene as DirectX draws it (`DrawScenePerio`, `DrawPerioRow`, `ToothChartDirectX.cs:590-821`; legend 1039-1068; numbers 1220-1233): <br>• The four rows (layout in `DrawScenePerio`, 590-628), lit with the perio light (ambient 0.6, diffuse 0.4, 524-528). The two lingual rows use the reversed windings (5.2). <br>• In the 2D layer, in DirectX's order for each row: the millimetre lines, mobility (DirectX draws mobility only here, `DrawPerioRow` 661-666, never in the normal chart: TC-3 left it out and `WpfParitySceneTests.cs:52` pins that, so the WPF chart's mobility comes with this package), furcation triangles, probing bars with the red limits, bleeding and suppuration droplets (flipped in Y for the mandible, 740), and the GM, CAL and MGJ lines; then the numbers, the centre line and the legend. <br>• The nine perio colours (`SetPerioColors`). <br>`FormPerioGraphical` keeps forcing DirectX through the relay helper until TC-8. The DEBUG switch opens it on `Wpf3D` for L-6. | <br>• Perio scenes at 649×696, plus the print render and the 750×1000 save (`FormPerioGraphical.cs:231-298, 315-339`), against WPF baselines. They are rendered through the wrapper at those methods' sizes and settings; the window itself is a TC-8 host test. <br>• Parity probes against the DirectX recordings. <br>• BPERIOTests, P262PerioTests; launch check L-6. | M-L, 4-6 dd |
 | **TC-8 The engine choice moves to the WPF chart; every host** (after TC-3 and TC-5 to TC-7; O-19, O-30 and O-31 answered; gallery G4 before merge) | <br>• **Relay helpers:** stored 0 and 2 start `Wpf3D`, 1 stays Simple 2D (O-30); the software switch if O-19 chose the live view; the startup DirectX search becomes a no-op and the snapshot drops the DirectX and OpenGL fields; the graphical perio gate and mode per O-31; the developer switch goes; no `ComputerPrefs.Update` when an image is made. <br>• `ComputerPref.cs`: comments only. <br>• `FormGraphics.cs`/`.designer.cs`/`.resx`: rebuilt. <br>• `ToothChartWrapper.cs`. <br>• Tests: `ToothChartFallbackTests.cs`, `ProprietaryBinariesRemovedTests.cs` (122-128), `PerioUiSourceTests.cs` (134-170, only the pins its edits break). <br>• New test project `tests/ToothChartHostTests/` for the host tests: SDK-style on `tests/Directory.Build.props`, on MSTest 4 like every test project after S4-1, with one project reference, to the program (the libraries come through it). The lead adds the sln and slnf entries. It stays x86 until S3b-5, so no x64 build of the program is needed before 3b. <br>• Docs: `docs/owner-questions.md` (item 7 at :23 superseded; BIN-A 3 at :255 answered), `docs/release-notes/next.md`. | **Setup > Graphics:** <br>• Two choices: "3D chart" and "Simple 2D chart". <br>• Saving "3D chart" writes 0 only when the stored value was 1. A stored 0 or 2 is kept, so a rollback brings back the old engine. <br>• With the live view (O-19): a "Draw in software" check box and a live preview, so a PC whose driver draws no WPF 3D (dotnet/wpf#7076) shows it at once. <br>• **From TC-3's fix round 3:** `ToothChartRelay.ApplyComputerSettings` sets `WpfDrawInSoftware` before `Engine=Wpf3D`, so a computer drawn in software never makes a live view first. A live-view render failure on the UI thread (for example `UCEERR_RENDERTHREADFAILURE`, which WPF throws on the UI thread when its render thread fails) should fall back to the image host as a failed `ShowScene` does: the UI thread has no WPF `Dispatcher.UnhandledException` filter, unlike the chart's render thread (`ToothChartRenderer.cs:380`). If O-34 ever allows hardware, the default is software (the image host or a software live view) under WPF render tier below 2 (`RenderCapability.Tier`) or in a terminal-server session. <br>• No DirectX format grid and no OpenGL pixel grid. The remote edit from `FormComputers.cs:44-51` saves without testing, as today. **Wrapper:** a DirectX or OpenGL request starts `Wpf3D`, which falls back to Simple 2D with one log line. **Each host checked end to end:** <br>• The Chart module: refill, selection, the Draw tab, Save to Images, and the dashboard event image (6675-6701). <br>• The big chart window (926×858). <br>• The Treatment Plan printouts at 500×370 with printout colours 14 and 15, both the classic document and the sheet. <br>• The referral letter and the automation sheet. <br>• The Patient Dashboard. Its image is made on an MTA `ODThread` worker (`UserControlDashboard.cs:133-152`, `DashToothChart.cs:56-73`). Since TC-1 the wrapper creates no WPF object there, and the image comes from the renderer. Today an exception there is swallowed (150), so the test checks the engine, not only the absence of an exception. <br>• The sheet editor's preview (`FormSheetDefEdit.cs:3833-3867`). <br>• The graphical perio chart: display, print and save, and on a 2D computer per O-31. | <br>• Mapping tests: 0 and 2 give `Wpf3D`, 1 gives Simple 2D; the save rule above; `Wpf3D` has no stored form; with the live view, the software value reads and writes. <br>• Fallback tests rebuilt. <br>• Source tests: nothing selects DirectX or OpenGL; `FormGraphics` names no engine type; the perio gate has no `d3dx9` check. <br>• Host tests (in `tests/ToothChartHostTests`) on a scratch database with synthetic patients: each host's image is made in `Wpf3D`, has the expected size, is opaque, has the pixel format TC-0 recorded for DirectX, is not blank and matches a baseline. The dashboard path runs on an MTA thread; afterwards `Engine` is still `Wpf3D` and nothing was logged. <br>• BINATests, BPERIOTests, M2SHEETSTests, SheetTests, BTPTests, BPRINTTests, ChartLetterTests; launch check L-7. | M, 3-5 dd |
 | **TC-9a The old engines' code retired** (after TC-8 and the office check, O-26) | **Deleted:** `ToothChartDirectX.*`, `ToothChartOpenGL.*`; `CodeBase/Controls/OpenGLWinFormsControl.cs` when `xCodeBase.csproj` names no item for it after S1-1 (otherwise TC-9b deletes it with that item). **Wrapper and relay:** the DirectX and OpenGL branches, `D3DX_DLL`, `IsDirectXRuntimeAvailable`, `CanLoadLibrary`, `UseHardware`, `PreferredPixelFormatNumber`, `DeviceFormat`, the two DirectX format helpers from TC-2, and their relay forwards. **Project file:** `SparksToothChart.csproj` (the SharpDX and Tao references). **Tests:** `ToothChartFallbackTests.cs`; S3a-15's test file, if S3a-15 ran; a new "retired" file; the TC-1 transform test (now against recorded numbers) and the SharpDX.Mathematics reference of the ToothChartImageTests project. | <br>• Delete. <br>• `DrawingMode` keeps its three stored values. The dead columns stay unread, as `GraphicsUseDirectX11` does (`ComputerPref.cs:78`). <br>• The program's own SharpDX and Tao references (`OpenPmsDental.csproj`, `xCodeBase.csproj`, `UnitTests.csproj`) stay until TC-9b: no code uses them after TC-2 and TC-8, and the DLLs are still in `Required dlls`. <br>• `UnitTests/UI Testing/FormToothChartTests.cs` needs no edit: it stores `DrawingMode` values, which stay. | <br>• ToothChartImageTests: every baseline unchanged. <br>• BINATests, BINBTests, NoHqTests; launch check L-8. | S, 1-2 dd |
@@ -533,7 +649,9 @@ WPF draws only front faces: triangles that are counter-clockwise as seen from th
   9-24. It also stores a second index list with every triangle reversed.
 - The scene builder builds each instance's model transform as DirectX does: user movement and rotation, view rotation, tooth position,
   perio row. It leaves out DirectX's handedness flip, which WPF's right-handed camera replaces.
-- When the transform's determinant is negative, the instance uses the reversed list.
+- When the transform's determinant is negative, the instance uses the reversed list. Since TC-7 that list's mesh also carries the normals
+  negated: WPF lights a mirroring model as if its normals pointed the other way (TC-7's first recording showed the lingual perio rows lit
+  by the emissive part alone), and the negated normals give those rows DirectX's light (`docs/port-notes/TC-7.md`, section 1.4).
 - In the normal chart no instance is negative: there are only rotations and translations, and the maxillary implant flip is a rotation
   (937). In the perio chart the two lingual rows are negative, their implants included.
 - Droplets, triangles, bars and lines are 2D-layer items, so the Y flip needs nothing.
@@ -564,7 +682,11 @@ either way.
   Text keeps its colour's alpha, because D3DX text is blended.
 - **Transparency.** WPF does not sort transparent models by depth, so a transparent model shows only what was drawn before it and hides
   what comes after. With alpha 255 everywhere the 3D layer has no transparent material, and the problem never arises. A scene-builder
-  test checks every 3D colour of every scene.
+  test checks every 3D colour of every scene. **Since TC-3c (LOOK-2)** the chart's unerupted teeth are the one exception: alpha 161, as
+  Open Dental's DirectX 11 chart draws them, beneath the opaque teeth: the scene keeps them apart (`ToothScene.Items3DUnder`), and the
+  renderer and the live view draw them in a viewport of their own under the opaque teeth's, so they blend over the background and every
+  opaque tooth covers them whatever their depth (Open Dental's 2023 mixed-dentition screenshot: the primary roots crisp over the pale
+  permanent crowns). The test checks that they are the only items beneath and that no other colour is below 255.
 - **Background.** Opaque, in the chart's background colour.
 
 ### 5.4 Threads, the renderer and the image path
@@ -693,7 +815,8 @@ either way.
 **What is tested:**
 1. **Scene-builder unit tests.** No WPF objects and no thread. For each paint type and each state: which groups get which colour,
    visibility, transform and winding; the 2D items and their order. Unerupted teeth are at half RGB with alpha 255. No 3D colour has
-   alpha below 255.
+   alpha below 255. (Since TC-3c: unerupted teeth in the chart at their own RGB with alpha 161, beneath the opaque teeth; the perio
+   chart keeps half RGB.)
 2. **Mesh tests** (TC-1, 5.2).
 3. **Image tests.** All images go through the product's own renderer. Under MSTest v1 they use the existing STA-thread pattern. After
    S4-1 they may use `[STATestMethod]` (MSTest 3.6 and later).
@@ -790,8 +913,10 @@ package merges only after that answer.
 - G1: TC-3, parity.
 - G2: TC-5 and TC-6, the new drawing.
 - G3: TC-7, perio.
-- G4: TC-8, final, with the hosts.
-- G5: 3b, net48 against net10 x64.
+- G4: TC-8, final, with the hosts. Its first part is TC-3c's (the TC-3 look follow-up, 2026-11-15: `g4-tc3c.html`, TC-3c.md section 3).
+- G5: 3b, net48 against net10 x64. *TC-6's gallery (2026-11-15) is G2's second part. Its build folder is named `tc6-gallery-G5`
+  (`g5-tc6.html`, TC-6.md section 4) by its brief, and it was shown to the owner as G2 part 2; the owner approved it on 2026-11-15.
+  The 3b gallery keeps the name G5.*
 
 ---
 
@@ -870,37 +995,93 @@ sheets and the dashboard (TC-1's gallery G0, `timings.txt`). TC-3's fix round fo
       OpenGL and then 2D (`ToothChartWrapper.cs:432-458`).
     - Not recommended: reusing `GraphicsUseHardware`, because new computers get false there and would start in software; or a new
       column, which is a schema change away from Open Dental 26.2.
-- **O-20. The 26.2 extraction graphic: name, default and look.**
+- **O-20. The 26.2 extraction graphic: name, default and look.** *Revised by the owner's rule of 2026-11-14 ("Overall for tc changes, keep
+  it the same as OD latest version"; the audit is `.git/od-tools/briefs/tc-od-parity.md`, rows EXT-1 to EXT-9). The text below is the
+  decision as built on `chart/tc5-4`; the 2026-11-08 answer ("default off") is superseded.*
   - Open Dental's preference name is not known. The repository's 26.2 documents list only `TextBelow=18`
     (`.git/od-tools/od-docs/26-2/OpenDentalDiffDocumentation26-2.xml:227`), and preference rows are not in the schema documents.
     `tests/RegistryTests/PrefNameTests.cs` registers in `PrefName` only names that Open Dental's published documentation states.
-  - **Recommended:** the fork's own row `ForkToothChartShowCompletedExtractions`, outside `PrefName`, read and written by name like the
-    other fork-owned rows (`docs/port-notes/P262-MISC.md:64-68`). One setting for the whole office, on Setup > Preferences > Chart.
+  - The fork's own row `ForkToothChartShowCompletedExtractions`, outside `PrefName`, read and written by name like the other fork-owned
+    rows (`docs/port-notes/P262-MISC.md:64-68`). One setting for the whole office, on Setup > Preferences > Chart - General.
   - When an Open Dental 26.2 database is adopted one day, the office's setting does not carry over unless the name is confirmed, as for
     the other unconfirmed names (`docs/adoption-runbook.md`, step 0.11). If the name becomes known, a fork migration step renames the
     row, as `OdSettingNamesStep` did for B-ERA (`OdSettingNamesStep.cs:85`).
-  - Default off, which is today's look.
-  - When it is on, a completed extraction (C, EC or EO) draws the big X in that status's colour over the tooth position, while the tooth
-    stays hidden as today.
-- **O-21. Where TextBelow is drawn.**
-  - **Recommended:** inside the image, in a band along the bottom edge under the mandibular teeth and along the top edge over the
-    maxillary teeth. It is centred on the tooth, in the paint colour, and cut to fit. This keeps the image's 410×307 aspect, on which
-    every sheet field depends (`FormSheetFieldSpecial.cs:58-62, 82-91`).
-  - Alternative: a strip added under the chart, which changes the image size everywhere.
-- **O-22. Paint type Text with text other than "W".** Today nothing is drawn (relay 234-239). **Recommended:** draw the text on the
-  tooth, as Open Dental did. "W" stays the watch mark.
-- **O-23. Retained root and space maintainer** (types 16 and 17). They are no-ops today (relay 215, 227). **Recommended:** draw them in
-  TC-6. They are cheap with the same geometry tools, and the gallery shows them.
-- **O-24. Ortho mode and the 2D chart.** **Recommended:**
-  - Keep today's layout with Palmer numbering (`ControlChart.cs:6544-6549`), and draw the hardware on the facial views.
-  - The 2D chart draws free text, Text, TextBelow and the extraction graphic, but no orthodontic hardware.
+  - **Default on**, as in Open Dental 26.2 ("The preference is enabled by default.", https://opendental.blog/version-26-2/): a missing row
+    reads as on, so every fork office sees the X after the upgrade, as Open Dental 26.2 offices do. The first time an office turns it off,
+    the row is inserted as "0".
+  - **A plain toggle.** On: a completed extraction (C, EC or EO) draws the big X in that status's colour over the tooth position, in the
+    painter's normal order, whatever else is on the tooth: a completed implant or a completed bridge's or denture's pontic does not take
+    the X away (round 2's exception is removed; Open Dental's release note describes a plain switch, and no public source shows an
+    exception). Off: the look before 26.2, no tooth and no X.
+  - **The tooth stays hidden under the X**, by its missing initial, as Open Dental 26.2's screenshot shows (19 and 20 hidden, a thin blue X
+    over each space; https://i0.wp.com/odtechblog.wordpress.com/wp-content/uploads/2026/08/image-6.png?ssl=1). The owner's earlier
+    2026-11-14 idea of showing the tooth under the X is not built: the "same as OD latest" rule replaces it (EXT-3).
+- **O-21. Where TextBelow is shown.** *Revised by the owner's rule of 2026-11-14 (rows TB-1 to TB-6 of the audit); the in-picture bands of
+  the 2026-11-08 answer are superseded and removed.*
+  - **In the Chart module, outside the tooth picture:** a one-line, read-only text box under the date slider and above the treatment notes
+    box, as wide as the slider, in the standard text-box font and black text, the same on every engine, as Open Dental 26.2's screenshot
+    shows it ("Occlusal Guard" under the slider and above "Likes baseball";
+    https://i0.wp.com/opendental.blog/wp-content/uploads/2026/10/image-6.png?ssl=1). It sits right under the slider in every layout,
+    Open Dental's "Big" layout included; the control under the slider makes room while the strip has text, and the strip hides when there
+    is none.
+  - It shows the paint text of the TextBelow procedures of **any treatment area** (tooth, arch, quadrant and mouth: Open Dental's examples
+    are occlusal guards and clear aligners), read from the procedure list the Chart module paints before the painter's Mouth skip, so it
+    follows the date slider and the chart view's filters; Hide Graphics leaves a procedure out. Several are joined in ProcDate order with
+    "; " (Open Dental's stacking is unknown: TB-4).
+  - The tooth picture no longer carries TextBelow, so the pictures for sheets, Treatment Plan printouts, the big chart and the Patient
+    Dashboard do not show it (the in-picture bands of round 2 are removed; a screenshot of an Open Dental 26.2 printout would settle
+    whether Open Dental shows it there). The image keeps 410×307, so no sheet field changes.
+- **O-22. Paint type Text with text other than "W".** *Revised by the owner's rule of 2026-11-14 (row PT-2 of the audit).* The text is
+  drawn **beyond the root tip, in the watch mark's band**: above a maxillary apex and below a mandibular apex, at the watch mark's x with
+  its mesial shift, centred on the tooth, at the watch mark's size and in regular weight (not bold), in the procedure's colour. When the
+  tooth also has a "W", the text sits one line nearer the tooth and the "W" stays at the edge, as "UCF" over "W" under 24 and 25 in Open
+  Dental 26.2's screenshot ("Fracture" above maxillary 9 in its 2021 tip,
+  https://odtechblog.files.wordpress.com/2021/01/text-paint-type.png). The 2026-11-08 "on the tooth, as Open Dental did" was wrong:
+  Open Dental's screenshots contradict it. "W" stays the watch mark. The 2D chart draws it in its own watch rows (O-24 kept).
+- **O-23. Retained root and space maintainer** (types 16 and 17). *Revised by the parity rows RR-1 and SM-1 (section 10, "Open Dental
+  parity (2026-11-14)", table TC-6) under the owner's rule of 2026-11-14 ("Overall for tc changes, keep it the same as OD latest
+  version"), which is the owner's confirmation of those rows. The text below is the decision as built on `chart/tc6-1`
+  (`docs/port-notes/TC-6.md`); the 2026-11-08 answer ("the crown groups hidden, the roots in the colour"; "a band on the tooth and a loop
+  across the gap") is kept here as history and superseded.*
+  - **Retained root, as Open Dental draws it** (https://odtechblog.files.wordpress.com/2021/01/retained-chart.png): only the root, in the
+    status colour, lit like the teeth, in the facial row; in the occlusal row the same root seen from occlusal, which shows as a small
+    crescent of that colour. A completed extraction hides it: the extraction marks the tooth missing, and the root is drawn only on a tooth
+    that is shown (https://opendental.blog/tips-tricks-33/, "once the root's extraction is complete, the root graphic is gone").
+  - **Space maintainer, as Open Dental draws it** (https://odtechblog.files.wordpress.com/2021/01/space-main-chart.png): only a thick solid
+    bar in the status colour across each missing tooth's space, at about crown height on the facial view, never over a present tooth (the
+    forum's "designed to not ever draw in the same space where a tooth already exists"); no band and no loop. Tooth, range and quadrant
+    (UR 4-8, UL 9-13, LL 20-24, LR 25-29) as the painter sends them.
+  - Only the WPF chart draws them. Open Dental's own Simple 2D, DirectX 9 and OpenGL charts never did (its 24.3 relay sent both only to
+    Sparks3D, "not supported" otherwise; its Graphics page lists them as unavailable with the older technology), so those engines stay as
+    they are.
+  - Old answer (2026-11-08): they are no-ops today (relay 215, 227). **Recommended:** draw them in TC-6. They are cheap with the same
+    geometry tools, and the gallery shows them.
+- **O-24. Ortho mode and the 2D chart.** *Revised by the parity rows ORTHO-1 and ORTHO-2 (section 10, table TC-6) under the owner's rule
+  of 2026-11-14, the owner's confirmation of those rows. The text below is the decision as built on `chart/tc6-1`; the 2026-11-08 answer
+  ("keep today's layout") is kept as history and superseded.*
+  - **Ortho mode (ORTHO-1):** a facial-only layout as Open Dental's ortho mode shows it (Capture13, 2024; ortho9, 2022): the upper and
+    lower facial rows moved toward the centre line, the Palmer numbers (the callers' switch, unchanged) between them, no occlusal rows.
+    The teeth keep their size: measured in both screenshots, a tooth is as wide and as long as in the normal chart (the 16 teeth fill the
+    same width, a central incisor is about 70 pixels long in both), so "enlarged" means re-spaced, not scaled. Hit-testing follows the
+    layout (the upper half picks the upper teeth, as before).
+  - **Hardware (ORTHO-2):** brackets with a flat face and a slot (Helix `MeshBuilder` boxes in the 3D layer), wires and elastics as thin
+    lines (about 1 to 2 pixels) in the 2D layer, in the colours of the hardware rows, drawn whenever the caller paints them: in ortho mode
+    and in the normal layout ("Show Graphics" in the Chart module; sheets and printouts as before).
+  - The 2D chart draws free text, Text and the extraction graphic, but no orthodontic hardware and no ortho layout, as Open Dental's own 2D
+    chart (its 24.3 relay sent ortho mode and the hardware only to Sparks3D). (TextBelow is shown by the Chart module's strip since TC-5's
+    parity round, the same on every engine.)
+  - Old answer (2026-11-08), **Recommended:** keep today's layout with Palmer numbering (`ControlChart.cs:6544-6549`), and draw the
+    hardware on the facial views; the 2D chart draws free text, Text and the extraction graphic, but no orthodontic hardware.
 - **O-25. Differences between the four painting copies.**
   - `ControlTreat`'s printout colours lack the TPi exception and the per-provider colours (2179-2213).
   - `ControlTreat` skips procedures with status D or an unhandled status (2205-2207). `ControlChart` and `SheetPrinting` ignore the
     false result of `GetToothColors` and paint such procedures white.
   - Only the Chart module skips Mouth procedures (6010).
   - **Recommended:** keep each caller's output as today, as options of the one painter, and align them later only on request.
-- **O-26. When SharpDX and Tao go, and when S3a-15 runs.** **Recommended:**
+- **O-26. When SharpDX and Tao go, and when S3a-15 runs.** *Owner, 2026-11-15: "we can get rid of Directx after our switch", and
+  decision 21 (no bridge release): TC-9a follows TC-8 directly and TC-9b follows it, all on `main` before `net10/switch` is cut; the
+  64-bit build ships no DirectX runtime. The office check below stays as a launch check before the office switches, not a gate for
+  TC-9a. The text below is the earlier recommendation, kept as history.* **Recommended:**
   - TC-8 (the switch) merges in 3a waves 1 and 2. Right after it, the lead makes the office check (section 11).
   - If the check passes, TC-9a merges. TC-9b merges after S3a-14: before the 3a gate if it fits, otherwise on `main` right after the
     bridge release and before `net10/switch` is cut. The .NET 10 x64 build then never carries SharpDX or Tao, and S3b-3 gets simpler.
@@ -921,13 +1102,18 @@ sheets and the dashboard (TC-1's gallery G0, `timings.txt`). TC-3's fix round fo
 - **O-29. The business layer's chart image** (BIN-A 2, `owner-questions.md:254`; `ToothChartHelper.cs:195-212`). **Recommended:** keep
   the placeholder. The paths are unshipped and their entry methods have no callers in the repository. The renderer sits above the
   business library, and moving it below is a later package if those paths ship.
-- **O-30. Computers saved as Simple 2D.** Such a computer is often set by Setup > Computers, "Use Simple Graphics"
+- **O-30. Computers saved as Simple 2D.** *Revised by the owner on 2026-11-15 ("Match Open Dental 26.2" for File > Graphics): parity
+  rows ENG-1, ENG-2, ENG-3, ENG-5 and NEW-1 are confirmed and built in TC-8b after TC-9a, which also revises O-31 and O-34 (b1). The text
+  below is the earlier answer, kept as history.* Such a computer is often set by Setup > Computers, "Use Simple Graphics"
   (`FormComputers.cs:53-62`, `ComputerPrefs.cs:205-211`), after a DirectX crash. The scope says the new chart "becomes everyone's chart".
   - **Recommended:** keep them on 2D, with no data change, so a rollback is safe. The release notes say how to switch, and the owner can
     switch a computer from Setup > Computers.
   - Alternative: move every stored 1 to the 3D chart once. That is a data change that a rollback to an older build would meet as
     DirectX, on the PCs where DirectX crashed.
-- **O-31. Graphical perio on a 2D computer after TC-8.** Today `FormPerio.cs:1114-1123` refuses unless DirectX is chosen and installed.
+- **O-31. Graphical perio on a 2D computer after TC-8.** *Revised by the owner on 2026-11-15 ("Match Open Dental 26.2"): parity row ENG-5,
+  built in TC-8b (`chart/tc8b-1`), takes O-31's alternative: graphical perio opens only on a computer that uses the 3D tooth chart, and a
+  computer that draws Simple 2D gets a message naming File > Graphics. The text below is the earlier answer, kept as history.* Today
+  `FormPerio.cs:1114-1123` refuses unless DirectX is chosen and installed.
   - **Recommended:** open it on the WPF chart on every computer. The 2D choice then applies to the tooth chart only. The 2D engine cannot
     draw perio, and the WPF chart renders in software on any PC.
   - Alternative: keep refusing on 2D computers, with a message that names Setup > Graphics.
@@ -946,7 +1132,10 @@ sheets and the dashboard (TC-1's gallery G0, `timings.txt`). TC-3's fix round fo
 
 **Asked with TC-3's results (gallery G1; the lead puts it to the owner with G1):**
 
-- **O-34. The program draws every WPF window in software, the live view included.**
+- **O-34. The program draws every WPF window in software, the live view included.** *Answer (b1) revised by the owner on 2026-11-15
+  ("Match Open Dental 26.2"): parity row ENG-3, built in TC-8b (`chart/tc8b-1`), makes the smoothed picture the on-screen default and keeps the
+  quick live view as the per-computer option ("Draw in software" unticked). The line in `ProgramEntry.cs` stays. The text below, the (b1)
+  answer included, is kept as history.*
   - **Facts.** `OpenPmsDental/Main Modules/ProgramEntry.cs:21` sets `RenderOptions.ProcessRenderMode=RenderMode.SoftwareOnly` for the
     whole process before any window exists. Upstream added it in 24.2.48 and again in 24.3.15 (`d4d86a572`) with no comment, so its
     reason is not recorded; it is the program's only render-mode setting, and it covers every WPF window and control of the program
@@ -975,6 +1164,63 @@ sheets and the dashboard (TC-1's gallery G0, `timings.txt`). TC-3's fix round fo
     Removing or narrowing the line (a) is not planned. With the same answer the owner approved G1's 145 re-recorded pictures (the
     centre line and highlight boxes on DirectX's pixels) and asked for the dashboard's picture to be made in the background: TC-3b.
     The times re-measured in TC-3's fix round 3 (DirectX warmed up, in the program's own format) are in section 2.
+
+### Open Dental parity (2026-11-14)
+
+The owner's rule of 2026-11-14: "Overall for tc changes, keep it the same as OD latest version." The latest Open Dental is 26.3 beta
+(11/03/2026); 26.2 is the stable version, and only 26.2 changes tooth-chart drawing between 24.4 and 26.3. The audit of that day, with
+each row's Open Dental source and the critic's notes, is `.git/od-tools/briefs/tc-od-parity.md` (in the main checkout's `.git`, outside the
+repository). TC-5 takes its rows now (O-20, O-21 and O-22 above; and Change Color on free text, which the critic found missing from INT-2:
+`https://www.opendental.com/manual/chartdrawing.html`, "Change Color: Use to change the color of an existing drawing or text"). The rows
+below go to later packages; nothing is cut, and each package asks the owner before it changes a decided answer.
+
+**TC-3 look follow-up** (edits merged TC-3 code in `ToothSceneBuilder`; a small package or TC-6's first commit). **Done in package TC-3c,
+branch `chart/tc3c-1`, review fix `chart/tc3c-2` (2026-11-15; `docs/port-notes/TC-3c.md`); gallery G4 (its TC-3c part) approved by the owner on 2026-11-15, merged.**
+
+| Row | Change | Open Dental source | Caveats |
+|---|---|---|---|
+| PT-1 | **Done (TC-3c).** Draw the "W" as plain text in the procedure's colour, regular weight, without the white outline (the place stays). | https://i0.wp.com/opendental.blog/wp-content/uploads/2024/08/Capture17.png?ssl=1 ; https://i0.wp.com/opendental.blog/wp-content/uploads/2026/10/image-6.png?ssl=1 | Implied from DirectX 11 screenshots; the colour of a TP "W" next to a Condition "W" needs a screenshot. The Simple 2D chart already drew it so (`ToothChart2D.cs:304-325`). |
+| LOOK-2 | **Done (TC-3c).** Unerupted teeth half-transparent, blended over the background beneath the opaque teeth (`ToothSceneBuilder` 187-191; every opaque tooth covers them, as the screenshot's primary roots cover the permanent crowns): their own colour at alpha 0.63 (161), measured from the 2023 screenshot (TC-3c.md 1.2). | https://i0.wp.com/opendental.blog/wp-content/uploads/2023/07/image-4.png?ssl=1 | Implied; od-unknown-refined: the alpha needs an Open Dental 26.2 Set Mixed Dentition screenshot. The perio chart keeps DirectX's look (PERIO-1); the Simple 2D chart has no unerupted look. |
+| LOOK-4 | **Done (TC-3c).** The centre line in the chart's text colour (the "Text" definition; "Text on TPs" on printouts: `ColorText`, the numbers' colour) instead of white. | https://i0.wp.com/odtechblog.wordpress.com/wp-content/uploads/2026/08/image-6.png?ssl=1 ; https://i0.wp.com/opendental.blog/wp-content/uploads/2024/08/Capture17.png?ssl=1 | Implied, from the module images only. Unsettled in the Big layout: its 2026 screenshot shows no centre line between the number rows. The highlight boxes are od-unknown and stay. The Simple 2D chart's line is part of its picture and already dark. |
+
+**TC-6** (revises O-23 and O-24 before it starts; the owner confirms). **Done in package TC-6, branch `chart/tc6-1` from `chart/tc3c-2`
+(2026-11-15; `docs/port-notes/TC-6.md`); O-23 and O-24 say that these rows revised them under the owner's rule; the owner approved
+its gallery (G2 part 2, built as G5) on 2026-11-15 and it is merged on `main`.**
+
+| Row | Change | Open Dental source | Caveats |
+|---|---|---|---|
+| ORTHO-1 | **Done (TC-6).** Ortho mode draws a facial-only layout: upper and lower facial rows, Palmer numbers between them, no occlusal rows; hit-testing follows the layout. Revises O-24 (which kept today's layout). | https://www.opendental.com/manual/ortho.html ; https://i0.wp.com/opendental.blog/wp-content/uploads/2024/08/Capture13.png?ssl=1 ; Palmer: https://www.opendental.com/manual/graphicaltoothchart.html | "Enlarged to fill the image" is not supported: in Capture13 and ortho9 the 16 teeth fill the same width as in Capture17, so the rows are re-spaced vertically; measure before TC-6. Palmer is in graphicaltoothchart.html, not ortho.html. Ortho mode can still be turned off, so this is a look change, not a cut. **Measured in TC-6:** the teeth keep their size (an incisor about 70 pixels long in Capture13 and Capture17), the rows move 46 pixels (14.6 mm) toward the centre line; built so. |
+| ORTHO-2 | **Done (TC-6).** Keep the TC-6 hardware plan but match the look: a flat bracket face with a slot, thin lines (about 1-2 px) for wires and elastics, not thick tubes; drawn in the normal layout too whenever Show Graphics is on. | https://opendental.blog/channeling-the-chart-module/ ; https://www.opendental.com/manual/ortho.html | Colour-coding of hardware is not in either source. The wire look is already public (ortho9: thin grey lines through the bracket centres, inside the slots), so no new screenshot is needed for it. Hidden hardware, Show Hidden and the exam-date picker need their own rows. Built: brackets as Helix boxes (base, four tie wings, slot), wires and elastics 0.32 mm lines in the 2D layer. |
+| RR-1 | **Done (TC-6).** Retained root: root only in the status colour, plus a small crescent of the same colour in the occlusal row; a completed extraction on the tooth hides it. Revises O-23. | https://odtechblog.files.wordpress.com/2021/01/retained-chart.png ; https://opendental.blog/tips-tricks-33/ | Stated. Which engines draw it (O-24 is silent) needs a row. Built: the WPF chart only, as Open Dental's 24.3 relay sent it only to Sparks3D (O-23); the crescent is the root seen from occlusal. |
+| SM-1 | **Done (TC-6).** Space maintainer: only a thick solid bar in the status colour across missing-tooth spaces, at about crown height on the facial view, never over a present tooth; no band and no loop. Quadrants kept. Revises O-23. | https://odtechblog.files.wordpress.com/2021/01/space-main-chart.png ; https://www.opendentalsoft.com:8085/forum/viewtopic.php?t=7522 | Stated. Which engines draw it needs a row. Built: the WPF chart only (O-23); the bar flat in the status colour, as the screenshot's 198,0,0. |
+
+**TC-8** (revises O-30, O-31 and O-34 before it starts; the owner confirms):
+
+**Done in package TC-8b, branch `chart/tc8b-1` from `main` (2026-11-15; `docs/port-notes/TC-8b.md`), after the owner's "Match Open Dental
+26.2" of 2026-11-15; its gallery (`tc8b.html`) waits for the owner's approval before it merges.** The first note below is TC-8's, kept as history.
+
+*Not built in TC-8 (2026-11-15): the owner has not confirmed these rows, so TC-8 follows O-19 and O-34 (b1), O-30 and O-31 as answered;
+the rows stay open for the owner (`docs/port-notes/TC-8.md`, section 6).*
+
+| Row | Change | Open Dental source | Caveats |
+|---|---|---|---|
+| ENG-1 | **Done (TC-8b, `chart/tc8b-1`).** Build File > Graphics (not Setup > Graphics; `FormOpenDentalMenus.cs:127`) on Open Dental's layout with the WPF 3D chart in DirectX 11's place: a global "3D tooth chart on all computers" setting, a per-computer "Use the global setting / Use if available / Do not use", a status line, then an "Older tooth chart technology" group (Simple 2D, and DirectX 9 and OpenGL until TC-9a). "Draw in software" goes under options. | https://www.opendental.com/manual/graphics.html | Stated. |
+| ENG-2 | **Done (TC-8b, `chart/tc8b-1`).** Read Open Dental's existing rows with no schema change: `DirectX11ToothChartUseIfAvail` (global, default 1) and `computerpref.GraphicsUseDirectX11` (per computer, Unknown = the global) choose the WPF chart; only "Do not use" lets `GraphicsSimple` apply. Revises O-30: a computer stored as Simple 2D gets the 3D chart unless its setting is "Do not use". | https://www.opendental.com/manual/graphics.html | Stated. The guard `tests/BINATests/ProprietaryBinariesRemovedTests.cs:134-138` fails any read of `PrefName.DirectX11ToothChartUseIfAvail` or `LocalComputer.GraphicsUseDirectX11` in `ControlChart.cs` and the relay; TC-8 rewrites it. Reusing the rows answers owner question BIN-A 5 (`docs/owner-questions.md:441`, delete or keep them): keep. ENG-6 (Setup > Computers "Use Simple Graphics" setting the 3D setting to "Do not use" too) needs the owner, since Open Dental's behaviour there is unknown. **TC-8b:** the guard is rewritten to allow exactly the relay's reads and ENG-6's write; ENG-6 is built as the closest documented reading (the Computers page: "Set another computer's Graphics Preferences to simple"), od-unknown. |
+| ENG-3 | **Done (TC-8b, `chart/tc8b-1`).** Make the smoothed picture the default on screen and keep the jagged live view as the per-computer option (no feature cut). Revises O-34 (b1); weigh G1's refill times first. | https://i0.wp.com/odtechblog.wordpress.com/wp-content/uploads/2026/08/image-6.png?ssl=1 | Implied from screenshots. |
+| ENG-5 | **Done (TC-8b, `chart/tc8b-1`).** Graphical perio opens on the WPF chart only when the computer resolves to the 3D chart; on Simple 2D it refuses with a message naming File > Graphics. Revises O-31 (O-31's alternative). | https://www.opendental.com/manual/graphics.html ; https://www.opendental.com/manual/graphicalperiochart.html | "DirectX 11: allowed" is inferred: graphics.html states only DirectX 9 allowed and Simple 2D and OpenGL not allowed, and graphicalperiochart.html names no graphics mode. Nothing built is cut, but a planned capability (perio on 2D computers) is withdrawn: the owner decides. |
+| NEW-1 | **Done (TC-8b, `chart/tc8b-1`).** The two-level 3D setting and its status line ("Available", or "Fell back: <reason>"), covered by ENG-1 and ENG-2. | https://www.opendental.com/manual/graphics.html | Stated. |
+
+**Open Dental unknown (od-unknown), kept as built until a screenshot from an Open Dental 26.2 install settles them:** EXT-1 (the
+preference's name, tab and label), EXT-5 (the X under a completed implant or pontic: built as a plain switch, the closest documented
+reading), EXT-7 (which hosts draw the X), EXT-8 (a completed primary extraction), EXT-9 (the audit text), TB-4 (how several TextBelow
+items stack and how long text is cut: built as one line joined by "; "), TB-6 (TextBelow on a hidden or missing tooth), TB-3's colour
+(built black), FT-1 (free-text font and colour), FT-3 (labels past an edge), LOOK-1 (camera, light, shading), LOOK-3 (overlays over a
+neighbour), ENG-4 (the software render mode after 24.3), PERIO-1 (the graphical perio drawing) and, from TC-8b (`docs/port-notes/TC-8b.md`,
+section 4), ENG-6 ("Use Simple Graphics" also writing "Do not use"), ENG-5's 26.2 wording, NEW-1's status under "Do not use" and the medical
+wording of the 3D groups. Also from the critic: which statuses
+count as completed for the X (C, EC, EO built; ask for an EO screenshot), whether the X and TextBelow follow a code's colour override,
+the engines that may draw RR, SM and non-W Text (Open Dental limits them by graphics mode) and the strip's place in custom Chart
+Layout sheets and on printouts.
 
 ---
 
@@ -1015,12 +1261,13 @@ sheets and the dashboard (TC-1's gallery G0, `timings.txt`). TC-3's fix round fo
     transform is the identity): a click selects the tooth under the cursor and a pen stroke lands under the cursor; a stroke drawn with a slow,
     steady hand saves no repeated points; a drawing saved with the pen refills the chart with no stuck capture (the handlers now run with the
     capture, as DirectX's did).
-- **L-5 (TC-5, TC-6).**
+- **L-5 (TC-5, TC-6).** TC-5's part is written step by step for a person in `docs/port-notes/TC-5.md` (section 4), TC-6's in
+  `docs/port-notes/TC-6.md` (section 5).
   - Free text added, edited, moved and deleted, and still there after a restart.
   - Text and TextBelow codes; the extraction setting on and off.
   - The ortho tab's hardware and ortho mode.
 - **L-6 (TC-7).** With the DEBUG developer switch, which the relay's perio gate honours since TC-2: graphical perio from the Perio Chart:
-  display, setup colours, print, save.
+  display, setup colours, print, save. Written step by step for a person in `docs/port-notes/TC-7.md` (section 4), with the Recession option.
 - **L-7 (TC-8).**
   - Every host.
   - A computer with saved DirectX and one with saved OpenGL now show the WPF chart; a 2D computer as O-30 decides.

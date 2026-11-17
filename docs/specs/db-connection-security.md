@@ -433,7 +433,7 @@ databases `test_dbsec_*`).
 - The connection page asks server, database and user (defaults `localhost`, `opendental` and, since S2, `opmsd`, the guide's account;
   the page says the user is the program's own account, not `root`); a second page asks the office CA certificate file and the client
   `.pfx` (blank: a database password instead). Both are skipped when the program folder already has `FreeDentalConfig.xml`. The second page
-  is skipped for a loopback server and for per-user installs.
+  is skipped for a loopback server.
 - Silent switches: `/DBSERVER=`, `/DBNAME=`, `/DBUSER=` (as before; `/DBUSER` defaults to `opmsd`), `/DBCA=<file>`, `/DBPFX=<file>`,
   `/DBTHUMBPRINT=<hex>`, `/DBSECRETSFILE=<file>` (passed to the tool; the caller deletes it). `root` for a server over the network is
   accepted; the tool's result line in setup's log carries the warning of section 4.5.
@@ -456,8 +456,10 @@ databases `test_dbsec_*`).
     and logged; a silent install ends with exit code 10.
   - No security switch: setup runs `/check` and, interactive, offers to open the tool when the settings fail the rule; silent, it logs the
     result and, when the settings fail the rule or the tool could not start, ends with exit code 10.
-- Per-user installs (`/CURRENTUSER`, tests only) cannot run the administrator tool: they write the base file; a network server is logged
-  ("needs the connection settings tool") and shown as needing the tool; setup still ends with exit code 0.
+- Every install is an all-users (administrator) install: setup has no per-user mode since S3a-11 (decision 7 of
+  [net10-plan.md](net10-plan.md); the former `/CURRENTUSER` test mode could never run the tool). `tools/Test-Installer.ps1`, run elevated by
+  the owner, checks a silent install with a server over the network and no office CA: the tool runs `/silent`, refuses with exit code 5,
+  and setup ends with exit code 10.
 - v0.0 is uninstalled before this version is installed (S4), and its uninstaller removes the program folder with the
   `FreeDentalConfig.xml` to which its setup gave Users modify rights, so no computer keeps that right, on the condition of section 3.1:
   the release is published only after v0.0 is uninstalled on every workstation, and a workstation that pulled it anyway is uninstalled

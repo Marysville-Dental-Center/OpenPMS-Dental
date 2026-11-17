@@ -1,0 +1,15 @@
+Scene: drawing-dense
+Group: interaction
+Description: A dense pen spiral of 200 points over the right maxillary teeth.
+Size: 410x307
+Colours: Module
+Engine: Wpf3D (RenderTargetBitmap in software, 3D layer at 3x reduced with WIC's Fant scaler)
+Bitmap: 410x307 Format24bppRgb
+Alpha: every alpha is 255 (format without an alpha channel)
+Colours in the picture: 5282
+Pixels SHA-256: 4d5d080bdc012ca332b8f7a6d3e330863884fad02b7fab9e144d541b5511aa0d
+Repeatable: yes (a second GetBitmap gave the same pixels)
+Framework: .NET Framework 4.8, x64
+Windows: build 26300.9974 (26H2)
+Fresh render: yes (both layers drawn again without the layer cache gave the same pixels)
+Screen DPI seen by the test host: 96

@@ -1,0 +1,14 @@
+Scene: perio-full-exam
+Group: perio
+Description: The saved image (Save to Images) of the graphical perio chart, as FormPerioGraphical.RenderPerioPrintout makes it around the WPF chart's 649x696 picture, with synthetic texts. A complete synthetic exam: probing 2-4 mm, gingival margins 0-2 mm, MGJ on the buccal and the mandibular lingual, some bleeding and suppuration, furcations 1-3 on molars, mobility 1-2 on a few teeth.
+Size: 750x1000 (perio-save)
+Colours: Perio
+Engine: Wpf3D (the chart's GetBitmap), drawn into the page with GDI+
+Bitmap: 750x1000 Format32bppArgb
+Alpha: every alpha is 255
+Colours in the picture: 32529
+Pixels SHA-256: d51af54d1c444d6aad7c27111f3ff81d0b111d722e73b7569cd4cfe288f7a250
+Repeatable: yes (a second drawing gave the same pixels)
+Framework: .NET Framework 4.8, x86
+Windows: build 26300.9974 (26H2)
+Screen DPI seen by the test host: 96

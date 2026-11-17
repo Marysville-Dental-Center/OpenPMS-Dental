@@ -126,13 +126,14 @@ namespace OpenPmsDental {
 				//string myAdd=Dns.GetHostByName(Dns.GetHostName()).AddressList[0].ToString();//obsolete
 				string myAdd = Dns.GetHostEntry(Dns.GetHostName()).AddressList[0].ToString();
 				ProcessStartInfo processStartInfo = new ProcessStartInfo();
+				processStartInfo.UseShellExecute=true;//Through the shell, as on .NET Framework, with the window hidden below (the .NET default is false).
 				processStartInfo.FileName=@"C:\WINDOWS\system32\cmd.exe";//Path for the cmd prompt
 				processStartInfo.Arguments="/c net view > tempCompNames.txt";//Arguments for the command prompt
 				//"/c" tells it to run the following command which is "net view > tempCompNames.txt"
 				//"net view" lists all the computers on the network
 				//" > tempCompNames.txt" tells dos to put the results in a file called tempCompNames.txt
 				processStartInfo.WindowStyle=ProcessWindowStyle.Hidden;//Hide the window
-				Process.Start(processStartInfo);
+				ODFileUtils.ProcessStart(processStartInfo);
 				StreamReader streamReader = null;
 				string filename = ODFileUtils.CombinePaths(Application.StartupPath,"tempCompNames.txt");
 				Thread.Sleep(200);//sleep for 1/5 second

@@ -105,6 +105,9 @@ namespace ToothChartImageTests {
 					}
 					CopyIfExists(Path.Combine(TestPaths.BaselinesLegacySmoothed,chartSize.FolderName,scene.Name+".png"),
 						Path.Combine(folder,"legacy-smoothed",chartSize.FolderName,scene.Name+".png"));
+					//TC-5: the 2D chart's pictures of the scenes it now draws more of (Simple2DImageTests), next to its old ones.
+					CopyIfExists(Path.Combine(Simple2DImageTests.Baselines2D,chartSize.FolderName,scene.Name+".png"),
+						Path.Combine(folder,"simple2d",chartSize.FolderName,scene.Name+".png"));
 				}
 			}
 			if(timingReportCold!=null) {
@@ -182,7 +185,7 @@ namespace ToothChartImageTests {
 				sb.Append("<option>"+WebUtility.HtmlEncode(group)+"</option>");
 			}
 			sb.Append("</select></label></p>\r\n<table>\r\n<thead><tr><th>Scene</th><th>Size and colours</th><th>DirectX</th><th>DirectX, smoothed</th>"
-				+"<th>OpenGL</th><th>Simple 2D</th><th>WPF</th><th>Difference from the approved WPF picture</th></tr></thead>\r\n");
+				+"<th>OpenGL</th><th>Simple 2D</th><th>Simple 2D now (TC-5)</th><th>WPF</th><th>Difference from the approved WPF picture</th></tr></thead>\r\n");
 			foreach(ChartScene scene in listScenes) {
 				List<ChartSize> listSizes=ChartScenes.GetSizes(scene);
 				sb.Append("<tbody data-group=\""+WebUtility.HtmlEncode(scene.Group)+"\" id=\""+scene.Name+"\">\r\n");
@@ -194,13 +197,16 @@ namespace ToothChartImageTests {
 							+"</div><div>"+WebUtility.HtmlEncode(scene.Description)+"</div></td>");
 					}
 					sb.Append("<td>"+chartSize.FolderName+"<div class=\"cap\">"+chartSize.ColorSet+" colours</div></td>");
-					AppendImageCell(sb,folder,"legacy/DirectX/"+chartSize.FolderName+"/"+scene.Name+".png",chartSize,"not recorded");
+					//A scene added after TC-0's recording (TC-5 on) shows what the old engines never drew.
+					string textNotRecorded=scene.HasLegacyRecording?"not recorded":"new scene: the old engines never drew this";
+					AppendImageCell(sb,folder,"legacy/DirectX/"+chartSize.FolderName+"/"+scene.Name+".png",chartSize,textNotRecorded);
 					AppendImageCell(sb,folder,"legacy-smoothed/"+chartSize.FolderName+"/"+scene.Name+".png",chartSize,"");
-					AppendImageCell(sb,folder,"legacy/OpenGL/"+chartSize.FolderName+"/"+scene.Name+".png",chartSize,scene.Kind==ChartSceneKind.Perio?"DirectX only":"not recorded");
-					AppendImageCell(sb,folder,"legacy/Simple2D/"+chartSize.FolderName+"/"+scene.Name+".png",chartSize,scene.Kind==ChartSceneKind.Perio?"DirectX only":"not recorded");
+					AppendImageCell(sb,folder,"legacy/OpenGL/"+chartSize.FolderName+"/"+scene.Name+".png",chartSize,scene.Kind==ChartSceneKind.Perio?"DirectX only":textNotRecorded);
+					AppendImageCell(sb,folder,"legacy/Simple2D/"+chartSize.FolderName+"/"+scene.Name+".png",chartSize,scene.Kind==ChartSceneKind.Perio?"DirectX only":textNotRecorded);
+					AppendImageCell(sb,folder,"simple2d/"+chartSize.FolderName+"/"+scene.Name+".png",chartSize,scene.Kind==ChartSceneKind.Perio?"":"as recorded");
 					WpfGalleryPicture picture=listPictures.FirstOrDefault(x => x.Scene.Name==scene.Name && x.ChartSize.FolderName==chartSize.FolderName);
 					if(picture==null) {
-						sb.Append("<td class=\"cap\">"+(scene.Kind==ChartSceneKind.Perio?"Perio on the WPF chart comes with TC-7 (gallery G3).":"not drawn")+"</td><td></td>");
+						sb.Append("<td class=\"cap\">not drawn</td><td></td>");
 					}
 					else if(picture.Failure!=null) {
 						sb.Append("<td class=\"warn\">failed: "+WebUtility.HtmlEncode(picture.Failure)+"</td><td class=\"cap\">not compared</td>");

@@ -1,0 +1,5 @@
+Host: dashboard
+Size: 410x307
+Bitmap: Format24bppRgb
+Colours in the picture: 5291
+Pixels SHA-256: 66d4ba4c06df3dd5e1a877e20418a7ddb57ed52e47baf68de192c6a038c776c3

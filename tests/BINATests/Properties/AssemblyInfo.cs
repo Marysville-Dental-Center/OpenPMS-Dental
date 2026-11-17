@@ -2,7 +2,7 @@
 using System.Runtime.InteropServices;
 
 [assembly: AssemblyTitle("BINATests")]
-[assembly: AssemblyDescription("Tests that Open Dental's closed Suni, VBbridges and Sparks3D binaries stay removed, and the tooth chart fallback.")]
+[assembly: AssemblyDescription("Tests that Open Dental's closed Suni, VBbridges and Sparks3D binaries stay removed, and the tooth chart's old DirectX and OpenGL engines stay retired.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyProduct("BINATests")]
 [assembly: AssemblyCopyright("GPL v2 or later")]

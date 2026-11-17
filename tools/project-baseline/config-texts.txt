@@ -416,6 +416,9 @@
 531af7897c5eeb30ad3cd06ba456a95dc6e24724d316210f14e5be1924bff6e2|00065|  </runtime>
 531af7897c5eeb30ad3cd06ba456a95dc6e24724d316210f14e5be1924bff6e2|00066|<startup><supportedRuntime version="v4.0" sku=".NETFramework,Version=v4.8"/></startup>
 531af7897c5eeb30ad3cd06ba456a95dc6e24724d316210f14e5be1924bff6e2|00067|</configuration>
+695533cba0f266b36dd79656aa05ba86769ae1a4e028a8ac5c8a636f7db3cd9c|00001|<?xml version="1.0"?>
+695533cba0f266b36dd79656aa05ba86769ae1a4e028a8ac5c8a636f7db3cd9c|00002|<configuration>
+695533cba0f266b36dd79656aa05ba86769ae1a4e028a8ac5c8a636f7db3cd9c|00003|<startup><supportedRuntime version="v4.0" sku=".NETFramework,Version=v4.8"/></startup></configuration>
 8c9bd1b907df03f16da03da6b8195e9dcfb6ed1eaddffa580e9ab93a578f017a|00001|<?xml version="1.0" encoding="utf-8"?>
 8c9bd1b907df03f16da03da6b8195e9dcfb6ed1eaddffa580e9ab93a578f017a|00002|<configuration>
 8c9bd1b907df03f16da03da6b8195e9dcfb6ed1eaddffa580e9ab93a578f017a|00003|    <configSections>

@@ -20,7 +20,7 @@ namespace OpenPmsDental.Bridges {
 			}
 			string commandLine=Patients.ReplacePatient(program.CommandLine,patient);
 			try {
-				Process.Start(path,commandLine);
+				CodeBase.ODFileUtils.ProcessStart(path,commandLine);
 			}
 			catch(Exception ex) {
 				MsgBox.Show(ex.Message);

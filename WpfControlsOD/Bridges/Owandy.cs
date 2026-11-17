@@ -22,9 +22,9 @@ namespace OpenPmsDental.Bridges {
 		/// <summary></summary>
 		[DllImport("user32.dll")]
 		public static extern Boolean IsWindow(IntPtr hWnd);
-		/// <summary></summary>
+		///<summary>WPARAM is pointer-sized (8 bytes in a 64-bit process); WM_SETTEXT passes zero.</summary>
 		[DllImport("user32.dll")]
-		public static extern IntPtr SendMessage(IntPtr hWnd,int Msg,Int32 wParam,String lParam);
+		public static extern IntPtr SendMessage(IntPtr hWnd,int Msg,IntPtr wParam,String lParam);
 
 		/// <summary></summary>
 		//public IntPtr formHandle;
@@ -44,7 +44,7 @@ namespace OpenPmsDental.Bridges {
 			if(pat != null) {
 				try {
 					//formHandle = Parent.Handle;
-					System.Diagnostics.Process.Start(path,ProgramCur.CommandLine);//"C /LINK "+ formHandle;
+					ODFileUtils.ProcessStart(path,ProgramCur.CommandLine);//"C /LINK "+ formHandle;
 					if(!IsWindow(hwndLink)) {
 						hwndLink=FindWindow("MjLinkWndClass",null);
 					}
@@ -60,7 +60,7 @@ namespace OpenPmsDental.Bridges {
 					}
 					info = "/P:" + patId + "," + pat.LName + "," + pat.FName;
 					if(IsWindow(hwndLink) == true) {
-						IntPtr lResp=SendMessage(hwndLink,WM_SETTEXT,0,info);
+						IntPtr lResp=SendMessage(hwndLink,WM_SETTEXT,IntPtr.Zero,info);
 					}
 
 				}

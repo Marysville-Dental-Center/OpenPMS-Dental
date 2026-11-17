@@ -20,7 +20,7 @@ These are in v0.0 as described. Each one is a default, not a final answer: **cha
 4. **Third-party plug-ins built for Open Dental no longer load** (RENAME, D5). The adoption tool lists the program rows that name a plug-in DLL. Change it if you disagree.
 5. **Suni direct capture is removed** (BIN-A 1, CAP design 2 (a)). Suni sensors work through Suni's own TWAIN driver. Change it if you disagree.
 6. **Four bridges say "not available"** (BIN-A 2 and question 1): Dr. Ceph, eClinicalWorks Rx, Patterson Imaging and Schick CDR 4. Their vendors publish no interface, and they needed Open Dental's closed `VBbridges.dll`. Schick CDR DICOM (version 5) still works. The alternatives: hide or remove the four, or get the vendor's interface so it can be implemented from its documentation. Change it if you disagree. **Superseded for Schick (2026-11-08):** Schick CDR is not used and is removed completely in the clean-up stage of the .NET 10 move.
-7. **Sparks3D is removed, with the OpenGL fallback** (BIN-A 3 and 4, question 4). The tooth chart is SparksToothChart: DirectX 9 where Microsoft's DirectX End-User Runtime (`d3dx9_43.dll`) is installed, otherwise OpenGL, otherwise Simple 2D. The setup does not install the DirectX runtime; the graphical perio chart needs it and says so. The alternatives: the setup chains Microsoft's DirectX installer, or new computers default to OpenGL. Change it if you disagree.
+7. **Sparks3D is removed, with the OpenGL fallback** (BIN-A 3 and 4, question 4). The tooth chart is SparksToothChart: DirectX 9 where Microsoft's DirectX End-User Runtime (`d3dx9_43.dll`) is installed, otherwise OpenGL, otherwise Simple 2D. The setup does not install the DirectX runtime; the graphical perio chart needs it and says so. The alternatives: the setup chains Microsoft's DirectX installer, or new computers default to OpenGL. Change it if you disagree. **Superseded (TC-8, 2026-11-15):** the tooth chart is the WPF 3D chart on every computer stored as DirectX or OpenGL, drawn by the program in software, so no DirectX runtime is needed, and the setup ships or chains none (your answer of 2026-11-15, "we can get rid of Directx after our switch"); a computer stored as Simple 2D stays 2D; the graphical perio chart opens on the 3D chart on every computer and no longer asks for DirectX; File > Graphics offers "3D chart" and "Simple 2D chart" with a "Draw in software" switch ([port-notes/TC-8.md](port-notes/TC-8.md)). The DirectX and OpenGL charts are deleted by TC-9a and TC-9b. **Revised by TC-8b (your "Match Open Dental 26.2", 2026-11-15; waiting for your gallery approval):** File > Graphics has Open Dental 26.2's layout, the 3D chart is chosen by Open Dental's own DirectX 11 settings (so a computer stored as Simple 2D gets the 3D chart unless set to "Do not use"), the smoothed picture is the default on screen, and the graphical perio chart opens only on a computer that uses the 3D chart ([port-notes/TC-8b.md](port-notes/TC-8b.md)).
 8. **Topaz is loaded only when installed** (BIN-B 1). The program ships no `SigPlusNET.dll` and loads Topaz's from the program folder, a `Topaz Systems` folder or `%windir%\SigPlus`. Without it, a Topaz signature shows "Topaz signature pad software is not installed." Change it if you disagree (the open Topaz questions are under Vendor integrations). **Superseded (2026-11-08):** not used; removed in the clean-up stage of the .NET 10 move.
 9. **The Word letter merge uses late binding** (BIN-B 2). No Office interop assembly and no `stdole.dll` ship; the merge needs Word installed, as before. Change it if you disagree.
 10. **RS232 and DotNetZip are replaced** (BIN-B 5 and 6): the BCBS Georgia dial-up path uses .NET's `SerialPort`, and every zip (the release channel too) uses `System.IO.Compression`. Change it if you disagree. **Superseded for the dial-up path (2026-11-08):** the BCBS Georgia dial-up terminal is removed in the clean-up stage of the .NET 10 move; the DotNetZip replacement stands.
@@ -252,7 +252,7 @@ The program has no automatic runner for recurring card charges or repeating char
 - (M2-MISC 1) Automation "clinic mismatch" on Procedure Complete also looks at other procedures completed earlier the same day. Should only the procedures just completed be checked (a one-line change in four places)? **Today:** the whole day's procedures.
 - (M2-MISC 2) A procedure with no clinic on a patient who has a clinic counts as a mismatch. Right? **Today:** yes.
 - (BIN-A 2) The business layer's tooth chart image (the treatment plan and perio PDFs of the API and mobile paths, which v0.0 does not ship) is a plain "Tooth chart image not available" picture since Sparks3D went. Acceptable for v0.0, or draw it another way (for example a 2D renderer in the business layer)? The program's own sheets and printouts draw the chart as before.
-- (BIN-A 3) Free text and ortho hardware on the tooth chart: only Sparks3D drew them. Hide the Draw tab's text controls (Add, Move Text) and the ortho hardware drawing, or keep them (saved but not drawn)? **Today:** kept.
+- (BIN-A 3) Free text and ortho hardware on the tooth chart: only Sparks3D drew them. Hide the Draw tab's text controls (Add, Move Text) and the ortho hardware drawing, or keep them (saved but not drawn)? **Today:** kept. **Answered by the chart track (TC-5, TC-6; every computer's chart since TC-8):** kept and drawn. The WPF chart draws free text (moved with Move Text, recoloured with Change Color, both saved) and the orthodontic hardware (brackets, wires and elastics, and ortho mode), as Open Dental does; no control is hidden.
 
 ---
 
@@ -438,7 +438,7 @@ The review that put the capture work on main added these:
 - (ORG-CLEANUP 1) Delete `D:\Unversioned` on the development PC? Earlier Debug builds of Direct2dWrapper created it; nothing writes there any more.
 - (ORG-CLEANUP 2) Should the fork's merge driver drop configuration lines that one side removed (as with `ODXam`)? Until then, the strip step in ORG-CLEANUP is needed after merges that touch `OpenDental.sln`.
 - (ORG-CLEANUP 3) Keep `OpenDental.Local.slnf`, or point the test runner and the host check at `OpenDental.sln` and delete the filter?
-- (BIN-A 5) Delete the DirectX 11 preference (`DirectX11ToothChartUseIfAvail`) and `computerpref.GraphicsUseDirectX11` in a future fork migration, or keep them? Nothing reads them since Sparks3D went.
+- (BIN-A 5) Delete the DirectX 11 preference (`DirectX11ToothChartUseIfAvail`) and `computerpref.GraphicsUseDirectX11` in a future fork migration, or keep them? Nothing reads them since Sparks3D went. **Answered on 2026-11-15: keep them** (File > Graphics to match Open Dental 26.2; TC-8b reads them again).
 - (BIN-B 2) Remove the always-false AvaTax branches in the shared billing files (Adjustments, Procedures, RepeatCharges and their windows), and the disabled stub with them, in a later cleanup?
 - (BIN-B 3) RAMQ and QRDA zips store their XML in the system code page, as DotNetZip did. Keep that, or store UTF-8?
 - (this release) `Direct2dWrapper.dll` is neither one of the build id files (`ForkReleases.ListBuildIdFiles`) nor an input of the build time stamped into `OpenPmsDental.exe`, so a release that changes only that native DLL has the build id of the release before it, and no workstation pulls it. Add it (it must then build before `OpenPmsDental`)? **Today:** not part of the build id; it changes rarely. (The same release work fixed its build: Debug and Release now have their own output folders, so a Release build can no longer pick up the Debug DLL.)
@@ -735,6 +735,50 @@ of 2026-11-08: "1. As recommended 2. Ship dlls we need. Use Helix. It's decided.
   the quick live view is the default on-screen chart, with a per-computer "Draw in software" switch for the smoothed picture (b1).
   The dashboard's copy of the chart is made in the background by a later package, TC-3b, before the WPF chart becomes every
   computer's chart.
+- **The extraction graphic and the tooth chart rule (2026-11-14).** After G2's first versions: "Keep it the same as open dental, which is
+  a setting to toggle showing it or not." and "Overall for tc changes, keep it the same as OD latest version." Every tooth chart change
+  now follows the latest Open Dental's public behaviour (26.2 stable, 26.3 beta); the audit is in `docs/specs/wpf-tooth-chart-plan.md`,
+  section "Open Dental parity (2026-11-14)". So O-20 (on by default; the tooth hidden with a thin X, as Open Dental's 26.2 screenshot
+  shows; no other exceptions), O-21 (TextBelow in a one-line box under the date slider, not in the tooth picture) and O-22 (paint text
+  beyond the root tip, in the W band) changed.
+- **Half-cent rounding on .NET 10 (your decision, 2026-11-16: "Keep Open Dental's 1.01").** .NET 10 formats numbers exactly (1.005 with
+  two decimals gives 1.00) where .NET Framework rounded to 15 digits first (1.01). The program keeps Open Dental's text in reports and
+  wherever it formats money (net10-plan decision 24; package S3b-FMT after S3b-4).
+- **S3a-M3b before EHR-7 (your decision, 2026-11-15: "yes, go ahead").** FormMedical's last two WinForms menus are converted now, on
+  `main`, so stage 3a's gate and stage 3b no longer wait for the E-20 download; EHR-7 (`ehr/ehr7-3`, about 28 lines of FormMedical) is
+  redone on top when E-20 arrives.
+- **S3a-11, the elevated installer test (run on 2026-11-15 by you):** 97 checks passed, 0 failed, exit code 0 on the build PC; your 0.0
+  installation's Apps entry and Event Log source were written back and its shortcuts are unchanged. Nothing more is asked here; you run
+  the same line again at each stage gate.
+- **Gallery G4, TC-8's part (answered on 2026-11-15: "Approve TC-8").** Every host on the WPF chart, File > Graphics with "3D chart",
+  "Simple 2D chart", "Draw in software" and a live preview, graphical perio on every computer, Simple 2D computers kept on 2D. TC-8 merged.
+  **File > Graphics on Open Dental 26.2's layout: your decision (2026-11-15): "Match Open Dental 26.2".** Package TC-8b builds the
+  parity rows ENG-1, ENG-2, ENG-3, ENG-5 and NEW-1 of the chart plan after TC-9a: an office-wide "3D tooth chart on all computers"
+  setting, per computer "Use the global setting / Use if available / Do not use", a status line, Simple 2D in an "older technology"
+  group; Open Dental's stored `DirectX11ToothChartUseIfAvail` and `computerpref.GraphicsUseDirectX11` reused (no schema change; this
+  answers BIN-A 5: keep them); the smoothed picture as the on-screen default with the live view kept as a per-computer option; graphical
+  perio refused on a 2D computer with a message naming File > Graphics. This revises your earlier answers to O-30, O-31 and O-34 (b1),
+  kept below as history. ENG-6 (whether Setup > Computers' "Use Simple Graphics" also sets "Do not use") is built as the closest
+  documented reading and listed as unconfirmed. TC-8b's gallery comes before it merges.
+- **Gallery TC-8b: File > Graphics as Open Dental 26.2 has it (asked 2026-11-15; built on `chart/tc8b-1`, fixed on `chart/tc8b-2`).
+  Answered on 2026-11-15: "1. approve tc-8b. 2. yes. 3. what you have is good 4. yes".** TC-8b merged; "Use Simple Graphics" also sets
+  "Do not use" (ENG-6, kept); no red "This window is obsolete!" line (the neutral explanation kept); a computer set to "Do not use" shows
+  "Available" when the 3D chart can start (NEW-1, kept). The question as asked: The page `tc8b.html` (in the
+  main checkout's `.git/od-tools/test-results/tc8b-gallery/`, also zipped) shows Open Dental's own Graphics window next to this program's,
+  before (TC-8's two choices) and after in seven states: the default, the global "Do not use", this computer's "Use if available" and "Do not
+  use", the quick live view, a computer whose 3D chart fell back ("Fell back: ..."), and a medical practice. What you would see: the same
+  groups and words as Open Dental with "3D Tooth Chart" in DirectX 11's place, Simple 2D as the only older technology, "Draw in software"
+  ticked by default (the smooth picture; unticked gives the faster, slightly jagged live view), and the preview kept. Graphical perio on a 2D
+  computer now says "In the Graphics setup window (File > Graphics), you must first select the 3D tooth chart." Unconfirmed against Open
+  Dental 26.2 and built as the closest documented reading: "Use Simple Graphics" in Setup > Computers also sets that computer to "Do not
+  use" (ENG-6), the message's exact 26.2 wording, the status of a computer set to "Do not use" (shown as "Available" when the 3D chart can
+  start), and the medical wording; and the top of the window explains its two halves instead of Open Dental's red "This window is
+  obsolete!" (say if you want the red line).
+- **Gallery G2 part 2, TC-6 (answered on 2026-11-15: "TC-6 approved").** Ortho mode with the facial rows only, brackets with a slot,
+  thin wires and elastics, root-only retained roots and flat space-maintainer bars, as Open Dental shows them, are approved. TC-6
+  merged. Its build folder is named G5; the page called it G2 part 2, and the later 3b gallery keeps the name G5.
+- **Gallery G2 (answered on 2026-11-15: "G2 is good. Merge tc5").** TC-5's drawing, fourth version, is approved: free text, paint text,
+  TextBelow's box and the completed-extraction X as in Open Dental 26.2. TC-5 merged.
 
 ---
 
@@ -927,6 +971,92 @@ and E-10b), where each is set out in full with its recommendation. You first ans
   measure table PDF is kept as one reference copy (the lead's decision). Nothing downloaded enters the repository.
 
 ---
+
+## Open questions (2026-11-15)
+
+- **Gallery G3: the graphical perio chart (TC-7, branch `chart/tc7-1`, both reviews pass).** Answered on 2026-11-15: "G3 looks good".
+  TC-7 is merged.
+- **The 837 claim sender when a clearinghouse has no Sender TIN.** `X12Generator.GetISA06` and `GetGS02` write Open Dental Inc's TIN
+  (810624427) as the sender of the claim batch when the clearinghouse's Sender TIN is blank (upstream's behaviour). For this fork that names
+  a company the office has no agreement with. Recommended: refuse to build the batch while the Sender TIN is blank, with a message that
+  points to Setup > Clearinghouses. The other choice is to use the practice's own TIN. **Your decision (2026-11-15): "send your practice's
+  own TIN".** Wherever upstream names Open Dental Inc as the sender, the practice is named instead: ISA06, GS02, 1000A NM1 and PER, 837
+  4010 and 5010, the 270, and the Emdeon Medical variant. That means the practice's TIN, name and telephone. When one of them is missing,
+  the batch is refused with a message saying what to fill in, so Open Dental Inc's TIN is never sent. Package X12-SENDER. **Done** on
+  branch `claims/x12-sender-1` ([port-notes/X12-SENDER.md](port-notes/X12-SENDER.md)): the TIN of the practice's billing provider, the
+  practice title and the telephone the claims send; with clinics, the clinic's billing provider and phone.
+- **A damaged release manifest** (S3a-10, [port-notes/S3a-10.md](port-notes/S3a-10.md) section 8). Every workstation now refuses to publish
+  over a manifest it cannot read. If the row were ever really damaged, someone would delete the `documentmisc` rows of types 100 and 101 on
+  the database by hand. Should Recopy on the named update server offer that, after a confirmation? **Your decision (2026-11-15): yes.**
+  Recopy on the named update server, when the published manifest cannot be read, offers to replace it after a confirmation (package
+  S3a-10f). **Done** on branch `net10/s3a10f-1` ([port-notes/S3a-10.md](port-notes/S3a-10.md) section 12): Recopy on the named update
+  server asks Yes/No (No is the default); Yes deletes the `documentmisc` rows of types 100 and 101 and publishes the running build as for
+  a first release, with a security log entry; No, a silent run and every other workstation change nothing.
+- **The program after an elevated self-update** (S3a-10 section 8). After an over-the-shoulder elevation, the restarted program runs as the
+  account that gave the rights. Keep that, or should 3b start it without those rights? **Your decision (2026-11-15): the user's own
+  account.** In 3b (S3b-7), the copier starts the program again without the rights it was given, as the user who was working.
+- **For your information, no answer needed (S3a-7):** ServiceManager now installs every program it offers with the HL7 service's
+  settings, Open Dental's own service programs included: own process, automatic start, LocalSystem, display name = service name. InstallUtil
+  used to refuse a program that had no installer of its own.
+
+- **E-20 (the UMLS record of the 2026-05-14 value set files): answered (2026-11-16).** You downloaded the release yourself, with your own
+  UMLS licence (the value sets in VSAC's three sortings, the Direct Reference Codes file and the Code System Versions file). The record is in
+  `docs/port-notes/EHR-6.md`, section 0: names, sizes, sheets, headers, row positions, code systems and versions, counts. Nothing of the files
+  is in the repository. The office picks the workbook sorted by CMS ID with the two other files; the other two sortings are not needed.
+  EHR-6a-R fixed the importer to the record (E-30: only the seven measures' value sets are kept) and imported your three files on a scratch
+  database: 7 of 7 measures at the 2027 versions, all 68 value sets, the 8 direct-code roles resolved. EHR-6a then merges, and EHR-7 is redone
+  on top.
+
+- **LOINC's notice years (EHR-6a, `THIRD-PARTY-NOTICES.txt`):** "1995-2026" confirmed by you (2026-11-15).
+
+- **The practice as the X12 sender: three details** (X12-SENDER, [port-notes/X12-SENDER.md](port-notes/X12-SENDER.md)). The sender TIN is
+  the TIN of the provider the claims bill under (the Default Insurance Billing Provider; 0 means the Default Provider; Treating Provider
+  falls back to the clinic's, then the practice's, Default Provider).
+  - **A billing provider marked SSN, not TIN, is refused as the sender.** Upstream sent Open Dental Inc's TIN then. Recommended: keep the
+    refusal, because a person's SSN in the file's envelope is not what a TIN field is for. Such an office enters a TIN or the submitter ID
+    its clearinghouse gave it under Setup > Clearinghouses. Or should the SSN be sent? **Answered on 2026-11-15: refuse.**
+  - **The sender name is the practice title, also for clinics.** Clinics that are separate businesses can enter their own Sender TIN, name
+    and phone on their clinic's clearinghouse. Recommended: keep it. **Answered on 2026-11-15: keep the practice title.**
+  - **Emdeon Dental's eligibility request (270)** writes ISA06 as `316:` plus the clearinghouse login, as upstream does; 316 may be Open
+    Dental Inc's vendor number at Emdeon. Recommended: leave it until an office uses Emdeon for eligibility, then confirm with Emdeon.
+    **Answered on 2026-11-15: "Login only".** (Blank is not possible: ISA06 is a required 15-character field.) ISA06 is now the office's
+    Emdeon login alone, padded to 15, with no "316:"; an office that uses Emdeon for eligibility confirms the format with Emdeon first.
+
+- **The bridge release:** your decision (2026-11-15): "skip Bridge release". Stage 3a ends with its gate and no .NET Framework release.
+  The office goes from 0.0 to the .NET 10 setup, uninstalling 0.0 on every workstation first. Net10-plan decision 21 lists the
+  consequences: no newer .NET Framework rollback installer, the x64 release is never published while a 0.0 install remains, and the
+  bridge-only launch checks move to 3b.
+
+- **No OpenPMS install to migrate:** your statement (2026-11-15): "nothing in prod has openpms install. Don't worry about migration.
+  The office will only migrate once all workstreams are done". From now on no upgrade path from an OpenPMS install (0.0, .NET Framework,
+  32-bit, mixed workstations) is designed or tested. The office's switch from Open Dental comes at the end, with the switch-over questions
+  above. Migration code already built stays (net10-plan decision 22).
+
+- **Gallery G4, its TC-3c part: the plain "W", the centre line in the Text colour, half-transparent unerupted teeth beneath the
+  opaque ones** (branch `chart/tc3c-2`, both reviews pass;
+  [port-notes/TC-3c.md](port-notes/TC-3c.md)). Answered on 2026-11-15: "G4 approved". TC-3c is merged.
+
+- **Native 64-bit first for every integration:** your decision (2026-11-15): "For any integration, use native 64bit first. If the
+  option is not available, fall back to 32bit". The 32-bit helper becomes the fallback (net10-plan decision 23; answers O-14). Topaz
+  (AnyCPU) loads in process, Schick CDR is called directly, QuickBooks Desktop gets the 64-bit QBFC path (QuickBooks 2022 and later; the
+  SDK download needs your Intuit sign-in; you downloaded the newest, SDK 18.0, on 2026-11-15) with the helper kept for older QuickBooks, Guru stays on the helper, and 32-bit-only TWAIN
+  drivers get a helper path in 3b.
+
+- **Treatment plan grid's right-click menu** (S3a-M3a, [port-notes/S3a-M3.md](port-notes/S3a-M3.md)). In the Treatment Plan edit window,
+  upstream's code meant to offer "Go To Appointment" and "Go To Planned Appointment" on a right-click, but an empty menu hid them, so only
+  Copy Cell Text and Copy Rows showed. After the menu conversion they show, above Copy Cell Text. **Answered on 2026-11-15: keep them.**
+
+- **Survey section 5 (answered on 2026-11-15).** "32-bit TWAIN manager: yes. System.IO.Ports: approve." and "we can get rid of Directx
+  after our switch". So: S3b-7's setup installs the 32-bit TWAINDSM 2.5.1 into SysWOW64 as well as the 64-bit one into System32; the
+  System.IO.Ports package is approved (Topaz serial pads on .NET 10, and the dial-up terminal); and no DirectX runtime is shipped or
+  chained. DirectX was only for the old DirectX tooth chart and the graphical perio gate: TC-8 moves both to the WPF chart (drawn in
+  software on every PC), TC-9a and TC-9b then delete the old engines with SharpDX and Tao, and with no bridge release all three land on
+  `main` before the 64-bit build, which never carries DirectX. TC-9a follows TC-8 directly; the office check (the chart's image tests
+  on one PC of the office's graphics type, no database) stays as a launch check before the office switches.
+
+- **Trojan's registry key names** (N64-A, [port-notes/N64-A.md](port-notes/N64-A.md)). Trojan's install folder is now looked up under
+  Software\TROJAN BENEFIT SERVICE (as before) and also under Software\Trojan (the name Open Dental's manual gives), in the 32-bit and then
+  the 64-bit registry view. **Answered on 2026-11-15: keep both.**
 
 ## Not asked again (already settled)
 

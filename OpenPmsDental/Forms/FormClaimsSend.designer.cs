@@ -25,7 +25,7 @@ namespace OpenPmsDental {
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormClaimsSend));
 			this.label6 = new System.Windows.Forms.Label();
-			this.contextMenuStatus = new System.Windows.Forms.ContextMenu();
+			this.contextMenuStatus = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.imageList1 = new System.Windows.Forms.ImageList(this.components);
 			this.panelSplitter = new System.Windows.Forms.Panel();
 			this.panelHistory = new System.Windows.Forms.Panel();
@@ -37,14 +37,14 @@ namespace OpenPmsDental {
 			this.ToolBarHistory = new OpenPmsDental.UI.ToolBarOD();
 			this.comboClinic = new OpenPmsDental.UI.ComboBox();
 			this.labelClinic = new System.Windows.Forms.Label();
-			this.contextMenuEclaims = new System.Windows.Forms.ContextMenu();
+			this.contextMenuEclaims = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.comboCustomTracking = new OpenPmsDental.UI.ComboBox();
 			this.labelCustomTracking = new System.Windows.Forms.Label();
 			this.butNextUnsent = new OpenPmsDental.UI.Button();
 			this.gridMain = new OpenPmsDental.UI.GridOD();
 			this.ToolBarMain = new OpenPmsDental.UI.ToolBarOD();
-			this.contextMenuHistory = new System.Windows.Forms.ContextMenu();
-			this.menuItemGoToAccount = new System.Windows.Forms.MenuItem();
+			this.contextMenuHistory = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.menuItemGoToAccount = new System.Windows.Forms.ToolStripMenuItem();
 			this.textCarrier = new System.Windows.Forms.TextBox();
 			this.textProc = new System.Windows.Forms.TextBox();
 			this.textProv = new System.Windows.Forms.TextBox();
@@ -244,12 +244,11 @@ namespace OpenPmsDental {
 			// 
 			// contextMenuHistory
 			// 
-			this.contextMenuHistory.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+			this.contextMenuHistory.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuItemGoToAccount});
 			// 
 			// menuItemGoToAccount
 			// 
-			this.menuItemGoToAccount.Index = 0;
 			this.menuItemGoToAccount.Text = "Go To Account";
 			this.menuItemGoToAccount.Click += new System.EventHandler(this.menuItemHistoryGoToAccount_Click);
 			// 
@@ -343,7 +342,7 @@ namespace OpenPmsDental {
 
 		private System.Windows.Forms.Label label6;
 		private System.Windows.Forms.ImageList imageList1;
-		private System.Windows.Forms.ContextMenu contextMenuStatus;
+		private System.Windows.Forms.ContextMenuStrip contextMenuStatus;
 		private OpenPmsDental.UI.ToolBarOD ToolBarMain;
 		private OpenPmsDental.UI.GridOD gridMain;
 		private OpenPmsDental.UI.GridOD gridHistory;
@@ -357,10 +356,10 @@ namespace OpenPmsDental {
 		private Label labelCustomTracking;
 		private OpenPmsDental.UI.ComboBox comboHistoryType;
 		private Label label4;
-		private ContextMenu contextMenuEclaims;
+		private System.Windows.Forms.ContextMenuStrip contextMenuEclaims;
 		private UI.Button butNextUnsent;
-		private ContextMenu contextMenuHistory;
-		private MenuItem menuItemGoToAccount;
+		private System.Windows.Forms.ContextMenuStrip contextMenuHistory;
+		private System.Windows.Forms.ToolStripMenuItem menuItemGoToAccount;
 		private OpenPmsDental.UI.ODDateRangePicker dateRangePicker;
 		private TextBox textCarrier;
 		private TextBox textProc;

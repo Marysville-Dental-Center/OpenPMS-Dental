@@ -1,6 +1,7 @@
 // The free-text move of package TC-2: the wrapper's TextMoved reaches the relay's TextMoved, and ToothChartRelay.MoveTextLabel gives a label a
 // point that survives the round trip through toothinitial.DrawText (SetText writes the workstation's number format, GetTextPoint reads only
-// digits and a dot) under en-US and de-DE. No engine raises TextMoved yet (TC-5); the tests raise it as an engine will.
+// digits and a dot) under en-US and de-DE. The tests raise TextMoved as an engine does; since TC-5 the WPF chart raises it (TextDrawingTests,
+// and the round trip through the database in TextAndExtractionDbTests).
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
 using System.Drawing;

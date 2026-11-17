@@ -1,21 +1,57 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <!-- Package BIN-B (docs/port-notes/BIN-B.md): binaries we may not redistribute stay out, the zip replacement for DotNetZip, the Topaz pad
-       loaded at run time, the serial terminal without RS232.dll, and the Windows.winmd and installutil reference flags. No database, device or
-       network is needed. Every .cs file under this folder is compiled. -->
+       loaded at run time, the serial terminal without RS232.dll, and the Windows.winmd and installutil reference flags; since S3a-5 the saved
+       logins in the Windows Credential Manager (only entries under each run's own name prefix). No database, device or network is needed. Every .cs file under this folder is compiled. -->
   <ItemGroup>
     <Reference Include="System.IO.Compression" />
     <Reference Include="System.Windows.Forms" />
+    <!-- Reads the references of built assemblies without loading them (S3a-8 of the .NET 10 move: .NET has no reflection-only load). The
+         NuGet package, from the offline package folder (nuget.config), at the version of Directory.Packages.props. -->
+    <PackageReference Include="Mono.Cecil" />
   </ItemGroup>
   <ItemGroup>
     <!-- The reader of project files (classic and SDK-style) shared by the tests that check them (S1-T of docs/specs/net10-plan.md). -->
     <Compile Include="..\ProjectFileTests\ProjectFile.cs">
       <Link>ProjectFile.cs</Link>
     </Compile>
+    <!-- The rule for tests that check a built file: inconclusive when it is not built, a failure with OPMS_REQUIRE_BUILD_OUTPUT=1. -->
+    <Compile Include="..\ProjectFileTests\BuildOutput.cs">
+      <Link>BuildOutput.cs</Link>
+    </Compile>
+    <!-- The program's managed assembly: OpenPmsDental.dll on .NET (the .exe is the apphost), OpenPmsDental.exe on .NET Framework (S3a-8). -->
+    <Compile Include="..\ProjectFileTests\ProgramAssembly.cs">
+      <Link>ProgramAssembly.cs</Link>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <!-- The G15 and G7 texts .NET Framework 4.8 gave for fixture doubles and floats (S3a-3), the record for S3a-4 and stage 3b. -->
+    <Content Include="Fixtures\G15Texts.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\CodeBase\xCodeBase.csproj" />
     <ProjectReference Include="..\..\DataConnectionBase\xDataConnectionBase.csproj" />
     <ProjectReference Include="..\..\OpenPmsDentalBusiness\OpenPmsDentalBusiness.csproj" />
     <ProjectReference Include="..\..\PasswordVaultWrapper\PasswordVaultWrapper.csproj" />
+    <!-- The synthetic Topaz control that TopazWrapperTests copy into a search folder as SigPlusNET.dll (S3a-8b of the .NET 10 move: it was
+         compiled at run time before, and .NET has no run-time C# compiler). -->
+    <ProjectReference Include="..\TopazStandIn\TopazStandIn.csproj" />
+    <!-- The 32-bit helper program, which runs Topaz's control since S3a-14 of the .NET 10 move: OpenPmsDentalHelper32.exe and its .exe.config
+         land in this folder, where TopazWrapperTests copy it under a name of their own (Helper32Tests' HelperCopy, linked below), end the copy
+         and delete it. -->
+    <ProjectReference Include="..\..\OpenPmsDentalHelper32\OpenPmsDentalHelper32.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\Helper32Tests\Support\HelperCopy.cs">
+      <Link>Helper32\HelperCopy.cs</Link>
+    </Compile>
+    <Compile Include="..\Helper32Tests\Support\ProcessList.cs">
+      <Link>Helper32\ProcessList.cs</Link>
+    </Compile>
+    <!-- HelperCopy names the protocol tests' fake module; nothing here loads it. -->
+    <Compile Include="..\Helper32Tests\Support\FakeModule.cs">
+      <Link>Helper32\FakeModule.cs</Link>
+    </Compile>
   </ItemGroup>
 </Project>

@@ -681,7 +681,8 @@ namespace OpenPmsDental {
 				}
 			}
 			EZTwain.SetHideUI(!ComputerPrefs.LocalComputer.ScanDocShowOptions);
-			EZTwain.PDF_SetCompression((int)this.Handle,(int)ComputerPrefs.LocalComputer.ScanDocQuality);
+			//The first argument is EZTwain's ignored "reserved" one: 0, not (int)this.Handle (S3a-12's lead note, S3a-FU2).
+			EZTwain.PDF_SetCompression(0,(int)ComputerPrefs.LocalComputer.ScanDocQuality);
 			if(!EZTwain.OpenDefaultSource()) {//if it can't open the scanner successfully
 				MsgBox.Show(this,"Default scanner could not be opened.  Check that the default scanner works from Windows Control Panel and from Windows Fax and Scan.");
 				Cursor=Cursors.Default;
@@ -927,8 +928,9 @@ namespace OpenPmsDental {
 		}
 
 		///<summary>Runs a write (a new EOB with its row, or the amendment's new file), inside a progress window with cloud storage, without a Cancel
-		///button (S0-6): Cancel aborts the worker thread (FrmProgressAuto), which part-way through an upload could leave a row without its file or an
-		///amendment without its file. The progress window then cannot be closed until the write is done. Exceptions from the action are thrown here.
+		///button (S0-6): Cancel used to abort the worker thread (FrmProgressAuto), and now stops the action at its next database command
+		///(S3a-1b), either of which part-way through an upload could leave a row without its file or an amendment without its file. The progress
+		///window then cannot be closed until the write is done. Exceptions from the action are thrown here.
 		///</summary>
 		private void RunWriteWithCloudProgress(Action action,string startingMessage) {
 			if(!CloudStorage.IsCloudStorage) {

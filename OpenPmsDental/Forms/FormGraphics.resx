@@ -117,8 +117,12 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="label2.Text" xml:space="preserve">
-    <value>You can manually pick the graphics format to use.  There are many to choose from.  If all the choices look the same, then you can probably just pick one at random.  You may need to use trial and error.  Some graphics formats would crash the program, so if you pick one of those, it will inform you to pick a different one.</value>
+  <data name="labelIntro.Text" xml:space="preserve">
+    <value>You should rarely need to go into this window.  The upper half is for the 3D tooth chart, which every computer uses unless a setting below says otherwise.
+The lower half is for the older Simple 2D chart and for options of the 3D tooth chart, for troubleshooting.  Changes take effect when you click Save.</value>
+  </data>
+  <data name="labelDrawInSoftware.Text" xml:space="preserve">
+    <value>Ticked (the default): the 3D chart on screen is the smoothed picture, the same as printouts and sheets.  Unticked: the quick live view, which redraws about twice as fast but has jagged edges.  Use the one that shows properly on this computer.</value>
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
 </root>

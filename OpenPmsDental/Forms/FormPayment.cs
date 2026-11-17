@@ -108,9 +108,9 @@ namespace OpenPmsDental {
 			_payment=payment;
 			_doPreferCurrentPat=doPreferCurrentPat;
 			Lan.F(this);
-			panelXcharge.ContextMenu=contextMenuXcharge;
-			butPayConnect.ContextMenu=contextMenuPayConnect;
-			butPaySimple.ContextMenu=contextMenuPaySimple;
+			panelXcharge.ContextMenuStrip=contextMenuXcharge;
+			butPayConnect.ContextMenuStrip=contextMenuPayConnect;
+			butPaySimple.ContextMenuStrip=contextMenuPaySimple;
 			_paymentOld=payment.Clone();
 			_rigorousAccounting=PrefC.GetEnum<RigorousAccounting>(PrefName.RigorousAccounting);
 		}
@@ -3448,6 +3448,7 @@ namespace OpenPmsDental {
 		///original transaction.</summary>
 		private void VoidXChargeTransaction(string transID,string amount,bool isDebit) {
 			ProcessStartInfo processStartInfo=new ProcessStartInfo(_programX.Path);
+			processStartInfo.UseShellExecute=true;//Through the shell, the .NET Framework default (the .NET default is false).
 			string resultfile=PrefC.GetRandomTempFile("txt");
 			try {
 				File.Delete(resultfile);//delete the old result file.
@@ -4034,6 +4035,7 @@ namespace OpenPmsDental {
 				[/APPROVALCODE:approval] [/AUTOPROCESS] [/AUTOCLOSE] [/STAYONTOP] [/MID]
 				[/RESULTFILE:”C:\Program Files\X-Charge\LocalTran\XCResult.txt”*/
 			ProcessStartInfo processStartInfo=new ProcessStartInfo(_xPath);
+			processStartInfo.UseShellExecute=true;//Through the shell, the .NET Framework default (the .NET default is false).
 			Patient patient=null;
 			if(prepaidAmt==0) {
 				patient=Patients.GetPat(_payment.PatNum);

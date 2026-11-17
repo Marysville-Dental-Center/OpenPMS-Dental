@@ -21,7 +21,7 @@ namespace OpenPmsDental.Bridges{
 			string processPath=Programs.GetProgramPath(program);
 			if(patient==null) {
 				try {
-					Process.Start(processPath);
+					ODFileUtils.ProcessStart(processPath);
 				}
 				catch {
 					MessageBox.Show(processPath+" is not available.");

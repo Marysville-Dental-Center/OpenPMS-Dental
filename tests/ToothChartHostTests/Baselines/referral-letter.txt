@@ -1,0 +1,5 @@
+Host: referral-letter
+Size: 500x370
+Bitmap: Format24bppRgb
+Colours in the picture: 4421
+Pixels SHA-256: 5a96e5b06a5bc504e8e6b7b95aa703eaf0abff60717b0b5fb8e8991a52edaa99

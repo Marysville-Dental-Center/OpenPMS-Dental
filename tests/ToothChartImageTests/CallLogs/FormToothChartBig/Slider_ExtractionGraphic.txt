@@ -1,0 +1,13 @@
+# Tooth chart call log (TC-2): caller FormToothChartBig, scene Slider_ExtractionGraphic, 12 calls
+SetMissing "19"
+SetMissing "31"
+SetMissing "2"
+SetCrown "12" #FF5B5915
+SetBigX "2" #FF273DE9
+SetRCT "5" #FF3444F4
+SetSealant "18" #FFD09878
+SetBigX "30" #FF0028C8
+SetBigX "31" #FF0D2FD3
+SetCrown "8" #FF0D2FD3
+SetSurfaceColors "14" "MOD" #FF0D2FD3
+SetBigX "19" #FF0D2FD3

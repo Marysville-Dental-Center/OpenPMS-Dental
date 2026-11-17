@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Net.Http;
+using System.Reflection;
 using System.Text.RegularExpressions;
 
 namespace SyntheticData.Infrastructure {
@@ -52,8 +54,9 @@ namespace SyntheticData.Infrastructure {
 		}
 	}
 
-	///<summary>Blocks outbound HTTP(S) made through the .NET web stack. The tool has no reason to make any; this makes sure a
-	///dependency cannot either. The MySQL connection uses raw sockets and is checked by LocalOnly instead.</summary>
+	///<summary>Blocks outbound HTTP(S) made through the .NET web stack (WebRequest.DefaultWebProxy, and HttpClient.DefaultProxy where the
+	///runtime has it). The tool has no reason to make any; this makes sure a dependency cannot either. The MySQL connection uses raw sockets
+	///and is checked by LocalOnly instead.</summary>
 	public static class NetworkGuard {
 		private static readonly object _lock=new object();
 		private static readonly List<string> _listBlocked=new List<string>();
@@ -67,7 +70,22 @@ namespace SyntheticData.Infrastructure {
 		}
 
 		public static void Install() {
-			WebRequest.DefaultWebProxy=new BlockingProxy();
+			BlockingProxy blockingProxy=new BlockingProxy();
+			WebRequest.DefaultWebProxy=blockingProxy;
+			SetHttpClientDefaultProxy(blockingProxy);
+		}
+
+		///<summary>Sets HttpClient.DefaultProxy, the proxy of every HttpClient that has none of its own, when the runtime has it (.NET Core 3.0
+		///and later): there HttpClient no longer falls back to WebRequest.DefaultWebProxy, so the guard sets both. .NET Framework has no such
+		///property, and its HttpClient goes through WebRequest.DefaultWebProxy; the property is found by reflection, so the same code compiles
+		///and runs on both (docs/port-notes/S3a-9.md, section 3). True when it was set.</summary>
+		public static bool SetHttpClientDefaultProxy(IWebProxy webProxy) {
+			PropertyInfo propertyInfo=typeof(HttpClient).GetProperty("DefaultProxy",BindingFlags.Public|BindingFlags.Static);
+			if(propertyInfo==null || !propertyInfo.CanWrite) {
+				return false;
+			}
+			propertyInfo.SetValue(null,webProxy);
+			return true;
 		}
 
 		private static void Record(Uri uri) {

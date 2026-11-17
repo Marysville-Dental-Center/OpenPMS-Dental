@@ -1,7 +1,10 @@
 // Source tests of the tooth chart's callers (package TC-2, docs/specs/wpf-tooth-chart-plan.md, sections 4 and 7): the callers hold no chart
 // code of their own any more. Their painting is ToothChartPainter's, in the order PainterCallers (the call-log drivers) follows; their chart
 // settings are the relay's helpers; no program file outside the relay chooses an engine by its DrawingMode value or names the old engines'
-// libraries and types, except FormGraphics until TC-8 and the licence texts for good; the WPF developer switch exists only in DEBUG builds.
+// libraries and types, except the licence texts for good (FormGraphics too until TC-8 rebuilt it). Since TC-8 nothing selects DirectX or
+// OpenGL, Setup > Graphics names no engine and the WPF developer switch of TC-2 is gone. Since TC-9a the old engines are gone: no start-up DirectX
+// search, no graphics device exception, and ApplyComputerSettings takes the wrapper only. Since TC-8b File > Graphics has Open Dental's layout and
+// the perio gate refuses on a computer that draws Simple 2D.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
 using System.Collections.Generic;
@@ -23,8 +26,9 @@ namespace ToothChartImageTests {
 		private const string FORM_GRAPHICS=@"OpenPmsDental\Forms\FormGraphics.cs";
 		private const string FORM_OPEN_DENTAL=@"OpenPmsDental\Main Modules\FormOpenDental.cs";
 		private const string RELAY=@"WpfControlsOD\UI\ToothChart\ToothChartRelay.cs";
-		///<summary>The licence window and its resources name SharpDX and Tao for good (their notices), until TC-9b removes those entries.</summary>
-		private static readonly string[] _arrayLicenceFiles=new[] { @"OpenPmsDental\Forms\FormLicense.cs",@"OpenPmsDental\Properties\Resources.Designer.cs" };
+		///<summary>Files allowed to name SharpDX or Tao: none since TC-9b, which removed the licence window's SharpDX and Tao entries and resources
+		///(FormLicense.cs and Resources.Designer.cs were the two until then).</summary>
+		private static readonly string[] _arrayLicenceFiles=new string[0];
 
 		#region The painting code is the painter's
 		[TestMethod]
@@ -65,7 +69,7 @@ namespace ToothChartImageTests {
 		public void TreatPlan_PaintsThroughThePainter_InTheDriversOrder() {
 			string code=SourceText.ReadCode(CONTROL_TREAT);
 			SourceText.AssertInOrder(SourceText.GetMethod(code,"private void PrepImageForPrinting(){"),"ControlTreat.PrepImageForPrinting",
-				"ToothChartRelay.ApplyComputerSettings(_toothChartWrapper,ToothChartSettingsUse.StoredMode);",
+				"ToothChartRelay.ApplyComputerSettings(_toothChartWrapper);",
 				"_toothChartRelay.ResetTeeth();",
 				"_listToothInitials=ToothInitials.GetPatientData(PatientCur.PatNum);",
 				"ToothChartPainter.PaintPrimaryTeeth(_toothChartRelay,_listToothInitials);",
@@ -81,7 +85,7 @@ namespace ToothChartImageTests {
 		public void Sheet_PaintsThroughThePainter_InTheDriversOrder() {
 			string code=SourceText.ReadCode(SHEET_PRINTING);
 			SourceText.AssertInOrder(SourceText.GetMethod(code,"public static Image GetToothChartHelper("),"SheetPrinting.GetToothChartHelper",
-				"ToothChartRelay.ApplyComputerSettings(toothChartWrapper,ToothChartSettingsUse.StoredMode);",
+				"ToothChartRelay.ApplyComputerSettings(toothChartWrapper);",
 				"toothChartRelay.ResetTeeth();",
 				"List<ToothInitial> toothInitialList=patNum==0?new List<ToothInitial>():ToothInitials.GetPatientData(patNum);",
 				"ToothChartPainter.PaintPrimaryTeeth(toothChartRelay,toothInitialList);",
@@ -103,7 +107,7 @@ namespace ToothChartImageTests {
 		public void BigChart_PaintsThroughThePainter_InTheDriversOrder() {
 			string code=SourceText.ReadCode(FORM_BIG);
 			StringAssert.Contains(SourceText.GetMethod(code,"private void FormToothChartingBig_Load(object sender,EventArgs e) {"),
-				"ToothChartRelay.ApplyComputerSettings(toothChartWrapper,ToothChartSettingsUse.ModeByName);");
+				"ToothChartRelay.ApplyComputerSettings(toothChartWrapper);");
 			SourceText.AssertInOrder(SourceText.GetMethod(code,"private void FillToothChart(){"),"FormToothChartingBig.FillToothChart",
 				"_toothChartRelay.ResetTeeth();",
 				"_toothChartRelay.SetSelected(listSelectedTeeth[i],true);",
@@ -198,32 +202,42 @@ namespace ToothChartImageTests {
 
 		#region Settings and engines
 		[TestMethod]
-		public void EightSettingsSites_CallTheRelayOrTheWrapper() {
-			//Six copies of the computer's chart settings, the graphical perio chart's forced DirectX and Setup > Graphics' format test.
+		public void EightSettingsSites_CallTheRelay() {
+			//Six copies of the computer's chart settings, the graphical perio chart's engine and, since TC-8, Setup > Graphics' preview (before TC-8 its
+			//DirectX format test, ToothChartWrapper.TestDirectXFormat).
+			//Since TC-9a every call is the same (the ToothChartSettingsUse argument is gone), so ControlChart's two sites (InitializeLocalData and
+			//InitializeOnStartup) are one call twice.
 			Dictionary<string,string[]> dictSites=new Dictionary<string,string[]> {
-				{ CONTROL_CHART,new[] { "ToothChartRelay.ApplyComputerSettings(toothChartWrapper,ToothChartSettingsUse.StoredMode);",
-					"ToothChartRelay.ApplyComputerSettings(toothChartWrapper,ToothChartSettingsUse.StartupMode);" } },
-				{ CONTROL_TREAT,new[] { "ToothChartRelay.ApplyComputerSettings(_toothChartWrapper,ToothChartSettingsUse.StoredMode);" } },
-				{ SHEET_PRINTING,new[] { "ToothChartRelay.ApplyComputerSettings(toothChartWrapper,ToothChartSettingsUse.StoredMode);" } },
-				{ FORM_SHEET_DEF_EDIT,new[] { "ToothChartRelay.ApplyComputerSettings(toothChartWrapper,ToothChartSettingsUse.ModeByName);" } },
-				{ FORM_BIG,new[] { "ToothChartRelay.ApplyComputerSettings(toothChartWrapper,ToothChartSettingsUse.ModeByName);" } },
+				{ CONTROL_CHART,new[] { "ToothChartRelay.ApplyComputerSettings(toothChartWrapper);",
+					"ToothChartRelay.ApplyComputerSettings(toothChartWrapper);" } },
+				{ CONTROL_TREAT,new[] { "ToothChartRelay.ApplyComputerSettings(_toothChartWrapper);" } },
+				{ SHEET_PRINTING,new[] { "ToothChartRelay.ApplyComputerSettings(toothChartWrapper);" } },
+				{ FORM_SHEET_DEF_EDIT,new[] { "ToothChartRelay.ApplyComputerSettings(toothChartWrapper);" } },
+				{ FORM_BIG,new[] { "ToothChartRelay.ApplyComputerSettings(toothChartWrapper);" } },
 				{ FORM_PERIO_GRAPHICAL,new[] { "ToothChartRelay.ApplyGraphicalPerioMode(toothChartWrapper);" } },
-				{ FORM_GRAPHICS,new[] { "ToothChartWrapper.TestDirectXFormat(this,_directXFormatSelected)" } },
+				{ FORM_GRAPHICS,new[] { "ToothChartRelay.ApplyGraphicsPreview(toothChartWrapper,is3DChart,checkDrawInSoftware.Checked);" } },
 			};
 			int countSites=0;
 			foreach(KeyValuePair<string,string[]> pair in dictSites) {
 				string code=SourceText.ReadCode(pair.Key);
-				foreach(string call in pair.Value) {
-					Assert.AreEqual(1,Regex.Matches(code,Regex.Escape(call)).Count,pair.Key+": "+call);
-					countSites++;
+				foreach(string call in pair.Value.Distinct()) {
+					int countListed=pair.Value.Count(x => x==call);
+					Assert.AreEqual(countListed,Regex.Matches(code,Regex.Escape(call)).Count,pair.Key+": "+call);
+					countSites+=countListed;
 				}
 			}
 			Assert.AreEqual(8,countSites);
 			int countCallsInProgram=SourceText.GetCsFiles("OpenPmsDental").Sum(x => Regex.Matches(SourceText.ReadCode(x),
-				@"ToothChartRelay\.ApplyComputerSettings\(|ToothChartRelay\.ApplyGraphicalPerioMode\(|ToothChartWrapper\.TestDirectXFormat\(").Count);
+				@"ToothChartRelay\.ApplyComputerSettings\(|ToothChartRelay\.ApplyGraphicalPerioMode\(|ToothChartRelay\.ApplyGraphicsPreview\(").Count);
 			Assert.AreEqual(8,countCallsInProgram,"No other program file applies chart settings.");
-			//Nothing else in the program sets a chart's engine or its settings: only the wrapper's designer defaults remain.
-			Regex regexSet=new Regex(@"toothChartWrapper\w*\.(DrawMode|DeviceFormat|UseHardware|PreferredPixelFormatNumber|Engine)\s*=(?!=)\s*(?<value>[^;]*);",
+			//Setup > Graphics saves through the relay's save rule, and nothing in the program tests or searches a DirectX format any more.
+			Assert.AreEqual(1,Regex.Matches(SourceText.ReadCode(FORM_GRAPHICS),
+				Regex.Escape("ToothChartRelay.SetGraphicsChoice(ComputerPrefCur,_isChart3DOnAllComputersLoaded,isChart3DOnAllComputers,GetChart3DThisComputerChosen(),")).Count);
+			Assert.AreEqual(0,SourceText.GetCsFiles("OpenPmsDental").Sum(x => Regex.Matches(SourceText.ReadCode(x),
+				@"\.TestDirectXFormat\(|\.GetPreferredDirectXFormat\(").Count),"No program file tests or searches a DirectX format.");
+			//Nothing else in the program sets a chart's engine or its settings: only the wrapper's designer defaults remain (since TC-9a DrawMode's; the
+			//old engines' DeviceFormat, UseHardware and PreferredPixelFormatNumber are gone, and the regex still catches one that comes back).
+			Regex regexSet=new Regex(@"toothChartWrapper\w*\.(DrawMode|DeviceFormat|UseHardware|PreferredPixelFormatNumber|Engine|WpfDrawInSoftware)\s*=(?!=)\s*(?<value>[^;]*);",
 				RegexOptions.IgnoreCase);
 			string[] arrayDesignerDefaults=new[] { "null","OpenPmsDentalBusiness.DrawingMode.Simple2D","0","false" };
 			List<string> listProblems=new List<string>();
@@ -241,29 +255,61 @@ namespace ToothChartImageTests {
 		}
 
 		[TestMethod]
-		public void Program_ChoosesNoEngineByItsDrawingModeValue_ExceptFormGraphicsUntilTC8() {
+		public void Program_ChoosesNoEngineByItsDrawingModeValue() {
+			//Since TC-8 there is no exception: Setup > Graphics reads and saves the stored mode through the relay (Is3DChart, SetGraphicsChoice).
 			Regex regex=new Regex(@"[!=]=\s*\(?\s*(OpenPmsDentalBusiness\.)?DrawingMode\b|\bDrawingMode\.\w+\s*[!=]=|\bcase\s+(OpenPmsDentalBusiness\.)?DrawingMode\.|switch\s*\([^)]*GraphicsSimple");
 			List<string> listProblems=new List<string>();
 			foreach(string relative in SourceText.GetCsFiles("OpenPmsDental")) {
-				if(relative.Equals(FORM_GRAPHICS,StringComparison.OrdinalIgnoreCase)) {
-					continue;
-				}
 				foreach(Match match in regex.Matches(SourceText.ReadCode(relative))) {
 					listProblems.Add(relative+": "+match.Value);
 				}
 			}
 			Assert.AreEqual(0,listProblems.Count,string.Join("; ",listProblems));
-			//The checks moved into the relay's helpers, where TC-8 changes them.
+			//The checks are the relay's helpers, which TC-8b changed: Open Dental's 3D settings choose the WPF chart, and a computer that does not use it
+			//draws Simple 2D, the one older technology left; the snapshot compares the engine and the software switch; the start-up search is gone.
 			string relay=SourceText.ReadCode(RELAY);
-			StringAssert.Contains(relay,"if(ComputerPrefs.LocalComputer.GraphicsSimple==DrawingMode.DirectX && ComputerPrefs.LocalComputer.DirectXFormat==\"\") {");
-			StringAssert.Contains(relay,"if(ComputerPrefs.LocalComputer.GraphicsSimple!=DrawingMode.DirectX) {");
-			StringAssert.Contains(relay,"|| ComputerPrefs.LocalComputer.GraphicsSimple!=(DrawingMode)_dictionaryChartPrefsCache[\"GraphicsSimple\"]");
+			Assert.IsFalse(relay.Contains("GetEngineForStoredMode"),"TC-8b: the engine is the computer's (GetEngineForComputer), not the stored mode's.");
+			SourceText.AssertInOrder(SourceText.GetMethod(relay,"public static ToothChartEngine GetEngineForComputer(bool isChart3DOnAllComputers,ComputerPref computerPref) {"),
+				"GetEngineForComputer","if(IsChart3DUsed(isChart3DOnAllComputers,GetChart3DThisComputer(computerPref))) {","return ToothChartEngine.Wpf3D;",
+				"return ToothChartEngine.Simple2D;");
+			StringAssert.Contains(relay,
+				"|| ToothChartRelay.GetEngineForComputer(ComputerPrefs.LocalComputer)!=(ToothChartEngine)_dictionaryChartPrefsCache[\"ToothChartEngine\"]");
+			StringAssert.Contains(relay,"|| ToothChartRelay.IsDrawnInSoftware(ComputerPrefs.LocalComputer)!=(bool)_dictionaryChartPrefsCache[\"WpfDrawInSoftware\"]");
+			StringAssert.DoesNotMatch(relay,new Regex(@"_dictionaryChartPrefsCache\.Add\(""(GraphicsUseHardware|PreferredPixelFormatNum|DirectXFormat|GraphicsSimple)"""),
+				"The snapshot drops the DirectX and OpenGL fields.");
+			//The start-up DirectX search, a no-op since TC-8, went with the DirectX chart in TC-9a.
+			Assert.IsFalse(relay.Contains("ChooseStartupDirectXFormat"),"The relay has no start-up DirectX search.");
 		}
 
 		[TestMethod]
-		public void Program_NamesNoOldEngineLibraryOrType_ExceptFormGraphicsUntilTC8AndTheLicenceTexts() {
+		public void NothingSelectsDirectXOrOpenGL() {
+			//TC-8: the program and the relay start only the WPF chart and the 2D chart. A computer's settings reach the wrapper as the engine it draws
+			//with (GetEngineForComputer, TC-8b), never as DrawMode or as the old engines; since TC-9a ToothChartEngine has no DirectX or OpenGL at all.
+			Regex regexSelect=new Regex(@"\bToothChartEngine\.(DirectX|OpenGL)\b|\bDrawingMode\.OpenGL\b|(\bDrawMode|\.DeviceFormat|\.UseHardware|\.PreferredPixelFormatNumber)\s*=(?!=)\s*(?<value>[^;]*);");
+			//The wrappers' designer defaults (in the designer files, and in ControlChart.cs, whose designer code is in the file itself).
+			string[] arrayDesignerDefaults=new[] { "null","OpenPmsDentalBusiness.DrawingMode.Simple2D","0","false" };
+			List<string> listProblems=new List<string>();
+			foreach(string relative in SourceText.GetCsFiles("OpenPmsDental").Concat(new[] { RELAY })) {
+				foreach(Match match in regexSelect.Matches(SourceText.ReadCode(relative))) {
+					if(match.Groups["value"].Success && arrayDesignerDefaults.Contains(match.Groups["value"].Value.Trim())) {
+						continue;
+					}
+					listProblems.Add(relative+": "+match.Value);
+				}
+			}
+			Assert.AreEqual(0,listProblems.Count,string.Join("; ",listProblems));
+			//The wrapper: a stored DirectX or OpenGL request (DrawMode) starts Wpf3D, and a stored Simple 2D the 2D chart.
+			string wrapper=SourceText.ReadCode(@"SparksToothChart\ToothChartWrapper.cs");
+			SourceText.AssertInOrder(wrapper,"ToothChartWrapper.DrawMode's setter","public DrawingMode DrawMode{","if(value!=DrawingMode.Simple2D) {",
+				"Engine=ToothChartEngine.Wpf3D;","return;","StartSimple2D();");
+			CollectionAssert.AreEqual(new[] { "Simple2D","Wpf3D" },Enum.GetNames(typeof(SparksToothChart.ToothChartEngine)),"The engines left after TC-9a.");
+		}
+
+		[TestMethod]
+		public void Program_NamesNoOldEngineLibraryOrType_ExceptTheLicenceTexts() {
+			//Since TC-8 FormGraphics is no exception: it was rebuilt without the DirectX format grid and the OpenGL pixel grid.
 			Regex regex=new Regex(@"\bSharpDX\b|\bTao\b|\bToothChartDirectX\b|\bToothChartOpenGL\b|\bOpenGLWinFormsControl\b");
-			List<string> listAllowed=new List<string>(_arrayLicenceFiles) { FORM_GRAPHICS };
+			List<string> listAllowed=new List<string>(_arrayLicenceFiles);
 			List<string> listProblems=new List<string>();
 			foreach(string relative in SourceText.GetCsFiles("OpenPmsDental")) {
 				if(listAllowed.Contains(relative,StringComparer.OrdinalIgnoreCase)) {
@@ -275,60 +321,110 @@ namespace ToothChartImageTests {
 			}
 			Assert.AreEqual(0,listProblems.Count,string.Join("; ",listProblems));
 			string chart=SourceText.Read(CONTROL_CHART);
-			StringAssert.Contains(chart,"catch(Exception ex) when(ToothChartWrapper.IsGraphicsDeviceException(ex)) {");
+			//TC-9a: the DirectX chart's device exception (IsGraphicsDeviceException, SharpDX's) went with it, and Save to Images keeps its one catch.
+			Assert.IsFalse(chart.Contains("IsGraphicsDeviceException"),"Save to Images catches no graphics device exception any more.");
+			SourceText.AssertInOrder(SourceText.GetMethod(SourceText.ReadCode(CONTROL_CHART),"private void menuItemChartSave_Click(object sender,EventArgs e) {"),
+				"menuItemChartSave_Click","ImageStore.Import(bitmapChart,defNum,ImageType.Photo,Pd.Patient,doPrintHeading:true);","catch(Exception ex) {",
+				"MessageBox.Show(Lan.g(this,\"Unable to save file: \")+ex.Message);");
 			StringAssert.DoesNotMatch(chart,new Regex(@"#\s*if\s+EHRTEST|using\s+EHR\s*;"),"The dead EHRTEST block is gone.");
 		}
 
 		[TestMethod]
-		public void DeveloperSwitch_IsCompiledOnlyInDebugBuilds() {
-			List<string> listFound=new List<string>();
-			foreach(string folder in new[] { "OpenPmsDental","WpfControlsOD","SparksToothChart","OpenPmsDentalBusiness" }) {
-				foreach(string relative in SourceText.GetCsFiles(folder)) {
-					string code=SourceText.ReadCode(relative);
-					int index=code.IndexOf("OPMS_TOOTHCHART_WPF",StringComparison.Ordinal);
-					while(index>=0) {
-						listFound.Add(relative);
-						Assert.AreEqual("#if DEBUG",GetOpenDirective(code,index),relative+": OPMS_TOOTHCHART_WPF outside #if DEBUG.");
-						index=code.IndexOf("OPMS_TOOTHCHART_WPF",index+1,StringComparison.Ordinal);
-					}
-				}
-			}
-			CollectionAssert.AreEqual(new[] { RELAY },listFound.ToArray(),"Read once, by the relay's IsWpfDeveloperSwitchOn.");
-			string relay=SourceText.ReadCode(RELAY);
-			SourceText.AssertInOrder(SourceText.GetMethod(relay,"public static bool IsWpfDeveloperSwitchOn() {"),"IsWpfDeveloperSwitchOn",
-				"#if DEBUG","return Environment.GetEnvironmentVariable(\"OPMS_TOOTHCHART_WPF\")==\"1\";","#else","return false;","#endif");
-			//The settings helpers and the perio helpers honour it.
-			foreach(string signature in new[] { "public static void ApplyComputerSettings(","public static bool CanOpenGraphicalPerio(",
-				"public static void ApplyGraphicalPerioMode(" })
+		public void FormGraphics_HasOpenDentalsLayout_AndNamesNoEngineType() {
+			//TC-8b (ENG-1): File > Graphics on Open Dental's layout (https://www.opendental.com/manual/graphics.html) with the 3D tooth chart in DirectX
+			//11's place. It names no engine: no engine type, no DrawingMode value, no DirectX format or OpenGL pixel format; its settings are the
+			//relay's (IsChart3DOnAllComputers, GetChart3DThisComputer, IsDrawnInSoftware, GetChart3DStatus, ApplyGraphicsPreview, SetGraphicsChoice,
+			//SetChart3DOnAllComputers).
+			string code=SourceText.ReadCode(FORM_GRAPHICS);
+			string designer=SourceText.ReadCode(@"OpenPmsDental\Forms\FormGraphics.designer.cs");
+			StringAssert.DoesNotMatch(code+designer,new Regex(@"\bToothChartEngine\b|\bDrawingMode\b|DirectX|OpenGL|\bSharpDX\b|\bTao\b|PixelFormat|gridFormats"),
+				"FormGraphics names an engine.");
+			string load=SourceText.GetMethod(code,"private void FormGraphics_Load(object sender,EventArgs e) {");
+			//The choices as stored, then the status, then Open Dental's medical wording (its own Load words its older choices and options so), then
+			//the preview.
+			SourceText.AssertInOrder(load,"FormGraphics.FormGraphics_Load",
+				"_isChart3DOnAllComputersLoaded=ToothChartRelay.IsChart3DOnAllComputers();",
+				"radioChart3DAllUse.Checked=_isChart3DOnAllComputersLoaded;",
+				"YN chart3DThisComputer=ToothChartRelay.GetChart3DThisComputer(ComputerPrefCur);",
+				"radioSimpleChart.Checked=true;",
+				"checkDrawInSoftware.Checked=ToothChartRelay.IsDrawnInSoftware(ComputerPrefCur);",
+				"FillStatus();",
+				"if(Clinics.IsMedicalPracticeOrClinic(Clinics.ClinicNum)) {",
+				"radioSimpleChart.Text=\"Use Simple Graphics\";",
+				"groupOptions.Text=\"Options For 3D Graphics\";",
+				"RefreshPreview();");
+			StringAssert.Contains(SourceText.GetMethod(code,"private void FillStatus() {"),"string status=ToothChartRelay.GetChart3DStatus();");
+			SourceText.AssertInOrder(SourceText.GetMethod(code,"private void butSave_Click(object sender,System.EventArgs e) {"),"FormGraphics.butSave_Click",
+				"ComputerPref computerPrefOld=ComputerPrefCur.Copy();",
+				"ToothChartRelay.SetGraphicsChoice(ComputerPrefCur,_isChart3DOnAllComputersLoaded,isChart3DOnAllComputers,GetChart3DThisComputerChosen(),",
+				"ComputerPrefs.Update(ComputerPrefCur,computerPrefOld);",
+				"if(ToothChartRelay.SetChart3DOnAllComputers(isChart3DOnAllComputers)) {",
+				"SecurityLogs.MakeLogEntry(EnumPermType.GraphicsEdit,0,",
+				"DataValid.SetInvalid(InvalidType.Prefs);",
+				"DialogResult=DialogResult.OK;");
+			//Open Dental's groups and words, in its order: the global setting, this computer's, the status, the older technology, the options, then
+			//the fork's preview. The status cannot be changed by hand.
+			string[] arrayGroups=new[] { "this.groupChart3DAll.Text = \"3D Tooth Chart on all computers\";",
+				"this.groupChart3DThis.Text = \"3D Tooth Chart\";",
+				"this.groupStatus.Text = \"3D Tooth Chart status on this computer\";",
+				"this.groupOlder.Text = \"Older Tooth Chart Technology\";",
+				"this.groupOptions.Text = \"Options For The 3D Tooth Chart\";",
+				"this.groupPreview.Text = \"Preview\";" };
+			SourceText.AssertInOrder(designer,"FormGraphics.designer",arrayGroups);
+			foreach(string text in new[] {
+				"this.labelChart3DAll.Text = \"This option affects all computers in the office.  All other options are specific to this computer.\";",
+				"this.radioChart3DAllUse.Text = \"Use if available.",
+				"this.radioChart3DAllDontUse.Text = \"Do not use.  Advantage is that older or underpowered hardware might work better.  This is an easy first step for troubleshooting certain graphics problems.\";",
+				"this.radioChart3DThisGlobal.Text = \"Use the global setting\";",
+				"this.radioChart3DThisUse.Text = \"Use if available\";",
+				"this.radioChart3DThisDontUse.Text = \"Do not use\";",
+				"this.radioStatusAvailable.Text = \"Available\";",
+				"this.radioStatusFellBack.Text = \"Fell back: ",
+				"this.radioSimpleChart.Text = \"Simple 2D (pie shapes)\";",
+				"this.labelOptions.Text = \"Most users will never need to change any of these options.  These are only used when the 3D tooth chart is not working properly.\";",
+				"this.checkDrawInSoftware.Text = \"Draw in software\";",
+				"this.radioStatusAvailable.AutoCheck = false;",
+				"this.radioStatusFellBack.AutoCheck = false;",
+				"this.toothChartWrapper = new SparksToothChart.ToothChartWrapper();" })
 			{
-				StringAssert.Contains(SourceText.GetMethod(relay,signature),"IsWpfDeveloperSwitchOn()",signature);
+				StringAssert.Contains(designer,text);
 			}
-		}
-
-		///<summary>The preprocessor block the text at index is in: the last #if, #else or #elif line before it that its #endif has not closed, or "".</summary>
-		private static string GetOpenDirective(string code,int index) {
-			Stack<string> stack=new Stack<string>();
-			foreach(Match match in new Regex(@"^[ \t]*#(if|elif|else|endif)\b[^\n]*",RegexOptions.Multiline).Matches(code.Substring(0,index))) {
-				string directive=match.Value.Trim();
-				if(directive.StartsWith("#if")) {
-					stack.Push(directive);
-				}
-				else if(directive.StartsWith("#endif")) {
-					stack.Pop();
-				}
-				else {
-					stack.Pop();
-					stack.Push(directive);
-				}
-			}
-			return stack.Count==0 ? "" : stack.Peek();
+			//Eight radio buttons: two global, three for this computer, two for the status, one older technology (Simple 2D, the one left after TC-9a).
+			Assert.AreEqual(8,Regex.Matches(designer,@"=\s*new System\.Windows\.Forms\.RadioButton\(\);").Count);
+			Assert.IsFalse(designer.Contains("radio3DChart"),"TC-8's two-choice radio is gone.");
 		}
 
 		[TestMethod]
-		public void MainWindow_UsesTheRelaysStartupSearchAndSnapshot() {
+		public void PerioGate_RefusesOnSimple2D_WithAMessageNamingFileGraphics_ENG5() {
+			//TC-8b (ENG-5, revises O-31): the gate opens only on a computer that uses the 3D tooth chart, and checks no DirectX runtime.
+			string relay=SourceText.ReadCode(RELAY);
+			string gate=SourceText.GetMethod(relay,"public static bool CanOpenGraphicalPerio(bool isChart3DOnAllComputers,ComputerPref computerPref,out string message) {");
+			StringAssert.DoesNotMatch(gate,new Regex(@"d3dx9|IsDirectXRuntimeAvailable|DrawingMode|GraphicsSimple"),"The perio gate checks no DirectX.");
+			SourceText.AssertInOrder(gate,"CanOpenGraphicalPerio","if(GetEngineForComputer(isChart3DOnAllComputers,computerPref)!=ToothChartEngine.Wpf3D) {",
+				"message=PerioNeeds3DChartMessage;","return false;","message=\"\";","return true;");
+			StringAssert.Contains(ToothChartRelay.PerioNeeds3DChartMessage,"File > Graphics");
+			SourceText.AssertInOrder(SourceText.GetMethod(SourceText.ReadCode(FORM_PERIO),"private void butGraphical_Click(object sender,EventArgs e) {"),
+				"FormPerio.butGraphical_Click","if(!ToothChartRelay.CanOpenGraphicalPerio(out string message)) {","MsgBox.Show(this,message);","return;");
+		}
+
+		[TestMethod]
+		public void DeveloperSwitch_IsGone() {
+			//TC-2's DEBUG switch (OPMS_TOOTHCHART_WPF=1) chose the WPF chart before TC-8 made it every computer's chart. TC-8 removed it.
+			foreach(string folder in new[] { "OpenPmsDental","WpfControlsOD","SparksToothChart","OpenPmsDentalBusiness" }) {
+				foreach(string relative in SourceText.GetCsFiles(folder)) {
+					string text=SourceText.Read(relative);
+					Assert.IsFalse(text.Contains("OPMS_TOOTHCHART_WPF"),relative+" still names the developer switch.");
+					Assert.IsFalse(text.Contains("IsWpfDeveloperSwitchOn"),relative+" still names the developer switch.");
+				}
+			}
+		}
+
+		[TestMethod]
+		public void MainWindow_UsesTheRelaysSnapshot_AndHasNoStartupSearch() {
 			string code=SourceText.ReadCode(FORM_OPEN_DENTAL);
-			SourceText.AssertInOrder(code,"FormOpenDental start-up","if(ToothChartRelay.ChooseStartupDirectXFormat(this)) {","try {",
-				"controlChart.InitializeOnStartup();","catch(Exception) {");
+			//TC-9a: the start-up DirectX search (a no-op since TC-8) and its call are gone, with the chart restart that followed it.
+			Assert.IsFalse(code.Contains("ChooseStartupDirectXFormat"),"FormOpenDental has no start-up DirectX search.");
+			Assert.IsFalse(code.Contains("Logger.LogToPath(\"DirectXFormat\""),"No start-up phase of the DirectX search is logged.");
 			StringAssert.Contains(code,"private ToothChartSettingsSnapshot _toothChartSettingsSnapshot=new ToothChartSettingsSnapshot();");
 			SourceText.AssertInOrder(code,"FormOpenDental refresh","_dictionaryTaskListPrefsCache.Clear();","_toothChartSettingsSnapshot.Take();",
 				"_dictionaryTaskListPrefsCache.Add(\"TaskDock\"");

@@ -68,16 +68,15 @@ namespace OpenPmsDental{
 		///<summary>Adds a drop down menu if this program requires it.</summary>
 		private static void AddDropDown(ODToolBarButton toolBarButton,Program program) {
 			if(program.ProgName==ProgramName.Oryx.ToString()) {
-				ContextMenu contextMenuOryx=new ContextMenu();
-				MenuItem menuItemUserSettings=new MenuItem();
-				menuItemUserSettings.Index=0;
+				ContextMenuStrip contextMenuOryx=new ContextMenuStrip();
+				ToolStripMenuItem menuItemUserSettings=new ToolStripMenuItem();
 				menuItemUserSettings.Text=Lans.g("Oryx","User Settings");
 				menuItemUserSettings.Click+=Oryx.menuItemUserSettingsClick;
-				contextMenuOryx.MenuItems.AddRange(new MenuItem[] {
+				contextMenuOryx.Items.AddRange(new ToolStripItem[] {
 						menuItemUserSettings,
 				});
 				toolBarButton.Style=ODToolBarButtonStyle.DropDownButton;
-				toolBarButton.DropDownMenu=contextMenuOryx;
+				toolBarButton.ContextMenuStripDropDown=contextMenuOryx;
 			}
 		}
 	}

@@ -1,0 +1,15 @@
+Scene: text-below-cut-to-fit
+Group: paint
+Description: Long TextBelow texts ("Implant planned" on 8 and 25, "Bone graft" on 1, "Watch" on primary teeth A and S) with primary tooth A shown. Since the parity round of TC-5 TextBelow is not in the tooth picture (the Chart module's strip shows it), so only the mixed dentition is drawn.
+Size: 500x370
+Colours: Printout
+Engine: Wpf3D (RenderTargetBitmap in software, 3D layer at 3x reduced with WIC's Fant scaler)
+Bitmap: 500x370 Format24bppRgb
+Alpha: every alpha is 255 (format without an alpha channel)
+Colours in the picture: 3320
+Pixels SHA-256: e748e0b2de0dbdddac2d252ead7091c27345c752279d7a28a62f5badec87c1fc
+Repeatable: yes (a second GetBitmap gave the same pixels)
+Framework: .NET Framework 4.8, x86
+Windows: build 26300.9974 (26H2)
+Fresh render: yes (both layers drawn again without the layer cache gave the same pixels)
+Screen DPI seen by the test host: 96

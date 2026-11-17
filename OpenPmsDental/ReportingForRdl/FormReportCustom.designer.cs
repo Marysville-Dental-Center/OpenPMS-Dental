@@ -36,11 +36,11 @@ namespace OpenPmsDental {
 			this.viewer = new fyiReporting.RdlViewer.RdlViewer();
 			this.ToolBarMain = new OpenPmsDental.UI.ToolBarOD();
 			this.imageListMain = new System.Windows.Forms.ImageList(this.components);
-			this.menuScrollMode = new System.Windows.Forms.ContextMenu();
-			this.menuItemContinuous = new System.Windows.Forms.MenuItem();
-			this.menuItemContinuousFacing = new System.Windows.Forms.MenuItem();
-			this.menuItemFacing = new System.Windows.Forms.MenuItem();
-			this.menuItemSinglePage = new System.Windows.Forms.MenuItem();
+			this.menuScrollMode = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.menuItemContinuous = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemContinuousFacing = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemFacing = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemSinglePage = new System.Windows.Forms.ToolStripMenuItem();
 			this.SuspendLayout();
 			// 
 			// viewer
@@ -89,7 +89,7 @@ namespace OpenPmsDental {
 			// 
 			// menuScrollMode
 			// 
-			this.menuScrollMode.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+			this.menuScrollMode.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuItemContinuous,
             this.menuItemContinuousFacing,
             this.menuItemFacing,
@@ -97,25 +97,21 @@ namespace OpenPmsDental {
 			// 
 			// menuItemContinuous
 			// 
-			this.menuItemContinuous.Index = 0;
 			this.menuItemContinuous.Text = "Continuous";
 			this.menuItemContinuous.Click += new System.EventHandler(this.menuItemContinuous_Click);
 			// 
 			// menuItemContinuousFacing
 			// 
-			this.menuItemContinuousFacing.Index = 1;
 			this.menuItemContinuousFacing.Text = "Continuous Facing";
 			this.menuItemContinuousFacing.Click += new System.EventHandler(this.menuItemContinuousFacing_Click);
 			// 
 			// menuItemFacing
 			// 
-			this.menuItemFacing.Index = 2;
 			this.menuItemFacing.Text = "Facing";
 			this.menuItemFacing.Click += new System.EventHandler(this.menuItemFacing_Click);
 			// 
 			// menuItemSinglePage
 			// 
-			this.menuItemSinglePage.Index = 3;
 			this.menuItemSinglePage.Text = "Single Page";
 			this.menuItemSinglePage.Click += new System.EventHandler(this.menuItemSinglePage_Click);
 			// 
@@ -139,11 +135,11 @@ namespace OpenPmsDental {
 
 		private OpenPmsDental.UI.ToolBarOD ToolBarMain;
 		private System.Windows.Forms.ImageList imageListMain;
-		private System.Windows.Forms.ContextMenu menuScrollMode;
-		private System.Windows.Forms.MenuItem menuItemContinuous;
-		private System.Windows.Forms.MenuItem menuItemContinuousFacing;
-		private System.Windows.Forms.MenuItem menuItemFacing;
-		private System.Windows.Forms.MenuItem menuItemSinglePage;
+		private System.Windows.Forms.ContextMenuStrip menuScrollMode;
+		private System.Windows.Forms.ToolStripMenuItem menuItemContinuous;
+		private System.Windows.Forms.ToolStripMenuItem menuItemContinuousFacing;
+		private System.Windows.Forms.ToolStripMenuItem menuItemFacing;
+		private System.Windows.Forms.ToolStripMenuItem menuItemSinglePage;
 		private fyiReporting.RdlViewer.RdlViewer viewer;
 	}
 }

@@ -1,0 +1,6 @@
+<Result xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Status xmlns="https://secure.newcropaccounts.com/V7/webservices">OK</Status>
+  <XmlResponse xmlns="https://secure.newcropaccounts.com/V7/webservices">PE5ld0RhdGFTZXQ+PFRhYmxlPjxEcnVnTmFtZT5TeW50aGV0aWM8L0RydWdOYW1lPjwvVGFibGU+PC9OZXdEYXRhU2V0Pg==</XmlResponse>
+  <RowCount xmlns="https://secure.newcropaccounts.com/V7/webservices">1</RowCount>
+  <Timing xmlns="https://secure.newcropaccounts.com/V7/webservices">0</Timing>
+</Result>

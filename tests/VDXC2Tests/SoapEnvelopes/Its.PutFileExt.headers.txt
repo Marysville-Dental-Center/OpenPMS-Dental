@@ -1,0 +1,2 @@
+SOAPAction: "https://ITSWebService.changehealthcare.com/PutFileExt"
+Content-Type: text/xml; charset=utf-8

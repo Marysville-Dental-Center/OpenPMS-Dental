@@ -128,13 +128,16 @@ namespace OpenPmsDental {
 					listOrders=AdvertisingPostcards.GetRecentOrders(account,isAllOrders ? (long?)null : clinicNum,1,100);
 				}
 			});
+			if(!isOk) {
+				return false;//cancelled or failed: after a cancel the worker can still be filling the lists, so they are not read (CLEAN-1)
+			}
 			if(listDesigns!=null) {
 				_listDesigns=listDesigns;
 			}
 			if(listOrders!=null) {
 				_listOrders=listOrders;
 			}
-			return isOk;
+			return true;
 		}
 
 		///<summary>Runs a vendor call in a progress window. Returns false (after telling the user) if it failed or was cancelled.</summary>

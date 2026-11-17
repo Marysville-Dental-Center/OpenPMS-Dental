@@ -31,6 +31,7 @@ namespace OpenPmsDental {
 		/// </summary>
 		private void InitializeComponent()
 		{
+			this.components = new System.ComponentModel.Container();
 			this.label14 = new System.Windows.Forms.Label();
 			this.label13 = new System.Windows.Forms.Label();
 			this.labelProv = new System.Windows.Forms.Label();
@@ -56,14 +57,14 @@ namespace OpenPmsDental {
 			this.butSave = new OpenPmsDental.UI.Button();
 			this.comboSheetDefs = new OpenPmsDental.UI.ComboBox();
 			this.labelSheet = new System.Windows.Forms.Label();
-			this.patContextMenu = new System.Windows.Forms.ContextMenu();
-			this.menuItemUnknown = new System.Windows.Forms.MenuItem();
-			this.menuItemAllowed = new System.Windows.Forms.MenuItem();
-			this.menuItemNoPermission = new System.Windows.Forms.MenuItem();
-			this.menuItemRefused = new System.Windows.Forms.MenuItem();
-			this.menuItemAbsent = new System.Windows.Forms.MenuItem();
-			this.menuItemBehavior = new System.Windows.Forms.MenuItem();
-			this.menuItemOther = new System.Windows.Forms.MenuItem();
+			this.patContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.menuItemUnknown = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemAllowed = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemNoPermission = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemRefused = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemAbsent = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemBehavior = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemOther = new System.Windows.Forms.ToolStripMenuItem();
 			this.SuspendLayout();
 			// 
 			// label14
@@ -309,7 +310,7 @@ namespace OpenPmsDental {
 			// 
 			// patContextMenu
 			// 
-			this.patContextMenu.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+			this.patContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuItemUnknown,
             this.menuItemAllowed,
             this.menuItemNoPermission,
@@ -320,43 +321,36 @@ namespace OpenPmsDental {
 			// 
 			// menuItemUnknown
 			// 
-			this.menuItemUnknown.Index = 0;
 			this.menuItemUnknown.Text = "Unknown";
 			this.menuItemUnknown.Click += new System.EventHandler(this.patContextMenuItem_Click);
 			// 
 			// menuItemAllowed
 			// 
-			this.menuItemAllowed.Index = 1;
 			this.menuItemAllowed.Text = "Allowed";
 			this.menuItemAllowed.Click += new System.EventHandler(this.patContextMenuItem_Click);
 			// 
 			// menuItemNoPermission
 			// 
-			this.menuItemNoPermission.Index = 2;
 			this.menuItemNoPermission.Text = "NoPermission";
 			this.menuItemNoPermission.Click += new System.EventHandler(this.patContextMenuItem_Click);
 			// 
 			// menuItemRefused
 			// 
-			this.menuItemRefused.Index = 3;
 			this.menuItemRefused.Text = "Refused";
 			this.menuItemRefused.Click += new System.EventHandler(this.patContextMenuItem_Click);
 			// 
 			// menuItemAbsent
 			// 
-			this.menuItemAbsent.Index = 4;
 			this.menuItemAbsent.Text = "Absent";
 			this.menuItemAbsent.Click += new System.EventHandler(this.patContextMenuItem_Click);
 			// 
 			// menuItemBehavior
 			// 
-			this.menuItemBehavior.Index = 5;
 			this.menuItemBehavior.Text = "Behavior";
 			this.menuItemBehavior.Click += new System.EventHandler(this.patContextMenuItem_Click);
 			// 
 			// menuItemOther
 			// 
-			this.menuItemOther.Index = 6;
 			this.menuItemOther.Text = "Other";
 			this.menuItemOther.Click += new System.EventHandler(this.patContextMenuItem_Click);
 			// 
@@ -425,13 +419,13 @@ namespace OpenPmsDental {
 		private Label label4;
 		private OpenPmsDental.UI.ComboBox comboSheetDefs;
 		private Label labelSheet;
-		private ContextMenu patContextMenu;
-		private MenuItem menuItemUnknown;
-		private MenuItem menuItemAllowed;
-		private MenuItem menuItemNoPermission;
-		private MenuItem menuItemRefused;
-		private MenuItem menuItemAbsent;
-		private MenuItem menuItemBehavior;
-		private MenuItem menuItemOther;
+		private System.Windows.Forms.ContextMenuStrip patContextMenu;
+		private System.Windows.Forms.ToolStripMenuItem menuItemUnknown;
+		private System.Windows.Forms.ToolStripMenuItem menuItemAllowed;
+		private System.Windows.Forms.ToolStripMenuItem menuItemNoPermission;
+		private System.Windows.Forms.ToolStripMenuItem menuItemRefused;
+		private System.Windows.Forms.ToolStripMenuItem menuItemAbsent;
+		private System.Windows.Forms.ToolStripMenuItem menuItemBehavior;
+		private System.Windows.Forms.ToolStripMenuItem menuItemOther;
 	}
 }

@@ -25,8 +25,9 @@
     <WarningLevel>3</WarningLevel>
     <DocumentationFile>bin\Release\OpenPmsDentalBusiness.xml</DocumentationFile>
     <!--
-      GenerateSerializationAssemblies stays at its default, Auto: a Release build runs SGen because the project has WebReferenceUrl items
-      (below), and OpenPmsDentalBusiness.XmlSerializers.dll ships (tools/Build-Release.ps1). MSBuild turns SGen off for Debug builds.
+      GenerateSerializationAssemblies stays at its default, Auto: a Release build runs SGen because the project has a WebReferenceUrl item
+      (the Middle Tier's, below; it stays until stage 3b of the .NET 10 move), and OpenPmsDentalBusiness.XmlSerializers.dll ships
+      (tools/Build-Release.ps1). MSBuild turns SGen off for Debug builds.
     -->
   </PropertyGroup>
   <ItemGroup>
@@ -108,6 +109,11 @@
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
+    <!-- The commands of the 32-bit helper's Topaz module (S3a-14 of the .NET 10 move), compiled into the helper and into this assembly, so
+         UI\TopazWrapper.cs, UI\TopazSignatureView.cs and the module name them alike. Its types are internal. -->
+    <Compile Include="..\OpenPmsDentalHelper32\Topaz\TopazCommands.cs">
+      <Link>UI\TopazCommands.cs</Link>
+    </Compile>
     <Compile Update="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -124,7 +130,8 @@
     <Compile Update="UI\SignatureBoxWrapper.Designer.cs">
       <DependentUpon>SignatureBoxWrapper.cs</DependentUpon>
     </Compile>
-    <!-- The proxy classes of the six web references, generated from their Reference.map. -->
+    <!-- The classes generated from the Reference.map of the web references: the Middle Tier's proxy, and the data classes of the five vendor
+         services whose proxies S3a-6 replaced with WebServices/SoapClients.cs (docs/port-notes/S3a-6.md). -->
     <Compile Update="Web References\*\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -220,8 +227,10 @@
   </ItemGroup>
   <ItemGroup>
     <!--
-      The web references. With them, a Release build runs SGen (GenerateSerializationAssemblies Auto) and writes
-      OpenPmsDentalBusiness.XmlSerializers.dll. WebReferences and WCFMetadata are the folders Visual Studio keeps them in.
+      The web reference of the Middle Tier (OpenDentalServer). With it, a Release build runs SGen (GenerateSerializationAssemblies Auto) and
+      writes OpenPmsDentalBusiness.XmlSerializers.dll (critique W1 of docs/specs/net10-plan.md). The vendor services' web references (DentalXChange
+      DWS, DEA and DCI, NewCrop, Change Healthcare ITS) went in S3a-6: their calls go through SoapCaller, and their folders keep the WSDL and
+      the generated data classes. WebReferences and WCFMetadata are the folders Visual Studio keeps them in.
     -->
     <WebReferences Include="Web References\" />
     <WCFMetadata Include="Service References\" />
@@ -235,61 +244,6 @@
       </CachedDynamicPropName>
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>OpenDentBusiness_OpenDentalServer_ServiceMain</CachedSettingsPropName>
-    </WebReferenceUrl>
-    <WebReferenceUrl Include="https://its.changehealthcare.com/ITS/ITSWS.asmx%3fwsdl">
-      <UrlBehavior>Dynamic</UrlBehavior>
-      <RelPath>Web References\EmdeonITS\</RelPath>
-      <UpdateFromURL>https://its.changehealthcare.com/ITS/ITSWS.asmx%3fwsdl</UpdateFromURL>
-      <ServiceLocationURL>
-      </ServiceLocationURL>
-      <CachedDynamicPropName>
-      </CachedDynamicPropName>
-      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
-      <CachedSettingsPropName>OpenDentBusiness_EmdeonITS_ITSWS</CachedSettingsPropName>
-    </WebReferenceUrl>
-    <WebReferenceUrl Include="https://prelive2.dentalxchange.com/dea/DeaPartnerService%3fwsdl">
-      <UrlBehavior>Dynamic</UrlBehavior>
-      <RelPath>Web References\DentalxchangePartnerService\</RelPath>
-      <UpdateFromURL>https://prelive2.dentalxchange.com/dea/DeaPartnerService%3fwsdl</UpdateFromURL>
-      <ServiceLocationURL>
-      </ServiceLocationURL>
-      <CachedDynamicPropName>
-      </CachedDynamicPropName>
-      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
-      <CachedSettingsPropName>OpenDentBusiness_DentalxchangePartnerService_DeaPartnerService</CachedSettingsPropName>
-    </WebReferenceUrl>
-    <WebReferenceUrl Include="https://secure.newcropaccounts.com/v7/WebServices/Update1.asmx">
-      <UrlBehavior>Dynamic</UrlBehavior>
-      <RelPath>Web References\NewCropWebService\</RelPath>
-      <UpdateFromURL>https://secure.newcropaccounts.com/v7/WebServices/Update1.asmx</UpdateFromURL>
-      <ServiceLocationURL>
-      </ServiceLocationURL>
-      <CachedDynamicPropName>
-      </CachedDynamicPropName>
-      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
-      <CachedSettingsPropName>OpenDentBusiness_NewCrop_Update1</CachedSettingsPropName>
-    </WebReferenceUrl>
-    <WebReferenceUrl Include="https://webservices.dentalxchange.com/dws/DwsService%3fwsdl">
-      <UrlBehavior>Dynamic</UrlBehavior>
-      <RelPath>Web References\Dentalxchange2016\</RelPath>
-      <UpdateFromURL>https://webservices.dentalxchange.com/dws/DwsService%3fwsdl</UpdateFromURL>
-      <ServiceLocationURL>
-      </ServiceLocationURL>
-      <CachedDynamicPropName>
-      </CachedDynamicPropName>
-      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
-      <CachedSettingsPropName>OpenDentBusiness_Dentalxchange2016_DwsService</CachedSettingsPropName>
-    </WebReferenceUrl>
-    <WebReferenceUrl Include="https://webservices.dentalxchange.com/dws/webservice/wsdl.jsp">
-      <UrlBehavior>Dynamic</UrlBehavior>
-      <RelPath>Web References\com.dentalxchange.webservices\</RelPath>
-      <UpdateFromURL>https://webservices.dentalxchange.com/dws/webservice/wsdl.jsp</UpdateFromURL>
-      <ServiceLocationURL>
-      </ServiceLocationURL>
-      <CachedDynamicPropName>
-      </CachedDynamicPropName>
-      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
-      <CachedSettingsPropName>OpenDentBusiness_com_dentalxchange_webservices_WebServiceService</CachedSettingsPropName>
     </WebReferenceUrl>
   </ItemGroup>
 </Project>

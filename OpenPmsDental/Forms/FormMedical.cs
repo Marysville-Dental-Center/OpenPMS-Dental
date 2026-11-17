@@ -693,20 +693,24 @@ namespace OpenPmsDental {
 		#endregion Allergies Tab
 
 		#region Convert "Other" allergies and problems (Open Dental 25.2)
-		private System.Windows.Forms.MenuItem _menuItemConvertOtherAllergy;
-		private System.Windows.Forms.MenuItem _menuItemConvertOtherProblem;
+		private ToolStripMenuItem _menuItemConvertOtherAllergy;
+		private ToolStripMenuItem _menuItemConvertOtherProblem;
 
 		///<summary>Right-click items on the Allergies and Problems grids that convert an eForm "Other" entry to a listed allergy or problem.  They show
 		///only when the clicked row is an "Other" entry.</summary>
 		private void InitOtherConvertMenus() {
-			_menuItemConvertOtherAllergy=new System.Windows.Forms.MenuItem(Lan.g(this,"Convert \"Other\" allergy..."),menuItemConvertOtherAllergy_Click);
-			System.Windows.Forms.ContextMenu contextMenuAllergies=new System.Windows.Forms.ContextMenu(new[] { _menuItemConvertOtherAllergy });
-			contextMenuAllergies.Popup+=(sender,e) => _menuItemConvertOtherAllergy.Visible=OtherEntryConverts.IsOtherAllergy(GetAllergySelected());
-			gridAllergies.ContextMenu=contextMenuAllergies;
-			_menuItemConvertOtherProblem=new System.Windows.Forms.MenuItem(Lan.g(this,"Convert \"Other\" problem..."),menuItemConvertOtherProblem_Click);
-			System.Windows.Forms.ContextMenu contextMenuProblems=new System.Windows.Forms.ContextMenu(new[] { _menuItemConvertOtherProblem });
-			contextMenuProblems.Popup+=(sender,e) => _menuItemConvertOtherProblem.Visible=OtherEntryConverts.IsOtherProblem(GetDiseaseSelected());
-			gridDiseases.ContextMenu=contextMenuProblems;
+			_menuItemConvertOtherAllergy=new ToolStripMenuItem(Lan.g(this,"Convert \"Other\" allergy..."),null,menuItemConvertOtherAllergy_Click);
+			ContextMenuStrip contextMenuAllergies=new ContextMenuStrip();
+			contextMenuAllergies.Items.Add(_menuItemConvertOtherAllergy);
+			contextMenuAllergies.Opening+=(sender,e) => _menuItemConvertOtherAllergy.Visible=OtherEntryConverts.IsOtherAllergy(GetAllergySelected());
+			gridAllergies.DoAddGridItemsToContextMenuStrip=true;
+			gridAllergies.ContextMenuStrip=contextMenuAllergies;
+			_menuItemConvertOtherProblem=new ToolStripMenuItem(Lan.g(this,"Convert \"Other\" problem..."),null,menuItemConvertOtherProblem_Click);
+			ContextMenuStrip contextMenuProblems=new ContextMenuStrip();
+			contextMenuProblems.Items.Add(_menuItemConvertOtherProblem);
+			contextMenuProblems.Opening+=(sender,e) => _menuItemConvertOtherProblem.Visible=OtherEntryConverts.IsOtherProblem(GetDiseaseSelected());
+			gridDiseases.DoAddGridItemsToContextMenuStrip=true;
+			gridDiseases.ContextMenuStrip=contextMenuProblems;
 		}
 
 		///<summary>The allergy of the selected row, or null.</summary>

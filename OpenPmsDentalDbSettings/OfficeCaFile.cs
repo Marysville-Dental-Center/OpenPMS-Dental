@@ -98,10 +98,10 @@ namespace OpenPmsDentalDbSettings {
 			string pathTemp=path+".new";
 			if(Directory.Exists(folder) || File.Exists(folder)) {
 				CheckExisting(folder,true,what);
-				Directory.SetAccessControl(folder,GetFolderSecurity());
+				new DirectoryInfo(folder).SetAccessControl(GetFolderSecurity());
 			}
 			else {
-				Directory.CreateDirectory(folder,GetFolderSecurity());
+				new DirectoryInfo(folder).Create(GetFolderSecurity());
 			}
 			foreach(string pathExisting in new[] { path,pathTemp }) {
 				if(File.Exists(pathExisting) || Directory.Exists(pathExisting)) {
@@ -124,7 +124,7 @@ namespace OpenPmsDentalDbSettings {
 				File.Move(pathTemp,path);
 			}
 			//File.Replace keeps the replaced file's DACL, so the result always gets the protected one again.
-			File.SetAccessControl(path,GetFileSecurity());
+			new FileInfo(path).SetAccessControl(GetFileSecurity());
 		}
 
 		///<summary>Throws DbSettingsException (exit code 3) when path is a link (a reparse point: a junction or a symbolic link), is a file where a
@@ -144,10 +144,10 @@ namespace OpenPmsDentalDbSettings {
 			}
 			SecurityIdentifier securityIdentifierOwner;
 			if(isFolder) {
-				securityIdentifierOwner=(SecurityIdentifier)Directory.GetAccessControl(path,AccessControlSections.Owner).GetOwner(typeof(SecurityIdentifier));
+				securityIdentifierOwner=(SecurityIdentifier)new DirectoryInfo(path).GetAccessControl(AccessControlSections.Owner).GetOwner(typeof(SecurityIdentifier));
 			}
 			else {
-				securityIdentifierOwner=(SecurityIdentifier)File.GetAccessControl(path,AccessControlSections.Owner).GetOwner(typeof(SecurityIdentifier));
+				securityIdentifierOwner=(SecurityIdentifier)new FileInfo(path).GetAccessControl(AccessControlSections.Owner).GetOwner(typeof(SecurityIdentifier));
 			}
 			if(!IsTrustedOwner(securityIdentifierOwner)) {
 				throw new DbSettingsException(DbSettingsRunner.EXIT_WRITE_FAILED,path+" belongs to "+GetAccountName(securityIdentifierOwner)+", not to an "

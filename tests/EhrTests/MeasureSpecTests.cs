@@ -2,7 +2,9 @@
 // Stage 2: SelectAllMu2, Modified Stage 2: SelectAllMu2Mod), synthetic patients who meet and who miss each measure the engine calculates, with
 // the numerator and denominator the public CMS specification sheet's definitions give, and a recorded run of the three SelectAll calls on the
 // whole fixture as golden numbers (Fixtures/MeasureSpecGolden.txt). A case where the engine disagrees with its sheet is Inconclusive with a
-// deviation ID (EHR4B-Dnn), listed in docs/port-notes/EHR-4.md (section "EHR-4b"); the engine is not changed here, the lead assigns fixes.
+// deviation ID (EHR4B-Dnn), listed in docs/port-notes/EHR-4.md (section "EHR-4b"). Package EHR-4c fixed the engine for every numeric deviation
+// (D01-D04, D06-D11, D15, and D16, which it found): each of those tests now asserts the sheet's numbers and keeps its ID in its name
+// (section "EHR-4c" of that note).
 //
 // The sheets (CMS EHR Incentive Program specification sheets for eligible professionals, US government works), cited in each test by file name,
 // the date the sheet states and its rule; the latest edition of each stage first:
@@ -27,7 +29,7 @@ using OpenPmsDentalBusiness;
 
 namespace EhrTests {
 	[TestClass]
-	public class MeasureSpecTests {
+	public partial class MeasureSpecTests {
 		private const string GOLDEN_PATH=@"tests\EhrTests\Fixtures\MeasureSpecGolden.txt";
 		private const EhrMeasureStage S1=EhrMeasureStage.Stage1;
 		private const EhrMeasureStage S2=EhrMeasureStage.Stage2;
@@ -61,14 +63,26 @@ namespace EhrTests {
 
 			///<summary>The engine must give the sheet's numerator and denominator for the patients under the keys.</summary>
 			public void Sheet(EhrMeasureStage stage,EhrMeasureType measureType,int numerator,int denominator,params string[] arrayKeys) {
-				MeasureSpecFixture.Count(stage,measureType,arrayKeys,out int numeratorEngine,out int denominatorEngine);
+				SheetInPeriod(stage,measureType,MeasureSpecFixture.DateStart,MeasureSpecFixture.DateEnd,numerator,denominator,arrayKeys);
+			}
+
+			///<summary>Sheet, for another reporting period (EHR-4d).</summary>
+			public void SheetInPeriod(EhrMeasureStage stage,EhrMeasureType measureType,DateTime dateStart,DateTime dateEnd,int numerator,int denominator,
+				params string[] arrayKeys)
+			{
+				MeasureSpecFixture.Count(stage,measureType,dateStart,dateEnd,arrayKeys,out int numeratorEngine,out int denominatorEngine);
 				if(numeratorEngine!=numerator || denominatorEngine!=denominator) {
-					_listFailures.Add(Text(stage,measureType,arrayKeys)+": the sheet gives "+numerator+"/"+denominator+", the engine "
+					string textPeriod="";
+					if(dateStart!=MeasureSpecFixture.DateStart || dateEnd!=MeasureSpecFixture.DateEnd) {
+						textPeriod=" "+dateStart.ToString("yyyy-MM-dd",CultureInfo.InvariantCulture)+" to "+dateEnd.ToString("yyyy-MM-dd",CultureInfo.InvariantCulture);
+					}
+					_listFailures.Add(Text(stage,measureType,arrayKeys)+textPeriod+": the sheet gives "+numerator+"/"+denominator+", the engine "
 						+numeratorEngine+"/"+denominatorEngine+".");
 				}
 			}
 
-			///<summary>A known deviation: the sheet gives one pair for the patients under the keys, the engine (as recorded in the list) another.</summary>
+			///<summary>A known deviation: the sheet gives one pair for the patients under the keys, the engine (as recorded in the list) another. No
+			///numeric deviation is open since EHR-4c; kept for the next one found.</summary>
 			public void Deviation(string deviationId,EhrMeasureStage stage,EhrMeasureType measureType,int numeratorSheet,int denominatorSheet,
 				int numeratorEngine,int denominatorEngine,params string[] arrayKeys)
 			{
@@ -219,10 +233,18 @@ namespace EhrTests {
 			Assert.AreEqual(DayOfWeek.Tuesday,MeasureSpecFixture.DateMonday.AddDays(8).DayOfWeek,"The sixth.");
 			Assert.AreEqual(DayOfWeek.Monday,MeasureSpecFixture.DateMonday.AddDays(7).DayOfWeek,"The fourth business day after Tuesday 4 March.");
 			Assert.AreEqual(DayOfWeek.Monday,new DateTime(2014,6,2).DayOfWeek,"The second visit of ClinSum.TwoVisits.");
+			Assert.AreEqual(DayOfWeek.Saturday,new DateTime(2014,3,8).DayOfWeek,"The visit of ClinSum.SaturdayWednesday and ClinSum.SaturdayThursday.");
+			Assert.AreEqual(DayOfWeek.Wednesday,new DateTime(2014,3,12).DayOfWeek,"The third business day after Saturday 8 March.");
+			//EHR-4d's 2015 group.
+			Assert.AreEqual(DayOfWeek.Monday,MeasureSpecFixture.DateMonday2015.DayOfWeek,"2 March 2015");
+			Assert.AreEqual(DayOfWeek.Saturday,new DateTime(2015,3,7).DayOfWeek,"The visit of Win.SaturdayMonday.");
+			Assert.AreEqual(DayOfWeek.Monday,new DateTime(2015,3,9).DayOfWeek,"The first business day after it.");
+			Assert.AreEqual(MeasureSpecFixture.DateStartCross.Year+1,MeasureSpecFixture.DateEndCross.Year,"The period across a year boundary.");
 			Assert.AreEqual(MeasureSpecFixture.DateStart.Year,MeasureSpecFixture.DateEnd.Year,"One full calendar year.");
 			Assert.AreEqual(new DateTime(MeasureSpecFixture.DateStart.Year,1,1),MeasureSpecFixture.DateStart);
 			Assert.AreEqual(new DateTime(MeasureSpecFixture.DateStart.Year,12,31),MeasureSpecFixture.DateEnd);
-			//The engine takes two ages on today's date: from 14 November 2026 on, a patient born before 14 November 2013 is 13 or older.
+			//Before EHR-4c the engine took two ages on today's date (EHR4B-D03, D04); it takes them at the visit now. The guard stays: from 14
+			//November 2026 on, a patient born before 14 November 2013 is 13 or older.
 			Assert.IsTrue(DateTime.Today.AddYears(-13)>=MeasureSpecFixture.DateBornBefore.AddDays(-1),"Every patient is 13 or older today.");
 			Assert.IsTrue(MeasureSpecCodes.GetSmokingStatusCode().All(char.IsDigit),"The engine's smoking status code is read from its source.");
 			Assert.IsTrue(MeasureSpecCodes.GetLabResultCode().All(char.IsDigit),"The engine's lab result code is read from its source.");
@@ -359,9 +381,9 @@ namespace EhrTests {
 			check.Sheet(S1,EhrMeasureType.VitalSigns2014,1,1,"Vs.Infant");
 			check.Sheet(S2,EhrMeasureType.VitalSigns,1,1,"Vs.Infant");
 			check.Sheet(S1,EhrMeasureType.VitalSignsBPOnly,0,0,"Vs.Infant");
-			//2013DefinitionEP_8_Record_Vital_Signs.pdf (April 2013), the first DENOMINATOR: unique patients age 2 or over seen, so not the infant. The
-			//engine takes the age on today's date, not in the period (EHR4B-D04).
-			check.Deviation("EHR4B-D04",S1,EhrMeasureType.VitalSigns,0,0,0,1,"Vs.Infant");
+			//2013DefinitionEP_8_Record_Vital_Signs.pdf (April 2013), the first DENOMINATOR: unique patients age 2 or over seen, so not the infant.
+			//EHR4B-D04, fixed by EHR-4c: the engine takes the age at the last visit in the period (it took it on today's date: 0/1).
+			check.Sheet(S1,EhrMeasureType.VitalSigns,0,0,"Vs.Infant");
 			check.Finish();
 		}
 
@@ -381,10 +403,12 @@ namespace EhrTests {
 		public void Smoking_APatientOf12AtTheVisit_IsNotInTheDenominator_D03() {
 			MeasureSpecFixture.Begin();
 			SpecCheck check=new SpecCheck();
-			//The same sheets: age 13 or older seen in the period, so a patient of 12 at the visit (and all year) is not counted. The engine takes the
-			//age on today's date (EHR4B-D03).
-			check.Deviation("EHR4B-D03",S1,EhrMeasureType.Smoking,0,0,0,1,"Smoke.Age12");
-			check.Deviation("EHR4B-D03",S2,EhrMeasureType.Smoking,0,0,0,1,"Smoke.Age12");
+			//The same sheets: age 13 or older seen in the period, so a patient of 12 at the visit (and all year) is not counted. No sheet of the
+			//batches names another day for the age. EHR4B-D03, fixed by EHR-4c: the engine takes the age at the last visit in the period (it took it
+			//on today's date: 0/1). Modified Stage 2's Smoking, which has no sheet (D12), counts as Stage 2's.
+			check.Sheet(S1,EhrMeasureType.Smoking,0,0,"Smoke.Age12");
+			check.Sheet(S2,EhrMeasureType.Smoking,0,0,"Smoke.Age12");
+			check.Sheet(MS2,EhrMeasureType.Smoking,0,0,"Smoke.Age12");
 			check.Finish();
 		}
 
@@ -476,9 +500,26 @@ namespace EhrTests {
 			MeasureSpecFixture.Begin();
 			SpecCheck check=new SpecCheck();
 			//The same sheets: only tests whose results are a positive or negative affirmation or a number are in the denominator. A test with a
-			//free-text result is in none; the engine counts every order (EHR4B-D11).
-			check.Deviation("EHR4B-D11",S1,EhrMeasureType.Lab,0,0,0,1,"Lab.Text");
-			check.Deviation("EHR4B-D11",S2,EhrMeasureType.Lab,0,0,0,1,"Lab.Text");
+			//free-text result is in none. EHR4B-D11, fixed by EHR-4c: the engine leaves out an order whose results are neither (it counted every
+			//order: 0/1); an order with no result yet stays in (Lab.NoResult in the case above).
+			check.Sheet(S1,EhrMeasureType.Lab,0,0,"Lab.Text");
+			check.Sheet(S2,EhrMeasureType.Lab,0,0,"Lab.Text");
+			check.Finish();
+		}
+
+		[TestMethod]
+		public void LabResults_TheOlderLabOrders_AFreeTextResult_IsNotInTheDenominator_D11() {
+			MeasureSpecFixture.Begin();
+			SpecCheck check=new SpecCheck();
+			//The same sheets and rule, for the older lab orders (medical order, lab panel, labresult; 2011 edition). An order whose only result is
+			//free text is in no denominator; a result that is the word negative, a coded positive/negative result (the engine's code as the first
+			//component of the field, as the lab panel import keeps it) or a number with a comparator is in, and met. EHR-4d (EHR4B-D11): the engine
+			//applies the ehrlab branch's rule to the older orders too (it counted every older order, met by its panel: Lab.OldText 1/1). An order
+			//with a panel and no result row stays in, met by its panel (Lab.OldPanel in LabResults_IncorporatedAsStructuredData_...).
+			check.Sheet(S1,EhrMeasureType.Lab,0,0,"Lab.OldText");
+			check.Sheet(S2,EhrMeasureType.Lab,0,0,"Lab.OldText");
+			check.Sheet(S1,EhrMeasureType.Lab,3,3,"Lab.OldNegative","Lab.OldCoded","Lab.OldNumeric");
+			check.Sheet(S2,EhrMeasureType.Lab,3,3,"Lab.OldNegative","Lab.OldCoded","Lab.OldNumeric");
 			check.Finish();
 		}
 
@@ -513,9 +554,9 @@ namespace EhrTests {
 			MeasureSpecFixture.Begin();
 			SpecCheck check=new SpecCheck();
 			//The same sheets: seen on a Tuesday, access on the next Monday (Wednesday, Thursday, Friday, Monday: the fourth business day) is timely.
-			//The engine's deadline for a visit on a Tuesday is the Saturday (four days, two more only after a Tuesday; EHR4B-D01).
+			//EHR4B-D01, fixed by EHR-4c: the engine counts 4 business days, Monday to Friday (its deadline for a Tuesday visit was the Saturday: 0/1).
 			foreach(EhrMeasureStage stage in new[] { S1,S2,MS2 }) {
-				check.Deviation("EHR4B-D01",stage,EhrMeasureType.ElectronicCopyAccess,1,1,0,1,"Access.TuesdayMonday");
+				check.Sheet(stage,EhrMeasureType.ElectronicCopyAccess,1,1,"Access.TuesdayMonday");
 			}
 			check.Finish();
 		}
@@ -524,10 +565,10 @@ namespace EhrTests {
 		public void OnlineAccess_OnTheFourthBusinessDay_IsTimely_D15() {
 			MeasureSpecFixture.Begin();
 			SpecCheck check=new SpecCheck();
-			//The same sheets: seen on a Monday, access on the Friday (the fourth business day) is timely. The engine compares the event's date and
-			//time with a deadline at midnight of that day, so an event during the last day misses (EHR4B-D15).
+			//The same sheets: seen on a Monday, access on the Friday (the fourth business day, at 11:00) is timely. EHR4B-D15, fixed by EHR-4c: the
+			//engine compares dates (it compared the event's date and time with midnight of the last day: 0/1).
 			foreach(EhrMeasureStage stage in new[] { S1,S2,MS2 }) {
-				check.Deviation("EHR4B-D15",stage,EhrMeasureType.ElectronicCopyAccess,1,1,0,1,"Access.Friday");
+				check.Sheet(stage,EhrMeasureType.ElectronicCopyAccess,1,1,"Access.Friday");
 			}
 			check.Finish();
 		}
@@ -569,9 +610,10 @@ namespace EhrTests {
 		public void ClinicalSummaries_Stage2_ASummaryOfAnEarlierVisit_DoesNotCountForALaterOne_D02() {
 			MeasureSpecFixture.Begin();
 			SpecCheck check=new SpecCheck();
-			//Stage2_EPCore_8_ClinicalSummaries.pdf (November 2014): one of the two visits had its summary within a business day. The engine compares
-			//each visit with the patient's first summary ever, which is before the second visit's deadline too (EHR4B-D02).
-			check.Deviation("EHR4B-D02",S2,EhrMeasureType.ClinicalSummaries,1,2,2,2,"ClinSum.TwoVisits");
+			//Stage2_EPCore_8_ClinicalSummaries.pdf (November 2014): one of the two visits had its summary within a business day. EHR4B-D02, fixed by
+			//EHR-4c: the engine compares each visit with the first summary on or after its own day (it compared each visit with the patient's first
+			//summary ever, which is before the second visit's deadline too: 2/2).
+			check.Sheet(S2,EhrMeasureType.ClinicalSummaries,1,2,"ClinSum.TwoVisits");
 			check.Finish();
 		}
 
@@ -580,10 +622,24 @@ namespace EhrTests {
 			MeasureSpecFixture.Begin();
 			SpecCheck check=new SpecCheck();
 			//Stage2_EPCore_8_ClinicalSummaries.pdf (November 2014): a summary the next business day (the Tuesday after a Monday visit, the Monday
-			//after a Friday visit) is within one business day. The engine compares the event's date and time with a deadline at midnight of that
-			//day, so a summary during it misses (EHR4B-D15).
-			check.Deviation("EHR4B-D15",S2,EhrMeasureType.ClinicalSummaries,1,1,0,1,"ClinSum.NextDay");
-			check.Deviation("EHR4B-D15",S2,EhrMeasureType.ClinicalSummaries,1,1,0,1,"ClinSum.FridayMonday");
+			//after a Friday visit) is within one business day. EHR4B-D15, fixed by EHR-4c: the engine compares dates (it compared the event's date
+			//and time with midnight of the last day: 0/1 each).
+			check.Sheet(S2,EhrMeasureType.ClinicalSummaries,1,1,"ClinSum.NextDay");
+			check.Sheet(S2,EhrMeasureType.ClinicalSummaries,1,1,"ClinSum.FridayMonday");
+			check.Finish();
+		}
+
+		[TestMethod]
+		public void ClinicalSummaries_Stage1_ASaturdayVisit_TheWednesdayIsTheThirdBusinessDay_D16() {
+			MeasureSpecFixture.Begin();
+			SpecCheck check=new SpecCheck();
+			//13_Clinical_Summaries.pdf, Stage 1 (2014 Definition), May 2014: within three business days. Seen on a Saturday, a summary on the
+			//Wednesday (Monday, Tuesday, Wednesday: the third business day) is met; on the Thursday (the fourth) it is missed. EHR4B-D16, found and
+			//fixed by EHR-4c: the engine's deadline for a Saturday visit is the Wednesday (it added 3 days, the Tuesday: 0/1 for the Wednesday).
+			check.Sheet(S1,EhrMeasureType.ClinicalSummaries,1,1,"ClinSum.SaturdayWednesday");
+			check.Sheet(S1,EhrMeasureType.ClinicalSummaries,0,1,"ClinSum.SaturdayThursday");
+			//Stage2_EPCore_8_ClinicalSummaries.pdf (November 2014): within one business day, the Monday, so both are missed.
+			check.Sheet(S2,EhrMeasureType.ClinicalSummaries,0,2,"ClinSum.SaturdayWednesday","ClinSum.SaturdayThursday");
 			check.Finish();
 		}
 
@@ -606,9 +662,29 @@ namespace EhrTests {
 			SpecCheck check=new SpecCheck();
 			//MedicaidEPModStage2_2018_Obj6.pdf, July 2018, Additional Information: the action counts only within the reporting period when it is a
 			//full calendar year (the 2017 edition, MedicaidEPStage2_Obj6.pdf of November 2016: no earlier than the start of the period's calendar
-			//year). Resources given the year before do not count; the engine counts them at any date (EHR4B-D10). The Stage 1 and Stage 2 sheets
-			//give no time for it, so they are not compared.
-			check.Deviation("EHR4B-D10",MS2,EhrMeasureType.Education,0,1,1,1,"Edu.Before");
+			//year). Resources given the year before do not count. EHR4B-D10, fixed by EHR-4c: the engine counts them within the period's calendar
+			//year (it counted them at any date: 1/1). The Stage 1 and Stage 2 sheets give no time for it, so they are not compared.
+			check.Sheet(MS2,EhrMeasureType.Education,0,1,"Edu.Before");
+			check.Finish();
+		}
+
+		[TestMethod]
+		public void Education_ModifiedStage2_APeriodAcrossAYearBoundary_TakesTheVisitsCalendarYear_D10() {
+			MeasureSpecFixture.Begin();
+			SpecCheck check=new SpecCheck();
+			//MedicaidEPModStage2_2018_Obj6.pdf, July 2018, Additional Information: within the period when it is a full calendar year, otherwise
+			//within the calendar year in which the period occurs. A period of 1 July 2014 to 30 June 2015 is neither one calendar year nor inside one;
+			//EHR-4d takes each patient's visit's own calendar year (the period's calendar years, a visit at a time). Seen on 2 March 2015: resources
+			//of 3 March 2014 (another calendar year, before the period) do not count; resources of 3 August 2015 (after the period, in the visit's
+			//calendar year) do, as for a period inside 2015. EHR4B-D10 as EHR-4c fixed it counted 1 January 2014 to 31 December 2015 for every
+			//patient: Edu.CrossBefore 1/1.
+			DateTime dateStart=MeasureSpecFixture.DateStartCross;
+			DateTime dateEnd=MeasureSpecFixture.DateEndCross;
+			check.SheetInPeriod(MS2,EhrMeasureType.Education,dateStart,dateEnd,0,1,"Edu.CrossBefore");
+			check.SheetInPeriod(MS2,EhrMeasureType.Education,dateStart,dateEnd,1,1,"Edu.CrossAfter");
+			//Stage 1 and Stage 2 give no time for it (unchanged: any date).
+			check.SheetInPeriod(S1,EhrMeasureType.Education,dateStart,dateEnd,2,2,"Edu.CrossBefore","Edu.CrossAfter");
+			check.SheetInPeriod(S2,EhrMeasureType.Education,dateStart,dateEnd,2,2,"Edu.CrossBefore","Edu.CrossAfter");
 			check.Finish();
 		}
 
@@ -627,10 +703,27 @@ namespace EhrTests {
 		public void Reminders_Stage1_AChildOf5AllYear_IsInTheDenominator_D06() {
 			MeasureSpecFixture.Begin();
 			SpecCheck check=new SpecCheck();
-			//The same sheet: "5 years old or younger" includes a child who is 5 on every day of the period. The engine takes younger than 5 at the
-			//start of the period (EHR4B-D06).
-			check.Deviation("EHR4B-D06",S1,EhrMeasureType.Reminders,1,1,0,0,"Rem1.Age5");
+			//The same sheet: "5 years old or younger" includes a child who is 5 on every day of the period. EHR4B-D06, fixed by EHR-4c: the engine
+			//takes 5 or younger at the start of the period (it took younger than 5: 0/0).
+			check.Sheet(S1,EhrMeasureType.Reminders,1,1,"Rem1.Age5");
 			check.Finish();
+		}
+
+		[TestMethod]
+		public void Reminders_Stage1_TheExclusionCount_TakesTheAgesAtThePeriodsStart_D06() {
+			MeasureSpecFixture.Begin();
+			//4_Patient_Reminders.pdf, May 2014, EXCLUSION: an EP with no patients 65 years old or older or 5 years old or younger. The denominator
+			//takes the ages at the start of the period (EHR-4c, EHR4B-D06; the lead kept that day); EHR-4d makes the exclusion count take the same
+			//day (it took the age at the patient's last visit). In 2015 the only patient of either age range at a visit is Rem1.Turns65: 64 on 1
+			//January 2015, 65 at the visit of 2 March. At the period's start he is in neither, so the denominator does not have him and the count is
+			//0 (before EHR-4d: 1).
+			SpecCheck check=new SpecCheck();
+			check.SheetInPeriod(S1,EhrMeasureType.Reminders,MeasureSpecFixture.DateStart2015,MeasureSpecFixture.DateEnd2015,0,0,"Rem1.Turns65");
+			check.Finish();
+			EhrMeasure ehrMeasure=EhrMeasures.GetMeasuresToCalc(S1).First(x => x.MeasureType==EhrMeasureType.Reminders);
+			ehrMeasure=EhrMeasures.CalcMeasure(S1,ehrMeasure,MeasureSpecFixture.DateStart2015,MeasureSpecFixture.DateEnd2015,
+				MeasureSpecFixture.ProviderEp.ProvNum);
+			Assert.AreEqual(0,ehrMeasure.ExclusionCount,"The patients seen in 2015 who were 65 or older or 5 or younger on 1 January 2015.");
 		}
 
 		[TestMethod]
@@ -649,10 +742,10 @@ namespace EhrTests {
 			MeasureSpecFixture.Begin();
 			SpecCheck check=new SpecCheck();
 			//The same sheet: the two visits are with the EP. Two visits with the EP and another primary provider: in the denominator (reminded, met).
-			//Two visits with another provider and the EP as primary provider: in none. The engine takes the patients whose primary provider is the
-			//EP and counts visits with any provider (EHR4B-D07).
-			check.Deviation("EHR4B-D07",S2,EhrMeasureType.Reminders,1,1,0,0,"Rem2.OtherPrimary");
-			check.Deviation("EHR4B-D07",S2,EhrMeasureType.Reminders,0,0,1,1,"Rem2.VisitsWithOther");
+			//Two visits with another provider and the EP as primary provider: in none. EHR4B-D07, fixed by EHR-4c: the engine counts the visits with
+			//the EP, whoever the primary provider is (it took the EP's primary patients and visits with any provider: 0/0 and 1/1).
+			check.Sheet(S2,EhrMeasureType.Reminders,1,1,"Rem2.OtherPrimary");
+			check.Sheet(S2,EhrMeasureType.Reminders,0,0,"Rem2.VisitsWithOther");
 			check.Finish();
 		}
 		#endregion Patient access, summaries, education, reminders
@@ -677,10 +770,25 @@ namespace EhrTests {
 			SpecCheck check=new SpecCheck();
 			//The same sheets: one patient with two transitions of care and one reconciliation is 1 of 2 transitions; the engine counts the patient
 			//once, met only when every transition was reconciled. And a transition received by the EP and reconciled counts whether or not the
-			//patient had an office visit in the period; the engine counts only patients seen by the EP in the period (EHR4B-D08).
+			//patient had an office visit in the period. EHR4B-D08, fixed by EHR-4c: the engine counts the transitions received by the EP in the
+			//period, each reconciliation for one of them (it counted the patients seen by the EP: 0/1 and 0/0).
 			foreach(EhrMeasureStage stage in new[] { S1,S2,MS2 }) {
-				check.Deviation("EHR4B-D08",stage,EhrMeasureType.MedReconcile,1,2,0,1,"MedRec.TwoOne");
-				check.Deviation("EHR4B-D08",stage,EhrMeasureType.MedReconcile,1,1,0,0,"MedRec.NoVisit");
+				check.Sheet(stage,EhrMeasureType.MedReconcile,1,2,"MedRec.TwoOne");
+				check.Sheet(stage,EhrMeasureType.MedReconcile,1,1,"MedRec.NoVisit");
+			}
+			check.Finish();
+		}
+
+		[TestMethod]
+		public void MedReconcile_ADeletedPatientsTransition_IsInNoDenominator_D08() {
+			MeasureSpecFixture.Begin();
+			SpecCheck check=new SpecCheck();
+			//The same sheets count transitions of care received by the EP; a deleted patient's record is no patient of the practice. A transition
+			//needs no visit (D08), so EHR-4d checks the status: MedRec.Deleted (received and reconciled on 3 March 2014, no visit) is in no
+			//denominator (before EHR-4d: 1/1, each stage). A visit-based measure never counts a deleted patient: the program deletes only a
+			//patient with nothing entered.
+			foreach(EhrMeasureStage stage in new[] { S1,S2,MS2 }) {
+				check.Sheet(stage,EhrMeasureType.MedReconcile,0,0,"MedRec.Deleted");
 			}
 			check.Finish();
 		}
@@ -721,8 +829,9 @@ namespace EhrTests {
 			MeasureSpecFixture.Begin();
 			SpecCheck check=new SpecCheck();
 			//Stage2_EPCore_17_UseSecureElectronicMessaging.pdf, October 2012: the message is sent during the reporting period. A patient seen whose
-			//only message is of the year before is 0 of 1. The engine counts a message of any date (EHR4B-D09).
-			check.Deviation("EHR4B-D09",S2,EhrMeasureType.SecureMessaging,0,1,1,1,"Msg.Before");
+			//only message is of the year before is 0 of 1. EHR4B-D09, fixed by EHR-4c: the engine counts a message of the period (it counted one of
+			//any date: 1/1).
+			check.Sheet(S2,EhrMeasureType.SecureMessaging,0,1,"Msg.Before");
 			check.Finish();
 		}
 

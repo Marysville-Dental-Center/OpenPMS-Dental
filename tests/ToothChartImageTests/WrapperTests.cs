@@ -1,4 +1,5 @@
-// Tests of the small wrapper and relay changes of package TC-0: the graphics device exception test and the relay's perio mode setter.
+// Tests of the small wrapper and relay changes of package TC-0: the graphics device exception test (gone with the DirectX chart in TC-9a) and
+// the relay's perio mode setter.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
 using System.Linq;
@@ -11,28 +12,12 @@ using SparksToothChart;
 namespace ToothChartImageTests {
 	[TestClass]
 	public class WrapperTests {
-		///<summary>SharpDX's exception type, from the assembly SparksToothChart references. This project does not reference SharpDX itself, so the
-		///callers' code after TC-2 and this test both work without naming it.</summary>
-		private static Type GetSharpDXType(string typeName) {
-			AssemblyName assemblyName=typeof(ToothChartWrapper).Assembly.GetReferencedAssemblies().First(x => x.Name=="SharpDX");
-			return Assembly.Load(assemblyName).GetType(typeName,true);
-		}
-
 		[TestMethod]
-		public void IsGraphicsDeviceException_IsTrueForSharpDXExceptionsOnly() {
-			Exception exSharpDX=(Exception)Activator.CreateInstance(GetSharpDXType("SharpDX.SharpDXException"));
-			Assert.IsTrue(ToothChartWrapper.IsGraphicsDeviceException(exSharpDX));
-			Exception exCompilation=(Exception)Activator.CreateInstance(GetSharpDXType("SharpDX.CompilationException"),
-				BindingFlags.Public|BindingFlags.NonPublic|BindingFlags.Instance,null,new object[] { "x" },null);
-			Assert.IsTrue(ToothChartWrapper.IsGraphicsDeviceException(exCompilation),"A subclass is caught too, as catch(SharpDXException) catches it.");
-			Assert.IsFalse(ToothChartWrapper.IsGraphicsDeviceException(null));
-			Assert.IsFalse(ToothChartWrapper.IsGraphicsDeviceException(new Exception("device")));
-			Assert.IsFalse(ToothChartWrapper.IsGraphicsDeviceException(new InvalidOperationException()));
-			Assert.IsFalse(ToothChartWrapper.IsGraphicsDeviceException(new NullReferenceException()));
-			Assert.IsFalse(ToothChartWrapper.IsGraphicsDeviceException(new DllNotFoundException(ToothChartWrapper.D3DX_DLL)),
-				"A missing DirectX runtime is the fallback's matter, not a device error.");
-			Assert.IsFalse(ToothChartWrapper.IsGraphicsDeviceException(new Exception("outer",exSharpDX)),
-				"Only the thrown type counts, as with catch(SharpDXException).");
+		public void GraphicsDeviceException_WentWithTheDirectXChart() {
+			//TC-0 added IsGraphicsDeviceException for SharpDX's exception, which the DirectX chart threw when its device was lost; TC-9a deleted it with
+			//that chart, and the Chart module's Save to Images no longer catches it (CallerSourceTests). SparksToothChart references no SharpDX.
+			Assert.IsNull(typeof(ToothChartWrapper).GetMethod("IsGraphicsDeviceException",BindingFlags.Public|BindingFlags.Static));
+			Assert.IsFalse(typeof(ToothChartWrapper).Assembly.GetReferencedAssemblies().Any(x => x.Name.StartsWith("SharpDX")));
 		}
 
 		[TestMethod]
@@ -48,9 +33,10 @@ namespace ToothChartImageTests {
 				wrapper.TcData.PerioMode=true;//as a DirectX chart in perio mode has it
 				relay.IsPerioMode=false;
 				Assert.IsFalse(wrapper.PerioMode,"false turns perio mode off.");
-				//Turning it on is still the wrapper's rule: DirectX only.
+				//Turning it on is still the wrapper's rule: since TC-7 the WPF chart (and the DirectX chart until TC-9a); since TC-8 the message names the
+				//3D chart, which the graphical perio chart asks for on every computer (O-31).
 				Exception ex=Expect.Throws<Exception>(() => relay.IsPerioMode=true);
-				StringAssert.Contains(ex.Message,"DirectX");
+				StringAssert.Contains(ex.Message,"needs the 3D tooth chart");
 				Assert.IsFalse(wrapper.PerioMode);
 			});
 		}

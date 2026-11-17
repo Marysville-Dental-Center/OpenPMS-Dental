@@ -138,7 +138,7 @@ namespace BPROCTests {
 			}
 			string code=ReadSource("FormFeeSchedTools.cs");
 			StringAssert.Contains(code,"Security.IsAuthorized(EnumPermType.FeeSchedEdit)");
-			StringAssert.Contains(code,"Fees.SaveIncrease(listFees,percent,round,dateEffectiveNew)");
+			StringAssert.Contains(code,"Fees.SaveIncrease(listFees,percent,round,dateEffectiveNew,fee => {");
 			StringAssert.Contains(code,"FeeScheds.CopyFeeSchedule(feeSched,fromClinicNum,fromProvNum,feeSchedTo,listClinicNumsTo,toProvNum,dateEffectiveCopy)");
 		}
 

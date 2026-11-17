@@ -259,6 +259,16 @@ repository URL or commit, and the build does not read the `.git` folder. S1-1 dr
   4. Full slnf build and a Core run on `main`; the next stage gate runs Full as usual.
   5. Open worktrees rebase onto the new pin (with `rollForward` `disable`, a worktree on an SDK that is no longer installed fails at once
      with "SDK not found"). With band (a), remove the old SDK after all of them have.
+- **Bumps done** (band (a); each line: date, old -> new, why, the lock-file result, the runs; details in the package's port note):
+  - 2026-11-15, SDK-BUMP ([SDK-BUMP.md](../port-notes/SDK-BUMP.md)): **10.0.114 -> 10.0.115** (runtime 10.0.14 -> 10.0.15), the security
+    release of 2026-11-10, before stage 3b (S3b-0's note asks for it). The SDK's props and targets differ from 10.0.114's in version values
+    only; the project-file evaluator's `NETCoreSdkVersion` follows (now tested against `global.json`). Lock files: the lane's locked restore
+    of the whole slnf passed, no `packages.lock.json` changed (the net48 projects have no SDK-implicit package). Runs: full slnf lane build
+    0 errors, 353 warnings, the same warning classes as on 10.0.114, every SDK-style project compiled with `sdk\10.0.115\Roslyn\bincore\csc.exe`;
+    the evaluator check agrees with MSBuild (165 projects, 0 findings); the Targeted runs pass; the Core run passed 119 of 121
+    assemblies, and its 28 failures (ToothChartHostTests, ToothChartImageTests) are blank WPF pictures of a session that was disconnected
+    during the run, where RenderTargetBitmap draws nothing (WINCHK-HEADLESS); those two are re-run with the session unlocked before the pin
+    reaches `main`. 10.0.114 stays installed until open worktrees have moved (step 5, the lead's).
 - **Monthly runtime release (from stage 3b, decision 20).** Every shipped exe carries its own .NET 10 runtime, so Microsoft Update does
   not patch it: its security fixes reach the office only with this program's releases. Each month, after the .NET 10 patch release
   (Patch Tuesday), the lead runs the bump procedure above for the SDK patch that bundles that runtime, with the runtime packs at that
@@ -692,13 +702,24 @@ decision 19), proven on the x86 build and in x64 test runs on .NET Framework.
 
 **Entry conditions.** Stage 4 merged and green.
 
+**Status (2026-11-15).** S3a-3 done on `net10/s3a3-1` (`docs/port-notes/S3a-3.md`), not yet merged: `CodeBase.ODEncodings.GetAnsiEncoding()`
+replaces `Encoding.Default` at the six shipped sites (NoHqTests scan: none left); `CodeBase.ODNumberText` gives the X12 837 (4010, 5010)
+and RAMQ amounts with `InvariantCulture`, `SOut`, and the treatment-plan and pay-plan signature keys (current culture kept, as stored
+signatures were made) the text of .NET Framework ("G15"/"G7", no negative zero); `SIn.Double/Float` keep an overflow invalid. No-ops on
+net48, proved by before/after equality on fixture data and by the three ANSI tests rebuilt with the system page; the code-page provider
+waits for 3b (in the test processes too). Review fixes (`net10/s3a3-4`): the ANSI page is the system's, `Encoding.GetEncoding(GetACP())`,
+exactly what `Encoding.Default` is on net48 in any culture; the statement totals of `SheetFiller.totInsBalValsHelper` ("c") and the five
+e-statement bridges ("F2", current culture kept) no longer write a negative zero on .NET for a sum of doubles of about -1e-16 (the case
+stays in S3a-4's golden fixture); an X12 source scan in BCLAIMTests; the net48 G15/G7 texts of 524 values in
+`tests/BINBTests/Fixtures/G15Texts.txt` for S3a-4 and 3b; the release note for the period in X12 837 and RAMQ amounts.
+
 **Packages, wave 1 (parallel, disjoint).**
 
 | Package | Owns | Work | Targeted tests |
 |---|---|---|---|
 | **S3a-1 No more Thread.Abort** | `WpfControlsOD/UI/Progress/FrmProgressAuto.xaml.cs` (Abort at 125, 142 on the success path, 242, 248), `ProgressWin.cs`, `CodeBase/Utilities/ODThread.cs` (Join on timeout, 280), Join callers `FormOpenDental.cs:6840`, `ControlChart.cs:830`; `tests/MiddleTierMockTests/ODThreadTests.cs` (from S0-T; the two abort tests are rewritten for cooperative cancellation) | Cooperative cancellation: no abort on success; Cancel sets a flag the action checks, or closes the window and lets the background thread finish without database writes; `Join(timeout)` returns false instead of aborting. Thread.Abort always throws on .NET 5+ (https://learn.microsoft.com/en-us/dotnet/fundamentals/syslib-diagnostics/syslib0006). Dead `catch(ThreadAbortException)` blocks are left (harmless) and removed after 3b. The old Images module's abort (`ControlImagesOld.cs:3710`) and its two shell opens (308, 336) went with the module in S0-6. | new ProgressWin success/exception/cancel tests (WPF STA test), the ODThread tests; BPERIOTests, M2MISCTests |
 | **S3a-2 Shell launching and elevation** (the helper merges first, as a small first commit) | `CodeBase/Utilities/ODFileUtils.cs` (Process.Start at 172, 190, 196, 307, 309 without `UseShellExecute`; `ProcessStart(Process)` at 162-164), every live `Process.Start(string…)` and `Process.Start(ProcessStartInfo)` site in shipped code except `PrefL.cs` (S3a-10). The list includes these: the lines in menu files, which wave 2 edits only after wave 1 merges (`ControlImages.cs:826,1304,1323`, `PopupHelper.cs:164,177`, `PopupHelper2.cs:162,175`, `FormClaimEdit.cs:1237,1242`, `FormSheetFillEdit.cs:258` and `FormRpTreatmentFinder.cs:204`); the executable starts, routed through `ODFileUtils.ProcessStart` (`Tesia.cs:55`, `Clearinghouses.cs:653,689`, `FrmAtoZFoldersCreate.xaml.cs:60`, `FrmDocInfo.xaml.cs:151`, `Dolphin.cs:30,70,73,78`, `Shining3D.cs:23`, `PracticeBooster.cs:22`, `Owandy.cs:47`, `One2.cs:55`, `MeditLink.cs:32`, `Guru.cs:219`, `Benco.cs:22`, `AiDental.cs:24`, `AaTemplate.cs:26,67` and `OpenPmsDentalBusiness/Shared/ODCloudClient/Sirona.cs:25`); the `net view` starts `UserControlServerConnections.cs:108`, `CentralConnections.cs:118` and `FormReportSetup.cs:128` (UseShellExecute=true keeps the hidden window); the X-Charge style `new ProcessStartInfo(path)` sites (`FormPayment.cs:3450,4036`, `FormCreditCardEdit.cs:594,775`, `FormCreditCardManage.cs:334`, `FormXchargeTokenTool.cs:114`, `RecurringCharges.cs:700`); the `new Process()` sites `FormClaimAttachSnipDXC.cs:241,257`, `FormClaimAttachment.cs:362,378` and `FormImageSelectClaimAttach.cs:425,438` (both whole files, including their `OutOfMemoryException` catches at 499 and 515), `FormCreditCardEdit.cs:614,798`, `FormCreditCardManage.cs:357`, `FormPayment.cs:3480,4149`, `FormXchargeTokenTool.cs:131`, `RecurringCharges.cs:748`, `Eclaims/WebMD.cs:42`, `UpdateFileCopier/FormMain.cs:429`, `WpfControlsOD/Bridges/Dolphin.cs:64`, `Office.cs:37`, `Progeny.cs:38,49`, `WpfControlsOD/Frms/FrmPatientSelect.xaml.cs:832`; once EHR-3 has merged, the starter's redirected `new Process()` in `OpenPmsDentalBusiness/Data Interface/EhrSummaryCcds.cs` (`EhrStylesheetStarter`, `docs/specs/ehr-rebuild-plan.md`), which sets `UseShellExecute=false` explicitly and is checked, not edited; the starts in the three kept unshipped programs (`RdlDesign/DialogAbout.cs:253`, `RdlDesign/DialogListOfStrings.cs:171`, `RdlDesign/RdlDesigner.cs:2425,2438,2494,3462`, `DocumentationBuilder/Form1.cs:409`, `CentralManager/Db/CentralConnectionHelper.cs:51`); new source-scan test file in NoHqTests | Every start that does not redirect output uses `UseShellExecute=true`, the .NET Framework default (https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.processstartinfo.useshellexecute); new `ODFileUtils.ShellOpen(pathOrUrl)`. **Elevation:** with `UseShellExecute=false` (the .NET default) a start goes through CreateProcess, which refuses a program whose manifest asks for elevation (`ERROR_ELEVATION_REQUIRED`); only ShellExecute asks for consent (https://learn.microsoft.com/windows/security/application-security/application-control/user-account-control/architecture). So every `new Process()` start (22 live sites in 16 shipped files, one more in `EhrSummaryCcds.cs` once EHR-3 has merged, already explicit, one more in xCrudGenerator `CrudGenHelper.cs:683`, plus one commented out in `SheetPrinting.cs:479`; the PrefL and ServicesHelper ones belong to S3a-10 and S3a-7) and every `ODFileUtils.ProcessStart(Process)` call sets `UseShellExecute` explicitly: true unless it redirects standard streams. osk.exe (`FrmPatientSelect`) is a uiAccess binary and needs true. The `OutOfMemoryException` catches gain `catch(ExternalException)` as in S3a-9. Source-scan test: no `Process.Start(string…)` outside `ODFileUtils`, and every `new Process()`/`new ProcessStartInfo(` block sets `UseShellExecute` explicitly. The scan covers the shipped projects and RdlDesign, DocumentationBuilder and CentralManager, whose link and document opens would fail on .NET. It leaves out `tests/`, `tools/`, `UnitTests`, `UnitTestsCore` and `xCrudGenerator`, whose starts redirect output or never ship. The scan commit merges last in wave 1, after S3a-10. | the helper unit test (`UseShellExecute==true` for every overload), the source-scan test, VendorDirectTests, BIMGTests, BPAYTests |
-| **S3a-3 Encodings and numbers** | `ProcCodeImports.cs:133`, `ProcCodesOther.cs:241`, `CodeBase/Utilities/ODZip.cs:43`, `EForms/EFormRichPaste.cs:82`, `FormPatienteBill.cs:100,811`, `Data Interface/EmailMessages.cs` (the charset sites left after S0-3; the whole file is owned here in 3a), `DataConnectionBase/SOut.cs`, `SIn.cs`, the money-formatting helpers, `X12/X837_5010.cs`, `X837_4010.cs`, `Eclaims/Ramq.cs`, `Data Interface/TreatPlans.cs:258-273`, `PayPlans.cs:910`; tests `tests/BPROCTests/ProcCodeImportTests.cs:120`, `tests/M2CANTests/OtherCodesTests.cs:237`, `tests/BINBTests/ODZipTests.cs:63` | Replace `Encoding.Default` (UTF-8 on .NET, https://learn.microsoft.com/en-us/dotnet/api/system.text.encoding.default) with the explicit ANSI page `Encoding.GetEncoding(CultureInfo.CurrentCulture.TextInfo.ANSICodePage)`; give machine-read numbers (X12, claim files, signature keys, exports) explicit formats with `InvariantCulture` and "G15" where text must match today; normalise negative zero in money formatting; `SIn.Double/Float` treat infinity as invalid (.NET parses overflow to infinity, https://learn.microsoft.com/en-us/dotnet/core/compatibility/3.0#floating-point-formatting-and-parsing-behavior-changed). All no-ops on net48. Code-page provider registration waits for 3b (section 8). EHR-6b (`docs/specs/ehr-2027-measures-plan.md`) deletes the 2014 QRDA I zip writer (`QualityMeasures.cs:7860-7861`); the 2027 writer (EHR-5c1) stores UTF-8 entries itself. So once EHR-6b has merged `ODZip.GetDefaultEncodingBytes` has one caller fewer: `Eclaims/Ramq.cs` is then the only one in shipped code. | the three fixed tests (bytes built with 1252, no guard), BCLAIMTests, M2CLAIMFORMTests, BTPTests, PayPlanTests, StatementTests |
+| **S3a-3 Encodings and numbers** | `ProcCodeImports.cs:133`, `ProcCodesOther.cs:241`, `CodeBase/Utilities/ODZip.cs:43`, `EForms/EFormRichPaste.cs:82`, `FormPatienteBill.cs:100,811`, `Data Interface/EmailMessages.cs` (the charset sites left after S0-3; the whole file is owned here in 3a), `DataConnectionBase/SOut.cs`, `SIn.cs`, the money-formatting helpers, `X12/X837_5010.cs`, `X837_4010.cs`, `Eclaims/Ramq.cs`, `Data Interface/TreatPlans.cs:258-273`, `PayPlans.cs:910`, the statement money text (`SheetFramework/SheetFiller.cs` `totInsBalValsHelper`, the e-statement bridges `Bridges/EHG_statements.cs`, `ClaimX_Statements.cs`, `EDS_Statements.cs`, `POS_statements.cs`, `WpfControlsOD/Bridges/Tesia_statements.cs`); tests `tests/BPROCTests/ProcCodeImportTests.cs:120`, `tests/M2CANTests/OtherCodesTests.cs:237`, `tests/BINBTests/ODZipTests.cs:63` | Replace `Encoding.Default` (UTF-8 on .NET, https://learn.microsoft.com/en-us/dotnet/api/system.text.encoding.default) with the explicit ANSI page `Encoding.GetEncoding(GetACP())` (the system locale's page, kernel32 `GetACP`, which is what `Encoding.Default` is on .NET Framework whatever the thread culture); give machine-read numbers explicit formats and "G15" where text must match today: X12, claim files and exports with `InvariantCulture`; signature keys keep the current culture (G15 digits, no negative zero) so that stored signatures still match; normalise negative zero in money formatting; `SIn.Double/Float` treat infinity as invalid (.NET parses overflow to infinity, https://learn.microsoft.com/en-us/dotnet/core/compatibility/3.0#floating-point-formatting-and-parsing-behavior-changed). All no-ops on net48. Code-page provider registration waits for 3b (section 8). EHR-6b (`docs/specs/ehr-2027-measures-plan.md`) deletes the 2014 QRDA I zip writer (`QualityMeasures.cs:7860-7861`); the 2027 writer (EHR-5c1) stores UTF-8 entries itself. So once EHR-6b has merged `ODZip.GetDefaultEncodingBytes` has one caller fewer: `Eclaims/Ramq.cs` is then the only one in shipped code. | the three fixed tests (bytes built with the system page, 1252 pinned; no guard on the culture), BCLAIMTests, M2CLAIMFORMTests, BTPTests, PayPlanTests, StatementTests |
 | **S3a-4 Golden outputs and known answers** | new `tests/GoldenOutputTests` project (+ sln/slnf entry, lead merges), fixture files | From one fixture database built by the existing scratch-database helpers: an 837 batch, statement PDF text, treatment-plan and pay-plan signature keys, the main CSV exports, `SOut.Float` SQL text for computed values, crypto known answers (`MiscUtils.Decrypt`, `CentralConnections.Decrypt`, a stored signature, RDL data-source decryption), a `wikilisthist.ListContent` written by net48, and the output of a fixture RDL report whose expression calls a VB `<Code>` function (for S3b-2, decision 14). Recorded with the net48 build and committed; the same tests compare byte for byte in 3b. | the new assembly |
 | **S3a-5 PasswordVault to Credential Manager** | `PasswordVaultWrapper/*` (project file drops `Windows.winmd`), `Required dlls/Windows.winmd`, `tests/BINBTests` vault tests | Credential Manager P/Invoke (`CredWriteW`/`CredReadW`/`CredDeleteW`/`CredEnumerateW`), same public interface; on first use a one-time migration copies existing PasswordVault entries over (WinRT still works on net48), so nobody re-enters a password. .NET 5+ cannot consume `.winmd` (https://learn.microsoft.com/en-us/dotnet/core/compatibility/interop/5.0/built-in-support-for-winrt-removed). No TFM change, no download. | BINBTests; the migration test (an entry written through PasswordVault is readable through Credential Manager after first use, and the migration runs once) |
 | **S3a-6 SOAP clients without System.Web.Services** | `OpenPmsDentalBusiness.csproj` (owner in 3a), `Web References/Dentalxchange2016/*`, `DentalxchangePartnerService/*`, `com.dentalxchange.webservices/*` (DCI), `NewCropWebService/*`, `EmdeonITS/*`, new `WebServices/SoapCaller.cs`, `Eclaims/ClaimConnect.cs` (304, 817 `SoapException`), `ElectIDs.cs`, `Eclaims/EmdeonMedical.cs` (`PutFileExt` at 44, `GetFile` at 103), `WebBridges/Erx/NewCrop/NewCrop.cs`, `NewCropConfig.cs`, `OpenPmsDentalBusiness/Properties/Settings*`, its `app.config`; `OpenPmsDental/Forms/FormInsPlan.cs` (only the `EligibilityCheckDentalXchange` region, 2011-2420); the unused ITS URL setting of the program (`OpenPmsDental/Properties/Settings.Designer.cs:38-41`, `Settings.settings`, its `app.config` entry); tests `tests/VDXC2Tests/FakeDentalXChange.cs`, `DxcPdfAttachmentTests.cs`, `tests/VendorDirectTests/DentalXChange/DxcPartnerIdentityTests.cs`, `Erx/NewCropAndThrottleTests.cs`, `tests/CLAIMDCMTests/WiringTests.cs:134`, new ITS tests, new `tests/VendorDirectTests/DentalXChange/DciEligibilityTests.cs` with a recorded response file | Keep the generated `[XmlType]` data classes, delete the `SoapHttpClientProtocol` classes, and send the 14 used document/literal operations (DentalXChange DWS 4, DEA 6, NewCrop 2, Change Healthcare ITS 2) through one `HttpClient` + `XmlSerializer` SOAP caller that reproduces each method's `SoapDocumentMethod` wrapper. ITS is kept and must work on .NET 10 although the office does not use it today (decision 12). **DCI eligibility** (the Practice-Web path, kept: decision 12, open point O-6) has one used operation, `lookupEligibility` (`FormInsPlan.cs:2055`). Its proxy is rpc/encoded (`SoapRpcMethod`), so the same caller writes that body by hand: the `lookupEligibility` element in the namespace `http://www.dentalxchange.com/webservice`, with the parts `in0` (`Credentials`) and `in1` (`Request`) typed as the old proxy types them; it reads `content` from `lookupEligibilityReturn`. Its three `[SoapType]` data classes stay, the `WebServiceService` proxy goes, the `FormInsPlan` region calls the new caller, and the URL setting `OpenDentBusiness_com_dentalxchange_webservices_WebServiceService` stays. Before deleting the old proxies, a test captures the envelope each old proxy sends (through the existing `WebRequest.RegisterPrefix` fake) and asserts the new caller's envelope is equivalent, for every operation including ITS's two and DCI's one. The VDXC2 fake becomes an `HttpMessageHandler`; a new fake ITS endpoint checks the request the caller builds (login, message type, file name, zipped payload) and parses an `ItsReturn`. The new DCI test checks the rpc/encoded request body the caller builds (element, namespace, parts and their types) and parses a recorded `lookupEligibility` response into the `content` that `ProcessEligibilityResponseDentalXchange` reads. Removing these `WebReferenceUrl` items must keep `OpenPmsDentalBusiness.XmlSerializers.dll` (critique W1): the Middle Tier's web reference stays until 3b, so SGen still runs at `Auto`, and the Release dry run checks that both XmlSerializers files are still staged. This route differs from regenerating with `dotnet-svcutil`; see section 8. The Middle Tier's own proxy stays until 3b. | VDXC2Tests, VendorDirectTests, CLAIMDCMTests, BCLAIMTests, the envelope-equivalence tests, the ITS request test, the DCI request and response tests |
@@ -746,14 +767,336 @@ and `FrmPatientSelect.xaml.cs` pass from S3a-2 to S3a-12 after wave 1 merges; a 
 3a (the helper's files). `ControlImages.cs` passes from S3a-M2 to S3a-14 (its Topaz lines only). In `tests/ReleaseFlowTests`, S3a-13 and
 S3a-16 add new files only. The lane's x64 test build and `OpenDental.sln` are the lead's.
 
+**Status (2026-11-15).** S3a-5 done on `net10/s3a5-1` (`docs/port-notes/S3a-5.md`): `PasswordVaultWrapper` on the Windows Credential
+Manager (`CredWriteW`/`CredReadW`/`CredDeleteW`/`CredEnumerateW`) behind the same four methods; the first use moves the PasswordVault entries
+under `OpenDental Middle Tier:` once per Windows user, read through the Windows Runtime by reflection on net48 (no `.winmd` needed, so the
+reference went in 3a), and writes a record `OpenPmsDental Middle Tier migration from PasswordVault`; `Required dlls/Windows.winmd` deleted.
+The tests touch only entries under a per-run `OpenPmsDentalTest:<guid>:` prefix. Targeted runs green (BINBTests, ReleaseFlowTests,
+LibraryBindingTests, NoHqTests, MiddleTierMockTests); one test retired on purpose (`PasswordVault_LoadsWithoutTheCopiedWinmd`).
+Fix round on `net10/s3a5-2`: a vault that cannot be opened on Windows 8 or later (an error that may pass) leaves no record, so the next
+process tries again; only a Windows older than 8 records "PasswordVault not available". Targeted runs green again.
+
+**Status (2026-11-15).** S3a-5f (the S3a-5 review leftovers) merged from `net10/s3a5f-1` (`docs/port-notes/S3a-5.md`, section 7; lead fix 7.7, no test lists the account's vault): target
+names compare case-insensitively, and a login is saved under the casing Windows already shows (Windows keeps one credential per casing
+written but shows one); a login whose address or user contains `|` gets an escaped name without `|` (`%`->`%25`, `|`->`%7C`, joined by
+`%_`) with a read fallback to its S3a-5 name, while every other name stays byte for byte as S3a-5 wrote it; the migration names its failed
+entries in the record and retries only those on later starts, five tries in all; "already there" is checked without decoding the secret;
+the tests clean up first and assert after. Full lane build 0 errors; Targeted runs green (BINBTests, ReleaseFlowTests, LibraryBindingTests,
+NoHqTests, MiddleTierMockTests).
+
+**Status (2026-11-15).** Wave 1: S3a-9 merged (`net10/s3a9-2`, `docs/port-notes/S3a-9.md`): file rights through
+`FileInfo`/`DirectoryInfo` in the connection settings tool, `ExternalException` next to the three GDI+ `OutOfMemoryException` catches (the
+DICOM reader's stays: its only GDI+ call, in the JPEG Baseline decoder, is inside catch(Exception) and becomes a decoder failure, so only a
+managed allocation failure reaches it), both network guards also set `HttpClient.DefaultProxy`, the 25 `PrefName` errors are warnings with
+`NoHqTests/ObsoletePrefNamesTests.cs`, and the sending sites say "not a valid email address" (`AddressRulesTests` pins `a..b@example.com`).
+Left for others: `FormClaimAttachment.cs`/`FormImageSelectClaimAttach.cs` (S3a-2), `FrmAtoZFoldersCreate.xaml.cs:74` (S3a-2),
+`DirectCertificateImport.cs:1383,1385` (fixed by the lead at S3a-9's merge), `OfficeCaFile.cs:115`'s `FileStream` with `FileSecurity` (3b).
+
+**Status (2026-11-15), S3a-1.** Done on `net10/s3a1-1` (`docs/port-notes/S3a-1.md`), not merged yet: no `Thread.Abort` is left in shipped
+code. `ODThread.Join` on timeout returns false, asks the thread to quit and makes it a background thread; `RunParallel`'s threads start no
+further action after the timeout. The progress window closes on success and shows the exception as before; Cancel cancels the new
+`ProgressWin.CancellationToken`, calls `ActionCancel` (never called before), makes the action's next progress event throw
+`OperationCanceledException`, waits up to a second and closes as cancelled (`ProgressWin.IsWorkerStillRunning` if the action did not stop).
+Left for others: the dead `ThreadAbortException` catches (after 3b), `tests/WindowChecksTests/InProc/ProgramDriver.cs`'s `thread.Abort()`
+(lead, before 3b), the callers that relied on a timeout aborting and the review of long ProgressWin actions for a check point (port note,
+sections 5 and 6).
+
+**Status (2026-11-15).** S3a-4 merged (`net10/s3a4-2`, `docs/port-notes/S3a-4.md`): new `tests/GoldenOutputTests` (its
+`OpenDental.sln` and `OpenDental.Local.slnf` entries for the lead to review) with 16 fixture files recorded by the net48 build from one
+`gold_` scratch database (init file, fork migrations, synthetic rows with fixed dates and fixed primary keys): the 837 dental batch in 5010
+and 4010 (ISA09/10, GS04/05, BHT04/05 replaced by tokens), the statement PDF text of a family and of a limited statement totalling about
+-1.1e-16 (`$0.00`), the statement `.csv`, the treatment-plan and pay-plan signature keys and hashes, the Chart of Accounts and UDS+ `.csv`,
+the SQL text of computed doubles and floats (through `QueryMonitor`) and `SOut` itself, crypto known answers both ways (`MiscUtils`,
+`CentralConnections`, stored signatures, the RDL `.dsr` file), `wikilisthist.ListContent` and its revert, and a fixture RDL report calling
+VB `<Code>` functions. Byte-for-byte compares; `OPMS_GOLDEN_RECORD=1` records, on .NET Framework only; `.gitattributes` keeps the fixtures'
+bytes. Differences already visible for 3b: `Statements.WriteStatementToCSV` and RdlEngine's `Style.GetFormatedString` write doubles with
+`ToString()`; GoldenOutputTests needs the code-page provider in 3b (its PDF reader decodes 1252).
+
+**Status (2026-11-15), S3a-1b.** S3a-1 merged (`168bd2767`, from `net10/s3a1-2`). Its follow-up S3a-1b done on `net10/s3a1b-1`, fix round on
+`net10/s3a1b-2` (`docs/port-notes/S3a-1.md` section 8), merged: no database write starts for a cancelled progress action
+(`CodeBase.ODCancellation`, checked in `DataConnection.RunDbAction` and `RemotingClient.SendAndReceive`, shared with RunParallel's pools,
+which then throw on the caller); the 176 ProgressWin windows reviewed, 29 of the 77 that write got a check or a unit
+(`ODCancellation.RunUncancellable`) for a write and its log entry, a catch's cleanup write (`ImageStore`'s imports) a unit too;
+an exception after a cancel, a worker still running when its window closes and an ODThread exception after a timed-out Join are logged;
+a second ShowDialog keeps the earlier run's token for its action; the comments of S3a-1's item 5 corrected.
+Tests per pattern in M2MISCTests (scratch database `s3a1b_`) and MiddleTierMockTests.
+
+**Status (2026-11-15), S3a-8.** Done on `net10/s3a8-1` (`docs/port-notes/S3a-8.md`), merged: the row's tests read assembly
+references and resources with Mono.Cecil (NoHqTests, BINATests, BINBTests, LibraryUpdateTests and VendorDirectTests now reference the
+package); the AppDomain probes run in a child process, the new exe project `tests/TestProbeHost` (its `OpenDental.sln` and
+`OpenDental.Local.slnf` entries for the lead to review; LibSpellTests, PdfLibraryTests, VendorDirectTests' SSH.NET load), or in-process (the
+DICOM reader); `AssemblyBuilder.DefineDynamicAssembly`; the GAC assertion deleted; the COM slots from the declared order; the shared
+`tests/ProjectFileTests/ProgramAssembly.cs` (the `.dll` when present, else the `.exe`) in CdtRetiredTests and ReleaseManifestTests, for S3a-7's
+`ProgramNamesTests.cs:191`. A negative run proved each rewritten test still fails for its reason; Targeted runs green. Left for 3b: starting
+TestProbeHost on .NET (no renamed apphost, no `.config`), the PDF network control as an `EventListener`, the reference readers that still name
+`OpenPmsDental.exe`; the same APIs outside the row are listed in the note for the lead.
+
+**Status (2026-11-15), S3a-8b.** Merged from `net10/s3a8b-1` (`docs/port-notes/S3a-8b.md`; lead notes in section 6, the window checks run at the gate): the sites outside S3a-8's row. The AppDomains of
+MiddleTierHostTests, HelixPackageTests (from a scratch folder of the program folder's Helix files, with its config) and every in-process window
+check (InProcHost: a process on the program folder with its config, ProgramDriverHost, CheckResult as text) are TestProbeHost children;
+AssemblyProbe and TestTelemetryTests read with Mono.Cecil, NuGetFilesTests writes its synthetic assemblies with it; ToothChartImageTests'
+second process is `ProbeProcess.RunOnce` (TestProbeHost `--run-once` as the program's Main) instead of a run-time C# compile; TopazWrapperTests'
+control is the prebuilt `tests/TopazStandIn` (new project in `OpenDental.sln` and `OpenDental.Local.slnf`, for the lead to review), renamed to
+SigPlusNET.dll with Mono.Cecil. The reference readers that named `OpenPmsDental.exe` or `ServiceManager.exe` go through
+`ProgramAssembly.FindRelative`; `ProbeProcess` deletes the host copies a dead test process left (only its copy names, only those older than
+the running process). A negative run proved each changed test still bites; Targeted runs green. Not run: the opt-in window checks (they show
+the program's windows); the lead runs them once before the gate. Left for 3b: TestProbeHost on .NET, now used by more tests.
+
+**Status (2026-11-15), S3a-6.** Done on `net10/s3a6-1` (`docs/port-notes/S3a-6.md`), merged: the proxies of DentalXChange DWS, DEA
+and DCI, NewCrop and Change Healthcare ITS are deleted (their data classes and the URL settings stay); the 14 document/literal operations
+and DCI's rpc/encoded `lookupEligibility` (written by hand) go through `WebServices/SoapCaller.cs` (`HttpClient` + `XmlSerializer` with the
+proxies' own `XmlMembersMapping`) and one client per service (`WebServices/SoapClients.cs`); `ClaimConnect`'s `SoapException` catches take
+`SoapFaultException` with the same text. Before the proxies went, `tests/VDXC2Tests/SoapEnvelopeTests.cs` found every operation's
+envelope byte for byte the same as the old proxy's and the responses and faults read the same, and recorded them (`SoapEnvelopes`); the
+VDXC2 fake is an `HttpMessageHandler`, a fake ITS endpoint and the DCI request and synthetic recorded-response tests are in
+VendorDirectTests. The Middle Tier's web reference stays, so the Release dry run still stages both XmlSerializers files. Left: the
+program's unused ITS URL setting (kept), CallFire (O-10), the Middle Tier proxy (3b).
+
+**Status (2026-11-15), S3a-7.** Merged from `net10/s3a7-1` (`docs/port-notes/S3a-7.md`), with the lead's fixes (1072 stop, no permission change after 1073): `ServicesHelper.Install`/`Uninstall`
+keep their signatures and run the system folder's `sc.exe create`/`sc.exe delete` (delete, then stop, ServiceInstaller's order) with the
+ProjectInstaller's settings, pinned in a test: own process, `start= auto`, `error= normal`, `obj= LocalSystem`, display name the service
+name, no description, the quoted exe path as ImagePath. `OpenPmsDentalHL7/ProjectInstaller.cs` and the `System.Configuration.Install`
+reference deleted; FormServiceManage shows what 5, 1060, 1072 and 1073 mean; PrefL needs no edit. The process start, the ImagePath read and
+the service stop are internal seams: the new `ServiceInstallTests` (ReleaseFlowTests) check the command lines and exit codes with fakes, and
+no test runs `sc.exe`. `ProgramNamesTests.cs:191` now reads the HL7 assembly through `ProgramAssembly`. The manual install/remove on a test PC
+is written step by step in the note, not run. Left: the unused `System.Configuration.Install` reference of `ReleaseFlowTests.csproj`
+(S3a-10's file) and the project baseline's `ProjectInstaller.cs` line, for the lead.
+
+**Status (2026-11-15), S3a-10.** Merged from `net10/s3a10-2` (`docs/port-notes/S3a-10.md`; the lead's 3b contract notes in section 7): a published manifest that is not
+readable or names another product is refused (`ReleaseAction.RefuseUnreadable`) instead of read as "nothing published", for every update
+server role and in Recopy; the optional `Runtime` line (`Microsoft.NETCore.App 10.0.14 win-x64`; none = .NET Framework 4.8 x86) and the
+runtime part's lines (`RuntimeVersion`, `RuntimeArchitectures`, `RuntimeArchiveSha256`, `RuntimeKey`, `RuntimeFile`) are read and checked,
+and a release for another framework or architecture is refused with "run the new setup" (`RefuseOtherRuntime`, also before a download);
+both keep the workstation on its build. The one exception (review fix, `net10/s3a10-2`) is the forward switch of section 10 step 3: a
+.NET 10 build still publishes over a .NET Framework release by the role rules, and Recopy there too (`ForkReleases.IsForwardRuntimeSwitch`),
+and writes its `Runtime` line; it never pulls one. A pull copies every file of UpdateFileCopier (`ForkReleases.CopyFileCopier`, its own temp folder
+`ForkReleaseCopier`) and starts it with `UseShellExecute=true`. `ApphostResourceTests` checks the execution level, versions and icon of every
+staged `.exe` against `tests/ReleaseFlowTests/Fixtures/ApphostResources.net48.txt`, recorded from the net48 Release dry run (Inconclusive
+without a Release build). Left: the launch check (port note section 6), the copier's own runtime check and `VerifyFolder` over the runtime
+files (S3b-7), two owner questions (port note section 8).
+
+**Status (2026-11-15), S3a-2.** Merged from `net10/s3a2-2` (`docs/port-notes/S3a-2.md`; the review fix updates P262LinksTests' MeditLink wiring test), the scan included: `ODFileUtils.ShellOpen(pathOrUrl)`
+and every `ODFileUtils` start build `UseShellExecute=true` (the helper commit `667f0ee68`), through `FuncStartProcessInfo`/`FuncStartProcess`,
+which the tests replace so nothing is started (`tests/MiddleTierMockTests/ODFileUtilsStartTests.cs`); the documents, folders and URLs of
+shipped code open through `ShellOpen`, the executable starts go through `ODFileUtils.ProcessStart`, and every `new Process()`/`new
+ProcessStartInfo(` block sets `UseShellExecute` (true unless redirected; the net view starts keep their hidden window, osk.exe true,
+`EhrStylesheetStarter`/`EhrRenderChildProcess` checked), RdlDesign's and RdlViewer's link opens included; `ExternalException` next to the two
+claim-attachment `OutOfMemoryException` catches and `FrmAtoZFoldersCreate`'s `DirectoryInfo.Create`. No change on net48. The source scan
+`NoHqTests/ShellStartScanTests.cs` is the branch's last commit (`20cde33ac`), merged after S3a-10, with no known pending site (PrefL.cs
+is scanned like the rest). Targeted runs green, P262LinksTests included.
+
+**Status (2026-11-15), S3a-FU1.** Merged from `net10/s3a-fu1-1` (with the lead's fix: the shared HL7 event log source is never removed) (`docs/port-notes/S3a-7.md` section S3a-FU1, `docs/port-notes/S3a-5.md` section
+7.8), the non-blocking review leftovers of S3a-7 and S3a-5f: the stop after `sc.exe delete` waits 15 seconds; Install registers the Application
+event log source of the service's name (and `OpenPmsDentalHL7` for the HL7 exe) after a successful create and Uninstall removes the name's
+source, behind seams; Uninstall reports its branch, which ServiceManager reads; an exe path ending in `\` is refused; the unused
+`System.Configuration.Install` reference of `ReleaseFlowTests.csproj` and the InstallUtil fallback of the binaries audit are gone. The
+migration's retry line says how many failed entries are not named, a retry start without the vault counts as a try, and `ClearCredentials`
+drops the address from the retry line; the credential tests clean up through `TestCredentialStore.Run` and assert only after a body that
+succeeded. Two processes retrying together is a note only; the project baseline's `ProjectInstaller.cs` line stays for the lead. Full lane
+build 0 errors; Targeted runs green (BINBTests, ReleaseFlowTests, NoHqTests, MiddleTierMockTests, LibraryBindingTests).
+
+**Status (2026-11-15), S3a-2f.** The S3a-2 review leftovers merged from `net10/s3a2f-2` (review fixes on top of `net10/s3a2f-1`) (`docs/port-notes/S3a-2.md`, section 7): the scan
+tightened (Diagnostics.Process.Start, method groups, hiding usings, target-typed `new()`, `UseShellExecute` tied to its own object and
+scope, `Process.Start(x)` only for a checked construction), six new self-tests, shipped code passes; the claim-attachment "not an image"
+catch only for `Image.FromFile`; `ODFileUtils`' starters internal, set only through the scoped `ReplaceStartersForTests`
+(`InternalsVisibleTo("MiddleTierMockTests")`); six `ProcessStartInfo` starts through `ODFileUtils.ProcessStart`. The launch checks stay the gate's.
+
+**Status (2026-11-15), S3a-1c.** Merged from `net10/s3a1c-2` (`docs/port-notes/S3a-1.md` section 9; lead fix 9.12, the QuickBooks Online disconnect as one unit), the non-blocking review leftovers of S3a-1b:
+PaySimple's status change, its log entry and its alert are one unit, and `Fees.SaveIncrease` saves each fee with its log entries as one unit
+(a cancel stops between two fees); a worker that ends right after the window's wait is decided under a lock with its end, so it is either not
+still running or logged with its end; the 176 windows audited for an error shown after a cancel (DemandForce fixed in S3a-1b; FormBackup's
+question from the worker; eight callers that showed the worker's result before their cancel check, and `QuickBooksOnline.RunForWindow`); the
+reused ProgressWin's token documented; the four producer threads listed (read-only, never under a Cancel button, no change); `ImageStore`'s row
+inserts are units (the new ImagingTests case found a row left after a cancel right after the insert) and its two `throw ex;` are `throw;`.
+Tests in VendorDirectTests, FeeTests, ImagingTests, M2MISCTests and BPROCTests. Review fix on `net10/s3a1c-2` (section 9.10): the EDS and
+XConnect validation windows keep their results after a cancelled Re-validate (EDS's worker stops at the first refused read), and the ASAP,
+Unscheduled and Planned Tracker grids no longer throw on a result a cancel left null.
+
+**Status (2026-11-15), S3a-M1.** Merged from `net10/s3am1-2` (`docs/port-notes/S3a-M1.md`): GridOD's and GridOld's own
+right-click menus are `ContextMenuStrip`s with the same items, order, separators and enabled states (new
+`DoAddGridItemsToContextMenuStrip`, default off, for the menus M2/M3 convert); `PopupHelper.GetToolStripMenuItemLinks`; `Lan.C` translates
+any `ToolStripDropDown` with the same keys and no longer throws on a separator; `ContextMenuStripDropDown` is the toolbar button's drop-down;
+ODR's `ComboBoxMulti` on a `ContextMenuStrip`; `PopupHelper2` needs nothing (WPF `MenuItem`). The WinForms paths that M2/M3 callers use stay
+as marked bridges, listed in the note's section 3 for M2/M3 to remove. Review fix on `net10/s3am1-2`: a caller's strip with
+`DoAddGridItemsToContextMenuStrip` whose own items are all hidden (the masked SSN/DOB items) opens with the grid items. New `tests/S3aM1Tests` (19); Targeted runs green (BACCTTests,
+M2SHELLTests, BPRINTTests, MaintenanceTests, InventoryTests, NoHqTests, MiddleTierMockTests, P262BillingTests, AttributionTests). The
+launch checks (note, section 5) stay the gate's.
+
+**Status (2026-11-15), S3a-12.** Merged from `net10/s3a12-1` (`docs/port-notes/S3a-12.md`; lead notes in section 13: the Direct2d bool is a second x86 difference), the first of wave 3. TWAIN: the
+`MSG` offsets come from a declared `MSG` (in x64 the old offset 4 read half the window handle, so the loop never saw its timers: the x64 hang
+after 87 tests); the owner window through a `SetWindowLongPtr` pair chosen by bitness; `NativeTwainDsm` loads in a 64-bit process, only the
+64-bit `TWAINDSM.dll` of System32; the structures checked against twain.h (unchanged, sizes and offsets in an x86/x64 table) and
+`TW_INFO`'s inline rule kept at the specification's four bytes. DirectShow: the graph event parameters without `ToInt32`; its layouts in an
+x86/x64 table. CodeBase's `SendMessage` overloads, Owandy's, Dpi's `WPARAM` and `DPI_AWARENESS_CONTEXT` handles, Schick's window handle, the
+MCI callback and `APPBARDATA.lParam` pointer-sized; `Direct2dWrapper`'s two `Delete` entry points `void` and its `bool` result one byte; the
+Trojan key read in the 32-bit view; `CodeBase.ODSystemFolders` for Sysnative (the image import window's Snipping Tool test was reversed: the
+one x86 change) and the on-screen keyboard's WOW64 redirection. New `NoHqTests/PointerSizeScanTests.cs` and
+`tests/ImagingCaptureTests/PointerSizeInteropTests.cs`. x64 runs (the lane's x64 test build): ImagingDeviceManagerTests 534 and
+ImagingCaptureTests 806 passed; x86 targeted runs green; the launch check (a TWAIN scan on the x86 build) is the gate's (note section 11).
+
+**Status (2026-11-15), S3a-13.** Merged from `net10/s3a13-2` (`docs/port-notes/S3a-13.md`; lead notes in section 12: QBFC is referenced by the helper and its tests only, QuickBooks asks again after the update): the new 32-bit helper program
+`OpenPmsDentalHelper32` (x86 WinExe, net48, no window, no project reference; sln and slnf entries for the lead to review, with
+`tests/Helper32Tests`) runs QuickBooks Desktop's QBFC 10 in its QuickBooks module, the old `QuickBooks.cs` code line for line; the program
+starts it from its own folder on first use through `CodeBase/Utilities/Helper32Client.cs`, one per program process, over a pipe it creates
+first (random name, first instance, remote clients rejected, a protected DACL for the current user's SID), in a job object that ends it with
+the program; calls time out, a crash is reported once and the next call starts a new helper, a missing helper gives a clear message. The
+protocol is one file linked into CodeBase; the module interface takes S3a-14's Schick, Topaz and Guru modules unchanged. `QuickBooks`' public
+methods stay; no project but the helper references `Interop.QBFC10` (still embedded, never shipped). Build-Release stages the helper and its
+config and checks it stays x86 (0x14C, 32BITREQUIRED); the Release dry run at the gate proves it (port note, section 7). O-14 has the vendor
+check: Intuit's 64-bit QBFC exists from QBFC 15 for QuickBooks Desktop 2022 and later, not for QBFC 10; the helper module stays. Tests:
+Helper32Tests (the protocol with a fake module, the QuickBooks module against a recording QBFC fake compared with today's code), NoHqTests'
+vendor scan, VendorDirectTests (QuickBooks Online untouched), ReleaseFlowTests (the helper ships and is x86). For the lead: whether
+`OpenPmsDentalHelper32.exe` joins the build id lists (port note, section 7). Since S3a-14n (decision 23, on `net10/s3a14n-1`, not merged yet)
+the QuickBooks module is the fallback: the QBFC session runs in the program's process again whenever QBFC activates there
+(`QuickBooksInProcess.cs`, the code of before S3a-13, behind `NativeFirstChooser`), which in the 32-bit program it always does; the 64-bit
+QBFC 15+ path is a later package (the owner's Intuit sign-in).
+
+**Status (2026-11-15), S3a-M2.** Merged from `net10/s3am2-1` (`docs/port-notes/S3a-M2.md`; lead fixes at the merge: the hidden-item grids, the paste never throws): the main window's toolbar drop-downs and splitter
+menu, the Account, Chart, Appointments, Family, Treatment Plan and Images modules, `ControlImageDisplay`, `UserControlTasks`,
+`EmailPreviewControl`, `ODtextBox` and `UserControlSecurityUserGroup` (and `PatientL`'s patient-menu helpers) are on `ContextMenuStrip` with the
+same items, texts, order, shortcuts, states, separators and handlers; the grids that had a caller's menu keep the grid items
+(`DoAddGridItemsToContextMenuStrip`), the toolbar drop-downs use `ContextMenuStripDropDown`, the main menu and the translation keys are
+unchanged. The image copy puts `NodeTypeAndKey` and the database as JSON in a stream under `OpenPmsDental.NodeTypeAndKey.Json`, and the paste
+reads only that format (no BinaryFormatter; an earlier version's copy pastes as a picture). GridOld's bridge is removed; the GridOD,
+`GetContextMenuItemLinks`, `Lan.C(Menu)`, `TranslateGrid` and `DropDownMenu` bridges stay for M3 (note, section 3, with two more
+`DropDownMenu` callers in `ReportingForRdl`). Overlaps for the lead (note, section 4): `PatientL.cs`, two lines of `FormSheetFillEdit.cs` (a
+right click on a sheet text field would throw otherwise), and the M3-assigned source-text tests that read the changed `ControlAccount`
+lines, updated here. New tests in `tests/S3aM1Tests` (M2 files, 19, no window, private data objects only); Targeted runs green (ApptTests,
+BAPPTTests, BACCTTests, BIMGTests, BTASKTests, S3aM1Tests, NoHqTests, MiddleTierMockTests and the 29 projects whose source-text tests read a
+changed file); full lane build 0 errors. The launch checks (note, section 7) stay the gate's.
+
+**Status (2026-11-15), S3a-15.** Merged from `net10/s3a15-3` (`docs/port-notes/S3a-15.md`; lead fix: an undrawn fallback is reported, not failed): the row's decision holds, and the
+x64 run found no fault, so `ToothChartWrapper.cs` and `OpenGLWinFormsControl.cs` do not change. New `tests/BINATests/ToothChartEngineBitnessTests.cs`:
+the five SharpDX and Tao DLLs are IL-only and not 32-bit-required (Mono.Cecil and the CLR's header reader, in `Required dlls` and the test
+folder), load in the process and call only Windows files of both bitnesses plus `d3dx9_43.dll`; every native handle parameter of them, of
+SparksToothChart and of `OpenGLWinFormsControl` is `IntPtr` (Tao's unused `joySetCapture` excepted) and the source passes `control.Handle`
+as it is; `IsDirectXRuntimeAvailable` loads the D3DX of the process's bitness; and an STA test starts each mode on a hidden form (handle
+created, never shown) through `DrawMode`/`StartFirstWorkingMode` and records the mode that came up (a mode that cannot start is
+Inconclusive after its fallback drew). `ToothChartFallbackTests`' D3DX folder follows the process bitness. The lane's x64 test build of
+BINATests needed no separate project; on the build PC DirectX, OpenGL and Simple 2D all started and drew in x86 and x64. Runs: BINATests 31
+in x86 and x64, NoHqTests 94, ToothChartImageTests 223 (4 skipped, as before). The 3b launch check on an x64 workstation is in the note,
+section 6.
+
+**Status (2026-11-15), S3a-16.** Merged from `net10/s3a16-2` (`docs/port-notes/S3a-16.md`; the lead keeps the x64 tests inconclusive without the x64 DLL and runs the two lane builds at every gate): the x64 configurations of
+`Direct2dWrapper.vcxproj` copy nothing (the DLL stays in `Direct2dWrapper\bin\x64\$(Configuration)\`) and compile with C4311 and C4312 as
+errors; the project's `Any CPU` mappings in `OpenDental.sln` go to Win32 (four lines, for the lead's review, port note section 1.2); the x86
+build and its copy into the program's folder are unchanged. First step: both x64 configurations build with the installed v143 (MSVC
+14.44.35207), no C4311 or C4312 before or after, so no C++ change. New `tests/ReleaseFlowTests/Direct2dWrapperX64Tests.cs`: the x64 DLL is
+0x8664, the program folder's copy 0x14C and the Win32 build's bytes, the x64 exports equal the Win32 ones and hold all 66 imports of the
+program (Mono.Cecil, cross-checked with `Direct2d.cs`); without the x64 build output those tests are inconclusive (not failed, also with
+`OPMS_REQUIRE_BUILD_OUTPUT=1`; fix on `net10/s3a16-2`). For the lead: the gate's two lane commands, which enforce the x64 build (port
+note, section 4).
+
+**Status (2026-11-15), S3a-10f.** Merged from `net10/s3a10f-1` (`docs/port-notes/S3a-10.md` section 12; the owner's "yes" of 2026-11-15): Recopy on the named update server, when the published
+manifest is not readable (`RefuseUnreadable`), asks Yes/No (default No) and on Yes replaces the `documentmisc` rows of types 100 and 101
+with this build as for a first release (`ForkReleases.ReplaceUnreadableRelease`, the question a seam), with a security log entry; No, a
+silent run, a blank `WebServiceServerName` and every other computer change nothing. `ApphostResourceTests` reports a stale Release output
+(an exe missing, or older than the newest commit to its project) as Inconclusive with "run tools/Build-Release.ps1 first" and the write
+times. New `ReplaceUnreadableDbTests` (`s3a10f_` scratch databases).
+
+**Status (2026-11-15), S3a-FU2.** Merged from `net10/s3a-fu2-3` (section S3a-FU2 of `docs/port-notes/S3a-M2.md`, `S3a-2.md`,
+`S3a-8b.md`, `S3a-12.md`, `S3a-15.md`): the Images paste reads its clipboard format's bytes through OLE (`TYMED_HGLOBAL`) and refuses a
+serialized-object block, so nothing under it reaches the BinaryFormatter; the shell-start scan refuses the shadowing and expression-body
+shapes and `ProcessStartInfo?psi`; `ProbeProcess` quotes for `CommandLineToArgvW` and bounds its output waits; rule 3 of the pointer-size
+scan counts a bitness branch only in the pair's wrapper; the DirectX test's format search is timed and limited, a timeout Inconclusive.
+`ControlImages.cs`' `PDF_SetCompression` argument is left for S3a-14 (its file). Review fix on `net10/s3a-fu2-3`: the scan also refuses a
+pattern's designation (`is {} psi`), a deconstruction's element (`var (psi,n)=`, `foreach(var (psi,n) in`) and a verbatim `@psi`.
+
+**Status (2026-11-15), S3a-M3a.** Merged from `net10/s3am3a-2` (`docs/port-notes/S3a-M3.md`); the lead split S3a-M3 into S3a-M3a (every file but `FormMedical.cs`) and S3a-M3b (FormMedical's two grid menus, after EHR-7 merges, and the bridges they need). The
+remaining forms', reports' and ReportingForRdl's menus are ContextMenuStrips (the grids that had a caller's menu keep the grid's items, the
+toolbar drop-downs use `ContextMenuStripDropDown`); RdlDesigner's and CentralManager's main menus are MenuStrips (RdlDesigner's shortcuts raise the
+menus' Opening handlers first, as the MainMenu did; CentralManager's controls move down by the strip's 24 pixels); FormQuery's and the report
+designer's ten DataGrids are DataGridViews with the same columns, binding and read-only and sorting settings, and an edit ends when the grid
+loses the focus, as the DataGrid's did. Removed: the toolbar's `DropDownMenu` and `Lan.C(...,params Menu[])`; left for M3b in regions "Bridge for
+S3a-M3b": GridOD's ContextMenu path, `PopupHelper.GetContextMenuItemLinks`, Lan's translation of a grid's ContextMenu. New NoHqTests
+`WinFormsMenuScanTests` (FormMedical.cs and the bridge regions the known-pending ones); S3aM1Tests' M3 files; P262BillingTests and window check
+J15 follow the moved text. One change on purpose: `FormTreatPlanCurEdit`'s Go To items now show (they were hidden by an empty ContextMenu).
+
+**Status (2026-11-15), S3a-M3b. S3a-M3 complete.** From `net10/s3am3b-1` (`docs/port-notes/S3a-M3.md`, section "S3a-M3b"); before EHR-7 by
+the owner's decision of 2026-11-15 (EHR-7 is redone on top; FormMedical's changed lines are listed in the note). FormMedical's Allergies and
+Problems grids have ContextMenuStrips with the grid's items (`DoAddGridItemsToContextMenuStrip`), their Opening lambdas setting the convert
+item's Visible before the grid's Opening, as the Popups did; the Medical window behaves as before. Removed: the three regions "Bridge for
+S3a-M3b" (GridOD's ContextMenu path, `PopupHelper.GetContextMenuItemLinks`, Lan's translation of a grid's ContextMenu). `WinFormsMenuScanTests`
+has no pending file or region left; S3aM1Tests' bridge comparisons are tests of the strip path (each removed comparison's replacement is
+listed in the note), with a new FormMedical test; BMEDTests follows the moved lines.
+
+**Status (2026-11-15), N64-A.** Merged from `net10/n64a-1` (`docs/port-notes/N64-A.md`): items A2 and A4 of the native 64-bit survey
+(`docs/specs/native64-survey.md`, decision 23). Both plug-in loaders go through `Plugins.LoadPlugin`, which reads the DLL's PE kind and
+target framework first (`PluginImageCheck`, new `CodeBase.PortableExecutableFile`) and refuses a plug-in this process cannot load with a
+clear reason naming it, logged (`Logger\Plugins`; the Middle Tier's empty catch is gone); BadImageFormatException and FileLoadException get
+a clear text; a hook-time DllNotFoundException or BadImageFormatException is logged once with the plug-in and hook; a loadable plug-in loads
+as before. Trojan's install key: Registry32, then Registry64, under `Software\TROJAN BENEFIT SERVICE`, then `Software\Trojan`. Word: a broken
+registration (REGDB_E_CLASSNOTREG, CO_E_SERVER_EXEC_FAILURE, TYPE_E_* and similar) shows a clear message. DirectX: one ToothChart log line
+names the folder and bitness of the D3DX that loaded. New library-only `tests/N64ATests` (34 tests, x86 and the lane's x64 test build);
+the x64 run showed that a DLL with 32BITREQUIRED and 32BITPREFERRED loads in a 64-bit process, so only 32BITREQUIRED alone is x86 only.
+
+**Status (2026-11-15), N64-A3.** Merged from `net10/n64a3-1` (`docs/port-notes/N64-A3.md`): item A3 of the native
+64-bit survey (decision 23). Mediadent / CADI through the native-first chooser: `NativeFirstChooser.Cadi` reads `Mediadent.Application`'s
+LocalServer32 and InprocServer32 in both registry views, read only (new `CodeBase.ComServerRegistration`); a LocalServer32, or an
+InprocServer32 of the process's bitness, runs CADI in the program's process (main's `CADINativeWindow`, moved to `CADIInProcess.cs` call
+for call); an InprocServer32 of the other bitness only, or REGDB_E_CLASSNOTREG, CO_E_SERVER_EXEC_FAILURE, E_NOINTERFACE or
+TYPE_E_LIBNOTREGISTERED from the activation or a call, sends a 64-bit process to the new helper Cadi module (retried once at once when no
+call reached CADI, otherwise from the next click on), logged. A 32-bit process always stays: the x86 program runs CADI as on main. Tests:
+NativeFirstTests' CadiChooserTests (x86 and x64), Helper32Tests' Cadi tests (the in-process path and the module call for call with main's
+code against a fake automation object), NoHqTests' vendor scan. Launch checks C1-C3 need a PC with CADI.
+
+**Status (2026-11-15), S3a-14.** Merged from `net10/s3a14n-1`, which holds S3a-14, its fix rounds S3a-14f and the stopped S3a-14g, and S3a-14n's native-first chooser (`docs/port-notes/S3a-14.md`): Schick CDR DICOM, Topaz and Guru run in
+the 32-bit helper's new Schick, Topaz and Guru modules with the calls the program made before. Schick: `ShowExam` line for line (the exam
+window kept between patients, OnClose reaching the helper); the program lets the helper bring CDR's window to the front
+(`Helper32Client.AllowSetForeground`). Guru: `MVStart` and `MVSendPatient` with today's `ToCPlusPlusStructure`, byte for byte (the patient
+crosses as UTF-16 bytes). Topaz: the program still finds `SigPlusNET.dll` and the helper loads it; `GetTopaz` returns a `TopazSignatureView`
+that shows the helper's picture of its control; every `TopazWrapper` call goes to the helper's control by name, unchanged, so stored
+signatures and their checks do not change; the patient signs in the helper's own signing window over the program's window (release notes).
+The helper's request loop now pumps its thread's messages between requests (`MessagePumpingStream`: overlapped read and
+`MsgWaitForMultipleObjectsEx`), chosen over releasing the vendor objects after each call, which Topaz's signature and Schick's kept exam
+window do not allow (note, section 6); `IHelper32Module` states the lazy-loading rule. No project but the helper (and Helper32Tests) references
+the Schick interop; only the helper loads `SigPlusNET.dll` or `MedVisorInterface.dll`. O-14 has the vendor checks (Schick likely direct once
+a test PC shows `LocalServer32`; Topaz's current SigPlusNET is AnyCPU; Guru none). Tests: Helper32Tests 70 (the modules against fakes of
+their vendor interfaces, compared with today's code; the pump; the modules in a running helper), BINBTests' TopazWrapperTests through a helper
+copy, UnitTests' SignatureBoxWrapperTests through a copy where Topaz exists, NoHqTests' vendor scan; full lane build 0 errors, every Targeted run
+green. Launch checks (note, section 10), the STA pumping check included, need a test PC with the vendor software (none today). Review fix
+on `net10/s3a14-2`: Schick's `ShowExam` no longer blocks the program's thread without pumping for up to 30 minutes; it waits through
+`Helper32Client.CallPumping` (the signing window's wait, moved to CodeBase: the call on another thread, the program's windows disabled and
+painting), launch check S2 extended, the 30-minute timeout described (note, section 3); Helper32Tests 74. Lead's fix round S3a-14f on
+`net10/s3a14f-1` (note, section S3a-14f): a Topaz signature the helper lost after the patient's OK is never saved as empty (the save
+fails with "could not be reached" until the box is cleared); a string with a lone surrogate crosses to Topaz unchanged and the protocol's
+encoder failure is a `Helper32Exception` (Protocol); `CallPumpingTests` posts messages and fails with a plain `Call`; UnitTests' copy
+clean-up asserts; for 3b: `FillSignatureEncodings`' loop as one helper command, and the DoEvents wait's limits. Second fix round on
+`net10/s3a14f-2` (note, section S3a-14f, item 7): `FormSheetFillEdit` checks its changed Topaz signatures
+(`SignatureBoxWrapper.CheckTopazSignatureReachable`) before it writes the sheet, so a lost signature keeps the form open with the message
+instead of storing the sheet without it; BINBTests 80. Third fix round on `net10/s3a14f-3` (note, section S3a-14f, item 9):
+`FormProcNoteAppend`, `FormProcEdit` and `FormProcGroup` catch the `Helper32Exception` ahead of their catch-all and return before
+`Procedures.Update`, and check before they write; `FormSheetFillEdit` checks before `VerifyRequiredFields`' `SigIsBlank` and before every
+`SaveSignaturePayPlan`; BINBTests 81. S3a-14g (`net10/s3a14g-1`: an unchanged filled Topaz box keeps its stored signature, the callers stop
+before they write) was stopped for the owner's pivot and is carried by S3a-14n. **S3a-14n, native first** (decision 23; `net10/s3a14n-1`,
+note section "S3a-14n: native first"), done, not merged yet: CodeBase's `NativeFirstChooser` makes one logged choice per vendor piece and
+program process, the program's own process when the piece can run at its bitness (a managed or native DLL's PE header, one COM
+activation), else the helper; a 32-bit process always chooses itself. Topaz (`TopazInProcess`), Schick CDR (`SchickInProcess`), Guru
+(`GuruInProcess`) and QuickBooks Desktop (`QuickBooksInProcess`) run main's in-process code again, so the x86 program behaves as before
+S3a-13 and S3a-14 (the patient signs into the box again); the helper's modules and every S3a-14f/14g guard stay for the fallback, and the
+two S3a-14g save steps that changed main's behaviour apply to a helper-path Topaz box only. In the x64 build: AnyCPU SigPlusNET and CDR's
+out-of-process server in process; an x86-only SigPlusNET, Guru and QBFC 10 in the helper. Tests: the new library-only NativeFirstTests
+(synthetic PE files, fake COM activations; x86 and x64 runs), the in-process paths call for call with main's code (Helper32Tests,
+BINBTests' TopazWrapperInProcessTests), NoHqTests' vendor scan on the new rule.
+
+**Status (2026-11-15), S3a-11.** Merged from `net10/s3a11-2` (`docs/port-notes/S3a-11.md`); the owner ran it elevated on the build PC on 2026-11-15 against the dry-run setup of `96082e840` (setup SHA-256 `0e26277a1bb73f0112d2b8db4e7af1560ffa23a793fd7cc534888489f80622b8`): **97 checks passed, 0 failed, exit code 0**; scenarios A to D as expected (D: setup exit code 10, the tool's exit 5 for the missing office CA); the 0.0 installation's uninstall entry and Event Log source key were saved and written back, and its shortcuts are as before: the setup has no per-user mode
+(no `PrivilegesRequiredOverridesAllowed`, no `/CURRENTUSER` note, no `IsAdminInstallMode` branch in `SetUpConnection`, the security page or
+the Event Log `[Registry]` entry; `{autodesktop}` is always the common desktop). `tools/Test-Installer.ps1` is an elevated test: unelevated
+it changes nothing and ends with exit code 2; it reads the all-users uninstall entry in the 32-bit view; scenarios A to C use a loopback
+server; the new scenario D gives a server over the network without the office CA and expects the tool's `/silent` run (exit code 5) and
+setup's exit code 10; after each uninstall it checks that the uninstall entry and the Event Log source key are gone; it saves and writes
+back the two keys of an installation already on the PC (the build PC has 0.0 installed) and deletes what it made. O-3 answered: the owner
+runs it from an elevated PowerShell at each gate (the command is in the script's header and the note's first lines). Tests: ReleaseFlowTests
+(InstallerTests), with the script's unelevated refusal run for real. The elevated run is the owner's, at the gate.
+
 **Full-test gate.** Section 3, plus: the golden outputs and known answers recorded and committed; the source-scan tests pass; the
 launch checks for 3a (section 6) done with screenshots, including a self-update from a standard user; the x64 test runs (S3a-12, S3a-15)
 and the x64 build of `Direct2dWrapper` (S3a-16) pass; the helper's tests pass, and its links are launch-checked where a test PC has the
 vendor software (S3a-13, S3a-14); the elevated installer test; then the bridge release is built, installed on a test PC over the
 previous release by setup and by self-update, and published to the office.
 
-**Tooling changes.** `Test-Installer.ps1` runs elevated (S3a-11); the lead adjusts the release workflow script in the local tools folder
-that runs it. The new manifest key (S3a-10) is defined here and written by 3b's release. Lane and runners (lead, wave 3): an x64 test
+**Tooling changes.** `Test-Installer.ps1` runs elevated (S3a-11): the release workflow no longer runs it; the dry run stops there and the
+owner runs the elevated line from the script's header (O-3, answered 2026-11-15; unelevated the script ends with exit code 2). The new manifest key (S3a-10) is defined here and written by 3b's release. Lane and runners (lead, wave 3): an x64 test
 build of chosen test projects into `bin\x64\$(Configuration)\` and their run with `/Platform:x64` (S3a-12, S3a-15); the x64 build of
 `Direct2dWrapper` at every gate (S3a-16). Build-Release: the helper's files (S3a-13).
 
@@ -763,8 +1106,14 @@ S3a-14 read vendor documentation only; no vendor file is downloaded.
 **Risks and mitigations.**
 - Menus look different (native Win32 menus to the ToolStrip renderer: fonts, heights, check marks, `&` accelerators): screenshot pass on
   net48 (section 6); this is the point to catch it, not in 3b.
-- Cancel in progress windows now stops at the next check instead of immediately: review each long action reachable from a ProgressWin
-  for a check point; the cancel test proves no database write after "cancelled".
+- Cancel in progress windows now stops at the next check instead of immediately. The guarantee since S3a-1b: no database write starts
+  for a progress window's action after the user cancelled it (the database layer and the Middle Tier client refuse the action thread's
+  next command, RunParallel pools share its token); at most the command under way finishes, or the rest of a unit the caller runs with
+  `ODCancellation.RunUncancellable` (a write with its log entry; a cleanup write in a catch or finally block, which unlike under the abort
+  is refused after a cancel too). Every ProgressWin caller was reviewed (S3a-1.md section 8: 176 windows,
+  77 that write, each with its check); the cancel tests in M2MISCTests and MiddleTierMockTests prove it per pattern on a scratch database.
+  Since S3a-1c, no window shows an error after a cancel that only the cancel caused (S3a-1.md section 9.4), and a document row is inserted as
+  a unit, so a cancel right after it leaves no row.
 - Hand-written SOAP envelopes could differ from the generated proxies: envelope-equivalence tests run against the old proxies before they
   are deleted, plus one call against the DentalXChange test endpoint (prelive) if credentials allow. ITS has no test account in the
   office, so it is proven by envelope equivalence and the fake endpoint only; the release notes say so.
@@ -780,6 +1129,18 @@ S3a-14 read vendor documentation only; no vendor file is downloaded.
 
 **Size.** 19 packages (11 + 3 menu packages + 5 for 64-bit); extra large; about 30-47 dev-days, of which the menus are about 6-10 and the
 64-bit preparation about 9-15.
+
+**Stage 3a gate passed (2026-11-15, at `43fc52af1` on `main`; the window checks again at `9df72f394` after WINCHK-4).** Debug lane build
+0 errors; Release dry run with the setup (`Build-Release.ps1`, out of the repository) exit 0, 86 files staged, setup SHA-256
+`ec791c0fa00fc9ae65d198e25a6fbc2817084dc41fafaa658774a1c7032a8e9f`; `Direct2dWrapper` x64 Release and Debug 0 errors; x64 test runs green
+(ImagingDeviceManagerTests 535, ImagingCaptureTests 806, BINATests 22, NativeFirstTests 43, N64ATests 41, ToothChartImageTests 257 + 6
+skipped); one Full run with `-RequireBuildOutput` against the stage 4 record `DONE ok=True`, 125 assemblies, 0 failed,
+`same=95 differs=24 new=6 missing=0`, every difference new tests (`gate3a-full.txt`); the owner's elevated `Test-Installer.ps1` on the
+gate's setup 97/97, exit 0 (S3a-11.md); the project baseline re-recorded in a clean worktree (`c0ea1367f`); the opt-in headless window
+checks, after WINCHK-4 (their scratch copy brought to the build's fork level; RdlDesigner's MenuStrip through UI Automation;
+WINCHK-HEADLESS.md), no check FAILED: the rest PASSED, PARTLY (items for a person) or SKIPPED by design. No bridge release (decision 21):
+the bridge-only launch checks move to 3b. Every 3a package is merged, S3a-M3b before EHR-7 by the owner's decision of 2026-11-15, so
+EHR-6a and EHR-7 (waiting for E-20) no longer hold the switch.
 
 ---
 
@@ -1259,7 +1620,8 @@ Added for decision 20 (self-contained), read-only on the build PC on 2026-11-08:
 
 ## 10. The update path for an office (from the .NET Framework build to the .NET 10 build)
 
-1. **Bridge release first (end of 3a).** The last .NET Framework release, x86, published through the normal self-update and installed on
+1. **Bridge release first (end of 3a). Skipped by decision 21 (2026-11-15):** no .NET Framework release follows 0.0; the office installs
+   the .NET 10 setup after uninstalling 0.0. The text below is kept as the design the guards were built for. The last .NET Framework release, x86, published through the normal self-update and installed on
    every workstation. It carries all 3a changes, the one-time PasswordVault to Credential Manager migration (S3a-5), the 32-bit helper
    program for QuickBooks Desktop, Schick CDR, Topaz and Guru (S3a-13, S3a-14), and the two release-channel guards (S3a-10): an
    unreadable manifest is refused instead of treated as "nothing published", and a release that names another runtime or another
@@ -1375,7 +1737,7 @@ The owner answered the plan's questions "as recommended", with the corrections b
    own runtime, so the setup installs their files only; it still installs the x64 Visual C++ runtime when missing, and `/PREREQS=skip`
    stays for managed installs, for that runtime only.
 7. **No per-user setup mode** (S3a-11). Confirmed after the standing rule (owner, 2026-11-08): "Don't need 'Install for me only'". How
-   the installer test then runs is open point O-3.
+   the installer test then runs is open point O-3 (answered 2026-11-15: the owner runs it elevated).
 8. **Windows versions.** Windows 11 is the baseline; the office's workstations run Windows 11. The setup warns (does not refuse) below
    it. Microsoft's .NET 10 list (https://learn.microsoft.com/en-us/dotnet/core/install/windows) supports Windows 10 only in some editions.
    A Middle Tier host runs a Windows Server version on that list.
@@ -1435,6 +1797,53 @@ The owner answered the plan's questions "as recommended", with the corrections b
     runtime changes, so normal updates stay small (S3b-7); the runtime packs come from the offline folder (batch D); a Middle Tier host
     needs no ASP.NET Core runtime (batch C, section 10 step 4); the first install and each runtime change carry the full runtime, and a
     workstation's program folder grows to about 400 MB (section 10 step 3).
+21. **No bridge release (owner, 2026-11-15: "skip Bridge release").** Stage 3a still ends with its gate: the Full runs, the Release dry
+    run, the x64 test runs and the launch checks. But no .NET Framework release is published after 0.0. The office goes from 0.0
+    straight to the .NET 10 x64 setup. The 0.0 uninstall comes first on every workstation, as the release notes already say. The 3a changes
+    reach the office with the .NET 10 release. Consequences, carried into 3b (S3b-7 re-reads section 10 with this decision):
+    - **No .NET Framework rollback installer** newer than 0.0. Going back means 0.0's setup, or the .NET 10 release before it.
+    - **The x64 release must not be published while any 0.0 install remains.** 0.0 reads a manifest it cannot parse as "nothing
+      published" and would publish over it (S3a-10, section 7). This is the same rule as before, now without the bridge's guards in between.
+    - **The bridge-only launch checks** (a self-update from a standard user on the bridge build, the forward switch over a bridge release)
+      become 3b's checks on the .NET 10 build.
+    - **S3a-10's bridge-side code stays**, under the no-cut rule. It guards any .NET Framework build that might still run (a developer's
+      Debug build, or a later decision to publish one), and its tests stay.
+22. **No install to migrate (owner, 2026-11-15: "nothing in prod has openpms install. Don't worry about migration. The office will only
+    migrate once all workstreams are done").** No workstation runs OpenPMS - Dental. The office switches from Open Dental only once every
+    workstream is done, and that switch is the "Switch-over and data conversions" part of `docs/owner-questions.md`. So:
+    - **No upgrade path from an OpenPMS install.** From 0.0, from a .NET Framework build, from a 32-bit install, or over a mixed set of
+      workstations: none of these is designed, built or tested from now on. Section 10's steps 1 and 3 (the bridge, moving the install
+      out of `Program Files (x86)`, mixed workstations) and decision 21's 0.0 consequences no longer bind anything. S3b-7 builds the
+      .NET 10 release, setup and self-update for a new install, and for updates from one .NET 10 release to the next.
+    - **Migration code already built stays**, under the no-cut rule, with its tests. That is S3a-5's PasswordVault copy and S3a-10/10f's
+      guards and Recopy offer. Nothing is added to it.
+    - **The gates and launch checks stay.** They run on a test PC, never at the office.
+23. **Native 64-bit first for every integration (owner, 2026-11-15: "For any integration, use native 64bit first. If the option is not
+    available, fall back to 32bit").** This replaces the helper-first default of S3a-13/S3a-14 and answers O-14. For each integration that
+    loads vendor code (an in-process DLL, a COM server, a driver):
+    - the 64-bit program uses the vendor's 64-bit way when one exists: an AnyCPU or x64 DLL in process, or an out-of-process COM server,
+      which works across bitness;
+    - the 32-bit helper (`OpenPmsDentalHelper32`) is the fallback, chosen when the vendor has no 64-bit way, or at run time when the installed
+      vendor piece is 32-bit only. The helper's modules stay under the no-cut rule.
+    - What is known (S3a-13 and S3a-14 vendor checks, O-14):
+      - Topaz SigPlusNET is AnyCPU (current version), so it is loaded in process; the helper is used only when the installed DLL is
+        32-bit only.
+      - Schick CDR is an out-of-process server (`CDRDicom.exe`), so it is called directly; the helper is used when it is not registered for
+        64-bit callers.
+      - QuickBooks Desktop has a 64-bit QBFC from SDK 15 on (QuickBooks Desktop 2022 and later), so there is a 64-bit path with the helper's
+        QBFC 10 kept for older QuickBooks. The SDK download is behind the owner's Intuit sign-in.
+      - Guru: no 64-bit `MedVisorInterface.dll` is known, so the helper is used.
+      - TWAIN devices with only a 32-bit driver need a 32-bit TWAIN path through the helper. New, for 3b.
+    - The native-first survey (every integration with its 64-bit way and public sources) and package S3a-14h (Topaz and Schick native
+      with the helper as the fallback) follow. The 3b spike (S3b-0) proves each native way loads on .NET 10 x64.
+24. **Numbers are formatted as .NET Framework formatted them (owner, 2026-11-16: "Keep Open Dental's 1.01").** .NET (Core 3.0 and later)
+    formats a `double` exactly; .NET Framework rounded it to 15 significant digits first. With a fixed-decimal format the text differs
+    for a value on a half step: 1.005 with `0.00` gives 1.01 on .NET Framework and 1.00 on .NET 10 (found by S3b-2b in RDL reports). Open
+    Dental stores money as `double`, so the program keeps .NET Framework's text: every place that formats a `double` or `float` with a
+    format (reports, money columns, `ToString("c"/"n"/"F2"/...)`, `string.Format` with a numeric format) rounds to 15 significant digits
+    first, e.g. through `(decimal)value` or one shared helper, with tests that pin half-step values against the net48 results. The RDL
+    engine's `Style.GetFormatedString` already writes unformatted doubles as .NET Framework did (S3b-2b); its formatted path follows.
+    Package S3b-FMT does it on `net10/switch` once the program compiles (after S3b-4), with a scan that finds every such call site.
 
 Also recorded for the update path: the Middle Tier client and server switch together (it has never shipped to an office); saved
 passwords get a one-time migration from PasswordVault to the Credential Manager (S3a-5). Also answered on 2026-11-08: signed e-mail
@@ -1454,7 +1863,10 @@ self-contained (open point O-15, decision 20).
 - **O-2. ControlImagesOld after the module choice is gone. Answered 2026-11-08: rebuilt (S0-6).** The window it draws for claim-payment
   EOBs, preauthorization EOBs and EHR amendments (`FormImages`) is rebuilt on the current Imaging code in stage 0, with the same stored
   files. The old module, its option and its code are then removed, so stage 3a has none of it to convert.
-- **O-3. How the installer test runs without per-user mode.** (a) The lead runs `tools/Test-Installer.ps1` from an elevated PowerShell at
+- **O-3. How the installer test runs without per-user mode. Answered 2026-11-15 (S3a-11): (a), and the owner runs it.** The owner runs
+  every elevated script, never an agent: at each gate from 3a on, from PowerShell opened with "Run as administrator", the one line in the
+  header of `tools/Test-Installer.ps1` with the Release dry run's `-Setup` and `-Staging`. The script also saves and writes back the uninstall
+  entry and the Event Log source key of an installation already on the PC. Was: (a) The lead runs `tools/Test-Installer.ps1` from an elevated PowerShell at
   each Release dry run on the build PC: a UAC prompt each time, and machine-wide side effects limited to a `%TEMP%` folder, an uninstall
   entry and the Event Log source key, which the script removes or checks. (b) A disposable Windows VM or Windows Sandbox where the script
   runs elevated; Windows Sandbox is an optional Windows feature, and turning it on changes the build PC's system settings, which only the
@@ -1576,6 +1988,53 @@ self-contained (open point O-15, decision 20).
   which the owner approves separately. Recommendation: the helper module, unless a vendor's 64-bit way needs nothing new on the
   workstations. Until this is answered, each component gets its helper module, so nothing waits. No test PC has any of the four today;
   whether the owner wants a vendor's trial or test set-up for a launch check is part of this question.
+  **QuickBooks Desktop, checked by S3a-13 on 2026-11-15 (`docs/port-notes/S3a-13.md`, section 2; vendor documentation only, nothing
+  downloaded):** Intuit ships a 64-bit Desktop SDK since SDK 15.0 (current 17.0), with 64-bit QBFC 15 and later and QBXMLRP2, for QuickBooks
+  Desktop 2022 and later only, and "not backward-compatible" with the 32-bit SDK
+  (https://developer.intuit.com/app/developer/qbdesktop/docs/get-started/sdk-compatibility-with-quickbooks-releases,
+  https://developer.intuit.com/app/developer/qbdesktop/docs/get-started/download-and-install-the-sdk,
+  https://developer.intuit.com/app/developer/qbdesktop/docs/get-started/older-versions-of-the-desktop-sdk); 32-bit applications keep working
+  with QuickBooks Desktop 2022. So a 64-bit QBFC exists, but not for the QBFC 10 this program uses: the 64-bit way needs Intuit's 64-bit SDK
+  (a download behind the owner's Intuit sign-in), the code moved to QBFC 15 or later, QuickBooks Desktop 2022 or later at the office and the
+  64-bit QBFC runtime installed on each workstation. The helper module needs nothing new and is built (S3a-13); it stays the recommendation,
+  with the 64-bit QBFC as the owner's later choice if the office moves to QuickBooks Desktop 2022 or later. No test PC has QuickBooks Desktop
+  (launch check: the port note, section 9).
+  **Schick CDR, Topaz and Guru, checked by S3a-14 on 2026-11-15 (`docs/port-notes/S3a-14.md`, section 2; public documentation only,
+  nothing downloaded).** *Schick:* no public documentation of CDR DICOM's automation interface; its client is its own program
+  (`CDRDicom.exe`, beside `CDRServer.exe`; https://pattersonsupport.custhelp.com/euf/assets/Answers/11005/CDRDicom_4_5_QuickStart.pdf), and the
+  interop's application, exam and event interfaces are dispinterfaces (`ICDRPatient` is dual), so an out-of-process `CDRDicom.Application`
+  (CLSID `{E7D0A248-0C4C-11D6-8294-00B0D0403E92}`) would serve a 64-bit caller with nothing new installed
+  (https://learn.microsoft.com/en-us/windows/win32/winprog64/process-interoperability). Not proven: whether the class is a `LocalServer32`
+  and whether `CDRDATALib`'s type library is registered for 64-bit callers (launch check S1). Recommendation: the helper module (built) until a
+  test PC with CDR shows `LocalServer32`; then the owner may choose the direct call. *Topaz:* "The current version of SigPlusNET is 'Any CPU'
+  compatible" (https://topazsystems.com/information/SoftwareDevFAQ.pdf); built with .NET Framework 4.7.1, 2.1.5.6 of 2023-09-25, usable from
+  .NET Core with the System.IO.Ports library for serial pads (https://www.topazsystems.com/itextnet.html). The 64-bit way needs the current
+  SigPlusNET on every workstation (Topaz's download), a new package for serial pads, and a check that stored signatures read in a 64-bit
+  process (Open Dental saw the 64-bit DLL encode key data differently, hence `FillSignatureEncodings`). Recommendation: the helper module
+  (built), the in-process 64-bit control as the owner's later choice. *Guru:* no public documentation of `MedVisorInterface.dll`; no 64-bit
+  version known (https://www.opendental.com/manual/bridgeguru.html). The helper module (built); nothing to choose. No test PC has any of the
+  three (launch checks: the port note, section 10).
+  **Answered 2026-11-15 by decision 23 (owner: "For any integration, use native 64bit first. If the option is not available, fall back to
+  32bit"); built by S3a-14n (`docs/port-notes/S3a-14.md`, section "S3a-14n: native first").** One run-time choice per vendor piece and program
+  process (`NativeFirstChooser`): Topaz in process when the installed SigPlusNET can run at the program's bitness (AnyCPU: always), else the
+  helper; Schick CDR in process when `CDRDicom.Application` activates from the program (launch check S1 for 64-bit), else the helper;
+  Guru and QBFC 10 in the helper in a 64-bit program; every piece in process in the 32-bit program. Open for 3b: QBFC 15+ for QuickBooks
+  Desktop 2022 and later (a later package, the SDK behind the owner's Intuit sign-in), System.IO.Ports for Topaz's serial pads on .NET 10 (a
+  new package), and the launch checks on a test PC with the vendor software (none today).
+  **2026-11-15, later:** the owner downloaded the newest QuickBooks Desktop SDK, 18.0 (survey B6 builds on its newest QBFC, then the older
+  64-bit ones down to QBFC15, else the helper; late-bound, so the SDK need not be installed on the build PC), and approved System.IO.Ports.
+  **Built by N64-B6 (`docs/port-notes/N64-B6.md`, branch `net10/n64b6-1`), late-bound:** a 64-bit program creates the newest listed 64-bit
+  QBFC session manager by its ProgID (registry in both views, then N64-A3's HRESULT rule; only `QBFC16.QBSessionManager.1` is listed, as no
+  public page gives the ProgIDs of QBFC 15, 17 or 18) and makes QBFC 10's calls through IDispatch with the enum values of the activated
+  QBFC's type library; none activating, or a failed connection there, sends QuickBooks Desktop to the helper's QBFC 10 module (a failed
+  connection's call once more there); the 32-bit program keeps QBFC 10 in process as on main. Open: the ProgIDs of QBFC 15, 17 and 18 and the
+  launch checks on a test PC with QuickBooks Desktop 2022 or later (the note's section 8).
+  Mediadent / CADI follows the same rule since N64-A3 (`docs/port-notes/N64-A3.md`). **Recorded by the survey's A5
+  (`docs/specs/native64-survey.md`, rows 7, 14 and 15):** VisiQuick stays dormant (its file is all comment, and there is no 64-bit
+  `vqdde32.dll`; if it is ever revived, a helper module drives VisiQuick.exe over DDE whatever its bitness); the Belgian eID import is a
+  PKCS#11 port (the middleware's 64-bit PKCS#11 module) when the feature is turned on, as `SmartCardWatcher` has no caller today; intraoral
+  and USB cameras stay native in the 64-bit program (DirectShow and UVC, with Windows' camera frame server across bitness), with a helper
+  module only if a camera with a 32-bit-only DirectShow filter appears.
 - **O-15. The helper's runtime after the switch (decision 19). Answered 2026-11-08: (c) self-contained (decision 20).** The helper is
   32-bit because the vendor code it loads is; the program itself has no 32-bit .NET 10 build. In 3a the helper is built like everything
   else (net48, x86). For 3b the options were: (a) it stays on .NET

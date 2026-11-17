@@ -17,7 +17,7 @@ namespace AttributionTests {
 		///<summary>Every third-party component the release ships, by its name in THIRD-PARTY-NOTICES.txt (report-release.md 1.3 to 1.5).</summary>
 		private static readonly string[] _arrayShippedComponents=new string[] {
 			"MySqlConnector",".NET libraries","Newtonsoft.Json","MimeKit","MailKit","MSAL.NET","SSH.NET","Bouncy Castle Cryptography","PDFsharp",
-			"MigraDoc","SharpDX","Tao Framework","Helix Toolkit",".NET Community Toolkit","Direct Project","WeCantSpell.Hunspell","Hunspell en_US dictionary",
+			"MigraDoc","Helix Toolkit",".NET Community Toolkit","Direct Project","WeCantSpell.Hunspell","Hunspell en_US dictionary",
 			"RDL Project","Google APIs Client Library for .NET","Microsoft Edge WebView2 SDK","TWAIN","Pearl API notice",
 			"HL7 CDA-core-xsl","AAFP CCR stylesheet","LOINC",
 		};
@@ -31,8 +31,7 @@ namespace AttributionTests {
 			"System.Threading.Tasks.Extensions.dll","Newtonsoft.Json.dll","MimeKit.dll","MailKit.dll",
 			"Microsoft.Identity.Client.dll","Microsoft.IdentityModel.Abstractions.dll","Renci.SshNet.dll","BouncyCastle.Cryptography.dll",
 			"PdfSharp-gdi.dll","PdfSharp.Charting-gdi.dll","PdfSharp.Shared.dll","PdfSharp.System.dll",
-			"MigraDoc.DocumentObjectModel.dll","MigraDoc.Rendering-gdi.dll","SharpDX.dll",
-			"SharpDX.Direct3D9.dll","SharpDX.Mathematics.dll","Tao.OpenGl.dll","Tao.Platform.Windows.dll","Health.Direct.Agent.dll",
+			"MigraDoc.DocumentObjectModel.dll","MigraDoc.Rendering-gdi.dll","Health.Direct.Agent.dll",
 			"Health.Direct.Common.dll","Health.Direct.ResolverPlugins.dll","WeCantSpell.Hunspell.dll","RdlEngine.dll","RdlViewer.dll",
 			"Google.Apis.dll","Google.Apis.Auth.dll","Google.Apis.Core.dll","Google.Apis.Gmail.v1.dll",
 			"Microsoft.Web.WebView2.Core.dll","Microsoft.Web.WebView2.WinForms.dll","Microsoft.Web.WebView2.Wpf.dll","WebView2Loader.dll",
@@ -97,7 +96,8 @@ namespace AttributionTests {
 				ConstructorInfo constructorInfo=typeof(AssemblyInformationalVersionAttribute).GetConstructor(new[] { typeof(string) });
 				arrayAttributes=new[] { new CustomAttributeBuilder(constructorInfo,new object[] { informationalVersion }) };
 			}
-			return AppDomain.CurrentDomain.DefineDynamicAssembly(assemblyName,AssemblyBuilderAccess.Run,arrayAttributes);
+			//AssemblyBuilder.DefineDynamicAssembly, which .NET has too (AppDomain.DefineDynamicAssembly is .NET Framework only; S3a-8).
+			return AssemblyBuilder.DefineDynamicAssembly(assemblyName,AssemblyBuilderAccess.Run,arrayAttributes);
 		}
 
 		///<summary>Removes // and /* */ comments (not inside string literals).</summary>

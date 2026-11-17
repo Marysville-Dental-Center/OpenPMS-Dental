@@ -1011,8 +1011,6 @@ SparksToothChart|SparksToothChart.EraseCircle.cur
 SparksToothChart|SparksToothChart.Pen.cur
 SparksToothChart|SparksToothChart.Properties.Resources.resources
 SparksToothChart|SparksToothChart.ToothChart2D.resources
-SparksToothChart|SparksToothChart.ToothChartDirectX.resources
-SparksToothChart|SparksToothChart.ToothChartOpenGL.resources
 SparksToothChart|SparksToothChart.ToothChartWrapper.resources
 UnitTests|UnitTests.Form2dDrawingTests.resources
 UnitTests|UnitTests.Form4kTests.resources

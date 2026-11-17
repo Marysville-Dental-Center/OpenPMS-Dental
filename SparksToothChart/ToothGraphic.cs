@@ -61,13 +61,29 @@ namespace SparksToothChart {
 		///<summary>This gets set to true if tooth has a watch on it.</summary>
 		public bool Watch;
 		public Color colorWatch=Color.Red;
+		///<summary>Paint type Text with text other than "W" (O-22, TC-5): the text drawn beyond the root tip, in the watch mark's band, or "" for
+		///none. "W" is the watch mark (Watch) instead.</summary>
+		public string PaintText="";
+		///<summary>The colour of PaintText.</summary>
+		public Color colorPaintText;
 		///<summary>For perio, 1, 2, or 3.  It's a string because we'll later allow +.  The text gets drawn directly on the front of the tooth.</summary>
 		public string Mobility;
 		///<summary>If a mobility is set, the is the color.</summary>
 		public Color colorMobility;
+		///<summary>Paint type RetainedRoot (TC-6, RR-1): only the root is drawn, in colorRetainedRoot, in both views, on a tooth that is shown. Only the
+		///WPF chart draws it, as only Open Dental's DirectX 11 chart did.</summary>
+		public bool IsRetainedRoot;
+		public Color colorRetainedRoot;
+		///<summary>Paint type SpaceMaintainer (TC-6, SM-1): a bar in colorSpaceMaintainer across this tooth's space when no tooth is drawn there. A
+		///primary tooth's flag stands for its permanent tooth's space. Only the WPF chart draws it.</summary>
+		public bool IsSpaceMaintainer;
+		public Color colorSpaceMaintainer;
+		///<summary>An orthodontic bracket on the tooth's facial surface (TC-6, ORTHO-2), in colorBracket. Only the WPF chart draws it.</summary>
+		public bool HasBracket;
+		public Color colorBracket;
 
-		///<summary>Shallow copy. The model holds no graphics device objects: each DirectX chart keeps its own buffers for the models, keyed by tooth
-		///and group (ToothChartDirectX), so a copy can be drawn by any chart.</summary>
+		///<summary>Shallow copy. The model holds no graphics device objects (the WPF chart builds its meshes from it in ToothMeshCache), so a copy can
+		///be drawn by any chart.</summary>
 		public ToothGraphic Copy() {
 			//We do not need a deep copy of VertexNormals, because the list is meant for read-only purposes.
 			//We do not need a deep copy of Groups, because the list is meant for read-only purposes.
@@ -80,7 +96,7 @@ namespace SparksToothChart {
 			
 		}
 
-		///<summary>Only called from ToothChartWrapper.ResetTeeth or from ToothChartOpenGL.ResetTeeth when program first loads.  Constructor requires passing in the toothID.  Exception will be thrown if not one of the following: 1-32 or A-T.  Always loads graphics data from local resources even if in simplemode.</summary>
+		///<summary>Called from ToothChartWrapper.ResetTeeth and the WPF chart's ToothMeshCache.  Constructor requires passing in the toothID.  Exception will be thrown if not one of the following: 1-32 or A-T.  Always loads graphics data from local resources even if in simplemode.</summary>
 		public ToothGraphic(string tooth_id) {
 			if(tooth_id!="implant" && !IsValidToothID(tooth_id)) {
 				///<summary>This will only happen if bugs in program</summary>
@@ -161,6 +177,10 @@ namespace SparksToothChart {
 			IsPontic=false;
 			IsSealant=false;
 			Watch=false;
+			PaintText="";
+			IsRetainedRoot=false;
+			IsSpaceMaintainer=false;
+			HasBracket=false;
 		}
 
 		public void SetSurfaceColors(string surfaces,Color color){

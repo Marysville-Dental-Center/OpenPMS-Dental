@@ -7,10 +7,12 @@ namespace ImagingDeviceManager.TwainProtocol {
 		//Data groups
 		public const uint DG_CONTROL=0x0001;
 		public const uint DG_IMAGE=0x0002;
-		//Feature flags for TW_IDENTITY.SupportedGroups
+		//Feature flags for TW_IDENTITY.SupportedGroups, as twain.h 2.5.1 defines them. DF_APP2 and DF_DS2 were swapped here until the
+		//S3b-0 spike (2026-11-15) found it: the application then said DF_DS2, so a version 2 DSM treated it as a version 1 application,
+		//refused DAT_ENTRYPOINT and the session used GlobalAlloc memory.
 		public const uint DF_DSM2=0x10000000;
-		public const uint DF_APP2=0x40000000;
-		public const uint DF_DS2=0x20000000;
+		public const uint DF_APP2=0x20000000;
+		public const uint DF_DS2=0x40000000;
 		//Data argument types
 		public const ushort DAT_NULL=0x0000;
 		public const ushort DAT_CAPABILITY=0x0001;

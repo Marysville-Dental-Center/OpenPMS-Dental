@@ -1,15 +1,15 @@
 Scene: shifto-unerupted
 Group: states
-Description: Canines 6, 11, 22 and 27 shifted 11 mm toward the root: just past the unerupted limit of -10 mm, so drawn at half colour.
+Description: Canines 6, 11, 22 and 27 shifted 11 mm toward the root: just past the unerupted limit of -10 mm, so drawn at half colour by DirectX 9 and half-transparent by the WPF chart, as by Open Dental's DirectX 11 chart.
 Size: 410x307
 Colours: Module
 Engine: Wpf3D (RenderTargetBitmap in software, 3D layer at 3x reduced with WIC's Fant scaler)
 Bitmap: 410x307 Format24bppRgb
 Alpha: every alpha is 255 (format without an alpha channel)
-Colours in the picture: 4037
-Pixels SHA-256: d4f25fb84dc6fcdceef99a604615e59ba505525d27f65f25fa60157de0dd6bc3
+Colours in the picture: 3908
+Pixels SHA-256: d1efbeda03cdfc04c162eaf0359552ef220822b2126cec2f0989cfa55342cac1
 Repeatable: yes (a second GetBitmap gave the same pixels)
 Framework: .NET Framework 4.8, x86
-Windows: build 26300.9711 (26H2)
+Windows: build 26300.9974 (26H2)
 Fresh render: yes (both layers drawn again without the layer cache gave the same pixels)
 Screen DPI seen by the test host: 96

@@ -69,7 +69,7 @@ namespace OpenPmsDental {
 			public uint uCallbackMessage;
 			public uint uEdge;
 			public RECT rc;
-			public int lParam;
+			public IntPtr lParam;//LPARAM, pointer-sized (the structure is 36 bytes in a 32-bit process, 48 in a 64-bit one)
 		}
 
 		[StructLayout(LayoutKind.Sequential)]

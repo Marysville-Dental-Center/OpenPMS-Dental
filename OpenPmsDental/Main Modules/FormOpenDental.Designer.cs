@@ -25,20 +25,20 @@ namespace OpenPmsDental{
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormOpenDental));
 			this.timerTimeIndic = new System.Windows.Forms.Timer(this.components);
-			this.menuItem14 = new System.Windows.Forms.MenuItem();
+			this.menuItem14 = new System.Windows.Forms.ToolStripSeparator();
 			this.timerSignals = new System.Windows.Forms.Timer(this.components);
 			this.panelSplitter = new System.Windows.Forms.Panel();
-			this.menuSplitter = new System.Windows.Forms.ContextMenu();
-			this.menuItemDockBottom = new System.Windows.Forms.MenuItem();
-			this.menuItemDockRight = new System.Windows.Forms.MenuItem();
+			this.menuSplitter = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.menuItemDockBottom = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemDockRight = new System.Windows.Forms.ToolStripMenuItem();
 			this.imageListMain = new System.Windows.Forms.ImageList(this.components);
-			this.menuPatient = new System.Windows.Forms.ContextMenu();
-			this.menuLabel = new System.Windows.Forms.ContextMenu();
-			this.menuEmail = new System.Windows.Forms.ContextMenu();
-			this.menuLetter = new System.Windows.Forms.ContextMenu();
-			this.menuTask = new System.Windows.Forms.ContextMenu();
-			this.menuItemTaskNewForUser = new System.Windows.Forms.MenuItem();
-			this.menuItemTaskReminders = new System.Windows.Forms.MenuItem();
+			this.menuPatient = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.menuLabel = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.menuEmail = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.menuLetter = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.menuTask = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.menuItemTaskNewForUser = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemTaskReminders = new System.Windows.Forms.ToolStripMenuItem();
 			this.lightSignalGrid1 = new OpenPmsDental.UI.LightSignalGrid();
 			this.menuMain = new OpenPmsDental.UI.MenuOD();
 			this.splitContainer = new OpenPmsDental.UI.SplitContainer();
@@ -54,8 +54,7 @@ namespace OpenPmsDental{
 			// 
 			// menuItem14
 			// 
-			this.menuItem14.Index = -1;
-			this.menuItem14.Text = "-";
+			this.menuItem14.Name = "menuItem14";
 			// 
 			// panelSplitter
 			// 
@@ -71,19 +70,17 @@ namespace OpenPmsDental{
 			// 
 			// menuSplitter
 			// 
-			this.menuSplitter.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+			this.menuSplitter.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuItemDockBottom,
             this.menuItemDockRight});
 			// 
 			// menuItemDockBottom
 			// 
-			this.menuItemDockBottom.Index = 0;
 			this.menuItemDockBottom.Text = "Dock to Bottom";
 			this.menuItemDockBottom.Click += new System.EventHandler(this.menuItemDockBottom_Click);
 			// 
 			// menuItemDockRight
 			// 
-			this.menuItemDockRight.Index = 1;
 			this.menuItemDockRight.Text = "Dock to Right";
 			this.menuItemDockRight.Click += new System.EventHandler(this.menuItemDockRight_Click);
 			// 
@@ -100,36 +97,34 @@ namespace OpenPmsDental{
 			// 
 			// menuPatient
 			// 
-			this.menuPatient.Popup += new System.EventHandler(this.menuPatient_Popup);
+			this.menuPatient.Opening += new System.ComponentModel.CancelEventHandler(this.menuPatient_Popup);
 			// 
 			// menuLabel
 			// 
-			this.menuLabel.Popup += new System.EventHandler(this.menuLabel_Popup);
+			this.menuLabel.Opening += new System.ComponentModel.CancelEventHandler(this.menuLabel_Popup);
 			// 
 			// menuEmail
 			// 
-			this.menuEmail.Popup += new System.EventHandler(this.menuEmail_Popup);
+			this.menuEmail.Opening += new System.ComponentModel.CancelEventHandler(this.menuEmail_Popup);
 			// 
 			// menuLetter
 			// 
-			this.menuLetter.Popup += new System.EventHandler(this.menuLetter_Popup);
+			this.menuLetter.Opening += new System.ComponentModel.CancelEventHandler(this.menuLetter_Popup);
 			// 
 			// menuTask
 			// 
-			this.menuTask.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+			this.menuTask.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuItemTaskNewForUser,
             this.menuItemTaskReminders});
-			this.menuTask.Popup += new System.EventHandler(this.menuTask_Popup);
+			this.menuTask.Opening += new System.ComponentModel.CancelEventHandler(this.menuTask_Popup);
 			// 
 			// menuItemTaskNewForUser
 			// 
-			this.menuItemTaskNewForUser.Index = 0;
 			this.menuItemTaskNewForUser.Text = "New for [User]";
 			this.menuItemTaskNewForUser.Click += new System.EventHandler(this.menuItemTaskNewForUser_Click);
 			// 
 			// menuItemTaskReminders
 			// 
-			this.menuItemTaskReminders.Index = 1;
 			this.menuItemTaskReminders.Text = "Reminders";
 			this.menuItemTaskReminders.Click += new System.EventHandler(this.menuItemTaskReminders_Click);
 			// 
@@ -206,14 +201,14 @@ namespace OpenPmsDental{
 		private System.Windows.Forms.Timer timerTimeIndic;
 		private OpenPmsDental.UI.LightSignalGrid lightSignalGrid1;
 		private Panel panelSplitter;
-		private ContextMenu menuSplitter;
-		private MenuItem menuItemDockBottom;
-		private MenuItem menuItemDockRight;
+		private ContextMenuStrip menuSplitter;
+		private ToolStripMenuItem menuItemDockBottom;
+		private ToolStripMenuItem menuItemDockRight;
 		private ImageList imageListMain;
-		private ContextMenu menuPatient;
-		private ContextMenu menuLabel;
-		private ContextMenu menuEmail;
-		private ContextMenu menuLetter;
+		private ContextMenuStrip menuPatient;
+		private ContextMenuStrip menuLabel;
+		private ContextMenuStrip menuEmail;
+		private ContextMenuStrip menuLetter;
 		private UserControlTasks userControlTasks1;
 		private UserControlDashboard userControlDashboard;
 		private ControlAppt controlAppt;
@@ -226,10 +221,10 @@ namespace OpenPmsDental{
 		private ControlManage controlManage;
 		private ModuleBar moduleBar;
 		private OpenPmsDental.UI.ToolBarOD ToolBarMain;
-		private MenuItem menuItem14;
-		private ContextMenu menuTask;
-		private MenuItem menuItemTaskNewForUser;
-		private MenuItem menuItemTaskReminders;
+		private ToolStripSeparator menuItem14;
+		private ContextMenuStrip menuTask;
+		private ToolStripMenuItem menuItemTaskNewForUser;
+		private ToolStripMenuItem menuItemTaskReminders;
 		private UI.MenuOD menuMain;
 		private UI.SplitContainer splitContainer;
 		private UI.SplitterPanel splitterPanel1;

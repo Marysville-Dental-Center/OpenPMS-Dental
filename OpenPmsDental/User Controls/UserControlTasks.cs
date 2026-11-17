@@ -108,7 +108,8 @@ namespace OpenPmsDental {
 			//this.listMain.ContextMenu = this.menuEdit;
 			//Lan.F(this);
 			Lan.C(this,menuEdit);
-			gridMain.ContextMenu=menuEdit;
+			gridMain.ContextMenuStrip=menuEdit;
+			gridMain.DoAddGridItemsToContextMenuStrip=true;//Copy Cell Text, Copy Rows and the links after the menu's items, as before
 			_listUserControlTaskss.Add(this);
 		}
 
@@ -373,7 +374,7 @@ namespace OpenPmsDental {
 			ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Add Task List"),0,"","AddList"));
 			ODToolBarButton odToolBarButtonTask=new ODToolBarButton(Lan.g(this,"Add Task"),1,"","AddTask");
 			odToolBarButtonTask.Style=ODToolBarButtonStyle.DropDownButton;
-			odToolBarButtonTask.DropDownMenu=menuTask;
+			odToolBarButtonTask.ContextMenuStripDropDown=menuTask;
 			ToolBarMain.Buttons.Add(odToolBarButtonTask);
 			ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Search"),-1,"","Search"));
 			ODToolBarButton odToolBarButton=new ODToolBarButton();
@@ -2584,7 +2585,7 @@ namespace OpenPmsDental {
 			}
 		}
 
-		private void menuEdit_Popup(object sender,System.EventArgs e) {
+		private void menuEdit_Popup(object sender,CancelEventArgs e) {
 			SetMenusEnabled();
 		}
 
@@ -2653,7 +2654,7 @@ namespace OpenPmsDental {
 				menuItemSubscribe.Enabled=false;
 				menuItemUnsubscribe.Enabled=false;
 			}
-			menuItemPriority.MenuItems.Clear();
+			menuItemPriority.DropDownItems.Clear();
 			//SendToMe/GoTo/Task Priority/DeleteTaskTaken---------------------------------------------------------------
 			if(gridMain.SelectedIndices.Length>0 && task!=null){//is task
 				//The clicked task was removed from _listTasks, could happen between FillGrid(), mouse click, and now
@@ -2683,7 +2684,7 @@ namespace OpenPmsDental {
 					menuItemPriority.Enabled=true;
 					Def[] defArray=Defs.GetDefsForCategory(DefCat.TaskPriorities,true).ToArray();
 					foreach(Def def in defArray) {
-						MenuItem menuItem=menuItemPriority.MenuItems.Add(def.ItemName);
+						ToolStripItem menuItem=menuItemPriority.DropDownItems.Add(def.ItemName);
 						menuItem.Click+=(sender,e) => menuTaskPriority_Click(task,def);
 					}
 				}
@@ -2722,8 +2723,8 @@ namespace OpenPmsDental {
 				}
 				List<TaskAttachment> listTaskAttachments=TaskAttachments.GetManyByTaskNum(task.TaskNum);
 				if(!listTaskAttachments.IsNullOrEmpty()) {
-					menuNavAttachment.MenuItems.Clear();	//clear whatever items were in the menu before.
-					MenuItem menuItemNew;
+					menuNavAttachment.DropDownItems.Clear();	//clear whatever items were in the menu before.
+					ToolStripMenuItem menuItemNew;
 					string description;
 					for(int i=0;i<listTaskAttachments.Count;i++) { 
 						TaskAttachment taskAttachment=listTaskAttachments[i];
@@ -2732,10 +2733,10 @@ namespace OpenPmsDental {
 							description=description.Substring(0,30);
 						}
 						description+="...";
-						menuItemNew=new MenuItem(description);
+						menuItemNew=new ToolStripMenuItem(description);
 						menuItemNew.Tag=taskAttachment;
 						menuItemNew.Click+=(sender,e) => menuNavAtt_Click(sender,e,taskAttachment);	//set a custom click event
-						menuNavAttachment.MenuItems.Add(menuItemNew);
+						menuNavAttachment.DropDownItems.Add(menuItemNew);
 					}
 					menuNavAttachment.Enabled=true;
 				}
@@ -2775,7 +2776,7 @@ namespace OpenPmsDental {
 
 		private void IgnoreTaskClick() {
 			gridMain.SetAll(false);//unselect problem row
-			foreach(MenuItem menuItem in gridMain.ContextMenu.MenuItems) { //disable ContextMenu options
+			foreach(ToolStripItem menuItem in gridMain.ContextMenuStrip.Items) { //disable ContextMenu options
 				menuItem.Enabled=false;
 			}
 			FillGrid();//Full Refresh.

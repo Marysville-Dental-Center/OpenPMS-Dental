@@ -1,0 +1,15 @@
+Scene: retained-root-moved-and-mirrored
+Group: paint
+Description: Retained roots on moved teeth in all four quadrants, mirrored teeth included: 6 and 13 (rotated), 7 and 10 (tipped), 21 and 26 (tipped), 22 and 28 (shifted), in TP, C, EC, EO, R and Cn (RR-1).
+Size: 410x307
+Colours: Module
+Engine: Wpf3D (RenderTargetBitmap in software, 3D layer at 3x reduced with WIC's Fant scaler)
+Bitmap: 410x307 Format24bppRgb
+Alpha: every alpha is 255 (format without an alpha channel)
+Colours in the picture: 4442
+Pixels SHA-256: f1a06e6458d8c1cc3b3625b813f2f7130c303da4e21637b41da0c507ec1858f7
+Repeatable: yes (a second GetBitmap gave the same pixels)
+Framework: .NET Framework 4.8, x64
+Windows: build 26300.9974 (26H2)
+Fresh render: yes (both layers drawn again without the layer cache gave the same pixels)
+Screen DPI seen by the test host: 96

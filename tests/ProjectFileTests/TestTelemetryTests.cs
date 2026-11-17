@@ -12,7 +12,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Text;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -110,11 +109,11 @@ namespace ProjectFileTests {
 					listProblems.Add(fileName+" is not next to the test assembly");
 					continue;
 				}
-				AssemblyName[] arrayReferences=Assembly.ReflectionOnlyLoadFrom(path).GetReferencedAssemblies();
-				if(fileName=="MSTest.TestAdapter.dll" && !arrayReferences.Any(x => x.Name=="Microsoft.Testing.Platform")) {
+				List<string> listReferences=ReadReferencedAssemblyNames(path);
+				if(fileName=="MSTest.TestAdapter.dll" && !listReferences.Contains("Microsoft.Testing.Platform")) {
 					listProblems.Add("The adapter does not reference the platform: it is not MSTest 4's");
 				}
-				foreach(string name in arrayReferences.Select(x => x.Name).Where(x => x.IndexOf("Telemetry",StringComparison.OrdinalIgnoreCase)>=0
+				foreach(string name in listReferences.Where(x => x.IndexOf("Telemetry",StringComparison.OrdinalIgnoreCase)>=0
 					|| x.StartsWith("Microsoft.ApplicationInsights",StringComparison.OrdinalIgnoreCase)))
 				{
 					listProblems.Add(fileName+" references "+name);
@@ -174,6 +173,15 @@ namespace ProjectFileTests {
 			}
 			foreach(string name in new[] { "TESTINGPLATFORM_TELEMETRY_OPTOUT","DOTNET_CLI_TELEMETRY_OPTOUT" }) {
 				Assert.AreEqual("1",(Environment.GetEnvironmentVariable(name)??"").Trim(),name+" in this test host's environment");
+			}
+		}
+
+		///<summary>The names of the assemblies the file references, read with Mono.Cecil from a copy of its bytes: nothing is loaded or locked (S3a-8b
+		///of the .NET 10 move: .NET has no reflection-only load).</summary>
+		private static List<string> ReadReferencedAssemblyNames(string path) {
+			using(MemoryStream memoryStream=new MemoryStream(File.ReadAllBytes(path)))
+			using(Mono.Cecil.ModuleDefinition moduleDefinition=Mono.Cecil.ModuleDefinition.ReadModule(memoryStream)) {
+				return moduleDefinition.AssemblyReferences.Select(x => x.Name).ToList();
 			}
 		}
 

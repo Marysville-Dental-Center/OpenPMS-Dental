@@ -23,11 +23,12 @@
 		/// the contents of this method with the code editor.
 		/// </summary>
 		private void InitializeComponent() {
+			this.components = new System.ComponentModel.Container();
 			this.butPrint = new OpenPmsDental.UI.Button();
 			this.gridConflicts = new OpenPmsDental.UI.GridOD();
-			this.contextRightClick = new System.Windows.Forms.ContextMenu();
-			this.menuItemSelectPatient = new System.Windows.Forms.MenuItem();
-			this.menuItemPin = new System.Windows.Forms.MenuItem();
+			this.contextRightClick = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.menuItemSelectPatient = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemPin = new System.Windows.Forms.ToolStripMenuItem();
 			this.SuspendLayout();
 			// 
 			// butPrint
@@ -57,19 +58,17 @@
 			// 
 			// contextRightClick
 			// 
-			this.contextRightClick.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+			this.contextRightClick.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuItemSelectPatient,
             this.menuItemPin});
 			// 
 			// menuItemSelectPatient
 			// 
-			this.menuItemSelectPatient.Index = 0;
 			this.menuItemSelectPatient.Text = "Select Patient";
 			this.menuItemSelectPatient.Click += new System.EventHandler(this.menuItemSelectPatient_Click);
 			// 
 			// menuItemPin
 			// 
-			this.menuItemPin.Index = 1;
 			this.menuItemPin.Text = "Send to Pinboard";
 			this.menuItemPin.Click += new System.EventHandler(this.menuItemPin_Click);
 			// 
@@ -90,8 +89,8 @@
 
 		private UI.Button butPrint;
 		private UI.GridOD gridConflicts;
-		private System.Windows.Forms.ContextMenu contextRightClick;
-		private System.Windows.Forms.MenuItem menuItemSelectPatient;
-		private System.Windows.Forms.MenuItem menuItemPin;
+		private System.Windows.Forms.ContextMenuStrip contextRightClick;
+		private System.Windows.Forms.ToolStripMenuItem menuItemSelectPatient;
+		private System.Windows.Forms.ToolStripMenuItem menuItemPin;
 	}
 }

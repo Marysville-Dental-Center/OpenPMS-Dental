@@ -238,7 +238,7 @@ namespace OpenPmsDentalBusiness {
 				return new UTF8Encoding(false,true).GetString(arrayBytes);
 			}
 			catch(ArgumentException) {
-				return Encoding.Default.GetString(arrayBytes);
+				return ODEncodings.GetAnsiEncoding().GetString(arrayBytes);
 			}
 		}
 

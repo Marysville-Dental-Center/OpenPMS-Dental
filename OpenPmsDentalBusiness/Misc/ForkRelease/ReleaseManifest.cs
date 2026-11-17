@@ -18,10 +18,123 @@ namespace OpenPmsDentalBusiness {
 		public string Sha256;
 	}
 
+	///<summary>The runtime a release's programs run on: the framework, its version and the architecture (a .NET runtime identifier), as the optional
+	///"Runtime" line of a release manifest names it, for example "Microsoft.NETCore.App 10.0.14 win-x64" (S3a-10 of docs/specs/net10-plan.md). A
+	///manifest without that line is a release of the .NET Framework 4.8 build, which is x86 (NetFramework48X86). An installation updates itself only
+	///to a release for its own framework and architecture; for another one it needs the new setup (ForkReleases.GetRuntimeRefusal).</summary>
+	[Serializable]
+	public class ReleaseRuntime {
+		///<summary>The framework name of the .NET Framework (the identifier of its target framework moniker).</summary>
+		public const string FRAMEWORK_NET_FRAMEWORK=".NETFramework";
+		///<summary>The framework name of the .NET runtime (the shared framework every .NET 5+ program runs on).</summary>
+		public const string FRAMEWORK_NET_CORE_APP="Microsoft.NETCore.App";
+		public const string ARCHITECTURE_X86="win-x86";
+		public const string ARCHITECTURE_X64="win-x64";
+		public string Framework="";
+		public string Version="";
+		///<summary>The runtime identifier of the architecture, for example win-x86 or win-x64.</summary>
+		public string Architecture="";
+
+		public ReleaseRuntime() {
+		}
+
+		public ReleaseRuntime(string framework,string version,string architecture) {
+			Framework=framework;
+			Version=version;
+			Architecture=architecture;
+		}
+
+		///<summary>What a release manifest without a "Runtime" line means: every release before the .NET 10 release is the .NET Framework 4.8
+		///build, x86.</summary>
+		public static ReleaseRuntime NetFramework48X86 {
+			get { return new ReleaseRuntime(FRAMEWORK_NET_FRAMEWORK,"4.8",ARCHITECTURE_X86); }
+		}
+
+		///<summary>The runtime of this process: the .NET Framework (Environment.Version 4.x, the version given as 4.8, the one the program targets)
+		///or the .NET runtime (Environment.Version is the runtime's own version on .NET 5 and later), and win-x64 or win-x86 by the process's
+		///pointer size.</summary>
+		public static ReleaseRuntime GetRunning() {
+			System.Version version=Environment.Version;
+			string architecture=Environment.Is64BitProcess ? ARCHITECTURE_X64 : ARCHITECTURE_X86;
+			if(version.Major<5) {
+				return new ReleaseRuntime(FRAMEWORK_NET_FRAMEWORK,"4.8",architecture);
+			}
+			return new ReleaseRuntime(FRAMEWORK_NET_CORE_APP,version.ToString(3),architecture);
+		}
+
+		///<summary>True when both name the same framework and the same architecture. The version is not compared: a newer runtime of the same
+		///framework comes with a release as its runtime part (S3b-7), which the normal self-update installs.</summary>
+		public bool IsSameFrameworkAndArchitecture(ReleaseRuntime releaseRuntime) {
+			return releaseRuntime!=null && Framework.Equals(releaseRuntime.Framework,StringComparison.OrdinalIgnoreCase)
+				&& Architecture.Equals(releaseRuntime.Architecture,StringComparison.OrdinalIgnoreCase);
+		}
+
+		///<summary>The value of a "Runtime" line: framework, version and architecture separated by single spaces.</summary>
+		public override string ToString() {
+			return Framework+" "+Version+" "+Architecture;
+		}
+
+		///<summary>Parses the value of a "Runtime" line. Throws FormatException unless it is three parts separated by single spaces: a framework name,
+		///a version of two to four numbers and a runtime identifier (letters, digits, '.', '-' and '_').</summary>
+		public static ReleaseRuntime Parse(string value) {
+			string[] arrayParts=(value??"").Split(' ');
+			if(arrayParts.Length!=3 || !IsToken(arrayParts[0]) || !IsToken(arrayParts[2])) {
+				throw new FormatException("Bad runtime in the release manifest: "+value);
+			}
+			System.Version version;
+			if(!System.Version.TryParse(arrayParts[1],out version) || version.ToString()!=arrayParts[1]) {
+				throw new FormatException("Bad runtime version in the release manifest: "+value);
+			}
+			return new ReleaseRuntime(arrayParts[0],arrayParts[1],arrayParts[2]);
+		}
+
+		///<summary>A framework name or runtime identifier: letters, digits, '.', '-' and '_', at most 100 characters.</summary>
+		public static bool IsToken(string value) {
+			if(string.IsNullOrEmpty(value) || value.Length>100) {
+				return false;
+			}
+			foreach(char c in value) {
+				bool isAllowed=(c>='a' && c<='z') || (c>='A' && c<='Z') || (c>='0' && c<='9') || c=='.' || c=='-' || c=='_';
+				if(!isAllowed) {
+					return false;
+				}
+			}
+			return true;
+		}
+	}
+
+	///<summary>The runtime part a release needs: the runtime files that a self-contained .NET 10 release carries beside its programs (decision 20 of
+	///docs/specs/net10-plan.md). S3b-7 publishes it in rows of its own, apart from the program part, and only when it changes. Its manifest lines
+	///(S3a-10 defines them, so the bridge release reads a .NET 10 manifest): RuntimeVersion, RuntimeArchitectures (the runtime identifiers of the
+	///files, the program's first, separated by single spaces), RuntimeArchiveSha256 (the zipped runtime part), RuntimeKey (ComputeKey) and one
+	///"RuntimeFile=sha256|size|relative path" line per file.</summary>
+	public class ReleaseRuntimePart {
+		public string Version="";
+		public List<string> ListArchitectures=new List<string>();
+		///<summary>Lower-case hex SHA-256 of the zipped runtime part.</summary>
+		public string ArchiveSha256="";
+		///<summary>Lower-case hex; must equal ComputeKey().</summary>
+		public string Key="";
+		public List<ReleaseManifestFile> ListFiles=new List<ReleaseManifestFile>();
+
+		///<summary>The key of the runtime part: the SHA-256 over its version and the names, sizes and SHA-256 values of its files, so two releases on
+		///the same runtime files share one runtime part.</summary>
+		public string ComputeKey() {
+			StringBuilder stringBuilder=new StringBuilder();
+			stringBuilder.Append("version|"+Version+"\n");
+			foreach(ReleaseManifestFile releaseManifestFile in ListFiles.OrderBy(x => x.RelativePath.Replace('/','\\'),StringComparer.OrdinalIgnoreCase)) {
+				stringBuilder.Append(releaseManifestFile.RelativePath.Replace('/','\\').ToLowerInvariant()+"|"
+					+releaseManifestFile.Size.ToString(CultureInfo.InvariantCulture)+"|"+releaseManifestFile.Sha256.ToLowerInvariant()+"\n");
+			}
+			return ReleaseManifest.ComputeSha256(Encoding.UTF8.GetBytes(stringBuilder.ToString()));
+		}
+	}
+
 	///<summary>The text manifest of a release published by the update server. It names our product, so a manifest from any other program is never
 	///accepted, and carries the SHA-256 of the archive and of every file. Format, one "Key=Value" per line, '#' starts a comment:
 	///Format, Product, ReleaseVersion, BuildId, BuildUtc (optional), CompatVersion, PublishedUtc, PublishedBy, ArchiveSha256 (only in the database copy, because the
-	///archive itself holds a copy of the manifest), and one "File=sha256|size|relative path" line per file.</summary>
+	///archive itself holds a copy of the manifest), Runtime (optional, ReleaseRuntime), the runtime part's lines (optional, ReleaseRuntimePart) and
+	///one "File=sha256|size|relative path" line per file.</summary>
 	public class ReleaseManifest {
 		///<summary>The product name every manifest must carry. The internal rename of the program comes later; release manifests use the new name
 		///from the start so they can never be confused with another program's update files.</summary>
@@ -44,7 +157,18 @@ namespace OpenPmsDentalBusiness {
 		public string PublishedBy="";
 		///<summary>SHA-256 of the zipped archive. Blank in the copy of the manifest that is inside the archive.</summary>
 		public string ArchiveSha256="";
+		///<summary>The runtime the release's programs run on, from the optional "Runtime" line. Null when the manifest has none: a release of the
+		///.NET Framework 4.8 build, x86 (GetRuntimeOrDefault).</summary>
+		public ReleaseRuntime Runtime;
+		///<summary>The runtime part the release needs, from the optional runtime part lines. Null when the manifest has none. Only with Runtime.
+		///</summary>
+		public ReleaseRuntimePart RuntimePart;
 		public List<ReleaseManifestFile> ListFiles=new List<ReleaseManifestFile>();
+
+		///<summary>The runtime the release names, or the .NET Framework 4.8 x86 one of a manifest without a "Runtime" line.</summary>
+		public ReleaseRuntime GetRuntimeOrDefault() {
+			return Runtime??ReleaseRuntime.NetFramework48X86;
+		}
 
 		///<summary>The manifest as text. Pass includeArchiveHash=false for the copy that goes inside the archive.</summary>
 		public string Serialize(bool includeArchiveHash=true) {
@@ -63,15 +187,31 @@ namespace OpenPmsDentalBusiness {
 			if(includeArchiveHash) {
 				stringBuilder.Append("ArchiveSha256="+Clean(ArchiveSha256)+"\n");
 			}
+			//The runtime lines are in both copies: RuntimeArchiveSha256 is the hash of the runtime part's own archive, not of this one.
+			if(Runtime!=null) {
+				stringBuilder.Append("Runtime="+Clean(Runtime.ToString())+"\n");
+			}
+			if(RuntimePart!=null) {
+				stringBuilder.Append("RuntimeVersion="+Clean(RuntimePart.Version)+"\n");
+				stringBuilder.Append("RuntimeArchitectures="+Clean(string.Join(" ",RuntimePart.ListArchitectures))+"\n");
+				stringBuilder.Append("RuntimeArchiveSha256="+Clean(RuntimePart.ArchiveSha256)+"\n");
+				stringBuilder.Append("RuntimeKey="+Clean(RuntimePart.Key)+"\n");
+				foreach(ReleaseManifestFile releaseManifestFile in RuntimePart.ListFiles.OrderBy(x => x.RelativePath,StringComparer.OrdinalIgnoreCase)) {
+					stringBuilder.Append("RuntimeFile="+FormatFileLine(releaseManifestFile)+"\n");
+				}
+			}
 			foreach(ReleaseManifestFile releaseManifestFile in ListFiles.OrderBy(x => x.RelativePath,StringComparer.OrdinalIgnoreCase)) {
-				stringBuilder.Append("File="+releaseManifestFile.Sha256+"|"+releaseManifestFile.Size.ToString(CultureInfo.InvariantCulture)+"|"
-					+Clean(releaseManifestFile.RelativePath)+"\n");
+				stringBuilder.Append("File="+FormatFileLine(releaseManifestFile)+"\n");
 			}
 			return stringBuilder.ToString();
 		}
 
+		private static string FormatFileLine(ReleaseManifestFile releaseManifestFile) {
+			return releaseManifestFile.Sha256+"|"+releaseManifestFile.Size.ToString(CultureInfo.InvariantCulture)+"|"+Clean(releaseManifestFile.RelativePath);
+		}
+
 		///<summary>Parses manifest text. Throws FormatException for anything malformed: unknown format, a missing required key, a bad hash or an
-		///unsafe file path.</summary>
+		///unsafe file path, a runtime part without its Runtime line or with a key, version or architecture that does not fit.</summary>
 		public static ReleaseManifest Parse(string text) {
 			if(text==null) {
 				throw new FormatException("The release manifest is empty.");
@@ -79,6 +219,9 @@ namespace OpenPmsDentalBusiness {
 			ReleaseManifest releaseManifest=new ReleaseManifest();
 			releaseManifest.Product="";
 			bool hasFormat=false;
+			ReleaseRuntimePart releaseRuntimePart=new ReleaseRuntimePart();
+			//Each runtime part key once; a runtime part is there when any of its lines is.
+			HashSet<string> hashSetRuntimePartKeys=new HashSet<string>();
 			string[] arrayLines=text.Replace("\r\n","\n").Split('\n');
 			foreach(string lineRaw in arrayLines) {
 				string line=lineRaw.Trim();
@@ -118,6 +261,25 @@ namespace OpenPmsDentalBusiness {
 					case "File":
 						releaseManifest.ListFiles.Add(ParseFileLine(value));
 						break;
+					case "Runtime":
+						if(releaseManifest.Runtime!=null) {
+							throw new FormatException("The release manifest names its runtime twice.");
+						}
+						releaseManifest.Runtime=ReleaseRuntime.Parse(value);
+						break;
+					case "RuntimeVersion":
+					case "RuntimeArchitectures":
+					case "RuntimeArchiveSha256":
+					case "RuntimeKey":
+						if(!hashSetRuntimePartKeys.Add(key)) {
+							throw new FormatException("The release manifest has "+key+" twice.");
+						}
+						ParseRuntimePartLine(releaseRuntimePart,key,value);
+						break;
+					case "RuntimeFile":
+						hashSetRuntimePartKeys.Add(key);
+						releaseRuntimePart.ListFiles.Add(ParseFileLine(value));
+						break;
 					default:
 						throw new FormatException("Unknown release manifest key: "+key);
 				}
@@ -131,7 +293,73 @@ namespace OpenPmsDentalBusiness {
 			if(releaseManifest.ListFiles.GroupBy(x => x.RelativePath,StringComparer.OrdinalIgnoreCase).Any(x => x.Count()>1)) {
 				throw new FormatException("The release manifest lists a file twice.");
 			}
+			if(hashSetRuntimePartKeys.Count>0) {
+				CheckRuntimePart(releaseManifest,releaseRuntimePart,hashSetRuntimePartKeys);
+				releaseManifest.RuntimePart=releaseRuntimePart;
+			}
 			return releaseManifest;
+		}
+
+		private static void ParseRuntimePartLine(ReleaseRuntimePart releaseRuntimePart,string key,string value) {
+			switch(key) {
+				case "RuntimeVersion":
+					releaseRuntimePart.Version=value;
+					break;
+				case "RuntimeArchitectures":
+					releaseRuntimePart.ListArchitectures=value.Split(' ').ToList();
+					if(releaseRuntimePart.ListArchitectures.Any(x => !ReleaseRuntime.IsToken(x))
+						|| releaseRuntimePart.ListArchitectures.Distinct(StringComparer.OrdinalIgnoreCase).Count()!=releaseRuntimePart.ListArchitectures.Count)
+					{
+						throw new FormatException("Bad runtime architectures in the release manifest: "+value);
+					}
+					break;
+				case "RuntimeArchiveSha256":
+					if(!IsSha256Hex(value)) {
+						throw new FormatException("Bad runtime archive hash in the release manifest.");
+					}
+					releaseRuntimePart.ArchiveSha256=value.ToLowerInvariant();
+					break;
+				case "RuntimeKey":
+					if(!IsSha256Hex(value)) {
+						throw new FormatException("Bad runtime key in the release manifest.");
+					}
+					releaseRuntimePart.Key=value.ToLowerInvariant();
+					break;
+			}
+		}
+
+		///<summary>A runtime part needs the Runtime line and every one of its own lines: its version is the Runtime line's, the Runtime line's
+		///architecture is the first of its architectures, it lists at least one file, none twice and none that the program part lists too, and its
+		///key is the one its version and files give.</summary>
+		private static void CheckRuntimePart(ReleaseManifest releaseManifest,ReleaseRuntimePart releaseRuntimePart,HashSet<string> hashSetKeys) {
+			if(releaseManifest.Runtime==null) {
+				throw new FormatException("The release manifest has a runtime part but no Runtime line.");
+			}
+			foreach(string key in new[] { "RuntimeVersion","RuntimeArchitectures","RuntimeArchiveSha256","RuntimeKey","RuntimeFile" }) {
+				if(!hashSetKeys.Contains(key)) {
+					throw new FormatException("The runtime part of the release manifest has no "+key+" line.");
+				}
+			}
+			if(releaseRuntimePart.Version!=releaseManifest.Runtime.Version) {
+				throw new FormatException("The runtime part of the release manifest is version "+releaseRuntimePart.Version+", its Runtime line "
+					+releaseManifest.Runtime.Version+".");
+			}
+			if(!releaseRuntimePart.ListArchitectures[0].Equals(releaseManifest.Runtime.Architecture,StringComparison.OrdinalIgnoreCase)) {
+				throw new FormatException("The runtime part of the release manifest is for "+releaseRuntimePart.ListArchitectures[0]+", its Runtime line for "
+					+releaseManifest.Runtime.Architecture+".");
+			}
+			HashSet<string> hashSetPaths=new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+			foreach(ReleaseManifestFile releaseManifestFile in releaseRuntimePart.ListFiles) {
+				if(!hashSetPaths.Add(releaseManifestFile.RelativePath.Replace('/','\\'))) {
+					throw new FormatException("The release manifest lists a runtime file twice.");
+				}
+			}
+			if(releaseManifest.ListFiles.Any(x => hashSetPaths.Contains(x.RelativePath.Replace('/','\\')))) {
+				throw new FormatException("The release manifest lists a file in both the program part and the runtime part.");
+			}
+			if(releaseRuntimePart.ComputeKey()!=releaseRuntimePart.Key) {
+				throw new FormatException("The runtime key of the release manifest does not match its runtime files.");
+			}
 		}
 
 		private static DateTime ParseUtc(string value,string what) {

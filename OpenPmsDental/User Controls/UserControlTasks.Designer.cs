@@ -29,32 +29,32 @@ namespace OpenPmsDental {
 			this.tree = new System.Windows.Forms.TreeView();
 			this.imageListTree = new System.Windows.Forms.ImageList(this.components);
 			this.imageListMain = new System.Windows.Forms.ImageList(this.components);
-			this.menuEdit = new System.Windows.Forms.ContextMenu();
-			this.menuItemDone = new System.Windows.Forms.MenuItem();
-			this.menuItem4 = new System.Windows.Forms.MenuItem();
-			this.menuItemEdit = new System.Windows.Forms.MenuItem();
-			this.menuItemPriority = new System.Windows.Forms.MenuItem();
-			this.menuItem6 = new System.Windows.Forms.MenuItem();
-			this.menuItemCut = new System.Windows.Forms.MenuItem();
-			this.menuItemCopy = new System.Windows.Forms.MenuItem();
-			this.menuItemPaste = new System.Windows.Forms.MenuItem();
-			this.menuItemDelete = new System.Windows.Forms.MenuItem();
-			this.menuItem2 = new System.Windows.Forms.MenuItem();
-			this.menuItemSubscribe = new System.Windows.Forms.MenuItem();
-			this.menuItemUnsubscribe = new System.Windows.Forms.MenuItem();
-			this.menuItem3 = new System.Windows.Forms.MenuItem();
-			this.menuItemSendToMe = new System.Windows.Forms.MenuItem();
-			this.menuItemSendAndGoto = new System.Windows.Forms.MenuItem();
-			this.menuItemGoto = new System.Windows.Forms.MenuItem();
-			this.menuItemMarkRead = new System.Windows.Forms.MenuItem();
-			this.menuArchive = new System.Windows.Forms.MenuItem();
-			this.menuUnarchive = new System.Windows.Forms.MenuItem();
-			this.menuNavAttachment = new System.Windows.Forms.MenuItem();
-			this.menuTask = new System.Windows.Forms.ContextMenu();
-			this.menuItemTaskReminder = new System.Windows.Forms.MenuItem();
+			this.menuEdit = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.menuItemDone = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItem4 = new System.Windows.Forms.ToolStripSeparator();
+			this.menuItemEdit = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemPriority = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItem6 = new System.Windows.Forms.ToolStripSeparator();
+			this.menuItemCut = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemCopy = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemPaste = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemDelete = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItem2 = new System.Windows.Forms.ToolStripSeparator();
+			this.menuItemSubscribe = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemUnsubscribe = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItem3 = new System.Windows.Forms.ToolStripSeparator();
+			this.menuItemSendToMe = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemSendAndGoto = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemGoto = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemMarkRead = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuArchive = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuUnarchive = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuNavAttachment = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuTask = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.menuItemTaskReminder = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuJobs = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-			this.menuFilter = new System.Windows.Forms.ContextMenu();
+			this.menuFilter = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.menuAttachments = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.gridMain = new OpenPmsDental.UI.GridOD();
 			this.textListFilter = new System.Windows.Forms.TextBox();
@@ -122,7 +122,7 @@ namespace OpenPmsDental {
 			// 
 			// menuEdit
 			// 
-			this.menuEdit.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+			this.menuEdit.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuItemDone,
             this.menuItem4,
             this.menuItemEdit,
@@ -143,132 +143,111 @@ namespace OpenPmsDental {
             this.menuArchive,
             this.menuUnarchive,
             this.menuNavAttachment});
-			this.menuEdit.Popup += new System.EventHandler(this.menuEdit_Popup);
+			this.menuEdit.Opening += new System.ComponentModel.CancelEventHandler(this.menuEdit_Popup);
 			// 
 			// menuItemDone
 			// 
-			this.menuItemDone.Index = 0;
 			this.menuItemDone.Text = "Done (affects all users)";
 			this.menuItemDone.Click += new System.EventHandler(this.menuItemDone_Click);
 			// 
 			// menuItem4
 			// 
-			this.menuItem4.Index = 1;
-			this.menuItem4.Text = "-";
+			this.menuItem4.Name = "menuItem4";
 			// 
 			// menuItemEdit
 			// 
-			this.menuItemEdit.Index = 2;
 			this.menuItemEdit.Text = "Edit Properties";
 			this.menuItemEdit.Click += new System.EventHandler(this.menuItemEdit_Click);
 			// 
 			// menuItemPriority
 			// 
-			this.menuItemPriority.Index = 3;
 			this.menuItemPriority.Text = "Set Priority";
 			// 
 			// menuItem6
 			// 
-			this.menuItem6.Index = 4;
-			this.menuItem6.Text = "-";
+			this.menuItem6.Name = "menuItem6";
 			// 
 			// menuItemCut
 			// 
-			this.menuItemCut.Index = 5;
 			this.menuItemCut.Text = "Cut";
 			this.menuItemCut.Click += new System.EventHandler(this.menuItemCut_Click);
 			// 
 			// menuItemCopy
 			// 
-			this.menuItemCopy.Index = 6;
 			this.menuItemCopy.Text = "Copy";
 			this.menuItemCopy.Click += new System.EventHandler(this.menuItemCopy_Click);
 			// 
 			// menuItemPaste
 			// 
-			this.menuItemPaste.Index = 7;
 			this.menuItemPaste.Text = "Paste";
 			this.menuItemPaste.Click += new System.EventHandler(this.menuItemPaste_Click);
 			// 
 			// menuItemDelete
 			// 
-			this.menuItemDelete.Index = 8;
 			this.menuItemDelete.Text = "Delete";
 			this.menuItemDelete.Click += new System.EventHandler(this.menuItemDelete_Click);
 			// 
 			// menuItem2
 			// 
-			this.menuItem2.Index = 9;
-			this.menuItem2.Text = "-";
+			this.menuItem2.Name = "menuItem2";
 			// 
 			// menuItemSubscribe
 			// 
-			this.menuItemSubscribe.Index = 10;
 			this.menuItemSubscribe.Text = "Subscribe";
 			this.menuItemSubscribe.Click += new System.EventHandler(this.menuItemSubscribe_Click);
 			// 
 			// menuItemUnsubscribe
 			// 
-			this.menuItemUnsubscribe.Index = 11;
 			this.menuItemUnsubscribe.Text = "Unsubscribe";
 			this.menuItemUnsubscribe.Click += new System.EventHandler(this.menuItemUnsubscribe_Click);
 			// 
 			// menuItem3
 			// 
-			this.menuItem3.Index = 12;
-			this.menuItem3.Text = "-";
+			this.menuItem3.Name = "menuItem3";
 			// 
 			// menuItemSendToMe
 			// 
-			this.menuItemSendToMe.Index = 13;
 			this.menuItemSendToMe.Text = "Send to Me";
 			this.menuItemSendToMe.Click += new System.EventHandler(this.menuItemSendToMe_Click);
 			// 
 			// menuItemSendAndGoto
 			// 
-			this.menuItemSendAndGoto.Index = 14;
 			this.menuItemSendAndGoto.Text = "Send to Me && Go To";
 			this.menuItemSendAndGoto.Click += new System.EventHandler(this.menuItemSendAndGoto_Click);
 			// 
 			// menuItemGoto
 			// 
-			this.menuItemGoto.Index = 15;
 			this.menuItemGoto.Text = "Go To";
 			this.menuItemGoto.Click += new System.EventHandler(this.menuItemGoto_Click);
 			// 
 			// menuItemMarkRead
 			// 
-			this.menuItemMarkRead.Index = 16;
 			this.menuItemMarkRead.Text = "Mark as Read";
 			this.menuItemMarkRead.Click += new System.EventHandler(this.menuItemMarkRead_Click);
 			// 
 			// menuArchive
 			// 
-			this.menuArchive.Index = 17;
 			this.menuArchive.Text = "Archive";
 			this.menuArchive.Visible = false;
 			this.menuArchive.Click += new System.EventHandler(this.menuArchive_Click);
 			// 
 			// menuUnarchive
 			// 
-			this.menuUnarchive.Index = 18;
 			this.menuUnarchive.Text = "Unarchive";
 			this.menuUnarchive.Visible = false;
 			this.menuUnarchive.Click += new System.EventHandler(this.menuUnarchive_Click);
 			// 
 			// menuNavAttachment
 			// 
-			this.menuNavAttachment.Index = 19;
 			this.menuNavAttachment.Text = "Navigate to Attachment";
 			// 
 			// menuTask
 			// 
-			this.menuTask.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+			this.menuTask.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuItemTaskReminder});
 			// 
 			// menuItemTaskReminder
 			// 
-			this.menuItemTaskReminder.Index = 0;
 			this.menuItemTaskReminder.Text = "Reminder";
 			this.menuItemTaskReminder.Click += new System.EventHandler(this.menuItemTaskReminder_Click);
 			// 
@@ -492,40 +471,40 @@ namespace OpenPmsDental {
 		private System.Windows.Forms.MonthCalendar monthCalendar;
 		private System.Windows.Forms.TreeView tree;
 		private System.Windows.Forms.ImageList imageListMain;
-		private System.Windows.Forms.ContextMenu menuEdit;
-		private System.Windows.Forms.MenuItem menuItemEdit;
-		private System.Windows.Forms.MenuItem menuItem6;
-		private System.Windows.Forms.MenuItem menuItemCut;
-		private System.Windows.Forms.MenuItem menuItemCopy;
-		private System.Windows.Forms.MenuItem menuItemPaste;
-		private System.Windows.Forms.MenuItem menuItemDelete;
-		private System.Windows.Forms.MenuItem menuItem2;
-		private System.Windows.Forms.MenuItem menuItemGoto;
+		private System.Windows.Forms.ContextMenuStrip menuEdit;
+		private System.Windows.Forms.ToolStripMenuItem menuItemEdit;
+		private System.Windows.Forms.ToolStripSeparator menuItem6;
+		private System.Windows.Forms.ToolStripMenuItem menuItemCut;
+		private System.Windows.Forms.ToolStripMenuItem menuItemCopy;
+		private System.Windows.Forms.ToolStripMenuItem menuItemPaste;
+		private System.Windows.Forms.ToolStripMenuItem menuItemDelete;
+		private System.Windows.Forms.ToolStripSeparator menuItem2;
+		private System.Windows.Forms.ToolStripMenuItem menuItemGoto;
 		private System.Windows.Forms.ImageList imageListTree;
 		private OpenPmsDental.UI.TabPage tabUser;
-		private System.Windows.Forms.MenuItem menuItemSubscribe;
-		private System.Windows.Forms.MenuItem menuItemUnsubscribe;
-		private System.Windows.Forms.MenuItem menuItem3;
+		private System.Windows.Forms.ToolStripMenuItem menuItemSubscribe;
+		private System.Windows.Forms.ToolStripMenuItem menuItemUnsubscribe;
+		private System.Windows.Forms.ToolStripSeparator menuItem3;
 		private OpenPmsDental.UI.GridOD gridMain;
 		private OpenPmsDental.UI.TabPage tabNew;
 		private OpenPmsDental.UI.TabPage tabOpenTickets;
-		private System.Windows.Forms.MenuItem menuItemDone;
-		private System.Windows.Forms.MenuItem menuItem4;
-		private System.Windows.Forms.MenuItem menuItemSendToMe;
+		private System.Windows.Forms.ToolStripMenuItem menuItemDone;
+		private System.Windows.Forms.ToolStripSeparator menuItem4;
+		private System.Windows.Forms.ToolStripMenuItem menuItemSendToMe;
 		private OpenPmsDental.UI.TabPage tabReminders;
-		private System.Windows.Forms.ContextMenu menuTask;
-		private System.Windows.Forms.MenuItem menuItemTaskReminder;
+		private System.Windows.Forms.ContextMenuStrip menuTask;
+		private System.Windows.Forms.ToolStripMenuItem menuItemTaskReminder;
 		private OpenPmsDental.UI.TabPage tabPatientTickets;
-		private System.Windows.Forms.MenuItem menuItemSendAndGoto;
+		private System.Windows.Forms.ToolStripMenuItem menuItemSendAndGoto;
 		private System.Windows.Forms.ContextMenuStrip menuJobs;
 		private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
-		private System.Windows.Forms.MenuItem menuItemPriority;
-		private System.Windows.Forms.MenuItem menuItemMarkRead;
-		private System.Windows.Forms.ContextMenu menuFilter;
-		private System.Windows.Forms.MenuItem menuArchive;
-		private System.Windows.Forms.MenuItem menuUnarchive;
+		private System.Windows.Forms.ToolStripMenuItem menuItemPriority;
+		private System.Windows.Forms.ToolStripMenuItem menuItemMarkRead;
+		private System.Windows.Forms.ContextMenuStrip menuFilter;
+		private System.Windows.Forms.ToolStripMenuItem menuArchive;
+		private System.Windows.Forms.ToolStripMenuItem menuUnarchive;
 		private System.Windows.Forms.ContextMenuStrip menuAttachments;
-		private System.Windows.Forms.MenuItem menuNavAttachment;
+		private System.Windows.Forms.ToolStripMenuItem menuNavAttachment;
 		private UI.GroupBox groupBoxOD2;
 		private OpenPmsDental.UI.Button butClearFilter;
 		private System.Windows.Forms.TextBox textListFilter;

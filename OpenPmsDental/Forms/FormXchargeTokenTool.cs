@@ -112,6 +112,7 @@ namespace OpenPmsDental {
 				Program program=Programs.GetCur(ProgramName.Xcharge);
 				string path=Programs.GetProgramPath(program);
 				ProcessStartInfo processStartInfo=new ProcessStartInfo(path);
+				processStartInfo.UseShellExecute=true;//Through the shell, the .NET Framework default (the .NET default is false).
 				string resultFile=PrefC.GetRandomTempFile("txt");
 				try {
 					File.Delete(resultFile);//delete the old result file.

@@ -33,7 +33,7 @@ namespace OpenPmsDental{
 			this.toolBarTop = new OpenPmsDental.UI.ToolBarOD();
 			this.labelPreview = new System.Windows.Forms.Label();
 			this.labelPlainText = new System.Windows.Forms.Label();
-			this.menuAutographDropdown = new System.Windows.Forms.ContextMenu();
+			this.menuAutographDropdown = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.checkIsRaw = new OpenPmsDental.UI.CheckBox();
 			this.SuspendLayout();
 			// 
@@ -181,7 +181,7 @@ namespace OpenPmsDental{
 		private CodeBase.Controls.ODWebView2 webViewEmail;
 		private System.Windows.Forms.Label labelPreview;
 		private System.Windows.Forms.Label labelPlainText;
-		private System.Windows.Forms.ContextMenu menuAutographDropdown;
+		private System.Windows.Forms.ContextMenuStrip menuAutographDropdown;
 		private OpenPmsDental.UI.CheckBox checkIsRaw;
 	}
 }

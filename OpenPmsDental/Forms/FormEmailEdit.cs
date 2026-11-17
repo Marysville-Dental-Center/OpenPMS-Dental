@@ -80,7 +80,7 @@ namespace OpenPmsDental {
 			ODToolBarButton toolBarButton=new ODToolBarButton(Lan.g(this,"Autograph"),-1,"","Autograph");
 			toolBarButton.Style=ODToolBarButtonStyle.DropDownButton;
 			FillAutographDropdown();
-			toolBarButton.DropDownMenu=menuAutographDropdown;
+			toolBarButton.ContextMenuStripDropDown=menuAutographDropdown;
 			toolBarTop.Buttons.Add(toolBarButton);
 			//Create the tool bar on the bottom
 			toolBarBottom.Buttons.Clear();
@@ -166,10 +166,10 @@ namespace OpenPmsDental {
 		}
 
 		private void toolBarAutograph_MenuItemClick(object sender,EventArgs e) {
-			if(sender.GetType()!=typeof(MenuItem)) {
+			if(sender.GetType()!=typeof(ToolStripMenuItem)) {
 				return;
 			}
-			MenuItem menuItem=(MenuItem)sender;
+			ToolStripMenuItem menuItem=(ToolStripMenuItem)sender;
 			if(menuItem.Tag.GetType()==typeof(EmailAutograph)) {
 				EmailAutograph emailAutograph=(EmailAutograph)menuItem.Tag;
 				InsertAutograph(emailAutograph);
@@ -177,14 +177,14 @@ namespace OpenPmsDental {
 		}
 
 		private void FillAutographDropdown() {
-			menuAutographDropdown.MenuItems.Clear();
+			menuAutographDropdown.Items.Clear();
 			List<EmailAutograph> listEmailAutographs=EmailAutographs.GetDeepCopy();
 			for(int i=0;i<listEmailAutographs.Count;i++) {
-				MenuItem menuItem=new MenuItem();
+				ToolStripMenuItem menuItem=new ToolStripMenuItem();
 				menuItem.Tag=listEmailAutographs[i];
 				menuItem.Text=listEmailAutographs[i].Description;
 				menuItem.Click+=toolBarAutograph_MenuItemClick;
-				menuAutographDropdown.MenuItems.Add(menuItem);
+				menuAutographDropdown.Items.Add(menuItem);
 			}
 		}
 

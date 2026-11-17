@@ -66,32 +66,18 @@ namespace OpenPmsDental {
 				if(!File.Exists(dllPath)) {
 					continue;//Nothing to do.
 				}
-				//The dll was found, try and load it in.
-				PluginBase plugin=null;
-				Assembly ass=null;
-				string assName="";
-				try {
-					ass=Assembly.LoadFile(dllPath);
-					assName=Path.GetFileNameWithoutExtension(dllPath);
-					string typeName=assName+".Plugin";
-					Type type=ass.GetType(typeName);
-					plugin=(PluginBase)Activator.CreateInstance(type);
-					plugin.Host=host;
-				}
-				catch(Exception ex) {
+				//The dll was found, try and load it in. Plugins.LoadPlugin checks first that this process can load it (its PE kind and target
+				//framework, N64-A), and writes the reason for a plug-in it refuses or that fails to load to the log, naming the plug-in.
+				PluginContainer pluginContainer=Plugins.LoadPlugin(dllPath,listPrograms[i].PluginDllName,listPrograms[i].ProgramNum,host,out string error);
+				if(pluginContainer==null) {
 					//Never try and show message boxes when on the middle tier, there is no UI.  We should instead log to a file or the event viewer.
 					if(RemotingClient.MiddleTierRole!=MiddleTierRole.ServerMT) {
 						//Notify the user that their plug-in is not loaded.
-						MessageBox.Show("Error loading Plugin:"+listPrograms[i].PluginDllName+"\r\n"+ex.Message);
+						MessageBox.Show("Error loading Plugin:"+listPrograms[i].PluginDllName+"\r\n"+error);
 					}
 					continue;//Don't add it to plugin list.
 				}
 				//The plug-in was successfully loaded and will start getting hook notifications.  Add it to the list of loaded plug-ins.
-				PluginContainer pluginContainer=new PluginContainer();
-				pluginContainer.Plugin=plugin;
-				pluginContainer.ProgramNum=listPrograms[i].ProgramNum;
-				pluginContainer.Assemb=ass;
-				pluginContainer.Name=assName;
 				listPluginContainers.Add(pluginContainer);
 			}
 			Plugins.ListPlugins=listPluginContainers;

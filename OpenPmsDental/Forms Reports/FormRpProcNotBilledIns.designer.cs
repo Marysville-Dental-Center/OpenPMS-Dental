@@ -29,8 +29,8 @@
 			this.imageListCalendar = new System.Windows.Forms.ImageList(this.components);
 			this.gridMain = new OpenPmsDental.UI.GridOD();
 			this.butNewClaims = new OpenPmsDental.UI.Button();
-			this.contextMenuGrid = new System.Windows.Forms.ContextMenu();
-			this.menuItemGoToAccount = new System.Windows.Forms.MenuItem();
+			this.contextMenuGrid = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.menuItemGoToAccount = new System.Windows.Forms.ToolStripMenuItem();
 			this.checkAutoGroupProcs = new OpenPmsDental.UI.CheckBox();
 			this.butRefresh = new OpenPmsDental.UI.Button();
 			this.butSelectAll = new OpenPmsDental.UI.Button();
@@ -103,12 +103,11 @@
 			// 
 			// contextMenuGrid
 			// 
-			this.contextMenuGrid.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+			this.contextMenuGrid.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuItemGoToAccount});
 			// 
 			// menuItemGoToAccount
 			// 
-			this.menuItemGoToAccount.Index = 0;
 			this.menuItemGoToAccount.Text = "Go To Account";
 			this.menuItemGoToAccount.Click += new System.EventHandler(this.menuItemGridGoToAccount_Click);
 			// 
@@ -268,8 +267,8 @@
 		private OpenPmsDental.UI.Button butPrint;
 		private UI.Button butNewClaims;
 		private OpenPmsDental.UI.CheckBox checkMedical;
-		private System.Windows.Forms.ContextMenu contextMenuGrid;
-		private System.Windows.Forms.MenuItem menuItemGoToAccount;
+		private System.Windows.Forms.ContextMenuStrip contextMenuGrid;
+		private System.Windows.Forms.ToolStripMenuItem menuItemGoToAccount;
 		private UI.GridOD gridMain;
 		private OpenPmsDental.UI.CheckBox checkAutoGroupProcs;
 		private UI.Button butRefresh;

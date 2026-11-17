@@ -1,0 +1,15 @@
+Scene: extraction-completed-graphic-under-pontic
+Group: paint
+Description: The completed-extraction graphic on, with bridges over extracted teeth: 4 extracted (C) under the pontic of a completed bridge 3-4-5, and 20 extracted (C) under the pontic of a planned bridge 19-20-21 (TP). Both draw the X over the pontic, in the painter's order (a plain switch, as Open Dental's).
+Size: 500x370
+Colours: Printout
+Engine: Wpf3D (RenderTargetBitmap in software, 3D layer at 3x reduced with WIC's Fant scaler)
+Bitmap: 500x370 Format24bppRgb
+Alpha: every alpha is 255 (format without an alpha channel)
+Colours in the picture: 5406
+Pixels SHA-256: 9f1c0202fdebaad0e0f6a2583c1274b6feb8b6638ee57481d1e2ba1510177332
+Repeatable: yes (a second GetBitmap gave the same pixels)
+Framework: .NET Framework 4.8, x86
+Windows: build 26300.9974 (26H2)
+Fresh render: yes (both layers drawn again without the layer cache gave the same pixels)
+Screen DPI seen by the test host: 96

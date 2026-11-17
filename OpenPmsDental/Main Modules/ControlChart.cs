@@ -38,6 +38,8 @@ namespace OpenPmsDental {
 		#endregion Fields - Public
 
 		#region Fields - Private
+		///<summary>The Layout button's drop-down menu. LayoutToolBar fills it again each time it lays out the toolbar.</summary>
+		private ContextMenuStrip _contextMenuStripLayout;
 		///<summary>Locker for Apteryx Thumbnail downloads</summary>
 		private object _apteryxLocker=new object();
 		///<summary>This is a list that is 1:1 with what's showing in current tab.</summary>
@@ -96,6 +98,16 @@ namespace OpenPmsDental {
 		private List<DataRow> _listDataRowsProcsOrig;
 		///<summary>A subset of DataSetMain.  The procedures that need to be drawn in the graphical tooth chart.</summary>
 		private List<DataRow> _listDataRowsProcsForGraphical;
+		///<summary>The control right under the date slider in the current sheet layout, which the TextBelow strip pushes down while it has text
+		///(LayoutTextBelow, TC-5), or null; and the place the sheet layout gave it.</summary>
+		private Control _controlUnderTextBelow;
+		private Rectangle _rectangleUnderTextBelow;
+		///<summary>The minimum size the sheet layout gave _controlUnderTextBelow (SheetUtil.SetControlSizeAndAnchors sets it to the field's size). While the
+		///strip has text the control is shorter than its field, so LayoutTextBelow lowers the minimum height and puts this back when the text goes.</summary>
+		private Size _sizeMinimumUnderTextBelow;
+		///<summary>True when the current sheet layout places the date slider (its field TrackToothProcDates), so the TextBelow strip is shown under it
+		///while it has text. A custom layout without the slider never shows the strip (LayoutTextBelowAfterSheet, TC-5).</summary>
+		private bool _isTextBelowSliderPlaced;
 		///<summary>The rows in the prog notes table that matched the last time we searched.</summary>
 		private List<DataRow> _listDataRowsSearchResults=new List<DataRow>();
 		///<summary>List of every open FormErx per PatNum.  This is to ensure we only open 1 FormErx per PatNum.</summary>
@@ -146,16 +158,13 @@ namespace OpenPmsDental {
 			InitializeComponent();
 			Font=LayoutManagerForms.FontInitial;
 			this.toothChartWrapper = new SparksToothChart.ToothChartWrapper();//these lines were causing designer to crash
-			this.toothChartWrapper.AutoFinish = false;
 			this.toothChartWrapper.ColorBackground = System.Drawing.Color.FromArgb(((int)(((byte)(150)))), ((int)(((byte)(145)))), ((int)(((byte)(152)))));
 			this.toothChartWrapper.Cursor = System.Windows.Forms.Cursors.Default;
 			this.toothChartWrapper.CursorTool = SparksToothChart.CursorTool.Pointer;
-			this.toothChartWrapper.DeviceFormat = null;
 			this.toothChartWrapper.DrawMode = OpenPmsDentalBusiness.DrawingMode.Simple2D;
 			this.toothChartWrapper.Location = new System.Drawing.Point(0, 26);
 			this.toothChartWrapper.Name = "toothChartWrapper";
 			this.toothChartWrapper.PerioMode = false;
-			this.toothChartWrapper.PreferredPixelFormatNumber = 0;
 			this.toothChartWrapper.Size = new System.Drawing.Size(410, 307);
 			this.toothChartWrapper.TabIndex = 194;
 			this.toothChartWrapper.Visible = false;
@@ -349,9 +358,6 @@ namespace OpenPmsDental {
 			SetChartView(_listChartViews[newIdx]);
 		}
 
-		private void butLoadDirectX_Click(object sender,EventArgs e) {
-			//toothChart.LoadDirectX();
-		}
 
 		private void butNewTP_Click(object sender,EventArgs e) {
 			using FormTreatPlanCurEdit formTreatPlanCurEdit=new FormTreatPlanCurEdit();
@@ -736,9 +742,9 @@ namespace OpenPmsDental {
 
 		#region Methods - Event Handlers - LayoutMenuItems
 		private void LayoutMenuItem_Click(object sender,EventArgs e) {
-			MenuItem menuItem=(sender as MenuItem);
+			ToolStripMenuItem menuItem=(sender as ToolStripMenuItem);
 			if(menuItem.Tag is SheetDef sheetDef) {
-				menuItem.Parent.MenuItems.OfType<MenuItem>().ForEach(x => x.Checked=(x==menuItem));
+				menuItem.Owner.Items.OfType<ToolStripMenuItem>().ForEach(x => x.Checked=(x==menuItem));
 				_sheetLayoutController.InitLayoutForSheetDef(sheetDef,LayoutSheet_GetMode(),LayoutSheet_GetControlDict(),isUserSelection:true);
 				LayoutControls();
 				return;
@@ -823,7 +829,11 @@ namespace OpenPmsDental {
 					ODThreadGetBitmap.QuitAsync();
 					return;
 				}
-				ODThreadGetBitmap.Join(2000);//give thread some time to finish before trying to display the image.
+				if(!ODThreadGetBitmap.Join(2000)) {//give thread some time to finish before trying to display the image.
+					//Join no longer aborts the thread (net10-plan, S3a-1): it finishes the download on its own and nothing reads its bitmap.
+					MessageBox.Show(Lan.g(this,"The image did not finish downloading. Please try again."));
+					return;
+				}
 				if(_formImageViewer==null || !_formImageViewer.Visible) {
 					_formImageViewer=new FormImageViewer();
 					_formImageViewer.Show();
@@ -923,15 +933,6 @@ namespace OpenPmsDental {
 			}
 			try {
 				ImageStore.Import(bitmapChart,defNum,ImageType.Photo,Pd.Patient,doPrintHeading:true);
-			}
-			catch(Exception ex) when(ToothChartWrapper.IsGraphicsDeviceException(ex)) {
-				using MsgBoxCopyPaste errorMsg=new MsgBoxCopyPaste(Lan.g(this,"Failed to capture tooth chart image from graphics card. \r\n"
-					+"Please contact support to help with graphics troubleshooting:\r\n")
-					+ex.Message+"\r\n"
-					+ex.StackTrace
-				);
-				errorMsg.ShowDialog();
-				return;
 			}
 			catch(Exception ex) {
 				MessageBox.Show(Lan.g(this,"Unable to save file: ")+ex.Message);
@@ -1149,11 +1150,11 @@ namespace OpenPmsDental {
 
 		///<summary>Just prior to displaying the context menu, enable or disables the UnmaskSSN option</summary>
 		private void MenuItemPopupUnmaskDOB(object sender,EventArgs e) {
-			MenuItem menuItemDOB=gridPtInfo.ContextMenu.MenuItems.OfType<MenuItem>().FirstOrDefault(x => x.Name=="ViewDOB");
+			ToolStripMenuItem menuItemDOB=gridPtInfo.ContextMenuStrip.Items.OfType<ToolStripMenuItem>().FirstOrDefault(x => x.Name=="ViewDOB");
 			if(menuItemDOB==null) { 
 				return;//Should not happen
 			}
-			MenuItem menuItemSeperator=gridPtInfo.ContextMenu.MenuItems.OfType<MenuItem>().FirstOrDefault(x => x.Text=="-");
+			ToolStripSeparator menuItemSeperator=gridPtInfo.ContextMenuStrip.Items.OfType<ToolStripSeparator>().FirstOrDefault();//the first separator, the grid's
 			if(menuItemSeperator==null) { 
 				return;//Should not happen
 			}
@@ -1179,7 +1180,7 @@ namespace OpenPmsDental {
 			}
 			menuItemDOB.Visible=false;
 			menuItemDOB.Enabled=false;
-			if(gridPtInfo.ContextMenu.MenuItems.OfType<MenuItem>().Count(x => x.Visible==true && x.Text!="-")>1) {
+			if(gridPtInfo.ContextMenuStrip.Items.OfType<ToolStripMenuItem>().Count(x => x.Available)>1) {//Available: Visible is false until the menu shows
 				//There is more than one item showing, we want the seperator.
 				menuItemSeperator.Visible=true;
 				menuItemSeperator.Enabled=true;
@@ -1480,7 +1481,7 @@ namespace OpenPmsDental {
 
 		#region Methods - Event Handlers - Menu Other
 		private void menuConsent_Click(object sender,EventArgs e) {
-			SheetDef sheetDef=(SheetDef)(((MenuItem)sender).Tag);
+			SheetDef sheetDef=(SheetDef)(((ToolStripMenuItem)sender).Tag);
 			SheetDefs.GetFieldsAndParameters(sheetDef);
 			Sheet sheet=SheetUtil.CreateSheet(sheetDef,Pd.PatNum);
 			SheetParameter.SetParameter(sheet,"PatNum",Pd.PatNum);
@@ -1499,36 +1500,38 @@ namespace OpenPmsDental {
 			FormSheetFillEdit.ShowForm(sheet,FormSheetFillEdit_FormClosing);
 		}
 
-		private void menuConsent_Popup(object sender,EventArgs e) {
-			menuConsent.MenuItems.Clear();
+		private void menuConsent_Popup(object sender,CancelEventArgs e) {
+			menuConsent.Items.Clear();
 			List<SheetDef> listSheetDefs=SheetDefs.GetCustomForType(SheetTypeEnum.Consent);
-			MenuItem menuItem;
+			ToolStripMenuItem menuItem;
 			for(int i=0;i<listSheetDefs.Count;i++) {
-				menuItem=new MenuItem(listSheetDefs[i].Description);
+				menuItem=new ToolStripMenuItem(listSheetDefs[i].Description);
 				menuItem.Tag=listSheetDefs[i];
 				menuItem.Click+=new EventHandler(menuConsent_Click);
-				menuConsent.MenuItems.Add(menuItem);
+				menuConsent.Items.Add(menuItem);
 			}
+			e.Cancel=menuConsent.Items.Count==0;//filled here: a ContextMenuStrip without items starts its Opening cancelled
 		}
 
 		private void menuOrthoChart_Click(object sender,EventArgs e) {
-			int orthoChartTabIndex=(int)(((MenuItem)sender).Tag);
+			int orthoChartTabIndex=(int)(((ToolStripMenuItem)sender).Tag);
 			FormOrthoChart.ShowNonModal(FindForm(),Pd.Patient,orthoChartTabIndex,OrthoChartSaved);//25.3: no longer blocks the program.
 		}
 
-		private void menuOrthoChart_Popup(object sender,EventArgs e) {
-			menuOrthoChart.MenuItems.Clear();
+		private void menuOrthoChart_Popup(object sender,CancelEventArgs e) {
+			menuOrthoChart.Items.Clear();
 			List<OrthoChartTab> listOrthoChartTabs=OrthoChartTabs.GetDeepCopy(true);
 			for(int i=1;i<listOrthoChartTabs.Count;i++) {//Start i at 1 so tha we do not duplicate the first ortho tab (the main button)
-				MenuItem menuItem=new MenuItem(listOrthoChartTabs[i].TabName);
+				ToolStripMenuItem menuItem=new ToolStripMenuItem(listOrthoChartTabs[i].TabName);
 				menuItem.Tag=i;
 				menuItem.Click+=new EventHandler(menuOrthoChart_Click);
-				menuOrthoChart.MenuItems.Add(menuItem);
+				menuOrthoChart.Items.Add(menuItem);
 			}
+			e.Cancel=menuOrthoChart.Items.Count==0;//filled here: a ContextMenuStrip without items starts its Opening cancelled
 		}
 
 		///<summary>The menu will display all items that are relevant to at least one selected row. If there is at least one selected row that is not relevant, the menu item will be disabled but visible.</summary>
-		private void menuProgRight_Popup(object sender,EventArgs e) {
+		private void menuProgRight_Popup(object sender,CancelEventArgs e) {
 			//Permissions on some menu items will not get checked until clicking on the menu item which will then stop the user if not allowed.
 			ShowMenuItemHelper(menuItemDelete,x => CanDeleteRow(x.DataRow,isCheckDb:false,isSilent:true)==EnumSkippedRow.None);
 			ShowMenuItemHelper(menuItemSetEO,x => CanChangeProcsStatus(ProcStat.EO,x.DataRow,isCheckDb:false,isSilent:true));
@@ -1562,7 +1565,7 @@ namespace OpenPmsDental {
 			ChartLetters_MenuPopup();
 		}
 
-		private void menuToothChart_Popup(object sender,EventArgs e) {
+		private void menuToothChart_Popup(object sender,CancelEventArgs e) {
 			//ComputerPref computerPref=ComputerPrefs.GetForLocalComputer();
 			//only enable the big button if 3D graphics
 			/*if(computerPref.GraphicsSimple) {
@@ -3530,6 +3533,21 @@ namespace OpenPmsDental {
 			FillToothChart(retainSelection:true);
 		}
 
+		///<summary>Change Color was pressed on a free-text label (CursorTool.ColorChanger; the WPF chart raises it from TC-5, as Open Dental's Change
+		///Color recolours "an existing drawing or text"): the label gets the Draw tab's colour and is saved; then the chart is refilled.</summary>
+		private void toothChartRelay_TextColorChanged(object sender,ToothChartTextColorChangedEventArgs e) {
+			if(IsPatientNull()) {
+				return;
+			}
+			ToothInitial toothInitial=Pd.ListToothInitials.Find(x => x.ToothInitialNum==e.ToothInitialNum && x.InitialType==ToothInitialType.Text);
+			if(toothInitial==null) {
+				return;
+			}
+			toothInitial.ColorDraw=panelDrawColor.BackColor;
+			ToothInitials.Update(toothInitial);
+			FillToothChart(retainSelection:true);
+		}
+
 		private void trackToothProcDates_ValueChanged(object sender,EventArgs e) {
 			textToothProcDate.Text=_listDateTimesProcedures[trackToothProcDates.Value].ToShortDateString();
 			FillToothChart(true,_listDateTimesProcedures[trackToothProcDates.Value]);
@@ -4458,8 +4476,8 @@ namespace OpenPmsDental {
 					LayoutManager.Add(tabOrtho,tabControlProc);
 				}
 			}
-			//The computer's chart settings: this restarts the chart's engine and saves the pixel format it chose.
-			ToothChartRelay.ApplyComputerSettings(toothChartWrapper,ToothChartSettingsUse.StoredMode);
+			//The computer's chart settings (the 3D tooth chart settings and "Draw in software"): this restarts the chart's engine and saves nothing.
+			ToothChartRelay.ApplyComputerSettings(toothChartWrapper);
 			if(_isModuleSelected) {
 				FillToothChart(retainSelection:true);
 			}
@@ -4524,14 +4542,15 @@ namespace OpenPmsDental {
 				return;
 			}
 			_isInitializedOnStartup=true;
-			//SparksToothChart is the only tooth chart. Open Dental's closed DirectX 11 chart (Sparks3D.dll) and its DirectX11ToothChartUseIfAvail
-			//preference and GraphicsUseDirectX11 computer setting were removed on 2026-11-01; the preference and column stay in the database, unread.
+			//SparksToothChart is the only tooth chart. Open Dental's closed DirectX 11 chart (Sparks3D.dll) was removed on 2026-11-01; its global and
+			//per-computer settings now choose the WPF 3D chart in its place, through the relay (TC-8b).
 			_toothChartRelay= new ToothChartRelay();
 			_toothChartRelay.SetToothChartWrapper(toothChartWrapper);
 			_toothChartRelay.TextMoved+=toothChartRelay_TextMoved;
+			_toothChartRelay.TextColorChanged+=toothChartRelay_TextColorChanged;
 			toothChartWrapper.Visible=true;
-			//Triggers ResetControls. Falls back to OpenGL, then Simple 2D.
-			ToothChartRelay.ApplyComputerSettings(toothChartWrapper,ToothChartSettingsUse.StartupMode);
+			//Triggers ResetControls. The WPF chart falls back to Simple 2D on its own when it cannot start.
+			ToothChartRelay.ApplyComputerSettings(toothChartWrapper);
 			_procStatNew=ProcStat.TP;
 			if(GetIsTPChartingAvailable()) {
 				FillListPriorities();//Mimics old ChartLayoutHelper logic
@@ -4584,7 +4603,7 @@ namespace OpenPmsDental {
 						//ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"New Rx"),1,"","Rx"));
 						button=new ODToolBarButton(Lan.g(this,"New Rx"),1,"","Rx");
 						button.Style=ODToolBarButtonStyle.DropDownButton;
-						button.DropDownMenu=_contextMenuRxManage;
+						button.ContextMenuStripDropDown=_contextMenuRxManage;
 						ToolBarMain.Buttons.Add(button);
 					}
 					//don't add eRx
@@ -4593,13 +4612,13 @@ namespace OpenPmsDental {
 					//ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"New Rx"),1,"","Rx"));
 					button=new ODToolBarButton(Lan.g(this,"New Rx"),1,"","Rx");
 					button.Style=ODToolBarButtonStyle.DropDownButton;
-					button.DropDownMenu=_contextMenuRxManage;
+					button.ContextMenuStripDropDown=_contextMenuRxManage;
 					ToolBarMain.Buttons.Add(button);
 					if(Programs.IsEnabled(ProgramName.eRx)) {//The eRx button only shows once the office has enabled the eRx program link.
 						if(toolBarButtonErx==null) {
 							toolBarButtonErx=new ODToolBarButton(Lan.g(this,"eRx"),1,"","eRx");
 							toolBarButtonErx.Style=ODToolBarButtonStyle.DropDownButton;
-							toolBarButtonErx.DropDownMenu=menuErx;
+							toolBarButtonErx.ContextMenuStripDropDown=menuErx;
 						}
 						ToolBarMain.Buttons.Add(toolBarButtonErx);
 					}
@@ -4613,14 +4632,14 @@ namespace OpenPmsDental {
 				button=new ODToolBarButton(OrthoChartTabs.GetFirst(true).TabName,-1,"","Ortho");
 				if(OrthoChartTabs.GetCount(true)>1) {
 					button.Style=ODToolBarButtonStyle.DropDownButton;
-					button.DropDownMenu=menuOrthoChart;
+					button.ContextMenuStripDropDown=menuOrthoChart;
 				}
 				ToolBarMain.Buttons.Add(button);
 			}
 			button=new ODToolBarButton(Lan.g(this,"Consent"),-1,"","Consent");
 			if(SheetDefs.GetCustomForType(SheetTypeEnum.Consent).Count>0) {
 				button.Style=ODToolBarButtonStyle.DropDownButton;
-				button.DropDownMenu=menuConsent;
+				button.ContextMenuStripDropDown=menuConsent;
 			}
 			ToolBarMain.Buttons.Add(button);
 			//if(PrefC.GetBool(PrefName.ToothChartMoveMenuToRight)) {
@@ -4629,7 +4648,7 @@ namespace OpenPmsDental {
 			if(!Clinics.IsMedicalPracticeOrClinic(Clinics.ClinicNum)) {
 				button=new ODToolBarButton(Lan.g(this,"Tooth Chart"),-1,"","ToothChart");
 				button.Style=ODToolBarButtonStyle.DropDownButton;
-				button.DropDownMenu=menuToothChart;
+				button.ContextMenuStripDropDown=menuToothChart;
 				ToolBarMain.Buttons.Add(button);
 			}
 			button=new ODToolBarButton(Lan.g(this,"Exam Sheet"),-1,"","ExamSheet");
@@ -4657,22 +4676,28 @@ namespace OpenPmsDental {
 			if(_sheetLayoutController!=null && _sheetLayoutController.ListSheetDefsLayout!=null && _sheetLayoutController.ListSheetDefsLayout.Count>0) {
 				button=new ODToolBarButton("Layout",-1,"","Layout");
 				button.Style=ODToolBarButtonStyle.DropDownButton;
-				List<MenuItem> listMenuItems=new List<MenuItem>(new[] { new MenuItem(Lan.g(this,"Add/Edit Layouts"),LayoutMenuItem_Click),new MenuItem("-") });
+				List<ToolStripItem> listMenuItems=new List<ToolStripItem>(new ToolStripItem[] { new ToolStripMenuItem(Lan.g(this,"Add/Edit Layouts"),null,LayoutMenuItem_Click),new ToolStripSeparator() });
 				long sheetDefNumSelectedLayout=_sheetLayoutController.GetLayoutForUser().SheetDefNum;
 				listMenuItems.AddRange(
 					_sheetLayoutController.ListSheetDefsLayout.FindAll(x => x.SheetDefNum>0)//add all custom SheetDefs
-						.Select(x => new MenuItem(x.Description,LayoutMenuItem_Click) { Tag=x,Checked=(sheetDefNumSelectedLayout==x.SheetDefNum) })
+						.Select(x => new ToolStripMenuItem(x.Description,null,LayoutMenuItem_Click) { Tag=x,Checked=(sheetDefNumSelectedLayout==x.SheetDefNum) })
 				);
 				if(_sheetLayoutController.ListSheetDefsLayout.Any(x => x.SheetDefNum>0)) {//Menu has at least one custom layout def
-					listMenuItems.Add(new MenuItem("-"));//add separator between custom and internal
+					listMenuItems.Add(new ToolStripSeparator());//add separator between custom and internal
 				}
 				SheetDef sheetDefInternalLayout=_sheetLayoutController.ListSheetDefsLayout.FirstOrDefault(x => x.SheetDefNum==0);
 				if(sheetDefInternalLayout!=null) {//Not sure how this could be null, but we've had bug submissions for it.
 					listMenuItems.Add(
-						new MenuItem(sheetDefInternalLayout.Description,LayoutMenuItem_Click) { Tag=sheetDefInternalLayout,Checked=(sheetDefNumSelectedLayout==0) }
+						new ToolStripMenuItem(sheetDefInternalLayout.Description,null,LayoutMenuItem_Click) { Tag=sheetDefInternalLayout,Checked=(sheetDefNumSelectedLayout==0) }
 					);
 				}
-				button.DropDownMenu=new ContextMenu(listMenuItems.ToArray());
+				//One menu, filled again each time (the toolbar is laid out again from a click on one of its items, so it is not disposed here).
+				if(_contextMenuStripLayout==null) {
+					_contextMenuStripLayout=new ContextMenuStrip();
+				}
+				_contextMenuStripLayout.Items.Clear();
+				_contextMenuStripLayout.Items.AddRange(listMenuItems.ToArray());
+				button.ContextMenuStripDropDown=_contextMenuStripLayout;
 				ToolBarMain.Buttons.Add(button);
 			}
 			ProgramL.LoadToolBar(ToolBarMain,EnumToolBar.ChartModule);
@@ -4761,7 +4786,11 @@ namespace OpenPmsDental {
 			Pd.Clear();
 			_listSubstitutionLinks=null;
 			_patNumLast=0;//Clear out the last pat num so that a security log gets entered that the module was "visited" or "refreshed".
-			gridPtInfo.ContextMenu=new ContextMenu();//This module is never really disposed. Get rid of any menu options we added, to avoid duplicates.
+			//This module is never really disposed. Get rid of any menu options we added, to avoid duplicates.
+			ContextMenuStrip contextMenuStripOld=gridPtInfo.ContextMenuStrip;
+			gridPtInfo.ContextMenuStrip=new ContextMenuStrip();
+			gridPtInfo.DoAddGridItemsToContextMenuStrip=true;//ODGrid will automatically attach the default Popups
+			DisposeContextMenuStripLater(contextMenuStripOld);
 			Plugins.HookAddCode(this,"ContrChart.ModuleUnselected_end");
 		}
 
@@ -4956,18 +4985,19 @@ namespace OpenPmsDental {
 				}
 				if(PrefC.GetBool(PrefName.PatientDOBMasked)) {
 					//Add "View DOB" right click option, MenuItemPopupUnmaskDOB will show and hide it as needed.
-					if(gridPtInfo.ContextMenu==null) {
-						gridPtInfo.ContextMenu=new ContextMenu();//ODGrid will automatically attach the defaut Popups
+					if(gridPtInfo.ContextMenuStrip==null || !gridPtInfo.DoAddGridItemsToContextMenuStrip) {//Also the grid's own strip, made by a right click on the empty grid (lead fix at S3a-M2's merge)
+						gridPtInfo.ContextMenuStrip=new ContextMenuStrip();
+						gridPtInfo.DoAddGridItemsToContextMenuStrip=true;//ODGrid will automatically attach the defaut Popups
 					}
-					ContextMenu contextMenu=gridPtInfo.ContextMenu;
-					MenuItem menuItemUnmaskDOB=new MenuItem();
+					ContextMenuStrip contextMenu=gridPtInfo.ContextMenuStrip;
+					ToolStripMenuItem menuItemUnmaskDOB=new ToolStripMenuItem();
 					menuItemUnmaskDOB.Enabled=false;
 					menuItemUnmaskDOB.Visible=false;
 					menuItemUnmaskDOB.Name="ViewDOB";
 					menuItemUnmaskDOB.Text="View DOB";
 					menuItemUnmaskDOB.Click+=new System.EventHandler(this.MenuItemUnmaskDOB_Click);
-					contextMenu.MenuItems.Add(menuItemUnmaskDOB);
-					contextMenu.Popup+=MenuItemPopupUnmaskDOB;
+					contextMenu.Items.Add(menuItemUnmaskDOB);
+					contextMenu.Opening+=MenuItemPopupUnmaskDOB;
 				}
 			}
 			if(!UsingEcwTightOrFull() && isClinicRefresh) {
@@ -6378,6 +6408,7 @@ namespace OpenPmsDental {
 			_toothChartRelay.ResetTeeth();
 			if(IsPatientNull()) {
 				_toothChartRelay.EndUpdate();
+				FillTextBelow(null);
 				FillMovementsAndHidden();
 				//Cursor=Cursors.Default;
 				return;
@@ -6398,6 +6429,7 @@ namespace OpenPmsDental {
 			}
 			_listDataRowsProcsForGraphical=ToothChartPainter.GetChartModuleRows(table,listProcNumsTreatPlans,_listDataRowsProcsOrig,dateLimit,
 				out _listDataRowsProcsSkipped);
+			FillTextBelow(_listDataRowsProcsForGraphical);//the same list the chart paints, so the strip follows the slider and the view's filters
 			_listToothInitialsCopy=ToothChartPainter.GetChartModuleToothInitials(Pd.ListToothInitials,_listDataRowsProcsSkipped,_listDataRowsProcsForGraphical,
 				dateLimit);
 			ToothChartPainter.PaintToothInitials(_toothChartRelay,_listToothInitialsCopy);
@@ -6440,6 +6472,17 @@ namespace OpenPmsDental {
 			patientDashboardDataEventArgs.TableProgNotes=Pd.TableProgNotes;
 			ODEvent.Fire(ODEventType.ModuleSelected,patientDashboardDataEventArgs);
 			//Cursor=Cursors.Default;
+		}
+
+		///<summary>The TextBelow strip under the date slider (paint type TextBelow, Open Dental 26.2; TC-5): the paint texts of the TextBelow
+		///procedures in listDataRows, the rows the chart paints, of any treatment area (ToothChartPainter.GetTextBelowStripText). Hidden when there is
+		///none; when that changes, the control under the slider gets its room back or makes room again (LayoutTextBelow).</summary>
+		private void FillTextBelow(List<DataRow> listDataRows) {
+			if(textTextBelow.SetProcedures(listDataRows)) {
+				LayoutTextBelow();
+				return;
+			}
+			SetTextBelowVisible();//SetProcedures shows the strip whenever it has text; a layout without the slider keeps it hidden.
 		}
 
 		private void FillTrackSlider() {
@@ -7444,8 +7487,21 @@ namespace OpenPmsDental {
 			return true;
 		}		
 
+		///<summary>Disposes a right-click menu that a grid no longer uses, after the current message: the menu can be replaced from a click on one of
+		///its own items (a link that changes the patient or the module).</summary>
+		private void DisposeContextMenuStripLater(ContextMenuStrip contextMenuStrip) {
+			if(contextMenuStrip==null) {
+				return;
+			}
+			if(!IsHandleCreated) {
+				contextMenuStrip.Dispose();
+				return;
+			}
+			BeginInvoke((Action)contextMenuStrip.Dispose);
+		}
+
 		///<summary>Displays the menu item as enabled if all the selected rows return true for isRowRelevant. Displays the menu item as disabled if at least one but not all return true. Hides the menu item if no rows return true.</summary>
-		private void ShowMenuItemHelper(MenuItem menuItem,Func<DataRowWithIdx,bool> isRowRelevant) {
+		private void ShowMenuItemHelper(ToolStripMenuItem menuItem,Func<DataRowWithIdx,bool> isRowRelevant) {
 			List<DataRowWithIdx> listDataRowsWithIdxsSelected=gridProg.SelectedIndices.Where(x => x>-1 && x<gridProg.ListGridRows.Count)
 				.Select(x => new DataRowWithIdx((DataRow)gridProg.ListGridRows[x].Tag,x)).ToList();
 			int countRelevant=listDataRowsWithIdxsSelected.Count(x => isRowRelevant(x));
@@ -7542,7 +7598,7 @@ namespace OpenPmsDental {
 			}
 			List<SheetDef> listSheetDefs=SheetDefs.GetCustomForType(SheetTypeEnum.Consent);
 			if(listSheetDefs.Count>0) {
-				ContextMenu contextMenuConsent=odToolBarButton.DropDownMenu.GetContextMenu();
+				ContextMenuStrip contextMenuConsent=odToolBarButton.ContextMenuStripDropDown;
 				contextMenuConsent.Show(this,new Point(odToolBarButton.Bounds.X,odToolBarButton.Bounds.Y+odToolBarButton.Bounds.Height));
 				return;
 			}
@@ -8145,7 +8201,7 @@ namespace OpenPmsDental {
 		}
 		
 		private void Tool_ToothChart_Click(ODToolBarButton odToolBarButton) {
-			ContextMenu contextMenuConsent=odToolBarButton.DropDownMenu.GetContextMenu();
+			ContextMenuStrip contextMenuConsent=odToolBarButton.ContextMenuStripDropDown;
 			contextMenuConsent.Show(this,new Point(odToolBarButton.Bounds.X,odToolBarButton.Bounds.Y+odToolBarButton.Bounds.Height));
 		}
 
@@ -8181,7 +8237,12 @@ namespace OpenPmsDental {
 		#region Methods - Private - SheetLayout
 		///<summary>Returns a dictionary such that the key is a sheetFieldDef.FieldName and the value is a corresponding control from this instance of ContrChart. Dictionary values can be null if control is not matched.</summary>
 		private Dictionary<string,Control> LayoutSheet_GetControlDict() {
-			SheetFieldLayoutMode sheetFieldLayoutMode=LayoutSheet_GetMode();
+			return LayoutSheet_GetControlDict(LayoutSheet_GetMode());
+		}
+
+		///<summary>The dictionary of LayoutSheet_GetControlDict() for the given layout mode (also read by BSHELLTests' TextBelow layout test, which has
+		///no database to choose the mode).</summary>
+		private Dictionary<string,Control> LayoutSheet_GetControlDict(SheetFieldLayoutMode sheetFieldLayoutMode) {
 			Dictionary<string,Control> dictControls=new Dictionary<string,Control>();
 			//Use internal list because it implements all sheetFieldDefs.  We expect the def to always match the controls in the Chart.
 			List<SheetFieldDef> listSheetFieldDefsAll=SheetsInternal.GetSheetDef(SheetInternalType.ChartModule).SheetFieldDefs;
@@ -8265,6 +8326,7 @@ namespace OpenPmsDental {
 				LayoutManager.Synch(dictionaryStringControl.Values.ElementAt(i));//The controls were just moved around programmatically by the sheetLayoutController.
 				//This will also pick up any change in anchor and move that over to the LayoutManager
 			}
+			LayoutTextBelowAfterSheet(sheetFieldLayoutMode,dictionaryStringControl);
 			//float fontSize=gridProg.Font.Size;
 			if(checkShowOrtho.Checked){
 				//The panelGridProg will be visible only if it is in the SheetDef and checkTreatPlans.Checked==false and checkShowOrtho.Checked==false
@@ -8299,6 +8361,76 @@ namespace OpenPmsDental {
 			butNewTP.Visible=false;
 			gridTpProcs.Visible=false;
 			panelTPpriority.Visible=false;
+		}
+
+		///<summary>After the sheet layout placed the controls (LayoutControls): finds the control that starts right under the date slider and
+		///overlaps it across (the treatment notes in the standard layout, the tooth chart in a layout with the slider above it, such as Open Dental's
+		///"Big" layout), keeps the place the sheet gave it, and lays out the TextBelow strip (LayoutTextBelow). The sheet layout has just hidden every
+		///control it does not place, the strip too (SheetLayoutController.InitLayoutForSheetDef), so LayoutTextBelow shows it again. A layout without
+		///the slider never shows the strip and moves no control for it.</summary>
+		private void LayoutTextBelowAfterSheet(SheetFieldLayoutMode sheetFieldLayoutMode,Dictionary<string,Control> dictionaryStringControl) {
+			_controlUnderTextBelow=null;
+			_isTextBelowSliderPlaced=dictionaryStringControl.TryGetValue("TrackToothProcDates",out Control controlSlider)
+				&& controlSlider==panelToothTrackBar
+				&& _sheetLayoutController.SheetDefDynamicLayoutCur!=null
+				&& _sheetLayoutController.GetPertinentSheetFieldDefs(sheetFieldLayoutMode).Any(x => x.FieldName=="TrackToothProcDates");
+			if(!_isTextBelowSliderPlaced) {
+				LayoutTextBelow();
+				return;
+			}
+			int heightStrip=textTextBelow.Height+LayoutManager.Scale(2);
+			foreach(Control control in dictionaryStringControl.Values) {
+				if(control==null || control==panelToothTrackBar || control==textTextBelow || control.Parent!=this) {
+					continue;
+				}
+				if(control.Top<panelToothTrackBar.Bottom || control.Top>panelToothTrackBar.Bottom+heightStrip) {
+					continue;
+				}
+				if(control.Right<=panelToothTrackBar.Left || control.Left>=panelToothTrackBar.Right) {
+					continue;
+				}
+				if(_controlUnderTextBelow==null || control.Top<_controlUnderTextBelow.Top) {
+					_controlUnderTextBelow=control;
+				}
+			}
+			if(_controlUnderTextBelow!=null) {
+				_rectangleUnderTextBelow=_controlUnderTextBelow.Bounds;
+				_sizeMinimumUnderTextBelow=_controlUnderTextBelow.MinimumSize;
+			}
+			LayoutTextBelow();
+		}
+
+		///<summary>The TextBelow strip (TC-5), one line right under the date slider and as wide as it, in every layout. While it has text, the control
+		///found under the slider (LayoutTextBelowAfterSheet) starts under the strip instead and keeps its bottom edge; without text that control has
+		///the sheet's place. Also sets the strip's visibility, which the sheet layout clears on every layout (SetTextBelowVisible).</summary>
+		private void LayoutTextBelow() {
+			if(!_isTextBelowSliderPlaced) {
+				SetTextBelowVisible();
+				return;
+			}
+			LayoutManager.MoveLocation(textTextBelow,new Point(panelToothTrackBar.Left,panelToothTrackBar.Bottom+LayoutManager.Scale(1)));
+			LayoutManager.MoveWidth(textTextBelow,panelToothTrackBar.Width);
+			textTextBelow.BringToFront();
+			SetTextBelowVisible();
+			if(_controlUnderTextBelow==null) {
+				return;
+			}
+			if(!textTextBelow.HasText) {
+				_controlUnderTextBelow.MinimumSize=_sizeMinimumUnderTextBelow;
+				LayoutManager.Move(_controlUnderTextBelow,_rectangleUnderTextBelow);
+				return;
+			}
+			int top=Math.Max(_rectangleUnderTextBelow.Top,textTextBelow.Bottom+LayoutManager.Scale(1));
+			int height=Math.Max(_rectangleUnderTextBelow.Bottom-top,LayoutManager.Scale(20));
+			//The field's minimum height would keep the control from shrinking, so its bottom would move down over the control below it.
+			_controlUnderTextBelow.MinimumSize=new Size(_sizeMinimumUnderTextBelow.Width,Math.Min(_sizeMinimumUnderTextBelow.Height,height));
+			LayoutManager.Move(_controlUnderTextBelow,new Rectangle(_rectangleUnderTextBelow.Left,top,_rectangleUnderTextBelow.Width,height));
+		}
+
+		///<summary>Shows the TextBelow strip while it has text and the current layout places the date slider, else hides it. Called after every layout,
+		///because the sheet layout hides each control that is not a sheet field or a static control, the strip among them, and after every fill.</summary>
+		private void SetTextBelowVisible() {
+			textTextBelow.Visible=_isTextBelowSliderPlaced && textTextBelow.HasText;
 		}
 		#endregion Methods - Private - SheetLayout
 
@@ -10167,9 +10299,12 @@ namespace OpenPmsDental {
 			}
 			Cursor=Cursors.WaitCursor;
 			gridOrtho.SelectionMode=GridSelectionMode.MultiExtended;
-			ContextMenu contextMenu=new ContextMenu();
-			contextMenu.MenuItems.Add("Delete",MenuItemOrthoDelete_Click);
-			gridOrtho.ContextMenu=contextMenu;
+			ContextMenuStrip contextMenu=new ContextMenuStrip();
+			contextMenu.Items.Add("Delete",null,MenuItemOrthoDelete_Click);
+			ContextMenuStrip contextMenuStripOld=gridOrtho.ContextMenuStrip;
+			gridOrtho.ContextMenuStrip=contextMenu;
+			gridOrtho.DoAddGridItemsToContextMenuStrip=true;//Copy Cell Text, Copy Rows and the links after Delete, as before
+			DisposeContextMenuStripLater(contextMenuStripOld);
 			gridOrtho.BeginUpdate();
 			gridOrtho.Columns.Clear();
 			GridColumn col=new GridColumn(Lan.g("TableOrtho","Date"),70);

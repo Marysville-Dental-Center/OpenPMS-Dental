@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- Golden outputs and known answers of stage 3a of the .NET 10 move (package S3a-4, docs/specs/net10-plan.md, docs/port-notes/S3a-4.md):
+       texts and bytes the program writes, recorded once with the .NET Framework 4.8 build and committed under Fixtures\, so that stage 3b
+       compares the .NET 10 build with them as they are. The outputs come from one fixture database, a scratch database on the local MariaDB
+       (127.0.0.1:3306, root, blank password) whose name starts with gold_, built from db/init/new-database.sql and the fork migrations with
+       synthetic rows only and dropped afterwards; the database tests are skipped (inconclusive) when the server does not answer or when
+       GOLDEN_TEST_DB=skip. OPMS_GOLDEN_RECORD=1 writes the fixtures anew instead of comparing (off by default). Every .cs file under this
+       folder is compiled. -->
+  <ItemGroup>
+    <Reference Include="System.Windows.Forms" />
+  </ItemGroup>
+  <ItemGroup>
+    <!-- Reads the statement PDF's text back (the statement PDF tests of package LIB-PDF). -->
+    <Compile Include="..\PdfLibraryTests\PdfRead.cs">
+      <Link>PdfRead.cs</Link>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\CodeBase\xCodeBase.csproj" />
+    <ProjectReference Include="..\..\DataConnectionBase\xDataConnectionBase.csproj" />
+    <ProjectReference Include="..\..\ODCrypt\xODCrypt.csproj" />
+    <ProjectReference Include="..\..\OpenPmsDentalBusiness\OpenPmsDentalBusiness.csproj" />
+    <!-- The RDL engine the program uses (its <Code> blocks, decision 14 of the plan). -->
+    <ProjectReference Include="..\..\RdlEngine\RdlEngine.csproj" />
+    <!-- The statement PDF (SheetDrawingJob.CreatePdf) and its reader. -->
+    <ProjectReference Include="..\..\third-party\build\PdfSharp-gdi\PdfSharp-gdi.csproj" />
+  </ItemGroup>
+</Project>

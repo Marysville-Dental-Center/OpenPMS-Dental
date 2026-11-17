@@ -11,10 +11,13 @@ using SparksToothChart;
 
 namespace OpenPmsDental{
 	///<summary>Relays tooth chart commands to SparksToothChart.ToothChartWrapper, the only tooth chart. Open Dental's closed DirectX 11 chart
-	///(Sparks3D.dll, under Open Dental's own licence) was removed on 2026-11-01. The wrapper draws with DirectX 9, OpenGL or Simple 2D and falls
-	///back on its own when a mode cannot start. Methods for features only Sparks3D drew (ortho hardware, free text, brackets, retained roots,
-	///space maintainers) are kept as no-ops so callers need no branches. Since TC-2 the callers' painting code is ToothChartPainter, which draws
-	///on the relay as its IToothChartPaintTarget, and the callers' chart settings are the relay's settings helpers.</summary>
+	///(Sparks3D.dll, under Open Dental's own licence) was removed on 2026-11-01; the WPF chart takes its place, chosen by Open Dental's own DirectX 11
+	///settings (TC-8b, GetEngineForComputer). The wrapper draws with the WPF chart or the Simple 2D chart, Open Dental's one older technology left,
+	///and falls back to Simple 2D on its own when the WPF chart cannot start. The features only Sparks3D drew are drawn by the WPF chart: free text and
+	///paint text other than "W" since TC-5 (TextBelow is shown by the Chart module, outside the tooth picture), ortho mode, orthodontic hardware,
+	///retained roots and space maintainers since TC-6; the Simple 2D chart ignores those last four, as Open Dental's older charts do. Since TC-2 the
+	///callers' painting code is ToothChartPainter, which draws on the relay as its IToothChartPaintTarget, and the callers' chart settings are the
+	///relay's settings helpers.</summary>
 	public class ToothChartRelay:IToothChartPaintTarget{
 		private ToothChartWrapper _toothChartWrapper;
 
@@ -80,7 +83,8 @@ namespace OpenPmsDental{
 			}
 		}
 
-		///<summary>Sets the wrapper's perio mode to the value given. Turning it on is only allowed in DirectX (the wrapper throws otherwise).</summary>
+		///<summary>Sets the wrapper's perio mode to the value given. Turning it on is only allowed in the WPF chart (since TC-7; the wrapper throws
+		///otherwise).</summary>
 		public bool IsPerioMode{
 			set{
 				_toothChartWrapper.PerioMode=value;
@@ -105,24 +109,30 @@ namespace OpenPmsDental{
 			_toothChartWrapper.AddDrawingSegment(drawingSegment);
 		}
 
-		///<summary>Not supported by SparksToothChart.</summary>
+		///<summary>A wire from one bracket to the next: a thin line in the WPF chart (TC-6, ORTHO-2); the other engines ignore it.</summary>
 		public void AddOrthoWireBetweenBrackets(string toothIDstart,string toothIDend,Color color){
+			_toothChartWrapper.AddOrthoWireBetweenBrackets(toothIDstart,toothIDend,color);
 		}
 
-		///<summary>Not supported by SparksToothChart.</summary>
+		///<summary>A wire across one bracket: a thin line in the WPF chart (TC-6, ORTHO-2); the other engines ignore it.</summary>
 		public void AddOrthoWireInBracket(string toothID,Color color){
+			_toothChartWrapper.AddOrthoWireInBracket(toothID,color);
 		}
 
-		///<summary>Not supported by SparksToothChart.</summary>
+		///<summary>An elastic between two brackets: a thin line in the WPF chart (TC-6, ORTHO-2); the other engines ignore it.</summary>
 		public void AddOrthoElastic(string toothIDstart,string toothIDend,Color color){
+			_toothChartWrapper.AddOrthoElastic(toothIDstart,toothIDend,color);
 		}
 
 		public void AddPerioMeasure(int intTooth,PerioSequenceType sequenceType,int mb,int b,int db,int ml,int l, int dl){
 			_toothChartWrapper.AddPerioMeasure(intTooth,sequenceType,mb,b,db,ml,l,dl);
 		}
 
-		///<summary>Not to be confused with SetText. Not supported by SparksToothChart.</summary>
+		///<summary>A free-text label (a toothinitial row of type Text) at location, the top left of its text in the chart's 410x307 drawing space. Not
+		///to be confused with SetText. The WPF chart and the 2D chart draw it (TC-5); with CursorTool.MoveText the WPF chart moves it and raises
+		///TextMoved.</summary>
 		public void AddText(string text,PointF location,Color color,long toothInitialNum){
+			_toothChartWrapper.AddText(text,location,color,toothInitialNum);
 		}
 
 		///<summary>toothChartWrapper.SuspendLayout</summary>
@@ -155,8 +165,9 @@ namespace OpenPmsDental{
 			_toothChartWrapper.SetBigX(toothID,color);
 		}
 
-		///<summary>Not supported by SparksToothChart.</summary>
+		///<summary>A bracket on the tooth's facial surface, drawn by the WPF chart (TC-6, ORTHO-2); the other engines ignore it.</summary>
 		public void SetBracket(string toothID,Color color){
+			_toothChartWrapper.SetBracket(toothID,color);
 		}
 
 		public void SetBU(string toothID,Color color){
@@ -183,8 +194,10 @@ namespace OpenPmsDental{
 			_toothChartWrapper.SetMobility(toothID,mobility,color);
 		}
 
-		///<summary>Not supported by SparksToothChart.</summary>
+		///<summary>Ortho mode: the WPF chart draws only the facial rows, moved toward the centre line (TC-6, ORTHO-1); the other engines ignore it. The
+		///callers switch Universal numbering to Palmer themselves.</summary>
 		public void SetOrthoMode(bool isOrthoMode){
+			_toothChartWrapper.SetOrthoMode(isOrthoMode);
 		}
 
 		public void SetPerioColors(Color colorBleeding,Color colorSuppuration,Color colorProbing,Color colorProbingRed,Color colorGM,Color colorCAL,
@@ -214,8 +227,10 @@ namespace OpenPmsDental{
 			_toothChartWrapper.SetRCT(toothID,color);
 		}
 
-		///<summary>Not supported by SparksToothChart.</summary>
+		///<summary>Paint type RetainedRoot: the root only, in the colour, drawn by the WPF chart on a tooth that is shown (TC-6, RR-1); the other engines
+		///ignore it.</summary>
 		public void SetRetainedRoot(string toothID,Color color){
+			_toothChartWrapper.SetRetainedRoot(toothID,color);
 		}
 
 		public void SetSealant(string toothID,Color color){
@@ -226,29 +241,35 @@ namespace OpenPmsDental{
 			_toothChartWrapper.SetSelected(toothID,setValue);
 		}
 
-		///<summary>Not supported by SparksToothChart.</summary>
+		///<summary>Paint type SpaceMaintainer, one tooth of the procedure: a solid bar across the tooth's space when no tooth is drawn there, drawn by the
+		///WPF chart (TC-6, SM-1); the other engines ignore it.</summary>
 		public void SetSpaceMaintainer(string toothID,Color color){
+			_toothChartWrapper.SetSpaceMaintainer(toothID,color);
 		}
 
 		public void SetSurfaceColors(string toothID,string surfaces,Color color){
 			_toothChartWrapper.SetSurfaceColors(toothID,surfaces,color);
 		}
 
+		///<summary>Paint type Text: "W" is the watch mark; any other text is drawn beyond the root tip, in the watch mark's band (O-22, TC-5).</summary>
 		public void SetText(string toothID,Color color,string text){
 			if(text=="W"){
 				_toothChartWrapper.SetWatch(toothID,color);
+				return;
 			}
-			//Other text not supported
+			_toothChartWrapper.SetText(toothID,color,text);
 		}
 
-		///<summary>Also passes the wrapper's TextMoved on as this relay's TextMoved.</summary>
+		///<summary>Also passes the wrapper's TextMoved and TextColorChanged on as this relay's.</summary>
 		public void SetToothChartWrapper(ToothChartWrapper toothChartWrapper){
 			if(_toothChartWrapper!=null) {
 				_toothChartWrapper.TextMoved-=ToothChartWrapper_TextMoved;
+				_toothChartWrapper.TextColorChanged-=ToothChartWrapper_TextColorChanged;
 			}
 			_toothChartWrapper=toothChartWrapper;
 			if(_toothChartWrapper!=null) {
 				_toothChartWrapper.TextMoved+=ToothChartWrapper_TextMoved;
+				_toothChartWrapper.TextColorChanged+=ToothChartWrapper_TextColorChanged;
 			}
 		}
 
@@ -299,124 +320,234 @@ namespace OpenPmsDental{
 
 		#endregion Colors
 
-		#region Settings helpers (TC-2)
-		///<summary>Applies the local computer's chart settings (computerpref: GraphicsUseHardware, PreferredPixelFormatNum, DirectXFormat and the
-		///stored mode GraphicsSimple) to a wrapper and starts its engine. One helper for the copies each caller had before TC-2 (ControlChart twice,
-		///ControlTreat, SheetPrinting, FormSheetDefEdit and FormToothChartingBig), with the same values; toothChartSettingsUse keeps the small
-		///differences between them. The engine starts last, so it starts with the other settings. Except for StartupMode, the pixel format the
-		///engine chose is then saved for the computer with the same ComputerPrefs.Update as before. In DEBUG builds the developer switch
-		///(IsWpfDeveloperSwitchOn) starts the WPF chart instead.</summary>
-		public static void ApplyComputerSettings(ToothChartWrapper toothChartWrapper,ToothChartSettingsUse toothChartSettingsUse) {
-			if(toothChartSettingsUse!=ToothChartSettingsUse.StartupMode) {
-				toothChartWrapper.UseHardware=ComputerPrefs.LocalComputer.GraphicsUseHardware;
-				toothChartWrapper.PreferredPixelFormatNumber=ComputerPrefs.LocalComputer.PreferredPixelFormatNum;
-			}
-			if(IsWpfDeveloperSwitchOn()) {
-				toothChartWrapper.Engine=ToothChartEngine.Wpf3D;
-			}
-			else if(toothChartSettingsUse==ToothChartSettingsUse.ModeByName) {
-				//Must be last preference set, last so that all settings are caried through in the reinitialization this line triggers.
-				if(ComputerPrefs.LocalComputer.GraphicsSimple==DrawingMode.Simple2D) {
-					toothChartWrapper.DrawMode=DrawingMode.Simple2D;
-				}
-				else if(ComputerPrefs.LocalComputer.GraphicsSimple==DrawingMode.DirectX) {
-					toothChartWrapper.DeviceFormat=new ToothChartDirectX.DirectXDeviceFormat(ComputerPrefs.LocalComputer.DirectXFormat);
-					toothChartWrapper.DrawMode=DrawingMode.DirectX;
-				}
-				else{
-					toothChartWrapper.DrawMode=DrawingMode.OpenGL;
-				}
-			}
-			else {
-				toothChartWrapper.DeviceFormat=new ToothChartDirectX.DirectXDeviceFormat(ComputerPrefs.LocalComputer.DirectXFormat);
-				//Must be last setting set for preferences, because this is the line where the device pixel format is recreated.
-				//When DirectX cannot start (no d3dx9_43.dll from the legacy DirectX runtime), the wrapper falls back to OpenGL, then Simple 2D.
-				toothChartWrapper.DrawMode=ComputerPrefs.LocalComputer.GraphicsSimple;
-			}
-			if(toothChartSettingsUse==ToothChartSettingsUse.StartupMode) {
-				return;
-			}
-			//The preferred pixel format number changes to the selected pixel format number after a context is chosen.
-			ComputerPrefs.LocalComputer.PreferredPixelFormatNum=toothChartWrapper.PreferredPixelFormatNumber;
-			ComputerPrefs.Update(ComputerPrefs.LocalComputer);
+		#region Settings helpers (TC-2, TC-8, TC-8b)
+		///<summary>The status line's word when the 3D tooth chart can start on this computer (File > Graphics, TC-8b, NEW-1), as Open Dental's
+		///"DirectX 11 status on this computer" says it.</summary>
+		public const string Chart3DStatusAvailable="Available";
+		///<summary>The start of the status line when the 3D tooth chart cannot start on this computer: "Fell back: " and the reason (TC-8b, NEW-1).</summary>
+		public const string Chart3DStatusFellBackPrefix="Fell back: ";
+		///<summary>The graphical perio chart's refusal on a computer that draws the Simple 2D chart (TC-8b, ENG-5): Open Dental's own sentence for the
+		///same case ("In the Graphics setup window, you must first select DirectX.", its 24.3 FormPerio, public in its source), with the 3D tooth
+		///chart in DirectX's place and the menu named. The exact wording of Open Dental 26.2 for a computer not on DirectX 11 is not public
+		///(od-unknown, docs/port-notes/TC-8b.md).</summary>
+		public const string PerioNeeds3DChartMessage="In the Graphics setup window (File > Graphics), you must first select the 3D tooth chart.";
+
+		///<summary>Open Dental's global "DirectX 11 Tooth Chart on all computers" setting, the fork's "3D Tooth Chart on all computers" (TC-8b, ENG-2):
+		///the preference DirectX11ToothChartUseIfAvail, "Use if available" (true, the default, also when the row or the cache is missing, as Open
+		///Dental's 24.3 start-up read it) or "Do not use" (false). No schema change: the row is Open Dental's own.</summary>
+		public static bool IsChart3DOnAllComputers() {
+			return PrefC.GetBoolSilent(PrefName.DirectX11ToothChartUseIfAvail,true);
 		}
 
-		///<summary>At start-up (FormOpenDental): a computer saved as DirectX with no DirectX format yet gets the first standard format that works
-		///(ToothChartWrapper.GetPreferredDirectXFormat, which can take minutes, controlHost hosting its test charts), or the next mode, OpenGL, when
-		///none works, and the computer's settings are saved. Returns true when they were saved, so the caller restarts its chart
-		///(controlChart.InitializeOnStartup). Any failure leaves them unsaved and returns false.</summary>
-		public static bool ChooseStartupDirectXFormat(Control controlHost) {
-			//Choose a default DirectX format when no DirectX format has been specified and running in DirectX tooth chart mode.
-			if(ComputerPrefs.LocalComputer.GraphicsSimple==DrawingMode.DirectX && ComputerPrefs.LocalComputer.DirectXFormat=="") {
-				try {
-					ComputerPrefs.LocalComputer.DirectXFormat=ToothChartWrapper.GetPreferredDirectXFormat(controlHost);
-					if(ComputerPrefs.LocalComputer.DirectXFormat=="invalid") {
-						//No valid local DirectX format could be found, for example because d3dx9_43.dll from the legacy DirectX runtime is missing.
-						//Use the wrapper's next mode, OpenGL; the wrapper itself falls back to Simple 2D if OpenGL cannot start either.
-						ComputerPrefs.LocalComputer.GraphicsSimple=SparksToothChart.ToothChartWrapper.GetFallbackDrawMode(DrawingMode.DirectX);
-					}
-					ComputerPrefs.Update(ComputerPrefs.LocalComputer);
-					return true;
-				}
-				catch(Exception) {
-					//The tooth chart will default to Simple2D mode if the above code fails for any reason.  This will at least get the user into the program.
-				}
-			}
-			return false;
+		///<summary>Saves the global setting (IsChart3DOnAllComputers) and returns true when the stored value changed; the caller then signals the
+		///preference cache (DataValid.SetInvalid(InvalidType.Prefs)), as Open Dental's Graphics window did.</summary>
+		public static bool SetChart3DOnAllComputers(bool isChart3DOnAllComputers) {
+			return Prefs.UpdateBool(PrefName.DirectX11ToothChartUseIfAvail,isChart3DOnAllComputers);
 		}
 
-		///<summary>The gate of the graphical perio chart (FormPerio's Graphical button), moved from FormPerio: today it draws only in DirectX, which
-		///must be chosen in Setup > Graphics and installed. Returns false with the message to show, in English (the caller shows it through MsgBox
-		///as before, which translates it). In DEBUG builds the developer switch opens it on the WPF chart.</summary>
-		public static bool CanOpenGraphicalPerio(out string message) {
-			message="";
-			if(IsWpfDeveloperSwitchOn()) {
+		///<summary>Open Dental's per-computer "DirectX 11 Tooth Chart" setting, the fork's "3D Tooth Chart" (TC-8b, ENG-2): computerpref.GraphicsUseDirectX11,
+		///Unknown "Use the global setting" (a new computer's 0), Yes "Use if available", No "Do not use". Unknown for a null computer.</summary>
+		public static YN GetChart3DThisComputer(ComputerPref computerPref) {
+			if(computerPref==null) {
+				return YN.Unknown;
+			}
+			return computerPref.GraphicsUseDirectX11;
+		}
+
+		///<summary>True when a computer uses the 3D tooth chart (TC-8b, ENG-2), as Open Dental 24.3 decided it at start-up for its DirectX 11 chart: the
+		///computer's own "Use if available" or "Do not use" wins, and "Use the global setting" (or any other stored number) follows the global setting.</summary>
+		public static bool IsChart3DUsed(bool isChart3DOnAllComputers,YN chart3DThisComputer) {
+			if(chart3DThisComputer==YN.Yes) {
 				return true;
 			}
-			if(ComputerPrefs.LocalComputer.GraphicsSimple!=DrawingMode.DirectX) {
-				message="In the Graphics setup window, you must first select DirectX.";
+			if(chart3DThisComputer==YN.No) {
 				return false;
 			}
-			if(!SparksToothChart.ToothChartWrapper.IsDirectXRuntimeAvailable()) {
-				//The graphical perio chart draws only in DirectX, and DirectX needs d3dx9_43.dll, which a clean Windows does not have.
-				message="The graphical perio chart needs Microsoft's DirectX End-User Runtime (d3dx9_43.dll), which is not installed on this computer.";
+			return isChart3DOnAllComputers;
+		}
+
+		///<summary>The engine a computer draws with (TC-8b, ENG-2): the WPF chart when it uses the 3D tooth chart (IsChart3DUsed), which falls back to
+		///Simple 2D on its own, logged once, when it cannot start. Otherwise the older technology, which Open Dental chooses with computerpref.GraphicsSimple
+		///("only Do not use lets GraphicsSimple apply"): of Open Dental's three (DirectX 9, Simple 2D, OpenGL) only Simple 2D is left since TC-9a, so every
+		///stored value draws Simple 2D. Reading changes nothing; the next Save in File > Graphics on such a computer writes 1 (SetGraphicsChoice), so a
+		///return to Open Dental (decision 22) draws Simple 2D there too.
+		///A computer stored as Simple 2D (1) gets the 3D chart unless its setting is "Do not use" (revises O-30).</summary>
+		public static ToothChartEngine GetEngineForComputer(bool isChart3DOnAllComputers,ComputerPref computerPref) {
+			if(IsChart3DUsed(isChart3DOnAllComputers,GetChart3DThisComputer(computerPref))) {
+				return ToothChartEngine.Wpf3D;
+			}
+			return ToothChartEngine.Simple2D;
+		}
+
+		///<summary>GetEngineForComputer with the office's global setting (IsChart3DOnAllComputers).</summary>
+		public static ToothChartEngine GetEngineForComputer(ComputerPref computerPref) {
+			return GetEngineForComputer(IsChart3DOnAllComputers(),computerPref);
+		}
+
+		///<summary>True when the computer's WPF chart shows the smoothed picture on screen (the renderer's software image, the same as every printout):
+		///since TC-8b (ENG-3, revising O-34 (b1)) every computer's default, an empty computerpref.DirectXFormat included. Only the per-computer option
+		///"Draw in software" unticked, stored as ToothChartWrapper.DirectXFormatWpfLiveView, shows the quick live view. TC-8's "WpfSoftware" and a DirectX
+		///device format an older build saved are the default. True for a null computer.</summary>
+		public static bool IsDrawnInSoftware(ComputerPref computerPref) {
+			return computerPref==null || !ToothChartWrapper.IsWpfLiveViewFormat(computerPref.DirectXFormat);
+		}
+
+		///<summary>Applies the local computer's chart settings (ApplyComputerPref with ComputerPrefs.LocalComputer) to a wrapper and starts its engine.
+		///One helper for the copies each caller had before TC-2 (ControlChart twice, ControlTreat, SheetPrinting, FormSheetDefEdit and
+		///FormToothChartingBig). The copies differed a little before TC-8 (the hardware flag, the OpenGL pixel format and the DirectX device format,
+		///set and saved in different ways); since TC-8 every caller applies the same two settings and nothing is saved (no ComputerPrefs.Update when an
+		///image is made, or ever here), so TC-9a removed the parameter that named each caller's old way (ToothChartSettingsUse).</summary>
+		public static void ApplyComputerSettings(ToothChartWrapper toothChartWrapper) {
+			ApplyComputerPref(toothChartWrapper,ComputerPrefs.LocalComputer);
+		}
+
+		///<summary>Applies one computer's chart settings to a wrapper: first its "Draw in software" switch (IsDrawnInSoftware), so a computer drawn in
+		///software never makes a live view first (TC-3's fix round 3), then the engine the computer draws with (GetEngineForComputer, TC-8b): the WPF
+		///chart, which falls back to Simple 2D with one log line when it cannot start, or the 2D chart. Reads computerPref and the global setting only;
+		///saves nothing.</summary>
+		public static void ApplyComputerPref(ToothChartWrapper toothChartWrapper,ComputerPref computerPref) {
+			toothChartWrapper.WpfDrawInSoftware=IsDrawnInSoftware(computerPref);
+			toothChartWrapper.Engine=GetEngineForComputer(computerPref);
+		}
+
+		///<summary>The gate of the graphical perio chart (FormPerio's Graphical button), moved from FormPerio in TC-2. Since TC-8b (ENG-5, revising O-31)
+		///it opens only on a computer that uses the 3D tooth chart (GetEngineForComputer), as Open Dental opens it only on its 3D charts (its Graphics
+		///page: none on Simple 2D); on a computer that draws Simple 2D it refuses with PerioNeeds3DChartMessage, which names File > Graphics. A 3D chart
+		///that cannot start falls back to Simple 2D when FormPerioGraphical starts it, and the perio mode then says so (ApplyGraphicalPerioMode).</summary>
+		public static bool CanOpenGraphicalPerio(out string message) {
+			return CanOpenGraphicalPerio(IsChart3DOnAllComputers(),ComputerPrefs.LocalComputer,out message);
+		}
+
+		///<summary>CanOpenGraphicalPerio for a given global setting and computer.</summary>
+		public static bool CanOpenGraphicalPerio(bool isChart3DOnAllComputers,ComputerPref computerPref,out string message) {
+			if(GetEngineForComputer(isChart3DOnAllComputers,computerPref)!=ToothChartEngine.Wpf3D) {
+				message=PerioNeeds3DChartMessage;
 				return false;
 			}
+			message="";
 			return true;
 		}
 
-		///<summary>Starts the graphical perio chart's engine (FormPerioGraphical), moved from FormPerioGraphical: DirectX with the computer's DirectX
-		///format, whatever chart the computer uses elsewhere. In DEBUG builds the developer switch starts the WPF chart, whose perio mode follows in
-		///TC-7 (until then turning perio mode on throws, and the window says so and closes).</summary>
+		///<summary>Starts the graphical perio chart's engine (FormPerioGraphical), moved from FormPerioGraphical in TC-2: the WPF chart, which draws perio
+		///since TC-7, with the computer's "Draw in software" switch set first, as ApplyComputerPref sets it. CanOpenGraphicalPerio lets only a computer
+		///that uses the 3D tooth chart get here (TC-8b). The chart also gets the office's Recession option (TC-7), which the WPF chart's legend shows. If
+		///the WPF chart cannot start, the wrapper falls back to Simple 2D, logged once, and the perio mode that FormPerioGraphical sets next says the 3D
+		///chart could not start.</summary>
 		public static void ApplyGraphicalPerioMode(ToothChartWrapper toothChartWrapper) {
-			if(IsWpfDeveloperSwitchOn()) {
-				toothChartWrapper.Engine=ToothChartEngine.Wpf3D;
-				return;
-			}
-			toothChartWrapper.DeviceFormat=new ToothChartDirectX.DirectXDeviceFormat(ComputerPrefs.LocalComputer.DirectXFormat);//Must be set before draw mode
-			//The perio chart draws only in DirectX. If DirectX cannot start, the wrapper falls back and IsPerioMode below says so.
-			toothChartWrapper.DrawMode=DrawingMode.DirectX;
+			toothChartWrapper.PerioUseRecessionTerm=PerioMeasures.GetUseRecessionTerm();
+			toothChartWrapper.WpfDrawInSoftware=IsDrawnInSoftware(ComputerPrefs.LocalComputer);
+			toothChartWrapper.Engine=ToothChartEngine.Wpf3D;
 		}
 
-		///<summary>The developer switch of the WPF chart (TC-2; TC-8 removes it): in DEBUG builds only, the environment variable OPMS_TOOTHCHART_WPF=1
-		///makes ApplyComputerSettings, ApplyGraphicalPerioMode and CanOpenGraphicalPerio choose the WPF chart (ToothChartEngine.Wpf3D). A Release
-		///build compiles no switch and always gets false.</summary>
-		public static bool IsWpfDeveloperSwitchOn() {
-#if DEBUG
-			return Environment.GetEnvironmentVariable("OPMS_TOOTHCHART_WPF")=="1";
-#else
-			return false;
-#endif
+		///<summary>File > Graphics' save rule (TC-8b, on TC-8's) on computerPref, which the caller then saves with ComputerPrefs.Update; the global
+		///setting is saved by the caller (SetChart3DOnAllComputers). Only the columns a choice changes are written, and the stored values stay Open
+		///Dental's, so a return to Open Dental (decision 22) reads the same:
+		///- The per-computer setting writes GraphicsUseDirectX11 (Unknown, Yes or No) when it changed.
+		///- GraphicsSimple follows TC-8's rule for the chart the computer draws after the save (the global setting and the computer's setting as
+		///  chosen): every save that leaves the computer on Simple 2D writes 1 over any other stored value, whether or not the choices changed the
+		///  chart, because Simple 2D is the older technology the window shows checked and the one that applies, so Open Dental, whose older
+		///  technology then applies, draws Simple 2D too (as Open Dental's own Save always writes GraphicsSimple from that group); a change to the
+		///  3D chart writes 0 only over a stored 1, and a stored 0 or 2 is kept while the computer stays on the 3D chart.
+		///- "Draw in software" (ticked, the default since ENG-3) clears the live view's value; unticked it writes ToothChartWrapper.DirectXFormatWpfLiveView.
+		///  Any other stored value (TC-8's "WpfSoftware", a DirectX device format an older build saved) is kept while the box stays ticked.</summary>
+		public static void SetGraphicsChoice(ComputerPref computerPref,bool isChart3DOnAllComputersBefore,bool isChart3DOnAllComputers,
+			YN chart3DThisComputer,bool isDrawnInSoftware)
+		{
+			bool is3DBefore=IsChart3DUsed(isChart3DOnAllComputersBefore,GetChart3DThisComputer(computerPref));
+			bool is3DAfter=IsChart3DUsed(isChart3DOnAllComputers,chart3DThisComputer);
+			if(computerPref.GraphicsUseDirectX11!=chart3DThisComputer) {
+				computerPref.GraphicsUseDirectX11=chart3DThisComputer;
+			}
+			if(!is3DAfter) {
+				if(computerPref.GraphicsSimple!=DrawingMode.Simple2D) {
+					computerPref.GraphicsSimple=DrawingMode.Simple2D;
+				}
+			}
+			else if(!is3DBefore && is3DAfter && computerPref.GraphicsSimple==DrawingMode.Simple2D) {
+				computerPref.GraphicsSimple=DrawingMode.DirectX;
+			}
+			if(!isDrawnInSoftware) {
+				computerPref.DirectXFormat=ToothChartWrapper.DirectXFormatWpfLiveView;
+			}
+			else if(ToothChartWrapper.IsWpfLiveViewFormat(computerPref.DirectXFormat)) {
+				computerPref.DirectXFormat="";
+			}
 		}
-		#endregion Settings helpers (TC-2)
+
+		///<summary>File > Graphics' status line for this computer (TC-8b, NEW-1): Chart3DStatusAvailable when the WPF chart can start in this process,
+		///otherwise Chart3DStatusFellBackPrefix and the reason it falls back to Simple 2D (ToothChartWrapper.CanStartWpf3D). In English; the window
+		///translates its parts.</summary>
+		public static string GetChart3DStatus() {
+			if(ToothChartWrapper.CanStartWpf3D(out string reason)) {
+				return Chart3DStatusAvailable;
+			}
+			return Chart3DStatusFellBackPrefix+reason;
+		}
+
+		///<summary>File > Graphics' live preview (TC-8): starts the chart the window's choices would give on this computer, the "Draw in software"
+		///switch first, then the engine (the WPF chart when the choices use the 3D tooth chart, the 2D chart otherwise), and paints a synthetic sample on
+		///it (PaintGraphicsPreview). So a PC whose driver draws no WPF 3D (dotnet/wpf#7076; in the program every WPF window is drawn in software, O-34)
+		///shows at once what the choices change. Saves nothing.</summary>
+		public static void ApplyGraphicsPreview(ToothChartWrapper toothChartWrapper,bool is3DChart,bool isDrawnInSoftware) {
+			toothChartWrapper.WpfDrawInSoftware=isDrawnInSoftware;
+			toothChartWrapper.Engine=is3DChart ? ToothChartEngine.Wpf3D : ToothChartEngine.Simple2D;
+			ToothChartRelay toothChartRelay=new ToothChartRelay();
+			toothChartRelay.SetToothChartWrapper(toothChartWrapper);
+			PaintGraphicsPreview(toothChartRelay,Defs.GetDefsForCategory(DefCat.ChartGraphicColors));
+		}
+
+		///<summary>The preview's status line in File > Graphics, in English (the window translates it): the chart the preview's wrapper started for the
+		///window's choices. A 3D chart that could not start fell back to the 2D chart, logged once, as it does in every other place.</summary>
+		public static string GetGraphicsPreviewStatus(ToothChartWrapper toothChartWrapper,bool is3DChart) {
+			if(!is3DChart) {
+				return "Simple 2D chart.";
+			}
+			if(toothChartWrapper.Engine!=ToothChartEngine.Wpf3D) {
+				return "The 3D chart could not start on this computer, so the Simple 2D chart is shown (the ToothChart log says why).";
+			}
+			if(toothChartWrapper.WpfDrawInSoftware) {
+				return "3D chart, drawn in software: the smoothed picture, the same as printouts and sheets.";
+			}
+			return "3D chart, quick live view.";
+		}
+		///<summary>The preview's sample in File > Graphics: no patient, only made-up work in the office's Chart module colours (listDefsChartColors,
+		///DefCat.ChartGraphicColors: 10 and 11 the background and text, 0 and 5 planned work, 1 and 6 completed work): a completed MOD filling on 3, a
+		///completed crown on 14, a planned root canal with a build-up on 19, a planned extraction on 1 and a missing 30, in the office's numbering.</summary>
+		public static void PaintGraphicsPreview(ToothChartRelay toothChartRelay,List<Def> listDefsChartColors) {
+			toothChartRelay.BeginUpdate();
+			toothChartRelay.SetToothNumberingNomenclature((ToothNumberingNomenclature)PrefC.GetInt(PrefName.UseInternationalToothNumbers));
+			toothChartRelay.ColorBackgroundMain=listDefsChartColors[10].ItemColor;
+			toothChartRelay.ColorText=listDefsChartColors[11].ItemColor;
+			toothChartRelay.ColorTextHighlightFore=listDefsChartColors[12].ItemColor;
+			toothChartRelay.ColorTextHighlightBack=listDefsChartColors[13].ItemColor;
+			toothChartRelay.ResetTeeth();
+			toothChartRelay.SetOrthoMode(false);
+			toothChartRelay.SetSurfaceColors("3","MOD",listDefsChartColors[1].ItemColor);
+			toothChartRelay.SetCrown("14",listDefsChartColors[6].ItemColor);
+			toothChartRelay.SetRCT("19",listDefsChartColors[0].ItemColor);
+			toothChartRelay.SetBU("19",listDefsChartColors[0].ItemColor);
+			toothChartRelay.SetBigX("1",listDefsChartColors[0].ItemColor);
+			toothChartRelay.SetMissing("30");
+			toothChartRelay.EndUpdate();
+		}
+		#endregion Settings helpers (TC-2, TC-8, TC-8b)
 
 		#region Free text (TC-2)
 		///<summary>The wrapper's TextMoved, passed on: a free-text label (ToothInitialType.Text) was dragged with CursorTool.MoveText to a point in the
-		///chart's 410×307 space. No engine raises it yet (TC-5 does); the Chart module saves the move (MoveTextLabel).</summary>
+		///chart's 410×307 space. The WPF chart raises it (TC-5); the Chart module saves the move (MoveTextLabel).</summary>
 		public event ToothChartTextMovedEventHandler TextMoved;
 
 		private void ToothChartWrapper_TextMoved(object sender,ToothChartTextMovedEventArgs e) {
 			TextMoved?.Invoke(this,e);
+		}
+
+		///<summary>The wrapper's TextColorChanged, passed on: the Draw tab's Change Color (CursorTool.ColorChanger) was pressed on a free-text label
+		///(ToothInitialType.Text), which now has the pen colour (TC-5; Open Dental's manual: "change the color of an existing drawing or text"). The
+		///WPF chart raises it; the Chart module saves the colour.</summary>
+		public event ToothChartTextColorChangedEventHandler TextColorChanged;
+
+		private void ToothChartWrapper_TextColorChanged(object sender,ToothChartTextColorChangedEventArgs e) {
+			TextColorChanged?.Invoke(this,e);
 		}
 
 		///<summary>Moves a free-text label to location, a point in the chart's 410×307 space: clamped to 0..410 and 0..307 and rounded to whole
@@ -446,30 +577,32 @@ namespace OpenPmsDental{
 
 		#region The dashboard's picture made in the background (TC-3b)
 		///<summary>The picture GetBitmap would return now, made in the background so the caller does not wait for it: the WPF chart's picture for the
-		///Patient Dashboard (ControlChart.FillToothChart, TC-3b). Null when the chart cannot make it that way (DirectX, OpenGL and Simple 2D, a chart
+		///Patient Dashboard (ControlChart.FillToothChart, TC-3b). Null when the chart cannot make it that way (Simple 2D, a chart
 		///with no window handle, a call off its thread); the caller then calls GetBitmap, as before. See ToothChartWrapper.RequestBitmapInBackground.</summary>
 		public ToothChartBitmapRequest RequestBitmapInBackground(){
 			return _toothChartWrapper.RequestBitmapInBackground();
 		}
 		#endregion The dashboard's picture made in the background (TC-3b)
-	}
 
-	///<summary>How a caller applied the local computer's chart settings before TC-2 (ToothChartRelay.ApplyComputerSettings). The copies differed a
-	///little, and each keeps its own way.</summary>
-	public enum ToothChartSettingsUse {
-		///<summary>Hardware flag and pixel format, the DirectX format, then the stored mode as it is; the chosen pixel format is saved
-		///(ControlChart.InitializeLocalData, ControlTreat's printout, SheetPrinting's sheets and dashboard).</summary>
-		StoredMode,
-		///<summary>As StoredMode, but the mode is chosen by name: Simple 2D, DirectX with its format, otherwise OpenGL; the DirectX format is set
-		///only for DirectX (FormSheetDefEdit's preview, FormToothChartingBig).</summary>
-		ModeByName,
-		///<summary>Only the DirectX format and the stored mode, and nothing is saved (ControlChart.InitializeOnStartup).</summary>
-		StartupMode,
+		#region Graphical perio (TC-7)
+		///<summary>The office's Perio Setup option "Use the term Recession" (Open Dental 24.4) for the graphical perio chart: the WPF chart's legend then
+		///names the gingival margin line "Recession", unless the exam has hyperplasia. ApplyGraphicalPerioMode sets it from the preference.</summary>
+		public bool IsPerioRecessionTerm{
+			get{
+				return _toothChartWrapper.PerioUseRecessionTerm;
+			}
+			set{
+				_toothChartWrapper.PerioUseRecessionTerm=value;
+			}
+		}
+		#endregion Graphical perio (TC-7)
 	}
 
 	///<summary>The chart settings FormOpenDental compares after a refresh, to redraw the Chart module only when one of them changed
-	///(NeedsRedraw("ChartModule")). Moved from FormOpenDental (TC-2) with the same keys and comparisons; FormOpenDental keeps its task-list
-	///cache.</summary>
+	///(NeedsRedraw("ChartModule")). Moved from FormOpenDental (TC-2); FormOpenDental keeps its task-list cache. It holds the engine the computer
+	///draws with (GetEngineForComputer, TC-8b: the global 3D setting, this computer's and GraphicsSimple) and the "Draw in software" switch, in place
+	///of the DirectX and OpenGL fields (the hardware flag, the pixel format and the DirectX format), which no chart reads any more: a change that
+	///leaves the engine as it was (0 to 2, or the global setting under a computer's own choice) needs no redraw.</summary>
 	public class ToothChartSettingsSnapshot {
 		private Dictionary<string,object> _dictionaryChartPrefsCache=new Dictionary<string,object>();
 
@@ -478,12 +611,12 @@ namespace OpenPmsDental{
 			_dictionaryChartPrefsCache.Clear();
 			//Chart Drawing Prefs
 			_dictionaryChartPrefsCache.Add(PrefName.UseInternationalToothNumbers.ToString(),PrefC.GetInt(PrefName.UseInternationalToothNumbers));
-			_dictionaryChartPrefsCache.Add("GraphicsUseHardware",ComputerPrefs.LocalComputer.GraphicsUseHardware);
-			_dictionaryChartPrefsCache.Add("PreferredPixelFormatNum",ComputerPrefs.LocalComputer.PreferredPixelFormatNum);
-			_dictionaryChartPrefsCache.Add("GraphicsSimple",ComputerPrefs.LocalComputer.GraphicsSimple);
+			_dictionaryChartPrefsCache.Add("ToothChartEngine",ToothChartRelay.GetEngineForComputer(ComputerPrefs.LocalComputer));
+			_dictionaryChartPrefsCache.Add("WpfDrawInSoftware",ToothChartRelay.IsDrawnInSoftware(ComputerPrefs.LocalComputer));
 			_dictionaryChartPrefsCache.Add(PrefName.ShowFeatureEhr.ToString(),PrefC.GetBool(PrefName.ShowFeatureEhr));
-			_dictionaryChartPrefsCache.Add("DirectXFormat",ComputerPrefs.LocalComputer.DirectXFormat);
 			_dictionaryChartPrefsCache.Add(PrefName.OrthoShowInChart.ToString(),PrefC.GetBool(PrefName.OrthoShowInChart));
+			//The extraction graphic (TC-5): a change on the Chart preferences page redraws the Chart module.
+			_dictionaryChartPrefsCache.Add(ToothChartExtractionGraphic.PREF_NAME,ToothChartExtractionGraphic.IsOn());
 		}
 
 		///<summary>True when nothing was taken yet or a setting differs from the last snapshot. Throws when a setting cannot be read or compared (a
@@ -491,12 +624,11 @@ namespace OpenPmsDental{
 		public bool HasChanged() {
 			return _dictionaryChartPrefsCache.Count==0
 				|| PrefC.GetInt(PrefName.UseInternationalToothNumbers)!=(int)_dictionaryChartPrefsCache["UseInternationalToothNumbers"]
-				|| ComputerPrefs.LocalComputer.GraphicsUseHardware!=(bool)_dictionaryChartPrefsCache["GraphicsUseHardware"]
-				|| ComputerPrefs.LocalComputer.PreferredPixelFormatNum!=(int)_dictionaryChartPrefsCache["PreferredPixelFormatNum"]
-				|| ComputerPrefs.LocalComputer.GraphicsSimple!=(DrawingMode)_dictionaryChartPrefsCache["GraphicsSimple"]
+				|| ToothChartRelay.GetEngineForComputer(ComputerPrefs.LocalComputer)!=(ToothChartEngine)_dictionaryChartPrefsCache["ToothChartEngine"]
+				|| ToothChartRelay.IsDrawnInSoftware(ComputerPrefs.LocalComputer)!=(bool)_dictionaryChartPrefsCache["WpfDrawInSoftware"]
 				|| PrefC.GetBool(PrefName.ShowFeatureEhr)!=(bool)_dictionaryChartPrefsCache["ShowFeatureEhr"]
-				|| ComputerPrefs.LocalComputer.DirectXFormat!=(string)_dictionaryChartPrefsCache["DirectXFormat"]
-				|| PrefC.GetBool(PrefName.OrthoShowInChart)!=(bool)_dictionaryChartPrefsCache["OrthoShowInChart"];
+				|| PrefC.GetBool(PrefName.OrthoShowInChart)!=(bool)_dictionaryChartPrefsCache["OrthoShowInChart"]
+				|| ToothChartExtractionGraphic.IsOn()!=(bool)_dictionaryChartPrefsCache[ToothChartExtractionGraphic.PREF_NAME];
 		}
 	}
 
@@ -778,13 +910,18 @@ namespace OpenPmsDental{
 			}
 		}
 
-		///<summary>The procedures of every caller (O-25: one painter, each caller's own output kept as options): hidden procedures and completed or
-		///existing extractions are skipped (the missing teeth show them), then each procedure is painted by its code's paint type in the colour of
-		///its status. options says how each caller differs.</summary>
+		///<summary>The procedures of every caller (O-25: one painter, each caller's own output kept as options): hidden procedures are skipped, and so
+		///are completed or existing extractions (the missing teeth show them) unless the office shows completed extractions with an X (O-20,
+		///ToothChartExtractionGraphic, TC-5, on by default as in Open Dental 26.2): then they draw the big X in their status's colour over the missing
+		///tooth, in the list's order like any other procedure, whatever else is charted on that tooth (a completed implant or pontic included: the
+		///setting is a plain switch, as Open Dental's). Each procedure is painted by its code's paint type in the colour of its status. TextBelow
+		///(18) paints nothing on the tooth: the Chart module shows it in its one-line strip under the date slider (GetTextBelowStripText).
+		///options says how each caller differs.</summary>
 		public static void PaintProcedures(IToothChartPaintTarget target,List<ToothChartPaintProc> listProcs,List<ToothInitial> listToothInitials,
 			ToothChartPaintOptions options)
 		{
 			string[] stringArrayTeeth;
+			bool isCompletedExtractionShown=ToothChartExtractionGraphic.IsOn();
 			List<long> listProvNums=new List<long>();
 			if(options.DoLookUpProviderColors) {
 				listProvNums=GetPertinentProvNumsForToothColorPref(Security.CurUser,options.Patient,options.ListAppointments);
@@ -802,12 +939,8 @@ namespace OpenPmsDental{
 				if(options.DoSkipMouth && (procedureCode.PaintType==ToothPaintingType.None || procedureCode.TreatArea==TreatmentArea.Mouth)) {
 					continue;
 				}
-				if(procedureCode.PaintType==ToothPaintingType.Extraction && (
-					proc.ProcStatus==ProcStat.C
-					|| proc.ProcStatus==ProcStat.EC
-					|| proc.ProcStatus==ProcStat.EO
-					)) {
-					continue;//prevents the red X. Missing teeth already handled.
+				if(procedureCode.PaintType==ToothPaintingType.Extraction && IsCompletedStatus(proc.ProcStatus) && !isCompletedExtractionShown) {
+					continue;//prevents the red X. Missing teeth already handled. With the extraction graphic on, the X is drawn over the missing tooth.
 				}
 				Color cDark;
 				Color cLight;
@@ -955,13 +1088,56 @@ namespace OpenPmsDental{
 						}
 						break;
 					case ToothPaintingType.Text:
-						target.SetText(proc.ToothNum,cDark,procedureCode.PaintText);//"W" is the watch mark; other text is not drawn yet (TC-5)
+						target.SetText(proc.ToothNum,cDark,procedureCode.PaintText);//"W" is the watch mark; other text is drawn on the tooth (TC-5)
 						break;
 					case ToothPaintingType.Veneer:
 						target.SetVeneer(proc.ToothNum,cLight);
 						break;
 				}
 			}
+		}
+
+		///<summary>True for the statuses of work that is done: completed (C), existing current provider (EC) and existing other provider (EO).</summary>
+		private static bool IsCompletedStatus(ProcStat procStat) {
+			return procStat==ProcStat.C || procStat==ProcStat.EC || procStat==ProcStat.EO;
+		}
+
+		///<summary>The separator between the texts of several TextBelow procedures in the Chart module's strip (TC-5). Open Dental's public
+		///screenshot shows one item only, so how it joins several is not known; this is the fork's choice.</summary>
+		public const string TextBelowStripSeparator="; ";
+
+		///<summary>The text of the Chart module's TextBelow strip (paint type TextBelow, 18, Open Dental 26.2: "the procedure's custom text displays
+		///below the odontogram", in a one-line box under the date slider, not in the tooth picture). listDataRows is the procedure list the Chart
+		///module paints (GetChartModuleRows: after the date slider, the chart view's status filters and the selected treatment plans), so the
+		///strip follows them. It is read before the painter's skips, so a TextBelow procedure of any treatment area counts: tooth, arch, quadrant
+		///and mouth alike (the painter leaves out Mouth procedures in the Chart module). A procedure with Hide Graphics is left out, as the painter
+		///leaves it out. The codes' paint texts, in ProcDate order (rows of the same date in the list's order), joined by TextBelowStripSeparator;
+		///an empty paint text adds nothing. "" when there is none, and the Chart module then hides the strip.</summary>
+		public static string GetTextBelowStripText(List<DataRow> listDataRows) {
+			List<Tuple<DateTime,int,string>> listTexts=new List<Tuple<DateTime,int,string>>();
+			if(listDataRows==null) {
+				return "";
+			}
+			for(int i=0;i<listDataRows.Count;i++) {
+				DataRow dataRow=listDataRows[i];
+				if(dataRow["HideGraphics"].ToString()=="1") {
+					continue;
+				}
+				ProcedureCode procedureCode=ProcedureCodes.GetProcCode(dataRow["ProcCode"].ToString());
+				if(procedureCode==null || procedureCode.PaintType!=ToothPaintingType.TextBelow || string.IsNullOrEmpty(procedureCode.PaintText)) {
+					continue;
+				}
+				DateTime dateProc;
+				object objectDate=dataRow["ProcDate"];
+				if(objectDate is DateTime) {
+					dateProc=(DateTime)objectDate;
+				}
+				else {
+					dateProc=PIn.Date(objectDate.ToString());
+				}
+				listTexts.Add(Tuple.Create(dateProc.Date,i,procedureCode.PaintText));
+			}
+			return string.Join(TextBelowStripSeparator,listTexts.OrderBy(x => x.Item1).ThenBy(x => x.Item2).Select(x => x.Item3));
 		}
 
 		///<summary>The Treatment Plan printout's own colours (ControlTreat before TC-2): the code's graphic colour whatever the status (no

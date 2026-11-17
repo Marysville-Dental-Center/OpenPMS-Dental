@@ -1,0 +1,15 @@
+Scene: retained-root-extraction-planned
+Group: paint
+Description: Retained roots with a planned extraction: 9 (TP) with its TP extraction (the X over the root), 20 (C) with a TP extraction, 29 (TP) alone (RR-1).
+Size: 500x370
+Colours: Printout
+Engine: Wpf3D (RenderTargetBitmap in software, 3D layer at 3x reduced with WIC's Fant scaler)
+Bitmap: 500x370 Format24bppRgb
+Alpha: every alpha is 255 (format without an alpha channel)
+Colours in the picture: 3695
+Pixels SHA-256: 8733342b925c12c3be9cc24861a1d9ede6d5a10d8509563bf83355c9fe73e0cd
+Repeatable: yes (a second GetBitmap gave the same pixels)
+Framework: .NET Framework 4.8, x86
+Windows: build 26300.9974 (26H2)
+Fresh render: yes (both layers drawn again without the layer cache gave the same pixels)
+Screen DPI seen by the test host: 96

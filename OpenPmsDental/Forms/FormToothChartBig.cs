@@ -35,7 +35,7 @@ namespace OpenPmsDental {
 			_toothChartRelay= new ToothChartRelay();
 			_toothChartRelay.SetToothChartWrapper(toothChartWrapper);
 			toothChartWrapper.Visible=true;
-			ToothChartRelay.ApplyComputerSettings(toothChartWrapper,ToothChartSettingsUse.ModeByName);
+			ToothChartRelay.ApplyComputerSettings(toothChartWrapper);
 			FillToothChart();
 			//toothChart.Refresh();
 		}

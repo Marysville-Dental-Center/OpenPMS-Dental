@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- Tests of the native-first chooser (S3a-14n of the .NET 10 move, docs/port-notes/S3a-14.md, section "S3a-14n: native first"):
+       CodeBase's NativeFirstChooser and PeImageInfo against synthetic PE files written by the tests (an IL-only AnyCPU DLL, an x86-only DLL,
+       64-bit DLLs, native DLLs) and against fake COM activations that fail with each error the chooser catches. A library-only project
+       (CodeBase and the framework), so the lane can build it as x64 too and run it as a 64-bit process (odbuild -X64Test): every test checks
+       the choice for the bitness it runs at. No vendor DLL is loaded, no COM class is activated, nothing is shown; the synthetic files are
+       written to a folder of the test's own under the temporary folder and deleted. Every .cs file under this folder is compiled. -->
+  <ItemGroup>
+    <ProjectReference Include="..\..\CodeBase\xCodeBase.csproj" />
+  </ItemGroup>
+</Project>

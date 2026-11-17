@@ -1,0 +1,121 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- Tests of the 32-bit helper program (S3a-13 of the .NET 10 move, docs/port-notes/S3a-13.md, section 8): the protocol with a fake module
+       (start, call, reply, error, a crash during a call, timeout, a missing helper, no helper left after the program's process ends, one helper
+       per program process, the pipe's security), and the QuickBooks module against a fake of the QBFC session interfaces that records each
+       call. No test opens a QuickBooks session or creates a real QBFC object; every helper a test starts is a copy of the helper in this
+       folder, ended and deleted by the test. S3a-14 added the Schick CDR, Topaz and Guru modules against fakes of their vendor interfaces and the message pump between requests; S3a-14n the program's in-process paths of Schick CDR, QuickBooks Desktop and Guru against the same fakes. Every .cs file under this
+       folder is compiled. -->
+  <ItemGroup>
+    <!--
+      QuickBooks Desktop's QBFC 10 interop ("Required dlls"), not embedded here: QuickBooksModule.cs (linked below) is compiled against its
+      types, and the fake session (QbfcFake.cs) implements them. Copied into this test folder only; the helper embeds the types it uses and
+      nothing ships the file.
+    -->
+    <Reference Include="Interop.QBFC10">
+      <HintPath>..\..\Required dlls\Interop.QBFC10.dll</HintPath>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <!-- Schick CDR DICOM's interop (S3a-14), not embedded for the same reason: Schick\SchickModule.cs (linked below) is compiled against its
+         types and the fakes (QbfcFake.cs makes fakes of any COM interface) implement them. No CDR object is created. -->
+    <Reference Include="Interop.CDRDATALib">
+      <HintPath>..\..\Required dlls\Interop.CDRDATALib.dll</HintPath>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Interop.CDRDicom">
+      <HintPath>..\..\Required dlls\Interop.CDRDicom.dll</HintPath>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <!-- The C# runtime binder: CADI's calls are late-bound (dynamic) in CadiModule.cs, CADIInProcess.cs and the tests' copy of today's code
+         (N64-A3). -->
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+  </ItemGroup>
+  <PropertyGroup>
+    <!-- Guru\GuruModule.cs (linked below) builds MedVisorInterface.dll's structure with unsafe code (S3a-14). -->
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <ItemGroup>
+    <!-- The protocol, the module interface and the QuickBooks module, compiled as the helper compiles them: the module runs in the test's
+         process against the fake session; the protocol's framing is tested on a memory stream. -->
+    <Compile Include="..\..\OpenPmsDentalHelper32\Helper32Protocol.cs">
+      <Link>Linked\Helper32Protocol.cs</Link>
+    </Compile>
+    <Compile Include="..\..\OpenPmsDentalHelper32\IHelper32Module.cs">
+      <Link>Linked\IHelper32Module.cs</Link>
+    </Compile>
+    <Compile Include="..\..\OpenPmsDentalHelper32\QuickBooks\QuickBooksCommands.cs">
+      <Link>Linked\QuickBooksCommands.cs</Link>
+    </Compile>
+    <Compile Include="..\..\OpenPmsDentalHelper32\QuickBooks\QuickBooksModule.cs">
+      <Link>Linked\QuickBooksModule.cs</Link>
+    </Compile>
+    <!-- The Schick CDR, Topaz and Guru modules (S3a-14), run in the test's process against fakes of their vendor interfaces (Topaz: the
+         synthetic control of tests\TopazStandIn), and the Windows functions and the message pump they use. -->
+    <Compile Include="..\..\OpenPmsDentalHelper32\NativeMethods.cs">
+      <Link>Linked\NativeMethods.cs</Link>
+    </Compile>
+    <Compile Include="..\..\OpenPmsDentalHelper32\MessagePumpingStream.cs">
+      <Link>Linked\MessagePumpingStream.cs</Link>
+    </Compile>
+    <Compile Include="..\..\OpenPmsDentalHelper32\Schick\SchickCommands.cs">
+      <Link>Linked\SchickCommands.cs</Link>
+    </Compile>
+    <Compile Include="..\..\OpenPmsDentalHelper32\Schick\SchickModule.cs">
+      <Link>Linked\SchickModule.cs</Link>
+    </Compile>
+    <Compile Include="..\..\OpenPmsDentalHelper32\Guru\GuruCommands.cs">
+      <Link>Linked\GuruCommands.cs</Link>
+    </Compile>
+    <Compile Include="..\..\OpenPmsDentalHelper32\Guru\GuruModule.cs">
+      <Link>Linked\GuruModule.cs</Link>
+    </Compile>
+    <Compile Include="..\..\OpenPmsDentalHelper32\Topaz\TopazCommands.cs">
+      <Link>Linked\TopazCommands.cs</Link>
+    </Compile>
+    <Compile Include="..\..\OpenPmsDentalHelper32\Topaz\TopazModule.cs">
+      <Link>Linked\TopazModule.cs</Link>
+    </Compile>
+    <Compile Include="..\..\OpenPmsDentalHelper32\Topaz\TopazSigningWindow.cs">
+      <Link>Linked\TopazSigningWindow.cs</Link>
+    </Compile>
+    <!-- The program's in-process paths of S3a-14n (native first), compiled here against the interop the fakes implement and against CodeBase's
+         NativeFirstChooser, so each scenario of the module tests also runs on them and is compared with today's code. Guru's file declares
+         MedVisorInterface.dll's functions, which no test calls. -->
+    <Compile Include="..\..\WpfControlsOD\Bridges\SchickInProcess.cs">
+      <Link>Linked\SchickInProcess.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WpfControlsOD\Bridges\QuickBooksInProcess.cs">
+      <Link>Linked\QuickBooksInProcess.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WpfControlsOD\Bridges\GuruInProcess.cs">
+      <Link>Linked\GuruInProcess.cs</Link>
+    </Compile>
+    <!-- N64-A3: the helper's Mediadent / CADI module and its command, and the program's in-process path (CADIInProcess.cs, with today's calls),
+         run against a fake of CADI's automation object (Cadi\FakeCadi.cs) and compared with today's code (Cadi\CadiToday.cs). -->
+    <Compile Include="..\..\OpenPmsDentalHelper32\Cadi\CadiCommands.cs">
+      <Link>Linked\CadiCommands.cs</Link>
+    </Compile>
+    <Compile Include="..\..\OpenPmsDentalHelper32\Cadi\CadiModule.cs">
+      <Link>Linked\CadiModule.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WpfControlsOD\Bridges\CADIInProcess.cs">
+      <Link>Linked\CADIInProcess.cs</Link>
+    </Compile>
+    <!-- N64-B6: a 64-bit program's late-bound QBFC session (QuickBooksLateBound.cs), run against the recording QBFC fakes reached through
+         IDispatch-like dynamic calls (QuickBooks\LateBoundQbfc.cs) and compared call for call with today's code and the QBFC 10 path. -->
+    <Compile Include="..\..\WpfControlsOD\Bridges\QuickBooksLateBound.cs">
+      <Link>Linked\QuickBooksLateBound.cs</Link>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <!-- Helper32Client, the program's side. -->
+    <ProjectReference Include="..\..\CodeBase\xCodeBase.csproj" />
+    <!-- The helper: OpenPmsDentalHelper32.exe and its .exe.config land in this folder, where each test copies it under a name of its own. -->
+    <ProjectReference Include="..\..\OpenPmsDentalHelper32\OpenPmsDentalHelper32.csproj" />
+    <!-- The program processes of the tests that end a program (a TestProbeHost child that starts its own helper). -->
+    <ProjectReference Include="..\TestProbeHost\TestProbeHost.csproj" />
+    <!-- The synthetic Topaz control (S3a-8b), which the Topaz module loads by path as it loads SigPlusNET.dll (S3a-14). -->
+    <ProjectReference Include="..\TopazStandIn\TopazStandIn.csproj" />
+  </ItemGroup>
+</Project>

@@ -414,7 +414,7 @@ namespace OpenPmsDental {
 					ListEFormFields[i].ValueString=textBox.Text;
 				}
 			}
-			//After pulling all other fields, we can pull signatures from sigboxes 
+			//After pulling all other fields, we can pull signatures from sigboxes
 			for(int i=0;i<ListEFormFields.Count;i++){
 				if(ListEFormFields[i].FieldType!=EnumEFormFieldType.SigBox){
 					continue;
@@ -422,13 +422,32 @@ namespace OpenPmsDental {
 				Border borderBox=ListEFormFields[i].TagOD as Border;
 				StackPanel stackPanel=borderBox.Child as StackPanel;
 				WpfControls.UI.SignatureBoxWrapper signatureBoxWrapper=stackPanel.Children[1] as WpfControls.UI.SignatureBoxWrapper;
-				string keyData=EForms.GetSignatureKeyData(ListEFormFields);
-				string signature="0";
-				if(signatureBoxWrapper.GetSigIsTopaz()){
-					signature="1";
+				if(eFormField!=null && ListEFormFields[i]!=eFormField && signatureBoxWrapper.IsTopazInHelper()){
+					continue;//S3a-14g: for a Topaz box on the 32-bit helper's path the filter applies to the signature too (a click, a date box): it keeps its ValueString
 				}
-				signature+=signatureBoxWrapper.GetSignature(keyData);
-				ListEFormFields[i].ValueString=signature;
+				string keyData=EForms.GetSignatureKeyData(ListEFormFields);
+				//S3a-14g: a Topaz box on the 32-bit helper's path whose signature did not change keeps the stored ValueString, instead of reading it back
+				//from a helper that may have ended since the form was laid out; every other box is read as before (S3a-14n). A changed Topaz box whose
+				//helper lost the signature throws a Helper32Exception: the callers show it and write nothing.
+				ListEFormFields[i].ValueString=OpenPmsDental.UI.SignatureBoxSaves.GetEFormSignatureValue(ListEFormFields[i].ValueString,
+					signatureBoxWrapper.signatureBoxWrapper,keyData);
+			}
+		}
+
+		///<summary>Throws what GetSignature would throw (a Helper32Exception, "Topaz signature pad software could not be reached:") for a changed
+		///Topaz signature box whose 32-bit helper failed, for example one that ended after the patient signed (S3a-14g). Reads only each such box's
+		///point count, which changes nothing. FrmEFormFillEdit calls it before FillFieldsFromControls on a save.</summary>
+		public void CheckTopazSignaturesReachable(){
+			for(int i=0;i<ListEFormFields.Count;i++){
+				if(ListEFormFields[i].FieldType!=EnumEFormFieldType.SigBox){
+					continue;
+				}
+				Border borderBox=ListEFormFields[i].TagOD as Border;
+				StackPanel stackPanel=borderBox.Child as StackPanel;
+				WpfControls.UI.SignatureBoxWrapper signatureBoxWrapper=stackPanel.Children[1] as WpfControls.UI.SignatureBoxWrapper;
+				if(signatureBoxWrapper.GetSigChanged() && signatureBoxWrapper.GetSigIsTopaz()){
+					signatureBoxWrapper.CheckTopazSignatureReachable();
+				}
 			}
 		}
 

@@ -158,18 +158,104 @@ namespace CodeBase {
 			return string.Join("_",fileName.Split(Path.GetInvalidFileNameChars()));
 		}
 
-		///<summary>Start the given process.</summary>
-		public static void ProcessStart(Process process) {
-			process.Start();
+		///<summary>Starts a process from its ProcessStartInfo: Process.Start(ProcessStartInfo), which returns null when no new process was started
+		///(a document opened in a program that was already running). Every start of this class goes through it or FuncStartProcess, except Bash's
+		///(redirected, UseShellExecute=false, and it reads the output). Tests replace it, only through ReplaceStartersForTests,
+		///with a function that records the ProcessStartInfo and returns null, so that no program is started, no file or URL is opened and no window
+		///is shown (S3a-2 of the .NET 10 move; internal with a private setter since S3a-2f).</summary>
+		internal static Func<ProcessStartInfo,Process> FuncStartProcessInfo { get; private set; }=StartProcessInfoDefault;
+		///<summary>Starts a Process whose StartInfo the caller filled: Process.Start(), which returns false when no new process was started. Tests
+		///replace it as FuncStartProcessInfo.</summary>
+		internal static Func<Process,bool> FuncStartProcess { get; private set; }=StartProcessDefault;
+		///<summary>Held from ReplaceStartersForTests until its replacement is disposed: one replacement at a time in the whole process, whichever
+		///test class, assembly or thread asks for it.</summary>
+		private static readonly System.Threading.SemaphoreSlim _semaphoreStarters=new System.Threading.SemaphoreSlim(1,1);
+
+		private static Process StartProcessInfoDefault(ProcessStartInfo processStartInfo) {
+			return Process.Start(processStartInfo);
 		}
-		
-		///<summary>Start a new process with the given path and arguments.</summary>
+
+		private static bool StartProcessDefault(Process process) {
+			return process.Start();
+		}
+
+		///<summary>For tests: replaces both starters until the returned object is disposed, which puts back the ones it replaced. Waits while another
+		///replacement is in place (at most two minutes, then TimeoutException), so tests running in parallel never see each other's recorders or
+		///put back the wrong starter. Never nested: a second call before the first is disposed waits for it.</summary>
+		internal static StartersReplacement ReplaceStartersForTests(Func<ProcessStartInfo,Process> funcStartProcessInfo,Func<Process,bool> funcStartProcess) {
+			if(funcStartProcessInfo==null) {
+				throw new ArgumentNullException(nameof(funcStartProcessInfo));
+			}
+			if(funcStartProcess==null) {
+				throw new ArgumentNullException(nameof(funcStartProcess));
+			}
+			if(!_semaphoreStarters.Wait(TimeSpan.FromMinutes(2))) {
+				throw new TimeoutException("Another test has had ODFileUtils' starters replaced for two minutes.");
+			}
+			StartersReplacement startersReplacement=new StartersReplacement(FuncStartProcessInfo,FuncStartProcess);
+			FuncStartProcessInfo=funcStartProcessInfo;
+			FuncStartProcess=funcStartProcess;
+			return startersReplacement;
+		}
+
+		///<summary>The replacement ReplaceStartersForTests made. Dispose puts back the starters it replaced and lets the next replacement in; a second
+		///Dispose does nothing.</summary>
+		internal sealed class StartersReplacement:IDisposable {
+			///<summary>The starter in place before the replacement: the real one, since replacements are never nested.</summary>
+			public Func<ProcessStartInfo,Process> FuncStartProcessInfoReplaced { get; }
+			public Func<Process,bool> FuncStartProcessReplaced { get; }
+			private bool _isDisposed;
+
+			public StartersReplacement(Func<ProcessStartInfo,Process> funcStartProcessInfoReplaced,Func<Process,bool> funcStartProcessReplaced) {
+				FuncStartProcessInfoReplaced=funcStartProcessInfoReplaced;
+				FuncStartProcessReplaced=funcStartProcessReplaced;
+			}
+
+			public void Dispose() {
+				if(_isDisposed) {
+					return;
+				}
+				_isDisposed=true;
+				FuncStartProcessInfo=FuncStartProcessInfoReplaced;
+				FuncStartProcess=FuncStartProcessReplaced;
+				_semaphoreStarters.Release();
+			}
+		}
+
+		///<summary>Start the given process. The caller sets process.StartInfo.UseShellExecute explicitly: true unless it redirects a standard stream
+		///(the .NET Framework default is true, the .NET default false; only ShellExecute opens documents and URLs and asks for consent to a
+		///program that needs elevation).</summary>
+		public static void ProcessStart(Process process) {
+			FuncStartProcess(process);
+		}
+
+		///<summary>Starts the process that processStartInfo describes. The caller sets UseShellExecute explicitly: true unless it redirects a
+		///standard stream. Returns null when no new process was started.</summary>
+		public static Process ProcessStart(ProcessStartInfo processStartInfo) {
+			return FuncStartProcessInfo(processStartInfo);
+		}
+
+		///<summary>Start a new process with the given path and arguments, through the shell (UseShellExecute=true, the .NET Framework default
+		///that .NET does not share): a program, a document or a URL. Returns null when no new process was started.</summary>
 		///<param name="createDirIfNeeded">If included, will create the directory if it doesn't exist.</param>
 		public static Process ProcessStart(string path,string commandLineArgs="",string createDirIfNeeded="") {
 			if(!string.IsNullOrEmpty(createDirIfNeeded) && !Directory.Exists(createDirIfNeeded)) {
 				Directory.CreateDirectory(createDirIfNeeded);
 			}
-			return Process.Start(path,commandLineArgs);
+			return FuncStartProcessInfo(GetShellStartInfo(path,commandLineArgs));
+		}
+
+		///<summary>Opens a document, a folder or a URL with the program Windows associates with it, through the shell (UseShellExecute=true), as
+		///Process.Start(string) did on .NET Framework. Returns null when no new process was started.</summary>
+		public static Process ShellOpen(string pathOrUrl) {
+			return FuncStartProcessInfo(GetShellStartInfo(pathOrUrl,""));
+		}
+
+		///<summary>The ProcessStartInfo of Process.Start(fileName,arguments) on .NET Framework, with UseShellExecute set explicitly.</summary>
+		public static ProcessStartInfo GetShellStartInfo(string fileName,string arguments) {
+			ProcessStartInfo processStartInfo=new ProcessStartInfo(fileName,arguments);
+			processStartInfo.UseShellExecute=true;
+			return processStartInfo;
 		}
 		
 		///<summary>Write the given text to the given file.</summary>
@@ -187,13 +273,13 @@ namespace CodeBase {
 		///<summary>Write the given text to the given file, then start a new process with the given path. Throws exceptions.</summary>
 		public static Process WriteAllTextThenStart(string filePath,string fileText,string processPath,string commandLineArgs) {
 			File.WriteAllText(filePath,fileText);
-			return Process.Start(processPath,commandLineArgs);
+			return ProcessStart(processPath,commandLineArgs);
 		}
 		
 		///<summary>Write the given text to the given file, then start a new process with the given path.</summary>
 		public static Process WriteAllTextThenStart(string filePath,string fileText,Encoding encoding,string processPath,string commandLineArgs) {
 			File.WriteAllText(filePath,fileText,encoding);
-			return Process.Start(processPath,commandLineArgs);
+			return ProcessStart(processPath,commandLineArgs);
 		}
 
 		///<summary>Passes the command to the bash shell to run.</summary>
@@ -303,10 +389,12 @@ namespace CodeBase {
 			if(millisecondsToSleep>0) {
 				System.Threading.Thread.Sleep(millisecondsToSleep);
 			}
+			//Run in a progress window that the user cancelled meanwhile (DexisIntegrator): the program is not started (S3a-1b). A no-op elsewhere.
+			ODCancellation.ThrowIfCancellationRequested();
 			if(!string.IsNullOrEmpty(processPath)) {
-				return Process.Start(processPath,commandLineArgs);
+				return ProcessStart(processPath,commandLineArgs);
 			}
-			return Process.Start(filePath,commandLineArgs);
+			return ProcessStart(filePath,commandLineArgs);
 		}
 
 		///<summary>Reduces image size by changing it to Jpeg format and reducing image quality to 40%.</summary>

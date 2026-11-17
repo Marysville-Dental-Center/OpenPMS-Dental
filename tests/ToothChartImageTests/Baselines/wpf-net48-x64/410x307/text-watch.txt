@@ -1,0 +1,15 @@
+Scene: text-watch
+Group: paint
+Description: Paint type Text with "W": the watch mark on 3 (TP), 8 (C), 14 (EC), 19 (EO), 24 (R) and 30 (Cn).
+Size: 410x307
+Colours: Module
+Engine: Wpf3D (RenderTargetBitmap in software, 3D layer at 3x reduced with WIC's Fant scaler)
+Bitmap: 410x307 Format24bppRgb
+Alpha: every alpha is 255 (format without an alpha channel)
+Colours in the picture: 3584
+Pixels SHA-256: c16a0b9ef1fc0d406134c3c49bf434c9becc4d6f5b0dd452e8cbd9a72bd653ce
+Repeatable: yes (a second GetBitmap gave the same pixels)
+Framework: .NET Framework 4.8, x64
+Windows: build 26300.9974 (26H2)
+Fresh render: yes (both layers drawn again without the layer cache gave the same pixels)
+Screen DPI seen by the test host: 96

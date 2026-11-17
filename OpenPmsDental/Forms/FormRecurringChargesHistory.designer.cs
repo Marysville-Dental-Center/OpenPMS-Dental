@@ -23,12 +23,13 @@ namespace OpenPmsDental{
 		/// the contents of this method with the code editor.
 		/// </summary>
 		private void InitializeComponent() {
+			this.components = new System.ComponentModel.Container();
 			this.gridMain = new OpenPmsDental.UI.GridOD();
-			this.contextMenu = new System.Windows.Forms.ContextMenu();
-			this.menuItemGoTo = new System.Windows.Forms.MenuItem();
-			this.menuItemOpenPayment = new System.Windows.Forms.MenuItem();
-			this.menuItemViewError = new System.Windows.Forms.MenuItem();
-			this.menuItemDeletePending = new System.Windows.Forms.MenuItem();
+			this.contextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.menuItemGoTo = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemOpenPayment = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemViewError = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemDeletePending = new System.Windows.Forms.ToolStripMenuItem();
 			this.butRefresh = new OpenPmsDental.UI.Button();
 			this.datePicker = new OpenPmsDental.UI.ODDateRangePicker();
 			this.groupView = new OpenPmsDental.UI.GroupBox();
@@ -56,34 +57,30 @@ namespace OpenPmsDental{
 			// 
 			// contextMenu
 			// 
-			this.contextMenu.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+			this.contextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuItemGoTo,
             this.menuItemOpenPayment,
             this.menuItemViewError,
             this.menuItemDeletePending});
-			this.contextMenu.Popup += new System.EventHandler(this.contextMenu_Popup);
+			this.contextMenu.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenu_Popup);
 			// 
 			// menuItemGoTo
 			// 
-			this.menuItemGoTo.Index = 0;
 			this.menuItemGoTo.Text = "Go To Account";
 			this.menuItemGoTo.Click += new System.EventHandler(this.menuItemGoTo_Click);
 			// 
 			// menuItemOpenPayment
 			// 
-			this.menuItemOpenPayment.Index = 1;
 			this.menuItemOpenPayment.Text = "Open Payment";
 			this.menuItemOpenPayment.Click += new System.EventHandler(this.menuItemOpenPayment_Click);
 			// 
 			// menuItemViewError
 			// 
-			this.menuItemViewError.Index = 2;
 			this.menuItemViewError.Text = "View Error Message";
 			this.menuItemViewError.Click += new System.EventHandler(this.menuItemViewError_Click);
 			// 
 			// menuItemDeletePending
 			// 
-			this.menuItemDeletePending.Index = 3;
 			this.menuItemDeletePending.Text = "Delete Pending Charge";
 			this.menuItemDeletePending.Click += new System.EventHandler(this.menuItemDeletePending_Click);
 			// 
@@ -192,11 +189,11 @@ namespace OpenPmsDental{
 		private UI.Button butRefresh;
 		private UI.ODDateRangePicker datePicker;
 		private OpenPmsDental.UI.GroupBox groupView;
-		private System.Windows.Forms.ContextMenu contextMenu;
-		private System.Windows.Forms.MenuItem menuItemGoTo;
-		private System.Windows.Forms.MenuItem menuItemOpenPayment;
-		private System.Windows.Forms.MenuItem menuItemViewError;
-		private System.Windows.Forms.MenuItem menuItemDeletePending;
+		private System.Windows.Forms.ContextMenuStrip contextMenu;
+		private System.Windows.Forms.ToolStripMenuItem menuItemGoTo;
+		private System.Windows.Forms.ToolStripMenuItem menuItemOpenPayment;
+		private System.Windows.Forms.ToolStripMenuItem menuItemViewError;
+		private System.Windows.Forms.ToolStripMenuItem menuItemDeletePending;
 		private UI.ComboBoxClinicPicker comboClinics;
 		private System.Windows.Forms.Label label1;
 		private UI.ComboBox comboStatuses;

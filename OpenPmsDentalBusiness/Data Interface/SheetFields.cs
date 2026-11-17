@@ -284,9 +284,9 @@ namespace OpenPmsDentalBusiness{
 				listStringsReturn=listOptions[0].Split('|').ToList();//Will be an empty string if no '|' is present.
 			}
 			for(int i=0;i<listStringsReturn.Count;i++) {
-				//'&' is a special character in System.Windows.Forms.ContextMenu. We need to escape all ampersands so that they are displayed correctly in the fill sheet window.
+				//'&' is a special character in System.Windows.Forms.ContextMenu and in a ToolStripMenuItem (the mnemonic prefix). We need to escape all ampersands so that they are displayed correctly in the fill sheet window.
 				listStringsReturn[i]=listStringsReturn[i].Replace("&","&&");
-				//'-' by itself is a special character in System.Windows.Forms.ContextMenu. We need to escapte it so that it is displayed correctly in the fill sheet window.
+				//'-' by itself is a special character in System.Windows.Forms.ContextMenu (a separator), and ToolStripItemCollection.Add("-") of a ContextMenuStrip also makes a separator. We need to escapte it so that it is displayed correctly in the fill sheet window. A ToolStripMenuItem shows "&-" as "-", as the MenuItem did.
 				if(listStringsReturn[i]=="-") {
 					listStringsReturn[i]="&-";
 				}

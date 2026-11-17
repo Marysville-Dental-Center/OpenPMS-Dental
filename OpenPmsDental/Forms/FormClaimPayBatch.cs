@@ -38,8 +38,10 @@ namespace OpenPmsDental{
 				claimPaymentCur=ClaimPayments.GetOne(claimPaymentCur?.ClaimPaymentNum??0);
 			}
 			_claimPayment=claimPaymentCur;
-			gridAttached.ContextMenu=menuRightAttached;
-			gridOut.ContextMenu=menuRightOut;
+			gridAttached.ContextMenuStrip=menuRightAttached;
+			gridAttached.DoAddGridItemsToContextMenuStrip=true;
+			gridOut.ContextMenuStrip=menuRightOut;
+			gridOut.DoAddGridItemsToContextMenuStrip=true;
 			Lan.F(this);
 		}
 
@@ -67,8 +69,9 @@ namespace OpenPmsDental{
 			}
 			if(IsFromClaim) {
 				//Remove context menus from the grids.  This preserves old functionality.
-				gridAttached.ContextMenu=null;
-				gridOut.ContextMenu=null;
+				//Without a ContextMenuStrip the grids make their own (Copy Cell Text, Copy Rows and the links), as the empty ContextMenu did.
+				gridAttached.ContextMenuStrip=null;
+				gridOut.ContextMenuStrip=null;
 			}
 			FillClaimPayment();
 			textCarrier.Text=textCarrierName.Text;

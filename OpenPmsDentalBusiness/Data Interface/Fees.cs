@@ -1057,8 +1057,11 @@ namespace OpenPmsDentalBusiness{
 		///date (before 1880) means "immediately": a base row that is the row in effect today is updated in place, as before effective dates existed;
 		///any other base row (from a past or future base date) is left alone and its result goes to the row with that key dated today, so that the
 		///new fee is the one in effect now and older rows used by earlier procedures keep their amounts. Fee schedule groups are kept in sync.
-		///Returns the saved rows (with the new amounts), for logging.</summary>
-		public static List<Fee> SaveIncrease(List<Fee> listFeesBase,int percent,int round,DateTime dateEffectiveNew) {
+		///Returns the saved rows (with the new amounts), for logging. actionSaved, if set, is called with each row right after it is saved, for its
+		///security log entries: each row's save (with its fee schedule group's rows) and that call are one unit (ODCancellation.RunUncancellable,
+		///S3a-1c), so a cancel of the progress window it runs in stops the increase between two rows, never between a row and its log entries.
+		///</summary>
+		public static List<Fee> SaveIncrease(List<Fee> listFeesBase,int percent,int round,DateTime dateEffectiveNew,Action<Fee> actionSaved=null) {
 			Meth.NoCheckMiddleTierRole();
 			List<Fee> listFeesIncreased=IncreaseNew(0,percent,round,listFeesBase,0,0).FindAll(x => x.Amount!=0 && x.Amount!=-1);
 			List<Fee> listFeesSaved=new List<Fee>();
@@ -1079,12 +1082,20 @@ namespace OpenPmsDentalBusiness{
 				}
 				List<Fee> listFeesInPlace=listFeesIncreased.FindAll(x => hashSetFeeNumsToday.Contains(x.FeeNum));
 				listFeesDated=listFeesIncreased.FindAll(x => !hashSetFeeNumsToday.Contains(x.FeeNum));
-				if(PrefC.GetBool(PrefName.ShowFeeSchedGroups)) {
-					FeeSchedGroups.UpsertGroupFees(listFeesInPlace);
-				}
+				bool isShowFeeSchedGroups=PrefC.GetBool(PrefName.ShowFeeSchedGroups);
 				for(int i=0;i<listFeesInPlace.Count;i++) {
-					Update(listFeesInPlace[i],doCheckFeeSchedGroups:false);
-					listFeesSaved.Add(listFeesInPlace[i]);
+					Fee feeInPlace=listFeesInPlace[i];
+					ODCancellation.ThrowIfCancellationRequested();//The user cancelled: no further row (S3a-1c).
+					ODCancellation.RunUncancellable(() => {
+						if(isShowFeeSchedGroups) {
+							//One row at a time, so that the group's rows are in the unit of the row they copy. The rows of one increase are for one
+							//clinic, so this writes what one call with every row wrote.
+							FeeSchedGroups.UpsertGroupFees(new List<Fee> { feeInPlace });
+						}
+						Update(feeInPlace,doCheckFeeSchedGroups:false);
+						listFeesSaved.Add(feeInPlace);
+						actionSaved?.Invoke(feeInPlace);
+					});
 				}
 				dateEffectiveNew=DateTime.Today;
 			}
@@ -1094,6 +1105,7 @@ namespace OpenPmsDentalBusiness{
 				List<Fee> listFeesCombo=GetComboFeesAllDates(dictFeesByCombo,feeIncreased);
 				Fee feeAtDate=GetFeeExactDate(listFeesCombo,feeIncreased.CodeNum,feeIncreased.FeeSched,feeIncreased.ClinicNum,feeIncreased.ProvNum,
 					dateEffectiveNew);
+				ODCancellation.ThrowIfCancellationRequested();//The user cancelled: no further row (S3a-1c).
 				if(feeAtDate==null) {
 					Fee feeNew=new Fee();
 					feeNew.FeeSched=feeIncreased.FeeSched;
@@ -1102,14 +1114,20 @@ namespace OpenPmsDentalBusiness{
 					feeNew.ProvNum=feeIncreased.ProvNum;
 					feeNew.Amount=feeIncreased.Amount;
 					feeNew.DateEffective=dateEffectiveNew;
-					Insert(feeNew);//also writes the other clinics of a fee schedule group
-					listFeesCombo.Add(feeNew);
-					listFeesSaved.Add(feeNew);
+					ODCancellation.RunUncancellable(() => {
+						Insert(feeNew);//also writes the other clinics of a fee schedule group
+						listFeesCombo.Add(feeNew);
+						listFeesSaved.Add(feeNew);
+						actionSaved?.Invoke(feeNew);
+					});
 					continue;
 				}
 				feeAtDate.Amount=feeIncreased.Amount;
-				Update(feeAtDate);//also writes the other clinics of a fee schedule group
-				listFeesSaved.Add(feeAtDate);
+				ODCancellation.RunUncancellable(() => {
+					Update(feeAtDate);//also writes the other clinics of a fee schedule group
+					listFeesSaved.Add(feeAtDate);
+					actionSaved?.Invoke(feeAtDate);
+				});
 			}
 			return listFeesSaved;
 		}
