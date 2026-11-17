@@ -1985,7 +1985,13 @@ The owner answered the plan's questions "as recommended", with the corrections b
     ToString, 111 composite arguments, 88 concatenations, 24 interpolation holes, 11 Convert.ToString, 14 fractional DateTime
     additions); the framework places (data table cells, string columns, the Middle Tier's table text, chart labels, RDL) are fixed at
     their narrowest point, and what stays .NET's is listed in the port note. FormatParityTests guards it (0 unrouted places);
-    GoldenOutputTests and BINBTests' `Fixture_G15AndG7Texts` pass.
+    GoldenOutputTests and BINBTests' `Fixture_G15AndG7Texts` pass. **Review fix (`net10/s3bfmt-2`):** the record is the x86 .NET
+    Framework's (the runtime Open Dental ran on), and x86 and x64 also differ at 15 digits: x86 rounds about 17 accurate digits, x64 the
+    exact value (736331.0849999995 `F2`: 736331.09 on x86, 736331.08 on x64). The record now holds near-half bands (99,424 number rows;
+    1,126 15-digit rows where the runtimes differ), and the helper rounds a double's 15 digits from the 17 correctly rounded ones: it gives
+    the x86 text in every row but those of 5 values whose digits 16 to 19 lie in 4949..4994, where x86's own digits fall on either side of
+    half way (0.13% of values chosen to be half way at the 16th digit, no money amount tried; the port note's section 3a). The x86 digit
+    routine is not ported.
 
 Also recorded for the update path: the Middle Tier client and server switch together (it has never shipped to an office); saved
 passwords get a one-time migration from PasswordVault to the Credential Manager (S3a-5). Also answered on 2026-11-08: signed e-mail

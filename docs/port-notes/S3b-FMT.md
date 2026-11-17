@@ -1,19 +1,23 @@
 # Port note: S3b-FMT (numbers and fractional times as .NET Framework produced them)
 
 Package S3b-FMT of stage 3b of the .NET 10 move (`docs/specs/net10-plan.md`, decision 24: "Keep Open Dental's 1.01", owner 2026-11-16),
-on `net10/s3bfmt-1` from `net10/switch` at `72d612a60`. Every place of the shipped code that writes a `double` or `float` as text, and every
+on `net10/s3bfmt-1` from `net10/switch` at `72d612a60`, with the review fixes on `net10/s3bfmt-2` (the x86 record at 15 digits: sections
+2, 3 and 3a). Every place of the shipped code that writes a `double` or `float` as text, and every
 `DateTime`/`DateTimeOffset.AddX` with an argument that is not a whole number, goes through one helper that gives the .NET Framework's text
 and result; a scan with the compiler's types finds the places, a mechanical rewrite routed them, and a guard test fails on a new one.
 
 ## 1. Summary
 
-- **Truth table:** `tests/FormatParity/net48-truth.txt`, recorded on .NET Framework 4.8: 65,104 number rows and 2,655 time rows (section 2).
+- **Truth table:** `tests/FormatParity/net48-truth.txt`, recorded on the x86 .NET Framework 4.8 (the runtime Open Dental ran on), with the
+  x64 runtime's differing text kept: 99,424 number rows and 2,655 time rows (section 2). The two runtimes differ at 15 digits too, for
+  values about half way at the 16th digit (736331.0849999995 `F2`: 736331.09 on x86, 736331.08 on x64); the helper gives the x86 text
+  except for 5 values of the record (section 3a).
 - **Helper:** `CodeBase/Utilities/ODNumberTextNetFx.cs` (`ToStringNetFx`, `AsNetFx`, `ToStringNetFxIfNumber`, `AsNetFxIfNumber`) and
   `CodeBase/Utilities/ODDateTimeAdd.cs` (`AddDaysNetFx` .. `AddMillisecondsNetFx`); S3a-3's `ToStringNoNegativeZero`, `ToStringG15` and
   `ToStringG7` now call it (section 3).
 - **Scan and sweep:** `tools/FormatSweep` (Roslyn 5.12.0) over 22 shipped projects; 1,610 places routed in 341 files (section 5); the
   framework places measured and fixed at the narrowest point (section 6).
-- **Guard:** `tests/FormatParityTests` (18 tests): every truth-table row, the decision-24 pins, the framework places, the scan and rewrite on a
+- **Guard:** `tests/FormatParityTests` (20 tests): every truth-table row, the decision-24 pins, the framework places, the scan and rewrite on a
   fixture, and the scan of the shipped projects with 0 unrouted places (section 8).
 - **The two waiting failures pass:** GoldenOutputTests 28/28 (the six SQL, statement PDF and CSV texts) and BINBTests
   `Fixture_G15AndG7Texts` (a value exactly half way between two 15-digit numbers, `-650217936677028.5`: .NET's "G15" rounds it to the even
@@ -31,6 +35,11 @@ the x86 output, plus the x64 rows that differ as `X` rows, to `net48-truth.txt`.
   0.1+0.2, 1/3, 2/3; 1e15..1e29, 1e-4..1e-20, Epsilon, MaxValue, NaN and the infinities; the exact 16-digit half 650217936677028.5; computed
   balances such as 42.11-646.06) and 283 seeded random ones (cents, half cents, sums, differences and shares of amounts, every size); 30
   fixed floats and 65 random ones. Fixed values in the invariant culture and en-US, random ones in the invariant culture.
+- **Near-half bands (`AddNearHalfBands`, s3bfmt-2):** 330 more seeded doubles where the x86 and x64 runtimes can differ at 15 digits: half
+  cents and half tenths 1 to 8 ulps off the half (`bits±k`), 15 significant digits followed by a 5, one ulp off, from 1E-4 to 1E15, shares
+  (`a*0.15`) and sevenths (`a/7`) of amounts; and of each kind 20 to 40 candidates chosen because their exact digits 16 to 19 lie in
+  4940..5009 (BigInteger arithmetic, the same on both runtimes; the script checks that both probes made the same rows). Before them every
+  half cent was the nearest double to the half, `(cents*10+5)/1000.0`, and no row lay where the runtimes differ at 15 digits.
 - **Formats (104):** none (`ToString(provider)`), `null`, `""`, every numeric format the scan found in the code before the sweep (`c`, `C`,
   `c0`, `c2`, `C2`, `n`, `N`, `n0`..`n2`, `N2`, `f`, `F`, `f0`..`f3`, `F0`..`F2`, `G7`, `G9`, `G15`, `G17`, `R`, `P`, `p`, `0`, `0.0`,
   `0.00`, `0.000`, `0.#`, `0.##`, `0.###`, `0.######`, `0.##########`, `#.##`, `+0.000;-0.000;0.000`, the RDL reports' `#,##0.00`, `0.00`,
@@ -54,9 +63,15 @@ first; `//` starts a comment there, since a format may start with `#`).
 | (d) `AddHours`, `AddMinutes`, `AddSeconds`, `AddMilliseconds`, `AddDays` | every tick: `AddMilliseconds(0.5)` adds 5,000 ticks | rounded to the millisecond, half away from zero: 10,000 |
 
 Also measured: NaN and the infinities are the culture's symbols for any format on the .NET Framework (even `D`, which .NET refuses for
-`-Infinity`); `G16`, `G17` and `E15`+ use 17 digits there (9 for a float's `G8`+ and `E7`+), whose 17th digit the x86 runtime got wrong for
-14 rows (0.0001 `G17` is 0.00010000000000000001 on x86, 0.0001 on x64: the `X` rows); `R` is 15 digits when they round-trip, else 17, where
-.NET writes the shortest text. `(decimal)double` gives the same decimal on both runtimes (20,000 seeded values compared, none differed), so
+`-Infinity`); `G16`, `G17` and `E15`+ use 17 digits there (9 for a float's `G8`+ and `E7`+), whose 17th digit the x86 runtime does not
+always get correctly rounded (0.0001 `G17` is 0.00010000000000000001 on x86, 0.0001 on x64); `R` is 15 digits when they round-trip, else
+17, where .NET writes the shortest text. **x86 and x64 also differ at 15 digits** (every format but the 17-digit ones, no format included):
+x64 rounds the exact value to 15 digits, x86 rounds digits it computed with about 17 digits of accuracy, so for a value whose digits after
+the 15th read about 0.5 the two differ: 0x4123E3EB2B851EB4 with `F2` is 651765.59 on x86 and 651765.58 on x64, 0x412678962B851EB4
+(736331.0849999995, measured in scratch) 736331.09 and 736331.08; without a format 0x4123E3EB2B851EB4 is 651765.585 on x86 and
+651765.584999999 on x64, 0x412D2C7291EB8523 955961.285000001 and 955961.285. The record has 1,168 `X` rows:
+1,126 of them 15-digit ones (74 values; 10 of them in each money format, `F2`, `N2`, `C`, `0.00`), 42 the 17-digit ones. Floats: x86 and
+x64 agree (600,000 seeded floats near 7-digit halves and half cents, 4.2M rows, no difference). `(decimal)double` gives the same decimal on both runtimes (20,000 seeded values compared, none differed), so
 the code's `(decimal)` conversions needed nothing. 8,147 of the double and float rows differ between .NET 10's own formatter and the record;
 1,546 of the time rows.
 
@@ -71,8 +86,10 @@ the code's `(decimal)` conversions needed nothing. 8,147 of the double and float
   for a value of unknown type (a data table's cell): a boxed double or float through the helper, anything else as `ToString()` /
   `Convert.ToString` did.
 - **How:** the .NET Framework's `FormatDouble`: `ParseFormatSpecifier` (a letter and at most two digits is standard), 15 significant digits
-  (17 for `G16`+/`E15`+; a float 7, or 9) rounded half away from zero from the exact value (.NET's `E16` gives 17 correctly rounded digits;
-  only when the digits after the kept ones read 5 and zeros is the exact value read in full, `E800`), then the format applied to a `decimal`
+  (17 for `G16`+/`E15`+; a float 7, or 9) rounded half away from zero. A double's 15 digits are rounded from the 17 correctly rounded
+  digits .NET's `E16` gives, as the x86 .NET Framework did (17 digits ending in 50 round up: section 3a); the other precisions from the
+  exact value (only when the digits after the kept ones read 5 and zeros is the exact value read in full, `E800`; for a float, dropping
+  that read differs from both runtimes in 4,813 of 4.2M rows, so it stays), then the format applied to a `decimal`
   that holds exactly those digits (.NET formats a decimal with the same `NumberToString`/`NumberToStringFormat` and no sign on zero; `G` with
   no digits becomes `G15`/`G7`). Beyond a decimal (above 7.9E+28, or digits past the 28th place): own `G` and `E` code, `BigInteger` for the
   other formats of large values, 28 places for small ones; a custom format with an exponent beyond a decimal falls back to .NET's formatter
@@ -84,6 +101,36 @@ the code's `(decimal)` conversions needed nothing. 8,147 of the double and float
 `ODDateTimeAdd`: `AddDaysNetFx` .. `AddMillisecondsNetFx` for `DateTime` and `DateTimeOffset`, the .NET Framework's `DateTime.Add(double,int)`
 (milliseconds rounded half away from zero; NaN and values beyond the span of `DateTime` throw `ArgumentOutOfRangeException`, as there,
 where .NET's saturating cast would make NaN 0). `ODTimeSpan` (S3b-5) is unchanged and passes every `TimeSpan.FromX` row.
+
+### 3a. x86 digits: the record is x86, and what still differs
+
+The first helper (s3bfmt-1) rounded the exact value to 15 digits, which is what the **x64** .NET Framework does; the record, and the
+program Open Dental shipped, are **x86**. A review measured it, and s3bfmt-2 measured it again: seeded stress probes compiled with the
+Framework's `csc` (as `Make-Net48Truth.ps1` does) and run on net48 x86 and x64, 600,000 doubles (half cents and half tenths 1 to 8 ulps
+off, 15 digits and a 5 one ulp off from 1E-4 to 1E16, `a*0.15`, `a/7`, random sizes) in `E16`, `G15`, `F2`, `E14`, `R`, `N2`, `0.00`,
+`0.##`, `G`, `F1`, against the helper on .NET 10 (UseNls), compiled from `ODNumberTextNetFx.cs` with the SDK's `csc.dll` in a scratch folder:
+
+| helper's 15 digits from | rows differing from x86 (of 4.8M) | from x64 |
+|---|---|---|
+| the exact value (s3bfmt-1) | 10,887 (3,159 values; `F2` 227) | 0 |
+| 17 correctly rounded digits, half away from zero (s3bfmt-2) | 2,744 (788 values; `F2` 88) | 13,565 |
+| 16, 18, 19 or 20 correctly rounded digits | 121,915 / 9,473 / 10,776 / 10,866 | |
+| x86's own 17 digits (its `E16` text) | 2,995 | |
+
+So x86 rounds from about 17 accurate digits, and the helper now rounds the 17 correctly rounded digits for a double's 15 (no format, `G`,
+`G15`, `F`, `N`, `C`, `P`, `E14` and shorter, every custom format). Every half-cent, half-tenth, share and seventh value of the stress set
+now matches x86 (400,000 values, 0 differences). **What still differs:** the 788 values, all of them 15-digits-and-a-5 or random ones,
+all with exact digits 16 to 19 between 4949 and 4994: there x86's own digits (computed with an error of up to about half a unit of the
+17th digit) fall on either side of half way, while 17 correctly rounded digits read 50 and round up. Example: 0x3F8E9FB839D6D918
+(0.01495307852279075, exact digits 16 to 19 4978) is 0.0149530785227907 on x86 and x64 and 0.0149530785227908 from the helper; in a money
+format, 0x427E701EB65EE15C `F2` is 2091681277422.08 on x86, 2091681277422.09 from the helper. About 0.13% of values chosen to lie half way
+at the 16th digit, none of the money amounts tried; a value has to sit within a few parts in 10^18 of a 15-digit half for it to show.
+
+**Not ported:** the x86 runtime's digit routine (its x87 code is not public, and its error is not regular: in 4950..4994 x86 rounds up
+about two times in three and down otherwise, with no threshold). The record holds 5 such values (`_arrayX86BandValues` in
+`TruthTableTests`, 107 rows); every other row must give the x86 text, an `X` row (x64) is accepted only for the 17-digit formats, and
+`NumberRows_X86AndX64DifferAt15Digits_TheHelperGivesTheX86Text` checks the helper against the 1,126 15-digit rows where x86 and x64 differ
+(the s3bfmt-1 helper gave the x64 text in all of them).
 
 ## 4. The scan tool: tools\FormatSweep
 
@@ -181,7 +228,8 @@ is guarded by the same scan and finds none left. The truth table's 2,655 time ro
 ## 8. The guard
 
 `tests/FormatParityTests` (new; MSTest, x64, in `OpenDental.sln` and `OpenDental.Local.slnf`): `TruthTableTests` (every number row through
-`ToStringNetFx`, a sample through `AsNetFx` in composite formats, every time row), `PinsTests` (decision 24's cases), `FrameworkPlacesTests`
+`ToStringNetFx`, a sample through `AsNetFx` in composite formats, every time row; the x86 text required but for the 17-digit formats' `X`
+rows and the 5 listed x86 band values, which must still lie in the band and differ; the 15-digit rows where x86 and x64 differ), `PinsTests` (decision 24's cases), `FrameworkPlacesTests`
 (section 6), `ScanGuardTests` (the finder and the rewrite on a fixture, which compiles and is found no more, and
 `ShippedProjects_HaveNoUnroutedNumberTextOrFractionalTime`: the scan of the 22 projects, 0 unrouted, no unused allow-list line; it reads the
 last lane build's compile inputs, inconclusive without them, a failure with `OPMS_REQUIRE_BUILD_OUTPUT=1`). The assembly takes about 65 s,
