@@ -448,6 +448,10 @@ namespace AttributionTests {
 		public void BrandColor_IsTheProgramsGridTitleBlue() {
 			//The logo and the splash use the program's own blue, the grid title bar's #3C5A96 (60,90,150), flat.
 			StringAssert.Contains(ReadRepoFile("OpenPmsDentalBusiness/UI/GridOD.cs"),"_colorTitleBottom=Color.FromArgb(60,90,150);");
+			//The UI refresh's accent token is the same blue (section 3.2 of docs/specs/ui-refresh-plan.md, package UI-1); UI-5 draws the grid title with it.
+			Assert.AreEqual(BrandColor.ToArgb(),CodeBase.UiTheme.GetColorLight(CodeBase.EnumUiColor.Accent).ToArgb(),"UiTheme's Accent token");
+			Assert.AreEqual("#3C5A96",CodeBase.UiTheme.GetHex(CodeBase.EnumUiColor.Accent));
+			Assert.AreEqual(BrandColor.ToArgb(),CodeBase.UiTheme.GetColorLight(CodeBase.EnumUiColor.TitleBar).ToArgb(),"The title bar is the accent (UQ-3).");
 			string script=ReadRepoFile("tools/Make-BrandAssets.ps1");
 			StringAssert.Contains(script,"public static readonly Color Brand=Color.FromRgb(0x3C,0x5A,0x96);");
 			Assert.IsFalse(Regex.IsMatch(script,@"\bTeal\b"),"Make-BrandAssets.ps1 still has the Teal colour.");
