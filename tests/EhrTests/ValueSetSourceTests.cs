@@ -1,7 +1,6 @@
-// The EHR-2 declarations and sources, with no database (docs/specs/ehr-rebuild-plan.md, EHR-2): the manifest's nine measures are the 2014
-// versions the deleted engine reported, and its OIDs are every value-set OID the source names plus those only the deleted engine named
-// (EHR-6b deleted QualityMeasures.cs, docs/specs/ehr-2027-measures-plan.md; EHR-6a builds the manifest from the 2027 catalog); the step's level
-// and the ehrcode declaration, the table class and its CRUD, the schema verifier's lists,
+// The EHR-2 declarations and sources, with no database (docs/specs/ehr-rebuild-plan.md, EHR-2): since EHR-6a (docs/specs/ehr-2027-measures-plan.md,
+// section 7.2) the manifest is the 2027 catalog's (its seven measures and 68 value sets), and every value-set OID of the source is in the catalog
+// file and nowhere else, but for a shrinking allowlist; the step's level and the ehrcode declaration, the table class and its CRUD, the schema verifier's lists,
 // the adoption rule and the README; the stale comments; and the rule of section 6 that no fixture in tests/EhrTests holds a literal of a code
 // from the engine's own lists.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
@@ -20,75 +19,92 @@ namespace EhrTests {
 	[TestClass]
 	public class ValueSetSourceTests {
 		private const string TABLE="ehrcode";
-		///<summary>The manifest's value sets that only the deleted 2014 engine named (EHR-6b, docs/port-notes/EHR-6b.md).</summary>
-		private const int COUNT_OIDS_ONLY_THE_DELETED_ENGINE_NAMED=53;
 		///<summary>The codes the fixture guard finds in EhrMeasures.cs alone, since EHR-6b deleted QualityMeasures.cs (docs/port-notes/EHR-6b.md).</summary>
 		private const int COUNT_ENGINE_CODES_FLOOR=21;
 
 		#region The manifest
+		///<summary>The files that may still name a value-set OID outside the catalog (section 7.2's shrinking allowlist): the data-entry windows
+		///and the pregnancy lookup until EHR-7 moves them to the catalog. Then empty. (The 2014 engine left it when EHR-6b deleted it.)</summary>
+		private static readonly string[] _arrayOidAllowlist=new string[] {
+			@"OpenPmsDental\Forms\FormEhrNotPerformedEdit.cs",//EHR-7
+			@"OpenPmsDental\Forms\FormEhrPatientSmoking.cs",//EHR-7
+			@"OpenPmsDental\Forms\FormInterventionEdit.cs",//EHR-7
+			@"OpenPmsDental\Forms\FormInterventions.cs",//EHR-7
+			@"OpenPmsDental\Forms\FormMedical.cs",//EHR-7
+			@"OpenPmsDental\Forms\FormVitalsignEdit2014.cs",//EHR-7
+			@"OpenPmsDentalBusiness\Data Interface\DiseaseDefs.cs",//EHR-7
+		};
+		private const string PATH_CATALOG=@"OpenPmsDentalBusiness\Db Multi Table\Cqm\CqmCatalog.cs";
+
 		[TestMethod]
-		public void Manifest_TheNineMeasures_AreThe2014VersionsTheDeletedEngineReported() {
-			//The engine that reported them (QualityMeasures.GetEMeasureNum and GetEMeasureVersion, read here by reflection until EHR-6b) is deleted.
-			CollectionAssert.AreEqual(new[] { "CMS68v3","CMS69v2","CMS74v3","CMS75v2","CMS127v2","CMS138v2","CMS147v2","CMS155v2","CMS165v2" },
-				EhrValueSetImport.ArrayMeasureIds,"Section 8.1 of the plan.");
+		public void Manifest_TheSevenMeasures_AreTheCatalogs2027Versions() {
+			CollectionAssert.AreEqual(new[] { "CMS68v16","CMS69v15","CMS74v16","CMS75v15","CMS138v15","CMS155v15","CMS165v15" },
+				EhrValueSetImport.ArrayMeasureIds,"Section 4.1 of the 2027 measures plan.");
+			CollectionAssert.AreEqual(CqmCatalog.GetMeasureIds(),EhrValueSetImport.ArrayMeasureIds);
+			Assert.AreEqual(CqmCatalog.RELEASE_LABEL,EhrValueSetImport.RELEASE_LABEL);
+			StringAssert.Contains(EhrValueSetImport.RELEASE_LABEL,"2026-05-14");
 		}
 
-		///<summary>The value-set OIDs the source names: every OID under 2.16.840.1.113883.3 (the arc VSAC's value sets of these measures use) in a
-		///string literal of the program's code, except the legacy OID root of OIDInternals and the Source of Payment Typology code system
-		///(2.16.840.1.113883.3.221.5, a code system), and the PHDSC Payer value set (2.16.840.1.114222.4.11.3591). Since EHR-6b deleted the 2014
-		///engine (QualityMeasures.cs), the manifest also holds the value sets only that engine named: EHR-6b's port note records their count, and
-		///EHR-6a's manifest from the 2027 catalog replaces them.</summary>
+		///<summary>The value-set OIDs of the program's source (section 7.2): every OID under the arcs VSAC's value sets of these measures use
+		///(2.16.840.1.113883.3, 2.16.840.1.113762.1.4 and 2.16.840.1.114222.4.11) in a string literal, except the legacy OID root of OIDInternals and
+		///the Source of Payment Typology code system (2.16.840.1.113883.3.221.5, a code system). They are in the catalog file and nowhere else,
+		///except in the files of the allowlist, and no file of the allowlist is there without one. The importer itself (EhrCodes.cs) names none.</summary>
 		[TestMethod]
-		public void Manifest_ItsOids_AreTheValueSetOidsTheSourceNames_AndTheDeletedEnginesOwn() {
-			Regex regexOid=new Regex(@"^(2\.16\.840\.1\.113883\.3\.[0-9.]*[0-9]|2\.16\.840\.1\.114222\.4\.11\.[0-9.]*[0-9])$");
-			Dictionary<string,List<string>> dictOidFiles=new Dictionary<string,List<string>>();
+		public void Manifest_EveryValueSetOidOfTheSource_IsInTheCatalogFileAndNowhereElse_WithAShrinkingAllowlist() {
+			Regex regexOid=new Regex(@"^(2\.16\.840\.1\.113883\.3\.[0-9.]*[0-9]|2\.16\.840\.1\.113762\.1\.4\.[0-9.]*[0-9]|2\.16\.840\.1\.114222\.4\.11\.[0-9.]*[0-9])$");
+			Dictionary<string,List<string>> dictFileOids=new Dictionary<string,List<string>>(StringComparer.OrdinalIgnoreCase);
 			foreach(string path in TestPaths.ProgramSourceFiles().Where(x => TestPaths.Relative(x).StartsWith(@"OpenPmsDental\",StringComparison.OrdinalIgnoreCase)
 				|| TestPaths.Relative(x).StartsWith(@"OpenPmsDentalBusiness\",StringComparison.OrdinalIgnoreCase)))
 			{
-				if(TestPaths.Relative(path).StartsWith(@"OpenPmsDentalBusiness\Data Interface\EhrCodes.cs",StringComparison.OrdinalIgnoreCase)) {
-					continue;//The manifest itself.
-				}
 				CSharpSource cSharpSource=CSharpSource.Read(File.ReadAllText(path));
 				foreach(string literal in cSharpSource.ListStringLiterals) {
 					if(!regexOid.IsMatch(literal) || literal.StartsWith(OIDInternals.LegacyOidArc) || literal=="2.16.840.1.113883.3.221.5") {
 						continue;
 					}
-					if(!dictOidFiles.ContainsKey(literal)) {
-						dictOidFiles.Add(literal,new List<string>());
+					string relative=TestPaths.Relative(path);
+					if(!dictFileOids.ContainsKey(relative)) {
+						dictFileOids.Add(relative,new List<string>());
 					}
-					dictOidFiles[literal].Add(TestPaths.Relative(path));
+					dictFileOids[relative].Add(literal);
 				}
 			}
-			List<string> listManifest=EhrValueSetImport.GetManifest().Select(x => x.ValueSetOID).ToList();
-			List<string> listMissingFromManifest=dictOidFiles.Keys.Where(x => !listManifest.Contains(x)).OrderBy(x => x).ToList();
-			List<string> listNotInSource=listManifest.Where(x => !dictOidFiles.ContainsKey(x)).OrderBy(x => x).ToList();
-			Assert.AreEqual(0,listMissingFromManifest.Count,"Named in the source, not in the manifest: "
-				+string.Join("; ",listMissingFromManifest.Select(x => x+" ("+string.Join(", ",dictOidFiles[x].Distinct())+")")));
-			Assert.AreEqual(COUNT_OIDS_ONLY_THE_DELETED_ENGINE_NAMED,listNotInSource.Count,"In the manifest, named nowhere in the source since the 2014 "
-				+"engine was deleted ("+listNotInSource.Count+"): "+string.Join("; ",listNotInSource));
-			Assert.AreEqual(79,listManifest.Count,"The two surveys counted 79 and 81 (section 7, EHR-2 step 3).");
+			Assert.IsTrue(dictFileOids.ContainsKey(PATH_CATALOG),"The catalog names the value sets.");
+			List<string> listOutside=dictFileOids.Keys.Where(x => !string.Equals(x,PATH_CATALOG,StringComparison.OrdinalIgnoreCase)
+				&& !_arrayOidAllowlist.Contains(x,StringComparer.OrdinalIgnoreCase)).OrderBy(x => x).ToList();
+			Assert.AreEqual(0,listOutside.Count,"A value-set OID outside the catalog and the allowlist: "
+				+string.Join("; ",listOutside.Select(x => x+" ("+string.Join(", ",dictFileOids[x].Distinct())+")")));
+			List<string> listStale=_arrayOidAllowlist.Where(x => !dictFileOids.ContainsKey(x)).ToList();
+			Assert.AreEqual(0,listStale.Count,"On the allowlist, naming no value-set OID any more (take it off): "+string.Join("; ",listStale));
+			//Every OID the catalog names is one of its value sets (or one CQMCommonQDM declares and no measure uses).
+			List<string> listCatalog=CqmCatalog.GetValueSets().Select(x => x.Oid).Concat(CqmCatalog.GetValueSetsDeclaredButUnused().Select(x => x.Key)).ToList();
+			List<string> listUnknown=dictFileOids[PATH_CATALOG].Where(x => !listCatalog.Contains(x)).Distinct().ToList();
+			Assert.AreEqual(0,listUnknown.Count,"In the catalog's source, not among its value sets: "+string.Join("; ",listUnknown));
+			Assert.IsFalse(dictFileOids.ContainsKey(@"OpenPmsDentalBusiness\Data Interface\EhrCodes.cs"),"The manifest comes from the catalog.");
 		}
 
 		[TestMethod]
-		public void Manifest_EachItemHasANameACategoryAndOnlyTheNineMeasures_Once() {
+		public void Manifest_IsTheCatalogsValueSets_EachWithANameACategoryAndItsMeasures_Once() {
 			List<EhrValueSetManifestItem> listManifest=EhrValueSetImport.GetManifest();
+			Assert.AreEqual(68,listManifest.Count,"The 68 value sets the seven measures' CQL declares outside CQMCommonQDM (section 7.2).");
 			Assert.AreEqual(listManifest.Count,listManifest.Select(x => x.ValueSetOID).Distinct().Count(),"No OID twice.");
-			List<string> listNine=EhrValueSetImport.ArrayMeasureIds.Select(x => x.Substring(3)).ToList();
+			CollectionAssert.AreEqual(CqmCatalog.GetValueSets().Select(x => x.Oid).ToList(),listManifest.Select(x => x.ValueSetOID).ToList());
+			List<string> listSeven=EhrValueSetImport.ArrayMeasureIds.Select(x => x.Substring(3)).ToList();
 			foreach(EhrValueSetManifestItem item in listManifest) {
 				Assert.IsFalse(string.IsNullOrWhiteSpace(item.ValueSetName),item.ValueSetOID);
-				Assert.IsFalse(item.ValueSetName.EndsWith("Value Set"),item.ValueSetOID+": "+item.ValueSetName);
 				Assert.IsFalse(string.IsNullOrWhiteSpace(item.QDMCategory),item.ValueSetOID);
 				List<string> listMeasureIds=item.MeasureIds.Split(',').ToList();
-				Assert.IsTrue(listMeasureIds.Count>0 && listMeasureIds.All(x => listNine.Contains(x)),item.ValueSetOID+": "+item.MeasureIds);
-				Assert.AreEqual(string.Join(",",EhrValueSetImport.SortMeasureIds(listMeasureIds)),item.MeasureIds,"In the engine's order: "+item.ValueSetOID);
+				Assert.IsTrue(listMeasureIds.Count>0 && listMeasureIds.All(x => listSeven.Contains(x)),item.ValueSetOID+": "+item.MeasureIds);
+				Assert.AreEqual(string.Join(",",EhrValueSetImport.SortMeasureIds(listMeasureIds)),item.MeasureIds,"In the catalog's order: "+item.ValueSetOID);
 			}
 			//Every measure has value sets.
-			foreach(string measureId in listNine) {
+			foreach(string measureId in listSeven) {
 				Assert.IsTrue(listManifest.Any(x => x.MeasureIds.Split(',').Contains(measureId)),measureId);
 			}
-			//The names the windows give beside their OIDs.
+			//The names as the CQL gives them.
 			Assert.AreEqual("Tobacco Use Screening",EhrValueSetImport.GetManifestItem("2.16.840.1.113883.3.526.3.1278").ValueSetName);
-			Assert.AreEqual("BMI LOINC Value",EhrValueSetImport.GetManifestItem("2.16.840.1.113883.3.600.1.681").ValueSetName);
+			Assert.AreEqual("138v15",EhrValueSetImport.GetManifestItem("2.16.840.1.113883.3.526.3.1278").MeasureIds);
+			Assert.AreEqual("68v16,69v15,74v16,75v15,138v15,155v15,165v15",EhrValueSetImport.GetManifestItem("2.16.840.1.114222.4.11.3591").MeasureIds);
+			Assert.IsNull(EhrValueSetImport.GetManifestItem("2.16.840.1.113883.3.600.1.681"),"A 2014 value set (BMI LOINC Value) is not in the 2027 catalog.");
 			Assert.IsNull(EhrValueSetImport.GetManifestItem("2.16.840.1.113883.3.999999.1"));
 		}
 		#endregion The manifest
@@ -185,12 +201,17 @@ namespace EhrTests {
 		[TestMethod]
 		public void Fixtures_HoldNoLiteralOfACodeFromTheEnginesLists() {
 			Regex regexCode=new Regex(@"(?<![0-9A-Za-z.])(D\d{4}|\d{5,9})(?![0-9A-Za-z.])");
+			//A GUID is an ID (the measures' set IDs, which the engine and the 2027 catalog's tests both name, EHR-6a), never a code.
+			Regex regexGuid=new Regex("^[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12}$");
 			HashSet<string> setEngineCodes=new HashSet<string>(StringComparer.Ordinal);
 			foreach(string path in new[] { @"OpenPmsDentalBusiness\Data Interface\EhrMeasures.cs" }) {
 				CSharpSource cSharpSource=CSharpSource.Read(TestPaths.ReadSource(path));
 				foreach(string literal in cSharpSource.ListStringLiterals) {
 					if(Regex.IsMatch(literal,@"^\s*[0-9.]+\s*$") && literal.Count(x => x=='.')>1) {
 						continue;//An OID.
+					}
+					if(regexGuid.IsMatch(literal.Trim())) {
+						continue;
 					}
 					foreach(Match match in regexCode.Matches(literal)) {
 						setEngineCodes.Add(match.Groups[1].Value);
@@ -205,7 +226,7 @@ namespace EhrTests {
 			{
 				string text=File.ReadAllText(path);
 				IEnumerable<string> listTexts=path.EndsWith(".cs") ? CSharpSource.Read(text).ListStringLiterals : new List<string> { text };
-				foreach(string literal in listTexts) {
+				foreach(string literal in listTexts.Where(x => !regexGuid.IsMatch(x.Trim()))) {
 					foreach(Match match in regexCode.Matches(literal)) {
 						if(setEngineCodes.Contains(match.Groups[1].Value)) {
 							listProblems.Add(TestPaths.Relative(path)+": "+match.Groups[1].Value);
@@ -235,8 +256,15 @@ namespace EhrTests {
 			string click=window.Substring(window.IndexOf("private void butImportValueSets_Click",StringComparison.Ordinal));
 			click=click.Substring(0,click.IndexOf("\r\n\t\t}\r\n",StringComparison.Ordinal));
 			Assert.IsFalse(click.Contains("File.ReadAllBytes"),"The file is not read whole into memory.");
-			StringAssert.Contains(click,"new FileStream(path,FileMode.Open,FileAccess.Read,FileShare.Read)");
-			StringAssert.Contains(click,"EhrValueSetImport.Parse(path,fileStream)");
+			StringAssert.Contains(click,"index => new FileStream(listPaths[index],FileMode.Open,FileAccess.Read,FileShare.Read)");
+			//The pick is read as one (one row budget, a second file of a kind refused at its first row), and a pick of other than three files is
+			//refused before any file is read.
+			int indexParsePick=click.IndexOf("EhrValueSetImport.ParsePick(listPaths,",StringComparison.Ordinal);
+			Assert.IsTrue(indexParsePick>0,"The window reads the pick with ParsePick.");
+			Assert.IsFalse(click.Contains("EhrValueSetImport.Parse("),"No file is parsed alone.");
+			int indexCount=click.IndexOf("if(listPaths.Count!=3) {",StringComparison.Ordinal);
+			Assert.IsTrue(indexCount>0 && indexCount<indexParsePick && indexCount<click.IndexOf("new FileInfo(",StringComparison.Ordinal),
+				"The count is checked before any file is read.");
 		}
 
 		[TestMethod]
