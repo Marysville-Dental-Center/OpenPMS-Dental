@@ -245,7 +245,7 @@ namespace OpenPmsDentalBusiness {
 				DataRow newRow = retVal.NewRow();
 				newRow["PatientName"] = rowCur["LName"].ToString() + ", " + rowCur["FName"].ToString();
 				newRow["GuarantorName"] = rowCur["GuarL"].ToString() + ", " + rowCur["GuarF"].ToString();
-				newRow["PatUnearnedAmt"] = PIn.Double(rowCur["UnallocatedAmt"].ToString());
+				newRow["PatUnearnedAmt"] = PIn.Double(rowCur["UnallocatedAmt"].ToString()).ToStringNetFx();
 				newRow["FamBal"] = famBal.ToStringNetFx("f");
 				retVal.Rows.Add(newRow);
 			}

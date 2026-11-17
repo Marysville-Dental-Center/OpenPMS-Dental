@@ -2314,14 +2314,14 @@ namespace OpenPmsDentalBusiness {
 									strColumnValue=amtClaimFee.ToString("C",CultureInfo.CurrentCulture);
 								}
 								catch {
-									strColumnValue=table.Rows[i][j].ToString();
+									strColumnValue=ODNumberText.ToStringNetFxIfNumber(table.Rows[i][j]);
 								}
 							}
 							else if (table.Columns[j].ColumnName=="Claim Date") {
 								strColumnValue=((DateTime)table.Rows[i][j]).ToShortDateString();
 							}
 							else {
-								strColumnValue=table.Rows[i][j].ToString();
+								strColumnValue=ODNumberText.ToStringNetFxIfNumber(table.Rows[i][j]);
 							}
 							if(strColumnValue.Length<table.Columns[j].ColumnName.Length) {//Pad with spaces if needed
 								strColumnValue+=new string(' ',table.Columns[j].ColumnName.Length-strColumnValue.Length);

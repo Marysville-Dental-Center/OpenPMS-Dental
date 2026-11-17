@@ -10,6 +10,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Xml;
 using System.Xml.Serialization;
+using CodeBase;
 
 namespace OpenPmsDentalBusiness {
 
@@ -357,7 +358,9 @@ namespace OpenPmsDentalBusiness {
 						listCells.Add(XmlEscape(PIn.ByteArray(row[col])));
 					}
 					else {
-						listCells.Add(XmlEscape(row[col].ToString()));
+						//A double cell (a user query's sum) is sent as the .NET Framework wrote it, 15 digits (S3b-FMT, decision 24): the client's table holds
+						//this text, and shows it, as it showed the .NET Framework server's.
+						listCells.Add(XmlEscape(ODNumberText.ToStringNetFxIfNumber(row[col])));
 					}
 				}
 				result.Append("<y>"+string.Join("|",listCells)+"</y>");

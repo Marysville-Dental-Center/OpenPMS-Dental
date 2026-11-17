@@ -447,7 +447,7 @@ namespace WebServiceSerializer {
 			for(int i=0;i<table.Rows.Count;i++) {//Row loop.
 				result.Append("<y>");
 				for(int j=0;j<table.Columns.Count;j++) {//Column loop.
-					string cellValue=table.Rows[i][j].ToString();
+					string cellValue=ODNumberText.ToStringNetFxIfNumber(table.Rows[i][j]);//a double as the .NET Framework wrote it (S3b-FMT)
 					if(table.Columns[j].DataType.Name=="DateTime") { //DateTime requires special formatting so it can be deserialized by java in DataTable.getCellDateFromFormatString().
 						DateTime dt;
 						if(!DateTime.TryParse(table.Rows[i][j].ToString(),out dt)) { //Shouldn't get here but just in case, give it a default value.

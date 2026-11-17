@@ -139,6 +139,19 @@ namespace CodeBase {
 			return value;
 		}
 
+		///<summary>value.ToString() for an object of unknown type, with a double or float written as the .NET Framework wrote it (current culture):
+		///a data table cell whose column may hold doubles (a user query's sum, a report table's computed column), for one. Throws
+		///NullReferenceException for null, as value.ToString() does.</summary>
+		public static string ToStringNetFxIfNumber(object value) {
+			if(value is double) {
+				return FormatNetFx((double)value,null,null,false);
+			}
+			if(value is float) {
+				return FormatNetFx((float)value,null,null,true);
+			}
+			return value.ToString();
+		}
+
 		///<summary>Convert.ToString(value,formatProvider) for an object of unknown type, with a double or float written as the .NET Framework
 		///wrote it: a data table cell whose column may hold doubles, for one.</summary>
 		public static string ToStringNetFxIfNumber(object value,IFormatProvider formatProvider) {

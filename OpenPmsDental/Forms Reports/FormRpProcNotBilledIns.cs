@@ -285,7 +285,7 @@ namespace OpenPmsDental{
 				row["ProcNum"]=procNumCur;
 				#region Calculate chargesDouble
 				double writeOffCapSum=listPatClaimProcs.Where(x => x.Status==ClaimProcStatus.CapComplete).Sum(y => y.WriteOff);
-				row["chargesDouble"]=procCur.ProcFeeTotal-writeOffCapSum;
+				row["chargesDouble"]=(procCur.ProcFeeTotal-writeOffCapSum).ToStringNetFx();
 				row["ProcNumLab"]=procCur.ProcNumLab;
 				#endregion Calculate chargesDouble
 				table.Rows.Add(row);

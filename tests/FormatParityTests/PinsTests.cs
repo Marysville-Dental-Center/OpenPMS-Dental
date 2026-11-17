@@ -93,7 +93,9 @@ namespace FormatParityTests {
 		public void DateTimeAdd_RoundsToTheMillisecond() {
 			//(d): .NET 7 and later keep every tick.
 			DateTime dateTime=new DateTime(2026,11,16,8,0,0);
-			Assert.AreEqual(new DateTime(2026,11,16,14,39,59).AddTicks(9999999),dateTime.AddHours(20/3d),"This is .NET 10's own result.");
+			Assert.AreEqual(dateTime.AddTicks(5000),dateTime.AddMilliseconds(0.5),"This is .NET 10's own result: half a millisecond.");
+			Assert.AreEqual(dateTime.AddTicks(1234567),dateTime.AddSeconds(0.1234567),"This is .NET 10's own result.");
+			Assert.AreEqual(dateTime.AddMilliseconds(123),dateTime.AddSecondsNetFx(0.1234567),"Rounded to the millisecond, as there.");
 			Assert.AreEqual(new DateTime(2026,11,16,14,40,0),dateTime.AddHoursNetFx(20/3d));
 			Assert.AreEqual(new DateTime(2026,11,16,8,20,0),dateTime.AddMinutesNetFx(20/60d*60));
 			Assert.AreEqual(dateTime.AddMilliseconds(1),dateTime.AddMillisecondsNetFx(0.5),"Half a millisecond: away from zero.");

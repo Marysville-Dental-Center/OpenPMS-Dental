@@ -826,7 +826,7 @@ namespace OpenPmsDental.ReportingComplex {
 							if(_myReport.HasGridLines() && isPrintablePage) {
 								g.DrawRectangle(new Pen(Brushes.LightGray),Rectangle.Round(layoutRect));
 							}
-							displayText=queryObj.ReportTable.Rows[i][queryObj.ArrDataFields.IndexOf(fieldObject.DataField)].ToString();
+							displayText=ODNumberText.ToStringNetFxIfNumber(queryObj.ReportTable.Rows[i][queryObj.ArrDataFields.IndexOf(fieldObject.DataField)]);
 							List<string> listString=GetDisplayString(displayText,prevDisplayText,fieldObject,i,queryObj);
 							displayText=listString[0];
 							prevDisplayText=listString[1];
@@ -965,7 +965,7 @@ namespace OpenPmsDental.ReportingComplex {
 			else if(reportObject.FieldValueType==FieldValueType.String) {
 				displayText=rawText;
 				if(i>0 && reportObject.SuppressIfDuplicate) {
-					prevDisplayText=dt.Rows[i-1][queryObj.ArrDataFields.IndexOf(reportObject.DataField)].ToString();
+					prevDisplayText=ODNumberText.ToStringNetFxIfNumber(dt.Rows[i-1][queryObj.ArrDataFields.IndexOf(reportObject.DataField)]);
 				}
 			}
 			retVals.Add(displayText);
@@ -1094,7 +1094,7 @@ namespace OpenPmsDental.ReportingComplex {
 									}
 									string rawText="";
 									if(reportObj.ObjectType==ReportObjectType.FieldObject) {
-										rawText=query.ExportTable.Rows[i][query.ArrDataFields.IndexOf(reportObj.DataField)].ToString();
+										rawText=ODNumberText.ToStringNetFxIfNumber(query.ExportTable.Rows[i][query.ArrDataFields.IndexOf(reportObj.DataField)]);
 										if(String.IsNullOrWhiteSpace(rawText)) {
 											line+="\t";
 											continue;

@@ -389,7 +389,7 @@ namespace OpenPmsDental.ReportingComplex {
 						continue;
 					}
 					if(reportObject.ObjectType==ReportObjectType.FieldObject) {
-						rawText=_reportTable.Rows[i][_arrDataFields.IndexOf(reportObject.DataField)].ToString();
+						rawText=ODNumberText.ToStringNetFxIfNumber(_reportTable.Rows[i][_arrDataFields.IndexOf(reportObject.DataField)]);
 						if(String.IsNullOrWhiteSpace(rawText)) {
 							continue;
 						}

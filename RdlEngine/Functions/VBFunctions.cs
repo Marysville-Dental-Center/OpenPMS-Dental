@@ -20,6 +20,8 @@
     For additional information, email info@fyireporting.com or visit
     the website www.fyiReporting.com.
 */
+// Changed by Open PMS - Dental contributors, 2026-11-16 (package S3b-FMT of the .NET 10 move, decision 24 of docs/specs/net10-plan.md,
+// docs/port-notes/S3b-FMT.md): doubles and floats are written as text as .NET Framework wrote them (ODNumberText.ToStringNetFx, AsNetFx).
 using System;
 using System.Collections;
 using System.IO;
@@ -28,6 +30,7 @@ using System.Text;
 
 
 using fyiReporting.RDL;
+using CodeBase;
 
 
 namespace fyiReporting.RDL
@@ -278,7 +281,7 @@ namespace fyiReporting.RDL
 		/// <returns></returns>
 		static public string CStr(object o)
 		{
-			return Convert.ToString(o);
+			return ODNumberText.ToStringNetFxIfNumber(o, System.Globalization.CultureInfo.CurrentCulture);	// a double as .NET Framework wrote it (S3b-FMT)
 		}
 		/// <summary>
 		/// Returns the hexadecimal value of a specified number

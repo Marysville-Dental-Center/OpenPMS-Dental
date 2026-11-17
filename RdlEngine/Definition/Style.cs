@@ -692,7 +692,7 @@ namespace fyiReporting.RDL
 				drawFormat = new StringFormat();
 				drawFormat.Alignment = StringAlignment.Center;
 				// Draw string to image
-				g.DrawString(o.ToString(), drawFont, drawBrush, rect, drawFormat);
+				g.DrawString(ToStringNoFormat(o), drawFont, drawBrush, rect, drawFormat);//a double as .NET Framework wrote it (S3b-FMT)
 			}
 			finally
 			{

@@ -631,10 +631,10 @@ namespace OpenPmsDental {
 					insIncome+=PIn.Double(dataSetDailyProdSplitByClinic.Tables[i].Rows[j]["Ins Income"].ToString());
 				}
 				if(radioWriteoffBoth.Checked) {
-					tableClinicTotals.Rows.Add(clinicDesc,production,adjust,writeoffest,writeoffadj,ptIncome,insIncome);
+					tableClinicTotals.Rows.Add(clinicDesc,production.ToStringNetFx(),adjust.ToStringNetFx(),writeoffest.ToStringNetFx(),writeoffadj.ToStringNetFx(),ptIncome.ToStringNetFx(),insIncome.ToStringNetFx());
 				}
 				else {
-					tableClinicTotals.Rows.Add(clinicDesc,production,adjust,writeoff,ptIncome,insIncome);
+					tableClinicTotals.Rows.Add(clinicDesc,production.ToStringNetFx(),adjust.ToStringNetFx(),writeoff.ToStringNetFx(),ptIncome.ToStringNetFx(),insIncome.ToStringNetFx());
 				}
 			}
 			return tableClinicTotals;

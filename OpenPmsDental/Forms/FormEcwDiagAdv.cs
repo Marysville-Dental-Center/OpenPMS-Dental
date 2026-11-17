@@ -10,6 +10,7 @@ using MySqlConnector;
 using System.IO;
 using System.Security.Cryptography;
 using OpenPmsDental.UI;
+using CodeBase;
 
 namespace OpenPmsDental {
 	public partial class FormEcwDiagAdv:FormODBase {
@@ -130,7 +131,7 @@ namespace OpenPmsDental {
 			for(int r=0;r<_table.Rows.Count;r++){
 				row=new GridRow();
 				for(int c=0;c<countCol;c++) {
-					row.Cells.Add(_table.Rows[r][c].ToString());
+					row.Cells.Add(ODNumberText.ToStringNetFxIfNumber(_table.Rows[r][c]));
 				}
 				gridTables.ListGridRows.Add(row);
 			}
@@ -207,7 +208,7 @@ namespace OpenPmsDental {
 			for(int i=0;i<_tableQueryResults.Rows.Count;i++) {
 				row=new GridRow();
 				for(int c=0;c<countCol;c++) {
-					row.Cells.Add(_tableQueryResults.Rows[i][c].ToString());
+					row.Cells.Add(ODNumberText.ToStringNetFxIfNumber(_tableQueryResults.Rows[i][c]));
 				}
 				gridMain.ListGridRows.Add(row);
 			}

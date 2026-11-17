@@ -308,6 +308,7 @@ namespace OpenPmsDentalGraph {
 		#region Ctor
 		public GraphQuantityOverTime() {
 			InitializeComponent();
+			ChartNumberText.Attach(chart1);//the number labels as the .NET Framework wrote them (S3b-FMT, decision 24)
 			comboChartType.SetDataToEnumsPrimitive<SeriesChartType>(
 				new List<SeriesChartType>(new SeriesChartType[] { SeriesChartType.StackedArea,SeriesChartType.StackedColumn,SeriesChartType.Column,SeriesChartType.Line }));
 			comboGroupBy.SetDataToEnumsPrimitive<IntervalType>((int)IntervalType.Years,(int)IntervalType.Days);

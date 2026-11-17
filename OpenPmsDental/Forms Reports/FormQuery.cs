@@ -221,7 +221,7 @@ namespace OpenPmsDental{
 								cell=_tableHuman.Rows[i][j].ToString();
 							}
 							else {
-								cell=_reportSimpleGrid.TableQ.Rows[i][j].ToString();
+								cell=ODNumberText.ToStringNetFxIfNumber(_reportSimpleGrid.TableQ.Rows[i][j]);
 							}
 							cell=cell.Replace("\r","");
 							cell=cell.Replace("\n","");
@@ -884,16 +884,31 @@ namespace OpenPmsDental{
 				listColumns.Add(dataGridViewColumn);
 			}
 			grid2.Columns.AddRange(listColumns.ToArray());
+			grid2.CellFormatting-=grid2_CellFormatting;
+			grid2.CellFormatting+=grid2_CellFormatting;
 			grid2.DataSource=table;
+		}
+
+		///<summary>A double or float cell of a user query (a sum, a computed column) as the .NET Framework wrote it (S3b-FMT, decision 24): the
+		///grid's own formatting writes .NET's shortest round-trip text, 0.30000000000000004 where the .NET Framework wrote 0.3.</summary>
+		private void grid2_CellFormatting(object sender,DataGridViewCellFormattingEventArgs e) {
+			if(!(e.Value is double) && !(e.Value is float)) {
+				return;
+			}
+			string format=string.IsNullOrEmpty(e.CellStyle.Format) ? null : e.CellStyle.Format;
+			IFormatProvider formatProvider=e.CellStyle.FormatProvider??System.Globalization.CultureInfo.CurrentCulture;
+			e.Value=e.Value is double ? ((double)e.Value).ToStringNetFx(format,formatProvider) : ((float)e.Value).ToStringNetFx(format,formatProvider);
+			e.FormattingApplied=true;
 		}
 
 		///<summary>The text of a cell of the grid, by row and column in the grid's order (the WinForms DataGrid's grid2[row,col].ToString()).</summary>
 		private string GetGridCellText(int row,int col) {
 			if(row<grid2.Rows.Count && col<grid2.Columns.Count) {
-				return grid2.Rows[row].Cells[col].Value?.ToString()??"";
+				object value=grid2.Rows[row].Cells[col].Value;
+				return value==null ? "" : ODNumberText.ToStringNetFxIfNumber(value);
 			}
 			//The grid has made no rows yet (no binding context): the rows of the table's view, which the grid shows in the same order.
-			return ((DataTable)grid2.DataSource).DefaultView[row][col].ToString();
+			return ODNumberText.ToStringNetFxIfNumber(((DataTable)grid2.DataSource).DefaultView[row][col]);
 		}
 
 		///<summary>The cell alignment of the grid's column for a report column's alignment.</summary>
@@ -978,7 +993,7 @@ namespace OpenPmsDental{
 				_reportSimpleGrid.ColWidth[i]
 					=(int)grfx.MeasureString(table.Columns[i].Caption,grid2.Font).Width;
 				for(int j = 0;j<table.Rows.Count;j++) {
-					tempWidth=(int)TextRenderer.MeasureText(table.Rows[j][i].ToString(),grid2.Font).Width;
+					tempWidth=(int)TextRenderer.MeasureText(ODNumberText.ToStringNetFxIfNumber(table.Rows[j][i]),grid2.Font).Width;
 					if(tempWidth>_reportSimpleGrid.ColWidth[i])
 						_reportSimpleGrid.ColWidth[i]=tempWidth;
 				}

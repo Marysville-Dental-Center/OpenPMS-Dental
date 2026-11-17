@@ -363,7 +363,7 @@ namespace OpenPmsDental{
 					for(int i=0;i<listRows.Count;i++) {
 						string line="";
 						for(int j=0;j<_listHeaders.Count;j++) {
-							string cell=string.Concat(listRows[i][j].ToString().Where(x => !x.In('\r','\n','\t','\"')).ToArray());
+							string cell=string.Concat(ODNumberText.ToStringNetFxIfNumber(listRows[i][j]).Where(x => !x.In('\r','\n','\t','\"')).ToArray());
 							line+=cell+"\t";
 						}
 						sw.WriteLine(line);

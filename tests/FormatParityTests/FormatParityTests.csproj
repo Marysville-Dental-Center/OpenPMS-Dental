@@ -26,6 +26,10 @@
   <ItemGroup>
     <ProjectReference Include="..\..\CodeBase\xCodeBase.csproj" />
     <ProjectReference Include="..\..\DataConnectionBase\xDataConnectionBase.csproj" />
+    <!-- The framework places (FrameworkPlacesTests): the Middle Tier's table text, the charts' labels, the RDL engine's CStr. -->
+    <ProjectReference Include="..\..\OpenPmsDentalBusiness\OpenPmsDentalBusiness.csproj" />
+    <ProjectReference Include="..\..\OpenPmsDentalGraph\OpenPmsDentalGraph.csproj" />
+    <ProjectReference Include="..\..\RdlEngine\RdlEngine.csproj" />
     <!-- The scan (a self-contained exe, which a test project may reference, S3b-0 item 7): its Scanner, AllowList and Site classes. -->
     <ProjectReference Include="..\..\tools\FormatSweep\FormatSweep.csproj" />
   </ItemGroup>

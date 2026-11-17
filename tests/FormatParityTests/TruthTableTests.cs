@@ -128,8 +128,8 @@ namespace FormatParityTests {
 		}
 
 		///<summary>Every double and float row: ToStringNetFx gives the .NET Framework's text (the x86 runtime's, or the x64 runtime's where the two
-		///differ: the 17th digit of a few G17 and E16 texts). "R" is the one exact format: the helper gives .NET's shortest round-trip text, and
-		///both texts read back to the value.</summary>
+		///differ: the 17th digit of a few G17 and E16 texts). "R" is the one exact format: the helper gives .NET's shortest round-trip text (for
+		///negative zero "0", as the .NET Framework), and both texts read back to the value.</summary>
 		[TestMethod]
 		public void NumberRows_ToStringNetFx_GivesTheNetFrameworkText() {
 			TruthTable truthTable=GetTruthTable();
@@ -159,7 +159,7 @@ namespace FormatParityTests {
 				countChecked++;
 				if(IsRoundTrip(formatRow)) {
 					countRoundTrip++;
-					if(actual!=textNet) {
+					if(actual!=textNet && actual!=expected) {//.NET's text, or the .NET Framework's where the helper's zero rule gives it ("0" for -0)
 						listFailures.Add("R is .NET's: "+string.Join(" ",arrayParts)+" got ["+actual+"] .NET ["+textNet+"]");
 					}
 					else if(!double.IsNaN(valueAsDouble) && !double.IsInfinity(valueAsDouble)) {

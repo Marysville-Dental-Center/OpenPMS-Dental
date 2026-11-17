@@ -66,8 +66,8 @@ namespace DataConnectionBase {
 				}
 				return strbuild.ToString();
 			}
-			else {//string
-				return obj.ToString();
+			else {//string, or a number of a user query: a double as the .NET Framework wrote it (S3b-FMT, decision 24)
+				return ODNumberText.ToStringNetFxIfNumber(obj);
 			}
 		}
 
