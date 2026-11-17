@@ -165,8 +165,16 @@ namespace LibraryBindingTests {
 			//the Windows system folder that the uninstall leaves (other programs use it), never in the program folder.
 			List<string> listSetupLines=new List<string>();
 			foreach(string name in BuildRelease.ListFiles().Where(x => x.Key=="setup").Select(x => x.Value)) {
-				//The installer names TWAINDSM.dll through its TwainDsmFile define (Build-Release passes the checked download's path).
-				string defineName=name.Equals("TWAINDSM.dll",StringComparison.OrdinalIgnoreCase) ? @"Source: ""{#TwainDsmFile}""" : null;
+				//The installer names the two TWAINDSM.dll files through its defines (Build-Release passes the checked download's paths): the 64-bit
+				//one as TwainDsmFile, the 32-bit one (setup|x86\TWAINDSM.dll, S3b-8) as TwainDsm32File, which goes to {sys} with the 32bit flag, the
+				//32-bit system folder.
+				string defineName=null;
+				if(name.Equals("TWAINDSM.dll",StringComparison.OrdinalIgnoreCase)) {
+					defineName=@"Source: ""{#TwainDsmFile}""";
+				}
+				else if(name.Equals(@"x86\TWAINDSM.dll",StringComparison.OrdinalIgnoreCase)) {
+					defineName=@"Source: ""{#TwainDsm32File}""";
+				}
 				List<string> listLines=listSources.Where(x => Regex.IsMatch(x,@"^Source:\s*""[^""]*\\"+Regex.Escape(name)+@"""",RegexOptions.IgnoreCase)
 					|| (defineName!=null && x.StartsWith(defineName))).ToList();
 				Assert.AreEqual(1,listLines.Count,"One [Files] line installs the setup file "+name+":\r\n"+string.Join("\r\n",listSources));
@@ -177,6 +185,9 @@ namespace LibraryBindingTests {
 				List<string> listFlags=matchFlags.Groups[1].Value.Split(new[] { ' ' },StringSplitOptions.RemoveEmptyEntries).ToList();
 				CollectionAssert.Contains(listFlags,"sharedfile",listLines[0]);
 				CollectionAssert.Contains(listFlags,"uninsneveruninstall",listLines[0]);
+				if(name.StartsWith(@"x86\",StringComparison.OrdinalIgnoreCase)) {
+					CollectionAssert.Contains(listFlags,"32bit","The 32-bit setup file goes to the 32-bit system folder: "+listLines[0]);
+				}
 				listSetupLines.AddRange(listLines);
 			}
 			foreach(string source in listSources.Except(listStaging).Except(listSetupLines)) {
