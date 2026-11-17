@@ -124,12 +124,18 @@ namespace RegistryTests {
 			Assert.AreEqual(119,(int)FormType.FormSupplyInventory);
 			Assert.AreEqual(100,(int)DocumentMiscType.ForkReleaseManifest);
 			Assert.AreEqual(101,(int)DocumentMiscType.ForkReleaseSegment);
+			//S3b-7: the runtime part of a release (published and pulled only when the .NET runtime changes).
+			Assert.AreEqual(102,(int)DocumentMiscType.ForkRuntimeManifest);
+			Assert.AreEqual(103,(int)DocumentMiscType.ForkRuntimeSegment);
 			Assert.AreEqual(114,(int)UserOdFkeyType.PatientFormsView);
 			Assert.AreEqual(ForkEnums.FEATURE_MAINTENANCE,ForkEnums.GetFeature(AlertType.MaintenanceOverdue));
 			Assert.AreEqual(ForkEnums.FEATURE_INVENTORY,ForkEnums.GetFeature(FormType.FormSupplyInventory));
 			Assert.AreEqual(ForkEnums.FEATURE_PATIENT_FORMS_VIEW,ForkEnums.GetFeature(UserOdFkeyType.PatientFormsView));
 			Assert.AreEqual(ForkEnums.FEATURE_SSH_HOST_KEYS,ForkEnums.GetFeature(EnumPermType.SshHostKeys));
-			Assert.AreEqual(13,GetForkValuesInCode().Count,"A new fork-only value goes into FORK-ENUMS.md and into this test.");
+			Assert.AreEqual(ForkEnums.FEATURE_RELEASE_CHANNEL,ForkEnums.GetFeature(DocumentMiscType.ForkReleaseManifest));
+			Assert.AreEqual(ForkEnums.FEATURE_RELEASE_CHANNEL,ForkEnums.GetFeature(DocumentMiscType.ForkRuntimeManifest));
+			Assert.AreEqual(ForkEnums.FEATURE_RELEASE_CHANNEL,ForkEnums.GetFeature(DocumentMiscType.ForkRuntimeSegment));
+			Assert.AreEqual(15,GetForkValuesInCode().Count,"A new fork-only value goes into FORK-ENUMS.md and into this test.");
 		}
 
 		[TestMethod]
