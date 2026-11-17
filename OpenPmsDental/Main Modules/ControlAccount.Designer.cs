@@ -21,24 +21,24 @@
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ControlAccount));
 			this.labelFamFinancial = new System.Windows.Forms.Label();
 			this.labelUrgFinNote = new System.Windows.Forms.Label();
-			this.contextMenuIns = new System.Windows.Forms.ContextMenu();
-			this.menuInsPri = new System.Windows.Forms.MenuItem();
-			this.menuInsSec = new System.Windows.Forms.MenuItem();
-			this.menuInsMedical = new System.Windows.Forms.MenuItem();
-			this.menuInsOther = new System.Windows.Forms.MenuItem();
+			this.contextMenuIns = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.menuInsPri = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuInsSec = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuInsMedical = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuInsOther = new System.Windows.Forms.ToolStripMenuItem();
 			this.imageListMain = new System.Windows.Forms.ImageList(this.components);
-			this.contextMenuStatement = new System.Windows.Forms.ContextMenu();
-			this.menuItemStatementWalkout = new System.Windows.Forms.MenuItem();
-			this.menuItemStatementEmail = new System.Windows.Forms.MenuItem();
-			this.menuItemReceipt = new System.Windows.Forms.MenuItem();
-			this.menuItemInvoice = new System.Windows.Forms.MenuItem();
-			this.menuItemLimited = new System.Windows.Forms.MenuItem();
-			this.menuItemLimitedCustom = new System.Windows.Forms.MenuItem();
-			this.menuItemStatementMore = new System.Windows.Forms.MenuItem();
-			this.contextMenuRepeat = new System.Windows.Forms.ContextMenu();
-			this.menuItemRepeatStand = new System.Windows.Forms.MenuItem();
-			this.menuItemRepeatEmail = new System.Windows.Forms.MenuItem();
-			this.menuItemRepeatCanada = new System.Windows.Forms.MenuItem();
+			this.contextMenuStatement = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.menuItemStatementWalkout = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemStatementEmail = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemReceipt = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemInvoice = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemLimited = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemLimitedCustom = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemStatementMore = new System.Windows.Forms.ToolStripMenuItem();
+			this.contextMenuRepeat = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.menuItemRepeatStand = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemRepeatEmail = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemRepeatCanada = new System.Windows.Forms.ToolStripMenuItem();
 			this.panelAging = new System.Windows.Forms.Panel();
 			this.labelDisRem = new System.Windows.Forms.Label();
 			this.labelInsRem = new System.Windows.Forms.Label();
@@ -90,28 +90,28 @@
 			this.textDateEnd = new OpenPmsDental.ValidDate();
 			this.textDateStart = new OpenPmsDental.ValidDate();
 			this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-			this.contextMenuQuickProcs = new System.Windows.Forms.ContextMenu();
+			this.contextMenuQuickProcs = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.textQuickProcs = new System.Windows.Forms.TextBox();
-			this.contextMenuPayment = new System.Windows.Forms.ContextMenu();
-			this.menuItemAllocateUnearned = new System.Windows.Forms.MenuItem();
-			this.menuItemIncomeTransfer = new System.Windows.Forms.MenuItem();
-			this.menuItemSendCareCreditCSS = new System.Windows.Forms.MenuItem();
-			this.contextMenuPayPlan = new System.Windows.Forms.ContextMenu();
-			this.menuItemDynamicPayPlan = new System.Windows.Forms.MenuItem();
-			this.menuItemInsPayPlan = new System.Windows.Forms.MenuItem();
-			this.contextMenuAdjust = new System.Windows.Forms.ContextMenu();
-			this.menuItemSalesTax = new System.Windows.Forms.MenuItem();
-			this.menuItemAddMultAdj = new System.Windows.Forms.MenuItem();
-			this.contextMenuAcctGrid = new System.Windows.Forms.ContextMenu();
-			this.menuItemAddAdj = new System.Windows.Forms.MenuItem();
-			this.menuItemAddRefund = new System.Windows.Forms.MenuItem();
-			this.menuItemEditPayPlanCharge = new System.Windows.Forms.MenuItem();
-			this.menuItemDeletePayPlanCharge = new System.Windows.Forms.MenuItem();
-			this.menuItemSnipAttachment = new System.Windows.Forms.MenuItem();
-			this.menuItemSelectImage = new System.Windows.Forms.MenuItem();
-			this.menuItemPasteAttachment = new System.Windows.Forms.MenuItem();
-			this.menuItemAttachmentHistory = new System.Windows.Forms.MenuItem();
-			this.menuItemAddRefundWorkNotPerformed = new System.Windows.Forms.MenuItem();
+			this.contextMenuPayment = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.menuItemAllocateUnearned = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemIncomeTransfer = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemSendCareCreditCSS = new System.Windows.Forms.ToolStripMenuItem();
+			this.contextMenuPayPlan = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.menuItemDynamicPayPlan = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemInsPayPlan = new System.Windows.Forms.ToolStripMenuItem();
+			this.contextMenuAdjust = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.menuItemSalesTax = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemAddMultAdj = new System.Windows.Forms.ToolStripMenuItem();
+			this.contextMenuAcctGrid = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.menuItemAddAdj = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemAddRefund = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemEditPayPlanCharge = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemDeletePayPlanCharge = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemSnipAttachment = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemSelectImage = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemPasteAttachment = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemAttachmentHistory = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemAddRefundWorkNotPerformed = new System.Windows.Forms.ToolStripMenuItem();
 			this.groupBoxIndDis = new OpenPmsDental.DashIndividualDiscount();
 			this.groupBoxFamilyIns = new OpenPmsDental.UI.GroupBox();
 			this.textFamPriMax = new System.Windows.Forms.TextBox();
@@ -236,7 +236,7 @@
 			// 
 			// contextMenuIns
 			// 
-			this.contextMenuIns.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+			this.contextMenuIns.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
 						this.menuInsPri,
 						this.menuInsSec,
 						this.menuInsMedical,
@@ -244,25 +244,21 @@
 			// 
 			// menuInsPri
 			// 
-			this.menuInsPri.Index = 0;
 			this.menuInsPri.Text = "Primary";
 			this.menuInsPri.Click += new System.EventHandler(this.menuInsPri_Click);
 			// 
 			// menuInsSec
 			// 
-			this.menuInsSec.Index = 1;
 			this.menuInsSec.Text = "Secondary";
 			this.menuInsSec.Click += new System.EventHandler(this.menuInsSec_Click);
 			// 
 			// menuInsMedical
 			// 
-			this.menuInsMedical.Index = 2;
 			this.menuInsMedical.Text = "Medical";
 			this.menuInsMedical.Click += new System.EventHandler(this.menuInsMedical_Click);
 			// 
 			// menuInsOther
 			// 
-			this.menuInsOther.Index = 3;
 			this.menuInsOther.Text = "Other";
 			this.menuInsOther.Click += new System.EventHandler(this.menuInsOther_Click);
 			// 
@@ -278,7 +274,7 @@
 			// 
 			// contextMenuStatement
 			// 
-			this.contextMenuStatement.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+			this.contextMenuStatement.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
 						this.menuItemStatementWalkout,
 						this.menuItemStatementEmail,
 						this.menuItemReceipt,
@@ -289,68 +285,58 @@
 			// 
 			// menuItemStatementWalkout
 			// 
-			this.menuItemStatementWalkout.Index = 0;
 			this.menuItemStatementWalkout.Text = "Walkout";
 			this.menuItemStatementWalkout.Click += new System.EventHandler(this.menuItemStatementWalkout_Click);
 			// 
 			// menuItemStatementEmail
 			// 
-			this.menuItemStatementEmail.Index = 1;
 			this.menuItemStatementEmail.Text = "Email";
 			this.menuItemStatementEmail.Click += new System.EventHandler(this.menuItemStatementEmail_Click);
 			// 
 			// menuItemReceipt
 			// 
-			this.menuItemReceipt.Index = 2;
 			this.menuItemReceipt.Text = "Receipt";
 			this.menuItemReceipt.Click += new System.EventHandler(this.menuItemReceipt_Click);
 			// 
 			// menuItemInvoice
 			// 
-			this.menuItemInvoice.Index = 3;
 			this.menuItemInvoice.Text = "Invoice";
 			this.menuItemInvoice.Click += new System.EventHandler(this.menuItemInvoice_Click);
 			// 
 			// menuItemLimited
 			// 
-			this.menuItemLimited.Index = 4;
 			this.menuItemLimited.Text = "Limited";
 			this.menuItemLimited.Click += new System.EventHandler(this.menuItemLimited_Click);
 			// 
 			// menuItemLimitedCustom
 			// 
-			this.menuItemLimitedCustom.Index = 5;
 			this.menuItemLimitedCustom.Text = "Limited (Custom)";
 			this.menuItemLimitedCustom.Click += new System.EventHandler(this.menuItemLimitedCustom_Click);
 			// 
 			// menuItemStatementMore
 			// 
-			this.menuItemStatementMore.Index = 6;
 			this.menuItemStatementMore.Text = "More Options";
 			this.menuItemStatementMore.Click += new System.EventHandler(this.menuItemStatementMore_Click);
 			// 
 			// contextMenuRepeat
 			// 
-			this.contextMenuRepeat.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+			this.contextMenuRepeat.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
 						this.menuItemRepeatStand,
 						this.menuItemRepeatEmail,
 						this.menuItemRepeatCanada});
 			// 
 			// menuItemRepeatStand
 			// 
-			this.menuItemRepeatStand.Index = 0;
 			this.menuItemRepeatStand.Text = "Standard Monthly";
 			this.menuItemRepeatStand.Click += new System.EventHandler(this.MenuItemRepeatStand_Click);
 			// 
 			// menuItemRepeatEmail
 			// 
-			this.menuItemRepeatEmail.Index = 1;
 			this.menuItemRepeatEmail.Text = "Email Monthly";
 			this.menuItemRepeatEmail.Click += new System.EventHandler(this.MenuItemRepeatEmail_Click);
 			// 
 			// menuItemRepeatCanada
 			// 
-			this.menuItemRepeatCanada.Index = 2;
 			this.menuItemRepeatCanada.Text = "Canada Monthly";
 			this.menuItemRepeatCanada.Click += new System.EventHandler(this.menuItemRepeatCanada_Click);
 			// 
@@ -911,69 +897,62 @@
 			// 
 			// contextMenuPayment
 			// 
-			this.contextMenuPayment.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+			this.contextMenuPayment.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
 						this.menuItemAllocateUnearned,
 						this.menuItemIncomeTransfer,
 						this.menuItemSendCareCreditCSS});
-			this.contextMenuPayment.Popup += new System.EventHandler(this.contextMenuPayment_Popup);
+			this.contextMenuPayment.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuPayment_Popup);
 			// 
 			// menuItemAllocateUnearned
 			// 
-			this.menuItemAllocateUnearned.Index = 0;
 			this.menuItemAllocateUnearned.Text = "Allocate Unearned";
 			this.menuItemAllocateUnearned.Click += new System.EventHandler(this.menuItemAllocateUnearned_Click);
 			// 
 			// menuItemIncomeTransfer
 			// 
-			this.menuItemIncomeTransfer.Index = 1;
 			this.menuItemIncomeTransfer.Text = "Income Transfer";
 			this.menuItemIncomeTransfer.Click += new System.EventHandler(this.menuItemIncomeTransfer_Click);
 			// 
 			// menuItemSendCareCreditCSS
 			// 
-			this.menuItemSendCareCreditCSS.Index = 2;
 			this.menuItemSendCareCreditCSS.Text = "Get CareCredit Self-Service Link";
 			this.menuItemSendCareCreditCSS.Click += new System.EventHandler(this.menuItemSendCareCreditCSS_Click);
 			// 
 			// contextMenuPayPlan
 			// 
-			this.contextMenuPayPlan.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+			this.contextMenuPayPlan.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
 						this.menuItemDynamicPayPlan,
 						this.menuItemInsPayPlan});
 			// 
 			// menuItemDynamicPayPlan
 			// 
-			this.menuItemDynamicPayPlan.Index = 0;
 			this.menuItemDynamicPayPlan.Text = "Payment Plan";
 			this.menuItemDynamicPayPlan.Click += new System.EventHandler(this.MenuItemDynamicPayPlan_Click);
 			// 
 			// menuItemInsPayPlan
 			// 
-			this.menuItemInsPayPlan.Index = 1;
 			this.menuItemInsPayPlan.Text = "Insurance Payment Plan";
 			this.menuItemInsPayPlan.Click += new System.EventHandler(this.menuItemInsPayPlan_Click);
 			// 
 			// contextMenuAdjust
 			// 
-			this.contextMenuAdjust.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+			this.contextMenuAdjust.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
 						this.menuItemSalesTax,
 						this.menuItemAddMultAdj});
 			// 
 			// menuItemSalesTax
 			// 
-			this.menuItemSalesTax.Index = 0;
 			this.menuItemSalesTax.Text = "Apply Sales Tax";
 			this.menuItemSalesTax.Click += new System.EventHandler(this.menuItemSalesTax_Click);
 			// 
 			// menuItemAddMultAdj
 			// 
-			this.menuItemAddMultAdj.Index = 1;
 			this.menuItemAddMultAdj.Text = "Add Multiple";
 			this.menuItemAddMultAdj.Click += new System.EventHandler(this.menuItemAddMultAdj_Click);
 			// 
 			// contextMenuAcctGrid
 			// 
-			this.contextMenuAcctGrid.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+			this.contextMenuAcctGrid.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
 						this.menuItemAddAdj,
 						this.menuItemAddRefund,
 						this.menuItemEditPayPlanCharge,
@@ -982,60 +961,51 @@
 						this.menuItemSelectImage,
 						this.menuItemPasteAttachment,
 						this.menuItemAttachmentHistory});
-			this.contextMenuAcctGrid.Popup += new System.EventHandler(this.contextMenuAcctGrid_Popup);
+			this.contextMenuAcctGrid.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuAcctGrid_Popup);
 			// 
 			// menuItemAddAdj
 			// 
-			this.menuItemAddAdj.Index = 0;
 			this.menuItemAddAdj.Text = "Add Adjustment";
 			this.menuItemAddAdj.Click += new System.EventHandler(this.menuItemAddAdj_Click);
 			// 
 			// menuItemAddRefund
 			// 
-			this.menuItemAddRefund.Index = 1;
 			this.menuItemAddRefund.Text = "Refund";
 			this.menuItemAddRefund.Click += new System.EventHandler(this.menuItemAddRefund_Click);
 			// 
 			// menuItemEditPayPlanCharge
 			// 
-			this.menuItemEditPayPlanCharge.Index = 2;
 			this.menuItemEditPayPlanCharge.Text = "Edit Charge";
 			this.menuItemEditPayPlanCharge.Click += new System.EventHandler(this.menuItemEditPayPlanCharge_Click);
 			// 
 			// menuItemDeletePayPlanCharge
 			// 
-			this.menuItemDeletePayPlanCharge.Index = 3;
 			this.menuItemDeletePayPlanCharge.Text = "Delete Charge";
 			this.menuItemDeletePayPlanCharge.Visible = false;
 			this.menuItemDeletePayPlanCharge.Click += new System.EventHandler(this.menuItemDeletePayPlanCharge_Click);
 			// 
 			// menuItemSnipAttachment
 			// 
-			this.menuItemSnipAttachment.Index = 4;
 			this.menuItemSnipAttachment.Text = "Snip Attachment for DentalXChange";
 			this.menuItemSnipAttachment.Click += new System.EventHandler(this.menuItemSnipAttachment_Click);
 			// 
 			// menuItemSelectImage
 			// 
-			this.menuItemSelectImage.Index = 5;
 			this.menuItemSelectImage.Text = "Select Attachment for DentalXChange";
 			this.menuItemSelectImage.Click += new System.EventHandler(this.menuItemSelectImage_Click);
 			// 
 			// menuItemPasteAttachment
 			// 
-			this.menuItemPasteAttachment.Index = 6;
 			this.menuItemPasteAttachment.Text = "Paste Attachment(s) for DentalXChange";
 			this.menuItemPasteAttachment.Click += new System.EventHandler(this.menuItemPasteAttachment_Click);
 			// 
 			// menuItemAttachmentHistory
 			// 
-			this.menuItemAttachmentHistory.Index = 7;
 			this.menuItemAttachmentHistory.Text = "View Sent Attachments for DentalXChange";
 			this.menuItemAttachmentHistory.Click += new System.EventHandler(this.menuItemAttachmentHistory_Click);
 			// 
 			// menuItemAddRefundWorkNotPerformed
 			// 
-			this.menuItemAddRefundWorkNotPerformed.Index = -1;
 			this.menuItemAddRefundWorkNotPerformed.Text = "Refund (work not performed)";
 			this.menuItemAddRefundWorkNotPerformed.Click += new System.EventHandler(this.menuItemAddRefund_Click);
 			// 
@@ -1415,7 +1385,8 @@
 			// 
 			// gridAccount
 			// 
-			this.gridAccount.ContextMenu = this.contextMenuAcctGrid;
+			this.gridAccount.ContextMenuStrip = this.contextMenuAcctGrid;
+			this.gridAccount.DoAddGridItemsToContextMenuStrip = true;
 			this.gridAccount.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.gridAccount.HScrollVisible = true;
 			this.gridAccount.Location = new System.Drawing.Point(0, 0);
@@ -1872,14 +1843,14 @@
 		private OpenPmsDental.UI.CheckBox checkShowDetail;
 		private OpenPmsDental.UI.CheckBox checkShowFamilyComm;
 		private OpenPmsDental.UI.CheckBox checkShowCommAuto;
-		private System.Windows.Forms.ContextMenu contextMenuAcctGrid;
-		private System.Windows.Forms.ContextMenu contextMenuAdjust;
-		private System.Windows.Forms.ContextMenu contextMenuIns;
-		private System.Windows.Forms.ContextMenu contextMenuPayment;
-		private System.Windows.Forms.ContextMenu contextMenuPayPlan;
-		private System.Windows.Forms.ContextMenu contextMenuQuickProcs;
-		private System.Windows.Forms.ContextMenu contextMenuRepeat;
-		private System.Windows.Forms.ContextMenu contextMenuStatement;
+		private System.Windows.Forms.ContextMenuStrip contextMenuAcctGrid;
+		private System.Windows.Forms.ContextMenuStrip contextMenuAdjust;
+		private System.Windows.Forms.ContextMenuStrip contextMenuIns;
+		private System.Windows.Forms.ContextMenuStrip contextMenuPayment;
+		private System.Windows.Forms.ContextMenuStrip contextMenuPayPlan;
+		private System.Windows.Forms.ContextMenuStrip contextMenuQuickProcs;
+		private System.Windows.Forms.ContextMenuStrip contextMenuRepeat;
+		private System.Windows.Forms.ContextMenuStrip contextMenuStatement;
 		private OpenPmsDental.UI.GroupBox groupBox1;
 		private OpenPmsDental.UI.GroupBox groupBox2;
 		private OpenPmsDental.UI.GroupBox groupBoxFamilyIns;
@@ -1919,33 +1890,33 @@
 		private System.Windows.Forms.Label labelUnearned;
 		private System.Windows.Forms.Label labelUnearnedAmt;
 		private System.Windows.Forms.Label labelUrgFinNote;
-		private System.Windows.Forms.MenuItem menuInsMedical;
-		private System.Windows.Forms.MenuItem menuInsOther;
-		private System.Windows.Forms.MenuItem menuInsPri;
-		private System.Windows.Forms.MenuItem menuInsSec;
-		private System.Windows.Forms.MenuItem menuItemAddAdj;
-		private System.Windows.Forms.MenuItem menuItemSnipAttachment;
-		private System.Windows.Forms.MenuItem menuItemSelectImage;
-		private System.Windows.Forms.MenuItem menuItemPasteAttachment;
-		private System.Windows.Forms.MenuItem menuItemAttachmentHistory;
-		private System.Windows.Forms.MenuItem menuItemAddRefundWorkNotPerformed;
-		private System.Windows.Forms.MenuItem menuItemAddRefund;
-		private System.Windows.Forms.MenuItem menuItemAddMultAdj;
-		private System.Windows.Forms.MenuItem menuItemDynamicPayPlan;
-		private System.Windows.Forms.MenuItem menuItemIncomeTransfer;
-		private System.Windows.Forms.MenuItem menuItemSendCareCreditCSS;
-		private System.Windows.Forms.MenuItem menuItemInsPayPlan;
-		private System.Windows.Forms.MenuItem menuItemInvoice;
-		private System.Windows.Forms.MenuItem menuItemLimited;
-		private System.Windows.Forms.MenuItem menuItemLimitedCustom;
-		private System.Windows.Forms.MenuItem menuItemReceipt;
-		private System.Windows.Forms.MenuItem menuItemRepeatCanada;
-		private System.Windows.Forms.MenuItem menuItemRepeatEmail;
-		private System.Windows.Forms.MenuItem menuItemRepeatStand;
-		private System.Windows.Forms.MenuItem menuItemSalesTax;
-		private System.Windows.Forms.MenuItem menuItemStatementEmail;
-		private System.Windows.Forms.MenuItem menuItemStatementMore;
-		private System.Windows.Forms.MenuItem menuItemStatementWalkout;
+		private System.Windows.Forms.ToolStripMenuItem menuInsMedical;
+		private System.Windows.Forms.ToolStripMenuItem menuInsOther;
+		private System.Windows.Forms.ToolStripMenuItem menuInsPri;
+		private System.Windows.Forms.ToolStripMenuItem menuInsSec;
+		private System.Windows.Forms.ToolStripMenuItem menuItemAddAdj;
+		private System.Windows.Forms.ToolStripMenuItem menuItemSnipAttachment;
+		private System.Windows.Forms.ToolStripMenuItem menuItemSelectImage;
+		private System.Windows.Forms.ToolStripMenuItem menuItemPasteAttachment;
+		private System.Windows.Forms.ToolStripMenuItem menuItemAttachmentHistory;
+		private System.Windows.Forms.ToolStripMenuItem menuItemAddRefundWorkNotPerformed;
+		private System.Windows.Forms.ToolStripMenuItem menuItemAddRefund;
+		private System.Windows.Forms.ToolStripMenuItem menuItemAddMultAdj;
+		private System.Windows.Forms.ToolStripMenuItem menuItemDynamicPayPlan;
+		private System.Windows.Forms.ToolStripMenuItem menuItemIncomeTransfer;
+		private System.Windows.Forms.ToolStripMenuItem menuItemSendCareCreditCSS;
+		private System.Windows.Forms.ToolStripMenuItem menuItemInsPayPlan;
+		private System.Windows.Forms.ToolStripMenuItem menuItemInvoice;
+		private System.Windows.Forms.ToolStripMenuItem menuItemLimited;
+		private System.Windows.Forms.ToolStripMenuItem menuItemLimitedCustom;
+		private System.Windows.Forms.ToolStripMenuItem menuItemReceipt;
+		private System.Windows.Forms.ToolStripMenuItem menuItemRepeatCanada;
+		private System.Windows.Forms.ToolStripMenuItem menuItemRepeatEmail;
+		private System.Windows.Forms.ToolStripMenuItem menuItemRepeatStand;
+		private System.Windows.Forms.ToolStripMenuItem menuItemSalesTax;
+		private System.Windows.Forms.ToolStripMenuItem menuItemStatementEmail;
+		private System.Windows.Forms.ToolStripMenuItem menuItemStatementMore;
+		private System.Windows.Forms.ToolStripMenuItem menuItemStatementWalkout;
 		private UI.GridOD gridAccount;
 		private UI.GridOD gridAutoOrtho;
 		private UI.GridOD gridComm;
@@ -2011,10 +1982,10 @@
 		private ValidDate textDateEnd;
 		private ValidDate textDateStart;
 		private ValidNum textAutoOrthoMonthsTreat;
-		private System.Windows.Forms.MenuItem menuItemAllocateUnearned;
+		private System.Windows.Forms.ToolStripMenuItem menuItemAllocateUnearned;
 		private System.Windows.Forms.Label labelDisRem;
 		private DashIndividualDiscount groupBoxIndDis;
-		private System.Windows.Forms.MenuItem menuItemDeletePayPlanCharge;
+		private System.Windows.Forms.ToolStripMenuItem menuItemDeletePayPlanCharge;
 		private UI.SplitContainer splitContainerAutoOrtho;
 		private UI.SplitterPanel splitterPanel1;
 		private UI.SplitterPanel splitterPanel2;
@@ -2030,7 +2001,7 @@
 		private UI.SplitContainer splitContainerParent;
 		private UI.SplitterPanel splitterPanel9;
 		private UI.SplitterPanel splitterPanel10;
-		private System.Windows.Forms.MenuItem menuItemEditPayPlanCharge;
+		private System.Windows.Forms.ToolStripMenuItem menuItemEditPayPlanCharge;
 
 		#endregion
 		private UI.GridOD gridAcctPat;

@@ -67,6 +67,15 @@ namespace ToothChartImageTests {
 			}
 		}
 
+		///<summary>tests\ToothChartImageTests\Baselines\legacy-numbers: the numbers today's DirectX chart gave, recorded before TC-9a retired it (the
+		///DirectX chain's screen points of the transform test, the DirectX chart's answers to the mouse test's input), for the tests that compared with
+		///the live engine.</summary>
+		public static string BaselinesLegacyNumbers {
+			get {
+				return Path.Combine(ProjectFolder,"Baselines","legacy-numbers");
+			}
+		}
+
 		///<summary>SparksToothChart\Resources: the .obj models that SparksToothChart embeds.</summary>
 		public static string ModelsFolder {
 			get {

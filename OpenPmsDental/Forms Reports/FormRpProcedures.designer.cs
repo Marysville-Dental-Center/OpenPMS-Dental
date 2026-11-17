@@ -35,8 +35,8 @@ namespace OpenPmsDental {
 			this.dateRangePicker = new OpenPmsDental.UI.ODDateRangePicker();
 			this.butRefresh = new OpenPmsDental.UI.Button();
 			this.gridMain = new OpenPmsDental.UI.GridOD();
-			this.contextMenuGrid = new System.Windows.Forms.ContextMenu();
-			this.menuItemGoToPatient = new System.Windows.Forms.MenuItem();
+			this.contextMenuGrid = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.menuItemGoToPatient = new System.Windows.Forms.ToolStripMenuItem();
 			this.labelTotal = new System.Windows.Forms.Label();
 			this.butPrint = new OpenPmsDental.UI.Button();
 			this.butExport = new OpenPmsDental.UI.Button();
@@ -140,12 +140,11 @@ namespace OpenPmsDental {
 			//
 			// contextMenuGrid
 			//
-			this.contextMenuGrid.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+			this.contextMenuGrid.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuItemGoToPatient});
 			//
 			// menuItemGoToPatient
 			//
-			this.menuItemGoToPatient.Index = 0;
 			this.menuItemGoToPatient.Text = "Go to Patient";
 			this.menuItemGoToPatient.Click += new System.EventHandler(this.menuItemGoToPatient_Click);
 			//
@@ -222,8 +221,8 @@ namespace OpenPmsDental {
 		private OpenPmsDental.UI.ODDateRangePicker dateRangePicker;
 		private OpenPmsDental.UI.Button butRefresh;
 		private OpenPmsDental.UI.GridOD gridMain;
-		private System.Windows.Forms.ContextMenu contextMenuGrid;
-		private System.Windows.Forms.MenuItem menuItemGoToPatient;
+		private System.Windows.Forms.ContextMenuStrip contextMenuGrid;
+		private System.Windows.Forms.ToolStripMenuItem menuItemGoToPatient;
 		private System.Windows.Forms.Label labelTotal;
 		private OpenPmsDental.UI.Button butPrint;
 		private OpenPmsDental.UI.Button butExport;

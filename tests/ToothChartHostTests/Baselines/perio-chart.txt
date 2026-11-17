@@ -1,0 +1,5 @@
+Host: perio-chart
+Size: 649x696
+Bitmap: Format24bppRgb
+Colours in the picture: 7771
+Pixels SHA-256: fe27a34dc6980054c1d24ee8a965893ea013a313083fea4439d0363998bc2e32

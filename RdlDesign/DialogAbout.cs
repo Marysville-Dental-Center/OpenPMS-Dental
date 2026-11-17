@@ -250,7 +250,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.";
 		{
 			LinkLabel lnk = (LinkLabel) sender;
 			lnk.Links[lnk.Links.IndexOf(ea.Link)].Visited = true;
-			System.Diagnostics.Process.Start(lnk.Tag.ToString());
+			System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo(lnk.Tag.ToString()) { UseShellExecute = true });//The shell opens the link (the .NET default is false).
 		}
 	}
 

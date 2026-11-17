@@ -1,0 +1,5 @@
+Host: perio-save
+Size: 750x1000
+Bitmap: Format24bppRgb
+Colours in the picture: 26839
+Pixels SHA-256: 03de43dedc9d88400cbb27074974a9c618788a95ab038f1c33fa8255e6ddd8c9

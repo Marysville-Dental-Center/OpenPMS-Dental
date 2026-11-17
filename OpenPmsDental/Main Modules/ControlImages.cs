@@ -823,7 +823,7 @@ namespace OpenPmsDental{
 				MsgBox.Show(this,"Folder does not exist.");
 				return;
 			}
-			Process.Start(textImportAuto.Text);
+			ODFileUtils.ShellOpen(textImportAuto.Text);
 		}
 
 		private void butImportClose_Click(object sender,EventArgs e) {
@@ -1301,7 +1301,7 @@ namespace OpenPmsDental{
 				string tempFile=ImageStore.GetFilePath(document,_patFolder);
 				try {
 					string filePath=ImageStore.GetFilePath(document,_patFolder);
-					Process.Start(filePath);
+					ODFileUtils.ShellOpen(filePath);
 				}
 				catch(Exception ex) {
 					MessageBox.Show(ex.Message);
@@ -1314,13 +1314,14 @@ namespace OpenPmsDental{
 				progressWin.StartingMessage="Downloading...";
 				progressWin.ActionMain=() => {
 					byte[] byteArray=CloudStorage.Download(_patFolder.Replace("\\","/"),GetDocumentShowing(0).FileName);
+					progressWin.CancellationToken.ThrowIfCancellationRequested();//Cancelled during the download: no temp file is written (S3a-1b).
 					File.WriteAllBytes(tempFile,byteArray);
 				};
 				progressWin.ShowDialog();
 				if(progressWin.IsCancelled){
 					return;
 				}	
-				Process.Start(tempFile);
+				ODFileUtils.ShellOpen(tempFile);
 			}
 		}
 
@@ -1726,7 +1727,7 @@ namespace OpenPmsDental{
 			if(controlImageDisplay is null){
 				return;
 			}
-			switch(((MenuItem)sender).Index) {
+			switch(menuTree.Items.IndexOf((ToolStripItem)sender)) {//MenuItem.Index was the item's place in menuTree
 				case 0://print
 					ToolBarPrint_Click(this,new EventArgs());
 					break;
@@ -3026,7 +3027,12 @@ namespace OpenPmsDental{
 			}
 			textNote.Text="";
 			sigBox.ClearTablet();
-			TopazWrapper.ClearTopaz(_sigBoxTopaz);
+			try {
+				TopazWrapper.ClearTopaz(_sigBoxTopaz);
+			}
+			catch(Helper32Exception ex) when(ex.Failure!=Helper32Failure.Remote) {
+				ex.DoNothing();//The 32-bit helper that runs Topaz's control failed (S3a-14); a Topaz signature below says so.
+			}
 			if(!panelNote.Visible) {
 				return;
 			}
@@ -3051,17 +3057,26 @@ namespace OpenPmsDental{
 					//if(allowTopaz) {
 					sigBox.Visible=false;
 					_sigBoxTopaz.Visible=true;
-					TopazWrapper.ClearTopaz(_sigBoxTopaz);
-					TopazWrapper.SetTopazCompressionMode(_sigBoxTopaz,0);
-					TopazWrapper.SetTopazEncryptionMode(_sigBoxTopaz,0);
-					TopazWrapper.SetTopazKeyString(_sigBoxTopaz,"0000000000000000");//Clear out the key string
-					string keystring=ImageStore.GetHashString(GetDocumentShowing(0),_patFolder);
-					TryDecryptionForTopaz(keystring);
-					if(TopazWrapper.GetTopazNumberOfTabletPoints(_sigBoxTopaz)==0) {
-						keystring=ImageStore.GetHashString(GetDocumentShowing(0),_patFolder,includeFileInHash:false);
+					try {
+						TopazWrapper.ClearTopaz(_sigBoxTopaz);
+						TopazWrapper.SetTopazCompressionMode(_sigBoxTopaz,0);
+						TopazWrapper.SetTopazEncryptionMode(_sigBoxTopaz,0);
+						TopazWrapper.SetTopazKeyString(_sigBoxTopaz,"0000000000000000");//Clear out the key string
+						string keystring=ImageStore.GetHashString(GetDocumentShowing(0),_patFolder);
 						TryDecryptionForTopaz(keystring);
+						if(TopazWrapper.GetTopazNumberOfTabletPoints(_sigBoxTopaz)==0) {
+							keystring=ImageStore.GetHashString(GetDocumentShowing(0),_patFolder,includeFileInHash:false);
+							TryDecryptionForTopaz(keystring);
+						}
+						if(TopazWrapper.GetTopazNumberOfTabletPoints(_sigBoxTopaz)==0) {
+							labelInvalidSig.Visible=true;
+						}
 					}
-					if(TopazWrapper.GetTopazNumberOfTabletPoints(_sigBoxTopaz)==0) {
+					catch(Helper32Exception ex) when(ex.Failure!=Helper32Failure.Remote) {
+						//The 32-bit helper that runs Topaz's control failed (S3a-14): Topaz could not check the signature, so it is not called invalid.
+						_sigBoxTopaz.Visible=false;
+						_textInvalidSigBeforeTopaz=labelInvalidSig.Text;
+						labelInvalidSig.Text=Lan.g(this,"Topaz signature pad software could not be reached:")+" "+ex.Message;
 						labelInvalidSig.Visible=true;
 					}
 					//}

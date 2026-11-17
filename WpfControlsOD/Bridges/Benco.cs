@@ -19,7 +19,7 @@ namespace OpenPmsDental.Bridges{
 		public static void SendData(Program ProgramCur) {
 			string path=ProgramCur.Path;
 			try {
-				Process.Start(path);
+				CodeBase.ODFileUtils.ProcessStart(path);
 			}
 			catch(Exception ex) {
 				FriendlyException.Show(Lans.g("Benco","Unable to launch")+" "+ProgramCur.ProgDesc+".",ex);

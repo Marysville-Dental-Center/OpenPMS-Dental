@@ -125,6 +125,9 @@ namespace ToothChartImageTests {
 							VertexNormal vertexNormal=toothGraphic.VertexNormals[toothGroupMesh.ArraySourceIndices[i]];
 							Assert.AreEqual(new Point3D(vertexNormal.Vertex.X,vertexNormal.Vertex.Y,vertexNormal.Vertex.Z),toothGroupMesh.Mesh.Positions[i]);
 							Assert.AreEqual(new Vector3D(vertexNormal.Normal.X,vertexNormal.Normal.Y,vertexNormal.Normal.Z),toothGroupMesh.Mesh.Normals[i]);
+							//TC-7: the reversed mesh (mirroring transforms, the lingual perio rows) carries the normals negated, which WPF lights as DirectX
+							//lights the mirrored rows (PerioParityTests' tooth probes of the lingual rows).
+							Assert.AreEqual(-new Vector3D(vertexNormal.Normal.X,vertexNormal.Normal.Y,vertexNormal.Normal.Z),toothGroupMesh.MeshReversed.Normals[i]);
 							hashSetUsed.Add(toothGroupMesh.ArraySourceIndices[i]);
 						}
 						//The mesh's triangles, mapped back, are the wound triangles; the reversed mesh's are their reverse.
@@ -154,6 +157,7 @@ namespace ToothChartImageTests {
 					ApplyMovementsAndImplants(relay);
 					ToothScene toothScene=ToothSceneBuilder.Build(wrapper.TcData);
 					listItemsAll.AddRange(toothScene.Items3D);
+					listItemsAll.AddRange(toothScene.Items3DUnder);
 					Assert.IsTrue(toothScene.Items3D.Any(x => x.Source=="implant of 3"),"A maxillary implant is in the scene.");
 					Assert.IsFalse(toothScene.Items3D.Any(x => x.IsReversed),"The normal chart has only rotations and translations: no mirrored instance.");
 				}
@@ -162,7 +166,7 @@ namespace ToothChartImageTests {
 					ToothChartRelay relay=WpfCharts.CreateRelay(wrapper);
 					relay.SetImplant("3",Color.Gainsboro);
 					relay.SetImplant("30",Color.Gainsboro);
-					wrapper.TcData.PerioMode=true;//as a DirectX chart in perio mode has it; the wrapper allows Wpf3D perio from TC-7
+					wrapper.TcData.PerioMode=true;//as a chart in perio mode has it (the wrapper allows Wpf3D perio since TC-7)
 					ToothScene toothScene=ToothSceneBuilder.Build(wrapper.TcData);
 					listItemsAll.AddRange(toothScene.Items3D);
 					Assert.IsTrue(toothScene.Items3D.Any(x => x.IsReversed && x.Source.Contains("lingual")),"The lingual rows mirror.");

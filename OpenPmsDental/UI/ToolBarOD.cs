@@ -327,20 +327,13 @@ Boilerplate for the new WpfControls.UI.ToolBar is over in ToolBar.xaml.cs
 					else if(toolBarButton.Style==ODToolBarButtonStyle.DropDownButton//if current button is dropdown
 						&& HitTestDrop(toolBarButton,e.X,e.Y))//and we are in the dropdown area on the right
 					{
-						if(toolBarButton.DropDownMenu!=null){//there is a dropdown menu to display
-							_toolBarButtonHot=null;
-							toolBarButton.State=ToolBarButtonState.Normal;
-							Invalidate();//toolBarButton.Bounds);
-							ContextMenu contextMenu=toolBarButton.DropDownMenu.GetContextMenu();
-							contextMenu.Show(this,new Point(toolBarButton.Bounds.X,toolBarButton.Bounds.Y+toolBarButton.Bounds.Height));
-						}
-						if(toolBarButton.ContextMenuStripDropDown!=null){
+						if(toolBarButton.ContextMenuStripDropDown!=null){//there is a dropdown menu strip to display, below the button
 							_toolBarButtonHot=null;
 							toolBarButton.State=ToolBarButtonState.Normal;
 							Invalidate();
 							toolBarButton.ContextMenuStripDropDown.Show(this,new Point(toolBarButton.Bounds.X,toolBarButton.Bounds.Y+toolBarButton.Bounds.Height));
 						}
-						if(toolBarButton.DropDownMenu==null && toolBarButton.ContextMenuStripDropDown==null){//the arrow opens a window (P262-BILLING)
+						if(toolBarButton.ContextMenuStripDropDown==null){//the arrow opens a window (P262-BILLING)
 							_toolBarButtonHot=null;
 							toolBarButton.State=ToolBarButtonState.Normal;
 							Invalidate();

@@ -2,7 +2,6 @@
 // and the start and logging tests that need a fresh process.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
-using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
@@ -14,10 +13,10 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Threading;
 using CodeBase;
-using Microsoft.CSharp;
 using OpenPmsDental;
 using SparksToothChart;
 using SparksToothChart.Wpf3D;
+using TestProbeHost;
 
 namespace ToothChartImageTests {
 	///<summary>What a second process did.</summary>
@@ -28,101 +27,25 @@ namespace ToothChartImageTests {
 		public double MillisecondsElapsed;
 	}
 
-	///<summary>Runs SecondProcessEntry.Run in a new 32-bit process. The test assembly is a library, so a tiny console program is compiled for each run
-	///with the .NET Framework's own C# compiler into the test assembly's folder (so it finds the same assemblies, with the test assembly's binding
-	///redirects as its config), started with no window, and deleted afterwards. Its Main is [MTAThread]: the WPF chart needs no STA caller.</summary>
+	///<summary>Runs SecondProcessEntry.Run in a new 32-bit process. The test assembly is a library, so TestProbeHost runs it as its Main
+	///(ProbeProcess.RunOnce): a copy of the host in the test assembly's folder (so it finds the same assemblies), with the test assembly's binding
+	///redirects as its config, started with no window, and deleted afterwards. Its Main is [MTAThread]: the WPF chart needs no STA caller. Before
+	///S3a-8b of the .NET 10 move a tiny console program was compiled for each run with the .NET Framework's own C# compiler, which .NET does not
+	///have; the process is the same: the program's Main calls Run and returns its exit code, and the process ends once only background threads
+	///are left.</summary>
 	public static class SecondProcess {
 		public static SecondProcessResult Run(int millisecondsTimeout,params string[] arrayArgs) {
 			string folder=Path.GetDirectoryName(typeof(SecondProcessEntry).Assembly.Location);
-			string name="ToothChartSecondProcess-"+Guid.NewGuid().ToString("N").Substring(0,8);
-			string pathExe=Path.Combine(folder,name+".exe");
-			string pathConfig=pathExe+".config";
-			try {
-				Compile(pathExe);
-				string pathConfigTests=typeof(SecondProcessEntry).Assembly.Location+".config";
-				if(File.Exists(pathConfigTests)) {
-					File.Copy(pathConfigTests,pathConfig,true);
-				}
-				ProcessStartInfo processStartInfo=new ProcessStartInfo(pathExe,string.Join(" ",arrayArgs.Select(x => "\""+x+"\"")));
-				processStartInfo.UseShellExecute=false;
-				processStartInfo.CreateNoWindow=true;
-				processStartInfo.RedirectStandardOutput=true;
-				processStartInfo.RedirectStandardError=true;
-				processStartInfo.WorkingDirectory=folder;
-				SecondProcessResult result=new SecondProcessResult();
-				Stopwatch stopwatch=Stopwatch.StartNew();
-				using(Process process=Process.Start(processStartInfo)) {
-					StringBuilder stringBuilder=new StringBuilder();
-					object lockOutput=new object();
-					process.OutputDataReceived+=(sender,e) => { if(e.Data!=null) { lock(lockOutput) { stringBuilder.AppendLine(e.Data); } } };
-					process.ErrorDataReceived+=(sender,e) => { if(e.Data!=null) { lock(lockOutput) { stringBuilder.AppendLine("stderr: "+e.Data); } } };
-					process.BeginOutputReadLine();
-					process.BeginErrorReadLine();
-					if(!process.WaitForExit(millisecondsTimeout)) {
-						result.IsTimedOut=true;
-						try {
-							process.Kill();//the process this test started, and nothing else
-						}
-						catch(Exception ex) {
-							ex.ToString();
-						}
-						process.WaitForExit(10000);
-					}
-					else {
-						process.WaitForExit();//the output is read to its end
-					}
-					result.MillisecondsElapsed=stopwatch.Elapsed.TotalMilliseconds;
-					result.ExitCode=result.IsTimedOut?-1:process.ExitCode;
-					lock(lockOutput) {
-						result.Output=stringBuilder.ToString();
-					}
-				}
-				return result;
-			}
-			finally {
-				DeleteQuietly(pathExe);
-				DeleteQuietly(pathConfig);
-			}
-		}
-
-		private static void Compile(string pathExe) {
-			string source="using System;\r\n"
-				+"static class Program {\r\n"
-				+"	[MTAThread]\r\n"
-				+"	static int Main(string[] args) {\r\n"
-				+"		return ToothChartImageTests.SecondProcessEntry.Run(args);\r\n"
-				+"	}\r\n"
-				+"}\r\n";
-			using(CSharpCodeProvider cSharpCodeProvider=new CSharpCodeProvider()) {
-				CompilerParameters compilerParameters=new CompilerParameters(new[] { "System.dll",typeof(SecondProcessEntry).Assembly.Location });
-				compilerParameters.GenerateExecutable=true;
-				compilerParameters.GenerateInMemory=false;
-				compilerParameters.IncludeDebugInformation=false;
-				compilerParameters.OutputAssembly=pathExe;
-				compilerParameters.CompilerOptions="/platform:x86";
-				CompilerResults compilerResults=cSharpCodeProvider.CompileAssemblyFromSource(compilerParameters,source);
-				if(compilerResults.Errors.HasErrors) {
-					throw new InvalidOperationException("The second process could not be compiled: "
-						+string.Join("; ",compilerResults.Errors.Cast<CompilerError>().Select(x => x.ErrorText)));
-				}
-			}
-		}
-
-		private static void DeleteQuietly(string path) {
-			for(int i=0;i<20;i++) {
-				try {
-					if(File.Exists(path)) {
-						File.Delete(path);
-					}
-					return;
-				}
-				catch(IOException) {
-					System.Threading.Thread.Sleep(100);//the process may still hold its file for a moment after it exits
-				}
-				catch(UnauthorizedAccessException) {
-					System.Threading.Thread.Sleep(100);
-				}
-			}
+			string pathConfigTests=typeof(SecondProcessEntry).Assembly.Location+".config";
+			string configText=File.Exists(pathConfigTests) ? File.ReadAllText(pathConfigTests) : null;
+			ProbeRunResult probeRunResult=ProbeProcess.RunOnce(folder,configText,typeof(SecondProcessEntry),arrayArgs,
+				TimeSpan.FromMilliseconds(millisecondsTimeout));
+			SecondProcessResult result=new SecondProcessResult();
+			result.ExitCode=probeRunResult.ExitCode;
+			result.IsTimedOut=probeRunResult.IsTimedOut;
+			result.Output=probeRunResult.Output;
+			result.MillisecondsElapsed=probeRunResult.Elapsed.TotalMilliseconds;
+			return result;
 		}
 	}
 
@@ -168,6 +91,9 @@ namespace ToothChartImageTests {
 						return 0;
 					case "start-fails":
 						RunStartFails();
+						return 0;
+					case "stored-start-fails":
+						RunStoredStartFails();
 						return 0;
 					case "start-interrupted":
 						RunStartInterrupted();
@@ -241,6 +167,41 @@ namespace ToothChartImageTests {
 			}
 		}
 
+		///<summary>"stored-start-fails" (TC-8): as "start-fails", but the WPF chart is asked for the way the program asks for it since TC-8: a computer
+		///stored as DirectX (0) through the relay's ApplyComputerPref, and a DrawMode request of OpenGL (2). Both fall back to Simple 2D, no DirectX or
+		///OpenGL engine is tried, and one line is handed to the log.</summary>
+		private static void RunStoredStartFails() {
+			ODBuild.IsUnitTest=true;
+			ToothChartRenderer.ActionJobStartForTests=kind => {
+				if(kind==ToothChartRenderer.JobCheck) {
+					throw new InvalidOperationException("A forced start failure.");
+				}
+			};
+			using(ToothChartWrapper wrapper1=new ToothChartWrapper())
+			using(ToothChartWrapper wrapper2=new ToothChartWrapper()) {
+				wrapper1.Size=ChartScenes.SizeModule.Size;
+				wrapper2.Size=ChartScenes.SizeModule.Size;
+				ToothChartRelay.ApplyComputerPref(wrapper1,new OpenPmsDentalBusiness.ComputerPref { GraphicsSimple=OpenPmsDentalBusiness.DrawingMode.DirectX,
+					DirectXFormat="" });
+				wrapper2.DrawMode=OpenPmsDentalBusiness.DrawingMode.OpenGL;
+				Console.WriteLine("engine stored 0: "+wrapper1.Engine);
+				Console.WriteLine("engine requested 2: "+wrapper2.Engine);
+				ChartScenes.Prepare(WpfCharts.CreateRelay(wrapper1),ChartScenes.Get("restored-adult"),ChartColorSet.Module);
+				using(Bitmap bitmap=wrapper1.GetBitmap()) {
+					Console.WriteLine("bitmap: "+bitmap.Width+"x"+bitmap.Height+", blank "+ChartImageCompare.DescribeBitmap(bitmap).IsBlank);
+				}
+			}
+			List<string> listMessages=ToothChartWrapper.GetFallbackMessages();
+			Console.WriteLine("fallback messages: "+listMessages.Count);
+			Console.WriteLine("log lines: "+ToothChartWrapper.GetCountFallbackLinesWritten());
+			foreach(string message in listMessages) {
+				Console.WriteLine("message: "+message);
+			}
+			//File > Graphics' status on this computer (TC-8b, NEW-1) after the real start failure: the reason, and no log line of its own.
+			Console.WriteLine("status: "+ToothChartRelay.GetChart3DStatus());
+			Console.WriteLine("log lines after the status: "+ToothChartWrapper.GetCountFallbackLinesWritten());
+		}
+
 		///<summary>"start-interrupted": the caller of the cold start is interrupted (Thread.Interrupt, as an ODThread's finite Join can abort it)
 		///while it waits for the start check. That is the caller's matter, not a start failure: a later start works.</summary>
 		private static void RunStartInterrupted() {
@@ -284,13 +245,15 @@ namespace ToothChartImageTests {
 			}
 		}
 
-		///<summary>"log-kinds": a DirectX fallback line first (as a computer without DirectX writes one), then two WPF render failures (the render
-		///thread held past a short timeout). The WPF render failure gets its own logged-once line.</summary>
+		///<summary>"log-kinds": a fallback line of another kind first (a cursor that could not be made; until TC-9a this was a DirectX fallback line,
+		///as a computer without DirectX wrote one, a kind that went with the DirectX chart), then two WPF render failures (the render thread held past
+		///a short timeout). The WPF render failure gets its own logged-once line.</summary>
 		private static void RunLogKinds() {
 			ODBuild.IsUnitTest=true;
-			MethodInfo methodInfoLog=typeof(ToothChartWrapper).GetMethod("LogFallbackOnce",BindingFlags.NonPublic|BindingFlags.Static,null,new[] { typeof(string) },null);
-			methodInfoLog.Invoke(null,new object[] { "The DirectX tooth chart could not start (a test line). Using OpenGL." });
-			Console.WriteLine("log lines after a DirectX fallback: "+ToothChartWrapper.GetCountFallbackLinesWritten());
+			MethodInfo methodInfoLog=typeof(ToothChartWrapper).GetMethod("LogFallbackOnce",BindingFlags.NonPublic|BindingFlags.Static,null,
+				new[] { typeof(ToothChartFallbackKind),typeof(string) },null);
+			methodInfoLog.Invoke(null,new object[] { ToothChartFallbackKind.Cursor,"The pen cursor could not be made (a test line). Using the arrow." });
+			Console.WriteLine("log lines after a line of another kind: "+ToothChartWrapper.GetCountFallbackLinesWritten());
 			using(ToothChartWrapper wrapper=WpfCharts.CreateWrapper(ChartScenes.SizeModule.Size)) {
 				if(wrapper.Engine!=ToothChartEngine.Wpf3D) {
 					throw new InvalidOperationException("The chart fell back to "+wrapper.Engine+".");

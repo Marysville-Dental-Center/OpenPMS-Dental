@@ -1114,7 +1114,7 @@ namespace OpenPmsDental {
 				//FormIR.ShowDialog();
 				//The lines commented out here launch the infobutton in the default browser.
 				try {
-					System.Diagnostics.Process.Start("http://apps.nlm.nih.gov/medlineplus/services/mpconnect.cfm?"+knowledgeRequestNotification.ToUrl());
+					ODFileUtils.ShellOpen("http://apps.nlm.nih.gov/medlineplus/services/mpconnect.cfm?"+knowledgeRequestNotification.ToUrl());
 					//System.Diagnostics.Process.Start("http://apps2.nlm.nih.gov/medlineplus/services/servicedemo.cfm?"+krn.ToUrl());
 				}
 				catch(Exception) { }

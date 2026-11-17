@@ -23,12 +23,13 @@ namespace OpenPmsDental{
 		/// the contents of this method with the code editor.
 		/// </summary>
 		private void InitializeComponent() {
+			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormRadOrderList));
 			this.gridMain = new OpenPmsDental.UI.GridOD();
 			this.label1 = new System.Windows.Forms.Label();
-			this.menuRightClick = new System.Windows.Forms.ContextMenu();
-			this.menuItemSeeChart = new System.Windows.Forms.MenuItem();
-			this.menuItemSeeFamily = new System.Windows.Forms.MenuItem();
+			this.menuRightClick = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.menuItemSeeChart = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemSeeFamily = new System.Windows.Forms.ToolStripMenuItem();
 			this.butSelected = new OpenPmsDental.UI.Button();
 			this.butAll = new OpenPmsDental.UI.Button();
 			this.groupBox1 = new OpenPmsDental.UI.GroupBox();
@@ -58,19 +59,17 @@ namespace OpenPmsDental{
 			// 
 			// menuRightClick
 			// 
-			this.menuRightClick.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+			this.menuRightClick.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuItemSeeChart,
             this.menuItemSeeFamily});
 			// 
 			// menuItemSeeChart
 			// 
-			this.menuItemSeeChart.Index = 0;
 			this.menuItemSeeChart.Text = "See Chart";
 			this.menuItemSeeChart.Click += new System.EventHandler(this.butGotoChart_Click);
 			// 
 			// menuItemSeeFamily
 			// 
-			this.menuItemSeeFamily.Index = 1;
 			this.menuItemSeeFamily.Text = "See Family";
 			this.menuItemSeeFamily.Click += new System.EventHandler(this.butGotoFamily_Click);
 			// 
@@ -127,9 +126,9 @@ namespace OpenPmsDental{
 		private UI.Button butAll;
 		private System.Windows.Forms.Label label1;
 		private UI.Button butSelected;
-		private System.Windows.Forms.ContextMenu menuRightClick;
-		private System.Windows.Forms.MenuItem menuItemSeeFamily;
-		private System.Windows.Forms.MenuItem menuItemSeeChart;
+		private System.Windows.Forms.ContextMenuStrip menuRightClick;
+		private System.Windows.Forms.ToolStripMenuItem menuItemSeeFamily;
+		private System.Windows.Forms.ToolStripMenuItem menuItemSeeChart;
 		private OpenPmsDental.UI.GroupBox groupBox1;
 	}
 }

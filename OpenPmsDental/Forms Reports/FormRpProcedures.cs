@@ -30,7 +30,8 @@ namespace OpenPmsDental {
 		}
 
 		private void FormRpProcedures_Load(object sender,EventArgs e) {
-			gridMain.ContextMenu=contextMenuGrid;
+			gridMain.ContextMenuStrip=contextMenuGrid;
+			gridMain.DoAddGridItemsToContextMenuStrip=true;
 			dateRangePicker.SetDateTimeFrom(DateTime.Today);
 			dateRangePicker.SetDateTimeTo(DateTime.Today);
 			FillProvs();

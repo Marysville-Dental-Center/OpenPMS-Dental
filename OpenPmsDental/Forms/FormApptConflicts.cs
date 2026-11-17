@@ -28,7 +28,8 @@ namespace OpenPmsDental {
 		}
 
 		private void FormApptConflicts_Load(object sender,EventArgs e) {
-			gridConflicts.ContextMenu=contextRightClick;
+			gridConflicts.ContextMenuStrip=contextRightClick;
+			gridConflicts.DoAddGridItemsToContextMenuStrip=true;
 			FillGrid();
 		}
 		

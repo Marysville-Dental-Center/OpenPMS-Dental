@@ -23,7 +23,8 @@ namespace OpenPmsDental {
 			InitializeComponent();
 			InitializeLayoutManager();
 			Lan.F(this);
-			gridMain.ContextMenu=menuRightClick;
+			gridMain.ContextMenuStrip=menuRightClick;
+			gridMain.DoAddGridItemsToContextMenuStrip=true;
 			_userod=userod;
 		}
 

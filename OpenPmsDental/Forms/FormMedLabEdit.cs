@@ -387,7 +387,7 @@ namespace OpenPmsDental {
 			}
 			Cursor=Cursors.Default;
 			if(filePathAndName!="") {
-				Process.Start(filePathAndName);
+				ODFileUtils.ShellOpen(filePathAndName);
 			}
 			SecurityLogs.MakeLogEntry(EnumPermType.SheetEdit,sheet.PatNum,sheet.Description+" from "+sheet.DateTimeSheet.ToShortDateString()+" pdf was created");
 			DialogResult=DialogResult.OK;

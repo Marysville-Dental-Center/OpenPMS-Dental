@@ -2857,8 +2857,8 @@
       <summary>Sender ID Qualifier. Usually ZZ, sometimes 30. Seven other values are allowed as specified in X12 document, but probably never used.</summary>
     </column>
     <column order="6" name="SenderTIN" type="varchar(255)">
-      <summary>Used in ISA06, GS02, 1000A NM1, and 1000A PER.  If blank, then 810624427 is used to indicate Open Dental.
-            Can be overridden by clinic-level clearinghouses.</summary>
+      <summary>Used in ISA06, GS02, 1000A NM1, and 1000A PER.  If blank, the practice is the sender: the TIN of the
+            practice's billing provider (X12-SENDER, docs/port-notes/X12-SENDER.md). Can be overridden by clinic-level clearinghouses.</summary>
     </column>
     <column order="7" name="ISA07" type="varchar(255)">
       <summary>Receiver ID Qualifier.  Usually ZZ, sometimes 30. Seven other values are allowed as specified in X12 document, but probably never used.</summary>
@@ -2920,11 +2920,11 @@
             This value is not usualy used within the actual claim.  Can be overridden by clinic-level clearinghouses.</summary>
     </column>
     <column order="17" name="SenderName" type="varchar(255)">
-      <summary>Used in 1000A NM1 and 1000A PER.  But if SenderTIN is blank, then OPEN DENTAL SOFTWARE is used instead.
-            Can be overridden by clinic-level clearinghouses.</summary>
+      <summary>Used in 1000A NM1 and 1000A PER.  But if SenderTIN is blank, then the practice title is used instead
+            (X12-SENDER). Can be overridden by clinic-level clearinghouses.</summary>
     </column>
     <column order="18" name="SenderTelephone" type="varchar(255)">
-      <summary>Used in 1000A PER.  But if SenderTIN is blank, then 8776861248 is used instead.  10 digit phone is required by WebMD and is 
+      <summary>Used in 1000A PER.  But if SenderTIN is blank, then the practice's telephone is used instead (X12-SENDER).  10 digit phone is required by WebMD and is 
             universally assumed, so for now, this must be either blank or 10 digits.  Can be overridden by clinic-level clearinghouses.</summary>
     </column>
     <column order="19" name="GS03" type="varchar(255)">

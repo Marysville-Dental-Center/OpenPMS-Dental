@@ -45,12 +45,12 @@
 			this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
 			this.checkTimeLocked = new OpenPmsDental.UI.CheckBox();
 			this.checkIsMirrored = new OpenPmsDental.UI.CheckBox();
-			this.contextMenuTimeArrived = new System.Windows.Forms.ContextMenu();
-			this.menuItemArrivedNow = new System.Windows.Forms.MenuItem();
-			this.contextMenuTimeSeated = new System.Windows.Forms.ContextMenu();
-			this.menuItemSeatedNow = new System.Windows.Forms.MenuItem();
-			this.contextMenuTimeDismissed = new System.Windows.Forms.ContextMenu();
-			this.menuItemDismissedNow = new System.Windows.Forms.MenuItem();
+			this.contextMenuTimeArrived = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.menuItemArrivedNow = new System.Windows.Forms.ToolStripMenuItem();
+			this.contextMenuTimeSeated = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.menuItemSeatedNow = new System.Windows.Forms.ToolStripMenuItem();
+			this.contextMenuTimeDismissed = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.menuItemDismissedNow = new System.Windows.Forms.ToolStripMenuItem();
 			this.textTimeAskedToArrive = new System.Windows.Forms.TextBox();
 			this.label8 = new System.Windows.Forms.Label();
 			this.listQuickAdd = new OpenPmsDental.UI.ListBox();
@@ -284,34 +284,31 @@
 			// 
 			// contextMenuTimeArrived
 			// 
-			this.contextMenuTimeArrived.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+			this.contextMenuTimeArrived.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuItemArrivedNow});
 			// 
 			// menuItemArrivedNow
 			// 
-			this.menuItemArrivedNow.Index = 0;
 			this.menuItemArrivedNow.Text = "Now";
 			this.menuItemArrivedNow.Click += new System.EventHandler(this.menuItemArrivedNow_Click);
 			// 
 			// contextMenuTimeSeated
 			// 
-			this.contextMenuTimeSeated.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+			this.contextMenuTimeSeated.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuItemSeatedNow});
 			// 
 			// menuItemSeatedNow
 			// 
-			this.menuItemSeatedNow.Index = 0;
 			this.menuItemSeatedNow.Text = "Now";
 			this.menuItemSeatedNow.Click += new System.EventHandler(this.menuItemSeatedNow_Click);
 			// 
 			// contextMenuTimeDismissed
 			// 
-			this.contextMenuTimeDismissed.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+			this.contextMenuTimeDismissed.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuItemDismissedNow});
 			// 
 			// menuItemDismissedNow
 			// 
-			this.menuItemDismissedNow.Index = 0;
 			this.menuItemDismissedNow.Text = "Now";
 			this.menuItemDismissedNow.Click += new System.EventHandler(this.menuItemDismissedNow_Click);
 			// 
@@ -959,12 +956,12 @@
 		private System.Windows.Forms.Label labelApptNote;
 		private OpenPmsDental.UI.Button butAddComm;
 		private System.Windows.Forms.ToolTip toolTip1;
-		private System.Windows.Forms.ContextMenu contextMenuTimeArrived;
-		private System.Windows.Forms.MenuItem menuItemArrivedNow;
-		private System.Windows.Forms.ContextMenu contextMenuTimeSeated;
-		private System.Windows.Forms.MenuItem menuItemSeatedNow;
-		private System.Windows.Forms.ContextMenu contextMenuTimeDismissed;
-		private System.Windows.Forms.MenuItem menuItemDismissedNow;
+		private System.Windows.Forms.ContextMenuStrip contextMenuTimeArrived;
+		private System.Windows.Forms.ToolStripMenuItem menuItemArrivedNow;
+		private System.Windows.Forms.ContextMenuStrip contextMenuTimeSeated;
+		private System.Windows.Forms.ToolStripMenuItem menuItemSeatedNow;
+		private System.Windows.Forms.ContextMenuStrip contextMenuTimeDismissed;
+		private System.Windows.Forms.ToolStripMenuItem menuItemDismissedNow;
 		private OpenPmsDental.UI.Button butAdd;
 		private OpenPmsDental.UI.Button butDeleteProc;
 		private OpenPmsDental.UI.Button butComplete;

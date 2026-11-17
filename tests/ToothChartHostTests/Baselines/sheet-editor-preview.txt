@@ -1,0 +1,5 @@
+Host: sheet-editor-preview
+Size: 500x370
+Bitmap: Format24bppRgb
+Colours in the picture: 3111
+Pixels SHA-256: a0856d3615c370bf03afda779a7262ec704d77fb4701fbdd930bde774a7620cb

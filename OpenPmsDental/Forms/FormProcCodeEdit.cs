@@ -75,7 +75,7 @@ namespace OpenPmsDental{
 			listTreatArea.Items.AddEnums<TreatmentArea>();
 			listTreatArea.SetSelectedEnum(_procedureCode.TreatArea);	
 			checkToothRange.Checked=_procedureCode.AreaAlsoToothRange;
-			//TextBelow (26.2) is offered only to a code that has it, until the tooth chart draws it (owner decision of 2026-11-07).
+			//Every paint type, TextBelow (26.2) included since the tooth chart draws it (TC-5).
 			listPaintType.Items.AddList(ProcedureCodes.GetPaintTypesForList(_procedureCode.PaintType),x => Lan.g("enumToothPaintingType",x.ToString()));
 			listPaintType.SetSelectedEnum(_procedureCode.PaintType);
 			textPaintText.Text=_procedureCode.PaintText;
@@ -365,7 +365,8 @@ namespace OpenPmsDental{
 		}
 
 		private void listPaintType_SelectedIndexChanged(object sender, EventArgs e){
-			if(listPaintType.GetSelected<ToothPaintingType>()==ToothPaintingType.Text){
+			//The paint text is drawn for Text (beyond the root tip; "W" is the watch mark) and shown for TextBelow (in the Chart module's strip under the date slider, TC-5).
+			if(listPaintType.GetSelected<ToothPaintingType>().In(ToothPaintingType.Text,ToothPaintingType.TextBelow)){
 				labelPaintText.Visible=true;
 				textPaintText.Visible=true;
 			}

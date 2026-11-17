@@ -19,6 +19,9 @@ namespace SparksToothChart {
 		public Color ColorBackHighlight;
 		private List<string> selectedTeeth;
 		public List<ToothInitial> DrawingSegmentList;
+		///<summary>The free-text labels (toothinitial rows of type Text), in the order they were added, which is the order they are drawn (TC-5).
+		///Cleared by the wrapper's ResetTeeth, as the drawings are.</summary>
+		public List<ToothChartFreeText> ListFreeTexts;
 		///<summary>This is the size of the control in screen pixels.</summary>
 		private Size sizeControl;
 		/// <summary>In tooth mm, exactly how much of the projection to show.</summary>
@@ -58,6 +61,16 @@ namespace SparksToothChart {
 		public int RedLimitProbing;
 		///<summary>Any furcation grade that is greater than or equal to this number will show in 'red'.  Typical value is 2.</summary>
 		public int RedLimitFurcations;
+		///<summary>The office's Perio Setup option "Use the term Recession" (Open Dental 24.4; PerioMeasures.GetUseRecessionTerm). The WPF chart's perio
+		///legend then names the gingival margin line "Recession", unless the exam has hyperplasia (TC-7). Not cleared by ResetTeeth.</summary>
+		public bool PerioUseRecessionTerm;
+		///<summary>Ortho mode (TC-6, ORTHO-1): the WPF chart draws only the facial rows, moved toward the centre line, as Open Dental's ortho mode shows
+		///them; the callers switch the numbers to Palmer. The DirectX, OpenGL and Simple 2D charts ignore it, as Open Dental's own did. Not cleared by
+		///ResetTeeth: the callers set it before every refill (SetOrthoMode).</summary>
+		public bool IsOrthoMode;
+		///<summary>The orthodontic wires and elastics (TC-6, ORTHO-2), in the order the painter adds them. Cleared by the wrapper's ResetTeeth. Only the
+		///WPF chart draws them.</summary>
+		public List<ToothChartOrthoWire> ListOrthoWires;
 
 		public ToothChartData() {
 			ListToothGraphics=new ToothGraphicCollection();
@@ -68,11 +81,13 @@ namespace SparksToothChart {
 			selectedTeeth=new List<string>();
 			sizeControl=SizeOriginalDrawing;
 			DrawingSegmentList=new List<ToothInitial>();
+			ListFreeTexts=new List<ToothChartFreeText>();
 			CursorTool=CursorTool.Pointer;
 			ColorDrawing=Color.Black;
 			Font=new System.Drawing.Font(FontFamily.GenericSansSerif,8.25f);
 			PointList=new List<PointF>();
 			ListPerioMeasure=new List<PerioMeasure>();
+			ListOrthoWires=new List<ToothChartOrthoWire>();
 		}
 
 		///<summary></summary>
@@ -87,6 +102,10 @@ namespace SparksToothChart {
 			foreach(ToothInitial ti in DrawingSegmentList) {
 				tcd.DrawingSegmentList.Add(ti.Copy());
 			}
+			tcd.ListFreeTexts=new List<ToothChartFreeText>();
+			foreach(ToothChartFreeText freeText in ListFreeTexts) {
+				tcd.ListFreeTexts.Add(freeText.Copy());
+			}
 			tcd.PointList=new List<PointF>();
 			foreach(PointF p in PointList) {
 				tcd.PointList.Add(p);
@@ -94,6 +113,10 @@ namespace SparksToothChart {
 			tcd.ListPerioMeasure=new List<PerioMeasure>();
 			foreach(PerioMeasure pm in ListPerioMeasure) {
 				tcd.ListPerioMeasure.Add(pm.Copy());
+			}
+			tcd.ListOrthoWires=new List<ToothChartOrthoWire>();
+			foreach(ToothChartOrthoWire orthoWire in ListOrthoWires) {
+				tcd.ListOrthoWires.Add(orthoWire.Copy());
 			}
 			return tcd;
 		}

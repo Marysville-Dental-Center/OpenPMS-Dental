@@ -29,7 +29,8 @@ namespace OpenPmsDental {
 		}
 
 		private void FormRpDPPOvercharged_Load(object sender,System.EventArgs e) {
-			gridMain.ContextMenu=contextMenuGrid;
+			gridMain.ContextMenuStrip=contextMenuGrid;
+			gridMain.DoAddGridItemsToContextMenuStrip=true;
 			dateRangePicker.SetDateTimeTo(DateTime.Today);
 			dateRangePicker.SetDateTimeFrom(DateTime.Today.AddMonths(-1));
 			_patNum=FormOpenDental.PatNumCur;

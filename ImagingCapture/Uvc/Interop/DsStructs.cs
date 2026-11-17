@@ -4,11 +4,12 @@ using System;
 using System.Runtime.InteropServices;
 
 namespace ImagingCapture.Uvc.Interop {
-	//DirectShow structures as documented in the Windows SDK (strmif.h, amvideo.h, wingdi.h), with natural alignment.
-	//Unit tests check each size and the field offsets this layer reads.
+	//DirectShow structures as documented in the Windows SDK (strmif.h, amvideo.h, wingdi.h), with natural alignment. Only AM_MEDIA_TYPE holds
+	//pointers (IntPtr), so only its size and its last three offsets differ between a 32-bit and a 64-bit process. Unit tests check each size
+	//and the field offsets this layer reads against a table with an x86 and an x64 column (InteropLayoutTests).
 
-	///<summary>AM_MEDIA_TYPE. 72 bytes in a 32-bit process. pbFormat and pUnk are owned by whoever filled the structure and are
-	///released with DsUtil.FreeMediaType.</summary>
+	///<summary>AM_MEDIA_TYPE. 72 bytes in a 32-bit process, 88 in a 64-bit one (pUnk, cbFormat and pbFormat at 60, 64 and 68, or 64, 72
+	///and 80). pbFormat and pUnk are owned by whoever filled the structure and are released with DsUtil.FreeMediaType.</summary>
 	[StructLayout(LayoutKind.Sequential)]
 	internal struct AM_MEDIA_TYPE {
 		public Guid majortype;

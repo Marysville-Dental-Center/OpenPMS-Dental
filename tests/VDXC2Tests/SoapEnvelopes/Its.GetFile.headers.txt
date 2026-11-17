@@ -1,0 +1,2 @@
+SOAPAction: "https://ITSWebService.changehealthcare.com/GetFile"
+Content-Type: text/xml; charset=utf-8

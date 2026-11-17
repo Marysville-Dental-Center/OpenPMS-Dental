@@ -34,6 +34,8 @@ recommended. The draft was revised the same day after a critique (appendix, firs
 E-21 and E-10b (appendix, second table), and then decided (appendix, third table). Nothing waits for counsel. **EHR-6a written**
 (2026-11-14, branch `ehr/ehr6a-1`, `docs/port-notes/EHR-6.md`): the catalog, the three-file import and the LOINC notice, with the readers'
 header names provisional; it merges after E-20's record.
+**EHR-6b written** (2026-11-14, branch `ehr/ehr6b-1` from `main`, `docs/port-notes/EHR-6b.md`): the 2014 and 2011 code deleted as section 3
+says, with no caller beyond section 2.1's list, so no EHR-6c; it merges before 3a wave 1, without waiting for EHR-6a.
 
 **Owner decisions (2026-11-14).**
 1. The 2027 versions of all nine of today's measures that CMS still publishes for eligible clinicians. A measure CMS retired is dropped and

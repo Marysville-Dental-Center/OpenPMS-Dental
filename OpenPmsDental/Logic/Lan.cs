@@ -29,45 +29,22 @@ namespace OpenPmsDental {
 			return retVal;
 		}
 
-		///<summary>C is for control. Translates the text of all menu items to another language.</summary>
-		public static void C(Control sender,params Menu[] paramsMenus) {
-			string classType="All";
-			if(sender!=null){
-				classType=sender.GetType().Name;
-			}
-			C(classType,paramsMenus);
-		}
-
-		///<summary>C is for control. Translates the text of all menu items to another language.</summary>
-		public static void C(string classType,params Menu[] paramsMenus) {
-			for(int p=0;p<paramsMenus.Length;p++){
-				for(int i=0;i<paramsMenus[p].MenuItems.Count;i++){
-					TranslateMenuItems(classType,paramsMenus[p].MenuItems[i]);
-				}
-			}
-		}
-
-		///<summary>This is recursive</summary>
-		private static void TranslateMenuItems(string classType,MenuItem menuItem) {
-			//first translate any child menuItems
-			for(int i=0;i<menuItem.MenuItems.Count;i++){
-				TranslateMenuItems(classType,menuItem.MenuItems[i]);
-			}
-			//then this menuitem
-			menuItem.Text=Lans.ConvertString(classType,menuItem.Text);
-		}
-
-		///<summary>C is for control. Translates the text of all context menu strip items to another language.</summary>
-		public static void C(Control controlSender,params ContextMenuStrip[] paramsContextMenuStrips) {
+		///<summary>C is for control. Translates the text of all context menu strip items to another language. Takes any ToolStripDropDown: a
+		///ContextMenuStrip, a ToolStripDropDownMenu or a ToolStripDropDown.</summary>
+		public static void C(Control controlSender,params ToolStripDropDown[] paramsToolStripDropDowns) {
 			string classType=(controlSender==null ? "All": controlSender.GetType().Name);
-			C(classType,paramsContextMenuStrips);
+			C(classType,paramsToolStripDropDowns);
 		}
 
-		///<summary>C is for control. Translates the text of all context menu strip items to another language.</summary>
-		public static void C(string classType,params ContextMenuStrip[] paramsContextMenuStrips) {
-			for(int m=0;m<paramsContextMenuStrips.Length;m++){
-				for(int i=0;i<paramsContextMenuStrips[m].Items.Count;i++){
-					TranslateToolStripMenuItems(classType, (ToolStripMenuItem)paramsContextMenuStrips[m].Items[i]);
+		///<summary>C is for control. Translates the text of all context menu strip items to another language, with the same translation keys
+		///(classType and the English text) as the WinForms menu items they replace. Separators and other items that are not ToolStripMenuItems
+		///(a separator was a MenuItem "-" with nothing to translate) are left as they are.</summary>
+		public static void C(string classType,params ToolStripDropDown[] paramsToolStripDropDowns) {
+			for(int m=0;m<paramsToolStripDropDowns.Length;m++){
+				for(int i=0;i<paramsToolStripDropDowns[m].Items.Count;i++){
+					if(paramsToolStripDropDowns[m].Items[i] is ToolStripMenuItem toolStripMenuItem) {
+						TranslateToolStripMenuItems(classType,toolStripMenuItem);
+					}
 				}
 			}
 		}
@@ -149,9 +126,6 @@ namespace OpenPmsDental {
 			grid.Title=Lans.ConvertString(grid.TranslationName,grid.Title);
 			for(int c=0;c<grid.Columns.Count;c++){
 				grid.Columns[c].Heading=Lans.ConvertString(grid.TranslationName,grid.Columns[c].Heading);
-			}
-			if(grid.ContextMenu!=null) {
-				C(grid.TranslationName,grid.ContextMenu);
 			}
 			if(grid.ContextMenuStrip!=null) {
 				C(grid.TranslationName,grid.ContextMenuStrip);

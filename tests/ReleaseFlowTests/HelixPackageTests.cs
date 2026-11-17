@@ -2,7 +2,8 @@
 // files of its closure from their packages, each IL-only and not 32-bit-required; the System.* 4.3.x packages of System.Net.Http 4.3.4 put no
 // file in any built folder and none is staged (risk W2); no CommunityToolkit.Mvvm analyzer reaches a compilation (the record each build writes,
 // Directory.Build.targets); and the types the chart will use load from the program folder with the program's config: a MeshBuilder box, made
-// into a WPF MeshGeometry3D. No chart code uses Helix yet, and nothing here starts the program.
+// into a WPF MeshGeometry3D, in a child process (TestProbeHost) since S3a-8b of the .NET 10 move. No chart code uses Helix yet, and nothing here
+// starts the program.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
 using System.Collections.Generic;
@@ -15,6 +16,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ProjectFileTests;
+using TestProbeHost;
 
 namespace ReleaseFlowTests {
 	[TestClass]
@@ -215,10 +217,14 @@ namespace ReleaseFlowTests {
 			}
 		}
 
-		///<summary>The Helix types the chart will use load in the program's own setting: an AppDomain whose base is the program folder and whose
-		///config is OpenPmsDental.exe.config (its binding redirects). A MeshBuilder (HelixToolkit.Geometry, float, System.Numerics) adds a box,
-		///ToMesh().ToWndMeshGeometry3D(true) makes it a WPF MeshGeometry3D (HelixToolkit.Wpf), on an STA thread. Every Helix and toolkit assembly
-		///loads from the program folder; System.Net.Http, if anything loads it, and the other System.* 4.3.x names come from the .NET Framework.</summary>
+		///<summary>The Helix types the chart will use load in the program's own setting: a process whose application base holds the program folder's
+		///files and whose config is OpenPmsDental.exe.config (its binding redirects). A MeshBuilder (HelixToolkit.Geometry, float, System.Numerics)
+		///adds a box, ToMesh().ToWndMeshGeometry3D(true) makes it a WPF MeshGeometry3D (HelixToolkit.Wpf), on an STA thread. Every Helix and
+		///toolkit assembly loads from the program's files; System.Net.Http, if anything loads it, and the other System.* 4.3.x names come from the
+		///.NET Framework. The process (TestProbeHost; a new AppDomain on the program folder before S3a-8b of the .NET 10 move, which .NET cannot
+		///create) runs from a scratch folder in the temp folder that holds the four Helix assemblies and every file of the program folder they
+		///reference, directly or through each other (read with Mono.Cecil), so nothing is written into the program folder and nothing stays loaded
+		///or locked here.</summary>
 		[TestMethod]
 		public void HelixTypes_TheChartWillUse_LoadFromTheProgramFolder() {
 			string pathConfig=Path.Combine(FolderProgram,"OpenPmsDental.exe.config");
@@ -226,23 +232,25 @@ namespace ReleaseFlowTests {
 				BuildOutput.NotBuilt(@"OpenPmsDental\bin\Debug is not built (HelixToolkit.Wpf.dll, OpenPmsDental.exe.config). Build OpenDental.Local.slnf (Debug|x86) first.");
 				return;
 			}
-			AppDomainSetup appDomainSetup=new AppDomainSetup();
-			appDomainSetup.ApplicationBase=FolderProgram;
-			appDomainSetup.ConfigurationFile=pathConfig;
-			appDomainSetup.DisallowApplicationBaseProbing=false;
-			AppDomain appDomain=AppDomain.CreateDomain("HelixPackageTests",null,appDomainSetup);
+			string folderProbe=Path.Combine(Path.GetTempPath(),"releaseflow_helix_"+Guid.NewGuid().ToString("N"));
+			Directory.CreateDirectory(folderProbe);
 			string[] arrayLines;
+			List<string> listCopied;
 			try {
-				HelixLoadProbe helixLoadProbe=(HelixLoadProbe)appDomain.CreateInstanceFromAndUnwrap(typeof(HelixLoadProbe).Assembly.Location,typeof(HelixLoadProbe).FullName);
-				arrayLines=helixLoadProbe.Run();
+				listCopied=CopyWithReferences(FolderProgram,new[] { "HelixToolkit","HelixToolkit.Geometry","HelixToolkit.Maths","HelixToolkit.Wpf" },folderProbe);
+				using(ProbeProcess probeProcess=ProbeProcess.Start(folderProbe,File.ReadAllText(pathConfig),typeof(HelixLoadProbe),TimeSpan.FromMinutes(3))) {
+					arrayLines=ProbeText.SplitList(probeProcess.Call(HelixLoadProbe.COMMAND_RUN));
+				}
 			}
 			finally {
 				try {
-					AppDomain.Unload(appDomain);
+					Directory.Delete(folderProbe,true);
 				}
-				catch(CannotUnloadAppDomainException) { }
+				catch(Exception) {
+					//A file the ended child still held; the temp folder keeps it.
+				}
 			}
-			string report=string.Join("\r\n",arrayLines);
+			string report="Copied from the program folder: "+string.Join(", ",listCopied)+"\r\n"+string.Join("\r\n",arrayLines);
 			Console.WriteLine(report);
 			Assert.AreEqual("ok",arrayLines[0],report);
 			StringAssert.StartsWith(arrayLines[1],"positions=24 ","A box: four positions on each of its six faces. "+report);
@@ -250,22 +258,64 @@ namespace ReleaseFlowTests {
 				.ToDictionary(x => x.Key,x => x.First()[2],StringComparer.OrdinalIgnoreCase);
 			foreach(string name in new[] { "HelixToolkit","HelixToolkit.Geometry","HelixToolkit.Maths","HelixToolkit.Wpf" }) {
 				Assert.IsTrue(dictLoaded.ContainsKey(name),name+" loaded: "+report);
-				Assert.AreEqual(Path.Combine(FolderProgram,name+".dll"),dictLoaded[name],true,name+" from the program folder.");
+				Assert.AreEqual(Path.Combine(folderProbe,name+".dll"),dictLoaded[name],true,name+" from the program folder's file (its copy in the probe's folder).");
 			}
+			//Only the copied closure is in the probe's folder (CopyWithReferences: the Helix assemblies and what they reference), so this sees a
+			//System.* 4.3.x file only when something in that closure references it. A file of those packages that the program folder holds but no
+			//copied assembly references is not seen here: BuiltFolders_HoldNoFileOfTheSystemNetHttpPackages checks the built folders themselves.
 			foreach(string fileName in _arrayFrameworkFiles) {
 				string name=Path.GetFileNameWithoutExtension(fileName);
 				if(dictLoaded.TryGetValue(name,out string location)) {
-					Assert.IsFalse(location.StartsWith(FolderProgram,StringComparison.OrdinalIgnoreCase),name+" loaded from the program folder: "+location);
+					Assert.IsFalse(location.StartsWith(folderProbe,StringComparison.OrdinalIgnoreCase),name+" loaded from the program folder's files: "+location);
 				}
 			}
 		}
+
+		///<summary>Copies the named assemblies of folderFrom, and every assembly of folderFrom they reference, directly or through each other, into
+		///folderTo; the references are read with Mono.Cecil from a copy of the bytes, so nothing is loaded or locked. Returns the files copied.
+		///</summary>
+		private static List<string> CopyWithReferences(string folderFrom,string[] arrayNames,string folderTo) {
+			List<string> listCopied=new List<string>();
+			Queue<string> queueNames=new Queue<string>(arrayNames);
+			HashSet<string> hashSetSeen=new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+			while(queueNames.Count>0) {
+				string name=queueNames.Dequeue();
+				if(!hashSetSeen.Add(name)) {
+					continue;
+				}
+				string path=Path.Combine(folderFrom,name+".dll");
+				if(!File.Exists(path)) {
+					continue;//the .NET Framework's, or not there at all: the child's binding finds it, or fails, as the program's would
+				}
+				File.Copy(path,Path.Combine(folderTo,name+".dll"));
+				listCopied.Add(name+".dll");
+				using(MemoryStream memoryStream=new MemoryStream(File.ReadAllBytes(path)))
+				using(Mono.Cecil.ModuleDefinition moduleDefinition=Mono.Cecil.ModuleDefinition.ReadModule(memoryStream)) {
+					foreach(Mono.Cecil.AssemblyNameReference assemblyNameReference in moduleDefinition.AssemblyReferences) {
+						queueNames.Enqueue(assemblyNameReference.Name);
+					}
+				}
+			}
+			return listCopied;
+		}
 	}
 
-	///<summary>Runs in the AppDomain of HelixTypes_TheChartWillUse_LoadFromTheProgramFolder. Only .NET Framework types in its signature, so it
-	///loads there without the test framework; the Helix types are reached by reflection, as the program would bind them.</summary>
-	public class HelixLoadProbe:MarshalByRefObject {
+	///<summary>Runs in the child process of HelixTypes_TheChartWillUse_LoadFromTheProgramFolder (TestProbeHost). Only .NET Framework types in its
+	///signature, so it loads there without the test framework; the Helix types are reached by reflection, as the program would bind them.
+	///</summary>
+	public static class HelixLoadProbe {
+		public const string COMMAND_RUN="Run";
+
+		///<summary>The child process's handler: Run, whose lines come back as one ProbeText list.</summary>
+		public static string Handle(string command,string[] arrayArgs) {
+			if(command==COMMAND_RUN) {
+				return ProbeText.JoinList(Run());
+			}
+			throw new ArgumentException("Unknown command "+command);
+		}
+
 		///<summary>"ok" or the error; then "positions=N type"; then one "name|version|location" line per loaded assembly.</summary>
-		public string[] Run() {
+		public static string[] Run() {
 			List<string> listLines=new List<string>();
 			string result=null;
 			Thread thread=new Thread(() => {

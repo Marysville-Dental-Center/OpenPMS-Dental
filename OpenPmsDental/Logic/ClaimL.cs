@@ -879,7 +879,9 @@ namespace OpenPmsDental {
 			catch(Exception ex) {
 				ex.DoNothing();
 			}
-			if(result==null) {//Cancelled or failed to start
+			//Cancelled or failed to start. IsCancelled too (S3a-1c): Validate turns any failure into a failed call, also a read that the cancel
+			//refused, and its worker can still set the result after the window closed; that is no "could not validate" note.
+			if(progressWin.IsCancelled || result==null) {
 				return;
 			}
 			if(result.IsCallFailed) {

@@ -33,4 +33,7 @@ using System.Runtime.InteropServices;
 //The WebView2 tests make ODWebView2's start fail and keep its messages off the screen (ODWebView2.FuncCreateEnvironment, ActionShowMessage).
 [assembly: InternalsVisibleTo("LibWebTests")]
 [assembly: InternalsVisibleTo("M2IMGTests")]
+[assembly: InternalsVisibleTo("MiddleTierMockTests")]//ODFileUtilsStartTests replace ODFileUtils' starters through ReplaceStartersForTests (S3a-2f).
+//The service install tests replace ServicesHelper's process start, registry read and service stop with fakes (S3a-7), so no test runs sc.exe.
+[assembly: InternalsVisibleTo("ReleaseFlowTests")]
 //[assembly: AssemblyFileVersion("1.0.0.0")]

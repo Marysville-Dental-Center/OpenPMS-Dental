@@ -1069,24 +1069,6 @@ namespace OpenPmsDental.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to SharpDX is published under the MIT License.
-        ///
-        ///Copyright (c) 2010-2014 SharpDX - Alexandre Mutel
-        ///
-        ///Permission is hereby granted, free of charge, to any person obtaining a copy
-        ///of this software and associated documentation files (the &quot;Software&quot;), to deal
-        ///in the Software without restriction, including without limitation the rights
-        ///to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-        ///copies of the Software, and to permit persons to whom the Software is
-        ///furnished to do so, subject to  [rest of string was truncated]&quot;;.
-        /// </summary>
-        public static string SharpDX {
-            get {
-                return ResourceManager.GetString("SharpDX", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to The MIT License (MIT)
         ///
         ///Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -1121,24 +1103,6 @@ namespace OpenPmsDental.Properties {
             get {
                 object obj = ResourceManager.GetObject("stop", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The Tao Framework for .NET is a collection of bindings to facilitate
-        ///cross-platform game-related development utilizing the .NET platform.
-        ///
-        ///Currently included bindings are OpenGL 2.1, GLU 1.3, FreeGLUT 2.4.0, WGL,
-        ///various GL and WGL-related extensions, OpenAL 1.1, Cg 1.4.1, DevIL 1.6.8 RC2,
-        ///SDL 1.2.12, PhysFs 1.0.1, ODE 0.8.0, GLFW 2.6.1, Lua 5.1.1.
-        ///
-        ///These bindings all function in a cross-platform and cross-runtime manner
-        ///using Microsoft&apos;s .NET 2.0 runtime on Windows and the Mono runtime
-        ///on Windows  [rest of string was truncated]&quot;;.
-        /// </summary>
-        public static string Tao_OpenGL {
-            get {
-                return ResourceManager.GetString("Tao_OpenGL", resourceCulture);
             }
         }
         

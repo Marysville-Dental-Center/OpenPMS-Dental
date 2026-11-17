@@ -172,7 +172,7 @@ namespace ProjectFileTests {
 			using(FixtureFolder fixtureFolder=FixtureFolder.Create()) {
 				fixtureFolder.EditProject("SdkStyle","<Project Sdk=\"Microsoft.NET.Sdk\">","<Project Sdk=\"Microsoft.NET.Sdk.Web\">");
 				AssertThrows<NotSupportedException>(() => fixtureFolder.Load("SdkStyle"),"the SDK Microsoft.NET.Sdk.Web is not modelled");
-				fixtureFolder.EditProject("SdkStyle","<Project Sdk=\"Microsoft.NET.Sdk.Web\">","<Project Sdk=\"Microsoft.NET.Sdk/10.0.114\">");
+				fixtureFolder.EditProject("SdkStyle","<Project Sdk=\"Microsoft.NET.Sdk.Web\">","<Project Sdk=\"Microsoft.NET.Sdk/10.0.115\">");
 				Assert.IsTrue(fixtureFolder.Load("SdkStyle").IsSdkStyle,"Microsoft.NET.Sdk with a version is the SDK it models.");
 				fixtureFolder.EditProject("SdkExplicitImports","<Import Project=\"Sdk.props\" Sdk=\"Microsoft.NET.Sdk\" />",
 					"<Import Project=\"Sdk.props\" Sdk=\"Microsoft.NET.Sdk.Razor\" />");

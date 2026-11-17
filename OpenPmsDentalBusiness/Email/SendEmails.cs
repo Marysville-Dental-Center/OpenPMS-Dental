@@ -241,17 +241,47 @@ namespace OpenPmsDentalBusiness.Email {
 			}
 		}
 
+		///<summary>The text of the error for an address that cannot be read: "This is not a valid email address: " and the address. .NET 10's
+		///MailAddress also refuses an address with two dots in a row (a..b@example.com), which .NET Framework takes; at the sending sites
+		///(BasicEmailMessageToMailMessage, CreateMIMEMsg) either one now reads as this message instead of a bare FormatException
+		///(docs/port-notes/S3a-9.md, section 5).</summary>
+		internal static string GetNotValidAddressText(string address) {
+			return Lans.g("EmailMessages","This is not a valid email address")+": "+address;
+		}
+
+		///<summary>new MailAddress(address). Throws ODException (GetNotValidAddressText, with the FormatException inside) for an address that
+		///is not valid, and ArgumentException for a blank one, as MailAddress does.</summary>
+		internal static MailAddress ParseMailAddress(string address) {
+			try {
+				return new MailAddress(address);
+			}
+			catch(FormatException ex) {
+				throw new ODException(GetNotValidAddressText(address),ex);
+			}
+		}
+
+		///<summary>mailAddressCollection.Add(addresses), one address or several separated by commas. Throws ODException
+		///(GetNotValidAddressText, with the FormatException inside) when one of them is not valid.</summary>
+		internal static void AddMailAddresses(MailAddressCollection mailAddressCollection,string addresses) {
+			try {
+				mailAddressCollection.Add(addresses);
+			}
+			catch(FormatException ex) {
+				throw new ODException(GetNotValidAddressText(addresses),ex);
+			}
+		}
+
 		public static MailMessage BasicEmailMessageToMailMessage(BasicEmailMessage basicMessage) {
 			MailMessage message=new MailMessage();
-			message.From=new MailAddress(basicMessage.FromAddress.Trim());
+			message.From=ParseMailAddress(basicMessage.FromAddress.Trim());
 			if(!string.IsNullOrWhiteSpace(basicMessage.ToAddress)) {
-				message.To.Add(basicMessage.ToAddress.Trim());
+				AddMailAddresses(message.To,basicMessage.ToAddress.Trim());
 			}
 			if(!string.IsNullOrWhiteSpace(basicMessage.CcAddress)) {
-				message.CC.Add(basicMessage.CcAddress.Trim());
+				AddMailAddresses(message.CC,basicMessage.CcAddress.Trim());
 			}
 			if(!string.IsNullOrWhiteSpace(basicMessage.BccAddress)) {
-				message.Bcc.Add(basicMessage.BccAddress.Trim());
+				AddMailAddresses(message.Bcc,basicMessage.BccAddress.Trim());
 			}
 			message.Subject=basicMessage.Subject;
 			if(basicMessage.IsHtml) {
@@ -429,18 +459,18 @@ namespace OpenPmsDentalBusiness.Email {
 			//MailMessage will automatically parse out "DisplayName" <email@address.com> and every variation.
 			//We are using MailMessage as an in-between because its Add() function can automatically parse a single string containing multiple email addresses into a collection which is needed for MimeMessage.
 			MailMessage msg=new MailMessage();
-			msg.From=new MailAddress(emailMessage.FromAddress);
+			msg.From=ParseMailAddress(emailMessage.FromAddress);
 			mimeMsg.From.Add(new MailboxAddress(msg.From.DisplayName,msg.From.Address));
 			if(!string.IsNullOrWhiteSpace(emailMessage.ToAddress)) {//A message can go to Cc or Bcc addresses only.
-				msg.To.Add(emailMessage.ToAddress.Trim());
+				AddMailAddresses(msg.To,emailMessage.ToAddress.Trim());
 				mimeMsg.To.AddRange(msg.To.Select(x => new MailboxAddress(x.DisplayName,x.Address)));
 			}
 			if(!emailMessage.CcAddress.IsNullOrEmpty()) {
-				msg.CC.Add(emailMessage.CcAddress.Trim());
+				AddMailAddresses(msg.CC,emailMessage.CcAddress.Trim());
 				mimeMsg.Cc.AddRange(msg.CC.Select(x => new MailboxAddress(x.DisplayName,x.Address)));
 			}
 			if(!emailMessage.BccAddress.IsNullOrEmpty()) {
-				msg.Bcc.Add(emailMessage.BccAddress.Trim());
+				AddMailAddresses(msg.Bcc,emailMessage.BccAddress.Trim());
 				mimeMsg.Bcc.AddRange(msg.Bcc.Select(x => new MailboxAddress(x.DisplayName,x.Address)));
 			}
 			BodyBuilder body=new BodyBuilder();

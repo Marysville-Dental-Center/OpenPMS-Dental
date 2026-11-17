@@ -177,24 +177,29 @@ namespace ReleaseFlowTests {
 			Assert.IsFalse(code.Contains("serviceHL7.ServiceName=ProgramNames.HL7ServiceName"),"The installer's name is not the run-time fallback.");
 		}
 
-		///<summary>InstallUtil.exe installs the HL7 service through the public Installer type marked RunInstaller(true), which it finds whatever its
-		///namespace. AssemblyInstaller.CheckIfInstallable is the check InstallUtil makes first: it loads the exe and creates its installers, and
-		///installs nothing.</summary>
+		///<summary>ServicesHelper installs the HL7 service with sc.exe (S3a-7): the exe carries no installer for InstallUtil.exe, and neither the
+		///project nor the built assembly uses System.Configuration.Install, which .NET does not have. The service itself is still the ServiceBase
+		///type OpenPmsDentalHL7.ServiceHL7. The built assembly is read through ProgramAssembly (the .dll beside a .NET apphost, else the .exe).</summary>
 		[TestMethod]
-		public void HL7Service_InstallUtilFindsItsInstaller() {
-			string source=File.ReadAllText(Path.Combine(TestPaths.RepoRoot,"OpenPmsDentalHL7","ProjectInstaller.cs"));
-			StringAssert.Contains(source,"namespace OpenPmsDentalHL7 {");
-			string path=Path.Combine(TestPaths.RepoRoot,"OpenPmsDentalHL7","bin","Debug","OpenPmsDentalHL7.exe");
-			if(!File.Exists(path)) {
-				BuildOutput.NotBuilt("OpenPmsDentalHL7 is not built. Build OpenDental.Local.slnf (Debug|x86) first.");
+		public void HL7Service_HasNoInstallUtilInstaller() {
+			Assert.IsFalse(File.Exists(Path.Combine(TestPaths.RepoRoot,"OpenPmsDentalHL7","ProjectInstaller.cs")),"ProjectInstaller.cs is back.");
+			string csproj=File.ReadAllText(Path.Combine(TestPaths.RepoRoot,"OpenPmsDentalHL7","OpenPmsDentalHL7.csproj"));
+			Assert.IsFalse(csproj.Contains("System.Configuration.Install"),"OpenPmsDentalHL7.csproj references System.Configuration.Install again.");
+			//Nor does this test project, since S3a-FU1 (its only user was the InstallUtil check this test replaced).
+			string csprojTests=File.ReadAllText(Path.Combine(TestPaths.RepoRoot,"tests","ReleaseFlowTests","ReleaseFlowTests.csproj"));
+			Assert.IsFalse(csprojTests.Contains("System.Configuration.Install"),"ReleaseFlowTests.csproj references System.Configuration.Install again.");
+			foreach(string path in Directory.GetFiles(Path.Combine(TestPaths.RepoRoot,"OpenPmsDentalHL7"),"*.cs",SearchOption.AllDirectories)) {
+				if(path.Contains(Path.DirectorySeparatorChar+"obj"+Path.DirectorySeparatorChar) || path.Contains(Path.DirectorySeparatorChar+"bin"+Path.DirectorySeparatorChar)) {
+					continue;
+				}
+				string code=File.ReadAllText(path);
+				Assert.IsFalse(code.Contains("System.Configuration.Install") || code.Contains("RunInstaller"),path+" has an InstallUtil installer again.");
 			}
-			System.Configuration.Install.AssemblyInstaller.CheckIfInstallable(path);
-			Type typeInstaller=System.Reflection.Assembly.LoadFrom(path).GetType("OpenPmsDentalHL7.MyProjectInstaller",throwOnError:true);
-			Assert.IsTrue(typeof(System.Configuration.Install.Installer).IsAssignableFrom(typeInstaller));
-			System.ComponentModel.RunInstallerAttribute runInstallerAttribute=(System.ComponentModel.RunInstallerAttribute)
-				Attribute.GetCustomAttribute(typeInstaller,typeof(System.ComponentModel.RunInstallerAttribute));
-			Assert.IsNotNull(runInstallerAttribute);
-			Assert.IsTrue(runInstallerAttribute.RunInstaller);
+			System.Reflection.Assembly assembly=ProgramAssembly.Load(Path.Combine(TestPaths.RepoRoot,"OpenPmsDentalHL7","bin","Debug"),"OpenPmsDentalHL7");
+			Assert.IsFalse(assembly.GetReferencedAssemblies().Any(x => x.Name=="System.Configuration.Install"),
+				assembly.Location+" references System.Configuration.Install.");
+			Type typeService=assembly.GetType("OpenPmsDentalHL7.ServiceHL7",throwOnError:true);
+			Assert.AreEqual("System.ServiceProcess.ServiceBase",typeService.BaseType.FullName);
 		}
 
 		///<summary>The HL7 setup windows suggest the installer's service name, ProgramNames.HL7ServiceName, which carries ServicePrefix like every
@@ -228,7 +233,6 @@ namespace ReleaseFlowTests {
 				[@"OpenPmsDentalBusiness\Misc\NTPv4.cs"]=new[] { "WriteEntry(\"OpenDental\"","WriteEntry(\"OpenPMS-Dental\"" },
 				[@"OpenPmsDentalBusiness\Misc\WindowsTime.cs"]=new[] { "WriteEntry(\"OpenDental\"","WriteEntry(\"OpenPMS-Dental\"" },
 				[@"OpenPmsDentalHL7\Program.cs"]=new[] { "\"OpenDentHL7","\"OpenPmsDentalHL7","StartsWith(\"OpenDent\")","StartsWith(\"OpenPmsDental\")" },
-				[@"OpenPmsDentalHL7\ProjectInstaller.cs"]=new[] { "\"OpenDentHL7\"","\"OpenPmsDentalHL7\"" },
 				[@"CodeBase\Utilities\ServicesHelper.cs"]=new[] { "StartsWith(\"OpenDent\")","StartsWith(\"OpenPmsDental\")" },
 				[@"ServiceManager\FormServiceManage.cs"]=new[] { "!=\"OpenDent\"","!=\"OpenPmsDental\"" },
 				[@"ServiceManager\FormMain.cs"]=new[] { "FormServiceManage(\"OpenDent\"","FormServiceManage(\"OpenPmsDental\"" },

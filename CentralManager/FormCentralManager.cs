@@ -55,7 +55,7 @@ namespace CentralManager {
 			InitializeComponent();
 			UTF8Encoding enc=new UTF8Encoding();
 			EncryptionKey=enc.GetBytes("mQlEGebnokhGFEFV");
-			this.Menu=mainMenu;
+			//S3a-M3: mainMenu is a MenuStrip, the form's MainMenuStrip (designer), in place of the WinForms MainMenu that was set here.
 			//CEMT does not support report or read only servers.
 			//Poke something in ConnectionStore.cs to initialize internal static constructor.
 			ConnectionNames connectionName=ConnectionStore.CurrentConnection;

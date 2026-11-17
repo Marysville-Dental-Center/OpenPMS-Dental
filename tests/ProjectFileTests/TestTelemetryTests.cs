@@ -3,14 +3,15 @@
 // The tests run under VSTest instead: every test project of OpenDental.Local.slnf turns the platform off (tests\Directory.Build.props, and
 // NoHqTests' own file), Directory.Build.targets takes the telemetry extension's registration and both packages' assemblies out, and
 // vstest.console sends telemetry only when VSTEST_TELEMETRY_OPTEDIN is 1. These tests check each of those from the project files (ProjectFile),
-// the built output folders (BuildOutput's rule when a project is not built) and this test process.
+// the built output folders (BuildOutput's rule when a project is not built) and this test process. Since S4-2 the runners also set
+// TESTINGPLATFORM_TELEMETRY_OPTOUT=1 and DOTNET_CLI_TELEMETRY_OPTOUT=1 for vstest and its test hosts (docs/port-notes/S4-2.md): this test
+// host's environment shows it when a runner started it, and TestRunnerScriptTests checks the scripts themselves.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Text;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -24,6 +25,10 @@ namespace ProjectFileTests {
 		///<summary>The assembly metadata key Microsoft.Testing.Platform.MSBuild writes into a platform program (IsTestingPlatformApplication).</summary>
 		private const string PLATFORM_APPLICATION_KEY="Microsoft.Testing.Platform.Application";
 		private static readonly string[] _arrayTelemetryFiles=new[] { "Microsoft.ApplicationInsights.dll","Microsoft.Testing.Extensions.Telemetry.dll" };
+		///<summary>The adapter and platform assemblies the build copies next to every test assembly (MSTest.TestAdapter's), which vstest.console
+		///loads from there.</summary>
+		private static readonly string[] _arrayAdapterFiles=new[] { "MSTest.TestAdapter.dll","MSTestAdapter.PlatformServices.dll",
+			"Microsoft.Testing.Platform.dll","Microsoft.Testing.Extensions.MSBuild.dll","Microsoft.Testing.Extensions.TrxReport.Abstractions.dll" };
 		private static List<ProjectFile> _listTestProjects;
 
 		///<summary>The test projects the test runner runs: every project of OpenDental.Local.slnf whose file name ends in Tests.csproj (UnitTests,
@@ -94,15 +99,57 @@ namespace ProjectFileTests {
 
 		[TestMethod]
 		public void TheMSTestAdapter_UsesNoTelemetryAssembly() {
-			//The adapter next to this test assembly, the one vstest.console runs it with: it references the platform, not the telemetry extension
-			//or Application Insights, so leaving them out of the output folders breaks nothing.
-			string pathAdapter=Path.Combine(Path.GetDirectoryName(typeof(TestTelemetryTests).Assembly.Location),"MSTest.TestAdapter.dll");
-			Assert.IsTrue(File.Exists(pathAdapter),pathAdapter);
-			AssemblyName[] arrayReferences=Assembly.ReflectionOnlyLoadFrom(pathAdapter).GetReferencedAssemblies();
-			Assert.IsTrue(arrayReferences.Any(x => x.Name=="Microsoft.Testing.Platform"),"The adapter of MSTest 4 references the platform.");
-			string[] arrayTelemetry=arrayReferences.Select(x => x.Name).Where(x => x.IndexOf("Telemetry",StringComparison.OrdinalIgnoreCase)>=0
-				|| x.StartsWith("Microsoft.ApplicationInsights",StringComparison.OrdinalIgnoreCase)).ToArray();
-			Assert.AreEqual(0,arrayTelemetry.Length,string.Join(", ",arrayTelemetry));
+			//The adapter and the platform assemblies next to this test assembly, the ones vstest.console runs it with (S4-2): they reference
+			//the platform, not the telemetry extension or Application Insights, so leaving those out of the output folders breaks nothing.
+			string folder=Path.GetDirectoryName(typeof(TestTelemetryTests).Assembly.Location);
+			List<string> listProblems=new List<string>();
+			foreach(string fileName in _arrayAdapterFiles) {
+				string path=Path.Combine(folder,fileName);
+				if(!File.Exists(path)) {
+					listProblems.Add(fileName+" is not next to the test assembly");
+					continue;
+				}
+				List<string> listReferences=ReadReferencedAssemblyNames(path);
+				if(fileName=="MSTest.TestAdapter.dll" && !listReferences.Contains("Microsoft.Testing.Platform")) {
+					listProblems.Add("The adapter does not reference the platform: it is not MSTest 4's");
+				}
+				foreach(string name in listReferences.Where(x => x.IndexOf("Telemetry",StringComparison.OrdinalIgnoreCase)>=0
+					|| x.StartsWith("Microsoft.ApplicationInsights",StringComparison.OrdinalIgnoreCase)))
+				{
+					listProblems.Add(fileName+" references "+name);
+				}
+			}
+			Assert.AreEqual(0,listProblems.Count,string.Join("; ",listProblems));
+		}
+
+		[TestMethod]
+		public void EveryBuiltTestProject_HasTheMSTestAdapterNextToIt() {
+			//vstest.console finds the adapter next to the test assembly (S4-2: the runners pass no adapter path), so every output folder holds the
+			//adapter and its platform assemblies, the same version as the ones next to this test assembly.
+			string folderThis=Path.GetDirectoryName(typeof(TestTelemetryTests).Assembly.Location);
+			Dictionary<string,string> dictVersions=_arrayAdapterFiles.ToDictionary(x => x,x => FileVersionInfo.GetVersionInfo(Path.Combine(folderThis,x)).FileVersion);
+			List<string> listProblems=new List<string>();
+			List<string> listNotBuilt=new List<string>();
+			foreach(ProjectFile projectFile in TestProjects()) {
+				string targetPath=projectFile.GetProperty("TargetPath");
+				if(!File.Exists(targetPath)) {
+					listNotBuilt.Add(targetPath);
+					continue;
+				}
+				foreach(string fileName in _arrayAdapterFiles) {
+					string path=Path.Combine(Path.GetDirectoryName(targetPath),fileName);
+					if(!File.Exists(path)) {
+						listProblems.Add(path+" is missing");
+					}
+					else if(FileVersionInfo.GetVersionInfo(path).FileVersion!=dictVersions[fileName]) {
+						listProblems.Add(path+" is "+FileVersionInfo.GetVersionInfo(path).FileVersion+", not "+dictVersions[fileName]);
+					}
+				}
+			}
+			Assert.AreEqual(0,listProblems.Count,string.Join("; ",listProblems.Take(20)));
+			if(listNotBuilt.Count>0) {
+				BuildOutput.NotBuilt(listNotBuilt.Count+" test projects are not built, the first "+listNotBuilt[0]+". Build OpenDental.Local.slnf (Debug|x86).");
+			}
 		}
 
 		[TestMethod]
@@ -113,6 +160,29 @@ namespace ProjectFileTests {
 			//A VSTest test host (testhost.x86.exe under /Platform:x86, testhost.exe), not a Microsoft Testing Platform program of its own.
 			string processName=Process.GetCurrentProcess().ProcessName;
 			Assert.IsTrue(processName.StartsWith("testhost",StringComparison.OrdinalIgnoreCase),processName);
+		}
+
+		[TestMethod]
+		public void ThisRun_ByARunner_HasTheTelemetryOptOuts() {
+			//The runners (S4-2) start vstest with both opt-outs: tools\run-tests.ps1 and the lead's copy mark their runs with OPMS_TEST_RUNNER,
+			//the lane's -Test runs with OPMS_REQUIRE_BUILD_OUTPUT=1 in the environment of tools\Initialize-BuildEnvironment.ps1. A run from an
+			//editor's test window has neither and is not a runner's run.
+			bool isRunnerRun=!string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("OPMS_TEST_RUNNER")) || BuildOutput.IsRequired;
+			if(!isRunnerRun) {
+				Assert.Inconclusive("Not started by a test runner (no OPMS_TEST_RUNNER, no OPMS_REQUIRE_BUILD_OUTPUT=1).");
+			}
+			foreach(string name in new[] { "TESTINGPLATFORM_TELEMETRY_OPTOUT","DOTNET_CLI_TELEMETRY_OPTOUT" }) {
+				Assert.AreEqual("1",(Environment.GetEnvironmentVariable(name)??"").Trim(),name+" in this test host's environment");
+			}
+		}
+
+		///<summary>The names of the assemblies the file references, read with Mono.Cecil from a copy of its bytes: nothing is loaded or locked (S3a-8b
+		///of the .NET 10 move: .NET has no reflection-only load).</summary>
+		private static List<string> ReadReferencedAssemblyNames(string path) {
+			using(MemoryStream memoryStream=new MemoryStream(File.ReadAllBytes(path)))
+			using(Mono.Cecil.ModuleDefinition moduleDefinition=Mono.Cecil.ModuleDefinition.ReadModule(memoryStream)) {
+				return moduleDefinition.AssemblyReferences.Select(x => x.Name).ToList();
+			}
 		}
 
 		private static bool Contains(byte[] arrayHaystack,byte[] arrayNeedle) {

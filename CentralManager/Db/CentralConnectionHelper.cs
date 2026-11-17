@@ -48,7 +48,7 @@ namespace CentralManager {
 				args+="PatNum="+Scrub(patNum.ToString(),encapsulate:false)+" ";
 			}
 			try {
-				Process process=Process.Start(ProgramNames.ExeFileName,args);
+				Process process=ODFileUtils.ProcessStart(ProgramNames.ExeFileName,args);
 				windowInfo.HWnd=IntPtr.Zero;//process.MainWindowHandle;//but this hWnd seems to be wrong
 				windowInfo.ProcessId=process.Id;
 			}

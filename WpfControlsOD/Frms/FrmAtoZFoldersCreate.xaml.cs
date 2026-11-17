@@ -57,7 +57,7 @@ namespace OpenPmsDental {
 					//Process.Start("net","usershare add OpenDentImages \""+rootDir+"\"");//for future use.
 				}
 				else {//Windows
-					Process.Start("NET","SHARE OpenDentImages=\""+rootDir+"\"");
+					ODFileUtils.ProcessStart("NET","SHARE OpenDentImages=\""+rootDir+"\"");
 				}
 				//All folder names to be created should be put in this list, so that each folder is created exactly
 				//the same way.
@@ -71,7 +71,7 @@ namespace OpenPmsDental {
 					string pathToCreate=ODFileUtils.CombinePaths(rootDir,aToZFolderNames[i]);
 					if(!Directory.Exists(pathToCreate)) {
 						// Mono does support Directory.CreateDirectory(string, DirectorySecurity)
-						Directory.CreateDirectory(pathToCreate,directorySecurity);
+						new DirectoryInfo(pathToCreate).Create(directorySecurity);//Directory.CreateDirectory(string,DirectorySecurity) is not on .NET; this is on both.
 					}
 				}
 				//Save new image path into the DocPath and 

@@ -34,5 +34,7 @@
     <ProjectReference Include="..\..\OpenPmsDentalBusiness\OpenPmsDentalBusiness.csproj" />
     <!-- MigraDocHelper, MigraDocPrintDocument and the licence list. No window is shown. -->
     <ProjectReference Include="..\..\OpenPmsDental\OpenPmsDental.csproj" />
+    <!-- The fresh process of the licence and network tests (TestProbeHost, S3a-8 of the .NET 10 move: .NET has no new AppDomain). -->
+    <ProjectReference Include="..\TestProbeHost\TestProbeHost.csproj" />
   </ItemGroup>
 </Project>

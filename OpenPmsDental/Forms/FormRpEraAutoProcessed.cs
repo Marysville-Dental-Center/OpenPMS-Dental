@@ -72,19 +72,23 @@ namespace OpenPmsDental {
 
 		///<summary>Builds the context menu for the ERAs grid.</summary>
 		private void BuildContextMenuGridEras() {
-			List<MenuItem> listMenuItems=new List<MenuItem>();
-			listMenuItems.Add(new MenuItem(Lan.g(this,"Acknowledge"),new EventHandler(MenuItemAcknowledge_Click)));
-			ContextMenu contextMenu=new ContextMenu(listMenuItems.ToArray());
-			gridEras.ContextMenu=contextMenu;
+			List<ToolStripItem> listMenuItems=new List<ToolStripItem>();
+			listMenuItems.Add(new ToolStripMenuItem(Lan.g(this,"Acknowledge"),null,new EventHandler(MenuItemAcknowledge_Click)));
+			ContextMenuStrip contextMenu=new ContextMenuStrip();
+			contextMenu.Items.AddRange(listMenuItems.ToArray());
+			gridEras.ContextMenuStrip=contextMenu;
+			gridEras.DoAddGridItemsToContextMenuStrip=true;
 		}
 
 		///<summary>Builds the context menu for the Claims grid.</summary>
 		private void BuildContextMenuGridClaims() {
-			List<MenuItem> listMenuItems=new List<MenuItem>();
-			listMenuItems.Add(new MenuItem(Lan.g(this,"Go to Account"),new EventHandler(MenuItemGoToAccount_Click)));
-			listMenuItems.Add(new MenuItem(Lan.g(this,"Process Unsent Claims of the Next Insurance"),new EventHandler(MenuItemProcessSecondaryClaims_Click)));
-			ContextMenu contextMenu=new ContextMenu(listMenuItems.ToArray());
-			gridClaims.ContextMenu=contextMenu;
+			List<ToolStripItem> listMenuItems=new List<ToolStripItem>();
+			listMenuItems.Add(new ToolStripMenuItem(Lan.g(this,"Go to Account"),null,new EventHandler(MenuItemGoToAccount_Click)));
+			listMenuItems.Add(new ToolStripMenuItem(Lan.g(this,"Process Unsent Claims of the Next Insurance"),null,new EventHandler(MenuItemProcessSecondaryClaims_Click)));
+			ContextMenuStrip contextMenu=new ContextMenuStrip();
+			contextMenu.Items.AddRange(listMenuItems.ToArray());
+			gridClaims.ContextMenuStrip=contextMenu;
+			gridClaims.DoAddGridItemsToContextMenuStrip=true;
 		}
 
 		///<summary>Fill the ERAs grid. Gets data from the DB every time it is called.</summary>

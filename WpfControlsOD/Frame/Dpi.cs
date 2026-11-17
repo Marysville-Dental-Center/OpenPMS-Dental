@@ -50,15 +50,22 @@ or Form.Location.
 		}
 
 		[DllImport("User32.dll")]
-		private static extern DPI_AWARENESS_CONTEXT SetThreadDpiAwarenessContext(DPI_AWARENESS_CONTEXT dpiContext);
+		private static extern IntPtr SetThreadDpiAwarenessContext(IntPtr dpiContext);
 
 		[DllImport("User32.dll")]
-		private static extern bool IsValidDpiAwarenessContext(DPI_AWARENESS_CONTEXT dpiContext);
+		private static extern bool IsValidDpiAwarenessContext(IntPtr dpiContext);
+
+		///<summary>DPI_AWARENESS_CONTEXT is a handle (winuser.h: DECLARE_HANDLE), pointer-sized, and its predefined values are small negative numbers
+		///cast to it: ((DPI_AWARENESS_CONTEXT)-1) and so on. new IntPtr(int) sign-extends them as that cast does in a 64-bit process; in a 32-bit
+		///process it is the same 4-byte value the enum was passed as.</summary>
+		private static IntPtr ToHandle(DPI_AWARENESS_CONTEXT dpiContext){
+			return new IntPtr((int)dpiContext);
+		}
 
 		///<summary>This is used to set any Form to be unaware of Dpi.  This will cause Windows to handle dpi the old way, by scaling a bitmap of the form.  This will cause everything to get a little blurry, but it will at least all work correctly.  This buys us time to fix any custom drawing.  Use this just before creating a form (FormExample formExample=new FormExample()).  Then, right after that line, call Dpi.SetAware.</summary>
 		public static void SetUnaware(){
 			try{
-				SetThreadDpiAwarenessContext(DPI_AWARENESS_CONTEXT.DPI_AWARENESS_CONTEXT_UNAWARE);
+				SetThreadDpiAwarenessContext(ToHandle(DPI_AWARENESS_CONTEXT.DPI_AWARENESS_CONTEXT_UNAWARE));
 				//We could instead set to DPI_AWARENESS_CONTEXT_UNAWARE_GDISCALED, but testing showed that it essentially looked identical.
 			}
 			catch{
@@ -69,7 +76,7 @@ or Form.Location.
 		///<summary>Used after SetUnaware.  After this comes Show() or ShowDialog().</summary>
 		public static void SetAware(){
 			try{
-				SetThreadDpiAwarenessContext(DPI_AWARENESS_CONTEXT.DPI_AWARENESS_CONTEXT_DEFAULT);
+				SetThreadDpiAwarenessContext(ToHandle(DPI_AWARENESS_CONTEXT.DPI_AWARENESS_CONTEXT_DEFAULT));
 			}
 			catch{
 				//requires Win10
@@ -78,7 +85,7 @@ or Form.Location.
 
 		public static bool SupportsHighDpi(){
 			try{
-				if(IsValidDpiAwarenessContext(DPI_AWARENESS_CONTEXT.DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2)){
+				if(IsValidDpiAwarenessContext(ToHandle(DPI_AWARENESS_CONTEXT.DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2))){
 					return true;
 				}
 			}
@@ -120,7 +127,7 @@ or Form.Location.
 		private delegate bool EnumWindowsProc(IntPtr hWnd, IntPtr lParam);
 
 		[DllImport("user32.dll")]
-		private static extern IntPtr SendMessage(IntPtr hWnd, int msg, uint wParam, IntPtr lParam);
+		private static extern IntPtr SendMessage(IntPtr hWnd, int msg, IntPtr wParam, IntPtr lParam);//WPARAM is pointer-sized. Its one caller, Fix, is commented out.
 
 		public enum DpiType{
 			Effective = 0,

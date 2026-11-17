@@ -40,20 +40,20 @@
 			this.checkNotes = new OpenPmsDental.UI.CheckBox();
 			this.imageListMain = new System.Windows.Forms.ImageList(this.components);
 			this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-			this.menuProgRight = new System.Windows.Forms.ContextMenu();
-			this.menuItemDelete = new System.Windows.Forms.MenuItem();
-			this.menuItemSetComplete = new System.Windows.Forms.MenuItem();
-			this.menuItemSetEC = new System.Windows.Forms.MenuItem();
-			this.menuItemSetEO = new System.Windows.Forms.MenuItem();
-			this.menuItemEditSelected = new System.Windows.Forms.MenuItem();
-			this.menuItemGroupSelected = new System.Windows.Forms.MenuItem();
-			this.menuItemPrintProg = new System.Windows.Forms.MenuItem();
-			this.menuItemPrintDay = new System.Windows.Forms.MenuItem();
-			this.menuItemLabFeeDetach = new System.Windows.Forms.MenuItem();
-			this.menuItemLabFee = new System.Windows.Forms.MenuItem();
-			this.menuItemPrintRouteSlip = new System.Windows.Forms.MenuItem();
-			this.menuItemGroupMultiVisit = new System.Windows.Forms.MenuItem();
-			this.menuItemViewMultiVisitGroup = new System.Windows.Forms.MenuItem();
+			this.menuProgRight = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.menuItemDelete = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemSetComplete = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemSetEC = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemSetEO = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemEditSelected = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemGroupSelected = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemPrintProg = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemPrintDay = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemLabFeeDetach = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemLabFee = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemPrintRouteSlip = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemGroupMultiVisit = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemViewMultiVisitGroup = new System.Windows.Forms.ToolStripMenuItem();
 			this.tabControlImages = new OpenPmsDental.UI.TabControl();
 			this.tabPage1 = new OpenPmsDental.UI.TabPage();
 			this.tabPage2 = new OpenPmsDental.UI.TabPage();
@@ -221,22 +221,22 @@
 			this.butOrthoCopy = new OpenPmsDental.UI.Button();
 			this.butOrthoDelete = new OpenPmsDental.UI.Button();
 			this.comboOrthoDate = new OpenPmsDental.UI.ComboBox();
-			this.menuConsent = new System.Windows.Forms.ContextMenu();
+			this.menuConsent = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.panelEcw = new System.Windows.Forms.Panel();
 			this.labelECWerror = new System.Windows.Forms.Label();
 			this.webViewEcw = new CodeBase.Controls.ODWebView2();
-			this.menuToothChart = new System.Windows.Forms.ContextMenu();
-			this.menuItemChartBig = new System.Windows.Forms.MenuItem();
-			this.menuItemChartSave = new System.Windows.Forms.MenuItem();
-			this.menuErx = new System.Windows.Forms.ContextMenu();
-			this.menuItemErxRefresh = new System.Windows.Forms.MenuItem();
-			this.menuItemDoseSpotPendingPescr = new System.Windows.Forms.MenuItem();
-			this.menuItemDoseSpotRefillReqs = new System.Windows.Forms.MenuItem();
-			this.menuItemDoseSpotTransactionErrors = new System.Windows.Forms.MenuItem();
-			this._contextMenuRxManage = new System.Windows.Forms.ContextMenu();
-			this._menuItemRxManage = new System.Windows.Forms.MenuItem();
+			this.menuToothChart = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.menuItemChartBig = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemChartSave = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuErx = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.menuItemErxRefresh = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemDoseSpotPendingPescr = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemDoseSpotRefillReqs = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemDoseSpotTransactionErrors = new System.Windows.Forms.ToolStripMenuItem();
+			this._contextMenuRxManage = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this._menuItemRxManage = new System.Windows.Forms.ToolStripMenuItem();
 			this.label4 = new System.Windows.Forms.Label();
-			this.menuOrthoChart = new System.Windows.Forms.ContextMenu();
+			this.menuOrthoChart = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.trackToothProcDates = new System.Windows.Forms.TrackBar();
 			this.textToothProcDate = new System.Windows.Forms.Label();
 			this.panelToothTrackBar = new System.Windows.Forms.Panel();
@@ -256,6 +256,7 @@
 			this.button1 = new OpenPmsDental.UI.Button();
 			this.gridPtInfo = new OpenPmsDental.UI.GridOD();
 			this.textTreatmentNotes = new OpenPmsDental.ODtextBox();
+			this.textTextBelow = new OpenPmsDental.ToothChartTextBelowStrip();
 			this.tabControlImages.SuspendLayout();
 			this.panelImages.SuspendLayout();
 			this.tabControlProc.SuspendLayout();
@@ -431,7 +432,7 @@
 			// 
 			// menuProgRight
 			// 
-			this.menuProgRight.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+			this.menuProgRight.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuItemDelete,
             this.menuItemSetComplete,
             this.menuItemSetEC,
@@ -445,83 +446,70 @@
             this.menuItemPrintRouteSlip,
             this.menuItemGroupMultiVisit,
             this.menuItemViewMultiVisitGroup});
-			this.menuProgRight.Popup += new System.EventHandler(this.menuProgRight_Popup);
+			this.menuProgRight.Opening += new System.ComponentModel.CancelEventHandler(this.menuProgRight_Popup);
 			// 
 			// menuItemDelete
 			// 
-			this.menuItemDelete.Index = 0;
 			this.menuItemDelete.Text = "Delete";
 			this.menuItemDelete.Click += new System.EventHandler(this.menuItemDelete_Click);
 			// 
 			// menuItemSetComplete
 			// 
-			this.menuItemSetComplete.Index = 1;
 			this.menuItemSetComplete.Text = "Set Complete";
 			this.menuItemSetComplete.Click += new System.EventHandler(this.menuItemSetComplete_Click);
 			// 
 			// menuItemSetEC
 			// 
-			this.menuItemSetEC.Index = 2;
 			this.menuItemSetEC.Text = "Set Existing Current ";
 			this.menuItemSetEC.Click += new System.EventHandler(this.menuItemSetEC_Click);
 			// 
 			// menuItemSetEO
 			// 
-			this.menuItemSetEO.Index = 3;
 			this.menuItemSetEO.Text = "Set Existing Other";
 			this.menuItemSetEO.Click += new System.EventHandler(this.menuItemSetEO_Click);
 			// 
 			// menuItemEditSelected
 			// 
-			this.menuItemEditSelected.Index = 4;
 			this.menuItemEditSelected.Text = "Edit All";
 			this.menuItemEditSelected.Click += new System.EventHandler(this.menuItemEditSelected_Click);
 			// 
 			// menuItemGroupSelected
 			// 
-			this.menuItemGroupSelected.Index = 5;
 			this.menuItemGroupSelected.Text = "Group Note";
 			this.menuItemGroupSelected.Click += new System.EventHandler(this.menuItemGroupSelected_Click);
 			// 
 			// menuItemPrintProg
 			// 
-			this.menuItemPrintProg.Index = 6;
 			this.menuItemPrintProg.Text = "Print Progress Notes ...";
 			this.menuItemPrintProg.Click += new System.EventHandler(this.menuItemPrintProg_Click);
 			// 
 			// menuItemPrintDay
 			// 
-			this.menuItemPrintDay.Index = 7;
 			this.menuItemPrintDay.Text = "Print Day for Hospital";
 			this.menuItemPrintDay.Click += new System.EventHandler(this.menuItemPrintDay_Click);
 			// 
 			// menuItemLabFeeDetach
 			// 
-			this.menuItemLabFeeDetach.Index = 8;
 			this.menuItemLabFeeDetach.Text = "Detach Lab Fee";
 			this.menuItemLabFeeDetach.Click += new System.EventHandler(this.menuItemLabFeeDetach_Click);
 			// 
 			// menuItemLabFee
 			// 
-			this.menuItemLabFee.Index = 9;
 			this.menuItemLabFee.Text = "Attach Lab Fee";
 			this.menuItemLabFee.Click += new System.EventHandler(this.menuItemLabFee_Click);
 			// 
 			// menuItemPrintRouteSlip
 			// 
-			this.menuItemPrintRouteSlip.Index = 10;
 			this.menuItemPrintRouteSlip.Text = "Print Routing Slip";
 			this.menuItemPrintRouteSlip.Click += new System.EventHandler(this.menuItemPrintRouteSlip_Click);
 			// 
 			// menuItemGroupMultiVisit
 			// 
-			this.menuItemGroupMultiVisit.Index = 11;
 			this.menuItemGroupMultiVisit.Text = "Group for Multiple Visits";
 			this.menuItemGroupMultiVisit.Click += new System.EventHandler(this.menuItemGroupMultiVisit_Click);
 			// 
 			// menuItemViewMultiVisitGroup
 			// 
-			this.menuItemViewMultiVisitGroup.Index = 12;
 			this.menuItemViewMultiVisitGroup.Text = "View Multivisit Group(s)";
 			this.menuItemViewMultiVisitGroup.Click += new System.EventHandler(this.menuItemViewMultiVisitGroup_Click);
 			// 
@@ -2318,7 +2306,7 @@
 			// 
 			// menuConsent
 			// 
-			this.menuConsent.Popup += new System.EventHandler(this.menuConsent_Popup);
+			this.menuConsent.Opening += new System.ComponentModel.CancelEventHandler(this.menuConsent_Popup);
 			// 
 			// panelEcw
 			// 
@@ -2358,26 +2346,24 @@
 			//
 			// menuToothChart
 			// 
-			this.menuToothChart.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+			this.menuToothChart.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuItemChartBig,
             this.menuItemChartSave});
-			this.menuToothChart.Popup += new System.EventHandler(this.menuToothChart_Popup);
+			this.menuToothChart.Opening += new System.ComponentModel.CancelEventHandler(this.menuToothChart_Popup);
 			// 
 			// menuItemChartBig
 			// 
-			this.menuItemChartBig.Index = 0;
 			this.menuItemChartBig.Text = "Show Big";
 			this.menuItemChartBig.Click += new System.EventHandler(this.menuItemChartBig_Click);
 			// 
 			// menuItemChartSave
 			// 
-			this.menuItemChartSave.Index = 1;
 			this.menuItemChartSave.Text = "Save to Images";
 			this.menuItemChartSave.Click += new System.EventHandler(this.menuItemChartSave_Click);
 			// 
 			// menuErx
 			// 
-			this.menuErx.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+			this.menuErx.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuItemErxRefresh,
             this.menuItemDoseSpotPendingPescr,
             this.menuItemDoseSpotRefillReqs,
@@ -2385,36 +2371,31 @@
 			// 
 			// menuItemErxRefresh
 			// 
-			this.menuItemErxRefresh.Index = 0;
 			this.menuItemErxRefresh.Text = "Refresh";
 			this.menuItemErxRefresh.Click += new System.EventHandler(this.menuItemErxRefresh_Click);
 			// 
 			// menuItemDoseSpotPendingPescr
 			// 
-			this.menuItemDoseSpotPendingPescr.Index = 1;
 			this.menuItemDoseSpotPendingPescr.Text = "Pending Prescriptions";
 			this.menuItemDoseSpotPendingPescr.Click += new System.EventHandler(this.menuItemDoseSpotPendingPescr_Click);
 			// 
 			// menuItemDoseSpotRefillReqs
 			// 
-			this.menuItemDoseSpotRefillReqs.Index = 2;
 			this.menuItemDoseSpotRefillReqs.Text = "Refill Requests";
 			this.menuItemDoseSpotRefillReqs.Click += new System.EventHandler(this.menuItemDoseSpotRefillReqs_Click);
 			// 
 			// menuItemDoseSpotTransactionErrors
 			// 
-			this.menuItemDoseSpotTransactionErrors.Index = 3;
 			this.menuItemDoseSpotTransactionErrors.Text = "Transaction Errors";
 			this.menuItemDoseSpotTransactionErrors.Click += new System.EventHandler(this.menuItemDoseSpotTransactionErrors_Click);
 			// 
 			// _contextMenuRxManage
 			// 
-			this._contextMenuRxManage.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+			this._contextMenuRxManage.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this._menuItemRxManage});
 			// 
 			// _menuItemRxManage
 			// 
-			this._menuItemRxManage.Index = 0;
 			this._menuItemRxManage.Text = "Rx Manage";
 			this._menuItemRxManage.Click += new System.EventHandler(this.menuItemRxManage_Click);
 			// 
@@ -2431,7 +2412,7 @@
 			// 
 			// menuOrthoChart
 			// 
-			this.menuOrthoChart.Popup += new System.EventHandler(this.menuOrthoChart_Popup);
+			this.menuOrthoChart.Opening += new System.ComponentModel.CancelEventHandler(this.menuOrthoChart_Popup);
 			// 
 			// trackToothProcDates
 			// 
@@ -2499,7 +2480,8 @@
 			this.gridProg.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridProg.ContextMenu = this.menuProgRight;
+			this.gridProg.ContextMenuStrip = this.menuProgRight;
+			this.gridProg.DoAddGridItemsToContextMenuStrip = true;
 			this.gridProg.DoShowRightClickLinks = true;
 			this.gridProg.Location = new System.Drawing.Point(0, 0);
 			this.gridProg.MaxPageRows = 500;
@@ -2640,6 +2622,18 @@
 			this.gridPtInfo.CellDoubleClick += new OpenPmsDental.UI.ODGridClickEventHandler(this.gridPtInfo_CellDoubleClick);
 			this.gridPtInfo.MouseDown += new System.Windows.Forms.MouseEventHandler(this.gridPtInfo_MouseDown);
 			// 
+			// textTextBelow
+			// 
+			this.textTextBelow.BackColor = System.Drawing.SystemColors.Window;
+			this.textTextBelow.ForeColor = System.Drawing.Color.Black;
+			this.textTextBelow.Location = new System.Drawing.Point(0, 362);
+			this.textTextBelow.Name = "textTextBelow";
+			this.textTextBelow.ReadOnly = true;
+			this.textTextBelow.Size = new System.Drawing.Size(410, 20);
+			this.textTextBelow.TabIndex = 188;
+			this.textTextBelow.TabStop = false;
+			this.textTextBelow.Visible = false;
+			// 
 			// textTreatmentNotes
 			// 
 			this.textTreatmentNotes.AcceptsTab = true;
@@ -2676,6 +2670,7 @@
 			this.Controls.Add(this.button1);
 			this.Controls.Add(this.gridPtInfo);
 			this.Controls.Add(this.textTreatmentNotes);
+			this.Controls.Add(this.textTextBelow);
 			this.Controls.Add(this.panelTPpriority);
 			this.Name = "ControlChart";
 			this.Size = new System.Drawing.Size(939, 708);
@@ -2750,8 +2745,8 @@
 		private System.Windows.Forms.Label labelDx;
 		private System.Windows.Forms.ToolTip toolTip1;
 		private UI.ComboBox comboPriority;
-		private System.Windows.Forms.ContextMenu menuProgRight;
-		private System.Windows.Forms.MenuItem menuItemPrintProg;
+		private System.Windows.Forms.ContextMenuStrip menuProgRight;
+		private System.Windows.Forms.ToolStripMenuItem menuItemPrintProg;
 		private OpenPmsDental.UI.TabPage tabPage1;
 		private OpenPmsDental.UI.TabPage tabPage2;
 		private OpenPmsDental.UI.TabPage tabPage4;
@@ -2763,9 +2758,9 @@
 		private System.Windows.Forms.Label label6;
 		private OpenPmsDental.UI.CheckBox checkToday;
 		private OpenPmsDental.UI.CheckBox checkShowTeeth;//used in printing progress notes
-		private System.Windows.Forms.MenuItem menuItemSetComplete;
-		private System.Windows.Forms.MenuItem menuItemEditSelected;
-		private System.Windows.Forms.MenuItem menuItemGroupSelected;
+		private System.Windows.Forms.ToolStripMenuItem menuItemSetComplete;
+		private System.Windows.Forms.ToolStripMenuItem menuItemEditSelected;
+		private System.Windows.Forms.ToolStripMenuItem menuItemGroupSelected;
 		private OpenPmsDental.UI.Button butPin;
 		private OpenPmsDental.UI.ListBox listButtonCats;
 		private System.Windows.Forms.ListView listViewButtons;
@@ -2816,12 +2811,12 @@
 		private OpenPmsDental.UI.Button butShiftMminus;
 		private OpenPmsDental.UI.GridOD gridPtInfo;
 		private OpenPmsDental.UI.CheckBox checkComm;
-		private System.Windows.Forms.MenuItem menuItemPrintDay;
+		private System.Windows.Forms.ToolStripMenuItem menuItemPrintDay;
 		private OpenPmsDental.UI.CheckBox checkAudit;
-		private System.Windows.Forms.MenuItem menuItemLabFee;
-		private System.Windows.Forms.MenuItem menuItemLabFeeDetach;
-		private System.Windows.Forms.MenuItem menuItemPrintRouteSlip;
-		private System.Windows.Forms.MenuItem menuItemDelete;
+		private System.Windows.Forms.ToolStripMenuItem menuItemLabFee;
+		private System.Windows.Forms.ToolStripMenuItem menuItemLabFeeDetach;
+		private System.Windows.Forms.ToolStripMenuItem menuItemPrintRouteSlip;
+		private System.Windows.Forms.ToolStripMenuItem menuItemDelete;
 		private OpenPmsDental.UI.TabPage tabPlanned;
 		private OpenPmsDental.UI.TabPage tabShow;
 		private OpenPmsDental.UI.GroupBox groupBox7;
@@ -2858,15 +2853,15 @@
 		private System.Windows.Forms.Panel panelBlack;
 		private System.Windows.Forms.Label label22;
 		private OpenPmsDental.UI.GridOD gridPlanned;
-		private System.Windows.Forms.ContextMenu menuConsent;
+		private System.Windows.Forms.ContextMenuStrip menuConsent;
 		private System.Windows.Forms.RadioButton radioEntryCn;
 		private OpenPmsDental.UI.CheckBox checkShowCn;
 		private CodeBase.Controls.ODWebView2 webViewEcw;
 		private System.Windows.Forms.Panel panelEcw;
 		private System.Windows.Forms.Label labelECWerror;
-		private System.Windows.Forms.ContextMenu menuToothChart;
-		private System.Windows.Forms.MenuItem menuItemChartBig;
-		private System.Windows.Forms.MenuItem menuItemChartSave;
+		private System.Windows.Forms.ContextMenuStrip menuToothChart;
+		private System.Windows.Forms.ToolStripMenuItem menuItemChartBig;
+		private System.Windows.Forms.ToolStripMenuItem menuItemChartSave;
 		private OpenPmsDental.UI.Button butUp;
 		private OpenPmsDental.UI.Button butDown;
 		private OpenPmsDental.UI.Button butChartViewDown;
@@ -2883,8 +2878,8 @@
 		private OpenPmsDental.UI.ODButtonPanel panelQuickButtons;
 		private UI.Button butClearAllMovements;
 		private OpenPmsDental.UI.CheckBox checkShowCompleted;
-		private System.Windows.Forms.ContextMenu menuErx;
-		private System.Windows.Forms.MenuItem menuItemErxRefresh;
+		private System.Windows.Forms.ContextMenuStrip menuErx;
+		private System.Windows.Forms.ToolStripMenuItem menuItemErxRefresh;
 		private OpenPmsDental.UI.CheckBox checkTreatPlans;
 		private OpenPmsDental.UI.GridOD gridTreatPlans;
 		private OpenPmsDental.UI.GridOD gridTpProcs;
@@ -2892,32 +2887,33 @@
 		private OpenPmsDental.UI.ListBox listPriorities;
 		private UI.Button butNewTP;
 		private OpenPmsDental.UI.CheckBox checkTPChart;
-		private System.Windows.Forms.ContextMenu menuOrthoChart;
+		private System.Windows.Forms.ContextMenuStrip menuOrthoChart;
 		private System.Windows.Forms.TrackBar trackToothProcDates;
 		private System.Windows.Forms.Label textToothProcDate;
 		private ODtextBox textTreatmentNotes;
-		private System.Windows.Forms.MenuItem menuItemDoseSpotPendingPescr;
-		private System.Windows.Forms.MenuItem menuItemDoseSpotRefillReqs;
-		private System.Windows.Forms.MenuItem menuItemDoseSpotTransactionErrors;
+		private ToothChartTextBelowStrip textTextBelow;
+		private System.Windows.Forms.ToolStripMenuItem menuItemDoseSpotPendingPescr;
+		private System.Windows.Forms.ToolStripMenuItem menuItemDoseSpotRefillReqs;
+		private System.Windows.Forms.ToolStripMenuItem menuItemDoseSpotTransactionErrors;
 		private System.Windows.Forms.Label label23;
 		private ODtextBox textSearch;
 		private System.Windows.Forms.Label labelSearchClear;
-		private System.Windows.Forms.MenuItem menuItemSetEC;
-		private System.Windows.Forms.MenuItem menuItemSetEO;
-		private System.Windows.Forms.MenuItem menuItemGroupMultiVisit;
+		private System.Windows.Forms.ToolStripMenuItem menuItemSetEC;
+		private System.Windows.Forms.ToolStripMenuItem menuItemSetEO;
+		private System.Windows.Forms.ToolStripMenuItem menuItemGroupMultiVisit;
 		private System.Windows.Forms.Panel panelToothTrackBar;
 		private System.Windows.Forms.Panel panelTPpriority;
 		private OpenPmsDental.UI.ODGridPageNav gridProgPageNav;
 		private OpenPmsDental.UI.GridOld gridProg;
 		private System.Windows.Forms.Panel panelGridProg;
 		private SparksToothChart.ToothChartWrapper toothChartWrapper;
-		private System.Windows.Forms.ContextMenu _contextMenuRxManage;
-		private System.Windows.Forms.MenuItem _menuItemRxManage;
+		private System.Windows.Forms.ContextMenuStrip _contextMenuRxManage;
+		private System.Windows.Forms.ToolStripMenuItem _menuItemRxManage;
 		private OpenPmsDental.UI.GroupBox groupBox9;
 		private UI.Button butClearSelectedMovements;
 		private OpenPmsDental.UI.CheckBox checkShowCommAuto;
 		private OpenPmsDental.UI.CheckBox checkCommSuperFamily;
-		private System.Windows.Forms.MenuItem menuItemViewMultiVisitGroup;
+		private System.Windows.Forms.ToolStripMenuItem menuItemViewMultiVisitGroup;
 		private UI.Button butMixed;
 		private UI.Button butAllPerm;
 		private UI.Button butAllPrimary;

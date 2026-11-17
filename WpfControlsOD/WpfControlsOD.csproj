@@ -24,6 +24,10 @@
     <DebugType>pdbonly</DebugType>
   </PropertyGroup>
   <ItemGroup>
+    <!-- Native first (S3a-14n of the .NET 10 move, docs/port-notes/S3a-14.md): Schick CDR DICOM's automation interop and QuickBooks Desktop's
+         QBFC 10 interop ("Required dlls"), with their types embedded as before S3a-13 and S3a-14, so neither interop file is copied or shipped.
+         Used only by Bridges\SchickInProcess.cs and Bridges\QuickBooksInProcess.cs, the in-process paths of NativeFirstChooser; the 32-bit
+         helper embeds them too for its modules, the fallback. -->
     <Reference Include="Interop.CDRDATALib">
       <HintPath>..\Required dlls\Interop.CDRDATALib.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
@@ -80,6 +84,25 @@
   <ItemGroup>
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
+    </Compile>
+    <!-- The commands of the 32-bit helper's QuickBooks Desktop module (S3a-13 of the .NET 10 move), compiled into the helper and into this
+         assembly, so Bridges\QuickBooks.cs and the module name them alike. Its type is internal. -->
+    <Compile Include="..\OpenPmsDentalHelper32\QuickBooks\QuickBooksCommands.cs">
+      <Link>Bridges\QuickBooksCommands.cs</Link>
+    </Compile>
+    <!-- The commands of the helper's Schick CDR and Guru modules (S3a-14), compiled into the helper and into this assembly, so
+         Bridges\Schick.cs, Bridges\Guru.cs and the modules name them alike (and cross Guru's patient alike). Their types are internal.
+         CDR DICOM's two interop files are referenced above for the in-process path (S3a-14n) and by the helper for the fallback. -->
+    <Compile Include="..\OpenPmsDentalHelper32\Schick\SchickCommands.cs">
+      <Link>Bridges\SchickCommands.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenPmsDentalHelper32\Guru\GuruCommands.cs">
+      <Link>Bridges\GuruCommands.cs</Link>
+    </Compile>
+    <!-- The command of the helper's Mediadent / CADI module (N64-A3), compiled into the helper and into this assembly, so Bridges\CADI.cs,
+         Bridges\CADIInProcess.cs and the module send CADI the same values. Its types are internal. -->
+    <Compile Include="..\OpenPmsDentalHelper32\Cadi\CadiCommands.cs">
+      <Link>Bridges\CadiCommands.cs</Link>
     </Compile>
     <!-- The code-behind of each window and control belongs to its .xaml file (Frms\FrmAccountEdit.xaml.cs to FrmAccountEdit.xaml). -->
     <Compile Update="**\*.xaml.cs" DependentUpon="%(Filename)" />

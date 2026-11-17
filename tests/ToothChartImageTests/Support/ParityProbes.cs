@@ -39,6 +39,9 @@ namespace ToothChartImageTests {
 		public bool IsToothDrawn;
 		///<summary>1: the mean of the 3x3 pixels around the point (a surface). 0: the one pixel (a line or the crossing of the X, a few pixels wide).</summary>
 		public int SampleRadius;
+		///<summary>True for the surfaces of an unerupted tooth (ShiftO below -10), which the WPF chart draws half-transparent on purpose since TC-3c
+		///(LOOK-2), where DirectX 9 draws them opaque at half RGB.</summary>
+		public bool IsUnerupted;
 
 		public string Name {
 			get {
@@ -76,23 +79,29 @@ namespace ToothChartImageTests {
 		public string Reason;
 		///<summary>True for a case of section 5.1's known difference, which the list keeps even when no probe lands on the covered part.</summary>
 		public bool IsKnownDifference;
+		///<summary>True when the allowance covers only the probes of unerupted teeth (ParityProbePoint.IsUnerupted): TC-3c's per-scene notes.</summary>
+		public bool IsUneruptedOnly;
 
-		public ParityAllowance(string sceneName,string sizeName,string toothId,ProbeKind? kind,string reason,bool isKnownDifference=false) {
+		public ParityAllowance(string sceneName,string sizeName,string toothId,ProbeKind? kind,string reason,bool isKnownDifference=false,
+			bool isUneruptedOnly=false)
+		{
 			SceneName=sceneName;
 			SizeName=sizeName;
 			ToothId=toothId;
 			Kind=kind;
 			Reason=reason;
 			IsKnownDifference=isKnownDifference;
+			IsUneruptedOnly=isUneruptedOnly;
 		}
 
 		public bool Covers(ParityProbeOutcome outcome) {
 			return (SceneName=="*" || SceneName==outcome.SceneName) && (SizeName=="*" || SizeName==outcome.SizeName)
-				&& (ToothId=="*" || ToothId==outcome.Probe.ToothId) && (Kind==null || Kind==outcome.Probe.Kind);
+				&& (ToothId=="*" || ToothId==outcome.Probe.ToothId) && (Kind==null || Kind==outcome.Probe.Kind)
+				&& (!IsUneruptedOnly || outcome.Probe.IsUnerupted);
 		}
 
 		public override string ToString() {
-			return SceneName+" "+SizeName+" "+ToothId+" "+(Kind?.ToString()??"every kind")+": "+Reason;
+			return SceneName+" "+SizeName+" "+ToothId+" "+(Kind?.ToString()??"every kind")+(IsUneruptedOnly?" (unerupted teeth only)":"")+": "+Reason;
 		}
 	}
 
@@ -122,7 +131,44 @@ namespace ToothChartImageTests {
 				+"build-up in DirectX; the WPF chart's build-up silhouette is in the 2D layer, always on top.",true),
 			new ParityAllowance("x-on-implant-tooth","*","*",ProbeKind.BigX,"Known difference (plan 5.1): DirectX draws the implant after the X with "
 				+"depth testing on, so the implant covers the X; the WPF chart's X is in the 2D layer, always on top.",true),
+			//TC-3c (LOOK-2): the scenes with unerupted teeth, each for the probes of its unerupted teeth only (both sizes).
+			new ParityAllowance("primary-dentition","*","*",null,ReasonUnerupted,false,true),
+			new ParityAllowance("primary-dentition-fdi","*","*",null,ReasonUnerupted,false,true),
+			new ParityAllowance("primary-dentition-palmer","*","*",null,ReasonUnerupted,false,true),
+			new ParityAllowance("mixed-dentition","*","*",null,ReasonUnerupted,false,true),
+			new ParityAllowance("mixed-dentition-haderup","*","*",null,ReasonUnerupted,false,true),
+			new ParityAllowance("unerupted-third-molars","*","*",null,ReasonUnerupted,false,true),
+			new ParityAllowance("missing-and-hidden-primary","*","*",null,ReasonUnerupted,false,true),
+			new ParityAllowance("shifto-unerupted","*","*",null,ReasonUnerupted,false,true),
+			new ParityAllowance("crown-primary","*","*",null,ReasonUnerupted,false,true),
+			new ParityAllowance("extraction-primary","*","*",null,ReasonUnerupted,false,true),
+			new ParityAllowance("filling-primary","*","*",null,ReasonUnerupted,false,true),
+			new ParityAllowance("rct-primary","*","*",null,ReasonUnerupted,false,true),
+			new ParityAllowance("sealant-primary","*","*",null,ReasonUnerupted,false,true),
+			new ParityAllowance("text-watch-primary","*","*",null,ReasonUnerupted,false,true),
+			new ParityAllowance("select-primary-letter","*","*",null,ReasonUnerupted,false,true),
+			//TC-6: what the WPF chart draws as Open Dental does where DirectX 9 drew nothing (ORTHO-1, ORTHO-2, RR-1).
+			new ParityAllowance("ortho-mode","*","*",null,ReasonOrthoMode),
+			new ParityAllowance("ortho-brackets","*","*",ProbeKind.Facial,ReasonBracket),
+			new ParityAllowance("ortho-wires","*","*",ProbeKind.Facial,ReasonBracket),
+			new ParityAllowance("ortho-wire-in-bracket","*","*",ProbeKind.Facial,ReasonBracket),
+			new ParityAllowance("ortho-elastics","*","*",ProbeKind.Facial,ReasonBracket),
+			new ParityAllowance("retained-root","*","*",null,ReasonRetainedRoot),
+			new ParityAllowance("retained-root-statuses","*","*",null,ReasonRetainedRoot),
 		};
+
+		///<summary>TC-6's reasons.</summary>
+		public const string ReasonOrthoMode="On purpose (TC-6, ORTHO-1): in ortho mode the WPF chart draws only the facial rows, moved 14.6 mm toward the "
+			+"centre line, as Open Dental's ortho mode (Capture13, ortho9); DirectX 9 kept the normal layout, so every probe of the scene is elsewhere.";
+		public const string ReasonBracket="On purpose (TC-6, ORTHO-2): a bracket (grey, with its wire or an elastic) sits on this tooth's facial surface "
+			+"where DirectX 9 drew none, as Open Dental draws its brackets; the facial probe lands on it.";
+		public const string ReasonRetainedRoot="On purpose (TC-6, RR-1): the WPF chart draws a retained root as Open Dental does, the root alone in the "
+			+"status colour; DirectX 9 drew the whole tooth, so the crown's probes find the background or the coloured root.";
+
+		///<summary>TC-3c's reason for the probes of unerupted teeth.</summary>
+		public const string ReasonUnerupted="On purpose (TC-3c, LOOK-2): the WPF chart draws an unerupted tooth half-transparent at its own colour (alpha "
+			+"0.63), blended over the background, as Open Dental's DirectX 11 chart shows it (its 2023 mixed-dentition screenshot); DirectX 9 drew it "
+			+"opaque at half colour, so the sample is much lighter (about 30 to 40 points) than DirectX's. Only the unerupted teeth's probes are allowed.";
 
 		///<summary>The probe points of the chart as tcData holds it, at its control size: the surface centres of every visible tooth in both views
 		///(the occlusal view of a permanent tooth only when its primary tooth is not shown over it, as DirectX's DrawOcclusalView) and of every missing
@@ -195,6 +241,7 @@ namespace ToothChartImageTests {
 			}
 			ParityProbePoint probe=AddPoint(listPoints,toothGraphic.ToothID,kind,pointCentre.Value,1);
 			probe.IsToothDrawn=isToothDrawn;
+			probe.IsUnerupted=toothGraphic.ShiftO<-10;
 		}
 
 		///<summary>DrawImplant's model and transform: the implant upside down for a maxillary tooth. The centre of its front-facing triangles.</summary>

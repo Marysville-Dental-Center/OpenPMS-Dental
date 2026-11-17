@@ -16,8 +16,9 @@ using SparksToothChart.Wpf3D;
 namespace ToothChartImageTests {
 	///<summary>Every chart scene at every one of its sizes, drawn by the WPF chart through the relay and the wrapper's GetBitmap, against
 	///Baselines\wpf-net48\&lt;size&gt;\&lt;scene&gt;.png with the tolerances of section 7 (ChartImageCompare). A failing scene writes its expected,
-	///actual and diff images to %TEMP%\ToothChartImageTests\wpf-failures. The perio scenes come with TC-7. A picture the WPF chart did not draw
-	///(the engine did not start, or a render failed and GetBitmap returned the Simple 2D fallback) fails and is never recorded or compared.
+	///actual and diff images to %TEMP%\ToothChartImageTests\wpf-failures. The perio scenes (TC-7) are drawn at 649x696, each on a new wrapper.
+	///A picture the WPF chart did not draw (the engine did not start, or a render failed and GetBitmap returned the Simple 2D fallback)
+	///fails and is never recorded or compared.
 	///
 	///Record the baselines (after a deliberate change of the drawing, in a commit that says why): set OPMS_RECORD_WPF_CHART=1 for a run of this
 	///assembly (optionally OPMS_RECORD_WPF_CHART_OUT=&lt;folder&gt;). Each PNG gets a .txt with its facts (the framework and bitness of the process,
@@ -44,6 +45,12 @@ namespace ToothChartImageTests {
 			bool isRecording=Environment.GetEnvironmentVariable(EnvRecord)=="1";
 			string folderBaseline=WpfCharts.BaselinesWpf;
 			string folderOut=Environment.GetEnvironmentVariable(EnvRecordOut);
+			if(isRecording && Environment.Is64BitProcess && string.IsNullOrWhiteSpace(folderOut)) {
+				//TC-10 (lead): a 64-bit recording would write its pictures over the x86 set Baselines\wpf-net48, and wpf-net48-x64 holds only the
+				//pictures beyond tolerance, so it is refused without a folder of its own (Baselines\wpf-net48-x64\README.md says how to record).
+				Assert.Inconclusive("A 64-bit WPF recording needs "+EnvRecordOut+" set to a scratch folder; then copy only the pictures beyond "
+					+"tolerance into Baselines\\wpf-net48-x64. Nothing was written.");
+			}
 			if(isRecording && !string.IsNullOrWhiteSpace(folderOut)) {
 				folderBaseline=folderOut;
 			}
@@ -71,6 +78,21 @@ namespace ToothChartImageTests {
 						}
 					}
 				}
+				//TC-7: the perio scenes, each on a new wrapper.
+				WpfCharts.ForEachPerioScene((scene,chartSize,wrapper,relay) => {
+					WpfSceneOutcome wpfSceneOutcome=CheckScene(wrapper,relay,scene,chartSize,isRecording,folderBaseline,folderFailures,windows,listFailures,
+						listIdentical);
+					if(wpfSceneOutcome==WpfSceneOutcome.Recorded) {
+						listWritten.Add(chartSize.FolderName+"/"+scene.Name);
+					}
+					else if(wpfSceneOutcome==WpfSceneOutcome.Compared) {
+						listCompared.Add(chartSize.FolderName+"/"+scene.Name);
+					}
+					if(wpfSceneOutcome!=WpfSceneOutcome.Skipped && PerioPrintout.ArraySceneNames.Contains(scene.Name)) {
+						//The print and the saved image, as FormPerioGraphical.RenderPerioPrintout makes them from this picture.
+						PerioPrintout.Check(relay,scene,isRecording,folderBaseline,folderFailures,windows,listFailures,listIdentical,listWritten,listCompared);
+					}
+				});
 			});
 			if(isRecording) {
 				WriteManifest(folderBaseline);
@@ -119,6 +141,7 @@ namespace ToothChartImageTests {
 				listFailures.Add(name+": no baseline (record with "+EnvRecord+"=1).");
 				return WpfSceneOutcome.Skipped;
 			}
+			pathPng=WpfCharts.ForThisBitness(pathPng);//TC-10: the x64 picture, in a 64-bit process, where the x64 set has one
 			string hashBaseline=LegacyComparison.ReadPixelsSha256(Path.ChangeExtension(pathPng,".txt"));
 			if(listIdentical!=null && hashBaseline!=null && hashBaseline==ChartImageCompare.Sha256(ChartImageCompare.GetPixelsArgb(bitmap))) {
 				listIdentical.Add(name);
@@ -271,10 +294,22 @@ namespace ToothChartImageTests {
 						listPictures.Add(DrawGalleryPicture(wrapper,relay,scene,chartSize,folder,folderApproved));
 					}
 				}
+				//TC-7: the perio scenes, each on a new wrapper.
+				WpfCharts.ForEachPerioScene((scene,chartSize,wrapper,relay) => {
+					WpfGalleryPicture picture=DrawGalleryPicture(wrapper,relay,scene,chartSize,folder,folderApproved);
+					listPictures.Add(picture);
+					if(picture.Failure==null && PerioPrintout.ArraySceneNames.Contains(scene.Name)) {
+						PerioPrintout.WriteGalleryPictures(relay,scene,folder);
+					}
+				});
 			});
 			List<WpfGalleryLiveCapture> listLiveCaptures=null;
 			if(galleryName!="G0") {
 				listLiveCaptures=DrawLiveViewCaptures(folder);
+			}
+			if(galleryName=="G2") {
+				//TC-5's parity round: TextBelow is shown in the Chart module's strip under the date slider, outside the tooth picture.
+				TextBelowStripPicture.Write(Path.Combine(folder,"strip","text-below-strip.png"));
 			}
 			string note=GetGalleryNote(galleryName);
 			WpfGallery.Write(folder,galleryName,note,listPictures,timingReport,Environment.GetEnvironmentVariable("OPMS_CHART_GALLERY_COMMIT"),approvedFrom,
@@ -314,7 +349,8 @@ namespace ToothChartImageTests {
 			PngWriter.Save(bitmap,pathPng);
 			SetParity(picture,wrapper,scene,chartSize,bitmap);
 			picture.PixelsSha256=ChartImageCompare.Sha256(ChartImageCompare.GetPixelsArgb(bitmap));
-			picture.PixelsSha256Merged=LegacyComparison.ReadPixelsSha256(Path.ChangeExtension(WpfCharts.GetPicturePath(WpfCharts.BaselinesWpf,chartSize,scene),".txt"));
+			picture.PixelsSha256Merged=LegacyComparison.ReadPixelsSha256(Path.ChangeExtension(
+				WpfCharts.ForThisBitness(WpfCharts.GetPicturePath(WpfCharts.BaselinesWpf,chartSize,scene)),".txt"));
 			if(folderApproved==null) {
 				return picture;
 			}
@@ -341,6 +377,17 @@ namespace ToothChartImageTests {
 				return;
 			}
 			using Bitmap bitmapDirectX=LoadBitmap(pathDirectX);
+			if(scene.Kind==ChartSceneKind.Perio) {
+				//TC-7: the perio chart's own probes (PerioParityTests).
+				List<PerioProbeOutcome> listOutcomesPerio=PerioParityProbes.Probe(scene.Name,chartSize.Size,PerioParityProbes.GetPoints(wrapper.TcData),
+					ChartImageCompare.GetPixelsArgb(bitmapDirectX),ChartImageCompare.GetPixelsArgb(bitmap),wrapper.TcData.ColorBackground);
+				int countFailedPerio=listOutcomesPerio.Count(x => x.Failure!=null && x.Allowance==null);
+				int countAllowedPerio=listOutcomesPerio.Count(x => x.Failure!=null && x.Allowance!=null);
+				picture.IsParityOk=countFailedPerio==0;
+				picture.ParityText="Parity with DirectX: "+(listOutcomesPerio.Count-countFailedPerio-countAllowedPerio)+" of "+listOutcomesPerio.Count+" probes agree"
+					+(countAllowedPerio>0?", "+countAllowedPerio+" differ and are allowed":"")+(countFailedPerio>0?", "+countFailedPerio+" differ":"")+".";
+				return;
+			}
 			List<ParityProbeOutcome> listOutcomes=ParityProbes.Probe(scene,chartSize,ParityProbes.GetPoints(wrapper.TcData),ChartImageCompare.GetPixelsArgb(bitmapDirectX),
 				ChartImageCompare.GetPixelsArgb(bitmap),wrapper.TcData.ColorBackground);
 			int countFailed=listOutcomes.Count(x => x.Failure!=null && x.Allowance==null);
@@ -455,6 +502,55 @@ namespace ToothChartImageTests {
 					+"question O-34. The section \"The live view as the program draws it\" shows it next to the renderer's picture, and the times "
 					+"compare DirectX, the live view (the UI thread's work and WPF's frame, measured in a process that draws in software as the "
 					+"program does) and the renderer's picture.";
+			}
+			if(galleryName=="G2") {
+				return "Gallery G2 (package TC-5; TC-6's orthodontic hardware, retained roots and space maintainers follow in a second part): the new "
+					+"drawing of free text, the text paint types and the extraction graphic, in the WPF chart and in the Simple 2D chart, as Open Dental "
+					+"26.2 draws them (the owner's rule of 2026-11-14). Free text (the Chart module's Draw tab, Add Text) is drawn at its place over "
+					+"everything, kept inside the picture, can be moved with Move Text and recoloured with Change Color. Paint type Text with text other "
+					+"than \"W\" is drawn beyond the root tip, in the watch mark's band, at the watch mark's size in regular weight; on a tooth that also "
+					+"has a \"W\" it sits one line nearer the tooth (O-22). TextBelow (Open Dental 26.2) is not in the tooth picture: the Chart module "
+					+"shows it in a one-line box under the date slider (strip/text-below-strip.png; O-21), and the procedure code window offers it. The "
+					+"extraction graphic (O-20) is a setting, on by default as in Open Dental 26.2 (Setup, Preferences, Chart - General: \"Show completed "
+					+"extractions with an X on the tooth chart\"): a completed extraction draws the X in its status's colour over the missing tooth, "
+					+"whatever else is on the tooth. The scenes marked \"new scene\" exist only from TC-5, because the old engines never drew this; the "
+					+"older text scenes show the old engines' pictures (which draw nothing for it) next to the new ones, and the column \"Simple 2D now\" "
+					+"shows the 2D chart's new pictures. Every other WPF picture is unchanged from G1 (the last column).";
+			}
+			if(galleryName=="G3") {
+				return "Gallery G3 (package TC-7): the graphical perio chart on the WPF chart. Open Dental's 25.x and 26.x graphical perio drawing is not "
+					+"public (audit row PERIO-1), so the WPF chart draws it as today's DirectX chart draws it: the four rows of teeth (maxillary facial and "
+					+"lingual, mandibular lingual and facial) in the softer perio light, and over each row, in DirectX's order, the millimetre lines, the "
+					+"mobility numbers, the furcation marks, the probing bars (red from the red limit), the bleeding and suppuration droplets and the "
+					+"gingival margin, CAL and MGJ lines; then the centre line, the numbers and the legend, in the nine perio colours. With two Open Dental "
+					+"24.4 changes: a removed implant (its procedure's graphics hidden) is not drawn, and with Perio Setup's \"Use the term Recession\" "
+					+"option on, the legend calls the gingival margin line \"Recession\" (\"Gingival Margin\" again while the exam has hyperplasia, as the "
+					+"Perio Chart's row label). Each perio picture is checked against TC-0's DirectX picture by the perio parity probes (the caption). The "
+					+"print and the 750x1000 saved image (perio-print, perio-save) are drawn from the WPF picture as the window draws them. The graphical "
+					+"perio window keeps the DirectX chart until TC-8; every other WPF picture is unchanged from G2.";
+			}
+			if(galleryName=="G4") {
+				return "Gallery G4 (package TC-3c, the TC-3 look follow-up): three details of the WPF chart now look as Open Dental's DirectX 11 chart "
+					+"shows them in its public screenshots (the owner's rule of 2026-11-14). PT-1: the watch mark \"W\" is plain text in the procedure's "
+					+"colour, regular weight, in the same place, without the white \"W\" DirectX 9 drew behind it as an outline. LOOK-2: unerupted teeth "
+					+"(the permanent teeth under primary teeth, and teeth moved more than 10 mm toward the root) are half-transparent, blended over the "
+					+"background beneath the opaque teeth (every opaque tooth covers them, as the screenshot's primary roots cover the permanent crowns), at alpha 0.63 measured from Open Dental's 2023 mixed-dentition screenshot (a 26.2 screenshot "
+					+"would settle it), where DirectX 9 drew them opaque at half colour. LOOK-4: the centre line between the arches is in the chart's "
+					+"text colour (the \"Text\" chart colour; \"Text on TPs\" on printouts), the colour of the numbers, instead of white. The parity "
+					+"captions still compare with DirectX 9's pictures: the unerupted teeth's probes are allowed per scene, and the centre line's rows are "
+					+"compared by place. The Simple 2D chart already draws all three as Open Dental's 2D chart does. Every other WPF picture is unchanged "
+					+"from G3 (the last column).";
+			}
+			if(galleryName=="G5") {
+				return "Gallery G5 (package TC-6): orthodontic hardware, ortho mode, retained roots and space maintainers, drawn as Open Dental's "
+					+"DirectX 11 chart shows them in its public screenshots (the owner's rule of 2026-11-14; parity rows ORTHO-1, ORTHO-2, RR-1 and SM-1). "
+					+"ORTHO-1: ortho mode draws only the facial rows, moved 14.6 mm toward the centre line with the Palmer numbers between them, the teeth at "
+					+"their size (measured in Capture13 and ortho9). ORTHO-2: brackets with a flat face, darker tie wings and a slot on each crown's facial "
+					+"surface, wires and elastics as thin lines, in ortho mode and in the normal layout. RR-1: a retained root is the root alone in the "
+					+"status colour, a small crescent in the occlusal row, gone once the tooth is extracted. SM-1: a space maintainer is a flat bar in the "
+					+"status colour across each empty space at crown height, never over a tooth. DirectX 9 drew none of it, so the older scenes' parity "
+					+"captions allow those probes; the new scenes have no DirectX picture. The Simple 2D chart draws none of it, as Open Dental's own 2D "
+					+"chart. Every other WPF picture is unchanged from the approved one (the last column).";
 			}
 			return "Gallery "+galleryName+" of the WPF chart.";
 		}

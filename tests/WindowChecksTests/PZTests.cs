@@ -42,6 +42,8 @@ namespace WindowChecksTests {
 			session+=canRenderWpf ? ", WPF renders" : ", WPF renders nothing";
 			checkResult.Note("Session: "+session);
 			Results.Log("P0: groups "+(string.IsNullOrWhiteSpace(groups) ? "all" : groups.Trim())+", "+ScratchDb.Name+", session "+session);
+			//WINCHK-4: the copy is at this build's fork schema level (ScratchDb ran the program's fork migrations on it right after the restore).
+			checkResult.Verified("Fork schema level: "+ScratchDb.MigrationText);
 			List<string> listLines=new List<string>();
 			string patient=ScratchDb.Rows("SELECT PatNum,LName,FName,PriProv FROM patient WHERE PatNum=1");
 			listLines.Add("1. "+patient);
@@ -73,6 +75,21 @@ namespace WindowChecksTests {
 			checkResult.Note("0.4's test users and groups are made by group J in the copy (JUSERS, before J4) and removed at its end; 0.4 #6 (DOC's first "
 				+"name) is not done: the copy's provider names are not blank, so J7 and J12 use patient #1's provider's own names instead of the checklist's "
 				+"'Dentist, Gate' (an open question for the owner; the checklist is left as it is)");
+			Results.Write(checkResult);
+		}
+
+		///<summary>P0 when the restored copy could not be brought to this build's fork schema level (WinChkFixture.Begin, once): FAILED with the reason,
+		///and the run's own lines (groups, database, session) for the report. The copy is already dropped, so nothing is read from it; no check runs.
+		///</summary>
+		public static void RecordMigrationFailure() {
+			CheckResult checkResult=new CheckResult("P0","0.3 prechecks on the scratch copy");
+			string groups=Environment.GetEnvironmentVariable(WinChkEnv.VARIABLE_GROUPS);
+			checkResult.Note("Groups: "+(string.IsNullOrWhiteSpace(groups) ? "all" : groups.Trim()));
+			checkResult.Note("Database: "+ScratchDb.Name);
+			checkResult.Note("Session: "+Native.GetSessionState());
+			checkResult.Fail("Fork schema level: "+ScratchDb.MigrationText+". The copy is dropped and no check runs: the program would ask to update it at "
+				+"every start");
+			Results.Log("P0 FAILED: "+ScratchDb.MigrationText);
 			Results.Write(checkResult);
 		}
 

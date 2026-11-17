@@ -1,0 +1,15 @@
+Scene: space-maintainer-primary
+Group: paint
+Description: Primary dentition with the first primary molars K and T lost and space maintainers on them (TP and C): the permanent premolars 20 and 29 are unerupted, so the spaces are empty and the bars cross them (SM-1).
+Size: 500x370
+Colours: Printout
+Engine: Wpf3D (RenderTargetBitmap in software, 3D layer at 3x reduced with WIC's Fant scaler)
+Bitmap: 500x370 Format24bppRgb
+Alpha: every alpha is 255 (format without an alpha channel)
+Colours in the picture: 3964
+Pixels SHA-256: 44b9dd9330233659e3931da18f3d957f6096f548b711cad826cb1e397073a56a
+Repeatable: yes (a second GetBitmap gave the same pixels)
+Framework: .NET Framework 4.8, x86
+Windows: build 26300.9974 (26H2)
+Fresh render: yes (both layers drawn again without the layer cache gave the same pixels)
+Screen DPI seen by the test host: 96

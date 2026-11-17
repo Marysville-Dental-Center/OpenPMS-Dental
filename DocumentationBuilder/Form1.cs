@@ -406,7 +406,7 @@ namespace DocumentationBuilder {
 			//Process.Start("Notepad.exe",outputFile);
 			//Process.Start("iexplore.exe",outputFile);
 			if(!_isSilentMode) {
-				Process.Start(outputFile);
+				ODFileUtils.ShellOpen(outputFile);
 			}
 			Application.Exit();
 		}

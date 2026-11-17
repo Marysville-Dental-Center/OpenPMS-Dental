@@ -1,6 +1,7 @@
 // Tests for the v0.0 installer (docs/release-process.md, "Building the installer"; docs/release-notes/v0.0.md): the list checks of
 // tools/Build-Release.ps1, run against fake staging folders, and what installer/OpenPmsDental.iss and its information page must keep saying.
-// The fake files are synthetic text. No setup is run here (tools/Test-Installer.ps1 does that) and no database is used.
+// The fake files are synthetic text. No setup is run here (tools/Test-Installer.ps1 does that, run elevated by the owner; here it only runs
+// unelevated, where it refuses before any change) and no database is used.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
 using System.Collections.Generic;
@@ -64,7 +65,10 @@ namespace ReleaseFlowTests {
 		}
 
 		private static ScriptResult RunBuildRelease(params string[] arrayArgs) {
-			string script=Path.Combine(TestPaths.RepoRoot,"tools","Build-Release.ps1");
+			return RunScript(Path.Combine(TestPaths.RepoRoot,"tools","Build-Release.ps1"),arrayArgs);
+		}
+
+		private static ScriptResult RunScript(string script,params string[] arrayArgs) {
 			ProcessStartInfo processStartInfo=new ProcessStartInfo("powershell.exe");
 			processStartInfo.Arguments="-NoProfile -NonInteractive -ExecutionPolicy Bypass -File "+Quote(script)+" "+string.Join(" ",arrayArgs);
 			processStartInfo.UseShellExecute=false;
@@ -76,7 +80,7 @@ namespace ReleaseFlowTests {
 				Task<string> taskErr=process.StandardError.ReadToEndAsync();
 				if(!process.WaitForExit(120000)) {
 					process.Kill();
-					Assert.Fail("Build-Release.ps1 did not finish in 2 minutes.");
+					Assert.Fail(Path.GetFileName(script)+" did not finish in 2 minutes.");
 				}
 				process.WaitForExit();
 				ScriptResult scriptResult=new ScriptResult();
@@ -375,10 +379,16 @@ namespace ReleaseFlowTests {
 		}
 
 		[TestMethod]
-		public void Iss_InstallsPerMachine_KeepsTheUninstallerOutOfTheTopLevel_AndAllowsTestInstalls() {
+		public void Iss_AlwaysInstallsPerMachine_HasNoPerUserMode_AndKeepsTheUninstallerOutOfTheTopLevel() {
 			string iss=ReadIss();
 			Assert.AreEqual("admin",SetupDirective(iss,"PrivilegesRequired"));
-			Assert.AreEqual("commandline",SetupDirective(iss,"PrivilegesRequiredOverridesAllowed"));
+			//No per-user mode (decision 7 of docs/specs/net10-plan.md, S3a-11): no override of the privileges, on the command line or in a dialog,
+			//so {autoprograms} and {autodesktop} are always the common folders and the connection settings tool can always run.
+			Assert.IsFalse(Regex.IsMatch(iss,@"(?m)^\s*PrivilegesRequiredOverridesAllowed\s*="),"No PrivilegesRequiredOverridesAllowed.");
+			Assert.IsFalse(iss.IndexOf("/CURRENTUSER",StringComparison.OrdinalIgnoreCase)>=0,"No /CURRENTUSER, not even in the notes.");
+			Assert.IsFalse(iss.IndexOf("IsAdminInstallMode",StringComparison.Ordinal)>=0,"No branch for a non-administrative install.");
+			Assert.IsFalse(iss.IndexOf("IsAdmin",StringComparison.Ordinal)>=0,"No check of the install mode at all.");
+			StringAssert.Contains(iss,@"Name: ""{autodesktop}\{#AppName}""");
 			Assert.AreEqual(@"{app}\uninstall",SetupDirective(iss,"UninstallFilesDir"));
 			StringAssert.Contains(iss,"procedure RemoveProgramFolder;");
 			Assert.IsFalse(iss.Contains("[UninstallDelete]"),"The program folder is removed in code, which keeps an A to Z folder.");
@@ -438,7 +448,14 @@ namespace ReleaseFlowTests {
 			StringAssert.Contains(iss,"CurStep = ssPostInstall");
 			StringAssert.Contains(iss,"RunDbSettings('/check', False)");
 			StringAssert.Contains(iss,"' /secretsfile='");
-			StringAssert.Contains(iss,"if not IsAdminInstallMode then");
+			//Every install is an administrative one, so a new connection to a server over the network always runs the tool: /silent in a silent
+			//install (tools/Test-Installer.ps1, scenario D), its window otherwise.
+			Match matchSetUp=Regex.Match(iss,@"(?ms)^procedure SetUpConnection;\r?\n(.*?)^end;");
+			Assert.IsTrue(matchSetUp.Success);
+			string setUp=matchSetUp.Groups[1].Value.Replace("\r\n","\n");
+			StringAssert.Contains(setUp,"NeedsTool := (not IsLoopbackServer(ConfigServer)) or HasSecuritySwitches;\n    if NeedsTool then begin\n      if WizardSilent then\n"
+				+"        ToolExit := RunDbSettings(DbSettingsParams + ' /silent', False)");
+			Assert.IsFalse(setUp.Contains("needs the connection settings tool, which needs administrator rights"),"No per-user message.");
 			//The tool refuses secrets on its command line; setup never builds one.
 			foreach(string forbidden in new[] { "/password=","/dbpassword=","/pfxpassword=","{param:DBPASSWORD","{param:PFXPASSWORD" }) {
 				Assert.IsFalse(iss.IndexOf(forbidden,StringComparison.OrdinalIgnoreCase)>=0,"The script names "+forbidden);
@@ -461,14 +478,184 @@ namespace ReleaseFlowTests {
 		}
 
 		[TestMethod]
-		public void Iss_RegistersTheProgramsEventLogSource_OnlyForAdminInstalls() {
+		public void Iss_RegistersTheProgramsEventLogSource_OnEveryInstall_AndTheUninstallDeletesIt() {
 			string iss=ReadIss();
 			StringAssert.Contains(iss,"#define EventLogSource \""+ProgramNames.EventLogSource+"\"");
 			string registryLine=iss.Split('\n').Single(x => x.StartsWith("Root: HKLM;"));
 			StringAssert.Contains(registryLine,@"SYSTEM\CurrentControlSet\Services\EventLog\Application\{#EventLogSource}");
-			StringAssert.Contains(registryLine,"Check: IsAdminInstallMode");
-			StringAssert.Contains(registryLine,"uninsdeletekey");
+			//Every install is an administrative one (S3a-11), so the entry has no Check.
+			Assert.IsFalse(registryLine.Contains("Check:"),registryLine);
+			Assert.AreEqual("uninsdeletekey",Regex.Match(registryLine,@"Flags: ([^;]+)").Groups[1].Value.Trim());
 		}
+		#endregion installer/OpenPmsDental.iss
+
+		#region tools/Test-Installer.ps1
+		private static string ReadTestInstaller() {
+			return TestPaths.ReadSource("tools","Test-Installer.ps1");
+		}
+
+		///<summary>The value of a top-level assignment $Name='value' or $Name="value" in the script.</summary>
+		private static string ScriptValue(string script,string name) {
+			Match match=Regex.Match(script,@"(?m)^\$"+Regex.Escape(name)+@"=(['""])(.*?)\1\r?$");
+			Assert.IsTrue(match.Success,"No assignment $"+name);
+			return match.Groups[2].Value;
+		}
+
+		///<summary>The owner runs the script elevated (open point O-3 of docs/specs/net10-plan.md); an agent or a test never does. Unelevated, it
+		///refuses before its first change. This test runs it with a setup and a log folder that do not exist: unelevated it ends with exit code 2,
+		///and if the test runner itself is elevated the script stops at the missing setup with exit code 3. Either way it makes nothing.</summary>
+		[TestMethod]
+		public void TestInstaller_RefusesToStartUnelevated_AndChangesNothing() {
+			string script=ReadTestInstaller();
+			int indexCheck=script.IndexOf("[System.Security.Principal.WindowsBuiltInRole]::Administrator",StringComparison.Ordinal);
+			Assert.IsTrue(indexCheck>0,"The elevation check.");
+			int indexParam=script.IndexOf("\nparam(",StringComparison.Ordinal);
+			string beforeCheck=script.Substring(indexParam,indexCheck-indexParam);
+			foreach(string change in new[] { "New-Item","Remove-Item","Start-Process","reg.exe","Set-Item","WriteAllText","Invoke-" }) {
+				Assert.IsFalse(beforeCheck.Contains(change),"Nothing before the elevation check changes anything: "+change);
+			}
+			string checkBlock=script.Substring(indexCheck,script.IndexOf("\n}",indexCheck,StringComparison.Ordinal)-indexCheck);
+			StringAssert.Contains(checkBlock,"exit 2");
+			StringAssert.Contains(checkBlock,"Run as administrator");
+			//The first change of the script comes after the checks that stop it unchanged.
+			int indexFirstChange=script.IndexOf("New-Item -ItemType Directory -Force -Path $OutDir",StringComparison.Ordinal);
+			Assert.IsTrue(indexFirstChange>0);
+			foreach(string stop in new[] { "Stop-Unchanged \"No setup found","Stop-Unchanged \"No staging folder","Stop-Unchanged \"This PC has an uninstall entry" }) {
+				int indexStop=script.IndexOf(stop,StringComparison.Ordinal);
+				Assert.IsTrue(indexStop>0 && indexStop<indexFirstChange,"Before the log folder is made: "+stop);
+			}
+			string folder=TestPaths.NewTempFolder("testinstaller");
+			try {
+				string outDir=Path.Combine(folder,"out");
+				ScriptResult scriptResult=RunScript(Path.Combine(TestPaths.RepoRoot,"tools","Test-Installer.ps1"),"-Setup",Quote(Path.Combine(folder,"none","OpenPmsDental-0.0-Setup.exe")),
+					"-Staging",Quote(Path.Combine(folder,"none","staging")),"-OutDir",Quote(outDir));
+				bool isElevated=new System.Security.Principal.WindowsPrincipal(System.Security.Principal.WindowsIdentity.GetCurrent())
+					.IsInRole(System.Security.Principal.WindowsBuiltInRole.Administrator);
+				if(isElevated) {
+					Assert.AreEqual(3,scriptResult.ExitCode,scriptResult.Output);
+					StringAssert.Contains(scriptResult.Output,"No setup found");
+				}
+				else {
+					Assert.AreEqual(2,scriptResult.ExitCode,scriptResult.Output);
+					StringAssert.Contains(scriptResult.Output,"needs an elevated PowerShell");
+					CollectionAssert.Contains(scriptResult.Lines,"Exit code 2");
+				}
+				StringAssert.Contains(scriptResult.Output,"Nothing was changed.");
+				Assert.IsFalse(Directory.Exists(outDir),"No log folder.");
+				Assert.AreEqual(0,Directory.GetFileSystemEntries(folder).Length,"Nothing written.");
+			}
+			finally {
+				DeleteFolder(folder);
+			}
+		}
+
+		///<summary>The header says exactly how the owner runs it and what it changes on the PC, and the port note gives the same line.</summary>
+		[TestMethod]
+		public void TestInstaller_HeaderGivesTheOwnersCommand_AndWhatItChanges() {
+			string script=ReadTestInstaller();
+			string header=script.Substring(0,script.IndexOf("#>",StringComparison.Ordinal));
+			const string COMMAND=@"powershell -NoProfile -ExecutionPolicy Bypass -File ""<repo>\tools\Test-Installer.ps1"" -Setup ""<dryrun>\OpenPmsDental-<version>-Setup.exe"" -Staging ""<dryrun>\staging""";
+			StringAssert.Contains(header.Replace("\r\n","\n"),"\n\n  "+COMMAND+"\n\n","The one line, on a line of its own.");
+			StringAssert.Contains(header,"\"Run as administrator\"");
+			StringAssert.Contains(header,"The owner runs it, never an agent");
+			StringAssert.Contains(header,"WHAT IT CHANGES ON THIS PC");
+			StringAssert.Contains(header,@"%TEMP%\OpenPmsDental-installtest-");
+			StringAssert.Contains(header,@"HKLM\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\{D5640A25-F302-4CAD-96DC-84AAA8B22F98}_is1");
+			StringAssert.Contains(header,@"HKLM\SYSTEM\CurrentControlSet\Services\EventLog\Application\"+ProgramNames.EventLogSource);
+			StringAssert.Contains(TestPaths.ReadSource("docs","port-notes","S3a-11.md"),COMMAND);
+			//ASCII only (Windows PowerShell 5.1 reads a file without a byte order mark in the ANSI code page).
+			byte[] arrayBytes=File.ReadAllBytes(Path.Combine(TestPaths.RepoRoot,"tools","Test-Installer.ps1"));
+			Assert.IsFalse(arrayBytes.Any(x => x>=0x80),"ASCII only.");
+		}
+
+		///<summary>An all-users install: no /CURRENTUSER, the uninstall entry under HKLM in the 32-bit view (the setup is 32-bit; S3b-7 moves it),
+		///new %TEMP% folders with /DIR=, and the Event Log source key that the .iss registers and its uninstall deletes.</summary>
+		[TestMethod]
+		public void TestInstaller_InstallsForAllUsers_AndChecksTheAllUsersEntry_AndTheEventLogSource() {
+			string script=ReadTestInstaller();
+			string iss=ReadIss();
+			Assert.IsFalse(script.IndexOf("/CURRENTUSER",StringComparison.OrdinalIgnoreCase)>=0,"No per-user install.");
+			string appId=SetupDirective(iss,"AppId").Substring(1);
+			Assert.AreEqual(appId+"_is1",ScriptValue(script,"AppId"));
+			Assert.AreEqual(@"HKLM:\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\$AppId",ScriptValue(script,"UninstallKey"));
+			StringAssert.Contains(script,"Check (Test-Path $UninstallKey) 'all-users uninstall entry written (32-bit view)'");
+			StringAssert.Contains(script,"Check (-not (Test-Path $UninstallKeyUser)) 'no per-user uninstall entry'");
+			StringAssert.Contains(script,"\"/DIR=`\"$dir`\"\"");
+			StringAssert.Contains(script,"Join-Path $env:TEMP (\"OpenPmsDental-installtest-");
+			//The desktop task is off explicitly: setup restores the tasks of an installation already on the PC (same AppId, UsePreviousTasks),
+			//so the task's 'unchecked' flag alone would not keep a test install off that installation's common desktop shortcut.
+			string argumentsLine=script.Split('\n').Single(x => x.TrimStart().StartsWith("$arguments=@("));
+			StringAssert.Contains(argumentsLine,"'/NOICONS'");
+			StringAssert.Contains(argumentsLine,"'/MERGETASKS=\"!desktopicon\"'");
+			Assert.IsTrue(Regex.IsMatch(iss,@"(?m)^Name: ""desktopicon"";"),"The task the script turns off is the .iss's desktop task.");
+			StringAssert.Contains(iss.Split('\n').Single(x => x.StartsWith("Name: \"{autodesktop}")),"Tasks: desktopicon");
+			//The Event Log source key: the .iss's subkey and value, and the uninstall deletes the key (uninsdeletekey).
+			string registryLine=iss.Split('\n').Single(x => x.StartsWith("Root: HKLM;"));
+			string subKey=Regex.Match(registryLine,@"Subkey: ""([^""]+)""").Groups[1].Value.Replace("{#EventLogSource}",ProgramNames.EventLogSource);
+			Assert.AreEqual(@"HKLM:\"+subKey,ScriptValue(script,"EventLogKey"));
+			Assert.AreEqual(Regex.Match(registryLine,@"ValueData: ""([^""]+)""").Groups[1].Value,ScriptValue(script,"EventMessageFile"));
+			StringAssert.Contains(registryLine,"ValueType: expandsz");
+			StringAssert.Contains(script,"($kind -eq 'ExpandString')");
+			StringAssert.Contains(script,"Check (-not (Test-Path $EventLogKey)) \"the Event Log source key is gone $what (uninsdeletekey)\"");
+			foreach(string scenario in new[] { "after A","after B","after D" }) {
+				StringAssert.Contains(script,"Test-Uninstalled '"+scenario+"'");
+			}
+			//It never starts the program: no Start-Process but the setup and the uninstaller.
+			List<string> listStarts=Regex.Matches(script,@"Start-Process -FilePath (\S+)").Cast<Match>().Select(x => x.Groups[1].Value).ToList();
+			CollectionAssert.AreEquivalent(new[] { "$Setup","$uninstaller" },listStarts);
+			List<string> listCalls=Regex.Matches(script,@"(?m)^\s*& (\S+)").Cast<Match>().Select(x => x.Groups[1].Value).ToList();
+			CollectionAssert.AreEquivalent(new[] { "reg.exe" },listCalls,"Only reg.exe export, for the saved keys.");
+			//An installation that was there before keeps its two keys: the script saves them and writes them back.
+			StringAssert.Contains(script,"$savedUninstall=Save-HklmKey $UninstallKey");
+			StringAssert.Contains(script,"$savedEventLog=Save-HklmKey $EventLogKey");
+			StringAssert.Contains(script,"Restore-HklmKey $pair[1] $pair[0]");
+		}
+
+		///<summary>Scenarios A to C give a database server on this computer, for which a silent setup runs no connection settings tool (the .iss's
+		///IsLoopbackServer, and the program's rule); scenario D gives one over the network without the office CA, and expects the tool's /silent
+		///run, its refusal (exit code 5, the office CA is missing) and the setup's exit code 10, with the log lines the .iss and the tool write.</summary>
+		[TestMethod]
+		public void TestInstaller_ScenarioD_RunsTheToolSilent_AndExpectsExitCode10_TheOthersUseALoopbackServer() {
+			string script=ReadTestInstaller();
+			string iss=ReadIss();
+			List<string> listServers=Regex.Matches(script,@"'/DBSERVER=([^']+)'").Cast<Match>().Select(x => x.Groups[1].Value).ToList();
+			CollectionAssert.AreEquivalent(new[] { "localhost:3307","127.0.0.1","second.example.test","localhost" },listServers);
+			foreach(string server in new[] { "localhost:3307","127.0.0.1","localhost" }) {
+				Assert.IsTrue(DataConnectionBase.DbConnectionSecurity.IsLoopbackServer(server),server);
+			}
+			//second.example.test is passed to the upgrade of scenario B, which keeps the existing file and passes no page value to the tool.
+			StringAssert.Contains(script,"'the upgrade passes none of the connection page''s values to the tool'");
+			string network=ScriptValue(script,"NetworkServer");
+			Assert.AreEqual("dbserver.example.test:3307",network);
+			Assert.IsFalse(DataConnectionBase.DbConnectionSecurity.IsLoopbackServer(network));
+			StringAssert.Contains(script,"@(\"/DBSERVER=$NetworkServer\",'/DBNAME=opms_test','/DBUSER=opms_user')");
+			Assert.IsFalse(Regex.IsMatch(script,@"/DB(CA|PFX|THUMBPRINT|SECRETSFILE)="),"No office CA, no client certificate, no secrets.");
+			StringAssert.Contains(script,"Check ($exit -eq 10)");
+			//The log lines the script expects are the ones setup writes.
+			StringAssert.Contains(script,"$toolLine=\"Running $DbSettingsExe /server=$NetworkServer /database=opms_test /user=opms_user /silent\"");
+			StringAssert.Contains(iss,"Log('Running {#DbSettingsExeName} ' + Params);");
+			StringAssert.Contains(iss,"Result := '/server=' + AddQuotes(ConfigServer) + ' /database=' + AddQuotes(ConfigDatabase) + ' /user=' + AddQuotes(ConfigUser);");
+			StringAssert.Contains(iss,"Log('{#DbSettingsExeName} exit code ' + IntToStr(ResultCode));");
+			StringAssert.Contains(script,"exit code 5\")");
+			StringAssert.Contains(iss,"Log('Setup exit code ' + IntToStr(DbSettingsFailedExitCode) + ': the connection settings were not completed.');");
+			StringAssert.Contains(script,"'Setup exit code 10: the connection settings were not completed'");
+			Assert.AreEqual(ProgramNames.DbSettingsExeFileName,ScriptValue(script,"DbSettingsExe"));
+			//The tool's result line (DbSettingsRunner.AppendLog) and its refusal without the office CA, exit code 5 (EXIT_REFUSED).
+			string runner=Regex.Replace(TestPaths.ReadSource("OpenPmsDentalDbSettings","DbSettingsRunner.cs"),@"""\s*\+\s*""","");
+			StringAssert.Contains(runner,"public const int EXIT_REFUSED=5;");
+			StringAssert.Contains(runner,"throw new DbSettingsException(EXIT_REFUSED,\"A database server over the network (\"+dbConnectionConfigNew.ServerName+\") needs the office CA certificate file \"");
+			StringAssert.Contains(runner,"+\" exit=\"");
+			StringAssert.Contains(script,"exit=5 A database server over the network \\($([regex]::Escape($NetworkServer))\\) needs the office CA certificate file");
+			//The tool changed nothing: the folder holds what setup installed, and the config is the one setup wrote.
+			Match matchD=Regex.Match(script,@"(?ms)#region D\..*?#endregion");
+			Assert.IsTrue(matchD.Success);
+			StringAssert.Contains(matchD.Value,"Test-ProgramFolder $dirD");
+			StringAssert.Contains(matchD.Value,"Test-SetupConfig $dirD $NetworkServer");
+			StringAssert.Contains(matchD.Value,"Invoke-Uninstall $dirD");
+		}
+		#endregion tools/Test-Installer.ps1
+
+		#region installer/OpenPmsDental.iss, release notes
 
 		[TestMethod]
 		public void InfoPage_HasTheAttribution_TheSourceLink_AndNotice() {
@@ -547,6 +734,6 @@ namespace ReleaseFlowTests {
 				Assert.IsFalse(notes.Contains("stay at 8 bits"),"Nothing in the program keeps them at 8 bits by itself.");
 			}
 		}
-		#endregion installer/OpenPmsDental.iss
+		#endregion installer/OpenPmsDental.iss, release notes
 	}
 }

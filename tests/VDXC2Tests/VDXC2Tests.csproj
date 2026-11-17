@@ -1,6 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
-  <!-- Tests for backlog package V-DXC2: DentalXChange claim attachments accept PDF documents (Open Dental 26.1.64). No call reaches
-       DentalXChange: the XConnect HTTP layer is replaced by a recording fake, and the partner service request is only serialized. The database
+  <!-- Tests for backlog package V-DXC2: DentalXChange claim attachments accept PDF documents (Open Dental 26.1.64), and for S3a-6: the SOAP
+       clients send what the generated proxies sent (SoapEnvelopeTests, against the recordings in SoapEnvelopes). No call reaches
+       DentalXChange or any vendor: the XConnect HTTP layer is replaced by a recording fake, and the SOAP clients by in-memory handlers. The database
        tests build a scratch database on the local MariaDB (127.0.0.1:3306, root, blank password) the way tools/New-DevDatabase.ps1 does, upgrade
        it with the fork migration runner, use synthetic data only and drop it afterwards. They are skipped (inconclusive) when the server does
        not answer, or when FORKMIGRATION_TEST_DB=skip. Every .cs file under this folder is compiled. -->

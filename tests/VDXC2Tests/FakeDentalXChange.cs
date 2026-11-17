@@ -1,7 +1,7 @@
 // Stand-ins for DentalXChange's two attachment services, so the V-DXC2 tests never reach the network:
 //  - RecordingApiRequest replaces APIRequest.Inst, which every XConnect call goes through, and answers with canned JSON.
-//  - FakeDeaWebRequestCreate is registered with WebRequest for the partner service's hosts, so the SOAP client's HTTP request is answered
-//    in memory with a canned SOAP response. Unless a test has turned it on, it refuses every request instead of passing it on.
+//  - FakeDeaHandler answers the partner service's SOAP client (DeaSoapClient, through SoapCaller.HttpHandlerForTests) in memory with a canned
+//    SOAP response. Unless a test has turned it on, it refuses every request instead of passing it on, and it never answers another host.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
 using System.Collections.Generic;
@@ -11,6 +11,7 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Serialization;
@@ -92,23 +93,26 @@ namespace VDXC2Tests {
 		public XmlDocument XmlDocumentRequest;
 	}
 
-	///<summary>Answers the DentalXChange partner service (DEA) in memory. Registered once per test run for both of its hosts; while IsOn is false it
-	///refuses every request, so nothing can reach DentalXChange by accident.</summary>
-	public class FakeDeaWebRequestCreate:IWebRequestCreate {
-		public static readonly FakeDeaWebRequestCreate Inst=new FakeDeaWebRequestCreate();
-		private static bool _isRegistered;
+	///<summary>Answers the DentalXChange partner service (DEA) in memory, as SoapCaller.HttpHandlerForTests (S3a-6; it was a WebRequest prefix
+	///before). While IsOn is false it refuses every request, and a request to any host but DentalXChange's two partner service hosts is refused
+	///too, so nothing can reach DentalXChange or anyone else by accident.</summary>
+	public class FakeDeaHandler:HttpMessageHandler {
+		public static readonly FakeDeaHandler Inst=new FakeDeaHandler();
 		public bool IsOn;
 		public List<SoapCall> ListCalls=new List<SoapCall>();
 		///<summary>Operation name to the object returned in the SOAP response's "return" element.</summary>
 		public Dictionary<string,object> DictReturns=new Dictionary<string,object>();
 
-		public static void EnsureRegistered() {
-			if(_isRegistered) {
-				return;
+		///<summary>Makes this handler answer every SOAP client call of the test (SoapCaller.HttpHandlerForTests).</summary>
+		public static void Install() {
+			SoapCaller.HttpHandlerForTests=Inst;
+		}
+
+		///<summary>Puts SoapCaller back to the network; call when the test is done.</summary>
+		public static void Uninstall() {
+			if(SoapCaller.HttpHandlerForTests==Inst) {
+				SoapCaller.HttpHandlerForTests=null;
 			}
-			WebRequest.RegisterPrefix("https://prelive2.dentalxchange.com/dea/",Inst);//Debug builds
-			WebRequest.RegisterPrefix("https://webservices.dentalxchange.com/dea/",Inst);//Release builds
-			_isRegistered=true;
 		}
 
 		public void Reset() {
@@ -117,29 +121,38 @@ namespace VDXC2Tests {
 			DictReturns.Clear();
 		}
 
-		public WebRequest Create(Uri uri) {
+		protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage httpRequestMessage,CancellationToken cancellationToken) {
+			Uri uri=httpRequestMessage.RequestUri;
 			if(!IsOn) {
-				throw new WebException("Test: the DentalXChange partner service is not answered by this test.");
+				throw new HttpRequestException("Test: the DentalXChange partner service is not answered by this test.");
 			}
-			return new FakeWebRequest(uri,this);
+			bool isDeaHost=(uri.Host=="prelive2.dentalxchange.com" || uri.Host=="webservices.dentalxchange.com") && uri.AbsolutePath.StartsWith("/dea/");
+			if(uri.Scheme!="https" || !isDeaHost) {
+				throw new HttpRequestException("Test: not the DentalXChange partner service: "+uri);
+			}
+			byte[] arrayBytesRequest=await httpRequestMessage.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
+			HttpResponseMessage httpResponseMessage=new HttpResponseMessage(HttpStatusCode.OK);
+			httpResponseMessage.Content=new ByteArrayContent(Answer(uri,arrayBytesRequest));
+			httpResponseMessage.Content.Headers.TryAddWithoutValidation("Content-Type","text/xml; charset=utf-8");
+			return httpResponseMessage;
 		}
 
-		///<summary>Called with the request body when the client asks for the response.</summary>
+		///<summary>Records the request and returns the response body for its operation.</summary>
 		public byte[] Answer(Uri uri,byte[] arrayBytesRequest) {
 			XmlDocument xmlDocument=new XmlDocument();
-			xmlDocument.LoadXml(Encoding.UTF8.GetString(arrayBytesRequest).TrimStart('﻿'));
+			xmlDocument.LoadXml(Encoding.UTF8.GetString(arrayBytesRequest).TrimStart('\uFEFF'));
 			XmlNode xmlNodeBody=xmlDocument.DocumentElement.ChildNodes.Cast<XmlNode>().First(x => x.LocalName=="Body");
 			string operation=xmlNodeBody.ChildNodes.Cast<XmlNode>().First(x => x.NodeType==XmlNodeType.Element).LocalName;
 			ListCalls.Add(new SoapCall { Uri=uri,Operation=operation,XmlDocumentRequest=xmlDocument });
 			object returnValue;
 			if(!DictReturns.TryGetValue(operation,out returnValue)) {
-				throw new WebException("Test: unexpected partner service operation "+operation);
+				throw new HttpRequestException("Test: unexpected partner service operation "+operation);
 			}
 			return Encoding.UTF8.GetBytes(BuildEnvelope(operation,returnValue));
 		}
 
 		///<summary>A SOAP 1.1 document/literal wrapped response: operationResponse in the dxci.dea namespace, holding an unqualified "return" element
-		///serialized with the generated proxy's own type mappings.</summary>
+		///serialized with the generated data classes' own type mappings.</summary>
 		public static string BuildEnvelope(string operation,object returnValue) {
 			XmlSerializer xmlSerializer=new XmlSerializer(returnValue.GetType(),new XmlRootAttribute("return") { Namespace="" });
 			StringBuilder stringBuilder=new StringBuilder();
@@ -151,65 +164,6 @@ namespace VDXC2Tests {
 				+"<soap:Envelope xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\"><soap:Body>"
 				+"<ns2:"+operation+"Response xmlns:ns2=\"dxci.dea\">"+stringBuilder.ToString()+"</ns2:"+operation+"Response>"
 				+"</soap:Body></soap:Envelope>";
-		}
-	}
-
-	public class FakeWebRequest:WebRequest {
-		private readonly Uri _uri;
-		private readonly FakeDeaWebRequestCreate _fakeDeaWebRequestCreate;
-		private readonly MemoryStream _memoryStreamRequest=new MemoryStream();
-		private WebHeaderCollection _webHeaderCollection=new WebHeaderCollection();
-
-		public FakeWebRequest(Uri uri,FakeDeaWebRequestCreate fakeDeaWebRequestCreate) {
-			_uri=uri;
-			_fakeDeaWebRequestCreate=fakeDeaWebRequestCreate;
-		}
-
-		public override string Method { get; set; }="GET";
-		public override Uri RequestUri => _uri;
-		public override WebHeaderCollection Headers { get => _webHeaderCollection; set => _webHeaderCollection=value; }
-		public override string ContentType { get; set; }
-		public override long ContentLength { get; set; }
-		public override int Timeout { get; set; }
-		public override ICredentials Credentials { get; set; }
-		public override bool PreAuthenticate { get; set; }
-		public override string ConnectionGroupName { get; set; }
-		public override IWebProxy Proxy { get; set; }
-		public override bool UseDefaultCredentials { get; set; }
-
-		public override Stream GetRequestStream() {
-			return _memoryStreamRequest;
-		}
-
-		public override WebResponse GetResponse() {
-			byte[] arrayBytesResponse=_fakeDeaWebRequestCreate.Answer(_uri,_memoryStreamRequest.ToArray());
-			return new FakeWebResponse(_uri,arrayBytesResponse);
-		}
-
-		public override void Abort() {
-		}
-	}
-
-	public class FakeWebResponse:WebResponse {
-		private readonly Uri _uri;
-		private readonly byte[] _arrayBytes;
-		private readonly WebHeaderCollection _webHeaderCollection=new WebHeaderCollection();
-
-		public FakeWebResponse(Uri uri,byte[] arrayBytes) {
-			_uri=uri;
-			_arrayBytes=arrayBytes;
-		}
-
-		public override string ContentType { get => "text/xml; charset=utf-8"; set { } }
-		public override long ContentLength { get => _arrayBytes.Length; set { } }
-		public override Uri ResponseUri => _uri;
-		public override WebHeaderCollection Headers => _webHeaderCollection;
-
-		public override Stream GetResponseStream() {
-			return new MemoryStream(_arrayBytes);
-		}
-
-		public override void Close() {
 		}
 	}
 }

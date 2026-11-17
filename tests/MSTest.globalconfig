@@ -53,9 +53,13 @@ dotnet_diagnostic.MSTEST0088.severity = error
 # Suggestions (shown in an editor, not in a build): advice on how an assertion is written, never a change of outcome.
 # The expected and actual arguments in the other order (319 places when S4-1 moved to MSTest 4): only the wording of a failure message.
 dotnet_diagnostic.MSTEST0017.severity = suggestion
-# Both arguments constant, so the analyzer already knows the result: the tests that pin a stored number (an enum value, a migration
-# level, a lock code) against the constant in the code, which is what they are for.
+# An assert that always fails: use Assert.Fail instead. In MSTest.Analyzers 4.5.3 it fires on 10 asserts that pass: Assert.AreEqual
+# of two constants of different types before C# converts them (an int literal against a long constant, a literal cast to byte, a
+# byte enum cast to int), which the analyzer compares without the conversion. None of them always fails (their tests pass), so it
+# stays a suggestion.
 dotnet_diagnostic.MSTEST0025.severity = suggestion
+# An assert that always passes (its condition is known to be true): the tests that pin a stored number (an enum value, a migration
+# level, a lock code) against the constant in the code, which is what they are for.
 dotnet_diagnostic.MSTEST0032.severity = suggestion
 # [Timeout] without cooperative cancellation: the two [Timeout] tests of BPERIOTests keep MSTest v1's meaning (the test is stopped
 # waiting for after the time, whether or not it watches a cancellation token).

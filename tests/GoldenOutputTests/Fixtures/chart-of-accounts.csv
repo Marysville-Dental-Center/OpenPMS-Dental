@@ -1,0 +1,6 @@
+﻿Type,Description,Balance,Bank Number,Inactive
+Asset,Synthetic Checking,"1,300.10",000111222,
+Asset,Synthetic Inactive,0.00,,X
+Liability,"Synthetic Loan, long term",300.00,,
+Equity, =Synthetic formula-like name,0.00,,
+Income,"Synthetic ""Fees""","1,000.10",,

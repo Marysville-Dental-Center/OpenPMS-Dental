@@ -212,16 +212,16 @@ namespace OpenPmsDentalBusiness.Bridges {
 			writer.WriteElementString("StatementDate",stmt.DateSent.ToString("MM/dd/yyyy"));
 			double balanceForward=tableMisc.Rows.OfType<DataRow>().Where(x => x["descript"].ToString()=="balanceForward")
 				.Select(x => PIn.Double(x["value"].ToString())).FirstOrDefault();//defaults to 0
-			writer.WriteElementString("PriorBalance",balanceForward.ToString("F2"));
+			writer.WriteElementString("PriorBalance",EStatementAmounts.GetText(balanceForward));
 			writer.WriteElementString("RunningBalance","");//for future use
 			writer.WriteElementString("PerPayAdj","");//optional
 			writer.WriteElementString("InsPayAdj","");//optional
 			writer.WriteElementString("Adjustments","");//for future use
 			double charges=tableAccount.Rows.OfType<DataRow>().Sum(x => PIn.Double(x["chargesDouble"].ToString()));
-			writer.WriteElementString("NewCharges",charges.ToString("F2"));//optional
+			writer.WriteElementString("NewCharges",EStatementAmounts.GetText(charges));//optional
 			writer.WriteElementString("FinanceCharges","");//for future use
 			double credits=tableAccount.Rows.OfType<DataRow>().Sum(x => PIn.Double(x["creditsDouble"].ToString()));
-			writer.WriteElementString("Credits",credits.ToString("F2"));
+			writer.WriteElementString("Credits",EStatementAmounts.GetText(credits));
 			//On a regular printed statement, the amount due at the top might be different from the balance at the middle right due to payplan balances.
 			//But in e-bills, there is only one amount due.  Insurance estimate is already subtracted, and payment plan balance is already added.
 			double amountDue=guar.BalTotal;
@@ -238,12 +238,12 @@ namespace OpenPmsDentalBusiness.Bridges {
 				amountDue=installPlan.MonthlyPayment;
 				insEst=0;
 			}
-			writer.WriteElementString("EstInsPayments",insEst.ToString("F2"));//optional.
-			writer.WriteElementString("PatientShare",(amountDue-insEst).ToString("F2"));
-			writer.WriteElementString("CurrentBalance",amountDue.ToString("F2"));//this is ambiguous.  It seems to be AmountDue, but it could be 0-30 days aging
-			writer.WriteElementString("PastDue30",guar.Bal_31_60.ToString("F2"));//optional
-			writer.WriteElementString("PastDue60",guar.Bal_61_90.ToString("F2"));//optional
-			writer.WriteElementString("PastDue90",guar.BalOver90.ToString("F2"));//optional
+			writer.WriteElementString("EstInsPayments",EStatementAmounts.GetText(insEst));//optional.
+			writer.WriteElementString("PatientShare",EStatementAmounts.GetText(amountDue-insEst));
+			writer.WriteElementString("CurrentBalance",EStatementAmounts.GetText(amountDue));//this is ambiguous.  It seems to be AmountDue, but it could be 0-30 days aging
+			writer.WriteElementString("PastDue30",EStatementAmounts.GetText(guar.Bal_31_60));//optional
+			writer.WriteElementString("PastDue60",EStatementAmounts.GetText(guar.Bal_61_90));//optional
+			writer.WriteElementString("PastDue90",EStatementAmounts.GetText(guar.BalOver90));//optional
 			writer.WriteElementString("PastDue120","");//optional
 			writer.WriteEndElement();//AccountSummary
 			//Notes-----------------------------------------------------------------------------------

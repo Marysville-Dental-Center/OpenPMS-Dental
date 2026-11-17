@@ -11,10 +11,13 @@ namespace SparksToothChart {
 	///raises SegmentDrawn on mouse up with the same string (GetPointMouseScaled into the 410x307 drawing space, "x,y" joined by ';'); the eraser
 	///(radius 8 at the cursor plus 8.49) and the colour changer (radius 2) raise SegmentDrawn with the string of the drawing they touch, then remove
 	///it or give it the pen colour. ToothSelectionsChanged is raised on mouse up when the selection changed. Every button acts, as in DirectX.
+	///The text mover (CursorTool.MoveText, TC-5), which DirectX never had, picks up the free-text label under the mouse, moves it with the mouse and
+	///raises TextMoved on mouse up with its new place. With no drawing near, the colour changer gives the free-text label under the mouse the pen
+	///colour and raises TextColorChanged (TC-5).
 	///The control asks for a new image through ActionChartChanged (selection or drawings changed) and redraws only the stroke in progress through
-	///ActionPenStrokeChanged, as DirectX draws the stroke over the teeth without drawing them again. No visible hover, as today. The 2D chart keeps
-	///its own mouse code: it toggles only the tooth under the cursor, a difference that stays. The DirectX chart keeps its own handlers until TC-9a
-	///deletes it; ToothChartImageTests drives both with the same input.</summary>
+	///ActionPenStrokeChanged, drawing the stroke over the teeth without drawing them again, as the DirectX chart did. No visible hover. The 2D chart
+	///keeps its own mouse code: it toggles only the tooth under the cursor, a difference that stays. ToothChartImageTests drives this class with the
+	///input whose answers the DirectX chart gave before TC-9a retired it (Baselines/legacy-numbers/directx-mouse.txt) and compares them.</summary>
 	public class ToothChartMouse {
 		///<summary>The eraser's radius in the 410x307 drawing space, and the offset of its centre from the cursor in pixels (the centre of
 		///EraseCircle.cur), both by trial and error for the best feel (DirectX).</summary>
@@ -28,6 +31,12 @@ namespace SparksToothChart {
 		private string _hotToothOld;
 		private bool _isMouseDown;
 		private List<string> _listSelectedTeethOld=new List<string>();
+		///<summary>MoveText (TC-5): the label being dragged, or null; its point before the press, its point where the drag started (where it was seen),
+		///and the mouse's point at the press.</summary>
+		private ToothChartFreeText _freeTextMoving;
+		private PointF _pointFreeTextOld;
+		private PointF _pointFreeTextStart;
+		private Point _pointMouseDownFreeText;
 		///<summary>Called after the mouse changed the selection or the drawings, so the control shows a new image.</summary>
 		public Action ActionChartChanged;
 		///<summary>Called after the pen added a point to the stroke in progress (TcData.PointList), or the stroke ended, so the control draws the stroke
@@ -37,6 +46,12 @@ namespace SparksToothChart {
 		public event ToothChartDrawEventHandler SegmentDrawn=null;
 		///<summary>On mouse up that commits a changed tooth selection.</summary>
 		public event ToothChartSelectionEventHandler ToothSelectionsChanged=null;
+		///<summary>On mouse up that ends a drag of a free-text label with CursorTool.MoveText (TC-5): the label's number and its new top left in the
+		///410x307 drawing space.</summary>
+		public event ToothChartTextMovedEventHandler TextMoved=null;
+		///<summary>On mouse down with CursorTool.ColorChanger on a free-text label and no drawing near (TC-5): the label's number and its new colour,
+		///the pen colour.</summary>
+		public event ToothChartTextColorChangedEventHandler TextColorChanged=null;
 
 		///<summary>True between mouse down and mouse up.</summary>
 		public bool IsMouseDown {
@@ -70,8 +85,59 @@ namespace SparksToothChart {
 					tcData.DrawingSegmentList[indexSegment].ColorDraw=tcData.ColorDrawing;
 					ActionChartChanged?.Invoke();
 				}
+				else {
+					RecolorFreeText(tcData,location);
+				}
 			}
-			//Eraser: nothing until the mouse moves. MoveText: TC-5.
+			else if(tcData.CursorTool==CursorTool.MoveText) {
+				PickUpFreeText(tcData,location);
+			}
+			//Eraser: nothing until the mouse moves.
+		}
+
+		///<summary>MoveText (TC-5): the label under the mouse (the top-most, the last drawn) is picked up, from where it is seen: the first move puts it
+		///at that point plus the drag. Nothing when the press is not on a label.</summary>
+		private void PickUpFreeText(ToothChartData tcData,Point location) {
+			_freeTextMoving=null;
+			List<Wpf3D.FreeTextBox> listBoxes=Wpf3D.ToothSceneBuilder.GetFreeTextBoxes(tcData);
+			for(int i=listBoxes.Count-1;i>=0;i--) {
+				if(!listBoxes[i].Bounds.Contains(location)) {
+					continue;
+				}
+				_freeTextMoving=listBoxes[i].FreeText;
+				_pointFreeTextOld=_freeTextMoving.Location;
+				_pointFreeTextStart=listBoxes[i].LocationShown;
+				_pointMouseDownFreeText=location;
+				//The label's point is not changed until the mouse moves (MoveFreeText starts from _pointFreeTextStart): a press that never reaches
+				//MouseUp (the capture lost, a dialog, Alt-Tab) leaves the chart's data as it was.
+				return;
+			}
+		}
+
+		///<summary>ColorChanger with no drawing near the "wand" (TC-5; Open Dental's manual: Change Color is "to change the color of an existing drawing
+		///or text"): the free-text label under the mouse, the top-most (the last drawn) as MoveText picks one up, gets the pen colour
+		///(ToothChartData.ColorDrawing), and TextColorChanged is raised with its number and the colour, so the Chart module saves it. Nothing when the
+		///press is not on a label.</summary>
+		private void RecolorFreeText(ToothChartData tcData,Point location) {
+			List<Wpf3D.FreeTextBox> listBoxes=Wpf3D.ToothSceneBuilder.GetFreeTextBoxes(tcData);
+			for(int i=listBoxes.Count-1;i>=0;i--) {
+				if(!listBoxes[i].Bounds.Contains(location)) {
+					continue;
+				}
+				ToothChartFreeText freeText=listBoxes[i].FreeText;
+				freeText.ColorText=tcData.ColorDrawing;
+				ActionChartChanged?.Invoke();
+				TextColorChanged?.Invoke(this,new ToothChartTextColorChangedEventArgs(freeText.ToothInitialNum,freeText.ColorText));
+				return;
+			}
+		}
+
+		///<summary>MoveText (TC-5): the label being dragged follows the mouse. The drag's distance in pixels is divided by the pixel scale ratio, the
+		///scale of the 410x307 drawing space to the picture, so the label stays under the mouse at any chart size.</summary>
+		private void MoveFreeText(ToothChartData tcData,ToothChartFreeText freeText,Point location) {
+			float ratio=tcData.PixelScaleRatio>0 ? tcData.PixelScaleRatio : 1f;
+			freeText.Location=new PointF(_pointFreeTextStart.X+(location.X-_pointMouseDownFreeText.X)/ratio,
+				_pointFreeTextStart.Y+(location.Y-_pointMouseDownFreeText.Y)/ratio);
 		}
 
 		///<summary>DirectX's MouseMove.</summary>
@@ -102,6 +168,13 @@ namespace SparksToothChart {
 				}
 				tcData.PointList.Add(new PointF(location.X,location.Y));
 				ActionPenStrokeChanged?.Invoke();
+			}
+			else if(tcData.CursorTool==CursorTool.MoveText) {
+				if(!_isMouseDown || _freeTextMoving==null) {
+					return;
+				}
+				MoveFreeText(tcData,_freeTextMoving,location);
+				ActionChartChanged?.Invoke();
 			}
 			else if(tcData.CursorTool==CursorTool.Eraser) {
 				if(!_isMouseDown) {
@@ -135,6 +208,36 @@ namespace SparksToothChart {
 				tcData.PointList=new List<PointF>();
 				ActionPenStrokeChanged?.Invoke();
 				ActionChartChanged?.Invoke();
+			}
+			else if(tcData.CursorTool==CursorTool.MoveText) {
+				DropFreeText(tcData,location);
+			}
+		}
+
+		///<summary>MoveText (TC-5): the label being dragged is put down where the mouse let it go, and TextMoved is raised with its number and its new top
+		///left in the 410x307 drawing space, as the mouse gave it (the relay's MoveTextLabel clamps and rounds it before the Chart module saves it).
+		///A press and release that did not move the label raises nothing.</summary>
+		private void DropFreeText(ToothChartData tcData,Point location) {
+			ToothChartFreeText freeText=_freeTextMoving;
+			_freeTextMoving=null;
+			if(freeText==null) {
+				return;
+			}
+			if(location==_pointMouseDownFreeText) {
+				//A click without a move: the label keeps its own point (one drawn moved back inside the picture is not saved there).
+				freeText.Location=_pointFreeTextOld;
+				ActionChartChanged?.Invoke();
+				return;
+			}
+			MoveFreeText(tcData,freeText,location);
+			ActionChartChanged?.Invoke();
+			TextMoved?.Invoke(this,new ToothChartTextMovedEventArgs(freeText.ToothInitialNum,freeText.Location));
+		}
+
+		///<summary>The label being dragged with MoveText, or null.</summary>
+		public ToothChartFreeText FreeTextMoving {
+			get {
+				return _freeTextMoving;
 			}
 		}
 

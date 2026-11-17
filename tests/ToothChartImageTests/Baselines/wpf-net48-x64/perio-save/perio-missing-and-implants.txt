@@ -1,0 +1,14 @@
+Scene: perio-missing-and-implants
+Group: perio
+Description: The saved image (Save to Images) of the graphical perio chart, as FormPerioGraphical.RenderPerioPrintout makes it around the WPF chart's 649x696 picture, with synthetic texts. The full exam with 1, 5, 16, 17 and 32 skipped (missing), an implant with a crown on 19 and an implant without a crown on 30.
+Size: 750x1000 (perio-save)
+Colours: Perio
+Engine: Wpf3D (the chart's GetBitmap), drawn into the page with GDI+
+Bitmap: 750x1000 Format32bppArgb
+Alpha: every alpha is 255
+Colours in the picture: 26828
+Pixels SHA-256: 1afe3f5295e97b4466913e8004100e264ca79cc712f33ddaf74702cce72833c5
+Repeatable: yes (a second drawing gave the same pixels)
+Framework: .NET Framework 4.8, x64
+Windows: build 26300.9974 (26H2)
+Screen DPI seen by the test host: 96

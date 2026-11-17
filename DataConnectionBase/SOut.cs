@@ -124,21 +124,23 @@ namespace DataConnectionBase {
 
 		///<summary>By default, rounds input up to max of 2 decimal places. EG: .0047 will return "0.00"; .0051 will return "0.01".
 		///Set doRounding false when the double passed in needs to be Multiple Precision Floating-Point Reliable (MPFR).
-		///Set doUseEnUSFormat to true to use a period no matter what region, but this is only relevant when not rounding.</summary>
+		///Set doUseEnUSFormat to true to use a period no matter what region, but this is only relevant when not rounding.
+		///Without rounding the text has 15 significant digits ("G15"), the .NET Framework default. No value is written with a sign when its
+		///text is zero ("0.00", not "-0.00"), as on .NET Framework.</summary>
 		public static string Double(double myDouble,bool doRounding=true,bool doUseEnUSFormat=false) {
 			try {
 				if(doRounding) {
-					//because decimal is a comma in Europe, this sends it to db with period instead 
-					return myDouble.ToString("f",CultureInfo.InvariantCulture);
+					//because decimal is a comma in Europe, this sends it to db with period instead
+					return ODNumberText.ToStringNoNegativeZero(myDouble,"f",CultureInfo.InvariantCulture);
 				}
 				else if(doUseEnUSFormat) {
 					NumberFormatInfo format=new NumberFormatInfo();
 					format.NumberDecimalSeparator=".";
 					format.NumberGroupSeparator=",";
-					return myDouble.ToString(format);
+					return ODNumberText.ToStringG15(myDouble,format);
 				}
 				//This will send the double to the database with a comma for some countries.  E.g. Europe uses commas instead of periods.
-				return myDouble.ToString();
+				return ODNumberText.ToStringG15(myDouble,CultureInfo.CurrentCulture);
 			}
 			catch(Exception ex) {
 				ex.DoNothing();
@@ -164,7 +166,7 @@ namespace DataConnectionBase {
 					format+="#";
 					}
 				}
-				return myDouble.ToString(format,CultureInfo.InvariantCulture);
+				return ODNumberText.ToStringNoNegativeZero(myDouble,format,CultureInfo.InvariantCulture);
 			}
 			catch(Exception ex) {
 				ex.DoNothing();
@@ -199,9 +201,9 @@ namespace DataConnectionBase {
 			return Int((int)(object)enumValue);
 		}
 
-		///<summary></summary>
+		///<summary>7 significant digits ("G7"), the .NET Framework default, with a period; no sign on zero.</summary>
 		public static string Float(float myFloat){
-			return myFloat.ToString(CultureInfo.InvariantCulture);//sends as comma in Europe.  (comes back from mysql later as a period)
+			return ODNumberText.ToStringG7(myFloat,CultureInfo.InvariantCulture);//sends as comma in Europe.  (comes back from mysql later as a period)
 		}
 
 		///<summary>Escapes all necessary characters.</summary>

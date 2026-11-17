@@ -23,16 +23,17 @@
 		/// the contents of this method with the code editor.
 		/// </summary>
 		private void InitializeComponent() {
+			this.components = new System.ComponentModel.Container();
 			this.labelSignedBy = new System.Windows.Forms.Label();
 			this.textMsgDateTime = new System.Windows.Forms.TextBox();
 			this.labelSent = new System.Windows.Forms.Label();
 			this.label3 = new System.Windows.Forms.Label();
 			this.label1 = new System.Windows.Forms.Label();
 			this.label2 = new System.Windows.Forms.Label();
-			this.contextMenuAttachments = new System.Windows.Forms.ContextMenu();
-			this.menuItemOpen = new System.Windows.Forms.MenuItem();
-			this.menuItemRename = new System.Windows.Forms.MenuItem();
-			this.menuItemRemove = new System.Windows.Forms.MenuItem();
+			this.contextMenuAttachments = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.menuItemOpen = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemRename = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemRemove = new System.Windows.Forms.ToolStripMenuItem();
 			this.textSentOrReceived = new System.Windows.Forms.TextBox();
 			this.label5 = new System.Windows.Forms.Label();
 			this.label4 = new System.Windows.Forms.Label();
@@ -122,27 +123,24 @@
 			// 
 			// contextMenuAttachments
 			// 
-			this.contextMenuAttachments.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+			this.contextMenuAttachments.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuItemOpen,
             this.menuItemRename,
             this.menuItemRemove});
-			this.contextMenuAttachments.Popup += new System.EventHandler(this.contextMenuAttachments_Popup);
+			this.contextMenuAttachments.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuAttachments_Popup);
 			// 
 			// menuItemOpen
 			// 
-			this.menuItemOpen.Index = 0;
 			this.menuItemOpen.Text = "Open";
 			this.menuItemOpen.Click += new System.EventHandler(this.menuItemOpen_Click);
 			// 
 			// menuItemRename
 			// 
-			this.menuItemRename.Index = 1;
 			this.menuItemRename.Text = "Rename";
 			this.menuItemRename.Click += new System.EventHandler(this.menuItemRename_Click);
 			// 
 			// menuItemRemove
 			// 
-			this.menuItemRemove.Index = 2;
 			this.menuItemRemove.Text = "Remove";
 			this.menuItemRemove.Click += new System.EventHandler(this.menuItemRemove_Click);
 			// 
@@ -506,10 +504,10 @@
 
 		#endregion
 
-		private System.Windows.Forms.ContextMenu contextMenuAttachments;
-		private System.Windows.Forms.MenuItem menuItemOpen;
-		private System.Windows.Forms.MenuItem menuItemRename;
-		private System.Windows.Forms.MenuItem menuItemRemove;
+		private System.Windows.Forms.ContextMenuStrip contextMenuAttachments;
+		private System.Windows.Forms.ToolStripMenuItem menuItemOpen;
+		private System.Windows.Forms.ToolStripMenuItem menuItemRename;
+		private System.Windows.Forms.ToolStripMenuItem menuItemRemove;
 		private UI.GridOD gridAttachments;
 		private ODtextBox textFromAddress;
 		private ODtextBox textToAddress;

@@ -236,7 +236,7 @@ namespace OpenPmsDental{
 			}
 			LetterMerge letterMerge=_listLetterMergesForCat[listLetters.SelectedIndex];
 			string dataFile=PrefC.GetString(PrefName.LetterMergePath)+letterMerge.DataFileName;
-			Process.Start(dataFile);
+			ODFileUtils.ShellOpen(dataFile);
 		}
 
 		private bool CreateData(){
@@ -290,7 +290,7 @@ namespace OpenPmsDental{
 				word_Application=LetterMerges.GetWordApp();
 			}
 			catch(Exception ex) {
-				FriendlyException.Show(Lan.g(this,"Error. Is MS Word installed?"),ex);
+				FriendlyException.Show(LetterMerges.GetWordStartFailureText(ex,Lan.g(this,"Error. Is MS Word installed?")),ex);
 				return;
 			}
 			//Open a document.
@@ -371,7 +371,7 @@ namespace OpenPmsDental{
 				word_Application=LetterMerges.GetWordApp();
 			}
 			catch(Exception ex) {
-				FriendlyException.Show(Lan.g(this,"Error. Is MS Word installed?"),ex);
+				FriendlyException.Show(LetterMerges.GetWordStartFailureText(ex,Lan.g(this,"Error. Is MS Word installed?")),ex);
 				return;
 			}
 			string errorMessage="";
@@ -515,7 +515,7 @@ namespace OpenPmsDental{
 				word_Application=LetterMerges.GetWordApp();
 			}
 			catch(Exception ex) {
-				FriendlyException.Show(Lan.g(this,"Error. Is MS Word installed?"),ex);
+				FriendlyException.Show(LetterMerges.GetWordStartFailureText(ex,Lan.g(this,"Error. Is MS Word installed?")),ex);
 				return;
 			}
 			//Open a document.

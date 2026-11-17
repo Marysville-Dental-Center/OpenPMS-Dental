@@ -5,7 +5,6 @@ using System.Net;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Web;
-using System.Web.Services.Protocols;
 using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Serialization;
@@ -274,7 +273,7 @@ namespace OpenPmsDentalBusiness.Eclaims {
 			request.outputFormatSpecified=true;
 			request.outputFormat=outputFormat;
 			request.Content=HttpUtility.HtmlEncode(x12message);//get rid of ampersands, etc.
-			Dentalxchange2016.DwsService service=new Dentalxchange2016.DwsService();
+			DwsSoapClient service=new DwsSoapClient();
 			if(ODBuild.IsDebug()) {
 				//service.Url="https://prelive2.dentalxchange.com/dws/DwsService"; // testing
 				service.Url="https://webservices.dentalxchange.com/dws/DwsService"; // production
@@ -300,9 +299,9 @@ namespace OpenPmsDentalBusiness.Eclaims {
 					return strResponse;
 				}
 			}
-			catch(SoapException ex) {
+			catch(SoapFaultException ex) {//S3a-6: SoapCaller's fault carries the text, code and detail SoapException had
 				strResponse="If this is a new customer, this error might be due to an invalid Username or Password.  Servers may need a few hours before ready to accept new user information.\r\n"
-					+"Error message received directly from Claim Connect:  "+ex.Message+"\r\n\r\n"+ex.Detail.InnerText;
+					+"Error message received directly from Claim Connect:  "+ex.Message+"\r\n\r\n"+ex.Detail?.InnerText;
 			}
 			//cleanup EDI response.  Seems to start with \n and 4 spaces.  Ends with trailing \n.
 			strResponse=strResponse.TrimStart('\n');
@@ -372,11 +371,13 @@ namespace OpenPmsDentalBusiness.Eclaims {
 			if(!clearingHouse.IsAttachmentSendAllowed) {
 				throw new ODException(Lans.g("ClaimConnect","Attachment sending is not enabled. Please see our manual for instructions."));
 			}
-			Dentalxchange2016.DwsService service=new Dentalxchange2016.DwsService();
+			DwsSoapClient service=new DwsSoapClient();
 			Dentalxchange2016.textRequest textRequest=new Dentalxchange2016.textRequest();
 			textRequest.outputFormat=Dentalxchange2016.Format.XML;
 			textRequest.validateForAttachment=doValidateForAttachment;
-			//Generate X12 message text.
+			//Generate X12 message text. The sender check comes first (X12-SENDER, lead fix at the merge), so a refused validation takes no batch
+			//number, as in Eclaims.SendBatch and X270.GenerateMessageText.
+			X12Sender.GetSender(clearingHouse,claim.ClinicNum);
 			int batchNum=Clearinghouses.GetNextBatchNumber(clearingHouse);
 			List<ClaimSendQueueItem> listQueueItems=Claims.GetQueueList(claim.ClaimNum,claim.ClinicNum,0).ToList();
 			textRequest.Content=x837Controller.GenerateBatch(clearingHouse,listQueueItems,batchNum,claim.MedType);
@@ -435,7 +436,7 @@ namespace OpenPmsDentalBusiness.Eclaims {
 		///Callers of this method should handle this scenario.</summary>
 		public static string CreateAttachment(List<ImageAttachment> listImages,string narrative,Claim claim) {
 			ClaimAttachDicom.ThrowIfAnyIsDicom(listImages);//CLAIM-DCM: never a DICOM file itself, as in SendAttachmentImages and AddAttachmentImage
-			DentalxchangePartnerService.DeaPartnerService service=new DentalxchangePartnerService.DeaPartnerService();
+			DeaSoapClient service=new DeaSoapClient();
 			service.Url=Introspection.GetOverride(Introspection.IntrospectionEntity.DentalXChangeDeaURL,"https://webservices.dentalxchange.com/dea/DeaPartnerService");
 			if(ODBuild.IsDebug()) {
 				service.Url="https://prelive2.dentalxchange.com/dea/DeaPartnerService";
@@ -487,7 +488,7 @@ namespace OpenPmsDentalBusiness.Eclaims {
 			if(XConnect.IsEnabled(clearinghouse)) {
 				return XConnect.AttachmentCreate(claim,narrative);
 			}
-			DentalxchangePartnerService.DeaPartnerService deaPartnerService=new DentalxchangePartnerService.DeaPartnerService();
+			DeaSoapClient deaPartnerService=new DeaSoapClient();
 			deaPartnerService.Url=Introspection.GetOverride(Introspection.IntrospectionEntity.DentalXChangeDeaURL,"https://webservices.dentalxchange.com/dea/DeaPartnerService");
 			if(ODBuild.IsDebug()) {
 				deaPartnerService.Url="https://prelive2.dentalxchange.com/dea/DeaPartnerService";
@@ -514,7 +515,7 @@ namespace OpenPmsDentalBusiness.Eclaims {
 				XConnect.AttachmentSubmit(claim);
 				return;
 			}
-			DentalxchangePartnerService.DeaPartnerService deaPartnerService=new DentalxchangePartnerService.DeaPartnerService();
+			DeaSoapClient deaPartnerService=new DeaSoapClient();
 			deaPartnerService.Url=Introspection.GetOverride(Introspection.IntrospectionEntity.DentalXChangeDeaURL,"https://webservices.dentalxchange.com/dea/DeaPartnerService");
 			if(ODBuild.IsDebug()) {
 				deaPartnerService.Url="https://prelive2.dentalxchange.com/dea/DeaPartnerService";
@@ -537,7 +538,7 @@ namespace OpenPmsDentalBusiness.Eclaims {
 			if(XConnect.IsEnabled(clearinghouse)) {
 				return XConnect.AttachmentAddImage(claim,listImages);
 			}
-			DentalxchangePartnerService.DeaPartnerService deaPartnerService=new DentalxchangePartnerService.DeaPartnerService();
+			DeaSoapClient deaPartnerService=new DeaSoapClient();
 			deaPartnerService.Url=Introspection.GetOverride(Introspection.IntrospectionEntity.DentalXChangeDeaURL,"https://webservices.dentalxchange.com/dea/DeaPartnerService");
 			if(ODBuild.IsDebug()) {
 				deaPartnerService.Url="https://prelive2.dentalxchange.com/dea/DeaPartnerService";
@@ -564,7 +565,7 @@ namespace OpenPmsDentalBusiness.Eclaims {
 				XConnect.AttachmentAddNarrative(claim,narrative);
 				return;
 			}
-			DentalxchangePartnerService.DeaPartnerService deaPartnerService=new DentalxchangePartnerService.DeaPartnerService();
+			DeaSoapClient deaPartnerService=new DeaSoapClient();
 			deaPartnerService.Url=Introspection.GetOverride(Introspection.IntrospectionEntity.DentalXChangeDeaURL,"https://webservices.dentalxchange.com/dea/DeaPartnerService");
 			if(ODBuild.IsDebug()) {
 				deaPartnerService.Url="https://prelive2.dentalxchange.com/dea/DeaPartnerService";
@@ -584,7 +585,7 @@ namespace OpenPmsDentalBusiness.Eclaims {
 				XConnect.AttachmentRemoveImage(claim,listClaimAttaches);
 				return;
 			}
-			DentalxchangePartnerService.DeaPartnerService deaPartnerService=new DentalxchangePartnerService.DeaPartnerService();
+			DeaSoapClient deaPartnerService=new DeaSoapClient();
 			deaPartnerService.Url=Introspection.GetOverride(Introspection.IntrospectionEntity.DentalXChangeDeaURL,"https://webservices.dentalxchange.com/dea/DeaPartnerService");
 			if(ODBuild.IsDebug()) {
 				deaPartnerService.Url="https://prelive2.dentalxchange.com/dea/DeaPartnerService";
@@ -801,7 +802,7 @@ namespace OpenPmsDentalBusiness.Eclaims {
 			Dentalxchange2016.payerListInfoRequest payerListInfoRequest=new Dentalxchange2016.payerListInfoRequest();
 			payerListInfoRequest.outputFormatSpecified=true;
 			payerListInfoRequest.outputFormat=Dentalxchange2016.Format.XML;
-			Dentalxchange2016.DwsService service=new Dentalxchange2016.DwsService();
+			DwsSoapClient service=new DwsSoapClient();
 			if(ODBuild.IsDebug()) {
 				service.Url="https://prelive2.dentalxchange.com/dws/DwsService"; //testing
 			}
@@ -813,9 +814,9 @@ namespace OpenPmsDentalBusiness.Eclaims {
 			try {
 				payerListInfoResponse=service.getPayerListService(credentials,payerListInfoRequest);
 			}
-			catch(SoapException ex) {
+			catch(SoapFaultException ex) {//S3a-6: SoapCaller's fault carries the text, code and detail SoapException had
 				strResponse="If this is a new customer, this error might be due to an invalid Username or Password.  Servers may need a few hours before ready to accept new user information.\r\n"
-					+"Error message received directly from Claim Connect:  "+ex.Message+"\r\n\r\n"+ex.Detail.InnerText;
+					+"Error message received directly from Claim Connect:  "+ex.Message+"\r\n\r\n"+ex.Detail?.InnerText;
 				return strResponse;
 			}
 			if(payerListInfoResponse.Status.code==0) {
@@ -864,7 +865,7 @@ namespace OpenPmsDentalBusiness.Eclaims {
 			}
 			Dentalxchange2016.Credentials cred=DxcCredentials.GetDentalxchangeCredentials(null,clearinghouse);
 			Dentalxchange2016.unProcessedEraRequest request=new Dentalxchange2016.unProcessedEraRequest();
-			Dentalxchange2016.DwsService service=new Dentalxchange2016.DwsService();
+			DwsSoapClient service=new DwsSoapClient();
 			service.Url=Introspection.GetOverride(Introspection.IntrospectionEntity.DentalXChangeDwsURL,"https://webservices.dentalxchange.com/dws/DwsService");
 			if(ODBuild.IsDebug()) {
 				service.Url="https://prelive2.dentalxchange.com/dws/DwsService";

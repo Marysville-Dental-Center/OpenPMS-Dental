@@ -1,0 +1,67 @@
+# The golden numbers of package EHR-4b (tests/EhrTests/MeasureSpecTests.cs, Golden_TheThreeSelectAllCalls_GiveTheRecordedNumbers): a
+# recorded run of EhrMeasures.SelectAll (Stage 1), SelectAllMu2 (Stage 2) and SelectAllMu2Mod (Modified Stage 2) for the EP of
+# tests/EhrTests/Fixtures/MeasureSpecFixture.cs over its whole synthetic practice, reporting period 1 January to 31 December 2014.
+# One line per measure, in the engine's order: numerator/denominator, the threshold (more than N percent), the exclusion count (-1:
+# none applies). Recorded 2026-11-14 on the engine of main e9c46c233; recorded again 2026-11-14 after EHR-4c's engine fixes
+# (branch ehr/ehr4c-1), and again 2026-11-15 after the Saturday fix and its two fixture patients (EHR4B-D16, branch ehr/ehr4c-3;
+# the moved numbers and why: docs/port-notes/EHR-4.md, EHR-4c), and again 2026-11-15 after EHR-4d (branch ehr/ehr4d-1: the two
+# Lab lines, the older lab orders of four new patients with no visit; docs/port-notes/EHR-4.md, EHR-4d). The cases of MeasureSpecTests check
+# each measure's patients against the specification sheets; these numbers only pin the engine's output, any open deviation included
+# (docs/port-notes/EHR-4.md, EHR-4b). If the engine changes on purpose, record a new run here and say why in that note.
+
+SelectAll ProblemList 2/83 more than 80 exclusions -1
+SelectAll MedicationList 6/83 more than 80 exclusions -1
+SelectAll AllergyList 2/83 more than 80 exclusions -1
+SelectAll Demographics 2/83 more than 50 exclusions -1
+SelectAll Education 2/83 more than 10 exclusions -1
+SelectAll ProvOrderEntry 2/5 more than 30 exclusions 5
+SelectAll CPOE_MedOrdersOnly 1/2 more than 30 exclusions 5
+SelectAll CPOE_PreviouslyOrdered 1/2 more than 30 exclusions 5
+SelectAll Rx 3/4 more than 40 exclusions 5
+SelectAll VitalSigns 1/82 more than 50 exclusions 81
+SelectAll VitalSignsBMIOnly 4/83 more than 50 exclusions -1
+SelectAll VitalSignsBPOnly 2/81 more than 50 exclusions 81
+SelectAll Smoking 1/78 more than 50 exclusions 78
+SelectAll Lab 6/10 more than 40 exclusions -1
+SelectAll ClinicalSummaries 6/84 more than 50 exclusions 84
+SelectAll Reminders 3/6 more than 20 exclusions 6
+SelectAll MedReconcile 3/5 more than 50 exclusions -1
+SelectAll SummaryOfCare 2/3 more than 50 exclusions -1
+SelectAll ElectronicCopyAccess 4/83 more than 50 exclusions -1
+SelectAll VitalSigns2014 3/83 more than 50 exclusions 81
+SelectAllMu2 CPOE_MedOrdersOnly 1/2 more than 60 exclusions 5
+SelectAllMu2 CPOE_LabOrdersOnly 1/6 more than 30 exclusions 0
+SelectAllMu2 CPOE_RadiologyOrdersOnly 3/4 more than 30 exclusions 0
+SelectAllMu2 Rx 3/4 more than 50 exclusions 5
+SelectAllMu2 Demographics 2/83 more than 80 exclusions -1
+SelectAllMu2 VitalSigns 3/83 more than 80 exclusions 81
+SelectAllMu2 VitalSignsBMIOnly 4/83 more than 80 exclusions -1
+SelectAllMu2 VitalSignsBPOnly 2/81 more than 80 exclusions 81
+SelectAllMu2 Smoking 1/78 more than 80 exclusions 78
+SelectAllMu2 ElectronicCopyAccess 4/83 more than 50 exclusions -1
+SelectAllMu2 ElectronicCopy 2/83 more than 5 exclusions -1
+SelectAllMu2 ClinicalSummaries 4/84 more than 50 exclusions 84
+SelectAllMu2 Lab 6/10 more than 55 exclusions 0
+SelectAllMu2 Reminders 2/3 more than 10 exclusions 7
+SelectAllMu2 Education 2/83 more than 10 exclusions 84
+SelectAllMu2 MedReconcile 3/5 more than 50 exclusions -1
+SelectAllMu2 SummaryOfCare 2/3 more than 50 exclusions 0
+SelectAllMu2 SummaryOfCareElectronic 1/3 more than 10 exclusions 0
+SelectAllMu2 SecureMessaging 1/83 more than 5 exclusions 84
+SelectAllMu2 FamilyHistory 1/83 more than 20 exclusions 84
+SelectAllMu2 ElectronicNote 1/83 more than 30 exclusions -1
+SelectAllMu2 LabImages 1/2 more than 10 exclusions -1
+SelectAllMu2Mod CPOE_MedOrdersOnly 1/2 more than 60 exclusions 5
+SelectAllMu2Mod CPOE_LabOrdersOnly 1/6 more than 30 exclusions 0
+SelectAllMu2Mod CPOE_RadiologyOrdersOnly 3/4 more than 30 exclusions 0
+SelectAllMu2Mod Rx 3/4 more than 50 exclusions 5
+SelectAllMu2Mod SummaryOfCare 2/3 more than 50 exclusions 0
+SelectAllMu2Mod SummaryOfCareElectronic 1/3 more than 10 exclusions 0
+SelectAllMu2Mod Education 1/83 more than 10 exclusions 84
+SelectAllMu2Mod MedReconcile 3/5 more than 50 exclusions -1
+SelectAllMu2Mod ElectronicCopyAccess 4/83 more than 50 exclusions -1
+SelectAllMu2Mod ElectronicCopy 1/83 more than 5 exclusions -1
+SelectAllMu2Mod SecureMessaging 1/83 more than 5 exclusions 84
+SelectAllMu2Mod VitalSigns 3/83 more than 80 exclusions 81
+SelectAllMu2Mod Smoking 1/78 more than 80 exclusions 78
+SelectAllMu2Mod Demographics 2/83 more than 80 exclusions -1

@@ -1,0 +1,15 @@
+Scene: extraction-completed-graphic
+Group: paint
+Description: The completed-extraction graphic on (O-20): C on 2 and 31, EC on 12, EO on 21, each tooth missing with the big X in its status's colour (the same teeth as extraction-completed, which shows the setting off).
+Size: 500x370
+Colours: Printout
+Engine: Wpf3D (RenderTargetBitmap in software, 3D layer at 3x reduced with WIC's Fant scaler)
+Bitmap: 500x370 Format24bppRgb
+Alpha: every alpha is 255 (format without an alpha channel)
+Colours in the picture: 3147
+Pixels SHA-256: e18815ec6d66e54fab918d523cb03fb740a006aeceee3904ae13f01c850aa199
+Repeatable: yes (a second GetBitmap gave the same pixels)
+Framework: .NET Framework 4.8, x86
+Windows: build 26300.9974 (26H2)
+Fresh render: yes (both layers drawn again without the layer cache gave the same pixels)
+Screen DPI seen by the test host: 96

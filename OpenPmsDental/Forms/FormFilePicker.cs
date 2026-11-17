@@ -78,7 +78,7 @@ namespace OpenPmsDental {
 			string extension = Path.GetExtension(gridMain.ListGridRows[gridMain.GetSelectedIndex()].Cells[0].Text);
 			string tempFile=ODFileUtils.CreateRandomFile(Path.GetTempPath(),extension);
 			File.WriteAllBytes(tempFile,byteArray);
-			System.Diagnostics.Process.Start(tempFile);
+			ODFileUtils.ShellOpen(tempFile);
 		}
 
 		private void butImport_Click(object sender,EventArgs e) {

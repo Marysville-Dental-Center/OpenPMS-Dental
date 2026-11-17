@@ -345,7 +345,10 @@ namespace OpenPmsDental{
 			}
 			for(int i = 0;i<listPatAgings.Count;i++) {
 				PatAging patAging = listPatAgings[i];
-				listActions.Add(new Action(() => AddBillingOrFinanceCharge(patAging,listPatAgings.Count,listAdjustments,listInstallmentPlans)));
+				//Each charge is one unit with its log entries (S3a-1b): after a cancel the charges under way finish, RunParallel starts no further one
+				//and then throws, so the action stops there.
+				listActions.Add(new Action(() => ODCancellation.RunUncancellable(() =>
+					AddBillingOrFinanceCharge(patAging,listPatAgings.Count,listAdjustments,listInstallmentPlans))));
 			}
 			ProgressWin progressOD = new ProgressWin();
 			progressOD.ActionMain=() => {

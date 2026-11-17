@@ -990,7 +990,7 @@ namespace OpenPmsDentalBusiness {
 				File.WriteAllBytes(documentPath,byteArray);
 			}
 			try { 
-				Process.Start(documentPath);
+				ODFileUtils.ShellOpen(documentPath);
 			}
 			catch(Exception ex) {
 				return Lans.g("Documents","Error occurred while attempting to open document.\r\n"+

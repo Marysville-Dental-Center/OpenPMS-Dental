@@ -1,0 +1,5 @@
+Host: big-chart
+Size: 926x858
+Bitmap: Format24bppRgb
+Colours in the picture: 10523
+Pixels SHA-256: 40363002e57e46c86d71aec54cd3a9ba4e53225c05bd9e598e4980d965924de5

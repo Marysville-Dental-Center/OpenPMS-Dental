@@ -195,7 +195,12 @@ namespace OpenPmsDental.Bridges {
 				writer.WriteEndElement();//DemandForce
 				writer.Flush();
 				writer.Close();
+				//The user cancelled: SendData deletes the file, so it is not written after that (S3a-1b).
+				ODCancellation.ThrowIfCancellationRequested();
 				ODFileUtils.WriteAllText(extract,strb.ToString());
+			}
+			catch(OperationCanceledException) {
+				throw;//The user cancelled (a progress event or the check above): no "failed" message from the worker thread, no file.
 			}
 			catch {
 				MessageBox.Show(Lang.g("DemandForce","Export file creation failed")+". "+Lang.g("DemandForce","User may not have sufficient permissions")+".");

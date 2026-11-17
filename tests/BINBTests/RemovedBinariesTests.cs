@@ -33,6 +33,7 @@ namespace BINBTests {
 			@"Required dlls\RS232.dll",
 			@"Required dlls\Ionic.Zip.dll",
 			@"Required dlls\installutil.exe",
+			@"Required dlls\Windows.winmd",
 			@"SparksToothChart\RequiredDlls\Tao.FreeGlut.dll",
 			@"SparksToothChart\RequiredDlls\freeglut.dll",
 			@"OpenPmsDental\Forms\FormAvaTax.cs",
@@ -41,8 +42,8 @@ namespace BINBTests {
 		private static readonly string[] _arrayRemovedAssemblies={ "SigPlusNET","Interop.Word","Interop.Microsoft.Office.Core","Interop.VBIDE","stdole",
 			"AxInterop.AcroPDFLib","Interop.AcroPDFLib","Interop.Acrobat","Interop.AFORMAUTLib","zxing","zxing.presentation","MigraDoc.RtfRendering",
 			"Tao.FreeGlut","freeglut","Avalara.AvaTax.RestClient.net45","RS232","Ionic.Zip","installutil" };
-		///<summary>Files that must never be in a build output folder: the removed assemblies, and Windows.winmd, which is referenced to compile only.
-		///</summary>
+		///<summary>Files that must never be in a build output folder, and that no project names: the removed assemblies, and Windows.winmd, the
+		///Windows SDK's metadata, which no project references since S3a-5 of the .NET 10 move (the Credential Manager replaced PasswordVault).</summary>
 		private static readonly string[] _arrayNeverInOutput=_arrayRemovedAssemblies.Select(x => x+".dll")
 			.Concat(new[] { "installutil.exe","Windows.winmd" }).ToArray();
 
@@ -110,7 +111,7 @@ namespace BINBTests {
 					}
 					foreach(string value in listValues) {
 						string fileName=Path.GetFileName(value.Trim().Replace('/','\\'));
-						if(_arrayNeverInOutput.Where(x => x!="Windows.winmd").Contains(fileName,StringComparer.OrdinalIgnoreCase)) {
+						if(_arrayNeverInOutput.Contains(fileName,StringComparer.OrdinalIgnoreCase)) {
 							listViolations.Add(path.Substring(root.Length)+": <"+local+"> names "+value.Trim());
 						}
 					}
@@ -152,33 +153,28 @@ namespace BINBTests {
 		}
 
 		[TestMethod]
-		public void WindowsWinmd_IsReferencedToCompileOnly() {
-			//The evaluated reference (metadata as child elements or attributes), so the check holds for the classic project file and the SDK-style
-			//one of the .NET 10 move alike.
+		public void WindowsWinmd_IsReferencedByNoProject() {
+			//S3a-5: PasswordVaultWrapper uses the Credential Manager (advapi32.dll), so it no longer compiles against the Windows SDK's metadata,
+			//which .NET 5 and later cannot consume. The evaluated items, so the check holds for every form of the project file.
 			ProjectFile projectFile=ProjectFile.Load(Path.Combine(TestPaths.RepoRoot,"PasswordVaultWrapper","PasswordVaultWrapper.csproj"));
-			Assert.AreEqual(1,projectFile.GetItems("Reference").Count(x => x.Include.Split(',')[0].Trim()=="Windows"));
-			ProjectItem projectItemReference=projectFile.GetReference("Windows");
-			StringAssert.EndsWith(projectItemReference.GetMetadata("HintPath"),"Windows.winmd");
-			Assert.AreEqual("false",projectItemReference.GetMetadata("Private").ToLowerInvariant(),
-				"Windows.winmd is a Windows SDK file: compile against it, never copy it.");
+			List<ProjectItem> listWinmd=projectFile.GetItems("Reference")
+				.Where(x => x.Include.Split(',')[0].Trim()=="Windows" || x.GetMetadata("HintPath").EndsWith(".winmd",StringComparison.OrdinalIgnoreCase))
+				.ToList();
+			Assert.AreEqual(0,listWinmd.Count,"PasswordVaultWrapper references Windows Runtime metadata again: "+string.Join(", ",listWinmd.Select(x => x.Include)));
+			Assert.IsFalse(File.Exists(Path.Combine(TestPaths.RepoRoot,"Required dlls","Windows.winmd")),@"Required dlls\Windows.winmd is back.");
 		}
 
 		[TestMethod]
 		public void ServiceManager_DoesNotReferenceInstallUtil() {
 			string csproj=TestPaths.ReadSource("ServiceManager","ServiceManager.csproj");
 			Assert.IsFalse(csproj.IndexOf("installutil",StringComparison.OrdinalIgnoreCase)>=0,"ServiceManager.csproj references installutil again.");
+			//Since S3a-7 services are installed and removed with sc.exe from the system folder: no InstallUtil.exe at all, neither a copy in the
+			//installation nor the .NET Framework's own (.NET has none, and it cannot load a .NET 10 assembly).
 			string source=TestPaths.ReadSource("CodeBase","Utilities","ServicesHelper.cs");
-			StringAssert.Contains(source,"RuntimeEnvironment.GetRuntimeDirectory()","Services are installed with the .NET Framework's own InstallUtil.exe.");
-		}
-
-		[TestMethod]
-		public void PasswordVault_LoadsWithoutTheCopiedWinmd() {
-			//Windows resolves Windows.Security.Credentials from its own metadata, so the wrapper works without a Windows.winmd next to it. A resource
-			//that cannot exist is looked up: nothing is written to the credential vault, and a missing type would throw instead of returning false.
-			Assert.IsFalse(File.Exists(Path.Combine(AppDomain.CurrentDomain.BaseDirectory,"Windows.winmd")));
-			string uri="binbtests-"+Guid.NewGuid().ToString("N")+".invalid";
-			Assert.IsFalse(PasswordVaultWrapper.WindowsPasswordVaultWrapper.TryRetrieveUserName(uri,out string userName));
-			Assert.AreEqual("",userName);
+			string code=string.Join("\n",source.Split('\n').Where(x => !x.TrimStart().StartsWith("//")));
+			Assert.IsFalse(code.IndexOf("installutil",StringComparison.OrdinalIgnoreCase)>=0,"ServicesHelper runs InstallUtil again.");
+			Assert.IsFalse(code.Contains("RuntimeEnvironment.GetRuntimeDirectory()"),"ServicesHelper looks for the .NET Framework's InstallUtil.exe again.");
+			StringAssert.Contains(code,"Path.Combine(Environment.SystemDirectory,\"sc.exe\")","Services are installed with the system's sc.exe.");
 		}
 	}
 }

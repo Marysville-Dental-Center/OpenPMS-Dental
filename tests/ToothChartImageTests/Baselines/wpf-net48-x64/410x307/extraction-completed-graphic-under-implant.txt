@@ -1,0 +1,15 @@
+Scene: extraction-completed-graphic-under-implant
+Group: paint
+Description: The completed-extraction graphic on, with implants in the extracted teeth's places: 19 extracted (C) with a completed implant, 14 extracted (EO) with an existing implant (EC) and its crown (C), and 30 extracted (C) with a planned implant (TP). Every extraction draws its X over the implant, in the painter's order (a plain switch, as Open Dental's).
+Size: 410x307
+Colours: Module
+Engine: Wpf3D (RenderTargetBitmap in software, 3D layer at 3x reduced with WIC's Fant scaler)
+Bitmap: 410x307 Format24bppRgb
+Alpha: every alpha is 255 (format without an alpha channel)
+Colours in the picture: 4444
+Pixels SHA-256: 9b5faab12378366aeae3eb2666796c5fb2e2c3ca57f094271c7abac9b782e2d5
+Repeatable: yes (a second GetBitmap gave the same pixels)
+Framework: .NET Framework 4.8, x64
+Windows: build 26300.9974 (26H2)
+Fresh render: yes (both layers drawn again without the layer cache gave the same pixels)
+Screen DPI seen by the test host: 96

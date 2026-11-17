@@ -6,4 +6,10 @@
   <PropertyGroup>
     <LangVersion>7.3</LangVersion>
   </PropertyGroup>
+  <ItemGroup>
+    <!-- Reads the references of the MSTest adapter's assemblies and writes the synthetic assemblies of NuGetFilesTests without loading or
+         emitting through the runtime (S3a-8b of the .NET 10 move: .NET has no reflection-only load and cannot save a dynamic assembly). The
+         NuGet package, from the offline package folder (nuget.config), at the version of Directory.Packages.props. -->
+    <PackageReference Include="Mono.Cecil" />
+  </ItemGroup>
 </Project>

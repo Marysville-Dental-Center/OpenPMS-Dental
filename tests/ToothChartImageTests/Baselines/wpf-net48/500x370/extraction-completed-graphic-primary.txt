@@ -1,0 +1,15 @@
+Scene: extraction-completed-graphic-primary
+Group: paint
+Description: The completed-extraction graphic on, in the primary dentition: C on missing primary teeth A and T, with a planned (TP) extraction of K for comparison.
+Size: 500x370
+Colours: Printout
+Engine: Wpf3D (RenderTargetBitmap in software, 3D layer at 3x reduced with WIC's Fant scaler)
+Bitmap: 500x370 Format24bppRgb
+Alpha: every alpha is 255 (format without an alpha channel)
+Colours in the picture: 4404
+Pixels SHA-256: c21d5bcd6ada0ba831f431cefdbf9430a4dd6dc6bdf19fed072d7e2879232daf
+Repeatable: yes (a second GetBitmap gave the same pixels)
+Framework: .NET Framework 4.8, x86
+Windows: build 26300.9974 (26H2)
+Fresh render: yes (both layers drawn again without the layer cache gave the same pixels)
+Screen DPI seen by the test host: 96

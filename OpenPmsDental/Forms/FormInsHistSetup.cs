@@ -22,9 +22,9 @@ namespace OpenPmsDental {
 		///<summary>One row per Insurance History row (InsHistCategories.GetAll), built from the code group cache when the window is created.</summary>
 		private List<CategoryRow> _listCategoryRows=new List<CategoryRow>();
 		///<summary>Shared by every date box. Its SourceControl says which box was right-clicked.</summary>
-		private ContextMenu _contextMenuDate;
-		private MenuItem _menuItemEdit;
-		private MenuItem _menuItemRemove;
+		private ContextMenuStrip _contextMenuDate;
+		private ToolStripMenuItem _menuItemEdit;
+		private ToolStripMenuItem _menuItemRemove;
 		private const int ROW_TOP=64;
 		private const int ROW_HEIGHT=24;
 		///<summary>Space between the last row (or the note shown without rows) and the Save button, and below the button.</summary>
@@ -44,12 +44,12 @@ namespace OpenPmsDental {
 		///WinForms would move it again when ClientSize changes here, by the difference between the designer's client height and the new one, which
 		///put it on the heading or above the window when there are only a few rows.</summary>
 		private void AddCategoryRows() {
-			_contextMenuDate=new ContextMenu();
-			_menuItemEdit=new MenuItem(Lan.g(this,"Edit Date"),menuItemEdit_Click);
-			_menuItemRemove=new MenuItem(Lan.g(this,"Remove Date"),menuItemRemove_Click);
-			_contextMenuDate.MenuItems.Add(_menuItemEdit);
-			_contextMenuDate.MenuItems.Add(_menuItemRemove);
-			_contextMenuDate.Popup+=contextMenuDate_Popup;
+			_contextMenuDate=new ContextMenuStrip();
+			_menuItemEdit=new ToolStripMenuItem(Lan.g(this,"Edit Date"),null,menuItemEdit_Click);
+			_menuItemRemove=new ToolStripMenuItem(Lan.g(this,"Remove Date"),null,menuItemRemove_Click);
+			_contextMenuDate.Items.Add(_menuItemEdit);
+			_contextMenuDate.Items.Add(_menuItemRemove);
+			_contextMenuDate.Opening+=contextMenuDate_Popup;
 			Disposed+=(sender,e) => _contextMenuDate.Dispose();
 			List<InsHistCategory> listInsHistCategories=InsHistCategories.GetAll();
 			int y=ROW_TOP;
@@ -71,7 +71,7 @@ namespace OpenPmsDental {
 					textBox.Size=new Size(80,20);
 					textBox.Name="textDate"+i.ToString()+"_"+slot.ToString();
 					textBox.TabIndex=tabIndex++;
-					textBox.ContextMenu=_contextMenuDate;
+					textBox.ContextMenuStrip=_contextMenuDate;
 					textBox.Validating+=TextBoxValidating;
 					textBox.TextChanged+=textDate_TextChanged;
 					Controls.Add(textBox);

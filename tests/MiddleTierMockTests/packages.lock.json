@@ -201,6 +201,9 @@
           "System.Memory": "[4.6.3, )"
         }
       },
+      "testprobehost": {
+        "type": "Project"
+      },
       "unittestscore": {
         "type": "Project",
         "dependencies": {

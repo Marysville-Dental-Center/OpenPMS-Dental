@@ -137,6 +137,11 @@ namespace OpenPmsDental{
 				listPatients=Patients.GetLimForPats(_listAppointmentsPlanned.Select(x => x.PatNum).ToList());
 				};
 			progressOD.ShowDialog();
+			//Cancelled (S3a-1c): the patients were not read (listPatients is null). The grid stays empty; Refresh fills it again.
+			if(progressOD.IsCancelled) {
+				gridMain.EndUpdate();
+				return;
+			}
 			for(int i = 0;i<_listAppointmentsPlanned.Count;i++) {
 				row=new GridRow();
 				string patName=Lan.g(this,"UNKNOWN");

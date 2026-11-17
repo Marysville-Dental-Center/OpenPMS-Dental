@@ -409,13 +409,15 @@ namespace OpenPmsDental{
 
 		///<summary>Returns true if the Snipping Tool exe can be located.  False otherwise.</summary>
 		public static bool DoesSnippingToolExist() {
-			string windowsFolder=Environment.GetFolderPath(Environment.SpecialFolder.Windows);
-			string snippingToolPath32=$"{windowsFolder}\\sysnative\\SnippingTool.exe";
-			string snippingToolPath64=$"{windowsFolder}\\system32\\SnippingTool.exe";
-			if(System.IO.File.Exists(snippingToolPath64) || System.IO.File.Exists(snippingToolPath32)) {
-				return true;
-			}
-			return false;
+			//The path the start below uses: Sysnative in a 32-bit process on 64-bit Windows, System32 otherwise (ODSystemFolders).
+			return System.IO.File.Exists(GetSnippingToolPath());
+		}
+
+		///<summary>SnippingTool.exe in the folder of the 64-bit Windows tools as this process must name it: Sysnative for a 32-bit process on
+		///64-bit Windows (WOW64 would redirect System32 to SysWOW64, which has no Snipping Tool), System32 for a 64-bit process or on 32-bit
+		///Windows (Sysnative exists only for a 32-bit process).</summary>
+		public static string GetSnippingToolPath() {
+			return System.IO.Path.Combine(ODSystemFolders.GetNativeSystemFolder(),"SnippingTool.exe");
 		}
 
 		///<summary>Attempts to start Snip & Sketch, then Snipping Tool if that fails. Returns true if either started, false if neither did.</summary>
@@ -436,14 +438,8 @@ namespace OpenPmsDental{
 			//Couldn't start Snip & Sketch, so try Snipping Tool next
 			if(DoesSnippingToolExist()) {
 				Process processSnippingTool=new Process();
-				string pathToSnippingTool;
-				if(!Environment.Is64BitOperatingSystem) {
-					pathToSnippingTool="sysnative";
-				}
-				else {
-					pathToSnippingTool="system32";
-				}
-				processSnippingTool.StartInfo.FileName=$"{Environment.GetFolderPath(Environment.SpecialFolder.Windows)}\\{pathToSnippingTool}\\SnippingTool.exe";
+				processSnippingTool.StartInfo.UseShellExecute=true;//Through the shell, the .NET Framework default (the .NET default is false).
+				processSnippingTool.StartInfo.FileName=GetSnippingToolPath();
 				try {
 					processSnippingTool.Start();
 				}
@@ -504,15 +500,20 @@ namespace OpenPmsDental{
 				}
 				return;
 			}
+			//Only Image.FromFile's OutOfMemoryException or ExternalException means "not an image": the same exceptions from ImportDocument keep the
+			//generic message below (S3a-2f).
+			bool isReadingImage=true;
 			try {
 				Bitmap bitmap=(Bitmap)Image.FromFile(selectedFilePath);
 				bitmap.Dispose();
+				isReadingImage=false;
 				ImportDocument(selectedFilePath);
 			}
 			catch(FileNotFoundException ex) {
 				FriendlyException.Show(Lan.g(this,"The selected file at")+": "+selectedFilePath+" "+Lan.g(this,"could not be found"),ex);
 			}
-			catch(OutOfMemoryException) {
+			catch(Exception ex) when(isReadingImage && (ex is OutOfMemoryException || ex is System.Runtime.InteropServices.ExternalException)) {
+				//GDI+ reports this as OutOfMemoryException on .NET Framework and as ExternalException on .NET 10.
 				//Image.FromFile() will throw an OOM exception when the image format is invalid or not supported.
 				//See MSDN if you have trust issues:  https://msdn.microsoft.com/en-us/library/stf701f5(v=vs.110).aspx
 				string extension=Path.GetExtension(selectedFilePath);

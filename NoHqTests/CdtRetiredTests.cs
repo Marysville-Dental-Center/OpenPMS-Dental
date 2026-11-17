@@ -65,7 +65,10 @@ namespace NoHqTests {
 		[TestMethod]
 		public void CdtAssembly_IsNotReferencedByTheProgram() {
 			string pathRoot=RemovedAssembliesTests.GetRepositoryRoot();
-			foreach(string pathRelative in new[] { @"OpenPmsDental\bin\Debug\OpenPmsDental.exe",@"WpfControlsOD\bin\Debug\WpfControlsOD.dll" }) {
+			//The program's managed assembly (ProgramAssembly: OpenPmsDental.dll on .NET, where the .exe is the apphost Mono.Cecil cannot read).
+			foreach(string pathRelative in new[] { ProgramAssembly.FindRelative(pathRoot,@"OpenPmsDental\bin\Debug","OpenPmsDental"),
+				@"WpfControlsOD\bin\Debug\WpfControlsOD.dll" })
+			{
 				string path=Path.Combine(pathRoot,pathRelative);
 				if(!File.Exists(path)) {
 					BuildOutput.NotBuilt(path+" is not built. Build OpenDental.Local.slnf (Debug|x86) first.");
@@ -109,7 +112,7 @@ namespace NoHqTests {
 
 		[TestMethod]
 		public void OpenDental_AdaUiIsRemoved() {
-			Assembly assembly=LoadBuiltAssembly("OpenPmsDental.exe");
+			Assembly assembly=LoadProgramAssembly();
 			AssertNoMembers(FindType(assembly,"OpenPmsDental.FormProcTools"),"checkDcodes","checkTreatAreas","_listProcedureCodes");
 			AssertNoMembers(FindType(assembly,"OpenPmsDental.FormRegistrationKey"),"ValidateKey");
 			Type typeFormDatabaseMaintenance=FindType(assembly,"OpenPmsDental.FormDatabaseMaintenance");
@@ -122,7 +125,7 @@ namespace NoHqTests {
 			//Open Dental's registration keys were removed (docs/decoupling-plan.md), so no window shows or changes one: the Setup Wizard's
 			//Registration Key page and its Pre-Setup category are gone, and so are the key boxes of FormRegistrationKey and FormUpdateSetup.
 			//The RegistrationKey preference itself stays in the database.
-			Assembly assembly=LoadBuiltAssembly("OpenPmsDental.exe");
+			Assembly assembly=LoadProgramAssembly();
 			Assert.IsNull(assembly.GetType("OpenPmsDental.User_Controls.SetupWizard.UserControlSetupWizRegKey"),
 				"The Setup Wizard's Registration Key page should be removed.");
 			Assert.IsNull(assembly.GetType("OpenPmsDental.SetupWizard+RegKeySetup"),"The Setup Wizard's Registration Key step should be removed.");
@@ -144,15 +147,13 @@ namespace NoHqTests {
 				|| x.Equals("packages",StringComparison.OrdinalIgnoreCase));
 		}
 
-		///<summary>Loads an assembly from OpenPmsDental\bin\Debug (or Release). The test is inconclusive when it has not been built.</summary>
-		private static Assembly LoadBuiltAssembly(string fileName) {
+		///<summary>Loads the program's managed assembly from OpenPmsDental\bin\Debug (or Release): OpenPmsDental.dll when it is there (on .NET, where
+		///the .exe is the apphost), else OpenPmsDental.exe (ProgramAssembly). The test is inconclusive when it has not been built.</summary>
+		private static Assembly LoadProgramAssembly() {
 			string dirTests=Path.GetDirectoryName(typeof(CdtRetiredTests).Assembly.Location);//NoHqTests\bin\Debug
 			string dirConfiguration=Path.GetFileName(dirTests);
-			string path=Path.GetFullPath(Path.Combine(dirTests,"..","..","..","OpenPmsDental","bin",dirConfiguration,fileName));
-			if(!File.Exists(path)) {
-				BuildOutput.NotBuilt(fileName+" is not built: "+path);
-			}
-			return Assembly.LoadFrom(path);
+			string folder=Path.GetFullPath(Path.Combine(dirTests,"..","..","..","OpenPmsDental","bin",dirConfiguration));
+			return ProgramAssembly.Load(folder,"OpenPmsDental");
 		}
 
 		private static Type FindType(Assembly assembly,string typeName) {

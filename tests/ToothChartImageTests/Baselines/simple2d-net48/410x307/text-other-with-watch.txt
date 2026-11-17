@@ -1,0 +1,9 @@
+Scene: text-other-with-watch
+Group: paint
+Description: Paint type Text with a watch mark on the same tooth: "UCF" and "W" on 24 and "W" on 25 (TP), "Fx" and "W" on 9 (C), and "Fx" alone on 8 (C) for comparison. The text sits one line nearer the tooth than the "W", which keeps the edge, as in Open Dental 26.2's screenshot.
+Size: 410x307
+Colours: Module
+Engine: Simple2D (ToothChart2D, GDI+)
+Bitmap: 410x307 Format32bppArgb
+Pixels SHA-256: 6d66e4665fb8c4ce5449f76bec0f9f8fb9694ea6a35edb98e2acb0bc9419839c
+Framework: .NET Framework 4.8, x86

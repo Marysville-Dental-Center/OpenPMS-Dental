@@ -33,7 +33,7 @@ namespace ProjectFileTests {
 	///App.xaml as ApplicationDefinition, with the WindowsDesktop SDK's Page metadata), switched off by EnableDefaultItems,
 	///EnableDefaultCompileItems and the other switches, and the Link metadata the SDK gives an item outside the project folder
 	///(SetLinkMetadataAutomatically), exactly as Microsoft.NET.Sdk.DefaultItems.props/.targets and Microsoft.NET.Sdk.WindowsDesktop.props/.targets
-	///of the pinned SDK 10.0.114 define them.
+	///of the pinned SDK 10.0.115 define them.
 	///What it does not model: the rest of the files of MSBuild, Visual Studio's components, the .NET Framework and the SDK (those the common
 	///targets import from MSBuild's ImportBefore and ImportAfter folders, Microsoft.WinFx.targets, the web application targets), targets (items
 	///created while building), ItemDefinitionGroup defaults other than the WindowsDesktop SDK's, and environment variables, which MSBuild
@@ -603,7 +603,7 @@ namespace ProjectFileTests {
 		#endregion Loading
 
 		#region MSBuild's and the SDK's own files
-		//What the files of MSBuild 18 (Build Tools 2026) and of the pinned .NET SDK 10.0.114 do for the properties a project's conditions, items
+		//What the files of MSBuild 18 (Build Tools 2026) and of the pinned .NET SDK 10.0.115 do for the properties a project's conditions, items
 		//and the tests read, at the point of the evaluation where those files do it, in their order. Each method names the file it follows; the
 		//properties it does not compute are in the not-modelled lists (_arrayNotModelledProperties, _arrayNotModelledToolsetProperties,
 		//_arrayNotModelledSdkProperties, _arraySdkLanguageProperties, _arrayWebApplicationProperties), and throw when used.
@@ -1038,6 +1038,15 @@ namespace ProjectFileTests {
 			if(IsValueIfKnown("DelaySign","true")==false) {
 				_dictProperties["DelaySign"]="";
 			}
+			//Line 393: BuildInParallel true unless set. Lines 7097-7100: UseMSBuildTestInfrastructure false unless set; 'true' imports
+			//Microsoft.Common.Test.targets, which this reader does not read, so one that is not known to be 'false' throws. Microsoft.Testing.Platform.MSBuild's
+			//targets (MSTest 4, S4-1), which the restore's .nuget.g.targets imports after this file, read both (the stage 4 gate's evaluator check).
+			SetIfEmpty("BuildInParallel","true");
+			SetIfEmpty("UseMSBuildTestInfrastructure","false");
+			if(IsValueIfKnown("UseMSBuildTestInfrastructure","false")!=true) {
+				throw new NotSupportedException(Describe()+": $(UseMSBuildTestInfrastructure) ("+FILE+" line 7100) is not 'false': MSBuild then imports "
+					+"Microsoft.Common.Test.targets, which ProjectFile does not model.");
+			}
 			ApplyNuGetTargetsProperties();
 		}
 
@@ -1171,7 +1180,7 @@ namespace ProjectFileTests {
 			_dictProperties["NETCoreSdkRuntimeIdentifier"]=Environment.Is64BitOperatingSystem ? "win-x64" : "win-x86";
 			//The same file sets the SDK's own version, the one global.json pins (rollForward disable): Microsoft.CodeCoverage 18.12.0, which
 			//Microsoft.NET.Test.Sdk brings every test project (S4-1), tests it in a condition. A classic project leaves it '' (not modelled there).
-			_dictProperties["NETCoreSdkVersion"]="10.0.114";
+			_dictProperties["NETCoreSdkVersion"]="10.0.115";
 			_dictProperties["DisableHandlePackageFileConflicts"]="true";
 			SetIfEmpty("Configurations","Debug;Release");
 			SetIfEmpty("Platforms","AnyCPU");
@@ -1336,7 +1345,7 @@ namespace ProjectFileTests {
 			_listItemSteps.Add(new ItemStep { Builtin=STEP_SDK_TARGETS_ITEMS });
 		}
 
-		///<summary>The part of Microsoft.NET.Sdk.BeforeCommon.targets (SDK 10.0.114) that comes before the common targets: whether the project is
+		///<summary>The part of Microsoft.NET.Sdk.BeforeCommon.targets (SDK 10.0.115) that comes before the common targets: whether the project is
 		///an exe; the platform name; the target framework's identifier, version and platform (Microsoft.NET.TargetFrameworkInference.targets, with
 		///ProduceReferenceAssembly true for .NET 5 and later, .NET 7 and later for F#); the output and intermediate paths
 		///(Microsoft.NET.DefaultOutputPaths.targets: bin\ and obj\, then the platform folder unless the platform is AnyCPU or
@@ -1357,6 +1366,15 @@ namespace ProjectFileTests {
 			}
 			else if(isExecutable.Value) {
 				_dictProperties["_IsExecutable"]="true";
+			}
+			//Two names Microsoft.Testing.Platform.MSBuild's targets (MSTest 4) read inside its targets: the native executable's extension
+			//(Microsoft.NET.Sdk.Shared.targets line 33, from the runtime identifier the SDK infers for an exe, not modelled) and the container
+			//switch (Microsoft.NET.Build.Containers.targets line 19, true unless OutputType is Library). For a library both stay '', as MSBuild has them.
+			if(isExecutable!=false) {
+				_hashSetNotModelled.Add("_NativeExecutableExtension");
+			}
+			if(IsValueIfKnown("OutputType","Library")!=true) {
+				_hashSetNotModelled.Add("EnableSdkContainerSupport");
 			}
 			if(GetValue("HasRuntimeOutput")=="") {
 				_dictProperties["HasRuntimeOutput"]=GetValue("_IsExecutable");
@@ -1557,7 +1575,7 @@ namespace ProjectFileTests {
 			}
 		}
 
-		///<summary>The compiler defaults that the SDK (10.0.114) computes after the project's own properties for a C# project, in its order:
+		///<summary>The compiler defaults that the SDK (10.0.115) computes after the project's own properties for a C# project, in its order:
 		///Microsoft.NET.Sdk.targets turns BinaryFormatter's obsolete warning into an error for .NET 7 and later unless
 		///EnableUnsafeBinaryFormatterSerialization is true, and sets that false from .NET 8 on (for Windows Forms and WPF from .NET 9 on);
 		///Microsoft.NET.Sdk.CSharp.targets adds the configuration's define to DefineConstants
@@ -1821,7 +1839,7 @@ namespace ProjectFileTests {
 			return GetKnownValue(name).Equals("false",StringComparison.OrdinalIgnoreCase);
 		}
 
-		///<summary>Microsoft.NET.Sdk.DefaultItems.props and Microsoft.NET.Sdk.WindowsDesktop.props (SDK 10.0.114). Items are not markers, so a
+		///<summary>Microsoft.NET.Sdk.DefaultItems.props and Microsoft.NET.Sdk.WindowsDesktop.props (SDK 10.0.115). Items are not markers, so a
 		///switch these files read that is not known (an environment variable no file set, a value not known) throws (IsKnownTrue, IsKnownFalse),
 		///where they read it.</summary>
 		private void AddSdkDefaultItems() {
@@ -1860,7 +1878,7 @@ namespace ProjectFileTests {
 			}
 		}
 
-		///<summary>The item part of Microsoft.NET.Sdk.WindowsDesktop.targets (SDK 10.0.114, lines 73-101), when Microsoft.NET.Sdk.targets imported
+		///<summary>The item part of Microsoft.NET.Sdk.WindowsDesktop.targets (SDK 10.0.115, lines 73-101), when Microsoft.NET.Sdk.targets imported
 		///it: a Page that is also a Resource, Content, the ApplicationDefinition or an explicit None item is not a Page. Its ItemGroup has line 56's
 		///condition of its own (IsWindowsDesktopTargetsGlobbing), not _EnableWindowsDesktopGlobbing: a file or an environment variable that sets
 		///the name for a project without UseWPF gets the Page items of the props, and none of these removals.</summary>
@@ -1898,7 +1916,7 @@ namespace ProjectFileTests {
 				&& Version.TryParse(GetKnownValue("_TargetFrameworkVersionWithoutV"),out versionFramework) && versionFramework>=new Version(3,0);
 		}
 
-		///<summary>The ItemDefinitionGroup of Microsoft.NET.Sdk.WindowsDesktop.props (SDK 10.0.114): with the WPF default globs on, every Page and
+		///<summary>The ItemDefinitionGroup of Microsoft.NET.Sdk.WindowsDesktop.props (SDK 10.0.115): with the WPF default globs on, every Page and
 		///ApplicationDefinition item starts with Generator=MSBuild:Compile, XamlRuntime=$(DefaultXamlRuntime) and SubType=Designer, which its own
 		///metadata then override.</summary>
 		private void ApplyItemDefinitions(ProjectItem projectItem) {
@@ -1921,7 +1939,7 @@ namespace ProjectFileTests {
 			}
 		}
 
-		///<summary>The automatic Link metadata of Microsoft.NET.Sdk.DefaultItems.targets (SDK 10.0.114), unless SetLinkMetadataAutomatically is
+		///<summary>The automatic Link metadata of Microsoft.NET.Sdk.DefaultItems.targets (SDK 10.0.115), unless SetLinkMetadataAutomatically is
 		///false: an Update of every Compile, AdditionalFiles, None, Content, EmbeddedResource, Page and Resource item there is at that point (so
 		///those of Directory.Build.targets too, but none after an explicit Sdk.targets import). LinkBase gets a trailing back slash, and an item
 		///whose full path is not inside the project folder, with no Link and not from a shared project (.projitems), gets

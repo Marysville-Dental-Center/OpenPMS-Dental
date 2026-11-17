@@ -60,15 +60,15 @@ namespace OpenPmsDental {
 		///<summary></summary>
 		public void LayoutToolBars() {
 			ToolBarMain.Buttons.Clear();
-			ContextMenu contextMenuSettings=new ContextMenu();
-			MenuItem menuItemClearCache=new MenuItem();
+			ContextMenuStrip contextMenuSettings=new ContextMenuStrip();
+			ToolStripMenuItem menuItemClearCache=new ToolStripMenuItem();
 			menuItemClearCache.Name="ClearCache";
 			menuItemClearCache.Text="Clear Browser Cache";
 			menuItemClearCache.Click+=new System.EventHandler(this.menuItemClearCache_Click);
-			contextMenuSettings.MenuItems.Add(menuItemClearCache);
+			contextMenuSettings.Items.Add(menuItemClearCache);
 			ODToolBarButton buttonSettings=new ODToolBarButton(Lan.g(this,"Settings"),-1,"","Settings");
 			buttonSettings.Style=ODToolBarButtonStyle.DropDownButton;
-			buttonSettings.DropDownMenu=contextMenuSettings;
+			buttonSettings.ContextMenuStripDropDown=contextMenuSettings;
 			ToolBarMain.Buttons.Add(buttonSettings);
 			ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Back"),0,"","Back"));
 			ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Forward"),1,"","Forward"));

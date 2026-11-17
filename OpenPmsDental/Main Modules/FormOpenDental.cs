@@ -228,7 +228,7 @@ namespace OpenPmsDental{
 			LayoutManager.Add(userControlDashboard,splitContainer.Panel2);
 			userControlTasks1=new UserControlTasks() { Visible=false };
 			LayoutManager.Add(userControlTasks1,this);
-			panelSplitter.ContextMenu=menuSplitter;
+			panelSplitter.ContextMenuStrip=menuSplitter;
 			menuItemDockBottom.Checked=true;
 			DataValid.EventInvalid+=(sender,e)=>DataValid_BecameInvalid(e);
 			GlobalFormOpenDental.EventLockODForMountAcquire+=(sender,isEnabled)=>LockODForMountAcquire(isEnabled);
@@ -814,17 +814,6 @@ namespace OpenPmsDental{
 				&& !ComputerPrefs.LocalComputer.NoShowDecimal) {
 				FrmDecimalSettings frmDecimalSettings=new FrmDecimalSettings();
 				frmDecimalSettings.ShowDialog();
-			}
-			Logger.LogToPath("DirectXFormat",LogPath.Startup,LogPhase.Unspecified);
-			//Choose a default DirectX format when no DirectX format has been specified and running in DirectX tooth chart mode.
-			if(ToothChartRelay.ChooseStartupDirectXFormat(this)) {
-				try {
-					//Reinitialize the tooth chart because the graphics mode was probably changed which should change the tooth chart appearence.
-					controlChart.InitializeOnStartup();
-				}
-				catch(Exception) {
-					//The tooth chart will default to Simple2D mode if the above code fails for any reason.  This will at least get the user into the program.
-				}
 			}
 			_menuItemReactivation.Available=PrefC.GetBool(PrefName.ShowFeatureReactivations);
 			Logger.LogToPath("UpdateLocalComputerOS",LogPath.Startup,LogPhase.Unspecified);
@@ -1802,14 +1791,14 @@ namespace OpenPmsDental{
 			ODToolBarButton toolBarButton;
 			toolBarButton=new ODToolBarButton(Lan.g(this,"Select Patient"),EnumIcons.PatSelect,"","Patient");
 			toolBarButton.Style=ODToolBarButtonStyle.DropDownButton;
-			toolBarButton.DropDownMenu=menuPatient;
+			toolBarButton.ContextMenuStripDropDown=menuPatient;
 			ToolBarMain.Buttons.Add(toolBarButton);
 			if(!Programs.UsingEcwTightMode()) {//eCW tight only gets Patient Select and Popups toolbar buttons
 				toolBarButton=new ODToolBarButton(Lan.g(this,"Commlog"),EnumIcons.CommLog,Lan.g(this,"New Commlog Entry"),"Commlog");
 				ToolBarMain.Buttons.Add(toolBarButton);
 				toolBarButton=new ODToolBarButton(Lan.g(this,"E-mail"),EnumIcons.Email,Lan.g(this,"Send E-mail"),"Email");
 				toolBarButton.Style=ODToolBarButtonStyle.DropDownButton;
-				toolBarButton.DropDownMenu=menuEmail;
+				toolBarButton.ContextMenuStripDropDown=menuEmail;
 				ToolBarMain.Buttons.Add(toolBarButton);
 				//The Text button only appears when a texting integration is enabled (CallFire).
 				if(IsTextingAvailable()) {
@@ -1818,7 +1807,7 @@ namespace OpenPmsDental{
 				}
 				toolBarButton=new ODToolBarButton(Lan.g(this,"Letter"),-1,Lan.g(this,"Quick Letter"),"Letter");
 				toolBarButton.Style=ODToolBarButtonStyle.DropDownButton;
-				toolBarButton.DropDownMenu=menuLetter;
+				toolBarButton.ContextMenuStripDropDown=menuLetter;
 				ToolBarMain.Buttons.Add(toolBarButton);
 				toolBarButton=new ODToolBarButton(Lan.g(this,"Forms"),-1,"","Form");
 				//button.Style=ODToolBarButtonStyle.DropDownButton;
@@ -1827,12 +1816,12 @@ namespace OpenPmsDental{
 				if(_toolBarButtonTask==null) {
 					_toolBarButtonTask=new ODToolBarButton(Lan.g(this,"Tasks"),3,Lan.g(this,"Open Tasks"),"Tasklist");
 					_toolBarButtonTask.Style=ODToolBarButtonStyle.DropDownButton;
-					_toolBarButtonTask.DropDownMenu=menuTask;
+					_toolBarButtonTask.ContextMenuStripDropDown=menuTask;
 				}
 				ToolBarMain.Buttons.Add(_toolBarButtonTask);
 				toolBarButton=new ODToolBarButton(Lan.g(this,"Label"),4,Lan.g(this,"Print Label"),"Label");
 				toolBarButton.Style=ODToolBarButtonStyle.DropDownButton;
-				toolBarButton.DropDownMenu=menuLabel;
+				toolBarButton.ContextMenuStripDropDown=menuLabel;
 				ToolBarMain.Buttons.Add(toolBarButton);
 			}
 			ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Popups"),-1,Lan.g(this,"Edit popups for this patient"),"Popups"));
@@ -2222,13 +2211,15 @@ namespace OpenPmsDental{
 			FillPatientButton(patient);
 		}
 
-		private void menuPatient_Popup(object sender,EventArgs e) {
+		private void menuPatient_Popup(object sender,CancelEventArgs e) {
 			Family family=null;
 			if(PatNumCur!=0) {
 				family=Patients.GetFamily(PatNumCur);
 			}
 			//Always refresh the patient menu to reflect any patient status changes.
 			PatientL.AddFamilyToMenu(menuPatient,new EventHandler(menuPatient_Click),PatNumCur,family);
+			//The menu is filled here, so it opens when it has items (a ContextMenuStrip without items starts its Opening cancelled).
+			e.Cancel=!menuPatient.Items.Cast<ToolStripItem>().Any(x => x.Available);
 		}
 
 		private void toolButEmail_Click() {
@@ -2255,12 +2246,12 @@ namespace OpenPmsDental{
 			}
 		}
 
-		private void menuEmail_Popup(object sender,EventArgs e) {
-			menuEmail.MenuItems.Clear();
-			MenuItem menuItem;
-			menuItem=new MenuItem(Lan.g(this,"Referrals:"));
+		private void menuEmail_Popup(object sender,CancelEventArgs e) {
+			menuEmail.Items.Clear();
+			ToolStripMenuItem menuItem;
+			menuItem=new ToolStripMenuItem(Lan.g(this,"Referrals:"));
 			menuItem.Tag=null;
-			menuEmail.MenuItems.Add(menuItem);
+			menuEmail.Items.Add(menuItem);
 			List<RefAttach> listRefAttachs=RefAttaches.Refresh(PatNumCur);
 			string referralDescript=DisplayFields.GetForCategory(DisplayFieldCategory.PatientInformation)
 				.FirstOrDefault(x => x.InternalName=="Referrals")?.Description;
@@ -2290,19 +2281,20 @@ namespace OpenPmsDental{
 					str+=referral.EMail;
 				}
 				str+=">";
-				menuItem=new MenuItem(str,menuEmail_Click);
+				menuItem=new ToolStripMenuItem(str,null,menuEmail_Click);
 				menuItem.Tag=referral;
-				menuEmail.MenuItems.Add(menuItem);
+				menuEmail.Items.Add(menuItem);
 			}
+			e.Cancel=false;//filled here: a ContextMenuStrip without items starts its Opening cancelled
 		}
 
 		private void menuEmail_Click(object sender,System.EventArgs e) {
-			if(((MenuItem)sender).Tag==null){
+			if(((ToolStripMenuItem)sender).Tag==null){
 				return;
 			}
 			LabelSingle labelSingle=new LabelSingle();
-			if(((MenuItem)sender).Tag.GetType()==typeof(Referral)) {
-				Referral referral=(Referral)((MenuItem)sender).Tag;
+			if(((ToolStripMenuItem)sender).Tag.GetType()==typeof(Referral)) {
+				Referral referral=(Referral)((ToolStripMenuItem)sender).Tag;
 				if(referral.EMail==""){
 					return;
 					//MsgBox.Show(this,"");
@@ -2374,20 +2366,20 @@ namespace OpenPmsDental{
 			FormSheetFillEdit.ShowForm(sheet,FormSheetFillEdit_FormClosing);
 		}
 
-		private void menuLetter_Popup(object sender,EventArgs e) {
-			menuLetter.MenuItems.Clear();
-			MenuItem menuItem;
-			menuItem=new MenuItem(Lan.g(this,"Merge"),menuLetter_Click);
+		private void menuLetter_Popup(object sender,CancelEventArgs e) {
+			menuLetter.Items.Clear();
+			ToolStripMenuItem menuItem;
+			menuItem=new ToolStripMenuItem(Lan.g(this,"Merge"),null,menuLetter_Click);
 			menuItem.Tag="Merge";
-			menuLetter.MenuItems.Add(menuItem);
-			//menuItem=new MenuItem(Lan.g(this,"Stationery"),menuLetter_Click);
+			menuLetter.Items.Add(menuItem);
+			//menuItem=new ToolStripMenuItem(Lan.g(this,"Stationery"),null,menuLetter_Click);
 			//menuItem.Tag="Stationery";
-			//menuLetter.MenuItems.Add(menuItem);
-			menuLetter.MenuItems.Add("-");
+			//menuLetter.Items.Add(menuItem);
+			menuLetter.Items.Add("-");
 			//Referrals---------------------------------------------------------------------------------------
-			menuItem=new MenuItem(Lan.g(this,"Referrals:"));
+			menuItem=new ToolStripMenuItem(Lan.g(this,"Referrals:"));
 			menuItem.Tag=null;
-			menuLetter.MenuItems.Add(menuItem);
+			menuLetter.Items.Add(menuItem);
 			string referralDescript=DisplayFields.GetForCategory(DisplayFieldCategory.PatientInformation)
 				.FirstOrDefault(x => x.InternalName=="Referrals")?.Description;
 			if(string.IsNullOrWhiteSpace(referralDescript)) {//either not displaying the Referral field or no description entered, default to 'Referral'
@@ -2410,28 +2402,29 @@ namespace OpenPmsDental{
 					str=referralDescript;
 				}
 				str+=" "+Referrals.GetNameFL(referral.ReferralNum);
-				menuItem=new MenuItem(str,menuLetter_Click);
+				menuItem=new ToolStripMenuItem(str,null,menuLetter_Click);
 				menuItem.Tag=referral;
-				menuLetter.MenuItems.Add(menuItem);
+				menuLetter.Items.Add(menuItem);
 			}
+			e.Cancel=false;//filled here: a ContextMenuStrip without items starts its Opening cancelled
 		}
 
 		private void menuLetter_Click(object sender,System.EventArgs e) {
-			if(((MenuItem)sender).Tag==null) {
+			if(((ToolStripMenuItem)sender).Tag==null) {
 				return;
 			}
 			Patient patient=Patients.GetPat(PatNumCur);
-			if(((MenuItem)sender).Tag.GetType()==typeof(string)) {
-				if(((MenuItem)sender).Tag.ToString()=="Merge") {
+			if(((ToolStripMenuItem)sender).Tag.GetType()==typeof(string)) {
+				if(((ToolStripMenuItem)sender).Tag.ToString()=="Merge") {
 					using FormLetterMerges formLetterMerges=new FormLetterMerges(patient);
 					formLetterMerges.ShowDialog();
 				}
-				//if(((MenuItem)sender).Tag.ToString()=="Stationery") {
+				//if(((ToolStripMenuItem)sender).Tag.ToString()=="Stationery") {
 				//	FormCommunications.PrintStationery(pat);
 				//}
 			}
-			if(((MenuItem)sender).Tag.GetType()==typeof(Referral)) {
-				Referral referral=(Referral)((MenuItem)sender).Tag;
+			if(((ToolStripMenuItem)sender).Tag.GetType()==typeof(Referral)) {
+				Referral referral=(Referral)((ToolStripMenuItem)sender).Tag;
 				FrmSheetPicker frmSheetPicker=new FrmSheetPicker();
 				frmSheetPicker.SheetType=SheetTypeEnum.ReferralLetter;
 				frmSheetPicker.ShowDialog();
@@ -2512,7 +2505,7 @@ namespace OpenPmsDental{
 			formTaskEdit.Show();
 		}
 
-		private void menuTask_Popup(object sender,EventArgs e) {
+		private void menuTask_Popup(object sender,CancelEventArgs e) {
 			menuItemTaskNewForUser.Text=Lan.g(this,"for")+" "+Security.CurUser.UserName;
 			menuItemTaskReminders.Text=Lan.g(this,"Reminders");
 			int reminderTaskNewCount=GetNewReminderTaskCount();
@@ -2578,32 +2571,32 @@ namespace OpenPmsDental{
 			this.BeginInvoke(toolClick,PatNumCur);
 		}
 
-		private void menuLabel_Popup(object sender,EventArgs e) {
-			menuLabel.MenuItems.Clear();
-			MenuItem menuItem;
+		private void menuLabel_Popup(object sender,CancelEventArgs e) {
+			menuLabel.Items.Clear();
+			ToolStripMenuItem menuItem;
 			List<SheetDef> listSheetDefsLabel=SheetDefs.GetCustomForType(SheetTypeEnum.LabelPatient);
 			if(listSheetDefsLabel.Count==0){
-				menuItem=new MenuItem(Lan.g(this,"LName, FName, Address"),menuLabel_Click);
+				menuItem=new ToolStripMenuItem(Lan.g(this,"LName, FName, Address"),null,menuLabel_Click);
 				menuItem.Tag="PatientLFAddress";
-				menuLabel.MenuItems.Add(menuItem);
-				menuItem=new MenuItem(Lan.g(this,"Name, ChartNumber"),menuLabel_Click);
+				menuLabel.Items.Add(menuItem);
+				menuItem=new ToolStripMenuItem(Lan.g(this,"Name, ChartNumber"),null,menuLabel_Click);
 				menuItem.Tag="PatientLFChartNumber";
-				menuLabel.MenuItems.Add(menuItem);
-				menuItem=new MenuItem(Lan.g(this,"Name, PatNum"),menuLabel_Click);
+				menuLabel.Items.Add(menuItem);
+				menuItem=new ToolStripMenuItem(Lan.g(this,"Name, PatNum"),null,menuLabel_Click);
 				menuItem.Tag="PatientLFPatNum";
-				menuLabel.MenuItems.Add(menuItem);
-				menuItem=new MenuItem(Lan.g(this,"Radiograph"),menuLabel_Click);
+				menuLabel.Items.Add(menuItem);
+				menuItem=new ToolStripMenuItem(Lan.g(this,"Radiograph"),null,menuLabel_Click);
 				menuItem.Tag="PatRadiograph";
-				menuLabel.MenuItems.Add(menuItem);
+				menuLabel.Items.Add(menuItem);
 			}
 			else{
 				for(int i=0;i<listSheetDefsLabel.Count;i++) {
-					menuItem=new MenuItem(listSheetDefsLabel[i].Description,menuLabel_Click);
+					menuItem=new ToolStripMenuItem(listSheetDefsLabel[i].Description,null,menuLabel_Click);
 					menuItem.Tag=listSheetDefsLabel[i];
-					menuLabel.MenuItems.Add(menuItem);
+					menuLabel.Items.Add(menuItem);
 				}
 			}
-			menuLabel.MenuItems.Add("-");
+			menuLabel.Items.Add("-");
 			//Carriers---------------------------------------------------------------------------------------
 			Family family=Patients.GetFamily(PatNumCur);
 			//Received multiple bug submissions where CurPatNum==0, even though this toolbar button should not be enabled when no patient is selected.
@@ -2618,16 +2611,16 @@ namespace OpenPmsDental{
 					insSub=InsSubs.GetSub(listPatPlans[i].InsSubNum,listInsSubs);
 					insPlan=InsPlans.GetPlan(insSub.PlanNum,listInsPlans);
 					carrier=Carriers.GetCarrier(insPlan.CarrierNum);
-					menuItem=new MenuItem(carrier.CarrierName,menuLabel_Click);
+					menuItem=new ToolStripMenuItem(carrier.CarrierName,null,menuLabel_Click);
 					menuItem.Tag=carrier;
-					menuLabel.MenuItems.Add(menuItem);
+					menuLabel.Items.Add(menuItem);
 				}
-				menuLabel.MenuItems.Add("-");
+				menuLabel.Items.Add("-");
 			}
 			//Referrals---------------------------------------------------------------------------------------
-			menuItem=new MenuItem(Lan.g(this,"Referrals:"));
+			menuItem=new ToolStripMenuItem(Lan.g(this,"Referrals:"));
 			menuItem.Tag=null;
-			menuLabel.MenuItems.Add(menuItem);
+			menuLabel.Items.Add(menuItem);
 			string referralDescript=DisplayFields.GetForCategory(DisplayFieldCategory.PatientInformation)
 				.FirstOrDefault(x => x.InternalName=="Referrals")?.Description;
 			if(string.IsNullOrWhiteSpace(referralDescript)) {//either not displaying the Referral field or no description entered, default to 'Referral'
@@ -2650,40 +2643,41 @@ namespace OpenPmsDental{
 					str=referralDescript;
 				}
 				str+=" "+Referrals.GetNameFL(referral.ReferralNum);
-				menuItem=new MenuItem(str,menuLabel_Click);
+				menuItem=new ToolStripMenuItem(str,null,menuLabel_Click);
 				menuItem.Tag=referral;
-				menuLabel.MenuItems.Add(menuItem);
+				menuLabel.Items.Add(menuItem);
 			}
+			e.Cancel=false;//filled here: a ContextMenuStrip without items starts its Opening cancelled
 		}
 
 		private void menuLabel_Click(object sender,System.EventArgs e) {
-			if(((MenuItem)sender).Tag==null) {
+			if(((ToolStripMenuItem)sender).Tag==null) {
 				return;
 			}
 			//LabelSingle label=new LabelSingle();
-			if(((MenuItem)sender).Tag.GetType()==typeof(string)){
-				if(((MenuItem)sender).Tag.ToString()=="PatientLFAddress"){
+			if(((ToolStripMenuItem)sender).Tag.GetType()==typeof(string)){
+				if(((ToolStripMenuItem)sender).Tag.ToString()=="PatientLFAddress"){
 					LabelSingle.PrintPatientLFAddress(PatNumCur);
 				}
-				if(((MenuItem)sender).Tag.ToString()=="PatientLFChartNumber") {
+				if(((ToolStripMenuItem)sender).Tag.ToString()=="PatientLFChartNumber") {
 					LabelSingle.PrintPatientLFChartNumber(PatNumCur);
 				}
-				if(((MenuItem)sender).Tag.ToString()=="PatientLFPatNum") {
+				if(((ToolStripMenuItem)sender).Tag.ToString()=="PatientLFPatNum") {
 					LabelSingle.PrintPatientLFPatNum(PatNumCur);
 				}
-				if(((MenuItem)sender).Tag.ToString()=="PatRadiograph") {
+				if(((ToolStripMenuItem)sender).Tag.ToString()=="PatRadiograph") {
 					LabelSingle.PrintPatRadiograph(PatNumCur);
 				}
 			}
-			else if(((MenuItem)sender).Tag.GetType()==typeof(SheetDef)){
-				LabelSingle.PrintCustomPatient(PatNumCur,(SheetDef)((MenuItem)sender).Tag);
+			else if(((ToolStripMenuItem)sender).Tag.GetType()==typeof(SheetDef)){
+				LabelSingle.PrintCustomPatient(PatNumCur,(SheetDef)((ToolStripMenuItem)sender).Tag);
 			}
-			else if(((MenuItem)sender).Tag.GetType()==typeof(Carrier)){
-				Carrier carrier=(Carrier)((MenuItem)sender).Tag;
+			else if(((ToolStripMenuItem)sender).Tag.GetType()==typeof(Carrier)){
+				Carrier carrier=(Carrier)((ToolStripMenuItem)sender).Tag;
 				LabelSingle.PrintCarrier(carrier.CarrierNum);
 			}
-			else if(((MenuItem)sender).Tag.GetType()==typeof(Referral)) {
-				Referral referral=(Referral)((MenuItem)sender).Tag;
+			else if(((ToolStripMenuItem)sender).Tag.GetType()==typeof(Referral)) {
+				Referral referral=(Referral)((ToolStripMenuItem)sender).Tag;
 				LabelSingle.PrintReferral(referral.ReferralNum);
 			}
 		}
@@ -5525,7 +5519,7 @@ namespace OpenPmsDental{
 		}
 
 		private void UserQuery_ClickEvent(object sender,EventArgs e) {
-			UserQuery userQuery=(UserQuery) ((MenuItem) sender).Tag;
+			UserQuery userQuery=(UserQuery) ((ToolStripMenuItem) sender).Tag;
 			ExecuteQueryFavorite(userQuery,true);
 		}
 
@@ -5949,7 +5943,7 @@ namespace OpenPmsDental{
 			if(controlImages!=null && controlImages.Visible){
 				controlImages.ModuleSelected(PatNumCur);//to reset the font for any floaters
 			}
-			Plugins.HookAddCode(this,"FormOpenDental.menuItemZoom_Click_end",this.Menu);
+			Plugins.HookAddCode(this,"FormOpenDental.menuItemZoom_Click_end",new object[] { null });//was this.Menu, the form's WinForms MainMenu, which is never set (the main menu is menuMain)
 			if(userControlDashboard.Visible){
 				MsgBox.Show("Please restart to fix the Dashboard layout.");
 			}
@@ -6749,8 +6743,16 @@ namespace OpenPmsDental{
 						});
 					});
 					threadCloseForm.Start();
-					threadCloseForm.Join(1000);//Give the form a limited amount of time to close, and continue if not responsive.
+					bool hasJoined=threadCloseForm.Join(1000);//Give the form a limited amount of time to close, and continue if not responsive.
 					this.Invoke(Application.DoEvents);//Run on main thread so that ShowDialog() for the form will continue in the parent context immediately.
+					if(!hasJoined) {
+						//Join no longer aborts the thread (net10-plan, S3a-1). It is usually still waiting for the main thread to run its Close, which the
+						//DoEvents above has just done, so it gets one more limited wait to finish before the check below. That wait does not make an error
+						//reported: once the first Join has timed out, ODThread no longer passes the thread's exceptions to the handler above (hasError stays
+						//false, nothing is submitted) but logs them (ODCancellation.Log, S3a-1b). A form that is still open after it is disposed below like
+						//a form that failed to close, and the thread ends on its own (it is a background thread now).
+						threadCloseForm.Join(1000);
+					}
 					if(hasError || !IsDisposedOrClosed(formToClose)) {
 						formToClose.Invoke(formToClose.Dispose);//If failed to close, kill window so that the ShowDialog() call can continue in parent context.
 					}

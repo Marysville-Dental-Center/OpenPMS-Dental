@@ -1,0 +1,7 @@
+<UnProcessedEraResponse xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Status code="0" description="Approved" xmlns="dxci.common" />
+  <ClaimPaymentAdvice>
+    <AdditionalEraExists>true</AdditionalEraExists>
+    <EdiContent>ISA*00*~ST*835*0001~SE*2*0001~</EdiContent>
+  </ClaimPaymentAdvice>
+</UnProcessedEraResponse>

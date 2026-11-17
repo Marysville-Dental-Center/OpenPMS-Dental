@@ -282,10 +282,6 @@ OpenPmsDental|OpenPmsDental.FormEhrPatientSelectSimple.resources
 OpenPmsDental|OpenPmsDental.FormEhrPatientSmoking.resources
 OpenPmsDental|OpenPmsDental.FormEhrProviderKeyEdit.resources
 OpenPmsDental|OpenPmsDental.FormEhrProviderKeys.resources
-OpenPmsDental|OpenPmsDental.FormEhrQualityMeasureEdit.resources
-OpenPmsDental|OpenPmsDental.FormEhrQualityMeasureEdit2014.resources
-OpenPmsDental|OpenPmsDental.FormEhrQualityMeasures.resources
-OpenPmsDental|OpenPmsDental.FormEhrQualityMeasures2014.resources
 OpenPmsDental|OpenPmsDental.FormEhrReminders.resources
 OpenPmsDental|OpenPmsDental.FormEhrSettings.resources
 OpenPmsDental|OpenPmsDental.FormEhrSetup.resources
@@ -846,6 +842,8 @@ OpenPmsDental|OpenPmsDental.FormXWebTransactions.resources
 OpenPmsDental|OpenPmsDental.FormXchargeSetup.resources
 OpenPmsDental|OpenPmsDental.FormXchargeTokenTool.resources
 OpenPmsDental|OpenPmsDental.FormXchargeTrans.resources
+OpenPmsDental|OpenPmsDental.Forms.FormEhrMeasureCalc.resources
+OpenPmsDental|OpenPmsDental.Forms.FormEhrMeasureCalcDetail.resources
 OpenPmsDental|OpenPmsDental.GraphScheduleDay.resources
 OpenPmsDental|OpenPmsDental.ModuleBar.resources
 OpenPmsDental|OpenPmsDental.ODtextBox.resources
@@ -1013,8 +1011,6 @@ SparksToothChart|SparksToothChart.EraseCircle.cur
 SparksToothChart|SparksToothChart.Pen.cur
 SparksToothChart|SparksToothChart.Properties.Resources.resources
 SparksToothChart|SparksToothChart.ToothChart2D.resources
-SparksToothChart|SparksToothChart.ToothChartDirectX.resources
-SparksToothChart|SparksToothChart.ToothChartOpenGL.resources
 SparksToothChart|SparksToothChart.ToothChartWrapper.resources
 UnitTests|UnitTests.Form2dDrawingTests.resources
 UnitTests|UnitTests.Form4kTests.resources

@@ -1,0 +1,15 @@
+Scene: postbu-statuses
+Group: paint
+Description: Posts and build-ups in the six status colours (TP, C, EC, EO, R, Cn) on teeth 3, 5, 7, 10, 12, 14 and 30, 28, 26, 23, 21, 19.
+Size: 410x307
+Colours: Module
+Engine: Wpf3D (RenderTargetBitmap in software, 3D layer at 3x reduced with WIC's Fant scaler)
+Bitmap: 410x307 Format24bppRgb
+Alpha: every alpha is 255 (format without an alpha channel)
+Colours in the picture: 3794
+Pixels SHA-256: bf87a6e377407ce3727a1e8c9cc23c0d1019dd2d6b0d9d7b9eed8b199055e1c3
+Repeatable: yes (a second GetBitmap gave the same pixels)
+Framework: .NET Framework 4.8, x64
+Windows: build 26300.9974 (26H2)
+Fresh render: yes (both layers drawn again without the layer cache gave the same pixels)
+Screen DPI seen by the test host: 96

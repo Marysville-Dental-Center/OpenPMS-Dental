@@ -45,8 +45,9 @@ namespace OpenPmsDental {
 		///<summary>Opens the Statement Options window and runs the choice. The entries are read from contextMenuStatement each time, so the window
 		///always offers what the dropdown menu offered.</summary>
 		private void ShowStatementOptions() {
-			List<MenuItem> listMenuItems=contextMenuStatement.MenuItems.Cast<MenuItem>()
-				.Where(x => x.Visible && x.Enabled && x.Text!="-")
+			//Available, not Visible: a ToolStripItem is Visible only while its menu is shown, and the menu is not shown here.
+			List<ToolStripMenuItem> listMenuItems=contextMenuStatement.Items.OfType<ToolStripMenuItem>()
+				.Where(x => x.Available && x.Enabled && x.Text!="-")
 				.ToList();
 			using FormStatementChoices formStatementChoices=new FormStatementChoices();
 			formStatementChoices.AddChoice(Lan.g(this,StatementChoices.GetTitle(StatementChoice.Statement)),

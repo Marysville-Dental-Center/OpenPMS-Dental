@@ -237,7 +237,7 @@ namespace OpenPmsDental {
 
 		private void butSettings_Click(object sender, EventArgs e){
 			try {
-				Process.Start("ms-settings:display");
+				CodeBase.ODFileUtils.ShellOpen("ms-settings:display");
 			}
 			catch(Exception ex) {
 				MsgBox.Show(ex.Message);

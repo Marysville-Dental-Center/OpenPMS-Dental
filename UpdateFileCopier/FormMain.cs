@@ -427,6 +427,7 @@ namespace UpdateFileCopier {
 						string destFileName=ODFileUtils.CombinePaths(_destDirectory,ProgramNames.ExeFileName);
 						//Arguments: servername, database name, sql username, sql password hash
 						Process proc=new Process();
+						proc.StartInfo.UseShellExecute=true;//Through the shell, which asks for consent if the program needs elevation (the .NET default is false).
 						if(!string.IsNullOrWhiteSpace(_serverName)) {
 							proc.StartInfo.Arguments=" ServerName="+_serverName
 								+" DatabaseName="+_databaseName

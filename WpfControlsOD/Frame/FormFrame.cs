@@ -442,8 +442,11 @@ namespace OpenPmsDental {
 		[DllImport("dwmapi.dll")]
 		public static extern int DwmSetWindowAttribute(IntPtr hwnd, int dwAttribute, ref int pvAttribute, int attrSize);
 
-		[DllImport("user32.dll")]//this is the 64 bit version 
-		private static extern IntPtr SetWindowLongPtr(IntPtr hWnd, int nIndex, IntPtr dwNewLong);
+		//Window styles fit the 32-bit entry points in either bitness (GetWindowLong/SetWindowLong with GWL_STYLE or GWL_EXSTYLE). A pointer-
+		//sized value needs SetWindowLongPtr/GetWindowLongPtr, which only 64-bit user32 exports: in a 32-bit process winuser.h maps those names
+		//to SetWindowLong/GetWindowLong, so a declaration must choose by bitness (see ImagingDeviceManager's NativeMethods.SetWindowLongPtr).
+		[DllImport("user32.dll", EntryPoint="SetWindowLong")]
+		private static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
 		private int GWL_STYLE=-16;//window style
 		private int GWL_EXSTYLE=-20;//extended window style
 		private int WS_BORDER=0x008;//Thin line border
@@ -451,8 +454,8 @@ namespace OpenPmsDental {
 		private int WS_DLGFRAME=0x004;//dialog box with no titlebar
 		private int WS_VSCROLL=0x002;
 
-		[DllImport("user32.dll", EntryPoint="GetWindowLong")]//this is the 64 bit version 
-		private static extern IntPtr GetWindowLongPtr(IntPtr hWnd, int nIndex);
+		[DllImport("user32.dll", EntryPoint="GetWindowLong")]
+		private static extern int GetWindowLong(IntPtr hWnd, int nIndex);
 
 		[DllImport("user32.dll", SetLastError=true)]
 		static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int X, int Y, int cx, int cy, Int32 uFlags);
@@ -467,9 +470,9 @@ namespace OpenPmsDental {
 			/*
 			if(UsingUIManager){
 				//https://stackoverflow.com/questions/2398746/removing-window-border
-				//int lStyle = GetWindowLongPtr(Handle, GWL_STYLE).ToInt32();
+				//int lStyle = GetWindowLong(Handle, GWL_STYLE);
 				//int lStyleNew=lStyle | WS_DLGFRAME;
-				//SetWindowLongPtr(Handle,GWL_STYLE,new IntPtr(lStyleNew));
+				//SetWindowLong(Handle,GWL_STYLE,lStyleNew);
 				//SetWindowPos(Handle, IntPtr.Zero, 0,0,0,0, SWP_FRAMECHANGED | SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_NOOWNERZORDER);
 				return;
 			}
@@ -1327,7 +1330,7 @@ Refresh();
 			public uint uCallbackMessage;
 			public uint uEdge;
 			public RECT rect;
-			public int lParam;
+			public IntPtr lParam;//LPARAM, pointer-sized (the structure is 36 bytes in a 32-bit process, 48 in a 64-bit one)
 		}
 
 		[DllImport("shell32.dll")]

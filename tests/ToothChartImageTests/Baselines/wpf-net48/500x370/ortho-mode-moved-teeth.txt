@@ -1,0 +1,15 @@
+Scene: ortho-mode-moved-teeth
+Group: ortho
+Description: Ortho mode with ortho9's hardware on the moved teeth of ortho-hardware-moved-teeth.
+Size: 500x370
+Colours: Printout
+Engine: Wpf3D (RenderTargetBitmap in software, 3D layer at 3x reduced with WIC's Fant scaler)
+Bitmap: 500x370 Format24bppRgb
+Alpha: every alpha is 255 (format without an alpha channel)
+Colours in the picture: 2970
+Pixels SHA-256: 0a98da340d2d61ac8c9a11f4196448fa65ca8409adf3650f83752a80092ad45b
+Repeatable: yes (a second GetBitmap gave the same pixels)
+Framework: .NET Framework 4.8, x86
+Windows: build 26300.9974 (26H2)
+Fresh render: yes (both layers drawn again without the layer cache gave the same pixels)
+Screen DPI seen by the test host: 96

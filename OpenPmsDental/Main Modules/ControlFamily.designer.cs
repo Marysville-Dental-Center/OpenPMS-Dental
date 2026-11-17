@@ -31,10 +31,10 @@ namespace OpenPmsDental {
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ControlFamily));
 			this.imageListToolBar = new System.Windows.Forms.ImageList(this.components);
-			this.contextMenuInsurance = new System.Windows.Forms.ContextMenu();
-			this.menuItemPlansForFam = new System.Windows.Forms.MenuItem();
-			this.contextMenuDiscount = new System.Windows.Forms.ContextMenu();
-			this.menuItemRemoveDiscount = new System.Windows.Forms.MenuItem();
+			this.contextMenuInsurance = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.menuItemPlansForFam = new System.Windows.Forms.ToolStripMenuItem();
+			this.contextMenuDiscount = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.menuItemRemoveDiscount = new System.Windows.Forms.ToolStripMenuItem();
 			this.gridSuperFam = new OpenPmsDental.UI.GridOD();
 			this.gridRecall = new OpenPmsDental.UI.GridOD();
 			this.gridFamily = new OpenPmsDental.UI.GridOD();
@@ -65,23 +65,21 @@ namespace OpenPmsDental {
 			// 
 			// contextMenuInsurance
 			// 
-			this.contextMenuInsurance.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+			this.contextMenuInsurance.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuItemPlansForFam});
 			// 
 			// menuItemPlansForFam
 			// 
-			this.menuItemPlansForFam.Index = 0;
 			this.menuItemPlansForFam.Text = "Plans for Family";
 			this.menuItemPlansForFam.Click += new System.EventHandler(this.menuPlansForFam_Click);
 			// 
 			// contextMenuDiscount
 			// 
-			this.contextMenuDiscount.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+			this.contextMenuDiscount.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuItemRemoveDiscount});
 			// 
 			// menuItemRemoveDiscount
 			// 
-			this.menuItemRemoveDiscount.Index = 0;
 			this.menuItemRemoveDiscount.Text = "Drop Discount Plan";
 			this.menuItemRemoveDiscount.Click += new System.EventHandler(this.menuItemRemoveDiscount_Click);
 			// 
@@ -238,8 +236,8 @@ namespace OpenPmsDental {
 		}
 		#endregion
 
-		private ContextMenu contextMenuDiscount;
-		private ContextMenu contextMenuInsurance;
+		private ContextMenuStrip contextMenuDiscount;
+		private ContextMenuStrip contextMenuInsurance;
 		private GridOD gridFamily;
 		private GridOD gridIns;
 		private GridOD gridPat;
@@ -247,8 +245,8 @@ namespace OpenPmsDental {
 		private GridOD gridRecall;
 		private GridOD gridSuperFam;
 		private ImageList imageListToolBar;
-		private MenuItem menuItemRemoveDiscount;
-		private MenuItem menuItemPlansForFam;
+		private ToolStripMenuItem menuItemRemoveDiscount;
+		private ToolStripMenuItem menuItemPlansForFam;
 		private ODPictureBox pictureBoxPat;
 		private UI.SplitContainer splitContainerSuperClones;
 		private UI.SplitterPanel splitterPanel1;

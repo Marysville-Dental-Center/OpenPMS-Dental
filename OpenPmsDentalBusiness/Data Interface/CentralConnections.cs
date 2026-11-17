@@ -116,6 +116,7 @@ namespace OpenPmsDentalBusiness{
 				string myAdd=Dns.GetHostEntry(Dns.GetHostName()).AddressList[0].ToString();
 				Logger.LogToPath("Dns.GetHostEntry",LogPath.Startup,LogPhase.End);
 				ProcessStartInfo processStartInfo=new ProcessStartInfo();
+				processStartInfo.UseShellExecute=true;//Through the shell, as on .NET Framework, with the window hidden below (the .NET default is false).
 				processStartInfo.FileName=@"C:\WINDOWS\system32\cmd.exe";//Path for the cmd prompt
 				processStartInfo.Arguments="/c net view > tempCompNames.txt";//Arguments for the command prompt
 				//"/c" tells it to run the following command which is "net view > tempCompNames.txt"
@@ -123,7 +124,7 @@ namespace OpenPmsDentalBusiness{
 				//" > tempCompNames.txt" tells dos to put the results in a file called tempCompNames.txt
 				processStartInfo.WindowStyle=ProcessWindowStyle.Hidden;//Hide the window
 				Logger.LogToPath("CMD net view",LogPath.Startup,LogPhase.Start);
-				Process.Start(processStartInfo);
+				ODFileUtils.ProcessStart(processStartInfo);
 				StreamReader streamReader=null; //Gets disposed in close() call at end of method
 				string filename=ODFileUtils.CombinePaths(Application.StartupPath,"tempCompNames.txt");
 				Thread.Sleep(200);//sleep for 1/5 second

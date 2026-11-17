@@ -906,14 +906,22 @@ namespace OpenPmsDentalBusiness{
 			//Dynamic payment plan key data is built differently than regular payment plan key data
 			Patient pat=Patients.GetLim(payPlan.PatNum);
 			Patient guar=Patients.GetLim(payPlan.Guarantor);
-			string keyDataStr=GetKeyDataStringForSignature(
-				payPlan.APR.ToString(),
+			string keyDataStr=GetKeyDataStringForSignature(payPlan,pat,guar);
+			return GetHashStringForSignature(keyDataStr);
+		}
+
+		///<summary>The key data string of the pay plan, before hashing (GetKeyDataForSignature).</summary>
+		public static string GetKeyDataStringForSignature(PayPlan payPlan,Patient pat,Patient guar) {
+			Meth.NoCheckMiddleTierRole();
+			//The numbers are in the current culture, as every stored signature was made, with the text .NET Framework gave: 15 significant digits
+			//for the APR, and no sign on an amount that rounds to zero, so the key stays the same on .NET (net10 plan, S3a-3).
+			return GetKeyDataStringForSignature(
+				ODNumberText.ToStringG15(payPlan.APR,CultureInfo.CurrentCulture),
 				payPlan.NumberOfPayments.ToString(),
-				payPlan.PayAmt.ToString("f"),
+				ODNumberText.ToStringNoNegativeZero(payPlan.PayAmt,"f",CultureInfo.CurrentCulture),
 				payPlan.ChargeFrequency.GetDescription(),
 				pat.GetNameFirstOrPrefL(),
 				guar.GetNameFirstOrPrefL());
-			return GetHashStringForSignature(keyDataStr);
 		}
 
 		///<summary>Creates a new sheet from a given Pay Plan. Works for both regular or dynamic payment plans.</summary>

@@ -1,0 +1,15 @@
+Scene: perio-empty
+Group: perio
+Description: A perio chart with no measurements.
+Size: 649x696
+Colours: Perio
+Engine: Wpf3D (RenderTargetBitmap in software, 3D layer at 3x reduced with WIC's Fant scaler)
+Bitmap: 649x696 Format24bppRgb
+Alpha: every alpha is 255 (format without an alpha channel)
+Colours in the picture: 2605
+Pixels SHA-256: e230fc534e186039202b2a22788ee838a76262dc0a1ef8826d756d88e2ebdfeb
+Repeatable: yes (a second GetBitmap gave the same pixels)
+Framework: .NET Framework 4.8, x86
+Windows: build 26300.9974 (26H2)
+Fresh render: yes (both layers drawn again without the layer cache gave the same pixels)
+Screen DPI seen by the test host: 96

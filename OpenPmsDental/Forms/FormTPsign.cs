@@ -443,11 +443,41 @@ namespace OpenPmsDental{
 			}
 		}
 
+		///<summary>False, after showing the message, when a changed Topaz signature box's 32-bit helper cannot be reached, for example it ended
+		///after the patient signed and the signature went with it (S3a-14g). Checks the patient's box when isSigChanged and the practice's box
+		///when isSigPracticeChanged.</summary>
+		private bool AreTopazSignaturesReachable(bool isSigChanged,bool isSigPracticeChanged) {
+			try {
+				if(isSigChanged && signatureBoxWrapper.GetSigIsTopaz()) {
+					signatureBoxWrapper.CheckTopazSignatureReachable();
+				}
+				if(isSigPracticeChanged && signatureBoxWrapperPractice.GetSigIsTopaz()) {
+					signatureBoxWrapperPractice.CheckTopazSignatureReachable();
+				}
+			}
+			catch(Helper32Exception ex) {
+				MessageBox.Show(this,ex.Message);
+				return false;
+			}
+			return true;
+		}
+
 		private void butSave_Click(object sender,EventArgs e) {
 			//Captured before saving: the PDF step below can change these flags.
 			bool isSigChanged=_sigChanged;
 			bool isSigPracticeChanged=_hasSigPractice && _hasSigPracticeChanged;
-			SaveSignature();//"saves" signature to TPCur, does not save to DB.
+			//S3a-14g: a Topaz signature the 32-bit helper lost stops the save here, with the message, before the plan is written; the window stays
+			//open, so the user can clear the box and sign again. Before, GetSignature's failure ended the program.
+			if(!AreTopazSignaturesReachable(isSigChanged,isSigPracticeChanged)) {
+				return;
+			}
+			try {
+				SaveSignature();//"saves" signature to TPCur, does not save to DB.
+			}
+			catch(Helper32Exception ex) {
+				MessageBox.Show(this,ex.Message);//the helper ended after the check: nothing is written yet
+				return;
+			}
 			string logTextSigners=GetSwitchedSignerLogText(signatureBoxWrapper,isSigChanged,TreatPlanCur.Signature)
 				+GetSwitchedSignerLogText(signatureBoxWrapperPractice,isSigPracticeChanged,TreatPlanCur.SignaturePractice);
 			TreatPlans.Update(TreatPlanCur,_treatPlanOld);//save signature to DB.

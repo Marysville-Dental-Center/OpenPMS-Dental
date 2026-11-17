@@ -149,15 +149,19 @@ namespace VendorDirectTests.DdeBridges {
 
 		[TestMethod]
 		public void BuiltAssemblies_DoNotReferenceNDde() {
-			foreach(string pathRelative in new[] { @"OpenPmsDental\bin\Debug\OpenPmsDental.exe",@"WpfControlsOD\bin\Debug\WpfControlsOD.dll",
+			//The program's managed assembly (ProgramAssembly: OpenPmsDental.dll on .NET, where the .exe is the apphost Mono.Cecil cannot read).
+			foreach(string pathRelative in new[] { ProgramAssembly.FindRelative(GetRoot(),@"OpenPmsDental\bin\Debug","OpenPmsDental"),
+				@"WpfControlsOD\bin\Debug\WpfControlsOD.dll",
 				@"CodeBase\bin\Debug\CodeBase.dll" })
 			{
 				string path=Path.Combine(GetRoot(),pathRelative);
 				Assert.IsTrue(File.Exists(path),"Build first: "+path);
-				string name=AssemblyName.GetAssemblyName(path).FullName;
-				Assembly assembly=AppDomain.CurrentDomain.ReflectionOnlyGetAssemblies().FirstOrDefault(x => x.FullName==name)
-					??Assembly.ReflectionOnlyLoad(File.ReadAllBytes(path));
-				Assert.IsFalse(assembly.GetReferencedAssemblies().Any(x => x.Name.Equals("NDde",StringComparison.OrdinalIgnoreCase)),pathRelative);
+				//Read with Mono.Cecil from the metadata of a copy of the bytes: nothing is loaded or locked (S3a-8 of the .NET 10 move: .NET has no
+				//reflection-only load).
+				using(MemoryStream memoryStream=new MemoryStream(File.ReadAllBytes(path)))
+				using(Mono.Cecil.ModuleDefinition moduleDefinition=Mono.Cecil.ModuleDefinition.ReadModule(memoryStream)) {
+					Assert.IsFalse(moduleDefinition.AssemblyReferences.Any(x => x.Name.Equals("NDde",StringComparison.OrdinalIgnoreCase)),pathRelative);
+				}
 			}
 		}
 

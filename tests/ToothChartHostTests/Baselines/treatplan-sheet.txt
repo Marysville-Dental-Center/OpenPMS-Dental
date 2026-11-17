@@ -1,0 +1,5 @@
+Host: treatplan-sheet
+Size: 500x370
+Bitmap: Format24bppRgb
+Colours in the picture: 6636
+Pixels SHA-256: 1712a2df8eaf6cd0380d3e74d806b4401088c6711f7cfbf3b4f2bfd4ae9ec4ca

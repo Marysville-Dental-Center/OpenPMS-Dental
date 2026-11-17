@@ -5,6 +5,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenPmsDentalBusiness;
 using static DicomReaderTests.SyntheticDicom;
@@ -200,6 +201,11 @@ namespace DicomReaderTests {
 			byte[] bytesFile=MakeFileIn(synImage,Jpeg2000);
 			var listCases=new List<(string name,Func<byte[],DicomFrameInfo,DicomFrameDecodeResult> func,DicomImageReadStatus status)> {
 				("throws",(b,f) => throw new InvalidOperationException("decoder bug"),DicomImageReadStatus.Malformed),
+				//What a GDI+ error inside a decoder throws on .NET 10 (ExternalException) and on .NET Framework (OutOfMemoryException): a decoder
+				//failure, never TooLarge, so the reader's OutOfMemoryException catch needs no ExternalException next to it (docs/port-notes/S3a-9.md).
+				("throws ExternalException",(b,f) => throw new ExternalException("A generic error occurred in GDI+.",unchecked((int)0x80004005)),
+					DicomImageReadStatus.Malformed),
+				("throws OutOfMemoryException",(b,f) => throw new OutOfMemoryException("Out of memory."),DicomImageReadStatus.Malformed),
 				("null",(b,f) => null,DicomImageReadStatus.Malformed),
 				("failed",(b,f) => DicomFrameDecodeResult.Failed("broken codestream"),DicomImageReadStatus.Malformed),
 				("not supported",(b,f) => DicomFrameDecodeResult.NotSupported("a feature this decoder lacks"),DicomImageReadStatus.Unsupported),

@@ -19,7 +19,7 @@ namespace OpenPmsDental {
 		private decimal _sumClaimInsPaid;
 		private decimal _sumProvAdjAmt;
 		private static FormEtrans835Edit _formEtrans835Edit=null;
-		private ContextMenu _contextMenuClaimDetails=new ContextMenu();
+		private ContextMenuStrip _contextMenuClaimDetails=new ContextMenuStrip();
 		///<summary>List of all claimProcs associated to the attached claims.</summary>
 		private List<Hx835_ShortClaimProc> _listHx835_ShortClaimProcs;
 		///<summary>List of all attaches associated to the Hx835_Claim in Claims Paid grid, even if associated to another etrans ordered by DateTimeEntry.
@@ -55,12 +55,12 @@ namespace OpenPmsDental {
 			_x835=new X835(EtransCur,MessageText835,TranSetId835,listEtrans835Attaches);
 			RefreshFromDb();
 			FillAll();
-			Menu.MenuItemCollection menuItemCollection=new Menu.MenuItemCollection(_contextMenuClaimDetails);
-			List<MenuItem> listMenuItems=new List<MenuItem>();
-			listMenuItems.Add(new MenuItem(Lan.g(this,"Go to Account"),new EventHandler(gridClaimDetails_RightClickHelper)));
-			listMenuItems.Add(new MenuItem(Lan.g(this,"Add Tracking Status"),new EventHandler(gridClaimDetails_RightClickHelper)));//Enabled by default
-			menuItemCollection.AddRange(listMenuItems.ToArray());
-			gridClaimDetails.ContextMenu=_contextMenuClaimDetails;
+			List<ToolStripMenuItem> listMenuItems=new List<ToolStripMenuItem>();
+			listMenuItems.Add(new ToolStripMenuItem(Lan.g(this,"Go to Account"),null,new EventHandler(gridClaimDetails_RightClickHelper)));
+			listMenuItems.Add(new ToolStripMenuItem(Lan.g(this,"Add Tracking Status"),null,new EventHandler(gridClaimDetails_RightClickHelper)));//Enabled by default
+			_contextMenuClaimDetails.Items.AddRange(listMenuItems.ToArray());
+			gridClaimDetails.ContextMenuStrip=_contextMenuClaimDetails;
+			gridClaimDetails.DoAddGridItemsToContextMenuStrip=true;
 			gridClaimDetails.AllowSortingByColumn=true;
 		}
 		
@@ -388,7 +388,7 @@ namespace OpenPmsDental {
 				return;
 			}
 			Hx835_Claim hx835_Claim=(Hx835_Claim)gridClaimDetails.ListGridRows[index].Tag;
-			int idxMenuItem=((MenuItem)sender).Index;//sender is the selected menuItem
+			int idxMenuItem=_contextMenuClaimDetails.Items.IndexOf((ToolStripMenuItem)sender);//sender is the selected menuItem
 #region Go To Account
 			if(idxMenuItem==0) {
 				EtransL.GoToAccountForHx835_Claim(hx835_Claim);

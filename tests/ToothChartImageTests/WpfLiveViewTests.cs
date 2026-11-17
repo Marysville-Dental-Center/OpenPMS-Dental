@@ -98,10 +98,11 @@ namespace ToothChartImageTests {
 			Assert.IsTrue(ToothChartWrapper.IsWpfSoftwareFormat(" WpfSoftware "));
 			Assert.IsFalse(ToothChartWrapper.IsWpfSoftwareFormat(null));
 			Assert.IsFalse(ToothChartWrapper.IsWpfSoftwareFormat(""));
-			Assert.IsFalse(ToothChartWrapper.IsWpfSoftwareFormat("0;Hardware;64;D16;X8R8G8B8;None"),"A DirectX format means the live view.");
-			//An older build reads it as a DirectX format: with no ';' it keeps its default format (O-19 (b)).
-			ToothChartDirectX.DirectXDeviceFormat directXDeviceFormat=new ToothChartDirectX.DirectXDeviceFormat(ToothChartWrapper.DirectXFormatWpfSoftware);
-			Assert.AreEqual(new ToothChartDirectX.DirectXDeviceFormat().ToString(),directXDeviceFormat.ToString());
+			Assert.IsFalse(ToothChartWrapper.IsWpfSoftwareFormat("0;Hardware;64;D16;X8R8G8B8;None"),"A DirectX format is another value (since TC-8b it too "
+				+"shows the smoothed picture, the default: ToothChartRelay.IsDrawnInSoftware).");
+			//A build that still has the DirectX chart (Open Dental, or this one before TC-9a) reads it as a DirectX device format: with no ';' it keeps
+			//its default format (O-19 (b)). Until TC-9a this test parsed it with ToothChartDirectX.DirectXDeviceFormat, which gave the default format.
+			Assert.IsFalse(ToothChartWrapper.DirectXFormatWpfSoftware.Contains(";"),"The software value holds no ';', so a DirectX build reads no device format from it.");
 		}
 
 		[TestMethod]
@@ -143,6 +144,7 @@ namespace ToothChartImageTests {
 				Assert.IsFalse(wrapper.ImageHostWpf.Visible,"The image host is hidden under it.");
 				ToothScene toothScene=WpfCharts.BuildScene(wrapper);
 				Assert.AreEqual(toothScene.Items3D.Count,toothChartWpfView.CountModelsShown,"Every 3D item is a model of the view.");
+				Assert.AreEqual(0,toothChartWpfView.CountModelsShownUnder,"No unerupted tooth: nothing beneath.");
 				Assert.AreEqual(0,wrapper.ImageHostWpf.CountRendersStarted,"The hidden image host rendered nothing.");
 				//The content is laid out at 1/DPI of its window, whatever the desktop's scale (100% on the build PC, 1.5 on a desktop at 150%), so the
 				//scene's pixels are the window's device pixels.
@@ -296,6 +298,14 @@ namespace ToothChartImageTests {
 				WpfRendererTests.PumpUntil(() => false,100);
 				Assert.AreEqual(countBuilt+1,toothChartWpfView.Count3DLayersBuilt,"A refill of hundreds of Set calls builds the 3D layer once.");
 				Assert.AreEqual(WpfCharts.BuildScene(wrapper).Items3D.Count,toothChartWpfView.CountModelsShown);
+				//TC-3c: the unerupted teeth are the models of the Viewport3D beneath.
+				ChartScenes.Prepare(relay,ChartScenes.Get("mixed-dentition"),ChartColorSet.Module);
+				Assert.IsTrue(WpfRendererTests.PumpUntil(() => toothChartWpfView.Count3DLayersBuilt>countBuilt+1,20000));
+				WpfRendererTests.PumpUntil(() => false,100);
+				ToothScene toothSceneMixed=WpfCharts.BuildScene(wrapper);
+				Assert.IsTrue(toothSceneMixed.Items3DUnder.Count>0,"Mixed dentition has unerupted teeth.");
+				Assert.AreEqual(toothSceneMixed.Items3D.Count,toothChartWpfView.CountModelsShown);
+				Assert.AreEqual(toothSceneMixed.Items3DUnder.Count,toothChartWpfView.CountModelsShownUnder);
 				wrapper.Dispose();
 				form.Close();
 			});
@@ -317,7 +327,10 @@ namespace ToothChartImageTests {
 				Assert.IsTrue(toothChartWpfView.Is3DLayerCached,"The default.");
 				System.Windows.Controls.Grid grid=(System.Windows.Controls.Grid)toothChartWpfView.Child;
 				System.Windows.Controls.Border border3D=grid.Children.OfType<System.Windows.Controls.Border>().Single();
-				Assert.IsInstanceOfType(border3D.Child,typeof(System.Windows.Controls.Viewport3D));
+				//TC-3c: two Viewport3Ds in a grid, the one beneath with the unerupted teeth, the opaque teeth's over it.
+				System.Windows.Controls.Grid grid3D=(System.Windows.Controls.Grid)border3D.Child;
+				Assert.AreEqual(2,grid3D.Children.Count);
+				Assert.AreEqual(2,grid3D.Children.OfType<System.Windows.Controls.Viewport3D>().Count());
 				Assert.AreEqual(ChartScenes.SizeModule.Size.Width,border3D.ActualWidth,"The cached element is the size of the chart.");
 				Assert.AreEqual(ChartScenes.SizeModule.Size.Height,border3D.ActualHeight);
 				System.Windows.Media.BitmapCache bitmapCache=border3D.CacheMode as System.Windows.Media.BitmapCache;

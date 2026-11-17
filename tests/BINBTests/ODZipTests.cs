@@ -2,16 +2,23 @@
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading;
 using CodeBase;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace BINBTests {
 	[TestClass]
 	public class ODZipTests {
+		///<summary>The system locale's ANSI code page, asked of Windows (Encoding.Default is UTF-8 on .NET).</summary>
+		[DllImport("kernel32.dll")]
+		private static extern int GetACP();
+
 		private static KeyValuePair<string,byte[]> Entry(string name,string content) {
 			return new KeyValuePair<string,byte[]>(name,Encoding.UTF8.GetBytes(content));
 		}
@@ -52,7 +59,16 @@ namespace BINBTests {
 		public void CreateArchiveFile_WritesAReadableZipFile() {
 			string folder=TestPaths.NewTempFolder("file");
 			string zipPath=Path.Combine(folder,"claims.zip");
-			ODZip.CreateArchiveFile(zipPath,new[] { new KeyValuePair<string,byte[]>("claims.xml",ODZip.GetDefaultEncodingBytes("<x>caf\u00e9</x>")) });
+			//The ANSI page is the system's (GetACP), as Encoding.Default was on .NET Framework, whatever the thread culture (S3a-3): ja-JP's own page
+			//is 932, and the entry is still stored in the system page, 1252 on an English or Western European Windows.
+			CultureInfo cultureInfoOld=Thread.CurrentThread.CurrentCulture;
+			Thread.CurrentThread.CurrentCulture=CultureInfo.GetCultureInfo("ja-JP");
+			try {
+				ODZip.CreateArchiveFile(zipPath,new[] { new KeyValuePair<string,byte[]>("claims.xml",ODZip.GetDefaultEncodingBytes("<x>caf\u00e9</x>")) });
+			}
+			finally {
+				Thread.CurrentThread.CurrentCulture=cultureInfoOld;
+			}
 			using(ZipArchive zipArchive=new ZipArchive(File.OpenRead(zipPath),ZipArchiveMode.Read)) {
 				ZipArchiveEntry zipArchiveEntry=zipArchive.Entries.Single();
 				Assert.AreEqual("claims.xml",zipArchiveEntry.FullName);
@@ -60,8 +76,11 @@ namespace BINBTests {
 					using(Stream stream=zipArchiveEntry.Open()) {
 						stream.CopyTo(memoryStream);
 					}
-					CollectionAssert.AreEqual(Encoding.Default.GetBytes("<x>caf\u00e9</x>"),memoryStream.ToArray(),
-						"Text is stored in the default code page, as DotNetZip stored a string entry.");
+					CollectionAssert.AreEqual(Encoding.GetEncoding(GetACP()).GetBytes("<x>caf\u00e9</x>"),memoryStream.ToArray(),
+						"Text is stored in the system's ANSI code page, as DotNetZip stored a string entry.");
+					if(GetACP()==1252) {
+						CollectionAssert.AreEqual(new byte[] { 0x3C,0x78,0x3E,0x63,0x61,0x66,0xE9,0x3C,0x2F,0x78,0x3E },memoryStream.ToArray(),"1252: e-acute is 0xE9.");
+					}
 				}
 			}
 		}

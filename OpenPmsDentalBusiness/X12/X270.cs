@@ -17,6 +17,9 @@ namespace OpenPmsDentalBusiness
 		///Set dependent to the currently selected patient, compares dependent.PatNum to subscriber.PatNum to either contruct a subscriber based or dependent based benefit request.</summary>
 		public static string GenerateMessageText(Clearinghouse clearinghouseClin,Carrier carrier,Provider billProv,Clinic clinic,InsPlan insPlan,Patient subscriber,InsSub insSub,Patient patForRequest) {
 			bool isSubscriberRequest=(subscriber.PatNum==patForRequest.PatNum);
+			//X12-SENDER: the clearinghouse's Sender TIN, or the practice's TIN when it is blank. Throws an ODException before the batch number is
+			//taken when the practice's TIN, name or telephone is missing (Validate names them first).
+			X12Sender sender=X12Sender.GetSender(clearinghouseClin,clinic==null ? 0 : clinic.ClinicNum);
 			int batchNum=Clearinghouses.GetNextBatchNumber(clearinghouseClin);
 			string groupControlNumber=batchNum.ToString();//Must be unique within file.  We will use batchNum
 			int transactionNum=1;
@@ -26,14 +29,16 @@ namespace OpenPmsDentalBusiness
 			if(IsEmdeonDental(clearinghouseClin)) {
 				strb.Append("00*"+Sout(clearinghouseClin.Password,10,10)+"*"//ISA03,ISA04: 00 + emdeon password padded to 10 characters
 					+clearinghouseClin.ISA05+"*"//ISA05: Sender ID type: ZZ=mutually defined. 30=TIN. Validated
-					+"316:"+Sout(clearinghouseClin.LoginID,11,11)+"*"//ISA06: Emdeon vendor number + username
+					//ISA06: the office's Emdeon login alone, padded to 15. Upstream wrote "316:" before an 11-character login: very likely
+					//Open Dental Inc's vendor number at Emdeon, which this program does not send (owner, 2026-11-15: "Login only").
+					+Sout(clearinghouseClin.LoginID,15,15)+"*"
 					+clearinghouseClin.ISA07+"*"//ISA07: Receiver ID type: ZZ=mutually defined. 30=TIN. Validated
 					+Sout("EMDEONDENTAL",15,15)+"*");//ISA08: Receiver ID. Validated to make sure length is at least 2.
 			}
 			else{
 				strb.Append("00*          *"//ISA03,ISA04: 00 + 10 spaces
 					+clearinghouseClin.ISA05+"*"//ISA05: Sender ID type: ZZ=mutually defined. 30=TIN. Validated
-					+X12Generator.GetISA06(clearinghouseClin)+"*"//ISA06: Sender ID(TIN). Or might be TIN of Open Dental
+					+X12Generator.GetISA06(sender)+"*"//ISA06: Sender ID(TIN): the clearinghouse's Sender TIN, or the practice's TIN
 					+clearinghouseClin.ISA07+"*"//ISA07: Receiver ID type: ZZ=mutually defined. 30=TIN. Validated
 					+Sout(clearinghouseClin.ISA08,15,15)+"*");//ISA08: Receiver ID. Validated to make sure length is at least 2.
 			}
@@ -48,12 +53,12 @@ namespace OpenPmsDentalBusiness
 			//Functional Group Header
 			if(IsEmdeonDental(clearinghouseClin)) {
 				strb.Append("GS*HS*"//GS01: HS for 270 benefit inquiry
-					+X12Generator.GetGS02(clearinghouseClin)+"*"//GS02: Senders Code. Sometimes Jordan Sparks.  Sometimes the sending clinic.
+					+X12Generator.GetGS02(sender)+"*"//GS02: Senders Code: the clearinghouse's Sender TIN, or the practice's TIN.
 					+Sout("EMDEONDENTAL",15,15)+"*");//GS03: Application Receiver's Code
 			}
 			else{
 				strb.Append("GS*HS*"//GS01: HS for 270 benefit inquiry
-					+X12Generator.GetGS02(clearinghouseClin)+"*"//GS02: Senders Code. Sometimes Jordan Sparks.  Sometimes the sending clinic.
+					+X12Generator.GetGS02(sender)+"*"//GS02: Senders Code: the clearinghouse's Sender TIN, or the practice's TIN.
 					+Sout(clearinghouseClin.GS03,15,2)+"*");//GS03: Application Receiver's Code
 			}
 			strb.AppendLine(DateTime.Today.ToString("yyyyMMdd")+"*"//GS04: today's date
@@ -341,7 +346,7 @@ IEA*1*000012145~";
 
 		public static string Validate(Clearinghouse clearinghouseClin,Carrier carrier,Provider billProv,Clinic clinic,InsPlan insPlan,Patient subscriber,InsSub insSub,Patient patForRequest) {
 			StringBuilder strb=new StringBuilder();
-			X12Validate.ISA(clearinghouseClin,strb);
+			X12Validate.ISA(clearinghouseClin,clinic==null ? 0 : clinic.ClinicNum,strb);
 			X12Validate.Carrier(carrier,strb);
 			if(carrier.ElectID.Length<2) {
 				if(strb.Length!=0) {

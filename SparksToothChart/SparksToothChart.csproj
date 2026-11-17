@@ -1,8 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <!--
-    The tooth chart: the chart model, its DirectX, OpenGL and Simple 2D engines and the WPF engine in Wpf3D (docs/specs/wpf-tooth-chart-plan.md).
-    Every .cs file under this folder is compiled and every .resx embedded, so a package that adds a file does not edit this project file. No
-    XAML page is left, so the project needs no UseWPF; the WPF assemblies it draws with are plain references below.
+    The tooth chart: the chart model, the Simple 2D engine and the WPF engine in Wpf3D (docs/specs/wpf-tooth-chart-plan.md). The DirectX 9 and
+    OpenGL engines and their SharpDX and Tao references were retired in TC-9a (docs/port-notes/TC-9a.md). Every .cs file under this folder is
+    compiled and every .resx embedded, so a package that adds a file does not edit this project file. No XAML page is left, so the project needs
+    no UseWPF; the WPF assemblies it draws with are plain references below.
   -->
   <PropertyGroup>
     <TargetFramework>net48</TargetFramework>
@@ -21,29 +22,12 @@
   <ItemGroup>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <Reference Include="SharpDX">
-      <HintPath>..\Required dlls\SharpDX.dll</HintPath>
-    </Reference>
-    <Reference Include="SharpDX.Direct3D9">
-      <HintPath>..\Required dlls\SharpDX.Direct3D9.dll</HintPath>
-    </Reference>
-    <Reference Include="SharpDX.Mathematics">
-      <HintPath>..\Required dlls\SharpDX.Mathematics.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml" />
-    <Reference Include="Tao.OpenGl, Version=2.1.0.4, Culture=neutral, PublicKeyToken=1ca010269a4501ef, processorArchitecture=MSIL">
-      <HintPath>..\Required dlls\Tao.OpenGl.dll</HintPath>
-      <SpecificVersion>False</SpecificVersion>
-    </Reference>
-    <Reference Include="Tao.Platform.Windows, Version=1.0.0.4, Culture=neutral, PublicKeyToken=701104b2da67a104, processorArchitecture=MSIL">
-      <HintPath>..\Required dlls\Tao.Platform.Windows.dll</HintPath>
-      <SpecificVersion>False</SpecificVersion>
-    </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
@@ -53,12 +37,6 @@
     </Compile>
     <Compile Update="ToothChart2D.Designer.cs">
       <DependentUpon>ToothChart2D.cs</DependentUpon>
-    </Compile>
-    <Compile Update="ToothChartDirectX.Designer.cs">
-      <DependentUpon>ToothChartDirectX.cs</DependentUpon>
-    </Compile>
-    <Compile Update="ToothChartOpenGL.Designer.cs">
-      <DependentUpon>ToothChartOpenGL.cs</DependentUpon>
     </Compile>
     <Compile Update="ToothChartWrapper.Designer.cs">
       <DependentUpon>ToothChartWrapper.cs</DependentUpon>
@@ -83,12 +61,6 @@
     -->
     <EmbeddedResource Update="ToothChart2D.resx">
       <DependentUpon>ToothChart2D.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Update="ToothChartDirectX.resx">
-      <DependentUpon>ToothChartDirectX.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Update="ToothChartOpenGL.resx">
-      <DependentUpon>ToothChartOpenGL.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Update="ToothChartWrapper.resx">
       <DependentUpon>ToothChartWrapper.cs</DependentUpon>

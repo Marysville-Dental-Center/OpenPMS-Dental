@@ -2,12 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
-using System.Runtime.ExceptionServices;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
 using CodeBase;
 using OpenPmsDentalBusiness;
+using OpenPmsDentalHelper32.Topaz;
 
 namespace OpenPmsDental.UI {
 	///<summary>The Topaz signature pad control (Topaz.SigPlusNET in Topaz's SigPlusNET.dll). That file has no published redistribution terms, so the
@@ -15,26 +15,46 @@ namespace OpenPmsDental.UI {
 	///signs with a Topaz pad installs Topaz's software. Without it, GetTopaz throws a TopazNotInstalledException whose message starts with
 	///NOT_INSTALLED_MESSAGE, callers keep a null control, and every other method here does nothing (or returns 0 or "") for a null control. Every
 	///call goes to the control's own public methods by name, as the compiled calls did, so signatures behave as before when Topaz is installed.
-	///</summary>
+	///
+	///Since S3a-14 of the .NET 10 move (docs/port-notes/S3a-14.md) Topaz's control lives in the 32-bit helper program (OpenPmsDentalHelper32, its
+	///Topaz module), because the program is 64-bit after stage 3b (open point O-14). The program finds SigPlusNET.dll as before and the helper loads
+	///it; GetTopaz returns a TopazSignatureView, which stands in the program's window where Topaz's control stood and shows the helper's picture of
+	///it; every call below goes to the helper's control, the same calls in the same order with the same arguments, so stored signatures and their
+	///checks do not change. The patient signs in the helper's signing window (ShowSigningWindow), shown over the program's window.
+	///
+	///Since S3a-14n (native first, net10-plan decision 23) that helper path is the fallback. The SigPlusNET.dll found is loaded in the program's
+	///own process whenever it can run there (NativeFirstChooser.Topaz, from its PE and CLI headers: an AnyCPU SigPlusNET in either bitness, an
+	///x86-only one in a 32-bit program), as before S3a-14: GetTopaz then returns Topaz's own control, every call below goes to it by name
+	///(TopazInProcess), and the patient signs into the box in the program's window. Only a 64-bit program with an x86-only SigPlusNET uses the
+	///helper. The choice is made once per program process and logged.</summary>
 	public class TopazWrapper {
 		///<summary>Shown when a Topaz signature is to be captured or shown and Topaz's software cannot be loaded.</summary>
 		public const string NOT_INSTALLED_MESSAGE="Topaz signature pad software is not installed.";
 		///<summary>Topaz's .NET signature control assembly.</summary>
-		public const string ASSEMBLY_FILE_NAME="SigPlusNET.dll";
+		public const string ASSEMBLY_FILE_NAME=TopazCommands.ASSEMBLY_FILE_NAME;
 		///<summary>The signature control in that assembly.</summary>
-		public const string CONTROL_TYPE_NAME="Topaz.SigPlusNET";
+		public const string CONTROL_TYPE_NAME=TopazCommands.CONTROL_TYPE_NAME;
+		///<summary>How long the helper may take to load SigPlusNET.dll (its first call also starts the helper).</summary>
+		private static readonly TimeSpan _timeSpanLoad=TimeSpan.FromSeconds(60);
 		///<summary>How many folder levels below a "Topaz Systems" folder are searched for the assembly.</summary>
 		private const int SEARCH_DEPTH=3;
 		private static readonly object _lock=new object();
 		private static bool _isLoadAttempted;
+		private static bool _isInstalled;
+		///<summary>Where the controls run (NativeFirstChooser.Topaz), once a SigPlusNET.dll was found.</summary>
+		private static VendorPath _vendorPath=VendorPath.InProcess;
+		///<summary>The Topaz.SigPlusNET control type when the controls run in the program's process.</summary>
 		private static Type _typeSigPlusNET;
+		private static string _pathAssembly="";
 		private static string _loadError="";
 		private static List<string> _listSearchFoldersOverride;
+		private static Helper32Client _helper32ClientOverride;
 
 		#region Loading
 		///<summary>The folders searched for SigPlusNET.dll, in order: the program folder, every "Topaz Systems" folder under Program Files (x86) and
 		///Program Files (and up to three levels below it), and the Windows SigPlus folder. INFERRED: Topaz's installers have put the file in these
-		///places; an office whose Topaz software lives elsewhere can copy SigPlusNET.dll into the program folder.</summary>
+		///places; an office whose Topaz software lives elsewhere can copy SigPlusNET.dll into the program folder. The program searches; the file
+		///found is loaded in the program's process or, on the fallback path, by the helper.</summary>
 		public static List<string> GetSearchFolders() {
 			if(_listSearchFoldersOverride!=null) {
 				return new List<string>(_listSearchFoldersOverride);
@@ -88,38 +108,55 @@ namespace OpenPmsDental.UI {
 			return "";
 		}
 
-		///<summary>The Topaz.SigPlusNET control type, loaded once from the first SigPlusNET.dll found. Null when Topaz's software is not installed or
-		///its assembly could not be loaded (GetNotInstalledMessage says why).</summary>
-		public static Type GetControlType() {
+		///<summary>The 32-bit helper that runs Topaz's control: the program's, or the one a test set with ResetLoader.</summary>
+		public static Helper32Client GetHelper32Client() {
 			lock(_lock) {
-				if(_isLoadAttempted) {
-					return _typeSigPlusNET;
-				}
-				_isLoadAttempted=true;
-				string path=FindAssemblyPath();
-				if(path=="") {
-					_loadError="";
-					return null;
-				}
-				try {
-					Assembly assembly=Assembly.LoadFrom(path);
-					_typeSigPlusNET=assembly.GetType(CONTROL_TYPE_NAME,throwOnError:false);
-					if(_typeSigPlusNET==null || !typeof(Control).IsAssignableFrom(_typeSigPlusNET)) {
-						_typeSigPlusNET=null;
-						_loadError=path+" has no "+CONTROL_TYPE_NAME+" control.";
-					}
-				}
-				catch(Exception ex) {
-					_typeSigPlusNET=null;
-					_loadError=path+" could not be loaded: "+ex.Message;
-				}
-				return _typeSigPlusNET;
+				return _helper32ClientOverride??Helper32Client.Default;
 			}
 		}
 
-		///<summary>True when Topaz's signature control can be created on this computer.</summary>
+		///<summary>True when Topaz's signature control can be created on this computer: a SigPlusNET.dll was found and its control type loaded, in the
+		///program's process or, when NativeFirstChooser.Topaz chose the fallback, by the helper. Checked once (ResetLoader checks again); no helper is
+		///started when no SigPlusNET.dll is found or when it runs in the program's process.</summary>
 		public static bool IsInstalled() {
-			return GetControlType()!=null;
+			lock(_lock) {
+				if(_isLoadAttempted) {
+					return _isInstalled;
+				}
+				_isLoadAttempted=true;
+				_isInstalled=false;
+				_typeSigPlusNET=null;
+				string path=FindAssemblyPath();
+				if(path=="") {
+					_loadError="";
+					return false;
+				}
+				_vendorPath=NativeFirstChooser.Topaz.ChooseForManagedAssembly(path);
+				if(_vendorPath==VendorPath.InProcess) {
+					_typeSigPlusNET=TopazInProcess.LoadControlType(path,out string loadErrorInProcess);
+					if(_typeSigPlusNET==null) {
+						_loadError=loadErrorInProcess;
+						return false;
+					}
+					_pathAssembly=path;
+					_isInstalled=true;
+					return true;
+				}
+				try {
+					string loadError=(_helper32ClientOverride??Helper32Client.Default).Call(TopazCommands.MODULE,TopazCommands.LOAD,_timeSpanLoad,path)[0];
+					if(loadError!="") {
+						_loadError=loadError;
+						return false;
+					}
+				}
+				catch(Helper32Exception ex) {
+					_loadError=path+" could not be loaded: "+ex.Message;
+					return false;
+				}
+				_pathAssembly=path;
+				_isInstalled=true;
+				return true;
+			}
 		}
 
 		///<summary>NOT_INSTALLED_MESSAGE, followed by the load error when a SigPlusNET.dll was found but could not be used.</summary>
@@ -135,48 +172,59 @@ namespace OpenPmsDental.UI {
 		}
 
 		///<summary>Forgets the loaded control type so the next call searches again. With a list, only those folders are searched from then on; null
-		///restores the default search. For tests.</summary>
-		public static void ResetLoader(List<string> listSearchFolders=null) {
+		///restores the default search. With a client, the controls live in that helper from then on (a copy of the helper a test started: the
+		///fallback path is chosen, NativeFirstChooser.Topaz.ForceChoiceForTests); null restores the program's helper, and Topaz's choice is made
+		///again from the file found, as in a new program process. For tests.</summary>
+		public static void ResetLoader(List<string> listSearchFolders=null,Helper32Client helper32Client=null) {
 			lock(_lock) {
 				_listSearchFoldersOverride=listSearchFolders==null ? null : new List<string>(listSearchFolders);
+				_helper32ClientOverride=helper32Client;
 				_isLoadAttempted=false;
+				_isInstalled=false;
+				_vendorPath=VendorPath.InProcess;
 				_typeSigPlusNET=null;
+				_pathAssembly="";
 				_loadError="";
+				if(helper32Client==null) {
+					NativeFirstChooser.Topaz.ResetForTests();
+				}
+				else {
+					NativeFirstChooser.Topaz.ForceChoiceForTests(VendorPath.Helper32);
+				}
 			}
 		}
 
-		///<summary>Calls the control's public instance method of that name whose parameter count matches, converting the arguments to its parameter
-		///types (an exact match is preferred). Exceptions thrown by the method are rethrown as they are, as a compiled call would.</summary>
+		///<summary>True when topaz is a control of the fallback path, a TopazSignatureView whose Topaz.SigPlusNET lives in the 32-bit helper; false
+		///for Topaz's own control in the program's process (and for null).</summary>
+		public static bool IsInHelper(Control topaz) {
+			return topaz is TopazSignatureView;
+		}
+
+		///<summary>Calls the control's public instance method of that name whose parameter count matches, with the arguments converted to its
+		///parameter types: on Topaz's own control in the program's process (TopazInProcess.Call, as before S3a-14; what the method threw is
+		///rethrown as it is), or on the helper's (TopazSignatureView.Call; what the method threw comes back as a Helper32Exception, Remote, with
+		///the method's message).</summary>
 		private static object Call(Control topaz,string methodName,params object[] arrayArgs) {
-			List<MethodInfo> listMethodInfos=topaz.GetType().GetMethods(BindingFlags.Public|BindingFlags.Instance)
-				.Where(x => x.Name==methodName && x.GetParameters().Length==arrayArgs.Length).ToList();
-			MethodInfo methodInfo=listMethodInfos.FirstOrDefault(x => x.GetParameters().Select(y => y.ParameterType)
-				.SequenceEqual(arrayArgs.Select(y => y.GetType())))
-				??listMethodInfos.FirstOrDefault();
-			if(methodInfo==null) {
-				throw new MissingMethodException(topaz.GetType().FullName,methodName);
+			if(topaz is TopazSignatureView topazSignatureView) {
+				return topazSignatureView.Call(methodName,arrayArgs);
 			}
-			ParameterInfo[] arrayParameterInfos=methodInfo.GetParameters();
-			object[] arrayConverted=new object[arrayArgs.Length];
-			for(int i=0;i<arrayArgs.Length;i++) {
-				Type typeParameter=arrayParameterInfos[i].ParameterType;
-				if(typeParameter.IsInstanceOfType(arrayArgs[i])) {
-					arrayConverted[i]=arrayArgs[i];
-				}
-				else if(typeParameter.IsEnum) {
-					arrayConverted[i]=Enum.ToObject(typeParameter,arrayArgs[i]);
-				}
-				else {
-					arrayConverted[i]=Convert.ChangeType(arrayArgs[i],typeParameter);
-				}
+			return TopazInProcess.Call(topaz,methodName,arrayArgs);
+		}
+
+		///<summary>True when ex is what Topaz's own code threw, which the callers swallow as before: any exception of the control in the program's
+		///process; on the helper's, a Remote failure only (a failure of the helper itself is not Topaz's, S3a-14).</summary>
+		private static bool IsTopazFailure(Control topaz,Exception ex) {
+			if(!IsInHelper(topaz)) {
+				return true;
 			}
-			try {
-				return methodInfo.Invoke(topaz,arrayConverted);
+			return ex is Helper32Exception helper32Exception && helper32Exception.Failure==Helper32Failure.Remote;
+		}
+
+		private static TopazSignatureView GetView(Control topaz) {
+			if(!(topaz is TopazSignatureView topazSignatureView)) {
+				throw new ArgumentException("Not a Topaz control of TopazWrapper.GetTopaz: "+topaz.GetType().FullName);
 			}
-			catch(TargetInvocationException ex) when(ex.InnerException!=null) {
-				ExceptionDispatchInfo.Capture(ex.InnerException).Throw();
-				throw;//Not reached.
-			}
+			return topazSignatureView;
 		}
 
 		///<summary>Thrown by GetTopaz when Topaz's software is not installed. The message is GetNotInstalledMessage.</summary>
@@ -193,13 +241,25 @@ namespace OpenPmsDental.UI {
 		//the GetTopaz... methods could retrieve data from the UI control and not the remote signature pad.  The GetTopazNumberOfTabletPoints method returns
 		//0 if sent to the remote device, so it must be called on the local UI control.
 
-		///<summary>A new Topaz signature control. Throws a TopazNotInstalledException when Topaz's software is not installed.</summary>
+		///<summary>A new Topaz signature control: Topaz's own in the program's process, or on the fallback path a TopazSignatureView (its control in
+		///the helper is created on its first call). Throws a TopazNotInstalledException when Topaz's software is not installed.</summary>
 		public static Control GetTopaz() {
-			Type type=GetControlType();
-			if(type==null) {
+			if(!IsInstalled()) {
 				throw new TopazNotInstalledException(GetNotInstalledMessage());
 			}
-			Control retVal=(Control)Activator.CreateInstance(type);
+			string pathAssembly;
+			Type typeSigPlusNET;
+			lock(_lock) {
+				pathAssembly=_pathAssembly;
+				typeSigPlusNET=_vendorPath==VendorPath.InProcess ? _typeSigPlusNET : null;
+			}
+			Control retVal;
+			if(typeSigPlusNET!=null) {
+				retVal=TopazInProcess.CreateControl(typeSigPlusNET);
+			}
+			else {
+				retVal=new TopazSignatureView(GetHelper32Client(),pathAssembly);
+			}
 			retVal.HandleDestroyed+=new EventHandler(topazWrapper_HandleDestroyed);
 			return retVal;
 		}
@@ -315,12 +375,14 @@ namespace OpenPmsDental.UI {
 			try {
 				Call(topaz,"SetSigString",signature);
 			}
-			catch(Exception ex) {
+			catch(Exception ex) when(IsTopazFailure(topaz,ex)) {
 				//The signature could have become corrupted within the database (or from wherever it is coming from).
 				//The Topaz dll can throw exceptions for invalid signatures even if the signature data is a valid ASCII string.
 				//E.g. A customer had a plethora of treatment plan signatures with a value of '1' which is a valid ASCII string but is not a valid signature.
 				//This caused Topaz to throw a System.IndexOutOfRangeException: 'Index was outside the bounds of the array.'
 				//No 'tablet points' should be present on the signature pad at this time which is how calling methods will know the signature was invalid.
+				//On the helper's path (S3a-14) what Topaz threw comes from the helper as a Remote failure; a failure of the helper itself is not
+				//swallowed here.
 				ex.DoNothing();//Do nothing so that the program doesn't crash.
 			}
 			//this hook shouldn't be implemented or necessary, we only set/get the sig string on the local UI control, so this command shouldn't be sent to
@@ -340,6 +402,46 @@ namespace OpenPmsDental.UI {
 			Call(topaz,"SetTabletState",state);
 		}
 		#endregion SetTopaz... Methods
+
+		#region Signing
+		///<summary>The fallback path only (IsInHelper; Topaz's own control in the program's process takes the strokes in the box itself, as before
+		///S3a-14, SignatureBoxWrapper). Shows the helper's signing window with topaz's control over the window of controlOwner, until the patient
+		///presses OK or Cancel
+		///(Cancel clears the pad). The caller has cleared the pad and turned capture on, as before S3a-14 when the patient signed into the box in the
+		///program's window. Meanwhile this thread's windows are disabled, as for a modal window of the program, and keep painting
+		///(Helper32Client.CallPumping, which Schick.cs uses too). True for OK; false also for a null control. Throws a Helper32Exception when the
+		///helper fails.</summary>
+		public static bool ShowSigningWindow(Control topaz,Control controlOwner) {
+			if(topaz==null) {//Topaz's software is not installed (GetTopaz threw), so there is no control.
+				return false;
+			}
+			IntPtr handleOwner=IntPtr.Zero;
+			if(controlOwner!=null && controlOwner.IsHandleCreated) {
+				handleOwner=NativeMethods.GetAncestor(controlOwner.Handle,NativeMethods.GA_ROOT);//a WinForms form or the WPF window that hosts it
+			}
+			return GetView(topaz).Sign(handleOwner,Lans.g("TopazWrapper","Sign on the Topaz pad"),Lans.g("TopazWrapper","OK"),
+				Lans.g("TopazWrapper","Clear"),Lans.g("TopazWrapper","Cancel"));
+		}
+
+		private static class NativeMethods {
+			public const uint GA_ROOT=2;
+
+			[DllImport("user32.dll")]
+			public static extern IntPtr GetAncestor(IntPtr hWnd,uint flags);
+		}
+		///<summary>For SignatureBoxWrapper.FillSignature, once a stored signature shows on topaz: the control now holds it, so when its helper ends
+		///the calls that would read it fail instead of reading an empty control made again (TopazSignatureView.MarkSignatureFilled, S3a-14g).
+		///Does nothing for a null control, and for Topaz's own control in the program's process, which no helper's end can take away.</summary>
+		public static void MarkTopazSignatureFilled(Control topaz) {
+			if(topaz==null) {//Topaz's software is not installed (GetTopaz threw), so there is no control.
+				return;
+			}
+			if(!IsInHelper(topaz)) {
+				return;
+			}
+			GetView(topaz).MarkSignatureFilled();
+		}
+		#endregion Signing
 
 		#region Helper Methods
 
@@ -392,22 +494,22 @@ namespace OpenPmsDental.UI {
 					keyDataHashed=keyData;
 					break;
 			}
-			//Use reflection to directly set encoded bytes as the KeyData that Topaz should use when decrypting the signature.
-			FieldInfo fieldInfoSig;
-			object topazSignature;
-			MethodInfo methodInfoSetAutoKeyData;
-			try {
-				//Get the field info for SigPlusNET's private Sig field.
-				fieldInfoSig=topaz.GetType().GetField("Sig",BindingFlags.NonPublic | BindingFlags.Instance);
-				//Get the value of the Sig field from the instance of the SigPlusNET object passed in.
-				topazSignature=fieldInfoSig.GetValue(topaz);
-				//Get the method info of the private SetAutoKeyData() method that accepts a byte array from the Sig field.
-				//This method allows us to bypass the incorrect encodings that are forced on us in the public methods.
-				methodInfoSetAutoKeyData=fieldInfoSig.FieldType.GetMethod("SetAutoKeyData",BindingFlags.NonPublic | BindingFlags.Instance,null,new Type[] { typeof(Byte[]) },null);
+			//Use reflection to directly set encoded bytes as the KeyData that Topaz should use when decrypting the signature: the control's private Sig
+			//field and the private SetAutoKeyData() method that accepts a byte array from the Sig field. This method allows us to bypass the incorrect
+			//encodings that are forced on us in the public methods. In the program's process the reflection is TopazInProcess's (as before S3a-14); on
+			//the helper's path it runs in the helper, on its control (S3a-14).
+			Action<byte[]> actionSetAutoKeyData;
+			if(topaz is TopazSignatureView topazSignatureView) {
+				if(!topazSignatureView.CanSetAutoKeyBytes()) {
+					return;
+				}
+				actionSetAutoKeyData=topazSignatureView.SetAutoKeyBytes;
 			}
-			catch(Exception ex) {
-				ex.DoNothing();
-				return;
+			else {
+				actionSetAutoKeyData=TopazInProcess.GetSetAutoKeyData(topaz);
+				if(actionSetAutoKeyData==null) {
+					return;
+				}
 			}
 			List<Encoding> listEncodings=Encoding.GetEncodings().Select(x => x.GetEncoding()).ToList();
 			for(int i=0;i<listEncodings.Count;i++) {
@@ -421,10 +523,10 @@ namespace OpenPmsDental.UI {
 				try {
 					Call(topaz,"AutoKeyStart");
 					//Invoke SetAutoKeyData() with the encoded bytes of keyDataHashed.
-					methodInfoSetAutoKeyData.Invoke(topazSignature,new object[] { listEncodings[i].GetBytes(keyDataHashed) });
+					actionSetAutoKeyData(listEncodings[i].GetBytes(keyDataHashed));
 					Call(topaz,"AutoKeyFinish");
 				}
-				catch(Exception ex) {
+				catch(Exception ex) when(IsTopazFailure(topaz,ex)) {
 					ex.DoNothing();
 					continue;
 				}

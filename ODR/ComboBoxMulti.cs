@@ -16,7 +16,7 @@ namespace ODR
 		private System.Windows.Forms.PictureBox dropButton;
 		private bool droppedDown;
 		private System.Windows.Forms.TextBox textMain;
-		private System.Windows.Forms.ContextMenu cMenu;
+		private System.Windows.Forms.ContextMenuStrip cMenu;
 		private ArrayList selectedIndices;
 
 		/// <summary></summary>
@@ -38,6 +38,10 @@ namespace ODR
 				{
 					components.Dispose();
 				}
+				if(cMenu != null)
+				{
+					cMenu.Dispose();
+				}
 			}
 			base.Dispose( disposing );
 		}
@@ -52,7 +56,7 @@ namespace ODR
 			System.Resources.ResourceManager resources = new System.Resources.ResourceManager(typeof(ComboBoxMulti));
 			this.dropButton = new System.Windows.Forms.PictureBox();
 			this.textMain = new System.Windows.Forms.TextBox();
-			this.cMenu = new System.Windows.Forms.ContextMenu();
+			this.cMenu = new System.Windows.Forms.ContextMenuStrip();
 			this.SuspendLayout();
 			// 
 			// dropButton
@@ -140,15 +144,8 @@ namespace ODR
 			}
 			else{
 				//show the list
-				cMenu=new ContextMenu();
-				MenuItem menuItem;
-				for(int i=0;i<items.Count;i++){
-					menuItem=new MenuItem(items[i].ToString(),new System.EventHandler(MenuItem_Click));
-					menuItem.OwnerDraw=true;
-					menuItem.MeasureItem += new System.Windows.Forms.MeasureItemEventHandler(MenuItem_MeasureItem);
-					menuItem.DrawItem += new System.Windows.Forms.DrawItemEventHandler(MenuItem_DrawItem);
-					cMenu.MenuItems.Add(menuItem);
-				}
+				cMenu?.Dispose();
+				cMenu=MakeMenu();
         cMenu.Show(this,new Point(0,20));
 				/*
 				listBox2=new ListBox();
@@ -173,8 +170,34 @@ namespace ODR
 			}
 		}
 
+		///<summary>The list: one item per entry of Items, in order, each 14 high and as wide as the box less 18, painted by MenuItem_Paint (the
+		///owner-drawn MenuItems of the WinForms ContextMenu this replaces had the same size and painting). Not shown here.</summary>
+		private ContextMenuStrip MakeMenu(){
+			ContextMenuStrip contextMenuStrip=new ContextMenuStrip();
+			contextMenuStrip.ShowImageMargin=false;
+			contextMenuStrip.ShowCheckMargin=false;
+			contextMenuStrip.Closing += new System.Windows.Forms.ToolStripDropDownClosingEventHandler(cMenu_Closing);
+			ToolStripMenuItem menuItem;
+			for(int i=0;i<items.Count;i++){
+				menuItem=new ToolStripMenuItem(items[i].ToString(),null,new System.EventHandler(MenuItem_Click));
+				menuItem.AutoSize=false;
+				menuItem.Size=new Size(Width-18,14);//not sure why I have to subtract 18 to make it the proper width.
+				menuItem.Paint += new System.Windows.Forms.PaintEventHandler(MenuItem_Paint);
+				contextMenuStrip.Items.Add(menuItem);
+			}
+			return contextMenuStrip;
+		}
+
+		///<summary>A click toggles the item and the list stays open for the next one, as the ContextMenu did by showing itself again after each click.</summary>
+		private void cMenu_Closing(object sender, System.Windows.Forms.ToolStripDropDownClosingEventArgs e){
+			if(e.CloseReason==ToolStripDropDownCloseReason.ItemClicked){
+				e.Cancel=true;
+			}
+		}
+
 		private void MenuItem_Click(object sender, System.EventArgs e){
-			int index=((MenuItem)sender).Index;
+			ToolStripItem toolStripItem=(ToolStripItem)sender;
+			int index=toolStripItem.Owner.Items.IndexOf(toolStripItem);
 			if(selectedIndices.Contains(index)){
 				//this item was already selected
 				selectedIndices.Remove(index);
@@ -183,24 +206,21 @@ namespace ODR
 				selectedIndices.Add(index);
 			}
 			FillText();
-			cMenu.Show(this,new Point(0,20));
+			toolStripItem.Owner.Invalidate();//the list stays open (cMenu_Closing): paint the item's new selection.
 		}
 
-		private void MenuItem_MeasureItem(object sender, System.Windows.Forms.MeasureItemEventArgs e){
-			e.ItemWidth=Width-18;//not sure why I have to subtract 18 to make it the proper width.
-			e.ItemHeight=14;
-		}
-
-		private void MenuItem_DrawItem(object sender, System.Windows.Forms.DrawItemEventArgs e){
-			string myCaption=items[e.Index].ToString();
+		private void MenuItem_Paint(object sender, System.Windows.Forms.PaintEventArgs e){
+			ToolStripItem toolStripItem=(ToolStripItem)sender;
+			int index=toolStripItem.Owner.Items.IndexOf(toolStripItem);
+			string myCaption=items[index].ToString();
 			Brush brushBack;
-			if(selectedIndices.Contains(e.Index))
+			if(selectedIndices.Contains(index))
 				brushBack=SystemBrushes.Highlight;
 			else
 				brushBack=SystemBrushes.Window;
-			Font myFont=new Font(FontFamily.GenericSansSerif,8);
-			e.Graphics.FillRectangle(brushBack,e.Bounds);
-			e.Graphics.DrawString(myCaption,e.Font,Brushes.Black,e.Bounds.X,e.Bounds.Y);
+			Rectangle bounds=new Rectangle(Point.Empty,toolStripItem.Size);
+			e.Graphics.FillRectangle(brushBack,bounds);
+			e.Graphics.DrawString(myCaption,toolStripItem.Font,Brushes.Black,bounds.X,bounds.Y);
 		}
 
 		private void FillText(){

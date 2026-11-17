@@ -450,16 +450,24 @@ namespace OpenPmsDental {
 
 		/// <summary>Does validation before sending. Will not make an API call if a signature has not been entered.</summary>
 		private PayConnect2Response SendSignature() {
-			if(!sigBoxWrapper.GetSigChanged() || string.IsNullOrEmpty(sigBoxWrapper.GetSignature(""))) {
-				return null;
-			}
 			AddSignatureReferenceIDRequest addSignatureRequest=new AddSignatureReferenceIDRequest();
-			addSignatureRequest.ReferenceId=_response.RefNumber;
-			using(Bitmap bitmapSigImage=sigBoxWrapper.GetSigImage())
-			using(MemoryStream memoryStream=new MemoryStream()) {
-				bitmapSigImage.Save(memoryStream,ImageFormat.Jpeg);
-				byte[] byteArrayImageBytes=memoryStream.ToArray();
-				addSignatureRequest.Signature=Convert.ToBase64String(byteArrayImageBytes);
+			try {
+				if(!sigBoxWrapper.GetSigChanged() || string.IsNullOrEmpty(sigBoxWrapper.GetSignature(""))) {
+					return null;
+				}
+				addSignatureRequest.ReferenceId=_response.RefNumber;
+				using(Bitmap bitmapSigImage=sigBoxWrapper.GetSigImage())
+				using(MemoryStream memoryStream=new MemoryStream()) {
+					bitmapSigImage.Save(memoryStream,ImageFormat.Jpeg);
+					byte[] byteArrayImageBytes=memoryStream.ToArray();
+					addSignatureRequest.Signature=Convert.ToBase64String(byteArrayImageBytes);
+				}
+			}
+			catch(Helper32Exception ex) {
+				//S3a-14g: this runs after the card was charged. A Topaz signature the 32-bit helper lost is not sent, and the receipt keeps its
+				//signature line; the payment is still recorded (before, the failure ended the program before the payment window recorded it).
+				MessageBox.Show(this,ex.Message);
+				return null;
 			}
 			return PayConnect2.PutSignatureWithReferenceID(addSignatureRequest,_clinicNum,GetPatNumForLog());
 		}

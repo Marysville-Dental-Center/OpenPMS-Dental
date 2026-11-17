@@ -170,8 +170,12 @@ namespace OpenPmsDentalBusiness.Qbo {
 			if(refreshToken!="" && settings.ClientId!="" && settings.ClientSecret!="") {
 				TryRevoke(settings,refreshToken);
 			}
-			QboSettings.ClearConnection();
-			QboTokenManager.ClearAll();
+			//One unit (lead fix at S3a-1c's merge): a cancel never leaves the connection half cleared (the token gone but the company name
+			//still set); it stops the action before the clearing or after it.
+			ODCancellation.RunUncancellable(() => {
+				QboSettings.ClearConnection();
+				QboTokenManager.ClearAll();
+			});
 		}
 
 		private static void TryRevoke(QboSettings settings,string refreshToken) {
@@ -188,11 +192,17 @@ namespace OpenPmsDentalBusiness.Qbo {
 		#region Windows
 		///<summary>Runs action and returns the exception it threw, or null. Windows call this inside UI.ProgressWin.ActionMain: ProgressWin rethrows
 		///an exception's InnerException whenever it has one, which would swap a QboAuthException or QboApiException (written for the office) for the
-		///raw TokenRejectedException or HttpRequestException beneath it. Show the result with GetMessageForUser.</summary>
+		///raw TokenRejectedException or HttpRequestException beneath it. Show the result with GetMessageForUser. A cancel of the progress window
+		///(ODCancellation; the database layer refuses the action's next command) is not returned but thrown, as the window expects, so that it is
+		///never shown as a failure after the user cancelled (S3a-1c). A timeout of the vendor call (TaskCanceledException) is returned as before.
+		///</summary>
 		public static Exception RunForWindow(Action action) {
 			try {
 				action();
 				return null;
+			}
+			catch(OperationCanceledException) when(ODCancellation.IsCancellationRequested) {
+				throw;
 			}
 			catch(Exception ex) {
 				return ex;

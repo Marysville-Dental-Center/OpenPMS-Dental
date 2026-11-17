@@ -1,0 +1,5 @@
+Host: sheet
+Size: 500x370
+Bitmap: Format24bppRgb
+Colours in the picture: 3895
+Pixels SHA-256: fbe2cd131a90279fa1ac7d8be02fceb23bee747c39b97694b89eb0559b2076e4

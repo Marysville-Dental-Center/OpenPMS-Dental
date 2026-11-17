@@ -46,8 +46,16 @@ namespace OpenPmsDental {
 				return true;
 			}
 			if(forkGuardResult.Action==ForkGuardAction.NeedsNewerBuild && !isSilent) {
-				ReleaseManifest releaseManifestPublished=ForkReleases.GetPublishedManifest(out string _);
+				ReleaseManifest releaseManifestPublished=ForkReleases.GetPublishedManifest(out string errorPublished);
 				ReleaseIdentity releaseIdentityRunning=ForkReleases.GetRunningIdentity();
+				//The release that updated the database cannot be pulled when its manifest is not readable or it is for another runtime (S3a-10): say
+				//why, with the guard's message, instead of saying nothing about it.
+				string refusal=ForkReleases.GetRefusal(releaseManifestPublished,errorPublished,releaseIdentityRunning);
+				if(!ODBuild.IsDebug() && refusal!="") {
+					FormOpenDental.ExitCode=forkGuardResult.ExitCode;
+					MessageBox.Show(forkGuardResult.Message+"\r\n\r\n"+refusal);
+					return false;
+				}
 				if(!ODBuild.IsDebug() && releaseManifestPublished!=null && releaseManifestPublished.BuildId!=releaseIdentityRunning.BuildId
 					&& ForkVersions.CompareReleaseVersions(releaseManifestPublished.ReleaseVersion,releaseIdentityRunning.ReleaseVersion)>=0)
 				{
@@ -216,9 +224,9 @@ namespace OpenPmsDental {
 				}
 			}
 			ReleaseIdentity releaseIdentityRunning=ForkReleases.GetRunningIdentity();
-			ReleaseManifest releaseManifestPublished=ForkReleases.GetPublishedManifest(out string _);
-			ReleaseDecision releaseDecision=ForkReleases.Decide(releaseManifestPublished,releaseIdentityRunning,GetUpdateServerRole(),ODBuild.IsDebug(),
-				PrefC.GetString(PrefName.WebServiceServerName));
+			ReleaseManifest releaseManifestPublished=ForkReleases.GetPublishedManifest(out string errorPublished);
+			ReleaseDecision releaseDecision=ForkReleases.Decide(releaseManifestPublished,errorPublished,releaseIdentityRunning,GetUpdateServerRole(),
+				ODBuild.IsDebug(),PrefC.GetString(PrefName.WebServiceServerName));
 			switch(releaseDecision.Action) {
 				case ReleaseAction.Publish:
 					if(isSilent && releaseManifestPublished!=null) {
@@ -235,6 +243,16 @@ namespace OpenPmsDental {
 						MessageBox.Show(releaseDecision.Message);
 					}
 					return false;
+				case ReleaseAction.RefuseUnreadable:
+				case ReleaseAction.RefuseOtherRuntime:
+					//Neither published over nor pulled (S3a-10). This workstation keeps running its build, as a workstation not yet switched to the
+					//.NET 10 release does until its setup runs (docs/specs/net10-plan.md, section 10 step 3). On the named update server an unreadable
+					//manifest gets a line about Recopy, which offers to replace it (S3a-10f).
+					if(!isSilent) {
+						string hint=ForkReleases.GetReplaceUnreadableHint(releaseManifestPublished,errorPublished,GetUpdateServerRole());
+						MessageBox.Show(releaseDecision.Message+(hint=="" ? "" : "\r\n\r\n"+hint));
+					}
+					return true;
 				default:
 					return true;
 			}
@@ -250,7 +268,38 @@ namespace OpenPmsDental {
 				return false;
 			}
 			ReleaseIdentity releaseIdentityRunning=ForkReleases.GetRunningIdentity();
-			ReleaseManifest releaseManifestPublished=ForkReleases.GetPublishedManifest(out string _);
+			//A manifest that is not readable, on the named update server: replace it with this build after a Yes/No question whose default is No
+			//(S3a-10f, the owner's decision of 2026-11-15). Never in a silent run; every other computer refuses it below, as before.
+			ReleaseReplaceResult releaseReplaceResult=ForkReleases.ReplaceUnreadableRelease(Application.StartupPath,releaseIdentityRunning,
+				ODEnvironment.MachineName,Security.GetComplexComputerName(),GetUpdateServerRole(),isSilent,
+				//The WinForms box directly, for its default button: No unless the person picks Yes. No progress window is showing yet.
+				funcConfirm:question => System.Windows.Forms.MessageBox.Show(question,Lan.g("Prefs","Replace the published release"),
+					MessageBoxButtons.YesNo,MessageBoxIcon.Warning,MessageBoxDefaultButton.Button2)==DialogResult.Yes,
+				funcRunPublish:funcPublish => {
+					ReleaseManifest releaseManifestReplaced=null;
+					PublishRelease(releaseIdentityRunning,isSilent,"",doAsk:false,funcPublish:() => releaseManifestReplaced=funcPublish());
+					return releaseManifestReplaced;
+				});
+			switch(releaseReplaceResult.Outcome) {
+				case ReleaseReplaceOutcome.Replaced:
+					return true;
+				case ReleaseReplaceOutcome.Declined:
+				case ReleaseReplaceOutcome.Failed://PublishRelease showed why.
+					return false;
+				case ReleaseReplaceOutcome.Changed:
+					MessageBox.Show(releaseReplaceResult.Message);
+					return false;
+			}
+			ReleaseManifest releaseManifestPublished=ForkReleases.GetPublishedManifest(out string errorPublished);
+			//Never over a manifest that is not readable or a release for another runtime (S3a-10): a newer program may have published it. The one
+			//exception is the forward switch: the .NET 10 update server publishes over the .NET Framework release (ForkReleases.IsForwardRuntimeSwitch).
+			string refusal=ForkReleases.GetRefusal(releaseManifestPublished,errorPublished,releaseIdentityRunning,GetUpdateServerRole());
+			if(refusal!="") {
+				if(!isSilent) {
+					MessageBox.Show(refusal);
+				}
+				return false;
+			}
 			if(!ForkReleases.MayRunUnpublishedBuild(releaseManifestPublished,releaseIdentityRunning,GetUpdateServerRole())) {
 				//Blank WebServiceServerName and a different published build that this one is not known to be newer than: never replace it from here.
 				if(!isSilent) {
@@ -264,8 +313,12 @@ namespace OpenPmsDental {
 		}
 
 		///<summary>Stores this installation's files in the database as the published release, so the other workstations update to it on their next
-		///start. Returns false only in silent mode when publishing failed; otherwise this workstation keeps running either way.</summary>
-		private static bool PublishRelease(ReleaseIdentity releaseIdentity,bool isSilent,string reason,bool doAsk) {
+		///start. Returns false only in silent mode when publishing failed; otherwise this workstation keeps running either way. funcPublish, when
+		///given, publishes in place of ForkReleases.Publish (Recopy's replacement of a manifest that is not readable, S3a-10f).</summary>
+		private static bool PublishRelease(ReleaseIdentity releaseIdentity,bool isSilent,string reason,bool doAsk,Func<ReleaseManifest> funcPublish=null) {
+			if(funcPublish==null) {
+				funcPublish=() => ForkReleases.Publish(Application.StartupPath,releaseIdentity,ODEnvironment.MachineName);
+			}
 			if(RemotingClient.MiddleTierRole==MiddleTierRole.ClientMT) {
 				return true;//Releases are published over a direct connection only.
 			}
@@ -282,12 +335,12 @@ namespace OpenPmsDental {
 			Prefs.UpdateString(PrefName.UpdateInProgressOnComputerName,Environment.MachineName);//Other workstations wait while the rows are replaced.
 			try {
 				if(isSilent) {
-					releaseManifest=ForkReleases.Publish(Application.StartupPath,releaseIdentity,ODEnvironment.MachineName);
+					releaseManifest=funcPublish();
 				}
 				else {
 					ProgressWin progressWin=new ProgressWin();
 					progressWin.StartingMessage=Lan.g("Prefs","Publishing the release...");
-					progressWin.ActionMain=() => releaseManifest=ForkReleases.Publish(Application.StartupPath,releaseIdentity,ODEnvironment.MachineName);
+					progressWin.ActionMain=() => releaseManifest=funcPublish();
 					progressWin.ShowCancelButton=false;
 					progressWin.ShowDialog();
 				}
@@ -333,7 +386,7 @@ namespace OpenPmsDental {
 			try {
 				ProgressWin progressWin=new ProgressWin();
 				progressWin.StartingMessage=Lan.g("Prefs","Downloading the release...");
-				progressWin.ActionMain=() => releaseDownloadResult=ForkReleases.DownloadAndVerify(folderUpdate);
+				progressWin.ActionMain=() => releaseDownloadResult=ForkReleases.DownloadAndVerify(folderUpdate,releaseIdentityRunning);
 				progressWin.ShowCancelButton=false;
 				progressWin.ShowDialog();
 			}
@@ -558,10 +611,11 @@ namespace OpenPmsDental {
 			else {//Otherwise use the update file copier from the server.
 				updateFileCopierLocation=folderUpdate;
 			}
-			try { 
-				File.Copy(ODFileUtils.CombinePaths(updateFileCopierLocation,"UpdateFileCopier.exe"),//source
-					ODFileUtils.CombinePaths(tempDir,"UpdateFileCopier.exe"),//dest
-					true);//overwrite
+			//Every file the copier needs, not only its exe, into a folder of its own (S3a-10: the .NET 10 copier is an apphost with its .dll and
+			//runtime files beside it).
+			string startFileName;
+			try {
+				startFileName=ForkReleases.CopyFileCopier(updateFileCopierLocation,ODFileUtils.CombinePaths(tempDir,ForkReleases.FILE_COPIER_FOLDER_NAME));
 			}
 			catch(Exception ex) {
 				FriendlyException.Show(Lans.g("Prefs","Unable to copy ")+"UpdateFileCopier.exe "+Lans.g("Prefs","from ")+updateFileCopierLocation+".",ex);
@@ -571,7 +625,6 @@ namespace OpenPmsDental {
 			Thread.Sleep(500);
 			//launch UpdateFileCopier to copy all files to here.
 			int processId=Process.GetCurrentProcess().Id;
-			string startFileName=ODFileUtils.CombinePaths(tempDir,"UpdateFileCopier.exe");
 			string arguments="\""+folderUpdate+"\""//pass the source directory to the file copier.
 				+" "+processId.ToString()//and the processId of Open Dental.
 				+" \""+destDir+"\""//and the destination directory
@@ -589,9 +642,10 @@ namespace OpenPmsDental {
 					+" \""+DataConnection.GetMysqlUser()+"\""//and mysqluser for reconnecting to database
 					+" \""+mySqlDatabasePassHash+"\"";//and mysqlpassHash for reconnecting to database
 			}
+			//UseShellExecute=true, so UAC asks for consent for the copier's requireAdministrator manifest (S3a-10, ForkReleases.GetFileCopierStartInfo).
 			Process process=new Process();
-			process.StartInfo.FileName=startFileName;
-			process.StartInfo.Arguments=arguments;
+			process.StartInfo=ForkReleases.GetFileCopierStartInfo(startFileName,arguments);
+			process.StartInfo.UseShellExecute=true;//As GetFileCopierStartInfo sets it, stated where the process starts, as every start states it (S3a-2).
 			try {
 				process.Start();
 			}

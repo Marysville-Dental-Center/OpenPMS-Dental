@@ -1,8 +1,10 @@
 // Group I's scripts for the tooth chart's other hosts, in process: the Treatment Plan's print previews (classic and sheet, I3), the referral
-// letter (I4), the patient dashboard widget (I5), graphical perio and its 2D message (I6), and the sheet editor's preview with the undo of I5 and
+// letter (I4), the patient dashboard widget (I5), graphical perio, refused on a Simple 2D computer since TC-8b (I6), and the sheet editor's preview with the undo of
+// I5 and
 // I6 (I10). The previews run through the program's own print path (a Debug build previews instead of printing) into its preview windows, which
 // are printed with PrintWindow; the chart images the hosts draw are taken from the hosts themselves (GetBitmap, the sheet's parameter, the
-// dashboard's picture box). The DirectX on-screen surface prints blank while the screen is locked, so its look stays with a person.
+// dashboard's picture box). The WPF chart's pictures render in software in any session, but WPF draws nothing on screen while the session is
+// locked, so the chart's look on screen stays with a person then.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
 using System.Collections.Generic;
@@ -85,9 +87,6 @@ namespace WindowChecksTests.InProc {
 
 		#region I3
 		public static void CheckI3(Ui ui,CheckResult checkResult) {
-			if(IsSimple2DRun) {
-				checkResult.ForPerson(TEXT_SIMPLE2D);
-			}
 			int countDocsBefore=Count("SELECT COUNT(*) FROM document WHERE PatNum=1");
 			GoToModule(ui,EnumModuleType.TreatPlan);
 			Control controlTreat=ModuleControl("controlTreat");
@@ -192,9 +191,6 @@ namespace WindowChecksTests.InProc {
 
 		#region I4
 		public static void CheckI4(Ui ui,CheckResult checkResult) {
-			if(IsSimple2DRun) {
-				checkResult.ForPerson(TEXT_SIMPLE2D);
-			}
 			int countSheetDefs=Count("SELECT COUNT(*) FROM sheetdef");
 			//Patient #1's referral attachments before: the undo removes only the one this check adds and compares with this count.
 			int countRefAttachBefore=Count("SELECT COUNT(*) FROM refattach WHERE PatNum=1");
@@ -268,12 +264,14 @@ namespace WindowChecksTests.InProc {
 				});
 				checkResult.Note("Referral 'Gatetest, Referral' (ReferralNum "+referralNum+") attached as From to patient #1 by the business layer");
 				//Main toolbar Letter (arrow) > the item naming the referral > pick the copy.
-				MenuItem menuItemReferral=ui.Invoke(() => {
-					ContextMenu menuLetter=(ContextMenu)Ui.GetField(FormMain,"menuLetter");
-					Ui.Call(FormMain,"menuLetter_Popup",menuLetter,EventArgs.Empty);
-					return menuLetter.MenuItems.Cast<MenuItem>().FirstOrDefault(x => x.Tag is Referral && ((Referral)x.Tag).ReferralNum==referralNum);
+				//The menu is a ContextMenuStrip since S3a-M2; its Opening fills it.
+				ToolStripMenuItem menuItemReferral=ui.Invoke(() => {
+					ContextMenuStrip menuLetter=(ContextMenuStrip)Ui.GetField(FormMain,"menuLetter");
+					Ui.Call(FormMain,"menuLetter_Popup",menuLetter,new System.ComponentModel.CancelEventArgs());
+					return menuLetter.Items.OfType<ToolStripMenuItem>().FirstOrDefault(x => x.Tag is Referral && ((Referral)x.Tag).ReferralNum==referralNum);
 				});
-				string items=ui.Invoke(() => string.Join(", ",((ContextMenu)Ui.GetField(FormMain,"menuLetter")).MenuItems.Cast<MenuItem>().Select(x => x.Text)));
+				string items=ui.Invoke(() => string.Join(", ",((ContextMenuStrip)Ui.GetField(FormMain,"menuLetter")).Items.Cast<ToolStripItem>()
+					.Select(x => x is ToolStripSeparator ? "-" : x.Text)));
 				if(checkResult.Expect(menuItemReferral!=null,"The Letter drop-down names the referral ("+items+")")) {
 					Ui.Opened openedPick=ui.Open("Letter > "+menuItemReferral.Text,() => menuItemReferral.PerformClick());
 					if(InspectWindow(ui,checkResult,openedPick,"FrmSheetPicker",null,close:false)) {
@@ -337,9 +335,6 @@ namespace WindowChecksTests.InProc {
 		private static long _perioExamNum;
 
 		public static void CheckI5(Ui ui,CheckResult checkResult) {
-			if(IsSimple2DRun) {
-				checkResult.ForPerson(TEXT_SIMPLE2D);
-			}
 			Ui.Opened openedSetup=OpenMenu(ui,"Tools","Patient Dashboards","Dashboard Setup");
 			if(!InspectWindow(ui,checkResult,openedSetup,"FormDashboardWidgetSetup",null,close:false)) {
 				return;
@@ -431,32 +426,23 @@ namespace WindowChecksTests.InProc {
 			SetKey(checkResult,"I6.CountPerioBefore",countBefore);
 			checkResult.Expect(Count("SELECT COUNT(*) FROM perioexam WHERE PatNum=1")==countBefore+1 && _perioExamNum>0,"Add: a new exam (PerioExamNum "+_perioExamNum
 				+", above "+perioExamNumBefore+"), selected");
-			if(IsSimple2DRun) {
-				//Graphical perio needs DirectX, which has no device here: the copy already draws Simple 2D, so Graphical gives the 2D message below.
-				checkResult.ForPerson("Graphical: the graphical perio chart draws (it needs DirectX, which has no device in this session: the screen is locked); an "
-					+"on-screen pass");
-				ui.Close(hwndPerio);
-				openedPerio.Posted.Wait();
-				CheckPerioMessage2D(ui,checkResult);
-				checkResult.Note("The exam stays until I10; the copy stays on Simple 2D until IJTests puts DirectX back before I11");
-				return;
-			}
 			Ui.Opened openedGraphical=OpenByButton(ui,hwndPerio,"butGraphical");
 			if(InspectWindow(ui,checkResult,openedGraphical,"FormPerioGraphical",null,close:false)) {
 				System.Threading.Thread.Sleep(2500);
 				AddBitmapShot(ui,checkResult,() => {
 					object toothChartWrapper=Ui.GetField(Control.FromHandle(openedGraphical.Hwnd),"toothChartWrapper");
 					return (Image)Ui.Call(toothChartWrapper,"GetBitmap");
-				},"I6-perio.png","The graphical perio chart (its DirectX picture)");
+				},"I6-perio.png","The graphical perio chart (its WPF picture)");
 				checkResult.AddShot(ui.Shot(openedGraphical.Hwnd,"I6-perio-window.png"),"The graphical perio window (PrintWindow)");
-				//B5's on-screen test on the perio chart's own DirectX window: drawn means the screen shows it, so I6-perio-window.png is what a person sees.
+				//B5's on-screen test on the perio chart's own window: drawn means the screen shows it, so I6-perio-window.png is what a person sees.
 				Control toothChartWrapperPerio=ui.Invoke(() => (Control)Ui.GetField(Control.FromHandle(openedGraphical.Hwnd),"toothChartWrapper"));
 				string whyNot=toothChartWrapperPerio==null ? "no chart found in the window" : ShotChartWindow(ui,checkResult,toothChartWrapperPerio,"I6-perio-chart.png");
 				if(whyNot=="") {
-					checkResult.Verified("The graphical perio chart's own DirectX window prints drawn (I6-perio-chart.png; B5's on-screen test: the screen is not locked)");
+					checkResult.Verified("The graphical perio chart's own window prints drawn by the WPF chart (I6-perio-chart.png; B5's on-screen test: the screen is "
+						+"not locked)");
 				}
 				else {
-					checkResult.ForPerson("the graphical perio chart on screen (its window does not show the DirectX picture in this session: "+whyNot+"; I6-perio.png "
+					checkResult.ForPerson("the graphical perio chart on screen (its window does not show the chart in this session: "+whyNot+"; I6-perio.png "
 						+"is its own picture)");
 				}
 				checkResult.Expect(ui.Close(openedGraphical.Hwnd),"The graphical perio window closes");
@@ -464,34 +450,36 @@ namespace WindowChecksTests.InProc {
 			openedGraphical.Posted.Wait();
 			ui.Close(hwndPerio);
 			openedPerio.Posted.Wait();
-			//File > Graphics > Simple 2D > Save.
-			Ui.Opened openedGraphics=OpenMenu(ui,"File","Graphics");
-			if(InspectWindow(ui,checkResult,openedGraphics,"FormGraphics",null,close:false)) {
-				IntPtr hwndGraphics=openedGraphics.Hwnd;
-				ui.Invoke(() => ((RadioButton)FindControl(ui,hwndGraphics,"radioSimpleChart",true)).Checked=true);
-				ui.Post("Save",() => ((System.Windows.Forms.Button)FindControl(ui,hwndGraphics,"butSave",true)).PerformClick());
-				checkResult.Expect(ui.WaitGone(hwndGraphics,30000),"File > Graphics > Simple 2D (pie shapes) > Save");
-				openedGraphics.Posted.Wait();
-				ui.CloseStrayWindows(checkResult);
-			}
-			CheckPerioMessage2D(ui,checkResult);
+			//File > Graphics > this computer's 3D Tooth Chart "Do not use" > Save: the computer draws the Simple 2D chart (TC-8b, ENG-2).
+			string message=SetGraphics(ui,checkResult,YN.No);
+			checkResult.Expect(message=="","File > Graphics > 3D Tooth Chart > Do not use > Save: no message, the window closes",message);
+			CheckPerioOnSimple2D(ui,checkResult);
 			checkResult.Note("The exam stays until I10, the 2D setting until I7");
 		}
 
-		///<summary>Perio Chart > the exam > Graphical with the Simple 2D chart: exactly the 2D message.</summary>
-		private static void CheckPerioMessage2D(Ui ui,CheckResult checkResult) {
+		///<summary>Perio Chart > the exam > Graphical on a computer that draws the Simple 2D chart: since TC-8b (ENG-5, revising O-31) the graphical perio
+		///chart opens only on a computer that uses the 3D tooth chart, so Graphical shows the relay's message, which names File > Graphics (Open Dental's
+		///24.3 sentence with the 3D tooth chart in DirectX's place; TC-8 opened it here with no message), and no graphical perio window opens.</summary>
+		private static void CheckPerioOnSimple2D(Ui ui,CheckResult checkResult) {
+			const string TEXT_EXPECTED="In the Graphics setup window (File > Graphics), you must first select the 3D tooth chart.";
 			GoToModule(ui,EnumModuleType.Chart);
 			Ui.Opened openedPerio2=OpenChartPerio(ui,ModuleControl("controlChart"));
 			if(InspectWindow(ui,checkResult,openedPerio2,"FormPerio",null,close:false)) {
-				Ui.Opened openedMsg=OpenByButton(ui,openedPerio2.Hwnd,"butGraphical",allowMessage:true);
-				string text=openedMsg.IsOpen && Native.IsDialogClass(openedMsg.Hwnd) ? Native.GetDialogMessage(openedMsg.Hwnd).Trim() : "";
-				if(openedMsg.IsOpen) {
-					checkResult.AddShot(ui.Shot(openedMsg.Hwnd,"I6-2d-message.png"),"The 2D message");
+				Ui.Opened openedGraphical=OpenByButton(ui,openedPerio2.Hwnd,"butGraphical",allowMessage:true);
+				string text=openedGraphical.IsOpen && Native.IsDialogClass(openedGraphical.Hwnd) ? Native.GetDialogMessage(openedGraphical.Hwnd).Trim() : "";
+				if(text!="") {
+					checkResult.AddShot(ui.Shot(openedGraphical.Hwnd,"I6-2d-message.png"),"The message instead of the graphical perio chart");
+					ReadAndCloseMessage(ui,openedGraphical);
+					checkResult.Expect(text==TEXT_EXPECTED,"Graphical with Simple 2D: the message names File > Graphics (ENG-5): '"+text+"'",text);
 				}
-				ReadAndCloseMessage(ui,openedMsg);
-				openedMsg.Posted.Wait();
-				checkResult.Expect(text=="In the Graphics setup window, you must first select DirectX.","Graphical with Simple 2D: exactly 'In the Graphics setup window, you "
-					+"must first select DirectX.'",text);
+				else {
+					if(openedGraphical.IsOpen && Native.IsWindow(openedGraphical.Hwnd)) {
+						checkResult.AddShot(ui.Shot(openedGraphical.Hwnd,"I6-perio-2d.png"),"What Graphical opened instead of the message");
+						ui.Close(openedGraphical.Hwnd);
+					}
+					checkResult.Fail("Graphical with Simple 2D showed no message (ENG-5 expects '"+TEXT_EXPECTED+"')");
+				}
+				openedGraphical.Posted.Wait();
 				ui.CloseStrayWindows(checkResult);
 				if(Native.IsWindow(openedPerio2.Hwnd)) {
 					ui.Close(openedPerio2.Hwnd);
@@ -510,9 +498,6 @@ namespace WindowChecksTests.InProc {
 		///<summary>I10 in a new session (the program started again): the dashboard closed if open, Dashboard Setup > the copy's Name cell: the sheet
 		///editor draws the toothChart field; Delete (confirm); Save. Perio Chart > the I6 exam > Delete.</summary>
 		public static void CheckI10(Ui ui,CheckResult checkResult) {
-			if(IsSimple2DRun) {
-				checkResult.ForPerson(TEXT_SIMPLE2D);
-			}
 			//The rows I5 and I6 made, by their keys (this is a new session: the statics of I5's session are gone). No key: nothing of theirs is deleted.
 			_sheetDefNumWidget=GetKey("I5.SheetDefNumWidget");
 			_perioExamNum=GetKey("I6.PerioExamNum");

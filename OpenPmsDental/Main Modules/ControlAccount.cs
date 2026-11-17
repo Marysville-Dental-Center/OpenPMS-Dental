@@ -288,7 +288,7 @@ namespace OpenPmsDental {
 
 		#region Methods - Event Handlers ContextMenus
 		///<summary>Hides the 'Add Adjustment' and 'Refund' context menus if anything other than a procedure (for adjustment) or one single payment (for refund) is selected.</summary>
-		private void contextMenuAcctGrid_Popup(object sender,EventArgs e) {
+		private void contextMenuAcctGrid_Popup(object sender,CancelEventArgs e) {
 			DataTable table=_dataSetMain.Tables["account"];
 			List<int> listIdxRowsSelected=gridAccount.SelectedIndices.ToList();
 			//Add Adjustment---------------------------------------------------------------------------------------------------
@@ -384,23 +384,24 @@ namespace OpenPmsDental {
 			}
 		}
 
-		private void contextMenuPayment_Popup(object sender, EventArgs e) {
+		private void contextMenuPayment_Popup(object sender, CancelEventArgs e) {
 			menuItemIncomeTransfer.Visible=PrefC.GetBool(PrefName.ShowIncomeTransferManager);
 			menuItemSendCareCreditCSS.Visible=Programs.GetCur(ProgramName.CareCredit).Enabled;
 		}
 
 		///<summary>This gets run just prior to the contextMenuQuickCharge menu displaying to the user.</summary>
-		private void contextMenuQuickProcs_Popup(object sender,EventArgs e) {
+		private void contextMenuQuickProcs_Popup(object sender,CancelEventArgs e) {
 			//Dynamically fill contextMenuQuickCharge's menu items because the definitions may have changed since last time it was filled.
 			_arrayDefsAcctProcQuickAdd=Defs.GetDefsForCategory(DefCat.AccountQuickCharge,true).ToArray();
-			contextMenuQuickProcs.MenuItems.Clear();
+			contextMenuQuickProcs.Items.Clear();
 			for(int i=0;i<_arrayDefsAcctProcQuickAdd.Length;i++) {
-				contextMenuQuickProcs.MenuItems.Add(new MenuItem(_arrayDefsAcctProcQuickAdd[i].ItemName,menuItemQuickProcs_Click));
+				contextMenuQuickProcs.Items.Add(new ToolStripMenuItem(_arrayDefsAcctProcQuickAdd[i].ItemName,null,menuItemQuickProcs_Click));
 			}
 			if(_arrayDefsAcctProcQuickAdd.Length==0) {
-				contextMenuQuickProcs.MenuItems.Add(new MenuItem(Lan.g(this,"No quick charge procedures defined. Go to Setup | Definitions to add."),(x,y) => { }));//"null" event handler.
+				contextMenuQuickProcs.Items.Add(new ToolStripMenuItem(Lan.g(this,"No quick charge procedures defined. Go to Setup | Definitions to add."),null,(x,y) => { }));//"null" event handler.
 			}
 			AddQuickProcsSalesTaxItem();//ControlAccount.SalesTax.cs
+			e.Cancel=false;//filled here, always with an item: a ContextMenuStrip without items starts its Opening cancelled
 		}
 		#endregion Methods - Event Handlers ContextMenus
 
@@ -1068,7 +1069,7 @@ namespace OpenPmsDental {
 		}
 
 		private void menuItemAddRefund_Click(object sender,EventArgs e) {
-			MenuItem menuItem=(MenuItem)sender;
+			ToolStripMenuItem menuItem=(ToolStripMenuItem)sender;
 			DataTable table=_dataSetMain.Tables["account"];
 			List<int> listRowsSelected=gridAccount.SelectedIndices.ToList();
 			Payment paymentExisting=null;
@@ -1677,10 +1678,10 @@ namespace OpenPmsDental {
 				return;
 			}
 			//One of the QuickCharge menu items was clicked.
-			if(sender.GetType()!=typeof(MenuItem)) {
+			if(sender.GetType()!=typeof(ToolStripMenuItem)) {
 				return;
 			}
-			Def defQuickCharge=_arrayDefsAcctProcQuickAdd[contextMenuQuickProcs.MenuItems.IndexOf((MenuItem)sender)-_countQuickProcsLeadingItems];
+			Def defQuickCharge=_arrayDefsAcctProcQuickAdd[contextMenuQuickProcs.Items.IndexOf((ToolStripMenuItem)sender)-_countQuickProcsLeadingItems];
 			string[] stringArrayProcCodes=defQuickCharge.ItemValue.Split(',');
 			if(stringArrayProcCodes.Length==0) {
 				//No items entered into the definition category.  Notify the user.
@@ -2294,27 +2295,27 @@ namespace OpenPmsDental {
 			ODToolBarButton toolBarButton;
 			_butPayment=new ODToolBarButton(Lan.g(this,"Payment"),1,"","Payment");
 			_butPayment.Style=ODToolBarButtonStyle.DropDownButton;
-			_butPayment.DropDownMenu=contextMenuPayment;
+			_butPayment.ContextMenuStripDropDown=contextMenuPayment;
 			ToolBarMain.Buttons.Add(_butPayment);
 			toolBarButton=new ODToolBarButton(Lan.g(this,"Adjustment"),2,"","Adjustment");
 			toolBarButton.Style=ODToolBarButtonStyle.DropDownButton;
-			toolBarButton.DropDownMenu=contextMenuAdjust;
+			toolBarButton.ContextMenuStripDropDown=contextMenuAdjust;
 			ToolBarMain.Buttons.Add(toolBarButton);
 			toolBarButton=new ODToolBarButton(Lan.g(this,"New Claim"),3,"","Insurance");
 			toolBarButton.Style=ODToolBarButtonStyle.DropDownButton;
-			toolBarButton.DropDownMenu=contextMenuIns;
+			toolBarButton.ContextMenuStripDropDown=contextMenuIns;
 			ToolBarMain.Buttons.Add(toolBarButton);
 			ToolBarMain.Buttons.Add(new ODToolBarButton(ODToolBarButtonStyle.Separator));
 			toolBarButton=new ODToolBarButton(Lan.g(this,"Payment Plan"),-1,"","PayPlan");
 			toolBarButton.Style=ODToolBarButtonStyle.DropDownButton;
-			toolBarButton.DropDownMenu=contextMenuPayPlan;
+			toolBarButton.ContextMenuStripDropDown=contextMenuPayPlan;
 			ToolBarMain.Buttons.Add(toolBarButton);
 			ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Installment Plan"),-1,"","InstallPlan"));
 			ToolBarMain.Buttons.Add(new ODToolBarButton(ODToolBarButtonStyle.Separator));
 			_butQuickProcs=new ODToolBarButton(Lan.g(this,"Quick Procs"),-1,"","QuickProcs");
 			_butQuickProcs.Style=ODToolBarButtonStyle.DropDownButton;
-			_butQuickProcs.DropDownMenu=contextMenuQuickProcs;
-			contextMenuQuickProcs.Popup+=contextMenuQuickProcs_Popup;
+			_butQuickProcs.ContextMenuStripDropDown=contextMenuQuickProcs;
+			contextMenuQuickProcs.Opening+=contextMenuQuickProcs_Popup;
 			ToolBarMain.Buttons.Add(_butQuickProcs);
 			if(!PrefC.GetBool(PrefName.EasyHideRepeatCharges)) {
 				toolBarButton=new ODToolBarButton(Lan.g(this,"Repeating Charge"),-1,"","RepeatCharge");

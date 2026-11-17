@@ -3,8 +3,10 @@
        Database tests use scratch databases on the local MariaDB (127.0.0.1:3306, root, blank password) with synthetic data only, and are
        inconclusive when no server answers or RELEASEFLOW_TEST_DB=skip. Every .cs file under this folder is compiled. -->
   <ItemGroup>
-    <Reference Include="System.Configuration.Install" />
     <Reference Include="System.IO.Compression" />
+    <!-- Reads which assemblies of the program folder the Helix load needs, without loading them (S3a-8b of the .NET 10 move). The NuGet
+         package, from the offline package folder (nuget.config), at the version of Directory.Packages.props. -->
+    <PackageReference Include="Mono.Cecil" />
   </ItemGroup>
   <ItemGroup>
     <!-- The reader of project files (classic and SDK-style) shared by the tests that check them (S1-T of docs/specs/net10-plan.md). -->
@@ -14,6 +16,10 @@
     <!-- The rule for tests that check a built file: inconclusive when it is not built, a failure with OPMS_REQUIRE_BUILD_OUTPUT=1. -->
     <Compile Include="..\ProjectFileTests\BuildOutput.cs">
       <Link>BuildOutput.cs</Link>
+    </Compile>
+    <!-- The program's managed assembly: OpenPmsDental.dll on .NET (the .exe is the apphost), OpenPmsDental.exe on .NET Framework (S3a-8). -->
+    <Compile Include="..\ProjectFileTests\ProgramAssembly.cs">
+      <Link>ProgramAssembly.cs</Link>
     </Compile>
     <!-- The packages of a lock file and the files the build copies from them (S2-4 of the .NET 10 move: the release compares each package file
          with its package). -->
@@ -25,5 +31,8 @@
     <ProjectReference Include="..\..\CodeBase\xCodeBase.csproj" />
     <ProjectReference Include="..\..\DataConnectionBase\xDataConnectionBase.csproj" />
     <ProjectReference Include="..\..\OpenPmsDentalBusiness\OpenPmsDentalBusiness.csproj" />
+    <!-- The child process of the Helix load from the program's files and of ProbeProcess's own tests (TestProbeHost, S3a-8b of the .NET 10
+         move: .NET has no new AppDomain). -->
+    <ProjectReference Include="..\TestProbeHost\TestProbeHost.csproj" />
   </ItemGroup>
 </Project>

@@ -113,8 +113,14 @@ namespace ServiceManager {
 				string standardOutput;
 				int exitCode;
 				ServicesHelper.Install(serviceName,_serviceFileInfo,out standardOutput,out exitCode);
-				if(exitCode!=0) {
-					MessageBox.Show("Error. Exit code: "+exitCode+"\r\n"+standardOutput.Trim());
+				int errorCode=ServicesHelper.GetScErrorCode(exitCode,standardOutput);
+				if(errorCode!=0) {
+					MessageBox.Show("Error. Exit code: "+errorCode+"\r\n"+ServicesHelper.GetScErrorText(errorCode)+"\r\n"+standardOutput.Trim());
+				}
+				if(errorCode==ServicesHelper.ScErrorServiceExists) {
+					//A service with this name was already there: this click installed nothing, so its permissions are left as they are.
+					RefreshFormData();
+					return;
 				}
 			}
 			catch(Exception ex) {
@@ -151,10 +157,22 @@ namespace ServiceManager {
 			try {
 				string standardOutput;
 				int exitCode;
-				ServicesHelper.Uninstall(textName.Text,out standardOutput,out exitCode);
-				if(exitCode!=0) {
-					MessageBox.Show("Error. Exit code: "+exitCode+"\r\n"+standardOutput.Trim());
-					return;
+				bool isMySQLService;
+				ServicesHelper.Uninstall(textName.Text,out standardOutput,out exitCode,out isMySQLService);
+				//The branch Uninstall took (by the registry's ImagePath), not the path in the box, picks how the result is read.
+				if(isMySQLService) {
+					//mysqld.exe --remove: its own exit code, not sc.exe's.
+					if(exitCode!=0) {
+						MessageBox.Show("Error. Exit code: "+exitCode+"\r\n"+standardOutput.Trim());
+						return;
+					}
+				}
+				else {
+					int errorCode=ServicesHelper.GetScErrorCode(exitCode,standardOutput);
+					if(errorCode!=0) {
+						MessageBox.Show("Error. Exit code: "+errorCode+"\r\n"+ServicesHelper.GetScErrorText(errorCode)+"\r\n"+standardOutput.Trim());
+						return;
+					}
 				}
 			}
 			catch(Exception ex) {

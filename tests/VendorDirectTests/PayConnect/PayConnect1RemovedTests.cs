@@ -52,10 +52,13 @@ namespace VendorDirectTests.PayConnectV1Removal {
 			return listFiles;
 		}
 
-		///<summary>The names of the assemblies the file references, read from a copy of its bytes so the file stays unlocked.</summary>
+		///<summary>The names of the assemblies the file references, read with Mono.Cecil from the metadata of a copy of its bytes, so the file stays
+		///unlocked and nothing is loaded (S3a-8 of the .NET 10 move: .NET has no reflection-only load).</summary>
 		private static List<string> GetReferencedAssemblyNames(string path) {
-			Assembly assembly=Assembly.ReflectionOnlyLoad(File.ReadAllBytes(path));
-			return assembly.GetReferencedAssemblies().Select(x => x.Name).ToList();
+			using(MemoryStream memoryStream=new MemoryStream(File.ReadAllBytes(path)))
+			using(Mono.Cecil.ModuleDefinition moduleDefinition=Mono.Cecil.ModuleDefinition.ReadModule(memoryStream)) {
+				return moduleDefinition.AssemblyReferences.Select(x => x.Name).ToList();
+			}
 		}
 
 		[TestMethod]
@@ -139,7 +142,10 @@ namespace VendorDirectTests.PayConnectV1Removal {
 
 		[TestMethod]
 		public void DpsPosAndLog4net_AreNotReferencedByTheProgram() {
-			foreach(string pathRelative in new[] { @"OpenPmsDental\bin\Debug\OpenPmsDental.exe",@"WpfControlsOD\bin\Debug\WpfControlsOD.dll" }) {
+			//The program's managed assembly (ProgramAssembly: OpenPmsDental.dll on .NET, where the .exe is the apphost Mono.Cecil cannot read).
+			foreach(string pathRelative in new[] { ProgramAssembly.FindRelative(GetRoot(),@"OpenPmsDental\bin\Debug","OpenPmsDental"),
+				@"WpfControlsOD\bin\Debug\WpfControlsOD.dll" })
+			{
 				string path=Path.Combine(GetRoot(),pathRelative);
 				if(!File.Exists(path)) {
 					BuildOutput.NotBuilt(path+" is not built. Build OpenDental.Local.slnf (Debug|x86) first.");

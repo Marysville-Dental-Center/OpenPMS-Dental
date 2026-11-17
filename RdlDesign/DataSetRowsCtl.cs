@@ -44,12 +44,11 @@ namespace fyiReporting.RdlDesign
 		private DataTable _DataTable;
 
 		private System.Windows.Forms.Button bDelete;
-		private System.Windows.Forms.DataGridTableStyle dgTableStyle;
 		private System.Windows.Forms.Button bUp;
 		private System.Windows.Forms.Button bDown;
 		private System.Windows.Forms.CheckBox chkRowsFile;
 		private System.Windows.Forms.Button bRowsFile;
-		private System.Windows.Forms.DataGrid dgRows;
+		private System.Windows.Forms.DataGridView dgRows;
 		private System.Windows.Forms.TextBox tbRowsFile;
 		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.Button bLoad;
@@ -86,6 +85,8 @@ namespace fyiReporting.RdlDesign
 			}
 
 			this.dgRows.DataSource = _DataTable;
+			DataGridViewSetup.CommitOnLeave(this.dgRows);
+			DataGridViewSetup.KeepEmptyText(this.dgRows);
 			if (file != null)
 			{
 				tbRowsFile.Text = file;
@@ -98,7 +99,7 @@ namespace fyiReporting.RdlDesign
 		private void CreateDataTable()
 		{
 			_DataTable = new DataTable();
-			dgTableStyle.GridColumnStyles.Clear();	// reset the grid column styles
+			this.dgRows.Columns.Clear();	// reset the grid column styles
 
 			foreach (DataRow dr in _dsv.Fields.Rows)
 			{
@@ -109,13 +110,14 @@ namespace fyiReporting.RdlDesign
 				else if (((string) dr[2]).Length > 0)
 					continue;
 				string name = (string) (dr[1] == DBNull.Value? dr[0]: dr[1]);
-				DataGridTextBoxColumn dgc = new DataGridTextBoxColumn();
-				dgTableStyle.GridColumnStyles.Add(dgc);
+				DataGridViewTextBoxColumn dgc = new DataGridViewTextBoxColumn();
+				this.dgRows.Columns.Add(dgc);
 				dgc.HeaderText = name;
-				dgc.MappingName = name;
+				dgc.DataPropertyName = name;
 				dgc.Width = 75;
 				_DataTable.Columns.Add(new DataColumn(name, typeof(string)));
 			}
+			DataGridViewSetup.SetNotSortable(this.dgRows);
 		}
 
 		private void PopulateRows(XmlNode rows)
@@ -163,8 +165,7 @@ namespace fyiReporting.RdlDesign
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.dgRows = new System.Windows.Forms.DataGrid();
-			this.dgTableStyle = new System.Windows.Forms.DataGridTableStyle();
+			this.dgRows = new System.Windows.Forms.DataGridView();
 			this.bDelete = new System.Windows.Forms.Button();
 			this.bUp = new System.Windows.Forms.Button();
 			this.bDown = new System.Windows.Forms.Button();
@@ -179,22 +180,13 @@ namespace fyiReporting.RdlDesign
 			// 
 			// dgRows
 			// 
-			this.dgRows.CaptionVisible = false;
+			this.dgRows.AutoGenerateColumns = false;
 			this.dgRows.DataMember = "";
-			this.dgRows.HeaderForeColor = System.Drawing.SystemColors.ControlText;
+			this.dgRows.ColumnHeadersDefaultCellStyle.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.dgRows.Location = new System.Drawing.Point(8, 48);
 			this.dgRows.Name = "dgRows";
 			this.dgRows.Size = new System.Drawing.Size(376, 200);
 			this.dgRows.TabIndex = 2;
-			this.dgRows.TableStyles.AddRange(new System.Windows.Forms.DataGridTableStyle[] {
-																							   this.dgTableStyle});
-			// 
-			// dgTableStyle
-			// 
-			this.dgTableStyle.AllowSorting = false;
-			this.dgTableStyle.DataGrid = this.dgRows;
-			this.dgTableStyle.HeaderForeColor = System.Drawing.SystemColors.ControlText;
-			this.dgTableStyle.MappingName = "";
 			// 
 			// bDelete
 			// 
@@ -310,6 +302,7 @@ namespace fyiReporting.RdlDesign
 
 		public void Apply()
 		{
+			DataGridViewSetup.CommitEdits(this.dgRows);
 			// Remove the old row
 			XmlNode rows = _Draw.GetNamedChildNode(this._dsNode, "Rows");
 			if (rows == null)
@@ -332,29 +325,30 @@ namespace fyiReporting.RdlDesign
 
 		private void bDelete_Click(object sender, System.EventArgs e)
 		{
-			this._DataTable.Rows.RemoveAt(this.dgRows.CurrentRowIndex);
+			if (DataGridViewSetup.IsCurrentRowData(this.dgRows))		// not the new row at the end, which has no row in the table yet
+				this._DataTable.Rows.RemoveAt(DataGridViewSetup.GetCurrentRowIndex(this.dgRows));
 		}
 
 		private void bUp_Click(object sender, System.EventArgs e)
 		{
-			int cr = dgRows.CurrentRowIndex;
+			int cr = DataGridViewSetup.GetCurrentRowIndex(dgRows);
 			if (cr <= 0)		// already at the top
 				return;
 			
 			SwapRow(_DataTable.Rows[cr-1], _DataTable.Rows[cr]);
-			dgRows.CurrentRowIndex = cr-1;
+			DataGridViewSetup.SetCurrentRowIndex(dgRows, cr-1);
 		}
 
 		private void bDown_Click(object sender, System.EventArgs e)
 		{
-			int cr = dgRows.CurrentRowIndex;
+			int cr = DataGridViewSetup.GetCurrentRowIndex(dgRows);
 			if (cr < 0)			// invalid index
 				return;
 			if (cr + 1 >= _DataTable.Rows.Count)
 				return;			// already at end
 			
 			SwapRow(_DataTable.Rows[cr+1], _DataTable.Rows[cr]);
-			dgRows.CurrentRowIndex = cr+1;
+			DataGridViewSetup.SetCurrentRowIndex(dgRows, cr+1);
 		}
 
 		private void SwapRow(DataRow tdr, DataRow fdr)

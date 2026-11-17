@@ -26,7 +26,8 @@ What this version brings, each in its section below (the roadmap's "Done in the 
 - the EHR value sets imported from the office's own download of VSAC's release for the 2027 quality measures (published 2026-05-14), with
   its Direct Reference Codes and Code System Versions files picked together, so the EHR pick lists (tobacco use, counseling, BMI follow-up)
   have their codes, with a code-system status that shows which code-system tables still have to be loaded and whether a loaded table is
-  older than the release; the catalog of the seven 2027 measure versions this program will report;
+  older than the release; the catalog of the seven 2027 measure versions this program will report (the 2014 and 2011 quality-measure
+  windows are removed: the 2027 measures replace them);
 - Open Dental 26.2: its database schema and the changes the owner chose on 2026-11-07:
   - Appointments: several blockout types in the Advanced Appointment Search, the practice and clinic schedule notes in the Appointments
     module, and appointment estimates brought up to date when an insurance plan is saved;
@@ -47,9 +48,31 @@ What this version brings, each in its section below (the roadmap's "Done in the 
     them from Medit Link);
   - Glidewell lab cases, ready but not yet able to send: hidden in Program Links until the program can connect to Glidewell, and no patient
     data is sent without a business associate agreement with Glidewell.
+- scanning and radiograph capture (TWAIN): the program now identifies itself to the TWAIN 2 manager as a TWAIN 2 application (two
+  flag values had been swapped), so the manager's own memory functions are used, as the TWAIN 2 specification intends;
+- claim files and benefit requests (X12 837 and 270) name the practice as their sender, with its own TIN, name and telephone, when the
+  clearinghouse has no Sender TIN, instead of Open Dental Inc; a batch is refused while the practice's TIN, name or telephone is missing;
+  Emdeon Dental eligibility requests send the office's Emdeon login alone as the sender, without Open Dental Inc's "316:" vendor prefix;
 - the Meaningful Use measures window of EHR (Measure Calc) working again, rebuilt as open code, for internal review only;
-- two new entries in Help > About > View Licenses, Helix Toolkit and the .NET Community Toolkit: libraries for the coming 3D tooth chart,
-  installed with the program from this version on (the tooth chart itself does not change yet).
+- saved Middle Tier passwords move from the Windows PasswordVault to the Windows Credential Manager on first use; nothing to re-enter;
+- the self-update gets ready for the coming 64-bit version: it never publishes over a release it cannot read, and refuses a release built
+  for another runtime with a message to run the new setup;
+- **the 3D tooth chart on every computer**, in the place of Open Dental's DirectX 11 chart: drawn by the program itself, so it needs no
+  DirectX runtime and no special graphics; File > Graphics has Open Dental 26.2's layout (the 3D tooth chart on all computers, each
+  computer's "Use the global setting / Use if available / Do not use", the status, Simple 2D as the older technology, "Draw in software"
+  and a preview); the smooth picture is the default on screen; the graphical perio chart opens on computers that use the 3D chart ("The
+  tooth chart: the 3D chart on every computer", below);
+- the DirectX and OpenGL tooth charts are removed, with their libraries SharpDX and Tao, which setup deletes from the program folder; the
+  DirectX End-User Runtime is no longer needed ("The tooth chart: SharpDX, Tao and the DirectX runtime leave the program folder", below);
+- two new entries in Help > About > View Licenses, Helix Toolkit and the .NET Community Toolkit: libraries of the 3D tooth chart,
+  installed with the program from this version on;
+- the tooth chart: completed extractions shown with an X, on by default as in Open Dental 26.2, the paint type TextBelow (Open Dental
+  26.2) in a line under the Chart module's date slider, the text of text procedures, and free text; the X and the TextBelow line show
+  on every chart, the other texts on the 3D chart and on Simple 2D;
+- the 3D tooth chart: its "W", centre line and unerupted teeth look as in Open Dental (a plain "W", the centre line in the chart's
+  text colour, unerupted teeth half-transparent);
+- the 3D tooth chart: orthodontic brackets, wires and elastics, Open Dental's ortho mode (front views only, close to the centre
+  line), retained roots and space maintainers, drawn as in Open Dental.
 
 The update adds this program's own tables to the database (14 tables, none of Open Dental's schema: five for routine maintenance, seven for
 inventory tracking, one for SSH host keys, one for the EHR value sets); they start empty, except the stock ledger's opening rows (Inventory tracking, below). It also
@@ -96,6 +119,24 @@ section 0):
 A database on the same computer (`localhost`, `127.0.0.1`, `::1`) needs no certificates: such connections are exempt from the program's
 rule. But once `require_secure_transport` is ON, MariaDB refuses connections without TLS from the server computer too, so a program on the
 server computer must then connect with `<db-server>` (the name the workstations use), not `localhost`, set up like any workstation.
+
+## QuickBooks Desktop, Topaz signature pads, Schick CDR and Guru
+
+- **They work as before.** The program loads each of them in its own process whenever it can run it there, as before: QuickBooks
+  Desktop, Topaz's software, Schick CDR DICOM and Guru. A small helper program that ships with it (`OpenPmsDentalHelper32.exe`) takes over
+  only for a piece the program cannot run itself, which does not happen in this 32-bit release; the program writes which way it chose for
+  each into its log (the `NativeFirst` folder) the first time it uses it.
+- **Topaz: the patient signs in the signature box again.** The strokes appear in the box in the program's window, as before. The helper's
+  own small signing window ("Sign on the Topaz pad", with OK, Clear and Cancel) appears only on the helper's path. Stored Topaz signatures
+  show and check as before: their data does not change.
+- **QuickBooks Desktop does not ask again.** The program itself still connects to QuickBooks Desktop, so the access QuickBooks granted
+  before stays. (Only a release whose program cannot run QuickBooks' 32-bit connector itself goes through the helper, and then QuickBooks
+  asks once whether to allow it.)
+- **On the helper's path** (not in this release): while CDR DICOM starts after the Schick button, or while its window for creating a
+  patient's exam is open, Open PMS - Dental keeps drawing its windows but takes no clicks until CDR's window is answered; if CDR does not
+  answer within 30 minutes, the program says so and starts the helper again on the next click.
+- **Nothing to install.** Topaz's own software (it provides `SigPlusNET.dll`), CDR DICOM, Guru and QuickBooks Desktop stay as they are on
+  each workstation.
 
 ## Database connection security
 
@@ -162,6 +203,7 @@ server computer must then connect with `<db-server>` (the name the workstations 
   holds and how to make a `.pfx` with one client certificate.
 - **Setup exit code 10.** A silent setup that installed the files but could not finish the connection settings (the tool failed, or an
   existing install's settings fail the connection rule) ends with exit code 10, so deployment scripts see it; the setup log says why.
+- **Setup always installs for all users,** as an administrator: 0.0's `/CURRENTUSER` test switch is gone, so every install can run the tool.
 
 ## Library updates for security
 
@@ -375,6 +417,45 @@ storage it saved the image unedited. The image is now attached as the Imaging mo
 always saved where the attachment points, locally and in SFTP storage alike. Unedited images, text, Word and PDF files are attached as
 they are, also from SFTP storage.
 
+## Claim files: a period in every amount
+
+Claim files (X12 837) and RAMQ amounts now use a period as the decimal separator in every regional setting; before, a regional setting with a decimal comma (such as French (Canada)) wrote a comma there, which neither format allows. With a period, as on every English Windows, the files are byte for byte as before.
+
+## Claim files: the practice is the sender
+
+When a clearinghouse's Sender TIN is blank (Setup > Family/Insurance > Clearinghouses, 'The practice is the "sender"', which Open Dental
+called 'This software is the "sender"'), claim batches (X12 837, 4010 and 5010) and benefit requests (270) named Open Dental Inc as their
+sender: its TIN, name and telephone in ISA06, GS02 and the submitter loop 1000A. They now name the practice (owner decision of 2026-11-15):
+the TIN of the practice's billing provider (the Default Insurance Billing Provider of Setup > Practice, or of the clinic), the practice
+title, and the telephone the claims already send for the billing provider. A clearinghouse with its own Sender TIN works as before.
+
+- **A batch is refused while something is missing.** When the practice's billing provider, its 9 digit TIN (marked TIN, not SSN), the
+  practice title or a 10 digit telephone is missing, Send Claims says what to fill in and where, and makes no file and sends nothing. The
+  claims show it in Missing Info too ("Practice as sender: ...").
+- **Check with your clearinghouse before sending.** A clearinghouse that registered your office under Open Dental's submitter ID may need
+  the practice registered as its own submitter (the TIN above), or a Sender TIN entered in Edit Clearinghouse. Emdeon still requires
+  'The practice is the "sender"'.
+
+## Self-update: ready for the 64-bit version
+
+This version must run on every workstation, the update server first, before the coming 64-bit version is installed anywhere. A workstation
+no longer treats a published release it cannot read as "nothing published": it neither updates from it nor publishes over it, and at
+startup it shows "The published release manifest is not readable" (or "is for another product") with what to do, then starts as usual. A
+release built for another runtime or architecture, such as the 64-bit version, which carries its own .NET runtime, is refused the same
+way with "This workstation cannot update itself to that release: run the new setup on it." Update Setup's Recopy refuses both cases too,
+with one exception: on the computer named as the update server, Recopy offers to replace a published release it cannot read with the
+running build, after a Yes/No question whose default is No, and records that in the security log; the other workstations then update to
+that build.
+The update itself works as before: UpdateFileCopier now runs from its own temp folder (`%TEMP%\openpms-dental\ForkReleaseCopier`), and
+Windows still asks for administrator consent before it copies the files.
+
+## The tooth chart: ready for the 64-bit version
+
+The DirectX and OpenGL tooth charts' libraries were checked to run in a 64-bit program, and both charts started and drew there on the test
+computer. **Since this version no computer uses them** (the 3D chart replaces them: "The tooth chart: the 3D chart on every computer",
+below), so Microsoft's DirectX End-User Runtime (`d3dx9_43.dll`) is no longer needed, and this version removes the two charts; the
+64-bit version will not carry them.
+
 ## Switch-over: Insurance History leaves the frequency code groups alone
 
 At the switch-over the ten Insurance History code boxes of Open Dental 25.3 (Preferences, Treatment Plan) become Insurance History rows from
@@ -546,8 +627,8 @@ their own sections.
   writes them) and the time an insurance blue book row last changed (`insbluebook.DateTStamp`). Existing rows keep every value; the new
   columns start empty, except `insbluebook.DateTStamp`, which holds the time of the update in every existing row.
 - **New values** with Open Dental's numbers, so that rows written by Open Dental 26.2 load: the definition category Commlog Referral Types,
-  the automation trigger Do Not Bill Insurance Check and the condition Carriers Match, the paint type TextBelow (the tooth chart does not draw
-  it yet, so the procedure code windows do not offer it; a procedure code that already has it keeps it), the Perio Chart preference of showing only the current exam's probing, a Transworld payment plan link, and values that belong to
+  the automation trigger Do Not Bill Insurance Check and the condition Carriers Match, the paint type TextBelow (offered by the procedure
+  code windows and shown by the Chart module: "The tooth chart: free text, text procedures and completed extractions", below), the Perio Chart preference of showing only the current exam's probing, a Transworld payment plan link, and values that belong to
   Open Dental HQ or to services this program does not have (two MariaDB backup alerts, an eConnector alert, an HQ permission, an HQ
   definition link), which stay hidden.
 - The schema verifier now checks the database against Open Dental 26.2.0, and `OdSchemaCompat` says 26.2.0 after the update. Open Dental
@@ -649,6 +730,91 @@ documents (`docs/port-notes/P262-PERIO.md`). No database change.
   grayed earlier values (what Show current exam only did). Both are checked for a user who never changed them. A user who had Show current
   exam only checked finds Show previous exams unchecked, which now also hides the grayed earlier values; to see those again, check Show
   previous exams and uncheck Show previous probing values.
+
+## The tooth chart: free text, text procedures and completed extractions
+
+These follow Open Dental 26.2 as its public notes and screenshots show it.
+
+- **Completed extractions with an X (a new setting, Open Dental 26.2).** Setup > Preferences > Chart - General, "Show completed extractions
+  with an X on the tooth chart". **It is on from this version, as in Open Dental 26.2** ("The preference is enabled by default"): a
+  completed extraction (status C, EC or EO) now shows a thin X in the colour of its status over the place of the missing tooth, in the
+  Chart module, the big chart, the Treatment Plan printout, sheets and the Patient Dashboard; the tooth itself stays hidden, as before.
+  Teeth charted as extracted long ago (EO, EC) show the X too. To keep the chart as it was (no X), untick the setting: one setting for
+  the whole office, recorded in the Audit Trail (Setup), and the other workstations pick it up. It is a plain switch: the X shows whatever
+  else is charted on the tooth, under a completed implant or bridge too. The Chart module's date slider works as before: an extraction
+  completed after the slider's date shows as planned, and one planned after it does not show. Open Dental's own name for this setting is
+  not public, so an office that comes from Open Dental 26.2 and had turned it off there turns it off again here.
+- **Text procedures (paint type Text).** A procedure code with the paint type Text and a paint text other than "W" now shows that text
+  beyond the root tip of the tooth, where the "W" watch mark goes (above an upper tooth, below a lower one), centred on the tooth, in the
+  procedure's colour, as Open Dental does. When the tooth also has a "W", the text sits one line nearer the tooth and the "W" stays at the
+  edge. "W" stays the watch mark.
+- **TextBelow (paint type 18, Open Dental 26.2).** The procedure code windows now offer TextBelow, with its paint text (the paint text box
+  shows for Text and TextBelow). As in Open Dental 26.2, the text is not drawn in the tooth picture: the Chart module shows it in a
+  one-line box right under the date slider and above the treatment notes (in every chart layout, under the slider wherever it is), for
+  procedures of any treatment area (a mouth procedure such as an occlusal guard, an arch procedure such as clear aligners, or a tooth).
+  Several are listed oldest first, separated by "; ". The box follows the date slider and the chart's view, and is hidden when there is
+  nothing to show. **The tooth picture used for sheets, Treatment Plan printouts, the big chart window and the Patient Dashboard does not
+  carry TextBelow** (the earlier test builds drew it at the picture's edge; that is gone).
+- **Free text.** Text added on the Chart module's Draw tab (Add Text) is drawn on the chart at its place, over the teeth, and is kept inside
+  the chart. With Move Text, the 3D chart moves a label by dragging it, and its new place is saved. With Change Color, it gives a
+  label the colour of the colour box, as Open Dental's Change Color does for "an existing drawing or text", and the colour is saved.
+- **Which chart draws what.** The 3D chart, which every computer now uses unless set to "Do not use" in File > Graphics, and the Simple 2D chart draw the X,
+  free text and text procedures. (The DirectX and OpenGL charts, which no computer uses any more, drew the X but not the text.) The TextBelow box is part of the Chart module, so it shows whatever the chart.
+  Showing free text and text procedures on the Simple 2D chart goes beyond Open Dental, whose older chart modes show only the "W".
+- **The graphical perio chart on the 3D chart.** The 3D chart draws the graphical perio chart (Perio Chart, Graphical) as
+  today's DirectX chart draws it: the four rows of teeth, the probing bars (red from the red limit), bleeding and suppuration, furcations,
+  mobility, the gingival margin, CAL and MGJ lines, the numbers and the legend, in the colours of Graphical Perio Setup, and its print and
+  saved image as before. Two Open Dental 24.4 changes come with it: a removed implant (its procedure's graphics hidden) is not drawn, as
+  today, and with Perio Setup's "Use the term Recession" option on, the legend names the gingival margin line "Recession" ("Gingival
+  Margin" again while the exam has hyperplasia, as the Perio Chart's row). It opens on every computer that uses the 3D chart and no longer
+  asks for DirectX; on a computer set to the Simple 2D chart it says to choose the 3D tooth chart in File > Graphics, as Open Dental allows
+  its graphical perio chart only on its 3D charts ("The tooth chart: the 3D chart on every computer", below).
+
+## The tooth chart: the 3D chart on every computer
+
+From this version the tooth chart is the 3D chart wherever Open Dental would show its DirectX 11 chart: the program draws it itself, in
+software, so it works the same on every computer and needs neither Microsoft's DirectX End-User Runtime nor particular graphics hardware, and
+the setup installs none. It is the same chart in the Chart module, the big chart window, the Treatment Plan printouts, sheets, referral
+letters, the Patient Dashboard, the sheet editor's preview and the graphical perio chart.
+
+- **File > Graphics** has Open Dental 26.2's layout, with the 3D tooth chart in the place of Open Dental's DirectX 11 chart:
+  - **"3D Tooth Chart on all computers"**: "Use if available" (the default) or "Do not use", for the whole office.
+  - **"3D Tooth Chart"** for this computer: "Use the global setting" (the default), "Use if available" or "Do not use". This computer's
+    choice wins over the office's.
+  - **"3D Tooth Chart status on this computer"**: "Available", or "Fell back:" and the reason when the 3D chart cannot start here (the
+    program then shows the Simple 2D chart). It cannot be changed by hand.
+  - **"Older Tooth Chart Technology"**: "Simple 2D (pie shapes)", used on a computer that does not use the 3D chart. The DirectX 9 and
+    OpenGL charts are gone, and so are their format lists.
+  - **"Options For The 3D Tooth Chart"**: **"Draw in software"**, ticked by default: the 3D chart on screen is the smooth picture, the same
+    as the printouts. Unticked, the chart shows a quick live view that redraws about twice as fast but has slightly jagged edges. Per
+    computer.
+  - A preview of what the choices give on this computer, with made-up work.
+  The settings are Open Dental's own (the same rows in the database), so after a Save in this window a workstation that goes back to Open
+  Dental finds the same choice there: the 3D chart, or Simple 2D (a computer on Simple 2D whose Open Dental setting was still its DirectX 9
+  or OpenGL chart is switched to Simple 2D by that Save). Setup > Computers opens the same window for another computer (its preview and status are those of the computer you are on), and
+  saves without a test, as before.
+- **On screen** the chart is now the smooth picture by default, as Open Dental's 3D chart looks; a refill takes a little longer than with
+  the quick live view of the previous version (about a third of a second).
+- **Computers that were set to Simple 2D now get the 3D chart** unless "Do not use" is chosen for them (or for the office), as in Open
+  Dental 26.2. To keep a computer on the Simple 2D chart, choose "Do not use" in File > Graphics on it, or "Use Simple Graphics" in Setup >
+  Computers, which now also sets "Do not use" for that computer.
+- **The graphical perio chart** (Perio Chart, Graphical) opens on every computer that uses the 3D chart; it no longer asks for DirectX. On a
+  computer set to the Simple 2D chart it says "In the Graphics setup window (File > Graphics), you must first select the 3D tooth chart."
+- **Start-up** no longer searches for a DirectX format on a computer that has none saved (that could take minutes).
+- If the 3D chart cannot start on a computer, the chart shows the Simple 2D chart without an error message, the ToothChart log says why
+  once, and File > Graphics' status says "Fell back:" with the reason; the graphical perio chart then says it needs the 3D chart.
+
+## The tooth chart: SharpDX, Tao and the DirectX runtime leave the program folder
+
+The libraries of the removed DirectX and OpenGL charts no longer ship: SharpDX 4.0.1 (`SharpDX.dll`, `SharpDX.Direct3D9.dll`,
+`SharpDX.Mathematics.dll`) and the Tao Framework (`Tao.OpenGl.dll`, `Tao.Platform.Windows.dll`). Nothing in the program uses them, so
+**Microsoft's DirectX End-User Runtime is no longer needed** on any computer: a new computer needs only what the setup checks for (the
+.NET Framework 4.8, the Visual C++ runtime and the WebView2 runtime). The setup has never installed the DirectX runtime and installs nothing
+of DirectX now; a computer that has it keeps it, and the program does not use it.
+
+- **Upgrading.** Setup deletes the five files from the program folder, and the release channel never publishes them again.
+- **Licences.** Help > About > View Licenses and `THIRD-PARTY-NOTICES.txt` no longer list SharpDX or the Tao Framework. Helix Toolkit's entry
+  still carries SharpDX's MIT notice, because Helix Toolkit's maths library holds code derived from SharpDX.
 
 ## Open Dental 26.2: tools
 
@@ -821,4 +987,23 @@ technology, and they cannot be used to attest or to submit to any program** (the
   internal-review line.
 - Each refresh first removes the measure engines' work tables that a calculation stopped half way left in the database more than a day ago
   (`tempehrmeasure...`, `tempehrquality...`); a newer one may belong to another workstation's calculation and stays.
+- **The Meaningful Use measures now count as CMS's specification sheets define them**: timely online access within 4 business days
+  (Monday to Friday) and a Stage 2 clinical summary within one business day of its own visit, the last day counting whatever the time;
+  a Stage 1 clinical summary after a Saturday visit on time until the Wednesday (three business days, as after any other day); the smoking and vital-signs ages at the visit, not today; children of 5 in the Stage 1 reminders; Stage 2 preventive care by visits
+  with the provider, whoever the primary provider is; medication reconciliation per transition of care received; Stage 2 secure
+  messages and Modified Stage 2 education in the reporting period; lab tests with only free-text results left out. Numbers that
+  depended on the old rules can change.
 - Nothing is stored: the `ehrmeasure` table keeps its rows as they are.
+- **Removed on the owner's decisions of 2026-11-14:** the 2014 clinical quality measure versions and their QRDA export, and the 2011 Edition quality-measure window (no button since Open Dental) with its PQRI XML export; the 2027 versions replace them, and until they are in the program the EHR window's **Quality Meas** button says so. No saved data is changed.
+
+## Small fixes
+
+- **Letter merge and Microsoft Word.** When Word's registration in Windows is broken, the program now starts Word once, lets go of it and
+  shows the message at once; before, it started Word a second time first. Letter Merge Edit shows that message in the program's usual error
+  window.
+- **Claim files: the practice as the sender.** With Treating Provider billing, the refusal of a batch now says that the TIN of the clinic's
+  or the practice's Default Provider is the sender TIN.
+- **Imaging.** A picture import (a scan, a pasted image, an EOB) that fails while it reads this computer's scan settings no longer leaves an
+  empty image entry behind.
+- **Advertising postcards.** After a cancelled or failed contact with the postcard service, the window keeps the designs and orders it
+  showed before.

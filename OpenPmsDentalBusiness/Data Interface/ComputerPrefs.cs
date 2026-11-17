@@ -202,12 +202,18 @@ namespace OpenPmsDentalBusiness {
 			return LocalComputer.CreditCardTerminalId??"";
 		}
 
+		///<summary>Setup > Computers' "Use Simple Graphics": the computer draws the Simple 2D chart from its next start. Writes GraphicsSimple=1 (Simple 2D)
+		///and, since TC-8b (ENG-6), GraphicsUseDirectX11=2 ("Do not use" the 3D tooth chart), because only "Do not use" lets GraphicsSimple apply (ENG-2).
+		///Open Dental's manual says the button switches the computer "to use Simple Graphics" when it cannot open its graphics settings; whether Open
+		///Dental 26.2 also sets its DirectX 11 setting is not public (its 24.3 source wrote GraphicsSimple only), so this is the closest documented
+		///reading (od-unknown, docs/port-notes/TC-8b.md).</summary>
 		public static void SetToSimpleGraphics(string computerName) {
 			if(RemotingClient.MiddleTierRole==MiddleTierRole.ClientMT) {
 				Meth.GetVoid(MethodBase.GetCurrentMethod(),computerName);
 				return;
 			}
-			string command="UPDATE computerpref SET GraphicsSimple=1 WHERE ComputerName='"+POut.String(computerName)+"'";
+			string command="UPDATE computerpref SET GraphicsSimple=1,GraphicsUseDirectX11="+POut.Int((int)YN.No)
+				+" WHERE ComputerName='"+POut.String(computerName)+"'";
 			Db.NonQ(command);
 		}
 

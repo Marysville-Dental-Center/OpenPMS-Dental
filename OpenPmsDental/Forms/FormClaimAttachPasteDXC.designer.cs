@@ -23,22 +23,23 @@ namespace OpenPmsDental {
 		/// the contents of this method with the code editor.
 		/// </summary>
 		private void InitializeComponent() {
+			this.components = new System.ComponentModel.Container();
 			this.butSend = new OpenPmsDental.UI.Button();
 			this.pictureBox = new System.Windows.Forms.PictureBox();
 			this.label1 = new System.Windows.Forms.Label();
 			this.textClaimStatus = new OpenPmsDental.ODtextBox();
 			this.gridMain = new OpenPmsDental.UI.GridOD();
-			this.contextMenuImageGrid = new System.Windows.Forms.ContextMenu();
-			this.menuItemReferralForm = new System.Windows.Forms.MenuItem();
-			this.menuItemDiagnosticReport = new System.Windows.Forms.MenuItem();
-			this.menuItemExplanationOfBenefits = new System.Windows.Forms.MenuItem();
-			this.menuItemOtherAttachments = new System.Windows.Forms.MenuItem();
-			this.menuItemPeriodontalCharts = new System.Windows.Forms.MenuItem();
-			this.menuItemXRays = new System.Windows.Forms.MenuItem();
-			this.menuItemDentalModels = new System.Windows.Forms.MenuItem();
-			this.menuItemRadiologyReports = new System.Windows.Forms.MenuItem();
-			this.menuItemIntraOralPhotograph = new System.Windows.Forms.MenuItem();
-			this.menuItemNarrative = new System.Windows.Forms.MenuItem();
+			this.contextMenuImageGrid = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.menuItemReferralForm = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemDiagnosticReport = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemExplanationOfBenefits = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemOtherAttachments = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemPeriodontalCharts = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemXRays = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemDentalModels = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemRadiologyReports = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemIntraOralPhotograph = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemNarrative = new System.Windows.Forms.ToolStripMenuItem();
 			this.labelClaimAttachWarning = new System.Windows.Forms.Label();
 			this.buttonPasteAgain = new OpenPmsDental.UI.Button();
 			this.textNarrative = new OpenPmsDental.ODtextBox();
@@ -99,7 +100,8 @@ namespace OpenPmsDental {
 			// 
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-			this.gridMain.ContextMenu = this.contextMenuImageGrid;
+			this.gridMain.ContextMenuStrip = this.contextMenuImageGrid;
+			this.gridMain.DoAddGridItemsToContextMenuStrip = true;
 			this.gridMain.Location = new System.Drawing.Point(12, 12);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.Size = new System.Drawing.Size(375, 469);
@@ -109,7 +111,7 @@ namespace OpenPmsDental {
 			// 
 			// contextMenuImageGrid
 			// 
-			this.contextMenuImageGrid.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+			this.contextMenuImageGrid.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuItemReferralForm,
             this.menuItemDiagnosticReport,
             this.menuItemExplanationOfBenefits,
@@ -120,65 +122,55 @@ namespace OpenPmsDental {
             this.menuItemRadiologyReports,
             this.menuItemIntraOralPhotograph,
             this.menuItemNarrative});
-			this.contextMenuImageGrid.Popup += new System.EventHandler(this.contextMenuImageGrid_Popup);
+			this.contextMenuImageGrid.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuImageGrid_Popup);
 			// 
 			// menuItemReferralForm
 			// 
-			this.menuItemReferralForm.Index = 0;
 			this.menuItemReferralForm.Text = "Referral Form";
 			this.menuItemReferralForm.Click += new System.EventHandler(this.menuItemReferralForm_Click);
 			// 
 			// menuItemDiagnosticReport
 			// 
-			this.menuItemDiagnosticReport.Index = 1;
 			this.menuItemDiagnosticReport.Text = "Diagnostic Report";
 			this.menuItemDiagnosticReport.Click += new System.EventHandler(this.menuItemDiagnosticReport_Click);
 			// 
 			// menuItemExplanationOfBenefits
 			// 
-			this.menuItemExplanationOfBenefits.Index = 2;
 			this.menuItemExplanationOfBenefits.Text = "Explanation of Benefits";
 			this.menuItemExplanationOfBenefits.Click += new System.EventHandler(this.menuItemExplanationOfBenefits_Click);
 			// 
 			// menuItemOtherAttachments
 			// 
-			this.menuItemOtherAttachments.Index = 3;
 			this.menuItemOtherAttachments.Text = "Other Attachments";
 			this.menuItemOtherAttachments.Click += new System.EventHandler(this.menuItemOtherAttachments_Click);
 			// 
 			// menuItemPeriodontalCharts
 			// 
-			this.menuItemPeriodontalCharts.Index = 4;
 			this.menuItemPeriodontalCharts.Text = "Periodontal Charts";
 			this.menuItemPeriodontalCharts.Click += new System.EventHandler(this.menuItemPeriodontalCharts_Click);
 			// 
 			// menuItemXRays
 			// 
-			this.menuItemXRays.Index = 5;
 			this.menuItemXRays.Text = "X-Rays";
 			this.menuItemXRays.Click += new System.EventHandler(this.menuItemXRays_Click);
 			// 
 			// menuItemDentalModels
 			// 
-			this.menuItemDentalModels.Index = 6;
 			this.menuItemDentalModels.Text = "Dental Models";
 			this.menuItemDentalModels.Click += new System.EventHandler(this.menuItemDentalModels_Click);
 			// 
 			// menuItemRadiologyReports
 			// 
-			this.menuItemRadiologyReports.Index = 7;
 			this.menuItemRadiologyReports.Text = "Radiology Reports";
 			this.menuItemRadiologyReports.Click += new System.EventHandler(this.menuItemRadiologyReports_Click);
 			// 
 			// menuItemIntraOralPhotograph
 			// 
-			this.menuItemIntraOralPhotograph.Index = 8;
 			this.menuItemIntraOralPhotograph.Text = "Intra-Oral Photograph";
 			this.menuItemIntraOralPhotograph.Click += new System.EventHandler(this.menuItemIntraOralPhotograph_Click);
 			// 
 			// menuItemNarrative
 			// 
-			this.menuItemNarrative.Index = 9;
 			this.menuItemNarrative.Text = "Narrative";
 			this.menuItemNarrative.Click += new System.EventHandler(this.menuItemNarrative_Click);
 			// 
@@ -270,17 +262,17 @@ namespace OpenPmsDental {
 		private ODtextBox textClaimStatus;
 		private UI.GridOD gridMain;
 		private System.Windows.Forms.Label labelClaimAttachWarning;
-		private System.Windows.Forms.ContextMenu contextMenuImageGrid;
-		private System.Windows.Forms.MenuItem menuItemReferralForm;
-		private System.Windows.Forms.MenuItem menuItemDiagnosticReport;
-		private System.Windows.Forms.MenuItem menuItemExplanationOfBenefits;
-		private System.Windows.Forms.MenuItem menuItemOtherAttachments;
-		private System.Windows.Forms.MenuItem menuItemPeriodontalCharts;
-		private System.Windows.Forms.MenuItem menuItemXRays;
-		private System.Windows.Forms.MenuItem menuItemDentalModels;
-		private System.Windows.Forms.MenuItem menuItemRadiologyReports;
-		private System.Windows.Forms.MenuItem menuItemIntraOralPhotograph;
-		private System.Windows.Forms.MenuItem menuItemNarrative;
+		private System.Windows.Forms.ContextMenuStrip contextMenuImageGrid;
+		private System.Windows.Forms.ToolStripMenuItem menuItemReferralForm;
+		private System.Windows.Forms.ToolStripMenuItem menuItemDiagnosticReport;
+		private System.Windows.Forms.ToolStripMenuItem menuItemExplanationOfBenefits;
+		private System.Windows.Forms.ToolStripMenuItem menuItemOtherAttachments;
+		private System.Windows.Forms.ToolStripMenuItem menuItemPeriodontalCharts;
+		private System.Windows.Forms.ToolStripMenuItem menuItemXRays;
+		private System.Windows.Forms.ToolStripMenuItem menuItemDentalModels;
+		private System.Windows.Forms.ToolStripMenuItem menuItemRadiologyReports;
+		private System.Windows.Forms.ToolStripMenuItem menuItemIntraOralPhotograph;
+		private System.Windows.Forms.ToolStripMenuItem menuItemNarrative;
 		private UI.Button buttonPasteAgain;
 		private ODtextBox textNarrative;
 		private System.Windows.Forms.Label labelNarrative;

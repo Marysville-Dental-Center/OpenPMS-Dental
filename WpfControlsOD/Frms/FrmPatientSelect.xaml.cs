@@ -825,12 +825,15 @@ namespace OpenPmsDental {
 		private void OpenOnScreenKeyBoard() {
 			//Load the on screen keyboard process
 			//For 64-Bit Systems, running the 32-bit On Screen Keyboard app requires disabling the Windows on Windows (WOW) path redirection, in order to access the System32 folder
+			//Only a 32-bit process on 64-bit Windows is redirected: a 64-bit process reaches System32 itself and has nothing to turn off (ODSystemFolders).
+			bool isWow64Process=ODSystemFolders.IsWow64Process();
 			IntPtr intPtrWow64Value = IntPtr.Zero;
-			if(Environment.Is64BitOperatingSystem){
+			if(isWow64Process){
 				Wow64DisableWow64FsRedirection(ref intPtrWow64Value);
 			}
 			_processOnScreenKeyboard=new Process();
 			ProcessStartInfo processStartInfo=new ProcessStartInfo();
+			processStartInfo.UseShellExecute=true;//osk.exe's manifest asks for UI access, which CreateProcess refuses (ERROR_ELEVATION_REQUIRED): only the shell starts it (the .NET default is false).
 			string strPath=System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Windows),Environment.SystemDirectory,"osk.exe");
 			processStartInfo.FileName=strPath;
 			_processOnScreenKeyboard.StartInfo=processStartInfo;
@@ -839,7 +842,7 @@ namespace OpenPmsDental {
 			_processOnScreenKeyboard.Exited+=OnScreenKeyboardClosedEventHandler;
 			_processOnScreenKeyboard.Start();
 			//Re-enable the WOW path redirection after starting the 32-bit process
-			if(Environment.Is64BitOperatingSystem){
+			if(isWow64Process){
 				Wow64RevertWow64FsRedirection(intPtrWow64Value);
 			}
 		}

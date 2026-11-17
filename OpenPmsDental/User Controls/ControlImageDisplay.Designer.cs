@@ -31,23 +31,24 @@
 		/// the contents of this method with the code editor.
 		/// </summary>
 		private void InitializeComponent() {
-			this.menuPanelMain = new System.Windows.Forms.ContextMenu();
-			this.menuItemCopy = new System.Windows.Forms.MenuItem();
-			this.menuItemCopyWithoutDrawings = new System.Windows.Forms.MenuItem();
-			this.menuItemPaste = new System.Windows.Forms.MenuItem();
-			this.menuItemFlipHoriz = new System.Windows.Forms.MenuItem();
-			this.menuItemRotateLeft = new System.Windows.Forms.MenuItem();
-			this.menuItemRotateRight = new System.Windows.Forms.MenuItem();
-			this.menuItemRotate180 = new System.Windows.Forms.MenuItem();
-			this.menuItemDelete = new System.Windows.Forms.MenuItem();
-			this.menuItemInfo = new System.Windows.Forms.MenuItem();
-			this.menuItemTasks = new System.Windows.Forms.MenuItem();
+			this.components = new System.ComponentModel.Container();
+			this.menuPanelMain = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.menuItemCopy = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemCopyWithoutDrawings = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemPaste = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemFlipHoriz = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemRotateLeft = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemRotateRight = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemRotate180 = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemDelete = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemInfo = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemTasks = new System.Windows.Forms.ToolStripMenuItem();
 			this.panelMain = new OpenPmsDental.UI.ControlDoubleBuffered();
 			this.SuspendLayout();
 			// 
 			// menuPanelMain
 			// 
-			this.menuPanelMain.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+			this.menuPanelMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuItemCopy,
             this.menuItemCopyWithoutDrawings,
             this.menuItemPaste,
@@ -61,61 +62,51 @@
 			// 
 			// menuItemCopy
 			// 
-			this.menuItemCopy.Index = 0;
 			this.menuItemCopy.Text = "Copy";
 			this.menuItemCopy.Click += new System.EventHandler(this.menuPanelMain_Click);
 			// 
 			// menuItemCopyWithoutDrawings
 			// 
-			this.menuItemCopyWithoutDrawings.Index = 1;
 			this.menuItemCopyWithoutDrawings.Text = "Copy without drawings";
 			this.menuItemCopyWithoutDrawings.Click += new System.EventHandler(this.menuPanelMain_Click);
 			// 
 			// menuItemPaste
 			// 
-			this.menuItemPaste.Index = 2;
 			this.menuItemPaste.Text = "Paste";
 			this.menuItemPaste.Click += new System.EventHandler(this.menuPanelMain_Click);
 			// 
 			// menuItemFlipHoriz
 			// 
-			this.menuItemFlipHoriz.Index = 3;
 			this.menuItemFlipHoriz.Text = "Flip Horizontally";
 			this.menuItemFlipHoriz.Click += new System.EventHandler(this.menuPanelMain_Click);
 			// 
 			// menuItemRotateLeft
 			// 
-			this.menuItemRotateLeft.Index = 4;
 			this.menuItemRotateLeft.Text = "Rotate Left";
 			this.menuItemRotateLeft.Click += new System.EventHandler(this.menuPanelMain_Click);
 			// 
 			// menuItemRotateRight
 			// 
-			this.menuItemRotateRight.Index = 5;
 			this.menuItemRotateRight.Text = "Rotate Right";
 			this.menuItemRotateRight.Click += new System.EventHandler(this.menuPanelMain_Click);
 			// 
 			// menuItemRotate180
 			// 
-			this.menuItemRotate180.Index = 6;
 			this.menuItemRotate180.Text = "Rotate 180";
 			this.menuItemRotate180.Click += new System.EventHandler(this.menuPanelMain_Click);
 			// 
 			// menuItemDelete
 			// 
-			this.menuItemDelete.Index = 7;
 			this.menuItemDelete.Text = "Delete";
 			this.menuItemDelete.Click += new System.EventHandler(this.menuPanelMain_Click);
 			// 
 			// menuItemInfo
 			// 
-			this.menuItemInfo.Index = 8;
 			this.menuItemInfo.Text = "Info";
 			this.menuItemInfo.Click += new System.EventHandler(this.menuPanelMain_Click);
 			// 
 			// menuItemTasks
 			// 
-			this.menuItemTasks.Index = 9;
 			this.menuItemTasks.Text = "Find Tasks";
 			this.menuItemTasks.Click += new System.EventHandler(this.menuPanelMain_Click);
 			// 
@@ -150,17 +141,17 @@
 		}
 
 		#endregion
-		private System.Windows.Forms.ContextMenu menuPanelMain;
-		private System.Windows.Forms.MenuItem menuItemCopy;
-		private System.Windows.Forms.MenuItem menuItemCopyWithoutDrawings;
-		private System.Windows.Forms.MenuItem menuItemPaste;
-		private System.Windows.Forms.MenuItem menuItemFlipHoriz;
-		private System.Windows.Forms.MenuItem menuItemRotateLeft;
-		private System.Windows.Forms.MenuItem menuItemRotateRight;
-		private System.Windows.Forms.MenuItem menuItemRotate180;
-		private System.Windows.Forms.MenuItem menuItemDelete;
-		private System.Windows.Forms.MenuItem menuItemInfo;
-		private System.Windows.Forms.MenuItem menuItemTasks;
+		private System.Windows.Forms.ContextMenuStrip menuPanelMain;
+		private System.Windows.Forms.ToolStripMenuItem menuItemCopy;
+		private System.Windows.Forms.ToolStripMenuItem menuItemCopyWithoutDrawings;
+		private System.Windows.Forms.ToolStripMenuItem menuItemPaste;
+		private System.Windows.Forms.ToolStripMenuItem menuItemFlipHoriz;
+		private System.Windows.Forms.ToolStripMenuItem menuItemRotateLeft;
+		private System.Windows.Forms.ToolStripMenuItem menuItemRotateRight;
+		private System.Windows.Forms.ToolStripMenuItem menuItemRotate180;
+		private System.Windows.Forms.ToolStripMenuItem menuItemDelete;
+		private System.Windows.Forms.ToolStripMenuItem menuItemInfo;
+		private System.Windows.Forms.ToolStripMenuItem menuItemTasks;
 		public UI.ControlDoubleBuffered panelMain;
 	}
 }

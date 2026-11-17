@@ -52,11 +52,11 @@
 			this.menuApt = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
 			this.timerWaitingRoom = new System.Windows.Forms.Timer(this.components);
-			this.menuReminderEdit = new System.Windows.Forms.ContextMenu();
-			this.menuItemReminderDone = new System.Windows.Forms.MenuItem();
-			this.menuItemReminderGoto = new System.Windows.Forms.MenuItem();
+			this.menuReminderEdit = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.menuItemReminderDone = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemReminderGoto = new System.Windows.Forms.ToolStripMenuItem();
 			this.imageListTasks = new System.Windows.Forms.ImageList(this.components);
-			this.menuRecall = new System.Windows.Forms.ContextMenu();
+			this.menuRecall = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.groupSearch = new OpenPmsDental.UI.GroupBox();
 			this.groupBox1 = new OpenPmsDental.UI.GroupBox();
 			this.butProvHygenist = new OpenPmsDental.UI.Button();
@@ -412,19 +412,17 @@
 			// 
 			// menuReminderEdit
 			// 
-			this.menuReminderEdit.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+			this.menuReminderEdit.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuItemReminderDone,
             this.menuItemReminderGoto});
 			// 
 			// menuItemReminderDone
 			// 
-			this.menuItemReminderDone.Index = 0;
 			this.menuItemReminderDone.Text = "Done (affects all users)";
 			this.menuItemReminderDone.Click += new System.EventHandler(this.menuItemReminderDone_Click);
 			// 
 			// menuItemReminderGoto
 			// 
-			this.menuItemReminderGoto.Index = 1;
 			this.menuItemReminderGoto.Text = "Go To";
 			this.menuItemReminderGoto.Click += new System.EventHandler(this.menuItemReminderGoto_Click);
 			// 
@@ -1033,12 +1031,12 @@
 		private System.Windows.Forms.ToolTip toolTip1;
 		private System.Windows.Forms.ImageList imageListMain;
 		private System.Windows.Forms.Timer timerWaitingRoom;
-		private System.Windows.Forms.ContextMenu menuReminderEdit;
-		private System.Windows.Forms.MenuItem menuItemReminderDone;
-		private System.Windows.Forms.MenuItem menuItemReminderGoto;
+		private System.Windows.Forms.ContextMenuStrip menuReminderEdit;
+		private System.Windows.Forms.ToolStripMenuItem menuItemReminderDone;
+		private System.Windows.Forms.ToolStripMenuItem menuItemReminderGoto;
 		private System.Windows.Forms.ImageList imageListTasks;
 		private System.Windows.Forms.Panel panelCalendarLower;
-		private System.Windows.Forms.ContextMenu menuRecall;
+		private System.Windows.Forms.ContextMenuStrip menuRecall;
 		private System.Windows.Forms.Label label1;
 		private UI.Button butFwd4;
 		private UI.Button butFwd6;

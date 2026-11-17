@@ -1,0 +1,12 @@
+<AccountStatusDetailV2Result xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <result xmlns="https://secure.newcropaccounts.com/V7/webservices">
+    <Status>OK</Status>
+    <Message>Synthetic OK</Message>
+    <RowCount>1</RowCount>
+    <Timing>12</Timing>
+  </result>
+  <accountStatusDetailV2 xmlns="https://secure.newcropaccounts.com/V7/webservices">
+    <PendingRxCount>2</PendingRxCount>
+    <UnreadClinicalMessageCount>0</UnreadClinicalMessageCount>
+  </accountStatusDetailV2>
+</AccountStatusDetailV2Result>

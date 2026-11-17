@@ -114,7 +114,8 @@ namespace DataConnectionBase {
 			}
 		}
 
-		///<summary>If blank or invalid, returns 0. Otherwise, parses.</summary>
+		///<summary>If blank or invalid, returns 0. Otherwise, parses. A number too large for a double is invalid (0), as on .NET Framework, where
+		///.NET would give infinity; only the culture's infinity symbol gives infinity. Never negative zero.</summary>
 		///<param name="doUseEnUSFormat">If false, will use the computer's current settings to parse. If true, will use the en-US setting where a "."
 		///separates the decimal portion and a "," separates groups.</param>
 		public static double Double(string myString,bool doUseEnUSFormat=false) {
@@ -127,9 +128,10 @@ namespace DataConnectionBase {
 						NumberFormatInfo format=new NumberFormatInfo();
 						format.NumberDecimalSeparator=".";
 						format.NumberGroupSeparator=",";
-						return System.Convert.ToDouble(myString,format);
+						return ODNumberText.GetParsedAsNetFramework(System.Convert.ToDouble(myString,format),myString,format);
 					}
-					return System.Convert.ToDouble(myString);//In Europe, comes in as a comma, parsed according to culture.
+					//In Europe, comes in as a comma, parsed according to culture.
+					return ODNumberText.GetParsedAsNetFramework(System.Convert.ToDouble(myString),myString,CultureInfo.CurrentCulture);
 				}
 				catch(Exception ex) {
 					ex.DoNothing();
@@ -154,17 +156,19 @@ namespace DataConnectionBase {
 			}
 		}
 
-		///<summary></summary>
+		///<summary>A number too large for a float throws OverflowException, as on .NET Framework, where .NET would give infinity; only the
+		///culture's infinity symbol gives infinity. Negative zero only for a negative number too small for a float, as on .NET Framework.</summary>
 		public static float Float(string myString) {
 			if(myString=="") {
 				return 0;
 			}
 			try{
-				return System.Convert.ToSingle(myString);
+				return ODNumberText.GetParsedAsNetFramework(System.Convert.ToSingle(myString),myString,CultureInfo.CurrentCulture);
 			}
 			catch(Exception ex) {//because this will fail when getting the mysql version on startup, which always comes back with a period.
 				ex.DoNothing();
-				return System.Convert.ToSingle(myString,CultureInfo.InvariantCulture);
+				return ODNumberText.GetParsedAsNetFramework(System.Convert.ToSingle(myString,CultureInfo.InvariantCulture),myString,
+					CultureInfo.InvariantCulture);
 			}
 		}
 

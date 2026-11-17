@@ -1,0 +1,4 @@
+<ItsReturn xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <ErrorCode xmlns="https://ITSWebService.changehealthcare.com/">0</ErrorCode>
+  <Response xmlns="https://ITSWebService.changehealthcare.com/">Synthetic file accepted</Response>
+</ItsReturn>

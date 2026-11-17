@@ -1,0 +1,5 @@
+Host: sheet-simple2d
+Size: 500x370
+Bitmap: Format32bppArgb
+Colours in the picture: 14750
+Pixels SHA-256: f96e9b6381e01954842c0c49e5e328a61588684f0e132ab51736954b18c09008
