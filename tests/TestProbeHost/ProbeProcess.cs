@@ -205,11 +205,22 @@ namespace TestProbeHost {
 		public static ProbeRunResult RunOnce(string folderBase,string configText,Type typeEntry,string[] arrayArgs,TimeSpan timeSpanTimeout,
 			TimeSpan timeSpanOutputEnd)
 		{
+			return RunOnce(folderBase,configText,typeEntry,arrayArgs,timeSpanTimeout,timeSpanOutputEnd,false);
+		}
+
+		///<summary>RunOnce; with isCodePagesLeftOut the host does not register the code pages before the entry method runs (Program.NO_CODE_PAGES),
+		///so the process has .NET's built-in encodings alone, as the program's Main has at its start.</summary>
+		public static ProbeRunResult RunOnce(string folderBase,string configText,Type typeEntry,string[] arrayArgs,TimeSpan timeSpanTimeout,
+			TimeSpan timeSpanOutputEnd,bool isCodePagesLeftOut)
+		{
 			string pathExe=CopyHost(folderBase,configText);
 			string pathConfig=pathExe+".config";
 			try {
-				string arguments=JoinArguments(new[] { Program.RUN_ONCE,typeEntry.Assembly.Location,typeEntry.FullName }.Concat(arrayArgs));
-				ProcessStartInfo processStartInfo=new ProcessStartInfo(pathExe,arguments);
+				IEnumerable<string> arguments=new[] { Program.RUN_ONCE,typeEntry.Assembly.Location,typeEntry.FullName }.Concat(arrayArgs);
+				if(isCodePagesLeftOut) {
+					arguments=new[] { Program.NO_CODE_PAGES }.Concat(arguments);
+				}
+				ProcessStartInfo processStartInfo=new ProcessStartInfo(pathExe,JoinArguments(arguments));
 				processStartInfo.UseShellExecute=false;//redirected standard streams
 				processStartInfo.CreateNoWindow=true;
 				processStartInfo.RedirectStandardOutput=true;

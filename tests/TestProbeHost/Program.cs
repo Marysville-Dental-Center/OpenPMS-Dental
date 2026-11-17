@@ -1,6 +1,7 @@
 // The child process of the tests that need a fresh process (S3a-8 of the .NET 10 move): it loads the test's assembly, then answers one line per
 // request with the result of the handler's Handle method, until its standard input ends. Or, started with RUN_ONCE first (S3a-8b), it runs
-// one entry method of the test's assembly as its Main and ends with its exit code, in place of a console program compiled at run time.
+// one entry method of the test's assembly as its Main and ends with its exit code, in place of a console program compiled at run time. With
+// NO_CODE_PAGES before RUN_ONCE it leaves the code pages unregistered, for the test that checks the program's own registration (S3b-5).
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
 using System.IO;
@@ -13,6 +14,9 @@ namespace TestProbeHost {
 	internal static class Program {
 		///<summary>The first argument of a run-once start (ProbeProcess.RunOnce).</summary>
 		public const string RUN_ONCE="--run-once";
+		///<summary>Before RUN_ONCE only: the host does not register the code pages, so the entry method starts as the program's Main does, with
+		///.NET's built-in encodings alone (ProbeProcess.RunOnce with isCodePagesLeftOut; NoHqTests' EncodingsAfterInitializeTests).</summary>
+		public const string NO_CODE_PAGES="--no-code-pages";
 		///<summary>The exit code when the host itself cannot start the work: wrong arguments.</summary>
 		public const int EXIT_USAGE=90;
 		///<summary>The exit code when the handler or entry method cannot be loaded.</summary>
@@ -24,9 +28,14 @@ namespace TestProbeHost {
 		///command,string[] args). The first line on standard output is READY, or an error reply when the handler cannot be loaded. Then each
 		///line of standard input (ProbeText.Join: the command and its arguments) gets one reply line (ProbeText.FormatReply). The calls run on
 		///this MTA thread, as a test method's code runs on the test runner's; work that needs STA makes its own thread.
-		///With RUN_ONCE first: RUN_ONCE, the assembly file, the type, then the entry method's arguments (see RunOnce).</summary>
+		///With RUN_ONCE first: RUN_ONCE, the assembly file, the type, then the entry method's arguments (see RunOnce). NO_CODE_PAGES may come
+		///before RUN_ONCE.</summary>
 		[MTAThread]
 		public static int Main(string[] args) {
+			if(args.Length>1 && args[0]==NO_CODE_PAGES && args[1]==RUN_ONCE) {
+				//The entry method registers them itself, or checks that the code it calls does.
+				return RunOnce(args.Skip(2).ToArray());
+			}
 			//The code pages, as the program registers them first (ODInitialize, S3b-2): .NET has only the Unicode encodings, ASCII and Latin-1
 			//built in, and the probes run the libraries' code (S3b-5).
 			Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
