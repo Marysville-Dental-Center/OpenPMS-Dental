@@ -1977,6 +1977,15 @@ The owner answered the plan's questions "as recommended", with the corrections b
     S3b-5 routed through `CodeBase.ODTimeSpan`). A scan (with the compiler's types, since an argument's type is not visible to a text scan)
     finds every such call whose argument is not integral, and routes it through an `ODTimeSpan`-style helper that rounds as the .NET
     Framework did, with tests that pin fractional values against the net48 results (`docs/port-notes/S3b-5.md` section 9).
+    **Status (2026-11-16), S3b-FMT.** On `net10/s3bfmt-1` (`docs/port-notes/S3b-FMT.md`): done. The .NET Framework 4.8 record
+    (`tests/FormatParity/net48-truth.txt`, 65,104 number rows in 104 formats and two cultures, 2,655 time rows) confirmed all four
+    differences; custom formats were already 15 digits on .NET, but round an exact 16-digit half to even. One helper
+    (`ODNumberText.ToStringNetFx`/`AsNetFx`, `ODDateTimeAdd.AddXNetFx`) passes every row but "R" (kept exact, .NET's round-trip text).
+    `tools/FormatSweep` (Roslyn, from the compile inputs the build now records) routed 1,610 places of 22 shipped projects (1,370
+    ToString, 111 composite arguments, 88 concatenations, 24 interpolation holes, 11 Convert.ToString, 14 fractional DateTime
+    additions); the framework places (data table cells, string columns, the Middle Tier's table text, chart labels, RDL) are fixed at
+    their narrowest point, and what stays .NET's is listed in the port note. FormatParityTests guards it (0 unrouted places);
+    GoldenOutputTests and BINBTests' `Fixture_G15AndG7Texts` pass.
 
 Also recorded for the update path: the Middle Tier client and server switch together (it has never shipped to an office); saved
 passwords get a one-time migration from PasswordVault to the Credential Manager (S3a-5). Also answered on 2026-11-08: signed e-mail
