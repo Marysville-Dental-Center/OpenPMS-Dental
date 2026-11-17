@@ -71,8 +71,17 @@ namespace ToothChartImageTests {
 			if(body.StartsWith(ehrRenderExit)) {
 				body=body.Substring(ehrRenderExit.Length).TrimStart();
 			}
+			//S3b-4 (.NET 10): the default font and the DPI mode come first, because both must be set before any window exists and neither makes
+			//one (docs/specs/net10-plan.md, the S3b-4 row); the render mode follows them, still before any window (S3b-5W).
+			foreach(string statementFirst in new[] { "Application.SetDefaultFont(new System.Drawing.Font(\"Microsoft Sans Serif\",8.25f));",
+				"Application.SetHighDpiMode(HighDpiMode.PerMonitorV2);" })
+			{
+				if(body.StartsWith(statementFirst)) {
+					body=body.Substring(statementFirst.Length).TrimStart();
+				}
+			}
 			StringAssert.StartsWith(body,"System.Windows.Media.RenderOptions.ProcessRenderMode=System.Windows.Interop.RenderMode.SoftwareOnly;",
-				"The program's first statement (after the stylesheet child's exit) draws every WPF window in software.");
+				"The program's first statement (after the stylesheet child's exit and S3b-4's default font and DPI mode) draws every WPF window in software.");
 			List<string> listOthers=new List<string>();
 			foreach(string folder in new[] { "OpenPmsDental","WpfControlsOD","SparksToothChart","CodeBase","OpenPmsDentalBusiness" }) {
 				foreach(string relative in SourceText.GetCsFiles(folder)) {

@@ -42,6 +42,9 @@ namespace ToothChartHostTests {
 		[AssemblyInitialize]
 		public static void AssemblyInitialize(TestContext testContext) {
 			OpenPmsDentalTests.TestCodePages.Register();//the code pages first, as the program registers them (tests\Shared\TestCodePages.cs)
+			//The program's default font before any window exists, as every exe's Main sets it (S3b-4): the Simple 2D chart and the program's forms
+			//draw with the control's Font, which is .NET's Segoe UI 9 otherwise (S3b-5W, docs/port-notes/S3b-5W.md).
+			System.Windows.Forms.Application.SetDefaultFont(new System.Drawing.Font("Microsoft Sans Serif",8.25f));
 			System.Windows.Media.RenderOptions.ProcessRenderMode=System.Windows.Interop.RenderMode.SoftwareOnly;
 			ODBuild.IsUnitTest=true;
 		}
