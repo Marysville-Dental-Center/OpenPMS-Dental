@@ -80,7 +80,9 @@ namespace ImagingDeviceManager.Helper32 {
 		internal TimeSpan ListTimeout { get; set; }=TimeSpanListHelper;
 
 		#region Listing
-		///<summary>The sources of the program's own DSM, by ProductName (each once). Empty with errorText when it cannot be loaded or opened.</summary>
+		///<summary>The sources of the program's own DSM, by ProductName (each once). Empty with errorText when it cannot be loaded or opened. For
+		///the device list only (ListAll, on the thread that asks): opening a source never calls it, because it enumerates the DSM (MSG_OPENDSM
+		///loads every installed driver) outside the capture sessions' wait for one another (S3b-8 section 2.1).</summary>
 		public List<TwainSourceEntry> ListNative(out string errorText) {
 			errorText="";
 			List<TwainSourceEntry> listSources=new List<TwainSourceEntry>();
@@ -173,24 +175,15 @@ namespace ImagingDeviceManager.Helper32 {
 		}
 		#endregion Listing
 
-		///<summary>The path for the stored choice: native when the program's DSM lists the source (the whole stored text, then its ProductName
-		///without the marker), else the helper when the 32-bit DSM lists it, else native (the session reports the source not found, as before).
-		///</summary>
-		public TwainSourceResolution Resolve(string storedText) {
-			TwainSourceChoice choice=TwainSourceChoice.Parse(storedText);
+		///<summary>Where the stored choice runs once the program's own DSM did not list it (TwainCaptureSessionRouter asks that DSM first, by
+		///opening the source in an in-process session, which waits for the other sessions of this process and enumerates on its own worker; this
+		///class never enumerates the program's DSM on the open path, S3b-8 section 2.1): the helper when the 32-bit DSM lists the choice's
+		///ProductName, else, for a choice stored from the 32-bit DSM, ErrorText (why on the 32-bit side), else native (the router opens it in
+		///process again as before S3b-8, which reports it not found). Throws nothing.</summary>
+		public TwainSourceResolution ResolveNotNative(TwainSourceChoice choice) {
 			TwainSourceResolution resolution=new TwainSourceResolution { Dsm=TwainDsmKind.Native,ProductName=choice.ProductName };
 			if(!CanUseHelper) {
 				resolution.Reason=_is64BitProcess ? "no 32-bit helper here" : "a 32-bit program runs every TWAIN source in its own process";
-				return resolution;
-			}
-			string errorNative;
-			List<TwainSourceEntry> listNative=ListNative(out errorNative);
-			TwainSourceEntry entryNative=listNative.FirstOrDefault(x => string.Equals(x.ProductName,choice.StoredText,StringComparison.OrdinalIgnoreCase))
-				??listNative.FirstOrDefault(x => string.Equals(x.ProductName,choice.ProductName,StringComparison.OrdinalIgnoreCase));
-			if(entryNative!=null) {
-				resolution.ProductName=entryNative.ProductName;
-				resolution.Reason="the 64-bit TWAIN data source manager lists \""+entryNative.ProductName+"\" (native first)"
-					+(choice.Dsm==TwainDsmKind.Helper32 ? "; it was chosen from the 32-bit one, and has a 64-bit driver now" : "");
 				return resolution;
 			}
 			string error32;

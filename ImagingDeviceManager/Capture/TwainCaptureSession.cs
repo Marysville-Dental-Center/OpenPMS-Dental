@@ -7,6 +7,7 @@ using System.Globalization;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Threading;
+using ImagingDeviceManager.Helper32;
 using ImagingDeviceManager.Journal;
 using ImagingDeviceManager.TwainProtocol;
 using CodeBase;
@@ -51,7 +52,8 @@ namespace ImagingDeviceManager.Capture {
 		private TwainCaptureOptions _options=new TwainCaptureOptions();
 		private TwainCaptureQuarantineContext _quarantineContext=new TwainCaptureQuarantineContext();
 		private volatile string _productName="";
-		///<summary>The ProductName Open was called with, trimmed, while this instance is in _listLiveSessions. Guarded by _lockLiveSessions.</summary>
+		///<summary>The ProductName Open was called with, trimmed and without the 32-bit marker of a stored choice (TwainSourceChoice: the capture
+		///router of S3b-8 may first open the whole stored text), while this instance is in _listLiveSessions. Guarded by _lockLiveSessions.</summary>
 		private string _productNameLive="";
 		private volatile TwainCaptureSourceInfo _sourceInfo;
 		//Worker thread only:
@@ -101,6 +103,9 @@ namespace ImagingDeviceManager.Capture {
 		}
 
 		public TwainCaptureState State => (TwainCaptureState)_state;
+		///<summary>BeginClose (or a timed-out Open) asked this session to close; it is closing until WaitForClose returns true. For the helper's
+		///TwainHelperServer, which lists the 32-bit sources only once no session of the helper is closing (S3b-8).</summary>
+		internal bool IsCloseRequested => _isClosing;
 		public Guid SessionGuid { get; set; }
 		public string ProductName => _productName;
 		public TwainCaptureOptions Options {
@@ -170,7 +175,7 @@ namespace ImagingDeviceManager.Capture {
 					return new TwainCaptureOpenResult { Error=TwainCaptureOpenError.AlreadyOpen,ErrorText="The capture session is already open." };
 				}
 			}
-			string productNameLive=(productName??"").Trim();
+			string productNameLive=TwainSourceChoice.GetProductName(productName);
 			string errorBusy;
 			if(!WaitForOtherSessions(productNameLive,GetOpenTimeout(options),out errorBusy)) {
 				Log(errorBusy);
@@ -521,6 +526,7 @@ namespace ImagingDeviceManager.Capture {
 					TickMilliseconds=Math.Max(10,_options.TickMilliseconds),
 					LoopTimeoutMilliseconds=0,
 					FuncIsInterruptRequested=IsInterruptRequested,
+					IsSourceNameExact=_options.IsSourceNameExact,
 				};
 				_session.Logged+=Log;
 				_session.WaitingForSourceChanged+=OnWaitingForSourceChanged;
@@ -532,6 +538,7 @@ namespace ImagingDeviceManager.Capture {
 				}
 				if(!_session.OpenSource(command.ProductName)) {
 					result.Error=MapOpenError(_session.ErrorCode,isGateRefused);
+					result.IsSourceNotListed=!isGateRefused && _session.ErrorCode==EZTwainErrorCode.EZTEC_NO_SUCH_DS;
 					result.ErrorText=_session.ErrorText;
 					result.ConditionCode=_session.LastConditionCode==Tw.TWCC_SUCCESS ? (ushort?)null : _session.LastConditionCode;
 					Log("The source could not be opened: "+_session.ErrorText);

@@ -2,6 +2,7 @@
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -20,7 +21,8 @@ namespace ImagingDeviceManager.Helper32 {
 	///them, and maps the program's enable ids to the session's.
 	///
 	///Handle is called on the helper's one main thread, one command at a time; the session's events arrive on its worker. Open blocks the
-	///main thread until the source is open (TwainCaptureSession.Open); every other command returns at once, and Poll waits at most
+	///main thread until the source is open (TwainCaptureSession.Open), ListSources first waits for the helper's sessions that are closing
+	///(at most ListWaitTimeout), every other command returns at once, and Poll waits at most
 	///TwainHelperCommands.POLL_WAIT_MAX_MS for an event.</summary>
 	internal sealed class TwainHelperServer:IDisposable {
 		private readonly DsmLoader _dsmLoader;
@@ -29,6 +31,13 @@ namespace ImagingDeviceManager.Helper32 {
 		private readonly bool _isTestFolderAllowed;
 		private readonly Func<DateTime> _funcNow;
 		private readonly Dictionary<string,ServerSession> _dictSessions=new Dictionary<string,ServerSession>();
+		///<summary>Every TwainCaptureSession this helper created that may not have closed yet, also one that Release or a failed Open dropped from
+		///_dictSessions after a bounded wait: ListSources waits for them (WaitForSessionsBeforeListing).</summary>
+		private readonly List<TwainCaptureSession> _listCaptures=new List<TwainCaptureSession>();
+
+		///<summary>How long ListSources waits for the helper's sessions that are closing, well within the program's 60 s for a listing call
+		///(TwainSourcePath.TimeSpanListHelper). Tests shorten it.</summary>
+		internal TimeSpan ListWaitTimeout { get; set; }=TimeSpan.FromSeconds(30);
 
 		///<param name="dsmLoader">This process's DSM (NativeTwainDsm.Load), or a test's.</param>
 		///<param name="funcReadMetadataKeys">The capture metadata parser (ImagingCapture's CaptureMetadataParser.ReadKeys, compiled into the
@@ -116,9 +125,47 @@ namespace ImagingDeviceManager.Helper32 {
 			return "";
 		}
 
+		///<summary>Before ListSources enumerates the DSM (MSG_OPENDSM loads every installed driver and asks each its identity; the TWAIN DSM
+		///has no lock): waits while a session of this helper is closing, so that its MSG_DISABLEDS and MSG_CLOSEDS come first, as an in-process
+		///session waits for another (TwainCaptureSession.WaitForOtherSessions); false with errorText when one is open and not closing (its worker
+		///may call the DSM at any time) or did not finish closing within ListWaitTimeout. Called on the helper's main thread, which also runs Open,
+		///so no session is opening meanwhile; a timed-out Open has asked its session to close.</summary>
+		private bool WaitForSessionsBeforeListing(out string errorText) {
+			errorText="";
+			Stopwatch stopwatch=Stopwatch.StartNew();
+			while(true) {
+				TwainCaptureSession captureClosing=null;
+				lock(_listCaptures) {
+					_listCaptures.RemoveAll(x => x.WaitForClose(TimeSpan.Zero));
+					foreach(TwainCaptureSession capture in _listCaptures) {
+						if(!capture.IsCloseRequested) {
+							errorText="The 32-bit TWAIN sources are not listed while a capture session of the 32-bit helper has the TWAIN source \""
+								+capture.ProductName+"\" open. Close that capture window first.";
+							return false;
+						}
+						captureClosing=capture;
+					}
+				}
+				if(captureClosing==null) {
+					return true;
+				}
+				TimeSpan timeLeft=ListWaitTimeout-stopwatch.Elapsed;
+				if(timeLeft<=TimeSpan.Zero || !captureClosing.WaitForClose(timeLeft)) {
+					errorText="The 32-bit TWAIN sources are not listed: the previous capture session of the TWAIN source \""+captureClosing.ProductName
+						+"\" in the 32-bit helper is still closing. Try again in a moment.";
+					return false;
+				}
+			}
+		}
+
 		private string[] ListSources(out byte[] dataReply) {
 			string errorText="";
 			ITwainDsm dsm=null;
+			string errorBusy;
+			if(!WaitForSessionsBeforeListing(out errorBusy)) {
+				dataReply=TwainHelperWire.Write(w => TwainHelperWire.WriteSources(w,new List<TwainSourceEntry>()));
+				return new[] { "",errorBusy };
+			}
 			try {
 				dsm=_dsmLoader(out errorText);
 			}
@@ -194,6 +241,9 @@ namespace ImagingDeviceManager.Helper32 {
 			ServerSession session=new ServerSession(sessionId,capture);
 			lock(_dictSessions) {
 				_dictSessions[sessionId]=session;
+			}
+			lock(_listCaptures) {
+				_listCaptures.Add(capture);
 			}
 			TwainCaptureOpenResult result=capture.Open(productName,options);
 			if(result==null || !result.IsOpen) {

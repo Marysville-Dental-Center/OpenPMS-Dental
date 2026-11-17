@@ -238,6 +238,9 @@ namespace ImagingDeviceManager.Capture {
 		///<summary>The condition code of the failed open, when there was one.</summary>
 		public ushort? ConditionCode { get; set; }
 		public TwainCaptureSourceInfo SourceInfo { get; set; }
+		///<summary>SourceNotFound because the DSM lists no source of that name (not because a listed source failed MSG_OPENDS). The capture
+		///router of S3b-8 asks the 32-bit DSM only then: a source the program's own DSM lists always runs in the program's process.</summary>
+		public bool IsSourceNotListed { get; set; }
 	}
 
 	///<summary>One custom capability of the device profile, as the open source answered MSG_QUERYSUPPORT.</summary>

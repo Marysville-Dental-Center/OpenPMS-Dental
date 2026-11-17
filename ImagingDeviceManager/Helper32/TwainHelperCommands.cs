@@ -9,7 +9,7 @@ namespace ImagingDeviceManager.Helper32 {
 	public static class TwainHelperCommands {
 		public const string MODULE="Twain";
 		///<summary>The version of these commands and TwainHelperWire's layout. Hello returns it; the program refuses another.</summary>
-		public const int VERSION=1;
+		public const int VERSION=2;
 
 		///<summary>No arguments. Results: VERSION, the helper's process bitness ("32"), the DSM library the helper would load ("" when none), and
 		///the sizes of TW_USERINTERFACE and TW_IMAGEMEMXFER in its process (8 and 38 in a 32-bit one, S3a-12's x86 column), for the tests.</summary>

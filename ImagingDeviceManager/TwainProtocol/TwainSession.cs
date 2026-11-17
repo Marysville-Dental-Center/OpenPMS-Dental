@@ -86,6 +86,10 @@ namespace ImagingDeviceManager.TwainProtocol {
 		///<summary>The source gate ([Twain] RestrictSources and AllowedSources), checked by OpenSource on the ProductName of the source it is
 		///about to open, by name or as the default. Null lets every source through. The facade sets it from capture.ini before each open.</summary>
 		public TwainSourceGate SourceGate { get; set; }
+		///<summary>OpenSource(name) opens only a source whose ProductName is the name (ignoring case and surrounding spaces), never one whose name
+		///only starts with it (FindSource). The capture router of S3b-8 sets it while it asks the program's own DSM first, so that a 32-bit-only
+		///source is not mistaken for a 64-bit one with a longer name. False (the default) keeps the earlier behaviour.</summary>
+		public bool IsSourceNameExact { get; set; }
 		///<summary>True while Acquire or AcquireAll runs, including inside their message loop.</summary>
 		public bool IsAcquiring => _isAcquiring;
 		///<summary>True when the last Acquire returned no image because the transfer of the image meant for the caller failed (not a
@@ -548,7 +552,7 @@ namespace ImagingDeviceManager.TwainProtocol {
 				}
 			}
 			else {
-				TW_IDENTITY? identityFound=FindSource(EnumerateSources(),sourceName);
+				TW_IDENTITY? identityFound=FindSource(EnumerateSources(),sourceName,IsSourceNameExact);
 				if(identityFound==null) {
 					SetError(EZTwainErrorCode.EZTEC_NO_SUCH_DS,"The scanner \""+sourceName+"\" is not installed on this computer.");
 					CloseDsm();
@@ -589,11 +593,19 @@ namespace ImagingDeviceManager.TwainProtocol {
 		///<summary>Finds a source by product name: an exact match ignoring case first, then a source whose name starts with
 		///sourceName. Returns null when there is none.</summary>
 		public static TW_IDENTITY? FindSource(List<TW_IDENTITY> listIdentities,string sourceName) {
+			return FindSource(listIdentities,sourceName,false);
+		}
+
+		///<summary>FindSource; with isExact only the exact match (ignoring case), never a source whose name starts with sourceName.</summary>
+		public static TW_IDENTITY? FindSource(List<TW_IDENTITY> listIdentities,string sourceName,bool isExact) {
 			string nameTrimmed=sourceName.Trim();
 			foreach(TW_IDENTITY identity in listIdentities) {
 				if(string.Equals((identity.ProductName??"").Trim(),nameTrimmed,StringComparison.OrdinalIgnoreCase)) {
 					return identity;
 				}
+			}
+			if(isExact) {
+				return null;
 			}
 			foreach(TW_IDENTITY identity in listIdentities) {
 				if((identity.ProductName??"").Trim().StartsWith(nameTrimmed,StringComparison.OrdinalIgnoreCase) && nameTrimmed!="") {

@@ -305,6 +305,7 @@ namespace ImagingDeviceManager.Helper32 {
 			if(result.SourceInfo!=null) {
 				WriteSourceInfo(writer,result.SourceInfo);
 			}
+			writer.Write(result.IsSourceNotListed);
 		}
 
 		public static TwainCaptureOpenResult ReadOpenResult(BinaryReader reader) {
@@ -316,6 +317,7 @@ namespace ImagingDeviceManager.Helper32 {
 			if(reader.ReadBoolean()) {
 				result.SourceInfo=ReadSourceInfo(reader);
 			}
+			result.IsSourceNotListed=reader.ReadBoolean();
 			return result;
 		}
 
