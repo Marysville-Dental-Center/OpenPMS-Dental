@@ -4,3 +4,4 @@
 # every place of the file and category). FormatParityTests' guard fails on a guarded place that is not routed and not listed here, and on a
 # line here that matches nothing.
 CodeBase\Utilities\ODNumberTextNetFx.cs | * | * | The helper itself: it calls .NET's formatter for the exact formats ("R") and for the digits it then formats.
+OpenPmsDentalGraph\Base\ChartNumberText.cs | Composite | e.Value | Routed: string.Format with ChartNumberText's NetFxFormatProvider, whose ICustomFormatter writes each double item through ToStringNetFx (a chart's composite label format, WINCHK-5).

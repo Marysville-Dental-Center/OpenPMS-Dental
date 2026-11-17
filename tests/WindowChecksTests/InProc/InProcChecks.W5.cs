@@ -175,6 +175,18 @@ namespace WindowChecksTests.InProc {
 				&& (bool)Member(x,"HasDockedControl")).Select(x => (Control)Member(x,"DockedControl")??x.Controls.Cast<Control>().FirstOrDefault())
 				.Where(x => x!=null).ToList());
 			checkResult.Expect(listGraphs.Count>0,"The dashboard has graph cells ("+listGraphs.Count+")");
+			//The graphs fill on a thread of their own and show a 'Loading' picture until then (GraphQuantityOverTime.IsLoading).
+			System.Diagnostics.Stopwatch stopwatch=System.Diagnostics.Stopwatch.StartNew();
+			int countLoading=int.MaxValue;
+			while(stopwatch.Elapsed.TotalSeconds<60) {
+				countLoading=ui.Invoke(() => listGraphs.SelectMany(x => new[] { x }.Concat(Ui.AllControls(x)))
+					.Count(x => x.GetType().GetProperty("IsLoading")?.GetValue(x) is bool isLoading && isLoading));
+				if(countLoading==0) {
+					break;
+				}
+				System.Threading.Thread.Sleep(500);
+			}
+			checkResult.Expect(countLoading==0,"Every graph has loaded its data ("+stopwatch.Elapsed.TotalSeconds.ToString("0.0")+" s)",countLoading+" still loading");
 			for(int i=0;i<listGraphs.Count && i<6;i++) {
 				Control control=listGraphs[i];
 				string description=ui.Invoke(() => {
@@ -183,10 +195,13 @@ namespace WindowChecksTests.InProc {
 					return control.GetType().Name+": charts "+(listCharts.Count==0 ? "none" : string.Join(", ",listCharts));
 				});
 				checkResult.Note("Graph "+(i+1)+": "+description);
-				checkResult.AddShot(ui.ShotDraw(control,"F5-"+(i+1)+".png"),"Graph "+(i+1)+" ("+description+")");
+				//Printed (PrintWindow), not DrawToBitmap: DrawToBitmap draws the children in the wrong order, so the 'Loading' picture behind the
+				//chart came out on top of it.
+				IntPtr hwndGraph=ui.Invoke(() => control.Handle);
+				checkResult.AddShot(ui.Shot(hwndGraph,"F5-"+(i+1)+".png"),"Graph "+(i+1)+" ("+description+")");
 			}
-			checkResult.ForPerson("the graphs' axes, legends and fonts in F5-*.png against the .NET Framework pictures (the Windows Forms charting "
-				+"package of .NET 10 draws them)");
+			checkResult.ForPerson("the graphs' axes, legends and fonts in F5-*.png (the Windows Forms charting package of .NET 10 draws them; a check new "
+				+"in WINCHK-5, so the .NET Framework pictures to compare with are the same graphs in F1.png)");
 			CloseDashboard(ui,checkResult,hwnd);
 		}
 
@@ -229,7 +244,7 @@ namespace WindowChecksTests.InProc {
 						});
 						checkResult.Note("The preview: "+pages);
 						checkResult.AddShot(ui.Shot(openedPreview.Hwnd,"G3.png"),"The time cards' print preview (FormPrintPreview)");
-						checkResult.ForPerson("the page in G3.png (margins, fonts, the time card's grid) against the .NET Framework picture");
+						checkResult.ForPerson("the page in G3.png (margins, fonts, the time card's grid; a check new in WINCHK-5, with no .NET Framework picture)");
 						checkResult.Expect(ui.Close(openedPreview.Hwnd),"The print preview closes (Print never pressed)");
 					}
 					openedPreview.Posted?.Wait();
