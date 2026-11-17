@@ -140,6 +140,25 @@ namespace WindowChecksTests.InProc {
 			checkResult.Expect(ui.WaitGone(hwnd),"ToolTipOD closes");
 		}
 
+		public static void CheckC20(Ui ui,CheckResult checkResult) {
+			//The main menu (MenuOD and the MenuStripOD inside it) draws in its form's font, Microsoft Sans Serif 8.25, as on .NET Framework. The
+			//pairs of WINCHK-5's first run showed every main menu in Segoe UI 9 (ToolStrip's own default) on .NET 10: MenuOD.OnParentChanged.
+			string[] arrayFonts=ui.Invoke(() => {
+				OpenPmsDental.UI.MenuOD menuOD=(OpenPmsDental.UI.MenuOD)Ui.GetField(ui.FormMain,"menuMain");
+				ToolStripItem toolStripItem=menuOD.GetMenuItems().Cast<ToolStripItem>().First(x => x.Available);
+				return new[] { ui.FormMain.Font.Name+" "+ui.FormMain.Font.SizeInPoints.ToString("0.##"),menuOD.Font.Name+" "+menuOD.Font.SizeInPoints.ToString("0.##"),
+					toolStripItem.Owner.Font.Name+" "+toolStripItem.Owner.Font.SizeInPoints.ToString("0.##"),
+					toolStripItem.Font.Name+" "+toolStripItem.Font.SizeInPoints.ToString("0.##"),toolStripItem.Text };
+			});
+			checkResult.Note("Fonts: the main window "+arrayFonts[0]+", MenuOD "+arrayFonts[1]+", its strip "+arrayFonts[2]+", the item '"+arrayFonts[4]+"' "
+				+arrayFonts[3]);
+			checkResult.Expect(arrayFonts[1].StartsWith("Microsoft Sans Serif "),"MenuOD has the window's font, Microsoft Sans Serif ("+arrayFonts[1]+")",arrayFonts[1]);
+			checkResult.Expect(arrayFonts[2]==arrayFonts[1] && arrayFonts[3]==arrayFonts[1],"The menu strip and its items draw in MenuOD's font ("+arrayFonts[2]+", "
+				+arrayFonts[3]+"), not ToolStrip's Segoe UI 9",arrayFonts[2]+" / "+arrayFonts[3]);
+			Control controlMenu=ui.Invoke(() => (Control)Ui.GetField(ui.FormMain,"menuMain"));
+			checkResult.AddShot(ui.ShotDraw(controlMenu,"C20-menu.png"),"The main menu bar");
+		}
+
 		public static void CheckF5(Ui ui,CheckResult checkResult) {
 			IntPtr hwnd=OpenDashboard(ui,checkResult);
 			if(hwnd==IntPtr.Zero) {

@@ -33,6 +33,7 @@ namespace WindowChecksTests {
 			new[] { "C17","Default font: progress windows (FormProgressStatus, FormProgressExtended)" },
 			new[] { "C18","Default font: the combo box drop-down of the clinic picker (FormComboPicker)" },
 			new[] { "C19","Default font: ToolTipOD" },
+			new[] { "C20","Default font: the main menu (MenuOD) in its window's font" },
 		};
 
 		///<summary>Runs the in-process checks in one session, starting a new session after a check that did not end; records every result and
@@ -73,7 +74,7 @@ namespace WindowChecksTests {
 		}
 
 		[TestMethod]
-		public void C16toC19_DefaultFontWindows() {
+		public void C16toC20_DefaultFontWindows() {
 			WinChkFixture.Begin("C");
 			RunInProcess(ArrayChecksDefaultFont,"chart");
 		}
