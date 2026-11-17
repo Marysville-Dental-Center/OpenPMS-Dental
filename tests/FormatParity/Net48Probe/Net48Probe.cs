@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Numerics;
 using System.Text;
 
 namespace Net48Probe {
@@ -187,7 +188,119 @@ namespace Net48Probe {
 				}
 				listValues.Add(i%2==0 ? -value : value);
 			}
+			AddNearHalfBands(listValues,random);
 			return listValues;
+		}
+
+		///<summary>The values where the .NET Framework's x86 and x64 runtimes write different 15-digit text: the digits after the 15th significant
+		///one read about 0.5 (x64 rounds the exact value, x86 rounds digits it computes with about 17 digits of accuracy). Half cents and half
+		///tenths a few ulps off the half, 15 significant digits followed by 5 one ulp off (sizes 1E-4 to 1E15), computed shares and sevenths; and
+		///of each kind the first candidates whose exact digits 16 to 19 lie in 4940..5009 (ChooseNearHalf), so the record holds rows where the
+		///runtimes differ. The values come from exact operations only (integers, division by an exact power of ten, ulp steps), so the x86 and x64
+		///probes write the same values; the script checks that.</summary>
+		private static void AddNearHalfBands(List<double> listValues,Random random) {
+			for(int pass=0;pass<2;pass++) {
+				bool isChosen=pass==1;
+				AddCandidates(listValues,isChosen ? 40 : 60,isChosen,delegate {//half cents, 1 to 8 ulps off
+					long cents=random.Next(0,100000000);
+					return AddUlps((cents*10+5)/1000.0,random);
+				});
+				AddCandidates(listValues,isChosen ? 20 : 30,isChosen,delegate {//half tenths, 1 to 8 ulps off
+					long tenths=random.Next(0,100000000);
+					return AddUlps((tenths*10+5)/100.0,random);
+				});
+				AddCandidates(listValues,isChosen ? 40 : 60,isChosen,delegate {//15 significant digits and a 5, one ulp off, 1E-4 to 1E15
+					long digits=100000000000000L+(long)(random.NextDouble()*900000000000000.0);
+					int exponent=random.Next(-4,16);//the value is digits.5 * 10^(exponent-14)
+					double value=(digits*10+5)/_arrayPowersOfTen[15-exponent];
+					long bits=BitConverter.DoubleToInt64Bits(value)+random.Next(-1,2);
+					return BitConverter.Int64BitsToDouble(bits);
+				});
+				AddCandidates(listValues,isChosen ? 20 : 30,isChosen,delegate {//a share of an amount
+					double amount=random.Next(0,100000000)/100.0;
+					return amount*0.15;
+				});
+				AddCandidates(listValues,isChosen ? 20 : 30,isChosen,delegate {//an amount split in seven
+					double amount=random.Next(0,100000000)/100.0;
+					return amount/7;
+				});
+			}
+		}
+
+		private delegate double ValueGetter();
+
+		///<summary>count values from valueGetter; when isChosen, only those whose exact digits 16 to 19 lie in 4940..5009 (at most 200000 tries).</summary>
+		private static void AddCandidates(List<double> listValues,int count,bool isChosen,ValueGetter valueGetter) {
+			int countAdded=0;
+			for(int tries=0;countAdded<count && tries<200000;tries++) {
+				double value=valueGetter();
+				if(isChosen) {
+					int digits=GetExactDigits16To19(value);
+					if(digits<4940 || digits>5009) {
+						continue;
+					}
+				}
+				listValues.Add(value);
+				countAdded++;
+			}
+		}
+
+		private static double AddUlps(double value,Random random) {
+			int ulps=random.Next(1,9);
+			if(random.Next(0,2)==0) {
+				ulps=-ulps;
+			}
+			return BitConverter.Int64BitsToDouble(BitConverter.DoubleToInt64Bits(value)+ulps);
+		}
+
+		///<summary>10^0 to 10^22, each exact as a double.</summary>
+		private static readonly double[] _arrayPowersOfTen=new double[] { 1e0,1e1,1e2,1e3,1e4,1e5,1e6,1e7,1e8,1e9,1e10,1e11,1e12,1e13,1e14,1e15,
+			1e16,1e17,1e18,1e19,1e20,1e21,1e22 };
+
+		///<summary>Significant digits 16 to 19 of the exact binary value of a positive or negative finite non-zero double, as an integer 0..9999,
+		///from BigInteger arithmetic (the same on every runtime).</summary>
+		private static int GetExactDigits16To19(double value) {
+			long bits=BitConverter.DoubleToInt64Bits(value) & long.MaxValue;
+			int exponentBits=(int)(bits>>52);
+			long mantissa=bits & ((1L<<52)-1);
+			int exponent2;
+			if(exponentBits==0) {
+				exponent2=-1074;
+			}
+			else {
+				mantissa|=1L<<52;
+				exponent2=exponentBits-1075;
+			}
+			BigInteger numerator=new BigInteger(mantissa);
+			BigInteger denominator=BigInteger.One;
+			if(exponent2>=0) {
+				numerator<<=exponent2;
+			}
+			else {
+				denominator<<=-exponent2;
+			}
+			//The exact value is numerator/denominator; scale it to 19 integer digits: 10^18 <= scaled < 10^19.
+			BigInteger low=BigInteger.Pow(10,18);
+			BigInteger high=BigInteger.Pow(10,19);
+			int exponent10=(int)Math.Floor(Math.Log10(Math.Abs(value)));
+			BigInteger scaled=Scale(numerator,denominator,18-exponent10);
+			while(scaled<low) {
+				exponent10--;
+				scaled=Scale(numerator,denominator,18-exponent10);
+			}
+			while(scaled>=high) {
+				exponent10++;
+				scaled=Scale(numerator,denominator,18-exponent10);
+			}
+			return (int)(scaled%10000);
+		}
+
+		///<summary>floor(numerator/denominator * 10^power).</summary>
+		private static BigInteger Scale(BigInteger numerator,BigInteger denominator,int power) {
+			if(power>=0) {
+				return BigInteger.Divide(numerator*BigInteger.Pow(10,power),denominator);
+			}
+			return BigInteger.Divide(numerator,denominator*BigInteger.Pow(10,-power));
 		}
 
 		private static List<float> GetFloats() {
