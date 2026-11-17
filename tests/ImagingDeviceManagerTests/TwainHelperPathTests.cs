@@ -645,7 +645,7 @@ namespace ImagingDeviceManager.Tests {
 				Channel=new MemoryChannel(new TwainHelperServer((out string error) => {
 					error="";
 					return Fake32;
-				},null,false));
+				},null,isTestFolderAllowed:true));//a helper session a test opens writes into Folder
 				Folder=Path.Combine(Path.GetTempPath(),"TwainHelperPathTests_"+Guid.NewGuid().ToString("N"));
 				Directory.CreateDirectory(Folder);
 			}
@@ -931,6 +931,84 @@ namespace ImagingDeviceManager.Tests {
 			rig.OpenAndClose("Old Sensor"+TwainSourceChoice.Marker32,out result);
 			Assert.IsFalse(result.IsOpen);
 			StringAssert.Contains(result.ErrorText,"did not answer");
+		}
+
+		///<summary>An unmarked choice (stored before S3b-8, as every choice of the 32-bit program is) that only the 32-bit fake lists, while the
+		///helper cannot list: the open fails with Other and the helper's reason, not "not found", and nothing is opened in the helper.</summary>
+		private static void AssertUnmarkedHelperFailure(PathRig rig,string fragment) {
+			int countHelperSessions=rig.ListHelperSessions.Count;
+			TwainCaptureOpenResult result;
+			TwainCaptureSessionRouter router=rig.OpenAndClose("Old Sensor",out result);
+			Assert.IsFalse(result.IsOpen);
+			Assert.AreEqual(TwainCaptureOpenError.Other,result.Error,"Other, so that the window shows the helper's reason and not \"not found\": "
+				+result.ErrorText);
+			StringAssert.Contains(result.ErrorText,"\"Old Sensor\" is not listed by the 64-bit TWAIN data source manager");
+			StringAssert.Contains(result.ErrorText,"the 32-bit sources could not be checked");
+			StringAssert.Contains(result.ErrorText,fragment);
+			Assert.AreEqual(TwainDsmKind.Native,router.Resolution.Dsm);
+			Assert.IsNull(router.Resolution.ErrorText);
+			StringAssert.Contains(router.Resolution.Helper32ErrorText,fragment);
+			Assert.AreEqual(countHelperSessions,rig.ListHelperSessions.Count,"Nothing is opened in the helper.");
+			string pathLog=Path.Combine(CaptureFolders.CreateForFolder(rig.Folder).GetPath(CaptureFolders.SubfolderCapture),CaptureLog.FileName);
+			StringAssert.Contains(File.ReadAllText(pathLog),"The source cannot be opened: "+result.ErrorText,"The capture log has the reason.");
+		}
+
+		///<summary>The review finding of S3b-8 (fix 3): the helper is missing (quarantined, not installed) at open time for an unmarked choice.
+		///</summary>
+		[TestMethod]
+		public void Router_UnmarkedChoice_HelperMissing_OtherWithTheReason() {
+			PathRig rig=Track(new PathRig(new List<string> { "Native Only" },new List<string> { "Old Sensor" }));
+			rig.Channel.FuncFail=command => new TwainHelperException(TwainHelperFailure.Missing,"The 32-bit helper program OpenPmsDentalHelper32.exe was "
+				+"not found at C:\\Program Files\\Open PMS - Dental\\Helper32\\OpenPmsDentalHelper32.exe.");
+			AssertUnmarkedHelperFailure(rig,"OpenPmsDentalHelper32.exe was not found");
+			//The same without the program's DSM: not "TWAIN is not installed", the helper's reason.
+			rig.DsmNative=null;
+			TwainCaptureOpenResult result;
+			rig.OpenAndClose("Old Sensor",out result);
+			Assert.AreEqual(TwainCaptureOpenError.Other,result.Error,result.ErrorText);
+			StringAssert.Contains(result.ErrorText,"The 64-bit TWAIN data source manager is not installed");
+			StringAssert.Contains(result.ErrorText,"OpenPmsDentalHelper32.exe was not found");
+			//The helper back: the same unmarked choice opens through it.
+			rig.DsmNative=rig.FakeNative;
+			rig.Channel.FuncFail=null;
+			TwainCaptureSessionRouter router=rig.OpenAndClose("Old Sensor",out result);
+			Assert.IsTrue(result.IsOpen,result.ErrorText);
+			Assert.AreEqual(TwainDsmKind.Helper32,router.Resolution.Dsm);
+			Assert.IsNull(router.Resolution.Helper32ErrorText);
+		}
+
+		///<summary>The review finding of S3b-8 (fix 3): the helper does not answer while it lists, for an unmarked choice.</summary>
+		[TestMethod]
+		public void Router_UnmarkedChoice_HelperTimesOut_OtherWithTheReason() {
+			PathRig rig=Track(new PathRig(new List<string> { "Native Only" },new List<string> { "Old Sensor" }));
+			rig.Channel.FuncFail=command => command==TwainHelperCommands.ListSources
+				? new TwainHelperException(TwainHelperFailure.TimedOut,"The 32-bit helper program did not answer Twain ListSources within 60 seconds.")
+				: null;
+			AssertUnmarkedHelperFailure(rig,"did not answer Twain ListSources within 60 seconds");
+		}
+
+		///<summary>The review finding of S3b-8 (fix 3): the helper refuses to list while another of its capture sessions has a source open, for an
+		///unmarked choice; and an unmarked name the 64-bit DSM does not list, with no 32-bit DSM at all, is still "not found" as before.</summary>
+		[TestMethod]
+		public void Router_UnmarkedChoice_HelperBusyWithAnotherSession_OtherWithTheReason() {
+			PathRig rig=Track(new PathRig(new List<string> { "Native Only" },new List<string> { "Old Sensor","Busy Scanner" }));
+			TwainHelperCaptureSession sessionBusy=new TwainHelperCaptureSession(rig.Channel,CaptureFolders.CreateForFolder(rig.Folder),rig.Folder) {
+				CallTimeout=TimeSpan.FromSeconds(5)
+			};
+			try {
+				TwainCaptureOpenResult resultBusy=sessionBusy.Open("Busy Scanner",rig.Options);
+				Assert.IsTrue(resultBusy.IsOpen,resultBusy.ErrorText);
+				AssertUnmarkedHelperFailure(rig,"Close that capture window first");
+			}
+			finally {
+				sessionBusy.BeginClose();
+				Assert.IsTrue(sessionBusy.WaitForClose(TimeSpan.FromSeconds(15)),"The helper session on the other source closes.");
+			}
+			rig.Is32BitDsmPresent=false;
+			TwainCaptureOpenResult result;
+			TwainCaptureSessionRouter router=rig.OpenAndClose("Old Sensor",out result);
+			Assert.AreEqual(TwainCaptureOpenError.SourceNotFound,result.Error,"No 32-bit DSM: not found, as before.");
+			Assert.IsNull(router.Resolution.Helper32ErrorText);
 		}
 
 		///<summary>The router: the session the choice needs, with what was set before Open; the in-process session is asked first, by the whole
