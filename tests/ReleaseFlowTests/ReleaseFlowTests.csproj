@@ -30,6 +30,11 @@
     <Compile Include="..\ProjectFileTests\NuGetFiles.cs">
       <Link>NuGetFiles.cs</Link>
     </Compile>
+    <!-- The UI refresh's masking and hashing rule (UI-0a, docs/port-notes/UI-0a.md): the one copy that tools/New-UiGallery.ps1 compiles with
+         Add-Type and the window checks' check U0 links too. UiGalleryScriptTests tests it and the builder. -->
+    <Compile Include="..\..\tools\UiGallery\UiPictureMask.cs">
+      <Link>UiPictureMask.cs</Link>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\CodeBase\xCodeBase.csproj" />
