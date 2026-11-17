@@ -241,6 +241,7 @@ namespace ImagingDeviceManager.Helper32 {
 			WriteString(writer,options.ConfigPath);
 			writer.Write(options.RefusedDisableWait.Ticks);
 			writer.Write(options.TickMilliseconds);
+			writer.Write(options.IsSourceNameExact);
 		}
 
 		public static TwainCaptureOptions ReadOptions(BinaryReader reader) {
@@ -267,6 +268,7 @@ namespace ImagingDeviceManager.Helper32 {
 			options.ConfigPath=ReadString(reader);
 			options.RefusedDisableWait=TimeSpan.FromTicks(reader.ReadInt64());
 			options.TickMilliseconds=reader.ReadInt32();
+			options.IsSourceNameExact=reader.ReadBoolean();
 			return options;
 		}
 		#endregion TwainCaptureOptions

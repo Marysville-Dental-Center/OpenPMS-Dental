@@ -169,7 +169,15 @@ namespace ImagingDeviceManager.Tests {
 				OpenTimeout=TimeSpan.FromSeconds(10),
 			};
 
-			public HelperRig() {
+			///<summary>What the helper's server loads: Fake, or what the rig's caller wrapped it in.</summary>
+			private readonly ITwainDsm _dsm;
+
+			public HelperRig():this(null) {
+			}
+
+			///<summary>funcWrap: the DSM the helper's server loads, made from Fake (a GatedDsm), or null for Fake itself.</summary>
+			public HelperRig(Func<FakeTwainDsm,ITwainDsm> funcWrap) {
+				_dsm=funcWrap==null ? Fake : funcWrap(Fake);
 				Fake.AddHelperSource(Helper);
 				Folder=Path.Combine(Path.GetTempPath(),"TwainHelperPathTests_"+Guid.NewGuid().ToString("N"));
 				Directory.CreateDirectory(Folder);
@@ -181,7 +189,7 @@ namespace ImagingDeviceManager.Tests {
 
 			private ITwainDsm Load(out string errorText) {
 				errorText="";
-				return Fake;
+				return _dsm;
 			}
 
 			public TwainCaptureOpenResult Open() {
@@ -612,72 +620,290 @@ namespace ImagingDeviceManager.Tests {
 		#endregion The helper's failures end the session cleanly
 
 		#region Native first, the stored choice
-		///<summary>A native fake DSM and the 32-bit one behind a helper channel, each with its own sources.</summary>
+		///<summary>A native fake DSM and the 32-bit one behind a helper channel, each with its own sources, and routers whose in-process sessions
+		///run on the native fake (capture folders in a temporary folder) and whose helper sessions are StubSessions.</summary>
 		private sealed class PathRig:IDisposable {
 			public readonly FakeTwainDsm FakeNative=new FakeTwainDsm();
 			public readonly FakeTwainDsm Fake32=new FakeTwainDsm();
 			public readonly MemoryChannel Channel;
+			public readonly string Folder;
 			public bool Is32BitDsmPresent=true;
-			public int CountCreateNative;
-			public int CountCreateHelper;
+			///<summary>The DSM the native sessions and the native listing load: FakeNative, or a GatedDsm around it.</summary>
+			public ITwainDsm DsmNative;
+			public readonly List<TwainCaptureSession> ListNativeSessions=new List<TwainCaptureSession>();
+			public readonly List<StubSession> ListHelperSessions=new List<StubSession>();
+			public readonly TwainCaptureOptions Options=new TwainCaptureOptions {
+				TickMilliseconds=20,
+				RefusedDisableWait=TimeSpan.FromSeconds(2),
+				OpenTimeout=TimeSpan.FromSeconds(10),
+			};
 
 			public PathRig(List<string> listNative,List<string> list32) {
 				FakeNative.ListSourceNames=listNative;
 				Fake32.ListSourceNames=list32;
+				DsmNative=FakeNative;
 				Channel=new MemoryChannel(new TwainHelperServer((out string error) => {
 					error="";
 					return Fake32;
 				},null,false));
+				Folder=Path.Combine(Path.GetTempPath(),"TwainHelperPathTests_"+Guid.NewGuid().ToString("N"));
+				Directory.CreateDirectory(Folder);
+			}
+
+			public ITwainDsm LoadNative(out string error) {
+				error="";
+				return DsmNative;
 			}
 
 			public TwainSourcePath CreatePath(bool is64BitProcess=true,bool hasChannel=true) {
-				return new TwainSourcePath((out string error) => {
-					error="";
-					return FakeNative;
-				},hasChannel ? (Func<ITwainHelperChannel>)(() => Channel) : null,() => Is32BitDsmPresent,is64BitProcess);
+				return new TwainSourcePath(LoadNative,hasChannel ? (Func<ITwainHelperChannel>)(() => Channel) : null,() => Is32BitDsmPresent,is64BitProcess);
 			}
+
+			public TwainCaptureSession CreateNativeSession() {
+				TwainCaptureSession session=new TwainCaptureSession(LoadNative,CaptureFolders.CreateForFolder(Folder),() => DateTime.Now);
+				lock(ListNativeSessions) {
+					ListNativeSessions.Add(session);
+				}
+				return session;
+			}
+
+			public TwainCaptureSessionRouter CreateRouter(bool is64BitProcess=true,bool hasChannel=true) {
+				return new TwainCaptureSessionRouter(CreatePath(is64BitProcess,hasChannel),CreateNativeSession,() => {
+					StubSession stub=new StubSession();
+					lock(ListHelperSessions) {
+						ListHelperSessions.Add(stub);
+					}
+					return stub;
+				},CaptureFolders.CreateForFolder(Folder));
+			}
+
+			///<summary>Opens storedText in a new router and closes what it opened; the router, for its Resolution and Inner.</summary>
+			public TwainCaptureSessionRouter OpenAndClose(string storedText,out TwainCaptureOpenResult result,bool is64BitProcess=true,bool hasChannel=true) {
+				TwainCaptureSessionRouter router=CreateRouter(is64BitProcess,hasChannel);
+				result=router.Open(storedText,Options);
+				router.BeginClose();
+				Assert.IsTrue(router.WaitForClose(TimeSpan.FromSeconds(15)),"The router's session closes.");
+				return router;
+			}
+
+			public int CountListSources => Channel.CountCommands(TwainHelperCommands.ListSources);
 
 			public void Dispose() {
+				List<TwainCaptureSession> listSessions;
+				lock(ListNativeSessions) {
+					listSessions=new List<TwainCaptureSession>(ListNativeSessions);
+				}
+				foreach(TwainCaptureSession session in listSessions) {
+					session.BeginClose();
+					session.WaitForClose(TimeSpan.FromSeconds(15));
+				}
 				Channel.Dispose();
+				try {
+					Directory.Delete(Folder,true);
+				}
+				catch {
+				}
 			}
 		}
 
+		///<summary>Native first: a source the program's DSM lists opens in process and the helper is not asked; one only the 32-bit DSM lists
+		///runs through the helper, with or without the marker; a marked choice that has a 64-bit driver now runs in 64-bit; a marked choice listed
+		///nowhere fails with the 32-bit reason; an unmarked one listed nowhere is reported not found by the in-process session, as before.
+		///</summary>
 		[TestMethod]
-		public void Resolve_NativeFirst_32BitOnlyThroughTheHelper() {
+		public void Router_NativeFirst_32BitOnlyThroughTheHelper() {
 			PathRig rig=Track(new PathRig(new List<string> { "Both Sensor","Native Only" },new List<string> { "Both Sensor","Old Sensor" }));
-			TwainSourcePath path=rig.CreatePath();
-			Assert.AreEqual(TwainDsmKind.Native,path.Resolve("Both Sensor").Dsm,"A source in both runs in 64-bit.");
-			Assert.AreEqual(TwainDsmKind.Native,path.Resolve("Native Only").Dsm);
-			TwainSourceResolution resolutionOld=path.Resolve("Old Sensor");
-			Assert.AreEqual(TwainDsmKind.Helper32,resolutionOld.Dsm,"A choice from before S3b-8 (no marker) still works through the helper.");
-			Assert.AreEqual("Old Sensor",resolutionOld.ProductName);
-			Assert.IsNull(resolutionOld.ErrorText);
-			TwainSourceResolution resolutionMarked=path.Resolve("Old Sensor"+TwainSourceChoice.Marker32);
-			Assert.AreEqual(TwainDsmKind.Helper32,resolutionMarked.Dsm);
-			Assert.AreEqual("Old Sensor",resolutionMarked.ProductName);
-			TwainSourceResolution resolutionNowNative=path.Resolve("Both Sensor"+TwainSourceChoice.Marker32);
-			Assert.AreEqual(TwainDsmKind.Native,resolutionNowNative.Dsm,"Chosen from the 32-bit DSM, and has a 64-bit driver now: 64-bit.");
-			Assert.AreEqual("Both Sensor",resolutionNowNative.ProductName);
-			StringAssert.Contains(resolutionNowNative.Reason,"has a 64-bit driver now");
-			TwainSourceResolution resolutionGone=path.Resolve("Gone Sensor"+TwainSourceChoice.Marker32);
-			Assert.AreEqual(TwainDsmKind.Helper32,resolutionGone.Dsm);
-			StringAssert.Contains(resolutionGone.ErrorText,"\"Gone Sensor\" is not installed");
-			TwainSourceResolution resolutionNowhere=path.Resolve("Gone Sensor");
-			Assert.AreEqual(TwainDsmKind.Native,resolutionNowhere.Dsm,"Listed nowhere: the in-process session reports it not found, as before.");
-			Assert.IsNull(resolutionNowhere.ErrorText);
+			TwainCaptureOpenResult result;
+			TwainCaptureSessionRouter routerBoth=rig.OpenAndClose("Both Sensor",out result);
+			Assert.IsTrue(result.IsOpen,result.ErrorText);
+			Assert.IsInstanceOfType(routerBoth.Inner,typeof(TwainCaptureSession),"A source in both runs in 64-bit.");
+			Assert.AreEqual(TwainDsmKind.Native,routerBoth.Resolution.Dsm);
+			Assert.AreEqual(0,rig.CountListSources,"A source the program's DSM lists: the helper is not asked.");
+			TwainCaptureSessionRouter routerNative=rig.OpenAndClose("Native Only",out result);
+			Assert.IsTrue(result.IsOpen,result.ErrorText);
+			Assert.AreEqual(TwainDsmKind.Native,routerNative.Resolution.Dsm);
+			Assert.AreEqual(0,rig.CountListSources);
+			TwainCaptureSessionRouter routerOld=rig.OpenAndClose("Old Sensor",out result);
+			Assert.IsTrue(result.IsOpen,result.ErrorText);
+			Assert.AreEqual(TwainDsmKind.Helper32,routerOld.Resolution.Dsm,"A choice from before S3b-8 (no marker) still works through the helper.");
+			Assert.AreEqual("Old Sensor",routerOld.Resolution.ProductName);
+			Assert.IsNull(routerOld.Resolution.ErrorText);
+			Assert.AreSame(rig.ListHelperSessions.Last(),routerOld.Inner);
+			Assert.AreEqual("Old Sensor",rig.ListHelperSessions.Last().OpenedName);
+			TwainCaptureSessionRouter routerMarked=rig.OpenAndClose("Old Sensor"+TwainSourceChoice.Marker32,out result);
+			Assert.IsTrue(result.IsOpen,result.ErrorText);
+			Assert.AreEqual(TwainDsmKind.Helper32,routerMarked.Resolution.Dsm);
+			Assert.AreEqual("Old Sensor",rig.ListHelperSessions.Last().OpenedName,"The ProductName without the marker is opened.");
+			int countHelperSessions=rig.ListHelperSessions.Count;
+			TwainCaptureSessionRouter routerNowNative=rig.OpenAndClose("Both Sensor"+TwainSourceChoice.Marker32,out result);
+			Assert.IsTrue(result.IsOpen,result.ErrorText);
+			Assert.AreEqual(TwainDsmKind.Native,routerNowNative.Resolution.Dsm,"Chosen from the 32-bit DSM, and has a 64-bit driver now: 64-bit.");
+			Assert.AreEqual("Both Sensor",routerNowNative.Resolution.ProductName);
+			StringAssert.Contains(routerNowNative.Resolution.Reason,"has a 64-bit driver now");
+			Assert.AreEqual(countHelperSessions,rig.ListHelperSessions.Count,"No helper session.");
+			TwainCaptureSessionRouter routerGone=rig.OpenAndClose("Gone Sensor"+TwainSourceChoice.Marker32,out result);
+			Assert.IsFalse(result.IsOpen);
+			Assert.AreEqual(TwainCaptureOpenError.Other,result.Error,"Other, so that the window shows the reason.");
+			StringAssert.Contains(result.ErrorText,"\"Gone Sensor\" is not installed");
+			Assert.AreEqual(TwainDsmKind.Helper32,routerGone.Resolution.Dsm);
+			Assert.AreEqual(countHelperSessions,rig.ListHelperSessions.Count,"Nothing is opened in the helper.");
+			TwainCaptureSessionRouter routerNowhere=rig.OpenAndClose("Gone Sensor",out result);
+			Assert.AreEqual(TwainCaptureOpenError.SourceNotFound,result.Error,"Listed nowhere: the in-process session reports it not found, as before.");
+			Assert.AreEqual(TwainDsmKind.Native,routerNowhere.Resolution.Dsm);
+			Assert.IsNull(routerNowhere.Resolution.ErrorText);
+			Assert.AreEqual(countHelperSessions,rig.ListHelperSessions.Count);
+		}
+
+		///<summary>The program's DSM is asked by the exact name, as the earlier listing compared whole names: a 32-bit-only "Sensor" is not taken
+		///for a 64-bit "Sensor Pro"; an unmarked name that only starts a native source's name still opens it in process, as before S3b-8.</summary>
+		[TestMethod]
+		public void Router_NativeByTheExactName_APrefixIsNotA64BitSource() {
+			PathRig rig=Track(new PathRig(new List<string> { "Sensor Pro" },new List<string> { "Sensor" }));
+			TwainCaptureOpenResult result;
+			TwainCaptureSessionRouter router=rig.OpenAndClose("Sensor",out result);
+			Assert.IsTrue(result.IsOpen,result.ErrorText);
+			Assert.AreEqual(TwainDsmKind.Helper32,router.Resolution.Dsm);
+			Assert.AreEqual("Sensor",rig.ListHelperSessions.Single().OpenedName);
+			TwainCaptureSessionRouter routerPrefix=rig.OpenAndClose("Sensor P",out result);
+			Assert.IsTrue(result.IsOpen,result.ErrorText);
+			Assert.IsInstanceOfType(routerPrefix.Inner,typeof(TwainCaptureSession));
+			Assert.AreEqual("Sensor Pro",routerPrefix.Inner.ProductName,"The in-process session's own match, as before.");
+			Assert.AreEqual(1,rig.ListHelperSessions.Count);
+		}
+
+		///<summary>A source the program's DSM lists whose MSG_OPENDS fails stays a 64-bit failure: the 32-bit DSM, which lists it too, is not
+		///asked (a source available in 64-bit is always used in 64-bit).</summary>
+		[TestMethod]
+		public void Router_ListedNativelyButFailsToOpen_NotTriedIn32Bit() {
+			PathRig rig=Track(new PathRig(new List<string> { "Both Sensor" },new List<string> { "Both Sensor" }));
+			GatedDsm gated=new GatedDsm(rig.FakeNative) { IsOpenDsFailing=true };
+			rig.DsmNative=gated;
+			TwainCaptureOpenResult result;
+			TwainCaptureSessionRouter router=rig.OpenAndClose("Both Sensor",out result);
+			Assert.IsFalse(result.IsOpen);
+			Assert.AreEqual(TwainCaptureOpenError.SourceNotFound,result.Error);
+			Assert.IsFalse(result.IsSourceNotListed);
+			Assert.AreEqual(TwainDsmKind.Native,router.Resolution.Dsm);
+			Assert.AreEqual(0,rig.CountListSources,"The helper is not asked.");
+			Assert.AreEqual(0,rig.ListHelperSessions.Count);
+		}
+
+		///<summary>The review finding of S3b-8: the open of a source whose earlier in-process session is still closing (MSG_DISABLEDS blocks) sends
+		///no DSM_Entry at all, not even to enumerate, until that session's MSG_CLOSEDS; then it opens the source in process. The fake DSM records
+		///the thread of every call.</summary>
+		[TestMethod]
+		public void Router_AnotherSessionClosingTheSource_NoDsmEntryBeforeItsCloseDs() {
+			PathRig rig=Track(new PathRig(new List<string>(),new List<string> { "Old Sensor" }));
+			FakeHelperSource helper=new FakeHelperSource();
+			Configure(helper,x => x.End=FakeHelperEnd.Never);//a sensor waiting for an exposure
+			rig.FakeNative.AddHelperSource(helper);
+			GatedDsm gated=new GatedDsm(rig.FakeNative);
+			rig.DsmNative=gated;
+			TwainCaptureSession sessionOld=rig.CreateNativeSession();
+			Recorder recorderOld=new Recorder(sessionOld);
+			TwainCaptureOpenResult resultOld=sessionOld.Open(helper.ProductName,rig.Options);
+			Assert.IsTrue(resultOld.IsOpen,resultOld.ErrorText);
+			Assert.IsTrue(sessionOld.Enable(new TwainEnableRequest { Bits=8,TargetLabel="Slot 1" })>0);
+			recorderOld.WaitUntil(() => recorderOld.ListStatus.Any(x => x.State==TwainCaptureState.WaitingForImage),"waiting for the exposure");
+			gated.IsDisableBlocking=true;
+			sessionOld.BeginClose();//the window closes; the worker blocks in MSG_DISABLEDS
+			Assert.IsTrue(gated.EventDisableReached.WaitOne(10000),"The old session is in MSG_DISABLEDS.");
+			TwainCaptureSessionRouter router=rig.CreateRouter();
+			TwainCaptureOpenResult resultNew=null;
+			Thread threadOpen=new Thread(() => resultNew=router.Open(helper.ProductName,rig.Options)) { IsBackground=true };//as the window's thread-pool open
+			threadOpen.Start();
+			bool isOpenDoneEarly=threadOpen.Join(700);//time enough for an open that enumerated outside the session to reach the DSM
+			gated.EventDisableGate.Set();
+			Assert.IsTrue(threadOpen.Join(20000),"The new open finishes once the old session has closed.");
+			Assert.IsFalse(isOpenDoneEarly,"The new open waited for the old session.");
+			Assert.IsTrue(resultNew.IsOpen,resultNew.ErrorText);
+			Assert.IsInstanceOfType(router.Inner,typeof(TwainCaptureSession));
+			Assert.IsTrue(sessionOld.WaitForClose(TimeSpan.Zero));
+			List<KeyValuePair<int,string>> listEntries=gated.Entries;
+			int idxClosed=AssertOnlyTheClosingThreadUntilClosed(listEntries);
+			Assert.IsTrue(listEntries.FindLastIndex(x => x.Value=="OPENDS")>idxClosed,"The new open opened the source afterwards.\r\n"+Describe(listEntries));
+			Assert.AreEqual(0,rig.CountListSources,"The helper is not asked.");
+			router.BeginClose();
+			Assert.IsTrue(router.WaitForClose(TimeSpan.FromSeconds(15)));
+		}
+
+		///<summary>The helper lists the 32-bit sources only once no session of the helper is closing: ListSources waits for a session in
+		///MSG_DISABLEDS and enumerates after its MSG_CLOSEDS; while a session is open and not closing it refuses with the reason and calls nothing.
+		///</summary>
+		[TestMethod]
+		public void HelperListSources_WaitsForAClosingSession_RefusesWhileOneIsOpen() {
+			GatedDsm gated=null;
+			HelperRig rig=Track(new HelperRig(fake => gated=new GatedDsm(fake)));
+			Configure(rig.Helper,x => x.End=FakeHelperEnd.Never);
+			rig.OpenOrFail();
+			byte[] dataReply;
+			string[] arrayRefused=rig.Channel.Call(TwainHelperCommands.ListSources,new string[0],null,out dataReply,TimeSpan.FromSeconds(30));
+			StringAssert.Contains(arrayRefused[1],"Close that capture window first");
+			Assert.AreEqual(0,TwainHelperWire.Read(dataReply,TwainHelperWire.ReadSources).Count);
+			int threadTest=Thread.CurrentThread.ManagedThreadId;
+			Assert.IsFalse(gated.Entries.Any(x => x.Key==threadTest),"The refused listing called nothing.");
+			EnableAndWaitForExposure(rig);
+			gated.IsDisableBlocking=true;
+			rig.Capture.BeginClose();
+			Assert.IsTrue(gated.EventDisableReached.WaitOne(10000),"The helper's session is in MSG_DISABLEDS.");
+			string[] arrayResults=null;
+			List<TwainSourceEntry> listSources=null;
+			int threadList=0;
+			Thread threadListing=new Thread(() => {
+				threadList=Thread.CurrentThread.ManagedThreadId;
+				byte[] dataList;
+				arrayResults=rig.Channel.Call(TwainHelperCommands.ListSources,new string[0],null,out dataList,TimeSpan.FromSeconds(30));
+				listSources=TwainHelperWire.Read(dataList,TwainHelperWire.ReadSources);
+			}) { IsBackground=true };
+			threadListing.Start();
+			bool isListDoneEarly=threadListing.Join(700);
+			gated.EventDisableGate.Set();
+			Assert.IsTrue(threadListing.Join(20000),"The listing finishes once the session has closed.");
+			Assert.IsFalse(isListDoneEarly,"The listing waited for the closing session.");
+			Assert.AreEqual("",arrayResults[1],"No error.");
+			CollectionAssert.Contains(listSources.Select(x => x.ProductName).ToList(),rig.Helper.ProductName);
+			List<KeyValuePair<int,string>> listEntries=gated.Entries;
+			int idxClosed=AssertOnlyTheClosingThreadUntilClosed(listEntries);
+			Assert.IsTrue(listEntries.FindIndex(x => x.Key==threadList)>idxClosed,"The listing enumerated afterwards.\r\n"+Describe(listEntries));
+			Assert.IsTrue(rig.Capture.WaitForClose(TimeSpan.FromSeconds(15)));
+		}
+
+		///<summary>From the first MSG_DISABLEDS (a session that is closing) until that thread's MSG_CLOSEDS and MSG_CLOSEDSM, every DSM_Entry is
+		///that thread's: nothing else called the DSM meanwhile. The closing thread is alive throughout, so no other thread has its id. Returns the
+		///index of its last call of the close (MSG_CLOSEDSM, or MSG_CLOSEDS).</summary>
+		private static int AssertOnlyTheClosingThreadUntilClosed(List<KeyValuePair<int,string>> listEntries) {
+			int idxDisable=listEntries.FindIndex(x => x.Value=="DISABLEDS");
+			Assert.IsTrue(idxDisable>=0,"No MSG_DISABLEDS.\r\n"+Describe(listEntries));
+			int threadClosing=listEntries[idxDisable].Key;
+			int idxCloseDs=listEntries.FindIndex(idxDisable,x => x.Key==threadClosing && x.Value=="CLOSEDS");
+			Assert.IsTrue(idxCloseDs>idxDisable,"The closing session closed the source.\r\n"+Describe(listEntries));
+			int idxCloseDsm=listEntries.FindIndex(idxCloseDs,x => x.Key==threadClosing && x.Value=="CLOSEDSM");
+			int idxClosed=idxCloseDsm>idxCloseDs ? idxCloseDsm : idxCloseDs;
+			for(int i=idxDisable;i<=idxClosed;i++) {
+				Assert.AreEqual(threadClosing,listEntries[i].Key,"Call "+i+" ("+listEntries[i].Value+") came from another thread while the session was "
+					+"closing.\r\n"+Describe(listEntries));
+			}
+			return idxClosed;
+		}
+
+		private static string Describe(List<KeyValuePair<int,string>> listEntries) {
+			return string.Join("\r\n",listEntries.Select((x,i) => i+": thread "+x.Key+" "+x.Value));
 		}
 
 		[TestMethod]
-		public void Resolve_A32BitProgram_OrNo32BitDsm_NeverTheHelper() {
+		public void Router_A32BitProgram_OrNo32BitDsm_NeverTheHelper() {
 			PathRig rig=Track(new PathRig(new List<string> { "Native Only" },new List<string> { "Old Sensor" }));
-			Assert.AreEqual(TwainDsmKind.Native,rig.CreatePath(is64BitProcess:false).Resolve("Old Sensor").Dsm);
-			Assert.AreEqual(TwainDsmKind.Native,rig.CreatePath(hasChannel:false).Resolve("Old Sensor").Dsm);
+			TwainCaptureOpenResult result;
+			Assert.AreEqual(TwainDsmKind.Native,rig.OpenAndClose("Old Sensor",out result,is64BitProcess:false).Resolution.Dsm);
+			Assert.AreEqual(TwainCaptureOpenError.SourceNotFound,result.Error);
+			Assert.AreEqual(TwainDsmKind.Native,rig.OpenAndClose("Old Sensor",out result,hasChannel:false).Resolution.Dsm);
 			Assert.AreEqual(0,rig.Channel.ListCommands.Count,"The helper is not asked.");
 			rig.Is32BitDsmPresent=false;
-			Assert.AreEqual(TwainDsmKind.Native,rig.CreatePath().Resolve("Old Sensor").Dsm);
+			Assert.AreEqual(TwainDsmKind.Native,rig.OpenAndClose("Old Sensor",out result).Resolution.Dsm);
 			Assert.AreEqual(0,rig.Channel.ListCommands.Count,"No 32-bit DSM: the helper is not started.");
-			TwainSourceResolution resolution=rig.CreatePath().Resolve("Old Sensor"+TwainSourceChoice.Marker32);
-			StringAssert.Contains(resolution.ErrorText,"No 32-bit TWAIN data source manager is installed");
+			rig.OpenAndClose("Old Sensor"+TwainSourceChoice.Marker32,out result);
+			StringAssert.Contains(result.ErrorText,"No 32-bit TWAIN data source manager is installed");
+			Assert.AreEqual(0,rig.ListHelperSessions.Count);
 		}
 
 		[TestMethod]
@@ -701,15 +927,19 @@ namespace ImagingDeviceManager.Tests {
 			List<TwainSourceEntry> listSources=rig.CreatePath().ListAll(out error);
 			CollectionAssert.AreEqual(new[] { "Native Only" },listSources.Select(x => x.StoredText).ToArray());
 			StringAssert.Contains(error,"could not list the 32-bit TWAIN sources");
-			TwainSourceResolution resolution=rig.CreatePath().Resolve("Old Sensor"+TwainSourceChoice.Marker32);
-			StringAssert.Contains(resolution.ErrorText,"did not answer");
+			TwainCaptureOpenResult result;
+			rig.OpenAndClose("Old Sensor"+TwainSourceChoice.Marker32,out result);
+			Assert.IsFalse(result.IsOpen);
+			StringAssert.Contains(result.ErrorText,"did not answer");
 		}
 
-		///<summary>The router: the session the choice needs, with what was set before Open; a failed resolution opens nothing.</summary>
+		///<summary>The router: the session the choice needs, with what was set before Open; the in-process session is asked first, by the whole
+		///stored text and then by the ProductName, exactly; a failed resolution opens nothing in the helper; a close during the choice opens nothing.
+		///</summary>
 		[TestMethod]
 		public void Router_CreatesTheChosenSession_WithWhatWasSetBefore() {
 			PathRig rig=Track(new PathRig(new List<string> { "Native Only" },new List<string> { "Old Sensor" }));
-			StubSession stubNative=new StubSession();
+			StubSession stubNative=new StubSession { SetNames=new HashSet<string>(StringComparer.OrdinalIgnoreCase) { "Native Only" } };
 			StubSession stubHelper=new StubSession();
 			Func<string,CaptureMetadataKeys> funcKeys=ReadKeys;
 			Guid guid=Guid.NewGuid();
@@ -720,22 +950,45 @@ namespace ImagingDeviceManager.Tests {
 			string logged=null;
 			router.Logged+=x => logged=x;
 			router.Open("Old Sensor"+TwainSourceChoice.Marker32,new TwainCaptureOptions());
+			CollectionAssert.AreEqual(new[] { "Old Sensor"+TwainSourceChoice.Marker32,"Old Sensor" },stubNative.ListOpened,
+				"The program's own DSM first: the whole stored text, then the ProductName.");
+			Assert.IsTrue(stubNative.ListExact.All(x => x),"Exactly.");
 			Assert.AreSame(stubHelper,router.Inner);
 			Assert.AreEqual("Old Sensor",stubHelper.OpenedName,"The ProductName without the marker is opened.");
+			Assert.IsFalse(stubHelper.ListExact.Single(),"The helper's session opens the name its DSM listed.");
 			Assert.AreEqual(guid,stubHelper.SessionGuid);
 			Assert.AreEqual(9,stubHelper.QuarantineContext.PatNum);
 			Assert.AreSame(funcKeys,stubHelper.FuncReadMetadataKeys);
 			stubHelper.RaiseLogged("a line");
 			Assert.AreEqual("a line",logged,"The chosen session's events are the router's.");
-			TwainCaptureSessionRouter routerNative=new TwainCaptureSessionRouter(rig.CreatePath(),() => stubNative,() => stubHelper,null);
+			stubNative.RaiseLogged("an old line");
+			Assert.AreEqual("a line",logged,"The session that is no longer Inner raises nothing through the router.");
+			StubSession stubNative2=new StubSession { SetNames=new HashSet<string>(StringComparer.OrdinalIgnoreCase) { "Native Only" } };
+			StubSession stubHelper2=new StubSession();
+			TwainCaptureSessionRouter routerNative=new TwainCaptureSessionRouter(rig.CreatePath(),() => stubNative2,() => stubHelper2,null);
 			routerNative.Open("Native Only",new TwainCaptureOptions());
-			Assert.AreSame(stubNative,routerNative.Inner);
-			Assert.AreEqual("Native Only",stubNative.OpenedName);
-			TwainCaptureSessionRouter routerGone=new TwainCaptureSessionRouter(rig.CreatePath(),() => new StubSession(),() => new StubSession(),null);
+			Assert.AreSame(stubNative2,routerNative.Inner);
+			CollectionAssert.AreEqual(new[] { "Native Only" },stubNative2.ListOpened);
+			Assert.IsNull(stubHelper2.OpenedName);
+			StubSession stubHelperGone=new StubSession();
+			int countHelpers=0;
+			TwainCaptureSessionRouter routerGone=new TwainCaptureSessionRouter(rig.CreatePath(),() => new StubSession { SetNames=new HashSet<string>() },
+				() => {
+					countHelpers++;
+					return stubHelperGone;
+				},null);
 			TwainCaptureOpenResult result=routerGone.Open("Gone"+TwainSourceChoice.Marker32,new TwainCaptureOptions());
 			Assert.IsFalse(result.IsOpen);
 			Assert.AreEqual(TwainCaptureOpenError.Other,result.Error,"Other, so that the window shows the reason.");
-			Assert.IsNull(((StubSession)routerGone.Inner).OpenedName,"Nothing is opened.");
+			Assert.AreEqual(0,countHelpers,"Nothing is opened in the helper.");
+			StubSession stubHelperClosed=new StubSession();
+			TwainCaptureSessionRouter routerClosed=null;
+			StubSession stubNativeClosed=new StubSession { SetNames=new HashSet<string>(),FuncOnOpen=() => routerClosed.BeginClose() };
+			routerClosed=new TwainCaptureSessionRouter(rig.CreatePath(),() => stubNativeClosed,() => stubHelperClosed,null);
+			TwainCaptureOpenResult resultClosed=routerClosed.Open("Old Sensor",new TwainCaptureOptions());
+			Assert.IsFalse(resultClosed.IsOpen);
+			StringAssert.Contains(resultClosed.ErrorText,"closed while it was opening");
+			Assert.IsNull(stubHelperClosed.OpenedName,"Closed during the choice: the helper's session is not opened.");
 		}
 
 		///<summary>The stored text: a 64-bit choice is its ProductName, a 32-bit-only one carries the marker, and both read back.</summary>
@@ -755,9 +1008,79 @@ namespace ImagingDeviceManager.Tests {
 			Assert.AreEqual("Sensor X",TwainSourceChoice.GetProductName("Sensor X (32-BIT twain)"),"The marker ignoring case.");
 		}
 
-		///<summary>A session that records what the router did with it.</summary>
+		///<summary>A DSM around a FakeTwainDsm that records the thread and the triplet of every DSM_Entry, can hold MSG_DISABLEDS at a gate (a
+		///source whose disable blocks while its software closes), and can fail MSG_OPENDS.</summary>
+		internal sealed class GatedDsm:ITwainDsm {
+			public readonly FakeTwainDsm Fake;
+			private readonly object _lock=new object();
+			private readonly List<KeyValuePair<int,string>> _listEntries=new List<KeyValuePair<int,string>>();
+			///<summary>MSG_DISABLEDS waits for this while IsDisableBlocking.</summary>
+			public readonly ManualResetEvent EventDisableGate=new ManualResetEvent(false);
+			///<summary>Set when a MSG_DISABLEDS reached the gate.</summary>
+			public readonly ManualResetEvent EventDisableReached=new ManualResetEvent(false);
+			public volatile bool IsDisableBlocking;
+			public bool IsOpenDsFailing;
+
+			public GatedDsm(FakeTwainDsm fake) {
+				Fake=fake;
+			}
+
+			public string LibraryName => Fake.LibraryName;
+
+			///<summary>Every call so far: the managed thread id and the triplet's name.</summary>
+			public List<KeyValuePair<int,string>> Entries {
+				get {
+					lock(_lock) {
+						return new List<KeyValuePair<int,string>>(_listEntries);
+					}
+				}
+			}
+
+			public ushort Entry(IntPtr origin,IntPtr dest,uint dg,ushort dat,ushort msg,IntPtr data) {
+				lock(_lock) {
+					_listEntries.Add(new KeyValuePair<int,string>(Thread.CurrentThread.ManagedThreadId,Describe(dat,msg)));
+				}
+				if(dat==Tw.DAT_USERINTERFACE && msg==Tw.MSG_DISABLEDS && IsDisableBlocking) {
+					EventDisableReached.Set();
+					EventDisableGate.WaitOne();
+				}
+				if(IsOpenDsFailing && dat==Tw.DAT_IDENTITY && msg==Tw.MSG_OPENDS) {
+					return Tw.TWRC_FAILURE;
+				}
+				return Fake.Entry(origin,dest,dg,dat,msg,data);
+			}
+
+			private static string Describe(ushort dat,ushort msg) {
+				if(dat==Tw.DAT_PARENT) {
+					return msg==Tw.MSG_OPENDSM ? "OPENDSM" : (msg==Tw.MSG_CLOSEDSM ? "CLOSEDSM" : "PARENT");
+				}
+				if(dat==Tw.DAT_IDENTITY) {
+					switch(msg) {
+						case Tw.MSG_OPENDS: return "OPENDS";
+						case Tw.MSG_CLOSEDS: return "CLOSEDS";
+						case Tw.MSG_GETFIRST: return "GETFIRST";
+						case Tw.MSG_GETNEXT: return "GETNEXT";
+					}
+				}
+				if(dat==Tw.DAT_USERINTERFACE) {
+					return msg==Tw.MSG_DISABLEDS ? "DISABLEDS" : (msg==Tw.MSG_ENABLEDS ? "ENABLEDS" : "USERINTERFACE");
+				}
+				return "DAT 0x"+dat.ToString("X4")+" MSG 0x"+msg.ToString("X4");
+			}
+
+			public void Dispose() {
+				Fake.Dispose();
+			}
+		}
+
+		///<summary>A session that records what the router did with it. SetNames: the names its "DSM" lists (an open of another fails as not
+		///listed); null opens every name.</summary>
 		private sealed class StubSession:ITwainCaptureSession {
 			public string OpenedName;
+			public HashSet<string> SetNames;
+			public readonly List<string> ListOpened=new List<string>();
+			public readonly List<bool> ListExact=new List<bool>();
+			public Action FuncOnOpen;
 			public TwainCaptureState State => TwainCaptureState.Closed;
 			public Guid SessionGuid { get; set; }
 			public string ProductName => OpenedName??"";
@@ -772,6 +1095,12 @@ namespace ImagingDeviceManager.Tests {
 			public event Action<string> Logged;
 
 			public TwainCaptureOpenResult Open(string productName,TwainCaptureOptions options) {
+				ListOpened.Add(productName);
+				ListExact.Add(options!=null && options.IsSourceNameExact);
+				FuncOnOpen?.Invoke();
+				if(SetNames!=null && !SetNames.Contains(productName)) {
+					return new TwainCaptureOpenResult { Error=TwainCaptureOpenError.SourceNotFound,ErrorText="not installed",IsSourceNotListed=true };
+				}
 				OpenedName=productName;
 				return new TwainCaptureOpenResult { IsOpen=true };
 			}
