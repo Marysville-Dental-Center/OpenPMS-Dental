@@ -46,7 +46,7 @@ Printouts and PDFs; office content (sheets, claim forms, eForms, dashboard widge
 **How you approve.** Each visible package shows you a gallery: before and after pictures of real windows, each marked "Approve" or
 "Change" by you; nothing goes in before you approve. The first sets the look. A few times you also check 125% and 150% scaling.
 
-**Your questions** (section 11; the recommended answer first):
+**Your questions** (section 11; the recommended answer first). **Answered on 2026-11-17: every question as recommended** (UQ-1 9 pt with the 0.96 label factor kept, UQ-2 17 px rows, UQ-3 blue title bar and the per-item Misc Colors rule, UQ-4 grey with role colours, UQ-5 printouts unchanged, UQ-6 agree, UQ-7 new-style pictures for new databases, UQ-8 appointment book font unchanged, UQ-9 items grow with their text):
 - UQ-1 Body text size: Segoe UI 9 pt, Windows' own size (or 8.25 pt: fewer fixes, but smaller than the newer windows).
 - UQ-2 Grid rows: follow the text, 17 px tall, about 20% fewer rows on screen (or compact 16 px rows).
 - UQ-3 Title bar: the program's blue with white text (or light grey); an office's own title bar colours keep working item by item.
@@ -1499,6 +1499,8 @@ branding icon tests, and the 1,682 + 18 tooth chart baselines, which must stay i
 ---
 
 ## 11. Questions for the owner
+
+**All answered by the owner on 2026-11-17, each as recommended below.** The packages build to these answers; galleries still need the owner's approval.
 
 **UQ-1. Body font size.**
 - (a) Segoe UI 9 pt. **Recommended.** It is Windows' own size and matches the WPF windows (labels aside, 3.4). About 1,591
