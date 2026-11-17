@@ -102,7 +102,7 @@ Without them the build stops with "The upstream source is missing".
 
 ### Build
 
-Open **`OpenDental.Local.slnf`** in Visual Studio, not `OpenDental.sln`, and build `Debug | x64` (or `Release | x64` for an office). While some test projects are still .NET Framework (stage 3b of the .NET 10 move, until package S3b-5), the restore of the whole filter fails (NU1201): build the projects you need, for example `OpenPmsDental` and `xDirect2dWrapper`, through a solution filter of only those. From the command line, in PowerShell at the repository root:
+Open **`OpenDental.Local.slnf`** in Visual Studio, not `OpenDental.sln`, and build `Debug | x64` (or `Release | x64` for an office). Since stage 3b of the .NET 10 move (package S3b-5) every project of the filter is .NET 10 but one test stand-in that stays .NET Framework on purpose (TopazStandIn, which no .NET 10 project references), so the whole filter restores and builds. From the command line, in PowerShell at the repository root:
 
 ```powershell
 . .\tools\Initialize-BuildEnvironment.ps1; Initialize-BuildEnvironment -RepoRoot (Get-Location).Path

@@ -1321,7 +1321,10 @@ difference is explained and accepted by the owner or fixed); the behaviour tests
 non-loopback; environment per O-8) passes; the screenshot pass of section 6 is complete with before/after pairs; the self-update between
 two .NET 10 builds works from a standard user; the release is built, installed on a clean VM without any .NET and over the bridge
 release; the new Middle Tier is checked for real on the build PC: started as a Windows service on a loopback address with a test
-certificate, with the host round-trip tests (S3b-6) and a client session run against it. The office runs no Middle Tier server
+certificate, with the host round-trip tests (S3b-6) and a client session run against it; two launch checks of references the shared
+framework does not answer (S3b-5, LibraryBindingTests' known gaps): a Direct message sent with a certificate found through the LDAP
+resolver (`Health.Direct.ResolverPlugins`, which references the .NET Framework's System.ServiceModel), and a WebView2 window (eForm or
+e-mail preview) opens (`Microsoft.Web.WebView2.Wpf`'s WinRT references). The office runs no Middle Tier server
 (B-SERVER 5 in `docs/owner-questions.md`, open point O-7), so there is no office hosting check. The 64-bit checks (decision 19): PE
 machine 0x8664 for every staged exe and native DLL, the x64 runtime part's included, and 0x14C for the helper's folder; TWAIN capture
 from the x64 program with the clinic's real sensor through the 64-bit TWAINDSM and the driver project's 64-bit data sources (entry
@@ -1963,6 +1966,11 @@ The owner answered the plan's questions "as recommended", with the corrections b
     first, e.g. through `(decimal)value` or one shared helper, with tests that pin half-step values against the net48 results. The RDL
     engine's `Style.GetFormatedString` already writes unformatted doubles as .NET Framework did (S3b-2b); its formatted path follows.
     Package S3b-FMT does it on `net10/switch` once the program compiles (after S3b-4), with a scan that finds every such call site.
+    **S3b-FMT also sweeps fractional `DateTime` arithmetic (lead, 2026-11-16):** `DateTime.AddHours`, `AddMinutes`, `AddSeconds` and
+    `AddMilliseconds` no longer round a non-integral argument to the millisecond on .NET (the same .NET change as `TimeSpan.FromX`, which
+    S3b-5 routed through `CodeBase.ODTimeSpan`). A scan (with the compiler's types, since an argument's type is not visible to a text scan)
+    finds every such call whose argument is not integral, and routes it through an `ODTimeSpan`-style helper that rounds as the .NET
+    Framework did, with tests that pin fractional values against the net48 results (`docs/port-notes/S3b-5.md` section 9).
 
 Also recorded for the update path: the Middle Tier client and server switch together (it has never shipped to an office); saved
 passwords get a one-time migration from PasswordVault to the Credential Manager (S3a-5). Also answered on 2026-11-08: signed e-mail
