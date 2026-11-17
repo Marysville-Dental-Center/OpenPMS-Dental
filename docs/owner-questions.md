@@ -1049,6 +1049,8 @@ and E-10b), where each is set out in full with its recommendation. You first ans
   `main` before the 64-bit build, which never carries DirectX. TC-9a follows TC-8 directly; the office check (the chart's image tests
   on one PC of the office's graphics type, no database) stays as a launch check before the office switches.
 
+- **The elevated installer test on .NET 10** (S3b-7, [port-notes/S3b-7.md](port-notes/S3b-7.md) section 6). `tools/Test-Installer.ps1` starts the installed connection settings tool briefly, with no arguments (it connects to nothing), to read which runtime it loaded, then closes it; it removes the `TWAINDSM.dll` the test installs only when the PC had none before, and an older one stays replaced by 2.5.1. **Answered on 2026-11-16: yes.** The same handling applies to the 32-bit TWAIN manager that S3b-8 adds.
+
 - **Trojan's registry key names** (N64-A, [port-notes/N64-A.md](port-notes/N64-A.md)). Trojan's install folder is now looked up under
   Software\TROJAN BENEFIT SERVICE (as before) and also under Software\Trojan (the name Open Dental's manual gives), in the 32-bit and then
   the 64-bit registry view. **Answered on 2026-11-15: keep both.**
