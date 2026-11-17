@@ -14,7 +14,7 @@ namespace OpenPmsDental {
 		public int SelectedItemIndex;
 		public bool IsDateReadOnly;
 		///<summary>A saved row whose code is of no item (an "other" row of FormEhrNotPerformed, EHR-7): its code, reason, date and note are shown,
-		///and nothing can be changed or saved.</summary>
+		///and nothing can be changed or saved; the row can be deleted (EHR-7-R).</summary>
 		public bool IsReadOnly;
 		private List<EhrCode> listEhrCodesReason;
 
@@ -104,7 +104,8 @@ namespace OpenPmsDental {
 			}
 		}
 
-		///<summary>An "other" row (EHR-7): its saved code, reason, date and note, with nothing to change and no save. Its code is of no item this
+		///<summary>An "other" row (EHR-7): its saved code, reason, date and note, with nothing to change and no save, but Delete (the office's own
+		///data, EHR-7-R). Its code is of no item this
 		///program knows, or the office has not imported the 2027 release yet, so no pick list is filled. Before the import the window says so: the
 		///row's item is then unknown only because the value sets are missing, and importing the release opens the row.</summary>
 		private void FillReadOnly() {
@@ -136,7 +137,9 @@ namespace OpenPmsDental {
 			}
 			comboCodeReason.Enabled=false;
 			butSave.Enabled=false;
-			butDelete.Enabled=false;
+			//The row is the office's own data: it can be deleted, as before EHR-7 (EHR-7-R, the lead's decision of 2026-11-15). butDelete_Click needs
+			//no item.
+			butDelete.Enabled=true;
 		}
 
 		private void FillReasonList() {

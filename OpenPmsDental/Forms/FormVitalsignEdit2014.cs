@@ -14,9 +14,10 @@ using System.Diagnostics;
 namespace OpenPmsDental {
 	public partial class FormVitalsignEdit2014:FormODBase {
 		public Vitalsign VitalsignCur;
-		///<summary>The patient's age on the day taken, in whole years (Vitalsigns.GetAgeOnDateTaken; -1 without a birth date): the BMI percentile at
-		///3 to 17, the over- or underweight class from 18, the child counseling group under 18 (EHR-7, E-35; before, the age "before January 1" of
-		///the year taken, so a 17-year-old was in neither group).</summary>
+		///<summary>The patient's age on the day taken, in whole years (Vitalsigns.GetAgeForVitalSignWindow): the BMI percentile at 3 to 17, the over-
+		///or underweight class from 18, the child counseling group under 18 (EHR-7, E-35; before, the age "before January 1" of the year taken, so
+		///a 17-year-old was in neither group). A patient without a birth date is an adult, as before EHR-7 (EHR-7-R); -1 for a day before the
+		///birth date.</summary>
 		public int AgeOnDateTaken;
 		private Patient _patient;
 		private List<Loinc> _listLoincsHeightCodes;
@@ -48,7 +49,7 @@ namespace OpenPmsDental {
 			groupInterventions.Visible=false;
 			_patient=Patients.GetPat(VitalsignCur.PatNum);
 			textDateTaken.Text=VitalsignCur.DateTaken.ToShortDateString();
-			AgeOnDateTaken=Vitalsigns.GetAgeOnDateTaken(_patient.Birthdate,PIn.Date(textDateTaken.Text));
+			AgeOnDateTaken=Vitalsigns.GetAgeForVitalSignWindow(_patient.Birthdate,PIn.Date(textDateTaken.Text));
 			if(VitalsignCur.Height!=0) {
 				textHeight.Text=VitalsignCur.Height.ToString();
 			}
@@ -532,7 +533,7 @@ namespace OpenPmsDental {
 		///<summary>If they change the date of the exam and it is attached to a pregnancy problem and the date is now outside the active dates of the problem, tell them you are removing the problem and unchecking the pregnancy box.</summary>
 		private void textDateTaken_Leave(object sender,EventArgs e) {
 			DateTime dateExam=PIn.Date(textDateTaken.Text);
-			AgeOnDateTaken=Vitalsigns.GetAgeOnDateTaken(_patient.Birthdate,dateExam);//This is how old this patient was on the day the vital sign was taken (EHR-7, E-35), -1 if no birth date or if value in textDateTaken is empty or not a valid date
+			AgeOnDateTaken=Vitalsigns.GetAgeForVitalSignWindow(_patient.Birthdate,dateExam);//This is how old this patient was on the day the vital sign was taken (EHR-7, E-35), an adult without a birth date (EHR-7-R), -1 if value in textDateTaken is empty, not a valid date or before the birth date
 			if(!checkPregnant.Checked || VitalsignCur.PregDiseaseNum==0) {
 				CalcBMI();//This will use the new day taken to determine the age, to show over/underweight if applicable using age specific criteria
 				return;

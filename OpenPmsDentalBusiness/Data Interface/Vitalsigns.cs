@@ -137,6 +137,19 @@ namespace OpenPmsDentalBusiness{
 			return years;
 		}
 
+		///<summary>The age the vital sign window classes the patient by: GetAgeOnDateTaken, except that a patient without a birth date (before 1880)
+		///is an adult (AGE_ADULT), as the window classed one before EHR-7, whose age "before January 1" of a missing birth date was about 2,000 years
+		///(EHR-7-R, the lead's decision of 2026-11-15). Such a patient gets no BMI percentile, the adult interventions and the over- or underweight
+		///class of the 2027 range. A day taken before a known birth date stays -1 (not classed). The eForm import keeps its own rule (no percentile
+		///and no weight code without a birth date, as before EHR-7).</summary>
+		public static int GetAgeForVitalSignWindow(DateTime birthdate,DateTime dateTaken) {
+			Meth.NoCheckMiddleTierRole();
+			if(birthdate.Year<1880) {//No birth date: an adult, as before
+				return AGE_ADULT;
+			}
+			return GetAgeOnDateTaken(birthdate,dateTaken);
+		}
+
 		///<summary>True for an age on the day taken (GetAgeOnDateTaken) that gets a BMI percentile: 3 to 17.</summary>
 		public static bool IsBMIPercentileAge(int ageOnDateTaken) {
 			Meth.NoCheckMiddleTierRole();
@@ -157,10 +170,11 @@ namespace OpenPmsDentalBusiness{
 
 		///<summary>Takes in bmi and the age on the day taken (GetAgeOnDateTaken) and returns an intervention code. Possible return codes are None,
 		///Nutrition, BelowNormalWeight, and AboveNormalWeight. The normal range is CMS69v15's for every adult, 18.5 to under 25 (EHR-7, E-35; the
-		///2014 rule took 23 to under 30 from 65 on). An unknown age (-1) is not classed.</summary>
+		///2014 rule took 23 to under 30 from 65 on). An unknown age (-1) is not classed; the vital sign window passes an adult's age for a patient
+		///without a birth date (GetAgeForVitalSignWindow, EHR-7-R).</summary>
 		public static InterventionCodeSet GetBMIInterventionCode(float bmi,int ageOnDateTaken) {
 			Meth.NoCheckMiddleTierRole();
-			if(ageOnDateTaken<0) {//No birth date: neither a child nor an adult the measures can count
+			if(ageOnDateTaken<0) {//Unknown age (GetAgeOnDateTaken without a birth date, or a day before it): neither a child nor an adult
 				return InterventionCodeSet.None;
 			}
 			if(!IsWeightClassAge(ageOnDateTaken)) {//Do not clasify children as over/underweight
