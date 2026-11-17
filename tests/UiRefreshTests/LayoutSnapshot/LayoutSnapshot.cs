@@ -143,13 +143,35 @@ namespace UiRefreshTests.LayoutSnapshot {
 			}
 		}
 
-		///<summary>Writes the snapshot with LF line ends (git gives the working copy its own).</summary>
+		///<summary>Writes the snapshot as UTF-8 without a BOM, with the line ends the file at path already has, so a rewrite never flips them.
+		///The repository has no eol rule for this file and core.autocrlf is true, so its blob keeps the line ends it was committed with (LF), while
+		///the working copy is LF or CRLF depending on how it was checked out. The file's own line end is reused (CRLF when its first line ends in
+		///CRLF), and git add with core.autocrlf=true stores either as the LF blob. A new file gets LF, the committed blob's line end.</summary>
 		public static void Write(string path,List<LayoutSnapshotRow> listRows) {
+			string lineEnd=LineEndOf(path);
 			StringBuilder stringBuilder=new StringBuilder();
 			foreach(string line in ToLines(listRows)) {
-				stringBuilder.Append(line).Append('\n');
+				stringBuilder.Append(line).Append(lineEnd);
 			}
 			System.IO.File.WriteAllText(path,stringBuilder.ToString(),new UTF8Encoding(false));
+		}
+
+		///<summary>The line end of the file at path: "\r\n" when its first line ends in CRLF, otherwise "\n" (also for a missing or one-line file).</summary>
+		public static string LineEndOf(string path) {
+			if(!System.IO.File.Exists(path)) {
+				return "\n";
+			}
+			using(FileStream fileStream=new FileStream(path,FileMode.Open,FileAccess.Read,FileShare.ReadWrite)) {
+				int bytePrevious=-1;
+				int byteNow;
+				while((byteNow=fileStream.ReadByte())!=-1) {
+					if(byteNow=='\n') {
+						return bytePrevious=='\r' ? "\r\n" : "\n";
+					}
+					bytePrevious=byteNow;
+				}
+			}
+			return "\n";
 		}
 
 		///<summary>The changes from the record to now: changed, added and removed rows, except the controls fit-fixes.tsv lists.</summary>

@@ -32,6 +32,55 @@ namespace UiRefreshTests {
 		}
 
 		[TestMethod]
+		public void Write_KeepsTheFilesLineEndsAndNoBom() {
+			List<LayoutSnapshotRow> listRows=LayoutSnapshotBuilder.Parse("A/FormX.Designer.cs",
+				"\t\tprivate void InitializeComponent() {\n\t\t\tthis.label1.Location = new System.Drawing.Point(1, 2);\n\t\t\tthis.ClientSize = new System.Drawing.Size(3, 4);\n\t\t}\n");
+			Assert.AreEqual(2,listRows.Count);
+			string folder=Path.Combine(Path.GetTempPath(),"UiRefreshTests-"+Guid.NewGuid().ToString("N"));
+			Directory.CreateDirectory(folder);
+			try {
+				string pathCrlf=Path.Combine(folder,"crlf.tsv");
+				File.WriteAllText(pathCrlf,"# old\r\nold\r\n");
+				LayoutSnapshotBuilder.Write(pathCrlf,listRows);
+				AssertLineEnds(pathCrlf,true);
+				string pathLf=Path.Combine(folder,"lf.tsv");
+				File.WriteAllText(pathLf,"# old\nold\n");
+				LayoutSnapshotBuilder.Write(pathLf,listRows);
+				AssertLineEnds(pathLf,false);
+				string pathNew=Path.Combine(folder,"new.tsv");
+				LayoutSnapshotBuilder.Write(pathNew,listRows);
+				AssertLineEnds(pathNew,false);
+				CollectionAssert.AreEqual(LayoutSnapshotBuilder.Read(File.ReadAllLines(pathCrlf)).Select(x => x.ToLine()).ToList(),
+					listRows.Select(x => x.ToLine()).ToList());
+			}
+			finally {
+				Directory.Delete(folder,true);
+			}
+		}
+
+		///<summary>Every line of the file ends in CRLF (isCrlf) or in a bare LF, the last line too, and the file has no BOM.</summary>
+		private static void AssertLineEnds(string path,bool isCrlf) {
+			byte[] arrayBytes=File.ReadAllBytes(path);
+			Assert.IsTrue(arrayBytes.Length>3);
+			Assert.IsFalse(arrayBytes[0]==0xEF && arrayBytes[1]==0xBB && arrayBytes[2]==0xBF,path+" has a BOM.");
+			Assert.AreEqual((byte)'\n',arrayBytes[arrayBytes.Length-1],path+" does not end with a line end.");
+			int countLines=0;
+			for(int i=0;i<arrayBytes.Length;i++) {
+				if(arrayBytes[i]=='\r') {
+					Assert.IsTrue(isCrlf,path+": a CR at byte "+i+".");
+					Assert.IsTrue(i+1<arrayBytes.Length && arrayBytes[i+1]=='\n',path+": a CR without LF at byte "+i+".");
+				}
+				if(arrayBytes[i]=='\n') {
+					countLines++;
+					if(isCrlf) {
+						Assert.IsTrue(i>0 && arrayBytes[i-1]=='\r',path+": a bare LF at byte "+i+".");
+					}
+				}
+			}
+			Assert.AreEqual(File.ReadAllLines(path).Length,countLines);
+		}
+
+		[TestMethod]
 		public void Parse_ReadsInitializeComponentOnly() {
 			string text=string.Join("\n",new string[] {
 				"namespace N {",

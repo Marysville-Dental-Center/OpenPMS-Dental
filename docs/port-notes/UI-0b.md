@@ -136,7 +136,10 @@ constructor never runs, so its arguments and its database calls do not matter.
 - **The layout snapshot.** `LayoutSnapshotTests.Snapshot_MatchesTheDesignerFiles` reads every file with an `InitializeComponent` in the
   product folders (`SourceIndex.ArrayFolders`) and compares each control's `Location`, `Size` and `ClientSize` (the window or UserControl
   itself as `.`) with `Data/layout-snapshot.tsv`. A change that is not in `fit-fixes.tsv` fails it. A deliberate change (a new window, the
-  Open Dental 26.2 port) writes the snapshot again with `OPMS_UI_LAYOUT_SNAPSHOT_WRITE=1` and commits it with the change. `fit-fixes.tsv`
+  Open Dental 26.2 port) writes the snapshot again with `OPMS_UI_LAYOUT_SNAPSHOT_WRITE=1` and commits it with the change. The writer keeps
+  the line ends the working file already has (CRLF or LF; a new file gets LF) and writes UTF-8 without a BOM, so a rewrite never flips them:
+  the blob is LF (no eol rule, core.autocrlf true), and `git add` stores either working copy as LF (`Write_KeepsTheFilesLineEndsAndNoBom`
+  locks this in; `tools/Test-NoEolFlips.ps1 -Base main` stays clean). `fit-fixes.tsv`
   lists one control per row: the designer file, the window type, the control, the fix (`size` or `autosize-off`) and a note.
 
 ## 5. The test-side font swap and the font under test
