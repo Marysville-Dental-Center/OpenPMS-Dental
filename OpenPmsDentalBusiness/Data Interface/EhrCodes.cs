@@ -739,7 +739,7 @@ namespace OpenPmsDentalBusiness {
 		}
 	}
 
-	///<summary>The office's import of VSAC's "eCQM Value Sets for Eligible Clinicians" published 2026-05-14 for the 2027 performance period, with
+	///<summary>The office's import of VSAC's eCQM value sets "EC, HOSPIP and HOSPOP", eCQM Update 2026-05-14, for the 2027 performance period, with
 	///that release's "Direct Reference Codes" and "Code System Versions" files (docs/specs/ehr-2027-measures-plan.md, EHR-6a, sections 7.1-7.4;
 	///owner decision 3): the release whose value sets the 2027 versions of the catalog's seven measures use (CqmCatalog). The office downloads the
 	///three files from VSAC under its own UMLS licence (the value sets as the Excel workbook (.xlsx) or the SVS XML (.xml), or a .zip of either)

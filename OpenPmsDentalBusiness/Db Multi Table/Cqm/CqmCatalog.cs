@@ -21,8 +21,11 @@ namespace OpenPmsDentalBusiness {
 	///meaning, and for the three LOINC codes the program must tell apart by the display name LOINC gives them (E-23; LOINC's notice is in
 	///THIRD-PARTY-NOTICES.txt). The codes come only from the office's own VSAC download (EhrValueSetImport).</summary>
 	public class CqmCatalog {
-		///<summary>The VSAC release whose value sets and direct reference codes the 2027 versions use (owner decision 3).</summary>
-		public const string RELEASE_LABEL="VSAC eCQM Value Sets for Eligible Clinicians, 2027 performance period, published 2026-05-14";
+		///<summary>The VSAC release whose value sets and direct reference codes the 2027 versions use (owner decision 3), as E-20's record names it
+		///(docs/port-notes/EHR-6.md section 0): VSAC's combined release "EC, HOSPIP and HOSPOP" (the files ec_hospip_hospop_*) with the expansion
+		///version every row of its value sets names (Expansion Version "eCQM Update 2026-05-14"). The measure-version refusal, the old-release
+		///text and the release record show it to the office.</summary>
+		public const string RELEASE_LABEL="VSAC eCQM Value Sets (EC, HOSPIP and HOSPOP), eCQM Update 2026-05-14, 2027 performance period";
 		///<summary>The release's publication date.</summary>
 		public const string RELEASE_DATE="2026-05-14";
 		///<summary>The performance period the versions are for: January 1 to December 31 of this year.</summary>

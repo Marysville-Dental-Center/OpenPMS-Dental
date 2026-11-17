@@ -454,7 +454,8 @@ Population names are the CQL `define` names.
   licence), the release "eCQM Value Sets for Eligible Clinicians" published 2026-05-14 for the 2027 performance period, sorted by CMS ID,
   in Excel or SVS; plus that release's "Direct Reference Codes" and "Code System Versions" files (owner decision 3).
 - The release replaces EHR-2's June 2013 EP release. `RELEASE_LABEL` (`EhrCodes.cs:548`) becomes the 2026-05-14 release, with the expansion
-  profile or version that the files name (recorded in E-20's step).
+  profile or version that the files name (recorded in E-20's step). Done in EHR-6a-R: "VSAC eCQM Value Sets (EC, HOSPIP and HOSPOP),
+  eCQM Update 2026-05-14, 2027 performance period".
 - **One pick, one swap.** The office picks the three files together. The importer parses all three, shows one report, and writes the
   value-set rows and the direct-code rows in one swap (EHR-2's scratch table and `RENAME TABLE`, `EhrCodes.cs:1775-1782`). A pick without
   all three is refused before anything changes. A later import replaces both kinds together. So the two kinds of row never come from

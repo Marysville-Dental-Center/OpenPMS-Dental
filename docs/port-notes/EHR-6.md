@@ -151,7 +151,7 @@ Every version the value-set rows name is in this list, and so is every version t
 | SNOMEDCT_US, HCPCS Level II, SOPT | `GetCodeSystemName`: by the OID first (every row of the record has one), else by name: SNOMEDCT, HCPCS, SOP |
 | Several versions of one code system, each row naming its own | The versions the imported codes name are counted per code system (`ListCodeSystemVersionsUsed`, in the release record); the status grid flags a loaded table older only where codes name a newer version than it (`CountCodesNewerThanLoaded`); a value-set version the Code System Versions file does not list warns |
 | Version formats: dates `yyyy-MM` (SNOMEDCT, RXNORM) and `yyyy-MM-dd` (CVX), `2.81` (LOINC), years (CPT, HCPCS, ICD10CM, ICD10PCS, CDT, HSLOC), others (`1.3`, `9.2`, `9.0.0`, `3.0.0`) | `GetComparableVersion` as in section 4: dates, LOINC's release number, the year for ICD10CM, CPT and HCPCS; none for the others (both strings shown, nothing flagged) |
-| Expansion Version `eCQM Update 2026-05-14` | Reported ("Value-set versions in the file"); the release label stays `CqmCatalog.RELEASE_LABEL` |
+| Expansion Version `eCQM Update 2026-05-14` | Reported ("Value-set versions in the file"); `CqmCatalog.RELEASE_LABEL` carries it and the combined release's title: "VSAC eCQM Value Sets (EC, HOSPIP and HOSPOP), eCQM Update 2026-05-14, 2027 performance period" |
 
 Nothing from the files enters the repository. EHR-2's own step 5 (the June 2013 record) is no longer needed (EHR-2's owner question 1 is
 superseded by E-20).
@@ -163,7 +163,9 @@ One file for all seven measures (decision 4, owner decision 5), in the namespace
 `CqmStratum`, `CqmValueSet`, `CqmDirectCodeRole`; public fields, XML-serialisable). The file is plain ASCII: the statements' typographic
 characters (curly quotes, a narrow no-break space) are `\u` escapes. Every public method is `Meth.NoCheckMiddleTierRole` (data only).
 
-- **The release.** `RELEASE_LABEL` "VSAC eCQM Value Sets for Eligible Clinicians, 2027 performance period, published 2026-05-14",
+- **The release.** `RELEASE_LABEL` "VSAC eCQM Value Sets (EC, HOSPIP and HOSPOP), eCQM Update 2026-05-14, 2027 performance period" (from
+  E-20's record, section 0: the combined release the office downloads, files `ec_hospip_hospop_*`, and the expansion version every row
+  names; EHR-6a's provisional "VSAC eCQM Value Sets for Eligible Clinicians, 2027 performance period, published 2026-05-14" is replaced),
   `RELEASE_DATE`, `PERFORMANCE_YEAR` 2027. `EhrValueSetImport.RELEASE_LABEL` is the catalog's.
 - **Per measure** (section 4.1): CMS ID and version (`MeasureId` CMS74v16, `MeasureIdShort` 74v16), the CQL library, title, steward (the
   HQMF custodian) and developer (the author: AIR for the CMS four, NCQA for its three), set ID, version-specific ID, episode-based (CMS68),
@@ -592,7 +594,9 @@ did, keeping both sides). No schema change, no project file, no package, no down
   versions and is not compared.
 - **The window** (`FormCodeSystemsImport`): the licence prompt asks for the value sets sorted by CMS ID ("the Excel workbook, as VSAC gives
   it in a .zip, or the SVS XML") with the two other files, and says the two other sortings are not needed; the older-table status gives
-  the count. The release label stays `CqmCatalog.RELEASE_LABEL` (the 2027 performance period, published 2026-05-14).
+  the count. `CqmCatalog.RELEASE_LABEL` now carries the record's release title and expansion version ("VSAC eCQM Value Sets (EC, HOSPIP
+  and HOSPOP), eCQM Update 2026-05-14, 2027 performance period"); the measure-version refusal, the old-release text and the release record
+  show it. A release record of EHR-6a's provisional label reads as an old release (no install has one: nothing is in production).
 
 **For EHR-7.** Of the 14 OIDs the data-entry windows and `DiseaseDefs` still name outside the catalog (section 7), 12 are nowhere in the
 2026-05-14 release; two are, under other measures: `2.16.840.1.113883.3.526.3.1008` (108 rows) and `.526.3.1259` (6 rows). With E-30 their
