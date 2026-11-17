@@ -1,0 +1,15 @@
+Scene: colour-tpi-and-unhandled
+Group: colours
+Description: The TPi exception and unhandled statuses: a code colour (purple) on a TP crown on 3, but white on the same crown in status TPi on 14; white MOD fillings on 19 and 30 for a status the colour code does not handle (the Chart module and sheets paint it white).
+Size: 410x307
+Colours: Module
+Engine: Wpf3D (RenderTargetBitmap in software, 3D layer at 3x reduced with WIC's Fant scaler)
+Bitmap: 410x307 Format24bppRgb
+Alpha: every alpha is 255 (format without an alpha channel)
+Colours in the picture: 4450
+Pixels SHA-256: 941b51bce19d5f47fba7d5ac259a949cedd0ccd886560cf13ca07f8b19e0e3f1
+Repeatable: yes (a second GetBitmap gave the same pixels)
+Framework: .NET 10.0, x64
+Windows: build 26300.9974 (26H2)
+Fresh render: yes (both layers drawn again without the layer cache gave the same pixels)
+Screen DPI seen by the test host: 96

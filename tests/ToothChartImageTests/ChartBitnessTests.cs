@@ -1,7 +1,8 @@
 // The WPF chart on x64 (package TC-10, docs/port-notes/TC-10.md; the TC-10 row of docs/specs/wpf-tooth-chart-plan.md, in S3a-15's place under
 // the plan's section 6 rule). The lane runs this assembly as x86 (the test runner) and as x64 (its x64 test build, -Projects ToothChartImageTests
 // -X64Test, into bin\x64\Debug): the chart assembly and the libraries below it load in the bitness of the test process, the Helix files are
-// IL-only and not 32-bit-required, the normal build stays 32-bit-required (PlatformTarget=x86, docs/specs/net10-plan.md section 2.3), and the
+// IL-only and not 32-bit-required, the normal build stays 32-bit-required (PlatformTarget=x86, docs/specs/net10-plan.md section 2.3; x64 on
+// .NET 10 since stage 3b, S3b-5W), and the
 // largest picture (the big chart window's 926x858, its 3D layer at 3x) renders against its baseline, with its memory measured, in both bitnesses.
 // No window is shown and no program is started.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
@@ -179,7 +180,7 @@ namespace ToothChartImageTests {
 				Assert.IsFalse(peFacts.Is32BitRequired,"Not 32-bit-required: "+line);
 				Assert.IsFalse(peFacts.Is32BitPreferred,"Not 32-bit-preferred: "+line);
 				Assert.IsTrue(peFacts.LoadsIn64BitProcess,line);
-				Assert.AreEqual(ProcessorArchitecture.MSIL,AssemblyName.GetAssemblyName(path).ProcessorArchitecture,"The CLR's header reader: "+line);
+				Assert.AreEqual(ProcessorArchitecture.MSIL,GetClrProcessorArchitecture(path),"The runtime's header reader: "+line);
 			}
 			foreach(string name in listReferenced) {
 				Assembly assembly=Assembly.Load(typeof(ToothChartWrapper).Assembly.GetReferencedAssemblies().First(x => x.Name==name));
@@ -188,23 +189,56 @@ namespace ToothChartImageTests {
 			WpfCharts.WriteEvidence("helix-bitness."+Bitness()+".txt","Helix "+Bitness()+": "+string.Join(" | ",listLines));
 		}
 
+		///<summary>The processor architecture of an assembly file as the runtime's own header reader gives it, without loading the file: on .NET
+		///Framework AssemblyName.GetAssemblyName's ProcessorArchitecture; on .NET, where that property is always None (SYSLIB0037, S3b-5W),
+		///System.Reflection.Metadata's PEReader with the same rule (PE32+ for AMD64: Amd64; PE32 for I386: X86 when 32-bit-required or not IL-only,
+		///otherwise MSIL).</summary>
+		public static ProcessorArchitecture GetClrProcessorArchitecture(string path) {
+#if NETFRAMEWORK
+			return AssemblyName.GetAssemblyName(path).ProcessorArchitecture;
+#else
+			using FileStream fileStream=File.OpenRead(path);
+			using System.Reflection.PortableExecutable.PEReader peReader=new System.Reflection.PortableExecutable.PEReader(fileStream);
+			System.Reflection.PortableExecutable.PEHeaders peHeaders=peReader.PEHeaders;
+			if(peHeaders.CorHeader==null) {
+				return ProcessorArchitecture.None;
+			}
+			System.Reflection.PortableExecutable.CorFlags corFlags=peHeaders.CorHeader.Flags;
+			if(peHeaders.CoffHeader.Machine==System.Reflection.PortableExecutable.Machine.Amd64) {
+				return ProcessorArchitecture.Amd64;
+			}
+			if(peHeaders.CoffHeader.Machine!=System.Reflection.PortableExecutable.Machine.I386) {
+				return ProcessorArchitecture.None;
+			}
+			if((corFlags & System.Reflection.PortableExecutable.CorFlags.Requires32Bit)!=0 || (corFlags & System.Reflection.PortableExecutable.CorFlags.ILOnly)==0) {
+				return ProcessorArchitecture.X86;
+			}
+			return ProcessorArchitecture.MSIL;
+#endif
+		}
+
 		[TestMethod]
-		public void NormalBuild_StaysX86() {
-			//net10-plan section 2.3: PlatformTarget=x86 for every SDK-style project until stage 3b; the x64 test build is only the lane's switch
-			//(PlatformTarget=x64 into bin\x64\ and obj\x64\). No project of the chart's stack sets a platform of its own.
+		public void NormalBuild_IsX86OnNetFramework_AndX64OnNet10() {
+			//net10-plan section 2.3: PlatformTarget=x86 for every SDK-style .NET Framework project until stage 3b; the x64 test build was only the
+			//lane's switch (PlatformTarget=x64 into bin\x64\ and obj\x64\). At 3b (S3b-1) every .NET 10 project is x64 (Directory.Build.Net.props),
+			//the 32-bit helper aside. No project of the chart's stack sets a platform of its own. TC-10 named this test NormalBuild_StaysX86; S3b-5W
+			//gave it the .NET 10 case and this name.
 			string props=TestPaths.ReadSource("Directory.Build.props");
 			StringAssert.Contains(props,"<PlatformTarget>x86</PlatformTarget>");
+			if(!WpfCharts.IsNetFramework) {
+				StringAssert.Contains(TestPaths.ReadSource("Directory.Build.Net.props"),"<PlatformTarget>x64</PlatformTarget>");
+			}
 			foreach(string relative in new[] { @"SparksToothChart\SparksToothChart.csproj",@"WpfControlsOD\WpfControlsOD.csproj",@"CodeBase\xCodeBase.csproj",
 				@"OpenPmsDentalBusiness\OpenPmsDentalBusiness.csproj",@"DataConnectionBase\xDataConnectionBase.csproj",@"tests\ToothChartImageTests\ToothChartImageTests.csproj",
 				@"tests\TestProbeHost\TestProbeHost.csproj",@"tests\Directory.Build.props" })
 			{
 				StringAssert.DoesNotMatch(TestPaths.ReadSource(relative),new Regex(@"<PlatformTarget>(?!x86<)"),relative+" sets no other platform target.");
 			}
-			//The x86 build's own SparksToothChart.dll (the library's output, which the program copies) is 32-bit-required, read from the file in
-			//either bitness (an x86 file cannot load in the x64 run).
+			//The normal build's own SparksToothChart.dll (the library's output, which the program copies), read from the file in either bitness (an
+			//x86 file cannot load in an x64 run): 32-bit-required on .NET Framework, PE32+ for AMD64 on .NET 10.
 			string pathX86=Path.Combine(TestPaths.RepoRoot,"SparksToothChart","bin","Debug","SparksToothChart.dll");
 			if(!File.Exists(pathX86)) {
-				string message="The x86 build of SparksToothChart ("+pathX86+") is not built here: build the solution filter (Debug x86) first.";
+				string message="The normal build of SparksToothChart ("+pathX86+") is not built here: build the solution filter first.";
 				//The rule of tests\ProjectFileTests\BuildOutput.cs: inconclusive on a developer's run, a failure when the lane or a gate requires the output.
 				string required=(Environment.GetEnvironmentVariable("OPMS_REQUIRE_BUILD_OUTPUT")??"").Trim();
 				if(required=="1" || required.Equals("true",StringComparison.OrdinalIgnoreCase)) {
@@ -213,10 +247,17 @@ namespace ToothChartImageTests {
 				Assert.Inconclusive(message);
 			}
 			PeFacts peFacts=PeFacts.Read(pathX86);
+			if(!WpfCharts.IsNetFramework) {
+				Assert.IsTrue(peFacts.IsPE32Plus,peFacts.ToString());
+				Assert.AreEqual(PeFacts.MACHINE_AMD64,peFacts.Machine,peFacts.ToString());
+				Assert.IsTrue(peFacts.IsILOnly && !peFacts.Is32BitRequired,"x64: "+peFacts);
+				Assert.AreEqual(ProcessorArchitecture.Amd64,GetClrProcessorArchitecture(pathX86));
+				return;
+			}
 			Assert.IsFalse(peFacts.IsPE32Plus,peFacts.ToString());
 			Assert.AreEqual(PeFacts.MACHINE_I386,peFacts.Machine,peFacts.ToString());
 			Assert.IsTrue(peFacts.IsILOnly && peFacts.Is32BitRequired,"32-bit-required: "+peFacts);
-			Assert.AreEqual(ProcessorArchitecture.X86,AssemblyName.GetAssemblyName(pathX86).ProcessorArchitecture);
+			Assert.AreEqual(ProcessorArchitecture.X86,GetClrProcessorArchitecture(pathX86));
 		}
 
 		[TestMethod]

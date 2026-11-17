@@ -1,0 +1,15 @@
+Scene: crown-primary
+Group: paint
+Description: Primary dentition with dark C crowns on A, J, K and T.
+Size: 500x370
+Colours: Printout
+Engine: Wpf3D (RenderTargetBitmap in software, 3D layer at 3x reduced with WIC's Fant scaler)
+Bitmap: 500x370 Format24bppRgb
+Alpha: every alpha is 255 (format without an alpha channel)
+Colours in the picture: 5463
+Pixels SHA-256: 5e58609a9457171ba3bae67a8978423971e8968039e235fdd9b5dff8b7b536c5
+Repeatable: yes (a second GetBitmap gave the same pixels)
+Framework: .NET 10.0, x64
+Windows: build 26300.9974 (26H2)
+Fresh render: yes (both layers drawn again without the layer cache gave the same pixels)
+Screen DPI seen by the test host: 96

@@ -1,0 +1,6 @@
+Host: dashboard
+Size: 410x307
+Bitmap: Format24bppRgb
+Colours in the picture: 5291
+Pixels SHA-256: 11bb926c8974d48049cf1cd8115f199161e74fb26ec9d85947b7065d3710b926
+Framework: .NET 10.0.14, x64

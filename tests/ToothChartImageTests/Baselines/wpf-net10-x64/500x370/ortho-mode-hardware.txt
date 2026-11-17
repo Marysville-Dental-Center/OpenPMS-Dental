@@ -1,0 +1,15 @@
+Scene: ortho-mode-hardware
+Group: ortho
+Description: Ortho mode with the hardware of Open Dental's ortho9 screenshot (2022): brackets on 2-15 and 18-31 (silver), NiTi wires UR7-UL7 and LL7-LR7 (silver, in and between the brackets), elastics 6 to 30 and 11 to 19 (yellow); the third molars unerupted (ShiftO -12), as ortho9's pale 8s. Facial rows only, moved toward the centre line, Palmer numbers between them (ORTHO-1, ORTHO-2).
+Size: 500x370
+Colours: Printout
+Engine: Wpf3D (RenderTargetBitmap in software, 3D layer at 3x reduced with WIC's Fant scaler)
+Bitmap: 500x370 Format24bppRgb
+Alpha: every alpha is 255 (format without an alpha channel)
+Colours in the picture: 3351
+Pixels SHA-256: e5363886d4c71f8da25e4b4dd87481b0ae71e88bb3da95b92b1ba6c1ae9c649f
+Repeatable: yes (a second GetBitmap gave the same pixels)
+Framework: .NET 10.0, x64
+Windows: build 26300.9974 (26H2)
+Fresh render: yes (both layers drawn again without the layer cache gave the same pixels)
+Screen DPI seen by the test host: 96

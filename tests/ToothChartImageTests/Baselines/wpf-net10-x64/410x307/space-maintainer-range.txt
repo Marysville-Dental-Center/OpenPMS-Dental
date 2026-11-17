@@ -1,0 +1,15 @@
+Scene: space-maintainer-range
+Group: paint
+Description: Space maintainers over the ranges 19-21 (C, 20 missing) and 28-30 (TP, 29 missing).
+Size: 410x307
+Colours: Module
+Engine: Wpf3D (RenderTargetBitmap in software, 3D layer at 3x reduced with WIC's Fant scaler)
+Bitmap: 410x307 Format24bppRgb
+Alpha: every alpha is 255 (format without an alpha channel)
+Colours in the picture: 3482
+Pixels SHA-256: 76061b8daec0feebba7ec671752faad70f0fc46b0ad342444c635f67295447ed
+Repeatable: yes (a second GetBitmap gave the same pixels)
+Framework: .NET 10.0, x64
+Windows: build 26300.9974 (26H2)
+Fresh render: yes (both layers drawn again without the layer cache gave the same pixels)
+Screen DPI seen by the test host: 96

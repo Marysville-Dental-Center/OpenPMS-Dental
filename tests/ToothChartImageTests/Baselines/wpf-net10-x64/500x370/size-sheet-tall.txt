@@ -1,0 +1,15 @@
+Scene: size-sheet-tall
+Group: sizes
+Description: The restored-adult work, also drawn at 360x480 (a tall sheet field) with the printout colours.
+Size: 500x370
+Colours: Printout
+Engine: Wpf3D (RenderTargetBitmap in software, 3D layer at 3x reduced with WIC's Fant scaler)
+Bitmap: 500x370 Format24bppRgb
+Alpha: every alpha is 255 (format without an alpha channel)
+Colours in the picture: 4348
+Pixels SHA-256: cb88c2c61e4d349dd8dffd3a789b98d16ae20f027b9acbfa6173b413290bc2c8
+Repeatable: yes (a second GetBitmap gave the same pixels)
+Framework: .NET 10.0, x64
+Windows: build 26300.9974 (26H2)
+Fresh render: yes (both layers drawn again without the layer cache gave the same pixels)
+Screen DPI seen by the test host: 96

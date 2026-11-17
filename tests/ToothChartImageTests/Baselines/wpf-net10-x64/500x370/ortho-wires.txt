@@ -1,0 +1,15 @@
+Scene: ortho-wires
+Group: ortho
+Description: Brackets on 3-14 and 19-30 with wires between each pair of brackets (steel blue).
+Size: 500x370
+Colours: Printout
+Engine: Wpf3D (RenderTargetBitmap in software, 3D layer at 3x reduced with WIC's Fant scaler)
+Bitmap: 500x370 Format24bppRgb
+Alpha: every alpha is 255 (format without an alpha channel)
+Colours in the picture: 3754
+Pixels SHA-256: 70abcd9d55efd0e58b31c074fe5d518b38ee38e75bc1b4b6ead555a55e84456c
+Repeatable: yes (a second GetBitmap gave the same pixels)
+Framework: .NET 10.0, x64
+Windows: build 26300.9974 (26H2)
+Fresh render: yes (both layers drawn again without the layer cache gave the same pixels)
+Screen DPI seen by the test host: 96

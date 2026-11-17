@@ -1,0 +1,9 @@
+Scene: text-labels-over-teeth
+Group: free-text
+Description: Free-text labels over teeth: "cracked" on 3, "watch" on 14, "mobile" on 24 and "sore" on 30, in four colours. The old charts draw no free text; the WPF and 2D charts do since TC-5.
+Size: 410x307
+Colours: Module
+Engine: Simple2D (ToothChart2D, GDI+)
+Bitmap: 410x307 Format32bppArgb
+Pixels SHA-256: 8c6be3e716c689ac88cbb41fc0923304832f3f542a3420f9a41a36e2c5d62680
+Framework: .NET 10.0, x64

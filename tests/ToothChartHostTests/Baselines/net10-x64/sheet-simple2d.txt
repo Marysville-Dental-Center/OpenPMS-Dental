@@ -1,0 +1,6 @@
+Host: sheet-simple2d
+Size: 500x370
+Bitmap: Format32bppArgb
+Colours in the picture: 14744
+Pixels SHA-256: 3a11685da15a4279ed8cc8e2a28ac6f3115f84246a5bda11cb8f4712853c07f9
+Framework: .NET 10.0.14, x64

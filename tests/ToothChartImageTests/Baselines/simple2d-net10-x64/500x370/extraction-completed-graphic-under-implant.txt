@@ -1,0 +1,9 @@
+Scene: extraction-completed-graphic-under-implant
+Group: paint
+Description: The completed-extraction graphic on, with implants in the extracted teeth's places: 19 extracted (C) with a completed implant, 14 extracted (EO) with an existing implant (EC) and its crown (C), and 30 extracted (C) with a planned implant (TP). Every extraction draws its X over the implant, in the painter's order (a plain switch, as Open Dental's).
+Size: 500x370
+Colours: Printout
+Engine: Simple2D (ToothChart2D, GDI+)
+Bitmap: 500x370 Format32bppArgb
+Pixels SHA-256: 86eae862f3795bdcb2917a5fdd4f05f8063b00aac93d4f6e591483ed898ebdce
+Framework: .NET 10.0, x64

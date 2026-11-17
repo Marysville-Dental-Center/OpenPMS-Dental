@@ -1,0 +1,15 @@
+Scene: perio-red-limits
+Group: perio
+Description: Deep pockets and furcations 1-3 with other red limits: probing red from 6 mm (5 mm bars in the probing colour), furcations red from grade 3 (grades 1 and 2 in the furcation colour, as the legend's first two marks).
+Size: 649x696
+Colours: Perio
+Engine: Wpf3D (RenderTargetBitmap in software, 3D layer at 3x reduced with WIC's Fant scaler)
+Bitmap: 649x696 Format24bppRgb
+Alpha: every alpha is 255 (format without an alpha channel)
+Colours in the picture: 9868
+Pixels SHA-256: cb966e0956b8bb1ccb579eb92615302a38f03772fa54011a03d6d512be32f1b9
+Repeatable: yes (a second GetBitmap gave the same pixels)
+Framework: .NET 10.0, x64
+Windows: build 26300.9974 (26H2)
+Fresh render: yes (both layers drawn again without the layer cache gave the same pixels)
+Screen DPI seen by the test host: 96

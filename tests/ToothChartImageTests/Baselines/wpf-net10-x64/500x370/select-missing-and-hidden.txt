@@ -1,0 +1,15 @@
+Scene: select-missing-and-hidden
+Group: interaction
+Description: Missing tooth 3 selected (its number still shows) and hidden tooth 14 selected (no number to highlight).
+Size: 500x370
+Colours: Printout
+Engine: Wpf3D (RenderTargetBitmap in software, 3D layer at 3x reduced with WIC's Fant scaler)
+Bitmap: 500x370 Format24bppRgb
+Alpha: every alpha is 255 (format without an alpha channel)
+Colours in the picture: 3025
+Pixels SHA-256: 8fba5d6672e490fece1da22ef5333ed7165d0327dd74999a6dbbb054cb9f3fe8
+Repeatable: yes (a second GetBitmap gave the same pixels)
+Framework: .NET 10.0, x64
+Windows: build 26300.9974 (26H2)
+Fresh render: yes (both layers drawn again without the layer cache gave the same pixels)
+Screen DPI seen by the test host: 96

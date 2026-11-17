@@ -1,0 +1,15 @@
+Scene: select-whole-arch
+Group: interaction
+Description: Every maxillary tooth 1-16 selected.
+Size: 500x370
+Colours: Printout
+Engine: Wpf3D (RenderTargetBitmap in software, 3D layer at 3x reduced with WIC's Fant scaler)
+Bitmap: 500x370 Format24bppRgb
+Alpha: every alpha is 255 (format without an alpha channel)
+Colours in the picture: 3118
+Pixels SHA-256: f8171d2eccf4bfd148fa34857983e5df5fd731d3d95168ac4e648c52674de57c
+Repeatable: yes (a second GetBitmap gave the same pixels)
+Framework: .NET 10.0, x64
+Windows: build 26300.9974 (26H2)
+Fresh render: yes (both layers drawn again without the layer cache gave the same pixels)
+Screen DPI seen by the test host: 96

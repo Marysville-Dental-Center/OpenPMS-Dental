@@ -1,0 +1,15 @@
+Scene: sealant-premolars
+Group: paint
+Description: TP sealants on the premolars 4, 5, 12, 13, 20, 21, 28 and 29.
+Size: 500x370
+Colours: Printout
+Engine: Wpf3D (RenderTargetBitmap in software, 3D layer at 3x reduced with WIC's Fant scaler)
+Bitmap: 500x370 Format24bppRgb
+Alpha: every alpha is 255 (format without an alpha channel)
+Colours in the picture: 3321
+Pixels SHA-256: b920974c6316decee772354e09a6bf14cee18dc5158a379b7c0aca26021a9511
+Repeatable: yes (a second GetBitmap gave the same pixels)
+Framework: .NET 10.0, x64
+Windows: build 26300.9974 (26H2)
+Fresh render: yes (both layers drawn again without the layer cache gave the same pixels)
+Screen DPI seen by the test host: 96

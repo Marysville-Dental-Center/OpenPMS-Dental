@@ -667,24 +667,7 @@ namespace SparksToothChart.Wpf3D {
 		///https://i0.wp.com/opendental.blog/wp-content/uploads/2026/10/image-6.png?ssl=1).</summary>
 		private static void AddWatches(SceneBuilding building) {
 			ToothChartData tcData=building.TcData;
-			//A Hashtable keyed by the permanent tooth, as DirectX keeps it: its order is the order of the watches.
-			Hashtable hashtableWatchTeeth=new Hashtable(tcData.ListToothGraphics.Count);
-			for(int t=0;t<tcData.ListToothGraphics.Count;t++) {//loop through each adult tooth
-				ToothGraphic toothGraphic=tcData.ListToothGraphics[t];
-				if(toothGraphic.ToothID=="implant" || !toothGraphic.Watch || Tooth.IsPrimary(toothGraphic.ToothID)) {
-					continue;
-				}
-				hashtableWatchTeeth[toothGraphic.ToothID]=toothGraphic;
-			}
-			for(int t=0;t<tcData.ListToothGraphics.Count;t++) {//loop through each primary tooth
-				ToothGraphic toothGraphic=tcData.ListToothGraphics[t];
-				if(toothGraphic.ToothID=="implant" || !toothGraphic.Watch || !Tooth.IsPrimary(toothGraphic.ToothID) || !toothGraphic.Visible) {
-					continue;
-				}
-				hashtableWatchTeeth[Tooth.PriToPerm(toothGraphic.ToothID)]=toothGraphic;
-			}
-			foreach(DictionaryEntry dictionaryEntry in hashtableWatchTeeth) {
-				ToothGraphic toothGraphic=(ToothGraphic)dictionaryEntry.Value;
+			foreach(ToothGraphic toothGraphic in GetWatchTeeth(tcData)) {
 				ChartMatrix toothTrans;
 				if(ToothGraphic.IsRight(toothGraphic.ToothID)) {
 					toothTrans=ChartMatrix.Translation(tcData.GetTransX(toothGraphic.ToothID)+toothGraphic.ShiftM,0,0);
@@ -703,6 +686,40 @@ namespace SparksToothChart.Wpf3D {
 						toothGraphic.colorWatch,building.FontWatch,source);
 				}
 			}
+		}
+
+		///<summary>The watched teeth, one per permanent tooth's place, in the order their "W" is drawn, for the WPF chart and the Simple 2D chart
+		///(ToothChart2D.DrawWatches). A permanent tooth's watch shows even when the tooth is missing; a visible primary tooth's watch takes its
+		///permanent tooth's place. DirectX kept them in a Hashtable keyed by the permanent tooth and drew them in its order. That order follows the
+		///string hash, which .NET randomises per process, so on .NET 10 it changed from process to process and two overlapping "W"s of other
+		///colours could be drawn in another order (S3b-5W, docs/port-notes/S3b-5W.md): they are drawn in tooth-number order (1 to 32) instead.</summary>
+		public static List<ToothGraphic> GetWatchTeeth(ToothChartData tcData) {
+			Dictionary<string,ToothGraphic> dictWatchTeeth=new Dictionary<string,ToothGraphic>();
+			for(int t=0;t<tcData.ListToothGraphics.Count;t++) {//loop through each adult tooth
+				ToothGraphic toothGraphic=tcData.ListToothGraphics[t];
+				if(toothGraphic.ToothID=="implant" || !toothGraphic.Watch || Tooth.IsPrimary(toothGraphic.ToothID)) {
+					continue;
+				}
+				dictWatchTeeth[toothGraphic.ToothID]=toothGraphic;
+			}
+			for(int t=0;t<tcData.ListToothGraphics.Count;t++) {//loop through each primary tooth
+				ToothGraphic toothGraphic=tcData.ListToothGraphics[t];
+				if(toothGraphic.ToothID=="implant" || !toothGraphic.Watch || !Tooth.IsPrimary(toothGraphic.ToothID) || !toothGraphic.Visible) {
+					continue;
+				}
+				dictWatchTeeth[Tooth.PriToPerm(toothGraphic.ToothID)]=toothGraphic;
+			}
+			List<string> listKeys=new List<string>(dictWatchTeeth.Keys);
+			listKeys.Sort((x,y) => {
+				int numberX=int.TryParse(x,out int nx)?nx:int.MaxValue;
+				int numberY=int.TryParse(y,out int ny)?ny:int.MaxValue;
+				return numberX!=numberY?numberX.CompareTo(numberY):string.CompareOrdinal(x,y);
+			});
+			List<ToothGraphic> listWatchTeeth=new List<ToothGraphic>();
+			for(int i=0;i<listKeys.Count;i++) {
+				listWatchTeeth.Add(dictWatchTeeth[listKeys[i]]);
+			}
+			return listWatchTeeth;
 		}
 
 		///<summary>DirectX's DrawDrawingSegments: every saved drawing in its colour, then the points of the drawing in progress in the pen colour.</summary>

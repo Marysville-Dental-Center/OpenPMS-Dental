@@ -1,0 +1,15 @@
+Scene: drawing-recoloured
+Group: interaction
+Description: The drawing-segments scene after the colour changer made the black line orange.
+Size: 500x370
+Colours: Printout
+Engine: Wpf3D (RenderTargetBitmap in software, 3D layer at 3x reduced with WIC's Fant scaler)
+Bitmap: 500x370 Format24bppRgb
+Alpha: every alpha is 255 (format without an alpha channel)
+Colours in the picture: 3974
+Pixels SHA-256: d957e7afaa74d2a4de1aa157e114b83fd04edf319ee538b57a7a6a209daa8ebd
+Repeatable: yes (a second GetBitmap gave the same pixels)
+Framework: .NET 10.0, x64
+Windows: build 26300.9974 (26H2)
+Fresh render: yes (both layers drawn again without the layer cache gave the same pixels)
+Screen DPI seen by the test host: 96
