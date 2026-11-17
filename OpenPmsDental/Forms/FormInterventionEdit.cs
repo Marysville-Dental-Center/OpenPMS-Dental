@@ -13,6 +13,8 @@ namespace OpenPmsDental {
 		public bool IsSelectionMode;
 		private List<EhrCode> _listEhrCodes;
 		private Dictionary<string,string> _dictionaryValueCodeSets;
+		///<summary>The grid's title from the designer, kept so FillGrid can add the import message to it and take it off again.</summary>
+		private string _titleGrid;
 
 		public FormInterventionEdit() {
 			InitializeComponent();
@@ -26,39 +28,11 @@ namespace OpenPmsDental {
 			gridMain.AllowSelection=IsSelectionMode;//only allow changing the selected intervention code if IsSelectionMode
 			_dictionaryValueCodeSets=new Dictionary<string,string>();
 			comboCodeSet.Items.Add("All");
-			if(IsAllTypes || InterventionCur.CodeSet==InterventionCodeSet.AboveNormalWeight) {
-				comboCodeSet.Items.Add(InterventionCodeSet.AboveNormalWeight.ToString()+" Follow-up");
-				_dictionaryValueCodeSets.Add(InterventionCodeSet.AboveNormalWeight.ToString()+" Follow-up","2.16.840.1.113883.3.600.1.1525");
-				comboCodeSet.Items.Add(InterventionCodeSet.AboveNormalWeight.ToString()+" Referral");
-				_dictionaryValueCodeSets.Add(InterventionCodeSet.AboveNormalWeight.ToString()+" Referral","2.16.840.1.113883.3.600.1.1527");
-				comboCodeSet.Items.Add(InterventionCodeSet.AboveNormalWeight.ToString()+" Medication");
-				_dictionaryValueCodeSets.Add(InterventionCodeSet.AboveNormalWeight.ToString()+" Medication","2.16.840.1.113883.3.600.1.1498");
-			}
-			if(IsAllTypes || InterventionCur.CodeSet==InterventionCodeSet.BelowNormalWeight) {
-				comboCodeSet.Items.Add(InterventionCodeSet.BelowNormalWeight.ToString()+" Follow-up");
-				_dictionaryValueCodeSets.Add(InterventionCodeSet.BelowNormalWeight.ToString()+" Follow-up","2.16.840.1.113883.3.600.1.1528");
-				comboCodeSet.Items.Add(InterventionCodeSet.BelowNormalWeight.ToString()+" Referral");
-				_dictionaryValueCodeSets.Add(InterventionCodeSet.BelowNormalWeight.ToString()+" Referral","2.16.840.1.113883.3.600.1.1527");
-				comboCodeSet.Items.Add(InterventionCodeSet.BelowNormalWeight.ToString()+" Medication");
-				_dictionaryValueCodeSets.Add(InterventionCodeSet.BelowNormalWeight.ToString()+" Medication","2.16.840.1.113883.3.600.1.1499");
-			}
-			if(IsAllTypes || InterventionCur.CodeSet==InterventionCodeSet.Nutrition || InterventionCur.CodeSet==InterventionCodeSet.PhysicalActivity) {
-				comboCodeSet.Items.Add(InterventionCodeSet.Nutrition.ToString()+" Counseling");
-				_dictionaryValueCodeSets.Add(InterventionCodeSet.Nutrition.ToString()+" Counseling","2.16.840.1.113883.3.464.1003.195.12.1003");
-				comboCodeSet.Items.Add(InterventionCodeSet.PhysicalActivity.ToString()+" Counseling");
-				_dictionaryValueCodeSets.Add(InterventionCodeSet.PhysicalActivity.ToString()+" Counseling","2.16.840.1.113883.3.464.1003.118.12.1035");
-			}
-			if(IsAllTypes || InterventionCur.CodeSet==InterventionCodeSet.TobaccoCessation) {
-				comboCodeSet.Items.Add(InterventionCodeSet.TobaccoCessation.ToString()+" Counseling");
-				_dictionaryValueCodeSets.Add(InterventionCodeSet.TobaccoCessation.ToString()+" Counseling","2.16.840.1.113883.3.526.3.509");
-				comboCodeSet.Items.Add(InterventionCodeSet.TobaccoCessation.ToString()+" Medication");
-				_dictionaryValueCodeSets.Add(InterventionCodeSet.TobaccoCessation.ToString()+" Medication","2.16.840.1.113883.3.526.3.1190");
-			}
-			if(IsAllTypes || InterventionCur.CodeSet==InterventionCodeSet.Dialysis) {
-				comboCodeSet.Items.Add(InterventionCodeSet.Dialysis.ToString()+" Education");
-				_dictionaryValueCodeSets.Add(InterventionCodeSet.Dialysis.ToString()+" Education","2.16.840.1.113883.3.464.1003.109.12.1016");
-				comboCodeSet.Items.Add(InterventionCodeSet.Dialysis.ToString()+" Related Services");
-				_dictionaryValueCodeSets.Add(InterventionCodeSet.Dialysis.ToString()+" Related Services","2.16.840.1.113883.3.464.1003.109.12.1015");
+			//The 2027 catalog's value sets (EHR-7, section 8): the BMI medications are CMS69's 2027 sets, and Dialysis is "Dialysis Services" (E-28).
+			List<KeyValuePair<string,string>> listValueSets=CqmDataEntry.GetInterventionValueSets(InterventionCur.CodeSet,IsAllTypes);
+			for(int i=0;i<listValueSets.Count;i++) {
+				comboCodeSet.Items.Add(listValueSets[i].Key);
+				_dictionaryValueCodeSets.Add(listValueSets[i].Key,listValueSets[i].Value);
 			}
 			comboCodeSet.SelectedIndex=0;
 			//need to set the comboCodeSet based on InterventionCur sent in
@@ -76,7 +50,12 @@ namespace OpenPmsDental {
 			textDate.Text=InterventionCur.DateEntry.ToShortDateString();
 			textNote.Text=InterventionCur.Note;
 			checkPatientDeclined.Checked=InterventionCur.IsPatDeclined;
+			_titleGrid=gridMain.Title;
 			FillGrid();
+			//Said once on load as well, when no list of the window has a code (EHR-7): a new intervention cannot be entered until the import.
+			if(IsSelectionMode && EhrCodes.GetForValueSetOIDs(new List<string>(_dictionaryValueCodeSets.Values),true).Count==0) {
+				MsgBox.Show(this,"The codes of these intervention lists come from the EHR value sets of the 2027 release and the code-system tables; run the Code System Importer in Setup | Chart | EHR.");
+			}
 		}
 
 		private void FillGrid() {
@@ -97,49 +76,38 @@ namespace OpenPmsDental {
 				listValSetOIDs.Add(_dictionaryValueCodeSets[selectedValue]);
 			}
 			_listEhrCodes=EhrCodes.GetForValueSetOIDs(listValSetOIDs,true);//these codes will exist in the corresponding table or will not be in the list
+			//Empty until the office imports the 2027 release and the code-system tables (EHR-7): the grid's title says so, instead of an empty list
+			//that only fails on save.
+			if(_listEhrCodes.Count==0) {
+				gridMain.Title=_titleGrid+" - "+Lan.g(this,"none: the codes of these intervention lists come from the EHR value sets of the 2027 release and the code-system tables; run the Code System Importer in Setup | Chart | EHR.");
+			}
+			else {
+				gridMain.Title=_titleGrid;
+			}
+			//A saved intervention whose code is in none of these 2027 lists (a 2014 Dialysis Education or Related Services row, E-28, or a row saved
+			//before the import) keeps its code as a row of its own, selected below, so saving again never drops it (as FormEhrNotPerformedEdit keeps
+			//a saved reason).
+			int idxSavedCode=-1;
+			if(!InterventionCur.IsNew && !string.IsNullOrEmpty(InterventionCur.CodeValue)
+				&& !_listEhrCodes.Exists(x => x.CodeValue==InterventionCur.CodeValue && x.CodeSystem==InterventionCur.CodeSystem))
+			{
+				EhrCode ehrCodeSaved=new EhrCode();
+				ehrCodeSaved.CodeValue=InterventionCur.CodeValue;
+				ehrCodeSaved.CodeSystem=InterventionCur.CodeSystem;
+				_listEhrCodes.Add(ehrCodeSaved);
+				idxSavedCode=_listEhrCodes.Count-1;
+			}
 			gridMain.ListGridRows.Clear();
 			GridRow row;
 			int idxSelected=-1;
-			for(int i=0;i<_listEhrCodes.Count;i++) {				
+			for(int i=0;i<_listEhrCodes.Count;i++) {
 				row=new GridRow();
 				row.Cells.Add(_listEhrCodes[i].CodeValue);
 				row.Cells.Add(_listEhrCodes[i].CodeSystem);
 				//Retrieve description from the associated table
-				string descript="";
-				switch(_listEhrCodes[i].CodeSystem) {
-					case "CPT":
-						Cpt cpt=Cpts.GetByCode(_listEhrCodes[i].CodeValue);
-						if(cpt!=null) {
-							descript=cpt.Description;
-						}
-						break;
-					case "HCPCS":
-						Hcpcs hcpcs=Hcpcses.GetByCode(_listEhrCodes[i].CodeValue);
-						if(hcpcs!=null) {
-							descript=hcpcs.DescriptionShort;
-						}
-						break;
-					case "ICD9CM":
-						ICD9 iCD9=ICD9s.GetByCode(_listEhrCodes[i].CodeValue);
-						if(iCD9!=null) {
-							descript=iCD9.Description;
-						}
-						break;
-					case "ICD10CM":
-						Icd10 icd10=Icd10s.GetByCode(_listEhrCodes[i].CodeValue);
-						if(icd10!=null) {
-							descript=icd10.Description;
-						}
-						break;
-					case "RXNORM":
-						descript=RxNorms.GetDescByRxCui(_listEhrCodes[i].CodeValue);
-						break;
-					case "SNOMEDCT":
-						Snomed snomed=Snomeds.GetByCode(_listEhrCodes[i].CodeValue);
-						if(snomed!=null) {
-							descript=snomed.Description;
-						}
-						break;
+				string descript=GetDescription(_listEhrCodes[i]);
+				if(i==idxSavedCode) {
+					descript=Lan.g(this,"(saved code, not in this list)")+" "+descript;
 				}
 				row.Cells.Add(descript);
 				gridMain.ListGridRows.Add(row);
@@ -152,6 +120,45 @@ namespace OpenPmsDental {
 				gridMain.SetSelected(idxSelected,true);
 				gridMain.ScrollToIndex(idxSelected);
 			}
+		}
+
+		///<summary>The code's description from the table of its code system, or "" when the table does not hold it.</summary>
+		private string GetDescription(EhrCode ehrCode) {
+			switch(ehrCode.CodeSystem) {
+				case "CPT":
+					Cpt cpt=Cpts.GetByCode(ehrCode.CodeValue);
+					if(cpt!=null) {
+						return cpt.Description;
+					}
+					break;
+				case "HCPCS":
+					Hcpcs hcpcs=Hcpcses.GetByCode(ehrCode.CodeValue);
+					if(hcpcs!=null) {
+						return hcpcs.DescriptionShort;
+					}
+					break;
+				case "ICD9CM":
+					ICD9 iCD9=ICD9s.GetByCode(ehrCode.CodeValue);
+					if(iCD9!=null) {
+						return iCD9.Description;
+					}
+					break;
+				case "ICD10CM":
+					Icd10 icd10=Icd10s.GetByCode(ehrCode.CodeValue);
+					if(icd10!=null) {
+						return icd10.Description;
+					}
+					break;
+				case "RXNORM":
+					return RxNorms.GetDescByRxCui(ehrCode.CodeValue);
+				case "SNOMEDCT":
+					Snomed snomed=Snomeds.GetByCode(ehrCode.CodeValue);
+					if(snomed!=null) {
+						return snomed.Description;
+					}
+					break;
+			}
+			return "";
 		}
 
 		private void comboCodeSet_SelectionChangeCommitted(object sender,EventArgs e) {
@@ -255,8 +262,11 @@ namespace OpenPmsDental {
 						}
 						selectedCodeSet=listVSFound[inputBox.SelectedIndex].Split(new char[] { ' ' },StringSplitOptions.RemoveEmptyEntries)[0];
 					}
-					else {//the code must belong to at least one value set, since count in listVSFound is not greater than 1, it must be a code from exactly one set, use that for the InterventionCodeSet
+					else if(listVSFound.Count==1) {//a code from exactly one set, use that for the InterventionCodeSet
 						selectedCodeSet=listVSFound[0].Split(new char[] { ' ' },StringSplitOptions.RemoveEmptyEntries)[0];
+					}
+					else {//a saved code that is in none of the 2027 lists (FillGrid keeps it as a row): it keeps its code set
+						selectedCodeSet=InterventionCur.CodeSet.ToString();
 					}
 				}
 				InterventionCur.CodeSet=(InterventionCodeSet)Enum.Parse(typeof(InterventionCodeSet),selectedCodeSet);

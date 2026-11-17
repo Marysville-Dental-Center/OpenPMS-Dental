@@ -396,12 +396,14 @@ namespace OpenPmsDentalBusiness {
 			Crud.DiseaseDefCrud.Sync(listDiseaseDefs,listDiseaseDefsOld);
 		}
 
-		///<summary>Get all diseasedefs that have a pregnancy code that applies to the three CQM measures with pregnancy as an exclusion condition.</summary>
+		///<summary>Get all diseasedefs that have a pregnancy code that applies to the three CQM measures with pregnancy as an exclusion condition: a
+		///code of the imported "Pregnancy" value set (CMS69, CMS155, CMS165) alone, whose code table is loaded (EHR-7; the 2014 measures also
+		///required a second pregnancy set that the 2027 release no longer has).</summary>
 		public static List<DiseaseDef> GetAllPregDiseaseDefs() {
 			if(RemotingClient.MiddleTierRole==MiddleTierRole.ClientMT) {
 				return Meth.GetObject<List<DiseaseDef>>(MethodBase.GetCurrentMethod());
 			}
-			Dictionary<string,string> dictionaryEhrCodesPregCQMs=EhrCodes.GetCodesExistingInAllSets(new List<string> { "2.16.840.1.113883.3.600.1.1623","2.16.840.1.113883.3.526.3.378" });
+			Dictionary<string,string> dictionaryEhrCodesPregCQMs=EhrCodes.GetCodesExistingInAllSets(new List<string> { CqmCatalog.OID_PREGNANCY });
 			List<DiseaseDef> listDiseaseDefsToReturn=new List<DiseaseDef>();
 			List<DiseaseDef> listDiseaseDefs=GetDeepCopy();
 			for(int i=0;i<listDiseaseDefs.Count;i++) {

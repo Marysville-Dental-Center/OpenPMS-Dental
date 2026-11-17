@@ -92,3 +92,22 @@ release channel keeps one block, 100 to 103, below every range; `ForkEnums.ListE
 - Searched and found safe: `FormAudit` (`Enum.GetValues`), `FrmAlertCategoryEdit` (`Enum.GetValues`), the alert menu (switch on the
   value), `GroupPermissions` (no arrays), `SecurityLogs` (`smallint` column). `EnumPermType` columns (`grouppermission.PermType`,
   `securitylog.PermType`) are `smallint(6)`, which holds 10000.
+
+## Its own rule: EhrNotPerformedItem (not stored, indexed by position)
+
+`EhrNotPerformedItem` (`TableTypes/EhrNotPerformed.cs`) names the items of the EHR "not performed" windows. It is **not stored**: an
+`ehrnotperformed` row stores its code and code system, and the windows work the item out from the code (`CqmDataEntry.GetNotPerformedItem`,
+package EHR-7). The windows index it **by position**: the Add button lists `Enum.GetNames` and passes the picked index
+(`FormEhrNotPerformed.butAdd_Click`), the edit window takes `SelectedItemIndex` and names the item by `Enum.GetNames(...)[index]`
+(`FormEhrNotPerformedEdit`), and the vital sign and medical windows pass `(int)` of an item. A value from 10000 would break every one of
+them, so the rule of the ranges above does not apply. Instead:
+
+- A fork-only value of `EhrNotPerformedItem` is the **next number** after the last value, with no gap, and its comment names its feature.
+- A value is never renumbered or reused, as for every enum here. Open Dental has not changed this enum since its EHR code (its four values
+  0 to 3); if a later Open Dental release adds a value, a port must stop and the owner decides, as for the tinyint enums.
+- `ForkEnumRangeTests` does not see it (it is below 10000 and no column stores it); `EhrTests` (`PickListTests`) checks that the values
+  are 0 to 4 without a gap and that this table lists the value.
+
+| Enum                | Value | Name        | Feature                                                                 |
+|---------------------|-------|-------------|-------------------------------------------------------------------------|
+| EhrNotPerformedItem | 4     | BMIFollowUp | EHR-7, E-34: CMS69's BMI follow-up not performed, for its exception     |

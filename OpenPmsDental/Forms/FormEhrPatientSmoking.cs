@@ -105,7 +105,7 @@ namespace OpenPmsDental {
 			FillGridInterventions();
 			Cursor=Cursors.Default;
 			#region ComboAssessmentType
-			_listAssessmentCodes=EhrCodes.GetForValueSetOIDs(new List<string> { "2.16.840.1.113883.3.526.3.1278" },true);//'Tobacco Use Screening' value set
+			_listAssessmentCodes=EhrCodes.GetForValueSetOIDs(new List<string> { CqmCatalog.OID_TOBACCO_SCREENING },true);//'Tobacco Use Screening' value set
 			if(_listAssessmentCodes.Count==0) {//Happens until the office imports the value sets (Setup, Chart, EHR, Code System Importer), or while the code system's table of these codes is not loaded
 				MsgBox.Show(this,"The codes used for Tobacco Use Screening assessments do not exist in the LOINC table in your database.  You must run the Code System Importer tool in Setup | Chart | EHR to import this code set.");
 				DialogResult=DialogResult.Cancel;
@@ -122,9 +122,9 @@ namespace OpenPmsDental {
 			#endregion ComboAssessmentType
 			#region ComboTobaccoStatus
 			//list is filled with the EhrCodes for all tobacco user statuses using the CQM value set
-			_listUserCodes=EhrCodes.GetForValueSetOIDs(new List<string> { "2.16.840.1.113883.3.526.3.1170" },true).OrderBy(x => x.Description).ToList();
+			_listUserCodes=EhrCodes.GetForValueSetOIDs(new List<string> { CqmCatalog.OID_TOBACCO_USER },true).OrderBy(x => x.Description).ToList();
 			//list is filled with the EhrCodes for all tobacco non-user statuses using the CQM value set
-			_listNonUserCodes=EhrCodes.GetForValueSetOIDs(new List<string> { "2.16.840.1.113883.3.526.3.1189" },true).OrderBy(x => x.Description).ToList();
+			_listNonUserCodes=EhrCodes.GetForValueSetOIDs(new List<string> { CqmCatalog.OID_TOBACCO_NON_USER },true).OrderBy(x => x.Description).ToList();
 			_listRecentTobaccoCodes=EhrCodes.GetForEventTypeByUse(EhrMeasureEventType.TobaccoUseAssessed);
 			//list is filled with any SNOMEDCT codes that are attached to EhrMeasureEvents for the patient that are not in the User and NonUser lists
 			_listCustomTobaccoCodes=new List<EhrCode>();
@@ -155,10 +155,10 @@ namespace OpenPmsDental {
 			#endregion ComboTobaccoStatus
 			#region ComboInterventionType and ComboInterventionCode
 			//list is filled with EhrCodes for counseling interventions using the CQM value set
-			_listCounselInterventionCodes=EhrCodes.GetForValueSetOIDs(new List<string> { "2.16.840.1.113883.3.526.3.509" },true).OrderBy(x => x.Description).ToList();
+			_listCounselInterventionCodes=EhrCodes.GetForValueSetOIDs(new List<string> { CqmCatalog.OID_TOBACCO_COUNSELING },true).OrderBy(x => x.Description).ToList();
 			//list is filled with EhrCodes for medication interventions using the CQM value set
-			_listMedInterventionCodes=EhrCodes.GetForValueSetOIDs(new List<string> { "2.16.840.1.113883.3.526.3.1190" },true).OrderBy(x => x.Description).ToList();
-			_listRecentIntvCodes=EhrCodes.GetForIntervAndMedByUse(InterventionCodeSet.TobaccoCessation,new List<string> { "2.16.840.1.113883.3.526.3.1190" });
+			_listMedInterventionCodes=EhrCodes.GetForValueSetOIDs(new List<string> { CqmCatalog.OID_TOBACCO_PHARMACOTHERAPY },true).OrderBy(x => x.Description).ToList();
+			_listRecentIntvCodes=EhrCodes.GetForIntervAndMedByUse(InterventionCodeSet.TobaccoCessation,new List<string> { CqmCatalog.OID_TOBACCO_PHARMACOTHERAPY });
 			_listInterventionCodes=new List<EhrCode>();
 			//default to all interventions (couseling and medication) in the intervention dropdown box
 			radioRecentInterventions.Checked=true;//causes combo box and _listInterventionCodes to be filled with all intervention codes
@@ -235,7 +235,7 @@ namespace OpenPmsDental {
 			#endregion
 			#region CessationMedications
 			//Tobacco Use Cessation Pharmacotherapy Value Set
-			string[] arrayRxCuiStrings=EhrCodes.GetForValueSetOIDs(new List<string> { "2.16.840.1.113883.3.526.3.1190" },true)
+			string[] arrayRxCuiStrings=EhrCodes.GetForValueSetOIDs(new List<string> { CqmCatalog.OID_TOBACCO_PHARMACOTHERAPY },true)
 				.Select(x => x.CodeValue).ToArray();
 			//arrayRxCuiStrings will contain 41 RxCui strings for tobacco cessation medications if those exist in the rxnorm table
 			List<MedicationPat> listMedPats=MedicationPats.Refresh(PatCur.PatNum,true).FindAll(x => arrayRxCuiStrings.Contains(x.RxCui.ToString()));

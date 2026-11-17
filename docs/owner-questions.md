@@ -1014,8 +1014,13 @@ and E-10b), where each is set out in full with its recommendation. You first ans
   settings, Open Dental's own service programs included: own process, automatic start, LocalSystem, display name = service name. InstallUtil
   used to refuse a program that had no installer of its own.
 
-- **E-20 (the UMLS record of the 2026-05-14 value set files):** you cannot download them yet (2026-11-15). EHR-6a and EHR-7 stay
-  unmerged, and S3a-M3 waits for EHR-7. Nothing else waits.
+- **E-20 (the UMLS record of the 2026-05-14 value set files): answered (2026-11-16).** You downloaded the release yourself, with your own
+  UMLS licence (the value sets in VSAC's three sortings, the Direct Reference Codes file and the Code System Versions file). The record is in
+  `docs/port-notes/EHR-6.md`, section 0: names, sizes, sheets, headers, row positions, code systems and versions, counts. Nothing of the files
+  is in the repository. The office picks the workbook sorted by CMS ID with the two other files; the other two sortings are not needed.
+  EHR-6a-R fixed the importer to the record (E-30: only the seven measures' value sets are kept) and imported your three files on a scratch
+  database: 7 of 7 measures at the 2027 versions, all 68 value sets, the 8 direct-code roles resolved. EHR-6a then merges, and EHR-7 is redone
+  on top.
 
 - **LOINC's notice years (EHR-6a, `THIRD-PARTY-NOTICES.txt`):** "1995-2026" confirmed by you (2026-11-15).
 

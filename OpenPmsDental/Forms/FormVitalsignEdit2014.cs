@@ -15,7 +15,11 @@ using CodeBase;
 namespace OpenPmsDental {
 	public partial class FormVitalsignEdit2014:FormODBase {
 		public Vitalsign VitalsignCur;
-		public int AgeBeforeJanFirst;
+		///<summary>The patient's age on the day taken, in whole years (Vitalsigns.GetAgeForVitalSignWindow): the BMI percentile at 3 to 17, the over-
+		///or underweight class from 18, the child counseling group under 18 (EHR-7, E-35; before, the age "before January 1" of the year taken, so
+		///a 17-year-old was in neither group). A patient without a birth date is an adult, as before EHR-7 (EHR-7-R); -1 for a day before the
+		///birth date.</summary>
+		public int AgeOnDateTaken;
 		private Patient _patient;
 		private List<Loinc> _listLoincsHeightCodes;
 		private List<Loinc> _listLoincsWeightCodes;
@@ -46,7 +50,7 @@ namespace OpenPmsDental {
 			groupInterventions.Visible=false;
 			_patient=Patients.GetPat(VitalsignCur.PatNum);
 			textDateTaken.Text=VitalsignCur.DateTaken.ToShortDateString();
-			AgeBeforeJanFirst=PIn.Date(textDateTaken.Text).Year-_patient.Birthdate.Year-1;
+			AgeOnDateTaken=Vitalsigns.GetAgeForVitalSignWindow(_patient.Birthdate,PIn.Date(textDateTaken.Text));
 			if(VitalsignCur.Height!=0) {
 				textHeight.Text=VitalsignCur.Height.ToStringNetFx();
 			}
@@ -303,7 +307,7 @@ namespace OpenPmsDental {
 			textBMI.Text=bmi.ToStringNetFx("n1");
 			labelWeightCode.Text=CalcOverUnderBMIHelper(bmi);
 			int bmiPercentile=-1;
-			if(AgeBeforeJanFirst<17 && AgeBeforeJanFirst>2) {//calc and show BMI percentile if patient is >= 3 and < 17 on 01/01 of the year of the exam
+			if(Vitalsigns.IsBMIPercentileAge(AgeOnDateTaken)) {//calc and show BMI percentile if patient is 3 to 17 on the day of the exam (EHR-7, E-35)
 				bmiPercentile=Vitalsigns.GetBMIPercentile(bmi,_patient,PIn.Date(textDateTaken.Text),_listGenderAge_LMSs);
 			}
 			if(bmiPercentile>-1) {
@@ -326,14 +330,14 @@ namespace OpenPmsDental {
 			bool isIntGroupVisible=false;
 			string childGroupLabel="Child Counseling for Nutrition and Physical Activity";
 			string overUnderGroupLabel="Intervention for BMI Above or Below Normal";
-			if(AgeBeforeJanFirst<17) {
+			if(Vitalsigns.IsChildCounselingAge(AgeOnDateTaken)) {//under 18 on the day of the exam
 				isIntGroupVisible=true;
 				if(groupInterventions.Text!=childGroupLabel) {
 					groupInterventions.Text=childGroupLabel;
 				}
 				FillGridInterventions(true);
 			}
-			else if(AgeBeforeJanFirst>=18 && labelWeightCode.Text!="") {//if 18 or over and given an over/underweight code due to BMI
+			else if(Vitalsigns.IsWeightClassAge(AgeOnDateTaken) && labelWeightCode.Text!="") {//if 18 or over and given an over/underweight code due to BMI
 				isIntGroupVisible=true;
 				if(groupInterventions.Text!=overUnderGroupLabel) {
 					groupInterventions.Text=overUnderGroupLabel;
@@ -348,7 +352,7 @@ namespace OpenPmsDental {
 		}
 
 		private string CalcOverUnderBMIHelper(float bmi) {
-			_interventionCodeSet=Vitalsigns.GetBMIInterventionCode(bmi,AgeBeforeJanFirst);
+			_interventionCodeSet=Vitalsigns.GetBMIInterventionCode(bmi,AgeOnDateTaken);
 			switch(_interventionCodeSet) {
 				case InterventionCodeSet.BelowNormalWeight:
 					return "Underweight";
@@ -392,8 +396,8 @@ namespace OpenPmsDental {
 				}
 				//if still meds that have start date within exam date and exam date -6 months, check the rxnorm against valid ehr meds
 				if(listMedicationPats.Count>0) {
-					List<EhrCode> listEhrCodes=EhrCodes.GetForValueSetOIDs(new List<string> { "2.16.840.1.113883.3.600.1.1498","2.16.840.1.113883.3.600.1.1499" },true);//Above Normal Medications RxNorm Value Set, Below Normal Medications RxNorm Value Set
-					//listEhrMeds will only contain 7 medications for above/below normal weight and only if those exist in the rxnorm table
+					List<EhrCode> listEhrCodes=EhrCodes.GetForValueSetOIDs(new List<string> { CqmCatalog.OID_BMI_MEDICATIONS_ABOVE,CqmCatalog.OID_BMI_MEDICATIONS_BELOW },true);//Medications for Above/Below Normal BMI (the 2027 catalog, EHR-7)
+					//listEhrMeds will only contain the medications for above/below normal weight and only if those exist in the rxnorm table
 					for(int i=listMedicationPats.Count-1;i>-1;i--) {
 						bool isFound=false;
 						for(int j=0;j<listEhrCodes.Count;j++) {
@@ -530,9 +534,9 @@ namespace OpenPmsDental {
 		///<summary>If they change the date of the exam and it is attached to a pregnancy problem and the date is now outside the active dates of the problem, tell them you are removing the problem and unchecking the pregnancy box.</summary>
 		private void textDateTaken_Leave(object sender,EventArgs e) {
 			DateTime dateExam=PIn.Date(textDateTaken.Text);
-			AgeBeforeJanFirst=dateExam.Year-_patient.Birthdate.Year-1;//This is how old this patient was before any birthday in the year the vital sign was taken, can be negative if patient born the year taken or if value in textDateTaken is empty or not a valid date
+			AgeOnDateTaken=Vitalsigns.GetAgeForVitalSignWindow(_patient.Birthdate,dateExam);//This is how old this patient was on the day the vital sign was taken (EHR-7, E-35), an adult without a birth date (EHR-7-R), -1 if value in textDateTaken is empty, not a valid date or before the birth date
 			if(!checkPregnant.Checked || VitalsignCur.PregDiseaseNum==0) {
-				CalcBMI();//This will use new year taken to determine age at start of that year to show over/underweight if applicable using age specific criteria
+				CalcBMI();//This will use the new day taken to determine the age, to show over/underweight if applicable using age specific criteria
 				return;
 			}
 			Disease disease=Diseases.GetOne(VitalsignCur.PregDiseaseNum);
@@ -686,7 +690,7 @@ Do you want to remove the pregnancy diagnosis?"))
 			formInterventionEdit.IsSelectionMode=true;
 			formInterventionEdit.ShowDialog();
 			if(formInterventionEdit.DialogResult==DialogResult.OK) {
-				bool isChild=AgeBeforeJanFirst<17;
+				bool isChild=Vitalsigns.IsChildCounselingAge(AgeOnDateTaken);
 				FillGridInterventions(isChild);
 			}
 		}
@@ -706,7 +710,7 @@ Do you want to remove the pregnancy diagnosis?"))
 				formMedPat.IsNew=false;
 				formMedPat.ShowDialog();
 			}
-			FillGridInterventions(AgeBeforeJanFirst<17);
+			FillGridInterventions(Vitalsigns.IsChildCounselingAge(AgeOnDateTaken));
 		}
 
 		private void butDelete_Click(object sender,EventArgs e) {

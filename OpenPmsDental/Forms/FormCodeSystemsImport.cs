@@ -12,9 +12,10 @@ using OpenPmsDentalBusiness;
 
 namespace OpenPmsDental {
 	///<summary>Imports CPT codes from the CPT data file (.zip) that the office licenses from the American Medical Association, and the eCQM value sets
-	///from the office's own download of VSAC's June 2013 EP release (EhrValueSetImport; docs/specs/ehr-rebuild-plan.md, EHR-2), which the EHR pick
-	///lists and the 2014 quality measures use. Both imports need the Setup permission (checked here, as well as by the setup window that hides the
-	///button) and a direct connection.
+	///from the office's own download of VSAC's release for the 2027 measures, published 2026-05-14, with its Direct Reference Codes and Code System
+	///Versions files, picked together (EhrValueSetImport; docs/specs/ehr-rebuild-plan.md, EHR-2; docs/specs/ehr-2027-measures-plan.md, EHR-6a),
+	///which the EHR pick lists and the quality measures use. Both imports need the Setup permission (checked here, as well as by the setup window
+	///that hides the button) and a direct connection.
 	///The other code systems (CDCREC, CVX, HCPCS, ICD-9-CM, ICD-10-CM, LOINC, RxNorm, SNOMED CT, SOP and UCUM) used to be downloaded from Open Dental's
 	///servers in Open Dental's own file format. Those downloads are removed and not replaced; that data is loaded into the database directly
 	///(owner decision of 2026-10-18). The code-system status below the imports shows, for each code system, the rows in its table next to the
@@ -65,7 +66,7 @@ namespace OpenPmsDental {
 				gridMain.ListGridRows.Add(row);
 			}
 			GridRow rowValueSets=new GridRow();
-			rowValueSets.Cells.Add(Lan.g("CodeSystemImporter","eCQM value sets (VSAC, June 2013 EP release)"));
+			rowValueSets.Cells.Add(Lan.g("CodeSystemImporter","eCQM value sets (VSAC, eligible clinicians, 2026-05-14)"));
 			rowValueSets.Cells.Add(GetValueSetVersionText(EhrValueSetImport.GetRelease()));
 			rowValueSets.Cells.Add(_statusValueSets);
 			rowValueSets.Tag=TAG_VALUE_SETS;
@@ -76,25 +77,36 @@ namespace OpenPmsDental {
 			butImportValueSets.Enabled=(isSetup && !UpdateCodeSystemThread.IsRunning);
 		}
 
-		///<summary>The value-set row's Current Version: the import's date and file, or that nothing was imported.</summary>
+		///<summary>The value-set row's Current Version: the import's date and file, or that nothing was imported. A record of another release than
+		///the one this program needs (EHR-2's import of VSAC's June 2013 release, kept in the same preference row) names that release and says that
+		///the 2026-05-14 release has to be imported.</summary>
 		public static string GetValueSetVersionText(EhrValueSetRelease release) {
 			if(release==null) {
 				return Lan.g("CodeSystemImporter","not imported");
 			}
-			string date=release.DateImportedUtc.Length>=10 ? release.DateImportedUtc.Substring(0,10) : release.DateImportedUtc;
+			string dateImported=release.DateImportedUtc??"";
+			string date=dateImported.Length>=10 ? dateImported.Substring(0,10) : dateImported;
+			if(release.Label!=EhrValueSetImport.RELEASE_LABEL) {
+				string label=string.IsNullOrWhiteSpace(release.Label) ? Lan.g("CodeSystemImporter","an earlier release") : release.Label;
+				return Lan.g("CodeSystemImporter","old release loaded")+" ("+label+", "+Lan.g("CodeSystemImporter","imported")+" "+date+": "
+					+release.FileName+"). "+Lan.g("CodeSystemImporter","Import the release this program needs")+": "+EhrValueSetImport.RELEASE_LABEL+".";
+			}
 			return Lan.g("CodeSystemImporter","imported")+" "+date+": "+release.FileName;
 		}
 
-		///<summary>The code-system status (EHR-2, step 4): each code system's rows in the database next to the minimum the code list expects, and the
-		///value-set codes of that system.</summary>
+		///<summary>The code-system status (EHR-2, step 4): each code system's rows in the database next to the minimum the code list expects, the
+		///value-set codes of that system, apart from them its direct reference codes, and (EHR-6a, section 7.4) the loaded table's version next to the version the imported release names.</summary>
 		private void FillGridStatus() {
 			List<EhrCodeSystemStatus> listStatuses=EhrCodes.GetCodeSystemStatuses();
 			gridStatus.BeginUpdate();
 			gridStatus.Columns.Clear();
-			gridStatus.Columns.Add(new GridColumn(Lan.g("TableCodeSystemStatus","Code System"),150));
-			gridStatus.Columns.Add(new GridColumn(Lan.g("TableCodeSystemStatus","Rows in Database"),120,HorizontalAlignment.Right));
-			gridStatus.Columns.Add(new GridColumn(Lan.g("TableCodeSystemStatus","Minimum Expected"),120,HorizontalAlignment.Right));
-			gridStatus.Columns.Add(new GridColumn(Lan.g("TableCodeSystemStatus","Value-Set Codes"),120,HorizontalAlignment.Right));
+			gridStatus.Columns.Add(new GridColumn(Lan.g("TableCodeSystemStatus","Code System"),110));
+			gridStatus.Columns.Add(new GridColumn(Lan.g("TableCodeSystemStatus","Rows in Database"),105,HorizontalAlignment.Right));
+			gridStatus.Columns.Add(new GridColumn(Lan.g("TableCodeSystemStatus","Minimum Expected"),105,HorizontalAlignment.Right));
+			gridStatus.Columns.Add(new GridColumn(Lan.g("TableCodeSystemStatus","Value-Set Codes"),100,HorizontalAlignment.Right));
+			gridStatus.Columns.Add(new GridColumn(Lan.g("TableCodeSystemStatus","Direct Codes"),80,HorizontalAlignment.Right));
+			gridStatus.Columns.Add(new GridColumn(Lan.g("TableCodeSystemStatus","Loaded Version"),95));
+			gridStatus.Columns.Add(new GridColumn(Lan.g("TableCodeSystemStatus","In the Release"),95));
 			GridColumn col=new GridColumn(Lan.g("TableCodeSystemStatus","Status"),100);
 			col.IsWidthDynamic=true;
 			gridStatus.Columns.Add(col);
@@ -105,13 +117,17 @@ namespace OpenPmsDental {
 				row.Cells.Add(status.HasTable ? status.CountInDb.ToString("N0") : "");
 				row.Cells.Add(status.HasTable ? (status.CountMinimum+1).ToString("N0") : "");
 				row.Cells.Add(status.CountValueSetCodes.ToString("N0"));
+				row.Cells.Add(status.CountDirectCodes.ToString("N0"));
+				row.Cells.Add(status.VersionLoaded);
+				row.Cells.Add(status.VersionInRelease);
 				row.Cells.Add(GetStatusText(status));
 				gridStatus.ListGridRows.Add(row);
 			}
 			gridStatus.EndUpdate();
 		}
 
-		///<summary>The status column of one code system.</summary>
+		///<summary>The status column of one code system. A loaded table older than the release's version says so; where the two versions cannot be
+		///compared (no mapping for the code system, or a version that does not follow it) both are shown and nothing is flagged.</summary>
 		public static string GetStatusText(EhrCodeSystemStatus status) {
 			if(status.CodeSystem=="AdministrativeSex") {
 				return Lan.g("CodeSystemImporter","No table needed");
@@ -120,6 +136,10 @@ namespace OpenPmsDental {
 				return Lan.g("CodeSystemImporter","No table in this program: these codes are never counted as in the database");
 			}
 			if(status.IsInDb) {
+				if(status.IsOlderThanRelease) {
+					return Lan.g("CodeSystemImporter","Loaded, but older than the release's version")+": "+status.CountCodesNewer.ToString("N0")+" "
+						+Lan.g("CodeSystemImporter","codes of the value sets are of a newer version and may be missing from the pick lists");
+				}
 				return Lan.g("CodeSystemImporter","Loaded");
 			}
 			return Lan.g("CodeSystemImporter","Load this code system's table directly");
@@ -137,14 +157,17 @@ namespace OpenPmsDental {
 			FillGrid();
 		}
 
-		///<summary>The licence prompt before the value-set file is chosen (section 8.4 of the EHR plan).</summary>
+		///<summary>The licence prompt before the three files are chosen (section 7.5 of the 2027 measures plan).</summary>
 		public static string GetValueSetLicensePrompt() {
 			return Lan.g("CodeSystemImporter","The eCQM value sets come from the Value Set Authority Center (VSAC) of the National Library of Medicine. "
-				+"Import only the file your office downloaded itself, under its own UMLS license: VSAC's June 2013 EP release, as the Excel workbook "
-				+"(.xlsx) or the SVS XML (.xml), or a .zip of either. The value sets hold codes of licensed code systems: CPT (American Medical "
-				+"Association), CDT (American Dental Association) and SNOMED CT, under the terms of the UMLS license and its appendix, for your "
-				+"office's own use. Do not pass the codes on. This program ships none of them.")
-				+"\r\n\r\n"+Lan.g("CodeSystemImporter","The import replaces every value-set code in the database. Click OK to choose the file.");
+				+"Import only the files your office downloaded itself, under its own UMLS license: VSAC's eCQM value sets published 2026-05-14 for the "
+				+"2027 performance period, sorted by CMS ID (the Excel workbook, as VSAC gives it in a .zip, or the SVS XML), with that release's Direct "
+				+"Reference Codes file and its Code System Versions file. Pick the three files together; the two other sortings of the value sets are "
+				+"not needed. They hold codes of "
+				+"licensed code systems: CPT (American Medical Association), CDT (American Dental Association) and SNOMED CT, under the terms of the UMLS "
+				+"license and its appendix, for your office's own use. Do not pass the codes on. This program ships none of them.")
+				+"\r\n\r\n"+Lan.g("CodeSystemImporter","The import replaces every value-set code and direct reference code in the database. Click OK to "
+				+"choose the three files.");
 		}
 
 		private void butImportValueSets_Click(object sender,EventArgs e) {
@@ -158,65 +181,80 @@ namespace OpenPmsDental {
 			if(!MsgBox.Show(MsgBoxButtons.OKCancel,GetValueSetLicensePrompt())) {
 				return;
 			}
-			string path;
+			List<string> listPaths;
 			using(OpenFileDialog openFileDialog=new OpenFileDialog()) {
-				openFileDialog.Title=Lan.g("CodeSystemImporter","Choose the VSAC value-set file");
+				openFileDialog.Title=Lan.g("CodeSystemImporter","Choose the three files of the VSAC release");
 				openFileDialog.InitialDirectory=Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-				openFileDialog.Filter=Lan.g("CodeSystemImporter","VSAC value sets")+" (*.xlsx;*.xml;*.zip)|*.xlsx;*.xml;*.zip";
+				openFileDialog.Filter=Lan.g("CodeSystemImporter","VSAC files")+" (*.xlsx;*.xml;*.zip)|*.xlsx;*.xml;*.zip";
 				openFileDialog.RestoreDirectory=true;
-				openFileDialog.Multiselect=false;
+				openFileDialog.Multiselect=true;//The value sets, the Direct Reference Codes and the Code System Versions, in one pick (section 7.1).
 				if(openFileDialog.ShowDialog()!=DialogResult.OK) {
 					return;
 				}
-				path=openFileDialog.FileName;
+				listPaths=openFileDialog.FileNames.ToList();
 			}
-			EhrValueSetFile ehrValueSetFile=null;
+			if(listPaths.Count!=3) {//Refused before any file is read: each parsed value-set file is held in memory (a 32-bit process).
+				string refusal=EhrValueSetImport.GetPickCountText(listPaths.Count);
+				MsgBox.Show(refusal);
+				SetStatusValueSets(Lan.g("CodeSystemImporter","Files refused, nothing imported")+": "+refusal);
+				return;
+			}
+			EhrValueSetPick pick=null;
 			try {
-				if(new FileInfo(path).Length>EhrValueSetImport.MAX_FILE_BYTES) {
-					SetStatusValueSets(Lan.g("CodeSystemImporter","The file is larger than the importer reads."));
-					return;
+				foreach(string path in listPaths) {
+					if(new FileInfo(path).Length>EhrValueSetImport.MAX_FILE_BYTES) {
+						SetStatusValueSets(Lan.g("CodeSystemImporter","A file is larger than the importer reads")+": "+Path.GetFileName(path));
+						return;
+					}
 				}
 				ProgressWin progressWin=new ProgressWin();
 				progressWin.StartingMessage=Lan.g(this,"Reading the value sets...");
 				progressWin.ShowCancelButton=false;
-				progressWin.ActionMain=() => {
-					//Read from the file as a stream, never whole into memory (this is a 32-bit process).
-					using(FileStream fileStream=new FileStream(path,FileMode.Open,FileAccess.Read,FileShare.Read)) {
-						ehrValueSetFile=EhrValueSetImport.Parse(path,fileStream);
-					}
-				};
+				//Each file is read from a stream, never whole into memory (this is a 32-bit process), under one row budget for the three, and a second
+				//file of a kind already read is refused at its first row, so the pick never holds more than one parsed value-set file.
+				progressWin.ActionMain=() => pick=EhrValueSetImport.ParsePick(listPaths,
+					index => new FileStream(listPaths[index],FileMode.Open,FileAccess.Read,FileShare.Read));
 				progressWin.ShowDialog();
 			}
 			catch(Exception ex) {
 				SetStatusValueSets(Lan.g("CodeSystemImporter","Import failed")+"! -- "+ex.Message);
 				return;
 			}
-			if(ehrValueSetFile==null) {
+			if(pick==null) {
 				return;
 			}
-			using(MsgBoxCopyPaste msgBoxCopyPaste=new MsgBoxCopyPaste(EhrValueSetImport.GetReport(ehrValueSetFile))) {
-				msgBoxCopyPaste.Text=Lan.g("CodeSystemImporter","Value-set file");
+			using(MsgBoxCopyPaste msgBoxCopyPaste=new MsgBoxCopyPaste(EhrValueSetImport.GetReport(pick))) {
+				msgBoxCopyPaste.Text=Lan.g("CodeSystemImporter","Value-set files");
 				msgBoxCopyPaste.ShowDialog();
 			}
-			if(ehrValueSetFile.IsRefused) {
-				SetStatusValueSets(Lan.g("CodeSystemImporter","File refused, nothing imported")+": "+ehrValueSetFile.ListRefusals[0]);
+			if(pick.IsRefused) {
+				SetStatusValueSets(Lan.g("CodeSystemImporter","Files refused, nothing imported")+": "+pick.ListRefusals[0]);
 				return;
 			}
-			if(!MsgBox.Show(MsgBoxButtons.OKCancel,Lan.g("CodeSystemImporter","Replace every value-set code in the database with the")+" "
-				+ehrValueSetFile.ListEhrCodes.Count+" "+Lan.g("CodeSystemImporter","codes of this file?")))
+			if(!MsgBox.Show(MsgBoxButtons.OKCancel,Lan.g("CodeSystemImporter","Replace every value-set code and direct reference code in the database with the")
+				+" "+pick.ListEhrCodesAll.Count+" "+Lan.g("CodeSystemImporter","codes of these three files?")))
 			{
 				return;
 			}
 			string error="";
+			bool areRowsReplaced=false;
 			try {
 				ProgressWin progressWin=new ProgressWin();
 				progressWin.StartingMessage=Lan.g(this,"Importing the value sets...");
 				progressWin.ShowCancelButton=false;
-				progressWin.ActionMain=() => error=EhrValueSetImport.Import(ehrValueSetFile);
+				progressWin.ActionMain=() => error=EhrValueSetImport.Import(pick,out areRowsReplaced);
 				progressWin.ShowDialog();
 			}
 			catch(Exception ex) {
 				error=ex.Message;
+			}
+			if(error!="" && areRowsReplaced) {
+				//The rows are the new ones, but the release record was not saved (it may be half written): not "Import failed".
+				MsgBox.Show(error);
+				DataValid.SetInvalid(InvalidType.EhrCodes,InvalidType.Prefs);
+				SetStatusValueSets(Lan.g("CodeSystemImporter","Codes replaced, release not recorded")+"! -- "+error);
+				FillGridStatus();
+				return;
 			}
 			if(error!="") {
 				MsgBox.Show(error);
@@ -229,8 +267,8 @@ namespace OpenPmsDental {
 			//Reads the codes again here (the IsInDb flags too) and tells the other workstations and the Middle Tier server to.
 			DataValid.SetInvalid(InvalidType.EhrCodes,InvalidType.Prefs);
 			SetStatusValueSets(Lan.g("CodeSystemImporter","Import complete")+"! -- "+Lan.g("CodeSystemImporter","Number of codes imported")+": "
-				+ehrValueSetFile.ListEhrCodes.Count+" "+Lan.g("CodeSystemImporter","in")+" "+ehrValueSetFile.CountValueSets+" "
-				+Lan.g("CodeSystemImporter","value sets"));
+				+pick.FileValueSets.ListEhrCodes.Count+" "+Lan.g("CodeSystemImporter","in")+" "+pick.FileValueSets.CountValueSets+" "
+				+Lan.g("CodeSystemImporter","value sets")+", "+pick.ListEhrCodesDirect.Count+" "+Lan.g("CodeSystemImporter","direct reference codes"));
 			FillGridStatus();
 		}
 

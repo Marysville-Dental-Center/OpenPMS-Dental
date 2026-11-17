@@ -112,24 +112,78 @@ namespace OpenPmsDentalBusiness{
 			return bmi;
 		}
 
-		///<summary>Takes in bmi and age and returns an intervention code. Possible return codes are None, Nutrition, BelowNormalWeight, and AboveNormalWeight.</summary>
-		public static InterventionCodeSet GetBMIInterventionCode(float bmi, int ageBeforeJanFirst) {
-			if(ageBeforeJanFirst<18) {//Do not clasify children as over/underweight
+		///<summary>The youngest age, in whole years on the day taken, that gets a BMI percentile (EHR-7, E-35: CMS155 counts ages 3 to 17; the LMS
+		///table covers 36 to 215 months).</summary>
+		public const int AGE_BMI_PERCENTILE_MIN=3;
+		///<summary>The oldest age, in whole years on the day taken, that gets a BMI percentile (EHR-7, E-35).</summary>
+		public const int AGE_BMI_PERCENTILE_MAX=17;
+		///<summary>From this age on the day taken, a BMI is classed over- or underweight (CMS69 counts patients 18 and older); below it, the child
+		///counseling group (CMS155) applies (EHR-7, E-35).</summary>
+		public const int AGE_ADULT=18;
+
+		///<summary>The patient's age on the day the vital sign is taken, in whole years, as CQL's AgeInYearsAt counts it: the years from the birth date
+		///to dateTaken, less one before the birthday of that year. -1 when the birth date is not known (before 1880) or after dateTaken. The vital sign
+		///window and the eForm import take the BMI percentile, the over- or underweight class and the child counseling group from it (EHR-7, E-35;
+		///before, the age "before January 1" of the year taken).</summary>
+		public static int GetAgeOnDateTaken(DateTime birthdate,DateTime dateTaken) {
+			Meth.NoCheckMiddleTierRole();
+			if(birthdate.Year<1880 || dateTaken.Date<birthdate.Date) {
+				return -1;
+			}
+			int years=dateTaken.Year-birthdate.Year;
+			if(dateTaken.Month<birthdate.Month || (dateTaken.Month==birthdate.Month && dateTaken.Day<birthdate.Day)) {//No birthday yet in that year
+				years--;
+			}
+			return years;
+		}
+
+		///<summary>The age the vital sign window classes the patient by: GetAgeOnDateTaken, except that a patient without a birth date (before 1880)
+		///is an adult (AGE_ADULT), as the window classed one before EHR-7, whose age "before January 1" of a missing birth date was about 2,000 years
+		///(EHR-7-R, the lead's decision of 2026-11-15). Such a patient gets no BMI percentile, the adult interventions and the over- or underweight
+		///class of the 2027 range. A day taken before a known birth date stays -1 (not classed). The eForm import keeps its own rule (no percentile
+		///and no weight code without a birth date, as before EHR-7).</summary>
+		public static int GetAgeForVitalSignWindow(DateTime birthdate,DateTime dateTaken) {
+			Meth.NoCheckMiddleTierRole();
+			if(birthdate.Year<1880) {//No birth date: an adult, as before
+				return AGE_ADULT;
+			}
+			return GetAgeOnDateTaken(birthdate,dateTaken);
+		}
+
+		///<summary>True for an age on the day taken (GetAgeOnDateTaken) that gets a BMI percentile: 3 to 17.</summary>
+		public static bool IsBMIPercentileAge(int ageOnDateTaken) {
+			Meth.NoCheckMiddleTierRole();
+			return ageOnDateTaken>=AGE_BMI_PERCENTILE_MIN && ageOnDateTaken<=AGE_BMI_PERCENTILE_MAX;
+		}
+
+		///<summary>True for an age on the day taken that is in the child counseling group (nutrition and physical activity, CMS155): under 18.</summary>
+		public static bool IsChildCounselingAge(int ageOnDateTaken) {
+			Meth.NoCheckMiddleTierRole();
+			return ageOnDateTaken>=0 && ageOnDateTaken<AGE_ADULT;
+		}
+
+		///<summary>True for an age on the day taken whose BMI is classed over- or underweight: 18 and older.</summary>
+		public static bool IsWeightClassAge(int ageOnDateTaken) {
+			Meth.NoCheckMiddleTierRole();
+			return ageOnDateTaken>=AGE_ADULT;
+		}
+
+		///<summary>Takes in bmi and the age on the day taken (GetAgeOnDateTaken) and returns an intervention code. Possible return codes are None,
+		///Nutrition, BelowNormalWeight, and AboveNormalWeight. The normal range is CMS69v15's for every adult, 18.5 to under 25 (EHR-7, E-35; the
+		///2014 rule took 23 to under 30 from 65 on). An unknown age (-1) is not classed; the vital sign window passes an adult's age for a patient
+		///without a birth date (GetAgeForVitalSignWindow, EHR-7-R).</summary>
+		public static InterventionCodeSet GetBMIInterventionCode(float bmi,int ageOnDateTaken) {
+			Meth.NoCheckMiddleTierRole();
+			if(ageOnDateTaken<0) {//Unknown age (GetAgeOnDateTaken without a birth date, or a day before it): neither a child nor an adult
+				return InterventionCodeSet.None;
+			}
+			if(!IsWeightClassAge(ageOnDateTaken)) {//Do not clasify children as over/underweight
 				return InterventionCodeSet.Nutrition;//we will sent Nutrition to FormInterventionEdit, but this could also be a physical activity intervention
 			}
-			if(ageBeforeJanFirst<65) {
-				if(bmi<18.5) {
-					return InterventionCodeSet.BelowNormalWeight;
-				}
-				if(bmi<25) {
-					return InterventionCodeSet.None;
-				}
-				return InterventionCodeSet.AboveNormalWeight;
-			}
-			if(bmi < 23) {
+			if(bmi<18.5) {
 				return InterventionCodeSet.BelowNormalWeight;
 			}
-			if(bmi < 30) {
+			if(bmi<25) {
 				return InterventionCodeSet.None;
 			}
 			return InterventionCodeSet.AboveNormalWeight;
@@ -617,7 +671,8 @@ namespace OpenPmsDentalBusiness{
 			return -1;
 		}
 
-		///<summary>Should only be called if patient is under 18 at the time of the exam. Calculates BMI percentile.</summary>
+		///<summary>Should only be called if patient is under 18 at the time of the exam. Calculates BMI percentile. Returns -1, never throws, when no
+		///LMS row is for the patient's sex and age in months (the table covers 36 to 215 months; EHR-7).</summary>
 		public static int GetBMIPercentile(float bmi,Patient patient,DateTime dateExam,List<GenderAge_LMS> listGenderAge_LMSs) {
 			//get age at time of exam for BMI percentile in months.  Examples: 13 years 11 months = 13*12+11 = 167.
 			if(dateExam==DateTime.MinValue || dateExam<patient.Birthdate || patient.Birthdate==DateTime.MinValue) {
@@ -647,7 +702,11 @@ namespace OpenPmsDentalBusiness{
 			}
 			genderAgeGroup+=months.ToString();
 			//get L, M, and S for the patient's gender and age from list
-			List<float> listFloats=listGenderAge_LMSs.Find(x => x.GenderAge==genderAgeGroup).ListFloats;
+			GenderAge_LMS genderAge_LMS=listGenderAge_LMSs?.Find(x => x.GenderAge==genderAgeGroup);
+			if(genderAge_LMS==null || genderAge_LMS.ListFloats==null || genderAge_LMS.ListFloats.Count<3 || bmi<=0) {//Outside the LMS table's ages
+				return -1;
+			}
+			List<float> listFloats=genderAge_LMS.ListFloats;
 			//use (((bmi/M)^L)-1)/(L*S) to get z-score
 			float zScore=(((float)Math.Pow(bmi/listFloats[1],listFloats[0]))-1)/(listFloats[0]*listFloats[2]);
 			//use GetPercentile helper function to get percentile from z-score
@@ -703,7 +762,7 @@ namespace OpenPmsDentalBusiness{
 			vitalsign.BMIPercentile=bmiPercentile;//could be -1 if not in age range or error calculating percentile
 			vitalsign.BMIExamCode="";
 			if(bmiPercentile>-1 && Loincs.GetByCode("59576-9")!=null) {
-				vitalsign.BMIExamCode="59576-9";//Body mass index (BMI) [Percentile] Per age and gender, only code used for percentile, only visible if under 17 at time of exam
+				vitalsign.BMIExamCode="59576-9";//Body mass index (BMI) [Percentile] Per age and gender, only code used for percentile, only visible at 3 to 17 on the day of the exam (EHR-7)
 			}
 			if(loincHeightCode.LoincNum!=0) {
 				vitalsign.HeightExamCode=loincHeightCode.LoincCode;
