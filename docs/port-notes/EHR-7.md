@@ -130,7 +130,8 @@ through the helper) and the eForm import (`EFormVitalSigns.CreateVitalsign`) bot
 So a 17-year-old (by the old rule 16 before January 1, or 17 and in neither group) now gets a percentile and the child counseling group; an
 18-year-old the class. Rows saved before keep their percentile and weight code until they are saved again (E-35's answer).
 
-**Deviation (for the owner):** a patient without a birth date is now neither a child nor an adult (`GetBMIInterventionCode` gives None, no
+**Superseded by EHR-7-R (section 12):** the vital sign window classes a patient without a birth date as an adult again. The deviation
+as first written: a patient without a birth date is now neither a child nor an adult (`GetBMIInterventionCode` gives None, no
 percentile, no intervention group). Before, the window's age before January 1 of a missing birth date was about 2,000 years, so such a
 patient was classed as an adult. The measures cannot count a patient without a birth date either way.
 
@@ -146,7 +147,7 @@ rows as Procedure, Performed) is EHR-8's, not this package's.
   and office-visit sets).
 - The influenza item's reasons (section 4) are the package's choice: E-25 keeps the item but names no reasons; "Patient Declined" stands
   in for the 2014 "Patient Reason", and system reasons have no 2027 set.
-- The read-only "other" row has Delete disabled too (the plan says "read-only ... no save"). An office that wants such a row gone deletes it
+- (Superseded by EHR-7-R, section 12: Delete is enabled again.) The read-only "other" row has Delete disabled too (the plan says "read-only ... no save"). An office that wants such a row gone deletes it
   after importing the release, when its code usually resolves to an item.
 - `FormEncounterTool`'s Snomed button compares from index 1 of its combo, which has no "none" row, so picking the first recommended code
   through the SNOMED CT list does not select it in the combo. Open Dental's code; left as it was (not section 8's).
@@ -234,3 +235,89 @@ named it; the round-2 check reads `ehr/ehr7-1..ehr/ehr7-3`.
   deviation tests as before, 0 failed), NoHqTests 57/57, ProjectFileTests 150 (149 passed, 1 skipped), AttributionTests 50/50,
   MiddleTierMockTests 125/125, RegistryTests 39/39, P262MiscTests 75/75.
 - The merge gate is unchanged: EHR-7 merges with EHR-6a, after E-20's record.
+
+## 12. Pre-merge round EHR-7-R (`ehr/ehr7r-1`, from `ehr/ehr7-3`)
+
+E-20's record is made and EHR-6a is in `main` (`31b088f03`, with EHR-6a-R's record and reader fixes, `docs/port-notes/EHR-6.md` sections 0
+and 14), so EHR-7 merges now. This round merges `main` in, checks EHR-7 against EHR-6a-R's API, and makes the two fixes the lead decided on
+2026-11-15 (`.git/od-tools/briefs/ehr6a-fix4.md`, tail). The other three EHR-7 decisions there stay as they are: E-32's 22
+qualifying-encounter sets, E-25's influenza reasons (System Reason hidden, saved ones kept), and the empty-intervention message on load for
+new entries only. No schema change, no fork step, no project file, no package, no download; synthetic `TEST` codes only.
+
+**The merge of `main`** (`579d12f75`). `main` brought EHR-6a with EHR-6a-R, stage 3a (S3a-M3b among it) and the stage 4 work. Four files
+conflicted; each keeps both sides:
+
+- `docs/release-notes/next.md`: the summary line keeps EHR-7's list (tobacco use, interventions, not performed with the BMI follow-up item,
+  pregnancy, the recommended default codes, the vital signs' age and BMI range) on EHR-6a-R's wording. The Code System Importer section took
+  EHR-6a-R's new code-system status text and EHR-7's "Every EHR pick list reads the 2027 value sets" without a conflict.
+- `docs/specs/ehr-2027-measures-plan.md`: EHR-6a-R's status (E-20's record, the readers fixed) and EHR-6b's sentence, then EHR-7's.
+- `tests/EhrTests/ValueSetSourceTests.cs`: EHR-7's side whole: the allowlist is empty and held empty. `main`'s side differed only in the
+  allowlist (the seven EHR-7 files) and its comment.
+- `tests/EhrTests/ValueSetDbTests.cs`: EHR-7's pregnancy test ("Pregnancy" alone, by the catalog's constant; the 2014 diagnosis set gone
+  from `DiseaseDefs.cs`) with EHR-6a-R's two checks that the import keeps "Pregnancy" and not the 2014 set (E-30 keeps only the catalog's
+  value sets).
+
+`OpenPmsDental/Forms/FormMedical.cs` merged without a conflict. S3a-M3b's lines (`InitOtherConvertMenus` and its two fields: the
+`ToolStripMenuItem`s, the `ContextMenuStrip`s, the `Opening` lambdas, `DoAddGridItemsToContextMenuStrip=true`) are byte for byte as on
+`main` (no menu line differs from `main`); EHR-7's lines (the role's code of CMS68, the tobacco constants, the not-performed filter) are all
+outside that region, as `docs/port-notes/S3a-M3.md` (section "S3a-M3b", "For EHR-7's later merge") expected. The merge built through the x86
+lane with 0 errors before any change.
+
+**EHR-7's calls into EHR-6a after EHR-6a-R.** Each re-checked; none needed a change:
+
+- `CqmCatalog.RELEASE_LABEL` is now the record's release title ("VSAC eCQM Value Sets (EC, HOSPIP and HOSPOP), eCQM Update 2026-05-14,
+  2027 performance period"). `CqmDataEntry.IsReleaseImported` compares with the constant, and `PickListTests` uses the constant and a
+  made-up "TEST earlier release", so nothing names the old label.
+- E-30 (the import keeps only the catalog's value sets): every OID the windows and `CqmDataEntry` read is one of the 17 `OID_*` constants
+  or `GetQualifyingEncounterValueSets()`, all catalog value sets, so every list still fills. The two window OIDs EHR-6a-R named as present
+  in the release under other measures (`.526.3.1008`, `.526.3.1259`) are gone from the windows since EHR-7 (the allowlist is empty).
+- `ValueSetFixtures` (`MakeRelease`, `MakeWorkbook`, `ParsePick`, the direct-code rows) keep their signatures; `PickListDb` copies
+  `ReleaseDb`, which EHR-6a-R did not change. `EhrValueSetImport.Import`, `GetReport`, `GetRelease` and `PREF_RELEASE` are unchanged.
+- The direct reference codes' rows of other measures are counted and not imported (`FinishDirectCodes`); `ResolveDirectCodes`, and so
+  `GetDirectCode(ROLE_CMS68_MEDS_DOCUMENTED)` and `GetDirectCode(ROLE_CMS69_BMI)`, are unchanged. `PickListDbTests` imports through the new
+  readers (the record's headers, the Expansion Version, the code-system versions) and passes.
+
+**Fix 1: an "other" not-performed row can be deleted** (`d4a775a92`). `FormEhrNotPerformedEdit.FillReadOnly` enables Delete
+(`butDelete.Enabled=true`; it disabled it); Save, the reason list, the date and the note stay read-only. `butDelete_Click` reads no item
+index and no pick list (it unlinks a vital sign that names the row and deletes the row), so it works before and after the import. Section
+7's bullet is superseded.
+
+**Fix 2: a patient without a birth date is an adult in the vital sign window** (`d4a775a92`). New `Vitalsigns.GetAgeForVitalSignWindow`
+(birth date, day taken): `AGE_ADULT` (18) when the birth date is before 1880 (none), else `GetAgeOnDateTaken`. `FormVitalsignEdit2014`
+takes `AgeOnDateTaken` from it on load and when the date changes, so such a patient gets no BMI percentile, the adult interventions and the
+over- or underweight class, as before EHR-7 (whose age "before January 1" of a missing birth date was about 2,000 years); the range is the
+2027 one at every adult age (E-35). A day taken before a known birth date stays -1 (not classed; the window refuses to save it anyway).
+`GetAgeOnDateTaken` still returns -1 without a birth date, and the eForm import keeps its own rule (no percentile and no weight code without
+a birth date, as before EHR-7). Section 6's deviation is superseded.
+
+**Tests** (`2a84f82a7`):
+
+- `PickListTests.NotPerformed_AnOtherRow_KeepsDelete_TheOfficesOwnData` (new): `FillReadOnly` enables Delete and keeps Save disabled,
+  nothing in the window's code disables Delete, the read-only load returns right after `FillReadOnly`, and `butDelete_Click` reads no item,
+  `IsReadOnly`, reason list or combo. `NotPerformedGrid_...` no longer expects Delete disabled.
+- `PickListDbTests.NotPerformed_AnOtherRow_IsDeleted_BeforeAndAfterTheImport` (new): an "other" row (a Tobacco User code) is deleted
+  before the import and after it.
+- `VitalSignAgeTests.VitalSignWindow_APatientWithoutABirthDate_IsAnAdult` (new): no birth date (`DateTime.MinValue`, 1800, 1879-12-31)
+  gives 18: no percentile, not the child group, the class (27 over, 18 under, 22 normal); `GetAgeOnDateTaken` still -1; a known birth date
+  gives the age on the day taken (around the 3rd and 18th birthdays, the 17th and 65th), a day before the birth -1; the eForm import
+  without a birth date sets no percentile and no weight code. `VitalSignWindow_TakesTheAgeFromTheBusinessLayersHelper` finds the new
+  helper twice and no `GetAgeOnDateTaken` call in the window.
+
+Each new test fails without its fix: the Delete test on `butDelete.Enabled=false`, the vital-sign tests on the missing helper and on the
+window's old call.
+
+**Runs.** Full build through the x86 lane: 0 errors, no warning in a changed file. Targeted run with `-RequireBuildOutput`,
+`ehr7r-1-run1.txt` (after the full build of the fixes):
+
+| Assembly | Result |
+|---|---|
+| EhrTests | 330: 328 passed, 2 skipped (`Catalog_EqualsTheDownloadedPackages_WhenCqmSpecsDirIsSet` and `RealRelease_TheOfficesThreeFiles_ImportSevenOfSeven_WhenTheFolderIsSet`, inconclusive without their folders, as on `main`), 0 failed; `LoadTime_AFullSyntheticRelease_LoadsInUnderASecond` passed in the parallel run |
+| AttributionTests | 50 of 50 passed |
+| ProjectFileTests | 151: 150 passed, 1 skipped (as on `main`) |
+| NoHqTests | 112 of 112 passed |
+
+EhrTests' database tests use their support classes' fixed prefixes (`ehr1_`, `ehr2_`, `ehr4a_`, `ehr6a_`, `ehr7_`); no scratch database
+was left on the server. InitSqlTests and ForkMigrationTests were left out: nothing here touches the schema or `db/init/new-database.sql`.
+
+**For the lead.** `ehr/ehr7r-1` merges into `main` as it is (EHR-6a is already there). With it, `docs/port-notes/S3a-M3.md`'s "For EHR-7's
+later merge" is done: FormMedical holds both packages' lines.

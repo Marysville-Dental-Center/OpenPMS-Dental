@@ -637,7 +637,7 @@ those windows used to name for the 2014 measures. Until the office imports the r
   the 2027 measures name directly, tobacco screening from "Tobacco Use Screening". A new item, **BMI follow-up**, records a follow-up,
   referral or BMI medication not done for a medical reason (CMS69's exception). The influenza vaccination item stays, picking from the CVX
   table, with a note that no 2027 measure uses it. The list labels each row by its code; a row whose code is of no item (for example one
-  saved before the import) shows "other" and opens read-only, where it once opened as "influenza" or failed. Until the office imports the
+  saved before the import) shows "other" and opens read-only (it can still be deleted), where it once opened as "influenza" or failed. Until the office imports the
   release every saved row but the influenza ones is such a row: the list shows "other (2027 value sets not imported)", and the read-only
   window says that importing the release (Code System Importer) gives the row its item. A saved reason that is not in
   the 2027 lists stays the row's reason when the row is saved again.
@@ -651,8 +651,8 @@ those windows used to name for the 2014 measures. Until the office imports the r
 - **Vital signs: age and BMI.** The vital sign window and the eForm vital-sign import now take the patient's age on the day the vital sign
   is taken (it was the age before January 1 of that year): the BMI percentile is shown and saved at 3 to 17 (once 3 to 16), the over- or
   underweight class from 18, and the child counseling group under 18, so a 17-year-old is no longer in neither group. The normal adult BMI
-  range is 18.5 to under 25 at every age, as the 2027 measure has it (the 2014 rule used 23 to under 30 from 65 on). A patient without a
-  birth date is not classed. Vital signs saved before keep their weight code and percentile until they are saved again.
+  range is 18.5 to under 25 at every age, as the 2027 measure has it (the 2014 rule used 23 to under 30 from 65 on). In the vital sign
+  window a patient without a birth date is classed as an adult, as before; the eForm import classes no such patient, as before. Vital signs saved before keep their weight code and percentile until they are saved again.
 
 ## Open Dental 26.2: the database schema
 
