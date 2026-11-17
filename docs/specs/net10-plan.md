@@ -1378,6 +1378,15 @@ from the x64 program with the clinic's real sensor through the 64-bit TWAINDSM a
 condition); each helper link from the x64 program where a test PC has the vendor software; the setup's move from a 32-bit bridge
 install on a test PC (section 10 step 3). Then the branch merges into `main` in one merge commit.
 
+**3b gate record (2026-11-16, decision 25).** Automated part on `net10/switch` after S3b-MAIN (`8da8caf1f`): full x64 build 0 errors (0
+WFDEV006); Release dry run `dryrun-gate3b2` with both TWAINDSM.dll checked; Full x64 run `gate3b-final-full.txt` against `gate3b-full.txt`:
+same=120, differs=8 (more tests in EhrTests, FormatParityTests, Helper32Tests, ImagingDeviceManagerTests, ReleaseFlowTests, WindowChecksTests),
+no failure outside the WPF picture suites, which drew blank in the disconnected session (ToothChartImageTests, ToothChartHostTests, BINATests'
+WPF test; green in the connected run at the S3b-8 merge, `s3b8-merge-x64.txt`). Golden outputs equal to net48 (S3b-FMT). Screenshot pass
+with before/after pairs (WINCHK-5, `winchk-pairs-3b`). Gallery G5 approved. The owner's elevated Test-Installer run: 105 passed; its 3
+failures were the check of the uninstall entry's name beside a v0.0 install, fixed in the script. The person checks are launch checks
+(decision 25). Then the branch merged into `main` in one merge commit.
+
 **Tooling at the switch (S3b-1/S3b-7).** The lane and the test runners have used the Build Tools 2026 MSBuild and vstest since S1-0;
 S3b-1 keeps the same SDK pin and moves the builds and the test runs to x64 (`/p:Platform=x64`, `/Platform:x64`, the machine-wide x64
 runtime). Test runner: same flat paths, adapters unchanged. Build-Release and setup: S3b-7. `Direct2dWrapper.vcxproj` keeps v143 and
@@ -2036,6 +2045,14 @@ The owner answered the plan's questions "as recommended", with the corrections b
     the x86 text in every row but those of 5 values whose digits 16 to 19 lie in 4949..4994, where x86's own digits fall on either side of
     half way (0.13% of values chosen to be half way at the 16th digit, no money amount tried; the port note's section 3a). The x86 digit
     routine is not ported.
+
+25. **The 3b merge after the automated gate (owner, 2026-11-16: "B").** `net10/switch` merges into `main` once the main merge (S3b-MAIN)
+    and a Full x64 run on the final tree are green, without waiting for the gate's person checks. Nothing in production runs the program
+    (decision 22), so a defect a person check finds is fixed on `main` like any other. The person checks become launch checks before the
+    office release (`docs/launch-checks-3b.md`, package LAUNCH-3b): the clean install without .NET (Windows Sandbox), the self-update from a
+    standard user, the Middle Tier as a Windows service, a Direct message through the LDAP resolver, a WebView2 window, the clinic's sensor
+    through the 64-bit TWAINDSM, each helper link where a test PC has the vendor software, and the screenshot pass's PARTLY items; the WPF
+    picture suites run again at the next connected session (the final Full run ran disconnected).
 
 Also recorded for the update path: the Middle Tier client and server switch together (it has never shipped to an office); saved
 passwords get a one-time migration from PasswordVault to the Credential Manager (S3a-5). Also answered on 2026-11-08: signed e-mail
