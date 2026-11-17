@@ -1,0 +1,115 @@
+# Group U of the window checks (package UI-0c of docs/specs/ui-refresh-plan.md; docs/port-notes/UI-0c.md): the common windows the other
+# groups do not reach, the main window at fixed sizes with each module, and the patient dashboard. Each row is one check and one picture of
+# the UI refresh's galleries (G-UI2, G-UI3) and of the check U0. Ids and picture names are kept once given (the approvals in
+# UiApproved/approved.tsv are keyed by picture); a new window gets the next id.
+#
+# Columns, tab-separated:
+#   id       U<n> a window, UM<n> the main window, UD<n> the patient dashboard
+#   picture  the picture's file name in the results folder (the gallery's name for it)
+#   window   the window's type: a Form, or the Frm a FormFrame hosts (FormOpenDental for the main window)
+#   patient  yes: patient #1 is selected first; no: the window does not need one (UM: no means no patient is selected)
+#   module   the module the check goes to first (an EnumModuleType name), or -
+#   opened   how the program opens it, the way a person's click does:
+#            menu        the main menu item at the path (its PerformClick)
+#            handler     the module's handler method a click runs (module field.method)
+#            button      the module's button (module field.button field), its PerformClick
+#            grid        a double-click on a module grid's row (module field.grid field | tag:<row tag>[;<tag>...] or text:<cell text>)
+#            accountrow  a double-click on the Account grid's first row whose account table column is not 0
+#            script      a script of InProcChecks.U.cs (ScriptU<target>), for a window opened from another window
+#            main        the main window at the size, in the module, with or without patient #1
+#            dashboard   the patient dashboard with its own synthetic widget sheet definition (always added to the scratch copy, deleted at the end)
+#            none        the synthetic dump cannot fill the window: target says why; the check is SKIPPED with that reason
+#   target   what "opened" needs (see above)
+#   guard    the tables the window could write, comma-separated (their row counts are compared before and after), or -
+#   note     what the window is
+id	picture	window	patient	module	opened	target	guard	note
+U1	U1-claim-edit.png	FormClaimEdit	yes	Account	accountrow	ClaimNum	claim,claimproc,claimpayment	claims: patient #1's claim from the Account grid
+U2	U2-claims-send.png	FormClaimsSend	no	Manage	button	controlManage.butSendClaims	claim,etrans	claims: Send Claims
+U3	U3-batch-insurance.png	FormClaimPayList	no	Manage	button	controlManage.butClaimPay	claimpayment	claims: Batch Ins (insurance payments)
+U4	U4-clearinghouses.png	FormClearinghouses	no	-	menu	Setup > Family / Insurance > Clearinghouses	clearinghouse	claims: clearinghouses
+U5	U5-insurance-categories.png	FormInsCatsSetup	no	-	menu	Setup > Family / Insurance > Insurance Categories	covcat,covspan	insurance: coverage categories
+U6	U6-carriers.png	FormCarriers	no	-	menu	Lists > Insurance Carriers	carrier	insurance: carriers
+U7	U7-insurance-plans.png	FormInsPlans	no	-	menu	Lists > Insurance Plans	insplan	insurance: plans
+U8	U8-payer-ids.png	FormElectIDs	no	-	menu	Setup > Family / Insurance > Payer IDs	electid	claims: payer IDs
+U9	U9-recall-list.png	FormRecallList	no	Appointments	handler	controlAppt.ListRecall_Click	recall,commlog	recall: the recall list
+U10	U10-recall-setup.png	FormRecallSetup	no	-	menu	Setup > Appointments > Recall	preference,recalltype	recall: setup
+U11	U11-recall-types.png	FormRecallTypes	no	-	menu	Setup > Appointments > Recall Types	recalltype,recalltrigger	recall: types
+U12	U12-patient-recalls.png	FormRecallsPat	yes	Family	handler	controlFamily.gridRecall_DoubleClick	recall	recall: patient #1's recalls
+U13	U13-confirmation-list.png	FormConfirmList	no	Appointments	handler	controlAppt.ListConfirm_Click	appointment,commlog	confirmation: the confirmation list
+U14	U14-confirmation-setup.png	FormConfirmationSetup	no	-	menu	Setup > Appointments > Confirmations	preference,apptreminderrule	confirmation: setup
+U15	U15-schedules.png	FormSchedule	no	-	menu	Setup > Schedules	schedule	schedules: provider and employee schedules
+U16	U16-appointment-views.png	FormApptViews	no	-	menu	Setup > Appointments > Appointment Views	apptview,apptviewitem	schedules: appointment views
+U17	U17-operatories.png	FormOperatories	no	-	menu	Setup > Appointments > Operatories	operatory	schedules: operatories
+U18	U18-appointment-types.png	FormApptTypes	no	-	menu	Setup > Appointments > Appointment Types	appointmenttype	schedules: appointment types
+U19	U19-unscheduled-list.png	FormUnsched	no	Appointments	handler	controlAppt.ListUnsched_Click	appointment	schedules: the unscheduled list
+U20	U20-planned-tracker.png	FormTrackNext	no	Appointments	handler	controlAppt.ListPlanned_Click	appointment	schedules: the planned appointment tracker
+U21	U21-asap-list.png	FormASAP	no	Appointments	handler	controlAppt.ListASAP_Click	appointment	schedules: the ASAP list
+U22	U22-insurance-verify-list.png	FormInsVerificationList	no	Appointments	handler	controlAppt.ListInsVerify_Click	insverify	confirmation: insurance verification list
+U23	U23-pay-plan-templates.png	FormPayPlanTemplates	no	-	menu	Setup > Account > Pay Plan Templates	payplan	pay plans: templates
+U24	U24-finance-charges.png	FormFinanceCharges	no	-	menu	Tools > Billing/Finance Charges	adjustment,preference	billing: finance and billing charges
+U25	U25-definitions.png	FormDefinitions	no	-	menu	Setup > Definitions	definition	definitions
+U26	U26-procedure-codes.png	FormProcCodes	no	-	menu	Lists > Procedure Codes	procedurecode,fee	procedure codes: the list
+U27	U27-procedure-code-edit.png	FormProcCodeEdit	no	-	script	ProcCodeEdit	procedurecode,fee	procedure codes: D0120, double-clicked in Lists > Procedure Codes
+U28	U28-fee-schedules.png	FormFeeScheds	no	-	menu	Setup > Fee Schedules	feesched	procedure codes: fee schedules
+U29	U29-security.png	FormSecurity	no	-	menu	Setup > Security	userod,usergroup,usergroupattach,grouppermission	security: users and groups
+U30	U30-task-preferences.png	FormTaskPreferences	no	-	menu	Setup > Tasks	preference,userodpref	tasks: setup
+U31	U31-tasks.png	FormTasks	no	Manage	button	controlManage.butTasks	task,tasklist	tasks: the task window
+U32	U32-medical.png	FormMedical	yes	Chart	grid	controlChart.gridPtInfo | tag:tabMedical;tabMedications;tabProblems;tabAllergies	patientnote,medicationpat,disease,allergy	medical: patient #1's medical window from the Chart's patient information
+U33	U33-allergies.png	FormAllergySetup	no	-	menu	Lists > Allergies	allergydef	medical: allergies
+U34	U34-medications.png	FormMedications	no	-	menu	Lists > Medications	medication	medical: medications
+U35	U35-problems.png	FormDiseaseDefs	no	-	menu	Lists > Problems	diseasedef	medical: problems
+U36	U36-rx-select.png	FormRxSelect	yes	Chart	handler	controlChart.Tool_Rx_Click	rxpat	Rx: New Rx for patient #1
+U37	U37-rx-setup.png	FormRxSetup	no	-	menu	Lists > Prescriptions	rxdef	Rx: prescription setup
+U38	U38-pharmacies.png	FormPharmacies	no	-	menu	Lists > Pharmacies	pharmacy	Rx: pharmacies
+U39	U39-lab-cases.png	FormLabCases	no	-	menu	Lists > Lab Cases	labcase	labs: lab cases
+U40	U40-laboratories.png	FormLaboratories	no	-	menu	Setup > Laboratories	laboratory	labs: laboratories
+U41	U41-exam-sheets.png	FormExamSheets	yes	Chart	handler	controlChart.Tool_ExamSheet_Click	sheet,sheetfield	medical: patient #1's exam sheets
+U42	U42-providers.png	FormProviderSetup	no	-	menu	Lists > Providers	provider	lists: providers
+U43	U43-employees.png	FormEmployeeSelect	no	-	menu	Lists > Employees	employee	lists: employees
+U44	U44-employers.png	FormEmployers	no	-	menu	Lists > Employers	employer	lists: employers
+U45	U45-referrals.png	FrmReferralSelect	no	-	menu	Lists > Referrals	referral	lists: referrals (a Frm)
+U46	U46-contacts.png	FormContacts	no	-	menu	Lists > Contacts	contact	lists: contacts
+U47	U47-discount-plans.png	FormDiscountPlans	no	-	menu	Lists > Discount Plans	discountplan	pay plans: discount plans
+U48	U48-zip-codes.png	FrmZipCodes	no	-	menu	Lists > Zip Codes	zipcode	lists: zip codes (a Frm)
+U49	U49-preferences.png	FormPreferences	no	-	menu	Setup > Preferences	preference	setup: preferences
+U50	U50-practice.png	FormPractice	no	-	menu	Setup > Practice	preference,provider	setup: practice
+U51	U51-display-fields.png	FormDisplayFieldCategories	no	-	menu	Setup > Display Fields	displayfield	setup: display fields
+U52	U52-program-links.png	FormProgramLinks	no	-	menu	Setup > Program Links	program,programproperty	setup: program links
+U53	U53-report-setup.png	FormReportSetup	no	-	menu	Setup > Reports	displayreport,preference	setup: reports
+U54	U54-computers.png	FormComputers	no	-	menu	Setup > Advanced Setup > Computers	computer,computerpref	setup: computers
+U55	U55-data-paths.png	FormPath	no	-	menu	Setup > Data Paths	preference	setup: data paths
+U56	U56-procedure-buttons.png	FormProcButtons	no	-	menu	Setup > Chart > Procedure Buttons	procbutton,procbuttonitem	setup: procedure buttons
+U57	U57-auto-codes.png	FormAutoCode	no	-	menu	Setup > Auto Codes	autocode,autocodeitem	setup: auto codes
+U58	U58-automation.png	FormAutomation	no	-	menu	Setup > Automation	automation	setup: automation
+U59	U59-quick-paste-notes.png	FrmQuickPaste	no	-	menu	Setup > Quick Paste Notes	quickpastenote,quickpastecat	setup: quick paste notes (a Frm)
+U60	U60-alert-categories.png	FormAlertCategorySetup	no	-	menu	Setup > Alert Categories	alertcategory,alertcategorylink	setup: alert categories
+U61	U61-pay-plan.png	FormPayPlan	yes	Account	none	the dump has no payment plan (payplan is empty); Account > Payment Plan would make one, which writes rows	-	pay plans: a payment plan
+U62	U62-rx-edit.png	FormRxEdit	yes	Chart	none	the dump has no prescription (rxpat is empty), so the Chart's progress notes list none to open	-	Rx: a prescription
+U63	U63-lab-case-edit.png	FormLabCaseEdit	yes	Chart	none	the dump has no lab case (labcase is empty), so the Chart's progress notes list none to open	-	labs: a lab case
+U64	U64-task-edit.png	FormTaskEdit	no	-	none	the dump has no task (task is empty) to double-click in a task list	-	tasks: a task
+U65	U65-recall-edit.png	FormRecallEdit	yes	Family	none	the dump has no recall (recall is empty), so patient #1's recalls list none to open	-	recall: a recall
+U66	U66-referral-edit.png	FrmReferralEdit	no	-	none	the dump has no referral (referral is empty) to open from Lists > Referrals	-	lists: a referral (a Frm)
+U67	U67-allergy-edit.png	FormAllergyEdit	yes	Chart	none	the dump has no patient allergy (allergy is empty) to open from the medical window	-	medical: a patient allergy
+U68	U68-statement.png	FormStatementOptions	yes	Account	none	the dump has no statement (statement is empty) in the Account grid	-	billing: a statement
+UM1	UM1-main-1366-appts.png	FormOpenDental	yes	Appointments	main	1366x768	-	the main window with patient #1: Appointments (paged to 2026-11-09)
+UM2	UM2-main-1366-family.png	FormOpenDental	yes	Family	main	1366x768	-	the main window with patient #1: Family
+UM3	UM3-main-1366-account.png	FormOpenDental	yes	Account	main	1366x768	-	the main window with patient #1: Account
+UM4	UM4-main-1366-txplan.png	FormOpenDental	yes	TreatPlan	main	1366x768	-	the main window with patient #1: Treatment Plan
+UM5	UM5-main-1366-chart.png	FormOpenDental	yes	Chart	main	1366x768	-	the main window with patient #1: Chart
+UM6	UM6-main-1366-imaging.png	FormOpenDental	yes	Imaging	main	1366x768	-	the main window with patient #1: Imaging
+UM7	UM7-main-1366-manage.png	FormOpenDental	yes	Manage	main	1366x768	-	the main window with patient #1: Manage
+UM8	UM8-main-1366-appts-nopat.png	FormOpenDental	no	Appointments	main	1366x768	-	the main window without a patient: Appointments (paged to 2026-11-09)
+UM9	UM9-main-1366-family-nopat.png	FormOpenDental	no	Family	main	1366x768	-	the main window without a patient: Family
+UM10	UM10-main-1366-account-nopat.png	FormOpenDental	no	Account	main	1366x768	-	the main window without a patient: Account
+UM11	UM11-main-1366-txplan-nopat.png	FormOpenDental	no	TreatPlan	main	1366x768	-	the main window without a patient: Treatment Plan
+UM12	UM12-main-1366-chart-nopat.png	FormOpenDental	no	Chart	main	1366x768	-	the main window without a patient: Chart
+UM13	UM13-main-1366-imaging-nopat.png	FormOpenDental	no	Imaging	main	1366x768	-	the main window without a patient: Imaging
+UM14	UM14-main-1366-manage-nopat.png	FormOpenDental	no	Manage	main	1366x768	-	the main window without a patient: Manage
+UM15	UM15-main-1920-appts.png	FormOpenDental	yes	Appointments	main	1920x1080	-	the main window at 1920x1080 with patient #1: Appointments (paged to 2026-11-09)
+UM16	UM16-main-1920-family.png	FormOpenDental	yes	Family	main	1920x1080	-	the main window at 1920x1080 with patient #1: Family
+UM17	UM17-main-1920-account.png	FormOpenDental	yes	Account	main	1920x1080	-	the main window at 1920x1080 with patient #1: Account
+UM18	UM18-main-1920-txplan.png	FormOpenDental	yes	TreatPlan	main	1920x1080	-	the main window at 1920x1080 with patient #1: Treatment Plan
+UM19	UM19-main-1920-chart.png	FormOpenDental	yes	Chart	main	1920x1080	-	the main window at 1920x1080 with patient #1: Chart
+UM20	UM20-main-1920-imaging.png	FormOpenDental	yes	Imaging	main	1920x1080	-	the main window at 1920x1080 with patient #1: Imaging
+UM21	UM21-main-1920-manage.png	FormOpenDental	yes	Manage	main	1920x1080	-	the main window at 1920x1080 with patient #1: Manage
+UD1	UD1-dashboard.png	FormOpenDental	yes	Family	dashboard	1366x768	sheetdef,sheetfielddef,grouppermission,userodpref	the patient dashboard with a widget (labels, the appointment grid, the insurance fields)

@@ -35,6 +35,29 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <!-- Group U of the UI refresh (package UI-0c of docs/specs/ui-refresh-plan.md): the ONE masking and hashing rule of the galleries, which the
+         check U0 compares each picture with UiApproved\approved.tsv through (UI-0a), and the shared measuring files of the text-fit scan, which
+         the group U walker measures and records bounds with (UI-0b, section 5.4). Linked, never copied: both tiers measure alike, and the before
+         set's bounds record has one format. -->
+    <Compile Include="..\..\tools\UiGallery\UiPictureMask.cs">
+      <Link>UiPictureMask.cs</Link>
+    </Compile>
+    <Compile Include="..\UiRefreshTests\Shared\TextFitMeasurer.cs">
+      <Link>Shared\TextFitMeasurer.cs</Link>
+    </Compile>
+    <Compile Include="..\UiRefreshTests\Shared\TextFitBoundsRecord.cs">
+      <Link>Shared\TextFitBoundsRecord.cs</Link>
+    </Compile>
+    <Compile Include="..\UiRefreshTests\Shared\TextFitFontSwap.cs">
+      <Link>Shared\TextFitFontSwap.cs</Link>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <!-- Group U's windows (UI-0c): each row names a window, how the program opens it, and the tables it could write. Read from the repository by
+         the checks and their self-tests. -->
+    <None Include="UiGallery\windows.tsv" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\..\CodeBase\xCodeBase.csproj" />
     <ProjectReference Include="..\..\DataConnectionBase\xDataConnectionBase.csproj" />
     <ProjectReference Include="..\..\OpenPmsDentalBusiness\OpenPmsDentalBusiness.csproj" />

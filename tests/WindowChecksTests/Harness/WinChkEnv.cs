@@ -14,7 +14,8 @@ namespace WindowChecksTests {
 		public const string VARIABLE_DUMP="OPMS_WINDOW_CHECKS_DUMP";
 		///<summary>The results folder: screenshots, results.tsv and the logs. Default: %TEMP%\stage1-windows-headless.</summary>
 		public const string VARIABLE_OUT="OPMS_WINDOW_CHECKS_OUT";
-		///<summary>Comma-separated check groups to run (A to K, Z), so a long run can be split into several shorter ones. Empty: all.</summary>
+		///<summary>Comma-separated check groups to run (A to K, U; Z always), so a long run can be split into several shorter ones. Empty: all. With
+		///U in the run, the check U0 compares the run's pictures with the owner's approvals at its end (UI-0c).</summary>
 		public const string VARIABLE_GROUPS="OPMS_WINDOW_CHECKS_GROUPS";
 		///<summary>The Release output folder to start for A7 and A8 (tools\Build-Release.ps1). Default: OpenPmsDental\bin\Release.</summary>
 		public const string VARIABLE_RELEASE="OPMS_WINDOW_CHECKS_RELEASE";

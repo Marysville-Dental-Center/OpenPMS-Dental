@@ -1034,6 +1034,12 @@ closing step. None has a gallery.
   patient, and the patient dashboard with a synthetic widget sheet definition (added to the test copy if the dump has none). The walker that measures text after `Load` and records bounds with UI-0b's shared files, not its own copy (5.4). The check U0
   (compare each picture with `approved.tsv`).
 - Tests: group U runs on the synthetic dump; a window the dump cannot fill is listed with its reason.
+- **Status (2026-11-17).** Done on `ui/ui0c-1` (`docs/port-notes/UI-0c.md`), not merged yet. `tests/WindowChecksTests/UiGallery/windows.tsv`:
+  60 common windows (U1 to U60), 8 the dump cannot fill (U61 to U68, SKIPPED with the reason), the main window at both sizes with each
+  module (UM1 to UM21) and the patient dashboard (UD1); the walker `Harness/UiWalker.cs` on UI-0b's linked shared files (the free-space
+  rule moved into `TextFitMeasurer`); U0 `Harness/UiApprovalCheck.cs` on UI-0a's linked rule, run at the end of a run with group U. The
+  self-tests pass without the opt-in. Group U itself was not run: the owner's session was disconnected; the lead runs it with the before
+  set (`OPMS_WINDOW_CHECKS_GROUPS=U`, UI-0c.md section 5).
 
 **The before set** (the lead, once UI-0a to UI-0c have merged): one full harness run (groups A to K and U) at that commit, in the
 owner's connected session, frozen in `.git/od-tools/test-results/ui-before/` with the commit, the dump's hash, the DPI and the bounds
