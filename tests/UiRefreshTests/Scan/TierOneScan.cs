@@ -297,24 +297,10 @@ namespace UiRefreshTests.Scan {
 		}
 
 		///<summary>The free pixels to the right of and below a rectangle inside its parent, without touching a sibling that lies beside it (right)
-		///or under it (below). A sibling that already overlaps the rectangle (a panel behind it) does not count.</summary>
+		///or under it (below). A sibling that already overlaps the rectangle (a panel behind it) does not count. The rule is the shared one
+		///(TextFitMeasurer.GetFreeSpace), which the group U walker of tests\WindowChecksTests uses too (UI-0c).</summary>
 		public static Point GetFreeSpace(Rectangle rectangle,List<Rectangle> listSiblings,Size sizeParentClient) {
-			int freeRight=sizeParentClient.Width-rectangle.Right;
-			int freeBelow=sizeParentClient.Height-rectangle.Bottom;
-			foreach(Rectangle rectangleSibling in listSiblings) {
-				if(rectangleSibling.IntersectsWith(rectangle)) {
-					continue;
-				}
-				bool isBeside=rectangleSibling.Top<rectangle.Bottom && rectangleSibling.Bottom>rectangle.Top;
-				if(isBeside && rectangleSibling.Left>=rectangle.Right) {
-					freeRight=Math.Min(freeRight,rectangleSibling.Left-rectangle.Right);
-				}
-				bool isUnder=rectangleSibling.Left<rectangle.Right && rectangleSibling.Right>rectangle.Left;
-				if(isUnder && rectangleSibling.Top>=rectangle.Bottom) {
-					freeBelow=Math.Min(freeBelow,rectangleSibling.Top-rectangle.Bottom);
-				}
-			}
-			return new Point(Math.Max(0,freeRight),Math.Max(0,freeBelow));
+			return TextFitMeasurer.GetFreeSpace(rectangle,listSiblings,sizeParentClient);
 		}
 
 		///<summary>Builds the type with the default font of fontOption (times textScale), swaps its fonts to fontSwap when given, and snapshots it

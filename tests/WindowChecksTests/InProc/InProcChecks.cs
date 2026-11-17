@@ -100,6 +100,9 @@ namespace WindowChecksTests.InProc {
 		///<summary>The check scripts, by check id.</summary>
 		public static void Run(string id,Ui ui,CheckResult checkResult) {
 			MethodInfo methodInfo=typeof(InProcChecks).GetMethod("Check"+id,BindingFlags.Static|BindingFlags.NonPublic|BindingFlags.Public);
+			if(methodInfo==null && TryRunGroupU(id,ui,checkResult)) {
+				return;//Group U's checks are rows of UiGallery\windows.tsv (InProcChecks.U.cs).
+			}
 			if(methodInfo==null) {
 				throw new MissingMethodException("No in-process script for "+id);
 			}

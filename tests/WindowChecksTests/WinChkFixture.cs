@@ -83,6 +83,10 @@ namespace WindowChecksTests {
 					Results.Log("Drop failed: "+ex.Message);
 				}
 			}
+			//U0 (group U, UI-0c): every picture of this commit's run against the owner's approvals, once every group of the run has taken its pictures.
+			if(WinChkEnv.GetSkipReason("U")==null) {
+				UiApprovalCheck.Run();
+			}
 			//The report, from every result in results.tsv (the last of each check), so the run that ends last leaves the whole report.
 			string reportError=Report.Write();
 			Results.Log(reportError=="" ? "REPORT.md written" : "REPORT.md not written: "+reportError);

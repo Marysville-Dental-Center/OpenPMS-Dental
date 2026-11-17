@@ -10,6 +10,7 @@
 // and finds the program's controls by type name.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Reflection;
@@ -550,5 +551,50 @@ namespace UiRefreshTests.TextFit {
 			}
 			return valueDefault;
 		}
+
+		#region Free space and the verdict
+		///<summary>The free pixels to the right of and below a rectangle inside its parent, without touching a sibling that lies beside it (right)
+		///or under it (below). A sibling that already overlaps the rectangle (a panel behind it) does not count. An overflow is "fixable" when
+		///these cover the pixels missing (section 5.4 of the plan); the tier 1 scan and the group U walker (UI-0c) both use this one rule.</summary>
+		public static Point GetFreeSpace(Rectangle rectangle,List<Rectangle> listSiblings,Size sizeParentClient) {
+			int freeRight=sizeParentClient.Width-rectangle.Right;
+			int freeBelow=sizeParentClient.Height-rectangle.Bottom;
+			foreach(Rectangle rectangleSibling in listSiblings) {
+				if(rectangleSibling.IntersectsWith(rectangle)) {
+					continue;
+				}
+				bool isBeside=rectangleSibling.Top<rectangle.Bottom && rectangleSibling.Bottom>rectangle.Top;
+				if(isBeside && rectangleSibling.Left>=rectangle.Right) {
+					freeRight=Math.Min(freeRight,rectangleSibling.Left-rectangle.Right);
+				}
+				bool isUnder=rectangleSibling.Left<rectangle.Right && rectangleSibling.Right>rectangle.Left;
+				if(isUnder && rectangleSibling.Top>=rectangle.Bottom) {
+					freeBelow=Math.Min(freeBelow,rectangleSibling.Top-rectangle.Bottom);
+				}
+			}
+			return new Point(Math.Max(0,freeRight),Math.Max(0,freeBelow));
+		}
+
+		///<summary>The free space around a control inside its parent (GetFreeSpace), its siblings being the parent's other undocked controls that are
+		///visible as designed.</summary>
+		public static Point GetFreeSpace(Control control) {
+			Control parent=control.Parent;
+			if(parent==null) {
+				return Point.Empty;
+			}
+			List<Rectangle> listSiblings=new List<Rectangle>();
+			foreach(Control sibling in parent.Controls) {
+				if(sibling!=control && sibling.Dock==DockStyle.None && TextFitBoundsRecord.IsDesignedVisible(sibling)) {
+					listSiblings.Add(sibling.Bounds);
+				}
+			}
+			return GetFreeSpace(control.Bounds,listSiblings,parent.ClientSize);
+		}
+
+		///<summary>True when the free space covers the pixels the result is missing: a fix in place, without touching a neighbour.</summary>
+		public static bool IsFixable(TextFitResult result,Point pointFree) {
+			return result.NeedWidth<=pointFree.X && result.NeedHeight<=pointFree.Y;
+		}
+		#endregion Free space and the verdict
 	}
 }
