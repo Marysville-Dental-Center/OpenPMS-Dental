@@ -97,8 +97,8 @@ namespace OpenPmsDental {
 			_listMedicationPats=MedicationPats.Refresh(PatientCur.PatNum,true);
 			if(_listMedicationPats.Count>0) {
 				//The following medications are used as interventions for some measures.  Include them in the intervention window if they belong to these value sets.
-				//Above Normal Medications RxNorm Value Set, Below Normal Medications RxNorm Value Set, Tobacco Use Cessation Pharmacotherapy Value Set
-				List<string> listVS=new List<string> { "2.16.840.1.113883.3.600.1.1498","2.16.840.1.113883.3.600.1.1499","2.16.840.1.113883.3.526.3.1190" };
+				//Medications for Above Normal BMI, Medications for Below Normal BMI, Tobacco Use Cessation Pharmacotherapy (the 2027 catalog, EHR-7)
+				List<string> listVS=CqmDataEntry.GetMedicationInterventionOids();
 				List<EhrCode> listEhrCodesMeds=EhrCodes.GetForValueSetOIDs(listVS,true);
 				for(int i=_listMedicationPats.Count-1;i>-1;i--) {
 					bool found=false;
@@ -113,19 +113,14 @@ namespace OpenPmsDental {
 					}
 				}
 			}
+			List<EhrCode> listEhrCodesAll=EhrCodes.Listt;//Read once for every row
 			for(int i=0;i<_listMedicationPats.Count;i++) {
 				row=new GridRow();
 				row.Cells.Add(_listMedicationPats[i].DateStart.ToShortDateString());
 				row.Cells.Add(Providers.GetAbbr(_listMedicationPats[i].ProvNum));
-				if(_listMedicationPats[i].RxCui==314153 || _listMedicationPats[i].RxCui==692876) {
-					row.Cells.Add(InterventionCodeSet.AboveNormalWeight.ToString()+" Medication");
-				}
-				else if(_listMedicationPats[i].RxCui==577154 || _listMedicationPats[i].RxCui==860215 || _listMedicationPats[i].RxCui==860221 || _listMedicationPats[i].RxCui==860225 || _listMedicationPats[i].RxCui==860231) {
-					row.Cells.Add(InterventionCodeSet.BelowNormalWeight.ToString()+" Medication");
-				}
-				else {//There are 48 total medications that can be used as interventions.  The remaining 41 medications are tobacco cessation medications
-				row.Cells.Add(InterventionCodeSet.TobaccoCessation.ToString()+" Medication");
-				}
+				//Labelled by the imported value set that holds the RxCui (EHR-7, section 8), not by the RxCui literals of the 2014 sets.
+				InterventionCodeSet interventionCodeSetMed=CqmDataEntry.GetMedicationCodeSet(_listMedicationPats[i].RxCui.ToString(),listEhrCodesAll);
+				row.Cells.Add(interventionCodeSetMed.ToString()+" Medication");
 				row.Cells.Add(_listMedicationPats[i].RxCui.ToString());
 				row.Cells.Add("RXNORM");
 				//Medications that are used as interventions are all RxNorm codes, get description from that table

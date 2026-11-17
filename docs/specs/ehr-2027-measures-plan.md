@@ -38,6 +38,11 @@ made** (2026-11-16, from the owner's own download; `docs/port-notes/EHR-6.md` se
 on a scratch database at 7 of 7; EHR-6a merges with it.
 **EHR-6b written** (2026-11-14, branch `ehr/ehr6b-1` from `main`, `docs/port-notes/EHR-6b.md`): the 2014 and 2011 code deleted as section 3
 says, with no caller beyond section 2.1's list, so no EHR-6c; it merges before 3a wave 1, without waiting for EHR-6a.
+**EHR-7 written** (2026-11-15, branch `ehr/ehr7-1`, stacked on EHR-6a with `main` merged in, `docs/port-notes/EHR-7.md`): the data-entry
+windows on the catalog's constants and roles, section 8's allowlist empty, E-25, E-28, E-32, E-34 and E-35 as answered, E-37's LOINC
+literals kept. **EHR-7-R** (2026-11-16, branch `ehr/ehr7r-1`, section 12 there): `main` (EHR-6a with EHR-6a-R, S3a-M3b) merged
+in, the lead's two pre-merge fixes ("other" not-performed rows deletable; no birth date is an adult in the vital sign window); ready for the
+lead to merge into `main`.
 
 **Owner decisions (2026-11-14).**
 1. The 2027 versions of all nine of today's measures that CMS still publishes for eligible clinicians. A measure CMS retired is dropped and

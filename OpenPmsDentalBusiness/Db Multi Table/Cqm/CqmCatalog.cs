@@ -43,6 +43,80 @@ namespace OpenPmsDentalBusiness {
 		///<summary>The role of a direct reference code that no criterion of this program reads (hospice discharge, FACIT-Pal and the others of
 		///section 7.3): imported and listed under it.</summary>
 		public const string DIRECT_CODE_ROLE_LISTED="Listed";
+		///<summary>The direct-reference-code role of CMS68's "current medications documented" procedure: what the medical window writes and filters
+		///the not-performed rows by, and the not-performed item DocumentCurrentMeds (section 8, EHR-7).</summary>
+		public const string ROLE_CMS68_MEDS_DOCUMENTED="Cms68MedsDocumented";
+		///<summary>The direct-reference-code role of CMS69's BMI exam: the not-performed item BMIExam (section 8, EHR-7).</summary>
+		public const string ROLE_CMS69_BMI="Cms69Bmi";
+
+		#region The pick lists of the data-entry windows (EHR-7)
+		//The value sets the data-entry windows name (section 8): each is a value set of a measure and one of the pick lists below, so the windows
+		//name no value-set OID themselves (ValueSetSourceTests: no value-set OID literal outside this file).
+		///<summary>"Follow Up for Above Normal BMI" (CMS69): the intervention window's AboveNormalWeight follow-up, the not-performed BMI follow-up.</summary>
+		public const string OID_BMI_FOLLOW_UP_ABOVE="2.16.840.1.113883.3.600.1.1525";
+		///<summary>"Follow Up for Below Normal BMI" (CMS69): the intervention window's BelowNormalWeight follow-up, the not-performed BMI follow-up.</summary>
+		public const string OID_BMI_FOLLOW_UP_BELOW="2.16.840.1.113883.3.600.1.1528";
+		///<summary>"Referrals Where Weight Assessment May Occur" (CMS69): the intervention window's referrals, the not-performed BMI follow-up.</summary>
+		public const string OID_BMI_REFERRALS="2.16.840.1.113883.3.600.1.1527";
+		///<summary>"Medications for Above Normal BMI" (CMS69), in place of the 2014 "Above Normal Medications" set.</summary>
+		public const string OID_BMI_MEDICATIONS_ABOVE="2.16.840.1.113883.3.526.3.1561";
+		///<summary>"Medications for Below Normal BMI" (CMS69), in place of the 2014 "Below Normal Medications" set.</summary>
+		public const string OID_BMI_MEDICATIONS_BELOW="2.16.840.1.113883.3.526.3.1562";
+		///<summary>"Counseling for Nutrition" (CMS155).</summary>
+		public const string OID_COUNSELING_NUTRITION="2.16.840.1.113883.3.464.1003.195.12.1003";
+		///<summary>"Counseling for Physical Activity" (CMS155).</summary>
+		public const string OID_COUNSELING_PHYSICAL_ACTIVITY="2.16.840.1.113883.3.464.1003.118.12.1035";
+		///<summary>"Tobacco Use Cessation Counseling" (CMS138).</summary>
+		public const string OID_TOBACCO_COUNSELING="2.16.840.1.113883.3.526.3.509";
+		///<summary>"Tobacco Use Cessation Pharmacotherapy" (CMS138).</summary>
+		public const string OID_TOBACCO_PHARMACOTHERAPY="2.16.840.1.113883.3.526.3.1190";
+		///<summary>"Dialysis Services" (CMS165), in place of the 2014 dialysis education and other dialysis services sets (E-28).</summary>
+		public const string OID_DIALYSIS_SERVICES="2.16.840.1.113883.3.464.1003.109.12.1013";
+		///<summary>"Tobacco Use Screening" (CMS138): the Tobacco Use tab's assessments, the not-performed item TobaccoScreening.</summary>
+		public const string OID_TOBACCO_SCREENING="2.16.840.1.113883.3.526.3.1278";
+		///<summary>"Tobacco User" (CMS138).</summary>
+		public const string OID_TOBACCO_USER="2.16.840.1.113883.3.526.3.1170";
+		///<summary>"Tobacco Non User" (CMS138).</summary>
+		public const string OID_TOBACCO_NON_USER="2.16.840.1.113883.3.526.3.1189";
+		///<summary>"Pregnancy" (CMS69, CMS155, CMS165): the pregnancy problems and the recommended pregnancy codes, alone (the 2014 second set is
+		///gone).</summary>
+		public const string OID_PREGNANCY="2.16.840.1.113883.3.526.3.378";
+		///<summary>"Acute Health Crisis" (CMS68): the reason for current medications not documented.</summary>
+		public const string OID_REASON_ACUTE_HEALTH_CRISIS="2.16.840.1.113762.1.4.1248.429";
+		///<summary>"Medical Reason" (CMS69): a reason for the BMI exam or the BMI follow-up not performed.</summary>
+		public const string OID_REASON_MEDICAL="2.16.840.1.113883.3.526.3.1007";
+		///<summary>"Patient Declined" (CMS69): a reason for the BMI exam not performed.</summary>
+		public const string OID_REASON_PATIENT_DECLINED="2.16.840.1.113883.3.526.3.1582";
+
+		///<summary>The qualifying-encounter value sets (E-32): the Encounter value sets the seven measures count a visit by, which the recommended
+		///default encounter codes come from (FormEhrSettings, FormEncounterTool). Left out: the Encounter value sets that only exclude a patient
+		///(Hospice Encounter, Palliative Care Encounter, Frailty Encounter, Encounter Inpatient, Emergency Department Evaluation and Management
+		///Visit).</summary>
+		private static readonly string[] _arrayQualifyingEncounterOids=new string[] {
+			"2.16.840.1.113883.3.464.1003.101.12.1001",//Office Visit
+			"2.16.840.1.113883.3.464.1003.101.12.1016",//Home Healthcare Services
+			"2.16.840.1.113883.3.464.1003.101.12.1022",//Preventive Care Services, Initial Office Visit, 0 to 17
+			"2.16.840.1.113883.3.464.1003.101.12.1023",//Preventive Care Services Initial Office Visit, 18 and Up
+			"2.16.840.1.113883.3.464.1003.101.12.1024",//Preventive Care, Established Office Visit, 0 to 17
+			"2.16.840.1.113883.3.464.1003.101.12.1025",//Preventive Care Services Established Office Visit, 18 and Up
+			"2.16.840.1.113883.3.464.1003.101.12.1026",//Preventive Care Services Individual Counseling
+			"2.16.840.1.113883.3.464.1003.101.12.1027",//Preventive Care Services Group Counseling
+			"2.16.840.1.113883.3.464.1003.101.12.1080",//Telephone Visits
+			"2.16.840.1.113883.3.464.1003.101.12.1089",//Virtual Encounter
+			"2.16.840.1.113883.3.464.1003.125.12.1003",//Clinical Oral Evaluation
+			"2.16.840.1.113883.3.464.1003.1006",//Nutrition Services
+			"2.16.840.1.113883.3.526.3.1011",//Occupational Therapy Evaluation
+			"2.16.840.1.113883.3.526.3.1022",//Physical Therapy Evaluation
+			"2.16.840.1.113883.3.526.3.1141",//Psychoanalysis
+			"2.16.840.1.113883.3.526.3.1240",//Annual Wellness Visit
+			"2.16.840.1.113883.3.526.3.1285",//Ophthalmological Services
+			"2.16.840.1.113883.3.526.3.1492",//Psych Visit Diagnostic Evaluation
+			"2.16.840.1.113883.3.526.3.1496",//Psych Visit Psychotherapy
+			"2.16.840.1.113883.3.526.3.1530",//Speech and Hearing Evaluation
+			"2.16.840.1.113883.3.600.1.1751",//Encounter to Evaluate BMI
+			"2.16.840.1.113883.3.600.1.1834",//Encounter to Document Medications
+		};
+		#endregion The pick lists of the data-entry windows (EHR-7)
 
 		///<summary>The copyright statement of CMS68, as the HQMF file of each holds it (x/CMS68-v16.0.000-QDM.xml).</summary>
 
@@ -298,25 +372,25 @@ namespace OpenPmsDentalBusiness {
 		};
 
 		///<summary>The value sets the data-entry windows pick from (section 8): OID and what the pick list is for. Each is a value set of a measure
-		///too, so one import fills them. The windows still name their 2014 value sets until EHR-7 moves them here.</summary>
+		///too, so one import fills them. The windows name them by the constants above (EHR-7).</summary>
 		private static readonly string[][] _arrayPickLists=new string[][] {
-			new[] { "2.16.840.1.113883.3.600.1.1525","Interventions: follow-up for an above-normal BMI" },
-			new[] { "2.16.840.1.113883.3.600.1.1528","Interventions: follow-up for a below-normal BMI" },
-			new[] { "2.16.840.1.113883.3.600.1.1527","Interventions: referrals where weight assessment may occur" },
-			new[] { "2.16.840.1.113883.3.526.3.1561","Interventions and vital signs: medications for an above-normal BMI" },
-			new[] { "2.16.840.1.113883.3.526.3.1562","Interventions and vital signs: medications for a below-normal BMI" },
-			new[] { "2.16.840.1.113883.3.464.1003.195.12.1003","Interventions: counseling for nutrition" },
-			new[] { "2.16.840.1.113883.3.464.1003.118.12.1035","Interventions: counseling for physical activity" },
-			new[] { "2.16.840.1.113883.3.526.3.509","Tobacco use: cessation counseling" },
-			new[] { "2.16.840.1.113883.3.526.3.1190","Tobacco use: cessation pharmacotherapy" },
-			new[] { "2.16.840.1.113883.3.464.1003.109.12.1013","Interventions: dialysis services" },
-			new[] { "2.16.840.1.113883.3.526.3.1278","Tobacco use: screening" },
-			new[] { "2.16.840.1.113883.3.526.3.1170","Tobacco use: tobacco user" },
-			new[] { "2.16.840.1.113883.3.526.3.1189","Tobacco use: tobacco non-user" },
-			new[] { "2.16.840.1.113883.3.526.3.378","Problems: pregnancy" },
-			new[] { "2.16.840.1.113762.1.4.1248.429","Not performed: current medications, reason (acute health crisis)" },
-			new[] { "2.16.840.1.113883.3.526.3.1007","Not performed: BMI exam and BMI follow-up, reason (medical reason)" },
-			new[] { "2.16.840.1.113883.3.526.3.1582","Not performed: BMI exam, reason (patient declined)" },
+			new[] { OID_BMI_FOLLOW_UP_ABOVE,"Interventions: follow-up for an above-normal BMI" },
+			new[] { OID_BMI_FOLLOW_UP_BELOW,"Interventions: follow-up for a below-normal BMI" },
+			new[] { OID_BMI_REFERRALS,"Interventions: referrals where weight assessment may occur" },
+			new[] { OID_BMI_MEDICATIONS_ABOVE,"Interventions and vital signs: medications for an above-normal BMI" },
+			new[] { OID_BMI_MEDICATIONS_BELOW,"Interventions and vital signs: medications for a below-normal BMI" },
+			new[] { OID_COUNSELING_NUTRITION,"Interventions: counseling for nutrition" },
+			new[] { OID_COUNSELING_PHYSICAL_ACTIVITY,"Interventions: counseling for physical activity" },
+			new[] { OID_TOBACCO_COUNSELING,"Tobacco use: cessation counseling" },
+			new[] { OID_TOBACCO_PHARMACOTHERAPY,"Tobacco use: cessation pharmacotherapy" },
+			new[] { OID_DIALYSIS_SERVICES,"Interventions: dialysis services" },
+			new[] { OID_TOBACCO_SCREENING,"Tobacco use: screening" },
+			new[] { OID_TOBACCO_USER,"Tobacco use: tobacco user" },
+			new[] { OID_TOBACCO_NON_USER,"Tobacco use: tobacco non-user" },
+			new[] { OID_PREGNANCY,"Problems: pregnancy" },
+			new[] { OID_REASON_ACUTE_HEALTH_CRISIS,"Not performed: current medications, reason (acute health crisis)" },
+			new[] { OID_REASON_MEDICAL,"Not performed: BMI exam and BMI follow-up, reason (medical reason)" },
+			new[] { OID_REASON_PATIENT_DECLINED,"Not performed: BMI exam, reason (patient declined)" },
 		};
 
 		///<summary>The direct-reference-code roles (section 7.3): which code of the office's Direct Reference Codes file the engine, the data-entry
@@ -324,8 +398,8 @@ namespace OpenPmsDentalBusiness {
 		///code. Columns: role, CMS ID, code system (the code list's name), the number of codes the role takes, the LOINC display name (or ""), and
 		///what the role is for.</summary>
 		private static readonly string[][] _arrayDirectCodeRoles=new string[][] {
-			new[] { "Cms68MedsDocumented","CMS68","SNOMEDCT","1","","The documentation of current medications: CMS68's numerator and exception; what the medical window writes and filters by" },
-			new[] { "Cms69Bmi","CMS69","LOINC","1","Body mass index (BMI) [Ratio]","The BMI exam: the not-performed pick list and labels; QRDA I" },
+			new[] { ROLE_CMS68_MEDS_DOCUMENTED,"CMS68","SNOMEDCT","1","","The documentation of current medications: CMS68's numerator and exception; what the medical window writes and filters by" },
+			new[] { ROLE_CMS69_BMI,"CMS69","LOINC","1","Body mass index (BMI) [Ratio]","The BMI exam: the not-performed pick list and labels; QRDA I" },
 			new[] { "Cms69Virtual","CMS69","ActCode","1","","The encounter class of a virtual encounter: CMS69's \"not virtual\" test" },
 			new[] { "Cms138QualifyingVisitCpt","CMS138","CPT","4","","CMS138's qualifying visits by CPT code (every CPT direct reference code of CMS138)" },
 			new[] { "Cms138CounselingDx","CMS138","ICD10CM","1","","Tobacco cessation counseling recorded as a diagnosis: CMS138's numerator 2" },
@@ -533,6 +607,13 @@ namespace OpenPmsDentalBusiness {
 			Meth.NoCheckMiddleTierRole();
 			List<CqmValueSet> listValueSets=GetValueSets();
 			return _arrayPickLists.Select(x => listValueSets.First(y => y.Oid==x[0])).ToList();
+		}
+
+		///<summary>The qualifying-encounter value sets (E-32), in the catalog's order of OIDs: the Encounter value sets the measures count a visit
+		///by, without those that only exclude a patient. The recommended default encounter codes are their SNOMED CT codes.</summary>
+		public static List<CqmValueSet> GetQualifyingEncounterValueSets() {
+			Meth.NoCheckMiddleTierRole();
+			return GetValueSets().Where(x => _arrayQualifyingEncounterOids.Contains(x.Oid)).ToList();
 		}
 
 		///<summary>The OIDs and names CQMCommonQDM declares for its hospital functions, which no measure calls (not in GetValueSets).</summary>

@@ -23,16 +23,10 @@ namespace EhrTests {
 		private const int COUNT_ENGINE_CODES_FLOOR=21;
 
 		#region The manifest
-		///<summary>The files that may still name a value-set OID outside the catalog (section 7.2's shrinking allowlist): the data-entry windows
-		///and the pregnancy lookup until EHR-7 moves them to the catalog. Then empty. (The 2014 engine left it when EHR-6b deleted it.)</summary>
+		///<summary>The files that may still name a value-set OID outside the catalog (section 7.2's shrinking allowlist): empty since EHR-7 moved
+		///the data-entry windows and the pregnancy lookup to the catalog's constants (the 2014 engine left it when EHR-6b deleted it). No file may
+		///be added.</summary>
 		private static readonly string[] _arrayOidAllowlist=new string[] {
-			@"OpenPmsDental\Forms\FormEhrNotPerformedEdit.cs",//EHR-7
-			@"OpenPmsDental\Forms\FormEhrPatientSmoking.cs",//EHR-7
-			@"OpenPmsDental\Forms\FormInterventionEdit.cs",//EHR-7
-			@"OpenPmsDental\Forms\FormInterventions.cs",//EHR-7
-			@"OpenPmsDental\Forms\FormMedical.cs",//EHR-7
-			@"OpenPmsDental\Forms\FormVitalsignEdit2014.cs",//EHR-7
-			@"OpenPmsDentalBusiness\Data Interface\DiseaseDefs.cs",//EHR-7
 		};
 		private const string PATH_CATALOG=@"OpenPmsDentalBusiness\Db Multi Table\Cqm\CqmCatalog.cs";
 
@@ -75,6 +69,7 @@ namespace EhrTests {
 				+string.Join("; ",listOutside.Select(x => x+" ("+string.Join(", ",dictFileOids[x].Distinct())+")")));
 			List<string> listStale=_arrayOidAllowlist.Where(x => !dictFileOids.ContainsKey(x)).ToList();
 			Assert.AreEqual(0,listStale.Count,"On the allowlist, naming no value-set OID any more (take it off): "+string.Join("; ",listStale));
+			Assert.AreEqual(0,_arrayOidAllowlist.Length,"After EHR-7 the allowlist is empty (section 7.2): no value-set OID literal outside the catalog file.");
 			//Every OID the catalog names is one of its value sets (or one CQMCommonQDM declares and no measure uses).
 			List<string> listCatalog=CqmCatalog.GetValueSets().Select(x => x.Oid).Concat(CqmCatalog.GetValueSetsDeclaredButUnused().Select(x => x.Key)).ToList();
 			List<string> listUnknown=dictFileOids[PATH_CATALOG].Where(x => !listCatalog.Contains(x)).Distinct().ToList();

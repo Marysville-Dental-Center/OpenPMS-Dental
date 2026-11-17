@@ -24,9 +24,10 @@ What this version brings, each in its section below (the roadmap's "Done in the 
 - the Direct certificate of an e-mail address imported from the file the office's Direct provider issued, with the provider's trust anchor,
   in place of the registration with Open Dental's servers, which always failed;
 - the EHR value sets imported from the office's own download of VSAC's release for the 2027 quality measures (published 2026-05-14), with
-  its Direct Reference Codes and Code System Versions files picked together, so the EHR pick lists (tobacco use, counseling, BMI follow-up)
-  have their codes, with a code-system status that shows which code-system tables still have to be loaded and whether a loaded table is
-  older than the release; the catalog of the seven 2027 measure versions this program will report (the 2014 and 2011 quality-measure
+  its Direct Reference Codes and Code System Versions files picked together, so the EHR pick lists (tobacco use, interventions, not
+  performed with a new BMI follow-up item, pregnancy, the recommended default codes) have their codes, and the vital signs take the age on
+  the day taken and the 2027 BMI range, with a code-system status that shows which code-system tables still have to be loaded and whether a
+  loaded table is older than the release; the catalog of the seven 2027 measure versions this program will report (the 2014 and 2011 quality-measure
   windows are removed: the 2027 measures replace them);
 - Open Dental 26.2: its database schema and the changes the owner chose on 2026-11-07:
   - Appointments: several blockout types in the Advanced Appointment Search, the practice and clinic schedule notes in the Appointments
@@ -614,13 +615,44 @@ their results are shown, printed or exported.
   the pick lists. Where the program cannot compare the two versions, both are shown and nothing is marked. A
   value-set code counts for the pick lists and the measures only when its code system's table is loaded; this program does not download
   them, so load each table directly (CPT with the import above).
-- **Until a later version moves them to the 2027 value sets,** some EHR pick lists stay empty after the import, because they still name
-  value sets of the 2014 measures: the BMI medications and dialysis lists of the intervention window, the not-performed window's BMI exam,
-  influenza and current-medications codes and its reasons other than "Medical Reason", and the pregnancy problems the quality measures look
-  for. The tobacco, counseling and BMI follow-up lists work.
+- **Every EHR pick list reads the 2027 value sets** (the next section): the tobacco, counseling, BMI follow-up, BMI medication, dialysis,
+  not-performed and pregnancy lists, and the recommended default encounter and pregnancy codes, all fill from this import.
 - **Every workstation** reads the new codes after the import, also through the Middle Tier, without a restart.
 - The CPT import in the same window now needs the Setup permission too.
 - LOINC's notice is in Help > About > View Licenses: the program holds LOINC codes (the vital-sign exams) and three LOINC display names.
+
+## EHR: the data-entry windows on the 2027 measures
+
+The EHR windows that record what the quality measures count now pick from the 2027 value sets and the codes the 2027 measures name directly,
+as the office imports them (the section above; `docs/specs/ehr-2027-measures-plan.md`, section 8). The program no longer holds the codes
+those windows used to name for the 2014 measures. Until the office imports the release, these lists are empty and the windows say so.
+
+- **Interventions.** The BMI medication lists are the 2027 "Medications for Above Normal BMI" and "Medications for Below Normal BMI", and
+  the dialysis list is "Dialysis Services" (one list in place of "Education" and "Related Services"). The interventions list labels each
+  medication by the value set that holds it. An intervention saved before keeps its code, also one in none of the 2027 lists (for example
+  a 2014 dialysis education row): the intervention window shows it as the selected row, so it can be saved again. Until the office imports
+  the release and the code-system tables, the intervention window's list is empty and its title says where the codes come from. The vital
+  sign window lists the 2027 BMI medications.
+- **Not performed.** The items' codes and reasons come from the release: the BMI exam and "current medications documented" by the codes
+  the 2027 measures name directly, tobacco screening from "Tobacco Use Screening". A new item, **BMI follow-up**, records a follow-up,
+  referral or BMI medication not done for a medical reason (CMS69's exception). The influenza vaccination item stays, picking from the CVX
+  table, with a note that no 2027 measure uses it. The list labels each row by its code; a row whose code is of no item (for example one
+  saved before the import) shows "other" and opens read-only (it can still be deleted), where it once opened as "influenza" or failed. Until the office imports the
+  release every saved row but the influenza ones is such a row: the list shows "other (2027 value sets not imported)", and the read-only
+  window says that importing the release (Code System Importer) gives the row its item. A saved reason that is not in
+  the 2027 lists stays the row's reason when the row is saved again.
+- **Current medications documented** (the medical window) records the code of CMS68 from the import; without the import it records nothing
+  and says so.
+- **Pregnancy.** The pregnancy problems the measures look for are those coded in the imported "Pregnancy" value set alone (the 2014
+  measures also needed a second set that the 2027 release does not have). The recommended pregnancy codes (Setup, EHR settings) are the
+  SNOMED CT codes of "Pregnancy" that the office's SNOMED CT table holds, and the recommended encounter codes (EHR settings and the
+  encounter tool) are the SNOMED CT codes of the measures' qualifying-encounter value sets that it holds; they replace the nine and nine
+  fixed codes picked for the 2014 measures. A default code chosen before keeps working.
+- **Vital signs: age and BMI.** The vital sign window and the eForm vital-sign import now take the patient's age on the day the vital sign
+  is taken (it was the age before January 1 of that year): the BMI percentile is shown and saved at 3 to 17 (once 3 to 16), the over- or
+  underweight class from 18, and the child counseling group under 18, so a 17-year-old is no longer in neither group. The normal adult BMI
+  range is 18.5 to under 25 at every age, as the 2027 measure has it (the 2014 rule used 23 to under 30 from 65 on). In the vital sign
+  window a patient without a birth date is classed as an adult, as before; the eForm import classes no such patient, as before. Vital signs saved before keep their weight code and percentile until they are saved again.
 
 ## Open Dental 26.2: the database schema
 
