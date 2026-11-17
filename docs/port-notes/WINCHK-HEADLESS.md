@@ -407,12 +407,12 @@ answers no UAC prompt, prints nothing, sends nothing and changes no Windows sett
 | On x64: each helper link where a test PC has the vendor software | Helper32Tests | Yes: the vendors' software |
 | On x64: the tooth chart in DirectX and OpenGL, and a mode that cannot start falling back | I7, I11; S3b-5W's tests | - |
 | On x64: the Snipping Tool start of the claim attachment windows and the on-screen keyboard | - | Yes: they start Windows' own programs on the person's desktop |
+| On x64: the setup's move from a 32-bit bridge install; a mixed pair of workstations | Removed by decision 22 (no install to migrate, no mixed workstations) | - |
 
 **The launch checks (LAUNCH-3b, decision 25).** Every "For a person" row above, the PARTLY items of section 6 and the gate's other person
 checks (the Middle Tier as a Windows service, the clean install, the Direct LDAP resolver, the WebView2 windows) are one checklist for the
 owner: [docs/launch-checks-3b.md](../launch-checks-3b.md), with the command or steps, the time, what each changes and what to send back.
 D7 (group D, `DETests.D7_WebView2Windows`) is the WebView2 window check of that list; the lead runs it at the next connected session.
-| On x64: the setup's move from a 32-bit bridge install; a mixed pair of workstations | Removed by decision 22 (no install to migrate, no mixed workstations) | - |
 
 ### 4. Program defects found and fixed (same behaviour as net48)
 

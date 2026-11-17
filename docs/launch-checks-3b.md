@@ -75,10 +75,12 @@ from a PFX file, the endpoint answers (405 for a GET, 413 above the size limit),
 **Command.** Open Windows PowerShell with "Run as administrator" (64-bit, from the Start menu) and paste this one line, with `<repo>` the
 repository folder:
 
-  powershell -NoProfile -ExecutionPolicy Bypass -File "<repo>\tools\Test-MiddleTierService.ps1"
+```
+powershell -NoProfile -ExecutionPolicy Bypass -File "<repo>\tools\Test-MiddleTierService.ps1"
+```
 
-Add `-ClientSession` for the client session too: the script then waits while you start the program (`<repo>\OpenPmsDental\bin\Debug\
-OpenPmsDental.exe`), choose the Middle Tier address it prints, log in as `s3b6usera` (its password is in
+Add `-ClientSession` for the client session too: the script then waits while you start the program
+(`<repo>\OpenPmsDental\bin\Debug\OpenPmsDental.exe`), choose the Middle Tier address it prints, log in as `s3b6usera` (its password is in
 `tests\MiddleTierHostTests\HostTestRun.cs`), open a patient and close the program, and asks you whether that worked. `-PlanOnly` prints
 every step with its names and changes nothing (no elevation needed).
 
@@ -127,7 +129,9 @@ is off, changing nothing.
 **Command.** In Windows PowerShell (no "Run as administrator" needed), with `<repo>` the repository folder and `<dryrun>` the dry run's
 output folder:
 
-  powershell -NoProfile -ExecutionPolicy Bypass -File "<repo>\tools\Test-CleanInstall.ps1" -Setup "<dryrun>\OpenPmsDental-<version>-Setup.exe" -Staging "<dryrun>\staging"
+```
+powershell -NoProfile -ExecutionPolicy Bypass -File "<repo>\tools\Test-CleanInstall.ps1" -Setup "<dryrun>\OpenPmsDental-<version>-Setup.exe" -Staging "<dryrun>\staging"
+```
 
 The Windows Sandbox window opens and works by itself: inside it, `Test-CleanInstall-InSandbox.ps1` records that there is no .NET runtime,
 runs the setup silently (`/VERYSILENT /SUPPRESSMSGBOXES /PREREQS=download`, a database server on the sandbox's own computer so no
