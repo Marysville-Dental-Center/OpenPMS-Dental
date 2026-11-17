@@ -109,6 +109,8 @@ Windows keeps the key of a PFX that a service loads in a machine key folder; the
 
 ## 3. Clean install in Windows Sandbox (Test-CleanInstall.ps1)
 
+**The owner's choice (2026-11-17): Windows Sandbox is not turned on.** This check is done by a person on a spare PC or a VM that has no .NET 10 runtime (Settings > Apps shows no "Microsoft .NET Runtime" or "Windows Desktop Runtime" 10, and `C:\Program Files\dotnet` does not exist): run the setup there (`OpenPmsDental-<version>-Setup.exe`, a database server on that computer, the Visual C++ prompt answered), start the program and the connection settings tool, check in Task Manager (Details, right-click a column header, Select columns, Image path name... or Process Explorer's DLL view) that `coreclr.dll` loads from `C:\Program Files\Open PMS - Dental`, then uninstall from Apps. The script below stays in the repository unused, for a PC where Sandbox may be on later.
+
 **What it proves.** The gate's "the release is built, installed on a clean VM without any .NET": the 64-bit setup installs on a Windows
 that has no .NET runtime at all, installs exactly the staged files, the installed programs run on their own runtime (coreclr.dll and
 hostfxr.dll from the install folder), setup's `/PREREQS=download` installs the x64 Visual C++ runtime, and the uninstall removes the
