@@ -1315,6 +1315,19 @@ loaded-module check, the staged list against Build-Release's (the owner's elevat
 `RuntimePartTests` and `RuntimePartDbTests`; handoffs to S3b-5 in the note (RegistryTests' count of fork values, AttributionTests' shipped
 files, TestProbeHost's CopyHost).
 
+**Status (2026-11-16), WINCHK-5 (the gate's screenshot pass).** On `net10/winchk5-1` (`docs/port-notes/WINCHK-HEADLESS.md`, section
+WINCHK-5): the window checks run on .NET 10 x64 at the owner's connected desktop, every group A to K, no check failed (PARTLY items for
+a person listed there; SKIPPED only by design). An in-process session is now the program's own process (its apphost with TestProbeHost's
+startup hook: its runtime, runtimeconfig, deps.json and .dll.config), which fixes the gate's `SessionProcess_RunsFromTheProgramFolder_WithItsConfig`;
+the other .NET Framework assumptions the runs found are fixed in the harness (Form's event keys, PrintPreviewControl's pages, the build
+time of the managed assembly, an exception text). New 3b checks: the default-font windows (MsgBoxCopyPaste, the progress windows, the
+clinic picker's drop-down, ToolTipOD, the main menu), the dashboard graphs one by one, a classic print preview. Two program defects fixed
+with net48's behaviour: MenuOD drew every main menu in Segoe UI 9, and the dashboard's y axes read "${1:0}" (S3b-FMT's ChartNumberText and
+composite formats). **The screenshot pass is complete with before/after pairs** at 100 % on one monitor: the 3a gate's net48 pictures beside
+the .NET 10 x64 ones with difference images, `.git/od-tools/test-results/winchk-pairs-3b/index.html` (and `.zip`); 145 pairs, 53 identical,
+the rest explained there. Still for a person (not reachable headless): "Make text bigger" above 100 %, 150 % and two monitors of different
+scaling, real prints to a PDF printer, and the section 6 items that send, install or update.
+
 **Order on the branch.** S3b-0 (spike) and S3b-1 first; then S3b-2, S3b-3 strictly in sequence (each layer must be net10 before the
 layer above can build); then S3b-4 with S3b-6 and S3b-7 in parallel (disjoint files: the Middle Tier package owns the Remoting and
 WebServices files, the release package owns ForkReleases/DocumentMiscs/PrefL/UpdateFileCopier's `FormMain.cs`/setup/Build-Release;

@@ -12,6 +12,8 @@ process), and printed with PrintWindow, DrawToBitmap or RenderTargetBitmap. Noth
 - Merged on main as 1173acc6a (WINCHK-HEADLESS, two review rounds). The review notes left over from both rounds are done in WINCHK-3 below.
 - Each run's copy is brought to this build's fork schema level before any check starts the program, and RdlDesigner's menu is reached
   through its MenuStrip (WINCHK-4 below).
+- On .NET 10 x64 an in-process session is the program's own process (its apphost with TestProbeHost's startup hook), the stage 3b checks
+  C16 to C20, F5 and G3 are added, and the stage 3b screenshot pass with its before/after pairs is done (WINCHK-5 below).
 
 ## WINCHK-3: the review notes of both rounds
 
@@ -250,3 +252,180 @@ preview). "System" is the maximized MDI child's own menu, which WinForms merges 
 PASSED 4, PARTLY 4; winchk4-3 PASSED 27, PARTLY 7, SKIPPED 4; winchk4-4 PASSED 29, PARTLY 11.
 
 Without `OPMS_WINDOW_CHECKS`: WindowChecksTests 34 tests, 5 passed (the harness self-tests), 29 skipped (Inconclusive), none failing.
+
+## WINCHK-5: the window checks on .NET 10 x64 (the stage 3b screenshot pass)
+
+Branch `net10/winchk5-1` from `net10/switch` (652b9720e). The 3b gate's Full run failed
+`HarnessTests.SessionProcess_RunsFromTheProgramFolder_WithItsConfig`: it expected the .NET Framework layout. This package ports the
+in-process harness to the .NET 10 layout, fixes the other .NET Framework assumptions the runs found, adds the 3b checks the harness can
+do, runs every group at the owner's connected desktop and makes the before/after pairs (section 6 of `docs/specs/net10-plan.md`, the
+"Stage 3b (net10)" item, and the 3b full-test gate's "the screenshot pass of section 6 is complete with before/after pairs").
+
+### 1. The in-process session is the program's own process
+
+On .NET 10 the program is self-contained (decision 20): `OpenPmsDental.dll` is its assembly, `OpenPmsDental.exe` the apphost, and the
+folder holds its runtime, `OpenPmsDental.runtimeconfig.json` (`includedFrameworks`, the NLS mode of decision 4), `OpenPmsDental.deps.json`
+and `OpenPmsDental.dll.config` (only the `applicationSettings`, S3b-4). A configuration file's binding redirects mean nothing on .NET. The
+harness's session process was a copy of TestProbeHost in the program folder with `OpenPmsDental.exe.config` as its config; that copy cannot
+run there (its apphost takes the folder's `hostfxr.dll`, which looks for the shared frameworks in that folder: "You must install or update
+.NET ... No frameworks were found", exit 150), and the program cannot start from a test's folder (S3b-0 item 7).
+
+- `tests/TestProbeHost`: the serving loop moved to `ProbeServer` (Main uses it unchanged); `StartupHook.cs` is a .NET startup hook (a type
+  `StartupHook` in no namespace, internal) that serves a test's handler inside a real program's process before its `Main` runs and then
+  ends the process (`Main` never runs). It removes `DOTNET_STARTUP_HOOKS` and its own variable first, so no process the program starts
+  inherits it; without its variable it returns at once. `ProbeProcess.StartInProgram(exe, handler, timeout)` starts the program's apphost
+  from its own folder with that hook: nothing is copied into the folder and nothing deleted. `ProbeProcess.Start` and `RunOnce` are unchanged
+  (the other test projects' probes).
+- `InProcHost.StartSessionProcess` starts `OpenPmsDental.exe` of the Debug (or Release) folder that way. The session's process is the
+  program's: its folder is the application base, the folder's runtime runs it, .NET reads the program's runtimeconfig, deps.json and
+  .dll.config, and `OpenPmsDental.dll` is the entry assembly from the start. `ProgramDriver.PatchProcessIdentity` still checks
+  Application.StartupPath, ExecutablePath and the entry assembly and reports each as "(own)" or "(patched)": every run reported
+  "(own)" for all three.
+- The config check: `GetRuntime` reports what .NET read in the session (ProcessPath, BaseDirectory, the folders of System.Private.CoreLib
+  and Windows Forms, the framework, the bitness, `APP_CONTEXT_DEPS_FILES`, System.Configuration's file, every runtimeconfig property, the
+  Settings values). `HarnessTests.SessionProcess_RunsFromTheProgramFolder_WithItsConfig` (ported, on the real `OpenPmsDental\bin\Debug`;
+  inconclusive when the program is not built) asserts: the entry assembly is the folder's `OpenPmsDental.dll` before and after the patch,
+  nothing is patched, the process is the folder's apphost, its base is the folder, CoreLib and Windows Forms load from the folder (not a
+  machine-wide .NET), the host read the folder's `OpenPmsDental.deps.json`, every property of the runtimeconfig has its value in the
+  process (`System.Globalization.UseNls` true), System.Configuration reads `OpenPmsDental.dll.config` and each setting the Settings class
+  declares has the file's value, the hook's variable is gone, nothing of TestProbeHost is in the folder, the process is gone after Dispose
+  and the folder's files are as before. The old checks that still mean something are kept (the entry assembly, the patch text, the config
+  file); the copy of the host and of `.exe.config` are gone, so their checks became the runtimeconfig/deps.json/.dll.config ones.
+- The session starts as `ProgramEntry.Main` does on .NET 10 (S3b-4): `Application.SetDefaultFont(Microsoft Sans Serif 8.25)` and
+  `SetHighDpiMode(PerMonitorV2)` first. Without them every plain form of the in-process pictures drew in Segoe UI 9. The per-process calls
+  are safe now: the session's process is the program's alone.
+
+### 2. The same .NET Framework assumption elsewhere
+
+Found by the runs (each a harness assumption, none a program defect):
+
+- **Form's event keys.** `ProgramDriver.RemoveEventHandlers` (before Stop, and before the harness closes windows left open) looked up
+  `EVENT_FORMCLOSING`/`EVENT_FORMCLOSED`; .NET's Windows Forms names them `s_formClosingEvent`/`s_formClosedEvent`. The lookup threw on the
+  window's thread, so the main window's closing was never detached and every session's Stop waited 60 s ("The window's thread did not end").
+  Both names are tried; `HarnessTests.MainClosing_IsDetachedThroughFormsEventKeys` pins it (a form that is never shown). Group A to E's run
+  went from 906 s to 260 s.
+- **PrintPreviewControl's pages.** I3 counted the laid-out pages through the field `pageInfo`; .NET names it `_pageInfo`, so both sheet
+  previews counted 0 pages. Both names are tried.
+- **The build time.** A3 and A7 compared the build stamp with the apphost's write time; the stamp is in the managed assembly, which the
+  compile writes after the stamp (`ForkWriteBuildStamp` runs before CoreCompile). Both now take the assembly (`ProgramAssembly`), and A7 takes
+  A3's window (0 to 5 minutes, plus the minute the prompt leaves out): the .NET 10 Release compile of the program took 3.0 minutes, the .NET
+  Framework's 0.2 to 1.1, which failed A7's old 3-minute rule. REPORT.md's header times the managed assembly too.
+- **An exception's text.** K2 knows DocumentationBuilder's pre-existing start-up error (`new Version(major,-1,1)` on the 99.0.0.0 sentinel)
+  by the .NET Framework's message; .NET's says "minor ('-1') must be a non-negative value. (Parameter 'minor')". Both are known.
+- **Thread.Abort** throws on .NET (SYSLIB0006): RunCheck no longer calls it after a check that does not end (the script's background thread
+  is left; its windows are closed and the session is checked for being stuck, as before).
+- Searched for the rest: no other lookup of a .NET Framework private name (`Application`'s two path fields already had both names), no
+  other `.exe.config`, no other start from the test's own folder (ATests and KTests start the apphosts in their own output folders).
+
+### 3. The 3b checks added
+
+From section 6's "Stage 3b (net10)" item, what the harness did not do yet, each as a picture; nothing is pressed that prints, saves or sends.
+
+| Check | What | Group |
+|---|---|---|
+| C16 | MsgBoxCopyPaste with a synthetic text; its font | C (`C16toC20_DefaultFontWindows`) |
+| C17 | The progress windows FormProgressStatus and FormProgressExtended (ODProgress, on their own thread), closed by their close actions | C |
+| C18 | The combo box drop-down the clinic picker and every UI.ComboBox open (FormComboPicker), from Edit Patient Information | C |
+| C19 | ToolTipOD | C |
+| C20 | The main menu (MenuOD) draws in its window's font; the menu bar | C |
+| F5 | Each dashboard graph on its own, after it has loaded (the Windows Forms charting of .NET 10) | F (`F5_DashboardGraphs`) |
+| G3 | Manage > Time Cards > Print All: a classic FormPrintPreview (TryPreview only previews), its pages; employee and pay period made and deleted | G (`G3_PrintPreview`) |
+| G2 | Now also prints each ODR parameter window (`G2-params-n.png`) | G |
+
+A form that sets no font of its own (C16 to C18) must have Microsoft Sans Serif at 8.25 pt times the text scale factor (decision 9);
+C19's and C20's pictures (a line of text: 3 and 5 colours) are checked as text on a background, not by a window's "more than 5 colours".
+Already there: the splash (A1), dashboards and their print preview (F1 to F4), the eForm and treatment plan print previews (D5, I3), the
+RDL viewer (G2). Not reachable headless and still for a person (section 6): "Make text bigger" above 100 %, 150 % and two monitors of
+different scaling, dragging between monitors, real prints to a PDF printer, voice perio, e-mail and clearinghouse sends, the self-update.
+
+### 4. Program defects found and fixed (same behaviour as net48)
+
+- **The main menu in Segoe UI 9** (`OpenPmsDental/UI/MenuOD.cs`). Every MenuOD drew wider in Segoe UI 9 on .NET 10, where the .NET
+  Framework drew Microsoft Sans Serif 8.25. MenuOD handed its font to its MenuStripOD only in OnFontChanged. On .NET Framework the move onto
+  the form always raised it (Control.DefaultFont, the system's font, never equalled a form's `new Font("Microsoft Sans Serif",8.25f)`: another
+  character set); on .NET 10 `Application.SetDefaultFont` makes them equal, OnFontChanged never comes and the strip kept ToolStrip's own
+  default. `MenuOD.OnParentChanged` gives the strip its font when they differ. C20 checks it.
+- **The dashboard's y axes read "${1:0}"** (`OpenPmsDentalGraph/Base/ChartNumberText.cs`, S3b-FMT's). GraphQuantityOverTime gives its y
+  axis a composite format (`{0:0}`, `${0:0.0}`, `{0:0,}K`), which the chart writes with string.Format; ChartNumberText took it for a custom
+  number format, so its zeros became digit placeholders ("${1:0}" for 10, "{0:8}" for 8). A format with `{` is written with string.Format
+  through a provider whose ICustomFormatter writes each double through `ToStringNetFx`. Listed in `tools/FormatSweep/allowed-sites.txt`
+  (routed); `FormatParityTests.ChartLabels_CompositeFormat_IsWrittenAsTheChartWritesIt` pins it (axis labels $0 to $10 with no brace, a
+  point label "{0:0.00} pts" of 1.005 is "1.01 pts").
+
+### 5. Self-tests (no program window, no opt-in)
+
+Without `OPMS_WINDOW_CHECKS`: WindowChecksTests 38 tests, 6 passed (the harness self-tests: AssemblyProbe, the session process, the event
+keys, the result round trip, the copy migration, the MenuStrip lookup), 32 skipped (Inconclusive), none failing
+(`winchk5-self-3.txt`, `winchk5-self-4.txt`). FormatParityTests 21 of 21 (`winchk5-fmt-1.txt`). NoHqTests 115 of 115 in every run.
+
+### 6. The runs
+
+The owner was connected by remote desktop (`query user`: Active before every group set); every P0 recorded "remote desktop, unlocked,
+WPF renders". Full Debug x64 lane builds (0 errors) and a Release x64 lane build for A7 to A9; `OPMS_WINDOW_CHECKS=1`,
+`OPMS_WINDOW_CHECKS_DUMP` the 3a gate's dump `.git/od-tools/winchk-gate3a/opendental_dev.sql` (restored into a `winchk_` copy per run and
+migrated from 2026110801 to 2026111401, step 2026111401), `OPMS_WINDOW_CHECKS_BUDGET_MINUTES=18`, `run-tests.ps1 -Mode Targeted -Platform x64
+-RequireBuildOutput -Include WindowChecksTests`, results in `.git/od-tools/test-results/winchk-3b-1` to `-3` (REPORT.md in each) and
+`winchk-3b-1.txt` to `-3.txt`. Every copy was dropped (run.log; `SHOW DATABASES LIKE 'winchk%'` empty afterwards). Every in-process
+session started the program within 5 s.
+
+| Run | Groups | Commit | WindowChecksTests | Counts (REPORT.md) | Time |
+|---|---|---|---|---|---|
+| winchk-3b-1 | A, B, C, D, E | 37eeebc3d | passed, none failing | PASSED 34, PARTLY 11 | 260 s |
+| winchk-3b-2 | F, G, H | 1a14e4c84 | passed, none failing | PASSED 4, PARTLY 6 | 159 s |
+| winchk-3b-3 | I, J, K | 1a14e4c84 | passed, none failing | PASSED 27, PARTLY 7, SKIPPED 4 | 383 s |
+
+The commits after 37eeebc3d touched nothing groups A to E reach (the chart labels, I3's page count, G3, K2). The earlier runs are kept
+beside them as evidence of what was fixed: `winchk-3b-1-first` (A7, C18, C19 failed; every Stop waited 60 s), `-1-second` (all passed,
+before the menu fix), `-1-third` (C20's picture rule), `winchk-3b-2-first` and `-second` (the chart labels; G3 without its page count),
+`winchk-3b-3-first` (I3's page count, K2's message).
+
+No check FAILED. SKIPPED by design: I9 (TC-8 removed the developer switch), K3, K7 and K9 (elevation; the harness never answers a UAC
+prompt). **Every PARTLY item, for a person:**
+
+- A1: compare A1-main.png and A1-splash.png with stage 0's pictures (looks only).
+- A5: at 100 % the NoDpi pictures should look as A1 (the flag only changes scaling above 100 %).
+- A9: the shields in A9-debug-folder.png and A9-release-folder.png.
+- B1: B1-appts-day.png and B1-appts-week.png against stage 0's 03b and 03c.
+- B6: B6-images.png against stage 0's 01 (tree and toolbar).
+- C15: the exit time after a session that opened the Wiki (stage 0 finding 2) needs File > Exit in a real run.
+- D3: the red underline's look in D3.png.
+- E1 to E3: bold, wrapped and multi-line labels in E1.png to E3.png; E4: the device line, the bold 'Settings in effect' and the wrapped red
+  check line in E4.png.
+- F1: the graphs in F1.png (empty on synthetic data but the 30-day one); F5: the graphs' axes, legends and fonts in F5-1.png to F5-6.png.
+- G1: paging through the report's pages (one page here). G3: the page in G3.png (margins, fonts, the time card's grid).
+- H1: adding a Text box to the page header and File > Save (mouse work on RdlDesigner's design surface). H2: the preview's messages in
+  H2-preview.png (RdlViewer draws them itself).
+- I1: the filling on 30 and the date slider in I1-chart.png (the big chart is the same picture). I2: both Save to Images pictures show the
+  chart with the filling. I3: the chart on the classic preview's page. I5: the filling on 30 in I5-reopened-chart.png. I7: the Chart's 3D
+  chart after each Save (smoothed, quick live view, smoothed again). I8: sharp, not stretched or blurred after the resize; a corner drag is
+  mouse work; the memory after Show Big and after closing it.
+- K2: Build OD Documentation is not pressed headless (it opens the written XML in a browser).
+
+These are the items the .NET Framework runs had (WINCHK-4), plus F5's and G3's for the new pictures.
+
+### 7. The before/after pairs
+
+- **Before (net48):** the 3a gate's window-check output, copied from `%TEMP%\winchk-gate3a-1` to `-3` to
+  `.git/od-tools/test-results/winchk-before-net48/` before anything else (with WINCHK-4's net48 runs `winchk4-1` to `-4`, which hold the
+  pictures the gate's runs lack: its F, H and I checks failed on the stale copy that WINCHK-4 fixed). 111 of the 145 pairs take the gate's
+  picture, 34 WINCHK-4's.
+- **After:** the three runs above.
+- **The page:** `.git/od-tools/test-results/winchk-pairs-3b/index.html` (relative paths to `before/`, `after/` and `diff/` beside it;
+  `winchk-pairs-3b.zip`; outside the repository). A summary in plain words for the owner at the top, an overview of every pair with its
+  share of changed pixels, then each group's pairs, the most changed first: the net48 picture, the .NET 10 picture and a difference image
+  (the after picture faded to grey, pixels that differ by more than 16 in a colour channel in red, an area only one picture has in magenta)
+  with its numbers, and the pictures only one set has. Made by a script of the scratchpad (`Make-Pairs.ps1`, System.Drawing).
+- **What it shows:** 145 pairs, 53 identical to the pixel; 18 pictures only in the .NET 10 set (the new checks); none only in the net48
+  set. Most of the rest differ where the time or the copy's name shows (the Appointments module's "now" line and today, the 30-day graph's
+  dates, Help > About's database). Different on purpose: the Release publish prompt (S3b-7's text naming .NET 10), the .NET crash dialog of
+  DocumentationBuilder, RdlDesigner's toolbar (S3b-2b's Panel) and its error texts naming the missing file's path. For a person, from the new
+  runtime and none changing what a person can do: print previews place and scale the page a few pixels differently (G1, I3, D5, F4), the
+  appointment grid sits 1 pixel lower in two of its three pictures (the out-of-process day view does not), the dashboard's cells in edit
+  mode are 1 to 2 pixels apart, CrudGenerator's list box scrolls its selected item to the bottom instead of the top (K6). The tooth chart
+  pictures (I1, I8, ...) are S3b-5W's. All at 100 % (96 DPI) on the same remote desktop, so no picture shows a DPI or text-scale difference.
+
+### 8. Checks
+
+- Full Debug x64 lane build of `OpenDental.Local.slnf` after the last product change: 0 errors (and again at the end of the package).
+- `tools/Test-NoEolFlips.ps1 -Base net10/switch`: no changed text file changed its line ends.
+- No `winchk_` database left on 127.0.0.1:3306; no TestProbeHost file left in the program folders.
