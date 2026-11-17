@@ -647,3 +647,13 @@ the test; none was left on the server). Without the variable it is inconclusive.
   `IsInDb_...`, `Pregnancy_...`, `LoadTime_...` with 66,000 rows read and 60,000 kept), the total limit at 1,024 MB
   (`Zip_PartsThatTogetherInflatePastTheTotalLimit_...` with 17 parts of 62 MB, `Limits_AreWhatA32BitProcessHolds`), the part-limit refusal's
   hint.
+
+**Runs.** Full build through the x86 lane: 0 errors, no warning in a changed file. Targeted runs (`run-tests.ps1 -Mode Targeted
+-Include EhrTests -RequireBuildOutput`; no project file changed, so no ProjectFileTests): `ehr6ar-4-real.txt` with `EHR_VSAC_RELEASE_DIR`
+set (the local check above): EhrTests 302, 301 passed, 1 skipped (`Catalog_EqualsTheDownloadedPackages_WhenCqmSpecsDirIsSet`, as in
+section 10); NoHqTests 112 of 112. `ehr6ar-5-final.txt` after the full build, without it: EhrTests 302, 300 passed, 2 skipped (the same and
+`RealRelease_TheOfficesThreeFiles_ImportSevenOfSeven_WhenTheFolderIsSet`, inconclusive without the folder), 0 failed; NoHqTests 112 of 112.
+No `ehr6a_` or `ehr6ar_` database was left on the server.
+
+**For the lead.** EHR-6a merges with this branch (the record is made). Then EHR-7 is redone on top (the two window OIDs above). On the
+office's computer the window's report should read as the local check: 7 of 7, 68 of 68 value sets, the roles 8 of 8.
