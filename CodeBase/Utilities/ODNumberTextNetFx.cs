@@ -1,6 +1,7 @@
 // Doubles and floats written as text the way the .NET Framework wrote them (decision 24 of docs/specs/net10-plan.md, owner 2026-11-16: "Keep
 // Open Dental's 1.01"; package S3b-FMT, docs/port-notes/S3b-FMT.md). The .NET Framework turned a double into 15 significant digits (a float
-// into 7), rounded half away from zero, and then applied the format to those digits; .NET (Core 3.0 and later) formats the exact binary value
+// into 7), rounded half away from zero (the x86 runtime, whose text Open Dental wrote, from about 17 digits it had computed: GetDigits), and
+// then applied the format to those digits; .NET (Core 3.0 and later) formats the exact binary value
 // for the standard formats (F, N, C, P, E: 1.005 with "F2" is 1.00 there, 1.01 here), rounds a value exactly half way between two 15-digit
 // numbers to the even one for the custom formats and "G15" (650217936677028.5 is ...028 there, ...029 here), writes the shortest text that
 // round-trips without a format (0.1+0.2 is 0.30000000000000004 there, 0.3 here), and keeps the sign of a negative value that rounds to zero
@@ -361,10 +362,15 @@ namespace CodeBase {
 			return false;
 		}
 
-		///<summary>The value rounded half away from zero to precision significant digits, from its exact binary value, as the .NET Framework's
-		///DoubleToNumber (_ecvt) gave them. .NET's "E16" gives 17 correctly rounded digits (for 15; precision+2 in general); only when the digits
-		///after the kept ones read 5 followed by zeros can the exact value lie on either side of half way, and then all of its digits are read
-		///("E800": a double has at most 767 significant digits).</summary>
+		///<summary>The value rounded half away from zero to precision significant digits, as the x86 .NET Framework's DoubleToNumber gave them.
+		///.NET's "E16" gives 17 correctly rounded digits (for 15; precision+2 in general). For a double's 15 digits (no format, "G", "F2", "N2",
+		///"C", "0.00" and every other format but the 17-digit ones) the x86 runtime rounded digits it had computed with about 17 digits of
+		///accuracy, not the exact value: so these 17 digits are rounded, and 17 digits that end in 50 round up (736331.0849999995, whose exact
+		///digits after the 15th are 4999..., is 736331.085 and "F2" 736331.09 there, as here; the x64 runtime rounded the exact value, 736331.08).
+		///That matches the x86 record except where the exact digits after the 15th read 0.4949 to 0.4995, where x86's digits fall on either side
+		///of half way (docs/port-notes/S3b-FMT.md, "x86 digits"). For the other precisions (a float's 7 and 9, a double's 17) the exact value is
+		///rounded, as both runtimes did: only when the digits after the kept ones read 5 followed by zeros can it lie on either side of half way,
+		///and then all of its digits are read ("E800": a double has at most 767 significant digits).</summary>
 		private static NetFxDigits GetDigits(double value,int precision) {
 			NetFxDigits netFxDigits=new NetFxDigits();
 			netFxDigits.IsNegative=value<0 || (value==0 && BitConverter.DoubleToInt64Bits(value)!=0);
@@ -378,7 +384,7 @@ namespace CodeBase {
 			string digitsAll=text.Substring(0,1)+text.Substring(2,precision+1);
 			int exponent=int.Parse(text.Substring(precision+4),NumberStyles.AllowLeadingSign,CultureInfo.InvariantCulture);
 			bool isHalfOrMore=digitsAll[precision]>='5';
-			if(digitsAll[precision]=='5' && IsAllZeros(digitsAll,precision+1)) {
+			if(precision!=PRECISION_DOUBLE && digitsAll[precision]=='5' && IsAllZeros(digitsAll,precision+1)) {
 				string textExact=Math.Abs(value).ToString("E800",CultureInfo.InvariantCulture);
 				string digitsExact=textExact.Substring(0,1)+textExact.Substring(2,800);
 				isHalfOrMore=digitsExact[precision]>='5';
