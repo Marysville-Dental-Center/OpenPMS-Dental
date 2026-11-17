@@ -200,8 +200,8 @@ lead publishes it; the owner's answer goes in `docs/owner-questions.md`.
 ## 9. Fix round 1 (`net10/s3b5w-2`): the parity probes on the pictures of their runtime
 
 The review found that the DirectX parity probes still read the WPF pictures from `Baselines\wpf-net48` directly
-(`ParityProbeTests.ForEachRecordedPicture`, `PerioParityTests.ForEachRecordedPerioPicture`), so on .NET 10 x64 the three `ParityProbes_*`
-and three `PerioParity_*` tests probed the .NET Framework 32-bit pictures, not the `wpf-net10-x64` set that
+(`ParityProbeTests.ForEachRecordedPicture`, `PerioParityTests.ForEachRecordedPerioPicture`), so on .NET 10 x64 the three tests of
+`ParityProbeTests` (the two `ParityProbes_*` and `CentreLineAndHighlightBoxes_FillThePixelsDirectXFills`) and the three `PerioParity_*` probed the .NET Framework 32-bit pictures, not the `wpf-net10-x64` set that
 `ChartScenes_MatchTheWpfBaselines` holds against fresh renders, and would have lost their input when `wpf-net48` retires. Both now take the
 path through `WpfCharts.ForThisBitness`, as `WpfImageTests.CheckScene` does (a 32-bit process: `wpf-net48`; .NET Framework x64: its
 `wpf-net48-x64` copy where there is one; .NET 10 x64: `wpf-net10-x64`), and both class comments name that chain (`0298b509b`).

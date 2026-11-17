@@ -1307,7 +1307,7 @@ Framework 4.8 x64 (G5, with the tests' own tolerance): 193 identical, 173 within
 random per process on .NET (the chart plan's note). ChartBitnessTests and the program-entry source test take their .NET 10 cases.
 ToothChartImageTests 267 (261 passed, 6 skipped), ToothChartHostTests 20 (19, the gallery skipped), BINATests 22 (WpfChart_StartsOnAHiddenForm
 among them) and NoHqTests 115: all passing x64 with `-RequireBuildOutput`, twice against the committed pictures. WindowChecksTests is the
-lead's screenshot pass. Review fix round on `net10/s3b5w-2` (the branch that merges): the DirectX parity probes (`ParityProbes_*`,
+lead's screenshot pass. Review fix round on `net10/s3b5w-2` (the branch that merges): the DirectX parity probes (`ParityProbeTests`,
 `PerioParity_*`) read the WPF pictures of their runtime (`wpf-net10-x64` on .NET 10 x64) instead of `wpf-net48`; they pass there with two
 64-bit-only allowances for tooth 5's "5" (TC-10's 64-bit text cell, the owner's G5 question 2); no picture changed, G5 unchanged; the four
 test assemblies green twice again (ToothChartImageTests 260 passed, 7 skipped).
