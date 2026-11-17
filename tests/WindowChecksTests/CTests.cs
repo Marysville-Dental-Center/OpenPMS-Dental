@@ -26,6 +26,15 @@ namespace WindowChecksTests {
 			new[] { "C15","WebView2 window (Wiki)" },
 		};
 
+		///<summary>The stage 3b (.NET 10) default-font windows of section 6 of docs/specs/net10-plan.md (WINCHK-5): plain forms on the default font
+		///the program sets (Microsoft Sans Serif 8.25, decision 9), each shown as the program shows it and printed. The splash is A1's.</summary>
+		public static readonly string[][] ArrayChecksDefaultFont=new[] {
+			new[] { "C16","Default font: MsgBoxCopyPaste" },
+			new[] { "C17","Default font: progress windows (FormProgressStatus, FormProgressExtended)" },
+			new[] { "C18","Default font: the combo box drop-down of the clinic picker (FormComboPicker)" },
+			new[] { "C19","Default font: ToolTipOD" },
+		};
+
 		///<summary>Runs the in-process checks in one session, starting a new session after a check that did not end; records every result and
 		///fails the test when one failed.</summary>
 		public static void RunInProcess(string[][] arrayChecks,string module="",Action<CheckResult> actionAfterEach=null) {
@@ -61,6 +70,12 @@ namespace WindowChecksTests {
 					checkResult.ForPerson("the exit time after a session that opened the Wiki (stage 0 finding 2) needs File > Exit in a real run");
 				}
 			});
+		}
+
+		[TestMethod]
+		public void C16toC19_DefaultFontWindows() {
+			WinChkFixture.Begin("C");
+			RunInProcess(ArrayChecksDefaultFont,"chart");
 		}
 	}
 }

@@ -34,6 +34,22 @@ namespace WindowChecksTests {
 			Assert.AreEqual("",string.Join(" || ",listCheckResults.Where(x => x.Status==CheckStatus.Failed).Select(x => x.Id+": "+x.Summary)));
 		}
 
+		///<summary>Stage 3b (WINCHK-5): the dashboard's graphs drawn on their own (OpenPmsDentalGraph on .NET 10's Windows Forms charting).</summary>
+		[TestMethod]
+		public void F5_DashboardGraphs() {
+			WinChkFixture.Begin("F");
+			using InProcHost inProcHost=InProcHost.Start("chart");
+			WinChkFixture.Finish(inProcHost.Run("F5","Dashboard: the graphs drawn on their own"));
+		}
+
+		///<summary>Stage 3b (WINCHK-5): a classic print preview (FormPrintPreview) of the time cards, which only previews.</summary>
+		[TestMethod]
+		public void G3_PrintPreview() {
+			WinChkFixture.Begin("G");
+			using InProcHost inProcHost=InProcHost.Start("chart");
+			WinChkFixture.Finish(inProcHost.Run("G3","Print preview: the time cards (FormPrintPreview)"));
+		}
+
 		[TestMethod]
 		public void G1_FormReportComplex() {
 			WinChkFixture.Begin("G");

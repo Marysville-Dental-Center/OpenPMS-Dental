@@ -259,9 +259,10 @@ namespace WindowChecksTests.InProc {
 				if(typeName=="FormReportCustom") {
 					break;
 				}
-				//A parameter window: accept it.
+				//A parameter window: accept it. Printed first (WINCHK-5: the ODR parameter input is one of the 3b default-font windows).
 				checkResult.Note("Parameter window: "+ui.DescribeWindow(opened.Hwnd)+", accepted");
 				IntPtr hwndParam=opened.Hwnd;
+				checkResult.AddShot(ui.Shot(hwndParam,"G2-params-"+(i+1)+".png"),"Parameter window "+(i+1)+" ("+typeName+")");
 				List<IntPtr> listBefore=ui.GetWindows();
 				Control butOK=FindControl(ui,hwndParam,"butOK");
 				ui.Post("Parameter OK",() => ((IButtonControl)butOK).PerformClick());
