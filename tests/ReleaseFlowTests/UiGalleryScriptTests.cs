@@ -580,6 +580,87 @@ namespace ReleaseFlowTests {
 			}
 		}
 
+		///<summary>The owner's answers are kept by picture, not by place on the page. A gallery rebuilt under the same name and commit (so the same
+		///browser storage key) with the pictures in another order still marks every Approve/Change input and note with its own picture's relative path
+		///(HTML-encoded), never with its place ("p1"), and the page script counts a saved answer only for the masked SHA-256 and size it was given for,
+		///so a changed picture shows as unanswered and is not written to the answers file.</summary>
+		[TestMethod]
+		public void Builder_KeysAnswersByPicture_WhenARebuildChangesTheOrder() {
+			string folder=TestPaths.NewTempFolder("ui0a_order");
+			try {
+				string before=Path.Combine(folder,"b");
+				string after=Path.Combine(folder,"a");
+				string gallery=Path.Combine(folder,"G-ORDER");
+				string masks=Path.Combine(folder,"masks.tsv");
+				string approved=Path.Combine(folder,"approved.tsv");
+				File.WriteAllText(masks,"",Encoding.ASCII);
+				File.WriteAllText(approved,UiPictureMask.ApprovedHeader+"\n",Encoding.ASCII);
+				const string pictureX="X1-first.png";
+				const string pictureY="Y1-R&D.png";//Needs HTML encoding in an attribute.
+				using Bitmap bitmapX=NewPicture(40,20,11);
+				using Bitmap bitmapY=NewPicture(40,20,12);
+				Save(bitmapX,Path.Combine(before,pictureX));
+				Save(bitmapY,Path.Combine(before,pictureY));
+				//First build: X changed most, so X is first (p1).
+				SaveChanged(bitmapX,Path.Combine(after,pictureX),Block(0,0,20,10));
+				SaveChanged(bitmapY,Path.Combine(after,pictureY),Block(0,0,2,2));
+				ScriptResult scriptResult=RunBuilder(before,after,gallery,masks,approved,"-Name","G-ORDER","-NoZip");
+				Assert.AreEqual(0,scriptResult.ExitCode,scriptResult.Output);
+				string htmlFirst=File.ReadAllText(Path.Combine(gallery,"index.html"));
+				//Rebuild under the same name and commit: now Y changed most, so Y is first.
+				SaveChanged(bitmapX,Path.Combine(after,pictureX),Block(0,0,2,2));
+				SaveChanged(bitmapY,Path.Combine(after,pictureY),Block(0,0,20,10));
+				scriptResult=RunBuilder(before,after,gallery,masks,approved,"-Name","G-ORDER","-NoZip");
+				Assert.AreEqual(0,scriptResult.ExitCode,scriptResult.Output);
+				string htmlSecond=File.ReadAllText(Path.Combine(gallery,"index.html"));
+				Assert.AreEqual(pictureX,PictureAt(htmlFirst,"p1"),"The first build puts X first.");
+				Assert.AreEqual(pictureY,PictureAt(htmlSecond,"p1"),"The rebuild puts Y first: the places changed.");
+				foreach(string html in new[] { htmlFirst,htmlSecond }) {
+					//The same storage key in both builds: the gallery's name and commit only.
+					StringAssert.Contains(html,"var GALLERY='G-ORDER',COMMIT='abc1234';");
+					StringAssert.Contains(html,"key='ui-gallery:'+GALLERY+':'+COMMIT");
+					List<string> listPics=Regex.Matches(html,"data-pic=\"([^\"]*)\"").Cast<Match>().Select(x => System.Net.WebUtility.HtmlDecode(x.Groups[1].Value)).ToList();
+					Assert.AreEqual(12,listPics.Count,"Two radios and a note, in the table and on the card, for each of the two pictures.");
+					Assert.IsFalse(listPics.Any(x => Regex.IsMatch(x,"^p[0-9]+$")),"data-pic is never a place on the page: "+string.Join(", ",listPics));
+					CollectionAssert.AreEquivalent(new[] { pictureX,pictureY },listPics.Distinct().ToArray());
+					StringAssert.Contains(html,"data-pic=\"Y1-R&amp;D.png\"","HTML-encoded.");
+					//Every input sits in the row and card of the picture it names.
+					MatchCollection matchCollection=Regex.Matches(html,"<(tr|section class=\"pic\" id=\"p[0-9]+\") data-id=\"(p[0-9]+)\" data-picture=\"([^\"]*)\"(.*?)</(tr|section)>",RegexOptions.Singleline);
+					Assert.AreEqual(4,matchCollection.Count,"A row and a card for each picture.");
+					foreach(Match match in matchCollection) {
+						string picture=System.Net.WebUtility.HtmlDecode(match.Groups[3].Value);
+						List<string> listInside=Regex.Matches(match.Groups[4].Value,"data-pic=\"([^\"]*)\"").Cast<Match>().Select(x => System.Net.WebUtility.HtmlDecode(x.Groups[1].Value)).ToList();
+						Assert.AreEqual(3,listInside.Count,picture);
+						Assert.IsTrue(listInside.All(x => x==picture),picture+": "+string.Join(", ",listInside));
+					}
+					//The page keeps the SHA-256 and size an answer was given for, and counts, shows and writes only an answer that still matches.
+					StringAssert.Contains(html,"a=answers[p]={sha:pics[p].sha,size:pics[p].size}");
+					StringAssert.Contains(html,"a.sha===c.sha&&a.size===c.size");
+					StringAssert.Contains(html,"var a=got(el.getAttribute('data-pic'))||{};");
+					StringAssert.Contains(html,"q('section.pic').forEach(function(el){var a=got(el.getAttribute('data-picture'));if(!a");
+					Assert.IsFalse(html.Contains("answers[el.getAttribute('data-id')]"),"No answer is looked up by place.");
+				}
+				Assert.AreNotEqual(ShaOf(htmlFirst,pictureX),ShaOf(htmlSecond,pictureX),"X changed between the builds, so an answer saved for the first X does not count.");
+			}
+			finally {
+				DeleteFolder(folder);
+			}
+		}
+
+		///<summary>The picture (decoded) of the card with the given place id.</summary>
+		private static string PictureAt(string html,string id) {
+			Match match=Regex.Match(html,"<section class=\"pic\" id=\""+id+"\" data-id=\""+id+"\" data-picture=\"([^\"]*)\"");
+			Assert.IsTrue(match.Success,id);
+			return System.Net.WebUtility.HtmlDecode(match.Groups[1].Value);
+		}
+
+		///<summary>The data-sha of the picture's card.</summary>
+		private static string ShaOf(string html,string picture) {
+			Match match=Regex.Match(html,"<section class=\"pic\"[^>]* data-picture=\""+Regex.Escape(System.Net.WebUtility.HtmlEncode(picture))+"\"[^>]* data-sha=\"([0-9a-f]{64})\"");
+			Assert.IsTrue(match.Success,picture);
+			return match.Groups[1].Value;
+		}
+
 		///<summary>The script's helpers, dot-sourced: the group of a picture and the JavaScript string of the gallery's name.</summary>
 		[TestMethod]
 		public void Builder_Helpers_GroupAndJsString() {
