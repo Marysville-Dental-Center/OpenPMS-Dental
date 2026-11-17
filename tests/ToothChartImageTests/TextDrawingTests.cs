@@ -270,6 +270,25 @@ namespace ToothChartImageTests {
 				Assert.AreEqual("",wrapper.TcData.ListToothGraphics["5"].PaintText,"ResetTeeth clears the texts.");
 			});
 		}
+
+		[TestMethod]
+		public void Watches_AreDrawnInToothNumberOrder_InEveryProcess() {
+			//S3b-5W: DirectX drew the watches in a Hashtable's order, which follows the string hash; .NET randomises that per process, so two
+			//overlapping "W"s of other colours would be drawn in another order from run to run. ToothSceneBuilder.GetWatchTeeth (the WPF chart and
+			//the Simple 2D chart) gives tooth-number order: a visible primary tooth's watch in its permanent tooth's place (K in 20's).
+			StaRunner.Run(() => {
+				using ToothChartWrapper wrapper=CreateReset(ChartScenes.SizeModule.Size,out ToothChartRelay relay);
+				relay.SetPrimary("20");
+				foreach(string toothId in new[] { "30","3","K","14","19","8","25" }) {
+					relay.SetText(toothId,Color.FromArgb(255,(toothId.Length*40)%256,0,toothId=="K"?200:0),"W");
+				}
+				List<string> listWatches=ToothSceneBuilder.Build(wrapper.TcData).Items2D.Where(x => x.Source.StartsWith("watch of ")).Select(x => x.Source).ToList();
+				CollectionAssert.AreEqual(new[] { "watch of 3","watch of 8","watch of 14","watch of 19","watch of K","watch of 25","watch of 30" },listWatches,
+					string.Join(", ",listWatches));
+				List<string> listTeeth=ToothSceneBuilder.GetWatchTeeth(wrapper.TcData).Select(x => x.ToothID).ToList();
+				CollectionAssert.AreEqual(new[] { "3","8","14","19","K","25","30" },listTeeth,string.Join(", ",listTeeth));
+			});
+		}
 		#endregion Paint text
 
 		#region The text mover

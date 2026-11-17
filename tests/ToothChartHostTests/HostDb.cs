@@ -221,10 +221,23 @@ namespace ToothChartHostTests {
 			}
 		}
 
-		///<summary>tests\ToothChartHostTests\Baselines: the host pictures this package recorded.</summary>
-		public static string Baselines {
+		///<summary>tests\ToothChartHostTests\Baselines: the host pictures TC-8 recorded on .NET Framework 4.8 x86 (they stay there).</summary>
+		public static string BaselinesNet48 {
 			get {
 				return Path.Combine(RepoRoot,"tests","ToothChartHostTests","Baselines");
+			}
+		}
+
+		///<summary>The host pictures of this process's runtime and bitness: on .NET x64, tests\ToothChartHostTests\Baselines\net10-x64 (S3b-5W,
+		///docs/port-notes/S3b-5W.md: every host picture, recorded on .NET 10 x64, because .NET draws WPF with another render DLL); otherwise the
+		///.NET Framework 4.8 x86 pictures of TC-8 (BaselinesNet48). A recording writes to the same folder.</summary>
+		public static string Baselines {
+			get {
+				bool isNetFramework=System.Runtime.InteropServices.RuntimeInformation.FrameworkDescription.StartsWith(".NET Framework",StringComparison.Ordinal);
+				if(!isNetFramework && Environment.Is64BitProcess) {
+					return Path.Combine(BaselinesNet48,"net10-x64");
+				}
+				return BaselinesNet48;
 			}
 		}
 	}

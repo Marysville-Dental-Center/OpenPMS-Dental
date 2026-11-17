@@ -35,8 +35,12 @@ namespace ToothChartImageTests {
 		}
 
 		///<summary>The folder a recording writes to and a comparison starts from: Baselines2D, or in a 64-bit process that records,
-		///Baselines\simple2d-net48-x64 (TC-10, docs/port-notes/TC-10.md), so an x64 recording never overwrites the x86 baselines.</summary>
+		///Baselines\simple2d-net48-x64 (TC-10, docs/port-notes/TC-10.md), so an x64 recording never overwrites the x86 baselines.
+		///S3b-5W: on .NET x64 always Baselines\simple2d-net10-x64, the full set, for a recording and a comparison alike.</summary>
 		public static string Baselines2DForThisProcess(bool isRecording) {
+			if(WpfCharts.IsNet10X64) {
+				return WpfCharts.Baselines2DNet10X64;
+			}
 			if(isRecording && Environment.Is64BitProcess) {
 				return Path.Combine(TestPaths.ProjectFolder,"Baselines","simple2d-net48-x64");
 			}
