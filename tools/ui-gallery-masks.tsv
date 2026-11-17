@@ -1,0 +1,33 @@
+# The masks of the UI refresh's galleries and of the window checks' check U0 (docs/port-notes/UI-0a.md; docs/specs/ui-refresh-plan.md, section 8).
+# Each row is a rectangle of the matching pictures that changes from run to run: the clock, a date, the scratch copy's database name (winchk_
+# and a time stamp), and a few values of the machine at that moment. tools/New-UiGallery.ps1 and the check U0 leave these pixels out of the
+# masked pixel SHA-256, the share of changed pixels and the difference picture (one rule: tools/UiGallery/UiPictureMask.cs). The pictures
+# themselves are shown as they are.
+#
+# Columns, tab-separated:
+#   picture  a wildcard (* and ?, any case); without a slash it matches the file name, with one the path relative to the picture folder
+#   size     * for any size, or WIDTHxHEIGHT: the row applies only to pictures of that size (the gallery lists a row whose name matches
+#            and whose size does not, so a window that changed size gets its row looked at)
+#   anchor   top-left, top-right, bottom-left or bottom-right: the corner x and y are measured from
+#   x, y     pixels from that corner's two edges to the rectangle's nearest sides
+#   width, height  the rectangle's size in pixels
+#   what     what it hides: "clock: ...", "date: ...", "database: ...", "path: ...", "machine state: ..."
+#
+# Coordinates are device pixels of the harness's pictures at 100 % (96 DPI), measured on the WINCHK-5 pictures (2026-11-16). UI-0c adds
+# the rows of group U's pictures (the main window at 1366x768 and 1920x1080 and its new windows).
+picture	size	anchor	x	y	width	height	what
+A2-about.png	644x444	top-left	164	151	400	17	database: Help > About, Database Name (the copy's name)
+A7-release-about.png	644x444	top-left	164	151	400	17	database: Help > About, Database Name (the copy's name)
+A6-nocustomborders-about.png	644x444	top-left	164	156	400	17	database: Help > About with the standard frame, Database Name
+A2-diagnostics.png	718x683	top-left	134	131	546	14	path: Program path (the program folder's name)
+A2-diagnostics.png	718x683	top-left	127	257	553	14	clock: Workstation date and time
+A2-diagnostics.png	718x683	top-left	155	285	525	14	clock: Database server date and time
+A2-diagnostics.png	718x683	top-left	307	313	373	14	clock: Difference between the two clocks
+A2-diagnostics.png	718x683	top-left	127	467	553	14	machine state: Memory free
+A2-diagnostics.png	718x683	top-left	217	509	463	14	machine state: Free disk, program drive
+A2-diagnostics.png	718x683	top-left	134	523	546	14	database: Image folder (holds the copy's name)
+A2-diagnostics.png	718x683	top-left	252	537	428	14	machine state: Free disk, image folder drive
+A2-diagnostics.png	718x683	top-left	141	593	539	14	database: Database name (the copy's name)
+A1-main.png	*	top-right	8	104	229	192	date: the Appointments module's date, month calendar and Today line
+A5-nodpi-appts.png	*	top-right	8	104	229	192	date: the Appointments module's date, month calendar and Today line
+B1-appts-*.png	*	top-right	8	104	229	192	date: the Appointments module's date, month calendar and Today line
