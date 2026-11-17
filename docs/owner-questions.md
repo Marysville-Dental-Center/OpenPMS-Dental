@@ -750,6 +750,20 @@ of 2026-11-08: "1. As recommended 2. Ship dlls we need. Use Helix. It's decided.
 - **S3a-11, the elevated installer test (run on 2026-11-15 by you):** 97 checks passed, 0 failed, exit code 0 on the build PC; your 0.0
   installation's Apps entry and Event Log source were written back and its shortcuts are unchanged. Nothing more is asked here; you run
   the same line again at each stage gate.
+- **Gallery G5: the chart on .NET 10, 64-bit (S3b-5W; waiting for your answer since 2026-11-16).** Branch `net10/s3b5w-1`; the
+  pictures were recorded in `7c95e3a54` and the gallery was made at that commit. The page `index.html` (in the main checkout's
+  `.git/od-tools/test-results/g5-gallery/`, also zipped as `g5-gallery.zip`) shows each of the 370 pictures the chart tests keep (326 of the
+  WPF chart, 35 of the Simple 2D chart, 9 that the program's own windows make: sheets, Treatment Plan, referral letter, dashboard, big
+  chart, sheet editor preview, perio chart) as .NET Framework 4.8 (64-bit) draws it, as .NET 10 (64-bit) draws it, and the difference,
+  the changed ones first: 193 identical, 173 within the tests' tolerance, 4 beyond it. What you would see: the chart looks the same; the
+  four beyond the tolerance are host pictures that only had a 32-bit picture to compare with, and each is a 64-bit difference already seen
+  on .NET Framework (TC-10): the perio legend's second row one pixel higher, the tooth number "5" one pixel to the right at the dashboard's
+  size, and the 2D sheet's text and teeth anti-aliased a little differently; the saved perio image blends its left and top edge pixel a
+  little differently. One drawing change: the "W" watch marks are drawn in tooth-number order, because .NET 10 shuffled their order from run
+  to run ([port-notes/S3b-5W.md](port-notes/S3b-5W.md)). Questions: (1) approve these pictures as the chart's look on .NET 10, or name
+  scenes to change; (2) the one-pixel moves of the "5" and of the perio legend row: keep them as the 64-bit program draws them (the
+  default), or make the rounding give the 32-bit position again (a small drawing change with its own gallery). S3b-5W merges into
+  `net10/switch` only after your answer.
 - **Gallery G4, TC-8's part (answered on 2026-11-15: "Approve TC-8").** Every host on the WPF chart, File > Graphics with "3D chart",
   "Simple 2D chart", "Draw in software" and a live preview, graphical perio on every computer, Simple 2D computers kept on 2D. TC-8 merged.
   **File > Graphics on Open Dental 26.2's layout: your decision (2026-11-15): "Match Open Dental 26.2".** Package TC-8b builds the

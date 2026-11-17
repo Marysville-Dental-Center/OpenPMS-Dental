@@ -1297,6 +1297,17 @@ After the merge of S3b-7, the fix round on `net10/s3b5-2` (tests and docs only):
 program folder, the package's `runtimes\win` file); the Release dry run without `-LaneProjects` builds the whole filter, stages 557 files and
 compiles the setup. Left: S3b-FMT's seven (with the fractional DateTime sweep, decision 24) and S3b-5W's pictures; the Direct LDAP resolver
 and WebView2 launch checks are in the full-test gate.
+**Status (2026-11-16), S3b-5 (the S3b-5W part: the WPF picture baselines, gallery G5).** On `net10/s3b5w-1` (`docs/port-notes/S3b-5W.md`),
+with the owner's desktop session active: done on the branch, **waiting for the owner's G5 answer** (`docs/owner-questions.md`). The chart's
+pictures recorded on .NET 10 x64 as full sets beside the .NET Framework ones (`tests\ToothChartImageTests\Baselines\wpf-net10-x64`, 326;
+`simple2d-net10-x64`, 35; `tests\ToothChartHostTests\Baselines\net10-x64`, 9), chosen by runtime and bitness (`WpfCharts.ForThisBitness`,
+`HostPaths.Baselines`); the two test assemblies set the program's default font first, as every exe's `Main` does (S3b-4). Against .NET
+Framework 4.8 x64 (G5, with the tests' own tolerance): 193 identical, 173 within tolerance, 4 beyond it, all host pictures that have only a
+32-bit record (TC-10's 64-bit differences). One drawing change: the watches are drawn in tooth-number order, because a Hashtable's order is
+random per process on .NET (the chart plan's note). ChartBitnessTests and the program-entry source test take their .NET 10 cases.
+ToothChartImageTests 267 (261 passed, 6 skipped), ToothChartHostTests 20 (19, the gallery skipped), BINATests 22 (WpfChart_StartsOnAHiddenForm
+among them) and NoHqTests 115: all passing x64 with `-RequireBuildOutput`, twice against the committed pictures. WindowChecksTests is the
+lead's screenshot pass.
 **Status (2026-11-16), S3b-7.** On `net10/s3b7-1` (`docs/port-notes/S3b-7.md`). **Decisions 21 and 22 removed part of the row:** no move
 from the 32-bit install (no search of the 32-bit uninstall entry, no copy of `FreeDentalConfig.xml` and the flag files, no run of the old
 uninstaller, no clean-up of the old folder, no service report), no Test-Installer scenario over a 32-bit bridge install and no manual
