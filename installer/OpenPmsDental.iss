@@ -4,10 +4,10 @@
 ; Compile it with tools\Build-Release.ps1. The script builds Release x64, checks the files, stages them in one folder and passes that
 ; folder as StagingDir, the information page text (installer\setup-info.txt with NOTICE) as InfoFile, the License Agreement page text
 ; (installer\setup-license.txt: how the program is licensed as installed, then LICENSE-GPL-3.0.txt) as LicenseTextFile, and the 64-bit
-; TWAINDSM.dll it checked against the approved download as TwainDsmFile. Everything in the staging folder is installed as it is, with
-; Helper32\ (the 32-bit helper and its x86 runtime); this script adds only FreeDentalConfig.xml, the uninstaller and TWAINDSM.dll (into the
-; 64-bit system folder, never the program folder), and on an upgrade deletes the files of an earlier release that this one no longer ships
-; ([InstallDelete]).
+; TWAINDSM.dll it checked against the approved download as TwainDsmFile, and the 32-bit TWAINDSM.dll of the same download as
+; TwainDsm32File. Everything in the staging folder is installed as it is, with Helper32\ (the 32-bit helper and its x86 runtime); this script
+; adds only FreeDentalConfig.xml, the uninstaller and the two TWAINDSM.dll (into the 64-bit and the 32-bit system folder, never the program
+; folder), and on an upgrade deletes the files of an earlier release that this one no longer ships ([InstallDelete]).
 ; The program is 64-bit and self-contained (decisions 19 and 20 of docs/specs/net10-plan.md, package S3b-7): it carries its own .NET runtime
 ; (x64 beside the programs, x86 in Helper32\ for the helper), so setup installs no .NET runtime and needs none, also in a silent install. It
 ; installs in 64-bit mode into Program Files.
@@ -64,6 +64,9 @@
 #endif
 #ifndef TwainDsmFile
   #define TwainDsmFile "bin\setup-files\TWAINDSM.dll"
+#endif
+#ifndef TwainDsm32File
+  #define TwainDsm32File "bin\setup-files\x86\TWAINDSM.dll"
 #endif
 
 [Setup]
@@ -177,6 +180,11 @@ Source: "{#StagingDir}\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs
 ; versions; no ignoreversion), as a shared file that other TWAIN programs use too, so the uninstall leaves it in place. Build-Release takes it
 ; from the TWAIN Working Group's release and checks its SHA-256 and signature.
 Source: "{#TwainDsmFile}"; DestDir: "{sys}"; Flags: sharedfile uninsneveruninstall restartreplace
+; The 32-bit TWAIN data source manager (decision 23, package S3b-8; the owner's "32-bit TWAIN manager: yes"): a TWAIN source with only a
+; 32-bit driver runs its whole session in the 32-bit helper (Helper32\), which loads TWAINDSM.dll from the 32-bit system folder (SysWOW64).
+; The same TWAIN Working Group release, checked by Build-Release the same way; installed when it is missing or older, as a shared file the
+; uninstall leaves in place. The 32bit flag counts it in the 32-bit view of SharedDLLs, where the 32-bit setups of TWAIN drivers count it.
+Source: "{#TwainDsm32File}"; DestDir: "{syswow64}"; Flags: sharedfile uninsneveruninstall restartreplace 32bit
 ; Written by the [Code] below into {tmp} only when the program folder has no FreeDentalConfig.xml. It keeps the folder's rights: only an
 ; administrator changes the connection settings, with the connection settings tool (owner decision Q7, docs/specs/db-connection-security.md).
 Source: "{tmp}\{#ConfigFileName}"; DestDir: "{app}"; Flags: external onlyifdoesntexist; Check: ShouldInstallConfig

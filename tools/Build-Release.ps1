@@ -27,13 +27,14 @@ not typed in here. The release channel publishes the runtime files as the releas
    top and for the x64 runtime, 0x14C for Helper32\; a managed file IL only or of its folder's machine), the native files free of the debug
    C runtime, every .runtimeconfig.json of one runtime version, and OpenPmsDental.exe's versions (file version 24.3.63.0, the database
    compatibility version; product version the release version of SharedAssemblyInfo.cs).
-   The 64-bit TWAINDSM.dll is a setup file, never a file of the program folder (which still refuses one): it is taken from the approved
-   download of the TWAIN Working Group's release (-TwainDsmZip), checked against its pinned SHA-256 and its TWAIN Working Group signature,
-   and passed to the setup, which installs it into the 64-bit system folder.
+   The 64-bit and the 32-bit TWAINDSM.dll are setup files, never files of the program folder (which still refuses one): both are taken
+   from the approved download of the TWAIN Working Group's release (-TwainDsmZip), each checked against its pinned SHA-256, version, PE
+   machine and TWAIN Working Group signature, and passed to the setup, which installs the 64-bit one into the 64-bit system folder and the
+   32-bit one into the 32-bit system folder (SysWOW64), for the 32-bit TWAIN path through the helper (S3b-8).
 4. Prints the build id (ForkReleases.ComputeBuildId over ForkReleases.ListBuildIdFiles) and writes <OutDir>\SHA256SUMS.txt.
 5. Writes the setup's information page (installer\setup-info.txt with NOTICE) and License Agreement page (installer\setup-license.txt:
    how the installed program is licensed, then LICENSE-GPL-3.0.txt) into <OutDir>, compiles installer\OpenPmsDental.iss with Inno Setup 6
-   into <OutDir>, checks that the files the compiler packed are exactly the staged files and TWAINDSM.dll, and adds the setup's SHA-256 to
+   into <OutDir>, checks that the files the compiler packed are exactly the staged files and the two TWAINDSM.dll, and adds the setup's SHA-256 to
    SHA256SUMS.txt.
 6. Writes the source archive, <OutDir>\OpenPmsDental-<version>-source.zip: the repository at the release commit (git archive HEAD) with
    every submodule at the commit the release commit pins (PDFsharp/MigraDoc and WeCantSpell.Hunspell), the source of the setup's
@@ -66,7 +67,8 @@ Framework one any more); a release builds it whole. Naming projects (OpenPmsDent
 
 .PARAMETER TwainDsmZip
 The approved download of the TWAIN Working Group's TWAIN DSM release (dsm_020501.zip). Default: od-tools\downloads\s3b7-twaindsm-20261116\
-in the repository's common git folder. Its windows\64\TWAINDSM.dll must have the pinned SHA-256 and a valid TWAIN Working Group signature.
+in the repository's common git folder. Its windows\64\TWAINDSM.dll and windows\32\TWAINDSM.dll must each have their pinned SHA-256, the
+approved version, their PE machine (0x8664 and 0x14C) and a valid TWAIN Working Group signature.
 
 .PARAMETER TwainDsmSourceZip
 The approved download of the source of that TWAIN DSM release (twain-dsm-2.5.1.zip, LGPL 2.1). Default: the same download folder. It must
@@ -102,7 +104,8 @@ the native files and the versions. Used by tests\ReleaseFlowTests\PackageFilesTe
 
 .PARAMETER ListFiles
 Only print the allow-list, one "own|path", "third|name", "doc|path" or "runtime|path" line per file of the program folder (path relative to
-it: Helper32\ for the helper and its runtime), then "setup|TWAINDSM.dll" for the file the setup installs outside the program folder. The
+it: Helper32\ for the helper and its runtime), then "setup|TWAINDSM.dll" and "setup|x86\TWAINDSM.dll" for the 64-bit and the 32-bit TWAIN
+data source manager, the files the setup installs outside the program folder (the 64-bit and the 32-bit system folder). The
 runtime lines come from the runtime packs of the newest 10.0.x runtime in the offline folder, the one a release must have.
 
 .PARAMETER WriteSetupTexts
@@ -113,6 +116,11 @@ into <OutDir>. Nothing is built or checked. Used by tests\ReleaseFlowTests\Insta
 Only write the source archive (step 6) into this folder (created if missing) and print its path. Nothing is built; only the submodules and
 the TWAIN DSM source download are checked, as for a release. Used by tests\PdfLibraryTests\SourceArchiveTests.cs and
 tests\ReleaseFlowTests\InstallerTests.cs.
+
+.PARAMETER WriteSetupFiles
+Only write the setup files into this folder (created if missing) as a release writes them into <OutDir>\setup-files: TWAINDSM.dll (64-bit)
+and x86\TWAINDSM.dll (32-bit) from the approved download (-TwainDsmZip), each after the checks a release makes (SHA-256, version, PE
+machine, signature), and print each path. Exit 1 when a check fails. Nothing is built. Used by tests\ReleaseFlowTests\InstallerTests.cs.
 
 .EXAMPLE
 powershell -NoProfile -ExecutionPolicy Bypass -File tools\Build-Release.ps1 -BuildLane C:\path\to\odbuild.ps1 -CopyTo D:\releases\v0.0
@@ -134,7 +142,8 @@ param(
 	[switch]$Full,
 	[switch]$ListFiles,
 	[string]$WriteSetupTexts='',
-	[string]$WriteSourceArchive=''
+	[string]$WriteSourceArchive='',
+	[string]$WriteSetupFiles=''
 )
 Set-StrictMode -Version 2
 $ErrorActionPreference='Stop'
@@ -366,7 +375,13 @@ $TwainDsmEntry='dsm_020501/windows/64/TWAINDSM.dll'
 $TwainDsmSha256='25869f88a2bc76ded62a13aaea9f2084f0165bfdbbb7f46b9c3a43298938d467'
 $TwainDsmVersion='2.5.1.0'
 $TwainDsmSigner='O=TWAIN Working Group'
-$SetupFiles=@('TWAINDSM.dll')
+#The 32-bit TWAIN data source manager of the same download (owner, docs/owner-questions.md: "32-bit TWAIN manager: yes"; decision 23, package
+#S3b-8): installed into the 32-bit system folder (SysWOW64) as a shared file when it is missing or older, as the 64-bit one, for TWAIN sources
+#that have only a 32-bit driver, which run in the 32-bit helper (Helper32\). The same version and signer; its own SHA-256 and PE machine 0x14C.
+$TwainDsm32Entry='dsm_020501/windows/32/TWAINDSM.dll'
+$TwainDsm32Sha256='cee9a6ff8026dde09eda9f892c57cc928d42e4a4d22bb740fe38ee6e91797a28'
+#Setup files, relative to setup-files\ beside the staging folder: the 64-bit DSM, then the 32-bit one in its own sub folder (one name, two files).
+$SetupFiles=@('TWAINDSM.dll','x86\TWAINDSM.dll')
 #The source of that release (twain-dsm-2.5.1.zip of the same GitHub release, from the same download folder): TWAINDSM.dll is under the
 #LGPL 2.1, whose section 4 asks for its source to go with the object code, so the source archive carries it byte for byte as
 #third-party-source/twain-dsm-2.5.1.zip (-TwainDsmSourceZip), checked against this SHA-256; a release without it stops.
@@ -731,10 +746,18 @@ function Get-GitCommonFolder {
 	return (Resolve-Path -LiteralPath $path).Path
 }
 
-#The 64-bit TWAINDSM.dll from the approved download (-TwainDsmZip), written to <folder>\TWAINDSM.dll after its checks: the pinned SHA-256, the
-#file version, PE machine 0x8664, and a valid Authenticode signature of the TWAIN Working Group. Returns Path and Problems.
-function Get-TwainDsm([string]$folder){
+#A TWAINDSM.dll from the approved download (-TwainDsmZip) after its checks: the pinned SHA-256, the file version, the PE machine, and a valid
+#Authenticode signature of the TWAIN Working Group. -Bits 64 (the default): the 64-bit one, written to <folder>\TWAINDSM.dll, PE machine 0x8664.
+#-Bits 32: the 32-bit one (S3b-8), written to <folder>\x86\TWAINDSM.dll, PE machine 0x14C. Returns Path and Problems.
+function Get-TwainDsm([string]$folder,[int]$Bits=64){
 	$result=[pscustomobject]@{ Path=$null; Problems=(New-Object 'System.Collections.Generic.List[string]') }
+	if($Bits -eq 32){
+		$entryName=$TwainDsm32Entry; $shaApproved=$TwainDsm32Sha256; $machineApproved=$PeMachineX86; $label='the 32-bit TWAINDSM.dll'
+		$folder=Join-Path $folder 'x86'
+	}
+	else{
+		$entryName=$TwainDsmEntry; $shaApproved=$TwainDsmSha256; $machineApproved=$PeMachineX64; $label='TWAINDSM.dll'
+	}
 	$zip=$TwainDsmZip
 	if(-not $zip){
 		$common=Get-GitCommonFolder
@@ -750,24 +773,24 @@ function Get-TwainDsm([string]$folder){
 	$target=Join-Path $folder 'TWAINDSM.dll'
 	$archive=[System.IO.Compression.ZipFile]::OpenRead($zip)
 	try{
-		$entry=$archive.GetEntry($TwainDsmEntry)
+		$entry=$archive.GetEntry($entryName)
 		if(-not $entry){
-			$result.Problems.Add("The TWAIN DSM download $zip has no $TwainDsmEntry.")
+			$result.Problems.Add("The TWAIN DSM download $zip has no $entryName.")
 			return $result
 		}
 		[System.IO.Compression.ZipFileExtensions]::ExtractToFile($entry,$target,$true)
 	}
 	finally{ $archive.Dispose() }
 	$sha=Get-Sha256 $target
-	if($sha -ne $TwainDsmSha256){ $result.Problems.Add("TWAINDSM.dll is not the approved download: SHA-256 $sha, approved $TwainDsmSha256.") }
+	if($sha -ne $shaApproved){ $result.Problems.Add("$label is not the approved download: SHA-256 $sha, approved $shaApproved.") }
 	$machine=Get-PeMachine $target
-	if($machine -ne $PeMachineX64){ $result.Problems.Add(("TWAINDSM.dll is not the 64-bit DSM (PE machine 0x{0:X})." -f $machine)) }
+	if($machine -ne $machineApproved){ $result.Problems.Add(("{0} is not the {1}-bit DSM (PE machine 0x{2:X})." -f $label,$Bits,$machine)) }
 	$fileVersion=[System.Diagnostics.FileVersionInfo]::GetVersionInfo($target).FileVersion
-	if($fileVersion -ne $TwainDsmVersion){ $result.Problems.Add("TWAINDSM.dll is version $fileVersion, the approved download $TwainDsmVersion.") }
+	if($fileVersion -ne $TwainDsmVersion){ $result.Problems.Add("$label is version $fileVersion, the approved download $TwainDsmVersion.") }
 	$signature=Get-AuthenticodeSignature -LiteralPath $target
 	$subject=if($signature.SignerCertificate){ $signature.SignerCertificate.Subject }else{ '' }
 	if($signature.Status -ne 'Valid' -or $subject -notlike "*$TwainDsmSigner*"){
-		$result.Problems.Add("TWAINDSM.dll has no valid signature of the TWAIN Working Group (status $($signature.Status), signer '$subject').")
+		$result.Problems.Add("$label has no valid signature of the TWAIN Working Group (status $($signature.Status), signer '$subject').")
 	}
 	if($result.Problems.Count -eq 0){ $result.Path=$target }
 	return $result
@@ -1362,6 +1385,21 @@ if($WriteSetupTexts){
 	exit 0
 }
 
+if($WriteSetupFiles){
+	$failed=$false
+	foreach($bits in @(64,32)){
+		$setupFile=Get-TwainDsm $WriteSetupFiles -Bits $bits
+		if($setupFile.Problems.Count -gt 0){
+			Write-Problems $setupFile.Problems ("The {0}-bit TWAIN DSM check" -f $bits)
+			$failed=$true
+			continue
+		}
+		Write-Host "Wrote $($setupFile.Path)"
+	}
+	if($failed){ exit 1 }
+	exit 0
+}
+
 if($WriteSourceArchive){
 	Assert-SourceArchivePossible
 	Write-Host "Wrote $(Write-SourceArchive $WriteSourceArchive (Read-ReleaseVersion))"
@@ -1554,9 +1592,16 @@ if(-not $SkipInstaller){
 		exit 1
 	}
 	Write-Host "TWAINDSM.dll $TwainDsmVersion (x64, signed by the TWAIN Working Group, SHA-256 $TwainDsmSha256)"
+	#The 32-bit TWAINDSM.dll of the same download (S3b-8), checked the same way, for the 32-bit system folder.
+	$twainDsm32=Get-TwainDsm (Join-Path $OutDir 'setup-files') -Bits 32
+	if($twainDsm32.Problems.Count -gt 0){
+		Write-Problems $twainDsm32.Problems 'The 32-bit TWAIN DSM check'
+		exit 1
+	}
+	Write-Host "x86\TWAINDSM.dll $TwainDsmVersion (x86, signed by the TWAIN Working Group, SHA-256 $TwainDsm32Sha256)"
 	if(Test-Path -LiteralPath $setupPath){ Remove-Item -LiteralPath $setupPath -Force }
 	#Not quiet: ISCC names every file it packs ("Compressing: <path>"), which is checked against the staged list below.
-	$isccOutput=@(& $Iscc "/DStagingDir=$staging" "/DInfoFile=$infoPath" "/DLicenseTextFile=$licensePath" "/DTwainDsmFile=$($twainDsm.Path)" "/O$OutDir" (Join-Path $RepoRoot 'installer\OpenPmsDental.iss') 2>&1 | ForEach-Object { "$_" })
+	$isccOutput=@(& $Iscc "/DStagingDir=$staging" "/DInfoFile=$infoPath" "/DLicenseTextFile=$licensePath" "/DTwainDsmFile=$($twainDsm.Path)" "/DTwainDsm32File=$($twainDsm32.Path)" "/O$OutDir" (Join-Path $RepoRoot 'installer\OpenPmsDental.iss') 2>&1 | ForEach-Object { "$_" })
 	$exitIscc=$LASTEXITCODE
 	if($exitIscc -ne 0 -or -not (Test-Path -LiteralPath $setupPath -PathType Leaf)){
 		$isccOutput | Select-Object -Last 20 | ForEach-Object { Write-Host $_ }
@@ -1564,7 +1609,7 @@ if(-not $SkipInstaller){
 		exit 3
 	}
 	foreach($line in $isccOutput){ if($line -match '^\s*Warning:'){ Write-Host "ISCC $($line.Trim())" } }
-	#The setup's file list is the staged list and TWAINDSM.dll, nothing more and nothing less.
+	#The setup's file list is the staged list and the two TWAINDSM.dll, nothing more and nothing less.
 	$packed=New-Object 'System.Collections.Generic.HashSet[string]' ([StringComparer]::OrdinalIgnoreCase)
 	foreach($line in $isccOutput){
 		if($line -match '^\s*Compressing: (.+?)(\s+\(\d+(\.\d+)*\))?\s*$'){ [void]$packed.Add([System.IO.Path]::GetFullPath($Matches[1])) }
@@ -1572,13 +1617,14 @@ if(-not $SkipInstaller){
 	$expected=New-Object 'System.Collections.Generic.HashSet[string]' ([StringComparer]::OrdinalIgnoreCase)
 	foreach($relative in $stagedFiles){ [void]$expected.Add([System.IO.Path]::GetFullPath((Join-Path $staging $relative))) }
 	[void]$expected.Add([System.IO.Path]::GetFullPath($twainDsm.Path))
+	[void]$expected.Add([System.IO.Path]::GetFullPath($twainDsm32.Path))
 	$notPacked=@($expected | Where-Object { -not $packed.Contains($_) })
 	$notStaged=@($packed | Where-Object { -not $expected.Contains($_) })
 	if($notPacked.Count -gt 0 -or $notStaged.Count -gt 0){
 		Write-Host "The setup's file list differs from the staged list: not in the setup: $($notPacked -join ', '); not staged: $($notStaged -join ', ')."
 		exit 3
 	}
-	Write-Host "The setup packs the $($stagedFiles.Count) staged files and TWAINDSM.dll."
+	Write-Host "The setup packs the $($stagedFiles.Count) staged files and the 64-bit and 32-bit TWAINDSM.dll."
 	$setupSha=Get-Sha256 $setupPath
 	$sumLines.Insert(0,$setupSha+'  '+$setupName)
 	Write-Sums $sumsPath $sumLines.ToArray()

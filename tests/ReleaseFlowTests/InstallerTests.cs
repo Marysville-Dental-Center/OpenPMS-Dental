@@ -183,8 +183,9 @@ namespace ReleaseFlowTests {
 				Assert.IsTrue(listFiles.Any(x => x.Key=="runtime" && x.Value==name),"Not on the runtime list: "+name);
 			}
 			Assert.IsFalse(listFiles.Any(x => x.Key=="runtime" && x.Value==@"Helper32\PresentationFramework.dll"),"The helper takes WinForms only.");
-			//TWAINDSM.dll is a setup file (the 64-bit system folder), never a file of the program folder.
-			CollectionAssert.AreEqual(new[] { "TWAINDSM.dll" },listFiles.Where(x => x.Key=="setup").Select(x => x.Value).ToArray());
+			//TWAINDSM.dll is a setup file (the 64-bit system folder), never a file of the program folder; so is the 32-bit one (the 32-bit system
+			//folder, S3b-8), in its own sub folder of the setup files.
+			CollectionAssert.AreEqual(new[] { "TWAINDSM.dll",@"x86\TWAINDSM.dll" },listFiles.Where(x => x.Key=="setup").Select(x => x.Value).ToArray());
 			foreach(string path in _arrayDocuments) {
 				Assert.IsTrue(listFiles.Any(x => x.Key=="doc" && x.Value==path),"Not staged: "+path);
 			}
@@ -532,7 +533,9 @@ namespace ReleaseFlowTests {
 			Assert.AreEqual("x64compatible",SetupDirective(iss,"ArchitecturesInstallIn64BitMode"));
 			Assert.AreEqual("yes",SetupDirective(iss,"UsePreviousAppDir"));
 			Assert.IsFalse(iss.Contains("{commonpf32}"),"Never Program Files (x86).");
-			Assert.IsFalse(iss.Contains("{syswow64}"),"Never the 32-bit system folder.");
+			//The 32-bit system folder only for the 32-bit TWAIN data source manager (S3b-8, Iss_InstallsThe32BitTwainDsmIntoTheSysWow64Folder).
+			Assert.AreEqual(1,Regex.Matches(iss,Regex.Escape("{syswow64}")).Count,"The 32-bit system folder only for the 32-bit TWAINDSM.dll.");
+			Assert.IsTrue(iss.Split('\n').Single(x => x.Contains("{syswow64}")).StartsWith("Source: \"{#TwainDsm32File}\""));
 			string dsmLine=iss.Split('\n').Single(x => x.StartsWith("Source: \"{#TwainDsmFile}\""));
 			StringAssert.Contains(dsmLine,"DestDir: \"{sys}\"");
 			StringAssert.Contains(dsmLine,"sharedfile");
@@ -545,6 +548,111 @@ namespace ReleaseFlowTests {
 			StringAssert.Contains(script,"$TwainDsmSha256='25869f88a2bc76ded62a13aaea9f2084f0165bfdbbb7f46b9c3a43298938d467'");
 			StringAssert.Contains(script,"$TwainDsmSigner='O=TWAIN Working Group'");
 			StringAssert.Contains(script,"@('TWAINDSM.dll',");
+		}
+
+		///<summary>The 32-bit TWAIN data source manager (decision 23, S3b-8; the owner's "32-bit TWAIN manager: yes"): the 32-bit TWAINDSM.dll of the
+		///same approved download into the 32-bit system folder, exactly as the 64-bit one (a shared file the uninstall leaves, installed when
+		///missing or older), counted in the 32-bit view of SharedDLLs (the 32bit flag); Build-Release passes the checked file and pins its own
+		///SHA-256 and entry beside the 64-bit one's.</summary>
+		[TestMethod]
+		public void Iss_InstallsThe32BitTwainDsmIntoTheSysWow64Folder() {
+			string iss=ReadIss();
+			string dsmLine=iss.Split('\n').Single(x => x.StartsWith("Source: \"{#TwainDsm32File}\""));
+			StringAssert.Contains(dsmLine,"DestDir: \"{syswow64}\"");
+			string flags=Regex.Match(dsmLine,@"Flags: ([^;\r\n]+)").Groups[1].Value.Trim();
+			CollectionAssert.AreEquivalent(new[] { "sharedfile","uninsneveruninstall","restartreplace","32bit" },flags.Split(' '));
+			Assert.IsFalse(dsmLine.Contains("ignoreversion"),"Only when missing or older.");
+			Assert.IsFalse(dsmLine.Contains("Check:"),"On every install, as the 64-bit one.");
+			StringAssert.Contains(iss,"#define TwainDsm32File \"bin\\setup-files\\x86\\TWAINDSM.dll\"");
+			string script=TestPaths.ReadSource("tools","Build-Release.ps1");
+			StringAssert.Contains(script,"\"/DTwainDsm32File=$($twainDsm32.Path)\"");
+			Assert.AreEqual("dsm_020501/windows/32/TWAINDSM.dll",ScriptValue(script,"TwainDsm32Entry"));
+			Assert.AreEqual("cee9a6ff8026dde09eda9f892c57cc928d42e4a4d22bb740fe38ee6e91797a28",ScriptValue(script,"TwainDsm32Sha256"));
+			StringAssert.Contains(script,"$SetupFiles=@('TWAINDSM.dll','x86\\TWAINDSM.dll')");
+			//The setup's packed list must hold both, so a setup without the 32-bit one fails the release.
+			StringAssert.Contains(script,"[void]$expected.Add([System.IO.Path]::GetFullPath($twainDsm32.Path))");
+		}
+
+		///<summary>Build-Release's setup-file checks on the approved download itself (-WriteSetupFiles): both DSMs are written, the 64-bit one as
+		///TWAINDSM.dll (PE machine 0x8664) and the 32-bit one as x86\TWAINDSM.dll (0x14C), each byte for byte the approved file. A download whose
+		///32-bit file is another one is refused (exit 1, the 32-bit check names it) while the 64-bit one still passes. Inconclusive without the
+		///approved download (od-tools\downloads\s3b7-twaindsm-20261116 in the common git folder).</summary>
+		[TestMethod]
+		public void BuildRelease_ChecksBothTwainDsms_AndRefusesAnother32BitFile() {
+			string pathZip=FindApprovedTwainDsmZip();
+			if(pathZip==null) {
+				Assert.Inconclusive("No approved TWAIN DSM download (od-tools\\downloads\\s3b7-twaindsm-20261116\\dsm_020501.zip) in the common git folder.");
+			}
+			string folder=Path.Combine(Path.GetTempPath(),"ReleaseFlowTests_setupfiles_"+Guid.NewGuid().ToString("N"));
+			try {
+				string folderOut=Path.Combine(folder,"ok");
+				ScriptResult scriptResult=RunBuildRelease("-WriteSetupFiles",Quote(folderOut));
+				Assert.AreEqual(0,scriptResult.ExitCode,scriptResult.Output);
+				string path64=Path.Combine(folderOut,"TWAINDSM.dll");
+				string path32=Path.Combine(folderOut,"x86","TWAINDSM.dll");
+				CollectionAssert.Contains(scriptResult.Lines,"Wrote "+path64,scriptResult.Output);
+				CollectionAssert.Contains(scriptResult.Lines,"Wrote "+path32,scriptResult.Output);
+				Assert.AreEqual(0x8664,ReadPeMachine(path64));
+				Assert.AreEqual(0x14C,ReadPeMachine(path32));
+				using(FileStream fileStream=File.OpenRead(path32)) {
+					Assert.AreEqual("cee9a6ff8026dde09eda9f892c57cc928d42e4a4d22bb740fe38ee6e91797a28",Sha256Hex(fileStream));
+				}
+				using(FileStream fileStream=File.OpenRead(path64)) {
+					Assert.AreEqual("25869f88a2bc76ded62a13aaea9f2084f0165bfdbbb7f46b9c3a43298938d467",Sha256Hex(fileStream));
+				}
+				//A download whose windows/32 entry is another file (synthetic bytes), the 64-bit entry the approved one.
+				string pathOther=Path.Combine(folder,"dsm_other.zip");
+				using(ZipArchive zipArchiveApproved=ZipFile.OpenRead(pathZip))
+				using(ZipArchive zipArchiveOther=ZipFile.Open(pathOther,ZipArchiveMode.Create)) {
+					ZipArchiveEntry zipArchiveEntry64=zipArchiveApproved.GetEntry("dsm_020501/windows/64/TWAINDSM.dll");
+					using(Stream streamFrom=zipArchiveEntry64.Open())
+					using(Stream streamTo=zipArchiveOther.CreateEntry("dsm_020501/windows/64/TWAINDSM.dll").Open()) {
+						streamFrom.CopyTo(streamTo);
+					}
+					using(StreamWriter streamWriter=new StreamWriter(zipArchiveOther.CreateEntry("dsm_020501/windows/32/TWAINDSM.dll").Open())) {
+						streamWriter.Write("synthetic, not the 32-bit TWAIN DSM");
+					}
+				}
+				ScriptResult scriptResultOther=RunBuildRelease("-WriteSetupFiles",Quote(Path.Combine(folder,"other")),"-TwainDsmZip",Quote(pathOther));
+				Assert.AreEqual(1,scriptResultOther.ExitCode,scriptResultOther.Output);
+				StringAssert.Contains(scriptResultOther.Output,"the 32-bit TWAINDSM.dll is not the approved download");
+				StringAssert.Contains(scriptResultOther.Output,"The 32-bit TWAIN DSM check");
+				Assert.IsFalse(scriptResultOther.Output.Contains("The 64-bit TWAIN DSM check"),scriptResultOther.Output);
+			}
+			finally {
+				DeleteFolder(folder);
+			}
+		}
+
+		///<summary>The approved dsm_020501.zip in the common git folder's od-tools\downloads\s3b7-twaindsm-20261116, or null.</summary>
+		private static string FindApprovedTwainDsmZip() {
+			string folderGit=Path.Combine(TestPaths.RepoRoot,".git");
+			string folderCommon=null;
+			if(Directory.Exists(folderGit)) {
+				folderCommon=folderGit;
+			}
+			else if(File.Exists(folderGit)) {
+				//A worktree: ".git" names its folder under the common folder's worktrees\.
+				string line=File.ReadAllText(folderGit).Trim();
+				if(line.StartsWith("gitdir:",StringComparison.Ordinal)) {
+					string folderWorktree=Path.GetFullPath(Path.Combine(TestPaths.RepoRoot,line.Substring("gitdir:".Length).Trim()));
+					string pathCommondir=Path.Combine(folderWorktree,"commondir");
+					folderCommon=File.Exists(pathCommondir)
+						? Path.GetFullPath(Path.Combine(folderWorktree,File.ReadAllText(pathCommondir).Trim()))
+						: Path.GetDirectoryName(Path.GetDirectoryName(folderWorktree));
+				}
+			}
+			if(folderCommon==null) {
+				return null;
+			}
+			string pathZip=Path.Combine(folderCommon,"od-tools","downloads","s3b7-twaindsm-20261116","dsm_020501.zip");
+			return File.Exists(pathZip) ? pathZip : null;
+		}
+
+		private static int ReadPeMachine(string path) {
+			byte[] arrayBytes=File.ReadAllBytes(path);
+			int offset=BitConverter.ToInt32(arrayBytes,0x3C);
+			return BitConverter.ToUInt16(arrayBytes,offset+4);
 		}
 
 		[TestMethod]
@@ -735,6 +843,9 @@ namespace ReleaseFlowTests {
 			StringAssert.Contains(header,@"HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{D5640A25-F302-4CAD-96DC-84AAA8B22F98}_is1");
 			StringAssert.Contains(header,@"C:\Windows\System32\TWAINDSM.dll");
 			StringAssert.Contains(header,@"HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\SharedDLLs");
+			//The 32-bit TWAIN data source manager (S3b-8), treated exactly as the 64-bit one.
+			StringAssert.Contains(header,@"C:\Windows\SysWOW64\TWAINDSM.dll");
+			StringAssert.Contains(header,@"HKLM\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\SharedDLLs");
 			StringAssert.Contains(TestPaths.ReadSource("docs","port-notes","S3b-7.md"),COMMAND);
 			StringAssert.Contains(header,@"HKLM\SYSTEM\CurrentControlSet\Services\EventLog\Application\"+ProgramNames.EventLogSource);
 			StringAssert.Contains(TestPaths.ReadSource("docs","port-notes","S3a-11.md"),COMMAND);
@@ -789,6 +900,31 @@ namespace ReleaseFlowTests {
 			StringAssert.Contains(script,"$savedUninstall=Save-HklmKey $UninstallKey");
 			StringAssert.Contains(script,"$savedEventLog=Save-HklmKey $EventLogKey");
 			StringAssert.Contains(script,"Restore-HklmKey $pair[1] $pair[0]");
+		}
+
+		///<summary>The 32-bit TWAINDSM.dll (S3b-8) is treated exactly as the 64-bit one: its path in the 32-bit system folder, its count in the 32-bit
+		///view of SharedDLLs (the .iss's 32bit flag), both saved before the test; checked after the install and after the uninstall (x86, the
+		///approved version or later, the TWAIN Working Group's signature); at the end the count written back (or deleted when there was none) and
+		///the file deleted only when there was none before. An older one stays replaced (the header says so).</summary>
+		[TestMethod]
+		public void TestInstaller_TreatsThe32BitTwainDsmAsThe64BitOne() {
+			string script=ReadTestInstaller();
+			StringAssert.Contains(script,"$TwainDsm32Path=Join-Path ([Environment]::GetFolderPath('SystemX86')) 'TWAINDSM.dll'");
+			Assert.AreEqual(@"HKLM:\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\SharedDLLs",ScriptValue(script,"SharedDllsKey32"));
+			StringAssert.Contains(script,"$twainDsm32Before=Test-Path -LiteralPath $TwainDsm32Path");
+			StringAssert.Contains(script,"$sharedCount32Before=Get-RegValue $SharedDllsKey32 $TwainDsm32Path");
+			StringAssert.Contains(script,"Test-TwainDsm32 'after the install'");
+			StringAssert.Contains(script,"Test-TwainDsm32 'after the uninstall (a shared file the uninstall leaves)'");
+			StringAssert.Contains(script,"Check (($machine -eq 0x14C) -and ($version -ge $TwainDsmMinimumVersion) -and ($signature.Status -eq 'Valid') -and ($subject -like '*O=TWAIN Working Group*'))");
+			StringAssert.Contains(script,"if($null -ne $sharedCount32Before){ Set-ItemProperty -Path $SharedDllsKey32 -Name $TwainDsm32Path -Value $sharedCount32Before -Type DWord }");
+			StringAssert.Contains(script,"elseif($null -ne (Get-RegValue $SharedDllsKey32 $TwainDsm32Path)){ Remove-ItemProperty -Path $SharedDllsKey32 -Name $TwainDsm32Path }");
+			StringAssert.Contains(script,"if(-not $twainDsm32Before -and (Test-Path -LiteralPath $TwainDsm32Path)){");
+			string header=script.Substring(0,script.IndexOf("#>",StringComparison.Ordinal));
+			StringAssert.Contains(header,"An OLDER 32-bit TWAINDSM.dll is replaced with 2.5.1 and stays replaced");
+			//The .iss's line is the one the script expects: the 32-bit system folder and the 32-bit view (32bit).
+			string dsmLine=ReadIss().Split('\n').Single(x => x.StartsWith("Source: \"{#TwainDsm32File}\""));
+			StringAssert.Contains(dsmLine,"{syswow64}");
+			StringAssert.Contains(dsmLine,"32bit");
 		}
 
 		///<summary>Scenarios A to C give a database server on this computer, for which a silent setup runs no connection settings tool (the .iss's
