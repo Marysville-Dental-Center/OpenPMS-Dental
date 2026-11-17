@@ -95,7 +95,7 @@ calls only methods that pass the Middle Tier themselves (`EhrCodes.Listt`, `Snom
   "influenza"). The row's `Tag` holds the item, or null. The double-click reads the `Tag` (`as EhrNotPerformedItem?`); the `Enum.Parse` of
   the label, which threw on "other", is gone. The grid also describes HCPCS, ICD-10-CM and RxNorm codes (the follow-up item's).
 - **Read-only "other"** (`FormEhrNotPerformedEdit.IsReadOnly`): an "other" row, or any call with no valid item index, opens with its code,
-  code system, reason, date and note, with Save, Delete and the reason list disabled, before the item index is used, so no index -1 reaches
+  code system, reason, date and note, with Save, Delete and the reason list disabled (Delete enabled again by section 12), before the item index is used, so no index -1 reaches
   the item switch. A new row of an item whose list is empty is refused with the message to run the Code System Importer, as before; a saved
   row opens even when its item's list is empty.
 - Before the office imports the 2027 release, every saved row but the CVX ones is "other": their codes are known only from the import
@@ -163,7 +163,7 @@ New, no database:
   sets and reasons, all catalog pick lists; the item of a saved row by role, catalog and CVX, "other" (null) for an unknown code, a wrong
   code system, another value set, or before the import; source checks of the grid (`row.Tag=itemNotPerformed`, "other", no influenza
   default), the double-click (the `Tag`, no `Enum.Parse`, no cell read, `IsReadOnly`), the edit window (read-only first, Save and Delete
-  disabled); the intervention lists (Dialysis Services alone, every label's first word a code set) and the medication labels; the medical
+  disabled; Delete enabled again by section 12); the intervention lists (Dialysis Services alone, every label's first word a code set) and the medication labels; the medical
   window (the role's code, the insert only in the else of the null check, the message); no code literal and no value-set OID in the
   windows; the recommended codes picked from the rows.
 - `VitalSignAgeTests` (6): the age on the day before and the day of the 3rd, 17th, 18th and 65th birthdays (and February 29); the groups;
@@ -220,7 +220,7 @@ named it; the round-2 check reads `ehr/ehr7-1..ehr/ehr7-3`.
   `FormEhrNotPerformed.FillGrid` reads it once and labels an "other" row "other (2027 value sets not imported)" while it is false;
   `FormEhrNotPerformedEdit.FillReadOnly` then titles the window "read-only, the 2027 value sets are not imported" and writes in the item's
   description: "The EHR value sets of the 2027 release are not imported (Setup | Chart | EHR, Code System Importer); until then this row's
-  item is not known." Delete stays disabled (section 7).
+  item is not known." Delete stays disabled (section 7; superseded by section 12: Delete is enabled).
 - **The intervention window's empty list and a saved code outside the 2027 lists.** `FormInterventionEdit.FillGrid`: when the selected
   lists give no code, the grid's title adds "none: the codes of these intervention lists come from the EHR value sets of the 2027 release
   and the code-system tables; run the Code System Importer in Setup | Chart | EHR."; on load of a new entry (selection mode) with no code in
@@ -303,7 +303,7 @@ a birth date, as before EHR-7). Section 6's deviation is superseded.
   without a birth date sets no percentile and no weight code. `VitalSignWindow_TakesTheAgeFromTheBusinessLayersHelper` finds the new
   helper twice and no `GetAgeOnDateTaken` call in the window.
 
-Each new test fails without its fix: the Delete test on `butDelete.Enabled=false`, the vital-sign tests on the missing helper and on the
+Each new regression test fails without its fix: the Delete source check on `butDelete.Enabled=false` (the DB test `PickListDbTests.NotPerformed_AnOtherRow_IsDeleted_BeforeAndAfterTheImport` is a data-path companion, not a regression test), the vital-sign tests on the missing helper and on the
 window's old call.
 
 **Runs.** Full build through the x86 lane: 0 errors, no warning in a changed file. Targeted run with `-RequireBuildOutput`,
