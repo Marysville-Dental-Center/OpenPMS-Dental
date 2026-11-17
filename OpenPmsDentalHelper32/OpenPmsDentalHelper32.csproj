@@ -2,17 +2,20 @@
   <!--
     The 32-bit helper program (S3a-13 of the .NET 10 move, docs/specs/net10-plan.md; docs/port-notes/S3a-13.md). It runs the vendor code that
     exists only as 32-bit code (QuickBooks Desktop's QBFC, S3a-13; Schick CDR, Topaz and Guru, S3a-14; Mediadent / CADI as the fallback,
-    N64-A3) for the program, which is 64-bit after stage 3b. The program starts it from its own folder on first use (CodeBase\Utilities\Helper32Client.cs), one helper per program process,
-    and talks to it over a named pipe that only the current user may open (Helper32Protocol.cs, linked into CodeBase). It has no window.
+    N64-A3) for the program, which is 64-bit after stage 3b. The program starts it from the sub folder Helper32\ of its own folder on first use
+    (CodeBase\Utilities\Helper32Client.cs), one helper per program process, and talks to it over a named pipe that only the current user may
+    open (Helper32Protocol.cs, linked into CodeBase). It has no main window (only Topaz's signing window).
 
-    It references no other project of this repository, so it can have another runtime than the program after the switch: in 3a it is built
-    like everything else (net48, x86); in 3b it becomes net10.0-windows x86, self-contained in its own sub folder (open point O-15, decision
-    20). Its platform stays x86 in every configuration and after 3b (tools\Build-Release.ps1 checks the PE machine 0x14C). Every .cs file under
-    this folder is compiled.
+    It references no other project of this repository, so it can have another runtime than the program: net10.0-windows x86, self-contained
+    for win-x86 with its own x86 runtime (S3b-4; open point O-15, decision 20; PlatformTarget, RuntimeIdentifier and SelfContained come from
+    Directory.Build.Net.props). Its output folder is flat, and OpenPmsDental.csproj (CopyHelper32) copies it whole into the program's
+    Helper32\. Its platform stays x86 in every configuration (tools\Build-Release.ps1 checks the PE machine 0x14C). It has no app.config: the
+    one it had held only the .NET Framework's startup section. Every .cs file under this folder is compiled.
   -->
   <PropertyGroup>
-    <TargetFramework>net48</TargetFramework>
     <OutputType>WinExe</OutputType>
+    <!-- Windows Forms: Topaz's signing window and the control it holds (Topaz\). -->
+    <UseWindowsForms>true</UseWindowsForms>
     <RootNamespace>OpenPmsDentalHelper32</RootNamespace>
     <AssemblyName>OpenPmsDentalHelper32</AssemblyName>
     <ApplicationManifest>app.manifest</ApplicationManifest>
@@ -21,7 +24,6 @@
     <Platforms>x86</Platforms>
     <!-- 32-bit in every configuration: the vendor code it loads is 32-bit only. -->
     <PlatformTarget>x86</PlatformTarget>
-    <Prefer32Bit>false</Prefer32Bit>
     <!-- Guru\GuruModule.cs builds MedVisorInterface.dll's structure with the unsafe code Guru.cs had (S3a-14). -->
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
@@ -54,18 +56,48 @@
       <HintPath>..\Required dlls\Interop.CDRDicom.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
-    <!-- The C# runtime binder of the framework: Cadi\CadiModule.cs calls CADI's automation object late-bound (dynamic), as
-         WpfControlsOD\Bridges\CADI.cs did before N64-A3. -->
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <!-- Topaz's signature control is a WinForms control, drawn into a picture and shown in the helper's signing window (Topaz\). -->
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows.Forms" />
+    <!-- The C# runtime binder (Microsoft.CSharp, for Cadi\CadiModule.cs's late-bound calls to CADI's automation object), System.Drawing and
+         Windows Forms (Topaz's control, drawn into a picture and shown in the signing window) are parts of Microsoft.NETCore.App and
+         Microsoft.WindowsDesktop.App on .NET (UseWindowsForms). -->
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
+    </Compile>
+  </ItemGroup>
+  <!--
+    Doubles and floats written as text as .NET Framework wrote them (package S3b-FMT of the .NET 10 move, decision 24 of
+    docs/specs/net10-plan.md, docs/port-notes/S3b-FMT.md): CodeBase's ODNumberText.ToStringNetFx and AsNetFx, compiled in as an internal
+    class (OD_NUMBERTEXT_LINKED), since this project does not reference CodeBase.
+  -->
+  <PropertyGroup>
+    <DefineConstants>$(DefineConstants);OD_NUMBERTEXT_LINKED</DefineConstants>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="..\CodeBase\Utilities\ODNumberTextNetFx.cs">
+      <Link>Utilities\ODNumberTextNetFx.cs</Link>
+    </Compile>
+  </ItemGroup>
+  <!--
+    The 32-bit TWAIN path (S3b-8 of the .NET 10 move, decision 23; docs/port-notes/S3b-8.md): ImagingDeviceManager's TWAIN code, which S3a-12
+    made pointer-size safe, compiled into the helper from its own source (Twain\TwainModule.cs runs its TwainHelperServer on the 32-bit DSM),
+    and ImagingCapture's capture metadata parser, which the program gives its sessions (FuncReadMetadataKeys). Compiled, not referenced: the
+    helper references no project of this repository, so it keeps its own x86 runtime, and the program's ImagingDeviceManager.dll is x64.
+    Left out: the EZTwain facade and PdfPageWriter (PDFsharp), which the TWAIN path does not use, and the assembly attributes.
+  -->
+  <ItemGroup>
+    <Compile Include="..\ImagingDeviceManager\**\*.cs"
+             Exclude="..\ImagingDeviceManager\bin\**;..\ImagingDeviceManager\obj\**;..\ImagingDeviceManager\Properties\**;..\ImagingDeviceManager\EZTwain.cs;..\ImagingDeviceManager\EZTwain.Capture.cs;..\ImagingDeviceManager\Imaging\PdfPageWriter.cs">
+      <Link>ImagingDeviceManager\%(RecursiveDir)%(Filename)%(Extension)</Link>
+    </Compile>
+    <Compile Include="..\ImagingCapture\Metadata\CaptureMetadata.cs">
+      <Link>ImagingCapture\Metadata\CaptureMetadata.cs</Link>
+    </Compile>
+    <Compile Include="..\ImagingCapture\Metadata\CaptureMetadataParser.cs">
+      <Link>ImagingCapture\Metadata\CaptureMetadataParser.cs</Link>
+    </Compile>
+    <Compile Include="..\ImagingCapture\Metadata\JsonReader.cs">
+      <Link>ImagingCapture\Metadata\JsonReader.cs</Link>
     </Compile>
   </ItemGroup>
 </Project>

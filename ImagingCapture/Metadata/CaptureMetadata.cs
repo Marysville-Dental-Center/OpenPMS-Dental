@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using CodeBase;
 
 namespace ImagingCapture.Metadata {
 	///<summary>One image's capture metadata, schema capture-metadata/1 (docs/specs/capture-metadata-v1.md, design 7.9), as the source sent
@@ -141,7 +142,7 @@ namespace ImagingCapture.Metadata {
 		}
 
 		internal static string FormatNumber(double value) {
-			return value.ToString("0.######",CultureInfo.InvariantCulture);
+			return value.ToStringNetFx("0.######",CultureInfo.InvariantCulture);
 		}
 	}
 }

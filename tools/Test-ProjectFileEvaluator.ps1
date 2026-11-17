@@ -52,8 +52,15 @@ MSBuild.exe to use. Default: the Build Tools 2026 MSBuild 18, found as tools\Ini
 .PARAMETER Root
 The repository. Default: the folder above this script's folder.
 
+.PARAMETER TargetFramework
+A target framework both evaluations get as a global property (MSBuild -p:TargetFramework, the evaluator's Load with global properties), so
+every project is checked as it evaluates once its own target framework line is gone: net10.0-windows checks the .NET 10 settings of stage 3b
+of the .NET 10 move (S3b-1) on today's projects. Default: none, every project as it is.
+
 .EXAMPLE
 powershell -NoProfile -ExecutionPolicy Bypass -File tools\Test-ProjectFileEvaluator.ps1 -Out $env:TEMP\evaluator-check
+.EXAMPLE
+powershell -NoProfile -ExecutionPolicy Bypass -File tools\Test-ProjectFileEvaluator.ps1 -Out $env:TEMP\evaluator-check-net10 -TargetFramework net10.0-windows
 #>
 [CmdletBinding(PositionalBinding=$false)]
 param(
@@ -63,7 +70,8 @@ param(
 	[switch]$DebugOnly,
 	[int]$ThrottleLimit=4,
 	[string]$MSBuildPath='',
-	[string]$Root=''
+	[string]$Root='',
+	[string]$TargetFramework=''
 )
 $ErrorActionPreference='Stop'
 Set-StrictMode -Version 2.0
@@ -225,6 +233,14 @@ try{
 	$flags=[System.Reflection.BindingFlags]'Public,NonPublic,Static,Instance'
 	$methodLoad1=$type.GetMethods($flags) | Where-Object { $_.Name -eq 'Load' -and $_.GetParameters().Count -eq 1 } | Select-Object -First 1
 	$methodLoad3=$type.GetMethods($flags) | Where-Object { $_.Name -eq 'Load' -and $_.GetParameters().Count -eq 3 } | Select-Object -First 1
+	#-TargetFramework: Load(path, configuration, platform, global properties), with the solution's mapping as for the other passes.
+	$methodLoad4=$type.GetMethods($flags) | Where-Object { $_.Name -eq 'Load' -and $_.GetParameters().Count -eq 4 } | Select-Object -First 1
+	$evaluatorGlobals=$null
+	if($TargetFramework){
+		if($methodLoad4 -eq $null){ throw "ProjectFileTests.ProjectFile in $Dll has no Load with global properties (-TargetFramework)." }
+		$evaluatorGlobals=New-Object 'System.Collections.Generic.Dictionary[string,string]'
+		$evaluatorGlobals['TargetFramework']=$TargetFramework
+	}
 	$methodGet=$type.GetMethod('GetProperty',$flags)
 	$methodSlnf=$type.GetMethod('GetSolutionFilterProjects',$flags)
 	$fieldProperties=$type.GetField('_dictProperties',$flags)
@@ -277,7 +293,12 @@ foreach($path in $projectPaths){
 	foreach($name in $coreNames+$extendedNames){ [void]$names.Add($name) }
 	foreach($name in $testNames){ [void]$names.Add($name) }
 	try{
-		$projectFile=$methodLoad1.Invoke($null,[object[]]@([string]$path))
+		if($TargetFramework){
+			$projectFile=$methodLoad4.Invoke($null,[object[]]@([string]$path,[string]$pass.Configuration,[string]$pass.Platform,[System.Collections.Generic.IDictionary[string,string]]$evaluatorGlobals))
+		}
+		else{
+			$projectFile=$methodLoad1.Invoke($null,[object[]]@([string]$path))
+		}
 		$evaluatorConfiguration=[string]$propertyConfiguration.GetValue($projectFile)+'|'+[string]$propertyPlatform.GetValue($projectFile)
 		if($evaluatorConfiguration -ne $pass.Configuration+'|'+$pass.Platform){
 			$pass.LoadError="The evaluator loads it as $evaluatorConfiguration, the solution maps $($pass.Configuration)|$($pass.Platform)."
@@ -301,7 +322,12 @@ foreach($path in $projectPaths){
 		$passRelease.Configuration=$mapping[0]
 		$passRelease.Platform=$mapping[1]
 		try{
-			$projectFile=$methodLoad3.Invoke($null,[object[]]@([string]$path,[string]$passRelease.Configuration,[string]$passRelease.Platform))
+			if($TargetFramework){
+				$projectFile=$methodLoad4.Invoke($null,[object[]]@([string]$path,[string]$passRelease.Configuration,[string]$passRelease.Platform,[System.Collections.Generic.IDictionary[string,string]]$evaluatorGlobals))
+			}
+			else{
+				$projectFile=$methodLoad3.Invoke($null,[object[]]@([string]$path,[string]$passRelease.Configuration,[string]$passRelease.Platform))
+			}
 			$passRelease.Evaluator=Read-Evaluator $projectFile $coreNames
 		}
 		catch{
@@ -317,6 +343,7 @@ Write-Host "Evaluator: $($passes.Count) evaluations"
 $scratch=Join-Path $env:TEMP ('Test-ProjectFileEvaluator_msbuild_'+[guid]::NewGuid().ToString('N'))
 New-Item -ItemType Directory -Force -Path $scratch | Out-Null
 $globals=@("-p:SolutionDir=$Root\","-p:SolutionPath=$Root\OpenDental.sln",'-p:SolutionName=OpenDental','-p:SolutionExt=.sln','-p:SolutionFileName=OpenDental.sln')
+if($TargetFramework){ $globals+="-p:TargetFramework=$TargetFramework" }
 #A line of a response file: quoted only when it holds a space, and then a back slash before the closing quote doubled, so it stays a back slash.
 function Get-ResponseArgument([string]$text){
 	if($text -notmatch '\s'){ return $text }

@@ -1,0 +1,15 @@
+Scene: shifto-minus
+Group: states
+Description: Intruded 5 mm (still erupted: drawn in full colour) on teeth 4, 7, 10, 13, 20, 23, 26 and 29 (all four quadrants, mirrored teeth included).
+Size: 500x370
+Colours: Printout
+Engine: Wpf3D (RenderTargetBitmap in software, 3D layer at 3x reduced with WIC's Fant scaler)
+Bitmap: 500x370 Format24bppRgb
+Alpha: every alpha is 255 (format without an alpha channel)
+Colours in the picture: 3146
+Pixels SHA-256: 0ca45f5396558c81a9f165ec9620c466a27b5b303fc5f46b6b3e21e8dd3a0afb
+Repeatable: yes (a second GetBitmap gave the same pixels)
+Framework: .NET 10.0, x64
+Windows: build 26300.9974 (26H2)
+Fresh render: yes (both layers drawn again without the layer cache gave the same pixels)
+Screen DPI seen by the test host: 96

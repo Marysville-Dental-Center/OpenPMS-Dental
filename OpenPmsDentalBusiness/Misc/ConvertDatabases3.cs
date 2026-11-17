@@ -23,7 +23,7 @@ namespace OpenPmsDentalBusiness {
 			byte[] arrayEncryptBytes=Encoding.UTF8.GetBytes(encrypt);
 			MemoryStream ms=new MemoryStream();
 			CryptoStream cs=null;
-			Aes aes=new AesManaged();
+			Aes aes=Aes.Create();//On .NET AesManaged wraps the same implementation (SYSLIB0021); CBC and PKCS7 by default.
 			aes.Key=enc.GetBytes("AKQjlLUjlcABVbqp");
 			aes.IV=new byte[16];
 			ICryptoTransform encryptor=aes.CreateEncryptor(aes.Key,aes.IV);
@@ -12035,7 +12035,7 @@ namespace OpenPmsDentalBusiness {
 							+"'"+POut.String(procInfo.Rows[0]["DrugNDC"].ToString())+"',"
 							+"'"+POut.String(procInfo.Rows[0]["RevenueCodeDefault"].ToString())+"',"
 							+PIn.Long(procInfo.Rows[0]["ProvNumDefault"].ToString()).ToString()+","
-							+PIn.Double(procInfo.Rows[0]["CanadaTimeUnits"].ToString()).ToString()+","
+							+PIn.Double(procInfo.Rows[0]["CanadaTimeUnits"].ToString()).ToStringNetFx()+","
 							+PIn.Long(procInfo.Rows[0]["IsRadiology"].ToString()).ToString()+")";
 						if(DataConnection.DBtype==DatabaseType.MySql) {
 							priKeyNew=Db.NonQ(command,true);

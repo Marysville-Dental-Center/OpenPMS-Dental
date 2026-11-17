@@ -1,0 +1,15 @@
+Scene: ortho-mode
+Group: ortho
+Description: Ortho mode on: the Chart module switches Universal numbering to Palmer (ControlChart.FillToothChart); brackets on 3-14.
+Size: 500x370
+Colours: Printout
+Engine: Wpf3D (RenderTargetBitmap in software, 3D layer at 3x reduced with WIC's Fant scaler)
+Bitmap: 500x370 Format24bppRgb
+Alpha: every alpha is 255 (format without an alpha channel)
+Colours in the picture: 2522
+Pixels SHA-256: ef4e3b1cf9f8b0cd2389f29dfaa1ad8e84eb015fe9771f15a8043a28734ccd5c
+Repeatable: yes (a second GetBitmap gave the same pixels)
+Framework: .NET 10.0, x64
+Windows: build 26300.9974 (26H2)
+Fresh render: yes (both layers drawn again without the layer cache gave the same pixels)
+Screen DPI seen by the test host: 96

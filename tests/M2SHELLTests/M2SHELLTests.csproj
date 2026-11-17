@@ -3,6 +3,11 @@
        the Patient Selected audit entry, the Billing/Finance Charges audit, the Database Maintenance duplicate-blockout check that replaces the
        standalone tool, the Chart "Gender" row and the Chart View audit. Database tests use scratch MariaDB databases with unique names and
        synthetic rows only. Every .cs file under this folder is compiled. -->
+  <PropertyGroup>
+    <!-- .NET 10 (S3b-5 of docs/specs/net10-plan.md): Windows Forms from the Windows Desktop framework, in place of the
+         .NET Framework assembly references; it also keeps the Windows Desktop packages out of the restore (S3b-3). -->
+    <UseWindowsForms>true</UseWindowsForms>
+  </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\CodeBase\xCodeBase.csproj" />
     <ProjectReference Include="..\..\DataConnectionBase\xDataConnectionBase.csproj" />

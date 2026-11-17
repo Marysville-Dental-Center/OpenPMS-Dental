@@ -10,6 +10,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using OpenPmsDentalBusiness;
 using WpfControls.UI;
+using CodeBase;
 
 namespace OpenPmsDental {
 	public partial class FrmDocumentSize:FrmODBase {
@@ -26,7 +27,7 @@ namespace OpenPmsDental {
 			Lang.F(this);
 			textRawSize.Text=SizeRaw.Width.ToString()+" x "+SizeRaw.Height.ToString();
 			checkIsFlipped.Checked=DocumentCur.IsFlipped;
-			textDegreesRotated.Text=DocumentCur.DegreesRotated.ToString();
+			textDegreesRotated.Text=DocumentCur.DegreesRotated.ToStringNetFx();
 			if(DocumentCur.CropW>0){
 				labelCropInfo.Text="(remove the existing crop)";
 			}

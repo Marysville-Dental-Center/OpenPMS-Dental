@@ -7,6 +7,7 @@ using System.Text;
 using System.Windows.Forms;
 using OpenPmsDental.UI;
 using OpenPmsDentalBusiness;
+using CodeBase;
 
 namespace OpenPmsDental {
 	public partial class FormRecallsPat:FormODBase {
@@ -119,7 +120,7 @@ namespace OpenPmsDental {
 					if(cellStr!="") {
 						cellStr+=", ";
 					}
-					cellStr+=Lan.g(this,"Disabled until balance ")+_listRecalls[i].DisableUntilBalance.ToString("c");
+					cellStr+=Lan.g(this,"Disabled until balance ")+_listRecalls[i].DisableUntilBalance.ToStringNetFx("c");
 				}
 				if(_listRecalls[i].Note!="") {
 					if(cellStr!="") {

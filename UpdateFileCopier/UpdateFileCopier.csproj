@@ -1,7 +1,13 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net48</TargetFramework>
     <OutputType>WinExe</OutputType>
+    <!-- net10.0-windows x64, self-contained, win-x64 (Directory.Build.props, Directory.Build.Net.props; S3b-2). Its one window is Windows
+         Forms. OpenPmsDental.csproj copies its four files (.exe, .dll, .runtimeconfig.json, .deps.json) next to the program, whose runtime it
+         uses. It has no app.config and no Settings.settings (S3b-4): the app.config held only the .NET Framework's startup section, and the
+         settings file defined no setting, so nothing it reads would be missing where OpenFileCopier starts it from a temp folder without a
+         .dll.config. -->
+
+    <UseWindowsForms>true</UseWindowsForms>
     <RootNamespace>UpdateFileCopier</RootNamespace>
     <AssemblyName>UpdateFileCopier</AssemblyName>
     <ApplicationManifest>app.manifest</ApplicationManifest>
@@ -15,17 +21,6 @@
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <DebugType>pdbonly</DebugType>
   </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="PresentationCore" />
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml" />
-  </ItemGroup>
   <ItemGroup>
     <!--
       UpdateFileCopier replaces CodeBase.dll and the other program files while it runs, so it references none of them: it compiles its own
@@ -102,16 +97,13 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Update="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <!--
-      The linked .resx keeps the name its Link gives it, UpdateFileCopier.MsgBoxCopyPaste.resources, as before: a net48 project names a .resx
-      without DependentUpon by its folder (EmbeddedResourceUseDependentUponConvention is off for .NET Framework).
+      The linked .resx is named after the class of the .cs file beside it (EmbeddedResourceUseDependentUponConvention, on for .NET):
+      CodeBase.MsgBoxCopyPaste.resources, the name MsgBoxCopyPaste's ComponentResourceManager looks up (typeof(MsgBoxCopyPaste)). Until S3b-2
+      (net48, where the convention is off) it was named by its folder, UpdateFileCopier.MsgBoxCopyPaste.resources, which that lookup does not
+      find.
     -->
     <EmbeddedResource Include="..\CodeBase\Utilities\MsgBoxCopyPaste.resx">
       <Link>MsgBoxCopyPaste.resx</Link>
@@ -124,10 +116,17 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
+  <!--
+    Doubles and floats written as text as .NET Framework wrote them (package S3b-FMT of the .NET 10 move, decision 24 of
+    docs/specs/net10-plan.md, docs/port-notes/S3b-FMT.md): CodeBase's ODNumberText.ToStringNetFx and AsNetFx, compiled in as an internal
+    class (OD_NUMBERTEXT_LINKED), since this project does not reference CodeBase.
+  -->
+  <PropertyGroup>
+    <DefineConstants>$(DefineConstants);OD_NUMBERTEXT_LINKED</DefineConstants>
+  </PropertyGroup>
   <ItemGroup>
-    <None Update="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
+    <Compile Include="..\CodeBase\Utilities\ODNumberTextNetFx.cs">
+      <Link>Utilities\ODNumberTextNetFx.cs</Link>
+    </Compile>
   </ItemGroup>
 </Project>

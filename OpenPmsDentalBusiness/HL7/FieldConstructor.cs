@@ -481,7 +481,7 @@ namespace OpenPmsDentalBusiness.HL7 {
 					if(proc==null) {
 						return "";
 					}
-					return proc.ProcFee.ToString("F2");
+					return proc.ProcFee.ToStringNetFx("F2");
 				case "proc.ProcNum":
 					if(proc==null) {
 						return "";

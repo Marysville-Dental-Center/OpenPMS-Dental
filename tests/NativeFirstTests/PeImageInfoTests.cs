@@ -41,12 +41,20 @@ namespace NativeFirstTests {
 		}
 
 		[TestMethod]
-		public void AnyCpu32BitPreferredDll_RunsAtEitherBitness() {
+		public void AnyCpu32BitPreferredDll_RunsAtEitherBitnessOnNetFramework_OnlyIn32BitOnNet() {
 			PeImageInfo peImageInfo=Read(SyntheticPe.AnyCpu32BitPreferredDll());
 			Assert.AreEqual(PeImageKind.Managed,peImageInfo.Kind);
 			Assert.IsFalse(peImageInfo.Is32BitRequired,"32BITREQUIRED with 32BITPREFERRED is any CPU.");
+			Assert.AreEqual("a managed IL-only assembly for any CPU, 32-bit preferred",peImageInfo.Describe());
+			//The .NET Framework maps it into a process of either bitness (N64-A); .NET into an x86 process only (S3b-4; the chooser's rule since
+			//S3b-5): the column of each runtime.
+			Assert.IsTrue(peImageInfo.CanRunInProcess(false,true));
+			Assert.IsTrue(peImageInfo.CanRunInProcess(true,true));
+			Assert.IsTrue(peImageInfo.CanRunInProcess(false,false));
+			Assert.IsFalse(peImageInfo.CanRunInProcess(true,false));
+			//This process is .NET 10: the one-argument form follows .NET's rule.
 			Assert.IsTrue(peImageInfo.CanRunInProcess(false));
-			Assert.IsTrue(peImageInfo.CanRunInProcess(true));
+			Assert.IsFalse(peImageInfo.CanRunInProcess(true));
 		}
 
 		[TestMethod]

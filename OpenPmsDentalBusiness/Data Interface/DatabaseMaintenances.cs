@@ -875,7 +875,7 @@ namespace OpenPmsDentalBusiness {
 							}
 							log+="\r\n   "+tranType+" "+Lans.g("FormDatabaseMaintenance","found for patient #")+PIn.Long(tableFlaggedTranss.Rows[i]["PatNum"].ToString())+" "
 								+Lans.g("FormDatabaseMaintenance", "dated")+" "+PIn.Date(tableFlaggedTranss.Rows[i]["TranDate"].ToString()).ToShortDateString()+" "
-								+Lans.g("FormDatabaseMaintenance","amounting to")+" "+PIn.Double(tableFlaggedTranss.Rows[i]["TranAmount"].ToString()).ToString("c");
+								+Lans.g("FormDatabaseMaintenance","amounting to")+" "+PIn.Double(tableFlaggedTranss.Rows[i]["TranAmount"].ToString()).ToStringNetFx("c");
 						}
 						log+="\r\n"+Lans.g("FormDatabaseMaintenance","Go to patient accounts to find and manually correct future dates.");
 					}
@@ -2314,14 +2314,14 @@ namespace OpenPmsDentalBusiness {
 									strColumnValue=amtClaimFee.ToString("C",CultureInfo.CurrentCulture);
 								}
 								catch {
-									strColumnValue=table.Rows[i][j].ToString();
+									strColumnValue=ODNumberText.ToStringNetFxIfNumber(table.Rows[i][j]);
 								}
 							}
 							else if (table.Columns[j].ColumnName=="Claim Date") {
 								strColumnValue=((DateTime)table.Rows[i][j]).ToShortDateString();
 							}
 							else {
-								strColumnValue=table.Rows[i][j].ToString();
+								strColumnValue=ODNumberText.ToStringNetFxIfNumber(table.Rows[i][j]);
 							}
 							if(strColumnValue.Length<table.Columns[j].ColumnName.Length) {//Pad with spaces if needed
 								strColumnValue+=new string(' ',table.Columns[j].ColumnName.Length-strColumnValue.Length);
@@ -2400,7 +2400,7 @@ namespace OpenPmsDentalBusiness {
 							}
 							log+="   Patient: #"+table.Rows[i]["PatNum"].ToString()+":"+patient.GetNameFirstOrPrefL()
 									+" Date: "+PIn.Date(tableClaimPay.Rows[0]["CheckDate"].ToString()).ToShortDateString()
-									+" Amount: "+PIn.Double(tableClaimPay.Rows[0]["CheckAmt"].ToString()).ToString("F");
+									+" Amount: "+PIn.Double(tableClaimPay.Rows[0]["CheckAmt"].ToString()).ToStringNetFx("F");
 							if(!PIn.Bool(tableClaimPay.Rows[0]["IsPartial"].ToString())) {
 								command="SELECT * from claimpayment WHERE ClaimPaymentNum="+PIn.Long(table.Rows[i]["ClaimPaymentNum"].ToString()).ToString();
 								List<ClaimPayment> listClaimPayments=Crud.ClaimPaymentCrud.SelectMany(command);
@@ -2512,7 +2512,7 @@ namespace OpenPmsDentalBusiness {
 						for(int i = 0;i<table.Rows.Count;i++) {
 							log+="   "+Lans.g("FormDatabaseMaintenance","Date")+": "+PIn.Date(table.Rows[i]["CheckDate"].ToString()).ToShortDateString();
 							log+=", "+Lans.g("FormDatabaseMaintenance","Type")+": "+PIn.String(table.Rows[i]["ItemName"].ToString());
-							log+=", "+Lans.g("FormDatabaseMaintenance","Amount")+": "+PIn.Double(table.Rows[i]["CheckAmt"].ToString()).ToString("c");
+							log+=", "+Lans.g("FormDatabaseMaintenance","Amount")+": "+PIn.Double(table.Rows[i]["CheckAmt"].ToString()).ToStringNetFx("c");
 							//Partial will always be blank
 							log+=", "+Lans.g("FormDatabaseMaintenance","Carrier")+": "+PIn.String(table.Rows[i]["CarrierName"].ToString());
 							log+=", "+Lans.g("FormDatabaseMaintenance","Clinic")+": "+PIn.String(table.Rows[i]["Description"].ToString());
@@ -2558,7 +2558,7 @@ namespace OpenPmsDentalBusiness {
 						log+=", "+Lans.g("FormDatabaseMaintenance","including")+":\r\n";
 						for(int i=0;i<table.Rows.Count;i++) {
 							log+="\r\n   "+Lans.g("FormDatabaseMaintenance","Patient #")+table.Rows[i]["PatNum"].ToString()+" "
-								+Lans.g("FormDatabaseMaintenance","has a payment amount for")+" "+PIn.Double(table.Rows[i]["InsPayAmt"].ToString()).ToString("c")+" "
+								+Lans.g("FormDatabaseMaintenance","has a payment amount for")+" "+PIn.Double(table.Rows[i]["InsPayAmt"].ToString()).ToStringNetFx("c")+" "
 								+Lans.g("FormDatabaseMaintenance","on date")+" "+PIn.Date(table.Rows[i]["DateCP"].ToString()).ToShortDateString()+" "
 								+Lans.g("FormDatabaseMaintenance","attached to patient payment plan #")+table.Rows[i]["PayPlanNum"];
 						}
@@ -3069,7 +3069,7 @@ namespace OpenPmsDentalBusiness {
 							Crud.ClaimProcCrud.Update(claimProc);
 						}
 						DbmLog dbmLog=new DbmLog(Security.CurUser.UserNum,listClaimProcs[i].ClaimProcNum,DbmLogFKeyType.ClaimProc,DbmLogActionType.Update,
-							methodName,"Updated InsPayEst from "+listClaimProcs[i].InsPayEst+" to 0 from ClaimProcEstNoBillIns.");
+							methodName,"Updated InsPayEst from "+listClaimProcs[i].InsPayEst.ToStringNetFx()+" to 0 from ClaimProcEstNoBillIns.");
 						listDbmLogs.Add(dbmLog);
 					}
 					if(numberFixed>0 || verbose) {
@@ -3112,7 +3112,7 @@ namespace OpenPmsDentalBusiness {
 							Crud.ClaimProcCrud.Update(claimProc);
 						}
 						DbmLog dbmLog=new DbmLog(Security.CurUser.UserNum,listClaimProcs[i].ClaimProcNum,DbmLogFKeyType.ClaimProc,DbmLogActionType.Update,
-							methodName,"Updated InsPayAmt from "+listClaimProcs[i].InsPayEst+" to 0 from ClaimProcEstWithInsPaidAmt.");
+							methodName,"Updated InsPayAmt from "+listClaimProcs[i].InsPayEst.ToStringNetFx()+" to 0 from ClaimProcEstWithInsPaidAmt.");
 						listDbmLogs.Add(dbmLog);
 					}
 					if(numberFixed>0 || verbose) {
@@ -3284,7 +3284,7 @@ namespace OpenPmsDentalBusiness {
 								+" ClaimDate: "+PIn.Date(table.Rows[i]["DateService"].ToString()).ToShortDateString()
 								+" ProcDate: "+PIn.Date(table.Rows[i]["ProcDate"].ToString()).ToShortDateString()
 								+" Code: "+table.Rows[i]["CodeSent"].ToString()
-								+" FeeBilled: "+PIn.Double(table.Rows[i]["FeeBilled"].ToString()).ToString("F")+"\r\n";
+								+" FeeBilled: "+PIn.Double(table.Rows[i]["FeeBilled"].ToString()).ToStringNetFx("F")+"\r\n";
 						}
 						log+=Lans.g("FormDatabaseMaintenance","   They need to be fixed manually.")+"\r\n";
 					}
@@ -4087,8 +4087,8 @@ namespace OpenPmsDentalBusiness {
 							Double valOld=PIn.Double(table.Rows[i]["Amount"].ToString());
 							Double valNew=PIn.Double(table.Rows[i]["_sum"].ToString());
 							log+="   "+Lans.g("FormDatabaseMaintenance","Deposit Date: ")+date.ToShortDateString()
-								+", "+Lans.g("FormDatabaseMaintenance","Current Sum: ")+valOld.ToString("c")
-								+", "+Lans.g("FormDatabaseMaintenance","Expected Sum:")+valNew.ToString("c")+"\r\n";
+								+", "+Lans.g("FormDatabaseMaintenance","Current Sum: ")+valOld.ToStringNetFx("c")
+								+", "+Lans.g("FormDatabaseMaintenance","Expected Sum:")+valNew.ToStringNetFx("c")+"\r\n";
 						}
 						log+=Lans.g("FormDatabaseMaintenance","   They need to be fixed manually.")+"\r\n";
 					}
@@ -4582,7 +4582,7 @@ namespace OpenPmsDentalBusiness {
 					for(int i=0;i<table.Rows.Count;i++){
 						stringBuilder.AppendLine("Fee Schedule: "+FeeScheds.GetDescription(PIn.Long(table.Rows[i]["FeeSched"].ToString()))//No call to db.
 							+" - Code: "+ProcedureCodes.GetStringProcCode(PIn.Long(table.Rows[i]["CodeNum"].ToString()))//No call to db.
-							+" - Amount: "+PIn.Double(table.Rows[i]["Amount"].ToString()).ToString("n"));
+							+" - Amount: "+PIn.Double(table.Rows[i]["Amount"].ToString()).ToStringNetFx("n"));
 					}
 					if(count>0 || verbose) {
 						log+=stringBuilder.ToString();
@@ -7361,7 +7361,7 @@ namespace OpenPmsDentalBusiness {
 					log+=", "+Lans.g("FormDatabaseMaintenance","including")+":\r\n";
 					for(int i=0;i<table.Rows.Count;i++) {
 						log+="\r\n   "+Lans.g("FormDatabaseMaintenance","Patient #")+" "+table.Rows[i]["PatNum"].ToString()+" "
-							+Lans.g("FormDatabaseMaintenance","Amount")+": "+PIn.Double(table.Rows[i]["SplitAmt"].ToString()).ToString("c")+" "
+							+Lans.g("FormDatabaseMaintenance","Amount")+": "+PIn.Double(table.Rows[i]["SplitAmt"].ToString()).ToStringNetFx("c")+" "
 							+Lans.g("FormDatabaseMaintenance","Date")+": "+PIn.Date(table.Rows[i]["DatePay"].ToString()).ToShortDateString()+" "
 							+Lans.g("FormDatabaseMaintenance","Insurance payment plan #")+table.Rows[i]["PayPlanNum"];
 					}
@@ -7734,7 +7734,7 @@ namespace OpenPmsDentalBusiness {
 					for(int i = 0;i<table.Rows.Count;i++) {
 						log+="   "+Lans.g("FormDatabaseMaintenance","PatNum")+": #"+table.Rows[i]["PatNum"].ToString();
 						log+=" "+PIn.DateT(table.Rows[i]["DatePay"].ToString()).ToShortDateString();
-						log+=" "+PIn.Double(table.Rows[i]["SplitAmt"].ToString()).ToString("c");
+						log+=" "+PIn.Double(table.Rows[i]["SplitAmt"].ToString()).ToStringNetFx("c");
 						log+="\r\n";
 					}
 					log+="   "+Lans.g("FormDatabaseMaintenance","They need to be fixed manually.")+"\r\n";
@@ -8562,7 +8562,7 @@ namespace OpenPmsDentalBusiness {
 								stringBuilder.Append($"		Adjustment #{listAdjustments[k].AdjNum} - Date: {listAdjustments[k].DateEntry.ToShortDateString()}\r\n");
 								stringBuilder.Append($"			Adjustment Date: {listAdjustments[k].AdjDate.ToShortDateString()}\r\n");
 								stringBuilder.Append($"			Procedure date: {listProceduresByPatNum[j].ProcDate.ToShortDateString()}\r\n");
-								stringBuilder.Append($"			Amount: {listAdjustments[k].AdjAmt:C}\r\n");
+								stringBuilder.Append($"			Amount: {listAdjustments[k].AdjAmt.AsNetFx():C}\r\n");
 								if(def!=null) {
 									stringBuilder.Append($"			Adj Type: {def.ItemName}\r\n");
 								}
@@ -8574,7 +8574,7 @@ namespace OpenPmsDentalBusiness {
 								//Payment Info
 								if(payment!=null) {
 									stringBuilder.Append($"			Payment Date: {payment.PayDate.ToShortDateString()}\r\n");
-									stringBuilder.Append($"			Amount: {payment.PayAmt:C}\r\n");
+									stringBuilder.Append($"			Amount: {payment.PayAmt.AsNetFx():C}\r\n");
 									def=Defs.GetDef(DefCat.PaymentTypes,payment.PayType);
 									if(def!=null) {
 										stringBuilder.Append($"			Payment Type: {def.ItemName}\r\n");
@@ -8582,7 +8582,7 @@ namespace OpenPmsDentalBusiness {
 								}
 								//PaySplit Info
 								def=Defs.GetDef(DefCat.PaySplitUnearnedType,listPaySplits[k].UnearnedType);
-								stringBuilder.Append($"			Amount: {listPaySplits[k].SplitAmt:C}\r\n");
+								stringBuilder.Append($"			Amount: {listPaySplits[k].SplitAmt.AsNetFx():C}\r\n");
 								if(def!=null) {
 									stringBuilder.Append($"			Unearned Type: {def.ItemName}\r\n");
 								}
@@ -8602,18 +8602,18 @@ namespace OpenPmsDentalBusiness {
 								stringBuilder.Append($"			Payment Date: {listClaimProcs[k].DateCP.ToShortDateString()}\r\n");
 								stringBuilder.Append($"			Procedure Date: {listClaimProcs[k].ProcDate.ToShortDateString()}\r\n");
 								stringBuilder.Append($"			Description: {Procedures.GetDescription(listProceduresByPatNum[j])}\r\n");
-								stringBuilder.Append($"			Billed to Ins: {listClaimProcs[k].FeeBilled:C}\r\n");
-								stringBuilder.Append($"			Ins Est Amount: {listClaimProcs[k].InsEstTotal:C}\r\n");
-								stringBuilder.Append($"			Ins Pay Amount: {listClaimProcs[k].InsPayAmt:C}\r\n");
+								stringBuilder.Append($"			Billed to Ins: {listClaimProcs[k].FeeBilled.AsNetFx():C}\r\n");
+								stringBuilder.Append($"			Ins Est Amount: {listClaimProcs[k].InsEstTotal.AsNetFx():C}\r\n");
+								stringBuilder.Append($"			Ins Pay Amount: {listClaimProcs[k].InsPayAmt.AsNetFx():C}\r\n");
 							}
 							for(int k = 0;k<listPayPlanCharges.Count;k++) {//PayPlanCharges
 								PayPlan payPlan=listPayPlansDeleted.FirstOrDefault(x=>x.PayPlanNum==listPayPlanCharges[k].PayPlanNum);
 								//PayPlanCharge
 								stringBuilder.Append($"		PayPlanCharge #{listPayPlanCharges[k].PayPlanNum} - Date: {listPayPlanCharges[k].ChargeDate}\r\n");
 								if(payPlan!=null) { 
-									stringBuilder.Append($"			Total Amount: {payPlan.CompletedAmt:C}\r\n");
+									stringBuilder.Append($"			Total Amount: {payPlan.CompletedAmt.AsNetFx():C}\r\n");
 									stringBuilder.Append($"			Date of First payment: {payPlan.DatePayPlanStart.ToShortDateString()}\r\n");
-									stringBuilder.Append($"			APR: {payPlan.APR}\r\n");
+									stringBuilder.Append($"			APR: {payPlan.APR.AsNetFx()}\r\n");
 									stringBuilder.Append($"			Charge Frequency: {payPlan.ChargeFrequency.GetDescription()}\r\n");
 								}
 							}
@@ -8622,14 +8622,14 @@ namespace OpenPmsDentalBusiness {
 								stringBuilder.Append($"		PayPlanLink #{listPayPlanLinks[k].PayPlanLinkNum} - Date: {listPayPlanLinks[k].SecDateTEntry.ToShortDateString()}\r\n");
 								//PayPlan Info
 								if(payPlan!=null) { 
-									stringBuilder.Append($"			Total Amount: {payPlan.CompletedAmt:C}\r\n");
+									stringBuilder.Append($"			Total Amount: {payPlan.CompletedAmt.AsNetFx():C}\r\n");
 									stringBuilder.Append($"			Date of First payment: {payPlan.DatePayPlanStart.ToShortDateString()}\r\n");
-									stringBuilder.Append($"			APR: {payPlan.APR}\r\n");
+									stringBuilder.Append($"			APR: {payPlan.APR.AsNetFx()}\r\n");
 									stringBuilder.Append($"			Charge Frequency: {payPlan.ChargeFrequency.GetDescription()}\r\n");
 									stringBuilder.Append($"			Treatment Planned Mode: {payPlan.DynamicPayPlanTPOption.GetDescription()}\r\n");
 								}
 								//PayPlanLink Info
-								stringBuilder.Append($"			Amount Override: {listPayPlanLinks[k].AmountOverride:C}\r\n");
+								stringBuilder.Append($"			Amount Override: {listPayPlanLinks[k].AmountOverride.AsNetFx():C}\r\n");
 								stringBuilder.Append($"			Type: {listPayPlanLinks[k].LinkType.GetDescription(true)}\r\n");
 							}
 							stringBuilder.Append("\r\n");
@@ -11881,7 +11881,7 @@ HAVING cnt>1";
 					+"these accounts are correct.");
 				for(int i=0;i<table.Rows.Count;i++) {
 					resultsMsg+="\r\n   "+Lans.g(_lanThis,"Patient #")+" "+table.Rows[i]["PatNum"].ToString()+" "
-						+Lans.g(_lanThis,"had a payment amount for")+" "+PIn.Double(table.Rows[i]["SplitAmt"].ToString()).ToString("c")+" "
+						+Lans.g(_lanThis,"had a payment amount for")+" "+PIn.Double(table.Rows[i]["SplitAmt"].ToString()).ToStringNetFx("c")+" "
 						+Lans.g(_lanThis,"on date")+" "+PIn.Date(table.Rows[i]["DatePay"].ToString()).ToShortDateString()+" "
 						+Lans.g(_lanThis,"attached to insurance payment plan #")+table.Rows[i]["PayPlanNum"];
 				}
@@ -11898,7 +11898,7 @@ HAVING cnt>1";
 					+"these accounts are correct.");
 				for(int i = 0;i<table.Rows.Count;i++) {
 					resultsMsg+="\r\n   "+Lans.g(_lanThis,"Patient #")+table.Rows[i]["PatNum"].ToString()+" "
-						+Lans.g(_lanThis,"had a payment amount for")+" "+PIn.Double(table.Rows[i]["InsPayAmt"].ToString()).ToString("c")+" "
+						+Lans.g(_lanThis,"had a payment amount for")+" "+PIn.Double(table.Rows[i]["InsPayAmt"].ToString()).ToStringNetFx("c")+" "
 						+Lans.g(_lanThis,"on date")+" "+PIn.Date(table.Rows[i]["DateCP"].ToString()).ToShortDateString()+" "
 						+Lans.g(_lanThis,"attached to patient payment plan #")+table.Rows[i]["PayPlanNum"];
 				}
@@ -12525,7 +12525,7 @@ HAVING cnt>1";
 			public override string ToString() {
 				string retVal=$"  {TableName} ({PrimaryKeyColumn}: {PrimaryKey}) ";
 				if(Amount != 0) {//Allow for positive and negative amounts
-					retVal+=$"for {Amount.ToString("c")} ";
+					retVal+=$"for {Amount.ToStringNetFx("c")} ";
 				}
 				retVal+=$"with ";
 				if(StrDateName.IsNullOrEmpty()) {

@@ -10,6 +10,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using OpenPmsDentalBusiness;
 using WpfControls.UI;
+using CodeBase;
 
 namespace OpenPmsDental {
 	public partial class FrmDocumentSizeMount:FrmODBase {
@@ -31,11 +32,11 @@ namespace OpenPmsDental {
 			textRawSize.Text=SizeRaw.Width.ToString()+" x "+SizeRaw.Height.ToString();
 			textMountSize.Text=SizeMount.Width.ToString()+" x "+SizeMount.Height.ToString();
 			checkIsFlipped.Checked=DocumentCur.IsFlipped;
-			textDegreesRotated.Text=DocumentCur.DegreesRotated.ToString();
+			textDegreesRotated.Text=DocumentCur.DegreesRotated.ToStringNetFx();
 			System.Drawing.Size sizeCrop=new System.Drawing.Size(DocumentCur.CropW,DocumentCur.CropH);
 			_zoomInitial=OpenPmsDental.UI.ImageTools.CalcZoomMount(SizeMount,SizeRaw,sizeCrop,DocumentCur.DegreesRotated);
 			_zoomInitial=Math.Round(_zoomInitial,1);
-			textZoomFit.Text=_zoomInitial.ToString();
+			textZoomFit.Text=_zoomInitial.ToStringNetFx();
 			//double zoomOrig=(double)SizeMount.Width/SizeRaw.Width*100;
 			double zoomOrig;
 			//this math immediately switches to perspective of image, not mount.
@@ -63,7 +64,7 @@ namespace OpenPmsDental {
 				//we always assume CropH is wrong anyway, so no need to do additional checks for rotation.
 			}
 			zoomOrig=Math.Round(zoomOrig,1);
-			textZoomOrig.Text=zoomOrig.ToString();
+			textZoomOrig.Text=zoomOrig.ToStringNetFx();
 		}
 
 		private void but100_Click(object sender, EventArgs e){

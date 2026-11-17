@@ -83,12 +83,12 @@ namespace OpenPmsDental {
 					row.Cells.Add(PIn.String(rowCur["ProcCode"].ToString()));
 					row.Cells.Add(PIn.String(rowCur["ToothNum"].ToString()));
 					row.Cells.Add(PIn.String(rowCur["Abbr"].ToString()));
-					row.Cells.Add(PIn.Double(rowCur["fee"].ToString()).ToString("c"));
-					row.Cells.Add(PIn.Double(rowCur["insPaid"].ToString()).ToString("c"));
-					row.Cells.Add(PIn.Double(rowCur["wo"].ToString()).ToString("c"));
-					row.Cells.Add(PIn.Double(rowCur["ptPaid"].ToString()).ToString("c"));
-					row.Cells.Add(PIn.Double(rowCur["adjAmt"].ToString()).ToString("c"));
-					row.Cells.Add(PIn.Double(rowCur["overpay"].ToString()).ToString("c"));
+					row.Cells.Add(PIn.Double(rowCur["fee"].ToString()).ToStringNetFx("c"));
+					row.Cells.Add(PIn.Double(rowCur["insPaid"].ToString()).ToStringNetFx("c"));
+					row.Cells.Add(PIn.Double(rowCur["wo"].ToString()).ToStringNetFx("c"));
+					row.Cells.Add(PIn.Double(rowCur["ptPaid"].ToString()).ToStringNetFx("c"));
+					row.Cells.Add(PIn.Double(rowCur["adjAmt"].ToString()).ToStringNetFx("c"));
+					row.Cells.Add(PIn.Double(rowCur["overpay"].ToString()).ToStringNetFx("c"));
 					row.Tag=rowCur;
 					gridMain.ListGridRows.Add(row);
 				}

@@ -399,7 +399,7 @@ namespace OpenPmsDentalBusiness {
 					s.Stop();
 					Console.WriteLine("QueueQueryBatches - Done, queued "+queueCount+" out of "+_listPriKeyMaxPerBatch.Count+" batches of "+_rowsPerBatch+" rows: "
 						+(s.Elapsed.Hours>0?(s.Elapsed.Hours+" hours "):"")+(s.Elapsed.Minutes>0?(s.Elapsed.Minutes+" min "):"")
-						+(s.Elapsed.TotalSeconds-(s.Elapsed.Hours*60*60)-(s.Elapsed.Minutes*60))+" sec");
+						+(s.Elapsed.TotalSeconds-(s.Elapsed.Hours*60*60)-(s.Elapsed.Minutes*60)).ToStringNetFx()+" sec");
 				}
 			}
 		}
@@ -485,7 +485,7 @@ namespace OpenPmsDentalBusiness {
 				s.Stop();
 				Console.WriteLine("InsertDataThread - Done, inserted "+_insertBatchCount+" batches: "
 					+(s.Elapsed.Hours>0?(s.Elapsed.Hours+" hours "):"")+(s.Elapsed.Minutes>0?(s.Elapsed.Minutes+" min "):"")
-					+(s.Elapsed.TotalSeconds-(s.Elapsed.Hours*60*60)-(s.Elapsed.Minutes*60))+" sec");
+					+(s.Elapsed.TotalSeconds-(s.Elapsed.Hours*60*60)-(s.Elapsed.Minutes*60)).ToStringNetFx()+" sec");
 			}
 		}
 
@@ -522,7 +522,7 @@ namespace OpenPmsDentalBusiness {
 					s.Stop();
 					Console.WriteLine("Total time to insert into table "+_tableName+" with "+string.Format("{0:#,##0.##}",_totalRowCount)+" rows: "
 						+(s.Elapsed.Hours>0?(s.Elapsed.Hours+" hours "):"")+(s.Elapsed.Minutes>0?(s.Elapsed.Minutes+" min "):"")
-						+(s.Elapsed.TotalSeconds-(s.Elapsed.Hours*60*60)-(s.Elapsed.Minutes*60))+" sec");
+						+(s.Elapsed.TotalSeconds-(s.Elapsed.Hours*60*60)-(s.Elapsed.Minutes*60)).ToStringNetFx()+" sec");
 				}
 			}
 		}
@@ -656,7 +656,7 @@ namespace OpenPmsDentalBusiness {
 					s.Stop();
 					Console.WriteLine("Total time to alter table "+_tableName+" with "+string.Format("{0:#,##0.##}",_totalRowCount)+" rows: "
 						+(s.Elapsed.Hours>0?(s.Elapsed.Hours+" hours "):"")+(s.Elapsed.Minutes>0?(s.Elapsed.Minutes+" min "):"")
-						+(s.Elapsed.TotalSeconds-(s.Elapsed.Hours*60*60)-(s.Elapsed.Minutes*60))+" sec");
+						+(s.Elapsed.TotalSeconds-(s.Elapsed.Hours*60*60)-(s.Elapsed.Minutes*60)).ToStringNetFx()+" sec");
 				}
 			}
 		}
@@ -828,7 +828,7 @@ namespace OpenPmsDentalBusiness {
 					stopwatch.Stop();
 					Console.WriteLine("Total time to alter table "+_tableName+" with "+string.Format("{0:#,##0.##}",_totalRowCount)+" rows: "
 						+(stopwatch.Elapsed.Hours>0?(stopwatch.Elapsed.Hours+" hours "):"")+(stopwatch.Elapsed.Minutes>0?(stopwatch.Elapsed.Minutes+" min "):"")
-						+(stopwatch.Elapsed.TotalSeconds-(stopwatch.Elapsed.Hours*60*60)-(stopwatch.Elapsed.Minutes*60))+" sec");
+						+(stopwatch.Elapsed.TotalSeconds-(stopwatch.Elapsed.Hours*60*60)-(stopwatch.Elapsed.Minutes*60)).ToStringNetFx()+" sec");
 				}
 			}
 		}

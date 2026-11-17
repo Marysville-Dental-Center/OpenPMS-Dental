@@ -4,6 +4,15 @@
        local MariaDB (127.0.0.1:3306, root, blank password) the way tools/New-DevDatabase.ps1 does, upgrade it with the fork migration runner,
        use synthetic data only and drop it afterwards. They are skipped (inconclusive) when the server does not answer, or when
        FORKMIGRATION_TEST_DB=skip. Every .cs file under this folder is compiled. -->
+  <PropertyGroup>
+    <!-- .NET 10 (S3b-5 of docs/specs/net10-plan.md): Windows Forms from the Windows Desktop framework, in place of the
+         .NET Framework assembly references; it also keeps the Windows Desktop packages out of the restore (S3b-3). -->
+    <UseWindowsForms>true</UseWindowsForms>
+  </PropertyGroup>
+  <PropertyGroup>
+    <!-- Its own [AssemblyInitialize] registers the code pages (tests\Shared\TestCodePages.cs; S3b-5). -->
+    <ODOwnAssemblyInitialize>true</ODOwnAssemblyInitialize>
+  </PropertyGroup>
   <ItemGroup>
     <!-- Scratch database helpers shared with the fork migration tests (database names start with forkmig_). -->
     <Compile Include="..\ForkMigrationTests\TestDb.cs">

@@ -453,7 +453,7 @@ namespace OpenPmsDental {
 						if(commLog.Note!="") {
 							commLog.Note+=",  ";
 						}
-						commLog.Note+=Lan.g(this,"Disabled until balance below ")+formRecallEdit.RecallCur.DisableUntilBalance.ToString("c");
+						commLog.Note+=Lan.g(this,"Disabled until balance below ")+formRecallEdit.RecallCur.DisableUntilBalance.ToStringNetFx("c");
 					}
 					if(recall.Note!=formRecallEdit.RecallCur.Note) {
 						if(commLog.Note!="") {
@@ -826,21 +826,18 @@ namespace OpenPmsDental {
 			}
 			practice.Phone=TelephoneNumbers.ReFormat(phone);
 			DivvyConnect.PostcardServiceClient postcardServiceClient=new DivvyConnect.PostcardServiceClient();
-			DivvyConnect.PostcardReturnMessage postcardReturnMessage=new DivvyConnect.PostcardReturnMessage();
-			string messages="";
 			Cursor=Cursors.WaitCursor;
 			string password=Secrets.TryDecrypt(ProgramProperties.GetPropVal(ProgramName.Divvy,"Password"));
 			Guid guid=Guid.Parse(ProgramProperties.GetPropVal(ProgramName.Divvy,"API Key"));
 			string username=ProgramProperties.GetPropVal(ProgramName.Divvy,"Username");
-			try {
-				postcardReturnMessage=postcardServiceClient.SendPostcards(guid,username,password,listPostcards,practice);
-			}
-			catch (Exception ex) {
-				messages+="Exception: "+ex.Message+"\r\nData: "+ex.Data+"\r\n";
-			}
+			//An exception or no answer comes back as a Failure answer, so nothing below records the rows as mailed (the default answer of
+			//before was CompletedSucessfully). The .NET 10 build answers Failure with the O-10 message (DivvyPostcardService.cs).
+			DivvyConnect.PostcardReturnMessage postcardReturnMessage=DivvyConnect.DivvyPostcardSending.Send(
+				() => postcardServiceClient.SendPostcards(guid,username,password,listPostcards,practice),out string messages);
 			messages+="MessageCode: "+postcardReturnMessage.MessageCode.ToString();//MessageCode enum. 0=CompletedSuccessfully, 1=CompletedWithErrors, 2=Failure
 			MsgBox.Show(this,"Return Messages: "+postcardReturnMessage.Message+"\r\n"+messages);
-			if(postcardReturnMessage.MessageCode==DivvyConnect.MessageCode.CompletedSucessfully) {
+			//Records the rows as mailed only when the answer is CompletedSucessfully.
+			DivvyConnect.DivvyPostcardSending.RecordIfAllSent(postcardReturnMessage,() => {
 				Cursor=Cursors.WaitCursor;
 				if(IsRecallGridSelected()) {
 					ProcessComms(CommItemTypeAuto.RECALL,IsRecallGridSelected(),CommItemMode.Mail);
@@ -848,8 +845,8 @@ namespace OpenPmsDental {
 				else {
 					ProcessComms(CommItemTypeAuto.REACT,IsRecallGridSelected(),CommItemMode.Mail);
 				}
-			}
-			else if(postcardReturnMessage.MessageCode==DivvyConnect.MessageCode.CompletedWithErrors) {
+			});
+			if(postcardReturnMessage.MessageCode==DivvyConnect.MessageCode.CompletedWithErrors) {
 				for(int i=0;i<postcardReturnMessage.PostcardMessages.Length;i++) {
 					//todo: process return messages. Update commlog and change recall statuses for postcards that were sent.
 				}

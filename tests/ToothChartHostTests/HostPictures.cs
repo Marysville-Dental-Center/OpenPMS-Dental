@@ -1,5 +1,6 @@
 // The checks of a host's chart picture (package TC-8, plan section 7, "Host tests"): its size, opacity (every alpha 255), the pixel format TC-0
-// recorded for DirectX (Format24bppRgb), a picture that is not blank, and its baseline in Baselines\ with the image tests' tolerance
+// recorded for DirectX (Format24bppRgb), a picture that is not blank, and its baseline in Baselines\ (on .NET x64 Baselines\net10-x64, S3b-5W;
+// HostPaths.Baselines) with the image tests' tolerance
 // (ChartImageCompare: a pixel differs when a channel differs by more than 8 of 255; at most 0.1% of the pixels and no 16x16 block with more than
 // 24). OPMS_RECORD_HOST_BASELINES=1 writes the baselines instead (a deliberate re-record only). A failing comparison writes the expected, actual
 // and diff pictures next to the test assembly. OPMS_CHART_GALLERY=<folder> also writes each picture there for gallery G4 (TC-8's part).
@@ -57,7 +58,8 @@ namespace ToothChartHostTests {
 				Directory.CreateDirectory(HostPaths.Baselines);
 				PngWriter.Save(bitmap,pathBaseline);
 				File.WriteAllText(Path.ChangeExtension(pathBaseline,".txt"),"Host: "+name+"\r\nSize: "+bitmap.Width+"x"+bitmap.Height+"\r\nBitmap: "
-					+bitmap.PixelFormat+"\r\nColours in the picture: "+bitmapFacts.CountColors+"\r\nPixels SHA-256: "+ChartImageCompare.Sha256(arrayBgra)+"\r\n");
+					+bitmap.PixelFormat+"\r\nColours in the picture: "+bitmapFacts.CountColors+"\r\nPixels SHA-256: "+ChartImageCompare.Sha256(arrayBgra)
+					+"\r\nFramework: "+System.Runtime.InteropServices.RuntimeInformation.FrameworkDescription+", "+(Environment.Is64BitProcess?"x64":"x86")+"\r\n");
 				return;
 			}
 			Assert.IsTrue(File.Exists(pathBaseline),name+": no baseline at "+pathBaseline+" (record with "+EnvRecord+"=1).");

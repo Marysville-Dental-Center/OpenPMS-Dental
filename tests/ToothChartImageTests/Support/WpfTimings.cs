@@ -239,7 +239,7 @@ namespace ToothChartImageTests {
 			catch(Exception ex) {
 				report.ListMachine.Add("Adapters unknown ("+ex.GetType().Name+")");
 			}
-			report.ListMachine.Add((Environment.Is64BitProcess?"64":"32")+"-bit process, .NET Framework "+Environment.Version);
+			report.ListMachine.Add((Environment.Is64BitProcess?"64":"32")+"-bit process, "+System.Runtime.InteropServices.RuntimeInformation.FrameworkDescription);//S3b-5W: ".NET 10.0.x" on .NET
 			report.ListMachine.Add("WPF render mode of the process: "+System.Windows.Media.RenderOptions.ProcessRenderMode
 				+(WpfOnScreenTimings.IsProcessSoftware()?" (as OpenPmsDental.exe sets it: every WPF window, the live view included, is drawn in software, O-34)"
 				:" (WPF draws its windows with the graphics card where it can; the program does not run so, O-34)")

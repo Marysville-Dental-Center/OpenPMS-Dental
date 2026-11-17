@@ -10,11 +10,18 @@
     AutoGenerateBindingRedirects is left to its default, on for an exe, as for the classic project.
   -->
   <PropertyGroup>
-    <TargetFramework>net48</TargetFramework>
+    <!-- net10.0-windows x64, self-contained for win-x64 like every exe (Directory.Build.props, Directory.Build.Net.props; S3b-4 of
+         docs/specs/net10-plan.md, docs/port-notes/S3b-4.md); not shipped. It references the legacy UnitTests project, which is .NET Framework until
+         S3b-5 retargets it, so its build waits for S3b-5 (NU1201 until then). Its .NET Framework references are parts of Microsoft.NETCore.App
+         and Microsoft.WindowsDesktop.App on .NET (UseWindowsForms). Its app.config (binding redirects and startup, which .NET ignores) goes
+         with LibraryBindingTests' redirect checks in S3b-5. -->
+    <UseWindowsForms>true</UseWindowsForms>
     <OutputType>WinExe</OutputType>
     <RootNamespace>DocumentationBuilder</RootNamespace>
     <AssemblyName>DocumentationBuilder</AssemblyName>
-    <LangVersion>latest</LangVersion>
+    <!-- Pinned to the version "latest" gave with the pinned SDK's compiler (Roslyn 5.0, SDK 10.0.115; S3b-1), so a newer compiler does not
+         change it. -->
+    <LangVersion>14.0</LangVersion>
     <Platforms>AnyCPU;x86</Platforms>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
@@ -27,12 +34,6 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="MySqlConnector" />
-    <Reference Include="System" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml" />
-    <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CodeBase\xCodeBase.csproj" />

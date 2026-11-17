@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
+using CodeBase;
 
 namespace SparksToothChart {
 	///<summary>The mouse of the WPF chart (docs/specs/wpf-tooth-chart-plan.md, TC-3), shared by its two engine controls: the image host that shows the
@@ -258,7 +259,7 @@ namespace SparksToothChart {
 					drawingSegment+=";";
 				}
 				PointF pointMouseScaled=tcData.GetPointMouseScaled(listPoints[i].X,listPoints[i].Y,sizeControl);
-				drawingSegment+=pointMouseScaled.X+","+pointMouseScaled.Y;
+				drawingSegment+=pointMouseScaled.X.ToStringNetFx()+","+pointMouseScaled.Y.ToStringNetFx();
 			}
 			return drawingSegment;
 		}

@@ -266,8 +266,8 @@ namespace OpenPmsDental {
 				isnPlanCur=InsPlans.GetPlan(subCur.PlanNum,listInsPlans);
 				pend=InsPlans.GetPendingDisplay(histList,dateAsOf,isnPlanCur,listPatPlans[0].PatPlanNum,-1,pat.PatNum,listPatPlans[0].InsSubNum,listBenefits);
 				used=InsPlans.GetInsUsedDisplay(histList,dateAsOf,isnPlanCur.PlanNum,listPatPlans[0].PatPlanNum,-1,listInsPlans,listBenefits,pat.PatNum,listPatPlans[0].InsSubNum);
-				_strPriPend=pend.ToString("F");
-				_strPriUsed=used.ToString("F");
+				_strPriPend=pend.ToStringNetFx("F");
+				_strPriUsed=used.ToStringNetFx("F");
 				maxInd=Benefits.GetAnnualMaxDisplay(listBenefits,isnPlanCur.PlanNum,listPatPlans[0].PatPlanNum,false);
 				if(maxInd==-1){//if annual max is blank
 					_strPriMax="";
@@ -279,25 +279,25 @@ namespace OpenPmsDental {
 						remain=0;
 					}
 					//textFamPriMax.Text=max.ToString("F");
-					_strPriMax=maxInd.ToString("F");
-					_strPriRem=remain.ToString("F");
+					_strPriMax=maxInd.ToStringNetFx("F");
+					_strPriRem=remain.ToStringNetFx("F");
 				}
 				//deductible:
 				ded=Benefits.GetDeductGeneralDisplay(listBenefits,isnPlanCur.PlanNum,listPatPlans[0].PatPlanNum,BenefitCoverageLevel.Individual);
 				dedFam=Benefits.GetDeductGeneralDisplay(listBenefits,isnPlanCur.PlanNum,listPatPlans[0].PatPlanNum,BenefitCoverageLevel.Family);
 				if(ded!=-1){
-					_strPriDed=ded.ToString("F");
+					_strPriDed=ded.ToStringNetFx("F");
 					dedRem=InsPlans.GetDedRemainDisplay(histList,DateTime.Today,isnPlanCur.PlanNum,listPatPlans[0].PatPlanNum,-1,listInsPlans,pat.PatNum,ded,dedFam);
-					_strPriDedRem=dedRem.ToString("F");
+					_strPriDedRem=dedRem.ToStringNetFx("F");
 				}
 			}
 			if(listPatPlans.Count>1){
 				subCur=InsSubs.GetSub(listPatPlans[1].InsSubNum,listInsSubs);
 				isnPlanCur=InsPlans.GetPlan(subCur.PlanNum,listInsPlans);
 				pend=InsPlans.GetPendingDisplay(histList,DateTime.Today,isnPlanCur,listPatPlans[1].PatPlanNum,-1,pat.PatNum,listPatPlans[1].InsSubNum,listBenefits);
-				_strSecPend=pend.ToString("F");
+				_strSecPend=pend.ToStringNetFx("F");
 				used=InsPlans.GetInsUsedDisplay(histList,DateTime.Today,isnPlanCur.PlanNum,listPatPlans[1].PatPlanNum,-1,listInsPlans,listBenefits,pat.PatNum,listPatPlans[1].InsSubNum);
-				_strSecUsed=used.ToString("F");
+				_strSecUsed=used.ToStringNetFx("F");
 				maxInd=Benefits.GetAnnualMaxDisplay(listBenefits,isnPlanCur.PlanNum,listPatPlans[1].PatPlanNum,false);
 				if(maxInd==-1){//if annual max is blank
 					_strSecMax="";
@@ -309,16 +309,16 @@ namespace OpenPmsDental {
 						remain=0;
 					}
 					//textFamSecMax.Text=max.ToString("F");
-					_strSecMax=maxInd.ToString("F");
-					_strSecRem=remain.ToString("F");
+					_strSecMax=maxInd.ToStringNetFx("F");
+					_strSecRem=remain.ToStringNetFx("F");
 				}
 				//deductible:
 				ded=Benefits.GetDeductGeneralDisplay(listBenefits,isnPlanCur.PlanNum,listPatPlans[1].PatPlanNum,BenefitCoverageLevel.Individual);
 				dedFam=Benefits.GetDeductGeneralDisplay(listBenefits,isnPlanCur.PlanNum,listPatPlans[1].PatPlanNum,BenefitCoverageLevel.Family);
 				if(ded!=-1){
-					_strSecDed=ded.ToString("F");
+					_strSecDed=ded.ToStringNetFx("F");
 					dedRem=InsPlans.GetDedRemainDisplay(histList,DateTime.Today,isnPlanCur.PlanNum,listPatPlans[1].PatPlanNum,-1,listInsPlans,pat.PatNum,ded,dedFam);
-					_strSecDedRem=dedRem.ToString("F");
+					_strSecDedRem=dedRem.ToStringNetFx("F");
 				}
 			}
 			Invalidate();

@@ -10,6 +10,7 @@ using OpenPmsDentalBusiness;
 using OpenPmsDental;
 using OpenPmsDental.UI;
 using System.Diagnostics;
+using CodeBase;
 
 namespace OpenPmsDental {
 	public partial class FormVitalsignEdit2014:FormODBase {
@@ -51,10 +52,10 @@ namespace OpenPmsDental {
 			textDateTaken.Text=VitalsignCur.DateTaken.ToShortDateString();
 			AgeOnDateTaken=Vitalsigns.GetAgeForVitalSignWindow(_patient.Birthdate,PIn.Date(textDateTaken.Text));
 			if(VitalsignCur.Height!=0) {
-				textHeight.Text=VitalsignCur.Height.ToString();
+				textHeight.Text=VitalsignCur.Height.ToStringNetFx();
 			}
 			if(VitalsignCur.Weight!=0) {
-				textWeight.Text=VitalsignCur.Weight.ToString();
+				textWeight.Text=VitalsignCur.Weight.ToStringNetFx();
 			}
 			CalcBMI();
 			if(VitalsignCur.BpDiastolic!=0) {
@@ -303,7 +304,7 @@ namespace OpenPmsDental {
 				return;
 			}
 			float bmi=Vitalsigns.CalcBMI(weight,height);// ((float)(weight*703)/(height*height));
-			textBMI.Text=bmi.ToString("n1");
+			textBMI.Text=bmi.ToStringNetFx("n1");
 			labelWeightCode.Text=CalcOverUnderBMIHelper(bmi);
 			int bmiPercentile=-1;
 			if(Vitalsigns.IsBMIPercentileAge(AgeOnDateTaken)) {//calc and show BMI percentile if patient is 3 to 17 on the day of the exam (EHR-7, E-35)

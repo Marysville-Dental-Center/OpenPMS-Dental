@@ -1,0 +1,15 @@
+Scene: text-label-moved
+Group: free-text
+Description: A free-text label after a move to 250,180 (moving is TC-2 and TC-5). The old charts draw no free text; the WPF and 2D charts do since TC-5.
+Size: 500x370
+Colours: Printout
+Engine: Wpf3D (RenderTargetBitmap in software, 3D layer at 3x reduced with WIC's Fant scaler)
+Bitmap: 500x370 Format24bppRgb
+Alpha: every alpha is 255 (format without an alpha channel)
+Colours in the picture: 3231
+Pixels SHA-256: 4eb54955a3c21628150aaac88a0a877ad283638a4796dd02b4fa78be5d58505c
+Repeatable: yes (a second GetBitmap gave the same pixels)
+Framework: .NET 10.0, x64
+Windows: build 26300.9974 (26H2)
+Fresh render: yes (both layers drawn again without the layer cache gave the same pixels)
+Screen DPI seen by the test host: 96

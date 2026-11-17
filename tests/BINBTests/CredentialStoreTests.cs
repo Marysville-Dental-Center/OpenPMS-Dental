@@ -63,6 +63,9 @@ namespace BINBTests {
 		///entries of the Windows account's vault (owner rule, lead fix at S3a-5f's merge).</summary>
 		public CredentialStore NewStore() {
 			CredentialStore credentialStore=new CredentialStore(Prefix+"cm:",Prefix+"vault:",Prefix+"record");
+			//The bridge release's migration, which the .NET 10 build does not run (CredentialStore.IsMigrationRun; S3b-5): the tests run it here
+			//with their own vaults; Migration_OnDotNet10_IsNotRun checks the default.
+			credentialStore.IsMigrationRun=true;
 			credentialStore.FuncOpenVault=() => {
 				OldPasswordVault oldPasswordVault=OldPasswordVault.TryOpen();
 				return oldPasswordVault==null ? null : new ScopedOldVault(oldPasswordVault,this);
@@ -420,6 +423,27 @@ namespace BINBTests {
 					Assert.AreEqual("synthetic-password-2",credentialStoreNextProcess.RetrievePassword(URI,USER));
 				});
 			}
+		}
+
+		///<summary>The .NET 10 build moves nothing from the old vault (it cannot read it; the bridge release, .NET Framework, moved the logins):
+		///by default the vault is never opened and no record is written, and the logins work (S3b-5).</summary>
+		[TestMethod]
+		public void Migration_OnDotNet10_IsNotRun() {
+			TestCredentialStore.Run(TestContext,testCredentialStore => {
+				CredentialStore credentialStore=testCredentialStore.NewStore();
+				credentialStore.IsMigrationRun=new CredentialStore("a","b","c").IsMigrationRun;
+				Assert.IsFalse(credentialStore.IsMigrationRun,"Off by default on .NET 10.");
+				Assert.IsFalse(CredentialStore.Default.IsMigrationRun);
+				int countOpens=0;
+				credentialStore.FuncIsOsWithoutVault=() => false;
+				credentialStore.FuncOpenVault=() => { countOpens++; return null; };
+				credentialStore.WritePassword(URI,USER,PASSWORD);
+				Assert.AreEqual(PASSWORD,credentialStore.RetrievePassword(URI,USER));
+				Assert.IsTrue(credentialStore.TryRetrieveUserName(URI,out string userName));
+				Assert.AreEqual(USER,userName);
+				Assert.AreEqual(0,countOpens,"The old vault is not opened.");
+				Assert.IsNull(credentialStore.GetMigrationRecord(),"No record.");
+			});
 		}
 
 		[TestMethod]

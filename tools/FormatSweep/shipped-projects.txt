@@ -1,0 +1,28 @@
+# The shipped projects FormatSweep scans (S3b-FMT, docs/port-notes/S3b-FMT.md): the program, its libraries, the programs and tools of the
+# release (tools\Build-Release.ps1 stages their files), the reporting engine and designer, ODR, the HL7 service and the Middle Tier server.
+# One project file a line, relative to the repository root. Not scanned: the test projects, tools\ (not shipped), DocumentationBuilder,
+# xCrudGenerator (the Crud code it writes is in OpenPmsDentalBusiness, which is scanned), PluginExample, CentralManager,
+# DatabaseIntegrityCheck and MySQLManager (not in the release), and the third-party sources under third-party\ (submodules; their number
+# text is measured in the port note).
+CodeBase\xCodeBase.csproj
+DataConnectionBase\xDataConnectionBase.csproj
+ODCrypt\xODCrypt.csproj
+PasswordVaultWrapper\PasswordVaultWrapper.csproj
+OpenPmsDentalStorage\OpenPmsDentalStorage.csproj
+OpenPmsDentalBusiness\OpenPmsDentalBusiness.csproj
+OpenPmsDentalGraph\OpenPmsDentalGraph.csproj
+SparksToothChart\SparksToothChart.csproj
+WpfControlsOD\WpfControlsOD.csproj
+ImagingDeviceManager\xImagingDeviceManager.csproj
+ImagingCapture\xImagingCapture.csproj
+ODR\xODR.csproj
+RdlEngine\RdlEngine.csproj
+RdlViewer\RdlViewer.csproj
+RdlDesign\ReportDesigner.csproj
+ServiceManager\ServiceManager.csproj
+OpenPmsDentalDbSettings\OpenPmsDentalDbSettings.csproj
+OpenPmsDentalHelper32\OpenPmsDentalHelper32.csproj
+UpdateFileCopier\UpdateFileCopier.csproj
+OpenPmsDentalHL7\OpenPmsDentalHL7.csproj
+OpenPmsDentalServer\OpenPmsDentalServer.csproj
+OpenPmsDental\OpenPmsDental.csproj

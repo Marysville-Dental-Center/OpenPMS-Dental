@@ -3,12 +3,12 @@
        PatientEdit entries that Patients.Insert and Patients.Update make from every save path (Edit Patient Information, new patients, eForm
        import, sheet import), and a source check that nothing writes a patient row around those two methods. Database tests use a scratch
        MariaDB database on 127.0.0.1:3306 with a unique name and synthetic rows only. Every .cs file under this folder is compiled. -->
-  <ItemGroup>
-    <Reference Include="PresentationCore" />
-    <Reference Include="PresentationFramework" />
-    <Reference Include="System.Xaml" />
-    <Reference Include="WindowsBase" />
-  </ItemGroup>
+  <PropertyGroup>
+    <!-- .NET 10 (S3b-5 of docs/specs/net10-plan.md): Windows Forms and WPF from the Windows Desktop framework, in place of the
+         .NET Framework assembly references; it also keeps the Windows Desktop packages out of the restore (S3b-3). -->
+    <UseWindowsForms>true</UseWindowsForms>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\CodeBase\xCodeBase.csproj" />
     <ProjectReference Include="..\..\DataConnectionBase\xDataConnectionBase.csproj" />

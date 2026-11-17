@@ -1,6 +1,5 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net48</TargetFramework>
     <OutputType>Library</OutputType>
     <RootNamespace>OpenPmsDentalStorage</RootNamespace>
     <AssemblyName>OpenPmsDentalStorage</AssemblyName>
@@ -14,21 +13,14 @@
     <DebugType>pdbonly</DebugType>
   </PropertyGroup>
   <ItemGroup>
-    <!-- Renci.SshNet (SSH.NET 2026.0.0, net462) references Microsoft.Bcl.AsyncInterfaces 8.0.0.0. Sftp.TypeAsyncInterfacesDependency uses the
-    shipped 10.0.0.14 copy, so every host copies it and the binding redirect points SSH.NET at it. SSH.NET's other dependencies
-    (BouncyCastle.Cryptography, Microsoft.Bcl.Cryptography, Microsoft.Extensions.Logging.Abstractions and the System.* support assemblies) come
-    with its package, at the versions of Directory.Packages.props. -->
-    <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" />
+    <!-- SSH.NET, at the version of Directory.Packages.props; its dependencies (BouncyCastle.Cryptography, Microsoft.Extensions.Logging.Abstractions
+         and what .NET 10 does not have built in) come with its package. On .NET 10 the async interfaces (IAsyncDisposable, IAsyncEnumerable)
+         are built in, so the Microsoft.Bcl.AsyncInterfaces package and the type that made every host copy it (Sftp.TypeAsyncInterfacesDependency)
+         are gone (S3b-2). -->
     <PackageReference Include="SSH.NET" />
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Security" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
+    <!-- ProtectedData (the SFTP upload stash, Sftp.cs) is part of Microsoft.WindowsDesktop.App, not of Microsoft.NETCore.App: this library
+         uses no Windows Forms, so it names the package, at the version of Directory.Packages.props. -->
+    <PackageReference Include="System.Security.Cryptography.ProtectedData" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\SharedAssemblyInfo.cs">

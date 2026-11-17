@@ -1655,7 +1655,7 @@ namespace OpenPmsDental {
 					_documentGenerator.DrawString(g,_text,toothColumn,0);
 					_text=Tooth.SurfTidyForClaims(procedure.Surf,procedure.ToothNum);//Field F11
 					_documentGenerator.DrawString(g,_text,surfaceColumn,0);
-					_text=procedure.ProcFee.ToString("F");//Field F12
+					_text=procedure.ProcFee.ToStringNetFx("F");//Field F12
 					_documentGenerator.DrawString(g,_text,feeColumn+amountWidth-g.MeasureString(_text,_documentGenerator.standardFont).Width,0);
 					totalFee+=procedure.ProcFee;
 					if(isEOB) {
@@ -1687,7 +1687,7 @@ namespace OpenPmsDental {
 									_x=_documentGenerator.StartElement();
 									_text=ProcedureCodes.GetProcCodeFromDb(listProceduresLab[0].CodeNum).ProcCode.PadLeft(6,' ');
 									_documentGenerator.DrawString(g,_text,procedureColumn,0);
-									_text=listProceduresLab[0].ProcFee.ToString("F");
+									_text=listProceduresLab[0].ProcFee.ToStringNetFx("F");
 									totalLab+=listProceduresLab[0].ProcFee;
 									_documentGenerator.DrawString(g,_text,labColumn+amountWidth-g.MeasureString(_text,_documentGenerator.standardFont).Width,0);
 									_text=RawMoneyStrToDisplayMoney(ccdFieldsArrayEligibleLabAmounts1[j].valuestr);
@@ -1704,7 +1704,7 @@ namespace OpenPmsDental {
 									_x=_documentGenerator.StartElement();
 									_text=ProcedureCodes.GetProcCodeFromDb(listProceduresLab[1].CodeNum).ProcCode.PadLeft(6,' ');
 									_documentGenerator.DrawString(g,_text,procedureColumn,0);
-									_text=listProceduresLab[1].ProcFee.ToString("F");
+									_text=listProceduresLab[1].ProcFee.ToStringNetFx("F");
 									totalLab+=listProceduresLab[1].ProcFee;
 									_documentGenerator.DrawString(g,_text,labColumn+amountWidth-g.MeasureString(_text,_documentGenerator.standardFont).Width,0);
 									_text=RawMoneyStrToDisplayMoney(ccdFieldsArrayEligibleLabAmounts2[j].valuestr);
@@ -1772,10 +1772,10 @@ namespace OpenPmsDental {
 					if(ccdFieldTotalPayable!=null) {
 						totalPaid=PIn.Double(RawMoneyStrToDisplayMoney(ccdFieldTotalPayable.valuestr));
 					}
-					_documentGenerator.DrawString(g,totalPaid.ToString("F"),dentaidePaysColumn,0);
+					_documentGenerator.DrawString(g,totalPaid.ToStringNetFx("F"),dentaidePaysColumn,0);
 				}
-				_documentGenerator.DrawString(g,totalFee.ToString("F"),feeColumn,0);
-				_documentGenerator.DrawString(g,totalLab.ToString("F"),labColumn,0);
+				_documentGenerator.DrawString(g,totalFee.ToStringNetFx("F"),feeColumn,0);
+				_documentGenerator.DrawString(g,totalLab.ToStringNetFx("F"),labColumn,0);
 				_documentGenerator.standardFont=font;
 			}
 			if(isEOB){
@@ -2082,7 +2082,7 @@ namespace OpenPmsDental {
 					_text=procedure.ProcDate.ToShortDateString();//Field F09
 					_documentGenerator.DrawString(g,_text,procedureDateColumn,0);
 				}
-				_text=claimProc.FeeBilled.ToString("F");//Field F12
+				_text=claimProc.FeeBilled.ToStringNetFx("F");//Field F12
 				_documentGenerator.DrawString(g,_text,procedureChargeColumn+amountWidth-g.MeasureString(_text,_documentGenerator.standardFont).Width,0);
 				decimal feeBilledTotal=(decimal)claimProc.FeeBilled;
 				List<Procedure> listProceduresLab=Procedures.GetCanadianLabFees(claimProc.ProcNum,listProcedures);
@@ -2303,7 +2303,7 @@ namespace OpenPmsDental {
 					_text=procedure.ProcDate.ToShortDateString();//Field F09
 					_documentGenerator.DrawString(g,_text,procedureDateColumn,0);//Procedure date.
 				}
-				_text=claimproc.FeeBilled.ToString("F");
+				_text=claimproc.FeeBilled.ToStringNetFx("F");
 				_documentGenerator.DrawString(g,_text,procedureChargeColumn+amountWidth-g.MeasureString(_text,_documentGenerator.standardFont).Width,0);
 				_text=RawMoneyStrToDisplayMoney(ccdFieldsArrayEligibleAmounts[p].valuestr);//Field G12
 				_documentGenerator.DrawString(g,_text,procedureEligibleColumn+amountWidth-g.MeasureString(_text,_documentGenerator.standardFont).Width,0);
@@ -2330,7 +2330,7 @@ namespace OpenPmsDental {
 					_x=_documentGenerator.StartElement();
 					_text=ProcedureCodes.GetProcCodeFromDb(listProceduresLab[0].CodeNum).ProcCode.PadLeft(6,' ');
 					_documentGenerator.DrawString(g,_text,procedureCodeColumn,0);//proc code
-					_text=listProceduresLab[0].ProcFee.ToString("F");
+					_text=listProceduresLab[0].ProcFee.ToStringNetFx("F");
 					_documentGenerator.DrawString(g,_text,procedureChargeColumn+amountWidth-g.MeasureString(_text,_documentGenerator.standardFont).Width,0);//proc fee
 					_text=RawMoneyStrToDisplayMoney(ccdFieldsArrayEligibleLabAmounts1[i].valuestr);//G43
 					_documentGenerator.DrawString(g,_text,procedureEligibleColumn+amountWidth-g.MeasureString(_text,_documentGenerator.standardFont).Width,0);
@@ -2346,7 +2346,7 @@ namespace OpenPmsDental {
 					_x=_documentGenerator.StartElement();
 					_text=ProcedureCodes.GetProcCodeFromDb(listProceduresLab[1].CodeNum).ProcCode.PadLeft(6,' ');
 					_documentGenerator.DrawString(g,_text,procedureCodeColumn,0);//proc code
-					_text=listProceduresLab[1].ProcFee.ToString("F");
+					_text=listProceduresLab[1].ProcFee.ToStringNetFx("F");
 					_documentGenerator.DrawString(g,_text,procedureChargeColumn+amountWidth-g.MeasureString(_text,_documentGenerator.standardFont).Width,0);//proc fee
 					_text=RawMoneyStrToDisplayMoney(ccdFieldsArrayEligibleLabAmounts2[i].valuestr);//G02
 					_documentGenerator.DrawString(g,_text,procedureEligibleColumn+amountWidth-g.MeasureString(_text,_documentGenerator.standardFont).Width,0);

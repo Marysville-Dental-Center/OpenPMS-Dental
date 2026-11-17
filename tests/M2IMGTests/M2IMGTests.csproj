@@ -4,11 +4,15 @@
        The WebView2 test opens a small off-screen window and is skipped (inconclusive) when the WebView2 Runtime is missing or when
        M2IMG_SKIP_WEBVIEW2=1. The database test uses a scratch MariaDB database with a unique per-run name and drops it afterwards; it is skipped
        when the server does not answer or when FORKMIGRATION_TEST_DB=skip. Every .cs file under this folder is compiled. -->
+  <PropertyGroup>
+    <!-- .NET 10 (S3b-5 of docs/specs/net10-plan.md): Windows Forms from the Windows Desktop framework, in place of the
+         .NET Framework assembly references; it also keeps the Windows Desktop packages out of the restore (S3b-3). -->
+    <UseWindowsForms>true</UseWindowsForms>
+  </PropertyGroup>
   <ItemGroup>
     <!-- The WebView2 SDK, the version of Directory.Packages.props, named here for its build files: the WebView2 test's window needs the
          native WebView2Loader.dll (x86), which they bring and Directory.Build.targets puts at the top of the output folder. -->
     <PackageReference Include="Microsoft.Web.WebView2" />
-    <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
     <!-- Scratch database helpers shared with the fork migration tests (database names start with forkmig_). -->

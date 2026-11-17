@@ -93,12 +93,12 @@ namespace OpenPmsDentalBusiness.Eclaims {
 				strb.Append(t);
 				strb.Append(t);
 				strb.Append(t);
-				strb.Append(proc.ProcFee.ToString("F")+t);
+				strb.Append(proc.ProcFee.ToStringNetFx("F")+t);
 				strb.Append("1"+t);
-				strb.Append(proc.ProcFee.ToString("F")+t);
+				strb.Append(proc.ProcFee.ToStringNetFx("F")+t);
 				strb.Append(t);
 				strb.Append(t);
-				strb.Append(proc.ProcFee.ToString("F")+t);
+				strb.Append(proc.ProcFee.ToStringNetFx("F")+t);
 				strb.Append(t);
 				strb.Append(t);
 				strb.Append("\r\n");

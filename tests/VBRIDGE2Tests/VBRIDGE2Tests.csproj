@@ -3,6 +3,11 @@
        its tags, the Clever One by VATECH hand-off and program row, and the Clerri launch (dashboard address, Client Key per clinic, Family module
        button). Sample command lines and patients are synthetic; nothing is launched and no vendor is called. Database tests use a scratch MariaDB
        database with a unique per-run name, dropped afterwards. Every .cs file under this folder is compiled. -->
+  <PropertyGroup>
+    <!-- .NET 10 (S3b-5 of docs/specs/net10-plan.md): Windows Forms from the Windows Desktop framework, in place of the
+         .NET Framework assembly references; it also keeps the Windows Desktop packages out of the restore (S3b-3). -->
+    <UseWindowsForms>true</UseWindowsForms>
+  </PropertyGroup>
   <ItemGroup>
     <!-- The reader of project files (classic and SDK-style) shared by the tests that check them (S1-T of docs/specs/net10-plan.md). -->
     <Compile Include="..\ProjectFileTests\ProjectFile.cs">

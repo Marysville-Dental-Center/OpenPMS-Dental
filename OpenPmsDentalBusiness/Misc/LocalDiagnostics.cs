@@ -111,7 +111,8 @@ namespace OpenPmsDentalBusiness {
 			diagnosticsText.AddLine("Program version (preference)",() => PrefC.GetString(PrefName.ProgramVersion));
 			diagnosticsText.AddLine("OpenPmsDentalBusiness version",() => MiscData.GetAssemblyVersion());
 			diagnosticsText.AddLine("Program path",() => GetProgramPath());
-			diagnosticsText.AddLine(".NET runtime",() => "CLR "+Environment.Version);
+			//The runtime by name and version (".NET 10.0.15"); "CLR "+Environment.Version on .NET Framework (S3b-3 of the .NET 10 plan).
+			diagnosticsText.AddLine(".NET runtime",() => RuntimeInformation.FrameworkDescription);
 			diagnosticsText.AddLine(".NET Framework release",() => GetNetFrameworkRelease());
 			diagnosticsText.AddLine("Process",() => Environment.Is64BitProcess ? "64-bit" : "32-bit");
 			diagnosticsText.AddLine("Middle tier role",() => RemotingClient.MiddleTierRole.ToString());
@@ -253,7 +254,7 @@ namespace OpenPmsDentalBusiness {
 			if(idxUnit==0) {
 				return bytes+" bytes";
 			}
-			return value.ToString("0.0",CultureInfo.InvariantCulture)+" "+arrayUnits[idxUnit];
+			return value.ToStringNetFx("0.0",CultureInfo.InvariantCulture)+" "+arrayUnits[idxUnit];
 		}
 
 		///<summary>A time zone with its current UTC offset, for example "Pacific Standard Time (UTC-08:00)".</summary>
@@ -350,8 +351,8 @@ namespace OpenPmsDentalBusiness {
 
 		private static string GetDpiText() {
 			using(System.Drawing.Graphics graphics=System.Drawing.Graphics.FromHwnd(IntPtr.Zero)) {
-				return graphics.DpiX.ToString("0",CultureInfo.InvariantCulture)+" ("
-					+(graphics.DpiX/96f*100f).ToString("0",CultureInfo.InvariantCulture)+"%)";
+				return graphics.DpiX.ToStringNetFx("0",CultureInfo.InvariantCulture)+" ("
+					+(graphics.DpiX/96f*100f).ToStringNetFx("0",CultureInfo.InvariantCulture)+"%)";
 			}
 		}
 

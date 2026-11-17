@@ -7,8 +7,9 @@ namespace DataConnectionBase {
 	///folder for the whole process, and for the request a thread is handling, the application name and the client's address. The libraries read
 	///these from System.Web before, which .NET 10 does not have: HostingEnvironment.ApplicationPhysicalPath and ApplicationVirtualPath, and
 	///HttpContext.Current.Request.UserHostAddress and HttpContext.Current.Server.MapPath(null).
-	///The host fills it through DtoProcessor.ProcessDto(dtoString,contentRoot,applicationName,clientIp), which the ASMX code-behind
-	///(OpenPmsDentalServer/ServiceMain.asmx.cs) calls once for each request with the values it reads from System.Web, so the values are the ones
+	///The host fills it through DtoProcessor.ProcessDto(dtoString,contentRoot,applicationName,clientIp), which the server's endpoint
+	///(OpenPmsDentalServer/MiddleTierEndpoint.cs since S3b-6 of the .NET 10 move; the ASMX code-behind, with System.Web's values, before) calls
+	///once for each request with the same values: the content root, the application's path and the client's address, so the values are the ones
 	///the libraries read before. That form sets the request's values on its thread and clears them when the request ends, also when it fails.
 	///With no host (the program, the mock server OpenDentalServerMockIIS, the tests) nothing is set, and every value is what System.Web gave
 	///outside a hosted request: null, and no request on any thread.

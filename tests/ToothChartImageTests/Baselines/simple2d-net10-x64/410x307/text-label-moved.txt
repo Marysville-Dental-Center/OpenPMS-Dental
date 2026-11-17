@@ -1,0 +1,9 @@
+Scene: text-label-moved
+Group: free-text
+Description: A free-text label after a move to 250,180 (moving is TC-2 and TC-5). The old charts draw no free text; the WPF and 2D charts do since TC-5.
+Size: 410x307
+Colours: Module
+Engine: Simple2D (ToothChart2D, GDI+)
+Bitmap: 410x307 Format32bppArgb
+Pixels SHA-256: 6115c7b6b3f08374a07fbf09ed52f8566af543ef2b22ec52b78a2ab30be96ac2
+Framework: .NET 10.0, x64

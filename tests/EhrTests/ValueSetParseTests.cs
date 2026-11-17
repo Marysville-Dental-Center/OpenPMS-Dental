@@ -507,11 +507,19 @@ namespace EhrTests {
 				EhrValueSetFile file=EhrValueSetImport.Parse("ep_2013.zip",arrayZip);
 				Assert.IsTrue(file.IsRefused,"understated="+isSizeUnderstated+"\r\n"+EhrValueSetImport.GetReport(file));
 				string refusal=string.Join(" ",file.ListRefusals);
+				Assert.AreEqual(0,file.ListEhrCodes.Count);
+				if(isSizeUnderstated) {
+					//.NET's ZipArchiveEntry stream stops at the size the header claims, so the part is refused as unreadable XML (its root element
+					//is cut off at the claimed 1,000 bytes), not as too large: nothing past the claimed size is read. On the .NET Framework the
+					//stream inflated past the claim and the part limit refused it. The lead accepted this on 2026-11-16 (docs/port-notes/S3b-5.md).
+					StringAssert.Contains(refusal,"could not be read",refusal);
+					StringAssert.Contains(refusal,"Line 1, position 1001",refusal);
+					continue;
+				}
 				StringAssert.Contains(refusal,"larger, uncompressed, than the importer reads","understated="+isSizeUnderstated);
 				StringAssert.Contains(refusal,"64 MB");
 				StringAssert.Contains(refusal,"EP_2013/large.xml");
 				StringAssert.Contains(refusal,"pick the one sorted by CMS ID","The release's other two sortings have a sheet past the limit (E-20).");
-				Assert.AreEqual(0,file.ListEhrCodes.Count);
 			}
 		}
 

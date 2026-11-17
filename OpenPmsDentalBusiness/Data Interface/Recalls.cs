@@ -304,12 +304,12 @@ namespace OpenPmsDentalBusiness {
             string verbose="INFO";
 			Action<string,string,int> logQuery=new Action<string,string,int>((queryName,queryCommand,numRows) => {
 				sw.Stop();
-				info+=$"\r\nQUERY {sw.Elapsed.TotalSeconds.ToString("0.00")}s {queryName} {numRows} rows";
-				verbose+=$"\r\nQUERY {sw.Elapsed.TotalSeconds.ToString("0.00")}s {queryName} {numRows} rows\r\n{queryCommand}";
+				info+=$"\r\nQUERY {sw.Elapsed.TotalSeconds.ToStringNetFx("0.00")}s {queryName} {numRows} rows";
+				verbose+=$"\r\nQUERY {sw.Elapsed.TotalSeconds.ToStringNetFx("0.00")}s {queryName} {numRows} rows\r\n{queryCommand}";
 			});
 			Action<string> logOther=new Action<string>((line) => {
 				sw.Stop();
-				info+=$"\r\nOTHER {sw.Elapsed.TotalSeconds.ToString("0.00")}s {line} ";
+				info+=$"\r\nOTHER {sw.Elapsed.TotalSeconds.ToStringNetFx("0.00")}s {line} ";
 			});
 			#endregion
 			string command=
@@ -581,8 +581,8 @@ namespace OpenPmsDentalBusiness {
 			logOther($"addRows {table.Rows.Count} rows");
 			swTotal.Stop();
 			if(ODBuild.IsDebug()) {
-				Logger.WriteLine($"\r\n----------SUMMARY TOTAL {swTotal.Elapsed.TotalSeconds.ToString("0.00")}s\r\n{info}\r\n\r\n","FillRecallTableInfo");
-				Logger.WriteLine($"\r\n----------INFO TOTAL {swTotal.Elapsed.TotalSeconds.ToString("0.00")}s\r\n{info}\r\n\r\n----------\r\n{verbose}\r\n\r\n","FillRecallTableVerbose");
+				Logger.WriteLine($"\r\n----------SUMMARY TOTAL {swTotal.Elapsed.TotalSeconds.ToStringNetFx("0.00")}s\r\n{info}\r\n\r\n","FillRecallTableInfo");
+				Logger.WriteLine($"\r\n----------INFO TOTAL {swTotal.Elapsed.TotalSeconds.ToStringNetFx("0.00")}s\r\n{info}\r\n\r\n----------\r\n{verbose}\r\n\r\n","FillRecallTableVerbose");
 			}
 			return table;
 		}
@@ -869,8 +869,8 @@ namespace OpenPmsDentalBusiness {
 							if(++curBatchCount%5==0 || curBatchCount==dictPatBatchData.Count) {
 								ODEvent.Fire(ODEventType.RecallSync,new ProgressBarHelper(
 									Lans.g("Recalls","Recalls Completed")+" "+patProcessedCount+"/"+_totalPatCount+" - "
-										+Math.Floor(((double)patProcessedCount/_totalPatCount)*100).ToString()+"%",
-									Math.Floor(((double)patProcessedCount/_totalPatCount)*100)+"%",
+										+Math.Floor(((double)patProcessedCount/_totalPatCount)*100).ToStringNetFx()+"%",
+									Math.Floor(((double)patProcessedCount/_totalPatCount)*100).ToStringNetFx()+"%",
 									patProcessedCount,
 									_totalPatCount,
 									ProgBarStyle.Blocks,
@@ -995,9 +995,9 @@ namespace OpenPmsDentalBusiness {
 					}
 					ODEvent.Fire(ODEventType.RecallSync,new ProgressBarHelper(
 						Lans.g("Recalls","Recalls Completed")+" "+patProcessedCount+"/"+_totalPatCount+" - "
-							+Math.Floor(((double)patProcessedCount/_totalPatCount)*100).ToString()+"% - "
+							+Math.Floor(((double)patProcessedCount/_totalPatCount)*100).ToStringNetFx()+"% - "
 							+Lans.g("Recalls","Inserting Recalls")+": "+listRecallsForInsert.Count,
-						Math.Floor(((double)patProcessedCount/_totalPatCount)*100)+"%",
+						Math.Floor(((double)patProcessedCount/_totalPatCount)*100).ToStringNetFx()+"%",
 						patProcessedCount,
 						_totalPatCount,
 						ProgBarStyle.Blocks,
@@ -1021,7 +1021,7 @@ namespace OpenPmsDentalBusiness {
 			#endregion Process Batches of Data
 			if(ODBuild.IsDebug()) {
 				s.Stop();
-				Console.WriteLine("Runtime: "+s.Elapsed.Minutes+" min "+(s.Elapsed.TotalSeconds-(s.Elapsed.Minutes*60))+" sec, Main Thread wait count: "+threadWaitCount);
+				Console.WriteLine("Runtime: "+s.Elapsed.Minutes+" min "+(s.Elapsed.TotalSeconds-(s.Elapsed.Minutes*60)).ToStringNetFx()+" sec, Main Thread wait count: "+threadWaitCount);
 			}
 			return true;
 		}

@@ -22,12 +22,17 @@ namespace OpenPmsDentalBusiness {
 		///<summary>The raw ValueString of the ProgramVersion preference.</summary>
 		private static string _strProgramVersion=null;
 
-		///<summary>The host's form, called once for each request: by the ASMX code-behind (OpenPmsDentalServer/ServiceMain.asmx.cs) with the values
-		///it reads from System.Web. contentRoot is the application's folder (HostingEnvironment.ApplicationPhysicalPath), where the config file is;
-		///applicationName its virtual path, like /OpenDentalServer (HostingEnvironment.ApplicationVirtualPath); clientIp the client's address
-		///(Request.UserHostAddress). They are this thread's host context (MiddleTierHost) for the request, so the code that read them from System.Web
-		///before gets the same values. The context is cleared when the request ends, also when it fails, so a pooled thread never carries one
-		///request's application name or client address into the next.</summary>
+		///<summary>For tests only: true makes a Debug build check the database's ProgramVersion against this assembly's version too, as a Release
+		///build always does. A Debug build skips the check because a developer's database keeps an old ProgramVersion; the Middle Tier host tests
+		///(tests/MiddleTierHostTests) build their databases with the right one and check the mismatch answer with it.</summary>
+		public static bool DoCheckVersionInDebug;
+
+		///<summary>The host's form, called once for each request: by the Middle Tier server's endpoint (OpenPmsDentalServer/MiddleTierEndpoint.cs,
+		///S3b-6; the ASMX code-behind before), on a thread of the request's own. contentRoot is the application's folder (the ASMX host's
+		///HostingEnvironment.ApplicationPhysicalPath), where the config file is; applicationName its virtual path, like /OpenDentalServer
+		///(HostingEnvironment.ApplicationVirtualPath); clientIp the client's address (Request.UserHostAddress). They are this thread's host context
+		///(MiddleTierHost) for the request, so the code that read them from System.Web before gets the same values. The context is cleared when the
+		///request ends, also when it fails, so a thread never carries one request's application name or client address into the next.</summary>
 		public static string ProcessDto(string dtoString,string contentRoot,string applicationName,string clientIp) {
 			MiddleTierHost.BeginRequest(contentRoot,applicationName,clientIp);
 			try {
@@ -57,9 +62,9 @@ namespace OpenPmsDentalBusiness {
 					ODInitialize.Initialize();
 					//The PDF library's licence and font fallback, for methods that make PDFs here.
 					PdfSharpSetup.Init();
-					//Correct the System.Runtime.CompilerServices.Unsafe assembly reference for the new MySqlConnector library.
-					string pathCompilerServicesUnsafe=Path.Combine(AppDomain.CurrentDomain.BaseDirectory,"bin","System.Runtime.CompilerServices.Unsafe.dll");
-					ODInitialize.FixPackageAssembly("System.Runtime.CompilerServices.Unsafe",pathCompilerServicesUnsafe);
+					//No FixPackageAssembly for System.Runtime.CompilerServices.Unsafe any more (S3b-6): it pointed the ASMX application's failed loads
+					//at bin\System.Runtime.CompilerServices.Unsafe.dll, a .NET Framework binding fix; on .NET the assembly is part of the runtime and
+					//the server's folder has no bin\ sub folder.
 					//Because Security._curUserT is a thread static field, we need to make sure that any new threads that are spawned have that field set.
 					ODThread.AddInitializeHandler<Userod>(() => Security.CurUser.Copy(),user => Security.CurUser=user);
 					//Same thing for PasswordTyped.
@@ -101,7 +106,7 @@ namespace OpenPmsDentalBusiness {
 				//Obscure error messages can occur when the versions are different even if they differ by a single minor version.
 				//Every single payload should be blocked when the versions do not match and not just payloads invoking Security.LogInWeb (old behavior).
 				//Debug mode does not need to validate the ProgramVersion preference since that preference is purposefully ignored (never gets updated).
-				if(_strOpenDentBusinessVersion!=_strProgramVersion && !ODBuild.IsDebug()) {
+				if(_strOpenDentBusinessVersion!=_strProgramVersion && IsVersionChecked()) {
 					//A valid database connection has been made by this point and one of two scenarios has happened:
 					//1. This is the first time verifying versions (_strProgramVersion is null).
 					//2. There was a version mismatch issue detected in a previous web call and we need to query the database again to see if it has been resolved.
@@ -138,7 +143,7 @@ namespace OpenPmsDentalBusiness {
 				//Signals were just processed so it is safe to use the cache.
 				//Verify that the ProgramVersion wasn't changed by a ClientDirect instance.
 				_strProgramVersion=PrefC.GetString(PrefName.ProgramVersion);
-				if(_strOpenDentBusinessVersion!=_strProgramVersion && !ODBuild.IsDebug()) {
+				if(_strOpenDentBusinessVersion!=_strProgramVersion && IsVersionChecked()) {
 					throw new ODException($"Version mismatch.  Middle Tier Server: '{_strOpenDentBusinessVersion}'  Database: '{_strProgramVersion}'");
 				}
 				#endregion
@@ -202,7 +207,7 @@ namespace OpenPmsDentalBusiness {
 				#region DtoGetDouble
 				else if(type == typeof(DtoGetDouble)) {
 					double doubleResult=(double)dtoInformation.MethodInfo.Invoke(null,dtoInformation.ParamObjs);
-					responseString=doubleResult.ToString();
+					responseString=doubleResult.ToStringNetFx();
 					return responseString;
 				}
 				#endregion
@@ -265,6 +270,12 @@ namespace OpenPmsDentalBusiness {
 					VerboseLog( stopwatch, dtoString, dto, responseString, dateTimeReceived );
 				}
 			}
+		}
+
+		///<summary>True when the database's ProgramVersion must equal this assembly's version: always in a Release build, in a Debug build only for
+		///the host tests (DoCheckVersionInDebug).</summary>
+		private static bool IsVersionChecked() {
+			return !ODBuild.IsDebug() || DoCheckVersionInDebug;
 		}
 
 		private static DtoException GetDtoException(Exception e) {

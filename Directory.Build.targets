@@ -42,17 +42,10 @@
   </Target>
 
   <!--
-    A test project with no app.config of its own builds with tests\BindingRedirects.config, the programs'
-    binding redirects. Reference resolution follows them: without them it looks for the exact older version
-    a library was built against (System.Memory 4.0.1.2 for MySqlConnector, say), skips the newer copy in
-    "Required dlls" and takes an old one from another folder on its search path (the test platform folder
-    of Visual Studio, while MSTest v1 came from there, until S4-1). With them the test's output
-    gets the files of "Required dlls", and its generated .dll.config redirects to them
-    (tests\LibraryBindingTests).
+    The .NET Framework test projects' shared binding-redirect config (tests\BindingRedirects.config, the AppConfig of a test project
+    without an app.config of its own) went with S3b-5 of the .NET 10 move: every test project is .NET 10, where binding redirects mean
+    nothing and the runtime binds the versions each .deps.json names (tests\LibraryBindingTests checks those against the lock files).
   -->
-  <PropertyGroup Condition="'$(AppConfig)' == '' and $(MSBuildProjectName.EndsWith('Tests')) and !Exists('$(MSBuildProjectDirectory)\app.config')">
-    <AppConfig>$(MSBuildThisFileDirectory)tests\BindingRedirects.config</AppConfig>
-  </PropertyGroup>
 
   <!--
     System.ValueTuple comes from the .NET Framework: 4.7 and later bind every 4.0.x reference to the copy in the
@@ -61,7 +54,18 @@
     System.Formats.Asn1 and Microsoft.Bcl.Cryptography: 4.0.5.0), so reference resolution suggests a redirect to
     4.0.5.0, a version no computer has; a .config with that redirect makes every load of System.ValueTuple
     fail. The suggestion is dropped, so the framework's own binding stays in charge.
+
+    .NET Framework only (stage 3b, S3b-1): a .NET project generates no binding redirects. The target goes once no project
+    targets .NET Framework any more: since S3b-5 only tests\TopazStandIn does, on purpose (a library, which generates no redirects).
   -->
+  <Target Name="ODDropValueTupleRedirect" AfterTargets="ResolveAssemblyReferences" BeforeTargets="GenerateBindingRedirects"
+    Condition="'$(TargetFrameworkIdentifier)' == '.NETFramework'">
+    <ItemGroup>
+      <_ODValueTupleRedirect Include="@(SuggestedBindingRedirects)" Condition="$([System.String]::Copy('%(Identity)').StartsWith('System.ValueTuple,'))" />
+      <SuggestedBindingRedirects Remove="@(_ODValueTupleRedirect)" />
+    </ItemGroup>
+  </Target>
+
   <!--
     The native WebView2Loader.dll of the WebView2 package (Microsoft.Web.WebView2 1.0.2420.47, S2-3 of the .NET 10 move), next to the
     program. Microsoft.Web.WebView2.Core.dll loads it for every WebView2 window; the program, and the test projects that open such
@@ -79,6 +83,12 @@
   -->
   <ItemGroup Condition="'$(WebView2ProjectKind)' == 'managed' and '$(NugetRoot)' != ''">
     <Content Update="$(NugetRoot)runtimes\win-x86\native\WebView2Loader.dll" Link="WebView2Loader.dll" />
+    <!--
+      The x64 loader of a .NET 10 project (PlatformTarget x64, S3b-1): the same rule, so it lands flat too. Version 1.0.4314.35, which a
+      .NET 10 project takes (Directory.Packages.props), also has a buildTransitive folder, which ExcludeAssets="build" does not leave out, so
+      a library on .NET 10 gets the Content item as well (S3b-1's build of CodeBase; S3b-0 item 5).
+    -->
+    <Content Update="$(NugetRoot)runtimes\win-x64\native\WebView2Loader.dll" Link="WebView2Loader.dll" />
   </ItemGroup>
 
   <!--
@@ -108,10 +118,29 @@
     </ItemGroup>
   </Target>
 
-  <Target Name="ODDropValueTupleRedirect" AfterTargets="ResolveAssemblyReferences" BeforeTargets="GenerateBindingRedirects">
+  <!--
+    The compiler's inputs of every SDK-style C# project, for the scan of S3b-FMT (decision 24 of docs/specs/net10-plan.md,
+    docs/port-notes/S3b-FMT.md): tools\FormatSweep and FormatParityTests build the same compilations from them, with the compiler's types,
+    to find every place that writes a double or float as text or adds a fractional time to a DateTime. One line each: project=, assembly=,
+    langversion=, define= (the constants, escaped), unsafe=, then src= for each Compile item and ref= for each reference the compiler gets.
+    Written to obj\...\$(MSBuildProjectName).compile-inputs.txt only when it changes, so it never makes a build run again.
+  -->
+  <Target Name="ODRecordCompileInputs" BeforeTargets="CoreCompile" Condition="'$(UsingMicrosoftNETSdk)' == 'true' and '$(Language)' == 'C#'">
     <ItemGroup>
-      <_ODValueTupleRedirect Include="@(SuggestedBindingRedirects)" Condition="$([System.String]::Copy('%(Identity)').StartsWith('System.ValueTuple,'))" />
-      <SuggestedBindingRedirects Remove="@(_ODValueTupleRedirect)" />
+      <_ODCompileInputsLine Include="project=$(MSBuildProjectFullPath)" />
+      <_ODCompileInputsLine Include="assembly=$(AssemblyName)" />
+      <_ODCompileInputsLine Include="langversion=$(LangVersion)" />
+      <_ODCompileInputsLine Include="define=$([MSBuild]::Escape($(DefineConstants)))" />
+      <_ODCompileInputsLine Include="unsafe=$(AllowUnsafeBlocks)" />
+      <_ODCompileInputsLine Include="@(Compile->'src=%(FullPath)')" />
+      <_ODCompileInputsLine Include="@(ReferencePathWithRefAssemblies->'ref=%(FullPath)')" />
+    </ItemGroup>
+    <WriteLinesToFile File="$(IntermediateOutputPath)$(MSBuildProjectName).compile-inputs.txt" Lines="@(_ODCompileInputsLine)"
+      Overwrite="true" WriteOnlyWhenDifferent="true" />
+    <ItemGroup>
+      <FileWrites Include="$(IntermediateOutputPath)$(MSBuildProjectName).compile-inputs.txt" />
+      <_ODCompileInputsLine Remove="@(_ODCompileInputsLine)" />
     </ItemGroup>
   </Target>
+
 </Project>

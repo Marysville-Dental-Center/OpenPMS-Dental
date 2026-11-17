@@ -8,6 +8,7 @@ using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
 using System.Windows.Navigation;
+using CodeBase;
 
 namespace OpenPmsDentalBusiness{
 
@@ -147,9 +148,9 @@ namespace OpenPmsDentalBusiness{
 							//skipping self because we only want the other 2+ in the group
 							continue;
 						}
-						string splitAmt=listJournalEntriesForTrans[k].CreditAmt.ToString("n");
+						string splitAmt=listJournalEntriesForTrans[k].CreditAmt.ToStringNetFx("n");
 						if(listJournalEntriesForTrans[k].DebitAmt>0){
-							splitAmt=listJournalEntriesForTrans[k].DebitAmt.ToString("n");
+							splitAmt=listJournalEntriesForTrans[k].DebitAmt.ToStringNetFx("n");
 						}
 						updatedSplits+=listJournalEntriesForTrans[k].DescriptionAccount+" ";
 						updatedSplits+=splitAmt;

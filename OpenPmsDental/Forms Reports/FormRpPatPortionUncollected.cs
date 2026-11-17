@@ -6,6 +6,7 @@ using System.Linq;
 using System.Windows.Forms;
 using OpenPmsDental.ReportingComplex;
 using OpenPmsDentalBusiness;
+using CodeBase;
 
 namespace OpenPmsDental{
 ///<summary></summary>
@@ -65,12 +66,12 @@ namespace OpenPmsDental{
 					row.Cells.Add(PIn.Date(rowCur["ProcDate"].ToString()).ToShortDateString());
 					row.Cells.Add(PIn.String(rowCur["Patient"].ToString()).ToString());
 					row.Cells.Add(PIn.String(rowCur["AbbrDesc"].ToString()).ToString());
-					row.Cells.Add(PIn.Double(rowCur["Fee"].ToString()).ToString("c"));
-					row.Cells.Add(PIn.Double(rowCur["PatPortion"].ToString()).ToString("c"));
-					row.Cells.Add(PIn.Double(rowCur["Adjustment"].ToString()).ToString("c"));
-					row.Cells.Add(PIn.Double(rowCur["Payment"].ToString()).ToString("c"));
-					row.Cells.Add(PIn.Double(rowCur["Uncollected"].ToString()).ToString("c"));
-					row.Cells.Add(PIn.Double(rowCur[RpPatPortionUncollected.ColumnPayPlan].ToString()).ToString("c"));
+					row.Cells.Add(PIn.Double(rowCur["Fee"].ToString()).ToStringNetFx("c"));
+					row.Cells.Add(PIn.Double(rowCur["PatPortion"].ToString()).ToStringNetFx("c"));
+					row.Cells.Add(PIn.Double(rowCur["Adjustment"].ToString()).ToStringNetFx("c"));
+					row.Cells.Add(PIn.Double(rowCur["Payment"].ToString()).ToStringNetFx("c"));
+					row.Cells.Add(PIn.Double(rowCur["Uncollected"].ToString()).ToStringNetFx("c"));
+					row.Cells.Add(PIn.Double(rowCur[RpPatPortionUncollected.ColumnPayPlan].ToString()).ToStringNetFx("c"));
 					if(IsPriorRow(rowCur)) {
 						row.ColorBackG=_colorPrior;
 					}

@@ -40,7 +40,9 @@ namespace S3aM1Tests {
 			GridOD gridOD=(GridOD)Priv.Get(control,gridName);
 			Assert.AreSame(Priv.Get(control,menuName),gridOD.ContextMenuStrip,gridName);
 			Assert.IsTrue(gridOD.DoAddGridItemsToContextMenuStrip,gridName);
+#pragma warning disable WFDEV006 //the .NET Framework menu types, kept by .NET 10 for binary compatibility only: checked for absence (S3b-5)
 			Assert.IsNull(gridOD.ContextMenu,gridName+": no WinForms ContextMenu.");
+#pragma warning restore WFDEV006
 			Assert.IsTrue(M2Support.GetOpeningHandlerNames(gridOD.ContextMenuStrip).Contains("ContextMenuStrip_Opening"),gridName+": the grid's Opening.");
 		}
 
@@ -136,7 +138,9 @@ namespace S3aM1Tests {
 					AssertDesignerMenus(controlImageDisplay,@"User Controls\ControlImageDisplay.Designer.cs");
 					Control panelMain=(Control)Priv.Get(controlImageDisplay,"panelMain");
 					Assert.AreSame(Priv.Get(controlImageDisplay,"menuPanelMain"),panelMain.ContextMenuStrip);
+#pragma warning disable WFDEV006 //the .NET Framework menu types, kept by .NET 10 for binary compatibility only: checked for absence (S3b-5)
 					Assert.IsNull(panelMain.ContextMenu);
+#pragma warning restore WFDEV006
 				}
 			});
 		}
@@ -149,7 +153,9 @@ namespace S3aM1Tests {
 				using(ODtextBox odTextBox=new ODtextBox()) {
 					ContextMenuStrip contextMenuStrip=(ContextMenuStrip)Priv.Get(odTextBox,"contextMenu");
 					Assert.AreSame(contextMenuStrip,odTextBox.ContextMenuStrip);
+#pragma warning disable WFDEV006 //the .NET Framework menu types, kept by .NET 10 for binary compatibility only: checked for absence (S3b-5)
 					Assert.IsNull(odTextBox.ContextMenu);
+#pragma warning restore WFDEV006
 					//The indexes that contextMenu_Popup and menuItem_Click use (0-4 suggestions, 13 cut, 14 copy, 16 paste plain text, 17 edit auto note).
 					List<string> listExpected=new List<string> {
 						" ->menuItem_Click"," ->menuItem_Click"," ->menuItem_Click"," ->menuItem_Click"," ->menuItem_Click","-",

@@ -750,6 +750,21 @@ of 2026-11-08: "1. As recommended 2. Ship dlls we need. Use Helix. It's decided.
 - **S3a-11, the elevated installer test (run on 2026-11-15 by you):** 97 checks passed, 0 failed, exit code 0 on the build PC; your 0.0
   installation's Apps entry and Event Log source were written back and its shortcuts are unchanged. Nothing more is asked here; you run
   the same line again at each stage gate.
+- **Gallery G5: the chart on .NET 10, 64-bit (S3b-5W). Answered on 2026-11-16: "approve G5"; the pictures are approved as drawn, so the 64-bit one-pixel text rounding (the "5" at 410x307 and the perio legend's second row) stays as the 64-bit program draws it (the default of question 2). S3b-5W is merged into `net10/switch`.** Branch `net10/s3b5w-2` (the
+  review fix round of `net10/s3b5w-1`: the tests' DirectX comparisons now check the .NET 10 pictures; no picture changed); the
+  pictures were recorded in `7c95e3a54` and the gallery was made at that commit. The page `index.html` (in the main checkout's
+  `.git/od-tools/test-results/g5-gallery/`, also zipped as `g5-gallery.zip`) shows each of the 370 pictures the chart tests keep (326 of the
+  WPF chart, 35 of the Simple 2D chart, 9 that the program's own windows make: sheets, Treatment Plan, referral letter, dashboard, big
+  chart, sheet editor preview, perio chart) as .NET Framework 4.8 (64-bit) draws it, as .NET 10 (64-bit) draws it, and the difference,
+  the changed ones first: 193 identical, 173 within the tests' tolerance, 4 beyond it. What you would see: the chart looks the same; the
+  four beyond the tolerance are host pictures that only had a 32-bit picture to compare with, and each is a 64-bit difference already seen
+  on .NET Framework (TC-10): the perio legend's second row one pixel higher, the tooth number "5" one pixel to the right at the dashboard's
+  size, and the 2D sheet's text and teeth anti-aliased a little differently; the saved perio image blends its left and top edge pixel a
+  little differently. One drawing change: the "W" watch marks are drawn in tooth-number order, because .NET 10 shuffled their order from run
+  to run ([port-notes/S3b-5W.md](port-notes/S3b-5W.md)). Questions: (1) approve these pictures as the chart's look on .NET 10, or name
+  scenes to change; (2) the one-pixel moves of the "5" and of the perio legend row: keep them as the 64-bit program draws them (the
+  default), or make the rounding give the 32-bit position again (a small drawing change with its own gallery). S3b-5W merges into
+  `net10/switch` only after your answer.
 - **Gallery G4, TC-8's part (answered on 2026-11-15: "Approve TC-8").** Every host on the WPF chart, File > Graphics with "3D chart",
   "Simple 2D chart", "Draw in software" and a live preview, graphical perio on every computer, Simple 2D computers kept on 2D. TC-8 merged.
   **File > Graphics on Open Dental 26.2's layout: your decision (2026-11-15): "Match Open Dental 26.2".** Package TC-8b builds the
@@ -1053,6 +1068,10 @@ and E-10b), where each is set out in full with its recommendation. You first ans
   software on every PC), TC-9a and TC-9b then delete the old engines with SharpDX and Tao, and with no bridge release all three land on
   `main` before the 64-bit build, which never carries DirectX. TC-9a follows TC-8 directly; the office check (the chart's image tests
   on one PC of the office's graphics type, no database) stays as a launch check before the office switches.
+
+- **When the .NET 10 branch merges into main** (net10-plan decision 25). Answered on 2026-11-16: "B": merge once the main merge and a Full x64 run are green; the gate's person checks become launch checks before the office release (`docs/launch-checks-3b.md`). Asked next: can the person checks be automated? Answered "yes" to the three that can (a WebView2 window check, `tools/Test-MiddleTierService.ps1` run elevated by the owner, `tools/Test-CleanInstall.ps1` in Windows Sandbox once the owner turns it on).
+
+- **The elevated installer test on .NET 10** (S3b-7, [port-notes/S3b-7.md](port-notes/S3b-7.md) section 6). `tools/Test-Installer.ps1` starts the installed connection settings tool briefly, with no arguments (it connects to nothing), to read which runtime it loaded, then closes it; it removes the `TWAINDSM.dll` the test installs only when the PC had none before, and an older one stays replaced by 2.5.1. **Answered on 2026-11-16: yes.** The same handling applies to the 32-bit TWAIN manager that S3b-8 adds.
 
 - **Trojan's registry key names** (N64-A, [port-notes/N64-A.md](port-notes/N64-A.md)). Trojan's install folder is now looked up under
   Software\TROJAN BENEFIT SERVICE (as before) and also under Software\Trojan (the name Open Dental's manual gives), in the 32-bit and then

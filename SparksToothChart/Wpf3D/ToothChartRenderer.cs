@@ -1041,7 +1041,7 @@ namespace SparksToothChart.Wpf3D {
 			if(isFlat) {
 				specular=0f;
 			}
-			string key=color.ToArgb()+"|"+specular.ToString("R")+"|"+diffuseFactor.ToString("R")+"|"+emissiveFactor.ToString("R");
+			string key=color.ToArgb()+"|"+specular.ToStringNetFx("R")+"|"+diffuseFactor.ToStringNetFx("R")+"|"+emissiveFactor.ToStringNetFx("R");
 			Material material;
 			if(_dictMaterials.TryGetValue(key,out material)) {
 				return material;

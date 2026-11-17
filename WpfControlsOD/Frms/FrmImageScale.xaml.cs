@@ -10,6 +10,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using OpenPmsDentalBusiness;
 using WpfControls.UI;
+using CodeBase;
 
 namespace OpenPmsDental {
 	public partial class FrmImageScale:FrmODBase {
@@ -36,10 +37,10 @@ namespace OpenPmsDental {
 			textUnits.Text=StringUnits;
 			//known length is blank
 			if(Pixels>0){
-				textPixels.Text=Pixels.ToString();
+				textPixels.Text=Pixels.ToStringNetFx();
 			}
 			if(ScaleVal>0){
-				textScale.Text=ScaleVal.ToString();
+				textScale.Text=ScaleVal.ToStringNetFx();
 			}
 			textDecimals.Value=Decimals;
 			FillUnits();
@@ -72,7 +73,7 @@ namespace OpenPmsDental {
 				return;
 			}
 			float scale=Pixels/lengthKnown;
-			textScale.Text=scale.ToString();
+			textScale.Text=scale.ToStringNetFx();
 		}
 
 		private void FrmImageScale_PreviewKeyDown(object sender,KeyEventArgs e) {

@@ -1069,7 +1069,7 @@ namespace OpenPmsDentalBusiness{
 				}
 				dataRow["aptDate"]=dateTApt.ToShortDateString();
 				dataRow["aptDay"]=dateTApt.ToString("dddd");
-				timeSpan=TimeSpan.FromMinutes(tableRaw.Rows[d]["apptPattern"].ToString().Length*5);
+				timeSpan=CodeBase.ODTimeSpan.FromMinutes(tableRaw.Rows[d]["apptPattern"].ToString().Length*5);
 				hours=timeSpan.Hours;
 				minutes=timeSpan.Minutes;
 				if(hours==0) {
@@ -1759,7 +1759,7 @@ namespace OpenPmsDentalBusiness{
 			dataRow=table.NewRow();
 			dataRow["field"]=Lans.g("FormApptEdit","Total Balance");
 			double totalBalance=PIn.Double(tablePatRaw.Rows[0]["EstBalance"].ToString());
-			dataRow["value"]=totalBalance.ToString("F");
+			dataRow["value"]=totalBalance.ToStringNetFx("F");
 			table.Rows.Add(dataRow);
 			//Patient address and phone notes-------------------------------------------------------
 			dataRow=table.NewRow();
@@ -1773,7 +1773,7 @@ namespace OpenPmsDentalBusiness{
 			dataRow["field"]=Lans.g("FormApptEdit","Family Balance");
 			double balance=PIn.Double(familyBalance.Rows[0]["BalTotal"].ToString())
 				-PIn.Double(familyBalance.Rows[0]["InsEst"].ToString());
-			dataRow["value"]=balance.ToString("F");
+			dataRow["value"]=balance.ToStringNetFx("F");
 			table.Rows.Add(dataRow);
 			//Site----------------------------------------------------------------------------------
 			if(!PrefC.GetBool(PrefName.EasyHidePublicHealth)){
@@ -1897,7 +1897,7 @@ namespace OpenPmsDentalBusiness{
 				if(tableProcRaw.Rows[i]["ToothRange"].ToString()!=""){
 					dataRow["descript"]+=" #"+Tooth.DisplayRange(tableProcRaw.Rows[i]["ToothRange"].ToString());
 				}
-				dataRow["fee"]=PIn.Double(tableProcRaw.Rows[i]["ProcFee"].ToString()).ToString("F");
+				dataRow["fee"]=PIn.Double(tableProcRaw.Rows[i]["ProcFee"].ToString()).ToStringNetFx("F");
 				dataRow["priority"]=Defs.GetName(DefCat.TxPriorities,PIn.Long(tableProcRaw.Rows[i]["Priority"].ToString()));
 				dataRow["Priority"]=tableProcRaw.Rows[i]["Priority"].ToString();
 				dataRow["ProcCode"]=tableProcRaw.Rows[i]["ProcCode"].ToString();
@@ -4102,7 +4102,7 @@ namespace OpenPmsDentalBusiness{
 			}
 			//Start and end time of the apt we are validating.
 			DateTime dateTimeMovedAptStart=appointment.AptDateTime;
-			DateTime dateTimeMovedAptEnd=appointment.AptDateTime.Add(TimeSpan.FromMinutes(appointment.Pattern.Length*5));
+			DateTime dateTimeMovedAptEnd=appointment.AptDateTime.Add(CodeBase.ODTimeSpan.FromMinutes(appointment.Pattern.Length*5));
 			//Check for collisions with blockouts if specified, return true if there is one.
 			if(hasBlockoutCheck) {
 				List<Schedule> listSchedulesBlockoutsOverlapping=GetBlockoutsOverlappingNoSchedule(appointment);
@@ -4116,7 +4116,7 @@ namespace OpenPmsDentalBusiness{
 			foreach(Appointment curApt in listAppointments) {
 				//Start and end time of another apt in this op.
 				DateTime dateTimeAptScheduledStart=curApt.AptDateTime;
-				DateTime dateTimeAptScheduledEnd=curApt.AptDateTime.Add(TimeSpan.FromMinutes(curApt.Pattern.Length*5));
+				DateTime dateTimeAptScheduledEnd=curApt.AptDateTime.Add(CodeBase.ODTimeSpan.FromMinutes(curApt.Pattern.Length*5));
 				//Check start time.
 				if(dateTimeMovedAptStart>=dateTimeAptScheduledStart && dateTimeMovedAptStart<dateTimeAptScheduledEnd){//Starts during curApt's blockout time.
 					return true;

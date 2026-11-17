@@ -84,7 +84,7 @@ namespace OpenPmsDental{
 			_errorProvider.BlinkStyle=ErrorBlinkStyle.NeverBlink;
 			textCheckNum.Text=ClaimPaymentCur.CheckNum;
 			textBankBranch.Text=ClaimPaymentCur.BankBranch;
-			textAmount.Text=ClaimPaymentCur.CheckAmt.ToString("F");
+			textAmount.Text=ClaimPaymentCur.CheckAmt.ToStringNetFx("F");
 			textCarrierName.Text=ClaimPaymentCur.CarrierName;
 			textNote.Text=ClaimPaymentCur.Note;
 			_listDefsClaimPaymentGroups=Defs.GetDefsForCategory(DefCat.ClaimPaymentGroups,isShort:true);
@@ -134,7 +134,7 @@ namespace OpenPmsDental{
 			if(_depositOld!=null) {
 				butDepositEdit.Visible=true;
 				validDepositDate.Text=_depositOld.DateDeposit.ToShortDateString();
-				validDoubleDepositAmt.Text=_depositOld.Amount.ToString();
+				validDoubleDepositAmt.Text=_depositOld.Amount.ToStringNetFx();
 				textBoxBatchNum.Text=_depositOld.Batch;
 				comboDepositAccountNum.SetSelectedDefNum(_depositOld.DepositAccountNum);
 			}
@@ -621,7 +621,7 @@ namespace OpenPmsDental{
 				ClaimPaymentCur.DepositNum=Deposits.Insert(depositCur);
 				SecurityLogs.MakeLogEntry(EnumPermType.DepositSlips,0
 					,Lan.g(this,"Auto Deposit created via the Edit Insurance Payment window:")+" "+depositCur.DateDeposit.ToShortDateString()
-					+" "+Lan.g(this,"New")+" "+depositCur.Amount.ToString("c"));
+					+" "+Lan.g(this,"New")+" "+depositCur.Amount.ToStringNetFx("c"));
 			}
 			#endregion
 			double amt=PIn.Double(textAmount.Text);
@@ -694,7 +694,7 @@ namespace OpenPmsDental{
 				}
 				SecurityLogs.MakeLogEntry(EnumPermType.InsPayCreate,0,
 					Lan.g(this,"Carrier Name: ")+ClaimPaymentCur.CarrierName+", "
-					+Lan.g(this,"Total Amount: ")+ClaimPaymentCur.CheckAmt.ToString("c")+", "
+					+Lan.g(this,"Total Amount: ")+ClaimPaymentCur.CheckAmt.ToStringNetFx("c")+", "
 					+Lan.g(this,"Check Date: ")+ClaimPaymentCur.CheckDate.ToShortDateString()+", "//Date the check is entered in the system (i.e. today)
 					+"ClaimPaymentNum: "+ClaimPaymentCur.ClaimPaymentNum);//Column name, not translated.
 				}
@@ -709,15 +709,15 @@ namespace OpenPmsDental{
 				if(IsCreateLogEntry) { //need a InsPayCreate Log entry because it just was pre-inserted.
 					SecurityLogs.MakeLogEntry(EnumPermType.InsPayCreate,0,
 						Lan.g(this,"Carrier Name: ")+ClaimPaymentCur.CarrierName+", "
-						+Lan.g(this,"Total Amount: ")+ClaimPaymentCur.CheckAmt.ToString("c")+", "
+						+Lan.g(this,"Total Amount: ")+ClaimPaymentCur.CheckAmt.ToStringNetFx("c")+", "
 						+Lan.g(this,"Check Date: ")+ClaimPaymentCur.CheckDate.ToShortDateString()+", "//Date the check is entered in the system (i.e. today)
 						+"ClaimPaymentNum: "+ClaimPaymentCur.ClaimPaymentNum);//Column name, not translated.
 				}
 				else {
 					SecurityLogs.MakeLogEntry(EnumPermType.InsPayEdit,0,
 						Lan.g(this,"Carrier Name: ")+ClaimPaymentCur.CarrierName+", "
-						+Lan.g(this,"Previous Amount: ")+_claimPaymentOld.CheckAmt.ToString("c")+", "
-						+Lan.g(this,"New Amount: ")+ClaimPaymentCur.CheckAmt.ToString("c")+", "
+						+Lan.g(this,"Previous Amount: ")+_claimPaymentOld.CheckAmt.ToStringNetFx("c")+", "
+						+Lan.g(this,"New Amount: ")+ClaimPaymentCur.CheckAmt.ToStringNetFx("c")+", "
 						+Lan.g(this,"Check Date: ")+ClaimPaymentCur.CheckDate.ToShortDateString()+", "//Date the check is entered in the system
 						+"ClaimPaymentNum: "+ClaimPaymentCur.ClaimPaymentNum);//Column name, not translated.
 				}

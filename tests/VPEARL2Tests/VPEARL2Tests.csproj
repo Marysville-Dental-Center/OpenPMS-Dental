@@ -4,10 +4,14 @@
        tests use a scratch database on the local MariaDB (127.0.0.1:3306, root, blank password) with a unique per-run name, dropped afterwards;
        they are skipped (inconclusive) when the server does not answer, or when FORKMIGRATION_TEST_DB=skip. Synthetic data only. Every .cs file
        under this folder is compiled. -->
+  <PropertyGroup>
+    <!-- .NET 10 (S3b-5 of docs/specs/net10-plan.md): Windows Forms from the Windows Desktop framework, in place of the
+         .NET Framework assembly references; it also keeps the Windows Desktop packages out of the restore (S3b-3). -->
+    <UseWindowsForms>true</UseWindowsForms>
+  </PropertyGroup>
   <ItemGroup>
     <!-- Newtonsoft.Json, which the fake IApiRequest in PearlWiringTests implements the signatures of, comes as a package through the projects
          below. -->
-    <Reference Include="System.Net.Http" />
   </ItemGroup>
   <ItemGroup>
     <!-- Scratch database helpers shared with the fork migration tests (database names start with forkmig_). -->

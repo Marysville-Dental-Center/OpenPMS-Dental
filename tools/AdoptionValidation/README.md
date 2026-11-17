@@ -181,7 +181,7 @@ change. On the synthetic data they are `benefit.ToothRange` and `insplan.GroupNu
 `AdoptionValidation.Tests` (in `OpenDental.sln` and `OpenDental.Local.slnf`):
 
 ```
-vstest.console.exe tools\AdoptionValidation\AdoptionValidation.Tests\bin\Debug\AdoptionValidation.Tests.dll /Platform:x86
+vstest.console.exe tools\AdoptionValidation\AdoptionValidation.Tests\bin\Debug\AdoptionValidation.Tests.dll /Platform:x64
 ```
 
 Unit tests cover the startup model (every Open Dental release refuses an adopted database; the unadopted control cases; what happens if update

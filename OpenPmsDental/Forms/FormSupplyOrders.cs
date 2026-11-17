@@ -147,8 +147,8 @@ namespace OpenPmsDental {
 				else { 
 					row.Cells.Add(_listSupplyOrders[i].DateReceived.ToShortDateString());
 				}
-				row.Cells.Add(_listSupplyOrders[i].AmountTotal.ToString("c"));
-				row.Cells.Add(_listSupplyOrders[i].ShippingCharge.ToString("c"));
+				row.Cells.Add(_listSupplyOrders[i].AmountTotal.ToStringNetFx("c"));
+				row.Cells.Add(_listSupplyOrders[i].ShippingCharge.ToStringNetFx("c"));
 				row.Cells.Add(Suppliers.GetName(_listSuppliers,_listSupplyOrders[i].SupplierNum));
 				row.Cells.Add(_listSupplyOrders[i].Note);
 				if(isPending || _listSupplyOrders[i].UserNum==0) {
@@ -199,9 +199,9 @@ namespace OpenPmsDental {
 				qty=PIn.Int(_tableOrderItems.Rows[i]["Qty"].ToString());
 				row.Cells.Add(qty.ToString());
 				price=PIn.Double(_tableOrderItems.Rows[i]["Price"].ToString());
-				row.Cells.Add(price.ToString("n"));
+				row.Cells.Add(price.ToStringNetFx("n"));
 				subtotal=((double)qty)*price;
-				row.Cells.Add(subtotal.ToString("n"));
+				row.Cells.Add(subtotal.ToStringNetFx("n"));
 				DateTime dateReceived=PIn.Date(_tableOrderItems.Rows[i]["DateReceived"].ToString());
 				if(dateReceived.Year<1880) {
 					row.Cells.Add("pending");
@@ -385,7 +385,7 @@ namespace OpenPmsDental {
 				return;
 			}
 			_listSupplyOrders[index]=supplyOrderUpdatedItem;
-			gridOrders.SelectedGridRows[0].Cells[2].Text=supplyOrderUpdatedItem.AmountTotal.ToString("c2");
+			gridOrders.SelectedGridRows[0].Cells[2].Text=supplyOrderUpdatedItem.AmountTotal.ToStringNetFx("c2");
 			gridOrders.Invalidate();
 		}
 

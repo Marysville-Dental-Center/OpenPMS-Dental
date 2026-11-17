@@ -224,11 +224,11 @@ namespace OpenPmsDentalBusiness {
 			ncScript.Patient.PatientDiagnosis=GetPatDiagnoses(pat.PatNum);
 			foreach(Vitalsign vitalsign in Vitalsigns.Refresh(pat.PatNum).OrderByDescending(x => x.DateTaken)){
 				if(vitalsign.Height!=0 && ncScript.Patient.PatientCharacteristics.height.IsNullOrEmpty()) {//Only set once
-					ncScript.Patient.PatientCharacteristics.height=vitalsign.Height.ToString();
+					ncScript.Patient.PatientCharacteristics.height=vitalsign.Height.ToStringNetFx();
 					ncScript.Patient.PatientCharacteristics.heightUnits="inches";//No HeightUnitType field like the one for weight below
 				}
 				if(vitalsign.Weight!=0 && ncScript.Patient.PatientCharacteristics.weight.IsNullOrEmpty()) {//Only set once
-					ncScript.Patient.PatientCharacteristics.weight=vitalsign.Weight.ToString();
+					ncScript.Patient.PatientCharacteristics.weight=vitalsign.Weight.ToStringNetFx();
 					ncScript.Patient.PatientCharacteristics.weightUnits=WeightUnitType.lbs1;
 					ncScript.Patient.PatientCharacteristics.weightUnitsSpecified=true;
 				}

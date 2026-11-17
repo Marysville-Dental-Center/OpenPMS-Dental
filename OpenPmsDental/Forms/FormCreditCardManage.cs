@@ -110,7 +110,7 @@ namespace OpenPmsDental {
 					else {
 						row.Cells.Add(creditCard.DateStop.ToShortDateString());//4: Stop Date
 					}
-					row.Cells.Add(creditCard.ChargeAmt.ToString());//5: Charge amount
+					row.Cells.Add(creditCard.ChargeAmt.ToStringNetFx());//5: Charge amount
 					row.Cells.Add(CreditCards.GetHumanReadableFrequency(creditCard.ChargeFrequency));//6: Charge frequency
 					row.Cells.Add(creditCard.PayPlanNum!=0 ? "X" : "");//7: PayPlan
 				}

@@ -447,7 +447,7 @@ namespace WebServiceSerializer {
 			for(int i=0;i<table.Rows.Count;i++) {//Row loop.
 				result.Append("<y>");
 				for(int j=0;j<table.Columns.Count;j++) {//Column loop.
-					string cellValue=table.Rows[i][j].ToString();
+					string cellValue=ODNumberText.ToStringNetFxIfNumber(table.Rows[i][j]);//a double as the .NET Framework wrote it (S3b-FMT)
 					if(table.Columns[j].DataType.Name=="DateTime") { //DateTime requires special formatting so it can be deserialized by java in DataTable.getCellDateFromFormatString().
 						DateTime dt;
 						if(!DateTime.TryParse(table.Rows[i][j].ToString(),out dt)) { //Shouldn't get here but just in case, give it a default value.
@@ -681,7 +681,7 @@ namespace WebServiceSerializer {
 		public static string PDouble(double myDouble) {
 			try {
 				//because decimal is a comma in Europe, this sends it to db with period instead 
-				return myDouble.ToString("f",new NumberFormatInfo());
+				return myDouble.ToStringNetFx("f",new NumberFormatInfo());
 			}
 			catch {
 				return "0";
@@ -704,7 +704,7 @@ namespace WebServiceSerializer {
 
 		///<summary></summary>
 		public static string PFloat(float myFloat) {
-			return myFloat.ToString();
+			return myFloat.ToStringNetFx();
 		}
 
 		///<summary></summary>

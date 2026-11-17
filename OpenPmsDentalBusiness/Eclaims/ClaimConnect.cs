@@ -2505,7 +2505,7 @@ namespace OpenPmsDentalBusiness.Eclaims {
 					xconnectClaimItem.startDate=proc.ProcDate.ToString("yyyy-MM-dd");
 					xconnectClaimItem.endDate=proc.ProcDate.ToString("yyyy-MM-dd");
 				}
-				xconnectClaimItem.quantity=Int32.Parse(proc.Quantity.ToString());
+				xconnectClaimItem.quantity=Int32.Parse(proc.Quantity.ToStringNetFx());
 				xconnectClaimItem.fee=XConnect._listClaimProcsForClaim[i].FeeBilled;
 				//xconnectClaimItem.tax=proc.TaxAmt//user cannot enter tax. Avatax is internal only.
 				if(proc.Prosthesis!="") {

@@ -54,7 +54,7 @@ namespace OpenPmsDentalBusiness {
 				s.Stop();
 				Console.WriteLine("Total time to generate report with "+string.Format("{0:#,##0.##}",table.Rows.Count)+" rows: "
 					+(s.Elapsed.Hours>0?(s.Elapsed.Hours+" hours "):"")+(s.Elapsed.Minutes>0?(s.Elapsed.Minutes+" min "):"")
-					+(s.Elapsed.TotalSeconds-(s.Elapsed.Hours*60*60)-(s.Elapsed.Minutes*60))+" sec");
+					+(s.Elapsed.TotalSeconds-(s.Elapsed.Hours*60*60)-(s.Elapsed.Minutes*60)).ToStringNetFx()+" sec");
 			}
 			return table;
 		}

@@ -54,6 +54,7 @@ namespace MaintenanceTests {
 
 		[AssemblyInitialize]
 		public static void AssemblyInitialize(TestContext testContext) {
+			OpenPmsDentalTests.TestCodePages.Register();//the code pages first, as the program registers them (tests\Shared\TestCodePages.cs)
 			SetCultureUs();
 			if(Environment.GetEnvironmentVariable("MAINT_TEST_DB")=="skip") {
 				SkipReason="MAINT_TEST_DB=skip";

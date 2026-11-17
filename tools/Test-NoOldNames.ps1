@@ -126,13 +126,14 @@ $AllowList=@(
 	@{ Path='tests\VendorDirectTests\DentalXChange\DxcPartnerIdentityTests.cs'; Match='Client=\\"OpenDental\\"|UploaderName=OpenDental'; Reason='Checks that the removed vendor values stay removed.' }
 	@{ Path='tests\VendorDirectTests\Erx\ErxSourceTests.cs'; Match='\\"OpenDental\(Lexi\)\?\\"'; Reason='Checks that the removed eRx vendor values stay removed.' }
 
-	#--- The Middle Tier's wire contract and deployment path (decision D4).
-	@{ Path='*'; Match='open-dent\.com/OpenDentalServer'; Reason='The SOAP namespace and action of the Middle Tier web service.' }
-	@{ Path='*'; Match='/OpenDentalServer/ServiceMain\.asmx'; Reason="The Middle Tier's IIS path in its default URL." }
-	@{ Path='*'; Match='(?:localhost|>|\s|^)/OpenDentalServer\b'; Reason="The Middle Tier's IIS virtual path (/OpenDentalServer)." }
+	#--- The Middle Tier's wire contract and deployment path (decision D4). Since S3b-6 of the .NET 10 move the server is an ASP.NET Core
+	#--- host without SOAP; its default path base stays /OpenDentalServer, so the workstations' saved addresses keep working.
+	@{ Path='*'; Match='open-dent\.com/OpenDentalServer'; Reason='The SOAP namespace and action of the ASMX Middle Tier (until S3b-6), in its history.' }
+	@{ Path='*'; Match='/OpenDentalServer/ServiceMain\.asmx'; Reason="The Middle Tier's path in its default URL (the IIS path of the ASMX; the server's default path base since S3b-6)." }
+	@{ Path='*'; Match='(?:localhost|>|\s|^|"|\()/OpenDentalServer\b'; Reason="The Middle Tier's IIS virtual path (/OpenDentalServer), the server's default path base since S3b-6 (ServerSettings.DEFAULT_PATH_BASE, appsettings.json)." }
 	@{ Path='*'; Match='"?OpenDental Middle Tier\b:?"?'; Reason='The Windows Credential Manager prefix of saved Middle Tier logins.' }
-	@{ Path='*'; Match='(?<=\.|Web References\\)OpenDentalServer\b'; Reason='The Middle Tier web reference, named after the web service.' }
-	@{ Path='*'; Match='\bOpenDentalServer\.ServiceMain\b'; Reason='The web reference proxy class (OpenPmsDentalBusiness.OpenDentalServer.ServiceMain).' }
+	@{ Path='*'; Match='(?<=\.|Web References\\)OpenDentalServer\b'; Reason='The Middle Tier web reference, named after the web service (removed in S3b-6; its history and the project baseline record).' }
+	@{ Path='*'; Match='\bOpenDentalServer\.ServiceMain\b'; Reason='The web reference proxy class (OpenPmsDentalBusiness.OpenDentalServer.ServiceMain, removed in S3b-6), in its history.' }
 
 	#--- The solution and solution filter keep their file names (the shared build lane, run-tests, Test-NoHqHosts and the merge driver use them).
 	@{ Path='*'; Match='\bOpenDental\.(?:Local\.slnf|sln)\b'; Reason='The OpenDental.sln and OpenDental.Local.slnf file names stay.' }

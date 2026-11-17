@@ -1,0 +1,15 @@
+Scene: bridge-anterior
+Group: paint
+Description: Dark TP anterior bridge 7-8-9-10 with 8 and 9 missing, and 23-24-25-26 EC with 24 and 25 missing.
+Size: 500x370
+Colours: Printout
+Engine: Wpf3D (RenderTargetBitmap in software, 3D layer at 3x reduced with WIC's Fant scaler)
+Bitmap: 500x370 Format24bppRgb
+Alpha: every alpha is 255 (format without an alpha channel)
+Colours in the picture: 4924
+Pixels SHA-256: 1e610aee1083cf7aeff39fd08c5f121e5d5754ca26eaa8ae410fc4321a5e6dd3
+Repeatable: yes (a second GetBitmap gave the same pixels)
+Framework: .NET 10.0, x64
+Windows: build 26300.9974 (26H2)
+Fresh render: yes (both layers drawn again without the layer cache gave the same pixels)
+Screen DPI seen by the test host: 96

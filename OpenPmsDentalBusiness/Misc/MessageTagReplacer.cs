@@ -48,8 +48,8 @@ namespace OpenPmsDentalBusiness {
 			ReplaceTags.ReplaceOneTag(stringBuilder,CURMONTH_TAG,DateTime_.Now.ToString("MMMM"),isEmail);
 			Statement statementDb=Statements.GetStatement(statement.StatementNum);//Retrieve the statement from the db to replace balance totals.
 			if(statementDb!=null) {
-				ReplaceTags.ReplaceOneTag(stringBuilder,STATEMENT_BALANCE_TAG,statementDb.BalTotal.ToString("0.00"),isEmail);
-				ReplaceTags.ReplaceOneTag(stringBuilder,STATEMENT_INS_EST_TAG,statementDb.InsEst.ToString("0.00"),isEmail);
+				ReplaceTags.ReplaceOneTag(stringBuilder,STATEMENT_BALANCE_TAG,statementDb.BalTotal.ToStringNetFx("0.00"),isEmail);
+				ReplaceTags.ReplaceOneTag(stringBuilder,STATEMENT_INS_EST_TAG,statementDb.InsEst.ToStringNetFx("0.00"),isEmail);
 			}
 			for(int i=0;i<_arrayRemovedUrlTags.Length;i++) {
 				ReplaceTags.ReplaceOneTag(stringBuilder,_arrayRemovedUrlTags[i],"",isEmail);

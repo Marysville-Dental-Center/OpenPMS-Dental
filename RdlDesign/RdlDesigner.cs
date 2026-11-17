@@ -20,6 +20,11 @@
     For additional information, email info@fyireporting.com or visit
     the website www.fyiReporting.com.
 */
+// Changed by Open PMS - Dental contributors, 2026-11-16 (package S3b-2b of the .NET 10 move, docs/port-notes/S3b-2.md part B): the toolbar is a
+// Panel and the status bar a StatusStrip, in place of the WinForms ToolBar and StatusBar, which .NET has only as shims that cannot be created
+// (WFDEV006).
+// Changed by Open PMS - Dental contributors, 2026-11-16 (package S3b-FMT of the .NET 10 move, decision 24 of docs/specs/net10-plan.md,
+// docs/port-notes/S3b-FMT.md): doubles and floats are written as text as .NET Framework wrote them (ODNumberText.ToStringNetFx, AsNetFx).
 using System;
 using System.Drawing;
 using System.Collections;
@@ -35,6 +40,7 @@ using System.Diagnostics;
 using fyiReporting.RDL;
 using fyiReporting.RdlViewer;
 using System.Runtime.InteropServices;
+using CodeBase;
 
 namespace fyiReporting.RdlDesign
 {
@@ -70,14 +76,14 @@ namespace fyiReporting.RdlDesign
 		private int TEMPRDL_INC=0;
 
 		// Status bar
-		private System.Windows.Forms.StatusBar mainSB;
-		private StatusBarPanel statusPrimary;
-		private StatusBarPanel statusSelected;
-		private StatusBarPanel statusPosition;
+		private System.Windows.Forms.StatusStrip mainSB;		// S3b-2b: a StatusStrip with ToolStripStatusLabels in place of the WinForms StatusBar (WFDEV006)
+		private ToolStripStatusLabel statusPrimary;
+		private ToolStripStatusLabel statusSelected;
+		private ToolStripStatusLabel statusPosition;
 
 		// Tool bar  --- if you add to this list LOOK AT INIT TOOLBAR FIRST
 		bool bSuppressChange=false;
-		private System.Windows.Forms.ToolBar mainTB;
+		private System.Windows.Forms.Panel mainTB;		// S3b-2b: a Panel docked at the top in place of the WinForms ToolBar (WFDEV006), which held only these controls
         internal System.Windows.Forms.TabControl mainTC; 
 		private SimpleToggle ctlBold=null;
 		private SimpleToggle ctlItalic=null;
@@ -273,46 +279,45 @@ namespace fyiReporting.RdlDesign
 
 		private void InitStatusBar()
 		{
-			mainSB = new StatusBar();
+			// S3b-2b: a StatusStrip and three ToolStripStatusLabels in place of the WinForms StatusBar and its StatusBarPanels, which .NET has only
+			// as shims that cannot be created (WFDEV006). Same panels, texts, tool tips, sizes and borders; the primary panel springs.
+			mainSB = new StatusStrip();
 
 			mainSB.Parent = this;
 			mainSB.Dock = DockStyle.Bottom;
 			mainSB.Anchor = AnchorStyles.Top | AnchorStyles.Left;
 
-			statusPrimary = new StatusBarPanel();
+			statusPrimary = new ToolStripStatusLabel();
 			statusPrimary.Width = 260;
-			statusPrimary.MinWidth = 10;
-			statusPrimary.AutoSize = StatusBarPanelAutoSize.Spring;
+			statusPrimary.Spring = true;
 			statusPrimary.Text = "";
-			statusPrimary.BorderStyle = StatusBarPanelBorderStyle.None;
+			statusPrimary.BorderSides = ToolStripStatusLabelBorderSides.None;
 
-			statusSelected = new StatusBarPanel();
-			statusSelected.AutoSize = StatusBarPanelAutoSize.Contents;
-			statusSelected.Alignment = HorizontalAlignment.Center;
+			statusSelected = new ToolStripStatusLabel();
+			statusSelected.AutoSize = true;
+			statusSelected.TextAlign = ContentAlignment.MiddleCenter;
 			statusSelected.ToolTipText = "Name of selected ReportItem";
-			statusSelected.Width = 192;
-			statusSelected.MinWidth = 10;
 			statusSelected.Text = "";
-			statusSelected.BorderStyle = StatusBarPanelBorderStyle.Sunken;
+			statusSelected.BorderSides = ToolStripStatusLabelBorderSides.All;
+			statusSelected.BorderStyle = Border3DStyle.SunkenOuter;
 
-			statusPosition = new StatusBarPanel();
-			statusPosition.AutoSize = StatusBarPanelAutoSize.Contents;
+			statusPosition = new ToolStripStatusLabel();
+			statusPosition.AutoSize = true;
 			statusPosition.ToolTipText = "Position of selected ReportItem";
-			statusPosition.Width = 96;
-			statusPosition.MinWidth = 10;
-			statusPosition.Alignment = HorizontalAlignment.Center;
+			statusPosition.TextAlign = ContentAlignment.MiddleCenter;
 			statusPosition.Text = "";
-			statusPosition.BorderStyle = StatusBarPanelBorderStyle.Raised;
+			statusPosition.BorderSides = ToolStripStatusLabelBorderSides.All;
+			statusPosition.BorderStyle = Border3DStyle.RaisedInner;
 			
 			mainSB.Size = new System.Drawing.Size(472, 22);
 
-			mainSB.ShowPanels = true;
+			mainSB.ShowItemToolTips = true;
 			mainSB.Location = new System.Drawing.Point(0, 282);
 			mainSB.Name = "mainSB";
-			mainSB.Panels.AddRange(new System.Windows.Forms.StatusBarPanel[] {
-																			  this.statusPrimary,
-																			  this.statusSelected,
-																			  this.statusPosition});
+			mainSB.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+																	  this.statusPrimary,
+																	  this.statusSelected,
+																	  this.statusPosition});
 			this.Controls.Add(mainSB);
 		}
 
@@ -361,7 +366,8 @@ namespace fyiReporting.RdlDesign
 			}
 			else
 			{
-				mainTB = new ToolBar();
+				mainTB = new Panel();		// S3b-2b: was a WinForms ToolBar (WFDEV006), which docks at the top
+				mainTB.Dock = DockStyle.Top;
                 mainTB.SizeChanged += new EventHandler(mainTB_SizeChanged);
 				mainTB.SuspendLayout();
 			}
@@ -509,9 +515,8 @@ namespace fyiReporting.RdlDesign
 
             mainTB.Parent = this;
 			mainTB.BorderStyle = BorderStyle.None;
-			mainTB.DropDownArrows = true;
 			mainTB.Name = "mainTB";
-			mainTB.ShowToolTips = true;
+			// (the ToolBar's ShowToolTips and DropDownArrows were for ToolBarButtons, of which it had none)
 			//			mainTB.Size = new Size(440,20);
 			mainTB.TabIndex = 1;
 			mainTB.AutoSize = false;
@@ -1273,6 +1278,14 @@ namespace fyiReporting.RdlDesign
 		[STAThread]
 		static void Main() 
 		{
+			//Before anything creates a window (S3b-4 of docs/specs/net10-plan.md): the .NET Framework's default font, which the forms were laid out
+			//with (.NET's is Segoe UI 9; SetDefaultFont throws once a window exists), then per-monitor DPI awareness, the program's mode (the
+			//.NET Framework build of the program set it in its app.config, which .NET does not read).
+			Application.SetDefaultFont(new System.Drawing.Font("Microsoft Sans Serif",8.25f));
+			Application.SetHighDpiMode(HighDpiMode.PerMonitorV2);
+			//The Windows code pages for Encoding.GetEncoding (.NET has only the Unicode encodings, ASCII and Latin-1 built in), before anything reads
+			//ANSI text. This program does not call ODInitialize.Initialize, which registers them for the others (S3b-4).
+			System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
 			bool bMono;
 			string[] args = Environment.GetCommandLineArgs();
 			if (args.Length >= 2 &&
@@ -1789,7 +1802,7 @@ namespace fyiReporting.RdlDesign
 							if (mc.Zoom == 1)
 								zText = "Actual Size";
 							else
-								zText = string.Format("{0:0}", mc.Zoom*100f);
+								zText = string.Format("{0:0}", (mc.Zoom*100f).AsNetFx());
 							break;
 					}
 					ctlZoom.Text = zText;
@@ -1873,12 +1886,12 @@ namespace fyiReporting.RdlDesign
             if (rinfo.IsMetric)
             {
                 sh = string.Format("   height={0:0.00}cm        ",
-                        h / (DesignXmlDraw.POINTSIZED / 2.54d));
+                        (h / (DesignXmlDraw.POINTSIZED / 2.54d)).AsNetFx());
             }
             else
             {
                 sh = string.Format("   height={0:0.00}\"        ",
-                        h / DesignXmlDraw.POINTSIZED);
+                        (h / DesignXmlDraw.POINTSIZED).AsNetFx());
             }
             statusPosition.Text = sh;
         }
@@ -1923,7 +1936,7 @@ namespace fyiReporting.RdlDesign
 				ctlFont.Text = si.FontFamily;
 			if (ctlFontSize != null)
 			{
-				string rs = string.Format(NumberFormatInfo.InvariantInfo, "{0:0.#}", si.FontSize);
+				string rs = string.Format(NumberFormatInfo.InvariantInfo, "{0:0.#}", si.FontSize.AsNetFx());
 				ctlFontSize.Text = rs;
 			}
 			if (ctlForeColor != null)
@@ -3198,20 +3211,20 @@ namespace fyiReporting.RdlDesign
 				{
 					if (sz.Width == float.MinValue)	// item is in a table/matrix is probably cause
 						spos =  string.Format("   x={0:0.00}cm, y={1:0.00}cm        ",
-                            pos.X / (m72 / 2.54d), pos.Y / (m72 / 2.54d));
+                            (pos.X / (m72 / 2.54d)).AsNetFx(), (pos.Y / (m72 / 2.54d)).AsNetFx());
 					else
 						spos =  string.Format("   x={0:0.00}cm, y={1:0.00}cm, w={2:0.00}cm, h={3:0.00}cm        ", 
-							pos.X / (m72 / 2.54d), pos.Y / (m72 / 2.54d),
-							sz.Width / (m72 / 2.54d), sz.Height / (m72 / 2.54d));
+							(pos.X / (m72 / 2.54d)).AsNetFx(), (pos.Y / (m72 / 2.54d)).AsNetFx(),
+							(sz.Width / (m72 / 2.54d)).AsNetFx(), (sz.Height / (m72 / 2.54d)).AsNetFx());
 				}
 				else
 				{
 					if (sz.Width == float.MinValue)
 						spos =  string.Format("   x={0:0.00}\", y={1:0.00}\"        ", 
-							pos.X/m72, pos.Y/m72);
+							(pos.X/m72).AsNetFx(), (pos.Y/m72).AsNetFx());
 					else
 						spos =  string.Format("   x={0:0.00}\", y={1:0.00}\", w={2:0.00}\", h={3:0.00}\"        ", 
-							pos.X/m72, pos.Y/m72, sz.Width/m72, sz.Height/m72);
+							(pos.X/m72).AsNetFx(), (pos.Y/m72).AsNetFx(), (sz.Width/m72).AsNetFx(), (sz.Height/m72).AsNetFx());
 				}
 			}
 			if (spos != statusPosition.Text)

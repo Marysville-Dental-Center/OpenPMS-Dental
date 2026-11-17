@@ -467,7 +467,7 @@ namespace OpenPmsDentalBusiness {
 				if(timeSpan==TimeSpan.Zero){
 					return "";
 				}
-				return timeSpan.TotalHours.ToString("n");
+				return timeSpan.TotalHours.ToStringNetFx("n");
 			}
 			else if(PrefC.GetBool(PrefName.TimeCardShowSeconds)) {//Colon format with seconds
 				return timeSpan.ToStringHmmss();
@@ -507,7 +507,7 @@ namespace OpenPmsDentalBusiness {
 				catch {
 					throw new Exception("Invalid format");
 				}
-				timeSpan+=TimeSpan.FromHours(hours);
+				timeSpan+=CodeBase.ODTimeSpan.FromHours(hours);
 			}
 			//Minutes
 			if(listParts.Count>=2) {
@@ -521,7 +521,7 @@ namespace OpenPmsDentalBusiness {
 				catch {
 					throw new Exception("Invalid format");
 				}
-				timeSpan+=TimeSpan.FromMinutes(minutes);
+				timeSpan+=CodeBase.ODTimeSpan.FromMinutes(minutes);
 			}
 			//Seconds
 			if(listParts.Count==3) {
@@ -535,7 +535,7 @@ namespace OpenPmsDentalBusiness {
 				catch{
 					throw new Exception("Invalid format");
 				}
-				timeSpan+=TimeSpan.FromSeconds(seconds);
+				timeSpan+=CodeBase.ODTimeSpan.FromSeconds(seconds);
 			}
 			if(isNegative) {
 				timeSpan=-timeSpan;
@@ -725,15 +725,15 @@ namespace OpenPmsDentalBusiness {
 				}
 				double unpaidProtectedLeaveHours=listTimeAdjustsEmp.Where(x => x.IsUnpaidProtectedLeave).Sum(x => x.RegHours.TotalHours);
 				double ptoHours=listTimeAdjustsEmp.Where(x=>x.PtoDefNum!=0).Sum(x=>x.PtoHours.TotalHours);
-				dataRow["totalHours"]  =TimeSpan.FromHours(totalHours).ToString();
-				dataRow["rate1Hours"]  =TimeSpan.FromHours(totalRate1Hours).ToString();
-				dataRow["rate1OTHours"]=TimeSpan.FromHours(totalRate1OTHours).ToString();
-				dataRow["rate2Hours"]  =TimeSpan.FromHours(totalRate2Hours).ToString();
-				dataRow["rate2OTHours"]=TimeSpan.FromHours(totalRate2OTHours).ToString();
-				dataRow["rate3Hours"]  =TimeSpan.FromHours(totalRate3Hours).ToString();
-				dataRow["rate3OTHours"]=TimeSpan.FromHours(totalRate3OTHours).ToString();
-				dataRow["PTOHours"]    =TimeSpan.FromHours(ptoHours).ToString();
-				dataRow["protectedLeaveHours"]=TimeSpan.FromHours(unpaidProtectedLeaveHours).ToString();
+				dataRow["totalHours"]  =CodeBase.ODTimeSpan.FromHours(totalHours).ToString();
+				dataRow["rate1Hours"]  =CodeBase.ODTimeSpan.FromHours(totalRate1Hours).ToString();
+				dataRow["rate1OTHours"]=CodeBase.ODTimeSpan.FromHours(totalRate1OTHours).ToString();
+				dataRow["rate2Hours"]  =CodeBase.ODTimeSpan.FromHours(totalRate2Hours).ToString();
+				dataRow["rate2OTHours"]=CodeBase.ODTimeSpan.FromHours(totalRate2OTHours).ToString();
+				dataRow["rate3Hours"]  =CodeBase.ODTimeSpan.FromHours(totalRate3Hours).ToString();
+				dataRow["rate3OTHours"]=CodeBase.ODTimeSpan.FromHours(totalRate3OTHours).ToString();
+				dataRow["PTOHours"]    =CodeBase.ODTimeSpan.FromHours(ptoHours).ToString();
+				dataRow["protectedLeaveHours"]=CodeBase.ODTimeSpan.FromHours(unpaidProtectedLeaveHours).ToString();
 				string payPeriodNote=listTimeAdjustsPayPeriodNote.Find(x => x.EmployeeNum==listEmployees[i].EmployeeNum)?.Note;
 				if(string.IsNullOrEmpty(payPeriodNote)){
 					dataRow["Note"]=note;

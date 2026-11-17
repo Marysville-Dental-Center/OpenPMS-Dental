@@ -96,7 +96,7 @@ namespace OpenPmsDentalBusiness{
 				retVal+=", "+TimePeriod.ToString();//EB06: Time period qualifier. Situational
 			}
 			if(MonetaryAmt != -1) {
-				retVal+=", "+MonetaryAmt.ToString("c");//EB07: Monetary amount. Situational
+				retVal+=", "+MonetaryAmt.ToStringNetFx("c");//EB07: Monetary amount. Situational
 			}
 			if(Percent != -1) {
 				string leadingStr="";
@@ -136,12 +136,12 @@ namespace OpenPmsDentalBusiness{
 			}
 			double amount=Math.Round(MonetaryAmt,2);//Handles partial cents.
 			//E.X. 4.25 => {"4","25"} OR 4.00 => {"4"}
-			List<string> listVals=amount.ToString().Split('.').ToList();
+			List<string> listVals=amount.ToStringNetFx().Split('.').ToList();
 			int count=listVals.Count()>1 ? listVals.ElementAt(1).Length : 0;
 			if(count==0) {//No decimals
-				return amount.ToString("n0");//Do not show decimal, but round up.
+				return amount.ToStringNetFx("n0");//Do not show decimal, but round up.
 			}//decimals present
-			return amount.ToString("n2");//Show two decimals, round up.
+			return amount.ToStringNetFx("n2");//Show two decimals, round up.
 		}
 
 		///<summary>IComparable.CompareTo implementation.  This is used to order benefit lists as well as to group benefits if the type is essentially equal.  It doesn't compare values such as percentages or amounts.  It only compares types.</summary>

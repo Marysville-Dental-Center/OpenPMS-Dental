@@ -175,7 +175,7 @@ namespace OpenPmsDental{
 						comboDepositAccount.Items.Add(Accounts.GetDescript(listJournalEntries[i].AccountNum));
 						comboDepositAccount.SelectedIndex=0;
 						textDepositAccount.Text=listJournalEntries[i].DateDisplayed.ToShortDateString()
-							+" "+listJournalEntries[i].DebitAmt.ToString("c");
+							+" "+listJournalEntries[i].DebitAmt.ToStringNetFx("c");
 						break;
 					}
 				}
@@ -193,7 +193,7 @@ namespace OpenPmsDental{
 			}
 			FillClassRefs();
 			textDate.Text=_depositCur.DateDeposit.ToShortDateString();
-			textAmount.Text=_depositCur.Amount.ToString("F");
+			textAmount.Text=_depositCur.Amount.ToStringNetFx("F");
 			textBankAccountInfo.Text=_depositCur.BankAccountInfo;
 			textMemo.Text=_depositCur.Memo;
 			textBatch.Text=_depositCur.Batch;
@@ -311,7 +311,7 @@ namespace OpenPmsDental{
 				row.Cells.Add(Defs.GetName(DefCat.PaymentTypes,_listPaymentsPat[i].PayType));
 				row.Cells.Add(_listPaymentsPat[i].CheckNum);
 				row.Cells.Add(_listPaymentsPat[i].BankBranch);
-				row.Cells.Add(_listPaymentsPat[i].PayAmt.ToString("F"));
+				row.Cells.Add(_listPaymentsPat[i].PayAmt.ToStringNetFx("F"));
 				gridPat.ListGridRows.Add(row);
 			}
 			gridPat.EndUpdate();
@@ -338,7 +338,7 @@ namespace OpenPmsDental{
 				row.Cells.Add(Defs.GetName(DefCat.InsurancePaymentType,_listClaimPayments[i].PayType));
 				row.Cells.Add(_listClaimPayments[i].CheckNum);
 				row.Cells.Add(_listClaimPayments[i].BankBranch);
-				row.Cells.Add(_listClaimPayments[i].CheckAmt.ToString("F"));
+				row.Cells.Add(_listClaimPayments[i].CheckAmt.ToStringNetFx("F"));
 				gridIns.ListGridRows.Add(row);
 			}
 			gridIns.EndUpdate();
@@ -464,7 +464,7 @@ namespace OpenPmsDental{
 			}
 			//Everything below only happens when QuickBooks deposit was successful.
 			SecurityLogs.MakeLogEntry(EnumPermType.DepositSlips,0,Lan.g(this,"Deposit slip sent to QuickBooks.")+"\r\n"
-				+Lan.g(this,"Deposit date")+": "+_depositCur.DateDeposit.ToShortDateString()+" "+Lan.g(this,"for")+" "+_depositCur.Amount.ToString("c"));
+				+Lan.g(this,"Deposit date")+": "+_depositCur.DateDeposit.ToShortDateString()+" "+Lan.g(this,"for")+" "+_depositCur.Amount.ToStringNetFx("c"));
 			Cursor.Current=Cursors.Default;
 			MsgBox.Show(this,"Deposit successfully sent to QuickBooks.");
 			butSendQB.Enabled=false;//Don't let user send same deposit more than once.  
@@ -523,7 +523,7 @@ namespace OpenPmsDental{
 			}
 			//Everything below only happens when QuickBooks Online deposit was successful.
 			SecurityLogs.MakeLogEntry(EnumPermType.DepositSlips,0,Lan.g(this,"Deposit slip sent to QuickBooks Online.")+"\r\n"
-				+Lan.g(this,"Deposit date")+": "+_depositCur.DateDeposit.ToShortDateString()+" "+Lan.g(this,"for")+" "+_depositCur.Amount.ToString("c"));
+				+Lan.g(this,"Deposit date")+": "+_depositCur.DateDeposit.ToShortDateString()+" "+Lan.g(this,"for")+" "+_depositCur.Amount.ToStringNetFx("c"));
 			Cursor.Current=Cursors.Default;
 			if(quickBooksOnlineClassRef!=null && quickBooksOnlineDepositResponse.IsClassRefNull()) {
 				//We sent a class ref, the deposit was successful, but the class ref was not applied to the deposit.
@@ -915,7 +915,7 @@ namespace OpenPmsDental{
 			DialogResult=DialogResult.OK;
 			//Existing deposit, no need to create a new transaction, deposit and income entry.
 			if(!IsNew) {
-				SecurityLogs.MakeLogEntry(EnumPermType.DepositSlips,0,_depositCur.DateDeposit.ToShortDateString()+" "+_depositCur.Amount.ToString("c"));
+				SecurityLogs.MakeLogEntry(EnumPermType.DepositSlips,0,_depositCur.DateDeposit.ToShortDateString()+" "+_depositCur.Amount.ToStringNetFx("c"));
 				return;
 			}
 			//New deposit, but has faulty deposit criteria or is Quickbooks/Quickbooks Online, can't make transaction, deposit and income entry.
@@ -950,7 +950,7 @@ namespace OpenPmsDental{
 			journalEntry.Splits=Accounts.GetDescript(_listDepositAccounts[comboDepositAccount.SelectedIndex]);
 			journalEntry.TransactionNum=transaction.TransactionNum;
 			JournalEntries.Insert(journalEntry);
-			SecurityLogs.MakeLogEntry(EnumPermType.DepositSlips,0,_depositCur.DateDeposit.ToShortDateString()+" New "+_depositCur.Amount.ToString("c"));
+			SecurityLogs.MakeLogEntry(EnumPermType.DepositSlips,0,_depositCur.DateDeposit.ToShortDateString()+" New "+_depositCur.Amount.ToStringNetFx("c"));
 			Signalods.SetInvalid(InvalidType.BillingList);
 		}
 

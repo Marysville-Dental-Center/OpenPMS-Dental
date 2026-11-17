@@ -14,6 +14,9 @@ namespace DevDbTool {
 		public const int ExitVerifyFailed=4;
 
 		public static int Main(string[] args) {
+			//First: the Windows code pages for Encoding.GetEncoding (.NET has only the Unicode encodings, ASCII and Latin-1 built in), before
+			//anything reads ANSI text; ODInitialize.Initialize registers them again, which is harmless (S3b-3 of the .NET 10 plan).
+			System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
 			Options options;
 			try {
 				options=Options.Parse(args);

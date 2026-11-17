@@ -1,7 +1,13 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <!-- Tests for package B-SERVER in docs/specs/port-backlog.md: the Incomplete Procedure Notes "all procedures with no notes" option, the Report
        Server audit entry, the SSL CA (.pem) path label, and the replication read and write delays (with a scratch database standing in for the
-       replica). Database tests use scratch databases with synthetic rows on the local MariaDB. Every .cs file under this folder is compiled. -->
+       replica). Database tests use scratch databases with synthetic rows on the local MariaDB (names start with bsrvtest_, or the prefix
+       BSERVER_DB_PREFIX names). Every .cs file under this folder is compiled. -->
+  <PropertyGroup>
+    <!-- S3b-5 of docs/specs/net10-plan.md: every test project is .NET 10 (tests\Directory.Build.props). Windows Forms: the restore prunes
+         what the business library's Windows Desktop framework holds (S3b-3). -->
+    <UseWindowsForms>true</UseWindowsForms>
+  </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\CodeBase\xCodeBase.csproj" />
     <ProjectReference Include="..\..\DataConnectionBase\xDataConnectionBase.csproj" />

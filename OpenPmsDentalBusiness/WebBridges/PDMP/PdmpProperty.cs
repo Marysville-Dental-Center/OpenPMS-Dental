@@ -567,7 +567,7 @@ namespace OpenPmsDentalBusiness {
 						}
 					case PdmpCertificateSource.Database:
 						//Ephemeral load: shows the details even of an expired certificate, without touching a key store.
-						using(X509Certificate2 certificate=new X509Certificate2(Convert.FromBase64String(pdmpProperty.BambooClientKey),
+						using(X509Certificate2 certificate=PdmpCertificate.LoadFile(Convert.FromBase64String(pdmpProperty.BambooClientKey),
 							pdmpProperty.BambooClientPassword??"",X509KeyStorageFlags.EphemeralKeySet))
 						{
 							return DescribeWithProblem(certificate,dateTimeUtcNow);

@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
+using CodeBase;
 
 namespace OpenPmsDentalBusiness {
 	///<summary>Audit Trail entry when a patient is selected (EnumPermType.PatientSelected, 275, Open Dental 25.4). Audit only: it never blocks a
@@ -100,12 +101,12 @@ namespace OpenPmsDentalBusiness {
 			List<string> listParts=new List<string>();
 			listParts.Add("date "+financeChargeRun.DateCharge.ToShortDateString());
 			if(financeChargeRun.IsBillingCharge) {
-				listParts.Add("amount "+financeChargeRun.BillingChargeAmount.ToString("c"));
+				listParts.Add("amount "+financeChargeRun.BillingChargeAmount.ToStringNetFx("c"));
 			}
 			else {
-				listParts.Add("APR "+financeChargeRun.Apr.ToString(CultureInfo.CurrentCulture)+"%");
-				listParts.Add("at least "+financeChargeRun.AtLeast.ToString("c"));
-				listParts.Add("only if over "+financeChargeRun.OnlyIfOver.ToString("c"));
+				listParts.Add("APR "+financeChargeRun.Apr.ToStringNetFx(CultureInfo.CurrentCulture)+"%");
+				listParts.Add("at least "+financeChargeRun.AtLeast.ToStringNetFx("c"));
+				listParts.Add("only if over "+financeChargeRun.OnlyIfOver.ToStringNetFx("c"));
 				listParts.Add("compound "+(financeChargeRun.IsCompound ? "on" : "off"));
 			}
 			listParts.Add("balances over "+financeChargeRun.DaysOver+" days");
@@ -113,7 +114,7 @@ namespace OpenPmsDentalBusiness {
 			listParts.Add("provider "+(string.IsNullOrWhiteSpace(financeChargeRun.ProviderAbbr) ? "each patient's primary provider" : financeChargeRun.ProviderAbbr));
 			string chargeType=financeChargeRun.IsBillingCharge ? "Billing" : "Finance";
 			string text=chargeType+" charges run: "+string.Join(", ",listParts)+", "
-				+financeChargeRun.CountCharges+" charge"+(financeChargeRun.CountCharges==1 ? "" : "s")+" created totaling "+financeChargeRun.TotalAmount.ToString("c");
+				+financeChargeRun.CountCharges+" charge"+(financeChargeRun.CountCharges==1 ? "" : "s")+" created totaling "+financeChargeRun.TotalAmount.ToStringNetFx("c");
 			if(financeChargeRun.IsCancelled) {
 				text+=" (cancelled before every account was processed)";
 			}

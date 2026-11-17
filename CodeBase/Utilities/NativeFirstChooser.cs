@@ -488,15 +488,27 @@ namespace CodeBase {
 			}
 		}
 
+		///<summary>True when the image can be loaded into a process of that bitness, on this process's runtime (the .NET 10 program's, .NET):
+		///CanRunInProcess(is64BitProcess,isNetFrameworkProcess).</summary>
+		public bool CanRunInProcess(bool is64BitProcess) {
+			return CanRunInProcess(is64BitProcess,RuntimeInformation.FrameworkDescription.StartsWith(".NET Framework",StringComparison.Ordinal));
+		}
+
 		///<summary>True when the image can be loaded into a process of that bitness: a managed IL-only PE32 image without 32BITREQUIRED (any CPU)
 		///in either; any other image (32BITREQUIRED, mixed-mode, native, PE32+) only where its machine type is the process's (x86 for 32-bit, x64
-		///for 64-bit).</summary>
-		public bool CanRunInProcess(bool is64BitProcess) {
+		///for 64-bit). "Any CPU, 32-bit preferred" (32BITREQUIRED with 32BITPREFERRED) loads in either on the .NET Framework, but in a 32-bit
+		///process only on .NET, which maps such an image into an x86 process only (S3b-4, PortableExecutableFile.CanLoadInProcess; S3b-5 gives the
+		///chooser the same rule): the 64-bit .NET 10 program then takes the helper for it.</summary>
+		public bool CanRunInProcess(bool is64BitProcess,bool isNetFrameworkProcess) {
 			if(Kind==PeImageKind.NotPe) {
 				return false;
 			}
 			if(Kind==PeImageKind.Managed && IsIlOnly && !IsPe32Plus && Machine==IMAGE_FILE_MACHINE_I386) {
-				return is64BitProcess ? !Is32BitRequired : true;
+				if(!is64BitProcess) {
+					return true;
+				}
+				bool isPreferred32=(CorFlags & COMIMAGE_FLAGS_32BITREQUIRED)!=0 && (CorFlags & COMIMAGE_FLAGS_32BITPREFERRED)!=0;
+				return !Is32BitRequired && (isNetFrameworkProcess || !isPreferred32);
 			}
 			ushort machineProcess=is64BitProcess ? IMAGE_FILE_MACHINE_AMD64 : IMAGE_FILE_MACHINE_I386;
 			return Machine==machineProcess;
@@ -522,7 +534,11 @@ namespace CodeBase {
 			switch(Kind) {
 				case PeImageKind.Managed:
 					if(IsIlOnly && !IsPe32Plus && Machine==IMAGE_FILE_MACHINE_I386) {
-						return Is32BitRequired ? "a managed IL-only assembly that requires 32-bit (x86)" : "a managed IL-only assembly for any CPU";
+						if(Is32BitRequired) {
+							return "a managed IL-only assembly that requires 32-bit (x86)";
+						}
+						return (CorFlags & COMIMAGE_FLAGS_32BITPREFERRED)!=0 ? "a managed IL-only assembly for any CPU, 32-bit preferred"
+							: "a managed IL-only assembly for any CPU";
 					}
 					return "a managed "+(IsIlOnly ? "IL-only" : "mixed-mode")+" "+machine+" assembly";
 				case PeImageKind.Native:

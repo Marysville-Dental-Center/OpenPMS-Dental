@@ -234,7 +234,7 @@ namespace OpenPmsDentalBusiness {
 			if(ntpResult.Status==EnumNtpResult.Valid) {
 				state.CountFailuresInRow=0;
 				timeSyncStep.LogLine="Offset from "+server+": "+FormatSigned(ntpResult.OffsetSeconds)+" s, round trip "
-					+ntpResult.DelaySeconds.ToString("0.000",CultureInfo.InvariantCulture)+" s, stratum "+ntpResult.Stratum+".";
+					+ntpResult.DelaySeconds.ToStringNetFx("0.000",CultureInfo.InvariantCulture)+" s, stratum "+ntpResult.Stratum+".";
 				if(timeSyncStep.Decision==EnumTimeSyncDecision.Alert) {
 					timeSyncStep.AlertPrefix=ALERT_PREFIX_OFFSET;
 					timeSyncStep.AlertDescription=GetOffsetAlertText(ntpResult);
@@ -272,7 +272,7 @@ namespace OpenPmsDentalBusiness {
 		public static string GetOffsetAlertDetails(NtpResult ntpResult) {
 			string direction=ntpResult.OffsetSeconds>0 ? "behind" : "ahead of";
 			return "The clock of the database server's computer is "+FormatSeconds(Math.Abs(ntpResult.OffsetSeconds))+" seconds "+direction+" "
-				+ntpResult.Server+" (round trip "+ntpResult.DelaySeconds.ToString("0.000",CultureInfo.InvariantCulture)+" s, stratum "+ntpResult.Stratum+").\r\n"
+				+ntpResult.Server+" (round trip "+ntpResult.DelaySeconds.ToStringNetFx("0.000",CultureInfo.InvariantCulture)+" s, stratum "+ntpResult.Stratum+").\r\n"
 				+GetWindowsTimeSteps(ntpResult.Server);
 		}
 
@@ -407,10 +407,10 @@ namespace OpenPmsDentalBusiness {
 			timeSyncMeasurement.NtpResult=funcQueryNtp()??NtpResult.NoReply("No result.");
 			double serverOffsetMs=(funcServerNow()-funcLocalNow()).TotalMilliseconds;
 			timeSyncMeasurement.DateTimeLocal=funcLocalNow();
-			timeSyncMeasurement.DateTimeServer=timeSyncMeasurement.DateTimeLocal.AddMilliseconds(serverOffsetMs);
+			timeSyncMeasurement.DateTimeServer=timeSyncMeasurement.DateTimeLocal.AddMillisecondsNetFx(serverOffsetMs);
 			double offsetSeconds=timeSyncMeasurement.NtpResult.OffsetSeconds;
 			if(timeSyncMeasurement.NtpResult.IsValid && !double.IsNaN(offsetSeconds) && !double.IsInfinity(offsetSeconds)) {
-				timeSyncMeasurement.DateTimeNtp=timeSyncMeasurement.DateTimeLocal.AddSeconds(offsetSeconds);
+				timeSyncMeasurement.DateTimeNtp=timeSyncMeasurement.DateTimeLocal.AddSecondsNetFx(offsetSeconds);
 			}
 			return timeSyncMeasurement;
 		}
@@ -478,7 +478,7 @@ namespace OpenPmsDentalBusiness {
 				return false;
 			}
 			if(timeSinceMeasured<TimeSpan.Zero || timeSinceMeasured>ManualSetMaxAge) {
-				error="The clock was not set: the measurement is more than "+ManualSetMaxAge.TotalMinutes.ToString(CultureInfo.InvariantCulture)
+				error="The clock was not set: the measurement is more than "+ManualSetMaxAge.TotalMinutes.ToStringNetFx(CultureInfo.InvariantCulture)
 					+" minutes old, so it may no longer describe the clock. Click the button again to measure again.";
 				return false;
 			}
@@ -487,7 +487,7 @@ namespace OpenPmsDentalBusiness {
 				dateTimeOldUtc=dateTimeOldUtc.ToUniversalTime();
 			}
 			dateTimeOldUtc=DateTime.SpecifyKind(dateTimeOldUtc,DateTimeKind.Utc);
-			dateTimeNewUtc=dateTimeOldUtc.AddSeconds(ntpResult.OffsetSeconds);
+			dateTimeNewUtc=dateTimeOldUtc.AddSecondsNetFx(ntpResult.OffsetSeconds);
 			return WindowsTime.TrySetUtc(dateTimeNewUtc,out error);
 		}
 		#endregion The set button
@@ -564,11 +564,11 @@ namespace OpenPmsDentalBusiness {
 
 		///<summary>Seconds for a message: one decimal, the decimal point of the user's culture.</summary>
 		private static string FormatSeconds(double seconds) {
-			return seconds.ToString("0.#",CultureInfo.CurrentCulture);
+			return seconds.ToStringNetFx("0.#",CultureInfo.CurrentCulture);
 		}
 
 		private static string FormatSigned(double seconds) {
-			return seconds.ToString("+0.000;-0.000;0.000",CultureInfo.InvariantCulture);
+			return seconds.ToStringNetFx("+0.000;-0.000;0.000",CultureInfo.InvariantCulture);
 		}
 	}
 

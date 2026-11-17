@@ -61,7 +61,8 @@ namespace NativeFirstTests {
 			Dictionary<string,bool[]> dictCanRun=new Dictionary<string,bool[]> {//{ 32-bit, 64-bit }
 				{ "AnyCpu.dll",new[] { true,true } },
 				{ "X86Only.dll",new[] { true,false } },
-				{ "AnyCpu32BitPreferred.dll",new[] { true,true } },
+				//.NET loads "any CPU, 32-bit preferred" into an x86 process only (S3b-4); the .NET Framework into either (PeImageInfoTests).
+				{ "AnyCpu32BitPreferred.dll",new[] { true,false } },
 				{ "X64.dll",new[] { false,true } },
 				{ "MixedModeX86.dll",new[] { true,false } },
 			};

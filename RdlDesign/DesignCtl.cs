@@ -20,6 +20,8 @@
     For additional information, email info@fyireporting.com or visit
     the website www.fyiReporting.com.
 */
+// Changed by Open PMS - Dental contributors, 2026-11-16 (package S3b-FMT of the .NET 10 move, decision 24 of docs/specs/net10-plan.md,
+// docs/port-notes/S3b-FMT.md): doubles and floats are written as text as .NET Framework wrote them (ODNumberText.ToStringNetFx, AsNetFx).
 using System;
 using System.Collections;
 using System.Collections.Specialized;
@@ -31,6 +33,7 @@ using System.Drawing.Printing;
 using System.Text;
 using System.Xml;
 using fyiReporting.RDL;
+using CodeBase;
 
 namespace fyiReporting.RdlDesign
 {
@@ -312,7 +315,7 @@ namespace fyiReporting.RdlDesign
 				if (nleft < 0)
 					nleft = 0;
 
-				string left = string.Format("{0:0.00}pt", nleft);
+				string left = string.Format("{0:0.00}pt", nleft.AsNetFx());
 				_DrawPanel.SetElement(xNode, "Left", left);
 			}
 			_Undo.EndUndoGroup();
@@ -344,7 +347,7 @@ namespace fyiReporting.RdlDesign
 				if (nleft < 0)
 					nleft = 0;
 
-				string left = string.Format("{0:0.00}pt", nleft);
+				string left = string.Format("{0:0.00}pt", nleft.AsNetFx());
 				_DrawPanel.SetElement(xNode, "Left", left);
 			}
 			_Undo.EndUndoGroup();
@@ -392,7 +395,7 @@ namespace fyiReporting.RdlDesign
 				if (ntop < 0)
 					ntop = 0;
 
-				string top = string.Format("{0:0.00}pt", ntop);
+				string top = string.Format("{0:0.00}pt", ntop.AsNetFx());
 				_DrawPanel.SetElement(xNode, "Top", top);
 			}
 			_Undo.EndUndoGroup();
@@ -424,7 +427,7 @@ namespace fyiReporting.RdlDesign
 				if (ntop < 0)
 					ntop = 0;
 
-				string top = string.Format("{0:0.00}pt", ntop);
+				string top = string.Format("{0:0.00}pt", ntop.AsNetFx());
 				_DrawPanel.SetElement(xNode, "Top", top);
 			}
 			_Undo.EndUndoGroup();
@@ -509,7 +512,7 @@ namespace fyiReporting.RdlDesign
 			{
 				if (xNode == model)
 					continue;
-				string left = string.Format("{0:0.00}pt", x);
+				string left = string.Format("{0:0.00}pt", x.AsNetFx());
 				_DrawPanel.SetElement(xNode, "Left", left);
 				RectangleF rectn = _DrawPanel.GetReportItemRect(xNode);
 				if (rectn.Width == float.MinValue)
@@ -582,7 +585,7 @@ namespace fyiReporting.RdlDesign
 			{
 				if (xNode == model)
 					continue;
-				string top = string.Format("{0:0.00}pt", y);
+				string top = string.Format("{0:0.00}pt", y.AsNetFx());
 				_DrawPanel.SetElement(xNode, "Top", top);
 				RectangleF rectn = _DrawPanel.GetReportItemRect(xNode);
 				if (rectn.Height == float.MinValue)
@@ -659,7 +662,7 @@ namespace fyiReporting.RdlDesign
 					pns += diff;
 					if (pns < 0)
 						pns = 0;
-					string pad = string.Format("{0:0.00}pt", pns);
+					string pad = string.Format("{0:0.00}pt", pns.AsNetFx());
 					_DrawPanel.SetElement(sNode, name, pad);
 				}
 			}

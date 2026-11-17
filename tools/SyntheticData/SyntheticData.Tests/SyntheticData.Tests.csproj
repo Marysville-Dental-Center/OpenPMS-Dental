@@ -10,10 +10,13 @@
     <DirectoryBuildPropsPath>$(MSBuildThisFileDirectory)..\..\..\tests\Directory.Build.props</DirectoryBuildPropsPath>
   </PropertyGroup>
   <Import Project="Sdk.props" Sdk="Microsoft.NET.Sdk" />
-  <ItemGroup>
-    <!-- HttpClient, for NetworkGuardTests. -->
-    <Reference Include="System.Net.Http" />
-  </ItemGroup>
+  <PropertyGroup>
+    <!-- The Windows Desktop framework, which the business library uses (Windows Forms, WPF, System.DirectoryServices, ...), named here as well:
+         NuGet leaves out of the restore the packages a project's own frameworks hold (package pruning), and without it the restore asks for
+         System.DirectoryServices, System.Configuration.ConfigurationManager and System.Security.Cryptography.Pkcs as packages
+         (System.DirectoryServices.AccountManagement's dependencies), which the offline folder does not have and the program never ships. -->
+    <UseWindowsForms>true</UseWindowsForms>
+  </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\SyntheticData.csproj" />
     <!-- Only to cross-check the enum numbers that already existed in 24.3; the tool itself does not use the business layer. -->

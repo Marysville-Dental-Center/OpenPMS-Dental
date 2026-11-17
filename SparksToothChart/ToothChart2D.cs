@@ -9,6 +9,7 @@ using System.Data;
 using System.Text;
 using System.Windows.Forms;
 using OpenPmsDentalBusiness;
+using CodeBase;
 
 namespace SparksToothChart {
 	public partial class ToothChart2D:UserControl {
@@ -279,25 +280,10 @@ namespace SparksToothChart {
 		}
 
 		private void DrawWatches(Graphics g){
-			Hashtable watchTeeth=new Hashtable(TcData.ListToothGraphics.Count);
-			for(int t=0;t<TcData.ListToothGraphics.Count;t++) {//loop through each adult tooth
-			  ToothGraphic toothGraphic=TcData.ListToothGraphics[t];
-				//If a tooth is marked to be watched then it is always visible, even if the tooth is missing/hidden.
-				if(toothGraphic.ToothID=="implant" || !toothGraphic.Watch || Tooth.IsPrimary(toothGraphic.ToothID)) {
-					continue;
-				}
-				watchTeeth[toothGraphic.ToothID]=toothGraphic;
-			}
-			for(int t=0;t<TcData.ListToothGraphics.Count;t++) {//loop through each primary tooth
-			  ToothGraphic toothGraphic=TcData.ListToothGraphics[t];
-				//If a tooth is marked to be watched then it is always visible, even if the tooth is missing/hidden.
-				if(toothGraphic.ToothID=="implant"|| !toothGraphic.Watch || !Tooth.IsPrimary(toothGraphic.ToothID) || !toothGraphic.Visible) {
-					continue;
-				}
-				watchTeeth[Tooth.PriToPerm(toothGraphic.ToothID)]=toothGraphic;
-			}
-			foreach(DictionaryEntry toothGraphic in watchTeeth){
-				RenderToothWatch(g,(ToothGraphic)toothGraphic.Value);
+			//If a tooth is marked to be watched then it is always visible, even if the tooth is missing/hidden. S3b-5W: in tooth-number order, not in
+			//a Hashtable's, whose order .NET randomises per process (ToothSceneBuilder.GetWatchTeeth).
+			foreach(ToothGraphic toothGraphic in SparksToothChart.Wpf3D.ToothSceneBuilder.GetWatchTeeth(TcData)){
+				RenderToothWatch(g,toothGraphic);
 			}
 		}
 
@@ -665,7 +651,7 @@ namespace SparksToothChart {
 					}
 					PointF pointMouseScaled=TcData.GetPointMouseScaled(TcData.PointList[i].X,TcData.PointList[i].Y,Size);
 					//I could compensate to center point here:
-					drawingSegment+=pointMouseScaled.X+","+pointMouseScaled.Y;
+					drawingSegment+=pointMouseScaled.X.ToStringNetFx()+","+pointMouseScaled.Y.ToStringNetFx();
 				}
 				OnSegmentDrawn(drawingSegment);
 				TcData.PointList=new List<PointF>();

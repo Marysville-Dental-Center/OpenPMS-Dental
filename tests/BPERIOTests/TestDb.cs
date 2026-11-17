@@ -53,6 +53,7 @@ namespace BPERIOTests {
 
 		[AssemblyInitialize]
 		public static void AssemblyInitialize(TestContext testContext) {
+			OpenPmsDentalTests.TestCodePages.Register();//the code pages first, as the program registers them (tests\Shared\TestCodePages.cs)
 			if(Environment.GetEnvironmentVariable("BPERIO_TEST_DB")=="skip") {
 				SkipReason="BPERIO_TEST_DB=skip";
 				return;

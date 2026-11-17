@@ -117,21 +117,21 @@ namespace OpenPmsDental {
 				string patName = agingPatCur.Pat.LName + ", " + agingPatCur.Pat.FName;
 				row.Cells.Add(patName);
 				totalZeroThirty +=agingPatCur.BalZeroThirty;
-				row.Cells.Add(agingPatCur.BalZeroThirty.ToString("f"));
+				row.Cells.Add(agingPatCur.BalZeroThirty.ToStringNetFx("f"));
 				totalThirtySixty+=agingPatCur.BalThirtySixty;
-				row.Cells.Add(agingPatCur.BalThirtySixty.ToString("f"));
+				row.Cells.Add(agingPatCur.BalThirtySixty.ToStringNetFx("f"));
 				totalSixtyNinety+=agingPatCur.BalSixtyNinety;
-				row.Cells.Add(agingPatCur.BalSixtyNinety.ToString("f"));
+				row.Cells.Add(agingPatCur.BalSixtyNinety.ToStringNetFx("f"));
 				totalOverNinety+=agingPatCur.BalOverNinety;
-				row.Cells.Add(agingPatCur.BalOverNinety.ToString("f"));
+				row.Cells.Add(agingPatCur.BalOverNinety.ToStringNetFx("f"));
 				totalBalTotal+=agingPatCur.BalTotal;
-				row.Cells.Add(agingPatCur.BalTotal.ToString("f"));
+				row.Cells.Add(agingPatCur.BalTotal.ToStringNetFx("f"));
 				row.Tag=agingPatCur;
 				gridMain.ListGridRows.Add(row);
 			}
 			gridTotals.ListGridRows.Clear();
-			gridTotals.ListGridRows.Add(new GridRow("Totals:",totalZeroThirty.ToString("f"),totalThirtySixty.ToString("f")
-				,totalSixtyNinety.ToString("f"),totalOverNinety.ToString("f"),totalBalTotal.ToString("f")));
+			gridTotals.ListGridRows.Add(new GridRow("Totals:",totalZeroThirty.ToStringNetFx("f"),totalThirtySixty.ToStringNetFx("f")
+				,totalSixtyNinety.ToStringNetFx("f"),totalOverNinety.ToStringNetFx("f"),totalBalTotal.ToStringNetFx("f")));
 			gridMain.EndUpdate();
 			gridTotals.EndUpdate();
 		}
@@ -283,11 +283,11 @@ namespace OpenPmsDental {
 			foreach(AgingPat agingPatCur in gridMain.ListGridRows.Select(x => (AgingPat)x.Tag)) {
 				DataRow row = tableReportCur.NewRow();
 				row["Patient"] = agingPatCur.Pat.GetNameLF();
-				row["0_30"] = agingPatCur.BalZeroThirty.ToString("f");
-				row["31_60"] = agingPatCur.BalThirtySixty.ToString("f");
-				row["61_90"] = agingPatCur.BalSixtyNinety.ToString("f");
-				row["Over90"] = agingPatCur.BalOverNinety.ToString("f");
-				row["BatTotal"] = agingPatCur.BalTotal.ToString("f");
+				row["0_30"] = agingPatCur.BalZeroThirty.ToStringNetFx("f");
+				row["31_60"] = agingPatCur.BalThirtySixty.ToStringNetFx("f");
+				row["61_90"] = agingPatCur.BalSixtyNinety.ToStringNetFx("f");
+				row["Over90"] = agingPatCur.BalOverNinety.ToStringNetFx("f");
+				row["BatTotal"] = agingPatCur.BalTotal.ToStringNetFx("f");
 				tableReportCur.Rows.Add(row);
 			}
 			ReportComplex report=new ReportComplex(true,false);

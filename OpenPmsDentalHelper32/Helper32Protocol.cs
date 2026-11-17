@@ -31,6 +31,9 @@ namespace OpenPmsDentalHelper32 {
 		///<summary>Tests only: --test-module &lt;assembly name&gt; &lt;type&gt; [&lt;module name&gt;] adds a module of a test assembly in the helper's own folder
 		///(OpenPmsDentalHelper32\TestModule.cs).</summary>
 		public const string ARG_TEST_MODULE="--test-module";
+		///<summary>Tests only: --test-twain-dsm &lt;assembly name&gt; &lt;type&gt; &lt;scenario&gt; gives the TWAIN module a test assembly's fake DSM in place of
+		///the 32-bit TWAINDSM.dll, and lets its sessions write to a test's capture folder (S3b-8, OpenPmsDentalHelper32\Twain\TwainModule.cs).</summary>
+		public const string ARG_TEST_TWAIN_DSM="--test-twain-dsm";
 		///<summary>The helper's own module: Ping and PipeSecurity (OpenPmsDentalHelper32\HostModule.cs).</summary>
 		public const string MODULE_HOST="Host";
 		///<summary>Host Ping: returns the protocol version, the helper's process id, "1" when it is a 64-bit process ("0" for the 32-bit

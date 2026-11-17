@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using CodeBase;
 
 namespace OpenPmsDentalBusiness {
 	public partial class Fees {
@@ -73,7 +74,7 @@ namespace OpenPmsDentalBusiness {
 					DateTime datePrevious=fee.SecDateTEdit;
 					Delete(fee,doCheckFeeSchedGroups:false);
 					feeCodeCopyResult.CountDeleted++;
-					SecurityLogs.MakeLogEntry(EnumPermType.ProcFeeEdit,0,"Procedure: "+procCodeTo+", Old Fee: "+fee.Amount.ToString("c")+", "
+					SecurityLogs.MakeLogEntry(EnumPermType.ProcFeeEdit,0,"Procedure: "+procCodeTo+", Old Fee: "+fee.Amount.ToStringNetFx("c")+", "
 						+GetCopyCodeKeyText(fee)+". Fee deleted using the Copy Code tool in the Fee Tools window: "+reason+".",
 						codeNumTo,DateTime.MinValue);
 					SecurityLogs.MakeLogEntry(EnumPermType.LogFeeEdit,0,"Fee deleted",fee.FeeNum,datePrevious);
@@ -91,7 +92,7 @@ namespace OpenPmsDentalBusiness {
 						feeTo.DateEffective=feeFrom.DateEffective;
 						Insert(feeTo,doCheckFeeSchedGroups:false);
 						feeCodeCopyResult.CountInserted++;
-						SecurityLogs.MakeLogEntry(EnumPermType.ProcFeeEdit,0,"Procedure: "+procCodeTo+", New Fee: "+feeTo.Amount.ToString("c")+", "
+						SecurityLogs.MakeLogEntry(EnumPermType.ProcFeeEdit,0,"Procedure: "+procCodeTo+", New Fee: "+feeTo.Amount.ToStringNetFx("c")+", "
 							+GetCopyCodeKeyText(feeTo)+". Fee copied from "+procCodeFrom+" using the Copy Code tool in the Fee Tools window.",
 							codeNumTo,DateTime.MinValue);
 						SecurityLogs.MakeLogEntry(EnumPermType.LogFeeEdit,0,"Fee Inserted",feeTo.FeeNum,DateTime.MinValue);
@@ -105,8 +106,8 @@ namespace OpenPmsDentalBusiness {
 					feeTo.Amount=feeFrom.Amount;
 					Update(feeTo,feeToOld,doCheckFeeSchedGroups:false);
 					feeCodeCopyResult.CountUpdated++;
-					SecurityLogs.MakeLogEntry(EnumPermType.ProcFeeEdit,0,"Procedure: "+procCodeTo+", Old Fee: "+feeToOld.Amount.ToString("c")+", "
-						+"New Fee: "+feeTo.Amount.ToString("c")+", "+GetCopyCodeKeyText(feeTo)+". Fee copied from "+procCodeFrom
+					SecurityLogs.MakeLogEntry(EnumPermType.ProcFeeEdit,0,"Procedure: "+procCodeTo+", Old Fee: "+feeToOld.Amount.ToStringNetFx("c")+", "
+						+"New Fee: "+feeTo.Amount.ToStringNetFx("c")+", "+GetCopyCodeKeyText(feeTo)+". Fee copied from "+procCodeFrom
 						+" using the Copy Code tool in the Fee Tools window.",codeNumTo,DateTime.MinValue);
 					SecurityLogs.MakeLogEntry(EnumPermType.LogFeeEdit,0,"Fee changed",feeTo.FeeNum,feeToOld.SecDateTEdit);
 				}

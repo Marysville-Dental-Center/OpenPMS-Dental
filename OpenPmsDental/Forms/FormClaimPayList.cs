@@ -9,6 +9,7 @@ using OpenPmsDentalBusiness;
 using OpenPmsDental.UI;
 using System.Linq;
 using OpenPmsDentalBusiness.Crud;
+using CodeBase;
 
 namespace OpenPmsDental {
 	public partial class FormClaimPayList:FormODBase {
@@ -83,7 +84,7 @@ namespace OpenPmsDental {
 					row.Cells.Add(_listClaimPayments[i].CheckDate.ToShortDateString());
 				}
 				row.Cells.Add(Defs.GetName(DefCat.InsurancePaymentType,_listClaimPayments[i].PayType));
-				row.Cells.Add(_listClaimPayments[i].CheckAmt.ToString("c"));
+				row.Cells.Add(_listClaimPayments[i].CheckAmt.ToStringNetFx("c"));
 				row.Cells.Add(_listClaimPayments[i].IsPartial?"X":"");
 				row.Cells.Add(_listClaimPayments[i].CarrierName);
 				row.Cells.Add(Defs.GetName(DefCat.ClaimPaymentGroups,_listClaimPayments[i].PayGroup));

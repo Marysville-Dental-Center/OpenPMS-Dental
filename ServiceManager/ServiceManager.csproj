@@ -6,7 +6,6 @@
     ServiceManager.exe.config is app.config as it is.
   -->
   <PropertyGroup>
-    <TargetFramework>net48</TargetFramework>
     <OutputType>WinExe</OutputType>
     <RootNamespace>ServiceManager</RootNamespace>
     <AssemblyName>ServiceManager</AssemblyName>
@@ -14,6 +13,9 @@
     <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
     <ApplicationIcon>..\branding\app.ico</ApplicationIcon>
     <Platforms>AnyCPU;x86</Platforms>
+    <!-- net10.0-windows x64, a self-contained win-x64 exe, from Directory.Build.props and Directory.Build.Net.props (stage 3b, S3b-3 of
+         docs/specs/net10-plan.md; decision 20). Windows Forms. -->
+    <UseWindowsForms>true</UseWindowsForms>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugType>full</DebugType>
@@ -22,15 +24,9 @@
     <DebugType>pdbonly</DebugType>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.ServiceProcess" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml" />
+    <!-- The service control (ServiceController), not part of .NET 10's shared frameworks: the package, the version of Directory.Packages.props.
+         The other .NET Framework references are part of the shared frameworks. -->
+    <PackageReference Include="System.ServiceProcess.ServiceController" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CodeBase\xCodeBase.csproj" />

@@ -27,16 +27,18 @@
     <PdfSharpSourceRoot>$(ThirdPartyRoot)PDFsharp\src\foundation\src\</PdfSharpSourceRoot>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>$(ThirdPartyRoot)PDFsharp\src\StrongnameKey.snk</AssemblyOriginatorKeyFile>
-    <LangVersion>latest</LangVersion>
-    <!-- Upstream builds the .NET Framework targets with warning level 0. -->
+    <!-- Upstream's "latest" (src\Directory.Build.props), pinned to what it means with the pinned SDK's compiler (Roslyn 5.0 of SDK 10.0.115:
+         C# 14.0), as every project of the repository names a number (S3b-1 section 9). Raised on purpose with an SDK that brings a newer one. -->
+    <LangVersion>14.0</LangVersion>
+    <!-- Upstream builds its .NET Framework targets with warning level 0 and its .NET ones with the SDK's default; kept at 0 here, so the
+         build output does not fill with upstream's warnings (no compiler setting of the code depends on it). -->
     <WarningLevel>0</WarningLevel>
-    <!-- src\Directory.Build.targets: USE_LONG_SIZE (files over 2 GiB) and TEST_CODE_xxx, which every upstream release build sets. -->
+    <!-- src\Directory.Build.targets: USE_LONG_SIZE (files over 2 GiB) and TEST_CODE_xxx, which every upstream release build sets. The
+         symbols of the target framework come from the SDK (SourceBuild.props), as in upstream's .NET 10 build: the -gdi assemblies ship as
+         upstream's net10.0-windows build, PdfSharp.Shared, PdfSharp.System and MigraDoc.DocumentObjectModel as its net10.0 build (the same
+         symbols but the WINDOWS ones, which no file of the source tests). Until S3b-2 the projects named upstream's net462 and netstandard2.0
+         symbol sets themselves. -->
     <PdfSharpUpstreamConstants>USE_LONG_SIZE;TEST_CODE_xxx</PdfSharpUpstreamConstants>
-    <!-- The symbols the .NET SDK sets for upstream's two .NET Framework kinds of build. The -gdi assemblies and MigraDoc.DocumentObjectModel
-         ship as upstream's net462 build, PdfSharp.Shared and PdfSharp.System as its netstandard2.0 build; each project here compiles with
-         those symbols, so the same code paths are taken, and targets the .NET Framework 4.8. -->
-    <PdfSharpNet462Symbols>NETFRAMEWORK;NET462;NET20_OR_GREATER;NET30_OR_GREATER;NET35_OR_GREATER;NET40_OR_GREATER;NET45_OR_GREATER;NET451_OR_GREATER;NET452_OR_GREATER;NET46_OR_GREATER;NET461_OR_GREATER;NET462_OR_GREATER</PdfSharpNet462Symbols>
-    <PdfSharpNetStandard20Symbols>NETSTANDARD;NETSTANDARD2_0;NETSTANDARD1_0_OR_GREATER;NETSTANDARD1_1_OR_GREATER;NETSTANDARD1_2_OR_GREATER;NETSTANDARD1_3_OR_GREATER;NETSTANDARD1_4_OR_GREATER;NETSTANDARD1_5_OR_GREATER;NETSTANDARD1_6_OR_GREATER;NETSTANDARD2_0_OR_GREATER</PdfSharpNetStandard20Symbols>
   </PropertyGroup>
   <ItemGroup>
     <!-- Upstream's ImplicitUsings=enable, as a file of this folder: ImplicitUsings is off in Directory.Build.props, and the file keeps

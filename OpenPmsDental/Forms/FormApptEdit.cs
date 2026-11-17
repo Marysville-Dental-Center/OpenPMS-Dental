@@ -149,7 +149,7 @@ namespace OpenPmsDental{
 			_isOnLoad=true;
 			_timerLockDelay=new Timer();
 			_timerLockDelay.Tick+=timerLockDelay_Tick;
-			_timerLockDelay.Interval=Math.Max((int)(TimeSpan.FromSeconds(PrefC.GetDouble(PrefName.FormClickDelay,doUseEnUSFormat: true)).TotalMilliseconds),1);
+			_timerLockDelay.Interval=Math.Max((int)(CodeBase.ODTimeSpan.FromSeconds(PrefC.GetDouble(PrefName.FormClickDelay,doUseEnUSFormat: true)).TotalMilliseconds),1);
 			_timerLockDelay.Start();
 			_loadData=ApptEdit.GetLoadData(_appointment,IsNew);
 			_listProceduresForAppointment=_loadData.ListProceduresForAppointment;
@@ -898,11 +898,11 @@ namespace OpenPmsDental{
 						perm=EnumPermType.ProcExistingEdit;
 					}
 					SecurityLogs.MakeLogEntry(perm,_appointment.PatNum,ProcedureCodes.GetProcCode(procedure.CodeNum).ProcCode
-						+" ("+procedure.ProcStatus+"), "+procedure.ProcFee.ToString("c")+", Deleted");
+						+" ("+procedure.ProcStatus+"), "+procedure.ProcFee.ToStringNetFx("c")+", Deleted");
 				}
 				else {
 					SecurityLogs.MakeLogEntry(EnumPermType.ProcDelete,_appointment.PatNum,ProcedureCodes.GetProcCode(procedure.CodeNum).ProcCode
-						+" ("+procedure.ProcStatus+"), "+procedure.ProcFee.ToString("c"));
+						+" ("+procedure.ProcStatus+"), "+procedure.ProcFee.ToStringNetFx("c"));
 				}
 			}
 			_listProceduresForAppointment=Procedures.GetProcsForApptEdit(_appointment);
@@ -1877,7 +1877,7 @@ namespace OpenPmsDental{
 							row.Cells.Add(descript);
 							break;
 						case "Fee":
-							row.Cells.Add(listProcedures[i].ProcFeeTotal.ToString("F"));
+							row.Cells.Add(listProcedures[i].ProcFeeTotal.ToStringNetFx("F"));
 							break;
 						case "Abbreviation":
 							row.Cells.Add(procedureCode.AbbrDesc);
@@ -2001,7 +2001,7 @@ namespace OpenPmsDental{
 							row.Cells.Add(StringTools.Truncate(provider.Abbr,5));
 							break;
 						case "Amount":
-							row.Cells.Add(procedure.ProcFee.ToString("F"));
+							row.Cells.Add(procedure.ProcFee.ToStringNetFx("F"));
 							break;
 						case "Proc Code":
 							if(procedureCode.ProcCode.Length>5 && procedureCode.ProcCode.StartsWith("D")) {
@@ -2497,7 +2497,7 @@ namespace OpenPmsDental{
 				&& _appointment.Pattern.Length!=contrApptProvSlider.Pattern.Length
 				&& !Security.IsAuthorized(EnumPermType.AppointmentResize,suppressMessage:true))
 			{
-				TimeSpan timeSpan=TimeSpan.FromMinutes(_appointment.Pattern.Length*5);
+				TimeSpan timeSpan=CodeBase.ODTimeSpan.FromMinutes(_appointment.Pattern.Length*5);
 				string message=Lans.g("Security","Not authorized for")+" "+GroupPermissions.GetDesc(EnumPermType.AppointmentResize)
 					+"\r\n"+Lan.g(this,"The appointment length needs to be")+" "+timeSpan.ToString("h':'mm");
 				MsgBox.Show(message);

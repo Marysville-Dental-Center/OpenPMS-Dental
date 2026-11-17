@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
@@ -51,7 +52,14 @@ namespace ReleaseFlowTests {
 		private const string LGPL_SHA256_LF="20e50fe7aae3e56378ebf0417d9de904f55a0e61e4df315333e632a4d3555d95";
 
 		///<summary>The components of THIRD-PARTY-NOTICES.txt that ship under the LGPL 2.1, and so with its text.</summary>
-		private static readonly string[] _arrayLgplComponents=new string[] { "WeCantSpell.Hunspell","Hunspell en_US dictionary","RDL Project" };
+		private static readonly string[] _arrayLgplComponents=new string[] { "WeCantSpell.Hunspell","Hunspell en_US dictionary","RDL Project","TWAIN" };
+
+		///<summary>SHA-256 of twain-dsm-2.5.1.zip, the TWAIN Working Group's source of the setup's TWAINDSM.dll (the approved download of
+		///od-tools\downloads\s3b7-twaindsm-20261116), which the source archive carries.</summary>
+		private const string TWAIN_DSM_SOURCE_SHA256="67e5aebda9c7aa85e39a38b8c9c8b99bd720d4b318134b3e274aec97d4977e0f";
+
+		///<summary>Where the source archive carries the TWAIN DSM source, under its top folder.</summary>
+		private const string TWAIN_DSM_SOURCE_ENTRY="third-party-source/twain-dsm-2.5.1.zip";
 
 		#region Helpers
 		private class ScriptResult {
@@ -91,7 +99,8 @@ namespace ReleaseFlowTests {
 			}
 		}
 
-		///<summary>The allow-list as Build-Release.ps1 -ListFiles prints it: kind ("own", "third", "doc") and path.</summary>
+		///<summary>The allow-list as Build-Release.ps1 -ListFiles prints it: kind ("own", "third", "doc", "runtime", and "setup" for the file the setup
+		///installs outside the program folder) and path.</summary>
 		private static List<KeyValuePair<string,string>> ListFiles() {
 			ScriptResult scriptResult=RunBuildRelease("-ListFiles");
 			Assert.AreEqual(0,scriptResult.ExitCode,scriptResult.Output);
@@ -104,10 +113,11 @@ namespace ReleaseFlowTests {
 			return listFiles;
 		}
 
-		///<summary>A fake staging folder with every allowed file: synthetic text named after the file, and the real THIRD-PARTY-NOTICES.txt.</summary>
+		///<summary>A fake staging folder with every allowed file of the program folder (not the setup's TWAINDSM.dll): synthetic text named after the
+		///file, and the real THIRD-PARTY-NOTICES.txt.</summary>
 		private static string NewFakeStaging(string name) {
 			string folder=TestPaths.NewTempFolder(name);
-			foreach(KeyValuePair<string,string> pair in ListFiles()) {
+			foreach(KeyValuePair<string,string> pair in ListFiles().Where(x => x.Key!="setup")) {
 				string path=Path.Combine(folder,pair.Value);
 				Directory.CreateDirectory(Path.GetDirectoryName(path));
 				if(pair.Value=="THIRD-PARTY-NOTICES.txt") {
@@ -156,12 +166,26 @@ namespace ReleaseFlowTests {
 		public void AllowList_ShipsTheRuntimeFiles_TheDocuments_AndEveryBuildIdFile() {
 			List<KeyValuePair<string,string>> listFiles=ListFiles();
 			List<string> listPaths=listFiles.Select(x => x.Value).ToList();
-			foreach(string name in new[] { "WebView2Loader.dll","WeCantSpell.Hunspell.dll","ODR.dll","OpenPmsDental.exe","OpenPmsDental.exe.config","UpdateFileCopier.exe",
-				"ImagingDeviceManager.dll","ImagingCapture.dll","RdlEngine.dll","RdlViewer.dll","Direct2dWrapper.dll",ProgramNames.DbSettingsExeFileName,
-				ProgramNames.DbSettingsExeFileName+".config" })
+			//Each .NET 10 exe is its apphost, its assembly, its .runtimeconfig.json and .deps.json, and an app.config becomes <name>.dll.config
+			//(S3b-4, S3b-7); no *.exe.config is staged (section 7 of docs/specs/net10-plan.md, "Config file name").
+			foreach(string name in new[] { "WebView2Loader.dll","WeCantSpell.Hunspell.dll","ODR.dll","OpenPmsDental.exe","OpenPmsDental.dll","OpenPmsDental.dll.config",
+				"OpenPmsDental.runtimeconfig.json","OpenPmsDental.deps.json","UpdateFileCopier.exe","UpdateFileCopier.dll","UpdateFileCopier.runtimeconfig.json",
+				"UpdateFileCopier.deps.json","ImagingDeviceManager.dll","ImagingCapture.dll","RdlEngine.dll","RdlViewer.dll","Direct2dWrapper.dll",
+				ProgramNames.DbSettingsExeFileName,"OpenPmsDentalDbSettings.dll.config","Microsoft.CodeAnalysis.dll","Microsoft.CodeAnalysis.VisualBasic.dll" })
 			{
 				CollectionAssert.Contains(listPaths,name);
 			}
+			Assert.IsFalse(listPaths.Any(x => x.EndsWith(".exe.config",StringComparison.OrdinalIgnoreCase)),"No *.exe.config is staged.");
+			//The runtime part: the x64 runtime beside the programs and the helper's x86 runtime in Helper32\, from the runtime packs' lists.
+			foreach(string name in new[] { "coreclr.dll","hostfxr.dll","hostpolicy.dll","System.Private.CoreLib.dll","PresentationFramework.dll",
+				@"Helper32\coreclr.dll",@"Helper32\hostfxr.dll",@"Helper32\System.Windows.Forms.dll" })
+			{
+				Assert.IsTrue(listFiles.Any(x => x.Key=="runtime" && x.Value==name),"Not on the runtime list: "+name);
+			}
+			Assert.IsFalse(listFiles.Any(x => x.Key=="runtime" && x.Value==@"Helper32\PresentationFramework.dll"),"The helper takes WinForms only.");
+			//TWAINDSM.dll is a setup file (the 64-bit system folder), never a file of the program folder; so is the 32-bit one (the 32-bit system
+			//folder, S3b-8), in its own sub folder of the setup files.
+			CollectionAssert.AreEqual(new[] { "TWAINDSM.dll",@"x86\TWAINDSM.dll" },listFiles.Where(x => x.Key=="setup").Select(x => x.Value).ToArray());
 			foreach(string path in _arrayDocuments) {
 				Assert.IsTrue(listFiles.Any(x => x.Key=="doc" && x.Value==path),"Not staged: "+path);
 			}
@@ -169,14 +193,18 @@ namespace ReleaseFlowTests {
 				Assert.IsTrue(listFiles.Any(x => x.Key=="own" && x.Value==name),"A build id file is not shipped as the program's own: "+name);
 			}
 			Assert.AreEqual(listPaths.Count,listPaths.Distinct(StringComparer.OrdinalIgnoreCase).Count(),"No file twice.");
-			foreach(string path in listPaths) {
+			foreach(string path in listFiles.Where(x => x.Key!="setup").Select(x => x.Value)) {
 				string name=Path.GetFileName(path);
 				Assert.IsFalse(_arrayDenied.Contains(name,StringComparer.OrdinalIgnoreCase),"Allowed although denied: "+path);
 				Assert.IsFalse(name.EndsWith(".pdb",StringComparison.OrdinalIgnoreCase),path);
 				Assert.IsFalse(name.StartsWith("unins",StringComparison.OrdinalIgnoreCase),"The uninstaller is not staged: "+path);
 				Assert.IsFalse(name.StartsWith("OpenDent",StringComparison.OrdinalIgnoreCase),"A pre-rename name: "+path);
 			}
-			Assert.IsTrue(listFiles.Where(x => x.Key!="doc").All(x => !x.Value.Contains("\\")),"The program's files are all at the top level.");
+			//The setup files are not files of the program folder (setup|x86\TWAINDSM.dll goes into the 32-bit system folder, S3b-8).
+			Assert.IsTrue(listFiles.Where(x => x.Key!="doc" && x.Key!="setup").All(x => !x.Value.Contains("\\") || x.Value.StartsWith(@"Helper32\")),
+				"The program's files are all at the top level, but for the one sub folder Helper32\\.");
+			Assert.IsTrue(listFiles.Where(x => x.Key=="own" && x.Value.Contains("\\")).All(x => x.Value.StartsWith(@"Helper32\OpenPmsDentalHelper32.")),
+				"Only the helper's own files are in Helper32\\.");
 		}
 
 		[TestMethod]
@@ -299,8 +327,8 @@ namespace ReleaseFlowTests {
 
 		[TestMethod]
 		public void LgplText_IsTheLicenceVerbatim_AndEveryLgplComponentPointsToIt() {
-			//RdlEngine.dll, RdlViewer.dll, WeCantSpell.Hunspell.dll and the en_US word list ship under the LGPL 2.1, which asks for a copy of the
-			//licence with every copy of the library. The release stages the text (the allow-list test above) from this file.
+			//RdlEngine.dll, RdlViewer.dll, WeCantSpell.Hunspell.dll, the en_US word list and the setup's TWAINDSM.dll ship under the LGPL 2.1, which
+			//asks for a copy of the licence with every copy of the library. The release stages the text (the allow-list test above) from this file.
 			string text=TestPaths.ReadSource(LGPL_FILE).Replace("\r\n","\n");
 			StringAssert.StartsWith(text.TrimStart(),"GNU LESSER GENERAL PUBLIC LICENSE");
 			StringAssert.Contains(text,"Version 2.1, February 1999");
@@ -340,10 +368,11 @@ namespace ReleaseFlowTests {
 				dictOutDirs.Add(match.Groups[1].Value+"|"+match.Groups[2].Value,
 					xElementOutDir.Value.Trim().Replace("$(Configuration)",match.Groups[1].Value).Replace("$(Platform)",match.Groups[2].Value));
 			}
-			CollectionAssert.AreEquivalent(new[] { "Debug|Win32","Debug|x64","Release|Win32","Release|x64" },dictOutDirs.Keys.ToArray());
-			Assert.AreEqual(4,dictOutDirs.Values.Distinct(StringComparer.OrdinalIgnoreCase).Count(),"One output folder per configuration.");
-			Assert.AreEqual(@"$(ProjectDir)bin\Release\",dictOutDirs["Release|Win32"]);
-			StringAssert.Contains(TestPaths.ReadSource("tools","Build-Release.ps1"),@"'Direct2dWrapper.dll'='Direct2dWrapper\bin\Release'");
+			//Since S3b-4 the project has x64 configurations only (the Win32 ones went with the x86 program); the release takes the x64 Release build.
+			CollectionAssert.AreEquivalent(new[] { "Debug|x64","Release|x64" },dictOutDirs.Keys.ToArray());
+			Assert.AreEqual(2,dictOutDirs.Values.Distinct(StringComparer.OrdinalIgnoreCase).Count(),"One output folder per configuration.");
+			Assert.AreEqual(@"$(ProjectDir)bin\x64\Release\",dictOutDirs["Release|x64"]);
+			StringAssert.Contains(TestPaths.ReadSource("tools","Build-Release.ps1"),@"'Direct2dWrapper.dll'='Direct2dWrapper\bin\x64\Release'");
 		}
 
 		[TestMethod]
@@ -365,8 +394,9 @@ namespace ReleaseFlowTests {
 			Assert.AreEqual("{#AppName}",SetupDirective(iss,"AppName"));
 			Assert.AreEqual("{#AppVersion}",SetupDirective(iss,"AppVersion"));
 			Assert.AreEqual(version+".0.0",SetupDirective(iss,"VersionInfoVersion"));
-			Assert.AreEqual(@"{commonpf32}\Open PMS - Dental",SetupDirective(iss,"DefaultDirName"));
-			Assert.AreEqual(ProgramNames.DefaultInstallFolder,@"C:\Program Files (x86)\Open PMS - Dental");
+			//A 64-bit install into Program Files (decision 19, S3b-7).
+			Assert.AreEqual(@"{commonpf64}\Open PMS - Dental",SetupDirective(iss,"DefaultDirName"));
+			Assert.AreEqual(ProgramNames.DefaultInstallFolder,@"C:\Program Files\Open PMS - Dental");
 			Assert.AreEqual("OpenPmsDental-{#AppVersion}-Setup",SetupDirective(iss,"OutputBaseFilename"));
 			//The License Agreement page is the text Build-Release.ps1 writes from installer\setup-license.txt (LicensePage_ test below), not the
 			//GPL version 2 of LICENSE: as installed, with PDFsharp and MigraDoc, the program is conveyed under the GPL version 3.
@@ -462,19 +492,169 @@ namespace ReleaseFlowTests {
 			}
 		}
 
+		///<summary>The setup's prerequisites since stage 3b (decisions 6, 8, 19 and 20; S3b-7): no .NET runtime, no .NET Framework gate (the program
+		///carries its own runtime), the x64 Visual C++ redistributable checked in both registry views and downloaded only from Microsoft with the same
+		///signature check, the WebView2 runtime only checked, and the warning below Windows 11 with MinVersion as the hard floor.</summary>
 		[TestMethod]
 		public void Iss_ChecksThePrerequisites_AndDownloadsOnlyFromMicrosoft() {
 			string iss=ReadIss();
-			StringAssert.Contains(iss,"NetFx48Release = 528040;");
-			StringAssert.Contains(iss,@"'SOFTWARE\Microsoft\VisualStudio\14.0\VC\Runtimes\x86'");
+			Assert.IsFalse(iss.Contains("NetFx48"),"No .NET Framework gate.");
+			Assert.IsFalse(Regex.IsMatch(iss,@"(?i)dotnet-runtime|windowsdesktop-runtime|dotnet\.microsoft\.com/download"),"No .NET runtime download.");
+			StringAssert.Contains(iss,@"VcRedistKey = 'SOFTWARE\Microsoft\VisualStudio\14.0\VC\Runtimes\x64';");
+			StringAssert.Contains(iss,"VcRedistUrl = 'https://aka.ms/vs/17/release/vc_redist.x64.exe';");
+			StringAssert.Contains(iss,"Result := HasVcRedistKey(HKLM64) or HasVcRedistKey(HKLM32);");
+			Assert.IsFalse(iss.Contains("vc_redist.x86"),"The x86 redistributable went with the x86 program.");
 			StringAssert.Contains(iss,@"'SOFTWARE\Microsoft\EdgeUpdate\Clients\{F3017226-FE2A-4295-8BDF-00C3A9A7E4C5}'");
 			StringAssert.Contains(iss,"function IsSignedByMicrosoft(");
+			StringAssert.Contains(iss,"if not IsSignedByMicrosoft(Path) then begin");
+			//Windows 11 is the baseline: a warning below build 22000 that names Microsoft's list and lets the user go on; MinVersion is the floor.
+			StringAssert.Contains(iss,"Windows11Build = 22000;");
+			StringAssert.Contains(iss,"DotNetWindowsUrl = 'https://learn.microsoft.com/en-us/dotnet/core/install/windows';");
+			StringAssert.Contains(iss,"if Version.Build < Windows11Build then");
+			StringAssert.Contains(iss,"SuppressibleMsgBox(OldWindows, mbConfirmation, MB_YESNO, IDYES)");
+			Assert.AreEqual("10.0.18362",SetupDirective(iss,"MinVersion"));
 			foreach(Match match in Regex.Matches(iss,@"https?://[^\s'""]+")) {
-				string url=match.Value;
-				bool isMicrosoft=url.StartsWith("https://aka.ms/") || url.StartsWith("https://go.microsoft.com/") || url.StartsWith("https://dotnet.microsoft.com/");
+				string url=match.Value.TrimEnd(')',':','.',',',';');
+				bool isMicrosoft=url.StartsWith("https://aka.ms/") || url.StartsWith("https://go.microsoft.com/") || url.StartsWith("https://learn.microsoft.com/");
 				bool isSource=url.StartsWith("https://github.com/Marysville-Dental-Center/opendental");
-				Assert.IsTrue(isMicrosoft || isSource,"Unexpected address: "+url);
+				bool isInnoSetupHelp=url=="https://jrsoftware.org/ishelp/index.php?topic=64bitinstallation";
+				Assert.IsTrue(isMicrosoft || isSource || isInnoSetupHelp,"Unexpected address: "+url);
 			}
+			//The setup downloads only the Visual C++ redistributable: one DownloadPrereq call, with its Microsoft address.
+			Assert.AreEqual(1,Regex.Matches(iss,@"DownloadPrereq\(Vc").Count);
+		}
+
+		///<summary>The 64-bit install (decision 19, S3b-7): x64compatible in 64-bit mode, Program Files, and the 64-bit TWAINDSM.dll into the 64-bit
+		///system folder as a shared file the uninstall leaves, installed when missing or older (no ignoreversion); never into the program folder.
+		///</summary>
+		[TestMethod]
+		public void Iss_InstallsIn64BitMode_AndTheTwainDsmIntoTheSystemFolder() {
+			string iss=ReadIss();
+			Assert.AreEqual("x64compatible",SetupDirective(iss,"ArchitecturesAllowed"));
+			Assert.AreEqual("x64compatible",SetupDirective(iss,"ArchitecturesInstallIn64BitMode"));
+			Assert.AreEqual("yes",SetupDirective(iss,"UsePreviousAppDir"));
+			Assert.IsFalse(iss.Contains("{commonpf32}"),"Never Program Files (x86).");
+			//Never {syswow64}: the 32-bit TWAIN data source manager goes into the 32-bit system folder as {sys} with the 32bit flag (S3b-8,
+			//Iss_InstallsThe32BitTwainDsmIntoTheSysWow64Folder), as Inno Setup's sharedfile documentation asks.
+			Assert.IsFalse(iss.Contains("{syswow64}"),"Never {syswow64}.");
+			string dsmLine=iss.Split('\n').Single(x => x.StartsWith("Source: \"{#TwainDsmFile}\""));
+			StringAssert.Contains(dsmLine,"DestDir: \"{sys}\"");
+			StringAssert.Contains(dsmLine,"sharedfile");
+			StringAssert.Contains(dsmLine,"uninsneveruninstall");
+			Assert.IsFalse(dsmLine.Contains("ignoreversion"),"Only when missing or older.");
+			StringAssert.Contains(iss,"#define TwainDsmFile \"bin\\setup-files\\TWAINDSM.dll\"");
+			//Build-Release passes the checked file and refuses one in the program folder.
+			string script=TestPaths.ReadSource("tools","Build-Release.ps1");
+			StringAssert.Contains(script,"\"/DTwainDsmFile=$($twainDsm.Path)\"");
+			StringAssert.Contains(script,"$TwainDsmSha256='25869f88a2bc76ded62a13aaea9f2084f0165bfdbbb7f46b9c3a43298938d467'");
+			StringAssert.Contains(script,"$TwainDsmSigner='O=TWAIN Working Group'");
+			StringAssert.Contains(script,"@('TWAINDSM.dll',");
+		}
+
+		///<summary>The 32-bit TWAIN data source manager (decision 23, S3b-8; the owner's "32-bit TWAIN manager: yes"): the 32-bit TWAINDSM.dll of the
+		///same approved download into the 32-bit system folder, exactly as the 64-bit one (a shared file the uninstall leaves, installed when
+		///missing or older), counted in the 32-bit view of SharedDLLs: {sys} with the 32bit flag, never {syswow64} (Inno Setup's sharedfile
+		///documentation: the path must be the one every 32-bit installer counts, or a second count is made); Build-Release passes the checked file
+		///and pins its own SHA-256 and entry beside the 64-bit one's.</summary>
+		[TestMethod]
+		public void Iss_InstallsThe32BitTwainDsmIntoTheSysWow64Folder() {
+			string iss=ReadIss();
+			string dsmLine=iss.Split('\n').Single(x => x.StartsWith("Source: \"{#TwainDsm32File}\""));
+			StringAssert.Contains(dsmLine,"DestDir: \"{sys}\"");
+			string flags=Regex.Match(dsmLine,@"Flags: ([^;\r\n]+)").Groups[1].Value.Trim();
+			CollectionAssert.AreEquivalent(new[] { "sharedfile","uninsneveruninstall","restartreplace","32bit" },flags.Split(' '));
+			Assert.IsFalse(dsmLine.Contains("ignoreversion"),"Only when missing or older.");
+			Assert.IsFalse(dsmLine.Contains("Check:"),"On every install, as the 64-bit one.");
+			StringAssert.Contains(iss,"#define TwainDsm32File \"bin\\setup-files\\x86\\TWAINDSM.dll\"");
+			string script=TestPaths.ReadSource("tools","Build-Release.ps1");
+			StringAssert.Contains(script,"\"/DTwainDsm32File=$($twainDsm32.Path)\"");
+			Assert.AreEqual("dsm_020501/windows/32/TWAINDSM.dll",ScriptValue(script,"TwainDsm32Entry"));
+			Assert.AreEqual("cee9a6ff8026dde09eda9f892c57cc928d42e4a4d22bb740fe38ee6e91797a28",ScriptValue(script,"TwainDsm32Sha256"));
+			StringAssert.Contains(script,"$SetupFiles=@('TWAINDSM.dll','x86\\TWAINDSM.dll')");
+			//The setup's packed list must hold both, so a setup without the 32-bit one fails the release.
+			StringAssert.Contains(script,"[void]$expected.Add([System.IO.Path]::GetFullPath($twainDsm32.Path))");
+		}
+
+		///<summary>Build-Release's setup-file checks on the approved download itself (-WriteSetupFiles): both DSMs are written, the 64-bit one as
+		///TWAINDSM.dll (PE machine 0x8664) and the 32-bit one as x86\TWAINDSM.dll (0x14C), each byte for byte the approved file. A download whose
+		///32-bit file is another one is refused (exit 1, the 32-bit check names it) while the 64-bit one still passes. Inconclusive without the
+		///approved download (od-tools\downloads\s3b7-twaindsm-20261116 in the common git folder).</summary>
+		[TestMethod]
+		public void BuildRelease_ChecksBothTwainDsms_AndRefusesAnother32BitFile() {
+			string pathZip=FindApprovedTwainDsmZip();
+			if(pathZip==null) {
+				Assert.Inconclusive("No approved TWAIN DSM download (od-tools\\downloads\\s3b7-twaindsm-20261116\\dsm_020501.zip) in the common git folder.");
+			}
+			string folder=Path.Combine(Path.GetTempPath(),"ReleaseFlowTests_setupfiles_"+Guid.NewGuid().ToString("N"));
+			try {
+				string folderOut=Path.Combine(folder,"ok");
+				ScriptResult scriptResult=RunBuildRelease("-WriteSetupFiles",Quote(folderOut));
+				Assert.AreEqual(0,scriptResult.ExitCode,scriptResult.Output);
+				string path64=Path.Combine(folderOut,"TWAINDSM.dll");
+				string path32=Path.Combine(folderOut,"x86","TWAINDSM.dll");
+				CollectionAssert.Contains(scriptResult.Lines,"Wrote "+path64,scriptResult.Output);
+				CollectionAssert.Contains(scriptResult.Lines,"Wrote "+path32,scriptResult.Output);
+				Assert.AreEqual(0x8664,ReadPeMachine(path64));
+				Assert.AreEqual(0x14C,ReadPeMachine(path32));
+				using(FileStream fileStream=File.OpenRead(path32)) {
+					Assert.AreEqual("cee9a6ff8026dde09eda9f892c57cc928d42e4a4d22bb740fe38ee6e91797a28",Sha256Hex(fileStream));
+				}
+				using(FileStream fileStream=File.OpenRead(path64)) {
+					Assert.AreEqual("25869f88a2bc76ded62a13aaea9f2084f0165bfdbbb7f46b9c3a43298938d467",Sha256Hex(fileStream));
+				}
+				//A download whose windows/32 entry is another file (synthetic bytes), the 64-bit entry the approved one.
+				string pathOther=Path.Combine(folder,"dsm_other.zip");
+				using(ZipArchive zipArchiveApproved=ZipFile.OpenRead(pathZip))
+				using(ZipArchive zipArchiveOther=ZipFile.Open(pathOther,ZipArchiveMode.Create)) {
+					ZipArchiveEntry zipArchiveEntry64=zipArchiveApproved.GetEntry("dsm_020501/windows/64/TWAINDSM.dll");
+					using(Stream streamFrom=zipArchiveEntry64.Open())
+					using(Stream streamTo=zipArchiveOther.CreateEntry("dsm_020501/windows/64/TWAINDSM.dll").Open()) {
+						streamFrom.CopyTo(streamTo);
+					}
+					using(StreamWriter streamWriter=new StreamWriter(zipArchiveOther.CreateEntry("dsm_020501/windows/32/TWAINDSM.dll").Open())) {
+						streamWriter.Write("synthetic, not the 32-bit TWAIN DSM");
+					}
+				}
+				ScriptResult scriptResultOther=RunBuildRelease("-WriteSetupFiles",Quote(Path.Combine(folder,"other")),"-TwainDsmZip",Quote(pathOther));
+				Assert.AreEqual(1,scriptResultOther.ExitCode,scriptResultOther.Output);
+				StringAssert.Contains(scriptResultOther.Output,"the 32-bit TWAINDSM.dll is not the approved download");
+				StringAssert.Contains(scriptResultOther.Output,"The 32-bit TWAIN DSM check");
+				Assert.IsFalse(scriptResultOther.Output.Contains("The 64-bit TWAIN DSM check"),scriptResultOther.Output);
+			}
+			finally {
+				DeleteFolder(folder);
+			}
+		}
+
+		///<summary>The approved dsm_020501.zip in the common git folder's od-tools\downloads\s3b7-twaindsm-20261116, or null.</summary>
+		private static string FindApprovedTwainDsmZip() {
+			string folderGit=Path.Combine(TestPaths.RepoRoot,".git");
+			string folderCommon=null;
+			if(Directory.Exists(folderGit)) {
+				folderCommon=folderGit;
+			}
+			else if(File.Exists(folderGit)) {
+				//A worktree: ".git" names its folder under the common folder's worktrees\.
+				string line=File.ReadAllText(folderGit).Trim();
+				if(line.StartsWith("gitdir:",StringComparison.Ordinal)) {
+					string folderWorktree=Path.GetFullPath(Path.Combine(TestPaths.RepoRoot,line.Substring("gitdir:".Length).Trim()));
+					string pathCommondir=Path.Combine(folderWorktree,"commondir");
+					folderCommon=File.Exists(pathCommondir)
+						? Path.GetFullPath(Path.Combine(folderWorktree,File.ReadAllText(pathCommondir).Trim()))
+						: Path.GetDirectoryName(Path.GetDirectoryName(folderWorktree));
+				}
+			}
+			if(folderCommon==null) {
+				return null;
+			}
+			string pathZip=Path.Combine(folderCommon,"od-tools","downloads","s3b7-twaindsm-20261116","dsm_020501.zip");
+			return File.Exists(pathZip) ? pathZip : null;
+		}
+
+		private static int ReadPeMachine(string path) {
+			byte[] arrayBytes=File.ReadAllBytes(path);
+			int offset=BitConverter.ToInt32(arrayBytes,0x3C);
+			return BitConverter.ToUInt16(arrayBytes,offset+4);
 		}
 
 		[TestMethod]
@@ -488,6 +668,108 @@ namespace ReleaseFlowTests {
 			Assert.AreEqual("uninsdeletekey",Regex.Match(registryLine,@"Flags: ([^;]+)").Groups[1].Value.Trim());
 		}
 		#endregion installer/OpenPmsDental.iss
+
+		#region The source archive
+		private static string Sha256Hex(Stream stream) {
+			using(SHA256 sha=SHA256.Create()) {
+				return string.Concat(sha.ComputeHash(stream).Select(x => x.ToString("x2")));
+			}
+		}
+
+		///<summary>TWAINDSM.dll, which the setup installs, is under the LGPL 2.1 (section 4: its source goes with the object code). The source
+		///archive, a release asset with its SHA-256 in SHA256SUMS.txt, carries the approved twain-dsm-2.5.1.zip byte for byte, and its
+		///SOURCE-COMMITS.txt names it with that SHA-256 and the upstream address.</summary>
+		[TestMethod]
+		public void SourceArchive_CarriesTheSourceOfTheSetupsTwainDsm() {
+			string folder=Path.Combine(Path.GetTempPath(),"ReleaseFlowTests_source_"+Guid.NewGuid().ToString("N"));
+			try {
+				ScriptResult scriptResult=RunBuildRelease("-WriteSourceArchive",Quote(folder));
+				Assert.AreEqual(0,scriptResult.ExitCode,scriptResult.Output);
+				string pathArchive=Directory.GetFiles(folder,"OpenPmsDental-*-source.zip").Single();
+				CollectionAssert.Contains(scriptResult.Lines,"Wrote "+pathArchive,scriptResult.Output);
+				string top=Path.GetFileNameWithoutExtension(pathArchive);
+				using(ZipArchive zipArchive=ZipFile.OpenRead(pathArchive)) {
+					ZipArchiveEntry zipArchiveEntry=zipArchive.GetEntry(top+"/"+TWAIN_DSM_SOURCE_ENTRY);
+					Assert.IsNotNull(zipArchiveEntry,"The source archive does not carry the source of TWAINDSM.dll.");
+					Assert.AreEqual(15006960L,zipArchiveEntry.Length);
+					using(Stream stream=zipArchiveEntry.Open()) {
+						Assert.AreEqual(TWAIN_DSM_SOURCE_SHA256,Sha256Hex(stream),"The approved twain-dsm-2.5.1.zip, byte for byte.");
+					}
+					//It is the release's source: its own top folder holds the DSM's licence.
+					using(ZipArchive zipArchiveSource=new ZipArchive(zipArchiveEntry.Open(),ZipArchiveMode.Read)) {
+						Assert.IsTrue(zipArchiveSource.Entries.Any(x => x.FullName.EndsWith("TWAIN_DSM/license.txt")),"No TWAIN_DSM/license.txt in the TWAIN DSM source.");
+					}
+					ZipArchiveEntry zipArchiveEntryCommits=zipArchive.GetEntry(top+"/SOURCE-COMMITS.txt");
+					Assert.IsNotNull(zipArchiveEntryCommits);
+					string commits;
+					using(StreamReader streamReader=new StreamReader(zipArchiveEntryCommits.Open(),Encoding.UTF8)) {
+						commits=streamReader.ReadToEnd();
+					}
+					StringAssert.Contains(commits,TWAIN_DSM_SOURCE_ENTRY+": SHA-256 "+TWAIN_DSM_SOURCE_SHA256);
+					StringAssert.Contains(commits,"https://github.com/twain/twain-dsm/releases/download/v2.5.1/twain-dsm-2.5.1.zip");
+					StringAssert.Contains(commits,"GNU LGPL 2.1, LICENSE-LGPL-2.1.txt");
+				}
+			}
+			finally {
+				if(Directory.Exists(folder)) {
+					Directory.Delete(folder,true);
+				}
+			}
+		}
+
+		///<summary>No source archive without that source: a missing download stops the script with exit 4, another file under its name with exit 1,
+		///both before anything is written (and so, in a release, before the build).</summary>
+		[TestMethod]
+		public void SourceArchive_RefusesAMissingOrOtherTwainDsmSource() {
+			string folder=Path.Combine(Path.GetTempPath(),"ReleaseFlowTests_source_"+Guid.NewGuid().ToString("N"));
+			try {
+				Directory.CreateDirectory(folder);
+				string folderOut=Path.Combine(folder,"out");
+				string pathOther=Path.Combine(folder,"twain-dsm-2.5.1.zip");
+				File.WriteAllText(pathOther,"synthetic, not the TWAIN DSM source");
+				ScriptResult scriptResultOther=RunBuildRelease("-WriteSourceArchive",Quote(folderOut),"-TwainDsmSourceZip",Quote(pathOther));
+				Assert.AreEqual(1,scriptResultOther.ExitCode,scriptResultOther.Output);
+				StringAssert.Contains(scriptResultOther.Output,"is not the approved source of TWAINDSM.dll");
+				ScriptResult scriptResultMissing=RunBuildRelease("-WriteSourceArchive",Quote(folderOut),"-TwainDsmSourceZip",
+					Quote(Path.Combine(folder,"missing.zip")));
+				Assert.AreEqual(4,scriptResultMissing.ExitCode,scriptResultMissing.Output);
+				StringAssert.Contains(scriptResultMissing.Output,"Missing: the source of TWAINDSM.dll");
+				Assert.IsFalse(Directory.Exists(folderOut),"Nothing is written.");
+			}
+			finally {
+				if(Directory.Exists(folder)) {
+					Directory.Delete(folder,true);
+				}
+			}
+		}
+
+		///<summary>The script pins the source's SHA-256 beside the DSM's, checks it before the build, and the documents say where the release
+		///carries the source.</summary>
+		[TestMethod]
+		public void BuildRelease_PinsTheTwainDsmSource_AndTheDocumentsSayWhereItIs() {
+			string script=TestPaths.ReadSource("tools","Build-Release.ps1");
+			Assert.AreEqual(TWAIN_DSM_SOURCE_SHA256,ScriptValue(script,"TwainDsmSourceSha256"));
+			Assert.AreEqual(TWAIN_DSM_SOURCE_ENTRY,ScriptValue(script,"TwainDsmSourceEntry"));
+			Assert.AreEqual("s3b7-twaindsm-20261116",ScriptValue(script,"TwainDsmDownloadFolder"));
+			Match matchAssert=Regex.Match(script,@"(?ms)^function Assert-SourceArchivePossible \{.*?^\}");
+			Assert.IsTrue(matchAssert.Success);
+			StringAssert.Contains(matchAssert.Value,"Find-TwainDsmSource");
+			Match matchWrite=Regex.Match(script,@"(?ms)^function Write-SourceArchive\(.*?^\}");
+			Assert.IsTrue(matchWrite.Success);
+			StringAssert.Contains(matchWrite.Value,"Find-TwainDsmSource");
+			StringAssert.Contains(matchWrite.Value,"$TwainDsmSourceEntry");
+			string notices=TestPaths.ReadSource("THIRD-PARTY-NOTICES.txt").Replace("\r\n","\n");
+			Match matchTwain=Regex.Match(notices,@"(?ms)^--- Component: TWAIN\n.*?(?=^--- )");
+			Assert.IsTrue(matchTwain.Success);
+			string twain=Regex.Replace(matchTwain.Value,@"\s+"," ");
+			StringAssert.Contains(twain,"OpenPmsDental-<version>-source.zip");
+			StringAssert.Contains(twain,TWAIN_DSM_SOURCE_ENTRY);
+			StringAssert.Contains(twain,TWAIN_DSM_SOURCE_SHA256);
+			string releaseProcess=TestPaths.ReadSource("docs","release-process.md");
+			StringAssert.Contains(releaseProcess,"the source of the setup's `TWAINDSM.dll` as `"+TWAIN_DSM_SOURCE_ENTRY+"`");
+			StringAssert.Contains(releaseProcess,"LGPL 2.1 section 4 for the setup's `TWAINDSM.dll`, whose source it carries");
+		}
+		#endregion The source archive
 
 		#region tools/Test-Installer.ps1
 		private static string ReadTestInstaller() {
@@ -560,7 +842,13 @@ namespace ReleaseFlowTests {
 			StringAssert.Contains(header,"The owner runs it, never an agent");
 			StringAssert.Contains(header,"WHAT IT CHANGES ON THIS PC");
 			StringAssert.Contains(header,@"%TEMP%\OpenPmsDental-installtest-");
-			StringAssert.Contains(header,@"HKLM\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\{D5640A25-F302-4CAD-96DC-84AAA8B22F98}_is1");
+			StringAssert.Contains(header,@"HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{D5640A25-F302-4CAD-96DC-84AAA8B22F98}_is1");
+			StringAssert.Contains(header,@"C:\Windows\System32\TWAINDSM.dll");
+			StringAssert.Contains(header,@"HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\SharedDLLs");
+			//The 32-bit TWAIN data source manager (S3b-8), treated exactly as the 64-bit one.
+			StringAssert.Contains(header,@"C:\Windows\SysWOW64\TWAINDSM.dll");
+			StringAssert.Contains(header,@"HKLM\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\SharedDLLs");
+			StringAssert.Contains(TestPaths.ReadSource("docs","port-notes","S3b-7.md"),COMMAND);
 			StringAssert.Contains(header,@"HKLM\SYSTEM\CurrentControlSet\Services\EventLog\Application\"+ProgramNames.EventLogSource);
 			StringAssert.Contains(TestPaths.ReadSource("docs","port-notes","S3a-11.md"),COMMAND);
 			//ASCII only (Windows PowerShell 5.1 reads a file without a byte order mark in the ANSI code page).
@@ -577,8 +865,11 @@ namespace ReleaseFlowTests {
 			Assert.IsFalse(script.IndexOf("/CURRENTUSER",StringComparison.OrdinalIgnoreCase)>=0,"No per-user install.");
 			string appId=SetupDirective(iss,"AppId").Substring(1);
 			Assert.AreEqual(appId+"_is1",ScriptValue(script,"AppId"));
-			Assert.AreEqual(@"HKLM:\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\$AppId",ScriptValue(script,"UninstallKey"));
-			StringAssert.Contains(script,"Check (Test-Path $UninstallKey) 'all-users uninstall entry written (32-bit view)'");
+			//The 64-bit setup's entry is in the 64-bit view (S3b-7); the 32-bit view's is an installation of v0.0, compared at the end.
+			Assert.AreEqual(@"HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$AppId",ScriptValue(script,"UninstallKey"));
+			Assert.AreEqual(@"HKLM:\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\$AppId",ScriptValue(script,"UninstallKey32"));
+			StringAssert.Contains(script,"Check (Test-Path $UninstallKey) 'all-users uninstall entry written (64-bit view)'");
+			StringAssert.Contains(script,"'the 32-bit view''s uninstall entry (an installation of v0.0) is as before the test'");
 			StringAssert.Contains(script,"Check (-not (Test-Path $UninstallKeyUser)) 'no per-user uninstall entry'");
 			StringAssert.Contains(script,"\"/DIR=`\"$dir`\"\"");
 			StringAssert.Contains(script,"Join-Path $env:TEMP (\"OpenPmsDental-installtest-");
@@ -600,15 +891,44 @@ namespace ReleaseFlowTests {
 			foreach(string scenario in new[] { "after A","after B","after D" }) {
 				StringAssert.Contains(script,"Test-Uninstalled '"+scenario+"'");
 			}
-			//It never starts the program: no Start-Process but the setup and the uninstaller.
+			//It never starts the program: no Start-Process but the setup, the uninstaller and the installed connection settings tool, whose loaded
+			//modules show the install folder's own runtime (S3b-7).
 			List<string> listStarts=Regex.Matches(script,@"Start-Process -FilePath (\S+)").Cast<Match>().Select(x => x.Groups[1].Value).ToList();
-			CollectionAssert.AreEquivalent(new[] { "$Setup","$uninstaller" },listStarts);
+			CollectionAssert.AreEquivalent(new[] { "$Setup","$uninstaller","$tool" },listStarts);
+			StringAssert.Contains(script,"$tool=Join-Path $dir $DbSettingsExe");
 			List<string> listCalls=Regex.Matches(script,@"(?m)^\s*& (\S+)").Cast<Match>().Select(x => x.Groups[1].Value).ToList();
 			CollectionAssert.AreEquivalent(new[] { "reg.exe" },listCalls,"Only reg.exe export, for the saved keys.");
 			//An installation that was there before keeps its two keys: the script saves them and writes them back.
 			StringAssert.Contains(script,"$savedUninstall=Save-HklmKey $UninstallKey");
 			StringAssert.Contains(script,"$savedEventLog=Save-HklmKey $EventLogKey");
 			StringAssert.Contains(script,"Restore-HklmKey $pair[1] $pair[0]");
+		}
+
+		///<summary>The 32-bit TWAINDSM.dll (S3b-8) is treated exactly as the 64-bit one: its path in the 32-bit system folder, its count in the 32-bit
+		///view of SharedDLLs (the .iss's 32bit flag), both saved before the test; checked after the install and after the uninstall (x86, the
+		///approved version or later, the TWAIN Working Group's signature); at the end the count written back (or deleted when there was none) and
+		///the file deleted only when there was none before. An older one stays replaced (the header says so).</summary>
+		[TestMethod]
+		public void TestInstaller_TreatsThe32BitTwainDsmAsThe64BitOne() {
+			string script=ReadTestInstaller();
+			StringAssert.Contains(script,"$TwainDsm32Path=Join-Path ([Environment]::GetFolderPath('SystemX86')) 'TWAINDSM.dll'");
+			Assert.AreEqual(@"HKLM:\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\SharedDLLs",ScriptValue(script,"SharedDllsKey32"));
+			StringAssert.Contains(script,"$twainDsm32Before=Test-Path -LiteralPath $TwainDsm32Path");
+			StringAssert.Contains(script,"$sharedCount32Before=Get-RegValue $SharedDllsKey32 $TwainDsm32CountName");
+			StringAssert.Contains(script,"Test-TwainDsm32 'after the install'");
+			StringAssert.Contains(script,"Test-TwainDsm32 'after the uninstall (a shared file the uninstall leaves)'");
+			StringAssert.Contains(script,"Check (($machine -eq 0x14C) -and ($version -ge $TwainDsmMinimumVersion) -and ($signature.Status -eq 'Valid') -and ($subject -like '*O=TWAIN Working Group*'))");
+			StringAssert.Contains(script,"if($null -ne $sharedCount32Before){ Set-ItemProperty -Path $SharedDllsKey32 -Name $TwainDsm32CountName -Value $sharedCount32Before -Type DWord }");
+			StringAssert.Contains(script,"elseif($null -ne (Get-RegValue $SharedDllsKey32 $TwainDsm32CountName)){ Remove-ItemProperty -Path $SharedDllsKey32 -Name $TwainDsm32CountName }");
+			StringAssert.Contains(script,"if(-not $twainDsm32Before -and (Test-Path -LiteralPath $TwainDsm32Path)){");
+			string header=script.Substring(0,script.IndexOf("#>",StringComparison.Ordinal));
+			StringAssert.Contains(header,"An OLDER 32-bit TWAINDSM.dll is replaced with 2.5.1 and stays replaced");
+			//The .iss's line is the one the script expects: {sys} with the 32bit flag, the 32-bit system folder and the 32-bit view, counted under
+			//the System32 path name 32-bit installers use (SharedDllsName32).
+			string dsmLine=ReadIss().Split('\n').Single(x => x.StartsWith("Source: \"{#TwainDsm32File}\""));
+			StringAssert.Contains(dsmLine,"DestDir: \"{sys}\"");
+			StringAssert.Contains(dsmLine,"32bit");
+			StringAssert.Contains(script,"$TwainDsm32CountName=Join-Path ([Environment]::SystemDirectory) 'TWAINDSM.dll'");
 		}
 
 		///<summary>Scenarios A to C give a database server on this computer, for which a silent setup runs no connection settings tool (the .iss's

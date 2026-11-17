@@ -89,13 +89,13 @@ namespace OpenPmsDental{
 				textPaymentCount.Text=_payPlan.NumberOfPayments.ToString();
 			}
 			else {
-				textPeriodPayment.Text=_payPlan.PayAmt.ToString("f");
+				textPeriodPayment.Text=_payPlan.PayAmt.ToStringNetFx("f");
 			}
 			warningIntegrity1.SetTypeAndVisibility(EnumWarningIntegrityType.PayPlan,PayPlans.IsPayPlanHashValid(_payPlan));
-			textDownPayment.Text=_payPlan.DownPayment.ToString("f");
+			textDownPayment.Text=_payPlan.DownPayment.ToStringNetFx("f");
 			textDate.Text=_payPlan.PayPlanDate.ToShortDateString();
 			if(IsNew) {
-				textAmount.Text=TotalAmt.ToString("f");//it won't get filled in FillCharges because there are no charges yet
+				textAmount.Text=TotalAmt.ToStringNetFx("f");//it won't get filled in FillCharges because there are no charges yet
 				//If a plan is created "today" with the customer making their first payment on the spot, they will over pay interest.  
 				//If there  is a larger gap than 1 month before the first payment, interest will be under calculated.
 				//For now, our temporary solution is to prefill the date of first payment box starting with next months date which is the most accurate for calculating interest.
@@ -127,11 +127,11 @@ namespace OpenPmsDental{
 			else {
 				comboProv.SetSelectedProvNum(_patient.PriProv);
 			}
-			textAPR.Text=_payPlan.APR.ToString();
+			textAPR.Text=_payPlan.APR.ToStringNetFx();
 			ToggleInterestDelayFieldsHelper();
 			_amtPaid=PayPlans.GetAmtPaid(_payPlan);
-			textAmtPaid.Text=_amtPaid.ToString("f");
-			textCompletedAmt.Text=_payPlan.CompletedAmt.ToString("f");
+			textAmtPaid.Text=_amtPaid.ToStringNetFx("f");
+			textCompletedAmt.Text=_payPlan.CompletedAmt.ToStringNetFx("f");
 			textNote.Text=_payPlan.Note;
 			_payPlanNote=textNote.Text;
 			if(IsInsPayPlan) {
@@ -167,7 +167,7 @@ namespace OpenPmsDental{
 			else {
 				butRecalculate.Enabled=false;//Don't allow a plan that hasn't started to be recalculated.
 			}
-			textTotalTxAmt.Text=PayPlans.GetTxTotalAmt(_listPayPlanCharges).ToString("f");
+			textTotalTxAmt.Text=PayPlans.GetTxTotalAmt(_listPayPlanCharges).ToStringNetFx("f");
 			if(_payPlan.IsClosed) {
 				butSave.Text=Lan.g(this,"Reopen");
 				butDelete.Enabled=false;
@@ -313,15 +313,15 @@ namespace OpenPmsDental{
 					negAdjAmt-=PIn.Double(listGridRowsPayPlan[i].Cells[7].Text);//+ because adjustments are negatvie, increment
 				}
 				if(!checkExcludePast.Checked || DateTime.Parse(listGridRowsPayPlan[i].Cells[0].Text)>DateTime.Today) {
-					gridCharges.ListGridRows[gridCharges.ListGridRows.Count-1].Cells[8].Text=balanceAmt.ToString("f");
+					gridCharges.ListGridRows[gridCharges.ListGridRows.Count-1].Cells[8].Text=balanceAmt.ToStringNetFx("f");
 				}
 				if(DateTime.Parse(listGridRowsPayPlan[i].Cells[0].Text)<=DateTime.Today) {//Totals row
-					textPrincipal.Text=_totPrinc.ToString("f");
-					textInterest.Text=_totInt.ToString("f");
-					textDue.Text=(_totPrinc+_totInt).ToString("f");
-					textPayment.Text=totPay.ToString("f");
-					textAdjustment.Text=negAdjAmt.ToString("f");
-					textBalance.Text=balanceAmt.ToString("f");
+					textPrincipal.Text=_totPrinc.ToStringNetFx("f");
+					textInterest.Text=_totInt.ToStringNetFx("f");
+					textDue.Text=(_totPrinc+_totInt).ToStringNetFx("f");
+					textPayment.Text=totPay.ToStringNetFx("f");
+					textAdjustment.Text=negAdjAmt.ToStringNetFx("f");
+					textBalance.Text=balanceAmt.ToStringNetFx("f");
 					if(gridCharges.ListGridRows.Count>0) {
 						totalsRowIndex=gridCharges.ListGridRows.Count-1;
 					}
@@ -345,9 +345,9 @@ namespace OpenPmsDental{
 				//don't damage what's already present in textAmount.Text
 			}
 			else {
-				textAmount.Text=(_totPrinc+GetTotalNegAdjAmt()).ToString("f");
+				textAmount.Text=(_totPrinc+GetTotalNegAdjAmt()).ToStringNetFx("f");
 			}
-			textTotalCost.Text=_totPrincIntAdj.ToString("f");
+			textTotalCost.Text=_totPrincIntAdj.ToStringNetFx("f");
 			List<PayPlanCharge> listPayPlanChargesDebits = _listPayPlanCharges.FindAll(x => x.ChargeType == PayPlanChargeType.Debit).OrderBy(x => x.ChargeDate).ToList();
 			//If the payment plan consists of more than 1 payment, remove any downpayments from listDebits so it's ChargeDate is not used when refilling the "textDateFirstPay.Text". 
 			if(listPayPlanChargesDebits.Count>1) {
@@ -364,8 +364,8 @@ namespace OpenPmsDental{
 				gridCharges.ListGridRows[totalsRowIndex].ColorLborder=Color.Black;
 				gridCharges.ListGridRows[totalsRowIndex].Cells[6].Bold=YN.Yes;
 			}
-			textAccumulatedDue.Text=PayPlans.GetAccumDue(_payPlan.PayPlanNum,_listPayPlanCharges).ToString("f");
-			textPrincPaid.Text=PayPlans.GetPrincPaid(_amtPaid,_payPlan.PayPlanNum,_listPayPlanCharges).ToString("f");
+			textAccumulatedDue.Text=PayPlans.GetAccumDue(_payPlan.PayPlanNum,_listPayPlanCharges).ToStringNetFx("f");
+			textPrincPaid.Text=PayPlans.GetPrincPaid(_amtPaid,_payPlan.PayPlanNum,_listPayPlanCharges).ToStringNetFx("f");
 		}
 
 		private void butGoToPat_Click(object sender,System.EventArgs e) {
@@ -596,7 +596,7 @@ namespace OpenPmsDental{
 					_listPayPlanCharges.Remove(payPlanCharge);//We know the payPlanCharge object is inside _listPayPlanCharges.
 					_listLogs.Add("Deleted.");
 					if(payPlanCharge.Principal<0) {//adjustment
-						textAmount.Text=(PIn.Double(textAmount.Text)-(payPlanChargeOldAmt)).ToString("f");//charge will be negative, - to add the amount back
+						textAmount.Text=(PIn.Double(textAmount.Text)-(payPlanChargeOldAmt)).ToStringNetFx("f");//charge will be negative, - to add the amount back
 					}
 					FillCharges();
 					return;
@@ -612,7 +612,7 @@ namespace OpenPmsDental{
 						//We increased the adjustment. Total Amount needs to shrink. 
 						amtChanged=payPlanCharge.Principal-payPlanChargeOldAmt;//amt should be -
 					}
-					textAmount.Text=(PIn.Double(textAmount.Text)+(amtChanged)).ToString("f");
+					textAmount.Text=(PIn.Double(textAmount.Text)+(amtChanged)).ToStringNetFx("f");
 				}
 				if(!formPayPlanChargeEdit.ListChangeLog.IsNullOrEmpty()) {
 					string log=PayPlans.GetChangeLog(formPayPlanChargeEdit.ListChangeLog);
@@ -672,7 +672,7 @@ namespace OpenPmsDental{
 			if(!MsgBox.Show(this,MsgBoxButtons.YesNo,"Clear all charges and adjustments from amortization schedule?  Credits will not be cleared.")) {
 				return;
 			}
-			textAmount.Text=_totPrinc.ToString("f");//give the total amount back it's original value w/o adjustments.
+			textAmount.Text=_totPrinc.ToStringNetFx("f");//give the total amount back it's original value w/o adjustments.
 			_listPayPlanCharges.RemoveAll(x => x.ChargeType==PayPlanChargeType.Debit); 
 			textDateFirstPay.ReadOnly=false;
 			textInterestDelay.ReadOnly=false;
@@ -762,27 +762,27 @@ namespace OpenPmsDental{
 			reportComplex.ReportObjects.Add(new ReportObject
 				("Principal Title",areaSectionType,new Point(x1,yPos),size,"Principal",font,contenAlignmentL));
 			reportComplex.ReportObjects.Add(new ReportObject
-				("Principal Detail",areaSectionType,new Point(x2,yPos),size,_totPrinc.ToString("n"),font,contentAlignmentR));
+				("Principal Detail",areaSectionType,new Point(x2,yPos),size,_totPrinc.ToStringNetFx("n"),font,contentAlignmentR));
 			yPos+=space;
 			reportComplex.ReportObjects.Add(new ReportObject
 				("Annual Percentage Rate Title",areaSectionType,new Point(x1,yPos),size,"Annual Percentage Rate",font,contenAlignmentL));
 			reportComplex.ReportObjects.Add(new ReportObject
-				("Annual Percentage Rate Detail",areaSectionType,new Point(x2,yPos),size,_payPlan.APR.ToString("f1"),font,contentAlignmentR));
+				("Annual Percentage Rate Detail",areaSectionType,new Point(x2,yPos),size,_payPlan.APR.ToStringNetFx("f1"),font,contentAlignmentR));
 			yPos+=space;
 			reportComplex.ReportObjects.Add(new ReportObject
 				("Total Finance Charges Title",areaSectionType,new Point(x1,yPos),size,"Total Finance Charges",font,contenAlignmentL));
 			reportComplex.ReportObjects.Add(new ReportObject
-				("Total Finance Charges Detail",areaSectionType,new Point(x2,yPos),size,_totInt.ToString("n"),font,contentAlignmentR));
+				("Total Finance Charges Detail",areaSectionType,new Point(x2,yPos),size,_totInt.ToStringNetFx("n"),font,contentAlignmentR));
 			yPos+=space;
 			reportComplex.ReportObjects.Add(new ReportObject
 				("Total Cost of Loan Title",areaSectionType,new Point(x1,yPos),size,"Total Adjustments",font,contenAlignmentL));
 			reportComplex.ReportObjects.Add(new ReportObject
-				("Total Cost of Loan Detail",areaSectionType,new Point(x2,yPos),size,GetTotalNegAdjAmt().ToString("n"),font,contentAlignmentR));
+				("Total Cost of Loan Detail",areaSectionType,new Point(x2,yPos),size,GetTotalNegAdjAmt().ToStringNetFx("n"),font,contentAlignmentR));
 			yPos+=space;
 			reportComplex.ReportObjects.Add(new ReportObject
 				("Total Cost of Loan Title",areaSectionType,new Point(x1,yPos),size,"Total Cost of Loan",font,contenAlignmentL));
 			reportComplex.ReportObjects.Add(new ReportObject
-				("Total Cost of Loan Detail",areaSectionType,new Point(x2,yPos),size,(_totPrincIntAdj).ToString("n"),font,contentAlignmentR));
+				("Total Cost of Loan Detail",areaSectionType,new Point(x2,yPos),size,(_totPrincIntAdj).ToStringNetFx("n"),font,contentAlignmentR));
 			yPos+=space;
 			section.Height=yPos+30;
 			DataTable table=new DataTable();
@@ -888,7 +888,7 @@ namespace OpenPmsDental{
 			for(int i=0;i < _tableClaimProcsBundled.Rows.Count;i++) {
 				insPaidTotal+=PIn.Double(_tableClaimProcsBundled.Rows[i]["InsPayAmt"].ToString());
 			}
-			textCompletedAmt.Text=insPaidTotal.ToString("f");
+			textCompletedAmt.Text=insPaidTotal.ToStringNetFx("f");
 			return true;
 		}
 
@@ -1001,7 +1001,7 @@ namespace OpenPmsDental{
 				+", "+Lan.g(this,"APR")+": "+textAPR.Text
 				+", "+Lan.g(this,"Total Cost of Loan")+": "+textTotalCost.Text;
 			if(GetTotalNegAdjAmt()!=0) {
-				textNote.Text+=", "+Lan.g(this,"Adjustment")+": "+GetTotalNegAdjAmt().ToString("f");
+				textNote.Text+=", "+Lan.g(this,"Adjustment")+": "+GetTotalNegAdjAmt().ToStringNetFx("f");
 			}
 		}
 
@@ -1010,9 +1010,9 @@ namespace OpenPmsDental{
 			//24.4: the sheet chosen for this plan; 0 or a deleted sheet falls back to the first custom PaymentPlan sheet, then the internal one.
 			Sheet sheet=SheetUtil.CreateSheet(SheetDefs.GetForPayPlan(GetSelectedSheetDefNum()),_patient.PatNum);
 			sheet.Parameters.Add(new SheetParameter(true,"payplan") { ParamValue=payPlan });
-			sheet.Parameters.Add(new SheetParameter(true,"Principal") { ParamValue=_totPrinc.ToString("n") });
+			sheet.Parameters.Add(new SheetParameter(true,"Principal") { ParamValue=_totPrinc.ToStringNetFx("n") });
 			sheet.Parameters.Add(new SheetParameter(true,"totalFinanceCharge") { ParamValue=_totInt });
-			sheet.Parameters.Add(new SheetParameter(true,"totalCostOfLoan") { ParamValue=_totPrincIntAdj.ToString("n") });
+			sheet.Parameters.Add(new SheetParameter(true,"totalCostOfLoan") { ParamValue=_totPrincIntAdj.ToStringNetFx("n") });
 			SheetFiller.FillFields(sheet);
 			return sheet;
 		}
@@ -1159,9 +1159,9 @@ namespace OpenPmsDental{
 					txCompleteAmt+=listPayPlanChargesCredit[i].Principal;
 				}
 			}
-			textCompletedAmt.Text=txCompleteAmt.ToString("f");
+			textCompletedAmt.Text=txCompleteAmt.ToStringNetFx("f");
 			double txTotalAmt=PayPlans.GetTxTotalAmt(_listPayPlanCharges);
-			textTotalTxAmt.Text=txTotalAmt.ToString("f");
+			textTotalTxAmt.Text=txTotalAmt.ToStringNetFx("f");
 		}
 
 		///<summary>Performs validation on payplan and then calls SaveData() to save payplan if the payplan was valid. Sets DialogResult to OK</summary>
@@ -1248,7 +1248,7 @@ namespace OpenPmsDental{
 				for(int i=0;i<_listAdjustments.Count;i++) {
 					Adjustments.Insert(_listAdjustments[i]);
 					TsiTransLogs.CheckAndInsertLogsIfAdjTypeExcluded(_listAdjustments[i]);
-					SecurityLogs.MakeLogEntry(EnumPermType.AdjustmentCreate,_patient.PatNum,Lan.g(this,"Adjustment created from payment plan for ")+_patient.GetNameFL()+", "+_listAdjustments[i].AdjAmt.ToString("c"));
+					SecurityLogs.MakeLogEntry(EnumPermType.AdjustmentCreate,_patient.PatNum,Lan.g(this,"Adjustment created from payment plan for ")+_patient.GetNameFL()+", "+_listAdjustments[i].AdjAmt.ToStringNetFx("c"));
 				}
 			}
 			Signalods.SetInvalid(InvalidType.BillingList);

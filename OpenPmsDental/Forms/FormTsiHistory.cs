@@ -131,8 +131,8 @@ namespace OpenPmsDental {
 				row.Cells.Add(tsiTransLog.ServiceType.GetDescription());
 				row.Cells.Add(tsiTransLog.ServiceCode.GetDescription());
 				row.Cells.Add(tsiTransLog.ClientId);
-				row.Cells.Add(tsiTransLog.TransAmt.ToString("n"));
-				row.Cells.Add(tsiTransLog.AccountBalance.ToString("n"));
+				row.Cells.Add(tsiTransLog.TransAmt.ToStringNetFx("n"));
+				row.Cells.Add(tsiTransLog.AccountBalance.ToStringNetFx("n"));
 				row.Cells.Add(tsiTransLog.FKeyType.GetDescription());
 				row.Tag=i;
 				gridMain.ListGridRows.Add(row);

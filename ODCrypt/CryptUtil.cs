@@ -6,8 +6,9 @@ using System.Security.Cryptography;
 namespace ODCrypt {
 	///<summary>Cryptographically secure random values and constant-time comparison.</summary>
 	public static class CryptUtil {
-		///<summary>RNGCryptoServiceProvider.GetBytes is thread safe, so one instance is shared.</summary>
-		private static readonly RandomNumberGenerator _rng=new RNGCryptoServiceProvider();
+		///<summary>The system generator (RandomNumberGenerator.Create, which replaces RNGCryptoServiceProvider on .NET: SYSLIB0023). GetBytes is
+		///thread safe, so one instance is shared.</summary>
+		private static readonly RandomNumberGenerator _rng=RandomNumberGenerator.Create();
 
 		///<summary>Compares two strings in time that depends only on their lengths, not on where they first differ. Use it to compare hashes and
 		///tokens. Two nulls are equal; null never equals a non-null string.</summary>

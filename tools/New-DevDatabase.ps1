@@ -194,8 +194,8 @@ if (-not $SkipBuild) {
 	$msbuild = Find-MSBuild
 	# The pinned .NET SDK and the offline NuGet folder for this process (tools\Initialize-BuildEnvironment.ps1).
 	$null = Initialize-BuildEnvironment -RepoRoot $repoRoot
-	Write-Host "Building DevDbTool ($Configuration|x86) with $msbuild"
-	& $msbuild $toolProject -nologo '-restore' '-p:RestoreLockedMode=true' "-p:Configuration=$Configuration" '-p:Platform=x86' '-nodeReuse:false' '-v:minimal' '-clp:Summary;ErrorsOnly'
+	Write-Host "Building DevDbTool ($Configuration|x64) with $msbuild"
+	& $msbuild $toolProject -nologo '-restore' '-p:RestoreLockedMode=true' "-p:Configuration=$Configuration" '-p:Platform=x64' '-nodeReuse:false' '-v:minimal' '-clp:Summary;ErrorsOnly'
 	if ($LASTEXITCODE -ne 0) {
 		throw "Building DevDbTool failed (MSBuild exit code $LASTEXITCODE)."
 	}

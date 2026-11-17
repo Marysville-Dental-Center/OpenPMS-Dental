@@ -193,7 +193,7 @@ namespace OpenPmsDental{
 					for(int i=0;i<MyReport.ReportTable.Rows.Count;i++){
 						line="";
 						for(int j=0;j<MyReport.ReportTable.Columns.Count;j++){
-							cell=MyReport.ReportTable.Rows[i][j].ToString();
+							cell=ODNumberText.ToStringNetFxIfNumber(MyReport.ReportTable.Rows[i][j]);
 							cell=cell.Replace("\r","");
 							cell=cell.Replace("\n","");
 							cell=cell.Replace("\t","");

@@ -55,6 +55,9 @@ namespace OpenPmsDentalBusiness {
 			UspsMessage=uspsMessage??"";
 		}
 
+		///<summary>Used for serialization. Formatter-based serialization does not exist on .NET, where the base members are obsolete (SYSLIB0051);
+		///kept, marked as the base marks them.</summary>
+		[Obsolete("Formatter-based serialization is obsolete and not supported on .NET.",DiagnosticId="SYSLIB0051",UrlFormat="https://aka.ms/dotnet-warnings/{0}")]
 		protected UspsApiException(SerializationInfo info,StreamingContext context) : base(info,context) {
 		}
 	}

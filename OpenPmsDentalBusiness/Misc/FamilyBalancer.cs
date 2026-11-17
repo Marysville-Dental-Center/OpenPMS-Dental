@@ -157,7 +157,7 @@ namespace OpenPmsDentalBusiness.Misc {
 					string strClaimProcDesc=string.Join("\r\n",listBreakdownStrings);
 					ConcurrentQueueOutputMessages.Enqueue(new OutputMessage(LogLevel.Verbose,strClaimProcDesc));
 					int countPaySplits=claimTransferResult.ListPaySplitsInserted.Count;
-					string strSplitsTotal=claimTransferResult.ListPaySplitsInserted.Sum(x => x.SplitAmt).ToString("C");
+					string strSplitsTotal=claimTransferResult.ListPaySplitsInserted.Sum(x => x.SplitAmt).ToStringNetFx("C");
 					string strPaySplitDesc=$"  There were {countPaySplits} new unearned payment splits totalling {strSplitsTotal} inserted.";
 					ConcurrentQueueOutputMessages.Enqueue(new OutputMessage(LogLevel.Verbose,strPaySplitDesc));
 				}

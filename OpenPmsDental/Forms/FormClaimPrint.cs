@@ -4082,10 +4082,10 @@ namespace OpenPmsDental{
 								_stringArrayDisplay[i]="";
 							}
 							else if(ClaimFormCur.Items[i].FormatString == "NoDec") {
-								_stringArrayDisplay[i]=claimValCodeLogArray[0].ValAmount.ToString("F").Replace("."," ");
+								_stringArrayDisplay[i]=claimValCodeLogArray[0].ValAmount.ToStringNetFx("F").Replace("."," ");
 							}
 							else {
-								_stringArrayDisplay[i]=claimValCodeLogArray[0].ValAmount.ToString(ClaimFormCur.Items[i].FormatString);
+								_stringArrayDisplay[i]=claimValCodeLogArray[0].ValAmount.ToStringNetFx(ClaimFormCur.Items[i].FormatString);
 							}
 							break;
 						case "MedValCode39b":
@@ -4097,10 +4097,10 @@ namespace OpenPmsDental{
 								_stringArrayDisplay[i]="";
 							}
 							else if(ClaimFormCur.Items[i].FormatString == "NoDec") {
-								_stringArrayDisplay[i] = claimValCodeLogArray[3].ValAmount.ToString("F").Replace("."," ");
+								_stringArrayDisplay[i] = claimValCodeLogArray[3].ValAmount.ToStringNetFx("F").Replace("."," ");
 							}
 							else {
-								_stringArrayDisplay[i]=claimValCodeLogArray[3].ValAmount.ToString(ClaimFormCur.Items[i].FormatString);
+								_stringArrayDisplay[i]=claimValCodeLogArray[3].ValAmount.ToStringNetFx(ClaimFormCur.Items[i].FormatString);
 							}
 							break;
 						case "MedValCode39c":
@@ -4112,10 +4112,10 @@ namespace OpenPmsDental{
 								_stringArrayDisplay[i]="";
 							}
 							else if(ClaimFormCur.Items[i].FormatString == "NoDec") {
-								_stringArrayDisplay[i] = claimValCodeLogArray[6].ValAmount.ToString("F").Replace("."," ");
+								_stringArrayDisplay[i] = claimValCodeLogArray[6].ValAmount.ToStringNetFx("F").Replace("."," ");
 							}
 							else {
-								_stringArrayDisplay[i]=claimValCodeLogArray[6].ValAmount.ToString(ClaimFormCur.Items[i].FormatString);
+								_stringArrayDisplay[i]=claimValCodeLogArray[6].ValAmount.ToStringNetFx(ClaimFormCur.Items[i].FormatString);
 							}
 							break;
 						case "MedValCode39d":
@@ -4127,10 +4127,10 @@ namespace OpenPmsDental{
 								_stringArrayDisplay[i]="";
 							}
 							else if(ClaimFormCur.Items[i].FormatString == "NoDec") {
-								_stringArrayDisplay[i] = claimValCodeLogArray[9].ValAmount.ToString("F").Replace("."," ");
+								_stringArrayDisplay[i] = claimValCodeLogArray[9].ValAmount.ToStringNetFx("F").Replace("."," ");
 							}
 							else {
-								_stringArrayDisplay[i]=claimValCodeLogArray[9].ValAmount.ToString(ClaimFormCur.Items[i].FormatString);
+								_stringArrayDisplay[i]=claimValCodeLogArray[9].ValAmount.ToStringNetFx(ClaimFormCur.Items[i].FormatString);
 							}
 							break;
 						case "MedValCode40a":
@@ -4143,10 +4143,10 @@ namespace OpenPmsDental{
 								_stringArrayDisplay[i]="";
 							}
 							else if(ClaimFormCur.Items[i].FormatString == "NoDec") {
-								_stringArrayDisplay[i] = claimValCodeLogArray[1].ValAmount.ToString("F").Replace("."," ");
+								_stringArrayDisplay[i] = claimValCodeLogArray[1].ValAmount.ToStringNetFx("F").Replace("."," ");
 							}
 							else {
-								_stringArrayDisplay[i]=claimValCodeLogArray[1].ValAmount.ToString(ClaimFormCur.Items[i].FormatString);
+								_stringArrayDisplay[i]=claimValCodeLogArray[1].ValAmount.ToStringNetFx(ClaimFormCur.Items[i].FormatString);
 							}
 							break;
 						case "MedValCode40b":
@@ -4159,10 +4159,10 @@ namespace OpenPmsDental{
 								_stringArrayDisplay[i]="";
 							}
 							else if(ClaimFormCur.Items[i].FormatString == "NoDec") {
-								_stringArrayDisplay[i] = claimValCodeLogArray[4].ValAmount.ToString("F").Replace("."," ");
+								_stringArrayDisplay[i] = claimValCodeLogArray[4].ValAmount.ToStringNetFx("F").Replace("."," ");
 							}
 							else {
-								_stringArrayDisplay[i]=claimValCodeLogArray[4].ValAmount.ToString(ClaimFormCur.Items[i].FormatString);
+								_stringArrayDisplay[i]=claimValCodeLogArray[4].ValAmount.ToStringNetFx(ClaimFormCur.Items[i].FormatString);
 							}
 							break;
 						case "MedValCode40c":
@@ -4175,10 +4175,10 @@ namespace OpenPmsDental{
 								_stringArrayDisplay[i]="";
 							}
 							else if(ClaimFormCur.Items[i].FormatString == "NoDec") {
-								_stringArrayDisplay[i] = claimValCodeLogArray[7].ValAmount.ToString("F").Replace("."," ");
+								_stringArrayDisplay[i] = claimValCodeLogArray[7].ValAmount.ToStringNetFx("F").Replace("."," ");
 							}
 							else {
-								_stringArrayDisplay[i]=claimValCodeLogArray[7].ValAmount.ToString(ClaimFormCur.Items[i].FormatString);
+								_stringArrayDisplay[i]=claimValCodeLogArray[7].ValAmount.ToStringNetFx(ClaimFormCur.Items[i].FormatString);
 							}
 							break;
 						case "MedValCode40d":
@@ -4190,10 +4190,10 @@ namespace OpenPmsDental{
 								_stringArrayDisplay[i]="";
 							}
 							else if(ClaimFormCur.Items[i].FormatString == "NoDec") {
-								_stringArrayDisplay[i] = claimValCodeLogArray[10].ValAmount.ToString("F").Replace("."," ");
+								_stringArrayDisplay[i] = claimValCodeLogArray[10].ValAmount.ToStringNetFx("F").Replace("."," ");
 							}
 							else {
-								_stringArrayDisplay[i]=claimValCodeLogArray[10].ValAmount.ToString(ClaimFormCur.Items[i].FormatString);
+								_stringArrayDisplay[i]=claimValCodeLogArray[10].ValAmount.ToStringNetFx(ClaimFormCur.Items[i].FormatString);
 							}
 							break;
 						case "MedValCode41a":
@@ -4205,10 +4205,10 @@ namespace OpenPmsDental{
 								_stringArrayDisplay[i]="";
 							}
 							else if(ClaimFormCur.Items[i].FormatString == "NoDec") {
-								_stringArrayDisplay[i] = claimValCodeLogArray[2].ValAmount.ToString("F").Replace("."," ");
+								_stringArrayDisplay[i] = claimValCodeLogArray[2].ValAmount.ToStringNetFx("F").Replace("."," ");
 							}
 							else {
-								_stringArrayDisplay[i]=claimValCodeLogArray[2].ValAmount.ToString(ClaimFormCur.Items[i].FormatString);
+								_stringArrayDisplay[i]=claimValCodeLogArray[2].ValAmount.ToStringNetFx(ClaimFormCur.Items[i].FormatString);
 							}
 							break;
 						case "MedValCode41b":
@@ -4221,10 +4221,10 @@ namespace OpenPmsDental{
 								_stringArrayDisplay[i]="";
 							}
 							else if(ClaimFormCur.Items[i].FormatString == "NoDec") {
-								_stringArrayDisplay[i] = claimValCodeLogArray[5].ValAmount.ToString("F").Replace("."," ");
+								_stringArrayDisplay[i] = claimValCodeLogArray[5].ValAmount.ToStringNetFx("F").Replace("."," ");
 							}
 							else {
-								_stringArrayDisplay[i]=claimValCodeLogArray[5].ValAmount.ToString(ClaimFormCur.Items[i].FormatString);
+								_stringArrayDisplay[i]=claimValCodeLogArray[5].ValAmount.ToStringNetFx(ClaimFormCur.Items[i].FormatString);
 							}
 							break;
 						case "MedValCode41c":
@@ -4237,10 +4237,10 @@ namespace OpenPmsDental{
 								_stringArrayDisplay[i]="";
 							}
 							else if(ClaimFormCur.Items[i].FormatString == "NoDec") {
-								_stringArrayDisplay[i] = claimValCodeLogArray[8].ValAmount.ToString("F").Replace("."," ");
+								_stringArrayDisplay[i] = claimValCodeLogArray[8].ValAmount.ToStringNetFx("F").Replace("."," ");
 							}
 							else {
-								_stringArrayDisplay[i]=claimValCodeLogArray[8].ValAmount.ToString(ClaimFormCur.Items[i].FormatString);
+								_stringArrayDisplay[i]=claimValCodeLogArray[8].ValAmount.ToStringNetFx(ClaimFormCur.Items[i].FormatString);
 							}
 							break;
 						case "MedValCode41d":
@@ -4252,10 +4252,10 @@ namespace OpenPmsDental{
 								_stringArrayDisplay[i]="";
 							}
 							else if(ClaimFormCur.Items[i].FormatString == "NoDec") {
-								_stringArrayDisplay[i] = claimValCodeLogArray[11].ValAmount.ToString("F").Replace("."," ");
+								_stringArrayDisplay[i] = claimValCodeLogArray[11].ValAmount.ToStringNetFx("F").Replace("."," ");
 							}
 							else {
-								_stringArrayDisplay[i]=claimValCodeLogArray[11].ValAmount.ToString(ClaimFormCur.Items[i].FormatString);
+								_stringArrayDisplay[i]=claimValCodeLogArray[11].ValAmount.ToStringNetFx(ClaimFormCur.Items[i].FormatString);
 							}
 							break;
 					}
@@ -4598,7 +4598,7 @@ namespace OpenPmsDental{
 								strDrugUnit="ML";
 								break;
 						}
-						return "N4"+procedureCode.DrugNDC+strDrugUnit+drugQty.ToString("f3");
+						return "N4"+procedureCode.DrugNDC+strDrugUnit+drugQty.ToStringNetFx("f3");
 					}
 					else {
 						ProcedureCode procedureCodeSent=ProcedureCodes.GetProcCode(_listClaimProcs[procIndex].CodeSent);
@@ -4692,14 +4692,14 @@ namespace OpenPmsDental{
 				case "FeeMinusLab":
 					if(CultureInfo.CurrentCulture.Name.EndsWith("CA")) {//Canadian. en-CA or fr-CA
 						if(stringFormat=="") {
-							return _listClaimProcs[procIndex].FeeBilled.ToString("F");
+							return _listClaimProcs[procIndex].FeeBilled.ToStringNetFx("F");
 						}
 						else if(stringFormat=="NoDec") {
 							double amt = _listClaimProcs[procIndex].FeeBilled * 100;
-							return amt.ToString();
+							return amt.ToStringNetFx();
 						}
 						else {
-							return _listClaimProcs[procIndex].FeeBilled.ToString(stringFormat);
+							return _listClaimProcs[procIndex].FeeBilled.ToStringNetFx(stringFormat);
 						}
 					}
 					return "";//(((ClaimProc)claimprocs[procIndex]).FeeBilled-ProcCur.LabFee).ToString("n");
@@ -4731,7 +4731,7 @@ namespace OpenPmsDental{
 								strDrugUnit="ML";
 								break;
 						}
-						return "N4"+procedureCode.DrugNDC+" "+strDrugUnit+drugQty.ToString("f3");
+						return "N4"+procedureCode.DrugNDC+" "+strDrugUnit+drugQty.ToStringNetFx("f3");
 					}
 					return "";
 				default:

@@ -1,0 +1,84 @@
+<Project>
+  <!--
+    The settings of a .NET 10 project (stage 3b of the .NET 10 move, package S3b-1: docs/specs/net10-plan.md, the S3b-1 row and decisions
+    19 and 20; docs/port-notes/S3b-1.md). Directory.Build.props names this file as BeforeMicrosoftNETSdkTargets, so Sdk.targets of
+    Microsoft.NET.Sdk imports it for every SDK-style project right after the project's own properties and before any file of the SDK's
+    targets: the project's TargetFramework, OutputType and name are known here, and everything the SDK computes from these settings (the
+    runtime identifier inference, the apphost, the restore's targets and lock files, the runtime packs) sees them.
+
+    Everything here is for a project that targets the .NET build's framework (ODTargetFramework of Directory.Build.props, net10.0-windows).
+    A project that still targets net48 (each project until its layer package of stage 3b deletes its own net48 line, the test projects until
+    S3b-5, the third-party source builds until S3b-2) gets nothing from this file and builds as on main: x86, .NET Framework 4.8.
+  -->
+  <PropertyGroup Condition="'$(UsingMicrosoftNETSdk)' == 'true' and '$(TargetFramework)' == '$(ODTargetFramework)'">
+    <!--
+      The kinds of project these settings tell apart. An exe is OutputType Exe or WinExe. A test project says so with ODTestProject
+      (tests\Directory.Build.props for every project that imports it; NoHqTests itself). The one 32-bit project is the helper program,
+      OpenPmsDentalHelper32 (S3a-13, open point O-15): it loads the vendor code that exists only as 32-bit code.
+    -->
+    <_ODIsExe Condition="'$(OutputType)' == 'Exe' or '$(OutputType)' == 'WinExe'">true</_ODIsExe>
+    <_ODIsHelper32 Condition="'$(MSBuildProjectName)' == 'OpenPmsDentalHelper32'">true</_ODIsHelper32>
+    <!-- 64-bit (decision 19): every project, whatever platform the solution builds it for; the helper stays x86. -->
+    <PlatformTarget>x64</PlatformTarget>
+    <PlatformTarget Condition="'$(_ODIsHelper32)' == 'true'">x86</PlatformTarget>
+    <!--
+      A runtime identifier for the exes and the test projects, so the Windows implementations of packages such as System.Management,
+      System.Speech and System.DirectoryServices.AccountManagement (runtimes\win\lib\net10.0 in the packages) land flat in the output
+      folder instead of under runtimes\win\lib\net10.0\ beside a PlatformNotSupported stub (tools\Build-Release.ps1 refuses sub
+      folders; ForkReleases and UpdateFileCopier copy top-level files only). AppendRuntimeIdentifierToOutputPath=false
+      (Directory.Build.props) keeps the folder flat: bin\Debug\, bin\Release\. A library gets none: the exe that ships it picks the
+      assets.
+    -->
+    <RuntimeIdentifier Condition="'$(_ODIsExe)' == 'true' or '$(ODTestProject)' == 'true'">win-x64</RuntimeIdentifier>
+    <RuntimeIdentifier Condition="'$(_ODIsHelper32)' == 'true'">win-x86</RuntimeIdentifier>
+    <!--
+      Every exe, shipped or not, is self-contained (decision 20): one setting for all of them, because an exe that is not self-contained
+      cannot reference one that is (NETSDK1151; CentralManager and DocumentationBuilder reference the program). The exes of one output
+      folder share the one runtime the build copies beside them; the helper carries its own x86 runtime into Helper32\ (S3b-4). The test
+      projects stay framework-dependent and run on the build PC's machine-wide x64 runtime (the SDK skips NETSDK1151 for a test project
+      that references a self-contained exe, S3b-0 item 7). UnitTests is an exe and a test project: a test project.
+    -->
+    <SelfContained Condition="'$(_ODIsExe)' == 'true'">true</SelfContained>
+    <SelfContained Condition="'$(ODTestProject)' == 'true'">false</SelfContained>
+    <!-- No trimming: it is not supported for Windows Forms and WPF, and the program loads much by reflection. -->
+    <PublishTrimmed>false</PublishTrimmed>
+    <!--
+      AssemblyInfo.cs and SharedAssemblyInfo.cs stay the only source of the assembly attributes (Directory.Build.props), but the SDK writes
+      its two platform attributes, [assembly: TargetPlatform("Windows7.0")] and [assembly: SupportedOSPlatform("Windows7.0")]: without them
+      the platform analyzer reports every Windows-only call (CA1416, about 650 warnings in S3b-0's build of CodeBase). Every other attribute
+      the SDK can write is switched off.
+    -->
+    <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+    <GenerateAssemblyCopyrightAttribute>false</GenerateAssemblyCopyrightAttribute>
+    <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
+    <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
+    <GenerateAssemblyInformationalVersionAttribute>false</GenerateAssemblyInformationalVersionAttribute>
+    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+    <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
+    <GenerateAssemblyTrademarkAttribute>false</GenerateAssemblyTrademarkAttribute>
+    <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
+    <GenerateAssemblyMetadataAttributes>false</GenerateAssemblyMetadataAttributes>
+    <GenerateInternalsVisibleToAttributes>false</GenerateInternalsVisibleToAttributes>
+    <GenerateNeutralResourcesLanguageAttribute>false</GenerateNeutralResourcesLanguageAttribute>
+    <GenerateRepositoryUrlAttribute>false</GenerateRepositoryUrlAttribute>
+    <GenerateDisableRuntimeMarshallingAttribute>false</GenerateDisableRuntimeMarshallingAttribute>
+    <GenerateRequiresPreviewFeaturesAttribute>false</GenerateRequiresPreviewFeaturesAttribute>
+    <!--
+      WFDEV006 (a Windows Forms type that .NET marks obsolete, such as ContextMenu or DataGrid, which .NET no longer has at run time) is
+      an error: the stage 3b gate wants none. WFO1000 (a public property of a control without a designer serialization setting), an
+      error by default on .NET 10, is a warning for the switch (.editorconfig).
+    -->
+    <WarningsAsErrors>$(WarningsAsErrors);WFDEV006</WarningsAsErrors>
+  </PropertyGroup>
+
+  <!--
+    NLS instead of ICU for globalization in every exe and test project (decision 4 of the plan): sorting, casing and culture data as the
+    .NET Framework build had them on Windows. The SDK writes it into each .runtimeconfig.json
+    (https://learn.microsoft.com/en-us/dotnet/core/extensions/globalization-icu).
+  -->
+  <ItemGroup Condition="'$(UsingMicrosoftNETSdk)' == 'true' and '$(TargetFramework)' == '$(ODTargetFramework)' and ('$(_ODIsExe)' == 'true' or '$(ODTestProject)' == 'true')">
+    <RuntimeHostConfigurationOption Include="System.Globalization.UseNls" Value="true" />
+  </ItemGroup>
+</Project>

@@ -384,8 +384,13 @@ namespace VendorDirectTests.Erx {
 			using(System.Threading.CancellationTokenSource cancellationTokenSource=new System.Threading.CancellationTokenSource()) {
 				cancellationTokenSource.Cancel();
 				try {
+					//Through the client's own handler chain: on .NET, HttpClient.SendAsync refuses a cancelled token before any handler runs, where the
+					//.NET Framework's ran the handlers (S3b-5). The chain is the same; HttpMessageInvoker calls it as the client does.
+					HttpMessageHandler httpMessageHandler=(HttpMessageHandler)typeof(HttpMessageInvoker)
+						.GetField("_handler",System.Reflection.BindingFlags.Instance|System.Reflection.BindingFlags.NonPublic).GetValue(httpClient);
+					using(HttpMessageInvoker httpMessageInvoker=new HttpMessageInvoker(httpMessageHandler,false))
 					using(HttpRequestMessage request=new HttpRequestMessage(HttpMethod.Get,url)) {
-						httpClient.SendAsync(request,cancellationTokenSource.Token).GetAwaiter().GetResult().Dispose();
+						httpMessageInvoker.SendAsync(request,cancellationTokenSource.Token).GetAwaiter().GetResult().Dispose();
 					}
 				}
 				catch(Exception ex) {

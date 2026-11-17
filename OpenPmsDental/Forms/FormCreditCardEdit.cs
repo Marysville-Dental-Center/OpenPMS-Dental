@@ -65,7 +65,7 @@ namespace OpenPmsDental {
 				comboPaymentPlans.Items.Add("None");
 				comboPaymentPlans.SelectedIndex=0;
 				for(int i=0;i<_listPayPlans.Count;i++) {
-					comboPaymentPlans.Items.Add(PayPlans.GetTotalCost(_listPayPlans[i].PayPlanNum,listPayPlanCharges).ToString("F")
+					comboPaymentPlans.Items.Add(PayPlans.GetTotalCost(_listPayPlans[i].PayPlanNum,listPayPlanCharges).ToStringNetFx("F")
 					+"  "+Patients.GetPat(_listPayPlans[i].PatNum).GetNameFL());
 					if(_listPayPlans[i].PayPlanNum==CreditCardCur.PayPlanNum) {
 						comboPaymentPlans.SelectedIndex=i+1;
@@ -129,7 +129,7 @@ namespace OpenPmsDental {
 			}
 			if(_isEdgeExpressEnabled || _isXChargeEnabled || _isPayConnectEnabled || _isPaySimpleEnabled || _isGlobalPaymentsV2Enabled) {//Only fill information if using X-Charge, PayConnect, PaySimple, or Global Payments V1 or V2.
 				if(CreditCardCur.ChargeAmt>0) {
-					textChargeAmt.Text=CreditCardCur.ChargeAmt.ToString("F");
+					textChargeAmt.Text=CreditCardCur.ChargeAmt.ToStringNetFx("F");
 				}
 				if(CreditCardCur.DateStop.Year>1880) {
 					textDateStop.Text=CreditCardCur.DateStop.ToShortDateString();

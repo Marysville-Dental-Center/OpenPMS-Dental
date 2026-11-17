@@ -126,9 +126,9 @@ namespace OpenPmsDentalBusiness {
 				secLogText+=GetRepeatChargeChangeString("BillingCycleDay",oldVal,newVal,permType,ref hasChanges);
 			}
 			//Amount
-			oldVal=oldCharge.ChargeAmt.ToString("c");
+			oldVal=oldCharge.ChargeAmt.ToStringNetFx("c");
 			if(newCharge!=null) {
-				newVal=newCharge.ChargeAmt.ToString("c");
+				newVal=newCharge.ChargeAmt.ToStringNetFx("c");
 			}
 			secLogText+=GetRepeatChargeChangeString("ChargeAmt",oldVal,newVal,permType,ref hasChanges);
 			//Note
@@ -655,7 +655,7 @@ namespace OpenPmsDentalBusiness {
 					if(noteText!="") {
 						noteText+=", ";
 					}
-					noteText+=listPaySplits[i].SplitAmt.ToString("c");
+					noteText+=listPaySplits[i].SplitAmt.ToStringNetFx("c");
 				}
 			}
 			payCur.PayNote="Allocated "+noteText+" prepayments to repeating charge.";

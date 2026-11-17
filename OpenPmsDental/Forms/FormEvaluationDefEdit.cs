@@ -7,6 +7,7 @@ using System.Windows.Forms;
 using OpenPmsDentalBusiness;
 using OpenPmsDental.UI;
 using System.Linq;
+using CodeBase;
 
 namespace OpenPmsDental {
 	public partial class FormEvaluationDefEdit:FormODBase {
@@ -84,14 +85,14 @@ namespace OpenPmsDental {
 						row.Cells.Add("");
 					}
 					else {
-						row.Cells.Add(_listEvaluationCriterionDefs[i].MaxPointsPoss.ToString());
+						row.Cells.Add(_listEvaluationCriterionDefs[i].MaxPointsPoss.ToStringNetFx());
 					}
 				}
 				gridMain.ListGridRows.Add(row);
 				
 			}
 			gridMain.EndUpdate();
-			textTotalPoints.Text=points.ToString();
+			textTotalPoints.Text=points.ToStringNetFx();
 		}
 
 		private void gridMain_CellDoubleClick(object sender,ODGridClickEventArgs e) {

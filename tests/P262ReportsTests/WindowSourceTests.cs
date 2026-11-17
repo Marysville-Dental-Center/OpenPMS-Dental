@@ -74,7 +74,7 @@ namespace P262ReportsTests {
 			StringAssert.Contains(source,"_doShowPrior=checkShowPrior.Checked;");
 			StringAssert.Contains(source,"RpPatPortionUncollected.GetPatUncollected(_fromDate, _toDate, _listClinicNums, _doShowPrior)");
 			StringAssert.Contains(source,"new UI.GridColumn(Lan.g(this,\"Pay Plan\"),75,HorizontalAlignment.Right,UI.GridSortingStrategy.AmountParse)");
-			StringAssert.Contains(source,"row.Cells.Add(PIn.Double(rowCur[RpPatPortionUncollected.ColumnPayPlan].ToString()).ToString(\"c\"));");
+			StringAssert.Contains(source,"row.Cells.Add(PIn.Double(rowCur[RpPatPortionUncollected.ColumnPayPlan].ToString()).ToStringNetFx(\"c\"));");
 			StringAssert.Contains(source,"row.ColorBackG=_colorPrior;");
 			//Print: the Pay Plan column, and the prior rows in their own section.
 			StringAssert.Contains(source,"query.AddColumn(\"Pay Plan\",70,FieldValueType.Number,font);");

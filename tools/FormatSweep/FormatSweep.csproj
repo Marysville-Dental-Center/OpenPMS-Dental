@@ -1,0 +1,38 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!--
+    FormatSweep (package S3b-FMT of the .NET 10 move, decision 24 of docs/specs/net10-plan.md, docs/port-notes/S3b-FMT.md): finds, with the
+    C# compiler's types, every place of the shipped projects that writes a double or float as text (ToString with or without a format,
+    Convert.ToString, string concatenation, interpolated strings, composite formats, StringBuilder and TextWriter) or adds a fractional time
+    to a DateTime (AddDays .. AddMilliseconds, TimeSpan.FromX), and can route each through the helpers of CodeBase (ODNumberText.ToStringNetFx
+    and AsNetFx, ODDateTimeAdd, ODTimeSpan) with a mechanical rewrite. It builds each project's compilation from the inputs the build
+    recorded (Directory.Build.targets, ODRecordCompileInputs), so a full lane build comes first. tests\FormatParityTests runs the same scan
+    as the guard: a new unrouted place fails it. Not shipped. In OpenDental.sln and OpenDental.Local.slnf, so every solution build compiles
+    it.
+  -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>FormatSweep</RootNamespace>
+    <AssemblyName>FormatSweep</AssemblyName>
+    <LangVersion>8.0</LangVersion>
+    <Platforms>x86</Platforms>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugType>full</DebugType>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugType>pdbonly</DebugType>
+  </PropertyGroup>
+  <ItemGroup>
+    <!-- The C# compiler's syntax and semantic model, from the offline package folder (Microsoft.CodeAnalysis.CSharp 5.12.0, fetched for this
+         package; Microsoft.CodeAnalysis.Common 5.12.0 was there), at the version of Directory.Packages.props. -->
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="shipped-projects.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="allowed-sites.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+</Project>

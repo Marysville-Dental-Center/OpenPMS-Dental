@@ -3555,7 +3555,7 @@ namespace OpenPmsDentalBusiness {
 				//=================================Convert Appointment Reminder Hours interval to ApptreminderRule=================================
 				command="SELECT ValueString FROM preference WHERE PrefName='ApptReminderHourInterval'";
 				double apptReminderHourInterval=PIn.Double(Db.GetScalar(command));
-				string TsHoursPriorTicks=POut.Long(TimeSpan.FromHours(apptReminderHourInterval).Ticks);
+				string TsHoursPriorTicks=POut.Long(CodeBase.ODTimeSpan.FromHours(apptReminderHourInterval).Ticks);
 				if(DataConnection.DBtype==DatabaseType.MySql) {
 					command="INSERT INTO apptreminderrule (TypeCur,TsPrior,SendOrder,IsSendAll,TemplateSMS,TemplateEmailSubject,TemplateEmail,ClinicNum) "+
 						"SELECT 0 AS TypeCur, "+
@@ -3615,7 +3615,7 @@ namespace OpenPmsDentalBusiness {
 				//=================================Convert Appointment Reminder Days interval to ApptreminderRule=================================
 				command="SELECT ValueString FROM preference WHERE PrefName='ApptReminderDayInterval'";
 				double apptReminderDayInterval=PIn.Double(Db.GetScalar(command));
-				string TsDaysPriorTicks=POut.Long(TimeSpan.FromDays(apptReminderDayInterval).Ticks);
+				string TsDaysPriorTicks=POut.Long(CodeBase.ODTimeSpan.FromDays(apptReminderDayInterval).Ticks);
 				if(DataConnection.DBtype==DatabaseType.MySql) {
 					command="INSERT INTO apptreminderrule (TypeCur,TsPrior,SendOrder,IsSendAll,TemplateSMS,TemplateEmailSubject,TemplateEmail,ClinicNum) "+
 						"SELECT 0 AS TypeCur, "+
@@ -4183,7 +4183,7 @@ namespace OpenPmsDentalBusiness {
 					if(kvp.Value.Count==1) {
 						if(kvp.Value[0].TSPrior.TotalDays>=1) {
 							int days = (int)Math.Round(kvp.Value[0].TSPrior.TotalDays);
-							command="UPDATE apptreminderrule SET TypeCur=2, TSPrior="+POut.Long(TimeSpan.FromDays(days).Ticks)
+							command="UPDATE apptreminderrule SET TypeCur=2, TSPrior="+POut.Long(CodeBase.ODTimeSpan.FromDays(days).Ticks)
 								+" WHERE ApptReminderRuleNum="+POut.Long(kvp.Value[0].ApptReminderRuleNum);
 						}
 						else {
@@ -4192,7 +4192,7 @@ namespace OpenPmsDentalBusiness {
 								//this only happens if they have a rule setup for less than 30 minutes and greater than zero; because of rounding.
 								hours=1;
 							}
-							command="UPDATE apptreminderrule SET TSPrior="+POut.Long(TimeSpan.FromHours(hours).Ticks)
+							command="UPDATE apptreminderrule SET TSPrior="+POut.Long(CodeBase.ODTimeSpan.FromHours(hours).Ticks)
 								+" WHERE ApptReminderRuleNum="+POut.Long(kvp.Value[0].ApptReminderRuleNum);
 						}
 						Db.NonQ(command);
@@ -4208,7 +4208,7 @@ namespace OpenPmsDentalBusiness {
 						if(hours>=24) {
 							hours=1;
 						}
-						command="UPDATE apptreminderrule SET TSPrior="+POut.Long(TimeSpan.FromHours(hours).Ticks)
+						command="UPDATE apptreminderrule SET TSPrior="+POut.Long(CodeBase.ODTimeSpan.FromHours(hours).Ticks)
 							+" WHERE ApptReminderRuleNum="+POut.Long(listCur[0].ApptReminderRuleNum);
 						Db.NonQ(command);
 						int days = (int)Math.Round(listCur[1].TSPrior.TotalDays);
@@ -4216,7 +4216,7 @@ namespace OpenPmsDentalBusiness {
 							//this only happens if they have a rule setup for less than 30 minutes and greater than zero; because of rounding.
 							days=1;
 						}
-						command="UPDATE apptreminderrule SET TypeCur=2, TSPrior="+POut.Long(TimeSpan.FromDays(days).Ticks)
+						command="UPDATE apptreminderrule SET TypeCur=2, TSPrior="+POut.Long(CodeBase.ODTimeSpan.FromDays(days).Ticks)
 							+" WHERE ApptReminderRuleNum="+POut.Long(listCur[1].ApptReminderRuleNum);
 						Db.NonQ(command);
 					}

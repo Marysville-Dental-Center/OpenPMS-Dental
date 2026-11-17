@@ -1,0 +1,6 @@
+Host: sheet
+Size: 500x370
+Bitmap: Format24bppRgb
+Colours in the picture: 3894
+Pixels SHA-256: f0745d6a51dc8bb4868711e14978376a1ab0bbb9ec9ef337c6b5764bb7de1e84
+Framework: .NET 10.0.14, x64

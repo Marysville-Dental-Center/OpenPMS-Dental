@@ -1,5 +1,6 @@
 // The program's side of the 32-bit helper program (S3a-13 of the .NET 10 move, docs/port-notes/S3a-13.md, sections 3 and 4): starts
-// OpenPmsDentalHelper32.exe from the program's folder on first use, one helper per program process, and calls its modules over a named pipe
+// OpenPmsDentalHelper32.exe from the sub folder Helper32\ of the program's folder on first use (S3b-4: there with its own x86 runtime), one
+// helper per program process, and calls its modules over a named pipe
 // that only the current user may open. The protocol is OpenPmsDentalHelper32\Helper32Protocol.cs, linked into this assembly.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
@@ -20,7 +21,7 @@ using OpenPmsDentalHelper32;
 namespace CodeBase {
 	///<summary>Why a call to the 32-bit helper failed.</summary>
 	public enum Helper32Failure {
-		///<summary>OpenPmsDentalHelper32.exe is not in the program's folder.</summary>
+		///<summary>OpenPmsDentalHelper32.exe is not where the client looks for it (Helper32\ of the program's folder for Default).</summary>
 		Missing,
 		///<summary>The helper did not start, did not connect or did not say hello in time.</summary>
 		StartFailed,
@@ -62,6 +63,9 @@ namespace CodeBase {
 	///it when the program's process is gone, however it ended) and when it loses its pipe.</summary>
 	public sealed class Helper32Client:IDisposable {
 		public const string HELPER_FILE_NAME="OpenPmsDentalHelper32.exe";
+		///<summary>The sub folder of the program's folder that holds the helper with its own self-contained x86 runtime (S3b-4 of
+		///docs/specs/net10-plan.md; open point O-15, decision 20). It is the one sub folder of the program's folder.</summary>
+		public const string HELPER_FOLDER_NAME="Helper32";
 		///<summary>How long a start may take: the process, its connection and its hello.</summary>
 		public static readonly TimeSpan TimeSpanStart=TimeSpan.FromSeconds(30);
 		private static readonly object _lockDefault=new object();
@@ -77,18 +81,24 @@ namespace CodeBase {
 		private bool _isDisposed;
 		private int _countCallsPumping;
 
-		///<summary>The helper of the program's process, from the program's folder (OpenPmsDentalHelper32.exe next to the program; S3b-4 moves it
-		///to the sub folder Helper32\ with its own runtime). Started on its first call.</summary>
+		///<summary>The helper of the program's process, from the sub folder Helper32\ of the program's folder (GetDefaultPath), where it has its
+		///own x86 runtime (S3b-4). Started on its first call.</summary>
 		public static Helper32Client Default {
 			get {
 				lock(_lockDefault) {
 					if(_clientDefault==null) {
-						_clientDefault=new Helper32Client(Path.Combine(AppDomain.CurrentDomain.BaseDirectory,HELPER_FILE_NAME));
+						_clientDefault=new Helper32Client(GetDefaultPath());
 						AppDomain.CurrentDomain.ProcessExit+=(sender,e) => _clientDefault.Dispose();
 					}
 					return _clientDefault;
 				}
 			}
+		}
+
+		///<summary>Where the program's helper is: Helper32\OpenPmsDentalHelper32.exe in the program's folder (AppDomain's base directory).
+		///</summary>
+		public static string GetDefaultPath() {
+			return Path.Combine(AppDomain.CurrentDomain.BaseDirectory,HELPER_FOLDER_NAME,HELPER_FILE_NAME);
 		}
 
 		///<summary>A client of the helper at pathHelper (a copy of it, for tests).</summary>
@@ -164,7 +174,7 @@ namespace CodeBase {
 					taskRead.ContinueWith(x => x.Exception,TaskContinuationOptions.OnlyOnFaulted);//observed: the pipe is closed below
 					Stop(isKill:true);
 					throw new Helper32Exception(Helper32Failure.TimedOut,"The 32-bit helper program ("+HELPER_FILE_NAME+") did not answer "+module+" "
-						+command+" within "+timeSpanTimeout.TotalSeconds.ToString("0",CultureInfo.InvariantCulture)+" seconds. It was ended and is "
+						+command+" within "+timeSpanTimeout.TotalSeconds.ToStringNetFx("0",CultureInfo.InvariantCulture)+" seconds. It was ended and is "
 						+"started again on the next call.");
 				}
 				if(taskRead.IsFaulted) {
@@ -356,7 +366,7 @@ namespace CodeBase {
 					}
 					if(DateTime.UtcNow>dateTimeDeadline) {
 						throw new Helper32Exception(Helper32Failure.StartFailed,"The 32-bit helper program "+HELPER_FILE_NAME+" did not connect "
-							+"within "+TimeSpanStart.TotalSeconds.ToString("0",CultureInfo.InvariantCulture)+" seconds.");
+							+"within "+TimeSpanStart.TotalSeconds.ToStringNetFx("0",CultureInfo.InvariantCulture)+" seconds.");
 					}
 				}
 				pipe.EndWaitForConnection(asyncResultConnect);

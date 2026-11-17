@@ -1189,6 +1189,172 @@ the 3b gate and the merge also wait for the last two.
 | **S3b-5 Tests** (after S3b-4) | `tests/Directory.Build.props`, the 24 test projects that reference the exe and the 8 that reference WpfControlsOD (`UseWindowsForms`/`UseWPF`), `UnitTests/UnitTests.csproj` (kept, S0-5; with its `UI Testing` windows), `tests/LibraryBindingTests` (retire binding-redirect and GAC tests), `tests/BindingRedirects.config` (delete), `tests/VendorDirectTests/BridgesRemoval/BridgesDllRemovedTests.cs:165-190`, `tests/LibSpellTests/SpellLibraryFilesTests.cs:85`, PdfLibraryTests/LibSpellTests upstream-TFM guards, Mono.Cecil 0.11.6, a test `[AssemblyInitialize]` that registers the code-page provider, `tests/LibraryUpdateTests/SmtpTests.cs:108-121`, `tests/LibraryUpdateTests/AddressRulesTests.cs` (the .NET 10 result), `tests/MiddleTierMockTests`, `tests/Helper32Tests` | Retarget and fix; add the behaviour tests of section 7. The pointer-size tests of S3a-12 keep their x86 and x64 columns, and their x64 runs become the normal runs; the helper tests run the x86 helper against the x64 program. | Full by the workflow (gate) |
 | **S3b-6 Middle Tier** (after S3b-3; parallel with S3b-4) | `OpenPmsDentalServer/*` (replaced: new `Microsoft.NET.Sdk.Web` project, `Program.cs`, `appsettings.json`, IIS `web.config`; ASMX, old `Web.config`, old csproj deleted), `OpenPmsDentalBusiness/WebServices/OpenDentalServerHttp.cs` (new), `OpenDentalServerProxy.cs`, `OpenDentalServerReal.cs` (delete), `Web References/OpenDentalServer/*` (delete), `Remoting/RemotingClient.cs` (353-372), `Remoting/Meth.cs` (484-493), `Remoting/DtoProcessor.cs` (`FixPackageAssembly`), new `tests/MiddleTierHostTests`, `tests/LibraryBindingTests/BindingRedirectTests.cs:33`, `tests/ReleaseFlowTests/ReleaseFilesTests.cs:31`, `tools/Test-NoOldNames.ps1:127-132` | As the Middle Tier survey designed it: one POST endpoint at `{PathBase}/ServiceMain.asmx` and `{PathBase}/` (default `/OpenDentalServer`), raw UTF-8 body, synchronous `ProcessDto` on one thread with the `ServerMT` role set per request (thread-static state), 1 GiB body limit in Kestrel and IIS, no execution timeout, HTTPS only, Windows service by default (https://learn.microsoft.com/en-us/aspnet/core/host-and-deploy/windows-service), IIS in-process with a 64-bit application pool (the IIS default) as an option (https://learn.microsoft.com/en-us/aspnet/core/host-and-deploy/iis/); the server is x64 like the program (decision 19) and self-contained for win-x64 (decision 20): it is published into its own folder on its host with the NETCore, WindowsDesktop and ASP.NET Core runtimes of the program's release, so the host installs nothing for .NET; the IIS option still needs the ASP.NET Core Module, which the .NET 10 Hosting Bundle installs without its runtimes (`OPT_NO_RUNTIME=1 OPT_NO_SHAREDFX=1`, https://learn.microsoft.com/en-us/aspnet/core/host-and-deploy/iis/hosting-bundle); client `OpenDentalServerHttp` on a cached `HttpClient` (1 h timeout, same proxy and User-Agent, `SendAsync(...).GetAwaiter().GetResult()` because TestServer rejects synchronous `Send`); `HttpRequestError.ConnectionError` keeps the connection-lost retry (https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httprequesterror). No SOAP compatibility: the server has never shipped to an office and the version check forces client = server, so client and server switch together. `Adjustment.TaxTransID` now travels (harmless: both ends are the same build). The host must run a Windows Server version on Microsoft's .NET 10 OS list (decision 8). | the mock suite (MiddleTierMockTests, with the `PrefName`, `ClinicPref` and `Adjustment` round trips) and the new host round-trip tests (login good/bad, DtoGetTable/Object/Void/String with XML-special text, IsMiddleTierAvailable, version mismatch, 413, connection refused to retry, 50 MB payload, two concurrent users on two databases), which can also run against a server URL, for the 3b gate's check of the Windows service on the build PC; BSERVERTests |
 | **S3b-7 Release, setup, self-update** (parallel with S3b-4 after S3b-3; the release-channel package of 3b, it owns the runtime part, decision 20) | `THIRD-PARTY-NOTICES.txt` (Roslyn; the 64-bit TWAINDSM; the .NET runtime, MIT, named by its runtime packs); `tools/Build-Release.ps1` (OwnFiles 104-131, with both XmlSerializers files; the source folder of `Direct2dWrapper.dll`, 124, now `Direct2dWrapper\bin\x64\Release`; ThirdPartyFiles, with the Roslyn DLLs; NativeFiles with PE 0x8664 for every apphost and native DLL, 194 and 437-441, and 0x14C only for the helper; a third allow list, the runtime files, read from the runtime packs' own file lists (`data/RuntimeList.xml`, the list the SDK's `ResolveRuntimePackAssets` reads) instead of typed in, with the PE checks over them (0x8664 for the x64 runtime files, 0x14C for those in `Helper32\`; an IL-only file is checked as IL-only); `Helper32\` as the one sub folder it accepts; the 64-bit `TWAINDSM.dll` as a setup file that the program folder still refuses, 250; BuildIdFiles 201-203, version check 450-457), `installer/OpenPmsDental.iss` (Framework 4.8 gate 158, 187-194, 727-738; DbSettings run 580-605, 860-871; `[InstallDelete]` 116-139; prerequisites 243-290 and 783-831; `MinVersion` 103; the 64-bit install: `[Setup]` 59-83 with `AppId` 59, `DefaultDirName={commonpf32}` 77 and `UsePreviousAppDir` 78, `[Icons]` 148-149, the Visual C++ check 159-165 and 196-201), `tools/Test-Installer.ps1`, `OpenPmsDentalBusiness/Misc/ForkRelease/ForkReleases.cs` (`ListBuildIdFiles` adds `OpenPmsDental.dll`; `ListRetiredFiles` adds the `*.exe.config` files shipped before and the pruned in-box DLLs; `ListSpecialDirs` adds `Helper32`; the runtime part) and `ReleaseManifest.cs` (the runtime part's keys of S3a-10), `OpenPmsDentalBusiness/Data Interface/DocumentMiscs.cs` (the runtime part's rows), `OpenPmsDentalBusiness/TableTypes/DocumentMisc.cs` and `docs/port-notes/FORK-ENUMS.md` (two fork-only `DocumentMiscType` values), `UpdateFileCopier/FormMain.cs` (`Helper32` as a special folder; the runtime check before the manifest is written), `OpenPmsDental/Logic/PrefL.cs` (OpenFileCopier copies the copier with the x64 runtime files into a new temp folder; the runtime part on pull; runtime check before pull), `tests/ReleaseFlowTests/*`, README, `docs/release-process.md`, `docs/roadmap.md` (the .NET Framework 4.8 to .NET 10 section: record the switch as done) | The release ships `X.exe` (apphost) + `X.dll` + `X.runtimeconfig.json` + `X.deps.json` for OpenPmsDental, ServiceManager, OpenPmsDentalDbSettings and UpdateFileCopier (and the HL7 service when it ships), all self-contained on the one x64 runtime beside them (decision 20); the helper with its x86 runtime in `Helper32\`; both XmlSerializers files, now from the generator (S3b-3, S3b-4); and the Roslyn compiler DLLs that RdlEngine loads (`Microsoft.CodeAnalysis.dll`, `Microsoft.CodeAnalysis.VisualBasic.dll`, MIT; decision 14), named in the notices. The manifest carries the runtime key defined in S3a-10 (for example `Runtime=Microsoft.NETCore.App 10.0.14 win-x64`) and names the runtime part it needs, and `PrefL` refuses a release for another architecture than its own. **Runtime (decisions 6, 19 and 20):** the setup installs no .NET runtime. It installs the program's own runtime files with the program (the x64 runtime beside the exes, the helper's x86 runtime in `Helper32\`), also in a silent install, so the .NET check, the download, its signature check and its install step go. `/PREREQS=` (`ask`, `download`, `skip`) now covers only the Visual C++ runtime, which stays: `Direct2dWrapper.dll` imports `VCRUNTIME140.dll`, while the .NET runtime needs no redistributable (the WindowsDesktop runtime carries its own `vcruntime140_cor3.dll`, checked on 10.0.14). The DbSettings tool, self-contained, runs from the program folder as soon as the files are in place, with `skip` too. `Test-Installer.ps1` starts the installed DbSettings tool, reads its loaded modules (`coreclr.dll` must come from the install folder, not from `%ProgramFiles%\dotnet`; this holds on the build PC, which has machine-wide runtimes, and on a clean VM without .NET the tool simply starts) and closes it, and compares the installed files with Build-Release's staged list (the program part, the runtime part, `Helper32\`). **The runtime part of a release (decision 20).** A self-contained release carries the x64 runtime (`Microsoft.NETCore.App` and `Microsoft.WindowsDesktop.App`, about 150 MB on disk and 66 MB zipped for 10.0.14) and the helper's x86 runtime (about 100 MB and 40 MB zipped with WinForms only, about 145 MB and 61 MB if it also takes WPF; section 9.1). Published with every release, that would add about 145-170 MB of base64 rows at every publish and make every workstation pull it each time. So the release channel stores a release in two parts. **The program part** is every other file, published as today (`ForkReleaseManifest` and `ForkReleaseSegment` rows, `DocumentMiscs.ReplaceForkRelease`). **The runtime part** is the runtime files of both architectures, keyed by the runtime version and the SHA-256 over their names, sizes and SHA-256 values; it has two new fork-only `DocumentMiscType` values (102 manifest, 103 segment, recorded in `docs/port-notes/FORK-ENUMS.md`; the same table and column, so no schema change) and its own `DocumentMiscs.ReplaceForkRuntime`, which deletes the old rows and writes the segments, then its manifest last, as `ReplaceForkRelease` does. The program part's manifest names the runtime key it needs. `ForkReleases.Publish` writes the runtime part only when the install folder's runtime key differs from the published one, then the program part, its manifest last. On a pull, a workstation compares the published runtime key with the one in its own folder's manifest: the same key downloads the program part only; a new key downloads both, and both are checked in full (product, archive SHA-256, every file's size and SHA-256, the runtime key over the runtime files) before anything is copied. UpdateFileCopier copies both parts in one run. `OpenFileCopier` starts it from a new temp folder with one x64 runtime: the new release's copier with the new runtime part when the key changes, otherwise with the program folder's runtime files, which are then the same version. A workstation never mixes runtime versions: the copier refuses a download whose runtime files do not all belong to its one key, and after copying it checks every runtime file in the program folder against the runtime part before it writes the release manifest; if one does not match, it writes no manifest and says to run the setup, which carries the full runtime. Before it copies, it stops every process that runs from the program folder (the program, ServiceManager, the DbSettings tool, the helper, the HL7 service), because they all hold the shared runtime files. **Release-flow check:** Build-Release refuses to stage when the staged `.deps.json` files name more than one runtime version, when the helper's runtime is another version, or when that version is older than the newest 10.0.x `Microsoft.NETCore.App.Runtime.win-x64` in the offline folder (the monthly runtime release, section 2.4). The setup always carries the full runtime: the first install and each runtime change bring the whole runtime to a workstation. **Windows versions (decision 8):** Windows 11 is the baseline. Below it (Windows build lower than 22000) the setup warns and lets the user go on. The warning says that .NET 10 supports Windows 10 only in some editions, with the link https://learn.microsoft.com/en-us/dotnet/core/install/windows. `MinVersion` (10.0.18362, `OpenPmsDental.iss:103`) stays the hard floor. This setup does not install a Middle Tier server, which is self-contained too (S3b-6, section 10 step 4). **64-bit install (decision 19):** `ArchitecturesAllowed=x64compatible` and `ArchitecturesInstallIn64BitMode=x64compatible` (https://jrsoftware.org/ishelp/index.php?topic=64bitinstallation); `DefaultDirName={commonpf64}\Open PMS - Dental` (today `{commonpf32}`); the Visual C++ check moves to the x64 redistributable (`vc_redist.x64.exe`, its `VC\Runtimes\x64` key read in the view S3b-0 (12) found; today the x86 file and key in the 32-bit view, `OpenPmsDental.iss:159-165, 196-201`), with the same signature check; the 64-bit TWAINDSM 2.5.1 (O-16) goes into the 64-bit system folder (`{sys}` in 64-bit mode) when it is missing or older, as a shared file the uninstall leaves in place, never into the program folder (the program would load one there first); Build-Release checks its TWAIN Working Group signature and its SHA-256 against the approved download. **The move from the 32-bit install** (section 10 step 3): in 64-bit mode the setup looks for a previous install only in the 64-bit view, so `UsePreviousAppDir` cannot find the bridge release's install. The setup finds it by its uninstall entry in the 32-bit view (same `AppId`), copies `FreeDentalConfig.xml` and the flag files `NoDpi.txt` and `NoCustomBorders.txt` (read from the program folder, `ProgramEntry.cs:73,77`) into the new folder, then runs the old uninstaller silently: it removes the old program files, the Start menu and desktop shortcuts (`{autoprograms}`, `{autodesktop}`) and the old uninstall entry, and it may also delete `FreeDentalConfig.xml`, which that setup installed without `uninsneveruninstall`, hence the copy first. The setup then deletes what is left of the program's own files in the old folder (the files self-updates added, by the release's file list) and leaves the folder only if other files remain, logged and named on the last page. A Windows service registered from the old folder (the HL7 service) is reported, to be registered again from ServiceManager. `Test-Installer.ps1` reads the uninstall entry in the 64-bit view (today `WOW6432Node`, 43) and gains a scenario that installs over a 32-bit bridge install. | ReleaseFlowTests (the apphost resource test of S3a-10 now on apphosts; the layout test of section 7; the PE machine checks, the runtime part included; the setup's 64-bit and move tests of section 7; the runtime part tests of section 7: a release with an unchanged runtime publishes no runtime rows and its pull downloads no runtime segment, a release with a new runtime replaces the runtime part and its pull downloads both parts, a workstation never ends with runtime files of two versions, the release-flow check refuses an older or mixed runtime); `Build-Release.ps1 -ListFiles/-CheckFolder`; the elevated `Test-Installer.ps1` (the program's runtime loads from the install folder; the installed file list); manual install on a clean VM without any .NET, and an upgrade over the bridge release that moves the install from `Program Files (x86)` to `Program Files` |
+| **S3b-8 The 32-bit TWAIN path through the helper, and the 32-bit TWAIN manager in the setup** (after S3b-7; decision 23) | `ImagingDeviceManager/Helper32/` (new: the channel, the commands, the wire, the helper's server, the program's helper session, the native-first choice, the router, the stored choice), `ImagingDeviceManager/Capture/TwainCaptureSession.cs` (the twin, internal), `ImagingDeviceManager/EZTwain.cs` (`OpenSource` of a 32-bit choice), `ImagingCapture/Session/TwainHelperChannel.cs` (new), `CaptureSessionLauncher.cs`, `UI/FrmTestCapture.xaml.cs`, `OpenPmsDental/Forms/FormImagingDeviceEdit.cs`, `OpenPmsDentalHelper32/Twain/TwainModule.cs` (new) with `Helper32Host.cs`, `Program.cs`, `Helper32Protocol.cs` and its project file; `installer/OpenPmsDental.iss`, `tools/Build-Release.ps1`, `tools/Test-Installer.ps1`, `THIRD-PARTY-NOTICES.txt`, `docs/release-process.md` | A TWAIN source only the 32-bit DSM lists runs its whole session in the 32-bit helper (the program's own TwainCaptureSession compiled into it, on SysWOW64\TWAINDSM.dll), with the same images, bit depth, 16-bit memory transfer, DAT_EXTIMAGEINFO metadata, end reasons, safe stops and journal as in process; a source the 64-bit DSM lists always runs in process (native first); the device list shows both, the 32-bit ones as `<name> (32-bit TWAIN)`, and an older stored name still works; every failure of the helper ends the session with a clear message, never a hang. The setup installs the 32-bit TWAINDSM 2.5.1 of the approved download into SysWOW64 (`{sys}` with the `32bit` flag, as Inno Setup asks for a shared file, not `{syswow64}`; shared, left by the uninstall, when missing or older), checked by Build-Release like the 64-bit one and by Test-Installer. **Status (2026-11-16): done on `net10/s3b8-1`, review fixes on `net10/s3b8-2`** (port note `docs/port-notes/S3b-8.md`: the open decides native first by opening in an in-process session, never by listing the DSM outside a session, and the helper lists only once its sessions have closed, section 2.1; the Release dry run passed on the final setup script with both DSMs and ReleaseFlowTests on its output, section 11); not through the helper yet: the older EZTwain scanning calls (port note section 9) | ImagingDeviceManagerTests (`TwainHelperPathTests`, `TwainHelperWireTests`), Helper32Tests (`Twain/TwainHelperProcessTests` on the real x86 helper with the fake DSM), ReleaseFlowTests, NoHqTests, ProjectFileTests; a Release dry run with both DSMs |
+
+**Status (2026-11-16), S3b-1.** Merged into `net10/switch` from `net10/s3b1-2` (`docs/port-notes/S3b-1.md`, section 10 for the review fix): `Directory.Build.props` sets
+`TargetFramework` net10.0-windows for an SDK-style project that names none and imports `Directory.Build.Net.props` as
+`BeforeMicrosoftNETSdkTargets`, after the project's own properties, where target framework and output type are known: for a .NET 10
+project x64 (the helper x86, win-x86), `RuntimeIdentifier` win-x64 for exes and test projects, every exe self-contained, test projects
+framework-dependent, NLS, only the SDK's two platform attributes, WFDEV006 an error; `.editorconfig` makes WFO1000 a warning;
+`Directory.Packages.props` gives batch D its versions and keeps `DisableSystemTextJsonSourceGenerator` until the last net48 project goes (on
+.NET 10 the package is pruned and the switch never read); x64 solution platforms; `run-tests.ps1 -Platform`. **Every project keeps its own
+net48 line:** NoHqTests (net48 until S3b-5, in every Targeted run) references CodeBase, DataConnectionBase and the business library, so a
+layer package retargets each project by deleting that line (and its lock file), bottom-up. Checks: MSBuild's evaluated table of all 164
+SDK-style projects as is and with `-p:TargetFramework=net10.0-windows`; the lane's net10 x64 build of ODCrypt and CodeBase (0 errors, flat,
+PE32+ AMD64, no CA1416; their project changes left to S3b-2); the full slnf build, 0 errors, no lock file changed; the evaluator check as is
+and with the new `-TargetFramework`, both without a finding. Before S3b-2: the lane's restore of the whole slnf fails once CodeBase is net10
+(NU1201 above it until S3b-5), and NoHqTests then cannot build on net48 (the note's section 9).
+
+**Status (2026-11-16), S3b-2 part A.** On `net10/s3b2a-1` (`docs/port-notes/S3b-2.md`, part A; part B, the RDL projects, is S3b-2b's):
+CodeBase, ODCrypt, DataConnectionBase, OpenPmsDentalStorage, PasswordVaultWrapper, the seven third-party source builds, UpdateFileCopier,
+OpenPmsDentalDbSettings, ImagingDeviceManager and SyntheticData are `net10.0-windows` x64 (net48 lines and lock files deleted, new lock files
+from the offline folder, nothing downloaded); the source builds take the SDK's net10 symbols and upstream's own (WeCantSpell's net10.0
+`HAS_...` set), C# 14.0; the polyfill packages and `Sftp.TypeAsyncInterfacesDependency` are gone; the code pages are registered first in
+`ODInitialize.Initialize()` and in the three `Main`s of part A; `ServicePointManager.SecurityProtocol` is gone; the DbSettings tool writes the
+office CA file through `FileSystemAclExtensions.Create`; S3b-0's SYSLIB list is replaced with the .NET 10 APIs (two other SYSLIB warnings of
+the DbSettings tool wait for DbConnectionSecurityTests on .NET 10, S3b-5). ODR's project file is retargeted, but it references the business
+library and builds with S3b-3; DevDbTool and AdoptionValidation move with the business library. The scoped lane's rebuild of the 16
+projects and CryptoTests: 0 errors, 48 warnings (WFO1000 12), flat output, PE32+ 0x8664. CryptoTests is .NET 10 x64 ahead of S3b-5: 40 of
+40 passed with `-Platform x64` (NoHqTests not built, as expected). ProjectFileTests' evaluator computes `IsTargetFrameworkCompatible` and
+`$(OS)` for the .NET 10 projects' package files.
+
+**Status (2026-11-16), S3b-2 part B (S3b-2b: RdlEngine, RdlViewer, RdlDesign).** On `net10/s3b2b-1` (`docs/port-notes/S3b-2.md`, part B):
+the three projects are net10.0-windows x64 (RdlDesign a self-contained win-x64 exe), 0 errors in the lane's scoped x64 build, flat output.
+RDL `<Code>` blocks keep working (decision 14): `VbCodeCompiler` compiles the generated source with Roslyn 5.12.0 with the options the .NET
+Framework compile had (measured: VB 2012, Strict Off, Infer Off, no project-wide imports) against the runtime's assemblies and loads it from
+memory; today's message and line are kept (one difference: after a syntax error Roslyn adds BC30198); RdlDesign's syntax check uses the same
+compile. Unformatted doubles in reports are written as on .NET Framework (G15), so the S3a-4 golden report is unchanged. The SQL Server, ODBC
+and OLE DB code of RdlEngine and RdlDesign is kept under `#if NETFRAMEWORK` and gives a clear message naming O-10 on .NET (after the host's
+check hook). RdlDesigner's WinForms ToolBar and StatusBar (WFDEV006) became a Panel and a StatusStrip. New `tests/RdlCodeTests` (net10 x64,
+RdlEngine only): the fixture report equals the net48 engine's output (recorded by `Record-Net48.ps1`) and the S3a-4 record, 10 of 10 passed;
+the row's ReportTests file (`RdlCodeBlockReportTests.cs`) runs when S3b-5 retargets ReportTests. Found for the lead: formatted doubles follow
+.NET's exact formatting (note B2).
+
+**Status (2026-11-16), S3b-3.** On `net10/s3b3-1` (`docs/port-notes/S3b-3.md`): OpenPmsDentalBusiness, OpenPmsDentalGraph, SparksToothChart
+(WPF with Helix Toolkit and Windows Forms; no SharpDX, Tao or Microsoft.VisualC was left), OpenPmsDentalHL7 and ServiceManager (self-contained
+win-x64 exes, ServiceController, the code pages first in `Main`), ODR, DevDbTool and AdoptionValidation are `net10.0-windows` x64. Packages:
+System.DirectoryServices.AccountManagement with .Protocols, System.Management, ServiceController, WinForms.DataVisualization 1.10.2 (decision
+10), and System.IO.Ports 10.0.15 for the BCBS Georgia terminal, which batch D lacked (fetched under the standing rule with its runtime.native
+closure; a new `PackageVersion`). System.Speech (decision 13) has no user in layer B: it goes into the program with S3b-4.
+`OpenPmsDentalBusiness.XmlSerializers.dll` comes from Microsoft.XmlSerializer.Generator (build assets only, a `DotNetCliToolReference`,
+`SGenTypes` = the Middle Tier's twelve DTO envelopes; SGen off, the `WebReferenceUrl` gone) and pairs with the library by MVID in Debug and
+Release. The Middle Tier's ASMX proxy compiles for .NET Framework only until S3b-6. SYSLIB0021/0022/0023/0050/0051 and the certificate loads
+moved to the .NET 10 APIs with the same behaviour (a `.pfx` keeps its private-key refusal; measured against `Import` in 26 cases); SYSLIB0014
+(16 vendor web calls), three SYSLIB0057 without a loader and one SYSLIB0028 stay as warnings, with reasons. LocalDiagnostics reports
+`RuntimeInformation.FrameworkDescription`; `MiscData.GetOSVersionInfo` drops the OSVersion WMI workaround (and keeps the Windows name, which
+.NET's `ComputerInfo.OSFullName` no longer gives). CodeBase's `MiscUtils.DistinctBy` is .NET Framework only (CS0121 with `Enumerable.DistinctBy`).
+Scoped lane rebuild: 0 errors, 315 warnings (no CA1416, NU, MSB3245 or WFDEV), flat output, PE32+ 0x8664. NoHqTests, NativeFirstTests,
+BINATests, SyntheticData.Tests and AdoptionValidation.Tests are .NET 10 x64: NoHqTests 104 passed and 8 inconclusive (layer C not built),
+NativeFirstTests 43 of 43, BINATests 20 of 22 (one layer C output, one WPF picture in the disconnected session); the two tools' test projects
+build but create `synth_*` databases, so the Full run runs them. 48 other test projects qualify by their references but use scratch
+databases (S3b-5); 68 stay blocked by UnitTestsCore, the program, WpfControlsOD, TestProbeHost and the helper.
+
+**Status (2026-11-16), S3b-4.** On `net10/s3b4-1` (`docs/port-notes/S3b-4.md`): WpfControlsOD, ImagingCapture, OpenPmsDental, the tools
+(CrudGenerator, DatabaseIntegrityCheck, MySQLManager, CentralManager) and PluginExample (SDK-style, in the sln and slnf, built, not shipped) are
+`net10.0-windows` x64; DocumentationBuilder's project file too, its build waits for UnitTests (S3b-5); the helper is x86, self-contained for
+win-x86, and `CopyHelper32` puts its whole output with its own runtime into `Helper32\`, where `Helper32Client` starts it; UpdateFileCopier's four
+files are copied next to the program, its app.config and `Settings.settings` gone; Direct2dWrapper is x64 only and copies into the program's
+output. Every Windows Forms exe's `Main` calls `SetDefaultFont` (Microsoft Sans Serif 8.25) and then `SetHighDpiMode(PerMonitorV2)` before any
+window (the program after `/ehr-render`), with the code pages where `ODInitialize` does not register them. The program's app.config keeps the
+application settings only; System.Speech is a package; `OpenPmsDental.XmlSerializers.dll` comes from the generator (CallFire's two messages) and
+pairs by MVID; CallFire (SOAP) and Divvy (WCF) compile for the .NET Framework only and give a message naming O-10 on .NET (Divvy's stand-in
+answers Failure and `FormRecallList` records no recall as mailed unless every postcard was sent; review fix on `net10/s3b4-2`). The plug-in check
+reads the target framework with System.Reflection.Metadata; the x64 run found that .NET loads an "any CPU, 32-bit preferred" assembly into an x86
+process only, so the check refuses it in the 64-bit program. Scoped lane rebuild of the owned projects: 0 errors, no CA1416/NU/MSB/WFDEV006;
+program folder flat but `Helper32\` (x64 files 0x8664, the helper's 0x14C), every runtimeconfig on 10.0.15. N64ATests (now .NET 10, with the
+section 7 plug-in test) 45/45 (49/49 with the review fix's four Divvy tests), NoHqTests 112/112, BINATests 21/22 (the WPF picture test, disconnected session); the program starts headless in
+its `/ehr-render` mode on its own folder's runtime and renders a CDA document. 83 test projects have all references on .NET 10; 45 wait for
+UnitTestsCore, TestProbeHost or TopazStandIn (S3b-5).
+**Status (2026-11-16), S3b-6.** On `net10/s3b6-1` (`docs/port-notes/S3b-6.md`): OpenPmsDentalServer is a `Microsoft.NET.Sdk.Web` project
+(net10.0-windows x64, self-contained win-x64 with the NETCore, WindowsDesktop and ASP.NET Core runtimes, 442 files flat; C# 8.0): one POST
+endpoint at `{PathBase}/ServiceMain.asmx` and `{PathBase}/` (setting `MiddleTier:PathBase`, default `/OpenDentalServer`), raw UTF-8 body,
+`ProcessDto` synchronously on a new thread per request with the `ServerMT` role set on it, 1 GiB in Kestrel, IIS and the endpoint (413),
+no execution timeout, HTTPS only (403 for HTTP; Main refuses a plain HTTP address), a Windows service by default (`AddWindowsService`) and
+IIS in-process by `web.config`; the ASMX, its code-behind, the old Web.config and the classic project file are gone. The client
+`OpenDentalServerHttp` on one cached HttpClient (one hour, the proxy of MiddleTierProxyConfig.xml or the system's, the old User-Agent,
+`SendAsync(...).GetAwaiter().GetResult()`); RemotingClient and Meth retry on `HttpRequestError.ConnectionError`; `OpenDentalServerReal.cs`
+and `Web References/OpenDentalServer/*` deleted; DtoProcessor's `FixPackageAssembly` gone. MiddleTierMockTests 151 of 151 (the `PrefName`,
+`ClinicPref` and `Adjustment` round trips included) on .NET 10 x64 with UnitTestsCore and TestProbeHost retargeted (S3b-5 skips them);
+the new MiddleTierHostTests 19 of 19 (each server in its own load context on the test server; two users on two databases; runs against a
+server URL for the gate, section 7 of the note); BSERVERTests 57 of 57 on .NET 10; NoHqTests 104 + 8 inconclusive. ProjectFileTests reads
+the Web SDK project from its file (its reader does not model that SDK); LibraryBindingTests, ReleaseFilesTests and Test-NoOldNames follow.
+The gate's Windows-service check is the owner's or lead's (elevated).
+
+**Status (2026-11-16), S3b-5.** On `net10/s3b5-1` (`docs/port-notes/S3b-5.md`): every test project is `net10.0-windows` x64,
+framework-dependent (`tests\Directory.Build.props` names no target framework; UnitTests with its `UI Testing` windows; TopazStandIn stays net48
+on purpose); every test assembly registers the code pages in an `[AssemblyInitialize]` (`tests\Shared\TestCodePages.cs`). The lane's full
+`OpenDental.Local.slnf` build x64 without a scoped restore: 0 errors, NU1201 gone; DocumentationBuilder builds with its lock file.
+LibraryBindingTests' binding-redirect and GAC checks retired for their .NET 10 equivalents (`.deps.json` and lock-file versions, the .NET
+binding rule, the shared framework); `tests\BindingRedirects.config`, the AppConfig rule and every app.config's redirect and startup sections
+went. Product fixes, same behaviour as net48: `TimeSpan.FromX` rounded to the millisecond (`CodeBase.ODTimeSpan`, 86 calls), CAPI keys opened
+from the key provider information (SYSLIB0028/0057 cleared), ODZip's path characters, the chooser's 32-bit-preferred rule, the helper's test
+module load, the Middle Tier's IIS site root. The section 7 default-font tests (NoHqTests), the helper tests on the program's `Helper32\`
+helper, the x64 columns of the pointer-size tests. Runs (x64, `-RequireBuildOutput`): 122 assemblies, 10,342 tests, 31 failed: S3b-FMT's
+formatting (GoldenOutputTests 6, BINBTests 1), S3b-7's release files (ReleaseFlowTests 18, LibraryBindingTests 3), one headless WPF picture,
+one open ZIP message (EhrTests); not run: InitSqlTests, ForkMigrationTests (coordinator) and the WPF picture projects (S3b-5W).
+After the merge of S3b-7, the fix round on `net10/s3b5-2` (tests and docs only): AttributionTests 50, LibraryBindingTests 18, RegistryTests
+39, EhrTests 260 (the ZIP message pinned, accepted by the lead), ReleaseFlowTests 240 and NoHqTests 115 of the same, all passing x64 with
+`-RequireBuildOutput`, with the section 7 encodings test (fresh process, `--no-code-pages`) and the WMI test (System.Management from the
+program folder, the package's `runtimes\win` file); the Release dry run without `-LaneProjects` builds the whole filter, stages 557 files and
+compiles the setup. Left: S3b-FMT's seven (with the fractional DateTime sweep, decision 24) and S3b-5W's pictures; the Direct LDAP resolver
+and WebView2 launch checks are in the full-test gate.
+**Status (2026-11-16), S3b-5 (the S3b-5W part: the WPF picture baselines, gallery G5).** On `net10/s3b5w-1` (`docs/port-notes/S3b-5W.md`),
+with the owner's desktop session active: done on the branch, **waiting for the owner's G5 answer** (`docs/owner-questions.md`). The chart's
+pictures recorded on .NET 10 x64 as full sets beside the .NET Framework ones (`tests\ToothChartImageTests\Baselines\wpf-net10-x64`, 326;
+`simple2d-net10-x64`, 35; `tests\ToothChartHostTests\Baselines\net10-x64`, 9), chosen by runtime and bitness (`WpfCharts.ForThisBitness`,
+`HostPaths.Baselines`); the two test assemblies set the program's default font first, as every exe's `Main` does (S3b-4). Against .NET
+Framework 4.8 x64 (G5, with the tests' own tolerance): 193 identical, 173 within tolerance, 4 beyond it, all host pictures that have only a
+32-bit record (TC-10's 64-bit differences). One drawing change: the watches are drawn in tooth-number order, because a Hashtable's order is
+random per process on .NET (the chart plan's note). ChartBitnessTests and the program-entry source test take their .NET 10 cases.
+ToothChartImageTests 267 (261 passed, 6 skipped), ToothChartHostTests 20 (19, the gallery skipped), BINATests 22 (WpfChart_StartsOnAHiddenForm
+among them) and NoHqTests 115: all passing x64 with `-RequireBuildOutput`, twice against the committed pictures. WindowChecksTests is the
+lead's screenshot pass. Review fix round on `net10/s3b5w-2` (the branch that merges): the DirectX parity probes (`ParityProbeTests`,
+`PerioParity_*`) read the WPF pictures of their runtime (`wpf-net10-x64` on .NET 10 x64) instead of `wpf-net48`; they pass there with two
+64-bit-only allowances for tooth 5's "5" (TC-10's 64-bit text cell, the owner's G5 question 2); no picture changed, G5 unchanged; the four
+test assemblies green twice again (ToothChartImageTests 260 passed, 7 skipped).
+**Status (2026-11-16), S3b-7.** On `net10/s3b7-1` (`docs/port-notes/S3b-7.md`). **Decisions 21 and 22 removed part of the row:** no move
+from the 32-bit install (no search of the 32-bit uninstall entry, no copy of `FreeDentalConfig.xml` and the flag files, no run of the old
+uninstaller, no clean-up of the old folder, no service report), no Test-Installer scenario over a 32-bit bridge install and no manual
+upgrade over the bridge release; S3a-5's and S3a-10/10f's migration code stays with its tests, nothing added. Built: the runtime part
+(`DocumentMiscType` 102/103 in FORK-ENUMS.md, `DocumentMiscs.ReplaceForkRuntime`; the runtime files are what the `.deps.json` files name
+from the runtime packs, one version per folder; `Publish` writes them only when the key changes, a pull downloads them only when the key
+differs from the installation's and checks both parts before anything is copied; `CopyFileCopier` puts the copier's x64 runtime beside it in
+the temp folder and refuses another version; UpdateFileCopier copies `Helper32\`, stops every process of the program folder and checks
+every runtime file before it writes the manifest; PrefL refuses another architecture before the copier starts). Build-Release: Release x64,
+the apphost files, `Helper32\`, both XmlSerializers, Roslyn, the runtime allow list from each pack's `data/RuntimeList.xml` byte-compared
+with the packs, PE checks, the refusals (mixed versions, a different helper runtime, older than the newest 10.0.x runtime pack offline),
+TWAINDSM.dll (the newest TWAIN Working Group release is still 2.5.1, downloaded to `s3b7-twaindsm-20261116`, checked by SHA-256 and
+signature) as a setup file, the setup's packed list against the staged list. Setup: 64-bit mode, `{commonpf64}`, no .NET gate or runtime,
+the x64 VC++ check in both views, the Windows 11 warning, TWAINDSM into `{sys}` as a shared file. Test-Installer: the 64-bit view, the
+loaded-module check, the staged list against Build-Release's (the owner's elevated run is due). ReleaseFlowTests on .NET 10 x64 with
+`RuntimePartTests` and `RuntimePartDbTests`; handoffs to S3b-5 in the note (RegistryTests' count of fork values, AttributionTests' shipped
+files, TestProbeHost's CopyHost).
+
+**Status (2026-11-16), WINCHK-5 (the gate's screenshot pass).** On `net10/winchk5-1` and its fix round `net10/winchk5-2`
+(`docs/port-notes/WINCHK-HEADLESS.md`, section WINCHK-5): the window checks run on .NET 10 x64 at the owner's connected desktop, every group
+A to K, no check failed in the last run of each group (PARTLY items for a person listed there; SKIPPED only by design). An in-process session
+is now the program's own process (its apphost with TestProbeHost's startup hook: its runtime, runtimeconfig, deps.json and .dll.config), which
+fixes the gate's `SessionProcess_RunsFromTheProgramFolder_WithItsConfig`; the other .NET Framework assumptions the runs found are fixed in the
+harness (Form's event keys, PrintPreviewControl's pages, the build time of the managed assembly, an exception text). 3b checks added: the
+default-font windows (MsgBoxCopyPaste, the progress windows, the clinic picker's drop-down, ToolTipOD, the main menu, FormSnap, the dashboard's
+Edit Cell and Print Settings, the RDL viewer's DialogMessages and DataSourcePassword), the dashboard graphs one by one, a classic print
+preview, MonthCalendar, DateTimePicker, a TreeView with check boxes, RichTextBox text, the capture notice and status windows, the EOB viewer
+with its hosted strips, the WPF Frm combo, calendar and tool tip pop-ups, an RDL report with VB `<Code>` functions and one whose `<Code>` does
+not compile, RdlDesigner's Code tab and Check Syntax; a source scan shows no ImageList takes .NET 8's new default depth. Two program defects
+fixed with net48's behaviour: MenuOD drew every main menu in Segoe UI 9, and the dashboard's y axes read "${1:0}" (S3b-FMT's ChartNumberText
+and composite formats). Before/after pairs at 100 % on one monitor: the 3a gate's net48 pictures beside the .NET 10 x64 ones with difference
+images, `.git/od-tools/test-results/winchk-pairs-3b/index.html` (and `.zip`); 145 pairs, 53 identical, the rest explained there, and 37
+pictures of new checks with no net48 picture. **The screenshot pass of section 6 is complete in this sense:** every part of the "Stage 3b
+(net10)" item has a row in the note's coverage table (WINCHK-5 section 3) naming the check that covers it, the other suite that does (RdlCodeTests
+and ReportTests for `<Code>`, N64ATests for PluginExample and the .NET Framework plugin message, S3b-5W's tooth chart tests, ReleaseFlowTests,
+NoHqTests' default-font tests), or that it is for a person. **Still for a person** (an on-screen pass on a test PC: input, elevation, printing,
+sending or a changed display setting): "Make text bigger" above 100 %, 150 % and two monitors of different scaling with a window dragged
+between them, WebView2 above 100 %, real prints to a PDF printer (sheets, statements, claim forms, RDL reports), voice perio charting, e-mail
+receive and send, a clearinghouse send to a sandbox, the Word letter merge, the keyboard focus in the WPF Frms, a DateTimePicker's drop-down,
+RdlDesign's edit on its design surface, DocumentationBuilder's Build, the DbSettings, ServiceManager and UpdateFileCopier windows, the self-update
+end to end and the setup on a clean VM, and on x64 the real sensor and a document scanner, the helper links with the vendors' software, and
+the Snipping Tool and on-screen keyboard starts. The setup over the bridge release, the move from a 32-bit install and the mixed pair of
+workstations are gone with decisions 21 and 22.
 
 **Order on the branch.** S3b-0 (spike) and S3b-1 first; then S3b-2, S3b-3 strictly in sequence (each layer must be net10 before the
 layer above can build); then S3b-4 with S3b-6 and S3b-7 in parallel (disjoint files: the Middle Tier package owns the Remoting and
@@ -1202,12 +1368,24 @@ difference is explained and accepted by the owner or fixed); the behaviour tests
 non-loopback; environment per O-8) passes; the screenshot pass of section 6 is complete with before/after pairs; the self-update between
 two .NET 10 builds works from a standard user; the release is built, installed on a clean VM without any .NET and over the bridge
 release; the new Middle Tier is checked for real on the build PC: started as a Windows service on a loopback address with a test
-certificate, with the host round-trip tests (S3b-6) and a client session run against it. The office runs no Middle Tier server
+certificate, with the host round-trip tests (S3b-6) and a client session run against it; two launch checks of references the shared
+framework does not answer (S3b-5, LibraryBindingTests' known gaps): a Direct message sent with a certificate found through the LDAP
+resolver (`Health.Direct.ResolverPlugins`, which references the .NET Framework's System.ServiceModel), and a WebView2 window (eForm or
+e-mail preview) opens (`Microsoft.Web.WebView2.Wpf`'s WinRT references). The office runs no Middle Tier server
 (B-SERVER 5 in `docs/owner-questions.md`, open point O-7), so there is no office hosting check. The 64-bit checks (decision 19): PE
 machine 0x8664 for every staged exe and native DLL, the x64 runtime part's included, and 0x14C for the helper's folder; TWAIN capture
 from the x64 program with the clinic's real sensor through the 64-bit TWAINDSM and the driver project's 64-bit data sources (entry
 condition); each helper link from the x64 program where a test PC has the vendor software; the setup's move from a 32-bit bridge
 install on a test PC (section 10 step 3). Then the branch merges into `main` in one merge commit.
+
+**3b gate record (2026-11-16, decision 25).** Automated part on `net10/switch` after S3b-MAIN (`8da8caf1f`): full x64 build 0 errors (0
+WFDEV006); Release dry run `dryrun-gate3b2` with both TWAINDSM.dll checked; Full x64 run `gate3b-final-full.txt` against `gate3b-full.txt`:
+same=120, differs=8 (more tests in EhrTests, FormatParityTests, Helper32Tests, ImagingDeviceManagerTests, ReleaseFlowTests, WindowChecksTests),
+no failure outside the WPF picture suites, which drew blank in the disconnected session (ToothChartImageTests, ToothChartHostTests, BINATests'
+WPF test; green in the connected run at the S3b-8 merge, `s3b8-merge-x64.txt`). Golden outputs equal to net48 (S3b-FMT). Screenshot pass
+with before/after pairs (WINCHK-5, `winchk-pairs-3b`). Gallery G5 approved. The owner's elevated Test-Installer run: 105 passed; its 3
+failures were the check of the uninstall entry's name beside a v0.0 install, fixed in the script. The person checks are launch checks
+(decision 25). Then the branch merged into `main` in one merge commit.
 
 **Tooling at the switch (S3b-1/S3b-7).** The lane and the test runners have used the Build Tools 2026 MSBuild and vstest since S1-0;
 S3b-1 keeps the same SDK pin and moves the builds and the test runs to x64 (`/p:Platform=x64`, `/Platform:x64`, the machine-wide x64
@@ -1833,7 +2011,10 @@ The owner answered the plan's questions "as recommended", with the corrections b
       - QuickBooks Desktop has a 64-bit QBFC from SDK 15 on (QuickBooks Desktop 2022 and later), so there is a 64-bit path with the helper's
         QBFC 10 kept for older QuickBooks. The SDK download is behind the owner's Intuit sign-in.
       - Guru: no 64-bit `MedVisorInterface.dll` is known, so the helper is used.
-      - TWAIN devices with only a 32-bit driver need a 32-bit TWAIN path through the helper. New, for 3b.
+      - TWAIN devices with only a 32-bit driver need a 32-bit TWAIN path through the helper. New, for 3b. **Done by S3b-8**
+        ([docs/port-notes/S3b-8.md](../port-notes/S3b-8.md)): a source the 64-bit DSM lists runs in the program's process; one only the
+        32-bit DSM lists runs its whole TWAIN session in the helper (ImagingDeviceManager's TWAIN code compiled into it), and the setup
+        installs the 32-bit TWAINDSM 2.5.1 into SysWOW64 too (the owner's "32-bit TWAIN manager: yes").
     - The native-first survey (every integration with its 64-bit way and public sources) and package S3a-14h (Topaz and Schick native
       with the helper as the fallback) follow. The 3b spike (S3b-0) proves each native way loads on .NET 10 x64.
 24. **Numbers are formatted as .NET Framework formatted them (owner, 2026-11-16: "Keep Open Dental's 1.01").** .NET (Core 3.0 and later)
@@ -1844,6 +2025,34 @@ The owner answered the plan's questions "as recommended", with the corrections b
     first, e.g. through `(decimal)value` or one shared helper, with tests that pin half-step values against the net48 results. The RDL
     engine's `Style.GetFormatedString` already writes unformatted doubles as .NET Framework did (S3b-2b); its formatted path follows.
     Package S3b-FMT does it on `net10/switch` once the program compiles (after S3b-4), with a scan that finds every such call site.
+    **S3b-FMT also sweeps fractional `DateTime` arithmetic (lead, 2026-11-16):** `DateTime.AddHours`, `AddMinutes`, `AddSeconds` and
+    `AddMilliseconds` no longer round a non-integral argument to the millisecond on .NET (the same .NET change as `TimeSpan.FromX`, which
+    S3b-5 routed through `CodeBase.ODTimeSpan`). A scan (with the compiler's types, since an argument's type is not visible to a text scan)
+    finds every such call whose argument is not integral, and routes it through an `ODTimeSpan`-style helper that rounds as the .NET
+    Framework did, with tests that pin fractional values against the net48 results (`docs/port-notes/S3b-5.md` section 9).
+    **Status (2026-11-16), S3b-FMT.** On `net10/s3bfmt-1` (`docs/port-notes/S3b-FMT.md`): done. The .NET Framework 4.8 record
+    (`tests/FormatParity/net48-truth.txt`, 65,104 number rows in 104 formats and two cultures, 2,655 time rows) confirmed all four
+    differences; custom formats were already 15 digits on .NET, but round an exact 16-digit half to even. One helper
+    (`ODNumberText.ToStringNetFx`/`AsNetFx`, `ODDateTimeAdd.AddXNetFx`) passes every row but "R" (kept exact, .NET's round-trip text).
+    `tools/FormatSweep` (Roslyn, from the compile inputs the build now records) routed 1,610 places of 22 shipped projects (1,370
+    ToString, 111 composite arguments, 88 concatenations, 24 interpolation holes, 11 Convert.ToString, 14 fractional DateTime
+    additions); the framework places (data table cells, string columns, the Middle Tier's table text, chart labels, RDL) are fixed at
+    their narrowest point, and what stays .NET's is listed in the port note. FormatParityTests guards it (0 unrouted places);
+    GoldenOutputTests and BINBTests' `Fixture_G15AndG7Texts` pass. **Review fix (`net10/s3bfmt-2`):** the record is the x86 .NET
+    Framework's (the runtime Open Dental ran on), and x86 and x64 also differ at 15 digits: x86 rounds about 17 accurate digits, x64 the
+    exact value (736331.0849999995 `F2`: 736331.09 on x86, 736331.08 on x64). The record now holds near-half bands (99,424 number rows;
+    1,126 15-digit rows where the runtimes differ), and the helper rounds a double's 15 digits from the 17 correctly rounded ones: it gives
+    the x86 text in every row but those of 5 values whose digits 16 to 19 lie in 4949..4994, where x86's own digits fall on either side of
+    half way (0.13% of values chosen to be half way at the 16th digit, no money amount tried; the port note's section 3a). The x86 digit
+    routine is not ported.
+
+25. **The 3b merge after the automated gate (owner, 2026-11-16: "B").** `net10/switch` merges into `main` once the main merge (S3b-MAIN)
+    and a Full x64 run on the final tree are green, without waiting for the gate's person checks. Nothing in production runs the program
+    (decision 22), so a defect a person check finds is fixed on `main` like any other. The person checks become launch checks before the
+    office release (`docs/launch-checks-3b.md`, package LAUNCH-3b): the clean install without .NET (Windows Sandbox), the self-update from a
+    standard user, the Middle Tier as a Windows service, a Direct message through the LDAP resolver, a WebView2 window, the clinic's sensor
+    through the 64-bit TWAINDSM, each helper link where a test PC has the vendor software, and the screenshot pass's PARTLY items; the WPF
+    picture suites run again at the next connected session (the final Full run ran disconnected).
 
 Also recorded for the update path: the Middle Tier client and server switch together (it has never shipped to an office); saved
 passwords get a one-time migration from PasswordVault to the Credential Manager (S3a-5). Also answered on 2026-11-08: signed e-mail

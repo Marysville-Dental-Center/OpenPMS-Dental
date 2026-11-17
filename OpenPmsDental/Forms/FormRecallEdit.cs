@@ -49,7 +49,7 @@ namespace OpenPmsDental{
 				textBalance.Text="";
 			}
 			else {
-				textBalance.Text=RecallCur.DisableUntilBalance.ToString("f");
+				textBalance.Text=RecallCur.DisableUntilBalance.ToStringNetFx("f");
 			}
 			if(RecallCur.DisableUntilDate.Year<1880) {
 				textDisableDate.Text="";

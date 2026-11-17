@@ -18,7 +18,9 @@ namespace ProjectFileTests {
 	///<summary>A project file evaluated as MSBuild evaluates its properties and items, for one configuration and platform: by default the ones
 	///OpenDental.sln builds the project with for the build lane's Debug|x86 (Debug|x86, or Debug|AnyCPU for WpfControlsOD and CryptoTests).
 	///What it models: the properties of the project file and of the files it imports from the repository (Directory.Build.props above the
-	///project, through Microsoft.Common.props, which the project imports itself or the common targets import for it; Directory.Build.targets;
+	///project, through Microsoft.Common.props, which the project imports itself or the common targets import for it; the file
+	///BeforeMicrosoftNETSdkTargets names, which Sdk.targets imports after the project's own properties (the repository's
+	///Directory.Build.Net.props, S3b-1: ImportBeforeMicrosoftNETSdkTargets); Directory.Build.targets;
 	///relative imports such as third-party\build\SourceBuild.props; the project's .user file; the project extension files of NuGet's restore,
 	///obj\Project.csproj.*.props and .*.targets, and the build files of packages they import, ReadPackageImport), with their conditions; the
 	///properties that MSBuild's and the SDK's own files compute for the projects of the repository, each at the point of the evaluation where
@@ -208,6 +210,21 @@ namespace ProjectFileTests {
 		}
 
 		public static ProjectFile Load(string path,string configuration,string platform) {
+			return Load(path,configuration,platform,null);
+		}
+
+		///<summary>The project file evaluated for the configuration and platform OpenDental.sln builds it with for Debug|x86 (Load(path)), with
+		///more global properties, as MSBuild's -p:Name=Value gives them: they win over every assignment of the files read, as the solution's do.
+		///S3b-1 of the .NET 10 move evaluates each project with TargetFramework net10.0-windows this way: what the project gets once its layer
+		///package of stage 3b deletes its own net48 line.</summary>
+		public static ProjectFile Load(string path,IDictionary<string,string> dictGlobalProperties) {
+			string configuration;
+			string platform;
+			GetSolutionConfiguration(Path.GetFullPath(path),"Debug","x86",out configuration,out platform);
+			return Load(path,configuration,platform,dictGlobalProperties);
+		}
+
+		public static ProjectFile Load(string path,string configuration,string platform,IDictionary<string,string> dictGlobalProperties) {
 			string fullPath=Path.GetFullPath(path);
 			if(!File.Exists(fullPath)) {
 				throw new FileNotFoundException("No project file at "+fullPath,fullPath);
@@ -227,6 +244,11 @@ namespace ProjectFileTests {
 				projectFile._dictGlobalProperties["SolutionName"]=Path.GetFileNameWithoutExtension(pathSln);
 				projectFile._dictGlobalProperties["SolutionExt"]=Path.GetExtension(pathSln);
 				projectFile._dictGlobalProperties["SolutionFileName"]=Path.GetFileName(pathSln);
+			}
+			if(dictGlobalProperties!=null) {
+				foreach(KeyValuePair<string,string> pair in dictGlobalProperties) {
+					projectFile._dictGlobalProperties[pair.Key]=pair.Value;
+				}
 			}
 			XDocument xDocument=XDocument.Load(fullPath);
 			projectFile.IsSdkStyle=IsSdkStyleDocument(xDocument);
@@ -254,6 +276,35 @@ namespace ProjectFileTests {
 				.ToList();
 		}
 
+		///<summary>GetSolutionFilterProjects without the projects of an SDK this reader does not model (GetUnmodelledSdk), which Load refuses: since
+		///S3b-6 of the .NET 10 move the Middle Tier server, OpenPmsDentalServer, a Microsoft.NET.Sdk.Web project. The tests that evaluate every
+		///project of the filter take this list; Net10SettingsTests checks the server from its file.</summary>
+		public static List<string> GetModelledSolutionFilterProjects(string pathSlnf) {
+			return GetSolutionFilterProjects(pathSlnf).Where(x => GetUnmodelledSdk(x)==null).ToList();
+		}
+
+		///<summary>The first SDK the project file names (Project Sdk="...", an Sdk element, Import Sdk="...") that is not Microsoft.NET.Sdk, the
+		///only one this reader models (CheckSdkName); null when there is none, a classic project included.</summary>
+		public static string GetUnmodelledSdk(string path) {
+			XElement xElementRoot=XDocument.Load(path).Root;
+			if(xElementRoot==null) {
+				return null;
+			}
+			List<string> listSdks=new List<string>();
+			listSdks.Add((string)xElementRoot.Attribute("Sdk"));
+			listSdks.AddRange(xElementRoot.Elements().Where(x => x.Name.LocalName=="Sdk").Select(x => (string)x.Attribute("Name")));
+			listSdks.AddRange(xElementRoot.Descendants().Where(x => x.Name.LocalName=="Import").Select(x => (string)x.Attribute("Sdk")));
+			foreach(string sdks in listSdks.Where(x => !string.IsNullOrWhiteSpace(x))) {
+				foreach(string sdk in sdks.Split(';').Select(x => x.Trim()).Where(x => x!="")) {
+					string name=sdk.Split('/')[0].Trim();
+					if(!name.Equals("Microsoft.NET.Sdk",StringComparison.OrdinalIgnoreCase)) {
+						return name;
+					}
+				}
+			}
+			return null;
+		}
+
 		private void Evaluate(XDocument xDocument) {
 			//Every value is kept as MSBuild keeps it, escaped (Escape, Unescape): the global properties and the reserved ones hold the escaped
 			//value.
@@ -276,6 +327,9 @@ namespace ProjectFileTests {
 			//environment variable VisualStudioVersion when there is one (Toolset.GenerateSubToolsetVersion; the property is set only when it is
 			//not set yet): not known then.
 			_dictProperties["MSBuildToolsVersion"]="Current";
+			//MSBuild's reserved OS (ReservedPropertyNames.osName): Windows_NT on Windows, whatever the environment variable OS holds. A .NET test
+			//project's restore output imports Microsoft.TestPlatform.TestHost's build\net8.0 props, whose Condition reads it (S3b-2b).
+			_dictProperties["OS"]="Windows_NT";
 			SetIfEmpty("VisualStudioVersion",VISUAL_STUDIO_VERSION);
 			//The machine's own: from the start. The toolset's and the SDK's are added where MSBuild's files set them (ApplyCommonTargetsProperties,
 			//ApplySdkBeforeCommonProperties): before that point a name nothing set is '', as MSBuild has it there.
@@ -1248,10 +1302,10 @@ namespace ProjectFileTests {
 		///(ApplySdkLanguageProperties); then, for a WPF or Windows Forms project, Microsoft.NET.Sdk.WindowsDesktop.targets with its defaults and
 		///Page removals.</summary>
 		private void ImportSdkTargets() {
-			//Sdk.targets line 13: a file of the project's choice first; lines 16-23: the cross-targeting targets instead of the rest when
-			//IsCrossTargetingBuild is 'true' (line 16 sets it for TargetFrameworks without a TargetFramework, which
-			//ApplySdkBeforeCommonProperties refuses; otherwise a file or an environment variable may set it).
-			ThrowIfImportHook("BeforeMicrosoftNETSdkTargets","Sdk.targets");
+			//Sdk.targets line 13: a file of the project's choice first (the repository's Directory.Build.Net.props since S3b-1); lines 16-23: the
+			//cross-targeting targets instead of the rest when IsCrossTargetingBuild is 'true' (line 16 sets it for TargetFrameworks without a
+			//TargetFramework, which ApplySdkBeforeCommonProperties refuses; otherwise a file or an environment variable may set it).
+			ImportBeforeMicrosoftNETSdkTargets();
 			if(!(GetValue("TargetFrameworks")!="" && GetValue("TargetFramework")=="") && IsValueIfKnown("IsCrossTargetingBuild","true")!=false) {
 				ThrowIfImportHook("IsCrossTargetingBuild","Sdk.targets");
 			}
@@ -1269,6 +1323,7 @@ namespace ProjectFileTests {
 			//The flag that packages with analyzers for several Roslyn versions read (System.Text.Json's and Microsoft.Extensions.Logging.Abstractions'
 			//build files): always true.
 			_dictProperties["SupportsRoslynComponentVersioning"]="true";
+			ApplySdkTargetsNetProperties();
 			//Microsoft.PackageDependencyResolution.targets lines 31-42. A name these lines read that is not known (the target framework,
 			//HasRuntimeOutput, EnableDynamicLoading: an environment variable no file set, or a value not known) makes it not known.
 			if(GetValue("CopyLocalLockFileAssemblies")=="") {
@@ -1343,6 +1398,63 @@ namespace ProjectFileTests {
 				SetIfEmpty("DefaultXamlRuntime","Wpf");
 			}
 			_listItemSteps.Add(new ItemStep { Builtin=STEP_SDK_TARGETS_ITEMS });
+		}
+
+		///<summary>What Microsoft.NET.Sdk.targets (SDK 10.0.115) and the files it imports compute for a .NET project at evaluation (S3b-1 of the
+		///.NET 10 move, from tools\Test-ProjectFileEvaluator.ps1 -TargetFramework net10.0-windows): DisableStandardFrameworkResolution from
+		///_IsNETCoreOrNETStandard (line 33) and, when it is 'true', Microsoft.NET.DisableStandardFrameworkResolution.targets (line 1374: NoStdLib
+		///true, FrameworkPathOverride and TargetFrameworkDirectory ''); GenerateRuntimeConfigurationFiles for a .NET project with runtime output,
+		///COM hosting or dynamic loading (line 37); GenerateResourceUsePreserializedResources from .NET Core 3.0 on (lines 131-133); and
+		///_NativeExecutableExtension .exe for a Windows runtime identifier a file names (Microsoft.NET.Sdk.Shared.targets line 33; the one the
+		///SDK infers for an exe stays not modelled). Each only when unset; a name these lines read that is not known leaves the value unset.</summary>
+		private void ApplySdkTargetsNetProperties() {
+			SetIfEmpty("DisableStandardFrameworkResolution",GetValue("_IsNETCoreOrNETStandard"));
+			bool? isNetCoreApp=IsValueIfKnown("TargetFrameworkIdentifier",".NETCoreApp");
+			bool? hasRuntimeConfig=isNetCoreApp & (IsValueIfKnown("HasRuntimeOutput","true") | IsValueIfKnown("EnableComHosting","true")
+				| IsValueIfKnown("EnableDynamicLoading","true"));
+			if(GetValue("GenerateRuntimeConfigurationFiles")=="" && hasRuntimeConfig==true) {
+				_dictProperties["GenerateRuntimeConfigurationFiles"]="true";
+			}
+			string versionText=GetValueIfKnown("_TargetFrameworkVersionWithoutV");
+			Version versionFramework;
+			if(isNetCoreApp==true && versionText!=null && Version.TryParse(versionText,out versionFramework) && versionFramework>=new Version(3,0)) {
+				SetIfEmpty("GenerateResourceUsePreserializedResources","true");
+			}
+			if(IsValueIfKnown("DisableStandardFrameworkResolution","true")==true) {
+				_dictProperties["NoStdLib"]="true";
+				_dictProperties["FrameworkPathOverride"]="";
+				_dictProperties["TargetFrameworkDirectory"]="";
+			}
+			string runtimeIdentifier=_dictProperties.ContainsKey("RuntimeIdentifier") ? GetValueIfKnown("RuntimeIdentifier") : null;
+			if(GetValue("_NativeExecutableExtension")=="" && runtimeIdentifier!=null && runtimeIdentifier.StartsWith("win",StringComparison.OrdinalIgnoreCase)) {
+				_dictProperties["_NativeExecutableExtension"]=".exe";
+			}
+		}
+
+		///<summary>Sdk.targets line 13 (SDK 10.0.115): &lt;Import Project="$(BeforeMicrosoftNETSdkTargets)" Condition="'$(BeforeMicrosoftNETSdkTargets)'
+		///!= ''"/&gt;, right after the project's own properties and before Microsoft.NET.Sdk.BeforeCommon.targets. The repository's
+		///Directory.Build.props names Directory.Build.Net.props there (S3b-1 of the .NET 10 move): the settings of a .NET 10 project, which depend
+		///on the project's target framework and output type. A file that a file this reader read names is read as MSBuild reads it, with a full
+		///path; a relative one (MSBuild resolves it from the folder of Sdk.targets, which this reader does not read) and a file that is not there
+		///(the import has no Exists condition: MSB4019) throw. A value from an environment variable, or one that is not known, throws as every
+		///import hook does (ThrowIfImportHook).</summary>
+		private void ImportBeforeMicrosoftNETSdkTargets() {
+			const string NAME="BeforeMicrosoftNETSdkTargets";
+			string value=GetValueIfKnown(NAME);
+			if(value==null && IsEnvironmentVariable(NAME)) {
+				ThrowIfImportHook(NAME,"Sdk.targets");
+			}
+			ThrowIfUnresolved(GetValue(NAME),Describe()+": $("+NAME+") (Sdk.targets)");
+			if(value=="") {
+				return;
+			}
+			if(!Path.IsPathRooted(value)) {
+				throw new NotSupportedException(Describe()+": a relative $("+NAME+") (Sdk.targets) is not modelled by ProjectFile: "+value);
+			}
+			if(!File.Exists(value)) {
+				throw new NotSupportedException(Describe()+": $("+NAME+") (Sdk.targets) names a file that is not there, which MSBuild refuses: "+value);
+			}
+			ReadImportedFile(Path.GetFullPath(value));
 		}
 
 		///<summary>The part of Microsoft.NET.Sdk.BeforeCommon.targets (SDK 10.0.115) that comes before the common targets: whether the project is
@@ -1543,6 +1655,34 @@ namespace ProjectFileTests {
 			else if(isBindingRedirected.Value) {
 				SetIfEmpty("AutoGenerateBindingRedirects","true");
 			}
+			//Lines 91-93 and 107-115 (S3b-1): _IsNETCoreOrNETStandard, and for such a project the .dll extension unless set, an exe too (the SDK's
+			//apphost is the .exe); a target framework identifier not known makes TargetExt not known.
+			bool? isNetCoreOrStandard=IsValueIfKnown("TargetFrameworkIdentifier",".NETCoreApp",".NETStandard");
+			if(GetValue("_IsNETCoreOrNETStandard")=="" && isNetCoreOrStandard==true) {
+				_dictProperties["_IsNETCoreOrNETStandard"]="true";
+			}
+			if(IsValueIfKnown("_IsNETCoreOrNETStandard","true")==true) {
+				SetIfEmpty("TargetExt",".dll");
+			}
+			else if(isNetCoreOrStandard==null && GetValue("TargetExt")=="") {
+				_dictProperties["TargetExt"]=NotKnown("TargetExt","Microsoft.NET.Sdk.BeforeCommon.targets","TargetFrameworkIdentifier");
+			}
+			//Microsoft.NET.RuntimeIdentifierInference.targets (S3b-1): for a .NET project with runtime output, SelfContained false unless set, and
+			//UseAppHost true from .NET Core 3.0 on unless set, for a runtime identifier a file names that has an apphost (Windows here) or none;
+			//a runtime identifier the SDK would infer or one not known leaves UseAppHost not modelled.
+			if(IsValueIfKnown("TargetFrameworkIdentifier",".NETCoreApp")==true && IsValueIfKnown("HasRuntimeOutput","true")==true) {
+				SetIfEmpty("SelfContained","false");
+				string runtimeIdentifier=_dictProperties.ContainsKey("RuntimeIdentifier") ? GetValueIfKnown("RuntimeIdentifier") : null;
+				string versionCore=GetValueIfKnown("_TargetFrameworkVersionWithoutV");
+				Version versionAppHost;
+				bool isAppHostVersion=versionCore!=null && Version.TryParse(versionCore,out versionAppHost) && versionAppHost>=new Version(3,0);
+				if(isAppHostVersion && runtimeIdentifier!=null && (runtimeIdentifier=="" || runtimeIdentifier.StartsWith("win",StringComparison.OrdinalIgnoreCase))) {
+					SetIfEmpty("UseAppHost","true");
+				}
+				else if(GetValue("UseAppHost")=="") {
+					_hashSetNotModelled.Add("UseAppHost");
+				}
+			}
 			//Lines 301-313: the XML documentation file.
 			if(GetValue("GenerateDocumentationFile")=="") {
 				_dictProperties["GenerateDocumentationFile"]=GetValue("DocumentationFile")=="" ? "false" : "true";
@@ -1665,6 +1805,61 @@ namespace ProjectFileTests {
 						: Escape(versionText.Split('.')[0]);
 				}
 			}
+		}
+
+		///<summary>[MSBuild]::IsTargetFrameworkCompatible(target, candidate): whether a project for target can use what is built for candidate,
+		///as NuGet's rules answer it, for the frameworks TryParseTargetFramework reads (S3b-2: the WebView2 package's build files ask it of every
+		///.NET 10 project that gets them). The same framework at the same or a lower version; .NET Standard from .NET Core 2.0 (up to 2.0) and
+		///3.0 (up to 2.1), and from .NET Framework 4.6.1 (up to 2.0); a candidate with a platform only for a target with the same platform at the
+		///same or a higher platform version. Null (not modelled, so the caller throws) for anything else, such as .NET Standard from a .NET
+		///Framework before 4.6.1 or a platform version that only the candidate names.</summary>
+		internal static bool? IsTargetFrameworkCompatible(string target,string candidate) {
+			if(!TryParseTargetFramework(target,out string frameworkTarget,out string versionTarget,out string platformTarget,out string platformVersionTarget)
+				|| !TryParseTargetFramework(candidate,out string frameworkCandidate,out string versionCandidate,out string platformCandidate,
+					out string platformVersionCandidate))
+			{
+				return null;
+			}
+			Version versionT=Version.Parse(versionTarget);
+			Version versionC=Version.Parse(versionCandidate);
+			if(platformCandidate!="") {
+				if(!platformCandidate.Equals(platformTarget,StringComparison.OrdinalIgnoreCase)) {
+					return false;
+				}
+				if(platformVersionCandidate!="") {
+					if(platformVersionTarget=="") {
+						return null;
+					}
+					if(Version.Parse(NormalizeVersionText(platformVersionTarget))<Version.Parse(NormalizeVersionText(platformVersionCandidate))) {
+						return false;
+					}
+				}
+			}
+			if(frameworkTarget==frameworkCandidate) {
+				return versionT>=versionC;
+			}
+			if(frameworkCandidate==".NETStandard") {
+				if(frameworkTarget==".NETCoreApp") {
+					if(versionT>=new Version(3,0)) {
+						return versionC<=new Version(2,1);
+					}
+					if(versionT>=new Version(2,0)) {
+						return versionC<=new Version(2,0);
+					}
+					return null;
+				}
+				if(frameworkTarget==".NETFramework" && versionT>=new Version(4,6,1)) {
+					return versionC<=new Version(2,0);
+				}
+				return null;
+			}
+			//.NET Framework and .NET (Core) never use each other's builds, and .NET Standard uses neither.
+			return false;
+		}
+
+		///<summary>A platform version as Version reads it: "7" is "7.0".</summary>
+		private static string NormalizeVersionText(string text) {
+			return text.Contains(".") ? text : text+".0";
 		}
 
 		///<summary>[MSBuild]::GetTargetFrameworkIdentifier, GetTargetFrameworkVersion(..., 2), GetTargetPlatformIdentifier and
@@ -2515,6 +2710,13 @@ namespace ProjectFileTests {
 							}
 							string path=FindFileAbove(listArguments[1],Path.GetFullPath(Path.Combine(Folder,listArguments[0])));
 							return path==null ? "" : Path.GetDirectoryName(path);
+						}
+					case "istargetframeworkcompatible": {
+							if(listArguments.Count!=2) {
+								return null;
+							}
+							bool? isCompatible=IsTargetFrameworkCompatible(listArguments[0],listArguments[1]);
+							return isCompatible==null ? null : (isCompatible.Value ? "True" : "False");
 						}
 					default:
 						return null;

@@ -53,8 +53,8 @@ namespace OpenPmsDental{
 
 		private void FormPayPlanCharge_Load(object sender, System.EventArgs e) {
 			textDate.Text=PayPlanChargeCur.ChargeDate.ToShortDateString();
-			textPrincipal.Text=PayPlanChargeCur.Principal.ToString("n");
-			textInterest.Text=PayPlanChargeCur.Interest.ToString("n");
+			textPrincipal.Text=PayPlanChargeCur.Principal.ToStringNetFx("n");
+			textInterest.Text=PayPlanChargeCur.Interest.ToStringNetFx("n");
 			textNote.Text=PayPlanChargeCur.Note;
 			if(PrefC.HasClinicsEnabled) {
 				comboBoxClinic.ClinicNumSelected=PayPlanChargeCur.ClinicNum;
@@ -95,7 +95,7 @@ namespace OpenPmsDental{
 						strPlanType="";
 					}
 					string logText=strPlanType+Lan.g(this,"Payment Plan Charge with amount due of")
-						+" " + PayPlanChargeCur.Principal.ToString("C") + " "+ Lan.g(this,"was viewed.");
+						+" " + PayPlanChargeCur.Principal.ToStringNetFx("C") + " "+ Lan.g(this,"was viewed.");
 					SecurityLogs.MakeLogEntry(EnumPermType.PayPlanChargeDateEdit,_payPlan.PatNum,logText,_payPlan.PayPlanNum,DateTime.MinValue);
 				}
 				else {//User does not have the PayPlanChargeDateEdit permission
@@ -157,7 +157,7 @@ namespace OpenPmsDental{
 				//Sometimes a rounding error can happen with small charges, so this rounds the remaining production to the nearest cent.
 				remainingProd=Math.Round(remainingProd-amountCharged,digits:2,MidpointRounding.AwayFromZero);
 				if(principal > remainingProd) {
-					string msgString=Lans.g(this,"Principal cannot be greater than the remaining production value of")+ " " + remainingProd.ToString("c") + ".";
+					string msgString=Lans.g(this,"Principal cannot be greater than the remaining production value of")+ " " + remainingProd.ToStringNetFx("c") + ".";
 					MsgBox.Show(msgString);
 					return;
 				}

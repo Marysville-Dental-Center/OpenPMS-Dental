@@ -487,7 +487,7 @@ namespace OpenPmsDental {
 						return;
 					}
 					string logText="Procedure: "+procCode+", "
-						+"Fee: "+fee.Amount.ToString("c")+", "
+						+"Fee: "+fee.Amount.ToStringNetFx("c")+", "
 						+"Fee Schedule: "+FeeScheds.GetDescription(fee.FeeSched)
 						+Fees.GetDateEffectiveLogText(fee.DateEffective);
 					if(PrefC.HasClinicsEnabled) {
@@ -501,7 +501,7 @@ namespace OpenPmsDental {
 					if(provNum!=0) {
 						logText+=", for provider: "+Providers.GetAbbr(provNum);
 					}
-					logText+=". Fee increased by "+((float)percent/100.0f).ToString("p")+" using the increase "
+					logText+=". Fee increased by "+((float)percent/100.0f).ToStringNetFx("p")+" using the increase "
 						+"button in the Fee Tools window.";
 					SecurityLogs.MakeLogEntry(EnumPermType.ProcFeeEdit,0,logText,fee.CodeNum,DateTime.MinValue);
 					SecurityLogs.MakeLogEntry(EnumPermType.LogFeeEdit,0,"Fee Updated",fee.FeeNum,fee.SecDateTEdit);

@@ -558,9 +558,11 @@ namespace WindowChecksTests.InProc {
 						if(dropDown is ContextMenuStrip contextMenuStrip) {
 							list.AddRange(contextMenuStrip.Items.OfType<ToolStripItem>().Where(x => x.Available).Select(x => control.Name+": "+x.Text.Replace("&","")));
 						}
+#pragma warning disable WFDEV006 //the .NET Framework menu types, kept by .NET 10 for binary compatibility only: read if a control had one (S3b-5)
 						else if(dropDown is ContextMenu contextMenu) {
 							list.AddRange(contextMenu.MenuItems.Cast<MenuItem>().Where(x => x.Visible).Select(x => control.Name+": "+x.Text.Replace("&","")));
 						}
+#pragma warning restore WFDEV006
 					}
 					return list;
 				});

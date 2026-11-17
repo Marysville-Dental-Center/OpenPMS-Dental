@@ -531,8 +531,9 @@ namespace CodeBase {
 				targetObject=dict;
 			}
 			else {
-				// Create an empty object and ignore its constructor.
-				targetObject=FormatterServices.GetUninitializedObject(targetType);
+				// Create an empty object and ignore its constructor. RuntimeHelpers.GetUninitializedObject is what FormatterServices' method
+				// (obsolete on .NET, SYSLIB0050) calls.
+				targetObject=System.Runtime.CompilerServices.RuntimeHelpers.GetUninitializedObject(targetType);
 				Type sourceType=sourceObject.GetType();
 				#region Copy Properties
 				foreach(PropertyInfo property in sourceType.GetProperties(binding).Where(x => x.CanWrite && x.CanRead)) {

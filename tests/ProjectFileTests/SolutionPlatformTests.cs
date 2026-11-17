@@ -53,7 +53,7 @@ namespace ProjectFileTests {
 			string textSln=File.ReadAllText(Path.Combine(root,"OpenDental.sln"));
 			List<string> listProblems=new List<string>();
 			int countAnyCpu=0;
-			foreach(string path in ProjectFile.GetSolutionFilterProjects(Path.Combine(root,"OpenDental.Local.slnf"))) {
+			foreach(string path in ProjectFile.GetModelledSolutionFilterProjects(Path.Combine(root,"OpenDental.Local.slnf"))) {
 				//The mapping read straight from the solution, as tools\Get-ProjectBaseline.ps1 reads it.
 				string relative=path.Substring(root.Length+1);
 				Match matchProject=Regex.Match(textSln,"Project\\(\"\\{[^}]+\\}\"\\) = \"[^\"]+\", \""+Regex.Escape(relative)+"\", \"(\\{[^}]+\\})\"",RegexOptions.IgnoreCase);
@@ -90,7 +90,8 @@ namespace ProjectFileTests {
 			Assert.AreEqual(@"bin\Debug\",projectFileCrypto.GetProperty("OutputPath"));
 			Assert.AreEqual(@"obj\Debug\",projectFileCrypto.GetProperty("IntermediateOutputPath"));
 			Assert.AreEqual(Path.Combine(root,"tests","CryptoTests","bin","Debug","CryptoTests.dll"),projectFileCrypto.GetProperty("TargetPath"));
-			Assert.AreEqual("x86",projectFileCrypto.GetProperty("PlatformTarget"),"The repository's Directory.Build.props', for the AnyCPU platform too.");
+			Assert.AreEqual("x64",projectFileCrypto.GetProperty("PlatformTarget"),
+				"Directory.Build.Net.props' for a .NET 10 project (CryptoTests since S3b-2), for the AnyCPU platform too.");
 			//Read as x86 the folder is the same: an SDK-style project since S1-6, it gets the flat output folder for every platform (the classic
 			//file's group for a platform other than AnyCPU gave bin\x86\Debug\, which the build never used).
 			Assert.AreEqual(@"bin\Debug\",ProjectFile.Load(projectFileCrypto.FullPath,"Debug","x86").GetProperty("OutputPath"));

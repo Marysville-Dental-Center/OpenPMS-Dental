@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using ImagingDeviceManager.Capture;
 using ImagingDeviceManager.Imaging;
+using CodeBase;
 
 namespace ImagingDeviceManager.Journal {
 	///<summary>The image file of a journal or quarantine entry: its bytes, its extension and what the sidecar says about it. A DIB is written
@@ -65,8 +66,8 @@ namespace ImagingDeviceManager.Journal {
 				new SidecarField("Width",Width.ToString(CultureInfo.InvariantCulture)),
 				new SidecarField("Height",Height.ToString(CultureInfo.InvariantCulture)),
 				new SidecarField("BitsPerPixel",BitsPerPixel.ToString(CultureInfo.InvariantCulture)),
-				new SidecarField("XDpi",XDpi.ToString("0.###",CultureInfo.InvariantCulture)),
-				new SidecarField("YDpi",YDpi.ToString("0.###",CultureInfo.InvariantCulture)),
+				new SidecarField("XDpi",XDpi.ToStringNetFx("0.###",CultureInfo.InvariantCulture)),
+				new SidecarField("YDpi",YDpi.ToStringNetFx("0.###",CultureInfo.InvariantCulture)),
 				new SidecarField("Sha256",sha256),
 			};
 		}

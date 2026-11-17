@@ -31,7 +31,9 @@ namespace S3aM1Tests {
 				GridOD gridOD=(GridOD)Priv.Get(form,grid);
 				Assert.AreSame(Priv.Get(form,menu),gridOD.ContextMenuStrip,grid);
 				Assert.IsTrue(gridOD.DoAddGridItemsToContextMenuStrip,grid);
+#pragma warning disable WFDEV006 //the .NET Framework menu types, kept by .NET 10 for binary compatibility only: checked for absence (S3b-5)
 				Assert.IsNull(gridOD.ContextMenu,grid+": no WinForms ContextMenu.");
+#pragma warning restore WFDEV006
 				Assert.IsTrue(M2Support.GetOpeningHandlerNames(gridOD.ContextMenuStrip).Contains("ContextMenuStrip_Opening"),grid+": the grid's Opening.");
 			}
 		}
@@ -97,7 +99,9 @@ namespace S3aM1Tests {
 						const string PROBLEM="Convert \"Other\" problem... ->menuItemConvertOtherProblem_Click";
 						foreach((GridOD grid,string item) in new[] { (gridAllergies,ALLERGY),(gridDiseases,PROBLEM) }) {
 							Assert.IsTrue(grid.DoAddGridItemsToContextMenuStrip,grid.Name);
+#pragma warning disable WFDEV006 //the .NET Framework menu types, kept by .NET 10 for binary compatibility only: checked for absence (S3b-5)
 							Assert.IsNull(grid.ContextMenu,grid.Name+": no WinForms ContextMenu.");
+#pragma warning restore WFDEV006
 							CollectionAssert.AreEqual(new[] { item },M2Support.Describe(grid.ContextMenuStrip),grid.Name+": the item, visible until the first opening.");
 							List<string> listOpening=M2Support.GetOpeningHandlerNames(grid.ContextMenuStrip);
 							Assert.AreEqual(2,listOpening.Count,grid.Name+": "+string.Join(", ",listOpening));
@@ -162,7 +166,9 @@ namespace S3aM1Tests {
 		public void ODcodeBox_Menu_TheSameItemsAndShortcuts() {
 			M2Support.RunSta(() => {
 				using(ODcodeBox oDcodeBox=new ODcodeBox(true)) {
+#pragma warning disable WFDEV006 //the .NET Framework menu types, kept by .NET 10 for binary compatibility only: checked for absence (S3b-5)
 					Assert.IsNull(oDcodeBox.ContextMenu,"No WinForms ContextMenu.");
+#pragma warning restore WFDEV006
 					//The WinForms Shortcut values CtrlX ... CtrlShiftR, as Keys (KeysConverter writes them as Describe does).
 					KeysConverter keysConverter=new KeysConverter();
 					string ctrlShiftC=keysConverter.ConvertToInvariantString(Keys.Control|Keys.Shift|Keys.C);

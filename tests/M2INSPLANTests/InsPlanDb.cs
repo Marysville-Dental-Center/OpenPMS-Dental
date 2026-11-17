@@ -22,6 +22,7 @@ namespace M2INSPLANTests {
 
 		[AssemblyInitialize]
 		public static void AssemblyInitialize(TestContext testContext) {
+			OpenPmsDentalTests.TestCodePages.Register();//the code pages first, as the program registers them (tests\Shared\TestCodePages.cs)
 			//As ProgramEntry does before any window exists: labels draw with GDI, as in the designer, so the window tests and snapshots see the
 			//program's text widths (the default, GDI+, is wider and wraps labels the program shows on one line).
 			try {

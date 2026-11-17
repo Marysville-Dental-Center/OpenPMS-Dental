@@ -706,7 +706,7 @@ namespace OpenPmsDental.UI{
 				g.DrawPath(pen,graphicsPath);
 			}
 			graphicsPath.Dispose();
-			TimeSpan timeSpan=TimeSpan.FromMinutes(Pattern.Length*5);
+			TimeSpan timeSpan=CodeBase.ODTimeSpan.FromMinutes(Pattern.Length*5);
 			string strTime=timeSpan.ToString("h':'mm");
 			using Font fontTime=new Font(FontFamily.GenericSansSerif,LayoutManager.ScaleFontODZoom(8.5f));
 			float widthStr=g.MeasureString(strTime,fontTime).Width;//measures smaller unscaled string

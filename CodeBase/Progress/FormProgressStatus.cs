@@ -75,13 +75,13 @@ namespace CodeBase {
 		private string GetElapsedTime(DateTime start, DateTime end) {
 			TimeSpan timeElapsed=new TimeSpan(end.Ticks-start.Ticks);
 			if(timeElapsed.TotalMinutes>2) {
-				return "Elapsed Time: "+timeElapsed.TotalMinutes+" minutes";
+				return "Elapsed Time: "+timeElapsed.TotalMinutes.ToStringNetFx()+" minutes";
 			}
 			else if(timeElapsed.TotalSeconds>2) {
-				return "Elapsed Time: "+timeElapsed.TotalSeconds+" seconds";
+				return "Elapsed Time: "+timeElapsed.TotalSeconds.ToStringNetFx()+" seconds";
 			}
 			else {
-				return "Elapsed Time: "+timeElapsed.TotalMilliseconds+" milliseconds";
+				return "Elapsed Time: "+timeElapsed.TotalMilliseconds.ToStringNetFx()+" milliseconds";
 			}
 		}
 

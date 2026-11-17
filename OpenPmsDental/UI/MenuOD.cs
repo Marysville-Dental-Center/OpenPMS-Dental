@@ -166,6 +166,18 @@ Boilerplate for the new WpfControls.UI.Menu is over in Menu.xaml.cs
 			base.OnFontChanged(e);
 			_menuStripOD.Font=Font;
 		}
+
+		///<summary>The strip takes this control's font once it is on its form, also when that font equals the font it had before. On .NET Framework
+		///the move onto the form always raised OnFontChanged above (Control.DefaultFont, the system's font, never equalled a form's new
+		///Font("Microsoft Sans Serif",8.25f): another character set), which handed the font to the strip. On .NET 10, Application.SetDefaultFont
+		///makes them equal, no OnFontChanged comes, and the strip kept ToolStrip's own default, Segoe UI 9: every main menu drew wider in another
+		///font (the window checks' pairs, WINCHK-5).</summary>
+		protected override void OnParentChanged(EventArgs e){
+			base.OnParentChanged(e);
+			if(!_menuStripOD.Font.Equals(Font)){
+				_menuStripOD.Font=Font;
+			}
+		}
 		#endregion Methods - Event Handlers
 	}
 

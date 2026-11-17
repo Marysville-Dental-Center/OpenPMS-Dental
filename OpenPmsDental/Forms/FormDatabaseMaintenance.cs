@@ -551,7 +551,7 @@ namespace OpenPmsDental {
 			}
 			int countTPs=listProceduresMissingActiveTPs.Select(x => x.PatNum).Distinct().ToList().Count;
 			int countTPsMissing=listProceduresMissingActiveTPs.Count;
-			TimeSpan timeSpanEstRuntime=TimeSpan.FromSeconds((countTPs+countTPsMissing)*0.001d);
+			TimeSpan timeSpanEstRuntime=CodeBase.ODTimeSpan.FromSeconds((countTPs+countTPsMissing)*0.001d);
 			//the factor 0.001 was determined by running tests on a large db
 			//212631 TPAs and 30000 TPs were inserted in 225 seconds
 			//225/(212631+30000)=0.0009273341 seconds per inserted row (rounded up to 0.001 seconds)
@@ -867,13 +867,13 @@ namespace OpenPmsDental {
 			}
 			else {//Display warning message if table checks are estimated to take a long time
 				long databaseSize=MiscData.GetDatabaseSize();
-				TimeSpan totalTime=TimeSpan.FromSeconds((0.00000008d)*databaseSize);
+				TimeSpan totalTime=CodeBase.ODTimeSpan.FromSeconds((0.00000008d)*databaseSize);
 				string strTotalTime="";
 				if (totalTime.TotalMinutes > 1) {
-					strTotalTime += totalTime.TotalMinutes.ToString("0") + " minutes";
+					strTotalTime += totalTime.TotalMinutes.ToStringNetFx("0") + " minutes";
 				}
 				else {
-					strTotalTime += totalTime.TotalSeconds.ToString("0") + " seconds";
+					strTotalTime += totalTime.TotalSeconds.ToStringNetFx("0") + " seconds";
 				}
 				string warningMessage="CHECK TABLES will be run first.  This will take an estimated "+strTotalTime+" and may limit users from accessing Open PMS - Dental while this action runs. Would you like to continue?";
 				//In binary 6442450944 bytes is 6GBs.

@@ -245,7 +245,7 @@ namespace OpenPmsDental{
 			else {
 				_clockEvent.AdjustIsOverridden=true;
 				try {
-					_clockEvent.Adjust=TimeSpan.FromHours(Double.Parse(textAdjust.Text));
+					_clockEvent.Adjust=CodeBase.ODTimeSpan.FromHours(Double.Parse(textAdjust.Text));
 				}
 				catch {
 					return;
@@ -261,7 +261,7 @@ namespace OpenPmsDental{
 			else {
 				//ClockEventCur.OTimeHours=PIn.Time(textOTimeHours.Text);
 				try {
-					_clockEvent.OTimeHours=TimeSpan.FromHours(Double.Parse(textOTimeHours.Text));
+					_clockEvent.OTimeHours=CodeBase.ODTimeSpan.FromHours(Double.Parse(textOTimeHours.Text));
 				}
 				catch {
 					return;
@@ -280,7 +280,7 @@ namespace OpenPmsDental{
 						_clockEvent.Rate2Hours=ClockEvents.ParseHours(textRate2Hours.Text);
 					}
 					else {
-						_clockEvent.Rate2Hours=TimeSpan.FromHours(Double.Parse(textRate2Hours.Text));
+						_clockEvent.Rate2Hours=CodeBase.ODTimeSpan.FromHours(Double.Parse(textRate2Hours.Text));
 					}
 				}
 				catch {
@@ -305,7 +305,7 @@ namespace OpenPmsDental{
 						_clockEvent.Rate3Hours=ClockEvents.ParseHours(textRate3Hours.Text);
 					}
 					else {
-						_clockEvent.Rate3Hours=TimeSpan.FromHours(Double.Parse(textRate3Hours.Text));
+						_clockEvent.Rate3Hours=CodeBase.ODTimeSpan.FromHours(Double.Parse(textRate3Hours.Text));
 					}
 				}
 				catch {
@@ -447,7 +447,7 @@ namespace OpenPmsDental{
 							timeSpanOvertime=TimeSpan.Parse(textOTimeHours.Text);
 						}
 						else {
-							timeSpanOvertime=TimeSpan.FromHours(Double.Parse(textOTimeHours.Text));
+							timeSpanOvertime=CodeBase.ODTimeSpan.FromHours(Double.Parse(textOTimeHours.Text));
 						}
 					}
 					catch {
@@ -465,7 +465,7 @@ namespace OpenPmsDental{
 							timeSpanAdjust=TimeSpan.Parse(textAdjust.Text);
 						}
 						else {
-							timeSpanAdjust=TimeSpan.FromHours(Double.Parse(textAdjust.Text));
+							timeSpanAdjust=CodeBase.ODTimeSpan.FromHours(Double.Parse(textAdjust.Text));
 						}
 					}
 					catch {

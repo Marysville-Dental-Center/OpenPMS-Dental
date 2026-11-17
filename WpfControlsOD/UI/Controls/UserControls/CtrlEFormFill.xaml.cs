@@ -2982,14 +2982,14 @@ namespace OpenPmsDental {
 			if(_actionTimer!=action) {//This will prevent the timer from stoping when the mouse is still moving outside of the bounds.
 				action?.Invoke();//Immediately scroll or change the page.
 				_dispatcherTimer.Stop();//Stop any previous timer
-				_dispatcherTimer.Interval=TimeSpan.FromMilliseconds(interval);//Set the intervals
+				_dispatcherTimer.Interval=CodeBase.ODTimeSpan.FromMilliseconds(interval);//Set the intervals
 				_actionTimer=action;
 				_dispatcherTimer.Start();
 			}
-			if(_dispatcherTimer.Interval!=TimeSpan.FromMilliseconds(interval)) {
+			if(_dispatcherTimer.Interval!=CodeBase.ODTimeSpan.FromMilliseconds(interval)) {
 				//Speed up or slow down the interval speed. This is dependent on the mouse Y value from the mouseMove method. 
 				_dispatcherTimer.Stop();
-				_dispatcherTimer.Interval=TimeSpan.FromMilliseconds(interval);
+				_dispatcherTimer.Interval=CodeBase.ODTimeSpan.FromMilliseconds(interval);
 				_dispatcherTimer.Start();
 			}
 		}

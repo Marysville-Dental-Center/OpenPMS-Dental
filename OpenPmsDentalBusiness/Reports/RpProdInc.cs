@@ -5,6 +5,7 @@ using System.Data;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using CodeBase;
 
 namespace OpenPmsDentalBusiness {
 	public class RpProdInc {
@@ -150,7 +151,7 @@ namespace OpenPmsDentalBusiness {
 				row["Adjust"]=0;
 				row["Writeoff Est"]=0;
 				double adjust=PIn.Double(tableWriteOffAdjustments.Rows[i]["WriteOffEst"].ToString())+PIn.Double(tableWriteOffAdjustments.Rows[i]["WriteOff"].ToString());
-				row["Writeoff Adj"]=adjust;
+				row["Writeoff Adj"]=adjust.ToStringNetFx();
 				row["Pt Income"]=0;
 				row["Ins Income"]=0;
 				row["ClinicSplit"]=hasBreakdown ? tableWriteOffAdjustments.Rows[i]["Clinic"].ToString() : "";

@@ -5,6 +5,11 @@
        moved out of the legacy UnitTests project (package S0-T of the .NET 10 plan). The database tests use scratch databases named test_libt1_*
        and s0t_* on the local MariaDB and are inconclusive without it. No test reaches the internet. Every .cs file under this folder is
        compiled. -->
+  <PropertyGroup>
+    <!-- .NET 10 (S3b-5 of docs/specs/net10-plan.md): Windows Forms from the Windows Desktop framework, in place of the
+         .NET Framework assembly references; it also keeps the Windows Desktop packages out of the restore (S3b-3). -->
+    <UseWindowsForms>true</UseWindowsForms>
+  </PropertyGroup>
   <ItemGroup>
     <!-- BouncyCastle (the SFTP tests generate host keys with it; SSH.NET and MimeKit use it themselves), MailKit, MimeKit, Newtonsoft.Json
          and SSH.NET come as packages through the projects below. -->
@@ -15,8 +20,6 @@
     <Reference Include="Health.Direct.Common">
       <HintPath>..\..\Required dlls\Health.Direct.Common.dll</HintPath>
     </Reference>
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Security" />
     <!-- Reads the references of built assemblies without loading them (S3a-8 of the .NET 10 move: .NET has no reflection-only load). The
          NuGet package, from the offline package folder (nuget.config), at the version of Directory.Packages.props. -->
     <PackageReference Include="Mono.Cecil" />

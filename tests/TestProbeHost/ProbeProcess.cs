@@ -50,6 +50,13 @@ namespace TestProbeHost {
 			_timeSpanTimeout=timeSpanTimeout;
 		}
 
+		///<summary>The child's process id, for a test that checks the process is gone after Dispose.</summary>
+		public int ProcessId {
+			get {
+				return _process.Id;
+			}
+		}
+
 		///<summary>What the child wrote to standard error (its console output included), for messages.</summary>
 		public string ErrorOutput {
 			get {
@@ -69,13 +76,41 @@ namespace TestProbeHost {
 			string pathConfig=pathExe+".config";
 			ProcessStartInfo processStartInfo=new ProcessStartInfo(pathExe,QuoteArgument(typeHandler.Assembly.Location)+" "
 				+QuoteArgument(typeHandler.FullName));
+			processStartInfo.WorkingDirectory=folderBase;
+			return StartServing(processStartInfo,pathExe,pathConfig,timeSpanTimeout);
+		}
+
+		///<summary>The environment variable that names the startup hooks the .NET host loads before Main (a list of assembly files).</summary>
+		public const string VARIABLE_STARTUP_HOOKS="DOTNET_STARTUP_HOOKS";
+		///<summary>The environment variable StartupHook reads: "&lt;assembly file&gt;|&lt;type name&gt;" of the handler it serves.</summary>
+		public const string VARIABLE_HANDLER="TESTPROBEHOST_STARTUP_HANDLER";
+
+		///<summary>Starts a real .NET program from its own output folder (pathProgramExe, its apphost; no argument, its folder as the working
+		///directory) with this assembly as its startup hook (StartupHook, WINCHK-5), which serves typeHandler's Handle for each Call inside the
+		///program's process before its Main runs, as Start's copy of the host does; Main never runs. The process is the program's own: its folder,
+		///its runtime (a self-contained program's own), its .runtimeconfig.json, .deps.json and .dll.config, its assembly as the entry assembly.
+		///Nothing is copied into the folder and Dispose deletes nothing. The program must allow startup hooks (System.StartupHookProvider.IsSupported,
+		///true unless its runtimeconfig says otherwise). Each wait for the child, its start included, ends after timeSpanTimeout.</summary>
+		public static ProbeProcess StartInProgram(string pathProgramExe,Type typeHandler,TimeSpan timeSpanTimeout) {
+			if(!File.Exists(pathProgramExe)) {
+				throw new FileNotFoundException("The program is not built.",pathProgramExe);
+			}
+			ProcessStartInfo processStartInfo=new ProcessStartInfo(pathProgramExe,"");
+			processStartInfo.WorkingDirectory=Path.GetDirectoryName(pathProgramExe);
+			processStartInfo.Environment[VARIABLE_STARTUP_HOOKS]=typeof(ProbeProcess).Assembly.Location;
+			processStartInfo.Environment[VARIABLE_HANDLER]=typeHandler.Assembly.Location+"|"+typeHandler.FullName;
+			return StartServing(processStartInfo,null,null,timeSpanTimeout);
+		}
+
+		///<summary>Starts the process with redirected standard streams and waits for its READY. pathExe and pathConfig are the copy of the host and
+		///its config, deleted when the start fails and by Dispose; null when nothing was copied.</summary>
+		private static ProbeProcess StartServing(ProcessStartInfo processStartInfo,string pathExe,string pathConfig,TimeSpan timeSpanTimeout) {
 			processStartInfo.UseShellExecute=false;//redirected standard streams
 			processStartInfo.CreateNoWindow=true;
 			processStartInfo.RedirectStandardInput=true;
 			processStartInfo.RedirectStandardOutput=true;
 			processStartInfo.RedirectStandardError=true;
 			processStartInfo.StandardOutputEncoding=Encoding.ASCII;//ProbeText lines are ASCII
-			processStartInfo.WorkingDirectory=folderBase;
 			Process process;
 			try {
 				process=Process.Start(processStartInfo);
@@ -205,11 +240,22 @@ namespace TestProbeHost {
 		public static ProbeRunResult RunOnce(string folderBase,string configText,Type typeEntry,string[] arrayArgs,TimeSpan timeSpanTimeout,
 			TimeSpan timeSpanOutputEnd)
 		{
+			return RunOnce(folderBase,configText,typeEntry,arrayArgs,timeSpanTimeout,timeSpanOutputEnd,false);
+		}
+
+		///<summary>RunOnce; with isCodePagesLeftOut the host does not register the code pages before the entry method runs (Program.NO_CODE_PAGES),
+		///so the process has .NET's built-in encodings alone, as the program's Main has at its start.</summary>
+		public static ProbeRunResult RunOnce(string folderBase,string configText,Type typeEntry,string[] arrayArgs,TimeSpan timeSpanTimeout,
+			TimeSpan timeSpanOutputEnd,bool isCodePagesLeftOut)
+		{
 			string pathExe=CopyHost(folderBase,configText);
 			string pathConfig=pathExe+".config";
 			try {
-				string arguments=JoinArguments(new[] { Program.RUN_ONCE,typeEntry.Assembly.Location,typeEntry.FullName }.Concat(arrayArgs));
-				ProcessStartInfo processStartInfo=new ProcessStartInfo(pathExe,arguments);
+				IEnumerable<string> arguments=new[] { Program.RUN_ONCE,typeEntry.Assembly.Location,typeEntry.FullName }.Concat(arrayArgs);
+				if(isCodePagesLeftOut) {
+					arguments=new[] { Program.NO_CODE_PAGES }.Concat(arguments);
+				}
+				ProcessStartInfo processStartInfo=new ProcessStartInfo(pathExe,JoinArguments(arguments));
 				processStartInfo.UseShellExecute=false;//redirected standard streams
 				processStartInfo.CreateNoWindow=true;
 				processStartInfo.RedirectStandardOutput=true;
@@ -283,8 +329,11 @@ namespace TestProbeHost {
 		///first (DeleteStaleCopies).</summary>
 		private static string CopyHost(string folderBase,string configText) {
 			DeleteStaleCopies(folderBase);
-			string pathHost=typeof(ProbeProcess).Assembly.Location;//TestProbeHost.exe, next to the test assembly that references it
+			//TestProbeHost.exe, next to the test assembly that references it. On .NET the assembly is TestProbeHost.dll and the exe beside it is its
+			//apphost, which starts TestProbeHost.dll with TestProbeHost.runtimeconfig.json from its own folder whatever the copy is named (S3b-6).
+			string pathHost=Path.ChangeExtension(typeof(ProbeProcess).Assembly.Location,".exe");
 			string pathExe=Path.Combine(folderBase,COPY_PREFIX+Guid.NewGuid().ToString("N").Substring(0,COPY_HEX_LENGTH)+".exe");
+			CopyHostFiles(Path.GetDirectoryName(pathHost),folderBase);
 			File.Copy(pathHost,pathExe);
 			//File.Copy keeps the source's last write time; the creation time says when this copy was made, which DeleteStaleCopies reads.
 			File.SetCreationTimeUtc(pathExe,DateTime.UtcNow);
@@ -292,6 +341,29 @@ namespace TestProbeHost {
 				File.WriteAllText(pathExe+".config",configText,new UTF8Encoding(false));
 			}
 			return pathExe;
+		}
+
+		///<summary>The files the apphost needs beside it, which a folder other than the host's own does not have (S3b-5, S3b-6's handoff): the
+		///host's assembly TestProbeHost.dll, which the apphost starts whatever its copy is named, with TestProbeHost.runtimeconfig.json (the
+		///frameworks) and TestProbeHost.deps.json. Copied when missing or different (Helper32Tests' helper folder, the probe folders of
+		///VendorDirectTests and ReleaseFlowTests); left there afterwards, as another probe may run from the same folder. On .NET Framework the copy
+		///of the exe was enough, and its .exe.config the probe's config: on .NET a config's binding redirects mean nothing, so a caller's config
+		///text only lands as a file beside the copy.</summary>
+		private static void CopyHostFiles(string folderHost,string folderBase) {
+			if(string.Equals(Path.GetFullPath(folderHost).TrimEnd('\\'),Path.GetFullPath(folderBase).TrimEnd('\\'),StringComparison.OrdinalIgnoreCase)) {
+				return;
+			}
+			foreach(string fileName in new[] { "TestProbeHost.dll","TestProbeHost.runtimeconfig.json","TestProbeHost.deps.json" }) {
+				string pathSource=Path.Combine(folderHost,fileName);
+				string pathTarget=Path.Combine(folderBase,fileName);
+				if(!File.Exists(pathSource)) {
+					throw new FileNotFoundException("TestProbeHost's "+fileName+" is not beside it.",pathSource);
+				}
+				if(File.Exists(pathTarget) && File.ReadAllBytes(pathTarget).SequenceEqual(File.ReadAllBytes(pathSource))) {
+					continue;
+				}
+				File.Copy(pathSource,pathTarget,true);
+			}
 		}
 
 		private const string COPY_PREFIX="TestProbeHost-";

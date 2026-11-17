@@ -1342,7 +1342,7 @@ namespace OpenPmsDentalBusiness {
 				//Warn the user that insurance overpayment has been detected and provide as much detail as possible so that they can go investigate and manually fix the problem.
 				accountEntryInsProc.WarningMsg.AppendLine($"ProcNum #{accountEntryInsProc.ProcNum} for PatNum #{accountEntryInsProc.PatNum} has ignored insurance overpayment:");
 				accountEntryInsProc.WarningMsg.AppendLine($"  ^{accountEntryInsProc.DescriptionForGrid} on {accountEntryInsProc.Date.ToShortDateString()}");
-				accountEntryInsProc.WarningMsg.AppendLine($"  ^ProcFeeTotal: {((Procedure)accountEntryInsProc.Tag).ProcFeeTotal:C}");
+				accountEntryInsProc.WarningMsg.AppendLine($"  ^ProcFeeTotal: {((Procedure)accountEntryInsProc.Tag).ProcFeeTotal.AsNetFx():C}");
 				accountEntryInsProc.WarningMsg.AppendLine($"  ^AdjustedAmt: {accountEntryInsProc.AdjustedAmt:C}");
 				decimal sumPrincipalApplied=0;
 				if(!accountEntryInsProc.ListPayPlanPrincipalApplieds.IsNullOrEmpty()) {
@@ -2245,8 +2245,8 @@ namespace OpenPmsDentalBusiness {
 				if(!CompareDouble.IsEqual(listPayNumPaySplitsGroups[i].PayAmount,paymentAmountSuggested)) {
 					//Any payments that cannot be recreated with 100% accuracy should cause the entire process to fail since this is such a dangerous method.
 					throw new ODException($"Suggested payment amount does not match original payment amount. See PayNum {listPayNumPaySplitsGroups[i].Payment.PayNum}"
-						+$"\r\npaymentAmountSuggested: {paymentAmountSuggested:C}"
-						+$"\r\npaymentAmount: {listPayNumPaySplitsGroups[i].PayAmount:C}");
+						+$"\r\npaymentAmountSuggested: {paymentAmountSuggested.AsNetFx():C}"
+						+$"\r\npaymentAmount: {listPayNumPaySplitsGroups[i].PayAmount.AsNetFx():C}");
 				}
 				//Add to the list of payment splits for future auto split logic and for eventual insertion into the database.
 				listPaySplitsSuggested.AddRange(autoSplit.ListPaySplitsSuggested);
@@ -2680,7 +2680,7 @@ namespace OpenPmsDentalBusiness {
 				stringBuilder.AppendLine($"  Patient: {dictPatients[payPlan.PatNum].GetNameLF()}");
 				stringBuilder.AppendLine($"  Type: {ppType}");
 				stringBuilder.AppendLine($"  Category: {planCategory}");
-				stringBuilder.AppendLine($"  Principal: {principal.ToString("C")}");
+				stringBuilder.AppendLine($"  Principal: {principal.ToStringNetFx("C")}");
 			}
 			return stringBuilder.ToString().Trim();
 		}
@@ -3263,8 +3263,8 @@ namespace OpenPmsDentalBusiness {
 			};
 			List<PaySplit> listPaySplits=new List<PaySplit>() { offsetSplit,unearnedSplit };
 			incomeTransferData.ListSplitsCur.AddRange(listPaySplits);
-			incomeTransferData.AppendLine($"    ^PaySplit created to move {offsetSplit.SplitAmt.ToString("c")} from {GetPaySplitTypeDesc(offsetSplit)}");
-			incomeTransferData.AppendLine($"    ^PaySplit created to move {unearnedSplit.SplitAmt.ToString("c")} to {GetPaySplitTypeDesc(unearnedSplit)}");
+			incomeTransferData.AppendLine($"    ^PaySplit created to move {offsetSplit.SplitAmt.ToStringNetFx("c")} from {GetPaySplitTypeDesc(offsetSplit)}");
+			incomeTransferData.AppendLine($"    ^PaySplit created to move {unearnedSplit.SplitAmt.ToStringNetFx("c")} to {GetPaySplitTypeDesc(unearnedSplit)}");
 			return listPaySplits;
 		}
 
@@ -3327,8 +3327,8 @@ namespace OpenPmsDentalBusiness {
 					PaySplit splitAllocate=CreatePaySplitHelper(negativeEntry,0-(double)amountTxfr,datePay,unearnedType:negativeEntry.UnearnedType);
 					List<PaySplit> listPaySplits=new List<PaySplit>() { splitOffset,splitAllocate };
 					incomeTransferData.ListSplitsCur.AddRange(listPaySplits);
-					incomeTransferData.AppendLine($"    ^PaySplit created to move {splitOffset.SplitAmt.ToString("c")} from {GetPaySplitTypeDesc(splitOffset)}");
-					incomeTransferData.AppendLine($"    ^PaySplit created to move {splitAllocate.SplitAmt.ToString("c")} to {GetPaySplitTypeDesc(splitAllocate)}");
+					incomeTransferData.AppendLine($"    ^PaySplit created to move {splitOffset.SplitAmt.ToStringNetFx("c")} from {GetPaySplitTypeDesc(splitOffset)}");
+					incomeTransferData.AppendLine($"    ^PaySplit created to move {splitAllocate.SplitAmt.ToStringNetFx("c")} to {GetPaySplitTypeDesc(splitAllocate)}");
 					#endregion
 					positiveEntry.AmountEnd-=amountTxfr;
 					negativeEntry.AmountEnd+=amountTxfr;
@@ -3759,7 +3759,7 @@ namespace OpenPmsDentalBusiness {
 				double totalSupplementalsNegated=totalSupplementals * -1;
 				if(!CompareDouble.IsEqual(totalSupplementalsNegated,totalInsPay)) {
 					insOverpayResult.StringBuilderErrors.AppendLine($"Error processing ClaimNum {listClaimGroups[i].ClaimNum}; Unexpected total for suggested supplementals.");
-					insOverpayResult.StringBuilderErrors.AppendLine($"  ^Expected {totalInsPay} but suggested {totalSupplementalsNegated}");//Do not format the numbers on purpose.
+					insOverpayResult.StringBuilderErrors.AppendLine($"  ^Expected {totalInsPay.AsNetFx()} but suggested {totalSupplementalsNegated.AsNetFx()}");//Do not format the numbers on purpose.
 					continue;
 				}
 				#endregion
@@ -3794,7 +3794,7 @@ namespace OpenPmsDentalBusiness {
 							UnearnedType=defNumUnearnedType,
 						}
 					};
-					insOverpayResult.StringBuilderVerbose.AppendLine($"ClaimNum {listClaimGroups[i].ClaimNum} has been overpaid by {totalInsPay:C}");
+					insOverpayResult.StringBuilderVerbose.AppendLine($"ClaimNum {listClaimGroups[i].ClaimNum} has been overpaid by {totalInsPay.AsNetFx():C}");
 					insOverpayResult.StringBuilderVerbose.AppendLine($"  ^Created {listClaimProcSupplementals.Count} new supplemental claimproc(s).");
 					insOverpayResult.StringBuilderVerbose.AppendLine($"  ^Created {listPaySplits.Count} unearned payment split(s).");
 					insOverpayResult.ListPayNumPaySplitsGroups.Add(new PayNumPaySplitsGroup(payment,listPaySplits));

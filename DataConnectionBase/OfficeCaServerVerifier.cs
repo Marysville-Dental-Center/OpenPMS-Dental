@@ -216,16 +216,24 @@ namespace DataConnectionBase {
 			}
 			try {
 				MatchCollection matchCollection=_regexPemCertificate.Matches(Encoding.ASCII.GetString(arrayBytes));
+				//X509CertificateLoader.LoadCertificate (one DER or PEM certificate) replaces the byte constructor of X509Certificate2 on .NET
+				//(SYSLIB0057).
 				if(matchCollection.Count>0) {
 					foreach(Match match in matchCollection) {
-						listCa.Add(new X509Certificate2(Convert.FromBase64String(match.Groups["base64"].Value)));
+						listCa.Add(X509CertificateLoader.LoadCertificate(Convert.FromBase64String(match.Groups["base64"].Value)));
 					}
 				}
 				else {
-					listCa.Add(new X509Certificate2(arrayBytes));
+					//LoadCertificate throws on any PKCS#12 blob; a .pfx gets the same guidance as in the DbSettings tool.
+					if(X509Certificate2.GetCertContentType(arrayBytes)==X509ContentType.Pkcs12) {
+						return "the office CA certificate file "+caPath+" holds a private key (a .pfx); give only the certificate (ca.pem), never "
+							+"the CA's key";
+					}
+					listCa.Add(X509CertificateLoader.LoadCertificate(arrayBytes));
 				}
 			}
-			catch(Exception ex) when(ex is CryptographicException || ex is FormatException) {
+			//ArgumentException: GetCertContentType on an empty file (net48's byte constructor threw it too); it gets the same message.
+			catch(Exception ex) when(ex is CryptographicException || ex is FormatException || ex is ArgumentException) {
 				listCa.Clear();
 				return "the office CA certificate file "+caPath+" is not a certificate file (PEM or DER)";
 			}

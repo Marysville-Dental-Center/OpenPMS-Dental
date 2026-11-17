@@ -1,111 +1,68 @@
-// The binding redirects that let the libraries use the newer support assemblies next to them: every reference between the library files (those
-// of "Required dlls" and, since S2-4 of the .NET 10 move, the NuGet packages' own files at the lock files' versions) resolves in the config of
-// every program, library and test that uses them, no redirect names a version that is not there, and the built programs and tests hold those
-// very files (not older copies from elsewhere) with configs that bind them.
-// When a later package adds or replaces a DLL, these tests name each config line it needs.
+// How the programs and tests bind the library files on .NET 10 (S3b-5 of the .NET 10 move): every reference between the library files (those of
+// "Required dlls" and the NuGet packages' own files at the lock files' versions) is satisfied by the version there, the built programs and tests
+// hold those very files, and each one's .deps.json names them at the lock files' versions, which is what the runtime binds by.
+// Until S3b-5 these were the .NET Framework's checks: binding redirects in every app.config, Web.config and generated .dll.config, the shared
+// test config tests\BindingRedirects.config, and redirect targets in the global assembly cache. Binding redirects mean nothing on .NET (the
+// runtime takes the file its .deps.json names for any lower version) and .NET has no global assembly cache, so those checks retired with the
+// .NET Framework build; docs/port-notes/S3b-5.md names each one and the check that replaced it.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.Json;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ProjectFileTests;
 
 namespace LibraryBindingTests {
 	[TestClass]
 	public class BindingRedirectTests {
-		///<summary>The config of every test project that has no app.config of its own (Directory.Build.targets).</summary>
-		private static readonly string _pathSharedTestConfig=RepoPaths.Combine("tests","BindingRedirects.config");
-
-		///<summary>The configs that must redirect every reference between the library assemblies: the app.config or Web.config of each project of
-		///OpenDental.Local.slnf that uses one of them (the programs, the libraries that ship a .dll.config, the dev tools), and the shared test
-		///config.</summary>
-		private static List<string> GetConfigsOfLibraryUsers() {
-			List<string> listConfigs=SolutionProjects.All.Where(x => x.ConfigPath!=null && SolutionProjects.LoadsLibraryAssemblies(x))
-				.Select(x => x.ConfigPath).ToList();
-			listConfigs.Add(_pathSharedTestConfig);
-			return listConfigs;
-		}
-
+		///<summary>The .NET 10 rule in place of the redirects (Libraries_EveryReferenceBetweenThemResolves_InEveryConfigThatUsesThem until S3b-5):
+		///in the closure of every program and test that uses the library files (its own, those of the projects it references and the files of every
+		///package of its lock file: SolutionProjects.LibrariesInClosure), each reference between them asks for the version there or a lower one.
+		///</summary>
 		[TestMethod]
-		public void Libraries_EveryReferenceBetweenThemResolves_InEveryConfigThatUsesThem() {
-			List<string> listConfigs=GetConfigsOfLibraryUsers();
-			//The shipped programs are among them, so a project list that went wrong cannot pass by checking nothing.
-			foreach(string program in new[] { @"OpenPmsDental\app.config",@"ServiceManager\app.config",@"OpenPmsDentalHL7\app.config",
-				@"CentralManager\app.config",@"DatabaseIntegrityCheck\app.config",@"MySQLManager\App.config",@"OpenPmsDentalServer\Web.config" })
-			{
-				Assert.IsTrue(listConfigs.Any(x => RepoPaths.Relative(x).Equals(program,StringComparison.OrdinalIgnoreCase)),program+" is not checked.");
-			}
-			//A project's config binds the references between the library files the project gets (its own, those of the projects it references and
-			//the files of every package of its lock file: SolutionProjects.LibrariesInClosure); the shared test config binds those of every library
-			//file. Since TC-4 not every project gets every package: CommunityToolkit.Mvvm and its System.ComponentModel.Annotations come only with
-			//SparksToothChart (Helix Toolkit), so only the configs of the projects above it name the Annotations redirect.
-			Dictionary<string,HashSet<string>> dictConfigLibraries=new Dictionary<string,HashSet<string>>(StringComparer.OrdinalIgnoreCase);
-			foreach(ProjectInfo projectInfo in SolutionProjects.All.Where(x => x.ConfigPath!=null && SolutionProjects.LoadsLibraryAssemblies(x))) {
-				dictConfigLibraries[projectInfo.ConfigPath]=SolutionProjects.LibrariesInClosure(projectInfo);
+		public void Libraries_EveryReferenceBetweenThem_IsSatisfiedByTheVersionThere_InEveryProgramAndTest() {
+			List<ProjectInfo> listProjects=SolutionProjects.All.Where(x => (x.IsExe || x.IsTest) && SolutionProjects.LoadsLibraryAssemblies(x)).ToList();
+			foreach(string program in new[] { "OpenPmsDental.csproj","ServiceManager.csproj","OpenPmsDentalHL7.csproj","xCentralManager.csproj" }) {
+				Assert.IsTrue(listProjects.Any(x => Path.GetFileName(x.Path).Equals(program,StringComparison.OrdinalIgnoreCase)),program+" is not checked.");
 			}
 			List<string> listProblems=new List<string>();
-			foreach(string pathConfig in listConfigs) {
-				Dictionary<string,AssemblyFacts> dictAssemblies=Libraries.Assemblies;
-				if(dictConfigLibraries.TryGetValue(pathConfig,out HashSet<string> hashSetLibraries)) {
-					dictAssemblies=Libraries.Assemblies.Where(x => hashSetLibraries.Contains(x.Value.FileName))
-						.ToDictionary(x => x.Key,x => x.Value,StringComparer.OrdinalIgnoreCase);
+			foreach(ProjectInfo projectInfo in listProjects) {
+				HashSet<string> hashSetLibraries=SolutionProjects.LibrariesInClosure(projectInfo);
+				Dictionary<string,AssemblyFacts> dictAssemblies=Libraries.Assemblies.Where(x => hashSetLibraries.Contains(x.Value.FileName))
+					.ToDictionary(x => x.Key,x => x.Value,StringComparer.OrdinalIgnoreCase);
+				listProblems.AddRange(BindingRules.FindReferencesAboveTheVersionThere(dictAssemblies,RepoPaths.Relative(projectInfo.Path)));
+			}
+			Assert.AreEqual(0,listProblems.Count,"References that do not load:\r\n"+string.Join("\r\n",listProblems.Distinct()));
+		}
+
+		///<summary>No config of the repository holds binding redirects any more, and nothing generates them (Configs_RedirectOnlyToVersionsThatAreThere,
+		///Programs_ThatUseTheLibraries_HaveAConfig and TestProjects_GenerateTheirRedirects_FromTheSharedTestConfig until S3b-5): they mean nothing on
+		///.NET, and a config that still had them would only look as if it bound something. The shared test config and its rule are gone, no project
+		///turns AutoGenerateBindingRedirects on, and the app.config files keep only what .NET reads (application settings and the like).</summary>
+		[TestMethod]
+		public void Configs_HoldNoBindingRedirects_AndNothingGeneratesThem() {
+			Assert.IsFalse(File.Exists(RepoPaths.Combine("tests","BindingRedirects.config")),"tests\\BindingRedirects.config went with S3b-5.");
+			StringAssert.DoesNotMatch(RepoPaths.ReadText("Directory.Build.targets"),new System.Text.RegularExpressions.Regex("<AppConfig>"));
+			List<string> listProblems=new List<string>();
+			foreach(ProjectInfo projectInfo in SolutionProjects.All) {
+				if(projectInfo.AutoGeneratesRedirects) {
+					listProblems.Add(RepoPaths.Relative(projectInfo.Path)+" generates binding redirects.");
 				}
-				listProblems.AddRange(BindingRules.FindUnresolvedReferences(dictAssemblies,ConfigFiles.ReadRedirects(pathConfig),RepoPaths.Relative(pathConfig)));
-			}
-			Assert.AreEqual(0,listProblems.Count,"References that do not bind:\r\n"+string.Join("\r\n",listProblems));
-			//The Helix closure's one new redirect is there (TC-4): CommunityToolkit.Mvvm references System.ComponentModel.Annotations 4.2.0.0.
-			foreach(string config in new[] { @"OpenPmsDental\app.config",@"tests\BindingRedirects.config" }) {
-				Assert.IsTrue(ConfigFiles.ReadRedirects(RepoPaths.Combine(config.Split('\\'))).Any(x => x.Name=="System.ComponentModel.Annotations"
-					&& x.NewVersion==new Version(4,2,1,0) && x.Covers(new Version(4,2,0,0))),config+": the System.ComponentModel.Annotations redirect.");
-			}
-		}
-
-		[TestMethod]
-		public void Configs_RedirectOnlyToVersionsThatAreThere() {
-			List<string> listConfigs=SolutionProjects.All.Where(x => x.ConfigPath!=null).Select(x => x.ConfigPath).ToList();
-			listConfigs.Add(_pathSharedTestConfig);
-			List<string> listProblems=new List<string>();
-			foreach(string pathConfig in listConfigs) {
-				listProblems.AddRange(BindingRules.FindStaleRedirects(Libraries.Assemblies,ConfigFiles.ReadRedirects(pathConfig),RepoPaths.Relative(pathConfig)));
-			}
-			Assert.AreEqual(0,listProblems.Count,string.Join("\r\n",listProblems));
-		}
-
-		[TestMethod]
-		public void Programs_ThatUseTheLibraries_HaveAConfig() {
-			List<string> listProblems=new List<string>();
-			foreach(ProjectInfo projectInfo in SolutionProjects.All.Where(x => (x.IsExe || x.IsWeb) && SolutionProjects.LoadsLibraryAssemblies(x))) {
-				if(projectInfo.ConfigPath==null) {
-					listProblems.Add(RepoPaths.Relative(projectInfo.Path)+" uses the libraries but has no app.config with the binding redirects.");
+				if(projectInfo.ConfigPath!=null && ConfigFiles.ReadRedirects(projectInfo.ConfigPath).Count>0) {
+					listProblems.Add(RepoPaths.Relative(projectInfo.ConfigPath)+" holds binding redirects.");
 				}
 			}
 			Assert.AreEqual(0,listProblems.Count,string.Join("\r\n",listProblems));
-			//UpdateFileCopier uses only the .NET Framework, so its config needs no redirects.
-			ProjectInfo projectInfoCopier=SolutionProjects.ByName("UpdateFileCopier.csproj");
-			Assert.IsTrue(projectInfoCopier.IsExe);
-			Assert.AreEqual(0,SolutionProjects.LibrariesInClosure(projectInfoCopier).Count);
-			Assert.IsTrue(SolutionProjects.LoadsLibraryAssemblies(SolutionProjects.ByName("ServiceManager.csproj")));
+			//The checks above read real configs: the program's is among them, and UpdateFileCopier uses only the framework.
+			Assert.IsNotNull(SolutionProjects.ByName("OpenPmsDental.csproj").ConfigPath,"OpenPmsDental\\app.config (its application settings).");
+			Assert.AreEqual(0,SolutionProjects.LibrariesInClosure(SolutionProjects.ByName("UpdateFileCopier.csproj")).Count);
 		}
 
 		[TestMethod]
-		public void TestProjects_GenerateTheirRedirects_FromTheSharedTestConfig() {
-			string targets=RepoPaths.ReadText("Directory.Build.targets");
-			StringAssert.Contains(targets,@"<AppConfig>$(MSBuildThisFileDirectory)tests\BindingRedirects.config</AppConfig>");
-			StringAssert.Contains(targets,"$(MSBuildProjectName.EndsWith('Tests'))");
-			List<string> listProblems=new List<string>();
-			foreach(ProjectInfo projectInfo in SolutionProjects.All.Where(x => x.IsTest && !x.IsExe)) {
-				if(!projectInfo.AutoGeneratesRedirects) {
-					listProblems.Add(RepoPaths.Relative(projectInfo.Path)+" should set AutoGenerateBindingRedirects and GenerateBindingRedirectsOutputType to "
-						+"true, so its .dll.config redirects to the library files.");
-				}
-			}
-			Assert.AreEqual(0,listProblems.Count,string.Join("\r\n",listProblems));
-		}
-
-		[TestMethod]
-		public void BuiltProgramsAndTests_HoldTheLibraryFiles_AndBindThem() {
-			List<ProjectInfo> listProjects=SolutionProjects.All.Where(x => (x.IsExe || x.IsWeb || x.IsTest) && SolutionProjects.LoadsLibraryAssemblies(x)).ToList();
+		public void BuiltProgramsAndTests_HoldTheLibraryFiles_AndTheirDepsJsonNamesThem() {
+			List<ProjectInfo> listProjects=SolutionProjects.All.Where(x => (x.IsExe || x.IsTest) && SolutionProjects.LoadsLibraryAssemblies(x)).ToList();
 			Assert.IsTrue(listProjects.Any(x => Path.GetFileName(x.Path).Equals("OpenPmsDental.csproj",StringComparison.OrdinalIgnoreCase)),"The program is checked.");
 			CheckBuiltProgramsAndTests(listProjects,BuildOutput.IsRequired);
 		}
@@ -130,14 +87,16 @@ namespace LibraryBindingTests {
 				}
 				Assert.IsNotNull(exceptionCaught,"A project that is not built passed (required: "+isRequired+").");
 				Assert.AreEqual(isRequired ? typeof(AssertFailedException) : typeof(AssertInconclusiveException),exceptionCaught.GetType(),"Required: "+isRequired);
-				StringAssert.Contains(exceptionCaught.Message,"NotBuiltFixture.exe");
+				StringAssert.Contains(exceptionCaught.Message,"NotBuiltFixture.dll");
 			}
 		}
 
 		///<summary>For each project: the library files in its output folder are the library files themselves (the file of "Required dlls", or the
-		///package's own file at the lock files' version), and its configs bind every reference between the assemblies there. A project with no output is not skipped: once the built ones are checked, it ends the check through
-		///BuildOutput.NotBuilt (inconclusive on a developer's run, a failure under OPMS_REQUIRE_BUILD_OUTPUT=1), so a gate never passes it on fewer
-		///folders.</summary>
+		///package's own file at the lock files' version); its .deps.json, by which the runtime binds them, names each package file there under its
+		///package at the lock files' version; and every reference between the assemblies of the folder is satisfied by the version there (the .NET
+		///rule). Until S3b-5 the folder's configs had to bind them by redirects instead. A project with no output is not skipped: once the built
+		///ones are checked, it ends the check through BuildOutput.NotBuilt (inconclusive on a developer's run, a failure under
+		///OPMS_REQUIRE_BUILD_OUTPUT=1), so a gate never passes it on fewer folders.</summary>
 		private static void CheckBuiltProgramsAndTests(List<ProjectInfo> listProjects,bool isRequired) {
 			List<string> listProblems=new List<string>();
 			List<string> listNotBuilt=new List<string>();
@@ -150,9 +109,15 @@ namespace LibraryBindingTests {
 				}
 				countFolders++;
 				string labelFolder=RepoPaths.Relative(folder);
-				//The very library files: a same-named file from elsewhere (an older copy in Visual Studio's test platform folder, a stale build, another
-				//version of the package) is not what the release ships.
+				//The very library files: a same-named file from elsewhere (a stale build, another version of the package) is not what the release ships.
+				//A self-contained exe's folder also holds its runtime (decision 20): where the runtime has a file of a library's name (System.CodeDom,
+				//System.Diagnostics.EventLog and the like, part of the Windows Desktop runtime), the build keeps the runtime's, and its .deps.json names
+				//it under the runtime pack; those are the runtime's files, not the library's (S3b-5).
+				bool isSelfContained=projectInfo.IsExe && !projectInfo.IsTest && File.Exists(Path.Combine(folder,"hostfxr.dll"));
 				foreach(string path in Directory.GetFiles(folder)) {
+					if(isSelfContained && SharedFramework.Has(Path.GetFileNameWithoutExtension(path))) {
+						continue;
+					}
 					if(Libraries.Files.TryGetValue(Path.GetFileName(path),out string pathLibrary)
 						&& MetadataReader.Sha256(path)!=MetadataReader.Sha256(pathLibrary))
 					{
@@ -161,39 +126,25 @@ namespace LibraryBindingTests {
 							: "the file of the package "+packageId+" "+Libraries.LockedVersions[packageId])+".");
 					}
 				}
-				List<string> listConfigs=new List<string>();
-				if(projectInfo.IsWeb) {
-					listConfigs.Add(projectInfo.ConfigPath);
+				string pathDeps=Path.Combine(folder,projectInfo.AssemblyName+".deps.json");
+				if(!File.Exists(pathDeps)) {
+					listProblems.Add(RepoPaths.Relative(pathDeps)+" is missing; the runtime binds the library files by it.");
 				}
 				else {
-					string pathOwnConfig=Path.Combine(folder,projectInfo.PrimaryOutputName+".config");
-					if(!File.Exists(pathOwnConfig)) {
-						listProblems.Add(RepoPaths.Relative(pathOwnConfig)+" is missing; it should hold the binding redirects.");
-					}
-					listConfigs.Add(pathOwnConfig);
-					if(Path.GetFileName(projectInfo.Path).Equals("OpenPmsDental.csproj",StringComparison.OrdinalIgnoreCase)) {
-						//The program folder the release ships also holds ServiceManager.exe, which runs from there with its own config.
-						listConfigs.AddRange(Directory.GetFiles(folder,"*.exe.config").Where(x => File.Exists(x.Substring(0,x.Length-".config".Length))));
+					Dictionary<string,string> dictFilePackages=ReadDepsJsonRuntimeFiles(pathDeps);
+					foreach(string path in Directory.GetFiles(folder,"*.dll")) {
+						string fileName=Path.GetFileName(path);
+						string packageId=Libraries.PackageOf(fileName);
+						if(packageId==null || (isSelfContained && SharedFramework.Has(Path.GetFileNameWithoutExtension(path)))) {
+							continue;
+						}
+						string expected=packageId+"/"+Libraries.LockedVersions[packageId];
+						if(!dictFilePackages.TryGetValue(fileName,out string named) || !named.Equals(expected,StringComparison.OrdinalIgnoreCase)) {
+							listProblems.Add(RepoPaths.Relative(pathDeps)+" names "+fileName+" under "+(named??"nothing")+", not "+expected+".");
+						}
 					}
 				}
-				Dictionary<string,AssemblyFacts> dictAssemblies=MetadataReader.ReadFolder(folder);
-				foreach(string pathConfig in listConfigs.Distinct(StringComparer.OrdinalIgnoreCase).Where(x => x!=null && File.Exists(x))) {
-					List<BindingRedirect> listRedirects=ConfigFiles.ReadRedirects(pathConfig);
-					string label=RepoPaths.Relative(pathConfig);
-					//Another program of the folder (ServiceManager.exe, OpenPmsDentalDbSettings.exe in the program folder) loads only the library files
-					//it gets itself: since TC-4 the folder also holds CommunityToolkit.Mvvm.dll (Helix Toolkit, through SparksToothChart), which
-					//neither of them gets, so its references are not theirs to bind.
-					Dictionary<string,AssemblyFacts> dictAssembliesConfig=dictAssemblies;
-					ProjectInfo projectInfoOther=SolutionProjects.All.FirstOrDefault(x => x!=projectInfo && x.IsExe
-						&& (x.PrimaryOutputName+".config").Equals(Path.GetFileName(pathConfig),StringComparison.OrdinalIgnoreCase));
-					if(projectInfoOther!=null) {
-						HashSet<string> hashSetLibraries=SolutionProjects.LibrariesInClosure(projectInfoOther);
-						dictAssembliesConfig=dictAssemblies.Where(x => Libraries.ByFileName(x.Value.FileName)==null || hashSetLibraries.Contains(x.Value.FileName))
-							.ToDictionary(x => x.Key,x => x.Value,StringComparer.OrdinalIgnoreCase);
-					}
-					listProblems.AddRange(BindingRules.FindUnresolvedReferences(dictAssembliesConfig,listRedirects,label+" (built)"));
-					listProblems.AddRange(BindingRules.FindStaleRedirects(dictAssemblies,listRedirects,label+" (built)"));
-				}
+				listProblems.AddRange(BindingRules.FindReferencesAboveTheVersionThere(MetadataReader.ReadFolder(folder),labelFolder+" (built)"));
 			}
 			Assert.AreEqual(0,listProblems.Count,listProblems.Count+" problem(s); a rebuild of the project may be needed:\r\n"
 				+string.Join("\r\n",listProblems.Distinct())
@@ -201,8 +152,35 @@ namespace LibraryBindingTests {
 			if(listNotBuilt.Count>0) {
 				BuildOutput.NotBuilt((countFolders==0 ? "Nothing is built" : listNotBuilt.Count+" of "+(countFolders+listNotBuilt.Count)+" programs and tests "
 					+"that use the libraries are not built")+": "+string.Join(", ",listNotBuilt.Take(20))+(listNotBuilt.Count>20 ? ", ..." : "")
-					+". Build OpenDental.Local.slnf (Debug|x86) first.",isRequired);
+					+". Build OpenDental.Local.slnf (Debug|x64) first.",isRequired);
 			}
+		}
+
+		///<summary>File name of each runtime asset of a package that the .deps.json's target names, to "id/version" of its package.</summary>
+		private static Dictionary<string,string> ReadDepsJsonRuntimeFiles(string pathDeps) {
+			Dictionary<string,string> dictFiles=new Dictionary<string,string>(StringComparer.OrdinalIgnoreCase);
+			using(JsonDocument jsonDocument=JsonDocument.Parse(File.ReadAllText(pathDeps))) {
+				JsonElement jsonElementRoot=jsonDocument.RootElement;
+				JsonElement jsonElementLibraries=jsonElementRoot.GetProperty("libraries");
+				foreach(JsonProperty jsonPropertyTarget in jsonElementRoot.GetProperty("targets").EnumerateObject()) {
+					foreach(JsonProperty jsonPropertyLibrary in jsonPropertyTarget.Value.EnumerateObject()) {
+						if(!jsonElementLibraries.TryGetProperty(jsonPropertyLibrary.Name,out JsonElement jsonElementLibrary)
+							|| jsonElementLibrary.GetProperty("type").GetString()!="package")
+						{
+							continue;
+						}
+						foreach(string section in new[] { "runtime","native" }) {
+							if(!jsonPropertyLibrary.Value.TryGetProperty(section,out JsonElement jsonElementSection)) {
+								continue;
+							}
+							foreach(JsonProperty jsonPropertyAsset in jsonElementSection.EnumerateObject()) {
+								dictFiles[Path.GetFileName(jsonPropertyAsset.Name)]=jsonPropertyLibrary.Name;
+							}
+						}
+					}
+				}
+			}
+			return dictFiles;
 		}
 	}
 }

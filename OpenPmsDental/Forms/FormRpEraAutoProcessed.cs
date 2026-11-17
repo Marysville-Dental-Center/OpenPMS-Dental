@@ -176,13 +176,13 @@ namespace OpenPmsDental {
 					string clinicAbbr=GetClinicAbbrForEraGridRow(listEtrans835Attaches,eraData.ListEtrans[i]);
 					row.Cells.Add(clinicAbbr);
 				}
-				row.Cells.Add(etrans835.InsPaid.ToString("f"));
-				row.Cells.Add(insEstSum.ToString("f"));
-				row.Cells.Add(insPaidSum.ToString("f"));
-				row.Cells.Add((insEstSum-insPaidSum).ToString("f"));
-				row.Cells.Add(writeOffEstSum.ToString("f"));
-				row.Cells.Add(writeOffSum.ToString("f"));
-				row.Cells.Add((writeOffEstSum-writeOffSum).ToString("f"));
+				row.Cells.Add(etrans835.InsPaid.ToStringNetFx("f"));
+				row.Cells.Add(insEstSum.ToStringNetFx("f"));
+				row.Cells.Add(insPaidSum.ToStringNetFx("f"));
+				row.Cells.Add((insEstSum-insPaidSum).ToStringNetFx("f"));
+				row.Cells.Add(writeOffEstSum.ToStringNetFx("f"));
+				row.Cells.Add(writeOffSum.ToStringNetFx("f"));
+				row.Cells.Add((writeOffEstSum-writeOffSum).ToStringNetFx("f"));
 				row.Tag=new EraRowData(etrans835,eraData.ListEtrans[i]);
 				gridEras.ListGridRows.Add(row);
 			}
@@ -413,12 +413,12 @@ namespace OpenPmsDental {
 					double insEstSum=listHx835_ShortClaimProcsForClaim.Sum(x => x.InsPayEst);
 					double writeOffSum=listHx835_ShortClaimProcsForClaim.Sum(x => x.WriteOff);
 					double writeOffEstSum=CalcWriteOffEstSumForRow(listHx835_ShortClaimProcsForClaim);
-					stringInsEst=insEstSum.ToString("f");
-					stringInsPaid=insPaySum.ToString("f");
-					stringInsEstVar=(insEstSum-insPaySum).ToString("f");
-					stringWriteoff=writeOffSum.ToString("f");
-					stringWriteoffEst=writeOffEstSum.ToString("f");
-					stringWriteOffVar=(writeOffEstSum-writeOffSum).ToString("f");
+					stringInsEst=insEstSum.ToStringNetFx("f");
+					stringInsPaid=insPaySum.ToStringNetFx("f");
+					stringInsEstVar=(insEstSum-insPaySum).ToStringNetFx("f");
+					stringWriteoff=writeOffSum.ToStringNetFx("f");
+					stringWriteoffEst=writeOffEstSum.ToStringNetFx("f");
+					stringWriteOffVar=(writeOffEstSum-writeOffSum).ToStringNetFx("f");
 					listHx835_ShortClaimProcsForUnsentClaims=FilterClaimProcsForUnsentClaims(listHx835_ShortClaimProcsForUnsentClaimsAll,listHx835_ShortClaimProcsForClaim);
 					if(listHx835_ShortClaimProcsForUnsentClaims.Count>0) {
 						stringOtherUnsentClaims="X";

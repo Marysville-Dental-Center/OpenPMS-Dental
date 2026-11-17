@@ -20,9 +20,31 @@ using OpenPmsDentalHelper32.Topaz;
 namespace Helper32Tests.Topaz {
 	[TestClass]
 	public class TopazModuleTests {
+		private static string _pathStandIn;
+
+		///<summary>The module runs in this test process here, which is x64 since S3b-5 (the helper's x86 process runs it in
+		///VendorModulesProcessTests): so the stand-in, built x86 like Topaz's x86-only builds, is written for any CPU (Mono.Cecil) into a folder
+		///of its own, as an any-CPU SigPlusNET.dll would be (S3a-14n's in-process path).</summary>
 		private static string PathStandIn {
 			get {
-				return Path.Combine(HelperCopy.Folder,"TopazStandIn.dll");
+				if(_pathStandIn==null) {
+					string folder=Path.Combine(HelperCopy.FolderTests,"topaz-anycpu-"+Guid.NewGuid().ToString("N").Substring(0,8));
+					Directory.CreateDirectory(folder);
+					//A name of its own: the x86 TopazStandIn.dll beside this test is in the test's own .deps.json, so a load of an assembly of that
+					//name by path would get that one; and not SigPlusNET, which Constructor_LoadsNoVendorCode looks for in this process.
+					string path=Path.Combine(folder,"TopazStandInAnyCpu.dll");
+					using(Mono.Cecil.AssemblyDefinition assemblyDefinition=Mono.Cecil.AssemblyDefinition.ReadAssembly(Path.Combine(HelperCopy.FolderTests,
+						"TopazStandIn.dll"),new Mono.Cecil.ReaderParameters { InMemory=true }))
+					{
+						assemblyDefinition.Name.Name="TopazStandInAnyCpu";
+						assemblyDefinition.MainModule.Name="TopazStandInAnyCpu.dll";
+						assemblyDefinition.MainModule.Architecture=Mono.Cecil.TargetArchitecture.I386;
+						assemblyDefinition.MainModule.Attributes=Mono.Cecil.ModuleAttributes.ILOnly;
+						assemblyDefinition.Write(path);
+					}
+					_pathStandIn=path;
+				}
+				return _pathStandIn;
 			}
 		}
 

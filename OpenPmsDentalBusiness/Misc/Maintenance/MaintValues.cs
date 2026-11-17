@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using CodeBase;
 
 namespace OpenPmsDentalBusiness {
 	///<summary>Validates result fields and the values recorded for them, and turns values into the culture-independent text maintrecordvalue
@@ -77,7 +78,7 @@ namespace OpenPmsDentalBusiness {
 
 		///<summary>The number as stored: invariant culture, round-trip precision ("4.5").</summary>
 		public static string NumberToDb(double value) {
-			return value.ToString("R",CultureInfo.InvariantCulture);
+			return value.ToStringNetFx("R",CultureInfo.InvariantCulture);
 		}
 
 		///<summary>A stored number. False when the text is not one.</summary>
@@ -87,7 +88,7 @@ namespace OpenPmsDentalBusiness {
 
 		///<summary>A number for the screen in the current culture, without trailing zeros.</summary>
 		public static string FormatNumber(double value) {
-			return value.ToString("0.######",CultureInfo.CurrentCulture);
+			return value.ToStringNetFx("0.######",CultureInfo.CurrentCulture);
 		}
 
 		///<summary>The date as stored, yyyy-MM-dd.</summary>

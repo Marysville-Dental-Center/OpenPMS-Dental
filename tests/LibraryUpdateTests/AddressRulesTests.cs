@@ -1,8 +1,8 @@
 // The address rules of S3a-9 (v) of the .NET 10 plan (docs/specs/net10-plan.md; docs/port-notes/S3a-9.md, section 5). .NET 10's MailAddress
 // refuses an address with two dots in a row (https://learn.microsoft.com/en-us/dotnet/core/compatibility/10, Networking); .NET Framework takes
-// it. These tests pin today's result for a..b@example.com at each site (MailAddress, MailAddressCollection, the sending sites' message builders
-// and the validation in EmailAddresses.GetValidMailAddress); stage 3b changes the "Today" tests to the .NET 10 result, which is the
-// not-valid-address error the sending sites give for any address MailAddress refuses (the NotValid tests, the same on both runtimes).
+// it. These tests pin the result for a..b@example.com at each site (MailAddress, MailAddressCollection, the sending sites' message builders
+// and the validation in EmailAddresses.GetValidMailAddress); S3b-5 changed S3a-9's "Today" tests (the .NET Framework's result) to the .NET 10
+// result, which is the not-valid-address error the sending sites give for any address MailAddress refuses (the NotValid tests).
 // Synthetic addresses only; nothing is sent and nothing connects.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
@@ -35,44 +35,40 @@ namespace LibraryUpdateTests {
 			return new BasicEmailAddress() { EmailUsername=ADDRESS_FROM,AuthenticationType=BasicOAuthType.Google };
 		}
 
-		#region Today (.NET Framework): two dots in a row are taken; 3b changes these to the .NET 10 result
+		#region .NET 10: two dots in a row are refused (stage 3b; S3a-9 pinned the .NET Framework's result here, which took them)
+		///<summary>.NET 10's MailAddress refuses two dots in a row (FormatException), in a MailAddressCollection too. On .NET Framework it took
+		///the address (User "a..b"); S3b-5 changed this test to the .NET 10 result, as S3a-9 planned.</summary>
 		[TestMethod]
-		public void Today_MailAddress_TakesConsecutiveDots() {
-			MailAddress mailAddress=new MailAddress(ADDRESS_DOTS);
-			Assert.AreEqual(ADDRESS_DOTS,mailAddress.Address);
-			Assert.AreEqual("a..b",mailAddress.User);
-			Assert.AreEqual("example.com",mailAddress.Host);
+		public void DotNet10_MailAddress_RefusesConsecutiveDots() {
+			Assert.ThrowsExactly<FormatException>(() => new MailAddress(ADDRESS_DOTS));
 			MailAddressCollection mailAddressCollection=new MailAddressCollection();
-			mailAddressCollection.Add("x@example.com, "+ADDRESS_DOTS);
-			CollectionAssert.AreEqual(new[] { "x@example.com",ADDRESS_DOTS },mailAddressCollection.Select(x => x.Address).ToArray());
+			Assert.ThrowsExactly<FormatException>(() => mailAddressCollection.Add("x@example.com, "+ADDRESS_DOTS));
+			Assert.AreEqual("a.b@example.com",new MailAddress("a.b@example.com").Address,"One dot is fine.");
 		}
 
-		///<summary>The MIME builder of the Gmail, Microsoft 365 and MailKit SMTP sends: MailAddress takes the address today, then MimeKit's
-		///MailboxAddress refuses it ("Invalid local-part"), for From, To, Cc and Bcc alike. On .NET 10 MailAddress refuses it first, and the
-		///builder throws the not-valid-address ODException (NotValid_CreateMIMEMsg_SaysTheAddressIsNotValid) before MimeKit sees it.</summary>
+		///<summary>The MIME builder of the Gmail, Microsoft 365 and MailKit SMTP sends: on .NET 10 MailAddress refuses the address first, so the
+		///builder throws the not-valid-address ODException, with the FormatException inside, before MimeKit sees it, for From, To, Cc and Bcc
+		///alike (on .NET Framework MimeKit's MailboxAddress refused it: ParseException, "Invalid local-part"). A clear message, not a crash.</summary>
 		[TestMethod]
-		public void Today_CreateMIMEMsg_MimeKitRefusesConsecutiveDots() {
-			Assert.ThrowsExactly<ParseException>(() => SendEmail.CreateMIMEMsg(MakeAddress(),MakeMessage(ADDRESS_FROM,ADDRESS_DOTS)));
-			Assert.ThrowsExactly<ParseException>(() => SendEmail.CreateMIMEMsg(MakeAddress(),MakeMessage(ADDRESS_FROM,"",ADDRESS_DOTS)));
-			Assert.ThrowsExactly<ParseException>(() => SendEmail.CreateMIMEMsg(MakeAddress(),MakeMessage(ADDRESS_FROM,"","",ADDRESS_DOTS)));
-			Assert.ThrowsExactly<ParseException>(() => SendEmail.CreateMIMEMsg(MakeAddress(),MakeMessage(ADDRESS_DOTS,ADDRESS_FROM)));
+		public void DotNet10_CreateMIMEMsg_SaysTheAddressIsNotValid() {
+			AssertNotValid(ADDRESS_DOTS,() => SendEmail.CreateMIMEMsg(MakeAddress(),MakeMessage(ADDRESS_FROM,ADDRESS_DOTS)));
+			AssertNotValid(ADDRESS_DOTS,() => SendEmail.CreateMIMEMsg(MakeAddress(),MakeMessage(ADDRESS_FROM,"",ADDRESS_DOTS)));
+			AssertNotValid(ADDRESS_DOTS,() => SendEmail.CreateMIMEMsg(MakeAddress(),MakeMessage(ADDRESS_FROM,"","",ADDRESS_DOTS)));
+			AssertNotValid(ADDRESS_DOTS,() => SendEmail.CreateMIMEMsg(MakeAddress(),MakeMessage(ADDRESS_DOTS,ADDRESS_FROM)));
 			Assert.AreEqual(ADDRESS_FROM,SendEmail.CreateMIMEMsg(MakeAddress(),MakeMessage(ADDRESS_FROM,ADDRESS_FROM)).To.Mailboxes.Single().Address,
 				"A valid address builds.");
 		}
 
-		///<summary>The System.Net.Mail builder of the SMTP send on ports other than 465 without a signature: it takes the address today, and the
-		///SMTP server decides.</summary>
-
+		///<summary>The System.Net.Mail builder of the SMTP send on ports other than 465 without a signature: on .NET 10 it refuses the address
+		///with the not-valid-address message, for From, To, Cc and Bcc alike (on .NET Framework it took it, and the SMTP server decided).</summary>
 		[TestMethod]
-		public void Today_BasicEmailMessageToMailMessage_SendsToConsecutiveDots() {
-			using(MailMessage mailMessage=SendEmail.BasicEmailMessageToMailMessage(MakeMessage(ADDRESS_DOTS,ADDRESS_DOTS,ADDRESS_DOTS,ADDRESS_DOTS))) {
-				Assert.AreEqual(ADDRESS_DOTS,mailMessage.From.Address);
-				Assert.AreEqual(ADDRESS_DOTS,mailMessage.To.Single().Address);
-				Assert.AreEqual(ADDRESS_DOTS,mailMessage.CC.Single().Address);
-				Assert.AreEqual(ADDRESS_DOTS,mailMessage.Bcc.Single().Address);
-			}
+		public void DotNet10_BasicEmailMessageToMailMessage_SaysTheAddressIsNotValid() {
+			AssertNotValid(ADDRESS_DOTS,() => SendEmail.BasicEmailMessageToMailMessage(MakeMessage(ADDRESS_DOTS,ADDRESS_FROM)));
+			AssertNotValid(ADDRESS_DOTS,() => SendEmail.BasicEmailMessageToMailMessage(MakeMessage(ADDRESS_FROM,ADDRESS_DOTS)));
+			AssertNotValid(ADDRESS_DOTS,() => SendEmail.BasicEmailMessageToMailMessage(MakeMessage(ADDRESS_FROM,ADDRESS_FROM,ADDRESS_DOTS)));
+			AssertNotValid(ADDRESS_DOTS,() => SendEmail.BasicEmailMessageToMailMessage(MakeMessage(ADDRESS_FROM,ADDRESS_FROM,"",ADDRESS_DOTS)));
 		}
-		#endregion Today (.NET Framework): two dots in a row are taken; 3b changes these to the .NET 10 result
+		#endregion .NET 10: two dots in a row are refused
 
 		#region The same on both runtimes
 		///<summary>The validation site says not valid on both runtimes: today its pattern refuses two dots in a row, on .NET 10 MailAddress does

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using OpenPmsDentalBusiness;
+using CodeBase;
 
 namespace OpenPmsDentalBusiness.HL7 {
 	///<summary>A DFT message is a Charge Specification.  There are different kinds.  The kind we have implemented passes information about completed procedures and their charges to external programs for billing purposes.</summary>
@@ -87,7 +88,7 @@ namespace OpenPmsDentalBusiness.HL7 {
 				Provider prov=Providers.GetProv(listProcs[i].ProvNum);
 				seg.SetField(20,prov.EcwID,prov.LName,prov.FName,prov.MI);//performed by provider.
 				seg.SetField(21,prov.EcwID,prov.LName,prov.FName,prov.MI);//ordering provider.
-				seg.SetField(22,listProcs[i].ProcFee.ToString("F2"));
+				seg.SetField(22,listProcs[i].ProcFee.ToStringNetFx("F2"));
 				procCode=ProcedureCodes.GetProcCode(listProcs[i].CodeNum);
 				if(procCode.ProcCode.Length>5 && procCode.ProcCode.StartsWith("D")) {
 					seg.SetField(25,procCode.ProcCode.Substring(0,5));//Remove suffix from all D codes.

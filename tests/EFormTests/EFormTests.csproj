@@ -3,12 +3,12 @@
        Imported/UnmatchedToPatient statuses, English copies of translated fields, conditional logic and required fields.
        Database tests use scratch databases on the local MariaDB (127.0.0.1:3306, root, blank password) filled with synthetic rows only, and are
        skipped (inconclusive) when it does not answer, or when EFORM_TEST_DB=skip. Every .cs file under this folder is compiled. -->
-  <ItemGroup>
-    <Reference Include="PresentationCore" />
-    <Reference Include="PresentationFramework" />
-    <Reference Include="System.Xaml" />
-    <Reference Include="WindowsBase" />
-  </ItemGroup>
+  <PropertyGroup>
+    <!-- .NET 10 (S3b-5 of docs/specs/net10-plan.md): Windows Forms and WPF from the Windows Desktop framework, in place of the
+         .NET Framework assembly references; it also keeps the Windows Desktop packages out of the restore (S3b-3). -->
+    <UseWindowsForms>true</UseWindowsForms>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\CodeBase\xCodeBase.csproj" />
     <ProjectReference Include="..\..\DataConnectionBase\xDataConnectionBase.csproj" />

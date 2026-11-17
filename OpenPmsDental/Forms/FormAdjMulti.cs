@@ -608,7 +608,7 @@ namespace OpenPmsDental {
 			for(int i=0;i<_listAdjustments.Count;i++) { 
 				Adjustments.Insert(_listAdjustments[i]);
 				TsiTransLogs.CheckAndInsertLogsIfAdjTypeExcluded(_listAdjustments[i]);
-				listStringAdjustmentAmounts.Add(_listAdjustments[i].AdjAmt.ToString("c"));
+				listStringAdjustmentAmounts.Add(_listAdjustments[i].AdjAmt.ToStringNetFx("c"));
 			}
 			if(listStringAdjustmentAmounts.Count>0) {
 				string log=Lan.g(this,"Adjustment(s) created from Add Multiple Adjustments window:")+" ";
@@ -666,7 +666,7 @@ namespace OpenPmsDental {
 					GridCell gridCellFee=new GridCell(AccountEntryProc.AmountOriginal.ToString("c")) { ColorBackG=Color.LightYellow };
 					row.Cells.Add(gridCellFee);//Fee
 					amtRemBefore=(double)AccountEntryProc.AmountEnd;
-					GridCell gridCellRemBefore=new GridCell(amtRemBefore.ToString("c")) { ColorBackG=Color.LightYellow };
+					GridCell gridCellRemBefore=new GridCell(amtRemBefore.ToStringNetFx("c")) { ColorBackG=Color.LightYellow };
 					row.Cells.Add(gridCellRemBefore);//Rem Before
 					row.Cells.Add("");//Adj Amt
 					row.Cells.Add("");//Rem After
@@ -686,12 +686,12 @@ namespace OpenPmsDental {
 					row.Cells.Add("");//Fee
 					row.Cells.Add("");//Rem Before
 					double adjAmt=Math.Round(adjustment.AdjAmt,2);
-					GridCell gridCellAdjAmt=new GridCell(adjAmt.ToString("c")) { ColorBackG=Color.LightCyan };
+					GridCell gridCellAdjAmt=new GridCell(adjAmt.ToStringNetFx("c")) { ColorBackG=Color.LightCyan };
 					row.Cells.Add(gridCellAdjAmt);//Adj Amt
 					GridCell gridCellRemAfter=new GridCell() { ColorBackG=Color.LightCyan };
 					if(AccountEntryProc!=null) {
 						amtRemBefore+=adjAmt;
-						gridCellRemAfter.Text=amtRemBefore.ToString("c");
+						gridCellRemAfter.Text=amtRemBefore.ToStringNetFx("c");
 					}
 					row.Cells.Add(gridCellRemAfter);//Rem After
 					listGridRows.Add(row);

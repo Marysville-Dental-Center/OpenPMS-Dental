@@ -123,6 +123,15 @@ namespace PasswordVaultWrapper {
 		internal Func<IOldVault> FuncOpenVault=OldPasswordVault.TryOpen;
 		///<summary>True on a Windows older than 8, which has no PasswordVault; replaced by the tests.</summary>
 		internal Func<bool> FuncIsOsWithoutVault=OldPasswordVault.IsOsWithoutVault;
+		///<summary>Whether EnsureMigrated moves the old vault's entries: the .NET Framework build (the bridge release) does; on .NET 5 and later
+		///the old vault cannot be read, so the .NET 10 build does not (the bridge moved the logins first). The tests turn it on to run the bridge's
+		///migration with their fake vaults on .NET 10 too (S3b-5), and check that it is off there by default.</summary>
+		internal bool IsMigrationRun=
+#if NETFRAMEWORK
+			true;
+#else
+			false;
+#endif
 		private readonly object _lock=new object();
 		private bool _isMigrationChecked;
 
@@ -386,13 +395,14 @@ namespace PasswordVaultWrapper {
 							return;//Complete.
 						}
 					}
-#if NETFRAMEWORK
-					MigrationResult migrationResult=MigrateFromVault(migrationResultRetry);
-					if(migrationResult!=null) {
-						WriteMigrationRecord(GetRecordTime(),migrationResult);
+					//On .NET 5 and later the old vault cannot be read: no record, the bridge release (.NET Framework) moved the logins first
+					//(IsMigrationRun).
+					if(IsMigrationRun) {
+						MigrationResult migrationResult=MigrateFromVault(migrationResultRetry);
+						if(migrationResult!=null) {
+							WriteMigrationRecord(GetRecordTime(),migrationResult);
+						}
 					}
-#endif
-					//On .NET 5 and later the old vault cannot be read: no record, the bridge release (.NET Framework) moved the logins first.
 				}
 				catch(Exception) {
 					//No record written, or the previous one kept: the next process tries again.

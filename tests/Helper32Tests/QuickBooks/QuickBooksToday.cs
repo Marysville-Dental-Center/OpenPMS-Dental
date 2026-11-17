@@ -2,11 +2,14 @@
 // here as the reference the helper's QuickBooks module is compared with (QuickBooksModuleTests): the same text, with three changes only, each
 // marked S3a-13: the session manager comes from FuncCreateSessionManager instead of new QBSessionManager(), and the two preferences the code
 // read (PrefName.QuickBooksCompanyFile, PrefName.QuickBooksClassRefsEnabled) are the fields CompanyFile and IsClassRefsEnabled.
+// S3b-FMT of the .NET 10 move (decision 24): the deposit's amount text is ODNumberText.ToStringNetFx, the text the .NET Framework wrote,
+// so the reference keeps the .NET Framework's text on .NET (99999.995 with "F" is 100000.00 there, 99999.99 with .NET's own formatter).
 // Open Dental's code, GPL. Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using CodeBase;
 using Interop.QBFC10;
 
 namespace Helper32Tests.QuickBooks {
@@ -250,7 +253,7 @@ namespace Helper32Tests.QuickBooks {
 			//Set field value for income account
 			DepositLineAdd1.ORDepositLineAdd.DepositInfo.AccountRef.FullName.SetValue(incomeAcct);
 			//Set field value for Amount
-			DepositLineAdd1.ORDepositLineAdd.DepositInfo.Amount.SetAsString(amount.ToString("F"));
+			DepositLineAdd1.ORDepositLineAdd.DepositInfo.Amount.SetAsString(amount.ToStringNetFx("F"));//S3b-FMT: the .NET Framework's text on .NET
 			//Set field value for ClassRef which is a way they can group deposits together
 			if(!string.IsNullOrEmpty(classRef) && IsClassRefsEnabled/*S3a-13*/) {
 				DepositLineAdd1.ORDepositLineAdd.DepositInfo.ClassRef.FullName.SetValue(classRef);

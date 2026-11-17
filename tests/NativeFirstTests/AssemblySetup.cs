@@ -9,6 +9,7 @@ namespace NativeFirstTests {
 		///beside the test assembly.</summary>
 		[AssemblyInitialize]
 		public static void Initialize(TestContext testContext) {
+			OpenPmsDentalTests.TestCodePages.Register();//the code pages first, as the program registers them (tests\Shared\TestCodePages.cs)
 			ODBuild.IsUnitTest=true;
 		}
 	}

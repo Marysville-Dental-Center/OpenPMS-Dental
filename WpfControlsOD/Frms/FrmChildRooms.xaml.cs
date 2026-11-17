@@ -44,7 +44,7 @@ namespace OpenPmsDental {
 					gridRow.Cells.Add("Mixed");
 				}
 				else {
-					gridRow.Cells.Add(listChildRooms[i].Ratio.ToString());
+					gridRow.Cells.Add(listChildRooms[i].Ratio.ToStringNetFx());
 				}
 				gridRow.Cells.Add(listChildRooms[i].Notes);
 				gridRow.Tag=listChildRooms[i];

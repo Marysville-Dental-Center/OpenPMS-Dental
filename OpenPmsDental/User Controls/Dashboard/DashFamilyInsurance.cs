@@ -186,12 +186,12 @@ namespace OpenPmsDental {
 					_strFamPriMax="";
 				}
 				else{
-					_strFamPriMax=maxFam.ToString("F");
+					_strFamPriMax=maxFam.ToStringNetFx("F");
 				}
 				//deductible:
 				dedFam=Benefits.GetDeductGeneralDisplay(listBenefits,PlanCur.PlanNum,listPatPlans[0].PatPlanNum,BenefitCoverageLevel.Family);
 				if(dedFam!=-1) {
-					_strFamPriDed=dedFam.ToString("F");
+					_strFamPriDed=dedFam.ToStringNetFx("F");
 				}
 			}
 			if(listPatPlans.Count>1){
@@ -204,12 +204,12 @@ namespace OpenPmsDental {
 					_strFamSecMax="";
 				}
 				else{
-					_strFamSecMax=maxFam.ToString("F");
+					_strFamSecMax=maxFam.ToStringNetFx("F");
 				}
 				//deductible:
 				dedFam=Benefits.GetDeductGeneralDisplay(listBenefits,PlanCur.PlanNum,listPatPlans[1].PatPlanNum,BenefitCoverageLevel.Family);
 				if(dedFam!=-1) {
-					_strFamSecDed=dedFam.ToString("F");
+					_strFamSecDed=dedFam.ToStringNetFx("F");
 				}
 			}
 			Invalidate();

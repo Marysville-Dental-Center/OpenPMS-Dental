@@ -2,37 +2,38 @@
 <Project>
   <!-- Settings shared by the projects that build a third-party library from its upstream source: PDFsharp/MigraDoc and WeCantSpell.Hunspell,
        git submodules under third-party\ that this repository references instead of copying (docs\third-party-source-builds.md). Each project
-       is an SDK-style project for the .NET Framework 4.8 with explicit SDK imports: the SDK's Sdk.props, then this file, then its library's
-       props file (PDFsharp.props, or the properties in WeCantSpell.Hunspell.csproj), then the SDK's Sdk.targets, and SourceBuild.targets
-       last, so $(IntermediateOutputPath) is set when SourceBuild.targets uses it. Nothing inside a submodule is changed, and nothing is
-       downloaded: the upstream project files (NuGet, GitVersion, SourceLink) are not used; these project files compile the same source, x86
-       like the program. The only packages they reference are the support assemblies the sources use
-       (Microsoft.Extensions.Logging.Abstractions, System.Memory, System.Buffers, System.Runtime.CompilerServices.Unsafe), never a PDFsharp,
-       MigraDoc or WeCantSpell package, at the versions of the repository's Directory.Packages.props and from the offline folder of
-       nuget.config, as every project's packages (package S2-1 of docs\specs\net10-plan.md; until then they were the same files in "Required
-       dlls"). The logging source generator that Microsoft.Extensions.Logging.Abstractions brings stays off (Directory.Packages.props):
-       PdfSharp-gdi\LoggerMessages.cs and MigraDoc.DocumentObjectModel\LoggerMessages.cs hold what it writes for upstream's LogMessages.cs, so
-       these projects compile the files SourceBuildItems.txt lists and nothing the generator would add. -->
+       is an SDK-style project for .NET 10 (net10.0-windows x64, the target framework of the repository's Directory.Build.props, since S3b-2
+       of docs\specs\net10-plan.md) with explicit SDK imports: the SDK's Sdk.props, then this file, then its library's props file
+       (PDFsharp.props, or the properties in WeCantSpell.Hunspell.csproj), then the SDK's Sdk.targets, and SourceBuild.targets last, so
+       $(IntermediateOutputPath) is set when SourceBuild.targets uses it. Nothing inside a submodule is changed, and nothing is downloaded:
+       the upstream project files (NuGet, GitVersion, SourceLink) are not used; these project files compile the same source as upstream's
+       .NET 10 build (net10.0 or net10.0-windows), x64 like the program. The only package they reference is a support assembly the sources
+       use that .NET 10 does not have built in (Microsoft.Extensions.Logging.Abstractions), never a PDFsharp, MigraDoc or WeCantSpell
+       package, at the version of the repository's Directory.Packages.props and from the offline folder of nuget.config, as every project's
+       packages (package S2-1). The .NET Framework support packages (System.Memory, System.Buffers, System.Runtime.CompilerServices.Unsafe)
+       are part of .NET 10 and went with S3b-2. The logging source generator that Microsoft.Extensions.Logging.Abstractions brings stays off
+       (Directory.Packages.props): PdfSharp-gdi\LoggerMessages.cs and MigraDoc.DocumentObjectModel\LoggerMessages.cs hold what it writes for
+       upstream's LogMessages.cs, so these projects compile the files SourceBuildItems.txt lists and nothing the generator would add. -->
   <PropertyGroup>
-    <TargetFramework>net48</TargetFramework>
     <OutputType>Library</OutputType>
-    <!-- Visual Studio's platforms; the solution builds these projects as x86. -->
+    <!-- Visual Studio's platforms; the solution builds these projects as x86 (.NET Framework, until S3b-2) and x64. -->
     <Platforms>AnyCPU;x86</Platforms>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
-    <PlatformTarget>x86</PlatformTarget>
-    <Prefer32Bit>false</Prefer32Bit>
+    <!-- x64, as Directory.Build.Net.props sets it for every .NET 10 project (decision 19); named here as well, because the intermediate
+         folder below is made from it before that file is read. -->
+    <PlatformTarget>x64</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <OutputPath>bin\$(Configuration)\</OutputPath>
-    <!-- The intermediate folder of the classic project files, obj\x86\Debug\ and obj\x86\Release\, not the SDK's obj\Debug\
-         (Directory.Build.props turns the platform folder off): SourceBuildItems.txt lists the generated files of this folder by their full
-         path, so it stays the same file. -->
+    <!-- The intermediate folder of the classic project files, obj\<platform>\Debug\ and obj\<platform>\Release\ (obj\x64\ since S3b-2), not
+         the SDK's obj\Debug\ (Directory.Build.props turns the platform folder off): SourceBuildItems.txt lists the generated files of this
+         folder by their full path. -->
     <IntermediateOutputPath>$(BaseIntermediateOutputPath)$(PlatformTarget)\$(Configuration)\</IntermediateOutputPath>
-    <!-- The assembly attributes come from SourceBuild.targets only (SourceBuildInfo.g.cs), not from the SDK. -->
+    <!-- The assembly attributes come from SourceBuild.targets only (SourceBuildInfo.g.cs), not from the SDK. On .NET 10,
+         Directory.Build.Net.props switches GenerateAssemblyInfo back on for the SDK's two platform attributes only (S3b-1). -->
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-    <!-- Each project names its compiler symbols itself: upstream's net462 or netstandard2.0 set, not the SDK's net48 set (NETFRAMEWORK,
-         NET48, NET48_OR_GREATER, ...), and no DEBUG or RELEASE (see below). -->
-    <DisableImplicitFrameworkDefines>true</DisableImplicitFrameworkDefines>
+    <!-- The compiler symbols of the target framework come from the SDK (NET, NET10_0, NETCOREAPP, NET10_0_OR_GREATER, ... and the WINDOWS
+         ones), as in upstream's .NET 10 build; each project adds upstream's own symbols. No DEBUG or RELEASE (see below). -->
     <DisableImplicitConfigurationDefines>true</DisableImplicitConfigurationDefines>
     <!-- No default globs: each project names what it compiles and embeds (links into the submodule, and the few files of this folder), in
          this order, as the classic project files did. -->

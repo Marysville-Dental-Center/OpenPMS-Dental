@@ -216,7 +216,7 @@ namespace ReleaseFlowTests {
 			}
 			List<string> listNames=listExeNames.ToList();
 			if(!isRecording) {
-				listNames=listNames.Union(ReadRecord().Keys,StringComparer.OrdinalIgnoreCase).ToList();
+				listNames=listNames.Union(ReadRecord().Keys.Select(x => GetStagedPath(x)),StringComparer.OrdinalIgnoreCase).ToList();
 			}
 			listNames=listNames.OrderBy(x => x,StringComparer.OrdinalIgnoreCase).ToList();
 			List<string> listProblems=new List<string>();
@@ -277,6 +277,15 @@ namespace ReleaseFlowTests {
 			}
 		}
 
+		///<summary>Where the release stages an exe the record names by its file name: since stage 3b the 32-bit helper is in the sub folder Helper32\
+		///(S3b-4, S3b-7); every other exe is at the top. The record keeps the net48 file names.</summary>
+		internal static string GetStagedPath(string fileName) {
+			if(Environment.Version.Major>=5 && fileName.Equals("OpenPmsDentalHelper32.exe",StringComparison.OrdinalIgnoreCase)) {
+				return @"Helper32\"+fileName;
+			}
+			return fileName;
+		}
+
 		internal static Dictionary<string,string> ReadRecord() {
 			Dictionary<string,string> dictLines=new Dictionary<string,string>(StringComparer.OrdinalIgnoreCase);
 			foreach(string lineRaw in TestPaths.ReadSource(_arrayRecordPath).Split('\n')) {
@@ -309,7 +318,8 @@ namespace ReleaseFlowTests {
 				Assert.Inconclusive("Recorded "+listResources.Count+" files from "+folder+". Review and commit the record.");
 			}
 			Dictionary<string,string> dictRecord=ReadRecord();
-			CollectionAssert.AreEquivalent(dictRecord.Keys.ToArray(),listExeNames.ToArray(),"The record names every staged .exe, and only those.");
+			CollectionAssert.AreEquivalent(dictRecord.Keys.Select(x => GetStagedPath(x)).ToArray(),listExeNames.ToArray(),
+				"The record names every staged .exe, and only those (the helper in Helper32\\ since stage 3b).");
 			List<string> listDifferences=new List<string>();
 			foreach(ExeResources exeResources in listResources) {
 				if(exeResources.ToLine()!=dictRecord[exeResources.FileName]) {
@@ -363,7 +373,8 @@ namespace ReleaseFlowTests {
 		///Synthetic files in a staging folder named by OPMS_RELEASE_STAGING; nothing is read as a resource.</summary>
 		[TestMethod]
 		public void StaleReleaseOutput_IsInconclusive_WithTheWriteTimes() {
-			List<string> listRecordNames=ReadRecord().Keys.OrderBy(x => x,StringComparer.OrdinalIgnoreCase).ToList();
+			//Where the release stages each recorded exe (the helper in Helper32\ since stage 3b).
+			List<string> listRecordNames=ReadRecord().Keys.Select(x => GetStagedPath(x)).OrderBy(x => x,StringComparer.OrdinalIgnoreCase).ToList();
 			string valueBefore=Environment.GetEnvironmentVariable(STAGING_VARIABLE);
 			string folder=TestPaths.NewTempFolder("s3a10f_stale");
 			try {
@@ -379,6 +390,7 @@ namespace ReleaseFlowTests {
 				StringAssert.Contains(message,"OpenPmsDental.exe: written ");
 				//Every exe there and newer than any commit: the folder is used.
 				foreach(string name in listRecordNames) {
+					Directory.CreateDirectory(Path.GetDirectoryName(Path.Combine(folder,name)));
 					File.WriteAllText(Path.Combine(folder,name),"synthetic");
 					File.SetLastWriteTimeUtc(Path.Combine(folder,name),DateTime.UtcNow.AddDays(1));
 				}

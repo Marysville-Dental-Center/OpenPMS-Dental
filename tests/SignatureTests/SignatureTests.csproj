@@ -2,6 +2,15 @@
   <!-- Tests for package A-SIG in docs/specs/port-backlog.md: change of signing user on sheet and treatment plan signature boxes and the ortho chart
        (25.1), domain login in change-user prompts and sheetfield.UserSigned (25.2), and the Treatment Planned Procedure Edit Fee permission (25.2).
        Every .cs file under this folder is compiled. Database tests use a scratch database on the local MariaDB and are skipped when it is unreachable. -->
+  <PropertyGroup>
+    <!-- .NET 10 (S3b-5 of docs/specs/net10-plan.md): Windows Forms from the Windows Desktop framework, in place of the
+         .NET Framework assembly references; it also keeps the Windows Desktop packages out of the restore (S3b-3). -->
+    <UseWindowsForms>true</UseWindowsForms>
+  </PropertyGroup>
+  <PropertyGroup>
+    <!-- Its own [AssemblyInitialize] registers the code pages (tests\Shared\TestCodePages.cs; S3b-5). -->
+    <ODOwnAssemblyInitialize>true</ODOwnAssemblyInitialize>
+  </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\CodeBase\xCodeBase.csproj" />
     <ProjectReference Include="..\..\DataConnectionBase\xDataConnectionBase.csproj" />

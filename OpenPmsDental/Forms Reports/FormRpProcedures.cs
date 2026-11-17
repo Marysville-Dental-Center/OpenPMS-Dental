@@ -153,12 +153,12 @@ namespace OpenPmsDental {
 				}
 				double fee=PIn.Double(dataRow["$fee"].ToString());
 				total+=fee;
-				gridRow.Cells.Add(fee.ToString("c"));
+				gridRow.Cells.Add(fee.ToStringNetFx("c"));
 				gridRow.Tag=dataRow;
 				gridMain.ListGridRows.Add(gridRow);
 			}
 			gridMain.EndUpdate();
-			labelTotal.Text=Lan.g(this,"Total")+": "+total.ToString("c")+"   "+Lan.g(this,"Procedures")+": "+_table.Rows.Count;
+			labelTotal.Text=Lan.g(this,"Total")+": "+total.ToStringNetFx("c")+"   "+Lan.g(this,"Procedures")+": "+_table.Rows.Count;
 		}
 
 		private void gridMain_CellDoubleClick(object sender,ODGridClickEventArgs e) {

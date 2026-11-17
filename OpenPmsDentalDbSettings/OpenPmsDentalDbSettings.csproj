@@ -2,8 +2,9 @@
   <!-- The connection settings tool: changes this computer's database connection settings only, as an administrator
        (docs/specs/db-connection-security.md). Shipped in the program folder as OpenPmsDentalDbSettings.exe (ProgramNames.DbSettingsExeFileName). -->
   <PropertyGroup>
-    <TargetFramework>net48</TargetFramework>
     <OutputType>WinExe</OutputType>
+    <!-- net10.0-windows x64, self-contained, win-x64 (Directory.Build.props, Directory.Build.Net.props; S3b-2). Windows Forms windows. -->
+    <UseWindowsForms>true</UseWindowsForms>
     <RootNamespace>OpenPmsDentalDbSettings</RootNamespace>
     <AssemblyName>OpenPmsDentalDbSettings</AssemblyName>
     <LangVersion>7.3</LangVersion>
@@ -19,13 +20,6 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="MySqlConnector" />
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Security" />
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\SharedAssemblyInfo.cs">

@@ -113,10 +113,10 @@ if (-not $SkipBuild) {
 		if (-not (Test-Path -LiteralPath $BuildLane)) {
 			throw "Build lane script not found at '$BuildLane'."
 		}
-		Write-Host "Building DevDbTool (Debug|x86) through the build lane $BuildLane"
+		Write-Host "Building DevDbTool (Debug|x64) through the build lane $BuildLane"
 		# Exit code 98 means the lane was busy for too long: try again.
 		do {
-			& powershell -NoProfile -ExecutionPolicy Bypass -File $BuildLane -Root $repoRoot -WaitMinutes 10 -Solution 'tools/DevDbTool/DevDbTool.csproj'
+			& powershell -NoProfile -ExecutionPolicy Bypass -File $BuildLane -Root $repoRoot -WaitMinutes 10 -Solution 'tools/DevDbTool/DevDbTool.csproj' -Platform x64
 			$buildExit = $LASTEXITCODE
 		} while ($buildExit -eq 98)
 		if ($buildExit -ne 0) {
@@ -126,8 +126,8 @@ if (-not $SkipBuild) {
 	else {
 		$msbuild = Find-MSBuild
 		$null = Initialize-BuildEnvironment -RepoRoot $repoRoot
-		Write-Host "Building DevDbTool (Debug|x86) with $msbuild"
-		& $msbuild $toolProject -nologo '-restore' '-p:RestoreLockedMode=true' '-p:Configuration=Debug' '-p:Platform=x86' '-nodeReuse:false' '-v:minimal' '-clp:Summary;ErrorsOnly'
+		Write-Host "Building DevDbTool (Debug|x64) with $msbuild"
+		& $msbuild $toolProject -nologo '-restore' '-p:RestoreLockedMode=true' '-p:Configuration=Debug' '-p:Platform=x64' '-nodeReuse:false' '-v:minimal' '-clp:Summary;ErrorsOnly'
 		if ($LASTEXITCODE -ne 0) {
 			throw "Building DevDbTool failed (MSBuild exit code $LASTEXITCODE)."
 		}

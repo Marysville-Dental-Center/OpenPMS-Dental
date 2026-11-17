@@ -50,7 +50,7 @@ namespace OpenPmsDentalBusiness.UI {
 			//A decision was made not to use compression because it would have taken more time and not saved much space.
 			//DeflateStream compressedzipStream = new DeflateStream(ms , CompressionMode.Compress, true);
 			//Now, we have the compressed bytes.  Need to encrypt them.
-			Rijndael crypt=Rijndael.Create();
+			Aes crypt=Aes.Create();//Rijndael with a 128-bit block is AES; on .NET Rijndael.Create() wraps Aes.Create() (SYSLIB0022).
 			crypt.KeySize=128;//16 bytes;  Because this is 128 bits, it is the same as AES.
 			crypt.Key=key;
 			crypt.IV=new byte[16];

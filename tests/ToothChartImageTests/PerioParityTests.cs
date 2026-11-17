@@ -14,7 +14,9 @@ using SparksToothChart.Wpf3D;
 
 namespace ToothChartImageTests {
 	///<summary>Every perio scene that TC-0 recorded in DirectX (649x696), probed in the WPF picture and in the DirectX picture. The WPF pictures are the
-	///committed baselines (ChartScenes_MatchTheWpfBaselines checks them against fresh renders); with OPMS_PARITY_FRESH=1 the scenes are drawn again
+	///committed baselines of this runtime and bitness (WpfCharts.ForThisBitness: Baselines\wpf-net48 in a 32-bit process, its x64 copy in
+	///Baselines\wpf-net48-x64 on .NET Framework x64, Baselines\wpf-net10-x64 on .NET 10 x64), the same set ChartScenes_MatchTheWpfBaselines checks
+	///against fresh renders; with OPMS_PARITY_FRESH=1 the scenes are drawn again
 	///instead. Each test writes its results to %TEMP%\ToothChartImageTests (parity-perio*.txt).</summary>
 	[TestClass]
 	public class PerioParityTests {
@@ -213,7 +215,8 @@ namespace ToothChartImageTests {
 						arrayWpf=ChartImageCompare.GetPixelsArgb(bitmapWpf);
 					}
 					else {
-						string pathWpf=WpfCharts.GetPicturePath(WpfCharts.BaselinesWpf,chartSize,scene);
+						//S3b-5W: the picture of this runtime and bitness, the set ChartScenes_MatchTheWpfBaselines holds against fresh renders.
+						string pathWpf=WpfCharts.ForThisBitness(WpfCharts.GetPicturePath(WpfCharts.BaselinesWpf,chartSize,scene));
 						if(!File.Exists(pathWpf)) {
 							listMissing.Add(name+": no WPF baseline");
 							return;

@@ -20,6 +20,8 @@
     For additional information, email info@fyireporting.com or visit
     the website www.fyiReporting.com.
 */
+// Changed by Open PMS - Dental contributors, 2026-11-16 (package S3b-FMT of the .NET 10 move, decision 24 of docs/specs/net10-plan.md,
+// docs/port-notes/S3b-FMT.md): doubles and floats are written as text as .NET Framework wrote them (ODNumberText.ToStringNetFx, AsNetFx).
 using System;
 using System.Collections;
 using System.Text;
@@ -27,6 +29,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Globalization;
 using fyiReporting.RDL;
+using CodeBase;
 
 namespace fyiReporting.RDL
 {
@@ -96,10 +99,10 @@ namespace fyiReporting.RDL
 
 			elements.AppendFormat(NumberFormatInfo.InvariantInfo,
 				"\r\nq\t{0} w\t{1} {2} {3} RG\t{4}\t{5} {6} m\t{7} {8} l\tS\tQ\t",
-				width,			// line width
-				red, green, blue,		// line color
+				width.AsNetFx(),			// line width
+				red.AsNetFx(), green.AsNetFx(), blue.AsNetFx(),		// line color
 				linestyle,				// line style
-				x, pSize.yHeight-y, x2, pSize.yHeight-y2);	// positioning
+				x.AsNetFx(), (pSize.yHeight-y).AsNetFx(), x2.AsNetFx(), (pSize.yHeight-y2).AsNetFx());	// positioning
 		}
 
 		/// <summary>
@@ -118,8 +121,8 @@ namespace fyiReporting.RDL
 
 			elements.AppendFormat(NumberFormatInfo.InvariantInfo,
 				"\r\nq\t{0} {1} {2} RG\t{0} {1} {2} rg\t{3} {4} {5} {6} re\tf\tQ\t",
-				red, green, blue,		// color
-				x, pSize.yHeight-y-height, width, height);	// positioning
+				red.AsNetFx(), green.AsNetFx(), blue.AsNetFx(),		// color
+				x.AsNetFx(), (pSize.yHeight-y-height).AsNetFx(), width.AsNetFx(), height.AsNetFx());	// positioning
 		}
 
 		/// <summary>
@@ -134,7 +137,7 @@ namespace fyiReporting.RDL
 			
 			elements.AppendFormat(NumberFormatInfo.InvariantInfo,
 				"\r\nq\t{2} 0 0 {3} {0} {1} cm\t",
-				x, pSize.yHeight-y-height, width, height);	// push graphics state, positioning
+				x.AsNetFx(), (pSize.yHeight-y-height).AsNetFx(), width.AsNetFx(), height.AsNetFx());	// push graphics state, positioning
 
 			elements.AppendFormat(NumberFormatInfo.InvariantInfo, "\t/{0} Do\tQ\t", imgname);	// do the image then pop graphics state
 
@@ -259,7 +262,7 @@ namespace fyiReporting.RDL
 					else
 						elements.AppendFormat(NumberFormatInfo.InvariantInfo,
 							"\r\nq\t{0} {1} {2} {3} re W n",
-							x, pSize.yHeight-y-height, width, height);
+							x.AsNetFx(), (pSize.yHeight-y-height).AsNetFx(), width.AsNetFx(), height.AsNetFx());
 					if (url != null)
 						p.AddHyperlink(x, pSize.yHeight-y, height, width, url);
 
@@ -275,7 +278,7 @@ namespace fyiReporting.RDL
 				{
 					elements.AppendFormat(NumberFormatInfo.InvariantInfo,
 						"\r\nBT/{0} {1} Tf\t{5} {6} {7} rg\t{2} {3} Td \t({4}) Tj\tET\tQ\t",
-						pdfFont,si.FontSize,startX,(pSize.yHeight-startY-si.FontSize),newtext, r, g, b);
+						pdfFont,si.FontSize.AsNetFx(),startX.AsNetFx(),(pSize.yHeight-startY-si.FontSize).AsNetFx(),newtext, r.AsNetFx(), g.AsNetFx(), b.AsNetFx());
 				}
 				else
 				{	// Rotate text -90 degrees=-.5 radians (this works for english don't know about true tb-rl language)
@@ -284,8 +287,8 @@ namespace fyiReporting.RDL
 
 					elements.AppendFormat(NumberFormatInfo.InvariantInfo,
 						"\r\nBT/{0} {1} Tf\t{5} {6} {7} rg\t{8} {9} {10} {11} {2} {3} Tm \t({4}) Tj\tET\tQ\t",
-						pdfFont,si.FontSize,startX,(pSize.yHeight-startY),newtext, r, g, b,
-						radsCos, radsSin, -radsSin, radsCos);
+						pdfFont,si.FontSize.AsNetFx(),startX.AsNetFx(),(pSize.yHeight-startY).AsNetFx(),newtext, r.AsNetFx(), g.AsNetFx(), b.AsNetFx(),
+						radsCos.AsNetFx(), radsSin.AsNetFx(), (-radsSin).AsNetFx(), radsCos.AsNetFx());
 				}
 
 				// Handle underlining etc.

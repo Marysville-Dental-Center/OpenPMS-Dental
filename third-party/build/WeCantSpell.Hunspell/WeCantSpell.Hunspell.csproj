@@ -2,9 +2,10 @@
 <Project>
   <!-- WeCantSpell.Hunspell 7.0.1 from its source in the git submodule third-party\WeCantSpell.Hunspell
        (https://github.com/aarondandy/WeCantSpell.Hunspell.git, tag 7.0.1), the library project only (WeCantSpell.Hunspell\), as upstream's
-       WeCantSpell.Hunspell.csproj builds it for netstandard2.0: the same symbols (NO_... for what netstandard2.0 lacks) and its own polyfills
-       (HashCode.cs and the others in the folder), for the .NET Framework 4.8 with System.Memory, System.Buffers and
-       System.Runtime.CompilerServices.Unsafe from their packages (Directory.Packages.props). Not strong-named, as upstream's is not. Upstream's AssemblyVersion is the
+       WeCantSpell.Hunspell.csproj builds it for net10.0: the same symbols (the HAS_... ones of upstream's net10.0 build, and the SDK's for
+       the target framework), on .NET 10, which has System.Memory, System.Buffers and System.Runtime.CompilerServices.Unsafe built in. Until
+       S3b-2 of docs\specs\net10-plan.md it was upstream's netstandard2.0 build (the NO_... symbols and its own polyfills, HashCode.cs and the
+       others in the folder, which compile to nothing on .NET 10) for the .NET Framework 4.8. Not strong-named, as upstream's is not. Upstream's AssemblyVersion is the
        major version (MinVer), 7.0.0.0, so the assembly's identity stays that of the NuGet file it replaces. MinVer, the NuGet packaging and
        the tests, benchmarks and samples of the repository are not used. The MPL 1.1 / GPL 2.0 or later / LGPL 2.1 or later library is used
        under its LGPL 2.1 or later option (THIRD-PARTY-NOTICES.txt). docs\third-party-source-builds.md. -->
@@ -28,22 +29,14 @@
     <SourceBuildDescription>A port of Hunspell for .NET.</SourceBuildDescription>
     <WeCantSpellSourceFolder>$(ThirdPartyRoot)WeCantSpell.Hunspell\WeCantSpell.Hunspell\</WeCantSpellSourceFolder>
     <SourceBuildUpstreamProject>$(WeCantSpellSourceFolder)WeCantSpell.Hunspell.csproj</SourceBuildUpstreamProject>
-    <!-- Upstream: LangVersion 14.0 (the field keyword, null-conditional assignment), which the Build Tools 2022 compiler (Roslyn 4.14)
-         offered only as preview. The SDK's compiler (Roslyn 5.0 in the pinned SDK 10.0.115) has C# 14 as its current version; preview is kept so
-         this conversion changes no compiler setting. -->
-    <LangVersion>preview</LangVersion>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <!-- Upstream: LangVersion 14.0 (the field keyword, null-conditional assignment), the current version of the SDK's compiler (Roslyn 5.0 in
+         the pinned SDK 10.0.115). Until S3b-2 it was "preview", which the Build Tools 2022 compiler needed for C# 14. -->
+    <LangVersion>14.0</LangVersion>
     <WarningLevel>4</WarningLevel>
-    <!-- Upstream's netstandard2.0 symbols, and the ones the .NET SDK sets for netstandard2.0. No DEBUG, as in upstream's Release build. -->
-    <DefineConstants>TRACE;NETSTANDARD;NETSTANDARD2_0;NETSTANDARD2_0_OR_GREATER;NO_NUMERICS_BITOPERATIONS;NO_HASHCODE;NO_ENCODING_SPANS;NO_DICTIONARY_GETVALUE;NO_HASHSET_CAPACITY;NO_EXPOSED_NULLANNOTATIONS;NO_SPAN_DECODE;NO_VALUETASK;NO_STREAM_SYSMEM;NO_STRING_SPAN;NO_STRING_CONTAINS;NO_SPAN_CONTAINS;NO_SPAN_CONTAINSANY;NO_KVP_DECONSTRUCT;NO_STATIC_STRINGCHAR_METHODS;NO_SPAN_COMPARISON_SORT;NO_SPAN_SORT;NO_SPAN_REPLACE;NO_NONENUMERATED_COUNT</DefineConstants>
+    <!-- Upstream's net10.0 symbols; the SDK adds those of the target framework (NET, NET10_0, NETCOREAPP, ...). No DEBUG, as in upstream's
+         Release build. Upstream's AllowUnsafeBlocks is for netstandard2.0 only. -->
+    <DefineConstants>TRACE;HAS_SEARCHVALUES;HAS_THROWNULL;HAS_THROWOOR;HAS_SPANCULTUREPARSE_INT;HAS_FROZENDICTIONARY</DefineConstants>
   </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <PackageReference Include="System.Buffers" />
-    <PackageReference Include="System.Memory" />
-    <PackageReference Include="System.Runtime.CompilerServices.Unsafe" />
-  </ItemGroup>
   <ItemGroup>
     <!-- Upstream: every .cs file of the library folder. -->
     <Compile Include="$(WeCantSpellSourceFolder)**\*.cs" Exclude="$(WeCantSpellSourceFolder)bin\**;$(WeCantSpellSourceFolder)obj\**">

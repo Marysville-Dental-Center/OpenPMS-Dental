@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using CodeBase;
 
 namespace OpenPmsDentalBusiness {
 	public class Currency {
@@ -11,7 +12,7 @@ namespace OpenPmsDentalBusiness {
 
 		/// <summary> Rounds amt to 2 places for customers, and 4 places for hq. </summary>
 		public static double Round(double amt) {
-			return PIn.Double(amt.ToString(GetCurrencyFormat()));
+			return PIn.Double(amt.ToStringNetFx(GetCurrencyFormat()));
 		}
 
 	}

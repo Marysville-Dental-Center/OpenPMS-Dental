@@ -1,0 +1,6 @@
+Host: perio-save
+Size: 750x1000
+Bitmap: Format24bppRgb
+Colours in the picture: 26488
+Pixels SHA-256: 5ee88dc1f01031a4109fb8335543d3d92cf78cdd818932ab9ba65b08e8c04adf
+Framework: .NET 10.0.14, x64

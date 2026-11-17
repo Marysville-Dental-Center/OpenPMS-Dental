@@ -1,0 +1,15 @@
+Scene: ortho-mode-hardware-off
+Group: ortho
+Description: Ortho mode with Show Graphics off: the Chart module paints no hardware, so only the facial rows and the Palmer numbers (ORTHO-1).
+Size: 410x307
+Colours: Module
+Engine: Wpf3D (RenderTargetBitmap in software, 3D layer at 3x reduced with WIC's Fant scaler)
+Bitmap: 410x307 Format24bppRgb
+Alpha: every alpha is 255 (format without an alpha channel)
+Colours in the picture: 2697
+Pixels SHA-256: 07a1d718f012cbbcc0f0cf2a524640d52f566ec84eacfa656b5a05c4e5c6a3d6
+Repeatable: yes (a second GetBitmap gave the same pixels)
+Framework: .NET 10.0, x64
+Windows: build 26300.9974 (26H2)
+Fresh render: yes (both layers drawn again without the layer cache gave the same pixels)
+Screen DPI seen by the test host: 96

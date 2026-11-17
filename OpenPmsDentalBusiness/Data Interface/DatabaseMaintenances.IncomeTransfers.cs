@@ -8,6 +8,7 @@ using System.Data;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using CodeBase;
 
 namespace OpenPmsDentalBusiness {
 	public partial class DatabaseMaintenances {
@@ -149,8 +150,8 @@ namespace OpenPmsDentalBusiness {
 		private static void AppendIncomeTransferRows(StringBuilder stringBuilder,List<DbmIncomeTransferRow> listRows) {
 			for(int i=0;i<listRows.Count;i++) {
 				stringBuilder.AppendLine("   "+listRows[i].PatNum+"  "+listRows[i].PatientName+"  "+listRows[i].PayDate.ToShortDateString()
-					+"  "+Lans.g("FormDatabaseMaintenance","Amount")+": "+listRows[i].PayAmt.ToString("c")
-					+"  "+Lans.g("FormDatabaseMaintenance","Split total")+": "+listRows[i].SplitTotal.ToString("c"));
+					+"  "+Lans.g("FormDatabaseMaintenance","Amount")+": "+listRows[i].PayAmt.ToStringNetFx("c")
+					+"  "+Lans.g("FormDatabaseMaintenance","Split total")+": "+listRows[i].SplitTotal.ToStringNetFx("c"));
 			}
 		}
 	}

@@ -1,6 +1,7 @@
-// The in-process half of the harness: the program's own assemblies, loaded in a process of its own whose application base is
-// OpenPmsDental\bin\Debug and whose configuration file is OpenPmsDental.exe.config (so the binding redirects and the probing are the real ones;
-// InProcHost, TestProbeHost; an AppDomain of the test host before S3a-8b of the .NET 10 move), run the main window on an STA thread as
+// The in-process half of the harness: the program's own assemblies, in the program's own process started from OpenPmsDental\bin\Debug through
+// its apphost with TestProbeHost's startup hook (so the folder's runtime, OpenPmsDental.runtimeconfig.json, .deps.json and .dll.config are the
+// real ones and OpenPmsDental.dll is the entry assembly; InProcHost, WINCHK-5; a copy of TestProbeHost with OpenPmsDental.exe.config on .NET
+// Framework, an AppDomain of the test host before S3a-8b of the .NET 10 move), run the main window on an STA thread as
 // ProgramEntry.Main does, and the checks drive it from a second thread of that process: they post what a click would run (the
 // real menu item's PerformClick, the toolbar's and module bar's handlers) to the window's thread, wait for the windows it opens, read and
 // print them, and close them. Every unhandled exception (Application.ThreadException, AppDomain.UnhandledException, ODThread's, WPF's
@@ -34,6 +35,9 @@ namespace WindowChecksTests.InProc {
 		public const string COMMAND_STOP="Stop";
 		///<summary>The location of this process's Assembly.GetEntryAssembly() ("" for none), read after Patch (S3a-FU2).</summary>
 		public const string COMMAND_GET_ENTRY_ASSEMBLY="GetEntryAssembly";
+		///<summary>What .NET read for this process (WINCHK-5): a list of name=value lines (ProgramDriver.GetRuntimeLines); the arguments are the
+		///names of the runtimeconfig properties to read back.</summary>
+		public const string COMMAND_GET_RUNTIME="GetRuntime";
 		private static readonly ProgramDriver _programDriver=new ProgramDriver();
 
 		public static string Handle(string command,string[] arrayArgs) {
@@ -42,6 +46,8 @@ namespace WindowChecksTests.InProc {
 					return _programDriver.PatchProcessIdentity(arrayArgs[0]);
 				case COMMAND_GET_ENTRY_ASSEMBLY:
 					return Assembly.GetEntryAssembly()?.Location??"";
+				case COMMAND_GET_RUNTIME:
+					return ProbeText.JoinList(ProgramDriver.GetRuntimeLines(ProbeText.SplitList(arrayArgs[0])));
 				case COMMAND_START:
 					string startError=_programDriver.Start(ProbeText.SplitList(arrayArgs[0]),int.Parse(arrayArgs[1],CultureInfo.InvariantCulture),
 						ProbeText.SplitList(arrayArgs[2]));
@@ -81,32 +87,92 @@ namespace WindowChecksTests.InProc {
 		private volatile bool _isMainClosingDetached;
 		public Ui UiCur;
 
-		///<summary>Makes this process look like the program's own where .NET reads it from the process: Application.StartupPath and ExecutablePath
-		///(the exe's, not the copy of TestProbeHost's) and Assembly.GetEntryAssembly (OpenPmsDental.exe, not TestProbeHost). Returns what was
-		///patched.</summary>
+		///<summary>Makes sure this process looks like the program's own where .NET reads it from the process: Application.StartupPath and
+		///ExecutablePath (the folder and the exe given) and Assembly.GetEntryAssembly (OpenPmsDental.dll of that folder). In the session's process
+		///(the program's own, InProcHost.StartSessionProcess, WINCHK-5) all three are the program's from the start and nothing is patched; a value
+		///that differs (a host that is not the program, as TestProbeHost's copy was on .NET Framework) is set. Returns each item with "(own)" or
+		///"(patched)", the file OpenPmsDental loaded from and the config file System.Configuration reads.</summary>
 		public string PatchProcessIdentity(string exePath) {
-			List<string> listPatched=new List<string>();
-			FieldInfo fieldStartupPath=typeof(Application).GetField("startupPath",BindingFlags.NonPublic|BindingFlags.Static);
-			FieldInfo fieldExecutablePath=typeof(Application).GetField("executablePath",BindingFlags.NonPublic|BindingFlags.Static);
-			if(fieldStartupPath!=null) {
-				fieldStartupPath.SetValue(null,Path.GetDirectoryName(exePath));
-				listPatched.Add("Application.StartupPath");
+			List<string> listItems=new List<string>();
+			//The fields' names on .NET Framework (startupPath, executablePath) and on .NET (s_startupPath, s_executablePath).
+			FieldInfo fieldStartupPath=typeof(Application).GetField("startupPath",BindingFlags.NonPublic|BindingFlags.Static)
+				??typeof(Application).GetField("s_startupPath",BindingFlags.NonPublic|BindingFlags.Static);
+			FieldInfo fieldExecutablePath=typeof(Application).GetField("executablePath",BindingFlags.NonPublic|BindingFlags.Static)
+				??typeof(Application).GetField("s_executablePath",BindingFlags.NonPublic|BindingFlags.Static);
+			string folder=Path.GetDirectoryName(exePath);
+			//The public properties fill the fields on first use, from the process's own exe.
+			if(string.Equals(Application.StartupPath.TrimEnd('\\'),folder.TrimEnd('\\'),StringComparison.OrdinalIgnoreCase)) {
+				listItems.Add("Application.StartupPath (own)");
 			}
-			if(fieldExecutablePath!=null) {
+			else if(fieldStartupPath!=null) {
+				fieldStartupPath.SetValue(null,folder);
+				listItems.Add("Application.StartupPath (patched)");
+			}
+			if(string.Equals(Application.ExecutablePath,exePath,StringComparison.OrdinalIgnoreCase)) {
+				listItems.Add("Application.ExecutablePath (own)");
+			}
+			else if(fieldExecutablePath!=null) {
 				fieldExecutablePath.SetValue(null,exePath);
-				listPatched.Add("Application.ExecutablePath");
+				listItems.Add("Application.ExecutablePath (patched)");
 			}
 			Assembly assemblyExe=Assembly.Load("OpenPmsDental");
-			AppDomainManager appDomainManager=new AppDomainManager();
-			FieldInfo fieldEntry=typeof(AppDomainManager).GetField("m_entryAssembly",BindingFlags.NonPublic|BindingFlags.Instance);
-			FieldInfo fieldManager=typeof(AppDomain).GetField("_domainManager",BindingFlags.NonPublic|BindingFlags.Instance);
-			if(fieldEntry!=null && fieldManager!=null && AppDomain.CurrentDomain.DomainManager==null) {
-				fieldEntry.SetValue(appDomainManager,assemblyExe);
-				fieldManager.SetValue(AppDomain.CurrentDomain,appDomainManager);
-				listPatched.Add("Assembly.GetEntryAssembly");
+			//.NET has no AppDomainManager to patch (the .NET Framework way, before S3b-5); Assembly.SetEntryAssembly (.NET 9 and later) sets what
+			//Assembly.GetEntryAssembly returns. In the program's own process it is the program's already.
+			if(Assembly.GetEntryAssembly()==assemblyExe) {
+				listItems.Add("Assembly.GetEntryAssembly (own)");
 			}
-			return string.Join(", ",listPatched)+"; OpenPmsDental loaded from "+assemblyExe.Location+"; config "
-				+AppDomain.CurrentDomain.SetupInformation.ConfigurationFile;
+			else {
+				Assembly.SetEntryAssembly(assemblyExe);
+				listItems.Add("Assembly.GetEntryAssembly (patched)");
+			}
+			//The application config: on .NET, System.Configuration reads APP_CONFIG_FILE when the host set it, else the entry assembly's .dll.config.
+			string config=AppContext.GetData("APP_CONFIG_FILE") as string;
+			return string.Join(", ",listItems)+"; OpenPmsDental loaded from "+assemblyExe.Location+"; config "
+				+(config??(assemblyExe.Location+".config"));
+		}
+
+		///<summary>What .NET read for this process, as name=value lines (WINCHK-5): ProcessPath, BaseDirectory, CoreLib and WindowsForms (the
+		///files of the runtime it runs on: a self-contained program's are in its folder), Framework, Is64BitProcess, DepsFiles
+		///(APP_CONTEXT_DEPS_FILES, the .deps.json the host read), Program (where OpenPmsDental loads from), StartupHooksVariable (empty: the hook
+		///removed it), ConfigFile (the file System.Configuration reads for the exe). Then, for each name, "Property.name=" the runtimeconfig
+		///property's value as the process sees it ("(none)" when absent), or for "Setting:name" "Setting.name=" the program's Properties.Settings
+		///value of that name, read through System.Configuration.</summary>
+		public static List<string> GetRuntimeLines(string[] arrayNames) {
+			List<string> listLines=new List<string>();
+			listLines.Add("ProcessPath="+Environment.ProcessPath);
+			listLines.Add("BaseDirectory="+AppContext.BaseDirectory);
+			listLines.Add("CoreLib="+typeof(object).Assembly.Location);
+			listLines.Add("WindowsForms="+typeof(Form).Assembly.Location);
+			listLines.Add("Framework="+System.Runtime.InteropServices.RuntimeInformation.FrameworkDescription);
+			listLines.Add("Is64BitProcess="+Environment.Is64BitProcess);
+			listLines.Add("DepsFiles="+(AppContext.GetData("APP_CONTEXT_DEPS_FILES") as string??""));
+			Assembly assemblyProgram=Assembly.Load("OpenPmsDental");
+			listLines.Add("Program="+assemblyProgram.Location);
+			listLines.Add("StartupHooksVariable="+(Environment.GetEnvironmentVariable(ProbeProcess.VARIABLE_STARTUP_HOOKS)??""));
+			//System.Configuration.ConfigurationManager (a package on .NET, in the program's .deps.json), by reflection: this assembly needs no
+			//reference to it.
+			Type typeManager=Type.GetType("System.Configuration.ConfigurationManager, System.Configuration.ConfigurationManager",true);
+			Type typeLevel=Type.GetType("System.Configuration.ConfigurationUserLevel, System.Configuration.ConfigurationManager",true);
+			object configuration=typeManager.GetMethod("OpenExeConfiguration",new[] { typeLevel }).Invoke(null,new[] { Enum.ToObject(typeLevel,0) });
+			listLines.Add("ConfigFile="+configuration.GetType().GetProperty("FilePath").GetValue(configuration));
+			foreach(string name in arrayNames) {
+				if(name.StartsWith("Setting:")) {
+					string nameSetting=name.Substring("Setting:".Length);
+					Type typeSettings=assemblyProgram.GetType("OpenPmsDental.Properties.Settings",true);
+					object settings=typeSettings.GetProperty("Default",BindingFlags.Public|BindingFlags.NonPublic|BindingFlags.Static).GetValue(null);
+					//A setting the config file lists but the Settings class does not declare is not readable (SettingsPropertyNotFoundException).
+					System.Collections.IEnumerable enumerableProperties=(System.Collections.IEnumerable)typeSettings.GetProperty("Properties").GetValue(settings);
+					if(!enumerableProperties.Cast<object>().Any(x => (string)x.GetType().GetProperty("Name").GetValue(x)==nameSetting)) {
+						listLines.Add("Setting."+nameSetting+"=(not declared)");
+						continue;
+					}
+					object value=typeSettings.GetProperty("Item",new[] { typeof(string) }).GetValue(settings,new object[] { nameSetting });
+					listLines.Add("Setting."+nameSetting+"="+(value?.ToString()??"(none)"));
+					continue;
+				}
+				listLines.Add("Property."+name+"="+(AppContext.GetData(name)?.ToString()??"(none)"));
+			}
+			return listLines;
 		}
 
 		///<summary>Starts the main window with the command line, as ProgramEntry.Main does, and waits until it is shown and the user is logged on.
@@ -282,11 +348,9 @@ namespace WindowChecksTests.InProc {
 			thread.Start();
 			if(!thread.Join(TimeSpan.FromSeconds(timeoutSeconds))) {
 				checkResult.Fail("The check did not end within "+timeoutSeconds+" s (a window hung or an expected window never came)");
-				try {
-					thread.Abort();
-				}
-				catch(Exception) {
-				}
+				//.NET cannot abort a thread (Thread.Abort throws PlatformNotSupportedException, SYSLIB0006; the .NET Framework build aborted it here):
+				//the script's background thread is left waiting, its windows are closed below, and InProcHost asks whether the session is stuck and
+				//starts a new one for the next check when it is (WINCHK-5).
 				DetachMainClosing(checkResult);
 				UiCur.CloseStrayWindows(checkResult);
 			}
@@ -353,15 +417,30 @@ namespace WindowChecksTests.InProc {
 			}
 		}
 
-		private static void RemoveEventHandlers(Component component,string keyName) {
-			FieldInfo fieldKey=typeof(Form).GetField(keyName,BindingFlags.NonPublic|BindingFlags.Static);
+		///<summary>The .NET Framework's names of Form's event keys and the names .NET's Windows Forms gives the same keys (WINCHK-5: on .NET 10 the
+		///.NET Framework name found no field, so the closing was never detached and Stop threw on the window's thread).</summary>
+		private static readonly Dictionary<string,string> _dictEventKeysNet=new Dictionary<string,string> {
+			{ "EVENT_FORMCLOSING","s_formClosingEvent" },
+			{ "EVENT_FORMCLOSED","s_formClosedEvent" },
+		};
+
+		///<summary>Removes every handler of the form's event (EVENT_FORMCLOSING or EVENT_FORMCLOSED, by the .NET Framework's key name) and returns
+		///how many delegates were removed. Throws when this runtime's Form has no such key (HarnessTests checks it does).</summary>
+		public static int RemoveEventHandlers(Component component,string keyName) {
+			FieldInfo fieldKey=typeof(Form).GetField(keyName,BindingFlags.NonPublic|BindingFlags.Static)
+				??typeof(Form).GetField(_dictEventKeysNet[keyName],BindingFlags.NonPublic|BindingFlags.Static);
+			if(fieldKey==null) {
+				throw new MissingFieldException(typeof(Form).FullName,keyName+" / "+_dictEventKeysNet[keyName]);
+			}
 			PropertyInfo propertyEvents=typeof(Component).GetProperty("Events",BindingFlags.NonPublic|BindingFlags.Instance);
 			EventHandlerList eventHandlerList=(EventHandlerList)propertyEvents.GetValue(component);
 			object key=fieldKey.GetValue(null);
 			Delegate handler=eventHandlerList[key];
-			if(handler!=null) {
-				eventHandlerList.RemoveHandler(key,handler);
+			if(handler==null) {
+				return 0;
 			}
+			eventHandlerList.RemoveHandler(key,handler);
+			return handler.GetInvocationList().Length;
 		}
 	}
 }

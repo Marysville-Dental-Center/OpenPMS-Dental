@@ -9,6 +9,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using OpenPmsDentalBusiness;
 using WpfControls.UI;
+using CodeBase;
 
 namespace OpenPmsDental {
 	public partial class FrmGradingScaleItemEdit:FrmODBase {
@@ -24,7 +25,7 @@ namespace OpenPmsDental {
 		private void FrmGradingScaleItemEdit_Load(object sender,EventArgs e) {
 			Lang.F(this);
 			textGradeShowing.Text=_gradingScaleItem.GradeShowing;
-			textGradeNumber.Text=_gradingScaleItem.GradeNumber.ToString();
+			textGradeNumber.Text=_gradingScaleItem.GradeNumber.ToStringNetFx();
 			textDescription.Text=_gradingScaleItem.Description;
 		}
 
@@ -59,7 +60,7 @@ namespace OpenPmsDental {
 			_gradingScaleItem.GradeNumber=gradeNumber;
 			_gradingScaleItem.GradeShowing=textGradeShowing.Text;
 			if(textGradeShowing.Text=="") {
-				_gradingScaleItem.GradeShowing=gradeNumber.ToString();
+				_gradingScaleItem.GradeShowing=gradeNumber.ToStringNetFx();
 			}
 			_gradingScaleItem.Description=textDescription.Text;
 			if(_gradingScaleItem.IsNew) {

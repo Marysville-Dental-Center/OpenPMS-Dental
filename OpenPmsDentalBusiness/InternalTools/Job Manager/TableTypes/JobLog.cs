@@ -59,7 +59,7 @@ namespace OpenPmsDentalBusiness {
 				return TimeEstimate.TotalHours;
 			}
 			set {
-				TimeEstimate=TimeSpan.FromHours(value);
+				TimeEstimate=CodeBase.ODTimeSpan.FromHours(value);
 			}
 		}
 

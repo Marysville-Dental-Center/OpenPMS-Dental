@@ -1,11 +1,14 @@
 // Runs PDF work in a fresh process (TestProbeHost) whose configuration turns on the .NET Framework's network tracing (System.Net,
 // System.Net.Sockets, System.Net.Http), and records what the library did there: every network trace line, what it wrote to the console and to
 // Trace, and which assemblies it loaded. A fresh process also starts with no PDFsharp licence selected and no font resolver. Before S3a-8 of the
-// .NET 10 move this ran in a new application domain, which .NET cannot create.
+// .NET 10 move this ran in a new application domain, which .NET cannot create. On .NET the configuration's trace sources mean nothing: the
+// networking classes write to their EventSources instead (System.Net.* and Private.InternalDiagnostics.System.Net.*), which NetworkEventRecorder
+// listens to in the isolated process with every event (Verbose), into the same list (S3b-5).
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.Tracing;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Globalization;
@@ -88,6 +91,25 @@ namespace PdfLibraryTests {
 		}
 	}
 
+	///<summary>The .NET equivalent of the configuration's network trace sources: every event of the networking EventSources (the public
+	///telemetry System.Net.* and the internal tracing Private.InternalDiagnostics.System.Net.*, which a socket's creation writes to) goes to
+	///NetworkTraceRecorder as one line.</summary>
+	public class NetworkEventRecorder:EventListener {
+		protected override void OnEventSourceCreated(EventSource eventSource) {
+			if(eventSource.Name.StartsWith("System.Net.",StringComparison.Ordinal)
+				|| eventSource.Name.StartsWith("Private.InternalDiagnostics.System.Net.",StringComparison.Ordinal))
+			{
+				EnableEvents(eventSource,EventLevel.Verbose,EventKeywords.All);
+			}
+		}
+
+		protected override void OnEventWritten(EventWrittenEventArgs eventWrittenEventArgs) {
+			new NetworkTraceRecorder().WriteLine(eventWrittenEventArgs.EventSource.Name+" "+eventWrittenEventArgs.EventName+" "
+				+string.Join(" ",(eventWrittenEventArgs.Payload??new System.Collections.ObjectModel.ReadOnlyCollection<object>(new object[0]))
+				.Select(x => x?.ToString()??"")));
+		}
+	}
+
 	///<summary>Records Trace and Debug messages during the PDF work.</summary>
 	public class MessageRecorder:TraceListener {
 		public readonly List<string> ListLines=new List<string>();
@@ -114,6 +136,12 @@ namespace PdfLibraryTests {
 		}
 
 		public IsolatedPdfResult Run() {
+			using(new NetworkEventRecorder()) {
+				return RunRecorded();
+			}
+		}
+
+		private IsolatedPdfResult RunRecorded() {
 			IsolatedPdfResult isolatedPdfResult=new IsolatedPdfResult();
 			NetworkTraceRecorder.TakeLines();
 			TextWriter textWriterOut=Console.Out;
@@ -145,8 +173,8 @@ namespace PdfLibraryTests {
 			}
 			isolatedPdfResult.ListNetworkLinesDuringPdf=NetworkTraceRecorder.TakeLines();
 			isolatedPdfResult.ConsoleAndTraceOutput=stringWriter.ToString()+string.Join("",messageRecorder.ListLines);
-			//The control: creating a socket (it is never connected) writes a System.Net.Sockets trace line, so an empty list above means no
-			//network call, not tracing that is off.
+			//The control: creating a socket (it is never connected) writes a System.Net.Sockets trace line (on .NET an event of
+			//Private.InternalDiagnostics.System.Net.Sockets), so an empty list above means no network call, not tracing that is off.
 			using(Socket socket=new Socket(AddressFamily.InterNetwork,SocketType.Stream,ProtocolType.Tcp)) {
 			}
 			isolatedPdfResult.ListNetworkLinesControl=NetworkTraceRecorder.TakeLines();

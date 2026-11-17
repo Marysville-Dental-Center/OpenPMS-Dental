@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using OpenPmsDentalBusiness;
+using CodeBase;
 
 namespace OpenPmsDental {
 	public partial class FormEvaluationCriterionDefEdit:FormODBase {
@@ -26,7 +27,7 @@ namespace OpenPmsDental {
 			if(_gradingScale.ScaleType==EnumScaleType.Weighted) {
 				textPoints.Visible=true;
 				labelPoints.Visible=true;
-				textPoints.Text=_evaluationCriterionDef.MaxPointsPoss.ToString();
+				textPoints.Text=_evaluationCriterionDef.MaxPointsPoss.ToStringNetFx();
 			}
 		}
 
@@ -47,7 +48,7 @@ namespace OpenPmsDental {
 				if(formGradingScales.GradingScaleSelected.ScaleType==EnumScaleType.Weighted) {
 					textPoints.Visible=true;
 					labelPoints.Visible=true;
-					textPoints.Text=_evaluationCriterionDef.MaxPointsPoss.ToString();
+					textPoints.Text=_evaluationCriterionDef.MaxPointsPoss.ToStringNetFx();
 				}
 				else {
 					textPoints.Visible=false;

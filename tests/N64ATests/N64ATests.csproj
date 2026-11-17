@@ -5,11 +5,20 @@
        went with the DirectX chart in TC-9a). Library-only
        (no program exe), so the lane's x64 test build runs it too (-X64Test). No test starts Word, loads a third-party plug-in, opens a real
        registry key or shows a window. Every .cs file under this folder is compiled. -->
+  <PropertyGroup>
+    <!-- S3b-5 of docs/specs/net10-plan.md: every test project is .NET 10 (tests\Directory.Build.props). Windows Forms for its
+         System.Windows.Forms use. -->
+    <UseWindowsForms>true</UseWindowsForms>
+  </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System.Windows.Forms" />
     <!-- Writes the synthetic plug-in DLLs and reads assemblies without loading them, to check CodeBase.PortableExecutableFile. The NuGet package,
          from the offline package folder (nuget.config), at the version of Directory.Packages.props. -->
     <PackageReference Include="Mono.Cecil" />
+    <!-- The rule for tests that check a built file (PluginDecision16Tests: the rebuilt PluginExample): inconclusive when it is not built, a
+         failure with OPMS_REQUIRE_BUILD_OUTPUT=1. -->
+    <Compile Include="..\ProjectFileTests\BuildOutput.cs">
+      <Link>BuildOutput.cs</Link>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\CodeBase\xCodeBase.csproj" />

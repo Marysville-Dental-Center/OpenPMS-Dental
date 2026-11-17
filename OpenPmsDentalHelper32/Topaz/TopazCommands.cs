@@ -5,6 +5,7 @@
 using System;
 using System.Globalization;
 using System.Text;
+using CodeBase;
 
 namespace OpenPmsDentalHelper32.Topaz {
 	internal static class TopazCommands {
@@ -65,7 +66,7 @@ namespace OpenPmsDentalHelper32.Topaz {
 				case bool boolValue:
 					return new[] { TYPE_BOOL,boolValue ? "1" : "0" };
 				case double doubleValue:
-					return new[] { TYPE_DOUBLE,doubleValue.ToString("R",CultureInfo.InvariantCulture) };
+					return new[] { TYPE_DOUBLE,doubleValue.ToStringNetFx("R",CultureInfo.InvariantCulture) };
 				case string stringValue:
 					if(HasLoneSurrogate(stringValue)) {
 						return new[] { TYPE_STRING_UTF16,StringToUtf16Hex(stringValue) };

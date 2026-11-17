@@ -10,6 +10,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Xml;
 using System.Xml.Serialization;
+using CodeBase;
 
 namespace OpenPmsDentalBusiness {
 
@@ -68,31 +69,31 @@ namespace OpenPmsDentalBusiness {
 		///recursively searches the items looking for any string fields and properties to escape for HTTP transmission.
 		///Returns the object after it and any of its children have been escaped for HTTP transmission.</summary>
 		public static object XmlEscapeRecursion(Type type,object obj) {
-			//Instantiate the ID generator for the first time this recursive method is called.
-			return XmlEscapeRecursion(type,obj,new ObjectIDGenerator());
+			//Instantiate the set of visited objects for the first time this recursive method is called.
+			//It compares by reference, as the ObjectIDGenerator of the .NET Framework build did (SYSLIB0050 on .NET 10; S3b-3).
+			return XmlEscapeRecursion(type,obj,new HashSet<object>(ReferenceEqualityComparer.Instance));
 		}
 
 		///<summary>The private version of the above polymorph and should not be called externally.</summary>
 		///<param name="type">The type of obj that is passed in.</param>
 		///<param name="obj">The object that will have all strings associated to it or its children recursively escaped for HTTP transmission.</param>
-		///<param name="objectIDGenerator">Pass in a newly instantiated ID generator.  This method is recursive and will take care of managing it.
-		///The ID generator is used to keep track of objects that have already had their XML escaped so that we don't escape them more than once.</param>
+		///<param name="hashSetVisited">Pass in a newly instantiated set (by reference).  This method is recursive and will take care of managing it.
+		///The set is used to keep track of objects that have already had their XML escaped so that we don't escape them more than once.</param>
 		///<returns>The object that was passed in but fully escaped for HTTP transmission in order to preserve any special XML characters.</returns>
-		private static object XmlEscapeRecursion(Type type,object obj,ObjectIDGenerator objectIDGenerator) {
+		private static object XmlEscapeRecursion(Type type,object obj,HashSet<object> hashSetVisited) {
 			//A function that will recursively call XmlEscapeRecursion if the object passed in hasn't been escaped already.
 			//Returns the object passed in either escaped for HTTP transmission or unaltered.
 			Func<Type,object,object> funcXmlEscapeRecursionIfNeeded=new Func<Type,object,object>((t,o) => {
 				if(o==null) {
 					return o;
 				}
-				bool isFirstTime;//Set to true if the object passed in has already had an ID generated for it before.
-				long objectID=objectIDGenerator.GetId(o,out isFirstTime);//Generates a unique ID (guaranteed) for the object passed in if needed.
+				bool isFirstTime=hashSetVisited.Add(o);//False if the object passed in (this very instance) has been seen before.
 				if(!isFirstTime) {
 					return o;//Object has already been escaped.
 				}
 				//This should be the only time XmlEscapeRecursion() is recursively called.
-				//This is also the only time XmlEscapeRecursion() is invoked without providing a new instance of the ID generator.
-				return XmlEscapeRecursion(t,o,objectIDGenerator);
+				//This is also the only time XmlEscapeRecursion() is invoked without providing a new instance of the set.
+				return XmlEscapeRecursion(t,o,hashSetVisited);
 			});
 			#region String
 			if(type==typeof(string)) {
@@ -357,7 +358,9 @@ namespace OpenPmsDentalBusiness {
 						listCells.Add(XmlEscape(PIn.ByteArray(row[col])));
 					}
 					else {
-						listCells.Add(XmlEscape(row[col].ToString()));
+						//A double cell (a user query's sum) is sent as the .NET Framework wrote it, 15 digits (S3b-FMT, decision 24): the client's table holds
+						//this text, and shows it, as it showed the .NET Framework server's.
+						listCells.Add(XmlEscape(ODNumberText.ToStringNetFxIfNumber(row[col])));
 					}
 				}
 				result.Append("<y>"+string.Join("|",listCells)+"</y>");

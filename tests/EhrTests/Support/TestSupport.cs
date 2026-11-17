@@ -18,7 +18,13 @@ namespace EhrTests {
 	public class AssemblySetup {
 		[AssemblyInitialize]
 		public static void Initialize(TestContext testContext) {
+			OpenPmsDentalTests.TestCodePages.Register();//the code pages first, as the program registers them (tests\Shared\TestCodePages.cs)
 			ClockGuard.Install();
+			//The stylesheet child (OpenPmsDental.exe /ehr-render) starts from the program's output folder, with its own runtime: the copy of the
+			//self-contained program in this test's folder cannot start (S3b-0 item 7; S3b-5).
+			string folderTests=System.IO.Path.GetDirectoryName(typeof(AssemblySetup).Assembly.Location);
+			OpenPmsDentalBusiness.EhrStylesheetStarter.FolderChildForTests=System.IO.Path.GetFullPath(System.IO.Path.Combine(folderTests,"..","..","..","..",
+				"OpenPmsDental","bin",new System.IO.DirectoryInfo(folderTests).Name));
 		}
 	}
 

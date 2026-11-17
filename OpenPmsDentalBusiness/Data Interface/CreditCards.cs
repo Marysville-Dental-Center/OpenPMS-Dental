@@ -177,7 +177,7 @@ namespace OpenPmsDentalBusiness{
 				stringBuilder.AppendLine($"ItemOrder changed from: {creditCardOld.ItemOrder} to {creditCardNew.ItemOrder}.");
 			}
 			if(creditCardNew.ChargeAmt != creditCardOld.ChargeAmt) {
-				stringBuilder.AppendLine($"ChargeAmt changed from: {creditCardOld.ChargeAmt} to {creditCardNew.ChargeAmt}.");
+				stringBuilder.AppendLine($"ChargeAmt changed from: {creditCardOld.ChargeAmt.AsNetFx()} to {creditCardNew.ChargeAmt.AsNetFx()}.");
 			}
 			if(creditCardNew.DateStart.Date != creditCardOld.DateStart.Date) {
 				stringBuilder.AppendLine($"DateStart changed from: {creditCardOld.DateStart.Date} to {creditCardNew.DateStart.Date}.");
@@ -573,7 +573,7 @@ namespace OpenPmsDentalBusiness{
 					//Charge them for the number of charges they haven't paid in the last month. This mimics old logic that would charge them once
 					//regardless of how far back their last payment was. In this case, if they are charged twice a month, charge them two times the
 					//amount they pay for each charge.
-					table.Rows[i]["ChargeAmt"]=(PIn.Double(table.Rows[i]["ChargeAmt"].ToString())*chargeCount).ToString();
+					table.Rows[i]["ChargeAmt"]=(PIn.Double(table.Rows[i]["ChargeAmt"].ToString())*chargeCount).ToStringNetFx();
 					continue;
 				}
 				//Patient doesn't need to be charged yet. Remove from table.

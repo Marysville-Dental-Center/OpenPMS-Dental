@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using CodeBase;
 
 namespace OpenPmsDentalBusiness {
 	///<summary>Corrections of recorded completions. A completion is never deleted, but its checklist ticks, its results (attachments included) and
@@ -122,7 +123,7 @@ namespace OpenPmsDentalBusiness {
 					return valueText==MaintValues.VALUE_TRUE ? "pass" : "fail";
 				case EnumMaintFieldType.Number:
 					if(MaintValues.TryNumberFromDb(valueText,out double value)) {
-						return value.ToString("0.######",CultureInfo.InvariantCulture)+(string.IsNullOrWhiteSpace(unit) ? "" : " "+unit.Trim());
+						return value.ToStringNetFx("0.######",CultureInfo.InvariantCulture)+(string.IsNullOrWhiteSpace(unit) ? "" : " "+unit.Trim());
 					}
 					return valueText;
 				default:

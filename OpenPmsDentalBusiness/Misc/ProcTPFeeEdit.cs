@@ -36,13 +36,13 @@ namespace OpenPmsDentalBusiness {
 		///<summary>Message shown when a save is refused by ShouldBlockOnSave.</summary>
 		public static string GetBlockedOnSaveText(double feeOld) {
 			return Lans.g("ProcTPFeeEdit","Treatment planned fees cannot be changed without the permission")+" "+EnumPermType.ProcTPEditFee.GetDescription()+". "
-				+Lans.g("ProcTPFeeEdit","The fee was restored to")+" "+feeOld.ToString("F")+".";
+				+Lans.g("ProcTPFeeEdit","The fee was restored to")+" "+feeOld.ToStringNetFx("F")+".";
 		}
 
 		///<summary>"Fee for D0120 changed from 50.00 to 60.00".</summary>
 		public static string GetLogText(string procCode,double feeOld,double feeNew) {
-			return Lans.g("ProcTPFeeEdit","Fee for")+" "+procCode+" "+Lans.g("ProcTPFeeEdit","changed from")+" "+feeOld.ToString("F")
-				+" "+Lans.g("ProcTPFeeEdit","to")+" "+feeNew.ToString("F");
+			return Lans.g("ProcTPFeeEdit","Fee for")+" "+procCode+" "+Lans.g("ProcTPFeeEdit","changed from")+" "+feeOld.ToStringNetFx("F")
+				+" "+Lans.g("ProcTPFeeEdit","to")+" "+feeNew.ToStringNetFx("F");
 		}
 
 		///<summary>Tooltip for a fee box that is read-only because the user lacks the permission.</summary>

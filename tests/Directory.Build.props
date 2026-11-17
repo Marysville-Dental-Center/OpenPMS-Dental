@@ -5,33 +5,33 @@
     this file from MSBuild; UnitTests and the tests of tools\SyntheticData and tools\AdoptionValidation, which are outside tests\,
     name it as their Directory.Build.props (DirectoryBuildPropsPath), so they get it, and the repository's file, once each.
     NoHqTests, converted in S1-5 before this file had all of it, keeps its own settings in its project file; S1-5 proved its
-    output folder unchanged. A test project that adds an app.config lists it as a None item (EnableDefaultNoneItems is off below):
-    otherwise Directory.Build.targets still sees the file and skips its tests\BindingRedirects.config fallback.
+    output folder unchanged. A test project that adds an app.config lists it as a None item (EnableDefaultNoneItems is off below).
 
     As in the repository's file, everything here is for SDK-style projects only. Every test project is one since S1-6 of the .NET 10
-    move (docs/specs/net10-plan.md): stages 2, 4 and 3b change this one file instead of every test project file.
+    move (docs/specs/net10-plan.md): stages 2, 4 and 3b changed this one file instead of every test project file.
   -->
   <Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)..\'))" />
 
   <PropertyGroup Condition="'$(UsingMicrosoftNETSdk)' == 'true'">
-    <!-- Every test project targets .NET Framework 4.8 today (x86 comes from the repository's file). -->
-    <TargetFramework>net48</TargetFramework>
     <!--
-      The platform the solution builds a test project for, as Visual Studio's configuration manager lists it: x86 only, the two
-      configurations of the classic projects (Debug|x86, Release|x86). CryptoTests and UnitTests, which the solution also builds as
-      Any CPU, name AnyCPU;x86 themselves. Either way the assembly is x86 (PlatformTarget, the repository's file).
+      No target framework here (S3b-5 of the .NET 10 move, docs/specs/net10-plan.md, stage 3b): every test project gets the repository's,
+      net10.0-windows (Directory.Build.props), and with it the settings Directory.Build.Net.props gives a test project: x64, the runtime
+      identifier win-x64, framework-dependent (SelfContained=false), NLS. Only tests\TopazStandIn, a stand-in for a .NET Framework
+      control on purpose, names net48 itself.
     -->
-    <Platforms>x86</Platforms>
+    <!-- Every project that imports this file is a test project (Directory.Build.Net.props). -->
+    <ODTestProject>true</ODTestProject>
+    <!--
+      The platforms the solution builds a test project for, as Visual Studio's configuration manager lists them: x86 (Debug|x86,
+      Release|x86) and, since stage 3b, x64. CryptoTests and UnitTests, which the solution also builds as Any CPU, name their own. The
+      assembly is x86 on .NET Framework (PlatformTarget, the repository's file) and x64 on .NET 10 (Directory.Build.Net.props), whatever
+      the solution platform.
+    -->
+    <Platforms>x86;x64</Platforms>
     <!-- C# 8.0, the language version of almost every test project; the few on 7.3 set it themselves. -->
     <LangVersion>8.0</LangVersion>
-    <!--
-      Every test project generates its binding redirects into its .dll.config (from tests\BindingRedirects.config when it has no
-      app.config, Directory.Build.targets). MSBuild's common targets write that file for a library only when
-      GenerateBindingRedirectsOutputType is true (Microsoft.Common.CurrentVersion.targets sets it for an exe or winexe); the test
-      projects are libraries, apart from UnitTests (tests\LibraryBindingTests checks both).
-    -->
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(UsingMicrosoftNETSdk)' == 'true'">
     <!--
       No None items from the SDK's default globs: a test project's None and Content items are the ones it lists (the data files it
       copies to its output folder, for one), as they were in the classic projects. Otherwise every other file under a test folder would
@@ -63,6 +63,18 @@
   </PropertyGroup>
 
   <!--
+    The code pages (S3b-5 of the .NET 10 move): every test assembly registers CodePagesEncodingProvider before its first test, as the program
+    does first in ODInitialize.Initialize() and in every Main (tests\Shared\TestCodePages.cs). The [AssemblyInitialize] that does it comes from
+    tests\Shared\TestCodePagesAssemblySetup.cs unless the project has its own (ODOwnAssemblyInitialize), which calls TestCodePages.Register()
+    first. Not for the two projects that are no test assemblies (TopazStandIn and TestProbeHost set ODTestCodePages to false; TestProbeHost's
+    Main registers them itself).
+  -->
+  <ItemGroup Condition="'$(UsingMicrosoftNETSdk)' == 'true' and '$(ODTestCodePages)' != 'false'">
+    <Compile Include="$(MSBuildThisFileDirectory)Shared\TestCodePages.cs" Link="Shared\TestCodePages.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Shared\TestCodePagesAssemblySetup.cs" Link="Shared\TestCodePagesAssemblySetup.cs"
+      Condition="'$(ODOwnAssemblyInitialize)' != 'true'" />
+  </ItemGroup>
+  <!--
     MSTest 4 (stage 4 of the .NET 10 move, package S4-1, docs/port-notes/S4-1.md), in place of MSTest v1 from the Visual Studio folder:
     the framework (MSTest.TestFramework, with MSTest.Analyzers), its VSTest adapter (MSTest.TestAdapter, copied next to each test assembly,
     where vstest.console finds it) and the VSTest SDK (Microsoft.NET.Test.Sdk), at the versions of Directory.Packages.props.
@@ -74,7 +86,8 @@
   </ItemGroup>
   <PropertyGroup Condition="'$(UsingMicrosoftNETSdk)' == 'true'">
     <!--
-      The tests run under VSTest (vstest.console with /Platform:x86, the lane's -Test and the test runners), never as Microsoft Testing
+      The tests run under VSTest (vstest.console with /Platform:x86, or /Platform:x64 for the .NET 10 build, the lane's -Test and the
+      test runners), never as Microsoft Testing
       Platform programs: no generated entry point, no dotnet test support for the platform. These are the packages' defaults for a
       library; they are set here so no test project turns the platform on by itself (tests\ProjectFileTests, TestTelemetryTests).
     -->

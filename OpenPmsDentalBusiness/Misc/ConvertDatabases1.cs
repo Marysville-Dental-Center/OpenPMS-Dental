@@ -402,10 +402,10 @@ namespace OpenPmsDentalBusiness{
 						+"Percentage='"+percentage.ToString()+"',"
 						//+"PercentOverride='-1',"
 						//+"CopayAmt='-1',"
-						+"OverrideInsEst='"+overrideAmt.ToString()+"',"
+						+"OverrideInsEst='"+overrideAmt.ToStringNetFx()+"',"
 						//+"OverAnnualMax='-1',"
 						//+"PaidOtherIns='-1',"
-						+"BaseEst='"+baseEst.ToString()+"'"
+						+"BaseEst='"+baseEst.ToStringNetFx()+"'"
 						//+"CopayOverride='-1'"
 						+" WHERE ClaimProcNum='"+procTable.Rows[i][0].ToString()+"'";
 					//MessageBox.Show(command);
@@ -511,11 +511,11 @@ namespace OpenPmsDentalBusiness{
 							+"'"+status.ToString()+"',"//status
 							+"'"+procTable.Rows[i][3].ToString()+"',"//priPlanNum
 							+POut.Date(PIn.Date(procTable.Rows[i][7].ToString()))+","//dateCP
-							+"'"+writeoff.ToString()+"',"//writeoff
+							+"'"+writeoff.ToStringNetFx()+"',"//writeoff
 							+"'-1',"//allowed amt
 							+"'-1',"//percentage
 							+"'-1',"//percentoverride
-							+"'"+copay.ToString()+"',"//copayamt
+							+"'"+copay.ToStringNetFx()+"',"//copayamt
 							+"'-1',"//overrideInsEst
 							+"'-1',"//OverAnnualMax
 							+"'-1',"//PaidOtherIns
@@ -552,7 +552,7 @@ namespace OpenPmsDentalBusiness{
 						+"'0',"//NoBillIns,
 						+"'-1',"//OverAnnualMax
 						+"'-1',"//PaidOtherIns
-						+"'"+baseEst.ToString()+"'"//BaseEst
+						+"'"+baseEst.ToStringNetFx()+"'"//BaseEst
 						+")";
 					Db.NonQ32(command);
 					//4. standard secondary estimate
@@ -586,7 +586,7 @@ namespace OpenPmsDentalBusiness{
 						+"'0',"//NoBillIns,
 						+"'-1',"//OverAnnualMax
 						+"'-1',"//PaidOtherIns
-						+"'"+baseEst.ToString()+"'"//BaseEst
+						+"'"+baseEst.ToStringNetFx()+"'"//BaseEst
 						+")";
 					Db.NonQ32(command);
 				}//loop procedures

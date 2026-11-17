@@ -4,6 +4,7 @@ using System.Collections;
 using System.ComponentModel;
 using System.Windows.Forms;
 using OpenPmsDentalBusiness;
+using CodeBase;
 
 namespace OpenPmsDental{
 ///<summary></summary>
@@ -71,7 +72,7 @@ namespace OpenPmsDental{
 			}
 			int newerDays=PIn.Int(textDays.Text);
 			if(newerDays>GroupPermissions.NewerDaysMax) {
-				MsgBox.Show(this,$"Days must be less than {GroupPermissions.NewerDaysMax.ToString()}.");
+				MsgBox.Show(this,$"Days must be less than {GroupPermissions.NewerDaysMax.ToStringNetFx()}.");
 				return;
 			}
 			_groupPermission.NewerDays=newerDays;

@@ -567,7 +567,7 @@ namespace OpenPmsDentalBusiness.Microsoft365 {
 						continue;
 					}
 					if(status==429 || (status==503 && callKind==CallKind.Read)) {
-						TimeSpan wait=GetRetryAfter(response)??TimeSpan.FromSeconds(Math.Pow(2,countThrottleRetries));
+						TimeSpan wait=GetRetryAfter(response)??CodeBase.ODTimeSpan.FromSeconds(Math.Pow(2,countThrottleRetries));
 						bool canWait;
 						if(isBackground) {
 							wait=(wait>_options.MaxBackgroundThrottleWait) ? _options.MaxBackgroundThrottleWait : wait;
@@ -591,7 +591,7 @@ namespace OpenPmsDentalBusiness.Microsoft365 {
 					if(status>=500 && callKind==CallKind.Read && countServerRetries<2) {
 						response.Dispose();
 						countServerRetries++;
-						await _options.Delay(TimeSpan.FromSeconds(countServerRetries),cancellationToken).ConfigureAwait(false);
+						await _options.Delay(CodeBase.ODTimeSpan.FromSeconds(countServerRetries),cancellationToken).ConfigureAwait(false);
 						continue;
 					}
 					if(response.IsSuccessStatusCode) {

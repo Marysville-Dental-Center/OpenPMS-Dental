@@ -1,11 +1,16 @@
 ; Open PMS - Dental: the workstation installer (Inno Setup 6).
 ; Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 ;
-; Compile it with tools\Build-Release.ps1. The script builds Release x86, checks the files, stages them in one folder and passes that
-; folder as StagingDir, the information page text (installer\setup-info.txt with NOTICE) as InfoFile, and the License Agreement page text
-; (installer\setup-license.txt: how the program is licensed as installed, then LICENSE-GPL-3.0.txt) as LicenseTextFile. Everything in the
-; staging folder is installed as it is; this script adds only FreeDentalConfig.xml and the uninstaller, and on an upgrade deletes the
-; files of an earlier release that this one no longer ships ([InstallDelete]).
+; Compile it with tools\Build-Release.ps1. The script builds Release x64, checks the files, stages them in one folder and passes that
+; folder as StagingDir, the information page text (installer\setup-info.txt with NOTICE) as InfoFile, the License Agreement page text
+; (installer\setup-license.txt: how the program is licensed as installed, then LICENSE-GPL-3.0.txt) as LicenseTextFile, and the 64-bit
+; TWAINDSM.dll it checked against the approved download as TwainDsmFile, and the 32-bit TWAINDSM.dll of the same download as
+; TwainDsm32File. Everything in the staging folder is installed as it is, with Helper32\ (the 32-bit helper and its x86 runtime); this script
+; adds only FreeDentalConfig.xml, the uninstaller and the two TWAINDSM.dll (into the 64-bit and the 32-bit system folder, never the program
+; folder), and on an upgrade deletes the files of an earlier release that this one no longer ships ([InstallDelete]).
+; The program is 64-bit and self-contained (decisions 19 and 20 of docs/specs/net10-plan.md, package S3b-7): it carries its own .NET runtime
+; (x64 beside the programs, x86 in Helper32\ for the helper), so setup installs no .NET runtime and needs none, also in a silent install. It
+; installs in 64-bit mode into Program Files.
 ;
 ; Command line (besides Inno Setup's own switches, such as /SILENT, /VERYSILENT, /SUPPRESSMSGBOXES, /DIR=, /NOICONS, /TASKS=, /LOG=):
 ;   /DBSERVER=name      database server for FreeDentalConfig.xml (host, or host:port for a port other than 3306). Default localhost.
@@ -26,13 +31,16 @@
 ;   the switches given (/DBSERVER, /DBNAME, /DBUSER too when given), /silent in a silent install; without them it runs the tool's /check
 ;   and, interactive, offers its window when the settings do not meet the connection rule.
 ;   /PREREQS=ask|download|skip
-;                       a missing Visual C++ 2015-2022 x86 runtime: ask (the default; a silent install skips), download and install it
-;                       from Microsoft, or skip it with a warning.
+;                       a missing Visual C++ 2015-2022 x64 runtime, the only prerequisite (Direct2dWrapper.dll imports VCRUNTIME140.dll; the
+;                       .NET runtime needs none): ask (the default; a silent install skips), download and install it from Microsoft, or skip
+;                       it with a warning. The connection settings tool runs from the program folder in every case, also with skip.
 ; The Microsoft Edge WebView2 Runtime (part of Windows 11) is only checked: when it is missing, setup tells the administrator how to install
 ; it (and logs it). Setup never downloads it.
 ; Setup always runs as administrator and installs for all users (owner decision 7 of docs/specs/net10-plan.md): it has no per-user mode,
 ; so {autoprograms} and {autodesktop} are the common Start menu and desktop, and the connection settings tool can always run.
 ; Setup never starts the program, silent or not. The office switch-over (adopting an Open Dental database) is not part of this setup.
+; Windows 11 is the baseline (decision 8): below Windows 11 (build 22000) setup warns, with Microsoft's list of the Windows versions .NET 10
+; supports, and goes on when the user agrees (a silent install goes on and logs it); MinVersion is the hard floor.
 ; Exit code: Inno Setup's own (0 done, 1 to 8 setup did not finish), and 10 for a silent install that finished but whose connection settings
 ; step did not: the connection settings tool failed or could not start, or, on an upgrade without security switches, the kept settings fail
 ; the connection rule (/check). The files are installed; setup's /LOG has the tool's result line and exit code. Run the tool as an
@@ -54,6 +62,12 @@
 #ifndef LicenseTextFile
   #define LicenseTextFile "bin\setup-license.txt"
 #endif
+#ifndef TwainDsmFile
+  #define TwainDsmFile "bin\setup-files\TWAINDSM.dll"
+#endif
+#ifndef TwainDsm32File
+  #define TwainDsm32File "bin\setup-files\x86\TWAINDSM.dll"
+#endif
 
 [Setup]
 ; A new id of our own: this setup never upgrades or removes an Open Dental installation.
@@ -74,8 +88,13 @@ VersionInfoProductTextVersion={#AppVersion}
 VersionInfoCompany=Open PMS - Dental contributors
 VersionInfoDescription={#AppName} Setup
 VersionInfoCopyright=Open PMS - Dental contributors; a fork of Open Dental (c) Open Dental Software, Inc. and contributors. Source files: GNU GPL v2 or later. As installed, with PDFsharp and MigraDoc (GNU AGPL v3): GNU GPL v3.
+; A 64-bit install (decision 19, https://jrsoftware.org/ishelp/index.php?topic=64bitinstallation): only on 64-bit Windows that runs x64
+; programs (x64 or Arm64 with x64 emulation), in 64-bit mode, so {commonpf64} is Program Files, {sys} the 64-bit system folder and HKLM the
+; 64-bit registry view (the uninstall entry too).
+ArchitecturesAllowed=x64compatible
+ArchitecturesInstallIn64BitMode=x64compatible
 ; Never Open Dental's folder. The release channel and UpdateFileCopier work on this per-machine folder (docs/release-process.md).
-DefaultDirName={commonpf32}\Open PMS - Dental
+DefaultDirName={commonpf64}\Open PMS - Dental
 UsePreviousAppDir=yes
 DirExistsWarning=no
 DisableProgramGroupPage=yes
@@ -99,7 +118,7 @@ OutputBaseFilename=OpenPmsDental-{#AppVersion}-Setup
 Compression=lzma2
 SolidCompression=yes
 WizardStyle=modern
-; Windows 10 version 1903 or later, or Windows 11 (README.md, Workstations).
+; The hard floor: Windows 10 version 1903. Windows 11 is the baseline; below it setup warns (InitializeSetup, decision 8).
 MinVersion=10.0.18362
 CloseApplications=yes
 ; Never start the program after setup, not even one that setup closed.
@@ -144,9 +163,30 @@ Type: files; Name: "{app}\SharpDX.Direct3D9.dll"
 Type: files; Name: "{app}\SharpDX.Mathematics.dll"
 Type: files; Name: "{app}\Tao.OpenGl.dll"
 Type: files; Name: "{app}\Tao.Platform.Windows.dll"
+; The .NET Framework settings files of the programs: on .NET the SDK writes <name>.dll.config instead (S3b-7 of the .NET 10 move); the helper
+; moved into Helper32\ without one.
+Type: files; Name: "{app}\OpenPmsDental.exe.config"
+Type: files; Name: "{app}\ServiceManager.exe.config"
+Type: files; Name: "{app}\OpenPmsDentalDbSettings.exe.config"
+Type: files; Name: "{app}\OpenPmsDentalHelper32.exe.config"
+; Packages of the .NET Framework build whose types are part of .NET 10 (the restore prunes them).
+Type: files; Name: "{app}\Microsoft.Bcl.AsyncInterfaces.dll"
+Type: files; Name: "{app}\Microsoft.Bcl.Cryptography.dll"
 
 [Files]
 Source: "{#StagingDir}\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+; The 64-bit TWAIN data source manager (decision 19): the x64 program loads TWAINDSM.dll only from the 64-bit system folder
+; (ImagingDeviceManager's NativeTwainDsm), never from the program folder. Installed when it is missing or older (Inno Setup compares the file
+; versions; no ignoreversion), as a shared file that other TWAIN programs use too, so the uninstall leaves it in place. Build-Release takes it
+; from the TWAIN Working Group's release and checks its SHA-256 and signature.
+Source: "{#TwainDsmFile}"; DestDir: "{sys}"; Flags: sharedfile uninsneveruninstall restartreplace
+; The 32-bit TWAIN data source manager (decision 23, package S3b-8; the owner's "32-bit TWAIN manager: yes"): a TWAIN source with only a
+; 32-bit driver runs its whole session in the 32-bit helper (Helper32\), which loads TWAINDSM.dll from the 32-bit system folder (SysWOW64).
+; The same TWAIN Working Group release, checked by Build-Release the same way; installed when it is missing or older, as a shared file the
+; uninstall leaves in place. {sys} with the 32bit flag is the 32-bit system folder (SysWOW64) in 64-bit install mode, and counts the file in
+; the 32-bit view of SharedDLLs under the path the 32-bit setups of TWAIN drivers count it under (Inno Setup's sharedfile documentation:
+; never the SysWOW64 constant with sharedfile, which would make a second count for the same file).
+Source: "{#TwainDsm32File}"; DestDir: "{sys}"; Flags: sharedfile uninsneveruninstall restartreplace 32bit
 ; Written by the [Code] below into {tmp} only when the program folder has no FreeDentalConfig.xml. It keeps the folder's rights: only an
 ; administrator changes the connection settings, with the connection settings tool (owner decision Q7, docs/specs/db-connection-security.md).
 Source: "{tmp}\{#ConfigFileName}"; DestDir: "{app}"; Flags: external onlyifdoesntexist; Check: ShouldInstallConfig
@@ -162,14 +202,16 @@ Root: HKLM; Subkey: "SYSTEM\CurrentControlSet\Services\EventLog\Application\{#Ev
 
 [Code]
 const
-  NetFx48Release = 528040;
-  VcRedistUrl = 'https://aka.ms/vs/17/release/vc_redist.x86.exe';
-  VcRedistFile = 'vc_redist.x86.exe';
-  VcRedistKey = 'SOFTWARE\Microsoft\VisualStudio\14.0\VC\Runtimes\x86';
+  VcRedistUrl = 'https://aka.ms/vs/17/release/vc_redist.x64.exe';
+  VcRedistFile = 'vc_redist.x64.exe';
+  VcRedistKey = 'SOFTWARE\Microsoft\VisualStudio\14.0\VC\Runtimes\x64';
+  { Windows 11 is the baseline (decision 8): its first build. Below it setup warns. }
+  Windows11Build = 22000;
+  DotNetWindowsUrl = 'https://learn.microsoft.com/en-us/dotnet/core/install/windows';
   { Microsoft's Evergreen bootstrapper, for the administrator. Setup only names it and never downloads it. }
   WebView2Url = 'https://go.microsoft.com/fwlink/p/?LinkId=2124703';
   WebView2Key = 'SOFTWARE\Microsoft\EdgeUpdate\Clients\{F3017226-FE2A-4295-8BDF-00C3A9A7E4C5}';
-  VcRedistName = 'Microsoft Visual C++ 2015-2022 Redistributable (x86)';
+  VcRedistName = 'Microsoft Visual C++ 2015-2022 Redistributable (x64)';
   WebView2Name = 'Microsoft Edge WebView2 Runtime';
   { Setup's exit code when a silent install finished but its connection settings step did not: the tool failed or could not start, or the
     kept settings fail the connection rule (GetCustomSetupExitCode). Inno Setup's own codes are 0 to 8. }
@@ -191,21 +233,33 @@ var
 
 { ---------- Prerequisites ---------- }
 
-function IsNetFx48Installed: Boolean;
-var
-  Release: Cardinal;
-begin
-  Result := RegQueryDWordValue(HKLM, 'SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full', 'Release', Release) and (Release >= NetFx48Release);
-  if (not Result) and IsWin64 then
-    Result := RegQueryDWordValue(HKLM64, 'SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full', 'Release', Release) and (Release >= NetFx48Release);
-end;
-
-function IsVcRedistInstalled: Boolean;
+{ The x64 redistributable's key in one registry view: installed, version 14 or later. }
+function HasVcRedistKey(const RootKey: Integer): Boolean;
 var
   Installed, Major: Cardinal;
 begin
-  Result := RegQueryDWordValue(HKLM32, VcRedistKey, 'Installed', Installed) and (Installed = 1)
-    and RegQueryDWordValue(HKLM32, VcRedistKey, 'Major', Major) and (Major >= 14);
+  Result := RegQueryDWordValue(RootKey, VcRedistKey, 'Installed', Installed) and (Installed = 1)
+    and RegQueryDWordValue(RootKey, VcRedistKey, 'Major', Major) and (Major >= 14);
+end;
+
+{ Microsoft's page names the key under Wow6432Node and also says that view matters only for the x86 package; on the build PC the x64 key is
+  in both views (S3b-0, item 12a). So both views are read, and either counts. }
+function IsVcRedistInstalled: Boolean;
+begin
+  Result := HasVcRedistKey(HKLM64) or HasVcRedistKey(HKLM32);
+end;
+
+{ The warning below Windows 11 (decision 8). Empty on Windows 11 and later. }
+function OldWindowsText: String;
+var
+  Version: TWindowsVersion;
+begin
+  Result := '';
+  GetWindowsVersionEx(Version);
+  if Version.Build < Windows11Build then
+    Result := 'This computer runs Windows ' + IntToStr(Version.Major) + '.' + IntToStr(Version.Minor) + ' build ' + IntToStr(Version.Build) +
+      '. {#AppName} is made for Windows 11. It runs on .NET 10, which Microsoft supports on Windows 10 only in some editions: see ' +
+      DotNetWindowsUrl + ' before you go on.' + #13#10#13#10 + 'Continue the setup?';
 end;
 
 function HasWebView2Version(const RootKey: Integer): Boolean;
@@ -721,16 +775,20 @@ end;
 { ---------- Setup events ---------- }
 
 function InitializeSetup: Boolean;
+var
+  OldWindows: String;
 begin
   Result := True;
-  if not IsNetFx48Installed then begin
-    Log('.NET Framework 4.8 is missing (NDP\v4\Full Release below 528040).');
-    SuppressibleMsgBox('{#AppName} needs the Microsoft .NET Framework 4.8, which this computer does not have.' + #13#10#13#10 +
-      'Windows 10 version 1903 and later and Windows 11 include it. Install it from Microsoft ' +
-      '(https://dotnet.microsoft.com/download/dotnet-framework/net48), restart the computer, then run this setup again.',
-      mbCriticalError, MB_OK, IDOK);
-    Result := False;
-    Exit;
+  { No .NET check: the program carries its own .NET runtime (decision 20). Below Windows 11 a warning; Yes goes on. A silent install takes
+    the default answer, Yes, and logs the warning. }
+  OldWindows := OldWindowsText;
+  if OldWindows <> '' then begin
+    Log('Windows below the baseline: ' + OldWindows);
+    if SuppressibleMsgBox(OldWindows, mbConfirmation, MB_YESNO, IDYES) <> IDYES then begin
+      Log('The user stopped the setup on this Windows version.');
+      Result := False;
+      Exit;
+    end;
   end;
   NeedVcRedist := not IsVcRedistInstalled;
   NeedWebView2 := not IsWebView2Installed;

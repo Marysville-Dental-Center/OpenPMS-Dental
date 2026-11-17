@@ -1,0 +1,15 @@
+Scene: text-labels-at-edges
+Group: free-text
+Description: Free-text labels at the corners and edges (0,0; 380,0; 0,290; 370,290; 200,0). The old charts draw no free text; the WPF and 2D charts do since TC-5, each label kept inside the picture.
+Size: 410x307
+Colours: Module
+Engine: Wpf3D (RenderTargetBitmap in software, 3D layer at 3x reduced with WIC's Fant scaler)
+Bitmap: 410x307 Format24bppRgb
+Alpha: every alpha is 255 (format without an alpha channel)
+Colours in the picture: 3549
+Pixels SHA-256: 1168c3695c5fdacdc3278e2983ae3ab7be9ce298a03f40e416c9d1cc0ac9c2d6
+Repeatable: yes (a second GetBitmap gave the same pixels)
+Framework: .NET 10.0, x64
+Windows: build 26300.9974 (26H2)
+Fresh render: yes (both layers drawn again without the layer cache gave the same pixels)
+Screen DPI seen by the test host: 96

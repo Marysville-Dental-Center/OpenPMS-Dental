@@ -20,6 +20,8 @@
     For additional information, email info@fyireporting.com or visit
     the website www.fyiReporting.com.
 */
+// Changed by Open PMS - Dental contributors, 2026-11-16 (package S3b-FMT of the .NET 10 move, decision 24 of docs/specs/net10-plan.md,
+// docs/port-notes/S3b-FMT.md): doubles and floats are written as text as .NET Framework wrote them (ODNumberText.ToStringNetFx, AsNetFx).
 
 using System;
 using System.Xml;
@@ -27,6 +29,7 @@ using System.Text.RegularExpressions;
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
+using CodeBase;
 
 namespace fyiReporting.RDL
 {
@@ -257,7 +260,7 @@ namespace fyiReporting.RDL
 			{
 				ival = (int) val;
 				if (ival != val)
-					throw new Exception(string.Format("Filter operators TopN and BottomN require an integer value got {0}.", val));
+					throw new Exception(string.Format("Filter operators TopN and BottomN require an integer value got {0}.", val.AsNetFx()));
 				if (ival >= data.Data.Count)		// includes all the data?
 					return;
 				ival--;					// make zero based

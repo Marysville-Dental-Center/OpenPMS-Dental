@@ -201,19 +201,19 @@ namespace OpenPmsDental {
 		///<summary>Derived from StartHour and EndHour</summary>
 		public TimeSpan TotalTime {
 			get {
-				return TimeSpan.FromHours(Math.Max(EndHour-StartHour,1));
+				return CodeBase.ODTimeSpan.FromHours(Math.Max(EndHour-StartHour,1));
 			}
 		}
 		///<summary>Derived from StartHour</summary>
 		public TimeSpan StartTime {
 			get {
-				return TimeSpan.FromHours(StartHour);
+				return CodeBase.ODTimeSpan.FromHours(StartHour);
 			}
 		}
 		///<summary>Derived from EndHour</summary>
 		public TimeSpan EndTime {
 			get {
-				return TimeSpan.FromHours(EndHour);
+				return CodeBase.ODTimeSpan.FromHours(EndHour);
 			}
 		}
 		///<summary>Current sort choice</summary>
@@ -413,7 +413,7 @@ namespace OpenPmsDental {
 				//draw a faint line indicating what time of day it is right now
 				if(DateTime.Now>=DateTime.Today.AddHours(StartHour) && DateTime.Now<=DateTime.Today.AddHours(EndHour)) {
 					using(Pen penNow=new Pen(Color.FromArgb(128,Color.Red),LineWidthPixels*2)) {
-						int minutes = (int)DateTime.Now.TimeOfDay.Subtract(TimeSpan.FromHours(StartHour)).TotalMinutes;
+						int minutes = (int)DateTime.Now.TimeOfDay.Subtract(CodeBase.ODTimeSpan.FromHours(StartHour)).TotalMinutes;
 						float xPos=rcBounds.Left+(minutes*pixelsPerMinute);
 						e.Graphics.DrawLine(penNow,xPos,rcBounds.Bottom,xPos,rcBounds.Top);
 					}

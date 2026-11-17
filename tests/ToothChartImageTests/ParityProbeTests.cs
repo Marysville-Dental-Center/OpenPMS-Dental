@@ -15,8 +15,9 @@ using SparksToothChart.Wpf3D;
 
 namespace ToothChartImageTests {
 	///<summary>Every chart scene that TC-0 recorded in DirectX, at each recorded size, probed in the WPF picture and in the DirectX picture. The WPF
-	///pictures are the committed baselines (Baselines\wpf-net48), which ChartScenes_MatchTheWpfBaselines checks against fresh renders; with
-	///OPMS_PARITY_FRESH=1 the probes render every scene again instead (for tuning, before the baselines are recorded). Each test writes its results
+	///pictures are the committed baselines of this runtime and bitness (WpfCharts.ForThisBitness: Baselines\wpf-net48 in a 32-bit process, its x64 copy
+	///in Baselines\wpf-net48-x64 on .NET Framework x64, Baselines\wpf-net10-x64 on .NET 10 x64), the same set ChartScenes_MatchTheWpfBaselines checks
+	///against fresh renders; with OPMS_PARITY_FRESH=1 the probes render every scene again instead (for tuning, before the baselines are recorded). Each test writes its results
 	///per scene group to %TEMP%\ToothChartImageTests (parity-probes.txt, parity-text.txt) and fails on any difference the allowance list does not
 	///cover, or on an allowance that covers nothing.</summary>
 	[TestClass]
@@ -212,6 +213,27 @@ namespace ToothChartImageTests {
 			new TextAllowance("ortho-mode","500x370","number","number 14",ReasonOrthoModeNextToNumbers),
 		};
 
+		///<summary>The reviewed exceptions of a 64-bit process only (S3b-5W), added to TextAllowances there and absent in a 32-bit one, where these
+		///boxes are within one pixel (and an allowance that covers nothing fails).</summary>
+		public static readonly List<TextAllowance> TextAllowances64Bit=new List<TextAllowance> {
+			new TextAllowance("colour-custom-chart-colours","410x307","number","number 5",ReasonNumberFive64Bit),
+			new TextAllowance("select-whole-arch","410x307","number","number 5",ReasonNumberFive64Bit),
+		};
+
+		static ParityProbeTests() {
+			if(Environment.Is64BitProcess) {
+				TextAllowances.AddRange(TextAllowances64Bit);
+			}
+		}
+
+		private const string ReasonNumberFive64Bit="A 64-bit difference of place, the owner's question 2 of gallery G5 (TC-10, S3b-5W): every 64-bit process "
+			+"(.NET Framework x64 and .NET 10 x64 alike; this \"5\" has the same pixels in Baselines\\wpf-net48-x64 and wpf-net10-x64) puts tooth 5's number "
+			+"one pixel right of the 32-bit picture, because ToothSceneBuilder.AddText rounds a single-precision projection that lands on a pixel border "
+			+"(x87 in the 32-bit JIT, SSE in every 64-bit one). On this scene's colours (the selection highlight, the custom chart colours) the faint left "
+			+"column of the moved glyph falls under the 0.4 ink threshold, so the ink box's left edge reads 2 pixels from DirectX's (120 against 122; the "
+			+"32-bit picture's is within 1); the glyph itself is the 32-bit one, one pixel over. Remove these two if the rounding is changed to give the "
+			+"32-bit place again.";
+
 		private const string ReasonRetainedRootNextToNumbers="On purpose, not a difference of place (TC-6, RR-1): the WPF chart draws this tooth's retained "
 			+"root as Open Dental does, its root alone in the status colour, which in the occlusal row is a dark crescent right above the number; its "
 			+"pixels in the search box count as the number's ink and the WPF ink box grows upward by 2 to 3 pixels. DirectX 9 drew the whole tooth there, "
@@ -373,7 +395,8 @@ namespace ToothChartImageTests {
 							arrayWpf=ChartImageCompare.GetPixelsArgb(bitmapWpf);
 						}
 						else {
-							string pathWpf=WpfCharts.GetPicturePath(WpfCharts.BaselinesWpf,chartSize,scene);
+							//S3b-5W: the picture of this runtime and bitness, the set ChartScenes_MatchTheWpfBaselines holds against fresh renders.
+							string pathWpf=WpfCharts.ForThisBitness(WpfCharts.GetPicturePath(WpfCharts.BaselinesWpf,chartSize,scene));
 							if(!File.Exists(pathWpf)) {
 								listMissing.Add(name+": no WPF baseline");
 								continue;

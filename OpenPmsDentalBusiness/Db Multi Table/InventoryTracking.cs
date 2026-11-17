@@ -811,7 +811,7 @@ namespace OpenPmsDentalBusiness {
 		///<summary>A quantity for display and audit text: up to 2 decimals, no trailing zeros.</summary>
 		public static string FormatQty(double qty) {
 			Meth.NoCheckMiddleTierRole();
-			return Math.Round(qty,2).ToString("0.##");
+			return Math.Round(qty,2).ToStringNetFx("0.##");
 		}
 
 		private static string FormatQtySigned(double qty) {

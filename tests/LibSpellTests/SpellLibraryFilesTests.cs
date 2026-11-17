@@ -81,10 +81,12 @@ namespace LibSpellTests {
 			Assert.AreEqual(TAG,dictMetadata["SourceTag"]);
 			Assert.AreEqual("https://github.com/aarondandy/WeCantSpell.Hunspell",dictMetadata["SourceRepository"]);
 			Assert.AreEqual(@"Open PMS - Dental, third-party\build\WeCantSpell.Hunspell",dictMetadata["SourceBuild"]);
-			Assert.AreEqual(".NETFramework,Version=v4.8",assembly.GetCustomAttribute<TargetFrameworkAttribute>().FrameworkName);
+			//The .NET 10 build (S3b-2, S3b-5): upstream's net10.0 sources against the shared framework, which holds what the support packages gave
+			//the .NET Framework build (System.Memory, System.Buffers, System.Runtime.CompilerServices.Unsafe on net48).
+			Assert.AreEqual(".NETCoreApp,Version=v10.0",assembly.GetCustomAttribute<TargetFrameworkAttribute>().FrameworkName);
 			Assert.AreEqual("aarondandy",assembly.GetCustomAttribute<AssemblyCompanyAttribute>().Company);
-			CollectionAssert.AreEquivalent(new[] { "mscorlib","System.Core","System.Memory","System.Buffers","System.Runtime.CompilerServices.Unsafe" },
-				assembly.GetReferencedAssemblies().Select(x => x.Name).ToArray());
+			CollectionAssert.AreEquivalent(new[] { "System.Runtime","System.Collections.Immutable","System.Collections","System.Memory","System.Linq",
+				"System.Threading","System.Text.Encoding.Extensions" },assembly.GetReferencedAssemblies().Select(x => x.Name).ToArray());
 		}
 
 		[TestMethod]
@@ -112,7 +114,9 @@ namespace LibSpellTests {
 			List<string> listCompiled=File.ReadAllLines(fileInfo.FullName).Where(x => x.StartsWith("Compile|")).Select(x => Path.GetFullPath(x.Substring(8)).ToLowerInvariant())
 				.ToList();
 			CollectionAssert.AreEquivalent(listUpstream.ToArray(),listCompiled.Where(x => x.StartsWith(folderLibrary.ToLowerInvariant()+"\\")).ToArray());
-			CollectionAssert.AreEquivalent(new[] { "sourcebuildinfo.g.cs",".netframework,version=v4.8.assemblyattributes.cs" },
+			//On .NET 10 the generated attributes are the target framework's and the SDK's two platform attributes (WeCantSpell.Hunspell.AssemblyInfo.cs,
+			//Directory.Build.Net.props), beside the build's own SourceBuildInfo.g.cs.
+			CollectionAssert.AreEquivalent(new[] { "sourcebuildinfo.g.cs",".netcoreapp,version=v10.0.assemblyattributes.cs","wecantspell.hunspell.assemblyinfo.cs" },
 				listCompiled.Where(x => !x.StartsWith(folderLibrary.ToLowerInvariant()+"\\")).Select(x => Path.GetFileName(x)).ToArray(),
 				"Besides the library folder, only the generated attributes.");
 			Assert.IsFalse(File.ReadAllLines(fileInfo.FullName).Any(x => x.StartsWith("EmbeddedResource|")),"No resources, as upstream.");
@@ -126,11 +130,12 @@ namespace LibSpellTests {
 			}
 			ProjectFile projectFile=ProjectFile.Load(RepoPaths.Combine("third-party","build","WeCantSpell.Hunspell","WeCantSpell.Hunspell.csproj"));
 			Assert.AreEqual(0,projectFile.GetItems("PackageDownload").Count,"WeCantSpell.Hunspell.csproj downloads a package.");
-			CollectionAssert.AreEquivalent(new[] { "System.Buffers","System.Memory","System.Runtime.CompilerServices.Unsafe" },
-				projectFile.GetItems("PackageReference").Select(x => x.Include).ToArray(),"WeCantSpell.Hunspell.csproj asks NuGet only for the support assemblies.");
-			foreach(string package in new[] { "System.Buffers","System.Memory","System.Runtime.CompilerServices.Unsafe" }) {
-				Assert.IsFalse(string.IsNullOrEmpty(projectFile.GetPackageVersion(package)),package+": the version of Directory.Packages.props.");
-			}
+			//On .NET 10 no package at all: the support assemblies the .NET Framework build took as packages (System.Buffers, System.Memory,
+			//System.Runtime.CompilerServices.Unsafe) are part of the shared framework (S3b-2, S3b-5).
+			CollectionAssert.AreEquivalent(new string[0],
+				projectFile.GetItems("PackageReference").Select(x => x.Include).ToArray(),"WeCantSpell.Hunspell.csproj asks NuGet for no package.");
+			//(Until S3b-5 each of the three packages had the version of Directory.Packages.props here; with no package reference there is none to
+			//check.)
 			Assert.AreNotEqual("true",projectFile.GetProperty("SignAssembly").ToLowerInvariant(),"WeCantSpell.Hunspell.csproj is not signed.");
 			Assert.AreEqual(COMMIT,projectFile.GetProperty("SourceBuildCommit"));
 			Assert.AreEqual(INFORMATIONAL_VERSION,projectFile.GetProperty("SourceBuildInformationalVersion"));

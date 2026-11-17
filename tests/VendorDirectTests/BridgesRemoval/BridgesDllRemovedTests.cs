@@ -106,14 +106,16 @@ namespace VendorDirectTests.BridgesRemoval {
 			string folder=Path.Combine(GetRoot(),"Required dlls");
 			List<string> listLeft=_arrayRemovedFiles.Where(x => File.Exists(Path.Combine(folder,x))).ToList();
 			Assert.AreEqual(0,listLeft.Count,"Still in Required dlls: "+string.Join(", ",listLeft));
-			//MSAL stays for the Microsoft 365 sign-in, with the one IdentityModel assembly it needs, and the Graph SDK was not the only user of
-			//Microsoft.Bcl.AsyncInterfaces: SSH.NET references it too. Since S2-4 of the .NET 10 move the program gets all three from their NuGet
-			//packages (its lock file), and "Required dlls" holds no copy of them.
+			//MSAL stays for the Microsoft 365 sign-in, with the one IdentityModel assembly it needs. Since S2-4 of the .NET 10 move the program gets
+			//both from their NuGet packages (its lock file), and "Required dlls" holds no copy of them. Microsoft.Bcl.AsyncInterfaces, which SSH.NET's
+			//.NET Framework build referenced, is part of .NET 10 (the package is pruned, S3b-5): no lock file names it, no copy is back.
 			List<LockedPackage> listLocked=NuGetFiles.ReadLockFile(Path.Combine(GetRoot(),"OpenPmsDental","packages.lock.json"));
-			foreach(string packageId in new[] { "Microsoft.Identity.Client","Microsoft.IdentityModel.Abstractions","Microsoft.Bcl.AsyncInterfaces" }) {
+			foreach(string packageId in new[] { "Microsoft.Identity.Client","Microsoft.IdentityModel.Abstractions" }) {
 				Assert.IsTrue(listLocked.Any(x => x.Id==packageId),"The program gets "+packageId+" (OpenPmsDental's lock file).");
 				Assert.IsFalse(File.Exists(Path.Combine(folder,packageId+".dll")),"Required dlls\\"+packageId+".dll is back; the package supplies it.");
 			}
+			Assert.IsFalse(listLocked.Any(x => x.Id=="Microsoft.Bcl.AsyncInterfaces"),"Pruned on .NET 10.");
+			Assert.IsFalse(File.Exists(Path.Combine(folder,"Microsoft.Bcl.AsyncInterfaces.dll")),"Required dlls\\Microsoft.Bcl.AsyncInterfaces.dll is back.");
 			Assert.AreEqual("4.92.0",listLocked.Single(x => x.Id=="Microsoft.Identity.Client").Version);
 			Assert.AreEqual("8.14.0",listLocked.Single(x => x.Id=="Microsoft.IdentityModel.Abstractions").Version);
 		}
@@ -168,7 +170,7 @@ namespace VendorDirectTests.BridgesRemoval {
 			//The program's managed assembly (ProgramAssembly: OpenPmsDental.dll on .NET, where the .exe is the apphost Mono.Cecil cannot read).
 			foreach(string pathRelative in new[] { ProgramAssembly.FindRelative(GetRoot(),@"OpenPmsDental\bin\Debug","OpenPmsDental"),
 				@"WpfControlsOD\bin\Debug\WpfControlsOD.dll",
-				@"UnitTests\bin\Debug\Unit Tests.exe" })
+				@"UnitTests\bin\Debug\Unit Tests.dll" })//the managed assembly; the .exe is the apphost on .NET (S3b-5)
 			{
 				string path=Path.Combine(GetRoot(),pathRelative);
 				if(!File.Exists(path)) {
@@ -184,7 +186,8 @@ namespace VendorDirectTests.BridgesRemoval {
 		[TestMethod]
 		public void MsalDependency_StillReachesTheProgram() {
 			//The Graph SDK's dependencies used to bring Microsoft.IdentityModel.Abstractions in. MSAL 4.92.0 asks for 8.14.0, the shipped copy; the
-			//business layer references it itself, and the program must both copy it and redirect older versions to it.
+			//business layer references it itself, and the program must copy it and bind 8.14.0: on .NET 10 by its .deps.json, which names the package
+			//at that version (until S3b-5, a binding redirect of OpenPmsDental.exe.config).
 			Assert.IsTrue(typeof(Patient).Assembly.GetReferencedAssemblies().Any(x => x.Name=="Microsoft.IdentityModel.Abstractions"),
 				"OpenPmsDentalBusiness should reference Microsoft.IdentityModel.Abstractions.");
 			string folder=Path.Combine(GetRoot(),@"OpenPmsDental\bin\Debug");
@@ -193,43 +196,38 @@ namespace VendorDirectTests.BridgesRemoval {
 			}
 			Assert.IsTrue(File.Exists(Path.Combine(folder,"Microsoft.Identity.Client.dll")));
 			Assert.IsTrue(File.Exists(Path.Combine(folder,"Microsoft.IdentityModel.Abstractions.dll")),"MSAL's dependency is not copied to the program folder.");
-			string config=File.ReadAllText(Path.Combine(folder,"OpenPmsDental.exe.config"));
-			StringAssert.Matches(config,new Regex(@"name=""Microsoft\.IdentityModel\.Abstractions""[^>]*/>\s*<bindingRedirect oldVersion=""0\.0\.0\.0-8\.14\.0\.0"""),
-				"OpenPmsDental.exe.config needs the binding redirect MSAL relies on.");
+			string deps=File.ReadAllText(Path.Combine(folder,"OpenPmsDental.deps.json"));
+			StringAssert.Contains(deps,"\"Microsoft.IdentityModel.Abstractions/8.14.0\"","OpenPmsDental.deps.json binds the copy MSAL relies on.");
+			Assert.AreEqual(new Version(8,14,0,0),System.Reflection.AssemblyName.GetAssemblyName(Path.Combine(folder,"Microsoft.IdentityModel.Abstractions.dll")).Version);
 		}
 
 		[TestMethod]
 		public void SshNetDependency_StillReachesTheProgram() {
-			//Renci.SshNet (SSH.NET 2026.0.0, net462) references Microsoft.Bcl.AsyncInterfaces 8.0.0.0. The Graph SDK used to bring a newer copy and
-			//its redirect in, so OpenPmsDentalStorage now references it itself. Without it, SFTP A to Z storage and the TSI uploads fail when SftpClient loads.
-			//The evaluated reference: the package of Directory.Packages.props, 10.0.15 since S2-2 of the .NET 10 move (10.0.14, the file Required dlls held,
-			//in S2-1), whose own file the program gets (Required dlls holds no copy since S2-4).
-			Assert.AreEqual("10.0.15",
-				ProjectFile.Load(Path.Combine(GetRoot(),@"OpenPmsDentalStorage\OpenPmsDentalStorage.csproj")).GetPackageVersion("Microsoft.Bcl.AsyncInterfaces"),
-				"OpenPmsDentalStorage should reference the Microsoft.Bcl.AsyncInterfaces package next to SSH.NET's.");
+			//Renci.SshNet (SSH.NET 2026.0.0) built for .NET Framework referenced Microsoft.Bcl.AsyncInterfaces 8.0.0.0, which OpenPmsDentalStorage
+			//referenced itself so every host copied it, with a binding redirect to the shipped 10.0.0.15. Its net10.0 build, which the .NET 10
+			//program gets, needs neither: the types are part of .NET (S3b-5), so the package is pruned and nothing references the assembly. Without
+			//SSH.NET's own files SFTP A to Z storage and the TSI uploads would fail when SftpClient loads.
 			string folder=Path.Combine(GetRoot(),@"OpenPmsDental\bin\Debug");
 			if(!File.Exists(Path.Combine(folder,"OpenPmsDental.exe"))) {
-				BuildOutput.NotBuilt(@"OpenPmsDental\bin\Debug is not built. Build OpenDental.Local.slnf (Debug|x86) first.");
+				BuildOutput.NotBuilt(@"OpenPmsDental\bin\Debug is not built. Build OpenDental.Local.slnf (Debug|x64) first.");
 			}
 			Assert.IsTrue(File.Exists(Path.Combine(folder,"Renci.SshNet.dll")));
-			//A reference alone did not carry it to the hosts while it was a HintPath: the compiler drops unused references, and the hosts' build would
-			//not take 10.0.0.15 for SSH.NET's 8.0.0.0. OpenPmsDentalStorage uses it, so its own reference is what every host copies.
-			Assert.IsTrue(GetReferencedAssemblyNames(Path.Combine(folder,"OpenPmsDentalStorage.dll")).Contains("Microsoft.Bcl.AsyncInterfaces"),
-				"OpenPmsDentalStorage.dll should reference Microsoft.Bcl.AsyncInterfaces.");
-			Assert.IsTrue(File.Exists(Path.Combine(folder,"Microsoft.Bcl.AsyncInterfaces.dll")),"SSH.NET's dependency is not copied to the program folder.");
-			string pathConfig=Path.Combine(folder,"OpenPmsDental.exe.config");
-			StringAssert.Matches(File.ReadAllText(pathConfig),
-				new Regex(@"name=""Microsoft\.Bcl\.AsyncInterfaces""[^>]*/>\s*<bindingRedirect oldVersion=""0\.0\.0\.0-10\.0\.0\.15"" newVersion=""10\.0\.0\.15"""),
-				"OpenPmsDental.exe.config needs the binding redirect SSH.NET relies on.");
-			//Load SftpClient the way the program does: the program's files, with the program's config, in a process of its own so nothing stays
-			//loaded or locked here (S3a-8 of the .NET 10 move: a child process in place of a new AppDomain, which .NET cannot create). The child runs
-			//from a scratch folder that holds Renci.SshNet.dll and the files of the program's folder it references, so nothing is written into the
-			//program's folder.
+			Assert.IsFalse(GetReferencedAssemblyNames(Path.Combine(folder,"Renci.SshNet.dll")).Contains("Microsoft.Bcl.AsyncInterfaces"),
+				"SSH.NET's .NET build references no Microsoft.Bcl.AsyncInterfaces.");
+			Assert.IsFalse(GetReferencedAssemblyNames(Path.Combine(folder,"OpenPmsDentalStorage.dll")).Contains("Microsoft.Bcl.AsyncInterfaces"));
+			StringAssert.Contains(File.ReadAllText(Path.Combine(folder,"OpenPmsDental.deps.json")),"\"SSH.NET/2026.0.0\"",
+				"OpenPmsDental.deps.json binds SSH.NET's file.");
+			string pathConfig=Path.Combine(folder,"OpenPmsDental.dll.config");
+			//Load SftpClient the way the program does: the program's files, in a process of its own so nothing stays loaded or locked here (S3a-8 of
+			//the .NET 10 move: a child process in place of a new AppDomain, which .NET cannot create). The child runs from a scratch folder that
+			//holds Renci.SshNet.dll and the files of the program's folder it references, so nothing is written into the program's folder.
 			string folderProbe=Path.Combine(Path.GetTempPath(),"vendordirect_sshnet_"+Guid.NewGuid().ToString("N"));
 			Directory.CreateDirectory(folderProbe);
 			try {
 				CopyWithReferences(folder,"Renci.SshNet",folderProbe);
-				using(ProbeProcess probeProcess=ProbeProcess.Start(folderProbe,File.ReadAllText(pathConfig),typeof(SshNetLoadProbe),TimeSpan.FromMinutes(2))) {
+				using(ProbeProcess probeProcess=ProbeProcess.Start(folderProbe,File.Exists(pathConfig) ? File.ReadAllText(pathConfig) : null,
+					typeof(SshNetLoadProbe),TimeSpan.FromMinutes(2)))
+				{
 					string error=probeProcess.Call(SshNetLoadProbe.COMMAND_LOAD_TYPE,"Renci.SshNet","Renci.SshNet.SftpClient");
 					Assert.AreEqual("",error,"Renci.SshNet.SftpClient does not load from the files of "+folder+" with its config: "+error);
 				}
@@ -340,11 +338,20 @@ namespace VendorDirectTests.BridgesRemoval {
 			throw new ArgumentException("Unknown command "+command);
 		}
 
-		///<summary>Loads the type and everything its signatures name, by name as the program does. Returns "" on success, or the exception chain;
-		///also when the assembly came from another folder than the process's own.</summary>
+		///<summary>Loads the type and everything its signatures name from the process's folder, as the program binds its own files. Returns "" on
+		///success, or the exception chain; also when the assembly came from another folder than the process's own. On .NET the probe's default
+		///context knows only TestProbeHost's files, so a load by name would take the test's copy: the files of the folder load in a context of
+		///their own that resolves every reference from the folder first, then from the shared framework, as the program's .deps.json does (S3b-5;
+		///on the .NET Framework the folder was the application base).</summary>
 		private static string LoadType(string assemblyName,string typeName) {
 			try {
-				Assembly assembly=Assembly.Load(assemblyName);
+				string folder=Path.GetFullPath(AppDomain.CurrentDomain.BaseDirectory);
+				System.Runtime.Loader.AssemblyLoadContext assemblyLoadContext=new System.Runtime.Loader.AssemblyLoadContext("ProgramFolder");
+				assemblyLoadContext.Resolving+=(context,assemblyNameReference) => {
+					string path=Path.Combine(folder,assemblyNameReference.Name+".dll");
+					return File.Exists(path) ? context.LoadFromAssemblyPath(path) : null;
+				};
+				Assembly assembly=assemblyLoadContext.LoadFromAssemblyPath(Path.Combine(folder,assemblyName+".dll"));
 				Type type=assembly.GetType(typeName,true);
 				type.GetInterfaces();
 				type.GetMethods();

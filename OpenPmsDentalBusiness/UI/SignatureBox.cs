@@ -137,9 +137,9 @@ namespace OpenPmsDental.UI {
 				if(i>0){
 					rawString+=";";
 				}
-				rawString+=listPointFs[i].X.ToString("0.#");//Show to one decimal place. But 5.0395757 would show as 5, for example.
+				rawString+=listPointFs[i].X.ToStringNetFx("0.#");//Show to one decimal place. But 5.0395757 would show as 5, for example.
 				rawString+=",";
-				rawString+=listPointFs[i].Y.ToString("0.#");
+				rawString+=listPointFs[i].Y.ToStringNetFx("0.#");
 			}
 			return OpenPmsDentalBusiness.UI.SigBox.EncryptSigString(hash,rawString);
 		}
@@ -158,7 +158,7 @@ namespace OpenPmsDental.UI {
 				MemoryStream memoryStream=new MemoryStream();
 				//ms.Write(encryptedBytes,0,(int)encryptedBytes.Length);
 				//create a crypto stream
-				Rijndael rijndael=Rijndael.Create();
+				Aes rijndael=Aes.Create();//Rijndael with a 128-bit block is AES; on .NET Rijndael.Create() wraps Aes.Create() (SYSLIB0022).
 				rijndael.KeySize=128;//16 bytes;
 				rijndael.Key=hash;
 				rijndael.IV=new byte[16];
@@ -258,9 +258,9 @@ namespace OpenPmsDental.UI {
 					retVal+=";";
 				}
 				retVal+="{";
-				retVal+="X="+listPointFs[i].X.ToString("f0");
+				retVal+="X="+listPointFs[i].X.ToStringNetFx("f0");
 				retVal+=",";
-				retVal+="Y="+listPointFs[i].Y.ToString("f0");
+				retVal+="Y="+listPointFs[i].Y.ToStringNetFx("f0");
 				retVal+="}";
 			}
 			return retVal;

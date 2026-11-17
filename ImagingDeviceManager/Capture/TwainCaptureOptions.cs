@@ -65,6 +65,9 @@ namespace ImagingDeviceManager.Capture {
 		internal TimeSpan RefusedDisableWait { get; set; }=TwainCaptureSettings.RefusedDisableWaitDefault;
 		///<summary>How often the worker's message loop wakes up. Not in capture.ini; tests shorten it.</summary>
 		internal int TickMilliseconds { get; set; }=200;
+		///<summary>Open finds the source only by its exact ProductName (TwainSession.IsSourceNameExact). Not in capture.ini: the capture router of
+		///S3b-8 sets it on its copy of the options while it asks the program's own DSM first.</summary>
+		internal bool IsSourceNameExact { get; set; }
 
 		///<summary>[Device.N] Bits is 16 or 14 and [Twain] Allow16Bit=1 (the defaults). The session window still needs its other gates (the capture
 		///settings check, a matching Test capture record that passed at that depth, and a target that can be written as DICOM) before it asks for

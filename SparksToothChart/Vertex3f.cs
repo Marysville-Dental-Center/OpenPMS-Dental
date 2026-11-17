@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using CodeBase;
 
 namespace SparksToothChart {
 	///<summary></summary>
@@ -28,7 +29,7 @@ namespace SparksToothChart {
 		}
 
 		public override string ToString() {
-			return X.ToString()+","+Y.ToString()+","+Z.ToString();
+			return X.ToStringNetFx()+","+Y.ToStringNetFx()+","+Z.ToStringNetFx();
 		}
 
 		public Vertex3f Copy() {

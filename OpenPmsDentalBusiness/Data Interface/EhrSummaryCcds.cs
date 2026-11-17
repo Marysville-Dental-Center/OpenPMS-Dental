@@ -213,6 +213,10 @@ namespace OpenPmsDentalBusiness{
 		public const string FILE_CCR_XSL="ccr.xsl";
 		///<summary>The seam of the tests: when set, it gives the child instead of a new OpenPmsDental.exe process. Null in the program.</summary>
 		public static Func<IEhrRenderChild> FuncStartChild=null;
+		///<summary>The seam of the tests (S3b-5 of the .NET 10 move): the folder the real child starts from, in place of the program's own; a test
+		///gives the program's output folder, since a copy of the self-contained program in a test's folder cannot start (it has no runtime there,
+		///S3b-0 item 7). Null in the program.</summary>
+		public static string FolderChildForTests=null;
 
 		///<summary>The text of one of the four embedded files the child serves, by its file name (FILE_CDA_XSL, FILE_CDA_L10N,
 		///FILE_CDA_NARRATIVEBLOCK, FILE_CCR_XSL); null for any other name.</summary>
@@ -531,9 +535,10 @@ namespace OpenPmsDentalBusiness{
 			public static EhrRenderChildProcess Start() {
 				EhrRenderChildProcess ehrRenderChildProcess=new EhrRenderChildProcess();
 				ProcessStartInfo processStartInfo=new ProcessStartInfo();
-				processStartInfo.FileName=Path.Combine(AppDomain.CurrentDomain.BaseDirectory,ProgramNames.ExeFileName);
+				string folder=FolderChildForTests??AppDomain.CurrentDomain.BaseDirectory;
+				processStartInfo.FileName=Path.Combine(folder,ProgramNames.ExeFileName);
 				processStartInfo.Arguments=ARG_RENDER+" "+PROTOCOL_VERSION;
-				processStartInfo.WorkingDirectory=AppDomain.CurrentDomain.BaseDirectory;
+				processStartInfo.WorkingDirectory=folder;
 				processStartInfo.UseShellExecute=false;//The streams are redirected.
 				processStartInfo.RedirectStandardInput=true;
 				processStartInfo.RedirectStandardOutput=true;

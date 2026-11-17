@@ -26,7 +26,11 @@ namespace MiddleTierMockTests {
 		public const string Server="127.0.0.1";
 		public const string User="root";
 		public const string Password="";
-		public const string PREFIX="s0t_";
+		///<summary>s0t_, or the prefix the S0T_DB_PREFIX variable names (lower-case letters, digits and underscores, ending with an underscore, at
+		///most 16 characters): a package whose rules give its scratch databases a prefix of its own runs the suite with it (S3b-6 ran it with
+		///s3b6_mt_). Every database of the run starts with it, and only databases with it are ever dropped; ScratchDbCopy's start with it too.
+		///</summary>
+		public static readonly string PREFIX=GetPrefix();
 		///<summary>The user the legacy harness logged in as (UnitTests/Misc/TestBase.cs). DtoProcessor checks these credentials on every call.</summary>
 		public const string UnitTestUserName="UnitTest";
 		public const string UnitTestPassword="password";
@@ -43,6 +47,7 @@ namespace MiddleTierMockTests {
 		///library set-up, then the scratch database and its user.</summary>
 		[AssemblyInitialize]
 		public static void AssemblyInitialize(TestContext testContext) {
+			OpenPmsDentalTests.TestCodePages.Register();//the code pages first, as the program registers them (tests\Shared\TestCodePages.cs)
 			ODBuild.IsUnitTest=true;//Causes FormFriendlyException to throw rather than displaying a MessageBox.
 			ODInitialize.Initialize();
 			PdfSharpSetup.Init();
@@ -72,6 +77,25 @@ namespace MiddleTierMockTests {
 			catch(Exception) {
 				//A later run drops it once it is stale.
 			}
+		}
+
+		///<summary>The prefix of this run's names: S0T_DB_PREFIX when it is set, else s0t_.</summary>
+		private static string GetPrefix() {
+			string prefix=Environment.GetEnvironmentVariable("S0T_DB_PREFIX");
+			if(string.IsNullOrWhiteSpace(prefix)) {
+				return "s0t_";
+			}
+			prefix=prefix.Trim();
+			if(prefix.Length>16 || !Regex.IsMatch(prefix,"^[a-z][a-z0-9_]*_$")) {
+				throw new ArgumentException("S0T_DB_PREFIX must be lower-case letters, digits and underscores, end with an underscore and have at most "
+					+"16 characters: "+prefix);
+			}
+			return prefix;
+		}
+
+		///<summary>A LIKE pattern for the names that start with prefix: its underscores escaped, then %.</summary>
+		public static string LikePrefix(string prefix) {
+			return prefix.Replace("_","\\_")+"%";
 		}
 
 		///<summary>This run's database name for the given purpose, like s0t_261108101500_1234_5678_mt. At most 64 characters.</summary>
@@ -218,7 +242,8 @@ namespace MiddleTierMockTests {
 			Regex regex=new Regex("^"+PREFIX+@"(\d{12})_\d+_\d+_[a-z0-9_]+$");
 			List<string> listNames=new List<string>();
 			using(MySqlConnection connection=OpenServer())
-			using(MySqlCommand command=new MySqlCommand("SELECT SCHEMA_NAME FROM information_schema.SCHEMATA WHERE SCHEMA_NAME LIKE 's0t\\_%'",connection))
+			using(MySqlCommand command=new MySqlCommand("SELECT SCHEMA_NAME FROM information_schema.SCHEMATA WHERE SCHEMA_NAME LIKE '"+LikePrefix(PREFIX)+"'",
+				connection))
 			using(MySqlDataReader reader=command.ExecuteReader())
 			{
 				while(reader.Read()) {

@@ -707,7 +707,7 @@ namespace OpenPmsDentalBusiness {
 			string zip=chargeData.Zip;
 			string zipPat=chargeData.ZipPat;
 			long creditCardNum=chargeData.RecurringCharge.CreditCardNum;
-			info.Arguments+="/AMOUNT:"+amt.ToString("F2")+" /LOCKAMOUNT ";
+			info.Arguments+="/AMOUNT:"+amt.ToStringNetFx("F2")+" /LOCKAMOUNT ";
 			info.Arguments+="/TRANSACTIONTYPE:PURCHASE /LOCKTRANTYPE ";
 			if(chargeData.XChargeToken!="") {
 				info.Arguments+="/XCACCOUNTID:"+chargeData.XChargeToken+" ";
@@ -1241,7 +1241,7 @@ namespace OpenPmsDentalBusiness {
 						warnings.Add(Lans.g(_lanThis,"Lock date limitation is preventing the recurring charges from running")+":");
 					}
 					warnings.Add(newPayDate.ToShortDateString()+" - "+chargeCur.RecurringCharge.PatNum+": "+chargeCur.PatName+" - "
-						+chargeCur.RecurringCharge.FamBal.ToString("c")+" - "+chargeCur.RecurringCharge.ChargeAmt.ToString("c"));
+						+chargeCur.RecurringCharge.FamBal.ToStringNetFx("c")+" - "+chargeCur.RecurringCharge.ChargeAmt.ToStringNetFx("c"));
 					continue;
 				}
 				listRecurringCharges.Add(chargeCur);
@@ -1312,7 +1312,7 @@ namespace OpenPmsDentalBusiness {
 			}
 			Payments.Insert(paymentCur);
 			SecurityLogs.MakeLogEntry(EnumPermType.PaymentCreate,paymentCur.PatNum,patCur.GetNameLF()+", "
-				+paymentCur.PayAmt.ToString("c")+", "+Lans.g(_lanThis,"created from the Recurring Charges List"));
+				+paymentCur.PayAmt.ToStringNetFx("c")+", "+Lans.g(_lanThis,"created from the Recurring Charges List"));
 			recCharge.RecurringCharge.PayNum=paymentCur.PayNum;
 			if(xWebResponseNum>0) {
 				XWebResponse xWebResponse=XWebResponses.GetOne(xWebResponseNum);

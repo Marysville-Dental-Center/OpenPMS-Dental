@@ -12,12 +12,16 @@
        The M3*.cs files test package S3a-M3a (docs/port-notes/S3a-M3.md): the remaining forms' menus on ContextMenuStrip and MenuStrip (from the
        designer files and built in memory), and the DataGridViews that replaced the WinForms DataGrid (User Query, and the report designer's
        grids, whose RdlDesigner.exe is loaded from RdlDesign\bin by reflection: no reference, so the lock file is unchanged). No database. -->
-  <ItemGroup>
-    <Reference Include="System.Windows.Forms" />
-    <!-- The WPF DataObject of the Images module's copy (M2ClipboardTests). -->
-    <Reference Include="PresentationCore" />
-    <Reference Include="WindowsBase" />
-  </ItemGroup>
+  <PropertyGroup>
+    <!-- .NET 10 (S3b-5 of docs/specs/net10-plan.md): Windows Forms and WPF from the Windows Desktop framework, in place of the
+         .NET Framework assembly references; it also keeps the Windows Desktop packages out of the restore (S3b-3). -->
+    <UseWindowsForms>true</UseWindowsForms>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+  <PropertyGroup>
+    <!-- Its own [AssemblyInitialize] registers the code pages (tests\Shared\TestCodePages.cs; S3b-5). -->
+    <ODOwnAssemblyInitialize>true</ODOwnAssemblyInitialize>
+  </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\CodeBase\xCodeBase.csproj" />
     <ProjectReference Include="..\..\DataConnectionBase\xDataConnectionBase.csproj" />

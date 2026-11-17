@@ -5,9 +5,10 @@
     Changed by Open PMS - Dental contributors, 2026-11-01: targets .NET Framework 4.8 like the program (was 4.5).
     2026-11-08: SDK-style project (stage 1 of the .NET 10 move, docs/specs/net10-plan.md); every .cs and .resx file in this folder is compiled, as
     before.
+    2026-11-16: .NET 10, x64 (package S3b-2b, docs/port-notes/S3b-2.md part B): the repository's target framework and its .NET settings
+    (Directory.Build.Net.props), with the Windows Forms framework.
   -->
   <PropertyGroup>
-    <TargetFramework>net48</TargetFramework>
     <OutputType>Library</OutputType>
     <RootNamespace>RdlViewer</RootNamespace>
     <AssemblyName>RdlViewer</AssemblyName>
@@ -15,6 +16,7 @@
     <Platforms>AnyCPU;x86</Platforms>
     <BaseAddress>285212672</BaseAddress>
     <FileAlignment>4096</FileAlignment>
+    <UseWindowsForms>true</UseWindowsForms>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugType>full</DebugType>
@@ -23,13 +25,6 @@
     <!-- No symbols in a Release build. -->
     <DebugType>none</DebugType>
   </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml" />
-  </ItemGroup>
   <ItemGroup>
     <!-- The class-based resource names (fyiReporting.RdlViewer.RdlViewer.resources, ...) come from DependentUpon. -->
     <EmbeddedResource Update="DataSourcePassword.resx">

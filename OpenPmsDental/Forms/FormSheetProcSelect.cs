@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows.Forms;
 using OpenPmsDentalBusiness;
 using OpenPmsDental.UI;
+using CodeBase;
 
 namespace OpenPmsDental {
 	public partial class FormSheetProcSelect:FormODBase {
@@ -63,7 +64,7 @@ namespace OpenPmsDental {
 				else {
 					row.Cells.Add(listProcedures[i].ProcStatus.ToString());
 				}
-				row.Cells.Add(listProcedures[i].ProcFee.ToString("C"));
+				row.Cells.Add(listProcedures[i].ProcFee.ToStringNetFx("C"));
 				row.Cells.Add(procedureCode.ProcCode);
 				row.Tag=listProcedures[i];
 				gridProcs.ListGridRows.Add(row);

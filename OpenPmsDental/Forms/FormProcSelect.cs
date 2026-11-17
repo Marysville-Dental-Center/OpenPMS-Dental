@@ -225,16 +225,16 @@ namespace OpenPmsDental{
 			List<ProcExtended> listProcExtendeds=listAccountEntries.Where(x => x.Tag.GetType()==typeof(ProcExtended)).Select(x => (ProcExtended)x.Tag).ToList();
 			List<AccountEntry> listSelectedPosAdjs=listAccountEntries.FindAll(x => x.Tag.GetType()==typeof(Adjustment));
 			decimal decimalPosAdjAmt=listProcExtendeds.Sum(x => (decimal)x.PositiveAdjTotal)+listSelectedPosAdjs.Sum(x => x.AmountEnd);
-			labelAmtOriginal.Text=    listProcExtendeds.Sum(x => x.AmountOriginal).ToString("c");
+			labelAmtOriginal.Text=    listProcExtendeds.Sum(x => x.AmountOriginal).ToStringNetFx("c");
 			labelPositiveAdjs.Text=   decimalPosAdjAmt.ToString("c");
-			labelNegativeAdjs.Text=   listProcExtendeds.Sum(x => x.NegativeAdjTotals).ToString("c");
-			labelPayPlanProduction.Text= (-listProcExtendeds.Sum(x => x.PayPlanCreditTotal)).ToString("c");
-			labelPaySplits.Text=      (-listProcExtendeds.Sum(x => x.PaySplitTotal)).ToString("c");
-			labelInsEst.Text=         (-listProcExtendeds.Sum(x => x.InsEstTotal)).ToString("c");
-			labelInsPay.Text=         (-listProcExtendeds.Sum(x => x.InsPayTotal)).ToString("c");
-			labelWriteOff.Text=       (-listProcExtendeds.Sum(x => x.WriteOffTotal)).ToString("c");
-			labelWriteOffEst.Text=    (-listProcExtendeds.Sum(x => x.WriteOffEstTotal)).ToString("c");
-			labelCurrentSplits.Text=  (-listProcExtendeds.Sum(x => x.SplitsCurTotal)).ToString("c");
+			labelNegativeAdjs.Text=   listProcExtendeds.Sum(x => x.NegativeAdjTotals).ToStringNetFx("c");
+			labelPayPlanProduction.Text= (-listProcExtendeds.Sum(x => x.PayPlanCreditTotal)).ToStringNetFx("c");
+			labelPaySplits.Text=      (-listProcExtendeds.Sum(x => x.PaySplitTotal)).ToStringNetFx("c");
+			labelInsEst.Text=         (-listProcExtendeds.Sum(x => x.InsEstTotal)).ToStringNetFx("c");
+			labelInsPay.Text=         (-listProcExtendeds.Sum(x => x.InsPayTotal)).ToStringNetFx("c");
+			labelWriteOff.Text=       (-listProcExtendeds.Sum(x => x.WriteOffTotal)).ToStringNetFx("c");
+			labelWriteOffEst.Text=    (-listProcExtendeds.Sum(x => x.WriteOffEstTotal)).ToStringNetFx("c");
+			labelCurrentSplits.Text=  (-listProcExtendeds.Sum(x => x.SplitsCurTotal)).ToStringNetFx("c");
 			labelAmtEnd.Text=         listAccountEntries.Sum(y => y.AmountEnd).ToString("c");
 		}
 

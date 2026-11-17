@@ -103,7 +103,7 @@ namespace OpenPmsDental {
 				bool isXWeb=IsXWebTransaction(i); //Only other option at the moment is PayConnect. This will need to be refactored if we add more payment options
 				row=new GridRow();
 				row.Cells.Add(_tableTrans.Rows[i]["Patient"].ToString());
-				row.Cells.Add(PIn.Double(_tableTrans.Rows[i]["Amount"].ToString()).ToString("f"));
+				row.Cells.Add(PIn.Double(_tableTrans.Rows[i]["Amount"].ToString()).ToStringNetFx("f"));
 				row.Cells.Add(PIn.Date(_tableTrans.Rows[i]["DateTUpdate"].ToString()).ToShortDateString());
 				if(isXWeb) {
 					XWebTransactionStatus tranStatus=(XWebTransactionStatus)PIn.Int(_tableTrans.Rows[i]["TransactionStatus"].ToString());
@@ -261,7 +261,7 @@ namespace OpenPmsDental {
 				long patNum=PIn.Long(_tableTrans.Rows[gridMain.SelectedIndices[0]]["PatNum"].ToString());
 				long responseNum=PIn.Long(_tableTrans.Rows[gridMain.SelectedIndices[0]]["ResponseNum"].ToString());
 				string payNote=Lan.g(this,"Void XWeb payment made from within Open PMS - Dental")+"\r\n"
-					+Lan.g(this,"Amount:")+" "+PIn.Double(_tableTrans.Rows[gridMain.SelectedIndices[0]]["Amount"].ToString()).ToString("f")+"\r\n"
+					+Lan.g(this,"Amount:")+" "+PIn.Double(_tableTrans.Rows[gridMain.SelectedIndices[0]]["Amount"].ToString()).ToStringNetFx("f")+"\r\n"
 					+Lan.g(this,"Transaction ID:")+" "+_tableTrans.Rows[gridMain.SelectedIndices[0]]["TransactionID"].ToString()+"\r\n"
 					+Lan.g(this,"Card Number:")+" "+_tableTrans.Rows[gridMain.SelectedIndices[0]]["MaskedAcctNum"].ToString()+"\r\n"
 					+Lan.g(this,"Processed:")+" "+DateTime.Now.ToShortDateString()+" "+DateTime.Now.ToShortTimeString();
@@ -320,7 +320,7 @@ namespace OpenPmsDental {
 					formXWeb.XWebResponse_.PaymentNum=paymentReturn.PayNum;
 					XWebResponses.Update(formXWeb.XWebResponse_);
 					SecurityLogs.MakeLogEntry(EnumPermType.PaymentCreate,paymentReturn.PatNum,
-						Patients.GetLim(paymentReturn.PatNum).GetNameLF() + ", " + paymentReturn.PayAmt.ToString("c"));
+						Patients.GetLim(paymentReturn.PatNum).GetNameLF() + ", " + paymentReturn.PayAmt.ToStringNetFx("c"));
 					FillGrid();
 				}
 				return;

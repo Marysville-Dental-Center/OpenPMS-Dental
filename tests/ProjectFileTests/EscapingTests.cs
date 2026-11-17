@@ -123,7 +123,7 @@ namespace ProjectFileTests {
 			Regex regexEscape=new Regex("%[0-9A-Fa-f]{2}");
 			List<string> listProblems=new List<string>();
 			int countEscapedInFiles=0;
-			foreach(string path in ProjectFile.GetSolutionFilterProjects(Path.Combine(FixtureFolder.RepoRoot(),"OpenDental.Local.slnf"))) {
+			foreach(string path in ProjectFile.GetModelledSolutionFilterProjects(Path.Combine(FixtureFolder.RepoRoot(),"OpenDental.Local.slnf"))) {
 				ProjectFile projectFile=ProjectFile.Load(path);
 				foreach(string file in projectFile.FilesRead) {
 					foreach(XElement xElementProperty in XDocument.Load(file).Descendants().Where(x => x.Parent!=null && x.Parent.Name.LocalName=="PropertyGroup"

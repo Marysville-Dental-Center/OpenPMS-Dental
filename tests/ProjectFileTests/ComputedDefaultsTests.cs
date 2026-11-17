@@ -268,10 +268,10 @@ namespace ProjectFileTests {
 				fixtureFolder.WriteFile(@"tests\Classic\Classic.csproj",textClassic.Replace(anchor,anchor
 					+"<Import Project=\"$(MSBuildExtensionsPath)\\Microsoft\\VisualStudio\\v$(VisualStudioVersion)\\TeamTest\\Microsoft.TestTools.targets\" />"));
 				AssertThrows<NotSupportedException>(() => fixtureFolder.Load("Classic"),"Microsoft.TestTools.targets");
-				//The repository's web application.
-				ProjectFile projectFileServer=ProjectFile.Load(System.IO.Path.Combine(FixtureFolder.RepoRoot(),"OpenPmsDentalServer","OpenPmsDentalServer.csproj"));
-				Assert.IsFalse(projectFileServer.IsPropertyKnown("AppConfig"));
-				Assert.AreEqual("OpenPmsDentalServer",projectFileServer.GetProperty("AssemblyName"));
+				//The repository's web application was this classic project until S3b-6 of the .NET 10 move; it is a Microsoft.NET.Sdk.Web project
+				//since then, which this reader refuses (Net10SettingsTests.TheMiddleTierServer_IsTheOneWebSdkProject_ANet10Exe checks its file).
+				AssertThrows<NotSupportedException>(() => ProjectFile.Load(System.IO.Path.Combine(FixtureFolder.RepoRoot(),"OpenPmsDentalServer",
+					"OpenPmsDentalServer.csproj")),"the SDK Microsoft.NET.Sdk.Web is not modelled");
 			}
 		}
 		#endregion Not modelled

@@ -3,9 +3,11 @@
     fyiReporting RDL Project 2.9.3 report designer (RdlDesigner.exe), against the engine and viewer built from RdlEngine\ and RdlViewer\. A
     developer tool: in the solution so every build compiles it, not shipped (decision 17 of docs/specs/net10-plan.md). Every .cs and .resx file in
     this folder is compiled.
+    2026-11-16: .NET 10, x64 (package S3b-2b, docs/port-notes/S3b-2.md part B): the repository's target framework and its .NET settings
+    (Directory.Build.Net.props: a self-contained win-x64 exe), with the Windows Forms framework; its <Code> syntax check compiles with
+    RdlEngine's Roslyn compile (decision 14).
   -->
   <PropertyGroup>
-    <TargetFramework>net48</TargetFramework>
     <OutputType>WinExe</OutputType>
     <RootNamespace>fyiReporting.RdlDesign</RootNamespace>
     <AssemblyName>RdlDesigner</AssemblyName>
@@ -15,6 +17,7 @@
     <Platforms>AnyCPU;x86</Platforms>
     <BaseAddress>285212672</BaseAddress>
     <FileAlignment>4096</FileAlignment>
+    <UseWindowsForms>true</UseWindowsForms>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugType>full</DebugType>
@@ -25,18 +28,24 @@
     <WarningLevel>0</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml" />
-  </ItemGroup>
-  <ItemGroup>
     <!-- Each window's or control's .resx belongs to the .cs file of the same name, which gives it its class-based resource name. -->
     <EmbeddedResource Update="*.resx" DependentUpon="%(Filename).cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\RdlEngine\RdlEngine.csproj" />
     <ProjectReference Include="..\RdlViewer\RdlViewer.csproj" />
+  </ItemGroup>
+  <!--
+    Doubles and floats written as text as .NET Framework wrote them (package S3b-FMT of the .NET 10 move, decision 24 of
+    docs/specs/net10-plan.md, docs/port-notes/S3b-FMT.md): CodeBase's ODNumberText.ToStringNetFx and AsNetFx, compiled in as an internal
+    class (OD_NUMBERTEXT_LINKED), since this project does not reference CodeBase.
+  -->
+  <PropertyGroup>
+    <DefineConstants>$(DefineConstants);OD_NUMBERTEXT_LINKED</DefineConstants>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="..\CodeBase\Utilities\ODNumberTextNetFx.cs">
+      <Link>Utilities\ODNumberTextNetFx.cs</Link>
+    </Compile>
   </ItemGroup>
 </Project>

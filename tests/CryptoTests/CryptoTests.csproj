@@ -5,9 +5,8 @@
   -->
   <PropertyGroup>
     <LangVersion>7.3</LangVersion>
-    <!-- The solution also builds this project as Any CPU; it compiles for x86 all the same (PlatformTarget, the repository's
-         Directory.Build.props). -->
-    <!-- x86 like CodeBase, which holds the Secrets and TamperHash code under test. -->
+    <!-- The solution also builds this project as Any CPU; it compiles for x64 all the same (PlatformTarget, Directory.Build.Net.props), like
+         CodeBase, which holds the Secrets and TamperHash code under test. -->
     <Platforms>AnyCPU;x86</Platforms>
   </PropertyGroup>
   <ItemGroup>

@@ -414,10 +414,10 @@ namespace OpenPmsDentalBusiness {
 				LogText+=" Allowed amount was greater than procedure's fee.";
 			}
 			if(allowed==-1 || allowed*procedure.Quantity > procedure.ProcFeeTotal) {
-				LogText+=$" Procedure's fee used as allowed amount: {Math.Round(procedure.ProcFeeTotal,2).ToString("f")}.";
+				LogText+=$" Procedure's fee used as allowed amount: {Math.Round(procedure.ProcFeeTotal,2).ToStringNetFx("f")}.";
 			}
 			else {
-				LogText+=$" Allowed amount: {Math.Round(allowed*procedure.Quantity,2).ToString("f")}";
+				LogText+=$" Allowed amount: {Math.Round(allowed*procedure.Quantity,2).ToStringNetFx("f")}";
 				if(insBlueBookRule.RuleType==InsBlueBookRuleType.ProviderFee) {
 					LogText+=$" ({PrefC.GetInt(PrefName.InsBlueBookUcrFeePercent).ToString()}% of standard provider fee)";
 				}

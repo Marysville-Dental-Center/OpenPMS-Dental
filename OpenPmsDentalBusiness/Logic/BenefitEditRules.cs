@@ -184,7 +184,7 @@ namespace OpenPmsDentalBusiness {
 				listParts.Add(benefit.Percent.ToString()+"%");
 			}
 			if(benefit.MonetaryAmt!=-1) {
-				listParts.Add(benefit.MonetaryAmt.ToString("c"));
+				listParts.Add(benefit.MonetaryAmt.ToStringNetFx("c"));
 			}
 			string timePeriod=GetTimePeriodName(benefit.TimePeriod);
 			string quantity=GetQuantityText(benefit,timePeriod,out bool isTimePeriodUsed);

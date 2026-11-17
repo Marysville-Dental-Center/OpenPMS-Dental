@@ -3514,8 +3514,8 @@ namespace OpenPmsDental {
 				if(stringArrayHrmin.Length>1) {
 					min=stringArrayHrmin[1];
 				}
-				timeSpanBefore=TimeSpan.FromHours(PIn.Double(hr))
-					+TimeSpan.FromMinutes(PIn.Double(min));
+				timeSpanBefore=CodeBase.ODTimeSpan.FromHours(PIn.Double(hr))
+					+CodeBase.ODTimeSpan.FromMinutes(PIn.Double(min));
 				if(radioBeforePM.Checked && timeSpanBefore.Hours<12) {
 						timeSpanBefore=timeSpanBefore+TimeSpan.FromHours(12);
 				}
@@ -3531,8 +3531,8 @@ namespace OpenPmsDental {
 				if(stringArrayHrmin.Length>1) {
 					min=stringArrayHrmin[1];
 				}
-				timeSpanAfter=TimeSpan.FromHours(PIn.Double(hr))
-					+TimeSpan.FromMinutes(PIn.Double(min));
+				timeSpanAfter=CodeBase.ODTimeSpan.FromHours(PIn.Double(hr))
+					+CodeBase.ODTimeSpan.FromMinutes(PIn.Double(min));
 				if(radioAfterPM.Checked && timeSpanAfter.Hours<12) {
 					timeSpanAfter=timeSpanAfter+TimeSpan.FromHours(12);
 				}
@@ -4016,7 +4016,7 @@ namespace OpenPmsDental {
 					else {
 						if(appointment.DateTimeAskedToArrive.Year>1880 && (appointmentOld.AptDateTime-appointmentOld.DateTimeAskedToArrive).TotalMinutes>0) {
 							appointment.DateTimeAskedToArrive=appointment.AptDateTime-(appointmentOld.AptDateTime-appointmentOld.DateTimeAskedToArrive);
-							if(MessageBox.Show(Lan.g(this,"Ask patient to arrive")+" "+(appointmentOld.AptDateTime-appointmentOld.DateTimeAskedToArrive).TotalMinutes
+							if(MessageBox.Show(Lan.g(this,"Ask patient to arrive")+" "+(appointmentOld.AptDateTime-appointmentOld.DateTimeAskedToArrive).TotalMinutes.ToStringNetFx()
 								+" "+Lan.g(this,"minutes early at")+" "+appointment.DateTimeAskedToArrive.ToShortTimeString()+"?","",MessageBoxButtons.YesNo)==DialogResult.No) {
 								appointment.DateTimeAskedToArrive=appointmentOld.DateTimeAskedToArrive;
 							}

@@ -1,9 +1,12 @@
-// The test's side of an in-process session: a process of its own whose application base is the program's output folder (OpenPmsDental\bin\Debug
-// or the Release folder) and whose config is OpenPmsDental.exe.config (TestProbeHost, started by ProbeProcess with a copy of the host in that
-// folder), the driver created in it from this assembly (ProgramDriverHost), the program started there with its command line, and the process
-// ended at the end. One session is one start of the program; "exit and start" in a check is a new session. Before S3a-8b of the .NET 10 move
-// the session was a new AppDomain of this process, which .NET cannot create; a process isolates the program's static state, its config and its
-// application base as the AppDomain did, and the program's own exit (Environment.Exit) now ends the session's process, not the test host.
+// The test's side of an in-process session: the program's own process, started from the program's output folder (OpenPmsDental\bin\Debug or the
+// Release folder) through its apphost OpenPmsDental.exe with TestProbeHost's startup hook (ProbeProcess.StartInProgram, WINCHK-5), so its
+// runtime (the folder's own, self-contained), its .runtimeconfig.json, .deps.json and OpenPmsDental.dll.config, and OpenPmsDental.dll as the
+// entry assembly are the program's; the driver created in it from this assembly (ProgramDriverHost), the program started there with its
+// command line, and the process ended at the end. One session is one start of the program; "exit and start" in a check is a new session.
+// Before S3a-8b of the .NET 10 move the session was a new AppDomain of this process, which .NET cannot create; on .NET Framework (S3a-8b to
+// S3b-5) a copy of TestProbeHost in the folder with OpenPmsDental.exe.config as its config, which a self-contained program's folder cannot
+// run. A process isolates the program's static state, its config and its application base as the AppDomain did, and the program's own exit
+// (Environment.Exit) ends the session's process, not the test host.
 // The row numbers the checks made (CheckResult.DictKeys) are kept here and handed to every session, so a check's undo in a later session
 // deletes only the rows its check added. No session starts and no check runs once the run's time budget is spent (WinChkFixture.Budget).
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
@@ -71,13 +74,13 @@ namespace WindowChecksTests {
 			return inProcHost;
 		}
 
-		///<summary>The session's process, not yet driving anything: a copy of TestProbeHost in the folder (its application base) with the folder's
-		///OpenPmsDental.exe.config as its config, so the program's binding redirects and probing are the real ones, and ProgramDriverHost as its
-		///handler. Each reply is waited for up to timeSpanTimeout. The caller disposes it, which ends the process and deletes the copy.</summary>
+		///<summary>The session's process, not yet driving anything: the folder's OpenPmsDental.exe (the program's apphost) started from the folder with
+		///ProgramDriverHost as its startup hook's handler (ProbeProcess.StartInProgram), so the process is the program's own: the folder is its
+		///application base, the folder's runtime, OpenPmsDental.runtimeconfig.json, OpenPmsDental.deps.json and OpenPmsDental.dll.config are the
+		///ones .NET reads, and OpenPmsDental.dll is its entry assembly; the program's Main does not run. Nothing is copied into the folder. Each
+		///reply is waited for up to timeSpanTimeout. The caller disposes it, which ends the process.</summary>
 		public static ProbeProcess StartSessionProcess(string folder,TimeSpan timeSpanTimeout) {
-			string pathConfig=Path.Combine(folder,"OpenPmsDental.exe.config");
-			string configText=File.Exists(pathConfig) ? File.ReadAllText(pathConfig) : null;
-			return ProbeProcess.Start(folder,configText,typeof(ProgramDriverHost),timeSpanTimeout);
+			return ProbeProcess.StartInProgram(Path.Combine(folder,"OpenPmsDental.exe"),typeof(ProgramDriverHost),timeSpanTimeout);
 		}
 
 		public CheckResult Run(string id,string title,int timeoutSeconds=240) {
@@ -163,7 +166,7 @@ namespace WindowChecksTests {
 				}
 			}
 			try {
-				//Closes the process's standard input, which ends it (ended after 10 s), and deletes the copy of the host and its config.
+				//Closes the process's standard input, which ends it (ended after 10 s).
 				_probeProcess.Dispose();
 				Results.Log("Session process ended");
 			}

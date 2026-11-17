@@ -1,0 +1,15 @@
+Scene: bridge-light-eo-r
+Group: paint
+Description: Light bridges in the two statuses bridge-light leaves out: 3-4-5 EO and 12-13-14 R with 4 and 13 missing, 19-20-21 EO and 28-29-30 R with 20 and 29 missing.
+Size: 500x370
+Colours: Printout
+Engine: Wpf3D (RenderTargetBitmap in software, 3D layer at 3x reduced with WIC's Fant scaler)
+Bitmap: 500x370 Format24bppRgb
+Alpha: every alpha is 255 (format without an alpha channel)
+Colours in the picture: 5479
+Pixels SHA-256: 413b7a815caaf908fb5c13467cac2cec3c74e5b4c16839a4a188629498395edf
+Repeatable: yes (a second GetBitmap gave the same pixels)
+Framework: .NET 10.0, x64
+Windows: build 26300.9974 (26H2)
+Fresh render: yes (both layers drawn again without the layer cache gave the same pixels)
+Screen DPI seen by the test host: 96

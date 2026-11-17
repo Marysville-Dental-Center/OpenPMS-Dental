@@ -481,12 +481,11 @@ So always triple check your parameters.
 				//Passing hasLostConnection=false allows this method to throw an exception, such as if the Middle Tier connection has been lost.
 				return RemotingClient.ProcessGetBool(dto,false);
 			}
-			catch(WebException wex) {
-				//If no connection monitoring desired or this is a WebException that we aren't explicitly looking for then bubble up the exception.
-				//WebException class: https://docs.microsoft.com/en-us/dotnet/api/system.net.webexception?view=netframework-4.7.2
-				//WebException.Status property: https://docs.microsoft.com/en-us/dotnet/api/system.net.webexception.status?view=netframework-4.7.2
-				//Handling WebExceptions: https://docs.microsoft.com/en-us/dotnet/framework/network-programming/handling-errors?view=netframework-4.7.2
-				if(wex.Status!=WebExceptionStatus.ConnectFailure) {
+			catch(System.Net.Http.HttpRequestException hex) {
+				//If this is an exception that we aren't explicitly looking for then bubble up the exception. The connection failure is HttpClient's
+				//HttpRequestError.ConnectionError (OpenDentalServerHttp, S3b-6), as WebExceptionStatus.ConnectFailure was for the SOAP proxy.
+				//HttpRequestError: https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httprequesterror
+				if(!OpenPmsDentalBusiness.WebServices.OpenDentalServerHttp.IsConnectionFailure(hex)) {
 					throw;
 				}
 				return false;//Indicates to DtoProcessor.IsMiddleTierAvailable() that the Middle Tier connection has not been restored.

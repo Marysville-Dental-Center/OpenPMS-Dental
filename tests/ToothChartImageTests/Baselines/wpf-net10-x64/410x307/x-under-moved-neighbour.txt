@@ -1,0 +1,15 @@
+Scene: x-under-moved-neighbour
+Group: known-difference
+Description: TP X on 4 and on 20, with 5 and 21 shifted 3 mm distally over them: DirectX draws the moved neighbour after the X, so it can cover it (plan 5.1).
+Size: 410x307
+Colours: Module
+Engine: Wpf3D (RenderTargetBitmap in software, 3D layer at 3x reduced with WIC's Fant scaler)
+Bitmap: 410x307 Format24bppRgb
+Alpha: every alpha is 255 (format without an alpha channel)
+Colours in the picture: 3896
+Pixels SHA-256: 9566979c7abc37488fa030cc2e328edeeda5c7d15282dd914b3ebab92a6a5c0f
+Repeatable: yes (a second GetBitmap gave the same pixels)
+Framework: .NET 10.0, x64
+Windows: build 26300.9974 (26H2)
+Fresh render: yes (both layers drawn again without the layer cache gave the same pixels)
+Screen DPI seen by the test host: 96

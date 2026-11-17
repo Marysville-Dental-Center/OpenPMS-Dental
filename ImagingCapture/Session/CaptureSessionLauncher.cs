@@ -9,6 +9,7 @@ using ImagingCapture.Settings;
 using ImagingCapture.UI;
 using ImagingDeviceManager.Capture;
 using ImagingDeviceManager.Config;
+using ImagingDeviceManager.Helper32;
 using OpenPmsDentalBusiness;
 
 namespace ImagingCapture.Session {
@@ -111,7 +112,8 @@ namespace ImagingCapture.Session {
 			return new CaptureSessionServices {
 				Store=new OdCaptureSessionStore(),
 				RadiographStore=new OdRadiographStore(),
-				FuncCreateSession=() => new TwainCaptureSession(),
+				//S3b-8: native first; a source that only the 32-bit TWAIN data source manager lists runs in the 32-bit helper.
+				FuncCreateSession=() => TwainCaptureSessions.Create(),
 				FuncCreateDispatcher=() => new SynchronizationContextCaptureDispatcher(),
 				Clock=new SystemCaptureClock(),
 				FuncLoadConfig=() => LocalCaptureConfig.Load(),
@@ -305,7 +307,8 @@ namespace ImagingCapture.Session {
 					+"Setup > Imaging > Devices.",isMountCreatedHere);
 			}
 			TwainCaptureOptions options=TwainCaptureOptions.FromConfig(config,imagingDeviceNum);
-			if(!options.IsSourceAllowed(twainName)) {
+			//The gate compares ProductNames: a choice of the 32-bit DSM is stored with its marker (S3b-8, TwainSourceChoice).
+			if(!options.IsSourceAllowed(TwainSourceChoice.GetProductName(twainName))) {
 				return CaptureSessionLaunchResult.Refused(CaptureEndText.SourceNotEnabledHere,isMountCreatedHere);
 			}
 			foreach(string warning in options.ListWarnings) {

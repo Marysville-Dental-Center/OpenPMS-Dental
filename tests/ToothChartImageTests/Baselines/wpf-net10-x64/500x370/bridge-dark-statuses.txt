@@ -1,0 +1,15 @@
+Scene: bridge-dark-statuses
+Group: paint
+Description: Dark bridges with the middle tooth missing: 2-3-4 C, 12-13-14 EC, 18-19-20 EO, 28-29-30 R.
+Size: 500x370
+Colours: Printout
+Engine: Wpf3D (RenderTargetBitmap in software, 3D layer at 3x reduced with WIC's Fant scaler)
+Bitmap: 500x370 Format24bppRgb
+Alpha: every alpha is 255 (format without an alpha channel)
+Colours in the picture: 6489
+Pixels SHA-256: 1d9cb1f52872e7d4fb545b1ff512bc69f4d57235b9b65550c100bc5e658b615a
+Repeatable: yes (a second GetBitmap gave the same pixels)
+Framework: .NET 10.0, x64
+Windows: build 26300.9974 (26H2)
+Fresh render: yes (both layers drawn again without the layer cache gave the same pixels)
+Screen DPI seen by the test host: 96

@@ -1,0 +1,9 @@
+Scene: extraction-completed-graphic-under-pontic
+Group: paint
+Description: The completed-extraction graphic on, with bridges over extracted teeth: 4 extracted (C) under the pontic of a completed bridge 3-4-5, and 20 extracted (C) under the pontic of a planned bridge 19-20-21 (TP). Both draw the X over the pontic, in the painter's order (a plain switch, as Open Dental's).
+Size: 500x370
+Colours: Printout
+Engine: Simple2D (ToothChart2D, GDI+)
+Bitmap: 500x370 Format32bppArgb
+Pixels SHA-256: cd9b81d2c33060e42f2c2128dd694b7205788909aedbe477dec6514d84e0300c
+Framework: .NET 10.0, x64

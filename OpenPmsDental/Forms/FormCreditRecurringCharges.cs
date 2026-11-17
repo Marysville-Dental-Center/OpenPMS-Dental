@@ -242,16 +242,16 @@ namespace OpenPmsDental {
 					continue;//Don't show row in grid
 				}
 				row.Cells.Add(dateStart.ToShortDateString());
-				row.Cells.Add(famBalTotal.ToString("c"));
+				row.Cells.Add(famBalTotal.ToStringNetFx("c"));
 				if(!CompareDouble.IsZero(payPlanDue)) {
-					row.Cells.Add(payPlanDue.ToString("c"));
+					row.Cells.Add(payPlanDue.ToStringNetFx("c"));
 				}
 				else {
 					row.Cells.Add("");
 				}
-				row.Cells.Add(listRecurringChargeDatas[i].RecurringCharge.TotalDue.ToString("c"));
-				row.Cells.Add(rptChargeAmt.ToString("c"));
-				row.Cells.Add(chargeAmt.ToString("c"));
+				row.Cells.Add(listRecurringChargeDatas[i].RecurringCharge.TotalDue.ToStringNetFx("c"));
+				row.Cells.Add(rptChargeAmt.ToStringNetFx("c"));
+				row.Cells.Add(chargeAmt.ToStringNetFx("c"));
 				if(!checkHideBold.Checked) {
 					double diff=(Math.Max(famBalTotal,0)+Math.Max(payPlanDue,0))-rptChargeAmt;
 					if(CompareDouble.IsZero(diff) || (diff<0 && RecurringCharges.CanChargeWhenNoBal(listRecurringChargeDatas[i].CanChargeWhenNoBal))) {

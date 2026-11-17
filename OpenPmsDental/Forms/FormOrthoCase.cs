@@ -159,18 +159,18 @@ namespace OpenPmsDental {
 			else {
 				labelBandingDate.Text=Lans.g(this,"Banding Date");
 				FillTextBandingProc();
-				textBandingAmount.Text=_orthoSchedule.BandingAmount.ToString("f");
-				textBandingPercent.Text=(_orthoSchedule.BandingAmount/_orthoCase.Fee*100).ToString("f");
+				textBandingAmount.Text=_orthoSchedule.BandingAmount.ToStringNetFx("f");
+				textBandingPercent.Text=(_orthoSchedule.BandingAmount/_orthoCase.Fee*100).ToStringNetFx("f");
 			}
 			//Fee Details
 			//Pat may not have secondary insurance, but we want to show secondary ins fee if it was entered previously when they did have secondary ins.
 			if(CompareDecimal.IsGreaterThanZero(_orthoCase.FeeInsSecondary)) {
 				DoShowSecondaryIns(true);
 			}
-			textTotalFee.Text=_orthoCase.Fee.ToString("f");
-			textPrimaryInsuranceFee.Text=_orthoCase.FeeInsPrimary.ToString("f");
-			textSecondaryInsuranceFee.Text=_orthoCase.FeeInsSecondary.ToString("f");
-			textPatientFee.Text=_orthoCase.FeePat.ToString("f");
+			textTotalFee.Text=_orthoCase.Fee.ToStringNetFx("f");
+			textPrimaryInsuranceFee.Text=_orthoCase.FeeInsPrimary.ToStringNetFx("f");
+			textSecondaryInsuranceFee.Text=_orthoCase.FeeInsSecondary.ToStringNetFx("f");
+			textPatientFee.Text=_orthoCase.FeePat.ToStringNetFx("f");
 			double totalCompleted=_listProceduresVisit.Sum(x => x.ProcFeeTotal);
 			if(_procedureBanding!=null && _procedureBanding.ProcStatus==ProcStat.C) {
 				totalCompleted+=_procedureBanding.ProcFeeTotal;
@@ -178,23 +178,23 @@ namespace OpenPmsDental {
 			if(_procedureDebond!=null && _procedureDebond.ProcStatus==ProcStat.C) {
 				totalCompleted+=_procedureDebond.ProcFeeTotal;
 			}
-			textTotalCompleted.Text=totalCompleted.ToString("f");
-			textTotalRemaining.Text=(_orthoCase.Fee-PIn.Double(textTotalCompleted.Text)).ToString("f");
-			textPrimaryInsCompleted.Text=(totalCompleted*_orthoCase.FeeInsPrimary/_orthoCase.Fee).ToString("f");
-			textPrimaryInsRemaining.Text=(_orthoCase.FeeInsPrimary-PIn.Double(textPrimaryInsCompleted.Text)).ToString("f");
-			textSecondaryInsCompleted.Text=(totalCompleted*_orthoCase.FeeInsSecondary/_orthoCase.Fee).ToString("f");
-			textSecondaryInsRemaining.Text=(_orthoCase.FeeInsSecondary-PIn.Double(textSecondaryInsCompleted.Text)).ToString("f");
+			textTotalCompleted.Text=totalCompleted.ToStringNetFx("f");
+			textTotalRemaining.Text=(_orthoCase.Fee-PIn.Double(textTotalCompleted.Text)).ToStringNetFx("f");
+			textPrimaryInsCompleted.Text=(totalCompleted*_orthoCase.FeeInsPrimary/_orthoCase.Fee).ToStringNetFx("f");
+			textPrimaryInsRemaining.Text=(_orthoCase.FeeInsPrimary-PIn.Double(textPrimaryInsCompleted.Text)).ToStringNetFx("f");
+			textSecondaryInsCompleted.Text=(totalCompleted*_orthoCase.FeeInsSecondary/_orthoCase.Fee).ToStringNetFx("f");
+			textSecondaryInsRemaining.Text=(_orthoCase.FeeInsSecondary-PIn.Double(textSecondaryInsCompleted.Text)).ToStringNetFx("f");
 			double insTotalCompleted=PIn.Double(textPrimaryInsCompleted.Text)+PIn.Double(textSecondaryInsCompleted.Text);
-			textPatCompleted.Text=(totalCompleted-insTotalCompleted).ToString("f");
-			textPatRemaining.Text=(_orthoCase.FeePat-PIn.Double(textPatCompleted.Text)).ToString("f");
+			textPatCompleted.Text=(totalCompleted-insTotalCompleted).ToStringNetFx("f");
+			textPatRemaining.Text=(_orthoCase.FeePat-PIn.Double(textPatCompleted.Text)).ToStringNetFx("f");
 			//Procedure Breakdown
-			textDebondAmount.Text=_orthoSchedule.DebondAmount.ToString("f");
-			textAllVisitsAmount.Text=(_orthoCase.Fee-_orthoSchedule.BandingAmount-_orthoSchedule.DebondAmount).ToString("f");
-			textDebondPercent.Text=(_orthoSchedule.DebondAmount/_orthoCase.Fee*100).ToString("f");
-			textAllVisitsPercent.Text=(PIn.Double(textAllVisitsAmount.Text)/_orthoCase.Fee*100).ToString("f");
+			textDebondAmount.Text=_orthoSchedule.DebondAmount.ToStringNetFx("f");
+			textAllVisitsAmount.Text=(_orthoCase.Fee-_orthoSchedule.BandingAmount-_orthoSchedule.DebondAmount).ToStringNetFx("f");
+			textDebondPercent.Text=(_orthoSchedule.DebondAmount/_orthoCase.Fee*100).ToStringNetFx("f");
+			textAllVisitsPercent.Text=(PIn.Double(textAllVisitsAmount.Text)/_orthoCase.Fee*100).ToStringNetFx("f");
 			//Visit Details
-			textVisitAmount.Text=_orthoSchedule.VisitAmount.ToString("f");
-			textVisitPercent.Text=(_orthoSchedule.VisitAmount/_orthoCase.Fee*100).ToString("f");
+			textVisitAmount.Text=_orthoSchedule.VisitAmount.ToStringNetFx("f");
+			textVisitPercent.Text=(_orthoSchedule.VisitAmount/_orthoCase.Fee*100).ToStringNetFx("f");
 			textVisitCountPlanned.Text=OrthoSchedules.CalculatePlannedVisitsCount(_orthoSchedule.BandingAmount,_orthoSchedule.DebondAmount
 				,_orthoSchedule.VisitAmount,_orthoCase.Fee).ToString();
 			TextVisitCountComplete.Text=_listProceduresVisit.Count.ToString();
@@ -284,14 +284,14 @@ namespace OpenPmsDental {
 				row=new GridRow();
 				row.Cells.Add(Lans.g("TableOrthoSchedule","Visit"));
 				if(i+1<PIn.Int(textVisitCountPlanned.Text,false)) {
-					row.Cells.Add(PIn.Double(textVisitPercent.Text).ToString("f"));
-					row.Cells.Add(PIn.Double(textVisitAmount.Text).ToString("f"));
+					row.Cells.Add(PIn.Double(textVisitPercent.Text).ToStringNetFx("f"));
+					row.Cells.Add(PIn.Double(textVisitAmount.Text).ToStringNetFx("f"));
 				}
 				else if(i+1==PIn.Int(textVisitCountPlanned.Text,false)) {
 					double lastVisitAmount=PIn.Double(textAllVisitsAmount.Text)-i*PIn.Double(textVisitAmount.Text);
 					double lastVisitPercent=lastVisitAmount/PIn.Double(textTotalFee.Text)*100;
-					row.Cells.Add(lastVisitPercent.ToString("f"));
-					row.Cells.Add(lastVisitAmount.ToString("f"));
+					row.Cells.Add(lastVisitPercent.ToStringNetFx("f"));
+					row.Cells.Add(lastVisitAmount.ToStringNetFx("f"));
 				}
 				else {
 					row.Cells.Add(0.ToString());
@@ -369,43 +369,43 @@ namespace OpenPmsDental {
 
 		#region Leave Methods
 		private void TextTotalFee_Leave(object sender,EventArgs e) {
-			textTotalFee.Text=PIn.Double(textTotalFee.Text).ToString("f");
+			textTotalFee.Text=PIn.Double(textTotalFee.Text).ToStringNetFx("f");
 		}
 
 		private void TextPrimaryInsuranceFee_Leave(object sender,EventArgs e) {
-			textPrimaryInsuranceFee.Text=PIn.Double(textPrimaryInsuranceFee.Text).ToString("f");
+			textPrimaryInsuranceFee.Text=PIn.Double(textPrimaryInsuranceFee.Text).ToStringNetFx("f");
 		}
 
 		private void TextSecondaryInsuranceFee_Leave(object sender,EventArgs e) {
-			textSecondaryInsuranceFee.Text=PIn.Double(textSecondaryInsuranceFee.Text).ToString("f");
+			textSecondaryInsuranceFee.Text=PIn.Double(textSecondaryInsuranceFee.Text).ToStringNetFx("f");
 		}
 
 		private void TextPatientFee_Leave(object sender,EventArgs e) {
-			textPatientFee.Text=PIn.Double(textPatientFee.Text).ToString("f");
+			textPatientFee.Text=PIn.Double(textPatientFee.Text).ToStringNetFx("f");
 		}
 
 		private void TextBandingAmount_Leave(object sender,EventArgs e) {
-			textBandingAmount.Text=PIn.Double(textBandingAmount.Text).ToString("f");
+			textBandingAmount.Text=PIn.Double(textBandingAmount.Text).ToStringNetFx("f");
 		}
 
 		private void TextDebondAmount_Leave(object sender,EventArgs e) {
-			textDebondAmount.Text=PIn.Double(textDebondAmount.Text).ToString("f");
+			textDebondAmount.Text=PIn.Double(textDebondAmount.Text).ToStringNetFx("f");
 		}
 
 		private void TextAllVisitsAmount_Leave(object sender,EventArgs e) {
-			textAllVisitsAmount.Text=PIn.Double(textAllVisitsAmount.Text).ToString("f");
+			textAllVisitsAmount.Text=PIn.Double(textAllVisitsAmount.Text).ToStringNetFx("f");
 		}
 
 		private void TextBandingPercent_Leave(object sender,EventArgs e) {
-			textBandingPercent.Text=PIn.Double(textBandingPercent.Text).ToString("f");
+			textBandingPercent.Text=PIn.Double(textBandingPercent.Text).ToStringNetFx("f");
 		}
 
 		private void TextDebondPercent_Leave(object sender,EventArgs e) {
-			textDebondPercent.Text=PIn.Double(textDebondPercent.Text).ToString("f");
+			textDebondPercent.Text=PIn.Double(textDebondPercent.Text).ToStringNetFx("f");
 		}
 
 		private void TextAllVisitsPercent_Leave(object sender,EventArgs e) {
-			textAllVisitsPercent.Text=PIn.Double(textAllVisitsPercent.Text).ToString("f");
+			textAllVisitsPercent.Text=PIn.Double(textAllVisitsPercent.Text).ToStringNetFx("f");
 		}
 
 		private void TextVisitCountPlanned_Leave(object sender,EventArgs e) {
@@ -413,11 +413,11 @@ namespace OpenPmsDental {
 		}
 
 		private void TextVisitPercent_Leave(object sender,EventArgs e) {
-			textVisitPercent.Text=PIn.Double(textVisitPercent.Text).ToString("f");
+			textVisitPercent.Text=PIn.Double(textVisitPercent.Text).ToStringNetFx("f");
 		}
 
 		private void TextVisitAmount_Leave(object sender,EventArgs e) {
-			textVisitAmount.Text=PIn.Double(textVisitAmount.Text).ToString("f");
+			textVisitAmount.Text=PIn.Double(textVisitAmount.Text).ToStringNetFx("f");
 		}
 		#endregion Leave Methods
 
@@ -488,8 +488,8 @@ namespace OpenPmsDental {
 			}
 			else {
 				double allVisitsAmount=PIn.Double(textAllVisitsAmount.Text);
-				textVisitAmount.Text=(allVisitsAmount/visitCount).ToString("f");
-				textVisitPercent.Text=(PIn.Double(textVisitAmount.Text)/PIn.Double(textTotalFee.Text)*100).ToString("f");
+				textVisitAmount.Text=(allVisitsAmount/visitCount).ToStringNetFx("f");
+				textVisitPercent.Text=(PIn.Double(textVisitAmount.Text)/PIn.Double(textTotalFee.Text)*100).ToStringNetFx("f");
 				SetVisitFieldColors(Color.Black);
 				if(CompareDouble.IsZero(PIn.Double(textVisitAmount.Text))) {
 					textVisitPercent.Text="";
@@ -523,7 +523,7 @@ namespace OpenPmsDental {
 			}
 			else {
 				double totalFee=PIn.Double(textTotalFee.Text);
-				textVisitAmount.Text=(totalFee*visitPercent/100).ToString("f");
+				textVisitAmount.Text=(totalFee*visitPercent/100).ToStringNetFx("f");
 				textVisitCountPlanned.Text=OrthoSchedules.CalculatePlannedVisitsCount(PIn.Double(textBandingAmount.Text),PIn.Double(textDebondAmount.Text)
 					,PIn.Double(textVisitAmount.Text),PIn.Double(textTotalFee.Text)).ToString();
 				SetVisitFieldColors(Color.Black);
@@ -554,7 +554,7 @@ namespace OpenPmsDental {
 			}
 			else {
 				double totalFee=PIn.Double(textTotalFee.Text);
-				textVisitPercent.Text=(visitAmount/totalFee*100).ToString("f");
+				textVisitPercent.Text=(visitAmount/totalFee*100).ToStringNetFx("f");
 				textVisitCountPlanned.Text=OrthoSchedules.CalculatePlannedVisitsCount(PIn.Double(textBandingAmount.Text),PIn.Double(textDebondAmount.Text)
 					,PIn.Double(textVisitAmount.Text),PIn.Double(textTotalFee.Text)).ToString();
 				SetVisitFieldColors(Color.Black);
@@ -586,14 +586,14 @@ namespace OpenPmsDental {
 				switch(fieldTypeLinked){
 					case FieldType.Fee:
 						if(!_isShowingSecondary) {//Can only auto-calculate a linked Fee field when we are working with one insurance plan.
-							validDoubleLinkedField.Text=(totalFee-changedFieldNumber).ToString("f");
+							validDoubleLinkedField.Text=(totalFee-changedFieldNumber).ToStringNetFx("f");
 						}
 						break;
 					case FieldType.Percent:
-						validDoubleLinkedField.Text=(changedFieldNumber/totalFee*100).ToString("f");
+						validDoubleLinkedField.Text=(changedFieldNumber/totalFee*100).ToStringNetFx("f");
 						break;
 					case FieldType.Amount:
-						validDoubleLinkedField.Text=(totalFee*changedFieldNumber/100).ToString("f");
+						validDoubleLinkedField.Text=(totalFee*changedFieldNumber/100).ToStringNetFx("f");
 						break;
 				}
 			}

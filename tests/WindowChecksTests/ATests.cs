@@ -140,10 +140,13 @@ namespace WindowChecksTests {
 			if(checkResult.Expect(match.Success,"\"ForkBuildUtc\" = \"<yyyy-MM-ddTHH:mm:ssZ>\": "+stamp,stamp)) {
 				DateTime dateBuild=DateTime.ParseExact(match.Groups[1].Value,"yyyy-MM-dd'T'HH:mm:ss'Z'",CultureInfo.InvariantCulture,
 					DateTimeStyles.AdjustToUniversal|DateTimeStyles.AssumeUniversal);
-				DateTime dateWrite=File.GetLastWriteTimeUtc(DebugExe);
+				//The stamp is written before the compile (ForkWriteBuildStamp, BeforeTargets CoreCompile) into the program's managed assembly, which the
+				//compile writes: OpenPmsDental.dll on .NET (the .exe is the apphost, copied after it), the .exe on .NET Framework (WINCHK-5).
+				string pathAssembly=Path.Combine(WinChkEnv.DebugFolder,ProgramFileName(WinChkEnv.DebugFolder));
+				DateTime dateWrite=File.GetLastWriteTimeUtc(pathAssembly);
 				double minutes=(dateWrite-dateBuild).TotalMinutes;
-				checkResult.Expect(minutes>=0 && minutes<=5,"The stamp is "+minutes.ToString("0.0")+" minutes before the exe's LastWriteTimeUtc ("
-					+dateWrite.ToString("s")+"Z)");
+				checkResult.Expect(minutes>=0 && minutes<=5,"The stamp is "+minutes.ToString("0.0")+" minutes before "+Path.GetFileName(pathAssembly)
+					+"'s LastWriteTimeUtc ("+dateWrite.ToString("s")+"Z)");
 			}
 			checkResult.Note("Read with Mono.Cecil from a copy of the file (no PowerShell window, nothing loaded); text in A3-build-stamp.txt instead of a picture");
 			WinChkFixture.Finish(checkResult);
@@ -243,7 +246,9 @@ namespace WindowChecksTests {
 			}
 			List<string> listBefore=Directory.GetFiles(folderRelease,"*",SearchOption.AllDirectories).Select(x => x.Substring(folderRelease.Length+1)).OrderBy(x => x).ToList();
 			File.WriteAllLines(Path.Combine(WinChkEnv.OutFolder,"release-files-before.txt"),listBefore);
-			DateTime dateWriteUtc=File.GetLastWriteTimeUtc(exeRelease);
+			//The program's managed assembly (OpenPmsDental.dll on .NET, the .exe on .NET Framework), which holds the build stamp (A3, WINCHK-5).
+			string pathAssemblyRelease=Path.Combine(folderRelease,ProgramFileName(folderRelease));
+			DateTime dateWriteUtc=File.GetLastWriteTimeUtc(pathAssemblyRelease);
 			string promptText="";
 			IntPtr hwndMain=StartProgram(exeRelease,"chart",checkResult,out ProgramProcess programProcess,(hwnd,text) => {
 				//The publish offer: "No release is published yet." on a database without a release, "This build is newer than the published one" on
@@ -275,9 +280,12 @@ namespace WindowChecksTests {
 						checkResult.Expect(match.Groups[1].Value==buildIdShort,"The build "+match.Groups[1].Value+" is this exe's build id (ForkReleases.ComputeBuildId of "
 							+"<rel>: "+buildIdShort+")",buildIdShort);
 						DateTime dateBuilt=DateTime.ParseExact(match.Groups[2].Value,"yyyy-MM-dd HH:mm",CultureInfo.InvariantCulture);
-						double minutes=Math.Abs((dateWriteUtc-dateBuilt).TotalMinutes);
-						checkResult.Expect(minutes<=3,"The built time "+match.Groups[2].Value+" matches the exe's LastWriteTimeUtc "+dateWriteUtc.ToString("yyyy-MM-dd HH:mm:ss")
-							+" ("+minutes.ToString("0.0")+" min)");
+						//As A3: the stamp is taken before the compile and the compile writes the assembly after it (on .NET 10 the Release compile of
+						//the program took 3.0 minutes in WINCHK-5's run, the .NET Framework's 0.2 to 1.1), and the prompt names the minute only, so the
+						//assembly is written 0 to 5 minutes after the stamp, plus up to one minute for the minute the prompt leaves out.
+						double minutes=(dateWriteUtc-dateBuilt).TotalMinutes;
+						checkResult.Expect(minutes>=0 && minutes<=6,"The built time "+match.Groups[2].Value+" is the build of "+Path.GetFileName(pathAssemblyRelease)
+							+" (LastWriteTimeUtc "+dateWriteUtc.ToString("yyyy-MM-dd HH:mm:ss")+", "+minutes.ToString("0.0")+" min after the built time's minute)");
 					}
 				}
 				if(hwndMain!=IntPtr.Zero) {

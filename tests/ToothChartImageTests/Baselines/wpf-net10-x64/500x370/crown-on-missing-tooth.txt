@@ -1,0 +1,15 @@
+Scene: crown-on-missing-tooth
+Group: paint
+Description: Dark TP crowns on missing teeth 3 and 30: the root is hidden and the crown shows only with an implant (none here).
+Size: 500x370
+Colours: Printout
+Engine: Wpf3D (RenderTargetBitmap in software, 3D layer at 3x reduced with WIC's Fant scaler)
+Bitmap: 500x370 Format24bppRgb
+Alpha: every alpha is 255 (format without an alpha channel)
+Colours in the picture: 3007
+Pixels SHA-256: 371c231ffd42d6ceb08f2538ae8974b68e2921c5051d211001e1ecfc6fbecc85
+Repeatable: yes (a second GetBitmap gave the same pixels)
+Framework: .NET 10.0, x64
+Windows: build 26300.9974 (26H2)
+Fresh render: yes (both layers drawn again without the layer cache gave the same pixels)
+Screen DPI seen by the test host: 96

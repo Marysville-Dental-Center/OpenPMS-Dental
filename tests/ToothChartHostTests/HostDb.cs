@@ -41,6 +41,10 @@ namespace ToothChartHostTests {
 		///is drawn in software. CodeBase's logger is told it runs in a unit test, so the chart's fallback lines write no log file.</summary>
 		[AssemblyInitialize]
 		public static void AssemblyInitialize(TestContext testContext) {
+			OpenPmsDentalTests.TestCodePages.Register();//the code pages first, as the program registers them (tests\Shared\TestCodePages.cs)
+			//The program's default font before any window exists, as every exe's Main sets it (S3b-4): the Simple 2D chart and the program's forms
+			//draw with the control's Font, which is .NET's Segoe UI 9 otherwise (S3b-5W, docs/port-notes/S3b-5W.md).
+			System.Windows.Forms.Application.SetDefaultFont(new System.Drawing.Font("Microsoft Sans Serif",8.25f));
 			System.Windows.Media.RenderOptions.ProcessRenderMode=System.Windows.Interop.RenderMode.SoftwareOnly;
 			ODBuild.IsUnitTest=true;
 		}
@@ -220,10 +224,23 @@ namespace ToothChartHostTests {
 			}
 		}
 
-		///<summary>tests\ToothChartHostTests\Baselines: the host pictures this package recorded.</summary>
-		public static string Baselines {
+		///<summary>tests\ToothChartHostTests\Baselines: the host pictures TC-8 recorded on .NET Framework 4.8 x86 (they stay there).</summary>
+		public static string BaselinesNet48 {
 			get {
 				return Path.Combine(RepoRoot,"tests","ToothChartHostTests","Baselines");
+			}
+		}
+
+		///<summary>The host pictures of this process's runtime and bitness: on .NET x64, tests\ToothChartHostTests\Baselines\net10-x64 (S3b-5W,
+		///docs/port-notes/S3b-5W.md: every host picture, recorded on .NET 10 x64, because .NET draws WPF with another render DLL); otherwise the
+		///.NET Framework 4.8 x86 pictures of TC-8 (BaselinesNet48). A recording writes to the same folder.</summary>
+		public static string Baselines {
+			get {
+				bool isNetFramework=System.Runtime.InteropServices.RuntimeInformation.FrameworkDescription.StartsWith(".NET Framework",StringComparison.Ordinal);
+				if(!isNetFramework && Environment.Is64BitProcess) {
+					return Path.Combine(BaselinesNet48,"net10-x64");
+				}
+				return BaselinesNet48;
 			}
 		}
 	}

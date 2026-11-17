@@ -85,7 +85,7 @@ namespace OpenPmsDentalBusiness {
 				GlobalPaymentsV2InDoubt inDoubt=listInDoubt[i];
 				string reference=inDoubt.Reference;
 				stringBuilder.AppendLine(inDoubt.RecurringChargeData.PatName+": "+inDoubt.RecurringChargeInDoubt.DateTimeCharge.ToString()+", "
-					+inDoubt.RecurringChargeInDoubt.ChargeAmt.ToString("c")+(reference=="" ? "" : ", "+Lans.g(_lanThis,"reference")+" "+reference));
+					+inDoubt.RecurringChargeInDoubt.ChargeAmt.ToStringNetFx("c")+(reference=="" ? "" : ", "+Lans.g(_lanThis,"reference")+" "+reference));
 			}
 			if(listInDoubt.Count>countListedMax) {
 				stringBuilder.AppendLine(Lans.g(_lanThis,"and")+" "+(listInDoubt.Count-countListedMax)+" "+Lans.g(_lanThis,"more"));
@@ -160,7 +160,7 @@ namespace OpenPmsDentalBusiness {
 				//No in-doubt tag here: nothing was sent, and the earlier attempt stays the one to check.
 				MarkFailed(chargeData,Lans.g(_lanThis,"Global Payments V2: an earlier charge on this card has an unknown outcome, so it was not charged again.")
 					+" "+Lans.g(_lanThis,"Earlier charge:")+" "+recurringChargeInDoubt.DateTimeCharge.ToString()+", "
-					+recurringChargeInDoubt.ChargeAmt.ToString("c")+(referenceInDoubt=="" ? "" : ", "+Lans.g(_lanThis,"reference")+" "+referenceInDoubt)+". "
+					+recurringChargeInDoubt.ChargeAmt.ToStringNetFx("c")+(referenceInDoubt=="" ? "" : ", "+Lans.g(_lanThis,"reference")+" "+referenceInDoubt)+". "
 					+Lans.g(_lanThis,"Check Global Payments' records. If that charge was not taken, send this card again from the Recurring Charges window and "
 					+"answer Yes when it asks whether to charge cards with an unknown outcome again."));
 				return;

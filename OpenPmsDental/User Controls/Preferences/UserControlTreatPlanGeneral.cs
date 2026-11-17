@@ -52,7 +52,7 @@ namespace OpenPmsDental {
 
 		#region Methods - Public
 		public void FillTreatPlanGeneral() {
-			textDiscountPercentage.Text=PrefC.GetDouble(PrefName.TreatPlanDiscountPercent).ToString();
+			textDiscountPercentage.Text=PrefC.GetDouble(PrefName.TreatPlanDiscountPercent).ToStringNetFx();
 			_listDefsNegAdjTypes=Defs.GetNegativeAdjTypes();
 			comboProcDiscountType.Items.AddDefs(_listDefsNegAdjTypes);
 			comboProcDiscountType.SetSelectedDefNum(PrefC.GetLong(PrefName.TreatPlanDiscountAdjustmentType));

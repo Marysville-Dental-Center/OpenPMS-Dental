@@ -318,7 +318,7 @@ namespace OpenPmsDentalBusiness {
 
 		///<summary>Duration column text in milliseconds.</summary>
 		public static string FormatDuration(double durationMs) {
-			return durationMs.ToString("0.0");
+			return durationMs.ToStringNetFx("0.0");
 		}
 	}
 }

@@ -108,14 +108,14 @@ namespace OpenPmsDental {
 					gridRow.Cells.Add(Clinics.GetAbbr(PIn.Long(dataRow["ClinicNum"].ToString())));
 				}
 				gridRow.Cells.Add(GetTypeText(amount));
-				gridRow.Cells.Add(amount.ToString("c"));
+				gridRow.Cells.Add(amount.ToStringNetFx("c"));
 				DateTime dateSent=PIn.Date(dataRow["DateSent"].ToString());
 				gridRow.Cells.Add(dateSent.Year>1880 ? dateSent.ToShortDateString() : "");
 				gridRow.Tag=dataRow;
 				gridMain.ListGridRows.Add(gridRow);
 			}
 			gridMain.EndUpdate();
-			labelTotal.Text=Lan.g(this,"Total")+": "+total.ToString("c")+"   "+Lan.g(this,"Rows")+": "+_table.Rows.Count;
+			labelTotal.Text=Lan.g(this,"Total")+": "+total.ToStringNetFx("c")+"   "+Lan.g(this,"Rows")+": "+_table.Rows.Count;
 		}
 
 		private void butRefresh_Click(object sender,EventArgs e) {

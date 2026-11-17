@@ -486,7 +486,7 @@ namespace OpenPmsDental{
 			if(listInstallmentPlans!=null) {
 				InstallmentPlan installmentPlan=listInstallmentPlans.Find(x => x.PatNum==patNum);
 				if(installmentPlan!=null) {//Patient has an installment plan so use that APR instead.
-					APR=installmentPlan.APR.ToString();
+					APR=installmentPlan.APR.ToStringNetFx();
 				}
 			}
 			Adjustment adjustment = new Adjustment();

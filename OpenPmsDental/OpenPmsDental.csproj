@@ -11,13 +11,18 @@
     Sdk.targets: its file is $(IntermediateOutputPath)ForkBuildStamp.cs, and the SDK computes $(IntermediateOutputPath) in Sdk.targets.
     Every item stays before the Sdk.targets import, where the SDK gives an item outside the folder its Link.
 
-    AutoGenerateBindingRedirects is left to its default, on for an exe, as for the classic project: OpenPmsDental.exe.config is app.config
-    with the redirects it holds (tests\LibraryBindingTests checks them).
+    net10.0-windows x64, self-contained for win-x64 (Directory.Build.props, Directory.Build.Net.props; S3b-4 of docs/specs/net10-plan.md,
+    docs/port-notes/S3b-4.md): OpenPmsDental.exe is the apphost and OpenPmsDental.dll the program, beside the x64 runtime, which every exe
+    of the folder shares. app.config becomes OpenPmsDental.dll.config, with the application settings only (the sections only the .NET
+    Framework read went in S3b-4).
   -->
   <Import Project="Sdk.props" Sdk="Microsoft.NET.Sdk" />
   <PropertyGroup>
-    <TargetFramework>net48</TargetFramework>
     <OutputType>WinExe</OutputType>
+    <UseWindowsForms>true</UseWindowsForms>
+    <!-- WPF: the program hosts WpfControlsOD's windows and has WPF resources of its own (the Resource items below, OpenPmsDental.g.resources),
+         which the SDK builds only with UseWPF on .NET. -->
+    <UseWPF>true</UseWPF>
     <RootNamespace>OpenPmsDental</RootNamespace>
     <AssemblyName>OpenPmsDental</AssemblyName>
     <LangVersion>8.0</LangVersion>
@@ -37,57 +42,54 @@
     <!-- The classic Release|x86 configuration defined no symbols: no TRACE, which the SDK would otherwise add (only its implicit RELEASE
          and framework symbols remain). -->
     <DefineConstants></DefineConstants>
-    <!--
-      GenerateSerializationAssemblies stays at its default, Auto: a Release build runs SGen because the project has a WebReferenceUrl item
-      (below), and OpenPmsDental.XmlSerializers.dll ships (tools/Build-Release.ps1). MSBuild turns SGen off for Debug builds.
-    -->
   </PropertyGroup>
+  <!--
+    OpenPmsDental.XmlSerializers.dll, which ships (tools/Build-Release.ps1; kept by the owner's standing rule), is written by
+    Microsoft.XmlSerializer.Generator (download batch D), as the business library's is (S3b-3, OpenPmsDentalBusiness.csproj): MSBuild's SGen,
+    which wrote it on the .NET Framework in Release builds because of the CallFire web reference (WebReferenceUrl), does not run for .NET, so
+    it is off (GenerateSerializationAssemblies) and the WebReferenceUrl item is gone. The generator's build target runs after every build, Debug
+    too, and copies the file into the output folder; its ParentAssemblyId is the MVID of OpenPmsDental.dll.
+    - DotNetCliToolReference: the target runs "dotnet Microsoft.XmlSerializer.Generator", a per-project CLI tool (S3b-0 item 10). Its version
+      is the PackageReference's (CLI tool items take no central version); it follows Directory.Packages.props at each bump.
+    - SGenTypes: SGen's file held the serializers of the CallFire proxy's two messages and nothing else (SGenUseProxyTypes); the program has
+      no other XML-serialized type of its own (the sheets, claim forms and procedure codes it serializes are the business library's types).
+      The two messages are declared as classes in Web References\CallFireService\SMSServiceNet10.cs, which CallFire's port (open point O-10)
+      serializes.
+    - The package gives this project its build targets only (IncludeAssets) and nothing to the projects that reference it (PrivateAssets).
+  -->
+  <PropertyGroup>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <SGenTypes>OpenPmsDental.CallFireService.SendSMSCampaignRequest;OpenPmsDental.CallFireService.SendSMSCampaignResponse</SGenTypes>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.XmlSerializer.Generator" IncludeAssets="build" PrivateAssets="all" />
+    <DotNetCliToolReference Include="Microsoft.XmlSerializer.Generator" Version="10.0.15" />
+  </ItemGroup>
   <ItemGroup>
     <Reference Include="Health.Direct.Common">
       <HintPath>..\Required dlls\Health.Direct.Common.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Microsoft.VisualBasic" />
-    <!-- The WebView2 SDK, the version of Directory.Packages.props, with its build files: they bring the native WebView2Loader.dll (x86),
-         which Microsoft.Web.WebView2.Core.dll loads for every WebView2 window (CodeBase/Controls/ODWebView2.cs), and Directory.Build.targets
-         puts it at the top of the output folder, next to the exe, in Debug and Release alike; from there it also goes to the output of every
-         project that references this one, as the None item of "Required dlls\WebView2Loader.dll" did before S2-3 of the .NET 10 move. -->
+    <!-- The WebView2 SDK, the version of Directory.Packages.props (1.0.4314.35 for .NET 10), with its build files: they reference the WebView2
+         assemblies built for .NET (lib_manual) and bring the native x64 WebView2Loader.dll (runtimes\win-x64\native), which
+         Microsoft.Web.WebView2.Core.dll loads for every WebView2 window (CodeBase/Controls/ODWebView2.cs); Directory.Build.targets and the
+         runtime identifier put it at the top of the output folder, next to the exe (S3b-0 item 5). -->
     <PackageReference Include="Microsoft.Web.WebView2" />
     <PackageReference Include="MySqlConnector" />
     <!-- Newtonsoft.Json, the version of Directory.Packages.props. -->
     <PackageReference Include="Newtonsoft.Json" />
+    <!-- Voice perio charting (UI\Voice\VoiceController.cs; decision 13): System.Speech is a package on .NET. The runtime identifier puts its
+         Windows implementation (runtimes\win\lib\net10.0) flat in the output folder (S3b-0 item 7). -->
+    <PackageReference Include="System.Speech" />
     <ProjectReference Include="..\third-party\build\MigraDoc.DocumentObjectModel\MigraDoc.DocumentObjectModel.csproj" />
     <ProjectReference Include="..\third-party\build\MigraDoc.Rendering-gdi\MigraDoc.Rendering-gdi.csproj" />
     <ProjectReference Include="..\third-party\build\PdfSharp-gdi\PdfSharp-gdi.csproj" />
     <ProjectReference Include="..\third-party\build\PdfSharp.Charting-gdi\PdfSharp.Charting-gdi.csproj" />
     <ProjectReference Include="..\ODCrypt\xODCrypt.csproj" />
-    <Reference Include="PresentationCore" />
-    <Reference Include="PresentationFramework" />
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Design" />
-    <Reference Include="System.DirectoryServices" />
-    <Reference Include="System.DirectoryServices.AccountManagement" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.IO.Compression" />
-    <Reference Include="System.Management" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.ServiceModel" />
-    <Reference Include="System.ServiceProcess" />
-    <Reference Include="System.Speech" />
-    <Reference Include="System.Web" />
-    <Reference Include="System.Web.Services" />
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Windows.Forms.DataVisualization" />
-    <Reference Include="System.Xaml" />
-    <Reference Include="System.Xml" />
-    <Reference Include="UIAutomationClient" />
-    <Reference Include="UIAutomationProvider" />
-    <Reference Include="WindowsBase" />
-    <Reference Include="WindowsFormsIntegration" />
+    <!-- The .NET Framework references of the classic project are parts of Microsoft.NETCore.App and Microsoft.WindowsDesktop.App on .NET
+         (UseWindowsForms, UseWPF), or packages the libraries bring: System.Management, System.DirectoryServices.AccountManagement and
+         System.ServiceProcess.ServiceController (the business library), System.Windows.Forms.DataVisualization (WinForms.DataVisualization,
+         OpenPmsDentalGraph; decision 10). System.Web.Services and System.ServiceModel are not part of .NET: the CallFire proxy compiles for the
+         .NET Framework only (open point O-10). -->
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ImagingCapture\xImagingCapture.csproj" />
@@ -106,15 +108,20 @@
     <ProjectReference Include="..\RdlEngine\RdlEngine.csproj" />
     <ProjectReference Include="..\RdlViewer\RdlViewer.csproj" />
     <ProjectReference Include="..\ServiceManager\ServiceManager.csproj" />
-    <!-- The connection settings tool (docs/specs/db-connection-security.md): referenced so that OpenPmsDentalDbSettings.exe and its .exe.config
-         are copied next to OpenPmsDental.exe, where the release staging and the installer take them from. -->
+    <!-- The connection settings tool (docs/specs/db-connection-security.md): referenced so that OpenPmsDentalDbSettings.exe (the apphost), its
+         .dll, .runtimeconfig.json and .deps.json are copied next to OpenPmsDental.exe, where the release staging and the installer take them
+         from; it runs on the folder's runtime (decision 20). -->
     <ProjectReference Include="..\OpenPmsDentalDbSettings\OpenPmsDentalDbSettings.csproj" />
-    <!-- The 32-bit helper program (S3a-13 of the .NET 10 move, docs/port-notes/S3a-13.md): referenced so that OpenPmsDentalHelper32.exe and
-         its .exe.config are copied next to OpenPmsDental.exe, where CodeBase's Helper32Client starts it and the release staging takes it from.
-         No code here uses its types; QuickBooks Desktop's QBFC interop moved into it. -->
-    <ProjectReference Include="..\OpenPmsDentalHelper32\OpenPmsDentalHelper32.csproj" />
+    <!-- Build order only: the 32-bit helper program (S3a-13 of the .NET 10 move, docs/port-notes/S3a-13.md) is x86 and self-contained for
+         win-x86 with its own x86 runtime (open point O-15, decision 20), so it is not referenced as an assembly (its files would land flat
+         beside the x64 program): CopyHelper32 below copies its whole output folder into the sub folder Helper32\, where CodeBase's
+         Helper32Client starts it and the release staging takes it from. No code here uses its types. -->
+    <ProjectReference Include="..\OpenPmsDentalHelper32\OpenPmsDentalHelper32.csproj">
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <Private>false</Private>
+    </ProjectReference>
     <ProjectReference Include="..\SparksToothChart\SparksToothChart.csproj" />
-    <!-- Build order only: UpdateFileCopier.exe is copied next to OpenPmsDental.exe after the build (CopyUpdateFileCopier below), because the
+    <!-- Build order only: UpdateFileCopier is copied next to OpenPmsDental.exe after the build (CopyUpdateFileCopier below), because the
          release channel ships it with every published release (docs/release-process.md). Not referenced as an assembly. -->
     <ProjectReference Include="..\UpdateFileCopier\UpdateFileCopier.csproj">
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
@@ -5711,8 +5718,8 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <!-- WPF resources in OpenPmsDental.g.resources (resources/esig.gif, ...). The .NET Framework WinFX targets build them, as for the classic
-         project: the SDK imports those targets for a .NETFramework project without UseWPF. -->
+    <!-- WPF resources in OpenPmsDental.g.resources (resources/esig.gif, ...). The SDK's WPF targets build them (UseWPF; on the .NET Framework
+         the WinFX targets did, without it). -->
     <Resource Include="Resources\Account32.gif" />
     <Resource Include="Resources\bola_launch.png" />
     <Resource Include="Resources\deleteX10.gif" />
@@ -5766,35 +5773,30 @@
   </ItemGroup>
   <ItemGroup>
     <!--
-      The web reference. With it, a Release build runs SGen (GenerateSerializationAssemblies Auto) and writes
-      OpenPmsDental.XmlSerializers.dll. WebReferences and WCFMetadata are the folders Visual Studio keeps them in.
+      The CallFire web reference's folder (Web References\CallFireService: the WSDL and the generated proxy, which compiles for the .NET
+      Framework only; SMSServiceNet10.cs on .NET 10, open point O-10). Its WebReferenceUrl item went in S3b-4: its only build effect was
+      SGen, which does not run for .NET (the XmlSerializer generator above writes OpenPmsDental.XmlSerializers.dll). It named
+      https://www.callfire.com/service/SMSService?wsdl, dynamic, with the address in Settings (OpenDental_CallFireService_SMSService).
+      WebReferences and WCFMetadata are the folders Visual Studio keeps them in.
     -->
     <WebReferences Include="Web References\" />
     <WCFMetadata Include="Service References\" />
-    <WebReferenceUrl Include="https://www.callfire.com/service/SMSService%3fwsdl">
-      <UrlBehavior>Dynamic</UrlBehavior>
-      <RelPath>Web References\CallFireService\</RelPath>
-      <UpdateFromURL>https://www.callfire.com/service/SMSService%3fwsdl</UpdateFromURL>
-      <ServiceLocationURL>
-      </ServiceLocationURL>
-      <CachedDynamicPropName>
-      </CachedDynamicPropName>
-      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
-      <CachedSettingsPropName>OpenDental_CallFireService_SMSService</CachedSettingsPropName>
-    </WebReferenceUrl>
   </ItemGroup>
   <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk" />
-  <!-- Build time of OpenPmsDental.exe, for the release channel: [assembly: AssemblyMetadata("ForkBuildUtc", "yyyy-MM-ddTHH:mm:ssZ")]
-       (ForkReleases.GetBuildUtc). The release version stays "0.0" across builds, so the build time orders two builds of one release and a workstation
-       never publishes an older build over a newer one (docs/release-process.md). The stamp is rewritten only when something that is compiled into
-       OpenPmsDental.exe changed, so an unchanged rebuild keeps its build id. It comes after the Sdk.targets import, where $(IntermediateOutputPath)
-       is known. -->
+  <!-- Build time of the program, for the release channel: [assembly: AssemblyMetadata("ForkBuildUtc", "yyyy-MM-ddTHH:mm:ssZ")]
+       (ForkReleases.GetBuildUtc, which reads the entry assembly). On .NET 10 it lands in OpenPmsDental.dll, the program's assembly and the
+       entry assembly; OpenPmsDental.exe is the apphost (S3b-4). The release version stays "0.0" across builds, so the build time orders two
+       builds of one release and a workstation never publishes an older build over a newer one (docs/release-process.md). The stamp is rewritten
+       only when something that is compiled into OpenPmsDental.dll changed, so an unchanged rebuild keeps its build id. It comes after the
+       Sdk.targets import, where $(IntermediateOutputPath) is known. -->
   <PropertyGroup>
     <ForkBuildStampFile>$(IntermediateOutputPath)ForkBuildStamp.cs</ForkBuildStampFile>
   </PropertyGroup>
   <ItemGroup>
-    <!-- UpdateFileCopier.exe is part of the build id, so a change to it counts as a new build too. Missing inputs would force a new stamp at every build. -->
+    <!-- UpdateFileCopier is part of the build id, so a change to it counts as a new build too: its apphost and its assembly, which holds its
+         code on .NET. Missing inputs would force a new stamp at every build. -->
     <ForkBuildStampInput Include="..\UpdateFileCopier\bin\$(Configuration)\UpdateFileCopier.exe" Condition="Exists('..\UpdateFileCopier\bin\$(Configuration)\UpdateFileCopier.exe')" />
+    <ForkBuildStampInput Include="..\UpdateFileCopier\bin\$(Configuration)\UpdateFileCopier.dll" Condition="Exists('..\UpdateFileCopier\bin\$(Configuration)\UpdateFileCopier.dll')" />
   </ItemGroup>
   <Target Name="ForkWriteBuildStamp" BeforeTargets="CoreCompile" Inputs="@(Compile);@(ReferencePath);@(EmbeddedResource);$(MSBuildProjectFullPath);@(ForkBuildStampInput)" Outputs="$(ForkBuildStampFile)">
     <PropertyGroup>
@@ -5808,7 +5810,37 @@
       <FileWrites Include="$(ForkBuildStampFile)" />
     </ItemGroup>
   </Target>
+  <!-- UpdateFileCopier next to the program: self-contained like the other exes (decision 20), it is its apphost, its assembly and the two
+       files that tell the host how to run it (.runtimeconfig.json, .deps.json), and it runs on the program folder's x64 runtime. Not a single
+       file, which would carry a whole runtime in every release. It has no .dll.config: its app.config and Settings.settings held nothing it
+       reads (S3b-4). -->
   <Target Name="CopyUpdateFileCopier" AfterTargets="Build" Condition="Exists('..\UpdateFileCopier\bin\$(Configuration)\UpdateFileCopier.exe')">
-    <Copy SourceFiles="..\UpdateFileCopier\bin\$(Configuration)\UpdateFileCopier.exe" DestinationFolder="$(OutDir)" SkipUnchangedFiles="true" />
+    <ItemGroup>
+      <_ODUpdateFileCopierFile Include="..\UpdateFileCopier\bin\$(Configuration)\UpdateFileCopier.exe" />
+      <_ODUpdateFileCopierFile Include="..\UpdateFileCopier\bin\$(Configuration)\UpdateFileCopier.dll" />
+      <_ODUpdateFileCopierFile Include="..\UpdateFileCopier\bin\$(Configuration)\UpdateFileCopier.runtimeconfig.json" />
+      <_ODUpdateFileCopierFile Include="..\UpdateFileCopier\bin\$(Configuration)\UpdateFileCopier.deps.json" />
+    </ItemGroup>
+    <Copy SourceFiles="@(_ODUpdateFileCopierFile)" DestinationFolder="$(OutDir)" SkipUnchangedFiles="true">
+      <!-- Listed for Clean, as the build's own outputs are (S3b-7, the handoff of S3b-4). -->
+      <Output TaskParameter="CopiedFiles" ItemName="FileWrites" />
+    </Copy>
+  </Target>
+  <!-- The 32-bit helper program in the sub folder Helper32\ of the program's output (S3b-4; open point O-15, decision 20): its whole output
+       folder, which is flat (OpenPmsDentalHelper32.exe, the apphost for win-x86, its .dll, .runtimeconfig.json and .deps.json, and its own x86
+       runtime, NETCore and WindowsDesktop). CodeBase's Helper32Client starts it from there; it is the one sub folder of the program's output.
+       The helper is built first (the ProjectReference above, build order only). -->
+  <Target Name="CopyHelper32" AfterTargets="Build" Condition="Exists('..\OpenPmsDentalHelper32\bin\$(Configuration)\OpenPmsDentalHelper32.exe')">
+    <ItemGroup>
+      <_ODHelper32File Include="..\OpenPmsDentalHelper32\bin\$(Configuration)\*.*" />
+      <!-- A file of Helper32\ that the helper's output no longer has (a developer's older helper or runtime) is deleted first, so the folder
+           holds exactly the helper's output and a stale file never ships (S3b-7, the handoff of S3b-4; Build-Release also refuses a file that is
+           not on its lists). -->
+      <_ODHelper32Stale Include="$(OutDir)Helper32\*.*" Exclude="@(_ODHelper32File->'$(OutDir)Helper32\%(Filename)%(Extension)')" />
+    </ItemGroup>
+    <Delete Files="@(_ODHelper32Stale)" />
+    <Copy SourceFiles="@(_ODHelper32File)" DestinationFolder="$(OutDir)Helper32\" SkipUnchangedFiles="true">
+      <Output TaskParameter="CopiedFiles" ItemName="FileWrites" />
+    </Copy>
   </Target>
 </Project>

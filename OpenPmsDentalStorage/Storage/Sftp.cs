@@ -15,12 +15,6 @@ using Renci.SshNet.Sftp;
 namespace OpenPmsDentalStorage {
 
 	public static class Sftp {
-		///<summary>SSH.NET (Renci.SshNet 2026.0, net462) references Microsoft.Bcl.AsyncInterfaces 8.0.0.0 for its async enumerables, and loading
-		///SftpClient fails without it. Naming one of its types here puts the shipped copy (10.0.0.14) in this assembly's references, so every program
-		///that uses OpenPmsDentalStorage copies the DLL and gets the binding redirect SSH.NET needs. The Graph SDK brought both in until it was deleted
-		///with the prebuilt Bridges assembly.</summary>
-		internal static readonly Type TypeAsyncInterfacesDependency=typeof(IAsyncDisposable);
-
 		///<summary>A client whose host keys are checked against store (SshHostKeyCheck). It connects only through ConnectIfNeeded or
 		///IsConnectionValid, which go through the check.</summary>
 		private static SftpClient Init(string host,string user,string pass,ISshHostKeyStore store,int port=22) {

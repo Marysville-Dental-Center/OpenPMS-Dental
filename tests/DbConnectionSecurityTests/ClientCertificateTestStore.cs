@@ -583,7 +583,7 @@ namespace DbConnectionSecurityTests {
 		private void Locate() {
 			RSACryptoServiceProvider rsaCryptoServiceProviderCapi=null;
 			try {
-				rsaCryptoServiceProviderCapi=_x509Certificate2.PrivateKey as RSACryptoServiceProvider;
+				rsaCryptoServiceProviderCapi=CodeBase.CertificateKeyProvInfo.OpenCapiRsaPrivateKey(_x509Certificate2);//as the .NET Framework's PrivateKey gave it (S3b-5)
 			}
 			catch(CryptographicException) {
 				//A CNG RSA key.
@@ -694,7 +694,7 @@ namespace DbConnectionSecurityTests {
 			}
 			RSACryptoServiceProvider rsaCryptoServiceProviderCapi=null;
 			try {
-				rsaCryptoServiceProviderCapi=_x509Certificate2.PrivateKey as RSACryptoServiceProvider;
+				rsaCryptoServiceProviderCapi=CodeBase.CertificateKeyProvInfo.OpenCapiRsaPrivateKey(_x509Certificate2);//as the .NET Framework's PrivateKey gave it (S3b-5)
 			}
 			catch(CryptographicException) {
 			}

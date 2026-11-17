@@ -344,15 +344,15 @@ namespace OpenPmsDental {
 				GridRow gridRowFinal=new GridRow();
 				if(childRoom.Ratio==-1) {//-1 indicates a mixed ratio
 					int teachersRequired=ChildRoomLogs.GetNumberTeachersMixed(totalChildren:(int)countChildren,childrenUnderTwo:countUnderTwo);
-					gridRowFinal.Cells.Add("Ratio: Mixed, Children: "+countChildren+", <2: "+countUnderTwo+", Teachers: "+countEmployees+" of "+teachersRequired);//Example: Ratio:Mixed, Kids:2, Under2:1, Teachers:1 of 1
+					gridRowFinal.Cells.Add("Ratio: Mixed, Children: "+countChildren.ToStringNetFx()+", <2: "+countUnderTwo+", Teachers: "+countEmployees.ToStringNetFx()+" of "+teachersRequired);//Example: Ratio:Mixed, Kids:2, Under2:1, Teachers:1 of 1
 				}
 				else {
 					if(childRoom.Ratio==0) {//Stop division by 0
-						gridRowFinal.Cells.Add("Ratio: "+childRoom.Ratio+", Children: "+countChildren+", Teachers: "+countEmployees+" of 0");
+						gridRowFinal.Cells.Add("Ratio: "+childRoom.Ratio.ToStringNetFx()+", Children: "+countChildren.ToStringNetFx()+", Teachers: "+countEmployees.ToStringNetFx()+" of 0");
 					}
 					else {
 						double teachersRequired=Math.Ceiling(countChildren/childRoom.Ratio);
-						gridRowFinal.Cells.Add("Ratio: "+childRoom.Ratio+", Children: "+countChildren+", Teachers: "+countEmployees+" of "+teachersRequired);
+						gridRowFinal.Cells.Add("Ratio: "+childRoom.Ratio.ToStringNetFx()+", Children: "+countChildren.ToStringNetFx()+", Teachers: "+countEmployees.ToStringNetFx()+" of "+teachersRequired.ToStringNetFx());
 					}
 				}
 				ChildRoomLog childRoomLogFinal=new ChildRoomLog();//Final row needs a tag for reselecting row

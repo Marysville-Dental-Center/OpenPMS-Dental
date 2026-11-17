@@ -101,7 +101,7 @@ namespace OpenPmsDentalBusiness {
 					+$@"WHERE payplancharge.Principal + payplancharge.Interest>0
 					AND payplancharge.ChargeType = {(int)PayPlanChargeType.Debit} "
 					//include all charges in the past or due 'PayPlanBillInAdvance' days into the future.
-					+$@"AND payplancharge.ChargeDate <= {POut.Date(DateTime.Today.AddDays(PrefC.GetDouble(PrefName.PayPlansBillInAdvanceDays)))}
+					+$@"AND payplancharge.ChargeDate <= {POut.Date(DateTime.Today.AddDaysNetFx(PrefC.GetDouble(PrefName.PayPlansBillInAdvanceDays)))}
 					{whereAndClinNum}
 					GROUP BY {guarOrPat}.PatNum";
 				using(DataTable tableMaxPPCDate=Db.GetTable(command)) {

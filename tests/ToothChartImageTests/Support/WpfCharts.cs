@@ -29,9 +29,42 @@ namespace ToothChartImageTests {
 			}
 		}
 
-		///<summary>The baseline a picture is compared with in this process (TC-10): in a 64-bit process, the picture of the same path in the x64 set
-		///of its baseline folder (Baselines\wpf-net48 to Baselines\wpf-net48-x64, Baselines\simple2d-net48 to Baselines\simple2d-net48-x64) when the x64
-		///set has it; otherwise the path as given. In a 32-bit process always the path as given. The .txt beside the picture comes with it.</summary>
+		///<summary>The WPF chart's baselines on .NET 10 x64 (S3b-5W, docs/port-notes/S3b-5W.md): tests\ToothChartImageTests\Baselines\wpf-net10-x64,
+		///the same &lt;size&gt;\&lt;scene&gt;.png layout and the full set (every picture of Baselines\wpf-net48, recorded on .NET 10 x64), because
+		///.NET draws WPF with another render DLL (wpfgfx_cor3, not wpfgfx_v0400). Simple 2D's are in Baselines\simple2d-net10-x64.</summary>
+		public static string BaselinesWpfNet10X64 {
+			get {
+				return Path.Combine(TestPaths.ProjectFolder,"Baselines","wpf-net10-x64");
+			}
+		}
+
+		///<summary>The Simple 2D chart's baselines on .NET 10 x64 (S3b-5W): tests\ToothChartImageTests\Baselines\simple2d-net10-x64, the full set.</summary>
+		public static string Baselines2DNet10X64 {
+			get {
+				return Path.Combine(TestPaths.ProjectFolder,"Baselines","simple2d-net10-x64");
+			}
+		}
+
+		///<summary>True when this process runs on .NET Framework (net48), false on .NET (net10 since stage 3b).</summary>
+		public static bool IsNetFramework {
+			get {
+				return System.Runtime.InteropServices.RuntimeInformation.FrameworkDescription.StartsWith(".NET Framework",StringComparison.Ordinal);
+			}
+		}
+
+		///<summary>True in a 64-bit .NET (not .NET Framework) process: the pictures are compared with the full .NET 10 x64 sets (S3b-5W).</summary>
+		public static bool IsNet10X64 {
+			get {
+				return !IsNetFramework && Environment.Is64BitProcess;
+			}
+		}
+
+		///<summary>The baseline a picture is compared with in this process, by runtime and bitness. On .NET x64 (S3b-5W): the picture of the same path
+		///in the full .NET 10 x64 set of its baseline folder (Baselines\wpf-net48 to Baselines\wpf-net10-x64, Baselines\simple2d-net48 to
+		///Baselines\simple2d-net10-x64), whether or not it exists, so a picture missing there fails as "no baseline" instead of passing against the
+		///.NET Framework picture. On .NET Framework x64 (TC-10): the picture of the same path in the x64 set (Baselines\wpf-net48-x64,
+		///Baselines\simple2d-net48-x64) when that set has it; otherwise the path as given. In a 32-bit .NET Framework process always the path as given.
+		///The .txt beside the picture comes with it.</summary>
 		public static string ForThisBitness(string pathBaseline) {
 			if(!Environment.Is64BitProcess) {
 				return pathBaseline;
@@ -49,8 +82,23 @@ namespace ToothChartImageTests {
 			if(!set.Equals("wpf-net48",StringComparison.OrdinalIgnoreCase) && !set.Equals("simple2d-net48",StringComparison.OrdinalIgnoreCase)) {
 				return pathBaseline;
 			}
+			if(IsNet10X64) {
+				string setNet10=set.Equals("wpf-net48",StringComparison.OrdinalIgnoreCase)?"wpf-net10-x64":"simple2d-net10-x64";
+				return Path.Combine(folderBaselines+setNet10,relative.Substring(indexSlash+1));
+			}
 			string pathX64=Path.Combine(folderBaselines+set+"-x64",relative.Substring(indexSlash+1));
 			return File.Exists(pathX64)?pathX64:pathBaseline;
+		}
+
+		///<summary>The record of a picture on .NET Framework 4.8 x64 (TC-10), for the comparison of gallery G5 (S3b-5W): its copy in the x64 set
+		///(Baselines\wpf-net48-x64, Baselines\simple2d-net48-x64) when that set has one, otherwise the x86 picture, which the 64-bit .NET Framework
+		///draws within tolerance (the gate of TC-10's x64 run). pathNet48 is a path under Baselines\wpf-net48 or Baselines\simple2d-net48.</summary>
+		public static string GetNet48X64Record(string pathNet48) {
+			string folderBaselines=Path.Combine(TestPaths.ProjectFolder,"Baselines")+"\\";
+			string relative=pathNet48.Substring(folderBaselines.Length);
+			int indexSlash=relative.IndexOf('\\');
+			string pathX64=Path.Combine(folderBaselines+relative.Substring(0,indexSlash)+"-x64",relative.Substring(indexSlash+1));
+			return File.Exists(pathX64)?pathX64:pathNet48;
 		}
 
 		///<summary>A wrapper of the given size on the Wpf3D engine, as a caller would make one: size first, then the engine. Not shown.</summary>

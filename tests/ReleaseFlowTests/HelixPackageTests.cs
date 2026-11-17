@@ -1,9 +1,9 @@
 // TC-4 (docs/port-notes/TC-4.md, docs/specs/wpf-tooth-chart-plan.md): Helix Toolkit 3.1.2 for the WPF tooth chart. The release ships the eight
 // files of its closure from their packages, each IL-only and not 32-bit-required; the System.* 4.3.x packages of System.Net.Http 4.3.4 put no
 // file in any built folder and none is staged (risk W2); no CommunityToolkit.Mvvm analyzer reaches a compilation (the record each build writes,
-// Directory.Build.targets); and the types the chart will use load from the program folder with the program's config: a MeshBuilder box, made
-// into a WPF MeshGeometry3D, in a child process (TestProbeHost) since S3a-8b of the .NET 10 move. No chart code uses Helix yet, and nothing here
-// starts the program.
+// Directory.Build.targets); and the types the chart will use load from the program folder's own Helix files while every framework type comes
+// from the .NET runtime: a MeshBuilder box, made into a WPF MeshGeometry3D, in a child process (TestProbeHost) since S3a-8b of the .NET 10 move.
+// No chart code uses Helix yet, and nothing here starts the program.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
 using System.Collections.Generic;
@@ -11,6 +11,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.Loader;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
@@ -21,7 +22,9 @@ using TestProbeHost;
 namespace ReleaseFlowTests {
 	[TestClass]
 	public class HelixPackageTests {
-		///<summary>The files of Helix Toolkit's closure that ship, and the package of each.</summary>
+		///<summary>The files of Helix Toolkit's closure that ship, and the package of each. System.ComponentModel.Annotations.dll, the eighth on .NET
+		///Framework, is a file of the .NET runtime on .NET 10 (the restore prunes the package; the runtime part ships the runtime's file, S3b-7).
+		///</summary>
 		private static readonly string[][] _arrayHelixFiles=new[] {
 			new[] { "HelixToolkit.dll","HelixToolkit" },
 			new[] { "HelixToolkit.Geometry.dll","HelixToolkit.Geometry" },
@@ -30,7 +33,6 @@ namespace ReleaseFlowTests {
 			new[] { "CommunityToolkit.Common.dll","CommunityToolkit.Common" },
 			new[] { "CommunityToolkit.Diagnostics.dll","CommunityToolkit.Diagnostics" },
 			new[] { "CommunityToolkit.Mvvm.dll","CommunityToolkit.Mvvm" },
-			new[] { "System.ComponentModel.Annotations.dll","System.ComponentModel.Annotations" },
 		};
 
 		///<summary>The files of System.Net.Http 4.3.4 and the System.* 4.3.x packages it brings. The .NET Framework 4.8 has newer assemblies of
@@ -99,7 +101,10 @@ namespace ReleaseFlowTests {
 		[TestMethod]
 		public void AllowList_ShipsTheHelixFiles_FromTheirPackages_AndNoSystemNetHttp() {
 			string script=TestPaths.ReadSource("tools","Build-Release.ps1");
-			List<string> listThird=ListReleaseFiles().Where(x => x.StartsWith("third|")).Select(x => x.Substring("third|".Length)).ToList();
+			List<string> listRelease=ListReleaseFiles();
+			List<string> listThird=listRelease.Where(x => x.StartsWith("third|")).Select(x => x.Substring("third|".Length)).ToList();
+			CollectionAssert.Contains(listRelease,"runtime|System.ComponentModel.Annotations.dll","The runtime's file on .NET 10.");
+			Assert.IsFalse(listThird.Contains("System.ComponentModel.Annotations.dll",StringComparer.OrdinalIgnoreCase),"Not the package's any more.");
 			foreach(string[] arrayRow in _arrayHelixFiles) {
 				CollectionAssert.Contains(listThird,arrayRow[0]);
 				StringAssert.Contains(script,"'"+arrayRow[0]+"'='package:"+arrayRow[1]+"'");
@@ -116,7 +121,7 @@ namespace ReleaseFlowTests {
 		[TestMethod]
 		public void ProgramFolder_HoldsTheHelixFiles_ILOnly_AndNot32BitRequired() {
 			if(!File.Exists(Path.Combine(FolderProgram,"OpenPmsDental.exe"))) {
-				BuildOutput.NotBuilt(@"OpenPmsDental\bin\Debug is not built. Build OpenDental.Local.slnf (Debug|x86) first.");
+				BuildOutput.NotBuilt(@"OpenPmsDental\bin\Debug is not built. Build OpenPmsDental (Debug|x64) first.");
 				return;
 			}
 			Dictionary<string,PackageFile> dictPackageFiles=NuGetFiles.ReadCopiedFiles(TestPaths.RepoRoot,Path.Combine(TestPaths.RepoRoot,"OpenPmsDental"));
@@ -152,8 +157,19 @@ namespace ReleaseFlowTests {
 			List<string> listProjects=NuGetFiles.ListSolutionLockFiles(TestPaths.RepoRoot)
 				.Where(x => NuGetFiles.ReadLockFile(x).Any(y => y.Id.Equals("System.Net.Http",StringComparison.OrdinalIgnoreCase)))
 				.Select(x => Path.GetDirectoryName(x)).ToList();
-			Assert.IsTrue(listProjects.Count>=40,"The projects that get Helix Toolkit through SparksToothChart: "+listProjects.Count);
-			Assert.IsTrue(listProjects.Any(x => Path.GetFileName(x)=="OpenPmsDental"),"The program gets it.");
+			//The .NET Framework projects that are left (the test projects until S3b-5 retargets them). On .NET 10 the restore prunes System.Net.Http
+			//and the System.* 4.3.x packages (the runtime has newer assemblies of those names), so the program's lock file names none of them, and
+			//the files of those names in its folder are the runtime part's (S3b-7).
+			string pathProgramLock=Path.Combine(TestPaths.RepoRoot,"OpenPmsDental","packages.lock.json");
+			Assert.IsFalse(NuGetFiles.ReadLockFile(pathProgramLock).Any(y => y.Id.Equals("System.Net.Http",StringComparison.OrdinalIgnoreCase)),
+				"The program's restore prunes System.Net.Http on .NET 10.");
+			listProjects.Remove(Path.GetDirectoryName(pathProgramLock));
+			if(File.Exists(Path.Combine(FolderProgram,"OpenPmsDental.deps.json"))) {
+				Dictionary<string,OpenPmsDentalBusiness.ReleaseRuntime> dictRuntime=OpenPmsDentalBusiness.ForkReleases.GetRuntimeFileNames(FolderProgram);
+				foreach(string fileName in _arrayFrameworkFiles.Where(x => File.Exists(Path.Combine(FolderProgram,x)))) {
+					Assert.IsTrue(dictRuntime.ContainsKey(fileName),fileName+" in the program folder is a runtime file of its .deps.json.");
+				}
+			}
 			List<string> listProblems=new List<string>();
 			int countBuilt=0;
 			foreach(string folderProject in listProjects) {
@@ -218,27 +234,36 @@ namespace ReleaseFlowTests {
 		}
 
 		///<summary>The Helix types the chart will use load in the program's own setting: a process whose application base holds the program folder's
-		///files and whose config is OpenPmsDental.exe.config (its binding redirects). A MeshBuilder (HelixToolkit.Geometry, float, System.Numerics)
-		///adds a box, ToMesh().ToWndMeshGeometry3D(true) makes it a WPF MeshGeometry3D (HelixToolkit.Wpf), on an STA thread. Every Helix and
-		///toolkit assembly loads from the program's files; System.Net.Http, if anything loads it, and the other System.* 4.3.x names come from the
-		///.NET Framework. The process (TestProbeHost; a new AppDomain on the program folder before S3a-8b of the .NET 10 move, which .NET cannot
-		///create) runs from a scratch folder in the temp folder that holds the four Helix assemblies and every file of the program folder they
-		///reference, directly or through each other (read with Mono.Cecil), so nothing is written into the program folder and nothing stays loaded
-		///or locked here.</summary>
+		///Helix files. A MeshBuilder (HelixToolkit.Geometry, float, System.Numerics) adds a box, ToMesh().ToWndMeshGeometry3D(true) makes it a WPF
+		///MeshGeometry3D (HelixToolkit.Wpf), on an STA thread. The four Helix assemblies load from the program's files; every System.* assembly
+		///(System.Net.Http and the other System.* 4.3.x names among them) comes from the .NET runtime's shared framework folders, never from the
+		///probe's folder. The process (TestProbeHost; a new AppDomain on the program folder before S3a-8b of the .NET 10 move, which .NET cannot
+		///create) runs from a scratch folder in the temp folder that holds the four Helix assemblies and the files of the program folder they
+		///reference, directly or through each other (read with Mono.Cecil), except the runtime's own files (the program folder is self-contained,
+		///but the probe runs on the shared runtime), so nothing is written into the program folder and nothing stays loaded or locked here. On .NET
+		///the host's TestProbeHost.deps.json puts only its own files on the default load context's list, so the probe binds the Helix files from
+		///its folder by name (HelixLoadProbe.Run), as the program's own .deps.json binds them.</summary>
 		[TestMethod]
 		public void HelixTypes_TheChartWillUse_LoadFromTheProgramFolder() {
+			//On .NET the program has no OpenPmsDental.exe.config and no binding redirects (S3b-4): the probe gets an empty configuration then.
 			string pathConfig=Path.Combine(FolderProgram,"OpenPmsDental.exe.config");
-			if(!File.Exists(Path.Combine(FolderProgram,"HelixToolkit.Wpf.dll")) || !File.Exists(pathConfig)) {
-				BuildOutput.NotBuilt(@"OpenPmsDental\bin\Debug is not built (HelixToolkit.Wpf.dll, OpenPmsDental.exe.config). Build OpenDental.Local.slnf (Debug|x86) first.");
+			if(!File.Exists(Path.Combine(FolderProgram,"HelixToolkit.Wpf.dll"))) {
+				BuildOutput.NotBuilt(@"OpenPmsDental\bin\Debug is not built (HelixToolkit.Wpf.dll). Build OpenPmsDental (Debug|x64) first.");
 				return;
 			}
+			string configText=File.Exists(pathConfig) ? File.ReadAllText(pathConfig) : "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<configuration />\r\n";
 			string folderProbe=Path.Combine(Path.GetTempPath(),"releaseflow_helix_"+Guid.NewGuid().ToString("N"));
 			Directory.CreateDirectory(folderProbe);
 			string[] arrayLines;
 			List<string> listCopied;
+			//The runtime's own files of the program folder (Build-Release's "runtime" list, beside the programs): not copied.
+			HashSet<string> hashSetRuntime=new HashSet<string>(ListReleaseFiles().Where(x => x.StartsWith("runtime|") && !x.Contains("\\"))
+				.Select(x => Path.GetFileNameWithoutExtension(x.Substring("runtime|".Length))),StringComparer.OrdinalIgnoreCase);
+			Assert.IsTrue(hashSetRuntime.Contains("System.Private.CoreLib"),"Build-Release lists the runtime files.");
 			try {
-				listCopied=CopyWithReferences(FolderProgram,new[] { "HelixToolkit","HelixToolkit.Geometry","HelixToolkit.Maths","HelixToolkit.Wpf" },folderProbe);
-				using(ProbeProcess probeProcess=ProbeProcess.Start(folderProbe,File.ReadAllText(pathConfig),typeof(HelixLoadProbe),TimeSpan.FromMinutes(3))) {
+				listCopied=CopyWithReferences(FolderProgram,new[] { "HelixToolkit","HelixToolkit.Geometry","HelixToolkit.Maths","HelixToolkit.Wpf" },folderProbe,
+					hashSetRuntime);
+				using(ProbeProcess probeProcess=ProbeProcess.Start(folderProbe,configText,typeof(HelixLoadProbe),TimeSpan.FromMinutes(3))) {
 					arrayLines=ProbeText.SplitList(probeProcess.Call(HelixLoadProbe.COMMAND_RUN));
 				}
 			}
@@ -260,9 +285,28 @@ namespace ReleaseFlowTests {
 				Assert.IsTrue(dictLoaded.ContainsKey(name),name+" loaded: "+report);
 				Assert.AreEqual(Path.Combine(folderProbe,name+".dll"),dictLoaded[name],true,name+" from the program folder's file (its copy in the probe's folder).");
 			}
-			//Only the copied closure is in the probe's folder (CopyWithReferences: the Helix assemblies and what they reference), so this sees a
-			//System.* 4.3.x file only when something in that closure references it. A file of those packages that the program folder holds but no
-			//copied assembly references is not seen here: BuiltFolders_HoldNoFileOfTheSystemNetHttpPackages checks the built folders themselves.
+			//Only the package closure is in the probe's folder (CopyWithReferences: the Helix assemblies and what they reference, without the
+			//runtime's files): HelixToolkit*, CommunityToolkit.Diagnostics and Microsoft.Extensions.*.Abstractions.
+			foreach(string fileName in listCopied) {
+				Assert.IsFalse(hashSetRuntime.Contains(Path.GetFileNameWithoutExtension(fileName)),fileName+" is a runtime file: "+report);
+			}
+			//Every System.* assembly (the System.* 4.3.x names of _arrayFrameworkFiles among them) comes from the shared framework the probe runs on:
+			//the folder of its System.Private.CoreLib (Microsoft.NETCore.App) or the Microsoft.WindowsDesktop.App folder of the same version beside it.
+			//A System.* 4.3.x file that the program folder holds but no copied assembly references is not seen here:
+			//BuiltFolders_HoldNoFileOfTheSystemNetHttpPackages checks the built folders themselves.
+			Assert.IsTrue(dictLoaded.ContainsKey("System.Private.CoreLib"),report);
+			string folderCore=Path.GetDirectoryName(dictLoaded["System.Private.CoreLib"]);
+			string folderDesktop=Path.Combine(Path.GetDirectoryName(Path.GetDirectoryName(folderCore)),"Microsoft.WindowsDesktop.App",Path.GetFileName(folderCore));
+			Assert.IsFalse(folderCore.StartsWith(folderProbe,StringComparison.OrdinalIgnoreCase),"The probe runs on the shared runtime: "+folderCore);
+			List<string> listNotRuntime=new List<string>();
+			foreach(KeyValuePair<string,string> pair in dictLoaded.Where(x => x.Key.StartsWith("System.",StringComparison.OrdinalIgnoreCase))) {
+				string folder=Path.GetDirectoryName(pair.Value);
+				if(!folder.Equals(folderCore,StringComparison.OrdinalIgnoreCase) && !folder.Equals(folderDesktop,StringComparison.OrdinalIgnoreCase)) {
+					listNotRuntime.Add(pair.Key+": "+pair.Value);
+				}
+			}
+			Assert.AreEqual(0,listNotRuntime.Count,"System.* assemblies not from the runtime ("+folderCore+", "+folderDesktop+"):\r\n"
+				+string.Join("\r\n",listNotRuntime));
 			foreach(string fileName in _arrayFrameworkFiles) {
 				string name=Path.GetFileNameWithoutExtension(fileName);
 				if(dictLoaded.TryGetValue(name,out string location)) {
@@ -272,20 +316,20 @@ namespace ReleaseFlowTests {
 		}
 
 		///<summary>Copies the named assemblies of folderFrom, and every assembly of folderFrom they reference, directly or through each other, into
-		///folderTo; the references are read with Mono.Cecil from a copy of the bytes, so nothing is loaded or locked. Returns the files copied.
-		///</summary>
-		private static List<string> CopyWithReferences(string folderFrom,string[] arrayNames,string folderTo) {
+		///folderTo, except the names of hashSetRuntime (the runtime's own files, which the probe gets from the shared runtime it runs on); the
+		///references are read with Mono.Cecil from a copy of the bytes, so nothing is loaded or locked. Returns the files copied.</summary>
+		private static List<string> CopyWithReferences(string folderFrom,string[] arrayNames,string folderTo,HashSet<string> hashSetRuntime) {
 			List<string> listCopied=new List<string>();
 			Queue<string> queueNames=new Queue<string>(arrayNames);
 			HashSet<string> hashSetSeen=new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 			while(queueNames.Count>0) {
 				string name=queueNames.Dequeue();
-				if(!hashSetSeen.Add(name)) {
+				if(!hashSetSeen.Add(name) || hashSetRuntime.Contains(name)) {
 					continue;
 				}
 				string path=Path.Combine(folderFrom,name+".dll");
 				if(!File.Exists(path)) {
-					continue;//the .NET Framework's, or not there at all: the child's binding finds it, or fails, as the program's would
+					continue;//not there at all: the child's binding fails, as the program's would
 				}
 				File.Copy(path,Path.Combine(folderTo,name+".dll"));
 				listCopied.Add(name+".dll");
@@ -300,7 +344,7 @@ namespace ReleaseFlowTests {
 		}
 	}
 
-	///<summary>Runs in the child process of HelixTypes_TheChartWillUse_LoadFromTheProgramFolder (TestProbeHost). Only .NET Framework types in its
+	///<summary>Runs in the child process of HelixTypes_TheChartWillUse_LoadFromTheProgramFolder (TestProbeHost). Only framework types in its
 	///signature, so it loads there without the test framework; the Helix types are reached by reflection, as the program would bind them.
 	///</summary>
 	public static class HelixLoadProbe {
@@ -314,8 +358,14 @@ namespace ReleaseFlowTests {
 			throw new ArgumentException("Unknown command "+command);
 		}
 
-		///<summary>"ok" or the error; then "positions=N type"; then one "name|version|location" line per loaded assembly.</summary>
+		///<summary>"ok" or the error; then "positions=N type"; then one "name|version|location" line per loaded assembly. An assembly the default
+		///load context does not know (the host's TestProbeHost.deps.json names only the host's own files) is loaded from this process's folder,
+		///&lt;AppContext.BaseDirectory&gt;\&lt;name&gt;.dll, when the folder has it: how the program's own .deps.json binds its Helix files.</summary>
 		public static string[] Run() {
+			AssemblyLoadContext.Default.Resolving+=(assemblyLoadContext,assemblyName) => {
+				string path=Path.Combine(AppContext.BaseDirectory,assemblyName.Name+".dll");
+				return File.Exists(path) ? assemblyLoadContext.LoadFromAssemblyPath(path) : null;
+			};
 			List<string> listLines=new List<string>();
 			string result=null;
 			Thread thread=new Thread(() => {

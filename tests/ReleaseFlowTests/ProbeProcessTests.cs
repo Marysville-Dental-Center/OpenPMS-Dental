@@ -245,7 +245,9 @@ namespace ReleaseFlowTests {
 			string folder=TestPaths.NewTempFolder("probeprocess");
 			int processIdGrandchild=0;
 			try {
-				string pathHost=typeof(ProbeProcess).Assembly.Location;
+				//The apphost in the host's own output folder: on .NET the host's assembly is TestProbeHost.dll, which is no program of its own (on the
+				//.NET Framework it was TestProbeHost.exe); ProbeProcess.CopyHost takes the apphost the same way.
+				string pathHost=Path.ChangeExtension(typeof(ProbeProcess).Assembly.Location,".exe");
 				ProbeRunResult probeRunResult=ProbeProcess.RunOnce(folder,null,typeof(ProbeOnceEntry),new[] { "grandchild",pathHost,
 					typeof(ProbeOnceEntry).Assembly.Location,"8000" },TimeSpan.FromMinutes(2),TimeSpan.FromSeconds(2));
 				Match match=Regex.Match(probeRunResult.Output,@"grandchild: (\d+)\r\n");

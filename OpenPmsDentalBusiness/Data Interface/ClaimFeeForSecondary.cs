@@ -71,7 +71,7 @@ namespace OpenPmsDentalBusiness {
 		public static string GetLogText(string procCode,double procFeeOld,double procFeeNew,Claim claim) {
 			Meth.NoCheckMiddleTierRole();
 			return Lans.g("ClaimFeeForSecondary","Secondary claim fee updated for")+" "+procCode+" "+Lans.g("ClaimFeeForSecondary","fee changed from")+" "
-				+procFeeOld.ToString("c")+" "+Lans.g("ClaimFeeForSecondary","to")+" "+procFeeNew.ToString("c")+" ("+PREF_NAME+"), "
+				+procFeeOld.ToStringNetFx("c")+" "+Lans.g("ClaimFeeForSecondary","to")+" "+procFeeNew.ToStringNetFx("c")+" ("+PREF_NAME+"), "
 				+Lans.g("ClaimFeeForSecondary","claim dated")+" "+claim.DateService.ToShortDateString()+".";
 		}
 

@@ -4,6 +4,7 @@ using System.Collections;
 using System.ComponentModel;
 using System.Windows.Forms;
 using OpenPmsDentalBusiness;
+using CodeBase;
 
 namespace ODR{
 	/// <summary>
@@ -278,7 +279,7 @@ namespace ODR{
 						inputs[i].Size=new Size(75,20);
 					}
 					if(Parameters[i].CurrentValues.Count>0){
-						inputs[i].Text=((double)Parameters[i].CurrentValues[0]).ToString("n");
+						inputs[i].Text=((double)Parameters[i].CurrentValues[0]).ToStringNetFx("n");
 					}
 					panelMain.Controls.Add(inputs[i]);
 				}

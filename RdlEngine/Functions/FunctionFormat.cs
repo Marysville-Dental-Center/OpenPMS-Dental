@@ -20,6 +20,8 @@
     For additional information, email info@fyireporting.com or visit
     the website www.fyiReporting.com.
 */
+// Changed by Open PMS - Dental contributors, 2026-11-16 (package S3b-FMT of the .NET 10 move, decision 24 of docs/specs/net10-plan.md,
+// docs/port-notes/S3b-FMT.md): doubles and floats are written as text as .NET Framework wrote them (ODNumberText.ToStringNetFx, AsNetFx).
 using System;
 using System.Collections;
 using System.IO;
@@ -27,6 +29,7 @@ using System.Reflection;
 
 
 using fyiReporting.RDL;
+using CodeBase;
 
 
 namespace fyiReporting.RDL
@@ -107,16 +110,16 @@ namespace fyiReporting.RDL
 				return null;
 			string format = _Format.EvaluateString(rpt, row);
 			if (format == null)
-				return o.ToString();	// just return string version of object
+				return ODNumberText.ToStringNetFxIfNumber(o);	// just return string version of object (a double as .NET Framework wrote it, S3b-FMT)
 
 			string result=null;
 			try
 			{
-				result = String.Format("{0:" + format + "}", o);
+				result = String.Format("{0:" + format + "}", ODNumberText.AsNetFxIfNumber(o));
 			}
 			catch 		// invalid format string specified
 			{			//    treat as a weak error
-				result = o.ToString();
+				result = ODNumberText.ToStringNetFxIfNumber(o);
 			}
 			return result;
 		}

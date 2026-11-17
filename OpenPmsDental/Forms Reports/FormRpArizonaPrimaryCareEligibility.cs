@@ -198,7 +198,7 @@ namespace OpenPmsDental {
 					householdGrossIncome="0";
 				}
 				//Remove any character that is not a digit or a decimal.
-				string newHouseholdGrossIncome=Math.Round(Convert.ToDouble(Regex.Replace(householdGrossIncome,"[^0-9\\.]","")),0).ToString();
+				string newHouseholdGrossIncome=Math.Round(Convert.ToDouble(Regex.Replace(householdGrossIncome,"[^0-9\\.]","")),0).ToStringNetFx();
 				if(householdGrossIncome!=newHouseholdGrossIncome) {
 					rowWarnings+="WARNING: The household gross income for patient with patnum "+patNum+" contained invalid characters "+
 						"and was changed in the output report from '"+householdGrossIncome+"' to '"+newHouseholdGrossIncome+"'."+Environment.NewLine;

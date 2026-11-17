@@ -33,6 +33,7 @@ namespace PdfLibraryTests {
 	public class PdfOutputTests {
 		[AssemblyInitialize]
 		public static void AssemblyInitialize(TestContext testContext) {
+			OpenPmsDentalTests.TestCodePages.Register();//the code pages first, as the program registers them (tests\Shared\TestCodePages.cs)
 			//As every program does at start, before any text is drawn (the font fallback must come first).
 			PdfSharpSetup.Init();
 		}

@@ -143,6 +143,7 @@ namespace WindowChecksTests {
 			checkResult.Expect(!File.Exists(Path.Combine(WinChkEnv.RepoRoot,"CentralManager","bin","Debug","CentralManagerConfig.xml")),"Z2: the K1 copy is gone");
 			checkResult.Expect(!File.Exists(Path.Combine(WinChkEnv.RepoRoot,"OpenPmsDentalHL7","bin","Debug","FreeDentalConfig.xml")),"Z2: the K8 copy is gone");
 			checkResult.Expect(!Directory.Exists(Path.Combine(Path.GetTempPath(),"stage1-rdl")),"Z2: %TEMP%\\stage1-rdl gone");
+			checkResult.Expect(!Directory.Exists(Path.Combine(Path.GetTempPath(),"stage1-rdl-code")),"Z2: %TEMP%\\stage1-rdl-code gone (H3)");
 			string pathDesignerState=Path.Combine(WinChkEnv.RepoRoot,"RdlDesign","bin","Debug","designerstate.xml");
 			if(FGHTests.HasRunH && FGHTests.DesignerStateBefore!=null) {
 				//H found one: it must be there again, byte for byte.

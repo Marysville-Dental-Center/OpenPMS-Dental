@@ -406,7 +406,7 @@ namespace OpenPmsDentalBusiness{
 			adjustmentDiscountPlan.ProcNum=procedure.ProcNum;
 			Insert(adjustmentDiscountPlan);
 			TsiTransLogs.CheckAndInsertLogsIfAdjTypeExcluded(adjustmentDiscountPlan);
-			SecurityLogs.MakeLogEntry(EnumPermType.AdjustmentCreate,procedure.PatNum,"Adjustment made for discount plan: "+adjustmentDiscountPlan.AdjAmt.ToString("f"));
+			SecurityLogs.MakeLogEntry(EnumPermType.AdjustmentCreate,procedure.PatNum,"Adjustment made for discount plan: "+adjustmentDiscountPlan.AdjAmt.ToStringNetFx("f"));
 			Procedures.UpdateDiscountPlanAmt(procedure.ProcNum,adjAmt);
 			return adjAmt;
 		}
@@ -465,7 +465,7 @@ namespace OpenPmsDentalBusiness{
 			adjustmentSalesTax.ProvNum=provNum;
 			Insert(adjustmentSalesTax);
 			TsiTransLogs.CheckAndInsertLogsIfAdjTypeExcluded(adjustmentSalesTax);
-			SecurityLogs.MakeLogEntry(EnumPermType.AdjustmentCreate,procedure.PatNum,"Adjustment made for sales tax: "+adjustmentSalesTax.AdjAmt);
+			SecurityLogs.MakeLogEntry(EnumPermType.AdjustmentCreate,procedure.PatNum,"Adjustment made for sales tax: "+adjustmentSalesTax.AdjAmt.ToStringNetFx());
 		}
 
 		///<summary>Creates a late charge adjustment for a statement and returns the AdjNum.</summary>
@@ -482,7 +482,7 @@ namespace OpenPmsDentalBusiness{
 			adjustmentLateCharge.AdjNote=Lans.g("Adjustment","Late charge for statement sent on")+$" {dateStatementSent.ToShortDateString()}.";
 			TsiTransLogs.CheckAndInsertLogsIfAdjTypeExcluded(adjustmentLateCharge);
 			SecurityLogs.MakeLogEntry(EnumPermType.AdjustmentCreate,patNum,
-				$"Adjustment for late charge for statement sent on {dateStatementSent.ToShortDateString()}, Amount: {adjustmentLateCharge.AdjAmt.ToString("c")}");
+				$"Adjustment for late charge for statement sent on {dateStatementSent.ToShortDateString()}, Amount: {adjustmentLateCharge.AdjAmt.ToStringNetFx("c")}");
 			long adjNum=Insert(adjustmentLateCharge);
 			StatementProds.UpdateLateChargeAdjNumForMany(adjNum,listProcNums,listAdjNums,listPayPlanChargeNums,dateMaxUpdateStmtProd);
 			return adjNum;
@@ -550,7 +550,7 @@ namespace OpenPmsDentalBusiness{
 				SecurityLogs.MakeLogEntry(EnumPermType.AdjustmentEdit,listAdjustments[i].PatNum, //and creates audit trail entry for every row to be deleted
 				"Delete adjustment for patient: "
 				+Patients.GetLim(listAdjustments[i].PatNum).GetNameLF()+", "
-				+(listAdjustments[i].AdjAmt).ToString("c"),0,listAdjustments[i].SecDateTEdit);
+				+(listAdjustments[i].AdjAmt).ToStringNetFx("c"),0,listAdjustments[i].SecDateTEdit);
 			}
 			//Delete each adjustment for the procedure.
 			command="DELETE FROM adjustment WHERE ProcNum = "+POut.Long(procNum);
@@ -619,7 +619,7 @@ namespace OpenPmsDentalBusiness{
 				Insert(adjustmentSalesTax);
 			}
 			else if(AvaTax.DidUpdateAdjustment(procedure,adjustmentSalesTax)) {
-				string note=DateTime.Now.ToShortDateString()+" "+DateTime.Now.ToShortTimeString()+": Tax amount changed from $"+procedure.TaxAmt.ToString("f2")+" to $"+adjustmentSalesTax.AdjAmt.ToString("f2");
+				string note=DateTime.Now.ToShortDateString()+" "+DateTime.Now.ToShortTimeString()+": Tax amount changed from $"+procedure.TaxAmt.ToStringNetFx("f2")+" to $"+adjustmentSalesTax.AdjAmt.ToStringNetFx("f2");
 				if(!CompareDouble.IsZero((procedure.TaxAmt-adjustmentSalesTax.AdjAmt))) {
 					procedure.TaxAmt=adjustmentSalesTax.AdjAmt;
 					Crud.ProcedureCrud.Update(procedure);
@@ -699,7 +699,7 @@ namespace OpenPmsDentalBusiness{
 					SecurityLogs.MakeLogEntry(EnumPermType.AdjustmentEdit,PIn.Long(rowCur["PatNum"].ToString()),
 						"Delete adjustment for patient, undo "+adjTypeStr.ToLower()+" charges: "
 						+Patients.GetNameLF(rowCur["LName"].ToString(),rowCur["FName"].ToString(),rowCur["Preferred"].ToString(),rowCur["MiddleI"].ToString())
-						+", "+PIn.Double(rowCur["AdjAmt"].ToString()).ToString("c"),0,PIn.DateT(rowCur["SecDateTEdit"].ToString()));
+						+", "+PIn.Double(rowCur["AdjAmt"].ToString()).ToStringNetFx("c"),0,PIn.DateT(rowCur["SecDateTEdit"].ToString()));
 					if(++loopCount%5==0) {//Have to use loopCount instead of i because we must increment within the action.
 						ODEvent.Fire(ODEventType.ProgressBar,Lans.g("FinanceCharge","Creating log entries for "+adjTypeStr.ToLower()+" charges ")
 							+loopCount+" out of "+table.Rows.Count);

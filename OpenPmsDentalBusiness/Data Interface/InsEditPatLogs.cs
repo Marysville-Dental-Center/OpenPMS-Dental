@@ -173,14 +173,14 @@ namespace OpenPmsDentalBusiness{
 							insEditPatLog.NewValue="False";
 							//UseDefaultFee was unchecked. The Patplan.OrthoAutoFeeBilledOverride has -1. Get the actual value from InsPlan. If the InsPlan is null,
 							//set the strValOld equal to the strValuCur. This will make it so we don't insert a log for the OrthoAutoFeeBilledOverride.
-							strValOld=insPlanForPatPlan?.OrthoAutoFeeBilled.ToString()??strValCur;
+							strValOld=insPlanForPatPlan?.OrthoAutoFeeBilled.ToStringNetFx()??strValCur;
 						}
 						else {//UseDefaultFee was checked.
 							insEditPatLog.OldValue="False";
 							insEditPatLog.NewValue="True";
 							//UseDefaultFee was checked. Get the current OrthoAutoFeeBilled value from InsPlan. If the InsPlan is null,
 							//set the strValCur equal to the strValOld. This will make it so we don't insert a log for the OrthoAutoFeeBilledOverride.
-							strValCur=insPlanForPatPlan?.OrthoAutoFeeBilled.ToString()??strValOld;
+							strValCur=insPlanForPatPlan?.OrthoAutoFeeBilled.ToStringNetFx()??strValOld;
 						}
 						listInsEditPatLogsToInsert.Add(insEditPatLog);
 						if(strValOld==strValCur) {

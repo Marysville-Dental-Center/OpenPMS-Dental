@@ -7,6 +7,7 @@ using System.Text;
 using System.Windows.Forms;
 using OpenPmsDentalBusiness;
 using OpenPmsDental.UI;
+using CodeBase;
 
 namespace OpenPmsDental {
 	public partial class FormApptProcs:FormODBase {
@@ -97,7 +98,7 @@ namespace OpenPmsDental {
 				row.Cells.Add(Defs.GetName(DefCat.TxPriorities,ProcList[i].Priority));
 				row.Cells.Add(Tooth.Display(ProcList[i].ToothNum));
 				row.Cells.Add(ProcedureCodes.GetLaymanTerm(ProcList[i].CodeNum));
-				row.Cells.Add(ProcList[i].ProcFee.ToString("F"));
+				row.Cells.Add(ProcList[i].ProcFee.ToStringNetFx("F"));
 				gridMain.ListGridRows.Add(row);
 			}
 			gridMain.EndUpdate();

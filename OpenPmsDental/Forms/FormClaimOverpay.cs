@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using OpenPmsDental.UI;
 using OpenPmsDentalGraph.Cache;
 using OpenPmsDentalBusiness;
+using CodeBase;
 
 namespace OpenPmsDental {
 	public partial class FormClaimOverpay:FormODBase {
@@ -90,9 +91,9 @@ namespace OpenPmsDental {
 					row.Cells.Add(procedure.ToothNum=="" ? Tooth.SurfTidyFromDbToDisplay(procedure.Surf,procedure.ToothNum) : Tooth.Display(procedure.ToothNum));
 				}
 				row.Cells.Add(procedureCode.Descript);
-				row.Cells.Add(procedure.ProcFeeTotal.ToString("F"));
+				row.Cells.Add(procedure.ProcFeeTotal.ToStringNetFx("F"));
 				double insPayAmt=_listClaimProcs.FindAll(x => x.ProcNum==_listPaymentClaimProcs[i].ProcNum && !x.IsOverpay).Sum(x => x.InsPayAmt);
-				row.Cells.Add(insPayAmt.ToString("F"));
+				row.Cells.Add(insPayAmt.ToStringNetFx("F"));
 				ClaimProc claimProcOverpay=_listClaimProcs//Should be at-most one overpayment claimproc per regular claimproc
 					.Find(x => x.ClaimNum==_listPaymentClaimProcs[i].ClaimNum && x.ProcNum==_listPaymentClaimProcs[i].ProcNum && x.IsOverpay);
 				if(claimProcOverpay==null || claimProcOverpay.InsEstTotalOverride==0) {
@@ -100,12 +101,12 @@ namespace OpenPmsDental {
 					row.Cells.Add("");
 				}
 				else if(claimProcOverpay.InsEstTotalOverride<0) { //Overpayment
-					row.Cells.Add((-claimProcOverpay.InsEstTotalOverride).ToString("F"));
+					row.Cells.Add((-claimProcOverpay.InsEstTotalOverride).ToStringNetFx("F"));
 					row.Cells.Add("");
 				}
 				else { //Underpayment
 					row.Cells.Add("");
-					row.Cells.Add(claimProcOverpay.InsEstTotalOverride.ToString("F"));
+					row.Cells.Add(claimProcOverpay.InsEstTotalOverride.ToStringNetFx("F"));
 				}
 				switch(_listPaymentClaimProcs[i].Status){//Only statuses which can be attached to a claim.
 					case ClaimProcStatus.Received:
@@ -160,8 +161,8 @@ namespace OpenPmsDental {
 				overpayTotal+=PIn.Double(gridMain.ListGridRows[i].Cells[_colInsOverpaidIndex].Text);
 				underpayTotal+=PIn.Double(gridMain.ListGridRows[i].Cells[_colInsUnderpaidIndex].Text);
 			}
-			textOverpayTotal.Text=overpayTotal.ToString("F");
-			textUnderpayTotal.Text=underpayTotal.ToString("F");
+			textOverpayTotal.Text=overpayTotal.ToStringNetFx("F");
+			textUnderpayTotal.Text=underpayTotal.ToStringNetFx("F");
 		}
 
 		private bool IsValid() {

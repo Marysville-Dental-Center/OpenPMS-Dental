@@ -178,7 +178,7 @@ namespace BIMGTests {
 			StringAssert.Contains(MethodBody(code,"private void textFontApparent_TextChanged(object sender,EventArgs e) {"),
 				"_imageDrawFontSizeSync?.OnApparentTextChanged(textFontApparent.Text);");
 			string load=MethodBody(code,"private void FrmImageDrawEdit_Load(object sender, EventArgs e){");
-			AssertBefore(load,"_imageDrawFontSizeSync=new ImageDrawFontSizeSync(ZoomVal,ScaleF(1),","textFontSize.Text=ImageDrawCur.GetFontSize().ToString(\"#.##\");");
+			AssertBefore(load,"_imageDrawFontSizeSync=new ImageDrawFontSizeSync(ZoomVal,ScaleF(1),","textFontSize.Text=ImageDrawCur.GetFontSize().ToStringNetFx(\"#.##\");");
 			StringAssert.Contains(load,"actionSetActualText:text => textFontSize.Text=text,");
 			StringAssert.Contains(load,"actionSetApparentText:text => textFontApparent.Text=text);");
 			//The limits of the sync are the limits of the boxes.

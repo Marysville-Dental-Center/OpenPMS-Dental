@@ -105,7 +105,7 @@ namespace CodeBase {
 				displaySize=_arrayShortDataSizes[i];
 				//Artificially stop at 5 (PB) because one zettabyte cannot be represented by a long, in bytes, thus we cannot display the size in exabytes.
 				if(upperLimit > byteCount || i>=5) {
-					displayByteCount=Math.Round((double)byteCount/(upperLimit/KILOBYTE),2).ToString();
+					displayByteCount=Math.Round((double)byteCount/(upperLimit/KILOBYTE),2).ToStringNetFx();
 					break;
 				}
 				upperLimit*=KILOBYTE;
@@ -172,8 +172,11 @@ namespace CodeBase {
 			return false;//This code is unreachable but the compiler doesn't realize it.
 		}
 
+#if NETFRAMEWORK
 		///<summary>Filters the current IEnumerable of objects based on the func provided.
-		///C# does not provide a way to do listObj.Distinct(x => x.Field).  This extension allows us to do listObj.DistinctBy(x => x.Field)</summary>
+		///C# does not provide a way to do listObj.Distinct(x => x.Field).  This extension allows us to do listObj.DistinctBy(x => x.Field)
+		///On .NET 10 this is System.Linq's Enumerable.DistinctBy, which does the same (a HashSet of the keys with the default comparer, the
+		///first item of each key in source order, deferred); with both, every call that imports System.Linq and CodeBase was ambiguous (CS0121).</summary>
 		public static IEnumerable<T> DistinctBy<T, TKey>(this IEnumerable<T> listSource,Func<T,TKey> keySelector) {
 			HashSet<TKey> hashSet=new HashSet<TKey>();
 			foreach(T source in listSource) {
@@ -182,6 +185,7 @@ namespace CodeBase {
 				}
 			}
 		}
+#endif
 
 		///<summary>Deprecated. Use a for i loop. Loops through the IEnumerable and performs the action on each item.</summary>
 		public static void ForEach<T>(this IEnumerable<T> listSource,Action<T> action) {
@@ -361,7 +365,8 @@ namespace CodeBase {
 			byte[] arrayEncryptBytes=Encoding.UTF8.GetBytes(encrypt);
 			MemoryStream ms=new MemoryStream();
 			CryptoStream cs=null;
-			Aes aes=new AesCryptoServiceProvider();
+			//Aes.Create(): the operating system's AES, as AesCryptoServiceProvider (obsolete on .NET, SYSLIB0021); the same defaults (CBC, PKCS7).
+			Aes aes=Aes.Create();
 			aes.Key=enc.GetBytes("AKQjlLUjlcABVbqp");
 			aes.IV=new byte[16];
 			ICryptoTransform encryptor=aes.CreateEncryptor(aes.Key,aes.IV);
@@ -385,7 +390,7 @@ namespace CodeBase {
 				MemoryStream ms=null;
 				CryptoStream cs=null;
 				StreamReader sr=null;
-				Aes aes=new AesCryptoServiceProvider();
+				Aes aes=Aes.Create();//As in Encrypt.
 				UTF8Encoding enc=new UTF8Encoding();
 				aes.Key=enc.GetBytes("AKQjlLUjlcABVbqp");
 				aes.IV=new byte[16];

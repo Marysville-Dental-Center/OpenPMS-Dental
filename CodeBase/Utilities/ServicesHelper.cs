@@ -349,7 +349,7 @@ namespace CodeBase {
 				}
 				service.MachineName=Environment.MachineName;
 				service.Start();
-				service.WaitForStatus(ServiceControllerStatus.Running,TimeSpan.FromSeconds(timeoutSeconds));
+				service.WaitForStatus(ServiceControllerStatus.Running,CodeBase.ODTimeSpan.FromSeconds(timeoutSeconds));
 			}
 			catch(Exception ex) {
 				if(hasExceptions) {
@@ -394,7 +394,7 @@ namespace CodeBase {
         }
         service.MachineName=Environment.MachineName;
         service.Stop();
-				service.WaitForStatus(ServiceControllerStatus.Stopped,TimeSpan.FromSeconds(timeoutSeconds));
+				service.WaitForStatus(ServiceControllerStatus.Stopped,CodeBase.ODTimeSpan.FromSeconds(timeoutSeconds));
 			}
 			catch(Exception ex) {
 				if(hasExceptions) {

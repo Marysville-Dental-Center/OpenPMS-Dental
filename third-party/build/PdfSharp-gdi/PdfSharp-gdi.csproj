@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project>
   <!-- PdfSharp-gdi 6.5.0 (the GDI+ build of PDFsharp) from empira's source in the submodule third-party\PDFsharp, as upstream's
-       src\foundation\src\PDFsharp\src\PdfSharp-gdi\PdfSharp-gdi.csproj builds it for net462: the shared PdfSharp source folder without the
+       src\foundation\src\PDFsharp\src\PdfSharp-gdi\PdfSharp-gdi.csproj builds it for net10.0-windows (net462 until S3b-2): the shared PdfSharp source folder without the
        files that project leaves out, and the -gdi folder's own forms.
        One upstream file is replaced: root\PdfSharpLicense.cs, empira's wrapper around the closed PdfSharp.License.dll, by this folder's
        PdfSharpLicense.cs, a modified version that holds the AGPL licence path itself. No PdfSharp.License.dll is referenced or shipped.
@@ -15,21 +15,15 @@
   <Import Project="..\PDFsharp.props" />
   <PropertyGroup>
     <SourceBuildUpstreamProject>$(PdfSharpSourceRoot)PDFsharp\src\PdfSharp-gdi\PdfSharp-gdi.csproj</SourceBuildUpstreamProject>
-    <DefineConstants>TRACE;GDI;$(PdfSharpNet462Symbols);$(PdfSharpUpstreamConstants)</DefineConstants>
+    <DefineConstants>TRACE;GDI;$(PdfSharpUpstreamConstants)</DefineConstants>
+    <!-- Upstream's UseWindowsForms (the framework reference; ImplicitUsings stays off, GlobalUsings.WindowsForms.cs below has its usings). -->
+    <UseWindowsForms>true</UseWindowsForms>
     <PdfSharpCoreFolder>$(PdfSharpSourceRoot)PDFsharp\src\PdfSharp\</PdfSharpCoreFolder>
     <PdfSharpGdiFolder>$(PdfSharpSourceRoot)PDFsharp\src\PdfSharp-gdi\</PdfSharpGdiFolder>
   </PropertyGroup>
   <ItemGroup>
     <!-- Its logging source generator stays off (Directory.Packages.props): LoggerMessages.cs is what it writes (SourceBuild.props). -->
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
-    <PackageReference Include="System.Memory" />
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Numerics" />
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml" />
-    <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
     <!-- The shared PdfSharp folder, without what PdfSharp-gdi.csproj does not compile: the Core build's font resolvers, the Core and WPF

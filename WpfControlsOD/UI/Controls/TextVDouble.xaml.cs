@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using CodeBase;
 
 namespace WpfControls.UI{
 /*
@@ -175,7 +176,7 @@ Something.Amt=textVDoubleAmt.Value
 				return Convert.ToDouble(Text);
 			}
 			set{
-				Text=value.ToString();
+				Text=value.ToStringNetFx();
 				ParseValue();//to set any error
 			}
 		}
@@ -273,11 +274,11 @@ Something.Amt=textVDoubleAmt.Value
 				}
 			}
 			if(doubleVal>MaxVal){
-				SetError("Number must be less than or equal to "+MaxVal.ToString());
+				SetError("Number must be less than or equal to "+MaxVal.ToStringNetFx());
 				return;
 			}
 			if(doubleVal<MinVal){
-				SetError("Number must be greater than or equal to "+MinVal.ToString());
+				SetError("Number must be greater than or equal to "+MinVal.ToStringNetFx());
 				return;
 			}
 			SetError("");

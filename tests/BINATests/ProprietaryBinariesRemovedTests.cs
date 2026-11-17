@@ -48,7 +48,8 @@ namespace BINATests {
 			Assert.AreEqual(0,listOffenders.Count,"Still referenced in: "+string.Join(", ",listOffenders));
 			//Nor compiled, embedded or copied from a file left in a project folder: an SDK-style project takes what is on disk without naming it.
 			List<string> listItems=new List<string>();
-			foreach(string path in ProjectFile.GetSolutionFilterProjects(Path.Combine(RepoFiles.Root(),"OpenDental.Local.slnf"))) {
+			//The projects ProjectFile models: not the Middle Tier server of the Web SDK (S3b-6), whose text the check above reads (S3b-5).
+			foreach(string path in ProjectFile.GetModelledSolutionFilterProjects(Path.Combine(RepoFiles.Root(),"OpenDental.Local.slnf"))) {
 				ProjectFile projectFile=ProjectFile.Load(path);
 				listItems.AddRange(_arrayRemovedAssemblies.SelectMany(x => projectFile.GetItemsMentioning(x,"Compile","None","Content","EmbeddedResource","Reference"))
 					.Select(x => projectFile.Name+": "+x));

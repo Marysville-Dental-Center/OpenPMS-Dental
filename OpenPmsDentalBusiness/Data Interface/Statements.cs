@@ -150,14 +150,14 @@ namespace OpenPmsDentalBusiness {
 					balTotal=listPatientsFamilyGuarantors.Sum(x => x.BalTotal);
 					payPlanDue=listPatientsFamilyGuarantors.Sum(x => x.PayPlanDue);
 				}
-				dataRow["amountDue"]=(balTotal-insEst).ToString("F");
-				dataRow["balTotal"]=balTotal.ToString("F");;
+				dataRow["amountDue"]=(balTotal-insEst).ToStringNetFx("F");
+				dataRow["balTotal"]=balTotal.ToStringNetFx("F");;
 				dataRow["billingType"]=Defs.GetName(DefCat.BillingTypes,PIn.Long(tableRaw.Rows[i]["BillingType"].ToString()));
 				if(insEst==0){
 					dataRow["insEst"]="";
 				}
 				else{
-					dataRow["insEst"]=insEst.ToString("F");
+					dataRow["insEst"]=insEst.ToStringNetFx("F");
 				}
 				dataRow["IsSent"]=tableRaw.Rows[i]["IsSent"].ToString();
 				dateLastStatement=PIn.Date(tableRaw.Rows[i]["LastStatement"].ToString());
@@ -174,7 +174,7 @@ namespace OpenPmsDentalBusiness {
 					dataRow["payPlanDue"]="";
 				}
 				else{
-					dataRow["payPlanDue"]=payPlanDue.ToString("F");
+					dataRow["payPlanDue"]=payPlanDue.ToStringNetFx("F");
 				}
 				dataRow["StatementNum"]=tableRaw.Rows[i]["StatementNum"].ToString();
 				dataRow["SuperFamily"]=tableRaw.Rows[i]["SuperFamily"].ToString();
@@ -954,9 +954,9 @@ namespace OpenPmsDentalBusiness {
 				+"Total Amount,");
 			stringBuilderExportCSV.AppendLine($"\"{stateNum}\","
 				+$"\"{statement.DateSent.ToShortDateString()}\","
-				+$"\"{statement.BalTotal}\","
-				+$"\"{statement.InsEst}\","
-				+$"\"{totalAmount}\",");
+				+$"\"{statement.BalTotal.AsNetFx()}\","
+				+$"\"{statement.InsEst.AsNetFx()}\","
+				+$"\"{totalAmount.AsNetFx()}\",");
 			stringBuilderExportCSV.AppendLine("");
 			stringBuilderExportCSV.AppendLine("");
 			stringBuilderExportCSV.AppendLine("Date,"
