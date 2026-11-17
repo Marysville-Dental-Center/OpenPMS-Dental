@@ -1,0 +1,6 @@
+# The UI refresh's fit fixes (docs/specs/ui-refresh-plan.md section 5.4): every size-only designer edit of the UI-10 slices, and every control
+# that sizes itself which a slice sets to AutoSize = false with an explicit Size. The layout snapshot test (LayoutSnapshotTests) and the bounds
+# comparison of the scan (TextFitBoundsRecord.Compare) allow exactly these changes. One row per control; empty until the first UI-10 slice.
+# designer_file: the designer file, relative to the repository root, with forward slashes. window: the window or UserControl type's full name.
+# control: the control's name. fix: size or autosize-off. note: why, in a few words.
+designer_file	window	control	fix	note

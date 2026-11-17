@@ -794,19 +794,25 @@ Measured on the build PC at 96 DPI, against Microsoft Sans Serif 8.25, over the 
 | Width (the program's self-drawn controls, median) | +7% | −2% |
 | Line height | 15 px (today 13) | 13 px |
 | Grid row height | 17 px (today 14) | 16 px |
-| Fixed-size controls that newly overflow (of 10,452) | 1,591 in 422 files | 391 in 182 files |
-| ... only in height (most by 1-2 px) | 948 | 162 |
-| ... need more width | 557 | 206 |
-| ... need another line | 86 | 23 |
+| Controls that newly overflow at 100% (UI-0b's scan, measured; of 10,247 with measured text) | 1,771 in 449 windows | 650 in 248 windows |
+| ... visibly cut (all but the 1-2 px height cases whose ink stays inside) | 988 | 409 |
+| ... only in height | 1,163 (1-2 px: 943, of them 160 cut) | 437 (1-2 px: 350, of them 109 cut) |
+| ... need more width | 520 | 168 |
+| ... need another line | 88 | 45 |
+| ... fixable in free space / need the owner | 1,344 / 427 | 520 / 130 |
+| Controls that size themselves: new overlaps or parent-edge passes | 856 in 149 windows (782 fixable) | 587 in 110 windows (547 fixable) |
 
-The biggest files at 9 pt: FormPatientEdit 75, FormProvEdit 35, FormClaimEdit 31, FormProcEdit 26, ControlAccount 26, the preference
-pages 15-19 each. Most height-only cases are check boxes 16-17 px tall and labels 13-14 px tall; many may not clip visibly. These counts
-come from a static model (designer text and size only), not from running the program. The model did not apply LayoutManager's 0.96
-factor for labels and radio buttons (3.4), and it measured before the new button padding and check box glyph; UI-0's scan counts again
-with all of that.
+These are UI-0b's measured counts (`docs/port-notes/UI-0b.md` section 6, `main` at `e7f87b1d8`): every window and UserControl built off
+screen, the controls measured the way they draw, LayoutManager's 0.96 factor included, with the ink check for the 1-2 px cases. They
+replace the static model's estimates (1,591 in 422 files at 9 pt, 391 in 182 files at 8.25 pt, fixed-size controls only, without the 0.96
+factor). The biggest windows at 9 pt: FormPatientEdit 65, FormProvEdit 38, FormClaimEdit 31, ControlAccount 22, FormProcEdit 21, the
+preference pages 11-19 each. By type at 9 pt: labels 791, `UI.CheckBox` 600, radio buttons 231, stock buttons 83, `UI.Button` 38. 660
+controls already overflow in today's font and are not counted. The scan measures before the new button padding and check box glyph; it runs
+again at the end of each control package (5.4).
 
-**Controls that size themselves are not in the table.** The model counted fixed-size controls only. Two more groups grow by themselves
-with the font, from the same position, and can grow into a neighbour:
+**Controls that size themselves** (the last row of the table; the static model counted fixed-size controls only). Two groups grow by
+themselves with the font, from the same position, and can grow into a neighbour (UI-0b measured, at 9 pt: text boxes 515, `ValidDate`
+154, `ValidDouble` 75, `ValidNum` 47, labels 28, combo boxes 15, date pickers 9):
 - `AutoSize` controls. On `main`, 138 lines set `AutoSize = true` on a control or a form (outside `UnitTests` and `PluginExample`; all in
   `InitializeComponent` but `FormProviderSetup.cs:34`, which sets the form's own under `NoCustomBorders.txt`) in 47 files:
   OpenPmsDental 41 files, and one each in CentralManager, CodeBase (`FormProgressExtended`), the HL7 `FormDebug`, RdlDesign
@@ -822,7 +828,7 @@ with the font, from the same position, and can grow into a neighbour:
   them multiline. Stock `ComboBox`, `DateTimePicker` and `NumericUpDown` heights also follow the font. The brief takes the exact list
   and formulas from the .NET 10 source.
 
-UI-0's scan counts both groups (5.4) for each UQ-1 option, so the owner's numbers include them.
+UI-0's scan counts both groups (5.4) for each UQ-1 option, so the owner's numbers include them (the table's last row).
 
 ### 5.4 The scan
 
@@ -1011,6 +1017,12 @@ closing step. None has a gallery.
   hosted `ControlAccount` and a hosted preference page get the swapped font on their explicit designer fonts; a test window with an
   `AutoSize` label next to a text box reports the overlap when the label's text grows, and no difference when the label grows into
   free space; `FormInstallAllocator_Provider` is built without `InitializeLayoutManager` (it has no `LayoutManagerForms` after the build).
+- **Status (2026-11-17).** Done on `ui/ui0b-1` (`docs/port-notes/UI-0b.md`), not merged yet: `tests/UiRefreshTests` (22 tests) with the
+  shared files `Shared/TextFitMeasurer.cs`, `TextFitBoundsRecord.cs` and `TextFitFontSwap.cs` for UI-0c to link; 1,026 types, 1,001 built
+  without a database or a window (3 need a database, 15 throw without their own constructor, 7 have no designer code; listed in the note);
+  `Data/layout-snapshot.tsv` (17,751 designer controls) and an empty `Data/fit-fixes.tsv`. The full scan is opt-in (`OPMS_UI_SCAN=1`); its
+  measured counts are in section 5.3 and the note's section 6. Found on the way: `LayoutManagerForms.ZoomTest` gives no consistent zoom
+  (bounds add it, fonts multiply it), so the zoom step is measured as scale 1.2, which gives the same pixel sizes.
 
 **UI-0c: harness group U**
 - Owns: `tests/WindowChecksTests` group U (`InProc/InProcChecks.U.cs`, `UiGallery/windows.tsv`, the walker), the check U0, and the
