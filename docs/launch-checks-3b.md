@@ -79,7 +79,8 @@ repository folder:
 powershell -NoProfile -ExecutionPolicy Bypass -File "<repo>\tools\Test-MiddleTierService.ps1"
 ```
 
-Add `-ClientSession` for the client session too: the script then waits while you start the program
+**The owner's choice (2026-11-17): run it without `-ClientSession`**, so no test certificate enters Trusted Root; the program's login
+through a Middle Tier is checked by hand at a test PC instead. For reference only: `-ClientSession` adds the client session: the script then waits while you start the program
 (`<repo>\OpenPmsDental\bin\Debug\OpenPmsDental.exe`), choose the Middle Tier address it prints, log in as `s3b6usera` (its password is in
 `tests\MiddleTierHostTests\HostTestRun.cs`), open a patient and close the program, and asks you whether that worked. `-PlanOnly` prints
 every step with its names and changes nothing (no elevation needed).
