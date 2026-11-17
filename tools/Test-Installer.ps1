@@ -42,9 +42,10 @@ WHAT IT CHANGES ON THIS PC while it runs, and what it puts back:
   When the PC had an OLDER TWAINDSM.dll, setup replaces it with 2.5.1 and it stays replaced: the script does not put the old file back.
 - the 32-bit TWAIN data source manager C:\Windows\SysWOW64\TWAINDSM.dll (S3b-8: TWAIN sources with only a 32-bit driver run in the
   32-bit helper), treated exactly as the 64-bit one: setup installs it when it is missing or older, as a shared file its uninstall leaves
-  in place, and counts it in the 32-bit view of SharedDLLs, HKLM\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\SharedDLLs. The
-  script saves that count first and writes it back at the end; when the PC had no 32-bit TWAINDSM.dll before, it deletes the one the test
-  installs put there. An OLDER 32-bit TWAINDSM.dll is replaced with 2.5.1 and stays replaced, as the 64-bit one.
+  in place, and counts it in the 32-bit view of SharedDLLs, HKLM\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\SharedDLLs, under
+  the name 32-bit setups use for it, C:\Windows\System32\TWAINDSM.dll (what a 32-bit process sees). The script saves that count first and
+  writes it back at the end; when the PC had no 32-bit TWAINDSM.dll before, it deletes the one the test installs put there.
+  An OLDER 32-bit TWAINDSM.dll is replaced with 2.5.1 and stays replaced, as the 64-bit one.
 - scenario A starts the installed connection settings tool (OpenPmsDentalDbSettings.exe, its window, without arguments, so it connects to
   nothing), reads which files the process loaded and closes it.
 - the setup and uninstall logs in -OutDir (default: an install-test folder next to the setup), which it keeps.
@@ -127,6 +128,8 @@ $SharedDllsKey='HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\SharedDLLs'
 #([Files] of the .iss: the 32bit flag).
 $TwainDsm32Path=Join-Path ([Environment]::GetFolderPath('SystemX86')) 'TWAINDSM.dll'
 $SharedDllsKey32='HKLM:\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\SharedDLLs'
+#The count's name: the file's path as a 32-bit process sees it ({sys} with the 32bit flag; Inno Setup's sharedfile documentation).
+$TwainDsm32CountName=Join-Path ([Environment]::SystemDirectory) 'TWAINDSM.dll'
 $NetworkServer='dbserver.example.test:3307'
 $ShortcutFolders=@('CommonPrograms','CommonDesktopDirectory','Programs','Desktop') | ForEach-Object { [Environment]::GetFolderPath($_) }
 $script:Failures=New-Object 'System.Collections.Generic.List[string]'
@@ -413,7 +416,7 @@ $twainDsmBefore=Test-Path -LiteralPath $TwainDsmPath
 $sharedCountBefore=Get-RegValue $SharedDllsKey $TwainDsmPath
 #The 32-bit TWAINDSM.dll and its count in the 32-bit view, the same way.
 $twainDsm32Before=Test-Path -LiteralPath $TwainDsm32Path
-$sharedCount32Before=Get-RegValue $SharedDllsKey32 $TwainDsm32Path
+$sharedCount32Before=Get-RegValue $SharedDllsKey32 $TwainDsm32CountName
 #An installation of the program on this PC: the test installs share these two keys, so they are saved here and written back at the end.
 $savedUninstall=Save-HklmKey $UninstallKey
 $savedEventLog=Save-HklmKey $EventLogKey
@@ -575,8 +578,8 @@ finally {
 	catch { $script:Failures.Add("putting back $TwainDsmPath"); Write-Host "  FAIL  $TwainDsmPath or its shared-file count could not be put back: $($_.Exception.Message)" }
 	#The 32-bit TWAINDSM.dll and its shared-file count (32-bit view) as they were before the test, exactly as the 64-bit one.
 	try {
-		if($null -ne $sharedCount32Before){ Set-ItemProperty -Path $SharedDllsKey32 -Name $TwainDsm32Path -Value $sharedCount32Before -Type DWord }
-		elseif($null -ne (Get-RegValue $SharedDllsKey32 $TwainDsm32Path)){ Remove-ItemProperty -Path $SharedDllsKey32 -Name $TwainDsm32Path }
+		if($null -ne $sharedCount32Before){ Set-ItemProperty -Path $SharedDllsKey32 -Name $TwainDsm32CountName -Value $sharedCount32Before -Type DWord }
+		elseif($null -ne (Get-RegValue $SharedDllsKey32 $TwainDsm32CountName)){ Remove-ItemProperty -Path $SharedDllsKey32 -Name $TwainDsm32CountName }
 		if(-not $twainDsm32Before -and (Test-Path -LiteralPath $TwainDsm32Path)){
 			Remove-Item -LiteralPath $TwainDsm32Path -Force
 			Write-Host "Removed the 32-bit TWAINDSM.dll the test installs put into $([Environment]::GetFolderPath('SystemX86')) (there was none before)."

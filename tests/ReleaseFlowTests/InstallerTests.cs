@@ -534,9 +534,9 @@ namespace ReleaseFlowTests {
 			Assert.AreEqual("x64compatible",SetupDirective(iss,"ArchitecturesInstallIn64BitMode"));
 			Assert.AreEqual("yes",SetupDirective(iss,"UsePreviousAppDir"));
 			Assert.IsFalse(iss.Contains("{commonpf32}"),"Never Program Files (x86).");
-			//The 32-bit system folder only for the 32-bit TWAIN data source manager (S3b-8, Iss_InstallsThe32BitTwainDsmIntoTheSysWow64Folder).
-			Assert.AreEqual(1,Regex.Matches(iss,Regex.Escape("{syswow64}")).Count,"The 32-bit system folder only for the 32-bit TWAINDSM.dll.");
-			Assert.IsTrue(iss.Split('\n').Single(x => x.Contains("{syswow64}")).StartsWith("Source: \"{#TwainDsm32File}\""));
+			//Never {syswow64}: the 32-bit TWAIN data source manager goes into the 32-bit system folder as {sys} with the 32bit flag (S3b-8,
+			//Iss_InstallsThe32BitTwainDsmIntoTheSysWow64Folder), as Inno Setup's sharedfile documentation asks.
+			Assert.IsFalse(iss.Contains("{syswow64}"),"Never {syswow64}.");
 			string dsmLine=iss.Split('\n').Single(x => x.StartsWith("Source: \"{#TwainDsmFile}\""));
 			StringAssert.Contains(dsmLine,"DestDir: \"{sys}\"");
 			StringAssert.Contains(dsmLine,"sharedfile");
@@ -553,13 +553,14 @@ namespace ReleaseFlowTests {
 
 		///<summary>The 32-bit TWAIN data source manager (decision 23, S3b-8; the owner's "32-bit TWAIN manager: yes"): the 32-bit TWAINDSM.dll of the
 		///same approved download into the 32-bit system folder, exactly as the 64-bit one (a shared file the uninstall leaves, installed when
-		///missing or older), counted in the 32-bit view of SharedDLLs (the 32bit flag); Build-Release passes the checked file and pins its own
-		///SHA-256 and entry beside the 64-bit one's.</summary>
+		///missing or older), counted in the 32-bit view of SharedDLLs: {sys} with the 32bit flag, never {syswow64} (Inno Setup's sharedfile
+		///documentation: the path must be the one every 32-bit installer counts, or a second count is made); Build-Release passes the checked file
+		///and pins its own SHA-256 and entry beside the 64-bit one's.</summary>
 		[TestMethod]
 		public void Iss_InstallsThe32BitTwainDsmIntoTheSysWow64Folder() {
 			string iss=ReadIss();
 			string dsmLine=iss.Split('\n').Single(x => x.StartsWith("Source: \"{#TwainDsm32File}\""));
-			StringAssert.Contains(dsmLine,"DestDir: \"{syswow64}\"");
+			StringAssert.Contains(dsmLine,"DestDir: \"{sys}\"");
 			string flags=Regex.Match(dsmLine,@"Flags: ([^;\r\n]+)").Groups[1].Value.Trim();
 			CollectionAssert.AreEquivalent(new[] { "sharedfile","uninsneveruninstall","restartreplace","32bit" },flags.Split(' '));
 			Assert.IsFalse(dsmLine.Contains("ignoreversion"),"Only when missing or older.");
@@ -913,19 +914,21 @@ namespace ReleaseFlowTests {
 			StringAssert.Contains(script,"$TwainDsm32Path=Join-Path ([Environment]::GetFolderPath('SystemX86')) 'TWAINDSM.dll'");
 			Assert.AreEqual(@"HKLM:\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\SharedDLLs",ScriptValue(script,"SharedDllsKey32"));
 			StringAssert.Contains(script,"$twainDsm32Before=Test-Path -LiteralPath $TwainDsm32Path");
-			StringAssert.Contains(script,"$sharedCount32Before=Get-RegValue $SharedDllsKey32 $TwainDsm32Path");
+			StringAssert.Contains(script,"$sharedCount32Before=Get-RegValue $SharedDllsKey32 $TwainDsm32CountName");
 			StringAssert.Contains(script,"Test-TwainDsm32 'after the install'");
 			StringAssert.Contains(script,"Test-TwainDsm32 'after the uninstall (a shared file the uninstall leaves)'");
 			StringAssert.Contains(script,"Check (($machine -eq 0x14C) -and ($version -ge $TwainDsmMinimumVersion) -and ($signature.Status -eq 'Valid') -and ($subject -like '*O=TWAIN Working Group*'))");
-			StringAssert.Contains(script,"if($null -ne $sharedCount32Before){ Set-ItemProperty -Path $SharedDllsKey32 -Name $TwainDsm32Path -Value $sharedCount32Before -Type DWord }");
-			StringAssert.Contains(script,"elseif($null -ne (Get-RegValue $SharedDllsKey32 $TwainDsm32Path)){ Remove-ItemProperty -Path $SharedDllsKey32 -Name $TwainDsm32Path }");
+			StringAssert.Contains(script,"if($null -ne $sharedCount32Before){ Set-ItemProperty -Path $SharedDllsKey32 -Name $TwainDsm32CountName -Value $sharedCount32Before -Type DWord }");
+			StringAssert.Contains(script,"elseif($null -ne (Get-RegValue $SharedDllsKey32 $TwainDsm32CountName)){ Remove-ItemProperty -Path $SharedDllsKey32 -Name $TwainDsm32CountName }");
 			StringAssert.Contains(script,"if(-not $twainDsm32Before -and (Test-Path -LiteralPath $TwainDsm32Path)){");
 			string header=script.Substring(0,script.IndexOf("#>",StringComparison.Ordinal));
 			StringAssert.Contains(header,"An OLDER 32-bit TWAINDSM.dll is replaced with 2.5.1 and stays replaced");
-			//The .iss's line is the one the script expects: the 32-bit system folder and the 32-bit view (32bit).
+			//The .iss's line is the one the script expects: {sys} with the 32bit flag, the 32-bit system folder and the 32-bit view, counted under
+			//the System32 path name 32-bit installers use (SharedDllsName32).
 			string dsmLine=ReadIss().Split('\n').Single(x => x.StartsWith("Source: \"{#TwainDsm32File}\""));
-			StringAssert.Contains(dsmLine,"{syswow64}");
+			StringAssert.Contains(dsmLine,"DestDir: \"{sys}\"");
 			StringAssert.Contains(dsmLine,"32bit");
+			StringAssert.Contains(script,"$TwainDsm32CountName=Join-Path ([Environment]::SystemDirectory) 'TWAINDSM.dll'");
 		}
 
 		///<summary>Scenarios A to C give a database server on this computer, for which a silent setup runs no connection settings tool (the .iss's

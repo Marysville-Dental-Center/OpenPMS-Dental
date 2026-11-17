@@ -183,8 +183,10 @@ Source: "{#TwainDsmFile}"; DestDir: "{sys}"; Flags: sharedfile uninsneveruninsta
 ; The 32-bit TWAIN data source manager (decision 23, package S3b-8; the owner's "32-bit TWAIN manager: yes"): a TWAIN source with only a
 ; 32-bit driver runs its whole session in the 32-bit helper (Helper32\), which loads TWAINDSM.dll from the 32-bit system folder (SysWOW64).
 ; The same TWAIN Working Group release, checked by Build-Release the same way; installed when it is missing or older, as a shared file the
-; uninstall leaves in place. The 32bit flag counts it in the 32-bit view of SharedDLLs, where the 32-bit setups of TWAIN drivers count it.
-Source: "{#TwainDsm32File}"; DestDir: "{syswow64}"; Flags: sharedfile uninsneveruninstall restartreplace 32bit
+; uninstall leaves in place. {sys} with the 32bit flag is the 32-bit system folder (SysWOW64) in 64-bit install mode, and counts the file in
+; the 32-bit view of SharedDLLs under the path the 32-bit setups of TWAIN drivers count it under (Inno Setup's sharedfile documentation:
+; never the SysWOW64 constant with sharedfile, which would make a second count for the same file).
+Source: "{#TwainDsm32File}"; DestDir: "{sys}"; Flags: sharedfile uninsneveruninstall restartreplace 32bit
 ; Written by the [Code] below into {tmp} only when the program folder has no FreeDentalConfig.xml. It keeps the folder's rights: only an
 ; administrator changes the connection settings, with the connection settings tool (owner decision Q7, docs/specs/db-connection-security.md).
 Source: "{tmp}\{#ConfigFileName}"; DestDir: "{app}"; Flags: external onlyifdoesntexist; Check: ShouldInstallConfig
