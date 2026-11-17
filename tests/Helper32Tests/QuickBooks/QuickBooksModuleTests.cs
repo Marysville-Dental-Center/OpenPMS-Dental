@@ -329,7 +329,7 @@ namespace Helper32Tests.QuickBooks {
 		#region CreateDeposit
 		private static string Deposit(QuickBooksModule module,string classRef,bool isClassRefUsed,double amount=1234.5) {
 			module.Handle(Request(QuickBooksCommands.CREATE_DEPOSIT,COMPANY_FILE,QuickBooksCommands.DateToText(_dateDeposit),"Checking","Income:Deposits",
-				amount.ToString("F"),"Deposit 2026-11-14 (synthetic)",classRef,QuickBooksCommands.BoolToText(isClassRefUsed)));
+				amount.ToStringNetFx("F"),"Deposit 2026-11-14 (synthetic)",classRef,QuickBooksCommands.BoolToText(isClassRefUsed)));
 			return "";
 		}
 
@@ -366,7 +366,7 @@ namespace Helper32Tests.QuickBooks {
 				"request.AppendDepositAddRq().Memo.SetValue(\"Deposit 2026-11-14 (synthetic)\")",
 				"request.AppendDepositAddRq().DepositLineAddList.Append()",
 				line+"AccountRef.FullName.SetValue(\"Income:Deposits\")",
-				line+"Amount.SetAsString(\""+1234.5.ToString("F")+"\")",
+				line+"Amount.SetAsString(\""+1234.5.ToStringNetFx("F")+"\")",
 				line+"ClassRef.FullName.SetValue(\"Clinic East\")",
 				"session.DoRequests(request)",
 				"session.EndSession()",
@@ -396,7 +396,7 @@ namespace Helper32Tests.QuickBooks {
 				Run run=RunBoth(script,() => DepositToday("",false,amount),module => Deposit(module,"",false,amount),
 					() => DepositInProcess("",false,amount),() => LateBoundDeposit("",false,amount));
 				CollectionAssert.Contains(run.ListCalls,"request.AppendDepositAddRq().DepositLineAddList.Append().ORDepositLineAdd.DepositInfo.Amount.SetAsString(\""
-					+amount.ToString("F")+"\")");
+					+amount.ToStringNetFx("F")+"\")");
 			}
 		}
 

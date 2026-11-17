@@ -341,6 +341,8 @@ namespace LibraryBindingTests {
 			//Roslyn, which RdlEngine compiles a report's <Code> block with (S3b-2b, decision 14).
 			{ "Microsoft.CodeAnalysis.Common",new[] { "lib/net10.0/Microsoft.CodeAnalysis.dll" } },
 			{ "Microsoft.CodeAnalysis.VisualBasic",new[] { "lib/net10.0/Microsoft.CodeAnalysis.VisualBasic.dll" } },
+			//Roslyn's C# compiler, which tools\FormatSweep and FormatParityTests read the shipped projects with (S3b-FMT, decision 24). Not shipped.
+			{ "Microsoft.CodeAnalysis.CSharp",new[] { "lib/net10.0/Microsoft.CodeAnalysis.CSharp.dll" } },
 			//The .NET Framework assemblies that are packages on .NET (S3b-1, batch D), with their Windows implementations.
 			{ "System.CodeDom",new[] { "lib/net10.0/System.CodeDom.dll" } },
 			{ "System.Diagnostics.EventLog",new[] { "runtimes/win/lib/net10.0/System.Diagnostics.EventLog.dll",

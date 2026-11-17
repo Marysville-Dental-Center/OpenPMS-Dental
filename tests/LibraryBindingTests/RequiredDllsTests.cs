@@ -130,8 +130,9 @@ namespace LibraryBindingTests {
 				RequiredDlls.Files.Keys.Select(x => x.ToLowerInvariant()).ToArray(),"Required dlls: "+string.Join(", ",RequiredDlls.Files.Keys.OrderBy(x => x)));
 			List<string> listPackageFiles=PackageFiles.MappedIds.SelectMany(x => PackageFiles.GetFileNames(x,"PackageFiles")).ToList();
 			//The files of the packages on .NET 10 (S3b-5): 37, every one the asset an exe's or test's win-x64 target copies (until S3b-5 the 38 .NET
-			//Framework files: the 30 of S2-1, S2-2 and S2-3 that S2-4 took out of Required dlls and the 8 of Helix Toolkit's closure, TC-4).
-			Assert.AreEqual(37,listPackageFiles.Count,"The files the packages supply: "+string.Join(", ",listPackageFiles));
+			//Framework files: the 30 of S2-1, S2-2 and S2-3 that S2-4 took out of Required dlls and the 8 of Helix Toolkit's closure, TC-4), and
+			//since S3b-FMT 38: Roslyn's C# compiler for tools\FormatSweep and FormatParityTests.
+			Assert.AreEqual(38,listPackageFiles.Count,"The files the packages supply: "+string.Join(", ",listPackageFiles));
 			foreach(string fileName in listPackageFiles.Concat(_arrayDeletedWithoutPackage)) {
 				Assert.IsFalse(File.Exists(Path.Combine(RepoPaths.RequiredDlls,fileName)),"Required dlls\\"+fileName+" is back.");
 			}
