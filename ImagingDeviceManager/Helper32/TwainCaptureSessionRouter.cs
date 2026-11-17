@@ -116,7 +116,8 @@ namespace ImagingDeviceManager.Helper32 {
 		///waits for the other sessions of this process that are closing the source and enumerates the DSM on its own STA worker. Only when the
 		///program's DSM is missing or lists no such source does the router ask the 32-bit helper's ListSources (TwainSourcePath.ResolveNotNative);
 		///a source it lists opens in a TwainHelperCaptureSession, which becomes Inner. Every other result of the in-process open is the answer.
-		///</summary>
+		///When the helper could not list the 32-bit sources and the program's DSM has none of that name, the open fails with the helper's reason
+		///(WithHelper32Error), for an unmarked choice too, and not with "not found".</summary>
 		public TwainCaptureOpenResult Open(string productName,TwainCaptureOptions options) {
 			lock(_lock) {
 				if(_session!=null) {
@@ -175,11 +176,30 @@ namespace ImagingDeviceManager.Helper32 {
 				return OpenOrRefuse(sessionHelper,resolution.ProductName,optionsUsed);
 			}
 			if(resultNative.Error==TwainCaptureOpenError.NoDsm) {
-				return resultNative;
+				return WithHelper32Error(resultNative,resolution,"The 64-bit TWAIN data source manager is not installed");
 			}
 			//Listed nowhere by that exact name: the in-process session by the ProductName as before S3b-8 (a source whose name starts with it, or
 			//not found).
-			return OpenOrRefuse(sessionNative,choice.ProductName,optionsUsed);
+			TwainCaptureOpenResult resultPrefix=OpenOrRefuse(sessionNative,choice.ProductName,optionsUsed);
+			if(!IsNotInNativeDsm(resultPrefix)) {
+				return resultPrefix;//open, or a native source whose name starts with it failed there: that source's answer
+			}
+			return WithHelper32Error(resultPrefix,resolution,"The TWAIN source \""+choice.ProductName+"\" is not listed by the 64-bit TWAIN data source "
+				+"manager");
+		}
+
+		///<summary>result (the program's DSM is missing or has no such source), unless the helper could not list the 32-bit sources
+		///(resolution.Helper32ErrorText): then Other with the helper's reason, so that the window shows it (CaptureEndText.GetOpenText) and not
+		///"not found" or "TWAIN is not installed", which would send the staff to Setup or to reinstall a driver for what is a helper failure (the
+		///helper is missing or was quarantined, did not start, crashed, timed out, or has another capture window open). Also in the capture log.
+		///</summary>
+		private TwainCaptureOpenResult WithHelper32Error(TwainCaptureOpenResult result,TwainSourceResolution resolution,string textNative) {
+			if(result==null || result.IsOpen || string.IsNullOrWhiteSpace(resolution?.Helper32ErrorText)) {
+				return result;
+			}
+			string text=textNative+", and the 32-bit sources could not be checked: "+resolution.Helper32ErrorText;
+			WriteCaptureLog("The source cannot be opened: "+text);
+			return new TwainCaptureOpenResult { Error=TwainCaptureOpenError.Other,ErrorText=text };
 		}
 
 		///<summary>The program's DSM is missing, or lists no source of that name.</summary>

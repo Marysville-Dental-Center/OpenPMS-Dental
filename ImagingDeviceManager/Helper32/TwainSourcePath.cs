@@ -20,6 +20,12 @@ namespace ImagingDeviceManager.Helper32 {
 		///<summary>Set when the source cannot be opened at all on either path for a reason the session itself would not report (the 32-bit DSM is
 		///missing for a 32-bit choice, the helper failed while it listed the 32-bit sources): the open fails with this text.</summary>
 		public string ErrorText { get; set; }
+		///<summary>Set for a choice without the 32-bit marker (stored before S3b-8, or from the program's own DSM) when a 32-bit DSM is installed
+		///but the helper could not say whether it lists the source (the helper is missing, did not start, crashed or timed out, or refused while
+		///another of its capture sessions is open): the helper's reason. The router still opens the name in process as before S3b-8; when that
+		///finds nothing, the open fails with this text and not only "not found". Null when the helper answered, or when there is no 32-bit DSM.
+		///</summary>
+		public string Helper32ErrorText { get; set; }
 	}
 
 	///<summary>The native-first choice of the DSM for a TWAIN source (decision 23 of docs/specs/net10-plan.md, package S3b-8): a source that the
@@ -124,7 +130,15 @@ namespace ImagingDeviceManager.Helper32 {
 		///<summary>The sources of the 32-bit DSM, listed by the helper. Empty with errorText when there is no helper path, no 32-bit DSM, or the
 		///helper failed (its message). Throws nothing.</summary>
 		public List<TwainSourceEntry> ListHelper32(out string errorText) {
+			bool isHelperAsked;
+			return ListHelper32(out errorText,out isHelperAsked);
+		}
+
+		///<summary>ListHelper32, and whether the helper was asked (a helper path and a 32-bit DSM are there): errorText is then the helper's or the
+		///32-bit DSM's problem, never that no 32-bit DSM is installed.</summary>
+		private List<TwainSourceEntry> ListHelper32(out string errorText,out bool isHelperAsked) {
 			errorText="";
+			isHelperAsked=false;
 			if(!CanUseHelper) {
 				return new List<TwainSourceEntry>();
 			}
@@ -132,6 +146,7 @@ namespace ImagingDeviceManager.Helper32 {
 				errorText="No 32-bit TWAIN data source manager is installed (TWAINDSM.dll in the 32-bit system folder).";
 				return new List<TwainSourceEntry>();
 			}
+			isHelperAsked=true;
 			try {
 				ITwainHelperChannel channel=_funcChannel();
 				byte[] dataReply;
@@ -179,7 +194,8 @@ namespace ImagingDeviceManager.Helper32 {
 		///opening the source in an in-process session, which waits for the other sessions of this process and enumerates on its own worker; this
 		///class never enumerates the program's DSM on the open path, S3b-8 section 2.1): the helper when the 32-bit DSM lists the choice's
 		///ProductName, else, for a choice stored from the 32-bit DSM, ErrorText (why on the 32-bit side), else native (the router opens it in
-		///process again as before S3b-8, which reports it not found). Throws nothing.</summary>
+		///process again as before S3b-8, which reports it not found), with Helper32ErrorText when a 32-bit DSM is installed and the helper could not
+		///list its sources (the router then reports that reason instead of "not found"). Throws nothing.</summary>
 		public TwainSourceResolution ResolveNotNative(TwainSourceChoice choice) {
 			TwainSourceResolution resolution=new TwainSourceResolution { Dsm=TwainDsmKind.Native,ProductName=choice.ProductName };
 			if(!CanUseHelper) {
@@ -187,7 +203,8 @@ namespace ImagingDeviceManager.Helper32 {
 				return resolution;
 			}
 			string error32;
-			List<TwainSourceEntry> list32=ListHelper32(out error32);
+			bool isHelperAsked;
+			List<TwainSourceEntry> list32=ListHelper32(out error32,out isHelperAsked);
 			TwainSourceEntry entry32=list32.FirstOrDefault(x => string.Equals(x.ProductName,choice.ProductName,StringComparison.OrdinalIgnoreCase));
 			if(entry32!=null) {
 				resolution.Dsm=TwainDsmKind.Helper32;
@@ -205,6 +222,11 @@ namespace ImagingDeviceManager.Helper32 {
 				return resolution;
 			}
 			resolution.Reason="no TWAIN data source manager lists \""+choice.ProductName+"\""+(error32=="" ? "" : " ("+error32+")");
+			if(isHelperAsked && !string.IsNullOrWhiteSpace(error32)) {
+				//A 32-bit DSM is there and the helper could not answer: the source may well be a 32-bit one (every choice stored by the 32-bit
+				//program is unmarked), so the router reports this reason if the in-process open finds nothing.
+				resolution.Helper32ErrorText=error32;
+			}
 			return resolution;
 		}
 	}
