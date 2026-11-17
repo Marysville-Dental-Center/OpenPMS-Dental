@@ -35,7 +35,8 @@ namespace ImagingCapture.UI {
 		private const int HistogramHeight=100;
 		private readonly ImagingDevice _imagingDevice;
 		private TestCaptureModel _testCaptureModel;
-		private TwainCaptureSession _twainCaptureSession;
+		///<summary>The test's session (S3b-8: TwainCaptureSessions.Create, native first, through the 32-bit helper for a 32-bit-only source).</summary>
+		private ITwainCaptureSession _twainCaptureSession;
 		private bool _isClosed;
 		private int _versionShown=-1;
 		private TestCaptureAnalysis _analysisShown;
@@ -194,7 +195,7 @@ namespace ImagingCapture.UI {
 				UnsubscribeSession(_twainCaptureSession);
 				_twainCaptureSession.BeginClose();
 			}
-			TwainCaptureSession twainCaptureSession=new TwainCaptureSession();
+			ITwainCaptureSession twainCaptureSession=ImagingCapture.Session.TwainCaptureSessions.Create();
 			twainCaptureSession.SessionGuid=Guid.NewGuid();
 			twainCaptureSession.QuarantineContext=new TwainCaptureQuarantineContext(0,TestCaptureModel.QuarantinePatientName);
 			twainCaptureSession.FuncReadMetadataKeys=CaptureMetadataParser.ReadKeys;
@@ -217,7 +218,7 @@ namespace ImagingCapture.UI {
 			});
 		}
 
-		private void OnOpenFinished(TwainCaptureSession twainCaptureSession,TwainCaptureOpenResult result) {
+		private void OnOpenFinished(ITwainCaptureSession twainCaptureSession,TwainCaptureOpenResult result) {
 			if(_isClosed || twainCaptureSession!=_twainCaptureSession) {
 				return;
 			}
@@ -235,13 +236,13 @@ namespace ImagingCapture.UI {
 			RefreshView();
 		}
 
-		private void SubscribeSession(TwainCaptureSession twainCaptureSession) {
+		private void SubscribeSession(ITwainCaptureSession twainCaptureSession) {
 			twainCaptureSession.ImageAcquired+=session_ImageAcquired;
 			twainCaptureSession.Ended+=session_Ended;
 			twainCaptureSession.StatusChanged+=session_StatusChanged;
 		}
 
-		private void UnsubscribeSession(TwainCaptureSession twainCaptureSession) {
+		private void UnsubscribeSession(ITwainCaptureSession twainCaptureSession) {
 			twainCaptureSession.ImageAcquired-=session_ImageAcquired;
 			twainCaptureSession.Ended-=session_Ended;
 			twainCaptureSession.StatusChanged-=session_StatusChanged;

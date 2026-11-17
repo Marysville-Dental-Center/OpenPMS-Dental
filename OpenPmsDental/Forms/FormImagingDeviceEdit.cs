@@ -46,14 +46,14 @@ namespace OpenDentalImaging {
 				return;
 			}
 			comboTwainName.Items.Clear();
-			if(!EZTwain.GetSourceList()) {
-				return;
-			}
-			StringBuilder stringBuilder=new StringBuilder();
-			stringBuilder.EnsureCapacity(64);
-			while(EZTwain.GetNextSourceName(stringBuilder)) {
-				comboTwainName.Items.Add(stringBuilder.ToString());
-				stringBuilder.EnsureCapacity(64);
+			//Native first (S3b-8, decision 23): the sources of this program's own TWAIN data source manager, then those only the 32-bit one lists,
+			//which run in the 32-bit helper and are stored with the marker " (32-bit TWAIN)" (TwainSourceChoice), so the choice records its DSM.
+			string errorText;
+			Cursor=Cursors.WaitCursor;
+			List<ImagingDeviceManager.Helper32.TwainSourceEntry> listSources=ImagingCapture.Session.TwainCaptureSessions.ListSources(out errorText);
+			Cursor=Cursors.Default;
+			foreach(ImagingDeviceManager.Helper32.TwainSourceEntry twainSourceEntry in listSources) {
+				comboTwainName.Items.Add(twainSourceEntry.StoredText);
 			}
 		}
 

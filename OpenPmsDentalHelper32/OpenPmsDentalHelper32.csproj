@@ -78,4 +78,26 @@
       <Link>Utilities\ODNumberTextNetFx.cs</Link>
     </Compile>
   </ItemGroup>
+  <!--
+    The 32-bit TWAIN path (S3b-8 of the .NET 10 move, decision 23; docs/port-notes/S3b-8.md): ImagingDeviceManager's TWAIN code, which S3a-12
+    made pointer-size safe, compiled into the helper from its own source (Twain\TwainModule.cs runs its TwainHelperServer on the 32-bit DSM),
+    and ImagingCapture's capture metadata parser, which the program gives its sessions (FuncReadMetadataKeys). Compiled, not referenced: the
+    helper references no project of this repository, so it keeps its own x86 runtime, and the program's ImagingDeviceManager.dll is x64.
+    Left out: the EZTwain facade and PdfPageWriter (PDFsharp), which the TWAIN path does not use, and the assembly attributes.
+  -->
+  <ItemGroup>
+    <Compile Include="..\ImagingDeviceManager\**\*.cs"
+             Exclude="..\ImagingDeviceManager\bin\**;..\ImagingDeviceManager\obj\**;..\ImagingDeviceManager\Properties\**;..\ImagingDeviceManager\EZTwain.cs;..\ImagingDeviceManager\EZTwain.Capture.cs;..\ImagingDeviceManager\Imaging\PdfPageWriter.cs">
+      <Link>ImagingDeviceManager\%(RecursiveDir)%(Filename)%(Extension)</Link>
+    </Compile>
+    <Compile Include="..\ImagingCapture\Metadata\CaptureMetadata.cs">
+      <Link>ImagingCapture\Metadata\CaptureMetadata.cs</Link>
+    </Compile>
+    <Compile Include="..\ImagingCapture\Metadata\CaptureMetadataParser.cs">
+      <Link>ImagingCapture\Metadata\CaptureMetadataParser.cs</Link>
+    </Compile>
+    <Compile Include="..\ImagingCapture\Metadata\JsonReader.cs">
+      <Link>ImagingCapture\Metadata\JsonReader.cs</Link>
+    </Compile>
+  </ItemGroup>
 </Project>

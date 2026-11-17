@@ -83,6 +83,23 @@ namespace ImagingDeviceManager.Capture {
 			return NativeTwainDsm.Load(out errorText);
 		}
 
+		///<summary>For TwainHelperCaptureSession (S3b-8): makes this instance, which is never opened, the program's twin of a session that runs in
+		///the 32-bit helper, with that session's source, options and source info, so that QuarantineImage and ConfirmRedeliveredJournalCopy write the
+		///quarantine file and rewrite the journal copy (which the helper wrote) in the program's process with exactly the record the helper's session
+		///would write. SessionGuid, QuarantineContext and FuncReadMetadataKeys are set as for any session.</summary>
+		internal void SetTwinOf(string productName,TwainCaptureOptions options,TwainCaptureSourceInfo sourceInfo) {
+			lock(_lock) {
+				_options=options==null ? new TwainCaptureOptions() : options.Clone();
+			}
+			_productName=productName??"";
+			_sourceInfo=sourceInfo;
+		}
+
+		///<summary>For TwainHelperCaptureSession: a line for the capture log file (Capture\capture-log.txt), with this session's prefix.</summary>
+		internal void WriteCaptureLog(string text) {
+			Log(text);
+		}
+
 		public TwainCaptureState State => (TwainCaptureState)_state;
 		public Guid SessionGuid { get; set; }
 		public string ProductName => _productName;
