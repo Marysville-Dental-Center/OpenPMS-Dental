@@ -354,8 +354,8 @@ namespace EhrTests {
 
 		[TestMethod]
 		public void IsInDb_FollowsTheCodeTablesThresholds_AndTheStatusShowsThem() {
-			TestValueSetRow rowSex=TestValueSetRow.Make("2.16.840.1.113762.1.4.1","AdministrativeSex","TEST-F");
-			TestValueSetRow rowPcs=TestValueSetRow.Make("2.16.840.1.113883.3.526.3.1083","SNOMEDCT","TEST0004");
+			TestValueSetRow rowSex=TestValueSetRow.Make("2.16.840.1.113762.1.4.1021.121","AdministrativeSex","TEST-F");//Federal Administrative Sex.
+			TestValueSetRow rowPcs=TestValueSetRow.Make(OID_TOBACCO_USER,"SNOMEDCT","TEST0004");
 			rowPcs.CodeSystem="ICD10PCS";
 			rowPcs.CodeSystemOID="2.16.840.1.113883.6.4";
 			ImportOrFail(ParseWorkbook(TestValueSetRow.Make(OID_TOBACCO_SCREENING,"SNOMEDCT","TEST0001"),
@@ -442,7 +442,10 @@ namespace EhrTests {
 		}
 
 		[TestMethod]
-		public void Pregnancy_DiseaseDefsFindsAProblemWhoseCodeIsInBothPregnancyValueSets() {
+		public void Pregnancy_DiseaseDefsLooksInBothPregnancyValueSets_AndTheDiagnosisSetOfThe2014Measures_IsNotKept() {
+			//DiseaseDefs still names the 2014 diagnosis value set (OID_PREGNANCY_DX, on the allowlist of ValueSetSourceTests until EHR-7 moves the
+			//lookup to the catalog's Pregnancy). It is no value set of the catalog, so the import does not keep its rows (E-30), and E-20's record
+			//finds it nowhere in the 2026-05-14 release either: the lookup finds no problem until EHR-7.
 			ImportOrFail(ParseWorkbook(TestValueSetRow.Make(OID_PREGNANCY_DX,"ICD9CM","TEST0101"),TestValueSetRow.Make(OID_PREGNANCY,"ICD9CM","TEST0101"),
 				TestValueSetRow.Make(OID_PREGNANCY,"ICD9CM","TEST0102"),TestValueSetRow.Make(OID_PREGNANCY_DX,"SNOMEDCT","TEST0103"),
 				TestValueSetRow.Make(OID_PREGNANCY,"SNOMEDCT","TEST0103")));
@@ -456,8 +459,10 @@ namespace EhrTests {
 			DiseaseDefs.Insert(diseaseDefSnomed);
 			DiseaseDefs.RefreshCache();
 			try {
+				Assert.AreEqual(0,EhrCodes.GetForValueSetOIDs(new List<string> { OID_PREGNANCY_DX },false).Count,"Not a value set of the catalog: not kept.");
+				Assert.AreEqual(2,EhrCodes.GetForValueSetOIDs(new List<string> { OID_PREGNANCY },true).Count,"The catalog's Pregnancy: kept.");
 				List<DiseaseDef> listFound=DiseaseDefs.GetAllPregDiseaseDefs();
-				CollectionAssert.AreEqual(new[] { diseaseDefBoth.DiseaseDefNum },listFound.Select(x => x.DiseaseDefNum).ToList());
+				Assert.AreEqual(0,listFound.Count,"No code is in both sets: the 2014 one is not imported.");
 				//Its call names the two value sets (DiseaseDefs.cs:404).
 				StringAssert.Contains(TestPaths.ReadSource(@"OpenPmsDentalBusiness\Data Interface\DiseaseDefs.cs"),
 					"EhrCodes.GetCodesExistingInAllSets(new List<string> { \""+OID_PREGNANCY_DX+"\",\""+OID_PREGNANCY+"\" })");
@@ -517,17 +522,24 @@ namespace EhrTests {
 		///The times go to the file EHR2_TIMING_FILE names, when set.</summary>
 		[TestMethod]
 		public void LoadTime_AFullSyntheticRelease_LoadsInUnderASecond() {
-			const int countRows=60000;
+			const int countRowsRead=66000;
 			ValueSetDb.FillCodeTable("snomed","SnomedCode",701,"TESTS");
 			ValueSetFixtures.Sheet sheet=new ValueSetFixtures.Sheet();
 			sheet.Name="All";
-			sheet.ListRows=ValueSetFixtures.MakeLargeRelease(countRows);
+			//The columns the importer reads, so 66,000 rows stay one part within the part limit.
+			sheet.ArrayHeaders=new[] { "CMS ID","Value Set Name","Value Set OID","QDM Category","Expansion Version","Code","Description","Code System",
+				"Code System Version","Code System OID" };
+			List<TestValueSetRow> listRows=ValueSetFixtures.MakeLargeRelease(countRowsRead);
+			sheet.ListRows=listRows;
+			int countRows=listRows.Count(x => EhrValueSetImport.GetManifestItem(x.ValueSetOID)!=null);//60,000: only these are kept (E-30).
 			byte[] arrayWorkbook=ValueSetFixtures.MakeWorkbook(sheet);
 			Stopwatch stopwatchParse=Stopwatch.StartNew();
 			EhrValueSetFile file=EhrValueSetImport.Parse("large_TEST.xlsx",arrayWorkbook);
 			stopwatchParse.Stop();
 			Assert.IsFalse(file.IsRefused,EhrValueSetImport.GetReport(file));
+			Assert.AreEqual(60000,countRows);
 			Assert.AreEqual(countRows,file.ListEhrCodes.Count);
+			Assert.AreEqual(countRowsRead-countRows,file.CountRowsOtherValueSets);
 			Stopwatch stopwatchImport=Stopwatch.StartNew();
 			ImportOrFail(file);
 			stopwatchImport.Stop();

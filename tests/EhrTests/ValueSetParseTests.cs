@@ -195,8 +195,9 @@ namespace EhrTests {
 			Assert.IsFalse(file.AreVersionsChecked);
 			Assert.AreEqual("138v15",file.ListEhrCodes.Single(x => x.CodeValue=="TEST0001").MeasureIds,"From the manifest.");
 			Assert.AreEqual(CATEGORY_TOBACCO_SCREENING,file.ListEhrCodes.Single(x => x.CodeValue=="TEST0001").QDMCategory,"From the manifest.");
-			Assert.AreEqual("",file.ListEhrCodes.Single(x => x.CodeValue=="TEST0002").MeasureIds,"Not in the manifest: no measures.");
+			Assert.IsFalse(file.ListEhrCodes.Any(x => x.CodeValue=="TEST0002"),"Not in the manifest: counted, not kept (E-30).");
 			Assert.AreEqual(1,file.CountOtherValueSets);
+			Assert.AreEqual(1,file.CountRowsOtherValueSets);
 			Assert.IsTrue(file.ListNotes.Any(x => x.Contains("measure versions could not be checked")),string.Join("\r\n",file.ListNotes));
 			StringAssert.Contains(EhrValueSetImport.GetReport(file),"measure versions could not be checked");
 		}
@@ -309,13 +310,13 @@ namespace EhrTests {
 
 		[TestMethod]
 		public void CodeSystems_WithoutATable_AreImportedAndNamedInTheReport() {
-			TestValueSetRow rowPcs=TestValueSetRow.Make("2.16.840.1.113883.3.526.3.1083","SNOMEDCT","TEST0002");
+			TestValueSetRow rowPcs=TestValueSetRow.Make(OID_OFFICE_VISIT,"SNOMEDCT","TEST0002");
 			rowPcs.CodeSystem="ICD10PCS";
 			rowPcs.CodeSystemOID="2.16.840.1.113883.6.4";
 			EhrValueSetFile file=EhrValueSetImport.Parse("vs.xlsx",ValueSetFixtures.MakeWorkbook(MakeSheet("A",
 				TestValueSetRow.Make(OID_TOBACCO_SCREENING,"SNOMEDCT","TEST0001"),rowPcs)));
 			Assert.IsFalse(file.IsRefused,EhrValueSetImport.GetReport(file));
-			Assert.AreEqual("ICD10PCS",file.ListEhrCodes.Single(x => x.CodeValue=="TEST0002").CodeSystem);
+			Assert.AreEqual("ICD10PCS",file.ListEhrCodes.Single(x => x.CodeValue=="TEST0002").CodeSystem);//A value set of the manifest.
 			CollectionAssert.AreEqual(new[] { "ICD10PCS: 1" },file.ListCodeSystemsWithoutTable);
 			StringAssert.Contains(EhrValueSetImport.GetReport(file),"Code systems this program has no table for");
 		}
@@ -415,20 +416,21 @@ namespace EhrTests {
 			EhrValueSetFile file=EhrValueSetImport.Parse("vs.xlsx",ValueSetFixtures.MakeWorkbook(MakeSheet("All",listRows.ToArray())));
 			Assert.IsFalse(file.IsRefused,EhrValueSetImport.GetReport(file));
 			Assert.AreEqual(0,file.CountRowsTooLong,EhrValueSetImport.GetReport(file));
-			CollectionAssert.AreEquivalent(new[] { "TEST0001","TEST0002","TEST0003","TEST0004","TEST0005","TEST0006" },
-				file.ListEhrCodes.Select(x => x.CodeValue).ToList(),"Every code imported.");
+			CollectionAssert.AreEquivalent(new[] { "TEST0001","TEST0002","TEST0003","TEST0005" },
+				file.ListEhrCodes.Select(x => x.CodeValue).ToList(),"Every code of the manifest's value sets imported; the others not (E-30).");
+			Assert.AreEqual(2,file.CountOtherValueSets);
+			Assert.AreEqual(64+1,file.CountRowsOtherValueSets);
 			Assert.IsTrue(file.ListEhrCodes.All(x => x.MeasureIds.Length<=EhrValueSetImport.MAX_COLUMN_LENGTH),
 				string.Join("\r\n",file.ListEhrCodes.Select(x => x.MeasureIds.Length+" "+x.MeasureIds)));
 			const string SEVEN="68v16,69v15,74v16,75v15,138v15,155v15,165v15";
-			foreach(string codeValue in new[] { "TEST0001","TEST0002","TEST0003","TEST0004" }) {
+			foreach(string codeValue in new[] { "TEST0001","TEST0002","TEST0003" }) {
 				Assert.AreEqual(SEVEN,file.ListEhrCodes.Single(x => x.CodeValue==codeValue).MeasureIds,"Only the seven this program reports: "+codeValue);
 			}
 			Assert.AreEqual("138v15",file.ListEhrCodes.Single(x => x.CodeValue=="TEST0005").MeasureIds,"None of the seven left: the manifest's.");
-			Assert.AreEqual("",file.ListEhrCodes.Single(x => x.CodeValue=="TEST0006").MeasureIds,"None of the seven, not in the manifest: none.");
 			//The version check still sees every measure of the file.
 			Assert.AreEqual(64,file.ListMeasureIdsInFile.Count);
 			CollectionAssert.AreEqual(EhrValueSetImport.ArrayMeasureIds,file.ListMeasuresMatched);
-			Assert.AreEqual(64*4-4,file.CountRowsMerged);
+			Assert.AreEqual(64*3-3,file.CountRowsMerged);
 		}
 
 		[TestMethod]
@@ -508,29 +510,47 @@ namespace EhrTests {
 				StringAssert.Contains(refusal,"larger, uncompressed, than the importer reads","understated="+isSizeUnderstated);
 				StringAssert.Contains(refusal,"64 MB");
 				StringAssert.Contains(refusal,"EP_2013/large.xml");
+				StringAssert.Contains(refusal,"pick the one sorted by CMS ID","The release's other two sortings have a sheet past the limit (E-20).");
 				Assert.AreEqual(0,file.ListEhrCodes.Count);
 			}
+		}
+
+		[TestMethod]
+		public void Zip_PartsOver256MbTogether_AreRead_WithinTheTotalOfE30() {
+			//E-20's record: the 2026-05-14 workbook sorted by CMS ID reads about 377 MB uncompressed, over EHR-2's 256 MB; E-30 raised the total to
+			//1,024 MB, as the parts are streamed and only the manifest's rows kept.
+			StoredZip storedZip=new StoredZip();
+			storedZip.Add("EP_2013/a_by_cms_id.xlsx",ValueSetFixtures.MakeWorkbook(MakeSheet("CMS138v15",TestValueSetRow.Make(OID_TOBACCO_SCREENING,"SNOMEDCT","TEST0001"))));
+			for(int i=1;i<=5;i++) {
+				AddLargeSvs(storedZip,"EP_2013/svs/large"+i+".xml",60L*1024*1024);//Each under the part limit, 300 MB in all.
+			}
+			EhrValueSetFile file=EhrValueSetImport.Parse("ep_2013.zip",storedZip.ToArray());
+			Assert.IsFalse(file.IsRefused,EhrValueSetImport.GetReport(file));
+			Assert.AreEqual("TEST0001",file.ListEhrCodes.Single().CodeValue);
 		}
 
 		[TestMethod]
 		public void Zip_PartsThatTogetherInflatePastTheTotalLimit_AreRefusedWithAMessage() {
 			StoredZip storedZip=new StoredZip();
 			storedZip.Add("EP_2013/a_by_cms_id.xlsx",ValueSetFixtures.MakeWorkbook(MakeSheet("CMS138v2",TestValueSetRow.Make(OID_TOBACCO_SCREENING,"SNOMEDCT","TEST0001"))));
-			for(int i=1;i<=5;i++) {
-				AddLargeSvs(storedZip,"EP_2013/svs/large"+i+".xml",60L*1024*1024);//Each under the part limit, 300 MB in all.
+			for(int i=1;i<=17;i++) {
+				AddLargeSvs(storedZip,"EP_2013/svs/large"+i+".xml",62L*1024*1024);//Each under the part limit, 1,054 MB in all (E-30: 1,024 MB).
 			}
 			EhrValueSetFile file=EhrValueSetImport.Parse("ep_2013.zip",storedZip.ToArray());
 			Assert.IsTrue(file.IsRefused,EhrValueSetImport.GetReport(file));
 			string refusal=string.Join(" ",file.ListRefusals);
-			StringAssert.Contains(refusal,"256 MB");
+			StringAssert.Contains(refusal,"1024 MB");
 			Assert.AreEqual(0,file.ListEhrCodes.Count);
 		}
 
 		[TestMethod]
 		public void Limits_AreWhatA32BitProcessHolds() {
-			//The program is an x86 process: the limits are far above the June 2013 EP package and far below what such a process can hold.
+			//The program is an x86 process: a part is held at most whole (a workbook inside a .zip), so the part limit stays far below what such a
+			//process can hold. The total is only read, a row at a time, and only the manifest's rows are kept (E-30, docs/port-notes/EHR-6.md):
+			//above the 2026-05-14 by-CMS workbook's 377 MB, which E-20's record gives, and bounded.
 			Assert.IsTrue(EhrValueSetImport.MAX_FILE_BYTES<=64L*1024*1024,EhrValueSetImport.MAX_FILE_BYTES.ToString());
-			Assert.IsTrue(EhrValueSetImport.MAX_TOTAL_BYTES<=256L*1024*1024,EhrValueSetImport.MAX_TOTAL_BYTES.ToString());
+			Assert.IsTrue(EhrValueSetImport.MAX_TOTAL_BYTES>=400L*1024*1024 && EhrValueSetImport.MAX_TOTAL_BYTES<=1024L*1024*1024,
+				EhrValueSetImport.MAX_TOTAL_BYTES.ToString());
 			Assert.IsTrue(EhrValueSetImport.MAX_ROWS<=1000000,EhrValueSetImport.MAX_ROWS.ToString());
 		}
 		#endregion Fix round: measure IDs, column lengths and the limits of a 32-bit process

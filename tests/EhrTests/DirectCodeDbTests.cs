@@ -67,7 +67,8 @@ namespace EhrTests {
 			List<EhrCode> listRows=ReadRows();
 			Assert.AreEqual(pick.ListEhrCodesAll.Count,listRows.Count);
 			Assert.AreEqual(EhrValueSetImport.GetManifest().Count,listRows.Count(x => !CqmCatalog.IsDirectCodeKey(x.ValueSetOID)),"One code in each value set.");
-			Assert.AreEqual(ValueSetFixtures.MakeDirectCodeRows().Count,listRows.Count(x => CqmCatalog.IsDirectCodeKey(x.ValueSetOID)));
+			Assert.AreEqual(ValueSetFixtures.MakeDirectCodeRows().Count-ValueSetFixtures.COUNT_DIRECT_CODE_ROWS_OTHER_MEASURES,
+				listRows.Count(x => CqmCatalog.IsDirectCodeKey(x.ValueSetOID)));
 			//Each role's rows are found by its key, as the engine will find them (GetForValueSetOIDs without IsInDb, section 5.2).
 			foreach(CqmDirectCodeRole role in CqmCatalog.GetDirectCodeRoles()) {
 				List<EhrCode> listRole=EhrCodes.GetForValueSetOIDs(new List<string> { CqmCatalog.GetDirectCodeKey(role.CmsId,role.Role) },false);
@@ -261,7 +262,17 @@ namespace EhrTests {
 
 		[TestMethod]
 		public void Status_ALoadedTableOlderThanTheRelease_IsFlagged_WhereTheMappingExists() {
-			Assert.AreEqual("",EhrValueSetImport.Import(PickOrFail(ValueSetFixtures.MakeRelease())));
+			//E-20's record: each value-set row names the version its own code is from, so one code system has several versions in one release,
+			//an older one for a code no longer in the newest. Here one SNOMEDCT code names 2024-03, the others 2025-09, and a CDCREC code 1.2.
+			List<TestValueSetRow> listValueSetRows=ValueSetFixtures.MakeManifestRows();
+			listValueSetRows[0].CodeSystemVersion="2024-03";
+			listValueSetRows.Add(TestValueSetRow.Make("2.16.840.1.114222.4.11.836","CDCREC","TESTR0001"));//Race.
+			List<TestValueSetRow> listVersions=ValueSetFixtures.MakeCodeSystemVersionRows();
+			listVersions.Add(TestValueSetRow.MakeCodeSystemVersion("SNOMEDCT","2024-03"));
+			Assert.AreEqual("",EhrValueSetImport.Import(PickOrFail(ValueSetFixtures.MakeRelease(
+				ValueSetFixtures.ZipAsVsacGivesIt("vs_cms_TEST.xlsx",ValueSetFixtures.MakeByCmsWorkbook(listValueSetRows)),
+				listCodeSystemVersions:listVersions))));
+			int countSnomedNewest=ReadRows().Count(x => x.CodeSystem=="SNOMEDCT")-1;
 			ValueSetDb.FillCodeTable("snomed","SnomedCode",701,"TESTS");
 			ValueSetDb.FillCodeTable("loinc","LoincCode",21,"TESTL");
 			DataCore.NonQ("UPDATE codesystem SET VersionCur='20250301' WHERE CodeSystemName='SNOMEDCT'");
@@ -271,10 +282,19 @@ namespace EhrTests {
 			List<EhrCodeSystemStatus> listStatuses=EhrCodes.GetCodeSystemStatuses();
 			EhrCodeSystemStatus statusSnomed=listStatuses.Single(x => x.CodeSystem=="SNOMEDCT");
 			Assert.AreEqual("20250301",statusSnomed.VersionLoaded);
-			Assert.AreEqual("2025-09",statusSnomed.VersionInRelease);
+			Assert.AreEqual("2025-09, 2024-03",statusSnomed.VersionInRelease,"The versions the codes name, newest first.");
 			Assert.IsTrue(statusSnomed.IsVersionCompared);
-			Assert.IsTrue(statusSnomed.IsOlderThanRelease,"SNOMED CT of March 2025 is older than the release's September 2025.");
-			StringAssert.Contains(OpenPmsDental.FormCodeSystemsImport.GetStatusText(statusSnomed),"older than the release's version");
+			Assert.IsTrue(statusSnomed.IsOlderThanRelease,"SNOMED CT of March 2025 is older than the codes of September 2025.");
+			Assert.AreEqual(countSnomedNewest,statusSnomed.CountCodesNewer,"The code of 2024-03 is not newer than the table.");
+			StringAssert.Contains(OpenPmsDental.FormCodeSystemsImport.GetStatusText(statusSnomed),"older than the release's version: "+countSnomedNewest+" codes");
+			//A table as new as the newest version the codes name is not older, whatever older versions the release lists too.
+			DataCore.NonQ("UPDATE codesystem SET VersionCur='2025-09-01' WHERE CodeSystemName='SNOMEDCT'");
+			EhrCodeSystemStatus statusSnomedNew=EhrCodes.GetCodeSystemStatuses().Single(x => x.CodeSystem=="SNOMEDCT");
+			Assert.IsTrue(statusSnomedNew.IsVersionCompared);
+			Assert.IsFalse(statusSnomedNew.IsOlderThanRelease);
+			Assert.AreEqual(0,statusSnomedNew.CountCodesNewer);
+			EhrValueSetRelease release=EhrValueSetImport.GetRelease();
+			Assert.AreEqual(1,release.ListCodeSystemVersionsUsed.Single(x => x.CodeSystem=="SNOMEDCT" && x.Version=="2024-03").CountCodes);
 			EhrCodeSystemStatus statusLoinc=listStatuses.Single(x => x.CodeSystem=="LOINC");
 			Assert.IsTrue(statusLoinc.IsVersionCompared);
 			Assert.IsFalse(statusLoinc.IsOlderThanRelease,"The same release of LOINC.");
@@ -305,7 +325,8 @@ namespace EhrTests {
 				List<EhrCode> listRole=EhrCodes.GetForValueSetOIDs(new List<string> { "drc:CMS69:Cms69Bmi" },false);
 				Assert.AreEqual(1,listRole.Count);
 				Assert.AreEqual("Body mass index (BMI) [Ratio]",listRole[0].Description);
-				Assert.AreEqual(ValueSetFixtures.MakeDirectCodeRows().Count,EhrCodes.Listt.Count(x => CqmCatalog.IsDirectCodeKey(x.ValueSetOID)));
+				Assert.AreEqual(ValueSetFixtures.MakeDirectCodeRows().Count-ValueSetFixtures.COUNT_DIRECT_CODE_ROWS_OTHER_MEASURES,
+					EhrCodes.Listt.Count(x => CqmCatalog.IsDirectCodeKey(x.ValueSetOID)));
 				//The release record reads through the client's preferences as well.
 				Assert.AreEqual(3,EhrValueSetImport.GetRelease().ListFiles.Count);
 			}
