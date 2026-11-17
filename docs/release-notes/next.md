@@ -588,23 +588,30 @@ NCQA's copyright and disclaimer statements, and CMS's for the other four, are ke
 their results are shown, printed or exported.
 
 - **What to download.** From the Value Set Authority Center (VSAC) of the National Library of Medicine, under your office's own UMLS
-  license, three files of one release: the "eCQM Value Sets for Eligible Clinicians" published 2026-05-14 for the 2027 performance period,
-  sorted by CMS ID, as the Excel workbook (`.xlsx`) or the SVS XML (`.xml`), or the `.zip` VSAC gives; and that release's "Direct
-  Reference Codes" file and "Code System Versions" file. Releases for other years use other measure versions: a file with none of the seven
-  at its 2027 version is refused, and a file that has some at other versions (for example CMS74v15 of the 2026 release) is imported with a
-  warning that names them. This program ships no value-set codes.
+  license, three files of one release: the eCQM value sets published 2026-05-14 for the 2027 performance period, **sorted by CMS ID**
+  (VSAC gives them as `ec_hospip_hospop_cms_20260514.xlsx.zip`, the eligible clinicians' measures together with the hospital ones), and
+  that release's Direct Reference Codes file (`drc_cms_20260514.xlsx.zip`) and Code System Versions file
+  (`cs_versions_cms_20260514.xlsx.zip`). Pick each `.zip` as VSAC gives it; the value sets' two other sortings (by QDM category, and the
+  unique value sets) are not needed, and the importer refuses them (a sheet of each is past its limit, and the report says to pick the one
+  sorted by CMS ID). Releases for other years use other measure versions: a file with none of the seven at its 2027 version is refused,
+  and a file that has some at other versions (for example CMS74v15 of the 2026 release) is imported with a warning that names them. This
+  program ships no value-set codes.
 - **Where.** Setup > Chart > EHR > Code System Importer, Import Value Sets (Setup permission; not through the Middle Tier, as the CPT
   import). Pick the three files together; a pick without all three (or with a file twice) is refused and changes nothing. The window reads
   and checks the files first and shows a report: the codes and value sets found, which of the 68 value sets the measures use are missing,
   the measure versions ("7 of 7 measures at the 2027 versions"), the direct reference codes the measures need and whether each was found,
   and the code systems it has no table for. Only after you confirm does it replace every value-set code and direct reference code in the
   database, both together; a refused pick, or an import that fails part way, changes nothing (the new codes are written beside the old ones
-  and take their place in one step). A file over 64 MB, or one whose parts pass 64 MB each or 256 MB in all once uncompressed, is refused.
+  and take their place in one step). Only the value sets of the seven measures are kept (the release holds those of 73 measures), and
+  only their direct reference codes. A file over 64 MB, or one whose parts pass 64 MB each or 1,024 MB in all once uncompressed, is refused;
+  the workbook sorted by CMS ID is about 17 MB, and about 377 MB once uncompressed, with no part over 34 MB.
   The import is recorded in the security log (Setup) with the three files' names and SHA-256, and the window shows the date and value-set
   file of the last import.
 - **Code-system status.** The same window lists each code system (SNOMED CT, ICD-9-CM, ICD-10-CM, LOINC, RxNorm, CPT, CDT, HCPCS, CVX,
-  CDCREC, SOP) with its rows in the database, the minimum the code list expects, the version of the loaded table and the version the release
-  names; a loaded table older than the release is marked, since codes of the newer value sets are then missing from the pick lists. A
+  CDCREC, SOP) with its rows in the database, the minimum the code list expects, the version of the loaded table and the versions the
+  imported codes name (each code of a value set names the version of its code system it comes from, so one code system may show several);
+  a loaded table older than the newest of them is marked, with the number of codes of a newer version, since those may be missing from
+  the pick lists. Where the program cannot compare the two versions, both are shown and nothing is marked. A
   value-set code counts for the pick lists and the measures only when its code system's table is loaded; this program does not download
   them, so load each table directly (CPT with the import above).
 - **Until a later version moves them to the 2027 value sets,** some EHR pick lists stay empty after the import, because they still name

@@ -9,22 +9,149 @@ On branch `ehr/ehr6a-1` from `main` `b8e931cea` (S4-1, MSTest 4, merged). The ow
 recommended). No schema change, no new `PrefName`, no project file edited (the business project globs the new `Db Multi Table/Cqm` folder),
 no package or third-party file added, no download, no code of any code system anywhere in the repository. Synthetic data only.
 
-### 0. Merge gate: E-20's record (not done here)
+### 0. E-20's record of the 2026-05-14 files (2026-11-16)
 
-**This package merges only after E-20's record exists** (the plan, sections 7.1 and 12, E-20): someone with a UMLS licence opens the three
-files of the 2026-05-14 release once and records here what the readers need. That needs a UMLS sign-in, which this package does not have and
-may not use. So the readers are built from the plan's section 7 and VSAC's public descriptions, tested with synthetic `TEST` files only, and
-**every header name below is provisional**.
+**The record** (the plan, sections 7.1 and 12, E-20). The owner downloaded the release on 2026-11-16 from VSAC's Downloadable Resources
+with the office's own UMLS licence; the lead copied the five files into a folder outside the repository. They were read there only, with
+`python -I` (the standard library's `zipfile` and `xml.etree`, the sheets streamed) and with the program's own importer (section 14). This
+section holds the layout only: names, sizes, sheets, headers, row positions, how cells are stored, the code systems' names, OIDs and
+version strings, counts. No code, description, value-set row or file of the release is in the repository, in a commit message, in a test
+fixture or in a log that is committed.
 
-| To record from the real files | What the readers do now (provisional) | If the record differs |
+**The files.** Each is a `.zip` holding one `.xlsx` of the same name without `.zip` (not three files in one `.zip`, and no SVS file).
+
+| File | Size | SHA-256 | Inside | Sheets | Sheets uncompressed |
+|---|---|---|---|---|---|
+| `ec_hospip_hospop_cms_20260514.xlsx.zip` (value sets sorted by CMS ID) | 17,457,241 | `0d7b181e5c449f5d77323fc41fec48338601a8ef995dee46d153897672cf862b` | `ec_hospip_hospop_cms_20260514.xlsx`, 20,857,597 bytes | 73 | 355,706,131 bytes (all parts 357,721,535) |
+| `ec_hospip_hospop_category_20260514.xlsx.zip` (by QDM category) | 16,313,389 | `533539f8b939cb6ff5bab6097df3aeea7eff39aee973a93d890a0d29dab86e8a` | `.xlsx`, 18,288,723 bytes | 17 | 343,371,344 bytes |
+| `ec_hospip_hospop_unique_vs_20260514.xlsx.zip` (unique value sets) | 8,753,314 | `52c0a478ae0f806d0e56b63c8af14a26de6cabd4b5f509a9db62a8aea78912cb` | `.xlsx`, 9,541,858 bytes | 1 | 184,839,681 bytes |
+| `drc_cms_20260514.xlsx.zip` (Direct Reference Codes) | 71,869 | `11662824e096b83ba926bb54b0652fbb93cca41882ae1cb944556da4ca6912ec` | `drc_cms_20260514.xlsx`, 72,967 bytes | 1 | 461,862 bytes (all parts 499,043) |
+| `cs_versions_cms_20260514.xlsx.zip` (Code System Versions) | 30,083 | `d17b6ff2c08c729e541f892d78adaf5e4ac5a3456096b8ac7076326c2408b555` | `cs_versions_cms_20260514.xlsx`, 30,964 bytes | 1 | 10,000 bytes (all parts 46,994) |
+
+The release is VSAC's combined "EC, HOSPIP and HOSPOP" release: the eligible clinicians' measures with the hospital inpatient and outpatient
+ones (73 measures in the by-CMS workbook, 64 in the Direct Reference Codes file). **The office picks three files:** the by-CMS workbook, the
+Direct Reference Codes file and the Code System Versions file. **The other two sortings are not needed:** they hold the same value sets in
+another order, and the importer refuses them (a sheet of each is past the 64 MB part limit, and the refusal names the by-CMS workbook).
+
+**How the cells are stored (all five).** Every text cell is an inline string (`t="inlineStr"`, `<is><t>`): 4,048,794 in the by-CMS
+workbook, 6,319 in the Direct Reference Codes file, 126 in the Code System Versions file. Each sheet's cell A1 is an empty styled cell (row 1
+holds nothing else). Each workbook has a `xl/sharedStrings.xml` part that holds no string (137 bytes in the by-CMS workbook). Cells are placed by
+their reference. The by-CMS workbook also has a drawing and a 25,284-byte JPEG image per sheet, which the importer does not read.
+
+**The value sets sorted by CMS ID** (`ec_hospip_hospop_cms_20260514.xlsx`):
+
+- 73 sheets, one per measure, named by the measure's CMS ID and version (`CMS<number>v<version>`, for example `CMS68v16`); the CMS ID cell
+  of every row is its sheet's name. All seven of the catalog's measures are there, at their 2027 versions.
+- Row 1 empty; **the header on row 2**, 18 columns: `CMS ID`, `Program Candidate`, `CBE Number`, `Value Set Name`, `Value Set OID`,
+  `QDM Category`, `Definition Version`, `Expansion Version`, `Purpose: Clinical Focus`, `Purpose: Data Element Scope`, `Purpose: Inclusion
+  Criteria`, `Purpose: Exclusion Criteria`, `Code`, `Description`, `Code System`, `Code System OID`, `Code System Version`, `Expansion ID`.
+- 224,860 data rows. A value set used by several measures is listed on each of their sheets (the supplemental data elements on all 73).
+- The sheets uncompressed: 355,706,131 bytes; the smallest 208,422 (`CMS1056v4`), the largest 33,097,217 (`CMS1061v1`). The seven:
+
+| Sheet | Bytes | Rows | Value sets |
+|---|---|---|---|
+| `CMS68v16` | 607,196 | 382 | 6 |
+| `CMS69v15` | 3,831,775 | 2,611 | 22 |
+| `CMS74v16` | 294,017 | 190 | 10 |
+| `CMS75v15` | 404,854 | 267 | 10 |
+| `CMS138v15` | 919,527 | 581 | 32 |
+| `CMS155v15` | 3,452,168 | 2,357 | 21 |
+| `CMS165v15` | 8,472,392 | 5,036 | 31 |
+
+- The versions: `Expansion Version` is `eCQM Update 2026-05-14` and `Expansion ID` `20260514` on every row; `Definition Version` is an
+  eight-digit number of the value set's own definition, which differs from one value set to the next. **The value set's version the
+  importer records is the Expansion Version** (the Expansion ID only in a file without it, the Definition Version only in a file with
+  neither, as EHR-2 read the June 2013 workbook).
+- `QDM Category`: one category, or several joined by commas (for example `Assessment,Intervention`), or empty (60,049 rows).
+- The code systems (name, OID, the `Code System Version` the rows name, rows):
+
+| Code System | Code System OID | Versions (rows) |
 |---|---|---|
-| The three files' names and formats (`.xlsx`, `.xml`, `.csv`, one file or a `.zip`) | The value sets: `.xlsx`, SVS `.xml` or a `.zip` of them (EHR-2's readers). The Direct Reference Codes and Code System Versions files: `.xlsx` (or a `.zip` holding one). A `.csv` is not read | A CSV reader for the two companions |
-| Whether VSAC gives the three as separate files (the plan's reading) or one `.zip` of all three | Three files, picked together. One `.zip` holding the three is read as one file whose parts are of three kinds, and refused ("more than one of the release's three files") | `MakePick` takes the parts of one `.zip` as the three |
-| Each file's sheets, the rows above the header, the header names exactly | The kind of each sheet is its header row (`EhrValueSetImport.GetSheetKind`): a Value Set OID (or a value-set name or QDM category beside a code) is the value sets; a Code without a value set is the Direct Reference Codes file; a code system and a version without a code is the Code System Versions file. Headers compared without white space and case: CMS ID (also CMS IDs, Measure ID(s), eMeasure ID, Measure); Value Set Name; Value Set OID (also OID); QDM Category (also Category); Code (also Code Value, Direct Reference Code); Description (also Descriptor, Code Description, Display Name, Code Display Name, Display, Code Name); Code System (also Code System Name); Code System OID; Code System Version; Expansion Version (also Definition Version, Value Set Version, Version: the value set's version, or in the Code System Versions file the code system's) | `_dictHeaders` and `GetSheetKind` in `EhrCodes.cs`; the fixtures' `ArrayHeadersDefault`, `ArrayHeadersDirectCodes`, `ArrayHeadersCodeSystemVersions` |
-| How the Direct Reference Codes file names a measure (CMS68v16, CMS68 or another form) and the display of each code | One row per measure, code system and code; the measure as `ParseMeasureIds` reads it (CMS68v16 or 68v16); the role's LOINC display name compared with the Description column, without case and with white space collapsed | `ResolveDirectCodes` |
-| The version string of each code system in the Code System Versions file, and the program's own `codesystem.VersionCur` values | The mapping of section 4 below | `GetComparableVersion` |
-| The sizes of each file and each workbook sheet uncompressed | EHR-2's limits unchanged (64 MB per file and part, 256 MB in all, 1,000,000 rows); every value set of the file is still imported | E-30: past 64 MB a sheet, keep only the manifest's value sets |
-| The expansion profile or version the files name | Reported ("Value-set versions in the file"); the release label is `CqmCatalog.RELEASE_LABEL` | The label may add it |
+| SNOMEDCT | 2.16.840.1.113883.6.96 | 2025-09 (93,026), 2025-03 (128), 2024-09 (269), 2024-03 (487), 2023-09 (84), 2023-03 (795), 2022-09 (395), 2022-03 (175), 2021-09 (46), 2021-03 (42), 2020-09 (96), 2020-03 (20), 2019-09 (12), 2019-03 (5), 2018-09 (32), 2018-03 (87), 2017-09 (5), 2017-03 (1), 2016-09 (1), 2015-09 (3), 2012-07 (1) |
+| ICD10CM | 2.16.840.1.113883.6.90 | 2026 (74,828) |
+| ICD10PCS | 2.16.840.1.113883.6.4 | 2026 (26,022) |
+| SOPT | 2.16.840.1.113883.3.221.5 | 9.2 (9,175) |
+| LOINC | 2.16.840.1.113883.6.1 | 2.81 (7,263) |
+| RXNORM | 2.16.840.1.113883.6.88 | 2026-01 (7,053) |
+| CPT | 2.16.840.1.113883.6.12 | 2026 (2,960), 2024 (75), 2021 (1), 2020 (1), 2006 (2) |
+| HCPCS Level II | 2.16.840.1.113883.6.285 | 2026 (948), 2025 (30), 2024 (16) |
+| CDCREC | 2.16.840.1.113883.6.238 | 1.3 (584) |
+| HSLOC | 2.16.840.1.113883.6.259 | 2022 (76) |
+| CVX | 2.16.840.1.113883.12.292 | 2025-11-19 (54) |
+| CDT | 2.16.840.1.113883.6.13 | 2025 (35) |
+| PresentOnAdmission | 2.16.840.1.113883.6.301.11 | 2021 (23) |
+| RoleCode | 2.16.840.1.113883.5.111 | 3.0.0 (4) |
+
+  So one code system has several versions in one release: each row names the version its own code comes from, an older one for a code
+  that is no longer in the newest.
+
+**The two other sortings** (not picked): `ec_hospip_hospop_category_20260514.xlsx`, 17 sheets named by QDM category (`Adverse Event`,
+`Allergy-Intolerance`, `Assessment`, `Communication`, `Condition-Diagnosis-Problem`, `Device`, `Diagnostic Study`, `Encounter`,
+`Immunization`, `Individual Characteristic`, `Intervention`, `Laboratory Test`, `Medication`, `Physical Exam`, `Procedure`, `Symptom`, `No
+QDM Category Assigned`), row 1 empty, the header on row 2 with the 18 columns less `QDM Category` (17), the largest sheet
+`Condition-Diagnosis-Problem` 138,102,070 bytes; `ec_hospip_hospop_unique_vs_20260514.xlsx`, one sheet `EC, HOSPIP and HOSPOP` of
+184,839,681 bytes, row 1 empty, the header on row 2 with 14 columns (`Value Set Name`, `Value Set OID`, `Definition Version`, `Expansion
+Version`, the four Purpose columns, `Code`, `Description`, `Code System`, `Code System OID`, `Code System Version`, `Expansion ID`: no
+measure and no QDM category).
+
+**The Direct Reference Codes file** (`drc_cms_20260514.xlsx`): one sheet `drc-2026-05-14`, 488 rows. Row 1 empty; row 2 an explanatory
+paragraph in one cell; **the header on row 3**, 13 columns: `Code`, `Description`, `Code System`, `Code System Version`, `Code System OID`,
+`eCQM Type`, `eCQM Title`, `eCQM ID`, `CBE Number`, `eCQM Version`, `Measure GUID`, `Care Setting`, `Prior Value Set OID`. 485 data rows, one
+per measure and code.
+
+- **The measure is `eCQM ID`**, with its version (`CMS68v16`); `eCQM Version` repeats the version alone (`16`). 64 measures. `eCQM Type`
+  Eligible Clinicians (386 rows), Hospital Inpatient (63), Hospital Outpatient (36); `Care Setting` Ambulatory (422), Acute (63); `CBE
+  Number` "Not Applicable" or a number; `Prior Value Set OID` filled on every row.
+- The catalog's seven, 40 rows: CMS68v16 1 (SNOMEDCT_US 1), CMS69v15 7 (SNOMEDCT_US 3, LOINC 3, ActCode 1), CMS74v16 4 (SNOMEDCT_US 3,
+  LOINC 1), CMS75v15 4 (the same), CMS138v15 9 (SNOMEDCT_US 3, LOINC 1, CPT 4, ICD10CM 1), CMS155v15 4 (SNOMEDCT_US 3, LOINC 1), CMS165v15 11
+  (SNOMEDCT_US 4, LOINC 6, ICD10CM 1). The other 445 rows are the other measures'.
+- The code systems (name, OID, version, rows): **SNOMEDCT_US** 2.16.840.1.113883.6.96 2025-09 (210), LOINC 2.16.840.1.113883.6.1 2.81
+  (210), CPT 2.16.840.1.113883.6.12 2026 (21), RXNORM 2.16.840.1.113883.6.88 2026-01 (18), ICD10CM 2.16.840.1.113883.6.90 2026 (13), ActCode
+  2.16.840.1.113883.5.4 9.0.0 (6), HSLOC 2.16.840.1.113883.6.259 2022 (2), HCPCS 2.16.840.1.113883.6.285 2026 (2), CVX
+  2.16.840.1.113883.12.292 2025-11-19 (1), CDCREC 2.16.840.1.113883.6.238 1.3 (1), ICD10PCS 2.16.840.1.113883.6.4 2026 (1). So SNOMED CT is
+  `SNOMEDCT_US` here and `SNOMEDCT` in the two other files, and HCPCS is `HCPCS` here and in the Code System Versions file but `HCPCS Level
+  II` in the value sets.
+
+**The Code System Versions file** (`cs_versions_cms_20260514.xlsx`): one sheet `Code System Versions`, 45 rows. Row 1 empty; row 2 a title
+in one cell; row 3 empty; row 4 `Publication Date`, `May 14, 2026`; **the header on row 5**, 3 columns: `Code System Name`, `Code System
+Version`, `Code System OID`. 40 rows, one per code system and version, the versions the release's value sets use:
+
+| Code System Name | Code System OID | Code System Version |
+|---|---|---|
+| CDCREC | 2.16.840.1.113883.6.238 | 1.3 |
+| CDT | 2.16.840.1.113883.6.13 | 2025 |
+| CPT | 2.16.840.1.113883.6.12 | 2006, 2020, 2021, 2024, 2026 |
+| CVX | 2.16.840.1.113883.12.292 | 2025-11-19 |
+| HCPCS | 2.16.840.1.113883.6.285 | 2024, 2025, 2026 |
+| HSLOC | 2.16.840.1.113883.6.259 | 2022 |
+| ICD10CM | 2.16.840.1.113883.6.90 | 2026 |
+| ICD10PCS | 2.16.840.1.113883.6.4 | 2026 |
+| LOINC | 2.16.840.1.113883.6.1 | 2.81 |
+| PresentOnAdmission | 2.16.840.1.113883.6.301.11 | 2021 |
+| RXNORM | 2.16.840.1.113883.6.88 | 2026-01 |
+| RoleCode | 2.16.840.1.113883.5.111 | 3.0.0 |
+| SNOMEDCT | 2.16.840.1.113883.6.96 | 2012-07, 2015-09, 2016-09, 2017-03, 2017-09, 2018-03, 2018-09, 2019-03, 2019-09, 2020-03, 2020-09, 2021-03, 2021-09, 2022-03, 2022-09, 2023-03, 2023-09, 2024-03, 2024-09, 2025-03, 2025-09 |
+| SOPT | 2.16.840.1.113883.3.221.5 | 9.2 |
+
+Every version the value-set rows name is in this list, and so is every version the Direct Reference Codes file names but ActCode
+9.0.0 (the list is that of the value sets).
+
+**What each reader does now** (EHR-6a's provisional table, fixed to the record; the changes are section 14):
+
+| The record | The reader (`EhrCodes.cs`) |
+|---|---|
+| Three `.zip` files of one `.xlsx` each | EHR-2's `.zip` reader opens the `.xlsx` inside (in memory, within the 64 MB part limit) and reads its sheets; a pick of these three names is accepted (`Record_ThePickOfTheThreeFilesByTheirNames_IsAccepted_SevenOfSeven`) |
+| The headers on rows 2, 3 and 5, below empty, title, paragraph and date rows | The header search of the first 30 rows (`ReadSheet`): a row above the header names no column and is not read as a row |
+| The by-CMS header | `_dictHeaders`: CMS ID, Value Set Name, Value Set OID, QDM Category, Code, Description, Code System, Code System OID, Code System Version read; Expansion Version, Expansion ID and Definition Version are three fields (the value set's version from the first that a file has); the other columns not read. `GetSheetKind`: Value Set OID, so value sets |
+| The Direct Reference Codes header | `eCQM ID` names the measure (`eCQM Version` joined to an ID without a version); `GetSheetKind`: a Code without a value set; required eCQM ID (or CMS ID), Code, Code System (or its OID) |
+| The Code System Versions header | Code System Name, Code System Version, Code System OID (`GetSheetKind`: a code system and a version without a code); EHR-6a's column Version still read |
+| Inline strings, an empty shared-strings part | EHR-2's cell reader reads inline strings and works without the part (`Record_AWorkbookOfInlineStrings_WithoutASharedStringsPart_IsRead`) |
+| 73 measures' value sets, 377 MB to read | E-30: only the manifest's value sets are kept as the sheets stream (the others counted); the total limit 1,024 MB (section 14) |
+| 64 measures' direct reference codes | `FinishDirectCodes` keeps only the catalog's seven at their 2027 versions (the others counted); `ResolveDirectCodes` resolves the eight roles from them |
+| SNOMEDCT_US, HCPCS Level II, SOPT | `GetCodeSystemName`: by the OID first (every row of the record has one), else by name: SNOMEDCT, HCPCS, SOP |
+| Several versions of one code system, each row naming its own | The versions the imported codes name are counted per code system (`ListCodeSystemVersionsUsed`, in the release record); the status grid flags a loaded table older only where codes name a newer version than it (`CountCodesNewerThanLoaded`); a value-set version the Code System Versions file does not list warns |
+| Version formats: dates `yyyy-MM` (SNOMEDCT, RXNORM) and `yyyy-MM-dd` (CVX), `2.81` (LOINC), years (CPT, HCPCS, ICD10CM, ICD10PCS, CDT, HSLOC), others (`1.3`, `9.2`, `9.0.0`, `3.0.0`) | `GetComparableVersion` as in section 4: dates, LOINC's release number, the year for ICD10CM, CPT and HCPCS; none for the others (both strings shown, nothing flagged) |
+| Expansion Version `eCQM Update 2026-05-14` | Reported ("Value-set versions in the file"); the release label stays `CqmCatalog.RELEASE_LABEL` |
 
 Nothing from the files enters the repository. EHR-2's own step 5 (the June 2013 record) is no longer needed (EHR-2's owner question 1 is
 superseded by E-20).
@@ -174,14 +301,17 @@ the improvement notation, each population and stratum with its ID and define, an
   number of direct reference codes, and the Direct Reference Codes file's own measure check (`MeasureCheckDirectCodes`, section 13). A record
   written by EHR-2 still reads (the new lists are empty), and the window says it is the old release (section 13). The Setup security log entry names
   the release, the three files with their SHA-256, the counts, the measure check, the roles resolved and the versions recorded; no code.
-- **Sizes (E-30):** unchanged until E-20's record; every value set of the file is still imported (EHR-2's choice).
+- **Sizes (E-30):** decided from E-20's record (section 14): only the manifest's value sets are kept as the file is read (a change from
+  EHR-2's "every value set is imported"), and the total of a file's uncompressed parts is 1,024 MB (from 256 MB); the part limit stays 64 MB.
 
 ### 4. The Code System Versions file and the status grid (section 7.4)
 
 `EhrCodes.GetCodeSystemStatuses` adds, per code system, the loaded table's version (`codesystem.VersionCur`, through
-`CodeSystems.GetForCurrentVersion`) and the release's (all versions it names, ", " between), and flags a loaded table older than the release.
-`EhrValueSetImport.CompareCodeSystemVersions` maps each code system's two formats to a comparable value; **provisional** until E-20's record
-and the offices' own `VersionCur` values:
+`CodeSystems.GetForCurrentVersion`) and the versions the imported codes name (since EHR-6a-R, section 14: newest first, at most three; for an
+older record the Code System Versions file's), and flags a loaded table older where imported codes name a newer version than it
+(`CountCodesNewerThanLoaded`, with their count). `EhrValueSetImport.GetComparableVersion` maps each code system's formats to a comparable
+value, checked against E-20's record (section 0: SNOMEDCT and RXNORM `yyyy-MM`, CVX `yyyy-MM-dd`, LOINC `2.81`, CPT, HCPCS and ICD10CM a
+year) and the program's own `VersionCur` values (its loaders write one only for CPT, a year):
 
 | Code system | Comparable value |
 |---|---|
@@ -190,10 +320,12 @@ and the offices' own `VersionCur` values:
 | ICD10CM, CPT, HCPCS | the year |
 | any other (CDCREC, SOP, CDT, ...) | none: both strings are shown, nothing is flagged |
 
-The release may name several versions of one code system: the newest counts. Value-Set Codes counts the value-set rows only; the direct
+E-20's record shows several versions of one code system in one release (SNOMEDCT from 2012-07 to 2025-09, CPT from 2006 to 2026), each
+row naming its own code's version: a table is older for the program only by the codes that name a newer version than it, not by the
+newest version the release lists (`CompareCodeSystemVersions`, which compares two strings with the newest counting, stays for that). Value-Set Codes counts the value-set rows only; the direct
 reference codes (the `drc:` rows) are counted apart, in Direct Codes (section 13). The window (`FormCodeSystemsImport`) gains the columns
 Direct Codes, Loaded Version and In the Release, and the status "Loaded, but older than the release's version: codes of the newer value sets are missing from the
-pick lists".
+pick lists" (since EHR-6a-R with the number of codes of a newer version).
 
 ### 5. The window
 
@@ -220,7 +352,9 @@ unchanged. The embedded copy follows the file (`Resources.resx` links it). **For
   (`.600.1.1498`, `.1499`, `.109.12.1016`, `.1015`), the not-performed window's BMI exam, influenza and current-medications codes and its
   reasons other than "Medical Reason" (`.600.1.681`, `.526.3.402`, `.1254`, `.600.1.462`, `.526.3.1008`, `.1009`, `.600.1.1502`, `.1503`,
   `.526.3.1259`), and `DiseaseDefs.GetAllPregDiseaseDefs`, which takes the codes in both `.600.1.1623` and `.526.3.378` and so finds none. The
-  tobacco, counseling and BMI follow-up lists keep working (their OIDs are 2027 value sets). The release notes say so.
+  tobacco, counseling and BMI follow-up lists keep working (their OIDs are 2027 value sets). The release notes say so. Since EHR-6a-R only
+  the catalog's value sets are kept (E-30), so the two of these the 2026-05-14 release does hold, under other measures (`.526.3.1008`,
+  `.526.3.1259`), stay empty too (section 14).
 - **`ValueSetSourceTests`**: the reflection of `QualityMeasures.GetEMeasureNum`/`GetEMeasureVersion` went with the 2014 manifest (the manifest
   is no longer the engine's), here rather than in EHR-6b; the manifest test is now the plan's: every value-set OID literal of the source is in
   `CqmCatalog.cs` and nowhere else, except the allowlist (`QualityMeasures.cs` until EHR-6b; `FormEhrNotPerformedEdit.cs`,
@@ -406,3 +540,110 @@ diff --ignore-cr-at-eol ehr/ehr6a-4` is empty); `core.autocrlf` is true here and
 deletions (the release record's lines re-indented inside the new try block). No other file of the round changed its line ends. Full build
 through the lane: 0 errors. Targeted run `ehr6a-5-crlf.txt`: EhrTests 240 (239 passed, 1 skipped as in section 10), AttributionTests 50,
 MiddleTierMockTests 125, NoHqTests 57, all passed.
+
+### 14. EHR-6a-R: the readers fixed to E-20's record (`ehr/ehr6a-r-1`)
+
+On branch `ehr/ehr6a-r-1` from `ehr/ehr6a-5`, with `main` merged in first (12a7ab125: stage 3a, the tooth chart work, EHR-6b, EHR-4b; the
+three conflicts, the release notes' EHR line, the plan's status and `ValueSetSourceTests`, resolved as the EHR-7 step 0 merge b0fec2645
+did, keeping both sides). No schema change, no project file, no package, no download; synthetic data only in the repository.
+
+**The readers** (`OpenPmsDentalBusiness/Data Interface/EhrCodes.cs`), each from the record of section 0:
+
+- **The headers** (`_dictHeaders`). `eCQM ID` (also `eCQM IDs`) fills the measure, besides CMS ID; `eCQM Version` is its own field, joined
+  to an ID without a version (`CMS68` and `16` give CMS68v16; an ID with a version keeps it). `Expansion Version`, `Expansion ID` and
+  `Definition Version` are three fields, so the two versions of one row never collide in the header map (EHR-6a mapped both to one field,
+  and the first column, Definition Version, won). **The choice:** the value set's version is the Expansion Version; the Expansion ID only in
+  a file without it; the Definition Version only in a file with neither (EHR-2's reading of the June 2013 workbook, kept). The report says
+  "Value-set versions in the file: eCQM Update 2026-05-14". The Direct Reference Codes refusal for a header without the measure names
+  "eCQM ID (or CMS ID)". The header search (30 rows) already found rows 3 and 5; the tests now hold it there.
+- **The code systems' names** (`GetCodeSystemName`): `SNOMEDCT_US`, `HCPCS Level II` and `SOPT` (also `SNOMEDCT-US`, `SNOMED-CT`) are the
+  code list's SNOMEDCT, HCPCS and SOP where a row has no OID; the OID still decides first, and every row of the record has one.
+- **Inline strings**: EHR-2's cell reader already read them (`t="inlineStr"`) and needs no shared-strings part; a test now holds a
+  workbook without the part.
+- **E-30 (the lead's decision under the owner's answer).** No sheet of the by-CMS workbook passes the 64 MB part limit (the largest
+  33.1 MB), but the workbook reads about 377 MB (355.7 MB of sheets and the 20.9 MB `.xlsx` inside the `.zip`), over EHR-2's 256 MB total.
+  So: (1) the importer **keeps only the manifest's value sets** as it streams (`AddRawRow`: a row of another value set is counted,
+  `CountRowsOtherValueSets`, and its OID kept in a set, `CountOtherValueSets`; the measures every row names still go to the version check);
+  the SVS reader the same; (2) **`MAX_TOTAL_BYTES` is 1,024 MB** (from 256 MB): room for the release to grow nearly threefold. The memory
+  stays small because the total does not decide it: every part is read forward one row at a time; the one part held whole is the `.xlsx`
+  inside the `.zip` (20.9 MB, within the unchanged 64 MB part limit, `MAX_FILE_BYTES`); and what is kept is the catalog's 68 value sets,
+  whatever the size of the rest. The total only bounds how long a file made to inflate without end is read before it is refused. The
+  per-part limit, `MAX_ROWS` (1,000,000 rows read, the whole pick 225,385) and `MAX_COLUMNS` are unchanged. A part past the limit names the
+  workbook to pick: "Of VSAC's value-set workbooks, pick the one sorted by CMS ID (one sheet per measure)."
+- **The direct reference codes** (`FinishDirectCodes`): only the rows of the catalog's seven at their 2027 versions are kept (the file
+  lists 64 measures' rows, hospital ones among them); the others are counted (`CountRowsOtherMeasures`, "rows of other measures or versions
+  (not imported)"), and the measure check still sees every measure (a CMS74v15 row warns). The check runs before the "no codes" refusal,
+  so a file of another release is refused naming the release this program needs. `ResolveDirectCodes` is unchanged: its roles take the
+  kept rows.
+- **The code-system versions** (section 4, rewritten): each value-set row and each direct reference code names its code's version, so the
+  kept codes are counted per code system and version (`EhrValueSetFile.ListCodeSystemVersionsUsed`, `EhrCodeSystemVersion.CountCodes`, the
+  pick's sum, and the release record's new `ListCodeSystemVersionsUsed`; the report's line "Code-system versions the codes to import
+  name"). A version the value sets name that the Code System Versions file does not list warns that the files may be of different
+  releases (`CheckCodeSystemVersionsListed`; the direct reference codes are not checked so, as the record shows ActCode 9.0.0 outside the
+  list). The SVS reader reads `codeSystemVersion` too.
+- **The status grid** (`GetCodeSystemStatuses`): In the Release shows the versions the imported codes name, newest first, at most three
+  ("2025-09, 2025-03, 2024-09 and 2 older"); `CountCodesNewerThanLoaded` counts the codes whose row names a newer version than the loaded
+  table, and the table is flagged older only when that count is above 0 and the two versions compare (`CountCodesNewer`; the window says
+  "Loaded, but older than the release's version: 2,992 codes of the value sets are of a newer version and may be missing from the pick
+  lists"). The program can really tell only where both strings map (section 4): this program's own loaders write `VersionCur` only for CPT
+  (a year); a SNOMED CT, LOINC or RxNorm table keeps the string its database had, which is compared only when it is a date or a release
+  number. A CPT table of 2025 against the record's CPT 2026 (331 codes) and 2024 (3) is older by 331 codes; the 2006 version CPT also has
+  in the list never flags a 2025 table. A record written before EHR-6a-R (no list of used versions) shows the Code System Versions file's
+  versions and is not compared.
+- **The window** (`FormCodeSystemsImport`): the licence prompt asks for the value sets sorted by CMS ID ("the Excel workbook, as VSAC gives
+  it in a .zip, or the SVS XML") with the two other files, and says the two other sortings are not needed; the older-table status gives
+  the count. The release label stays `CqmCatalog.RELEASE_LABEL` (the 2027 performance period, published 2026-05-14).
+
+**For EHR-7.** Of the 14 OIDs the data-entry windows and `DiseaseDefs` still name outside the catalog (section 7), 12 are nowhere in the
+2026-05-14 release; two are, under other measures: `2.16.840.1.113883.3.526.3.1008` (108 rows) and `.526.3.1259` (6 rows). With E-30 their
+rows are not kept, so those lists stay empty until EHR-7 moves the windows to the catalog, as for the other twelve.
+`ValueSetDbTests.Pregnancy_...` now holds that the 2014 diagnosis set (`.600.1.1623`, not in the release) is not kept.
+
+**The local check (C)**, never committed: the x86 lane build, then `RealReleaseTests.RealRelease_TheOfficesThreeFiles_ImportSevenOfSeven_WhenTheFolderIsSet`
+with `EHR_VSAC_RELEASE_DIR` naming the folder of the owner's files, in the Targeted EhrTests run (`testhost.x86`, a 32-bit process). It
+reads the three files as the window does (`ParsePick`, FileStreams) and imports them through `Import` into its own scratch database
+(`ehr6ar_` plus the run's id, built from `db/init/new-database.sql` and the fork migrations as `Support/ReleaseDb.cs` does, dropped after
+the test; none was left on the server). Without the variable it is inconclusive. Its output, counts only:
+
+| | Result |
+|---|---|
+| The pick | not refused; no pick warning; the value-set file, the Direct Reference Codes file and the Code System Versions file read as their kinds (74, 2 and 2 parts read, none skipped) |
+| Rows read | value sets 224,860; Direct Reference Codes 485; Code System Versions 40 |
+| Measure check | value sets: **7 of 7 measures at the 2027 versions** (73 measures in the file); Direct Reference Codes: 7 of 7 (445 rows of other measures not imported) |
+| Value sets kept | **68 of 68** of the catalog, 6,225 codes (36,630 repeated rows merged; 595 other value sets with 182,005 rows not kept; none too long) |
+| CMS68v16 | value sets 6 of 6, 382 codes; direct codes 1 (Cms68MedsDocumented 1) |
+| CMS69v15 | value sets 22 of 22, 2,611 codes; direct codes 7 (Cms69Bmi 1, Cms69Virtual 1, listed 5) |
+| CMS74v16 | value sets 10 of 10, 190 codes; direct codes 4 (listed 4) |
+| CMS75v15 | value sets 10 of 10, 267 codes; direct codes 4 (listed 4) |
+| CMS138v15 | value sets 32 of 32, 581 codes; direct codes 9 (Cms138QualifyingVisitCpt 4, Cms138CounselingDx 1, listed 4) |
+| CMS155v15 | value sets 21 of 21, 2,357 codes; direct codes 4 (listed 4) |
+| CMS165v15 | value sets 31 of 31, 5,036 codes; direct codes 11 (Cms165Systolic 1, Cms165Diastolic 1, Cms165KidneyTransplantDx 1, listed 8) |
+| Roles | **8 of 8 resolved**, each with the number it takes (the three LOINC ones by their display names, E-23) |
+| Versions the codes name | CDCREC 1.3 (8); SNOMEDCT 2025-09 (2,992), 2025-03 (6), 2024-09 (5), 2024-03 (1), 2018-03 (2); SOP 9.2 (125); CPT 2026 (331), 2024 (3); HCPCS 2026 (88), 2025 (1), 2024 (1); ICD10CM 2026 (2,518); CDT 2025 (18); RXNORM 2026-01 (125); LOINC 2.81 (34); ICD10PCS 2026 (6); ActCode 9.0.0 (1) |
+| Version check | every version of the value sets listed in the Code System Versions file (no warning). With made-up loaded versions in the scratch database: CPT `2025` compared, 331 codes newer; SNOMEDCT `2025-03-01` compared, 2,992 newer, In the Release "2025-09, 2025-03, 2024-09 and 2 older"; LOINC `2.81` compared, 0 newer; CDCREC, CDT, HCPCS, ICD10CM, RXNORM, SOP not compared (nothing loaded), ActCode and ICD10PCS without a table |
+| Report notes | "Value-set versions in the file: eCQM Update 2026-05-14"; no warning in any file |
+| The two other sortings | each refused alone by the part limit (the category workbook's sheet 5, the unique workbook's sheet 1), naming the by-CMS workbook |
+| Time | read and checked 6.2 s and 6.8 s (two runs), import 0.47 s and 0.49 s |
+| Memory (second run) | managed heap 16 MB before, peak 76 MB while reading and importing (the `.xlsx` copy and garbage not yet collected), 20 MB after with the pick held; private bytes 94 MB before, peak 144 MB |
+
+**Tests** (`tests/EhrTests`; no project file changed, so no ProjectFileTests):
+
+- `Support/ValueSetFixtures.cs`: `ArrayHeadersDefault` (the by-CMS workbook's 18 columns), `ArrayHeadersDirectCodes` (13) and
+  `ArrayHeadersCodeSystemVersions` (3) as recorded, EHR-6a's provisional one kept as `ArrayHeadersCodeSystemVersionsProvisional`; the rows
+  above each header (row 1 empty, the paragraph, the title and the publication date: made up); `MakeByCmsWorkbook` (a sheet per measure,
+  named by its CMS ID, each row under one measure); inline strings; `ZipAsVsacGivesIt`; `MakeRelease`'s three files in `.zip`s named
+  `..._TEST.xlsx.zip`; made-up `CMS9001v1` and `CMS9002v4` rows in the Direct Reference Codes file (one under `SNOMEDCT_US`), not imported;
+  the made-up code-system version of each code system on the value-set and direct-code rows (and in SVS); a Definition Version and an
+  Expansion ID of their own; `MakeWorkbook(false,...)` without a shared-strings part. Every code is still a made-up TEST code.
+- New in `DirectCodeTests`: `Record_ThePickOfTheThreeFilesByTheirNames_IsAccepted_SevenOfSeven` (the three names of the record),
+  `Record_TheHeaderRows_AreFoundBelowTheRowsAboveThem`, `Record_TheValueSetsVersion_IsTheExpansionVersion_NeverTheDefinitionVersion`,
+  `Record_CodeSystemNames_MapAcrossTheFilesTwoForms`, `Record_TheDirectCodesMeasure_IsItsEcqmId_WithTheEcqmVersionWhereTheIdHasNone`,
+  `Record_AWorkbookOfInlineStrings_WithoutASharedStringsPart_IsRead`, `Record_AVersionTheValueSetsName_ThatTheCodeSystemVersionsFileDoesNotList_Warns`,
+  `CountCodesNewerThanLoaded_CountsTheCodesOfNewerVersions_WhereTheProgramCanTell`; in `ValueSetParseTests`
+  `Zip_PartsOver256MbTogether_AreRead_WithinTheTotalOfE30`; `RealReleaseTests` (the local check).
+- Changed: the counts of the direct codes (the other measures' rows), the version check (`Status_ALoadedTableOlderThanTheRelease_...`: a
+  SNOMED CT code of 2024-03 beside those of 2025-09, the count of newer codes, a table as new as the newest), the value sets of other
+  measures counted and not kept (`Svs_WithoutGroups_...`, `Workbook_AValueSetListedUnder64Measures_...`, `CodeSystems_WithoutATable_...`,
+  `IsInDb_...`, `Pregnancy_...`, `LoadTime_...` with 66,000 rows read and 60,000 kept), the total limit at 1,024 MB
+  (`Zip_PartsThatTogetherInflatePastTheTotalLimit_...` with 17 parts of 62 MB, `Limits_AreWhatA32BitProcessHolds`), the part-limit refusal's
+  hint.
