@@ -5,6 +5,7 @@ using System.Windows.Forms;
 using OpenPmsDentalBusiness;
 using OpenPmsDental.UI;
 using System.Linq;
+using CodeBase;
 
 namespace OpenPmsDental {
 	public partial class FormClaimProcBlueBookLog:FormODBase {
@@ -45,7 +46,7 @@ namespace OpenPmsDental {
 				row=new GridRow();
 				row.Cells.Add(_listInsBlueBookLogs[i].DateTEntry.ToShortDateString());
 				row.Cells.Add(_listInsBlueBookLogs[i].DateTEntry.ToShortTimeString());
-				row.Cells.Add(_listInsBlueBookLogs[i].AllowedFee.ToString("f"));
+				row.Cells.Add(_listInsBlueBookLogs[i].AllowedFee.ToStringNetFx("f"));
 				row.Cells.Add(_listInsBlueBookLogs[i].Description);
 				row.Tag=_listInsBlueBookLogs[i];
 				gridInsBlueBookLog.ListGridRows.Add(row);

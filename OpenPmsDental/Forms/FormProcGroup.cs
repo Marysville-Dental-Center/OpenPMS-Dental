@@ -276,7 +276,7 @@ namespace OpenPmsDental{
 							row.Cells.Add(Providers.GetAbbr(ListProcedures[i].ProvNum));
 							break;
 						case "Amount":
-							row.Cells.Add(ListProcedures[i].ProcFee.ToString("F"));
+							row.Cells.Add(ListProcedures[i].ProcFee.ToStringNetFx("F"));
 							break;
 						case "Proc Code":
 							row.Cells.Add(ProcedureCodes.GetStringProcCode(ListProcedures[i].CodeNum));

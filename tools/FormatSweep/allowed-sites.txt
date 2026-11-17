@@ -4,4 +4,3 @@
 # every place of the file and category). FormatParityTests' guard fails on a guarded place that is not routed and not listed here, and on a
 # line here that matches nothing.
 CodeBase\Utilities\ODNumberTextNetFx.cs | * | * | The helper itself: it calls .NET's formatter for the exact formats ("R") and for the digits it then formats.
-CodeBase\Utilities\ODNumberText.cs | * | * | The S3a-3 helpers, which call the formatter above.

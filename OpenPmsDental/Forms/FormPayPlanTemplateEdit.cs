@@ -37,15 +37,15 @@ namespace OpenPmsDental {
 			else {
 				comboBoxClinic.ClinicNumSelected=_payPlanTemplate.ClinicNum;
 			}
-			textAPR.Text=_payPlanTemplate.APR.ToString();
+			textAPR.Text=_payPlanTemplate.APR.ToStringNetFx();
 			ToggleInterestDelayFieldsHelper();
 			textInterestDelay.Text=_payPlanTemplate.InterestDelay.ToString();
-			textPeriodPayment.Text=_payPlanTemplate.PayAmt.ToString("f");
+			textPeriodPayment.Text=_payPlanTemplate.PayAmt.ToStringNetFx("f");
 			if(_payPlanTemplate.NumberOfPayments>0) {
 				textPaymentCount.Text=_payPlanTemplate.NumberOfPayments.ToString();
 				textPeriodPayment.Text="";
 			}
-			textDownPayment.Text=_payPlanTemplate.DownPayment.ToString("f");
+			textDownPayment.Text=_payPlanTemplate.DownPayment.ToStringNetFx("f");
 			switch(_payPlanTemplate.ChargeFrequency) {
 				case PayPlanFrequency.Weekly:
 					radioWeekly.Checked=true;

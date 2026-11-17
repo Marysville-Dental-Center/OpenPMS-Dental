@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Windows.Forms;
 using OpenPmsDentalBusiness;
 using System.Linq;
+using CodeBase;
 
 namespace OpenPmsDental{
 	/// <summary></summary>
@@ -96,7 +97,7 @@ namespace OpenPmsDental{
 				textDateDue.Text=LabCaseCur.DateTimeDue.ToShortDateString()+" "+LabCaseCur.DateTimeDue.ToShortTimeString();
 			}
 			textInstructions.Text=LabCaseCur.Instructions;
-			textLabFee.Text=LabCaseCur.LabFee.ToString("n");
+			textLabFee.Text=LabCaseCur.LabFee.ToStringNetFx("n");
 			_sheet=Sheets.GetLabSlip(LabCaseCur.PatNum,LabCaseCur.LabCaseNum);
 			if(_sheet==null) {
 				butSlip.Text=Lan.g(this,"New Slip");

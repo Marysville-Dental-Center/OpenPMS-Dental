@@ -110,7 +110,7 @@ namespace OpenPmsDental {
 			#region Unsent Tab Textbox Filters
 			//text min bal
 			textUnsentMinBal.TextChanged-=textUnsentMinBal_TextChanged;
-			textUnsentMinBal.Text=PrefC.GetDouble(PrefName.ArManagerUnsentMinBal).ToString();
+			textUnsentMinBal.Text=PrefC.GetDouble(PrefName.ArManagerUnsentMinBal).ToStringNetFx();
 			textUnsentMinBal.TextChanged+=textUnsentMinBal_TextChanged;
 			//text days since last payment
 			textUnsentDaysLastPay.TextChanged-=textUnsentDaysLastPay_TextChanged;
@@ -158,7 +158,7 @@ namespace OpenPmsDental {
 			#region Excluded Tab Textbox Filters
 			//text min bal
 			textExcludedMinBal.TextChanged-=textExcludedMinBal_TextChanged;
-			textExcludedMinBal.Text=PrefC.GetDouble(PrefName.ArManagerExcludedMinBal).ToString();
+			textExcludedMinBal.Text=PrefC.GetDouble(PrefName.ArManagerExcludedMinBal).ToStringNetFx();
 			textExcludedMinBal.TextChanged+=textExcludedMinBal_TextChanged;
 			//text days since last payment
 			textExcludedDaysLastPay.TextChanged-=textExcludedDaysLastPay_TextChanged;
@@ -224,7 +224,7 @@ namespace OpenPmsDental {
 			#region Sent Tab Textbox Filters
 			//text min bal
 			textSentMinBal.TextChanged-=textSentMinBal_TextChanged;
-			textSentMinBal.Text=PrefC.GetDouble(PrefName.ArManagerSentMinBal).ToString();
+			textSentMinBal.Text=PrefC.GetDouble(PrefName.ArManagerSentMinBal).ToStringNetFx();
 			textSentMinBal.TextChanged+=textSentMinBal_TextChanged;
 			//text days since last payment
 			textSentDaysLastPay.TextChanged-=textSentDaysLastPay_TextChanged;
@@ -966,28 +966,28 @@ namespace OpenPmsDental {
 							row.Cells.Add(dictBillTypeNames.TryGetValue(patAgeCur.BillingType,out billTypeName)?billTypeName:"");
 							continue;
 						case "0-30 Days":
-							row.Cells.Add(patAgeCur.Bal_0_30.ToString("n"));
+							row.Cells.Add(patAgeCur.Bal_0_30.ToStringNetFx("n"));
 							continue;
 						case "31-60 Days":
-							row.Cells.Add(patAgeCur.Bal_31_60.ToString("n"));
+							row.Cells.Add(patAgeCur.Bal_31_60.ToStringNetFx("n"));
 							continue;
 						case "61-90 Days":
-							row.Cells.Add(patAgeCur.Bal_61_90.ToString("n"));
+							row.Cells.Add(patAgeCur.Bal_61_90.ToStringNetFx("n"));
 							continue;
 						case "> 90 Days":
-							row.Cells.Add(patAgeCur.BalOver90.ToString("n"));
+							row.Cells.Add(patAgeCur.BalOver90.ToStringNetFx("n"));
 							continue;
 						case "Total":
-							row.Cells.Add(patAgeCur.BalTotal.ToString("n"));
+							row.Cells.Add(patAgeCur.BalTotal.ToStringNetFx("n"));
 							continue;
 						case "-Ins Est":
-							row.Cells.Add(patAgeCur.InsEst.ToString("n"));
+							row.Cells.Add(patAgeCur.InsEst.ToStringNetFx("n"));
 							continue;
 						case "=Patient":
-							row.Cells.Add(patAgeCur.AmountDue.ToString("n"));
+							row.Cells.Add(patAgeCur.AmountDue.ToStringNetFx("n"));
 							continue;
 						case "PayPlan Due":
-							row.Cells.Add(patAgeCur.PayPlanDue.ToString("n"));
+							row.Cells.Add(patAgeCur.PayPlanDue.ToStringNetFx("n"));
 							continue;
 						case "Last Paid":
 							row.Cells.Add(patAgeCur.DateLastPay.Year>1880?patAgeCur.DateLastPay.ToString("d"):"");
@@ -1034,14 +1034,14 @@ namespace OpenPmsDental {
 			}
 			SetTotalsLocAndVisible(DisplayFieldCategory.ArManagerUnsentGrid,gridUnsent.HScrollValue);
 			textUnsentTotalNumAccts.Text=listPatAgingIndexFiltered.Count.ToString();
-			textUnsent0to30.Text=bal0_30.ToString("n");
-			textUnsent31to60.Text=bal31_60.ToString("n");
-			textUnsent61to90.Text=bal61_90.ToString("n");
-			textUnsentOver90.Text=balOver90.ToString("n");
-			textUnsentTotal.Text=balTotal.ToString("n");
-			textUnsentInsEst.Text=insEst.ToString("n");
-			textUnsentPatient.Text=amtDue.ToString("n");
-			textUnsentPayPlanDue.Text=ppDue.ToString("n");
+			textUnsent0to30.Text=bal0_30.ToStringNetFx("n");
+			textUnsent31to60.Text=bal31_60.ToStringNetFx("n");
+			textUnsent61to90.Text=bal61_90.ToStringNetFx("n");
+			textUnsentOver90.Text=balOver90.ToStringNetFx("n");
+			textUnsentTotal.Text=balTotal.ToStringNetFx("n");
+			textUnsentInsEst.Text=insEst.ToStringNetFx("n");
+			textUnsentPatient.Text=amtDue.ToStringNetFx("n");
+			textUnsentPayPlanDue.Text=ppDue.ToStringNetFx("n");
 			Cursor=Cursors.Default;
 		}
 
@@ -1797,28 +1797,28 @@ namespace OpenPmsDental {
 							row.Cells.Add(dictProvAbbrs.TryGetValue(patAgeCur.PriProv,out provAbbr)?provAbbr:"");
 							continue;
 						case "0-30 Days":
-							row.Cells.Add(patAgeCur.Bal_0_30.ToString("n"));
+							row.Cells.Add(patAgeCur.Bal_0_30.ToStringNetFx("n"));
 							continue;
 						case "31-60 Days":
-							row.Cells.Add(patAgeCur.Bal_31_60.ToString("n"));
+							row.Cells.Add(patAgeCur.Bal_31_60.ToStringNetFx("n"));
 							continue;
 						case "61-90 Days":
-							row.Cells.Add(patAgeCur.Bal_61_90.ToString("n"));
+							row.Cells.Add(patAgeCur.Bal_61_90.ToStringNetFx("n"));
 							continue;
 						case "> 90 Days":
-							row.Cells.Add(patAgeCur.BalOver90.ToString("n"));
+							row.Cells.Add(patAgeCur.BalOver90.ToStringNetFx("n"));
 							continue;
 						case "Total":
-							row.Cells.Add(patAgeCur.BalTotal.ToString("n"));
+							row.Cells.Add(patAgeCur.BalTotal.ToStringNetFx("n"));
 							continue;
 						case "-Ins Est":
-							row.Cells.Add(patAgeCur.InsEst.ToString("n"));
+							row.Cells.Add(patAgeCur.InsEst.ToStringNetFx("n"));
 							continue;
 						case "=Patient":
-							row.Cells.Add(patAgeCur.AmountDue.ToString("n"));
+							row.Cells.Add(patAgeCur.AmountDue.ToStringNetFx("n"));
 							continue;
 						case "PayPlan Due":
-							row.Cells.Add(patAgeCur.PayPlanDue.ToString("n"));
+							row.Cells.Add(patAgeCur.PayPlanDue.ToStringNetFx("n"));
 							continue;
 						case "Last Paid":
 							row.Cells.Add(patAgeCur.DateLastPay.Year>1880?patAgeCur.DateLastPay.ToString("d"):"");
@@ -1865,14 +1865,14 @@ namespace OpenPmsDental {
 			}
 			SetTotalsLocAndVisible(DisplayFieldCategory.ArManagerSentGrid,gridSent.HScrollValue);
 			textSentTotalNumAccts.Text=listPatAgingIndexFiltered.Count.ToString();
-			textSent0to30.Text=bal0_30.ToString("n");
-			textSent31to60.Text=bal31_60.ToString("n");
-			textSent61to90.Text=bal61_90.ToString("n");
-			textSentOver90.Text=balOver90.ToString("n");
-			textSentTotal.Text=balTotal.ToString("n");
-			textSentInsEst.Text=insEst.ToString("n");
-			textSentPatient.Text=amtDue.ToString("n");
-			textSentPayPlanDue.Text=ppDue.ToString("n");
+			textSent0to30.Text=bal0_30.ToStringNetFx("n");
+			textSent31to60.Text=bal31_60.ToStringNetFx("n");
+			textSent61to90.Text=bal61_90.ToStringNetFx("n");
+			textSentOver90.Text=balOver90.ToStringNetFx("n");
+			textSentTotal.Text=balTotal.ToStringNetFx("n");
+			textSentInsEst.Text=insEst.ToStringNetFx("n");
+			textSentPatient.Text=amtDue.ToStringNetFx("n");
+			textSentPayPlanDue.Text=ppDue.ToStringNetFx("n");
 			Cursor=Cursors.Default;
 		}
 
@@ -2288,28 +2288,28 @@ namespace OpenPmsDental {
 							row.Cells.Add(dictBillTypeNames.TryGetValue(patAgeCur.BillingType,out billTypeName)?billTypeName:"");
 							continue;
 						case "0-30 Days":
-							row.Cells.Add(patAgeCur.Bal_0_30.ToString("n"));
+							row.Cells.Add(patAgeCur.Bal_0_30.ToStringNetFx("n"));
 							continue;
 						case "31-60 Days":
-							row.Cells.Add(patAgeCur.Bal_31_60.ToString("n"));
+							row.Cells.Add(patAgeCur.Bal_31_60.ToStringNetFx("n"));
 							continue;
 						case "61-90 Days":
-							row.Cells.Add(patAgeCur.Bal_61_90.ToString("n"));
+							row.Cells.Add(patAgeCur.Bal_61_90.ToStringNetFx("n"));
 							continue;
 						case "> 90 Days":
-							row.Cells.Add(patAgeCur.BalOver90.ToString("n"));
+							row.Cells.Add(patAgeCur.BalOver90.ToStringNetFx("n"));
 							continue;
 						case "Total":
-							row.Cells.Add(patAgeCur.BalTotal.ToString("n"));
+							row.Cells.Add(patAgeCur.BalTotal.ToStringNetFx("n"));
 							continue;
 						case "-Ins Est":
-							row.Cells.Add(patAgeCur.InsEst.ToString("n"));
+							row.Cells.Add(patAgeCur.InsEst.ToStringNetFx("n"));
 							continue;
 						case "=Patient":
-							row.Cells.Add(patAgeCur.AmountDue.ToString("n"));
+							row.Cells.Add(patAgeCur.AmountDue.ToStringNetFx("n"));
 							continue;
 						case "PayPlan Due":
-							row.Cells.Add(patAgeCur.PayPlanDue.ToString("n"));
+							row.Cells.Add(patAgeCur.PayPlanDue.ToStringNetFx("n"));
 							continue;
 						case "Last Paid":
 							row.Cells.Add(patAgeCur.DateLastPay.Year>1880?patAgeCur.DateLastPay.ToString("d"):"");
@@ -2356,14 +2356,14 @@ namespace OpenPmsDental {
 			}
 			SetTotalsLocAndVisible(DisplayFieldCategory.ArManagerExcludedGrid,gridExcluded.HScrollValue);
 			textExcludedTotalNumAccts.Text=listPatAgingIndexFiltered.Count.ToString();
-			textExcluded0to30.Text=bal0_30.ToString("n");
-			textExcluded31to60.Text=bal31_60.ToString("n");
-			textExcluded61to90.Text=bal61_90.ToString("n");
-			textExcludedOver90.Text=balOver90.ToString("n");
-			textExcludedTotal.Text=balTotal.ToString("n");
-			textExcludedInsEst.Text=insEst.ToString("n");
-			textExcludedPatient.Text=amtDue.ToString("n");
-			textExcludedPayPlanDue.Text=ppDue.ToString("n");
+			textExcluded0to30.Text=bal0_30.ToStringNetFx("n");
+			textExcluded31to60.Text=bal31_60.ToStringNetFx("n");
+			textExcluded61to90.Text=bal61_90.ToStringNetFx("n");
+			textExcludedOver90.Text=balOver90.ToStringNetFx("n");
+			textExcludedTotal.Text=balTotal.ToStringNetFx("n");
+			textExcludedInsEst.Text=insEst.ToStringNetFx("n");
+			textExcludedPatient.Text=amtDue.ToStringNetFx("n");
+			textExcludedPayPlanDue.Text=ppDue.ToStringNetFx("n");
 			Cursor=Cursors.Default;
 		}
 

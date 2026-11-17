@@ -7,6 +7,7 @@ using System.Windows.Forms;
 using OpenPmsDentalBusiness;
 using OpenPmsDental.UI;
 using System.Linq;
+using CodeBase;
 
 namespace OpenPmsDental {
 	public partial class FormProcCodeEditMore:FormODBase {
@@ -131,7 +132,7 @@ namespace OpenPmsDental {
 					row.Cells.Add(Clinics.GetAbbr(listFeesShowing[i].ClinicNum)); //Returns "" if invalid clinicnum (ie. 0)
 				}
 				row.Cells.Add(Providers.GetAbbr(listFeesShowing[i].ProvNum)); //Returns "" if invalid provnum (ie. 0)
-				row.Cells.Add(listFeesShowing[i].Amount.ToString("n"));
+				row.Cells.Add(listFeesShowing[i].Amount.ToStringNetFx("n"));
 				row.Cells.Add(listFeesShowing[i].DateEffective.Year<1880 ? "" : listFeesShowing[i].DateEffective.ToShortDateString());
 				gridMain.ListGridRows.Add(row);
 			}

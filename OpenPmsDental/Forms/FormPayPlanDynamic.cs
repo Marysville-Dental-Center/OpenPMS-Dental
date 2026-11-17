@@ -79,8 +79,8 @@ namespace OpenPmsDental {
 			textPatient.Text=Patients.GetLim(_dynamicPaymentPlanData.PayPlan.PatNum).GetNameLF();
 			textGuarantor.Text=Patients.GetLim(_dynamicPaymentPlanData.PayPlan.Guarantor).GetNameLF();
 			SetTermsFromDb();
-			textAmtPaid.Text=_dynamicPaymentPlanData.AmountPaid.ToString("f");
-			textCompletedAmt.Text=_dynamicPaymentPlanData.PayPlan.CompletedAmt.ToString("f");
+			textAmtPaid.Text=_dynamicPaymentPlanData.AmountPaid.ToStringNetFx("f");
+			textCompletedAmt.Text=_dynamicPaymentPlanData.PayPlan.CompletedAmt.ToStringNetFx("f");
 			textTotalTxAmt.Text=_sumAttachedProduction.ToString("f");//possibly will not by in sync with total amount if using TP procs... 
 			textNote.Text=_dynamicPaymentPlanData.PayPlan.Note;
 			if(_dynamicPaymentPlanData.PayPlan.IsNew) {
@@ -383,14 +383,14 @@ namespace OpenPmsDental {
 					balanceAmt-=PIn.Double(listRows[i].Cells[5].Text);
 				}
 				if(!checkExcludePast.Checked || isFutureCharge) {
-					gridCharges.ListGridRows[gridCharges.ListGridRows.Count-1].Cells[6].Text=balanceAmt.ToString("f");
+					gridCharges.ListGridRows[gridCharges.ListGridRows.Count-1].Cells[6].Text=balanceAmt.ToStringNetFx("f");
 				}
 				if(!isFutureCharge) {
-					textPrincipalSum.Text=principalDue.ToString("f");
-					textInterestSum.Text=_dynamicPaymentPlanData.TotalInterest.ToString("f");
-					textDueSum.Text=(principalDue+_dynamicPaymentPlanData.TotalInterest).ToString("f");
-					textPaymentSum.Text=totalPay.ToString("f");
-					textBalanceSum.Text=balanceAmt.ToString("f");
+					textPrincipalSum.Text=principalDue.ToStringNetFx("f");
+					textInterestSum.Text=_dynamicPaymentPlanData.TotalInterest.ToStringNetFx("f");
+					textDueSum.Text=(principalDue+_dynamicPaymentPlanData.TotalInterest).ToStringNetFx("f");
+					textPaymentSum.Text=totalPay.ToStringNetFx("f");
+					textBalanceSum.Text=balanceAmt.ToStringNetFx("f");
 					if(gridCharges.ListGridRows.Count>0) {
 						totalsRowIndex=gridCharges.ListGridRows.Count-1;
 					}
@@ -409,8 +409,8 @@ namespace OpenPmsDental {
 				gridCharges.ListGridRows[totalsRowIndex].ColorLborder=Color.Black;
 				gridCharges.ListGridRows[totalsRowIndex].Cells[5].Bold=YN.Yes;
 			}
-			textAccumulatedDue.Text=PayPlans.GetAccumDue(_dynamicPaymentPlanData.PayPlan.PayPlanNum,_dynamicPaymentPlanData.ListPayPlanChargesDb).ToString("f");
-			textPrincPaid.Text=PayPlans.GetPrincPaid(_dynamicPaymentPlanData.AmountPaid,_dynamicPaymentPlanData.PayPlan.PayPlanNum,_dynamicPaymentPlanData.ListPayPlanChargesDb).ToString("f");
+			textAccumulatedDue.Text=PayPlans.GetAccumDue(_dynamicPaymentPlanData.PayPlan.PayPlanNum,_dynamicPaymentPlanData.ListPayPlanChargesDb).ToStringNetFx("f");
+			textPrincPaid.Text=PayPlans.GetPrincPaid(_dynamicPaymentPlanData.AmountPaid,_dynamicPaymentPlanData.PayPlan.PayPlanNum,_dynamicPaymentPlanData.ListPayPlanChargesDb).ToStringNetFx("f");
 			return true;
 		}
 
@@ -467,11 +467,11 @@ namespace OpenPmsDental {
 					break;
 			}
 			textInterestDelay.Text="";
-			textPeriodPayment.Text=_dynamicPaymentPlanData.PayPlan.PayAmt.ToString("f");//we only save the amount, not the # of payments for dynamic payment plans
+			textPeriodPayment.Text=_dynamicPaymentPlanData.PayPlan.PayAmt.ToStringNetFx("f");//we only save the amount, not the # of payments for dynamic payment plans
 			textPaymentCount.Text="";
-			textDownPayment.Text=_dynamicPaymentPlanData.PayPlan.DownPayment.ToString("f");
+			textDownPayment.Text=_dynamicPaymentPlanData.PayPlan.DownPayment.ToStringNetFx("f");
 			textDate.Text=_dynamicPaymentPlanData.PayPlan.PayPlanDate.ToShortDateString();
-			textAPR.Text=_dynamicPaymentPlanData.PayPlan.APR.ToString();
+			textAPR.Text=_dynamicPaymentPlanData.PayPlan.APR.ToStringNetFx();
 			ToggleInterestDelayFieldsHelper();
 			switch(_dynamicPaymentPlanData.PayPlan.ChargeFrequency) {
 				case PayPlanFrequency.Weekly:
@@ -539,9 +539,9 @@ namespace OpenPmsDental {
 				}
 			}
 			else {
-				textDownPayment.Text=payPlanTemplate.DownPayment.ToString();
+				textDownPayment.Text=payPlanTemplate.DownPayment.ToStringNetFx();
 			}
-			textAPR.Text=payPlanTemplate.APR.ToString();
+			textAPR.Text=payPlanTemplate.APR.ToStringNetFx();
 			if(payPlanTemplate.APR>0) {
 				textDateInterestStart.Text=PayPlanEdit.CalcNextPeriodDate(PIn.Date(textDateFirstPay.Text),
 					payPlanTemplate.InterestDelay,GetChargeFrequency()).ToShortDateString();
@@ -551,7 +551,7 @@ namespace OpenPmsDental {
 				textPeriodPayment.Text="";
 			}
 			else {
-				textPeriodPayment.Text=payPlanTemplate.PayAmt.ToString();
+				textPeriodPayment.Text=payPlanTemplate.PayAmt.ToStringNetFx();
 			}
 			switch(payPlanTemplate.ChargeFrequency) {
 				case PayPlanFrequency.Weekly:
@@ -831,7 +831,7 @@ namespace OpenPmsDental {
 					+", "+Lan.g(this,"Total Amount")+": "+textTotalPrincipal.Text
 					+", "+Lan.g(this,"APR")+": "+textAPR.Text
 					+", "+Lan.g(this,"Total Cost of Loan")+": "+textTotalCost.Text;
-				textCompletedAmt.Text=PayPlanProductionEntry.GetDynamicPayPlanCompletedAmount(_dynamicPaymentPlanData.PayPlan,_dynamicPaymentPlanData.ListPayPlanProductionEntries).ToString("f");
+				textCompletedAmt.Text=PayPlanProductionEntry.GetDynamicPayPlanCompletedAmount(_dynamicPaymentPlanData.PayPlan,_dynamicPaymentPlanData.ListPayPlanProductionEntries).ToStringNetFx("f");
 				signatureBoxWrapper.FillSignature(_dynamicPaymentPlanData.PayPlan.SigIsTopaz,PayPlans.GetKeyDataForSignature(_dynamicPaymentPlanData.PayPlan),_dynamicPaymentPlanData.PayPlan.Signature);
 				_createdSchedule=true;
 				return true;
@@ -1170,12 +1170,12 @@ namespace OpenPmsDental {
 				reportComplex.ReportObjects.Add(new ReportObject
 					("Annual Percentage Rate Title",sectType,new Point(x1,yPos),size,"Annual Percentage Rate",font,alignL));
 				reportComplex.ReportObjects.Add(new ReportObject
-					("Annual Percentage Rate Detail",sectType,new Point(x2,yPos),size,_dynamicPaymentPlanData.PayPlan.APR.ToString("f1"),font,alignR));
+					("Annual Percentage Rate Detail",sectType,new Point(x2,yPos),size,_dynamicPaymentPlanData.PayPlan.APR.ToStringNetFx("f1"),font,alignR));
 				yPos+=space;
 				reportComplex.ReportObjects.Add(new ReportObject
 					("Total Finance Charges Title",sectType,new Point(x1,yPos),size,"Total Finance Charges",font,alignL));
 				reportComplex.ReportObjects.Add(new ReportObject
-					("Total Finance Charges Detail",sectType,new Point(x2,yPos),size,_dynamicPaymentPlanData.TotalInterest.ToString("n"),font,alignR));
+					("Total Finance Charges Detail",sectType,new Point(x2,yPos),size,_dynamicPaymentPlanData.TotalInterest.ToStringNetFx("n"),font,alignR));
 				yPos+=space;
 				reportComplex.ReportObjects.Add(new ReportObject
 					("Total Cost of Loan Title",sectType,new Point(x1,yPos),size,"Total Cost of Loan",font,alignL));

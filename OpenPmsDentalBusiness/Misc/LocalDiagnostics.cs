@@ -254,7 +254,7 @@ namespace OpenPmsDentalBusiness {
 			if(idxUnit==0) {
 				return bytes+" bytes";
 			}
-			return value.ToString("0.0",CultureInfo.InvariantCulture)+" "+arrayUnits[idxUnit];
+			return value.ToStringNetFx("0.0",CultureInfo.InvariantCulture)+" "+arrayUnits[idxUnit];
 		}
 
 		///<summary>A time zone with its current UTC offset, for example "Pacific Standard Time (UTC-08:00)".</summary>
@@ -351,8 +351,8 @@ namespace OpenPmsDentalBusiness {
 
 		private static string GetDpiText() {
 			using(System.Drawing.Graphics graphics=System.Drawing.Graphics.FromHwnd(IntPtr.Zero)) {
-				return graphics.DpiX.ToString("0",CultureInfo.InvariantCulture)+" ("
-					+(graphics.DpiX/96f*100f).ToString("0",CultureInfo.InvariantCulture)+"%)";
+				return graphics.DpiX.ToStringNetFx("0",CultureInfo.InvariantCulture)+" ("
+					+(graphics.DpiX/96f*100f).ToStringNetFx("0",CultureInfo.InvariantCulture)+"%)";
 			}
 		}
 

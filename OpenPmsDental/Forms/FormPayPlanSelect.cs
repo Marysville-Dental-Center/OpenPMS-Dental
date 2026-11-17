@@ -7,6 +7,7 @@ using System.Windows.Forms;
 using OpenPmsDentalBusiness;
 using System.Linq;
 using OpenPmsDental.UI;
+using CodeBase;
 
 namespace OpenPmsDental{
 	/// <summary>Lets the user choose which payment plan to attach a payment to if there are more than one available.</summary>
@@ -81,9 +82,9 @@ namespace OpenPmsDental{
 				else {
 					row.Cells.Add(Defs.GetDef(DefCat.PayPlanCategories,planPlan.PlanCategory).ItemName);
 				}
-				row.Cells.Add(PayPlans.GetTotalCost(planPlan.PayPlanNum,_listPayPlanCharges).ToString("F"));//total cost
-				row.Cells.Add(PayPlans.GetBalance(planPlan.PayPlanNum,_listPayPlanCharges,listPaySplits).ToString("F"));//balance
-				row.Cells.Add(PayPlans.GetDueNow(planPlan.PayPlanNum,_listPayPlanCharges,listPaySplits).ToString("F"));//due now
+				row.Cells.Add(PayPlans.GetTotalCost(planPlan.PayPlanNum,_listPayPlanCharges).ToStringNetFx("F"));//total cost
+				row.Cells.Add(PayPlans.GetBalance(planPlan.PayPlanNum,_listPayPlanCharges,listPaySplits).ToStringNetFx("F"));//balance
+				row.Cells.Add(PayPlans.GetDueNow(planPlan.PayPlanNum,_listPayPlanCharges,listPaySplits).ToStringNetFx("F"));//due now
 				if(planPlan.IsClosed) {
 					row.Cells.Add("");
 				}

@@ -119,7 +119,7 @@ namespace OpenPmsDental {
 			row.Cells.Add(Providers.GetAbbr(payPlanCharge.ProvNum));//1 Prov Abbr
 			row.Cells.Add(descript);//2 Descript
 			if(payPlanCharge.Principal<0 && payPlanCharge.IsOffset) {//Offsetting Debits
-				row.Cells.Add((payPlanCharge.Principal).ToString("n"));//principal
+				row.Cells.Add((payPlanCharge.Principal).ToStringNetFx("n"));//principal
 				row.Cells.Add("");//interest
 				row.Cells.Add("");//due
 				row.Cells.Add("");//payment
@@ -131,13 +131,13 @@ namespace OpenPmsDental {
 				row.Cells.Add("");//payment
 				if(!isDynamic) {
 					row.ColorText=Defs.GetDefByExactName(DefCat.AccountColors,"Adjustment").ItemColor;
-					row.Cells.Add((payPlanCharge.Principal).ToString("n")); //adjustment
+					row.Cells.Add((payPlanCharge.Principal).ToStringNetFx("n")); //adjustment
 				}
 			}
 			else {//regular charge
-				row.Cells.Add((payPlanCharge.Principal).ToString("n"));//3 Principal
-				row.Cells.Add(payPlanCharge.Interest.ToString("n"));//4 Interest
-				row.Cells.Add((payPlanCharge.Principal+payPlanCharge.Interest).ToString("n"));//5 Due
+				row.Cells.Add((payPlanCharge.Principal).ToStringNetFx("n"));//3 Principal
+				row.Cells.Add(payPlanCharge.Interest.ToStringNetFx("n"));//4 Interest
+				row.Cells.Add((payPlanCharge.Principal+payPlanCharge.Interest).ToStringNetFx("n"));//5 Due
 				row.Cells.Add("");//6 Payment
 				if(!isDynamic) {//Dynamic payment plans do not have pay plan adjustments.
 					row.Cells.Add("");//7 Adjustment
@@ -156,7 +156,7 @@ namespace OpenPmsDental {
 			if(dataRowBundlePayment["CheckNum"].ToString()!="") {
 				descript+=" #"+dataRowBundlePayment["CheckNum"].ToString();
 			}
-			descript+=" "+paySplit.SplitAmt.ToString("c");
+			descript+=" "+paySplit.SplitAmt.ToStringNetFx("c");
 			if(PIn.Double(dataRowBundlePayment["PayAmt"].ToString())!=paySplit.SplitAmt) {
 				descript+=Lans.g("PayPlanL","(split)");
 			}
@@ -167,7 +167,7 @@ namespace OpenPmsDental {
 			row.Cells.Add("");//3 Principal
 			row.Cells.Add("");//4 Interest
 			row.Cells.Add("");//5 Due
-			row.Cells.Add(paySplit.SplitAmt.ToString("n"));//6 Payment
+			row.Cells.Add(paySplit.SplitAmt.ToStringNetFx("n"));//6 Payment
 			row.Cells.Add("");//7 Adjustment - Does not exist for dynamic payment plans
 			row.Cells.Add("");//8 Balance (filled later)
 			row.Tag=paySplit;
@@ -186,7 +186,7 @@ namespace OpenPmsDental {
 			}
 			else {
 				double checkAmt=PIn.Double(dataRowBundleClaimProc["CheckAmt"].ToString());
-				descript+=" "+checkAmt.ToString("c");
+				descript+=" "+checkAmt.ToStringNetFx("c");
 				double insPayAmt=PIn.Double(dataRowBundleClaimProc["InsPayAmt"].ToString());
 				if(checkAmt!=insPayAmt) {
 					descript+=" "+Lans.g("PayPlanL","(split)");
@@ -199,7 +199,7 @@ namespace OpenPmsDental {
 			row.Cells.Add("");//3 Principal
 			row.Cells.Add("");//4 Interest
 			row.Cells.Add("");//5 Due
-			row.Cells.Add(PIn.Double(dataRowBundleClaimProc["InsPayAmt"].ToString()).ToString("n"));//6 Payment
+			row.Cells.Add(PIn.Double(dataRowBundleClaimProc["InsPayAmt"].ToString()).ToStringNetFx("n"));//6 Payment
 			if(!isDynamic) {
 				row.Cells.Add("");//7 Adjustment
 			}
@@ -333,9 +333,9 @@ namespace OpenPmsDental {
 					GridRow row=new GridRow();
 					row.Cells.Add(listPayPlanCharges[i].ChargeDate.ToShortDateString());
 					row.Cells.Add(descript);
-					row.Cells.Add(listPayPlanCharges[i].Principal.ToString("n"));
-					row.Cells.Add(listPayPlanCharges[i].Interest.ToString("n"));
-					row.Cells.Add((listPayPlanCharges[i].Principal+listPayPlanCharges[i].Interest).ToString("n"));
+					row.Cells.Add(listPayPlanCharges[i].Principal.ToStringNetFx("n"));
+					row.Cells.Add(listPayPlanCharges[i].Interest.ToStringNetFx("n"));
+					row.Cells.Add((listPayPlanCharges[i].Principal+listPayPlanCharges[i].Interest).ToStringNetFx("n"));
 					row.Cells.Add("");
 					row.Cells.Add("");
 					if(listPayPlanCharges[i].ChargeDate>DateTime.Today) {
@@ -353,7 +353,7 @@ namespace OpenPmsDental {
 					if(tableBundledPayments.Rows[i]["CheckNum"].ToString()!="") {
 						descript+=" #"+tableBundledPayments.Rows[i]["CheckNum"].ToString();
 					}
-					descript+=" "+listPaySplits[i].SplitAmt.ToString("c");
+					descript+=" "+listPaySplits[i].SplitAmt.ToStringNetFx("c");
 					if(PIn.Double(tableBundledPayments.Rows[i]["PayAmt"].ToString())!=listPaySplits[i].SplitAmt) {
 						descript+=Lans.g("PayPlanL","(split)");
 					}
@@ -363,7 +363,7 @@ namespace OpenPmsDental {
 					row.Cells.Add("");//3 Principal
 					row.Cells.Add("");//4 Interest
 					row.Cells.Add("");//5 Due
-					row.Cells.Add(listPaySplits[i].SplitAmt.ToString("n"));//6 Payment
+					row.Cells.Add(listPaySplits[i].SplitAmt.ToStringNetFx("n"));//6 Payment
 					row.Cells.Add("");//7 Balance (filled later)
 					row.ColorText=Defs.GetDefByExactName(DefCat.AccountColors,"Payment").ItemColor;
 					row.Tag=new DynamicPayPlanRowData() {
@@ -389,9 +389,9 @@ namespace OpenPmsDental {
 				GridRow row=new GridRow();
 				row.Cells.Add(listDateTimesCharges[i].ToShortDateString());
 				row.Cells.Add(descript);
-				row.Cells.Add(principal.ToString("n"));
-				row.Cells.Add(interest.ToString("n"));
-				row.Cells.Add(due.ToString("n"));
+				row.Cells.Add(principal.ToStringNetFx("n"));
+				row.Cells.Add(interest.ToStringNetFx("n"));
+				row.Cells.Add(due.ToStringNetFx("n"));
 				row.Cells.Add("");
 				row.Cells.Add("");//6 Balance (filled later)
 				if(listPayPlanChargesForDate.Any(x => x.ChargeDate>DateTime.Today)) {
@@ -414,7 +414,7 @@ namespace OpenPmsDental {
 				row.Cells.Add("");//2 Principal
 				row.Cells.Add("");//3 Interest
 				row.Cells.Add("");//4 Due
-				row.Cells.Add(sumSplitAmt.ToString("n"));//5 Payment
+				row.Cells.Add(sumSplitAmt.ToStringNetFx("n"));//5 Payment
 				row.Cells.Add("");//6 Balance (filled later)
 				row.ColorText=Defs.GetDefByExactName(DefCat.AccountColors,"Payment").ItemColor;
 				row.Tag=new DynamicPayPlanRowData() {
@@ -492,7 +492,7 @@ namespace OpenPmsDental {
 						row.Cells.Add("");//Clinic
 					}
 					row.Cells.Add(listDescriptions[j]);//Description
-					row.Cells.Add((listPayPlanCharges[j].Principal+listPayPlanCharges[j].Interest).ToString("n"));//Amount
+					row.Cells.Add((listPayPlanCharges[j].Principal+listPayPlanCharges[j].Interest).ToStringNetFx("n"));//Amount
 					//This field cant be edited here
 					GridCell gridCell=new GridCell("N/A");//Amount Override
 					gridCell.ColorText=Color.Gray;
@@ -521,7 +521,7 @@ namespace OpenPmsDental {
 							row.Cells.Add("");//Clinic
 						}
 						row.Cells.Add(descript);//Description
-						row.Cells.Add(listPaySplits[k].SplitAmt.ToString("n"));//Amount
+						row.Cells.Add(listPaySplits[k].SplitAmt.ToStringNetFx("n"));//Amount
 						//This field cant be edited here
 						gridCell=new GridCell("N/A");//Amount Override
 						gridCell.ColorText=Color.Gray;

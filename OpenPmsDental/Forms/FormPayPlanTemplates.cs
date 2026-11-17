@@ -6,6 +6,7 @@ using System.Text;
 using System.Windows.Forms;
 using OpenPmsDentalBusiness;
 using OpenPmsDental.UI;
+using CodeBase;
 
 namespace OpenPmsDental {
 	public partial class FormPayPlanTemplates:FormODBase {
@@ -76,7 +77,7 @@ namespace OpenPmsDental {
 					string clinicAbbr=Clinics.GetAbbr(listTemplates[i].ClinicNum);
 					row.Cells.Add(clinicAbbr);//Clinic
 				}
-				row.Cells.Add(listTemplates[i].APR.ToString());//APR
+				row.Cells.Add(listTemplates[i].APR.ToStringNetFx());//APR
 				row.Cells.Add(listTemplates[i].InterestDelay.ToString());//Interest Delay
 				//If Payment Amount was used, we don't want to show Number of Payments and vice versa.
 				if(listTemplates[i].PayAmt==0) {
@@ -84,10 +85,10 @@ namespace OpenPmsDental {
 					row.Cells.Add(listTemplates[i].NumberOfPayments.ToString());//Number of Payments
 				}
 				else {
-					row.Cells.Add(listTemplates[i].PayAmt.ToString("f"));//Payment Amount
+					row.Cells.Add(listTemplates[i].PayAmt.ToStringNetFx("f"));//Payment Amount
 					row.Cells.Add("");//Number of Payments
 				}
-				row.Cells.Add(listTemplates[i].DownPayment.ToString("f"));//Down Payment
+				row.Cells.Add(listTemplates[i].DownPayment.ToStringNetFx("f"));//Down Payment
 				row.Cells.Add(listTemplates[i].ChargeFrequency.ToString());//Frequency
 				row.Cells.Add(listTemplates[i].DynamicPayPlanTPOption.ToString());//Treatment Plan Option
 				row.Tag=listTemplates[i];

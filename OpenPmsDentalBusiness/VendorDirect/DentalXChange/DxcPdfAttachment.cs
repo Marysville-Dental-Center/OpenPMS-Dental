@@ -147,7 +147,7 @@ namespace OpenPmsDentalBusiness.VendorDirect.DentalXChange {
 		}
 
 		private static string FormatMegabytes(long length) {
-			return (length/1024d/1024d).ToString("0.#",System.Globalization.CultureInfo.InvariantCulture)+" MB";
+			return (length/1024d/1024d).ToStringNetFx("0.#",System.Globalization.CultureInfo.InvariantCulture)+" MB";
 		}
 		#endregion Checking the bytes
 

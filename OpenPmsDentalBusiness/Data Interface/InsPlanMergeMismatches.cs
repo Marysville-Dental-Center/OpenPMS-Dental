@@ -235,7 +235,7 @@ namespace OpenPmsDentalBusiness {
 		///<summary>One text per benefit with every value that makes it what it is, sorted, so two sets can be compared in any order.</summary>
 		public static List<string> GetBenefitKeys(List<Benefit> listBenefits) {
 			return listBenefits.Select(x => string.Join("|",
-				x.CovCatNum,(int)x.BenefitType,x.Percent,x.MonetaryAmt.ToString("F2",CultureInfo.InvariantCulture),(int)x.TimePeriod,
+				x.CovCatNum,(int)x.BenefitType,x.Percent,x.MonetaryAmt.ToStringNetFx("F2",CultureInfo.InvariantCulture),(int)x.TimePeriod,
 				(int)x.QuantityQualifier,x.Quantity,x.CodeNum,(int)x.CoverageLevel,x.CodeGroupNum,(int)x.TreatArea,x.ToothRange??""))
 				.OrderBy(x => x,StringComparer.Ordinal)
 				.ToList();
@@ -300,7 +300,7 @@ namespace OpenPmsDentalBusiness {
 		}
 
 		public static string GetAmountText(double amount) {
-			return amount.ToString("F2",CultureInfo.CurrentCulture);
+			return amount.ToStringNetFx("F2",CultureInfo.CurrentCulture);
 		}
 
 		private static string GetFeeSchedText(long feeSchedNum) {

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Drawing;
 using System.Text.RegularExpressions;
 using System.Xml.Serialization;
+using CodeBase;
 
 namespace OpenPmsDentalBusiness{
 
@@ -79,7 +80,7 @@ namespace OpenPmsDentalBusiness{
 
 		///<summary>toothinitial.DrawText is two components: point;string.  This sets both.</summary>
 		public void SetText(PointF location,string text){
-			DrawText=location.X.ToString()+","+location.Y.ToString()+";"+text;
+			DrawText=location.X.ToStringNetFx()+","+location.Y.ToStringNetFx()+";"+text;
 		}
 	
 

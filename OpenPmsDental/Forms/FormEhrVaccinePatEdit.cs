@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using OpenPmsDentalBusiness;
+using CodeBase;
 
 namespace OpenPmsDental {
 	public partial class FormEhrVaccinePatEdit:FormODBase {
@@ -50,7 +51,7 @@ namespace OpenPmsDental {
 				textDateTimeStop.Text=VaccinePatCur.DateTimeEnd.ToString();
 			}
 			if(VaccinePatCur.AdministeredAmt!=0){
-				textAmount.Text=VaccinePatCur.AdministeredAmt.ToString();
+				textAmount.Text=VaccinePatCur.AdministeredAmt.ToStringNetFx();
 			}
 			_listDrugUnits=DrugUnits.GetDeepCopy();
 			comboUnits.Items.Clear();

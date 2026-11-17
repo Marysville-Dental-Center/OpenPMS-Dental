@@ -470,7 +470,7 @@ namespace OpenPmsDental{
 				for(int i=0;i<tableOut.Rows.Count;i++){
 					try{
 					if(tableOut.Columns[j].Caption.Substring(0,1)=="$"){
-						tableOut.Rows[i][j]=PIn.Double(tableOut.Rows[i][j].ToString()).ToString("F");
+						tableOut.Rows[i][j]=PIn.Double(tableOut.Rows[i][j].ToString()).ToStringNetFx("F");
 						if(reportIn!=null) {
 							reportIn.ColAlign[j]=HorizontalAlignment.Right;
 							colTotals[j]+=PIn.Decimal(tableOut.Rows[i][j].ToString());
@@ -564,7 +564,7 @@ namespace OpenPmsDental{
 						case "tempreghrs":
 						case "tempovertime":
 							if(PrefC.GetBool(PrefName.TimeCardsUseDecimalInsteadOfColon)) {
-								tableOut.Rows[i][j]=PIn.Time(tableOut.Rows[i][j].ToString()).TotalHours.ToString("n");
+								tableOut.Rows[i][j]=PIn.Time(tableOut.Rows[i][j].ToString()).TotalHours.ToStringNetFx("n");
 							}
 							else if(PrefC.GetBool(PrefName.TimeCardShowSeconds)) {//Colon format with seconds
 								tableOut.Rows[i][j]=PIn.Time(tableOut.Rows[i][j].ToString()).ToStringHmmss();
@@ -600,7 +600,7 @@ namespace OpenPmsDental{
 						case "balover90":
 						case "baltotal":
 						case "inswoest":
-							tableOut.Rows[i][j]=PIn.Double(tableOut.Rows[i][j].ToString()).ToString("F");
+							tableOut.Rows[i][j]=PIn.Double(tableOut.Rows[i][j].ToString()).ToStringNetFx("F");
 							if(reportIn!=null) {
 								reportIn.ColAlign[j]=HorizontalAlignment.Right;
 								colTotals[j]+=PIn.Decimal(tableOut.Rows[i][j].ToString());

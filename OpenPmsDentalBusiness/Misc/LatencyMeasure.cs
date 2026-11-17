@@ -5,6 +5,7 @@
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
 using System.Diagnostics;
+using CodeBase;
 
 namespace OpenPmsDentalBusiness {
 	///<summary>Measures the round trip of a very small query several times and reports the average, the fastest and the slowest.</summary>
@@ -58,7 +59,7 @@ namespace OpenPmsDentalBusiness {
 
 		///<summary>"12.3" style text, one decimal.</summary>
 		public static string Format(double milliseconds) {
-			return milliseconds.ToString("0.0");
+			return milliseconds.ToStringNetFx("0.0");
 		}
 	}
 }

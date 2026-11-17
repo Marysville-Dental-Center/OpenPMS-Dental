@@ -22,6 +22,8 @@
 */
 // Changed by Open PMS - Dental contributors, 2026-11-16 (package S3b-2b of the .NET 10 move, docs/port-notes/S3b-2.md part B): a double or a
 // float without a format is written as .NET Framework wrote it (GetFormatedString, ToStringNoFormat).
+// Changed by Open PMS - Dental contributors, 2026-11-16 (package S3b-FMT of the .NET 10 move, decision 24 of docs/specs/net10-plan.md,
+// docs/port-notes/S3b-FMT.md): doubles and floats are written as text as .NET Framework wrote them (ODNumberText.ToStringNetFx, AsNetFx).
 
 using System;
 using System.Xml;
@@ -30,6 +32,7 @@ using System.Text;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Globalization;
+using CodeBase;
 
 namespace fyiReporting.RDL
 {
@@ -1179,10 +1182,10 @@ namespace fyiReporting.RDL
                                 t = ((decimal)o).ToString(format);
                                 break;
                             case TypeCode.Single:
-                                t = ((float)o).ToString(format);
+                                t = ((float)o).ToStringNetFx(format);
                                 break;
                             case TypeCode.Double:
-                                t = ((double)o).ToString(format);
+                                t = ((double)o).ToStringNetFx(format);
                                 break;
                             default:
                                 t = o.ToString();
@@ -1215,14 +1218,14 @@ namespace fyiReporting.RDL
 				double d = (double) o;
 				if (d == 0)
 					d = 0;		// negative zero is written as zero
-				return d.ToString("G15");
+				return d.ToStringNetFx("G15");
 			}
 			if (o is float)
 			{
 				float f = (float) o;
 				if (f == 0)
 					f = 0;
-				return f.ToString("G7");
+				return f.ToStringNetFx("G7");
 			}
 			return o.ToString();
 		}

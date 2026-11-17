@@ -7,6 +7,7 @@ using System.Windows.Forms;
 using OpenPmsDental.Bridges;
 using OpenPmsDental.UI;
 using OpenPmsDentalBusiness;
+using CodeBase;
 
 namespace OpenPmsDental{
 	/// <summary></summary>
@@ -60,7 +61,7 @@ namespace OpenPmsDental{
 				row.Cells.Add(Lan.g("enumAccountType",listAccounts[i].AcctType.ToString()));
 				row.Cells.Add(listAccounts[i].Description);
 				if(listAccounts[i].AcctType==AccountType.Asset){
-					row.Cells.Add(Accounts.GetBalance(listAccounts[i].AccountNum,listAccounts[i].AcctType).ToString("n"));
+					row.Cells.Add(Accounts.GetBalance(listAccounts[i].AccountNum,listAccounts[i].AcctType).ToStringNetFx("n"));
 				}
 				else{
 					row.Cells.Add("");

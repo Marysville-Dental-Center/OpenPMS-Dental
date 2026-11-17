@@ -514,9 +514,9 @@ namespace OpenPmsDental.ReportingComplex {
 				}
 			}
 			else if(reportObject.FieldValueType==FieldValueType.Number) {
-				displayText=PIn.Double(_reportTable.Rows[i][_arrDataFields.IndexOf(reportObject.DataField)].ToString()).ToString(reportObject.StringFormat);
+				displayText=PIn.Double(_reportTable.Rows[i][_arrDataFields.IndexOf(reportObject.DataField)].ToString()).ToStringNetFx(reportObject.StringFormat);
 				if(i>0 && reportObject.SuppressIfDuplicate) {
-					prevDisplayText=PIn.Double(_reportTable.Rows[i-1][_arrDataFields.IndexOf(reportObject.DataField)].ToString()).ToString(reportObject.StringFormat);
+					prevDisplayText=PIn.Double(_reportTable.Rows[i-1][_arrDataFields.IndexOf(reportObject.DataField)].ToString()).ToStringNetFx(reportObject.StringFormat);
 				}
 			}
 			else if(reportObject.FieldValueType==FieldValueType.String) {

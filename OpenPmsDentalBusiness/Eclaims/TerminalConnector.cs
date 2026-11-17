@@ -243,7 +243,7 @@ namespace OpenPmsDentalBusiness.Eclaims {
 				throw new Exception("Not allowed to wait longer than 60 seconds");
 			}
 			DateTime startTime=DateTime.Now;
-			while(startTime.AddMilliseconds(timeoutMS)>DateTime.Now) {
+			while(startTime.AddMillisecondsNetFx(timeoutMS)>DateTime.Now) {
 				string rxBuff=GetRxBuff();
 				if(rxBuff.Length>0) {
 					return (byte)rxBuff[rxBuff.Length-1];
@@ -266,7 +266,7 @@ namespace OpenPmsDentalBusiness.Eclaims {
 				throw new Exception("Not allowed to pause longer than 20 seconds");
 			}
 			DateTime startTime=DateTime.Now;
-			while(startTime.AddMilliseconds(ms)>DateTime.Now) {
+			while(startTime.AddMillisecondsNetFx(ms)>DateTime.Now) {
 				Application.DoEvents();
 			}
 		}
@@ -277,7 +277,7 @@ namespace OpenPmsDentalBusiness.Eclaims {
 				throw new Exception("Not allowed to wait longer than 20 seconds");
 			}
 			DateTime startTime=DateTime.Now;
-			while(startTime.AddMilliseconds(timeoutMS)>DateTime.Now) {
+			while(startTime.AddMillisecondsNetFx(timeoutMS)>DateTime.Now) {
 				Application.DoEvents();
 			}
 			return CharsToString(GetRxBuff());
@@ -410,7 +410,7 @@ namespace OpenPmsDentalBusiness.Eclaims {
 				throw new Exception("Not allowed to wait longer than 60 seconds");
 			}
 			DateTime startTime=DateTime.Now;
-			while(startTime.AddMilliseconds(timeoutMS)>DateTime.Now) {
+			while(startTime.AddMillisecondsNetFx(timeoutMS)>DateTime.Now) {
 				string rxBuff=GetRxBuff();
 				if(rxBuff.IndexOf(expectedText1)!=-1) {
 					return expectedText1;
@@ -436,7 +436,7 @@ namespace OpenPmsDentalBusiness.Eclaims {
 				throw new Exception("Not allowed to wait longer than 60 seconds");
 			}
 			DateTime startTime=DateTime.Now;
-			while(startTime.AddMilliseconds(timeoutMS)>DateTime.Now) {
+			while(startTime.AddMillisecondsNetFx(timeoutMS)>DateTime.Now) {
 				if(GetRxBuff().IndexOf((char)expectedByte)!=-1) {
 					return expectedByte;
 				}
@@ -466,7 +466,7 @@ namespace OpenPmsDentalBusiness.Eclaims {
 				throw new Exception("Not allowed to wait longer than 60 seconds");
 			}
 			DateTime startTime=DateTime.Now;
-			while(startTime.AddMilliseconds(timeoutMS) > DateTime.Now) {
+			while(startTime.AddMillisecondsNetFx(timeoutMS) > DateTime.Now) {
 				string rxBuff=GetRxBuff();
 				if(rxBuff.Length >= numberOfBytes) {
 					byte[] retVal=new byte[numberOfBytes];

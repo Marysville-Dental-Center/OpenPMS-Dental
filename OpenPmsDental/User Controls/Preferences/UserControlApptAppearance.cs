@@ -84,7 +84,7 @@ namespace OpenPmsDental {
 					comboDelay.Items.Add(Lan.g(this,"No delay"),seconds);
 				} 
 				else {
-					comboDelay.Items.Add(seconds.ToString("f1") + " "+Lan.g(this,"seconds"),seconds);
+					comboDelay.Items.Add(seconds.ToStringNetFx("f1") + " "+Lan.g(this,"seconds"),seconds);
 				}
 				if(PrefC.GetDouble(PrefName.FormClickDelay,doUseEnUSFormat: true)==seconds) {
 					comboDelay.SelectedIndex=i;
@@ -172,7 +172,7 @@ namespace OpenPmsDental {
 			Changed|=Prefs.UpdateBool(PrefName.ApptModuleDefaultToWeek,checkApptModuleDefaultToWeek.Checked);
 			Changed|=Prefs.UpdateInt(PrefName.ApptWeekViewStartDay,comboWeekViewStartDay.SelectedIndex);
 			Changed|=Prefs.UpdateDouble(PrefName.FormClickDelay,comboDelay.GetSelected<double>(),doUseEnUSFormat:true);
-			Changed|=Prefs.UpdateString(PrefName.ApptFontSize,apptFontSize.ToString());
+			Changed|=Prefs.UpdateString(PrefName.ApptFontSize,apptFontSize.ToStringNetFx());
 			Changed|=Prefs.UpdateInt(PrefName.ApptProvbarWidth,PIn.Int(textApptProvbarWidth.Text));
 			Changed|=Prefs.UpdateBool(PrefName.WaitingRoomFilterByView,checkWaitingRoomFilterByView.Checked);
 			Changed|=Prefs.UpdateInt(PrefName.WaitingRoomAlertTime,waitingRoomAlertTime);

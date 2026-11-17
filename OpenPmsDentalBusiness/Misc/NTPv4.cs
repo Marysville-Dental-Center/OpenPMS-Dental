@@ -132,8 +132,8 @@ namespace OpenPmsDentalBusiness {
 		private static void WriteEventLog(NtpResult ntpResult) {
 			string messageText="NTPv4 time request to "+ntpResult.Server+": "+ntpResult.Status+".";
 			if(ntpResult.IsValid) {
-				messageText+="\nOffset:  "+ntpResult.OffsetSeconds.ToString("0.000",CultureInfo.InvariantCulture)+" seconds"
-					+"\nRound trip:  "+ntpResult.DelaySeconds.ToString("0.000",CultureInfo.InvariantCulture)+" seconds"
+				messageText+="\nOffset:  "+ntpResult.OffsetSeconds.ToStringNetFx("0.000",CultureInfo.InvariantCulture)+" seconds"
+					+"\nRound trip:  "+ntpResult.DelaySeconds.ToStringNetFx("0.000",CultureInfo.InvariantCulture)+" seconds"
 					+"\nStratum:  "+ntpResult.Stratum;
 			}
 			else {
@@ -242,13 +242,13 @@ namespace OpenPmsDentalBusiness {
 			long ticksOffset=((t2-t1).Ticks+(t3-dateTimeDestination).Ticks)/2;
 			double delay=(double)ticksDelay/TimeSpan.TicksPerSecond;
 			if(delay<0 || delay>DELAY_MAX_SECONDS) {
-				return NtpResult.Invalid("The round trip took "+delay.ToString("0.000",CultureInfo.InvariantCulture)+" seconds; 0 to "
-					+DELAY_MAX_SECONDS.ToString(CultureInfo.InvariantCulture)+" are accepted.");
+				return NtpResult.Invalid("The round trip took "+delay.ToStringNetFx("0.000",CultureInfo.InvariantCulture)+" seconds; 0 to "
+					+DELAY_MAX_SECONDS.ToStringNetFx(CultureInfo.InvariantCulture)+" are accepted.");
 			}
 			double distance=rootDelay/2+rootDispersion;
 			if(distance>=DISTANCE_MAX_SECONDS) {
-				return NtpResult.Invalid("The server's root delay / 2 + root dispersion is "+distance.ToString("0.000",CultureInfo.InvariantCulture)
-					+" seconds; it must be below "+DISTANCE_MAX_SECONDS.ToString(CultureInfo.InvariantCulture)+".");
+				return NtpResult.Invalid("The server's root delay / 2 + root dispersion is "+distance.ToStringNetFx("0.000",CultureInfo.InvariantCulture)
+					+" seconds; it must be below "+DISTANCE_MAX_SECONDS.ToStringNetFx(CultureInfo.InvariantCulture)+".");
 			}
 			NtpResult ntpResult=new NtpResult();
 			ntpResult.Status=EnumNtpResult.Valid;

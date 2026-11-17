@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using OpenPmsDentalBusiness;
+using CodeBase;
 
 namespace OpenPmsDental {
 	public partial class FormEquipmentEdit:FormODBase {
@@ -30,10 +31,10 @@ namespace OpenPmsDental {
 				textDateSold.Text=EquipmentCur.DateSold.ToShortDateString();
 			}
 			if(EquipmentCur.PurchaseCost>0) {
-				textPurchaseCost.Text=EquipmentCur.PurchaseCost.ToString("f");
+				textPurchaseCost.Text=EquipmentCur.PurchaseCost.ToStringNetFx("f");
 			}
 			if(EquipmentCur.MarketValue>0) {
-				textMarketValue.Text=EquipmentCur.MarketValue.ToString("f");
+				textMarketValue.Text=EquipmentCur.MarketValue.ToStringNetFx("f");
 			}
 			textLocation.Text=EquipmentCur.Location;
 			textStatus.Text=EquipmentCur.Status;

@@ -678,7 +678,7 @@ namespace OpenPmsDentalBusiness {
 				for(int i=matchCollection.Count-1;i>=0;i--) {//Walk through pageContent backwards to correctly rebuild the string 
 					Match matchFontNumOnly=Regex.Match(matchCollection[i].Value,fontNumRegexPattern);//Find the font value itself
 					string[] arrayFontText=Regex.Split(matchCollection[i].Value,fontNumRegexPattern);//Separate the other text around the font value
-					string fontNumUpdate=Convert.ToString(Math.Round(scale*PIn.Float(matchFontNumOnly.Value),1));//Adjust the font value to the nearest tenth
+					string fontNumUpdate=Math.Round(scale*PIn.Float(matchFontNumOnly.Value),1).ToStringNetFx();//Adjust the font value to the nearest tenth
 					string fontTextUpdate=arrayFontText[0]+fontNumUpdate+arrayFontText[1];//Rebuild the font text with the updated font value
 					s=s.Substring(0,matchCollection[i].Index)+fontTextUpdate+s.Substring(matchCollection[i].Index+matchCollection[i].Length);//Rebuild pageContent css
 				}
@@ -688,7 +688,7 @@ namespace OpenPmsDentalBusiness {
 				for(int i=matchCollection.Count-1;i>=0;i--) {//Walk through pageContent backwards to correctly rebuild the string 
 					Match matchColNumOnly=Regex.Match(matchCollection[i].Value,colNumRegexPattern);//Find the col value itself
 					string[] arrayColText=Regex.Split(matchCollection[i].Value,colNumRegexPattern);//Separate the other text around the col value
-					string colNumUpdate=Convert.ToString(Math.Round(scale*PIn.Float(matchColNumOnly.Value),1));//Adjust the col value to the nearest tenth
+					string colNumUpdate=Math.Round(scale*PIn.Float(matchColNumOnly.Value),1).ToStringNetFx();//Adjust the col value to the nearest tenth
 					string colTextUpdate=arrayColText[0]+colNumUpdate+arrayColText[1];//Rebuild the col text with the updated col value
 					s=s.Substring(0,matchCollection[i].Index)+colTextUpdate+s.Substring(matchCollection[i].Index+matchCollection[i].Length);//Rebuild pageContent body
 				}

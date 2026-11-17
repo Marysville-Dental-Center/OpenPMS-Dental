@@ -74,7 +74,7 @@ namespace OpenPmsDental {
 					row.Cells.Add(Tooth.Display(_tableSuperFamAcct.Rows[i]["Tooth"].ToString()));
 					row.Cells.Add(procedureCode.Descript);
 				}
-				row.Cells.Add(PIn.Double(_tableSuperFamAcct.Rows[i]["Amount"].ToString()).ToString("F"));
+				row.Cells.Add(PIn.Double(_tableSuperFamAcct.Rows[i]["Amount"].ToString()).ToStringNetFx("F"));
 				row.Tag=_tableSuperFamAcct.Rows[i];
 				_gridMain.ListGridRows.Add(row);
 			}

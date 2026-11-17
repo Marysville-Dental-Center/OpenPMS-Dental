@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using ImagingCapture.Camera;
+using CodeBase;
 
 namespace ImagingCapture.UI {
 	///<summary>What FrmCaptureLearn is opened for.</summary>
@@ -865,7 +866,7 @@ namespace ImagingCapture.UI {
 
 		///<summary>"3.0" for 3000.</summary>
 		private static string FormatSeconds(long ms) {
-			return (ms/1000.0).ToString("0.0",CultureInfo.InvariantCulture);
+			return (ms/1000.0).ToStringNetFx("0.0",CultureInfo.InvariantCulture);
 		}
 		#endregion Texts
 	}

@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Reflection;
+using CodeBase;
 
 namespace OpenPmsDentalBusiness {
 	///<summary></summary>
@@ -96,7 +97,7 @@ namespace OpenPmsDentalBusiness {
 
 		public static string SetScale(float scale,int decimals,string units){
 			Meth.NoCheckMiddleTierRole();
-			string retVal=scale.ToString()+" "+decimals.ToString();
+			string retVal=scale.ToStringNetFx()+" "+decimals.ToString();
 			if(units!=null && units!=""){
 				retVal+=" "+units;
 			}

@@ -513,8 +513,8 @@ namespace OpenPmsDental {
 					totalsRow.Cells.Add(new UI.GridCell());
 				}
 				for(int i = 0;i<_listQueryColumns.Count;i++) {
-					totalsRow.Cells.Add(new UI.GridCell(_listQueryColumns[i].ShowTotal ? _listQueryColumns[i].Total.ToString("F") : ""));
-					_listQueryColumns[i].Width = Math.Min(Math.Max(_listQueryColumns[i].Width,TextRenderer.MeasureText(_listQueryColumns[i].Total.ToString("F"),_gridResults.Font).Width + 10),400);//have to add a little extra to fit the full total sometimes
+					totalsRow.Cells.Add(new UI.GridCell(_listQueryColumns[i].ShowTotal ? _listQueryColumns[i].Total.ToStringNetFx("F") : ""));
+					_listQueryColumns[i].Width = Math.Min(Math.Max(_listQueryColumns[i].Width,TextRenderer.MeasureText(_listQueryColumns[i].Total.ToStringNetFx("F"),_gridResults.Font).Width + 10),400);//have to add a little extra to fit the full total sometimes
 				}
 				_gridResults.ListGridRows.Add(totalsRow);
 			}
@@ -564,7 +564,7 @@ namespace OpenPmsDental {
 			string retVal = "";
 			columnName = columnName.ToLower();
 			if(columnName[0]=='$') {
-				retVal=PIn.Double(dataString).ToString("F");
+				retVal=PIn.Double(dataString).ToStringNetFx("F");
 				_listQueryColumns[index].SortingStrategy = GridSortingStrategy.AmountParse;
 				return retVal;
 			}
@@ -665,7 +665,7 @@ namespace OpenPmsDental {
 				case "tempovertime":
 					if(_timeCardsUseDecimalInsteadOfColon) {
 						_listQueryColumns[index].SortingStrategy = GridSortingStrategy.AmountParse;
-						retVal=PIn.Time(dataString).TotalHours.ToString("n");
+						retVal=PIn.Time(dataString).TotalHours.ToStringNetFx("n");
 						break;
 					}
 					if(_timeCardShowSeconds) {//Colon format with seconds
@@ -704,7 +704,7 @@ namespace OpenPmsDental {
 				case "baltotal":
 				case "inswoest":
 					_listQueryColumns[index].SortingStrategy = GridSortingStrategy.AmountParse;
-					retVal=PIn.Double(dataString).ToString("F");
+					retVal=PIn.Double(dataString).ToStringNetFx("F");
 					break;
 				case "toothnum":
 					_listQueryColumns[index].SortingStrategy = GridSortingStrategy.ToothNumberParse;

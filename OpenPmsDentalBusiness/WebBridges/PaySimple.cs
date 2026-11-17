@@ -1374,7 +1374,7 @@ namespace OpenPmsDentalBusiness {
 							""CVV"": null,
 							""AccountId"": 7320843,
 							""InvoiceId"": null,
-							""Amount"": "+payAmt+@",
+							""Amount"": "+payAmt.ToStringNetFx()+@",
 							""IsDebit"": false,
 							""InvoiceNumber"": null,
 							""PurchaseOrderNumber"": null,

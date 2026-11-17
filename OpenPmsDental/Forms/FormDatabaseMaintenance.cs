@@ -870,10 +870,10 @@ namespace OpenPmsDental {
 				TimeSpan totalTime=CodeBase.ODTimeSpan.FromSeconds((0.00000008d)*databaseSize);
 				string strTotalTime="";
 				if (totalTime.TotalMinutes > 1) {
-					strTotalTime += totalTime.TotalMinutes.ToString("0") + " minutes";
+					strTotalTime += totalTime.TotalMinutes.ToStringNetFx("0") + " minutes";
 				}
 				else {
-					strTotalTime += totalTime.TotalSeconds.ToString("0") + " seconds";
+					strTotalTime += totalTime.TotalSeconds.ToStringNetFx("0") + " seconds";
 				}
 				string warningMessage="CHECK TABLES will be run first.  This will take an estimated "+strTotalTime+" and may limit users from accessing Open PMS - Dental while this action runs. Would you like to continue?";
 				//In binary 6442450944 bytes is 6GBs.

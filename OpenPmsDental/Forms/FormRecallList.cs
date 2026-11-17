@@ -453,7 +453,7 @@ namespace OpenPmsDental {
 						if(commLog.Note!="") {
 							commLog.Note+=",  ";
 						}
-						commLog.Note+=Lan.g(this,"Disabled until balance below ")+formRecallEdit.RecallCur.DisableUntilBalance.ToString("c");
+						commLog.Note+=Lan.g(this,"Disabled until balance below ")+formRecallEdit.RecallCur.DisableUntilBalance.ToStringNetFx("c");
 					}
 					if(recall.Note!=formRecallEdit.RecallCur.Note) {
 						if(commLog.Note!="") {

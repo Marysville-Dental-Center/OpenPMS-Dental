@@ -12035,7 +12035,7 @@ namespace OpenPmsDentalBusiness {
 							+"'"+POut.String(procInfo.Rows[0]["DrugNDC"].ToString())+"',"
 							+"'"+POut.String(procInfo.Rows[0]["RevenueCodeDefault"].ToString())+"',"
 							+PIn.Long(procInfo.Rows[0]["ProvNumDefault"].ToString()).ToString()+","
-							+PIn.Double(procInfo.Rows[0]["CanadaTimeUnits"].ToString()).ToString()+","
+							+PIn.Double(procInfo.Rows[0]["CanadaTimeUnits"].ToString()).ToStringNetFx()+","
 							+PIn.Long(procInfo.Rows[0]["IsRadiology"].ToString()).ToString()+")";
 						if(DataConnection.DBtype==DatabaseType.MySql) {
 							priKeyNew=Db.NonQ(command,true);

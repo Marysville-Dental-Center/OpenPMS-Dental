@@ -131,7 +131,7 @@ namespace OpenPmsDental{
 			gridMain.EndUpdate();
 			if(ODBuild.IsDebug()) {
 				sw.Stop();
-				Console.WriteLine("Finished fetching data and filling grid: {0}, Rows: {1}",(sw.Elapsed.Seconds==0?"":(sw.Elapsed.Seconds+" sec "))+(sw.Elapsed.TotalMilliseconds-(sw.Elapsed.Seconds*1000))+" ms",gridMain.ListGridRows.Count);
+				Console.WriteLine("Finished fetching data and filling grid: {0}, Rows: {1}",(sw.Elapsed.Seconds==0?"":(sw.Elapsed.Seconds+" sec "))+(sw.Elapsed.TotalMilliseconds-(sw.Elapsed.Seconds*1000)).ToStringNetFx()+" ms",gridMain.ListGridRows.Count);
 			}
 			Cursor=Cursors.Default;
 		}

@@ -447,8 +447,8 @@ namespace OpenPmsDental {
 		}
 
 		private static string DescribeField(MaintField maintField) {
-			return maintField.MaintFieldNum+"|"+maintField.FieldName+"|"+maintField.FieldType+"|"+maintField.Unit+"|"+maintField.HasMin+"|"+maintField.ValueMin
-				+"|"+maintField.HasMax+"|"+maintField.ValueMax+"|"+maintField.IsRequired;
+			return maintField.MaintFieldNum+"|"+maintField.FieldName+"|"+maintField.FieldType+"|"+maintField.Unit+"|"+maintField.HasMin+"|"+maintField.ValueMin.ToStringNetFx()
+				+"|"+maintField.HasMax+"|"+maintField.ValueMax.ToStringNetFx()+"|"+maintField.IsRequired;
 		}
 
 		private bool AreFieldsChanged() {

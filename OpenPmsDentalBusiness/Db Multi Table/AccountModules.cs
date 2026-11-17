@@ -963,10 +963,10 @@ namespace OpenPmsDentalBusiness {
 				if(PIn.Bool(rawClaimPayRow["IsOverpay"].ToString())) {
 					double insEstTotalOverride=PIn.Double(rawClaimPayRow["InsEstTotalOverride_"].ToString());
 					if(insEstTotalOverride<0) {
-						dataRow["description"]=Lans.g("AccountModule","Insurance Overpayment")+": "+insEstTotalOverride.ToString("f");
+						dataRow["description"]=Lans.g("AccountModule","Insurance Overpayment")+": "+insEstTotalOverride.ToStringNetFx("f");
 					}
 					else {
-						dataRow["description"]=Lans.g("AccountModule","Insurance Underpayment")+": "+insEstTotalOverride.ToString("f");
+						dataRow["description"]=Lans.g("AccountModule","Insurance Underpayment")+": "+insEstTotalOverride.ToStringNetFx("f");
 					}
 				}
 				else {

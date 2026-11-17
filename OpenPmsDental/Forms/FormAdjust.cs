@@ -109,13 +109,13 @@ namespace OpenPmsDental {
 				butDetachProc.Enabled=true;
 			}
 			if(Defs.GetValue(DefCat.AdjTypes,_adjustment.AdjType)=="+"){//pos
-				textAmount.Text=_adjustment.AdjAmt.ToString("F");
+				textAmount.Text=_adjustment.AdjAmt.ToStringNetFx("F");
 			}
 			else if(Defs.GetValue(DefCat.AdjTypes,_adjustment.AdjType)=="-"){//neg
-				textAmount.Text=(-_adjustment.AdjAmt).ToString("F");//shows without the neg sign
+				textAmount.Text=(-_adjustment.AdjAmt).ToStringNetFx("F");//shows without the neg sign
 			}
 			else if(Defs.GetValue(DefCat.AdjTypes,_adjustment.AdjType)=="dp") {//Discount Plan (neg)
-				textAmount.Text=(-_adjustment.AdjAmt).ToString("F");//shows without the neg sign
+				textAmount.Text=(-_adjustment.AdjAmt).ToStringNetFx("F");//shows without the neg sign
 			}
 			comboClinic.ClinicNumSelected=_adjustment.ClinicNum;
 			comboProv.SetSelectedProvNum(_adjustment.ProvNum);
@@ -234,12 +234,12 @@ namespace OpenPmsDental {
 			double procInsEst=-ClaimProcs.ProcEstNotReceived(listClaimProcs,procedure.ProcNum);
 			double procAdj=listAdjustments.Sum(x => x.AdjAmt);
 			double procPatPaid=-PaySplits.GetTotForProc(procedure);
-			textProcFee.Text=procedure.ProcFeeTotal.ToString("F");
-			textProcWriteoff.Text=procWO==0?"":procWO.ToString("F");
-			textProcInsPaid.Text=procInsPaid==0?"":procInsPaid.ToString("F");
-			textProcInsEst.Text=procInsEst==0?"":procInsEst.ToString("F");
-			textProcAdj.Text=procAdj==0?"":procAdj.ToString("F");
-			textProcPatPaid.Text=procPatPaid==0?"":procPatPaid.ToString("F");
+			textProcFee.Text=procedure.ProcFeeTotal.ToStringNetFx("F");
+			textProcWriteoff.Text=procWO==0?"":procWO.ToStringNetFx("F");
+			textProcInsPaid.Text=procInsPaid==0?"":procInsPaid.ToStringNetFx("F");
+			textProcInsEst.Text=procInsEst==0?"":procInsEst.ToStringNetFx("F");
+			textProcAdj.Text=procAdj==0?"":procAdj.ToStringNetFx("F");
+			textProcPatPaid.Text=procPatPaid==0?"":procPatPaid.ToStringNetFx("F");
 			//Intelligently sum the values above based on statuses instead of blindly adding all of the values together.
 			//The remaining amount is typically called the "patient portion" so utilze the centralized method that gets the patient portion.
 			decimal patPort=ClaimProcs.GetPatPortion(procedure,listClaimProcs,listAdjustments);
@@ -253,7 +253,7 @@ namespace OpenPmsDental {
 				}
 			}
 			_isNegativeAdjustment=procAdjCur<0;
-			textProcAdjCur.Text=procAdjCur==0?"":procAdjCur.ToString("F");
+			textProcAdjCur.Text=procAdjCur==0?"":procAdjCur.ToStringNetFx("F");
 			//Add the current adjustment amount to the patient portion which will give the newly calculated remaining amount.
 			_adjRemAmt=(decimal)procAdjCur+(decimal)procPatPaid+patPort;
 			labelProcRemain.Text=_adjRemAmt.ToString("c");
@@ -459,7 +459,7 @@ namespace OpenPmsDental {
 				}
 				SecurityLogs.MakeLogEntry(EnumPermType.AdjustmentCreate,_adjustment.PatNum,
 					_patient.GetNameLF()+", "
-					+_adjustment.AdjAmt.ToString("c")+GetPercentOfFeeLogNote());
+					+_adjustment.AdjAmt.ToStringNetFx("c")+GetPercentOfFeeLogNote());
 				TsiTransLogs.CheckAndInsertLogsIfAdjTypeExcluded(_adjustment,_isTsiAdj);
 			}
 			else {
@@ -470,7 +470,7 @@ namespace OpenPmsDental {
 					MessageBox.Show(ex.Message);
 					return;
 				}
-				SecurityLogs.MakeLogEntry(EnumPermType.AdjustmentEdit,_adjustment.PatNum,_patient.GetNameLF()+", "+_adjustment.AdjAmt.ToString("c")+GetPercentOfFeeLogNote(),0,datePreviousChange);
+				SecurityLogs.MakeLogEntry(EnumPermType.AdjustmentEdit,_adjustment.PatNum,_patient.GetNameLF()+", "+_adjustment.AdjAmt.ToStringNetFx("c")+GetPercentOfFeeLogNote(),0,datePreviousChange);
 			}
 			if(changeAdjSplit) {
 				PaySplits.UpdateProvForAdjust(_adjustment,listPaySplitsForAdjust);
@@ -499,7 +499,7 @@ namespace OpenPmsDental {
 				return;
 			}
 			SecurityLogs.MakeLogEntry(EnumPermType.AdjustmentEdit,_adjustment.PatNum
-				,"Delete for patient: "+_patient.GetNameLF()+", "+_adjustment.AdjAmt.ToString("c"),0,_adjustment.SecDateTEdit);
+				,"Delete for patient: "+_patient.GetNameLF()+", "+_adjustment.AdjAmt.ToStringNetFx("c"),0,_adjustment.SecDateTEdit);
 			Adjustments.Delete(_adjustment);
 			Signalods.SetInvalid(InvalidType.BillingList);
 			DialogResult=DialogResult.OK;
@@ -567,7 +567,7 @@ namespace OpenPmsDental {
 				if(radioPercentOfFee.Checked) {
 					double amount=GetPercentOfFeeAmount();
 					SetAmountMode(isPercentOfFee:false);
-					textAmount.Text=amount.ToString("F");
+					textAmount.Text=amount.ToStringNetFx("F");
 				}
 				_feeForPercent=0;
 				radioPercentOfFee.Enabled=false;
@@ -590,7 +590,7 @@ namespace OpenPmsDental {
 				labelPercentOfFeeAmount.Text=Lan.g(this,"Amount")+":";
 				return;
 			}
-			labelPercentOfFeeAmount.Text=Lan.g(this,"Amount")+": "+Adjustments.GetPercentOfFeeAmount(_feeForPercent,percent).ToString("c");
+			labelPercentOfFeeAmount.Text=Lan.g(this,"Amount")+": "+Adjustments.GetPercentOfFeeAmount(_feeForPercent,percent).ToStringNetFx("c");
 		}
 
 		///<summary>Switches the amount box between a dollar amount and a percentage: radio buttons, label and allowed range. Does not change the text.</summary>
@@ -675,7 +675,7 @@ namespace OpenPmsDental {
 				//The user switched back to Fixed Amount. Keep the dollars the percentage gave.
 				double amount=GetPercentOfFeeAmount();
 				SetAmountMode(isPercentOfFee:false);
-				textAmount.Text=amount.ToString("F");
+				textAmount.Text=amount.ToStringNetFx("F");
 			}
 			FillProcedure();
 		}

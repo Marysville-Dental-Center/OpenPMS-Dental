@@ -174,7 +174,7 @@ namespace CodeBase {
 					taskRead.ContinueWith(x => x.Exception,TaskContinuationOptions.OnlyOnFaulted);//observed: the pipe is closed below
 					Stop(isKill:true);
 					throw new Helper32Exception(Helper32Failure.TimedOut,"The 32-bit helper program ("+HELPER_FILE_NAME+") did not answer "+module+" "
-						+command+" within "+timeSpanTimeout.TotalSeconds.ToString("0",CultureInfo.InvariantCulture)+" seconds. It was ended and is "
+						+command+" within "+timeSpanTimeout.TotalSeconds.ToStringNetFx("0",CultureInfo.InvariantCulture)+" seconds. It was ended and is "
 						+"started again on the next call.");
 				}
 				if(taskRead.IsFaulted) {
@@ -366,7 +366,7 @@ namespace CodeBase {
 					}
 					if(DateTime.UtcNow>dateTimeDeadline) {
 						throw new Helper32Exception(Helper32Failure.StartFailed,"The 32-bit helper program "+HELPER_FILE_NAME+" did not connect "
-							+"within "+TimeSpanStart.TotalSeconds.ToString("0",CultureInfo.InvariantCulture)+" seconds.");
+							+"within "+TimeSpanStart.TotalSeconds.ToStringNetFx("0",CultureInfo.InvariantCulture)+" seconds.");
 					}
 				}
 				pipe.EndWaitForConnection(asyncResultConnect);

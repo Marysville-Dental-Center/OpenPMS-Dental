@@ -62,9 +62,9 @@ namespace ODR{
 					return;//Text="0";
 				}
 				if(System.Convert.ToDouble(this.Text)>_maxVal)
-					throw new Exception("Number must be less than "+(_maxVal+1).ToString());
+					throw new Exception("Number must be less than "+(_maxVal+1).ToStringNetFx());
 				if(System.Convert.ToDouble(this.Text)<_minVal)
-					throw new Exception("Number must be greater than or equal to "+(_minVal).ToString());
+					throw new Exception("Number must be greater than or equal to "+(_minVal).ToStringNetFx());
 				errorProvider1.SetError(this,"");
 			}
 			catch(Exception ex){

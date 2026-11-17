@@ -467,7 +467,7 @@ namespace OpenPmsDentalBusiness {
 				if(timeSpan==TimeSpan.Zero){
 					return "";
 				}
-				return timeSpan.TotalHours.ToString("n");
+				return timeSpan.TotalHours.ToStringNetFx("n");
 			}
 			else if(PrefC.GetBool(PrefName.TimeCardShowSeconds)) {//Colon format with seconds
 				return timeSpan.ToStringHmmss();

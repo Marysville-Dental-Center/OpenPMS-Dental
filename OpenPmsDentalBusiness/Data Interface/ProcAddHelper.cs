@@ -508,7 +508,7 @@ namespace OpenPmsDentalBusiness {
 			if(!string.IsNullOrEmpty(procedure.Surf)) {
 				logText+=", "+Tooth.SurfTidyFromDbToDisplay(procedure.Surf,procedure.ToothNum);
 			}
-			logText+=", "+procedure.ProcFee.ToString("c")+", "+Lans.g(LANS,"treatment planned from the Treatment Plan module.");
+			logText+=", "+procedure.ProcFee.ToStringNetFx("c")+", "+Lans.g(LANS,"treatment planned from the Treatment Plan module.");
 			return logText;
 		}
 

@@ -117,7 +117,7 @@ namespace OpenPmsDental {
 				gridMain.ListGridRows.Add(row);
 			}
 			gridMain.EndUpdate();
-			textTotal.Text=totalAttached.ToString("f");
+			textTotal.Text=totalAttached.ToStringNetFx("f");
 		}
 
 		///<summary>Returns a list of ordered PayPlanEntries based off of the current production on the patient's account.</summary>
@@ -195,7 +195,7 @@ namespace OpenPmsDental {
 							textAmt.Text=payPlanEntrySelected.RemBefStr; //set textAmt to the value in RemBefore
 						}
 						else {//if there are other charges attached, fill the amount textbox with the minimum value in the RemAftr column.
-							textAmt.Text=listPayPlanEntriesForProc.Min(x => PIn.Double(x.RemAftStr)).ToString("f");
+							textAmt.Text=listPayPlanEntriesForProc.Min(x => PIn.Double(x.RemAftStr)).ToStringNetFx("f");
 						}
 						textDate.Text=DateTime.Today.ToShortDateString();
 						textNote.Text=ProcedureCodes.GetStringProcCode(payPlanEntrySelected.Proc.CodeNum)+": "+Procedures.GetDescription(payPlanEntrySelected.Proc);
@@ -375,7 +375,7 @@ namespace OpenPmsDental {
 				return;
 			}
 			e.HasMorePages=false;
-			text=Lan.g(this,"Total")+": "+PIn.Double(textTotal.Text).ToString("c");
+			text=Lan.g(this,"Total")+": "+PIn.Double(textTotal.Text).ToStringNetFx("c");
 			g.DrawString(text,fontSubHeading,Brushes.Black,center+gridMain.Width/2-g.MeasureString(text,fontSubHeading).Width-10,yPos);
 		}
 

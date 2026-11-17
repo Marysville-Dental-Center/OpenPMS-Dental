@@ -1566,7 +1566,7 @@ namespace OpenPmsDentalBusiness {
 					if(!string.IsNullOrEmpty(procTeethStr)) {
 						logText+=Lans.g("Procedures","Teeth")+": "+procTeethStr+", ";
 					}
-					logText+=Lans.g("Procedures","Fee")+": "+procNew.ProcFee.ToString("F")+", "+procCode.Descript+". ";
+					logText+=Lans.g("Procedures","Fee")+": "+procNew.ProcFee.ToStringNetFx("F")+", "+procCode.Descript+". ";
 					if(procNew.ProvNum!=procOld.ProvNum && procOld.ProcStatus==ProcStat.C) {
 						logText+=Lans.g("Procedures","Provider was changed from")+" "+Providers.GetAbbr(procOld.ProvNum)+" "+Lans.g("Procedures","to")+" "+Providers.GetAbbr(procNew.ProvNum)+".";
 					}
@@ -2264,9 +2264,9 @@ namespace OpenPmsDentalBusiness {
 			}
 			string message=Lans.g("Procedures","Discount created or changed from Proc Edit window for procedure")
 					+": "+ProcedureCodes.GetProcCode(procNew.CodeNum).ProcCode+"  "+Lans.g("Procedures","Dated")
-					+": "+procNew.ProcDate.ToShortDateString()+"  "+Lans.g("Procedures","With a Fee of")+": "+procNew.ProcFee.ToString("c")+".  "
-					+Lans.g("Procedures","Changed the discount value from")+" "+procOld.Discount.ToString("c")+" "+Lans.g("Procedures","to")+" "
-					+procNew.Discount.ToString("c");
+					+": "+procNew.ProcDate.ToShortDateString()+"  "+Lans.g("Procedures","With a Fee of")+": "+procNew.ProcFee.ToStringNetFx("c")+".  "
+					+Lans.g("Procedures","Changed the discount value from")+" "+procOld.Discount.ToStringNetFx("c")+" "+Lans.g("Procedures","to")+" "
+					+procNew.Discount.ToStringNetFx("c");
 			SecurityLogs.MakeLogEntry(EnumPermType.TreatPlanDiscountEdit,procNew.PatNum,message);
 		}
 
@@ -3196,7 +3196,7 @@ namespace OpenPmsDentalBusiness {
 					Db.NonQ(command);
 					if(ODBuild.IsDebug()) {
 						s1.Stop();
-						Console.WriteLine("Updated "+y.Count+" procedures, runtime: "+s1.Elapsed.TotalSeconds+" sec");
+						Console.WriteLine("Updated "+y.Count+" procedures, runtime: "+s1.Elapsed.TotalSeconds.ToStringNetFx()+" sec");
 					}
 					procFeesUpdatedCount+=y.Count;
 				}))).ToList();
@@ -3219,7 +3219,7 @@ namespace OpenPmsDentalBusiness {
 			}
 			if(ODBuild.IsDebug()) {
 				s.Stop();
-				Console.WriteLine("Runtime: "+s.Elapsed.Minutes+" min "+(s.Elapsed.TotalSeconds-(s.Elapsed.Minutes*60))+" sec");
+				Console.WriteLine("Runtime: "+s.Elapsed.Minutes+" min "+(s.Elapsed.TotalSeconds-(s.Elapsed.Minutes*60)).ToStringNetFx()+" sec");
 			}
 			return procFeesUpdatedCount;
 		}
@@ -3296,7 +3296,7 @@ namespace OpenPmsDentalBusiness {
 						lock(_lockObjQueueThread) {
 							_queueDataTables.Enqueue(table);
 							if(ODBuild.IsDebug()) {
-								Console.WriteLine(odThread.Name+" - enqueue batch, queue count: "+_queueDataTables.Count+", runtime: "+s1.Elapsed.TotalSeconds+" sec");
+								Console.WriteLine(odThread.Name+" - enqueue batch, queue count: "+_queueDataTables.Count+", runtime: "+s1.Elapsed.TotalSeconds.ToStringNetFx()+" sec");
 							}
 						}
 					}
@@ -3316,7 +3316,7 @@ namespace OpenPmsDentalBusiness {
 				if(ODBuild.IsDebug()) {
 					s.Stop();
 					Console.WriteLine(odThread.Name+" - Done, enqueue total count: "+_listProcNumsMaxForGroups.Count
-						+", thread runtime: "+s.Elapsed.Minutes+" min "+(s.Elapsed.TotalSeconds-(s.Elapsed.Minutes*60))+" sec");
+						+", thread runtime: "+s.Elapsed.Minutes+" min "+(s.Elapsed.TotalSeconds-(s.Elapsed.Minutes*60)).ToStringNetFx()+" sec");
 				}
 			}
 		}
@@ -4695,7 +4695,7 @@ namespace OpenPmsDentalBusiness {
 			if(toothNums!=null && toothNums.Trim()!="") {
 				logText+=Lans.g("Procedures","Teeth")+": "+toothNums+", ";
 			}
-			logText+=Lans.g("Procedures","Fee")+": "+procCur.ProcFee.ToString("F")+", "+procCode.Descript;
+			logText+=Lans.g("Procedures","Fee")+": "+procCur.ProcFee.ToStringNetFx("F")+", "+procCode.Descript;
 			SecurityLogs.MakeLogEntry(EnumPermType.ProcComplCreate,patNum,logText);
 		}
 
@@ -5767,7 +5767,7 @@ namespace OpenPmsDentalBusiness {
 					break;
 			}
 			SecurityLogs.MakeLogEntry(permissions,procedureOld.PatNum,
-				ProcedureCodes.GetProcCode(procedureOld.CodeNum).ProcCode+" ("+procedureOld.ProcStatus+"), "+procedureOld.ProcFee.ToString("c")+tag);
+				ProcedureCodes.GetProcCode(procedureOld.CodeNum).ProcCode+" ("+procedureOld.ProcStatus+"), "+procedureOld.ProcFee.ToStringNetFx("c")+tag);
 			result.IsSuccess=true;
 			return result;
 		}

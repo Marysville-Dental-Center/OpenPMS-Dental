@@ -6,6 +6,7 @@ using System.Text;
 using System.Windows.Forms;
 using OpenPmsDentalBusiness;
 using OpenPmsDental.UI;
+using CodeBase;
 
 namespace OpenPmsDental {
 	public partial class FormGradingScaleEdit:FormODBase {
@@ -67,7 +68,7 @@ namespace OpenPmsDental {
 			for(int i=0;i<_listGradingScaleItems.Count;i++) {
 				row=new GridRow();
 				row.Cells.Add(_listGradingScaleItems[i].GradeShowing);
-				row.Cells.Add(_listGradingScaleItems[i].GradeNumber.ToString());
+				row.Cells.Add(_listGradingScaleItems[i].GradeNumber.ToStringNetFx());
 				row.Cells.Add(_listGradingScaleItems[i].Description);
 				gridMain.ListGridRows.Add(row);
 			}

@@ -375,17 +375,17 @@ namespace OpenPmsDentalBusiness
 					}
 					return eb06val.Descript;
 				case 7:
-					return PIn.Double(elementCode).ToString("c");//Monetary amount. Situational
+					return PIn.Double(elementCode).ToStringNetFx("c");//Monetary amount. Situational
 				case 8:
 					if(isMessageMode) {//delta sends 80% instead of 20% like they should
-						return (PIn.Double(elementCode)*100).ToString()+"%";//Percent.
+						return (PIn.Double(elementCode)*100).ToStringNetFx()+"%";//Percent.
 					}
 					else {
 						string leadingStr="Patient pays ";
 						if(!isCoinsurancePatPays) { 
 							leadingStr="Insurance pays ";
 						}
-						return leadingStr+(PIn.Double(elementCode)*100).ToString()+"%";//Percent. Situational						
+						return leadingStr+(PIn.Double(elementCode)*100).ToStringNetFx()+"%";//Percent. Situational						
 					}
 				case 9://Quantity qualifier. Situational
 					EB09 eb09val=eb09.Find(EB09MatchesCode);

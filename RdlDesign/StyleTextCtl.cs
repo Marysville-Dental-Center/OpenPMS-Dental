@@ -20,6 +20,8 @@
     For additional information, email info@fyireporting.com or visit
     the website www.fyiReporting.com.
 */
+// Changed by Open PMS - Dental contributors, 2026-11-16 (package S3b-FMT of the .NET 10 move, decision 24 of docs/specs/net10-plan.md,
+// docs/port-notes/S3b-FMT.md): doubles and floats are written as text as .NET Framework wrote them (ODNumberText.ToStringNetFx, AsNetFx).
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -29,6 +31,7 @@ using System.Data;
 using System.Windows.Forms;
 using System.Xml;
 using System.Globalization;
+using CodeBase;
 
 namespace fyiReporting.RdlDesign
 {
@@ -855,7 +858,7 @@ namespace fyiReporting.RdlDesign
 					if (size <= 0)	// still no good
 						size = 10;	// just set default value
 				}
-				string rs = string.Format(NumberFormatInfo.InvariantInfo, "{0:0.#}pt", size);
+				string rs = string.Format(NumberFormatInfo.InvariantInfo, "{0:0.#}pt", size.AsNetFx());
 
 				_Draw.SetElement(sNode, "FontSize", rs);	// force to string
 			}
@@ -937,7 +940,7 @@ namespace fyiReporting.RdlDesign
 			cbFontWeight.Text = fd.Font.Bold? "Bold": "Normal";
 			cbFontStyle.Text = fd.Font.Italic? "Italic": "Normal";
 			cbFontFamily.Text = fd.Font.FontFamily.Name;
-			cbFontSize.Text = fd.Font.Size.ToString() + "pt";
+			cbFontSize.Text = fd.Font.Size.ToStringNetFx() + "pt";
 			cbColor.Text = ColorTranslator.ToHtml(fd.Color);
 			if (fd.Font.Underline)
 				this.cbTextDecoration.Text = "Underline";

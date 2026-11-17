@@ -4,6 +4,7 @@
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
 using System.Globalization;
+using CodeBase;
 
 namespace OpenPmsDentalHelper32.Cadi {
 	internal static class CadiCommands {
@@ -21,7 +22,7 @@ namespace OpenPmsDentalHelper32.Cadi {
 			return new[] {
 				cadiPatient.Name,
 				//G17 gives back the same double (TDATE days), so CADI gets the value the program computed.
-				cadiPatient.DateOfBirth.ToString("G17",CultureInfo.InvariantCulture),
+				cadiPatient.DateOfBirth.ToStringNetFx("G17",CultureInfo.InvariantCulture),
 				cadiPatient.Age.ToString(CultureInfo.InvariantCulture),
 				cadiPatient.Sex,
 				cadiPatient.PicLibPath,

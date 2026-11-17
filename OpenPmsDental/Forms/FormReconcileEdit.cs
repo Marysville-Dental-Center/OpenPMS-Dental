@@ -31,9 +31,9 @@ namespace OpenPmsDental {
 		private void FormReconcileEdit_Load(object sender,EventArgs e) {
 			textDate.Text=ReconcileCur.DateReconcile.ToShortDateString();
 			checkLocked.Checked=ReconcileCur.IsLocked;
-			textStart.Text=ReconcileCur.StartingBal.ToString("n");
-			textEnd.Text=ReconcileCur.EndingBal.ToString("n");
-			textTarget.Text=(ReconcileCur.EndingBal-ReconcileCur.StartingBal).ToString("n");
+			textStart.Text=ReconcileCur.StartingBal.ToStringNetFx("n");
+			textEnd.Text=ReconcileCur.EndingBal.ToStringNetFx("n");
+			textTarget.Text=(ReconcileCur.EndingBal-ReconcileCur.StartingBal).ToStringNetFx("n");
 			bool doIncludeUncleared=!ReconcileCur.IsLocked;
 			_listJournalEntries=JournalEntries.GetForReconcile(ReconcileCur.AccountNum,doIncludeUncleared,ReconcileCur.ReconcileNum);
 			if(checkLocked.Checked) {
@@ -75,7 +75,7 @@ namespace OpenPmsDental {
 					row.Cells.Add("");
 				}
 				else {
-					row.Cells.Add(_listJournalEntries[i].DebitAmt.ToString("n"));
+					row.Cells.Add(_listJournalEntries[i].DebitAmt.ToStringNetFx("n"));
 					if(_listJournalEntries[i].ReconcileNum!=0){
 						sum+=(decimal)_listJournalEntries[i].DebitAmt;
 					}
@@ -84,7 +84,7 @@ namespace OpenPmsDental {
 					row.Cells.Add("");
 				}
 				else {
-					row.Cells.Add(_listJournalEntries[i].CreditAmt.ToString("n"));
+					row.Cells.Add(_listJournalEntries[i].CreditAmt.ToStringNetFx("n"));
 					if(_listJournalEntries[i].ReconcileNum!=0){
 						sum-=(decimal)_listJournalEntries[i].CreditAmt;
 					}
@@ -130,14 +130,14 @@ namespace OpenPmsDental {
 			if(!textStart.IsValid() || !textEnd.IsValid()) {
 				return;
 			}
-			textTarget.Text=(PIn.Double(textEnd.Text)-PIn.Double(textStart.Text)).ToString("n");
+			textTarget.Text=(PIn.Double(textEnd.Text)-PIn.Double(textStart.Text)).ToStringNetFx("n");
 		}
 
 		private void textEnd_TextChanged(object sender,EventArgs e) {
 			if(!textStart.IsValid() || !textEnd.IsValid()) {
 				return;
 			}
-			textTarget.Text=(PIn.Double(textEnd.Text)-PIn.Double(textStart.Text)).ToString("n");
+			textTarget.Text=(PIn.Double(textEnd.Text)-PIn.Double(textStart.Text)).ToStringNetFx("n");
 		}
 
 		private void checkLocked_Click(object sender,EventArgs e) {
@@ -316,9 +316,9 @@ namespace OpenPmsDental {
 			paragraph.AddLineBreak();
 			paragraph.AddText(Lan.g(this,"Reconcile Date")+": "+PIn.Date(textDate.Text).ToShortDateString());
 			paragraph.AddLineBreak();
-			paragraph.AddText(labelStart.Text+": "+PIn.Double(textStart.Text).ToString("n"));
+			paragraph.AddText(labelStart.Text+": "+PIn.Double(textStart.Text).ToStringNetFx("n"));
 			paragraph.AddLineBreak();
-			paragraph.AddText(labelEnd.Text+": "+PIn.Double(textEnd.Text).ToString("n"));
+			paragraph.AddText(labelEnd.Text+": "+PIn.Double(textEnd.Text).ToStringNetFx("n"));
 			MigraDocHelper.InsertSpacer(section,10);
 			MigraDocHelper.DrawGrid(section,gridMain);
 			return document;

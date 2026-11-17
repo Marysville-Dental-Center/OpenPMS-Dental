@@ -110,7 +110,7 @@ namespace OpenPmsDentalBusiness {
 			}
 			GetRange(dbLink,out double min,out double max);
 			if(value<min || value>max) {
-				error="outside "+min.ToString(CultureInfo.CurrentCulture)+" to "+max.ToString(CultureInfo.CurrentCulture);
+				error="outside "+min.ToStringNetFx(CultureInfo.CurrentCulture)+" to "+max.ToStringNetFx(CultureInfo.CurrentCulture);
 				return false;
 			}
 			return true;
@@ -265,7 +265,7 @@ namespace OpenPmsDentalBusiness {
 
 		///<summary>A value as the import window shows it: no trailing zeros.</summary>
 		public static string FormatValue(double value) {
-			return value.ToString("0.##",CultureInfo.CurrentCulture);
+			return value.ToStringNetFx("0.##",CultureInfo.CurrentCulture);
 		}
 
 		///<summary>The vital sign entry for the given values, dated dateTaken, before it is inserted. Values not imported stay 0, as in the vital sign

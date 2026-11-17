@@ -4016,7 +4016,7 @@ namespace OpenPmsDental {
 					else {
 						if(appointment.DateTimeAskedToArrive.Year>1880 && (appointmentOld.AptDateTime-appointmentOld.DateTimeAskedToArrive).TotalMinutes>0) {
 							appointment.DateTimeAskedToArrive=appointment.AptDateTime-(appointmentOld.AptDateTime-appointmentOld.DateTimeAskedToArrive);
-							if(MessageBox.Show(Lan.g(this,"Ask patient to arrive")+" "+(appointmentOld.AptDateTime-appointmentOld.DateTimeAskedToArrive).TotalMinutes
+							if(MessageBox.Show(Lan.g(this,"Ask patient to arrive")+" "+(appointmentOld.AptDateTime-appointmentOld.DateTimeAskedToArrive).TotalMinutes.ToStringNetFx()
 								+" "+Lan.g(this,"minutes early at")+" "+appointment.DateTimeAskedToArrive.ToShortTimeString()+"?","",MessageBoxButtons.YesNo)==DialogResult.No) {
 								appointment.DateTimeAskedToArrive=appointmentOld.DateTimeAskedToArrive;
 							}

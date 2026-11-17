@@ -41,7 +41,7 @@ namespace OpenPmsDental {
 				DateTime datePrevious=DateTime.MinValue;
 				if(fee!=null) {
 					listFeesAdded.Add(fee);
-					feeOldStr="Old Fee: "+fee.Amount.ToString("c")+", ";
+					feeOldStr="Old Fee: "+fee.Amount.ToStringNetFx("c")+", ";
 					datePrevious=fee.SecDateTEdit;
 				}
 				if(fields[1]=="") {//an empty entry will delete an existing fee, but not insert a blank override
@@ -79,7 +79,7 @@ namespace OpenPmsDental {
 					}
 					SecurityLogs.MakeLogEntry(EnumPermType.ProcFeeEdit,0,"Procedure: "+fields[0]+", "
 						+feeOldStr
-						+", New Fee: "+fee.Amount.ToString("c")+", "
+						+", New Fee: "+fee.Amount.ToStringNetFx("c")+", "
 						+"Fee Schedule: "+FeeScheds.GetDescription(feeSchedNum)+". "
 						+"Fee changed using the Import button in the Fee Tools window.",codeNum,
 						DateTime.MinValue);
@@ -174,7 +174,7 @@ namespace OpenPmsDental {
 					Fees.Update(fee);
 				}
 				SecurityLogs.MakeLogEntry(EnumPermType.ProcFeeEdit,0,Lan.g("FormClaimPayTotal","Procedure")+": "+ProcedureCodes.GetStringProcCode(fee.CodeNum)
-					+", "+Lan.g("FormClaimPayTotal","Fee")+": "+fee.Amount.ToString("c")+", "+Lan.g("FormClaimPayTotal","Fee Schedule")+" "+FeeScheds.GetDescription(fee.FeeSched)
+					+", "+Lan.g("FormClaimPayTotal","Fee")+": "+fee.Amount.ToStringNetFx("c")+", "+Lan.g("FormClaimPayTotal","Fee Schedule")+" "+FeeScheds.GetDescription(fee.FeeSched)
 					+". "+Lan.g("FormClaimPayTotal","Automatic change to allowed fee in Enter Payment window.  Confirmed by user."),fee.CodeNum,DateTime.MinValue);
 				SecurityLogs.MakeLogEntry(EnumPermType.LogFeeEdit,0,Lan.g("FormClaimPayTotal","Fee Updated"),fee.FeeNum,datePrevious);
 			}

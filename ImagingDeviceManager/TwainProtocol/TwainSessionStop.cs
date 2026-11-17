@@ -4,6 +4,7 @@ using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using ImagingDeviceManager.Imaging;
+using CodeBase;
 
 namespace ImagingDeviceManager.TwainProtocol {
 	//The nested message loop, and every stop the library starts itself: Cancel, the safe order of design 7.1, and the wait after a
@@ -555,7 +556,7 @@ namespace ImagingDeviceManager.TwainProtocol {
 		}
 
 		private static string GetWaitSeconds(TwainCaptureSettings settings) {
-			return Math.Max(0,settings.RefusedDisableWait.TotalSeconds).ToString("0.#",System.Globalization.CultureInfo.InvariantCulture);
+			return Math.Max(0,settings.RefusedDisableWait.TotalSeconds).ToStringNetFx("0.#",System.Globalization.CultureInfo.InvariantCulture);
 		}
 
 		///<summary>True when a MSG_DISABLEDS refused with conditionCode means that the source finishes first and then sends a notification:
@@ -660,7 +661,7 @@ namespace ImagingDeviceManager.TwainProtocol {
 				}
 				if(State==5 && SendDisable()) {
 					Log("\""+SourceName+"\" was disabled after "+(notification==Tw.MSG_XFERREADY ? "MSG_XFERREADY" : "MSG_CLOSEDSREQ")+", "
-						+((NowMs-startMs)/1000.0).ToString("0.0",System.Globalization.CultureInfo.InvariantCulture)+" s into the wait.");
+						+((NowMs-startMs)/1000.0).ToStringNetFx("0.0",System.Globalization.CultureInfo.InvariantCulture)+" s into the wait.");
 					return true;
 				}
 				Log("\""+SourceName+"\" refused MSG_DISABLEDS again (condition code "+ToHex(LastConditionCode)+"); still waiting.");

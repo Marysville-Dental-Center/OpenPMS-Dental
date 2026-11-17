@@ -559,8 +559,8 @@ namespace OpenPmsDental {
 				else {
 					prodLabel="Total Production (Production + Adjustments - Write-offs)";
 				}
-				tableTotals.Rows.Add(Lan.g(this,prodLabel)+" "+totalProduction.ToString("c"));
-				tableTotals.Rows.Add(Lan.g(this,"Total Income (Pt Income + Ins Income):")+" "+totalIncome.ToString("c"));
+				tableTotals.Rows.Add(Lan.g(this,prodLabel)+" "+totalProduction.ToStringNetFx("c"));
+				tableTotals.Rows.Add(Lan.g(this,"Total Income (Pt Income + Ins Income):")+" "+totalIncome.ToStringNetFx("c"));
 				//Add tableTotals to the report.
 				//No column name and no header because we want to display this table to NOT look like a table.
 				query=report.AddQuery(tableTotals,"","",SplitByKind.None,2,false);

@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Windows.Forms;
 using OpenPmsDentalBusiness;
 using OpenPmsDental.UI;
+using CodeBase;
 
 namespace OpenPmsDental{
 	///<summary></summary>
@@ -102,8 +103,8 @@ namespace OpenPmsDental{
 				row.Cells.Add(splits[i].ProvAbbr);
 				row.Cells.Add(splits[i].PatName);
 				row.Cells.Add(splits[i].Carrier);
-				row.Cells.Add(splits[i].FeeBilled.ToString("F"));
-				row.Cells.Add(splits[i].InsPayAmt.ToString("F"));
+				row.Cells.Add(splits[i].FeeBilled.ToStringNetFx("F"));
+				row.Cells.Add(splits[i].InsPayAmt.ToStringNetFx("F"));
 				if(splits[i].ClaimNum==OriginatingClaimNum){
 					row.Bold=true;
 				}  
@@ -152,8 +153,8 @@ namespace OpenPmsDental{
 					SecurityLogs.MakeLogEntry(EnumPermType.InsPayEdit,splits[i].PatNum,
 						"Delete for patient: "
 						+Patients.GetLim(splits[i].PatNum).GetNameLF()+", "
-						+Lan.g(this,"Total Amt: ")+ClaimPaymentCur.CheckAmt.ToString("c")+", "
-						+Lan.g(this,"Claim Split: ")+splits[i].InsPayAmt.ToString("c"));
+						+Lan.g(this,"Total Amt: ")+ClaimPaymentCur.CheckAmt.ToStringNetFx("c")+", "
+						+Lan.g(this,"Claim Split: ")+splits[i].InsPayAmt.ToStringNetFx("c"));
 				}
 			}
 			DialogResult=DialogResult.OK;
@@ -227,14 +228,14 @@ namespace OpenPmsDental{
 					if(IsNew){
 						SecurityLogs.MakeLogEntry(EnumPermType.InsPayCreate,splits[i].PatNum,
 							Patients.GetLim(splits[i].PatNum).GetNameLF()+", "
-							+Lan.g(this,"Total Amt: ")+ClaimPaymentCur.CheckAmt.ToString("c")+", "
-							+Lan.g(this,"Claim Split: ")+splits[i].InsPayAmt.ToString("c"));
+							+Lan.g(this,"Total Amt: ")+ClaimPaymentCur.CheckAmt.ToStringNetFx("c")+", "
+							+Lan.g(this,"Claim Split: ")+splits[i].InsPayAmt.ToStringNetFx("c"));
 					}
 					else{
 						SecurityLogs.MakeLogEntry(EnumPermType.InsPayEdit,splits[i].PatNum,
 							Patients.GetLim(splits[i].PatNum).GetNameLF()+", "
-							+Lan.g(this,"Total Amt: ")+ClaimPaymentCur.CheckAmt.ToString("c")+", "
-							+Lan.g(this,"Claim Split: ")+splits[i].InsPayAmt.ToString("c"));
+							+Lan.g(this,"Total Amt: ")+ClaimPaymentCur.CheckAmt.ToStringNetFx("c")+", "
+							+Lan.g(this,"Claim Split: ")+splits[i].InsPayAmt.ToStringNetFx("c"));
 					}
 				}
 				else{//row not selected

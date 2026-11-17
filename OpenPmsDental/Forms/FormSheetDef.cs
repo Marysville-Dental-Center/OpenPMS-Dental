@@ -66,7 +66,7 @@ namespace OpenPmsDental {
 				comboFontName.SetSelected(comboFontName.Items.Count-1);
 			}
 			checkBypassLockDate.Checked=(SheetDefCur.BypassGlobalLock==BypassLockStatus.BypassAlways);
-			textFontSize.Text=SheetDefCur.FontSize.ToString();
+			textFontSize.Text=SheetDefCur.FontSize.ToStringNetFx();
 			textWidth.Text=SheetDefCur.Width.ToString();
 			textHeight.Text=SheetDefCur.Height.ToString();
 			checkIsLandscape.Checked=SheetDefCur.IsLandscape;
@@ -179,7 +179,7 @@ namespace OpenPmsDental {
 					if(textDescription.Text==""){
 						textDescription.Text=sheetTypeEnumSelected.GetDescription();
 					}
-					textFontSize.Text=sheetDef.FontSize.ToString();
+					textFontSize.Text=sheetDef.FontSize.ToStringNetFx();
 					textWidth.Text=sheetDef.Width.ToString();
 					textHeight.Text=sheetDef.Height.ToString();
 					checkIsLandscape.Checked=sheetDef.IsLandscape;
@@ -189,7 +189,7 @@ namespace OpenPmsDental {
 					if(textDescription.Text==""){
 						textDescription.Text=sheetTypeEnumSelected.GetDescription();
 					}
-					textFontSize.Text=sheetDef.FontSize.ToString();
+					textFontSize.Text=sheetDef.FontSize.ToStringNetFx();
 					textWidth.Text=sheetDef.Width.ToString();
 					textHeight.Text=sheetDef.Height.ToString();
 					checkIsLandscape.Checked=sheetDef.IsLandscape;
@@ -207,7 +207,7 @@ namespace OpenPmsDental {
 			if(textDescription.Text==""){
 				textDescription.Text=listSheetType.GetSelected<SheetTypeEnum>().GetDescription();
 			}
-			textFontSize.Text=SheetDefCur.FontSize.ToString();
+			textFontSize.Text=SheetDefCur.FontSize.ToStringNetFx();
 			textWidth.Text=SheetDefCur.Width.ToString();
 			textHeight.Text=SheetDefCur.Height.ToString();
 			checkIsLandscape.Checked=SheetDefCur.IsLandscape;
@@ -227,7 +227,7 @@ namespace OpenPmsDental {
 				return;
 			}
 			fontSize-=0.5f;
-			textFontSize.Text=fontSize.ToString();
+			textFontSize.Text=fontSize.ToStringNetFx();
 			if(_formSheetDefEdit==null) {
 				return;
 			}

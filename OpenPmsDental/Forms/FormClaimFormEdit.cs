@@ -95,10 +95,10 @@ namespace OpenPmsDental{
 				textHeight.Text="";
 			}
 			else if(listItems.SelectedIndices.Count==1) {
-				textXPos.Text=_claimForm.Items[listItems.SelectedIndices[0]].XPos.ToString();
-				textYPos.Text=_claimForm.Items[listItems.SelectedIndices[0]].YPos.ToString();
-				textWidth.Text=_claimForm.Items[listItems.SelectedIndices[0]].Width.ToString();
-				textHeight.Text=_claimForm.Items[listItems.SelectedIndices[0]].Height.ToString();
+				textXPos.Text=_claimForm.Items[listItems.SelectedIndices[0]].XPos.ToStringNetFx();
+				textYPos.Text=_claimForm.Items[listItems.SelectedIndices[0]].YPos.ToStringNetFx();
+				textWidth.Text=_claimForm.Items[listItems.SelectedIndices[0]].Width.ToStringNetFx();
+				textHeight.Text=_claimForm.Items[listItems.SelectedIndices[0]].Height.ToStringNetFx();
 			}
 			else {//2 or more selected
 				//only shows a value if all are the same
@@ -129,25 +129,25 @@ namespace OpenPmsDental{
 					}
 				}
 				if(isXSame) {
-					textXPos.Text=_claimForm.Items[listItems.SelectedIndices[0]].XPos.ToString();
+					textXPos.Text=_claimForm.Items[listItems.SelectedIndices[0]].XPos.ToStringNetFx();
 				}
 				else {
 					textXPos.Text="";
 				}
 				if(isYSame) {
-					textYPos.Text=_claimForm.Items[listItems.SelectedIndices[0]].YPos.ToString();
+					textYPos.Text=_claimForm.Items[listItems.SelectedIndices[0]].YPos.ToStringNetFx();
 				}
 				else {
 					textYPos.Text="";
 				}
 				if(isWSame) {
-					textWidth.Text=_claimForm.Items[listItems.SelectedIndices[0]].Width.ToString();
+					textWidth.Text=_claimForm.Items[listItems.SelectedIndices[0]].Width.ToStringNetFx();
 				}
 				else {
 					textWidth.Text="";
 				}
 				if(isHSame) {
-					textHeight.Text=_claimForm.Items[listItems.SelectedIndices[0]].Height.ToString();
+					textHeight.Text=_claimForm.Items[listItems.SelectedIndices[0]].Height.ToStringNetFx();
 				}
 				else {
 					textHeight.Text="";

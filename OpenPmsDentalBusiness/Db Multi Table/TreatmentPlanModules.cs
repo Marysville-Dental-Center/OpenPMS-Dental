@@ -412,7 +412,7 @@ namespace OpenPmsDentalBusiness {
 							priIns=(decimal)ClaimProcs.GetInsEstTotal(claimProc);
 							double ded=ClaimProcs.GetDeductibleDisplay(claimProc);
 							if(ded>0) {
-								showPriDeduct="\r\n"+Lans.g(_translationString,"Pri Deduct Applied: ")+ded.ToString("c");
+								showPriDeduct="\r\n"+Lans.g(_translationString,"Pri Deduct Applied: ")+ded.ToStringNetFx("c");
 							}
 						}
 						else {

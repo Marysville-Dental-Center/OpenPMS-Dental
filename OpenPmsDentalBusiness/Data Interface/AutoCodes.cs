@@ -190,7 +190,7 @@ namespace OpenPmsDentalBusiness{
 			if(strTeeth!=null && strTeeth.Trim()!="") {
 				strLogText+=Lans.g("FrmAutoCodeLessIntrusive","Teeth")+": "+strTeeth+", ";
 			}
-			strLogText+=Lans.g("FrmAutoCodeLessIntrusive","Fee")+": "+procedure.ProcFee.ToString("F")+", "+procedureCode.Descript;
+			strLogText+=Lans.g("FrmAutoCodeLessIntrusive","Fee")+": "+procedure.ProcFee.ToStringNetFx("F")+", "+procedureCode.Descript;
 			if(procedure.ProcStatus.In(ProcStat.EO,ProcStat.EC)) {
 				SecurityLogs.MakeLogEntry(EnumPermType.ProcExistingEdit,patient.PatNum,strLogText);
 			}

@@ -3,6 +3,7 @@
 // LICENSE in the repository root.
 using System;
 using System.Globalization;
+using CodeBase;
 
 namespace OpenPmsDentalBusiness {
 	///<summary>Keeps two font size boxes in step: the actual size of a text drawing (in image or mount pixels) and the size it appears at the current
@@ -85,7 +86,7 @@ namespace OpenPmsDentalBusiness {
 
 		///<summary>The text the boxes show: at most two decimals, as before 25.3.</summary>
 		public static string FormatSize(float size) {
-			return size.ToString("#.##");
+			return size.ToStringNetFx("#.##");
 		}
 
 		///<summary>True if the text is a number the boxes accept (the same parsing and limits as the boxes). False for blank text, letters or symbols,

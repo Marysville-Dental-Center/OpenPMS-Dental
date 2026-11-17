@@ -65,4 +65,17 @@
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
   </ItemGroup>
+  <!--
+    Doubles and floats written as text as .NET Framework wrote them (package S3b-FMT of the .NET 10 move, decision 24 of
+    docs/specs/net10-plan.md, docs/port-notes/S3b-FMT.md): CodeBase's ODNumberText.ToStringNetFx and AsNetFx, compiled in as an internal
+    class (OD_NUMBERTEXT_LINKED), since this project does not reference CodeBase.
+  -->
+  <PropertyGroup>
+    <DefineConstants>$(DefineConstants);OD_NUMBERTEXT_LINKED</DefineConstants>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="..\CodeBase\Utilities\ODNumberTextNetFx.cs">
+      <Link>Utilities\ODNumberTextNetFx.cs</Link>
+    </Compile>
+  </ItemGroup>
 </Project>

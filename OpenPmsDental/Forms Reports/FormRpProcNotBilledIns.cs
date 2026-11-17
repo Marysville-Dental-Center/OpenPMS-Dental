@@ -104,7 +104,7 @@ namespace OpenPmsDental{
 							row.Cells.Add(Clinics.GetAbbr(clinicNum));
 						}
 					}
-					row.Cells.Add(PIn.Double(queryObj.ReportTable.Rows[j][4].ToString()).ToString("c"));//Amount
+					row.Cells.Add(PIn.Double(queryObj.ReportTable.Rows[j][4].ToString()).ToStringNetFx("c"));//Amount
 					_procTotalAmt+=PIn.Decimal(queryObj.ReportTable.Rows[j][4].ToString());
 					row.Tag=((QueryObject)_myReport.ReportObjects[i]).ReportTable.Rows[j];
 					gridMain.ListGridRows.Add(row);

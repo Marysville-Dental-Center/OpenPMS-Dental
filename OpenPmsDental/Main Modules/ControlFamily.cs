@@ -1704,7 +1704,7 @@ namespace OpenPmsDental{
 								if(cellStr!="") {
 									cellStr+=", ";
 								}
-								cellStr+=Lan.g(this,"Disabled until balance ")+listRecallsPat[i].DisableUntilBalance.ToString("c");
+								cellStr+=Lan.g(this,"Disabled until balance ")+listRecallsPat[i].DisableUntilBalance.ToStringNetFx("c");
 							}
 							if(listRecallsPat[i].RecallStatus!=0) {
 								if(cellStr!="") {
@@ -2145,7 +2145,7 @@ namespace OpenPmsDental{
 				else {
 					rowDiscount.Cells.Add(_discountPlanSub.DateEffective.ToShortDateString());
 				}
-				string discountPlanAnnualMax=discountPlan.AnnualMax.ToString();
+				string discountPlanAnnualMax=discountPlan.AnnualMax.ToStringNetFx();
 				if(discountPlan.AnnualMax==-1) {
 					discountPlanAnnualMax="";
 				}
@@ -2465,7 +2465,7 @@ namespace OpenPmsDental{
 						strVal+=benefitMatrix[x,y].Percent.ToString()+"% ";
 					}
 					if(benefitMatrix[x,y].MonetaryAmt != -1) {
-						strVal+=benefitMatrix[x,y].MonetaryAmt.ToString("c0")+" ";
+						strVal+=benefitMatrix[x,y].MonetaryAmt.ToStringNetFx("c0")+" ";
 					}
 					/*
 					if(benMatrix[x,y].BenefitType==InsBenefitType.CoInsurance) {

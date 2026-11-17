@@ -162,7 +162,7 @@ namespace OpenPmsDental.Bridges {
 									}
 									if(linesProcessedCount<totalLines) {//this avoids setting progress bar to max, which would close the dialog.
 										string strProg="Creating export file: "
-											+(linesProcessedCount/totalLines*100).ToString("f")
+											+(linesProcessedCount/totalLines*100).ToStringNetFx("f")
 											+" % of 100 % completed";
 										ODEvent.Fire(ODEventType.ProgressBar,strProg);
 									}
@@ -175,7 +175,7 @@ namespace OpenPmsDental.Bridges {
 							writer.WriteEndElement();//Appointment
 							if(linesProcessedCount<totalLines) {//this avoids setting progress bar to max, which would close the dialog.
 								string strProg="Creating export file: "
-									+(linesProcessedCount/totalLines*100).ToString("f")
+									+(linesProcessedCount/totalLines*100).ToStringNetFx("f")
 									+" % of 100 % completed";
 								ODEvent.Fire(ODEventType.ProgressBar,strProg);
 							}
@@ -185,7 +185,7 @@ namespace OpenPmsDental.Bridges {
 					writer.WriteEndElement();//Customer
 					if(linesProcessedCount<totalLines) {//this avoids setting progress bar to max, which would close the dialog.
 						string strProg="Creating export file: "
-							+(linesProcessedCount/totalLines*100).ToString("f")
+							+(linesProcessedCount/totalLines*100).ToStringNetFx("f")
 							+" % of 100 % completed";
 						ODEvent.Fire(ODEventType.ProgressBar,strProg);
 					}

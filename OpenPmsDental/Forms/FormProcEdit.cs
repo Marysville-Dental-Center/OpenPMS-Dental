@@ -250,13 +250,13 @@ namespace OpenPmsDental {
 				}
 				else {
 					if(listProcedures.Count>0) {
-						textCanadaLabFee1.Text=listProcedures[0].ProcFee.ToString("n");
+						textCanadaLabFee1.Text=listProcedures[0].ProcFee.ToStringNetFx("n");
 						if(listProcedures[0].ProcStatus==ProcStat.C) {
 							textCanadaLabFee1.ReadOnly=true;
 						}
 					}
 					if(listProcedures.Count>1) {
-						textCanadaLabFee2.Text=listProcedures[1].ProcFee.ToString("n");
+						textCanadaLabFee2.Text=listProcedures[1].ProcFee.ToStringNetFx("n");
 						if(listProcedures[1].ProcStatus==ProcStat.C) {
 							textCanadaLabFee2.ReadOnly=true;
 						}
@@ -585,7 +585,7 @@ namespace OpenPmsDental {
 					groupProsth.Visible=false;
 				}
 			}
-			textDiscount.Text=_procedure.Discount.ToString("f");
+			textDiscount.Text=_procedure.Discount.ToStringNetFx("f");
 			//medical
 			textMedicalCode.Text=_procedure.MedicalCode;
 			if(_procedure.IcdVersion==9) {
@@ -625,7 +625,7 @@ namespace OpenPmsDental {
 			}
 			comboDrugUnit.SelectedIndex=(int)_procedure.DrugUnit;
 			if(_procedure.DrugQty!=0){
-				textDrugQty.Text=_procedure.DrugQty.ToString();
+				textDrugQty.Text=_procedure.DrugQty.ToStringNetFx();
 			}
 			checkIsEmergency.Checked=(_procedure.Urgency==ProcUrgency.Emergency);
 			textClaimNote.Text=_procedure.ClaimNote;
@@ -870,7 +870,7 @@ namespace OpenPmsDental {
 					}
 				}//forloop
 			}//if toothrange
-			textProcFee.Text=_procedure.ProcFee.ToString("n");
+			textProcFee.Text=_procedure.ProcFee.ToStringNetFx("n");
 		}
 
 		/// <summary>Takes in a list of controls and loops through to disable the necesary components</summary>
@@ -1112,7 +1112,7 @@ namespace OpenPmsDental {
 				row.Cells.Add(ClaimProcs.GetCopayDisplay(_listClaimProcs[i]));
 				double deductibleDisplay=ClaimProcs.GetDeductibleDisplay(_listClaimProcs[i]);
 				if(deductibleDisplay>0) {
-					row.Cells.Add(deductibleDisplay.ToString("n"));
+					row.Cells.Add(deductibleDisplay.ToStringNetFx("n"));
 				}
 				else {
 					row.Cells.Add("");
@@ -1126,8 +1126,8 @@ namespace OpenPmsDental {
 					row.Cells.Add(ClaimProcs.GetWriteOffEstimateDisplay(_listClaimProcs[i]));
 				}
 				else {
-					row.Cells.Add(_listClaimProcs[i].InsPayAmt.ToString("n"));
-					row.Cells.Add(_listClaimProcs[i].WriteOff.ToString("n"));
+					row.Cells.Add(_listClaimProcs[i].InsPayAmt.ToStringNetFx("n"));
+					row.Cells.Add(_listClaimProcs[i].WriteOff.ToStringNetFx("n"));
 				}
 				row.Cells.Add(_listClaimProcs[i].EstimateNote);
 				row.Cells.Add(_listClaimProcs[i].Remarks);			  
@@ -1253,10 +1253,10 @@ namespace OpenPmsDental {
 			for(int i=0;i<_listPaySplits.Count;i++){
 				row=new GridRow();
 				row.Cells.Add((_listPaySplits[i]).DatePay.ToShortDateString());
-				row.Cells.Add((_listPaySplits[i]).SplitAmt.ToString("F"));
+				row.Cells.Add((_listPaySplits[i]).SplitAmt.ToStringNetFx("F"));
 				row.Cells[row.Cells.Count-1].Bold=YN.Yes;
 				payment=Payments.GetFromList((_listPaySplits[i]).PayNum,_listPayments);
-				row.Cells.Add(payment.PayAmt.ToString("F"));
+				row.Cells.Add(payment.PayAmt.ToStringNetFx("F"));
 				row.Cells.Add(payment.PayNote);
 				gridPay.ListGridRows.Add(row);
 			}
@@ -1291,7 +1291,7 @@ namespace OpenPmsDental {
 				row=new GridRow();
 				Adjustment adjustment=_listAdjustments[i];
 				row.Cells.Add(adjustment.AdjDate.ToShortDateString());
-				row.Cells.Add(adjustment.AdjAmt.ToString("F"));
+				row.Cells.Add(adjustment.AdjAmt.ToStringNetFx("F"));
 				row.Cells[row.Cells.Count-1].Bold=YN.Yes;
 				row.Cells.Add(Defs.GetName(DefCat.AdjTypes,adjustment.AdjType));
 				row.Cells.Add(adjustment.AdjNote);
@@ -1306,7 +1306,7 @@ namespace OpenPmsDental {
 			if(_procedure.ProcStatus==ProcStat.C) {
 				//Updating the discount text box will cause the procedure to get updated if the user clicks OK.
 				//This is fine because the Discount column is not designed for accuracy (after being set complete) and is loosely kept updated.
-				textDiscount.Text=discountAmt.ToString("F");//Calculated based on all adjustments of type if complete
+				textDiscount.Text=discountAmt.ToStringNetFx("F");//Calculated based on all adjustments of type if complete
 			}
 		}
 
@@ -1561,9 +1561,9 @@ namespace OpenPmsDental {
 				double credits=sumWriteoff+sumInsPaids+sumInsEstsNotReceived-sumAdjs+sumPaySplits;
 				//Check if the new ProcCode will result in the procedure being overallocated due to a change in ProcFee.
 				if(credits>procFee) {//Procedure is overallocated.
-					string strMsg=Lan.g(this,"The fee will be changed from")+" "+procFeeOld.ToString("c")+" "
-						+Lan.g(this,"to")+" "+procFee.ToString("c")
-						+Lan.g(this,", and the procedure has credits attached in the amount of")+" "+credits.ToString("c")
+					string strMsg=Lan.g(this,"The fee will be changed from")+" "+procFeeOld.ToStringNetFx("c")+" "
+						+Lan.g(this,"to")+" "+procFee.ToStringNetFx("c")
+						+Lan.g(this,", and the procedure has credits attached in the amount of")+" "+credits.ToStringNetFx("c")
 						+Lan.g(this,".  This will result in an overallocated procedure")+".\r\n"+Lan.g(this,"Continue?");
 					//Prompt user to accept the overallocation or revert back to old ProcCode.
 					if(MessageBox.Show(this,strMsg,Lan.g(this,"Overpaid Procedure Warning"),MessageBoxButtons.YesNo)==DialogResult.No) {
@@ -1647,7 +1647,7 @@ namespace OpenPmsDental {
 				_procedure.ProcStatus=ProcStat.TP;
 				if(_procedure.ProcFee==0) {
 					_procedure.ProcFee=Procedures.GetProcFee(_patient,_listPatPlans,_listInsSubs,_listInsPlans,_procedure,listFees:_listFees);
-					textProcFee.Text=_procedure.ProcFee.ToString("f");
+					textProcFee.Text=_procedure.ProcFee.ToStringNetFx("f");
 					_isTpFeeTyped=false;//The fee schedule fee replaced any typed fee.
 				}
 			}
@@ -2162,7 +2162,7 @@ namespace OpenPmsDental {
 			}
 			SecurityLogs.MakeLogEntry(permissions,_patient.PatNum,Lan.g(this,"Invalidated: ")+
 				ProcedureCodes.GetStringProcCode(_procedure.CodeNum).ToString()+" ("+_procedure.ProcStatus+"), "
-				+_procedure.ProcDate.ToShortDateString()+", "+_procedure.ProcFee.ToString("c")+", Deleted");
+				+_procedure.ProcDate.ToShortDateString()+", "+_procedure.ProcFee.ToStringNetFx("c")+", Deleted");
 			DialogResult=DialogResult.OK;
 		}
 
@@ -2389,7 +2389,7 @@ namespace OpenPmsDental {
 			{
 				actionMsgBox.Invoke(ProcTPFeeEdit.GetBlockedOnSaveText(_procedureOld.ProcFee));
 				_procedure.ProcFee=_procedureOld.ProcFee;
-				textProcFee.Text=_procedure.ProcFee.ToString("n");
+				textProcFee.Text=_procedure.ProcFee.ToStringNetFx("n");
 				_isTpFeeTyped=false;
 				_isEstimateRecompute=true;
 				Procedures.ComputeEstimates(_procedure,_patient.PatNum,ref _listClaimProcs,false,_listInsPlans,_listPatPlans,_listBenefits,
@@ -2735,7 +2735,7 @@ namespace OpenPmsDental {
 				Procedures.UpdateCpoeForProc(_procedure.ProcNum,true);
 				//Make a log that we edited this procedure's CPOE flag.
 				SecurityLogs.MakeLogEntry(EnumPermType.ProcEdit,_procedure.PatNum,ProcedureCodes.GetProcCode(_procedure.CodeNum).ProcCode
-					+", "+_procedure.ProcFee.ToString("c")+", "+Lan.g(this,"automatically flagged as CPOE."));
+					+", "+_procedure.ProcFee.ToStringNetFx("c")+", "+Lan.g(this,"automatically flagged as CPOE."));
 			}
 			if(DialogResult==DialogResult.OK) {
 				//this catches date,prov,fee,status,etc for all claimProcs attached to this proc.

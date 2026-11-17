@@ -1,6 +1,6 @@
 // The mechanical rewrite (S3b-FMT, docs/port-notes/S3b-FMT.md): applies the sites' edits to each file, keeps the file's bytes everywhere
-// else (encoding, BOM, line ends), and adds "using CodeBase;" where an edit needs it. A file whose text does not read back to the same bytes
-// (not UTF-8) is left alone and reported.
+// else (encoding, BOM, line ends), and adds "using CodeBase;" where an edit needs it. A file that is not UTF-8 (Windows-1252) is read and
+// written as Latin-1, byte for byte.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
 using System.Collections.Generic;
@@ -20,14 +20,22 @@ namespace FormatSweep {
 				string path=group.Key;
 				byte[] arrayBytes=File.ReadAllBytes(path);
 				bool hasBom=arrayBytes.Length>=3 && arrayBytes[0]==0xEF && arrayBytes[1]==0xBB && arrayBytes[2]==0xBF;
-				UTF8Encoding encoding=new UTF8Encoding(hasBom,true);
+				Encoding encoding=new UTF8Encoding(hasBom,true);
 				string text;
 				try {
 					text=encoding.GetString(arrayBytes,hasBom ? 3 : 0,arrayBytes.Length-(hasBom ? 3 : 0));
 				}
 				catch(DecoderFallbackException) {
-					listLines.Add("SKIPPED (not UTF-8): "+path);
-					continue;
+					//Not UTF-8 (a Windows-1252 file of the original code): read byte for byte as Latin-1, which writes every byte back as it was; the
+					//edits are ASCII. The scan read the file as UTF-8 with a replacement character for each bad byte, so the positions agree only if
+					//no byte sequence was read as one character.
+					encoding=Encoding.Latin1;
+					hasBom=false;
+					text=encoding.GetString(arrayBytes);
+					if(new UTF8Encoding(false,false).GetString(arrayBytes).Length!=text.Length) {
+						listLines.Add("SKIPPED (neither UTF-8 nor one byte a character): "+path);
+						continue;
+					}
 				}
 				string textNew=RewriteText(text,group.ToList(),path,out int countEdits);
 				if(textNew==text) {

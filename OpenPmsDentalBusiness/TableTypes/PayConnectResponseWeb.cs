@@ -131,7 +131,7 @@ namespace OpenPmsDentalBusiness {
 			else {
 				dateTimeProcessed=DateTime.Now;
 			}
-			return Lans.g(this,"Amount:")+" "+(keepAmountPositive ? Amount : -Amount).ToString("f")+"\r\n"
+			return Lans.g(this,"Amount:")+" "+(keepAmountPositive ? Amount : -Amount).ToStringNetFx("f")+"\r\n"
 				+Lans.g(this,"Card Number:")+" "+responseValues.CreditCardNumber+"\r\n"
 				+Lans.g(this,"Transaction ID:")+" "+responseValues.TransactionID+"\r\n"
 				+Lans.g(this,"Processed:")+" "+dateTimeProcessed.ToShortDateString()+" "+dateTimeProcessed.ToShortTimeString()+"\r\n"
@@ -155,13 +155,13 @@ namespace OpenPmsDentalBusiness {
 			var responseValues=JsonConvert.DeserializeAnonymousType(LastResponseStr,responseTypePartial);
 			string resultNote=Lans.g(this,"Transaction Type")+": "+Enum.GetName(typeof(PayConnectService.transType),TransType)+"\r\n"
 				+Lans.g(this,"Status")+": "+responseValues.Status+"\r\n"
-				+Lans.g(this,"Amount")+": "+amount.ToString("C")+"\r\n"
+				+Lans.g(this,"Amount")+": "+amount.ToStringNetFx("C")+"\r\n"
 				+Lans.g(this,"Card Type")+": "+responseValues.PaymentMethod.CardPaymentMethod.Network+"\r\n"
 				+Lans.g(this,"Account")+": "+responseValues.PaymentMethod.CardPaymentMethod.CardLast4Digits+"\r\n"
 				+Lans.g(this,"Auth Code")+": "+responseValues.AuthCode+"\r\n"
 				+Lans.g(this,"Ref Number")+": "+RefNumber+"\r\n";
 			if(surchargeAmount>0) {
-				resultNote+=Lans.g(this,"Surcharge Fee Amount")+": "+surchargeAmount.ToString("C")+"\r\n";
+				resultNote+=Lans.g(this,"Surcharge Fee Amount")+": "+surchargeAmount.ToStringNetFx("C")+"\r\n";
 			}
 			return resultNote+=Lans.g(this,"Note:")+" "+PayNote;
 		}

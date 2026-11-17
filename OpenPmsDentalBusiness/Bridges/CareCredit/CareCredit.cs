@@ -468,7 +468,7 @@ namespace OpenPmsDentalBusiness.Bridges {
 			}
 			double amount=(careCreditWebResponse.Amount>0) ? careCreditWebResponse.Amount : result.Amount;
 			if(amount>0) {
-				stringBuilder.Append(" - Amount: "+amount.ToString("c"));
+				stringBuilder.Append(" - Amount: "+amount.ToStringNetFx("c"));
 			}
 			return stringBuilder.ToString();
 		}

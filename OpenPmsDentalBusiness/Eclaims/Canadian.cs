@@ -1993,7 +1993,7 @@ namespace OpenPmsDentalBusiness.Eclaims {
 
 		///<summary>Decimal.</summary>
 		public static string TidyD(double number,int width){
-			string retVal=(number*100).ToString("F0");
+			string retVal=(number*100).ToStringNetFx("F0");
 			if(retVal.Length>width) {
 				return retVal.Substring(0,width);//this should never happen, but it might prevent a malformed claim.
 			}
@@ -2882,11 +2882,11 @@ namespace OpenPmsDentalBusiness.Eclaims {
 							break;
 						case "G44"://Eligible Amount for additional Lab procedure
 							double eligibleAmount=PIn.Double(RawMoneyStrToDisplayMoney(field.valuestr));
-							listClaimProcNotes.Add(Lans.g("Canadian","Lab Procedure Eligible Amount")+": "+eligibleAmount.ToString("N"));
+							listClaimProcNotes.Add(Lans.g("Canadian","Lab Procedure Eligible Amount")+": "+eligibleAmount.ToStringNetFx("N"));
 							break;
 						case "G21"://Deductible
 							Deductible=PIn.Double(RawMoneyStrToDisplayMoney(field.valuestr));
-							listClaimProcNotes.Add(Lans.g("Canadian","Deductible")+": "+Deductible.ToString("N"));
+							listClaimProcNotes.Add(Lans.g("Canadian","Deductible")+": "+Deductible.ToStringNetFx("N"));
 							if(isPreEob) {
 								ClaimProcByTotal.DedEst=Deductible;
 							}
@@ -2899,7 +2899,7 @@ namespace OpenPmsDentalBusiness.Eclaims {
 							break;
 						case "G23"://Benefit Amount
 							BenefitAmount=PIn.Double(RawMoneyStrToDisplayMoney(field.valuestr));
-							listClaimProcNotes.Add(Lans.g("Canadian","Benefit Amount")+": "+BenefitAmount.ToString("N"));
+							listClaimProcNotes.Add(Lans.g("Canadian","Benefit Amount")+": "+BenefitAmount.ToStringNetFx("N"));
 							if(isPreEob) {
 								ClaimProcByTotal.InsPayEst=BenefitAmount;
 							}

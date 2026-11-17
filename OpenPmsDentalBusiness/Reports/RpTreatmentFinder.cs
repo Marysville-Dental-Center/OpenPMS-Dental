@@ -51,7 +51,7 @@ namespace OpenPmsDentalBusiness {
 			using(DataTable tablePlanned=GetDictAmtPlanned(patsWithAppts,dateFrom,dateTo,listProviders,listBilling,code1,code2,listClinicNums,useTreatingProvider)) {
 				if(ODBuild.IsDebug()) {
 					sw.Stop();
-					Console.WriteLine("Get tablePlanned: "+sw.Elapsed.TotalSeconds+" sec, Rows: "+tablePlanned.Rows.Count);
+					Console.WriteLine("Get tablePlanned: "+sw.Elapsed.TotalSeconds.ToStringNetFx()+" sec, Rows: "+tablePlanned.Rows.Count);
 					sw=Stopwatch.StartNew();
 				}
 				if(tablePlanned.Rows.Count==0) {
@@ -69,7 +69,7 @@ namespace OpenPmsDentalBusiness {
 			}
 			if(ODBuild.IsDebug()) {
 				sw.Stop();
-				Console.WriteLine("Get dictPatInfo: "+sw.Elapsed.TotalSeconds+" sec, Count: "+dictPatInfo.Count);
+				Console.WriteLine("Get dictPatInfo: "+sw.Elapsed.TotalSeconds.ToStringNetFx()+" sec, Count: "+dictPatInfo.Count);
 				sw=Stopwatch.StartNew();
 			}
 			//dictionary with Key=InsSubNum, Value=Tuple(AmtPending,AmtUsed)
@@ -80,7 +80,7 @@ namespace OpenPmsDentalBusiness {
 			}
 			if(ODBuild.IsDebug()) {
 				sw.Stop();
-				Console.WriteLine("Get dictFamInfo: "+sw.Elapsed.TotalSeconds+" sec, Rows: "+dictFamInfo.Count);
+				Console.WriteLine("Get dictFamInfo: "+sw.Elapsed.TotalSeconds.ToStringNetFx()+" sec, Rows: "+dictFamInfo.Count);
 				sw=Stopwatch.StartNew();
 			}
 			//dictionary with Key=PlanNum, Value=Tuple(AnnualMaxInd,AnnualMaxFam)
@@ -91,13 +91,13 @@ namespace OpenPmsDentalBusiness {
 			}
 			if(ODBuild.IsDebug()) {
 				sw.Stop();
-				Console.WriteLine("Get dictAnnualMax: "+sw.Elapsed.TotalSeconds+" sec, Rows: "+dictAnnualMax.Count);
+				Console.WriteLine("Get dictAnnualMax: "+sw.Elapsed.TotalSeconds.ToStringNetFx()+" sec, Rows: "+dictAnnualMax.Count);
 				sw=Stopwatch.StartNew();
 			}
 			using(DataTable rawtable=GetTableRaw(noIns,monthStart,patNumStr)) {
 				if(ODBuild.IsDebug()) {
 					sw.Stop();
-					Console.WriteLine("Get RawTable: "+sw.Elapsed.TotalSeconds+" sec, Rows: "+rawtable.Rows.Count);
+					Console.WriteLine("Get RawTable: "+sw.Elapsed.TotalSeconds.ToStringNetFx()+" sec, Rows: "+rawtable.Rows.Count);
 					sw=Stopwatch.StartNew();
 				}
 				DataRow row;
@@ -159,15 +159,15 @@ namespace OpenPmsDentalBusiness {
 					row["City"]=rawRow["City"].ToString();
 					row["State"]=rawRow["State"].ToString();
 					row["Zip"]=rawRow["Zip"].ToString();
-					row["annualMaxInd"]=patAnnualMax.ToString("N");
-					row["annualMaxFam"]=famAnnualMax.ToString("N");
-					row["amountUsedInd"]=patAmtUsed.ToString("N");
-					row["amountUsedFam"]=famAmtUsed.ToString("N");
-					row["amountPendingInd"]=patAmtPending.ToString("N");
-					row["amountPendingFam"]=famAmtPending.ToString("N");
-					row["amountRemainingInd"]=(patAnnualMax-patAmtUsed-patAmtPending).ToString("N");
-					row["amountRemainingFam"]=(famAnnualMax-famAmtUsed-famAmtPending).ToString("N");
-					row["treatmentPlan"]=amtPlanned.ToString("N");
+					row["annualMaxInd"]=patAnnualMax.ToStringNetFx("N");
+					row["annualMaxFam"]=famAnnualMax.ToStringNetFx("N");
+					row["amountUsedInd"]=patAmtUsed.ToStringNetFx("N");
+					row["amountUsedFam"]=famAmtUsed.ToStringNetFx("N");
+					row["amountPendingInd"]=patAmtPending.ToStringNetFx("N");
+					row["amountPendingFam"]=famAmtPending.ToStringNetFx("N");
+					row["amountRemainingInd"]=(patAnnualMax-patAmtUsed-patAmtPending).ToStringNetFx("N");
+					row["amountRemainingFam"]=(famAnnualMax-famAmtUsed-famAmtPending).ToStringNetFx("N");
+					row["treatmentPlan"]=amtPlanned.ToStringNetFx("N");
 					row["carrierName"]=rawRow["carrierName"].ToString();
 					if(PrefC.HasClinicsEnabled) {
 						row["clinicAbbr"]=rawRow["clinicAbbr"].ToString();
@@ -179,8 +179,8 @@ namespace OpenPmsDentalBusiness {
 				sw.Stop();
 				sTotal.Stop();
 				Console.WriteLine("Finished Filling DataTable: {0}\r\n\tTotal time: {1}\r\n\tRows: {2}",
-					(sw.Elapsed.Minutes>0?(sw.Elapsed.Minutes+" min "):"")+(sw.Elapsed.TotalSeconds-sw.Elapsed.Minutes*60)+" sec",
-					(sTotal.Elapsed.Minutes>0?(sTotal.Elapsed.Minutes+" min "):"")+(sTotal.Elapsed.TotalSeconds-sTotal.Elapsed.Minutes*60)+" sec",
+					(sw.Elapsed.Minutes>0?(sw.Elapsed.Minutes+" min "):"")+(sw.Elapsed.TotalSeconds-sw.Elapsed.Minutes*60).ToStringNetFx()+" sec",
+					(sTotal.Elapsed.Minutes>0?(sTotal.Elapsed.Minutes+" min "):"")+(sTotal.Elapsed.TotalSeconds-sTotal.Elapsed.Minutes*60).ToStringNetFx()+" sec",
 					table.Rows.Count);
 			}
 			return table;

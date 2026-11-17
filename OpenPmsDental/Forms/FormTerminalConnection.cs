@@ -1,6 +1,7 @@
 using System;
 using System.Text;
 using OpenPmsDentalBusiness.Eclaims;
+using CodeBase;
 
 namespace OpenPmsDental {
 	/// <summary></summary>
@@ -157,7 +158,7 @@ namespace OpenPmsDental {
 		
 		///<summary></summary>
 		public void Pause(double ms){
-			textProgress.Text+="Pausing for "+ms.ToString()+" ms\r\n";
+			textProgress.Text+="Pausing for "+ms.ToStringNetFx()+" ms\r\n";
 			ScrollProgress();
 			_terminalConnector.Pause(ms);
 			textProgress.Text+="Done pausing\r\n";

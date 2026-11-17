@@ -233,7 +233,7 @@ namespace OpenPmsDentalBusiness {
 		///<summary>Security log text for the AccountProcsQuickAdd entry.</summary>
 		public static string GetAuditNote(string procCode,double fee,int countProcsTaxed) {
 			Meth.NoCheckMiddleTierRole();
-			return Lans.g("SalesTaxProcs","Sales tax procedure")+" "+procCode+" "+fee.ToString("c")+" "
+			return Lans.g("SalesTaxProcs","Sales tax procedure")+" "+procCode+" "+fee.ToStringNetFx("c")+" "
 				+Lans.g("SalesTaxProcs","added via Quick Procs > Sales Tax in the Account module, for")+" "+countProcsTaxed+" "
 				+Lans.g("SalesTaxProcs","procedure(s)");
 		}

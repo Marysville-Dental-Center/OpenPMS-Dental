@@ -1975,7 +1975,7 @@ Laboratory Test Results
 						case EhrLaboratories.HL70125.FT:
 							break;
 						case EhrLaboratories.HL70125.NM:
-							value=listLabResultFiltered[i].ObservationValueNumeric.ToString();
+							value=listLabResultFiltered[i].ObservationValueNumeric.ToStringNetFx();
 							break;
 						case EhrLaboratories.HL70125.SN:
 							break;
@@ -2036,7 +2036,7 @@ Laboratory Test Results
 					case EhrLaboratories.HL70125.FT:
 						break;
 					case EhrLaboratories.HL70125.NM:
-						value=listLabResultFiltered[i].ObservationValueNumeric.ToString();
+						value=listLabResultFiltered[i].ObservationValueNumeric.ToStringNetFx();
 						break;
 					case EhrLaboratories.HL70125.SN:
 						break;
@@ -2296,20 +2296,20 @@ Vital Signs
 						DateText("td",vitalsign.DateTaken);
 					}
 					if(vitalsign.Height>0) {
-						_w.WriteElementString("td",vitalsign.Height.ToString("f0")+" in");
+						_w.WriteElementString("td",vitalsign.Height.ToStringNetFx("f0")+" in");
 					}
 					else {
 						_w.WriteElementString("td","");
 					}
 					if(vitalsign.Weight>0) {
-						_w.WriteElementString("td",vitalsign.Weight.ToString("f0")+" lbs");
+						_w.WriteElementString("td",vitalsign.Weight.ToStringNetFx("f0")+" lbs");
 					}
 					else {
 						_w.WriteElementString("td","");
 					}
 					float bmi=Vitalsigns.CalcBMI(vitalsign.Weight,vitalsign.Height);//will be 0 if either wight is 0 or height is 0.
 					if(bmi>0) {
-						_w.WriteElementString("td",bmi.ToString("f1")+" lbs/in");
+						_w.WriteElementString("td",bmi.ToStringNetFx("f1")+" lbs/in");
 					}
 					else {
 						_w.WriteElementString("td","");
@@ -2395,7 +2395,7 @@ Vital Signs
 				Attribs("nullFlavor","UNK");
 			}
 			else {
-				Attribs("value",observationValue.ToString("f0"),"unit",observationUnits);
+				Attribs("value",observationValue.ToStringNetFx("f0"),"unit",observationUnits);
 			}
 			End("value");
 			End("observation");

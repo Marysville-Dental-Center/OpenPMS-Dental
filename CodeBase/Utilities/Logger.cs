@@ -328,7 +328,7 @@ namespace CodeBase {
 				List<FileInfo> files=new List<FileInfo>(di.GetFiles("*.*",SearchOption.AllDirectories))
 					//Filter down to those files that are old enough to be deleted.
 					.FindAll(x => x.CreationTime<DateTime.Today.Add(-tsOldThan));
-				status("Deleting "+files.Count.ToString()+" files... "+(files.Sum(x => x.Length)/1024/(double)1024).ToString("N2")+" MB");
+				status("Deleting "+files.Count.ToString()+" files... "+(files.Sum(x => x.Length)/1024/(double)1024).ToStringNetFx("N2")+" MB");
 				FileInfo file;
 				//Delete each of the files.
 				for(int iCurFile=0;iCurFile<files.Count;iCurFile++) {

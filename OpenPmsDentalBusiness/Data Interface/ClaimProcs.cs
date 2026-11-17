@@ -726,10 +726,10 @@ namespace OpenPmsDentalBusiness{
 			if(!strProcCode.IsNullOrEmpty()) {
 				strProcLog=$"amount for procedure {strProcCode}, ";
 			}
-			string strClaimProcOldWriteOff=claimProcOld.WriteOff.ToString("C");
-			string strClaimProcNewWriteOff=claimProcNew.WriteOff.ToString("C");
-			string strClaimProcOldInsPayAmt=claimProcOld.InsPayAmt.ToString("C");
-			string strClaimProcNewInsPayAmt=claimProcNew.InsPayAmt.ToString("C");
+			string strClaimProcOldWriteOff=claimProcOld.WriteOff.ToStringNetFx("C");
+			string strClaimProcNewWriteOff=claimProcNew.WriteOff.ToStringNetFx("C");
+			string strClaimProcOldInsPayAmt=claimProcOld.InsPayAmt.ToStringNetFx("C");
+			string strClaimProcNewInsPayAmt=claimProcNew.InsPayAmt.ToStringNetFx("C");
 			string strERA = isPaymentFromERA?" (Payment from ERA)":"";
 			long patNum=claimProcNew.PatNum;
 			EnumPermType permissionInsPay=EnumPermType.InsPayEdit;
@@ -1548,7 +1548,7 @@ namespace OpenPmsDentalBusiness{
 					retVal+=claimProcArray[i].InsPayEst;
 				}
 			}
-			return retVal.ToString("F");
+			return retVal.ToStringNetFx("F");
 		}
 
 		///<summary>Used in Account and in PaySplitEdit. The insurance estimate based on all claimprocs with this procNum, but only for those claimprocs that are not received yet. The list can be all ClaimProcs for patient, or just those for this procedure.</summary>
@@ -2845,10 +2845,10 @@ namespace OpenPmsDentalBusiness{
 		public static string GetCopayDisplay(ClaimProc claimProc) {
 			Meth.NoCheckMiddleTierRole();
 			if(claimProc.CopayOverride!=-1) {
-				return claimProc.CopayOverride.ToString("f");
+				return claimProc.CopayOverride.ToStringNetFx("f");
 			}
 			else if(claimProc.CopayAmt!=-1) {
-				return claimProc.CopayAmt.ToString("f");
+				return claimProc.CopayAmt.ToStringNetFx("f");
 			}
 			return "";
 		}
@@ -2857,10 +2857,10 @@ namespace OpenPmsDentalBusiness{
 		public static string GetWriteOffEstimateDisplay(ClaimProc claimProc) {
 			Meth.NoCheckMiddleTierRole();
 			if(claimProc.WriteOffEstOverride!=-1) {
-				return claimProc.WriteOffEstOverride.ToString("f");
+				return claimProc.WriteOffEstOverride.ToStringNetFx("f");
 			}
 			else if(claimProc.WriteOffEst!=-1) {
-				return claimProc.WriteOffEst.ToString("f");
+				return claimProc.WriteOffEst.ToStringNetFx("f");
 			}
 			return "";
 		}
@@ -2872,13 +2872,13 @@ namespace OpenPmsDentalBusiness{
 			}
 			if(claimProc.Status==ClaimProcStatus.Estimate) {
 				if(claimProc.InsEstTotalOverride!=-1) {
-					return claimProc.InsEstTotalOverride.ToString("f");
+					return claimProc.InsEstTotalOverride.ToStringNetFx("f");
 				}
 				else{//shows even if 0.
-					return claimProc.InsEstTotal.ToString("f");
+					return claimProc.InsEstTotal.ToStringNetFx("f");
 				}
 			}
-			return claimProc.InsPayEst.ToString("f");
+			return claimProc.InsPayEst.ToStringNetFx("f");
 		}
 
 		///<summary>Returns 0 or -1 if no deduct.</summary>
@@ -3388,7 +3388,7 @@ namespace OpenPmsDentalBusiness{
 		///<summary>Returns the salted hash for the claimproc. Computed by CodeBase.TamperHash. </summary>
 		public static string HashFields(ClaimProc claimProc) {
 			Meth.NoCheckMiddleTierRole();
-			string unhashedText=claimProc.ClaimNum.ToString()+((int)claimProc.Status).ToString()+claimProc.InsPayEst.ToString("F2")+claimProc.InsPayAmt.ToString("F2");
+			string unhashedText=claimProc.ClaimNum.ToString()+((int)claimProc.Status).ToString()+claimProc.InsPayEst.ToStringNetFx("F2")+claimProc.InsPayAmt.ToStringNetFx("F2");
 			try {
 				return TamperHash.Compute(unhashedText);
 			}
@@ -3450,7 +3450,7 @@ namespace OpenPmsDentalBusiness{
 		public bool IsDateAsOf;
 
 		public override string ToString() {
-			return StrProcCode+" "+Status.ToString()+" "+Amount.ToString()+" ded:"+Deduct.ToString();
+			return StrProcCode+" "+Status.ToString()+" "+Amount.ToStringNetFx()+" ded:"+Deduct.ToStringNetFx();
 		}
 	}
 

@@ -20,6 +20,8 @@
     For additional information, email info@fyireporting.com or visit
     the website www.fyiReporting.com.
 */
+// Changed by Open PMS - Dental contributors, 2026-11-16 (package S3b-FMT of the .NET 10 move, decision 24 of docs/specs/net10-plan.md,
+// docs/port-notes/S3b-FMT.md): doubles and floats are written as text as .NET Framework wrote them (ODNumberText.ToStringNetFx, AsNetFx).
 
 using System;
 using fyiReporting.RDL;
@@ -30,6 +32,7 @@ using System.Text;
 using System.Xml;
 using System.Globalization;
 using System.Drawing;
+using CodeBase;
 
 namespace fyiReporting.RDL
 {
@@ -494,9 +497,9 @@ function findObject(id) {
 				{
 					StringBuilder sb2 = new StringBuilder();
 					if (h != float.MinValue)
-						sb2.AppendFormat(NumberFormatInfo.InvariantInfo, "height: {0}pt; ", h);
+						sb2.AppendFormat(NumberFormatInfo.InvariantInfo, "height: {0}pt; ", h.AsNetFx());
 					if (w != float.MinValue)
-						sb2.AppendFormat(NumberFormatInfo.InvariantInfo, "width: {0}pt; ", w);
+						sb2.AppendFormat(NumberFormatInfo.InvariantInfo, "width: {0}pt; ", w.AsNetFx());
 					return sb2.ToString();
 				}
 			}
@@ -519,12 +522,12 @@ function findObject(id) {
 			}
 			if (ri.Top != null)
 			{
-				sb.AppendFormat(NumberFormatInfo.InvariantInfo, "top: {0}pt; ", ri.Gap(this.r));
+				sb.AppendFormat(NumberFormatInfo.InvariantInfo, "top: {0}pt; ", ri.Gap(this.r).AsNetFx());
 			}
 			if (ri is List)
 			{
 				List l = ri as List;
-				sb.AppendFormat(NumberFormatInfo.InvariantInfo, "height: {0}pt; ", l.HeightOfList(this.r, GetGraphics,row));
+				sb.AppendFormat(NumberFormatInfo.InvariantInfo, "height: {0}pt; ", l.HeightOfList(this.r, GetGraphics,row).AsNetFx());
 			}
 			else if (ri is Matrix || ri is Table || ri is Image)
 			{}

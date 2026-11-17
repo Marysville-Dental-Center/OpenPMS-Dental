@@ -1,5 +1,6 @@
 using System;
 using System.Drawing;
+using CodeBase;
 
 namespace SparksToothChart {
 	///<summary>One free-text label of the chart (toothinitial rows of type Text, package TC-5): its text, its place and its colour. Location is
@@ -23,7 +24,7 @@ namespace SparksToothChart {
 		}
 
 		public override string ToString() {
-			return ToothInitialNum+": \""+Text+"\" at "+Location.X+","+Location.Y;
+			return ToothInitialNum+": \""+Text+"\" at "+Location.X.ToStringNetFx()+","+Location.Y.ToStringNetFx();
 		}
 	}
 }

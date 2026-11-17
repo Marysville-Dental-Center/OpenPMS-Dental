@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using CodeBase;
 
 namespace SparksToothChart.Wpf3D {
 	///<summary>A 4x4 matrix of floats for row vectors (a point is [x y z 1]*M), with the formulas of the DirectX chart's math library
@@ -139,7 +140,7 @@ namespace SparksToothChart.Wpf3D {
 		public override string ToString() {
 			CultureInfo culture=CultureInfo.InvariantCulture;
 			return string.Format(culture,"[{0} {1} {2} {3}; {4} {5} {6} {7}; {8} {9} {10} {11}; {12} {13} {14} {15}]",
-				M11,M12,M13,M14,M21,M22,M23,M24,M31,M32,M33,M34,M41,M42,M43,M44);
+				M11.AsNetFx(),M12.AsNetFx(),M13.AsNetFx(),M14.AsNetFx(),M21.AsNetFx(),M22.AsNetFx(),M23.AsNetFx(),M24.AsNetFx(),M31.AsNetFx(),M32.AsNetFx(),M33.AsNetFx(),M34.AsNetFx(),M41.AsNetFx(),M42.AsNetFx(),M43.AsNetFx(),M44.AsNetFx());
 		}
 	}
 
@@ -522,7 +523,7 @@ namespace SparksToothChart.Wpf3D {
 		public string Describe() {
 			StringBuilder stringBuilder=new StringBuilder();
 			stringBuilder.AppendLine("Scene "+Size.Width+"x"+Size.Height+(IsPerio?" perio":"")+", background #"+ColorBackground.ToArgb().ToString("X8")
-				+", projection "+WidthProjection.ToString(CultureInfo.InvariantCulture)+"x"+HeightProjection.ToString(CultureInfo.InvariantCulture)+" mm");
+				+", projection "+WidthProjection.ToStringNetFx(CultureInfo.InvariantCulture)+"x"+HeightProjection.ToStringNetFx(CultureInfo.InvariantCulture)+" mm");
 			foreach(ToothSceneItem3D item in Items3DUnder) {
 				stringBuilder.AppendLine("3D under "+item);
 			}

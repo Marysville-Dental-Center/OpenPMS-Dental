@@ -766,7 +766,7 @@ namespace OpenPmsDental {
 			if(!TimeSyncCheck.ShouldStart(timeSyncMode,isOnDbServer) || _timeSyncCheckState.IsStopped) {
 				return;
 			}
-			ODException.SwallowAnyException(() => Logger.WriteLine("The time check starts: every "+TimeSyncCheck.Interval.TotalHours+" hours, mode "
+			ODException.SwallowAnyException(() => Logger.WriteLine("The time check starts: every "+TimeSyncCheck.Interval.TotalHours.ToStringNetFx()+" hours, mode "
 				+timeSyncMode+".",TimeSyncCheck.LOG_SUBDIRECTORY));
 			ODThread odThread=new ODThread((int)TimeSyncCheck.Interval.TotalMilliseconds,(o) => TimeSyncWorker(o,timeSyncMode));
 			odThread.AddExceptionHandler((e) => e.DoNothing());

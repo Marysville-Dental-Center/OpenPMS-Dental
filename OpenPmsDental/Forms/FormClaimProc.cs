@@ -427,7 +427,7 @@ namespace OpenPmsDental {
 				textDateCP.Text=_claimProc.DateCP.ToShortDateString();
 			}
 			textCodeSent.Text=_claimProc.CodeSent;
-			textFeeBilled.Text=_claimProc.FeeBilled.ToString("n");
+			textFeeBilled.Text=_claimProc.FeeBilled.ToStringNetFx("n");
 			textClaimAdjReasonCodes.Text=_claimProc.ClaimAdjReasonCodes;
 			textRemarks.Text=_claimProc.Remarks;
 			if(_claimProc.PayPlanNum==0) {
@@ -556,7 +556,7 @@ namespace OpenPmsDental {
 		///<summary>All text boxes will be blank before this is run.  It is only run once.</summary>
 		private void FillInitialAmounts(){
 			if(IsProc){
-				textFee.Text=_procedure.ProcFeeTotal.ToString("f");
+				textFee.Text=_procedure.ProcFeeTotal.ToStringNetFx("f");
 				InsPlan insPlan=InsPlans.GetPlan(_claimProc.PlanNum,_listInsPlans);
 				long insFeeSchedNum=FeeScheds.GetFeeSched(_patient,_listInsPlans,_listPatPlans,_listInsSub,_procedure.ProvNum);
 				textFeeSched.Text=FeeScheds.GetDescription(insFeeSchedNum);//show ins fee sched, unless PPO plan and standard fee is greater, checked below
@@ -598,19 +598,19 @@ namespace OpenPmsDental {
 			}
 			FillAllowed(BlueBookEstimateData_);
 			if(_claimProc.AllowedOverride!=-1){
-				textAllowedOverride.Text=_claimProc.AllowedOverride.ToString("f");
+				textAllowedOverride.Text=_claimProc.AllowedOverride.ToStringNetFx("f");
 			}
 			if(_claimProc.CopayAmt!=-1){
-				textCopayAmt.Text=_claimProc.CopayAmt.ToString("f");
+				textCopayAmt.Text=_claimProc.CopayAmt.ToStringNetFx("f");
 			}
 			if(_claimProc.CopayOverride!=-1){
-				textCopayOverride.Text=_claimProc.CopayOverride.ToString("f");
+				textCopayOverride.Text=_claimProc.CopayOverride.ToStringNetFx("f");
 			}
 			if(_claimProc.DedEst > 0) {
-				textDedEst.Text=_claimProc.DedEst.ToString("f");
+				textDedEst.Text=_claimProc.DedEst.ToStringNetFx("f");
 			}
 			if(_claimProc.DedEstOverride!=-1) {
-				textDedEstOverride.Text=_claimProc.DedEstOverride.ToString("f");
+				textDedEstOverride.Text=_claimProc.DedEstOverride.ToStringNetFx("f");
 			}
 			if(_claimProc.Percentage!=-1){
 				textPercentage.Text=_claimProc.Percentage.ToString();
@@ -619,28 +619,28 @@ namespace OpenPmsDental {
 				textPercentOverride.Text=_claimProc.PercentOverride.ToString();
 			}
 			if(_claimProc.PaidOtherIns!=-1){
-				textPaidOtherIns.Text=_claimProc.PaidOtherIns.ToString("f");
+				textPaidOtherIns.Text=_claimProc.PaidOtherIns.ToStringNetFx("f");
 			}
 			if(_claimProc.PaidOtherInsOverride!=-1) {
-				textPaidOtherInsOverride.Text=_claimProc.PaidOtherInsOverride.ToString("f");
+				textPaidOtherInsOverride.Text=_claimProc.PaidOtherInsOverride.ToStringNetFx("f");
 			}
-			textBaseEst.Text=_claimProc.BaseEst.ToString("f");
+			textBaseEst.Text=_claimProc.BaseEst.ToStringNetFx("f");
 			if(_claimProc.InsEstTotal!=-1) {
-				textInsEstTotal.Text=_claimProc.InsEstTotal.ToString("f");
+				textInsEstTotal.Text=_claimProc.InsEstTotal.ToStringNetFx("f");
 			}
 			if(_claimProc.InsEstTotalOverride!=-1) {
-				textInsEstTotalOverride.Text=_claimProc.InsEstTotalOverride.ToString("f");
+				textInsEstTotalOverride.Text=_claimProc.InsEstTotalOverride.ToStringNetFx("f");
 			}
 			if(_claimProc.WriteOffEst!=-1) {
-				textWriteOffEst.Text=_claimProc.WriteOffEst.ToString("f");
+				textWriteOffEst.Text=_claimProc.WriteOffEst.ToStringNetFx("f");
 			}
 			if(_claimProc.WriteOffEstOverride!=-1) {
-				textWriteOffEstOverride.Text=_claimProc.WriteOffEstOverride.ToString("f");
+				textWriteOffEstOverride.Text=_claimProc.WriteOffEstOverride.ToStringNetFx("f");
 			}
-			textDedApplied.Text=_claimProc.DedApplied.ToString("f");
-			textInsPayEst.Text=_claimProc.InsPayEst.ToString("f");
-			textInsPayAmt.Text=_claimProc.InsPayAmt.ToString("f");
-			textWriteOff.Text=_claimProc.WriteOff.ToString("f");
+			textDedApplied.Text=_claimProc.DedApplied.ToStringNetFx("f");
+			textInsPayEst.Text=_claimProc.InsPayEst.ToStringNetFx("f");
+			textInsPayAmt.Text=_claimProc.InsPayAmt.ToStringNetFx("f");
+			textWriteOff.Text=_claimProc.WriteOff.ToStringNetFx("f");
 		}
 
 		///<summary>Fills the carrier allowed amount.  Called from FillInitialAmounts and from butUpdateAllowed_Click</summary>
@@ -711,7 +711,7 @@ namespace OpenPmsDental {
 			DateTime datePrevious=fee.SecDateTEdit;
 			//Make an audit entry that the user manually launched the Fee Edit window from this location.
 			SecurityLogs.MakeLogEntry(EnumPermType.ProcFeeEdit,0,Lan.g(this,"Procedure")+": "+ProcedureCodes.GetStringProcCode(fee.CodeNum)
-				+", "+Lan.g(this,"Fee")+": "+fee.Amount.ToString("c")+", "+Lan.g(this,"Fee Schedule")+": "+FeeScheds.GetDescription(fee.FeeSched)
+				+", "+Lan.g(this,"Fee")+": "+fee.Amount.ToStringNetFx("c")+", "+Lan.g(this,"Fee Schedule")+": "+FeeScheds.GetDescription(fee.FeeSched)
 				+". "+Lan.g(this,"Manually launched Edit Fee window via Edit Claim Procedure window."),fee.CodeNum,DateTime.MinValue);
 			SecurityLogs.MakeLogEntry(EnumPermType.LogFeeEdit,0,Lan.g(this,"Fee Inserted"),fee.FeeNum,datePrevious);
 			formFeeEdit.FeeCur=fee;
@@ -808,13 +808,13 @@ namespace OpenPmsDental {
 				textCopayAmt.Text="";
 			}
 			else {
-				textCopayAmt.Text=_claimProc.CopayAmt.ToString("f");
+				textCopayAmt.Text=_claimProc.CopayAmt.ToStringNetFx("f");
 			}
 			if(_claimProc.DedEst == -1) {
 				textDedEst.Text="";
 			}
 			else {
-				textDedEst.Text=_claimProc.DedEst.ToString("f");
+				textDedEst.Text=_claimProc.DedEst.ToStringNetFx("f");
 			}
 			if(_claimProc.Percentage == -1) {
 				textPercentage.Text="";
@@ -826,15 +826,15 @@ namespace OpenPmsDental {
 				textPaidOtherIns.Text="";
 			}
 			else {
-				textPaidOtherIns.Text=_claimProc.PaidOtherIns.ToString("f");
+				textPaidOtherIns.Text=_claimProc.PaidOtherIns.ToStringNetFx("f");
 			}
-			textBaseEst.Text=_claimProc.BaseEst.ToString("f");
-			textInsEstTotal.Text=_claimProc.InsEstTotal.ToString("f");
+			textBaseEst.Text=_claimProc.BaseEst.ToStringNetFx("f");
+			textInsEstTotal.Text=_claimProc.InsEstTotal.ToStringNetFx("f");
 			if(_claimProc.WriteOffEst==-1) {
 				textWriteOffEst.Text="";
 			}
 			else {
-				textWriteOffEst.Text=_claimProc.WriteOffEst.ToString("f");
+				textWriteOffEst.Text=_claimProc.WriteOffEst.ToStringNetFx("f");
 			}
 			if(IsProc) {
 				//Compute the patient portion ignorant of other claimprocs and adjustments to preserve old behavior.
@@ -1061,7 +1061,7 @@ namespace OpenPmsDental {
 			if(writeoff<0) {
 				writeoff=0;
 			}
-			textWriteOff.Text=writeoff.ToString("n");
+			textWriteOff.Text=writeoff.ToStringNetFx("n");
 		}
 
 		private void textPercentOverride_Leave(object sender, System.EventArgs e) {
@@ -1278,7 +1278,7 @@ namespace OpenPmsDental {
 			}
 			double claimWriteoffTotal=ClaimProcs.GetClaimWriteOffTotal(_claimProc.ClaimNum,_claimProc.ProcNum,new List<ClaimProc>() { _claimProc });
 			if(claimWriteoffTotal+_claimProc.WriteOff<0) {
-				MsgBox.Show(this,"The current write-off value will cause the procedure's total write-off to be negative.  Please change it to at least "+(_claimProc.WriteOff-(claimWriteoffTotal+_claimProc.WriteOff)).ToString()+" to continue.");
+				MsgBox.Show(this,"The current write-off value will cause the procedure's total write-off to be negative.  Please change it to at least "+(_claimProc.WriteOff-(claimWriteoffTotal+_claimProc.WriteOff)).ToStringNetFx()+" to continue.");
 				return;
 			}
 			if(IsProc && ClaimL.AreCreditsGreaterThanProcFee(GetListClaimProcHypothetical())) {
@@ -1388,13 +1388,13 @@ namespace OpenPmsDental {
 			}
 			bool needsEditLog=false;
 			if(_claimProcOld.WriteOff!=_claimProc.WriteOff) {
-				insWriteoffEditLog+=$"Write-off amount changed from {_claimProcOld.WriteOff.ToString("C")} to {_claimProc.WriteOff.ToString("C")}. ";
+				insWriteoffEditLog+=$"Write-off amount changed from {_claimProcOld.WriteOff.ToStringNetFx("C")} to {_claimProc.WriteOff.ToStringNetFx("C")}. ";
 				needsEditLog=true;
 			}
 			double writeoffEstOld=ClaimProcs.GetWriteOffEstimate(_claimProcOld);//WriteOffEst is never user editable, we have to check overrides
 			double writeoffEstCur=ClaimProcs.GetWriteOffEstimate(_claimProc);//WriteOffEst is never user editable, we have to check overrides
 			if(writeoffEstOld!=writeoffEstCur) {
-				insWriteoffEditLog+=$"Write-off estimate amount changed from {writeoffEstOld.ToString("C")} to {writeoffEstCur.ToString("C")}. ";
+				insWriteoffEditLog+=$"Write-off estimate amount changed from {writeoffEstOld.ToStringNetFx("C")} to {writeoffEstCur.ToStringNetFx("C")}. ";
 				needsEditLog=true;
 			}
 			if(needsEditLog) {
@@ -1402,13 +1402,13 @@ namespace OpenPmsDental {
 			}
 			needsEditLog=false;
 			if(_claimProcOld.InsPayAmt!=_claimProc.InsPayAmt) {
-				insPayEditLog+=$"Insurance payment amount changed from {_claimProcOld.InsPayAmt.ToString("C")} to "
-					+$"{_claimProc.InsPayAmt.ToString("C")}. ";
+				insPayEditLog+=$"Insurance payment amount changed from {_claimProcOld.InsPayAmt.ToStringNetFx("C")} to "
+					+$"{_claimProc.InsPayAmt.ToStringNetFx("C")}. ";
 				needsEditLog=true;
 			}
 			if(_claimProcOld.InsPayEst!=_claimProc.InsPayEst) {
-				insPayEditLog+=$"Insurance payment estimate amount changed from {_claimProcOld.InsPayEst.ToString("C")} to "
-					+$"{_claimProc.InsPayEst.ToString("C")}. ";
+				insPayEditLog+=$"Insurance payment estimate amount changed from {_claimProcOld.InsPayEst.ToStringNetFx("C")} to "
+					+$"{_claimProc.InsPayEst.ToStringNetFx("C")}. ";
 				needsEditLog=true;
 			}
 			if(!needsEditLog && IsCalledFromClaimEdit) {
@@ -1416,8 +1416,8 @@ namespace OpenPmsDental {
 				if(_procedure!=null && _procedure.CodeNum!=0) { 
 					insPayCreateLog+=$"Procedure: {ProcedureCodes.GetStringProcCode(_procedure.CodeNum)}. ";
 				}
-				insPayCreateLog+=$"Insurance payment amount {_claimProc.InsPayAmt.ToString("C")}. ";
-				insPayCreateLog+=$"Insurance estimate amount {_claimProc.InsPayEst.ToString("C")}. ";
+				insPayCreateLog+=$"Insurance payment amount {_claimProc.InsPayAmt.ToStringNetFx("C")}. ";
+				insPayCreateLog+=$"Insurance estimate amount {_claimProc.InsPayEst.ToStringNetFx("C")}. ";
 				SecurityLogs.MakeLogEntry(EnumPermType.InsPayCreate,_claimProc.PatNum,insPayCreateLog);
 			} 
 			else if(needsEditLog && IsCalledFromClaimEdit) {

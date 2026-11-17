@@ -20,6 +20,8 @@
     For additional information, email info@fyireporting.com or visit
     the website www.fyiReporting.com.
 */
+// Changed by Open PMS - Dental contributors, 2026-11-16 (package S3b-FMT of the .NET 10 move, decision 24 of docs/specs/net10-plan.md,
+// docs/port-notes/S3b-FMT.md): doubles and floats are written as text as .NET Framework wrote them (ODNumberText.ToStringNetFx, AsNetFx).
 
 using System;
 using System.Xml;
@@ -27,6 +29,7 @@ using System.IO;
 using System.Drawing;
 using System.Collections;
 using System.Collections.Generic;
+using CodeBase;
 
 
 namespace fyiReporting.RDL
@@ -496,7 +499,7 @@ namespace fyiReporting.RDL
 				Table t = _TC.OwnerTable;
 				int colindex = _TC.ColIndex;
 				TableColumn tc = (TableColumn) (t.TableColumns.Items[colindex]);
-				Left = new RSize(OwnerReport, tc.GetXPosition(rpt).ToString() + "pt");
+				Left = new RSize(OwnerReport, tc.GetXPosition(rpt).ToStringNetFx() + "pt");
 			}
 			else if (Left == null)
 				Left = new RSize(OwnerReport, "0pt");

@@ -8818,7 +8818,7 @@ namespace OpenPmsDental {
 						CanadianLabFeeHelper(procedure.ProcNumLab);
 					}
 					SecurityLogs.MakeLogEntry(EnumPermType.ProcDelete,Pd.PatNum,listDataRowsSelected[i]["ProcCode"].ToString()+" ("+listDataRowsSelected[i]["procStatus"]+"), "
-						+PIn.Double(listDataRowsSelected[i]["procFee"].ToString()).ToString("c"));
+						+PIn.Double(listDataRowsSelected[i]["procFee"].ToString()).ToStringNetFx("c"));
 					continue;
 				}
 				if(rxNum!=0) {
@@ -9525,43 +9525,43 @@ namespace OpenPmsDental {
 			}
 			else {
 				textShiftM.Text=
-					ToothInitials.GetMovement(Pd.ListToothInitials,_toothChartRelay.SelectedTeeth[0],ToothInitialType.ShiftM).ToString();
+					ToothInitials.GetMovement(Pd.ListToothInitials,_toothChartRelay.SelectedTeeth[0],ToothInitialType.ShiftM).ToStringNetFx();
 				textShiftO.Text=
-					ToothInitials.GetMovement(Pd.ListToothInitials,_toothChartRelay.SelectedTeeth[0],ToothInitialType.ShiftO).ToString();
+					ToothInitials.GetMovement(Pd.ListToothInitials,_toothChartRelay.SelectedTeeth[0],ToothInitialType.ShiftO).ToStringNetFx();
 				textShiftB.Text=
-					ToothInitials.GetMovement(Pd.ListToothInitials,_toothChartRelay.SelectedTeeth[0],ToothInitialType.ShiftB).ToString();
+					ToothInitials.GetMovement(Pd.ListToothInitials,_toothChartRelay.SelectedTeeth[0],ToothInitialType.ShiftB).ToStringNetFx();
 				textRotate.Text=
-					ToothInitials.GetMovement(Pd.ListToothInitials,_toothChartRelay.SelectedTeeth[0],ToothInitialType.Rotate).ToString();
+					ToothInitials.GetMovement(Pd.ListToothInitials,_toothChartRelay.SelectedTeeth[0],ToothInitialType.Rotate).ToStringNetFx();
 				textTipM.Text=
-					ToothInitials.GetMovement(Pd.ListToothInitials,_toothChartRelay.SelectedTeeth[0],ToothInitialType.TipM).ToString();
+					ToothInitials.GetMovement(Pd.ListToothInitials,_toothChartRelay.SelectedTeeth[0],ToothInitialType.TipM).ToStringNetFx();
 				textTipB.Text=
-					ToothInitials.GetMovement(Pd.ListToothInitials,_toothChartRelay.SelectedTeeth[0],ToothInitialType.TipB).ToString();
+					ToothInitials.GetMovement(Pd.ListToothInitials,_toothChartRelay.SelectedTeeth[0],ToothInitialType.TipB).ToStringNetFx();
 				//At this point, all 6 blanks have either a number or 0.
 				//As we go through this loop, none of the values will change.
 				//The only thing that will happen is that some of them will become blank.
 				string move;
 				for(int i=1;i<_toothChartRelay.SelectedTeeth.Count;i++) {
-					move=ToothInitials.GetMovement(Pd.ListToothInitials,_toothChartRelay.SelectedTeeth[i],ToothInitialType.ShiftM).ToString();
+					move=ToothInitials.GetMovement(Pd.ListToothInitials,_toothChartRelay.SelectedTeeth[i],ToothInitialType.ShiftM).ToStringNetFx();
 					if(textShiftM.Text!=move) {
 						textShiftM.Text="";
 					}
-					move=ToothInitials.GetMovement(Pd.ListToothInitials,_toothChartRelay.SelectedTeeth[i],ToothInitialType.ShiftO).ToString();
+					move=ToothInitials.GetMovement(Pd.ListToothInitials,_toothChartRelay.SelectedTeeth[i],ToothInitialType.ShiftO).ToStringNetFx();
 					if(textShiftO.Text!=move) {
 						textShiftO.Text="";
 					}
-					move=ToothInitials.GetMovement(Pd.ListToothInitials,_toothChartRelay.SelectedTeeth[i],ToothInitialType.ShiftB).ToString();
+					move=ToothInitials.GetMovement(Pd.ListToothInitials,_toothChartRelay.SelectedTeeth[i],ToothInitialType.ShiftB).ToStringNetFx();
 					if(textShiftB.Text!=move) {
 						textShiftB.Text="";
 					}
-					move=ToothInitials.GetMovement(Pd.ListToothInitials,_toothChartRelay.SelectedTeeth[i],ToothInitialType.Rotate).ToString();
+					move=ToothInitials.GetMovement(Pd.ListToothInitials,_toothChartRelay.SelectedTeeth[i],ToothInitialType.Rotate).ToStringNetFx();
 					if(textRotate.Text!=move) {
 						textRotate.Text="";
 					}
-					move=ToothInitials.GetMovement(Pd.ListToothInitials,_toothChartRelay.SelectedTeeth[i],ToothInitialType.TipM).ToString();
+					move=ToothInitials.GetMovement(Pd.ListToothInitials,_toothChartRelay.SelectedTeeth[i],ToothInitialType.TipM).ToStringNetFx();
 					if(textTipM.Text!=move) {
 						textTipM.Text="";
 					}
-					move=ToothInitials.GetMovement(Pd.ListToothInitials,_toothChartRelay.SelectedTeeth[i],ToothInitialType.TipB).ToString();
+					move=ToothInitials.GetMovement(Pd.ListToothInitials,_toothChartRelay.SelectedTeeth[i],ToothInitialType.TipB).ToStringNetFx();
 					if(textTipB.Text!=move) {
 						textTipB.Text="";
 					}

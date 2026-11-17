@@ -143,7 +143,7 @@ namespace OpenPmsDentalBusiness.Bridges {
 
 		internal static void AddAmount(JObject jObject,string name,double amount) {
 			if(amount>0) {
-				jObject[name]=Math.Round(amount,2,MidpointRounding.AwayFromZero).ToString("0.00",CultureInfo.InvariantCulture);
+				jObject[name]=Math.Round(amount,2,MidpointRounding.AwayFromZero).ToStringNetFx("0.00",CultureInfo.InvariantCulture);
 			}
 		}
 	}
@@ -172,7 +172,7 @@ namespace OpenPmsDentalBusiness.Bridges {
 			jObject["requestType"]=IsLookupOnly ? "LOOKUP" : "QUICKSCREEN";
 			jObject["consumer"]=Consumer.ToJson();
 			if(!IsLookupOnly) {
-				jObject["estimatedFeeAmount"]=Math.Round(EstimatedFeeAmount,0,MidpointRounding.AwayFromZero).ToString("0",CultureInfo.InvariantCulture);
+				jObject["estimatedFeeAmount"]=Math.Round(EstimatedFeeAmount,0,MidpointRounding.AwayFromZero).ToStringNetFx("0",CultureInfo.InvariantCulture);
 			}
 			return jObject;
 		}

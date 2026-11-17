@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using CodeBase;
 
 namespace OpenPmsDentalBusiness{
 
@@ -59,10 +60,10 @@ namespace OpenPmsDentalBusiness{
 		public override string ToString() {
 			string str="";
 			if(DebitAmt!=0){
-				str+="Deb:"+DebitAmt.ToString("f2");
+				str+="Deb:"+DebitAmt.ToStringNetFx("f2");
 			}
 			if(CreditAmt!=0){
-				str+="Cred:"+CreditAmt.ToString("f2");
+				str+="Cred:"+CreditAmt.ToStringNetFx("f2");
 			}
 			str+=", "+Memo;
 			return str;

@@ -15,6 +15,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using OpenPmsDentalBusiness;
 using WpfControls.UI;
+using CodeBase;
 
 namespace OpenPmsDental {
 	///<summary></summary>
@@ -150,7 +151,7 @@ namespace OpenPmsDental {
 		}
 
 		private string SizeToString(Size size){
-			return size.Width+" x "+size.Height;
+			return size.Width.ToStringNetFx()+" x "+size.Height.ToStringNetFx();
 		}
 
 		/*

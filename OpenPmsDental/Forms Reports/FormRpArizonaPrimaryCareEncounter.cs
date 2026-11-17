@@ -253,7 +253,7 @@ namespace OpenPmsDental {
 					//Procedure 1 diagnosis code
 					outputRow+=POut.String(PIn.String(primaryCareReportRow.Rows[0]["Procedure1DiagnosisCode"].ToString())).PadRight(4,'0');
 					//Procedure 1 charges
-					outputRow+=Math.Round(PIn.Double(primaryCareReportRow.Rows[0]["Procedure1Charges"].ToString())).ToString().PadLeft(6,'0');
+					outputRow+=Math.Round(PIn.Double(primaryCareReportRow.Rows[0]["Procedure1Charges"].ToString())).ToStringNetFx().PadLeft(6,'0');
 					//Procedure 2
 					outputRow+=POut.String(PIn.String(primaryCareReportRow.Rows[0]["Procedure2"].ToString())).PadRight(5,'0');
 					//Procedure 2 modifier 1
@@ -263,7 +263,7 @@ namespace OpenPmsDental {
 					//Procedure 2 diagnosis code
 					outputRow+=POut.String(PIn.String(primaryCareReportRow.Rows[0]["Procedure2DiagnosisCode"].ToString())).PadRight(4,'0');
 					//Procedure 2 charges
-					outputRow+=Math.Round(PIn.Double(primaryCareReportRow.Rows[0]["Procedure2Charges"].ToString())).ToString().PadLeft(6,'0');
+					outputRow+=Math.Round(PIn.Double(primaryCareReportRow.Rows[0]["Procedure2Charges"].ToString())).ToStringNetFx().PadLeft(6,'0');
 					//Procedure 3
 					outputRow+=POut.String(PIn.String(primaryCareReportRow.Rows[0]["Procedure3"].ToString())).PadRight(5,'0');
 					//Procedure 3 modifier 1
@@ -273,7 +273,7 @@ namespace OpenPmsDental {
 					//Procedure 3 diagnosis code
 					outputRow+=POut.String(PIn.String(primaryCareReportRow.Rows[0]["Procedure3DiagnosisCode"].ToString())).PadRight(4,'0');
 					//Procedure 3 charges
-					outputRow+=Math.Round(PIn.Double(primaryCareReportRow.Rows[0]["Procedure3Charges"].ToString())).ToString().PadLeft(6,'0');
+					outputRow+=Math.Round(PIn.Double(primaryCareReportRow.Rows[0]["Procedure3Charges"].ToString())).ToStringNetFx().PadLeft(6,'0');
 					//Procedure 4
 					outputRow+=POut.String(PIn.String(primaryCareReportRow.Rows[0]["Procedure4"].ToString())).PadRight(5,'0');
 					//Procedure 4 modifier 1
@@ -283,7 +283,7 @@ namespace OpenPmsDental {
 					//Procedure 4 diagnosis code
 					outputRow+=POut.String(PIn.String(primaryCareReportRow.Rows[0]["Procedure4DiagnosisCode"].ToString())).PadRight(4,'0');
 					//Procedure 4 charges
-					outputRow+=Math.Round(PIn.Double(primaryCareReportRow.Rows[0]["Procedure4Charges"].ToString())).ToString().PadLeft(6,'0');
+					outputRow+=Math.Round(PIn.Double(primaryCareReportRow.Rows[0]["Procedure4Charges"].ToString())).ToStringNetFx().PadLeft(6,'0');
 					//Procedure 5
 					outputRow+=POut.String(PIn.String(primaryCareReportRow.Rows[0]["Procedure5"].ToString())).PadRight(5,'0');
 					//Procedure 5 modifier 1
@@ -293,7 +293,7 @@ namespace OpenPmsDental {
 					//Procedure 5 diagnosis code
 					outputRow+=POut.String(PIn.String(primaryCareReportRow.Rows[0]["Procedure5DiagnosisCode"].ToString())).PadRight(4,'0');
 					//Procedure 5 charges
-					outputRow+=Math.Round(PIn.Double(primaryCareReportRow.Rows[0]["Procedure5Charges"].ToString())).ToString().PadLeft(6,'0');
+					outputRow+=Math.Round(PIn.Double(primaryCareReportRow.Rows[0]["Procedure5Charges"].ToString())).ToStringNetFx().PadLeft(6,'0');
 					//Procedure 6
 					outputRow+=POut.String(PIn.String(primaryCareReportRow.Rows[0]["Procedure6"].ToString())).PadRight(5,'0');
 					//Procedure 6 modifier 1
@@ -303,13 +303,13 @@ namespace OpenPmsDental {
 					//Procedure 6 diagnosis code
 					outputRow+=POut.String(PIn.String(primaryCareReportRow.Rows[0]["Procedure6DiagnosisCode"].ToString())).PadRight(4,'0');
 					//Procedure 6 charges
-					outputRow+=Math.Round(PIn.Double(primaryCareReportRow.Rows[0]["Procedure6Charges"].ToString())).ToString().PadLeft(6,'0');
+					outputRow+=Math.Round(PIn.Double(primaryCareReportRow.Rows[0]["Procedure6Charges"].ToString())).ToStringNetFx().PadLeft(6,'0');
 					//Total charges
-					outputRow+=Math.Round(PIn.Double(primaryCareReportRow.Rows[0]["TotalCharges"].ToString())).ToString().PadLeft(7,'0');
+					outputRow+=Math.Round(PIn.Double(primaryCareReportRow.Rows[0]["TotalCharges"].ToString())).ToStringNetFx().PadLeft(7,'0');
 					//Amount paid
-					outputRow+=Math.Round(PIn.Double(primaryCareReportRow.Rows[0]["AmountPaid"].ToString())).ToString().PadLeft(7,'0');
+					outputRow+=Math.Round(PIn.Double(primaryCareReportRow.Rows[0]["AmountPaid"].ToString())).ToStringNetFx().PadLeft(7,'0');
 					//Balance due
-					outputRow+=Math.Round(PIn.Double(primaryCareReportRow.Rows[0]["BalanceDue"].ToString())).ToString().PadLeft(7,'0');
+					outputRow+=Math.Round(PIn.Double(primaryCareReportRow.Rows[0]["BalanceDue"].ToString())).ToStringNetFx().PadLeft(7,'0');
 					//Facility site number
 					string siteId=PIn.String(primaryCareReportRow.Rows[0]["ClinicDescription"].ToString());
 					if(siteId=="null"){

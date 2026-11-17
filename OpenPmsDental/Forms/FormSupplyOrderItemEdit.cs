@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using OpenPmsDentalBusiness;
+using CodeBase;
 
 namespace OpenPmsDental {
 	public partial class FormSupplyOrderItemEdit:FormODBase {
@@ -26,7 +27,7 @@ namespace OpenPmsDental {
 			textCatalogNumber.Text=_supply.CatalogNumber;
 			textDescript.Text=_supply.Descript;
 			textQty.Text=SupplyOrderItemCur.Qty.ToString();
-			textPrice.Text=SupplyOrderItemCur.Price.ToString("n");
+			textPrice.Text=SupplyOrderItemCur.Price.ToStringNetFx("n");
 			textQty.Select();
 			if(SupplyOrderItemCur.DateReceived.Year>1880) {
 				textDateReceived.Text=SupplyOrderItemCur.DateReceived.ToShortDateString();
@@ -62,7 +63,7 @@ namespace OpenPmsDental {
 			int qty=PIn.Int(textQty.Text);
 			double price=PIn.Double(textPrice.Text);
 			double subtotal=qty*price;
-			textSubtotal.Text=subtotal.ToString("n");
+			textSubtotal.Text=subtotal.ToStringNetFx("n");
 		}
 
 		private void butSave_Click(object sender,EventArgs e) {

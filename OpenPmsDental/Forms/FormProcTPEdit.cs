@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Windows.Forms;
 using OpenPmsDentalBusiness;
 using System.Collections.Generic;
+using CodeBase;
 
 namespace OpenPmsDental{
 	/// <summary>description for FormBasicTemplate.</summary>
@@ -54,16 +55,16 @@ namespace OpenPmsDental{
 			textSurf.Text=ProcTPCur.Surf;//already converted to international format before saved to db.
 			textCode.Text=ProcTPCur.ProcCode;
 			textDescript.Text=ProcTPCur.Descript;
-			textFeeAmt.Text=ProcTPCur.FeeAmt.ToString("F");
-			textPriInsAmt.Text=ProcTPCur.PriInsAmt.ToString("F");
-			textSecInsAmt.Text=ProcTPCur.SecInsAmt.ToString("F");
-			textDiscount.Text=ProcTPCur.Discount.ToString("F");
-			textPatAmt.Text=ProcTPCur.PatAmt.ToString("F");
+			textFeeAmt.Text=ProcTPCur.FeeAmt.ToStringNetFx("F");
+			textPriInsAmt.Text=ProcTPCur.PriInsAmt.ToStringNetFx("F");
+			textSecInsAmt.Text=ProcTPCur.SecInsAmt.ToStringNetFx("F");
+			textDiscount.Text=ProcTPCur.Discount.ToStringNetFx("F");
+			textPatAmt.Text=ProcTPCur.PatAmt.ToStringNetFx("F");
 			textPrognosis.Text=ProcTPCur.Prognosis;
 			textDx.Text=ProcTPCur.Dx;
 			textProcAbbr.Text=ProcTPCur.ProcAbbr;
 			if(ProcTPCur.FeeAllowed>-1) {
-				textFeeAllowed.Text=ProcTPCur.FeeAllowed.ToString("F");
+				textFeeAllowed.Text=ProcTPCur.FeeAllowed.ToStringNetFx("F");
 			}
 			else {
 				textFeeAllowed.Text="";

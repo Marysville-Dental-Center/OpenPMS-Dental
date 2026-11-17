@@ -1874,7 +1874,7 @@ namespace OpenPmsDentalBusiness.HL7 {
 				if(!string.IsNullOrWhiteSpace(procCur.ToothNum)) {
 					logText+=Lans.g("Procedures","Teeth")+": "+procCur.ToothNum+", ";
 				}
-				logText+=Lans.g("Procedures","Fee")+": "+procCur.ProcFee.ToString("F")+", "+procCode.Descript;
+				logText+=Lans.g("Procedures","Fee")+": "+procCur.ProcFee.ToStringNetFx("F")+", "+procCode.Descript;
 				SecurityLogs.MakeLogEntry(EnumPermType.ProcComplCreate,procCur.PatNum,logText,LogSources.HL7);
 			}
 			if(procStatus.In(ProcStat.C,ProcStat.EC,ProcStat.EO) && procCode.PaintType==ToothPaintingType.Extraction) {
@@ -2218,7 +2218,7 @@ namespace OpenPmsDentalBusiness.HL7 {
 			string pattern;
 			//If aptStop is MinValue we know that stop time was not sent or was not in the correct format so try to use the duration field.
 			if(aptStop==DateTime.MinValue && aptLength!=0) {//Stop time is optional.  If not included we will use the duration field to calculate pattern.
-				pattern=FieldParser.ProcessPattern(aptStart,aptStart.AddMinutes(aptLength));
+				pattern=FieldParser.ProcessPattern(aptStart,aptStart.AddMinutesNetFx(aptLength));
 			}
 			else {//We received a good stop time or stop time is MinValue but we don't have a good aptLength so ProcessPattern will return the apt length or the default 5 minutes
 				pattern=FieldParser.ProcessPattern(aptStart,aptStop);

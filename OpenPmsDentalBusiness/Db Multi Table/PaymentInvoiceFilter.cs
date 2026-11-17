@@ -178,7 +178,7 @@ namespace OpenPmsDentalBusiness {
 		///<summary>The drop-down text: invoice date, statement number and invoice total.</summary>
 		public static string GetDisplayText(InvoiceInfo invoiceInfo) {
 			Meth.NoCheckMiddleTierRole();
-			return invoiceInfo.DateSent.ToShortDateString()+"  #"+invoiceInfo.StatementNum+"  "+invoiceInfo.InvoiceTotal.ToString("c");
+			return invoiceInfo.DateSent.ToShortDateString()+"  #"+invoiceInfo.StatementNum+"  "+invoiceInfo.InvoiceTotal.ToStringNetFx("c");
 		}
 		#endregion Filter
 	}

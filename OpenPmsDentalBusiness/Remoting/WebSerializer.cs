@@ -681,7 +681,7 @@ namespace WebServiceSerializer {
 		public static string PDouble(double myDouble) {
 			try {
 				//because decimal is a comma in Europe, this sends it to db with period instead 
-				return myDouble.ToString("f",new NumberFormatInfo());
+				return myDouble.ToStringNetFx("f",new NumberFormatInfo());
 			}
 			catch {
 				return "0";
@@ -704,7 +704,7 @@ namespace WebServiceSerializer {
 
 		///<summary></summary>
 		public static string PFloat(float myFloat) {
-			return myFloat.ToString();
+			return myFloat.ToStringNetFx();
 		}
 
 		///<summary></summary>

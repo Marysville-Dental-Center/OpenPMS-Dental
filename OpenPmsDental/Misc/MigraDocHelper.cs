@@ -12,6 +12,7 @@ using OpenPmsDental.UI;
 using OpenPmsDentalBusiness;
 using PdfSharp.Drawing;
 using PdfSharp.Pdf;
+using CodeBase;
 
 namespace OpenPmsDental {
 	///<summary>Used to add functionality to the MigraDoc framework.  Specifically, it helps with absolute positioning.</summary>
@@ -84,8 +85,8 @@ namespace OpenPmsDental {
 			framebig.RelativeHorizontal=RelativeHorizontal.Page;
 			framebig.MarginLeft=Unit.Zero;
 			framebig.MarginTop=Unit.Zero;
-			framebig.Top=TopPosition.Parse((yPos/100).ToString()+" in");
-			framebig.Left=LeftPosition.Parse((xPos/100).ToString()+" in");
+			framebig.Top=TopPosition.Parse((yPos/100).ToStringNetFx()+" in");
+			framebig.Left=LeftPosition.Parse((xPos/100).ToStringNetFx()+" in");
 			framebig.Width=Unit.FromInch(width/100);
 			framebig.Height=Unit.FromInch(height/100);
 			return framebig;

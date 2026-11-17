@@ -107,7 +107,7 @@ namespace OpenPmsDental {
 				}
 				row.Cells.Add(unfinalCur.Date.ToShortDateString());
 				row.Cells.Add((unfinalCur.DateOfService.Year < 1880)?"": unfinalCur.DateOfService.ToShortDateString());
-				row.Cells.Add(unfinalCur.Amount.ToString("f"));
+				row.Cells.Add(unfinalCur.Amount.ToStringNetFx("f"));
 				row.Tag=unfinalCur;
 				gridMain.ListGridRows.Add(row);
 			}

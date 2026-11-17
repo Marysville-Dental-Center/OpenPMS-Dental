@@ -41,7 +41,7 @@ namespace OpenPmsDental{
 				return Convert.ToDouble(Text);
 			}
 			set{
-				Text=value.ToString();
+				Text=value.ToStringNetFx();
 				ParseValue();//to set any error
 			}
 		}
@@ -95,10 +95,10 @@ namespace OpenPmsDental{
 			}
 			try {
 				if(System.Convert.ToDouble(this.Text)>MaxVal){
-					throw new Exception("Number must be less than or equal to "+MaxVal.ToString());
+					throw new Exception("Number must be less than or equal to "+MaxVal.ToStringNetFx());
 				}
 				if(System.Convert.ToDouble(this.Text)<MinVal){
-					throw new Exception("Number must be greater than or equal to "+(MinVal).ToString());
+					throw new Exception("Number must be greater than or equal to "+(MinVal).ToStringNetFx());
 				}
 				errorProvider1.SetError(this,"");
 			}

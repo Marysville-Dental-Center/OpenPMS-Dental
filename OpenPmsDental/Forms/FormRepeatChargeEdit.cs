@@ -63,7 +63,7 @@ namespace OpenPmsDental{
 			}
 			textCode.Text=_repeatCharge.ProcCode;
 			textDesc.Text=ProcedureCodes.GetProcCode(_repeatCharge.ProcCode).Descript;
-			textChargeAmt.Text=_repeatCharge.ChargeAmt.ToString("F");
+			textChargeAmt.Text=_repeatCharge.ChargeAmt.ToStringNetFx("F");
 			if(_repeatCharge.DateStart.Year>1880){
 				textDateStart.Text=_repeatCharge.DateStart.ToShortDateString();
 			}
@@ -269,10 +269,10 @@ namespace OpenPmsDental{
 
 		private void butCalculate_Click(object sender,EventArgs e) {
 			if(CompareDouble.IsZero(PIn.Double(textNumOfCharges.Text))	|| CompareDouble.IsZero(PIn.Double(textTotalAmount.Text))) {
-				textChargeAmt.Text=_repeatCharge.ChargeAmt.ToString("F");
+				textChargeAmt.Text=_repeatCharge.ChargeAmt.ToStringNetFx("F");
 				return;
 			}
-			textChargeAmt.Text=(PIn.Double(textTotalAmount.Text)/PIn.Double(textNumOfCharges.Text)).ToString("F");
+			textChargeAmt.Text=(PIn.Double(textTotalAmount.Text)/PIn.Double(textNumOfCharges.Text)).ToStringNetFx("F");
 		}
 
 		///<summary>This button is only visible internally and for other distributors.</summary>

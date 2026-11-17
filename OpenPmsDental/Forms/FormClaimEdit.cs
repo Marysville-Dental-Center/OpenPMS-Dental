@@ -731,7 +731,7 @@ namespace OpenPmsDental{
 			textClaimIdentifier.Text=string.IsNullOrWhiteSpace(_claim.ClaimIdentifier) ? textClaimIdOriginal.Text : _claim.ClaimIdentifier;
 			textOrigRefNum.Text=_claim.OrigRefNum;
 			if(_claim.ShareOfCost > 0) {
-				textShareOfCost.Text=_claim.ShareOfCost.ToString("F2");
+				textShareOfCost.Text=_claim.ShareOfCost.ToStringNetFx("F2");
 			}
 			//Canadian------------------------------------------------------------------
 			//(there's also a FillCanadian section for fields that do not collide with USA fields)
@@ -765,7 +765,7 @@ namespace OpenPmsDental{
 				textCanadaInitialPayment.Text="";
 			}
 			else {
-				textCanadaInitialPayment.Text=_claim.CanadaInitialPayment.ToString("F");
+				textCanadaInitialPayment.Text=_claim.CanadaInitialPayment.ToStringNetFx("F");
 			}
 			textCanadaExpectedPayCycle.Text=_claim.CanadaPaymentMode.ToString("#");
 			textCanadaTreatDuration.Text=_claim.CanadaTreatDuration.ToString("##");
@@ -774,7 +774,7 @@ namespace OpenPmsDental{
 				textCanadaAnticipatedPayAmount.Text="";
 			}
 			else {
-				textCanadaAnticipatedPayAmount.Text=_claim.CanadaAnticipatedPayAmount.ToString("F");
+				textCanadaAnticipatedPayAmount.Text=_claim.CanadaAnticipatedPayAmount.ToStringNetFx("F");
 			}
 			//attachments------------------
 			textRadiographs.Text=_claim.Radiographs.ToString();
@@ -872,7 +872,7 @@ namespace OpenPmsDental{
 		private static void FillValCode(List<ClaimValCodeLog> listClaimValCodeLogs,int valCodeIdx,System.Windows.Forms.TextBox textBoxVCCode,System.Windows.Forms.TextBox textBoxVCAmount) {
 			if(listClaimValCodeLogs.Count>valCodeIdx) {
 				textBoxVCCode.Text=listClaimValCodeLogs[valCodeIdx].ValCode;
-				textBoxVCAmount.Text=listClaimValCodeLogs[valCodeIdx].ValAmount.ToString();
+				textBoxVCAmount.Text=listClaimValCodeLogs[valCodeIdx].ValAmount.ToStringNetFx();
 			}
 		}
 
@@ -1146,17 +1146,17 @@ namespace OpenPmsDental{
 				_claim.InsPayEst=0;
 				_claim.InsPayAmt=0;
 			}
-			textClaimFee.Text=_claim.ClaimFee.ToString("F");
-			textDedApplied.Text=_claim.DedApplied.ToString("F");
-			textInsPayEst.Text=_claim.InsPayEst.ToString("F");
-			textInsPayAmt.Text=_claim.InsPayAmt.ToString("F");
-			textWriteOff.Text=_claim.WriteOff.ToString("F");
+			textClaimFee.Text=_claim.ClaimFee.ToStringNetFx("F");
+			textDedApplied.Text=_claim.DedApplied.ToStringNetFx("F");
+			textInsPayEst.Text=_claim.InsPayEst.ToStringNetFx("F");
+			textInsPayAmt.Text=_claim.InsPayAmt.ToStringNetFx("F");
+			textWriteOff.Text=_claim.WriteOff.ToStringNetFx("F");
 			if(_loadData.DoShowPatResp) {
 				double procFeeTotal=gridProc.GetTags<ClaimProc>()
 					.Where(x => x.Status!=ClaimProcStatus.Supplemental)
 					.Select(x => Procedures.GetProcFromList(_listProcedures,x.ProcNum))
 					.Sum(x => x.ProcFeeTotal);
-				textPatResp.Text=(procFeeTotal-_claim.WriteOff-_claim.InsPayAmt).ToString("F");
+				textPatResp.Text=(procFeeTotal-_claim.WriteOff-_claim.InsPayAmt).ToStringNetFx("F");
 			}
 			//payments
 			gridPay.BeginUpdate();
@@ -1297,17 +1297,17 @@ namespace OpenPmsDental{
 				}
 				row.Cells.Add(descript);
 			}
-			row.Cells.Add(procedureFeeTotal.ToString("F"));
-			row.Cells.Add(claimProc.FeeBilled.ToString("F"));
-			row.Cells.Add(claimProc.DedApplied.ToString("F"));
-			row.Cells.Add(claimProc.InsPayEst.ToString("F"));
-			row.Cells.Add(claimProc.InsPayAmt.ToString("F"));
-			row.Cells.Add(claimProc.WriteOff.ToString("F"));
+			row.Cells.Add(procedureFeeTotal.ToStringNetFx("F"));
+			row.Cells.Add(claimProc.FeeBilled.ToStringNetFx("F"));
+			row.Cells.Add(claimProc.DedApplied.ToStringNetFx("F"));
+			row.Cells.Add(claimProc.InsPayEst.ToStringNetFx("F"));
+			row.Cells.Add(claimProc.InsPayAmt.ToStringNetFx("F"));
+			row.Cells.Add(claimProc.WriteOff.ToStringNetFx("F"));
 			if(_loadData.DoShowPatResp) {
 				if(claimProc.Status==ClaimProcStatus.Supplemental) {
 					procedureFeeTotal=0;
 				}
-				row.Cells.Add((procedureFeeTotal-claimProc.WriteOff-claimProc.InsPayAmt).ToString("F"));
+				row.Cells.Add((procedureFeeTotal-claimProc.WriteOff-claimProc.InsPayAmt).ToStringNetFx("F"));
 			}
 			switch(claimProc.Status){
 				case ClaimProcStatus.Received:

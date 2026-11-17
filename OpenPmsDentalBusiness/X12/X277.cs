@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using CodeBase;
 
 namespace OpenPmsDentalBusiness
 {
@@ -367,8 +368,8 @@ namespace OpenPmsDentalBusiness
 				+"Process Date: "+GetInformationSourceProcessDate().ToShortDateString()+Environment.NewLine
 				+"Quantity Accepted: "+GetQuantityAccepted()+Environment.NewLine
 				+"Quantity Rejected: "+GetQuantityRejected()+Environment.NewLine
-				+"Amount Accepted: "+GetAmountAccepted()+Environment.NewLine
-				+"Amount Rejected: "+GetAmountRejected()+Environment.NewLine
+				+"Amount Accepted: "+GetAmountAccepted().ToStringNetFx()+Environment.NewLine
+				+"Amount Rejected: "+GetAmountRejected().ToStringNetFx()+Environment.NewLine
 				+"Individual Claim Status List: "+Environment.NewLine
 				+"Tracking Num  LName  FName  MName  Status  PayorControlNum  InstBillType DateServiceStart  DateServiceEnd";
 			List<string> claimTrackingNumbers=GetClaimTrackingNumbers();

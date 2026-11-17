@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using OpenPmsDentalBusiness;
+using CodeBase;
 
 namespace OpenPmsDental {
 	public partial class FormInstallmentPlanEdit:FormODBase {
@@ -21,8 +22,8 @@ namespace OpenPmsDental {
 		private void FormInstallmentPlanEdit_Load(object sender,EventArgs e) {
 			textDateAgreement.Text=InstallmentPlanCur.DateAgreement.ToShortDateString();
 			textDateFirstPay.Text=InstallmentPlanCur.DateFirstPayment.ToShortDateString();
-			textMonthlyPayment.Text=InstallmentPlanCur.MonthlyPayment.ToString("f");
-			textAPR.Text=InstallmentPlanCur.APR.ToString();
+			textMonthlyPayment.Text=InstallmentPlanCur.MonthlyPayment.ToStringNetFx("f");
+			textAPR.Text=InstallmentPlanCur.APR.ToStringNetFx();
 			textNote.Text=InstallmentPlanCur.Note;
 		}
 

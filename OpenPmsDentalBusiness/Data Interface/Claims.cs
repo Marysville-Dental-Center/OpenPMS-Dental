@@ -1980,7 +1980,7 @@ namespace OpenPmsDentalBusiness{
 		///<summary>Returns the salted hash for the claim. Computed by CodeBase.TamperHash. </summary>
 		public static string HashFields(Claim claim) {
 			Meth.NoCheckMiddleTierRole();
-			string unhashedText=claim.ClaimFee.ToString("F2")+claim.ClaimStatus+claim.InsPayEst.ToString("F2")+claim.InsPayAmt.ToString("F2");
+			string unhashedText=claim.ClaimFee.ToStringNetFx("F2")+claim.ClaimStatus+claim.InsPayEst.ToStringNetFx("F2")+claim.InsPayAmt.ToStringNetFx("F2");
 			try {
 				return TamperHash.Compute(unhashedText);
 			}

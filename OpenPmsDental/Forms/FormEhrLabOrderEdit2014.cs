@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using EhrLaboratories;
 using System.Text;
 using System.Text.RegularExpressions;
+using CodeBase;
 
 namespace OpenPmsDental {
 	public partial class FormEhrLabOrderEdit2014:FormODBase {
@@ -240,14 +241,14 @@ namespace OpenPmsDental {
 						row.Cells.Add(EhrLabCur.ListEhrLabResults[i].ObservationValueTime.ToString());
 						break;
 					case HL70125.NM:
-						row.Cells.Add(EhrLabCur.ListEhrLabResults[i].ObservationValueNumeric.ToString());
+						row.Cells.Add(EhrLabCur.ListEhrLabResults[i].ObservationValueNumeric.ToStringNetFx());
 						break;
 					case HL70125.SN:
 						row.Cells.Add(
 							EhrLabCur.ListEhrLabResults[i].ObservationValueComparator
-							+EhrLabCur.ListEhrLabResults[i].ObservationValueNumber1
+							+EhrLabCur.ListEhrLabResults[i].ObservationValueNumber1.ToStringNetFx()
 							+(EhrLabCur.ListEhrLabResults[i].ObservationValueSeparatorOrSuffix==""
-									?"":EhrLabCur.ListEhrLabResults[i].ObservationValueSeparatorOrSuffix+EhrLabCur.ListEhrLabResults[i].ObservationValueNumber2)
+									?"":EhrLabCur.ListEhrLabResults[i].ObservationValueSeparatorOrSuffix+EhrLabCur.ListEhrLabResults[i].ObservationValueNumber2.ToStringNetFx())
 							);
 						break;
 					case HL70125.FT:

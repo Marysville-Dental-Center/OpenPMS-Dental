@@ -207,7 +207,7 @@ namespace OpenPmsDentalBusiness {
 				#region DtoGetDouble
 				else if(type == typeof(DtoGetDouble)) {
 					double doubleResult=(double)dtoInformation.MethodInfo.Invoke(null,dtoInformation.ParamObjs);
-					responseString=doubleResult.ToString();
+					responseString=doubleResult.ToStringNetFx();
 					return responseString;
 				}
 				#endregion

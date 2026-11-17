@@ -30,7 +30,7 @@ namespace OpenPmsDental {
 			textPlanNum.Text=DiscountPlanCur.DiscountPlanNum.ToString();
 			textAnnualMax.Text="";
 			if(DiscountPlanCur.AnnualMax > -1 && !DiscountPlanCur.IsNew) {
-				textAnnualMax.Text=DiscountPlanCur.AnnualMax.ToString();
+				textAnnualMax.Text=DiscountPlanCur.AnnualMax.ToStringNetFx();
 			}
 			textDiscountExamFreq.Text=FormatUnlimitedValueToString(DiscountPlanCur.ExamFreqLimit);
 			textDiscountXrayFreq.Text=FormatUnlimitedValueToString(DiscountPlanCur.XrayFreqLimit);
@@ -157,7 +157,7 @@ namespace OpenPmsDental {
 				_discountPlanOld.LimitedExamFreqLimit.ToString(),"limited exam frequency limit",isNew));
 			stringBuilder.Append(SecurityLogMessageHelper(DiscountPlanCur.PAFreqLimit.ToString(),
 				_discountPlanOld.PAFreqLimit.ToString(),"PA exam frequency limit",isNew));
-			stringBuilder.Append(SecurityLogMessageHelper(DiscountPlanCur.AnnualMax.ToString(),_discountPlanOld.AnnualMax.ToString(),"annual max",isNew));
+			stringBuilder.Append(SecurityLogMessageHelper(DiscountPlanCur.AnnualMax.ToStringNetFx(),_discountPlanOld.AnnualMax.ToStringNetFx(),"annual max",isNew));
 			return stringBuilder.ToString();
 		}
 

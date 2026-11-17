@@ -898,11 +898,11 @@ namespace OpenPmsDental{
 						perm=EnumPermType.ProcExistingEdit;
 					}
 					SecurityLogs.MakeLogEntry(perm,_appointment.PatNum,ProcedureCodes.GetProcCode(procedure.CodeNum).ProcCode
-						+" ("+procedure.ProcStatus+"), "+procedure.ProcFee.ToString("c")+", Deleted");
+						+" ("+procedure.ProcStatus+"), "+procedure.ProcFee.ToStringNetFx("c")+", Deleted");
 				}
 				else {
 					SecurityLogs.MakeLogEntry(EnumPermType.ProcDelete,_appointment.PatNum,ProcedureCodes.GetProcCode(procedure.CodeNum).ProcCode
-						+" ("+procedure.ProcStatus+"), "+procedure.ProcFee.ToString("c"));
+						+" ("+procedure.ProcStatus+"), "+procedure.ProcFee.ToStringNetFx("c"));
 				}
 			}
 			_listProceduresForAppointment=Procedures.GetProcsForApptEdit(_appointment);
@@ -1877,7 +1877,7 @@ namespace OpenPmsDental{
 							row.Cells.Add(descript);
 							break;
 						case "Fee":
-							row.Cells.Add(listProcedures[i].ProcFeeTotal.ToString("F"));
+							row.Cells.Add(listProcedures[i].ProcFeeTotal.ToStringNetFx("F"));
 							break;
 						case "Abbreviation":
 							row.Cells.Add(procedureCode.AbbrDesc);
@@ -2001,7 +2001,7 @@ namespace OpenPmsDental{
 							row.Cells.Add(StringTools.Truncate(provider.Abbr,5));
 							break;
 						case "Amount":
-							row.Cells.Add(procedure.ProcFee.ToString("F"));
+							row.Cells.Add(procedure.ProcFee.ToStringNetFx("F"));
 							break;
 						case "Proc Code":
 							if(procedureCode.ProcCode.Length>5 && procedureCode.ProcCode.StartsWith("D")) {

@@ -4,6 +4,7 @@ using System.Collections;
 using System.ComponentModel;
 using System.Windows.Forms;
 using OpenPmsDentalBusiness;
+using CodeBase;
 
 namespace OpenPmsDental{
 	///<summary></summary>
@@ -42,10 +43,10 @@ namespace OpenPmsDental{
 			}*/
 			FillAccount();
 			if(JournalEntryCur.DebitAmt>0){
-				textDebit.Text=JournalEntryCur.DebitAmt.ToString("n");
+				textDebit.Text=JournalEntryCur.DebitAmt.ToStringNetFx("n");
 			}
 			if(JournalEntryCur.CreditAmt>0) {
-				textCredit.Text=JournalEntryCur.CreditAmt.ToString("n");
+				textCredit.Text=JournalEntryCur.CreditAmt.ToStringNetFx("n");
 			}
 			textMemo.Text=JournalEntryCur.Memo;
 			textCheckNumber.Text=JournalEntryCur.CheckNumber;

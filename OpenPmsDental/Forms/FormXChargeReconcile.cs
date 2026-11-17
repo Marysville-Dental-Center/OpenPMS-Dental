@@ -81,9 +81,9 @@ namespace OpenPmsDental {
 				xChargeTransaction.ItemNum=stringArrayfields[12];
 				xChargeTransaction.ApprCode=stringArrayfields[13];
 				xChargeTransaction.TransactionDateTime=PIn.Date(stringArrayfields[14])
-					.AddHours(PIn.Double(stringArrayfields[15].Substring(0,2)))
-					.AddMinutes(PIn.Double(stringArrayfields[15].Substring(3,2)))
-					.AddSeconds(PIn.Double(stringArrayfields[15].Substring(6,2)));
+					.AddHoursNetFx(PIn.Double(stringArrayfields[15].Substring(0,2)))
+					.AddMinutesNetFx(PIn.Double(stringArrayfields[15].Substring(3,2)))
+					.AddSecondsNetFx(PIn.Double(stringArrayfields[15].Substring(6,2)));
 				xChargeTransactionCheck=XChargeTransactions.GetOneMatch(xChargeTransaction.BatchNum,xChargeTransaction.ItemNum,xChargeTransaction.PatNum,xChargeTransaction.TransactionDateTime,xChargeTransaction.TransType);
 				if(xChargeTransactionCheck!=null && xChargeTransaction.Result!="AP DUPE" 
 					&& CompareDouble.IsEqual(xChargeTransactionCheck.Amount,xChargeTransaction.Amount)

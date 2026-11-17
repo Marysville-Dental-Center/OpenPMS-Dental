@@ -4,6 +4,7 @@ using System.Data;
 using System.Linq;
 using System.Reflection;
 using DataConnectionBase;
+using CodeBase;
 
 namespace OpenPmsDentalBusiness {
 	public class RpPayPlan {
@@ -233,13 +234,13 @@ namespace OpenPmsDentalBusiness {
 				if(raw.Rows[i]["PlanNum"].ToString()!="0") {//Is Insurance PayPlan
 					row["ins"]="X";
 				}
-				row["princ"]=princ.ToString("f");
-				row["accumInt"]=interest.ToString("f");
-				row["paid"]=paid.ToString("f");
-				row["balance"]=(princ+interest-paid).ToString("f");
-				row["due"]=(accumDue-paid).ToString("f");
+				row["princ"]=princ.ToStringNetFx("f");
+				row["accumInt"]=interest.ToStringNetFx("f");
+				row["paid"]=paid.ToStringNetFx("f");
+				row["balance"]=(princ+interest-paid).ToStringNetFx("f");
+				row["due"]=(accumDue-paid).ToStringNetFx("f");
 				if(isPayPlanV2) {
-					row["notDue"]=((princ+interest-paid)-(accumDue-paid)).ToString("f");
+					row["notDue"]=((princ+interest-paid)-(accumDue-paid)).ToStringNetFx("f");
 				}
 				if(showFamilyBalance) {
 					// this could be done better, by getting a list of guarantors outside of the loop and pulling the family balance value from a list
@@ -262,13 +263,13 @@ namespace OpenPmsDentalBusiness {
 					if(!String.IsNullOrEmpty(clinicAbbrOld) && clinicAbbr!=clinicAbbrOld) {//Reset all the total values
 						DataRow rowTot=tableTotals.NewRow();
 						rowTot["clinicName"]=clinicAbbrOld;
-						rowTot["princ"]=princTot.ToString();
-						rowTot["accumInt"]=interestTot.ToString();
-						rowTot["paid"]=paidTot.ToString();
-						rowTot["balance"]=balanceTot.ToString();
-						rowTot["due"]=accumDueTot.ToString();
+						rowTot["princ"]=princTot.ToStringNetFx();
+						rowTot["accumInt"]=interestTot.ToStringNetFx();
+						rowTot["paid"]=paidTot.ToStringNetFx();
+						rowTot["balance"]=balanceTot.ToStringNetFx();
+						rowTot["due"]=accumDueTot.ToStringNetFx();
 						if(isPayPlanV2) {
-							rowTot["notDue"]=notDueTot.ToString();
+							rowTot["notDue"]=notDueTot.ToStringNetFx();
 						}	
 						rowTot["famBal"]=famBalTot.ToString();
 						tableTotals.Rows.Add(rowTot);
@@ -292,13 +293,13 @@ namespace OpenPmsDentalBusiness {
 					if(i==raw.Rows.Count-1) {
 						DataRow rowTot=tableTotals.NewRow();
 						rowTot["clinicName"]=clinicAbbrOld;
-						rowTot["princ"]=princTot.ToString();
-						rowTot["accumInt"]=interestTot.ToString();
-						rowTot["paid"]=paidTot.ToString();
-						rowTot["balance"]=balanceTot.ToString();
-						rowTot["due"]=accumDueTot.ToString();
+						rowTot["princ"]=princTot.ToStringNetFx();
+						rowTot["accumInt"]=interestTot.ToStringNetFx();
+						rowTot["paid"]=paidTot.ToStringNetFx();
+						rowTot["balance"]=balanceTot.ToStringNetFx();
+						rowTot["due"]=accumDueTot.ToStringNetFx();
 						if(isPayPlanV2) {
-							rowTot["notDue"]=notDueTot.ToString();
+							rowTot["notDue"]=notDueTot.ToStringNetFx();
 						}	
 						rowTot["famBal"]=famBalTot.ToString();
 						tableTotals.Rows.Add(rowTot);

@@ -250,10 +250,10 @@ namespace OpenPmsDental {
 			textPaidBy.Text=GetFamilyOrSuperFamily().GetNameInFamFL(_payment.PatNum);
 			textDateEntry.Text=_payment.DateEntry.ToShortDateString();
 			textDate.Text=_payment.PayDate.ToShortDateString();
-			textAmount.Text=_payment.PayAmt.ToString("F");
+			textAmount.Text=_payment.PayAmt.ToStringNetFx("F");
 			textCheckNum.Text=_payment.CheckNum;
 			textBankBranch.Text=_payment.BankBranch;
-			textSurcharge.Text=_payment.MerchantFee.ToString("F");
+			textSurcharge.Text=_payment.MerchantFee.ToStringNetFx("F");
 			_listDefsPaymentType=Defs.GetDefsForCategory(DefCat.PaymentTypes,true);
 			for(int i = 0;i<_listDefsPaymentType.Count;i++) {
 				listPayType.Items.Add(_listDefsPaymentType[i].ItemName);
@@ -312,10 +312,10 @@ namespace OpenPmsDental {
 						if(account!=null && account.AcctType==AccountType.Asset) {
 							textDepositAccount.Text=listJournalEntries[i].DateDisplayed.ToShortDateString();
 							if(listJournalEntries[i].DebitAmt>0) {
-								textDepositAccount.Text+=" "+listJournalEntries[i].DebitAmt.ToString("c");
+								textDepositAccount.Text+=" "+listJournalEntries[i].DebitAmt.ToStringNetFx("c");
 							}
 							else {//negative
-								textDepositAccount.Text+=" "+(-listJournalEntries[i].CreditAmt).ToString("c");
+								textDepositAccount.Text+=" "+(-listJournalEntries[i].CreditAmt).ToStringNetFx("c");
 							}
 							break;
 						}
@@ -2071,7 +2071,7 @@ namespace OpenPmsDental {
 			if(!_family.GetPatNums().Contains(paySplit.PatNum)) {
 				listTypeStrs.Add("(split to another family)");
 			}
-			row.Cells.Add(paySplit.SplitAmt.ToString("f"));//Amount
+			row.Cells.Add(paySplit.SplitAmt.ToStringNetFx("f"));//Amount
 			return row;
 		}
 
@@ -2307,9 +2307,9 @@ namespace OpenPmsDental {
 		private void HandleVoidPayment(string payNote,double approvedAmt,string receipt,CreditCardSource creditCardSource,bool isVoidingRefund=false) {
 			if(IsNew) {
 				if(!_wasCreditCardSuccessful) {
-					textAmount.Text="-"+approvedAmt.ToString("F");//Voiding a purchase. Payment amount should be negative.
+					textAmount.Text="-"+approvedAmt.ToStringNetFx("F");//Voiding a purchase. Payment amount should be negative.
 					if(isVoidingRefund) {
-						textAmount.Text=approvedAmt.ToString("F");//Voiding a refund. Payment amount should be positive.
+						textAmount.Text=approvedAmt.ToStringNetFx("F");//Voiding a refund. Payment amount should be positive.
 					}
 					textNote.Text+=payNote;
 				}
@@ -2348,8 +2348,8 @@ namespace OpenPmsDental {
 			CreditCardSource creditCardSource) {
 			Payment paymentVoid=Payments.InsertVoidPayment(_payment,_listPaySplits,receipt,payNote,creditCardSource);
 			if(showApprovedAmtNotice) {
-				MessageBox.Show(Lan.g(this,"The amount of the original transaction")+": "+_payment.PayAmt.ToString("C")+"\r\n"+Lan.g(this,"does not match "
-					+"the approved amount returned")+": "+approvedAmt.ToString("C")+".\r\n"+Lan.g(this,"The amount will be changed to reflect the approved "
+				MessageBox.Show(Lan.g(this,"The amount of the original transaction")+": "+_payment.PayAmt.ToStringNetFx("C")+"\r\n"+Lan.g(this,"does not match "
+					+"the approved amount returned")+": "+approvedAmt.ToStringNetFx("C")+".\r\n"+Lan.g(this,"The amount will be changed to reflect the approved "
 					+"amount charged."),"Alert",MessageBoxButtons.OK,MessageBoxIcon.Exclamation);
 				paymentVoid.PayAmt=approvedAmt;
 			}
@@ -2357,7 +2357,7 @@ namespace OpenPmsDental {
 				PrintReceipt(receipt,Lan.g(this,creditCardSource==CreditCardSource.EdgeExpressRCM ? "Global Payments V1 receipt printed" : "X-Charge receipt printed"));
 			}
 			SecurityLogs.MakeLogEntry(EnumPermType.PaymentCreate,paymentVoid.PatNum,Patients.GetLim(paymentVoid.PatNum).GetNameLF()+", "
-				+paymentVoid.PayAmt.ToString("c"));
+				+paymentVoid.PayAmt.ToStringNetFx("c"));
 		}
 
 		///<summary>Returns true if payconnect is enabled and completely setup.</summary>
@@ -2568,15 +2568,15 @@ namespace OpenPmsDental {
 			}
 			double approvedAmt=PIn.Double(rcmResponse.APPROVEDAMOUNT);
 			if(CompareDouble.IsGreaterThan(approvedAmt,0) && !CompareDouble.IsEqual(approvedAmt,amt) && !edgeExpressTransType.In(EdgeExpressTransType.CreditVoid,EdgeExpressTransType.CreditReturn)) {
-				MessageBox.Show(Lan.g(this,"The amount you typed in")+": "+amt.ToString("C")+"\r\n"+Lan.g(this,"does not match the approved amount returned")
-					+": "+approvedAmt.ToString("C")+".\r\n"+Lan.g(this,"The amount will be changed to reflect the approved amount charged."),"Alert",
+				MessageBox.Show(Lan.g(this,"The amount you typed in")+": "+amt.ToStringNetFx("C")+"\r\n"+Lan.g(this,"does not match the approved amount returned")
+					+": "+approvedAmt.ToStringNetFx("C")+".\r\n"+Lan.g(this,"The amount will be changed to reflect the approved amount charged."),"Alert",
 					MessageBoxButtons.OK,MessageBoxIcon.Exclamation);
-				textAmount.Text=approvedAmt.ToString("F");
+				textAmount.Text=approvedAmt.ToStringNetFx("F");
 			}
 			string receipt=rcmResponse.RECEIPTTEXT;
 			payNote=rcmResponse.GetPayNote();
 			if(edgeExpressTransType==EdgeExpressTransType.CreditReturn && CompareDouble.IsGreaterThan(approvedAmt,0)) {
-				textAmount.Text="-"+approvedAmt.ToString("F");
+				textAmount.Text="-"+approvedAmt.ToStringNetFx("F");
 			}
 			else if(edgeExpressTransType==EdgeExpressTransType.CreditVoid) {
 				bool isVoidingRefund=PIn.Double(textAmount.Text)>0;
@@ -3382,12 +3382,12 @@ namespace OpenPmsDental {
 			}
 			string payNote=Lan.g(this,"Transaction Type")+": "+Enum.GetName(typeof(PayConnectService.transType),PayConnectService.transType.VOID)
 				+Environment.NewLine+Lan.g(this,"Status")+": "+payConnectResponse.Description+Environment.NewLine
-				+Lan.g(this,"Amount")+": "+amountCharged.ToString("C")+Environment.NewLine
+				+Lan.g(this,"Amount")+": "+amountCharged.ToStringNetFx("C")+Environment.NewLine
 				+Lan.g(this,"Auth Code")+": "+payConnectResponse.AuthCode+Environment.NewLine
 				+Lan.g(this,"Ref Number")+": "+payConnectResponse.RefNumber;
 			Payment paymentVoid=Payments.InsertVoidPayment(_payment,_listPaySplits,receiptStr,payNote,CreditCardSource.PayConnect,payAmt:amountCharged);
 			SecurityLogs.MakeLogEntry(EnumPermType.PaymentCreate,paymentVoid.PatNum,
-				Patients.GetLim(paymentVoid.PatNum).GetNameLF()+", "+paymentVoid.PayAmt.ToString("c"));
+				Patients.GetLim(paymentVoid.PatNum).GetNameLF()+", "+paymentVoid.PayAmt.ToStringNetFx("c"));
 		}
 
 		private void VoidPaySimpleTransaction(string refNum,string originalReceipt) {
@@ -3441,7 +3441,7 @@ namespace OpenPmsDental {
 			Cursor=Cursors.Default;
 			Payment paymentVoid=Payments.InsertVoidPayment(_payment,_listPaySplits,receiptStr,apiResponse.ToNoteString(),CreditCardSource.PaySimple);
 			SecurityLogs.MakeLogEntry(EnumPermType.PaymentCreate,paymentVoid.PatNum,
-				Patients.GetLim(paymentVoid.PatNum).GetNameLF()+", "+paymentVoid.PayAmt.ToString("c"));
+				Patients.GetLim(paymentVoid.PatNum).GetNameLF()+", "+paymentVoid.PayAmt.ToStringNetFx("c"));
 		}
 
 		///<summary>Only used to void a transaction that has just been completed when the user hits Cancel. Uses the same Print Receipt settings as the 
@@ -3578,7 +3578,7 @@ namespace OpenPmsDental {
 			formXWeb.XWebResponse_.PaymentNum=paymentReturn.PayNum;
 			XWebResponses.Update(formXWeb.XWebResponse_);
 			SecurityLogs.MakeLogEntry(EnumPermType.PaymentCreate,paymentReturn.PatNum,
-				Patients.GetLim(paymentReturn.PatNum).GetNameLF() + ", " + paymentReturn.PayAmt.ToString("c"));
+				Patients.GetLim(paymentReturn.PatNum).GetNameLF() + ", " + paymentReturn.PayAmt.ToStringNetFx("c"));
 			butVoid.Visible=true;
 			LayoutManager.MoveHeight(groupXWeb,85);
 			MsgBox.Show(this,"Return successful.");
@@ -3594,7 +3594,7 @@ namespace OpenPmsDental {
 				|| _xWebResponse.XTransactionType==XWebTransactionType.DebitReturnTransaction) {
 				amount=-amount;//The amount in an xwebresponse is always stored as a positive number.
 			}
-			if(MessageBox.Show(Lan.g(this,"Void the XWeb transaction of amount")+" "+amount.ToString("f")+" "+Lan.g(this,"attached to this payment?"),
+			if(MessageBox.Show(Lan.g(this,"Void the XWeb transaction of amount")+" "+amount.ToStringNetFx("f")+" "+Lan.g(this,"attached to this payment?"),
 				"",MessageBoxButtons.YesNo)==DialogResult.No) {
 				return;
 			}
@@ -3695,7 +3695,7 @@ namespace OpenPmsDental {
 				CardPaymentMethod cardPaymentMethod=statusResponse.GetStatusResponse?.PaymentMethod?.CardPaymentMethod;
 				cardNumber=cardPaymentMethod?.CardLast4Digits??"";
 				receipt=formPayConnect2.ReceiptStr;
-				amountChargedString=(((double)statusResponse.GetStatusResponse.Amount)/100).ToString("F2");
+				amountChargedString=(((double)statusResponse.GetStatusResponse.Amount)/100).ToStringNetFx("F2");
 				transType=formPayConnect2.TransType;
 				wasPaymentAttempted=formPayConnect2.WasPaymentAttempted;
 				string integrationType=ProgramProperties.GetPropVal(program.ProgramNum,PayConnect.ProgramProperties.IntegrationType,_payment.ClinicNum);
@@ -3705,7 +3705,7 @@ namespace OpenPmsDental {
 					if(transType==PayConnectService.transType.VOID) {
 						_payment.MerchantFee=-_payment.MerchantFee;
 					}
-					textSurcharge.Text=_payment.MerchantFee.ToString("F2");
+					textSurcharge.Text=_payment.MerchantFee.ToStringNetFx("F2");
 				}
 			}
 				if(prepaidAmt==0 && payConnectResponse!=null) {//Regular credit cards (not prepaid cards).
@@ -3732,7 +3732,7 @@ namespace OpenPmsDental {
 				if(payConnectResponse!=null) {
 					resultNote=Lan.g(this,"Transaction Type")+": "+Enum.GetName(typeof(PayConnectService.transType),transType)+Environment.NewLine+
 						Lan.g(this,"Status")+": "+payConnectResponse.Description+Environment.NewLine+
-						Lan.g(this,"Amount")+": "+amountCharged.ToString("C")+Environment.NewLine+
+						Lan.g(this,"Amount")+": "+amountCharged.ToStringNetFx("C")+Environment.NewLine+
 						Lan.g(this,"Card Type")+": "+payConnectResponse.CardType+Environment.NewLine+
 						Lan.g(this,"Account")+": "+StringTools.TruncateBeginning(cardNumber,4).PadLeft(cardNumber.Length,'X')+Environment.NewLine+
 						Lan.g(this,"Auth Code")+": "+payConnectResponse.AuthCode+Environment.NewLine+
@@ -3740,7 +3740,7 @@ namespace OpenPmsDental {
 					if(payconnectVersion=="2") {
 						long integrationType=PayConnect2.GetIntegrationType(_payment.ClinicNum);
 						if(integrationType==1) {
-							resultNote+=Environment.NewLine+Lan.g(this,"Surcharge Fee Amount")+": "+_payment.MerchantFee.ToString("C");
+							resultNote+=Environment.NewLine+Lan.g(this,"Surcharge Fee Amount")+": "+_payment.MerchantFee.ToStringNetFx("C");
 						}
 						if(PayConnect2.GetUseSandbox()) {
 							//Nothing was really charged. Mark the note so a test payment can't pass for a real one.
@@ -4052,7 +4052,7 @@ namespace OpenPmsDental {
 			if(amt<0) {//X-Charge always wants a positive number, even for returns.
 				amt*=-1;
 			}
-			processStartInfo.Arguments+="/AMOUNT:"+amt.ToString("F2")+" ";
+			processStartInfo.Arguments+="/AMOUNT:"+amt.ToStringNetFx("F2")+" ";
 			XchargeMilestone="Get Selected Credit Card";
 			using FormXchargeTrans formXchargeTrans=new FormXchargeTrans();
 			int tranType=0;//Default to 0 "Purchase" for prepaid cards.
@@ -4331,20 +4331,20 @@ namespace OpenPmsDental {
 			}
 			XchargeMilestone="Check Approved Amount";
 			if(showApprovedAmtNotice && !xVoid && !xAdjust && !xReturn) {
-				MessageBox.Show(Lan.g(this,"The amount you typed in")+": "+amt.ToString("C")+"\r\n"+Lan.g(this,"does not match the approved amount returned")
-					+": "+approvedAmt.ToString("C")+".\r\n"+Lan.g(this,"The amount will be changed to reflect the approved amount charged."),"Alert",
+				MessageBox.Show(Lan.g(this,"The amount you typed in")+": "+amt.ToStringNetFx("C")+"\r\n"+Lan.g(this,"does not match the approved amount returned")
+					+": "+approvedAmt.ToStringNetFx("C")+".\r\n"+Lan.g(this,"The amount will be changed to reflect the approved amount charged."),"Alert",
 					MessageBoxButtons.OK,MessageBoxIcon.Exclamation);
-				textAmount.Text=approvedAmt.ToString("F");
+				textAmount.Text=approvedAmt.ToStringNetFx("F");
 			}
 			if(xAdjust) {
 				XchargeMilestone="Check Adjust";
-				MessageBox.Show(Lan.g(this,"The amount will be changed to the X-Charge approved amount")+": "+approvedAmt.ToString("C"));
+				MessageBox.Show(Lan.g(this,"The amount will be changed to the X-Charge approved amount")+": "+approvedAmt.ToStringNetFx("C"));
 				textNote.Text="";
-				textAmount.Text=approvedAmt.ToString("F");
+				textAmount.Text=approvedAmt.ToStringNetFx("F");
 			}
 			else if(xReturn) {
 				XchargeMilestone="Check Return";
-				textAmount.Text="-"+approvedAmt.ToString("F");
+				textAmount.Text="-"+approvedAmt.ToStringNetFx("F");
 			}
 			else if(xVoid) {//For prepaid cards, tranType is set to 0 "Purchase", therefore xVoid will be false.
 				XchargeMilestone="Check Void";
@@ -4355,7 +4355,7 @@ namespace OpenPmsDental {
 			_wasCreditCardSuccessful=!_isCCDeclined;//If the transaction is not a void transaction, we will void this transaction if the user hits Cancel
 			_payment.IsCcCompleted=_wasCreditCardSuccessful;
 			if(additionalFunds>0) {
-				MessageBox.Show(Lan.g(this,"Additional funds required")+": "+additionalFunds.ToString("C"));
+				MessageBox.Show(Lan.g(this,"Additional funds required")+": "+additionalFunds.ToStringNetFx("C"));
 			}
 			if(textNote.Text!="") {
 				textNote.Text+="\r\n";
@@ -4494,7 +4494,7 @@ namespace OpenPmsDental {
 			}
 			if(!IsNew) {
 				SecurityLogs.MakeLogEntry(EnumPermType.PaymentEdit,_payment.PatNum,"Delete for: "+Patients.GetLim(_payment.PatNum).GetNameLF()+", "
-					+_paymentOld.PayAmt.ToString("c")+", with payment type '"+Payments.GetPaymentTypeDesc(_paymentOld,_listDefsPaymentType)+"'",
+					+_paymentOld.PayAmt.ToStringNetFx("c")+", with payment type '"+Payments.GetPaymentTypeDesc(_paymentOld,_listDefsPaymentType)+"'",
 					0,_paymentOld.SecDateTEdit);
 			}
 			Signalods.SetInvalid(InvalidType.BillingList);
@@ -4534,7 +4534,7 @@ namespace OpenPmsDental {
 				}
 				changesMade+=SecurityLogEntryHelper(Providers.GetAbbr(paySplit.ProvNum),Providers.GetAbbr(_listPaySplits[i].ProvNum),"Provider");
 				changesMade+=SecurityLogEntryHelper(Clinics.GetAbbr(paySplit.ClinicNum),Clinics.GetAbbr(_listPaySplits[i].ClinicNum),"Clinic");
-				changesMade+=SecurityLogEntryHelper(paySplit.SplitAmt.ToString("F"),_listPaySplits[i].SplitAmt.ToString("F"),"Amount");
+				changesMade+=SecurityLogEntryHelper(paySplit.SplitAmt.ToStringNetFx("F"),_listPaySplits[i].SplitAmt.ToStringNetFx("F"),"Amount");
 				changesMade+=SecurityLogEntryHelper(paySplit.PatNum.ToString(),_listPaySplits[i].PatNum.ToString(),"Patient number");
 				if(changesMade!="") {
 					SecurityLogs.MakeLogEntry(EnumPermType.PaymentEdit,_listPaySplits[i].PatNum,secLogText+changesMade,0,paySplit.SecDateTEdit);

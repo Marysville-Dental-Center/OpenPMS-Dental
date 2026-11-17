@@ -179,9 +179,9 @@ namespace OpenPmsDental {
 
 		///<summary>Only call after AreLateChargeSettingsValid() returns false. Rounds all double fields to two decimal places.</summary>
 		private void RoundDoubleFields() {
-			textExcludeLessThan.Text=PIn.Double(textExcludeLessThan.Text).ToString("f");
-			textMinCharge.Text=PIn.Double(textMinCharge.Text).ToString("f");
-			textMaxCharge.Text=PIn.Double(textMaxCharge.Text).ToString("f");
+			textExcludeLessThan.Text=PIn.Double(textExcludeLessThan.Text).ToStringNetFx("f");
+			textMinCharge.Text=PIn.Double(textMinCharge.Text).ToStringNetFx("f");
+			textMaxCharge.Text=PIn.Double(textMaxCharge.Text).ToStringNetFx("f");
 		}
 
 		///<summary>Saves preferences for all of the fields in the Late charge settings groupbox.</summary>

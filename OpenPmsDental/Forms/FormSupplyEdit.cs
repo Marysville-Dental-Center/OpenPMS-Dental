@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using OpenPmsDentalBusiness;
+using CodeBase;
 
 namespace OpenPmsDental {
 	public partial class FormSupplyEdit:FormODBase {
@@ -31,13 +32,13 @@ namespace OpenPmsDental {
 			textCatalogNumber.Text=SupplyCur.CatalogNumber;
 			textDescript.Text=SupplyCur.Descript;
 			if(SupplyCur.LevelDesired!=0){
-				textLevelDesired.Text=SupplyCur.LevelDesired.ToString();
+				textLevelDesired.Text=SupplyCur.LevelDesired.ToStringNetFx();
 			}
 			if(SupplyCur.OrderQty!=0){
 				textOrderQty.Text=SupplyCur.OrderQty.ToString();
 			}
 			if(SupplyCur.Price!=0){
-				textPrice.Text=SupplyCur.Price.ToString("n");
+				textPrice.Text=SupplyCur.Price.ToStringNetFx("n");
 			}
 			if(SupplyCur.LevelOnHand!=0) {
 				textOnHand.Text=InventoryTracking.FormatQty(SupplyCur.LevelOnHand);

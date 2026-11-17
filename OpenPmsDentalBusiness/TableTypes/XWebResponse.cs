@@ -1,6 +1,7 @@
 ﻿using OpenPmsDentalBusiness;
 using System;
 using System.Xml.Serialization;
+using CodeBase;
 
 namespace OpenPmsDentalBusiness {
 	///<summary>Received as XML output from XWeb gateway. Not all fields are available for all method calls. This is a combination of all possible output fields. 
@@ -169,7 +170,7 @@ namespace OpenPmsDentalBusiness {
 			}
 			string retVal="";
 			if(!isErrorMessage) {
-				retVal=Lans.g(this,"Amount:")+" "+(keepAmountPositive ? Amount : -Amount).ToString("f")+"\r\n"
+				retVal=Lans.g(this,"Amount:")+" "+(keepAmountPositive ? Amount : -Amount).ToStringNetFx("f")+"\r\n"
 				+Lans.g(this,"Card Number:")+" "+MaskedAcctNum+"\r\n"
 				+Lans.g(this,"Transaction ID:")+" "+TransactionID+"\r\n";
 			}

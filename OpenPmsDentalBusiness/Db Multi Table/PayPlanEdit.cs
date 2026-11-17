@@ -205,8 +205,8 @@ namespace OpenPmsDentalBusiness {
 			DataRow retVal=table.NewRow();
 			retVal[COLUMN_IS_DOWN_PAYMENT]=payPlanCharge.IsDownPayment;
 			string chargeDate=payPlanCharge.ChargeDate.ToShortDateString();
-			string interestAmt=payPlanCharge.Interest.ToString("f");
-			string paymentDue=(payPlanCharge.Principal+payPlanCharge.Interest).ToString("n");
+			string interestAmt=payPlanCharge.Interest.ToStringNetFx("f");
+			string paymentDue=(payPlanCharge.Principal+payPlanCharge.Interest).ToStringNetFx("n");
 			string descript="#"+(payPlanChargeOrdinal+1);
 			//payPlanCharge.FKey will be zero if payPlanCharge represents an aggregate row.
 			if(isDynamic && payPlanCharge.LinkType==PayPlanLinkType.Procedure && payPlanCharge.FKey!=0) {
@@ -244,11 +244,11 @@ namespace OpenPmsDentalBusiness {
 				retVal["Due"]="";//5 Due
 				retVal["Payment"]="";//6 Payment (filled later)
 				if(!isDynamic) { 
-					retVal["Adjustment"]=payPlanCharge.Principal.ToString("f");//7
+					retVal["Adjustment"]=payPlanCharge.Principal.ToStringNetFx("f");//7
 				}
 			}
 			else {
-				retVal["Principal"]=payPlanCharge.Principal.ToString("f");//3 Principal
+				retVal["Principal"]=payPlanCharge.Principal.ToStringNetFx("f");//3 Principal
 				retVal["Interest"]=interestAmt;//4 Interest
 				retVal["Due"]=paymentDue;//5 Due
 				retVal["Payment"]="";//6 Payment (filled later)
@@ -340,7 +340,7 @@ namespace OpenPmsDentalBusiness {
 				if(rowBundlePayment["CheckNum"].ToString()!="") {
 					descript+=" #"+rowBundlePayment["CheckNum"].ToString();
 				}
-				descript+=" "+payPlanSplit.SplitAmt.ToString("c");
+				descript+=" "+payPlanSplit.SplitAmt.ToStringNetFx("c");
 				if(PIn.Double(rowBundlePayment["PayAmt"].ToString())!=payPlanSplit.SplitAmt) {
 					descript+=Lans.g("FormPayPlan","(split)");
 				}
@@ -353,7 +353,7 @@ namespace OpenPmsDentalBusiness {
 			retVal["Principal"]=0.ToString("f");//3 Principal
 			retVal["Interest"]=0.ToString("f");//4 Interest 
 			retVal["Due"]=0.ToString("f");//5 Due (filled later)
-			retVal["Payment"]=payPlanSplit.SplitAmt.ToString("f");// Payment
+			retVal["Payment"]=payPlanSplit.SplitAmt.ToStringNetFx("f");// Payment
 			if(!isDynamic) {
 				retVal["Adjustment"]=0.ToString("f");//7 Adjustment
 			}
@@ -380,7 +380,7 @@ namespace OpenPmsDentalBusiness {
 			}
 			else {
 				double checkAmt=PIn.Double(rowBundleClaimProc["CheckAmt"].ToString());
-				descript+=" "+checkAmt.ToString("c");
+				descript+=" "+checkAmt.ToStringNetFx("c");
 				double insPayAmt=PIn.Double(rowBundleClaimProc["InsPayAmt"].ToString());
 				if(checkAmt!=insPayAmt) {
 					descript+=" "+Lans.g("FormPayPlan","(split)");
@@ -392,7 +392,7 @@ namespace OpenPmsDentalBusiness {
 			retVal["Principal"]="";//3 Principal
 			retVal["Interest"]="";//4 Interest
 			retVal["Due"]="";//5 Due
-			retVal["Payment"]=PIn.Double(rowBundleClaimProc["InsPayAmt"].ToString()).ToString("n");// Payment
+			retVal["Payment"]=PIn.Double(rowBundleClaimProc["InsPayAmt"].ToString()).ToStringNetFx("n");// Payment
 			if(!isDynamic) {
 				retVal["Adjustment"]="";//7
 			}
@@ -767,14 +767,14 @@ namespace OpenPmsDentalBusiness {
 				if(recalcData.ListChargesToAdd.Count!=0 && recalcData.ListChargesToAdd[0].ChargeDate>=terms.DateInterestStart) {
 					double increasedInterestAmt=interest-recalcData.ListChargesToAdd[0].Interest;
 					recalcData.ListChargesToAdd[0].Interest=interest;
-					recalcData.ListChargesToAdd[0].Note=Lans.g("PayPlanEdit","Increased interest")+": "+increasedInterestAmt.ToString("c");
+					recalcData.ListChargesToAdd[0].Note=Lans.g("PayPlanEdit","Increased interest")+": "+increasedInterestAmt.ToStringNetFx("c");
 				}
 				else if(recalcData.ListChargesToAdd.Count==0 
 					&& recalcData.FirstFutureChargeDate.Date>=terms.DateInterestStart.Date
 					&& recalcData.ListPayPlanCharges.FindAll(x => x.ChargeType==PayPlanChargeType.Debit).Count==recalcData.ListPastDebits.Count) 
 				{
 					recalcData.ListPayPlanCharges.Add(CreateDebitCharge(recalcData.PayPlan,recalcData.Fam,recalcData.ProvNum,recalcData.ClinicNum,
-						0,interest,recalcData.FirstFutureChargeDate,Lans.g("PayPlanEdit","Increased interest")+": "+interest.ToString("c")));
+						0,interest,recalcData.FirstFutureChargeDate,Lans.g("PayPlanEdit","Increased interest")+": "+interest.ToStringNetFx("c")));
 				}
 			}
 		}
@@ -812,7 +812,7 @@ namespace OpenPmsDentalBusiness {
 					PatStr=patCur.FName,
 					StatStr=procCur.ProcStatus.ToString(),
 					ProcStr=ProcedureCodes.GetStringProcCode(procCur.CodeNum),
-					FeeStr=procCur.ProcFeeTotal.ToString("f"),
+					FeeStr=procCur.ProcFeeTotal.ToStringNetFx("f"),
 					RemBefStr=remBefore.ToString("f"),
 					Proc=procCur,
 					ProvAbbr=Providers.GetAbbr(procCur.ProvNum),
@@ -857,7 +857,7 @@ namespace OpenPmsDentalBusiness {
 				else {
 					addEntry.CredDateStr=credCur.ChargeDate.ToShortDateString();
 				}
-				addEntry.AmtStr=credCur.Principal.ToString("f");
+				addEntry.AmtStr=credCur.Principal.ToStringNetFx("f");
 				addEntry.RemAftStr="";
 				if(entryCur!=null) {
 					addEntry.RemAftStr=remAfter.ToString("f");
@@ -1280,7 +1280,7 @@ namespace OpenPmsDentalBusiness {
 			if(CompareDouble.IsLessThanOrEqualToZero(prepaymentAmount)) {
 				return;
 			}
-			log.WriteLine($"Hidden unearned prepayments detected for PayPlanNum #{payplan.PayPlanNum}. Applying up to {prepaymentAmount.ToString("c")} to any new charges.",LogLevel.Verbose);
+			log.WriteLine($"Hidden unearned prepayments detected for PayPlanNum #{payplan.PayPlanNum}. Applying up to {prepaymentAmount.ToStringNetFx("c")} to any new charges.",LogLevel.Verbose);
 			PayPlanEdit.ApplyPrepaymentToDynamicPaymentPlan(payplan.Guarantor,prepaymentAmount,listPayPlanCharges,listPaySplits);//Guarantors on payment plans are the ones that make the payments.
 		}
 

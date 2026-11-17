@@ -2930,17 +2930,17 @@ namespace OpenPmsDental {
 				//labelInsLeftAmt.Text="";
 				return;
 			}
-			textOver90.Text=_family.ListPats[0].BalOver90.ToString("F");
-			text61_90.Text=_family.ListPats[0].Bal_61_90.ToString("F");
-			text31_60.Text=_family.ListPats[0].Bal_31_60.ToString("F");
-			text0_30.Text=_family.ListPats[0].Bal_0_30.ToString("F");
+			textOver90.Text=_family.ListPats[0].BalOver90.ToStringNetFx("F");
+			text61_90.Text=_family.ListPats[0].Bal_61_90.ToStringNetFx("F");
+			text31_60.Text=_family.ListPats[0].Bal_31_60.ToStringNetFx("F");
+			text0_30.Text=_family.ListPats[0].Bal_0_30.ToStringNetFx("F");
 			decimal total=(decimal)_family.ListPats[0].BalTotal;
 			List<long> listDefNumsTpUnearned=Defs.GetDefsForCategory(DefCat.PaySplitUnearnedType)
 				.FindAll(x => x.ItemValue!="")
 				.ConvertAll(x => x.DefNum)
 ;
 			labelTotalAmt.Text=total.ToString("F");
-			labelInsEstAmt.Text=_family.ListPats[0].InsEst.ToString("F");
+			labelInsEstAmt.Text=_family.ListPats[0].InsEst.ToStringNetFx("F");
 			FillInsEstBreakdown();
 			labelBalanceAmt.Text=(total - (decimal)_family.ListPats[0].InsEst).ToString("F");
 			labelPatEstBalAmt.Text="";
@@ -2959,7 +2959,7 @@ namespace OpenPmsDental {
 					//remove TP splits that do not show on account due to def being checked. 
 					List<PaySplit> listUnearnedShownOnAccount=_loadData.ListUnearnedSplits.FindAll(x => !listDefNumsTpUnearned.Contains(x.UnearnedType)
 						&& _family.ListPats.Select(y => y.PatNum).Contains(x.PatNum));//We do not want to show unearned balances for paysplits to other families
-					labelUnearnedAmt.Text=listUnearnedShownOnAccount.Sum(x => x.SplitAmt).ToString("F");
+					labelUnearnedAmt.Text=listUnearnedShownOnAccount.Sum(x => x.SplitAmt).ToStringNetFx("F");
 					if(PIn.Double(labelUnearnedAmt.Text)<=0) {
 						labelUnearnedAmt.ForeColor=Color.Black;
 						labelUnearnedAmt.Font=new Font(labelUnearnedAmt.Font,FontStyle.Regular);
@@ -3014,7 +3014,7 @@ namespace OpenPmsDental {
 				GridRow row=new GridRow();
 				row.Cells.Add(listUnearnedDefs[i].ItemName);
 				double sumForType=listPaySplitsOnAccount.FindAll(x=>x.UnearnedType==listUnearnedDefs[i].DefNum).Sum(x=>x.SplitAmt);
-				row.Cells.Add(sumForType.ToString("N2"));
+				row.Cells.Add(sumForType.ToStringNetFx("N2"));
 				gridUnearnedBreakdown.ListGridRows.Add(row);
 			}
 			gridUnearnedBreakdown.EndUpdate();
@@ -3049,8 +3049,8 @@ namespace OpenPmsDental {
 				}
 				totalInsPayEst+=insPayEst;
 				totalWriteOff+=writeOff;
-				row.Cells.Add(insPayEst.ToString("c"));
-				row.Cells.Add(writeOff.ToString("c"));
+				row.Cells.Add(insPayEst.ToStringNetFx("c"));
+				row.Cells.Add(writeOff.ToStringNetFx("c"));
 				gridInsEstOpenClaims.ListGridRows.Add(row);
 			}
 			if(gridInsEstOpenClaims.ListGridRows.Count>0) {
@@ -3058,8 +3058,8 @@ namespace OpenPmsDental {
 				GridRow rowTotal=new GridRow();
 				rowTotal.Cells.Add(Lan.g(this,"Total"));
 				rowTotal.Cells.Add(Lan.g(this,""));
-				rowTotal.Cells.Add(totalInsPayEst.ToString("c"));
-				rowTotal.Cells.Add(totalWriteOff.ToString("c"));
+				rowTotal.Cells.Add(totalInsPayEst.ToStringNetFx("c"));
+				rowTotal.Cells.Add(totalWriteOff.ToStringNetFx("c"));
 				gridInsEstOpenClaims.ListGridRows.Add(rowTotal);
 			}
 			gridInsEstOpenClaims.EndUpdate();
@@ -3798,7 +3798,7 @@ namespace OpenPmsDental {
 				row=new GridRow();
 				procedureCode=ProcedureCodes.GetProcCode(_repeatChargeArray[i].ProcCode);
 				row.Cells.Add(procedureCode.Descript);
-				row.Cells.Add(_repeatChargeArray[i].ChargeAmt.ToString("F"));
+				row.Cells.Add(_repeatChargeArray[i].ChargeAmt.ToStringNetFx("F"));
 				if(_repeatChargeArray[i].DateStart.Year>1880) {
 					row.Cells.Add(_repeatChargeArray[i].DateStart.ToShortDateString());
 				}
@@ -3875,15 +3875,15 @@ namespace OpenPmsDental {
 				insPlan=InsPlans.GetPlan(insSub.PlanNum,listInsPlans);
 				pend=InsPlans.GetPendingDisplay(listClaimProcHists,DateTime.Today,insPlan,listPatPlans[0].PatPlanNum,-1,_patient.PatNum,listPatPlans[0].InsSubNum,listBenefits);
 				used=InsPlans.GetInsUsedDisplay(listClaimProcHists,DateTime.Today,insPlan.PlanNum,listPatPlans[0].PatPlanNum,-1,listInsPlans,listBenefits,_patient.PatNum,listPatPlans[0].InsSubNum);
-				textPriPend.Text=pend.ToString("F");
-				textPriUsed.Text=used.ToString("F");
+				textPriPend.Text=pend.ToStringNetFx("F");
+				textPriUsed.Text=used.ToStringNetFx("F");
 				maxFam=Benefits.GetAnnualMaxDisplay(listBenefits,insPlan.PlanNum,listPatPlans[0].PatPlanNum,true);
 				maxInd=Benefits.GetAnnualMaxDisplay(listBenefits,insPlan.PlanNum,listPatPlans[0].PatPlanNum,false);
 				if(maxFam==-1) {
 					textFamPriMax.Text="";
 				}
 				else {
-					textFamPriMax.Text=maxFam.ToString("F");
+					textFamPriMax.Text=maxFam.ToStringNetFx("F");
 				}
 				if(maxInd==-1) {//if annual max is blank
 					textPriMax.Text="";
@@ -3895,28 +3895,28 @@ namespace OpenPmsDental {
 						remain=0;
 					}
 					//textFamPriMax.Text=max.ToString("F");
-					textPriMax.Text=maxInd.ToString("F");
-					textPriRem.Text=remain.ToString("F");
+					textPriMax.Text=maxInd.ToStringNetFx("F");
+					textPriRem.Text=remain.ToStringNetFx("F");
 				}
 				//deductible:
 				ded=Benefits.GetDeductGeneralDisplay(listBenefits,insPlan.PlanNum,listPatPlans[0].PatPlanNum,BenefitCoverageLevel.Individual);
 				dedFam=Benefits.GetDeductGeneralDisplay(listBenefits,insPlan.PlanNum,listPatPlans[0].PatPlanNum,BenefitCoverageLevel.Family);
 				if(ded!=-1) {
-					textPriDed.Text=ded.ToString("F");
+					textPriDed.Text=ded.ToStringNetFx("F");
 					dedRem=InsPlans.GetDedRemainDisplay(listClaimProcHists,DateTime.Today,insPlan.PlanNum,listPatPlans[0].PatPlanNum,-1,listInsPlans,_patient.PatNum,ded,dedFam);
-					textPriDedRem.Text=dedRem.ToString("F");
+					textPriDedRem.Text=dedRem.ToStringNetFx("F");
 				}
 				if(dedFam!=-1) {
-					textFamPriDed.Text=dedFam.ToString("F");
+					textFamPriDed.Text=dedFam.ToStringNetFx("F");
 				}
 			}
 			if(listPatPlans.Count>1) {
 				insSub=InsSubs.GetSub(listPatPlans[1].InsSubNum,listInsSubs);
 				insPlan=InsPlans.GetPlan(insSub.PlanNum,listInsPlans);
 				pend=InsPlans.GetPendingDisplay(listClaimProcHists,DateTime.Today,insPlan,listPatPlans[1].PatPlanNum,-1,_patient.PatNum,listPatPlans[1].InsSubNum,listBenefits);
-				textSecPend.Text=pend.ToString("F");
+				textSecPend.Text=pend.ToStringNetFx("F");
 				used=InsPlans.GetInsUsedDisplay(listClaimProcHists,DateTime.Today,insPlan.PlanNum,listPatPlans[1].PatPlanNum,-1,listInsPlans,listBenefits,_patient.PatNum,listPatPlans[1].InsSubNum);
-				textSecUsed.Text=used.ToString("F");
+				textSecUsed.Text=used.ToStringNetFx("F");
 				//max=Benefits.GetAnnualMaxDisplay(BenefitList,PlanCur.PlanNum,PatPlanList[1].PatPlanNum);
 				maxFam=Benefits.GetAnnualMaxDisplay(listBenefits,insPlan.PlanNum,listPatPlans[1].PatPlanNum,true);
 				maxInd=Benefits.GetAnnualMaxDisplay(listBenefits,insPlan.PlanNum,listPatPlans[1].PatPlanNum,false);
@@ -3924,7 +3924,7 @@ namespace OpenPmsDental {
 					textFamSecMax.Text="";
 				}
 				else {
-					textFamSecMax.Text=maxFam.ToString("F");
+					textFamSecMax.Text=maxFam.ToStringNetFx("F");
 				}
 				if(maxInd==-1) {//if annual max is blank
 					textSecMax.Text="";
@@ -3936,19 +3936,19 @@ namespace OpenPmsDental {
 						remain=0;
 					}
 					//textFamSecMax.Text=max.ToString("F");
-					textSecMax.Text=maxInd.ToString("F");
-					textSecRem.Text=remain.ToString("F");
+					textSecMax.Text=maxInd.ToStringNetFx("F");
+					textSecRem.Text=remain.ToStringNetFx("F");
 				}
 				//deductible:
 				ded=Benefits.GetDeductGeneralDisplay(listBenefits,insPlan.PlanNum,listPatPlans[1].PatPlanNum,BenefitCoverageLevel.Individual);
 				dedFam=Benefits.GetDeductGeneralDisplay(listBenefits,insPlan.PlanNum,listPatPlans[1].PatPlanNum,BenefitCoverageLevel.Family);
 				if(ded!=-1) {
-					textSecDed.Text=ded.ToString("F");
+					textSecDed.Text=ded.ToStringNetFx("F");
 					dedRem=InsPlans.GetDedRemainDisplay(listClaimProcHists,DateTime.Today,insPlan.PlanNum,listPatPlans[1].PatPlanNum,-1,listInsPlans,_patient.PatNum,ded,dedFam);
-					textSecDedRem.Text=dedRem.ToString("F");
+					textSecDedRem.Text=dedRem.ToStringNetFx("F");
 				}
 				if(dedFam!=-1) {
-					textFamSecDed.Text=dedFam.ToString("F");
+					textFamSecDed.Text=dedFam.ToStringNetFx("F");
 				}
 			}
 		}
@@ -4011,8 +4011,8 @@ namespace OpenPmsDental {
 					row.Cells.Add("");//Code
 					row.Cells.Add(paymentType);//Description
 				}
-				row.Cells.Add(_listPaySplitsHidden[i].SplitAmt.ToString("F"));//Amount
-				row.Cells.Add((tpRunningTotal+=_listPaySplitsHidden[i].SplitAmt).ToString("F"));//Total
+				row.Cells.Add(_listPaySplitsHidden[i].SplitAmt.ToStringNetFx("F"));//Amount
+				row.Cells.Add((tpRunningTotal+=_listPaySplitsHidden[i].SplitAmt).ToStringNetFx("F"));//Total
 				row.Tag=_listPaySplitsHidden[i];
 				Color color=Defs.GetDefsForCategory(DefCat.AccountColors)[3].ItemColor;
 				row.ColorLborder=color;

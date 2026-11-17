@@ -65,11 +65,11 @@ namespace OpenPmsDental {
 			_discountAmtUsed=Adjustments.GetTotForPatByType(_discountPlanSub.PatNum,_discountPlan.DefNum,dateEffectiveFinal,dateTermFinal);
 			if(_discountPlan.AnnualMax!=-1) {
 				double adjMax=_discountPlan.AnnualMax;
-				textMaxAdj.Text=adjMax.ToString("F");
+				textMaxAdj.Text=adjMax.ToStringNetFx("F");
 				double adjRem=adjMax-_discountAmtUsed;
-				textRemainingAdj.Text=adjRem.ToString("F");
+				textRemainingAdj.Text=adjRem.ToStringNetFx("F");
 			}
-			textUsedAdj.Text=_discountAmtUsed.ToString("F");
+			textUsedAdj.Text=_discountAmtUsed.ToStringNetFx("F");
 		}
 
 		public void SetData(PatientDashboardDataEventArgs data,SheetField sheetField) {
