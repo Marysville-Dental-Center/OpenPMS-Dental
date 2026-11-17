@@ -158,7 +158,8 @@ namespace CodeBase {
 
 		///<summary>The path along which a line widthLine px wide is drawn so that it lies inside the bounds on whole pixels: inset by half the width,
 		///so a 1 px line is on the pixel centres (offset 0.5) and a 2 px line covers two whole pixels. For Graphics.DrawRectangle or a path with
-		///antialiasing on and the default PixelOffsetMode (None).</summary>
+		///antialiasing on and PixelOffsetMode.Half (GDI+ then puts pixel centres at .5; with the default mode a line on .5 falls between two
+		///pixels). Fill with the bounds themselves in the same mode.</summary>
 		public static RectangleF GetStrokeRectangle(Rectangle rectangleBounds,int widthLine) {
 			float half=widthLine/2f;
 			return new RectangleF(rectangleBounds.X+half,rectangleBounds.Y+half,rectangleBounds.Width-widthLine,rectangleBounds.Height-widthLine);
