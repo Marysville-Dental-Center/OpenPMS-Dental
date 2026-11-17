@@ -193,7 +193,7 @@ namespace EhrTests {
 			StringAssert.Contains(doubleClick,"FormEE.IsReadOnly=true;");
 			StringAssert.Contains(doubleClick,"FormEE.SelectedItemIndex=(int)itemNotPerformed.Value;");
 			Assert.IsFalse(Regex.IsMatch(CSharpSource.Read(source).CodeWithoutComments,"Enum\\.Parse\\(typeof\\(EhrNotPerformedItem\\)"));
-			//The edit window: an "other" row (or no item) is shown read-only, with no save and no delete; no item index -1 reaches the switch.
+			//The edit window: an "other" row (or no item) is shown read-only, with no save (Delete stays, EHR-7-R); no item index -1 reaches the switch.
 			string sourceEdit=TestPaths.ReadSource(PATH_NOT_PERFORMED_EDIT);
 			string load=CSharpSource.GetBlock(sourceEdit,"private void FormEhrNotPerformedEdit_Load(");
 			StringAssert.Contains(load,"if(IsReadOnly || !Enum.IsDefined(typeof(EhrNotPerformedItem),SelectedItemIndex)) {");
@@ -202,12 +202,32 @@ namespace EhrTests {
 			Assert.IsTrue(load.IndexOf("FillReadOnly();",StringComparison.Ordinal)<load.IndexOf("(EhrNotPerformedItem)SelectedItemIndex",StringComparison.Ordinal),
 				"The read-only case returns before the item is taken from the index.");
 			string readOnly=CSharpSource.GetBlock(sourceEdit,"private void FillReadOnly()");
-			foreach(string line in new[] { "butSave.Enabled=false;","butDelete.Enabled=false;","comboCodeReason.Enabled=false;","textNote.ReadOnly=true;",
+			foreach(string line in new[] { "butSave.Enabled=false;","comboCodeReason.Enabled=false;","textNote.ReadOnly=true;",
 				"textDate.ReadOnly=true;","textCode.Text=EhrNotPerfCur.CodeValue;","textDate.Text=EhrNotPerfCur.DateEntry.ToShortDateString();" })
 			{
 				StringAssert.Contains(readOnly,line);
 			}
 			StringAssert.Contains(CSharpSource.GetBlock(sourceEdit,"private void FillReasonList()"),"CqmDataEntry.GetNotPerformedReasonOids(itemNotPerformed,");
+		}
+
+		///<summary>EHR-7-R (the lead's decision of 2026-11-15): an "other" row is the office's own data, so the read-only window keeps Delete, as
+		///before EHR-7, while save, the reason and the note stay read-only. The delete needs no item: nothing in it reads the item index or a pick
+		///list, so the row is deleted with or without the 2027 release imported (PickListDbTests deletes one).</summary>
+		[TestMethod]
+		public void NotPerformed_AnOtherRow_KeepsDelete_TheOfficesOwnData() {
+			string sourceEdit=TestPaths.ReadSource(PATH_NOT_PERFORMED_EDIT);
+			string readOnly=CSharpSource.GetBlock(sourceEdit,"private void FillReadOnly()");
+			StringAssert.Contains(readOnly,"butDelete.Enabled=true;");
+			StringAssert.Contains(readOnly,"butSave.Enabled=false;");
+			Assert.IsFalse(Regex.IsMatch(CSharpSource.Read(sourceEdit).CodeWithoutComments,@"butDelete\.Enabled\s*=\s*false"),"Nothing disables Delete.");
+			//The read-only case returns right after FillReadOnly, so nothing after it disables Delete again.
+			string load=CSharpSource.GetBlock(sourceEdit,"private void FormEhrNotPerformedEdit_Load(").Replace("\r\n","\n");//Either line ending
+			StringAssert.Contains(load,"FillReadOnly();\n\t\t\t\treturn;");
+			string delete=CSharpSource.GetBlock(sourceEdit,"private void butDelete_Click(");
+			StringAssert.Contains(delete,"EhrNotPerformeds.Delete(EhrNotPerfCur.EhrNotPerformedNum);");
+			foreach(string name in new[] { "SelectedItemIndex","IsReadOnly","EhrNotPerformedItem","listEhrCodesReason","comboCodeReason" }) {
+				Assert.IsFalse(delete.Contains(name),"The delete reads no item or pick list: "+name);
+			}
 		}
 
 		///<summary>The release is the 2027 one only by its label: no record, or a record of an earlier release (EHR-2's June 2013 import), is not.</summary>

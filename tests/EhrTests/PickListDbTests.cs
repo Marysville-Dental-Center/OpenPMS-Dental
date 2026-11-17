@@ -153,6 +153,32 @@ namespace EhrTests {
 			Assert.AreEqual(0,CqmDataEntry.GetNotPerformedCodes(EhrNotPerformedItem.DocumentCurrentMeds).Count);
 		}
 
+		///<summary>EHR-7-R: a saved row whose code is of no item ("other") is the office's own data and is deleted as any row, before and after the
+		///import (the read-only window keeps Delete; PickListTests checks the window).</summary>
+		[TestMethod]
+		public void NotPerformed_AnOtherRow_IsDeleted_BeforeAndAfterTheImport() {
+			const long patNum=7701;
+			DataCore.NonQ("DELETE FROM ehrnotperformed WHERE PatNum="+POut.Long(patNum));
+			try {
+				EhrNotPerformed ehrNotPerformedBefore=new EhrNotPerformed { PatNum=patNum,CodeValue="TEST-S01",CodeSystem="SNOMEDCT",DateEntry=new DateTime(2027,3,1),
+					Note="TEST other row" };
+				ehrNotPerformedBefore.EhrNotPerformedNum=EhrNotPerformeds.Insert(ehrNotPerformedBefore);
+				Assert.IsNull(CqmDataEntry.GetNotPerformedItem("TEST-S01","SNOMEDCT"),"No import: \"other\".");
+				EhrNotPerformeds.Delete(ehrNotPerformedBefore.EhrNotPerformedNum);
+				Assert.AreEqual(0,EhrNotPerformeds.Refresh(patNum).Count,"Deleted before the import.");
+				ImportOrFail(MakeRows());
+				EhrNotPerformed ehrNotPerformedAfter=new EhrNotPerformed { PatNum=patNum,CodeValue="TEST-S01",CodeSystem="SNOMEDCT",DateEntry=new DateTime(2027,3,1),
+					CodeValueReason="TEST-S99",CodeSystemReason="SNOMEDCT",Note="TEST other row" };
+				ehrNotPerformedAfter.EhrNotPerformedNum=EhrNotPerformeds.Insert(ehrNotPerformedAfter);
+				Assert.IsNull(CqmDataEntry.GetNotPerformedItem("TEST-S01","SNOMEDCT"),"A Tobacco User code is of no not-performed item: \"other\".");
+				EhrNotPerformeds.Delete(ehrNotPerformedAfter.EhrNotPerformedNum);
+				Assert.AreEqual(0,EhrNotPerformeds.Refresh(patNum).Count,"Deleted after the import.");
+			}
+			finally {
+				DataCore.NonQ("DELETE FROM ehrnotperformed WHERE PatNum="+POut.Long(patNum));
+			}
+		}
+
 		[TestMethod]
 		public void Interventions_AndTobacco_TheWindowsListsFillFromTheRelease() {
 			ImportOrFail(MakeRows());

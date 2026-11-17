@@ -3,7 +3,8 @@
 // percentile at 17 years and 11 months, none at 18), the over- or underweight class from 18, the child counseling group under 18, CMS69v15's
 // normal range for every adult (65 and over too), GetBMIPercentile giving -1 outside the LMS table, the same rule through the eForm import
 // (EFormVitalSigns.CreateVitalsign), and source checks that the vital sign window takes the age from the one business-layer helper. Synthetic
-// patients only; no code is written here (the eForm's codes are checked by being set or empty).
+// patients only; no code is written here (the eForm's codes are checked by being set or empty). A patient without a birth date is an adult
+// in the vital sign window (EHR-7-R).
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
 using System.Collections.Generic;
@@ -131,6 +132,39 @@ namespace EhrTests {
 			Assert.IsFalse(source.Contains("ageBeforeJanFirst"));
 		}
 
+		///<summary>EHR-7-R (the lead's decision of 2026-11-15): in the vital sign window a patient without a birth date is an adult, as before
+		///EHR-7 (the age "before January 1" of a missing birth date was about 2,000 years): no percentile, not the child group, the over- or
+		///underweight class of the 2027 range. A known birth date gives the age on the day taken; a day before it stays unclassed. The eForm import
+		///keeps its own rule: no percentile and no weight code without a birth date, as before EHR-7.</summary>
+		[TestMethod]
+		public void VitalSignWindow_APatientWithoutABirthDate_IsAnAdult() {
+			DateTime dateTaken=new DateTime(2027,3,1);
+			foreach(DateTime dateNoBirth in new[] { DateTime.MinValue,new DateTime(1800,1,1),new DateTime(1879,12,31) }) {
+				int age=Vitalsigns.GetAgeForVitalSignWindow(dateNoBirth,dateTaken);
+				Assert.AreEqual(Vitalsigns.AGE_ADULT,age,dateNoBirth.ToString("yyyy-MM-dd"));
+				Assert.IsFalse(Vitalsigns.IsBMIPercentileAge(age),"No percentile.");
+				Assert.IsFalse(Vitalsigns.IsChildCounselingAge(age),"The adult interventions, not the child group.");
+				Assert.IsTrue(Vitalsigns.IsWeightClassAge(age),"Classed over- or underweight.");
+				Assert.AreEqual(InterventionCodeSet.AboveNormalWeight,Vitalsigns.GetBMIInterventionCode(27f,age));
+				Assert.AreEqual(InterventionCodeSet.BelowNormalWeight,Vitalsigns.GetBMIInterventionCode(18f,age));
+				Assert.AreEqual(InterventionCodeSet.None,Vitalsigns.GetBMIInterventionCode(22f,age));
+			}
+			//The business rule itself still calls the age unknown; only the window classes such a patient as an adult.
+			Assert.AreEqual(-1,Vitalsigns.GetAgeOnDateTaken(DateTime.MinValue,dateTaken));
+			//A known birth date: the age on the day taken, unchanged (E-35), and a day before the birth unclassed.
+			foreach(DateTime date in new[] { _dateBirth,_dateBirth.AddYears(3).AddDays(-1),_dateBirth.AddYears(17),_dateBirth.AddYears(18).AddDays(-1),
+				_dateBirth.AddYears(18),_dateBirth.AddYears(65) })
+			{
+				Assert.AreEqual(Vitalsigns.GetAgeOnDateTaken(_dateBirth,date),Vitalsigns.GetAgeForVitalSignWindow(_dateBirth,date),date.ToString("yyyy-MM-dd"));
+			}
+			Assert.AreEqual(17,Vitalsigns.GetAgeForVitalSignWindow(_dateBirth,_dateBirth.AddYears(18).AddDays(-1)));
+			Assert.AreEqual(-1,Vitalsigns.GetAgeForVitalSignWindow(_dateBirth,_dateBirth.AddDays(-1)));
+			//The eForm import without a birth date: no percentile and no weight code (BMI about 34), as before EHR-7.
+			Vitalsign vitalsign=CreateVitalsign(new Patient { PatNum=7,Birthdate=DateTime.MinValue,Gender=PatientGender.Male },dateTaken);
+			Assert.AreEqual(-1,vitalsign.BMIPercentile);
+			Assert.AreEqual("",vitalsign.WeightCode);
+		}
+
 		///<summary>A vital sign of height and weight (BMI about 34 by default) through the eForm import, every code table present.</summary>
 		private static Vitalsign CreateVitalsign(Patient patient,DateTime dateTaken,double height=64,double weight=200) {
 			List<EFormVitalImport> listImports=new List<EFormVitalImport> {
@@ -145,8 +179,9 @@ namespace EhrTests {
 		public void VitalSignWindow_TakesTheAgeFromTheBusinessLayersHelper() {
 			string source=TestPaths.ReadSource(@"OpenPmsDental\Forms\FormVitalsignEdit2014.cs");
 			Assert.IsFalse(source.Contains("AgeBeforeJanFirst"),"The age before January 1 is gone.");
-			Assert.AreEqual(2,source.Split(new[] { "AgeOnDateTaken=Vitalsigns.GetAgeOnDateTaken(_patient.Birthdate," },StringSplitOptions.None).Length-1,
-				"On load and when the date changes.");
+			Assert.AreEqual(2,source.Split(new[] { "AgeOnDateTaken=Vitalsigns.GetAgeForVitalSignWindow(_patient.Birthdate," },StringSplitOptions.None).Length-1,
+				"On load and when the date changes, with the window's rule for a missing birth date (EHR-7-R).");
+			Assert.IsFalse(source.Contains("Vitalsigns.GetAgeOnDateTaken("),"The window takes no age that leaves a patient without a birth date unclassed.");
 			StringAssert.Contains(source,"if(Vitalsigns.IsBMIPercentileAge(AgeOnDateTaken)) {");
 			StringAssert.Contains(source,"if(Vitalsigns.IsChildCounselingAge(AgeOnDateTaken)) {");
 			StringAssert.Contains(source,"else if(Vitalsigns.IsWeightClassAge(AgeOnDateTaken) && labelWeightCode.Text!=\"\") {");
