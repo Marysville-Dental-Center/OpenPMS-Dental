@@ -990,6 +990,10 @@ closing step. None has a gallery.
   the copy's database name, clip notes, `index.html` that shows pictures at 1:1 device pixels with a zoom toggle (section 8), a zip with
   forward slashes). The masking and hashing rule is one function that UI-0c's check U0 calls too.
 - Tests: the builder's self-tests (no program, no database).
+- **Status (2026-11-17).** Done on `ui/ui0a-1` (`docs/port-notes/UI-0a.md`), not merged yet. The rule is
+  `UiPictureMask.GetMaskedPixelSha256` in `tools/UiGallery/UiPictureMask.cs`: the builder compiles it with Add-Type, and UI-0c links the
+  file into `tests/WindowChecksTests` for U0 (the port note gives the lines). Masks for About, Diagnostics and the Appointments module's
+  date panel; UI-0c adds group U's rows. Self-tests in `tests/ReleaseFlowTests/UiGalleryScriptTests.cs`.
 
 **UI-0b: the text-fit scan and the layout records**
 - Owns: the new test project `tests/UiRefreshTests` (the lead adds it to `OpenDental.sln` and `OpenDental.Local.slnf`), the tier 1
