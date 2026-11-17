@@ -35,7 +35,7 @@ namespace MiddleTierHostTests {
 		///<summary>The address of a running Middle Tier server to test instead of the in-process ones, like
 		///https://127.0.0.1:7443/OpenDentalServer/ServiceMain.asmx.</summary>
 		public const string VARIABLE_URL="MIDDLETIER_TEST_URL";
-		///<summary>The scratch database the running server's config file names (s3b6_ first; s3b6_gate when not set). This run builds it.</summary>
+		///<summary>The scratch database the running server's config file names (s3b6_ or mtsvc_ first; s3b6_gate when not set). This run builds it.</summary>
 		public const string VARIABLE_DB="MIDDLETIER_TEST_DB";
 		///<summary>The SHA-1 thumbprint of the running server's test certificate, when Windows does not trust it.</summary>
 		public const string VARIABLE_THUMBPRINT="MIDDLETIER_TEST_CERT_THUMBPRINT";

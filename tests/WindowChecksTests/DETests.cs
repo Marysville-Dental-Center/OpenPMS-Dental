@@ -24,6 +24,15 @@ namespace WindowChecksTests {
 			CTests.RunInProcess(new[] { new[] { "D6","WPF pop-ups of a Frm: combo box picker, month calendar, tool tip" } },"chart");
 		}
 
+		///<summary>Stage 3b's launch check of the WebView2 windows (LAUNCH-3b, docs/launch-checks-3b.md): the e-mail preview and the program's WPF
+		///WebView2 control (Microsoft.Web.WebView2.Wpf), each with its page loaded and pictured. Needs the desktop (the browser renders only in a
+		///connected session): the lead runs it at a connected session.</summary>
+		[TestMethod]
+		public void D7_WebView2Windows() {
+			WinChkFixture.Begin("D");
+			CTests.RunInProcess(new[] { new[] { "D7","WebView2 windows: the e-mail preview and the WPF WebView2 control (Microsoft.Web.WebView2.Wpf)" } },"chart");
+		}
+
 		[TestMethod]
 		public void E1toE4_CaptureWindows() {
 			WinChkFixture.Begin("E");

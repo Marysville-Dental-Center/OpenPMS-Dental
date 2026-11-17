@@ -2,7 +2,7 @@
 // (127.0.0.1:3306, root, blank password): the committed db/init/new-database.sql with every fork migration of this build run on it, the
 // ProgramVersion of this build and the tests' users. In-process names start with s3b6_ht_ plus this run's id, so a run never drops anything
 // else and runs from other worktrees never collide; the database of a run against a server URL is named by MIDDLETIER_TEST_DB and must start
-// with s3b6_. Synthetic rows only. Skipped (inconclusive) when the server does not answer, or when S3B6_TEST_DB=skip.
+// with s3b6_ (or mtsvc_, tools/Test-MiddleTierService.ps1's). Synthetic rows only. Skipped (inconclusive) when the server does not answer, or when S3B6_TEST_DB=skip.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
 using System.Collections.Generic;
@@ -31,8 +31,11 @@ namespace MiddleTierHostTests {
 		public const string Server="127.0.0.1";
 		public const string User="root";
 		public const string Password="";
-		///<summary>Every database these tests create or drop starts with this.</summary>
+		///<summary>Every database these tests create or drop starts with this or with PREFIX_SERVICE_CHECK.</summary>
 		public const string PREFIX_PACKAGE="s3b6_";
+		///<summary>The database of the Middle Tier service launch check (tools/Test-MiddleTierService.ps1, docs/launch-checks-3b.md), which the
+		///script names in MIDDLETIER_TEST_DB, reserves, and drops at its end.</summary>
+		public const string PREFIX_SERVICE_CHECK="mtsvc_";
 		///<summary>The in-process run's databases.</summary>
 		public const string PREFIX="s3b6_ht_";
 		private static readonly TimeSpan _timeSpanStale=TimeSpan.FromHours(12);
@@ -168,11 +171,13 @@ namespace MiddleTierHostTests {
 			}
 		}
 
-		///<summary>Throws unless the name is one these tests may create and drop: s3b6_, then lower-case letters, digits and underscores, at most 64
-		///characters.</summary>
+		///<summary>Throws unless the name is one these tests may create and drop: s3b6_ (or mtsvc_, the service launch check's), then lower-case
+		///letters, digits and underscores, at most 64 characters.</summary>
 		public static void CheckName(string name) {
-			if(name==null || !name.StartsWith(PREFIX_PACKAGE) || name.Length>64 || !Regex.IsMatch(name,"^[a-z0-9_]+$")) {
-				throw new ArgumentException("These tests only create and drop databases whose name starts with "+PREFIX_PACKAGE
+			if(name==null || !(name.StartsWith(PREFIX_PACKAGE) || name.StartsWith(PREFIX_SERVICE_CHECK)) || name.Length>64
+				|| !Regex.IsMatch(name,"^[a-z0-9_]+$"))
+			{
+				throw new ArgumentException("These tests only create and drop databases whose name starts with "+PREFIX_PACKAGE+" or "+PREFIX_SERVICE_CHECK
 					+" (lower-case letters, digits and underscores, at most 64 characters): "+name);
 			}
 		}
