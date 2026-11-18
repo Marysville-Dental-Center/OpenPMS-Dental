@@ -48,7 +48,10 @@ namespace UiRefreshTests.Toolbars {
 				foreach(float scale in ArrayScales) {
 					listPictures.Add(DrawToolbarStates(scale));
 					listPictures.Add(DrawModuleBar(scale));
+					listPictures.Add(DrawModuleBar(scale,indexHot:3,isPressed:false));
+					listPictures.Add(DrawModuleBar(scale,indexHot:4,isPressed:true));
 					listPictures.Add(DrawButtonPanel(scale));
+					listPictures.Add(DrawButtonPanel(scale,isHover:true));
 					listPictures.Add(DrawLightSignals(scale));
 				}
 				listPictures.Add(DrawMenuBar());
@@ -398,18 +401,25 @@ namespace UiRefreshTests.Toolbars {
 		#endregion Menus
 
 		#region Module bar, button panel, light signals
-		///<summary>The module bar at the scale with Account selected.</summary>
-		public static Picture DrawModuleBar(float scale) {
+		///<summary>The module bar at the scale with Account selected; with indexHot, that button under the mouse (Tx Plan) or pressed (Chart), set
+		///as the mouse events set it (main's code took the hover from the real mouse: its before pictures show the rest look there).</summary>
+		public static Picture DrawModuleBar(float scale,int indexHot=-1,bool isPressed=false) {
 			using(ModuleBar moduleBar=new ModuleBar()) {
 				moduleBar.LayoutManager.SetScaleMS(scale);
 				moduleBar.Size=new Size(UiTheme.ScaleI(51,scale),UiTheme.ScaleI(7*58,scale));
 				moduleBar.SelectedModule=EnumModuleType.Account;
-				return new Picture { Name="states/modulebar-"+GetScaleText(scale)+".png",Bitmap=Draw(moduleBar) };
+				string name="states/modulebar-"+GetScaleText(scale)+".png";
+				if(indexHot>=0) {
+					typeof(ModuleBar).GetField("currentHot",BindingFlags.Instance|BindingFlags.NonPublic)?.SetValue(moduleBar,indexHot);
+					typeof(ModuleBar).GetField("_isMouseDown",BindingFlags.Instance|BindingFlags.NonPublic)?.SetValue(moduleBar,isPressed);
+					name="states/modulebar-"+(isPressed ? "pressed" : "hover")+"-"+GetScaleText(scale)+".png";
+				}
+				return new Picture { Name=name,Bitmap=Draw(moduleBar) };
 			}
 		}
 
 		///<summary>A button panel (the Chart module's quick buttons) with labels and buttons on two rows.</summary>
-		public static Picture DrawButtonPanel(float scale) {
+		public static Picture DrawButtonPanel(float scale,bool isHover=false) {
 			using(ODButtonPanel odButtonPanel=new ODButtonPanel()) {
 				odButtonPanel.LayoutManager.SetScaleMS(scale);
 				odButtonPanel.Size=new Size(UiTheme.ScaleI(320,scale),UiTheme.ScaleI(40,scale));
@@ -426,7 +436,13 @@ namespace UiRefreshTests.Toolbars {
 					}
 				}
 				odButtonPanel.EndUpdate();
-				return new Picture { Name="states/buttonpanel-"+GetScaleText(scale)+".png",Bitmap=Draw(odButtonPanel) };
+				string name="states/buttonpanel-"+GetScaleText(scale)+".png";
+				if(isHover) {
+					//The second button under the mouse, as OnMouseMove sets it (no hover look before UI-6).
+					typeof(ODButtonPanel).GetField("_odPanelItemHot",BindingFlags.Instance|BindingFlags.NonPublic)?.SetValue(odButtonPanel,odButtonPanel.ListODPanelItems[2]);
+					name="states/buttonpanel-hover-"+GetScaleText(scale)+".png";
+				}
+				return new Picture { Name=name,Bitmap=Draw(odButtonPanel) };
 			}
 		}
 

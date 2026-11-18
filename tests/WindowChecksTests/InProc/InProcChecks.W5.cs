@@ -163,6 +163,14 @@ namespace WindowChecksTests.InProc {
 				"MenuOD has the window's font, "+ui.FormMain.Font.Name+" ("+arrayFonts[1]+")",arrayFonts[1]);
 			checkResult.Expect(arrayFonts[2]==arrayFonts[1] && arrayFonts[3]==arrayFonts[1],"The menu strip and its items draw in MenuOD's font ("+arrayFonts[2]+", "
 				+arrayFonts[3]+"), not ToolStrip's Segoe UI 9",arrayFonts[2]+" / "+arrayFonts[3]);
+			//UI-6: the main thread's stock menus and MenuOD draw with the token renderer (UiTheme.InitWinForms in ProgramEntry.Main).
+			string[] arrayRenderers=ui.Invoke(() => {
+				OpenPmsDental.UI.MenuOD menuOD=(OpenPmsDental.UI.MenuOD)Ui.GetField(ui.FormMain,"menuMain");
+				return new[] { ToolStripManager.Renderer.GetType().FullName,((ToolStrip)menuOD.Controls[0]).Renderer.GetType().FullName,
+					(ToolStripManager.Renderer is UiToolStripRenderer).ToString(),(((ToolStrip)menuOD.Controls[0]).Renderer is UiToolStripRenderer).ToString() };
+			});
+			checkResult.Expect(arrayRenderers[2]=="True","The main thread's renderer is the token renderer (UI-6)",arrayRenderers[0]);
+			checkResult.Expect(arrayRenderers[3]=="True","MenuOD's strip draws with the token renderer (UI-6)",arrayRenderers[1]);
 			Control controlMenu=ui.Invoke(() => (Control)Ui.GetField(ui.FormMain,"menuMain"));
 			AddTextShot(checkResult,ui.ShotDraw(controlMenu,"C20-menu.png"),"The main menu bar");
 		}
