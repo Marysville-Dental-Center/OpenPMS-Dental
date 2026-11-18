@@ -268,7 +268,6 @@ namespace WpfControls.UI{
 		#endregion Methods - private event handlers
 
 		#region Methods - private
-		///<summary></summary>
 		void IContentLook.ApplyLook(){
 			ApplyLook();
 		}
@@ -279,6 +278,7 @@ namespace WpfControls.UI{
 			UiLookText.ApplyTemplateLook(passwordBox,ContentLook.GetIsPinned(this));
 		}
 
+		///<summary></summary>
 		private void SetColors(){
 			//Nothing to do here.  The textbox that this control wraps already turns gray on is own.
 		}

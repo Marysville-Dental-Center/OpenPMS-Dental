@@ -269,7 +269,6 @@ But to look good, don't go below 142 x 115.
 			textToday.Text=OpenPmsDental.Lang.g("Calendar","Today:")+" "+DateTime.Today.ToShortDateString();
 		}
 
-		///<summary>Recursive. Each pass finds the immediate parent, and it keeps going until it reaches a grid.</summary>
 		///<summary>The new look's colours (UI-4b-3, section 3.6), as the design sheet's month: SurfaceRaised with a 1 px Stroke outline (was grey 150), a
 		///Gridline under the weekdays, the Fluent chevrons and the texts in Text, the selected day Accent, today and the footer's today mark a 1 px Accent
 		///ring, hover SubtleHover; disabled: texts and chevrons TextDisabled, the selected day TextDisabled.</summary>
@@ -298,6 +297,7 @@ But to look good, don't go below 142 x 115.
 			pathChevron4.Fill=brushText;
 		}
 
+		///<summary>Recursive. Each pass finds the immediate parent, and it keeps going until it reaches a grid.</summary>
 		private DependencyObject FindParentGrid(DependencyObject dependencyObjectChild){
 			if(dependencyObjectChild is System.Windows.Controls.Grid){
 				return dependencyObjectChild;//self. User clicked directly on a grid instead of a child
