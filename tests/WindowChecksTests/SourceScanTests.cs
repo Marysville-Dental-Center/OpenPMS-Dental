@@ -28,14 +28,16 @@ namespace WindowChecksTests {
 			return Path.GetFileName(path).EndsWith(".designer.cs",StringComparison.OrdinalIgnoreCase);
 		}
 
-		///<summary>No ImageList is made outside a designer's InitializeComponent, and every designer ImageList either loads an ImageStream (the
-		///stream carries the images at the depth they were stored with) or sets ColorDepth itself. So no ImageList of the program takes the default
+		///<summary>An ImageList made outside a designer's InitializeComponent sets its ColorDepth in the same file right after it is made (the icon
+		///renderer's UiIcons.GetImageList, UI-7a), and every designer ImageList either loads an ImageStream (the stream carries the images at the
+		///depth they were stored with) or sets ColorDepth itself. So no ImageList of the program takes the default
 		///ColorDepth that .NET 8 changed: the icon edges of the toolbars and trees are as on the .NET Framework (the pairs of the B and C checks show
 		///them).</summary>
 		[TestMethod]
 		public void ImageLists_TakeTheirDepthFromAStreamOrSetIt() {
 			Regex regexNew=new Regex(@"new\s+(System\.Windows\.Forms\.)?ImageList\s*\(");
 			Regex regexField=new Regex(@"this\.(\w+)\s*=\s*new\s+System\.Windows\.Forms\.ImageList\s*\(");
+			Regex regexCode=new Regex(@"(\w+)\s*=\s*new\s+(System\.Windows\.Forms\.)?ImageList\s*\(\s*\)\s*;");
 			List<string> listOutsideDesigners=new List<string>();
 			List<string> listWithoutDepth=new List<string>();
 			int countStream=0;
@@ -47,7 +49,14 @@ namespace WindowChecksTests {
 				}
 				string pathShown=path.Substring(WinChkEnv.RepoRoot.Length+1);
 				if(!IsDesignerFile(path)) {
-					listOutsideDesigners.Add(pathShown);
+					//Each one is assigned to a variable whose ColorDepth the next statement sets; anything else is listed.
+					int countNew=regexNew.Matches(text).Count;
+					List<Match> listMatches=regexCode.Matches(text).Cast<Match>().ToList();
+					bool isEachSet=listMatches.Count==countNew && listMatches.All(x => Regex.IsMatch(text.Substring(x.Index+x.Length),
+						@"^\s*"+Regex.Escape(x.Groups[1].Value)+@"\.ColorDepth\s*=\s*ColorDepth\.\w+\s*;"));
+					if(!isEachSet) {
+						listOutsideDesigners.Add(pathShown);
+					}
 					continue;
 				}
 				foreach(Match match in regexField.Matches(text)) {
@@ -64,7 +73,7 @@ namespace WindowChecksTests {
 				}
 			}
 			Console.WriteLine("Designer ImageLists: "+countStream+" with an ImageStream, "+countDepth+" with an explicit ColorDepth");
-			Assert.AreEqual("",string.Join(", ",listOutsideDesigners),"ImageLists made outside a designer (they take .NET 8's Depth32Bit default)");
+			Assert.AreEqual("",string.Join(", ",listOutsideDesigners),"ImageLists made outside a designer without setting ColorDepth right after (they take .NET 8's Depth32Bit default)");
 			Assert.AreEqual("",string.Join(", ",listWithoutDepth),"Designer ImageLists with neither an ImageStream nor a ColorDepth");
 			Assert.IsTrue(countStream+countDepth>0,"The scan found the designer ImageLists");
 		}
