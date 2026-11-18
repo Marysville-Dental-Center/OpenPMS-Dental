@@ -1452,6 +1452,8 @@ own 26.2 overlap check before it starts. The first cut is below; a brief that fi
   "needs the owner" list.
 
 **UI-2b: the flip**
+- Before the flip: pin the inherited-font sites the UI-2a-4..n slices list (docs/port-notes/UI-2a.md, 'the UI-2b checklist'), such as
+  FormEquipment's printed total and FormSheetDefEdit's canvas labels, so printouts and office content keep today's font.
 - Owns: the token values, the 12 exe literals, the remaining literal designer fonts of the plain forms and of the five windows without
   `InitializeLayoutManager` (5.1, UI-2a-4), the tests' expected
   token if any test names it, and the note in
