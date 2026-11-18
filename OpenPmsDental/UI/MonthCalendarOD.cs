@@ -36,6 +36,8 @@ namespace OpenPmsDental.UI{
 		private DateTime _dateMonthShowing;
 		///<summary>Identifies the current hot hover cell as the mouse moves around.  Row 0 is never used because that's the days of week. 0,0 indicates no hot.</summary>
 		private Point _pointHotHover;
+		///<summary>The footer's today mark, as last drawn (read by the calendar state tests, tests/UiRefreshTests/TextCalendarStates.cs).</summary>
+		private Rectangle _rectangleFooterMark;
 		///<summary>26x33</summary>
 		private Rectangle _rectangleMonthLeft;
 		private Rectangle _rectangleTopText;
@@ -361,6 +363,7 @@ namespace OpenPmsDental.UI{
 				width:(int)widthCell-LayoutManager.Scale(15),
 				height:heightFooter-LayoutManager.Scale(11));
 				//(int)_heightCell);
+			_rectangleFooterMark=rectangle;
 			UiCalendarPaint.DrawToday(g,rectangle,isSelected:false,scale);
 			x+=(int)widthCell-LayoutManager.Scale(13);
 			if(IsTextShown){
