@@ -1259,7 +1259,7 @@ so it is cut into two slices that share no files and may run side by side).
 - Tests: `BrandingTests.BrandColor_IsTheProgramsGridTitleBlue` moves to the token; the print guard; a grid picture test of title,
   header, hover, selection with and without focus, a coloured row; the scan rerun.
 - Gallery: G-UI1 part 2 and G-UI2.
-- **Status (2026-11-17).** Done on `ui/ui5-1` (`docs/port-notes/UI-5.md`), not merged yet, waiting for G-UI1 part 2 (grids) and G-UI2:
+- **Status (2026-11-18).** Done on `ui/ui5-1`, review fixes on `ui/ui5-2` (`docs/port-notes/UI-5.md`), not merged yet, waiting for G-UI1 part 2 (grids) and G-UI2:
   `OpenPmsDentalBusiness/UI/GridScreenLook.cs` (the WinForms grid look from the tokens) drawn by `GridOD` and `GridOld` (still used: the
   Chart module's progress notes); `WpfControlsOD/UI/Controls/Supplemental/GridLook.cs` for the WPF `Grid` and `Themes/DataGridDict.xaml`.
   Title, header and editable row heights follow the font tokens (18, 15 and 19 px today as before; 20, 18 and 22 with UI-2b's Segoe UI;

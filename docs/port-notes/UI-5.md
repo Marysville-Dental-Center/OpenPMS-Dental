@@ -1,7 +1,8 @@
 # Port note: UI-5 (grids)
 
 Package UI-5 of the UI refresh ([docs/specs/ui-refresh-plan.md](../specs/ui-refresh-plan.md), section 7's UI-5 row, sections 3.2, 3.3 and 3.6,
-the owner's answers UQ-2 and UQ-5, and the approved design sheet G-UI1 part 1), on `ui/ui5-1` from `main` at `e4118a588`. It changes the look
+the owner's answers UQ-2 and UQ-5, and the approved design sheet G-UI1 part 1), on `ui/ui5-1` from `main` at `e4118a588`, with the review
+fixes on `ui/ui5-2` (the India Arial switch kept, the WPF Grid on whole device pixels, the focused row in OneRow grids). It changes the look
 of the grids on screen and nothing else: no bounds, no layout, no printout. No schema change, no new package, nothing downloaded, no database
 used, no window shown.
 
@@ -127,6 +128,10 @@ And the grid strip for G-UI2: today's font beside Segoe UI 9.
 - Targeted runs (x64, after the full build): UiRefreshTests 122 (121 passed, the UI-4a opt-in gallery skipped), PrintGuardTests 17 (16
   passed, 1 skipped as on `main`), UnitTests 1,731 (1,728 passed, 3 skipped), WindowChecksTests 71 (29 passed, 42 opt-in skipped),
   AttributionTests 54/54, NoHqTests 122/122. Full filter build x64: 0 errors.
+- After the review fixes (`ui/ui5-2`; full filter build x64 0 errors): UiRefreshTests 124 (122 passed with the grid gallery opted in, the
+  UI-4a gallery and the font-option counts skipped), PrintGuardTests 17 (16 passed, 1 skipped as on `main`), WindowChecksTests 71 (29 passed,
+  42 opt-in skipped), AttributionTests 54/54, NoHqTests 122/122, UnitTests 1,731 (1,728 passed, 3 skipped; in the first run
+  `Billing_StatementOrder_ClinicsYES` failed once, a billing test whose order its own comment calls non-determinant, and passed on the rerun).
 
 ## 5. Galleries
 
