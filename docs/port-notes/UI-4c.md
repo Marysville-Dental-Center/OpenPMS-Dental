@@ -159,4 +159,7 @@ UI-4a's: the controls keep no copy of today's look. The state tests run the wind
 
 ### 8. Runs
 
-Full filter build x64 through the lane: 0 errors. Targeted runs (x64): see the last lines of this section after the final run.
+Full filter build x64 through the lane: 0 errors. Targeted run (x64, after the full build, `.git/od-tools/test-results/ui4c1-final.txt`):
+UiRefreshTests 183 (175 passed, 8 opt-ins skipped: the seven galleries and the scan), WindowChecksTests 72 (29 passed, 43 opt-in skipped),
+UnitTests 1,731 (1,728 passed, 3 skipped), NoHqTests 122/122. The scan and strips run (`ui4c1-scan-strips.txt`, with `OPMS_UI_SCAN` and
+`OPMS_UI_IMAGING_GALLERY`) passed too. `tools/Test-NoEolFlips.ps1 -Base main`: no file changed its line ends.
