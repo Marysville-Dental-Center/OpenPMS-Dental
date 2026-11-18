@@ -49,10 +49,11 @@ namespace WindowChecksTests {
 				}
 				string pathShown=path.Substring(WinChkEnv.RepoRoot.Length+1);
 				if(!IsDesignerFile(path)) {
-					//Each one is assigned to a variable whose ColorDepth the next statement sets; anything else is listed.
-					int countNew=regexNew.Matches(text).Count;
-					List<Match> listMatches=regexCode.Matches(text).Cast<Match>().ToList();
-					bool isEachSet=listMatches.Count==countNew && listMatches.All(x => Regex.IsMatch(text.Substring(x.Index+x.Length),
+					//Each one (comment lines aside) is assigned to a variable whose ColorDepth the next statement sets; anything else is listed.
+					string code=string.Join("\n",text.Split('\n').Where(x => !x.TrimStart().StartsWith("//")));
+					int countNew=regexNew.Matches(code).Count;
+					List<Match> listMatches=regexCode.Matches(code).Cast<Match>().ToList();
+					bool isEachSet=countNew>0 && listMatches.Count==countNew && listMatches.All(x => Regex.IsMatch(code.Substring(x.Index+x.Length),
 						@"^\s*"+Regex.Escape(x.Groups[1].Value)+@"\.ColorDepth\s*=\s*ColorDepth\.\w+\s*;"));
 					if(!isEachSet) {
 						listOutsideDesigners.Add(pathShown);
