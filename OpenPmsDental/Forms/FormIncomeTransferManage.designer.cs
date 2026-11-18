@@ -67,7 +67,7 @@ namespace OpenPmsDental{
 			// 
 			// butTransfer
 			// 
-			this.butTransfer.Image = global::OpenPmsDental.Properties.Resources.Left;
+			this.butTransfer.Icon = OpenPmsDental.UI.EnumIcons.ArrowLeft;
 			this.butTransfer.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butTransfer.Location = new System.Drawing.Point(426, 71);
 			this.butTransfer.Name = "butTransfer";

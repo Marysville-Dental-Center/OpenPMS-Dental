@@ -226,7 +226,7 @@ namespace OpenPmsDental{
 			// 
 			// butImport
 			// 
-			this.butImport.Image = global::OpenPmsDental.Properties.Resources.down;
+			this.butImport.Icon = OpenPmsDental.UI.EnumIcons.Down;
 			this.butImport.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butImport.Location = new System.Drawing.Point(497, 393);
 			this.butImport.Name = "butImport";

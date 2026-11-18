@@ -112,7 +112,7 @@ namespace OpenPmsDental {
 			// 
 			// butRight
 			// 
-			this.butRight.Image = global::OpenPmsDental.Properties.Resources.Right;
+			this.butRight.Icon = OpenPmsDental.UI.EnumIcons.ArrowRight;
 			this.butRight.Location = new System.Drawing.Point(388, 292);
 			this.butRight.Name = "butRight";
 			this.butRight.Size = new System.Drawing.Size(35, 24);
@@ -122,7 +122,7 @@ namespace OpenPmsDental {
 			// butLeft
 			// 
 			this.butLeft.AdjustImageLocation = new System.Drawing.Point(-1, 0);
-			this.butLeft.Image = global::OpenPmsDental.Properties.Resources.Left;
+			this.butLeft.Icon = OpenPmsDental.UI.EnumIcons.ArrowLeft;
 			this.butLeft.Location = new System.Drawing.Point(388, 252);
 			this.butLeft.Name = "butLeft";
 			this.butLeft.Size = new System.Drawing.Size(35, 24);
@@ -132,7 +132,7 @@ namespace OpenPmsDental {
 			// butDown
 			// 
 			this.butDown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butDown.Image = global::OpenPmsDental.Properties.Resources.down;
+			this.butDown.Icon = OpenPmsDental.UI.EnumIcons.Down;
 			this.butDown.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butDown.Location = new System.Drawing.Point(109, 501);
 			this.butDown.Name = "butDown";
@@ -143,9 +143,8 @@ namespace OpenPmsDental {
 			// 
 			// butUp
 			// 
-			this.butUp.AdjustImageLocation = new System.Drawing.Point(0, 1);
 			this.butUp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butUp.Image = global::OpenPmsDental.Properties.Resources.up;
+			this.butUp.Icon = OpenPmsDental.UI.EnumIcons.Up;
 			this.butUp.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butUp.Location = new System.Drawing.Point(12, 501);
 			this.butUp.Name = "butUp";

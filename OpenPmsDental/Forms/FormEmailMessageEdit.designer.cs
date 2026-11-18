@@ -96,7 +96,7 @@ namespace OpenPmsDental {
 			// 
 			// butEditTemplate
 			// 
-			this.butEditTemplate.Image = global::OpenPmsDental.Properties.Resources.editPencil;
+			this.butEditTemplate.Icon = OpenPmsDental.UI.EnumIcons.Edit;
 			this.butEditTemplate.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butEditTemplate.Location = new System.Drawing.Point(102, 236);
 			this.butEditTemplate.Name = "butEditTemplate";
@@ -108,7 +108,7 @@ namespace OpenPmsDental {
 			// butInsertTemplate
 			// 
 			this.butInsertTemplate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butInsertTemplate.Image = global::OpenPmsDental.Properties.Resources.Right;
+			this.butInsertTemplate.Icon = OpenPmsDental.UI.EnumIcons.ArrowRight;
 			this.butInsertTemplate.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butInsertTemplate.Location = new System.Drawing.Point(102, 202);
 			this.butInsertTemplate.Name = "butInsertTemplate";
@@ -166,7 +166,7 @@ namespace OpenPmsDental {
 			// 
 			// butEditAutograph
 			// 
-			this.butEditAutograph.Image = global::OpenPmsDental.Properties.Resources.editPencil;
+			this.butEditAutograph.Icon = OpenPmsDental.UI.EnumIcons.Edit;
 			this.butEditAutograph.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butEditAutograph.Location = new System.Drawing.Point(101, 236);
 			this.butEditAutograph.Name = "butEditAutograph";
@@ -178,7 +178,7 @@ namespace OpenPmsDental {
 			// butInsertAutograph
 			// 
 			this.butInsertAutograph.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butInsertAutograph.Image = global::OpenPmsDental.Properties.Resources.Right;
+			this.butInsertAutograph.Icon = OpenPmsDental.UI.EnumIcons.ArrowRight;
 			this.butInsertAutograph.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butInsertAutograph.Location = new System.Drawing.Point(102, 202);
 			this.butInsertAutograph.Name = "butInsertAutograph";

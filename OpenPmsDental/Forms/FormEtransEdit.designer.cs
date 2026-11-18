@@ -212,7 +212,7 @@ namespace OpenPmsDental {
 			// butPrintAck
 			// 
 			this.butPrintAck.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butPrintAck.Image = global::OpenPmsDental.Properties.Resources.butPreview;
+			this.butPrintAck.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.Preview,17,16);
 			this.butPrintAck.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butPrintAck.Location = new System.Drawing.Point(317, 425);
 			this.butPrintAck.Name = "butPrintAck";
@@ -306,7 +306,7 @@ namespace OpenPmsDental {
 			// butPrint
 			// 
 			this.butPrint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butPrint.Image = global::OpenPmsDental.Properties.Resources.butPrint;
+			this.butPrint.Icon = OpenPmsDental.UI.EnumIcons.Print;
 			this.butPrint.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butPrint.Location = new System.Drawing.Point(386, 440);
 			this.butPrint.Name = "butPrint";

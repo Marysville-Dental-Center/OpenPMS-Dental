@@ -105,7 +105,7 @@ namespace OpenPmsDental{
 			// butGo
 			// 
 			this.butGo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butGo.Image = global::OpenPmsDental.Properties.Resources.Right;
+			this.butGo.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.ArrowRight,22,22);
 			this.butGo.Location = new System.Drawing.Point(349, 11);
 			this.butGo.Name = "butGo";
 			this.butGo.Size = new System.Drawing.Size(20, 20);
