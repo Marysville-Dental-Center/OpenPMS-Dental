@@ -15,7 +15,7 @@ namespace WindowChecksTests {
 	[TestClass]
 	public class UTests {
 		///<summary>Group U's parts, each also a group name of OPMS_WINDOW_CHECKS_GROUPS, so a run that would not fit the runner's 20 minutes can be
-		///split: UW the common windows, UM the main window and its modules, UD the dashboard, UF the font checks of UI-2a-1 (a signed note in a
+		///split: UW the common windows, UM the main window and its modules, UD the dashboard, UF the font checks of UI-2a-1 (UF1, UF2: a signed note in a
 		///shown window). U runs all four.</summary>
 		public static readonly string[] ArrayParts=new[] { "UW","UM","UD","UF" };
 
@@ -80,12 +80,21 @@ namespace WindowChecksTests {
 		}
 
 		///<summary>UI-2a-1 (docs/specs/ui-refresh-plan.md, section 9, "Content and signatures"): FormProcEdit with a signed note on the scratch
-		///copy; the program's zoom changes and the window is resized; the signature stays shown and valid, and after OK the saved signature is the
-		///same and valid for the saved note (InProcChecks.UF.cs). Needs a shown window, so it is a window check, not a UiRefreshTests test.</summary>
+		///copy; the program's zoom changes and the window is resized; the signature stays shown and valid, and after Save the saved signature is the
+		///same and valid for the saved note (InProcChecks.UF.cs). Needs a shown window, so it is a window check, not a UiRefreshTests test. Open
+		///Dental's FormProcEdit clears the signature when the zoom changes the note box's font (an owner decision, docs/port-notes/UI-2a.md).</summary>
 		[TestMethod]
 		public void UF1_SignedNote_StaysValid_AfterZoomResizeAndSave() {
 			BeginPart("UF");
 			CTests.RunInProcess(new[] { new[] { "UF1","Font: a signed note in FormProcEdit stays valid after zoom, resize and save" } },"chart");
+		}
+
+		///<summary>UF1 without the zoom change and the resize: FormProcEdit with a signed note opened and saved; the saved signature is the same
+		///and valid for the saved note (InProcChecks.UF.cs).</summary>
+		[TestMethod]
+		public void UF2_SignedNote_StaysValid_AfterOpenAndSave() {
+			BeginPart("UF");
+			CTests.RunInProcess(new[] { new[] { "UF2","Font: a signed note in FormProcEdit stays valid after a plain open and save" } },"chart");
 		}
 	}
 }
