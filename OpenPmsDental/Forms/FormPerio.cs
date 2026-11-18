@@ -53,7 +53,7 @@ namespace OpenPmsDental{
 		#endregion Constructor
 
 		#region Methods - private
-		private string ConvertListToString(List<string> listStringsTeeth){
+		private static string ConvertListToString(List<string> listStringsTeeth){
 			if(listStringsTeeth.Count==0){
 				return "none";
 			}
@@ -701,7 +701,20 @@ namespace OpenPmsDental{
 		}
 
 		private void pd2_PrintPage(object sender, PrintPageEventArgs printPageEventArgs){//raised for each page to be printed.
-			Graphics g=printPageEventArgs.Graphics;
+			DrawPrintPage(printPageEventArgs.Graphics,contrPerio,_patient,butColorPlaque.BackColor,butColorCalculus.BackColor,butColorBleed.BackColor,
+				butColorPus.BackColor,textRedProb.Text,textRedMGJ.Text,textRedGing.Text,textRedCAL.Text,textRedFurc.Text,textRedMob.Text,
+				MiscData.GetNowDateTime());
+			//pagesPrinted++;
+			printPageEventArgs.HasMorePages=false;
+		}
+
+		///<summary>Draws the printed perio chart page: the chart (set up by SetUpForPrint) with its four letters, the title, the clinic, the patient and
+		///the date above it, and the indexes and the red-threshold teeth below it. The colors are the four index colors and the red values are the
+		///thresholds the window shows. A printout (UI refresh, plan section 5.2): its fonts stay Arial and the chart's Microsoft Sans Serif 8.25, and
+		///the print guard (tests\PrintGuardTests) draws the page through this method.</summary>
+		public static void DrawPrintPage(Graphics g,ContrPerio contrPerio,Patient patient,Color colorPlaque,Color colorCalculus,Color colorBleed,
+			Color colorPus,string redProb,string redMGJ,string redGing,string redCAL,string redFurc,string redMob,DateTime dateTimeNow)
+		{
 			//MessageBox.Show(grfx.
 			float yPos=67+25+20+20+20+6;
 			float xPos=100;
@@ -718,8 +731,8 @@ namespace OpenPmsDental{
 			string clinicName="";
 			//This clinic name could be more accurate here in the future if we make perio exams clinic specific.
 			//Perhaps if there were a perioexam.ClinicNum column.
-			if(_patient.ClinicNum!=0) {
-				Clinic clinic=Clinics.GetClinic(_patient.ClinicNum);
+			if(patient.ClinicNum!=0) {
+				Clinic clinic=Clinics.GetClinic(patient.ClinicNum);
 				clinicName=clinic.Description;
 			} 
 			else {
@@ -727,73 +740,71 @@ namespace OpenPmsDental{
 			}
 			StringFormat stringFormat=new StringFormat();
 			stringFormat.Alignment=StringAlignment.Center;
-			g.DrawString(Lan.g(this,"Periodontal Charting"),new Font("Arial",15),Brushes.Black,
+			g.DrawString(Lan.g(nameof(FormPerio),"Periodontal Charting"),new Font("Arial",15),Brushes.Black,
 				new RectangleF(xPos,yPos,650,25),stringFormat);			
 			yPos+=25;
 			g.DrawString(clinicName,new Font("Arial",11),Brushes.Black
 				,new RectangleF(xPos,yPos,650,25),stringFormat);
 			yPos+=20;
-			g.DrawString(_patient.GetNameFLFormal()+" (DOB: "+_patient.Birthdate.ToShortDateString()+")",new Font("Arial",11),Brushes.Black
+			g.DrawString(patient.GetNameFLFormal()+" (DOB: "+patient.Birthdate.ToShortDateString()+")",new Font("Arial",11),Brushes.Black
 				,new RectangleF(xPos,yPos,650,25),stringFormat);
 			yPos+=20;
-			string time=MiscData.GetNowDateTime().ToShortDateString();
+			string time=dateTimeNow.ToShortDateString();
 			g.DrawString(time,new Font("Arial",11),Brushes.Black,
 				new RectangleF(xPos,yPos,650,25),stringFormat);
 			yPos+=20;//Offset for printed text
 			yPos+=688+3*13-19;//Offset for grid that we already drew: 3 auto Att Ging rows taller (24.4), with a smaller gap below it so the summary still fits the page.
 			using Font font=new Font("Arial",9);
-			g.FillEllipse(new SolidBrush(butColorPlaque.BackColor),xPos,yPos+3,8,8);
-			g.DrawString(Lan.g(this,"Plaque Index:")+" "+contrPerio.ComputeIndex(BleedingFlags.Plaque)+" %"
+			g.FillEllipse(new SolidBrush(colorPlaque),xPos,yPos+3,8,8);
+			g.DrawString(Lan.g(nameof(FormPerio),"Plaque Index:")+" "+contrPerio.ComputeIndex(BleedingFlags.Plaque)+" %"
 				,font,Brushes.Black,xPos+12,yPos);
 			yPos+=20;
-			g.FillEllipse(new SolidBrush(butColorCalculus.BackColor),xPos,yPos+3,8,8);
-			g.DrawString(Lan.g(this,"Calculus Index:")+" "+contrPerio.ComputeIndex(BleedingFlags.Calculus)+" %"
+			g.FillEllipse(new SolidBrush(colorCalculus),xPos,yPos+3,8,8);
+			g.DrawString(Lan.g(nameof(FormPerio),"Calculus Index:")+" "+contrPerio.ComputeIndex(BleedingFlags.Calculus)+" %"
 				,font,Brushes.Black,xPos+12,yPos);
 			yPos+=20;
-			g.FillEllipse(new SolidBrush(butColorBleed.BackColor),xPos,yPos+3,8,8);
-			g.DrawString(Lan.g(this,"Bleeding Index:")+" "+contrPerio.ComputeIndex(BleedingFlags.Blood)+" %"
+			g.FillEllipse(new SolidBrush(colorBleed),xPos,yPos+3,8,8);
+			g.DrawString(Lan.g(nameof(FormPerio),"Bleeding Index:")+" "+contrPerio.ComputeIndex(BleedingFlags.Blood)+" %"
 				,font,Brushes.Black,xPos+12,yPos);
 			yPos+=20;
-			g.FillEllipse(new SolidBrush(butColorPus.BackColor),xPos,yPos+3,8,8);
-			g.DrawString(Lan.g(this,"Suppuration Index:")+" "+contrPerio.ComputeIndex(BleedingFlags.Suppuration)+" %"
+			g.FillEllipse(new SolidBrush(colorPus),xPos,yPos+3,8,8);
+			g.DrawString(Lan.g(nameof(FormPerio),"Suppuration Index:")+" "+contrPerio.ComputeIndex(BleedingFlags.Suppuration)+" %"
 				,font,Brushes.Black,xPos+12,yPos);
 			yPos+=20;
-			g.DrawString(Lan.g(this,"Teeth with Probing greater than or equal to")+" "+textRedProb.Text+" mm: "
+			g.DrawString(Lan.g(nameof(FormPerio),"Teeth with Probing greater than or equal to")+" "+redProb+" mm: "
 				+ConvertListToString(contrPerio.CountTeeth(PerioSequenceType.Probing))
 				,font,Brushes.Black,xPos,yPos);
 			yPos+=20;
-			g.DrawString(Lan.g(this,"Teeth with MGJ less than or equal to")+" "+textRedMGJ.Text+" mm: "
+			g.DrawString(Lan.g(nameof(FormPerio),"Teeth with MGJ less than or equal to")+" "+redMGJ+" mm: "
 				+ConvertListToString(contrPerio.CountTeeth(PerioSequenceType.MGJ))
 				,font,Brushes.Black,xPos,yPos);
 			yPos+=20;
-			string textTeethWithGingMargin=Lan.g(this,"Teeth with Gingival Margin greater than or equal to");
+			string textTeethWithGingMargin=Lan.g(nameof(FormPerio),"Teeth with Gingival Margin greater than or equal to");
 			if(contrPerio.GetGingMarginTerm()==PerioMeasures.TermRecession) {//Perio Setup option (24.4)
-				textTeethWithGingMargin=Lan.g(this,"Teeth with Recession greater than or equal to");
+				textTeethWithGingMargin=Lan.g(nameof(FormPerio),"Teeth with Recession greater than or equal to");
 			}
-			g.DrawString(textTeethWithGingMargin+" "+textRedGing.Text+" mm: "
+			g.DrawString(textTeethWithGingMargin+" "+redGing+" mm: "
 				+ConvertListToString(contrPerio.CountTeeth(PerioSequenceType.GingMargin))
 				,font,Brushes.Black,xPos,yPos);
 			yPos+=20;
-			g.DrawString(Lan.g(this,"Teeth with CAL greater than or equal to")+" "+textRedCAL.Text+" mm: "
+			g.DrawString(Lan.g(nameof(FormPerio),"Teeth with CAL greater than or equal to")+" "+redCAL+" mm: "
 				+ConvertListToString(contrPerio.CountTeeth(PerioSequenceType.CAL))
 				,font,Brushes.Black,xPos,yPos);
 			yPos+=20;
-			g.DrawString(Lan.g(this,"Teeth with Furcations greater than or equal to class")+" "+textRedFurc.Text+": "
+			g.DrawString(Lan.g(nameof(FormPerio),"Teeth with Furcations greater than or equal to class")+" "+redFurc+": "
 				+ConvertListToString(contrPerio.CountTeeth(PerioSequenceType.Furcation))
 				,font,Brushes.Black,xPos,yPos);
 			yPos+=20;
-			g.DrawString(Lan.g(this,"Teeth with Mobility greater than or equal to")+" "+textRedMob.Text+": "
+			g.DrawString(Lan.g(nameof(FormPerio),"Teeth with Mobility greater than or equal to")+" "+redMob+": "
 				+ConvertListToString(contrPerio.CountTeeth(PerioSequenceType.Mobility))
 				,font,Brushes.Black,xPos,yPos);
 			int? redAttGing=PerioMeasures.GetRedAttGing();
 			if(redAttGing!=null) {//ODOPTS: PerioRedAttGing. Only with a threshold, so the page without one prints as before.
 				yPos+=20;
-				g.DrawString(Lan.g(this,"Teeth with Att Ging less than or equal to")+" "+PerioMeasures.GetRedAttGingValue(redAttGing)+" mm: "
+				g.DrawString(Lan.g(nameof(FormPerio),"Teeth with Att Ging less than or equal to")+" "+PerioMeasures.GetRedAttGingValue(redAttGing)+" mm: "
 					+ConvertListToString(contrPerio.CountTeeth(PerioSequenceType.AttGing))
 					,font,Brushes.Black,xPos,yPos);
 			}
-			//pagesPrinted++;
-			printPageEventArgs.HasMorePages=false;
 		}
 
 		private void updownRed_MouseDown(object sender, System.Windows.Forms.MouseEventArgs e) {
@@ -1166,9 +1177,7 @@ namespace OpenPmsDental{
 			//Store Font and Size information for the control so that we can adjust temporarily for printing.
 			Font fontOriginal=contrPerio.Font;
 			Size sizeContrOriginal=contrPerio.Size;
-			contrPerio.LayoutManager.Is96dpi=true;//Tells the layoutManager not to scale the size and font again when the ContrPerio.OnResize event is called.
-			contrPerio.Font=new Font("Microsoft Sans Serif", 8.25f);
-			LayoutManager.MoveSize(contrPerio,new Size(602, 642+3*13));//Revert to default drawn grid size for printing (plus the 3 auto Att Ging rows of 24.4), be sure to adjust this if the default size is changed on ContrPerio.cs, this will then trigger the ContrPerio.OnResize Event adjusting all of the formatting necessary for printing.
+			SetUpForPrint(contrPerio,LayoutManager);
 			PrinterL.TryPrint(pd2_PrintPage,
 				Lan.g(this,"Perio chart from")+" "+_perioExam.ExamDate+" "+Lan.g(this,"printed"),
 				_patient.PatNum,
@@ -1180,6 +1189,15 @@ namespace OpenPmsDental{
 			contrPerio.Font=fontOriginal;
 			LayoutManager.MoveSize(contrPerio,sizeContrOriginal);
 			contrPerio.Focus();
+		}
+
+		///<summary>Sets the chart up for DrawPrintPage: 96 dpi, Microsoft Sans Serif 8.25 and the printed size, moved by layoutManager (the
+		///LayoutManager of the window the chart is on). A printout (UI refresh, plan section 5.2): the font stays, whatever the screen fonts become.
+		///butPrint_Click puts the font, the size and Is96dpi back after printing.</summary>
+		public static void SetUpForPrint(ContrPerio contrPerio,LayoutManagerForms layoutManager) {
+			contrPerio.LayoutManager.Is96dpi=true;//Tells the layoutManager not to scale the size and font again when the ContrPerio.OnResize event is called.
+			contrPerio.Font=new Font("Microsoft Sans Serif", 8.25f);
+			layoutManager.MoveSize(contrPerio,new Size(602, 642+3*13));//Revert to default drawn grid size for printing (plus the 3 auto Att Ging rows of 24.4), be sure to adjust this if the default size is changed on ContrPerio.cs, this will then trigger the ContrPerio.OnResize Event adjusting all of the formatting necessary for printing.
 		}
 
 		private void butPlaque_Click(object sender, System.EventArgs e) {
