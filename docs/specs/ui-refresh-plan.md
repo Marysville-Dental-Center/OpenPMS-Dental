@@ -1258,6 +1258,14 @@ so it is cut into two slices that share no files and may run side by side).
   renderer is set in every exe and on a second UI thread (the test names its two exceptions, `UpdateFileCopier` and
   `OpenPmsDentalHelper32`, and checks RdlDesign through its linked renderer); picture tests of each state; the scan rerun.
 - Gallery: G-UI2, with each module toolbar and the menu bar as before and after strips.
+- **Status (2026-11-17).** Done on `ui/ui6-1` (`docs/port-notes/UI-6.md`), not merged yet, waiting for G-UI2's toolbar part: the token
+  renderer `UiToolStripRenderer` (`CodeBase/UI/UiTheme.Renderer.cs`) set by `UiTheme.InitWinForms()` in nine exes' `Main` (not the two
+  exceptions), on the progress windows' and the Microsoft 365 message thread, and linked into RdlDesign; `ToolBarOD`, `MenuOD`, `ModuleBar`
+  (the selected module's Filled icon in `Accent`), `ODButtonPanel`, `LightSignalGrid`, the WPF toolbar, menu bar, `MenuItem` and `ContextMenu`
+  (Generic.xaml) from the tokens; icons drawn over the hover shapes without a box; widths unchanged. Tests: ToolBarFitTests (every module
+  toolbar and the menu at 1024, 1366 and 1920 px, today's font and Segoe UI 9, `Data/toolbar-overflow.tsv`), RendererTests,
+  WpfMenuToolBarTests, the state pictures, C20 and the new window check UT1 (for the lead's session). Owner question: the Chart toolbar
+  is cut off at 1024 and 1366 px today (UQ-9).
 
 **UI-7b: the IconLibrary icons**
 - Owns: both `IconLibrary` folders, the `EnumIcons` rows of `icons/manifest.json` and `icons/README.md`.
