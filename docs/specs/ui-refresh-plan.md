@@ -1272,7 +1272,8 @@ so it is cut into two slices that share no files and may run side by side).
   renderer is set in every exe and on a second UI thread (the test names its two exceptions, `UpdateFileCopier` and
   `OpenPmsDentalHelper32`, and checks RdlDesign through its linked renderer); picture tests of each state; the scan rerun.
 - Gallery: G-UI2, with each module toolbar and the menu bar as before and after strips.
-- **Status (2026-11-17).** Done on `ui/ui6-1` (`docs/port-notes/UI-6.md`), not merged yet, waiting for G-UI2's toolbar part: the token
+- **Status (2026-11-17).** Done on `ui/ui6-2` (`ui/ui6-1` with main and UI-8 merged in; `docs/port-notes/UI-6.md`), not merged yet,
+  waiting for G-UI2's toolbar part (the Chart button draws UI-8's tooth, ToothFilled in `Accent` when open): the token
   renderer `UiToolStripRenderer` (`CodeBase/UI/UiTheme.Renderer.cs`) set by `UiTheme.InitWinForms()` in nine exes' `Main` (not the two
   exceptions), on the progress windows' and the Microsoft 365 message thread, and linked into RdlDesign; `ToolBarOD`, `MenuOD`, `ModuleBar`
   (the selected module's Filled icon in `Accent`), `ODButtonPanel`, `LightSignalGrid`, the WPF toolbar, menu bar, `MenuItem` and `ContextMenu`
