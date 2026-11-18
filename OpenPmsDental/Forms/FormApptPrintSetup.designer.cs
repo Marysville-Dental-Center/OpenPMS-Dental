@@ -75,7 +75,7 @@ namespace OpenPmsDental{
 			// butPreview
 			// 
 			this.butPreview.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butPreview.Image = global::OpenPmsDental.Properties.Resources.butPreview;
+			this.butPreview.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.Preview,17,16);
 			this.butPreview.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butPreview.Location = new System.Drawing.Point(9, 269);
 			this.butPreview.Name = "butPreview";

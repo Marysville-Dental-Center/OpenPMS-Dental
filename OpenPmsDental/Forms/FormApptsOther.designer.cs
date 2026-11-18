@@ -93,7 +93,7 @@
 			// butPin
 			// 
 			this.butPin.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butPin.Image = global::OpenPmsDental.Properties.Resources.butPin;
+			this.butPin.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.Pin,20,23);
 			this.butPin.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butPin.Location = new System.Drawing.Point(165, 620);
 			this.butPin.Name = "butPin";
@@ -221,7 +221,7 @@
 			// butNote
 			// 
 			this.butNote.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butNote.Image = ((System.Drawing.Image)(resources.GetObject("butNote.Image")));
+			this.butNote.Icon = OpenPmsDental.UI.EnumIcons.Note;
 			this.butNote.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butNote.Location = new System.Drawing.Point(442, 620);
 			this.butNote.Name = "butNote";

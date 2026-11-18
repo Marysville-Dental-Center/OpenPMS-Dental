@@ -1,0 +1,35 @@
+# The bitmap pictures of UI-9a and what each becomes (docs/specs/ui-refresh-plan.md sections 4.3 and 4.5; docs/port-notes/UI-9a.md).
+# tools/Convert-PictureUses.ps1 reads this file. One row per purpose (section 4.3): "Resources:<name>" covers every window that shows that
+# Properties.Resources picture; "<resx file>:<entry>" is one window's own .resx picture; "*" matches anything (PowerShell -like).
+# target: EnumIcons.<member> (OpenPmsDental.UI.EnumIcons, its manifest row in icons/manifest.json), DentalIcon.<member>, keep (stays a
+# picture; the note says why, section 4.5) or UI-9b (an ImageList, converted by package UI-9b).
+# size (optional): the bitmap's size when it is not the picture's; the width stays (where a button's text starts).
+# key	target	note	size
+# UI-9a-1 (Forms A-C)
+Resources:up	EnumIcons.Up	move up in a list (green arrow up)
+Resources:down	EnumIcons.Down	move down in a list (green arrow down)
+Resources:Left	EnumIcons.ArrowLeft	move left, back, insert (blue arrow left)
+Resources:Right	EnumIcons.ArrowRight	move right, forward, copy (blue arrow right)
+Resources:butPrint	EnumIcons.Print	print (printer)
+Resources:butPrintSmall	EnumIcons.Print	print, postcard preview (small printer, 16 x 14): drawn in a 16 x 16 slot	16x16
+Resources:butPreview	EnumIcons.Preview	print preview (page with a magnifier, 17 x 16)
+Resources:butExport	EnumIcons.Export	export (sheet with an arrow)
+Resources:butLabel	EnumIcons.Label	mailing labels (a label, 18 x 9): drawn in a 16 px slot, the width kept	18x16
+Resources:butPin	EnumIcons.Pin	send to the pinboard (pin, 20 x 23)
+Resources:editPencil	EnumIcons.Edit	edit (pencil)
+Resources:_1500_02_12	keep	the ADA claim form background: office content (section 4.5)
+FormApptEdit:butPin.Image	EnumIcons.Pin	send to the pinboard (pin)
+FormApptSearchAdvanced:butMore.Image	EnumIcons.ArrowRight	more search options (blue arrow right, 13 x 15)
+FormApptsOther:butNote.Image	EnumIcons.Note	a note for the patient (note pad)
+FormArManager:butSend.Image	EnumIcons.Send	send accounts to TSI (red arrow up)
+FormArManager:butUpdateStatus.Image	EnumIcons.Send	update accounts at TSI (the same red arrow up as Send)
+FormArManager:butExcludedSend.Image	EnumIcons.Send	send excluded accounts to TSI (red arrow up)
+FormClaimEdit:butSend.Image	EnumIcons.Send	send the claim (red arrow up)
+FormClaimResend:butSend.Image	EnumIcons.Send	resend claims (red arrow up)
+FormAccounting:imageListMain.ImageStream	UI-9b	the accounts tree's ImageList
+FormAccountPick:imageListMain.ImageStream	UI-9b	the accounts tree's ImageList
+FormAutoNoteExport:imageListTree.ImageStream	UI-9b	the auto note tree's ImageList
+FormAutoNotes:imageListTree.ImageStream	UI-9b	the auto note tree's ImageList
+FormCareCreditWeb:imageList1.ImageStream	UI-9b	the window's ImageList
+FormCDSIntervention:imageListInfoButton.ImageStream	UI-9b	the info button ImageList of the CDS grid
+FormClaimsSend:imageList1.ImageStream	UI-9b	the claims toolbar's ImageList

@@ -188,7 +188,7 @@ namespace OpenPmsDental {
 			// 
 			// butDown
 			// 
-			this.butDown.Image = global::OpenPmsDental.Properties.Resources.down;
+			this.butDown.Icon = OpenPmsDental.UI.EnumIcons.Down;
 			this.butDown.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butDown.Location = new System.Drawing.Point(271, 341);
 			this.butDown.Name = "butDown";
@@ -210,7 +210,7 @@ namespace OpenPmsDental {
 			// 
 			// butAttach
 			// 
-			this.butAttach.Image = global::OpenPmsDental.Properties.Resources.up;
+			this.butAttach.Icon = OpenPmsDental.UI.EnumIcons.Up;
 			this.butAttach.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butAttach.Location = new System.Drawing.Point(539, 341);
 			this.butAttach.Name = "butAttach";
@@ -268,8 +268,7 @@ namespace OpenPmsDental {
 			// 
 			// butUp
 			// 
-			this.butUp.AdjustImageLocation = new System.Drawing.Point(0, 1);
-			this.butUp.Image = global::OpenPmsDental.Properties.Resources.up;
+			this.butUp.Icon = OpenPmsDental.UI.EnumIcons.Up;
 			this.butUp.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butUp.Location = new System.Drawing.Point(230, 341);
 			this.butUp.Name = "butUp";
@@ -290,7 +289,7 @@ namespace OpenPmsDental {
 			// 
 			// butDetach
 			// 
-			this.butDetach.Image = global::OpenPmsDental.Properties.Resources.down;
+			this.butDetach.Icon = OpenPmsDental.UI.EnumIcons.Down;
 			this.butDetach.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butDetach.Location = new System.Drawing.Point(612, 341);
 			this.butDetach.Name = "butDetach";

@@ -173,7 +173,7 @@ namespace OpenPmsDental{
 			// butPrintList
 			// 
 			this.butPrintList.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butPrintList.Image = global::OpenPmsDental.Properties.Resources.butPrint;
+			this.butPrintList.Icon = OpenPmsDental.UI.EnumIcons.Print;
 			this.butPrintList.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butPrintList.Location = new System.Drawing.Point(447, 498);
 			this.butPrintList.Name = "butPrintList";

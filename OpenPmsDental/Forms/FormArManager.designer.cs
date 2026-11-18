@@ -296,7 +296,7 @@ namespace OpenPmsDental{
 			// butUnsentExport
 			// 
 			this.butUnsentExport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butUnsentExport.Image = global::OpenPmsDental.Properties.Resources.butExport;
+			this.butUnsentExport.Icon = OpenPmsDental.UI.EnumIcons.Export;
 			this.butUnsentExport.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butUnsentExport.Location = new System.Drawing.Point(971, 571);
 			this.butUnsentExport.Name = "butUnsentExport";
@@ -567,7 +567,7 @@ namespace OpenPmsDental{
 			// butSend
 			// 
 			this.butSend.AdjustImageLocation = new System.Drawing.Point(-4, 0);
-			this.butSend.Image = ((System.Drawing.Image)(resources.GetObject("butSend.Image")));
+			this.butSend.Icon = OpenPmsDental.UI.EnumIcons.Send;
 			this.butSend.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butSend.Location = new System.Drawing.Point(253, 14);
 			this.butSend.Name = "butSend";
@@ -596,7 +596,7 @@ namespace OpenPmsDental{
 			// butUnsentPrint
 			// 
 			this.butUnsentPrint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butUnsentPrint.Image = global::OpenPmsDental.Properties.Resources.butPrint;
+			this.butUnsentPrint.Icon = OpenPmsDental.UI.EnumIcons.Print;
 			this.butUnsentPrint.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butUnsentPrint.Location = new System.Drawing.Point(1052, 571);
 			this.butUnsentPrint.Name = "butUnsentPrint";
@@ -696,7 +696,7 @@ namespace OpenPmsDental{
 			// butSentExport
 			// 
 			this.butSentExport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSentExport.Image = global::OpenPmsDental.Properties.Resources.butExport;
+			this.butSentExport.Icon = OpenPmsDental.UI.EnumIcons.Export;
 			this.butSentExport.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butSentExport.Location = new System.Drawing.Point(1052, 571);
 			this.butSentExport.Name = "butSentExport";
@@ -952,7 +952,7 @@ namespace OpenPmsDental{
 			// butSentPrint
 			// 
 			this.butSentPrint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSentPrint.Image = global::OpenPmsDental.Properties.Resources.butPrint;
+			this.butSentPrint.Icon = OpenPmsDental.UI.EnumIcons.Print;
 			this.butSentPrint.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butSentPrint.Location = new System.Drawing.Point(1133, 571);
 			this.butSentPrint.Name = "butSentPrint";
@@ -1016,7 +1016,7 @@ namespace OpenPmsDental{
 			// butUpdateStatus
 			// 
 			this.butUpdateStatus.AdjustImageLocation = new System.Drawing.Point(-4, 0);
-			this.butUpdateStatus.Image = ((System.Drawing.Image)(resources.GetObject("butUpdateStatus.Image")));
+			this.butUpdateStatus.Icon = OpenPmsDental.UI.EnumIcons.Send;
 			this.butUpdateStatus.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butUpdateStatus.Location = new System.Drawing.Point(424, 14);
 			this.butUpdateStatus.Name = "butUpdateStatus";
@@ -1113,7 +1113,7 @@ namespace OpenPmsDental{
 			// butExcludedExport
 			// 
 			this.butExcludedExport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butExcludedExport.Image = global::OpenPmsDental.Properties.Resources.butExport;
+			this.butExcludedExport.Icon = OpenPmsDental.UI.EnumIcons.Export;
 			this.butExcludedExport.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butExcludedExport.Location = new System.Drawing.Point(971, 571);
 			this.butExcludedExport.Name = "butExcludedExport";
@@ -1404,7 +1404,7 @@ namespace OpenPmsDental{
 			// butExcludedSend
 			// 
 			this.butExcludedSend.AdjustImageLocation = new System.Drawing.Point(-4, 0);
-			this.butExcludedSend.Image = ((System.Drawing.Image)(resources.GetObject("butExcludedSend.Image")));
+			this.butExcludedSend.Icon = OpenPmsDental.UI.EnumIcons.Send;
 			this.butExcludedSend.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butExcludedSend.Location = new System.Drawing.Point(253, 14);
 			this.butExcludedSend.Name = "butExcludedSend";
@@ -1433,7 +1433,7 @@ namespace OpenPmsDental{
 			// butExcludedPrint
 			// 
 			this.butExcludedPrint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butExcludedPrint.Image = global::OpenPmsDental.Properties.Resources.butPrint;
+			this.butExcludedPrint.Icon = OpenPmsDental.UI.EnumIcons.Print;
 			this.butExcludedPrint.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butExcludedPrint.Location = new System.Drawing.Point(1052, 571);
 			this.butExcludedPrint.Name = "butExcludedPrint";

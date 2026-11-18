@@ -3224,7 +3224,7 @@
 			// butSend
 			// 
 			this.butSend.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butSend.Image = ((System.Drawing.Image)(resources.GetObject("butSend.Image")));
+			this.butSend.Icon = OpenPmsDental.UI.EnumIcons.Send;
 			this.butSend.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butSend.Location = new System.Drawing.Point(503, 665);
 			this.butSend.Name = "butSend";
@@ -3260,7 +3260,7 @@
 			// butLabel
 			// 
 			this.butLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butLabel.Image = global::OpenPmsDental.Properties.Resources.butLabel;
+			this.butLabel.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.Label,18,16);
 			this.butLabel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butLabel.Location = new System.Drawing.Point(163, 665);
 			this.butLabel.Name = "butLabel";
@@ -3368,7 +3368,7 @@
 			// butPreview
 			// 
 			this.butPreview.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butPreview.Image = global::OpenPmsDental.Properties.Resources.butPreview;
+			this.butPreview.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.Preview,17,16);
 			this.butPreview.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butPreview.Location = new System.Drawing.Point(250, 665);
 			this.butPreview.Name = "butPreview";
@@ -3380,7 +3380,7 @@
 			// butPrint
 			// 
 			this.butPrint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butPrint.Image = global::OpenPmsDental.Properties.Resources.butPrintSmall;
+			this.butPrint.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.Print,16,16);
 			this.butPrint.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butPrint.Location = new System.Drawing.Point(347, 665);
 			this.butPrint.Name = "butPrint";
