@@ -28,6 +28,15 @@ namespace UiRefreshTests {
 		Red,
 	}
 
+	///<summary>Where the ODPictureBox picture sits: screen chrome (the new look), or office content, which keeps today's look (section 5.1): inside
+	///the patient dashboard, inside a panel marked with LayoutManagerForms.MarkContent, or the dashboard's picture widget DashPatPicture itself.</summary>
+	public enum PictureBoxHost {
+		Chrome,
+		Dashboard,
+		MarkedContent,
+		DashPatPicture,
+	}
+
 	///<summary>The colour picker with its swatch's hover and focus under the test's control.</summary>
 	public class StateColorPicker : OpenPmsDental.UI.ODColorPicker {
 		public bool IsFocusForced;
@@ -165,12 +174,30 @@ namespace UiRefreshTests {
 			}
 		}
 
-		///<summary>ODPictureBox (120 x 80) without a picture, showing its hint (withText) or an empty hint, with or without its border.</summary>
-		public static Bitmap RenderWinFormsPictureBox(bool hasBorder,bool withText,Image image=null) {
+		///<summary>ODPictureBox (120 x 80) without a picture, showing its hint (withText) or an empty hint, with or without its border. host: where it
+		///sits (screen chrome, or office content: inside the patient dashboard, inside a panel marked with MarkContent, or the dashboard's own picture
+		///widget DashPatPicture).</summary>
+		public static Bitmap RenderWinFormsPictureBox(bool hasBorder,bool withText,Image image=null,PictureBoxHost host=PictureBoxHost.Chrome) {
 			System.Windows.Forms.Panel panel;
 			using(Form form=MakeHost(out panel)) {
-				OpenPmsDental.UI.ODPictureBox pictureBox=new OpenPmsDental.UI.ODPictureBox();
-				panel.Controls.Add(pictureBox);
+				Control controlParent=panel;
+				if(host==PictureBoxHost.Dashboard) {
+					OpenPmsDental.UserControlDashboard userControlDashboard=new OpenPmsDental.UserControlDashboard();
+					userControlDashboard.BackColor=panel.BackColor;
+					userControlDashboard.Bounds=new Rectangle(0,0,400,300);
+					panel.Controls.Add(userControlDashboard);
+					controlParent=userControlDashboard;
+				}
+				else if(host==PictureBoxHost.MarkedContent) {
+					System.Windows.Forms.Panel panelContent=new System.Windows.Forms.Panel();
+					panelContent.BackColor=panel.BackColor;
+					panelContent.Bounds=new Rectangle(0,0,400,300);
+					panel.Controls.Add(panelContent);
+					OpenPmsDental.LayoutManagerForms.MarkContent(panelContent);
+					controlParent=panelContent;
+				}
+				OpenPmsDental.UI.ODPictureBox pictureBox=host==PictureBoxHost.DashPatPicture ? new OpenPmsDental.DashPatPicture() : new OpenPmsDental.UI.ODPictureBox();
+				controlParent.Controls.Add(pictureBox);
 				pictureBox.Bounds=new Rectangle(10,10,120,80);
 				pictureBox.HasBorder=hasBorder;
 				pictureBox.TextNullImage=withText ? "No picture" : "";

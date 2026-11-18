@@ -16,7 +16,7 @@ border and rounded ends, filled with the program's blue; while the program does 
 track (it was the Windows green bar or a shaded bar). The colour buttons that pick a colour (provider and carrier colours) show the colour in a small
 rounded box with a grey border that darkens under the mouse, the blue focus ring after Tab, and "no colour" as a white box with a thin diagonal line.
 The small warning triangle of the database integrity check is a deeper amber (it was light orange; the white "!" is now easy to read), the red one
-the new red; in the WPF windows the red one now really shows red. Picture boxes have the light grey border of the other containers, and their "no
+the new red; in the WPF windows the red one now really shows red. Picture boxes (not the patient dashboard's picture) have the light grey border of the other containers, and their "no
 picture" text is the grey hint colour. The "Ex: D2140-D2394" example under the procedure code range box is the grey hint colour. In print previews the
 area around the pages is a light grey (it was the darker Windows grey). The colour dialog's square and hue bar have the grey input border; the hue
 handle is the dark text colour. In the WPF windows the signature box's thin frame is the input border grey (it was a slightly lighter grey). The
@@ -38,7 +38,8 @@ section 3 (marked "Owner"): the "no colour" mark, the grey around print preview 
 | `CodeBase/UI/UiDialogPaint.cs` | new: the WinForms shapes: the progress bar (`DrawProgress`: `SurfaceRaised` track, `Accent` fill, `TextDisabled` disabled, 1 px `Stroke` outline, 4 px corners, as the sheet's), the colour swatch (`DrawSwatch`, `GetSwatchBorder`: the input outline `StrokeStrong`, `StrokeStrongHover`, `Stroke` disabled, the focus ring; "None" a `SurfaceRaised` box with a diagonal `StrokeStrong` line), the warning's token (`GetWarningFill`: `Warning`, `Danger`); built on UI-4a's `UiControlPaint` |
 | `OpenPmsDental/UI/OdProgressBar.cs` | `OnPaint` through `DrawBar` from the tokens (no gradient; `BackColor` and `ForeColor` no longer colour it); the target line in `TargetColor` as before; a `LayoutManager` field for the scale; `GetFraction` |
 | `OpenPmsDental/UI/ODColorPicker.cs` | the colour button's `Paint` draws the swatch over the Windows button (`IsFocusRingShown`: focus and keyboard cues; `IsHoverColor`); a `LayoutManager` field; the designer is unchanged |
-| `OpenPmsDental/UI/ODPictureBox.cs` | the border 1 px `Stroke` (2 px at 200%, the screen's DPI; the picture starts inside it), the hint `TextSecondary` |
+| `OpenPmsDental/UI/ODPictureBox.cs` | the border 1 px `Stroke` (2 px at 200%, the screen's DPI; the picture starts inside it), the hint `TextSecondary`; office content (`IsContentLook`) keeps today's Gray border, Gray hint and 1 px padding |
+| `OpenPmsDental/User Controls/Dashboard/DashPatPicture.cs` | `IsContentLook` true: the dashboard's picture widget keeps today's look |
 | `OpenPmsDental/UI/ODCodeRangeFilter.cs` | the example label `TextSecondary` |
 | `OpenPmsDental/UI/DatabaseIntegrity/WarningIntegrity.cs` | `SetColor`: fill and outline `Warning` (`Danger` red), the mark `TextOnAccent`; the background is the parent's colour (it was always `ColorOD.Background`); the shape, the blinking and pulsing, the tooltip region as before |
 | `OpenPmsDental/UI/ODPrintPreviewControl.cs` | the area around the pages `SubtlePressed` (its `BackColor`); the pages, their frame and shadow are Windows' as before |
@@ -86,6 +87,9 @@ toolbar UI-6's, its three toolbar pictures UI-9b's; the area around the pages is
 - **The picture box's border** is a container border (`Stroke`, 1 px; 2 px at 200% from the screen's DPI, as section 3.3's rule; the control has no
   LayoutManager); its "no picture" hint is `TextSecondary` (a hint, section 3.2). Section 2.1 says "border only": the hint is the only other thing it
   draws of its own.
+- **The patient dashboard keeps the picture box's look.** The dashboard is office content (section 5.1), so its picture widget
+  (`DashPatPicture`) and any `ODPictureBox` inside `UserControlDashboard` or a panel marked with `MarkContent` keep today's Gray border, Gray
+  hint and 1 px padding (`ODPictureBox.IsContentLook`, which `DashPatPicture` overrides to true; a test checks all three).
 - **The colour dialog:** only its chrome (the two frames, the hue handle). The black and white ring of the picker stays: it must show on any colour.
 - **The progress window's error line** takes `Danger` through `ColorText`: its red XAML `Foreground` had been overridden by UI-4a's label look.
 
@@ -100,9 +104,9 @@ toolbar UI-6's, its three toolbar pictures UI-9b's; the area around the pages is
 ### 5. Tests
 
 All in `tests/UiRefreshTests` (no new test assembly):
-- `DialogStateTests` (16 tests): WinForms `OdProgressBar` (rest, empty, full, disabled, the target line) at every scale against the sheet's progress
+- `DialogStateTests` (17 tests): WinForms `OdProgressBar` (rest, empty, full, disabled, the target line) at every scale against the sheet's progress
   bar, every pixel; `ODColorPicker`'s swatch (rest, hover, focus, disabled, None) at every scale, every pixel; its bounds and colour; the warning
-  triangle and the red one (WinForms picture, WPF brushes and picture); `ODPictureBox` (border, hint, a picture inside); `ODCodeRangeFilter`'s hint;
+  triangle and the red one (WinForms picture, WPF brushes and picture); `ODPictureBox` (border, hint, a picture inside; in the dashboard, a marked panel and `DashPatPicture` today's look); `ODCodeRangeFilter`'s hint;
   the print preview (its area `SubtlePressed`, and the control draws nothing of its own, so the pages are Windows' drawing as before; a page is not
   previewed in the test, because a document prints into the preview behind a Windows status window, which these tests never show); the signature box (a synthetic
   signature valid in both looks, its picture the same pixel for pixel, the frame `StrokeStrong`, office content `ControlDark`); the TextBelow strip

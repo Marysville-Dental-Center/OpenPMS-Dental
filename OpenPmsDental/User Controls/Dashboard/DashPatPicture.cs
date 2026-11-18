@@ -21,6 +21,14 @@ namespace OpenPmsDental {
 			InitializeComponent();
 		}
 
+		///<summary>UI-4c-2: the patient dashboard is office content (docs/specs/ui-refresh-plan.md, section 5.1), so the picture widget keeps today's
+		///border, hint and padding wherever it sits.</summary>
+		protected override bool IsContentLook {
+			get {
+				return true;
+			}
+		}
+
 		public void PassLayoutManager(LayoutManagerForms layoutManager){
 			LayoutManager=layoutManager;
 		}

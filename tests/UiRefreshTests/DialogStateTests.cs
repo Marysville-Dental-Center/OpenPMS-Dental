@@ -112,6 +112,37 @@ namespace UiRefreshTests {
 		}
 
 		[TestMethod]
+		public void WinForms_PictureBox_InOfficeContent_KeepsTodaysLook() {
+			//The patient dashboard is office content (section 5.1): its picture widget keeps today's Gray border, Gray hint and 1 px padding, and so
+			//does any ODPictureBox inside the dashboard or inside a panel marked with MarkContent.
+			List<string> listFailures=new List<string>();
+			IconRendererTests.RunSta(() => {
+				Color colorGray=Color.Gray;
+				foreach(PictureBoxHost host in new[] { PictureBoxHost.Dashboard,PictureBoxHost.MarkedContent,PictureBoxHost.DashPatPicture }) {
+					string name="PictureBox in "+host;
+					using(Bitmap bitmapChrome=DialogControls.RenderWinFormsPictureBox(hasBorder:true,withText:false,host:host))
+					using(Bitmap bitmapText=DialogControls.RenderWinFormsPictureBox(hasBorder:true,withText:true,host:host)) {
+						foreach(Point point in new[] { new Point(0,0),new Point(60,0),new Point(119,40),new Point(60,79),new Point(0,40) }) {
+							CheckPixel(listFailures,name+" border",bitmapChrome,point.X,point.Y,colorGray);
+						}
+						CheckPixel(listFailures,name+" inside",bitmapChrome,1,1,SheetPainter.Light(EnumUiColor.Surface));
+						ControlStateTests.CheckText(listFailures,name+" hint",bitmapChrome,bitmapText,colorGray);
+					}
+					using(Bitmap bitmapPicture=DialogControls.MakeSyntheticPicture())
+					using(Bitmap bitmapWith=DialogControls.RenderWinFormsPictureBox(hasBorder:true,withText:false,image:(Bitmap)bitmapPicture.Clone(),host:host)) {
+						CheckPixel(listFailures,name+" border with a picture",bitmapWith,0,40,colorGray);
+						CheckPixel(listFailures,name+" picture after 1 px",bitmapWith,1,40,Color.White);
+					}
+				}
+				//The same picture box as screen chrome takes the new look, so the check above tells the two apart.
+				using(Bitmap bitmapChrome=DialogControls.RenderWinFormsPictureBox(hasBorder:true,withText:false)) {
+					CheckPixel(listFailures,"PictureBox as chrome border",bitmapChrome,0,0,SheetPainter.Light(EnumUiColor.Stroke));
+				}
+			});
+			ControlStateTests.AssertNoFailures(listFailures);
+		}
+
+		[TestMethod]
 		public void WinForms_CodeRangeFilter_TheExampleIsAHint() {
 			IconRendererTests.RunSta(() => {
 				using(OpenPmsDental.UI.ODCodeRangeFilter codeRangeFilter=new OpenPmsDental.UI.ODCodeRangeFilter()) {
