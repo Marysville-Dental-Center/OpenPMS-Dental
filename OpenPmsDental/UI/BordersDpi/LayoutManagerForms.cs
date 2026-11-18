@@ -216,11 +216,12 @@ Scrollable Control: For example, a panel that's set to AutoScroll=true.  These c
 			parent.Controls.Add(control);//only this control gets added.  The children are already part of it.
 		}
 
-		///<summary>Adds this control to _listControl96Infos. Recursively adds its children.</summary>
-		private void AddToList96(Control control, Control parent){
+		///<summary>Adds this control to _listControl96Infos. Recursively adds its children. isInContent (UI-2a-1): the recursion passes down that the control is content or sits in content. Add records a control before it is parented, so a walk from one of its children would stop at that unparented control and miss the content it is being added to.</summary>
+		private void AddToList96(Control control, Control parent,bool isInContent=false){
 			//We're passing in the parent because we frequently won't have actually added the control to the parent yet.
 			//UI-2a-1: the font follows the body token (section 3.4) before its size is recorded below. The font is already scaled (see Add), so the rule is applied to its 96 dpi size.
-			MapFontOfAddedControl(control,parent,isScaled:true);
+			bool isContent=isInContent || IsContent(control,parent);
+			MapFontOfAddedControl(control,isContent,isScaled:true);
 			Control96Info control96Info=new Control96Info(control);
 			//the above line initialized all the fields, but many of them are wrong.
 			//Since it's the responsibility of whoever's doing the Add to scale everything to current dpi,
@@ -248,21 +249,22 @@ Scrollable Control: For example, a panel that's set to AutoScroll=true.  These c
 			SetNoAnchorDock(control);
 			PassLayoutManager(control);
 			for(int i=0;i<control.Controls.Count;i++){
-				AddToList96(control.Controls[i],control);
+				AddToList96(control.Controls[i],control,isContent);
 			}
 		}
 
-		///<summary>Extremely rare. Recursive.</summary>
-		private void AddToList96Unscaled(Control control, Control parent){
+		///<summary>Extremely rare. Recursive. isInContent: as in AddToList96.</summary>
+		private void AddToList96Unscaled(Control control, Control parent,bool isInContent=false){
 			//UI-2a-1: the font follows the body token (section 3.4) before Control96Info records its size. These fonts are at 96 dpi.
-			MapFontOfAddedControl(control,parent,isScaled:false);
+			bool isContent=isInContent || IsContent(control,parent);
+			MapFontOfAddedControl(control,isContent,isScaled:false);
 			Control96Info control96Info=new Control96Info(control);
 			control96Info.BoundsLast=control.Bounds;
 			_listControl96Infos.Add(control96Info);
 			SetNoAnchorDock(control);
 			PassLayoutManager(control);
 			for(int i=0;i<control.Controls.Count;i++){
-				AddToList96Unscaled(control.Controls[i],control);
+				AddToList96Unscaled(control.Controls[i],control,isContent);
 			}
 		}
 
@@ -781,12 +783,12 @@ Scrollable Control: For example, a panel that's set to AutoScroll=true.  These c
 			}
 		}
 
-		///<summary>UI-2a-1: maps the font of one control that Add, Synch or AddUnscaled records, before its size is read. Its children are recorded (and mapped) after it, so a child that inherits follows. isScaled: the font is already scaled as Add expects (by the zoom, or fully for the types that LayoutChildren scales fully); false for AddUnscaled, whose fonts are at 96 dpi.</summary>
-		private void MapFontOfAddedControl(Control control,Control parent,bool isScaled){
+		///<summary>UI-2a-1: maps the font of one control that Add, Synch or AddUnscaled records, before its size is read. Its children are recorded (and mapped) after it, so a child that inherits follows. isContent: the control is content or sits in content, worked out once at the top of the recursion and passed down (see AddToList96). isScaled: the font is already scaled as Add expects (by the zoom, or fully for the types that LayoutChildren scales fully); false for AddUnscaled, whose fonts are at 96 dpi.</summary>
+		private void MapFontOfAddedControl(Control control,bool isContent,bool isScaled){
 			if(UiTheme.IsFontMappingIdentity){
 				return;
 			}
-			if(IsContent(control,parent)){
+			if(isContent){
 				return;
 			}
 			if(!HasOwnFont(control)){

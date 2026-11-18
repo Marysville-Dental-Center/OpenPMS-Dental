@@ -78,7 +78,9 @@ test compares the plain form's font with `FontBody` times the text scale factor.
 - **Content** (`LayoutManagerForms.IsContent(control,parent)`): the control itself, then `parent` and its parents, is one of the content
   types (`ToothChartWrapper`, `ContrPerio`, `ODPrintPreviewControl`, `UserControlDashboard`) or a panel marked with `MarkContent`. The
   constructor's walk passes the control's own parent; `Add` and `AddUnscaled` pass their `parent` argument, because they record a control
-  before it is parented (the sheet fields at `FormSheetFillEdit.cs:1438`).
+  before it is parented (the sheet fields at `FormSheetFillEdit.cs:1438`). For the same reason `AddToList96` and `AddToList96Unscaled` make
+  the decision once, at the control passed to `Add`, and pass it down to its children (`isInContent`): a walk from a child would go up only
+  to that still unparented control and miss the content it is being added to (review fix, `ui/ui2a1-2`).
 - **`MarkContent(control)`** records the panel in a weak table. It throws `InvalidOperationException` when a `FormODBase` above the control
   (walking up from it) has already built its layout: the `LayoutManagerForms` constructor records each window it builds, so a mark after
   `InitializeLayoutManager` fails the first time a test opens the window. A control not yet in a window can be marked.
@@ -109,12 +111,13 @@ test compares the plain form's font with `FontBody` times the text scale factor.
 A grep of `LayoutManager.Add`, `AddUnscaled` and `Synch` outside `InitializeLayoutManager`: they all go through `AddToList96` or
 `AddToList96Unscaled`, so the mapping reaches them. With today's tokens it changes nothing anywhere. After the flip: `FormSheetFillEdit`'s
 field text boxes, signature boxes, rich text boxes and the screen tooth chart are added to the marked `panelMain` (content: their stored
-fonts stay); the setup wizard's and the preference pages' controls (`AddUnscaled`) and the module controls take the token by the rule, set
+fonts stay, and so do the fonts of their children, such as the screen tooth chart's ten Microsoft Sans Serif 8.25 Bold tooth labels and the
+signature box's `labelInvalidSig`, because the content decision made at the added control is passed down to its children); the setup wizard's and the preference pages' controls (`AddUnscaled`) and the module controls take the token by the rule, set
 before their handlers can matter (the mapping runs only for a control with a Microsoft Sans Serif font of its own, before it is parented).
 
 ### 5. Tests
 
-`tests/UiRefreshTests/FontTokenTests.cs` (20 tests, no database, no window):
+`tests/UiRefreshTests/FontTokenTests.cs` (21 tests, no database, no window):
 - the tokens hold today's fonts (and `FontInitial` is `FontBody`); the UI-2b values are written down; `SetFontForTest` sets every token and
   `null` gives today's back; it refuses outside a test process (a source check of its first statement); `FormODBase` takes the token;
 - the rule: every distinct Microsoft Sans Serif designer font of the program's designer files (sizes and styles, the 8 and 8.5 pt ones among
@@ -127,7 +130,8 @@ before their handlers can matter (the mapping runs only for a control with a Mic
 - the underlined labels of `FormInsBenefits` draw without underline, in today's font and with the override;
 - content: `MarkContent` after `InitializeLayoutManager` throws (also for a nested control), the three windows mark their panels, the content
   types; a Microsoft Sans Serif sheet field added to `FormSheetFillEdit`'s `panelMain` keeps its font with the override (the same field outside
-  the panel follows the token); a perio chart picture (`ContrPerio` on a synthetic exam, the preferences in the cache only) is byte for byte
+  the panel follows the token); the children of a composite field added there keep theirs too (a `ScreenToothChart`'s tooth labels at
+  Microsoft Sans Serif 8.25 Bold, and a panel holding a Microsoft Sans Serif label; the same panel outside follows the token); a perio chart picture (`ContrPerio` on a synthetic exam, the preferences in the cache only) is byte for byte
   the same with the override and a Segoe UI default font, on its own and in a Segoe UI window; the patient dashboard with a widget holding a
   label field with a font name, one without, and a `DashIndividualDiscount` field keeps every field's font with the override, at 100% and at
   zoom 120%; the tooth chart keeps Microsoft Sans Serif 8.25 with a Segoe UI default font and the override, on its own, in a wrapper, and

@@ -3,7 +3,7 @@
 // mapping returns every font unchanged with today's tokens (the designer fonts at 8 and 8.5 pt included) and, with the override set to Segoe UI,
 // follows the rule of 3.4 in all three places LayoutManagerForms records a control (a window's designer controls, an Add'ed control, a
 // preference page and ControlImages through AddUnscaled); the underlined labels of FormInsBenefits still draw without underline; content keeps
-// its fonts (a marked panel, a sheet field of FormSheetFillEdit, the perio chart's picture, the patient dashboard at 100% and one zoom step,
+// its fonts (a marked panel, a sheet field of FormSheetFillEdit and a composite one's children, the perio chart's picture, the patient dashboard at 100% and one zoom step,
 // the tooth chart's pinned font); a late MarkContent throws. No database (the no-database guard refuses every connection), no window shown.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
@@ -481,6 +481,60 @@ namespace UiRefreshTests {
 					UiTheme.SetFontForTest(null);
 				}
 			});
+		}
+
+		[TestMethod]
+		public void FormSheetFillEdit_TheChildrenOfACompositeSheetField_KeepTheirFonts_WithTheOverride() {
+			//Add records a control before it is parented, so the content decision is made once at the top control and passed down to its
+			//children: a walk from a child would stop at the unparented top control and never reach the marked panelMain.
+			StaRunner.Run(() => {
+				NoDatabaseGuard.Install();
+				Thread.CurrentThread.CurrentCulture=new CultureInfo("en-US");
+				Thread.CurrentThread.CurrentUICulture=new CultureInfo("en-US");
+				UiTheme.SetFontForTest(UiFontOption.UI2b);
+				try {
+					using(FormSheetFillEdit formSheetFillEdit=new FormSheetFillEdit()) {
+						Control panelMain=(Control)GetField(formSheetFillEdit,"panelMain");
+						LayoutManagerForms layoutManager=(LayoutManagerForms)GetField(formSheetFillEdit,"LayoutManager");
+						//A screen tooth chart as FormSheetFillEdit adds one (the ScreenChart fields): its tooth labels are Microsoft Sans Serif 8.25 Bold in its designer.
+						ScreenToothChart screenToothChart=new ScreenToothChart("0;;;;;;;;;;;;;;;;",false) { Size=new Size(500,200) };
+						List<Label> listLabelsChart=GetLabels(screenToothChart);
+						Assert.IsTrue(listLabelsChart.Count>=10,"The screen tooth chart has its tooth labels.");
+						layoutManager.Add(screenToothChart,panelMain);
+						foreach(Label label in listLabelsChart) {
+							AssertFont(label.Font,"Microsoft Sans Serif",8.25f,FontStyle.Bold);
+						}
+						//A panel holding a label of its own font, as a signature box holds labelInvalidSig.
+						Panel panel=new Panel { Name="panelSynthetic",Size=new Size(200,80) };
+						Label labelInside=new Label { Name="labelSynthetic",Text="Synthetic",Size=new Size(150,20),
+							Font=new Font("Microsoft Sans Serif",8.25f,FontStyle.Regular) };
+						panel.Controls.Add(labelInside);
+						layoutManager.Add(panel,panelMain);
+						AssertFont(labelInside.Font,"Microsoft Sans Serif",8.25f,FontStyle.Regular);
+						//The same composite outside the marked panel follows the token, child included: the mark is what keeps it.
+						Panel panelOutside=new Panel { Name="panelOutside",Size=new Size(200,80) };
+						Label labelOutside=new Label { Name="labelOutside",Text="Synthetic",Size=new Size(150,20),
+							Font=new Font("Microsoft Sans Serif",8.25f,FontStyle.Regular) };
+						panelOutside.Controls.Add(labelOutside);
+						layoutManager.Add(panelOutside,formSheetFillEdit);
+						AssertFont(labelOutside.Font,"Segoe UI",9f,FontStyle.Regular);
+					}
+				}
+				finally {
+					UiTheme.SetFontForTest(null);
+				}
+			});
+		}
+
+		private static List<Label> GetLabels(Control control) {
+			List<Label> listLabels=new List<Label>();
+			foreach(Control controlChild in control.Controls) {
+				if(controlChild is Label label) {
+					listLabels.Add(label);
+				}
+				listLabels.AddRange(GetLabels(controlChild));
+			}
+			return listLabels;
 		}
 
 		[TestMethod]
