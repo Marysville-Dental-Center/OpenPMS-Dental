@@ -79,9 +79,9 @@ namespace WindowChecksTests.InProc {
 				});
 				checkResult.Expect(IsSignatureShownAndValid(ui,form),"After the zoom and the size go back the signature is still shown and valid");
 				checkResult.AddShot(ui.Shot(opened.Hwnd,"UF1-after.png"),"FormProcEdit after the zoom and the resize");
-				//Save: OK, as a click does.
-				Ui.Posted posted=ui.Post("FormProcEdit > OK",() => ((Control)Ui.GetField(form,"butOK")).GetType().GetMethod("PerformClick").Invoke(Ui.GetField(form,"butOK"),null));
-				checkResult.Expect(ui.WaitGone(opened.Hwnd,30000),"FormProcEdit saves and closes (OK)",posted.Description);
+				//Save: the Save button (butSave), as a click does.
+				Ui.Posted posted=ui.Post("FormProcEdit > Save",() => ((IButtonControl)Ui.GetField(form,"butSave")).PerformClick());
+				checkResult.Expect(ui.WaitGone(opened.Hwnd,30000),"FormProcEdit saves and closes (Save)",posted.Description);
 				ui.CloseStrayWindows(checkResult);
 				//The saved note: the newest procnote row of the procedure holds the same note and signature, and the signature is valid for it.
 				string[] arraySaved=ui.Invoke(() => {
