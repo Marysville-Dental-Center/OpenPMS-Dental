@@ -1243,6 +1243,16 @@ so it is cut into three slices). Each slice owns its controls' WinForms and WPF 
   `FormMedical` 9, `FormFeeSchedTools` 6, `FormPatientEdit` 5) the tab strip at the window's designer size and at its smallest size
   keeps the tabs in order with none past the strip's right edge, in the font under test (5.4); an overflow is listed for the owner
   (UQ-9). G-UI2 and G-UI3 show those strips before and after.
+  - **Status (2026-11-18).** Done on `ui/ui4b2-1` (`docs/port-notes/UI-4b.md`, section UI-4b-2), not merged yet: `CodeBase/UI/UiTabPaint.cs`
+    (the strip, the page border, a tab header and a splitter from the tokens, on UI-4a's `UiControlPaint`); WinForms `TabControl` (strip
+    `SurfaceSubtle`, page border `Stroke`, tabs `TextSecondary`, hover `SubtleHover`, the selected tab `Text` with the 2 px `Accent` line, a
+    page's `ColorTab` still wins; tab rectangles unchanged), `SplitContainer` and `SplitterPanel` (a 1 px `Gridline` line, `Accent` while
+    dragging, panel borders `Stroke`; a window's own `ColorSplitter` and `ColorBorder` still win); WPF `TabControl` and `TabPage`
+    (`TabControlDict.xaml`, today's header layout, the shared focus ring) and the WPF `SplitContainer`'s `GridSplitter` (its block in
+    `Generic.xaml`). Tests in `tests/UiRefreshTests` (`TabStripFitTests`, `TabSplitStateTests`, `TabSplitGallery`): no tab of the four
+    windows runs past its strip's edge in today's font or in Segoe UI 9, at the designer size or cut to a 1024 x 768 desktop
+    (`Data/tab-overflow.tsv` lists none). Galleries: G-UI1 part 2c in `.git/od-tools/test-results/ui4b2-G-UI1-part2c/`, the four windows'
+    strips before and after (G-UI2, G-UI3) in `.git/od-tools/test-results/ui4b2-G-UI3-tabstrips/`.
 - **UI-4b-3: calendars, date pickers and text boxes** (26 files). WinForms `MonthCalendarOD`, `ODDatePicker`, `ODDateRangePicker`;
   WPF `DatePicker`, `MonthCalendar`, `Supplemental/WindowMonthCalendar`, `TextBox`, `TextPassword`, `TextRich`, `TextVDate`,
   `TextVDouble`, `TextVInt`, `TextVTime`.

@@ -161,3 +161,158 @@ too. `tools/Test-NoEolFlips.ps1 -Base main`: no file changed its line ends. The 
 The review's fix (`ui/ui4b1-2`: the WPF combo text cut 2 px further left, the disabled WPF tree's border): full filter build x64 0 errors;
 Targeted run `.git/od-tools/test-results/ui4b1-fix2.txt`: UiRefreshTests 110 (107 passed, 3 opt-ins skipped), WindowChecksTests 71 (29 passed,
 42 opt-in skipped), M2TERMTests 21/21, M2INSPLANTests 31/31, NoHqTests 122/122. `tools/Test-NoEolFlips.ps1 -Base main`: 0 line-end changes.
+
+## UI-4b-2: tabs and splitters
+
+On `ui/ui4b2-1` from `main` at `a0264972c` (UI-4b-1, UI-5, UI-6 merged). It changes the look of the controls it owns and nothing else: no bounds,
+no layout, no tab rectangle, no tab width, no behaviour. No schema change, no new package, nothing downloaded, no database used, no window shown.
+
+### 1. For the owner, in plain words
+
+**What changed.** The row of tabs sits on a light grey band. The tabs are flat: their names are dark grey, a soft grey shape shows under the
+mouse, and the open tab has dark text with a blue line under it (no more raised light-blue tab with rounded grey outlines). A tab you cannot
+use is pale. A tab that has its own colour (the Account module colours its hidden-splits tab red) keeps that colour. The page under the tabs
+has a thin light grey border. Splitters (the bar you drag between two panels) are a thin grey line in the gap, blue while you drag; the panels'
+borders are thin light grey instead of silver. In the WPF windows a tab reached with the keyboard shows the blue focus ring.
+
+**What did not change.** Every tab keeps its width, its order and its place (the width is still the text's width plus 8 px). Sizes,
+positions, fonts and texts (the font change is UI-2b). Where a window set its own splitter or border colour, it keeps it. The 11 stock Windows
+tab controls. The eForm a patient fills (it has no tabs or splitters). Printouts.
+
+**Checked for you (UQ-9).** In the four windows with the most tabs (the claim, the medical history, the fee schedule tools and the patient
+edit window) no tab runs past the edge of its row, in today's font or in Segoe UI 9, at the window's normal size or squeezed onto a
+1024 x 768 screen. The tightest is the fee schedule tools window: its six tabs need 399 of 405 px in Segoe UI 9.
+
+**For you to look at.** Gallery G-UI1 part 2c (section 6): every state, WinForms above WPF, at 100 to 200%. The four windows' tab rows before
+and after (G-UI2, G-UI3). Two small questions in section 3: the open tab has no white fill (the approved sheet has none), and the splitter has no
+hover colour (the sheet has none; the mouse pointer already changes over it).
+
+### 2. Files
+
+| File | What |
+|---|---|
+| `CodeBase/UI/UiTabPaint.cs` | the WinForms shapes: the strip (`SurfaceSubtle`), the page border (1 px `Stroke`), a tab header (`DrawHeader`: a page's `ColorTab`, or `SubtleHover` under the mouse, the selected tab's 2 px `Accent` line on the edge facing the page, the text token) and a splitter (`DrawSplitter`: its area, the 1 px line in its middle, `Gridline` or `Accent`); built on UI-4a's `UiControlPaint`, so the snapping rule of 3.3 holds |
+| `OpenPmsDental/UI/TabControl/TabControl.cs` | `OnPaint` from the tokens for tabs on top, at the bottom and on the left (`FormEmailInbox`); `LayoutTabs`, the mouse and the designer code unchanged; today's `GetPathTab` and the fixed `#AABEE6` gone |
+| `OpenPmsDental/UI/Splitters/SplitContainer.cs` | `OnPaint` from the tokens; `GetColorSplitterBack`, `GetColorBorderLine` (the old default Silver means the token, any other colour a window set wins), `GetRectangleSplitter`; `Invalidate` on press, drag and release so the line's colour follows |
+| `OpenPmsDental/UI/Splitters/SplitterPanel.cs` | the panel's outer edges in `GetColorBorderLine`, `GetLineWidth` wide |
+| `WpfControlsOD/Themes/TabControlDict.xaml` | the `TabControl` template (the stock layout: the header panel's 2 px margin, the content's 1 px border and 2 px padding; a `SurfaceSubtle` strip behind the header panel; the page `Surface` with a `Stroke` border; Top, Bottom, Left and Right placements) and the `TabPage` template (transparent, `SubtleHover` with 4 px corners, the selected tab's 2 px `Accent` line, `Text`, `TextSecondary`, `TextDisabled`; today's padding and the selected tab's -2 px margins, so no header moves) |
+| `WpfControlsOD/UI/Controls/TabControl.cs`, `TabPage.cs` | the token brushes for the dictionary; the `TabPage`'s focus visual style (UI-4a's shared ring) |
+| `WpfControlsOD/UI/Controls/SplitContainer.cs`, `WpfControlsOD/Themes/Generic.xaml` | the brushes; in the `SplitContainer`'s block of `Generic.xaml` an implicit `GridSplitter` style (its `Style.Resources`): `Surface` with a 1 px `Gridline` line along the middle (vertical for a column splitter), `Accent` while `IsDragging` |
+| `tests/UiRefreshTests/TabStripFitTests.cs`, `Data/tab-overflow.tsv` | the width formula and the four windows' strips (section 5) |
+| `tests/UiRefreshTests/TabSplitStates.cs`, `TabSplitStateTests.cs`, `TabSplitGallery.cs` | the state tests and the gallery strips |
+| `tests/UiRefreshTests/Data/colour-literals.tsv` | one literal fewer (`TabControl.cs`'s `#AABEE6`) |
+
+### 3. Decisions made on the way (say if you disagree)
+
+- **The open tab has no fill.** The approved design sheet (`DesignSheetControls.DrawTabHeader` and `DrawTabsComposite`) and section 3.6 draw the
+  selected tab as `Text` with the 2 px `Accent` line on the strip, without a fill; the package's short brief said "`SurfaceRaised`". The code
+  draws what the sheet shows. A white (`SurfaceRaised`) fill is a one-line change in `UiTabPaint.DrawHeader` and the WPF `IsSelected` trigger if
+  the owner wants it.
+- **No hover colour on splitters.** The sheet's splitter has rest, dragging and focus, no hover (section 3.6: "`Accent` while dragging"); the
+  brief said "with a hover". The cursor already turns into the split arrows over a splitter. Not added; one more `Gridline`/`StrokeStrong` state
+  if the owner wants it.
+- **No focus ring on the WinForms tabs and splitters.** `UI.TabControl` and `UI.SplitContainer` are UserControls with no keyboard handling: they
+  never take focus themselves (their pages and panels do), so there is nothing to show a ring for. The WPF `TabPage` takes keyboard focus and
+  gets UI-4a's ring (`UiLook.SetFocusVisualStyle`).
+- **The selected WinForms tab is no longer drawn 2 px bigger.** Today it was drawn over a rectangle 2 px larger on three sides; now every tab
+  draws in its own rectangle from `LayoutTabs`, so the selected tab's text is centred 1 px lower than before. Rectangles, hit testing and widths
+  are unchanged. Tabs at the bottom (the Chart module's images) draw below the page's border line, which their rectangle starts on.
+- **The WPF headers keep today's layout exactly.** The selected `TabPage` keeps its -2 px margins (it is laid out 4 px narrower and drawn
+  2 px over each neighbour), so no header moves when the selection changes; its `Accent` line spans the header as drawn. The header's old
+  1 px border never took space (it was a sibling of the content in the template's grid), so dropping it changes no size. The text colour is
+  the `TabPage`'s `Foreground` (a header given as an element, like the tests' `TextBlock`, inherits it through the logical tree, not from the
+  template's presenter).
+- **Splitter colours a window sets still win.** `ColorSplitter` and `ColorBorder` default to Silver in the designer (`DefaultValue`); Silver now
+  means "the token" (`Surface` around the panels, `Stroke` for the borders), so no designer file changes. `FormQueryFavorites` and `FormTaskEdit`
+  set both to near-white and keep it; `FormOpenDental` sets `ColorBorder` to its own background and keeps it. The line is drawn on any
+  colour. The WPF `GridSplitter`'s own `Background` (Silver in both test Frms and the usage note) is today's look and is not drawn.
+- **The page inside the border keeps the window's colour.** The WinForms `TabPage` takes its parent's `BackColor` as today (the window
+  background becomes `Surface` with UI-11); the gap inside the border is the parent's colour as today. The WPF page is `Surface`.
+- **"Its smallest size".** None of the four windows sets a `MinimumSize` (LayoutManager's rule), so the test's smallest size is the designer
+  size cut to the smallest desktop the refresh checks, 1024 x 768 less a 40 px taskbar (UI-6's 1024 px toolbars): `FormClaimEdit` (1206 x 747)
+  becomes 1024 x 728 and its anchored main tab control 182 px narrower; `FormPatientEdit` loses 2 px of height; the other two fit as they are.
+  The windows are built as the scan builds them (designer code and LayoutManager), so the tabs are the designer's; tabs a window adds or hides
+  in code are not counted.
+- **The eForm fill surface has no tabs or splitters**, so there is no template to pin; `EFormLookTests` is unchanged and green.
+
+### 4. Not done, and why
+
+- Pictures of the real windows with the new tabs and splitters (G-UI3 group U) need shown windows: section 7 has the steps for the lead.
+- WPF hover on a tab is WPF's own `IsMouseOver`: the test sets the border as the trigger does and checks that the template's trigger gives
+  `SubtleHover`; a connected desktop shows it live. The WPF splitter's drag colour is set through `IsDragging`'s key the same way.
+
+### 5. Tests
+
+All in `tests/UiRefreshTests` (no new test assembly):
+- `TabStripFitTests.TabHeaders_KeepTodaysWidthFormula_TextWidthPlus8`: at 100, 150 and 200% every tab starts at x 2 or where the one before it
+  ends, and is `ScaleMS(MeasureString(text))` plus `Scale(8)` wide (`LayoutTabs`, 3.3).
+- `TabStripFitTests.TabStrips_FourWindows_KeepTheirOrder_AndFit_OrTheOverflowIsListed`: `FormClaimEdit` (10 tabs in `tabControlMain` and
+  `tabControlAttach`), `FormMedical` (9 in `tabControlFormMedical` and `tabControl1`), `FormFeeSchedTools` (6), `FormPatientEdit` (5), each tab
+  control at the designer size and the smallest size, in today's font and in Segoe UI 9 (`UiTheme.SetFontForTest(UiFontOption.UI2b)`): the tab
+  counts of section 7, the tabs in order, every strip wider in Segoe UI 9, and the tabs past the strip's visible right edge (the tab control's
+  width, cut by any parent) equal to `Data/tab-overflow.tsv` (`OPMS_UI4B2_WRITE_OVERFLOW=1` rewrites it). It lists none. The widest strips
+  (tabs' right edge / room, in px): `FormFeeSchedTools` 375 / 405 today and 399 / 405 in Segoe UI 9; `FormMedical` 522 / 791 and 557 / 791;
+  `FormClaimEdit` main 355 / 1000 (smallest) and 375 / 1000; `FormPatientEdit` 349 / 465 and 369 / 465. With `OPMS_UI_TABS_WINDOWS` it draws
+  the strips and writes `tab-fit.tsv` beside them.
+- `TabSplitStateTests` (6 tests): WinForms `TabControl` on top (rest, hover, a disabled tab, a page colour), at the bottom (rest) and on the left
+  (hover); WinForms `SplitContainer` vertical and horizontal, at rest and dragging, and the colours a window sets winning; WPF `TabControl`
+  (rest, hover, keyboard focus, a disabled tab), the template's hover trigger and focus style, and the WPF `GridSplitter` at rest and dragging.
+  Each control is drawn off screen without text and compared with the design sheet's drawing of the state at the control's own geometry
+  (`TabSplitDrawings`: the shapes and light tokens of `DesignSheetControls.DrawTabHeader`, `DrawTabsComposite` and `DrawSplitter`) by
+  ChartImageCompare's tolerance (WinForms every pixel, WPF the solid pixels, as UI-4a). Then with text: each tab's text pixels reach its token
+  (`Text` on the selected tab and on a page colour, `TextDisabled` on the disabled one, `TextSecondary` otherwise).
+- `EFormLookTests`, the layout snapshot and the bounds record (`LayoutSnapshotTests`, `Scan_TodaysFont_ReportsNothingNew`),
+  `TerminologyLayoutTests` (M2TERMTests), `LayoutDesignerTests` (M2INSPLANTests): unchanged and green; no designer layout changed.
+
+### 6. Galleries
+
+- **G-UI1 part 2c**: `.git/od-tools/test-results/ui4b2-G-UI1-part2c/` (`index.html` and the zip beside it; the owner's summary is the note at
+  the top), made from the strips in `.git/od-tools/test-results/ui4b2-G-UI1-part2c-strips/` (each of `scale-100` to `scale-200`): `tabs.png`
+  (WinForms top row: rest, hover, a disabled tab, a page colour; WPF below: rest, hover, keyboard focus, a disabled tab),
+  `tabs-bottom-left-winforms.png` (WinForms tabs at the bottom, then on the left: rest and hover) and `splitters.png` (WinForms vertical rest,
+  dragging, horizontal rest, dragging; WPF rest and dragging). WinForms scales through LayoutManager's scale, WPF through its render scale; the
+  WinForms tab text is drawn in points from its 8.25 pt font, so at 125-200% off screen it stays at its 96 DPI size (on a real screen at that
+  scale it grows with it), as in UI-4b-1's strips. "Only after", as UI-4a's: the controls keep no copy of today's look.
+- **The four windows' tab strips, before and after (G-UI2, G-UI3)**: `.git/od-tools/test-results/ui4b2-G-UI3-tabstrips/`, from
+  `ui4b2-tabs-before` (drawn by `TabStripFitTests` on this branch's first commit, before the look changed) and `ui4b2-tabs-after`: each tab
+  control of the four windows at the designer size and the smallest size, in `today/` and `segoe9/` (the strip and 12 px of the page).
+
+### 7. For the lead
+
+- The strips and the window strips render off screen and were made in the disconnected session (WinForms and WPF both draw). To make them again:
+
+      set OPMS_UI_TABS_GALLERY=<od-tools>\test-results\ui4b2-G-UI1-part2c-strips
+      set OPMS_UI_TABS_WINDOWS=<od-tools>\test-results\ui4b2-tabs-after
+      powershell -NoProfile -ExecutionPolicy Bypass -File <od-tools>\run-tests.ps1 -Root . -Mode Targeted -Platform x64 -RequireBuildOutput -Include UiRefreshTests -Out <od-tools>\test-results\ui4b2-strips.txt
+      powershell -NoProfile -ExecutionPolicy Bypass -File tools\New-UiGallery.ps1 -After <od-tools>\test-results\ui4b2-G-UI1-part2c-strips -Out <od-tools>\test-results\ui4b2-G-UI1-part2c -Name G-UI1 -Note "<the summary of section 1>"
+      powershell -NoProfile -ExecutionPolicy Bypass -File tools\New-UiGallery.ps1 -Before <od-tools>\test-results\ui4b2-tabs-before -After <od-tools>\test-results\ui4b2-tabs-after -Out <od-tools>\test-results\ui4b2-G-UI3-tabstrips -Name G-UI3 -Note "<the strips' summary>"
+
+  (The before strips need the code before the look: check out `bf51eeedd`, build `UiRefreshTests` and run the same with
+  `OPMS_UI_TABS_WINDOWS=<od-tools>\test-results\ui4b2-tabs-before`.)
+- The real windows with the new tabs and splitters (G-UI3) need shown windows: at the owner's connected desktop, after a full Debug x64 lane
+  build, group U against the before set (docs/port-notes/UI-0c.md section 5), as for UI-4a and UI-4b-1:
+
+      set OPMS_WINDOW_CHECKS=1
+      set OPMS_WINDOW_CHECKS_DUMP=<od-tools>\winchk-gate3a\opendental_dev.sql
+      set OPMS_WINDOW_CHECKS_GROUPS=U
+      set OPMS_WINDOW_CHECKS_OUT=<od-tools>\test-results\ui4b2-groupU
+      set OPMS_WINDOW_CHECKS_BUDGET_MINUTES=18
+      set OPMS_WINDOW_CHECKS_UI_BEFORE=<od-tools>\test-results\ui-before\run1
+      powershell -NoProfile -ExecutionPolicy Bypass -File <od-tools>\run-tests.ps1 -Root . -Mode Targeted -Platform x64 -RequireBuildOutput -Include WindowChecksTests
+      powershell -NoProfile -ExecutionPolicy Bypass -File tools\New-UiGallery.ps1 -Before <od-tools>\test-results\ui-before\run1 -After <od-tools>\test-results\ui4b2-groupU -Name G-UI3 -ClipNotes <od-tools>\test-results\ui4b2-groupU\ui-walker\clip-notes.tsv
+
+  (Split into `UW`, then `UM,UD` if one run does not fit the runner's 20 minutes; the before folders `run1` to `run5` and `fix1` hold the
+  groups as UI-0c froze them.) U0 shows every window with a self-drawn tab control or splitter as changed (the main window's splitters
+  among them); the bounds record must show no difference. Worth a live look there: a tab under the mouse, the Account module's red
+  hidden-splits tab, the Chart module's image tabs at the bottom, `FormEmailInbox`'s tabs on the left, a splitter while it is dragged, and
+  a WPF tab reached with the keyboard (`FrmTestAllControls`).
+- The owner's answers to the two questions of section 3 (the open tab's fill, a splitter hover).
+
+### 8. Runs
+
+Full filter build x64 through the lane: 0 errors. Targeted run (x64, after the full build, `.git/od-tools/test-results/ui4b2-final.txt`):
+UiRefreshTests 153 (148 passed, 5 opt-ins skipped: the four galleries and the scan), WindowChecksTests 72 (29 passed, 43 opt-in skipped),
+M2TERMTests 21/21, M2INSPLANTests 31/31, NoHqTests 122/122. The strips run (`ui4b2-run2.txt`, with the two opt-in folders) passed too. The scan
+rerun (`OPMS_UI_SCAN=1`, into `.git/od-tools/test-results/ui4b2-scan`, `ui4b2-scan.txt`): Segoe UI 9 makes 1,775 controls overflow in 450
+windows, 8.25 makes 637 in 245, the same counts as UI-4b-1's rerun (this package changes no text rectangle); today's font reports nothing new.
+`tools/Test-NoEolFlips.ps1 -Base main`: no file changed its line ends.
