@@ -101,7 +101,7 @@ database used is InitSqlTests' own scratch database on the local MariaDB.
 `tests/InitSqlTests`: `File_DefaultProcButtonPicturesAre20x20Bitmaps` and `Rows_DefaultProcButtonPicturesAre20x20Bitmaps` (the loaded scratch
 database).
 
-Runs (x64, `-RequireBuildOutput`, after the full build; `.git/od-tools/test-results/ui8-2.txt`): UiRefreshTests 90 of 91 (the opt-in font scan
+Runs (x64, `-RequireBuildOutput`, after the full build; `.git/od-tools/test-results/ui8-3.txt`): UiRefreshTests 90 of 91 (the opt-in font scan
 skipped, as before; the Direct2D tests ran with the built wrapper and WPF rendered in this session, so nothing was inconclusive), InitSqlTests
 21 of 21, NoHqTests 122 of 122. `ui8-1.txt` is the run that wrote the gallery's pictures before the init file was edited (the two picture
 tests failed there, as they must). ForkMigrationTests was not run (the coordinator's, after regenerating the init file).
