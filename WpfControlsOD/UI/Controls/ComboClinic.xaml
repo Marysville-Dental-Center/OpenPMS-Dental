@@ -20,7 +20,8 @@
 			<ColumnDefinition Width="*"/>
 			<!--Combobox-->
 		</Grid.ColumnDefinitions>
-		<TextBlock x:Name="textBlock" x:FieldModifier="internal" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,3,0">Clinic</TextBlock>
+		<!--Section 3.6 (UI-4b-1): the label in Text; the combo box draws its own new look.-->
+		<TextBlock x:Name="textBlock" x:FieldModifier="internal" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,3,0" Foreground="{x:Static ui:UiLookLists.BrushText}">Clinic</TextBlock>
 		<ui:ComboBox x:Name="comboBox" x:FieldModifier="internal" Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
 	</Grid>
 </UserControl>

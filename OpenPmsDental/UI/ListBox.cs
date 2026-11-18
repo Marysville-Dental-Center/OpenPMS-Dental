@@ -1,4 +1,5 @@
 ﻿using OpenPmsDentalBusiness;
+using CodeBase;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -60,12 +61,6 @@ namespace OpenPmsDental.UI {
 		public LayoutManagerForms LayoutManager=new LayoutManagerForms();
 		#endregion Fields - Public
 
-		#region Fields - Private Static
-		//These colors etc are static and shared among all listboxes for life of program. Not disposed
-		///<summary>A compromise between the absurd MS blue and boring gray.  This looks great for enabled and disabled.</summary>
-		private static SolidBrush _brushHover=new SolidBrush(ColorOD.Hover);
-		#endregion Fields - Private Static
-
 		#region Fields - Private
 		///<summary>Based on Font. 13 at 96dpi.</summary>
 		private float _heightLine=13f;
@@ -88,7 +83,8 @@ namespace OpenPmsDental.UI {
 		private string[] _itemStrings=null;
 		///<summary>This is the only internal storage for tracking selected indices.  All properties refer to this same list.</summary>
 		private List<int> _listSelectedIndices=new List<int>();
-		private Color _colorSelectedBack=Color.FromArgb(186,199,219);//#BAC7DB, grid default was Silver: C0C0C0 (192 gray)
+		///<summary>Empty: the AccentSubtle token (section 3.6, UI-4b-1). A colour a window sets stays.</summary>
+		private Color _colorSelectedBack=Color.Empty;
 		private Color _colorBack=Color.White;
 		#endregion Fields - Private for Properties
 
@@ -178,6 +174,9 @@ namespace OpenPmsDental.UI {
 		///Sets the highlight color for the selected item in that listbox.
 		public Color ColorSelectedBack{
 			get{
+				if(_colorSelectedBack.IsEmpty){
+					return UiTheme.GetColor(EnumUiColor.AccentSubtle);
+				}
 				return _colorSelectedBack;
 			}
 			set{
@@ -386,7 +385,7 @@ namespace OpenPmsDental.UI {
 		protected override void OnPaint(PaintEventArgs e){
 			Graphics g=e.Graphics;
 			g.SmoothingMode=SmoothingMode.HighQuality;
-			g.Clear(Color.White);
+			g.Clear(UiTheme.GetColor(EnumUiColor.SurfaceRaised));
 			//we must ignore the Font because of accumulated rounding errors.
 			using Font font=new Font(FontFamily.GenericSansSerif,LayoutManager.ScaleFontODZoom(8.25f));
 			//_heightLine=(int)Math.Ceiling(font.GetHeight()+1);//bottoms of characters were getting cut off in rare cases due to font rounding.
@@ -426,10 +425,12 @@ namespace OpenPmsDental.UI {
 				vScrollBar.Visible=false;
 				vScrollBar.Enabled=false;
 			}
-			Brush brushText=Brushes.Black;//no dispose
-			if(!Enabled){
-				brushText=Brushes.Gray;
-			}
+			//Section 3.6 (UI-4b-1): SurfaceRaised, a square 1 px StrokeStrong border (Stroke when disabled), hover RowHover, selection AccentSubtle (or
+			//the window's ColorSelectedBack) with the 2 px selection bar in the item's first pixels: Accent while the list has focus,
+			//SelectionBarNoFocus without. With focus and keyboard cues the row the arrow keys move from gets a 1 px Accent outline.
+			float scale=LayoutManager.ScaleMy();
+			bool hasFocus=HasFocusForSelection;
+			int indexFocused=GetIndexFocused();
 			StringFormat stringFormat=new StringFormat(StringFormatFlags.NoWrap);
 			stringFormat.LineAlignment=StringAlignment.Center;
 			//Determines where the index should start when the user has scrolled the list (always needs to round down)
@@ -441,19 +442,65 @@ namespace OpenPmsDental.UI {
 				if(_listSelectedIndices.Contains(i)) {
 					isSelected=true;
 				}
-				if(isSelected) { //Draw the selected index with gray background
-					g.FillRectangle(new SolidBrush(_colorSelectedBack),new Rectangle(2,(int)((i-_indexTopShowing)*_heightLine)+2,this.Width-4,(int)_heightLine));
-				}
-				else if(_hoverIndex==i) { //Draw the hovered index with a light blue background (only when being moused over)
-					g.FillRectangle(_brushHover,new Rectangle(2,(int)((i-_indexTopShowing)*_heightLine)+2,this.Width-4,(int)_heightLine));
-				}
-				else if(Enabled){//normal colorBack, usually white
-					g.FillRectangle(new SolidBrush(_colorBack),new Rectangle(2,(int)((i-_indexTopShowing)*_heightLine)+2,this.Width-4,(int)_heightLine));
+				//The selected index with the selection fill and bar, the hovered one with RowHover (only when being moused over), the others with
+				//colorBack (usually white) when enabled.
+				Rectangle rectangleItem=new Rectangle(2,(int)((i-_indexTopShowing)*_heightLine)+2,this.Width-4,(int)_heightLine);
+				EnumUiColor uiColorText=UiListPaint.DrawListItem(g,rectangleItem,isSelected,_hoverIndex==i,hasFocus,Enabled,scale,
+					Enabled ? GetColorBackDrawn() : Color.Empty,_colorSelectedBack);
+				if(i==indexFocused){
+					UiListPaint.DrawFocusedItem(g,rectangleItem,scale);
 				}
 				Rectangle rectangle=new Rectangle(2,(int)((i-_indexTopShowing)*_heightLine)+2,Width-2,(int)_heightLine);
-				g.DrawString(Items.GetTextShowingAt(i),font,brushText,rectangle);
+				//A token brush: cached per thread by UiTheme, never disposed here.
+				g.DrawString(Items.GetTextShowingAt(i),font,UiTheme.GetBrush(uiColorText),rectangle);
 			}
-			g.DrawRectangle(Pens.SlateGray,new Rectangle(0,0,Width-1,Height-1));
+			stringFormat.Dispose();
+			UiListPaint.DrawListBorder(g,new Rectangle(0,0,Width,Height),Enabled,scale);
+		}
+
+		///<summary>Whether the selection bar is Accent (the list has focus) or SelectionBarNoFocus (section 3.2).</summary>
+		protected virtual bool HasFocusForSelection {
+			get {
+				return Focused;
+			}
+		}
+
+		///<summary>Whether the focused row's outline shows (section 3.6): the list has focus and Windows asks for keyboard cues, so a mouse click draws
+		///none.</summary>
+		protected virtual bool IsFocusRingShown {
+			get {
+				return Focused && ShowFocusCues;
+			}
+		}
+
+		///<summary>The row the arrow keys move from (OnKeyDown: the last selected index, the first row when none is selected), while the focused row's
+		///outline shows; -1 otherwise.</summary>
+		private int GetIndexFocused(){
+			if(!IsFocusRingShown || SelectionMode==SelectionMode.None || Items.Count==0){
+				return -1;
+			}
+			if(_listSelectedIndices.Count==0){
+				return 0;
+			}
+			return _listSelectedIndices[_listSelectedIndices.Count-1];
+		}
+
+		///<summary>The fill of the rows: the window's ColorBack, or SurfaceRaised (empty) while it is today's default white.</summary>
+		private Color GetColorBackDrawn(){
+			if(_colorBack.ToArgb()==Color.White.ToArgb()){
+				return Color.Empty;
+			}
+			return _colorBack;
+		}
+
+		protected override void OnGotFocus(EventArgs e){
+			base.OnGotFocus(e);
+			Invalidate();
+		}
+
+		protected override void OnLostFocus(EventArgs e){
+			base.OnLostFocus(e);
+			Invalidate();
 		}
 		#endregion Event - Event Handlers - OnPaint
 

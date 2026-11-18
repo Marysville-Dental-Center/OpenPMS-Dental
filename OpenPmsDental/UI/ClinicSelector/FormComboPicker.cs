@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CodeBase;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -252,34 +253,21 @@ namespace OpenPmsDental.UI{
 
 		private void FormComboPicker_Paint(object sender, PaintEventArgs e){
 			//the top portion is painted to look exactly like the combobox and down arrow that are underneath.
+			//Section 3.6 (UI-4b-1): the "combobox" as UI.ComboBox draws it under the pointer (the StrokeStrongHover border); the list SurfaceRaised with
+			//a square StrokeStrong border, hover RowHover, selection AccentSubtle with the 2 px selection bar (Accent while this list has focus).
 			Graphics g=e.Graphics;
 			g.SmoothingMode=SmoothingMode.AntiAlias;
-			SolidBrush solidBrushBack=new SolidBrush(Color.FromArgb(229,241,251));
-			Pen penArrow=new Pen(Color.FromArgb(20,20,20),1.5f);
-			Pen penBlueOutline=new Pen(Color.FromArgb(0,120,215));
-			Brush brushSelectedBack=new SolidBrush(SystemColors.Highlight);
-			Brush brushSelectedText=new SolidBrush(SystemColors.HighlightText);
-			Brush brushHover=new SolidBrush(Color.FromArgb(229,241,251));
+			float scale=LayoutManager.ScaleMy();
+			g.Clear(UiTheme.GetColor(EnumUiColor.SurfaceRaised));
 			if(_isOriginalLocation){
 				Rectangle rectangleCombo=new Rectangle();
 				rectangleCombo.X=0;
 				rectangleCombo.Y=0;
 				rectangleCombo.Width=this.Width-rectangleCombo.X-1;
 				rectangleCombo.Height=HeightCombo-1;//The minus one is so it's not touching the edge of the control and hiding the drawing
-				g.FillRectangle(solidBrushBack,rectangleCombo);
-				g.DrawRectangle(penBlueOutline,rectangleCombo);
-				//The down arrow, starting at the left
-				float yCent=HeightCombo/2f;
-				g.DrawLine(penArrow,
-					x1:Width-LayoutManager.ScaleF(13),
-					y1:yCent-LayoutManager.ScaleF(1.5f),
-					x2:Width-LayoutManager.ScaleF(9.5f),
-					y2:yCent+LayoutManager.ScaleF(1.5f));
-				g.DrawLine(penArrow,
-					x1:Width-LayoutManager.ScaleF(9.5f),
-					y1:yCent+LayoutManager.ScaleF(1.5f),
-					x2:Width-LayoutManager.ScaleF(6),
-					y2:yCent-LayoutManager.ScaleF(1.5f));
+				Rectangle rectangleBox=new Rectangle(0,0,Width,HeightCombo);
+				EnumUiColor uiColorText=UiListPaint.DrawComboBoxBox(g,rectangleBox,isHover:true,isEnabled:true,scale,Color.Empty);
+				UiListPaint.DrawChevron(g,rectangleBox,uiColorText,scale);
 				RectangleF rectangleFString=new RectangleF();
 				rectangleFString.X=rectangleCombo.X+2;
 				rectangleFString.Y=rectangleCombo.Y+4;
@@ -288,44 +276,36 @@ namespace OpenPmsDental.UI{
 				int widthMax=rectangleCombo.Width-15;
 				StringFormat stringFormat=new StringFormat(StringFormatFlags.NoWrap);
 				stringFormat.LineAlignment=StringAlignment.Center;
-				g.DrawString(GetDisplayText(widthMax),this.Font,Brushes.Black,rectangleFString,stringFormat);
+				//Token brushes: cached per thread by UiTheme, never disposed here.
+				g.DrawString(GetDisplayText(widthMax),this.Font,UiTheme.GetBrush(uiColorText),rectangleFString,stringFormat);
 				stringFormat.Dispose();
 			}
-			//Draw blue rectangle around listbox, which doesn't have its own rectangle
-			Rectangle rectangleOutline=new Rectangle();
-			rectangleOutline.X=0;
-			rectangleOutline.Y=HeightCombo;
-			rectangleOutline.Width=this.Width-1;
-			//Take the height of the combo box into account
-			rectangleOutline.Height=this.Height-HeightCombo-1;
-			g.DrawRectangle(penBlueOutline,rectangleOutline);
+			//The list's border, around the list below the "combobox"
+			Rectangle rectangleOutline=new Rectangle(0,HeightCombo,Width,Height-HeightCombo);
+			UiListPaint.DrawListBorder(g,rectangleOutline,isEnabled:true,scale);
 			//Determines where the index should start when the user has scrolled the list (always needs to round down)
 			_indexTopShowing=vScroll.Value/_heightLineItem;
 			//Only try to paint 200 objects at most
 			int totalToDraw=(200+_indexTopShowing)>ListStrings.Count ? ListStrings.Count : 200+_indexTopShowing;
+			bool hasFocus=HasFocusForSelection;
 			for(int i=_indexTopShowing; i<totalToDraw; i++) {
 				bool isSelected=false;
 				if(_listSelectedIndices.Contains(i)) {
 					isSelected=true;
 				}
-				if(isSelected) { //Draw the selected index with blue background
-					g.FillRectangle(brushSelectedBack,new Rectangle(1,((i-_indexTopShowing)*_heightLineItem)+2+HeightCombo,this.Width-3,_heightLineItem));
-					g.DrawString(ListStrings[i],this.Font,brushSelectedText,2,((i-_indexTopShowing)*_heightLineItem)+2+HeightCombo);
-				}
-				else if(_hoverIndex==i) { //Draw the hovered index with a light blue background (only when being moused over)
-					g.FillRectangle(brushHover,new Rectangle(1,((i-_indexTopShowing)*_heightLineItem)+2+HeightCombo,this.Width-3,_heightLineItem));
-					g.DrawString(ListStrings[i],this.Font,Brushes.Black,2,((i-_indexTopShowing)*_heightLineItem)+2+HeightCombo);
-				}
-				else { //Just draw the standard black text
-					g.DrawString(ListStrings[i],this.Font,Brushes.Black,2,((i-_indexTopShowing)*_heightLineItem)+2+HeightCombo);
-				}
+				int y=((i-_indexTopShowing)*_heightLineItem)+2+HeightCombo;
+				Rectangle rectangleItem=new Rectangle(1,y,this.Width-3,_heightLineItem);
+				//The selected item with the selection fill and bar, the hovered one with RowHover (only when being moused over), the others plain.
+				EnumUiColor uiColorItemText=UiListPaint.DrawListItem(g,rectangleItem,isSelected,_hoverIndex==i,hasFocus,isEnabled:true,scale,Color.Empty,Color.Empty);
+				g.DrawString(ListStrings[i],this.Font,UiTheme.GetBrush(uiColorItemText),2,y);
 			}
-			solidBrushBack.Dispose();
-			penArrow.Dispose();
-			penBlueOutline.Dispose();
-			brushSelectedBack.Dispose();
-			brushSelectedText.Dispose();
-			brushHover.Dispose();
+		}
+
+		///<summary>Whether the selection bar is Accent (the list has focus, as it has while it is open) or SelectionBarNoFocus.</summary>
+		protected virtual bool HasFocusForSelection {
+			get {
+				return ContainsFocus;
+			}
 		}
 
 		private void FormComboPicker_Scroll(object sender,ScrollEventArgs e) {

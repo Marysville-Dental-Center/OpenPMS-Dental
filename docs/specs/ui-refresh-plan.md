@@ -1228,6 +1228,15 @@ so it is cut into three slices). Each slice owns its controls' WinForms and WPF 
 - **UI-4b-1: combo boxes, pickers and lists** (21 files). WinForms `ComboBox`, `ListBox`, `ClinicSelector/ComboBoxClinicPicker`,
   `ClinicSelector/FormComboPicker`; WPF `ComboBox`, `ComboClinic`, `ListBox`, `ListView`, `TreeView`,
   `Supplemental/WindowComboPicker`, `Supplemental/PopupHelper2`.
+  - **Status (2026-11-17).** Done on `ui/ui4b1-1` (`docs/port-notes/UI-4b.md`, section UI-4b-1), not merged yet: `CodeBase/UI/UiListPaint.cs`
+    (the combo box's box, Fluent chevron and focus line, the list border, item fill, selection bar and focused row from the tokens, on
+    UI-4a's `UiControlPaint`); WinForms `ComboBox`, `ComboBoxClinicPicker`, `FormComboPicker`, `ListBox`; WPF `ComboBox` (its focus line a
+    focus visual style in `Generic.xaml`), `ComboClinic`, `ListBox`, `WindowComboPicker`, `ListView`, `TreeView` (a `TreeViewItem` style in
+    `Generic.xaml`), `UiLookLists.cs`. Text positions and bounds unchanged; a window's own `ColorBack` and `ColorSelectedBack` still win.
+    `PopupHelper2` draws nothing (`no-drawing`). The eForm fill surface has none of these controls (its picture is unchanged). Tests in
+    `tests/UiRefreshTests` (`ListControlStateTests`, `ListControlGallery`); gallery G-UI1 part 2b in
+    `.git/od-tools/test-results/ui4b1-G-UI1-part2b/`. One follow-up for the owner: `FrmPatientAddAll` resets a list's selection to today's
+    colour.
 - **UI-4b-2: tabs and splitters** (12 files). WinForms `TabControl/*` and `Splitters/*`; WPF `TabControl`, `TabPage`,
   `SplitContainer`, `WpfControlsOD/Themes/TabControlDict.xaml`. Its extra test: the tab headers keep today's width formula
   (`TabControl.cs:546`, text width plus 8 px, 3.3), and for the windows with the most self-drawn tabs on `main` (`FormClaimEdit` 10,

@@ -12,15 +12,17 @@
 			<Setter Property="local:ComboBox.VerticalAlignment" Value="Top"/>
 		</Style>
 	</UserControl.Style>
-    <Grid Name="grid" x:FieldModifier="internal" Background="White">
+	<!--Section 3.6 (UI-4b-1): SurfaceRaised (or ColorBack) with 4 px corners, a 1 px StrokeStrong border (StrokeStrongHover on hover, Stroke
+	disabled), the Fluent chevron 6 px from the right; the text ends 16 px from the right (the column's 14 and the text's 2 px right margin), where
+	the WinForms ComboBox clips it (UiListPaint.GetComboTextRight), left of the chevron's ink; the focus line is the focus visual style (UiLookLists.KeyFocusVisualStyleCombo).-->
+    <Grid Name="grid" x:FieldModifier="internal" Background="Transparent">
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="*"/><!--Text-->
 			<ColumnDefinition Width="14"/><!--Dropdown-->
 		</Grid.ColumnDefinitions>
-		<TextBlock Name="textBlock" x:FieldModifier="internal" VerticalAlignment="Center" Margin="2,0,0,0"/>
-		<Canvas Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" >
-			<Polyline StrokeThickness="1.2" Stroke="	#141414" Points="-3.5,-1.5 0,1.5 3.5,-1.5"/>
-		</Canvas>
-		<Border Name="border" x:FieldModifier="internal" Grid.ColumnSpan="2" Background="Transparent" BorderBrush="	#adadad" BorderThickness="1"/>
+		<Border Name="borderBack" x:FieldModifier="internal" Grid.ColumnSpan="2" CornerRadius="4" SnapsToDevicePixels="True"/>
+		<TextBlock Name="textBlock" x:FieldModifier="internal" VerticalAlignment="Center" Margin="2,0,2,0"/>
+		<Path Name="pathChevron" x:FieldModifier="internal" Grid.ColumnSpan="2" Width="12" Height="12" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,6,0"/>
+		<Border Name="border" x:FieldModifier="internal" Grid.ColumnSpan="2" Background="Transparent" BorderThickness="1" CornerRadius="4" SnapsToDevicePixels="True"/>
 	</Grid>
 </UserControl>

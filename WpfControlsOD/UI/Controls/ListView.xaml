@@ -12,8 +12,9 @@
 			<Setter Property="local:ListView.VerticalAlignment" Value="Top"/>
 		</Style>
 	</UserControl.Style>
-	<Grid Background="White">
-		<Border BorderThickness="1" SnapsToDevicePixels="True" BorderBrush="#FF969696">
+	<!--Section 3.6 (UI-4b-1): SurfaceRaised with a square 1 px StrokeStrong border (Stroke when disabled), set in SetColors.-->
+	<Grid Name="gridBack" x:FieldModifier="internal" Background="White">
+		<Border Name="borderOuter" x:FieldModifier="internal" BorderThickness="1" SnapsToDevicePixels="True" BorderBrush="DarkGray">
 			<ScrollViewer Grid.Row="1" Name="scrollViewer" x:FieldModifier="internal" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
 				<WrapPanel Name="wrapPanel" x:FieldModifier="internal"/>
 			</ScrollViewer>

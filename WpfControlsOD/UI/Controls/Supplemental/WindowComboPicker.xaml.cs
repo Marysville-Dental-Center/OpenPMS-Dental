@@ -49,6 +49,9 @@ Jordan is the only one allowed to edit this file.
 		#region Fields - Private for Properties
 		private bool _isMultiSelect=false;
 		private List<int> _listIndicesSelected=new List<int>();
+		///<summary>Set only by the control state tests (tests/UiRefreshTests): a list off screen cannot take keyboard focus, so they force the focused
+		///selection bar through this.</summary>
+		private bool _isFocusForced;
 		#endregion Fields - Private for Properties
 
 		#region Constructor
@@ -61,6 +64,8 @@ Jordan is the only one allowed to edit this file.
 			//Shown += new System.EventHandler(FormComboPicker_Shown);
 			stackPanel.KeyDown+=StackPanel_KeyDown;
 			stackPanel.KeyUp +=StackPanel_KeyUp;
+			//The selection bar is Accent while the list has keyboard focus (section 3.2), as it has while it is open.
+			IsKeyboardFocusWithinChanged+=(sender,e)=>SetColors();
 		}
 		#endregion Constructor
 
@@ -296,18 +301,7 @@ Jordan is the only one allowed to edit this file.
 				Close();
 				return;
 			}
-			for(int i=0;i<ListStrings.Count;i++){
-				Border border=new Border();//default isfocusable false
-				TextBlock textBlock=new TextBlock();//default isfocusable false
-				border.Child=textBlock;
-				textBlock.Text=ListStrings[i];
-				textBlock.Margin=new Thickness(2,0,0,0);
-				border.MouseLeave+=Item_MouseLeave;
-				border.MouseLeftButtonDown+=Item_MouseLeftButtonDown;
-				border.MouseLeftButtonUp+=Item_MouseLeftButtonUp;
-				border.MouseMove+=Item_MouseMove;
-				stackPanel.Children.Add(border);//stackpanel default isfocusable false
-			}
+			AddItems();
 			stackPanel.UpdateLayout();//so that height measurement will work
 			SetColors();
 			//Point point=PointToScreen(PointInitial);//wrong
@@ -469,17 +463,37 @@ Jordan is the only one allowed to edit this file.
 		}
 
 		///<summary>Sets background colors for all rows, based on selected indices and hover.</summary>
+		///<summary>One row per string of ListStrings.</summary>
+		private void AddItems(){
+			for(int i=0;i<ListStrings.Count;i++){
+				Border border=new Border();//default isfocusable false
+				//Section 3.2 (UI-4b-1): the row's first 2 px are its left border, the selection bar when selected. The text keeps its place (2 px from
+				//the row's edge, as its margin was).
+				border.BorderThickness=new Thickness(left:UiLookLists.WIDTH_SELECTION_BAR,0,0,0);
+				border.SnapsToDevicePixels=true;
+				TextBlock textBlock=new TextBlock();//default isfocusable false
+				border.Child=textBlock;
+				textBlock.Text=ListStrings[i];
+				textBlock.Margin=new Thickness(0,0,0,0);
+				border.MouseLeave+=Item_MouseLeave;
+				border.MouseLeftButtonDown+=Item_MouseLeftButtonDown;
+				border.MouseLeftButtonUp+=Item_MouseLeftButtonUp;
+				border.MouseMove+=Item_MouseMove;
+				stackPanel.Children.Add(border);//stackpanel default isfocusable false
+			}
+		}
+
+		///<summary>Section 3.6 (UI-4b-1), as the lists: SurfaceRaised, hover RowHover, selection AccentSubtle with the 2 px selection bar (Accent while
+		///the list has keyboard focus, SelectionBarNoFocus without); the text in Text or TextSelected.</summary>
 		private void SetColors(){
+			bool hasFocus=_isFocusForced || IsKeyboardFocusWithin;
 			for(int i=0;i<stackPanel.Children.Count;i++){
-				Color colorBack=Colors.White;
-				if(_listIndicesSelected.Contains(i)){
-					colorBack=Color.FromRgb(186,199,219);//#BAC7DB,   grid default was Silver: C0C0C0 (192 gray)
-				}
-				else if(_hoverIndex==i){
-					colorBack=Color.FromRgb(229,239,251);//#E5EFFB
-				}
+				bool isSelected=_listIndicesSelected.Contains(i);
 				Border border=(Border)stackPanel.Children[i];
-				border.Background=new SolidColorBrush(colorBack);
+				SolidColorBrush solidColorBrushFill=UiLookLists.GetItemFill(isSelected,_hoverIndex==i,Colors.White,null);
+				border.Background=solidColorBrushFill;
+				border.BorderBrush=isSelected ? UiLookLists.GetSelectionBar(hasFocus) : solidColorBrushFill;
+				((TextBlock)border.Child).Foreground=UiLookLists.GetItemText(isSelected,isEnabled:true);
 			}
 		}
 

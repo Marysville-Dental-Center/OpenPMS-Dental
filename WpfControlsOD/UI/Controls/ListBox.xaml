@@ -12,7 +12,8 @@
 			<Setter Property="local:ListBox.VerticalAlignment" Value="Top"/>
 		</Style>
 	</UserControl.Style>
-	<Border Background="White" BorderThickness="1" BorderBrush="DarkGray">
+	<!--Section 3.6 (UI-4b-1): SurfaceRaised with a square 1 px StrokeStrong border (Stroke when disabled), set in SetColors.-->
+	<Border Name="borderOuter" x:FieldModifier="internal" Background="White" BorderThickness="1" BorderBrush="DarkGray">
 		<ScrollViewer Name="scrollViewer" x:FieldModifier="internal" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
 			<StackPanel Name="stackPanel" x:FieldModifier="internal">
 				<d:TextBlock>ListBox</d:TextBlock>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CodeBase;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -85,22 +86,6 @@ namespace OpenPmsDental.UI{
 		public LayoutManagerForms LayoutManager=new LayoutManagerForms();
 		#endregion Fields - public
 
-		#region Fields - Private Static
-		//Colors etc are static and shared among all comboboxes for life of program. Not disposed
-		///<summary></summary>
-		private static SolidBrush _brushDisabledBack=new SolidBrush(Color.FromArgb(204,204,204));//copied built-in color
-		///<summary></summary>
-		private static SolidBrush _brushDisabledText=new SolidBrush(Color.FromArgb(109,109,109));
-		///<summary></summary>
-		private static SolidBrush _brushHover=new SolidBrush(Color.FromArgb(229,241,251));//light blue
-		///<summary></summary>
-		private static Pen _penArrow=new Pen(Color.FromArgb(20,20,20),1.5f);
-		///<summary></summary>
-		private static Pen _penHoverOutline=new Pen(Color.FromArgb(0,120,215));//blue
-		///<summary></summary>
-		private static Pen _penOutline=new Pen(Color.FromArgb(173,173,173),1);
-		#endregion Fields - Private Static
-
 		#region Fields - Private
 		///<summary>This is the part that comes up as a "list" to pick from.</summary>
 		private FormComboPicker _formComboPicker;
@@ -151,30 +136,12 @@ namespace OpenPmsDental.UI{
 			base.OnPaint(e);
 			Graphics g=e.Graphics;
 			g.SmoothingMode=SmoothingMode.AntiAlias;
+			float scale=LayoutManager.ScaleMy();
+			//Section 3.6 (UI-4b-1): SurfaceRaised (or the window's ColorBack), a 1 px StrokeStrong border with 4 px corners, StrokeStrongHover on hover,
+			//Stroke when disabled; the Fluent chevron; with focus and keyboard cues a 2 px Accent line inside the bottom edge. The text where it was.
+			Rectangle rectangleBox=new Rectangle(0,0,Width,Height);
+			EnumUiColor uiColorText=UiListPaint.DrawComboBoxBox(g,rectangleBox,_isMouseOver,Enabled,scale,GetColorBackDrawn());
 			Rectangle rectangle=new Rectangle(0,0,Width-1,Height-1);
-			using SolidBrush brushBack=new SolidBrush(_colorBack);
-			Brush brush;//don't dispose of aliases
-			Pen pen;
-			if(Enabled){
-				if(_isMouseOver){
-					brush=_brushHover;
-					pen=_penHoverOutline;
-				}
-				else if(Focused) {
-					brush=brushBack;
-					pen=_penHoverOutline;
-				}
-				else{
-					brush=brushBack;
-					pen=_penOutline;
-				}
-			}
-			else{
-				brush=_brushDisabledBack;
-				pen=_penOutline;
-			}
-			g.FillRectangle(brush,rectangle);
-			g.DrawRectangle(pen,rectangle);
 			RectangleF rectangleFString=new RectangleF();
 			rectangleFString.X=rectangle.X+2;
 			rectangleFString.Y=rectangle.Y+4;
@@ -183,28 +150,30 @@ namespace OpenPmsDental.UI{
 			int widthMax=rectangle.Width-15;
 			StringFormat stringFormat=new StringFormat(StringFormatFlags.NoWrap);
 			stringFormat.LineAlignment=StringAlignment.Center;
-			if(Enabled){
-				g.DrawString(GetDisplayText(widthMax),this.Font,Brushes.Black,rectangleFString,stringFormat);
+			//The text is intentionally a bit long. It is cut where today's mask cut it, in front of the chevron.
+			GraphicsState graphicsState=g.Save();
+			g.SetClip(Rectangle.FromLTRB(0,0,UiListPaint.GetComboTextRight(rectangleBox,scale),Height),CombineMode.Intersect);
+			//A token brush: cached per thread by UiTheme, never disposed here.
+			g.DrawString(GetDisplayText(widthMax),this.Font,UiTheme.GetBrush(uiColorText),rectangleFString,stringFormat);
+			g.Restore(graphicsState);
+			stringFormat.Dispose();
+			UiListPaint.DrawComboBoxFront(g,rectangleBox,Enabled,IsFocusRingShown,scale);
+		}
+
+		///<summary>Whether the focus line shows (section 3.6): the combo box has focus and Windows asks for keyboard cues, so a mouse click draws
+		///none.</summary>
+		protected virtual bool IsFocusRingShown {
+			get {
+				return Focused && ShowFocusCues;
 			}
-			else{
-				g.DrawString(GetDisplayText(widthMax),this.Font,_brushDisabledText,rectangleFString,stringFormat);
+		}
+
+		///<summary>The fill: the window's ColorBack, or SurfaceRaised (empty) while it is today's default white.</summary>
+		private Color GetColorBackDrawn(){
+			if(_colorBack.ToArgb()==Color.White.ToArgb()){
+				return Color.Empty;
 			}
-			//the text is intentionally a bit long. Now, we need to cover the part that spills into the arrow.
-			Rectangle rectangleMask=new Rectangle(Width-1-LayoutManager.Scale(15),rectangle.Y+4,LayoutManager.Scale(15)-1,rectangle.Height-5);
-			g.FillRectangle(brush,rectangleMask);
-			//the dropdown arrow, starting at the left
-			//Default height is 21
-			float yCent=Height/2f;//default is 10.5
-			g.DrawLine(_penArrow,
-				x1:Width-LayoutManager.ScaleF(13),
-				y1:yCent-LayoutManager.ScaleF(1.5f),//was 9
-				x2:Width-LayoutManager.ScaleF(9.5f),
-				y2:yCent+LayoutManager.ScaleF(1.5f));//was 12
-			g.DrawLine(_penArrow,
-				x1:Width-LayoutManager.ScaleF(9.5f),
-				y1:yCent+LayoutManager.ScaleF(1.5f),//was 12
-				x2:Width-LayoutManager.ScaleF(6),
-				y2:yCent-LayoutManager.ScaleF(1.5f));//was 9
+			return _colorBack;
 		}
 		#endregion Event - OnPaint
 

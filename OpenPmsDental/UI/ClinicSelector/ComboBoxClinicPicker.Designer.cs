@@ -14,14 +14,6 @@
 				components.Dispose();
 			}
 			base.Dispose(disposing);
-			_brushBack?.Dispose();
-			_brushDisabledBack?.Dispose();
-			_brushDisabledText?.Dispose();
-			_brushHover?.Dispose();
-			_penArrow?.Dispose();
-			_penHoverOutline?.Dispose();
-			_penOutline?.Dispose();
-			
 		}
 
 		#region Component Designer generated code
