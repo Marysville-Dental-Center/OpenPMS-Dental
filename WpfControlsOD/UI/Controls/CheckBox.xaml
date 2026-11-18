@@ -25,7 +25,7 @@
 		</Border>
 		<!--The new look (UI-4a, section 3.6); the border above is today's, kept for office content (ContentLook.IsPinned). Same 13 DIP box.-->
 		<Grid Name="gridBoxNew" x:FieldModifier="internal" Width="13" Height="13" VerticalAlignment="Center" HorizontalAlignment="Center" SnapsToDevicePixels="True" Visibility="Collapsed">
-			<Border Name="borderBoxNew" x:FieldModifier="internal" BorderThickness="1" CornerRadius="2"/>
+			<Border Name="borderBoxNew" x:FieldModifier="internal" BorderThickness="1" CornerRadius="2" SnapsToDevicePixels="True"/>
 			<Path Name="pathGlyph" x:FieldModifier="internal" Visibility="Collapsed"/>
 		</Grid>
 		<TextBlock Grid.Column="1" Name="textBlock" Padding="5,0,0,0" TextWrapping="Wrap" TextAlignment="Left" VerticalAlignment="Center" HorizontalAlignment="Left">

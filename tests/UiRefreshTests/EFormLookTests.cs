@@ -73,8 +73,12 @@ namespace UiRefreshTests {
 
 		///<summary>The synthetic eForm in CtrlEFormFill, laid out without a window as EFormPrintTests does (FrmEFormFillEdit's Load and SetCtrlWidth),
 		///rendered at 96 DPI on white. STA thread only.</summary>
-		public static Bitmap RenderFill(bool enabled) {
+		public static Bitmap RenderFill(bool enabled,bool isPinned=true) {
 			CtrlEFormFill ctrlEFormFill=new CtrlEFormFill();
+			if(!isPinned) {
+				//The pin taken off (ControlStateTests: the new look must differ, so this picture proves the pin).
+				WpfControls.UI.ContentLook.SetIsPinned(ctrlEFormFill,false);
+			}
 			ctrlEFormFill.ListEFormFields=GetSyntheticFields();
 			ctrlEFormFill.ShowLabelsBold=false;
 			ctrlEFormFill.SpaceBelowEachField=10;

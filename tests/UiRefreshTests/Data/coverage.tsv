@@ -59,6 +59,7 @@ OpenPmsDental/UI/BordersDpi/MouseWatcher/*	no-drawing	the mouse hook
 OpenPmsDental/UI/Voice/*	no-drawing	voice commands; their window gets the frame and controls like any window
 OpenPmsDental/UI/TestForWpf	no-drawing	a test window
 WpfControlsOD/UI/Controls/Button	UI-4a	the button
+WpfControlsOD/UI/Controls/UiLook	UI-4a	the new look's WPF token brushes, the shared focus visual styles and the content pin (ContentLook)
 WpfControlsOD/UI/Controls/CheckBox	UI-4a	the check box
 WpfControlsOD/UI/Controls/RadioButton	UI-4a	self-templated: drawn like the Windows 11 radio button in the tokens (section 2.1)
 WpfControlsOD/UI/Controls/GroupBox	UI-4a	the group box
