@@ -77,7 +77,7 @@ toolbar UI-6's, its three toolbar pictures UI-9b's; the area around the pages is
   orange outline did). Its WinForms background is the parent's colour (the same as before on the windows that use it, whose background is
   `ColorOD.Background`; right on any other).
 - **Owner: the area around print preview pages** is `SubtlePressed` (`#E0E0E0`): white pages stand out from it, and it is lighter and calmer than
-  Windows' `AppWorkspace` (`#ABABAB`). The pages, the frame and the shadow Windows draws around them do not change (a test compares every other pixel).
+  Windows' `AppWorkspace` (`#ABABAB`). The pages, the frame and the shadow Windows draws around them do not change (the control has no paint code of its own; a test checks it).
 - **The signature box frame** is the input outline `StrokeStrong` (`#8A8A8A`; it was `ControlDark`, `#A0A0A0`), as section 2.1's "border only". The
   frame is the WinForms box's background showing around its signature area; the signature's picture (`GetSigImage`) leaves it out, so signatures,
   their pictures and their checks are as before (a test signs a synthetic signature and compares). The WPF host gives the frame; the WinForms windows'
@@ -103,7 +103,8 @@ All in `tests/UiRefreshTests` (no new test assembly):
 - `DialogStateTests` (16 tests): WinForms `OdProgressBar` (rest, empty, full, disabled, the target line) at every scale against the sheet's progress
   bar, every pixel; `ODColorPicker`'s swatch (rest, hover, focus, disabled, None) at every scale, every pixel; its bounds and colour; the warning
   triangle and the red one (WinForms picture, WPF brushes and picture); `ODPictureBox` (border, hint, a picture inside); `ODCodeRangeFilter`'s hint;
-  the print preview (the area around a synthetic page `SubtlePressed`, every other pixel as with today's colour); the signature box (a synthetic
+  the print preview (its area `SubtlePressed`, and the control draws nothing of its own, so the pages are Windows' drawing as before; a page is not
+  previewed in the test, because a document prints into the preview behind a Windows status window, which these tests never show); the signature box (a synthetic
   signature valid in both looks, its picture the same pixel for pixel, the frame `StrokeStrong`, office content `ControlDark`); the TextBelow strip
   (UQ-6); WPF `ProgressBarFlat` (rest, empty, full, disabled, indeterminate) against the sheet, solid pixels; its template and marquee;
   `FrmProgressAuto` (the flat bar, its size, the error in `Danger`); `FrmColorDialog`'s frames.
@@ -157,4 +158,10 @@ without the border) and `signaturebox.png` (a synthetic signature in the new fra
 
 ### 8. Runs
 
-RUNS
+Full filter build x64 through the lane: 0 errors. Targeted run (x64, after the full build, with `OPMS_UI_DIALOG_GALLERY` and `OPMS_UI_SCAN=1`;
+`.git/od-tools/test-results/ui4c2-final.txt`): UiRefreshTests 186 (180 passed, 6 opt-ins skipped: the six other galleries; this package's gallery
+and the scan ran), WindowChecksTests 72 (29 passed, 43 opt-in skipped), UnitTests 1,731 (1,728 passed, 3 skipped), PrintGuardTests 17 (16
+passed, 1 skipped), NoHqTests 122/122. WPF rendered in the disconnected session, so the WPF rows of the strips and the WPF picture tests ran. The
+scan rerun (into `.git/od-tools/test-results/ui4c2-scan`): Segoe UI 9 makes 1,775 controls overflow in 450 windows, the same counts as UI-4b-3's
+and UI-6's reruns (every summary line the same but the timing: this package changes no text rectangle); today's font reports nothing new.
+`tools/Test-NoEolFlips.ps1 -Base main`: no file changed its line ends.

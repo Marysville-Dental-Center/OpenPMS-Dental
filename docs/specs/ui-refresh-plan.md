@@ -1279,6 +1279,15 @@ so it is cut into two slices that share no files and may run side by side).
   `OdProgressBar`, `BufferedTreeView`, `MsgBoxCopyPaste`, `DatabaseIntegrity/WarningIntegrity`, `FormPrintPreview` and
   `ODPrintPreviewControl` (chrome only); WPF `SignatureBoxWrapper`, `DatabaseIntegrity/WarningIntegrity`, `Dialogs/FrmColorDialog`,
   `Progress/*`, `ToothChart/ToothChartTextBelowStrip` (UQ-6). `TextBelowStripTests` follows UQ-6 (section 9).
+  - **Status (2026-11-18).** Done on `ui/ui4c2-1` (`docs/port-notes/UI-4c.md`, section UI-4c-2), not merged yet: `CodeBase/UI/UiDialogPaint.cs`
+    (the progress bar as the sheet's, the colour swatch with the input outline and focus ring, the warning's `Warning` and `Danger`, on UI-4a's
+    `UiControlPaint`); WinForms `OdProgressBar`, `ODColorPicker`'s swatch, `ODPictureBox`'s `Stroke` border and hint, `ODCodeRangeFilter`'s hint,
+    `WarningIntegrity`, `ODPrintPreviewControl`'s area around the pages (`SubtlePressed`; the pages unchanged); WPF `Progress/ProgressBarFlat`
+    in `FrmProgressAuto` (an `Accent` marquee segment when indeterminate; the error line `Danger`), `WarningIntegrity`, `FrmColorDialog`'s
+    frames, `SignatureBoxWrapper`'s frame `StrokeStrong` (the signature, its picture and validity unchanged; the eForm keeps `ControlDark` through
+    `ContentLook.IsPinned`), the TextBelow strip `Text` on `SurfaceRaised` (UQ-6, `TextBelowStripTests` changed). `BufferedTreeView`,
+    `MsgBoxCopyPaste`, `FormPrintPreview` and `ProgressWin` need no change (Windows controls, or drawn by other packages). Tests in
+    `tests/UiRefreshTests` (`DialogStateTests`, `DialogGallery`); gallery G-UI1 part 2f in `.git/od-tools/test-results/ui4c2-G-UI1-part2f/`.
 
 **UI-5: grids**
 - Owns: `OpenPmsDentalBusiness/UI/GridOD.cs` (screen drawing), `GridOld.cs` if still used, `WpfControlsOD/UI/Controls/Grid.xaml(.cs)`,
