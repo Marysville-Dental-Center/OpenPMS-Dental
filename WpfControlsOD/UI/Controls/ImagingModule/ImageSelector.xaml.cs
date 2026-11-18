@@ -894,7 +894,8 @@ Only used once in Imaging module.
 		///<summary>The new look of a row or a thumbnail (UI-4c-1, docs/specs/ui-refresh-plan.md sections 3.2 and 3.6; docs/port-notes/UI-4c.md), as
 		///a list's item: selected, AccentSubtle with the 2 px selection bar in its first 2 px (Accent while the selector has keyboard focus,
 		///SelectionBarNoFocus without; was a light blue fill alone); RowHover under the mouse; a category SurfaceSubtle (was gray 240); other rows
-		///SurfaceRaised. The bar is a rectangle laid over the row's grid, so nothing in the row moves.</summary>
+		///SurfaceRaised. The bar is a rectangle laid over the row's grid, so nothing in the row moves; it starts inside the selector's 1 px outline,
+		///which lies over the rows' first pixel, so both of its pixels show, and lies under the row's icon and text.</summary>
 		private void SetRowLook(Border border,bool isSelected,bool isHover,bool isCategory){
 			EnumUiColor uiColorBack=EnumUiColor.SurfaceRaised;
 			if(isSelected){
@@ -919,11 +920,12 @@ Only used once in Imaging module.
 				rectangleBar.Name="rectangleSelectionBar";
 				rectangleBar.Width=UiLookLists.WIDTH_SELECTION_BAR;
 				rectangleBar.HorizontalAlignment=HorizontalAlignment.Left;
+				rectangleBar.Margin=new Thickness(borderOutline.BorderThickness.Left,0,0,0);//inside the selector's 1 px outline, which lies over the rows' first pixel
 				rectangleBar.VerticalAlignment=VerticalAlignment.Stretch;
 				rectangleBar.IsHitTestVisible=false;
 				System.Windows.Controls.Grid.SetColumnSpan(rectangleBar,Math.Max(1,grid.ColumnDefinitions.Count));
 				System.Windows.Controls.Grid.SetRowSpan(rectangleBar,Math.Max(1,grid.RowDefinitions.Count));
-				grid.Children.Add(rectangleBar);
+				grid.Children.Insert(0,rectangleBar);//under the row's icon and text: a Fluent icon that starts on the bar's second pixel still shows whole
 			}
 			rectangleBar.Visibility=isSelected ? Visibility.Visible : Visibility.Collapsed;
 			rectangleBar.Fill=UiLookLists.GetSelectionBar(IsKeyboardFocusWithin);

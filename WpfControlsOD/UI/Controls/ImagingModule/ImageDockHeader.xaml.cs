@@ -179,14 +179,14 @@ Jordan is the only one allowed to edit this file.
 			rectangleMin.Fill=UiLook.Brush(_isHoverMin ? uiColorHover : uiColorBack);
 			if(IsEmpty){
 				rectangleWindows.Fill=UiLook.Brush(EnumUiColor.SurfaceRaised);
-				labelWin.Foreground=UiLook.Brush(EnumUiColor.SurfaceRaised);
+				labelWin.ColorText=UiTheme.GetColorWpf(EnumUiColor.SurfaceRaised);
 			}
 			else if(_isButWinPressed){
 				rectangleWindows.Fill=UiLook.Brush(EnumUiColor.SurfaceRaised);
-				labelWin.Foreground=UiLook.Brush(EnumUiColor.Text);
+				labelWin.ColorText=UiTheme.GetColorWpf(EnumUiColor.Text);
 			}
 			else{//not pressed
-				labelWin.Foreground=UiLook.Brush(uiColorText);
+				labelWin.ColorText=UiTheme.GetColorWpf(uiColorText);
 				rectangleWindows.Fill=UiLook.Brush(_isHoverWin ? uiColorHover : uiColorBack);
 			}
 			rectangleClose.Fill=UiLook.Brush(_isHoverX ? uiColorHoverX : uiColorBack);
