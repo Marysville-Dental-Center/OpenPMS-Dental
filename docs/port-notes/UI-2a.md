@@ -254,6 +254,12 @@ font tokens hold today's fonts, so GridOD's screen fonts and print fonts are the
 - `OpenPmsDental/Forms/FormSheetDefEdit.cs`: the two canvas grids (`CreateDynamicGrid`, `CreateGrid`) are marked `IsForDocument`.
 - `OpenPmsDental/Forms/FormClaimEdit.cs`: the Perio Chart attachment picture is made by `public static GetPerioAttachmentBitmap(Patient,
   LayoutManagerForms)`, the same drawing moved out of `butAttachPerioHelper`, so the guard compares the program's own picture.
+- `OpenPmsDental/Forms/FormPerio.cs`: the perio chart printout, the same way. `butPrint_Click`'s setup (96 dpi, Microsoft Sans Serif 8.25,
+  the printed size; one of plan 5.2's print sites that must stay) is `public static SetUpForPrint(ContrPerio,LayoutManagerForms)`, and
+  `pd2_PrintPage`'s drawing (the chart, its four letters, the title, clinic, patient, date, index and red-threshold lines) is `public static
+  DrawPrintPage(Graphics,ContrPerio,Patient,` the four index colours, the six red thresholds, `DateTime)`. `butPrint_Click` and
+  `pd2_PrintPage` call them, the page is drawn as before, and the guard draws the whole page through them, so a UI-2a-4 slice that sends
+  the 8.25 font or a print font to a token fails the guard.
 - `tests/PrintGuardTests` (new, wired into `OpenDental.sln` and `OpenDental.Local.slnf`): the print guard (section 4).
 
 ### 2. GridOD: screen fonts and print fonts
@@ -318,7 +324,7 @@ compare two builds; outputs that differ are written to that folder, or to `%TEMP
 | `Sheet_PdfAndPrintedPage_...` | a synthetic patient form (default font, Microsoft Sans Serif, Arial Bold, Times New Roman wrapped, right aligned, a rectangle, a line, a check box) through `SheetDrawingJob.CreatePdf` and `SheetPrintingJob.DrawSheetFirstPage` |
 | `SheetGrid_BitmapAndPdf_...` | a ProcsWithFee sheet grid through `SheetDrawingJob.DrawFieldGridHelper` (bitmap and PDF), with the sheet's default font and with Arial 9 |
 | `ClaimForm_PrintedPages_...` | a synthetic claim on every internal ADA claim form and the DC217, through `FormClaimPrint.pd2_PrintPage` |
-| `PerioChart_PrintAndClaimAttachment_...` | the perio chart as `FormPerio.butPrint_Click` sets it up and `pd2_PrintPage` draws it (Microsoft Sans Serif 8.25, 96 dpi, the printed size), and `FormClaimEdit.GetPerioAttachmentBitmap` |
+| `PerioChart_PrintAndClaimAttachment_...` | the whole printed perio chart page through the program's own `FormPerio.SetUpForPrint` (the chart on an off-screen window, moved by its LayoutManager) and `FormPerio.DrawPrintPage` (the index colours and red thresholds `FormPerio_Load` gives the window, a fixed print date), and `FormClaimEdit.GetPerioAttachmentBitmap` |
 | `ReportComplex_PrintedPages_...` | a ReportComplex report (title, subtitles, a 70-row query, page numbers) through `FormReportComplex.pd2_PrintPage` |
 | `Rdl_Pdf_...` | an RDL report (text in the default font, Arial, Times New Roman, Tahoma, a line) rendered to PDF by the RDL engine |
 | `MigraDoc_Pdf_...` | a MigraDoc document made with `MigraDocHelper` (text, placed text, a grid through `MigraDocHelper.DrawGrid`) |
