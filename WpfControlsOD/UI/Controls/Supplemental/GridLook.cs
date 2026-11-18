@@ -74,7 +74,7 @@ namespace WpfControls.UI {
 			int min=Math.Min(color.R,Math.Min(color.G,color.B));
 			double alpha=1-min/255.0;
 			if(alpha<=0) {
-				return Color.FromArgb(0,255,255,255);
+				return Colors.Transparent;
 			}
 			byte r=(byte)Math.Max(0,Math.Min(255,Math.Round((color.R-min)/alpha)));
 			byte g=(byte)Math.Max(0,Math.Min(255,Math.Round((color.G-min)/alpha)));

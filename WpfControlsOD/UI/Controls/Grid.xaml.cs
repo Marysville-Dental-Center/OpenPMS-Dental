@@ -113,6 +113,10 @@ using WpfControls.UI;
 		///<summary>The row the arrow keys or the last click moved to: it gets the 1 px Accent outline while the grid has keyboard focus and the
 		///keyboard was used last (UI-5, section 3.6). -1 for none; reset by EndUpdate.</summary>
 		private int _indexRowFocused=-1;
+		///<summary>The test overrides of SetFocusLookForTest; null in the program.</summary>
+		private bool? _isSelectionFocusedForTest;
+		private bool? _isFocusedRowShownForTest;
+		private double? _scaleLookForTest;
 		///<summary>When a textbox or combobox is created, this is set. When those controls lose focus, this variable lets us know which cell lost focus. No other variable will work because we have already selected a new cell by then, or none at all.</summary>
 		private ColRow _selectedCellOld;
 		///<summary>Typically -1 to show no triangle.  Or, specify a column to show a triangle.  The actual sorting happens at mouse down.</summary>
@@ -1099,14 +1103,22 @@ using WpfControls.UI;
 
 		///<summary>True while the grid or a control in it (the edit box, the combo box) has keyboard focus: the selection bar is Accent then,
 		///SelectionBarNoFocus otherwise (section 3.2).</summary>
-		protected virtual bool IsSelectionFocused {
-			get { return IsKeyboardFocusWithin; }
+		private bool IsSelectionFocused {
+			get {
+				if(_isSelectionFocusedForTest.HasValue) {
+					return _isSelectionFocusedForTest.Value;
+				}
+				return IsKeyboardFocusWithin;
+			}
 		}
 
 		///<summary>True while the grid has keyboard focus and the keyboard was used last (or Windows always shows keyboard cues), as WPF shows a
 		///focus visual: the focused row gets its Accent outline then, and a mouse click draws none (section 3.6).</summary>
-		protected virtual bool IsFocusedRowShown {
+		private bool IsFocusedRowShown {
 			get {
+				if(_isFocusedRowShownForTest.HasValue) {
+					return _isFocusedRowShownForTest.Value;
+				}
 				if(!IsSelectionFocused) {
 					return false;
 				}
@@ -1115,8 +1127,23 @@ using WpfControls.UI;
 		}
 
 		///<summary>The DPI scale the selection bar and the outline snap to (device pixels per DIP).</summary>
-		protected virtual double GetLookScale(){
+		private double GetLookScale(){
+			if(_scaleLookForTest.HasValue) {
+				return _scaleLookForTest.Value;
+			}
 			return VisualTreeHelper.GetDpi(this).DpiScaleX;
+		}
+
+		///<summary>Test only (the UI-5 grid pictures): an off-screen grid has no keyboard focus and no window DPI, so a test sets the focus looks and
+		///the DPI scale the bar snaps to. Refuses (throws) outside a test process, like UiTheme.SetFontForTest.</summary>
+		public void SetFocusLookForTest(bool isSelectionFocused,bool isFocusedRowShown,double scale) {
+			if(!UiTheme.IsTestProcess()) {
+				throw new InvalidOperationException("Grid.SetFocusLookForTest is for test processes only.");
+			}
+			_isSelectionFocusedForTest=isSelectionFocused;
+			_isFocusedRowShownForTest=isFocusedRowShown;
+			_scaleLookForTest=scale;
+			DrawSelectionMarks();
 		}
 
 		///<summary>The title's and the header's heights follow their fonts (UI-5): 18 and 15 DIP with today's 14 and 11.5 DIP Segoe UI, as before.</summary>

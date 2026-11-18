@@ -1065,15 +1065,15 @@ namespace OpenPmsDental.UI {
 					-hScroll.Value+Columns[Columns.Count-1].State.Right,
 					top+hMain);
 			}
-			Pen penLower=penGridline;//only the ColorLborder pen below is made here, and disposed a few pages down
+			Pen penRowLower=penGridline;//only the ColorLborder pen below is made here, and disposed a few pages down
 			Pen penLborder=null;
 			if(rowI==ListGridRows.Count-1) {//last row
-				penLower=UiTheme.GetPen(EnumUiColor.Stroke);
+				penRowLower=UiTheme.GetPen(EnumUiColor.Stroke);
 			}
 			else {
 				if(gridRow.ColorLborder!=Color.Empty) {
 					penLborder=new Pen(gridRow.ColorLborder);
-					penLower=penLborder;
+					penRowLower=penLborder;
 				}
 			}
 			if(WrapText){
@@ -1090,7 +1090,7 @@ namespace OpenPmsDental.UI {
 					-hScroll.Value+Columns[i].State.Right,
 					top+hMain);
 				//lower horizontal gridline
-				g.DrawLine(penLower,
+				g.DrawLine(penRowLower,
 					-hScroll.Value+Columns[i].State.XPos+1,
 					top+hTot,
 					-hScroll.Value+Columns[i].State.Right,
@@ -1237,7 +1237,8 @@ namespace OpenPmsDental.UI {
 				return;
 			}
 			int right=Math.Min(-hScroll.Value+Columns[Columns.Count-1].State.Right,Width-1);
-			Rectangle rectangleRowInside=new Rectangle(1,top+1,right-1,hTot-1);
+			int widthBorder=UiTheme.GetLineWidth(ScaleF(1));//the outer border is drawn over the row's first pixel at 200%
+			Rectangle rectangleRowInside=new Rectangle(widthBorder,top+1,right-widthBorder,hTot-1);
 			if(isSelected && _selectionMode!=GridSelectionMode.OneCell) {
 				GridScreenLook.DrawSelectionBar(g,rectangleRowInside,IsSelectionFocused,ScaleF(1));
 			}
