@@ -1184,6 +1184,12 @@ the bounds record must equal the before set.
   the designer code of the plain forms and of the windows without `InitializeLayoutManager`; the designer code of windows and
   UserControls under LayoutManager is exempt, because the mapping covers it); the literal test for the control and form fonts of the
   plain forms and those windows (chart element fonts are not in it, 5.1); the print guard; the scan's report.
+- **Status (2026-11-18).** Slice 1 (`OpenPmsDental/Forms`, `OpenPmsDental/Forms Reports`) done on `ui/ui2a4-1`
+  (`docs/port-notes/UI-2a.md`, section UI-2a-4), not merged yet: the display field editors measure with `FontGridBold`; the other 49
+  Microsoft Sans Serif and `GenericSansSerif` lines are print, document or content and are the rows of
+  `tests/UiRefreshTests/Data/font-literal-allow.tsv`; the slice has no plain form or window without `InitializeLayoutManager` with a
+  designer font. The scan and the literal test are `tests/UiRefreshTests/FontLiteralScanTests.cs`; later slices add their folders to
+  `FontLiteralScan.ArrayFolders`. Still open, for a connected session: U0 and the bounds record against the before set.
 
 **UI-3: the window frame**
 - Owns: `FormODBase.cs` and `FormFrame.cs` (frame drawing). Ideally one shared border painter in a new file both call
