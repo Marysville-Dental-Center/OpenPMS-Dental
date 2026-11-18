@@ -19,9 +19,42 @@
 		</ControlTemplate>
 	</UserControl.Template>
 	<Grid>
-		<!--Section 3.6 (UI-4b-1): SurfaceRaised with a 1 px StrokeStrong border; the items' look is their style in Themes/Generic.xaml.-->
-		<TreeView x:Name="treeView" x:FieldModifier="internal" Background="{x:Static local:UiLookLists.BrushSurfaceRaised}" BorderBrush="{x:Static local:UiLookLists.BrushStrokeStrong}">
-			
+		<!--Section 3.6 (UI-4b-1): SurfaceRaised with a 1 px StrokeStrong border, Stroke when disabled (the design sheet's disabled list); the items'
+		look is their style in Themes/Generic.xaml. The template is the stock one without its disabled trigger (which paints SystemColors.Control).-->
+		<TreeView x:Name="treeView" x:FieldModifier="internal">
+			<TreeView.Style>
+				<Style TargetType="{x:Type TreeView}">
+					<Setter Property="Background" Value="{x:Static local:UiLookLists.BrushSurfaceRaised}"/>
+					<Setter Property="BorderBrush" Value="{x:Static local:UiLookLists.BrushStrokeStrong}"/>
+					<Setter Property="BorderThickness" Value="1"/>
+					<Setter Property="Padding" Value="1"/>
+					<Setter Property="Template">
+						<Setter.Value>
+							<ControlTemplate TargetType="{x:Type TreeView}">
+								<Border x:Name="Bd" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}"
+									BorderThickness="{TemplateBinding BorderThickness}" SnapsToDevicePixels="True">
+									<ScrollViewer x:Name="_tv_scrollviewer_" Background="{TemplateBinding Background}" CanContentScroll="False" Focusable="False"
+										HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
+										VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}"
+										Padding="{TemplateBinding Padding}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
+										<ItemsPresenter/>
+									</ScrollViewer>
+								</Border>
+								<ControlTemplate.Triggers>
+									<Trigger Property="VirtualizingPanel.IsVirtualizing" Value="True">
+										<Setter TargetName="_tv_scrollviewer_" Property="CanContentScroll" Value="True"/>
+									</Trigger>
+								</ControlTemplate.Triggers>
+							</ControlTemplate>
+						</Setter.Value>
+					</Setter>
+					<Style.Triggers>
+						<Trigger Property="IsEnabled" Value="False">
+							<Setter Property="BorderBrush" Value="{x:Static local:UiLook.BrushStroke}"/>
+						</Trigger>
+					</Style.Triggers>
+				</Style>
+			</TreeView.Style>
 		</TreeView>
 	</Grid>
 </UserControl>

@@ -119,6 +119,11 @@ namespace UiRefreshTests {
 						ControlStateTests.CompareSolid(listFailures,name,bitmapExpected,bitmapChrome);
 						ControlStateTests.CheckText(listFailures,name,bitmapChrome,bitmapText,ListStateDrawings.ComboTextColor(sheetState));
 					}
+					//Text longer than the box is cut left of the chevron (where the WinForms ComboBox clips it), never drawn under it.
+					using(Bitmap bitmapChrome=ListStateControls.RenderWpfComboBox(sheetState,"",1f))
+					using(Bitmap bitmapLong=ListStateControls.RenderWpfComboBox(sheetState,TEXT_LONG,1f)) {
+						CheckTextClearOfChevron(listFailures,name+" long text",bitmapChrome,bitmapLong,new Rectangle(Point.Empty,bitmapChrome.Size),1f);
+					}
 				}
 				foreach(SheetState sheetState in new[] { SheetState.Normal,SheetState.Hover,SheetState.Disabled }) {
 					string name="WPF ComboClinic "+sheetState;
@@ -157,14 +162,7 @@ namespace UiRefreshTests {
 			ControlStateTests.RunWpf(() => {
 				foreach(SheetState sheetState in ListStates.ArrayWpfListStates) {
 					CompareWpfList(listFailures,"WPF ListView "+sheetState,sheetState,withText => ListStateControls.RenderWpfListView(sheetState,withText,1f),true);
-					if(sheetState==SheetState.Disabled) {
-						continue;//the tree's disabled look is the stock TreeView's own (its border and background); its items' text is checked below
-					}
 					CompareWpfList(listFailures,"WPF TreeView "+sheetState,sheetState,withText => ListStateControls.RenderWpfTreeView(sheetState,withText,1f),true);
-				}
-				using(ListPicture listPictureChrome=ListStateControls.RenderWpfTreeView(SheetState.Disabled,false,1f))
-				using(ListPicture listPictureText=ListStateControls.RenderWpfTreeView(SheetState.Disabled,true,1f)) {
-					ControlStateTests.CheckText(listFailures,"WPF TreeView Disabled",listPictureChrome.Bitmap,listPictureText.Bitmap,SheetPainter.Light(EnumUiColor.TextDisabled));
 				}
 			});
 			ControlStateTests.AssertNoFailures(listFailures);
@@ -184,6 +182,24 @@ namespace UiRefreshTests {
 		#endregion WPF
 
 		#region Helpers
+		///<summary>A combo box text far wider than the 121 px test box.</summary>
+		private const string TEXT_LONG="Hygienist, Dental Assistant and Front Desk Coordinator";
+
+		///<summary>No text pixel (where the picture with text differs from the one without) falls in the chevron's ink columns: the chevron's square
+		///(UiListPaint.GetChevronRectangle) less 2 px at each side, the Fluent ChevronDown's ink, at any height of the box.</summary>
+		public static void CheckTextClearOfChevron(List<string> listFailures,string name,Bitmap bitmapChrome,Bitmap bitmapText,Rectangle rectangleBox,float scale) {
+			Rectangle rectangleChevron=UiListPaint.GetChevronRectangle(rectangleBox,scale);
+			int inset=UiTheme.ScaleI(2,scale);
+			for(int y=rectangleBox.Top;y<rectangleBox.Bottom;y++) {
+				for(int x=rectangleChevron.Left+inset;x<rectangleChevron.Right-inset;x++) {
+					if(bitmapChrome.GetPixel(x,y).ToArgb()!=bitmapText.GetPixel(x,y).ToArgb()) {
+						listFailures.Add(name+": text reaches into the chevron's columns at "+x+","+y+".");
+						return;
+					}
+				}
+			}
+		}
+
 		///<summary>Section 3.2: no item text starts in the selection bar's columns (the row's first 2 px at 96 DPI, scaled): the text's pixels (where
 		///the picture with text differs from the one without) stay right of the bar in every row.</summary>
 		public static void CheckTextClearOfBar(List<string> listFailures,string name,ListPicture listPictureChrome,ListPicture listPictureText,float scale) {

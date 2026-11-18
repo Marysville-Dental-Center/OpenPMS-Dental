@@ -52,7 +52,9 @@ required field's yellow; that window is not part of this package, so those lists
 
 - **The chevron where the sheet draws it, the text where it was.** The chevron's 12 px square is 6 px from the right edge (as the sheet). The
   WinForms combo box clips its text where today's mask covered it (15 px from the right, `GetComboTextRight`), so the text's width does not
-  change; the Fluent glyph's ink lies inside that area. The WPF text column keeps its 14 px drop-down column. The clinic picker drew its text
+  change; the Fluent glyph's ink lies inside that area. The WPF text is cut at the same place: it keeps its 14 px drop-down column and gains a
+  2 px right margin, so a long text now ends 16 px from the right edge, 2 px further left than before (the review's fix: the Fluent chevron's
+  ink, 16 to 8 px from the right, would otherwise be drawn over the text's last 2 px). The clinic picker drew its text
   over the arrow area before (no mask); it still does, after the chevron.
 - **The focus line needs keyboard cues**, as UI-4a's ring: WinForms `Focused && ShowFocusCues`, WPF the `FocusVisualStyle`. Today's combo box
   showed a blue border whenever it had focus, also after a mouse click; now a click shows nothing until the keyboard is used (section 3.6).
@@ -75,8 +77,9 @@ required field's yellow; that window is not part of this package, so those lists
   the selection fill with the grey bar (today it was a grey fill).
 - **The WPF tree** keeps the Windows layout (the 19 px expander column, children below, the row as wide as its header); its header starts 2 px
   further right, after the bar. The expander is the Fluent chevron (right when collapsed, down when expanded) in `TextSecondary`, `Text` on
-  hover, in the 16 px square of the Windows triangle. The stock `TreeView` around the items keeps its own disabled look (only its border and
-  background colours are set).
+  hover, in the 16 px square of the Windows triangle. The `TreeView` around the items is `SurfaceRaised` with a `StrokeStrong` border, `Stroke`
+  when disabled, as the sheet's disabled list (the review's fix): its style sets the colours and a trigger the disabled border, and its
+  template is the stock one (border, scroll viewer, items) without the stock disabled trigger that painted `SystemColors.Control`.
 - **The drop-down lists** draw their "combobox" on top in the hover look (the pointer is on it while it opens) and their selection bar
   `Accent` while they have focus, as they do while open.
 - **The eForm fill surface has none of these controls** (`CtrlEFormFill` builds text boxes, check boxes, radio buttons, labels, date and rich
@@ -97,11 +100,12 @@ All in `tests/UiRefreshTests` (no new test assembly):
 - `ListControlStateTests` (7 tests): WinForms `ComboBox` and `ComboBoxClinicPicker` (rest, hover, focus, disabled), `ListBox` (rest, hover,
   focus, disabled, selected with and without focus), `FormComboPicker` (rest, hover, selected with and without focus); WPF `ComboBox` (the
   four states, the focus as the focus visual style laid over it), `ComboClinic` (rest, hover, disabled), `ListBox`, `WindowComboPicker`,
-  `ListView` and `TreeView` (rest, hover, disabled, selected with and without focus; the tree's disabled text). Each control is drawn off
+  `ListView` and `TreeView` (rest, hover, disabled, selected with and without focus). Each control is drawn off
   screen without text and compared with the design sheet's drawing of the state at the control's bounds (`ListStateDrawings`: the shapes and
   light tokens of `DesignSheetControls.DrawComboBox` and `DrawListOrGridRow`, the Fluent chevron in place of the sheet's stand-in) by
   ChartImageCompare's tolerance (WinForms every pixel, WPF the solid pixels, as UI-4a). Then with text: its pixels reach the state's text token,
-  and no item text starts in the selection bar's columns.
+  and no item text starts in the selection bar's columns. The WPF `ComboBox` also with a text longer than the box, in every state: no text
+  pixel falls in the chevron's ink columns (its square less 2 px at each side).
 - `EFormLookTests.EFormFill_SyntheticForm_LooksAsBefore`: unchanged and green (the eForm picture as before).
 - The layout snapshot and the bounds record (`LayoutSnapshotTests`, `Scan_TodaysFont_ReportsNothingNew`), `TerminologyLayoutTests`
   (M2TERMTests), `LayoutDesignerTests` (M2INSPLANTests): unchanged and green; no designer layout changed.
