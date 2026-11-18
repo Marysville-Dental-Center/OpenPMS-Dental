@@ -329,7 +329,7 @@ namespace OpenPmsDental {
 			// 
 			// butExport
 			// 
-			this.butExport.Image = global::OpenPmsDental.Properties.Resources.butExport;
+			this.butExport.Icon = OpenPmsDental.UI.EnumIcons.Export;
 			this.butExport.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butExport.Location = new System.Drawing.Point(426, 216);
 			this.butExport.Name = "butExport";

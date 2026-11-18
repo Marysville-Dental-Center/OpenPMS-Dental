@@ -645,7 +645,7 @@ namespace OpenPmsDental {
 			// 
 			// butBirthdayRight
 			// 
-			this.butBirthdayRight.Image = global::OpenPmsDental.Properties.Resources.Right;
+			this.butBirthdayRight.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.ArrowRight,22,22);
 			this.butBirthdayRight.Location = new System.Drawing.Point(217, 30);
 			this.butBirthdayRight.Name = "butBirthdayRight";
 			this.butBirthdayRight.Size = new System.Drawing.Size(37, 23);
@@ -655,7 +655,7 @@ namespace OpenPmsDental {
 			// 
 			// butBirthdayLeft
 			// 
-			this.butBirthdayLeft.Image = global::OpenPmsDental.Properties.Resources.Left;
+			this.butBirthdayLeft.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.ArrowLeft,22,22);
 			this.butBirthdayLeft.Location = new System.Drawing.Point(77, 30);
 			this.butBirthdayLeft.Name = "butBirthdayLeft";
 			this.butBirthdayLeft.Size = new System.Drawing.Size(37, 23);

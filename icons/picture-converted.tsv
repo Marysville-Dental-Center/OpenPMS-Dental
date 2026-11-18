@@ -258,3 +258,80 @@ UI-9a-4	OpenPmsDental/Forms/FormSupplies.Designer.cs	butUp	Image	Resources:up	En
 UI-9a-4	OpenPmsDental/Forms/FormSupplyInventory.Designer.cs	butPrint	Image	Resources:butPrint	EnumIcons.Print	Icon	22	22
 UI-9a-4	OpenPmsDental/Forms/FormSupplyOrders.designer.cs	butPrint	Image	Resources:butPrint	EnumIcons.Print	Icon	22	22
 UI-9a-4	OpenPmsDental/Forms/FormSupplyUsageReport.Designer.cs	butPrint	Image	Resources:butPrint	EnumIcons.Print	Icon	22	22
+UI-9a-5a	OpenPmsDental/Forms/FormTaskEdit.designer.cs	butCopy	Image	Resources:Copy	EnumIcons.Copy	Icon	22	22
+UI-9a-5a	OpenPmsDental/Forms/FormTaskInboxSetup.designer.cs	butSet	Image	Resources:Left	EnumIcons.ArrowLeft	Icon	22	22
+UI-9a-5a	OpenPmsDental/Forms/FormTimeCard.designer.cs	butLeft	Image	FormTimeCard:butLeft.Image	EnumIcons.ArrowLeft	Icon	22	22
+UI-9a-5a	OpenPmsDental/Forms/FormTimeCard.designer.cs	butNextEmp	Image	FormTimeCard:butNextEmp.Image	EnumIcons.ArrowRight	Icon	22	22
+UI-9a-5a	OpenPmsDental/Forms/FormTimeCard.designer.cs	butPrevEmp	Image	FormTimeCard:butPrevEmp.Image	EnumIcons.ArrowLeft	Icon	22	22
+UI-9a-5a	OpenPmsDental/Forms/FormTimeCard.designer.cs	butPrint	Image	FormTimeCard:butPrint.Image	EnumIcons.Print	Icon	22	22
+UI-9a-5a	OpenPmsDental/Forms/FormTimeCard.designer.cs	butRight	Image	FormTimeCard:butRight.Image	EnumIcons.ArrowRight	Icon	22	22
+UI-9a-5a	OpenPmsDental/Forms/FormTimeCardManage.designer.cs	butLeft	Image	Resources:Left	EnumIcons.ArrowLeft	Icon	22	22
+UI-9a-5a	OpenPmsDental/Forms/FormTimeCardManage.designer.cs	butPrintAll	Image	Resources:butPrint	EnumIcons.Print	Icon	22	22
+UI-9a-5a	OpenPmsDental/Forms/FormTimeCardManage.designer.cs	butPrintSelected	Image	Resources:butPrint	EnumIcons.Print	Icon	22	22
+UI-9a-5a	OpenPmsDental/Forms/FormTimeCardManage.designer.cs	butRight	Image	Resources:Right	EnumIcons.ArrowRight	Icon	22	22
+UI-9a-5a	OpenPmsDental/Forms/FormTrackNext.designer.cs	butPrint	Image	Resources:butPrintSmall	EnumIcons.Print	GetBitmap	16	16
+UI-9a-5a	OpenPmsDental/Forms/FormTransactionEdit.designer.cs	butExport	Image	Resources:butExport	EnumIcons.Export	Icon	22	22
+UI-9a-5a	OpenPmsDental/Forms/FormTreatPlanCurEdit.designer.cs	butLeft	Image	Resources:Left	EnumIcons.ArrowLeft	Icon	22	22
+UI-9a-5a	OpenPmsDental/Forms/FormTreatPlanCurEdit.designer.cs	butRight	Image	Resources:Right	EnumIcons.ArrowRight	Icon	22	22
+UI-9a-5a	OpenPmsDental/Forms/FormUnsched.designer.cs	butPrint	Image	Resources:butPrintSmall	EnumIcons.Print	GetBitmap	16	16
+UI-9a-5a	OpenPmsDental/Forms/FormUserQuery.Designer.cs	butCopy	Image	Resources:Copy	EnumIcons.Copy	GetBitmap	22	22
+UI-9a-5a	OpenPmsDental/Forms/FormUserQuery.Designer.cs	butExportCsv	Image	Resources:butExport	EnumIcons.Export	Icon	22	22
+UI-9a-5a	OpenPmsDental/Forms/FormUserQuery.Designer.cs	butExportTxt	Image	Resources:butExport	EnumIcons.Export	Icon	22	22
+UI-9a-5a	OpenPmsDental/Forms/FormUserQuery.Designer.cs	butPaste	Image	Resources:butPaste	EnumIcons.Paste	GetBitmap	22	22
+UI-9a-5a	OpenPmsDental/Forms/FormUserQuery.Designer.cs	butPrint	Image	Resources:butPrintSmall	EnumIcons.Print	GetBitmap	16	16
+UI-9a-5a	OpenPmsDental/Forms/FormUserQuery.Designer.cs	butPrintPreview	Image	Resources:butPreview	EnumIcons.Preview	GetBitmap	17	16
+UI-9a-5a	OpenPmsDental/Forms/FormWikiDrafts.designer.cs	butEdit	Image	Resources:editPencil	EnumIcons.Edit	Icon	22	22
+UI-9a-5b	OpenPmsDental/Forms Reports/FormQuery.designer.cs	butBack	Image	Resources:Left	EnumIcons.ArrowLeft	GetBitmap	22	22
+UI-9a-5b	OpenPmsDental/Forms Reports/FormQuery.designer.cs	butCopy	Image	Resources:Copy	EnumIcons.Copy	GetBitmap	22	22
+UI-9a-5b	OpenPmsDental/Forms Reports/FormQuery.designer.cs	butExport	Image	Resources:butExport	EnumIcons.Export	Icon	22	22
+UI-9a-5b	OpenPmsDental/Forms Reports/FormQuery.designer.cs	butExportExcel	Image	Resources:butExportExcel	EnumIcons.ExportExcel	Icon	22	22
+UI-9a-5b	OpenPmsDental/Forms Reports/FormQuery.designer.cs	butFwd	Image	Resources:Right	EnumIcons.ArrowRight	GetBitmap	22	22
+UI-9a-5b	OpenPmsDental/Forms Reports/FormQuery.designer.cs	butPaste	Image	Resources:butPaste	EnumIcons.Paste	GetBitmap	22	22
+UI-9a-5b	OpenPmsDental/Forms Reports/FormQuery.designer.cs	butPrint	Image	Resources:butPrintSmall	EnumIcons.Print	GetBitmap	16	16
+UI-9a-5b	OpenPmsDental/Forms Reports/FormQuery.designer.cs	butPrintPreview	Image	Resources:butPreview	EnumIcons.Preview	GetBitmap	17	16
+UI-9a-5b	OpenPmsDental/Forms Reports/FormQuery.designer.cs	butQView	Image	Resources:butQView	EnumIcons.QueryView	Icon	22	22
+UI-9a-5b	OpenPmsDental/Forms Reports/FormRpBirthday.designer.cs	butLeft	Image	Resources:Left	EnumIcons.ArrowLeft	Icon	22	22
+UI-9a-5b	OpenPmsDental/Forms Reports/FormRpBirthday.designer.cs	butPostcards	Image	Resources:butPrintSmall	EnumIcons.Print	GetBitmap	16	16
+UI-9a-5b	OpenPmsDental/Forms Reports/FormRpBirthday.designer.cs	butRight	Image	Resources:Right	EnumIcons.ArrowRight	Icon	22	22
+UI-9a-5b	OpenPmsDental/Forms Reports/FormRpCustomAging.designer.cs	butPrint	Image	Resources:butPrintSmall	EnumIcons.Print	GetBitmap	16	16
+UI-9a-5b	OpenPmsDental/Forms Reports/FormRpDPPOvercharged.designer.cs	butPrint	Image	Resources:butPrintSmall	EnumIcons.Print	GetBitmap	16	16
+UI-9a-5b	OpenPmsDental/Forms Reports/FormRpInsPayPlansPastDue.designer.cs	butExport	Image	Resources:butExport	EnumIcons.Export	Icon	22	22
+UI-9a-5b	OpenPmsDental/Forms Reports/FormRpInsPayPlansPastDue.designer.cs	butPrint	Image	Resources:butPrintSmall	EnumIcons.Print	GetBitmap	16	16
+UI-9a-5b	OpenPmsDental/Forms Reports/FormRpInsPendingSupplementals.designer.cs	butExport	Image	Resources:butExport	EnumIcons.Export	Icon	22	22
+UI-9a-5b	OpenPmsDental/Forms Reports/FormRpInsPendingSupplementals.designer.cs	butPrint	Image	Resources:butPrintSmall	EnumIcons.Print	GetBitmap	16	16
+UI-9a-5b	OpenPmsDental/Forms Reports/FormRpLaserLabels.designer.cs	butBirthdayLeft	Image	Resources:Left	EnumIcons.ArrowLeft	GetBitmap	22	22
+UI-9a-5b	OpenPmsDental/Forms Reports/FormRpLaserLabels.designer.cs	butBirthdayRight	Image	Resources:Right	EnumIcons.ArrowRight	GetBitmap	22	22
+UI-9a-5b	OpenPmsDental/Forms Reports/FormRpNetProdDetail.designer.cs	butLeft	Image	Resources:Left	EnumIcons.ArrowLeft	Icon	22	22
+UI-9a-5b	OpenPmsDental/Forms Reports/FormRpNetProdDetail.designer.cs	butRight	Image	Resources:Right	EnumIcons.ArrowRight	Icon	22	22
+UI-9a-5b	OpenPmsDental/Forms Reports/FormRpNewPatients.designer.cs	butLeft	Image	Resources:Left	EnumIcons.ArrowLeft	Icon	22	22
+UI-9a-5b	OpenPmsDental/Forms Reports/FormRpNewPatients.designer.cs	butRight	Image	Resources:Right	EnumIcons.ArrowRight	Icon	22	22
+UI-9a-5b	OpenPmsDental/Forms Reports/FormRpOutstandingIns.designer.cs	butExport	Image	Resources:butExport	EnumIcons.Export	Icon	22	22
+UI-9a-5b	OpenPmsDental/Forms Reports/FormRpOutstandingIns.designer.cs	butPrint	Image	Resources:butPrintSmall	EnumIcons.Print	GetBitmap	16	16
+UI-9a-5b	OpenPmsDental/Forms Reports/FormRpPatients.designer.cs	butDeleteFilter	Image	FormRpPatients:butDeleteFilter.Image	EnumIcons.DeleteX	Icon	22	22
+UI-9a-5b	OpenPmsDental/Forms Reports/FormRpProcedures.designer.cs	butExport	Image	Resources:butExport	EnumIcons.Export	Icon	22	22
+UI-9a-5b	OpenPmsDental/Forms Reports/FormRpProcedures.designer.cs	butPrint	Image	Resources:butPrintSmall	EnumIcons.Print	GetBitmap	16	16
+UI-9a-5b	OpenPmsDental/Forms Reports/FormRpProcNotBilledIns.designer.cs	butPrint	Image	Resources:butPrintSmall	EnumIcons.Print	GetBitmap	16	16
+UI-9a-5b	OpenPmsDental/Forms Reports/FormRpProcNote.designer.cs	butExport	Image	Resources:butExport	EnumIcons.Export	Icon	22	22
+UI-9a-5b	OpenPmsDental/Forms Reports/FormRpProcNote.designer.cs	butPrint	Image	Resources:butPrintSmall	EnumIcons.Print	GetBitmap	16	16
+UI-9a-5b	OpenPmsDental/Forms Reports/FormRpProcOverpaid.designer.cs	butPrint	Image	Resources:butPrintSmall	EnumIcons.Print	GetBitmap	16	16
+UI-9a-5b	OpenPmsDental/Forms Reports/FormRpProdGoal.designer.cs	butLeft	Image	Resources:Left	EnumIcons.ArrowLeft	Icon	22	22
+UI-9a-5b	OpenPmsDental/Forms Reports/FormRpProdGoal.designer.cs	butRight	Image	Resources:Right	EnumIcons.ArrowRight	Icon	22	22
+UI-9a-5b	OpenPmsDental/Forms Reports/FormRpProdInc.designer.cs	butLeft	Image	Resources:Left	EnumIcons.ArrowLeft	Icon	22	22
+UI-9a-5b	OpenPmsDental/Forms Reports/FormRpProdInc.designer.cs	butRight	Image	Resources:Right	EnumIcons.ArrowRight	Icon	22	22
+UI-9a-5b	OpenPmsDental/Forms Reports/FormRpProviderPayroll.designer.cs	butLeft	Image	Resources:Left	EnumIcons.ArrowLeft	Icon	22	22
+UI-9a-5b	OpenPmsDental/Forms Reports/FormRpProviderPayroll.designer.cs	butRight	Image	Resources:Right	EnumIcons.ArrowRight	Icon	22	22
+UI-9a-5b	OpenPmsDental/Forms Reports/FormRpReferralAnalysis.designer.cs	butLeft	Image	Resources:Left	EnumIcons.ArrowLeft	Icon	22	22
+UI-9a-5b	OpenPmsDental/Forms Reports/FormRpReferralAnalysis.designer.cs	butRight	Image	Resources:Right	EnumIcons.ArrowRight	Icon	22	22
+UI-9a-5b	OpenPmsDental/Forms Reports/FormRpReferrals.designer.cs	butDeleteFilter	Image	FormRpReferrals:butDeleteFilter.Image	EnumIcons.DeleteX	Icon	22	22
+UI-9a-5b	OpenPmsDental/Forms Reports/FormRpServiceDateView.designer.cs	butPrint	Image	Resources:butPrintSmall	EnumIcons.Print	GetBitmap	16	16
+UI-9a-5b	OpenPmsDental/Forms Reports/FormRpStatement.designer.cs	butBack	Image	Resources:Left	EnumIcons.ArrowLeft	GetBitmap	22	22
+UI-9a-5b	OpenPmsDental/Forms Reports/FormRpStatement.designer.cs	butFwd	Image	Resources:Right	EnumIcons.ArrowRight	GetBitmap	22	22
+UI-9a-5b	OpenPmsDental/Forms Reports/FormRpStatement.designer.cs	butPrint	Image	Resources:butPrintSmall	EnumIcons.Print	GetBitmap	16	16
+UI-9a-5b	OpenPmsDental/Forms Reports/FormRpTreatmentFinder.designer.cs	butLabelPreview	Image	Resources:butLabel	EnumIcons.Label	GetBitmap	18	16
+UI-9a-5b	OpenPmsDental/Forms Reports/FormRpTreatmentFinder.designer.cs	butLabelSingle	Image	Resources:butLabel	EnumIcons.Label	GetBitmap	18	16
+UI-9a-5b	OpenPmsDental/Forms Reports/FormRpTreatmentFinder.designer.cs	butLettersPreview	Image	Resources:butPreview	EnumIcons.Preview	GetBitmap	17	16
+UI-9a-5b	OpenPmsDental/Forms Reports/FormRpTreatmentFinder.designer.cs	butPrint	Image	Resources:butPrintSmall	EnumIcons.Print	GetBitmap	16	16
+UI-9a-5b	OpenPmsDental/Forms Reports/FormRpUdsPlusSetup.designer.cs	butAdd	Image	Resources:Add	EnumIcons.Add	Icon	22	22
+UI-9a-5b	OpenPmsDental/Forms Reports/FormRpUdsPlusSetup.designer.cs	butDelete	Image	Resources:DeleteX	EnumIcons.DeleteX	Icon	22	22
+UI-9a-5b	OpenPmsDental/Forms Reports/FormRpUnfinalizedInsPay.designer.cs	butExport	Image	Resources:butExport	EnumIcons.Export	Icon	22	22
+UI-9a-5b	OpenPmsDental/Forms Reports/FormRpUnfinalizedInsPay.designer.cs	butPrint	Image	Resources:butPrintSmall	EnumIcons.Print	GetBitmap	16	16

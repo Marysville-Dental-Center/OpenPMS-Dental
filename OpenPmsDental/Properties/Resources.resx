@@ -124,9 +124,6 @@
   <data name="XamlStyle_DataGrid" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\XamlStyle_DataGrid.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
-  <data name="butPaste" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\butPaste.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="CursorCrosshair" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\CursorCrosshair.cur;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -145,14 +142,8 @@
   <data name="up" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\up.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="butPrint" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\butPrint.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="PdfSharp" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\PdfSharp.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
-  <data name="butPreview" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\butPreview.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="SshNet" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\SshNet.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
@@ -201,9 +192,6 @@
   </data>
   <data name="ReportAccountingBalanceSheet" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ReportAccountingBalanceSheet.txt;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
-  <data name="butLabel" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\butlabel.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Account32" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Account32.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -316,20 +304,11 @@
   <data name="Appt32" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Appt32.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="butQView" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\butQView.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="PrefInfos" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\PrefInfos.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
-  <data name="DeleteX" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\DeleteX.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="MigraDoc" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\MigraDoc.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
-  <data name="Right" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Right.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="remoteSupportIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\remoteSupportIcon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -373,9 +352,6 @@
   <data name="stationary sample1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\stationary sample1.jpg;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="butExportExcel" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\butExportExcel.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="NoFeeProcCodes" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\NoFeeProcCodes.txt;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
@@ -402,9 +378,6 @@
   </data>
   <data name="NewtonSoft_Json" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\NewtonSoft_Json.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
-  <data name="butExport" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\butExport.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="XamlStyle_MenuItem" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\XamlStyle_MenuItem.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
