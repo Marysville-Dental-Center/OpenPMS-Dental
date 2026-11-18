@@ -121,7 +121,7 @@ a bitmap disposed after `Add` throws "Parameter is not valid" on the first `Imag
 `Gdi_GetBitmapScales_AndGetImageListHoldsEveryGlyph` reads every image back.
 
 Runs (x64, `-RequireBuildOutput`, after the full build; results in `.git/od-tools/test-results/ui7a-3.txt`): UiRefreshTests 57 of 58 (the
-opt-in font scan skipped, as before), AttributionTests 54 of 54, ReleaseFlowTests 260 of 267 (7 skipped, as on `main`), NoHqTests 122 of
+opt-in font scan skipped, as before), AttributionTests 54 of 54, ReleaseFlowTests 260 of 267 (7 inconclusive: Release-build and other-configuration checks, which a Debug build does not make), NoHqTests 122 of
 122. Full filter x64: 0 errors. `tools/Test-NoEolFlips.ps1 -Base main`: no file changed its line ends. InitSqlTests and ForkMigrationTests
 were not run (no schema change).
 
