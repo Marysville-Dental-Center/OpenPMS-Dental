@@ -14,6 +14,8 @@ OpenPmsDental\Forms\FormConfirmList.cs	using Font fontBody=new Font(FontFamily.G
 OpenPmsDental\Forms\FormConfirmList.cs	using Font fontAddress=new Font(FontFamily.GenericSansSerif,11);	1	print	labels and postcards (pdLabels_PrintPage, pdCards_PrintPage)
 OpenPmsDental\Forms\FormDashboardWidgetSetup.cs	sheetDef.FontName="Microsoft Sans Serif";	1	content	the default font of a new patient dashboard widget definition (plan 5.1)
 OpenPmsDental\Forms\FormMedical.cs	Font fontBody=new Font(FontFamily.GenericSansSerif,10);	1	print	the medical history printout (pd_PrintPageMedical)
+OpenPmsDental\Forms\FormMountDefEdit.cs	using Font font=new Font(FontFamily.GenericSansSerif,LayoutManager.UnscaleMS(_listMountItemDefs[i].FontSize)*_ratio);	1	document	the mount layout editor's preview of a mount item's text, drawn as MountHelper draws it
+OpenPmsDental\Forms\FormMountDefEdit.cs	using Font font=new Font(FontFamily.GenericSansSerif,_listMountItemDefs[_selectedIndex].FontSize*_ratio);	1	document	the mount layout editor's preview of a mount item's text, drawn as MountHelper draws it
 OpenPmsDental\Forms\FormPerio.cs	contrPerio.Font=new Font("Microsoft Sans Serif", 8.25f);	1	print	the perio chart printout's font (SetUpForPrint; plan 5.2)
 OpenPmsDental\Forms\FormRecallList.cs	PrinterL.FitText(text,new Font(FontFamily.GenericSansSerif,11),Brushes.Black,rectangle,new StringFormat(),g);	1	print	recall labels and postcards (pdLabels_PrintPage, pdCards_PrintPage)
 OpenPmsDental\Forms\FormRecallList.cs	g.DrawString(str,new Font(FontFamily.GenericSansSerif,9,FontStyle.Bold),Brushes.Black,xPos+45,yPos+60);	2	print	recall labels and postcards (pdLabels_PrintPage, pdCards_PrintPage)
