@@ -488,3 +488,18 @@ Every line of the slice's 1,622 `.cs` files that names `Microsoft Sans Serif`, `
   Lines 358 and 387 (a mount item's text on the layout editor's canvas) now name `FontFamily.GenericSansSerif`, as `MountHelper.cs:53`
   draws the mount; the family is the same today. If you want no code change in this slice, revert those two lines and their two rows
   in `font-literal-allow.tsv`: they then follow the window's font and preview in Segoe UI after UI-2b.
+
+### UI-2a-4: the lead's decisions and the UI-2b checklist (2026-11-18)
+
+- FormPreferences.PanelInfo_Paint (Times New Roman 10 Bold) and FormEligibilityResponseDisplay's grid (Tahoma) keep their own families at UI-2b:
+  they are deliberate fonts, not the body font, and the plan restyles, it does not re-letter.
+- FormMountDefEdit line 343 and lines 380-382 (the editor's own labels: the item with no text, the selected item's info) are screen chrome:
+  at UI-2b they follow the window font (FontBody), like the rest of the editor. Lines 358 and 387 (the item's TextShowing) are mount content
+  and draw as MountHelper does (FontFamily.GenericSansSerif).
+- UI-2b MUST pin, before the flip, these sites that draw with the window's inherited Font (found by UI-2a-4's review): FormEquipment.cs
+  pd_PrintPage's 'Total Est Value' (a printout: today's print font, as UI-2a-3's print fonts), FormSheetDefEdit.cs's canvas labels
+  '(FieldName)' and '(Special:Tooth Grid)' (sheet design content: today's font at the canvas zoom). The UI-2b brief repeats this list, and
+  UI-2a-5..n slices add any such site they find in their folders.
+- FontLiteralScan.CheckLiteral must compare a control's literal with its parent's font (plan 5.1: remove a default font only where the parent
+  has the default font) before a later slice relies on it, e.g. FormReport_ProviderIncomeReport sets a Bold form font. The UI-2a-5 brief
+  carries this fix.
