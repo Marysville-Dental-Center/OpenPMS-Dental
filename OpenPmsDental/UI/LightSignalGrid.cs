@@ -79,7 +79,9 @@ namespace OpenPmsDental.UI {
 		protected override void OnPaint(PaintEventArgs e) {
 			_buttonH=LayoutManager.Scale(25);
 			Graphics g=e.Graphics;
-			g.FillRectangle(Brushes.White,ClientRectangle);
+			//UI-6 (docs/specs/ui-refresh-plan.md section 3.6): an unlit button on SurfaceRaised, Gridline lines, a Stroke outline, the text in Text. The
+			//lit colours are the office's (Setup, Signals): content, drawn as before.
+			g.FillRectangle(UiTheme.GetBrush(EnumUiColor.SurfaceRaised),ClientRectangle);
 			if(DesignMode){
 				g.DrawRectangle(Pens.Black,0,0,Width-1,Height-1);
 				g.DrawString("LightSignalGrid",Font,Brushes.Black,0,0);
@@ -106,14 +108,23 @@ namespace OpenPmsDental.UI {
 					continue;
 				}
 				baseC=_listSignalButtonStates[i].CurrentColor;
+				bool isUnlit=baseC.ToArgb()==Color.White.ToArgb();//SetButtons and an ack turn a light off with White
 				switch(_listSignalButtonStates[i].State) {
 					case ToolBarButtonState.Normal://Control is 224,223,227
 					case ToolBarButtonState.Pressed:
+						if(isUnlit) {
+							g.FillRectangle(UiTheme.GetBrush(EnumUiColor.SurfaceRaised),0,i*_buttonH-_scrollVal,Width,_buttonH);
+							break;
+						}
 						using(SolidBrush sb = new SolidBrush(baseC)) {
 							g.FillRectangle(sb,0,i*_buttonH-_scrollVal,Width,_buttonH);
 						}
 						break;
 					case ToolBarButtonState.Hover://this is darker
+						if(isUnlit) {
+							g.FillRectangle(UiTheme.GetBrush(EnumUiColor.SubtleHover),0,i*_buttonH-_scrollVal,Width,_buttonH);
+							break;
+						}
 						R=baseC.R-40;
 						G=baseC.G-40;
 						B=baseC.B-40;
@@ -125,8 +136,9 @@ namespace OpenPmsDental.UI {
 				}
 			}
 			//grid
+			int widthLine=UiTheme.GetLineWidth(LayoutManager.ScaleMy());
 			for(int i = 0;i<_listSignalButtonStates.Count;i++) {
-				g.DrawLine(Pens.DarkGray,0,i*_buttonH-_scrollVal,Width,i*_buttonH-_scrollVal);
+				g.FillRectangle(UiTheme.GetBrush(EnumUiColor.Gridline),0,i*_buttonH-_scrollVal,Width,widthLine);
 			}
 			//button text
 			RectangleF rect;
@@ -135,10 +147,14 @@ namespace OpenPmsDental.UI {
 			format.LineAlignment=StringAlignment.Center;
 			for(int i = 0;i<_listSignalButtonStates.Count;i++) {
 				rect=new RectangleF(-2,i*_buttonH-_scrollVal,Width+4,_buttonH);
-				g.DrawString(_listSignalButtonStates[i].Text,Font,Brushes.Black,rect,format);
+				g.DrawString(_listSignalButtonStates[i].Text,Font,UiTheme.GetBrush(EnumUiColor.Text),rect,format);
 			}
 			//outline
-			g.DrawRectangle(Pens.DarkGray,0,0,Width-1,Height-1);
+			Brush brushOutline=UiTheme.GetBrush(EnumUiColor.Stroke);
+			g.FillRectangle(brushOutline,0,0,Width,widthLine);
+			g.FillRectangle(brushOutline,0,Height-widthLine,Width,widthLine);
+			g.FillRectangle(brushOutline,0,0,widthLine,Height);
+			g.FillRectangle(brushOutline,Width-widthLine,0,widthLine,Height);
 		}
 		#endregion Painting
 

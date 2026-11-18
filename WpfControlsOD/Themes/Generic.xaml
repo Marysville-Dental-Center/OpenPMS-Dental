@@ -195,4 +195,128 @@
 		<Setter Property="HorizontalAlignment" Value="Left"/>
 		<Setter Property="VerticalAlignment" Value="Top"/>
 	</Style>
+	<!--UI-6 (docs/specs/ui-refresh-plan.md section 3.6, Menus): the menu items of WpfControls.UI.Menu and ContextMenu. Drop-downs SurfaceRaised with a
+	1 px Stroke border, item hover SubtleHover with 2 px corners, Gridline separators, the Fluent check mark and sub-menu arrow, disabled TextDisabled;
+	the menu bar's items on its Surface, pressed (open) SubtlePressed. Brushes and glyphs come from the tokens through local:MenuItem's statics.-->
+	<Style TargetType="{x:Type local:MenuItem}">
+		<Style.Resources>
+			<!--The menus' separators, found through the item's or the menu's style (a theme dictionary cannot answer MenuItem.SeparatorStyleKey).-->
+			<Style x:Key="{x:Static MenuItem.SeparatorStyleKey}" TargetType="{x:Type Separator}">
+				<Setter Property="Template">
+					<Setter.Value>
+						<ControlTemplate TargetType="{x:Type Separator}">
+							<Border Height="1" Margin="4,3,4,3" Background="{x:Static local:MenuItem.BrushGridline}" SnapsToDevicePixels="True"/>
+						</ControlTemplate>
+					</Setter.Value>
+				</Setter>
+			</Style>
+		</Style.Resources>
+		<Setter Property="Foreground" Value="{x:Static local:MenuItem.BrushText}"/>
+		<Setter Property="Background" Value="Transparent"/>
+		<Setter Property="SnapsToDevicePixels" Value="True"/>
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="{x:Type local:MenuItem}">
+					<Grid>
+						<Border x:Name="border" Background="{TemplateBinding Background}" CornerRadius="2" Margin="1,0,1,0"/>
+						<Grid x:Name="gridContent" Margin="4,2,4,2" VerticalAlignment="Center">
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition x:Name="columnIcon" Width="Auto" MinWidth="16" SharedSizeGroup="MenuItemIconColumnGroup"/>
+								<ColumnDefinition Width="*"/>
+								<ColumnDefinition Width="Auto" SharedSizeGroup="MenuItemIGTColumnGroup"/>
+								<ColumnDefinition Width="Auto"/>
+							</Grid.ColumnDefinitions>
+							<ContentPresenter x:Name="icon" ContentSource="Icon" Width="16" Height="16" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+							<Path x:Name="check" Data="{x:Static local:MenuItem.GeometryCheckmark}" Fill="{TemplateBinding Foreground}" Width="16" Height="16"
+								Stretch="None" VerticalAlignment="Center" Visibility="Collapsed"/>
+							<ContentPresenter x:Name="header" Grid.Column="1" ContentSource="Header" RecognizesAccessKey="True" VerticalAlignment="Center" Margin="8,0,8,0"/>
+							<TextBlock x:Name="gesture" Grid.Column="2" Text="{TemplateBinding InputGestureText}" Margin="16,0,4,0" VerticalAlignment="Center"/>
+							<Path x:Name="arrow" Grid.Column="3" Data="{x:Static local:MenuItem.GeometryChevronRight}" Fill="{TemplateBinding Foreground}" Width="12"
+								Height="12" Stretch="None" VerticalAlignment="Center" Margin="4,0,0,0" Visibility="Collapsed"/>
+						</Grid>
+						<Popup x:Name="PART_Popup" IsOpen="{Binding IsSubmenuOpen, RelativeSource={RelativeSource TemplatedParent}}" Placement="Right"
+							AllowsTransparency="True" Focusable="False" PopupAnimation="None">
+							<Border Background="{x:Static local:MenuItem.BrushSurfaceRaised}" BorderBrush="{x:Static local:MenuItem.BrushStroke}" BorderThickness="1" Padding="2">
+								<ScrollViewer CanContentScroll="True" VerticalScrollBarVisibility="Auto">
+									<ItemsPresenter KeyboardNavigation.DirectionalNavigation="Cycle" Grid.IsSharedSizeScope="True"/>
+								</ScrollViewer>
+							</Border>
+						</Popup>
+					</Grid>
+					<ControlTemplate.Triggers>
+						<Trigger Property="Role" Value="TopLevelHeader">
+							<Setter TargetName="PART_Popup" Property="Placement" Value="Bottom"/>
+							<Setter TargetName="columnIcon" Property="MinWidth" Value="0"/>
+							<Setter TargetName="icon" Property="Visibility" Value="Collapsed"/>
+							<Setter TargetName="gesture" Property="Visibility" Value="Collapsed"/>
+							<Setter TargetName="header" Property="Margin" Value="2,0,2,0"/>
+							<Setter TargetName="gridContent" Property="Margin" Value="4,1,4,1"/>
+							<Setter TargetName="border" Property="Margin" Value="0"/>
+						</Trigger>
+						<Trigger Property="Role" Value="TopLevelItem">
+							<Setter TargetName="columnIcon" Property="MinWidth" Value="0"/>
+							<Setter TargetName="icon" Property="Visibility" Value="Collapsed"/>
+							<Setter TargetName="gesture" Property="Visibility" Value="Collapsed"/>
+							<Setter TargetName="header" Property="Margin" Value="2,0,2,0"/>
+							<Setter TargetName="gridContent" Property="Margin" Value="4,1,4,1"/>
+							<Setter TargetName="border" Property="Margin" Value="0"/>
+						</Trigger>
+						<Trigger Property="Role" Value="SubmenuHeader">
+							<Setter TargetName="arrow" Property="Visibility" Value="Visible"/>
+						</Trigger>
+						<Trigger Property="Icon" Value="{x:Null}">
+							<Setter TargetName="icon" Property="Visibility" Value="Collapsed"/>
+						</Trigger>
+						<Trigger Property="IsChecked" Value="True">
+							<Setter TargetName="check" Property="Visibility" Value="Visible"/>
+							<Setter TargetName="icon" Property="Visibility" Value="Collapsed"/>
+						</Trigger>
+						<Trigger Property="IsHighlighted" Value="True">
+							<Setter TargetName="border" Property="Background" Value="{x:Static local:MenuItem.BrushSubtleHover}"/>
+						</Trigger>
+						<MultiTrigger>
+							<MultiTrigger.Conditions>
+								<Condition Property="Role" Value="TopLevelHeader"/>
+								<Condition Property="IsSubmenuOpen" Value="True"/>
+							</MultiTrigger.Conditions>
+							<Setter TargetName="border" Property="Background" Value="{x:Static local:MenuItem.BrushSubtlePressed}"/>
+						</MultiTrigger>
+						<Trigger Property="IsEnabled" Value="False">
+							<Setter Property="Foreground" Value="{x:Static local:MenuItem.BrushTextDisabled}"/>
+							<Setter TargetName="border" Property="Background" Value="Transparent"/>
+						</Trigger>
+					</ControlTemplate.Triggers>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+	<!--UI-6: WpfControls.UI.ContextMenu (section 3.6, Menus): SurfaceRaised with a 1 px Stroke border, the items as local:MenuItem's style above.-->
+	<Style TargetType="{x:Type local:ContextMenu}">
+		<Style.Resources>
+			<!--The menus' separators, found through the item's or the menu's style (a theme dictionary cannot answer MenuItem.SeparatorStyleKey).-->
+			<Style x:Key="{x:Static MenuItem.SeparatorStyleKey}" TargetType="{x:Type Separator}">
+				<Setter Property="Template">
+					<Setter.Value>
+						<ControlTemplate TargetType="{x:Type Separator}">
+							<Border Height="1" Margin="4,3,4,3" Background="{x:Static local:MenuItem.BrushGridline}" SnapsToDevicePixels="True"/>
+						</ControlTemplate>
+					</Setter.Value>
+				</Setter>
+			</Style>
+		</Style.Resources>
+		<Setter Property="Foreground" Value="{x:Static local:MenuItem.BrushText}"/>
+		<Setter Property="SnapsToDevicePixels" Value="True"/>
+		<Setter Property="Grid.IsSharedSizeScope" Value="True"/>
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="{x:Type local:ContextMenu}">
+					<Border Background="{x:Static local:MenuItem.BrushSurfaceRaised}" BorderBrush="{x:Static local:MenuItem.BrushStroke}" BorderThickness="1" Padding="2">
+						<ScrollViewer CanContentScroll="True" VerticalScrollBarVisibility="Auto">
+							<ItemsPresenter KeyboardNavigation.DirectionalNavigation="Cycle"/>
+						</ScrollViewer>
+					</Border>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
 </ResourceDictionary>

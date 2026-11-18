@@ -48,4 +48,39 @@
       <Link>Utilities\ODNumberTextNetFx.cs</Link>
     </Compile>
   </ItemGroup>
+  <!--
+    The UI refresh's token renderer for the designer's stock menus, status strip and context menus (package UI-6, docs/port-notes/UI-6.md;
+    docs/specs/ui-refresh-plan.md section 3.6): the WinForms part of CodeBase's UiTheme (colours, per-thread brushes, sizes, fonts, the
+    renderer) and the icon renderer for its glyphs, compiled in as linked files, since this project does not reference CodeBase. They use only
+    Windows Forms, System.Drawing and Microsoft.Win32 (NoHqTests' UiThemeScanTests checks it). Main calls CodeBase.UiTheme.InitWinForms().
+  -->
+  <ItemGroup>
+    <Compile Include="..\CodeBase\UI\UiTheme.cs">
+      <Link>CodeBase\UI\UiTheme.cs</Link>
+    </Compile>
+    <Compile Include="..\CodeBase\UI\UiTheme.Colors.cs">
+      <Link>CodeBase\UI\UiTheme.Colors.cs</Link>
+    </Compile>
+    <Compile Include="..\CodeBase\UI\UiTheme.Gdi.cs">
+      <Link>CodeBase\UI\UiTheme.Gdi.cs</Link>
+    </Compile>
+    <Compile Include="..\CodeBase\UI\UiTheme.Metrics.cs">
+      <Link>CodeBase\UI\UiTheme.Metrics.cs</Link>
+    </Compile>
+    <Compile Include="..\CodeBase\UI\UiTheme.Fonts.cs">
+      <Link>CodeBase\UI\UiTheme.Fonts.cs</Link>
+    </Compile>
+    <Compile Include="..\CodeBase\UI\UiTheme.Renderer.cs">
+      <Link>CodeBase\UI\UiTheme.Renderer.cs</Link>
+    </Compile>
+    <Compile Include="..\CodeBase\UI\Icons\UiIcons.cs">
+      <Link>CodeBase\UI\Icons\UiIcons.cs</Link>
+    </Compile>
+    <Compile Include="..\CodeBase\UI\Icons\UiIcons.Gdi.cs">
+      <Link>CodeBase\UI\Icons\UiIcons.Gdi.cs</Link>
+    </Compile>
+    <Compile Include="..\CodeBase\UI\Icons\IconData.g.cs">
+      <Link>CodeBase\UI\Icons\IconData.g.cs</Link>
+    </Compile>
+  </ItemGroup>
 </Project>

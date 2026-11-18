@@ -504,6 +504,8 @@ namespace OpenPmsDentalBusiness.Microsoft365 {
 			}
 			Thread thread=new Thread(() => {
 				try {
+					//A UI thread of its own: the token renderer for its menus and tool strips (UI-6; Windows Forms keeps it per thread).
+					CodeBase.UiTheme.InitWinForms();
 					System.Windows.Forms.MessageBox.Show("To sign in, open "+microsoft365DeviceCode.VerificationUrl+" and enter the code "
 						+microsoft365DeviceCode.UserCode+".\r\n\r\nPress Ctrl+C to copy this text.","Microsoft 365 sign-in");
 				}

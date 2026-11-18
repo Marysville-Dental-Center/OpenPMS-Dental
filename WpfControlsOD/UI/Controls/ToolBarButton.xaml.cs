@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using CodeBase;
 
 namespace WpfControls.UI{
 	///<summary></summary>
@@ -22,14 +23,14 @@ namespace WpfControls.UI{
 		//private string _bitmapFileName;
 		///<summary>If the button is a dropdown, then this is the context menu that will show.</summary>
 		public ContextMenu ContextMenuDropDown;
-		///<summary>This adds a slightly darker wash and a gray border.</summary>
+		///<summary>The mouse is over the button (SubtleHover).</summary>
 		private bool _isHover;
-		///<summary>Only used if style is ToggleButton. Light blue wash with blue border. No hover effect when a toggle is pushed.</summary>
+		///<summary>The left mouse button went down on the button and is still down (SubtlePressed).</summary>
+		private bool _isPressed;
+		///<summary>Only used if style is ToggleButton. AccentSubtle with an Accent border. No hover effect when a toggle is pushed.</summary>
 		public bool IsTogglePushed;
-		private LinearGradientBrush linearGradientBrush=new LinearGradientBrush(Color.FromRgb(255,255,255),Color.FromRgb(191, 201, 229),angle:90);//#bfc9e5
-			//Color.FromRgb(171, 181, 209),angle:90);//#ABB5D1
-		private LinearGradientBrush linearGradientBrushToggled=new LinearGradientBrush(Color.FromRgb(255,255,255),Color.FromRgb(191,220,255),angle:90);
-		private SolidColorBrush _solidColorBrushHoverBackground=new SolidColorBrush(Color.FromArgb(10,0,100,255));//20% blue wash
+		///<summary>Whether the icon is drawn in TextDisabled now, so it is drawn again only when that changes.</summary>
+		private bool _isIconDisabled;
 		private ToolBarButtonStyle _toolBarButtonStyle;
 		private ToolTip _toolTip;
 		private string _toolTipText;
@@ -37,8 +38,10 @@ namespace WpfControls.UI{
 		public ToolBarButton(){
 			InitializeComponent();
 			grid.ColumnDefinitions[2].Width=new GridLength(0);//hide the dropdown button
-			polygonTriangle.Visibility=Visibility.Collapsed;
+			pathChevron.Data=UiIcons.GetGeometryWpf(UiGlyph.ChevronDown,UiTheme.SIZE_CHEVRON);
+			pathChevron.Visibility=Visibility.Collapsed;
 			IsEnabledChanged+=This_IsEnabledChanged;
+			SetColors();
 		}
 
 		public ToolBarButton(string text,EventHandler eventHandlerClick,EnumIcons icon=EnumIcons.None,ToolBarButtonStyle toolBarButtonStyle=ToolBarButtonStyle.NormalButton,
@@ -93,7 +96,8 @@ namespace WpfControls.UI{
 				}
 				gridImage.Width=22;
 				gridImage.Height=22;
-				IconLibrary.DrawWpf(_icon,gridImage);
+				_isIconDisabled=!IsEnabled;
+				DrawIcon();
 				SetMargins();
 			}
 		}
@@ -114,11 +118,11 @@ namespace WpfControls.UI{
 				_toolBarButtonStyle=value;
 				if(_toolBarButtonStyle==ToolBarButtonStyle.DropDownButton){
 					grid.ColumnDefinitions[2].Width=new GridLength(14);
-					polygonTriangle.Visibility=Visibility.Visible;
+					pathChevron.Visibility=Visibility.Visible;
 				}
 				else{
 					grid.ColumnDefinitions[2].Width=new GridLength(0);
-					polygonTriangle.Visibility=Visibility.Collapsed;
+					pathChevron.Visibility=Visibility.Collapsed;
 				}
 			}
 		}
@@ -196,8 +200,11 @@ namespace WpfControls.UI{
 			base.OnMouseDown(e);
 			if(_isHover){
 				_isHover=false;
-				SetColors();
 			}
+			if(e.ChangedButton==MouseButton.Left && Click!=null){
+				_isPressed=true;
+			}
+			SetColors();
 			if(ToolBarButtonStyle==ToolBarButtonStyle.DropDownButton){
 				if(e.GetPosition(this).X>=grid.ColumnDefinitions[0].ActualWidth+grid.ColumnDefinitions[1].ActualWidth){
 					if(ContextMenuDropDown!=null){//there is a dropdown menu to display
@@ -217,6 +224,15 @@ namespace WpfControls.UI{
 			Click?.Invoke(this,new EventArgs());
 		}
 
+		protected override void OnMouseUp(MouseButtonEventArgs e) {
+			base.OnMouseUp(e);
+			if(_isPressed){
+				_isPressed=false;
+				_isHover=Click!=null && IsMouseOver;
+				SetColors();
+			}
+		}
+
 		protected override void OnMouseMove(MouseEventArgs e) {
 			base.OnMouseMove(e);
 			bool isMouseDown=Mouse.LeftButton==MouseButtonState.Pressed;
@@ -226,6 +242,7 @@ namespace WpfControls.UI{
 				return;
 			}
 			//mouse is not down
+			_isPressed=false;
 			if(Click is null){
 				//if no click event, then we don't show any hover effect. It's just a label.
 				_isHover=false;
@@ -247,6 +264,7 @@ namespace WpfControls.UI{
 			}
 			//mouse is not down
 			_isHover=false;
+			_isPressed=false;
 			SetColors();
 		}
 
@@ -255,34 +273,46 @@ namespace WpfControls.UI{
 			SetColors();
 		}
 
+		///<summary>The state's look (UI-6, docs/specs/ui-refresh-plan.md section 3.6, Toolbars): transparent at rest; SubtleHover on hover and
+		///SubtlePressed pressed (borderOverlay: 4 px corners, 1 px in from the bounds); toggled AccentSubtle with a 1 px Accent border; disabled
+		///TextDisabled, the icon too. Text and chevron in Text.</summary>
 		private void SetColors(){
-			grid.Background=linearGradientBrush;
 			borderOverlay.BorderThickness=new Thickness(1);
 			borderOverlay.BorderBrush=Brushes.Transparent;
 			borderOverlay.Background=Brushes.Transparent;
-			borderDropDown.BorderBrush=Brushes.Transparent;
 			borderDropDown.Background=Brushes.Transparent;
-			//image?
-			textBlock.Foreground=Brushes.Black;
-			polygonTriangle.Fill=Brushes.Black;
+			Brush brushText=UiTheme.GetBrushWpf(EnumUiColor.Text);
 			if(!IsEnabled){
-				textBlock.Foreground=new SolidColorBrush(OpenPmsDental.ColorOD.Gray_Wpf(100));
-				polygonTriangle.Fill=new SolidColorBrush(OpenPmsDental.ColorOD.Gray_Wpf(100));
-				return;
+				brushText=UiTheme.GetBrushWpf(EnumUiColor.TextDisabled);
 			}
-			if(ToolBarButtonStyle==ToolBarButtonStyle.ToggleButton && IsTogglePushed){
+			else if(ToolBarButtonStyle==ToolBarButtonStyle.ToggleButton && IsTogglePushed){
 				//if toggled on, it will not respond to hover
-				grid.Background=linearGradientBrushToggled;
-				borderOverlay.BorderBrush=new SolidColorBrush(Color.FromRgb(50,120,200));
-				borderOverlay.BorderThickness=new Thickness(1.5);
+				borderOverlay.Background=UiTheme.GetBrushWpf(EnumUiColor.AccentSubtle);
+				borderOverlay.BorderBrush=UiTheme.GetBrushWpf(EnumUiColor.Accent);
+				brushText=UiTheme.GetBrushWpf(EnumUiColor.TextSelected);
+			}
+			else if(_isPressed){
+				borderOverlay.Background=UiTheme.GetBrushWpf(EnumUiColor.SubtlePressed);
+			}
+			else if(_isHover){
+				borderOverlay.Background=UiTheme.GetBrushWpf(EnumUiColor.SubtleHover);
+			}
+			textBlock.Foreground=brushText;
+			pathChevron.Fill=brushText;
+			if(_icon!=EnumIcons.None && _isIconDisabled==IsEnabled){
+				_isIconDisabled=!IsEnabled;
+				DrawIcon();
+			}
+		}
+
+		///<summary>The icon in its role colour, or in TextDisabled while the button is disabled.</summary>
+		private void DrawIcon(){
+			gridImage.Children.Clear();
+			if(_isIconDisabled){
+				IconLibrary.DrawWpf(_icon,gridImage,UiTheme.GetBrushWpf(EnumUiColor.TextDisabled),false);
 				return;
 			}
-			if(_isHover){
-				borderOverlay.BorderBrush=Brushes.SlateGray;
-				borderOverlay.Background=_solidColorBrushHoverBackground;
-				borderDropDown.BorderBrush=Brushes.SlateGray;
-				borderDropDown.Background=_solidColorBrushHoverBackground;
-			}
+			IconLibrary.DrawWpf(_icon,gridImage);
 		}
 	}
 

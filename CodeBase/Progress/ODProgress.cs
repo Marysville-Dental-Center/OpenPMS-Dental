@@ -160,6 +160,8 @@ namespace CodeBase {
 			FormProgressBase FormPB=null;
 			ManualResetEvent manualReset=new ManualResetEvent(false);
 			ODThread odThread=new ODThread(o => {
+				//This thread is a UI thread of its own: the token renderer for its menus and tool strips (UI-6; Windows Forms keeps it per thread).
+				UiTheme.InitWinForms();
 				//It is very important that this particular thread instantiates the form and not the calling method.
 				//This is what allows the progress window to show and be interacted with without joining or invoking back to the parent thread.
 				FormPB=funcGetNewProgress();

@@ -317,10 +317,18 @@ namespace UiRefreshTests {
 		}
 
 		[TestMethod]
-		public void InitWinForms_DoesNothingUntilUi6() {
-			System.Windows.Forms.ToolStripRenderer rendererBefore=System.Windows.Forms.ToolStripManager.Renderer;
-			UiTheme.InitWinForms();
-			Assert.AreSame(rendererBefore,System.Windows.Forms.ToolStripManager.Renderer);
+		public void InitWinForms_SetsTheTokenRendererOnce() {
+			//UI-1 left it empty; UI-6 fills it (the token renderer, Toolbars\RendererTests.cs). On a thread of its own, so this test's thread keeps
+			//its renderer. A second call keeps the first renderer.
+			StaRunnerHelpers.RunSta(() => {
+				System.Windows.Forms.ToolStripRenderer rendererBefore=System.Windows.Forms.ToolStripManager.Renderer;
+				Assert.IsNotInstanceOfType(rendererBefore,typeof(UiToolStripRenderer));
+				UiTheme.InitWinForms();
+				System.Windows.Forms.ToolStripRenderer rendererAfter=System.Windows.Forms.ToolStripManager.Renderer;
+				Assert.IsInstanceOfType(rendererAfter,typeof(UiToolStripRenderer));
+				UiTheme.InitWinForms();
+				Assert.AreSame(rendererAfter,System.Windows.Forms.ToolStripManager.Renderer);
+			});
 		}
 		#endregion Values
 	}

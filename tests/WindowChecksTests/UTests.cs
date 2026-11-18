@@ -16,8 +16,8 @@ namespace WindowChecksTests {
 	public class UTests {
 		///<summary>Group U's parts, each also a group name of OPMS_WINDOW_CHECKS_GROUPS, so a run that would not fit the runner's 20 minutes can be
 		///split: UW the common windows, UM the main window and its modules, UD the dashboard, UF the font checks of UI-2a-1 (UF1, UF2: a signed note in a
-		///shown window). U runs all four.</summary>
-		public static readonly string[] ArrayParts=new[] { "UW","UM","UD","UF" };
+		///shown window), UT the toolbar check of UI-6 (UT1). U runs all five.</summary>
+		public static readonly string[] ArrayParts=new[] { "UW","UM","UD","UF","UT" };
 
 		///<summary>True when the run includes group U or one of its parts (U0 then runs at the end of the run).</summary>
 		public static bool IsInRun {
@@ -88,6 +88,15 @@ namespace WindowChecksTests {
 		public void UF1_SignedNote_StaysValid_AfterZoomResizeAndSave() {
 			BeginPart("UF");
 			CTests.RunInProcess(new[] { new[] { "UF1","Font: a signed note in FormProcEdit stays valid after zoom, resize and save" } },"chart");
+		}
+
+		///<summary>UI-6 (docs/specs/ui-refresh-plan.md, section 7's UI-6 row): the main window at 1024, 1366 and 1920 px with each module; every
+		///toolbar and the main menu keep their order, what runs past the right edge is listed for the owner, and each is pictured for gallery G-UI2
+		///(InProcChecks.UT.cs). Needs a shown window, so it is a window check; ToolBarFitTests (UiRefreshTests) measures the same off screen.</summary>
+		[TestMethod]
+		public void UT1_Toolbars_KeepOrderAndFitAt1024_1366_1920() {
+			BeginPart("UT");
+			CTests.RunInProcess(new[] { new[] { "UT1","Toolbars and the main menu at 1024, 1366 and 1920 px: order, right edge, pictures" } },"");
 		}
 
 		///<summary>UF1 without the zoom change and the resize: FormProcEdit with a signed note opened and saved; the saved signature is the same
