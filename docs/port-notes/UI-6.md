@@ -1,7 +1,8 @@
 # Port note: UI-6 (toolbars, menus and the module bar)
 
 Package UI-6 of the UI refresh ([docs/specs/ui-refresh-plan.md](../specs/ui-refresh-plan.md), section 7's UI-6 row, sections 3.2, 3.3 and
-3.6), on `ui/ui6-1` from `main` at `2ae1982f3` (UI-7b merged). Visible change: the toolbars, the menus (the program's own and every stock
+3.6), on `ui/ui6-1` from `main` at `2ae1982f3` (UI-7b merged), with `main` at `e4118a588` (UI-8's dental icons) merged in on `ui/ui6-2`.
+Visible change: the toolbars, the menus (the program's own and every stock
 context menu, menu strip, tool strip and status strip), the module bar, the Chart module's button panel and the light signal grid draw in the
 new look from the UiTheme tokens. No control moves, no bounds change, no font changes (UI-2b), no schema change, no package, no download, no
 program started, no database used, no window shown.
@@ -41,13 +42,15 @@ program started, no database used, no window shown.
 - **`ModuleBar`**: `SurfaceSubtle` with a 1 px `Gridline` divider on the right, no lines between buttons; the shape inset 4 px from the sides
   and 2 px from top and bottom, 6 px corners: hover `SubtleHover`, pressed `SubtlePressed`; the selected module `SurfaceRaised` with a 3 px
   `Accent` mark on the left and its icon in its **Filled** style in `Accent` (UI-7b's `<member>Filled` rows); other icons Regular in `Text`;
-  captions in `Text` (their Arial 8 font stays until UI-2b, which takes `UiTheme.FontModuleCaption`). The Chart module keeps its picture
-  (Chart32G, and Chart32W on the selected white shape) until UI-8. Hover and pressed come from the mouse events (`currentHot`, `_isMouseDown`)
-  instead of reading the mouse position in every paint; the behaviour is the same.
+  captions in `Text` (their Arial 8 font stays until UI-2b, which takes `UiTheme.FontModuleCaption`). The Chart module draws UI-8's custom
+  dental icons the same way: the Tooth in `Text` at rest (Chart32G), and when it is the open module the ToothFilled in `Accent` (Chart32W,
+  through `IconLibrary.GetDentalIcon`; the medical layout's ChartMedical and ChartMedicalFilled likewise). Hover and pressed come from the
+  mouse events (`currentHot`, `_isMouseDown`) instead of reading the mouse position in every paint; the behaviour is the same.
 - **Icons without a box.** UI-7b's reviewer noted that `IconLibrary.Draw` fills an opaque Direct2D bitmap over the caller's colours, which
   would show its square inside a rounded hover shape. The toolbar and the module bar draw `EnumIcons` with `ToolBarOD.DrawIconTransparent`:
   the same Fluent design filled with GDI+ (`UiIcons.Draw`, antialiased, UI-7a's OnlyGDI path) straight onto the control, so nothing shows behind
-  the icon in any state; the pictures (`IsPicture`) draw their bitmaps. `IconLibrary` itself is unchanged.
+  the icon in any state. Since UI-8 every `EnumIcons` is a vector design (the Gen_*.cs pictures and `IconLibrary.IsPicture` are gone), so
+  `DrawIconTransparent` always calls `UiIcons.Draw` with `IconLibrary.GetDesign(icon,size,isFilled)`. `IconLibrary` itself is unchanged.
 - **`ODButtonPanel`**: flat `SurfaceRaised` with a 1 px `Stroke` outline (the shadow and the navy outline are gone); button items as the new
   buttons: `SurfaceRaised`, 1 px `Stroke` border, 4 px corners, `ButtonHover` on hover and `ButtonPressed` pressed (new: the panel tracks the
   item under the mouse), text in `Text`; label items `Text` on `SurfaceRaised`. Item widths keep text + 8 (section 3.3). `ODPanelItem` needs no
@@ -104,8 +107,10 @@ All in the Targeted assemblies (UiRefreshTests, WindowChecksTests, UnitTests, No
 ## 3. Gallery G-UI2, the toolbar part
 
 **Where:** `.git/od-tools/test-results/G-UI2-toolbars-ui6/` (`index.html`, its zip beside it). Sources: `test-results/ui6-pictures/before`
-(the same test on the branch point's control code: `2ae1982f3`'s `ToolBarOD`, `ModuleBar`, `ODButtonPanel`, `LightSignalGrid`, `MenuOD`, WPF
-toolbar and menus, and an empty `InitWinForms`) and `test-results/ui6-pictures/after`.
+(the same test on merged main's control code: `e4118a588`'s `ToolBarOD`, `ModuleBar`, `ODButtonPanel`, `LightSignalGrid`, `MenuOD`, WPF
+toolbar and menus, and its empty `InitWinForms`, so the before pictures have UI-8's tooth on the Chart button) and
+`test-results/ui6-pictures/after` (`ui/ui6-2`, main merged in). Both sets were made again after the merge with main (UI-8): the first gallery,
+made at `19d34be02` without UI-8, showed the old Chart picture.
 
 **The pictures** (all drawn off screen by the controls' own painting; WPF with `RenderTargetBitmap`, which drew in this disconnected
 session): `strips/` each module toolbar at the 1366 px window's width with the module's own buttons and ImageList (main, appts, family,
@@ -143,9 +148,10 @@ strips; the UM pictures compare with the before set `test-results/ui-before` (ru
 is on them (light grey), pressed (a little darker) or switched on (light blue with a blue edge); the drop-down arrows are thin chevrons; the
 error and notice buttons are light red and light yellow; the menus are white with a thin grey edge and light grey hover, with thin check marks
 and arrows, and the menu bar has no lines; the module bar is light grey, the open module is white with a blue mark on its left and a filled
-blue icon; the Chart module's quick buttons and the signal lights are flat with thin grey edges. What did not change: every toolbar button,
-menu item and module button is where it was and as wide as it was; the fonts (Segoe UI comes with UI-2b); the office's signal light colours;
-the Chart module's tooth picture (UI-8); the pictures of buttons that still use an ImageList (UI-9).
+blue icon (the Chart module's button shows UI-8's tooth, filled blue when it is open); the Chart module's quick buttons and the signal lights
+are flat with thin grey edges. What did not change: every toolbar button, menu item and module button is where it was and as wide as it was;
+the fonts (Segoe UI comes with UI-2b); the office's signal light colours; the tooth icons themselves (UI-8's, approved in G-UI1 part 4); the
+pictures of buttons that still use an ImageList (UI-9).
 
 ## 4. Owner questions
 
