@@ -1192,6 +1192,12 @@ the bounds record must equal the before set.
   window check A6 and `PopupHelperTests` stay green.
 - Gallery: **G-UI2** (main window, modules, a few dialogs, the Imaging module with two floating image windows, one selected), with a
   stock and a customised office, and one run each with `NoCustomBorders.txt` and with `NoD2D.txt` beside the exe.
+- **Status (2026-11-17).** Built on `ui/ui3-1` (`docs/port-notes/UI-3.md`), not merged yet: `WpfControlsOD/Frame/FramePainter.cs` (the one
+  project both frames reach that also knows `DefCatMiscColors`) paints both frames; Misc Colors item by item; the floating image windows'
+  two frames; window background `Surface`; "(program default)" in the Definitions window; DWM rounded corners only as a trial behind
+  `OPENPMS_UI3_DWM_CORNERS`, off by default, because no shown-window picture could be taken (the session was disconnected). Tests in
+  `tests/UiRefreshTests/FrameTests.cs` pass; window checks UX1 to UX3 (part `UX` of group U) wait for the lead's connected session with A6
+  and the `NoD2D.txt` run. G-UI2's off-screen frame part: `.git/od-tools/test-results/g-ui2-frame-ui3/`.
 
 **UI-4a: core controls, part 1**
 - Owns: WinForms `Button.cs`, `CheckBox.cs`, `GroupBox.cs`, `PanelOD.cs`, `ToolTipOD.cs`; WPF `Button`, `CheckBox`, `RadioButton`,
