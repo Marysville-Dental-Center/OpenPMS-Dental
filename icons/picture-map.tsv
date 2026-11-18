@@ -82,3 +82,8 @@ FormWebView:imageList1.ImageStream	UI-9b	the window ImageList
 FormWiki:imageListMain.ImageStream	UI-9b	the window ImageList
 FormWikiEdit:imageListMain.ImageStream	UI-9b	the window ImageList
 FormRpProcOverpaid:imageListCalendar.ImageStream	UI-9b	the window ImageList
+Resources:butExportExcel	EnumIcons.ExportExcel	export to Excel (spreadsheet page)
+Resources:butQView	EnumIcons.QueryView	query view (table with a magnifier)
+FormRpPatients:butDeleteFilter.Image	EnumIcons.DeleteX	delete the filter (red X)
+FormRpDPPOvercharged:imageListCalendar.ImageStream	UI-9b	the window ImageList
+FormRpProcNotBilledIns:imageListCalendar.ImageStream	UI-9b	the window ImageList

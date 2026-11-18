@@ -78,7 +78,10 @@ namespace OpenPmsDental.UI{
 		//UI-9a-5 (Forms T-Z and Forms Reports, docs/port-notes/UI-9a.md): the copy and paste pictures of FormTaskEdit and FormUserQuery; the manifest
 		//rows and the WPF members exist (Imaging toolbar).
 		Copy,
-		Paste
+		Paste,
+		//The Excel export and query view pictures of FormQuery, with their manifest rows.
+		ExportExcel,
+		QueryView
 	}
 
 	///<summary></summary>

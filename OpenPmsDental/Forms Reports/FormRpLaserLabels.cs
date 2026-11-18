@@ -395,10 +395,10 @@ namespace OpenPmsDental {
 					picLabel[cnt].Click += new EventHandler(clickLabel);
 					picLabel[cnt].Tag = cnt.ToString();
 					if(cnt < istartingpoint) {
-						picLabel[cnt].Image = global::OpenPmsDental.Properties.Resources.DeleteX;
+						picLabel[cnt].Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.DeleteX,51,17);
 					}
 					else {
-						picLabel[cnt].Image = global::OpenPmsDental.Properties.Resources.butLabel;
+						picLabel[cnt].Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.Label,51,17);
 					}
 					LayoutManager.Add(picLabel[cnt],panLabels);
 					cnt += 1;
