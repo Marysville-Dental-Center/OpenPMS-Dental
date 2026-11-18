@@ -489,6 +489,91 @@ namespace OpenPmsDental.UI{
 		}
 		#endregion Drawing
 
+		#region Fluent glyphs
+		///<summary>Fills a Fluent glyph of the UI refresh (CodeBase.UiIcons, package UI-7a of docs/specs/ui-refresh-plan.md, section 4.2) in a slot,
+		///in device pixels: the design for the slot's size (section 3.5), centred on whole pixels, as one path (BeginPath, BeginFigure, AddLine,
+		///AddBezier, EndFigure, EndPath; the wrapper's fill mode is winding, the SVGs' nonzero rule). Call between BeginDraw and EndDraw. Nothing for
+		///None or an empty slot.</summary>
+		public void FillGlyph(CodeBase.UiGlyph uiGlyph,Rectangle rectangleSlot,Color color){
+			FillIcon(CodeBase.UiIcons.GetDesign(uiGlyph,Math.Min(rectangleSlot.Width,rectangleSlot.Height)),rectangleSlot,color);
+		}
+
+		///<summary>Fills one design of the icon table (CodeBase.UiIcons.GetDesign) in a slot, placed by CodeBase.UiIcons.GetDrawRectangle, as
+		///FillGlyph does. Nothing for null or an empty slot.</summary>
+		public void FillIcon(CodeBase.IconDesign iconDesign,Rectangle rectangleSlot,Color color){
+			if(iconDesign==null || rectangleSlot.Width<=0 || rectangleSlot.Height<=0){
+				return;
+			}
+			BeginPath();
+			CodeBase.UiIcons.WriteFigures(new GlyphPathSink(this),iconDesign,rectangleSlot);
+			EndPath(isFilled:true,isOutline:false,colorFill:color);
+		}
+
+		///<summary>Draws a Fluent glyph on a GDI+ Graphics the way IconLibrary draws its vector icons: with Direct2D into a bitmap of the slot's size
+		///over colorBack (the bitmap target has no transparency), then that bitmap onto g, pixel for pixel. With IconLibrary.OnlyGDI (NoD2D.txt),
+		///or when Direct2D cannot start (which sets OnlyGDI from then on, as IconLibrary.Draw does), the glyph is filled with GDI+ instead
+		///(CodeBase.UiIcons.Draw), on whatever g already shows. Both draw the same design in the same square.</summary>
+		public static void DrawGlyph(Graphics g,CodeBase.UiGlyph uiGlyph,Rectangle rectangleSlot,Color color,Color colorBack){
+			if(uiGlyph==CodeBase.UiGlyph.None || rectangleSlot.Width<=0 || rectangleSlot.Height<=0){
+				return;
+			}
+			if(IconLibrary.OnlyGDI){
+				CodeBase.UiIcons.Draw(g,uiGlyph,rectangleSlot,color);
+				return;
+			}
+			using Bitmap bitmap=new Bitmap(rectangleSlot.Width,rectangleSlot.Height);
+			Direct2d d=null;
+			try{
+				d=FromBitmap(bitmap);
+			}
+			catch{
+				IconLibrary.OnlyGDI=true;//from now on
+				d?.Dispose();
+				CodeBase.UiIcons.Draw(g,uiGlyph,rectangleSlot,color);
+				return;
+			}
+			try{
+				d.BeginDraw();
+				d.Clear(colorBack);
+				d.FillGlyph(uiGlyph,new Rectangle(0,0,rectangleSlot.Width,rectangleSlot.Height),color);
+				d.EndDraw();
+			}
+			finally{
+				d.Dispose();
+			}
+			GraphicsState graphicsState=g.Save();
+			g.InterpolationMode=InterpolationMode.NearestNeighbor;
+			g.PixelOffsetMode=PixelOffsetMode.Half;
+			g.DrawImage(bitmap,rectangleSlot,0,0,rectangleSlot.Width,rectangleSlot.Height,GraphicsUnit.Pixel);
+			g.Restore(graphicsState);
+		}
+
+		///<summary>Sends a glyph's figures (CodeBase.UiIcons.WriteFigures) to this wrapper's path calls, each figure filled and closed.</summary>
+		private sealed class GlyphPathSink:CodeBase.IIconPathSink{
+			private readonly Direct2d _direct2d;
+
+			public GlyphPathSink(Direct2d direct2d){
+				_direct2d=direct2d;
+			}
+
+			public void BeginFigure(float x,float y){
+				_direct2d.BeginFigure(x,y,isFilled:true);
+			}
+
+			public void AddLine(float x,float y){
+				_direct2d.AddLine(x,y);
+			}
+
+			public void AddBezier(float x1,float y1,float x2,float y2,float x,float y){
+				_direct2d.AddBezier(x1,y1,x2,y2,x,y);
+			}
+
+			public void EndFigure(){
+				_direct2d.EndFigure(isClosed:true);
+			}
+		}
+		#endregion Fluent glyphs
+
 	}
 
 	#region D2DWrapperHwnd methods

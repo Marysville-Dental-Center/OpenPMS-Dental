@@ -18,6 +18,7 @@ namespace AttributionTests {
 		private static readonly string[] _arrayShippedComponents=new string[] {
 			"MySqlConnector",".NET libraries","Newtonsoft.Json","MimeKit","MailKit","MSAL.NET","SSH.NET","Bouncy Castle Cryptography","PDFsharp",
 			"MigraDoc","Helix Toolkit",".NET Community Toolkit","Direct Project","WeCantSpell.Hunspell","Hunspell en_US dictionary",
+			"Fluent UI System Icons",
 			"RDL Project","Google APIs Client Library for .NET","Microsoft Edge WebView2 SDK","TWAIN","Pearl API notice",
 			"HL7 CDA-core-xsl","AAFP CCR stylesheet","LOINC",
 		};

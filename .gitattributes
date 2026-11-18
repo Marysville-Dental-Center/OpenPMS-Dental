@@ -12,3 +12,6 @@ tests/VDXC2Tests/SoapEnvelopes/** -text
 # What the .NET Framework 4.8 RDL engine gave for the reports of RdlCodeTests (package S3b-2b, docs/port-notes/S3b-2.md, part B), compared
 # byte for byte, line ends included: no line-ending conversion. Diffs and merges stay text.
 tests/RdlCodeTests/Fixtures/** -text
+# The vendored Fluent UI System Icons are upstream's files byte for byte (no line end in the SVGs): no line-ending conversion, so each file keeps
+# the SHA-256 that its SOURCE.txt and CodeBase/UI/Icons/IconData.g.cs name (docs/port-notes/UI-7a.md). Diffs and merges stay text.
+third-party/fluentui-system-icons/** -text

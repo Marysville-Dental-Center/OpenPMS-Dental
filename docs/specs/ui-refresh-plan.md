@@ -1093,6 +1093,14 @@ record.
 - Tests: every manifest row draws non-empty at 16, 20, 22, 24, 32 and 48 px on GDI+, Direct2D and WPF; the OnlyGDI path (`NoD2D.txt`)
   and NoDpi mode draw the same glyphs; the generated file matches the manifest and the SVGs; the Fluent licence and notice are present.
 - Gallery: none of its own; the glyphs appear in G-UI1 part 2 with the controls.
+- **Status (2026-11-17).** Done on `ui/ui7a-1` (`docs/port-notes/UI-7a.md`), not merged yet: Fluent UI System Icons 1.1.346, the newest
+  `@fluentui/svg-icons` (no GitHub Releases), downloaded into `.git/od-tools/downloads/ui7a-fluentui-svg-icons-20261117`; the 53 SVGs of the
+  ten `UiGlyph` rows vendored with the MIT `LICENSE` and `SOURCE.txt` (the npm layout found: `icons/<name>_<size>_<style>.svg`, flat);
+  `icons/manifest.json`, `icons/README.md`, `tools/New-IconData.ps1`, the generated `CodeBase/UI/Icons/IconData.g.cs` and the renderer
+  `CodeBase/UI/Icons/UiIcons*.cs` (GDI+, `GetBitmap`, `GetImageList`, WPF) with `Direct2d.FillGlyph`, `FillIcon` and `DrawGlyph` for
+  Direct2D and the OnlyGDI path; the notice in `THIRD-PARTY-NOTICES.txt` and so in the About box's license list. The dash is Fluent's Line
+  Horizontal 1. `UiRefreshTests/IconRendererTests` draws every row at every size on GDI+, Direct2D and WPF (WPF's `RenderTargetBitmap`
+  renders in the disconnected session, so nothing waits); no window check is needed.
 
 **UI-2a: the font plumbing** (no visible change in the program). Section 5.1 and 5.2 with each font token still holding today's font
 (3.4, font tokens by role) and the mapping still the identity. It is cut into fixed slices: the risky logic (the mapping, the print

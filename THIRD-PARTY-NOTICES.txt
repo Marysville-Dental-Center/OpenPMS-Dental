@@ -251,6 +251,15 @@ License:   LGPL (word list) and a BSD-style license (affix file), as stated by t
            The LGPL version 2.1 text is LICENSE-LGPL-2.1.txt
 Source:    https://github.com/LibreOffice/dictionaries/tree/master/en
 
+--- Component: Fluent UI System Icons
+Files:     compiled into CodeBase.dll (CodeBase/UI/Icons/IconData.g.cs: the path data of the icons' SVG files, made by
+           tools/New-IconData.ps1); no file of its own
+Version:   1.1.346 (npm package @fluentui/svg-icons; repository commit ba34950eeb56d33045e4832121c68cae679e1c85)
+Copyright: Copyright (c) 2020 Microsoft Corporation
+License:   MIT License
+Source:    https://github.com/microsoft/fluentui-system-icons; the SVG files used, unchanged, with the project's LICENSE
+           and SOURCE.txt, are in third-party/fluentui-system-icons of this repository
+
 --- Component: RDL Project
 Files:     RdlEngine.dll, RdlViewer.dll
 Version:   2.9.3, built from RdlEngine/ and RdlViewer/ of this repository (changes are marked in the changed files)
