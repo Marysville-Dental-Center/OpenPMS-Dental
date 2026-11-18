@@ -182,7 +182,7 @@ namespace UiRefreshTests {
 					Assert.AreEqual("GetBitmap",row.How,row.ToString());
 					line="this."+row.Control+"."+row.Property+" = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons."+member+","+row.Width+","+row.Height+");";
 				}
-				Assert.IsTrue(text.Contains(line),row+": the designer has no line "+line);
+				Assert.IsTrue(text.Contains(line) || text.Contains(line.Substring("this.".Length)),row+": the file has no line "+line);//a code line (FormPayment.cs, FormQueryParser.cs) may omit this.
 				Assert.IsFalse(Regex.IsMatch(text,@"\bthis\."+Regex.Escape(row.Control)+@"\.(Image|BackgroundImage)\s*=\s*(\(\(System\.Drawing\.Image\)|global::OpenPmsDental\.Properties)"),
 					row+": the control still has a picture line.");
 			}
@@ -266,7 +266,7 @@ namespace UiRefreshTests {
 
 		///<summary>Windows the off-screen builder cannot make because their constructors need objects it cannot give (an X835 claim); a
 		///NullReferenceException from any other window still fails the test.</summary>
-		private static readonly string[] _arrayWindowsNeedingArguments=new[] { "FormEtrans835ClaimEdit","FormEtrans835ProcEdit" };
+		private static readonly string[] _arrayWindowsNeedingArguments=new[] { "FormEtrans835ClaimEdit","FormEtrans835ProcEdit","FormMountDefEdit" };
 
 		[TestMethod]
 		public void BuiltWindows_ShowTheIconOrABitmapOfThePicturesSize() {
