@@ -409,20 +409,8 @@ namespace OpenPmsDental.UI {
 			base.OnMouseMove(e);
 			_idxHover=-1;
 			Invalidate();
-			//make sure it's not in the selected tab, because we will ignore that
-			for(int i=0;i<ListRectanglesTabs.Count;i++){
-				if(i!=SelectedIndex){
-					continue;
-				}
-				Rectangle rectangleSelected=new Rectangle(
-					x:ListRectanglesTabs[i].Left-2,
-					y:ListRectanglesTabs[i].Top-2,
-					width:ListRectanglesTabs[i].Width+4,
-					height:ListRectanglesTabs[i].Height+2);
-				if(rectangleSelected.Contains(e.Location)){
-					return;
-				}
-			}
+			//The selected tab is skipped below; since UI-4b-2 it is drawn at its own rectangle (no longer 2 px larger), so its neighbours' edges
+			//get the hover as OnMouseDown hit-tests them.
 			for(int i=0;i<ListRectanglesTabs.Count;i++){
 				if(i==SelectedIndex){
 					continue;
