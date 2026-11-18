@@ -76,9 +76,12 @@ database used is InitSqlTests' own scratch database on the local MariaDB.
   the same bitmap file the table holds today (54 byte header identical to Open Dental's pictures: 20x20, 32 bits, BI_RGB, 96 DPI; bottom-up;
   opaque). RCT BU PFM and RCT BU Ceramic share `ProcRctBuildUp`, as they share one picture today; PA shows `XrayPeriapical`. Today Crown-PFM
   and Crown-Ceramic share a picture; now they differ (a metal collar line, a shine).
-- No office row: `ProcButtons.SetToDefault` (the procedure code tools' "Procedure Buttons" reset, which deletes and re-adds an office's
-  buttons when asked) keeps Open Dental's pictures; no fork migration step or convert script touches `procbutton`; the new pictures appear in
-  no source file but the init file, and only DevDbTool calls `GetProcButtonPicture` (section 5's test).
+- No office row changes by itself: no fork migration step or convert script touches `procbutton`; the new pictures appear in no source file
+  but the init file. The owner's answer of 2026-11-17: `ProcButtons.SetToDefault` (the procedure code tools' "Procedure Buttons" reset,
+  which deletes and re-adds an office's buttons when the office asks) gives the new pictures too, through the shared
+  `UiIcons.DictProcButtonPictures` (`SetDefaultPictures`); DevDbTool and SetToDefault are the only callers of `GetProcButtonPicture`
+  (section 5's test). DevDbTool's scrub now counts each button holding its new picture after the update, since an unchanged row may
+  report no change.
 
 ## 5. Tests
 
