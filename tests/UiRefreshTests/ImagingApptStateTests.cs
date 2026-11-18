@@ -284,6 +284,17 @@ namespace UiRefreshTests {
 							if(i==2) {
 								AssertPixel(listFailures,name+" after the bar",colorFill,bitmap.GetPixel(rectangleRow.X+3,rectangleRow.Y+2));
 							}
+							//The owner's answers of 2026-11-18: a category's top line is StrokeStrong, and an item's icon starts clear of the 2 px bar, so the
+							//bar's columns hold only the bar (or the fill) over the whole row.
+							if(i==0 || i==3) {
+								AssertPixel(listFailures,name+" category line",SheetPainter.Light(EnumUiColor.StrokeStrong),bitmap.GetPixel(rectangleRow.X+36,rectangleRow.Y));
+							}
+							else {
+								for(int y=rectangleRow.Y+1;y<rectangleRow.Y+rectangleRow.Height;y++) {
+									AssertPixel(listFailures,name+" bar column 1 at y "+y,colorBar,bitmap.GetPixel(rectangleRow.X+1,y));
+									AssertPixel(listFailures,name+" bar column 2 at y "+y,colorBar,bitmap.GetPixel(rectangleRow.X+2,y));
+								}
+							}
 						}
 					}
 					//The expanders: Fluent chevrons in TextSecondary, down while expanded, right while collapsed; none without items.

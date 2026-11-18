@@ -619,7 +619,7 @@ Only used once in Imaging module.
 			Rectangle rectangleLineTop=new Rectangle();
 			rectangleLineTop.Height=1;//this is effectively a line, but easier to draw
 			rectangleLineTop.VerticalAlignment=VerticalAlignment.Top;
-			rectangleLineTop.Fill=UiLookImaging.BrushStroke;//the category's divider (was gray 110)
+			rectangleLineTop.Fill=UiLookImaging.BrushStrokeStrong;//the category's divider (was gray 110; StrokeStrong by the owner's answer of 2026-11-18, so the groups stay clearly apart)
 			System.Windows.Controls.Grid.SetColumnSpan(rectangleLineTop,3);
 			grid.Children.Add(rectangleLineTop);
 			//lower line probably isn't needed. Individual images will have the own upper line.
@@ -682,6 +682,7 @@ Only used once in Imaging module.
 				gridIcon.Height=16;
 				gridIcon.HorizontalAlignment=HorizontalAlignment.Left;
 				gridIcon.VerticalAlignment=VerticalAlignment.Center;
+				gridIcon.Margin=new Thickness(2,0,0,0);//clear of the 2 px selection bar (owner, 2026-11-18); 16+2 fits the 20 px icon column
 				grid.Children.Add(gridIcon);
 				IconLibrary.DrawWpf(enumIcons,gridIcon);
 				TextBlock textBlock=new TextBlock();
