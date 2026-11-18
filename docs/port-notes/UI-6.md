@@ -118,8 +118,8 @@ account, txplan, chart, imaging, imaging-paint, imaging-draw), the main menu bar
 (`menu-dropdown.png`), the WPF menu bar and context menu (`menu-wpf.png`); `states/` the toolbar with a button in every state at 100, 125,
 150 and 200 % (`toolbar-<scale>.png`: rest, hover, pressed, drop-down rest/hover/pressed, notify, toggled, toggle, disabled, error, error on
 hover, label, icon buttons at rest, hover and disabled, an ImageList button), the WPF toolbar's states (`toolbar-wpf.png`), the module bar with
-Account selected, Tx Plan on hover and Chart pressed (`modulebar-*`), the button panel at rest and with a button on hover (`buttonpanel-*`), the
-light signal grid with unlit, lit and hover lights (`lightsignals-*`). The before set has no hover or pressed look for the module bar and no
+Account selected, Tx Plan on hover and Chart pressed (`modulebar-*`) and with Chart selected (`modulebar-chart-*`, UI-8's ToothFilled), the
+button panel at rest and with a button on hover (`buttonpanel-*`), the light signal grid with unlit, lit and hover lights (`lightsignals-*`). The before set has no hover or pressed look for the module bar and no
 hover for the button panel (main's code took the module bar's hover from the real mouse and the panel had none): those before pictures show
 the rest look. `toolbar-fit.tsv` beside the pictures has the fit numbers of section 4.
 

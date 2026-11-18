@@ -50,6 +50,7 @@ namespace UiRefreshTests.Toolbars {
 					listPictures.Add(DrawModuleBar(scale));
 					listPictures.Add(DrawModuleBar(scale,indexHot:3,isPressed:false));
 					listPictures.Add(DrawModuleBar(scale,indexHot:4,isPressed:true));
+					listPictures.Add(DrawModuleBar(scale,isChartSelected:true));
 					listPictures.Add(DrawButtonPanel(scale));
 					listPictures.Add(DrawButtonPanel(scale,isHover:true));
 					listPictures.Add(DrawLightSignals(scale));
@@ -402,13 +403,22 @@ namespace UiRefreshTests.Toolbars {
 
 		#region Module bar, button panel, light signals
 		///<summary>The module bar at the scale with Account selected; with indexHot, that button under the mouse (Tx Plan) or pressed (Chart), set
-		///as the mouse events set it (main's code took the hover from the real mouse: its before pictures show the rest look there).</summary>
-		public static Picture DrawModuleBar(float scale,int indexHot=-1,bool isPressed=false) {
+		///as the mouse events set it (main's code took the hover from the real mouse: its before pictures show the rest look there). isChartSelected:
+		///the Chart module selected instead (its second icon, UI-8's ToothFilled).</summary>
+		public static Picture DrawModuleBar(float scale,int indexHot=-1,bool isPressed=false,bool isChartSelected=false) {
 			using(ModuleBar moduleBar=new ModuleBar()) {
 				moduleBar.LayoutManager.SetScaleMS(scale);
 				moduleBar.Size=new Size(UiTheme.ScaleI(51,scale),UiTheme.ScaleI(7*58,scale));
 				moduleBar.SelectedModule=EnumModuleType.Account;
 				string name="states/modulebar-"+GetScaleText(scale)+".png";
+				if(isChartSelected) {
+					moduleBar.SelectedModule=EnumModuleType.Chart;
+					//The chart's second icon, as RefreshButtons sets it from the database (the dental layout): Chart32W, UI-8's ToothFilled.
+					List<ModuleBarButton> listButtons=(List<ModuleBarButton>)typeof(ModuleBar).GetField("_listButtons",BindingFlags.Instance|BindingFlags.NonPublic)
+						.GetValue(moduleBar);
+					listButtons.First(x => x.ModuleType==EnumModuleType.Chart).Icon2=EnumIcons.Chart32W;
+					name="states/modulebar-chart-"+GetScaleText(scale)+".png";
+				}
 				if(indexHot>=0) {
 					typeof(ModuleBar).GetField("currentHot",BindingFlags.Instance|BindingFlags.NonPublic)?.SetValue(moduleBar,indexHot);
 					typeof(ModuleBar).GetField("_isMouseDown",BindingFlags.Instance|BindingFlags.NonPublic)?.SetValue(moduleBar,isPressed);
