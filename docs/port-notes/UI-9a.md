@@ -157,19 +157,19 @@ the whole window, beside its print preview; their `controls/` pictures show them
 Everything rendered while the desktop session was disconnected (WinForms `DrawToBitmap` through UI-0b's builder); no picture needs a shown
 window or WPF.
 
-**For the lead** (to rebuild the gallery, or the after set at a later commit):
+**For the lead** (to rebuild the gallery, or the after set at a later commit; `<repo>` is the main checkout):
 
 ```
 rem the before set: the package's first commit (3bb395a4f, the tool and tests before -Apply), built
-powershell -NoProfile -ExecutionPolicy Bypass -File tools\Convert-PictureUses.ps1 -Slice UI-9a-1 -Check -Record D:\Dev\opendental\.git\od-tools\test-results\ui9a1-pictures\planned-record.tsv
-set OPMS_UI9A_PICTURES=D:\Dev\opendental\.git\od-tools\test-results\ui9a1-pictures\before
-set OPMS_UI9A_RECORD=D:\Dev\opendental\.git\od-tools\test-results\ui9a1-pictures\planned-record.tsv
-powershell -NoProfile -ExecutionPolicy Bypass -File D:/Dev/opendental/.git/od-tools/run-tests.ps1 -Root <worktree> -Mode Targeted -Platform x64 -RequireBuildOutput -Include UiRefreshTests -Out D:/Dev/opendental/.git/od-tools/test-results/ui9a1-before.txt
+powershell -NoProfile -ExecutionPolicy Bypass -File tools\Convert-PictureUses.ps1 -Slice UI-9a-1 -Check -Record <repo>\.git\od-tools\test-results\ui9a1-pictures\planned-record.tsv
+set OPMS_UI9A_PICTURES=<repo>\.git\od-tools\test-results\ui9a1-pictures\before
+set OPMS_UI9A_RECORD=<repo>\.git\od-tools\test-results\ui9a1-pictures\planned-record.tsv
+powershell -NoProfile -ExecutionPolicy Bypass -File <repo>/.git/od-tools/run-tests.ps1 -Root <worktree> -Mode Targeted -Platform x64 -RequireBuildOutput -Include UiRefreshTests -Out <repo>/.git/od-tools/test-results/ui9a1-before.txt
 rem the after set: the branch head, built (OPMS_UI9A_RECORD unset: the committed icons/picture-converted.tsv)
 set OPMS_UI9A_RECORD=
-set OPMS_UI9A_PICTURES=D:\Dev\opendental\.git\od-tools\test-results\ui9a1-pictures\after
-powershell -NoProfile -ExecutionPolicy Bypass -File D:/Dev/opendental/.git/od-tools/run-tests.ps1 -Root <worktree> -Mode Targeted -Platform x64 -RequireBuildOutput -Include UiRefreshTests -Out D:/Dev/opendental/.git/od-tools/test-results/ui9a1-after.txt
-powershell -NoProfile -ExecutionPolicy Bypass -File tools\New-UiGallery.ps1 -Before D:\Dev\opendental\.git\od-tools\test-results\ui9a1-pictures\before -After D:\Dev\opendental\.git\od-tools\test-results\ui9a1-pictures\after -Name G-UI3 -Out D:\Dev\opendental\.git\od-tools\test-results\G-UI3-ui9a1 -Note "<the summary>"
+set OPMS_UI9A_PICTURES=<repo>\.git\od-tools\test-results\ui9a1-pictures\after
+powershell -NoProfile -ExecutionPolicy Bypass -File <repo>/.git/od-tools/run-tests.ps1 -Root <worktree> -Mode Targeted -Platform x64 -RequireBuildOutput -Include UiRefreshTests -Out <repo>/.git/od-tools/test-results/ui9a1-after.txt
+powershell -NoProfile -ExecutionPolicy Bypass -File tools\New-UiGallery.ps1 -Before <repo>\.git\od-tools\test-results\ui9a1-pictures\before -After <repo>\.git\od-tools\test-results\ui9a1-pictures\after -Name G-UI3 -Out <repo>\.git\od-tools\test-results\G-UI3-ui9a1 -Note "<the summary>"
 ```
 
 The harness's group U pictures of these windows (UI-0c, a shown window) are not needed for this slice: the off-screen set has every changed
