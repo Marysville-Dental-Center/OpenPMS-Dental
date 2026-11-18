@@ -1,10 +1,11 @@
 # Port note: UI-8 (the custom dental icons)
 
 Package UI-8 of the UI refresh ([docs/specs/ui-refresh-plan.md](../specs/ui-refresh-plan.md), section 7's UI-8 row, sections 3.5, 4.2 and
-4.4, the owner's answer UQ-7 of 2026-11-17), on `ui/ui8-1` from `main` at `deb903107`. The program's own dental icons, drawn in Fluent UI
-System Icons' style, their manifest rows and their place in the icon table, and new-style pictures on the 8 default procedure buttons of new
-databases. Nothing in the program draws the icons yet except those pictures (the module bar's three chart pictures switch once UI-7b's
-`IconLibrary` maps them, section 6). No schema change, no NuGet package, nothing downloaded, no program started, no window shown; the only
+4.4, the owner's answer UQ-7 of 2026-11-17), on `ui/ui8-1` from `main` at `deb903107`; the review's fix round on `ui/ui8-2` merged `main`
+(UI-7b, `2ae1982f3`) in and switched the module bar's chart icons. The program's own dental icons, drawn in Fluent UI System Icons' style,
+their manifest rows and their place in the icon table, the module bar's Chart button drawn with the new tooth (both `IconLibrary` copies map
+`Chart32G`, `Chart32W` and `ChartMed32` to the dental icons), and new-style pictures on the 8 default procedure buttons of new databases.
+The other dental icons wait for the UI-9 slices that put them on buttons. No schema change, no NuGet package, nothing downloaded, no program started, no window shown; the only
 database used is InitSqlTests' own scratch database on the local MariaDB.
 
 ## 1. What changed and what did not (for the owner)
@@ -13,11 +14,12 @@ database used is InitSqlTests' own scratch database on the local MariaDB.
   module, the medical chart, the perio chart and probe, bitewing, periapical, pano and ceph films, the intraoral sensor, the phosphor plate,
   a mount, an intraoral photo, an implant, orthodontics, and seven procedure pictures (amalgam, composite, PFM crown, ceramic crown, root
   canal, root canal with build-up; PA uses the periapical film). One colour, Fluent's line weights, round ends and corners.
+- **Changes the look of:** the module bar's Chart button: the tooth outline at rest, the filled tooth when the Chart module is selected,
+  the medical chart card in the medical layout, instead of today's coloured tooth and red cross pictures (same 32 px place, same size).
 - **Changes the look of:** the 8 default procedure buttons of a **new** database only (Amalgam, Composite, Crown-PFM, Crown-Ceramic, RCT,
   RCT BU PFM, RCT BU Ceramic, PA): one-colour icons instead of Open Dental's coloured pictures, same 20x20 size.
 - **Does not change:** an office's procedure buttons (never touched by any code path; "Set to default" in the procedure code tools keeps
-  Open Dental's pictures), the tooth chart's own drawing (decision 5), the module bar (still today's chart pictures until the follow-up of
-  section 6), any window's layout or bounds.
+  Open Dental's pictures), the tooth chart's own drawing (decision 5), the other module bar buttons (UI-7b's), any window's layout or bounds.
 
 ## 2. Files
 
@@ -38,6 +40,9 @@ database used is InitSqlTests' own scratch database on the local MariaDB.
 | `tests/UiRefreshTests/IconRendererTests.cs` | `UiIcons.Dental.cs` in the linkable-file list; the helpers UI-7b also made `internal` (the same lines, the same change) |
 | `tests/InitSqlTests/InitSqlFileTests.cs`, `InitSqlDatabaseTests.cs` | the seeded pictures are 20x20 bitmaps, in the file and in the loaded database |
 | `icons/README.md` | "The custom icons": originality, style, the enum, how to change one, the procedure buttons, the mapping table |
+| `OpenPmsDental/UI/IconLibrary/IconLibrary.cs`, `WpfControlsOD/UI/IconLibrary/IconLibrary.cs` | fix round: `GetDentalIcon` maps `Chart32G` to `Tooth`, `Chart32W` to `ToothFilled`, `ChartMed32` to `ChartMedical`; `GetDesigns` takes their designs (Filled: the twin's) from `UiIcons.GetDesigns(DentalIcon)`; `IsPicture` and the picture paths (the chart's halo special case, the greyed bitmaps) go. `ModuleBar.cs` keeps its `EnumIcons` values |
+| `Gen_Chart32G.cs`, `Gen_Chart32W.cs`, `Gen_ChartMed32.cs`, `IconSelector.cs` | deleted (the last pictures of `OpenPmsDental/UI/IconLibrary`) |
+| `tests/UiRefreshTests/IconLibraryTests.cs`, `Data/colour-literals.tsv`, `tests/WindowChecksTests/WpfImagesTests.cs` | fix round: UI-7b's tests with the chart icons as vector icons (section 5); the halo's colour literal leaves the allow list; `WpfImages` counts 53 vector icons |
 
 ## 3. The icons
 
@@ -95,45 +100,61 @@ database used is InitSqlTests' own scratch database on the local MariaDB.
   icon's shape, and on this PC the exact bytes of `GetProcButtonPicture`; no other row has a picture.
 - `NoCodePathGivesTheNewPicturesToAnOfficesRows`: section 4's three points.
 - `DentalIconPictures_ForTheGallery`: draws every design each run; with `OPMS_UI8_ICON_PICTURES` set it writes gallery G-UI1 part 4's
-  pictures (section 7).
+  pictures (section 6).
+- `ModuleBarChartIcons_ForTheGallery` (fix round): `Chart32G`, `Chart32W` and `ChartMed32` through `IconLibrary.Draw` as `ModuleBar` draws
+  them (a `Scale(32)` slot at 100 to 200%, over the button's background), each the same pixels as its dental icon at every slot of 3.5;
+  with `OPMS_UI8_ICON_PICTURES` set it writes `modulebar\` for the gallery.
+
+UI-7b's `IconLibraryTests` (fix round): `_arrayPictures` became the chart icons' dental-icon map; the three still have no `EnumIcons` row;
+`Libraries_ShareTheTable_TheChartIconsDrawTheirDentalIcons` checks every icon is a vector icon in both libraries and the chart icons'
+designs are the dental icons' (Filled: the twin's); `GenFiles_AllGone` expects `IconLibrary.cs` alone (and `DrawSvg.cs`, `IconLibrary.cs`
+for WPF); the GDI+, Direct2D, OnlyGDI, NoDpi and WPF tests now draw the chart icons too.
 
 `IconRendererTests` draws every manifest row (these 40 too) on GDI+, Direct2D and WPF and checks the table against the SVGs.
 `tests/InitSqlTests`: `File_DefaultProcButtonPicturesAre20x20Bitmaps` and `Rows_DefaultProcButtonPicturesAre20x20Bitmaps` (the loaded scratch
 database).
 
-Runs (x64, `-RequireBuildOutput`, after the full build; `.git/od-tools/test-results/ui8-3.txt`): UiRefreshTests 90 of 91 (the opt-in font scan
+Fix round runs (x64, `-RequireBuildOutput`, after the full lane build of `ui/ui8-2`; `.git/od-tools/test-results/ui8-2.txt`): UiRefreshTests
+102 of 103 (the opt-in font scan skipped; nothing inconclusive), InitSqlTests 21 of 21, NoHqTests 122 of 122; `tools\Test-NoEolFlips.ps1
+-Base main` passes. `ui8-2-preswitch.txt` is the run that wrote the module bar's before pictures (at `484882625`, the last commit with the
+chart pictures); `ui8-2-postswitch.txt` the after pictures (its one NoHqTests failure was the colour-literal allow list, cut since).
+
+First round runs (`.git/od-tools/test-results/ui8-3.txt`): UiRefreshTests 90 of 91 (the opt-in font scan
 skipped, as before; the Direct2D tests ran with the built wrapper and WPF rendered in this session, so nothing was inconclusive), InitSqlTests
 21 of 21, NoHqTests 122 of 122. `ui8-1.txt` is the run that wrote the gallery's pictures before the init file was edited (the two picture
 tests failed there, as they must). ForkMigrationTests was not run (the coordinator's, after regenerating the init file).
 
 ## 6. For the lead
 
-- **The chart pictures (follow-up after UI-7b merges).** `IconLibrary` is UI-7b's file, so the module bar still draws `Chart32G`,
-  `Chart32W` and `ChartMed32` from `Gen_*.cs`. To switch: in both `IconLibrary` copies map `Chart32G` to `DentalIcon.Tooth`, `Chart32W` to
-  `DentalIcon.ToothFilled` and `ChartMed32` to `DentalIcon.ChartMedical` (Filled: `ChartMedicalFilled`) through
-  `UiIcons.GetDesigns(DentalIcon)` (or `UiIcons.GetDesigns("DentalIcon", name)`), make `IsPicture` false for them, delete
-  `Gen_Chart32G.cs`, `Gen_Chart32W.cs`, `Gen_ChartMed32.cs` and `IconSelector.cs`, and drop `_arrayPictures` in UI-7b's
-  `IconLibraryTests` (its `GenFiles_GoneButThePictures` expects the three files). UI-7b's tests also forbid `EnumIcons` rows for these three,
-  which is why the dental icons are their own enum, not `EnumIcons` rows.
-- **Merging.** `icons/manifest.json` (both packages append rows at the end) and `CodeBase/UI/Icons/IconData.g.cs` will conflict with UI-7b:
-  keep both blocks of rows (UI-7b's `EnumIcons` rows, then this `DentalIcon` block), then rerun
-  `powershell -NoProfile -ExecutionPolicy Bypass -File tools\New-IconData.ps1` (deterministic). `icons/README.md`: UI-7b changes the field
-  list and appends mapping rows; this package adds a section before "A new version" and changes the `icons/custom/` line of the files table.
-  `tests/UiRefreshTests/IconRendererTests.cs`: the same seven `private` to `internal` changes as UI-7b's (identical hunks).
+- **The chart icons (done in the fix round).** `main` (UI-7b) is merged into `ui/ui8-2`, so the switch is made here: both `IconLibrary`
+  copies map `Chart32G` to `DentalIcon.Tooth`, `Chart32W` to `ToothFilled` and `ChartMed32` to `ChartMedical` (Filled: `ChartMedicalFilled`)
+  through `UiIcons.GetDesigns(DentalIcon)`; no icon is a picture any more, so `IsPicture` and the picture paths (the `Chart32G`/`Chart32W`
+  halo special case among them) went with `Gen_Chart32G.cs`, `Gen_Chart32W.cs`, `Gen_ChartMed32.cs` and `IconSelector.cs`. The three
+  still have no `EnumIcons` row (the dental icons are their own enum). `ModuleBar.cs` is unchanged: UI-6 starts from the new tooth.
+- **Merging.** Already merged with `main` at `2ae1982f3` (`icons/manifest.json`: UI-7b's `EnumIcons` rows, then this `DentalIcon` block;
+  `IconData.g.cs` regenerated by `tools\New-IconData.ps1`, `-Check` clean). Should `main` move again before the merge and touch the
+  manifest, keep the same order and rerun the generator.
 - **The init file.** When you regenerate `db/init/new-database.sql` (`tools/New-InitSql.ps1`), DevDbTool writes the same 8 pictures; then
   `SeededProcButtonPictures_...` and InitSqlTests pass unchanged. InitSqlTests' picture tests were run here; ForkMigrationTests
   (`InitSqlRegenerationTests`) was not (your run).
-- **Gallery G-UI1 part 4.** Rendered off screen here (GDI+, no window needed): `.git/od-tools/test-results/G-UI1-part4-ui8/` (`index.html` and the zip; 221 pictures: 51 beside today's picture, the rest new; the
-plain-words summary at the top), made from `.git/od-tools/test-results/ui8-pictures/` (`before/`, `after/`, `procbutton-pictures.tsv`). To make it again:
+- **Gallery G-UI1 part 4.** Rendered off screen here (GDI+ and Direct2D into bitmaps, no window needed):
+  `.git/od-tools/test-results/G-UI1-part4-ui8/` (`index.html` and the zip; 241 pictures: 71 beside today's picture, the rest new; the
+  plain-words summary at the top), made from `.git/od-tools/test-results/ui8-2-pictures/` (`before/`, `after/`, `procbutton-pictures.tsv`).
+  `modulebar/` is the module bar's chart icons as `ModuleBar` draws them, `Chart32G` (rest), `Chart32W` (selected) and `ChartMed32` (rest
+  and selected) beside `Tooth`, `ToothFilled` and `ChartMedical`, at 100, 125, 150 and 200% and 4x. The before set was written at
+  `484882625` (the merge of `main` plus the module bar test, the last commit with the chart pictures), the after set at `790b97d50`; the
+  chart icons' before pictures cannot be made after the switch (the pictures are gone), so keep `ui8-2-pictures/before`. To make the
+  gallery again:
 
   ```
   set OPMS_UI8_ICON_PICTURES=<folder>
   powershell -NoProfile -ExecutionPolicy Bypass -File .git\od-tools\run-tests.ps1 -Root . -Mode Targeted -Platform x64 -RequireBuildOutput -Include UiRefreshTests
-  powershell -NoProfile -ExecutionPolicy Bypass -File tools\New-UiGallery.ps1 -Before <folder>\before -After <folder>\after -Out .git\od-tools\test-results\G-UI1-part4-ui8 -Name G-UI1 -Note "<the summary>"
+  powershell -NoProfile -ExecutionPolicy Bypass -File tools\New-UiGallery.ps1 -Before .git\od-tools\test-results\ui8-2-pictures\before -After <folder>\after -Out .git\od-tools\test-results\G-UI1-part4-ui8 -Name G-UI1 -Note "<the summary>"
   ```
 
-  Nothing of this gallery needs a shown window or WPF rendering. The module bar with the new chart icons is G-UI2's (UI-6, after the
-  follow-up above).
+  On `ui/ui8-2` the first two lines give the after set, with `modulebar\` beside `after\`: copy it to `after\modulebar` first (on
+  `484882625` they gave the before set the same way). Nothing of this gallery needs a shown window or WPF rendering. The whole module bar
+  in the new look is G-UI2's (UI-6).
 
 ## 7. Questions for the owner
 

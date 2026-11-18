@@ -1276,18 +1276,21 @@ so it is cut into two slices that share no files and may run side by side).
   (the examples of 4.3 have no 32 px design; owner question). `InProcChecks.DE` `WpfImages` counts vector icons.
 
 **UI-8: custom dental icons**
-- Owns: `icons/custom/*.svg`, their manifest rows, `db/init/new-database.sql` (default procedure-button pictures only, if UQ-7 says yes).
-- Needs: UI-7a.
+- Owns: `icons/custom/*.svg`, their manifest rows, `db/init/new-database.sql` (default procedure-button pictures only, if UQ-7 says yes);
+  after UI-7b has merged, the chart icons' lines of both `IconLibrary` copies (Chart32G, Chart32W, ChartMed32 to the dental icons) and the
+  three chart `Gen_*.cs` files with `IconSelector.cs`.
+- Needs: UI-7a (UI-7b merged, for the chart icons).
 - Work: section 4.4.
 - Tests: as UI-7b; a test that the seeded procedure-button pictures are 20×20; a test that no office row is changed by any code path
   (the pictures are only in the new-database script).
 - Gallery: **G-UI1 part 4** (each dental icon at each size, beside today's picture).
-- **Status (2026-11-17).** Done on `ui/ui8-1` (`docs/port-notes/UI-8.md`), not merged yet, waiting for G-UI1 part 4
+- **Status (2026-11-17).** Done on `ui/ui8-2` (`docs/port-notes/UI-8.md`), not merged yet, waiting for G-UI1 part 4
   (`.git/od-tools/test-results/G-UI1-part4-ui8`, rendered off screen). 20 dental icons of 4.4, Regular and Filled, at 16, 20, 24, 32 and
   48 px, drawn in `tools/DentalIcons/DentalIconArt.cs` (`tools/New-DentalIcons.ps1` writes `icons/custom/*.svg`); Fluent's Dentist has no
-  32 px design, so the tooth is drawn here too. Their own enum `DentalIcon` (40 manifest rows; UI-7b's tests keep `EnumIcons` rows away from
-  the three chart pictures), so the module bar switches `Chart32G`, `Chart32W` and `ChartMed32` to `Tooth`, `ToothFilled` and `ChartMedical`
-  in a follow-up to UI-7b's `IconLibrary`. UQ-7: DevDbTool gives the 8 default procedure buttons of a new database the new pictures (20x20,
+  32 px design, so the tooth is drawn here too. Their own enum `DentalIcon` (40 manifest rows; `EnumIcons` rows stay away from the three
+  chart icons). Fix round `ui/ui8-2` (main merged in, with UI-7b): both `IconLibrary` copies draw `Chart32G`, `Chart32W` and `ChartMed32`
+  as `Tooth`, `ToothFilled` and `ChartMedical` (`IconLibrary.GetDentalIcon`), so the module bar shows the new tooth; the three chart
+  `Gen_*.cs` files and `IconSelector.cs` are gone, and G-UI1 part 4 shows the module bar's chart icons before and after. UQ-7: DevDbTool gives the 8 default procedure buttons of a new database the new pictures (20x20,
   the table's format) and `db/init/new-database.sql` holds them; `ProcButtons.SetToDefault` keeps Open Dental's (owner question: should the
   reset give the new ones?).
 

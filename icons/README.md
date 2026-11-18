@@ -104,8 +104,9 @@ art, from Fluent or from any other icon set. Every SVG says so in a comment.
 | Procedure button RCT | coloured picture | `ProcRct` | a molar with its pulp chamber and both canals filled |
 | Procedure buttons RCT BU PFM, RCT BU Ceramic | coloured picture (shared) | `ProcRctBuildUp` | a molar with filled canals and a solid core |
 
-The module bar still draws `Chart32G`, `Chart32W` and `ChartMed32` from their pictures until `IconLibrary` (UI-7b's) maps them to
-`Tooth`, `ToothFilled` and `ChartMedical` (a follow-up named in `docs/port-notes/UI-8.md`).
+The module bar draws `Chart32G`, `Chart32W` and `ChartMed32` as `Tooth`, `ToothFilled` and `ChartMedical`: both `IconLibrary` copies map
+them (`IconLibrary.GetDentalIcon`; their Filled style is the dental icon's Filled twin), and they have no `EnumIcons` row. Their pictures
+(`Gen_Chart32G.cs`, `Gen_Chart32W.cs`, `Gen_ChartMed32.cs`, `IconSelector.cs`) are gone (UI-8, `docs/port-notes/UI-8.md`).
 
 ## A new version
 
@@ -148,10 +149,10 @@ the manifest; G-UI1 part 3 shows them.
 | Module bar: Account (`Account32`) | green dollar sign and card | Receipt (regular; filled); the plan's example Receipt Money has no 32 px design | Fluent | UI-7b |
 | Module bar: Tx Plan (`TreatPlan32`) | clipboard with a list | Clipboard Text LTR (regular; filled); the plan's Clipboard Task List LTR has no 32 px design | Fluent | UI-7b |
 | Module bar: Tx Plan, medical layout (`TreatPlanMed32`) | clipboard with a list | Heart Pulse (regular; filled); the plan's Clipboard Heart has no 32 px design | Fluent | UI-7b |
-| Module bar: Chart (`Chart32G`, `Chart32W`), medical (`ChartMed32`) | tooth; red medical cross | today's pictures, kept | Gen_*.cs | UI-8 |
+| Module bar: Chart (`Chart32G`, `Chart32W`), medical (`ChartMed32`) | tooth; red medical cross | `Tooth` (selected `ToothFilled`), `ChartMedical` (dental icons, above) | custom | UI-8 |
 | Module bar: Imaging (`Imaging32`) | scanner and camera | Image Multiple (regular; filled) | Fluent | UI-7b |
 | Module bar: Manage (`Manage32`) | purple gears | Briefcase (regular; filled) | Fluent | UI-7b |
-| Chart picture no code draws (`Chart32`) | tooth | Clipboard Pulse (regular), until UI-8's tooth | Fluent | UI-7b |
+| Chart picture no code draws (`Chart32`) | tooth | Clipboard Pulse (regular); the module bar's Chart draws UI-8's tooth | Fluent | UI-7b |
 | Add (`Add`) | blue plus | Add (regular), `Accent` | Fluent | UI-7b |
 | Delete (`DeleteX`) | red X | Delete (regular), `Danger` | Fluent | UI-7b |
 | Left and right arrows (`ArrowLeft`, `ArrowRight`) | blue arrows | Arrow Left, Arrow Right (regular) | Fluent | UI-7b |
