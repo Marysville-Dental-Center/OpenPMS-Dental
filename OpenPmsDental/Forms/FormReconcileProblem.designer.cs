@@ -82,7 +82,7 @@ namespace OpenPmsDental{
 			// butAddNew
 			// 
 			this.butAddNew.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butAddNew.Image = global::OpenPmsDental.Properties.Resources.down;
+			this.butAddNew.Icon = OpenPmsDental.UI.EnumIcons.Down;
 			this.butAddNew.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butAddNew.Location = new System.Drawing.Point(712, 263);
 			this.butAddNew.Name = "butAddNew";
@@ -95,7 +95,7 @@ namespace OpenPmsDental{
 			// butAddExist
 			// 
 			this.butAddExist.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-			this.butAddExist.Image = global::OpenPmsDental.Properties.Resources.down;
+			this.butAddExist.Icon = OpenPmsDental.UI.EnumIcons.Down;
 			this.butAddExist.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butAddExist.Location = new System.Drawing.Point(218, 263);
 			this.butAddExist.Name = "butAddExist";

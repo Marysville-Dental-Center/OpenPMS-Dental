@@ -3629,7 +3629,7 @@ namespace OpenPmsDental {
 				case "ButtonNewTP":
 					UI.Button button=new UI.Button();
 					if(sheetFieldDef.FieldName=="ButtonNewTP") {
-						button.Image=OpenPmsDental.Properties.Resources.Add;
+						button.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.Add,22,22);
 						button.ImageAlign=System.Drawing.ContentAlignment.MiddleLeft;
 					}
 					button.Enabled=true;

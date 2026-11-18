@@ -295,7 +295,7 @@ namespace OpenPmsDental{
 			// 
 			this.butToKiosk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butToKiosk.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-			this.butToKiosk.Image = global::OpenPmsDental.Properties.Resources.up;
+			this.butToKiosk.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.Up,22,22);
 			this.butToKiosk.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butToKiosk.Location = new System.Drawing.Point(521, 589);
 			this.butToKiosk.Name = "butToKiosk";

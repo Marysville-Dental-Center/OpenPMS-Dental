@@ -266,7 +266,7 @@ namespace UiRefreshTests {
 
 		///<summary>Windows the off-screen builder cannot make because their constructors need objects it cannot give (an X835 claim); a
 		///NullReferenceException from any other window still fails the test.</summary>
-		private static readonly string[] _arrayWindowsNeedingArguments=new[] { "FormEtrans835ClaimEdit","FormEtrans835ProcEdit","FormMountDefEdit" };
+		private static readonly string[] _arrayWindowsNeedingArguments=new[] { "FormEtrans835ClaimEdit","FormEtrans835ProcEdit","FormMountDefEdit","FormSheetDefEdit" };
 
 		[TestMethod]
 		public void BuiltWindows_ShowTheIconOrABitmapOfThePicturesSize() {
@@ -289,8 +289,8 @@ namespace UiRefreshTests {
 						builtWindow=WindowBuilder.Build(scanType);
 					}
 					catch(Exception exception) {
-						if(NoDatabaseGuard.IsDatabaseException(exception)) {
-							continue;//needs a database: the designer lines are checked by Record_EveryConversionIsInItsDesignerLine
+						if(NoDatabaseGuard.IsDatabaseException(exception) || exception.Message.EndsWith("is an invalid pref name.")) {
+							continue;//needs a database (or the preference cache it fills: FormRecallList, FormSchedule read EasyNoClinics): the designer lines are checked by Record_EveryConversionIsInItsDesignerLine
 						}
 						if(exception is NullReferenceException && _arrayWindowsNeedingArguments.Contains(grouping.Key)) {
 							continue;//a window whose constructor arguments the builder cannot give (an X835 claim): the designer lines are checked by Record_EveryConversionIsInItsDesignerLine

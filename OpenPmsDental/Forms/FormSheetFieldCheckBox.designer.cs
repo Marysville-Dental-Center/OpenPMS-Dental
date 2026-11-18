@@ -398,7 +398,7 @@ namespace OpenPmsDental{
 			// butDelete
 			// 
 			this.butDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butDelete.Image = global::OpenPmsDental.Properties.Resources.DeleteX;
+			this.butDelete.Icon = OpenPmsDental.UI.EnumIcons.DeleteX;
 			this.butDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butDelete.Location = new System.Drawing.Point(16, 658);
 			this.butDelete.Name = "butDelete";
@@ -477,7 +477,7 @@ namespace OpenPmsDental{
 			// 
 			// butAddAllergy
 			// 
-			this.butAddAllergy.Image = global::OpenPmsDental.Properties.Resources.Add;
+			this.butAddAllergy.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butAddAllergy.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butAddAllergy.Location = new System.Drawing.Point(186, 550);
 			this.butAddAllergy.Name = "butAddAllergy";
@@ -489,7 +489,7 @@ namespace OpenPmsDental{
 			// 
 			// butAddProblem
 			// 
-			this.butAddProblem.Image = global::OpenPmsDental.Properties.Resources.Add;
+			this.butAddProblem.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butAddProblem.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butAddProblem.Location = new System.Drawing.Point(186, 577);
 			this.butAddProblem.Name = "butAddProblem";
@@ -501,7 +501,7 @@ namespace OpenPmsDental{
 			// 
 			// butAddProc
 			// 
-			this.butAddProc.Image = global::OpenPmsDental.Properties.Resources.Add;
+			this.butAddProc.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butAddProc.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butAddProc.Location = new System.Drawing.Point(15, 554);
 			this.butAddProc.Name = "butAddProc";

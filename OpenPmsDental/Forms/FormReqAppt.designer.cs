@@ -124,7 +124,7 @@ namespace OpenPmsDental {
 			// 
 			// butAdd
 			// 
-			this.butAdd.Image = global::OpenPmsDental.Properties.Resources.down;
+			this.butAdd.Icon = OpenPmsDental.UI.EnumIcons.Down;
 			this.butAdd.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butAdd.Location = new System.Drawing.Point(497, 273);
 			this.butAdd.Name = "butAdd";

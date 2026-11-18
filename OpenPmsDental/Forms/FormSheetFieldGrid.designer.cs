@@ -54,7 +54,7 @@ namespace OpenPmsDental{
 			// butDelete
 			// 
 			this.butDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butDelete.Image = global::OpenPmsDental.Properties.Resources.DeleteX;
+			this.butDelete.Icon = OpenPmsDental.UI.EnumIcons.DeleteX;
 			this.butDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butDelete.Location = new System.Drawing.Point(15, 247);
 			this.butDelete.Name = "butDelete";
