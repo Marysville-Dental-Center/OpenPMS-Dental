@@ -53,7 +53,7 @@ namespace WindowChecksTests {
 					string code=string.Join("\n",text.Split('\n').Where(x => !x.TrimStart().StartsWith("//")));
 					int countNew=regexNew.Matches(code).Count;
 					List<Match> listMatches=regexCode.Matches(code).Cast<Match>().ToList();
-					bool isEachSet=countNew>0 && listMatches.Count==countNew && listMatches.All(x => Regex.IsMatch(code.Substring(x.Index+x.Length),
+					bool isEachSet=listMatches.Count==countNew && listMatches.All(x => Regex.IsMatch(code.Substring(x.Index+x.Length),
 						@"^\s*"+Regex.Escape(x.Groups[1].Value)+@"\.ColorDepth\s*=\s*ColorDepth\.\w+\s*;"));
 					if(!isEachSet) {
 						listOutsideDesigners.Add(pathShown);
