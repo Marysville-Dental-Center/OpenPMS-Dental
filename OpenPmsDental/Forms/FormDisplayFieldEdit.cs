@@ -3,12 +3,15 @@ using System.Drawing;
 using System.Collections;
 using System.ComponentModel;
 using System.Windows.Forms;
+using CodeBase;
 using OpenPmsDentalBusiness;
 
 namespace OpenPmsDental{
 	/// <summary></summary>
 	public partial class FormDisplayFieldEdit : FormODBase {
-		private Font _font=new Font(FontFamily.GenericSansSerif,8.5f,FontStyle.Bold);
+		///<summary>The grid's header font (GridOD's _fontHeader is FontGridBold), to measure the column's minimum width. The shared token: never
+		///dispose it (UI-2a-4).</summary>
+		private Font _font=UiTheme.FontGridBold;
 		public DisplayField DisplayFieldCur;
 		///<summary>True when we allow the user to set a display field width to 0 to allow dynamic grid widths.</summary>
 		public bool AllowZeroWidth=false;
