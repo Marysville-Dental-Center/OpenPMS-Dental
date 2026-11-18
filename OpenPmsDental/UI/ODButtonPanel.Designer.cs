@@ -12,7 +12,6 @@
 		protected override void Dispose(bool disposing) {
 			if(disposing) {
 				components?.Dispose();
-				_brushButtonPanel?.Dispose();
 			}
 			base.Dispose(disposing);
 		}

@@ -55,19 +55,7 @@ Boilerplate for the new WpfControls.UI.ToolBar is over in ToolBar.xaml.cs
 		private ToolTip toolTip1;
 		///<summary>This can be set from anywhere to affect all toolbars simultaneously.</summary>
 		private ValidNum textPageNav;
-		//These brushes all get disposed.
-		private LinearGradientBrush _brushTogglePushed=null;
-		private LinearGradientBrush _brushTogglePushError=null;
-		private LinearGradientBrush _brushMain=null;
-		private LinearGradientBrush _brushMainError=null;
-		///<summary>Darker</summary>
-		private LinearGradientBrush _brushPushed=null;
-		private LinearGradientBrush _brushPushedError=null;
-		private LinearGradientBrush _brushNotify=null;
-		//pens get disposed
-		private Pen _penDivider=null;
-		private Pen _penOutline=null;
-		private Pen _penTogglePushed=null;
+		//The colours, pens and brushes are UiTheme's tokens (UI-6, docs/specs/ui-refresh-plan.md section 3.6): shared per thread, never disposed here.
 		//string formats are disposed
 		private StringFormat _stringFormatCenter=null;
 		private StringFormat _stringFormatLeft=null;
@@ -75,12 +63,6 @@ Boilerplate for the new WpfControls.UI.ToolBar is over in ToolBar.xaml.cs
 		Timer timer;
 		private int _widthDropDown=15;
 		#endregion Fields
-
-		#region Fields - Private Static
-		//These are shared by all buttons and don't get disposed
-		private static Brush _brushText=Brushes.Black;
-		private static Brush _brushTextDisabled=SystemBrushes.GrayText;
-		#endregion Fields - Private Static
 
 		#region Constructor
 		///<summary></summary>
@@ -111,16 +93,6 @@ Boilerplate for the new WpfControls.UI.ToolBar is over in ToolBar.xaml.cs
 		protected override void Dispose( bool disposing ){
 			if( disposing ){
 				components?.Dispose();
-				_brushTogglePushed?.Dispose();
-				_brushTogglePushError?.Dispose();
-				_brushMain?.Dispose();
-				_brushMainError?.Dispose();
-				_brushPushed?.Dispose();
-				_brushPushedError?.Dispose();
-				_brushNotify?.Dispose();
-				_penDivider?.Dispose();
-				_penOutline?.Dispose();
-				_penTogglePushed?.Dispose();
 				_stringFormatCenter?.Dispose();
 				_stringFormatLeft?.Dispose();
 				for(int i=0;i<Buttons.Count;i++){
@@ -384,10 +356,10 @@ Boilerplate for the new WpfControls.UI.ToolBar is over in ToolBar.xaml.cs
 			//It's easier to just swallow any random exception that occurs because OnPaint will most likely get fired again real soon.
 			ODException.SwallowAnyException(() => {
 				ComputeButtonsizes(e.Graphics);
+				DrawBackground(e.Graphics);
 				for(int i=0;i<buttons.Count;i++) {
 					DrawButton(e.Graphics,buttons[i]);
 				}
-				e.Graphics.DrawLine(Pens.SlateGray,0,Height-1,Width-1,Height-1);
 				//For quite some time, the Paint event was never fired here.  Added by Sam and AndrewD so we can subscribe to the Paint event.
 				base.OnPaint(e);
 			});
@@ -488,65 +460,92 @@ Boilerplate for the new WpfControls.UI.ToolBar is over in ToolBar.xaml.cs
 			}
 		}
 
-		///<summary></summary>
+		///<summary>The toolbar's background (UI-6, section 3.6, Toolbars): flat SurfaceSubtle with a 1 px Gridline line at the bottom.</summary>
+		private void DrawBackground(Graphics g){
+			g.FillRectangle(UiTheme.GetBrush(EnumUiColor.SurfaceSubtle),ClientRectangle);
+			int widthLine=UiTheme.GetLineWidth(LayoutManager.ScaleMy());
+			g.FillRectangle(UiTheme.GetBrush(EnumUiColor.Gridline),0,Height-widthLine,Width,widthLine);
+		}
+
+		///<summary>Draws one button in the new look (UI-6, section 3.6, Toolbars), inside its bounds, which keep today's width formula
+		///(ComputeButtonsizes, section 3.3): transparent at rest; SubtleHover on hover and SubtlePressed pressed, with 4 px corners, 1 px in from the
+		///bounds; toggled AccentSubtle with a 1 px Accent border; error (IsRed) DangerSubtle with Danger text; notify (a drop-down's NotificationText)
+		///WarningSubtle with Warning text; disabled TextDisabled; the drop-down arrow a 12 px Fluent chevron; separators a 1 px Stroke line, 4 px in
+		///from the top and the bottom. No gradients and no outlines between buttons.</summary>
 		private void DrawButton(Graphics g,ODToolBarButton button){
+			float scale=LayoutManager.ScaleMy();
+			int widthLine=UiTheme.GetLineWidth(scale);
 			if(button.Style==ODToolBarButtonStyle.Separator){
-				g.FillRectangle(SystemBrushes.Control,button.Bounds);
+				int inset=LayoutManager.Scale(UiTheme.INSET_TOOLBAR_SEPARATOR);
+				g.FillRectangle(UiTheme.GetBrush(EnumUiColor.Stroke),button.Bounds.X+(button.Bounds.Width-widthLine)/2,button.Bounds.Y+inset,
+					widthLine,Math.Max(0,button.Bounds.Height-2*inset));
 				return;
-			}
-			LinearGradientBrush brushTogglePushed=_brushTogglePushed;
-			LinearGradientBrush brushMain=_brushMain;
-			LinearGradientBrush brushPushed=_brushPushed;
-			//these two gradient colors are a little different than the other colors.
-			//They are just a hack for Direct2d to match up that gradient with the DirectX one.
-			//They were obtained by color matching from a screenshot.
-			Color colorGradientTop=Color.FromArgb(253,253,254);
-			Color colorGradientBottom=Color.FromArgb(181,190,215);
-			if(button.State==ToolBarButtonState.Pressed){//might be missing a few edge cases
-				colorGradientTop=Color.FromArgb(218,218,221);
-				colorGradientBottom=Color.FromArgb(151,160,185);
-			}
-			if(button.IsRed) {//draw with error colors. Only used for DoseSpot
-				brushTogglePushed=_brushTogglePushError;
-				brushMain=_brushMainError;
-				brushPushed=_brushPushedError;
-			}
-			if(!button.Enabled){
-				g.FillRectangle(brushMain,button.Bounds);
-			}
-			else if(button.Style==ODToolBarButtonStyle.ToggleButton && button.IsTogglePushed){
-				g.FillRectangle(brushTogglePushed,button.Bounds);
-			}
-			else if(button.Style==ODToolBarButtonStyle.Label || button.Style==ODToolBarButtonStyle.PageNav){
-				g.FillRectangle(brushMain,button.Bounds);
-			}
-			else switch(button.State){
-				case ToolBarButtonState.Normal:
-					g.FillRectangle(brushMain,button.Bounds);
-					break;
-				case ToolBarButtonState.Hover:
-					g.FillRectangle(brushMain,button.Bounds);
-					break;
-				case ToolBarButtonState.Pressed:
-					g.FillRectangle(brushPushed,button.Bounds);
-					break;
-				case ToolBarButtonState.DropPressed:
-					//left half looks normal:
-					g.FillRectangle(brushMain,new Rectangle(button.Bounds.X,button.Bounds.Y,button.Bounds.Width-_widthDropDown,button.Bounds.Height));
-					//right section looks like Pressed:
-					g.FillRectangle(brushPushed,new Rectangle(button.Bounds.X+button.Bounds.Width-_widthDropDown,button.Bounds.Y,_widthDropDown,button.Bounds.Height));
-					break;
 			}
 			bool isNotify=(button.Style==ODToolBarButtonStyle.DropDownButton && !string.IsNullOrWhiteSpace(button.NotificationText));//Notifies even when disabled.
-			if(isNotify) {//Override dropdown background to show notification color.
-				Rectangle rectDropDown=new Rectangle(button.Bounds.X+button.Bounds.Width-_widthDropDown,button.Bounds.Y,_widthDropDown,button.Bounds.Height);
-				g.FillRectangle(_brushNotify,rectDropDown);//Fill the dropdown background area with the notification color.
+			bool isLabel=button.Style==ODToolBarButtonStyle.Label || button.Style==ODToolBarButtonStyle.PageNav;
+			//The shape and the text colour of the state.
+			EnumUiColor? uiColorFill=null;
+			EnumUiColor? uiColorOutline=null;
+			EnumUiColor uiColorText=EnumUiColor.Text;
+			bool isDropPressed=false;
+			if(!button.Enabled){
+				uiColorText=EnumUiColor.TextDisabled;
+				if(isNotify){
+					uiColorFill=EnumUiColor.WarningSubtle;
+				}
 			}
-			//Text, lines, images=====================================================================================================================
-			if(button.Style==ODToolBarButtonStyle.Separator){
-				GraphicsHelper.DrawLine(g,_penDivider,button.Bounds.Right-1f,button.Bounds.Top,button.Bounds.Right-1f,button.Bounds.Bottom);
-				return;
+			else if(isLabel){
+				//No shape: labels and the page navigation do not respond to the mouse.
 			}
+			else if(button.Style==ODToolBarButtonStyle.ToggleButton && button.IsTogglePushed){
+				uiColorFill=button.IsRed ? EnumUiColor.DangerSubtle : EnumUiColor.AccentSubtle;
+				uiColorOutline=button.IsRed ? EnumUiColor.Danger : EnumUiColor.Accent;
+				uiColorText=button.IsRed ? EnumUiColor.Danger : EnumUiColor.TextSelected;
+			}
+			else if(button.IsRed){//error colours. Only used for DoseSpot
+				uiColorFill=EnumUiColor.DangerSubtle;
+				uiColorText=EnumUiColor.Danger;
+				if(button.State!=ToolBarButtonState.Normal){
+					uiColorOutline=EnumUiColor.Danger;
+				}
+			}
+			else if(isNotify){
+				uiColorFill=EnumUiColor.WarningSubtle;
+				uiColorText=EnumUiColor.Warning;
+				if(button.State!=ToolBarButtonState.Normal){
+					uiColorOutline=EnumUiColor.Warning;
+				}
+			}
+			else{
+				switch(button.State){
+					case ToolBarButtonState.Hover:
+						uiColorFill=EnumUiColor.SubtleHover;
+						break;
+					case ToolBarButtonState.Pressed:
+						uiColorFill=EnumUiColor.SubtlePressed;
+						break;
+					case ToolBarButtonState.DropPressed:
+						uiColorFill=EnumUiColor.SubtleHover;
+						isDropPressed=true;
+						break;
+				}
+			}
+			Rectangle rectangleShape=Rectangle.Inflate(button.Bounds,-LayoutManager.Scale(1),-LayoutManager.Scale(1));
+			int radius=UiTheme.GetCornerRadius(UiTheme.CORNER_CONTROL,scale);
+			if(uiColorFill!=null){
+				UiToolStripRenderer.FillRounded(g,uiColorFill.Value,rectangleShape,radius);
+			}
+			if(isDropPressed){
+				//The drop-down part pressed: SubtlePressed on the right of the shape, within its corners.
+				GraphicsState graphicsState=g.Save();
+				g.SetClip(new Rectangle(button.Bounds.Right-_widthDropDown,button.Bounds.Y,_widthDropDown,button.Bounds.Height));
+				UiToolStripRenderer.FillRounded(g,EnumUiColor.SubtlePressed,rectangleShape,radius);
+				g.Restore(graphicsState);
+			}
+			if(uiColorOutline!=null){
+				UiToolStripRenderer.OutlineRounded(g,uiColorOutline.Value,rectangleShape,radius,widthLine);
+			}
+			Brush brushText=UiTheme.GetBrush(uiColorText);
 			//draw image and/or text
 			Rectangle rectangleText;
 			Rectangle rectangleImage;
@@ -568,178 +567,105 @@ Boilerplate for the new WpfControls.UI.ToolBar is over in ToolBar.xaml.cs
 				sizeImage=new Size(LayoutManager.Scale(imageList.ImageSize.Width),LayoutManager.Scale(imageList.ImageSize.Height));
 			}
 			if(button.Icon!=EnumIcons.None || bitmap!=null){//draw image and text
-				if(!button.Enabled){
-					rectangleImage=new Rectangle(button.Bounds.X+LayoutManager.Scale(3),button.Bounds.Y+LayoutManager.Scale(1),sizeImage.Width,sizeImage.Height);
-					if(button.Icon!=EnumIcons.None){
+				//The image keeps its place in every state (no shift when pressed: the flat look shows the press by its colour).
+				rectangleImage=new Rectangle(button.Bounds.X+LayoutManager.Scale(3),button.Bounds.Y+LayoutManager.Scale(1),sizeImage.Width,sizeImage.Height);
+				if(button.Icon!=EnumIcons.None){
+					if(button.Enabled){
+						DrawIconTransparent(g,button.Icon,rectangleImage,IconLibrary.GetColor(button.Icon));
+					}
+					else{
 						IconLibrary.DrawDisabled(g,button.Icon,rectangleImage);
 					}
-					else{
-						Bitmap bitmapDisabled=new Bitmap(bitmap.Width,bitmap.Height);//disabled bitmap is old small size
-						Graphics gfx=Graphics.FromImage(bitmapDisabled);
-						ControlPaint.DrawImageDisabled(gfx,bitmap,0,0,SystemColors.Control);
-						g.DrawImage(bitmapDisabled,rectangleImage);
-						gfx.Dispose();
-						bitmapDisabled.Dispose();//An alternative would be to build the image once, and store it as part of the button
-					}
-					rectangleText=new Rectangle(button.Bounds.X+sizeImage.Width+LayoutManager.Scale(3),button.Bounds.Y,
-						textWidth-sizeImage.Width-LayoutManager.Scale(3),button.Bounds.Height);
 				}
-				else if(button.State==ToolBarButtonState.Pressed){//draw slightly down and right
-					rectangleImage=new Rectangle(button.Bounds.X+LayoutManager.Scale(4),button.Bounds.Y+LayoutManager.Scale(2),sizeImage.Width,sizeImage.Height);
-					if(button.Icon!=EnumIcons.None){
-						IconLibrary.Draw(g,button.Icon,rectangleImage,colorGradientTop,colorGradientBottom);
-					}
-					else{
-						g.DrawImage(bitmap,rectangleImage);
-					}
-					rectangleText=new Rectangle(button.Bounds.X+1+sizeImage.Width+LayoutManager.Scale(3),button.Bounds.Y+LayoutManager.Scale(1),
-						textWidth-sizeImage.Width-LayoutManager.Scale(3),button.Bounds.Height);
+				else if(!button.Enabled){
+					Bitmap bitmapDisabled=new Bitmap(bitmap.Width,bitmap.Height);//disabled bitmap is old small size
+					Graphics gfx=Graphics.FromImage(bitmapDisabled);
+					ControlPaint.DrawImageDisabled(gfx,bitmap,0,0,UiTheme.SurfaceSubtle);
+					g.DrawImage(bitmapDisabled,rectangleImage);
+					gfx.Dispose();
+					bitmapDisabled.Dispose();//An alternative would be to build the image once, and store it as part of the button
 				}
 				else{
-					rectangleImage=new Rectangle(button.Bounds.X+LayoutManager.Scale(3),button.Bounds.Y+LayoutManager.Scale(1),sizeImage.Width,sizeImage.Height);
-					if(button.Icon!=EnumIcons.None){
-						/*using Bitmap bitmapBack=new Bitmap(rectangleImage.Width,rectangleImage.Height);
-						using Graphics gBack=Graphics.FromImage(bitmapBack);
-						gBack.InterpolationMode=InterpolationMode.HighQualityBicubic;
-						gBack.SmoothingMode=SmoothingMode.HighQuality;
-						gBack.Clear(Color.Red);
-						DrawButtonBackground(gBack,button,rectangleImage);
-						IconLibrary.DrawOnBitmap(bitmapBack,button.Icon,new Rectangle(0,0,rectangleImage.Width,rectangleImage.Height));
-						g.DrawImage(bitmapBack,rectangleImage);*/
-						IconLibrary.Draw(g,button.Icon,rectangleImage,colorGradientTop,colorGradientBottom);
-					}
-					else{
-						g.DrawImage(bitmap,rectangleImage);
-					}
-					rectangleText=new Rectangle(button.Bounds.X+sizeImage.Width+LayoutManager.Scale(3),button.Bounds.Y,
-						textWidth-sizeImage.Width-LayoutManager.Scale(3),button.Bounds.Height);
+					g.DrawImage(bitmap,rectangleImage);
 				}
+				rectangleText=new Rectangle(button.Bounds.X+sizeImage.Width+LayoutManager.Scale(3),button.Bounds.Y,
+					textWidth-sizeImage.Width-LayoutManager.Scale(3),button.Bounds.Height);
 			}
 			else{//only draw text
-				if(button.Style==ODToolBarButtonStyle.Label || button.Style==ODToolBarButtonStyle.PageNav){
-					rectangleText=new Rectangle(button.Bounds.X,button.Bounds.Y,
-						textWidth,button.Bounds.Height);
-				}
-				else if(button.State==ToolBarButtonState.Pressed){//draw slightly down and right
-					rectangleText=new Rectangle(button.Bounds.X+1,button.Bounds.Y+1,
-						textWidth,button.Bounds.Height);
-				}
-				else{
-					rectangleText=new Rectangle(button.Bounds.X,button.Bounds.Y,
-						textWidth,button.Bounds.Height);
-				}
+				rectangleText=new Rectangle(button.Bounds.X,button.Bounds.Y,textWidth,button.Bounds.Height);
 			}
 			if(imageList!=null && button.ImageIndex!=-1){//if there is an image
-				if(button.Enabled) {
-					g.DrawString(button.Text,Font,_brushText,rectangleText,_stringFormatLeft);
-				}
-				else {
-					g.DrawString(button.Text,Font,_brushTextDisabled,rectangleText,_stringFormatLeft);
-				}
+				g.DrawString(button.Text,Font,brushText,rectangleText,_stringFormatLeft);
 			}
 			else{
-				if(button.Enabled) {
-					g.DrawString(button.Text,Font,_brushText,rectangleText,_stringFormatCenter);
-					//For page navigation buttons we ALWAYS show the text box so that users know they can type in the box to change pages.
-					if(button.Style==ODToolBarButtonStyle.PageNav) {
-						//Because we do not display zeros to users (e.g. 001 / 135) and instead leave them off (e.g. 1 / 135) the width will be lopsided
-						//We need to draw each side of the page navigation (and pad a little) individually.
-						SizeF size = g.MeasureString("/",Font);
-						g.DrawString(button.PageValue.ToString(),Font,_brushText
-							,new Rectangle(rectangleText.Location,new Size((rectangleText.Width/2)-(int)(size.Width/2)-2,rectangleText.Height))
-							,new StringFormat() { Alignment=StringAlignment.Far,LineAlignment=StringAlignment.Center });
-						g.DrawString(button.PageMax.ToString(),Font,_brushText
-							,new Rectangle(new Point(rectangleText.X+(rectangleText.Width/2)+(int)(size.Width/2)+2,rectangleText.Y)
-							,new Size((rectangleText.Width/2)-(int)(size.Width/2),rectangleText.Height))
-							,new StringFormat() { Alignment=StringAlignment.Near,LineAlignment=StringAlignment.Center });
-						//Only add the text box for page navigation once.  
-						//However, we need to add the text box here in the paint otherwise we don't know how large to make the text box.
-						if(textPageNav==null) {
-							textPageNav=new ValidNum();
-							textPageNav.Font=Font;
-							textPageNav.Size=new Size(button.Bounds.Width/2-LayoutManager.Scale(10),button.Bounds.Height);
-							//height gets ignored, but is used below
-							textPageNav.KeyDown+=TextPageNav_KeyDown;
-							textPageNav.MinVal=1;//There is no such thing as 0 pages in a preview, always set min to 1.
-							textPageNav.TextAlign=HorizontalAlignment.Right;
-							LayoutManager.Add(textPageNav,this);
-						}
-						int xCenter=button.Bounds.X+button.Bounds.Width/2;
-						int yCenter=button.Bounds.Y+button.Bounds.Height/2;
-						int wText=button.Bounds.Width/2-LayoutManager.Scale(10);
-						LayoutManager.Move(textPageNav,new Rectangle(
-							xCenter-wText-LayoutManager.Scale(4),yCenter-textPageNav.Height/2,wText,textPageNav.Height));
-						//LayoutManager.MoveLocation(textPageNav,new Point(button.Bounds.X+1,button.Bounds.Y+2));
-						//Nav text changes constantly so we need to update it when redrawing.
-						textPageNav.Text=button.PageValue.ToString();
-						if(button.PageMax!=0) {
-							textPageNav.MaxVal=button.PageMax;
-						}
+				g.DrawString(button.Text,Font,brushText,rectangleText,_stringFormatCenter);
+				//For page navigation buttons we ALWAYS show the text box so that users know they can type in the box to change pages.
+				if(button.Enabled && button.Style==ODToolBarButtonStyle.PageNav) {
+					//Because we do not display zeros to users (e.g. 001 / 135) and instead leave them off (e.g. 1 / 135) the width will be lopsided
+					//We need to draw each side of the page navigation (and pad a little) individually.
+					SizeF size = g.MeasureString("/",Font);
+					g.DrawString(button.PageValue.ToString(),Font,brushText
+						,new Rectangle(rectangleText.Location,new Size((rectangleText.Width/2)-(int)(size.Width/2)-2,rectangleText.Height))
+						,new StringFormat() { Alignment=StringAlignment.Far,LineAlignment=StringAlignment.Center });
+					g.DrawString(button.PageMax.ToString(),Font,brushText
+						,new Rectangle(new Point(rectangleText.X+(rectangleText.Width/2)+(int)(size.Width/2)+2,rectangleText.Y)
+						,new Size((rectangleText.Width/2)-(int)(size.Width/2),rectangleText.Height))
+						,new StringFormat() { Alignment=StringAlignment.Near,LineAlignment=StringAlignment.Center });
+					//Only add the text box for page navigation once.
+					//However, we need to add the text box here in the paint otherwise we don't know how large to make the text box.
+					if(textPageNav==null) {
+						textPageNav=new ValidNum();
+						textPageNav.Font=Font;
+						textPageNav.Size=new Size(button.Bounds.Width/2-LayoutManager.Scale(10),button.Bounds.Height);
+						//height gets ignored, but is used below
+						textPageNav.KeyDown+=TextPageNav_KeyDown;
+						textPageNav.MinVal=1;//There is no such thing as 0 pages in a preview, always set min to 1.
+						textPageNav.TextAlign=HorizontalAlignment.Right;
+						LayoutManager.Add(textPageNav,this);
+					}
+					int xCenter=button.Bounds.X+button.Bounds.Width/2;
+					int yCenter=button.Bounds.Y+button.Bounds.Height/2;
+					int wText=button.Bounds.Width/2-LayoutManager.Scale(10);
+					LayoutManager.Move(textPageNav,new Rectangle(
+						xCenter-wText-LayoutManager.Scale(4),yCenter-textPageNav.Height/2,wText,textPageNav.Height));
+					//LayoutManager.MoveLocation(textPageNav,new Point(button.Bounds.X+1,button.Bounds.Y+2));
+					//Nav text changes constantly so we need to update it when redrawing.
+					textPageNav.Text=button.PageValue.ToString();
+					if(button.PageMax!=0) {
+						textPageNav.MaxVal=button.PageMax;
 					}
 				}
-				else {
-					g.DrawString(button.Text,Font,_brushTextDisabled,rectangleText,_stringFormatCenter);
-				}
-			}
-			//draw outline
-			//Pen penR=penMedium;//new Pen(Color.FromArgb(180,180,180));
-			if(!button.Enabled){
-				//no ScaleF
-				GraphicsHelper.DrawLine(g,_penDivider,button.Bounds.Right-1,button.Bounds.Top,button.Bounds.Right-1,button.Bounds.Bottom-1);//vertical line on the right side
-			}
-			else if(button.Style==ODToolBarButtonStyle.ToggleButton && button.IsTogglePushed){
-				g.DrawRectangle(_penTogglePushed,//_penOutline,
-					new Rectangle(button.Bounds.X,button.Bounds.Y
-					,button.Bounds.Width-1,button.Bounds.Height-1));
-				g.DrawRectangle(_penTogglePushed,new Rectangle(button.Bounds.X+1,button.Bounds.Y+1
-					,button.Bounds.Width-3,button.Bounds.Height-3));
-			}
-			else if(button.Style==ODToolBarButtonStyle.Label || button.Style==ODToolBarButtonStyle.PageNav){
-				//no outline
-				GraphicsHelper.DrawLine(g,_penDivider,button.Bounds.Right-1,button.Bounds.Top,button.Bounds.Right-1,button.Bounds.Bottom-1);//vertical line on the right side
-			}
-			else switch(button.State){
-				case ToolBarButtonState.Normal:
-					//no outline
-					GraphicsHelper.DrawLine(g,_penDivider,button.Bounds.Right-1,button.Bounds.Top,button.Bounds.Right-1,button.Bounds.Bottom-1);
-					break;
-				case ToolBarButtonState.Hover:
-					g.DrawRectangle(_penOutline,button.Bounds.X-1,button.Bounds.Y,button.Bounds.Width-1,button.Bounds.Height-1);
-					break;
-				case ToolBarButtonState.Pressed:
-					g.DrawRectangle(_penOutline,button.Bounds.X,button.Bounds.Y,button.Bounds.Width-1,button.Bounds.Height-1);
-					break;
-				case ToolBarButtonState.DropPressed:
-					g.DrawRectangle(_penOutline,button.Bounds.X,button.Bounds.Y,button.Bounds.Width-1,button.Bounds.Height-1);
-					break;
 			}
 			if(button.Style==ODToolBarButtonStyle.DropDownButton){
-				int adjDown=0;//The distance to push the triangle down to show the notification text.
+				int adjDown=0;//The distance to push the chevron down to show the notification text.
 				if(isNotify) {
 					adjDown=LayoutManager.Scale(6);
 					//Draw the notification text.
 					Size sizeText=TextRenderer.MeasureText(button.NotificationText,Font);
-					g.DrawString(button.NotificationText,Font,(button.Enabled?_brushText:_brushTextDisabled),
+					g.DrawString(button.NotificationText,Font,brushText,
 						button.Bounds.X+button.Bounds.Width+1-(_widthDropDown+sizeText.Width)/2f,button.Bounds.Y+2+sizeText.Height/2f,_stringFormatLeft);
 				}
-				Point[] triangle=new Point[3];
-				triangle[0]=new Point(button.Bounds.X+button.Bounds.Width-LayoutManager.Scale(11)
-					,button.Bounds.Y+button.Bounds.Height/2-LayoutManager.Scale(2)+adjDown);
-				triangle[1]=new Point(button.Bounds.X+button.Bounds.Width-LayoutManager.Scale(4)
-					,button.Bounds.Y+button.Bounds.Height/2-LayoutManager.Scale(2)+adjDown);
-				triangle[2]=new Point(button.Bounds.X+button.Bounds.Width-LayoutManager.Scale(8)
-					,button.Bounds.Y+button.Bounds.Height/2+LayoutManager.Scale(2)+adjDown);
-				if(button.Enabled) {
-					g.FillPolygon(_brushText,triangle);
-				}
-				else {
-					g.FillPolygon(_brushTextDisabled,triangle);
-				}
-				if(button.State!=ToolBarButtonState.Normal && button.Enabled){
-					GraphicsHelper.DrawLine(g,_penOutline,button.Bounds.X+button.Bounds.Width-_widthDropDown,button.Bounds.Y
-						,button.Bounds.X+button.Bounds.Width-_widthDropDown,button.Bounds.Y+button.Bounds.Height);
-				}
+				//The 12 px Fluent chevron (UI-7a's glyph), centred in the drop-down part, in the text's colour.
+				int sizeChevron=LayoutManager.Scale(UiTheme.SIZE_CHEVRON);
+				Rectangle rectangleChevron=new Rectangle(button.Bounds.Right-_widthDropDown+(_widthDropDown-sizeChevron)/2,
+					button.Bounds.Y+(button.Bounds.Height-sizeChevron)/2+adjDown,sizeChevron,sizeChevron);
+				UiIcons.Draw(g,UiGlyph.ChevronDown,rectangleChevron,UiTheme.GetColor(uiColorText));
 			}
+		}
+
+		///<summary>Draws an EnumIcons icon in the colour, transparently over whatever the control has drawn under it (GDI+, CodeBase.UiIcons, the
+		///same shapes antialiased), so no box shows behind the icon on a hover, pressed or toggled shape: IconLibrary.Draw fills an opaque Direct2D
+		///bitmap over the colours it is given (UI-7b's review), which would show its square inside a rounded shape. isFilled: the icon's Filled style
+		///(the selected module). The pictures (IconLibrary.IsPicture) draw their bitmaps.</summary>
+		internal static void DrawIconTransparent(Graphics g,EnumIcons icon,Rectangle rectangle,Color color,bool isFilled=false){
+			if(icon==EnumIcons.None){
+				return;
+			}
+			if(IconLibrary.IsPicture(icon)){
+				IconLibrary.Draw(g,icon,rectangle,color,color);
+				return;
+			}
+			UiIcons.Draw(g,IconLibrary.GetDesign(icon,Math.Min(rectangle.Width,rectangle.Height),isFilled),rectangle,color);
 		}
 
 		///<summary>Returns the button that contains these coordinates, or null if no hit.</summary>
@@ -761,35 +687,9 @@ Boilerplate for the new WpfControls.UI.ToolBar is over in ToolBar.xaml.cs
 			return false;
 		}
 
+		///<summary>Sets the line width for the scale (UiTheme.GetLineWidth: 1 px up to 175%, 2 px at 200%). The colours are tokens: nothing to make.</summary>
 		private void InitializeBrushes(){
-			_brushTogglePushed?.Dispose();
-			_brushTogglePushError?.Dispose();
-			_brushMain?.Dispose();
-			_brushMainError?.Dispose();
-			_brushPushed?.Dispose();
-			_brushPushedError?.Dispose();
-			_brushNotify?.Dispose();
-			_brushTogglePushed=new LinearGradientBrush(new Point(0,0),new Point(0,Height),Color.FromArgb(255,255,255),Color.FromArgb(191,220,255));
-				//.FromArgb(191,201,229));//too bland
-			_brushTogglePushError=new LinearGradientBrush(new Point(0,0),new Point(0,Height),Color.FromArgb(255,212,212),Color.FromArgb(255,118,118));
-			_brushMain=new LinearGradientBrush(new Point(0,0),new Point(0,Height),Color.FromArgb(255,255,255),Color.FromArgb(191, 201, 229));//#bfc9e5
-				//171,181,209));//#ABB5D1 //too dark
-			_brushMainError=new LinearGradientBrush(new Point(0,0),new Point(0,Height),Color.FromArgb(255,192,192),Color.FromArgb(255,98,98));
-			_brushPushed=new LinearGradientBrush(new Point(0,0),new Point(0,Height),Color.FromArgb(225,225,225),Color.FromArgb(141,151,179));
-			_brushPushedError=new LinearGradientBrush(new Point(0,0),new Point(0,Height),Color.FromArgb(225,162,162),Color.FromArgb(225,68,68));			
-			_brushNotify=new LinearGradientBrush(new Point(0,0),new Point(0,Height),Color.FromArgb(255,231,167),Color.FromArgb(252,178,129));		
-			_lineThickness=1;
-			if(LayoutManager.ScaleMy()>1.3f){
-				_lineThickness=2;
-			}
-			_penDivider?.Dispose();
-			_penOutline?.Dispose();
-			_penTogglePushed?.Dispose();
-			_penDivider=new Pen(Color.FromArgb(180,180,180),_lineThickness);
-			_penOutline=new Pen(Color.SlateGray,_lineThickness);
-			//_penOutline.Alignment=PenAlignment.Inset;
-			_penTogglePushed=new Pen(Color.FromArgb(50,120,200),_lineThickness);
-				//132,148,220),_lineThickness); //Compared to SlateGray(112,128,144)
+			_lineThickness=UiTheme.GetLineWidth(LayoutManager.ScaleMy());
 		}
 		#endregion Methods - Private
 

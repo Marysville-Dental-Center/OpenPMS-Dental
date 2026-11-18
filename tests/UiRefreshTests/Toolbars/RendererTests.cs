@@ -215,6 +215,16 @@ namespace UiRefreshTests.Toolbars {
 						Rectangle rectangleHover=toolStripMenuItemHover.Bounds;
 						Assert.AreEqual(UiTheme.SubtleHover.ToArgb(),bitmap.GetPixel(rectangleHover.Right-8,rectangleHover.Top+rectangleHover.Height/2).ToArgb(),
 							"The selected item is SubtleHover.");
+						int countDarkHover=0;
+						for(int x=rectangleHover.Left;x<rectangleHover.Right;x++) {
+							for(int y=rectangleHover.Top;y<rectangleHover.Bottom;y++) {
+								Color color=bitmap.GetPixel(x,y);
+								if(color.R<90 && color.G<90 && color.B<90) {
+									countDarkHover++;
+								}
+							}
+						}
+						Assert.IsTrue(countDarkHover>10,"The selected item's text is dark (Text), not the professional look's HighlightText ("+countDarkHover+" dark pixels).");
 						Rectangle rectangleSeparator=toolStripSeparator.Bounds;
 						Assert.IsTrue(Enumerable.Range(rectangleSeparator.Top,rectangleSeparator.Height)
 							.Any(y => bitmap.GetPixel(rectangleSeparator.Left+rectangleSeparator.Width/2,y).ToArgb()==UiTheme.Gridline.ToArgb()),"The separator is Gridline.");

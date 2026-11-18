@@ -180,11 +180,12 @@ namespace CodeBase {
 			return toolStrip.DeviceDpi/96f;
 		}
 
-		///<summary>True for the colours a stock item draws its text in when the program set none: then the item takes the Text token.</summary>
+		///<summary>True for the colours a stock item draws its text in when the program set none (HighlightText for a selected item, which the
+		///professional look puts on a dark selection): then the item takes the Text token, as the hover shape is light.</summary>
 		private static bool IsDefaultTextColor(Color color) {
 			int argb=color.ToArgb();
 			return argb==SystemColors.ControlText.ToArgb() || argb==SystemColors.MenuText.ToArgb() || argb==SystemColors.WindowText.ToArgb()
-				|| argb==Color.Black.ToArgb();
+				|| argb==SystemColors.HighlightText.ToArgb() || argb==Color.Black.ToArgb();
 		}
 
 		///<summary>A tool strip button's shape (section 3.6, Toolbars): nothing at rest, SubtleHover on hover, SubtlePressed pressed, AccentSubtle with

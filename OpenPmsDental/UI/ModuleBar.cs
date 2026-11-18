@@ -20,18 +20,16 @@ namespace OpenPmsDental {
 		#region Fields - Private
 		/// <summary>Required designer variable.</summary>
 		private System.ComponentModel.Container components = null;
-		private Brush _brushBack=SystemBrushes.Control;
-		private SolidBrush _brushHot=new SolidBrush(Color.FromArgb(235,235,235));
-		private SolidBrush _brushPressed=new SolidBrush(Color.FromArgb(210,210,210));
-		private SolidBrush _brushSelected=new SolidBrush(Color.FromArgb(255,255,255));
+		//The colours are UiTheme's tokens (UI-6, docs/specs/ui-refresh-plan.md section 3.6): shared per thread, never disposed here.
+		///<summary>The button under the mouse, -1 for none. Set by the mouse events; the painting reads it.</summary>
 		private int currentHot=-1;
+		///<summary>True while the left mouse button is down after a press on the bar (the pressed look of the hot button).</summary>
+		private bool _isMouseDown;
 		///<summary>At 96dpi</summary>
 		//private int _heightButton=39+26;//typical button is 49x65
 		private int _heightButton=39+18;//typical button is 49x57
 		///<summary></summary>
 		private List<ModuleBarButton> _listButtons;
-		private Pen _penOutline=new Pen(Color.FromArgb(28,81,128));
-		private int _radiusCorner=4;
 		///<summary>Property backer</summary>
 		private int _selectedIndex=-1;
 		///<summary>Used when click event is cancelled.</summary>
@@ -213,30 +211,17 @@ namespace OpenPmsDental {
 		protected override void OnPaint(PaintEventArgs pe) {
 			Graphics g=pe.Graphics;
 			g.SmoothingMode=SmoothingMode.HighQuality;
-			g.Clear(ColorOD.Control);
+			//The bar (UI-6, section 3.6, Module bar): flat SurfaceSubtle with a 1 px Gridline divider on its right, no lines between the buttons.
+			g.Clear(UiTheme.SurfaceSubtle);
 			try {
 				ComputeButtonSizes();
-				int idxHot=-1;
-				g.DrawLine(Pens.Gray,Width-1,0,Width-1,Height-1);
+				int widthLine=UiTheme.GetLineWidth(LayoutManager.ScaleMy());
+				g.FillRectangle(UiTheme.GetBrush(EnumUiColor.Gridline),Width-widthLine,0,widthLine,Height);
 				for(int i=0;i<_listButtons.Count;i++) {
-					Point mouseLoc=PointToClient(MousePosition);
-					if(_listButtons[i].Bounds.Contains(mouseLoc)){
-						idxHot=i;
-					}
-					bool isHot=(idxHot==i);
-					bool isPressed=(MouseButtons==MouseButtons.Left && isHot);
+					bool isHot=(currentHot==i);
+					bool isPressed=(_isMouseDown && isHot);
 					bool isSelected=(i==_selectedIndex);
 					DrawButton(_listButtons[i],isHot,isPressed,isSelected,g);
-				}
-				for(int i=0;i<_listButtons.Count;i++) {
-					//draw line at the bottom of each button, but skip certain ones
-					if(_selectedIndex==i || _selectedIndex==i+1){
-						continue;
-					}
-					if(idxHot==i || idxHot==i+1){
-						continue;
-					}
-					g.DrawLine(Pens.DarkGray,0,_listButtons[i].Bounds.Bottom,Width,_listButtons[i].Bounds.Bottom);
 				}
 			}
 			catch(Exception ex) {
@@ -250,79 +235,43 @@ namespace OpenPmsDental {
 			//base.OnPaint(pe);
 		}
 
-		/// <summary>Draws one button. isHot: Is the mouse currently hovering over this button. isPressed: Is the left mouse button currently down on this button. isSelected: Is this the currently selected button</summary>
+		/// <summary>Draws one button (UI-6, section 3.6, Module bar). isHot: Is the mouse currently hovering over this button. isPressed: Is the left
+		/// mouse button currently down on this button. isSelected: Is this the currently selected button. The shape is inset 4 px from the button's
+		/// sides and 2 px from its top and bottom, with 6 px corners: SubtleHover on hover, SubtlePressed pressed; the selected module SurfaceRaised
+		/// with a 3 px Accent mark on the left and its icon in its Filled style in Accent. Other icons are Regular in Text; captions in Text.</summary>
 		private void DrawButton(ModuleBarButton button,bool isHot,bool isPressed,bool isSelected,Graphics g){
 			if(!button.Visible) {
-				g.FillRectangle(_brushBack,button.Bounds.X,button.Bounds.Y
-					,button.Bounds.Width+1,button.Bounds.Height+1);
-				return;
+				return;//the bar's background shows
 			}
-			if(isPressed) {
-				//g.FillRectangle(_brushPressed,button.Bounds.X,button.Bounds.Y,button.Bounds.Width+1,button.Bounds.Height+1);
-				g.FillRectangle(_brushSelected,button.Bounds.X,button.Bounds.Y,button.Bounds.Width+1,button.Bounds.Height+1);
+			float scale=LayoutManager.ScaleMy();
+			Rectangle rectangleShape=Rectangle.Inflate(button.Bounds,-LayoutManager.Scale(UiTheme.INSET_MODULE_HOVER),-LayoutManager.Scale(2));
+			int radius=UiTheme.GetCornerRadius(UiTheme.CORNER_MODULE_HOVER,scale);
+			Color colorIcon=UiTheme.Text;
+			bool isFilled=false;
+			if(isSelected) {
+				UiToolStripRenderer.FillRounded(g,EnumUiColor.SurfaceRaised,rectangleShape,radius);
+				g.FillRectangle(UiTheme.GetBrush(EnumUiColor.Accent),button.Bounds.X,rectangleShape.Y,LayoutManager.Scale(UiTheme.LINE_MODULE_MARK),rectangleShape.Height);
+				colorIcon=UiTheme.Accent;
+				isFilled=true;
 			}
-			else if(isSelected) {
-				g.FillRectangle(_brushSelected,button.Bounds.X,button.Bounds.Y,button.Bounds.Width+1,button.Bounds.Height+1);
-				g.FillRectangle(button.BrushHot,button.Bounds.X,button.Bounds.Y+button.Bounds.Height-10,button.Bounds.Width+1,10);
+			else if(isPressed) {
+				UiToolStripRenderer.FillRounded(g,EnumUiColor.SubtlePressed,rectangleShape,radius);
 			}
 			else if(isHot) {
-				g.FillRectangle(_brushHot,button.Bounds.X,button.Bounds.Y,button.Bounds.Width+1,button.Bounds.Height+1);
-				//g.FillRectangle(myButton.BrushHot,myButton.Bounds.X,myButton.Bounds.Y+myButton.Bounds.Height-10,myButton.Bounds.Width+1,10);
+				UiToolStripRenderer.FillRounded(g,EnumUiColor.SubtleHover,rectangleShape,radius);
 			}
-			else {
-				g.FillRectangle(_brushBack,button.Bounds.X,button.Bounds.Y,button.Bounds.Width+1,button.Bounds.Height+1);
-			}
-			//if(button==_listButtons[0]){
-				//don't draw line above top button
-			//}
-			//else{
-			//	g.DrawLine(Pens.DarkGray,3,button.Bounds.Top,Width-5,button.Bounds.Top);
-			//}
-			//if(button==_listButtons[_listButtons.Count-1]){
-			//	g.DrawLine(Pens.DarkGray,3,button.Bounds.Bottom+1,Width-5,button.Bounds.Bottom+1);
-			//}
-			//outline
-			if(isPressed || isSelected || isHot) {
-				//block out the corners so they won't show.  This can be improved later.
-				g.FillPolygon(_brushBack,new Point[] {
-				new Point(button.Bounds.X,button.Bounds.Y),
-				new Point(button.Bounds.X+3,button.Bounds.Y),
-				new Point(button.Bounds.X,button.Bounds.Y+3)});
-				g.FillPolygon(_brushBack,new Point[] {//it's one pixel to the right because of the way rect drawn.
-				new Point(button.Bounds.X+button.Bounds.Width-2,button.Bounds.Y),
-				new Point(button.Bounds.X+button.Bounds.Width+1,button.Bounds.Y),
-				new Point(button.Bounds.X+button.Bounds.Width+1,button.Bounds.Y+3)});
-				g.FillPolygon(_brushBack,new Point[] {//it's one pixel down and right.
-				new Point(button.Bounds.X+button.Bounds.Width+1,button.Bounds.Y+button.Bounds.Height-3),
-				new Point(button.Bounds.X+button.Bounds.Width+1,button.Bounds.Y+button.Bounds.Height+1),
-				new Point(button.Bounds.X+button.Bounds.Width-3,button.Bounds.Y+button.Bounds.Height+1)});
-				g.FillPolygon(_brushBack,new Point[] {//it's one pixel down
-				new Point(button.Bounds.X,button.Bounds.Y+button.Bounds.Height-3),
-				new Point(button.Bounds.X+3,button.Bounds.Y+button.Bounds.Height+1),
-				new Point(button.Bounds.X,button.Bounds.Y+button.Bounds.Height+1)});
-				//then draw outline
-				GraphicsHelper.DrawRoundedRectangle(g,_penOutline,button.Bounds,_radiusCorner);
-			}
-			//Image
+			//Image: the Fluent icon drawn transparently over the shape (no box behind it); the chart's picture (until UI-8) in its white version on the
+			//selected module's white shape.
 			Rectangle imgRect=new Rectangle((Width-LayoutManager.Scale(32))/2,button.Bounds.Y+4,LayoutManager.Scale(32),LayoutManager.Scale(32));
-			if(isPressed || isSelected) {
-				if(button.Icon2==EnumIcons.None){
-					IconLibrary.Draw(g,button.Icon,imgRect,Color.White,Color.White);
-				}
-				else{
-					IconLibrary.Draw(g,button.Icon2,imgRect,Color.White,Color.White);//the chart module has two images
-				}
+			EnumIcons icon=button.Icon;
+			if(isSelected && button.Icon2!=EnumIcons.None){
+				icon=button.Icon2;//the chart module has two images
 			}
-			else{
-				IconLibrary.Draw(g,button.Icon,imgRect,ColorOD.Control,ColorOD.Control);
-			}
-			//Bitmap bitmap=IconLibrary.GetBitmap(g,button.Icon,imgRect.Size);
-			//g.DrawImage(bitmap,imgRect);
-			//bitmap.Dispose();
+			ToolBarOD.DrawIconTransparent(g,icon,imgRect,colorIcon,isFilled);
 			//Text
 			using Font font=new Font("Arial",LayoutManager.ScaleFontODZoom(8));
 			Rectangle textRect = new Rectangle(button.Bounds.X-1,imgRect.Bottom,button.Bounds.Width+2,button.Bounds.Bottom-imgRect.Bottom);
-			g.DrawString(button.Caption,font,Brushes.Black,textRect,_stringFormat);
+			g.DrawString(button.Caption,font,UiTheme.GetBrush(EnumUiColor.Text),textRect,_stringFormat);
 		}
 
 		//private void DrawImageVector(ModuleBarButton button,Direct2d d){
@@ -335,6 +284,9 @@ namespace OpenPmsDental {
 		///<summary></summary>
 		protected override void OnMouseDown(System.Windows.Forms.MouseEventArgs e){
 			base.OnMouseDown(e);
+			if(e.Button==MouseButtons.Left){
+				_isMouseDown=true;
+			}
 			//Graphics g=this.CreateGraphics();
 			if(currentHot != -1){
 				//redraw current button to give feedback on mouse down.
@@ -368,6 +320,7 @@ namespace OpenPmsDental {
 			if(e.Button != MouseButtons.Left){
 				return;
 			}
+			_isMouseDown=false;
 			int selectedBut=GetButtonI(new Point(e.X,e.Y));
 			if(selectedBut==-1){
 				return;
@@ -409,9 +362,6 @@ namespace OpenPmsDental {
 				//if(textHeight<26)
 				//	textHeight=26;//default to height of 2 lines of text for uniformity.
 				_listButtons[i].Bounds=new Rectangle(0,top,width,LayoutManager.Scale(_heightButton));//39+26);
-				_listButtons[i].BrushHot?.Dispose();
-				_listButtons[i].BrushHot=new LinearGradientBrush(new PointF(0,top+LayoutManager.Scale(_heightButton)-10),new PointF(0,top+LayoutManager.Scale(_heightButton)),
-					_brushSelected.Color,_brushPressed.Color);
 				top+=LayoutManager.Scale(_heightButton)+1;//39+26+1;
 			}
 			g.Dispose();
@@ -519,7 +469,7 @@ namespace OpenPmsDental {
 	#region Class ModuleButton
 	///<summary>Lightweight, just to keep track of a few fields.</summary>
 	public class ModuleBarButton{
-		///<summary>Linear gradient brush depends on a start and stop Y points, so it must be different for every button unless we start having module buttons draw themselves.</summary>
+		///<summary>The selected button's old gradient. Not drawn or made since UI-6 (the flat look); kept for code that reads it. Always null.</summary>
 		public LinearGradientBrush BrushHot;
 		///<summary></summary>
 		public Rectangle Bounds;

@@ -22,13 +22,11 @@ namespace OpenPmsDental.UI {
 		public ODPanelItem SelectedItem;
 		///<summary>The last row that was clicked on. -1 if no row selected.</summary>
 		public int SelectedRow;
-		//These static objects don't get disposed------------------------------------------------
-		private static SolidBrush _brushLabelBackground=(SolidBrush)Brushes.White;
-		private static SolidBrush _brushLabel=(SolidBrush)Brushes.Black;
-		private static SolidBrush _brushBackgroundShadow=new SolidBrush(Color.FromArgb(202,212,222));
-		private static SolidBrush _brushBackground=(SolidBrush)Brushes.White;
-		private LinearGradientBrush _brushButtonPanel=null;
-		private static Pen _penOutline=new Pen(Color.FromArgb(47,70,117));
+		//The colours are UiTheme's tokens (UI-6, docs/specs/ui-refresh-plan.md section 3.6): shared per thread, never disposed here.
+		///<summary>The button item under the mouse, or null. Set by the mouse events; the painting reads it.</summary>
+		private ODPanelItem _odPanelItemHot;
+		///<summary>True while the left mouse button is down after a press on the panel (the pressed look of the hot button).</summary>
+		private bool _isMouseDown;
 		///<summary>Ignore the public font.  We want to control font internally.</summary>
 		private Font _font;
 
@@ -63,8 +61,6 @@ namespace OpenPmsDental.UI {
 			base.OnSizeChanged(e);
 			_font=new Font(FontFamily.GenericSansSerif,LayoutManager.ScaleFontODZoom(8.5f));
 			_heightRow=LayoutManager.Scale(18);
-			_brushButtonPanel?.Dispose();
-			_brushButtonPanel=new LinearGradientBrush(new Point(0,0),new Point(0,_heightRow),Color.FromArgb(255,255,255),Color.FromArgb(205,212,215));
 			Invalidate();
 		}
 
@@ -129,14 +125,9 @@ namespace OpenPmsDental.UI {
 			}
 		}
 
-		///<summary>Draws a solid gray background.</summary>
+		///<summary>Draws the background: flat SurfaceRaised (UI-6; the old shadow on the top and left is gone).</summary>
 		private void DrawBackG(Graphics g) {
-			g.FillRectangle(_brushBackgroundShadow,
-				0,0,
-				Width,Height);//Creates a shadow on top and left of control.
-			g.FillRectangle(_brushBackground,
-				1,1,
-				Width-1,Height-1);
+			g.FillRectangle(UiTheme.GetBrush(EnumUiColor.SurfaceRaised),0,0,Width,Height);
 		}
 
 		private void DrawItems(Graphics g) {
@@ -156,19 +147,36 @@ namespace OpenPmsDental.UI {
 			RectangleF itemRect=new RectangleF(
 				item.Location.X,item.Location.Y,
 				item.ItemWidth,_heightRow);
-			g.FillRectangle(_brushLabelBackground,itemRect);
-			g.DrawString(item.Text,_font,_brushLabel,itemRect,
+			g.FillRectangle(UiTheme.GetBrush(EnumUiColor.SurfaceRaised),itemRect);
+			g.DrawString(item.Text,_font,UiTheme.GetBrush(EnumUiColor.Text),itemRect,
 				new StringFormat { Alignment=StringAlignment.Center,LineAlignment=StringAlignment.Center });
 		}
 
+		///<summary>A button item as the new look's buttons (UI-6, section 3.6, Buttons): flat SurfaceRaised with a 1 px Stroke border and 4 px corners,
+		///ButtonHover on hover and ButtonPressed pressed, the text in Text; in the item's bounds as before.</summary>
 		private void DrawItemBut(Graphics g,ODPanelItem odPanelItem) {
 			Rectangle recOutline=new Rectangle(odPanelItem.Location.X,odPanelItem.Location.Y,odPanelItem.ItemWidth-1,_heightRow-1);
-			Button.DrawSimpleButton(g,recOutline,odPanelItem.Text,_font,_brushButtonPanel);
+			float scale=LayoutManager.ScaleMy();
+			int radius=UiTheme.GetCornerRadius(UiTheme.CORNER_CONTROL,scale);
+			EnumUiColor uiColorFill=EnumUiColor.SurfaceRaised;
+			if(odPanelItem==_odPanelItemHot) {
+				uiColorFill=_isMouseDown ? EnumUiColor.ButtonPressed : EnumUiColor.ButtonHover;
+			}
+			UiToolStripRenderer.FillRounded(g,uiColorFill,recOutline,radius);
+			UiToolStripRenderer.OutlineRounded(g,EnumUiColor.Stroke,recOutline,radius,UiTheme.GetLineWidth(scale));
+			using(StringFormat stringFormat=new StringFormat { Alignment=StringAlignment.Center,LineAlignment=StringAlignment.Center }) {
+				g.DrawString(odPanelItem.Text,_font,UiTheme.GetBrush(EnumUiColor.Text),recOutline,stringFormat);
+			}
 		}
 
-		///<summary>Draws outline around entire control.</summary>
+		///<summary>Draws the 1 px Stroke outline around the entire control.</summary>
 		private void DrawOutline(Graphics g) {
-			g.DrawRectangle(_penOutline,0,0,Width-1,Height-1);
+			int widthLine=UiTheme.GetLineWidth(LayoutManager.ScaleMy());
+			Brush brushOutline=UiTheme.GetBrush(EnumUiColor.Stroke);
+			g.FillRectangle(brushOutline,0,0,Width,widthLine);
+			g.FillRectangle(brushOutline,0,Height-widthLine,Width,widthLine);
+			g.FillRectangle(brushOutline,0,0,widthLine,Height);
+			g.FillRectangle(brushOutline,Width-widthLine,0,widthLine,Height);
 		}
 		#endregion
 
@@ -235,6 +243,39 @@ namespace OpenPmsDental.UI {
 			_pointMouseClick=new Point(e.X,e.Y);
 			//ODPanelItem item=PointToItem(_pointMouseClick);
 			//int row=e.Y/_rowHeight;
+			if(e.Button==MouseButtons.Left) {
+				_isMouseDown=true;
+				Invalidate();
+			}
+		}
+
+		///<summary>Tracks the button under the mouse for the hover look (UI-6).</summary>
+		protected override void OnMouseMove(MouseEventArgs e) {
+			base.OnMouseMove(e);
+			ODPanelItem odPanelItem=PointToItem(e.Location);
+			if(odPanelItem!=null && odPanelItem.ItemType!=ODPanelItemType.Button) {
+				odPanelItem=null;
+			}
+			if(odPanelItem!=_odPanelItemHot) {
+				_odPanelItemHot=odPanelItem;
+				Invalidate();
+			}
+		}
+
+		protected override void OnMouseUp(MouseEventArgs e) {
+			base.OnMouseUp(e);
+			if(e.Button==MouseButtons.Left && _isMouseDown) {
+				_isMouseDown=false;
+				Invalidate();
+			}
+		}
+
+		protected override void OnMouseLeave(EventArgs e) {
+			base.OnMouseLeave(e);
+			if(_odPanelItemHot!=null) {
+				_odPanelItemHot=null;
+				Invalidate();
+			}
 		}
 
 		#endregion MouseEvents
