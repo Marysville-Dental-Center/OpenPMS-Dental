@@ -134,8 +134,7 @@ namespace UiRefreshTests {
 			//Selection, 3:1 (section 3.2: the bar, since the fill alone is 1.26:1).
 			listPairs.Add(new ContrastPair(EnumUiColor.Accent,EnumUiColor.SurfaceRaised,"selection",ContrastLook.Both,"selection bar with focus"));
 			listPairs.Add(new ContrastPair(EnumUiColor.SelectionBarNoFocus,EnumUiColor.SurfaceRaised,"selection",ContrastLook.LightOnly,"selection bar without focus"));
-			listPairs.Add(new ContrastPair(EnumUiColor.SelectionBarNoFocus,EnumUiColor.AccentSubtle,"selection",ContrastLook.Both,
-				"selection bar without focus, on the fill (the owner's darker grey)"));
+			listPairs.Add(new ContrastPair(EnumUiColor.SelectionBarNoFocus,EnumUiColor.AccentSubtle,"selection",ContrastLook.Both,"selection bar without focus, on the fill"));
 			listPairs.Add(new ContrastPair(EnumUiColor.Accent,EnumUiColor.AccentSubtle,"selection",ContrastLook.LightOnly,"selection bar with focus, on the fill"));
 			listPairs.Add(new ContrastPair(EnumUiColor.AccentSubtle,EnumUiColor.SurfaceRaised,"selection",ContrastLook.HighContrastOnly,
 				"selection fill (high contrast: the highlight)"));
