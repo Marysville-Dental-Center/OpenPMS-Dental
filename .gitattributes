@@ -15,3 +15,6 @@ tests/RdlCodeTests/Fixtures/** -text
 # The vendored Fluent UI System Icons are upstream's files byte for byte (no line end in the SVGs): no line-ending conversion, so each file keeps
 # the SHA-256 that its SOURCE.txt and CodeBase/UI/Icons/IconData.g.cs name (docs/port-notes/UI-7a.md). Diffs and merges stay text.
 third-party/fluentui-system-icons/** -text
+# The custom dental icons are compared byte for byte with the drawing that makes them (tools/New-DentalIcons.ps1 -Check) and keep the SHA-256
+# that CodeBase/UI/Icons/IconData.g.cs names (no line end in the SVGs): no line-ending conversion (docs/port-notes/UI-8.md). Diffs and merges stay text.
+icons/custom/** -text

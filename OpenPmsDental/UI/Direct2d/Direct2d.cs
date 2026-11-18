@@ -517,8 +517,18 @@ namespace OpenPmsDental.UI{
 			if(uiGlyph==CodeBase.UiGlyph.None || rectangleSlot.Width<=0 || rectangleSlot.Height<=0){
 				return;
 			}
+			DrawIcon(g,CodeBase.UiIcons.GetDesign(uiGlyph,Math.Min(rectangleSlot.Width,rectangleSlot.Height)),rectangleSlot,color,colorBack);
+		}
+
+		///<summary>Draws one design of the icon table (a glyph's, or a custom dental icon's: CodeBase.UiIcons.GetDesign(DentalIcon,int), package
+		///UI-8) on a GDI+ Graphics as DrawGlyph does: Direct2D into a bitmap over colorBack, GDI+ with IconLibrary.OnlyGDI (NoD2D.txt) or when
+		///Direct2D cannot start. Nothing for null or an empty slot.</summary>
+		public static void DrawIcon(Graphics g,CodeBase.IconDesign iconDesign,Rectangle rectangleSlot,Color color,Color colorBack){
+			if(iconDesign==null || rectangleSlot.Width<=0 || rectangleSlot.Height<=0){
+				return;
+			}
 			if(IconLibrary.OnlyGDI){
-				CodeBase.UiIcons.Draw(g,uiGlyph,rectangleSlot,color);
+				CodeBase.UiIcons.Draw(g,iconDesign,rectangleSlot,color);
 				return;
 			}
 			using Bitmap bitmap=new Bitmap(rectangleSlot.Width,rectangleSlot.Height);
@@ -529,13 +539,13 @@ namespace OpenPmsDental.UI{
 			catch{
 				IconLibrary.OnlyGDI=true;//from now on
 				d?.Dispose();
-				CodeBase.UiIcons.Draw(g,uiGlyph,rectangleSlot,color);
+				CodeBase.UiIcons.Draw(g,iconDesign,rectangleSlot,color);
 				return;
 			}
 			try{
 				d.BeginDraw();
 				d.Clear(colorBack);
-				d.FillGlyph(uiGlyph,new Rectangle(0,0,rectangleSlot.Width,rectangleSlot.Height),color);
+				d.FillIcon(iconDesign,new Rectangle(0,0,rectangleSlot.Width,rectangleSlot.Height),color);
 				d.EndDraw();
 			}
 			finally{
