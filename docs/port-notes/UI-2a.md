@@ -156,6 +156,10 @@ program opens group notes in `FormProcGroup`, so the note is the procedure's own
 - Targeted (x64, `-RequireBuildOutput`): UiRefreshTests 63 of 63 with `OPMS_UI_SCAN=1` (the full scan through the override included) and
   NoHqTests 122 of 122 (`.git/od-tools/test-results/ui2a1-3.txt`); WindowChecksTests 26 passed, 41 opt-in skipped (UF1 among them),
   LibWebTests 65, M2TERMTests 21, M2INSPLANTests 31 (`ui2a1-4.txt`).
+- Review fix 1 (`ui/ui2a1-2`, the content decision passed down): full build 0 errors; one Targeted run with `OPMS_UI_SCAN=1`
+  (`ui2a1-5.txt`): UiRefreshTests 64 of 64 (the new composite-field test included), NoHqTests 122, WindowChecksTests 26 passed, 41 opt-in
+  skipped, LibWebTests 65, M2TERMTests 21, M2INSPLANTests 31. The scan's summary through the override is the same as in section 7 (the scan
+  adds no sheet fields; `.git/od-tools/test-results/ui2a1-2-scan/`).
 - **Not run here, for the lead's connected session:** ToothChartImageTests and ToothChartHostTests (WPF picture tests; the owner's session
   was disconnected), the window checks with UF1 (`OPMS_WINDOW_CHECKS=1`, `OPMS_WINDOW_CHECKS_GROUPS=UF` or `U`), and the harness's U0 and the
   bounds record against the before set: **the before set does not exist yet** (UI-0c's first connected run makes it), so the slice's merge
