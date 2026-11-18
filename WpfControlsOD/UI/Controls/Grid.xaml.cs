@@ -81,6 +81,10 @@ using WpfControls.UI;
 		private Canvas _canvasVertLines;
 		///<summary>The ordinary horizontal and vertical gridlines: the Gridline token (UI-5; it was gray 220).</summary>
 		private Color _colorGridline=GridLook.BrushGridline.Color;
+		///<summary>The Tag of each row's lower gridline (a Rectangle in the row's CanvasText), so a DPI change can set its device pixel again.</summary>
+		private const string TAG_LINE_LOWER="lineLower";
+		///<summary>The look scale the line widths were last set for (ApplyLookScale).</summary>
+		private double _scaleLinesApplied;
 		private ComboBox comboBox;
 		///<summary>Used when resizing this grid in order to </summary>
 		private DispatcherTimer _dispatcherTimerSizing;
@@ -136,6 +140,7 @@ using WpfControls.UI;
 			Columns=new GridColumnCollection(this);
 			FontSize=11.5;//equivalent to WF 8.6. This is same as declared on each frm, but it's here in case we need to print without a frm.
 			SetHeightsFromFont();
+			SetLineThicknesses();
 			_heightTotal=0;//instead of	ComputeRows(g);
 			textEdit=new System.Windows.Controls.TextBox();
 			textEdit.Visibility=Visibility.Collapsed;
@@ -636,16 +641,12 @@ using WpfControls.UI;
 				return;
 			}
 			canvasHeaders.Children.Clear();
+			double pixel=GetPixelDip();
 			for(int i=0;i<Columns.Count;i++) {
 				if(i!=0) {
-					//vertical line to left of column header: 1 px Stroke across the header's height (UI-5; it was a grey and a white line, inset)
-					Line lineSeparator=new Line();
-					lineSeparator.X1=Columns[i].State.XPos;
-					lineSeparator.Y1=0;
-					lineSeparator.X2=Columns[i].State.XPos;
-					lineSeparator.Y2=_heightHeader;
-					lineSeparator.Stroke=GridLook.BrushStroke;
-					canvasHeaders.Children.Add(lineSeparator);
+					//vertical line to left of column header: 1 device px Stroke across the header's height, the previous column's last pixel, above
+					//its column line (UI-5; it was a grey and a white line, inset)
+					canvasHeaders.Children.Add(NewLineRectangle(GridLook.BrushStroke,Columns[i].State.XPos-pixel,0,pixel,_heightHeader));
 				}
 				Label label=new Label();
 				label.Width=Columns[i].State.Width;
@@ -818,19 +819,19 @@ using WpfControls.UI;
 					ComputeRowYposStartingAt(rowI);
 				}
 			}
-			Line lineLower=new Line();
-			Canvas.SetZIndex(lineLower,1);//forward from text
-			lineLower.X1=0;
-			lineLower.Y1=gridRow.State.HeightTotal;
-			lineLower.X2=_widthTotal;
-			lineLower.Y2=gridRow.State.HeightTotal;
-			lineLower.Stroke=new SolidColorBrush(_colorGridline);
+			//The lower gridline: the row's last device pixel, on whole pixels at any DPI (section 3.3; it was a 1 DIP line across the row boundary,
+			//antialiased over two pixels)
+			Brush brushLine=new SolidColorBrush(_colorGridline);
 			if(rowI==ListGridRows.Count-1) {//last row
-				lineLower.Stroke=GridLook.BrushStroke;
+				brushLine=GridLook.BrushStroke;
 			}
 			else if(gridRow.ColorLborder.ToString()!=Colors.Transparent.ToString()) {
-				lineLower.Stroke=new SolidColorBrush(gridRow.ColorLborder);
+				brushLine=new SolidColorBrush(gridRow.ColorLborder);
 			}
+			double pixel=GetPixelDip();
+			Rectangle lineLower=NewLineRectangle(brushLine,0,gridRow.State.HeightTotal-pixel,_widthTotal,pixel);
+			lineLower.Tag=TAG_LINE_LOWER;
+			Canvas.SetZIndex(lineLower,1);//forward from text
 			gridRow.CanvasText.Children.Add(lineLower);
 		}
 
@@ -887,6 +888,7 @@ using WpfControls.UI;
 				rectangle.Fill=new SolidColorBrush(colorRow);
 				rectangle.Width=_widthTotal;
 				rectangle.Height=gridRow.State.HeightTotal;
+				RenderOptions.SetEdgeMode(rectangle,EdgeMode.Aliased);//whole device pixels, no blend with the next row (UI-5, section 3.3)
 				//Canvas.SetLeft(rectangle,0);
 				//Canvas.SetTop(rectangle,0);
 				gridRow.CanvasBackground.Children.Add(rectangle);
@@ -903,6 +905,7 @@ using WpfControls.UI;
 				rectangle.Fill=new SolidColorBrush(gridRow.Cells[i].ColorBackG);
 				rectangle.Width=Columns[i].State.Width;
 				rectangle.Height=gridRow.State.HeightTotal;
+				RenderOptions.SetEdgeMode(rectangle,EdgeMode.Aliased);
 				Canvas.SetLeft(rectangle,Columns[i].State.XPos);
 				//Canvas.SetTop(rectangle,0);
 				Canvas.SetZIndex(rectangle,1);//local, so it will show in front of row rect.
@@ -944,6 +947,7 @@ using WpfControls.UI;
 				Canvas.SetZIndex(_rectangleHover,2);
 				//RowHover over a white row, a shade darker over a coloured one (UI-5; it was 70,215,237,243)
 				_rectangleHover.Fill=new SolidColorBrush(GridLook.GetOverlayOnWhite(GridLook.BrushRowHover.Color));
+				RenderOptions.SetEdgeMode(_rectangleHover,EdgeMode.Aliased);
 				canvasMain.Children.Add(_rectangleHover);
 			}
 			_rectangleHover.Height=ListGridRows[_hoverRow].State.HeightTotal;
@@ -1001,6 +1005,7 @@ using WpfControls.UI;
 					Rectangle rectangle=new Rectangle();
 					Canvas.SetZIndex(rectangle,2);
 					rectangle.Fill=new SolidColorBrush(color);
+					RenderOptions.SetEdgeMode(rectangle,EdgeMode.Aliased);
 					canvasMain.Children.Add(rectangle);
 					_listRectanglesSelected.Add(rectangle);
 				}
@@ -1040,6 +1045,7 @@ using WpfControls.UI;
 				rectangle.Height=ListGridRows[_listSelectedIndices[i]].State.HeightTotal;
 				rectangle.Width=_widthTotal;
 				rectangle.Fill=new SolidColorBrush(color);
+				RenderOptions.SetEdgeMode(rectangle,EdgeMode.Aliased);
 				canvasMain.Children.Add(rectangle);
 				_listRectanglesSelected.Add(rectangle);
 			}
@@ -1058,19 +1064,17 @@ using WpfControls.UI;
 				return;
 			}
 			double scale=GetLookScale();
+			double pixel=GetPixelDip();
 			SolidColorBrush brushBar=IsSelectionFocused ? GridLook.BrushAccent : GridLook.BrushSelectionBarNoFocus;
 			for(int i=0;i<_listSelectedIndices.Count;i++) {
 				int index=_listSelectedIndices[i];
 				if(index<0 || index>=ListGridRows.Count || !ListGridRows[index].State.Visible) {
 					continue;
 				}
-				Rectangle rectangleBar=new Rectangle();
+				//Inside the row, from its first pixel to the one above its lower gridline, as GridOD's bar; whole device pixels (section 3.3).
+				Rectangle rectangleBar=NewLineRectangle(brushBar,0,ListGridRows[index].State.YPos,GridLook.GetSelectionBarWidth(scale),
+					ListGridRows[index].State.HeightTotal-pixel);
 				Canvas.SetZIndex(rectangleBar,6);//over the text (3) and the vertical gridlines (4)
-				rectangleBar.Fill=brushBar;
-				rectangleBar.Width=GridLook.GetSelectionBarWidth(scale);
-				rectangleBar.Height=Math.Max(0,ListGridRows[index].State.HeightTotal);
-				rectangleBar.SnapsToDevicePixels=true;
-				Canvas.SetTop(rectangleBar,ListGridRows[index].State.YPos);
 				canvasMain.Children.Add(rectangleBar);
 				_listRectanglesSelectionMarks.Add(rectangleBar);
 			}
@@ -1083,8 +1087,8 @@ using WpfControls.UI;
 			rectangleFocused.Stroke=GridLook.BrushAccent;
 			rectangleFocused.StrokeThickness=GridLook.GetLineWidth(scale);
 			rectangleFocused.Width=Math.Max(0,_widthTotal);
-			rectangleFocused.Height=Math.Max(0,ListGridRows[indexFocused].State.HeightTotal);
-			rectangleFocused.SnapsToDevicePixels=true;
+			rectangleFocused.Height=Math.Max(0,ListGridRows[indexFocused].State.HeightTotal-pixel);//inside the row, above its lower gridline
+			RenderOptions.SetEdgeMode(rectangleFocused,EdgeMode.Aliased);
 			Canvas.SetTop(rectangleFocused,ListGridRows[indexFocused].State.YPos);
 			canvasMain.Children.Add(rectangleFocused);
 			_listRectanglesSelectionMarks.Add(rectangleFocused);
@@ -1136,10 +1140,78 @@ using WpfControls.UI;
 
 		///<summary>The DPI scale the selection bar and the outline snap to (device pixels per DIP).</summary>
 		private double GetLookScale(){
+			double scale=VisualTreeHelper.GetDpi(this).DpiScaleX;
 			if(_scaleLookForTest.HasValue) {
-				return _scaleLookForTest.Value;
+				scale=_scaleLookForTest.Value;
 			}
-			return VisualTreeHelper.GetDpi(this).DpiScaleX;
+			if(scale<=0 || double.IsNaN(scale)) {
+				return 1;
+			}
+			return scale;
+		}
+
+		///<summary>One device pixel in DIP at the look scale: the gridlines and the header lines are one device pixel at every scale (section 3.3).</summary>
+		private double GetPixelDip(){
+			return 1/GetLookScale();
+		}
+
+		///<summary>A line or mark of whole device pixels: a filled rectangle drawn aliased, so each pixel whose centre it covers is the brush's colour
+		///and none is blended (section 3.3). A height or width of n device pixels in DIP covers exactly n pixels.</summary>
+		private static Rectangle NewLineRectangle(Brush brush,double left,double top,double width,double height){
+			Rectangle rectangle=new Rectangle();
+			rectangle.Fill=brush;
+			rectangle.Width=Math.Max(0,width);
+			rectangle.Height=Math.Max(0,height);
+			RenderOptions.SetEdgeMode(rectangle,EdgeMode.Aliased);
+			Canvas.SetLeft(rectangle,left);
+			Canvas.SetTop(rectangle,top);
+			return rectangle;
+		}
+
+		///<summary>The border and the separator lines at the look scale: the outer border max(1, floor(scale)) device pixels, the header's bottom
+		///line and the scroll bars' lines 1 device pixel (section 3.3). With the layout rounding of borderOuter they land on whole device pixels.</summary>
+		private void SetLineThicknesses(){
+			double scale=GetLookScale();
+			double pixel=1/scale;
+			borderOuter.BorderThickness=new Thickness(GridLook.GetLineWidth(scale));
+			borderHeaders.BorderThickness=new Thickness(0,0,0,pixel);
+			borderHeaderCorner.BorderThickness=new Thickness(pixel,0,0,pixel);
+			borderScrollV.BorderThickness=new Thickness(pixel,0,0,0);
+			borderScrollH.BorderThickness=new Thickness(0,pixel,0,0);
+			borderScrollCorner.BorderThickness=new Thickness(pixel,pixel,0,0);
+			_scaleLinesApplied=scale;
+		}
+
+		///<summary>When the look scale changed since the lines were set (a DPI change, the grid loaded into a window of another DPI, the test hook):
+		///the border and separators, the header separators, each row's lower gridline, the column lines and the selection marks again at whole
+		///device pixels.</summary>
+		private void ApplyLookScale(){
+			if(GetLookScale()==_scaleLinesApplied) {
+				return;
+			}
+			SetLineThicknesses();
+			double pixel=GetPixelDip();
+			for(int i=0;i<ListGridRows.Count;i++) {
+				if(ListGridRows[i].CanvasText==null) {
+					continue;
+				}
+				foreach(UIElement uIElement in ListGridRows[i].CanvasText.Children) {
+					if(uIElement is Rectangle rectangle && TAG_LINE_LOWER.Equals(rectangle.Tag)) {
+						rectangle.Height=pixel;
+						Canvas.SetTop(rectangle,ListGridRows[i].State.HeightTotal-pixel);
+					}
+				}
+			}
+			DrawHeaders();
+			if(_canvasVertLines!=null) {
+				DrawGridlinesVert();
+			}
+			DrawSelectionMarks();
+		}
+
+		protected override void OnDpiChanged(DpiScale oldDpi,DpiScale newDpi) {
+			base.OnDpiChanged(oldDpi,newDpi);
+			ApplyLookScale();
 		}
 
 		///<summary>Test only (the UI-5 grid pictures): an off-screen grid has no keyboard focus and no window DPI, so a test sets the focus looks and
@@ -1151,6 +1223,7 @@ using WpfControls.UI;
 			_isSelectionFocusedForTest=isSelectionFocused;
 			_isFocusedRowShownForTest=isFocusedRowShown;
 			_scaleLookForTest=scale;
+			ApplyLookScale();
 			DrawSelectionMarks();
 		}
 
@@ -1180,14 +1253,10 @@ using WpfControls.UI;
 			else{
 				_canvasVertLines.Children.Clear();
 			}
+			double pixel=GetPixelDip();
 			for(int i=0;i<Columns.Count;i++) {
-				Line lineRight=new Line();
-				lineRight.X1=Columns[i].State.Right;
-				lineRight.Y1=0;
-				lineRight.X2=Columns[i].State.Right;
-				lineRight.Y2=_heightTotal;
-				lineRight.Stroke=new SolidColorBrush(_colorGridline);
-				_canvasVertLines.Children.Add(lineRight);
+				//the column's last device pixel, below the header separator (UI-5, section 3.3; it was a 1 DIP line across the column edge)
+				_canvasVertLines.Children.Add(NewLineRectangle(new SolidColorBrush(_colorGridline),Columns[i].State.Right-pixel,0,pixel,_heightTotal));
 			}
 		}
 		#endregion Methods - Drawing
@@ -1245,6 +1314,7 @@ using WpfControls.UI;
 			if(DesignerProperties.GetIsInDesignMode(this)){
 				return;
 			}
+			ApplyLookScale();//the window's DPI, once the grid is in it (UI-5)
 			FrameworkElement frameworkElement=this;
 			while(true){
 				if(frameworkElement.Parent is null){//can't imagine how this could ever happen

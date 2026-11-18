@@ -252,6 +252,56 @@ namespace UiRefreshTests {
 		}
 
 		[TestMethod]
+		public void Wpf_Grid_ScaledBarAndBorder_FollowTheSnappingRule() {
+			//Section 3.3, as WinForms_GridOD_ScaledBarAndBorder_FollowTheSnappingRule: the border max(1, floor(scale)) device pixels (1, 1, 1, 1, 2),
+			//then the bar round(2 x scale) (2, 2, 3, 4, 4) with no blended pixel between them or after the bar; the gridline below the first row one
+			//Gridline pixel, not a blend over two.
+			List<string> listFailures=new List<string>();
+			bool rendersWpf=true;
+			IconRendererTests.RunSta(() => {
+				rendersWpf=ControlPictures.RendersWpf();
+				if(!rendersWpf) {
+					return;
+				}
+				Color colorSelection=UiTheme.GetColor(EnumUiColor.AccentSubtle);
+				foreach(float scale in ControlStateGallery.ArrayScales) {
+					using(Bitmap bitmap=RenderGridWpf(hasFocus:true,isFocusedRowShown:false,scale)) {
+						int xProbe=(int)(X_PROBE*scale);
+						int yRow=-1;
+						for(int y=0;y<bitmap.Height && yRow==-1;y++) {
+							if(IsNear(bitmap.GetPixel(xProbe,y),colorSelection,3)) {
+								yRow=y;
+							}
+						}
+						if(yRow<0) {
+							listFailures.Add(scale+": no selected row found.");
+							continue;
+						}
+						int yMiddle=yRow+CountRun(bitmap,xProbe,yRow,0,1,colorSelection,3)/2;
+						int widthBorder=CountRun(bitmap,0,yMiddle,1,0,UiTheme.GetColor(EnumUiColor.Stroke));
+						int widthBar=CountRun(bitmap,widthBorder,yMiddle,1,0,UiTheme.GetColor(EnumUiColor.Accent));
+						if(widthBorder!=UiTheme.GetLineWidth(scale)) {
+							listFailures.Add(scale+": border "+widthBorder+" px, expected "+UiTheme.GetLineWidth(scale)+".");
+						}
+						if(widthBar!=UiTheme.GetFocusWidth(scale)) {
+							listFailures.Add(scale+": selection bar "+widthBar+" px from x "+widthBorder+" (there "+Hex(bitmap.GetPixel(widthBorder,yMiddle))
+								+"), expected "+UiTheme.GetFocusWidth(scale)+".");
+						}
+						Check(listFailures,scale+" after the bar",bitmap,widthBorder+widthBar,yMiddle,colorSelection,3);
+						//Row 0 and row 1 are plain: from the middle of row 0 to the middle of row 1, one Gridline pixel and no blend.
+						int yRow0=(int)Math.Ceiling(34*scale);
+						int heightRow=(int)Math.Floor(17*scale);
+						CheckOneGridlinePixel(listFailures,scale+" gridline below row 0",bitmap,xProbe,yRow0+heightRow/2,yRow0+heightRow+heightRow/2-2);
+					}
+				}
+			});
+			if(!rendersWpf) {
+				Assert.Inconclusive("WPF draws nothing in this session.");
+			}
+			AssertNoFailures(listFailures);
+		}
+
+		[TestMethod]
 		public void Wpf_Grid_HeightsFollowTheFont() {
 			//18 DIP for the 14 DIP title and 15 for the 11.5 DIP header, as before (the WPF fonts do not change at UI-2b); larger fonts give larger bars.
 			Assert.AreEqual(18,WpfControls.UI.GridLook.GetHeightBar(14));
@@ -417,6 +467,11 @@ namespace UiRefreshTests {
 			grid.Measure(new System.Windows.Size(WIDTH_GRID,HEIGHT_GRID));
 			grid.Arrange(new System.Windows.Rect(0,0,WIDTH_GRID,HEIGHT_GRID));
 			grid.UpdateLayout();
+			//The DPI of a window at the scale, once the template's visuals exist, so layout rounding works in its device pixels as it does on
+			//screen (section 3.3); then a fresh layout at that DPI.
+			System.Windows.Media.VisualTreeHelper.SetRootDpi(grid,new System.Windows.DpiScale(scale,scale));
+			InvalidateLayoutAll(grid);
+			grid.UpdateLayout();
 			grid.BeginUpdate();
 			grid.Title="Account";
 			grid.Columns.Clear();
@@ -441,6 +496,17 @@ namespace UiRefreshTests {
 			StateGridWpf.HoverRow(grid,INDEX_HOVER);
 			grid.UpdateLayout();
 			return ControlPictures.RenderWpf(grid,WIDTH_GRID,HEIGHT_GRID,scale);
+		}
+
+		///<summary>Invalidates the measure and arrange of the element and every visual below it.</summary>
+		private static void InvalidateLayoutAll(System.Windows.DependencyObject dependencyObject) {
+			if(dependencyObject is System.Windows.UIElement uIElement) {
+				uIElement.InvalidateMeasure();
+				uIElement.InvalidateArrange();
+			}
+			for(int i=0;i<System.Windows.Media.VisualTreeHelper.GetChildrenCount(dependencyObject);i++) {
+				InvalidateLayoutAll(System.Windows.Media.VisualTreeHelper.GetChild(dependencyObject,i));
+			}
 		}
 
 		///<summary>Cells of each row side by side on Surface, the rows one above the other. Disposes the cells.</summary>
@@ -594,6 +660,14 @@ namespace UiRefreshTests {
 					colorFill=UiTheme.GetColor(EnumUiColor.RowHover);
 				}
 				Check(listFailures,nameRow+" fill",bitmap,X_PROBE,yMiddle,colorFill,tol);
+				//The 1 px lines exactly in their tokens, on whole pixels (section 3.3): the row's last pixel is its lower gridline (Stroke under the
+				//last row), the first column's last pixel its column line; the pixel above the gridline is the row's own.
+				Color colorLower=r==_arrayRows.Length-1 ? colorStroke : UiTheme.GetColor(EnumUiColor.Gridline);
+				Check(listFailures,nameRow+" lower line",bitmap,X_PROBE,yTop+heightRow-1,colorLower,0);
+				Check(listFailures,nameRow+" above the lower line",bitmap,X_PROBE,yTop+heightRow-2,
+					r==INDEX_SELECTED && isFocusedRowShown ? UiTheme.GetColor(EnumUiColor.Accent) : colorFill,tol);
+				Check(listFailures,nameRow+" column line",bitmap,_arrayWidths[0],yMiddle,UiTheme.GetColor(EnumUiColor.Gridline),0);
+				Check(listFailures,nameRow+" right of the column line",bitmap,_arrayWidths[0]+1,yMiddle,colorFill,tol);
 				if(r!=INDEX_SELECTED) {
 					Check(listFailures,nameRow+" no bar",bitmap,1,yMiddle,colorFill,tol);
 					continue;
@@ -602,13 +676,29 @@ namespace UiRefreshTests {
 				Check(listFailures,nameRow+" bar x1",bitmap,1,yMiddle,colorBar,tol);
 				Check(listFailures,nameRow+" bar x2",bitmap,2,yMiddle,colorBar,tol);
 				Check(listFailures,nameRow+" after the bar",bitmap,3,yTop+2,colorFill,tol);
-				if(isFocusedRowShown) {
-					Check(listFailures,nameRow+" focused outline",bitmap,X_PROBE,yTop,UiTheme.GetColor(EnumUiColor.Accent),tol);
+				//The focused row's outline: Accent on the row's first pixel, or the fill.
+				Check(listFailures,nameRow+" focused outline",bitmap,X_PROBE,yTop,isFocusedRowShown ? UiTheme.GetColor(EnumUiColor.Accent) : colorFill,tol);
+			}
+			Check(listFailures,name+" header separator",bitmap,_arrayWidths[0],21,colorStroke,0);
+		}
+
+		///<summary>Reads the probe column x from (x,yFrom) down to yTo: every pixel is SurfaceRaised or Gridline exactly, and exactly one is Gridline (a
+		///1 px gridline on a whole device pixel, not blended over two).</summary>
+		private static void CheckOneGridlinePixel(List<string> listFailures,string name,Bitmap bitmap,int x,int yFrom,int yTo) {
+			Color colorRaised=UiTheme.GetColor(EnumUiColor.SurfaceRaised);
+			Color colorGridline=UiTheme.GetColor(EnumUiColor.Gridline);
+			int countGridline=0;
+			for(int y=yFrom;y<=yTo;y++) {
+				Color colorPixel=bitmap.GetPixel(x,y);
+				if(IsNear(colorPixel,colorGridline,0)) {
+					countGridline++;
 				}
-				else if(IsNear(bitmap.GetPixel(X_PROBE,yTop),UiTheme.GetColor(EnumUiColor.Accent),40)) {
-					//The row's top pixel shares WPF's antialiased gridline of the row above, so without the outline it is only "not Accent".
-					listFailures.Add(nameRow+": an outline without the focused row's look.");
+				else if(!IsNear(colorPixel,colorRaised,0)) {
+					listFailures.Add(name+": ("+x+","+y+") is "+Hex(colorPixel)+", a blend between the row and the gridline.");
 				}
+			}
+			if(countGridline!=1) {
+				listFailures.Add(name+": "+countGridline+" Gridline pixels between y "+yFrom+" and "+yTo+", expected 1.");
 			}
 		}
 

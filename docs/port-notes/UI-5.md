@@ -35,7 +35,7 @@ And the grid strip for G-UI2: today's font beside Segoe UI 9.
 | `OpenPmsDentalBusiness/UI/GridOD.cs` | the screen drawing through GridScreenLook; the static screen colours, pens, brushes and the title gradient removed (the print code already used `GridPrintLook`); `_heightTitlePrint` (18) for the sheet title and the sheet page breaks; `HeightEditableRow()` (print keeps 19); the focused row (`_indexRowFocused`: the click, the arrows, reset by `EndUpdate`); repaint on focus changes; `IsSelectionFocused` and `IsFocusedRowShown` (protected virtual, for the tests) |
 | `OpenPmsDentalBusiness/UI/GridOld.cs` | the same for GridOld (still used: `ControlChart.gridProg`, the progress notes). Its static colours stay for its printouts and sheets (they used them); the five only the screen used are gone. No hover (it never had one) |
 | `WpfControlsOD/UI/Controls/Supplemental/GridLook.cs` (new) | the WPF grid look: token brushes for XAML, the selection colour, the see-through hover and selection layers, the bar heights from the font, the bar and line widths at a DPI scale |
-| `WpfControlsOD/UI/Controls/Grid.xaml(.cs)` | the new look in the XAML (token brushes, Semibold title, no gradient); one Stroke separator per header column; the sort arrow, text and last row line in the tokens; hover RowHover; selection AccentSubtle; the selection bars and the focused row's outline (`DrawSelectionMarks`, redrawn with the selection and on keyboard focus changes); title and header heights from the font; `SetFocusLookForTest` (test only, refuses outside a test process) |
+| `WpfControlsOD/UI/Controls/Grid.xaml(.cs)` | the new look in the XAML (token brushes, Semibold title, no gradient); layout rounding on `borderOuter`, the line widths for the DPI, the gridlines, separators and marks as aliased rectangles of whole device pixels (section 3); one Stroke separator per header column; the sort arrow, text and last row line in the tokens; hover RowHover; selection AccentSubtle; the selection bars and the focused row's outline (`DrawSelectionMarks`, redrawn with the selection and on keyboard focus changes); title and header heights from the font; `SetFocusLookForTest` (test only, refuses outside a test process) |
 | `WpfControlsOD/Themes/DataGridDict.xaml` | the same colours (no window uses this style today) |
 | `tests/UiRefreshTests/GridLookTests.cs` (new) | the tests and the gallery strips (section 4) |
 | `tests/AttributionTests/BrandingTests.cs` | `BrandColor_IsTheProgramsGridTitleBlue` on the token (section 4) |
@@ -62,6 +62,16 @@ And the grid strip for G-UI2: today's font beside Segoe UI 9.
   own first 2 DIP and scrolls with it.
 - **Grid lines stay 1 device pixel at every scale** (the cells are laid out one pixel after each line); the outer border and the selection bar
   follow the snapping rule of 3.3 (border 2 px and bar 4 px at 200%, checked by a test).
+- **The WPF Grid on whole device pixels (3.3).** `borderOuter` has layout rounding and device-pixel snapping, so the border, the title, the
+  header and the rows area start on whole device pixels; the border is max(1, floor(scale)) device pixels and the header's and scroll bars'
+  lines 1 device pixel, set for the DPI in code (`SetLineThicknesses`). Inside `canvasMain` the rows keep their DIP positions (no layout
+  rounding, so consecutive rows still tile) and everything that is a line or a mark is a filled rectangle drawn aliased: the row's lower
+  gridline is its last device pixel, a column line the column's last device pixel (the header separator above it), the selection bar
+  round(2 x scale) device pixels from the row's first pixel to the one above its gridline, the outline inside the row; the row, cell, hover
+  and selection fills are aliased too, so no pixel is a blend. Before, the 1 DIP `Line`s straddled the row and column edges and were drawn
+  as two half-tone pixels (#EFEFEF at 100%), and the 1 DIP border smeared the bar at 125 to 175%. A DPI change (or the grid loading into a
+  window of another DPI) sets the widths and redraws the lines (`ApplyLookScale`). The pixels line up with the screen when the grid itself
+  sits on a whole device pixel of its window; a frame without layout rounding can place it on a fraction at 125% or 175% (UI-3's frames).
 - **OneCell grids** (a selected cell, not a row) get the selection colour on the cell and no bar; grids with no selection get neither.
 - **The focused row** is the one the arrow keys move (3.6): in OneRow grids the selected row (the arrows move from it), so the outline
   follows a window's own `SetSelected`, `SetAll` or a sort; in the multi-select modes the row the last click or arrow key moved to, or the
@@ -80,7 +90,7 @@ And the grid strip for G-UI2: today's font beside Segoe UI 9.
 
 ## 4. Tests
 
-- `GridLookTests` in `tests/UiRefreshTests` (9 tests, 1 of them the opt-in gallery):
+- `GridLookTests` in `tests/UiRefreshTests` (11 tests, 1 of them the opt-in gallery):
   - `WinForms_GridOD_TodaysFont_EveryState_InTheTokens`: GridOD off screen with and without focus; the border, title (18 px, white text),
     header (15 px with its line, separators, Text), six rows of 14 px (plain, selected, program-coloured, hovered), the gridlines, the last
     row's Stroke line, the bar (Accent or SelectionBarNoFocus at x 1 and 2), the focused row's outline, the area below the rows, no text under
@@ -91,7 +101,12 @@ And the grid strip for G-UI2: today's font beside Segoe UI 9.
   - `WinForms_GridOD_OneRow_FocusedRowFollowsSetSelected`: a click on row 1, then `SetSelected(4)`: the outline is on row 4, not row 1.
   - `WinForms_GridOld_TodaysFont_TitleHeaderSelection_InTheTokens`: GridOld as GridOD, without hover.
   - `Wpf_Grid_EveryState_InTheTokens`: the WPF Grid rendered off screen (WPF's software renderer; it draws in the disconnected session), with
-    and without focus: border, title 18, header 15, rows 17, hover, selection, bar, outline, the coloured row.
+    and without focus: border, title 18, header 15, rows 17, hover, selection, bar, outline, the coloured row; each row's gridline exactly
+    Gridline (Stroke under the last row) on its last pixel, the first column's line exactly Gridline, the header separator exactly Stroke.
+    The WPF pictures are laid out at the scale's DPI (`VisualTreeHelper.SetRootDpi` once the template's visuals exist, then a fresh layout),
+    as in a window at that DPI.
+  - `Wpf_Grid_ScaledBarAndBorder_FollowTheSnappingRule`: at 100 to 200%, border 1, 1, 1, 1, 2 px and then the bar 2, 2, 3, 4, 4 px with no
+    blended pixel between them or after the bar; the gridline below the first row one exact Gridline pixel with no blend beside it.
   - `Wpf_Grid_HeightsFollowTheFont`: the bar heights, the bar width at 150%, the hover layer over white, the stock and a window's selection.
   - `GridFonts_DrawTheRupeeSign_AndTheIndiaArialSwitchStays`: GridOD's and GridOld's screen and print fonts keep their India switch; Segoe
     UI, Segoe UI Semibold and Microsoft Sans Serif draw the rupee sign (the facts for the owner question in section 7).
