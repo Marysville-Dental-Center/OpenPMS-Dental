@@ -34,15 +34,16 @@ namespace UiRefreshTests {
 		}
 
 		///<summary>A WPF element laid out at width x height DIP and rendered at the scale (96 DPI times scale) on a white background, as a 32-bit
-		///GDI+ bitmap of whole device pixels. The element is measured and arranged here when it has no parent. STA thread only.</summary>
+		///GDI+ bitmap of whole device pixels (rounded up). The element is measured and arranged here when it has no parent. STA thread only.</summary>
 		public static Bitmap RenderWpf(System.Windows.FrameworkElement frameworkElement,double width,double height,float scale) {
 			if(frameworkElement.Parent==null && System.Windows.Media.VisualTreeHelper.GetParent(frameworkElement)==null) {
 				frameworkElement.Measure(new System.Windows.Size(width,height));
 				frameworkElement.Arrange(new System.Windows.Rect(new System.Windows.Size(width,height)));
 				frameworkElement.UpdateLayout();
 			}
-			int widthPixels=(int)Math.Round(width*scale);
-			int heightPixels=(int)Math.Round(height*scale);
+			//Whole pixels rounded up, so an edge that ends on a half pixel (22 DIP at 175% is 38.5 px) is not cut off.
+			int widthPixels=(int)Math.Ceiling(width*scale-0.001);
+			int heightPixels=(int)Math.Ceiling(height*scale-0.001);
 			System.Windows.Media.DrawingVisual drawingVisualBack=new System.Windows.Media.DrawingVisual();
 			using(System.Windows.Media.DrawingContext drawingContext=drawingVisualBack.RenderOpen()) {
 				drawingContext.DrawRectangle(System.Windows.Media.Brushes.White,null,new System.Windows.Rect(0,0,width,height));
