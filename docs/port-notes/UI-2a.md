@@ -226,8 +226,10 @@ What changed:
   a Windows scale of 150% and a program zoom of 120% each set the note box's font, raise `TextChanged`, clear the signature and make the save
   store none (pinned as Open Dental's behaviour, the owner decision); without `textNotes_TextChanged` the same scale change keeps it.
 
-Until the owner decides, UF1 fails at its zoom step by design (it checks what the plan asks: section 9, "a signed note stays valid after a
-zoom change, a resize and a save"), and UF2 is the check that must pass.
+**The owner's answer (2026-11-17): fix it.** `FormProcEdit` and `FormProcGroup` keep the note's last text (`_textNotesLast`, set when the
+window has filled) and clear the signatures in `textNotes_TextChanged` only when the text differs, so a font set alone (a change of Windows
+scale or zoom) keeps them and any edit still clears them as before. `SignatureFontChangeTests` now checks that a scale change keeps the
+signature and its save, that an edit still clears it, and that a later scale change does not bring it back; UF1 and UF2 must both pass.
 
 Runs (x64): the build lane, 0 errors. Targeted with `-RequireBuildOutput` (`.git/od-tools/test-results/uf1-fix-targeted-1.txt`):
 UiRefreshTests 80 passed, 1 opt-in skipped (both new tests passed), WindowChecksTests 27 passed, 42 opt-in skipped (UF1 and UF2 among them),

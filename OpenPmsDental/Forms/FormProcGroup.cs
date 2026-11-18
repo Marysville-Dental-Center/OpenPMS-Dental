@@ -29,6 +29,10 @@ namespace OpenPmsDental{
 		private List<Procedure> ListProceduresOld;
 		///<summary>This keeps the noteChanged event from erasing the signature when first loading.</summary>
 		private bool _isStartingUp;
+		///<summary>The note's text as of the last TextChanged. The rich text box also raises TextChanged when only its font is set (the layout sets
+		///a new size on a change of Windows scale or zoom), which is not an edit and must not clear the signature (owner, 2026-11-17; Open Dental
+		///cleared it).</summary>
+		private string _textNotesLast;
 		private bool _hasSigChanged;
 		///<summary>The changed signatures as TryReadSignaturesBeforeWrites read them, before SaveAndClose wrote anything, with their key data;
 		///null when not read (S3a-14g).</summary>
@@ -219,6 +223,7 @@ namespace OpenPmsDental{
 			butRemove.Enabled=_canEditStructure;
 			_listPatFieldDefs=PatFieldDefs.GetDeepCopy(true);
 			textNotes.Select(textNotes.Text.Length,0);
+			_textNotesLast=textNotes.Text;
 			_isStartingUp=false;
 			butEditAutoNote.Visible=HasAutoNotePrompt();
 			//string retVal=GroupCur.Note+GroupCur.UserNum.ToString();
@@ -503,6 +508,12 @@ namespace OpenPmsDental{
 		}
 
 		private void textNotes_TextChanged(object sender,EventArgs e) {
+			string textNotesNew=textNotes.Text;
+			bool isNoteChanged=textNotesNew!=_textNotesLast;//false for a font change alone
+			_textNotesLast=textNotesNew;
+			if(!isNoteChanged) {
+				return;
+			}
 			if(!_isStartingUp//so this happens only if user changes the note
 				&& !_hasSigChanged)//and the original signature is still showing.
 			{

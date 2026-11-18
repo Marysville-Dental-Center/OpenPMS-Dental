@@ -82,7 +82,8 @@ namespace WindowChecksTests {
 		///<summary>UI-2a-1 (docs/specs/ui-refresh-plan.md, section 9, "Content and signatures"): FormProcEdit with a signed note on the scratch
 		///copy; the program's zoom changes and the window is resized; the signature stays shown and valid, and after Save the saved signature is the
 		///same and valid for the saved note (InProcChecks.UF.cs). Needs a shown window, so it is a window check, not a UiRefreshTests test. Open
-		///Dental's FormProcEdit clears the signature when the zoom changes the note box's font (an owner decision, docs/port-notes/UI-2a.md).</summary>
+		///Dental's FormProcEdit cleared the signature when the zoom changed the note box's font; the fork keeps it (owner, 2026-11-17,
+		///docs/port-notes/UI-2a.md).</summary>
 		[TestMethod]
 		public void UF1_SignedNote_StaysValid_AfterZoomResizeAndSave() {
 			BeginPart("UF");

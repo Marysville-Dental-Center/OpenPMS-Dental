@@ -2,9 +2,9 @@
 // docs/port-notes/UI-2a.md): a signed note in FormProcEdit stays valid after a change of the program's zoom, a resize of the window and a save
 // (UF1), and after a plain open and save (UF2). The mapping of UI-2a-1 sets fonts only in InitializeLayoutManager, before Load and before the
 // signature is filled, and the rebuild sets a font only when its size differs (Job 55866: setting a font of the same size fires TextChanged,
-// which cleared the signature of a procedure or group note). A zoom change while the window is open does change the note box's size, and Open
-// Dental's FormProcEdit then clears the signature (textNotes_TextChanged): UF1 reports that, an owner decision (UI-2a.md, "UF1: the signature
-// check and a scale change"; tests/UiRefreshTests/SignatureFontChangeTests.cs shows it without a window). The checks need a shown window (the
+// which cleared the signature of a procedure or group note). A zoom change while the window is open does change the note box's size; Open
+// Dental's FormProcEdit then cleared the signature (textNotes_TextChanged), the fork keeps it since the owner's answer of 2026-11-17 (UI-2a.md,
+// "UF1: the signature check and a scale change"; tests/UiRefreshTests/SignatureFontChangeTests.cs shows it without a window). The checks need a shown window (the
 // zoom and the resize lay it out through OnResize, the save is the Save button), so they run in the in-process session of the window checks on
 // the scratch copy, opt-in, in the owner's connected session (UTests.UF1, UTests.UF2). The note and its signature are synthetic; the rows the
 // checks add are deleted again, and the procedure's note is put back as it was.
