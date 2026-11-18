@@ -645,6 +645,50 @@ foreach($u in $unmapped){
 #endregion
 
 #region Plan and apply
+#Whether UI.Button's 22 px Icon slot lies inside the button's border at 96 DPI (Button.DrawTextAndImage: MiddleLeft x 6, MiddleRight
+#x width-30, MiddleCenter centred, the default; y centred; plus AdjustImageLocation; any other ImageAlign starts at 6,4). UI.Button fills
+#the slot opaque (Direct2D), so a slot past the border would cover it; a picture there (a small arrow button) becomes a transparent
+#GetBitmap of its own size instead, drawn as today.
+function Test-IconSlotInside($file,[string]$control){
+	$width=-1
+	$height=-1
+	$align='MiddleCenter'
+	$adjustX=0
+	$adjustY=0
+	$prefix='^\s*(?:this\.)?'+[regex]::Escape($control)+'\.'
+	foreach($line in $file.Lines){
+		$m=[regex]::Match($line,$prefix+'Size\s*=\s*new\s+System\.Drawing\.Size\(\s*(?<w>-?\d+)\s*,\s*(?<h>-?\d+)\s*\)')
+		if($m.Success){
+			$width=[int]$m.Groups['w'].Value
+			$height=[int]$m.Groups['h'].Value
+			continue
+		}
+		$m=[regex]::Match($line,$prefix+'ImageAlign\s*=\s*System\.Drawing\.ContentAlignment\.(?<a>\w+)')
+		if($m.Success){
+			$align=$m.Groups['a'].Value
+			continue
+		}
+		$m=[regex]::Match($line,$prefix+'AdjustImageLocation\s*=\s*new\s+System\.Drawing\.Point\(\s*(?<x>-?\d+)\s*,\s*(?<y>-?\d+)\s*\)')
+		if($m.Success){
+			$adjustX=[int]$m.Groups['x'].Value
+			$adjustY=[int]$m.Groups['y'].Value
+		}
+	}
+	if($width -lt 0){
+		$width=75#UI.Button.DefaultSize
+		$height=24
+	}
+	$s=$ButtonIconSize
+	switch($align){
+		'MiddleLeft' { $x=6; $y=[int][Math]::Floor($height/2)-[int][Math]::Floor($s/2) }
+		'MiddleRight' { $x=$width-$s-8; $y=[int][Math]::Floor($height/2)-[int][Math]::Floor($s/2) }
+		'MiddleCenter' { $x=[int][Math]::Floor(($width-$s)/2); $y=[int][Math]::Floor(($height-$s)/2) }
+		default { $x=6; $y=4 }
+	}
+	$x+=$adjustX
+	#A vertical nudge is removed with the conversion (below), so only the horizontal one counts.
+	return ($x -ge 1 -and $y -ge 1 -and $x+$s -le $width-1 -and $y+$s -le $height-1)
+}
 #The repository's files with these extensions, without build output, packages, git data and worktrees (folders bin, obj, packages,
 #node_modules and the dot folders) and without tools/project-baseline (a dated record of the project items, re-taken by the lead).
 function Get-RepoFiles([string[]]$extensions){
@@ -698,7 +742,7 @@ foreach($u in $toConvert){
 		$u.Height=[int]$u.SizeMap.Split('x')[1]
 	}
 	$isButton=($u.ControlType -match '^(OpenPmsDental\.)?UI\.Button$')
-	if($isButton -and $u.Property -eq 'Image' -and $u.Width -eq $ButtonIconSize -and $u.Height -eq $ButtonIconSize -and $u.Target.StartsWith('EnumIcons.')){
+	if($isButton -and $u.Property -eq 'Image' -and $u.Width -eq $ButtonIconSize -and $u.Height -eq $ButtonIconSize -and $u.Target.StartsWith('EnumIcons.') -and (Test-IconSlotInside $file $u.Control)){
 		$u.How='Icon'
 		$lineNew=$m.Groups['indent'].Value+$m.Groups['lhs'].Value.Substring(0,$m.Groups['lhs'].Value.Length-$u.Property.Length)+'Icon = '+$iconExpr+';'+$m.Groups['rest'].Value
 		#A vertical nudge of the old picture (AdjustImageLocation 0,1): the Fluent icon is centred in its slot and needs none, and UI.Button

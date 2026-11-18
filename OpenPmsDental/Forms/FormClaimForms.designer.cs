@@ -187,7 +187,7 @@ namespace OpenPmsDental {
 			// 
 			// butCopy
 			// 
-			this.butCopy.Icon = OpenPmsDental.UI.EnumIcons.ArrowRight;
+			this.butCopy.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.ArrowRight,22,22);
 			this.butCopy.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butCopy.Location = new System.Drawing.Point(200, 221);
 			this.butCopy.Name = "butCopy";
