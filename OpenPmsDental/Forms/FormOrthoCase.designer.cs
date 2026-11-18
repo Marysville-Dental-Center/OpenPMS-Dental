@@ -618,7 +618,7 @@ namespace OpenPmsDental{
 			// butCloseOrthoCase
 			// 
 			this.butCloseOrthoCase.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butCloseOrthoCase.Image = global::OpenPmsDental.Properties.Resources.close_door;
+			this.butCloseOrthoCase.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.CloseDoor,16,16);
 			this.butCloseOrthoCase.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butCloseOrthoCase.Location = new System.Drawing.Point(101, 376);
 			this.butCloseOrthoCase.Name = "butCloseOrthoCase";

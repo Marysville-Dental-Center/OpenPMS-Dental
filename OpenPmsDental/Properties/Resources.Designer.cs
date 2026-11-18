@@ -103,16 +103,6 @@ namespace OpenPmsDental.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap arrowDownTriangle {
-            get {
-                object obj = ResourceManager.GetObject("arrowDownTriangle", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         public static System.Drawing.Bitmap arrowRightLine {
             get {
                 object obj = ResourceManager.GetObject("arrowRightLine", resourceCulture);
@@ -126,16 +116,6 @@ namespace OpenPmsDental.Properties {
         public static System.Drawing.Bitmap arrowRightTriangle {
             get {
                 object obj = ResourceManager.GetObject("arrowRightTriangle", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        public static System.Drawing.Bitmap arrowUpTriangle {
-            get {
-                object obj = ResourceManager.GetObject("arrowUpTriangle", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -251,26 +231,6 @@ namespace OpenPmsDental.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        public static System.Drawing.Bitmap butZoomIn {
-            get {
-                object obj = ResourceManager.GetObject("butZoomIn", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        public static System.Drawing.Bitmap butZoomOut {
-            get {
-                object obj = ResourceManager.GetObject("butZoomOut", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
         public static byte[] canadiancarriers {
@@ -321,16 +281,6 @@ namespace OpenPmsDental.Properties {
         public static string ClaimForm2006 {
             get {
                 return ResourceManager.GetString("ClaimForm2006", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        public static System.Drawing.Bitmap close_door {
-            get {
-                object obj = ResourceManager.GetObject("close_door", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
             }
         }
         
@@ -640,16 +590,6 @@ namespace OpenPmsDental.Properties {
         public static System.Drawing.Bitmap Med_History {
             get {
                 object obj = ResourceManager.GetObject("Med_History", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        public static System.Drawing.Bitmap Microphone_22px {
-            get {
-                object obj = ResourceManager.GetObject("Microphone_22px", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

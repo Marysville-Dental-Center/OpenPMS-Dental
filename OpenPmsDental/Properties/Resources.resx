@@ -133,9 +133,6 @@
   <data name="Twain" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Twain.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
-  <data name="butZoomOut" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\butZoomOut.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="Figure" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Figure.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -190,9 +187,6 @@
   <data name="Microphone_30px" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Microphone_30px.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="arrowUpTriangle" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\arrowUpTriangle.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="MySql" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\MySql.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
@@ -217,17 +211,11 @@
   <data name="XamlStyle_ListBoxItem" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\XamlStyle_ListBoxItem.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
-  <data name="arrowDownTriangle" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\arrowDownTriangle.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="TSI_Icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\TSI_Icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Paste_24x24" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Paste_24x24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="butZoomIn" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\butZoomIn.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Save_24x24" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Save_24x24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -370,9 +358,6 @@
   <data name="Highlight_24x24" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Highlight_24x24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="close_door" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\close_door.ico;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="padlock_open" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\padlock_open.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -408,9 +393,6 @@
   </data>
   <data name="ReportAccountingGenLedger" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ReportAccountingGenLedger.txt;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
-  <data name="Microphone_22px" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Microphone_22px.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Chart32" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Chart32.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>

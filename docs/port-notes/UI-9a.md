@@ -236,3 +236,70 @@ rem after: OPMS_UI9A_RECORD empty, OPMS_UI9A_PICTURES=...\after, same run; then 
 
 No new icon choice. For the gallery: the red X for "clear value" is `DeleteX`, the green "go" circle of the eCW query button is a plain `ArrowRight`
 (the circle is gone), and the plus of FormFeeSchedGroups is `Add`. Fine?
+
+## 5. UI-9a-3: Forms M-Q
+
+On `ui/ui9a3-1` from `main` at `1a4fa9152`. Visible change: 68 button pictures in 30 windows (`FormM*` to `FormQ*`) are Fluent icons. No schema change, no NuGet
+package, no download beyond UI-7a's approved 1.1.346 SVGs, no program started, no database, no window shown.
+
+### 5.1 What the tool found (`OpenPmsDental/Forms`, `FormM*` to `FormQ*`: 443 files, 72 picture uses)
+
+| Kind | Uses | What happened |
+|---|---|---|
+| `Resources` | 68 | converted: up, down, Left, Right, butPrint, butPrintSmall, butExport, editPencil (earlier rows) and close_door, arrowDownTriangle, arrowUpTriangle, Microphone_22px, butZoomIn, butZoomOut (new rows); `bola_launch` kept |
+| `Resx` | 1 | converted: FormOrthoChartSetup butAdd (its `.resx` entry removed) |
+| `ImageList` | 3 | `UI-9b`: FormMedical, FormProcButtonEdit, FormProcButtons |
+
+The show/hide triangles are also assigned in code (`FormPayment.cs`, `FormQueryParser.cs`); the tool converted those lines too, so
+`PictureMapTests.Record_EveryConversionIsInItsDesignerLine_WithAKnownIcon` now accepts a code line that omits `this.`. The six `Resources` pictures
+close_door, arrowDownTriangle, arrowUpTriangle, Microphone_22px, butZoomIn and butZoomOut had their last use here and are gone with their files
+(the lead re-takes `tools/project-baseline/items.txt`, as after UI-9a-1 and UI-9a-2). `FormMountDefEdit` needs arguments the off-screen builder cannot give, so it joins
+`_arrayWindowsNeedingArguments` (its designer lines are still checked). Bounds unchanged.
+
+### 5.2 New `EnumIcons` (a "UI-9a-3" block in both enums; 6 manifest rows; 578 designs in `IconData.g.cs`)
+
+| Picture | Purpose | `EnumIcons` | Fluent |
+|---|---|---|---|
+| arrowDownTriangle.gif, arrowUpTriangle.gif (10 x 10) | show or hide the splits (FormPayment), the query (FormQueryParser) | `ChevronDown`, `ChevronUp` | Chevron Down, Chevron Up |
+| close_door.ico | close the case or payment plan | `CloseDoor` | Door Arrow Right |
+| Microphone_22px.png | dictate (FormPerio) | `Microphone` | Mic |
+| butZoomIn.gif, butZoomOut.gif | zoom the screen print | `ZoomIn`, `ZoomOut` | Zoom In, Zoom Out |
+
+Existing members reused: Up, Down, ArrowLeft, ArrowRight, Print, Export, Edit, Add. The member counts are 55 (WinForms) and 68 (WPF).
+The generator's size list has no 28 px design, so those SVGs were not vendored (the SHA-256 lines of the vendored ones are in `third-party/fluentui-system-icons/SOURCE.txt`).
+`bola_launch.png` (324 x 129, a Panel background) is a partner logo and stays (section 4.5).
+
+### 5.3 The conversion
+
+68 lines (`icons/picture-converted.tsv`): 47 as `UI.Button.Icon` and 21 as `IconLibrary.GetBitmap` (16 px print pictures as 16 x 16, the 10 x 10 chevrons,
+the three door pictures as 16 x 16, 22 px arrows whose slot would pass the border). `close_door.ico` holds a 16, a 128 and a 256 px design; the map draws it
+16 x 16. Vertical nudges of `butUp` removed as in UI-9a-1.
+
+### 5.4 Tests (Targeted: UiRefreshTests, WindowChecksTests, UnitTests, NoHqTests)
+
+`PictureMapTests` covers the slice through its row in `icons/picture-slices.tsv`; `IconLibraryTests` and `WpfImagesTests` counts updated. Runs:
+`.git/od-tools/test-results/ui9a3-before.txt` (before pictures; the slice-done check fails there by design), `ui9a3-after.txt`, `ui9a3-final.txt`.
+
+### 5.5 Gallery G-UI3, the UI-9a-3 slice
+
+**Where:** `.git/od-tools/test-results/G-UI3-ui9a3/` (`index.html`, zip beside it): 92 pictures (30 windows, 62 controls), 91 changed, rendered off screen.
+Sources: `.git/od-tools/test-results/ui9a3-pictures/before` and `.../after-slice` (the gallery test's after set holds every slice's windows; `after-slice`
+keeps this slice's names).
+
+**For the lead** (rebuild; `<repo>` is the main checkout; the before set is built on the commit "UI-9a-3: slice row, map rows and six new icons" with the planned record):
+
+```
+powershell -NoProfile -ExecutionPolicy Bypass -File tools\Convert-PictureUses.ps1 -Slice UI-9a-3 -Check -Record <repo>\.git\od-tools\test-results\ui9a3-pictures\planned-record.tsv
+set OPMS_UI9A_PICTURES=<repo>\.git\od-tools\test-results\ui9a3-pictures\before
+set OPMS_UI9A_RECORD=<repo>\.git\od-tools\test-results\ui9a3-pictures\planned-record.tsv
+run-tests.ps1 -Root <worktree> -Mode Targeted -Platform x64 -RequireBuildOutput -Include UiRefreshTests
+rem after: OPMS_UI9A_RECORD empty, OPMS_UI9A_PICTURES=...\after, same run; keep the before set's names; then tools\New-UiGallery.ps1 -Before ...\before -After ...\after-slice -Name G-UI3 -Out ...\G-UI3-ui9a3 -Note "<summary>"
+```
+
+### 5.6 Owner questions (new icon choices, to approve in the gallery)
+
+1. Show or hide splits and query (10 x 10 triangles): Chevron Down and Chevron Up. Fine, or Caret Down and Caret Up (filled triangles, closer to today)?
+2. Close Case and Close Plan (door picture): Door Arrow Right. Fine?
+3. Dictate (FormPerio butListen): Mic. Fine?
+4. Zoom In and Zoom Out (FormPrntScrn): magnifier with a plus or a minus. Fine?
+5. FormOrthoChartSetup add: the plain `Add` plus, as in UI-9a-2. Fine?

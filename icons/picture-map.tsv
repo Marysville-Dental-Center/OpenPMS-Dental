@@ -43,3 +43,15 @@ FormEmailInbox:imageListButtonSmall.ImageStream	UI-9b	the small button ImageList
 FormEmailInbox:imageListMailboxesLarge.ImageStream	UI-9b	the mailboxes ImageList
 FormEtrans835s:imageListCalendar.ImageStream	UI-9b	the calendar ImageList
 FormJournal:imageListMain.ImageStream	UI-9b	the journal's ImageList
+# UI-9a-3 (Forms M-Q)
+Resources:close_door	EnumIcons.CloseDoor	close the case or the payment plan (a door with an arrow, an .ico whose small design is 16 x 16): drawn in a 16 px slot	16x16
+Resources:arrowDownTriangle	EnumIcons.ChevronDown	show the splits or the query (small down triangle, 10 x 10)
+Resources:arrowUpTriangle	EnumIcons.ChevronUp	hide the splits (small up triangle, 10 x 10)
+Resources:Microphone_22px	EnumIcons.Microphone	dictate or listen (microphone)
+Resources:butZoomIn	EnumIcons.ZoomIn	zoom in (magnifier with a plus)
+Resources:butZoomOut	EnumIcons.ZoomOut	zoom out (magnifier with a minus)
+Resources:bola_launch	keep	the Bola launch picture: a vendor partner logo (section 4.5)
+FormOrthoChartSetup:butAdd.Image	EnumIcons.Add	add (blue plus)
+FormMedical:imageListInfoButton.ImageStream	UI-9b	the info button ImageList of the medical grid
+FormProcButtonEdit:imageList.ImageStream	UI-9b	the window's ImageList
+FormProcButtons:imageListProcButtons.ImageStream	UI-9b	the procedure buttons' ImageList

@@ -4,3 +4,4 @@
 # slice	folder	patterns
 UI-9a-1	OpenPmsDental/Forms	FormA*,FormB*,FormC*
 UI-9a-2	OpenPmsDental/Forms	FormD*,FormE*,FormF*,FormG*,FormH*,FormI*,FormJ*,FormK*,FormL*
+UI-9a-3	OpenPmsDental/Forms	FormM*,FormN*,FormO*,FormP*,FormQ*

@@ -227,7 +227,7 @@ namespace OpenPmsDental {
 			// butPrint
 			// 
 			this.butPrint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butPrint.Image = global::OpenPmsDental.Properties.Resources.butPrintSmall;
+			this.butPrint.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.Print,16,16);
 			this.butPrint.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butPrint.Location = new System.Drawing.Point(665, 6);
 			this.butPrint.Name = "butPrint";
@@ -368,7 +368,7 @@ namespace OpenPmsDental {
 			// 
 			// butPrintMedical
 			// 
-			this.butPrintMedical.Image = global::OpenPmsDental.Properties.Resources.butPrintSmall;
+			this.butPrintMedical.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.Print,16,16);
 			this.butPrintMedical.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butPrintMedical.Location = new System.Drawing.Point(6, 6);
 			this.butPrintMedical.Name = "butPrintMedical";

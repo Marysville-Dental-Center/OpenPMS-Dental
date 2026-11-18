@@ -79,7 +79,14 @@ To add an icon: add the member here (and to the WinForms enum when WinForms draw
 		Preview,
 		Send,
 		Sync,
-		Up
+		Up,
+		//UI-9a-3 (Forms M-Q, docs/port-notes/UI-9a.md): purposes of the pictures of Forms M-Q, each with its manifest row.
+		ChevronDown,
+		ChevronUp,
+		CloseDoor,
+		Microphone,
+		ZoomIn,
+		ZoomOut
 	}
 
 	///<summary></summary>

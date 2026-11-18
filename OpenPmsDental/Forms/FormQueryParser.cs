@@ -122,13 +122,13 @@ namespace OpenPmsDental {
 			if(splitContainer.Panel2Collapsed) {
 				butShowHide.Text=Lan.g(this,"Show Text");
 				Height = 325;
-				this.butShowHide.Image = global::OpenPmsDental.Properties.Resources.arrowDownTriangle;
+				this.butShowHide.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.ChevronDown,10,10);
 				LayoutManager.LayoutControlBoundsAndFonts(splitContainer);
 				return;
 			}
 			butShowHide.Text=Lan.g(this,"Hide Text");
 			Height = 720;
-			butShowHide.Image = global::OpenPmsDental.Properties.Resources.arrowUpTriangle;
+			butShowHide.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.ChevronUp,10,10);
 		}
 
 		private void gridMain_CellLeave(object sender,ODGridClickEventArgs e) {

@@ -116,7 +116,7 @@ namespace OpenPmsDental {
 			// butAddOrUpdate
 			// 
 			this.butAddOrUpdate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butAddOrUpdate.Image = global::OpenPmsDental.Properties.Resources.Left;
+			this.butAddOrUpdate.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.ArrowLeft,22,22);
 			this.butAddOrUpdate.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butAddOrUpdate.Location = new System.Drawing.Point(8, 208);
 			this.butAddOrUpdate.Name = "butAddOrUpdate";
@@ -246,7 +246,7 @@ namespace OpenPmsDental {
 			// 
 			// butPrint
 			// 
-			this.butPrint.Image = global::OpenPmsDental.Properties.Resources.butPrintSmall;
+			this.butPrint.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.Print,16,16);
 			this.butPrint.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butPrint.Location = new System.Drawing.Point(12, 8);
 			this.butPrint.Name = "butPrint";

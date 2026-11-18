@@ -285,7 +285,7 @@ namespace OpenPmsDental{
 			//
 			this.butAddDepositAccount.AdjustImageLocation = new System.Drawing.Point(-1, 0);
 			this.butAddDepositAccount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butAddDepositAccount.Image = global::OpenPmsDental.Properties.Resources.Left;
+			this.butAddDepositAccount.Icon = OpenPmsDental.UI.EnumIcons.ArrowLeft;
 			this.butAddDepositAccount.Location = new System.Drawing.Point(390, 333);
 			this.butAddDepositAccount.Name = "butAddDepositAccount";
 			this.butAddDepositAccount.Size = new System.Drawing.Size(35, 24);
@@ -295,7 +295,7 @@ namespace OpenPmsDental{
 			// butRemoveDepositAccount
 			//
 			this.butRemoveDepositAccount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butRemoveDepositAccount.Image = global::OpenPmsDental.Properties.Resources.Right;
+			this.butRemoveDepositAccount.Icon = OpenPmsDental.UI.EnumIcons.ArrowRight;
 			this.butRemoveDepositAccount.Location = new System.Drawing.Point(390, 373);
 			this.butRemoveDepositAccount.Name = "butRemoveDepositAccount";
 			this.butRemoveDepositAccount.Size = new System.Drawing.Size(35, 24);
@@ -332,7 +332,7 @@ namespace OpenPmsDental{
 			// butRemoveIncomeAccount
 			//
 			this.butRemoveIncomeAccount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butRemoveIncomeAccount.Image = global::OpenPmsDental.Properties.Resources.Right;
+			this.butRemoveIncomeAccount.Icon = OpenPmsDental.UI.EnumIcons.ArrowRight;
 			this.butRemoveIncomeAccount.Location = new System.Drawing.Point(390, 497);
 			this.butRemoveIncomeAccount.Name = "butRemoveIncomeAccount";
 			this.butRemoveIncomeAccount.Size = new System.Drawing.Size(35, 24);
@@ -343,7 +343,7 @@ namespace OpenPmsDental{
 			//
 			this.butAddIncomeAccount.AdjustImageLocation = new System.Drawing.Point(-1, 0);
 			this.butAddIncomeAccount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butAddIncomeAccount.Image = global::OpenPmsDental.Properties.Resources.Left;
+			this.butAddIncomeAccount.Icon = OpenPmsDental.UI.EnumIcons.ArrowLeft;
 			this.butAddIncomeAccount.Location = new System.Drawing.Point(390, 457);
 			this.butAddIncomeAccount.Name = "butAddIncomeAccount";
 			this.butAddIncomeAccount.Size = new System.Drawing.Size(35, 24);
@@ -353,7 +353,7 @@ namespace OpenPmsDental{
 			// butRemoveClass
 			//
 			this.butRemoveClass.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butRemoveClass.Image = global::OpenPmsDental.Properties.Resources.Right;
+			this.butRemoveClass.Icon = OpenPmsDental.UI.EnumIcons.ArrowRight;
 			this.butRemoveClass.Location = new System.Drawing.Point(390, 621);
 			this.butRemoveClass.Name = "butRemoveClass";
 			this.butRemoveClass.Size = new System.Drawing.Size(35, 24);
@@ -364,7 +364,7 @@ namespace OpenPmsDental{
 			//
 			this.butAddClass.AdjustImageLocation = new System.Drawing.Point(-1, 0);
 			this.butAddClass.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butAddClass.Image = global::OpenPmsDental.Properties.Resources.Left;
+			this.butAddClass.Icon = OpenPmsDental.UI.EnumIcons.ArrowLeft;
 			this.butAddClass.Location = new System.Drawing.Point(390, 581);
 			this.butAddClass.Name = "butAddClass";
 			this.butAddClass.Size = new System.Drawing.Size(35, 24);
