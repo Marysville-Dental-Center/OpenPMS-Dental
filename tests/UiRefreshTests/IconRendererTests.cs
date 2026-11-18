@@ -112,7 +112,7 @@ namespace UiRefreshTests {
 		}
 
 		///<summary>The ink of each pixel, 0 to 255: its alpha on a transparent bitmap, or how dark it is on a white one.</summary>
-		private static int[] GetInk(Bitmap bitmap,bool isOnWhite) {
+		internal static int[] GetInk(Bitmap bitmap,bool isOnWhite) {
 			int[] arrayPixels=GetPixels(bitmap);
 			int[] arrayInk=new int[arrayPixels.Length];
 			for(int i=0;i<arrayPixels.Length;i++) {
@@ -139,7 +139,7 @@ namespace UiRefreshTests {
 
 		///<summary>Asserts two drawings of one glyph are the same shape: pixels that one draws clearly (ink above 160) and the other leaves clearly
 		///empty (ink below 32) are at most a few, and the total ink is within 15%. Antialiasing differs a little between renderers.</summary>
-		private static void AssertSameShape(int[] arrayInkA,int[] arrayInkB,string what) {
+		internal static void AssertSameShape(int[] arrayInkA,int[] arrayInkB,string what) {
 			Assert.AreEqual(arrayInkA.Length,arrayInkB.Length,what);
 			int countMismatch=0;
 			long sumA=0;
@@ -182,7 +182,7 @@ namespace UiRefreshTests {
 
 		///<summary>Loads the program's Direct2dWrapper.dll into the process, so the wrapper's DllImports find it, or ends the test inconclusive when it
 		///is not built (the full build builds it; the lane's scoped builds do only when xDirect2dWrapper is named), as Direct2dWrapperX64Tests do.</summary>
-		private static void RequireDirect2d() {
+		internal static void RequireDirect2d() {
 			lock(_lockDirect2d) {
 				if(_isDirect2dLoaded) {
 					return;
@@ -219,11 +219,11 @@ namespace UiRefreshTests {
 
 		[DllImport("user32.dll")]
 		private static extern IntPtr SetThreadDpiAwarenessContext(IntPtr dpiContext);
-		private static readonly IntPtr DPI_AWARENESS_CONTEXT_UNAWARE=new IntPtr(-1);
-		private static readonly IntPtr DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2=new IntPtr(-4);
+		internal static readonly IntPtr DPI_AWARENESS_CONTEXT_UNAWARE=new IntPtr(-1);
+		internal static readonly IntPtr DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2=new IntPtr(-4);
 
 		///<summary>Runs the function with this thread in the DPI awareness context, as the program runs with NoDpi.txt (Dpi.SetUnaware) or without.</summary>
-		private static T RunInDpiContext<T>(IntPtr dpiContext,Func<T> func) {
+		internal static T RunInDpiContext<T>(IntPtr dpiContext,Func<T> func) {
 			IntPtr dpiContextOld=SetThreadDpiAwarenessContext(dpiContext);
 			Assert.AreNotEqual(IntPtr.Zero,dpiContextOld,"SetThreadDpiAwarenessContext failed.");
 			try {
@@ -763,7 +763,7 @@ namespace UiRefreshTests {
 		}
 
 		///<summary>Whether WPF renders in this session: a filled square in a RenderTargetBitmap.</summary>
-		private static bool RendersWpf() {
+		internal static bool RendersWpf() {
 			System.Windows.Media.DrawingVisual drawingVisual=new System.Windows.Media.DrawingVisual();
 			using(System.Windows.Media.DrawingContext drawingContext=drawingVisual.RenderOpen()) {
 				drawingContext.DrawRectangle(System.Windows.Media.Brushes.Black,null,new System.Windows.Rect(2,2,12,12));
@@ -772,7 +772,7 @@ namespace UiRefreshTests {
 		}
 
 		///<summary>A visual rendered at 96 DPI into a size x size bitmap (WPF's software renderer; no window), as a GDI+ bitmap.</summary>
-		private static Bitmap RenderToBitmap(System.Windows.Media.Visual visual,int size) {
+		internal static Bitmap RenderToBitmap(System.Windows.Media.Visual visual,int size) {
 			System.Windows.Media.Imaging.RenderTargetBitmap renderTargetBitmap=new System.Windows.Media.Imaging.RenderTargetBitmap(size,size,96,96,
 				System.Windows.Media.PixelFormats.Pbgra32);
 			renderTargetBitmap.Render(visual);
