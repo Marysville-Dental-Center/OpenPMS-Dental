@@ -116,7 +116,14 @@ ones. Build-Release's checks are unaffected: nothing new ships as a file (the pa
 
 Window checks: none. Every drawing is off screen (bitmaps, render targets); no test needs a shown window.
 
-RUNS_PLACEHOLDER
+Found on the way: `ImageList.Images.Add(bitmap)` keeps the bitmap itself and reads it again whenever the list (re)creates its handle, so
+a bitmap disposed after `Add` throws "Parameter is not valid" on the first `Images[i]`. `GetImageList` leaves its bitmaps to the list;
+`Gdi_GetBitmapScales_AndGetImageListHoldsEveryGlyph` reads every image back.
+
+Runs (x64, `-RequireBuildOutput`, after the full build; results in `.git/od-tools/test-results/ui7a-3.txt`): UiRefreshTests 57 of 58 (the
+opt-in font scan skipped, as before), AttributionTests 54 of 54, ReleaseFlowTests 260 of 267 (7 skipped, as on `main`), NoHqTests 122 of
+122. Full filter x64: 0 errors. `tools/Test-NoEolFlips.ps1 -Base main`: no file changed its line ends. InitSqlTests and ForkMigrationTests
+were not run (no schema change).
 
 ## 6. For the next packages
 

@@ -16,9 +16,9 @@ namespace CodeBase {
 			imageList.ColorDepth=ColorDepth.Depth32Bit;
 			imageList.ImageSize=new Size(sizePixels,sizePixels);
 			for(int i=0;i<arrayGlyphs.Length;i++) {
-				using(Bitmap bitmap=GetBitmap(arrayGlyphs[i],sizePixels,color)) {
-					imageList.Images.Add(bitmap);//the list keeps its own copy
-				}
+				//Not disposed: the list keeps the bitmap itself and reads it again whenever it (re)creates its handle, so a disposed bitmap
+				//throws "Parameter is not valid" there. The bitmaps go with the list.
+				imageList.Images.Add(GetBitmap(arrayGlyphs[i],sizePixels,color));
 			}
 			return imageList;
 		}
