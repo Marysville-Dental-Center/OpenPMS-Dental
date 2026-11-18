@@ -5,8 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfControls.UI"
         mc:Ignorable="d"
-        Title="ToolTip" ResizeMode="NoResize" ShowInTaskbar="False" WindowStyle="None" WindowStartupLocation="Manual" SizeToContent="WidthAndHeight">
-	<Border Background="LightYellow" BorderThickness="1" BorderBrush="DarkGray">
-		<TextBlock Name="textBlock" x:FieldModifier="internal" Margin="5,3,5,2" TextWrapping="Wrap" MaxWidth="200" Text="This is example text. The window will resize to match. How long does it need to get to wrap"/>
+        Title="ToolTip" ResizeMode="NoResize" ShowInTaskbar="False" WindowStyle="None" WindowStartupLocation="Manual" SizeToContent="WidthAndHeight"
+        AllowsTransparency="True" Background="Transparent">
+	<!--UI-4a, section 3.6: SurfaceRaised, 1 px Stroke, 4 px corners (the window is transparent outside them), Text. Size and text position unchanged.-->
+	<Border Background="{x:Static local:UiLook.BrushSurfaceRaised}" BorderThickness="1" BorderBrush="{x:Static local:UiLook.BrushStroke}" CornerRadius="4" SnapsToDevicePixels="True">
+		<TextBlock Name="textBlock" x:FieldModifier="internal" Margin="5,3,5,2" TextWrapping="Wrap" MaxWidth="200" Foreground="{x:Static local:UiLook.BrushText}" Text="This is example text. The window will resize to match. How long does it need to get to wrap"/>
 	</Border>
 </Window>

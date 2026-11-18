@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using CodeBase;
 
 namespace OpenPmsDental.UI{
 	///<summary>Kind of like the MS ToolTip, except it comes up instantly and moves with the mouse. Something similar was also done in ControlApptPanel.  In that case, a panel was sufficient, but since this needs to spill outside the control, it must be a window. See boilerplate at bottom of this file.</summary>
@@ -97,13 +99,38 @@ namespace OpenPmsDental.UI{
 			_actionSetString(point);
 		}*/
 
+		///<summary>Section 3.6: SurfaceRaised, a 1 px Stroke border, 4 px corners (the window is cut to them), Text. Size and text position as before.</summary>
 		protected override void OnPaint(PaintEventArgs e){
 			base.OnPaint(e);
 			Graphics g=e.Graphics;
-			g.Clear(Color.LightYellow);
-			Rectangle rectangle=new Rectangle(0,0,Width-1,Height-1);
-			g.DrawRectangle(Pens.Gray,rectangle);//border
-			g.DrawString(StringToShow,Font,Brushes.Black,2,2);
+			float scale=GetScale();
+			g.Clear(UiTheme.GetColor(EnumUiColor.SurfaceRaised));
+			UiControlPaint.Outline(g,EnumUiColor.Stroke,ClientRectangle,UiTheme.GetLineWidth(scale),UiTheme.CORNER_CONTROL,scale);
+			//A token brush: cached per thread by UiTheme, never disposed here.
+			g.DrawString(StringToShow,Font,UiTheme.GetBrush(EnumUiColor.Text),2,2);
+		}
+
+		protected override void OnSizeChanged(EventArgs e){
+			base.OnSizeChanged(e);
+			SetRoundedRegion();
+		}
+
+		///<summary>Cuts the window to the 4 px rounded rectangle, so the corners outside it show what is behind the tooltip.</summary>
+		private void SetRoundedRegion(){
+			if(Width<=0 || Height<=0){
+				return;
+			}
+			float scale=GetScale();
+			Region regionOld=Region;
+			using(GraphicsPath graphicsPath=UiTheme.GetRoundedRectanglePath(new RectangleF(0,0,Width,Height),UiTheme.GetCornerRadius(UiTheme.CORNER_CONTROL,scale))){
+				Region=new Region(graphicsPath);
+			}
+			regionOld?.Dispose();
+		}
+
+		///<summary>The tooltip has no LayoutManager: its scale is its monitor's. Virtual so a test can paint it at another scale.</summary>
+		protected virtual float GetScale(){
+			return DeviceDpi/96f;
 		}
 	}
 }

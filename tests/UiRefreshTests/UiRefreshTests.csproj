@@ -18,10 +18,18 @@
     <Compile Include="..\ProjectFileTests\BuildOutput.cs">
       <Link>BuildOutput.cs</Link>
     </Compile>
+    <!-- The picture comparison of the chart tests (its tolerance is the rule of the control state pictures, UI-4a) and its PNG writer. -->
+    <Compile Include="..\ToothChartImageTests\Support\ChartImageCompare.cs">
+      <Link>Shared\ChartImageCompare.cs</Link>
+    </Compile>
+    <Compile Include="..\ToothChartImageTests\Support\PngWriter.cs">
+      <Link>Shared\PngWriter.cs</Link>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <!-- The layout snapshot and the list of fit fixes (section 5.4 of the plan), read from the repository by the tests. -->
     <None Include="Data\*.tsv" />
+    <None Include="Data\*.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\CodeBase\xCodeBase.csproj" />

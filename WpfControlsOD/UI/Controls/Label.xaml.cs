@@ -29,9 +29,11 @@ How to use the Label control:
 
 */
 	///<summary></summary>
-	public partial class Label : UserControl{
+	public partial class Label : UserControl,IContentLook{
 		private Color _colorBack=Colors.Transparent;
 		private Color _colorText=Colors.Black;
+		///<summary>The window set ColorText: that colour stays. Otherwise the text is the Text token (UI-4a), or today's black in office content.</summary>
+		private bool _isColorTextSet;
 		private HorizontalAlignment _hAlign=HorizontalAlignment.Left;	
 		private bool _isBold=false;
 		private bool _isWrap=false;
@@ -41,6 +43,24 @@ How to use the Label control:
 			InitializeComponent();
 			//Width=75;
 			//Height=18;
+			ApplyTextColor();
+		}
+
+		void IContentLook.ApplyLook(){
+			ApplyTextColor();
+		}
+
+		///<summary>Section 3.2: all text in the Text token, unless the window set ColorText. In office content (ContentLook.IsPinned, the eForm fill
+		///surface) the text keeps today's inherited black.</summary>
+		private void ApplyTextColor(){
+			if(_isColorTextSet){
+				return;
+			}
+			if(ContentLook.GetIsPinned(this)){
+				textBlock.ClearValue(TextBlock.ForegroundProperty);
+				return;
+			}
+			textBlock.Foreground=UiLook.Brush(CodeBase.EnumUiColor.Text);
 		}
 
 		#region Properties
@@ -71,6 +91,7 @@ How to use the Label control:
 			}
 			set {
 				_colorText = value;
+				_isColorTextSet=true;
 				textBlock.Foreground=new SolidColorBrush(value);
 			}
 		}

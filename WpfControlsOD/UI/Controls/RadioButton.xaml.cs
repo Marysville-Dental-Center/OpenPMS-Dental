@@ -32,16 +32,22 @@ How to use the CheckBox control:
 
 */
 	///<summary></summary>
-	public partial class RadioButton : UserControl{
+	public partial class RadioButton : UserControl,IContentLook{
 		private EnumCheckAlign _checkAlign;
 		private bool _checked=false;
-		
+		///<summary>The mouse is over the control (the hover outline of the new look; today's look has no hover).</summary>
+		private bool _isHover;
+
 		public RadioButton(){
 			InitializeComponent();
 			//Width=100;
 			//Height=20;
 			grid.MouseDown+=grid_MouseDown;
+			grid.MouseMove+=grid_MouseMove;
+			grid.MouseLeave+=grid_MouseLeave;
 			IsEnabledChanged+=RadioButton_IsEnabledChanged;
+			UiLook.SetFocusVisualStyle(this,onAccent:false);
+			SetColors();
 		}
 
 		public event EventHandler Click;
@@ -119,10 +125,12 @@ How to use the CheckBox control:
 				_checked=value;
 				if(!value){//unchecking. This can only happen programmatically
 					ellipseSmallBlack.Visibility=Visibility.Collapsed;
+					SetColors();
 					return;
-				} 
+				}
 				//everything below here is for checking it.
 				ellipseSmallBlack.Visibility=Visibility.Visible;
+				SetColors();
 				//uncheck all other radio buttons that are siblings
 				if(DesignerProperties.GetIsInDesignMode(this)){
 					return;
@@ -229,7 +237,62 @@ How to use the CheckBox control:
 			SetColors();
 		}
 
+		private void grid_MouseMove(object sender,MouseEventArgs e) {
+			if(_isHover){
+				return;
+			}
+			_isHover=true;
+			SetColors();
+		}
+
+		private void grid_MouseLeave(object sender,MouseEventArgs e) {
+			_isHover=false;
+			SetColors();
+		}
+
+		void IContentLook.ApplyLook(){
+			SetColors();
+		}
+
+		///<summary>Section 2.1: drawn like the Windows 11 radio button in the tokens, so it sits beside the stock WinForms ones: a 12 DIP circle,
+		///SurfaceRaised with a 1 px StrokeStrong outline (StrokeStrongHover on hover, TextDisabled when disabled); checked, an Accent circle with a
+		///white centre dot (TextDisabled when disabled). Text in Text or TextDisabled.</summary>
+		private void SetColorsNew(){
+			ellipseOutline.Visibility=Visibility.Collapsed;
+			ellipseSmallBlack.Opacity=0;
+			ellipseNew.Visibility=Visibility.Visible;
+			if(_checked){
+				SolidColorBrush brushFill=UiLook.Brush(IsEnabled ? CodeBase.EnumUiColor.Accent : CodeBase.EnumUiColor.TextDisabled);
+				ellipseNew.Fill=brushFill;
+				ellipseNew.Stroke=brushFill;
+				ellipseDotNew.Fill=UiLook.Brush(CodeBase.EnumUiColor.TextOnAccent);
+				ellipseDotNew.Visibility=Visibility.Visible;
+			}
+			else{
+				CodeBase.EnumUiColor uiColorBorder=CodeBase.EnumUiColor.StrokeStrong;
+				if(!IsEnabled){
+					uiColorBorder=CodeBase.EnumUiColor.TextDisabled;
+				}
+				else if(_isHover){
+					uiColorBorder=CodeBase.EnumUiColor.StrokeStrongHover;
+				}
+				ellipseNew.Fill=UiLook.Brush(CodeBase.EnumUiColor.SurfaceRaised);
+				ellipseNew.Stroke=UiLook.Brush(uiColorBorder);
+				ellipseDotNew.Visibility=Visibility.Collapsed;
+			}
+			textBlock.Foreground=UiLook.Brush(IsEnabled ? CodeBase.EnumUiColor.Text : CodeBase.EnumUiColor.TextDisabled);
+		}
+
 		private void SetColors(){
+			if(!ContentLook.GetIsPinned(this)){
+				SetColorsNew();
+				return;
+			}
+			//Today's look, unchanged, for office content (the eForm fill surface keeps its look, section 1).
+			ellipseNew.Visibility=Visibility.Collapsed;
+			ellipseDotNew.Visibility=Visibility.Collapsed;
+			ellipseOutline.Visibility=Visibility.Visible;
+			ellipseSmallBlack.Opacity=1;
 			if(IsEnabled){
 				ellipseOutline.Stroke=new SolidColorBrush(Color.FromRgb(111,111,111));//6F6F6F
 				textBlock.Foreground=Brushes.Black;//not hit very often. Usually black because of default.

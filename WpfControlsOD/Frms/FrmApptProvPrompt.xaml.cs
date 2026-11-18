@@ -26,6 +26,9 @@ namespace OpenPmsDental {
 
 		private void FrmApptProvPrompt_Load(object sender,EventArgs e) {
 			Lang.F(this);
+			//The default button's look (UI-4a, section 3.6) on the button Enter clicks (PreviewKeyDown).
+			butYes.IsPrimary=EnumApptProvPrompt_==EnumApptProvPrompt.PromptDefaultYes;
+			butNo.IsPrimary=EnumApptProvPrompt_==EnumApptProvPrompt.PromptDefaultNo;
 			System.Drawing.Point drawing_PointScreen=new System.Drawing.Point(PointScreen.X,PointScreen.X);
 			System.Drawing.Rectangle drawing_RectangleBoundsScreen=System.Windows.Forms.Screen.GetWorkingArea(drawing_PointScreen);
 			int x=drawing_PointScreen.X+(drawing_RectangleBoundsScreen.Width/2)-((int)this.ActualWidth/2);

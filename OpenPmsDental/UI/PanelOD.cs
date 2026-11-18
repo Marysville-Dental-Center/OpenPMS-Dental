@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
+using CodeBase;
 
 namespace OpenPmsDental.UI {
 	///<summary>This panel differs from the stock MS Panel in two ways: It lets user set a border color and it's also double buffered.  This does support custom drawing, but it can't focus, so it won't accept keys.  For that, use ControlDoubleBuffered.  BorderStyle.None is default, so change that in addition to setting color.</summary>
@@ -26,9 +27,19 @@ namespace OpenPmsDental.UI {
 		} 
 
 		protected override void OnPaint(PaintEventArgs e) {
-			e.Graphics.FillRectangle(new SolidBrush(BackColor),0,0,Width,Height);
+			using(SolidBrush solidBrushBack=new SolidBrush(BackColor)) {
+				e.Graphics.FillRectangle(solidBrushBack,0,0,Width,Height);
+			}
 			if(BorderStyle==BorderStyle.FixedSingle){
-				e.Graphics.DrawRectangle(new Pen(BorderColor),0,0,ClientSize.Width-1,ClientSize.Height-1);
+				//Section 3.6: the default border (Silver) is the Stroke token; a colour a window sets stays. The panel stays square: rounding it would
+				//mean dropping the Windows border, which changes the client area and so where the children sit (decision 1).
+				Color colorBorder=BorderColor;
+				if(colorBorder==Color.Silver){
+					colorBorder=UiTheme.GetColor(EnumUiColor.Stroke);
+				}
+				using(Pen pen=new Pen(colorBorder)) {
+					e.Graphics.DrawRectangle(pen,0,0,ClientSize.Width-1,ClientSize.Height-1);
+				}
 			}
 			base.OnPaint(e);
 		}

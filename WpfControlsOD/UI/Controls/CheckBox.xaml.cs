@@ -32,7 +32,7 @@ How to use the CheckBox control:
 
 */
 	///<summary></summary>
-	public partial class CheckBox : UserControl{
+	public partial class CheckBox : UserControl,IContentLook{
 		private EnumCheckAlign _checkAlign;
 		private bool? _checked=false;
 		private bool _isHover=false;
@@ -47,6 +47,8 @@ How to use the CheckBox control:
 			grid.MouseMove+=Grid_MouseMove;
 			grid.MouseLeave+=Grid_MouseLeave;
 			IsEnabledChanged+=CheckBox_IsEnabledChanged;
+			UiLook.SetFocusVisualStyle(this,onAccent:false);
+			SetColors();
 		}
 
 		public event EventHandler Click;
@@ -71,10 +73,12 @@ How to use the CheckBox control:
 					columnDefinition.Width=new GridLength(1,GridUnitType.Star);//text
 					grid.ColumnDefinitions.Add(columnDefinition);
 					System.Windows.Controls.Grid.SetColumn(border,0);
+					System.Windows.Controls.Grid.SetColumn(gridBoxNew,0);
 					System.Windows.Controls.Grid.SetColumn(textBlock,1);
 					textBlock.TextAlignment=TextAlignment.Left;
 					textBlock.HorizontalAlignment=HorizontalAlignment.Left;
 					border.VerticalAlignment=VerticalAlignment.Top;
+					gridBoxNew.VerticalAlignment=VerticalAlignment.Top;
 					textBlock.VerticalAlignment=VerticalAlignment.Top;
 					textBlock.Padding=new Thickness(5,0,0,0);
 				}
@@ -88,10 +92,12 @@ How to use the CheckBox control:
 					columnDefinition.Width=new GridLength(1,GridUnitType.Star);//text
 					grid.ColumnDefinitions.Add(columnDefinition);
 					System.Windows.Controls.Grid.SetColumn(border,0);
+					System.Windows.Controls.Grid.SetColumn(gridBoxNew,0);
 					System.Windows.Controls.Grid.SetColumn(textBlock,1);
 					textBlock.TextAlignment=TextAlignment.Left;
 					textBlock.HorizontalAlignment=HorizontalAlignment.Left;
 					border.VerticalAlignment=VerticalAlignment.Center;
+					gridBoxNew.VerticalAlignment=VerticalAlignment.Center;
 					textBlock.VerticalAlignment=VerticalAlignment.Center;
 					textBlock.Padding=new Thickness(5,0,0,0);
 				}
@@ -105,10 +111,12 @@ How to use the CheckBox control:
 					columnDefinition.Width=new GridLength(1,GridUnitType.Auto);//box
 					grid.ColumnDefinitions.Add(columnDefinition);
 					System.Windows.Controls.Grid.SetColumn(border,1);
+					System.Windows.Controls.Grid.SetColumn(gridBoxNew,1);
 					System.Windows.Controls.Grid.SetColumn(textBlock,0);
 					textBlock.TextAlignment=TextAlignment.Right;
 					textBlock.HorizontalAlignment=HorizontalAlignment.Right;
 					border.VerticalAlignment=VerticalAlignment.Center;
+					gridBoxNew.VerticalAlignment=VerticalAlignment.Center;
 					textBlock.VerticalAlignment=VerticalAlignment.Center;
 					textBlock.Padding=new Thickness(0,0,5,0);
 				}
@@ -255,6 +263,9 @@ How to use the CheckBox control:
 		}
 
 		private void SetCheckVis(){
+			if(!ContentLook.GetIsPinned(this)){
+				SetColorsNew();
+			}
 			polylineCheck.Visibility=Visibility.Collapsed;
 			rectangleIndeterm.Visibility=Visibility.Collapsed;
 			if(_isThreeState){
@@ -269,7 +280,50 @@ How to use the CheckBox control:
 			}
 		}
 
+		void IContentLook.ApplyLook(){
+			SetColors();
+			SetCheckVis();
+		}
+
+		///<summary>Section 3.6, as the WinForms check box: the 13 DIP box white with a 1 px StrokeStrong border and 2 px corners (StrokeStrongHover on
+		///hover, TextDisabled when disabled; ColorBack when the window sets one); checked, Accent with the white Fluent check mark; indeterminate
+		///(three-state, null), Accent with the white Fluent dash; disabled and checked, TextDisabled. Text in Text or TextDisabled.</summary>
+		private void SetColorsNew(){
+			border.Visibility=Visibility.Collapsed;
+			gridBoxNew.Visibility=Visibility.Visible;
+			bool isIndeterminate=_isThreeState && _checked==null;
+			bool isChecked=_checked==true;
+			if(!isIndeterminate && !isChecked){
+				borderBoxNew.Background=_colorBack==Colors.White ? UiLook.Brush(CodeBase.EnumUiColor.SurfaceRaised) : new SolidColorBrush(_colorBack);
+				CodeBase.EnumUiColor uiColorBorder=CodeBase.EnumUiColor.StrokeStrong;
+				if(!IsEnabled){
+					uiColorBorder=CodeBase.EnumUiColor.TextDisabled;
+				}
+				else if(_isHover){
+					uiColorBorder=CodeBase.EnumUiColor.StrokeStrongHover;
+				}
+				borderBoxNew.BorderBrush=UiLook.Brush(uiColorBorder);
+				pathGlyph.Visibility=Visibility.Collapsed;
+			}
+			else{
+				SolidColorBrush brushFill=UiLook.Brush(IsEnabled ? CodeBase.EnumUiColor.Accent : CodeBase.EnumUiColor.TextDisabled);
+				borderBoxNew.Background=brushFill;
+				borderBoxNew.BorderBrush=brushFill;
+				pathGlyph.Data=CodeBase.UiIcons.GetGeometryWpf(isIndeterminate ? CodeBase.UiGlyph.Dash : CodeBase.UiGlyph.Checkmark,13);
+				pathGlyph.Fill=UiLook.Brush(CodeBase.EnumUiColor.TextOnAccent);
+				pathGlyph.Visibility=Visibility.Visible;
+			}
+			textBlock.Foreground=UiLook.Brush(IsEnabled ? CodeBase.EnumUiColor.Text : CodeBase.EnumUiColor.TextDisabled);
+		}
+
 		private void SetColors(){
+			if(!ContentLook.GetIsPinned(this)){
+				SetColorsNew();
+				return;
+			}
+			//Today's look, unchanged, for office content (the eForm fill surface keeps its look, section 1).
+			gridBoxNew.Visibility=Visibility.Collapsed;
+			border.Visibility=Visibility.Visible;
 			if(_isHover){
 				border.Background=new SolidColorBrush(Color.FromRgb(210,239,255));
 			}

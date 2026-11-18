@@ -21,6 +21,9 @@
 			<Canvas>
 				<Ellipse Name="ellipseOutline" x:FieldModifier="internal" Width="12" Height="12" Fill="White" Stroke="#FF6F6F6F" StrokeThickness="1"/>
 				<Ellipse Name="ellipseSmallBlack" x:FieldModifier="internal" Width="6" Height="6" Canvas.Left="3" Canvas.Top="3" Fill="Black" Visibility="Collapsed"/>
+				<!--The new look (UI-4a, section 2.1: like the Windows 11 radio button in the tokens); the two above are today's, kept for office content.-->
+				<Ellipse Name="ellipseNew" x:FieldModifier="internal" Width="12" Height="12" StrokeThickness="1" Visibility="Collapsed"/>
+				<Ellipse Name="ellipseDotNew" x:FieldModifier="internal" Width="4.8" Height="4.8" Canvas.Left="3.6" Canvas.Top="3.6" Visibility="Collapsed"/>
 			</Canvas>
 		</Border>
 		<TextBlock Grid.Column="1" Name="textBlock" x:FieldModifier="internal" Margin="4,0,4,0" TextWrapping="Wrap" TextAlignment="Left" VerticalAlignment="Center">

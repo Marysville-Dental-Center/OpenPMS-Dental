@@ -1,4 +1,5 @@
-﻿using OpenPmsDentalBusiness;
+﻿using CodeBase;
+using OpenPmsDentalBusiness;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -150,11 +151,10 @@ namespace OpenPmsDental.UI{//Jordan is the only one allowed to edit this file
 			}
 			using Brush brushCorners=new SolidBrush(colorParent);
 			g.FillRectangle(brushCorners,ClientRectangle);//can't draw this rect with smoothing on, or an upper left border remains
+			//Section 3.6: 1 px Stroke, 6 px corners, the title in Text on the box's background, where it was.
+			float scale=LayoutManager.ScaleMy();
+			UiControlPaint.Fill(g,BackColor,ClientRectangle,UiTheme.CORNER_CONTAINER,scale);
 			g.SmoothingMode=SmoothingMode.HighQuality;
-			float radius=LayoutManager.ScaleF(4f);
-			using GraphicsPath graphicsPath=GraphicsHelper.GetRoundedPath(new RectangleF(0,0,Width-1,Height-1),radius);
-			Brush brush=new SolidBrush(BackColor);
-			g.FillPath(brush,graphicsPath);
 			if(ColorBackLabel!=Color.Empty){
 				SizeF sizeF=g.MeasureString(Text,Font);
 				RectangleF rectangleF=new RectangleF(LayoutManager.Scale(5),1,sizeF.Width,sizeF.Height);
@@ -162,9 +162,10 @@ namespace OpenPmsDental.UI{//Jordan is the only one allowed to edit this file
 				g.FillRectangle(brushBackLabel,rectangleF);
 			}
 			if(DrawBorder){
-				g.DrawPath(Pens.Silver,graphicsPath);
+				UiControlPaint.Outline(g,EnumUiColor.Stroke,ClientRectangle,UiTheme.GetLineWidth(scale),UiTheme.CORNER_CONTAINER,scale);
 			}
-			g.DrawString(Text,Font,Brushes.Black,LayoutManager.Scale(5),1);//yes, this is one pixel lower than original so that it doesn't touch the top line.	
+			//A token brush: cached per thread by UiTheme, never disposed here.
+			g.DrawString(Text,Font,UiTheme.GetBrush(EnumUiColor.Text),LayoutManager.Scale(5),1);//yes, this is one pixel lower than original so that it doesn't touch the top line.
 		}
 
 

@@ -7,7 +7,7 @@
              xmlns:ui="clr-namespace:WpfControls.UI"
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="500"
-				 FontSize="12">
+				 FontSize="12" ui:ContentLook.IsPinned="True">
 	<Border Background="White" BorderBrush="Silver" BorderThickness="1">
 		<Grid x:Name="gridMain" x:FieldModifier="internal">
 			<ScrollViewer Name="scrollViewer" x:FieldModifier="internal" VerticalScrollBarVisibility="Visible"  HorizontalScrollBarVisibility="Disabled" Margin="0,0,0,30" Focusable="False">

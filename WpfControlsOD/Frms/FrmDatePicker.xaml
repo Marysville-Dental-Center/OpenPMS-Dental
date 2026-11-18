@@ -11,6 +11,6 @@
 	<Grid Background="#FFFCFDFE" >
 		<ui:Label x:Name="labelDateEntered" Width="36" Height="17" Margin="0,14,0,0" Text="Date" HAlign="Center" VAlign="Center" HorizontalAlignment="Center" />
 		<ui:TextVDate x:Name="textDate" Width="90" Height="20" Margin="0,32,0,0" TabIndexOD="1" HorizontalAlignment="Center" />
-		<ui:Button x:Name="butOK" HorizontalAlignment="Center" Width="64" Height="24" Margin="0,69,0,0" Text="_OK" Click="butOK_Click" />
+		<ui:Button x:Name="butOK" IsPrimary="True" HorizontalAlignment="Center" Width="64" Height="24" Margin="0,69,0,0" Text="_OK" Click="butOK_Click" />
 	</Grid>
 </local:FrmODBase>

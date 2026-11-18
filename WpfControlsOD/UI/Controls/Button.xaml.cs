@@ -52,13 +52,19 @@ How to use the Button control:
 */
 	///<summary></summary>
 	[DefaultEvent("Click")]
-	public partial class Button : UserControl{
+	public partial class Button : UserControl,IContentLook{
 		//public object Tag;//already has one
 		private EnumIcons _icon;
 		private string _bitmapFileName;
 		private EnumImageAlign _imageAlign=EnumImageAlign.Left;
 		private bool _isEnabled=true;
 		private bool _isHover;
+		///<summary>The left mouse button went down on the button and has not come up (the pressed look, section 3.6). Click still fires on mouse
+		///down, as before.</summary>
+		private bool _isPressed;
+		private bool _isPrimary;
+		///<summary>Today's gradient from the XAML, for the pinned look of office content.</summary>
+		private Brush _brushBackgroundClassic;
 		private SolidColorBrush _solidColorBrushHoverBackground=new SolidColorBrush(Color.FromArgb(10,0,100,255));//20% blue wash
 		private Thickness _thicknessMarginImage=new Thickness(3,0,3,0);
 		//public static RoutedCommand MyRoutedCommand=new RoutedCommand();
@@ -75,6 +81,9 @@ How to use the Button control:
 		public Button(){
 			InitializeComponent();
 			Focusable=false;
+			_brushBackgroundClassic=grid.Background;
+			UiLook.SetFocusVisualStyle(this,onAccent:false);
+			SetColors();
 			//CommandBinding commandBinding = new CommandBinding(MyRoutedCommand,MyRoutedCommandExecuted,MyRoutedCommandCanExecute);
 			//CommandBindings.Add(commandBinding);
 			IsEnabledChanged+=Button_IsEnabledChanged;
@@ -180,6 +189,22 @@ How to use the Button control:
 					System.Windows.Controls.Grid.SetColumn(textBlock,0);
 					gridImage.HorizontalAlignment=HorizontalAlignment.Center;
 				}
+			}
+		}
+
+		///<summary>The default button's look (section 3.6): filled Accent with white text. Set on the button the window's Enter key clicks (each Frm
+		///handles Enter in its own KeyDown, FrmODBase). Only the look: unlike WPF's IsDefault it does not make Enter click the button.</summary>
+		[Category("OD")]
+		[DefaultValue(false)]
+		[Description("The default button's look: set on the button the window's Enter key clicks. Only the look.")]
+		public bool IsPrimary{
+			get{
+				return _isPrimary;
+			}
+			set{
+				_isPrimary=value;
+				UiLook.SetFocusVisualStyle(this,onAccent:value);
+				SetColors();
 			}
 		}
 
@@ -367,8 +392,20 @@ How to use the Button control:
 			if(!IsEnabled){
 				return;
 			}
+			if(e.ChangedButton==MouseButton.Left){
+				_isPressed=true;
+				SetColors();
+			}
 			Click?.Invoke(this,new EventArgs());
 			//RaiseEvent(new RoutedEventArgs(ClickEvent));
+		}
+
+		protected override void OnMouseUp(MouseButtonEventArgs e) {
+			base.OnMouseUp(e);
+			if(_isPressed){
+				_isPressed=false;
+				SetColors();
+			}
 		}
 
 		protected override void OnMouseMove(MouseEventArgs e) {
@@ -377,6 +414,9 @@ How to use the Button control:
 				return;
 			}
 			_isHover=true;
+			if(e.LeftButton!=MouseButtonState.Pressed){
+				_isPressed=false;
+			}
 			SetColors();
 		}
 
@@ -384,10 +424,62 @@ How to use the Button control:
 		protected override void OnMouseLeave(MouseEventArgs e){
 			base.OnMouseLeave(e);
 			_isHover=false;
+			_isPressed=false;
 			SetColors();
 		}
 
+		void IContentLook.ApplyLook(){
+			SetColors();
+		}
+
+		///<summary>The state the button draws in: disabled wins, then pressed and hover.</summary>
+		private CodeBase.EnumUiButtonState GetButtonState(){
+			if(!IsEnabled){
+				return CodeBase.EnumUiButtonState.Disabled;
+			}
+			if(_isPressed){
+				return CodeBase.EnumUiButtonState.Pressed;
+			}
+			if(_isHover){
+				return CodeBase.EnumUiButtonState.Hover;
+			}
+			return CodeBase.EnumUiButtonState.Normal;
+		}
+
+		///<summary>Section 3.6, as the WinForms button: flat SurfaceRaised with a 1 px Stroke border and 4 px corners, ButtonHover on hover,
+		///ButtonPressed pressed; IsPrimary filled Accent (AccentHover, AccentPressed) with white text; disabled #F5F5F5 with TextDisabled. Inside
+		///office content (ContentLook.IsPinned) today's look.</summary>
 		private void SetColors(){
+			if(ContentLook.GetIsPinned(this)){
+				SetColorsPinned();
+				return;
+			}
+			grid.Background=Brushes.Transparent;
+			borderClassic.Visibility=Visibility.Collapsed;
+			borderHover.Background=Brushes.Transparent;
+			borderBack.Visibility=Visibility.Visible;
+			CodeBase.EnumUiButtonState buttonState=GetButtonState();
+			bool isPrimaryLook=_isPrimary && buttonState!=CodeBase.EnumUiButtonState.Disabled;
+			CodeBase.EnumUiColor uiColorFill=CodeBase.UiControlPaint.GetButtonFill(buttonState,_isPrimary);
+			borderBack.Background=UiLook.Brush(uiColorFill);
+			//The default button has no border of its own: the border takes the fill, so the shape is the same.
+			borderBack.BorderBrush=isPrimaryLook ? UiLook.Brush(uiColorFill) : UiLook.Brush(CodeBase.EnumUiColor.Stroke);
+			CodeBase.EnumUiColor uiColorText=CodeBase.EnumUiColor.Text;
+			if(buttonState==CodeBase.EnumUiButtonState.Disabled){
+				uiColorText=CodeBase.EnumUiColor.TextDisabled;
+			}
+			else if(isPrimaryLook){
+				uiColorText=CodeBase.EnumUiColor.TextOnAccent;
+			}
+			accessText.Foreground=UiLook.Brush(uiColorText);
+			textBlock.Foreground=UiLook.Brush(uiColorText);
+		}
+
+		///<summary>Today's look, unchanged, for office content (the eForm fill surface keeps its look, section 1).</summary>
+		private void SetColorsPinned(){
+			grid.Background=_brushBackgroundClassic;
+			borderBack.Visibility=Visibility.Collapsed;
+			borderClassic.Visibility=Visibility.Visible;
 			if(_isHover){
 				borderHover.Background=_solidColorBrushHoverBackground;
 			}

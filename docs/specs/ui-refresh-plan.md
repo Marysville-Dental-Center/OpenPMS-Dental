@@ -1204,6 +1204,14 @@ the bounds record must equal the before set.
   (tolerance as in `ChartImageCompare`); the layout snapshot and the bounds record; `TerminologyLayoutTests` and `LayoutDesignerTests`;
   the eForm fill surface unchanged (picture test of a synthetic eForm); the scan rerun (5.4).
 - Gallery: **G-UI1 part 2** (the real controls with state strips, WinForms beside WPF) and the AcceptButton list for G-UI3.
+- **Status (2026-11-17).** Done on `ui/ui4a-1` (`docs/port-notes/UI-4a.md`), not merged yet: `CodeBase/UI/UiControlPaint.cs` (the 3.6
+  shapes from the tokens, the same as the design sheet's); WinForms `Button` (the form's `AcceptButton` as the default button), `CheckBox`
+  (the same 13 px box, the Fluent mark and dash), `GroupBox`, `PanelOD` (square: its border is Windows'), `ToolTipOD`; WPF `Button` (with
+  `IsPrimary` on 13 Frms), `CheckBox`, `RadioButton`, `GroupBox`, `Label`, `ToolTip`, the two shared focus visual styles in `Generic.xaml`;
+  `ContentLook.IsPinned` keeps `CtrlEFormFill` in today's look (the synthetic eForm picture is unchanged). Tests in `tests/UiRefreshTests`
+  (`ControlStateTests`, `EFormLookTests`, `ControlStateGallery`); `Data/accept-buttons.tsv` lists 86 `UI.Button` AcceptButtons, 12 of them
+  not OK or Save for the owner. Gallery G-UI1 part 2 in `.git/od-tools/test-results/ui4a-G-UI1-part2/`. The WPF controls are not focusable
+  today, so their focus ring waits until one is made focusable (a behaviour change, not in UI-4a).
 
 **UI-4b: core controls, part 2** (the UI-4b row of 2.1; on `main` 58 code and XAML files, `.resx` aside, in five control families,
 so it is cut into three slices). Each slice owns its controls' WinForms and WPF files, their styles in

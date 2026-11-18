@@ -1,0 +1,112 @@
+# The forms' AcceptButtons (docs/specs/ui-refresh-plan.md section 3.6; package UI-4a, docs/port-notes/UI-4a.md): a UI.Button set as
+# its form's AcceptButton draws as the default button (filled Accent). For gallery G-UI3 the owner confirms the ones whose name is not
+# OK or Save (column check=owner); a rejected one goes on Button.cs's plain list. Stock buttons (RdlDesign, RdlViewer and others) keep
+# the Windows look. ControlStateGallery.AcceptButtons_ListMatchesTheSource checks it; OPMS_UI_ACCEPT_BUTTONS_WRITE=1 writes it again.
+file	form	button	type	text	check
+CentralManager/FormCentralChooseDatabase.cs	FormCentralChooseDatabase	butOK	OpenPmsDental.UI.Button	&OK	
+CentralManager/FormCentralConnectionEdit.designer.cs	FormCentralConnectionEdit	butOK	System.Windows.Forms.Button	&OK	
+CentralManager/FormCentralConnectionGroupEdit.Designer.cs	FormCentralConnectionGroupEdit	butOK	OpenPmsDental.UI.Button	OK	
+CentralManager/FormCentralLogOn.cs	FormCentralLogOn	butOK	OpenPmsDental.UI.Button	&OK	
+OpenPmsDental/Forms Reports/FormRpAging.designer.cs	FormRpAging	butOK	OpenPmsDental.UI.Button	&OK	
+OpenPmsDental/Forms Reports/FormRpAppointments.designer.cs	FormRpAppointments	butOK	OpenPmsDental.UI.Button	&OK	
+OpenPmsDental/Forms Reports/FormRpBirthday.designer.cs	FormRpBirthday	butOK	OpenPmsDental.UI.Button	Report	
+OpenPmsDental/Forms Reports/FormRpBrokenAppointments.Designer.cs	FormRpBrokenAppointments	butOK	OpenPmsDental.UI.Button	&OK	
+OpenPmsDental/Forms Reports/FormRpClaimNotSent.designer.cs	FormRpClaimNotSent	butRunReport	OpenPmsDental.UI.Button	&Run Report	owner
+OpenPmsDental/Forms Reports/FormRpConfirm.designer.cs	FormRpConfirm	butOK	OpenPmsDental.UI.Button	&OK	
+OpenPmsDental/Forms Reports/FormRpDPPOvercharged.designer.cs	FormRpDPPOvercharged	butPrint	OpenPmsDental.UI.Button	Print	owner
+OpenPmsDental/Forms Reports/FormRpFinanceCharge.designer.cs	FormRpFinanceCharge	butOK	OpenPmsDental.UI.Button	&OK	
+OpenPmsDental/Forms Reports/FormRpInsAging.designer.cs	FormRpInsAging	butOK	OpenPmsDental.UI.Button	&OK	
+OpenPmsDental/Forms Reports/FormRpInsCo.designer.cs	FormRpInsCo	butOK	OpenPmsDental.UI.Button	&OK	
+OpenPmsDental/Forms Reports/FormRpInsOverpaid.designer.cs	FormRpInsOverpaid	butOK	OpenPmsDental.UI.Button	&OK	
+OpenPmsDental/Forms Reports/FormRpPatients.designer.cs	FormRpPatients	butOK	OpenPmsDental.UI.Button	&OK	
+OpenPmsDental/Forms Reports/FormRpPayPlans.designer.cs	FormRpPayPlans	butOK	OpenPmsDental.UI.Button	&OK	
+OpenPmsDental/Forms Reports/FormRpPrescriptions.designer.cs	FormRpPrescriptions	butOK	OpenPmsDental.UI.Button	&OK	
+OpenPmsDental/Forms Reports/FormRpProcCodes.designer.cs	FormRpProcCodes	butOK	OpenPmsDental.UI.Button	&OK	
+OpenPmsDental/Forms Reports/FormRpProcNotBilledIns.designer.cs	FormRpProcNotBilledIns	butPrint	OpenPmsDental.UI.Button	Print	owner
+OpenPmsDental/Forms Reports/FormRpProcOverpaid.designer.cs	FormRpProcOverpaid	butPrint	OpenPmsDental.UI.Button	Print	owner
+OpenPmsDental/Forms Reports/FormRpProcSheet.designer.cs	FormRpProcSheet	butOK	OpenPmsDental.UI.Button	&OK	
+OpenPmsDental/Forms Reports/FormRpRecall.designer.cs	FormRpRecall	butOK	OpenPmsDental.UI.Button	&OK	
+OpenPmsDental/Forms Reports/FormRpReceivablesBreakdown.designer.cs	FormRpReceivablesBreakdown	butOK	OpenPmsDental.UI.Button	&OK	
+OpenPmsDental/Forms Reports/FormRpReferrals.designer.cs	FormRpReferrals	butOK	OpenPmsDental.UI.Button	&OK	
+OpenPmsDental/Forms Reports/FormRpRouting.designer.cs	FormRpRouting	butOK	OpenPmsDental.UI.Button	&OK	
+OpenPmsDental/Forms/FormAmountEdit.designer.cs	FormAmountEdit	butOK	OpenPmsDental.UI.Button	&OK	
+OpenPmsDental/Forms/FormApptViewEdit.designer.cs	FormApptViewEdit	butSave	OpenPmsDental.UI.Button	&Save	
+OpenPmsDental/Forms/FormAutoCodeEdit.designer.cs	FormAutoCodeEdit	butSave	OpenPmsDental.UI.Button	&Save	
+OpenPmsDental/Forms/FormAutoItemEdit.designer.cs	FormAutoItemEdit	butSave	OpenPmsDental.UI.Button	&Save	
+OpenPmsDental/Forms/FormBilling.designer.cs	FormBilling	butSend	OpenPmsDental.UI.Button	Send	owner
+OpenPmsDental/Forms/FormBillingOptions.designer.cs	FormBillingOptions	butCreate	OpenPmsDental.UI.Button	Create &List	owner
+OpenPmsDental/Forms/FormCertEmployee.designer.cs	FormCertEmployee	butSave	OpenPmsDental.UI.Button	&Save	
+OpenPmsDental/Forms/FormChooseDatabase.Designer.cs	FormChooseDatabase	butOK	OpenPmsDental.UI.Button	&OK	
+OpenPmsDental/Forms/FormClaimAttachSnipDXC.designer.cs	FormClaimAttachSnipDXC	butSend	OpenPmsDental.UI.Button	&Send	owner
+OpenPmsDental/Forms/FormClaimAttachmentItemEdit.designer.cs	FormClaimAttachmentItemEdit	butSave	OpenPmsDental.UI.Button	&Save	
+OpenPmsDental/Forms/FormClaimCreate.designer.cs	FormClaimCreate	butOK	OpenPmsDental.UI.Button	&OK	
+OpenPmsDental/Forms/FormClaimFormEdit.designer.cs	FormClaimFormEdit	butSave	OpenPmsDental.UI.Button	&Save	
+OpenPmsDental/Forms/FormClaimFormItemEdit.designer.cs	FormClaimFormItemEdit	butSave	OpenPmsDental.UI.Button	&Save	
+OpenPmsDental/Forms/FormClaimPayEdit.designer.cs	FormClaimPayEdit	butSave	OpenPmsDental.UI.Button	&Save	
+OpenPmsDental/Forms/FormClaimPayEditOld.designer.cs	FormClaimPayEditOld	butSave	OpenPmsDental.UI.Button	&Save	
+OpenPmsDental/Forms/FormClaimPrint.designer.cs	FormClaimPrint	butPrint	OpenPmsDental.UI.Button	&Print	owner
+OpenPmsDental/Forms/FormDatabaseMaintenance.designer.cs	FormDatabaseMaintenance	butCheck	OpenPmsDental.UI.Button	C&heck	owner
+OpenPmsDental/Forms/FormDefEdit.designer.cs	FormDefEdit	butSave	OpenPmsDental.UI.Button	&Save	
+OpenPmsDental/Forms/FormDefEditBlockout.designer.cs	FormDefEditBlockout	butSave	OpenPmsDental.UI.Button	&Save	
+OpenPmsDental/Forms/FormDefEditImages.designer.cs	FormDefEditImages	butSave	OpenPmsDental.UI.Button	&Save	
+OpenPmsDental/Forms/FormDeposits.designer.cs	FormDeposits	butOK	OpenPmsDental.UI.Button	&OK	
+OpenPmsDental/Forms/FormDiseaseDefEdit.designer.cs	FormDiseaseDefEdit	butSave	OpenPmsDental.UI.Button	&Save	
+OpenPmsDental/Forms/FormEmailAddressEdit.designer.cs	FormEmailAddressEdit	butSave	OpenPmsDental.UI.Button	&Save	
+OpenPmsDental/Forms/FormEmployeeEdit.designer.cs	FormEmployeeEdit	butSave	OpenPmsDental.UI.Button	&Save	
+OpenPmsDental/Forms/FormFeeEdit.designer.cs	FormFeeEdit	butSave	OpenPmsDental.UI.Button	&Save	
+OpenPmsDental/Forms/FormFinanceCharges.designer.cs	FormFinanceCharges	butOK	OpenPmsDental.UI.Button	&Run	
+OpenPmsDental/Forms/FormGroupPermEdit.designer.cs	FormGroupPermEdit	butSave	OpenPmsDental.UI.Button	&Save	
+OpenPmsDental/Forms/FormInsAdj.designer.cs	FormInsAdj	butSave	OpenPmsDental.UI.Button	&Save	
+OpenPmsDental/Forms/FormInsCatEdit.designer.cs	FormInsCatEdit	butSave	OpenPmsDental.UI.Button	&Save	
+OpenPmsDental/Forms/FormInsPlanSelectFam.designer.cs	FormInsPlanSelectFam	butOK	OpenPmsDental.UI.Button	&OK	
+OpenPmsDental/Forms/FormInsSpanEdit.designer.cs	FormInsSpanEdit	butSave	OpenPmsDental.UI.Button	&Save	
+OpenPmsDental/Forms/FormLogOn.designer.cs	FormLogOn	butOK	OpenPmsDental.UI.Button	&OK	
+OpenPmsDental/Forms/FormMedPat.designer.cs	FormMedPat	butOK	OpenPmsDental.UI.Button	&Save	
+OpenPmsDental/Forms/FormMedical.designer.cs	FormMedical	butSave	OpenPmsDental.UI.Button	&Save	
+OpenPmsDental/Forms/FormMedicationEdit.designer.cs	FormMedicationEdit	butSave	OpenPmsDental.UI.Button	&Save	
+OpenPmsDental/Forms/FormMedications.designer.cs	FormMedications	butOK	OpenPmsDental.UI.Button	&OK	
+OpenPmsDental/Forms/FormPatFieldCheckEdit.designer.cs	FormPatFieldCheckEdit	butSave	OpenPmsDental.UI.Button	&Save	
+OpenPmsDental/Forms/FormPatFieldCurrencyEdit.designer.cs	FormPatFieldCurrencyEdit	butSave	OpenPmsDental.UI.Button	&Save	
+OpenPmsDental/Forms/FormPatFieldDateEdit.designer.cs	FormPatFieldDateEdit	butSave	OpenPmsDental.UI.Button	&Save	
+OpenPmsDental/Forms/FormPatFieldEdit.designer.cs	FormPatFieldEdit	butSave	OpenPmsDental.UI.Button	&Save	
+OpenPmsDental/Forms/FormPatFieldPickEdit.designer.cs	FormPatFieldPickEdit	butSave	OpenPmsDental.UI.Button	&Save	
+OpenPmsDental/Forms/FormPath.designer.cs	FormPath	butOK	OpenPmsDental.UI.Button	&Save	
+OpenPmsDental/Forms/FormPayPlanCredits.designer.cs	FormPayPlanCredits	butSave	OpenPmsDental.UI.Button	&Save	
+OpenPmsDental/Forms/FormPrepaymentEdit.designer.cs	FormPrepaymentEdit	butSave	OpenPmsDental.UI.Button	&Save	
+OpenPmsDental/Forms/FormPrinterSetup.designer.cs	FormPrinterSetup	butSave	OpenPmsDental.UI.Button	&Save	
+OpenPmsDental/Forms/FormPrntScrn.designer.cs	FormPrntScrn	butPrint	OpenPmsDental.UI.Button	&Print	owner
+OpenPmsDental/Forms/FormProcButtonEdit.designer.cs	FormProcButtonEdit	butSave	OpenPmsDental.UI.Button	&Save	
+OpenPmsDental/Forms/FormProvEdit.designer.cs	FormProvEdit	butSave	OpenPmsDental.UI.Button	&Save	
+OpenPmsDental/Forms/FormQueryEdit.designer.cs	FormQueryEdit	butSave	OpenPmsDental.UI.Button	&Save	
+OpenPmsDental/Forms/FormQueryFavorites.designer.cs	FormQueryFavorites	butOK	OpenPmsDental.UI.Button	&OK	
+OpenPmsDental/Forms/FormQuestionDefEdit.designer.cs	FormQuestionDefEdit	butSave	OpenPmsDental.UI.Button	&Save	
+OpenPmsDental/Forms/FormRxDefEdit.designer.cs	FormRxDefEdit	butSave	OpenPmsDental.UI.Button	&Save	
+OpenPmsDental/Forms/FormRxEdit.designer.cs	FormRxEdit	butSave	OpenPmsDental.UI.Button	&Save	
+OpenPmsDental/Forms/FormScheduleBlockEdit.designer.cs	FormScheduleBlockEdit	butSave	OpenPmsDental.UI.Button	&Save	
+OpenPmsDental/Forms/FormSecurityCentralUserEdit.designer.cs	FormSecurityCentralUserEdit	butEdit	OpenPmsDental.UI.Button	Edit	owner
+OpenPmsDental/Forms/FormStatementOptions.designer.cs	FormStatementOptions	butSave	OpenPmsDental.UI.Button	&Save	
+OpenPmsDental/Forms/FormSupplyOrderItemEdit.Designer.cs	FormSupplyOrderItemEdit	butSave	OpenPmsDental.UI.Button	&Save	
+OpenPmsDental/Forms/FormTaskListSelect.designer.cs	FormTaskListSelect	butOK	OpenPmsDental.UI.Button	&OK	
+OpenPmsDental/Forms/FormTranslationEdit.designer.cs	FormTranslationEdit	butSave	OpenPmsDental.UI.Button	&Save	
+OpenPmsDental/Forms/FormUpdateInProgress.designer.cs	FormUpdateInProgress	butTryAgain	OpenPmsDental.UI.Button	Try Again	owner
+OpenPmsDentalGraph/Dashboard/FormDashboardEditCell.Designer.cs	FormDashboardEditCell	butOk	System.Windows.Forms.Button	OK	
+OpenPmsDentalGraph/Dashboard/FormDashboardNamePrompt.Designer.cs	FormDashboardNamePrompt	butOk	System.Windows.Forms.Button	OK	
+RdlDesign/DialogAbout.cs	DialogAbout	bOK	System.Windows.Forms.Button	OK	
+RdlDesign/DialogDataSourceRef.cs	DialogDataSourceRef	bOK	System.Windows.Forms.Button	OK	
+RdlDesign/DialogDataSources.cs	DialogDataSources	bOK	System.Windows.Forms.Button	OK	
+RdlDesign/DialogDatabase.cs	DialogDatabase	btnOK	System.Windows.Forms.Button	OK	
+RdlDesign/DialogEmbeddedImages.cs	DialogEmbeddedImages	bOK	System.Windows.Forms.Button	OK	
+RdlDesign/DialogFilterOperator.cs	DialogFilterOperator	bOK	System.Windows.Forms.Button	OK	
+RdlDesign/DialogNewChart.cs	DialogNewChart	bOK	System.Windows.Forms.Button	OK	
+RdlDesign/DialogNewMatrix.cs	DialogNewMatrix	bOK	System.Windows.Forms.Button	OK	
+RdlDesign/DialogNewTable.cs	DialogNewTable	bOK	System.Windows.Forms.Button	OK	
+RdlDesign/DialogToolOptions.cs	DialogToolOptions	bOK	System.Windows.Forms.Button	OK	
+RdlDesign/DialogValidValues.cs	DialogValidValues	bOK	System.Windows.Forms.Button	OK	
+RdlDesign/DialogValidateRdl.cs	DialogValidateRdl	bValidate	System.Windows.Forms.Button	Validate	owner
+RdlDesign/FindTab.cs	FindTab	btnFindNext	System.Windows.Forms.Button	FindNext	owner
+RdlDesign/PropertyDialog.cs	PropertyDialog	bOK	System.Windows.Forms.Button	OK	
+RdlDesign/SQLCtl.cs	SQLCtl	bOK	System.Windows.Forms.Button	OK	
+RdlDesign/SingleCtlDialog.cs	SingleCtlDialog	bOK	System.Windows.Forms.Button	OK	
+RdlViewer/DataSourcePassword.cs	DataSourcePassword	bOK	System.Windows.Forms.Button	OK	
+RdlViewer/DialogMessages.cs	DialogMessages	bOK	System.Windows.Forms.Button	OK	
+UnitTests/UI Testing/FormLayoutManagerTests.Designer.cs	FormLayoutManagerTests	button1	OpenPmsDental.UI.Button	OK	

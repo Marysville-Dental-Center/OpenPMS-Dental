@@ -190,14 +190,7 @@ namespace OpenPmsDental.UI {
 			Graphics g=e.Graphics;
 			g.SmoothingMode=SmoothingMode.HighQuality;
 			g.Clear(BackColor);
-			SolidBrush solidBrushFillBox;
-			if(_isHovering){
-				solidBrushFillBox=new SolidBrush(Color.FromArgb(210,239,255));
-					//ColorOD.Hover=Color.FromArgb(229,239,251);//not blue enough for this situation
-			}
-			else{
-				solidBrushFillBox=new SolidBrush(Color.White);
-			}
+			float scale=LayoutManager.ScaleMy();
 			//The box always scales with LM zoom instead of with the font.
 			//So if someone sets a checkbox to 10 font, the box will not get bigger.
 			//When LM scales this control, it will also change the font, so the font will also grow with zoom.
@@ -230,44 +223,49 @@ namespace OpenPmsDental.UI {
 				stringFormat.LineAlignment=StringAlignment.Center;
 			}
 			//TopCenter and BottomCenter are not supported
-			g.FillRectangle(solidBrushFillBox,rectangleBox);
-			Pen penBox=new Pen(ColorOD.Gray(50));//disposed
-			SolidBrush solidBrushText=new SolidBrush(Color.Black);
-			if(!Enabled){
-				penBox=new Pen(ColorOD.Gray(180));
-				solidBrushText=new SolidBrush(ColorOD.DisabledText);
-			}
-			g.DrawRectangle(penBox,rectangleBox);
-			//We don't need to do this because when we zoom, we also change the font size separately.
-			//float fontSize=Font.Size*_zoomTest/100f;
-			//using Font font=new Font("Microsoft Sans Serif",fontSize);
-			if(CheckState==CheckState.Indeterminate){
-				using SolidBrush solidBrushIndet=new SolidBrush(ColorOD.Gray(50));
-				int intInflate=-LayoutManager.Scale(2);
-				Rectangle rectangleIndet=rectangleBox;
-				rectangleIndet.Inflate(intInflate,intInflate);
-				g.FillRectangle(solidBrushIndet,rectangleIndet);
-			}
-			else if(Checked){
-				using Pen pen=new Pen(ColorOD.Gray(90),LayoutManager.ScaleF(1.6f));
-				//short start of check
-				g.DrawLine(pen,
-					x1:rectangleBox.Left+LayoutManager.ScaleF(1.25f),
-					y1:rectangleBox.Top+LayoutManager.ScaleF(5.75f),
-					x2:rectangleBox.Left+LayoutManager.ScaleF(4.75f),
-					y2:rectangleBox.Top+LayoutManager.ScaleF(9.25f));
-				//long end of check
-				//the end points don't match up because we have to hide the overlap
-				g.DrawLine(pen,
-					x1:rectangleBox.Left+LayoutManager.ScaleF(4f),
-					y1:rectangleBox.Top+LayoutManager.ScaleF(9.25f),
-					x2:rectangleBox.Left+LayoutManager.ScaleF(10.5f),
-					y2:rectangleBox.Top+LayoutManager.ScaleF(2.75f));
-			}
-			int textTop=Height/2-Font.Height/2;
+			//Section 3.6: the box covers the pixels today's box covered (its outline was drawn one pixel beyond the square, so 13 px at 96 DPI), in
+			//the tokens: white with a 1 px StrokeStrong border and 2 px corners (StrokeStrongHover on hover), Accent with the white Fluent check mark
+			//or dash when checked or indeterminate.
+			int sizeBoxDrawn=sqrSize+UiTheme.GetLineWidth(scale);
+			Rectangle rectangleBoxDrawn=new Rectangle(rectangleBox.X,rectangleBox.Y,sizeBoxDrawn,sizeBoxDrawn);
+			UiControlPaint.DrawCheckBoxBox(g,rectangleBoxDrawn,CheckState,_isHovering,Enabled,scale,Color.Empty);
+			//A token brush: cached per thread by UiTheme, never disposed here.
+			SolidBrush solidBrushText=UiTheme.GetBrush(Enabled ? EnumUiColor.Text : EnumUiColor.TextDisabled);
 			g.DrawString(Text,Font,solidBrushText,rectangleText,stringFormat);
-			penBox?.Dispose();
-			solidBrushText?.Dispose();
+			if(IsFocusRingShown){
+				//Section 3.6: on a check box the ring goes around the box and its text, inside the control's bounds.
+				Rectangle rectangleTextUsed=rectangleBoxDrawn;
+				if(!string.IsNullOrEmpty(Text)){
+					SizeF sizeFText=g.MeasureString(Text,Font,rectangleText.Width,stringFormat);
+					int widthText=Math.Min(rectangleText.Width,(int)Math.Ceiling(sizeFText.Width));
+					int xText=rectangleText.X;
+					if(stringFormat.Alignment==StringAlignment.Far){
+						xText=rectangleText.Right-widthText;
+					}
+					rectangleTextUsed=new Rectangle(xText,rectangleBoxDrawn.Y,widthText,rectangleBoxDrawn.Height);
+				}
+				Rectangle rectangleRing=UiControlPaint.GetCheckFocusRectangle(rectangleBoxDrawn,rectangleTextUsed,ClientRectangle,scale);
+				UiControlPaint.FocusRing(g,rectangleRing,UiTheme.CORNER_CONTROL,scale);
+			}
+			stringFormat.Dispose();
+		}
+
+		///<summary>Whether the focus ring shows (section 3.6): the check box has focus and Windows asks for keyboard cues, so a mouse click draws no
+		///ring.</summary>
+		protected virtual bool IsFocusRingShown {
+			get {
+				return Focused && ShowFocusCues;
+			}
+		}
+
+		protected override void OnGotFocus(EventArgs e){
+			base.OnGotFocus(e);
+			Invalidate();
+		}
+
+		protected override void OnLostFocus(EventArgs e){
+			base.OnLostFocus(e);
+			Invalidate();
 		}
 		#endregion Methods - Event Handlers - OnPaint
 

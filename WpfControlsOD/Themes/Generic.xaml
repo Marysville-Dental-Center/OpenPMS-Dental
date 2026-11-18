@@ -3,6 +3,31 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="clr-namespace:WpfControls.UI">
 
+	<!--The shared focus visual styles (UI-4a, docs/specs/ui-refresh-plan.md section 3.6): WPF shows them while a control has keyboard focus and
+	Windows asks for keyboard cues. A plain control: a 2 px Accent ring inside its bounds, following its 4 px corners. An accent-filled control (the
+	default button): the same ring outside a 1 px white inner ring. Controls take them through UiLook.SetFocusVisualStyle.-->
+	<Style x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type local:UiLook}, ResourceId=FocusVisualStyle}">
+		<Setter Property="Control.Template">
+			<Setter.Value>
+				<ControlTemplate>
+					<Border BorderBrush="{x:Static local:UiLook.BrushAccent}" BorderThickness="2" CornerRadius="4" SnapsToDevicePixels="True"/>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+	<Style x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type local:UiLook}, ResourceId=FocusVisualStyleOnAccent}">
+		<Setter Property="Control.Template">
+			<Setter.Value>
+				<ControlTemplate>
+					<Grid SnapsToDevicePixels="True">
+						<Border BorderBrush="{x:Static local:UiLook.BrushAccent}" BorderThickness="2" CornerRadius="4"/>
+						<Border BorderBrush="{x:Static local:UiLook.BrushTextOnAccent}" BorderThickness="1" CornerRadius="2" Margin="2"/>
+					</Grid>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+	<!--Group box (section 3.6): 1 px Stroke, 6 px corners, the title in Text where it was.-->
 	<Style TargetType="{x:Type local:GroupBox}">
 		<Setter Property="HorizontalAlignment" Value="Left"/>
 		<Setter Property="VerticalAlignment" Value="Top"/>
@@ -10,9 +35,9 @@
 			<Setter.Value>
 				<ControlTemplate TargetType="{x:Type local:GroupBox}">
 					<Grid>
-						<TextBlock Text="{Binding Path=Text, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" Margin="6,0,0,0"/>
+						<TextBlock Text="{Binding Path=Text, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" Margin="6,0,0,0" Foreground="{x:Static local:UiLook.BrushText}"/>
 						<ItemsPresenter/>
-						<Border BorderBrush="DarkGray" BorderThickness="1" CornerRadius="4"/>
+						<Border BorderBrush="{x:Static local:UiLook.BrushStroke}" BorderThickness="1" CornerRadius="6" SnapsToDevicePixels="True"/>
 					</Grid>
 				</ControlTemplate>
 			</Setter.Value>
