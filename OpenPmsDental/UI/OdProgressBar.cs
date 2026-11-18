@@ -1,4 +1,5 @@
-﻿using OpenPmsDentalBusiness;
+﻿using CodeBase;
+using OpenPmsDentalBusiness;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,6 +15,8 @@ namespace OpenPmsDental.UI {
 		private int _targetValue=0;
 		private Color _targetColor=Color.Red;
 		private Font _displayFont=DefaultFont;
+		///<summary>Set by the window's LayoutManager: the scale of the corners and lines (section 3.3 of the UI refresh plan).</summary>
+		public LayoutManagerForms LayoutManager=new LayoutManagerForms();
 
 		public OdProgressBar() {
 			this.SetStyle(ControlStyles.UserPaint,true);
@@ -43,33 +46,45 @@ namespace OpenPmsDental.UI {
 			//Limits flickering
 		}
 
+		///<summary>Section 3.6 of the UI refresh plan, "Dialogs": the SurfaceRaised track with 4 px corners, the Accent fill (TextDisabled when
+		///disabled) and the 1 px Stroke outline, as the design sheet's progress bar (UiDialogPaint.DrawProgress); then the target line in TargetColor
+		///(the caller's colour) as before. No gradient: BackColor and ForeColor no longer colour the bar.</summary>
 		protected override void OnPaint(PaintEventArgs e) {
-			using(Image progressImage=new Bitmap(this.Width,this.Height)) {
-				using(Graphics g=Graphics.FromImage(progressImage)) {
-					Rectangle rect=new Rectangle(0,0,this.Width,this.Height);
-					if(ProgressBarRenderer.IsSupported) {
-						ProgressBarRenderer.DrawHorizontalBar(g,rect);
-					}
-					rect.Inflate(new Size(-1,-1));//Reduce progress bar color size
-					rect.Width=(int)(rect.Width*(((double)Value-(double)Minimum)/((double)Maximum-(double)Minimum)));
-					if(rect.Width==0) {
-						rect.Width=1;//Can't draw a 0 width rectangle.
-					}
-					LinearGradientBrush brush=new LinearGradientBrush(rect,this.BackColor,this.ForeColor,LinearGradientMode.Vertical);
-					g.FillRectangle(brush,1,1,rect.Width,rect.Height);
-					SolidBrush brushLine=new SolidBrush(_targetColor);
-					if(_targetValue>Minimum && _targetValue<=Maximum) {
-						//Using a rectangle for a line because using a line was causing issues
-						int targetValueLocation=(int)(this.Width*(((double)_targetValue-(double)Minimum)/((double)Maximum-(double)Minimum)));
-						Rectangle targetLine=new Rectangle(targetValueLocation,0,4,this.Height);
-						targetLine.Inflate(new Size(-1,-1));//Reduce target line color size
-						g.FillRectangle(brushLine,targetValueLocation,1,targetLine.Width,targetLine.Height);
-					}
-					e.Graphics.DrawImage(progressImage,0,0);
-					brushLine.Dispose();
-					brush.Dispose();
+			using(Bitmap bitmap=new Bitmap(Math.Max(1,Width),Math.Max(1,Height))) {
+				using(Graphics g=Graphics.FromImage(bitmap)) {
+					DrawBar(g);
+				}
+				e.Graphics.DrawImage(bitmap,0,0);
+			}
+		}
+
+		///<summary>Draws the bar in its client area: the parent's background behind the corners, the track, the fill and the target line.</summary>
+		public void DrawBar(Graphics g) {
+			g.Clear(Parent?.BackColor ?? UiTheme.Surface);
+			Rectangle rectangleTrack=new Rectangle(0,0,Width,Height);
+			UiDialogPaint.DrawProgress(g,rectangleTrack,GetFraction(),Enabled,LayoutManager.ScaleMy());
+			if(_targetValue>Minimum && _targetValue<=Maximum) {
+				//Using a rectangle for a line because using a line was causing issues
+				int targetValueLocation=(int)(this.Width*(((double)_targetValue-(double)Minimum)/((double)Maximum-(double)Minimum)));
+				Rectangle targetLine=new Rectangle(targetValueLocation,0,4,this.Height);
+				targetLine.Inflate(new Size(-1,-1));//Reduce target line color size
+				using(SolidBrush brushLine=new SolidBrush(_targetColor)) {
+					g.FillRectangle(brushLine,targetValueLocation,1,targetLine.Width,targetLine.Height);
 				}
 			}
+		}
+
+		///<summary>The share of the bar the fill covers: Value between Minimum and Maximum (0 when they are equal).</summary>
+		public double GetFraction() {
+			if(Maximum<=Minimum) {
+				return 0;
+			}
+			return ((double)Value-(double)Minimum)/((double)Maximum-(double)Minimum);
+		}
+
+		protected override void OnEnabledChanged(EventArgs e) {
+			base.OnEnabledChanged(e);
+			Invalidate();
 		}
 	}
 }

@@ -37,8 +37,10 @@ Jordan is the only one allowed to edit this file.
 		public WarningIntegrity(){
 			InitializeComponent();
 			this.SizeChanged+=this_SizeChanged;
-			///255, 128, 0 is pure orange
-			_color=Color.FromArgb(255,255,192,128);
+			//UI-4c-2 (sections 3.2 and 3.6 of the UI refresh plan), as the WinForms triangle: the Warning token (it was light orange #ffc080 with an
+			//orange outline), the red one Danger, the mark white.
+			SetColor(isRed:false);
+			textMark.Foreground=UiLook.Brush(CodeBase.EnumUiColor.TextOnAccent);
 			_toolTip=new ToolTip();
 			_toolTip.SetControlAndAction(this,ToolTipSetString);
 			path.MouseDown+=Path_MouseDown;
@@ -105,9 +107,18 @@ Jordan is the only one allowed to edit this file.
 			//for both popup and triangle, we will show this triangle
 			Visibility=Visibility.Visible;
 			if(_databaseIntegrity.Behavior==EnumIntegrityBehavior.TriangleRed) {
-				_color=Colors.OrangeRed;
+				SetColor(isRed:true);//the fill shows red now; before, only the field changed and the triangle stayed orange
 			}
 			SetTriangleBehavior();
+		}
+
+		///<summary>The triangle's fill and outline: the Warning token, or Danger for the red one (CodeBase.UiDialogPaint.GetWarningFill). The outline
+		///keeps the full colour while the fill blinks or pulses.</summary>
+		internal void SetColor(bool isRed){
+			SolidColorBrush solidColorBrush=UiLook.Brush(CodeBase.UiDialogPaint.GetWarningFill(isRed));
+			_color=solidColorBrush.Color;
+			path.Fill=solidColorBrush;
+			path.Stroke=solidColorBrush;
 		}
 
 		private void ShowPopup(){

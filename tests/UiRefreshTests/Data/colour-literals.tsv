@@ -39,7 +39,6 @@ OpenPmsDental/UI/BordersDpi/FormODBase.cs	Color.FromArgb(65,94,154)	2
 OpenPmsDental/UI/Button.cs	Color.FromArgb(0,0,0)	1
 OpenPmsDental/UI/Button.cs	Color.FromArgb(255,255,255)	1
 OpenPmsDental/UI/Button.cs	Color.FromArgb(28,81,128)	1
-OpenPmsDental/UI/DatabaseIntegrity/WarningIntegrity.cs	Color.FromArgb(255,255,192,128)	1
 OpenPmsDental/UI/DatabaseIntegrity/WarningIntegrity.cs	Color.FromArgb(alpha,_color)	1
 OpenPmsDental/UI/ImagesModule/UnmountedBar.cs	Color.FromArgb(156,175,230)	1
 OpenPmsDental/UI/ImagesModule/UnmountedBar.cs	Color.FromArgb(60,90,150)	1

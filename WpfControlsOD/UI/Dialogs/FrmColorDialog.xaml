@@ -9,7 +9,7 @@
         Height="370" Width="424">
 	<Grid Background="#FFFCFDFE">
 		<Grid HorizontalAlignment="Left" VerticalAlignment="Top" Width="258" Height="258" Margin="20,20,0,0" >
-			<Border BorderBrush="DarkGray" BorderThickness="1">
+			<Border Name="borderSquare" x:FieldModifier="internal" BorderThickness="1">
 				<Grid Name="gridSquareGradient">
 					<Canvas Name="canvas" x:FieldModifier="internal">
 						<Canvas.Background>
@@ -37,9 +37,9 @@
 			</Border>
 		</Grid>
 		<Canvas HorizontalAlignment="Left" VerticalAlignment="Top" Width="360" Height="15" Margin="20,300,0,0">
-			<Border Name="borderHue" BorderBrush="DarkGray" BorderThickness="1" Background="White" Width="360" Height="15"/>
+			<Border Name="borderHue" x:FieldModifier="internal" BorderThickness="1" Background="White" Width="360" Height="15"/>
 			<Canvas Name="canvasHue" MouseDown="canvasHue_MouseDown"/>
-			<Rectangle Name="rectangleHueSlider" Canvas.Top="-3" Canvas.Left="-3" Height="21" Width="7" Stroke="Black" StrokeThickness="1"/>
+			<Rectangle Name="rectangleHueSlider" x:FieldModifier="internal" Canvas.Top="-3" Canvas.Left="-3" Height="21" Width="7" StrokeThickness="1"/>
 		</Canvas>
 		<ui:Button x:Name="butOK" Width="75" Height="24" Margin="0,0,12,10" Text="OK" HorizontalAlignment="Right" VerticalAlignment="Bottom" Click="butOK_Click"/>
         <ui:Label Margin="285,26,0,0" HorizontalContentAlignment="Right" Width="53" Text="Red" HAlign="Right" VAlign="Center"/>

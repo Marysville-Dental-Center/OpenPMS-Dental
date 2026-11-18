@@ -14,7 +14,7 @@
 	</UserControl.Style>
 	<Grid>
 		<Canvas Name="canvas" x:FieldModifier="internal">
-			<Path Name="path" x:FieldModifier="internal" Fill="#ffc080" Stroke="Orange" StrokeThickness="1">
+			<Path Name="path" x:FieldModifier="internal" StrokeThickness="1">
 				<Path.Data>
 					<PathGeometry>
 						<PathFigure StartPoint="41.75864,20.04203" IsClosed="True">
@@ -30,7 +30,7 @@
 					</PathGeometry>
 				</Path.Data>
 			</Path>
-			<TextBlock Text="!" Foreground="White" Canvas.Left="37" Canvas.Top="0" FontSize="80" FontWeight="Bold"/>
+			<TextBlock Name="textMark" x:FieldModifier="internal" Text="!" Canvas.Left="37" Canvas.Top="0" FontSize="80" FontWeight="Bold"/>
 		</Canvas>
 	</Grid>
 </UserControl>

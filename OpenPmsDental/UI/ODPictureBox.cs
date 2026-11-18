@@ -102,7 +102,8 @@ namespace OpenPmsDental.UI
 			Graphics g=e.Graphics;
 			g.InterpolationMode=InterpolationMode.High;
 			if(HasBorder) {
-				g.DrawRectangle(Pens.Gray,0,0,Width-1,Height-1);
+				//UI-4c-2 (section 3.6 of the UI refresh plan): the container border, 1 px Stroke, square (it was Gray). The picture inside is the office's.
+				UiControlPaint.Outline(g,EnumUiColor.Stroke,new Rectangle(0,0,Width,Height),1,0,1f);
 			}
 			float heightImage=-1;
 			float widthImage=-1;
@@ -116,7 +117,8 @@ namespace OpenPmsDental.UI
 				StringFormat stringFormat=new StringFormat();
 				stringFormat.Alignment=StringAlignment.Center;
 				stringFormat.LineAlignment=StringAlignment.Center;
-				g.DrawString(textNullImage,this.Font,new SolidBrush(Color.Gray),new RectangleF(0,0,Width,Height),stringFormat);
+				//The hint when there is no picture: TextSecondary (it was Gray).
+				g.DrawString(textNullImage,this.Font,UiTheme.GetBrush(EnumUiColor.TextSecondary),new RectangleF(0,0,Width,Height),stringFormat);
 			}
 			else{
 				float ratio;
