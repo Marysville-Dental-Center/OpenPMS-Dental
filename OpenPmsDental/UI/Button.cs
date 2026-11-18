@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
+using CodeBase;
 
 namespace OpenPmsDental.UI {
 	//Jordan is the only one allowed to edit this file.
@@ -15,39 +16,25 @@ namespace OpenPmsDental.UI {
 		#endregion Fields - Public
 
 		#region Fields - Private Static Colors
+		//The button itself draws from the UiTheme tokens (UI-4a, docs/specs/ui-refresh-plan.md section 3.6). These colours are today's look of
+		//DrawSimpleButton, which ODButtonPanel uses; UI-6 restyles the button panel.
 		private static Color _colorBorder=Color.FromArgb(28,81,128);
-		///<summary>This brighter border color is used for hover and pressed.</summary>
-		private static Color _colorBorderHover=Color.FromArgb(0,110,190);
-		///<summary>The top gradient color.</summary>
-		private static Color _colorMainTop=Color.FromArgb(255,255,255);
-		///<summary>The bottom gradient color.</summary>
-		private static Color _colorMainBottom=Color.FromArgb(225,232,235);//205,212,215);
-		///<summary>The top gradient color when pressed.</summary>
-		private static Color _colorPressedTop=Color.FromArgb(255,255,255);
-		///<summary>The bottom gradient color when pressed.</summary>
-		private static Color _colorPressedBottom=Color.FromArgb(175,185,190);
 		private static Color _colorText=Color.FromArgb(0,0,0);
 		///<summary>The white glow that shows .5 pixels to the lower right behind the text.</summary>
 		private static Color _colorTextGlow=Color.FromArgb(255,255,255);
-		///<summary>The gray text when this button is disabled.</summary>
-		private static Color _colorTextDisabled=Color.FromArgb(161,161,146);
 		//Since these are static, one shared copy of each will persist for the life of the program
 		private static Pen _penBorder=new Pen(_colorBorder);
-		private static Pen _penBorderHover=new Pen(_colorBorderHover,1.7f);//remember, known bug in GDI+ does not scale lines <= 1.5, which affected certain decisions.
-		private static LinearGradientBrush _brushMain=new LinearGradientBrush(new Point(0,0),new Point(0,24),_colorMainTop,_colorMainBottom);
-		private static LinearGradientBrush _brushPressed=new LinearGradientBrush(new Point(0,0),new Point(0,24),_colorPressedTop,_colorPressedBottom);
 		private static Brush _brushText=new SolidBrush(_colorText);
 		private static Brush _brushTextGlow=new SolidBrush(_colorTextGlow);
-		private static Brush _brushTextDisabled=new SolidBrush(_colorTextDisabled);
-		#endregion Fields - Private Static Colors	
+		///<summary>The AcceptButtons that keep the plain look, as "FormName.buttonName": the ones the owner turns down in gallery G-UI3 (section 3.6).
+		///Empty until those answers.</summary>
+		private static readonly string[] _arrayAcceptButtonsPlain=new string[0];
+		#endregion Fields - Private Static Colors
 		
 		#region Fields - Private
 		private ODButtonState _buttonState=ODButtonState.Normal;
 		private bool _bCanClick=false;
 		private Point _adjustImageLocation=new Point(0,0);
-		///<summary>This brush is only used when button is taller than 24.  Otherwise, it uses the static brush.  Disposed.</summary>
-		private LinearGradientBrush _brushMainNonStatic;
-		private LinearGradientBrush _brushPressedNonStatic;
 		private EnumIcons _icon=EnumIcons.None;
 		///<summary>When changing the text, this keeps track of the previous value. This lets us avoid overhead for initializing.</summary>
 		private string TextOld;
@@ -59,11 +46,6 @@ namespace OpenPmsDental.UI {
 			//This call is required by the Windows.Forms Form Designer.
 			InitializeComponent();
 			DoubleBuffered=true;
-			if(Height>24){
-				//gradient brush will fail, so adapt it to the size of this bigger button
-				_brushMainNonStatic=new LinearGradientBrush(new Point(0,0),new Point(0,Height),_colorMainTop,_colorMainBottom);
-				_brushPressedNonStatic=new LinearGradientBrush(new Point(0,0),new Point(0,Height),_colorPressedTop,_colorPressedBottom);
-			}
 		}
 		#endregion Constructor
 
@@ -109,6 +91,29 @@ namespace OpenPmsDental.UI {
 		protected override Size DefaultSize {
 			get {
 				return new Size(75,24);
+			}
+		}
+
+		///<summary>True when this button is its form's AcceptButton, which draws as the default button (section 3.6: filled Accent with white text),
+		///unless it is on the list of AcceptButtons the owner keeps plain. Only the look: Enter is handled by the form as before.</summary>
+		[Browsable(false)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		public bool IsPrimary {
+			get {
+				Form form=FindForm();
+				if(form==null || form.AcceptButton!=this) {
+					return false;
+				}
+				string name=form.GetType().Name+"."+Name;
+				return Array.IndexOf(_arrayAcceptButtonsPlain,name)==-1;
+			}
+		}
+
+		///<summary>Whether the focus ring shows (section 3.6): the button has focus and Windows asks for keyboard cues, so a mouse click draws no
+		///ring.</summary>
+		protected virtual bool IsFocusRingShown {
+			get {
+				return Focused && ShowFocusCues;
 			}
 		}
 
@@ -227,17 +232,6 @@ namespace OpenPmsDental.UI {
 			this.Invalidate();
 		}
 
-		protected override void OnSizeChanged(EventArgs e){
-			base.OnSizeChanged(e);
-			if(Height>24){
-				//gradient brush will fail, so adapt it to the size of this bigger button
-				_brushMainNonStatic?.Dispose();
-				_brushPressedNonStatic?.Dispose();
-				_brushMainNonStatic=new LinearGradientBrush(new Point(0,0),new Point(0,Height),_colorMainTop,_colorMainBottom);
-				_brushPressedNonStatic=new LinearGradientBrush(new Point(0,0),new Point(0,Height),_colorPressedTop,_colorPressedBottom);
-			}
-		}
-
 		///<summary></summary>
 		protected override void OnTextChanged(EventArgs e) {
 			base.OnTextChanged(e);
@@ -288,61 +282,37 @@ namespace OpenPmsDental.UI {
 		#endregion Methods - Override On...
 
 		#region Method - OnPaint
-		///<summary></summary>
+		///<summary>Section 3.6: flat SurfaceRaised with a 1 px Stroke border and 4 px corners, ButtonHover on hover, ButtonPressed pressed; the form's
+		///AcceptButton filled Accent (AccentHover, AccentPressed) with white text; disabled #F5F5F5 with TextDisabled; the focus ring with keyboard
+		///cues. No gradient and no text glow. The text and the icon stay where they were.</summary>
 		protected override void OnPaint(PaintEventArgs p) {
-			this.OnPaintBackground(p);//draws background color at corners.  There are better approaches.
+			this.OnPaintBackground(p);//the parent's colour at the rounded corners
 			Graphics g=p.Graphics;
+			EnumUiButtonState buttonState=GetUiButtonState();
+			bool isPrimary=IsPrimary;
+			EnumUiColor uiColorText=UiControlPaint.DrawButton(g,ClientRectangle,buttonState,isPrimary,IsFocusRingShown,LayoutManager.ScaleMy());
 			g.SmoothingMode=SmoothingMode.HighQuality;
-			RectangleF recOutline=new RectangleF(0,0,Width-1.2f,Height-1.2f);//lower edge looks better than at -1px
-			float radius=LayoutManager.ScaleF(3);
-			using GraphicsPath graphicsPath=OpenPmsDentalBusiness.GraphicsHelper.GetRoundedPath(recOutline,radius);
-			//_penBorderHover.Alignment=PenAlignment.Inset;
-			switch(_buttonState) {
-				case ODButtonState.Normal:
-					//Focused and IsDefault are both old fashioned behaviors that we just don't care about, so no handing for them here
-					//Disabled is handled when drawing the text and image
-					if(Height>24){
-						g.FillPath(_brushMainNonStatic,graphicsPath);
-					}
-					else{
-						g.FillPath(_brushMain,graphicsPath);
-					}
-					break;
-				case ODButtonState.Hover:
-					if(Height>24){
-						g.FillPath(_brushMainNonStatic,graphicsPath);
-					}
-					else{
-						g.FillPath(_brushMain,graphicsPath);
-					}
-					break;
-				case ODButtonState.Pressed:
-					if(Height>24){
-						g.FillPath(_brushPressedNonStatic,graphicsPath);
-					}
-					else{
-						g.FillPath(_brushPressed,graphicsPath);
-					}
-					break;
-			}
-			DrawTextAndImage(g);
-			switch(_buttonState) {
-				case ODButtonState.Normal:
-					g.DrawPath(_penBorder,graphicsPath);
-					break;
-				case ODButtonState.Hover:
-					g.DrawPath(_penBorderHover,graphicsPath);
-					g.DrawPath(_penBorder,graphicsPath);
-					break;
-				case ODButtonState.Pressed:
-					g.DrawPath(_penBorderHover,graphicsPath);
-					g.DrawPath(_penBorder,graphicsPath);
-					break;
-			}
+			DrawTextAndImage(g,uiColorText,UiTheme.GetColor(UiControlPaint.GetButtonFill(buttonState,isPrimary)));
 		}
 
-		///<summary></summary>
-		private void DrawTextAndImage(Graphics g) {
+		///<summary>The state the button draws in: disabled wins, then pressed and hover.</summary>
+		private EnumUiButtonState GetUiButtonState() {
+			if(!Enabled) {
+				return EnumUiButtonState.Disabled;
+			}
+			if(_buttonState==ODButtonState.Pressed) {
+				return EnumUiButtonState.Pressed;
+			}
+			if(_buttonState==ODButtonState.Hover) {
+				return EnumUiButtonState.Hover;
+			}
+			return EnumUiButtonState.Normal;
+		}
+
+		///<summary>The text in the token colour of the state, and the image or icon where they were.</summary>
+		private void DrawTextAndImage(Graphics g,EnumUiColor uiColorText,Color colorFill) {
+			//A token brush: cached per thread by UiTheme, never disposed here.
+			SolidBrush brushText=UiTheme.GetBrush(uiColorText);
 			StringFormat stringFormat=GetStringFormat(this.TextAlign);
 			if(ShowKeyboardCues) {
 				stringFormat.HotkeyPrefix=System.Drawing.Text.HotkeyPrefix.Show;
@@ -350,16 +320,8 @@ namespace OpenPmsDental.UI {
 			else {
 				stringFormat.HotkeyPrefix=System.Drawing.Text.HotkeyPrefix.Hide;
 			}
-			RectangleF rectangleTextGlow;
 			if(Image==null && Icon==EnumIcons.None){
-				rectangleTextGlow=new RectangleF(ClientRectangle.X+.5f,ClientRectangle.Y+.5f,ClientRectangle.Width,ClientRectangle.Height);
-				if(this.Enabled) {
-					g.DrawString(this.Text,this.Font,_brushTextGlow,rectangleTextGlow,stringFormat);
-					g.DrawString(this.Text,this.Font,_brushText,this.ClientRectangle,stringFormat);
-				}
-				else{
-					g.DrawString(this.Text,this.Font,_brushTextDisabled,this.ClientRectangle,stringFormat);
-				}
+				g.DrawString(this.Text,this.Font,brushText,this.ClientRectangle,stringFormat);
 				stringFormat?.Dispose();
 				return;
 			}
@@ -403,15 +365,10 @@ namespace OpenPmsDental.UI {
 			}
 			pointImage.X+=_adjustImageLocation.X;
 			pointImage.Y+=_adjustImageLocation.Y;
-			//these two gradient colors are a little different than the other colors.
-			//They are just a hack for Direct2d to match up that gradient with the DirectX one.
-			//They were obtained by color matching from a screenshot.
-			Color colorGradientTop=Color.FromArgb(252,253,254);
-			Color colorGradientBottom=Color.FromArgb(228,234,237);
-			if(_buttonState==ODButtonState.Pressed){//might be missing a few edge cases
-				colorGradientTop=Color.FromArgb(250,251,251);
-				colorGradientBottom=Color.FromArgb(182,191,196);
-			}
+			//Direct2D draws the icon into a bitmap over a background of its own: the button's flat fill, so the two match. The icon itself is drawn
+			//as today until UI-7b and UI-9a give the buttons Fluent icons (section 3.6).
+			Color colorGradientTop=colorFill;
+			Color colorGradientBottom=colorFill;
 			if(this.Enabled) {
 				rectangleImage=new Rectangle(pointImage,sizeScaled);
 				if(Icon!=EnumIcons.None){
@@ -436,17 +393,8 @@ namespace OpenPmsDental.UI {
 					bitmapDisabled.Dispose();
 				}
 			}
-			rectangleTextGlow=new RectangleF(rectangleText.X+.5f,rectangleText.Y+.5f,rectangleText.Width,rectangleText.Height);
 			if(this.ImageAlign!=ContentAlignment.MiddleCenter) {
-				if(Enabled) {
-					//first draw white text slightly off center
-					g.DrawString(this.Text,this.Font,_brushTextGlow,rectangleTextGlow,stringFormat);
-					//then, the black text
-					g.DrawString(this.Text,this.Font,_brushText,rectangleText,stringFormat);
-				}
-				else{//disabled
-					g.DrawString(this.Text,this.Font,_brushTextDisabled,rectangleText,stringFormat);
-				}
+				g.DrawString(this.Text,this.Font,brushText,rectangleText,stringFormat);
 			}
 			stringFormat?.Dispose();
 		}
