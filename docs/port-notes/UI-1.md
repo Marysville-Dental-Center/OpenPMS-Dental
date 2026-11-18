@@ -151,3 +151,12 @@ around it is restyled with its window), and `WpfControlsOD/Themes/Generic` is `U
   highlight. It meets the plan's rule; a darker bar (`StrokeStrongHover`, `#616161`, 4.9:1 on the fill) is the alternative if the owner wants
   the unfocused selection to stand out more. The contrast page shows it.
 - The WPF window of the real-window set waits for the next connected session (section 3).
+
+## UI-1b: the owner's answer on the selection bar (2026-11-17)
+
+The owner approved G-UI1 part 1 (all 19 pictures at ec88aae10) and chose the darker grey for the selection bar without focus. UI-1b adds
+the role token `SelectionBarNoFocus` (`#616161`; high contrast `HighlightText`, readable on the `Highlight` fill in all four Windows
+contrast themes), appended to `EnumUiColor` and both tables; `StrokeStrong` no longer names the bar. The design sheet draws the unfocused
+bar with it (DesignSheetControls, the two-thread paint test), the swatch page lists it, and the contrast page checks it against white
+(6.2:1, light) and against the selection fill (4.9:1, light and high contrast), replacing section 6's note with the answer. The plan's
+3.2 says the same. Nothing in the product draws with the tokens yet. The gallery in `.git/od-tools/test-results/g-ui1-part1/` is rebuilt.

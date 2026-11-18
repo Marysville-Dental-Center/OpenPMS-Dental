@@ -289,6 +289,7 @@ Contrast values are WCAG 2.2 ratios, computed for this plan. Disabled text is ex
 | `Stroke` | `#D1D1D1` | button border, container borders, group boxes, dividers | (decorative) |
 | `StrokeStrong` | `#8A8A8A` | outline of inputs, combo boxes, list boxes, check boxes | 3.5:1 on white, 3.3:1 on `Surface` (AA 3:1) |
 | `StrokeStrongHover` | `#616161` | the same outlines on hover | 6.2:1 on white |
+| `SelectionBarNoFocus` | `#616161` | the selection bar without focus (owner, 2026-11-17) | 6.2:1 on white, 4.9:1 on `AccentSubtle` |
 | `Gridline` | `#E0E0E0` | grid lines, menu separators | (decorative) |
 | `Text` | `#1F1F1F` | all text | 16.5:1 on white |
 | `TextSecondary` | `#5C5C5C` | hints, unselected tabs, captions | 6.7:1 on white |
@@ -306,7 +307,8 @@ Contrast values are WCAG 2.2 ratios, computed for this plan. Disabled text is ex
 **Selection must be visible without colour sense.** `AccentSubtle` on white is only 1.26:1, and `RowHover` against it 1.14:1, so the fill
 alone neither meets WCAG 1.4.11 (3:1 for a state) nor tells hover and selection apart. A darker fill does not fix that (`#C5D5EE` is still
 1.49:1 on white) and hurts the text. So a selected grid row, list item or tree item also gets a 2 px bar on its left edge, inside its own
-bounds: `Accent` (6.8:1 on white) while the control has focus, `StrokeStrong` (3.5:1) when it does not. The fill stays `AccentSubtle`
+bounds: `Accent` (6.8:1 on white) while the control has focus, `SelectionBarNoFocus` (`#616161`, 6.2:1 on white, 4.9:1 on the fill; the
+owner's darker grey of 2026-11-17) when it does not. The fill stays `AccentSubtle`
 either way. The bar sits in the row's first 2 px; the briefs check that no cell text or icon starts there.
 
 **Disabled accent button.** A disabled default button draws like any disabled button (`#F5F5F5`, `Stroke` border, `TextDisabled`), as
@@ -314,7 +316,8 @@ in Windows 11. No extra token.
 
 **High contrast.** When Windows runs a high-contrast theme (`SystemInformation.HighContrast`, `SystemParameters.HighContrast`), every
 colour token returns its `SystemColors` partner (`Surface` and `SurfaceRaised` → `Window`, `Text` → `WindowText`, `Accent` and the
-selection → `Highlight` and `HighlightText`, `Stroke` and `StrokeStrong` → `WindowFrame`, `TextDisabled` → `GrayText`, the title bar →
+selection → `Highlight` and `HighlightText`, `Stroke` and `StrokeStrong` → `WindowFrame`, the selection bar without focus →
+`HighlightText`, `TextDisabled` → `GrayText`, the title bar →
 `ActiveCaption` and `ActiveCaptionText`). The tokens re-read the setting on `SystemEvents.UserPreferenceChanged`. Data colours stay.
 
 **Thread safety.** GDI+ pens and brushes are not thread-safe: two UI threads drawing with one `Pen` at the same moment throw
@@ -1074,7 +1077,8 @@ record.
   `NoHqTests/UiThemeScanTests.cs` with the allow list `Data/colour-literals.tsv` (323 rows). The gallery is in
   `.git/od-tools/test-results/g-ui1-part1/`; the WPF Frm waits for a connected session (WPF draws nothing while it is disconnected). Measured:
   the Account grid's rows are 14 px today, 17 px at Segoe UI 9 and 16 px at 8.25, as UQ-2 says. For the owner: the selection bar without
-  focus (`StrokeStrong`) is 3.5:1 on white but 2.7:1 against the selection fill beside it (the note's section 6). Fixed on `ui/ui1-2`:
+  focus (`StrokeStrong`) was 3.5:1 on white but 2.7:1 against the selection fill beside it (the note's section 6); the owner chose the
+  darker grey (UI-1b: `SelectionBarNoFocus` `#616161`) and approved G-UI1 part 1 on 2026-11-17. Fixed on `ui/ui1-2`:
   the snapping helpers round as LayoutManager rounds (a .5 to the even neighbour, so the focus ring is 2 px at 125%, not 3), checked against
   `LayoutManagerForms` itself; the sheet and the gallery are redrawn.
 

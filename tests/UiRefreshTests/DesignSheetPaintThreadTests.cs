@@ -118,7 +118,7 @@ namespace UiRefreshTests {
 				graphics.FillRectangle(UiTheme.GetBrush(uiColorFill),rectangle);
 				graphics.DrawLine(UiTheme.GetPen(EnumUiColor.Gridline),rectangle.Left,rectangle.Bottom-1,rectangle.Right,rectangle.Bottom-1);
 				if(state>=2) {
-					graphics.FillRectangle(UiTheme.GetBrush(state==2 ? EnumUiColor.Accent : EnumUiColor.StrokeStrong),rectangle.X,rectangle.Y,UiTheme.LINE_SELECTION_BAR,
+					graphics.FillRectangle(UiTheme.GetBrush(state==2 ? EnumUiColor.Accent : EnumUiColor.SelectionBarNoFocus),rectangle.X,rectangle.Y,UiTheme.LINE_SELECTION_BAR,
 						rectangle.Height);
 				}
 				graphics.DrawString("Row text",font,UiTheme.GetBrush(state>=2 ? EnumUiColor.TextSelected : EnumUiColor.Text),4,31);
