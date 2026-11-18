@@ -472,6 +472,8 @@ Every line of the slice's 1,622 `.cs` files that names `Microsoft Sans Serif`, `
   (the six new tests and `Scan_TodaysFont_ReportsNothingNew` among the passed); PrintGuardTests 16 passed, 1 opt-in skipped (the eForm
   PDF); UnitTests 1,728 passed, 3 skipped; WindowChecksTests 29 passed, 43 skipped (opt-in window checks); NoHqTests 122. The print guard's
   scratch databases (`ui2a3_*`, its own prefix) were dropped by the guard; none is left.
+- After the review fix (`ui/ui2a4-2`): the build lane (x64, the whole filter) 0 errors; Targeted (`ui2a4-targeted-2.txt`) the same
+  counts, all passed (the scan with the two `FormMountDefEdit` rows among them).
 
 #### 6. For the lead
 
