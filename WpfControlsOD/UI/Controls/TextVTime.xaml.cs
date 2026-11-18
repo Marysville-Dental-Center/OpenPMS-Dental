@@ -24,7 +24,9 @@ Jordan is the only one allowed to edit this file.
 
 */
 	///<summary></summary>
-	public partial class TextVTime : UserControl{
+	public partial class TextVTime : UserControl,IContentLook{
+		///<summary>The error mark's fill of today (red), kept for office content.</summary>
+		private Brush _brushErrorToday;
 		private string _error;
 		
 		public TextVTime(){
@@ -37,6 +39,8 @@ Jordan is the only one allowed to edit this file.
 			GotKeyboardFocus+=This_GotKeyboardFocus;
 			PreviewMouseLeftButtonDown+=This_PreviewMouseLeftButtonDown;
 			canvasError.Visibility=Visibility.Hidden;
+			_brushErrorToday=ellipseError.Fill;
+			ApplyLook();
 		}
 
 		#region Events
@@ -174,6 +178,19 @@ Jordan is the only one allowed to edit this file.
 			SetError("");
 		}
 
+		void IContentLook.ApplyLook(){
+			ApplyLook();
+		}
+
+		///<summary>The new look (UI-4b-3, section 3.6): the text box template of Themes/Generic.xaml (UiLookText) with the StrokeStrong border; with a
+		///validation error the Danger border and the error mark in Danger. Office content (ContentLook.IsPinned) keeps today's Windows template and red
+		///mark.</summary>
+		private void ApplyLook(){
+			bool isPinned=ContentLook.GetIsPinned(this);
+			UiLookText.ApplyTemplateLook(textBox,isPinned);
+			ellipseError.Fill=isPinned ? _brushErrorToday : UiLookText.BrushDanger;
+		}
+
 		private void SetError(string error){
 			_error=error;
 			if(string.IsNullOrEmpty(error)) {
@@ -183,6 +200,7 @@ Jordan is the only one allowed to edit this file.
 				canvasError.Visibility=Visibility.Visible;
 				canvasError.ToolTip=error;
 			}
+			UiLookText.SetIsError(textBox,!string.IsNullOrEmpty(error));//the Danger border of the new look
 		}
 		#endregion Methods - private
 	}

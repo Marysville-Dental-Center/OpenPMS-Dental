@@ -68,7 +68,7 @@ How to use the TextRich control:
 
 */
 	///<summary>You might use this control if you need QuickPaste, spell check, rich text, and/or autoNotes. Use sparingly. Jordan would always be involved.</summary>
-	public partial class TextRich : UserControl{
+	public partial class TextRich : UserControl,IContentLook{
 		#region Fields
 		///<summary>User can open a dialog from this textRich for AutoNote or QuickPaste. This flag is set to true during that time so that TextBox_LostFocus doesn't try to dispose of the textBox in FormSheetFillEdit.</summary>
 		public bool IsDlgOpen=false;
@@ -198,6 +198,7 @@ How to use the TextRich control:
 			_dispatcherTimer.Interval=TimeSpan.FromMilliseconds(500);
 			_dispatcherTimer.Tick+=_dispatcherTimer_Tick;
 			SetRedWavyUnderline();
+			ApplyLook();
 		}
 
 		private void TextRich_Unloaded(object sender,RoutedEventArgs e) {
@@ -1360,6 +1361,16 @@ How to use the TextRich control:
 				ex.DoNothing();
 				return;
 			}
+		}
+
+		void IContentLook.ApplyLook(){
+			ApplyLook();
+		}
+
+		///<summary>The new look (UI-4b-3, section 3.6): the text box template of Themes/Generic.xaml (UiLookText) with the StrokeStrong border. Office
+		///content (ContentLook.IsPinned, the eForm fill surface) keeps today's Windows template.</summary>
+		private void ApplyLook(){
+			UiLookText.ApplyTemplateLook(richTextBox,ContentLook.GetIsPinned(this));
 		}
 
 		///<summary></summary>

@@ -59,8 +59,6 @@ OpenPmsDental/UI/ImagesModule/ZoomSlider.cs	Color.FromArgb(225,225,225)	1
 OpenPmsDental/UI/ImagesModule/ZoomSlider.cs	Color.FromArgb(255,255,255)	1
 OpenPmsDental/UI/ImagesModule/ZoomSlider.cs	Color.FromArgb(50,50,130)	2
 OpenPmsDental/UI/LightSignalGrid.cs	Color.FromArgb(R<0?0:R,G<0?0:G,B<0?0:B)	1
-OpenPmsDental/UI/MonthCalendarOD.cs	Color.FromArgb(255,130,0)	1
-OpenPmsDental/UI/MonthCalendarOD.cs	Color.FromArgb(70,120,180)	1
 OpenPmsDentalBusiness/UI/GridOD.cs	Color.FromArgb((colorDarker.R+colorBackground.R)/2,(colorDarker.G+colorBackground.G)/2,(colorDarker.B+colorBackground.B)/2)	1
 OpenPmsDentalBusiness/UI/GridOD.cs	Color.FromArgb((colorSelected.R+colorBackground.R)/2,(colorSelected.G+colorBackground.G)/2,(colorSelected.B+colorBackground.B)/2)	1
 OpenPmsDentalBusiness/UI/GridOD.cs	Color.FromArgb((colorSelection.R+gridRow.Cells[i].ColorBackG.R)/2,(colorSelection.G+gridRow.Cells[i].ColorBackG.G)/2,(colorSelection.B+gridRow.Cells[i].ColorBackG.B)/2)	1
@@ -79,10 +77,6 @@ WpfControlsOD/UI/Controls/CheckBox.xaml	#FF1B1B1B	1
 WpfControlsOD/UI/Controls/CheckBox.xaml	#FF6F6F6F	1
 WpfControlsOD/UI/Controls/CheckBox.xaml.cs	Color.FromRgb(111,111,111)	1
 WpfControlsOD/UI/Controls/CheckBox.xaml.cs	Color.FromRgb(210,239,255)	1
-WpfControlsOD/UI/Controls/DatePicker.xaml	#141414	1
-WpfControlsOD/UI/Controls/DatePicker.xaml	#ADADAD	1
-WpfControlsOD/UI/Controls/DatePicker.xaml.cs	Color.FromArgb(10,0,100,255)	1
-WpfControlsOD/UI/Controls/DatePicker.xaml.cs	Color.FromRgb(126,180,234)	1
 WpfControlsOD/UI/Controls/Grid.xaml	#F0F0F0	1
 WpfControlsOD/UI/Controls/Grid.xaml.cs	Color.FromArgb((byte)(alpha*255),(byte)r2,(byte)g2,(byte)b2)	1
 WpfControlsOD/UI/Controls/Grid.xaml.cs	Color.FromRgb(245,255,248)	1
@@ -115,13 +109,6 @@ WpfControlsOD/UI/Controls/ImagingModule/ZoomSlider.xaml.cs	Color.FromRgb(141,151
 WpfControlsOD/UI/Controls/ImagingModule/ZoomSlider.xaml.cs	Color.FromRgb(180,180,180)	1
 WpfControlsOD/UI/Controls/ImagingModule/ZoomSlider.xaml.cs	Color.FromRgb(225,225,225)	1
 WpfControlsOD/UI/Controls/ImagingModule/ZoomSlider.xaml.cs	Color.FromRgb(50,50,130)	1
-WpfControlsOD/UI/Controls/MonthCalendar.xaml	#141414	4
-WpfControlsOD/UI/Controls/MonthCalendar.xaml	#FF969696	1
-WpfControlsOD/UI/Controls/MonthCalendar.xaml	#FFD0D0D0	1
-WpfControlsOD/UI/Controls/MonthCalendar.xaml	#FFFF8200	1
-WpfControlsOD/UI/Controls/MonthCalendar.xaml.cs	Color.FromRgb(229,239,251)	1
-WpfControlsOD/UI/Controls/MonthCalendar.xaml.cs	Color.FromRgb(255,130,0)	1
-WpfControlsOD/UI/Controls/MonthCalendar.xaml.cs	Color.FromRgb(70,120,180)	1
 WpfControlsOD/UI/Controls/Panel.cs	#00FFFFFF	1
 WpfControlsOD/UI/Controls/Panel.cs	#FFFFFFFF	1
 WpfControlsOD/UI/Controls/PanelAutoScroll.cs	#00FFFFFF	1
@@ -136,7 +123,6 @@ WpfControlsOD/UI/Controls/TestContr.xaml.cs	Color.FromRgb(235,0,0)	1
 WpfControlsOD/UI/Controls/TextBox.xaml	#ABADB3	1
 WpfControlsOD/UI/Controls/TextRich.xaml.cs	Color.FromRgb(235,0,0)	1
 WpfControlsOD/UI/Controls/TextVDate.xaml	#ABADB3	1
-WpfControlsOD/UI/Controls/TextVDate.xaml.cs	#ABADB3	1
 WpfControlsOD/UI/Controls/ToolBar.xaml	#FFEEF5FD	1
 WpfControlsOD/UI/Controls/UserControls/CtrlEFormFill.xaml.cs	Color.FromArgb(15,0,80,210)	1
 WpfControlsOD/UI/Controls/UserControls/CtrlEFormFill.xaml.cs	Color.FromArgb(30,0,100,200)	1

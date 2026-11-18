@@ -16,7 +16,7 @@
 	<Canvas x:Name="canvasMain">
 		<TextBox x:Name="textBox" Width="{Binding ActualWidth, ElementName=canvasMain}" Height="{Binding ActualHeight, ElementName=canvasMain}" VerticalContentAlignment="Center"></TextBox>
 		<Canvas x:Name="canvasError" Width="{Binding ActualWidth, ElementName=canvasMain}" Height="{Binding ActualHeight, ElementName=canvasMain}">
-			<Ellipse Width="11" Height="11" Fill="Red" Canvas.Right="-12.5" Canvas.Top="4" Canvas.ZIndex="1"></Ellipse>
+			<Ellipse x:Name="ellipseError" x:FieldModifier="internal" Width="11" Height="11" Fill="Red" Canvas.Right="-12.5" Canvas.Top="4" Canvas.ZIndex="1"></Ellipse>
 			<Label Padding="0" Canvas.Right="-9" Canvas.Top="1" FontWeight="Bold" FontFamily="Segoe UI" Foreground="White" Canvas.ZIndex="2" VerticalAlignment="Top" HorizontalAlignment="Left" >!</Label>
 		</Canvas>
 	</Canvas>

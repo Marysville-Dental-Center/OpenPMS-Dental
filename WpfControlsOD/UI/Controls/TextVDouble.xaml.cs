@@ -42,7 +42,9 @@ Something.Amt=textVDoubleAmt.Value
 
 */
 	///<summary></summary>
-	public partial class TextVDouble : UserControl{
+	public partial class TextVDouble : UserControl,IContentLook{
+		///<summary>The error mark's fill of today (red), kept for office content.</summary>
+		private Brush _brushErrorToday;
 		private string _error;
 		private HorizontalAlignment _hAlign=HorizontalAlignment.Left;	
 		private bool _isChangingFocusToTextBox;
@@ -60,6 +62,8 @@ Something.Amt=textVDoubleAmt.Value
 			LostFocus+=This_LostFocus;
 			PreviewMouseLeftButtonDown+=This_PreviewMouseLeftButtonDown;
 			canvasError.Visibility=Visibility.Hidden;
+			_brushErrorToday=ellipseError.Fill;
+			ApplyLook();
 		}
 
 		#region Events
@@ -284,6 +288,19 @@ Something.Amt=textVDoubleAmt.Value
 			SetError("");
 		}
 
+		void IContentLook.ApplyLook(){
+			ApplyLook();
+		}
+
+		///<summary>The new look (UI-4b-3, section 3.6): the text box template of Themes/Generic.xaml (UiLookText) with the StrokeStrong border; with a
+		///validation error the Danger border and the error mark in Danger. Office content (ContentLook.IsPinned) keeps today's Windows template and red
+		///mark.</summary>
+		private void ApplyLook(){
+			bool isPinned=ContentLook.GetIsPinned(this);
+			UiLookText.ApplyTemplateLook(textBox,isPinned);
+			ellipseError.Fill=isPinned ? _brushErrorToday : UiLookText.BrushDanger;
+		}
+
 		private void SetError(string error){
 			_error=error;
 			if(string.IsNullOrEmpty(error)) {
@@ -293,6 +310,7 @@ Something.Amt=textVDoubleAmt.Value
 				canvasError.Visibility=Visibility.Visible;
 				canvasError.ToolTip=error;
 			}
+			UiLookText.SetIsError(textBox,!string.IsNullOrEmpty(error));//the Danger border of the new look
 		}
 		#endregion Methods - private
 	}

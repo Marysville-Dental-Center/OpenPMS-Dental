@@ -39,13 +39,8 @@
 			// 
 			// butDrop
 			// 
-			this.butDrop.BackColor = System.Drawing.Color.White;
-			this.butDrop.FlatAppearance.BorderColor = System.Drawing.Color.White;
 			this.butDrop.FlatAppearance.BorderSize = 0;
-			this.butDrop.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Silver;
-			this.butDrop.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Gainsboro;
 			this.butDrop.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.butDrop.Image = global::OpenPmsDental.Properties.Resources.downArrowWinForm;
 			this.butDrop.Location = new System.Drawing.Point(148, 2);
 			this.butDrop.Name = "butDrop";
 			this.butDrop.Size = new System.Drawing.Size(16, 18);

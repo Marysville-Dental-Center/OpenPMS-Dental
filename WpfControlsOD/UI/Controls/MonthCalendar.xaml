@@ -27,21 +27,21 @@
 				<ColumnDefinition Width="25"/>
 			</Grid.ColumnDefinitions>
 			<Canvas Name="canvasPoly1" x:FieldModifier="internal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="-9,0,0,0" Grid.ZIndex="2" >
-				<Polygon Fill="Black" Stroke="	#141414" Points="-2.5,0,2.5,-4,2.5,4"/>
+				<Path x:Name="pathChevron1" x:FieldModifier="internal" Width="12" Height="12" Canvas.Left="-6" Canvas.Top="-6"/>
 			</Canvas>
 			<TextBlock  VerticalAlignment="Center" HorizontalAlignment="Center" TextAlignment="Center" Text="Y" Margin="8,0,0,0" Grid.ZIndex="2"/>
 			<Canvas Name="canvasPoly2" x:FieldModifier="internal" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="-15,0,0,0"  Grid.ZIndex="2">
-				<Polygon Fill="Black" Stroke="	#141414" Points="-2.5,0,2.5,-4,2.5,4"/>
+				<Path x:Name="pathChevron2" x:FieldModifier="internal" Width="12" Height="12" Canvas.Left="-6" Canvas.Top="-6"/>
 			</Canvas>
 			<TextBlock  VerticalAlignment="Center" HorizontalAlignment="Center" TextAlignment="Center" Text="M" Grid.Column="1" Margin="8,0,0,0" Grid.ZIndex="2"/>
 			<TextBlock Name="textMonth" x:FieldModifier="internal" VerticalAlignment="Center" HorizontalAlignment="Center" TextAlignment="Center" Text="June 2022" Width="100" Grid.Column="2" Grid.ZIndex="2"/>
 			<TextBlock  VerticalAlignment="Center" HorizontalAlignment="Center" TextAlignment="Center" Text="M" Grid.Column="3" Margin="-11,0,0,0" Grid.ZIndex="2"/>
 			<Canvas Name="canvasPoly3" x:FieldModifier="internal" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="12,0,0,0"  Grid.ZIndex="2">
-				<Polygon Fill="Black" Stroke="	#141414" Points="2.5,0,-2.5,-4,-2.5,4"/>
+				<Path x:Name="pathChevron3" x:FieldModifier="internal" Width="12" Height="12" Canvas.Left="-6" Canvas.Top="-6"/>
 			</Canvas>
 			<TextBlock  VerticalAlignment="Center" HorizontalAlignment="Center" TextAlignment="Center" Text="Y" Grid.Column="4" Margin="-8,0,0,0" Grid.ZIndex="2"/>
 			<Canvas Name="canvasPoly4" x:FieldModifier="internal" Grid.Column="4" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,0,0,0" Grid.ZIndex="2" >
-				<Polygon Fill="Black" Stroke="	#141414" Points="2.5,0,-2.5,-4,-2.5,4"/>
+				<Path x:Name="pathChevron4" x:FieldModifier="internal" Width="12" Height="12" Canvas.Left="-6" Canvas.Top="-6"/>
 			</Canvas>
 		</Grid>	
 		<Grid Name="gridMain" x:FieldModifier="internal" Grid.Row="1" Background="White">
@@ -63,7 +63,7 @@
 				<RowDefinition Height="*"/>
 				<RowDefinition Height="*"/>
 			</Grid.RowDefinitions>
-			<Border x:Name="borderUnderDays" x:FieldModifier="internal" BorderThickness="0,0,0,1" SnapsToDevicePixels="True" BorderBrush="#FFD0D0D0" Grid.ColumnSpan="7" Grid.ZIndex="2"/>
+			<Border x:Name="borderUnderDays" x:FieldModifier="internal" BorderThickness="0,0,0,1" SnapsToDevicePixels="True" Grid.ColumnSpan="7" Grid.ZIndex="2"/>
 		</Grid>	
 		<Grid Name="gridFooter" x:FieldModifier="internal" Grid.Row="2" Background="White">
 			<Grid.ColumnDefinitions>
@@ -71,9 +71,9 @@
 				<ColumnDefinition Width="Auto"/>
 				<ColumnDefinition Width="*"/>
 			</Grid.ColumnDefinitions>
-			<Border x:Name="borderTodayBottom" x:FieldModifier="internal" BorderThickness="1" SnapsToDevicePixels="True" BorderBrush="#FFFF8200" Width="16" Height="11" HorizontalAlignment="Right" Margin="0,0,2,-1" />
+			<Border x:Name="borderTodayBottom" x:FieldModifier="internal" BorderThickness="1" CornerRadius="4" SnapsToDevicePixels="True" Width="16" Height="11" HorizontalAlignment="Right" Margin="0,0,2,-1" />
 			<TextBlock x:Name="textToday" x:FieldModifier="internal" VerticalAlignment="Center" HorizontalAlignment="Center" TextAlignment="Center" Text="Today: 01/01/2022" Grid.Column="1" Grid.ZIndex="2"/>
 		</Grid>	
-		<Border BorderThickness="1" SnapsToDevicePixels="True" BorderBrush="#FF969696" Grid.RowSpan="3"/>
+		<Border x:Name="borderOutline" x:FieldModifier="internal" BorderThickness="1" SnapsToDevicePixels="True" Grid.RowSpan="3"/>
 	</Grid>
 </UserControl>

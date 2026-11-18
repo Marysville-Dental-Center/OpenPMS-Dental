@@ -26,7 +26,7 @@ namespace WpfControls.UI{
 	Because it's not used much, there may be places where it's not considered properly. This will become evident during testing.
 	*/
 	///<summary></summary>
-	public partial class TextPassword : UserControl{
+	public partial class TextPassword : UserControl,IContentLook{
 		private Color _colorBack=Colors.White;
 		private Color _colorText=Colors.Black;
 		private bool _isChangingFocusToTextBox;
@@ -49,6 +49,7 @@ namespace WpfControls.UI{
 			LostFocus+=This_LostFocus;
 			LostKeyboardFocus+=This_LostKeyboardFocus;
 			PreviewMouseLeftButtonDown+=This_PreviewMouseLeftButtonDown;
+			ApplyLook();
 		}
 
 		#region Events
@@ -268,6 +269,16 @@ namespace WpfControls.UI{
 
 		#region Methods - private
 		///<summary></summary>
+		void IContentLook.ApplyLook(){
+			ApplyLook();
+		}
+
+		///<summary>The new look (UI-4b-3, section 3.6): the password box template of Themes/Generic.xaml (UiLookText) with the StrokeStrong border.
+		///Office content (ContentLook.IsPinned) keeps today's Windows template.</summary>
+		private void ApplyLook(){
+			UiLookText.ApplyTemplateLook(passwordBox,ContentLook.GetIsPinned(this));
+		}
+
 		private void SetColors(){
 			//Nothing to do here.  The textbox that this control wraps already turns gray on is own.
 		}

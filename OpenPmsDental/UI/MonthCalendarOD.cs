@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using CodeBase;
 
 namespace OpenPmsDental.UI{
 	//Jordan is the only one allowed to edit this file.
@@ -176,6 +177,21 @@ namespace OpenPmsDental.UI{
 			Invalidate();
 		}
 
+		protected override void OnEnabledChanged(EventArgs e){
+			base.OnEnabledChanged(e);
+			Invalidate();
+		}
+
+		protected override void OnGotFocus(EventArgs e){
+			base.OnGotFocus(e);
+			Invalidate();//the focus ring on the selected day
+		}
+
+		protected override void OnLostFocus(EventArgs e){
+			base.OnLostFocus(e);
+			Invalidate();
+		}
+
 		protected override void OnSizeChanged(EventArgs e){
 			base.OnSizeChanged(e);
 			CalculateRectangles();
@@ -187,7 +203,10 @@ namespace OpenPmsDental.UI{
 		protected override void OnPaint(PaintEventArgs pe){
 			Graphics g=pe.Graphics;
 			base.OnPaint(pe);
-			g.FillRectangle(Brushes.White,ClientRectangle);
+			//The new look (UI-4b-3, docs/specs/ui-refresh-plan.md section 3.6): drawn from the UiTheme tokens with UiCalendarPaint's shapes. Every
+			//rectangle and text position is as before; only the colours, the corners and the arrows' glyphs changed.
+			float scale=LayoutManager.ScaleMy();
+			g.FillRectangle(UiTheme.GetBrush(EnumUiColor.SurfaceRaised),ClientRectangle);
 			//Calculate cell sizes========================================================================================
 			float widthCell=Width/7f;
 			_heightCell=(Height-LayoutManager.Scale(_heightHeader96)-LayoutManager.Scale(_heightFooter96))/7f;
@@ -222,68 +241,64 @@ namespace OpenPmsDental.UI{
 					break;
 				}
 			}
-			//Horizontal line below weekdays==============================================================================
-			using Pen penFaint=new Pen(ColorOD.Gray(220));
-			g.DrawLine(penFaint,0,_yPos[1]-1,Width,_yPos[1]-1);
-			//Hover effect================================================================================================
-			Rectangle rectangle;//We make these rectangles a bit narrower than the entire cell
-			using SolidBrush brushHover=new SolidBrush(ColorOD.Hover);
-			if(_pointHotHover!=new Point()){
-				rectangle=new Rectangle((int)_xPos[_pointHotHover.X]+LayoutManager.Scale(4),(int)_yPos[_pointHotHover.Y],
-					(int)widthCell-LayoutManager.Scale(8),(int)_heightCell);
-				g.FillRectangle(brushHover,rectangle);
+			//Horizontal line below weekdays: 1 px Gridline==================================================================
+			UiControlPaint.Fill(g,EnumUiColor.Gridline,GetRectangleLineUnderDays(),UiTheme.CORNER_SQUARE,scale);
+			//Hover effect: SubtleHover with 4 px corners=====================================================================
+			if(_pointHotHover!=new Point() && Enabled){
+				UiCalendarPaint.DrawHover(g,GetRectangleDay(_pointHotHover.X,_pointHotHover.Y),scale);
 			}
-			//Date selected===============================================================================================
+			//Date selected: Accent with 4 px corners=========================================================================
 			//if(_monthShowing.Month==_dateSelected.Month){//date is showing. Can't do this.  Could be showing dimmed.
+			Rectangle rectangleSelected=Rectangle.Empty;
 			for(int c=0;c<7;c++){
 				for(int r=0;r<6;r++){
 					if(_arrayDates[c,r]!=_dateSelected){
 						continue;
 					}
-					rectangle=new Rectangle((int)_xPos[c]+LayoutManager.Scale(4),(int)_yPos[r+1],
-						(int)widthCell-LayoutManager.Scale(8),(int)_heightCell);
-					using SolidBrush brushSelected=new SolidBrush(Color.FromArgb(70,120,180));//smokey blue to let the orange pop
-						//70,120,240));Pretty good. Solid pleasant blue.
-					g.FillRectangle(brushSelected,rectangle);
+					rectangleSelected=GetRectangleDay(c,r+1);
+					UiCalendarPaint.DrawSelectedDay(g,rectangleSelected,Enabled,scale);
 				}
 			}
 			//}
-			//Today outline===============================================================================================
-			Color colorToday=Color.FromArgb(255,130,0);
-			using Pen penToday=new Pen(colorToday);
+			//Today: a 1 px Accent ring (today orange)=========================================================================
 			//if(_monthShowing.Month==DateTime.Today.Month){//today is showing. Can't do this. Could be dimmed
 				for(int c=0;c<7;c++){
 					for(int r=0;r<6;r++){
 						if(_arrayDates[c,r]!=DateTime.Today){
 							continue;
 						}
-						rectangle=new Rectangle((int)_xPos[c]+LayoutManager.Scale(4),(int)_yPos[r+1],
-							(int)widthCell-LayoutManager.Scale(8),(int)_heightCell);
-						g.DrawRectangle(penToday,rectangle);
+						UiCalendarPaint.DrawToday(g,GetRectangleDay(c,r+1),isSelected:_arrayDates[c,r]==_dateSelected,scale);
 					}
 				}
 			//}
+			//Focus: the ring on the selected day (an accent fill, section 3.6), with focus and keyboard cues==================
+			if(IsFocusRingShown && Enabled && !rectangleSelected.IsEmpty){
+				UiCalendarPaint.DrawSelectedDayFocus(g,rectangleSelected,scale);
+			}
 			//Hover buttons================================================================================================
-			Point pointMouse=PointToClient(Control.MousePosition);//introducing variable for debugging
-			if(_rectangleMonthLeft.Contains(pointMouse)){
-				g.FillRectangle(brushHover,_rectangleMonthLeft);
+			Point pointMouse=GetPointMouse();
+			if(Enabled){
+				if(_rectangleMonthLeft.Contains(pointMouse)){
+					UiCalendarPaint.DrawHover(g,_rectangleMonthLeft,scale);
+				}
+				if(_rectangleMonthRight.Contains(pointMouse)){
+					UiCalendarPaint.DrawHover(g,_rectangleMonthRight,scale);
+				}
+				if(_rectangleYearLeft.Contains(pointMouse)){
+					UiCalendarPaint.DrawHover(g,_rectangleYearLeft,scale);
+				}
+				if(_rectangleYearRight.Contains(pointMouse)){
+					UiCalendarPaint.DrawHover(g,_rectangleYearRight,scale);
+				}
 			}
-			if(_rectangleMonthRight.Contains(pointMouse)){
-				g.FillRectangle(brushHover,_rectangleMonthRight);
-			}
-			if(_rectangleYearLeft.Contains(pointMouse)){
-				g.FillRectangle(brushHover,_rectangleYearLeft);
-			}
-			if(_rectangleYearRight.Contains(pointMouse)){
-				g.FillRectangle(brushHover,_rectangleYearRight);
-			}
+			EnumUiColor uiColorText=Enabled ? EnumUiColor.Text : EnumUiColor.TextDisabled;
 			//Header======================================================================================================
 			//alignment is centered, left right, but we need to tightly control vertical because we only have a few pixels to work with.
 			using StringFormat stringFormat=new StringFormat(){Alignment=StringAlignment.Center,LineAlignment=StringAlignment.Near };
 			int topCellBuffer=(int)((_heightCell-LayoutManager.ScaleMS(Font.Height))/2f);
 			string strMonth=_dateMonthShowing.ToString("MMMM yyyy");
-			rectangle=new Rectangle(0,topCellBuffer+LayoutManager.Scale(11),Width,LayoutManager.Scale(_heightHeader96));
-			//Hover top text=======================================================================================
+			Rectangle rectangle=new Rectangle(0,topCellBuffer+LayoutManager.Scale(11),Width,LayoutManager.Scale(_heightHeader96));
+			//Hover top text: SubtleHover behind it (was blue text)===========================================================
 			SizeF sizeFStrMonth=g.MeasureString(strMonth,Font);
 			sizeFStrMonth=new SizeF(LayoutManager.ScaleMS(sizeFStrMonth.Width),LayoutManager.ScaleMS(sizeFStrMonth.Height));
 			//Draw the rectangle based on the text size and location with some buffer around the text
@@ -291,14 +306,14 @@ namespace OpenPmsDental.UI{
 				y:(LayoutManager.Scale(33)/2-(int)sizeFStrMonth.Height/2)-LayoutManager.Scale(5),
 				width:(int)sizeFStrMonth.Width+LayoutManager.Scale(20),
 				height:(int)sizeFStrMonth.Height+LayoutManager.Scale(10));
-			if(_rectangleTopText.Contains(pointMouse) && AllowClickingTopText){
-				g.DrawString(strMonth,Font,Brushes.Blue,rectangle,stringFormat);
+			if(_rectangleTopText.Contains(pointMouse) && AllowClickingTopText && Enabled){
+				UiCalendarPaint.DrawHover(g,_rectangleTopText,scale);
 			}
-			else {
-				g.DrawString(strMonth,Font,Brushes.Black,rectangle,stringFormat);
+			if(IsTextShown){
+				g.DrawString(strMonth,Font,UiTheme.GetBrush(uiColorText),rectangle,stringFormat);
 			}
-			//Days of week================================================================================================
-			for(int i=0;i<7;i++){
+			//Days of week: TextSecondary=====================================================================================
+			for(int i=0;i<7 && IsTextShown;i++){
 				rectangle=new Rectangle((int)_xPos[i],(int)_yPos[0]+topCellBuffer,(int)widthCell,(int)_heightCell);
 				string str=null;
 				//First day of week is not Sunday in China, for example.  So:
@@ -308,85 +323,37 @@ namespace OpenPmsDental.UI{
 					intDay-=7;
 				}
 				str=DateTimeFormatInfo.CurrentInfo.GetAbbreviatedDayName((DayOfWeek)intDay);
-				g.DrawString(str,Font,Brushes.Black,rectangle,stringFormat);
+				g.DrawString(str,Font,UiTheme.GetBrush(Enabled ? EnumUiColor.TextSecondary : EnumUiColor.TextDisabled),rectangle,stringFormat);
 			}
-			//Year arrows================================================================================================
-			//Left
-			g.SmoothingMode=SmoothingMode.HighQuality;
-			PointF[] points=new PointF[3];
-			points[0]=new PointF(-3,0);//left, relative to center
-			points[1]=new PointF(3f,-5f);//top
-			points[2]=new PointF(3f,5f);//bottom
-			GraphicsState graphicsState=g.Save();
-			g.TranslateTransform(LayoutManager.ScaleF(11),LayoutManager.ScaleF(17));//center
-			g.TranslateTransform(LayoutManager.ScaleF(-5),0);//move a bit to the left to make room for M
-			g.ScaleTransform(LayoutManager.ScaleF(1),LayoutManager.ScaleF(1));
-			g.FillPolygon(Brushes.Black,points);
-			g.ScaleTransform(1f/LayoutManager.ScaleF(1),1f/LayoutManager.ScaleF(1));
-			g.TranslateTransform(LayoutManager.ScaleF(4),LayoutManager.ScaleF(-6));//Move to the right and up for Y
-			g.DrawString("Y",Font,Brushes.Black,0,0);
-			g.Restore(graphicsState);
-			//Right
-			graphicsState=g.Save();
-			g.TranslateTransform(Width-LayoutManager.ScaleF(11),LayoutManager.ScaleF(17));
-			g.TranslateTransform(LayoutManager.ScaleF(4),0);//move a bit to the right to make room for M
-			g.ScaleTransform(LayoutManager.ScaleF(1),LayoutManager.ScaleF(1));
-			g.RotateTransform(180);
-			g.FillPolygon(Brushes.Black,points);
-			g.RotateTransform(-180);
-			g.ScaleTransform(1f/LayoutManager.ScaleF(1),1f/LayoutManager.ScaleF(1));
-			g.TranslateTransform(LayoutManager.ScaleF(-15),LayoutManager.ScaleF(-6));//Move to the left and up for Y
-			g.DrawString("Y",Font,Brushes.Black,0,0);
-			g.Restore(graphicsState);
-			//Month arrows================================================================================================
-			//Left
-			graphicsState=g.Save();
-			g.TranslateTransform(LayoutManager.ScaleF(26),0);//to UL of left month rect
-			g.TranslateTransform(LayoutManager.ScaleF(11),LayoutManager.ScaleF(17));//center
-			g.TranslateTransform(LayoutManager.ScaleF(-5),0);//move a bit to the left to make room for M
-			g.ScaleTransform(LayoutManager.ScaleF(1),LayoutManager.ScaleF(1));
-			g.FillPolygon(Brushes.Black,points);
-			g.ScaleTransform(1f/LayoutManager.ScaleF(1),1f/LayoutManager.ScaleF(1));
-			g.TranslateTransform(LayoutManager.ScaleF(5),LayoutManager.ScaleF(-6));//Move to the right and up for M
-			g.DrawString("M",Font,Brushes.Black,0,0);
-			g.Restore(graphicsState);
-			//Right
-			graphicsState=g.Save();
-			g.TranslateTransform(Width-LayoutManager.ScaleF(52),0);//to UL of right month rect
-			g.TranslateTransform(LayoutManager.ScaleF(11),LayoutManager.ScaleF(17));//center
-			g.TranslateTransform(LayoutManager.ScaleF(8),0);//move a bit to the right to make room for M
-			g.ScaleTransform(LayoutManager.ScaleF(1),LayoutManager.ScaleF(1));
-			g.RotateTransform(180);
-			g.FillPolygon(Brushes.Black,points);
-			g.RotateTransform(-180);
-			g.ScaleTransform(1f/LayoutManager.ScaleF(1),1f/LayoutManager.ScaleF(1));
-			g.TranslateTransform(LayoutManager.ScaleF(-17),LayoutManager.ScaleF(-6));//Move to the left and up for M
-			g.DrawString("M",Font,Brushes.Black,0,0);
-			g.Restore(graphicsState);
-			//Dates=======================================================================================================
-			using SolidBrush brushDim=new SolidBrush(ColorOD.Gray(170));
-			for(int c=0;c<7;c++){
+			//Year and month arrows: the Fluent chevrons where the triangles were, the letters Y and M beside them as before===========
+			UiCalendarPaint.DrawArrow(g,GetRectangleArrow(EnumCalendarArrow.YearBack),isForward:false,uiColorText);
+			UiCalendarPaint.DrawArrow(g,GetRectangleArrow(EnumCalendarArrow.MonthBack),isForward:false,uiColorText);
+			UiCalendarPaint.DrawArrow(g,GetRectangleArrow(EnumCalendarArrow.MonthForward),isForward:true,uiColorText);
+			UiCalendarPaint.DrawArrow(g,GetRectangleArrow(EnumCalendarArrow.YearForward),isForward:true,uiColorText);
+			if(IsTextShown){
+				SolidBrush brushText=UiTheme.GetBrush(uiColorText);
+				g.DrawString("Y",Font,brushText,LayoutManager.ScaleF(10),LayoutManager.ScaleF(11));
+				g.DrawString("M",Font,brushText,LayoutManager.ScaleF(37),LayoutManager.ScaleF(11));
+				g.DrawString("M",Font,brushText,Width-LayoutManager.ScaleF(50),LayoutManager.ScaleF(11));
+				g.DrawString("Y",Font,brushText,Width-LayoutManager.ScaleF(22),LayoutManager.ScaleF(11));
+			}
+			//Dates: Text, TextOnAccent on the selected day, TextDisabled for the months around================================
+			for(int c=0;c<7 && IsTextShown;c++){
 				for(int r=0;r<6;r++){
 					RectangleF rectangleF=new RectangleF(_xPos[c],(int)_yPos[r+1]+topCellBuffer,
 						widthCell,_heightCell);//_heightCell is sort of ignored because we are controling y
-					if(_arrayDates[c,r]==_dateSelected){
-						g.DrawString(_arrayDates[c,r].ToString("%d"),Font,Brushes.White,rectangleF,stringFormat);
-					}
-					else if(_arrayDates[c,r].Month==_dateMonthShowing.Month){
-						g.DrawString(_arrayDates[c,r].ToString("%d"),Font,Brushes.Black,rectangleF,stringFormat);
-					}
-					else{
-						g.DrawString(_arrayDates[c,r].ToString("%d"),Font,brushDim,rectangleF,stringFormat);
-					}
+					EnumUiColor uiColorDay=UiCalendarPaint.GetDayText(isSelected:_arrayDates[c,r]==_dateSelected,
+						isMonthShown:_arrayDates[c,r].Month==_dateMonthShowing.Month,Enabled);
+					g.DrawString(_arrayDates[c,r].ToString("%d"),Font,UiTheme.GetBrush(uiColorDay),rectangleF,stringFormat);
 				}
 			}
 			//Hover footer================================================================================================
 			string s=Lan.g("Calendar","Today:")+" "+DateTime.Today.ToShortDateString();
 			int widthBoxAndText=(int)widthCell-LayoutManager.Scale(15)+(int)LayoutManager.ScaleMS(g.MeasureString(s,Font).Width);
-			if(_rectangleTodayHover.Contains(pointMouse)){
-				g.FillRectangle(brushHover,_rectangleTodayHover);
+			if(_rectangleTodayHover.Contains(pointMouse) && Enabled){
+				UiCalendarPaint.DrawHover(g,_rectangleTodayHover,scale);
 			}
-			//Footer======================================================================================================
+			//Footer: the today mark as the today ring=====================================================================
 			int x=Width/2-widthBoxAndText/2;
 			int heightFooter=LayoutManager.Scale(_heightFooter96);
 			rectangle=new Rectangle(x,
@@ -394,15 +361,78 @@ namespace OpenPmsDental.UI{
 				width:(int)widthCell-LayoutManager.Scale(15),
 				height:heightFooter-LayoutManager.Scale(11));
 				//(int)_heightCell);
-			g.DrawRectangle(penToday,rectangle);
-			x+=(int)widthCell-LayoutManager.Scale(13);			
-			g.DrawString(s,Font,Brushes.Black,x,Height-heightFooter+LayoutManager.Scale(2));
-			//Lines=======================================================================================================
+			UiCalendarPaint.DrawToday(g,rectangle,isSelected:false,scale);
+			x+=(int)widthCell-LayoutManager.Scale(13);
+			if(IsTextShown){
+				g.DrawString(s,Font,UiTheme.GetBrush(uiColorText),x,Height-heightFooter+LayoutManager.Scale(2));
+			}
+			//Lines: the outline, 1 px Stroke (was Gray 150)=================================================================
 			//g.DrawLine(penFaint,0,Height-heightFooter,Width,Height-heightFooter);
-			using Pen penOutline=new Pen(ColorOD.Gray(150)); //ColorOD.Outline is too dark for this control
-			g.DrawRectangle(penOutline,0,0,Width-1,Height-1);
+			UiControlPaint.Outline(g,EnumUiColor.Stroke,ClientRectangle,UiTheme.GetLineWidth(scale),UiTheme.CORNER_SQUARE,scale);
 		}
 		#endregion Methods OnPaint
+
+		#region Methods - Look
+		///<summary>The four arrows of the header, back and forward by a year or a month.</summary>
+		protected enum EnumCalendarArrow{
+			YearBack,
+			MonthBack,
+			MonthForward,
+			YearForward,
+		}
+
+		///<summary>Whether the focus ring is drawn on the selected day: with focus and keyboard cues (section 3.6). Virtual for the state tests.</summary>
+		protected virtual bool IsFocusRingShown{
+			get{
+				return Focused && ShowFocusCues;
+			}
+		}
+
+		///<summary>Whether the texts are drawn. Always true; the state tests draw the shapes alone to compare them with the design sheet.</summary>
+		protected virtual bool IsTextShown{
+			get{
+				return true;
+			}
+		}
+
+		///<summary>The mouse position in client coordinates, for the hover of the header's buttons. Virtual for the state tests.</summary>
+		protected virtual Point GetPointMouse(){
+			return PointToClient(Control.MousePosition);
+		}
+
+		///<summary>The day's rectangle in a column and a row of the cell grid (row 0 is the weekdays, so the dates are rows 1 to 6): the cell a little
+		///narrower, as the hover, the selected day and today were always drawn. Valid after the first paint.</summary>
+		protected Rectangle GetRectangleDay(int column,int rowIndex){
+			float widthCell=Width/7f;
+			return new Rectangle((int)_xPos[column]+LayoutManager.Scale(4),(int)_yPos[rowIndex],(int)widthCell-LayoutManager.Scale(8),(int)_heightCell);
+		}
+
+		///<summary>The 1 px Gridline under the weekdays. Valid after the first paint.</summary>
+		protected Rectangle GetRectangleLineUnderDays(){
+			return new Rectangle(0,(int)(_yPos[1]-1),Width,UiTheme.GetLineWidth(LayoutManager.ScaleMy()));
+		}
+
+		///<summary>The chevron's square of an arrow, centred where the triangle was drawn before.</summary>
+		protected Rectangle GetRectangleArrow(EnumCalendarArrow calendarArrow){
+			float scale=LayoutManager.ScaleMy();
+			PointF pointCentre;
+			switch(calendarArrow){
+				case EnumCalendarArrow.YearBack:
+					pointCentre=new PointF(LayoutManager.ScaleF(6),LayoutManager.ScaleF(17));
+					break;
+				case EnumCalendarArrow.MonthBack:
+					pointCentre=new PointF(LayoutManager.ScaleF(32),LayoutManager.ScaleF(17));
+					break;
+				case EnumCalendarArrow.MonthForward:
+					pointCentre=new PointF(Width-LayoutManager.ScaleF(33),LayoutManager.ScaleF(17));
+					break;
+				default:
+					pointCentre=new PointF(Width-LayoutManager.ScaleF(7),LayoutManager.ScaleF(17));
+					break;
+			}
+			return UiCalendarPaint.GetGlyphRectangle(pointCentre,scale);
+		}
+		#endregion Methods - Look
 
 		#region Methods - Public
 		///<summary>Use this in place of MonthCalendar.SelectionStart.</summary>
