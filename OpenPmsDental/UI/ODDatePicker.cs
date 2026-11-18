@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
+using CodeBase;
 using OpenPmsDentalBusiness;
 
 namespace OpenPmsDental.UI {
@@ -32,6 +33,7 @@ namespace OpenPmsDental.UI {
 			set {
 				_isReadOnly=value;
 				textDate.ReadOnly=_isReadOnly;
+				butDrop.Invalidate();//the glyph shows that the calendar does not open
 			}
 		}
 
@@ -115,6 +117,14 @@ namespace OpenPmsDental.UI {
 		public ODDatePicker() {
 			InitializeComponent();
 			Font=LayoutManagerForms.FontInitial;
+			//The new look (UI-4b-3, docs/specs/ui-refresh-plan.md section 3.6): the drop-down button inside the date box is flat SurfaceRaised,
+			//SubtleHover under the mouse and SubtlePressed while pressed, and draws the Fluent calendar glyph (butDrop_Paint) in place of the arrow
+			//picture. The date box is a stock text box and keeps the Windows look.
+			butDrop.BackColor=UiTheme.GetColor(EnumUiColor.SurfaceRaised);
+			butDrop.FlatAppearance.BorderColor=UiTheme.GetColor(EnumUiColor.SurfaceRaised);
+			butDrop.FlatAppearance.MouseOverBackColor=UiTheme.GetColor(EnumUiColor.SubtleHover);
+			butDrop.FlatAppearance.MouseDownBackColor=UiTheme.GetColor(EnumUiColor.SubtlePressed);
+			butDrop.Paint+=butDrop_Paint;
 			SetDateTime(DefaultDateTime);
 			base.Leave+=new System.EventHandler(this.ODDatePicker_Leave);
 		}
@@ -149,6 +159,19 @@ namespace OpenPmsDental.UI {
 			else {
 				ToggleCalendar();
 			}
+		}
+
+		///<summary>The Fluent calendar glyph (section 3.6: date pickers as combo boxes with a calendar glyph) in Text, TextDisabled when the picker is
+		///disabled or read only (the calendar does not open), over the button's flat background.</summary>
+		private void butDrop_Paint(object sender,PaintEventArgs e) {
+			EnumUiColor uiColor=butDrop.Enabled && !_isReadOnly ? EnumUiColor.Text : EnumUiColor.TextDisabled;
+			UiCalendarPaint.DrawCalendarGlyph(e.Graphics,GetRectangleGlyph(butDrop.ClientRectangle,LayoutManager.ScaleMy()),uiColor);
+		}
+
+		///<summary>The calendar glyph's square in the drop-down button: 12 px at the scale, centred.</summary>
+		public static Rectangle GetRectangleGlyph(Rectangle rectangleButton,float scale) {
+			int size=UiTheme.ScaleI(UiCalendarPaint.SIZE_GLYPH,scale);
+			return new Rectangle(rectangleButton.X+(rectangleButton.Width-size)/2,rectangleButton.Y+(rectangleButton.Height-size)/2,size,size);
 		}
 
 		private void calendar_DateChanged(object sender,EventArgs e) {

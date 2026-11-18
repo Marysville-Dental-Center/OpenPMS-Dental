@@ -64,7 +64,9 @@ Validating/Validated events are not supported.
 	But you can use the LostFocus event instead.
 	*/
 	///<summary></summary>
-	public partial class TextBox : UserControl{
+	public partial class TextBox : UserControl,IContentLook{
+		///<summary>The underline's brush of today (IsUnderline), kept for office content.</summary>
+		private Brush _brushUnderlineToday;
 		private Color _colorBack=Colors.White;
 		private Color _colorText=Colors.Black;
 		private bool _isChangingFocusToTextBox;
@@ -91,6 +93,8 @@ Validating/Validated events are not supported.
 			Unloaded+=TextBox_Unloaded;
 			border1.Visibility=Visibility.Collapsed;
 			border2.Visibility=Visibility.Collapsed;
+			_brushUnderlineToday=border2.BorderBrush;
+			ApplyLook();
 		}
 
 		#region Events
@@ -401,6 +405,19 @@ Validating/Validated events are not supported.
 		#endregion Methods - private event handlers
 
 		#region Methods - private
+		void IContentLook.ApplyLook(){
+			ApplyLook();
+		}
+
+		///<summary>The new look (UI-4b-3, section 3.6): the text box template of Themes/Generic.xaml (UiLookText) with the StrokeStrong border, and the
+		///underline (IsUnderline) in StrokeStrong. Office content (ContentLook.IsPinned, the eForm fill surface) keeps today's Windows template and grey
+		///underline.</summary>
+		private void ApplyLook(){
+			bool isPinned=ContentLook.GetIsPinned(this);
+			UiLookText.ApplyTemplateLook(textBox,isPinned);
+			border2.BorderBrush=isPinned ? _brushUnderlineToday : UiLookText.BrushStrokeStrong;
+		}
+
 		///<summary></summary>
 		private void SetColors(){
 			//Nothing to do here.  The textbox that this control wraps already turns gray on is own.

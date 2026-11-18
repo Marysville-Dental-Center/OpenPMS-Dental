@@ -41,6 +41,7 @@ Jordan is the only one allowed to edit this file.
 		#region Constructor
 		public WindowMonthCalendar() {
 			InitializeComponent();
+			Background=UiLook.Brush(CodeBase.EnumUiColor.SurfaceRaised);//the new look (UI-4b-3): behind the calendar, as its own surface
 			SetZoom();
 			Closing+=WindowComboPicker_Closing;
 			Loaded+=WindowComboPicker_Loaded;

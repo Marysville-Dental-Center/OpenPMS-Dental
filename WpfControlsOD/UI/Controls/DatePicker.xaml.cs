@@ -44,9 +44,9 @@ In the popup, there are buttons at the top for M/Y right/left.
 		#region Fields - Private
 		private string _error;
 		private bool _isExpanded;
+		///<summary>Set only by the state tests (a control off screen cannot take keyboard focus): draws the focus line as with keyboard focus.</summary>
+		private bool _isFocusForced;
 		private bool _isHover;
-		private SolidColorBrush _solidColorBrushHoverBackground=new SolidColorBrush(Color.FromArgb(10,0,100,255));//20% blue wash
-		private SolidColorBrush _solidColorBrushHoverBorder=new SolidColorBrush(Color.FromRgb(126,180,234));//blue
 		private WindowMonthCalendar _windowMonthCalendar;
 		#endregion Fields - Private
 
@@ -68,6 +68,14 @@ In the popup, there are buttons at the top for M/Y right/left.
 			textBox.TextChanged+=TextBox_TextChanged;
 			textBox.Text="";//clear out the design time text
 			canvasError.Visibility=Visibility.Hidden;
+			//The new look (UI-4b-3): the text box inside has no border colour of its own (the picker draws the box), the calendar glyph, the error mark
+			//in Danger.
+			textBox.SetResourceReference(TemplateProperty,UiLookText.KeyTemplateTextBoxInner);
+			pathCalendar.Data=UiLookText.GetGeometryCalendar(12);
+			ellipseError.Fill=UiLookText.BrushDanger;
+			IsEnabledChanged+=(sender,e) => SetColors();
+			IsKeyboardFocusWithinChanged+=(sender,e) => SetColors();
+			SetColors();
 		}
 		#endregion Constructor
 
@@ -329,15 +337,25 @@ In the popup, there are buttons at the top for M/Y right/left.
 			SetError("");
 		}
 
+		///<summary>The new look (UI-4b-3, section 3.6), as the combo box: SurfaceRaised with 4 px corners, a 1 px StrokeStrong outline, StrokeStrongHover
+		///on hover (today's blue wash is gone), Stroke when disabled, Danger with a validation error; the calendar glyph in Text (TextDisabled when
+		///disabled); the 2 px Accent line inside the bottom edge while the text box has keyboard focus (as the text boxes).</summary>
 		private void SetColors(){
-			if(_isHover){
-				gridMain.Background=_solidColorBrushHoverBackground;
-				//border.BorderBrush=_solidColorBrushHoverBorder;
+			borderBack.Background=UiLook.Brush(CodeBase.EnumUiColor.SurfaceRaised);
+			CodeBase.EnumUiColor uiColorBorder=CodeBase.EnumUiColor.StrokeStrong;
+			if(!IsEnabled){
+				uiColorBorder=CodeBase.EnumUiColor.Stroke;
 			}
-			else{
-				gridMain.Background=Brushes.Transparent;
-				//border.BorderBrush=Brushes.DarkGray;
+			else if(!string.IsNullOrEmpty(_error)){
+				uiColorBorder=CodeBase.EnumUiColor.Danger;
 			}
+			else if(_isHover){
+				uiColorBorder=CodeBase.EnumUiColor.StrokeStrongHover;
+			}
+			border.BorderBrush=UiLook.Brush(uiColorBorder);
+			pathCalendar.Fill=UiLook.Brush(IsEnabled ? CodeBase.EnumUiColor.Text : CodeBase.EnumUiColor.TextDisabled);
+			borderFocus.Background=UiLook.Brush(CodeBase.EnumUiColor.Accent);
+			borderFocus.Visibility=IsEnabled && (IsKeyboardFocusWithin || _isFocusForced) ? Visibility.Visible : Visibility.Collapsed;
 		}
 
 		private void SetError(string error){
@@ -349,6 +367,7 @@ In the popup, there are buttons at the top for M/Y right/left.
 				canvasError.Visibility=Visibility.Visible;
 				canvasError.ToolTip=error;
 			}
+			SetColors();//the Danger outline
 		}
 		#endregion Methods - private
 	

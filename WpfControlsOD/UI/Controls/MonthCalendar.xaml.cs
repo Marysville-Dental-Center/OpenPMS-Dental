@@ -40,6 +40,7 @@ But to look good, don't go below 142 x 115.
 		private Border borderDateSelected;
 		private Border borderHover;
 		private Border borderToday;
+		private Border _borderTodayInner;
 		///<summary>Because we can go to different months without changing the selected date. We always use the first day of the month. Can't be changed externally.</summary>
 		private DateTime _dateMonthShowing;
 		///<summary></summary>
@@ -58,26 +59,37 @@ But to look good, don't go below 142 x 115.
 			_dateMonthShowing=new DateTime(_dateSelected.Year,_dateSelected.Month,1);
 			borderDateSelected=new Border();
 			borderDateSelected.Margin=new Thickness(2,0,2,0);
-			borderDateSelected.Background=new SolidColorBrush(Color.FromRgb(70,120,180));//smokey blue to let the orange pop. (70,120,240));Pretty good. Solid pleasant blue.
+			//The new look (UI-4b-3, section 3.6): the selected day Accent with 4 px corners (was a smokey blue), today a 1 px Accent ring (was orange),
+			//hover SubtleHover; colours in SetLook.
+			borderDateSelected.CornerRadius=new CornerRadius(UiTheme.CORNER_CONTROL);
+			borderDateSelected.SnapsToDevicePixels=true;//section 3.3: shapes on whole device pixels, as the WinForms calendar draws them
 			System.Windows.Controls.Grid.SetZIndex(borderDateSelected,1);
 			borderDateSelected.Visibility=Visibility.Collapsed;
 			gridMain.Children.Add(borderDateSelected);
 			borderToday=new Border();
-			//borderToday.SnapsToDevicePixels=true;//this doesn't look good
+			//borderToday.SnapsToDevicePixels=true;//this doesn't look good (the orange ring of before; the new 1 px Accent ring is snapped below, UI-4b-3)
 			borderToday.Margin=new Thickness(2,0,2,0);
 			borderToday.BorderThickness=new Thickness(1);
-			borderToday.BorderBrush=new SolidColorBrush(Color.FromRgb(255,130,0));
+			borderToday.CornerRadius=new CornerRadius(UiTheme.CORNER_CONTROL);
+			borderToday.SnapsToDevicePixels=true;
+			//When today is also the selected day, a 1 px white ring inside the Accent ring, so the mark shows on the fill.
+			_borderTodayInner=new Border();
+			_borderTodayInner.BorderThickness=new Thickness(1);
+			_borderTodayInner.CornerRadius=new CornerRadius(UiTheme.CORNER_CONTROL-1);
 			System.Windows.Controls.Grid.SetZIndex(borderToday,2);
 			borderToday.Visibility=Visibility.Collapsed;
 			gridMain.Children.Add(borderToday);
 			borderHover=new Border();
-			borderHover.Background=new SolidColorBrush(Color.FromRgb(229,239,251));
+			borderHover.CornerRadius=new CornerRadius(UiTheme.CORNER_CONTROL);
+			borderHover.SnapsToDevicePixels=true;
 			borderHover.Visibility=Visibility.Collapsed;
 			//gridMain.Children.Add(borderDateSelected);
 			MouseMove+=MonthCalendar_MouseMove;
 			MouseLeave+=MonthCalendar_MouseLeave;
 			MouseLeftButtonDown+=MonthCalendar_MouseLeftButtonDown;
 			SizeChanged+=MonthCalendar_SizeChanged;
+			IsEnabledChanged+=(sender,e) => DrawAll();
+			UiLook.SetFocusVisualStyle(this,onAccent:false);
 			DrawAll();
 		}
 		#endregion Constructor
@@ -188,6 +200,7 @@ But to look good, don't go below 142 x 115.
 				}
 			}
 			EndOfLoops2:
+			SetLook();
 			//Header======================================================================================================
 			//SetHeader();
 			if(_enumWidthRange==EnumWidthRange.Wide || _enumWidthRange==EnumWidthRange.ExtraWide){
@@ -228,6 +241,7 @@ But to look good, don't go below 142 x 115.
 				textBlock.HorizontalAlignment=HorizontalAlignment.Center;
 				textBlock.VerticalAlignment=VerticalAlignment.Center;
 				textBlock.TextAlignment=TextAlignment.Center;
+				textBlock.Foreground=UiLook.Brush(IsEnabled ? EnumUiColor.TextSecondary : EnumUiColor.TextDisabled);
 				System.Windows.Controls.Grid.SetZIndex(textBlock,2);
 				System.Windows.Controls.Grid.SetColumn(textBlock,i);
 				gridMain.Children.Add(textBlock);
@@ -241,15 +255,9 @@ But to look good, don't go below 142 x 115.
 					textBlock.HorizontalAlignment=HorizontalAlignment.Center;
 					textBlock.VerticalAlignment=VerticalAlignment.Center;
 					textBlock.TextAlignment=TextAlignment.Center;
-					if(_dateTimeArray[c,r]==_dateSelected) {
-						textBlock.Foreground=Brushes.White;
-					}
-					else if(_dateTimeArray[c,r].Month==_dateMonthShowing.Month) {
-						textBlock.Foreground=Brushes.Black;
-					}
-					else {
-						textBlock.Foreground=new SolidColorBrush(OpenPmsDental.ColorOD.Gray_Wpf(170));
-					}
+					//Text, TextOnAccent on the selected day, TextDisabled for the days of the months around (was grey 170) and in a disabled calendar.
+					textBlock.Foreground=UiLook.Brush(UiCalendarPaint.GetDayText(isSelected:_dateTimeArray[c,r]==_dateSelected,
+						isMonthShown:_dateTimeArray[c,r].Month==_dateMonthShowing.Month,IsEnabled));
 					System.Windows.Controls.Grid.SetZIndex(textBlock,2);
 					System.Windows.Controls.Grid.SetRow(textBlock,r+1);
 					System.Windows.Controls.Grid.SetColumn(textBlock,c);
@@ -259,6 +267,34 @@ But to look good, don't go below 142 x 115.
 			}
 			//Footer======================================================================================================
 			textToday.Text=OpenPmsDental.Lang.g("Calendar","Today:")+" "+DateTime.Today.ToShortDateString();
+		}
+
+		///<summary>The new look's colours (UI-4b-3, section 3.6), as the design sheet's month: SurfaceRaised with a 1 px Stroke outline (was grey 150), a
+		///Gridline under the weekdays, the Fluent chevrons and the texts in Text, the selected day Accent, today and the footer's today mark a 1 px Accent
+		///ring, hover SubtleHover; disabled: texts and chevrons TextDisabled, the selected day TextDisabled.</summary>
+		private void SetLook(){
+			SolidColorBrush brushSurface=UiLook.Brush(EnumUiColor.SurfaceRaised);
+			gridHeader.Background=brushSurface;
+			gridMain.Background=brushSurface;
+			gridFooter.Background=brushSurface;
+			borderOutline.BorderBrush=UiLook.Brush(EnumUiColor.Stroke);
+			borderUnderDays.BorderBrush=UiLook.Brush(EnumUiColor.Gridline);
+			borderTodayBottom.BorderBrush=UiLook.Brush(EnumUiColor.Accent);
+			borderToday.BorderBrush=UiLook.Brush(EnumUiColor.Accent);
+			_borderTodayInner.BorderBrush=UiLook.Brush(EnumUiColor.TextOnAccent);
+			borderToday.Child=_dateSelected==DateTime.Today ? _borderTodayInner : null;
+			borderDateSelected.Background=UiLook.Brush(IsEnabled ? EnumUiColor.Accent : EnumUiColor.TextDisabled);
+			borderHover.Background=UiLook.Brush(EnumUiColor.SubtleHover);
+			SolidColorBrush brushText=UiLook.Brush(IsEnabled ? EnumUiColor.Text : EnumUiColor.TextDisabled);
+			Foreground=brushText;//the header's month, Y and M, and the footer's text
+			pathChevron1.Data=UiLookText.GeometryChevronLeft;
+			pathChevron2.Data=UiLookText.GeometryChevronLeft;
+			pathChevron3.Data=UiLookText.GeometryChevronRight;
+			pathChevron4.Data=UiLookText.GeometryChevronRight;
+			pathChevron1.Fill=brushText;
+			pathChevron2.Fill=brushText;
+			pathChevron3.Fill=brushText;
+			pathChevron4.Fill=brushText;
 		}
 
 		///<summary>Recursive. Each pass finds the immediate parent, and it keeps going until it reaches a grid.</summary>

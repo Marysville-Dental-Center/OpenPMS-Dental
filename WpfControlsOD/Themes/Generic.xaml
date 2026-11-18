@@ -345,4 +345,82 @@
 			</Setter.Value>
 		</Setter>
 	</Style>
+	<!--UI-4b-3 (docs/port-notes/UI-4b.md), the text boxes of section 3.6, taken by WpfControls.UI.TextBox, TextRich, TextVDate, TextVDouble, TextVInt,
+	TextVTime (TextBoxBase) and TextPassword (PasswordBox) through UiLookText.ApplyTemplateLook. The Windows template's layout (a border of the box's
+	BorderThickness around the PART_ContentHost scroll viewer), so the text stays where it was: SurfaceRaised or the box's own background, the 1 px
+	border (StrokeStrong, set by ApplyTemplateLook), StrokeStrongHover on hover, Stroke when read only or disabled, Danger with a validation error
+	(UiLookText.IsError); the text in Text (TextDisabled when disabled) unless the window set a colour; with keyboard focus a 2 px Accent line inside
+	the bottom edge. Office content (ContentLook.IsPinned) keeps the Windows template.-->
+	<ControlTemplate x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type local:UiLookText}, ResourceId=TemplateTextBox}" TargetType="{x:Type TextBoxBase}">
+		<Grid>
+			<Border x:Name="border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}"
+				CornerRadius="{x:Static local:UiLookText.CornerRadiusText}" SnapsToDevicePixels="True">
+				<ScrollViewer x:Name="PART_ContentHost" Focusable="False" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden"/>
+			</Border>
+			<Border x:Name="focusLine" Background="{x:Static local:UiLookText.BrushAccent}" Height="{x:Static local:UiLookText.HeightFocusLine}" VerticalAlignment="Bottom"
+				Margin="{x:Static local:UiLookText.MarginFocusLine}" SnapsToDevicePixels="True" IsHitTestVisible="False" Visibility="Collapsed"/>
+		</Grid>
+		<ControlTemplate.Triggers>
+			<Trigger Property="IsEnabled" Value="True">
+				<Setter Property="Foreground" Value="{x:Static local:UiLookText.BrushText}"/>
+			</Trigger>
+			<Trigger Property="IsMouseOver" Value="True">
+				<Setter TargetName="border" Property="BorderBrush" Value="{x:Static local:UiLookText.BrushStrokeStrongHover}"/>
+			</Trigger>
+			<Trigger Property="IsReadOnly" Value="True">
+				<Setter TargetName="border" Property="BorderBrush" Value="{x:Static local:UiLookText.BrushStroke}"/>
+			</Trigger>
+			<Trigger Property="local:UiLookText.IsError" Value="True">
+				<Setter TargetName="border" Property="BorderBrush" Value="{x:Static local:UiLookText.BrushDanger}"/>
+			</Trigger>
+			<Trigger Property="IsKeyboardFocused" Value="True">
+				<Setter TargetName="focusLine" Property="Visibility" Value="Visible"/>
+			</Trigger>
+			<Trigger Property="IsEnabled" Value="False">
+				<Setter TargetName="border" Property="BorderBrush" Value="{x:Static local:UiLookText.BrushStroke}"/>
+				<Setter Property="Foreground" Value="{x:Static local:UiLookText.BrushTextDisabled}"/>
+			</Trigger>
+		</ControlTemplate.Triggers>
+	</ControlTemplate>
+	<!--The password box: the same look (a PasswordBox has no read-only state).-->
+	<ControlTemplate x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type local:UiLookText}, ResourceId=TemplatePasswordBox}" TargetType="{x:Type PasswordBox}">
+		<Grid>
+			<Border x:Name="border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}"
+				CornerRadius="{x:Static local:UiLookText.CornerRadiusText}" SnapsToDevicePixels="True">
+				<ScrollViewer x:Name="PART_ContentHost" Focusable="False" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden"/>
+			</Border>
+			<Border x:Name="focusLine" Background="{x:Static local:UiLookText.BrushAccent}" Height="{x:Static local:UiLookText.HeightFocusLine}" VerticalAlignment="Bottom"
+				Margin="{x:Static local:UiLookText.MarginFocusLine}" SnapsToDevicePixels="True" IsHitTestVisible="False" Visibility="Collapsed"/>
+		</Grid>
+		<ControlTemplate.Triggers>
+			<Trigger Property="IsEnabled" Value="True">
+				<Setter Property="Foreground" Value="{x:Static local:UiLookText.BrushText}"/>
+			</Trigger>
+			<Trigger Property="IsMouseOver" Value="True">
+				<Setter TargetName="border" Property="BorderBrush" Value="{x:Static local:UiLookText.BrushStrokeStrongHover}"/>
+			</Trigger>
+			<Trigger Property="IsKeyboardFocused" Value="True">
+				<Setter TargetName="focusLine" Property="Visibility" Value="Visible"/>
+			</Trigger>
+			<Trigger Property="IsEnabled" Value="False">
+				<Setter TargetName="border" Property="BorderBrush" Value="{x:Static local:UiLookText.BrushStroke}"/>
+				<Setter Property="Foreground" Value="{x:Static local:UiLookText.BrushTextDisabled}"/>
+			</Trigger>
+		</ControlTemplate.Triggers>
+	</ControlTemplate>
+	<!--The text box inside WpfControls.UI.DatePicker: the picker draws the box (as a combo box), so this one has no border colour of its own; the
+	Windows layout, so the text stays where it was.-->
+	<ControlTemplate x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type local:UiLookText}, ResourceId=TemplateTextBoxInner}" TargetType="{x:Type TextBoxBase}">
+		<Border x:Name="border" BorderBrush="Transparent" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="True">
+			<ScrollViewer x:Name="PART_ContentHost" Focusable="False" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden"/>
+		</Border>
+		<ControlTemplate.Triggers>
+			<Trigger Property="IsEnabled" Value="True">
+				<Setter Property="Foreground" Value="{x:Static local:UiLookText.BrushText}"/>
+			</Trigger>
+			<Trigger Property="IsEnabled" Value="False">
+				<Setter Property="Foreground" Value="{x:Static local:UiLookText.BrushTextDisabled}"/>
+			</Trigger>
+		</ControlTemplate.Triggers>
+	</ControlTemplate>
 </ResourceDictionary>

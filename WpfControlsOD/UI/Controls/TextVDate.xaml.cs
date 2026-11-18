@@ -40,7 +40,11 @@ Something.DateStart=textVDateStart.Value
 
 */
 	///<summary></summary>
-	public partial class TextVDate : UserControl{
+	public partial class TextVDate : UserControl,IContentLook{
+		///<summary>The error mark's fill of today (red), kept for office content.</summary>
+		private Brush _brushErrorToday;
+		///<summary>The underline's brush of today (IsUnderline), kept for office content.</summary>
+		private Brush _brushUnderlineToday;
 		private string _error;
 		private bool _isChangingFocusToTextBox;
 		private Color _colorBack=Colors.White;
@@ -59,8 +63,11 @@ Something.DateStart=textVDateStart.Value
 			LostFocus+=This_LostFocus;
 			PreviewMouseLeftButtonDown+=This_PreviewMouseLeftButtonDown;
 			canvasError.Visibility=Visibility.Hidden;
+			_brushErrorToday=ellipseError.Fill;
 			border1.Visibility=Visibility.Collapsed;
 			border2.Visibility=Visibility.Collapsed;
+			_brushUnderlineToday=border2.BorderBrush;
+			ApplyLook();
 		}
 
 		#region Events
@@ -102,11 +109,12 @@ Something.DateStart=textVDateStart.Value
 				}
 				else{
 					textBox.Margin=new Thickness(0);//back to the normal position
-					textBox.BorderBrush=new SolidColorBrush((Color)ColorConverter.ConvertFromString("#ABADB3"));//set color back to normal for textBox border.
+					textBox.ClearValue(BorderBrushProperty);//set color back to normal for textBox border (ApplyLook below: the box's own, StrokeStrong in the new look).
 					textBox.BorderThickness=new Thickness(1);//set thickness back to normal for textBox border.
 					border1.Visibility=Visibility.Collapsed;
 					border2.Visibility=Visibility.Collapsed;
 				}
+				ApplyLook();
 			}
 		}
 
@@ -361,6 +369,20 @@ Something.DateStart=textVDateStart.Value
 			SetError("");
 		}
 
+		void IContentLook.ApplyLook(){
+			ApplyLook();
+		}
+
+		///<summary>The new look (UI-4b-3, section 3.6): the text box template of Themes/Generic.xaml (UiLookText) with the StrokeStrong border (none when
+		///underlined, IsUnderline, whose underline is StrokeStrong); with a validation error the Danger border and the error mark in Danger. Office content
+		///(ContentLook.IsPinned, the eForm fill surface) keeps today's Windows template, grey underline and red mark.</summary>
+		private void ApplyLook(){
+			bool isPinned=ContentLook.GetIsPinned(this);
+			UiLookText.ApplyTemplateLook(textBox,isPinned,keepBorderBrush:_isUnderline);
+			border2.BorderBrush=isPinned ? _brushUnderlineToday : UiLookText.BrushStrokeStrong;
+			ellipseError.Fill=isPinned ? _brushErrorToday : UiLookText.BrushDanger;
+		}
+
 		private void SetError(string error){
 			_error=error;
 			if(string.IsNullOrEmpty(error)) {
@@ -370,6 +392,7 @@ Something.DateStart=textVDateStart.Value
 				canvasError.Visibility=Visibility.Visible;
 				canvasError.ToolTip=error;
 			}
+			UiLookText.SetIsError(textBox,!string.IsNullOrEmpty(error));//the Danger border of the new look
 		}
 		#endregion Methods - private
 	}

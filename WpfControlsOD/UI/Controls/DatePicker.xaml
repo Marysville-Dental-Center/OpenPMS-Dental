@@ -12,19 +12,23 @@
 			<Setter Property="local:DatePicker.VerticalAlignment" Value="Top"/>
 		</Style>
 	</UserControl.Style>
-	<Grid x:Name="gridMain" x:FieldModifier="internal" Background="White">
+	<!--The new look (UI-4b-3, section 3.6): as a combo box with the Fluent calendar glyph. borderBack is the box's fill (SurfaceRaised, 4 px corners),
+	border its 1 px outline (StrokeStrong, StrokeStrongHover on hover, Stroke disabled, Danger with an error), borderFocus the 2 px Accent line inside the
+	bottom edge while the text box has keyboard focus; DatePicker.SetColors sets them from the tokens. The text box keeps its place and its own 1 px
+	border, now transparent, so the text does not move.-->
+	<Grid x:Name="gridMain" x:FieldModifier="internal" Background="Transparent">
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="*"/><!--Text-->
 			<ColumnDefinition Width="14"/><!--Dropdown-->
 		</Grid.ColumnDefinitions>
-		<TextBox x:Name="textBox" x:FieldModifier="internal" Text="00/00/0000" VerticalContentAlignment="Center"/>
-		<Canvas Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" >
-			<Polyline StrokeThickness="1.2" Stroke="	#141414" Points="-3.5,-1.5 0,1.5 3.5,-1.5"/>
-		</Canvas>
+		<Border x:Name="borderBack" x:FieldModifier="internal" Grid.ColumnSpan="2" CornerRadius="4" IsHitTestVisible="False"/>
+		<TextBox x:Name="textBox" x:FieldModifier="internal" Text="00/00/0000" VerticalContentAlignment="Center" Background="Transparent"/>
+		<Path x:Name="pathCalendar" x:FieldModifier="internal" Grid.Column="1" Width="12" Height="12" HorizontalAlignment="Left" VerticalAlignment="Center" IsHitTestVisible="False"/>
 		<Canvas x:Name="canvasError" x:FieldModifier="internal" Grid.Column="1">
-			<Ellipse Width="11" Height="11" Fill="Red" Canvas.Right="-12.5" Canvas.Top="4" Canvas.ZIndex="1"></Ellipse>
+			<Ellipse x:Name="ellipseError" x:FieldModifier="internal" Width="11" Height="11" Canvas.Right="-12.5" Canvas.Top="4" Canvas.ZIndex="1"></Ellipse>
 			<Label Padding="0" Canvas.Right="-9" Canvas.Top="1" FontWeight="Bold" FontFamily="Segoe UI" Foreground="White" Canvas.ZIndex="2" VerticalAlignment="Top" HorizontalAlignment="Left" >!</Label>
 		</Canvas>
-		<Border Name="border" x:FieldModifier="internal" Grid.ColumnSpan="2" Background="Transparent" BorderBrush="	#adadad" BorderThickness="1" IsHitTestVisible="False"/>
+		<Border Name="border" x:FieldModifier="internal" Grid.ColumnSpan="2" Background="Transparent" BorderThickness="1" CornerRadius="4" IsHitTestVisible="False"/>
+		<Border x:Name="borderFocus" x:FieldModifier="internal" Grid.ColumnSpan="2" Height="2" VerticalAlignment="Bottom" Margin="2,0,2,0" SnapsToDevicePixels="True" IsHitTestVisible="False" Visibility="Collapsed"/>
 	</Grid>
 </UserControl>

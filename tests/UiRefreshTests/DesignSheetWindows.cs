@@ -284,7 +284,7 @@ namespace UiRefreshTests {
 			}
 		}
 
-		private static void DrawTree(Graphics g,Control control,Point pointOffset) {
+		internal static void DrawTree(Graphics g,Control control,Point pointOffset) {
 			if(control.Width<=0 || control.Height<=0) {
 				return;
 			}
