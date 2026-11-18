@@ -5,6 +5,9 @@
 // process before any window exists. Two tests: the source of each Main, and in a fresh process (TestProbeHost, where no window exists yet) the
 // font a plain Form gets after those two calls: Microsoft Sans Serif at 8.25 pt times the Windows text scale factor (decision 9), so the test
 // also holds on a PC with "Make text bigger". It shows no window (the Form's handle is never created) and needs no database.
+// UI-2a-1 (docs/specs/ui-refresh-plan.md, section 9): each Main keeps a literal font, so an exe needs no CodeBase before its first window, and
+// the tests check that the literal equals the body token UiTheme.FontBody (Microsoft Sans Serif 8.25 until UI-2b, which changes the literals and
+// the token together), so the flip changes no test.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
 using System.Collections.Generic;
@@ -27,7 +30,19 @@ namespace NoHqTests {
 			@"DatabaseIntegrityCheck\Program.cs",@"DocumentationBuilder\Program.cs",@"MySQLManager\Program.cs",@"xCrudGenerator\Program.cs",
 			@"RdlDesign\RdlDesigner.cs",
 		};
-		private const string LINE_FONT=@"(System\.Windows\.Forms\.)?Application\.SetDefaultFont\(new System\.Drawing\.Font\(""Microsoft Sans Serif"",8\.25f\)\);";
+		///<summary>The first statement of every Main: SetDefaultFont with a literal font that equals the body token (UI-2a-1).</summary>
+		private static string LINE_FONT {
+			get {
+				return @"(System\.Windows\.Forms\.)?Application\.SetDefaultFont\("+Regex.Escape(GetFontLiteral())+@"\);";
+			}
+		}
+
+		///<summary>The literal of UiTheme.FontBody as each Main writes it: new System.Drawing.Font("Microsoft Sans Serif",8.25f) today,
+		///new System.Drawing.Font("Segoe UI",9f) from UI-2b on.</summary>
+		public static string GetFontLiteral() {
+			return "new System.Drawing.Font(\""+CodeBase.UiTheme.FontBody.Name+"\","
+				+CodeBase.UiTheme.FontBody.SizeInPoints.ToString("R",CultureInfo.InvariantCulture)+"f)";
+		}
 		private const string LINE_DPI=@"(System\.Windows\.Forms\.)?Application\.SetHighDpiMode\((System\.Windows\.Forms\.)?HighDpiMode\.PerMonitorV2\);";
 		private const string LINE_EHR_RENDER=@"if\(args\.Length==2 && args\[0\]==""/ehr-render""\) \{ Environment\.Exit\(EhrRenderChild\.Run\(args\[1\]\)\); \}";
 
@@ -48,7 +63,7 @@ namespace NoHqTests {
 				string body=text.Substring(matchMain.Index+matchMain.Length);
 				string prefix=relative.EndsWith("ProgramEntry.cs") ? @"(\s*//[^\n]*\n)*\s*"+LINE_EHR_RENDER : "";
 				if(!Regex.IsMatch(body,"^"+prefix+@"(\s*//[^\n]*\n)*\s*"+LINE_FONT+@"\s*"+LINE_DPI)) {
-					listProblems.Add(relative+": Main does not start with SetDefaultFont and SetHighDpiMode.");
+					listProblems.Add(relative+": Main does not start with SetDefaultFont("+GetFontLiteral()+"), the body token's font, and SetHighDpiMode.");
 				}
 			}
 			Assert.AreEqual(0,listProblems.Count,string.Join("\r\n",listProblems));
@@ -69,8 +84,9 @@ namespace NoHqTests {
 			CollectionAssert.IsSubsetOf(listRunners,_arrayMains,"A Main that runs a window: "+string.Join(", ",listRunners));
 		}
 
-		///<summary>The font a plain Form gets after the two calls, in a process with no window yet (TestProbeHost, run once): Microsoft Sans Serif
-		///at 8.25 pt times the text scale factor of HKCU\Software\Microsoft\Accessibility (100 when absent), as .NET applies it.</summary>
+		///<summary>The font a plain Form gets after the two calls, in a process with no window yet (TestProbeHost, run once): the body token's font
+		///(Microsoft Sans Serif 8.25 until UI-2b) at its size times the text scale factor of HKCU\Software\Microsoft\Accessibility (100 when absent),
+		///as .NET applies it.</summary>
 		[TestMethod]
 		public void APlainForm_AfterTheStartUpCalls_HasMicrosoftSansSerif825_TimesTheTextScaleFactor() {
 			string folder=Path.GetDirectoryName(typeof(DefaultFontTests).Assembly.Location);
@@ -78,10 +94,10 @@ namespace NoHqTests {
 			Assert.AreEqual(0,probeRunResult.ExitCode,probeRunResult.Output);
 			string line=probeRunResult.Output.Split('\n').Select(x => x.Trim()).Single(x => x.StartsWith("FONT|"));
 			string[] arrayParts=line.Split('|');
-			Assert.AreEqual("Microsoft Sans Serif",arrayParts[1]);
-			float sizeExpected=8.25f*DefaultFontProbe.GetTextScaleFactor()/100f;
+			Assert.AreEqual(CodeBase.UiTheme.FontBody.Name,arrayParts[1]);
+			float sizeExpected=CodeBase.UiTheme.FontBody.SizeInPoints*DefaultFontProbe.GetTextScaleFactor()/100f;
 			float size=float.Parse(arrayParts[2],CultureInfo.InvariantCulture);
-			Assert.AreEqual(sizeExpected,size,0.01f,"8.25 pt times the text scale factor "+DefaultFontProbe.GetTextScaleFactor()+".");
+			Assert.AreEqual(sizeExpected,size,0.01f,CodeBase.UiTheme.FontBody.SizeInPoints+" pt times the text scale factor "+DefaultFontProbe.GetTextScaleFactor()+".");
 			Assert.AreEqual("False",arrayParts[3],"No window was created.");
 		}
 	}
@@ -90,7 +106,8 @@ namespace NoHqTests {
 	///created, so nothing is shown.</summary>
 	public static class DefaultFontProbe {
 		public static int Run(string[] args) {
-			Application.SetDefaultFont(new System.Drawing.Font("Microsoft Sans Serif",8.25f));
+			//The body token's font, as the literal of every Main (the source test above keeps them equal).
+			Application.SetDefaultFont(new System.Drawing.Font(CodeBase.UiTheme.FontBody.FontFamily,CodeBase.UiTheme.FontBody.SizeInPoints));
 			Application.SetHighDpiMode(HighDpiMode.PerMonitorV2);
 			using(Form form=new Form()) {
 				Console.WriteLine("FONT|"+form.Font.Name+"|"+form.Font.SizeInPoints.ToString("R",CultureInfo.InvariantCulture)+"|"+form.IsHandleCreated);

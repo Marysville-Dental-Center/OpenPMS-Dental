@@ -230,7 +230,8 @@ namespace LibWebTests {
 			//Since S3b-4 the .NET Framework's default font and the DPI mode come first after it, before any window can exist (the plan's section 7);
 			//RenderOptions right after them (owner decision O-34).
 			Assert.IsTrue(indexRenderOptions>=0 && Regex.IsMatch(rest.Substring(0,indexRenderOptions),@"^\s*(//[^\n]*\n\s*)*"
-				+Regex.Escape("Application.SetDefaultFont(new System.Drawing.Font(\"Microsoft Sans Serif\",8.25f));")+@"\s*"
+				+Regex.Escape("Application.SetDefaultFont(new System.Drawing.Font(\""+CodeBase.UiTheme.FontBody.Name+"\","
+					+CodeBase.UiTheme.FontBody.SizeInPoints.ToString("R",System.Globalization.CultureInfo.InvariantCulture)+"f));")+@"\s*"//UI-2a-1: the body token's literal
 				+Regex.Escape("Application.SetHighDpiMode(HighDpiMode.PerMonitorV2);")+@"\s*System\.Windows\.Media\.$"),
 				"SetDefaultFont, SetHighDpiMode, then RenderOptions come right after it (S3b-4; owner decision O-34).");
 			foreach(string text in new[] { "Application.","ODInitialize.","RenderOptions." }) {

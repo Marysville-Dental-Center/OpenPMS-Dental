@@ -80,8 +80,13 @@ Scrollable Control: For example, a panel that's set to AutoScroll=true.  These c
 		*/
 
 		#region Fields
-		///<summary>"Microsoft Sans Serif",8.25f. Every single form and UserControl must have this set, or MS will use its own default font, which is different for each computer based on Windows version and dpi. This is already present in FormODBase so that inherited forms do not also need it, so UserControls is where you have to watch out for it.</summary>
-		public static Font FontInitial=new Font("Microsoft Sans Serif",8.25f);
+		///<summary>"Microsoft Sans Serif",8.25f. Every single form and UserControl must have this set, or MS will use its own default font, which is different for each computer based on Windows version and dpi. This is already present in FormODBase so that inherited forms do not also need it, so UserControls is where you have to watch out for it.
+		///UI-2a-1: the body token UiTheme.FontBody (Microsoft Sans Serif 8.25 until UI-2b), one shared instance as before; never dispose it.</summary>
+		public static Font FontInitial=>UiTheme.FontBody;
+		///<summary>UI-2a-1: the windows whose LayoutManagerForms has been built (the constructor below ran in InitializeLayoutManager). MarkContent refuses a panel of one of them: its designer fonts are already mapped.</summary>
+		private static readonly ConditionalWeakTable<FormODBase,object> _tableFormsBuilt=new ConditionalWeakTable<FormODBase,object>();
+		///<summary>UI-2a-1: the panels a window marked as content (MarkContent): the font mapping skips them and everything inside them.</summary>
+		private static readonly ConditionalWeakTable<Control,object> _tableContentMarked=new ConditionalWeakTable<Control,object>();
 		///<summary>Height of title bar at 96 dpi. Includes any border lines, if we decide to draw them. Icon is usually 16.</summary>
 		private int _heightTitleBar96=26;
 		///<summary>See FormODBase.IsLayoutMS.  This is a copy.</summary>
@@ -122,6 +127,7 @@ Scrollable Control: For example, a panel that's set to AutoScroll=true.  These c
 				}
 			}
 			SizeClientOriginal=formODBase.ClientSize;//permanently remember the original client size before Windows fiddles with it.
+			_tableFormsBuilt.AddOrUpdate(formODBase,null);//from here on, MarkContent refuses this window's panels (UI-2a-1)
 			//Remember original 96dpi bounds and font of the form and all child Controls for later dpi scaling.
 			_listControl96Infos=new List<Control96Info>();
 			//first, the parent itself
@@ -131,6 +137,9 @@ Scrollable Control: For example, a panel that's set to AutoScroll=true.  These c
 			//_listControl96Infos.Add(original96);
 			//then, the children
 			List<Control> listControls=UIHelper.GetAllControls(formODBase).ToList();
+			//UI-2a-1: the designer fonts follow the body token by the rule of section 3.4, before the loop below reads FontSize96. GetAllControls lists a
+			//child before its parent, so the mapping walks the window from the top first: a child that inherits its font then records its parent's mapped one.
+			MapFontsOfChildren(formODBase);
 			for(int i=0;i<listControls.Count;i++){
 				if(listControls[i].Bounds.Height<0 || listControls[i].Bounds.Width<0){
 					if(listControls[i].Parent is DomainUpDown){//the child textbox has negative height because we made it so short
@@ -207,9 +216,12 @@ Scrollable Control: For example, a panel that's set to AutoScroll=true.  These c
 			parent.Controls.Add(control);//only this control gets added.  The children are already part of it.
 		}
 
-		///<summary>Adds this control to _listControl96Infos. Recursively adds its children.</summary>
-		private void AddToList96(Control control, Control parent){
+		///<summary>Adds this control to _listControl96Infos. Recursively adds its children. isInContent (UI-2a-1): the recursion passes down that the control is content or sits in content. Add records a control before it is parented, so a walk from one of its children would stop at that unparented control and miss the content it is being added to.</summary>
+		private void AddToList96(Control control, Control parent,bool isInContent=false){
 			//We're passing in the parent because we frequently won't have actually added the control to the parent yet.
+			//UI-2a-1: the font follows the body token (section 3.4) before its size is recorded below. The font is already scaled (see Add), so the rule is applied to its 96 dpi size.
+			bool isContent=isInContent || IsContent(control,parent);
+			MapFontOfAddedControl(control,isContent,isScaled:true);
 			Control96Info control96Info=new Control96Info(control);
 			//the above line initialized all the fields, but many of them are wrong.
 			//Since it's the responsibility of whoever's doing the Add to scale everything to current dpi,
@@ -237,19 +249,22 @@ Scrollable Control: For example, a panel that's set to AutoScroll=true.  These c
 			SetNoAnchorDock(control);
 			PassLayoutManager(control);
 			for(int i=0;i<control.Controls.Count;i++){
-				AddToList96(control.Controls[i],control);
+				AddToList96(control.Controls[i],control,isContent);
 			}
 		}
 
-		///<summary>Extremely rare. Recursive.</summary>
-		private void AddToList96Unscaled(Control control, Control parent){
+		///<summary>Extremely rare. Recursive. isInContent: as in AddToList96.</summary>
+		private void AddToList96Unscaled(Control control, Control parent,bool isInContent=false){
+			//UI-2a-1: the font follows the body token (section 3.4) before Control96Info records its size. These fonts are at 96 dpi.
+			bool isContent=isInContent || IsContent(control,parent);
+			MapFontOfAddedControl(control,isContent,isScaled:false);
 			Control96Info control96Info=new Control96Info(control);
 			control96Info.BoundsLast=control.Bounds;
 			_listControl96Infos.Add(control96Info);
 			SetNoAnchorDock(control);
 			PassLayoutManager(control);
 			for(int i=0;i<control.Controls.Count;i++){
-				AddToList96Unscaled(control.Controls[i],control);
+				AddToList96Unscaled(control.Controls[i],control,isContent);
 			}
 		}
 
@@ -699,6 +714,110 @@ Scrollable Control: For example, a panel that's set to AutoScroll=true.  These c
 			return valInput/GetScaleMS();
 		}
 		#endregion Methods - Public Scaling
+
+		#region Methods - Font Mapping
+		///<summary>UI-2a-1 (docs/specs/ui-refresh-plan.md, section 5.1): marks a panel whose contents are a document, not screen chrome (a filled sheet, the sheet and claim form design canvases). The font mapping skips it and everything inside it, including controls added to it later through Add, AddUnscaled or Synch, so their stored fonts stay. Call it in the window's constructor after InitializeComponent and before InitializeLayoutManager, which maps the designer fonts. Throws when the panel's window has already built its layout.</summary>
+		public static void MarkContent(Control control){
+			if(control==null){
+				throw new ArgumentNullException(nameof(control));
+			}
+			for(Control controlAncestor=control;controlAncestor!=null;controlAncestor=controlAncestor.Parent){
+				if(controlAncestor is FormODBase formODBase && _tableFormsBuilt.TryGetValue(formODBase,out _)){
+					throw new InvalidOperationException("LayoutManagerForms.MarkContent("+control.Name+") must come before InitializeLayoutManager in "+formODBase.GetType().Name+": the designer fonts are mapped there.");
+				}
+			}
+			_tableContentMarked.AddOrUpdate(control,null);
+		}
+
+		///<summary>UI-2a-1: true when the control is content (section 5.1), so the font mapping leaves it alone: it, or any control it sits in, is one of the content types (the tooth chart, the perio chart, a print preview, the patient dashboard) or a panel marked with MarkContent. The walk starts at the control and goes on from parent, which is the control's parent in the window, or the parent passed to Add or AddUnscaled, which record a control before it is parented.</summary>
+		public static bool IsContent(Control control,Control parent){
+			if(IsContentItself(control)){
+				return true;
+			}
+			for(Control controlAncestor=parent;controlAncestor!=null;controlAncestor=controlAncestor.Parent){
+				if(IsContentItself(controlAncestor)){
+					return true;
+				}
+			}
+			return false;
+		}
+
+		private static bool IsContentItself(Control control){
+			if(control is SparksToothChart.ToothChartWrapper
+				|| control is ContrPerio
+				|| control is ODPrintPreviewControl
+				|| control is UserControlDashboard)
+			{
+				return true;
+			}
+			return _tableContentMarked.TryGetValue(control,out _);
+		}
+
+		///<summary>UI-2a-1: true when the control has a font of its own. A control without one shows its parent's font (the same instance), or the default font while it has no parent, and follows its parent's mapped font, so the mapping must not give it one.</summary>
+		private static bool HasOwnFont(Control control){
+			Font font=control.Font;
+			if(control.Parent!=null){
+				return !ReferenceEquals(font,control.Parent.Font);
+			}
+			return !ReferenceEquals(font,Control.DefaultFont);
+		}
+
+		///<summary>UI-2a-1: maps the designer fonts of every control inside parent, from the top down, skipping content. The identity while the body token is Microsoft Sans Serif (until UI-2b).</summary>
+		private static void MapFontsOfChildren(Control parent){
+			if(UiTheme.IsFontMappingIdentity){
+				return;
+			}
+			for(int i=0;i<parent.Controls.Count;i++){
+				Control control=parent.Controls[i];
+				if(IsContent(control,control.Parent)){
+					continue;//nor anything inside it
+				}
+				if(HasOwnFont(control)){
+					Font fontMapped=UiTheme.MapFont(control.Font);
+					if(!ReferenceEquals(fontMapped,control.Font)){
+						//Before Load and before any data or signature is loaded (InitializeLayoutManager runs right after InitializeComponent), so a TextChanged this may raise clears nothing (Job 55866).
+						control.Font=fontMapped;
+					}
+				}
+				MapFontsOfChildren(control);
+			}
+		}
+
+		///<summary>UI-2a-1: maps the font of one control that Add, Synch or AddUnscaled records, before its size is read. Its children are recorded (and mapped) after it, so a child that inherits follows. isContent: the control is content or sits in content, worked out once at the top of the recursion and passed down (see AddToList96). isScaled: the font is already scaled as Add expects (by the zoom, or fully for the types that LayoutChildren scales fully); false for AddUnscaled, whose fonts are at 96 dpi.</summary>
+		private void MapFontOfAddedControl(Control control,bool isContent,bool isScaled){
+			if(UiTheme.IsFontMappingIdentity){
+				return;
+			}
+			if(isContent){
+				return;
+			}
+			if(!HasOwnFont(control)){
+				return;
+			}
+			Font font=control.Font;
+			if(!UiTheme.IsFontMapped(font)){
+				return;
+			}
+			float size=font.SizeInPoints;
+			if(isScaled){
+				bool isScaledFully=control is System.Windows.Forms.TextBox
+					|| control is System.Windows.Forms.ComboBox
+					|| control is System.Windows.Forms.RichTextBox
+					|| control is System.Windows.Forms.TreeView
+					|| control is System.Windows.Forms.ListView
+					|| control is System.Windows.Forms.ListBox;//as in AddToList96 and LayoutChildren
+				float size96=isScaledFully ? UnscaleF(size) : UnscaleFontODZoom(size);
+				if(UiTheme.IsBodySize(size96)){
+					float sizeMapped96=UiTheme.MapFontSize(size96);
+					size=isScaledFully ? ScaleF(sizeMapped96) : ScaleFontODZoom(sizeMapped96);
+				}
+			}
+			else{
+				size=UiTheme.MapFontSize(size);
+			}
+			control.Font=new Font(UiTheme.FontBody.FontFamily,size,font.Style,GraphicsUnit.Point,font.GdiCharSet,font.GdiVerticalFont);
+		}
+		#endregion Methods - Font Mapping
 
 		#region Methods - Layout
 		public static bool IsTestingMode(){

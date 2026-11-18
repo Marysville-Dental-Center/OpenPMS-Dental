@@ -129,6 +129,10 @@ namespace OpenPmsDental
 			_listProcedures=null;
 			//InitializeComponent();// This call is required by the Windows.Forms Form Designer.
 			DoubleBuffered=true;
+			//UI-2a-1 (docs/specs/ui-refresh-plan.md, sections 5.1 and 5.2, UQ-6): the perio chart draws with Font and is content, so it pins the font
+			//it inherited until now, Microsoft Sans Serif 8.25. LayoutManager records and zooms it as before. The pin also holds the copy that
+			//FormClaimEdit draws on its own for the claim attachment.
+			Font=new Font("Microsoft Sans Serif",8.25f);
 			this.BackColor = System.Drawing.SystemColors.Window;
 			_colorLinesMain=Color.Black;
 			//cBackShort=Color.FromArgb(237,237,237);//larger numbers will make it whiter

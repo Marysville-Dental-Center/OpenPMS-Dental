@@ -17,8 +17,9 @@ using OpenPmsDentalBusiness;
 namespace WindowChecksTests.InProc {
 	public static partial class InProcChecks {
 		///<summary>The form's font, on its own thread. A form that sets no font of its own (ShouldSerializeFont false: it takes the ambient
-		///Control.DefaultFont) must have the program's default font, Microsoft Sans Serif at 8.25 pt times the Windows text scale factor (decision
-		///9; Segoe UI 9 would mean the default font was not set before the first window); a form with its own font is noted.</summary>
+		///Control.DefaultFont) must have the program's default font, the body token's family (UiTheme.FontBody: Microsoft Sans Serif until UI-2b,
+		///UI-2a-1) at its size times the Windows text scale factor (decision 9; .NET's own Segoe UI 9 before UI-2b would mean the default font was
+		///not set before the first window); a form with its own font is noted.</summary>
 		private static void ExpectDefaultFont(CheckResult checkResult,Form form,string what) {
 			string[] arrayFont=(string[])form.Invoke((Func<string[]>)(() => new[] { form.Font.Name,form.Font.SizeInPoints.ToString("0.##"),
 				Control.DefaultFont.Name,Control.DefaultFont.SizeInPoints.ToString("0.##"),((bool)Ui.Call(form,"ShouldSerializeFont")).ToString() }));
@@ -27,8 +28,8 @@ namespace WindowChecksTests.InProc {
 				checkResult.Note(what+" sets its own font: "+font);
 				return;
 			}
-			checkResult.Expect(arrayFont[0]=="Microsoft Sans Serif" && arrayFont[0]==arrayFont[2] && arrayFont[1]==arrayFont[3],
-				what+" uses the program's default font, Microsoft Sans Serif ("+font+"; the default font is "+arrayFont[2]+" "+arrayFont[3]+" pt)",font);
+			checkResult.Expect(arrayFont[0]==UiTheme.FontBody.Name && arrayFont[0]==arrayFont[2] && arrayFont[1]==arrayFont[3],
+				what+" uses the program's default font, "+UiTheme.FontBody.Name+" ("+font+"; the default font is "+arrayFont[2]+" "+arrayFont[3]+" pt)",font);
 		}
 
 		///<summary>AddShot for a picture of a line of text on one background (a tooltip, a menu bar): such a picture has few colours (text drawn
@@ -146,8 +147,9 @@ namespace WindowChecksTests.InProc {
 		}
 
 		public static void CheckC20(Ui ui,CheckResult checkResult) {
-			//The main menu (MenuOD and the MenuStripOD inside it) draws in its form's font, Microsoft Sans Serif 8.25, as on .NET Framework. The
-			//pairs of WINCHK-5's first run showed every main menu in Segoe UI 9 (ToolStrip's own default) on .NET 10: MenuOD.OnParentChanged.
+			//The main menu (MenuOD and the MenuStripOD inside it) draws in its form's font (the body token, Microsoft Sans Serif 8.25 until UI-2b),
+			//as on .NET Framework. The pairs of WINCHK-5's first run showed every main menu in Segoe UI 9 (ToolStrip's own default) on .NET 10:
+			//MenuOD.OnParentChanged. UI-2a-1: the strip and its items equal the form's font, whatever the token holds.
 			string[] arrayFonts=ui.Invoke(() => {
 				OpenPmsDental.UI.MenuOD menuOD=(OpenPmsDental.UI.MenuOD)Ui.GetField(ui.FormMain,"menuMain");
 				ToolStripItem toolStripItem=menuOD.GetMenuItems().Cast<ToolStripItem>().First(x => x.Available);
@@ -157,7 +159,8 @@ namespace WindowChecksTests.InProc {
 			});
 			checkResult.Note("Fonts: the main window "+arrayFonts[0]+", MenuOD "+arrayFonts[1]+", its strip "+arrayFonts[2]+", the item '"+arrayFonts[4]+"' "
 				+arrayFonts[3]);
-			checkResult.Expect(arrayFonts[1].StartsWith("Microsoft Sans Serif "),"MenuOD has the window's font, Microsoft Sans Serif ("+arrayFonts[1]+")",arrayFonts[1]);
+			checkResult.Expect(arrayFonts[1].StartsWith(UiTheme.FontBody.Name+" ") && arrayFonts[1].StartsWith(ui.FormMain.Font.Name+" "),
+				"MenuOD has the window's font, "+ui.FormMain.Font.Name+" ("+arrayFonts[1]+")",arrayFonts[1]);
 			checkResult.Expect(arrayFonts[2]==arrayFonts[1] && arrayFonts[3]==arrayFonts[1],"The menu strip and its items draw in MenuOD's font ("+arrayFonts[2]+", "
 				+arrayFonts[3]+"), not ToolStrip's Segoe UI 9",arrayFonts[2]+" / "+arrayFonts[3]);
 			Control controlMenu=ui.Invoke(() => (Control)Ui.GetField(ui.FormMain,"menuMain"));

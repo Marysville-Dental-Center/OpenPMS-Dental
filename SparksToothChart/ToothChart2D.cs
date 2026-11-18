@@ -32,6 +32,29 @@ namespace SparksToothChart {
 
 		public ToothChart2D() {
 			InitializeComponent();
+			PinFont();
+		}
+
+		///<summary>UI-2a-1 (docs/specs/ui-refresh-plan.md, section 5.2): the chart draws tooth numbers and "W" with this control's Font, which it took from the default font, so it pins today's family: Microsoft Sans Serif. In a wrapper it takes the wrapper's size and style (the wrapper pins Microsoft Sans Serif 8.25 too, and LayoutManager scales that by the program's zoom, as the inherited font was scaled before); on its own (an image drawn without a wrapper) 8.25 pt. Today this is the font it inherited, so nothing changes; from UI-2b on the default font's change cannot reach the chart.</summary>
+		private void PinFont() {
+			Font fontParent=Parent?.Font;
+			float size=fontParent==null ? 8.25f : fontParent.SizeInPoints;
+			FontStyle fontStyle=fontParent==null ? FontStyle.Regular : fontParent.Style;
+			Font font=Font;
+			if(font.Name=="Microsoft Sans Serif" && font.SizeInPoints==size && font.Style==fontStyle && font.Unit==GraphicsUnit.Point) {
+				return;
+			}
+			Font=new Font("Microsoft Sans Serif",size,fontStyle,GraphicsUnit.Point);
+		}
+
+		protected override void OnParentChanged(EventArgs e) {
+			base.OnParentChanged(e);
+			PinFont();
+		}
+
+		protected override void OnParentFontChanged(EventArgs e) {
+			base.OnParentFontChanged(e);
+			PinFont();
 		}
 
 		public void InitializeGraphics() {

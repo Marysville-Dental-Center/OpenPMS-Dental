@@ -7,8 +7,10 @@
 // - UiTheme.Colors.cs: the colour tokens as System.Drawing.Color, and their high-contrast partners (SystemColors).
 // - UiTheme.Gdi.cs: the cached GDI+ pens and brushes, one cache per thread.
 // - UiTheme.Metrics.cs: font family and sizes, corners, lines, spacing, icon sizes and the pixel-snapping helpers of section 3.3.
+// - UiTheme.Fonts.cs: the font role tokens of section 3.4 (FontBody and the rest, today's fonts until UI-2b), the mapping of designer
+//   fonts (section 5.1) and the test-only override SetFontForTest (UI-2a-1).
 // - UiTheme.Wpf.cs: the frozen WPF brushes and colours.
-// The first four use only Windows Forms, System.Drawing and Microsoft.Win32 and nothing else of CodeBase, in C# 7.3, so RdlDesign (which
+// The first five use only Windows Forms, System.Drawing and Microsoft.Win32 and nothing else of CodeBase, in C# 7.3, so RdlDesign (which
 // references no CodeBase) can compile them in as linked files (section 3.6, Menus); a NoHq test checks it. The WPF part is in its own file.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;

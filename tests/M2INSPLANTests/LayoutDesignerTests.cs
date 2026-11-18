@@ -257,7 +257,10 @@ namespace M2INSPLANTests {
 				if(!designerControl.HasBounds) {
 					continue;
 				}
-				using Font font=new Font("Microsoft Sans Serif",designerControl.FontSize,designerControl.IsFontBold ? FontStyle.Bold : FontStyle.Regular);
+				//UI-2a-1: the designer font as LayoutManagerForms maps it (UiTheme.MapFont: unchanged while the body token is Microsoft Sans Serif).
+				using Font fontDesigner=new Font(CodeBase.UiTheme.FONT_FAMILY_TODAY,designerControl.FontSize,designerControl.IsFontBold ? FontStyle.Bold : FontStyle.Regular);
+				Font fontMapped=CodeBase.UiTheme.MapFont(fontDesigner);
+				using Font font=ReferenceEquals(fontMapped,fontDesigner) ? (Font)fontDesigner.Clone() : fontMapped;
 				Rectangle bounds=designerControl.Bounds;
 				string typeName=designerControl.TypeName;
 				if(typeName=="System.Windows.Forms.Label") {

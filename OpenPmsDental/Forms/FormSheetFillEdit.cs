@@ -80,6 +80,8 @@ namespace OpenPmsDental {
 		///<summary>Use this constructor when displaying a statement.  dataSet should be filled with the data set from AccountModules.GetAccount()</summary>
 		public FormSheetFillEdit(){
 			InitializeComponent();
+			//UI-2a-1: the filled sheet is a document: the font mapping leaves its fields and stored fonts alone. Before InitializeLayoutManager.
+			LayoutManagerForms.MarkContent(panelMain);
 			InitializeLayoutManager();
 			MouseWheel+=FormSheetFillEdit_MouseWheelScroll;
 			Lan.F(this);

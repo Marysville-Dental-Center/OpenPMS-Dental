@@ -62,6 +62,10 @@ namespace OpenPmsDental {
 
 		public UserControlDashboard() {
 			InitializeComponent();
+			//UI-2a-1 (docs/specs/ui-refresh-plan.md, section 5.1): the patient dashboard is office content. Its widgets and fields without a font of
+			//their own inherit this one, which pins the font they inherited from the main window until now, Microsoft Sans Serif 8.25. Set before
+			//FormOpenDental's LayoutManager.Add, which records and zooms it as before.
+			Font=new Font("Microsoft Sans Serif",8.25f);
 			ContextMenuStrip=contextMenu;
 			_toothChartDashboardWait=new ToothChartDashboardWait(() => IsInitialized && !IsDisposed,() => FormOpenDental.PatNumCur,ShowToothChartImage);
 		}

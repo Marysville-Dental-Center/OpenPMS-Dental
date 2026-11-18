@@ -17,6 +17,7 @@ using System.Runtime.CompilerServices;
 using System.Windows.Forms;
 using OpenPmsDental;
 using ProjectFileTests;
+using UiRefreshTests.TextFit;
 
 namespace UiRefreshTests.Scan {
 	///<summary>How a type is built (section 5.4).</summary>
@@ -278,6 +279,7 @@ namespace UiRefreshTests.Scan {
 						FormODBase formODBase=(FormODBase)CreateBare(scanType.Type,typeof(FormODBase));
 						builtWindow.Form=formODBase;
 						builtWindow.Root=formODBase;
+						MarkContentAsTheConstructorDoes(formODBase);
 						InvokeNonPublic(formODBase,typeof(FormODBase),"InitializeLayoutManager",new object[] { false,false });
 						builtWindow.LayoutManager=GetLayoutManager(formODBase);
 						SetPanelClientAsOnLoad(formODBase,builtWindow.LayoutManager);
@@ -346,6 +348,21 @@ namespace UiRefreshTests.Scan {
 			SetPanelClientAsOnLoad(formODBase,layoutManager);
 			builtWindow.LayOutAt(1f);
 			return builtWindow;
+		}
+
+		///<summary>The marks the three document windows set in their own constructor (UI-2a-1), which the builder skips: their content panel
+		///(TextFitFontSwap.ArrayContentPanels) is marked before InitializeLayoutManager, so the token override's mapping leaves it alone as in the
+		///program.</summary>
+		private static void MarkContentAsTheConstructorDoes(FormODBase formODBase) {
+			foreach(string[] arrayPanel in TextFitFontSwap.ArrayContentPanels) {
+				if(formODBase.GetType().Name!=arrayPanel[0]) {
+					continue;
+				}
+				FieldInfo fieldInfo=formODBase.GetType().GetField(arrayPanel[1],BindingFlags.Instance|BindingFlags.NonPublic|BindingFlags.Public);
+				if(fieldInfo?.GetValue(formODBase) is Control control) {
+					LayoutManagerForms.MarkContent(control);
+				}
+			}
 		}
 
 		///<summary>FormODBase.OnLoad's SetPanelClient for a window that is not maximized (a maximized one got it in InitializeLayoutManager).</summary>

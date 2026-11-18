@@ -27,7 +27,8 @@ namespace WindowChecksTests {
 		};
 
 		///<summary>The stage 3b (.NET 10) default-font windows of section 6 of docs/specs/net10-plan.md (WINCHK-5): plain forms on the default font
-		///the program sets (Microsoft Sans Serif 8.25, decision 9), each shown as the program shows it and printed. The splash is A1's.</summary>
+		///the program sets (the body token UiTheme.FontBody, Microsoft Sans Serif 8.25 until UI-2b; decision 9), each shown as the program shows it
+		///and printed. The splash is A1's.</summary>
 		public static readonly string[][] ArrayChecksDefaultFont=new[] {
 			new[] { "C16","Default font: MsgBoxCopyPaste" },
 			new[] { "C17","Default font: progress windows (FormProgressStatus, FormProgressExtended)" },

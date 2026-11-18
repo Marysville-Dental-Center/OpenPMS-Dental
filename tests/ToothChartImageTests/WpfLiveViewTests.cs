@@ -73,7 +73,10 @@ namespace ToothChartImageTests {
 			}
 			//S3b-4 (.NET 10): the default font and the DPI mode come first, because both must be set before any window exists and neither makes
 			//one (docs/specs/net10-plan.md, the S3b-4 row); the render mode follows them, still before any window (S3b-5W).
-			foreach(string statementFirst in new[] { "Application.SetDefaultFont(new System.Drawing.Font(\"Microsoft Sans Serif\",8.25f));",
+			//UI-2a-1: the default font's literal is the body token's (NoHqTests' DefaultFontTests keeps them equal).
+			string literalFont="new System.Drawing.Font(\""+CodeBase.UiTheme.FontBody.Name+"\","
+				+CodeBase.UiTheme.FontBody.SizeInPoints.ToString("R",System.Globalization.CultureInfo.InvariantCulture)+"f)";
+			foreach(string statementFirst in new[] { "Application.SetDefaultFont("+literalFont+");",
 				"Application.SetHighDpiMode(HighDpiMode.PerMonitorV2);" })
 			{
 				if(body.StartsWith(statementFirst)) {

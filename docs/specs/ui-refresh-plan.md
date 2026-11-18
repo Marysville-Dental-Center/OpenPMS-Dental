@@ -1129,6 +1129,14 @@ the bounds record must equal the before set.
   `InitializeLayoutManager` throws; a signature test: open `FormProcEdit` with a signed group note on the synthetic dump, change the
   program zoom and resize the window, save, and check the signature is still valid; the scan's report for Segoe UI through the override
   attached to the brief's result.
+- **Status (2026-11-17).** Done on `ui/ui2a1-1` (`docs/port-notes/UI-2a.md`, section UI-2a-1), not merged yet: `CodeBase/UI/UiTheme.Fonts.cs`
+  (the six role tokens with today's values, `UiFontOption.UI2b` beside them, `MapFont`, `SetFontForTest`), the font lines of `FormODBase` and
+  `FormFrame`, `LayoutManagerForms` (the mapping in its three recording places, the content types, `MarkContent`; the rebuild unchanged), the
+  three marks, the pins (`ToothChart2D` together with `ToothChartWrapper`, so the program zoom still scales the 2D chart's text; `ContrPerio`;
+  `UserControlDashboard`), section 9's font group and `tests/UiRefreshTests/FontTokenTests.cs`. The signature test is window check UF1 (opt-in,
+  a shown window). The scan through the override (Segoe UI 9 at 100%: 1,775 new overflows in 450 windows) is in the port note. Still open,
+  for a connected session: ToothChartImageTests and ToothChartHostTests, UF1, and the harness's U0 and bounds record against the before set,
+  which does not exist yet.
 
 **UI-2a-2: no container scales by font**
 - Owns: the 47 files with `AutoScaleMode.Font` (section 2; the brief recounts with a grep that skips comments), the NoHq ban.
