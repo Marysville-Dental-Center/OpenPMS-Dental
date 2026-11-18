@@ -57,7 +57,7 @@
     { "enum": "EnumIcons", "name": "PatDelete", "fluent": "person_delete", "style": "regular", "sizes": [ 16, 20, 24 ], "role": "Danger", "purpose": "Family toolbar: Delete patient" },
     { "enum": "EnumIcons", "name": "Patient", "fluent": "person", "style": "regular", "sizes": [ 12, 16, 20, 24, 32, 48 ], "role": "Text", "purpose": "Appts: the patient; test windows" },
     { "enum": "EnumIcons", "name": "PatMoveFam", "fluent": "person_arrow_right", "style": "regular", "sizes": [ 16, 20, 24 ], "role": "Text", "purpose": "Family toolbar: Move patient to another family" },
-    { "enum": "EnumIcons", "name": "PatSelect", "fluent": "person_search", "style": "regular", "sizes": [ 16, 20, 24, 32 ], "role": "Text", "purpose": "main toolbar: Select Patient" },
+    { "enum": "EnumIcons", "name": "PatSelect", "fluent": "person_search", "style": "regular", "sizes": [ 20, 24, 32 ], "role": "Text", "purpose": "main toolbar: Select Patient (no 16 px design: Fluent's leaves its square by 0.08 px, so a 16 px slot draws the 20 px design shrunk)" },
     { "enum": "EnumIcons", "name": "PatSetGuarantor", "fluent": "person_money", "style": "regular", "sizes": [ 20, 24 ], "role": "Text", "purpose": "Family toolbar: Set guarantor" },
     { "enum": "EnumIcons", "name": "Print", "fluent": "print", "style": "regular", "sizes": [ 16, 20, 24, 32, 48 ], "role": "Text", "purpose": "Imaging toolbar: Print" },
     { "enum": "EnumIcons", "name": "Probe", "fluent": "ruler", "style": "regular", "sizes": [ 12, 16, 20, 24, 32, 48 ], "role": "Text", "purpose": "a perio probe picture no code draws today" },
@@ -67,7 +67,7 @@
     { "enum": "EnumIcons", "name": "ScanMulti", "fluent": "document_multiple", "style": "regular", "sizes": [ 16, 20, 24 ], "role": "Text", "purpose": "Imaging toolbar: Scan Multi-Page Document" },
     { "enum": "EnumIcons", "name": "ScanPhoto", "fluent": "image", "style": "regular", "sizes": [ 16, 20, 24, 32, 48 ], "role": "Text", "purpose": "Imaging toolbar: Scan Photo" },
     { "enum": "EnumIcons", "name": "ScanXray", "fluent": "xray", "style": "regular", "sizes": [ 20, 24 ], "role": "Text", "purpose": "Imaging toolbar: Scan Radiograph" },
-    { "enum": "EnumIcons", "name": "Text", "fluent": "phone_chat", "style": "regular", "sizes": [ 16, 20, 24 ], "role": "Text", "purpose": "Text (SMS) buttons: main toolbar, appointment edit, confirmation list" },
+    { "enum": "EnumIcons", "name": "Text", "fluent": "phone_chat", "style": "regular", "sizes": [ 20, 24 ], "role": "Text", "purpose": "Text (SMS) buttons: main toolbar, appointment edit, confirmation list (no 16 px design: Fluent's leaves its square by 0.37 px, so a 16 px slot draws the 20 px design shrunk)" },
     { "enum": "EnumIcons", "name": "Video", "fluent": "video", "style": "regular", "sizes": [ 16, 20, 24, 32, 48 ], "role": "Text", "purpose": "Imaging toolbar: Intraoral Video Camera" },
     { "enum": "EnumIcons", "name": "WebMail", "fluent": "mail_shield", "style": "regular", "sizes": [ 16, 20 ], "role": "Text", "purpose": "a secure web mail picture no code draws today" }
   ]

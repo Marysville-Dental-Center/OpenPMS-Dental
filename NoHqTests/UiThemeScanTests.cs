@@ -57,7 +57,8 @@ namespace NoHqTests {
 				Assert.IsTrue(Directory.Exists(pathFolder),"No folder "+folder+".");
 				listFiles.AddRange(Directory.EnumerateFiles(pathFolder,"*",SearchOption.AllDirectories).Select(x => x.Substring(pathRoot.Length+1).Replace('\\','/')));
 			}
-			Assert.IsTrue(listFiles.Count>=250,"Expected the shared control files, found "+listFiles.Count+".");
+			//UI-7b removed 72 of the IconLibrary folders' Gen_*.cs files (docs/port-notes/UI-7b.md): 235 files remain.
+			Assert.IsTrue(listFiles.Count>=200,"Expected the shared control files, found "+listFiles.Count+".");
 			listProblems.AddRange(GetCoverageProblems(listRows,listFiles));
 			Assert.AreEqual(0,listProblems.Count,"coverage.tsv ("+PATH_COVERAGE+", section 2.1 of docs/specs/ui-refresh-plan.md) and the files disagree:\r\n"
 				+string.Join("\r\n",listProblems));
