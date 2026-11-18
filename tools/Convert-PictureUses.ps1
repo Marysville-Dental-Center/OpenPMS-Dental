@@ -880,7 +880,10 @@ if($Apply){
 	if($newRecord.Count -gt 0){
 		$rowsKeep=@($script:RecordRows | Where-Object { $_.Slice -ne $Slice -or -not $relScanned.ContainsKey($_.File) })
 		$rowsOld=@($script:RecordRows | Where-Object { $_.Slice -eq $Slice -and $relScanned.ContainsKey($_.File) })
-		$all=@($rowsKeep)+@($rowsOld)+@($newRecord)
+		$all=New-Object System.Collections.Generic.List[object]
+		foreach($r in $rowsKeep){ $all.Add($r) }
+		foreach($r in $rowsOld){ $all.Add($r) }
+		foreach($r in $newRecord){ $all.Add($r) }
 		$linesRec=New-Object System.Collections.Generic.List[string]
 		$linesRec.Add('# The pictures UI-9a turned into icons (tools/Convert-PictureUses.ps1 -Apply writes this file; docs/port-notes/UI-9a.md).')
 		$linesRec.Add('# how: Icon (UI.Button.Icon, the 22 px slot drawn as vectors) or GetBitmap (IconLibrary.GetBitmap at the picture''s 96 DPI size).')

@@ -108,7 +108,7 @@ namespace OpenPmsDental {
 			// 
 			// butPrint
 			// 
-			this.butPrint.Image = global::OpenPmsDental.Properties.Resources.butPrint;
+			this.butPrint.Icon = OpenPmsDental.UI.EnumIcons.Print;
 			this.butPrint.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butPrint.Location = new System.Drawing.Point(1019, 41);
 			this.butPrint.Name = "butPrint";

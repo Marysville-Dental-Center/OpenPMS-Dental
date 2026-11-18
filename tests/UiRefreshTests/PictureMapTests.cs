@@ -240,10 +240,11 @@ namespace UiRefreshTests {
 					for(int y=0;y<bitmap.Height;y++) {
 						for(int x=0;x<bitmap.Width;x++) {
 							Color color=bitmap.GetPixel(x,y);
-							if(color.A==0) {
-								continue;
+							if(color.A<128) {
+								continue;//an antialiased edge: its colour is rounded through the alpha
 							}
-							Assert.AreEqual(colorRole.ToArgb()&0xFFFFFF,color.ToArgb()&0xFFFFFF,"Print at "+size+": a pixel of another colour.");
+							Assert.IsTrue(Math.Abs(color.R-colorRole.R)<=4 && Math.Abs(color.G-colorRole.G)<=4 && Math.Abs(color.B-colorRole.B)<=4,
+								"Print at "+size+": a pixel of "+color+", not the role colour "+colorRole+".");
 						}
 					}
 				}

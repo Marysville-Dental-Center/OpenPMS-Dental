@@ -821,7 +821,7 @@
 			// butPin
 			// 
 			this.butPin.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butPin.Image = ((System.Drawing.Image)(resources.GetObject("butPin.Image")));
+			this.butPin.Icon = OpenPmsDental.UI.EnumIcons.Pin;
 			this.butPin.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butPin.Location = new System.Drawing.Point(1137, 582);
 			this.butPin.Name = "butPin";

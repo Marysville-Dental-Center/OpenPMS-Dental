@@ -93,7 +93,7 @@ namespace OpenPmsDental{
 			// 
 			this.butMore.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butMore.Enabled = false;
-			this.butMore.Image = ((System.Drawing.Image)(resources.GetObject("butMore.Image")));
+			this.butMore.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.ArrowRight,13,15);
 			this.butMore.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.butMore.Location = new System.Drawing.Point(306, 268);
 			this.butMore.Name = "butMore";

@@ -54,7 +54,7 @@ namespace OpenPmsDental{
 			// butSend
 			// 
 			this.butSend.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSend.Image = ((System.Drawing.Image)(resources.GetObject("butSend.Image")));
+			this.butSend.Icon = OpenPmsDental.UI.EnumIcons.Send;
 			this.butSend.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butSend.Location = new System.Drawing.Point(310,66);
 			this.butSend.Name = "butSend";
