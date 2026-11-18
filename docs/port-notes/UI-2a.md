@@ -238,3 +238,54 @@ NoHqTests 122. The window checks with `OPMS_WINDOW_CHECKS_GROUPS=UF` in the owne
 unchanged and stays valid); **UF1 FAILED at the zoom step only**: the signed note shows as valid when the window opens; after the zoom
 (the note box at Microsoft Sans Serif 9.9) the box shows no signature, the window's `_signatureChanged` is True and the note is unchanged;
 the saved row has the same note and no signature. U0 PASSED (three pictures, not approved yet).
+
+## UI-2a-2: no container scales by font
+
+Branch `ui/ui2a2-1`. Nothing visible changes at 96 DPI.
+
+**The count.** A grep for `AutoScaleMode\s*=\s*...AutoScaleMode.Font` that skips comments finds 47 files in product code (plus 17 under
+`UnitTests` and 4 under `PluginExample`, which the ban leaves alone). The plan's 47 is right. The two frame comments (`FormODBase.cs:128`,
+`FormFrame.cs:95`) and `ODWebView2.Designer.cs:29` are comments and were not touched: neither of the two frame files is edited, so UI-3's
+frame work merges cleanly.
+
+| Mode | Files |
+|---|---|
+| `None` (5 UserControls that LayoutManager scales; `AutoScaleDimensions` left as is) | `OpenPmsDental/User Controls/ControlImageDisplay`, `ControlImageDock`; `CodeBase/Controls/PrintPanel`; `SparksToothChart/ToothChart2D`, `ToothChartWrapper` (all `.Designer.cs`) |
+| `Inherit` (the 12 graph UserControls; the `AutoScaleDimensions` line is removed, as the designer writes it for `Inherit`) | `OpenPmsDentalGraph/Dashboard`: `DashboardTabCtrl`, `DashboardPanelCtrl`, `DashboardCellCtrl`; `Base`: `GraphIncome`, `GraphQuantityOverTime`, `GroupingOptionsCtrl`, `BaseGraphOptionsCtrl`; `Concrete`: `GraphQuantityOverTimeFilter`, `BrokenApptGraphOptionsCtrl`, `HqMessagesRealTimeOptionsCtrl`, `IncomeGraphOptionsCtrl`, `ProductionGraphOptionsCtrl` |
+| `Dpi` with `AutoScaleDimensions` 96F,96F (30 plain-exe forms) | `CentralManager` 13 forms; `ServiceManager` `FormMain`, `FormServiceManage`, `FormWebConfigSettings`; `MySQLManager` `FormMySQLManager`, `FormMySQLUserEdit`; `OpenPmsDentalHL7/FormDebug`; `UpdateFileCopier/FormMain`; `DatabaseIntegrityCheck/FormDatabaseCheck`; `DocumentationBuilder/Form1`; `xCrudGenerator/Form1`; graph forms `FormDashboardEditTab`, `FormDashboardEditCell`, `FormDashboardNamePrompt`, `FormPrintImage`, `FormPrintSettings`; `OpenPmsDentalDbSettings/FormDbSettings`, `FormSecretPrompt` (code-built: the 96F,96F line is added, because `Dpi` without dimensions would take the current DPI as its base and never scale) |
+
+**Why `Inherit` for the graph controls.** Only `FormDashboardEditTab` holds one (`DashboardTabCtrl`) in its designer; the others are created in
+code inside one another. With `Inherit` and no dimensions of their own, the hosting form's `Dpi` scaling reaches each nested control exactly
+once, and a control added later by code is never scaled a second time. The .NET 10 `ContainerControl` source is not available offline, so this
+choice rests on the documented meaning of `Inherit` and is confirmed only by the desktop check below. If the dashboard shows double or missing
+scaling at 150%, the fallback is `Dpi` with 96F,96F on the three `Dashboard*Ctrl` controls.
+
+**Tests** (all source scans, no window): `NoHqTests/AutoScaleModeScanTests.cs`: the ban (an `AutoScaleMode.Font` assignment in the part of a
+line before `//`, all product code outside `UnitTests` and `PluginExample`) with a rule test; the 12 graph controls are `Inherit`; the 5
+LayoutManager controls are `None`; a form of each plain exe is `Dpi` with 96F,96F.
+
+**Bounds.** `Scan_TodaysFont_ReportsNothingNew` (UI-0b's bounds record, today's font, scales 1 and 1.5) passes with 0 bounds differences, and
+the layout snapshot tests pass. The scan builds forms without showing them, so the container mode does not move a control at 96 DPI; the
+before pictures of `.git/od-tools/test-results/ui-before` are compared by the harness group U in the lead's session.
+
+**The text-scale run (clip list for the UI-10 slices).** `OPMS_UI_SCAN=1`, run `today-textscale125` (today's font grown by Windows' text size
+125%, layout not growing with it, which is what `Dpi` does): 338 overflows over the plain forms and plain UserControls
+(`docs/port-notes/UI-2a-2-text-scale-clips.tsv`, columns of UI-0b's overflow file) and 69 self-sizing overlaps
+(`UI-2a-2-text-scale-selfsizing.tsv`). By project: RdlDesign (fyiReporting) 230, OpenPmsDentalGraph 36, CentralManager 34, DocumentationBuilder
+10, MySQLManager 7, CodeBase 6, OpenPmsDentalHL7 4, xCrudGenerator 3, OpenPmsDental 3, DatabaseIntegrityCheck 3, ODR 2. Most are 4 px
+too short (`fixable`: free space below). RdlDesign never used `AutoScaleMode.Font`, so its rows are not caused by this package: they show what a
+text size above 100% does to it today. The UI-10 slices fix them size-only, or the owner decides; if a form cannot be fixed that way, the plan's
+fallback (keep `Font` with the new font's metric in UI-2b, listed in the ban's allow list) applies. Full scan files:
+`.git/od-tools/test-results/ui2a2-scan/options`.
+
+**For the lead (desktop check, owner's connected session).** The test process cannot change Windows' DPI.
+1. Build x64 on `ui/ui2a2-1` and on `main` (before). In Settings > Display set the scale to 150%, sign out and in.
+2. Start Central Manager (`CentralManager.exe`), open its main window (`FormCentralManager`): note the window size, the position and size of the
+   grid, buttons and labels (a screenshot). Open Connections, Security and User Groups too.
+3. Start Open PMS - Dental, open the dashboard editor (`FormDashboardEditTab`, with a tab, a panel and a cell, and the cell and print-settings
+   windows) and take a screenshot.
+4. Repeat on main. Expected: the same layout, apart from the pixel-sized difference between the DPI ratio and the font-metric ratio (the
+   controls of the dashboard must not be double-sized, clipped, or stay at 96-DPI size). Report any difference; a dashboard that mis-scales is
+   fixed with the `Dpi` fallback above.
+5. Also at 125% text size (Settings > Accessibility > Text size) at 100% scale: the plain exes' text grows, their layout does not (the clip list).
+6. Set the scale back to 100%.

@@ -1150,6 +1150,7 @@ the bounds record must equal the before set.
   simulated scales do not reach them. Before UI-2a-2 merges, the owner (or the lead in the owner's connected session) opens the
   dashboard (`FormDashboardEditTab` with its tabs, panels and cells) and Central Manager's main window at 150%, before and after: the
   layout must be the same, apart from the pixel-sized difference between the DPI ratio and the font-metric ratio (5.1; section 8).
+- **Status (2026-11-17).** Done on `ui/ui2a2-1` (`docs/port-notes/UI-2a.md`, section UI-2a-2), not merged yet: the 47 sites changed (5 `None`, 12 graph controls `Inherit`, 30 forms `Dpi` 96F,96F), the NoHq ban and mode tests, the text-scale clip list for UI-10. The desktop check at 150% waits for the lead's connected session.
 
 **UI-2a-3: print fonts**
 - Owns: `GridOD.cs` (print and screen font split), `GridOld.cs` and `Tables Old Grids/ContrTable.cs` if they print, the print guard.
