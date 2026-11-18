@@ -128,8 +128,8 @@ namespace OpenPmsDental.UI{
 			regionOld?.Dispose();
 		}
 
-		///<summary>The tooltip has no LayoutManager: its scale is its monitor's.</summary>
-		private float GetScale(){
+		///<summary>The tooltip has no LayoutManager: its scale is its monitor's. Virtual so a test can paint it at another scale.</summary>
+		protected virtual float GetScale(){
 			return DeviceDpi/96f;
 		}
 	}

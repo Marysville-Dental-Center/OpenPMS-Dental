@@ -55,18 +55,29 @@ namespace UiRefreshTests {
 					List<Bitmap> listCheckWpf=rendersWpf ? listCheckStates.Select(x => StateControls.RenderWpfCheckBox(x.Item1,x.Item2,"Active",false,scale,out rectangleBox)).ToList() : new List<Bitmap>();
 					SaveStrip(Path.Combine(folderScale,"checkbox.png"),listCheckWinForms,listCheckWpf,scale);
 					countStrips++;
+					//The radio button: WPF only (the WinForms one is the stock control).
+					Rectangle rectangleCircle;
+					List<Bitmap> listRadio=rendersWpf ? new[] { SheetState.Normal,SheetState.Hover,SheetState.Disabled,SheetState.Checked }
+						.Select(x => StateControls.RenderWpfRadioButton(x,"Daily",false,scale,out rectangleCircle)).ToList() : new List<Bitmap>();
+					SaveStrip(Path.Combine(folderScale,"radiobutton-wpf.png"),new List<Bitmap>(),listRadio,scale);
+					countStrips++;
+					//The group box (6 px corners), rest and disabled, and the tooltip (4 px corners).
+					float scaleToolTip;
+					List<Bitmap> listOthersWinForms=new List<Bitmap> { StateControls.RenderWinFormsGroupBox("Address",true,scale),
+						StateControls.RenderWinFormsGroupBox("Address",false,scale),StateControls.RenderWinFormsToolTip("The patient's city",scale,out scaleToolTip) };
+					List<Bitmap> listOthersWpf=rendersWpf ? new List<Bitmap> { StateControls.RenderWpfGroupBox("Address",true,scale),
+						StateControls.RenderWpfGroupBox("Address",false,scale),StateControls.RenderWpfToolTip("The patient's city",scale) } : new List<Bitmap>();
+					SaveStrip(Path.Combine(folderScale,"groupbox-tooltip.png"),listOthersWinForms,listOthersWpf,scale);
+					countStrips++;
+					//PanelOD (WinForms, the Stroke border) beside the WPF Label (the Text colour), rest and disabled.
+					Rectangle rectangleClient;
+					List<Bitmap> listPanel=new List<Bitmap> { StateControls.RenderWinFormsPanelOD(true,scale,out rectangleClient),
+						StateControls.RenderWinFormsPanelOD(false,scale,out rectangleClient) };
+					List<Bitmap> listLabel=rendersWpf ? new List<Bitmap> { StateControls.RenderWpfLabel("City",false,true,scale),
+						StateControls.RenderWpfLabel("City",false,false,scale) } : new List<Bitmap>();
+					SaveStrip(Path.Combine(folderScale,"panel-label.png"),listPanel,listLabel,scale);
+					countStrips++;
 				}
-				//At 100% only: the radio button (WPF; the WinForms one is the stock control), the group box and the tooltip.
-				string folder100=Path.Combine(folder,"scale-100");
-				Rectangle rectangleCircle;
-				List<Bitmap> listRadio=rendersWpf ? new[] { SheetState.Normal,SheetState.Hover,SheetState.Disabled,SheetState.Checked }
-					.Select(x => StateControls.RenderWpfRadioButton(x,"Daily",false,out rectangleCircle)).ToList() : new List<Bitmap>();
-				SaveStrip(Path.Combine(folder100,"radiobutton-wpf.png"),new List<Bitmap>(),listRadio,1f);
-				float scaleToolTip;
-				List<Bitmap> listOthersWinForms=new List<Bitmap> { StateControls.RenderWinFormsGroupBox("Address",true),StateControls.RenderWinFormsToolTip("The patient's city",out scaleToolTip) };
-				List<Bitmap> listOthersWpf=rendersWpf ? new List<Bitmap> { StateControls.RenderWpfGroupBox("Address"),StateControls.RenderWpfToolTip("The patient's city") } : new List<Bitmap>();
-				SaveStrip(Path.Combine(folder100,"groupbox-tooltip.png"),listOthersWinForms,listOthersWpf,1f);
-				countStrips+=2;
 			});
 			Assert.IsTrue(countStrips>0);
 			if(!rendersWpf) {

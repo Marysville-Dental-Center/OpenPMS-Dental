@@ -113,9 +113,11 @@ skipped), M2TERMTests 21/21, M2INSPLANTests 31/31, NoHqTests 122/122. Full filte
 ## 6. Gallery G-UI1 part 2
 
 `.git/od-tools/test-results/ui4a-G-UI1-part2/` (`index.html` and the zip; the owner's summary is the note at the top of the page), made from
-the strips in `.git/od-tools/test-results/ui4a-G-UI1-part2-strips/` (`scale-100` to `scale-200`: `button.png`, `button-default.png`,
-`checkbox.png`; at 100% also `radiobutton-wpf.png` and `groupbox-tooltip.png`). Each strip: WinForms cells in the top row, WPF in the bottom
-row, the states left to right as in the design sheet. WinForms scales through LayoutManager's scale, WPF through its render scale. The
+the strips in `.git/od-tools/test-results/ui4a-G-UI1-part2-strips/` (each of `scale-100` to `scale-200`: `button.png`, `button-default.png`,
+`checkbox.png`, `radiobutton-wpf.png`, `groupbox-tooltip.png` (group box rest and disabled, then the tooltip) and `panel-label.png` (PanelOD
+above the WPF Label, rest and disabled)). Each strip: WinForms cells in the top row, WPF in the bottom row, the states left to right as in
+the design sheet. The tooltip at 125-200% is painted at that scale through a test subclass (ToolTipOD's `GetScale` is virtual for it; in the
+program it is the monitor's). PanelOD has no LayoutManager: at each scale it has the bounds a scaled window gives it and its 1 px border. WinForms scales through LayoutManager's scale, WPF through its render scale. The
 pictures are "only after": the WinForms controls have no copy of today's look to draw a before from; the before set of real windows
 (`ui-before`) is for G-UI3. `accept-buttons-for-G-UI3.tsv` is beside the page.
 

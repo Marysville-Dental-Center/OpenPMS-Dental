@@ -42,8 +42,18 @@ namespace UiRefreshTests {
 		}
 	}
 
-	///<summary>The WinForms tooltip window, painted into a bitmap by its own OnPaint (it is never shown).</summary>
+	///<summary>The WinForms tooltip window, painted into a bitmap by its own OnPaint (it is never shown). ScaleForced, when above 0, stands in
+	///for its monitor's scale (the gallery's 125-200% strips).</summary>
 	public class StateToolTip : OpenPmsDental.UI.ToolTipOD {
+		public float ScaleForced;
+
+		protected override float GetScale() {
+			if(ScaleForced>0) {
+				return ScaleForced;
+			}
+			return base.GetScale();
+		}
+
 		public void PaintTo(Graphics g) {
 			using(PaintEventArgs paintEventArgs=new PaintEventArgs(g,ClientRectangle)) {
 				OnPaint(paintEventArgs);
@@ -60,10 +70,10 @@ namespace UiRefreshTests {
 		private static Form MakeHost(out System.Windows.Forms.Panel panel) {
 			Form form=new Form();
 			form.ShowInTaskbar=false;
-			form.Size=new Size(400,300);
+			form.Size=new Size(600,400);//room for the group box at 200%
 			panel=new System.Windows.Forms.Panel();
 			panel.BackColor=SheetPainter.Light(EnumUiColor.Surface);
-			panel.Bounds=new Rectangle(0,0,380,260);
+			panel.Bounds=new Rectangle(0,0,580,360);
 			form.Controls.Add(panel);
 			return form;
 		}
@@ -150,10 +160,17 @@ namespace UiRefreshTests {
 		}
 
 		public static Bitmap RenderWinFormsGroupBox(string text,bool enabled) {
+			return RenderWinFormsGroupBox(text,enabled,1f);
+		}
+
+		///<summary>The group box at a scale through its LayoutManager, as a window at that scale sizes it.</summary>
+		public static Bitmap RenderWinFormsGroupBox(string text,bool enabled,float scale) {
 			System.Windows.Forms.Panel panel;
 			using(Form form=MakeHost(out panel)) {
 				OpenPmsDental.UI.GroupBox groupBox=new OpenPmsDental.UI.GroupBox();
-				groupBox.Bounds=new Rectangle(10,10,200,100);
+				groupBox.LayoutManager.SetScaleMS(scale);
+				groupBox.Font=new Font(groupBox.Font.FontFamily,groupBox.Font.Size*scale,groupBox.Font.Style);
+				groupBox.Bounds=new Rectangle(10,10,UiTheme.ScaleI(200,scale),UiTheme.ScaleI(100,scale));
 				groupBox.Text=text;
 				groupBox.Enabled=enabled;
 				panel.Controls.Add(groupBox);
@@ -163,11 +180,18 @@ namespace UiRefreshTests {
 		}
 
 		public static Bitmap RenderWinFormsToolTip(string text,out float scale) {
+			return RenderWinFormsToolTip(text,0,out scale);
+		}
+
+		///<summary>The tooltip painted at scaleForced (0: its monitor's scale, returned in scale), its size and font scaled with it.</summary>
+		public static Bitmap RenderWinFormsToolTip(string text,float scaleForced,out float scale) {
 			using(StateToolTip toolTipOD=new StateToolTip()) {
+				toolTipOD.ScaleForced=scaleForced;
+				float scaleSize=scaleForced>0 ? scaleForced : 1f;
 				toolTipOD.StringToShow=text;
-				toolTipOD.Font=new Font(UiTheme.FONT_FAMILY_TODAY,8.25f);
-				toolTipOD.Size=new Size(120,18);
-				scale=toolTipOD.DeviceDpi/96f;
+				toolTipOD.Font=new Font(UiTheme.FONT_FAMILY_TODAY,8.25f*scaleSize);
+				toolTipOD.Size=new Size(UiTheme.ScaleI(120,scaleSize),UiTheme.ScaleI(18,scaleSize));
+				scale=scaleForced>0 ? scaleForced : toolTipOD.DeviceDpi/96f;
 				//A hidden window prints white through DrawToBitmap: its own paint is called into the bitmap instead.
 				Bitmap bitmap=new Bitmap(toolTipOD.Width,toolTipOD.Height,PixelFormat.Format32bppArgb);
 				using(Graphics g=Graphics.FromImage(bitmap)) {
@@ -178,11 +202,18 @@ namespace UiRefreshTests {
 		}
 
 		public static Bitmap RenderWinFormsPanelOD(out Rectangle rectangleClient) {
+			return RenderWinFormsPanelOD(true,1f,out rectangleClient);
+		}
+
+		///<summary>PanelOD with the default border at the bounds a window at the scale gives it (the panel has no LayoutManager of its own: its
+		///border stays 1 px, as in a scaled window).</summary>
+		public static Bitmap RenderWinFormsPanelOD(bool enabled,float scale,out Rectangle rectangleClient) {
 			System.Windows.Forms.Panel panel;
 			using(Form form=MakeHost(out panel)) {
 				OpenPmsDental.UI.PanelOD panelOD=new OpenPmsDental.UI.PanelOD();
-				panelOD.Bounds=new Rectangle(10,10,100,60);
+				panelOD.Bounds=new Rectangle(10,10,UiTheme.ScaleI(100,scale),UiTheme.ScaleI(60,scale));
 				panelOD.BorderStyle=BorderStyle.FixedSingle;
+				panelOD.Enabled=enabled;
 				panelOD.BackColor=SheetPainter.Light(EnumUiColor.SurfaceRaised);
 				panel.Controls.Add(panelOD);
 				IntPtr handle=panelOD.Handle;
@@ -280,6 +311,10 @@ namespace UiRefreshTests {
 		}
 
 		public static Bitmap RenderWpfRadioButton(SheetState sheetState,string text,bool isPinned,out Rectangle rectangleCircle) {
+			return RenderWpfRadioButton(sheetState,text,isPinned,1f,out rectangleCircle);
+		}
+
+		public static Bitmap RenderWpfRadioButton(SheetState sheetState,string text,bool isPinned,float scale,out Rectangle rectangleCircle) {
 			WpfControls.UI.RadioButton radioButton=new WpfControls.UI.RadioButton();
 			radioButton.Width=100;
 			radioButton.Height=19;
@@ -297,28 +332,37 @@ namespace UiRefreshTests {
 				SetPrivate(radioButton,"_isHover",true);
 				CallPrivate(radioButton,"SetColors");
 			}
-			Bitmap bitmap=ControlPictures.RenderWpf(radioButton,100,19,1);
+			Bitmap bitmap=ControlPictures.RenderWpf(radioButton,100,19,scale);
 			System.Windows.FrameworkElement frameworkElementCircle=GetInternal<System.Windows.FrameworkElement>(radioButton,isPinned ? "ellipseOutline" : "ellipseNew");
 			System.Windows.Point point=frameworkElementCircle.TranslatePoint(new System.Windows.Point(0,0),radioButton);
-			rectangleCircle=UiTheme.SnapRectangle(new RectangleF((float)point.X,(float)point.Y,12,12));
+			rectangleCircle=UiTheme.SnapRectangle(new RectangleF((float)point.X*scale,(float)point.Y*scale,12*scale,12*scale));
 			return bitmap;
 		}
 
 		public static Bitmap RenderWpfGroupBox(string text) {
+			return RenderWpfGroupBox(text,true,1f);
+		}
+
+		public static Bitmap RenderWpfGroupBox(string text,bool enabled,float scale) {
 			WpfControls.UI.GroupBox groupBox=new WpfControls.UI.GroupBox();
 			groupBox.Width=200;
 			groupBox.Height=100;
 			groupBox.Text=text;
+			groupBox.IsEnabled=enabled;
 			//An element made in code fetches its theme style (Themes/Generic.xaml) when it is initialized, which happens when it gets a parent, as
 			//in a Frm.
 			System.Windows.Controls.Grid grid=new System.Windows.Controls.Grid();
 			grid.Width=200;
 			grid.Height=100;
 			grid.Children.Add(groupBox);
-			return ControlPictures.RenderWpf(grid,200,100,1);
+			return ControlPictures.RenderWpf(grid,200,100,scale);
 		}
 
 		public static Bitmap RenderWpfToolTip(string text) {
+			return RenderWpfToolTip(text,1f);
+		}
+
+		public static Bitmap RenderWpfToolTip(string text,float scale) {
 			WpfControls.UI.ToolTip toolTip=new WpfControls.UI.ToolTip();
 			GetInternal<System.Windows.Controls.TextBlock>(toolTip,"textBlock").Text=text;
 			System.Windows.FrameworkElement frameworkElementContent=(System.Windows.FrameworkElement)toolTip.Content;
@@ -327,12 +371,16 @@ namespace UiRefreshTests {
 			frameworkElementContent.Measure(new System.Windows.Size(120,22));
 			frameworkElementContent.Arrange(new System.Windows.Rect(0,0,120,22));
 			frameworkElementContent.UpdateLayout();
-			Bitmap bitmap=ControlPictures.RenderWpf(frameworkElementContent,120,22,1);
+			Bitmap bitmap=ControlPictures.RenderWpf(frameworkElementContent,120,22,scale);
 			toolTip.Close();
 			return bitmap;
 		}
 
 		public static Bitmap RenderWpfLabel(string text,bool isPinned) {
+			return RenderWpfLabel(text,isPinned,true,1f);
+		}
+
+		public static Bitmap RenderWpfLabel(string text,bool isPinned,bool enabled,float scale) {
 			WpfControls.UI.Label label=new WpfControls.UI.Label();
 			label.Width=75;
 			label.Height=18;
@@ -340,7 +388,8 @@ namespace UiRefreshTests {
 			if(isPinned) {
 				WpfControls.UI.ContentLook.SetIsPinned(label,true);
 			}
-			return ControlPictures.RenderWpf(label,75,18,1);
+			label.IsEnabled=enabled;
+			return ControlPictures.RenderWpf(label,75,18,scale);
 		}
 
 		///<summary>The synthetic eForm with the pin taken off its fill control: the controls inside draw the new look.</summary>
