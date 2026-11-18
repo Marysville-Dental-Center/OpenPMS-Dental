@@ -16,8 +16,8 @@ namespace WindowChecksTests {
 	public class UTests {
 		///<summary>Group U's parts, each also a group name of OPMS_WINDOW_CHECKS_GROUPS, so a run that would not fit the runner's 20 minutes can be
 		///split: UW the common windows, UM the main window and its modules, UD the dashboard, UF the font checks of UI-2a-1 (UF1, UF2: a signed note in a
-		///shown window). U runs all four.</summary>
-		public static readonly string[] ArrayParts=new[] { "UW","UM","UD","UF" };
+		///shown window), UX the frame checks of UI-3 (UX1 to UX3). U runs all five.</summary>
+		public static readonly string[] ArrayParts=new[] { "UW","UM","UD","UF","UX" };
 
 		///<summary>True when the run includes group U or one of its parts (U0 then runs at the end of the run).</summary>
 		public static bool IsInRun {
@@ -88,6 +88,19 @@ namespace WindowChecksTests {
 		public void UF1_SignedNote_StaysValid_AfterZoomResizeAndSave() {
 			BeginPart("UF");
 			CTests.RunInProcess(new[] { new[] { "UF1","Font: a signed note in FormProcEdit stays valid after zoom, resize and save" } },"chart");
+		}
+
+		///<summary>UI-3 (docs/specs/ui-refresh-plan.md, section 3.6 "Window frame", section 6 "Misc Colors"; docs/port-notes/UI-3.md): the frame's
+		///pictures that need a shown window, for gallery G-UI2 (InProcChecks.UX.cs). UX1 a customised office's title bar colours on the main window,
+		///a dialog and a Frm; UX2 the Imaging module with two floating image windows, one selected; UX3 the rounded-corner trial on a dialog.</summary>
+		[TestMethod]
+		public void UX1toUX3_WindowFrame() {
+			BeginPart("UX");
+			CTests.RunInProcess(new[] {
+				new[] { "UX1","Frame: a customised office's title bar colours (Misc Colors 11 to 13)" },
+				new[] { "UX2","Frame: the Imaging module with two floating image windows, one selected" },
+				new[] { "UX3","Frame: the trial of Windows 11's rounded corners" }
+			},"chart");
 		}
 
 		///<summary>UF1 without the zoom change and the resize: FormProcEdit with a signed note opened and saved; the saved signature is the same

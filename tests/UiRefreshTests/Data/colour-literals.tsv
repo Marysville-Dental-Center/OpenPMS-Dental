@@ -32,10 +32,7 @@ OpenPmsDental/UI/Appt/ToggleDayWeek.cs	Color.FromArgb(0,20,255)	1
 OpenPmsDental/UI/Appt/ToggleDayWeek.cs	Color.FromArgb(186,199,219)	1
 OpenPmsDental/UI/Appt/ToggleDayWeek.cs	Color.FromArgb(220,230,255)	1
 OpenPmsDental/UI/Appt/ToggleDayWeek.cs	Color.FromArgb(248,249,255)	1
-OpenPmsDental/UI/BordersDpi/FormODBase.cs	Color.FromArgb((3*_colorBorder.R+_colorBorderText.R)/4,(3*_colorBorder.G+_colorBorderText.G)/4,(3*_colorBorder.B+_colorBorderText.B)/4)	1
-OpenPmsDental/UI/BordersDpi/FormODBase.cs	Color.FromArgb(104,128,163)	1
-OpenPmsDental/UI/BordersDpi/FormODBase.cs	Color.FromArgb(232,17,35)	1
-OpenPmsDental/UI/BordersDpi/FormODBase.cs	Color.FromArgb(65,94,154)	2
+OpenPmsDental/UI/BordersDpi/FormODBase.cs	Color.FromArgb(65,94,154)	1
 OpenPmsDental/UI/Button.cs	Color.FromArgb(0,0,0)	1
 OpenPmsDental/UI/Button.cs	Color.FromArgb(0,110,190)	1
 OpenPmsDental/UI/Button.cs	Color.FromArgb(161,161,146)	1
