@@ -125,6 +125,12 @@ opt-in font scan skipped, as before), AttributionTests 54 of 54, ReleaseFlowTest
 122. Full filter x64: 0 errors. `tools/Test-NoEolFlips.ps1 -Base main`: no file changed its line ends. InitSqlTests and ForkMigrationTests
 were not run (no schema change).
 
+Review fix (ui/ui7a-2): `tests/PdfLibraryTests/SourceBuildTests.cs` `GitModules_NameTheGitHubProjects` checks the exact set of
+`third-party` folders; it now expects `fluentui-system-icons` too (the vendored Fluent SVGs are upstream files byte for byte, not a
+source copy beside a submodule); the check stays exact. Runs after a new full build (x64: 0 errors), x64 with `-RequireBuildOutput`,
+results in `.git/od-tools/test-results/ui7a-4.txt`: PdfLibraryTests 41 of 41, UiRefreshTests 57 of 58 (the opt-in font scan skipped),
+AttributionTests 54 of 54, ReleaseFlowTests 260 of 267 (the same 7 inconclusive), NoHqTests 122 of 122.
+
 ## 6. For the next packages
 
 - UI-3 (caption buttons): `UiIcons.Draw(g, UiGlyph.Subtract/Maximize/SquareMultiple/Dismiss, slot, UiTheme.GetColor(EnumUiColor.TitleBarText))`.
