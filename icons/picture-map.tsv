@@ -33,3 +33,13 @@ FormAutoNotes:imageListTree.ImageStream	UI-9b	the auto note tree's ImageList
 FormCareCreditWeb:imageList1.ImageStream	UI-9b	the window's ImageList
 FormCDSIntervention:imageListInfoButton.ImageStream	UI-9b	the info button ImageList of the CDS grid
 FormClaimsSend:imageList1.ImageStream	UI-9b	the claims toolbar's ImageList
+# UI-9a-2 (Forms D-L)
+Resources:deleteX18	EnumIcons.DeleteX	clear the value (red X, 18 x 18)
+Resources:butGoto	EnumIcons.ArrowRight	go, run (green circle with an arrow right)
+FormFeeSchedGroups:butAdd.Image	EnumIcons.Add	add (blue plus)
+FormEhrLabOrderEdit2014:imageListInfoButton.ImageStream	UI-9b	the info button ImageList of the lab grid
+FormEmailEdit:imageListMain.ImageStream	UI-9b	the window's ImageList
+FormEmailInbox:imageListButtonSmall.ImageStream	UI-9b	the small button ImageList
+FormEmailInbox:imageListMailboxesLarge.ImageStream	UI-9b	the mailboxes ImageList
+FormEtrans835s:imageListCalendar.ImageStream	UI-9b	the calendar ImageList
+FormJournal:imageListMain.ImageStream	UI-9b	the journal's ImageList
