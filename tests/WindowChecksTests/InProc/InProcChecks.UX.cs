@@ -86,7 +86,12 @@ namespace WindowChecksTests.InProc {
 				ui.Invoke(() => {
 					Rectangle rectangleMain=FormMain.Bounds;
 					for(int i=0;i<2;i++) {
+						//As ControlImages.LaunchFloater builds one: the floater needs its image control (FormImageFloat_Load reads its size)
+						//and the two callbacks; the image control is empty (the synthetic dump has no image files).
 						FormImageFloat formImageFloat=new FormImageFloat();
+						formImageFloat.FuncListFloaters=() => listFloats;
+						formImageFloat.FuncDockedTitle=() => "";
+						formImageFloat.SetControlImageDisplay(new ControlImageDisplay());
 						formImageFloat.Text=i==0 ? "Image 1 (selected)" : "Image 2";
 						formImageFloat.Show(FormMain);
 						formImageFloat.Bounds=new Rectangle(rectangleMain.X+300+i*460,rectangleMain.Y+220,440,320);
