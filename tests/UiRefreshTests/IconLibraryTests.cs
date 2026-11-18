@@ -54,7 +54,7 @@ namespace UiRefreshTests {
 		#region Manifest
 		[TestMethod]
 		public void Manifest_EveryEnumIconsHasARow_TheModulesAFilledRow_TheRolesOfUq4() {
-			Assert.AreEqual(48,WinIcons().Count(),"The WinForms EnumIcons: UI-7b's 38 and UI-9a-1's 10.");
+			Assert.AreEqual(49,WinIcons().Count(),"The WinForms EnumIcons: UI-7b's 38, UI-9a-1's 10 and Sync (owner, 2026-11-18).");
 			Assert.AreEqual(62,WpfIcons().Count(),"The WPF EnumIcons: UI-7b's 53, UI-9a-1's 8 and Sync (owner, 2026-11-18).");
 			List<IconRendererTests.ManifestRow> listRows=IconRendererTests.ReadManifest().Where(x => x.EnumName=="EnumIcons").ToList();
 			HashSet<string> hashSetMembers=new HashSet<string>(WinIcons().Select(x => x.ToString()).Concat(WpfIcons().Select(x => x.ToString())));
