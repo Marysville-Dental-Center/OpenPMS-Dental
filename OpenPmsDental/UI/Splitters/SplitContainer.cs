@@ -1,4 +1,5 @@
-﻿using OpenPmsDental.UI.Design;
+﻿using CodeBase;
+using OpenPmsDental.UI.Design;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -317,13 +318,19 @@ namespace OpenPmsDental.UI {
 		#endregion Methods - Event Handlers
 
 		#region Methods - Paint
+		///<summary>The new look (docs/specs/ui-refresh-plan.md section 3.6, package UI-4b-2, docs/port-notes/UI-4b.md): the area between the panels in
+		///the window's colour (Surface; ColorSplitter when a window sets one other than the old default Silver) with a 1 px Gridline line along the
+		///middle of the splitter, Accent while the mouse is down on it (dragging).</summary>
 		protected override void OnPaint(PaintEventArgs e) {
 			Graphics g=e.Graphics;
-			using SolidBrush solidBrush=new SolidBrush(_colorSplitter);
-			g.FillRectangle(solidBrush,ClientRectangle);//fill the whole thing.  Only the "splitter" will peek through
-			//using Pen penBorder=new Pen(_colorBorder);
-			//g.DrawRectangle(penBorder,0,0,Width-1,Height-1);//so we can see it in designer if no panels.
+			float scale=LayoutManager.ScaleMy();
+			Color colorBack=GetColorSplitterBack();
+			UiControlPaint.Fill(g,colorBack,ClientRectangle,0,scale);//fill the whole thing.  Only the "splitter" will peek through
 			if(panel1!=null && panel2!=null){
+				Rectangle rectangleSplitter=GetRectangleSplitter();
+				if(!rectangleSplitter.IsEmpty){
+					UiTabPaint.DrawSplitter(g,rectangleSplitter,isVertical:Orientation==Orientation.Vertical,isDragging:_isMouseDown,colorBack,scale);
+				}
 				return;
 			}
 			string str="You must set Panel1 and/or Panel2 properties.\r\n"
@@ -331,7 +338,34 @@ namespace OpenPmsDental.UI {
 			StringFormat stringFormat=new StringFormat();
 			stringFormat.Alignment = StringAlignment.Center;
 			stringFormat.LineAlignment = StringAlignment.Center;
-			g.DrawString(str,Font,Brushes.Black,ClientRectangle,stringFormat);
+			g.DrawString(str,Font,UiTheme.GetBrush(EnumUiColor.Text),ClientRectangle,stringFormat);
+		}
+
+		///<summary>The colour around the panels: Surface, or ColorSplitter when a window set its own (not the old default Silver).</summary>
+		public Color GetColorSplitterBack(){
+			if(_colorSplitter.ToArgb()==Color.Silver.ToArgb()){
+				return UiTheme.GetColor(EnumUiColor.Surface);
+			}
+			return _colorSplitter;
+		}
+
+		///<summary>The colour of the panels' borders: Stroke, or ColorBorder when a window set its own (not the old default Silver).</summary>
+		public Color GetColorBorderLine(){
+			if(_colorBorder.ToArgb()==Color.Silver.ToArgb()){
+				return UiTheme.GetColor(EnumUiColor.Stroke);
+			}
+			return _colorBorder;
+		}
+
+		///<summary>The splitter between the two panels as they are laid out; empty when a panel is collapsed.</summary>
+		public Rectangle GetRectangleSplitter(){
+			if(panel1 is null || panel2 is null || _isPanel1Collapsed || _isPanel2Collapsed){
+				return Rectangle.Empty;
+			}
+			if(Orientation==Orientation.Vertical){
+				return Rectangle.FromLTRB(panel1.Bounds.Right,0,Math.Max(panel1.Bounds.Right,panel2.Bounds.Left),Height);
+			}
+			return Rectangle.FromLTRB(0,panel1.Bounds.Bottom,Width,Math.Max(panel1.Bounds.Bottom,panel2.Bounds.Top));
 		}
 		#endregion Methods - Paint
 
@@ -343,6 +377,7 @@ namespace OpenPmsDental.UI {
 				return;
 			}
 			_isMouseDown=true;
+			Invalidate();//the splitter's line in Accent while dragging
 			_pointMouseDown=e.Location;
 			_splitterDistWhenMouseDown=LayoutManager.Scale(_splitterDist96);
 			if(Orientation==Orientation.Vertical){
@@ -383,6 +418,7 @@ namespace OpenPmsDental.UI {
 			LayoutPanels();
 			panel1.Invalidate();
 			panel2.Invalidate();
+			Invalidate();
 		}
 
 		protected override void OnMouseUp(MouseEventArgs e){
@@ -391,6 +427,7 @@ namespace OpenPmsDental.UI {
 				return;
 			}
 			_isMouseDown=false;
+			Invalidate();//the splitter's line back to Gridline
 			if(_pointMouseDown==e.Location){//no mouse movement
 				Cursor=Cursors.Default;
 				return;

@@ -61,7 +61,6 @@ OpenPmsDental/UI/ImagesModule/ZoomSlider.cs	Color.FromArgb(50,50,130)	2
 OpenPmsDental/UI/LightSignalGrid.cs	Color.FromArgb(R<0?0:R,G<0?0:G,B<0?0:B)	1
 OpenPmsDental/UI/MonthCalendarOD.cs	Color.FromArgb(255,130,0)	1
 OpenPmsDental/UI/MonthCalendarOD.cs	Color.FromArgb(70,120,180)	1
-OpenPmsDental/UI/TabControl/TabControl.cs	Color.FromArgb(170,190,230)	1
 OpenPmsDentalBusiness/UI/GridOD.cs	Color.FromArgb((colorDarker.R+colorBackground.R)/2,(colorDarker.G+colorBackground.G)/2,(colorDarker.B+colorBackground.B)/2)	1
 OpenPmsDentalBusiness/UI/GridOD.cs	Color.FromArgb((colorSelected.R+colorBackground.R)/2,(colorSelected.G+colorBackground.G)/2,(colorSelected.B+colorBackground.B)/2)	1
 OpenPmsDentalBusiness/UI/GridOD.cs	Color.FromArgb((colorSelection.R+gridRow.Cells[i].ColorBackG.R)/2,(colorSelection.G+gridRow.Cells[i].ColorBackG.G)/2,(colorSelection.B+gridRow.Cells[i].ColorBackG.B)/2)	1

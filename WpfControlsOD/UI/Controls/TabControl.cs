@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CodeBase;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -28,6 +29,17 @@ How to use the TabControl and TabPages:
 */
 	///<summary></summary>
 	public class TabControl : System.Windows.Controls.TabControl{
+		#region Brushes of the new look (UI-4b-2, docs/port-notes/UI-4b.md), for Themes/TabControlDict.xaml
+		public static SolidColorBrush BrushAccent => UiTheme.GetBrushWpf(EnumUiColor.Accent);
+		public static SolidColorBrush BrushStroke => UiTheme.GetBrushWpf(EnumUiColor.Stroke);
+		public static SolidColorBrush BrushSubtleHover => UiTheme.GetBrushWpf(EnumUiColor.SubtleHover);
+		public static SolidColorBrush BrushSurface => UiTheme.GetBrushWpf(EnumUiColor.Surface);
+		public static SolidColorBrush BrushSurfaceSubtle => UiTheme.GetBrushWpf(EnumUiColor.SurfaceSubtle);
+		public static SolidColorBrush BrushText => UiTheme.GetBrushWpf(EnumUiColor.Text);
+		public static SolidColorBrush BrushTextDisabled => UiTheme.GetBrushWpf(EnumUiColor.TextDisabled);
+		public static SolidColorBrush BrushTextSecondary => UiTheme.GetBrushWpf(EnumUiColor.TextSecondary);
+		#endregion Brushes of the new look
+
 		public TabControl(){
 			ResourceDictionary resourceDictionary=new ResourceDictionary();
 			Uri uri=new Uri(//"../../Themes/TabControlDict.xaml",UriKind.Relative);//couldn't get this to work
