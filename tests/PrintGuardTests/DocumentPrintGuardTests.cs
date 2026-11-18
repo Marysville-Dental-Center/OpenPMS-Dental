@@ -256,7 +256,9 @@ namespace PrintGuardTests {
 		public HostFormOD() : this(null) {
 		}
 
-		///<summary>With control on the window before its LayoutManager starts, as a designer control is, so the LayoutManager can move it.</summary>
+		///<summary>With control on the window before its LayoutManager starts, as a designer control is, and moved into the client panel as
+		///FormODBase's Load moves a window's controls (LayoutManagerForms.SetPanelClient), so the LayoutManager can move it as it moves the
+		///program's controls.</summary>
 		public HostFormOD(Control control) {
 			Name="HostFormOD";
 			ClientSize=new Size(700,760);
@@ -264,6 +266,9 @@ namespace PrintGuardTests {
 				Controls.Add(control);
 			}
 			InitializeLayoutManager();
+			if(control!=null) {
+				LayoutManager.SetPanelClient(this);
+			}
 		}
 
 		public LayoutManagerForms GetLayoutManager() {
