@@ -62,14 +62,16 @@ But to look good, don't go below 142 x 115.
 			//The new look (UI-4b-3, section 3.6): the selected day Accent with 4 px corners (was a smokey blue), today a 1 px Accent ring (was orange),
 			//hover SubtleHover; colours in SetLook.
 			borderDateSelected.CornerRadius=new CornerRadius(UiTheme.CORNER_CONTROL);
+			borderDateSelected.SnapsToDevicePixels=true;//section 3.3: shapes on whole device pixels, as the WinForms calendar draws them
 			System.Windows.Controls.Grid.SetZIndex(borderDateSelected,1);
 			borderDateSelected.Visibility=Visibility.Collapsed;
 			gridMain.Children.Add(borderDateSelected);
 			borderToday=new Border();
-			//borderToday.SnapsToDevicePixels=true;//this doesn't look good
+			//borderToday.SnapsToDevicePixels=true;//this doesn't look good (the orange ring of before; the new 1 px Accent ring is snapped below, UI-4b-3)
 			borderToday.Margin=new Thickness(2,0,2,0);
 			borderToday.BorderThickness=new Thickness(1);
 			borderToday.CornerRadius=new CornerRadius(UiTheme.CORNER_CONTROL);
+			borderToday.SnapsToDevicePixels=true;
 			//When today is also the selected day, a 1 px white ring inside the Accent ring, so the mark shows on the fill.
 			_borderTodayInner=new Border();
 			_borderTodayInner.BorderThickness=new Thickness(1);
@@ -79,6 +81,7 @@ But to look good, don't go below 142 x 115.
 			gridMain.Children.Add(borderToday);
 			borderHover=new Border();
 			borderHover.CornerRadius=new CornerRadius(UiTheme.CORNER_CONTROL);
+			borderHover.SnapsToDevicePixels=true;
 			borderHover.Visibility=Visibility.Collapsed;
 			//gridMain.Children.Add(borderDateSelected);
 			MouseMove+=MonthCalendar_MouseMove;
