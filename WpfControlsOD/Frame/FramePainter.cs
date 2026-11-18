@@ -1,0 +1,431 @@
+// The window frame of the new look (docs/specs/ui-refresh-plan.md, section 3.6 "Window frame", section 6 "Misc Colors"; package UI-3,
+// docs/port-notes/UI-3.md): the title bar, its caption buttons and the outline that FormODBase (OpenPmsDental) and FormFrame (WpfControlsOD)
+// draw in their PanelBorders. One painter for both, so the two frames give the same pixels for the same title.
+//
+// Its home is WpfControlsOD because it is the one project both frames reach that also knows the office's Misc Colors: OpenPmsDental
+// references WpfControlsOD, WpfControlsOD cannot reach OpenPmsDental (OpenPmsDental/UI/BordersDpi), and CodeBase references no business layer,
+// so DefCatMiscColors (OpenPmsDentalBusiness) is not known there. The tokens and the caption glyphs come from CodeBase (UiTheme, UiIcons).
+// Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
+using System;
+using System.Drawing;
+using System.Runtime.InteropServices;
+using System.Windows.Forms;
+using CodeBase;
+using OpenPmsDentalBusiness;
+
+namespace OpenPmsDental {
+	///<summary>Which frame a window gets: the ordinary window frame (the office's Misc Colors apply), or one of the floating image windows' two
+	///frames, which show which one is selected even without focus (Misc Colors do not apply to them, as before).</summary>
+	public enum EnumFrameLook {
+		///<summary>Every window: TitleBar with TitleBarText and the TitleBarOutline, or the office's Misc Colors item by item.</summary>
+		Window,
+		///<summary>The selected floating image window (FormImageFloat with IsImageFloatSelected): Accent with white text.</summary>
+		ImageFloatSelected,
+		///<summary>A floating image window that is not selected: SurfaceSubtle with Text and a 1 px Stroke outline.</summary>
+		ImageFloatUnselected
+	}
+
+	///<summary>The colours of one frame, resolved from the tokens and, for an ordinary window, the office's Misc Colors.</summary>
+	public class FrameColors {
+		///<summary>The title bar, and everything of the frame behind the client area.</summary>
+		public Color TitleBar;
+		///<summary>The title text and the caption glyphs at rest.</summary>
+		public Color TitleBarText;
+		///<summary>The 1 px outline around the window.</summary>
+		public Color Outline;
+		///<summary>The minimise and maximise buttons on hover.</summary>
+		public Color CaptionHover;
+		///<summary>The minimise and maximise glyphs on hover.</summary>
+		public Color CaptionHoverGlyph;
+		///<summary>The close button on hover: Danger.</summary>
+		public Color CloseHover;
+		///<summary>The close glyph on hover: white on Danger.</summary>
+		public Color CloseHoverGlyph;
+	}
+
+	///<summary>What a frame needs to be painted: the size of the window, its title and caption buttons, which button the mouse is over, and the
+	///scale functions of the window's LayoutManager or UIManager, so the painter computes every position exactly as the frames did.</summary>
+	public class FramePaintArgs {
+		///<summary>The window's width and height (Form.Width and Height, as the frames always used).</summary>
+		public int Width;
+		public int Height;
+		public string Text="";
+		public bool ControlBox=true;
+		public bool MaximizeBox=true;
+		public bool MinimizeBox=true;
+		public bool IsMaximized;
+		public bool ShowIcon=true;
+		///<summary>The icon drawn at the left of the title bar when ShowIcon. Null draws none.</summary>
+		public Icon Icon;
+		public bool IsHotX;
+		public bool IsHotMax;
+		public bool IsHotMin;
+		public EnumFrameLook FrameLook=EnumFrameLook.Window;
+		///<summary>True for the main window, whose title is drawn in the larger title font (FormODBase._fontTitle).</summary>
+		public bool IsMainWindowTitle;
+		///<summary>The title bar height in device pixels (GetHeightTitleBar).</summary>
+		public int HeightTitleBar;
+		///<summary>The space right of the close button (WidthBorder).</summary>
+		public int WidthBorder;
+		///<summary>MaxInset (0 since the frames stopped insetting maximized windows).</summary>
+		public int MaxInset;
+		///<summary>A 96 DPI length in whole device pixels, the window's own Scale.</summary>
+		public Func<float,int> Scale;
+		///<summary>A 96 DPI length in device pixels, the window's own ScaleF.</summary>
+		public Func<float,float> ScaleF;
+		///<summary>The title font sizes and heights (GetTitleFonts).</summary>
+		public FrameTitleFonts TitleFonts;
+	}
+
+	///<summary>The title font sizes and their heights, from the window's zoom and the screen it is on.</summary>
+	public class FrameTitleFonts {
+		public float FontSize;
+		public float FontSizeMainWindow;
+		public float HeightFont;
+		public float HeightFontMainWindow;
+	}
+
+	///<summary>The caption button rectangles the painter laid out, for the frames' mouse handling. Today's rectangles, unchanged.</summary>
+	public class FramePaintResult {
+		public Rectangle RectangleButX;
+		public Rectangle RectangleButMax;
+		public Rectangle RectangleButMin;
+		public Rectangle RectangleButtons;
+	}
+
+	///<summary>Paints the window frame of the new look for FormODBase and FormFrame (section 3.6): the title bar in TitleBar (or the office's Misc
+	///Colors 11 to 13, item by item, section 6), white title text, flat caption buttons with the Fluent glyphs (Subtract, Maximize,
+	///SquareMultiple, Dismiss), CaptionHover on minimise and maximise, Danger on close, and a 1 px outline in TitleBarOutline. The floating image
+	///windows get their selected and unselected frame. Positions and sizes are today's: only colours and glyphs change.</summary>
+	public static class FramePainter {
+		#region Misc Colors (section 6, UQ-3)
+		///<summary>Open Dental's stock Main Border (Misc Colors item 11): 65,94,154, #415E9A.</summary>
+		public const int MAIN_BORDER_STOCK_ARGB=-12493158;
+		///<summary>Open Dental's stock Main Border Outline (item 12): black.</summary>
+		public const int MAIN_BORDER_OUTLINE_STOCK_ARGB=-16777216;
+		///<summary>Open Dental's stock Main Border Text (item 13): white.</summary>
+		public const int MAIN_BORDER_TEXT_STOCK_ARGB=-1;
+
+		///<summary>True when the Misc Colors item holds Open Dental's stock value, so it counts as "not customised" and the title bar takes its token
+		///instead (section 6). False for every other item and for a changed colour. The Definitions window shows "(program default)" next to these.</summary>
+		public static bool IsStockMiscColor(DefCatMiscColors defCatMiscColors,Color color) {
+			int argb=color.ToArgb();
+			switch(defCatMiscColors) {
+				case DefCatMiscColors.MainBorder:
+					return argb==MAIN_BORDER_STOCK_ARGB;
+				case DefCatMiscColors.MainBorderOutline:
+					return argb==MAIN_BORDER_OUTLINE_STOCK_ARGB;
+				case DefCatMiscColors.MainBorderText:
+					return argb==MAIN_BORDER_TEXT_STOCK_ARGB;
+				default:
+					return false;
+			}
+		}
+
+		///<summary>True for the three Misc Colors items of the title bar (11, 12 and 13).</summary>
+		public static bool IsTitleBarMiscColor(int itemOrder) {
+			return itemOrder==(int)DefCatMiscColors.MainBorder || itemOrder==(int)DefCatMiscColors.MainBorderOutline
+				|| itemOrder==(int)DefCatMiscColors.MainBorderText;
+		}
+
+		///<summary>The colours of an ordinary window's frame from the office's three Misc Colors, item by item: an item that holds the stock value
+		///gives its token (Main Border gives TitleBar, Main Border Outline gives TitleBarOutline, Main Border Text gives TitleBarText), an item the
+		///office changed gives the office's colour. Minimise and maximise hover: CaptionHover while Main Border and Main Border Text are both stock,
+		///otherwise today's mix of the two (three parts border, one part text). Close hover: Danger with white. While Windows runs a high-contrast
+		///theme the tokens win over the office's colours (section 1).</summary>
+		public static FrameColors GetWindowColors(Color colorMainBorder,Color colorMainBorderOutline,Color colorMainBorderText) {
+			return GetWindowColors(colorMainBorder,colorMainBorderOutline,colorMainBorderText,UiTheme.IsHighContrast);
+		}
+
+		///<summary>GetWindowColors with the high-contrast state given, for the tests.</summary>
+		public static FrameColors GetWindowColors(Color colorMainBorder,Color colorMainBorderOutline,Color colorMainBorderText,bool isHighContrast) {
+			bool isStockBorder=isHighContrast || IsStockMiscColor(DefCatMiscColors.MainBorder,colorMainBorder);
+			bool isStockOutline=isHighContrast || IsStockMiscColor(DefCatMiscColors.MainBorderOutline,colorMainBorderOutline);
+			bool isStockText=isHighContrast || IsStockMiscColor(DefCatMiscColors.MainBorderText,colorMainBorderText);
+			FrameColors frameColors=new FrameColors();
+			frameColors.TitleBar=isStockBorder ? UiTheme.GetColor(EnumUiColor.TitleBar,isHighContrast) : colorMainBorder;
+			frameColors.Outline=isStockOutline ? UiTheme.GetColor(EnumUiColor.TitleBarOutline,isHighContrast) : colorMainBorderOutline;
+			frameColors.TitleBarText=isStockText ? UiTheme.GetColor(EnumUiColor.TitleBarText,isHighContrast) : colorMainBorderText;
+			if(isStockBorder && isStockText) {
+				frameColors.CaptionHover=UiTheme.GetColor(EnumUiColor.CaptionHover,isHighContrast);
+				frameColors.CaptionHoverGlyph=UiTheme.GetColor(EnumUiColor.TextOnAccent,isHighContrast);
+			}
+			else {
+				//The office's own title bar: the hover colour it always had, mostly the border colour with some of the text colour.
+				frameColors.CaptionHover=Color.FromArgb(
+					(3*frameColors.TitleBar.R+frameColors.TitleBarText.R)/4,
+					(3*frameColors.TitleBar.G+frameColors.TitleBarText.G)/4,
+					(3*frameColors.TitleBar.B+frameColors.TitleBarText.B)/4);
+				frameColors.CaptionHoverGlyph=frameColors.TitleBarText;
+			}
+			frameColors.CloseHover=UiTheme.GetColor(EnumUiColor.Danger,isHighContrast);
+			frameColors.CloseHoverGlyph=UiTheme.GetColor(EnumUiColor.TextOnAccent,isHighContrast);
+			return frameColors;
+		}
+
+		///<summary>The floating image windows' frames (section 3.6). Selected: Accent with white text, the TitleBarOutline, CaptionHover on hover.
+		///Unselected: SurfaceSubtle with Text, a 1 px Stroke outline, SubtleHover on hover. Close hover Danger with white on both. Misc Colors do not
+		///apply.</summary>
+		public static FrameColors GetImageFloatColors(bool isSelected) {
+			return GetImageFloatColors(isSelected,UiTheme.IsHighContrast);
+		}
+
+		///<summary>GetImageFloatColors with the high-contrast state given, for the tests.</summary>
+		public static FrameColors GetImageFloatColors(bool isSelected,bool isHighContrast) {
+			FrameColors frameColors=new FrameColors();
+			if(isSelected) {
+				frameColors.TitleBar=UiTheme.GetColor(EnumUiColor.Accent,isHighContrast);
+				frameColors.TitleBarText=UiTheme.GetColor(EnumUiColor.TextOnAccent,isHighContrast);
+				frameColors.Outline=UiTheme.GetColor(EnumUiColor.TitleBarOutline,isHighContrast);
+				frameColors.CaptionHover=UiTheme.GetColor(EnumUiColor.CaptionHover,isHighContrast);
+				frameColors.CaptionHoverGlyph=UiTheme.GetColor(EnumUiColor.TextOnAccent,isHighContrast);
+			}
+			else {
+				frameColors.TitleBar=UiTheme.GetColor(EnumUiColor.SurfaceSubtle,isHighContrast);
+				frameColors.TitleBarText=UiTheme.GetColor(EnumUiColor.Text,isHighContrast);
+				frameColors.Outline=UiTheme.GetColor(EnumUiColor.Stroke,isHighContrast);
+				frameColors.CaptionHover=UiTheme.GetColor(EnumUiColor.SubtleHover,isHighContrast);
+				frameColors.CaptionHoverGlyph=UiTheme.GetColor(EnumUiColor.Text,isHighContrast);
+			}
+			frameColors.CloseHover=UiTheme.GetColor(EnumUiColor.Danger,isHighContrast);
+			frameColors.CloseHoverGlyph=UiTheme.GetColor(EnumUiColor.TextOnAccent,isHighContrast);
+			return frameColors;
+		}
+
+		///<summary>The colours for a frame look: the window's from its three Misc Colors, or a floating image window's.</summary>
+		public static FrameColors GetColors(EnumFrameLook frameLook,Color colorMainBorder,Color colorMainBorderOutline,Color colorMainBorderText) {
+			if(frameLook==EnumFrameLook.ImageFloatSelected) {
+				return GetImageFloatColors(isSelected:true);
+			}
+			if(frameLook==EnumFrameLook.ImageFloatUnselected) {
+				return GetImageFloatColors(isSelected:false);
+			}
+			return GetWindowColors(colorMainBorder,colorMainBorderOutline,colorMainBorderText);
+		}
+		#endregion Misc Colors (section 6, UQ-3)
+
+		#region Title fonts
+		///<summary>The title font sizes as the frames computed them: 8.25 (13 for the main window) at the window's zoom, made smaller on a secondary
+		///screen whose DPI is lower than the primary's, and their heights. Null when the size comes out zero, negative or infinite (rare; the frames
+		///then drew no title, a blind fix kept as it was).</summary>
+		public static FrameTitleFonts GetTitleFonts(Control control,Func<float,float> scaleFontODZoom,Func<float,float> scaleMS) {
+			FrameTitleFonts frameTitleFonts=new FrameTitleFonts();
+			float fontSize=scaleFontODZoom(8.25f);
+			float fontSizeMainWindow=scaleFontODZoom(13f);
+			System.Windows.Forms.Screen screen=System.Windows.Forms.Screen.FromControl(control);
+			System.Windows.Forms.Screen screenPri=System.Windows.Forms.Screen.PrimaryScreen;
+			float scaleRatio=1;
+			if(screen!=screenPri){//if we are on the secondary screen
+				int dpiScreen=Dpi.GetScreenDpi(screen);//extern DllImport. Example 96
+				int dpiScreenPri=Dpi.GetScreenDpi(screenPri);//Example 144
+				scaleRatio=(float)dpiScreen/dpiScreenPri;//Example .67
+				if(scaleRatio!=1){//example, pri screen is 150%, so it makes the fonts on this screen too big
+					//We need to make them smaller
+					fontSize=fontSize*scaleRatio;
+					fontSizeMainWindow=fontSizeMainWindow*scaleRatio;
+				}
+			}
+			//Rarely seems to be 0, neg, or infinity. Not sure which or why.
+			//Blind fix:
+			if(fontSize<=0 || float.IsInfinity(fontSize)){
+				return null;
+			}
+			//The window titles' family token (UI-2a-1): Microsoft Sans Serif until UI-2b; the size is computed above.
+			using(Font font=new Font(UiTheme.FontFamilyName,fontSize))
+			using(Font fontMainWindow=new Font(UiTheme.FontFamilyName,fontSizeMainWindow)) {
+				frameTitleFonts.HeightFont=scaleMS(font.Height);
+				frameTitleFonts.HeightFontMainWindow=scaleMS(fontMainWindow.Height);
+			}
+			if(scaleRatio!=1){
+				//special edge case where the font is smaller than what we need to measure
+				//scale it again?
+				frameTitleFonts.HeightFont=frameTitleFonts.HeightFont/scaleRatio;
+				frameTitleFonts.HeightFontMainWindow=frameTitleFonts.HeightFontMainWindow/scaleRatio;
+			}
+			frameTitleFonts.FontSize=fontSize;
+			frameTitleFonts.FontSizeMainWindow=fontSizeMainWindow;
+			return frameTitleFonts;
+		}
+		#endregion Title fonts
+
+		#region Paint
+		///<summary>The glyph slot of a caption button at 96 DPI. The 16 px Fluent designs draw a 10 to 11 px mark, the size of the old glyphs.</summary>
+		public const int CAPTION_GLYPH_SLOT=16;
+
+		///<summary>Paints the whole frame into g (the PanelBorders' Graphics) and returns the caption button rectangles for the mouse handling. The
+		///rectangles, the icon and the title text are where the frames always put them; the client area covers the rest of the fill.</summary>
+		public static FramePaintResult Paint(Graphics g,FramePaintArgs args,FrameColors colors) {
+			FramePaintResult result=new FramePaintResult();
+			int maxInset=args.MaxInset;
+			FillColor(g,colors.TitleBar,new Rectangle(0,0,args.Width,args.Height));
+			//The outline: 1 px, 2 px at 200% (section 3.3: max(1, floor(scale)) device pixels), each pixel row on whole pixels.
+			int widthLine=UiTheme.GetLineWidth(args.ScaleF(1));
+			using(Pen penOutline=new Pen(colors.Outline)) {
+				for(int i=0;i<widthLine;i++) {
+					g.DrawRectangle(penOutline,maxInset+i,maxInset+i,args.Width-1-maxInset*2-i*2,args.Height-1-maxInset*2-i*2);
+				}
+			}
+			//The caption buttons: today's rectangles, used for the hit tests.
+			int wEdge=args.HeightTitleBar+args.Scale(4);//ours are nearly square instead of default wide
+			int hEdge=args.HeightTitleBar-1;
+			int xPos=args.Width-args.WidthBorder-maxInset;
+			int yPos=5+maxInset;
+			if(args.ControlBox){//there should always be a controlBox
+				xPos-=wEdge;
+				result.RectangleButX=new Rectangle(xPos,yPos,wEdge,hEdge);
+			}
+			if(args.ControlBox && args.MaximizeBox){
+				xPos-=wEdge;
+				result.RectangleButMax=new Rectangle(xPos,yPos,wEdge,hEdge);
+			}
+			if(args.ControlBox && args.MinimizeBox){
+				xPos-=wEdge;
+				result.RectangleButMin=new Rectangle(xPos,yPos,wEdge,hEdge);
+			}
+			result.RectangleButtons=new Rectangle(xPos,yPos,args.Width-xPos,args.HeightTitleBar);
+			//Each button is drawn flat over the whole height of the title bar, inside the outline (the PanelBorders' row 0 is the window's top
+			//pixel row), with its glyph centred: the hit rectangle above starts 5 px lower, for the top resize edge.
+			int glyphSlot=args.Scale(CAPTION_GLYPH_SLOT);
+			if(args.ControlBox) {
+				Rectangle rectangleShape=GetButtonShape(result.RectangleButX,args,widthLine);
+				Color colorGlyph=colors.TitleBarText;
+				if(args.IsHotX) {
+					FillColor(g,colors.CloseHover,rectangleShape);
+					colorGlyph=colors.CloseHoverGlyph;
+				}
+				UiIcons.Draw(g,UiGlyph.Dismiss,GetGlyphSlot(rectangleShape,glyphSlot),colorGlyph);
+			}
+			if(args.ControlBox && args.MaximizeBox) {
+				Rectangle rectangleShape=GetButtonShape(result.RectangleButMax,args,widthLine);
+				Color colorGlyph=colors.TitleBarText;
+				if(args.IsHotMax) {
+					FillColor(g,colors.CaptionHover,rectangleShape);
+					colorGlyph=colors.CaptionHoverGlyph;
+				}
+				UiGlyph uiGlyph=args.IsMaximized ? UiGlyph.SquareMultiple : UiGlyph.Maximize;
+				UiIcons.Draw(g,uiGlyph,GetGlyphSlot(rectangleShape,glyphSlot),colorGlyph);
+			}
+			if(args.ControlBox && args.MinimizeBox) {
+				Rectangle rectangleShape=GetButtonShape(result.RectangleButMin,args,widthLine);
+				Color colorGlyph=colors.TitleBarText;
+				if(args.IsHotMin) {
+					FillColor(g,colors.CaptionHover,rectangleShape);
+					colorGlyph=colors.CaptionHoverGlyph;
+				}
+				UiIcons.Draw(g,UiGlyph.Subtract,GetGlyphSlot(rectangleShape,glyphSlot),colorGlyph);
+			}
+			if(args.TitleFonts==null) {
+				return result;
+			}
+			Rectangle rectangleIcon=new Rectangle(maxInset+5,maxInset+4,args.Scale(20),args.Scale(20));
+			if(args.ShowIcon && args.Icon!=null){
+				using(Bitmap bitmapIcon=args.Icon.ToBitmap()) {
+					g.DrawImage(bitmapIcon,rectangleIcon);
+				}
+			}
+			using(SolidBrush brushText=new SolidBrush(colors.TitleBarText)) {
+				if(!args.IsMainWindowTitle){
+					using(Font font=new Font(UiTheme.FontFamilyName,args.TitleFonts.FontSize)) {
+						RectangleF rectangleText=new RectangleF(maxInset+args.ScaleF(30),maxInset+args.ScaleF(7),
+							result.RectangleButtons.Left-args.ScaleF(30)-maxInset+args.ScaleF(8),args.TitleFonts.HeightFont+2);//The 8 is just so we can get closer to the right
+						g.DrawString(args.Text,font,brushText,rectangleText);
+					}
+				}
+				else{
+					//We actually ignore the font size sent in
+					using(Font fontMainWindow=new Font(UiTheme.FontFamilyName,args.TitleFonts.FontSizeMainWindow)) {
+						RectangleF rectangleText=new RectangleF(
+							x:maxInset+args.ScaleF(30),
+							y:maxInset+args.ScaleF(3),
+							width:result.RectangleButtons.Left-args.ScaleF(30)-maxInset+args.ScaleF(8),//The 8 is just so we can get closer to the right
+							height:args.TitleFonts.HeightFontMainWindow+2);
+						g.DrawString(args.Text,fontMainWindow,brushText,rectangleText);
+					}
+				}
+			}
+			return result;
+		}
+
+		///<summary>The flat shape of a caption button: its hit rectangle's columns, from just inside the outline to the bottom of the title bar.</summary>
+		public static Rectangle GetButtonShape(Rectangle rectangleButton,FramePaintArgs args,int widthLine) {
+			int top=args.MaxInset+widthLine;
+			int right=Math.Min(rectangleButton.Right,args.Width-args.MaxInset-widthLine);
+			return Rectangle.FromLTRB(rectangleButton.Left,top,right,Math.Max(top,args.MaxInset+args.HeightTitleBar+1));
+		}
+
+		///<summary>The glyph slot centred in a button's shape.</summary>
+		private static Rectangle GetGlyphSlot(Rectangle rectangleShape,int glyphSlot) {
+			return new Rectangle(rectangleShape.X+(rectangleShape.Width-glyphSlot)/2,rectangleShape.Y+(rectangleShape.Height-glyphSlot)/2,glyphSlot,glyphSlot);
+		}
+
+		///<summary>Fills with a brush of its own: the frame's colours may be the office's, not tokens.</summary>
+		private static void FillColor(Graphics g,Color color,Rectangle rectangle) {
+			using(SolidBrush solidBrush=new SolidBrush(color)) {
+				g.FillRectangle(solidBrush,rectangle);
+			}
+		}
+		#endregion Paint
+
+		#region DWM rounded corners (trial)
+		///<summary>The environment variable that turns on the trial of Windows 11's rounded window corners for the program's own frame (UI-3, "try
+		///DWM rounded corners"): "round" or "small". Unset (the default), nothing is asked of Windows and the frame stays as before: the trial is
+		///kept only if the lead's pictures in a connected session are clean (docs/port-notes/UI-3.md, "For the lead"). While it is on, Windows is
+		///also asked to draw its 1 px window border in the frame's outline colour (DWMWA_BORDER_COLOR): the frame's own outline lies under the
+		///client area everywhere but along the title bar, so the border seen on screen is Windows' own.</summary>
+		public const string ENV_DWM_CORNERS="OPENPMS_UI3_DWM_CORNERS";
+		///<summary>DWMWA_WINDOW_CORNER_PREFERENCE (Windows 11 build 22000 and later).</summary>
+		private const int DWMWA_WINDOW_CORNER_PREFERENCE=33;
+		///<summary>DWMWA_BORDER_COLOR (Windows 11 build 22000 and later): a COLORREF, 0x00BBGGRR.</summary>
+		private const int DWMWA_BORDER_COLOR=34;
+		private const int DWMWCP_ROUND=2;
+		private const int DWMWCP_ROUNDSMALL=3;
+
+		[DllImport("dwmapi.dll")]
+		private static extern int DwmSetWindowAttribute(IntPtr hwnd,int dwAttribute,ref int pvAttribute,int cbAttribute);
+
+		///<summary>The corner preference the trial asks for: 0 (none, the default: nothing is set), DWMWCP_ROUND or DWMWCP_ROUNDSMALL.</summary>
+		public static int GetDwmCornerPreference() {
+			string value;
+			try {
+				value=Environment.GetEnvironmentVariable(ENV_DWM_CORNERS);
+			}
+			catch(Exception) {
+				return 0;
+			}
+			if(string.Equals(value,"round",StringComparison.OrdinalIgnoreCase)) {
+				return DWMWCP_ROUND;
+			}
+			if(string.Equals(value,"small",StringComparison.OrdinalIgnoreCase)) {
+				return DWMWCP_ROUNDSMALL;
+			}
+			return 0;
+		}
+
+		///<summary>The COLORREF (0x00BBGGRR) of a colour, as DWMWA_BORDER_COLOR takes it.</summary>
+		public static int ToColorRef(Color color) {
+			return color.R | (color.G<<8) | (color.B<<16);
+		}
+
+		///<summary>Asks Windows to round the window's corners and to draw its border in colorOutline when the trial is on
+		///(GetDwmCornerPreference). Does nothing otherwise, and nothing with the Windows frame (AreBordersMS), which Windows 11 rounds by itself.
+		///Windows 10 refuses both attributes; the results are ignored.</summary>
+		public static void ApplyDwmCorners(IntPtr hwnd,bool areBordersMS,Color colorOutline) {
+			if(areBordersMS || hwnd==IntPtr.Zero) {
+				return;
+			}
+			int preference=GetDwmCornerPreference();
+			if(preference==0) {
+				return;
+			}
+			try {
+				DwmSetWindowAttribute(hwnd,DWMWA_WINDOW_CORNER_PREFERENCE,ref preference,sizeof(int));
+				int colorRef=ToColorRef(colorOutline);
+				DwmSetWindowAttribute(hwnd,DWMWA_BORDER_COLOR,ref colorRef,sizeof(int));
+			}
+			catch(Exception) {
+				//No dwmapi entry point (not expected on Windows 10 or 11): the frame stays as before.
+			}
+		}
+		#endregion DWM rounded corners (trial)
+	}
+}
