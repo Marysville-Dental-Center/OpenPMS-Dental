@@ -1,8 +1,8 @@
 // Tests for package UI-7b (docs/specs/ui-refresh-plan.md, sections 3.5, 4.2 and 4.3, and section 7's UI-7b row; docs/port-notes/UI-7b.md): the
-// EnumIcons of both IconLibrary folders draw Fluent icons from the one icon table. Every EnumIcons has a manifest row (Chart32G, Chart32W and
-// ChartMed32 keep their pictures until UI-8) and draws non-empty at every size through the libraries' own calls on GDI+, Direct2D and WPF, on the
-// OnlyGDI path (NoD2D.txt) and in NoDpi mode; the module bar's icons have their Filled style; the role colours of UQ-4; the Gen_*.cs files are
-// gone but the three pictures'. Everything is drawn off screen; no window. The Direct2D tests need Direct2dWrapper.dll (the full build).
+// EnumIcons of both IconLibrary folders draw Fluent icons from the one icon table. Every EnumIcons has a manifest row (but Chart32G, Chart32W and
+// ChartMed32, which draw the custom dental icons Tooth, ToothFilled and ChartMedical since UI-8) and draws non-empty at every size through the
+// libraries' own calls on GDI+, Direct2D and WPF, on the OnlyGDI path (NoD2D.txt) and in NoDpi mode; the module bar's icons have their Filled
+// style; the role colours of UQ-4; the Gen_*.cs files are all gone (the three chart pictures' since UI-8). Everything is drawn off screen; no window. The Direct2D tests need Direct2dWrapper.dll (the full build).
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
 using System.Collections.Generic;
@@ -21,8 +21,11 @@ using WpfIconLibrary=WpfControls.UI.IconLibrary;
 namespace UiRefreshTests {
 	[TestClass]
 	public class IconLibraryTests {
-		///<summary>The icons that keep their pictures until UI-8 (section 7's UI-7b row).</summary>
-		private static readonly string[] _arrayPictures=new[] { "Chart32G","Chart32W","ChartMed32" };
+		///<summary>The module bar's chart icons, which have no EnumIcons row and draw a custom dental icon since UI-8 (section 4.4), with the dental
+		///icon each draws.</summary>
+		private static readonly Dictionary<string,DentalIcon> _dictDentalIcons=new Dictionary<string,DentalIcon> {
+			{ "Chart32G",DentalIcon.Tooth },{ "Chart32W",DentalIcon.ToothFilled },{ "ChartMed32",DentalIcon.ChartMedical },
+		};
 		///<summary>The module bar's icons, which have a Filled row (section 3.6: the selected module).</summary>
 		private static readonly string[] _arrayModules=new[] { "Appt32","Family32","Account32","TreatPlan32","TreatPlanMed32","Imaging32","Manage32" };
 		///<summary>UQ-4: the few role colours; every other icon is Text.</summary>
@@ -58,8 +61,8 @@ namespace UiRefreshTests {
 			Assert.AreEqual(53,hashSetMembers.Count,"Every WinForms member is also a WPF member.");
 			foreach(string member in hashSetMembers) {
 				IconRendererTests.ManifestRow manifestRow=listRows.SingleOrDefault(x => x.Name==member);
-				if(_arrayPictures.Contains(member)) {
-					Assert.IsNull(manifestRow,member+" keeps its picture until UI-8 and has no row yet.");
+				if(_dictDentalIcons.ContainsKey(member)) {
+					Assert.IsNull(manifestRow,member+" draws the dental icon "+_dictDentalIcons[member]+" (UI-8) and has no EnumIcons row.");
 					continue;
 				}
 				Assert.IsNotNull(manifestRow,"EnumIcons."+member+" has no row in icons/manifest.json.");
@@ -91,37 +94,43 @@ namespace UiRefreshTests {
 		}
 
 		[TestMethod]
-		public void Libraries_ShareTheTable_AndOnlyThePicturesHaveNone() {
+		public void Libraries_ShareTheTable_TheChartIconsDrawTheirDentalIcons() {
 			foreach(WinEnumIcons winEnumIcons in WinIcons()) {
-				bool isPicture=_arrayPictures.Contains(winEnumIcons.ToString());
-				Assert.AreEqual(isPicture,WinIconLibrary.IsPicture(winEnumIcons),winEnumIcons.ToString());
-				Assert.AreEqual(!isPicture,WinIconLibrary.IsVector(winEnumIcons),winEnumIcons.ToString());
-				Assert.AreEqual(isPicture,WinIconLibrary.GetDesigns(winEnumIcons).Length==0,winEnumIcons.ToString());
-				if(isPicture) {
-					continue;
+				Assert.IsTrue(WinIconLibrary.IsVector(winEnumIcons),winEnumIcons.ToString());
+				Assert.IsTrue(WinIconLibrary.GetDesigns(winEnumIcons).Length>0,winEnumIcons.ToString());
+				DentalIcon dentalIcon;
+				bool isDental=_dictDentalIcons.TryGetValue(winEnumIcons.ToString(),out dentalIcon);
+				Assert.AreEqual(isDental ? dentalIcon : DentalIcon.None,WinIconLibrary.GetDentalIcon(winEnumIcons),winEnumIcons.ToString());
+				if(isDental) {
+					CollectionAssert.AreEqual(UiIcons.GetDesigns(dentalIcon),WinIconLibrary.GetDesigns(winEnumIcons),winEnumIcons+": the dental icon's designs.");
+					CollectionAssert.AreEqual(UiIcons.GetDesigns(UiIcons.GetFilled(dentalIcon)),WinIconLibrary.GetDesigns(winEnumIcons,isFilled:true),
+						winEnumIcons+": the dental icon's Filled twin.");
 				}
 				WpfEnumIcons wpfEnumIcons=(WpfEnumIcons)Enum.Parse(typeof(WpfEnumIcons),winEnumIcons.ToString());
 				CollectionAssert.AreEqual(WinIconLibrary.GetDesigns(winEnumIcons),WpfIconLibrary.GetDesigns(wpfEnumIcons),winEnumIcons+": the same designs.");
 				IconDesign[] arrayFilled=WinIconLibrary.GetDesigns(winEnumIcons,isFilled:true);
 				CollectionAssert.AreEqual(arrayFilled,WpfIconLibrary.GetDesigns(wpfEnumIcons,isFilled:true),winEnumIcons+": the same Filled designs.");
-				bool isModule=_arrayModules.Contains(winEnumIcons.ToString());
+				bool isModule=_arrayModules.Contains(winEnumIcons.ToString()) || (isDental && UiIcons.GetFilled(dentalIcon)!=dentalIcon);
 				Assert.AreEqual(isModule,!arrayFilled.SequenceEqual(WinIconLibrary.GetDesigns(winEnumIcons)),
-					winEnumIcons+": a Filled style of its own only for the module bar's icons (the others fall back to Regular).");
+					winEnumIcons+": a Filled style of its own only for the module bar's icons (the others fall back to Regular; Chart32W is the Filled tooth).");
 			}
 			foreach(WpfEnumIcons wpfEnumIcons in WpfIcons()) {
-				bool isPicture=_arrayPictures.Contains(wpfEnumIcons.ToString());
-				Assert.AreEqual(!isPicture,WpfIconLibrary.IsWPF(wpfEnumIcons),wpfEnumIcons.ToString());
-				Assert.AreEqual(!isPicture,WpfIconLibrary.IsVector(wpfEnumIcons),wpfEnumIcons.ToString());
+				Assert.IsTrue(WpfIconLibrary.IsWPF(wpfEnumIcons),wpfEnumIcons.ToString());
+				Assert.IsTrue(WpfIconLibrary.IsVector(wpfEnumIcons),wpfEnumIcons.ToString());
+				DentalIcon dentalIcon;
+				bool isDental=_dictDentalIcons.TryGetValue(wpfEnumIcons.ToString(),out dentalIcon);
+				Assert.AreEqual(isDental ? dentalIcon : DentalIcon.None,WpfIconLibrary.GetDentalIcon(wpfEnumIcons),wpfEnumIcons.ToString());
 			}
 			Assert.AreEqual(0,WinIconLibrary.GetDesigns(WinEnumIcons.None).Length);
 			Assert.AreEqual(0,WpfIconLibrary.GetDesigns(WpfEnumIcons.None).Length);
 		}
 
 		[TestMethod]
-		public void GenFiles_GoneButThePictures() {
-			//The plan: the 38 + 37 Gen_*.cs files go once their EnumIcons draw from the table; the three pictures keep theirs until UI-8.
+		public void GenFiles_AllGone() {
+			//The plan: the 38 + 37 Gen_*.cs files go once their EnumIcons draw from the table (UI-7b); the three chart pictures' and IconSelector.cs
+			//went when the chart icons began to draw the dental icons (UI-8).
 			string root=RepoPaths.Root();
-			CollectionAssert.AreEquivalent(new[] { "Gen_Chart32G.cs","Gen_Chart32W.cs","Gen_ChartMed32.cs","IconLibrary.cs","IconSelector.cs" },
+			CollectionAssert.AreEquivalent(new[] { "IconLibrary.cs" },
 				Directory.GetFiles(Path.Combine(root,"OpenPmsDental","UI","IconLibrary")).Select(Path.GetFileName).ToArray());
 			CollectionAssert.AreEquivalent(new[] { "DrawSvg.cs","IconLibrary.cs" },
 				Directory.GetFiles(Path.Combine(root,"WpfControlsOD","UI","IconLibrary")).Select(Path.GetFileName).ToArray());
@@ -139,9 +148,6 @@ namespace UiRefreshTests {
 						Assert.IsTrue(arrayInk.Any(x => x>=64),winEnumIcons+" draws nothing on GDI+ at "+size+" px.");
 						int[] arrayInkDisabled=InkOnWhite((g,rectangle) => WinIconLibrary.DrawDisabled(g,winEnumIcons,rectangle),size);
 						Assert.IsTrue(arrayInkDisabled.Any(x => x>=16),winEnumIcons+" draws nothing disabled at "+size+" px.");
-					}
-					if(WinIconLibrary.IsPicture(winEnumIcons)) {
-						continue;
 					}
 					//The colour: a 24 px drawing on a transparent bitmap holds the role colour at full alpha.
 					Color colorRole=WinIconLibrary.GetColor(winEnumIcons);
@@ -202,9 +208,7 @@ namespace UiRefreshTests {
 				foreach(WinEnumIcons winEnumIcons in WinIcons()) {
 					System.Windows.Media.Imaging.BitmapImage bitmapImage=WinIconLibrary.DrawWpf(winEnumIcons);
 					Assert.IsNotNull(bitmapImage,winEnumIcons.ToString());
-					if(!WinIconLibrary.IsPicture(winEnumIcons)) {
-						Assert.AreEqual(WinIconLibrary.Width(winEnumIcons),bitmapImage.PixelWidth,winEnumIcons.ToString());
-					}
+					Assert.AreEqual(WinIconLibrary.Width(winEnumIcons),bitmapImage.PixelWidth,winEnumIcons.ToString());
 					System.Windows.Media.Imaging.FormatConvertedBitmap formatConvertedBitmap=new System.Windows.Media.Imaging.FormatConvertedBitmap(bitmapImage,
 						System.Windows.Media.PixelFormats.Bgra32,null,0);
 					byte[] arrayBytes=new byte[formatConvertedBitmap.PixelWidth*formatConvertedBitmap.PixelHeight*4];
@@ -232,11 +236,7 @@ namespace UiRefreshTests {
 							WinIconLibrary.OnlyGDI=true;
 							int[] arrayInkGdi=InkOnWhite((g,rectangle) => WinIconLibrary.Draw(g,winEnumIcons,rectangle,Color.White,Color.White),size);
 							IconRendererTests.AssertSameShape(arrayInkDirect2d,arrayInkGdi,winEnumIcons+" at "+size+" px, Direct2D and OnlyGDI");
-							//The Direct2D overload the program's Direct2D controls call (the pictures' bitmap path there is unchanged by UI-7b and
-							//draws nothing into a bitmap target, as before).
-							if(WinIconLibrary.IsPicture(winEnumIcons)) {
-								continue;
-							}
+							//The Direct2D overload the program's Direct2D controls call.
 							using(Bitmap bitmap=new Bitmap(size,size,PixelFormat.Format32bppArgb)) {
 								using(OpenPmsDental.UI.Direct2d direct2d=OpenPmsDental.UI.Direct2d.FromBitmap(bitmap)) {
 									direct2d.BeginDraw();
@@ -306,10 +306,6 @@ namespace UiRefreshTests {
 						grid.Width=size;
 						grid.Height=size;
 						WpfIconLibrary.DrawWpf(wpfEnumIcons,grid);
-						if(_arrayPictures.Contains(wpfEnumIcons.ToString())) {
-							Assert.AreEqual(0,grid.Children.Count,wpfEnumIcons+": WPF draws nothing for the pictures, as before UI-7b.");
-							continue;
-						}
 						Assert.AreEqual(1,grid.Children.Count,wpfEnumIcons.ToString());
 						System.Windows.Shapes.Path path=grid.Children[0] as System.Windows.Shapes.Path;
 						Assert.IsNotNull(path,wpfEnumIcons+" is not a Path.");

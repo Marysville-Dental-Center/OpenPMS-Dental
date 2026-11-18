@@ -526,14 +526,14 @@ namespace UiRefreshTests {
 		[TestMethod]
 		public void DentalIconPictures_ForTheGallery() {
 			//Every dental icon at every design size, Regular and Filled, in the Text colour on white, beside today's picture where there is one: the
-			//module bar's chart pictures (Chart32G, Chart32W, ChartMed32), the probe, the image selector's radiograph and photo, and the default
-			//procedure buttons' pictures. Written only with OPMS_UI8_ICON_PICTURES set; the drawing is checked every run.
+			//probe, the image selector's radiograph and photo, and the default procedure buttons' pictures. Written only with OPMS_UI8_ICON_PICTURES
+			//set; the drawing is checked every run. The module bar's chart pictures (Chart32G, Chart32W, ChartMed32) were pictured beside Tooth,
+			//ToothFilled and ChartMedical here until the chart icons began to draw those dental icons (UI-8); ModuleBarChartIcons_ForTheGallery
+			//pictures them now, and the gallery keeps the before pictures made with the Gen_*.cs pictures (docs/port-notes/UI-8.md, section 6).
 			string folder=Environment.GetEnvironmentVariable(VARIABLE_PICTURES);
 			bool isWriting=!string.IsNullOrEmpty(folder);
 			Dictionary<string,EnumIcons> dictToday=new Dictionary<string,EnumIcons> {
-				{ "Tooth",EnumIcons.Chart32G },{ "ToothFilled",EnumIcons.Chart32W },{ "ChartMedical",EnumIcons.ChartMed32 },
-				{ "ChartMedicalFilled",EnumIcons.ChartMed32 },{ "PerioProbe",EnumIcons.Probe },{ "XrayPeriapical",EnumIcons.ImageSelectorXray },
-				{ "IntraoralPhoto",EnumIcons.ImageSelectorPhoto },
+				{ "PerioProbe",EnumIcons.Probe },{ "XrayPeriapical",EnumIcons.ImageSelectorXray },{ "IntraoralPhoto",EnumIcons.ImageSelectorPhoto },
 			};
 			Color colorText=UiTheme.GetColorLight(EnumUiColor.Text);
 			IconRendererTests.RunSta(() => {
@@ -622,8 +622,9 @@ namespace UiRefreshTests {
 		public void ModuleBarChartIcons_ForTheGallery() {
 			//The module bar's chart icons (Chart32G at rest, Chart32W selected, ChartMed32 in the medical layout) drawn by IconLibrary.Draw as
 			//ModuleBar.OnPaint draws them: a slot of LayoutManager.Scale(32) at 100, 125, 150 and 200%, over the button's background, and the 100%
-			//one 4x for a closer look. Before UI-8's switch these are the Gen_*.cs pictures; since it, the dental icons Tooth, ToothFilled and
-			//ChartMedical. Written to <OPMS_UI8_ICON_PICTURES>\modulebar\ only when the variable is set; the drawing is checked every run.
+			//one 4x for a closer look. Before UI-8's switch these were the Gen_*.cs pictures; since it, the dental icons Tooth, ToothFilled and
+			//ChartMedical, the same pixels as UiIcons draws them. Written to <OPMS_UI8_ICON_PICTURES>\modulebar\ only when the variable is set; the
+			//drawing is checked every run.
 			string folder=Environment.GetEnvironmentVariable(VARIABLE_PICTURES);
 			bool isWriting=!string.IsNullOrEmpty(folder);
 			IconRendererTests.RunSta(() => {
@@ -631,6 +632,21 @@ namespace UiRefreshTests {
 				try {
 					foreach((EnumIcons enumIcons,string dentalIcon,string state,Color colorBack) in _arrayModuleBarChart) {
 						string name=enumIcons+"-"+dentalIcon+"-"+state;
+						//The chart icon is its dental icon: the GDI+ fill (designMode) gives the dental icon's pixels in the Text colour, at every slot.
+						Assert.AreEqual((DentalIcon)Enum.Parse(typeof(DentalIcon),dentalIcon),IconLibrary.GetDentalIcon(enumIcons),name);
+						foreach(int[] arraySlotDesign in _arraySlotDesigns) {
+							int slot=arraySlotDesign[0];
+							using(Bitmap bitmapLibrary=NewWhiteBitmap(slot))
+							using(Bitmap bitmapDental=NewWhiteBitmap(slot)) {
+								using(Graphics g=Graphics.FromImage(bitmapLibrary)) {
+									IconLibrary.Draw(g,enumIcons,new Rectangle(0,0,slot,slot),Color.White,Color.White,designMode:true);
+								}
+								using(Graphics g=Graphics.FromImage(bitmapDental)) {
+									UiIcons.Draw(g,IconLibrary.GetDentalIcon(enumIcons),new Rectangle(0,0,slot,slot),EnumUiColor.Text);
+								}
+								CollectionAssert.AreEqual(IconRendererTests.GetPixels(bitmapDental),IconRendererTests.GetPixels(bitmapLibrary),name+" at "+slot+" px.");
+							}
+						}
 						foreach(int percent in new[] { 100,125,150,200 }) {
 							int size=32*percent/100;
 							using(Bitmap bitmap=new Bitmap(size,size,PixelFormat.Format32bppArgb)) {

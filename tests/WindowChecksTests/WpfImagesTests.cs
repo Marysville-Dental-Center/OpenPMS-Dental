@@ -54,7 +54,7 @@ namespace WindowChecksTests {
 					}
 					countIcons++;
 				}
-				Assert.AreEqual(50,countIcons,"The WPF EnumIcons with a Fluent icon: 53 members but Chart32G, Chart32W and ChartMed32 (UI-8).");
+				Assert.AreEqual(53,countIcons,"The WPF EnumIcons, every one a vector icon: the Fluent icons and, since UI-8, Chart32G, Chart32W and ChartMed32's dental icons.");
 			});
 		}
 
