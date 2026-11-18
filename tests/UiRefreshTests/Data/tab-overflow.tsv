@@ -1,0 +1,4 @@
+# The self-drawn tab strips whose tabs run past the strip's right edge (UI-4b-2, docs/port-notes/UI-4b.md; TabStripFitTests): window,
+# tab control, font (today: Microsoft Sans Serif 8.25; segoe9: UI-2b's Segoe UI 9), size (designer; smallest: cut to a 1024 x 728 desktop),
+# the tabs past the edge. Written by the test with OPMS_UI4B2_WRITE_OVERFLOW=1. For the owner (UQ-9): a tab strip does not wrap or
+# scroll, so a tab past the edge is cut off and cannot be clicked there.
