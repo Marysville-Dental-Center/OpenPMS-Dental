@@ -1259,6 +1259,13 @@ so it is cut into two slices that share no files and may run side by side).
 - Tests: `BrandingTests.BrandColor_IsTheProgramsGridTitleBlue` moves to the token; the print guard; a grid picture test of title,
   header, hover, selection with and without focus, a coloured row; the scan rerun.
 - Gallery: G-UI1 part 2 and G-UI2.
+- **Status (2026-11-17).** Done on `ui/ui5-1` (`docs/port-notes/UI-5.md`), not merged yet, waiting for G-UI1 part 2 (grids) and G-UI2:
+  `OpenPmsDentalBusiness/UI/GridScreenLook.cs` (the WinForms grid look from the tokens) drawn by `GridOD` and `GridOld` (still used: the
+  Chart module's progress notes); `WpfControlsOD/UI/Controls/Supplemental/GridLook.cs` for the WPF `Grid` and `Themes/DataGridDict.xaml`.
+  Title, header and editable row heights follow the font tokens (18, 15 and 19 px today as before; 20, 18 and 22 with UI-2b's Segoe UI;
+  rows 14 and 17); the selection bar and the focused row's outline; a window's own row and selection colours stay. Printouts and sheets keep
+  today's look (the print guard's grid, sheet, perio, MigraDoc, report and dashboard outputs have the same SHA-256 before and after). Tests: `tests/UiRefreshTests/GridLookTests.cs`, the branding test on the token,
+  the colour scan reads `GridScreenLook.cs`. The India Arial switch of the screen fonts is gone (Segoe UI draws the rupee sign).
 
 **UI-6: toolbars, menus and the module bar**
 - Owns: `ToolBarOD.cs`, `ODToolBarButton*.cs`, `WpfControlsOD/UI/Controls/ToolBar*.xaml(.cs)`, `MenuOD.cs` (`MenuRenderer`), WPF
