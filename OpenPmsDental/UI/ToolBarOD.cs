@@ -656,13 +656,10 @@ Boilerplate for the new WpfControls.UI.ToolBar is over in ToolBar.xaml.cs
 		///<summary>Draws an EnumIcons icon in the colour, transparently over whatever the control has drawn under it (GDI+, CodeBase.UiIcons, the
 		///same shapes antialiased), so no box shows behind the icon on a hover, pressed or toggled shape: IconLibrary.Draw fills an opaque Direct2D
 		///bitmap over the colours it is given (UI-7b's review), which would show its square inside a rounded shape. isFilled: the icon's Filled style
-		///(the selected module). The pictures (IconLibrary.IsPicture) draw their bitmaps.</summary>
+		///(the selected module). Every icon is a vector design: the chart's icons draw UI-8's custom dental icons (IconLibrary.GetDentalIcon), Chart32W
+		///with isFilled the ToothFilled.</summary>
 		internal static void DrawIconTransparent(Graphics g,EnumIcons icon,Rectangle rectangle,Color color,bool isFilled=false){
 			if(icon==EnumIcons.None){
-				return;
-			}
-			if(IconLibrary.IsPicture(icon)){
-				IconLibrary.Draw(g,icon,rectangle,color,color);
 				return;
 			}
 			UiIcons.Draw(g,IconLibrary.GetDesign(icon,Math.Min(rectangle.Width,rectangle.Height),isFilled),rectangle,color);

@@ -9,7 +9,7 @@
              Width="430" Height="222" 
              Text="Select Zipcode" MinMaxBoxes="False" >
 	<Grid Background="#FFFCFDFE" >
-		<ui:Button x:Name="butSave" HorizontalAlignment="Right" Width="75" VerticalAlignment="Bottom" Height="26" Margin="0,0,14,12" Text="_Save" Click="butSave_Click" />
+		<ui:Button x:Name="butSave" IsPrimary="True" HorizontalAlignment="Right" Width="75" VerticalAlignment="Bottom" Height="26" Margin="0,0,14,12" Text="_Save" Click="butSave_Click" />
 		<ui:Button x:Name="butEdit" Width="75" VerticalAlignment="Bottom" Height="26" Margin="203,0,0,12" Text="_Edit" Click="butEdit_Click" BitmapFileName="editPencil.gif" />
 		<ui:Button x:Name="butDelete" Width="75" VerticalAlignment="Bottom" Height="26" Margin="114,0,0,12" Text="_Delete" Icon="DeleteX" Click="butDelete_Click" />
 		<ui:Button x:Name="butAdd" Width="75" VerticalAlignment="Bottom" Height="26" Margin="25,0,0,12" Text="_Add" Icon="Add" Click="butAdd_Click" />

@@ -798,6 +798,7 @@ namespace UiRefreshTests {
 				{ "IconData.g.cs",new[] { "System" } },
 				{ "UiIcons.cs",new[] { "System","System.Collections.Generic","System.Drawing" } },
 				{ "UiIcons.Gdi.cs",new[] { "System","System.Collections.Generic","System.Drawing","System.Drawing.Drawing2D","System.Drawing.Imaging" } },
+				{ "UiIcons.Dental.cs",new[] { "System","System.Drawing" } },
 				{ "UiIcons.ImageList.cs",new[] { "System","System.Drawing","System.Windows.Forms" } },
 				{ "UiIcons.Wpf.cs",new[] { "System","System.Collections.Generic","System.Windows","System.Windows.Media" } },
 			};

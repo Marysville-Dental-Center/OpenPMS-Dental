@@ -1158,6 +1158,12 @@ the bounds record must equal the before set.
   `FontTitle` (5.1), which hold today's sans serif 8.5 and 10 Bold.
 - Tests: the print guard (section 9: GridOD print and sheet output, sheets, claim forms, the perio chart print, the claim perio
   attachment, eForm PDF output, reports, RDL and MigraDoc output, the graph dashboard's chart page, identical before and after).
+- **Status (2026-11-17).** Done on `ui/ui2a3-1` (`docs/port-notes/UI-2a.md`, section UI-2a-3), not merged yet: GridOD's screen fonts take
+  `FontGrid` and `FontTitle`; its printout, sheet methods and the row heights of printouts, sheets and the sheet canvas (`IsForDocument`)
+  use print fonts pinned to today's and today's print colours (`GridPrintLook`, UQ-5); GridOld (it prints the progress notes) has the same
+  split; ContrTable does not print and is unchanged. The print guard is `tests/PrintGuardTests`: every item of section 9 rendered with
+  today's tokens and with UI-2b's and compared byte for byte; the eForm PDF needs WPF rendering and waits for a connected session
+  (`OPMS_PRINT_GUARD_WPF=1`).
 
 **UI-2a-4 to UI-2a-n: the code font sites and the plain forms' designer fonts**
 - Slices: by folder, in the folder order of UI-9a, at most about 40 files each; the brief sets the cut from a fresh grep. The last
@@ -1204,6 +1210,14 @@ the bounds record must equal the before set.
   (tolerance as in `ChartImageCompare`); the layout snapshot and the bounds record; `TerminologyLayoutTests` and `LayoutDesignerTests`;
   the eForm fill surface unchanged (picture test of a synthetic eForm); the scan rerun (5.4).
 - Gallery: **G-UI1 part 2** (the real controls with state strips, WinForms beside WPF) and the AcceptButton list for G-UI3.
+- **Status (2026-11-17).** Done on `ui/ui4a-1` (`docs/port-notes/UI-4a.md`), not merged yet: `CodeBase/UI/UiControlPaint.cs` (the 3.6
+  shapes from the tokens, the same as the design sheet's); WinForms `Button` (the form's `AcceptButton` as the default button), `CheckBox`
+  (the same 13 px box, the Fluent mark and dash), `GroupBox`, `PanelOD` (square: its border is Windows'), `ToolTipOD`; WPF `Button` (with
+  `IsPrimary` on 13 Frms), `CheckBox`, `RadioButton`, `GroupBox`, `Label`, `ToolTip`, the two shared focus visual styles in `Generic.xaml`;
+  `ContentLook.IsPinned` keeps `CtrlEFormFill` in today's look (the synthetic eForm picture is unchanged). Tests in `tests/UiRefreshTests`
+  (`ControlStateTests`, `EFormLookTests`, `ControlStateGallery`); `Data/accept-buttons.tsv` lists 86 `UI.Button` AcceptButtons, 12 of them
+  not OK or Save for the owner. Gallery G-UI1 part 2 in `.git/od-tools/test-results/ui4a-G-UI1-part2/`. The WPF controls are not focusable
+  today, so their focus ring waits until one is made focusable (a behaviour change, not in UI-4a).
 
 **UI-4b: core controls, part 2** (the UI-4b row of 2.1; on `main` 58 code and XAML files, `.resx` aside, in five control families,
 so it is cut into three slices). Each slice owns its controls' WinForms and WPF files, their styles in
@@ -1284,12 +1298,23 @@ so it is cut into two slices that share no files and may run side by side).
   (the examples of 4.3 have no 32 px design; owner question). `InProcChecks.DE` `WpfImages` counts vector icons.
 
 **UI-8: custom dental icons**
-- Owns: `icons/custom/*.svg`, their manifest rows, `db/init/new-database.sql` (default procedure-button pictures only, if UQ-7 says yes).
-- Needs: UI-7a.
+- Owns: `icons/custom/*.svg`, their manifest rows, `db/init/new-database.sql` (default procedure-button pictures only, if UQ-7 says yes);
+  after UI-7b has merged, the chart icons' lines of both `IconLibrary` copies (Chart32G, Chart32W, ChartMed32 to the dental icons) and the
+  three chart `Gen_*.cs` files with `IconSelector.cs`.
+- Needs: UI-7a (UI-7b merged, for the chart icons).
 - Work: section 4.4.
 - Tests: as UI-7b; a test that the seeded procedure-button pictures are 20×20; a test that no office row is changed by any code path
   (the pictures are only in the new-database script).
 - Gallery: **G-UI1 part 4** (each dental icon at each size, beside today's picture).
+- **Status (2026-11-17).** Done on `ui/ui8-2` (`docs/port-notes/UI-8.md`), not merged yet, waiting for G-UI1 part 4
+  (`.git/od-tools/test-results/G-UI1-part4-ui8`, rendered off screen). 20 dental icons of 4.4, Regular and Filled, at 16, 20, 24, 32 and
+  48 px, drawn in `tools/DentalIcons/DentalIconArt.cs` (`tools/New-DentalIcons.ps1` writes `icons/custom/*.svg`); Fluent's Dentist has no
+  32 px design, so the tooth is drawn here too. Their own enum `DentalIcon` (40 manifest rows; `EnumIcons` rows stay away from the three
+  chart icons). Fix round `ui/ui8-2` (main merged in, with UI-7b): both `IconLibrary` copies draw `Chart32G`, `Chart32W` and `ChartMed32`
+  as `Tooth`, `ToothFilled` and `ChartMedical` (`IconLibrary.GetDentalIcon`), so the module bar shows the new tooth; the three chart
+  `Gen_*.cs` files and `IconSelector.cs` are gone, and G-UI1 part 4 shows the module bar's chart icons before and after. UQ-7: DevDbTool gives the 8 default procedure buttons of a new database the new pictures (20x20,
+  the table's format) and `db/init/new-database.sql` holds them; `ProcButtons.SetToDefault` keeps Open Dental's (owner question: should the
+  reset give the new ones?).
 
 **Slices.** The remaining work touches hundreds of designer files, the same files the 26.2 port edits. It is cut into fixed slices of
 at most about 40 designer files or one module each. Each slice is one package: its own writer and review, its own gallery slice, its

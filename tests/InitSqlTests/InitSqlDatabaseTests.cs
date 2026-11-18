@@ -176,6 +176,16 @@ namespace InitSqlTests {
 		}
 
 		[TestMethod]
+		public void Rows_DefaultProcButtonPicturesAre20x20Bitmaps() {
+			//UQ-7 (package UI-8): the loaded database's default procedure buttons, as the Chart module reads them (base64 bitmaps, PIn.Bitmap).
+			DataTable table=DataCore.GetTable("SELECT Description,ButtonImage FROM procbutton WHERE ButtonImage<>'' ORDER BY ProcButtonNum");
+			Assert.AreEqual(8,table.Rows.Count,"The 8 default procedure buttons with a picture.");
+			foreach(DataRow row in table.Rows) {
+				InitSqlFileTests.AssertBitmap20x20(Convert.FromBase64String(row["ButtonImage"].ToString()),row["Description"].ToString());
+			}
+		}
+
+		[TestMethod]
 		public void BusinessLayer_ReadsThePreferences() {
 			Cache.Refresh(InvalidType.Prefs);
 			Assert.AreEqual(@"C:\OpenDentImages\",PrefC.GetString(PrefName.DocPath));

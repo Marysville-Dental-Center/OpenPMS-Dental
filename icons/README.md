@@ -9,7 +9,8 @@ UI-7a (`docs/port-notes/UI-7a.md`).
 | File | What |
 |---|---|
 | `icons/manifest.json` | every icon the program draws: one row per purpose (below) |
-| `icons/custom/` | the program's own SVGs, for purposes Fluent has no icon for (none yet; the dental icons are UI-8's) |
+| `icons/custom/` | the program's own SVGs, for purposes Fluent has no icon for: the dental icons of UI-8 (below, "The custom icons") |
+| `tools/New-DentalIcons.ps1`, `tools/DentalIcons/DentalIconArt.cs` | the drawing of the custom icons: shapes in, `icons/custom/*.svg` out (deterministic, committed) |
 | `third-party/fluentui-system-icons/icons/` | the Fluent SVGs the manifest names, unchanged, in the npm package's layout `<name>_<size>_<style>.svg` |
 | `third-party/fluentui-system-icons/LICENSE`, `SOURCE.txt` | the MIT licence; the version, download, integrity hash, commit and each file's SHA-256 |
 | `tools/New-IconData.ps1` | the generator: manifest and SVGs in, `CodeBase/UI/Icons/IconData.g.cs` out (deterministic, committed) |
@@ -56,6 +57,57 @@ anything but `<path d>` elements (groups, clip paths, transforms, fills, even-od
 SVGs set a fill, an opacity or a transform and 5 hold groups and clip paths; none uses the even-odd rule. Teach the generator what such
 an icon needs when one is chosen, or pick another.
 
+## The custom icons
+
+Fluent has no tooth chart, perio, probe, implant, X-ray type, sensor or mount icons (its Dentist is a plain tooth without a 32 px design,
+and its Xray is a chest film), so the program draws its own (plan section 4.4, package UI-8, `docs/port-notes/UI-8.md`). They are
+**original work of this program, under its GPL**, like the logo (`branding/README.md`): drawn as shapes in
+`tools/DentalIcons/DentalIconArt.cs`, from public dental anatomy only. No shape is copied from Open Dental's pictures, from IconOrganizer
+art, from Fluent or from any other icon set. Every SVG says so in a comment.
+
+- **Style.** Fluent's: designed on a 24 unit square and drawn at 16, 20, 24, 32 and 48 px with the stroke weight of Fluent's Regular icons
+  of that size (1, 1, 1.5, 2 and 2.5 px), rounded ends and joins, straight edges on whole pixels, one colour (role `Text`), and a Filled
+  twin of every icon (`<name>Filled`, file stem `<stem>_filled`) for "on" states. The 16 px designs leave out what does not fit (section
+  3.5's design-for-slot rule); the 48 px design serves the module bar at 150% and above.
+- **The enum.** `DentalIcon`, generated into `IconData.g.cs` from the manifest's `DentalIcon` rows (custom icons only), each Regular row
+  followed by its Filled twin. `UiIcons.Draw(g,DentalIcon.Tooth,slot,color)`, `UiIcons.GetBitmap`, `UiIcons.GetFilled`,
+  `UiIcons.GetGeometryWpf(UiIcons.GetDesign(icon,px),slot,scale)` and `Direct2d.DrawIcon(g,UiIcons.GetDesign(icon,px),slot,color,back)`
+  draw them like the glyphs.
+- **Changing one.** Edit the shapes in `DentalIconArt.cs`, run `powershell -NoProfile -ExecutionPolicy Bypass -File tools\New-DentalIcons.ps1`
+  (with `-Preview <folder>` for a look at every design), then `tools\New-IconData.ps1`, and commit the drawing, the SVGs and
+  `IconData.g.cs` together. `tools\New-DentalIcons.ps1 -Check` and `UiRefreshTests` fail while they disagree. The SVGs keep their bytes in
+  every checkout (`.gitattributes`: `icons/custom/** -text`; one line, no line end).
+- **Procedure buttons.** The 8 default procedure buttons of a new database (`db/init/new-database.sql`) carry the procedure icons' 20 px
+  designs as 20x20 bitmaps (UQ-7: new databases only), made by `UiIcons.GetProcButtonPicture` in `tools/DevDbTool`'s scrub of the scratch
+  database. An office's buttons never change: `ProcButtons.SetToDefault` keeps Open Dental's pictures.
+
+| Purpose | Today | Icon (`DentalIcon`) | Shape |
+|---|---|---|---|
+| Module bar: Chart (`Chart32G`; selected `Chart32W`) | tooth pictures (`Gen_Chart32G.cs`, `Gen_Chart32W.cs`) | `Tooth` (selected `ToothFilled`) | a molar: two cusps, two roots |
+| Module bar: Chart, medical layout (`ChartMed32`) | red medical cross (`Gen_ChartMed32.cs`) | `ChartMedical` | a chart card with a medical cross |
+| Perio chart | none | `PerioChart` | a chart: the gum line over three teeth, pocket depths as bars |
+| Perio probe (`Probe`, no code draws it) | probe on the gum | `PerioProbe` | a periodontal probe with a marked tip |
+| Bitewing radiograph | none | `XrayBitewing` | a landscape film with its bite tab, teeth meeting at the bite line |
+| Periapical radiograph; procedure button PA | radiograph (`ImageSelectorXray`); film picture | `XrayPeriapical` | a portrait film with one whole tooth |
+| Panoramic radiograph | none | `XrayPano` | a wide film with both arches |
+| Cephalometric radiograph | none | `XrayCeph` | a square film with a head in profile |
+| Intraoral sensor | none | `Sensor` | the sensor with its active area and cable |
+| Phosphor plate | none | `PhosphorPlate` | a plate with its orientation dot and a sheen |
+| Mount | none (`ImageSelectorMount` is UI-7b's Fluent grid) | `Mount` | a frame holding two rows of films |
+| Intraoral photo | photo of teeth (`ImageSelectorPhoto`) | `IntraoralPhoto` | a photo with a molar in it |
+| Implant | none | `Implant` | crown, abutment and threaded fixture |
+| Orthodontics | none | `Ortho` | a front tooth with a bracket and the arch wire |
+| Procedure button Amalgam | coloured picture | `ProcAmalgam` | a molar with a solid filling in its crown |
+| Procedure button Composite | coloured picture | `ProcComposite` | a front tooth with a filling at its corner |
+| Procedure button Crown-PFM | coloured picture (shared with Crown-Ceramic) | `ProcCrownPfm` | a molar capped to the margin, a metal collar line |
+| Procedure button Crown-Ceramic | coloured picture (shared with Crown-PFM) | `ProcCrownCeramic` | a molar capped to the margin, a shine on the cap |
+| Procedure button RCT | coloured picture | `ProcRct` | a molar with its pulp chamber and both canals filled |
+| Procedure buttons RCT BU PFM, RCT BU Ceramic | coloured picture (shared) | `ProcRctBuildUp` | a molar with filled canals and a solid core |
+
+The module bar draws `Chart32G`, `Chart32W` and `ChartMed32` as `Tooth`, `ToothFilled` and `ChartMedical`: both `IconLibrary` copies map
+them (`IconLibrary.GetDentalIcon`; their Filled style is the dental icon's Filled twin), and they have no `EnumIcons` row. Their pictures
+(`Gen_Chart32G.cs`, `Gen_Chart32W.cs`, `Gen_ChartMed32.cs`, `IconSelector.cs`) are gone (UI-8, `docs/port-notes/UI-8.md`).
+
 ## A new version
 
 Download the newest `@fluentui/svg-icons` into a new dated folder under `.git/od-tools/downloads` with SOURCES, SHA256SUMS and MANIFEST,
@@ -97,10 +149,10 @@ the manifest; G-UI1 part 3 shows them.
 | Module bar: Account (`Account32`) | green dollar sign and card | Receipt (regular; filled); the plan's example Receipt Money has no 32 px design | Fluent | UI-7b |
 | Module bar: Tx Plan (`TreatPlan32`) | clipboard with a list | Clipboard Text LTR (regular; filled); the plan's Clipboard Task List LTR has no 32 px design | Fluent | UI-7b |
 | Module bar: Tx Plan, medical layout (`TreatPlanMed32`) | clipboard with a list | Heart Pulse (regular; filled); the plan's Clipboard Heart has no 32 px design | Fluent | UI-7b |
-| Module bar: Chart (`Chart32G`, `Chart32W`), medical (`ChartMed32`) | tooth; red medical cross | today's pictures, kept | Gen_*.cs | UI-8 |
+| Module bar: Chart (`Chart32G`, `Chart32W`), medical (`ChartMed32`) | tooth; red medical cross | `Tooth` (selected `ToothFilled`), `ChartMedical` (dental icons, above) | custom | UI-8 |
 | Module bar: Imaging (`Imaging32`) | scanner and camera | Image Multiple (regular; filled) | Fluent | UI-7b |
 | Module bar: Manage (`Manage32`) | purple gears | Briefcase (regular; filled) | Fluent | UI-7b |
-| Chart picture no code draws (`Chart32`) | tooth | Clipboard Pulse (regular), until UI-8's tooth | Fluent | UI-7b |
+| Chart picture no code draws (`Chart32`) | tooth | Clipboard Pulse (regular); the module bar's Chart draws UI-8's tooth | Fluent | UI-7b |
 | Add (`Add`) | blue plus | Add (regular), `Accent` | Fluent | UI-7b |
 | Delete (`DeleteX`) | red X | Delete (regular), `Danger` | Fluent | UI-7b |
 | Left and right arrows (`ArrowLeft`, `ArrowRight`) | blue arrows | Arrow Left, Arrow Right (regular) | Fluent | UI-7b |

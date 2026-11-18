@@ -9,8 +9,9 @@ namespace WpfControls.UI{
 The icons of the WPF toolbars, buttons, tree views and the image selector. Since package UI-7b of the UI refresh (docs/specs/ui-refresh-plan.md,
 sections 3.5, 4.2 and 4.3; docs/port-notes/UI-7b.md) every member draws a Fluent UI System Icon from the one icon table in CodeBase
 (CodeBase/UI/Icons, made by tools/New-IconData.ps1 from icons/manifest.json, where each member has its row keyed by its name), the same rows
-the WinForms IconLibrary (OpenPmsDental/UI/IconLibrary) draws. Chart32G, Chart32W and ChartMed32 have no row until UI-8 makes the dental icons;
-WPF never drew them (they had no WPF picture).
+the WinForms IconLibrary (OpenPmsDental/UI/IconLibrary) draws. Since UI-8 (section 4.4, docs/port-notes/UI-8.md) the chart icons draw the custom
+dental icons of the same table, as the WinForms library does (GetDentalIcon): Chart32G the Tooth, Chart32W the ToothFilled and ChartMed32 the
+ChartMedical (before UI-8 WPF drew nothing for them).
 To add an icon: add the member here (and to the WinForms enum when WinForms draws it), add its manifest row (icons/README.md), run the generator.
 	*/
 	public enum EnumIcons{
@@ -83,8 +84,7 @@ To add an icon: add the member here (and to the WinForms enum when WinForms draw
 
 		///<summary>Adds the icon to the grid as a Path filled in the icon's colour (its manifest role, UQ-4), the size of grid.Width (22 DIPs in buttons
 		///and toolbars, 16 in a tree view for example; square icons only). The design is the one for the slot's real pixel size at the grid's DPI
-		///(section 3.5), centred on whole device pixels. Any margin is set by the caller on the grid. Nothing for None or an icon without a row
-		///(Chart32G, Chart32W, ChartMed32).</summary>
+		///(section 3.5), centred on whole device pixels. Any margin is set by the caller on the grid. Nothing for None.</summary>
 		public static void DrawWpf(EnumIcons enumIcons,System.Windows.Controls.Grid grid){
 			DrawWpf(enumIcons,grid,null,isFilled:false);
 		}
@@ -113,8 +113,24 @@ To add an icon: add the member here (and to the WinForms enum when WinForms draw
 			grid.Children.Add(path);
 		}
 
+		///<summary>The custom dental icon (UI-8, section 4.4) an icon draws instead of an EnumIcons row, as in the WinForms library: Chart32G the Tooth,
+		///Chart32W the ToothFilled and ChartMed32 the ChartMedical. DentalIcon.None for every other icon. Their Filled style is the dental icon's
+		///Filled twin.</summary>
+		public static DentalIcon GetDentalIcon(EnumIcons icon){
+			switch(icon){
+				case EnumIcons.Chart32G:
+					return DentalIcon.Tooth;
+				case EnumIcons.Chart32W:
+					return DentalIcon.ToothFilled;
+				case EnumIcons.ChartMed32:
+					return DentalIcon.ChartMedical;
+				default:
+					return DentalIcon.None;
+			}
+		}
+
 		///<summary>The icon's designs in the icon table by rising size, Regular or Filled. The Filled style falls back to Regular when the icon has no
-		///Filled row. Empty for None and the icons without a row.</summary>
+		///Filled row. Empty for None.</summary>
 		public static IconDesign[] GetDesigns(EnumIcons icon,bool isFilled=false){
 			if(_arrayDesignsRegular==null){
 				lock(_lockDesigns){
@@ -131,6 +147,12 @@ To add an icon: add the member here (and to the WinForms enum when WinForms draw
 							if(iconEach==EnumIcons.None){
 								arrayRegular[(int)value]=new IconDesign[0];
 								arrayFilled[(int)value]=new IconDesign[0];
+								continue;
+							}
+							DentalIcon dentalIcon=GetDentalIcon(iconEach);
+							if(dentalIcon!=DentalIcon.None){
+								arrayRegular[(int)value]=UiIcons.GetDesigns(dentalIcon);
+								arrayFilled[(int)value]=UiIcons.GetDesigns(UiIcons.GetFilled(dentalIcon));
 								continue;
 							}
 							arrayRegular[(int)value]=UiIcons.GetDesigns(MANIFEST_ENUM,iconEach.ToString());

@@ -260,8 +260,8 @@ namespace OpenPmsDental {
 			else if(isHot) {
 				UiToolStripRenderer.FillRounded(g,EnumUiColor.SubtleHover,rectangleShape,radius);
 			}
-			//Image: the Fluent icon drawn transparently over the shape (no box behind it); the chart's picture (until UI-8) in its white version on the
-			//selected module's white shape.
+			//Image: the Fluent icon drawn transparently over the shape (no box behind it); the Chart module draws UI-8's tooth (Chart32G the Tooth,
+			//selected Chart32W the ToothFilled in Accent; the medical layout the ChartMedical).
 			Rectangle imgRect=new Rectangle((Width-LayoutManager.Scale(32))/2,button.Bounds.Y+4,LayoutManager.Scale(32),LayoutManager.Scale(32));
 			EnumIcons icon=button.Icon;
 			if(isSelected && button.Icon2!=EnumIcons.None){

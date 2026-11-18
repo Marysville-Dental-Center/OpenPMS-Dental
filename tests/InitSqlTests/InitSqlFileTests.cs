@@ -127,6 +127,42 @@ namespace InitSqlTests {
 		}
 
 		[TestMethod]
+		public void File_DefaultProcButtonPicturesAre20x20Bitmaps() {
+			//UQ-7 of docs/specs/ui-refresh-plan.md (package UI-8): the 8 default procedure buttons with a picture carry new-style pictures in the format
+			//procbutton.ButtonImage holds today: a 20x20 bitmap file, 32 bits per pixel, base64 (the Chart module's 20x20 image list).
+			Match matchInsert=Regex.Match(_text,@"^INSERT INTO `procbutton` \(`ProcButtonNum`,`Description`,`ItemOrder`,`Category`,`ButtonImage`,`IsMultiVisit`\) VALUES\n(.*?);$",
+				RegexOptions.Multiline|RegexOptions.Singleline);
+			Assert.IsTrue(matchInsert.Success,"The procbutton rows.");
+			List<string> listWithPicture=new List<string>();
+			foreach(string line in matchInsert.Groups[1].Value.Split('\n')) {
+				Match matchRow=Regex.Match(line,@"^\((\d+),'([^']*)',\d+,\d+,'([A-Za-z0-9+/=]*)',\d+\),?$");
+				Assert.IsTrue(matchRow.Success,"A procbutton row: "+line.Substring(0,Math.Min(100,line.Length)));
+				if(matchRow.Groups[3].Value=="") {
+					continue;
+				}
+				listWithPicture.Add(matchRow.Groups[2].Value);
+				AssertBitmap20x20(Convert.FromBase64String(matchRow.Groups[3].Value),matchRow.Groups[2].Value);
+			}
+			CollectionAssert.AreEquivalent(new[] { "Amalgam","Composite","Crown-PFM","Crown-Ceramic","RCT","RCT BU PFM","RCT BU Ceramic","PA" },listWithPicture);
+		}
+
+		///<summary>Asserts the bytes are a 20x20 bitmap file of 32 bits per pixel, uncompressed, bottom-up, every pixel opaque.</summary>
+		public static void AssertBitmap20x20(byte[] arrayBytes,string what) {
+			Assert.IsTrue(arrayBytes.Length>=54 && arrayBytes[0]==(byte)'B' && arrayBytes[1]==(byte)'M',what+": a bitmap file.");
+			Assert.AreEqual(arrayBytes.Length,BitConverter.ToInt32(arrayBytes,2),what+": the file size.");
+			Assert.AreEqual(54,BitConverter.ToInt32(arrayBytes,10),what+": the pixels follow the headers.");
+			Assert.AreEqual(40,BitConverter.ToInt32(arrayBytes,14),what+": BITMAPINFOHEADER.");
+			Assert.AreEqual(20,BitConverter.ToInt32(arrayBytes,18),what+": 20 pixels wide.");
+			Assert.AreEqual(20,BitConverter.ToInt32(arrayBytes,22),what+": 20 pixels high, bottom-up.");
+			Assert.AreEqual(32,(int)BitConverter.ToInt16(arrayBytes,28),what+": 32 bits per pixel.");
+			Assert.AreEqual(0,BitConverter.ToInt32(arrayBytes,30),what+": uncompressed.");
+			Assert.AreEqual(54+20*20*4,arrayBytes.Length,what+": 20x20 pixels and nothing else.");
+			for(int i=54+3;i<arrayBytes.Length;i+=4) {
+				Assert.AreEqual(255,(int)arrayBytes[i],what+": every pixel opaque.");
+			}
+		}
+
+		[TestMethod]
 		public void Seed_ProcedureCodesAreNamedByCodeOnly() {
 			string seed=File.ReadAllText(ScratchDb.FindRepoFile(RepoPathSeed),new UTF8Encoding(false)).Replace("\r\n","\n");
 			List<string[]> listRows=GetProcedureCodeRows(seed,"insert  into `procedurecode`(");

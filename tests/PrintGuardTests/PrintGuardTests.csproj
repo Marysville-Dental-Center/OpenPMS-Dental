@@ -1,0 +1,39 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- The print guard of the UI refresh (package UI-2a-3 of docs/specs/ui-refresh-plan.md, section 9; docs/port-notes/UI-2a.md, section
+       UI-2a-3): printouts and documents are identical with today's font tokens and with UI-2b's (UiTheme.SetFontForTest set to Segoe UI 9,
+       with a Segoe UI 9 default font), which proves the print paths ignore the screen font change. Each test renders off screen, into a
+       bitmap or a PDF, and compares pixels or the PDF's page content byte for byte: GridOD's and GridOld's printout and sheet output, sheets,
+       a claim form, the perio chart print and the claim perio attachment, ReportComplex, RDL and MigraDoc output, and the graph dashboard's
+       chart page. The eForm PDF needs WPF rendering and runs only with OPMS_PRINT_GUARD_WPF=1 (a connected session). No window is shown.
+       The database tests use one scratch database on the local MariaDB (127.0.0.1:3306, root, blank password) whose name starts with ui2a3_
+       and is unique to the run, built from db/init/new-database.sql and the fork migrations with synthetic rows only and dropped afterwards;
+       they are skipped (inconclusive) when the server does not answer or when PRINT_GUARD_TEST_DB=skip. PRINT_GUARD_RECORD_DIR=<folder>
+       writes the SHA-256 of every output there, to compare two builds (before and after a change). Every .cs file under this folder is
+       compiled. -->
+  <PropertyGroup>
+    <!-- .NET 10 (tests\Directory.Build.props): Windows Forms and WPF from the Windows Desktop framework; the program's windows host WPF
+         controls, and the eForm fill control is WPF. -->
+    <UseWindowsForms>true</UseWindowsForms>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+  <PropertyGroup>
+    <!-- Its own [AssemblyInitialize] registers the code pages (tests\Shared\TestCodePages.cs; S3b-5). -->
+    <ODOwnAssemblyInitialize>true</ODOwnAssemblyInitialize>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\third-party\build\MigraDoc.DocumentObjectModel\MigraDoc.DocumentObjectModel.csproj" />
+    <ProjectReference Include="..\..\third-party\build\MigraDoc.Rendering-gdi\MigraDoc.Rendering-gdi.csproj" />
+    <ProjectReference Include="..\..\third-party\build\PdfSharp-gdi\PdfSharp-gdi.csproj" />
+    <ProjectReference Include="..\..\CodeBase\xCodeBase.csproj" />
+    <ProjectReference Include="..\..\DataConnectionBase\xDataConnectionBase.csproj" />
+    <ProjectReference Include="..\..\OpenPmsDentalBusiness\OpenPmsDentalBusiness.csproj" />
+    <!-- The program's print code (claim forms, the perio chart, ReportComplex, MigraDocHelper), built in this process, never shown. -->
+    <ProjectReference Include="..\..\OpenPmsDental\OpenPmsDental.csproj" />
+    <!-- The graph dashboard's chart page (FormPrintImage). -->
+    <ProjectReference Include="..\..\OpenPmsDentalGraph\OpenPmsDentalGraph.csproj" />
+    <!-- The RDL engine the program renders RDL reports with. -->
+    <ProjectReference Include="..\..\RdlEngine\RdlEngine.csproj" />
+    <!-- The eForm fill control (CtrlEFormFill) and its printout. -->
+    <ProjectReference Include="..\..\WpfControlsOD\WpfControlsOD.csproj" />
+  </ItemGroup>
+</Project>

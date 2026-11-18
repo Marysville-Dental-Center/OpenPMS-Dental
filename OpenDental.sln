@@ -355,6 +355,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FormatParityTests", "tests\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UiRefreshTests", "tests\UiRefreshTests\UiRefreshTests.csproj", "{29EF609D-6119-4A94-8AE0-B2D5D8A14B9C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrintGuardTests", "tests\PrintGuardTests\PrintGuardTests.csproj", "{5518052C-AFD0-4B1A-95D1-9AFB4C79C407}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -2430,6 +2432,18 @@ Global
 		{29EF609D-6119-4A94-8AE0-B2D5D8A14B9C}.Release|x64.Build.0 = Release|x64
 		{29EF609D-6119-4A94-8AE0-B2D5D8A14B9C}.Release|x86.ActiveCfg = Release|x86
 		{29EF609D-6119-4A94-8AE0-B2D5D8A14B9C}.Release|x86.Build.0 = Release|x86
+		{5518052C-AFD0-4B1A-95D1-9AFB4C79C407}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{5518052C-AFD0-4B1A-95D1-9AFB4C79C407}.Debug|Any CPU.Build.0 = Debug|x86
+		{5518052C-AFD0-4B1A-95D1-9AFB4C79C407}.Debug|x64.ActiveCfg = Debug|x64
+		{5518052C-AFD0-4B1A-95D1-9AFB4C79C407}.Debug|x64.Build.0 = Debug|x64
+		{5518052C-AFD0-4B1A-95D1-9AFB4C79C407}.Debug|x86.ActiveCfg = Debug|x86
+		{5518052C-AFD0-4B1A-95D1-9AFB4C79C407}.Debug|x86.Build.0 = Debug|x86
+		{5518052C-AFD0-4B1A-95D1-9AFB4C79C407}.Release|Any CPU.ActiveCfg = Release|x86
+		{5518052C-AFD0-4B1A-95D1-9AFB4C79C407}.Release|Any CPU.Build.0 = Release|x86
+		{5518052C-AFD0-4B1A-95D1-9AFB4C79C407}.Release|x64.ActiveCfg = Release|x64
+		{5518052C-AFD0-4B1A-95D1-9AFB4C79C407}.Release|x64.Build.0 = Release|x64
+		{5518052C-AFD0-4B1A-95D1-9AFB4C79C407}.Release|x86.ActiveCfg = Release|x86
+		{5518052C-AFD0-4B1A-95D1-9AFB4C79C407}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

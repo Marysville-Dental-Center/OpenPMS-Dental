@@ -10,7 +10,7 @@
              Text="Prompt List" 
              Focusable="True" >
     <Grid Background="#FFFCFDFE" >
-        <ui:Button x:Name="butNext" HorizontalAlignment="Right" Width="77" VerticalAlignment="Bottom" Height="24" Margin="0,0,16,57" Text="_Next" Click="butNext_Click" Icon="ArrowRight" ImageAlign="Right" />
+        <ui:Button x:Name="butNext" IsPrimary="True" HorizontalAlignment="Right" Width="77" VerticalAlignment="Bottom" Height="24" Margin="0,0,16,57" Text="_Next" Click="butNext_Click" Icon="ArrowRight" ImageAlign="Right" />
         <ui:Button x:Name="butBack" HorizontalAlignment="Right" Width="75" VerticalAlignment="Bottom" Height="24" Margin="0,0,275,57" Text="_Back" Click="butBack_Click" Icon="ArrowLeft" />
         <ui:Button x:Name="butPreview" HorizontalAlignment="Right" Width="75" VerticalAlignment="Bottom" Height="24" Margin="0,0,197,57" Text="_Preview" Click="butPreview_Click" />
         <ui:Button x:Name="butSelectAll" HorizontalAlignment="Right" Width="75" VerticalAlignment="Bottom" Height="20" Margin="0,0,96,293" Text="Select _All" Click="butSelectAll_Click" />
