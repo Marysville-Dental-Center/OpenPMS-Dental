@@ -60,6 +60,7 @@ OpenPmsDental/UI/Voice/*	no-drawing	voice commands; their window gets the frame 
 OpenPmsDental/UI/TestForWpf	no-drawing	a test window
 WpfControlsOD/UI/Controls/Button	UI-4a	the button
 WpfControlsOD/UI/Controls/UiLook	UI-4a	the new look's WPF token brushes, the shared focus visual styles and the content pin (ContentLook)
+WpfControlsOD/UI/Controls/UiLookLists	UI-4b	the new look's WPF brushes, chevrons, item colours and combo box focus style for the combo boxes and lists
 WpfControlsOD/UI/Controls/CheckBox	UI-4a	the check box
 WpfControlsOD/UI/Controls/RadioButton	UI-4a	self-templated: drawn like the Windows 11 radio button in the tokens (section 2.1)
 WpfControlsOD/UI/Controls/GroupBox	UI-4a	the group box
@@ -89,7 +90,7 @@ WpfControlsOD/UI/Controls/TextVInt	UI-4b	the whole-number box
 WpfControlsOD/UI/Controls/TextVTime	UI-4b	the time box
 WpfControlsOD/UI/Controls/Supplemental/WindowComboPicker	UI-4b	the combo box's drop-down window
 WpfControlsOD/UI/Controls/Supplemental/WindowMonthCalendar	UI-4b	the date picker's calendar window
-WpfControlsOD/UI/Controls/Supplemental/PopupHelper2	UI-4b	the drop-down helper
+WpfControlsOD/UI/Controls/Supplemental/PopupHelper2	no-drawing	builds the link items of context menus (their look is the menus', UI-6); checked in UI-4b-1
 WpfControlsOD/Themes/TabControlDict	UI-4b	the tab control's shared dictionary
 WpfControlsOD/UI/Controls/ImagingModule/*	UI-4c	the Imaging module's controls
 WpfControlsOD/UI/Controls/SignatureBoxWrapper	UI-4c	border only; the signature is content

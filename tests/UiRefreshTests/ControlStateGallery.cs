@@ -86,7 +86,7 @@ namespace UiRefreshTests {
 		}
 
 		///<summary>One strip: the WinForms cells in the first row, the WPF cells in the second, on Surface with a gap between cells. Disposes the cells.</summary>
-		private static void SaveStrip(string path,List<Bitmap> listWinForms,List<Bitmap> listWpf,float scale) {
+		internal static void SaveStrip(string path,List<Bitmap> listWinForms,List<Bitmap> listWpf,float scale) {
 			int gap=UiTheme.ScaleI(8,scale);
 			List<List<Bitmap>> listRows=new List<List<Bitmap>> { listWinForms,listWpf }.Where(x => x.Count>0).ToList();
 			if(listRows.Count==0) {

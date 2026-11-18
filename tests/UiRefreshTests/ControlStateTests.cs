@@ -210,7 +210,7 @@ namespace UiRefreshTests {
 
 		#region Helpers
 		///<summary>Runs a WPF test on an STA thread, or ends it inconclusive when WPF draws nothing in this session.</summary>
-		private static void RunWpf(Action action) {
+		internal static void RunWpf(Action action) {
 			string inconclusive=null;
 			IconRendererTests.RunSta(() => {
 				if(!ControlPictures.RendersWpf()) {
@@ -224,7 +224,7 @@ namespace UiRefreshTests {
 			}
 		}
 
-		private static void AssertNoFailures(List<string> listFailures) {
+		internal static void AssertNoFailures(List<string> listFailures) {
 			Assert.AreEqual(0,listFailures.Count,string.Join("\r\n",listFailures));
 		}
 
@@ -239,7 +239,7 @@ namespace UiRefreshTests {
 		}
 
 		///<summary>Every pixel, by ChartImageCompare's rule (WinForms: the control and the sheet draw the same GDI+ shapes).</summary>
-		private static void CompareAll(List<string> listFailures,string name,Bitmap bitmapExpected,Bitmap bitmapActual) {
+		internal static void CompareAll(List<string> listFailures,string name,Bitmap bitmapExpected,Bitmap bitmapActual) {
 			ChartImageCompareResult result=ChartImageCompare.Compare(bitmapExpected,bitmapActual);
 			if(!result.IsPass) {
 				string folder=ControlPictures.GetOutFolder("failures");
@@ -250,7 +250,7 @@ namespace UiRefreshTests {
 
 		///<summary>WPF: only the pixels the drawing paints in a solid token colour (or white) are compared, by ChartImageCompare's tolerance and
 		///fractions; the antialiased edges of round shapes, which WPF and GDI+ blend differently, are left out.</summary>
-		private static void CompareSolid(List<string> listFailures,string name,Bitmap bitmapExpected,Bitmap bitmapActual) {
+		internal static void CompareSolid(List<string> listFailures,string name,Bitmap bitmapExpected,Bitmap bitmapActual) {
 			if(bitmapExpected.Size!=bitmapActual.Size) {
 				listFailures.Add(name+": the sizes differ ("+bitmapExpected.Size+" and "+bitmapActual.Size+").");
 				return;
@@ -308,7 +308,7 @@ namespace UiRefreshTests {
 		}
 
 		///<summary>The text's pixels (where the picture with text differs from the one without) must include pixels of the state's text colour.</summary>
-		private static void CheckText(List<string> listFailures,string name,Bitmap bitmapChrome,Bitmap bitmapText,Color colorText) {
+		internal static void CheckText(List<string> listFailures,string name,Bitmap bitmapChrome,Bitmap bitmapText,Color colorText) {
 			int countText=0;
 			int countOfColour=0;
 			for(int y=0;y<bitmapChrome.Height;y++) {
@@ -332,7 +332,7 @@ namespace UiRefreshTests {
 			}
 		}
 
-		private static string Sanitize(string name) {
+		internal static string Sanitize(string name) {
 			return new string(name.Select(x => char.IsLetterOrDigit(x) ? x : '-').ToArray());
 		}
 		#endregion Helpers
