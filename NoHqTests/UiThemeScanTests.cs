@@ -27,8 +27,10 @@ namespace NoHqTests {
 		public const string PATH_COLOUR_LITERALS=@"tests\UiRefreshTests\Data\colour-literals.tsv";
 		///<summary>The folders whose every file needs a row in coverage.tsv (section 2.1).</summary>
 		public static readonly string[] ArrayCoverageFolders=new string[] { @"OpenPmsDental\UI",@"WpfControlsOD\UI",@"WpfControlsOD\Themes" };
-		///<summary>Where new colour literals are not allowed (section 9): a folder or a file.</summary>
-		public static readonly string[] ArrayColourScopes=new string[] { @"OpenPmsDental\UI",@"OpenPmsDentalBusiness\UI\GridOD.cs",@"WpfControlsOD\UI\Controls" };
+		///<summary>Where new colour literals are not allowed (section 9): a folder or a file. GridScreenLook is the screen look GridOD and GridOld
+		///draw with since UI-5, so it is scanned like GridOD.</summary>
+		public static readonly string[] ArrayColourScopes=new string[] { @"OpenPmsDental\UI",@"OpenPmsDentalBusiness\UI\GridOD.cs",
+			@"OpenPmsDentalBusiness\UI\GridScreenLook.cs",@"WpfControlsOD\UI\Controls" };
 		///<summary>The packages of section 7 a coverage row may name.</summary>
 		public static readonly string[] ArrayPackages=new string[] { "UI-1","UI-2a","UI-2b","UI-3","UI-4a","UI-4b","UI-4c","UI-5","UI-6","UI-7a","UI-7b",
 			"UI-8","UI-9a","UI-9b","UI-10","UI-11" };

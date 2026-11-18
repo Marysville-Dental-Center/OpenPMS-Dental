@@ -64,7 +64,7 @@ using WpfControls.UI;
 		#endregion Fields - Public
 
 		#region Fields - Private for Properties
-		private Color _colorSelectedRow=Color.FromRgb(205,220,235);
+		private Color _colorSelectedRow=GridLook.ColorSelectedRowStock;
 		private bool _headersVisible=true;
 		private bool _hScrollVisible=false;
 		///<summary>This is the only internal storage for tracking selected row indices.  All properties refer to this same list.</summary>
@@ -79,8 +79,12 @@ using WpfControls.UI;
 		#region Fields - Private
 		/// <summary>This canvas contains all the vertical gridlines.  That way, we can clear the vertical gridlines as needed.</summary>
 		private Canvas _canvasVertLines;
-		///<summary>The ordinary horizontal and vertical gridlines. Gray 220</summary>
-		private Color _colorGridline=OpenPmsDental.ColorOD.Gray_Wpf(220);//Color.FromRgb(220,220,220);
+		///<summary>The ordinary horizontal and vertical gridlines: the Gridline token (UI-5; it was gray 220).</summary>
+		private Color _colorGridline=GridLook.BrushGridline.Color;
+		///<summary>The Tag of each row's lower gridline (a Rectangle in the row's CanvasText), so a DPI change can set its device pixel again.</summary>
+		private const string TAG_LINE_LOWER="lineLower";
+		///<summary>The look scale the line widths were last set for (ApplyLookScale).</summary>
+		private double _scaleLinesApplied;
 		private ComboBox comboBox;
 		///<summary>Used when resizing this grid in order to </summary>
 		private DispatcherTimer _dispatcherTimerSizing;
@@ -108,6 +112,15 @@ using WpfControls.UI;
 		private int _mouseDownRow;
 		///<summary></summary>
 		private Rectangle _rectangleHover;
+		///<summary>The selection bars of the selected rows and the focused row's outline (UI-5), redrawn with the selection and on focus changes.</summary>
+		private List<Rectangle> _listRectanglesSelectionMarks=new List<Rectangle>();
+		///<summary>The row the arrow keys or the last click moved to: it gets the 1 px Accent outline while the grid has keyboard focus and the
+		///keyboard was used last (UI-5, section 3.6). -1 for none; reset by EndUpdate.</summary>
+		private int _indexRowFocused=-1;
+		///<summary>The test overrides of SetFocusLookForTest; null in the program.</summary>
+		private bool? _isSelectionFocusedForTest;
+		private bool? _isFocusedRowShownForTest;
+		private double? _scaleLookForTest;
 		///<summary>When a textbox or combobox is created, this is set. When those controls lose focus, this variable lets us know which cell lost focus. No other variable will work because we have already selected a new cell by then, or none at all.</summary>
 		private ColRow _selectedCellOld;
 		///<summary>Typically -1 to show no triangle.  Or, specify a column to show a triangle.  The actual sorting happens at mouse down.</summary>
@@ -126,6 +139,8 @@ using WpfControls.UI;
 			//Height=300;
 			Columns=new GridColumnCollection(this);
 			FontSize=11.5;//equivalent to WF 8.6. This is same as declared on each frm, but it's here in case we need to print without a frm.
+			SetHeightsFromFont();
+			SetLineThicknesses();
 			_heightTotal=0;//instead of	ComputeRows(g);
 			textEdit=new System.Windows.Controls.TextBox();
 			textEdit.Visibility=Visibility.Collapsed;
@@ -313,7 +328,7 @@ using WpfControls.UI;
 				}
 				_headersVisible=value;
 				if(_headersVisible){
-					_heightHeader=15;
+					_heightHeader=GridLook.GetHeightBar(FontSize);
 				}
 				else{
 					_heightHeader=0;
@@ -593,6 +608,7 @@ using WpfControls.UI;
 			FillLastPage();
 			_listSelectedIndices=new List<int>();
 			_selectedCell=new ColRow(-1,-1);
+			_indexRowFocused=-1;
 			textEdit.Visibility=Visibility.Collapsed;
 			_sortedByColumnIdx=-1;
 			DrawHeaders();
@@ -625,27 +641,12 @@ using WpfControls.UI;
 				return;
 			}
 			canvasHeaders.Children.Clear();
+			double pixel=GetPixelDip();
 			for(int i=0;i<Columns.Count;i++) {
 				if(i!=0) {
-					//vertical lines to left of column header
-					Line lineGray=new Line();
-					lineGray.X1=Columns[i].State.XPos;
-					lineGray.Y1=2;
-					lineGray.X2=Columns[i].State.XPos;
-					lineGray.Y2=_heightHeader-2;
-					lineGray.Stroke=new SolidColorBrush(OpenPmsDental.ColorOD.Gray_Wpf(120));
-					canvasHeaders.Children.Add(lineGray);
-					//g.DrawLine(_penColumnSeparator,-hScroll.Value+Columns[i].State.XPos,ScaleI(_heightTitle)+3,
-					//	-hScroll.Value+Columns[i].State.XPos,OriginY()-2);
-					Line lineWhite=new Line();
-					lineWhite.X1=Columns[i].State.XPos+1;
-					lineWhite.Y1=2;
-					lineWhite.X2=Columns[i].State.XPos+1;
-					lineWhite.Y2=_heightHeader-2;
-					lineWhite.Stroke=Brushes.White;
-					canvasHeaders.Children.Add(lineWhite);
-					//g.DrawLine(new Pen(Color.White),-hScroll.Value+Columns[i].State.XPos+1,ScaleI(_heightTitle)+3,
-					//	-hScroll.Value+Columns[i].State.XPos+1,OriginY()-2);
+					//vertical line to left of column header: 1 device px Stroke across the header's height, the previous column's last pixel, above
+					//its column line (UI-5; it was a grey and a white line, inset)
+					canvasHeaders.Children.Add(NewLineRectangle(GridLook.BrushStroke,Columns[i].State.XPos-pixel,0,pixel,_heightHeader));
 				}
 				Label label=new Label();
 				label.Width=Columns[i].State.Width;
@@ -665,7 +666,7 @@ using WpfControls.UI;
 					continue;
 				}
 				Polygon polygon=new Polygon();
-				polygon.Fill=Brushes.Black;
+				polygon.Fill=GridLook.BrushText;
 				Point point=new Point(Columns[i].State.XPos+6,_heightHeader/2f);
 				if(_isSortedAscending) {//pointing up
 					polygon.Points.Add(new Point(point.X-4,point.Y+2));//LL
@@ -778,14 +779,14 @@ using WpfControls.UI;
 						break;
 				}
 				if(gridRow.Cells[i].ColorText.ToString()==Colors.Transparent.ToString()) {
-					textBlock.Foreground=new SolidColorBrush(gridRow.ColorText);
+					textBlock.Foreground=new SolidColorBrush(GridLook.GetTextColor(gridRow.ColorText));//the default black is the Text token (UI-5)
 				}
 				else{
 					//if(gridRow.Cells[i].IsButton && !Enabled) { //set the "button" text to gray if this is grid is disabled
 					//	colorText=_colorTextDisabled;
 					//}
 					//else {
-					textBlock.Foreground=new SolidColorBrush(gridRow.Cells[i].ColorText);
+					textBlock.Foreground=new SolidColorBrush(GridLook.GetTextColor(gridRow.Cells[i].ColorText));
 					//}
 				}
 				//bool isCellBold=false;
@@ -818,19 +819,19 @@ using WpfControls.UI;
 					ComputeRowYposStartingAt(rowI);
 				}
 			}
-			Line lineLower=new Line();
-			Canvas.SetZIndex(lineLower,1);//forward from text
-			lineLower.X1=0;
-			lineLower.Y1=gridRow.State.HeightTotal;
-			lineLower.X2=_widthTotal;
-			lineLower.Y2=gridRow.State.HeightTotal;
-			lineLower.Stroke=new SolidColorBrush(_colorGridline);
+			//The lower gridline: the row's last device pixel, on whole pixels at any DPI (section 3.3; it was a 1 DIP line across the row boundary,
+			//antialiased over two pixels)
+			Brush brushLine=new SolidColorBrush(_colorGridline);
 			if(rowI==ListGridRows.Count-1) {//last row
-				lineLower.Stroke=new SolidColorBrush(OpenPmsDental.ColorOD.Gray_Wpf(120));
+				brushLine=GridLook.BrushStroke;
 			}
 			else if(gridRow.ColorLborder.ToString()!=Colors.Transparent.ToString()) {
-				lineLower.Stroke=new SolidColorBrush(gridRow.ColorLborder);
+				brushLine=new SolidColorBrush(gridRow.ColorLborder);
 			}
+			double pixel=GetPixelDip();
+			Rectangle lineLower=NewLineRectangle(brushLine,0,gridRow.State.HeightTotal-pixel,_widthTotal,pixel);
+			lineLower.Tag=TAG_LINE_LOWER;
+			Canvas.SetZIndex(lineLower,1);//forward from text
 			gridRow.CanvasText.Children.Add(lineLower);
 		}
 
@@ -887,6 +888,7 @@ using WpfControls.UI;
 				rectangle.Fill=new SolidColorBrush(colorRow);
 				rectangle.Width=_widthTotal;
 				rectangle.Height=gridRow.State.HeightTotal;
+				RenderOptions.SetEdgeMode(rectangle,EdgeMode.Aliased);//whole device pixels, no blend with the next row (UI-5, section 3.3)
 				//Canvas.SetLeft(rectangle,0);
 				//Canvas.SetTop(rectangle,0);
 				gridRow.CanvasBackground.Children.Add(rectangle);
@@ -903,6 +905,7 @@ using WpfControls.UI;
 				rectangle.Fill=new SolidColorBrush(gridRow.Cells[i].ColorBackG);
 				rectangle.Width=Columns[i].State.Width;
 				rectangle.Height=gridRow.State.HeightTotal;
+				RenderOptions.SetEdgeMode(rectangle,EdgeMode.Aliased);
 				Canvas.SetLeft(rectangle,Columns[i].State.XPos);
 				//Canvas.SetTop(rectangle,0);
 				Canvas.SetZIndex(rectangle,1);//local, so it will show in front of row rect.
@@ -942,8 +945,9 @@ using WpfControls.UI;
 			if(_rectangleHover is null){
 				_rectangleHover=new Rectangle();
 				Canvas.SetZIndex(_rectangleHover,2);
-				Color color=Color.FromArgb(70,215,237,243);//50,215,237,245 matches the previous GridOD, but felt too subtle and too blue
-				_rectangleHover.Fill=new SolidColorBrush(color);
+				//RowHover over a white row, a shade darker over a coloured one (UI-5; it was 70,215,237,243)
+				_rectangleHover.Fill=new SolidColorBrush(GridLook.GetOverlayOnWhite(GridLook.BrushRowHover.Color));
+				RenderOptions.SetEdgeMode(_rectangleHover,EdgeMode.Aliased);
 				canvasMain.Children.Add(_rectangleHover);
 			}
 			_rectangleHover.Height=ListGridRows[_hoverRow].State.HeightTotal;
@@ -957,9 +961,11 @@ using WpfControls.UI;
 			//User will have specified a selection color.
 			//Convert the white portion of that color into transparent
 			//So it looks like the color they chose, but it's as transparent as possible over a white background.
-			int r=_colorSelectedRow.R;
-			int g=_colorSelectedRow.G;
-			int b=_colorSelectedRow.B;
+			//The stock colour is the AccentSubtle token (UI-5); a colour the window set stays.
+			Color colorSelection=GridLook.GetSelectionColor(_colorSelectedRow);
+			int r=colorSelection.R;
+			int g=colorSelection.G;
+			int b=colorSelection.B;
 			double alpha=Math.Min(r,Math.Min(g,b))/255.0;
 			int r2=(int)((r-(1-alpha)*255)/alpha);
 			int g2=(int)((g-(1-alpha)*255)/alpha);
@@ -984,6 +990,7 @@ using WpfControls.UI;
 						canvasMain.Children.Remove(_listRectanglesSelected[i]);
 						_listRectanglesSelected.RemoveAt(i);
 					}
+					DrawSelectionMarks();
 					return;
 				}
 				//cell is selected
@@ -998,6 +1005,7 @@ using WpfControls.UI;
 					Rectangle rectangle=new Rectangle();
 					Canvas.SetZIndex(rectangle,2);
 					rectangle.Fill=new SolidColorBrush(color);
+					RenderOptions.SetEdgeMode(rectangle,EdgeMode.Aliased);
 					canvasMain.Children.Add(rectangle);
 					_listRectanglesSelected.Add(rectangle);
 				}
@@ -1006,6 +1014,7 @@ using WpfControls.UI;
 				Canvas.SetLeft(_listRectanglesSelected[0],Columns[_selectedCell.Col].State.XPos);
 				_listRectanglesSelected[0].Width=Columns[_selectedCell.Col].State.Width;
 				_listRectanglesSelected[0].Height=ListGridRows[_selectedCell.Row].State.HeightMain;//don't consider note row
+				DrawSelectionMarks();
 				return;
 			}
 			//from here down, single or multi row.
@@ -1036,10 +1045,202 @@ using WpfControls.UI;
 				rectangle.Height=ListGridRows[_listSelectedIndices[i]].State.HeightTotal;
 				rectangle.Width=_widthTotal;
 				rectangle.Fill=new SolidColorBrush(color);
+				RenderOptions.SetEdgeMode(rectangle,EdgeMode.Aliased);
 				canvasMain.Children.Add(rectangle);
 				_listRectanglesSelected.Add(rectangle);
 			}
-			
+			DrawSelectionMarks();
+		}
+
+		///<summary>The selection bar on the left edge of each selected row (section 3.2: round(2 x scale) device pixels, Accent while the grid has
+		///keyboard focus, SelectionBarNoFocus without) and the focused row's 1 px Accent outline (section 3.6), over the cells and gridlines. Not in
+		///OneCell mode, where the selection is a cell.</summary>
+		private void DrawSelectionMarks(){
+			for(int i=_listRectanglesSelectionMarks.Count-1;i>=0;i--) {
+				canvasMain.Children.Remove(_listRectanglesSelectionMarks[i]);
+			}
+			_listRectanglesSelectionMarks.Clear();
+			if(_selectionMode==GridSelectionMode.OneCell || _selectionMode==GridSelectionMode.None) {
+				return;
+			}
+			double scale=GetLookScale();
+			double pixel=GetPixelDip();
+			SolidColorBrush brushBar=IsSelectionFocused ? GridLook.BrushAccent : GridLook.BrushSelectionBarNoFocus;
+			for(int i=0;i<_listSelectedIndices.Count;i++) {
+				int index=_listSelectedIndices[i];
+				if(index<0 || index>=ListGridRows.Count || !ListGridRows[index].State.Visible) {
+					continue;
+				}
+				//Inside the row, from its first pixel to the one above its lower gridline, as GridOD's bar; whole device pixels (section 3.3).
+				Rectangle rectangleBar=NewLineRectangle(brushBar,0,ListGridRows[index].State.YPos,GridLook.GetSelectionBarWidth(scale),
+					ListGridRows[index].State.HeightTotal-pixel);
+				Canvas.SetZIndex(rectangleBar,6);//over the text (3) and the vertical gridlines (4)
+				canvasMain.Children.Add(rectangleBar);
+				_listRectanglesSelectionMarks.Add(rectangleBar);
+			}
+			int indexFocused=GetIndexRowFocused();
+			if(indexFocused==-1 || !IsFocusedRowShown || !ListGridRows[indexFocused].State.Visible) {
+				return;
+			}
+			Rectangle rectangleFocused=new Rectangle();
+			Canvas.SetZIndex(rectangleFocused,6);
+			rectangleFocused.Stroke=GridLook.BrushAccent;
+			rectangleFocused.StrokeThickness=GridLook.GetLineWidth(scale);
+			rectangleFocused.Width=Math.Max(0,_widthTotal);
+			rectangleFocused.Height=Math.Max(0,ListGridRows[indexFocused].State.HeightTotal-pixel);//inside the row, above its lower gridline
+			RenderOptions.SetEdgeMode(rectangleFocused,EdgeMode.Aliased);
+			Canvas.SetTop(rectangleFocused,ListGridRows[indexFocused].State.YPos);
+			canvasMain.Children.Add(rectangleFocused);
+			_listRectanglesSelectionMarks.Add(rectangleFocused);
+		}
+
+		///<summary>The focused row, the one the arrow keys move (section 3.6). OneRow: the selected row, since the arrows move from it, so a
+		///SetSelected, SetAll or a sort moves the outline with the selection. The multi-select modes: the row the arrow keys or the last click moved
+		///to, if it is still a row; else the first selected row. -1 for none.</summary>
+		private int GetIndexRowFocused(){
+			if(_selectionMode==GridSelectionMode.OneRow) {
+				if(_listSelectedIndices.Count>0 && _listSelectedIndices[0]>=0 && _listSelectedIndices[0]<ListGridRows.Count) {
+					return _listSelectedIndices[0];
+				}
+				return -1;
+			}
+			if(_indexRowFocused>=0 && _indexRowFocused<ListGridRows.Count) {
+				return _indexRowFocused;
+			}
+			if(_listSelectedIndices.Count>0 && _listSelectedIndices[0]>=0 && _listSelectedIndices[0]<ListGridRows.Count) {
+				return _listSelectedIndices[0];
+			}
+			return -1;
+		}
+
+		///<summary>True while the grid or a control in it (the edit box, the combo box) has keyboard focus: the selection bar is Accent then,
+		///SelectionBarNoFocus otherwise (section 3.2).</summary>
+		private bool IsSelectionFocused {
+			get {
+				if(_isSelectionFocusedForTest.HasValue) {
+					return _isSelectionFocusedForTest.Value;
+				}
+				return IsKeyboardFocusWithin;
+			}
+		}
+
+		///<summary>True while the grid has keyboard focus and the keyboard was used last (or Windows always shows keyboard cues), as WPF shows a
+		///focus visual: the focused row gets its Accent outline then, and a mouse click draws none (section 3.6).</summary>
+		private bool IsFocusedRowShown {
+			get {
+				if(_isFocusedRowShownForTest.HasValue) {
+					return _isFocusedRowShownForTest.Value;
+				}
+				if(!IsSelectionFocused) {
+					return false;
+				}
+				return SystemParameters.KeyboardCues || InputManager.Current.MostRecentInputDevice is KeyboardDevice;
+			}
+		}
+
+		///<summary>The DPI scale the selection bar and the outline snap to (device pixels per DIP).</summary>
+		private double GetLookScale(){
+			double scale=VisualTreeHelper.GetDpi(this).DpiScaleX;
+			if(_scaleLookForTest.HasValue) {
+				scale=_scaleLookForTest.Value;
+			}
+			if(scale<=0 || double.IsNaN(scale)) {
+				return 1;
+			}
+			return scale;
+		}
+
+		///<summary>One device pixel in DIP at the look scale: the gridlines and the header lines are one device pixel at every scale (section 3.3).</summary>
+		private double GetPixelDip(){
+			return 1/GetLookScale();
+		}
+
+		///<summary>A line or mark of whole device pixels: a filled rectangle drawn aliased, so each pixel whose centre it covers is the brush's colour
+		///and none is blended (section 3.3). A height or width of n device pixels in DIP covers exactly n pixels.</summary>
+		private static Rectangle NewLineRectangle(Brush brush,double left,double top,double width,double height){
+			Rectangle rectangle=new Rectangle();
+			rectangle.Fill=brush;
+			rectangle.Width=Math.Max(0,width);
+			rectangle.Height=Math.Max(0,height);
+			RenderOptions.SetEdgeMode(rectangle,EdgeMode.Aliased);
+			Canvas.SetLeft(rectangle,left);
+			Canvas.SetTop(rectangle,top);
+			return rectangle;
+		}
+
+		///<summary>The border and the separator lines at the look scale: the outer border max(1, floor(scale)) device pixels, the header's bottom
+		///line and the scroll bars' lines 1 device pixel (section 3.3). With the layout rounding of borderOuter they land on whole device pixels.</summary>
+		private void SetLineThicknesses(){
+			double scale=GetLookScale();
+			double pixel=1/scale;
+			borderOuter.BorderThickness=new Thickness(GridLook.GetLineWidth(scale));
+			borderHeaders.BorderThickness=new Thickness(0,0,0,pixel);
+			borderHeaderCorner.BorderThickness=new Thickness(pixel,0,0,pixel);
+			borderScrollV.BorderThickness=new Thickness(pixel,0,0,0);
+			borderScrollH.BorderThickness=new Thickness(0,pixel,0,0);
+			borderScrollCorner.BorderThickness=new Thickness(pixel,pixel,0,0);
+			_scaleLinesApplied=scale;
+		}
+
+		///<summary>When the look scale changed since the lines were set (a DPI change, the grid loaded into a window of another DPI, the test hook):
+		///the border and separators, the header separators, each row's lower gridline, the column lines and the selection marks again at whole
+		///device pixels.</summary>
+		private void ApplyLookScale(){
+			if(GetLookScale()==_scaleLinesApplied) {
+				return;
+			}
+			SetLineThicknesses();
+			double pixel=GetPixelDip();
+			for(int i=0;i<ListGridRows.Count;i++) {
+				if(ListGridRows[i].CanvasText==null) {
+					continue;
+				}
+				foreach(UIElement uIElement in ListGridRows[i].CanvasText.Children) {
+					if(uIElement is Rectangle rectangle && TAG_LINE_LOWER.Equals(rectangle.Tag)) {
+						rectangle.Height=pixel;
+						Canvas.SetTop(rectangle,ListGridRows[i].State.HeightTotal-pixel);
+					}
+				}
+			}
+			DrawHeaders();
+			if(_canvasVertLines!=null) {
+				DrawGridlinesVert();
+			}
+			DrawSelectionMarks();
+		}
+
+		protected override void OnDpiChanged(DpiScale oldDpi,DpiScale newDpi) {
+			base.OnDpiChanged(oldDpi,newDpi);
+			ApplyLookScale();
+		}
+
+		///<summary>Test only (the UI-5 grid pictures): an off-screen grid has no keyboard focus and no window DPI, so a test sets the focus looks and
+		///the DPI scale the bar snaps to. Refuses (throws) outside a test process, like UiTheme.SetFontForTest.</summary>
+		public void SetFocusLookForTest(bool isSelectionFocused,bool isFocusedRowShown,double scale) {
+			if(!UiTheme.IsTestProcess()) {
+				throw new InvalidOperationException("Grid.SetFocusLookForTest is for test processes only.");
+			}
+			_isSelectionFocusedForTest=isSelectionFocused;
+			_isFocusedRowShownForTest=isFocusedRowShown;
+			_scaleLookForTest=scale;
+			ApplyLookScale();
+			DrawSelectionMarks();
+		}
+
+		///<summary>The title's and the header's heights follow their fonts (UI-5): 18 and 15 DIP with today's 14 and 11.5 DIP Segoe UI, as before.</summary>
+		private void SetHeightsFromFont(){
+			borderTitle.Height=GridLook.GetHeightBar(textTitle.FontSize);
+			if(_headersVisible) {
+				_heightHeader=GridLook.GetHeightBar(FontSize);
+			}
+			borderHeaders.Height=_heightHeader;
+			borderHeaderCorner.Height=_heightHeader;
+		}
+
+		protected override void OnIsKeyboardFocusWithinChanged(DependencyPropertyChangedEventArgs e) {
+			base.OnIsKeyboardFocusWithinChanged(e);
+			//The selection bar's colour and the focused row's outline depend on focus (UI-5).
+			DrawSelectionMarks();
 		}
 
 		///<summary>Draws just the vertical gridlines. ZIndex forward from background.  Only drawn once.</summary>
@@ -1052,14 +1253,10 @@ using WpfControls.UI;
 			else{
 				_canvasVertLines.Children.Clear();
 			}
+			double pixel=GetPixelDip();
 			for(int i=0;i<Columns.Count;i++) {
-				Line lineRight=new Line();
-				lineRight.X1=Columns[i].State.Right;
-				lineRight.Y1=0;
-				lineRight.X2=Columns[i].State.Right;
-				lineRight.Y2=_heightTotal;
-				lineRight.Stroke=new SolidColorBrush(_colorGridline);
-				_canvasVertLines.Children.Add(lineRight);
+				//the column's last device pixel, below the header separator (UI-5, section 3.3; it was a 1 DIP line across the column edge)
+				_canvasVertLines.Children.Add(NewLineRectangle(new SolidColorBrush(_colorGridline),Columns[i].State.Right-pixel,0,pixel,_heightTotal));
 			}
 		}
 		#endregion Methods - Drawing
@@ -1117,6 +1314,7 @@ using WpfControls.UI;
 			if(DesignerProperties.GetIsInDesignMode(this)){
 				return;
 			}
+			ApplyLookScale();//the window's DPI, once the grid is in it (UI-5)
 			FrameworkElement frameworkElement=this;
 			while(true){
 				if(frameworkElement.Parent is null){//can't imagine how this could ever happen
@@ -1236,6 +1434,7 @@ using WpfControls.UI;
 				int selectedNew=_listSelectedIndices[0]+1;
 				_listSelectedIndices.Clear();
 				_listSelectedIndices.Add(selectedNew);
+				_indexRowFocused=selectedNew;
 				DrawRowSelections();
 				ScrollToMakeVisible(selectedNew);
 				SelectionCommitted?.Invoke(this,new EventArgs());
@@ -1248,6 +1447,7 @@ using WpfControls.UI;
 				int selectedNew=_listSelectedIndices[0]-1;
 				_listSelectedIndices.Clear();
 				_listSelectedIndices.Add(selectedNew);
+				_indexRowFocused=selectedNew;
 				DrawRowSelections();
 				ScrollToMakeVisible(selectedNew);				
 				SelectionCommitted?.Invoke(this,new EventArgs());
@@ -1423,6 +1623,7 @@ using WpfControls.UI;
 				//canvas is invisible and can be present even if no rows in it.
 				return;
 			}
+			_indexRowFocused=_mouseDownRow;//the focused row's outline follows the click (UI-5)
 			GridClickEventArgs gridClickEventArgs = new GridClickEventArgs(_mouseDownCol,_mouseDownRow,MouseButton.Left);
 			if(e.ClickCount==2) {//double click
 				CellDoubleClick?.Invoke(this,gridClickEventArgs);
@@ -2295,6 +2496,7 @@ using WpfControls.UI;
 				ListGridRows[i].CanvasBackground=null;
 			}
 			_listRectanglesSelected=new List<Rectangle>();
+			_listRectanglesSelectionMarks=new List<Rectangle>();
 			_rectangleHover=null;
 			_canvasVertLines=null;
 		}

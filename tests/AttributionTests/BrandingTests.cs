@@ -38,7 +38,8 @@ namespace AttributionTests {
 		///<summary>Folders that hold build output, packages or other checkouts (.claude holds worktrees), never this repository's sources.</summary>
 		private static readonly string[] _arraySkippedFolders=new string[] { ".git",".claude",".vs","bin","obj","packages","node_modules","TestResults" };
 		private static string _repoRoot;
-		///<summary>The brand colour: the program's grid title bar blue (GridOD._colorTitleBottom), #3C5A96.</summary>
+		///<summary>The brand colour: the program's grid title bar blue, #3C5A96 (UiTheme's Accent token, which the grids' title draws with since UI-5;
+		///today's printed grid title keeps it as its gradient's bottom colour, GridPrintLook.ColorTitleBottom).</summary>
 		private static readonly Color BrandColor=Color.FromArgb(0x3C,0x5A,0x96);
 		private const int WM_GETICON=0x007F;
 		private const int ICON_SMALL=0;
@@ -446,10 +447,16 @@ namespace AttributionTests {
 
 		[TestMethod]
 		public void BrandColor_IsTheProgramsGridTitleBlue() {
-			//The logo and the splash use the program's own blue, the grid title bar's #3C5A96 (60,90,150), flat.
-			StringAssert.Contains(ReadRepoFile("OpenPmsDentalBusiness/UI/GridOD.cs"),"_colorTitleBottom=Color.FromArgb(60,90,150);");
-			//The UI refresh's accent token is the same blue (section 3.2 of docs/specs/ui-refresh-plan.md, package UI-1); UI-5 draws the grid title with it.
+			//The logo and the splash use the program's own blue, the grid title bar's #3C5A96 (60,90,150), flat. Since UI-5 the grids' title on screen is
+			//the UI refresh's Accent token (section 3.2 of docs/specs/ui-refresh-plan.md, package UI-1), flat; GridOD and GridOld draw it through
+			//GridScreenLook, the WPF Grid through GridLook. A printed or sheet grid keeps today's gradient, whose bottom colour is the same blue (UQ-5).
 			Assert.AreEqual(BrandColor.ToArgb(),CodeBase.UiTheme.GetColorLight(CodeBase.EnumUiColor.Accent).ToArgb(),"UiTheme's Accent token");
+			StringAssert.Contains(ReadRepoFile("OpenPmsDentalBusiness/UI/GridScreenLook.cs"),"g.FillRectangle(UiTheme.GetBrush(EnumUiColor.Accent),1,1,width,heightTitle);");
+			StringAssert.Contains(ReadRepoFile("OpenPmsDentalBusiness/UI/GridOD.cs"),"GridScreenLook.DrawTitle(g,Width,ScaleI(_heightTitle),_title,_fontTitle,isDesignMode:false);");
+			StringAssert.Contains(ReadRepoFile("OpenPmsDentalBusiness/UI/GridOld.cs"),"GridScreenLook.DrawTitle(g,Width,ScaleI(_heightTitle),_title,_fontTitle,DesignMode);");
+			StringAssert.Contains(ReadRepoFile("WpfControlsOD/UI/Controls/Supplemental/GridLook.cs"),"public static SolidColorBrush BrushTitle => UiTheme.GetBrushWpf(EnumUiColor.Accent);");
+			StringAssert.Contains(ReadRepoFile("WpfControlsOD/UI/Controls/Grid.xaml"),"Background=\"{x:Static local:GridLook.BrushTitle}\"");
+			StringAssert.Contains(ReadRepoFile("OpenPmsDentalBusiness/UI/GridPrintLook.cs"),"ColorTitleBottom=Color.FromArgb(60,90,150);");
 			Assert.AreEqual("#3C5A96",CodeBase.UiTheme.GetHex(CodeBase.EnumUiColor.Accent));
 			Assert.AreEqual(BrandColor.ToArgb(),CodeBase.UiTheme.GetColorLight(CodeBase.EnumUiColor.TitleBar).ToArgb(),"The title bar is the accent (UQ-3).");
 			string script=ReadRepoFile("tools/Make-BrandAssets.ps1");
