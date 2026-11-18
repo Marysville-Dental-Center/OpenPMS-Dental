@@ -1158,6 +1158,12 @@ the bounds record must equal the before set.
   `FontTitle` (5.1), which hold today's sans serif 8.5 and 10 Bold.
 - Tests: the print guard (section 9: GridOD print and sheet output, sheets, claim forms, the perio chart print, the claim perio
   attachment, eForm PDF output, reports, RDL and MigraDoc output, the graph dashboard's chart page, identical before and after).
+- **Status (2026-11-17).** Done on `ui/ui2a3-1` (`docs/port-notes/UI-2a.md`, section UI-2a-3), not merged yet: GridOD's screen fonts take
+  `FontGrid` and `FontTitle`; its printout, sheet methods and the row heights of printouts, sheets and the sheet canvas (`IsForDocument`)
+  use print fonts pinned to today's and today's print colours (`GridPrintLook`, UQ-5); GridOld (it prints the progress notes) has the same
+  split; ContrTable does not print and is unchanged. The print guard is `tests/PrintGuardTests`: every item of section 9 rendered with
+  today's tokens and with UI-2b's and compared byte for byte; the eForm PDF needs WPF rendering and waits for a connected session
+  (`OPMS_PRINT_GUARD_WPF=1`).
 
 **UI-2a-4 to UI-2a-n: the code font sites and the plain forms' designer fonts**
 - Slices: by folder, in the folder order of UI-9a, at most about 40 files each; the brief sets the cut from a fresh grep. The last

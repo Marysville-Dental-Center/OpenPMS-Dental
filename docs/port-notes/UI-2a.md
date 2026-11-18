@@ -238,3 +238,116 @@ NoHqTests 122. The window checks with `OPMS_WINDOW_CHECKS_GROUPS=UF` in the owne
 unchanged and stays valid); **UF1 FAILED at the zoom step only**: the signed note shows as valid when the window opens; after the zoom
 (the note box at Microsoft Sans Serif 9.9) the box shows no signature, the window's `_signatureChanged` is True and the note is unchanged;
 the saved row has the same note and no signature. U0 PASSED (three pictures, not approved yet).
+
+## UI-2a-3: print fonts
+
+Branch `ui/ui2a3-1` from `main` at `deb903107`. No schema change, no new package, nothing downloaded, no program started, no window shown.
+The print guard's database tests use one scratch database `ui2a3_<run id>_main` on the local MariaDB (the committed
+`db/init/new-database.sql` and the fork migrations, synthetic rows only), dropped at the end of the run. Nothing changes on screen: the
+font tokens hold today's fonts, so GridOD's screen fonts and print fonts are the same fonts until UI-2b.
+
+### 1. Files
+
+- `OpenPmsDentalBusiness/UI/GridOD.cs`: the split (section 2).
+- `OpenPmsDentalBusiness/UI/GridPrintLook.cs` (new): today's colours of a printed or sheet grid (section 2, colours).
+- `OpenPmsDentalBusiness/UI/GridOld.cs`: the same split; GridOld prints (section 3).
+- `OpenPmsDental/Forms/FormSheetDefEdit.cs`: the two canvas grids (`CreateDynamicGrid`, `CreateGrid`) are marked `IsForDocument`.
+- `OpenPmsDental/Forms/FormClaimEdit.cs`: the Perio Chart attachment picture is made by `public static GetPerioAttachmentBitmap(Patient,
+  LayoutManagerForms)`, the same drawing moved out of `butAttachPerioHelper`, so the guard compares the program's own picture.
+- `tests/PrintGuardTests` (new, wired into `OpenDental.sln` and `OpenDental.Local.slnf`): the print guard (section 4).
+
+### 2. GridOD: screen fonts and print fonts
+
+- **Screen fonts** (`SetFonts`): `_fontCell`, `_fontCellBold`, `_fontUnderline`, `_fontUnderlineBold` take `FontGrid` and its Bold,
+  Underline and Underline Bold tokens, `_fontHeader` takes `FontGridBold`, `_fontTitle` takes `FontTitle`, each at the grid's zoom as before
+  (`NewScreenFont`: the token's family, size and style). With today's tokens these are the fonts of before: sans serif 8.5 and 10 Bold.
+- **Print fonts** (`_fontPrintCell`, `_fontPrintCellBold`, `_fontPrintHeader`, `_fontPrintTitle`): made in `SetFonts` beside the screen
+  fonts with today's literals (`FontFamily.GenericSansSerif` 8.5, 8.5 Bold, 8.5 Bold, 10 Bold) at the same zoom, so they are exactly the
+  fonts every print path used before. `PrintPage` prints at 100% (`SetScaleAndZoom(1,1)`), as before.
+- **Who uses them**: `PrintPage` (its body is now `PrintPageHelper`; `PrintPage` sets `_isPrinting` around it); the sheet methods
+  `SheetDrawRow`, `SheetDrawRowX`, `SheetDrawTitle`, `SheetDrawTitleX`, `SheetDrawHeader`, `SheetDrawHeaderX`; and the row heights
+  (`ComputeRows`, `ComputeRowHeightOne`) of a grid that only makes a document: `IsForSheets` (SheetDrawingJob, SheetUtil), the new
+  `IsForDocument` (the sheet design canvas of `FormSheetDefEdit`, whose rows are drawn by `SheetDrawRow`), and any grid while `PrintPage`
+  runs. A sheet field's own font (`FontForSheets`) still wins over both, as before.
+- **Header height**: `_heightHeader` grows to fit multiline headers measured in the header font (`LayoutScrolls`); a taller screen font would
+  have made printed headers taller. `_heightHeaderPrint` follows the same rule with the print header font, and `PrintPage`, the sheet header
+  methods and the sheet layout (`ComputeSheetSupplemental`) use it.
+- **A grid printed again at 100%** keeps the row heights the end of the last printout measured on screen (before the split: with the screen
+  fonts, which were the print fonts). `PrintPageHelper` measures them again on screen with the print fonts only when the screen fonts are
+  not the print fonts (`AreScreenFontsThePrintFonts`), so with today's tokens a second printout is what it always was. The 100% printout of a
+  grid that was refilled with 2,000 rows or more between two printouts is the one case where the measured heights could differ from today's
+  estimated ones, and only after UI-2b.
+- **India**: `DrawRows` switches the cell fonts to Arial in an `IN` culture. Printouts used the screen fonts, so a grid shown on screen printed
+  in Arial; the print cell fonts switch with them. UI-5 decides whether the switch stays (section 5.1).
+- **Colours (UQ-5, plan 5.2)**: `PrintPage` and the sheet methods draw their gridlines, column separators, outline, title gradient and title
+  text with `GridPrintLook`, today's values, not with GridOD's screen colours, so the grid restyle (UI-5) cannot reach a printout. The new
+  file sits outside the shared controls' colour scan (`NoHqTests` `UiThemeScanTests` reads `GridOD.cs`), so its literals are not new rows in
+  `tests/UiRefreshTests/Data/colour-literals.tsv`, which only shrinks; `GridOD.cs`'s own literal counts are unchanged. The other colours the
+  sheet methods name in place (`Color.FromArgb(102,102,122)`, `(213,213,223)`, `Brushes.LightGray`, `Pens.Black`) are already print-only.
+- **Unchanged**: the screen paint, `textEdit`'s font, the screen header height, `_heightTitle`, the exception text's GenericSansSerif 16 Bold,
+  and every font a print path does not take from the grid (sheet field fonts, the callers' own heading fonts around `PrintPage`).
+
+### 3. GridOld and ContrTable
+
+- **GridOld prints**: the Chart module's progress notes (`ControlChart.cs:1692, 1791`, `gridProg.PrintPage`), and it has the sheet methods
+  (no caller: every sheet grid is a GridOD). It gets the same split: screen fonts from the tokens in `LayoutScrollsAndFonts`, print fonts with
+  today's literals beside them, `_heightHeaderPrint`, `_isPrinting` around `PrintPage`, the second-printout rule, the India switch. Its
+  colours are not GridPrintLook's: GridOld's screen colours are not restyled by any package (UI-5 names GridOD and the WPF grid).
+- **ContrTable does not print**: `Tables Old Grids/ContrTable.cs` only paints on screen (`OnPaint`, `CreateGraphics`), so it is not
+  changed. Its two literal fonts (Microsoft Sans Serif 8 and 8.25 Bold, lines 97-98) are screen code sites for the UI-2a-4 slice that owns
+  `Tables Old Grids`.
+
+### 4. The print guard (`tests/PrintGuardTests`)
+
+Each test renders off screen three times on its own STA thread: with today's tokens and today's default font (Microsoft Sans Serif 8.25, as
+each exe's `Main` sets it), with UI-2b's (`UiTheme.SetFontForTest(UiFontOption.UI2b)` and a Segoe UI 9 default font), and with today's
+again. The first and third must be the same bytes (the render is repeatable, so a difference means something), and the second must equal
+the first. Bitmaps are compared pixel by pixel (32-bit ARGB, with the size); PDFs page by page (size, the fonts' names without the subset
+tag, and the content stream; the file's dates and IDs are left out). `PRINT_GUARD_RECORD_DIR=<folder>` writes each output's SHA-256 there, to
+compare two builds; outputs that differ are written to that folder, or to `%TEMP%\printguard`.
+
+| Test | What it renders |
+|---|---|
+| `GridOD_PrintPage_IsTheSameWithUi2bFonts` | GridOD's printout of 40 synthetic rows (wrapped text, bold rows and cells, a coloured cell, notes, a right-aligned column, a two-line header), every page, then the same grid printed again |
+| `GridOD_PrintPage_AtZoom120_...` | the same at a program zoom of 120% (`PrintPage` prints at 100% and puts the zoom back), header space on every page |
+| `GridOD_SheetOutput_...` | an `IsForSheets` grid over two sheet pages, drawn as `SheetDrawingJob.DrawFieldGridHelper` draws it, into a bitmap and into a PDF |
+| `GridOD_SheetCanvasGrid_...` | the sheet design canvas's grid (`IsForDocument`, one dummy row): title, header, row and the row's height |
+| `GridOD_ScreenFonts_FollowTheTokens_PrintFontsStay` | the positive control: GridOD's screen picture differs with UI-2b's tokens, its screen fonts follow the tokens (Segoe UI 9, Segoe UI Semibold 10) and its print fonts stay sans serif 8.5 and 10 Bold |
+| `GridOld_PrintPage_...`, `GridOld_SheetOutput_...` | GridOld's printout (twice) and its sheet methods (bitmap; PDF without the title, whose gradient brush PDFsharp 6 does not draw and no caller uses) |
+| `GridOld_ScreenFonts_FollowTheTokens_PrintFontsStay` | the positive control for GridOld |
+| `Sheet_PdfAndPrintedPage_...` | a synthetic patient form (default font, Microsoft Sans Serif, Arial Bold, Times New Roman wrapped, right aligned, a rectangle, a line, a check box) through `SheetDrawingJob.CreatePdf` and `SheetPrintingJob.DrawSheetFirstPage` |
+| `SheetGrid_BitmapAndPdf_...` | a ProcsWithFee sheet grid through `SheetDrawingJob.DrawFieldGridHelper` (bitmap and PDF), with the sheet's default font and with Arial 9 |
+| `ClaimForm_PrintedPages_...` | a synthetic claim on every internal ADA claim form and the DC217, through `FormClaimPrint.pd2_PrintPage` |
+| `PerioChart_PrintAndClaimAttachment_...` | the perio chart as `FormPerio.butPrint_Click` sets it up and `pd2_PrintPage` draws it (Microsoft Sans Serif 8.25, 96 dpi, the printed size), and `FormClaimEdit.GetPerioAttachmentBitmap` |
+| `ReportComplex_PrintedPages_...` | a ReportComplex report (title, subtitles, a 70-row query, page numbers) through `FormReportComplex.pd2_PrintPage` |
+| `Rdl_Pdf_...` | an RDL report (text in the default font, Arial, Times New Roman, Tahoma, a line) rendered to PDF by the RDL engine |
+| `MigraDoc_Pdf_...` | a MigraDoc document made with `MigraDocHelper` (text, placed text, a grid through `MigraDocHelper.DrawGrid`) |
+| `GraphDashboard_ChartPage_...` | the graph dashboard's chart page: `FormPrintImage`'s page bitmap (which it prints and saves as a PDF), with a `GraphQuantityOverTime` chart |
+| `EForm_PdfPages_...` | opt-in (`OPMS_PRINT_GUARD_WPF=1`): the internal Patient Registration eForm's pages as Save to Images makes them (WPF rendering) |
+
+The harness steps that stand in for a window (the claim form's `labelTotPages`, `FormReportComplex`'s print document preparation,
+`FormPrintImage`'s Load without the dashboard's database graphs) are the program's own steps on the program's objects, named in each test.
+UI-2b runs the guard again after the flip, and the UI-2a-4 slices run it (section 7).
+
+### 5. Runs
+
+- The build lane (x64), the whole filter: 0 errors.
+- Targeted (x64, `-RequireBuildOutput`, `.git/od-tools/test-results/ui2a3-targeted-1.txt`): PrintGuardTests 16 passed, 1 opt-in skipped
+  (the eForm PDF); UiRefreshTests 80 passed, 1 opt-in skipped (the layout snapshot and `Scan_TodaysFont_ReportsNothingNew` among the passed:
+  nothing new at today's tokens); UnitTests 1,728 passed, 3 skipped; PdfLibraryTests 41; NoHqTests 122. The scratch database was dropped.
+- While the guard was written, one run of `ReportComplex_PrintedPages_...` (before the repeatability check was added) reported a difference
+  between today's render and UI-2b's that no later run showed (eight runs since, each with today's render twice); the repeatability check
+  now tells such a flake from a print path that takes a screen font.
+
+### 6. For the lead
+
+- **The eForm PDF guard** needs WPF rendering (`RenderTargetBitmap`), so it was not run here. In a connected session, with the worktree
+  built: set `OPMS_PRINT_GUARD_WPF=1` and run `run-tests.ps1 -Mode Targeted -Platform x64 -RequireBuildOutput -Include PrintGuardTests`;
+  `EForm_PdfPages_AreTheSameWithUi2bFonts` must pass (today it only shows that the eForm pages ignore the font tokens; UI-4a and UI-4b's pinned
+  `CtrlEFormFill` templates are what keep them after the control restyle).
+- **No visible change**: the merge rule for a UI-2a slice (U0 shows no changed picture, the bounds record equals the before set) needs the
+  harness's group U in a connected session; GridOD's screen fonts are the fonts of before, so no picture should change.
+- **A before-and-after record** across builds, if wanted: run the guard with `PRINT_GUARD_RECORD_DIR` on `main` and on this branch (the
+  tests that need this branch's members, the canvas grid and the attachment, are skipped on `main` by hand) and compare the `.sha256` files.
+  Here the comparison is within one build: with today's tokens the print paths' fonts and colours are textually the same literals as on
+  `main`.
