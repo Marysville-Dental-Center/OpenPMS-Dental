@@ -167,7 +167,9 @@ function New-AppSettingsJson([int]$port,[string]$pfxPath,[string]$pfxPassword){
 }
 
 #The server's database settings (OpenDentalServerConfig.xml, found by the application name /OpenDentalServer): the scratch database on
-#127.0.0.1 as root with a blank password.
+#127.0.0.1 as root with a blank password. Every element of the shipped sample (OpenPmsDentalServer\OpenDentalServerConfig.xml): the server's
+#reader (Userods.LoadDatabaseInfoFromFile) requires UserLow and PasswordLow too, and without them every request failed with "Object reference
+#not set to an instance of an object" (docs\port-notes\S3b-6.md, section 9).
 function New-ServerConfigXml([string]$database){
 	$e=[System.Security.SecurityElement]::Escape($database)
 	$lines=@(
@@ -178,6 +180,8 @@ function New-ServerConfigXml([string]$database){
 		('    <Database>{0}</Database>' -f $e),
 		('    <User>{0}</User>' -f $DbUser),
 		'    <Password></Password>',
+		'    <UserLow></UserLow>',
+		'    <PasswordLow></PasswordLow>',
 		'    <DatabaseType>MySql</DatabaseType>',
 		('    <ApplicationName>{0}</ApplicationName>' -f $PathBase),
 		'    <VerboseLogging>false</VerboseLogging>',

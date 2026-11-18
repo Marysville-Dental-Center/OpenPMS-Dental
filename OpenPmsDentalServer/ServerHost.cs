@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using OpenPmsDentalBusiness;
 
 namespace OpenPmsDentalServer {
@@ -58,6 +59,17 @@ namespace OpenPmsDentalServer {
 		///server's, the threads the business layer starts included (each request also sets it for its own thread, MiddleTierEndpoint).</summary>
 		public static MiddleTierEndpoint Configure(WebApplication webApplication) {
 			RemotingClient.MiddleTierRole=MiddleTierRole.ServerMT;
+			//The exceptions the client gets as a DtoException (type and message only) go to the server's log with their stack: an ODException (a
+			//wrong password, a version mismatch, a rule of the business layer) as information, anything else as an error, which a Windows service
+			//also writes to the Application event log (its default level there is Warning).
+			ILogger logger=webApplication.Services.GetRequiredService<ILoggerFactory>().CreateLogger(typeof(DtoProcessor).FullName);
+			DtoProcessor.ActionLogException=(methodName,exception) => {
+				if(exception is CodeBase.ODException) {
+					logger.LogInformation("{Method}: {Type}: {Message}",methodName,exception.GetType().Name,exception.Message);
+					return;
+				}
+				logger.LogError(exception,"The Middle Tier server answered {Method} with an error.",methodName);
+			};
 			MiddleTierEndpoint middleTierEndpoint=new MiddleTierEndpoint(webApplication.Services.GetRequiredService<ServerSettings>(),
 				webApplication.Environment.ContentRootPath);
 			webApplication.Run(middleTierEndpoint.HandleAsync);

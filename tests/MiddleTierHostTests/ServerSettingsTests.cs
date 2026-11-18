@@ -80,6 +80,33 @@ namespace MiddleTierHostTests {
 			return httpContext.Response.StatusCode;
 		}
 
+		///<summary>Without a content root, as the Windows service starts it (no arguments, and the working directory of a service is System32), the
+		///content root is the exe's folder, where appsettings.json and OpenDentalServerConfig.xml are, never the working directory; a --contentRoot
+		///argument wins. ConsoleServerTests starts the built server from System32 with --contentRoot (docs/port-notes/S3b-6.md, section 9).</summary>
+		[TestMethod]
+		public void ContentRoot_IsTheExesFolder_NotTheWorkingDirectory() {
+			string currentDirectory=Environment.CurrentDirectory;
+			string contentRoot=Path.Combine(Path.GetTempPath(),"s3b6_ht_root_"+Guid.NewGuid().ToString("N").Substring(0,12));
+			Directory.CreateDirectory(contentRoot);
+			try {
+				Environment.CurrentDirectory=Environment.SystemDirectory;
+				foreach(string[] arrayArgs in new[] { new string[0],new[] { "--contentRoot",contentRoot } }) {
+					WebApplication webApplication=ServerHost.Build(arrayArgs,null,null);
+					try {
+						string expected=arrayArgs.Length==0 ? AppContext.BaseDirectory : contentRoot;
+						Assert.AreEqual(expected.TrimEnd('\\'),webApplication.Environment.ContentRootPath.TrimEnd('\\'),string.Join(" ",arrayArgs));
+					}
+					finally {
+						((IDisposable)webApplication).Dispose();
+					}
+				}
+			}
+			finally {
+				Environment.CurrentDirectory=currentDirectory;
+				Directory.Delete(contentRoot,true);
+			}
+		}
+
 		///<summary>The application ServerHost builds gives Kestrel and IIS the server's limit (1 GiB by default), as the old Web.config gave IIS and
 		///ASP.NET. It is built, not started.</summary>
 		[TestMethod]

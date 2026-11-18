@@ -105,7 +105,7 @@ Windows keeps the key of a PFX that a service loads in a machine key folder; the
 
 **Send back.** The last lines (`N checks passed, M failed. Logs: <folder>` and the exit code), any FAIL line, and the logs' folder:
 `host-tests.txt` (with its `.logs` folder), `service-events.txt` and the `sc-*.txt` files. Expected: every check `ok`, MiddleTierHostTests
-16 passed and 3 inconclusive (the in-process-only tests), NoHqTests without a failure.
+18 passed and 4 inconclusive (the in-process-only tests), NoHqTests without a failure.
 
 ## 3. Clean install in Windows Sandbox (Test-CleanInstall.ps1)
 
