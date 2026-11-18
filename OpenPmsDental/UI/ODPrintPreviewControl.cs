@@ -9,6 +9,12 @@ namespace OpenPmsDental.UI {
 		private const int SB_PAGEUP=2;
 		private const int SB_PAGEDOWN=3;
 
+		///<summary>UI-4c-2 (section 2.1 of the UI refresh plan: the area around the pages is chrome, the pages are documents): the area around the
+		///pages is SubtlePressed (it was the Windows AppWorkspace grey). The pages, their border and their shadow are drawn by Windows as before.</summary>
+		public ODPrintPreviewControl() {
+			BackColor=UiTheme.SubtlePressed;
+		}
+
 		protected override void OnMouseWheel(MouseEventArgs e) {
 			base.OnMouseWheel(e);
 			if(ModifierKeys.HasFlag(Keys.Control)) {

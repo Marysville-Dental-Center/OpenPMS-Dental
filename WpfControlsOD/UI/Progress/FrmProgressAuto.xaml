@@ -13,7 +13,7 @@
 		<ui:Label x:Name="labelMsg" Margin="48,31,0,0" HorizontalContentAlignment="Right" Width="366" Text="Please Wait..." VAlign="Bottom" Height="36"/>
 		<ui:TextBox x:Name="textHistoryMsg" Margin="51,105,128,21" Text="" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsMultiline="True"/>
 		<ui:Button x:Name="butCopy" Width="75" Height="24" Margin="0,0,20,94" Text="Copy to CB" HorizontalAlignment="Right" VerticalAlignment="Bottom" Click="butCopy_Click"/>
-		<ProgressBar x:Name="progressBar" HorizontalAlignment="Left" Height="23" Margin="51,72,0,0" VerticalAlignment="Top" Width="363"/>
-		<ui:Label x:Name="labelError" Margin="48,7,0,0" HorizontalContentAlignment="Right" Width="492" Text="Error Message" VAlign="Bottom" Height="20" FontSize="13" Foreground="#FFB51212"/>
+		<ui:ProgressBarFlat x:Name="progressBar" HorizontalAlignment="Left" Height="23" Margin="51,72,0,0" VerticalAlignment="Top" Width="363"/>
+		<ui:Label x:Name="labelError" Margin="48,7,0,0" HorizontalContentAlignment="Right" Width="492" Text="Error Message" VAlign="Bottom" Height="20" FontSize="13"/>
 	</Grid>
 </local:FrmODBase>

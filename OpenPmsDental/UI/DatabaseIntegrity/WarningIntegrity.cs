@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using CodeBase;
 
 namespace OpenPmsDental.UI{
 	public partial class WarningIntegrity : UserControl{
@@ -20,6 +21,8 @@ namespace OpenPmsDental.UI{
 		private float _scale;
 		///<summary>Interior of triangle.</summary>
 		private Color _color;
+		///<summary>The outline of the triangle: the fill's token at full strength.</summary>
+		private Color _colorOutline;
 		private Timer _timerTriangle;
 		private Timer _timerPopup;
 		private ToolTipOD _toolTipOD;
@@ -29,8 +32,9 @@ namespace OpenPmsDental.UI{
 			InitializeComponent();
 			DoubleBuffered=true;
 			_scale=Width/18f;
-			///255, 128, 0 is pure orange
-			_color=Color.FromArgb(255,255,192,128);
+			//UI-4c-2 (sections 3.2 and 3.6 of the UI refresh plan): the triangle is the Warning token (it was light orange 255,192,128 with an orange
+			//outline), the red one Danger (it was OrangeRed), the mark white.
+			SetColor(isRed:false);
 			_toolTipOD=new ToolTipOD();
 			_toolTipOD.SetControlAndAction(this,ToolTipSetString);
 		}
@@ -65,9 +69,16 @@ namespace OpenPmsDental.UI{
 			//for both popup and triangle, we will show this triangle
 			Visible=true;
 			if(_databaseIntegrity.Behavior==EnumIntegrityBehavior.TriangleRed) {
-				_color=Color.OrangeRed;
+				SetColor(isRed:true);
 			}
 			SetTriangleBehavior();
+		}
+
+		///<summary>The triangle's fill and outline: the Warning token, or Danger for the red one (UiDialogPaint.GetWarningFill).</summary>
+		internal void SetColor(bool isRed){
+			_color=UiTheme.GetColor(UiDialogPaint.GetWarningFill(isRed));
+			_colorOutline=_color;
+			Invalidate();
 		}
 
 		///<summary></summary>
@@ -157,8 +168,8 @@ namespace OpenPmsDental.UI{
 			//base.OnPaint(pe);
 			Graphics g=pe.Graphics;
 			g.SmoothingMode=SmoothingMode.HighQuality;
-			//using SolidBrush solidBrushBack=new SolidBrush(ColorOD.Background);
-			g.Clear(ColorOD.Background);
+			//The background is what is behind the control (it was ColorOD.Background, the windows' background, whatever the parent's colour).
+			g.Clear(Parent?.BackColor ?? ColorOD.Background);
 			PointF[] pointFArray=new PointF[3];
 			pointFArray[0]=new PointF(Width/2f,1*_scale);//top
 			pointFArray[1]=new PointF(Width-1,Height-1-1*_scale);//BR
@@ -192,8 +203,9 @@ namespace OpenPmsDental.UI{
 			_regionTriangle=new Region(graphicsPath);
 			using SolidBrush solidBrushOrange=new SolidBrush(_color);
 			g.FillPath(solidBrushOrange,graphicsPath);
-			using Pen penOrange=new Pen(_color);
-			g.DrawPath(Pens.Orange,graphicsPath);
+			//The outline in the fill's token at full strength, so it shows while the fill blinks or pulses (as before).
+			using Pen penOutline=new Pen(_colorOutline);
+			g.DrawPath(penOutline,graphicsPath);
 			//g.DrawLine(Pens.Blue,_listTips[0].PointFPrevious0,_listTips[0].PointFTipPrevious1);
 			//g.DrawLine(Pens.Blue,pointFArray[3],pointFArray[4]);
 			//Exclamation mark stalk:
@@ -202,9 +214,9 @@ namespace OpenPmsDental.UI{
 			pointFArray[1]=new PointF(Width/2f+1*_scale,Height/2f-4*_scale);//UR
 			pointFArray[2]=new PointF(Width/2f+0.8f*_scale,Height/2f+3*_scale);//BR
 			pointFArray[3]=new PointF(Width/2f-0.8f*_scale,Height/2f+3*_scale);//BL
-			g.FillPolygon(Brushes.White,pointFArray);
+			g.FillPolygon(UiTheme.GetBrush(EnumUiColor.TextOnAccent),pointFArray);
 			RectangleF rectangleFCircle=new RectangleF(Width/2f-1.15f*_scale,13*_scale,2.3f*_scale,2.3f*_scale);
-			g.FillEllipse(Brushes.White,rectangleFCircle);
+			g.FillEllipse(UiTheme.GetBrush(EnumUiColor.TextOnAccent),rectangleFCircle);
 			//using Pen penString=new Pen(Color.FromArgb(100,50,50));
 			//g.DrawString("!",Font,Brushes.Black,LayoutManager.ScalePoint(new Point(5,2)));
 			ShowPopup();

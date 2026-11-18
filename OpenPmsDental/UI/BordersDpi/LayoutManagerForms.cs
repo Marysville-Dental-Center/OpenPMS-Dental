@@ -1410,6 +1410,14 @@ Scrollable Control: For example, a panel that's set to AutoScroll=true.  These c
 				oDDateRangePicker.LayoutManager=this;
 				return;
 			}
+			if(control is UI.ODColorPicker oDColorPicker){
+				oDColorPicker.LayoutManager=this;
+				return;
+			}
+			if(control is UI.OdProgressBar odProgressBar){
+				odProgressBar.LayoutManager=this;
+				return;
+			}
 			if(control is ODtextBox oDtextBox){
 				oDtextBox.LayoutManager=this;
 				return;

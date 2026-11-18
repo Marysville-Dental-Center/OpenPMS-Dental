@@ -32,6 +32,9 @@ namespace OpenPmsDental.UI {
 		public ODCodeRangeFilter() {
 			InitializeComponent();
 			Font=LayoutManagerForms.FontInitial;
+			//UI-4c-2 (section 3.2 of the UI refresh plan): the example under the box is a hint, in TextSecondary. The text box is a Windows text box and
+			//keeps the Windows look (section 3.6).
+			labelExample.ForeColor=CodeBase.UiTheme.TextSecondary;
 		}
 
 		private string GetRange(bool getStart) {

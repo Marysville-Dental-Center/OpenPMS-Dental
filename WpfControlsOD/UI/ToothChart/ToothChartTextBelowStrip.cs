@@ -9,7 +9,7 @@ using System.Windows.Forms;
 namespace OpenPmsDental{
 	///<summary>A one-line, read-only text box under the Chart module's date slider and above the treatment notes (Open Dental 26.2: "the
 	///procedure's custom text displays below the odontogram", in such a box in its screenshot). It shows the paint text of the patient's TextBelow
-	///procedures that the chart shows, joined in ProcDate order (ToothChartPainter.GetTextBelowStripText), in black in the standard text-box font,
+	///procedures that the chart shows, joined in ProcDate order (ToothChartPainter.GetTextBelowStripText), in the Text token (UQ-6) in the standard text-box font,
 	///whatever engine draws the chart, and hides itself when there is none. It is not part of the tooth picture, so sheets, printouts, the big
 	///chart and the Patient Dashboard do not show it. ControlChart fills it from the procedure list it paints and places it (LayoutTextBelow).</summary>
 	public class ToothChartTextBelowStrip:TextBox{
@@ -17,8 +17,10 @@ namespace OpenPmsDental{
 			Multiline=false;
 			ReadOnly=true;
 			TabStop=false;
-			BackColor=SystemColors.Window;
-			ForeColor=Color.Black;
+			//UI-4c-2 by UQ-6: the strip is an ordinary window part and takes the new look: the Text token on SurfaceRaised (it was black on the Windows
+			//window colour); it stays a Windows text box (section 3.6).
+			BackColor=CodeBase.UiTheme.SurfaceRaised;
+			ForeColor=CodeBase.UiTheme.Text;
 			Visible=false;
 		}
 

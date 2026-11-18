@@ -85,7 +85,9 @@ namespace ToothChartImageTests {
 					Assert.IsTrue(strip.Visible,"Shown for one, a Mouth procedure.");
 					Assert.AreEqual("Occlusal Guard",strip.Text);
 					Assert.IsTrue(strip.ReadOnly && !strip.Multiline && !strip.TabStop);
-					Assert.AreEqual(Color.Black.ToArgb(),strip.ForeColor.ToArgb(),"Black text, the same on every engine.");
+					//UQ-6 (UI-4c-2): the strip is restyled, its text the Text token on SurfaceRaised, the same on every engine.
+					Assert.AreEqual(CodeBase.UiTheme.Text.ToArgb(),strip.ForeColor.ToArgb(),"Text-token text, the same on every engine.");
+					Assert.AreEqual(CodeBase.UiTheme.SurfaceRaised.ToArgb(),strip.BackColor.ToArgb(),"On SurfaceRaised.");
 					Assert.AreEqual(form.Font,strip.Font,"The standard text-box font, the form's.");
 					Assert.IsFalse(strip.SetProcedures(GetChartModuleRows(patNumMany,DateTime.Today)),"Still shown: no layout change.");
 					Assert.AreEqual("Implant planned; Aligners; Occlusal Guard",strip.Text,"Tooth, arch and mouth, in ProcDate order, joined by \"; \".");

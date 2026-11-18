@@ -29,7 +29,7 @@ How to use the SignatureBoxWrapper control:
 			signatureBoxWrapper.SetScaleAndZoom(scale,GetZoom());
 */
 	///<summary>Read instructions at the top of OpenPmsDentalBusiness\UI\SignatureBoxWrapper.cs</summary>
-	public partial class SignatureBoxWrapper:UserControl {
+	public partial class SignatureBoxWrapper:UserControl,IContentLook {
 		///<summary>The namespace on this field is misleading. This is the winforms wrapper that's over in OpenPmsDentalBusiness.</summary>
 		public OpenPmsDental.UI.SignatureBoxWrapper signatureBoxWrapper;
 		//private Window window;
@@ -40,6 +40,7 @@ How to use the SignatureBoxWrapper control:
 			InitializeComponent();
 			signatureBoxWrapper=new OpenPmsDental.UI.SignatureBoxWrapper();
 			windowsFormsHost.Child = signatureBoxWrapper;
+			ApplyLook();
 			Loaded+=this_Loaded;
 			Unloaded+=this_Unloaded;
 			//System.Windows.Forms.Integration.WindowsFormsHost.EnableWindowsFormsInterop();
@@ -48,6 +49,27 @@ How to use the SignatureBoxWrapper control:
 		}
 
 		public event EventHandler SignatureChanged = null;
+
+		///<summary>Today's frame of the box: the WinForms wrapper's background, which shows as the 1 px line around its signature box.</summary>
+		public static readonly System.Drawing.Color ColorFramePinned=System.Drawing.SystemColors.ControlDark;
+
+		void IContentLook.ApplyLook() {
+			ApplyLook();
+		}
+
+		///<summary>UI-4c-2 (section 2.1 of the UI refresh plan: the border only, the signature is content): the frame around the box is an input's
+		///outline, StrokeStrong (it was ControlDark), and the area behind it SurfaceRaised. Office content (ContentLook.IsPinned, the eForm fill
+		///surface) keeps today's ControlDark frame and white. The ink, the signature, its picture (GetSigImage leaves the frame out) and its
+		///validity do not change.</summary>
+		private void ApplyLook() {
+			bool isPinned=ContentLook.GetIsPinned(this);
+			signatureBoxWrapper.BackColor=isPinned ? ColorFramePinned : CodeBase.UiTheme.StrokeStrong;
+			if(isPinned) {
+				grid.Background=Brushes.White;
+				return;
+			}
+			grid.Background=UiLook.Brush(CodeBase.EnumUiColor.SurfaceRaised);
+		}
 
 		private void this_Loaded(object sender,RoutedEventArgs e) {
 			//Events need to be here since if they are in the constructor, the event subscription in the hosting form of this control will fire after this one does (therefore making this event null). EX: The subscription event here will fire, with the event being null, then the one in FrmCommItem will fire, which will result in this event still being null.

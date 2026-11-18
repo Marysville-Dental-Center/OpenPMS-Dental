@@ -96,13 +96,31 @@ namespace OpenPmsDental.UI
 			}
 		}
 
+		///<summary>UI-4c-2: true when the picture box is office content (docs/specs/ui-refresh-plan.md, section 5.1), so it keeps today's look: the Gray
+		///border, the Gray hint and 1 px padding. That is when it, or a control it sits in, is a content type or a panel marked with
+		///LayoutManagerForms.MarkContent (the patient dashboard, a print preview). DashPatPicture overrides it to true: the dashboard's picture widget is
+		///content wherever it sits.</summary>
+		protected virtual bool IsContentLook {
+			get {
+				return LayoutManagerForms.IsContent(this,Parent);
+			}
+		}
+
 		///<summary></summary>
 		protected override void OnPaint(PaintEventArgs e) {
 			//base.OnPaint (e);
 			Graphics g=e.Graphics;
 			g.InterpolationMode=InterpolationMode.High;
+			bool isContentLook=IsContentLook;
 			if(HasBorder) {
-				g.DrawRectangle(Pens.Gray,0,0,Width-1,Height-1);
+				if(isContentLook) {
+					g.DrawRectangle(Pens.Gray,0,0,Width-1,Height-1);//office content keeps today's border
+				}
+				else {
+					//UI-4c-2 (section 3.6 of the UI refresh plan): the container border, 1 px Stroke, square (it was Gray). The picture inside is the office's.
+					float scale=DeviceDpi/96f;
+					UiControlPaint.Outline(g,EnumUiColor.Stroke,new Rectangle(0,0,Width,Height),UiTheme.GetLineWidth(scale),0,scale);
+				}
 			}
 			float heightImage=-1;
 			float widthImage=-1;
@@ -116,14 +134,23 @@ namespace OpenPmsDental.UI
 				StringFormat stringFormat=new StringFormat();
 				stringFormat.Alignment=StringAlignment.Center;
 				stringFormat.LineAlignment=StringAlignment.Center;
-				g.DrawString(textNullImage,this.Font,new SolidBrush(Color.Gray),new RectangleF(0,0,Width,Height),stringFormat);
+				if(isContentLook) {
+					using(SolidBrush solidBrush=new SolidBrush(Color.Gray)) {//office content keeps today's hint
+						g.DrawString(textNullImage,this.Font,solidBrush,new RectangleF(0,0,Width,Height),stringFormat);
+					}
+				}
+				else {
+					//The hint when there is no picture: TextSecondary (it was Gray).
+					g.DrawString(textNullImage,this.Font,UiTheme.GetBrush(EnumUiColor.TextSecondary),new RectangleF(0,0,Width,Height),stringFormat);
+				}
 			}
 			else{
 				float ratio;
 				//amount of space around the outside edge of the image in pixels. 1px shows border, 2px shows border and a little whitespace.
 				int padding=0;
 				if(HasBorder) {
-					padding=1;
+					//the border's width: 1 px, 2 px at 200%; office content keeps today's 1 px
+					padding=isContentLook ? 1 : UiTheme.GetLineWidth(DeviceDpi/96f);
 				}
 				//Debug.WriteLine("Hratio:"+(float)image.Height/(float)Height+"Wratio:"+(float)image.Width/(float)Width);
 				if(heightImage/(float)Height > widthImage/(float)Width){//Image is proportionally taller

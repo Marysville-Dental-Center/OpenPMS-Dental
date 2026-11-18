@@ -64,6 +64,9 @@ namespace WpfControls.UI {
 
 		public FrmProgressAuto() {
 			InitializeComponent();
+			//UI-4c-2 (section 3.2 of the UI refresh plan): the error message in Danger. Its red Foreground (#B51212) had no effect since UI-4a, which
+			//draws a Label's text in the Text token unless the window sets ColorText.
+			labelError.ColorText=CodeBase.UiTheme.GetColorWpf(CodeBase.EnumUiColor.Danger);
 			Load+=FrmProgressAuto_Load;
 			FormClosing+=FormProgressAuto_FormClosing;
 		}

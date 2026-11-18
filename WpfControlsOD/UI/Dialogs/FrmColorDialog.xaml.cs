@@ -34,6 +34,17 @@ namespace WpfControls.UI {
 			gridSquareGradient.MouseDown+=gridSquareGradient_MouseDown;
 			gridSquareGradient.MouseMove+=GridSquareGradient_MouseMove;
 			gridSquareGradient.MouseUp+=GridSquareGradient_MouseUp;
+			SetLook();
+		}
+
+		///<summary>UI-4c-2 (sections 3.2 and 3.6 of the UI refresh plan): the colour square's and the hue bar's frames are input outlines,
+		///StrokeStrong (they were DarkGray), and the hue slider's handle is the Text token (it was black). The colours themselves (the square, the hue
+		///bar, the initial and final swatches) are what the user picks and stay as they are; so does the black and white ring of the picker, which must
+		///show on any colour.</summary>
+		internal void SetLook(){
+			borderSquare.BorderBrush=UiLook.Brush(CodeBase.EnumUiColor.StrokeStrong);
+			borderHue.BorderBrush=UiLook.Brush(CodeBase.EnumUiColor.StrokeStrong);
+			rectangleHueSlider.Stroke=UiLook.Brush(CodeBase.EnumUiColor.Text);
 		}
 
 		#region Methods - private
