@@ -609,6 +609,59 @@ namespace UiRefreshTests {
 			}
 		}
 
+		///<summary>The module bar's chart icons as ModuleBar draws them: the EnumIcons, the dental icon it draws since UI-8, its state (rest: on
+		///ColorOD.Control; selected: on white) and the background.</summary>
+		private static readonly (EnumIcons enumIcons,string dentalIcon,string state,Color colorBack)[] _arrayModuleBarChart=new[] {
+			(EnumIcons.Chart32G,"Tooth","rest",Color.FromArgb(240,240,240)),
+			(EnumIcons.Chart32W,"ToothFilled","selected",Color.White),
+			(EnumIcons.ChartMed32,"ChartMedical","rest",Color.FromArgb(240,240,240)),
+			(EnumIcons.ChartMed32,"ChartMedical","selected",Color.White),
+		};
+
+		[TestMethod]
+		public void ModuleBarChartIcons_ForTheGallery() {
+			//The module bar's chart icons (Chart32G at rest, Chart32W selected, ChartMed32 in the medical layout) drawn by IconLibrary.Draw as
+			//ModuleBar.OnPaint draws them: a slot of LayoutManager.Scale(32) at 100, 125, 150 and 200%, over the button's background, and the 100%
+			//one 4x for a closer look. Before UI-8's switch these are the Gen_*.cs pictures; since it, the dental icons Tooth, ToothFilled and
+			//ChartMedical. Written to <OPMS_UI8_ICON_PICTURES>\modulebar\ only when the variable is set; the drawing is checked every run.
+			string folder=Environment.GetEnvironmentVariable(VARIABLE_PICTURES);
+			bool isWriting=!string.IsNullOrEmpty(folder);
+			IconRendererTests.RunSta(() => {
+				bool isOnlyGdiOld=IconLibrary.OnlyGDI;
+				try {
+					foreach((EnumIcons enumIcons,string dentalIcon,string state,Color colorBack) in _arrayModuleBarChart) {
+						string name=enumIcons+"-"+dentalIcon+"-"+state;
+						foreach(int percent in new[] { 100,125,150,200 }) {
+							int size=32*percent/100;
+							using(Bitmap bitmap=new Bitmap(size,size,PixelFormat.Format32bppArgb)) {
+								bitmap.SetResolution(96,96);
+								using(Graphics g=Graphics.FromImage(bitmap)) {
+									g.Clear(colorBack);
+									IconLibrary.Draw(g,enumIcons,new Rectangle(0,0,size,size),colorBack,colorBack);
+								}
+								Assert.IsTrue(IconRendererTests.GetInk(bitmap,isOnWhite:true).Any(x => x>=64),name+" at "+percent+"% draws nothing.");
+								if(!isWriting) {
+									continue;
+								}
+								Save(bitmap,Path.Combine(folder,"modulebar",name,percent+"pct-"+size+"px.png"));
+								if(percent==100) {
+									using(Bitmap bitmap4=Enlarge(bitmap,4)) {
+										Save(bitmap4,Path.Combine(folder,"modulebar",name,"100pct-4x.png"));
+									}
+								}
+							}
+						}
+					}
+				}
+				finally {
+					IconLibrary.OnlyGDI=isOnlyGdiOld;
+				}
+			});
+			if(!isWriting) {
+				Assert.IsTrue(true,"Set "+VARIABLE_PICTURES+" to a folder to write the module bar's pictures.");
+			}
+		}
+
 		private static Bitmap NewWhiteBitmap(int size) {
 			Bitmap bitmap=new Bitmap(size,size,PixelFormat.Format32bppArgb);
 			bitmap.SetResolution(96,96);
