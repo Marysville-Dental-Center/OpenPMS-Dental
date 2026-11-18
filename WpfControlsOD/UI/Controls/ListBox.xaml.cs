@@ -1013,7 +1013,8 @@ adjustment.ObjNum=listObj.GetSelectedKey<ObjType>(x=>x.ObjNum);
 		///RowHover, selection AccentSubtle (or ColorSelectedBack) with the 2 px selection bar in the row's first pixels (the row's left border):
 		///Accent while the list has keyboard focus, SelectionBarNoFocus without; the text in Text, TextSelected, TextDisabled.</summary>
 		private void SetColors(){
-			borderOuter.Background=UiLookLists.GetBack(_colorBack);
+			//The area below the rows stays SurfaceRaised (white) as before; ColorBack colours the rows.
+			borderOuter.Background=UiLookLists.BrushSurfaceRaised;
 			borderOuter.BorderBrush=IsEnabled ? UiLookLists.BrushStrokeStrong : UiLook.Brush(EnumUiColor.Stroke);
 			bool hasFocus=(_isFocusForced || IsKeyboardFocusWithin) && IsEnabled;
 			if(SelectionMode==SelectionMode.CheckBoxes){
