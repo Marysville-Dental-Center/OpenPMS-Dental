@@ -108,6 +108,9 @@ namespace SparksToothChart {
 			_engine=ToothChartEngine.Simple2D;
 			tcData=new ToothChartData();
 			InitializeComponent();
+			//UI-2a-1 (docs/specs/ui-refresh-plan.md, section 5.2): the chart is content and keeps today's font, Microsoft Sans Serif 8.25, which it
+			//inherited from the default and its window until now. LayoutManager records and zooms it as before; the 2D chart takes its size from it.
+			Font=new Font("Microsoft Sans Serif",8.25f);
 			ResetControls();
 			Disposed+=ToothChartWrapper_Disposed;
 		}

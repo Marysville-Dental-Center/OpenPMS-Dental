@@ -134,7 +134,7 @@ namespace OpenPmsDental {
 			this.StartPosition=FormStartPosition.CenterScreen;
 			this.Text="Form";
 			this.BackColor=ColorOD.Background;
-			this.Font=new Font("Microsoft Sans Serif",8.25f);//fixes a lot of scaling issues.
+			this.Font=(Font)UiTheme.FontBody.Clone();//fixes a lot of scaling issues. The body token (UI-2a-1): Microsoft Sans Serif 8.25 until UI-2b.
 			#endregion
 			this.Shown+=new EventHandler(this.ODForm_Shown);
 			this.FormClosing+=new FormClosingEventHandler(this.ODForm_FormClosing);
@@ -803,8 +803,9 @@ namespace OpenPmsDental {
 			if(fontSize<=0 || float.IsInfinity(fontSize)){
 				return;
 			}
-			using Font font=new Font("Microsoft Sans Serif",fontSize);
-			using Font fontMainWindow=new Font("Microsoft Sans Serif",fontSizeMainWindow);
+			//The window titles' family token (UI-2a-1): Microsoft Sans Serif until UI-2b; the size is computed above.
+			using Font font=new Font(UiTheme.FontFamilyName,fontSize);
+			using Font fontMainWindow=new Font(UiTheme.FontFamilyName,fontSizeMainWindow);
 			float heightFont=ScaleMS(font.Height);
 			float heightFontMainWindow=ScaleMS(fontMainWindow.Height);
 			if(scaleRatio!=1){

@@ -36,7 +36,7 @@ namespace NoHqTests {
 		public static readonly string[] ArrayReasons=new string[] { "keeps","no-drawing" };
 		///<summary>UiTheme's partial files that RdlDesign may link: Windows Forms, System.Drawing and Microsoft.Win32 only. The WPF part is the other.</summary>
 		public static readonly string[] ArrayUiThemeWinFormsFiles=new string[] { @"CodeBase\UI\UiTheme.cs",@"CodeBase\UI\UiTheme.Colors.cs",
-			@"CodeBase\UI\UiTheme.Gdi.cs",@"CodeBase\UI\UiTheme.Metrics.cs" };
+			@"CodeBase\UI\UiTheme.Gdi.cs",@"CodeBase\UI\UiTheme.Metrics.cs",@"CodeBase\UI\UiTheme.Fonts.cs" };
 		public const string PATH_UITHEME_WPF=@"CodeBase\UI\UiTheme.Wpf.cs";
 		private static readonly string[] _arrayUsingsWinForms=new string[] { "System","System.Collections.Generic","System.Drawing","System.Drawing.Drawing2D",
 			"System.Windows.Forms","Microsoft.Win32" };

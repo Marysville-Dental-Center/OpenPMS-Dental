@@ -112,6 +112,8 @@ namespace OpenPmsDental {
 		#region Constructor
 		public FormSheetDefEdit(SheetDef sheetDef) {
 			InitializeComponent();
+			//UI-2a-1: the sheet design canvas is a document: the font mapping leaves its fields and stored fonts alone. Before InitializeLayoutManager.
+			LayoutManagerForms.MarkContent(panelMain);
 			InitializeLayoutManager();
 			InitializeComponentSheetEditMobile();
 			Lan.F(this);

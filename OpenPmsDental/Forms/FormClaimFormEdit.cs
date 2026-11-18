@@ -40,6 +40,8 @@ namespace OpenPmsDental{
 			// Required for Windows Form Designer support
 			//
 			InitializeComponent();
+			//UI-2a-1: the claim form design canvas is a document: the font mapping leaves its fields and stored fonts alone. Before InitializeLayoutManager.
+			LayoutManagerForms.MarkContent(panel1);
 			InitializeLayoutManager();
 			Lan.F(this);
 			_claimFormOld=claimForm;
