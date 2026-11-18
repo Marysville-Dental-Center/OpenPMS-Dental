@@ -55,8 +55,9 @@ namespace PdfLibraryTests {
 			CollectionAssert.AreEqual(new[] { SourceBuild.PDFSHARP_PATH+"|"+SourceBuild.PDFSHARP_PATH+"|"+SourceBuild.PDFSHARP_URL,
 				SourceBuild.WECANTSPELL_PATH+"|"+SourceBuild.WECANTSPELL_PATH+"|"+SourceBuild.WECANTSPELL_URL },
 				listModules.Select(x => x.Name+"|"+x.Path+"|"+x.Url).ToArray(),gitModules);
-			//The repository holds no copy of the upstream source next to the submodules.
-			CollectionAssert.AreEquivalent(new[] { "build","PDFsharp","WeCantSpell.Hunspell" },
+			//The repository holds no copy of the upstream source next to the submodules. The folder also holds the vendored Fluent SVGs
+			//of UI-7a (fluentui-system-icons): upstream files byte for byte with their licence, not a source copy beside a submodule.
+			CollectionAssert.AreEquivalent(new[] { "build","fluentui-system-icons","PDFsharp","WeCantSpell.Hunspell" },
 				Directory.GetDirectories(SourceBuild.Combine("third-party")).Select(Path.GetFileName).ToArray());
 		}
 
