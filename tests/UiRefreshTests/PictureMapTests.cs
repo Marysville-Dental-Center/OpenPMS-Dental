@@ -264,6 +264,10 @@ namespace UiRefreshTests {
 			}
 		}
 
+		///<summary>Windows the off-screen builder cannot make because their constructors need objects it cannot give (an X835 claim); a
+		///NullReferenceException from any other window still fails the test.</summary>
+		private static readonly string[] _arrayWindowsNeedingArguments=new[] { "FormEtrans835ClaimEdit","FormEtrans835ProcEdit" };
+
 		[TestMethod]
 		public void BuiltWindows_ShowTheIconOrABitmapOfThePicturesSize() {
 			List<ConvertedRow> listRows=ReadRecord(Path.Combine(RepoPaths.Root(),"icons","picture-converted.tsv"));
@@ -288,7 +292,7 @@ namespace UiRefreshTests {
 						if(NoDatabaseGuard.IsDatabaseException(exception)) {
 							continue;//needs a database: the designer lines are checked by Record_EveryConversionIsInItsDesignerLine
 						}
-						if(exception is NullReferenceException) {
+						if(exception is NullReferenceException && _arrayWindowsNeedingArguments.Contains(grouping.Key)) {
 							continue;//a window whose constructor arguments the builder cannot give (an X835 claim): the designer lines are checked by Record_EveryConversionIsInItsDesignerLine
 						}
 						listProblems.Add(grouping.Key+": "+exception.GetType().Name+" "+exception.Message);
