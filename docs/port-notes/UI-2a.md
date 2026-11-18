@@ -344,6 +344,11 @@ UI-2b runs the guard again after the flip, and the UI-2a-4 slices run it (sectio
 - While the guard was written, one run of `ReportComplex_PrintedPages_...` (before the repeatability check was added) reported a difference
   between today's render and UI-2b's that no later run showed (eight runs since, each with today's render twice); the repeatability check
   now tells such a flake from a print path that takes a screen font.
+- After the perio print fix (branch `ui/ui2a3-2`): the build lane (x64), the whole filter, 0 errors; Targeted
+  (`.git/od-tools/test-results/ui2a3-targeted-4.txt`) PrintGuardTests 16 passed, 1 opt-in skipped; UiRefreshTests 80 passed, 1 skipped;
+  UnitTests 1,728 passed, 3 skipped; PdfLibraryTests 41; NoHqTests 122. A check run with `SetUpForPrint` sending the chart's font to
+  `UiTheme.FontBody` (`ui2a3-mutation-1.txt`, reverted) failed `PerioChart_Print` ("A print path takes a screen font"), so the guard now
+  catches the UI-2a-4 edit it is meant to catch.
 
 ### 6. For the lead
 
