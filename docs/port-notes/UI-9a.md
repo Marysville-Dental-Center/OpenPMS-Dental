@@ -183,3 +183,56 @@ button. On a real desktop the owner may glance at one converted window at 125% a
 3. "Update TSI" had the same red arrow as "Send to TSI" and now has the same Send icon. Fine, or a refresh icon (Arrow Sync)?
 4. The 16 x 14 print pictures and the 18 x 9 label pictures are drawn as 16 px icons (the bitmap 2 px or 7 px taller, the width and the
    text where they were). Fine?
+
+## 4. UI-9a-2: Forms D-L
+
+On `ui/ui9a2-1` from `main` at `296aa44d8`. Visible change: 61 button pictures in 36 windows (`FormD*` to `FormL*`) are Fluent icons. No schema change,
+no NuGet package, no download, no new icon (every picture means what an earlier member means), no program started, no database, no window shown.
+
+### 4.1 What the tool found (`OpenPmsDental/Forms`, `FormD*` to `FormL*`: 726 files, 67 picture uses)
+
+| Kind | Uses | What happened |
+|---|---|---|
+| `Resources` | 60 | converted: up, down, Left, Right, butPrint, butPrintSmall, butPreview, butLabel, editPencil, deleteX18, butGoto |
+| `Resx` | 1 | converted: FormFeeSchedGroups butAdd (its `.resx` entry removed) |
+| `ImageList` | 6 | `UI-9b`: FormEhrLabOrderEdit2014, FormEmailEdit, FormEmailInbox (2), FormEtrans835s, FormJournal |
+
+61 lines: 47 as `UI.Button.Icon`, 14 as `IconLibrary.GetBitmap` (the 16 x 14 print pictures as 16 x 16, butPreview 17 x 16, the label picture 18 x 16, the
+18 x 18 clear-value X, and the 22 px arrows or plus whose slot would pass the border or whose button is not a `UI.Button`). 8 vertical nudges removed.
+The `Resources` picture `butGoto` had its last use in `FormEcwDiagAdv` and is gone with `OpenPmsDental/Resources/butGoto.gif` (like `butPin` in
+UI-9a-1: the lead re-takes `tools/project-baseline/items.txt`). The other pictures are still used by later slices' windows. Bounds unchanged.
+
+### 4.2 The three new map rows (all reuse an earlier member)
+
+| Picture | Purpose | `EnumIcons` |
+|---|---|---|
+| deleteX18.gif (red X, 18 x 18) | clear the value (FormDefEdit) | `DeleteX` (drawn 18 x 18) |
+| butGoto.gif (green circle with an arrow) | run the query (FormEcwDiagAdv) | `ArrowRight` |
+| FormFeeSchedGroups butAdd (blue plus) | add | `Add` |
+
+No member added, so the member counts (48 and 61) and `IconData.g.cs` are unchanged.
+
+### 4.3 Tests (Targeted: UiRefreshTests, WindowChecksTests, UnitTests, NoHqTests)
+
+`PictureMapTests` covers the slice through its row in `icons/picture-slices.tsv`; no new test was needed. Runs: `.git/od-tools/test-results/ui9a2-before.txt`
+(before pictures; the check that the slice is converted fails there by design), `ui9a2-final.txt`.
+
+### 4.4 Gallery G-UI3, the UI-9a-2 slice
+
+**Where:** `.git/od-tools/test-results/G-UI3-ui9a2/` (`index.html`). Sources: `.git/od-tools/test-results/ui9a2-pictures/before` and `.../after`
+(`windows/<window>.png`, `controls/<window>.<control>.png`), rendered off screen with the tool's gallery test.
+
+**For the lead** (rebuild; `<repo>` is the main checkout; the before set is built on the commit "UI-9a-2: slice row and map rows"):
+
+```
+powershell -NoProfile -ExecutionPolicy Bypass -File tools\Convert-PictureUses.ps1 -Slice UI-9a-2 -Check -Record <repo>\.git\od-tools\test-results\ui9a2-pictures\planned-record.tsv
+set OPMS_UI9A_PICTURES=<repo>\.git\od-tools\test-results\ui9a2-pictures\before
+set OPMS_UI9A_RECORD=<repo>\.git\od-tools\test-results\ui9a2-pictures\planned-record.tsv
+run-tests.ps1 -Root <worktree> -Mode Targeted -Platform x64 -RequireBuildOutput -Include UiRefreshTests
+rem after: OPMS_UI9A_RECORD empty, OPMS_UI9A_PICTURES=...\after, same run; then tools\New-UiGallery.ps1 -Before ...\before -After ...\after -Name G-UI3 -Out ...\G-UI3-ui9a2 -Note "<summary>"
+```
+
+### 4.5 Owner questions
+
+No new icon choice. For the gallery: the red X for "clear value" is `DeleteX`, the green "go" circle of the eCW query button is a plain `ArrowRight`
+(the circle is gone), and the plus of FormFeeSchedGroups is `Add`. Fine?

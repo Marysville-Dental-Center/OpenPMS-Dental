@@ -1386,6 +1386,7 @@ own 26.2 overlap check before it starts. The first cut is below; a brief that fi
   background kept (4.5); 7 ImageLists left to UI-9b. New `EnumIcons` Up, Down, Edit, Label, Note, Pin, Preview, Send (both enums) and
   Print, Export (WinForms), 8 manifest rows. `PictureMapTests` (map complete, record in the designers, every read picture present, the
   built windows); `RenameGuardTests` unchanged (no pack URI in these WinForms windows). Owner questions in the port note, section 3.6.
+- **Status UI-9a-2 (2026-11-18).** Done on `ui/ui9a2-1` (`docs/port-notes/UI-9a.md`, section 4), not merged yet, waiting for G-UI3 (`.git/od-tools/test-results/G-UI3-ui9a2`, rendered off screen). Forms D-L: 61 button pictures in 36 windows, 47 as `UI.Button.Icon` and 14 as `GetBitmap`; 1 window `.resx` picture and the `Resources` picture `butGoto` removed; 6 ImageLists left to UI-9b. No new `EnumIcons` member (deleteX18 to `DeleteX`, butGoto to `ArrowRight`, FormFeeSchedGroups butAdd to `Add`).
 
 **UI-9b: ImageLists to icons** (toolbars and trees; 50 `.resx` files, 55 lists, 244 pictures, 318 `ODToolBarButton` calls)
 - Slices: UI-9b-1 the main window and the module toolbars (`Main Modules`, `FormOpenDental`), with `OpenPmsDental/Logic/ProgramL.cs`;
