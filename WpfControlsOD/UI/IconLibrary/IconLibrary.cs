@@ -1,22 +1,17 @@
 ﻿using System;
-using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
+using CodeBase;
 
 namespace WpfControls.UI{
 	/*
-Jordan's Instructions to self for maintenance
-This enum is manually maintained with no automation.  A similar list is stored in the database, which is filled by Adding in Icon Manager.  
-To add an entirely new icon:
-1. Add enumeration here and to IsWPF at the bottom.
-2. Add folder in RawFiles. Add bitmap. Add to GIT.
-2. Run. 
-	Click Add Icon. Add image file. Generate.
-	Click Gen Selector.
-3. Add Gen_ file to project
+The icons of the WPF toolbars, buttons, tree views and the image selector. Since package UI-7b of the UI refresh (docs/specs/ui-refresh-plan.md,
+sections 3.5, 4.2 and 4.3; docs/port-notes/UI-7b.md) every member draws a Fluent UI System Icon from the one icon table in CodeBase
+(CodeBase/UI/Icons, made by tools/New-IconData.ps1 from icons/manifest.json, where each member has its row keyed by its name), the same rows
+the WinForms IconLibrary (OpenPmsDental/UI/IconLibrary) draws. Chart32G, Chart32W and ChartMed32 have no row until UI-8 makes the dental icons;
+WPF never drew them (they had no WPF picture).
+To add an icon: add the member here (and to the WinForms enum when WinForms draws it), add its manifest row (icons/README.md), run the generator.
 	*/
 	public enum EnumIcons{
 		None,
@@ -77,48 +72,85 @@ To add an entirely new icon:
 
 	///<summary></summary>
 	public partial class IconLibrary{
+		///<summary>The manifest's enum name of these icons' rows.</summary>
+		public const string MANIFEST_ENUM="EnumIcons";
+		///<summary>The suffix of the row of an icon's Filled style ("on" states, section 4.3): Appt32Filled.</summary>
+		public const string FILLED_SUFFIX="Filled";
+		///<summary>The designs of each member by rising size, Regular and Filled, indexed by the enum's value; filled on first use.</summary>
+		private static IconDesign[][] _arrayDesignsRegular;
+		private static IconDesign[][] _arrayDesignsFilled;
+		private static readonly object _lockDesigns=new object();
+
+		///<summary>Adds the icon to the grid as a Path filled in the icon's colour (its manifest role, UQ-4), the size of grid.Width (22 DIPs in buttons
+		///and toolbars, 16 in a tree view for example; square icons only). The design is the one for the slot's real pixel size at the grid's DPI
+		///(section 3.5), centred on whole device pixels. Any margin is set by the caller on the grid. Nothing for None or an icon without a row
+		///(Chart32G, Chart32W, ChartMed32).</summary>
 		public static void DrawWpf(EnumIcons enumIcons,System.Windows.Controls.Grid grid){
-			//The incoming grid will already have been set to the correct width. It's our job to match that width.
-			//Any margin will be set by the caller on the grid rather than on any canvas or Image in here.
-			//The canvas gets set to fit the grid
-			if(IsVector(enumIcons)){
-				//attach a series of Shapes (rectangles, paths, etc) 
-				double width=Width(enumIcons);
-				//grid.ActualWidth is still 0
-				double scale=grid.Width/width;//usually 22/22, but maybe 16/22 in treeview for example
-				Canvas canvas=new Canvas();
-				canvas.LayoutTransform=new ScaleTransform(scale,scale);
-				canvas.Width=grid.Width;
-				canvas.Height=grid.Width;//we only support square icons
-				grid.Children.Add(canvas);
-				DrawSvg drawSvg=new DrawSvg();
-				drawSvg.CanvasCur=canvas;
-				IconSelector.DrawVectors(drawSvg,enumIcons,scale);
+			DrawWpf(enumIcons,grid,null,isFilled:false);
+		}
+
+		///<summary>DrawWpf in a brush of the caller's (null: the icon's own colour), Regular or Filled (the Filled style falls back to Regular).</summary>
+		public static void DrawWpf(EnumIcons enumIcons,System.Windows.Controls.Grid grid,Brush brush,bool isFilled){
+			IconDesign[] arrayDesigns=GetDesigns(enumIcons,isFilled);
+			if(arrayDesigns.Length==0){
 				return;
 			}
-			//For now, just always draw the image at its original size.
-			BitmapImage bitmapImage=new BitmapImage();
-			string base64=IconSelector.GetBase64(enumIcons);
-			if(base64==""){
-				return;
+			double sizeSlot=grid.Width;
+			if(double.IsNaN(sizeSlot) || sizeSlot<=0){
+				sizeSlot=Width(enumIcons);
 			}
-			byte[] byteArray=Convert.FromBase64String(base64);
-			bitmapImage.BeginInit();
-			bitmapImage.StreamSource=new MemoryStream(byteArray);
-			//This can fail for a few bitmaps for a very small number of computers for unknown reasons
-			try{
-				bitmapImage.EndInit();
+			double scale=VisualTreeHelper.GetDpi(grid).PixelsPerDip;
+			IconDesign iconDesign=UiIcons.GetDesign(arrayDesigns,(int)Math.Round(sizeSlot*scale));
+			System.Windows.Shapes.Path path=new System.Windows.Shapes.Path();
+			path.Data=UiIcons.GetGeometryWpf(iconDesign,sizeSlot,scale);
+			path.Fill=brush ?? UiTheme.GetBrushWpf(UiIcons.GetRoleToken(iconDesign));
+			path.Width=sizeSlot;
+			path.Height=sizeSlot;
+			path.Stretch=Stretch.None;
+			path.HorizontalAlignment=HorizontalAlignment.Left;
+			path.VerticalAlignment=VerticalAlignment.Top;
+			path.SnapsToDevicePixels=true;
+			grid.Children.Add(path);
+		}
+
+		///<summary>The icon's designs in the icon table by rising size, Regular or Filled. The Filled style falls back to Regular when the icon has no
+		///Filled row. Empty for None and the icons without a row.</summary>
+		public static IconDesign[] GetDesigns(EnumIcons icon,bool isFilled=false){
+			if(_arrayDesignsRegular==null){
+				lock(_lockDesigns){
+					if(_arrayDesignsRegular==null){
+						Array arrayValues=Enum.GetValues(typeof(EnumIcons));
+						int count=0;
+						foreach(object value in arrayValues){
+							count=Math.Max(count,(int)value+1);
+						}
+						IconDesign[][] arrayRegular=new IconDesign[count][];
+						IconDesign[][] arrayFilled=new IconDesign[count][];
+						foreach(object value in arrayValues){
+							EnumIcons iconEach=(EnumIcons)value;
+							if(iconEach==EnumIcons.None){
+								arrayRegular[(int)value]=new IconDesign[0];
+								arrayFilled[(int)value]=new IconDesign[0];
+								continue;
+							}
+							arrayRegular[(int)value]=UiIcons.GetDesigns(MANIFEST_ENUM,iconEach.ToString());
+							IconDesign[] arrayDesignsFilled=UiIcons.GetDesigns(MANIFEST_ENUM,iconEach.ToString()+FILLED_SUFFIX);
+							if(arrayDesignsFilled.Length==0){
+								arrayDesignsFilled=arrayRegular[(int)value];
+							}
+							arrayFilled[(int)value]=arrayDesignsFilled;
+						}
+						_arrayDesignsFilled=arrayFilled;
+						_arrayDesignsRegular=arrayRegular;
+					}
+				}
 			}
-			catch{
-				bitmapImage=new BitmapImage();
+			IconDesign[][] arrayDesigns=isFilled ? _arrayDesignsFilled : _arrayDesignsRegular;
+			int index=(int)icon;
+			if(index<0 || index>=arrayDesigns.Length){
+				return new IconDesign[0];
 			}
-			//bitmapImage.Freeze();//Would makes the image available on any thread, but we don't need that.
-			Image image=new Image();
-			image.Source=bitmapImage;
-			//width is typically 22, but treeView sets it to 16 for example.
-			image.Width=grid.Width;//we currently only support square icons
-			image.Height=grid.Width;
-			grid.Children.Add(image);
+			return arrayDesigns[index];
 		}
 
 		///<summary>32 or 22</summary>
@@ -136,66 +168,20 @@ To add an entirely new icon:
 			}
 		}
 
+		///<summary>Whether the icon is drawn as vectors: every icon with a row in the icon table since UI-7b.</summary>
 		public static bool IsVector(EnumIcons icon){
-			switch(icon){
-				case EnumIcons.Acquire:
-				case EnumIcons.ImageSelectorFile:
-				case EnumIcons.ImageSelectorFolder:
-				case EnumIcons.ImageSelectorFolderWeb:
-				case EnumIcons.Patient:
-					return true;
-				default:
-					return false;
-			}
+			return GetDesigns(icon).Length>0;
 		}
 
-		///<summary>Only some icons have been moved over to WPF. This keeps track of which ones so that the IconGenerator can work properly.</summary>
+		///<summary>Whether WPF draws the icon: every icon with a row in the icon table since UI-7b (before, only the icons the IconGenerator had moved
+		///to WPF).</summary>
 		public static bool IsWPF(EnumIcons icon){
-			switch(icon){
-				case EnumIcons.Acquire:
-				case EnumIcons.Add:
-				case EnumIcons.ArrowLeft:
-				case EnumIcons.ArrowRight:
-				case EnumIcons.ArrowsAll:
-				case EnumIcons.CommLog:
-				case EnumIcons.Complete:
-				case EnumIcons.Copy:
-				case EnumIcons.Crop:
-				case EnumIcons.DeleteX:
-				case EnumIcons.Email:
-				case EnumIcons.Export:
-				case EnumIcons.Flip:
-				case EnumIcons.Hand:
-				case EnumIcons.ImageSelectorDoc:
-				case EnumIcons.ImageSelectorFile:
-				case EnumIcons.ImageSelectorFolder:
-				case EnumIcons.ImageSelectorFolderWeb:
-				case EnumIcons.ImageSelectorMount:
-				case EnumIcons.ImageSelectorPhoto:
-				case EnumIcons.ImageSelectorXray:
-				case EnumIcons.Import:
-				case EnumIcons.Info:
-				case EnumIcons.Paste:
-				case EnumIcons.Patient:
-				case EnumIcons.PatSelect:
-				case EnumIcons.Print:
-				case EnumIcons.Recall:
-				case EnumIcons.RotateL:
-				case EnumIcons.RotateR:
-				case EnumIcons.ScanMulti:
-				case EnumIcons.ScanPhoto:
-				case EnumIcons.ScanXray:
-				case EnumIcons.Text:
-				case EnumIcons.Video:
-					return true;
-				default:
-					return false;
-			}
+			return GetDesigns(icon).Length>0;
 		}
 
 	}
 
-		
+
 }
 
 
