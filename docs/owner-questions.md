@@ -1069,6 +1069,8 @@ and E-10b), where each is set out in full with its recommendation. You first ans
   `main` before the 64-bit build, which never carries DirectX. TC-9a follows TC-8 directly; the office check (the chart's image tests
   on one PC of the office's graphics type, no database) stays as a launch check before the office switches.
 
+- **Gallery G-UI3, Forms D-L, approved on 2026-11-18** (UI-9a-2; 61 button pictures in 36 windows to icons; 93 pictures, commit 6065c1862), with the icons as shown: Definition Edit's clear-value red X as DeleteX, the eCW advanced query's green go circle as a plain ArrowRight, Fee Schedule Groups' add plus as Add; rows in approved.tsv.
+
 - **Gallery G-UI1 part 2d approved on 2026-11-18** (UI-4b-3, calendars, date pickers and text boxes; 30 pictures, commit 3750b99d7), with the details as shown: text boxes square (as the approved design sheet draws them; combo boxes keep 4 px corners), the text box's blue focus line whenever it has the cursor (also after a mouse click, as Windows does), the calendar's hovered day SubtleHover, neighbouring months' days TextDisabled, a white inner ring when today is the selected day, and today's ring Accent also in a disabled calendar; rows in approved.tsv.
 
 - **Galleries approved on 2026-11-18 (2)**: G-UI1 part 2c (UI-4b-2, tabs and splitters; 15 pictures, commit c1949bee6) and G-UI3's Forms A-C slice (UI-9a-1, 62 button pictures to icons in 30 windows; 92 pictures, commit 62385b329), with the icons as shown: mailing labels as Contact Card, print preview as Document Search, Update TSI with a refresh arrow (Sync, Fluent arrow_sync; the owner's answer the same day; Send to TSI keeps Send), and the 16 x 14 and 18 x 9 pictures as 16 px icons in their old bitmap size; rows in approved.tsv.
