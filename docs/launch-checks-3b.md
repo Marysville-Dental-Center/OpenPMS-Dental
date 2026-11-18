@@ -25,6 +25,8 @@ The installer test of S3b-7 (`tools\Test-Installer.ps1`, the owner's elevated ru
 
 ## 1. WebView2 windows (window check D7)
 
+**Done 2026-11-17** (main 3809f35db, the owner's connected session): D7 PARTLY, every item the check scripts passed (the e-mail preview's browser starts and draws in the x64 program); the items for a person are those of section 8. Result in `.git/od-tools/test-results/ui-before/run1/REPORT.md`.
+
 **What it proves.** That the program's WebView2 windows work on .NET 10 x64: the e-mail preview (the program's `ODWebView2`, which is
 Microsoft.Web.WebView2.WinForms) and the program's WPF WebView2 control (`WpfControls.UI.WebView2` around `Microsoft.Web.WebView2.Wpf`'s
 control). `Microsoft.Web.WebView2.Wpf` references WinRT.Runtime and Microsoft.Windows.SDK.NET, which neither the release nor .NET 10's shared
@@ -62,6 +64,8 @@ program does.
 Without the opt-in, D7 is inconclusive and its self-tests (`WebView2PagesTests`) run in every test run.
 
 ## 2. The Middle Tier as a Windows service (Test-MiddleTierService.ps1)
+
+**Done 2026-11-17** (main 81fb7214f, the owner's elevated run): 15 checks passed, 0 failed; MiddleTierHostTests against the service 18 passed, 4 inconclusive, NoHqTests 122 passed; no error in the service's event log. The first run that day (11 host tests failed) found a defect in the script's settings file, fixed on `fix/mt-service` (`docs/port-notes/S3b-6.md` section 9).
 
 **What it proves.** The gate's "the new Middle Tier is checked for real on the build PC: started as a Windows service on a loopback address
 with a test certificate, with the host round-trip tests (S3b-6) and a client session run against it" (`docs/port-notes/S3b-6.md`
