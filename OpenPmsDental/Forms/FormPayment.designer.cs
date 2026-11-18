@@ -299,7 +299,7 @@
 			// butPrintReceipt
 			// 
 			this.butPrintReceipt.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butPrintReceipt.Image = global::OpenPmsDental.Properties.Resources.butPrintSmall;
+			this.butPrintReceipt.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.Print,16,16);
 			this.butPrintReceipt.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butPrintReceipt.Location = new System.Drawing.Point(389, 664);
 			this.butPrintReceipt.Name = "butPrintReceipt";
@@ -355,7 +355,7 @@
 			//
 			// butShowHide
 			// 
-			this.butShowHide.Image = global::OpenPmsDental.Properties.Resources.arrowDownTriangle;
+			this.butShowHide.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.ChevronDown,10,10);
 			this.butShowHide.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.butShowHide.Location = new System.Drawing.Point(1, 215);
 			this.butShowHide.Name = "butShowHide";
@@ -776,7 +776,7 @@
 			// butPay
 			// 
 			this.butPay.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butPay.Image = global::OpenPmsDental.Properties.Resources.Left;
+			this.butPay.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.ArrowLeft,22,22);
 			this.butPay.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butPay.Location = new System.Drawing.Point(504, 385);
 			this.butPay.Name = "butPay";

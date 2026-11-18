@@ -242,7 +242,7 @@ namespace OpenPmsDental {
 			// 
 			// butDown
 			// 
-			this.butDown.Image = global::OpenPmsDental.Properties.Resources.down;
+			this.butDown.Icon = OpenPmsDental.UI.EnumIcons.Down;
 			this.butDown.Location = new System.Drawing.Point(202, 322);
 			this.butDown.Name = "butDown";
 			this.butDown.Size = new System.Drawing.Size(33, 26);
@@ -251,7 +251,7 @@ namespace OpenPmsDental {
 			// 
 			// butUp
 			// 
-			this.butUp.Image = global::OpenPmsDental.Properties.Resources.up;
+			this.butUp.Icon = OpenPmsDental.UI.EnumIcons.Up;
 			this.butUp.Location = new System.Drawing.Point(202, 290);
 			this.butUp.Name = "butUp";
 			this.butUp.Size = new System.Drawing.Size(33, 26);

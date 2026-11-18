@@ -826,7 +826,7 @@ namespace OpenPmsDental {
 			// 
 			// butPrint
 			// 
-			this.butPrint.Image = global::OpenPmsDental.Properties.Resources.butPrintSmall;
+			this.butPrint.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.Print,16,16);
 			this.butPrint.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butPrint.Location = new System.Drawing.Point(1126, 647);
 			this.butPrint.Name = "butPrint";
@@ -949,7 +949,7 @@ namespace OpenPmsDental {
 			// 
 			// butListen
 			// 
-			this.butListen.Image = global::OpenPmsDental.Properties.Resources.Microphone_22px;
+			this.butListen.Icon = OpenPmsDental.UI.EnumIcons.Microphone;
 			this.butListen.Location = new System.Drawing.Point(1112, 172);
 			this.butListen.Name = "butListen";
 			this.butListen.Size = new System.Drawing.Size(30, 30);

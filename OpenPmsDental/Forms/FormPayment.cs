@@ -3205,13 +3205,13 @@ namespace OpenPmsDental {
 				panelSplits.Visible=false;
 				butShowHide.Text=Lan.g(this,"Show Splits");
 				Height = LayoutManager.Scale(251+100);//Plus 100 to give room for the buttons
-				this.butShowHide.Image = global::OpenPmsDental.Properties.Resources.arrowDownTriangle;
+				this.butShowHide.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.ChevronDown,10,10);
 				return;
 			}
 			panelSplits.Visible=true;
 			butShowHide.Text=Lan.g(this,"Hide Splits");
 			Height = _originalHeight;
-			this.butShowHide.Image = global::OpenPmsDental.Properties.Resources.arrowUpTriangle;
+			this.butShowHide.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.ChevronUp,10,10);
 		}
 
 		///<summary>Updates the 'Total' text box that displays underneath the Outstanding Charges and Treat Plan grids with their selected rows. Totals all rows when no rows are selected.</summary>

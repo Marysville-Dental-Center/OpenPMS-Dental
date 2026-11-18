@@ -58,7 +58,7 @@ namespace OpenPmsDental{
 			// butShowHide
 			// 
 			this.butShowHide.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butShowHide.Image = global::OpenPmsDental.Properties.Resources.arrowDownTriangle;
+			this.butShowHide.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.ChevronDown,10,10);
 			this.butShowHide.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.butShowHide.Location = new System.Drawing.Point(3, 186);
 			this.butShowHide.Name = "butShowHide";

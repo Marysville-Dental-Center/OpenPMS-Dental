@@ -194,6 +194,11 @@ the manifest; G-UI1 part 3 shows them.
 | A note for the patient (`Note`) | note pad (FormApptsOther) | Note (regular) | Fluent | UI-9a-1 |
 | Send claims, send to and update at TSI (`Send`) | red arrow up (FormClaimEdit, FormClaimResend, FormArManager) | Send (regular) | Fluent | UI-9a-1 |
 | Clear a value, go, add (`DeleteX`, `ArrowRight`, `Add`) | red X (`deleteX18.gif`), green go circle (`butGoto.gif`), blue plus (FormFeeSchedGroups) | existing members, no new icon | Fluent | UI-9a-2 |
+| Show or hide splits (`ChevronDown`, `ChevronUp`) | small green triangles (`arrowDownTriangle.gif`, `arrowUpTriangle.gif`) | Chevron Down, Chevron Up (regular) | Fluent | UI-9a-3 |
+| Close the case or plan (`CloseDoor`) | closing door (`close_door.ico`) | Door Arrow Right (regular) | Fluent | UI-9a-3 |
+| Dictate (`Microphone`) | microphone (`Microphone_22px.png`) | Mic (regular) | Fluent | UI-9a-3 |
+| Zoom (`ZoomIn`, `ZoomOut`) | magnifiers (`butZoomIn.gif`, `butZoomOut.gif`) | Zoom In, Zoom Out (regular) | Fluent | UI-9a-3 |
+| Add (FormOrthoChartSetup) | blue plus | existing `Add` | Fluent | UI-9a-3 |
 
 The window pictures behind these rows, and the pictures that stay, are in `icons/picture-map.tsv` (`tools/Convert-PictureUses.ps1`,
 `docs/port-notes/UI-9a.md`); `icons/picture-converted.tsv` lists every converted control.
