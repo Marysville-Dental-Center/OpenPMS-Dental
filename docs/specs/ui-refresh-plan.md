@@ -1275,6 +1275,14 @@ so it is cut into two slices that share no files and may run side by side).
 - Tests: as UI-7b; a test that the seeded procedure-button pictures are 20×20; a test that no office row is changed by any code path
   (the pictures are only in the new-database script).
 - Gallery: **G-UI1 part 4** (each dental icon at each size, beside today's picture).
+- **Status (2026-11-17).** Done on `ui/ui8-1` (`docs/port-notes/UI-8.md`), not merged yet, waiting for G-UI1 part 4
+  (`.git/od-tools/test-results/G-UI1-part4-ui8`, rendered off screen). 20 dental icons of 4.4, Regular and Filled, at 16, 20, 24, 32 and
+  48 px, drawn in `tools/DentalIcons/DentalIconArt.cs` (`tools/New-DentalIcons.ps1` writes `icons/custom/*.svg`); Fluent's Dentist has no
+  32 px design, so the tooth is drawn here too. Their own enum `DentalIcon` (40 manifest rows; UI-7b's tests keep `EnumIcons` rows away from
+  the three chart pictures), so the module bar switches `Chart32G`, `Chart32W` and `ChartMed32` to `Tooth`, `ToothFilled` and `ChartMedical`
+  in a follow-up to UI-7b's `IconLibrary`. UQ-7: DevDbTool gives the 8 default procedure buttons of a new database the new pictures (20x20,
+  the table's format) and `db/init/new-database.sql` holds them; `ProcButtons.SetToDefault` keeps Open Dental's (owner question: should the
+  reset give the new ones?).
 
 **Slices.** The remaining work touches hundreds of designer files, the same files the 26.2 port edits. It is cut into fixed slices of
 at most about 40 designer files or one module each. Each slice is one package: its own writer and review, its own gallery slice, its
