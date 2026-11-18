@@ -191,7 +191,33 @@
 		</Setter.Value>
 	</Setter>
 </Style>
+	<!--UI-4b-2 (docs/port-notes/UI-4b.md), the splitter of section 3.6: a GridSplitter inside a SplitContainer draws its area in Surface (the window's
+	colour; its own Background, Silver in today's XAML, is today's look) with a 1 px Gridline line along its middle, Accent while it is dragged.-->
 	<Style TargetType="{x:Type local:SplitContainer}">
+		<Style.Resources>
+			<Style TargetType="{x:Type GridSplitter}">
+				<Setter Property="Template">
+					<Setter.Value>
+						<ControlTemplate TargetType="{x:Type GridSplitter}">
+							<Grid Background="{x:Static local:SplitContainer.BrushSurface}" SnapsToDevicePixels="True">
+								<Rectangle x:Name="line" Fill="{x:Static local:SplitContainer.BrushGridline}" Height="1" VerticalAlignment="Center" HorizontalAlignment="Stretch"/>
+							</Grid>
+							<ControlTemplate.Triggers>
+								<Trigger Property="ResizeDirection" Value="Columns">
+									<Setter Property="Height" TargetName="line" Value="NaN"/>
+									<Setter Property="Width" TargetName="line" Value="1"/>
+									<Setter Property="VerticalAlignment" TargetName="line" Value="Stretch"/>
+									<Setter Property="HorizontalAlignment" TargetName="line" Value="Center"/>
+								</Trigger>
+								<Trigger Property="IsDragging" Value="True">
+									<Setter Property="Fill" TargetName="line" Value="{x:Static local:SplitContainer.BrushAccent}"/>
+								</Trigger>
+							</ControlTemplate.Triggers>
+						</ControlTemplate>
+					</Setter.Value>
+				</Setter>
+			</Style>
+		</Style.Resources>
 		<Setter Property="HorizontalAlignment" Value="Left"/>
 		<Setter Property="VerticalAlignment" Value="Top"/>
 	</Style>

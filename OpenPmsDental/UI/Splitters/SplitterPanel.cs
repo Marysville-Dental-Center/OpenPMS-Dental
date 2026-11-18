@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CodeBase;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
@@ -31,6 +32,8 @@ namespace OpenPmsDental.UI {
 			set=>value=base.Location;
 		}
 
+		///<summary>The panel's border on its outer sides (section 3.6: containers 1 px Stroke, scaled by the line rule of 3.3), in the split container's
+		///GetColorBorderLine: Stroke, or the ColorBorder a window set.</summary>
 		protected override void OnPaint(PaintEventArgs e){
 			base.OnPaint(e);
 			if(Parent is null){
@@ -41,42 +44,38 @@ namespace OpenPmsDental.UI {
 				return;
 			}
 			Graphics g = e.Graphics;
-			using Pen pen = new Pen(splitContainer.ColorBorder);
+			int w=UiTheme.GetLineWidth(splitContainer.LayoutManager.ScaleMy());
+			using SolidBrush solidBrush=new SolidBrush(splitContainer.GetColorBorderLine());
+			bool isLeft;
+			bool isTop;
+			bool isRight;
+			bool isBottom;
 			if(splitContainer.Orientation==Orientation.Vertical){
-				if(this==splitContainer.Panel1){//Left
-					g.DrawLine(pen,Width-1,Height-1,0,Height-1);//bottom
-					g.DrawLine(pen,0,Height-1,0,0);//left
-					g.DrawLine(pen,0,0,Width-1,0);//top
-					if(splitContainer.Panel2Collapsed){
-						g.DrawLine(pen,Width-1,0,Width-1,Height-1);//right
-					}
-				}
-				if(this==splitContainer.Panel2){//Right
-					g.DrawLine(pen,0,0,Width-1,0);//top
-					g.DrawLine(pen,Width-1,0,Width-1,Height-1);//right
-					g.DrawLine(pen,Width-1,Height-1,0,Height-1);//bottom
-					if(splitContainer.Panel1Collapsed){
-						g.DrawLine(pen,0,Height-1,0,0);//left
-					}
-				}
+				isTop=true;
+				isBottom=true;
+				isLeft=this==splitContainer.Panel1 || splitContainer.Panel1Collapsed;//Left panel, or the right one alone
+				isRight=this==splitContainer.Panel2 || splitContainer.Panel2Collapsed;
 			}
 			else{//horizontal
-				if(this==splitContainer.Panel1){//Top
-					g.DrawLine(pen,0,Height-1,0,0);//left
-					g.DrawLine(pen,0,0,Width-1,0);//top
-					g.DrawLine(pen,Width-1,0,Width-1,Height-1);//right
-					if(splitContainer.Panel2Collapsed){
-						g.DrawLine(pen,Width-1,Height-1,0,Height-1);//bottom
-					}
-				}
-				if(this==splitContainer.Panel2){//Bottom
-					g.DrawLine(pen,Width-1,0,Width-1,Height-1);//right
-					g.DrawLine(pen,Width-1,Height-1,0,Height-1);//bottom
-					g.DrawLine(pen,0,Height-1,0,0);//left
-					if(splitContainer.Panel1Collapsed){
-						g.DrawLine(pen,0,0,Width-1,0);//top
-					}
-				}
+				isLeft=true;
+				isRight=true;
+				isTop=this==splitContainer.Panel1 || splitContainer.Panel1Collapsed;//Top panel, or the bottom one alone
+				isBottom=this==splitContainer.Panel2 || splitContainer.Panel2Collapsed;
+			}
+			if(this!=splitContainer.Panel1 && this!=splitContainer.Panel2){
+				return;
+			}
+			if(isTop){
+				g.FillRectangle(solidBrush,0,0,Width,w);
+			}
+			if(isBottom){
+				g.FillRectangle(solidBrush,0,Height-w,Width,w);
+			}
+			if(isLeft){
+				g.FillRectangle(solidBrush,0,0,w,Height);
+			}
+			if(isRight){
+				g.FillRectangle(solidBrush,Width-w,0,w,Height);
 			}
 		}
 

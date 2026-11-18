@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Media;
+using CodeBase;
 
 namespace WpfControls.UI {
 /*
@@ -26,11 +28,20 @@ Copy and paste the XAML code below, and then edit:
 			</ui:Panel>
 		</ui:SplitContainer>
 
+The GridSplitter's look comes from the SplitContainer's style in Themes/Generic.xaml (UI-4b-2): Surface with a 1 px Gridline line, Accent while
+dragging; its Background is not drawn.
+
 In code you can do things like this:
 splitContainer.SetCollapsed(panel2,isCollapsed:true);
 splitContainer.SetCollapsed(panel2,isCollapsed:false);
 */
 	public class SplitContainer:System.Windows.Controls.Grid {
+		#region Brushes of the new look (UI-4b-2, docs/port-notes/UI-4b.md), for the GridSplitter style in Themes/Generic.xaml
+		public static SolidColorBrush BrushAccent => UiTheme.GetBrushWpf(EnumUiColor.Accent);
+		public static SolidColorBrush BrushGridline => UiTheme.GetBrushWpf(EnumUiColor.Gridline);
+		public static SolidColorBrush BrushSurface => UiTheme.GetBrushWpf(EnumUiColor.Surface);
+		#endregion Brushes of the new look
+
 		///<summary>WPF doesn't have very good support for collapse/expand, so we need this.</summary>
 		private List<OriginalHeight> _listOriginalHeights=new List<OriginalHeight>();
 

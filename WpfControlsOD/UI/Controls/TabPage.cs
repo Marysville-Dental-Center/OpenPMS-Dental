@@ -12,6 +12,7 @@ namespace WpfControls.UI{
 			//I'm not going to give tabPages their own TabIndex
 			//KeyboardNavigation.SetTabNavigation(this,KeyboardNavigationMode.Local);//already done for the TabControl
 			//Focusable=false;//no, this would prevent clicking on the header to select.
+			UiLook.SetFocusVisualStyle(this,onAccent:false);//keyboard focus: the shared 2 px Accent ring (UI-4b-2, section 3.6)
 		}
 
 		#region Properties

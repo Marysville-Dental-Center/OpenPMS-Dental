@@ -1,4 +1,5 @@
-﻿using OpenPmsDental.UI.Design;
+﻿using CodeBase;
+using OpenPmsDental.UI.Design;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -296,156 +297,84 @@ namespace OpenPmsDental.UI {
 		#endregion Methods - Event Handlers
 
 		#region Methods - Paint
+		///<summary>The new look (docs/specs/ui-refresh-plan.md section 3.6, package UI-4b-2, docs/port-notes/UI-4b.md): the strip on SurfaceSubtle, the
+		///page's 1 px Stroke border, unselected tabs transparent with TextSecondary, SubtleHover under the mouse, the selected tab Text with the 2 px
+		///Accent line along the edge that faces the page, disabled tabs TextDisabled, a page's ColorTab still filling its tab. The tabs keep the
+		///rectangles LayoutTabs gives them (the width formula of section 3.3); the selected tab is no longer drawn larger than the others.</summary>
 		protected override void OnPaint(PaintEventArgs e) {
 			if(Parent is null){
 				return;
 			}
 			Graphics g=e.Graphics;
-			g.SmoothingMode=SmoothingMode.HighQuality;
 			Color colorBack=Parent.BackColor;
 			g.Clear(colorBack);
 			if(ListRectanglesTabs.Count!=TabPages.Count){
 				return;
 			}
-			using Pen pen=new Pen(ColorOD.Gray(192));//192 is silver, and is the same value as used in groupBoxOD
-			StringFormat stringFormat=new StringFormat((StringFormat)StringFormat.GenericTypographic.Clone());
-			//This gets rid of padding.
-			//disposed
-			stringFormat.Alignment=StringAlignment.Center;
-			stringFormat.LineAlignment=StringAlignment.Center;
-			for(int i=0;i<ListRectanglesTabs.Count;i++){
-				if(TabsAreCollapsed){
-					break;;
-				}
-				if(SelectedIndex==i){
-					continue;//this is done in a separate loop
-				}
-				GraphicsPath graphicsPath=GetPathTab(ListRectanglesTabs[i]);
-				if(TabPages[i].ColorTab.ToArgb()!=Color.Empty.ToArgb()){
-					using SolidBrush solidBrushCustom=new SolidBrush(TabPages[i].ColorTab);
-					g.FillPath(solidBrushCustom,graphicsPath);
-				}
-				else if(!TabPages[i].Enabled){
-					using SolidBrush solidBrushUnselected=new SolidBrush(ColorOD.Gray(245));
-					g.FillPath(solidBrushUnselected,graphicsPath);
-				}
-				else if(_idxHover==i && !DesignMode){//hover effect only works in run time
-					using SolidBrush solidHover=new SolidBrush(ColorOD.Hover);
-					g.FillPath(solidHover,graphicsPath);
-				}
-				else{
-					using SolidBrush solidBrushUnselected=new SolidBrush(ColorOD.Gray(245));
-					g.FillPath(solidBrushUnselected,graphicsPath);
-				}
-				g.DrawPath(pen,graphicsPath);
-				if(TabPages[i].Enabled){
-					g.DrawString(TabPages[i].Text,Font,Brushes.Black,ListRectanglesTabs[i],stringFormat);
-				}
-				else{
-					using SolidBrush solidBrushDisabled=new SolidBrush(ColorOD.Gray(170));
-					g.DrawString(TabPages[i].Text,Font,solidBrushDisabled,ListRectanglesTabs[i],stringFormat);
-				}
+			float scale=LayoutManager.ScaleMy();
+			Rectangle rectanglePage=GetRectanglePage();
+			if(!TabsAreCollapsed){
+				UiTabPaint.DrawStrip(g,GetRectangleStrip(),scale);
 			}
-			//main outline:
-			if(TabAlignment==EnumTabAlignment.Top){
-				g.DrawLine(pen,0,_heightTabs-1,0,Height-1);//left
-				g.DrawLine(pen,0,Height-1,Width-1,Height-1);//bottom
-				g.DrawLine(pen,Width-1,Height-1,Width-1,_heightTabs-1);//right
-				g.DrawLine(pen,Width-1,_heightTabs-1,0,_heightTabs-1);//top
-			}
-			else if(TabAlignment==EnumTabAlignment.Bottom){
-				g.DrawLine(pen,0,0,0,Height-_heightTabs-1);//left
-				g.DrawLine(pen,0,Height-_heightTabs,Width-1,Height-_heightTabs);//bottom
-				g.DrawLine(pen,Width-1,Height-_heightTabs-1,Width-1,0);//right
-				g.DrawLine(pen,Width-1,0,0,0);//top
-			}
-			else if(TabAlignment==EnumTabAlignment.LeftHorizontal){
-				//_sizeHoriz96
-				g.DrawLine(pen,LayoutManager.Scale(_sizeTabsLeft96.Width)-1,0,LayoutManager.Scale(_sizeTabsLeft96.Width)-1,Height-1);//left
-				g.DrawLine(pen,LayoutManager.Scale(_sizeTabsLeft96.Width)-1,Height-1,Width-1,Height-1);//bottom
-				g.DrawLine(pen,Width-1,Height-1,Width-1,0);//right
-				g.DrawLine(pen,Width-1,0,LayoutManager.Scale(_sizeTabsLeft96.Width)-1,0);//top
-			}
+			UiTabPaint.DrawPageBorder(g,rectanglePage,scale);
 			if(TabsAreCollapsed){
 				return;
 			}
-			//then the selected tab
+			using StringFormat stringFormat=new StringFormat((StringFormat)StringFormat.GenericTypographic.Clone());
+			//This gets rid of padding.
+			stringFormat.Alignment=StringAlignment.Center;
+			stringFormat.LineAlignment=StringAlignment.Center;
+			EnumUiTabSide tabSide=GetTabSide();
 			for(int i=0;i<ListRectanglesTabs.Count;i++){
-				if(SelectedIndex!=i){
-					continue;
-				}
-				Rectangle rectangleSelected;
-				if(TabAlignment==EnumTabAlignment.Top){
-					rectangleSelected=new Rectangle(
-						x:ListRectanglesTabs[i].Left-2,
-						y:ListRectanglesTabs[i].Top-2,
-						width:ListRectanglesTabs[i].Width+4,
-						height:ListRectanglesTabs[i].Height+2);
-				}
-				else if(TabAlignment==EnumTabAlignment.Bottom){
-					rectangleSelected=new Rectangle(
-						x:ListRectanglesTabs[i].Left-2,
-						y:ListRectanglesTabs[i].Top,
-						width:ListRectanglesTabs[i].Width+4,
-						height:ListRectanglesTabs[i].Height+2);
-				}
-				else{ //if(TabAlignment==EnumTabAlignment.LeftHorizontal){
-					rectangleSelected=new Rectangle(
-						x:ListRectanglesTabs[i].Left-2,
-						y:ListRectanglesTabs[i].Top-2,
-						width:ListRectanglesTabs[i].Width+2,
-						height:ListRectanglesTabs[i].Height+4);
-				}
-				GraphicsPath graphicsPath=GetPathTab(rectangleSelected);
-				if(TabPages[i].ColorTab.ToArgb()==Color.Empty.ToArgb()){
-					using SolidBrush solidBrushSelected=new SolidBrush(Color.FromArgb(170,190,230));//#AABEE6
-					g.FillPath(solidBrushSelected,graphicsPath);
-				}
-				else{
-					using SolidBrush solidBrushCustom=new SolidBrush(TabPages[i].ColorTab);
-					g.FillPath(solidBrushCustom,graphicsPath);
-				}
-				g.DrawPath(pen,graphicsPath);
-				g.DrawString(TabPages[i].Text,Font,Brushes.Black,rectangleSelected,stringFormat);
+				Rectangle rectangleHeader=GetRectangleHeader(i);
+				bool isHover=_idxHover==i && !DesignMode;//hover effect only works in run time
+				EnumUiColor uiColorText=UiTabPaint.DrawHeader(g,rectangleHeader,tabSide,isSelected:SelectedIndex==i,isHover,TabPages[i].Enabled,TabPages[i].ColorTab,scale);
+				g.DrawString(TabPages[i].Text,Font,UiTheme.GetBrush(uiColorText),rectangleHeader,stringFormat);
 			}
-			stringFormat?.Dispose();
 		}
 
-		///<summary>Converts a rectangle into one with rounded corners.</summary>
-		private GraphicsPath GetPathTab(Rectangle rectangle){
-			GraphicsPath graphicsPath=new GraphicsPath();
-			float radius=LayoutManager.ScaleF(3);
-			if(TabAlignment==EnumTabAlignment.Top){
-				//start at LL and draw clockwise
-				graphicsPath.AddLine(rectangle.Left,rectangle.Bottom,rectangle.Left,rectangle.Top+radius);//left
-				graphicsPath.AddArc(rectangle.Left,rectangle.Top,radius*2,radius*2,180,90);//UL
-				graphicsPath.AddLine(rectangle.Left+radius,rectangle.Top,rectangle.Right-radius,rectangle.Top);//top
-				graphicsPath.AddArc(rectangle.Right-radius*2,rectangle.Top,radius*2,radius*2,270,90);//UR
-				graphicsPath.AddLine(rectangle.Right,rectangle.Top+radius,rectangle.Right,rectangle.Bottom);//right
-				graphicsPath.AddLine(rectangle.Right,rectangle.Bottom,rectangle.Left,rectangle.Bottom);//bottom
-				return graphicsPath;
+		///<summary>The area the page's border goes around: below the tabs (Top), above them (Bottom), right of them (LeftHorizontal). The same lines
+		///today's outline drew.</summary>
+		private Rectangle GetRectanglePage(){
+			if(TabAlignment==EnumTabAlignment.Bottom){
+				return new Rectangle(0,0,Width,Height-_heightTabs+1);
 			}
-			else if(TabAlignment==EnumTabAlignment.Bottom){
-				//start at UL and draw clockwise
-				graphicsPath.AddLine(rectangle.Left,rectangle.Top,rectangle.Right,rectangle.Top);//top
-				graphicsPath.AddLine(rectangle.Right,rectangle.Top,rectangle.Right,rectangle.Bottom-radius);//right
-				graphicsPath.AddArc(rectangle.Right-radius*2,rectangle.Bottom-radius*2,radius*2,radius*2,0,90);//LR
-				graphicsPath.AddLine(rectangle.Right-radius,rectangle.Bottom,rectangle.Left+radius,rectangle.Bottom);//bottom
-				graphicsPath.AddArc(rectangle.Left,rectangle.Bottom-radius*2,radius*2,radius*2,90,90);//LL
-				graphicsPath.AddLine(rectangle.Left,rectangle.Bottom-radius,rectangle.Left,rectangle.Top);//left
-				return graphicsPath;
+			if(TabAlignment==EnumTabAlignment.LeftHorizontal){
+				int xLeft=LayoutManager.Scale(_sizeTabsLeft96.Width)-1;
+				return new Rectangle(xLeft,0,Width-xLeft,Height);
 			}
-			else{//if(TabAlignment==EnumTabAlignment.LeftHorizontal){
-				//start at UR and draw clockwise
-				graphicsPath.AddLine(rectangle.Right,rectangle.Top,rectangle.Right,rectangle.Bottom);//right
-				graphicsPath.AddLine(rectangle.Right,rectangle.Bottom,rectangle.Left+radius,rectangle.Bottom);//bottom
-				graphicsPath.AddArc(rectangle.Left,rectangle.Bottom-radius*2,radius*2,radius*2,90,90);//LL
-				graphicsPath.AddLine(rectangle.Left,rectangle.Bottom-radius,rectangle.Left,rectangle.Top+radius);//left
-				graphicsPath.AddArc(rectangle.Left,rectangle.Top,radius*2,radius*2,180,90);//UL
-				graphicsPath.AddLine(rectangle.Left+radius,rectangle.Top,rectangle.Right,rectangle.Top);//top
-				
-				return graphicsPath;
-			}			
+			return new Rectangle(0,_heightTabs-1,Width,Height-_heightTabs+1);
+		}
+
+		///<summary>The tab strip: the rest of the control beside the page's border.</summary>
+		private Rectangle GetRectangleStrip(){
+			if(TabAlignment==EnumTabAlignment.Bottom){
+				return new Rectangle(0,Height-_heightTabs+1,Width,_heightTabs-1);
+			}
+			if(TabAlignment==EnumTabAlignment.LeftHorizontal){
+				return new Rectangle(0,0,LayoutManager.Scale(_sizeTabsLeft96.Width)-1,Height);
+			}
+			return new Rectangle(0,0,Width,_heightTabs-1);
+		}
+
+		///<summary>Where a tab is drawn: its rectangle from LayoutTabs, below the page's border line for Bottom tabs (their rectangle starts on that
+		///line).</summary>
+		private Rectangle GetRectangleHeader(int idx){
+			Rectangle rectangle=ListRectanglesTabs[idx];
+			if(TabAlignment==EnumTabAlignment.Bottom){
+				rectangle.Offset(0,1);
+			}
+			return rectangle;
+		}
+
+		private EnumUiTabSide GetTabSide(){
+			if(TabAlignment==EnumTabAlignment.Bottom){
+				return EnumUiTabSide.Bottom;
+			}
+			if(TabAlignment==EnumTabAlignment.LeftHorizontal){
+				return EnumUiTabSide.Left;
+			}
+			return EnumUiTabSide.Top;
 		}
 		#endregion Methods - Paint
 
