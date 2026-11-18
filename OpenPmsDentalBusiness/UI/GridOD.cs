@@ -59,6 +59,9 @@ using OpenPmsDental.UI;
 		public Func<DataRow,GridRow> FuncConstructGridRow;
 		///<summary>This grid was created solely to draw to a sheet.</summary>
 		public bool IsForSheets;
+		///<summary>This grid was created solely to draw a document through the sheet methods, without IsForSheets' layout (the sheet design canvas
+		///of FormSheetDefEdit). Like IsForSheets, its row heights come from the print fonts (UI-2a-3).</summary>
+		public bool IsForDocument;
 		///<summary>When drawing to sheets, additional info about rows.</summary>
 		public List<GridSheetRow> ListGridSheetRows;
 		///<summary>Used when calculating row positions.  Set to 0 when using in FormSheetFillEdit.</summary>
@@ -99,12 +102,21 @@ using OpenPmsDental.UI;
 		//These fields change when dpi changes, so they are not static.  All disposed
 		private LinearGradientBrush _brushTitleBackground;//=new LinearGradientBrush(new Point(0,0),new Point(0,18),_colorTitleTop,_colorTitleBottom);
 		//Fonts--------------------------------------------------------------------------------------------------
+		//The screen fonts take the font tokens (UI refresh, UI-2a-3: FontGrid in its four styles, FontTitle), which hold today's sans serif 8.5
+		//and 10 Bold until UI-2b. Printouts and sheets never use them: they draw with the print fonts below.
 		private Font _fontCell;//=new Font(FontFamily.GenericSansSerif,8.5f);//this.Font is ignored
 		private Font _fontCellBold;//=new Font(FontFamily.GenericSansSerif,8.5f,FontStyle.Bold);
 		private Font _fontUnderline;//=new Font(FontFamily.GenericSansSerif,8.5f,FontStyle.Underline);
 		private Font _fontUnderlineBold;//=new Font(FontFamily.GenericSansSerif,8.5f,FontStyle.Underline | FontStyle.Bold);
 		private Font _fontHeader;//=new Font(FontFamily.GenericSansSerif,8.5f,FontStyle.Bold);
 		private Font _fontTitle;//=new Font(FontFamily.GenericSansSerif,10,FontStyle.Bold);
+		//Print fonts (UI-2a-3, plan section 5.2): PrintPage, the sheet methods (SheetDrawRow, SheetDrawTitle, SheetDrawHeader and their PDF
+		//variants) and the row heights of a printout or a sheet use these, pinned to today's fonts, so a printout, a sheet, its PDF and the sheet
+		//design canvas keep their look whatever the screen tokens hold. Made with the screen fonts in SetFonts, at the same zoom.
+		private Font _fontPrintCell;//=new Font(FontFamily.GenericSansSerif,8.5f);
+		private Font _fontPrintCellBold;//=new Font(FontFamily.GenericSansSerif,8.5f,FontStyle.Bold);
+		private Font _fontPrintHeader;//=new Font(FontFamily.GenericSansSerif,8.5f,FontStyle.Bold);
+		private Font _fontPrintTitle;//=new Font(FontFamily.GenericSansSerif,10,FontStyle.Bold);
 		#endregion Fields - Private Drawing
 
 		#region Fields - Private for Properties
@@ -153,6 +165,9 @@ using OpenPmsDental.UI;
 		private int _heightTitle=18;
 		///<summary>Starts out 15, but code can push it higher to fit multiline text. If header is not visible, this will be set to 0. 96dpi.</summary>
 		private int _heightHeader=15;
+		///<summary>_heightHeader for printouts and sheets: the same rule, with the multiline headers measured in the print header font (UI-2a-3), so a
+		///taller screen font never changes a printed header. 96dpi.</summary>
+		private int _heightHeaderPrint=15;
 		private int _heightImage;
 		///<summary>The total height of the actual grid area, including the parts hidden by scroll. Current dpi.</summary>
 		private int _heightTotal;
@@ -163,6 +178,10 @@ using OpenPmsDental.UI;
 		private bool _isSortedAscending;
 		///<summary>True between BeginUpdate-EndUpdate.</summary>
 		private bool _isUpdating;
+		///<summary>True while PrintPage lays out and draws a page: the row heights it computes come from the print fonts (UI-2a-3).</summary>
+		private bool _isPrinting;
+		///<summary>True when the row heights were last computed with the print fonts (a printout, a sheet), false when with the screen fonts.</summary>
+		private bool _areRowHeightsForPrint;
 		///<summary>This is an alternative to setting up all of the GridRows in advance.  The DataRows get converted to GridRows on the fly.</summary>
 		private List<DataRow> _listDataRows;
 		///<summary>The links added to the ContextMenuStrip the last time it opened, removed before the next links are added.</summary>
@@ -236,6 +255,10 @@ using OpenPmsDental.UI;
 				_fontUnderlineBold?.Dispose();
 				_fontHeader?.Dispose();
 				_fontTitle?.Dispose();
+				_fontPrintCell?.Dispose();
+				_fontPrintCellBold?.Dispose();
+				_fontPrintHeader?.Dispose();
+				_fontPrintTitle?.Dispose();
 				_fontForSheets?.Dispose();
 				_fontForSheetsBold?.Dispose();
 				comboBox?.Dispose();
@@ -512,9 +535,11 @@ using OpenPmsDental.UI;
 				_headersVisible=value;
 				if(_headersVisible){
 					_heightHeader=15;
+					_heightHeaderPrint=15;
 				}
 				else{
 					_heightHeader=0;
+					_heightHeaderPrint=0;
 				}
 				LayoutScrolls();
 			}
@@ -995,7 +1020,19 @@ using OpenPmsDental.UI;
 
 			///<summary>(Not used for sheets) If there are more pages to print, it returns -1.  If this is the last page, it returns the yPos of where the printing stopped.  Graphics will be paper, pageNumber resets some class level variables at page 0, bounds are used to contain the grid drawing, and marginTopFirstPage leaves room so as to not overwrite the title and subtitle.</summary>
 		public int PrintPage(Graphics g,int pageNumber,Rectangle bounds,int marginTopFirstPage,bool HasHeaderSpaceOnEveryPage=false) {
-			//Printers ignore TextRenderingHint.AntiAlias.  
+			//The page draws with the print fonts, and so do the row heights it computes (UI-2a-3). PrintPageHelper turns _isPrinting off itself
+			//before it puts the screen's scale and row heights back.
+			_isPrinting=true;
+			try {
+				return PrintPageHelper(g,pageNumber,bounds,marginTopFirstPage,HasHeaderSpaceOnEveryPage);
+			}
+			finally {
+				_isPrinting=false;
+			}
+		}
+
+		private int PrintPageHelper(Graphics g,int pageNumber,Rectangle bounds,int marginTopFirstPage,bool HasHeaderSpaceOnEveryPage) {
+			//Printers ignore TextRenderingHint.AntiAlias.
 			//And they ignore SmoothingMode.HighQuality.
 			//They seem to do font themselves instead of letting us have control.
 			//g.TextRenderingHint=TextRenderingHint.AntiAlias;//an attempt to fix the printing measurements.
@@ -1016,6 +1053,13 @@ using OpenPmsDental.UI;
 				//Recalculate row heights, 4% larger on the first page of printing, or when using zoom.
 				ComputeRows(g,doActualCalc:true);
 			}
+			else if(!_areRowHeightsForPrint && !AreScreenFontsThePrintFonts()) {
+				//A grid printed again at 100%: the heights are the ones the end of the last printout (or a refill) measured on screen, with the
+				//screen fonts. While those are the print fonts (today's tokens) that is what this printout always used, so nothing changes. With other
+				//screen fonts, measure the heights the same way (on screen) with the print fonts.
+				using Graphics graphicsScreen=this.CreateGraphics();
+				ComputeRows(graphicsScreen,doActualCalc:true);
+			}
 			int xPos=bounds.Left;
 			//now, try to center in bounds
 			if(_widthTotal<bounds.Width) {
@@ -1023,7 +1067,7 @@ using OpenPmsDental.UI;
 			}
 			SolidBrush textBrush;
 			RectangleF textRect;
-			Font font=_fontCell;//do not dispose of this font ref.
+			Font font=_fontPrintCell;//do not dispose of this font ref.
 			//Initialize our pens for drawing.
 			int yPos=bounds.Top;
 			if(HasHeaderSpaceOnEveryPage) {
@@ -1037,17 +1081,17 @@ using OpenPmsDental.UI;
 			bool isFirstRowOnPage=true;//helps with handling a very tall first row
 			#region ColumnHeaders
 			//Print column headers on every page.
-			g.FillRectangle(Brushes.LightGray,xPos+Columns[0].State.XPos,yPos,_widthTotal,_heightHeader);
-			g.DrawRectangle(Pens.Black,xPos+Columns[0].State.XPos,yPos,_widthTotal,_heightHeader);
+			g.FillRectangle(Brushes.LightGray,xPos+Columns[0].State.XPos,yPos,_widthTotal,_heightHeaderPrint);
+			g.DrawRectangle(Pens.Black,xPos+Columns[0].State.XPos,yPos,_widthTotal,_heightHeaderPrint);
 			for(int i=1;i<Columns.Count;i++) {
-				g.DrawLine(Pens.Black,xPos+Columns[i].State.XPos,yPos,xPos+Columns[i].State.XPos,yPos+_heightHeader);
+				g.DrawLine(Pens.Black,xPos+Columns[i].State.XPos,yPos,xPos+Columns[i].State.XPos,yPos+_heightHeaderPrint);
 			}
 			for(int i=0;i<Columns.Count;i++){
-				g.DrawString(Columns[i].Heading,_fontHeader,Brushes.Black,
-					xPos+Columns[i].State.XPos + Columns[i].State.Width /2- g.MeasureString(Columns[i].Heading, _fontHeader).Width/2,
+				g.DrawString(Columns[i].Heading,_fontPrintHeader,Brushes.Black,
+					xPos+Columns[i].State.XPos + Columns[i].State.Width /2- g.MeasureString(Columns[i].Heading, _fontPrintHeader).Width/2,
 					yPos);
 			}
-			yPos+=_heightHeader;
+			yPos+=_heightHeaderPrint;
 			#endregion ColumnHeaders
 			Pen gridPen=_penGridline;
 			Pen lowerPen=new Pen(_penGridline.Color);
@@ -1124,17 +1168,17 @@ using OpenPmsDental.UI;
 							textBrush=new SolidBrush(ListGridRows[_printedRows].Cells[i].ColorText);
 						}
 						if(ListGridRows[_printedRows].Cells[i].Bold== YN.Yes) {
-							font= _fontCellBold;
+							font= _fontPrintCellBold;
 						}
 						else if(ListGridRows[_printedRows].Cells[i].Bold== YN.No) {
-							font= _fontCell;
+							font= _fontPrintCell;
 						}
 						else {//unknown.  Use row bold
 							if(ListGridRows[_printedRows].Bold) {
-								font= _fontCellBold;
+								font= _fontPrintCellBold;
 							}
 							else {
-								font= _fontCell;
+								font= _fontPrintCell;
 							}
 						}
 						//Do not underline if printing grid
@@ -1143,7 +1187,7 @@ using OpenPmsDental.UI;
 						//}
 						//Some printers will malfunction (BSOD) if print bold colored fonts.  This prevents the error.
 						if(textBrush.Color != Color.Black && font.Bold) {
-							font= _fontCell;
+							font= _fontPrintCell;
 						}
 						if(Columns[i].TextAlign== HorizontalAlignment.Right) {
 							textRect=new RectangleF(
@@ -1229,10 +1273,10 @@ using OpenPmsDental.UI;
 					//note text
 					if(noteHeight > 0 && NoteSpanStop > 0 && NoteSpanStart < Columns.Count) {
 						if(ListGridRows[_printedRows].Bold) {
-							font= _fontCellBold;
+							font= _fontPrintCellBold;
 						}
 						else {
-							font= _fontCell;
+							font= _fontPrintCell;
 						}
 						textBrush=new SolidBrush(ListGridRows[_printedRows].ColorText);
 						textRect=new RectangleF(
@@ -1254,6 +1298,7 @@ using OpenPmsDental.UI;
 					noteHeight=bounds.Bottom-yPos;//This is the amount of space remaining.
 					if(noteHeight<15) {
 						_printWidth=0;//Reset the flag.
+						_isPrinting=false;//the screen's scale, fonts and row heights again
 						SetScaleAndZoom(scaleMS,zoomLocal);//Reset rows and columns back to current scale.
 						return -1; //If noteHeight is less than this we will get a negative value for the rectangle of space remaining because we subtract 15 from this for the rectangle size when using measureString. This is because one line takes 15, and if there is 1 pixel of height available, measureString will fill it with text, which will then get partly cut off. So when we use measureString we will subtract 15 from the noteHeight.
 					}							
@@ -1296,10 +1341,10 @@ using OpenPmsDental.UI;
 					//note text
 					if(noteHeight > 0 && NoteSpanStop > 0 && NoteSpanStart < Columns.Count) {
 						if(ListGridRows[_printedRows].Bold) {
-							font= _fontCellBold;
+							font= _fontPrintCellBold;
 						}
 						else {
-							font= _fontCell;
+							font= _fontPrintCell;
 						}
 						textBrush=new SolidBrush(ListGridRows[_printedRows].ColorText);
 						textRect=new RectangleF(
@@ -1318,6 +1363,7 @@ using OpenPmsDental.UI;
 			#endregion Rows
 			lowerPen.Dispose();
 			_printWidth=0;//Reset the flag.
+			_isPrinting=false;//the screen's scale, fonts and row heights again
 			SetScaleAndZoom(scaleMS,zoomLocal);//Reset rows and columns back to current scale.
 			if(_printedRows==ListGridRows.Count) {//done printing
 				//set row heights back to screen heights.
@@ -1407,6 +1453,11 @@ using OpenPmsDental.UI;
 				//India. Not sure on history of this hack, but it seems harmless. Maybe MS not avail in India?
 				_fontCell=new Font("Arial",_fontCell.Size);
 				_fontCellBold=new Font("Arial",_fontCell.Size,FontStyle.Bold);
+			}
+			if(CultureInfo.CurrentCulture.Name.EndsWith("IN") && _fontPrintCell.Name!="Arial") {
+				//The same for the print fonts: a grid shown on screen printed in Arial in India, because it printed with the screen fonts (UI-2a-3).
+				_fontPrintCell=new Font("Arial",_fontPrintCell.Size);
+				_fontPrintCellBold=new Font("Arial",_fontPrintCell.Size,FontStyle.Bold);
 			}
 			int rowEnd=-1;
 			bool didAnyHeightChange=false;
@@ -2741,7 +2792,7 @@ using OpenPmsDental.UI;
 		#region Methods - Sheets
 		///<summary>Called from external Sheet   Presumably, the isPrinting distinguishes between printing sheets and displaying sheets.  Its only effect is to draw a slightly smaller font.</summary>
 		public void SheetDrawRow(int rowI,Graphics g,int x=0,int y=0,bool isBottom=false,bool isSheetGrid=false,bool isPrintingSheet=false,float scaleMS=1) {
-			Font fontLocal=_fontCell;//no need to dispose. Just a ref.
+			Font fontLocal=_fontPrintCell;//no need to dispose. Just a ref.
 			//Font fontLocalBold=_fontCellBold96;
 			if(_fontForSheets!=null) {
 				fontLocal=_fontForSheets;
@@ -2958,8 +3009,8 @@ using OpenPmsDental.UI;
 
 		///<summary></summary>
 		public void SheetDrawRowX(int rowI,XGraphics g,int x=0,int y=0,bool isBottom=false,bool isSheetGrid=false) {
-			XFont fontNormal=new XFont(_fontCell.Name,_fontCell.Size);//There is no Dispose for xfonts, or we would.
-			XFont fontBold=new XFont(_fontCellBold.Name,_fontCellBold.Size,XFontStyleEx.Bold);
+			XFont fontNormal=new XFont(_fontPrintCell.Name,_fontPrintCell.Size);//There is no Dispose for xfonts, or we would.
+			XFont fontBold=new XFont(_fontPrintCellBold.Name,_fontPrintCellBold.Size,XFontStyleEx.Bold);
 			if(_fontForSheets!=null) {
 				fontNormal=new XFont(_fontForSheets.Name,_fontForSheets.Size);
 				fontBold=new XFont(_fontForSheetsBold.Name,_fontForSheetsBold.Size,XFontStyleEx.Bold);;
@@ -3174,7 +3225,7 @@ using OpenPmsDental.UI;
 			Color cTitleBottom=_colorTitleBottom;
 			LinearGradientBrush brushTitleBackground=new LinearGradientBrush(new Rectangle(x,y,Width,_heightTitle),cTitleTop,cTitleBottom,LinearGradientMode.Vertical);
 			g.FillRectangle(brushTitleBackground,x,y,Width,_heightTitle);
-			Font font=new Font(_fontTitle.FontFamily,_fontTitle.Size/scaleMS,_fontTitle.Style);
+			Font font=new Font(_fontPrintTitle.FontFamily,_fontPrintTitle.Size/scaleMS,_fontPrintTitle.Style);
 			g.DrawString(_title,font,_brushTitleText,x+(Width/2-g.MeasureString(_title,font).Width/2),y+2);
 			//Outline the Title
 			//Draw line from LL to UL to UR to LR. top three sides of a rectangle.
@@ -3197,7 +3248,7 @@ using OpenPmsDental.UI;
 			LinearGradientBrush brushTitleBackground=new LinearGradientBrush(new Rectangle(x,y,Width,_heightTitle),cTitleTop,cTitleBottom,LinearGradientMode.Vertical);
 			XSolidBrush brushTitleText=new XSolidBrush(cTitleText);
 			g.DrawRectangle(brushTitleBackground,ToPoints(x),ToPoints(y),ToPoints(Width),ToPoints(_heightTitle));
-			XFont xTitleFont=new XFont(_fontTitle.FontFamily.ToString(),_fontTitle.Size,XFontStyleEx.Bold);
+			XFont xTitleFont=new XFont(_fontPrintTitle.FontFamily.ToString(),_fontPrintTitle.Size,XFontStyleEx.Bold);
 			//g.DrawString(title,titleFont,brushTitleText,p((float)x+(float)(Width/2-g.MeasureString(title,titleFont).Width/2)),p(y+2));
 			DrawStringX(g,_title,xTitleFont,brushTitleText,new XRect((float)x+(float)(Width/2),y,100,100),XStringAlignment.Center);
 			//Outline the Title
@@ -3221,20 +3272,20 @@ using OpenPmsDental.UI;
 			Color cTitleBottom=Color.FromArgb(213,213,223);
 			Color cTitleText=Color.Black;
 			Color cTitleBackG=Color.LightGray;
-			g.FillRectangle(new SolidBrush(cTitleBackG),x,y,Width,_heightHeader);//background
+			g.FillRectangle(new SolidBrush(cTitleBackG),x,y,Width,_heightHeaderPrint);//background
 			g.DrawLine(new Pen(Color.FromArgb(102,102,122)),x,y,x+Width,y);//line between title and headers
-			Font font=new Font(_fontHeader.FontFamily,_fontHeader.Size/scaleMS,_fontHeader.Style);
+			Font font=new Font(_fontPrintHeader.FontFamily,_fontPrintHeader.Size/scaleMS,_fontPrintHeader.Style);
 			for(int i=0;i<Columns.Count;i++) {
 				if(i!=0) {
 					//vertical lines separating column headers
 					g.DrawLine(new Pen(cOutline), x + (-hScroll.Value + Columns[i].State.XPos), y,
-						x+(-hScroll.Value + Columns[i].State.XPos), y + _heightHeader);
+						x+(-hScroll.Value + Columns[i].State.XPos), y + _heightHeaderPrint);
 				}
 				float widthText=g.MeasureString(Columns[i].Heading, font).Width;
 				float xPos=(float)x + (-hScroll.Value + Columns[i].State.XPos + Columns[i].State.Width /2f- widthText/2f);
 				g.DrawString(Columns[i].Heading, font, Brushes.Black,xPos,(float)y + 1);
 				if(_sortedByColumnIdx == i) {
-					PointF p = new PointF(x + (-hScroll.Value+1+ Columns[i].State.XPos +6), y + (float)_heightHeader / 2f);
+					PointF p = new PointF(x + (-hScroll.Value+1+ Columns[i].State.XPos +6), y + (float)_heightHeaderPrint / 2f);
 					if(_isSortedAscending) { //pointing up
 						g.FillPolygon(Brushes.White,new PointF[] {
 							new PointF(p.X-4.9f,p.Y+2f), //LLstub
@@ -3267,9 +3318,9 @@ using OpenPmsDental.UI;
 			} //end for columns.Count
 			//Outline the Title
 			using(Pen pen=new Pen(cOutline)) {
-				g.DrawRectangle(pen,x,y,Width,_heightHeader);
+				g.DrawRectangle(pen,x,y,Width,_heightHeaderPrint);
 			}
-			g.DrawLine(new Pen(cOutline),x,y+_heightHeader,x+Width,y+_heightHeader);
+			g.DrawLine(new Pen(cOutline),x,y+_heightHeaderPrint,x+Width,y+_heightHeaderPrint);
 		}
 
 		public void SheetDrawHeaderX(XGraphics g,int x,int y) {
@@ -3278,21 +3329,21 @@ using OpenPmsDental.UI;
 			Color cTitleBottom=Color.FromArgb(213,213,223);
 			Color cTitleText=Color.Black;
 			Color cTitleBackG=Color.LightGray;
-			g.DrawRectangle(new XSolidBrush(cTitleBackG),ToPoints(x),ToPoints(y),ToPoints(Width),ToPoints(_heightHeader));//background
+			g.DrawRectangle(new XSolidBrush(cTitleBackG),ToPoints(x),ToPoints(y),ToPoints(Width),ToPoints(_heightHeaderPrint));//background
 			g.DrawLine(new XPen(Color.FromArgb(102,102,122)),ToPoints(x),ToPoints(y),ToPoints(x+Width),ToPoints(y));//line between title and headers
-			XFont xHeaderFont=new XFont(_fontHeader.FontFamily.Name.ToString(),_fontHeader.Size,XFontStyleEx.Bold);
+			XFont xHeaderFont=new XFont(_fontPrintHeader.FontFamily.Name.ToString(),_fontPrintHeader.Size,XFontStyleEx.Bold);
 			for(int i=0; i < Columns.Count; i++) {
 				if(i != 0) {
 					g.DrawLine(new XPen(cOutline), ToPoints(x + (-hScroll.Value + Columns[i].State.XPos)), ToPoints(y),
-						ToPoints(x + (-hScroll.Value + Columns[i].State.XPos)), ToPoints(y + _heightHeader));
+						ToPoints(x + (-hScroll.Value + Columns[i].State.XPos)), ToPoints(y + _heightHeaderPrint));
 				}
 				float xFloat=(float)x + (float)(-hScroll.Value + Columns[i].State.XPos + Columns[i].State.Width /2);//for some reason visual studio would not allow this statement within the DrawString Below.
 				DrawStringX(g, Columns[i].Heading, xHeaderFont, XBrushes.Black,new XRect(p(xFloat), ToPoints(y - 3),100,100), XStringAlignment.Center);
 			}//end for columns.Count
 			//Outline the Title
 			XPen pen=new XPen(cOutline);
-			g.DrawRectangle(pen,ToPoints(x),ToPoints(y),ToPoints(Width),ToPoints(_heightHeader));
-			g.DrawLine(new XPen(cOutline),ToPoints(x),ToPoints(y+_heightHeader),ToPoints(x+Width),ToPoints(y+_heightHeader));
+			g.DrawRectangle(pen,ToPoints(x),ToPoints(y),ToPoints(Width),ToPoints(_heightHeaderPrint));
+			g.DrawLine(new XPen(cOutline),ToPoints(x),ToPoints(y+_heightHeaderPrint),ToPoints(x+Width),ToPoints(y+_heightHeaderPrint));
 		}
 		#endregion Methods - Sheets		
 
@@ -3489,6 +3540,15 @@ using OpenPmsDental.UI;
 						_heightHeader=heightThisHeader;
 					}
 				}
+				//The same for printouts and sheets, in the print header font (UI-2a-3).
+				using Font fontPrint=new Font(_fontPrintHeader.FontFamily,UnscaleFontODZoom(_fontPrintHeader.Size));
+				for(int i=0;i<Columns.Count;i++){
+					Size sizeText=TextRenderer.MeasureText(Columns[i].Heading,fontPrint,new Size(Columns[i].State.Width,int.MaxValue),textFormatFlags);
+					int heightThisHeader=sizeText.Height-3;
+					if(heightThisHeader>_heightHeaderPrint){//96dpi
+						_heightHeaderPrint=heightThisHeader;
+					}
+				}
 			}
 			//Scrollbars could use 96dpi or scaled dpi.  We decided to use scaled, which means we can use scroll values directly for drawing, without scaling them
 			vScroll.Width=ScaleI(17);//scroll width is 17 at 96dpi
@@ -3563,15 +3623,45 @@ using OpenPmsDental.UI;
 			_fontUnderlineBold?.Dispose();
 			_fontHeader?.Dispose();
 			_fontTitle?.Dispose();
+			_fontPrintCell?.Dispose();
+			_fontPrintCellBold?.Dispose();
+			_fontPrintHeader?.Dispose();
+			_fontPrintTitle?.Dispose();
 			_brushTitleBackground=new LinearGradientBrush(new Point(0,0),new Point(0,ScaleI(18)),_colorTitleTop,_colorTitleBottom);
-			_fontCell=new Font(FontFamily.GenericSansSerif,ScaleFontODZoom(8.5f));//this.Font is ignored
-			_fontCellBold=new Font(FontFamily.GenericSansSerif,ScaleFontODZoom(8.5f),FontStyle.Bold);
-			_fontUnderline=new Font(FontFamily.GenericSansSerif,ScaleFontODZoom(8.5f),FontStyle.Underline);
-			_fontUnderlineBold=new Font(FontFamily.GenericSansSerif,ScaleFontODZoom(8.5f),FontStyle.Underline | FontStyle.Bold);
-			_fontHeader=new Font(FontFamily.GenericSansSerif,ScaleFontODZoom(8.5f),FontStyle.Bold);
-			_fontTitle=new Font(FontFamily.GenericSansSerif,ScaleFontODZoom(10),FontStyle.Bold);
+			//Screen: the font tokens (UI-2a-3), at the grid's zoom. this.Font is ignored.
+			_fontCell=NewScreenFont(UiTheme.FontGrid);
+			_fontCellBold=NewScreenFont(UiTheme.FontGridBold);
+			_fontUnderline=NewScreenFont(UiTheme.FontGridUnderline);
+			_fontUnderlineBold=NewScreenFont(UiTheme.FontGridUnderlineBold);
+			_fontHeader=NewScreenFont(UiTheme.FontGridBold);
+			_fontTitle=NewScreenFont(UiTheme.FontTitle);
+			//Print and sheets: today's fonts, pinned (plan section 5.2). They stay when the tokens change.
+			_fontPrintCell=new Font(FontFamily.GenericSansSerif,ScaleFontODZoom(8.5f));
+			_fontPrintCellBold=new Font(FontFamily.GenericSansSerif,ScaleFontODZoom(8.5f),FontStyle.Bold);
+			_fontPrintHeader=new Font(FontFamily.GenericSansSerif,ScaleFontODZoom(8.5f),FontStyle.Bold);
+			_fontPrintTitle=new Font(FontFamily.GenericSansSerif,ScaleFontODZoom(10),FontStyle.Bold);
 			Invalidate();
 			//Always follow this with both ComputeRows and LayoutScrolls
+		}
+
+		///<summary>A new screen font in the token's family, size and style, at the grid's zoom. The caller owns it.</summary>
+		private Font NewScreenFont(Font fontToken) {
+			return new Font(fontToken.FontFamily,ScaleFontODZoom(fontToken.SizeInPoints),fontToken.Style);
+		}
+
+		///<summary>True when the row heights come from the print fonts: a grid that only draws a sheet or a document, or one in PrintPage.</summary>
+		private bool IsPrintFonts() {
+			return IsForSheets || IsForDocument || _isPrinting;
+		}
+
+		///<summary>True while the screen's cell fonts are the print fonts (today's tokens): row heights measured for the screen are then what they
+		///were for a printout before the split.</summary>
+		private bool AreScreenFontsThePrintFonts() {
+			return IsSameFont(_fontCell,_fontPrintCell) && IsSameFont(_fontCellBold,_fontPrintCellBold);
+		}
+
+		private static bool IsSameFont(Font font1,Font font2) {
+			return font1.Name==font2.Name && font1.SizeInPoints==font2.SizeInPoints && font1.Style==font2.Style;
 		}
 
 		private void vScroll_Scroll(object sender,System.Windows.Forms.ScrollEventArgs e) {
@@ -4042,7 +4132,8 @@ using OpenPmsDental.UI;
 				}
 			}
 			DateTime dt1=DateTime.Now;
-			int heightEach=_fontCell.Height+1;//assume one row
+			_areRowHeightsForPrint=IsPrintFonts();
+			int heightEach=(_areRowHeightsForPrint ? _fontPrintCell : _fontCell).Height+1;//assume one row
 			if(_hasEditableColumn) {
 				heightEach=ScaleI(EDITABLE_ROW_HEIGHT);
 			}
@@ -4071,9 +4162,13 @@ using OpenPmsDental.UI;
 		}
 
 		private void ComputeRowHeightOne(Graphics g,int i){
-			//We can create/dispose 500k fonts per second so we could do that instead. 
+			//We can create/dispose 500k fonts per second so we could do that instead.
 			Font fontNormal=_fontCell;//do not dispose any of these font refs.
 			Font fontBold=_fontCellBold;
+			if(IsPrintFonts()) {//a printout or a sheet measures with the fonts it draws with (UI-2a-3)
+				fontNormal=_fontPrintCell;
+				fontBold=_fontPrintCellBold;
+			}
 			if(_fontForSheets!=null) {
 				fontNormal=_fontForSheets;
 				fontBold=_fontForSheetsBold;
@@ -4288,7 +4383,7 @@ using OpenPmsDental.UI;
 				if(yPosCur //start position of row
 					+ListGridRows[i].State.HeightMain //+row height
 					+(drawTitle?_heightTitle:0) //+title height if needed
-					+(drawHeader?_heightHeader:0) //+header height if needed
+					+(drawHeader?_heightHeaderPrint:0) //+header height if needed
 					+(drawFooter?_heightTitle:0) //+footer height if needed.
 					>=bottomCurPage) 
 				{
@@ -4302,7 +4397,7 @@ using OpenPmsDental.UI;
 				#endregion
 				ListGridSheetRows.Add(new GridSheetRow(yPosCur,drawTitle,drawHeader,false,drawFooter));
 				yPosCur+=(drawTitle?_heightTitle:0);
-				yPosCur+=(drawHeader?_heightHeader:0);
+				yPosCur+=(drawHeader?_heightHeaderPrint:0);
 				yPosCur+=ListGridRows[i].State.HeightMain;
 				yPosCur+=(drawFooter?_heightTitle:0);
 				drawTitle=drawHeader=drawFooter=false;//reset all flags for next row.
