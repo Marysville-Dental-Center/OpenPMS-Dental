@@ -26,6 +26,11 @@ namespace OpenPmsDentalBusiness {
 		///build always does. A Debug build skips the check because a developer's database keeps an old ProgramVersion; the Middle Tier host tests
 		///(tests/MiddleTierHostTests) build their databases with the right one and check the mismatch answer with it.</summary>
 		public static bool DoCheckVersionInDebug;
+		///<summary>The host's log of every exception ProcessDto answers as a DtoException, with the method the request named (null when the request
+		///was not read yet): the Middle Tier server's (OpenPmsDentalServer's ServerHost.Configure, which writes the stack to the server's log,
+		///the Windows service's Application event log among them). The client gets the exception's type and message only, so without this the
+		///server kept no trace of where it failed (docs/port-notes/S3b-6.md, section 9). Null: nothing is logged (the mock server).</summary>
+		public static Action<string,Exception> ActionLogException;
 
 		///<summary>The host's form, called once for each request: by the Middle Tier server's endpoint (OpenPmsDentalServer/MiddleTierEndpoint.cs,
 		///S3b-6; the ASMX code-behind before), on a thread of the request's own. contentRoot is the application's folder (the ASMX host's
@@ -262,6 +267,7 @@ namespace OpenPmsDentalBusiness {
 				else {
 					exception=GetDtoException(e.InnerException);
 				}
+				LogException(dto?.MethodName,e.InnerException??e);
 				return exception.Serialize();
 			}
 			finally {
@@ -276,6 +282,21 @@ namespace OpenPmsDentalBusiness {
 		///the host tests (DoCheckVersionInDebug).</summary>
 		private static bool IsVersionChecked() {
 			return !ODBuild.IsDebug() || DoCheckVersionInDebug;
+		}
+
+		///<summary>Gives the host's log (ActionLogException) the exception ProcessDto answers as a DtoException. A log that fails changes nothing.
+		///</summary>
+		private static void LogException(string methodName,Exception exception) {
+			Action<string,Exception> actionLogException=ActionLogException;
+			if(actionLogException==null) {
+				return;
+			}
+			try {
+				actionLogException(methodName,exception);
+			}
+			catch(Exception ex) {
+				ex.DoNothing();
+			}
 		}
 
 		private static DtoException GetDtoException(Exception e) {

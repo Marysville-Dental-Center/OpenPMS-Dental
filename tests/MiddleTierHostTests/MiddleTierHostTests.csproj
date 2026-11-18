@@ -26,6 +26,13 @@
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
   <ItemGroup>
+    <!-- The rule for tests that check a built file (ConsoleServerTests starts the built server): inconclusive when it is not built, a failure
+         with OPMS_REQUIRE_BUILD_OUTPUT=1. -->
+    <Compile Include="..\ProjectFileTests\BuildOutput.cs">
+      <Link>BuildOutput.cs</Link>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\..\CodeBase\xCodeBase.csproj" />
     <ProjectReference Include="..\..\DataConnectionBase\xDataConnectionBase.csproj" />
     <ProjectReference Include="..\..\OpenPmsDentalBusiness\OpenPmsDentalBusiness.csproj" />

@@ -355,7 +355,9 @@ namespace ReleaseFlowTests {
 					Assert.AreEqual(middleTierShipped.GetProperty("MaxRequestBodySize").GetInt64(),middleTier.GetProperty("MaxRequestBodySize").GetInt64());
 					Assert.AreEqual(1073741824L,middleTier.GetProperty("MaxRequestBodySize").GetInt64(),"The limit the 413 request is one byte above.");
 				}
-				//OpenDentalServerConfig.xml: the sample's elements, the scratch database on 127.0.0.1 as root with a blank password.
+				//OpenDentalServerConfig.xml: the sample's elements, every one of them (the server's reader needs UserLow and PasswordLow too: without
+				//them every request of the service check failed, docs/port-notes/S3b-6.md section 9), the scratch database on 127.0.0.1 as root with
+				//a blank password and a blank low user.
 				XmlDocument xmlDocument=new XmlDocument();
 				xmlDocument.Load(Path.Combine(folder,"config.xml"));
 				XmlNode connection=xmlDocument.SelectSingleNode("/ConnectionSettings/DatabaseConnection");
@@ -363,13 +365,15 @@ namespace ReleaseFlowTests {
 				Assert.AreEqual("mtsvc_261117000000_1234",connection["Database"].InnerText);
 				Assert.AreEqual("root",connection["User"].InnerText);
 				Assert.AreEqual("",connection["Password"].InnerText);
+				Assert.AreEqual("",connection["UserLow"].InnerText);
+				Assert.AreEqual("",connection["PasswordLow"].InnerText);
 				Assert.AreEqual("MySql",connection["DatabaseType"].InnerText);
 				Assert.AreEqual("/OpenDentalServer",connection["ApplicationName"].InnerText);
 				XmlDocument xmlDocumentSample=new XmlDocument();
 				xmlDocumentSample.LoadXml(TestPaths.ReadSource("OpenPmsDentalServer","OpenDentalServerConfig.xml"));
-				foreach(XmlNode xmlNode in connection.ChildNodes) {
-					Assert.IsNotNull(xmlDocumentSample.SelectSingleNode("/ConnectionSettings/DatabaseConnection/"+xmlNode.Name),"The sample has "+xmlNode.Name);
-				}
+				XmlNode connectionSample=xmlDocumentSample.SelectSingleNode("/ConnectionSettings/DatabaseConnection");
+				CollectionAssert.AreEquivalent(connectionSample.ChildNodes.OfType<XmlElement>().Select(x => x.Name).ToArray(),
+					connection.ChildNodes.OfType<XmlElement>().Select(x => x.Name).ToArray(),"The script's file has the sample's elements, no more and no fewer.");
 				//The address, the two requests and their answers.
 				Assert.AreEqual("https://127.0.0.1:7443/OpenDentalServer/ServiceMain.asmx",Value(scriptResult,"URL"));
 				Assert.AreEqual("GET /OpenDentalServer/ServiceMain.asmx HTTP/1.1\r\nHost: 127.0.0.1:7443\r\nConnection: close\r\n\r\n",File.ReadAllText(Path.Combine(folder,"get.txt")));
