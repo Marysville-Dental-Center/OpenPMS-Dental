@@ -19,7 +19,8 @@
 		</ControlTemplate>
 	</UserControl.Template>
 	<Grid>
-		<TreeView x:Name="treeView" x:FieldModifier="internal">
+		<!--Section 3.6 (UI-4b-1): SurfaceRaised with a 1 px StrokeStrong border; the items' look is their style in Themes/Generic.xaml.-->
+		<TreeView x:Name="treeView" x:FieldModifier="internal" Background="{x:Static local:UiLookLists.BrushSurfaceRaised}" BorderBrush="{x:Static local:UiLookLists.BrushStrokeStrong}">
 			
 		</TreeView>
 	</Grid>

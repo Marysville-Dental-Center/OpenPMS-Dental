@@ -163,6 +163,11 @@ How to use the TreeView control:
 		private System.Windows.Controls.Grid gridImage;
 		private TextBlock textBlock;
 
+		static TreeViewItem(){
+			//Section 3.6 (UI-4b-1): the items take their own style in Themes/Generic.xaml (the selection bar, RowHover, the Fluent expander).
+			DefaultStyleKeyProperty.OverrideMetadata(typeof(TreeViewItem),new FrameworkPropertyMetadata(typeof(TreeViewItem)));
+		}
+
 		public TreeViewItem(){
 			System.Windows.Controls.Grid grid = new System.Windows.Controls.Grid();
 			Header=grid;

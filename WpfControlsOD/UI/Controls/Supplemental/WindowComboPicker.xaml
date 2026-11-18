@@ -6,7 +6,8 @@
         xmlns:local="clr-namespace:WpfControls.UI"
         mc:Ignorable="d"
         Title="WindowComboPicker" Height="450" Width="150" ResizeMode="NoResize" ShowInTaskbar="False" WindowStyle="None" WindowStartupLocation="Manual">
-	<Border Background="White" BorderThickness="1" BorderBrush="DarkGray">
+	<!--Section 3.6 (UI-4b-1): the drop-down as the lists: SurfaceRaised with a square 1 px StrokeStrong border.-->
+	<Border Background="{x:Static local:UiLookLists.BrushSurfaceRaised}" BorderThickness="1" BorderBrush="{x:Static local:UiLookLists.BrushStrokeStrong}">
 		<ScrollViewer Name="scrollViewer" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Focusable="False">
 			<StackPanel Name="stackPanel" Focusable="True" LostKeyboardFocus="stackPanel_LostKeyboardFocus" VerticalAlignment="Top">
 			</StackPanel>

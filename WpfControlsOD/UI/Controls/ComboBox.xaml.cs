@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CodeBase;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
@@ -91,8 +92,6 @@ adj.ObjNum=comboObj.GetSelectedKey<ObjType>(x=>x.ObjNum);
 		private bool _isMouseDown;
 		///<summary>If selected index is -1, this can be used to store and retrieve the primary key. _textWhenMissing is what shows to the user.</summary>
 		private long _keyWhenMissing=0;//odd note: FormClaimCustomTrackingUpdate sets this to -1 to indicate none, which should be fine.
-		private SolidColorBrush _solidColorBrushHoverBackground=new SolidColorBrush(Color.FromArgb(10,0,100,255));//20% blue wash
-		private SolidColorBrush _solidColorBrushHoverBorder=new SolidColorBrush(Color.FromRgb(126,180,234));//blue
 		///<summary>This gets set when the user selects an item that is not present in the list. Selected index is also set to -1.
 		private string _textWhenMissing="";
 		private string _textForAllOption="All";
@@ -113,6 +112,11 @@ adj.ObjNum=comboObj.GetSelectedKey<ObjType>(x=>x.ObjNum);
 			//Width=100;//Can't do this, or comboClinc gets messed up
 			//Height=21;
 			Focusable=true;//so that .Focus() will work in Grid for example
+			//Section 3.6 (UI-4b-1): the Fluent chevron, and the focus line as the focus visual style (shown with keyboard focus only).
+			pathChevron.Data=UiIcons.GetGeometryWpf(UiGlyph.ChevronDown,12);
+			SetResourceReference(FocusVisualStyleProperty,UiLookLists.KeyFocusVisualStyleCombo);
+			IsEnabledChanged+=(sender,e)=>SetColors();
+			SetColors();
 			MouseLeave+=comboBox_MouseLeave;
 			MouseLeftButtonDown+=comboBox_MouseLeftButtonDown;
 			MouseLeftButtonUp+=comboBox_MouseLeftButtonUp;
@@ -172,7 +176,7 @@ adj.ObjNum=comboObj.GetSelectedKey<ObjType>(x=>x.ObjNum);
 			}
 			set {
 				_colorBack = value;
-				grid.Background=new SolidColorBrush(value);
+				SetColors();
 			}
 		}
 
@@ -819,16 +823,21 @@ adj.ObjNum=comboObj.GetSelectedKey<ObjType>(x=>x.ObjNum);
 
 		///<summary></summary>
 		private void SetColors(){
-			if(_isHover){
-				border.Background=_solidColorBrushHoverBackground;
-				border.BorderBrush=_solidColorBrushHoverBorder;
-				grid.Background=new SolidColorBrush(Colors.White);//so the blue wash looks nicer
+			//Section 3.6 (UI-4b-1): the fill SurfaceRaised (or the window's ColorBack), the border StrokeStrong, StrokeStrongHover on hover, Stroke when
+			//disabled; text and chevron in Text, TextDisabled when disabled.
+			borderBack.Background=UiLookLists.GetBack(_colorBack);
+			if(!IsEnabled){
+				border.BorderBrush=UiLook.Brush(EnumUiColor.Stroke);
+			}
+			else if(_isHover){
+				border.BorderBrush=UiLook.Brush(EnumUiColor.StrokeStrongHover);
 			}
 			else{
-				border.Background=Brushes.Transparent;
-				border.BorderBrush=Brushes.DarkGray;
-				grid.Background=new SolidColorBrush(_colorBack);
+				border.BorderBrush=UiLookLists.BrushStrokeStrong;
 			}
+			SolidColorBrush solidColorBrushText=IsEnabled ? UiLookLists.BrushText : UiLookLists.BrushTextDisabled;
+			textBlock.Foreground=solidColorBrushText;
+			pathChevron.Fill=solidColorBrushText;
 		}
 
 		///<summary></summary>

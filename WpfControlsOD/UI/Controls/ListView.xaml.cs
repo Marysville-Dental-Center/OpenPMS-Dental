@@ -41,11 +41,18 @@ Only supports a single selected index.
 		///<summary>The index within _listListViewItems which is lit up by the hover effect.</summary>
 		private int _hoverIndex=-1;
 		private int _selectedIndex=-1;
+		///<summary>Set only by the control state tests (tests/UiRefreshTests): a list off screen cannot take keyboard focus, so they force the focused
+		///selection bar through this.</summary>
+		private bool _isFocusForced;
 		#endregion Fields -Private
 
 		#region Constructor
 		public ListView(){
 			InitializeComponent();
+			//The selection bar is Accent while the list has keyboard focus (section 3.2).
+			IsKeyboardFocusWithinChanged+=(sender,e)=>SetColors();
+			IsEnabledChanged+=(sender,e)=>SetColors();
+			SetColors();
 		}
 		#endregion Constructor
 
@@ -86,6 +93,13 @@ Only supports a single selected index.
 			rowDefinition.Height=new GridLength(1,GridUnitType.Star);
 			grid.RowDefinitions.Add(rowDefinition);
 			border.Child=grid;
+			//Section 3.2 (UI-4b-1): the selection bar, in the item's first 2 px over the thumbnail's margin.
+			Rectangle rectangleBar=new Rectangle();
+			rectangleBar.Width=UiLookLists.WIDTH_SELECTION_BAR;
+			rectangleBar.HorizontalAlignment=HorizontalAlignment.Left;
+			rectangleBar.SnapsToDevicePixels=true;
+			System.Windows.Controls.Grid.SetRowSpan(rectangleBar,2);
+			grid.Children.Add(rectangleBar);
 			Image image=new Image();
 			image.Source=listViewItem.BitmapImage_;
 			image.Width=100;
@@ -103,6 +117,7 @@ Only supports a single selected index.
 			border.MouseMove+=Item_MouseMove;
 			border.Unloaded+=Border_Unloaded;
 			wrapPanel.Children.Add(border);
+			SetColors();
 		}
 
 		private void Border_Unloaded(object sender, RoutedEventArgs e) {
@@ -118,18 +133,26 @@ Only supports a single selected index.
 
 		#region Methods private
 		///<summary>Sets background colors for all rows, based on selected indices and hover.</summary>
+		///<summary>Section 3.6 (UI-4b-1): SurfaceRaised, hover RowHover, selection AccentSubtle with the 2 px selection bar (Accent while the list has
+		///keyboard focus, SelectionBarNoFocus without); the text in Text, TextSelected, TextDisabled.</summary>
 		private void SetColors(){
+			gridBack.Background=UiLookLists.GetBack(Colors.White);
+			borderOuter.BorderBrush=IsEnabled ? UiLookLists.BrushStrokeStrong : UiLook.Brush(EnumUiColor.Stroke);
+			bool hasFocus=(_isFocusForced || IsKeyboardFocusWithin) && IsEnabled;
 			for(int i=0;i<wrapPanel.Children.Count;i++){
 				Border border=(Border)wrapPanel.Children[i];
 				//ListViewItem listViewItem=(ListViewItem)border.Tag;
-				Color colorBack=Colors.White;
-				if(i==_selectedIndex){
-					colorBack=Color.FromRgb(180,210,255);//this color is specific to this control
+				bool isSelected=i==_selectedIndex;
+				border.Background=UiLookLists.GetItemFill(isSelected,i==_hoverIndex && IsEnabled,Colors.White,null);
+				System.Windows.Controls.Grid grid=(System.Windows.Controls.Grid)border.Child;
+				Rectangle rectangleBar=grid.Children.OfType<Rectangle>().FirstOrDefault();
+				if(rectangleBar!=null){
+					rectangleBar.Fill=isSelected ? UiLookLists.GetSelectionBar(hasFocus) : null;
 				}
-				else if(i==_hoverIndex){
-					colorBack=Color.FromRgb(235,244,255);
+				TextBlock textBlock=grid.Children.OfType<TextBlock>().FirstOrDefault();
+				if(textBlock!=null){
+					textBlock.Foreground=UiLookLists.GetItemText(isSelected,IsEnabled);
 				}
-				border.Background=new SolidColorBrush(colorBack);
 			}
 		}
 		#endregion Methods private

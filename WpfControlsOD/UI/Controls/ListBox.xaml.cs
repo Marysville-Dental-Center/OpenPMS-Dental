@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CodeBase;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
@@ -73,7 +74,11 @@ adjustment.ObjNum=listObj.GetSelectedKey<ObjType>(x=>x.ObjNum);
 		///<summary>If selected index is -1, this can be used to store and retrieve the primary key. _overrideText is what shows to the user.</summary>
 		private long _selectedKey=0;
 		private SelectionMode _selectionMode=SelectionMode.One;
-		private Color _colorSelectedBack=Color.FromRgb(186,199,219);//#BAC7DB, grid default was Silver: C0C0C0 (192 gray)
+		///<summary>Null: the AccentSubtle token (section 3.6, UI-4b-1). A colour a window sets stays.</summary>
+		private Color? _colorSelectedBack=null;
+		///<summary>Set only by the control state tests (tests/UiRefreshTests): a list off screen cannot take keyboard focus, so they force the focused
+		///selection bar through this.</summary>
+		private bool _isFocusForced;
 		private Color _colorBack=Colors.White;
 		///<summary>This index ONLY tracks the index for key presses on autonotes. It does not track checkbox click index changes. The assumption is that users will generally be either using mouse clicks or keyboard, so they operate independently.</summary>
 		private int _idxLastSelectedKey=-1;
@@ -88,6 +93,8 @@ adjustment.ObjNum=listObj.GetSelectedKey<ObjType>(x=>x.ObjNum);
 			scrollViewer.PreviewKeyDown+=scrollViewer_PreviewKeyDown;
 			Items=new ListBoxItemCollection(this);
 			IsEnabledChanged+=ListBox_IsEnabledChanged;
+			//The selection bar is Accent while the list has keyboard focus (section 3.2).
+			IsKeyboardFocusWithinChanged+=(sender,e)=>SetColors();
 			PreviewKeyDown+=ListBox_PreviewKeyDown;
 			Unloaded+=ListBox_Unloaded;
 		}
@@ -137,7 +144,7 @@ adjustment.ObjNum=listObj.GetSelectedKey<ObjType>(x=>x.ObjNum);
 		///Sets the highlight color for the selected item in that listbox.
 		public Color ColorSelectedBack {
 			get{
-				return _colorSelectedBack;
+				return _colorSelectedBack ?? UiTheme.GetColorWpf(EnumUiColor.AccentSubtle);
 			}
 			set{
 				_colorSelectedBack=value;
@@ -1002,8 +1009,13 @@ adjustment.ObjNum=listObj.GetSelectedKey<ObjType>(x=>x.ObjNum);
 			SetColors();
 		}
 
-		///<summary>Sets background colors for all rows, based on selected indices and hover.</summary>
+		///<summary>Sets background colors for all rows, based on selected indices and hover. Section 3.6 (UI-4b-1): SurfaceRaised (or ColorBack), hover
+		///RowHover, selection AccentSubtle (or ColorSelectedBack) with the 2 px selection bar in the row's first pixels (the row's left border):
+		///Accent while the list has keyboard focus, SelectionBarNoFocus without; the text in Text, TextSelected, TextDisabled.</summary>
 		private void SetColors(){
+			borderOuter.Background=UiLookLists.GetBack(_colorBack);
+			borderOuter.BorderBrush=IsEnabled ? UiLookLists.BrushStrokeStrong : UiLook.Brush(EnumUiColor.Stroke);
+			bool hasFocus=(_isFocusForced || IsKeyboardFocusWithin) && IsEnabled;
 			if(SelectionMode==SelectionMode.CheckBoxes){
 				if(_indexCheckBoxHighlighted<0){
 					//it's not possible to unhighlight the existing highlight to leave 0 highlighted,
@@ -1011,39 +1023,25 @@ adjustment.ObjNum=listObj.GetSelectedKey<ObjType>(x=>x.ObjNum);
 					return;
 				}
 				for(int i = 0;i<stackPanel.Children.Count;i++){
-					Color colorBack = _colorBack;
-					if(_indexCheckBoxHighlighted==i){
-						if(IsEnabled) {
-							colorBack=_colorSelectedBack;
-						}
-						else{
-							colorBack=Color.FromRgb(230,230,230);
-						}
-					}
 					Border border2 = (Border)stackPanel.Children[i];
-					border2.Background=new SolidColorBrush(colorBack);
+					SetItemColors(border2,isSelected:_indexCheckBoxHighlighted==i,isHover:false,hasFocus);
 				}
 				return;
 			}
-			//I'm really not sure how the textBlocks get greyed out for IsEnabled.
-			//Seems to work automatically, so I won't complain.
 			for(int i=0;i<stackPanel.Children.Count;i++){
-				Color colorBack=_colorBack;
-				if(_listSelectedIndices.Contains(i)){
-					if(IsEnabled){
-						colorBack=_colorSelectedBack;
-					}
-					else{
-						colorBack=Color.FromRgb(230,230,230);
-					}
-				}
-				else if(_hoverIndex==i){
-					colorBack=Color.FromRgb(229,239,251);//#E5EFFB
-				}
 				Border border2=(Border)stackPanel.Children[i];
-				border2.Background=new SolidColorBrush(colorBack);
+				SetItemColors(border2,isSelected:_listSelectedIndices.Contains(i),isHover:_hoverIndex==i,hasFocus);
 			}
-			//if(IsEnabled){//change border?
+		}
+
+		///<summary>One row: its fill, its selection bar (the left border, the row's background colour when not selected) and its text.</summary>
+		private void SetItemColors(Border border,bool isSelected,bool isHover,bool hasFocus){
+			SolidColorBrush solidColorBrushFill=UiLookLists.GetItemFill(isSelected,isHover && IsEnabled,_colorBack,_colorSelectedBack);
+			border.Background=solidColorBrushFill;
+			border.BorderBrush=isSelected ? UiLookLists.GetSelectionBar(hasFocus) : solidColorBrushFill;
+			if(border.Child is TextBlock textBlock){
+				textBlock.Foreground=UiLookLists.GetItemText(isSelected,IsEnabled);
+			}
 		}
 		#endregion Methods - private
 
@@ -1252,18 +1250,22 @@ adjustment.ObjNum=listObj.GetSelectedKey<ObjType>(x=>x.ObjNum);
 
 			private void AddItemToUI(string text){
 				Border border=new Border();
+				//Section 3.2 (UI-4b-1): the row's first 2 px are its left border, the selection bar when selected. The content keeps its place (2 px
+				//from the row's edge, as its margin was).
+				border.BorderThickness=new Thickness(left:UiLookLists.WIDTH_SELECTION_BAR,0,0,0);
+				border.SnapsToDevicePixels=true;
 				if(_listBoxParent.SelectionMode==SelectionMode.CheckBoxes){
 					CheckBox checkBox=new CheckBox();
 					checkBox.Text=text;
 					//checkBox.Width=5000;//to prevent wrapping
-					checkBox.Margin=new Thickness(left:2,0,0,0);
+					checkBox.Margin=new Thickness(left:0,0,0,0);
 					checkBox.Click+=_listBoxParent.CheckBox_Click;
 					border.Child=checkBox;
 				}
 				else{
 					TextBlock textBlock=new TextBlock();
 					textBlock.Text=text;
-					textBlock.Margin=new Thickness(2,0,0,0);
+					textBlock.Margin=new Thickness(0,0,0,0);
 					border.Child=textBlock;
 				}
 				/*System.Windows.Controls.Grid grid=new System.Windows.Controls.Grid();

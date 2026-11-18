@@ -27,6 +27,105 @@
 			</Setter.Value>
 		</Setter>
 	</Style>
+	<!--UI-4b-1 (docs/port-notes/UI-4b.md), the combo boxes, pickers and lists of section 3.6. The combo box's focus: a 2 px Accent line inside the
+	bottom edge, inset 2 px at each end (inside the 4 px corners); WpfControls.UI.ComboBox takes it as its FocusVisualStyle.-->
+	<Style x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type local:UiLookLists}, ResourceId=FocusVisualStyleCombo}">
+		<Setter Property="Control.Template">
+			<Setter.Value>
+				<ControlTemplate>
+					<Border Background="{x:Static local:UiLook.BrushAccent}" Height="2" VerticalAlignment="Bottom" Margin="2,0,2,0" SnapsToDevicePixels="True"/>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+	<!--The tree's expander: the Fluent chevron, right when collapsed and down when expanded, in TextSecondary (Text on hover), in the 16 px square
+	of the Windows one.-->
+	<Style x:Key="TreeViewItemExpanderUi" TargetType="{x:Type ToggleButton}">
+		<Setter Property="Focusable" Value="False"/>
+		<Setter Property="Width" Value="16"/>
+		<Setter Property="Height" Value="16"/>
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="{x:Type ToggleButton}">
+					<Border Background="Transparent" Width="16" Height="16" Padding="2">
+						<Path x:Name="path" Width="12" Height="12" Data="{x:Static local:UiLookLists.GeometryChevronRight}" Fill="{x:Static local:UiLookLists.BrushTextSecondary}"/>
+					</Border>
+					<ControlTemplate.Triggers>
+						<Trigger Property="IsChecked" Value="True">
+							<Setter TargetName="path" Property="Data" Value="{x:Static local:UiLookLists.GeometryChevronDown}"/>
+						</Trigger>
+						<Trigger Property="IsMouseOver" Value="True">
+							<Setter TargetName="path" Property="Fill" Value="{x:Static local:UiLookLists.BrushText}"/>
+						</Trigger>
+					</ControlTemplate.Triggers>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+	<!--The tree's items (WpfControls.UI.TreeViewItem): the row Transparent, hover RowHover, selected AccentSubtle with the 2 px selection bar in the
+	row's first pixels (Accent while the tree has keyboard focus, Selector.IsSelectionActive; SelectionBarNoFocus without), the text in Text,
+	TextSelected, TextDisabled. The Windows template's layout otherwise (the 19 px expander column, the children below); the header starts 2 px
+	further right, after the bar.-->
+	<Style TargetType="{x:Type local:TreeViewItem}">
+		<Setter Property="Background" Value="Transparent"/>
+		<Setter Property="HorizontalContentAlignment" Value="Left"/>
+		<Setter Property="VerticalContentAlignment" Value="Center"/>
+		<Setter Property="Padding" Value="1,0,0,0"/>
+		<Setter Property="Foreground" Value="{x:Static local:UiLookLists.BrushText}"/>
+		<Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="{x:Type local:TreeViewItem}">
+					<Grid>
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition MinWidth="19" Width="Auto"/>
+							<ColumnDefinition Width="Auto"/>
+							<ColumnDefinition Width="*"/>
+						</Grid.ColumnDefinitions>
+						<Grid.RowDefinitions>
+							<RowDefinition Height="Auto"/>
+							<RowDefinition/>
+						</Grid.RowDefinitions>
+						<ToggleButton x:Name="Expander" ClickMode="Press" Style="{StaticResource TreeViewItemExpanderUi}"
+							IsChecked="{Binding IsExpanded, RelativeSource={RelativeSource TemplatedParent}}"/>
+						<Border x:Name="Bd" Grid.Column="1" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}"
+							BorderThickness="{TemplateBinding BorderThickness}" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="True">
+							<ContentPresenter x:Name="PART_Header" ContentSource="Header" Margin="2,0,0,0" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+								SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+						</Border>
+						<Rectangle x:Name="bar" Grid.Column="1" Width="2" HorizontalAlignment="Left" SnapsToDevicePixels="True" IsHitTestVisible="False"/>
+						<ItemsPresenter x:Name="ItemsHost" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="1"/>
+					</Grid>
+					<ControlTemplate.Triggers>
+						<Trigger Property="IsExpanded" Value="False">
+							<Setter TargetName="ItemsHost" Property="Visibility" Value="Collapsed"/>
+						</Trigger>
+						<Trigger Property="HasItems" Value="False">
+							<Setter TargetName="Expander" Property="Visibility" Value="Hidden"/>
+						</Trigger>
+						<Trigger SourceName="Bd" Property="IsMouseOver" Value="True">
+							<Setter TargetName="Bd" Property="Background" Value="{x:Static local:UiLookLists.BrushRowHover}"/>
+						</Trigger>
+						<Trigger Property="IsSelected" Value="True">
+							<Setter TargetName="Bd" Property="Background" Value="{x:Static local:UiLookLists.BrushAccentSubtle}"/>
+							<Setter TargetName="bar" Property="Fill" Value="{x:Static local:UiLookLists.BrushSelectionBarNoFocus}"/>
+							<Setter Property="Foreground" Value="{x:Static local:UiLookLists.BrushTextSelected}"/>
+						</Trigger>
+						<MultiTrigger>
+							<MultiTrigger.Conditions>
+								<Condition Property="IsSelected" Value="True"/>
+								<Condition Property="Selector.IsSelectionActive" Value="True"/>
+							</MultiTrigger.Conditions>
+							<Setter TargetName="bar" Property="Fill" Value="{x:Static local:UiLook.BrushAccent}"/>
+						</MultiTrigger>
+						<Trigger Property="IsEnabled" Value="False">
+							<Setter Property="Foreground" Value="{x:Static local:UiLookLists.BrushTextDisabled}"/>
+						</Trigger>
+					</ControlTemplate.Triggers>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
 	<!--Group box (section 3.6): 1 px Stroke, 6 px corners, the title in Text where it was.-->
 	<Style TargetType="{x:Type local:GroupBox}">
 		<Setter Property="HorizontalAlignment" Value="Left"/>
