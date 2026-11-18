@@ -3,7 +3,9 @@
 // Each window is opened the way a person's click opens it (the main menu item's PerformClick, the module's own handler, a module button's
 // PerformClick, a double-click on a module grid's row), measured by the walker after its Load (UiWalker: UI-0b's shared measuring files),
 // printed under the row's picture name, and closed as Cancel does; nothing is saved, and the tables the row names keep their row counts. A
-// message box instead of the window fails the check with its text. No input is sent and no UAC prompt is answered.
+// message box instead of the window fails the check with its text, except a question the program is known to ask on the way (answered as an
+// office does, and noted); a window the program shows first and closes by itself is waited out; data of the dump that the window cannot show
+// is taken out of the scratch copy for that window and put back (UI-0c fix 1). No input is sent and no UAC prompt is answered.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
 using System.Collections.Generic;
@@ -61,9 +63,20 @@ namespace WindowChecksTests.InProc {
 			if(row.Module!="") {
 				GoToModule(ui,(EnumModuleType)Enum.Parse(typeof(EnumModuleType),row.Module));
 			}
+			Action actionUndo=PrepareU(checkResult,row);
+			try {
+				CheckUWindowPrepared(ui,checkResult,row);
+			}
+			finally {
+				actionUndo?.Invoke();
+			}
+		}
+
+		private static void CheckUWindowPrepared(Ui ui,CheckResult checkResult,UiWindowRow row) {
 			Dictionary<string,int> dictCountsBefore=GuardCounts(row);
 			_listUParents.Clear();
 			Ui.Opened opened=OpenU(ui,checkResult,row);
+			opened=FollowU(ui,checkResult,row,opened);
 			try {
 				if(opened.IsOpen) {
 					string typeName=ui.GetWindowTypeName(opened.Hwnd);
@@ -92,6 +105,8 @@ namespace WindowChecksTests.InProc {
 
 		///<summary>Opens the row's window the way the program does for a person's click.</summary>
 		private static Ui.Opened OpenU(Ui ui,CheckResult checkResult,UiWindowRow row) {
+			//A question the program is expected to ask on the way (_dictUQuestions) is left to FollowU, which answers it.
+			bool allowMessage=_dictUQuestions.ContainsKey(row.Window);
 			switch(row.Opened) {
 				case UiWindowRow.OPENED_MENU:
 					return OpenMenu(ui,row.MenuPath);
@@ -104,7 +119,7 @@ namespace WindowChecksTests.InProc {
 						MethodInfo methodInfo=FindMethod(control.GetType(),row.Member);
 						object[] arrayArgs=methodInfo.GetParameters().Length==0 ? new object[0] : new object[] { control,EventArgs.Empty };
 						InvokeOnThread(control,methodInfo,arrayArgs);
-					});
+					},allowMessage);
 				case UiWindowRow.OPENED_BUTTON:
 					return ui.Open("Button "+row.Target,() => {
 						Control control=MainField<Control>(row.ModuleField);
@@ -121,7 +136,7 @@ namespace WindowChecksTests.InProc {
 						else {
 							Ui.Call(button,"OnClick",EventArgs.Empty);
 						}
-					});
+					},allowMessage);
 				case UiWindowRow.OPENED_GRID:
 					return ui.Open("Double-click "+row.Target,() => {
 						Control control=MainField<Control>(row.ModuleField);
@@ -134,7 +149,7 @@ namespace WindowChecksTests.InProc {
 							throw new Exception("No row of "+row.Member+" matches '"+row.GridMatch+"' (rows: "+string.Join("; ",GridRows(grid).Take(12))+")");
 						}
 						DoubleClickRowOnThread(grid,index);
-					});
+					},allowMessage);
 				case UiWindowRow.OPENED_ACCOUNTROW:
 					return ui.Open("Account grid row with "+row.Target,() => {
 						Control controlAccount=MainField<Control>("controlAccount");
@@ -151,7 +166,7 @@ namespace WindowChecksTests.InProc {
 							throw new Exception("No row of the Account grid has a "+row.Target);
 						}
 						DoubleClickRowOnThread((Control)Ui.GetField(controlAccount,"gridAccount"),index);
-					});
+					},allowMessage);
 				case UiWindowRow.OPENED_SCRIPT:
 					MethodInfo methodScript=typeof(InProcChecks).GetMethod("ScriptU"+row.Target,BindingFlags.Static|BindingFlags.NonPublic|BindingFlags.Public);
 					if(methodScript==null) {
@@ -167,6 +182,148 @@ namespace WindowChecksTests.InProc {
 				default:
 					throw new ArgumentException("No way to open '"+row.Opened+"'");
 			}
+		}
+
+		///<summary>Questions the program asks on the way to a row's window (by the window's type), with the button an office presses and why. FollowU
+		///answers it, notes it, and then takes the row's window. Any other message box still fails the check.</summary>
+		internal static readonly Dictionary<string,(string Question,string Button,string Why)> _dictUQuestions=new Dictionary<string,(string,string,string)> {
+			{ "FormTasks",("A one-time routine needs to be run.","Yes","UserControlTasks_Load asks while the preference TaskAncestorsAllSetInVersion55 "
+				+"is off, as it is in the synthetic dump; Yes runs TaskAncestors.SynchAll (the dump has no task) and turns the preference on, as an "
+				+"office's first opening of the tasks does in Open Dental") },
+		};
+
+		///<summary>Windows the program shows by itself before a row's window and closes by itself (by the row's window type), the message it may
+		///show over that window with the button an office presses ("" for none), and why. FollowU waits for it to go (answering that message) and then
+		///takes the row's window.</summary>
+		internal static readonly Dictionary<string,(string Window,string Message,string Button,string Why)> _dictUOnTheWay
+			=new Dictionary<string,(string,string,string,string)>
+		{
+			{ "FormClaimsSend",("FormClaimReports","Report directory does not exist:","OK","FormClaimsSend_Load first shows E-claim Reports in "
+				+"automatic mode (unless random keys and clinics are both on), as Open Dental does: its Shown imports the reports already downloaded for "
+				+"the default clearinghouse (no connection in automatic mode) and closes it. The dump's default clearinghouse (Tesia) reads its reports "
+				+"from C:\\TesiaLink\\IN\\, which a PC without TesiaLink lacks, so Clearinghouses.ImportReportFiles reports the missing folder in a "
+				+"message box first; an office without the folder presses its OK") },
+		};
+
+		///<summary>After OpenU: answers the question the program is expected to ask on the way (before the window, or over it while it loads), and
+		///waits out a window the program shows first and closes by itself; then the row's window is the one returned. Unchanged otherwise.</summary>
+		private static Ui.Opened FollowU(Ui ui,CheckResult checkResult,UiWindowRow row,Ui.Opened opened) {
+			if(!opened.IsOpen) {
+				return opened;
+			}
+			if(_dictUQuestions.TryGetValue(row.Window,out (string Question,string Button,string Why) question)) {
+				//The question comes first (Open returns it), or over the window just opened: looked for briefly in that case.
+				System.Diagnostics.Stopwatch stopwatch=System.Diagnostics.Stopwatch.StartNew();
+				bool isAnswered=false;
+				while(!isAnswered && stopwatch.ElapsedMilliseconds<(Native.IsDialogClass(opened.Hwnd) ? 1000 : 3000)) {
+					foreach(IntPtr hwndDialog in ui.GetWindows().Where(x => Native.IsDialogClass(x))) {
+						string text=ui.DescribeWindow(hwndDialog);
+						if(!Native.GetDialogMessage(hwndDialog).Contains(question.Question)) {
+							checkResult.Fail("Opening "+row.Window+": unexpected message box: "+text);
+							Native.CancelDialog(hwndDialog);
+							ui.WaitGone(hwndDialog);
+							continue;
+						}
+						checkResult.Note("Opening "+row.Window+" asked: "+text+"; answered "+question.Button+" ("+question.Why+")");
+						if(!checkResult.Expect(Native.ClickDialogButton(hwndDialog,question.Button),"The question's "+question.Button+" is pressed")) {
+							Native.CancelDialog(hwndDialog);
+						}
+						ui.WaitGone(hwndDialog);
+						isAnswered=true;
+					}
+					if(!isAnswered) {
+						Thread.Sleep(150);
+					}
+				}
+				if(isAnswered || Native.IsDialogClass(opened.Hwnd)) {
+					opened.Hwnd=WaitForWindowU(ui,checkResult,row.Window);
+				}
+				return opened;
+			}
+			if(_dictUOnTheWay.TryGetValue(row.Window,out (string Window,string Message,string Button,string Why) onTheWay)
+				&& !Native.IsDialogClass(opened.Hwnd) && ui.GetWindowTypeName(opened.Hwnd)==onTheWay.Window)
+			{
+				checkResult.Note("The program showed "+ui.DescribeWindow(opened.Hwnd)+" before "+row.Window+": "+onTheWay.Why);
+				System.Diagnostics.Stopwatch stopwatch=System.Diagnostics.Stopwatch.StartNew();
+				while(Native.IsWindow(opened.Hwnd) && Native.IsWindowVisible(opened.Hwnd) && stopwatch.ElapsedMilliseconds<60000) {
+					foreach(IntPtr hwndDialog in ui.GetWindows().Where(x => Native.IsDialogClass(x))) {
+						string text=ui.DescribeWindow(hwndDialog);
+						if(onTheWay.Message!="" && Native.GetDialogMessage(hwndDialog).Contains(onTheWay.Message)) {
+							checkResult.Note(onTheWay.Window+" said: "+text+"; answered "+onTheWay.Button);
+							if(!Native.ClickDialogButton(hwndDialog,onTheWay.Button)) {
+								Native.CancelDialog(hwndDialog);
+							}
+						}
+						else {
+							checkResult.Fail(onTheWay.Window+": unexpected message box: "+text);
+							Native.CancelDialog(hwndDialog);
+						}
+						ui.WaitGone(hwndDialog);
+					}
+					Thread.Sleep(150);
+				}
+				if(checkResult.Expect(ui.WaitGone(opened.Hwnd,1000),onTheWay.Window+" closes by itself")) {
+					opened.Hwnd=WaitForWindowU(ui,checkResult,row.Window);
+				}
+				//Not gone: the window stays opened.Hwnd, and the type check fails with its name (CheckUWindow closes it).
+			}
+			return opened;
+		}
+
+		///<summary>The program's open window of the type (not a message box; it may have been open before), waited for; zero (and a failure) when none
+		///comes. A message box meanwhile fails the check with its text and is cancelled.</summary>
+		private static IntPtr WaitForWindowU(Ui ui,CheckResult checkResult,string typeName) {
+			System.Diagnostics.Stopwatch stopwatch=System.Diagnostics.Stopwatch.StartNew();
+			while(stopwatch.ElapsedMilliseconds<Ui.TimeoutWindowMs) {
+				foreach(IntPtr hwnd in ui.GetWindows()) {
+					if(Native.IsDialogClass(hwnd)) {
+						checkResult.Fail("Waiting for "+typeName+": unexpected message box: "+ui.DescribeWindow(hwnd));
+						Native.CancelDialog(hwnd);
+						ui.WaitGone(hwnd);
+						continue;
+					}
+					string typeNameWindow=ui.GetWindowTypeName(hwnd);
+					if(typeNameWindow==typeName || typeNameWindow.EndsWith("/"+typeName)) {
+						Thread.Sleep(400);//let it finish its Load and first paint, as Ui.WaitForNewWindow does
+						return hwnd;
+					}
+				}
+				Thread.Sleep(150);
+			}
+			checkResult.Fail("No "+typeName+" opened within "+Ui.TimeoutWindowMs/1000+" s");
+			return IntPtr.Zero;
+		}
+
+		///<summary>Makes the scratch copy's data valid for a row's window before it opens, and returns how to put it back (null: nothing done). The
+		///guard tables are counted after this and compared before the undo.
+		///FormRecallTypes: the synthetic dump holds recall triggers whose CodeNum is in no procedurecode row (recalltrigger (1,1,25) and (2,1,30);
+		///the dump's procedure codes start at CodeNum 34). FormRecallTypes.GetStringForType then throws "Missing codenum" from
+		///ProcedureCodes.GetStringProcCode, as Open Dental's own code does (unchanged from its public source); an office fixes such rows with Database
+		///Maintenance's RecallTriggerDeleteBadCodeNum. The check deletes the rows that method's query finds and puts them back, by key, after the
+		///window, so the copy is as before for the checks after it.</summary>
+		private static Action PrepareU(CheckResult checkResult,UiWindowRow row) {
+			if(row.Window!="FormRecallTypes") {
+				return null;
+			}
+			DataTable table=DataCore.GetTable("SELECT RecallTriggerNum,RecallTypeNum,CodeNum FROM recalltrigger "
+				+"WHERE NOT EXISTS (SELECT * FROM procedurecode WHERE procedurecode.CodeNum=recalltrigger.CodeNum) ORDER BY RecallTriggerNum");
+			if(table.Rows.Count==0) {
+				return null;
+			}
+			List<string> listValues=table.Rows.Cast<DataRow>().Select(x => "("+PIn.Long(x["RecallTriggerNum"].ToString())+","
+				+PIn.Long(x["RecallTypeNum"].ToString())+","+PIn.Long(x["CodeNum"].ToString())+")").ToList();
+			string keys=string.Join(",",table.Rows.Cast<DataRow>().Select(x => PIn.Long(x["RecallTriggerNum"].ToString())));
+			DataCore.NonQ("DELETE FROM recalltrigger WHERE RecallTriggerNum IN ("+keys+")");
+			RecallTriggers.RefreshCache();
+			checkResult.Note("The scratch copy's recall triggers without a procedure code (RecallTriggerNum, RecallTypeNum, CodeNum: "
+				+string.Join(" ",listValues)+") are taken out for this window, as Database Maintenance's RecallTriggerDeleteBadCodeNum would, and put "
+				+"back after it: with them FormRecallTypes throws 'Missing codenum', as Open Dental does (a dump defect, docs/port-notes/UI-0c.md)");
+			return () => {
+				DataCore.NonQ("INSERT INTO recalltrigger (RecallTriggerNum,RecallTypeNum,CodeNum) VALUES "+string.Join(",",listValues));
+				RecallTriggers.RefreshCache();
+				checkResult.Expect(Count("SELECT COUNT(*) FROM recalltrigger WHERE RecallTriggerNum IN ("+keys+")")==listValues.Count,
+					"The recall triggers taken out are put back");
+			};
 		}
 
 		///<summary>The instance method of the type (any visibility, up the class chain) by name; the module handlers take no arguments or (sender, e).

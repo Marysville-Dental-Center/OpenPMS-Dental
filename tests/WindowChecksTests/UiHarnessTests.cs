@@ -450,6 +450,53 @@ namespace WindowChecksTests {
 			List<string> listMissing=UiWindows.Read().SelectMany(x => x.ListGuardTables.Select(y => x.Id+" "+y)).Where(x => !setTables.Contains(x.Split(' ')[1])).ToList();
 			Assert.AreEqual(0,listMissing.Count,string.Join("; ",listMissing));
 		}
+
+		///<summary>UI-0c fix 1: what group U answers on the way to a window and on closing is still what the program asks, so a changed text fails
+		///here and not in a run at the owner's desktop: each expected question is in the source of its window (or a class the window holds) with
+		///its button's kind, each window shown first is created in the row window's Load, and each discard question Ui.Close answers OK is asked
+		///with OK and Cancel.</summary>
+		[TestMethod]
+		public void Fix1_ExpectedQuestionsAndWindowsOnTheWay_AreThePrograms() {
+			List<string> listProblems=new List<string>();
+			HashSet<string> setWindows=new HashSet<string>(UiWindows.Read().Select(x => x.Window));
+			Dictionary<string,string> dictQuestionClasses=new Dictionary<string,string> { { "FormTasks","UserControlTasks" } };
+			foreach(KeyValuePair<string,(string Question,string Button,string Why)> pair in InProcChecks._dictUQuestions) {
+				if(!setWindows.Contains(pair.Key)) {
+					listProblems.Add(pair.Key+" is no row's window");
+				}
+				string source=ClassSource(dictQuestionClasses.TryGetValue(pair.Key,out string className) ? className : pair.Key);
+				string kind=pair.Value.Button=="Yes" || pair.Value.Button=="No" ? "YesNo" : "OKCancel";
+				if(!Regex.IsMatch(source,@"MsgBoxButtons\."+kind+@",\s*"""+Regex.Escape(pair.Value.Question))) {
+					listProblems.Add(pair.Key+": no "+kind+" question '"+pair.Value.Question+"' in "+(className??pair.Key));
+				}
+			}
+			foreach(KeyValuePair<string,(string Window,string Message,string Button,string Why)> pair in InProcChecks._dictUOnTheWay) {
+				if(!setWindows.Contains(pair.Key)) {
+					listProblems.Add(pair.Key+" is no row's window");
+				}
+				string body=MethodBody(ClassSource(pair.Key),pair.Key+"_Load")??"";
+				if(!body.Contains("new "+pair.Value.Window+"(") || !Regex.IsMatch(ClassSource(pair.Value.Window),@"\bClose\(\);")) {
+					listProblems.Add(pair.Key+"_Load does not show "+pair.Value.Window+", or "+pair.Value.Window+" never closes itself");
+				}
+			}
+			//U2's message: FormClaimReports_Shown shows the import's error, and the import names a missing report folder with this text.
+			string bodyShown=MethodBody(ClassSource("FormClaimReports"),"FormClaimReports_Shown")??"";
+			string sourceClearinghouses=File.ReadAllText(RepoFile("OpenPmsDentalBusiness","Data Interface","Clearinghouses.cs"));
+			string messageU2=InProcChecks._dictUOnTheWay["FormClaimsSend"].Message;
+			if(!bodyShown.Contains("MessageBox.Show(errorMessage)")
+				|| !sourceClearinghouses.Contains("\""+messageU2.TrimEnd(':')+"\")+\": \"+clearinghouseClin.ResponsePath"))
+			{
+				listProblems.Add("FormClaimReports_Shown no longer shows the import's '"+messageU2+"' message");
+			}
+			foreach(string question in Ui.ArrayDiscardQuestions) {
+				if(!Regex.IsMatch(ClassSource("FormClaimEdit"),@"MsgBoxButtons\.OKCancel,\s*"""+Regex.Escape(question))) {
+					listProblems.Add("FormClaimEdit asks no OKCancel '"+question+"'");
+				}
+			}
+			Assert.IsTrue(InProcChecks._dictUQuestions.ContainsKey("FormTasks") && InProcChecks._dictUOnTheWay.ContainsKey("FormClaimsSend"),
+				"the U31 and U2 entries");
+			Assert.AreEqual(0,listProblems.Count,string.Join("; ",listProblems));
+		}
 		#endregion windows.tsv
 
 		#region The walker

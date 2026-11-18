@@ -289,6 +289,10 @@ namespace WindowChecksTests.InProc {
 			return false;
 		}
 
+		///<summary>Questions a window asks on closing whose OK discards the changes and closes it (nothing is saved), so Close answers them OK; any
+		///other question on closing is answered No, or Cancel.</summary>
+		public static readonly string[] ArrayDiscardQuestions=new[] { "Changes will be lost." };
+
 		///<summary>Closes the window as its Cancel or X would: a form gets Close (a modal one ends its ShowDialog with Cancel), a WPF window Close, a
 		///standard dialog its Cancel button. Waits for it to go.</summary>
 		public bool Close(IntPtr hwnd) {
@@ -322,8 +326,15 @@ namespace WindowChecksTests.InProc {
 			if(WaitGone(hwnd)) {
 				return true;
 			}
-			//A question on closing: answer No (nothing saved).
+			//A question on closing: answer No (nothing saved). A question whose OK discards the changes ("Changes will be lost.  Continue
+			//anyway?", FormClaimEdit_FormClosing) is answered OK: its Cancel keeps the window open, so the close would never end.
 			foreach(IntPtr hwndDialog in GetWindows().Where(x => Native.IsDialogClass(x))) {
+				string message=Native.GetDialogMessage(hwndDialog);
+				if(ArrayDiscardQuestions.Any(x => message.Contains(x)) && Native.GetDialogButtons(hwndDialog).Contains("OK")) {
+					CheckResultCur?.Note("Closing asked: "+DescribeWindow(hwndDialog)+"; answered OK (it discards the changes: nothing saved)");
+					Native.ClickDialogButton(hwndDialog,"OK");
+					continue;
+				}
 				CheckResultCur?.Note("Closing asked: "+DescribeWindow(hwndDialog)+"; answered No/Cancel");
 				if(!Native.ClickDialogButton(hwndDialog,"No")) {
 					Native.CancelDialog(hwndDialog);
