@@ -68,7 +68,17 @@ To add an icon: add the member here (and to the WinForms enum when WinForms draw
 		TreatPlan32,
 		TreatPlanMed32,
 		Video,
-		WebMail
+		WebMail,
+		//UI-9a-1 (Forms A-C, docs/port-notes/UI-9a.md): the bitmap pictures' purposes (section 4.3), each with its manifest row; the WinForms
+		//enum has the same members (WpfConverter parses its names). Later UI-9a slices append their own block.
+		Down,
+		Edit,
+		Label,
+		Note,
+		Pin,
+		Preview,
+		Send,
+		Up
 	}
 
 	///<summary></summary>

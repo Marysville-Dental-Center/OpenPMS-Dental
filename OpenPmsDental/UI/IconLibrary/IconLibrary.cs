@@ -52,7 +52,19 @@ namespace OpenPmsDental.UI{
 		TreatPlan32,
 		TreatPlanMed32,
 		Video,
-		WebMail
+		WebMail,
+		//UI-9a-1 (Forms A-C, docs/port-notes/UI-9a.md): the bitmap pictures' purposes (section 4.3), each with its manifest row. Later UI-9a
+		//slices append their own block.
+		Down,
+		Edit,
+		Export,
+		Label,
+		Note,
+		Pin,
+		Preview,
+		Print,
+		Send,
+		Up
 	}
 
 	///<summary></summary>
@@ -201,6 +213,37 @@ namespace OpenPmsDental.UI{
 				return;
 			}
 			UiIcons.Draw(g,GetDesign(icon,Math.Min(rectangle.Width,rectangle.Height)),rectangle,UiTheme.GetColor(EnumUiColor.TextDisabled));
+		}
+
+		///<summary>A new 32-bit ARGB bitmap of width x height pixels with the icon in its role colour (GetColor) on transparent, centred in the
+		///largest square that fits (section 3.5: the largest design that fits, never stretched up). For a control that shows a picture where a
+		///bitmap used to be (UI-9a, docs/port-notes/UI-9a.md): the picture's 96 DPI size, so nothing moves; the control scales it as it scaled the
+		///bitmap. Filled with GDI+, so it works in design mode, with OnlyGDI and before any window exists. The caller (the control) owns it.</summary>
+		public static Bitmap GetBitmap(EnumIcons icon,int width,int height){
+			return GetBitmap(GetDesign(icon,Math.Min(width,height)),width,height,GetColor(icon));
+		}
+
+		///<summary>GetBitmap for a custom dental icon (UI-8), in its role colour.</summary>
+		public static Bitmap GetBitmap(DentalIcon dentalIcon,int width,int height){
+			IconDesign iconDesign=UiIcons.GetDesign(dentalIcon,Math.Min(width,height));
+			Color color=UiTheme.GetColor(EnumUiColor.Text);
+			if(iconDesign!=null){
+				color=UiIcons.GetRoleColor(iconDesign);
+			}
+			return GetBitmap(iconDesign,width,height,color);
+		}
+
+		private static Bitmap GetBitmap(IconDesign iconDesign,int width,int height,Color color){
+			Bitmap bitmap=new Bitmap(Math.Max(width,1),Math.Max(height,1),PixelFormat.Format32bppArgb);
+			bitmap.SetResolution(96,96);//as the pictures: drawn at their pixel size
+			if(iconDesign==null){
+				return bitmap;
+			}
+			int sizeSlot=Math.Min(width,height);
+			using(Graphics g=Graphics.FromImage(bitmap)){
+				UiIcons.Draw(g,iconDesign,new Rectangle((width-sizeSlot)/2,(height-sizeSlot)/2,sizeSlot,sizeSlot),color);
+			}
+			return bitmap;
 		}
 
 		///<summary>Fills a design in the rectangle: Direct2D into a bitmap over the gradient, then onto g pixel for pixel; GDI+ with OnlyGDI, in design

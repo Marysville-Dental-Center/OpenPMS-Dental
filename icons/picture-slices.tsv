@@ -1,0 +1,5 @@
+# The slices of UI-9a (docs/specs/ui-refresh-plan.md section 7; docs/port-notes/UI-9a.md): tools/Convert-PictureUses.ps1 -Slice <slice> scans
+# the folder's .cs and .resx files whose names match one of the patterns (PowerShell -like, comma-separated). A slice is listed once it is
+# converted; tests/UiRefreshTests/PictureMapTests checks that icons/picture-map.tsv has a row for every picture use of every slice listed here.
+# slice	folder	patterns
+UI-9a-1	OpenPmsDental/Forms	FormA*,FormB*,FormC*

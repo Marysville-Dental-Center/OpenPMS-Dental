@@ -54,11 +54,11 @@ namespace UiRefreshTests {
 		#region Manifest
 		[TestMethod]
 		public void Manifest_EveryEnumIconsHasARow_TheModulesAFilledRow_TheRolesOfUq4() {
-			Assert.AreEqual(38,WinIcons().Count(),"The WinForms EnumIcons.");
-			Assert.AreEqual(53,WpfIcons().Count(),"The WPF EnumIcons.");
+			Assert.AreEqual(48,WinIcons().Count(),"The WinForms EnumIcons: UI-7b's 38 and UI-9a-1's 10.");
+			Assert.AreEqual(61,WpfIcons().Count(),"The WPF EnumIcons: UI-7b's 53 and UI-9a-1's 8.");
 			List<IconRendererTests.ManifestRow> listRows=IconRendererTests.ReadManifest().Where(x => x.EnumName=="EnumIcons").ToList();
 			HashSet<string> hashSetMembers=new HashSet<string>(WinIcons().Select(x => x.ToString()).Concat(WpfIcons().Select(x => x.ToString())));
-			Assert.AreEqual(53,hashSetMembers.Count,"Every WinForms member is also a WPF member.");
+			Assert.AreEqual(61,hashSetMembers.Count,"Every WinForms member is also a WPF member.");
 			foreach(string member in hashSetMembers) {
 				IconRendererTests.ManifestRow manifestRow=listRows.SingleOrDefault(x => x.Name==member);
 				if(_dictDentalIcons.ContainsKey(member)) {
