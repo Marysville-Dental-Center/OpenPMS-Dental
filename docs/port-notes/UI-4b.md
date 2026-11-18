@@ -316,3 +316,160 @@ M2TERMTests 21/21, M2INSPLANTests 31/31, NoHqTests 122/122. The strips run (`ui4
 rerun (`OPMS_UI_SCAN=1`, into `.git/od-tools/test-results/ui4b2-scan`, `ui4b2-scan.txt`): Segoe UI 9 makes 1,775 controls overflow in 450
 windows, 8.25 makes 637 in 245, the same counts as UI-4b-1's rerun (this package changes no text rectangle); today's font reports nothing new.
 `tools/Test-NoEolFlips.ps1 -Base main`: no file changed its line ends.
+
+
+## UI-4b-3: calendars, date pickers and text boxes
+
+On `ui/ui4b3-1` from `main` at `296aa44d8` (UI-4b-1, UI-4b-2, UI-5, UI-6, UI-9a-1 merged). It changes the look of the controls it owns and nothing
+else: no bounds, no layout, no text position, no behaviour. No schema change, no new package, nothing downloaded, no database used, no window shown.
+
+### 1. For the owner, in plain words
+
+**What changed.** The calendars (the month you pick a date from, in the Appointments module and under every date box) are white with a thin light
+grey border. The selected day is a blue rounded square with white numbers; today has a thin blue rounded ring (it was orange); the day under the mouse
+is soft grey (it was light blue). The year and month arrows are the new Fluent arrows, still with their Y and M beside them. The days of the months
+before and after are pale grey as before, the weekday names dark grey. The small "Today" mark at the bottom is the same blue ring. The date pickers'
+little drop-down button shows a calendar icon instead of the down arrow; in the WPF windows the whole date picker looks like the new combo boxes
+(rounded, thin grey border, darker under the mouse, a blue line along the bottom while you type in it, red border when the date is wrong). The WPF text
+boxes have a thin grey border that darkens under the mouse, a blue line along the bottom while you type in them, a lighter border when they are read
+only or disabled (disabled text pale grey), and a red border when what you typed is not valid; the little red "!" beside them is the new red.
+
+**What did not change.** Sizes, positions, fonts and texts (the font change is UI-2b). The text inside every text box starts exactly where it did
+(the tests check it pixel by pixel). The WinForms text boxes and the WinForms date boxes are Windows text boxes and keep the Windows look (section
+3.6). The eForm a patient fills keeps today's text boxes, date boxes and rich text boxes. Printouts.
+
+**For you to look at.** Gallery G-UI1 part 2d (section 6): every state of each control, WinForms above WPF, at 100 to 200%. Two small questions in
+section 3: the text boxes are square, as the approved design sheet draws them (the brief said 4 px corners), and the blue line shows whenever a text box
+has the cursor, also after a click (as the Windows text boxes do), not only after Tab.
+
+### 2. Files
+
+| File | What |
+|---|---|
+| `CodeBase/UI/UiCalendarPaint.cs` | the WinForms shapes: a day's hover (`SubtleHover`, 4 px corners), the selected day (`Accent`, `TextDisabled` disabled), today (`DrawToday`: the 1 px `Accent` ring, a white inner ring when today is selected), the focus ring on the selected day (`FocusRingOnAccent`), a day's text token (`GetDayText`), the Fluent chevrons of the arrows and the Fluent calendar glyph (`GetCalendarDesign`, `DrawCalendarGlyph`: calendar_ltr, the icon of `EnumIcons.Appt32`); built on UI-4a's `UiControlPaint` |
+| `OpenPmsDental/UI/MonthCalendarOD.cs` | `OnPaint` from the tokens: `SurfaceRaised`, the `Gridline` under the weekdays, hover, the selected day, today, the focus ring (`IsFocusRingShown`: focus and keyboard cues), the hovered buttons and month title, the chevrons where the triangles were (`GetRectangleArrow`), the letters Y and M where they were, the days in `Text`, `TextOnAccent`, `TextDisabled`, the weekdays in `TextSecondary`, the footer's today mark, the 1 px `Stroke` outline; every rectangle and text position as before; `Invalidate` on focus and enabled changes; test hooks `IsTextShown`, `GetPointMouse` |
+| `OpenPmsDental/UI/ODDatePicker.cs` (+ designer) | the drop-down button flat `SurfaceRaised`, `SubtleHover`, `SubtlePressed`, the calendar glyph in `Text` (`TextDisabled` when disabled or read only) from its `Paint` (`GetRectangleGlyph`); the designer's arrow picture and grey colours gone |
+| `OpenPmsDental/UI/ODDateRangePicker.cs` | unchanged: its two `ODDatePicker`s carry the look; its two week buttons are UI-4a's `UI.Button` (their arrow pictures, section 4) |
+| `WpfControlsOD/UI/Controls/UiLookText.cs` | the keys of the three templates, the attached `IsError`, the token brushes, the corner (`CORNER_TEXT`) and focus line metrics, the Fluent chevrons and calendar glyph, `ApplyTemplateLook` (the template and the `StrokeStrong` border, or the Windows ones in office content) |
+| `WpfControlsOD/Themes/Generic.xaml` | one block at the end: the template of a `TextBoxBase` (TextBox, RichTextBox) and of a `PasswordBox` (the Windows layout: a border of the box's thickness around `PART_ContentHost`; triggers for hover, read only, `IsError`, keyboard focus, disabled, the text colour) and the date picker's inner text box template (no border colour) |
+| `WpfControlsOD/UI/Controls/TextBox.xaml.cs`, `TextPassword.xaml.cs`, `TextRich.xaml.cs` | `IContentLook`: `ApplyLook` gives the inner box the new template, or the Windows one when pinned; the TextBox's underline (`IsUnderline`, eForms) `StrokeStrong`, today's grey when pinned |
+| `WpfControlsOD/UI/Controls/TextVDate.xaml(.cs)`, `TextVDouble`, `TextVInt`, `TextVTime` | the same; `SetError` sets `UiLookText.IsError`; the error mark (`ellipseError`) `Danger`, today's red when pinned; `TextVDate`'s un-underline clears the border brush instead of writing `#ABADB3` |
+| `WpfControlsOD/UI/Controls/DatePicker.xaml(.cs)` | as a combo box: `borderBack` (`SurfaceRaised`, 4 px corners), `border` (`StrokeStrong`, `StrokeStrongHover`, `Stroke`, `Danger`), `borderFocus` (the 2 px `Accent` line while the text box has keyboard focus), `pathCalendar` (the glyph in the 14 px column); the inner text box keeps its place and its own 1 px border, now transparent; today's blue wash and polyline gone |
+| `WpfControlsOD/UI/Controls/MonthCalendar.xaml(.cs)` | the four triangles are Fluent chevron paths; `SetLook` from the tokens as the WinForms calendar; the day shapes snap to device pixels; the shared focus ring (`UiLook.SetFocusVisualStyle`) |
+| `WpfControlsOD/UI/Controls/Supplemental/WindowMonthCalendar.xaml.cs` | the window's background `SurfaceRaised` (behind its calendar) |
+| `tests/UiRefreshTests/TextCalendarStates.cs`, `TextCalendarStateTests.cs`, `TextCalendarGallery.cs`, `TextPinnedLookTests.cs`, `Data/text-pinned-before.png` | the tests and the gallery strips (section 5) |
+| `tests/UiRefreshTests/DesignSheetWindows.cs` | `DrawTree` made `internal` (the WinForms date picker's picture paints its Windows date box the same way); nothing else |
+| `tests/UiRefreshTests/Data/colour-literals.tsv`, `coverage.tsv` | 14 literals fewer (`MonthCalendarOD`, the WPF `DatePicker` and `MonthCalendar` have none left, `TextVDate.xaml.cs` none); the row for `UiLookText` |
+
+### 3. Decisions made on the way (say if you disagree)
+
+- **The text boxes are square.** The approved design sheet draws its text input square (the window drawing of G-UI1 part 1,
+  `DesignSheetControls.DrawWindowComposite`, beside a combo box with 4 px corners), as the Windows text boxes of the WinForms windows are; the brief
+  and section 3.3 say 4 px. The code draws what the sheet shows. 4 px corners are one constant (`UiLookText.CORNER_TEXT`); the focus line's inset
+  follows it. The date pickers have 4 px corners, as the combo boxes they look like.
+- **The focus line shows whenever a text box has keyboard focus**, also after a click: a text box takes the typing (the caret is in it), today's
+  Windows border turned blue on any focus, and the Windows 11 text boxes do the same. UI-4b-1's combo box line needs keyboard cues; a text box is the
+  exception. The WPF date picker follows its text box.
+- **Read only:** a `Stroke` border that does not darken under the mouse, the text in `Text`, the focus line as usual (the text can be selected and
+  copied). The fill stays the window's (`ColorBack`, which many windows set grey for read-only boxes); WPF does not pair read only with a colour.
+- **A validation error** (`TextVDate`, `TextVDouble`, `TextVInt`, `TextVTime`, the WPF `DatePicker`): the border `Danger`, and the red "!" mark beside
+  the box in `Danger`, where it was (outside the box's right edge, as today). Disabled wins over the error; the focus line stays `Accent`.
+- **Disabled:** the window's fill (white: `SurfaceRaised`), a `Stroke` border and `TextDisabled` text, as the sheet's disabled combo box; today's
+  56% opacity is gone.
+- **The text colour is `Text`** (was black), from the template's trigger, so a colour a window sets (`ColorText`) still wins.
+- **Calendar details the sheet does not show:** a day under the mouse, the arrow buttons, the month title and the "Today" footer under the mouse are
+  `SubtleHover` with 4 px corners (today light blue; the title turned its text blue); the days of the months around are `TextDisabled` (closest to
+  today's grey 170); the weekday names `TextSecondary` (the sheet's); when today is the selected day, a white inner ring inside its `Accent` ring
+  shows it on the fill; the letters Y and M stay beside the chevrons (they tell the year arrows from the month arrows); the footer's today mark is the
+  today ring. A disabled calendar: texts and chevrons `TextDisabled`, the selected day `TextDisabled`.
+- **Focus on a calendar:** WinForms draws the sheet's focus on the selected day (the ring outside a white inner ring) with focus and keyboard cues; the
+  WPF calendar has no per-day keyboard state, so it takes UI-4a's shared ring around itself (2 px `Accent`, inside its bounds).
+- **The WinForms date picker** keeps its Windows date box (section 3.6: Windows text boxes keep their look; their border is the text area's); only
+  the drop-down button changes. The glyph is pale while the picker is read only, because the calendar does not open then.
+- **The calendar glyph is `EnumIcons.Appt32`'s Fluent icon (calendar_ltr)**, found through its manifest row, so no icon is added (the icon files
+  belong to the UI-9a-2 stream). A test checks it stays calendar_ltr.
+- **The WPF date picker's text does not move:** its text box keeps its 1 px border thickness with a transparent brush and its own place in the
+  column, on a template of the Windows layout (a test compares its text with the Windows template's). The 14 px drop-down column keeps its width; the
+  12 px glyph sits 2 px from the right edge.
+- **The WPF calendar's day shapes snap to device pixels** (section 3.3), so the selected day and the rings are crisp at every scale; the old comment
+  said the orange ring looked bad snapped, which was the old colour at a fractional width.
+- **The eForm fill surface keeps today's text fields.** `CtrlEFormFill` builds `TextBox` (plain, multi-line, underlined), `TextVDate` (plain and
+  underlined) and `TextRich`; the pin (`ContentLook.IsPinned`) gives them the Windows template, today's grey underline and the red mark.
+  `TextPinnedLookTests` compares them with a picture recorded on this branch's first commit, before any change. The other text controls take the pin
+  too, for eForm fields added later.
+
+### 4. Not done, and why
+
+- **The date range picker's week buttons** (`ODDateRangePicker`, "W" with an arrow picture each) are `UI.Button`s, restyled by UI-4a; their arrow
+  pictures are `.resx` pictures, and pictures to icons are UI-9's job. They are not in `icons/picture-map.tsv` yet (UI-9a-2's file): for the lead.
+- Pictures of the real windows with these controls (G-UI3) need shown windows: section 7 has the steps for the lead.
+- WPF hover and the WPF text boxes' live focus line are drawn by WPF from the mouse and the keyboard: the tests set the template's parts as its
+  triggers do and check the triggers; a connected desktop shows them live.
+
+### 5. Tests
+
+All in `tests/UiRefreshTests` (no new test assembly):
+- `TextCalendarStateTests` (6 tests): WinForms `MonthCalendarOD` (rest, hover on a day and the month-back button, focus, disabled, today selected) and
+  `ODDatePicker`'s button (rest, hover, disabled); WPF text boxes (`TextBox`, `TextRich`, `TextPassword`, `TextVDate`, `TextVDouble`, `TextVInt`,
+  `TextVTime`: rest, hover, focus, disabled, and read only or a validation error), `DatePicker` (rest, hover, focus, disabled, error) and
+  `MonthCalendar` (rest, hover, disabled, today selected). Each control is drawn off screen without text and compared with the design sheet's drawing
+  of the state at the control's own geometry (`TextCalendarDrawings`: the shapes and light tokens of `DesignSheetControls.DrawCalendarDay`,
+  `DrawCalendarAndProgress`, `DrawComboBox` and the window drawing's input, the Fluent glyphs of UI-7a) by ChartImageCompare's tolerance (WinForms
+  every pixel, WPF the solid pixels, as UI-4a). Then with text: its pixels reach the state's token (the WPF calendar: the brushes of its days,
+  weekdays, chevrons and header). The text of every WPF text box, of the multi-line box and of the date picker starts where the Windows template put
+  it (the ink's rectangle the same in both). The templates' triggers give the states; each text control takes the new template on a window and the
+  Windows one inside office content. The calendar glyph is Fluent calendar_ltr.
+- `TextPinnedLookTests.EFormTextFields_Pinned_LookAsBefore`: the eForm's text field kinds with the pin, as recorded before the change.
+- `EFormLookTests.EFormFill_SyntheticForm_LooksAsBefore`: unchanged and green (the eForm picture as before).
+- The layout snapshot and the bounds record (`LayoutSnapshotTests`, `Scan_TodaysFont_ReportsNothingNew`), `TerminologyLayoutTests`
+  (M2TERMTests), `LayoutDesignerTests` (M2INSPLANTests): unchanged and green; no designer layout changed (`ODDatePicker`'s designer lost its picture
+  and colour lines only).
+- The scan rerun (`OPMS_UI_SCAN=1`, into `.git/od-tools/test-results/ui4b3-scan`): Segoe UI 9 makes 1,775 controls overflow in 450 windows, 8.25 makes 637 in 245, the same counts as UI-4b-2's rerun (every file of the two runs is the same but the timing lines: this package changes no text rectangle); today's font reports nothing new.
+
+### 6. Gallery G-UI1 part 2d
+
+`.git/od-tools/test-results/ui4b3-G-UI1-part2d/` (`index.html` and the zip beside it; the owner's summary is the note at the top of the page), made
+from the strips in `.git/od-tools/test-results/ui4b3-G-UI1-part2d-strips/` (each of `scale-100` to `scale-200`): `calendars.png` (WinForms
+`MonthCalendarOD` in the top row: rest, hover, focus, disabled, today selected; WPF `MonthCalendar` below: rest, hover, disabled, today selected),
+`datepickers.png` (WinForms `ODDatePicker`: rest, hover on the button, disabled; WPF `DatePicker`: rest, hover, focus, disabled, error), and the WPF
+text boxes two kinds per strip, a row each, states left to right (rest, hover, focus, disabled, then read only or the error):
+`textbox-textrich-wpf.png`, `textpassword-textvdate-wpf.png`, `textvint-textvdouble-wpf.png`, `textvtime-wpf.png`. WinForms scales through
+LayoutManager's scale, WPF through its render scale; the WinForms texts are drawn in points from their 8.25 pt font, so in these off-screen pictures
+at 125-200% they stay near their 96 DPI size (on a real screen at that scale they grow with it), as in UI-4b-1's strips. The WinForms date box is
+painted as Windows paints a text box (the design sheet's window pictures do the same: an edit control of a hidden window prints nothing). "Only
+after", as UI-4a's: the controls keep no copy of today's look, except the eForm's pinned text fields (`Data/text-pinned-before.png`).
+
+### 7. For the lead
+
+- The strips render off screen and were made in the disconnected session (WinForms and WPF both draw). To make them again:
+
+      set OPMS_UI_TEXT_GALLERY=<od-tools>\test-results\ui4b3-G-UI1-part2d-strips
+      powershell -NoProfile -ExecutionPolicy Bypass -File <od-tools>\run-tests.ps1 -Root . -Mode Targeted -Platform x64 -RequireBuildOutput -Include UiRefreshTests -Out <od-tools>\test-results\ui4b3-strips.txt
+      powershell -NoProfile -ExecutionPolicy Bypass -File tools\New-UiGallery.ps1 -After <od-tools>\test-results\ui4b3-G-UI1-part2d-strips -Out <od-tools>\test-results\ui4b3-G-UI1-part2d -Name G-UI1 -Note "<the summary of section 1>"
+
+- The real windows with the new calendars, date pickers and WPF text boxes (G-UI3) need shown windows: at the owner's connected desktop, after a full
+  Debug x64 lane build, group U against the before set (docs/port-notes/UI-0c.md section 5), as for UI-4a, UI-4b-1 and UI-4b-2:
+
+      set OPMS_WINDOW_CHECKS=1
+      set OPMS_WINDOW_CHECKS_DUMP=<od-tools>\winchk-gate3a\opendental_dev.sql
+      set OPMS_WINDOW_CHECKS_GROUPS=U
+      set OPMS_WINDOW_CHECKS_OUT=<od-tools>\test-results\ui4b3-groupU
+      set OPMS_WINDOW_CHECKS_BUDGET_MINUTES=18
+      set OPMS_WINDOW_CHECKS_UI_BEFORE=<od-tools>\test-results\ui-before\run1
+      powershell -NoProfile -ExecutionPolicy Bypass -File <od-tools>\run-tests.ps1 -Root . -Mode Targeted -Platform x64 -RequireBuildOutput -Include WindowChecksTests
+      powershell -NoProfile -ExecutionPolicy Bypass -File tools\New-UiGallery.ps1 -Before <od-tools>\test-results\ui-before\run1 -After <od-tools>\test-results\ui4b3-groupU -Name G-UI3 -ClipNotes <od-tools>\test-results\ui4b3-groupU\ui-walker\clip-notes.tsv
+
+  (Split into `UW`, then `UM,UD` if one run does not fit the runner's 20 minutes; the before folders `run1` to `run5` and `fix1` hold the groups as
+  UI-0c froze them.) U0 shows every window with a calendar, a date picker or a WPF text box as changed (the Appointments module's calendar among
+  them); the bounds record must show no difference. Worth a live look there: a WPF text box under the mouse and while typing in it (the focus line), a
+  WPF date box with a wrong date (the red border), a date picker's calendar opened, the Appointments module's calendar under the mouse, and an eForm
+  filled in `FrmEFormFillEdit` (unchanged).
+- The two week buttons of `ODDateRangePicker` (section 4): their arrow pictures for a UI-9 slice's `picture-map.tsv`.
+- The owner's answers to the two questions of section 1 (square text boxes; the focus line after a click).
+
+### 8. Runs
+
+Full filter build x64 through the lane: 0 errors. Targeted run (x64, after the full build, `.git/od-tools/test-results/ui4b3-final.txt`):
+UiRefreshTests 169 (163 passed, 6 opt-ins skipped: the five other galleries and the scan; this package's gallery ran with `OPMS_UI_TEXT_GALLERY`),
+WindowChecksTests 72 (29 passed, 43 opt-in skipped), M2TERMTests 21/21, M2INSPLANTests 31/31, NoHqTests 122/122. The scan run (`ui4b3-scan.txt`) and the
+strips run after the WinForms date picker's picture fix (`ui4b3-strips.txt`) passed too. `tools/Test-NoEolFlips.ps1 -Base main`: no file changed its line ends.

@@ -1256,6 +1256,16 @@ so it is cut into three slices). Each slice owns its controls' WinForms and WPF 
 - **UI-4b-3: calendars, date pickers and text boxes** (26 files). WinForms `MonthCalendarOD`, `ODDatePicker`, `ODDateRangePicker`;
   WPF `DatePicker`, `MonthCalendar`, `Supplemental/WindowMonthCalendar`, `TextBox`, `TextPassword`, `TextRich`, `TextVDate`,
   `TextVDouble`, `TextVInt`, `TextVTime`.
+  - **Status (2026-11-18).** Done on `ui/ui4b3-1` (`docs/port-notes/UI-4b.md`, section UI-4b-3), not merged yet: `CodeBase/UI/UiCalendarPaint.cs`
+    (a day's hover `SubtleHover`, the selected day `Accent`, today's 1 px `Accent` ring, the focus ring on the accent, the Fluent chevrons and the
+    calendar glyph, on UI-4a's `UiControlPaint`); WinForms `MonthCalendarOD` (every rectangle and text where it was) and `ODDatePicker` (its
+    drop-down button flat with the Fluent calendar glyph; the date box is a Windows text box and keeps its look); `ODDateRangePicker` through its
+    two pickers; WPF text boxes through the templates of `Generic.xaml`'s UI-4b-3 block (`UiLookText`: the Windows layout, so no text moves;
+    `StrokeStrong`, hover `StrokeStrongHover`, read only and disabled `Stroke`, a validation error `Danger`, the 2 px `Accent` focus line inside
+    the bottom edge; square, as the approved sheet draws the input), `DatePicker` as a combo box with the calendar glyph, `MonthCalendar` as the
+    WinForms one. The eForm fill surface keeps the Windows template (`ContentLook.IsPinned`; `Data/text-pinned-before.png`). Tests in
+    `tests/UiRefreshTests` (`TextCalendarStateTests`, `TextPinnedLookTests`, `TextCalendarGallery`); gallery G-UI1 part 2d in
+    `.git/od-tools/test-results/ui4b3-G-UI1-part2d/`.
 
 **UI-4c: the remaining shared controls** (the UI-4c rows of 2.1; on `main` 50 files, `.resx` aside, of about 22 unrelated controls,
 so it is cut into two slices that share no files and may run side by side).

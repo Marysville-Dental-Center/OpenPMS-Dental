@@ -210,8 +210,14 @@ namespace UiRefreshTests {
 				//window prints nothing), the button by its own paint.
 				Bitmap bitmap=new Bitmap(datePicker.Width,datePicker.Height,PixelFormat.Format32bppArgb);
 				using(Graphics g=Graphics.FromImage(bitmap)) {
-					g.Clear(panel.BackColor);
-					DesignSheetWindows.DrawTree(g,datePicker,Point.Empty);
+					g.Clear(panel.BackColor);//the picker is transparent: the window's background
+					for(int i=datePicker.Controls.Count-1;i>=0;i--) {
+						Control control=datePicker.Controls[i];
+						if(control is OpenPmsDental.UI.MonthCalendarOD) {
+							continue;//closed
+						}
+						DesignSheetWindows.DrawTree(g,control,control.Location);
+					}
 				}
 				return bitmap;
 			}
