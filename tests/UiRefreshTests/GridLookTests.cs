@@ -38,6 +38,13 @@ namespace UiRefreshTests {
 		public void HoverAt(int y) {
 			OnMouseMove(new MouseEventArgs(MouseButtons.None,0,40,y,0));
 		}
+
+		///<summary>A left click at (40,y), through the grid's own mouse handlers.</summary>
+		public void ClickAt(int y) {
+			MouseEventArgs mouseEventArgs=new MouseEventArgs(MouseButtons.Left,1,40,y,0);
+			OnMouseDown(mouseEventArgs);
+			OnMouseUp(mouseEventArgs);
+		}
 	}
 
 	///<summary>GridOld with its focus looks forced.</summary>
@@ -170,6 +177,29 @@ namespace UiRefreshTests {
 				}
 			});
 			AssertNoFailures(listFailures);
+		}
+		[TestMethod]
+		public void WinForms_GridOD_OneRow_FocusedRowFollowsSetSelected() {
+			//Section 3.6: the focused row is the one the arrow keys move, in OneRow the selected row. A click on row 1 and then the window's own
+			//SetSelected(4) put the outline on row 4, not on the clicked row.
+			const int indexClicked=1;
+			const int indexSelected=4;
+			IconRendererTests.RunSta(() => {
+				using(StateGridOD grid=NewGridOD(1f)) {
+					grid.IsFocusForced=true;
+					grid.IsFocusedRowForced=true;
+					grid.ClickAt(GetRowTopY(grid,indexClicked)+grid.ListGridRows[indexClicked].State.HeightMain/2);
+					Assert.AreEqual(indexClicked,grid.GetSelectedIndex(),"The click did not select row "+indexClicked+".");
+					grid.SetSelected(indexSelected,true);
+					Assert.AreEqual(indexSelected,grid.GetSelectedIndex());
+					using(Bitmap bitmap=Draw(grid)) {
+						Color colorAccent=UiTheme.GetColor(EnumUiColor.Accent);
+						AssertNear(colorAccent,bitmap.GetPixel(X_PROBE,GetRowTopY(grid,indexSelected)+1),0,"the outline on the selected row "+indexSelected);
+						Assert.IsFalse(IsNear(bitmap.GetPixel(X_PROBE,GetRowTopY(grid,indexClicked)+1),colorAccent,40),
+							"The outline stayed on the clicked row "+indexClicked+".");
+					}
+				}
+			});
 		}
 		#endregion WinForms GridOD
 
@@ -366,6 +396,11 @@ namespace UiRefreshTests {
 		///<summary>GridOD's OriginY (below the title and header) at the scale, from the heights the font tokens give.</summary>
 		private static int GetOriginY(OpenPmsDental.UI.GridOD grid,float scale) {
 			return (int)Math.Round((OpenPmsDental.UI.GridScreenLook.GetHeightTitle96()+OpenPmsDental.UI.GridScreenLook.GetHeightHeader96())*scale);
+		}
+
+		///<summary>The y of the gridline above the row in a grid at 100% (the row's own first pixel is one below it).</summary>
+		private static int GetRowTopY(OpenPmsDental.UI.GridOD grid,int indexRow) {
+			return GetOriginY(grid,1f)+grid.ListGridRows[indexRow].State.YPos;
 		}
 
 		private static Bitmap Draw(Control control) {

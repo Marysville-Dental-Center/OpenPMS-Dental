@@ -63,7 +63,9 @@ And the grid strip for G-UI2: today's font beside Segoe UI 9.
 - **Grid lines stay 1 device pixel at every scale** (the cells are laid out one pixel after each line); the outer border and the selection bar
   follow the snapping rule of 3.3 (border 2 px and bar 4 px at 200%, checked by a test).
 - **OneCell grids** (a selected cell, not a row) get the selection colour on the cell and no bar; grids with no selection get neither.
-- **The focused row**: the row the last click or arrow key moved to, or the first selected row. WinForms shows its outline while the grid has
+- **The focused row** is the one the arrow keys move (3.6): in OneRow grids the selected row (the arrows move from it), so the outline
+  follows a window's own `SetSelected`, `SetAll` or a sort; in the multi-select modes the row the last click or arrow key moved to, or the
+  first selected row. WinForms shows its outline while the grid has
   focus and `ShowFocusCues`; WPF while the grid has keyboard focus and the keyboard was used last (or Windows always shows keyboard cues). The
   arrows that reach a grid through its form without focus (`ArrowsWhenNoFocus`) move the selection as before and draw the unfocused bar.
 - **India.** GridOD and GridOld keep their Arial switch for an Indian culture, on screen and in print, exactly as on `main`: UI-5 keeps
@@ -86,6 +88,7 @@ And the grid strip for G-UI2: today's font beside Segoe UI 9.
   - `WinForms_GridOD_Ui2bFont_HeightsFollowTheFont`: the same with UI-2b's fonts (the token override): title 20, header 18, rows 17.
   - `WinForms_GridOD_ColorsAWindowSets_Stay`: a window's DarkSalmon selection stays (with the bar on it); the colour helpers.
   - `WinForms_GridOD_ScaledBarAndBorder_FollowTheSnappingRule`: border 1, 1, 1, 1, 2 px and bar 2, 2, 3, 4, 4 px at 100 to 200%.
+  - `WinForms_GridOD_OneRow_FocusedRowFollowsSetSelected`: a click on row 1, then `SetSelected(4)`: the outline is on row 4, not row 1.
   - `WinForms_GridOld_TodaysFont_TitleHeaderSelection_InTheTokens`: GridOld as GridOD, without hover.
   - `Wpf_Grid_EveryState_InTheTokens`: the WPF Grid rendered off screen (WPF's software renderer; it draws in the disconnected session), with
     and without focus: border, title 18, header 15, rows 17, hover, selection, bar, outline, the coloured row.

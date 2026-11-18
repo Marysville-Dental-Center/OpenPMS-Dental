@@ -1856,10 +1856,17 @@ using OpenPmsDental.UI;
 			get { return IsSelectionFocused && ShowFocusCues; }
 		}
 
-		///<summary>The focused row: the row the arrow keys or the last click moved to, if it is still a row; else the first selected row in the
-		///row selection modes. -1 for none.</summary>
+		///<summary>The focused row, the one the arrow keys move (section 3.6). OneRow: the selected row, since the arrows move from it, so a
+		///SetSelected, SetAll or a sort moves the outline with the selection. The multi-select modes: the row the arrow keys or the last click moved
+		///to, if it is still a row; else the first selected row. -1 for none.</summary>
 		private int GetIndexRowFocused() {
 			if(_selectionMode==GridSelectionMode.OneCell || _selectionMode==GridSelectionMode.None) {
+				return -1;
+			}
+			if(_selectionMode==GridSelectionMode.OneRow) {
+				if(_listSelectedIndices.Count>0 && _listSelectedIndices[0]>=0 && _listSelectedIndices[0]<ListGridRows.Count) {
+					return _listSelectedIndices[0];
+				}
 				return -1;
 			}
 			if(_indexRowFocused>=0 && _indexRowFocused<ListGridRows.Count) {
