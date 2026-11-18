@@ -53,6 +53,13 @@ namespace UiRefreshTests.Toolbars {
 				}
 				listPictures.Add(DrawMenuBar());
 				listPictures.Add(DrawMenuDropDown());
+				foreach(Picture picture in new[] { DrawWpfToolbarStates(),DrawWpfMenus() }) {
+					if(picture.Bitmap==null) {
+						listNotes.Add(picture.Name+": not drawn; WPF draws nothing while the desktop session is disconnected (a connected run draws it).");
+						continue;
+					}
+					listPictures.Add(picture);
+				}
 			});
 			string folder=Environment.GetEnvironmentVariable(VARIABLE_PICTURES);
 			List<string> listBlank=new List<string>();
@@ -193,6 +200,152 @@ namespace UiRefreshTests.Toolbars {
 			}
 		}
 		#endregion Toolbars
+
+		#region WPF
+		///<summary>The WPF toolbar (WpfControls.UI.ToolBar) with a button in each state: rest, hover, pressed, toggled, disabled, a drop-down, icons,
+		///a separator. The hover and pressed looks are set as the mouse events set them. Bitmap null when WPF drew nothing.</summary>
+		public static Picture DrawWpfToolbarStates() {
+			WpfControls.UI.ToolBar toolBar=new WpfControls.UI.ToolBar();
+			EventHandler eventHandler=(sender,e) => { };
+			toolBar.Add("Rest",eventHandler);
+			WpfControls.UI.ToolBarButton toolBarButtonHover=new WpfControls.UI.ToolBarButton("Hover",eventHandler);
+			toolBar.Add(toolBarButtonHover);
+			WpfControls.UI.ToolBarButton toolBarButtonPressed=new WpfControls.UI.ToolBarButton("Pressed",eventHandler);
+			toolBar.Add(toolBarButtonPressed);
+			toolBar.AddSeparator();
+			toolBar.Add("Drop",eventHandler,WpfControls.UI.EnumIcons.Print,WpfControls.UI.ToolBarButtonStyle.DropDownButton);
+			WpfControls.UI.ToolBarButton toolBarButtonToggled=new WpfControls.UI.ToolBarButton("Toggled",eventHandler,WpfControls.UI.EnumIcons.None,
+				WpfControls.UI.ToolBarButtonStyle.ToggleButton);
+			toolBarButtonToggled.IsTogglePushed=true;
+			toolBar.Add(toolBarButtonToggled);
+			WpfControls.UI.ToolBarButton toolBarButtonDisabled=new WpfControls.UI.ToolBarButton("Disabled",eventHandler,WpfControls.UI.EnumIcons.DeleteX);
+			toolBarButtonDisabled.IsEnabled=false;
+			toolBar.Add(toolBarButtonDisabled);
+			toolBar.Add("Info",eventHandler,WpfControls.UI.EnumIcons.Info);
+			toolBar.Add("",eventHandler,WpfControls.UI.EnumIcons.ScanPhoto);
+			SetWpfButtonState(toolBarButtonHover,"_isHover");
+			SetWpfButtonState(toolBarButtonPressed,"_isPressed");
+			SetWpfButtonState(toolBarButtonToggled,null);
+			return new Picture { Name="states/toolbar-wpf.png",Bitmap=RenderWpf(toolBar,600,ToolBarModel.HEIGHT_TOOLBAR) };
+		}
+
+		private static void SetWpfButtonState(WpfControls.UI.ToolBarButton toolBarButton,string field) {
+			if(field!=null) {
+				typeof(WpfControls.UI.ToolBarButton).GetField(field,BindingFlags.Instance|BindingFlags.NonPublic)?.SetValue(toolBarButton,true);
+			}
+			typeof(WpfControls.UI.ToolBarButton).GetMethod("SetColors",BindingFlags.Instance|BindingFlags.NonPublic)?.Invoke(toolBarButton,null);
+		}
+
+		///<summary>A WPF context menu (WpfControls.UI.ContextMenu, drawn without its popup) with items at rest, a checked one, a separator, a disabled
+		///one, one with a sub-menu and one with a shortcut, beside the WPF menu bar. Bitmap null when WPF drew nothing.</summary>
+		public static Picture DrawWpfMenus() {
+			WpfControls.UI.Menu menu=new WpfControls.UI.Menu();
+			menu.Width=260;
+			foreach(string text in new[] { "File","Setup","Reports","Help" }) {
+				WpfControls.UI.MenuItem menuItemTop=new WpfControls.UI.MenuItem(text);
+				menuItemTop.Add(new WpfControls.UI.MenuItem("Item"));
+				menu.Add(menuItemTop);
+			}
+			Bitmap bitmapMenu=RenderWpf(menu,270,30);
+			//A context menu cannot have a parent: laid out and drawn on its own.
+			WpfControls.UI.ContextMenu contextMenu=new WpfControls.UI.ContextMenu();
+			contextMenu.Add(new WpfControls.UI.MenuItem("Standard",(sender,e) => { }));
+			contextMenu.AddSeparator();
+			contextMenu.Add(new WpfControls.UI.MenuItem("Show inactive",(sender,e) => { }) { IsChecked=true });
+			contextMenu.Add(new WpfControls.UI.MenuItem("Export (disabled)",(sender,e) => { }) { IsEnabled=false });
+			WpfControls.UI.MenuItem menuItemSub=new WpfControls.UI.MenuItem("More");
+			menuItemSub.Add(new WpfControls.UI.MenuItem("Sub item",(sender,e) => { }));
+			contextMenu.Add(menuItemSub);
+			contextMenu.Add(new WpfControls.UI.MenuItem("Print",(sender,e) => { },"P"));
+			int width=0;
+			int height=0;
+			for(int pass=0;pass<3;pass++) {//the shared column sizes settle after a first pass, as in a popup
+				contextMenu.Measure(new System.Windows.Size(double.PositiveInfinity,double.PositiveInfinity));
+				width=(int)Math.Ceiling(contextMenu.DesiredSize.Width);
+				height=(int)Math.Ceiling(contextMenu.DesiredSize.Height);
+				contextMenu.Arrange(new System.Windows.Rect(0,0,width,height));
+				contextMenu.UpdateLayout();
+			}
+			Bitmap bitmapContext=RenderToBitmap(contextMenu,width,height);
+			if(bitmapMenu==null || bitmapContext==null) {
+				bitmapMenu?.Dispose();
+				bitmapContext?.Dispose();
+				return new Picture { Name="strips/menu-wpf.png",Bitmap=null };
+			}
+			Bitmap bitmap=new Bitmap(bitmapMenu.Width+12+bitmapContext.Width,Math.Max(bitmapMenu.Height,bitmapContext.Height),PixelFormat.Format24bppRgb);
+			using(Graphics g=Graphics.FromImage(bitmap)) {
+				g.Clear(Color.White);
+				g.DrawImage(bitmapMenu,0,0);
+				g.DrawImage(bitmapContext,bitmapMenu.Width+12,0);
+			}
+			bitmapMenu.Dispose();
+			bitmapContext.Dispose();
+			return new Picture { Name="strips/menu-wpf.png",Bitmap=bitmap };
+		}
+
+		///<summary>An element that is laid out already, drawn with RenderTargetBitmap over white; null when WPF drew nothing.</summary>
+		public static Bitmap RenderToBitmap(System.Windows.Media.Visual visual,int width,int height) {
+			System.Windows.Media.Imaging.RenderTargetBitmap renderTargetBitmap=new System.Windows.Media.Imaging.RenderTargetBitmap(width,height,96,96,
+				System.Windows.Media.PixelFormats.Pbgra32);
+			renderTargetBitmap.Render(visual);
+			System.Windows.Media.Imaging.PngBitmapEncoder pngBitmapEncoder=new System.Windows.Media.Imaging.PngBitmapEncoder();
+			pngBitmapEncoder.Frames.Add(System.Windows.Media.Imaging.BitmapFrame.Create(renderTargetBitmap));
+			using(MemoryStream memoryStream=new MemoryStream()) {
+				pngBitmapEncoder.Save(memoryStream);
+				memoryStream.Position=0;
+				using(Bitmap bitmapRead=new Bitmap(memoryStream)) {
+					bool isEmpty=true;
+					for(int x=0;x<bitmapRead.Width && isEmpty;x++) {
+						for(int y=0;y<bitmapRead.Height;y+=2) {
+							if(bitmapRead.GetPixel(x,y).A!=0) {
+								isEmpty=false;
+								break;
+							}
+						}
+					}
+					if(isEmpty) {
+						return null;
+					}
+					Bitmap bitmap=new Bitmap(width,height,PixelFormat.Format24bppRgb);
+					using(Graphics g=Graphics.FromImage(bitmap)) {
+						g.Clear(Color.White);
+						g.DrawImage(bitmapRead,0,0,width,height);
+					}
+					return bitmap;
+				}
+			}
+		}
+
+		///<summary>Lays the element out at the size and draws it with RenderTargetBitmap on white; null when WPF drew nothing.</summary>
+		public static Bitmap RenderWpf(System.Windows.FrameworkElement frameworkElement,int width,int height) {
+			System.Windows.Controls.Grid gridRoot=new System.Windows.Controls.Grid { Width=width,Height=height,Background=System.Windows.Media.Brushes.White };
+			frameworkElement.HorizontalAlignment=System.Windows.HorizontalAlignment.Left;
+			frameworkElement.VerticalAlignment=System.Windows.VerticalAlignment.Top;
+			gridRoot.Children.Add(frameworkElement);
+			gridRoot.Measure(new System.Windows.Size(width,height));
+			gridRoot.Arrange(new System.Windows.Rect(0,0,width,height));
+			gridRoot.UpdateLayout();
+			System.Windows.Media.Imaging.RenderTargetBitmap renderTargetBitmap=new System.Windows.Media.Imaging.RenderTargetBitmap(width,height,96,96,
+				System.Windows.Media.PixelFormats.Pbgra32);
+			renderTargetBitmap.Render(gridRoot);
+			System.Windows.Media.Imaging.PngBitmapEncoder pngBitmapEncoder=new System.Windows.Media.Imaging.PngBitmapEncoder();
+			pngBitmapEncoder.Frames.Add(System.Windows.Media.Imaging.BitmapFrame.Create(renderTargetBitmap));
+			using(MemoryStream memoryStream=new MemoryStream()) {
+				pngBitmapEncoder.Save(memoryStream);
+				memoryStream.Position=0;
+				using(Bitmap bitmapRead=new Bitmap(memoryStream)) {
+					if(bitmapRead.GetPixel(0,0).A==0) {
+						return null;//the white root drew nothing
+					}
+					Bitmap bitmap=new Bitmap(width,height,PixelFormat.Format24bppRgb);
+					using(Graphics g=Graphics.FromImage(bitmap)) {
+						g.DrawImage(bitmapRead,0,0,width,height);
+					}
+					return bitmap;
+				}
+			}
+		}
+		#endregion WPF
 
 		#region Menus
 		///<summary>The main menu's top-level items in a MenuOD of the strips' window width; the Reports item selected (the hover look).</summary>

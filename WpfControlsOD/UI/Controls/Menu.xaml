@@ -17,7 +17,8 @@
 		<local:DesignerVisibilityConverter x:Key="designerVisibilityConverter" />
 	</UserControl.Resources>
 	<Grid>
-		<Menu Name="menu" Background="White" BorderBrush="DarkGray" BorderThickness="1"/>
+		<!--UI-6: the menu bar on Surface, flat; the 1 px border keeps its place (so the items do not move) in the bar's own colour.-->
+		<Menu Name="menu" Background="{x:Static local:MenuItem.BrushSurface}" BorderBrush="{x:Static local:MenuItem.BrushSurface}" BorderThickness="1"/>
 		<TextBlock Margin="7,3,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Visibility="{Binding RelativeSource={RelativeSource Self}, Converter={StaticResource designerVisibilityConverter}}">
 			Menu
 		</TextBlock>

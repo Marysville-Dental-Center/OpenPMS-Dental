@@ -13,19 +13,18 @@
 			<ColumnDefinition Width="14"/><!--Dropdown. if not a dropdown button, then its width will be 0.-->
 			<ColumnDefinition Width="1"/><!--Line on right-->
 		</Grid.ColumnDefinitions>
+		<!--UI-6 (docs/specs/ui-refresh-plan.md section 3.6, Toolbars): flat. The grid is transparent (the toolbar's SurfaceSubtle shows) but hit-testable;
+		the button's shape is borderOverlay, 1 px in from the bounds with 4 px corners: SubtleHover, SubtlePressed, or AccentSubtle with an Accent border
+		when toggled (ToolBarButton.SetColors).-->
 		<Grid.Background>
-			<LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-				<GradientStop Color="White" Offset="0.0" />
-				<GradientStop Color="#bfc9e5" Offset="1.0" />
-			</LinearGradientBrush>
+			<SolidColorBrush Color="Transparent"/>
 		</Grid.Background>
-		<Border x:Name="borderOverlay" x:FieldModifier="internal" Grid.ColumnSpan="3" BorderBrush="Transparent" BorderThickness="1"/><!--No content because it overlays without shifting anything under it.-->
+		<Border x:Name="borderOverlay" x:FieldModifier="internal" Grid.ColumnSpan="3" BorderBrush="Transparent" BorderThickness="1" CornerRadius="4" Margin="1"/><!--No content because it overlays without shifting anything under it.-->
 		<Grid x:Name="gridImage" x:FieldModifier="internal"/>
 		<TextBlock Grid.Column="1" x:Name="textBlock" x:FieldModifier="internal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="4,0,4,0"/>
-		<Border x:Name="borderDropDown" x:FieldModifier="internal" Grid.Column="2" BorderBrush="Transparent" BorderThickness="1,0,0,0"/><!--border on left and overlay when hover.-->
-		<Canvas Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" >
-			<Polygon x:Name="polygonTriangle" x:FieldModifier="internal" Fill="	#141414" Points="-4,-2 0,2 4,-2" IsHitTestVisible="False"/>
-		</Canvas>
-		<Line Grid.Column="3" Stroke="DarkGray" Stretch="Fill" Y2="1"/>
+		<Border x:Name="borderDropDown" x:FieldModifier="internal" Grid.Column="2" BorderBrush="Transparent" BorderThickness="0" CornerRadius="0,4,4,0" Margin="0,1,1,1"/><!--the drop-down part's overlay when it is pressed.-->
+		<!--The drop-down arrow: the 12 px Fluent chevron (UI-7a), its geometry set in code.-->
+		<Path Grid.Column="2" x:Name="pathChevron" x:FieldModifier="internal" Width="12" Height="12" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" IsHitTestVisible="False"/>
+		<!--Column 3 keeps its 1 px (the buttons' widths do not change); the line that was drawn there is gone: no lines between buttons.-->
 	</Grid>
 </UserControl>

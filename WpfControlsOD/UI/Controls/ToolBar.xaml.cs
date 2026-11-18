@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using CodeBase;
 
 namespace WpfControls.UI{
 	///<summary></summary>
@@ -54,7 +55,9 @@ The new way of doing it is a separate event for each button.
 			InitializeComponent();
 			if(!DesignerProperties.GetIsInDesignMode(this)){
 				stackPanel.Children.Clear();
-				border.Background=Brushes.White;
+				//UI-6 (docs/specs/ui-refresh-plan.md section 3.6, Toolbars): flat SurfaceSubtle with a 1 px Gridline line at the bottom.
+				border.Background=UiTheme.GetBrushWpf(EnumUiColor.SurfaceSubtle);
+				border.BorderBrush=UiTheme.GetBrushWpf(EnumUiColor.Gridline);
 			}
 		}
 
@@ -84,12 +87,18 @@ The new way of doing it is a separate event for each button.
 		//	stackPanel.Children.Add(toolBarButton);
 		//}
 
+		///<summary>A separator: 7 x 24 as before, drawn as a 1 px Stroke line in its middle, 4 px in from the top and the bottom (UI-6).</summary>
 		public void AddSeparator(){
+			System.Windows.Controls.Grid gridSeparator=new System.Windows.Controls.Grid();
+			gridSeparator.Width=7;
+			gridSeparator.Height=24;
 			Rectangle rectangle=new Rectangle();
-			rectangle.Width=7;
-			rectangle.Height=24;
-			rectangle.Fill=Brushes.White;
-			stackPanel.Children.Add(rectangle);
+			rectangle.Width=1;
+			rectangle.Margin=new Thickness(0,UiTheme.INSET_TOOLBAR_SEPARATOR,0,UiTheme.INSET_TOOLBAR_SEPARATOR);
+			rectangle.HorizontalAlignment=HorizontalAlignment.Center;
+			rectangle.Fill=UiTheme.GetBrushWpf(EnumUiColor.Stroke);
+			gridSeparator.Children.Add(rectangle);
+			stackPanel.Children.Add(gridSeparator);
 		}
 		public void Clear(){
 			stackPanel.Children.Clear();

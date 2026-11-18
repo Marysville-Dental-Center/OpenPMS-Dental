@@ -194,13 +194,6 @@ WpfControlsOD/UI/Controls/TextRich.xaml.cs	Color.FromRgb(235,0,0)	1
 WpfControlsOD/UI/Controls/TextVDate.xaml	#ABADB3	1
 WpfControlsOD/UI/Controls/TextVDate.xaml.cs	#ABADB3	1
 WpfControlsOD/UI/Controls/ToolBar.xaml	#FFEEF5FD	1
-WpfControlsOD/UI/Controls/ToolBarButton.xaml	#141414	1
-WpfControlsOD/UI/Controls/ToolBarButton.xaml	#BFC9E5	1
-WpfControlsOD/UI/Controls/ToolBarButton.xaml.cs	Color.FromArgb(10,0,100,255)	1
-WpfControlsOD/UI/Controls/ToolBarButton.xaml.cs	Color.FromRgb(191,201,229)	1
-WpfControlsOD/UI/Controls/ToolBarButton.xaml.cs	Color.FromRgb(191,220,255)	1
-WpfControlsOD/UI/Controls/ToolBarButton.xaml.cs	Color.FromRgb(255,255,255)	2
-WpfControlsOD/UI/Controls/ToolBarButton.xaml.cs	Color.FromRgb(50,120,200)	1
 WpfControlsOD/UI/Controls/UserControls/CtrlEFormFill.xaml.cs	Color.FromArgb(15,0,80,210)	1
 WpfControlsOD/UI/Controls/UserControls/CtrlEFormFill.xaml.cs	Color.FromArgb(30,0,100,200)	1
 WpfControlsOD/UI/Controls/UserControls/CtrlEFormFill.xaml.cs	Color.FromArgb(45,0,80,210)	1

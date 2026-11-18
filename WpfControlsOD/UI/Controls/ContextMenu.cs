@@ -12,6 +12,11 @@ namespace WpfControls.UI {
 	public class ContextMenu : System.Windows.Controls.ContextMenu{
 
 		#region Constructor
+		///<summary>The context menus take their template from Themes\Generic.xaml (UI-6, docs/specs/ui-refresh-plan.md section 3.6): the new look.</summary>
+		static ContextMenu(){
+			DefaultStyleKeyProperty.OverrideMetadata(typeof(ContextMenu),new FrameworkPropertyMetadata(typeof(ContextMenu)));
+		}
+
 		///<summary>Pass in a control if you only want the shortcuts to work from one control with focus. Pass in a Frm if you want the shortcuts to work for that entire Frm. Null is fine if you don't care about shortcuts.</summary>
 		public ContextMenu(FrameworkElement frameworkElementParent=null){
 			if(frameworkElementParent is null){
