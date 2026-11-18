@@ -1446,8 +1446,11 @@ using OpenPmsDental.UI;
 
 		///<summary>Draws the background, lines, and text for all rows that are visible.</summary>
 		private void DrawRows(Graphics g) {
-			//India: the screen fonts no longer switch to Arial (UI-5, plan section 5.1): the likely reason was the rupee sign, which Segoe UI and
-			//Microsoft Sans Serif both draw on Windows 10 and 11 (GridLookTests checks it). The print fonts still switch, so printouts keep their look.
+			if(CultureInfo.CurrentCulture.Name.EndsWith("IN") && _fontCell.Name!="Arial") {
+				//India. Not sure on history of this hack, but it seems harmless. Maybe MS not avail in India?
+				_fontCell=new Font("Arial",_fontCell.Size);
+				_fontCellBold=new Font("Arial",_fontCell.Size,FontStyle.Bold);
+			}
 			if(CultureInfo.CurrentCulture.Name.EndsWith("IN") && _fontPrintCell.Name!="Arial") {
 				//The same for the print fonts: a grid shown on screen printed in Arial in India, because it printed with the screen fonts (UI-2a-3).
 				_fontPrintCell=new Font("Arial",_fontPrintCell.Size);

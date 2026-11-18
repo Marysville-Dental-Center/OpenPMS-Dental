@@ -1265,7 +1265,8 @@ so it is cut into two slices that share no files and may run side by side).
   Title, header and editable row heights follow the font tokens (18, 15 and 19 px today as before; 20, 18 and 22 with UI-2b's Segoe UI;
   rows 14 and 17); the selection bar and the focused row's outline; a window's own row and selection colours stay. Printouts and sheets keep
   today's look (the print guard's grid, sheet, perio, MigraDoc, report and dashboard outputs have the same SHA-256 before and after). Tests: `tests/UiRefreshTests/GridLookTests.cs`, the branding test on the token,
-  the colour scan reads `GridScreenLook.cs`. The India Arial switch of the screen fonts is gone (Segoe UI draws the rupee sign).
+  the colour scan reads `GridScreenLook.cs`. The India Arial switch stays on screen and in print (today's fonts stay): Segoe UI draws the
+  rupee sign (5.1's check), so dropping the screen switch falls to UI-2b once the owner says yes (owner question in the port note).
 
 **UI-6: toolbars, menus and the module bar**
 - Owns: `ToolBarOD.cs`, `ODToolBarButton*.cs`, `WpfControlsOD/UI/Controls/ToolBar*.xaml(.cs)`, `MenuOD.cs` (`MenuRenderer`), WPF

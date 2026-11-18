@@ -66,9 +66,8 @@ And the grid strip for G-UI2: today's font beside Segoe UI 9.
 - **The focused row**: the row the last click or arrow key moved to, or the first selected row. WinForms shows its outline while the grid has
   focus and `ShowFocusCues`; WPF while the grid has keyboard focus and the keyboard was used last (or Windows always shows keyboard cues). The
   arrows that reach a grid through its form without focus (`ArrowsWhenNoFocus`) move the selection as before and draw the unfocused bar.
-- **India.** GridOD and GridOld switched their screen fonts to Arial for an Indian culture; the plan's likely reason, the rupee sign, is drawn
-  by Segoe UI, Segoe UI Semibold and Microsoft Sans Serif on Windows 10 and 11 (a test checks the glyph), so the screen switch is gone. The
-  print fonts keep their switch, so printouts in India keep their look.
+- **India.** GridOD and GridOld keep their Arial switch for an Indian culture, on screen and in print, exactly as on `main`: UI-5 keeps
+  today's fonts. Whether UI-2b drops the screen switch is an owner question (section 7).
 - **The sort arrow** keeps its shape in Text, without the white halo it had for the blue header. **The corner between the scroll bars** keeps
   the system's control colour (it matches the stock scroll bars), and so does the WPF corner (`#F0F0F0`).
 - **WPF test hook.** A XAML UserControl cannot be subclassed from another assembly (its `InitializeComponent` refuses), so the WPF Grid has a
@@ -91,7 +90,8 @@ And the grid strip for G-UI2: today's font beside Segoe UI 9.
   - `Wpf_Grid_EveryState_InTheTokens`: the WPF Grid rendered off screen (WPF's software renderer; it draws in the disconnected session), with
     and without focus: border, title 18, header 15, rows 17, hover, selection, bar, outline, the coloured row.
   - `Wpf_Grid_HeightsFollowTheFont`: the bar heights, the bar width at 150%, the hover layer over white, the stock and a window's selection.
-  - `GridFonts_DrawTheRupeeSign_SoTheIndiaArialSwitchIsGone`.
+  - `GridFonts_DrawTheRupeeSign_AndTheIndiaArialSwitchStays`: GridOD's and GridOld's screen and print fonts keep their India switch; Segoe
+    UI, Segoe UI Semibold and Microsoft Sans Serif draw the rupee sign (the facts for the owner question in section 7).
   - `Gallery_GridStrips_WinFormsBesideWpf` (opt-in, `OPMS_UI_GRID_GALLERY`).
 - `BrandingTests.BrandColor_IsTheProgramsGridTitleBlue`: the brand blue is the Accent token; GridScreenLook fills the title with it, GridOD and
   GridOld draw their title through it, the WPF Grid's title is `GridLook.BrushTitle`; the printed title's gradient keeps the blue as its bottom
@@ -150,3 +150,14 @@ And the grid strip for G-UI2: today's font beside Segoe UI 9.
   and modules (with and without a patient, the patient dashboard's appointment widget grid) come from the same connected run.
 - A shown WPF Frm with a grid shows the live focus behaviour: the bar turns blue when the grid takes keyboard focus, and the focused row's
   outline appears after an arrow key, not after a click.
+
+## 7. Owner questions
+
+- **Drop the India Arial grid font at UI-2b?** (also in [docs/owner-questions.md](../owner-questions.md)). GridOD and GridOld switch their
+  screen fonts to Arial (8.5 pt today) when the culture's name ends in "IN"; upstream's comment gives no reason ("Maybe MS not avail in
+  India?"). The plan (section 5.1) has UI-5 check whether Segoe UI draws the rupee sign (U+20B9), the likely reason, and drop the switch if
+  it does. It does: Segoe UI, Segoe UI Semibold and Microsoft Sans Serif all have it on Windows 10 and 11
+  (`GridFonts_DrawTheRupeeSign_AndTheIndiaArialSwitchStays` checks the glyph). But Segoe UI only arrives with UI-2b; dropping the switch in
+  UI-5 would change an Indian office's grids from Arial to Microsoft Sans Serif now, against "today's fonts stay". So UI-5 keeps it. Recommended: yes, UI-2b drops the
+  screen switch so grids in India use Segoe UI 9 like the rest of the program; the print switch stays (printouts keep their look). Until the
+  owner answers, UI-2b keeps it too.

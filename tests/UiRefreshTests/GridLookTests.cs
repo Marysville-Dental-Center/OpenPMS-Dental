@@ -4,7 +4,7 @@
 // tokens: title Accent with white text, header SurfaceSubtle with Stroke lines, rows SurfaceRaised with Gridline lines, hover RowHover, selection
 // AccentSubtle with the bar (Accent with focus, SelectionBarNoFocus without), the outline Accent, the coloured row its own colour, the border
 // Stroke. The title, header and row heights are measured from the pictures: today's 18, 15 and 14 px with today's fonts, and 20, 18 and 17 px
-// with UI-2b's Segoe UI (the token override), inside the grid's unchanged bounds. Also the India check (the rupee sign in the grid fonts).
+// with UI-2b's Segoe UI (the token override), inside the grid's unchanged bounds. Also the India check (the Arial switch stays).
 // The opt-in Gallery_GridStrips writes the grid part of G-UI1 part 2 (100-200%, WinForms above WPF) and the grid strips for G-UI2 (today's font
 // beside UI-2b's). No window is shown, no database.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
@@ -239,17 +239,23 @@ namespace UiRefreshTests {
 
 		#region India
 		[TestMethod]
-		public void GridFonts_DrawTheRupeeSign_SoTheIndiaArialSwitchIsGone() {
-			//Plan section 5.1: GridOD switched its screen fonts to Arial in India; the likely reason was the rupee sign (U+20B9). Segoe UI (UI-2b) and
-			//today's Microsoft Sans Serif both have it, so the screen switch is gone; the print fonts keep theirs (printouts keep their look).
+		public void GridFonts_DrawTheRupeeSign_AndTheIndiaArialSwitchStays() {
+			//GridOD and GridOld switch their screen and print fonts to Arial for an Indian culture. UI-5 keeps today's fonts, so both switches stay;
+			//whether UI-2b drops the screen switch is an owner question (docs/port-notes/UI-5.md). The rupee sign (U+20B9), a possible reason for the
+			//switch, is in Segoe UI and today's Microsoft Sans Serif: the facts for that question.
 			foreach(string family in new[] { UiTheme.FONT_FAMILY,UiTheme.FONT_FAMILY_SEMIBOLD,UiTheme.FONT_FAMILY_TODAY }) {
 				System.Windows.Media.Typeface typeface=new System.Windows.Media.Typeface(family);
 				Assert.IsTrue(typeface.TryGetGlyphTypeface(out System.Windows.Media.GlyphTypeface glyphTypeface),family+" is not installed.");
 				Assert.IsTrue(glyphTypeface.CharacterToGlyphMap.ContainsKey(0x20B9),family+" has no rupee sign.");
 			}
-			string code=File.ReadAllText(Path.Combine(RepoPaths.Root(),@"OpenPmsDentalBusiness\UI\GridOD.cs"));
-			Assert.IsFalse(code.Contains("_fontCell=new Font(\"Arial\""),"GridOD's screen font still switches to Arial.");
-			StringAssert.Contains(code,"_fontPrintCell=new Font(\"Arial\"","GridOD's print font must keep its switch.");
+			foreach(string file in new[] { "GridOD.cs","GridOld.cs" }) {
+				string code=File.ReadAllText(Path.Combine(RepoPaths.Root(),"OpenPmsDentalBusiness","UI",file));
+				StringAssert.Contains(code,"_fontCell=new Font(\"Arial\",_fontCell.Size);",file+"'s screen font must keep its India switch.");
+				StringAssert.Contains(code,"_fontCellBold=new Font(\"Arial\",_fontCell.Size,FontStyle.Bold);",file+"'s bold screen font must keep its India switch.");
+				StringAssert.Contains(code,"_fontPrintCell=new Font(\"Arial\",_fontPrintCell.Size);",file+"'s print font must keep its India switch.");
+				StringAssert.Contains(code,"_fontPrintCellBold=new Font(\"Arial\",_fontPrintCell.Size,FontStyle.Bold);",
+					file+"'s bold print font must keep its India switch.");
+			}
 		}
 		#endregion India
 
