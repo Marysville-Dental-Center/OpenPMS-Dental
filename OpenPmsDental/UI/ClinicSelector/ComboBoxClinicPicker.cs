@@ -61,15 +61,6 @@ namespace OpenPmsDental.UI {
 		#endregion Fields - Private Constant 
 
 		#region Fields - Private
-		///<summary>Disposed</summary>
-		private SolidBrush _brushBack=new SolidBrush(Color.White);
-			//Color.FromArgb(240,240,240));//lighter than built-in color of 225
-		///<summary>Disposed</summary>
-		private SolidBrush _brushDisabledBack=new SolidBrush(Color.FromArgb(204,204,204));//copied built-in color
-		///<summary>Disposed</summary>
-		private SolidBrush _brushDisabledText=new SolidBrush(Color.FromArgb(109,109,109));
-		///<summary>Disposed</summary>
-		private SolidBrush _brushHover=new SolidBrush(Color.FromArgb(229,241,251));//light blue
 		///<summary>Property backer.</summary>
 		private bool _includeAll=false;
 		///<summary>Property backer.</summary>
@@ -82,7 +73,7 @@ namespace OpenPmsDental.UI {
 		private FormComboPicker _formComboPicker;
 		///<summary>Property backer.</summary>
 		private string _hqDescription="Unassigned";
-		///<summary>True if the mouse is over the "combobox", to turn it a blue color.</summary>
+		///<summary>True if the mouse is over the "combobox", to darken its border.</summary>
 		private bool _isMouseOver;
 		///<summary>Just holds the scaling factor.</summary>
 		public LayoutManagerForms LayoutManager=new LayoutManagerForms();
@@ -90,12 +81,6 @@ namespace OpenPmsDental.UI {
 		private List<Clinic> _listClinics=new List<Clinic>();
 		///<summary>Not exposed as public property. Must stay synched with _indexSelected.</summary>
 		private List<int> _listIndicesSelected=new List<int>();
-		///<summary>Disposed</summary>
-		private Pen _penArrow=new Pen(Color.FromArgb(20,20,20),1.5f);
-		///<summary>Disposed</summary>
-		private Pen _penHoverOutline=new Pen(Color.FromArgb(0,120,215));//blue
-		///<summary>Disposed</summary>
-		private Pen _penOutline=new Pen(Color.FromArgb(173,173,173),1);
 		///<summary>If the SelectedClinicNum gets set to a clinic that's not in the list because the user has no permission, then this is where that info is stored.  If this is null, then it instead behaves normally.</summary>
 		private Clinic _clinicSelectedNoPermission;
 		///<summary>Property backer.</summary>
@@ -591,6 +576,7 @@ namespace OpenPmsDental.UI {
 			//the label and comboBox that show in the designer are just fake placeholders.  This control draws its own label and "combobox".  
 			Graphics g=e.Graphics;
 			g.SmoothingMode=SmoothingMode.AntiAlias;
+			float scale=LayoutManager.ScaleMy();
 			Rectangle rectangleCombo=new Rectangle();
 			if(ShowLabel){
 				rectangleCombo.X=LayoutManager.Scale(_widthLabelArea);
@@ -601,38 +587,27 @@ namespace OpenPmsDental.UI {
 			rectangleCombo.Y=0;
 			rectangleCombo.Width=this.Width-rectangleCombo.X-1;
 			rectangleCombo.Height=Height-1;//the minus one is so it's not touching the edge of the control and hiding the drawing
-			if(Enabled){
-				if(_isMouseOver){
-					g.FillRectangle(_brushHover,rectangleCombo);
-					g.DrawRectangle(_penHoverOutline,rectangleCombo);
-				}
-				else{
-					g.FillRectangle(_brushBack,rectangleCombo);
-					g.DrawRectangle(_penOutline,rectangleCombo);
-				}
-			}
-			else{
-				g.FillRectangle(_brushDisabledBack,rectangleCombo);
-				g.DrawRectangle(_penOutline,rectangleCombo);
-			}
-			//the down arrow, starting at the left
-			g.DrawLine(_penArrow,Width-LayoutManager.ScaleF(13),LayoutManager.ScaleF(9),Width-LayoutManager.ScaleF(9.5f),LayoutManager.ScaleF(12));
-			g.DrawLine(_penArrow,Width-LayoutManager.ScaleF(9.5f),LayoutManager.ScaleF(12),Width-LayoutManager.ScaleF(6),LayoutManager.ScaleF(9));
+			//Section 3.6 (UI-4b-1), as UI.ComboBox: SurfaceRaised, a 1 px StrokeStrong border with 4 px corners, StrokeStrongHover on hover, Stroke
+			//when disabled; the Fluent chevron; with focus and keyboard cues a 2 px Accent line inside the bottom edge. The box covers the pixels
+			//today's outline covered (its rectangle plus the 1 px outline drawn beyond it).
+			Rectangle rectangleBox=new Rectangle(rectangleCombo.X,0,Width-rectangleCombo.X,Height);
+			EnumUiColor uiColorText=UiListPaint.DrawComboBoxBox(g,rectangleBox,_isMouseOver,Enabled,scale,Color.Empty);
+			UiListPaint.DrawChevron(g,rectangleBox,uiColorText,scale);
 			RectangleF rectangleFString=new RectangleF();
 			rectangleFString.X=rectangleCombo.X+2;
 			rectangleFString.Y=rectangleCombo.Y+2;
 			rectangleFString.Width=rectangleCombo.Width-2;
 			rectangleFString.Height=rectangleCombo.Height-2;
 			int widthMax=rectangleCombo.Width-15;
-			//"label" always shows the same, whether enabled or not
+			//"label" always shows the same, whether enabled or not. Token brushes: cached per thread by UiTheme, never disposed here.
 			if(ShowLabel){
 				if(IsMultiSelect){//"Clinics" is a tight fit
 					//float widthText=g.MeasureString(labelFake.Text,Font).Width;//the only two possibilities are Clinic and Clinics.  
 					//Lang trans would mess things up unless short, and it's not currently supported
-					g.DrawString(labelFake.Text,Font,Brushes.Black,-2,LayoutManager.Scale(4));
+					g.DrawString(labelFake.Text,Font,UiTheme.GetBrush(EnumUiColor.Text),-2,LayoutManager.Scale(4));
 				}
 				else{
-					g.DrawString(labelFake.Text,Font,Brushes.Black,2,LayoutManager.Scale(4));
+					g.DrawString(labelFake.Text,Font,UiTheme.GetBrush(EnumUiColor.Text),2,LayoutManager.Scale(4));
 				}
 			}
 			StringFormat stringFormat=new StringFormat(StringFormatFlags.NoWrap);
@@ -643,14 +618,31 @@ namespace OpenPmsDental.UI {
 				//B53988 blind fix attempt for out of range error.
 			}
 			catch{
+				stringFormat.Dispose();
 				return;
 			}
-			if(Enabled){
-				g.DrawString(txtShow,this.Font,Brushes.Black,rectangleFString,stringFormat);//in combobox
+			g.DrawString(txtShow,this.Font,UiTheme.GetBrush(uiColorText),rectangleFString,stringFormat);//in combobox
+			stringFormat.Dispose();
+			if(IsFocusRingShown && Enabled){
+				UiListPaint.DrawComboFocusLine(g,rectangleBox,scale);
 			}
-			else{
-				g.DrawString(txtShow,this.Font,_brushDisabledText,rectangleFString,stringFormat);//in combobox
+		}
+
+		///<summary>Whether the focus line shows (section 3.6): the picker has focus and Windows asks for keyboard cues, so a mouse click draws none.</summary>
+		protected virtual bool IsFocusRingShown {
+			get {
+				return Focused && ShowFocusCues;
 			}
+		}
+
+		protected override void OnGotFocus(EventArgs e){
+			base.OnGotFocus(e);
+			Invalidate();
+		}
+
+		protected override void OnLostFocus(EventArgs e){
+			base.OnLostFocus(e);
+			Invalidate();
 		}
 
 		protected override void OnResize(EventArgs e){
