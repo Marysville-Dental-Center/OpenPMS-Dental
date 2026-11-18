@@ -162,7 +162,11 @@ the Chart module's tooth picture (UI-8); the pictures of buttons that still use 
 ## 5. Notes
 
 - The scan rerun: UI-0b's tier 1 scan (`OPMS_UI_SCAN=1`) found no new overflow, no self-sizing problem and no bounds difference (the package
-  changes no bounds and no font); the counts are in `test-results/ui6-scan`.
+  changes no bounds and no font): today 0 new overflows, 668 already in today's font, 0 bounds differences; the font options' counts equal
+  UI-2a's run (`test-results/ui2a1-2-scan`, 1775 new overflows at 100% in Segoe UI 9). Files in `test-results/ui6-scan`.
+- The final Targeted run (`ui6-final.txt`, with `OPMS_UI_SCAN=1` and the pictures): NoHqTests 122/122, UiRefreshTests 104/104,
+  WindowChecksTests 29 passed and 43 opt-in skipped, UnitTests 1728 passed and 3 skipped. Full build: 0 errors. The gallery: 41 pictures,
+  41 changed.
 - High contrast: every colour comes from a token, so a high-contrast theme gives the SystemColors partners (3.2). The WPF menu templates read
   the token brushes when they are loaded: a switch to or from high contrast shows in the menus after the program restarts.
 - Keyboard focus: `ToolBarOD`, `ModuleBar` and the WPF toolbar buttons take no keyboard focus today, so they have no focus ring (3.6's ring
