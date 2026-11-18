@@ -1,0 +1,77 @@
+Fluent UI System Icons, the SVG files that icons/manifest.json names (package UI-7a of docs/specs/ui-refresh-plan.md, section 4.1).
+
+Project:   Fluent UI System Icons, https://github.com/microsoft/fluentui-system-icons
+Copyright: Copyright (c) 2020 Microsoft Corporation
+License:   MIT License, LICENSE in this folder (the repository's LICENSE at the package's commit, byte for byte)
+Package:   @fluentui/svg-icons 1.1.346, the newest version on npm on 2026-11-17 (dist-tag latest; published 2026-11-13T20:05:48Z)
+Download:  https://registry.npmjs.org/@fluentui/svg-icons/-/svg-icons-1.1.346.tgz
+Integrity: sha512-pR/ksxLi0Y1O8D1Mk/rEF5Z1TIOSFWDOoN4gkgAUkezakHjTYUVru1yG/bRdvlQnUOMCXESIFIq9eGRFsAVYRA==
+           (the registry's integrity value; the tarball's SHA-1 is d2ece22c61e4e74ce9eadd2302f37d5a1390f4ff and its SHA-256
+           6426d09c820303ac400a1880a3d0e48e4912d9f137b826389d2329ca0eab0e0f)
+Commit:    the package's gitHead ba34950eeb56d33045e4832121c68cae679e1c85 ("feat(react-icons): add new and updated icons (#1309)",
+           2026-11-13); the release commit "chore(release): publish 1.1.346" is 67e6dec1ee956af3ab4c746a2b3bb6a2e5520a44, its child.
+           The repository has no GitHub Releases; its versions are its npm packages.
+LICENSE:   https://raw.githubusercontent.com/microsoft/fluentui-system-icons/ba34950eeb56d33045e4832121c68cae679e1c85/LICENSE
+           (the npm package carries no licence file; its package.json says "license": "MIT")
+
+Layout found in the npm package: package/icons/<name>_<size>_<style>.svg, one folder of 20,901 files (styles regular, filled,
+light and color) and 36 sub folders (LTR, RTL and one per language for the direction- and language-specific variants, 946 files), plus README.md,
+CHANGELOG.md and package.json. The repository keeps the same files as assets/<Name>/SVG/ic_fluent_<name>_<size>_<style>.svg.
+This folder keeps the package's layout (icons/<name>_<size>_<style>.svg) and only the files the manifest uses, unchanged. No fonts.
+tools/New-IconData.ps1 turns them into CodeBase/UI/Icons/IconData.g.cs; the UI-7a tests check that every file here is in the manifest,
+that each file's SHA-256 is the one below and in the generated file, and that the generated file is the generator's output.
+
+SHA-256 of each file:
+8595ec1177c0ff5404667ac816295c249eb56e94dd53659d1f29655e24b9c0e0  icons/checkmark_12_regular.svg
+953db534b6c56e385f90b2f91c1119298e19ccfdbbfdd840aabfee9be6de4abf  icons/checkmark_16_regular.svg
+9ad90a13e5d3dd6309544d09a14817b7e609015db6e6c60ecd44ef120d2b3470  icons/checkmark_20_regular.svg
+3b05851972b1bc66cd30e7c423d44dc59f38cae96eaa2f6dcdd22bb523df0f71  icons/checkmark_24_regular.svg
+a500fce7b85d04d813e8dee89fd031191294f7d41b0d4337f343d6d143384fcb  icons/checkmark_32_regular.svg
+8d2af4101c28cfdcd1d60167632941b8cadcc16fc71702739cf40a84cfe5f520  icons/checkmark_48_regular.svg
+37f2ae1d3a02f247c2da25dcb84a94ea01934a477885bcbbda3f75bd20ca874b  icons/chevron_down_12_regular.svg
+33efa668d236d70a945c00cbbd3fda019994794a5b5a2e17f5e66aac19abd199  icons/chevron_down_16_regular.svg
+2584741754fe0e27641d7423ff96e675167119889fbc1e5129516973cbfb136a  icons/chevron_down_20_regular.svg
+ee9fd7bce0165d8da4a34e6ec5056873e5eb55102d78321bfba858daff28a36e  icons/chevron_down_24_regular.svg
+6f847165b7b5c910f2f7ee45dbb3805564b15fa1ec6b5bda687d3bae5da20177  icons/chevron_down_32_regular.svg
+1d74b2dbc4980ab68afb8d59cec5797cefba4e9d49424ac92e053f399a83a89f  icons/chevron_down_48_regular.svg
+cad27f82e9c2a54f1c8797ab7c2e2a4fa41b50549137a8ce4fd1945e4db4f1ec  icons/chevron_left_12_regular.svg
+51d4eeb4a620aec50aa0aed834830f5d7e035203c0cf15f87cf11a8e76f56bab  icons/chevron_left_16_regular.svg
+e408bfdb55044d0d4587ad8ccb11e5d891e8dd4b6c1f14076b878699813d13ed  icons/chevron_left_20_regular.svg
+77e1e747195d4693256808f4f2dfb528912906d093694b54764929a8d23f0475  icons/chevron_left_24_regular.svg
+4fc8930ffdba8a1575ccbd882c589d73e524ad2f61251c4f79790bd8ca416fd4  icons/chevron_left_32_regular.svg
+9e062f6b00bd4716d9ed85ccc5cb556377a49f8df690dd672ab310d354593836  icons/chevron_left_48_regular.svg
+44d8025308799573e73fc1b95a7919450a133dabef17c385f76b76624031a594  icons/chevron_right_12_regular.svg
+44acaeb0e0f9c84a14c7ad635e9d11424e524a4f1b140893281e2329e94767ab  icons/chevron_right_16_regular.svg
+44ffbcf6fb378dc3f78648031d0bec0303a67f629c62378fe1fb261dc91201b0  icons/chevron_right_20_regular.svg
+34fd96a5fdf562cdffba50de0b097a0bfaee5a21b54b789030901174ea9de7a1  icons/chevron_right_24_regular.svg
+f098ab3866bf911e6ce972cd558f95a04282b86bb6f357c76106b2f6f875c33b  icons/chevron_right_32_regular.svg
+3cd0ba74e1ad7ba59e7e5f27a7cb21b3c1bad6270d0cdb7d9be4d193b4df74ba  icons/chevron_right_48_regular.svg
+f23dfa820c3249c594080f46132f1b8c8e7d63efa5119262e9d17748832966ed  icons/chevron_up_12_regular.svg
+540041d671dfb1c7815bde83212ad161f64100007296adb1246bafe109048fb9  icons/chevron_up_16_regular.svg
+a13457e3b0b2a3a9f67058b13135f9d982d2fa1fda58f774dc798980bd1a72ca  icons/chevron_up_20_regular.svg
+3d6410de6c7dc0cf5c865620d2b5c1c7176e5d8bc38542b7aa7d56ce17b05a52  icons/chevron_up_24_regular.svg
+3aef99c3361337c462a91a288c071830940c15cb3a628029f4a57d29fe41f870  icons/chevron_up_32_regular.svg
+0bca33fce3e7bf1f71af006b5733a96197b89def06b3dc93a3a0d65b0413035a  icons/chevron_up_48_regular.svg
+d71ea501fbd6b56ad0646b5f5bc8baf83c3772dfb19c3a3157033c50f368c635  icons/dismiss_12_regular.svg
+16ad1ebc24e77252d69c5b2a8c036ce428621d4045cc3ac64599267c604dd0c6  icons/dismiss_16_regular.svg
+3d95fdce4bb3a29b983377648e5528d73d965ed90409bce5fa096ef790b75ccb  icons/dismiss_20_regular.svg
+7cff7ed321daa78ab1e9346e182c5416d4f1ae88b3d9bf7742f2497be37a7cc5  icons/dismiss_24_regular.svg
+7c19aeb7deda39d0ea389f1e5d738d2a967c84f20e5570b276da83ae5c416d47  icons/dismiss_32_regular.svg
+685985053ef1dbc4e865d465f8bc852ebe5bb451a8a93cb4cac5c842a9306e92  icons/dismiss_48_regular.svg
+251582173b95692efba795dabb8524deb80422f022c0a1835a0927746814e00b  icons/line_horizontal_1_16_regular.svg
+a637dff1c21db41d2f75277f121e9cb9a670ec33bc3441fa58aec40def51f6c4  icons/line_horizontal_1_20_regular.svg
+c351ee75cb8b70db2ab245b4338b0f901abfbe97bc417149685c1e39f5626fd2  icons/line_horizontal_1_24_regular.svg
+8683cfebf398f30c0ba5cdc00e9b8b352abbf65c8dbb3065e291e54e9b07bf70  icons/maximize_16_regular.svg
+7f3aec5319b7e66c5f088f26bb8b0c1135496757f999aa421b1860414ce0e84f  icons/maximize_20_regular.svg
+88254616a683f410948579859b85196658e898e25e23fd9a07644351b3f607b7  icons/maximize_24_regular.svg
+52de7f9e04ea8cc450aff6bc5bf1ff2fd7f55c3569e31ff15cfa91a4bda12b42  icons/maximize_48_regular.svg
+c68af854de3e03434db96581aa2516dc2b747af7d6a59b8d77cd410954941908  icons/square_multiple_16_regular.svg
+de601d733420494510b8129cc413f76463435f7366a727faefde9b9e9a457a9f  icons/square_multiple_20_regular.svg
+42546600628177f0659f8990bc9018359f2937ce356772536c722170e607d9c3  icons/square_multiple_24_regular.svg
+5140d28dd225cb7d205debaa9bb708b473f4aff2286100d2e56d1b4788df4a7e  icons/square_multiple_32_regular.svg
+f97806906bda51eb78a45816259e4dc09eaa2732e8dae463d0133e293130cf13  icons/square_multiple_48_regular.svg
+ce5789c866a51bce1c8c22e5bf4d93b117840a90e32b163b7c329b41004bdcaf  icons/subtract_12_regular.svg
+70e6ea1034de2462d670562e50d108a8ba9e26f110a22858cca03b866989147a  icons/subtract_16_regular.svg
+a724aae5ef54510875cf0b1dda4b49e6bb39dcb9f44dad450cdb1f64d5feb85b  icons/subtract_20_regular.svg
+1681f591eb7e39eff10ca24f7083d2ca6c6248c11a1353078f9c46b2274a259d  icons/subtract_24_regular.svg
+bb91344a6e90f5b4217752b1c3737c7bb6799f61f8cb02d4e43e73da9afd2401  icons/subtract_48_regular.svg

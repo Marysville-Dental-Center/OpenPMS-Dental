@@ -1,0 +1,17 @@
+{
+  "comment": "Every icon the program draws from Fluent UI System Icons (docs/specs/ui-refresh-plan.md, sections 4.2 and 4.3; icons/README.md). tools/New-IconData.ps1 reads this file and the SVGs in third-party/fluentui-system-icons/icons and writes CodeBase/UI/Icons/IconData.g.cs. One row per purpose. enum: the enum the row is a member of (UiGlyph: the control glyphs, generated into IconData.g.cs; EnumIcons: the toolbar and module icons, UI-7b). name: the member. fluent: the Fluent icon's file name stem (icons/<fluent>_<size>_<style>.svg), or custom: a stem under icons/custom (icons/custom/<custom>_<size>.svg). style: regular or filled. sizes: the design sizes vendored and compiled in (section 3.5: 12, 16, 20, 24, 32, 48; the 24 design serves 24 to 31 px, so 28 is not used); a slot whose design is missing gets the largest smaller one, centred. role: the colour the icon is drawn in by default (Text, Accent, Danger, Success, Warning); the control may pass its own (a white check mark on the accent, the title bar's text colour on a caption button). purpose: where it is drawn.",
+  "fluentPackage": "@fluentui/svg-icons",
+  "fluentVersion": "1.1.346",
+  "icons": [
+    { "enum": "UiGlyph", "name": "Subtract", "fluent": "subtract", "style": "regular", "sizes": [ 12, 16, 20, 24, 48 ], "role": "Text", "purpose": "caption button: minimize (UI-3)" },
+    { "enum": "UiGlyph", "name": "Maximize", "fluent": "maximize", "style": "regular", "sizes": [ 16, 20, 24, 48 ], "role": "Text", "purpose": "caption button: maximize (UI-3)" },
+    { "enum": "UiGlyph", "name": "SquareMultiple", "fluent": "square_multiple", "style": "regular", "sizes": [ 16, 20, 24, 32, 48 ], "role": "Text", "purpose": "caption button: restore (UI-3)" },
+    { "enum": "UiGlyph", "name": "Dismiss", "fluent": "dismiss", "style": "regular", "sizes": [ 12, 16, 20, 24, 32, 48 ], "role": "Text", "purpose": "caption button: close (UI-3); the close mark of tabs and panels" },
+    { "enum": "UiGlyph", "name": "ChevronUp", "fluent": "chevron_up", "style": "regular", "sizes": [ 12, 16, 20, 24, 32, 48 ], "role": "Text", "purpose": "up arrows: spin buttons, scroll buttons, collapse (UI-4a to UI-6)" },
+    { "enum": "UiGlyph", "name": "ChevronDown", "fluent": "chevron_down", "style": "regular", "sizes": [ 12, 16, 20, 24, 32, 48 ], "role": "Text", "purpose": "drop-down arrows of combo boxes, drop-down buttons and menus; expand (UI-4a to UI-6)" },
+    { "enum": "UiGlyph", "name": "ChevronLeft", "fluent": "chevron_left", "style": "regular", "sizes": [ 12, 16, 20, 24, 32, 48 ], "role": "Text", "purpose": "previous: the month calendar, tab scroll buttons (UI-4b, UI-4c)" },
+    { "enum": "UiGlyph", "name": "ChevronRight", "fluent": "chevron_right", "style": "regular", "sizes": [ 12, 16, 20, 24, 32, 48 ], "role": "Text", "purpose": "next: the month calendar, tab scroll buttons, sub-menu arrows (UI-4b, UI-4c, UI-6)" },
+    { "enum": "UiGlyph", "name": "Checkmark", "fluent": "checkmark", "style": "regular", "sizes": [ 12, 16, 20, 24, 32, 48 ], "role": "Text", "purpose": "the check box's check mark (white on the accent) and checked menu items (UI-4a, UI-6)" },
+    { "enum": "UiGlyph", "name": "Dash", "fluent": "line_horizontal_1", "style": "regular", "sizes": [ 16, 20, 24 ], "role": "Text", "purpose": "the indeterminate check box's dash (white on the accent, UI-4a)" }
+  ]
+}
