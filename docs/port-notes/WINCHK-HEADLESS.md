@@ -558,6 +558,7 @@ Branch `ui/ui0c-1`; the whole note is [UI-0c.md](UI-0c.md). In short:
 - **U0** (`Harness/UiApprovalCheck.cs`), at the end of a run with group U: every picture of the run against
   `tests/WindowChecksTests/UiApproved/approved.tsv` through UI-0a's masking and hashing rule (`tools/UiGallery/UiPictureMask.cs`, linked).
   An empty approved.tsv reports every picture as not approved yet, never as a failure, until the before set is approved.
-- **Opt-in** as every group: `OPMS_WINDOW_CHECKS_GROUPS=U` (or its parts `UW`, `UM`, `UD`); it needs the owner's connected, unlocked session
+- **Opt-in** as every group: `OPMS_WINDOW_CHECKS_GROUPS=U` (or its parts `UW`, `UM`, `UD`, and `UF`, UI-2a-1's signature check UF1,
+  docs/port-notes/UI-2a.md); it needs the owner's connected, unlocked session
   (WPF draws nothing in a locked or disconnected one). It was not run in UI-0c (the owner's session was disconnected); the lead runs it
   with the before set. Self-tests without the opt-in: `UiHarnessTests` (UI-0c.md, section 6).

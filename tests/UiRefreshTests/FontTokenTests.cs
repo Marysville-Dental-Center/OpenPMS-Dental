@@ -287,7 +287,8 @@ namespace UiRefreshTests {
 				UiTheme.SetFontForTest(UiFontOption.UI2b);
 				try {
 					//ControlImages throws when built without its constructor (UI-0b), so it is made with it, as FormOpenDental does, and added the way the
-					//program adds it.
+					//program adds it. Its constructor reads the program links (an empty list here: no database).
+					Programs.FillCacheFromTable(OpenPmsDentalBusiness.Crud.ProgramCrud.ListToTable(new List<OpenPmsDentalBusiness.Program>()));
 					using(HostFormOD hostFormOD=new HostFormOD(new Size(900,700)))
 					using(WindowBuilder.LoadWithoutShow(hostFormOD,hostFormOD.GetLayoutManager())) {
 						ControlImages controlImages=new ControlImages();
@@ -422,7 +423,7 @@ namespace UiRefreshTests {
 		public void MarkContent_TheThreeDocumentWindows_MarkBeforeInitializeLayoutManager() {
 			foreach(string[] arrayWindow in TextFitFontSwap.ArrayContentPanels) {
 				string text=File.ReadAllText(Path.Combine(RepoPaths.Root(),"OpenPmsDental","Forms",arrayWindow[0]+".cs")).Replace("\r\n","\n");
-				Match match=Regex.Match(text,"public "+arrayWindow[0]+@"\(\)\{\s*InitializeComponent\(\);\s*(//[^\n]*\n\s*)*LayoutManagerForms\.MarkContent\("
+				Match match=Regex.Match(text,"public "+arrayWindow[0]+@"\([^)]*\)\s*\{\s*(//[^\n]*\n\s*)*InitializeComponent\(\);\s*(//[^\n]*\n\s*)*LayoutManagerForms\.MarkContent\("
 					+arrayWindow[1]+@"\);\s*InitializeLayoutManager\(\);");
 				Assert.IsTrue(match.Success,arrayWindow[0]+" marks "+arrayWindow[1]+" between InitializeComponent and InitializeLayoutManager.");
 			}
@@ -458,7 +459,7 @@ namespace UiRefreshTests {
 				try {
 					using(FormSheetFillEdit formSheetFillEdit=new FormSheetFillEdit()) {
 						Assert.AreEqual("Segoe UI",formSheetFillEdit.Font.Name,"The window itself takes the token.");
-						Panel panelMain=(Panel)GetField(formSheetFillEdit,"panelMain");
+						Control panelMain=(Control)GetField(formSheetFillEdit,"panelMain");
 						Assert.IsTrue(LayoutManagerForms.IsContent(panelMain,panelMain.Parent),"panelMain is marked in the constructor.");
 						//A field text box as FormSheetFillEdit makes one (CreateFloatingTextBox, line 1414): the sheet field's stored font, added to panelMain
 						//through LayoutManager.Add.

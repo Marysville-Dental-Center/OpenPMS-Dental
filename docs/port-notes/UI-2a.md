@@ -1,0 +1,183 @@
+# Port note: UI-2a (the font plumbing)
+
+Package UI-2a of the UI refresh ([docs/specs/ui-refresh-plan.md](../specs/ui-refresh-plan.md), section 7's UI-2a rows, sections 3.4, 5.1,
+5.2, 5.4 and 9). UI-2a changes nothing on screen: every font token still holds today's font and the mapping is the identity until UI-2b.
+It is cut into slices; each slice adds its own section below.
+
+## UI-2a-1: the tokens and the mapping
+
+Branch `ui/ui2a1-1` from `main` at `3809f35db`. No schema change, no new package, nothing downloaded, no program started, no window shown,
+no database used (the tests run behind UI-0b's no-database guard).
+
+### 1. Files
+
+| File | What |
+|---|---|
+| `CodeBase/UI/UiTheme.Fonts.cs` | the role tokens, `UiFontOption` (Today, UI2b, Compact), the mapping, `SetFontForTest` |
+| `OpenPmsDental/UI/BordersDpi/FormODBase.cs`, `WpfControlsOD/Frame/FormFrame.cs` | the window's font is a copy of `FontBody`; the title fonts take `FontFamilyName` at the size the frame computes |
+| `OpenPmsDental/UI/BordersDpi/LayoutManagerForms.cs` | `FontInitial` is `FontBody`; the mapping in the constructor, `AddToList96` and `AddToList96Unscaled`; the content types; `MarkContent` and `IsContent`. The rebuild (`LayoutControlBoundsAndFonts`) is not changed |
+| `FormSheetFillEdit.cs`, `FormSheetDefEdit.cs`, `FormClaimFormEdit.cs` | `LayoutManagerForms.MarkContent(panelMain)` (`panel1` in the claim form editor) between `InitializeComponent` and `InitializeLayoutManager` |
+| `SparksToothChart/ToothChart2D.cs`, `SparksToothChart/ToothChartWrapper.cs` | the tooth chart's pin (section 3) |
+| `OpenPmsDental/User Controls/ContrPerio.cs`, `OpenPmsDental/User Controls/Dashboard/UserControlDashboard.cs` | the perio chart's and the patient dashboard's pins |
+| `tests/UiRefreshTests/FontTokenTests.cs` | the tokens, the rule, the three recording places, content and pins (section 5) |
+| `tests/UiRefreshTests/Scan/TierOneScan.cs`, `BuilderAndScanTests.cs` | the scan's font options go through the token override |
+| `tests/WindowChecksTests/InProc/InProcChecks.UF.cs`, `UTests.cs` | the window check UF1 (the signature test), group U's new part `UF` |
+| Section 9's font group | `NoHqTests/DefaultFontTests.cs`, `tests/LibWebTests/HtmlGenerationTests.cs`, `tests/ToothChartImageTests/WpfLiveViewTests.cs` and `Support/TestAssemblySetup.cs`, `tests/ToothChartHostTests/HostDb.cs`, `UnitTests/Misc/TestBase.cs`, `tests/WindowChecksTests/InProc/InProcChecks.cs`, `InProcChecks.W5.cs`, `CTests.cs`, `tests/M2TERMTests/TerminologyLayoutTests.cs`, `tests/M2INSPLANTests/LayoutDesignerTests.cs` |
+
+`UiTheme.Fonts.cs` uses only `System` and `System.Drawing` in C# 7.3, like the other WinForms parts of `UiTheme`, so RdlDesign can link it
+(UI-6); `NoHqTests/UiThemeScanTests.cs` lists it among the linkable files.
+
+### 2. The tokens, the UI-2b values and the override
+
+| Token | Today (UI-2a) | UI-2b (`UiFontOption.UI2b`) |
+|---|---|---|
+| `FontBody` | Microsoft Sans Serif 8.25 | Segoe UI 9 (UQ-1) |
+| `FontGrid`, `FontGridBold`, `FontGridUnderline`, `FontGridUnderlineBold` | sans serif 8.5 (`FontFamily.GenericSansSerif`), Regular, Bold, Underline, Underline Bold | Segoe UI 9 (UQ-2: the body size) |
+| `FontButtonPanel` | sans serif 8.5 | Segoe UI 9 |
+| `FontTitle` | sans serif 10 Bold | Segoe UI Semibold 10 |
+| `FontModuleCaption` | Arial 8 | Segoe UI 8 |
+| `FontFamilyName` (window titles; the frame computes the size) | Microsoft Sans Serif | Segoe UI |
+
+`UiFontOption.Compact` is UQ-1's other option (as UI2b at 8.25 pt) for the galleries and the scan. The tokens are shared instances that nobody
+disposes; `FormODBase` and `FormFrame` take a clone each, as each window had its own font before. `LayoutManagerForms.FontInitial` became a
+property that returns `FontBody` (one shared instance, as the field was), so the 54 files whose UserControls set `Font=LayoutManagerForms.FontInitial`
+follow the token without an edit.
+
+`UiTheme.SetFontForTest(option)` sets every token to an option's values at once (one reference swap, so a paint on another thread never sees a
+mix); `null` gives today's back. It throws unless the process is a test process (the MSTest framework is loaded, or the entry assembly is a
+test host, `TestProbeHost` or a name ending in `Tests`). It does not set the default font: each exe's `Main` does that, and a test sets it as
+UI-0b's `DefaultFontOverride` does.
+
+**The 12 exe `Main`s** keep their literal `new System.Drawing.Font("Microsoft Sans Serif",8.25f)` as the first statement (no file changed):
+`DefaultFontTests.EveryExesMain_SetsTheDefaultFontFirst_ThenTheDpiMode_BeforeAnyWindow` builds the expected literal from `FontBody`
+(`new System.Drawing.Font("<family>",<size>f)`), so UI-2b changes the literals and the token together and the test stays as it is; the probe
+test compares the plain form's font with `FontBody` times the text scale factor.
+
+### 3. The mapping, the content rules and the pins
+
+- **The rule** (`UiTheme.MapFont`, 3.4): a Microsoft Sans Serif font becomes `FontBody`'s family, at its size for 8, 8.25 and 8.5 pt (a
+  0.01 pt tolerance, for sizes that went through a zoom scale and back) and at its own size otherwise, with its full style; other families
+  come back as the same instance. While `FontBody` is Microsoft Sans Serif (`IsFontMappingIdentity`) every font comes back as the same
+  instance, so the 8 designer fonts at 8 pt and the 2 at 8.5 pt keep their size until the flip. It is the same rule as UI-0b's
+  `TextFitFontSwap.MapFont` (a test compares them).
+- **Where it runs.** All three places a `Control96Info` is made, before `FontSize96` is read:
+  - the constructor (in `InitializeLayoutManager`): `MapFontsOfChildren(formODBase)` walks the window from the top down before the loop
+    that records the controls. `UIHelper.GetAllControls` lists a child before its parent, so mapping inside that loop would record an
+    inheriting child at its parent's unmapped size; walking from the top first, a child without a font of its own simply inherits its
+    parent's mapped font and records it;
+  - `AddToList96` (for `Add`, `Synch` and the tooth chart's engine control) and `AddToList96Unscaled` (for `AddUnscaled`): the control
+    itself before its record, its children after (recursively, so an inheriting child follows). `Add` expects a font scaled by the zoom
+    (or fully, for the text box, combo box, rich text box, tree view, list view and list box, as `AddToList96` and `LayoutChildren` scale
+    them), so the rule is applied to the 96 dpi size and the result scaled back the same way; `AddUnscaled`'s fonts are at 96 dpi.
+  - Only a control with a font of its own is mapped (its `Font` is not the parent's instance, or, without a parent, not
+    `Control.DefaultFont`), so no inheriting control is given a font it did not have.
+- **The rebuild** (`LayoutControlBoundsAndFonts`) is not changed: it keeps the control's family, sets a font only when the size differs and
+  keeps only Bold. So the underlined labels of `FormInsBenefits` draw without underline today and with the override, as in Open Dental (a test
+  checks both). The mapping runs in `InitializeLayoutManager`, before `Load` and before any signature is filled, so its `TextChanged` clears
+  nothing (Job 55866).
+- **Content** (`LayoutManagerForms.IsContent(control,parent)`): the control itself, then `parent` and its parents, is one of the content
+  types (`ToothChartWrapper`, `ContrPerio`, `ODPrintPreviewControl`, `UserControlDashboard`) or a panel marked with `MarkContent`. The
+  constructor's walk passes the control's own parent; `Add` and `AddUnscaled` pass their `parent` argument, because they record a control
+  before it is parented (the sheet fields at `FormSheetFillEdit.cs:1438`).
+- **`MarkContent(control)`** records the panel in a weak table. It throws `InvalidOperationException` when a `FormODBase` above the control
+  (walking up from it) has already built its layout: the `LayoutManagerForms` constructor records each window it builds, so a mark after
+  `InitializeLayoutManager` fails the first time a test opens the window. A control not yet in a window can be marked.
+- **The marks**: `FormSheetFillEdit.panelMain`, `FormSheetDefEdit.panelMain`, `FormClaimFormEdit.panel1` (UI-0b's
+  `TextFitFontSwap.ArrayContentPanels`; a source test checks that each window marks it between `InitializeComponent` and
+  `InitializeLayoutManager`).
+- **The pins** (each is today's font, so nothing changes now; from UI-2b on the default font cannot reach the content):
+  - `ContrPerio`: `Font` = Microsoft Sans Serif 8.25 in its constructor. `FormPerio` records it at 8.25, as the inherited font was, and
+    zooms it; `FormClaimEdit`'s own copy for the claim attachment draws with it.
+  - `UserControlDashboard`: Microsoft Sans Serif 8.25 after `InitializeComponent`, before `FormOpenDental`'s `LayoutManager.Add`, which
+    records it at 8.25 (the window is not zoomed yet in its constructor) and zooms it; the widgets and their fields without a font of their
+    own inherit it.
+  - **The tooth chart: `ToothChart2D` and `ToothChartWrapper`.** The plan names `ToothChart2D`'s pin. A fixed 8.25 pt on `ToothChart2D`
+    alone would change the 2D chart at a program zoom: LayoutManager never lays the engine control out (`LayoutSkipChildren` returns true for
+    the wrapper), and today the chart inherits the wrapper's font, which LayoutManager zooms (8.25 x 1.2 = 9.9 pt at 120%). So the pin is in
+    two parts, as the dashboard's is: `ToothChartWrapper` sets Microsoft Sans Serif 8.25 after `InitializeComponent` (recorded and zoomed by
+    LayoutManager as the inherited font was; it also covers the wrappers made in code for pictures, `SheetPrinting`, `ControlTreat`,
+    `FormSheetDefEdit`, which have no parent and took the default font), and `ToothChart2D` keeps Microsoft Sans Serif at its parent's size
+    and style (`OnParentChanged`, `OnParentFontChanged`), or 8.25 on its own (the fallback picture of `GetSimple2DBitmap`). It sets a font
+    only when the one it has differs, so inside today's wrapper it sets none. `ToothChartData.cs:87`, `ToothChartWrapper.cs:431` (Arial 9)
+    and the WPF chart's Arial are not touched.
+- **Not in this slice** (other UI-2a slices own them): `AutoScaleMode` (UI-2a-2, including `ToothChart2D` and `ToothChartWrapper`'s), the
+  print fonts and GridOD's fonts (UI-2a-3), the code font sites and the plain forms' designer fonts (UI-2a-4 to UI-2a-n). The program's
+  code sites still name their fonts; none reads a token yet except the ones above.
+
+### 4. Controls added after `Load`
+
+A grep of `LayoutManager.Add`, `AddUnscaled` and `Synch` outside `InitializeLayoutManager`: they all go through `AddToList96` or
+`AddToList96Unscaled`, so the mapping reaches them. With today's tokens it changes nothing anywhere. After the flip: `FormSheetFillEdit`'s
+field text boxes, signature boxes, rich text boxes and the screen tooth chart are added to the marked `panelMain` (content: their stored
+fonts stay); the setup wizard's and the preference pages' controls (`AddUnscaled`) and the module controls take the token by the rule, set
+before their handlers can matter (the mapping runs only for a control with a Microsoft Sans Serif font of its own, before it is parented).
+
+### 5. Tests
+
+`tests/UiRefreshTests/FontTokenTests.cs` (20 tests, no database, no window):
+- the tokens hold today's fonts (and `FontInitial` is `FontBody`); the UI-2b values are written down; `SetFontForTest` sets every token and
+  `null` gives today's back; it refuses outside a test process (a source check of its first statement); `FormODBase` takes the token;
+- the rule: every distinct Microsoft Sans Serif designer font of the program's designer files (sizes and styles, the 8 and 8.5 pt ones among
+  them) comes back unchanged with today's tokens; with the override set to Segoe UI the rule of 3.4, the same as UI-0b's swap;
+- the three recording places with the override set to Segoe UI: a test window's designer fonts (and an inheriting child, the recorded
+  `FontSize96`, a marked panel, the unchanged rebuild with its 0.96 factor and Bold only); an `Add`ed control at zoom 120% (the mapped 96 dpi
+  size, rescaled) and one added to the marked panel; the preference page `UserControlAccountRecAndRepCharges` (5 explicit designer fonts,
+  through UI-0b's builder and `AddUnscaled`) and `ControlImages` (4, made with its own constructor, as UI-0b's builder cannot, and added with
+  `AddUnscaled`); with today's tokens the designer fonts are unchanged;
+- the underlined labels of `FormInsBenefits` draw without underline, in today's font and with the override;
+- content: `MarkContent` after `InitializeLayoutManager` throws (also for a nested control), the three windows mark their panels, the content
+  types; a Microsoft Sans Serif sheet field added to `FormSheetFillEdit`'s `panelMain` keeps its font with the override (the same field outside
+  the panel follows the token); a perio chart picture (`ContrPerio` on a synthetic exam, the preferences in the cache only) is byte for byte
+  the same with the override and a Segoe UI default font, on its own and in a Segoe UI window; the patient dashboard with a widget holding a
+  label field with a font name, one without, and a `DashIndividualDiscount` field keeps every field's font with the override, at 100% and at
+  zoom 120%; the tooth chart keeps Microsoft Sans Serif 8.25 with a Segoe UI default font and the override, on its own, in a wrapper, and
+  (zoomed to 9.9 pt) in a Segoe UI window at 120%.
+
+The section 9 font group: the tests that pinned "Microsoft Sans Serif" compare with the token, so the flip changes no test
+(`DefaultFontTests`, `HtmlGenerationTests`, `WpfLiveViewTests`, `TestBase`, `InProcChecks.InitializeAsProgramEntry`, `ExpectDefaultFont` (C16,
+C17, C21, F2, F4, G5), C20 (the menu strip and its items equal the form's font, which starts with the token's family), `TerminologyLayoutTests`,
+`LayoutDesignerTests`). `ToothChartImageTests`' and `ToothChartHostTests`' test default font is Segoe UI 9 already, so the 35 Simple 2D
+baselines prove the chart's pin before the flip.
+
+**Window check UF1** (the signature test; it needs a shown window, so it is an opt-in window check, not a UiRefreshTests test):
+`InProcChecks.UF.cs`, `UTests.UF1_SignedNote_StaysValid_AfterZoomResizeAndSave`, group U's part `UF`. In the in-process session on the scratch
+copy it signs a synthetic note on the patient's D1110 with the program's own signature box (a `procnote` row), opens `FormProcEdit` by the
+progress notes' double-click, checks the signature shows and is valid, sets the program zoom to 120% (`ComputerPrefs.LocalComputer.Zoom`, which
+every layout reads) and resizes the window, checks again, puts zoom and size back, saves with OK, and checks that the saved note and signature
+are the signed ones and the signature is valid for the note; the rows it added are deleted. `FormProcEdit` is the window the plan names; the
+program opens group notes in `FormProcGroup`, so the note is the procedure's own signed note.
+
+### 6. Runs
+
+- Targeted (x64, `-RequireBuildOutput`): UiRefreshTests 63 of 63 with `OPMS_UI_SCAN=1` (the full scan through the override included) and
+  NoHqTests 122 of 122 (`.git/od-tools/test-results/ui2a1-3.txt`); WindowChecksTests 26 passed, 41 opt-in skipped (UF1 among them),
+  LibWebTests 65, M2TERMTests 21, M2INSPLANTests 31 (`ui2a1-4.txt`).
+- **Not run here, for the lead's connected session:** ToothChartImageTests and ToothChartHostTests (WPF picture tests; the owner's session
+  was disconnected), the window checks with UF1 (`OPMS_WINDOW_CHECKS=1`, `OPMS_WINDOW_CHECKS_GROUPS=UF` or `U`), and the harness's U0 and the
+  bounds record against the before set: **the before set does not exist yet** (UI-0c's first connected run makes it), so the slice's merge
+  rule (U0 shows no changed picture, the bounds record equals the before set) can be checked only then.
+- **No visible change, as far as this session can prove it:** UI-0b's scan on today's font reports nothing new
+  (`Scan_TodaysFont_ReportsNothingNew`: no new overflow, self-sizing overlap or bounds difference over 1,001 types at 100% and 150%), and the
+  layout snapshot is unchanged (`Snapshot_MatchesTheDesignerFiles`).
+
+### 7. The scan's report for Segoe UI through the override
+
+`Scan_FontOptions_WritesTheCounts` with `OPMS_UI_SCAN=1` now sets `UiTheme.SetFontForTest` before each window is built (the product's own
+path: `FormODBase`'s font, the mapping), instead of UI-0b's swap after the build (`OPMS_UI_SCAN_SWAP=1` runs the swap, into `options-swap`).
+The files are in `.git/od-tools/test-results/ui2a1-scan/options/` (`summary.txt` and the TSVs). 96 DPI, 0.8 minutes; 1,001 of 1,026 types
+built (the same 3 need a database, 7 have no designer code, 15 throw, as in UI-0b).
+
+| At 100% | Segoe UI 9, override | Segoe UI 9, UI-0b's swap | Segoe UI 8.25, override |
+|---|---|---|---|
+| New overflows | 1,775 in 450 windows | 1,771 in 449 | 637 in 245 |
+| ... fixable / need the owner | 1,348 / 427 | 1,344 / 427 | 508 / 129 |
+| ... 1-2 px height cases: ink cut / inside | 160 / 796 | 160 / 783 | 104 / 232 |
+| Self-sizing overlaps and edge passes | 866 in 152 windows | 856 in 149 | 593 in 112 |
+| Bounds differences | 665 in 64 windows | 692 in 86 | 67 in 24 |
+| ... of LayoutManager windows | 56 in 20 | 76 in 40 | 49 in 17 |
+
+The two mechanisms agree within a few controls. The differences are expected: the override reaches what the product reaches (the window's
+own font, the designer fonts LayoutManager records), while the swap also set every container's font after the build; the
+font-driven bounds differences of the plain forms (the `AutoScaleMode.Font` containers, UI-2a-2) are the same in both (458 in 27 windows).
+At the other scales, Segoe UI 9: 1,651 (1.2), 1,470 (1.25), 2,504 (1.5), 2,392 (1.75), 1,826 (2) new overflows; the text-scale run as in
+UI-0b (today 257, Segoe UI 9 299, Segoe UI 8.25 290 new overflows in about 50 windows).
