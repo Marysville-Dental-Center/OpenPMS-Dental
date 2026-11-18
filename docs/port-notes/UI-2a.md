@@ -362,3 +362,144 @@ UI-2b runs the guard again after the flip, and the UI-2a-4 slices run it (sectio
   tests that need this branch's members, the canvas grid and the attachment, are skipped on `main` by hand) and compare the `.sha256` files.
   Here the comparison is within one build: with today's tokens the print paths' fonts and colours are textually the same literals as on
   `main`.
+
+## UI-2a-4: the code font sites and the plain forms' designer fonts
+
+### Slice 1: `OpenPmsDental/Forms` and `OpenPmsDental/Forms Reports`
+
+Branch `ui/ui2a4-1` from `main` at `67ca33835`. No schema change, no new package, nothing downloaded, no program started, no window shown.
+Nothing changes on screen: the one site routed to a token takes the token that holds today's font.
+
+#### 1. Files
+
+| File | What |
+|---|---|
+| `OpenPmsDental/Forms/FormDisplayFieldEdit.cs`, `FormDisplayFieldOrthoEdit.cs` | `_font`, which measures a column's minimum width, is `UiTheme.FontGridBold` (the grid header's token; GridOD's `_fontHeader` takes it) instead of a literal sans serif 8.5 Bold |
+| `OpenPmsDental/Forms/FormMountDefEdit.cs` | lines 358 and 387, a mount item's text on the layout editor's canvas, name `FontFamily.GenericSansSerif` (as the mount draws it) instead of the window's `Font.FontFamily`; the same family today (review fix, branch `ui/ui2a4-2`) |
+| `tests/UiRefreshTests/FontLiteralScanTests.cs` (new) | the "Microsoft Sans Serif" scan, the literal test, the scope (section 4) |
+| `tests/UiRefreshTests/Data/font-literal-allow.tsv` (new) | the scan's allow list: the sites that stay, each with its sort and why |
+
+#### 2. The grep (fresh, comments skipped)
+
+Every line of the slice's 1,622 `.cs` files that names `Microsoft Sans Serif`, `GenericSansSerif` or `new Font(` /
+`new System.Drawing.Font(`, comments skipped: 370 lines in code outside `InitializeComponent`, 258 inside it.
+
+- **Designer code (258 lines).** The slice has 799 FormODBase windows and one plain form, `FormSplash` (it sets no font). Every one of the
+  FormODBase windows calls `InitializeLayoutManager` from its constructor (the tier 1 scan's `SourceIndex` and a file grep agree), so
+  their designer fonts are under LayoutManager and exempt: the mapping of 5.1 changes them at run time. The five windows without
+  `InitializeLayoutManager` are in `ReportingForRdl/Allocators`, a later slice. No UserControl is declared in the slice. So the slice has
+  **no designer font to edit**: no default control or form font to remove and no literal for UI-2b.
+- **Code naming Microsoft Sans Serif or GenericSansSerif (53 lines in 19 files).** Two are screen chrome and now take a token; 51 stay
+  and are the rows of `font-literal-allow.tsv` (two of them, `FormMountDefEdit`'s, name `GenericSansSerif` since the review, see below):
+
+| File (lines) | Sort | Why |
+|---|---|---|
+| `Forms/FormDisplayFieldEdit.cs` (11), `FormDisplayFieldOrthoEdit.cs` (14) | **screen chrome, now `FontGridBold`** | measures the minimum column width in the grid's header font, sans serif 8.5 Bold today |
+| `Forms/FormClaimEdit.cs` (2504, 2507) | document | the claim perio attachment picture (`GetPerioAttachmentBitmap`), saved and attached (plan 5.2) |
+| `Forms/FormClaimFormEdit.cs` (197) | document | the claim form design canvas (`panelClaimForm_Paint`) |
+| `Forms/FormConfirmList.cs` (508, 547, 565, 580, 602, 622) | print | labels and postcards |
+| `Forms/FormDashboardWidgetSetup.cs` (190), `Forms/FormSheetDefs.cs` (128) | content | the default font name of a new dashboard widget and sheet definition (5.1) |
+| `Forms/FormMedical.cs` (356) | print | the medical history printout |
+| `Forms/FormMountDefEdit.cs` (358, 387) | document | the mount layout editor's preview of a mount item's text (`controlDrawing_Paint`), drawn as the mount draws it: `MountHelper.cs:53` (the saved and exported mount) and `ControlImageDisplay.cs:4244` use `FontFamily.GenericSansSerif` at the item's `FontSize`. These two lines took the window's family (`Font.FontFamily`) and now name `GenericSansSerif`, the same family today, so nothing changes now and after UI-2b the preview still matches the mount |
+| `Forms/FormPerio.cs` (1199) | print | the perio chart printout's font (`SetUpForPrint`, 5.2) |
+| `Forms/FormRecallList.cs` (1110, 1157, 1167, 1175, 1206, 1219) | print | recall labels and postcards |
+| `Forms/FormSheetDefEdit.cs` (3051, 3193-3242, 3320-3331, 3415) | document | the sheet design canvas (`DrawComboBox`, `DrawGrid`, `DrawPatImage`) |
+| `Forms/FormSheetFieldGrid.cs` (72) | document | a sheet grid's stored height, measured in the sheet grid's font (GridOD's print cell font, sans serif 8.5) |
+| `Forms/FormSheetFillEdit.cs` (1018, 1136) | document | the filled sheet (`panelMain_Paint`), a document on screen |
+| `Forms/FormTimeCard.cs` (778-780), `Forms/FormTimeCardManage.cs` (619-621) | print | the time card printouts |
+| `Forms Reports/FormRpBirthday.cs` (169, 182, 197, 209), `FormRpLaserLabels.cs` (359), `FormRpTreatmentFinder.cs` (261) | print | postcards and labels |
+
+- **The other `new Font(` lines (317 in 95 files): all stay.** None names Microsoft Sans Serif; by 5.1 a site in another family stays
+  unless the brief names a role, and this brief names none.
+  - Print and report fonts in Arial, Tahoma, Courier New or `GenericMonospace` (about 230 lines): the `pd_PrintPage` / `pd2_PrintPage`
+    headings (Arial 13 and 10 Bold) of 42 windows; the ReportComplex fonts (Tahoma) of the `FormRp*` reports, `FormPayPlan`,
+    `FormPayPlanDynamic`, `FormXChargeReconcile`, `FormQuery` and `FormEligibilityResponseDisplay`'s printout; `FormCCDPrint`,
+    `FormEtransEdit` and `FormDatabaseMaintenance` (monospace and Courier New printouts); `FormPerio.DrawPrintPage` and `butSaveImage_Click`,
+    `FormPerioGraphical.RenderPerioPrintout`, `FormRpStatement.CreateDocument` (documents).
+  - Fonts built from a stored document font: the claim form's `FontName` (`FormClaimFormEdit`, `FormClaimPrint`), sheet fields
+    (`FormSheetDefEdit`, `FormSheetFillEdit`, `FormSheetFieldStatic`), and the filled sheet's Arial signature labels
+    (`FormSheetFillEdit.LayoutFields`, `AddChangeUserButton`). Document and content.
+  - Fonts built from a control's own font (a Bold or Regular copy, or a scaled copy of the window's font): `FormClaimProc`,
+    `FormClearinghouseEdit`, `FormEbillSetup`, `FormInsPlan`, `FormPatientEdit`, `FormTsiHistory`,
+    `FormRpUnearnedIncome` (a report column's font). They follow the family the control has, so they follow the token without an edit.
+    `FormMountDefEdit` is not in this group: its mount item text (358, 387) is document (the table above), and its line 343 is unsure
+    (section 3).
+  - Screen fonts in another family, which stay by 5.1 and are listed for the lead (section 6): `FormPreferences.PanelInfo_Paint` (Times
+    New Roman 10 Bold), `FormEligibilityResponseDisplay`'s `dataGridView1` header and cell fonts (Tahoma 9 Bold and 8), and
+    `FormSheetDefEdit._fontTabOrder` (Times New Roman, the tab-order numbers on the sheet design canvas, a document).
+
+#### 3. Unsure sites kept as they are
+
+- `FormMountDefEdit.controlDrawing_Paint` line 343: `new Font(Font.FontFamily,ScaleFontODZoom(8.25f))` takes the window's family (the
+  token) at a fixed 8.25 pt. After UI-2b it is Segoe UI 8.25, not the body size 9. It draws on the mount layout editor's canvas; whether
+  that is screen chrome (FontBody's size) or the mount's own content is for the lead. Unchanged. It is the editor's own label of an
+  item without text (number, position, size, rotation, teeth), which the mount itself never draws, so it is not sorted with the item
+  text of lines 358 and 387 (document, section 2; the review of 2026-11-18 found those two sorted as chrome, citing `MountHelper.cs:53`).
+- `FormSheetFieldGrid.cs:72` is sorted document: the height it computes is stored in the sheet definition and must match the sheet
+  grid's print font, which stays sans serif 8.5 (UI-2a-3).
+
+#### 4. Tests (`tests/UiRefreshTests/FontLiteralScanTests.cs`)
+
+- **The scope.** `FontLiteralScan.ArrayFolders` lists the scan's folders; each later slice adds its folders there and its rows to
+  `font-literal-allow.tsv`. The scan reads every `.cs` file of those folders with comments skipped (string literals kept, so a font name
+  in a string is found and a `//` inside a string is not a comment), and finds each line naming `Microsoft Sans Serif` or
+  `GenericSansSerif`: in code outside `InitializeComponent` everywhere, and in `InitializeComponent` only for a class whose designer code
+  is in scope. "Under LayoutManager" is the tier 1 scan's own list (`WindowBuilder.GetScanTypes`, section 5.4): a LayoutManager window or a
+  UserControl added with `Add` or `AddUnscaled` is exempt; a plain form, a window without `InitializeLayoutManager`, a UserControl no
+  program window hosts, and a class the list does not know are in scope.
+- `Scan_NoMicrosoftSansSerifOutsideTheAllowList`: every site is a row of the allow list (file, the line as it reads with its indent
+  trimmed, how often it is there, sort `print`, `document` or `content`, and why), and every row is in the source exactly that often, so the
+  list only shrinks when a site goes. A literal control or form font in in-scope designer code (`this.x.Font=new Font(...)`,
+  `this.Font=...`) needs no row while the tokens hold today's font: the literal test checks it, and after UI-2b a Microsoft Sans Serif one
+  fails the scan. A chart element font (an axis `LabelStyle.Font`, a `Title`'s font) is not a control font and needs a row.
+- `Literals_ControlAndFormFontsOfPlainForms_FollowTheToken`: each literal control or form font of in-scope designer code follows
+  `FontBody` by the rule of 3.4: Microsoft Sans Serif (or FontBody's family) must be FontBody's family; after the flip a body size (8,
+  8.25, 8.5) must be FontBody's size; FontBody's family and size in Regular is the default font and must be removed. Other families stay.
+  In this slice there are none (section 2); later slices bring the plain exes' and the allocator windows' fonts.
+- `Scope_IsTheTierOneScansList`: FormSplash's designer code is in scope, FormDisplayFieldEdit's and FormSheetFillEdit's are exempt, and the
+  slice's designer classes are found (more than 700).
+- `ScanFile_SkipsComments_ExemptsLayoutManagerDesignerCode_AndFindsTheRest`, `CheckLiteral_TheRuleOf34`: the scanner and the rule on
+  synthetic text, today and with the override set to UI-2b's fonts. `AllowList_EachRowHasASortAndAReason`.
+- A check run with `FormDisplayFieldEdit`'s literal put back (`ui2a4-mutation-1.txt`, reverted) failed the scan with that line, so the
+  scan catches a screen font that skips its token.
+- The print guard (`PrintGuardTests`) and the scan's report at today's font (`Scan_TodaysFont_ReportsNothingNew`, which also compares the
+  bounds record) run unchanged and pass.
+
+#### 5. Runs
+
+- The build lane (x64), the whole filter: 0 errors.
+- Targeted (x64, `-RequireBuildOutput`, `.git/od-tools/test-results/ui2a4-targeted-1.txt`): UiRefreshTests 198 passed, 9 opt-in skipped
+  (the six new tests and `Scan_TodaysFont_ReportsNothingNew` among the passed); PrintGuardTests 16 passed, 1 opt-in skipped (the eForm
+  PDF); UnitTests 1,728 passed, 3 skipped; WindowChecksTests 29 passed, 43 skipped (opt-in window checks); NoHqTests 122. The print guard's
+  scratch databases (`ui2a3_*`, its own prefix) were dropped by the guard; none is left.
+- After the review fix (`ui/ui2a4-2`): the build lane (x64, the whole filter) 0 errors; Targeted (`ui2a4-targeted-2.txt`) the same
+  counts, all passed (the scan with the two `FormMountDefEdit` rows among them).
+
+#### 6. For the lead
+
+- **No visible change**: the merge rule of a UI-2a slice (U0 shows no changed picture, the bounds record equals the before set
+  `.git/od-tools/test-results/ui-before`) needs group U in a connected session. With the worktree built, run the harness's group U against
+  the before set; the two display field editors and the mount layout editor are the only windows whose code changed, and their fonts are the same
+  fonts (the mount editor's item text: open a mount definition with an item that has text showing and compare its canvas).
+- **Screen fonts in another family** (section 2): `FormPreferences.PanelInfo_Paint` (Times New Roman 10 Bold) and
+  `FormEligibilityResponseDisplay`'s grid (Tahoma 9 Bold and 8) stay by 5.1. Say if either should take a role (`FontTitle`, `FontGrid`)
+  in UI-2b.
+- **`FormMountDefEdit` line 343** (section 3): screen chrome at FontBody's size, or mount content at 8.25? Unchanged until you say.
+  Lines 358 and 387 (a mount item's text on the layout editor's canvas) now name `FontFamily.GenericSansSerif`, as `MountHelper.cs:53`
+  draws the mount; the family is the same today. If you want no code change in this slice, revert those two lines and their two rows
+  in `font-literal-allow.tsv`: they then follow the window's font and preview in Segoe UI after UI-2b.
+
+### UI-2a-4: the lead's decisions and the UI-2b checklist (2026-11-18)
+
+- FormPreferences.PanelInfo_Paint (Times New Roman 10 Bold) and FormEligibilityResponseDisplay's grid (Tahoma) keep their own families at UI-2b:
+  they are deliberate fonts, not the body font, and the plan restyles, it does not re-letter.
+- FormMountDefEdit line 343 and lines 380-382 (the editor's own labels: the item with no text, the selected item's info) are screen chrome:
+  at UI-2b they follow the window font (FontBody), like the rest of the editor. Lines 358 and 387 (the item's TextShowing) are mount content
+  and draw as MountHelper does (FontFamily.GenericSansSerif).
+- UI-2b MUST pin, before the flip, these sites that draw with the window's inherited Font (found by UI-2a-4's review): FormEquipment.cs
+  pd_PrintPage's 'Total Est Value' (a printout: today's print font, as UI-2a-3's print fonts), FormSheetDefEdit.cs's canvas labels
+  '(FieldName)' and '(Special:Tooth Grid)' (sheet design content: today's font at the canvas zoom). The UI-2b brief repeats this list, and
+  UI-2a-5..n slices add any such site they find in their folders.
+- FontLiteralScan.CheckLiteral must compare a control's literal with its parent's font (plan 5.1: remove a default font only where the parent
+  has the default font) before a later slice relies on it, e.g. FormReport_ProviderIncomeReport sets a Bold form font. The UI-2a-5 brief
+  carries this fix.

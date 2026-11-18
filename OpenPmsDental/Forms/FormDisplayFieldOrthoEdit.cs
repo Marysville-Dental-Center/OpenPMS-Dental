@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
+using CodeBase;
 using OpenPmsDentalBusiness;
 
 namespace OpenPmsDental{
@@ -11,7 +12,9 @@ namespace OpenPmsDental{
 		private DisplayField _displayField;
 		///<summary>Used to make sure the user is not adding a duplicate field.</summary>
 		private List<DisplayField> _listDisplayFields;
-		private Font _font=new Font(FontFamily.GenericSansSerif,8.5f,FontStyle.Bold);
+		///<summary>The grid's header font (GridOD's _fontHeader is FontGridBold), to measure the column's minimum width. The shared token: never
+		///dispose it (UI-2a-4).</summary>
+		private Font _font=UiTheme.FontGridBold;
 
 		///<summary>When ListOrthoChartTabLinks and OrthoChartTab are not null this should be set to the link we are editing.
 		///When not null _tabLinkCur.ColumnWidthOverride will be updated instead of FieldCur.ColumnWidth.</summary>
