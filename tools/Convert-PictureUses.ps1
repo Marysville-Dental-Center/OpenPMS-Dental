@@ -29,7 +29,9 @@ One tool for every UI-9a slice. A slice is a row of icons/picture-slices.tsv: a 
 
 3. Apply (-Apply). For each Resources or Resx use whose target is an icon:
    - an OpenPmsDental.UI.Button whose picture is 22 x 22 (the slot UI.Button draws its Icon in, Button.DrawTextAndImage) gets
-     "this.<control>.Icon = OpenPmsDental.UI.EnumIcons.<member>;" in place of the Image line: the vector icon at every scale;
+     "this.<control>.Icon = OpenPmsDental.UI.EnumIcons.<member>;" in place of the Image line: the vector icon at every scale
+     (a vertical AdjustImageLocation nudge of the old picture, "new System.Drawing.Point(0, n)", is removed: the icon is centred
+     and its opaque slot would cover the button's border);
    - any other control, or a picture of another size, keeps its Image line with the picture made by
      "OpenPmsDental.UI.IconLibrary.GetBitmap(<icon>,<width>,<height>)": the icon at the picture's 96 DPI pixel size, centred,
      so nothing moves (section 3.5: the largest design that fits, never stretched up);
@@ -673,6 +675,7 @@ function Get-RepoFiles([string[]]$extensions){
 $toConvert=@($uses | Where-Object { ($_.Kind -eq 'Resources' -or $_.Kind -eq 'Resx') -and $_.Target -ne '' -and $_.Target -ne 'keep' -and $_.Target -ne 'UI-9b' })
 $handEdits=@($uses | Where-Object { $_.Kind -eq 'ResourcesCode' -and $_.Target -ne '' -and $_.Target -ne 'keep' -and $_.Target -ne 'UI-9b' })
 $changes=New-Object System.Collections.Generic.List[string]
+$script:LinesToRemove=@{}
 $newRecord=New-Object System.Collections.Generic.List[object]
 foreach($u in $toConvert){
 	if($u.Width -le 0 -or $u.Height -le 0){
@@ -698,6 +701,19 @@ foreach($u in $toConvert){
 	if($isButton -and $u.Property -eq 'Image' -and $u.Width -eq $ButtonIconSize -and $u.Height -eq $ButtonIconSize -and $u.Target.StartsWith('EnumIcons.')){
 		$u.How='Icon'
 		$lineNew=$m.Groups['indent'].Value+$m.Groups['lhs'].Value.Substring(0,$m.Groups['lhs'].Value.Length-$u.Property.Length)+'Icon = '+$iconExpr+';'+$m.Groups['rest'].Value
+		#A vertical nudge of the old picture (AdjustImageLocation 0,1): the Fluent icon is centred in its slot and needs none, and UI.Button
+		#fills the icon's slot opaque (Direct2D), so a slot moved down by 1 px would cover the button's bottom border. A horizontal nudge stays
+		#(it also places the text of a MiddleRight button).
+		$regexAdjust=New-Object System.Text.RegularExpressions.Regex('^\s*(?:this\.)?'+[regex]::Escape($u.Control)+'\.AdjustImageLocation\s*=\s*new\s+System\.Drawing\.Point\(\s*0\s*,\s*-?\d+\s*\)\s*;\s*$')
+		for($j=0;$j -lt $file.Lines.Count;$j++){
+			if($regexAdjust.IsMatch($file.Lines[$j])){
+				if(-not $script:LinesToRemove.ContainsKey($file.Path)){
+					$script:LinesToRemove[$file.Path]=New-Object System.Collections.Generic.List[int]
+				}
+				$script:LinesToRemove[$file.Path].Add($j)
+				$changes.Add("$($u.File):$($j+1): remove $($file.Lines[$j].Trim()) (the old picture's vertical nudge)")
+			}
+		}
 	}
 	else{
 		$u.How='GetBitmap'
@@ -708,6 +724,12 @@ foreach($u in $toConvert){
 	$file.Changed=$true
 	$newRecord.Add((New-Object PSObject -Property @{ Slice=$Slice; File=$u.File; Control=$u.Control; Property=$u.Property; Key=$u.Key; Target=$u.Target;
 		How=$u.How; Width=$u.Width; Height=$u.Height }))
+}
+foreach($pathFile in @($script:LinesToRemove.Keys)){
+	$file=Get-File $pathFile
+	foreach($j in ($script:LinesToRemove[$pathFile] | Sort-Object -Unique -Descending)){
+		Remove-Lines $file $j $j
+	}
 }
 foreach($u in $handEdits){
 	$changes.Add("$($u.File):$($u.Line): HAND EDIT: $($u.Key) -> $($u.Target) (code, not a picture line)")

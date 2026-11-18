@@ -475,7 +475,6 @@ namespace OpenPmsDental {
 			// 
 			// butUp
 			// 
-			this.butUp.AdjustImageLocation = new System.Drawing.Point(0, 1);
 			this.butUp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butUp.Icon = OpenPmsDental.UI.EnumIcons.Up;
 			this.butUp.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
