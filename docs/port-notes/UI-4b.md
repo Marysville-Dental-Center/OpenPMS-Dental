@@ -157,3 +157,7 @@ Full filter build x64 through the lane: 0 errors. Targeted runs (x64, after the 
 UiRefreshTests 110 (107 passed, 3 opt-ins skipped: the two galleries and the scan), WindowChecksTests 71 (29 passed, 42 opt-in skipped),
 M2TERMTests 21/21, M2INSPLANTests 31/31, NoHqTests 122/122. The scan run (`ui4b1-scan.txt`) and the strips run (`ui4b1-strips.txt`) passed
 too. `tools/Test-NoEolFlips.ps1 -Base main`: no file changed its line ends. The branch merges into the current `main` without conflicts.
+
+The review's fix (`ui/ui4b1-2`: the WPF combo text cut 2 px further left, the disabled WPF tree's border): full filter build x64 0 errors;
+Targeted run `.git/od-tools/test-results/ui4b1-fix2.txt`: UiRefreshTests 110 (107 passed, 3 opt-ins skipped), WindowChecksTests 71 (29 passed,
+42 opt-in skipped), M2TERMTests 21/21, M2INSPLANTests 31/31, NoHqTests 122/122. `tools/Test-NoEolFlips.ps1 -Base main`: 0 line-end changes.
