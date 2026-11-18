@@ -861,8 +861,8 @@ namespace OpenPmsDental {
 				listBox.Tag=msg;
 				if(msg==""){
 					listBox.ColorBack=Colors.White;
-					//Not normally white like most colors, this one is a grayish color since it's the highlight color
-					listBox.ColorSelectedBack=Color.FromRgb(186,199,219);
+					//Back to the list's own selection colour (the AccentSubtle token since UI-4b-1; it was a fixed blue-grey #BAC7DB).
+					listBox.ColorSelectedBack=UiTheme.GetColorWpf(EnumUiColor.AccentSubtle);
 					return;
 				}
 				//This message will only trigger if the user hits save and there is no gender selected.
