@@ -28,6 +28,9 @@ namespace OpenPmsDental {
 			Application.SetDefaultFont(new System.Drawing.Font("Microsoft Sans Serif",8.25f));
 			Application.SetHighDpiMode(HighDpiMode.PerMonitorV2);
 			System.Windows.Media.RenderOptions.ProcessRenderMode=System.Windows.Interop.RenderMode.SoftwareOnly;
+			//The UI refresh's token renderer (UI-6, docs/specs/ui-refresh-plan.md section 3.6) for every stock menu and tool strip of this thread
+			//(after O-34's render mode, which the tests keep right after the DPI mode).
+			CodeBase.UiTheme.InitWinForms();
 			//Application.EnableVisualStyles() uses version 6 of comctl32.dll instead of version 5.
 			//See https://support.microsoft.com/en-us/topic/system-accessviolationexception-occurs-with-tooltips-in-windows-forms-application-71a775b2-8a03-6846-f810-76930766cda0?ui=en-us&rs=en-us&ad=us
 			//See also http://stackoverflow.com/questions/8335983/accessviolationexception-on-tooltip-that-faults-comctl32-dll-net-4-0

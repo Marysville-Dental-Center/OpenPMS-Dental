@@ -34,9 +34,10 @@ namespace NoHqTests {
 			"UI-8","UI-9a","UI-9b","UI-10","UI-11" };
 		///<summary>The reasons a coverage row may give instead of packages.</summary>
 		public static readonly string[] ArrayReasons=new string[] { "keeps","no-drawing" };
-		///<summary>UiTheme's partial files that RdlDesign may link: Windows Forms, System.Drawing and Microsoft.Win32 only. The WPF part is the other.</summary>
+		///<summary>UiTheme's partial files that RdlDesign may link: Windows Forms, System.Drawing and Microsoft.Win32 only. The WPF part is the other.
+		///UiTheme.Renderer.cs is the token renderer (UI-6), which RdlDesign links (RdlDesign/ReportDesigner.csproj) with these and the icon renderer.</summary>
 		public static readonly string[] ArrayUiThemeWinFormsFiles=new string[] { @"CodeBase\UI\UiTheme.cs",@"CodeBase\UI\UiTheme.Colors.cs",
-			@"CodeBase\UI\UiTheme.Gdi.cs",@"CodeBase\UI\UiTheme.Metrics.cs",@"CodeBase\UI\UiTheme.Fonts.cs" };
+			@"CodeBase\UI\UiTheme.Gdi.cs",@"CodeBase\UI\UiTheme.Metrics.cs",@"CodeBase\UI\UiTheme.Fonts.cs",@"CodeBase\UI\UiTheme.Renderer.cs" };
 		public const string PATH_UITHEME_WPF=@"CodeBase\UI\UiTheme.Wpf.cs";
 		private static readonly string[] _arrayUsingsWinForms=new string[] { "System","System.Collections.Generic","System.Drawing","System.Drawing.Drawing2D",
 			"System.Windows.Forms","Microsoft.Win32" };

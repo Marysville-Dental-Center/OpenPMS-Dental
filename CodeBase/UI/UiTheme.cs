@@ -4,14 +4,16 @@
 //
 // The class is split into partial files:
 // - UiTheme.cs (this file): the high-contrast switch and InitWinForms.
+// - UiTheme.Renderer.cs: the token renderer of the stock menus and tool strips (UiToolStripRenderer, UI-6).
 // - UiTheme.Colors.cs: the colour tokens as System.Drawing.Color, and their high-contrast partners (SystemColors).
 // - UiTheme.Gdi.cs: the cached GDI+ pens and brushes, one cache per thread.
 // - UiTheme.Metrics.cs: font family and sizes, corners, lines, spacing, icon sizes and the pixel-snapping helpers of section 3.3.
 // - UiTheme.Fonts.cs: the font role tokens of section 3.4 (FontBody and the rest, today's fonts until UI-2b), the mapping of designer
 //   fonts (section 5.1) and the test-only override SetFontForTest (UI-2a-1).
 // - UiTheme.Wpf.cs: the frozen WPF brushes and colours.
-// The first five use only Windows Forms, System.Drawing and Microsoft.Win32 and nothing else of CodeBase, in C# 7.3, so RdlDesign (which
-// references no CodeBase) can compile them in as linked files (section 3.6, Menus); a NoHq test checks it. The WPF part is in its own file.
+// The others but the WPF part use only Windows Forms, System.Drawing and Microsoft.Win32 and nothing else of CodeBase but the icon renderer
+// (UiIcons, for the renderer's glyphs), in C# 7.3, so RdlDesign (which references no CodeBase) can compile them in as linked files (section 3.6,
+// Menus; RdlDesign/ReportDesigner.csproj); a NoHq test checks it. The WPF part is in its own file.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
 using System.Windows.Forms;
@@ -61,8 +63,15 @@ namespace CodeBase {
 		}
 
 		///<summary>The one start-up call of every exe's Main, right after SetDefaultFont and SetHighDpiMode (section 3.6, Menus), and on every
-		///other UI thread the program starts. Empty until UI-6, which sets ToolStripManager.Renderer to the token renderer here.</summary>
+		///other UI thread the program starts (UI-6): sets ToolStripManager.Renderer, which Windows Forms keeps per thread, to the token renderer
+		///(UiToolStripRenderer), so every stock ContextMenuStrip, MenuStrip, ToolStrip and StatusStrip of this thread draws in the new look. Creates
+		///no window, so it may run before EnableVisualStyles and SetCompatibleTextRenderingDefault. Calling it again on the same thread does nothing.
+		///</summary>
 		public static void InitWinForms() {
+			if(ToolStripManager.Renderer is UiToolStripRenderer) {
+				return;
+			}
+			ToolStripManager.Renderer=new UiToolStripRenderer();
 		}
 	}
 }

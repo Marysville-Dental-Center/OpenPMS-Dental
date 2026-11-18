@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using CodeBase;
 
 namespace OpenPmsDental.UI{
 /*
@@ -60,7 +61,7 @@ Boilerplate for the new WpfControls.UI.Menu is over in Menu.xaml.cs
 			//_menuStripOD.Height=12;//gets ignored. Set in MenuItem instead.
 			//_menuStripOD.Width gets set during LayoutItems, when it sets the bounds of each menuItem.
 			_menuStripOD.Name="menuStripOD1";
-			_menuStripOD.BackColor=SystemColors.Window;
+			_menuStripOD.BackColor=UiTheme.Surface;//the renderer draws the bar on Surface (UI-6)
 			_menuStripOD.Renderer=new MenuRenderer();
 			Controls.Add(_menuStripOD);
 		}
@@ -152,8 +153,8 @@ Boilerplate for the new WpfControls.UI.Menu is over in Menu.xaml.cs
 				e.Graphics.DrawRectangle(Pens.SlateGray,0,0,Width-1,Height-1);
 			}
 			else{
-				//e.Graphics.FillRectangle(Brushes.Aquamarine,this.Bounds);
-				e.Graphics.DrawLine(Pens.SlateGray,0,Height-1,Width,Height-1);//line to right of menu
+				//The menu bar on Surface, flat and without a line under it (UI-6, section 3.6), also right of the strip and under it.
+				e.Graphics.FillRectangle(UiTheme.GetBrush(EnumUiColor.Surface),ClientRectangle);
 			}
 		}
 
@@ -247,7 +248,7 @@ Boilerplate for the new WpfControls.UI.Menu is over in Menu.xaml.cs
 
 		protected override void OnPaint(PaintEventArgs e){
 			base.OnPaint(e);
-			e.Graphics.DrawLine(Pens.SlateGray,0,Height-1,Width,Height-1);//line under menu. Looks good at 96dpi, but creates a double line when scaled.  No simple solution.
+			//No line under the menu (UI-6): the menu bar is flat on Surface, as the token renderer draws it.
 		}
 
 		protected override void OnResize(EventArgs e){
@@ -399,8 +400,9 @@ Boilerplate for the new WpfControls.UI.Menu is over in Menu.xaml.cs
 		#endregion Methods - Private
 	}
 
-	/// <summary>This custom renderer is based on Professional to give us a nice modern look.  Then, we could also tweak a lot of drawing here if we had time.</summary>
-	internal class MenuRenderer:ToolStripProfessionalRenderer{
+	/// <summary>The menu's renderer: the token renderer of the stock menus (CodeBase.UiToolStripRenderer, UI-6), so MenuOD and every context menu look
+	/// the same. MenuOD sets it on its own strip, so it holds on a thread that did not call UiTheme.InitWinForms too.</summary>
+	internal class MenuRenderer:UiToolStripRenderer{
 		protected override void OnRenderItemText(ToolStripItemTextRenderEventArgs e){
 			//ToolStripItemTextRenderEventArgs eNew=new ToolStripItemTextRenderEventArgs(
 			//	e.Graphics,e.Item,e.Text,e.TextRectangle,Color.Red,e.TextFont,e.TextFormat);
