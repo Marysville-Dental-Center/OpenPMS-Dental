@@ -1,8 +1,8 @@
 // The print guard for the office's documents (package UI-2a-3): a sheet as a PDF (SheetDrawingJob.CreatePdf) and as a printed first page
 // (SheetPrintingJob.DrawSheetFirstPage), a sheet grid drawn by SheetDrawingJob (bitmap and PDF, with the sheet's default font and with a field
-// font), a claim form printed by FormClaimPrint's page event, the perio chart as FormPerio prints it, and the claim's perio chart attachment
-// picture (FormClaimEdit.GetPerioAttachmentBitmap) are identical with today's font tokens and with UI-2b's. Synthetic rows in the scratch
-// database ui2a3_*; nothing is printed and no window is shown.
+// font), a claim form printed by FormClaimPrint's page event, the perio chart page as FormPerio prints it (FormPerio.SetUpForPrint and
+// DrawPrintPage), and the claim's perio chart attachment picture (FormClaimEdit.GetPerioAttachmentBitmap) are identical with today's font
+// tokens and with UI-2b's. Synthetic rows in the scratch database ui2a3_*; nothing is printed and no window is shown.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
 using System.Collections.Generic;
@@ -110,25 +110,27 @@ namespace PrintGuardTests {
 				PrintGuardDb.Begin();
 				patNum=SyntheticRows.CreatePerioExam();
 			});
-			//FormPerio.butPrint_Click: the chart at 96 dpi in Microsoft Sans Serif 8.25 at the printed size, drawn by pd2_PrintPage at (100,158) with
-			//the four Arial 15 letters beside it.
+			//The printed perio chart page through the program's own methods: FormPerio.SetUpForPrint, as butPrint_Click calls it (the chart on a
+			//window, moved by that window's LayoutManager), and FormPerio.DrawPrintPage, as pd2_PrintPage calls it, with the index colors and the red
+			//thresholds FormPerio_Load gives the window and a fixed print date, so the page is the same on every run.
 			Guard.AssertSameWithUi2bFonts("PerioChart_Print",() => {
 				FormOpenDental.PatNumCur=patNum;//the implant marker reads the patient's procedures
-				using(ContrPerio contrPerio=new ContrPerio()) {
-					contrPerio.LayoutManager.Is96dpi=true;
-					contrPerio.Font=new Font("Microsoft Sans Serif",8.25f);
-					contrPerio.Size=new Size(602,642+3*13);
+				Patient patient=Patients.GetPat(patNum);
+				ContrPerio contrPerio=new ContrPerio();
+				using(HostFormOD hostFormOD=new HostFormOD(contrPerio)) {//disposes the chart with the window
 					contrPerio.ListPerioExams=PerioExams.Refresh(patNum);
 					contrPerio.ListPerioMeasures=PerioMeasures.GetForPatient(patNum);
 					contrPerio.IdxExamSelected=contrPerio.ListPerioExams.Count-1;
 					contrPerio.LoadData();
-					return Guard.DrawToPixels(850,1100,g => {
-						g.TranslateTransform(100,67+25+20+20+20+6);
-						contrPerio.DrawChart(g);
-						g.DrawString("F",new Font("Arial",15),Brushes.Black,new Point(-26,92));
-						g.DrawString("L",new Font("Arial",15),Brushes.Black,new Point(-26,212+13));
-						g.ResetTransform();
-					});
+					FormPerio.SetUpForPrint(contrPerio,hostFormOD.GetLayoutManager());
+					Assert.AreEqual(new Size(602,642+3*13),contrPerio.Size,"SetUpForPrint gives the chart its printed size.");
+					List<Def> listDefsMiscColors=Defs.GetDefsForCategory(DefCat.MiscColors,isShort:true);
+					return Guard.DrawToPixels(850,1100,g => FormPerio.DrawPrintPage(g,contrPerio,patient,
+						listDefsMiscColors[(int)DefCatMiscColors.PerioPlaque].ItemColor,listDefsMiscColors[(int)DefCatMiscColors.PerioCalculus].ItemColor,
+						listDefsMiscColors[(int)DefCatMiscColors.PerioBleeding].ItemColor,listDefsMiscColors[(int)DefCatMiscColors.PerioSuppuration].ItemColor,
+						PrefC.GetString(PrefName.PerioRedProb),PrefC.GetString(PrefName.PerioRedMGJ),PrefC.GetString(PrefName.PerioRedGing),
+						PrefC.GetString(PrefName.PerioRedCAL),PrefC.GetString(PrefName.PerioRedFurc),PrefC.GetString(PrefName.PerioRedMob),
+						new DateTime(2026,1,6,9,0,0)));
 				}
 			},PrintGuardDb.Begin);
 			//FormClaimEdit's Perio Chart attachment, through the program's own method.
@@ -251,9 +253,16 @@ namespace PrintGuardTests {
 
 	///<summary>A FormODBase built off screen for its LayoutManager (96 dpi, zoom 100%), as the program's windows have one. Never shown.</summary>
 	public class HostFormOD:FormODBase {
-		public HostFormOD() {
+		public HostFormOD() : this(null) {
+		}
+
+		///<summary>With control on the window before its LayoutManager starts, as a designer control is, so the LayoutManager can move it.</summary>
+		public HostFormOD(Control control) {
 			Name="HostFormOD";
 			ClientSize=new Size(700,760);
+			if(control!=null) {
+				Controls.Add(control);
+			}
 			InitializeLayoutManager();
 		}
 
