@@ -2476,25 +2476,23 @@ namespace OpenPmsDental{
 
 		
 
-		private void butAttachPerioHelper() {
-			//Patient PatCur=Patients.GetPat(PatNum);
-			if(PrefC.AtoZfolderUsed==DataStorageType.InDatabase) {
-				MsgBox.Show(this,"Error. Not using AtoZ images folder.");
-				return;
-			}
+		///<summary>The picture the Perio Chart attachment saves: the patient's latest perio exam, drawn by its own ContrPerio, with the patient's name
+		///and the practice title above it. A document (UI refresh, plan section 5.2): its fonts stay Microsoft Sans Serif, the chart keeps its own
+		///through ContrPerio's pin, and the print guard (tests\PrintGuardTests) compares the picture. The caller disposes it.</summary>
+		public static Bitmap GetPerioAttachmentBitmap(Patient patient,LayoutManagerForms layoutManager) {
 			ContrPerio contrPerioGrid=new ContrPerio();
 			contrPerioGrid.BackColor = System.Drawing.SystemColors.Window;
 			contrPerioGrid.Size = new System.Drawing.Size(602,665+3*13);//+3*13: the three auto Att Ging rows (24.4)
-			contrPerioGrid.ListPerioExams=PerioExams.Refresh(_patient.PatNum);
-			contrPerioGrid.ListPerioMeasures=PerioMeasures.GetForPatient(_patient.PatNum);
+			contrPerioGrid.ListPerioExams=PerioExams.Refresh(patient.PatNum);
+			contrPerioGrid.ListPerioMeasures=PerioMeasures.GetForPatient(patient.PatNum);
 			contrPerioGrid.IdxExamSelected=contrPerioGrid.ListPerioExams.Count-1;
 			contrPerioGrid.LoadData();
-			using Bitmap bitmap=new Bitmap(LayoutManager.Scale(602),LayoutManager.Scale(665+3*13));
+			using Bitmap bitmap=new Bitmap(layoutManager.Scale(602),layoutManager.Scale(665+3*13));
 			bitmap.SetResolution(96,96);
 			Graphics g=Graphics.FromImage(bitmap);
 			contrPerioGrid.DrawChart(g);
 			g.Dispose();
-			using Bitmap bitmapBig=new Bitmap(LayoutManager.Scale(602),LayoutManager.Scale(715+3*13));
+			Bitmap bitmapBig=new Bitmap(layoutManager.Scale(602),layoutManager.Scale(715+3*13));
 			bitmapBig.SetResolution(96,96);
 			g=Graphics.FromImage(bitmapBig);
 			g.Clear(Color.White);
@@ -2502,14 +2500,24 @@ namespace OpenPmsDental{
 			g.InterpolationMode=System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
 			g.SmoothingMode=System.Drawing.Drawing2D.SmoothingMode.HighQuality;
 			g.TextRenderingHint=System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
-			string text=_patient.GetNameFL();
-			Font font=new Font("Microsoft Sans Serif",LayoutManager.ScaleFontODZoom(12),FontStyle.Bold);
+			string text=patient.GetNameFL();
+			Font font=new Font("Microsoft Sans Serif",layoutManager.ScaleFontODZoom(12),FontStyle.Bold);
 			g.DrawString(text,font,Brushes.Black,bitmap.Width/2-g.MeasureString(text,font).Width/2,5);
 			text=PrefC.GetString(PrefName.PracticeTitle);
-			font=new Font("Microsoft Sans Serif",LayoutManager.ScaleFontODZoom(9),FontStyle.Bold);
+			font=new Font("Microsoft Sans Serif",layoutManager.ScaleFontODZoom(9),FontStyle.Bold);
 			g.DrawString(text,font,Brushes.Black,bitmap.Width/2-g.MeasureString(text,font).Width/2,28);
 			g.DrawImage(bitmap,0,50);
 			g.Dispose();
+			return bitmapBig;
+		}
+
+		private void butAttachPerioHelper() {
+			//Patient PatCur=Patients.GetPat(PatNum);
+			if(PrefC.AtoZfolderUsed==DataStorageType.InDatabase) {
+				MsgBox.Show(this,"Error. Not using AtoZ images folder.");
+				return;
+			}
+			using Bitmap bitmapBig=GetPerioAttachmentBitmap(_patient,LayoutManager);
 			Random rnd=new Random();
 			string newName=DateTime.Now.ToString("yyyyMMdd")+"_"+DateTime.Now.TimeOfDay.Ticks.ToString()+rnd.Next(1000).ToString()+".jpg";
 			string attachPath=EmailAttaches.GetAttachPath(); 

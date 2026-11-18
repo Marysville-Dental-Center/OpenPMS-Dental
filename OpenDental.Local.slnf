@@ -127,6 +127,7 @@
       "tests\\P262ToolsTests\\P262ToolsTests.csproj",
       "tests\\PayPlanTests\\PayPlanTests.csproj",
       "tests\\PdfLibraryTests\\PdfLibraryTests.csproj",
+      "tests\\PrintGuardTests\\PrintGuardTests.csproj",
       "tests\\ProjectFileTests\\ProjectFileTests.csproj",
       "tests\\QueryMonitorTests\\QueryMonitorTests.csproj",
       "tests\\RdlCodeTests\\RdlCodeTests.csproj",

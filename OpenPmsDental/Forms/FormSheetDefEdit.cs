@@ -2966,6 +2966,7 @@ namespace OpenPmsDental {
 		///<summary>Creates a grid with the given columns for grids associated to a dynamic layout sheetDef.</summary>
 		private GridOD CreateDynamicGrid(SheetFieldDef fieldDef,List<DisplayField> listColumns) {
 			GridOD odGrid=new GridOD();
+			odGrid.IsForDocument=true;//the sheet canvas: its rows are as tall as the sheet's, from the print fonts (UI-2a-3)
 			odGrid.Width=fieldDef.Width;
 			odGrid.TranslationName="";
 			odGrid.BeginUpdate();
@@ -2988,6 +2989,7 @@ namespace OpenPmsDental {
 
 		private GridOD CreateGrid(List<DisplayField> columns) {
 			GridOD odGrid=new GridOD();
+			odGrid.IsForDocument=true;//the sheet canvas: its rows are as tall as the sheet's, from the print fonts (UI-2a-3)
 			odGrid.Width=0;
 			odGrid.TranslationName="";
 			for(int c=0;c<columns.Count;c++) {
