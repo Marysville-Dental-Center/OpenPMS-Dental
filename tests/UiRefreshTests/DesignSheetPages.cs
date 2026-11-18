@@ -39,7 +39,8 @@ namespace UiRefreshTests {
 			{ EnumUiColor.DangerSubtle,"error toolbar state" },{ EnumUiColor.Warning,"notify toolbar state text" },{ EnumUiColor.WarningSubtle,"notify toolbar state" },
 			{ EnumUiColor.Success,"the complete icon" },{ EnumUiColor.TextOnAccent,"text and glyphs on the accent and Danger" },
 			{ EnumUiColor.TextSelected,"text on a selection" },{ EnumUiColor.TitleBar,"title bar (Misc Colors 11 per item)" },
-			{ EnumUiColor.TitleBarText,"title text (Misc Colors 13 per item)" },{ EnumUiColor.TitleBarOutline,"window outline (Misc Colors 12 per item)" } };
+			{ EnumUiColor.TitleBarText,"title text (Misc Colors 13 per item)" },{ EnumUiColor.TitleBarOutline,"window outline (Misc Colors 12 per item)" },
+			{ EnumUiColor.SelectionBarNoFocus,"selection bar without focus" } };
 
 		private static string F(double value) {
 			return value.ToString("0.0",CultureInfo.InvariantCulture);
@@ -143,9 +144,9 @@ namespace UiRefreshTests {
 					page.Space(26);
 				}
 				page.Space(8);
-				page.Note("For you to look at: the selection bar without focus (StrokeStrong, #8A8A8A) is 3.5:1 against the white row around it, as section 3.2 "
-					+"says, but 2.7:1 against the pale blue selection fill next to it. With focus the bar is the accent (5.4:1 on the fill). In a contrast theme "
-					+"the selection is the Windows highlight colour, so there the fill itself carries it.");
+				page.Note("Your answer of 2026-11-17: the selection bar without focus is the darker grey #616161 (SelectionBarNoFocus), 6.2:1 on white and "
+					+"4.9:1 against the pale blue selection fill. With focus the bar is the accent (5.4:1 on the fill). In a contrast theme the bar is the "
+					+"highlight text colour on the Windows highlight.");
 				return page.Save(Path.Combine(folder,"G-UI1-02-contrast.png"));
 			}
 		}

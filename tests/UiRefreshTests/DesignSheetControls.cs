@@ -223,8 +223,8 @@ namespace UiRefreshTests {
 				p.TextLeft("Recall",p.FontBody,uiColorText,new Rectangle(rectangleRow.X+p.S(6),rectangleRow.Y,rectangleRow.Width-p.S(8),rectangleRow.Height));
 			}
 			if(state==SheetState.Selected || state==SheetState.SelectedNoFocus) {
-				//Section 3.2: the 2 px bar on the left edge, Accent with focus, StrokeStrong without.
-				p.Fill(state==SheetState.Selected ? EnumUiColor.Accent : EnumUiColor.StrokeStrong,new Rectangle(rectangleRow.X,rectangleRow.Y,p.FocusWidth,
+				//Section 3.2: the 2 px bar on the left edge, Accent with focus, SelectionBarNoFocus without.
+				p.Fill(state==SheetState.Selected ? EnumUiColor.Accent : EnumUiColor.SelectionBarNoFocus,new Rectangle(rectangleRow.X,rectangleRow.Y,p.FocusWidth,
 					rectangleRow.Height),0);
 			}
 			if(state==SheetState.Focused) {
@@ -600,7 +600,7 @@ namespace UiRefreshTests {
 					}
 					p.Line(EnumUiColor.Gridline,rectangleRow.X,rectangleRow.Bottom-p.LineWidth,rectangleRow.Right,rectangleRow.Bottom-p.LineWidth,p.LineWidth);
 					if(isSelected) {
-						p.Fill(hasFocus ? EnumUiColor.Accent : EnumUiColor.StrokeStrong,new Rectangle(rectangleRow.X,rectangleRow.Y,p.FocusWidth,rectangleRow.Height),0);
+						p.Fill(hasFocus ? EnumUiColor.Accent : EnumUiColor.SelectionBarNoFocus,new Rectangle(rectangleRow.X,rectangleRow.Y,p.FocusWidth,rectangleRow.Height),0);
 						if(hasFocus) {
 							p.Outline(EnumUiColor.Accent,rectangleRow,p.LineWidth,0);
 						}

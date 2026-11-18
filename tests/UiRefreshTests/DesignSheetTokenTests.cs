@@ -148,6 +148,7 @@ namespace UiRefreshTests {
 			Assert.AreEqual(KnownColor.WindowFrame,UiTheme.GetKnownColorHighContrast(EnumUiColor.Stroke));
 			Assert.AreEqual(KnownColor.WindowFrame,UiTheme.GetKnownColorHighContrast(EnumUiColor.StrokeStrong));
 			Assert.AreEqual(KnownColor.GrayText,UiTheme.GetKnownColorHighContrast(EnumUiColor.TextDisabled));
+			Assert.AreEqual(KnownColor.HighlightText,UiTheme.GetKnownColorHighContrast(EnumUiColor.SelectionBarNoFocus));
 			Assert.AreEqual(KnownColor.ActiveCaption,UiTheme.GetKnownColorHighContrast(EnumUiColor.TitleBar));
 			Assert.AreEqual(KnownColor.ActiveCaptionText,UiTheme.GetKnownColorHighContrast(EnumUiColor.TitleBarText));
 			//The tokens follow this computer's setting.
@@ -167,7 +168,8 @@ namespace UiRefreshTests {
 				{ EnumUiColor.AccentPressed,"#2A406C" },{ EnumUiColor.AccentSubtle,"#DCE6F5" },{ EnumUiColor.RowHover,"#F0F4FA" },{ EnumUiColor.CaptionHover,"#5370A6" },
 				{ EnumUiColor.Danger,"#C42B1C" },{ EnumUiColor.DangerSubtle,"#FDE7E9" },{ EnumUiColor.Warning,"#9D5D00" },{ EnumUiColor.WarningSubtle,"#FFF4CE" },
 				{ EnumUiColor.Success,"#0F7B0F" },{ EnumUiColor.TextOnAccent,"#FFFFFF" },{ EnumUiColor.TextSelected,"#1F1F1F" },{ EnumUiColor.TitleBar,"#3C5A96" },
-				{ EnumUiColor.TitleBarText,"#FFFFFF" },{ EnumUiColor.TitleBarOutline,"#2A406C" } };
+				{ EnumUiColor.TitleBarText,"#FFFFFF" },{ EnumUiColor.TitleBarOutline,"#2A406C" },
+				{ EnumUiColor.SelectionBarNoFocus,"#616161" } };
 			Assert.AreEqual(UiTheme.CountColors,dictHex.Count);
 			foreach(KeyValuePair<EnumUiColor,string> pair in dictHex) {
 				Assert.AreEqual(pair.Value,UiTheme.GetHex(pair.Key),pair.Key.ToString());

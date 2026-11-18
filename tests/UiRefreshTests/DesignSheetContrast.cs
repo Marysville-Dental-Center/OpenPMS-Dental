@@ -133,12 +133,13 @@ namespace UiRefreshTests {
 			listPairs.Add(new ContrastPair(EnumUiColor.TextOnAccent,EnumUiColor.Accent,"focus",ContrastLook.Both,"white inner ring on an accent fill"));
 			//Selection, 3:1 (section 3.2: the bar, since the fill alone is 1.26:1).
 			listPairs.Add(new ContrastPair(EnumUiColor.Accent,EnumUiColor.SurfaceRaised,"selection",ContrastLook.Both,"selection bar with focus"));
-			listPairs.Add(new ContrastPair(EnumUiColor.StrokeStrong,EnumUiColor.SurfaceRaised,"selection",ContrastLook.Both,"selection bar without focus"));
+			listPairs.Add(new ContrastPair(EnumUiColor.SelectionBarNoFocus,EnumUiColor.SurfaceRaised,"selection",ContrastLook.LightOnly,"selection bar without focus"));
+			listPairs.Add(new ContrastPair(EnumUiColor.SelectionBarNoFocus,EnumUiColor.AccentSubtle,"selection",ContrastLook.Both,
+				"selection bar without focus, on the fill (the owner's darker grey)"));
 			listPairs.Add(new ContrastPair(EnumUiColor.Accent,EnumUiColor.AccentSubtle,"selection",ContrastLook.LightOnly,"selection bar with focus, on the fill"));
 			listPairs.Add(new ContrastPair(EnumUiColor.AccentSubtle,EnumUiColor.SurfaceRaised,"selection",ContrastLook.HighContrastOnly,
 				"selection fill (high contrast: the highlight)"));
 			//Shown for the owner, not required.
-			listPairs.Add(new ContrastPair(EnumUiColor.StrokeStrong,EnumUiColor.AccentSubtle,"selection",ContrastLook.Info,"selection bar without focus, on the fill"));
 			listPairs.Add(new ContrastPair(EnumUiColor.AccentSubtle,EnumUiColor.SurfaceRaised,"selection",ContrastLook.Info,"selection fill alone (light)"));
 			listPairs.Add(new ContrastPair(EnumUiColor.RowHover,EnumUiColor.AccentSubtle,"selection",ContrastLook.Info,"hover against selection"));
 			listPairs.Add(new ContrastPair(EnumUiColor.TextDisabled,EnumUiColor.SurfaceRaised,"text",ContrastLook.Info,"disabled text (exempt)"));
@@ -161,6 +162,8 @@ namespace UiRefreshTests {
 			add(EnumUiColor.StrokeStrong,EnumUiColor.SurfaceRaised,3.5,false);
 			add(EnumUiColor.StrokeStrong,EnumUiColor.Surface,3.3,false);
 			add(EnumUiColor.StrokeStrongHover,EnumUiColor.SurfaceRaised,6.2,false);
+			add(EnumUiColor.SelectionBarNoFocus,EnumUiColor.SurfaceRaised,6.2,false);
+			add(EnumUiColor.SelectionBarNoFocus,EnumUiColor.AccentSubtle,4.9,false);
 			add(EnumUiColor.TextSecondary,EnumUiColor.SurfaceRaised,6.7,false);
 			add(EnumUiColor.TextDisabled,EnumUiColor.SurfaceRaised,2.6,false);
 			add(EnumUiColor.TextOnAccent,EnumUiColor.Accent,6.8,false);

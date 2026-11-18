@@ -25,7 +25,7 @@ namespace CodeBase {
 		ButtonPressed,
 		///<summary>#D1D1D1. Button border, container borders, group boxes, dividers (decorative).</summary>
 		Stroke,
-		///<summary>#8A8A8A. Outline of inputs, combo boxes, list boxes, check boxes; the selection bar without focus.</summary>
+		///<summary>#8A8A8A. Outline of inputs, combo boxes, list boxes, check boxes.</summary>
 		StrokeStrong,
 		///<summary>#616161. The same outlines on hover.</summary>
 		StrokeStrongHover,
@@ -70,6 +70,10 @@ namespace CodeBase {
 		TitleBarText,
 		///<summary>#2A406C (AccentPressed). The window's 1 px outline (Misc Colors 12 overrides it per item from UI-3 on).</summary>
 		TitleBarOutline,
+		///<summary>#616161. The 2 px selection bar of a selected grid row, list item or tree item while the control does not have focus (section
+		///3.2; the owner's answer on G-UI1 part 1, 2026-11-17: the darker grey, 4.9:1 against the selection fill, 6.2:1 on white). In high
+		///contrast the highlight text colour, which the theme keeps readable on the highlight the selection fills with.</summary>
+		SelectionBarNoFocus,
 	}
 
 	public static partial class UiTheme {
@@ -106,6 +110,7 @@ namespace CodeBase {
 			FromHex(0x3C5A96),//TitleBar
 			FromHex(0xFFFFFF),//TitleBarText
 			FromHex(0x2A406C),//TitleBarOutline
+			FromHex(0x616161),//SelectionBarNoFocus
 		};
 
 		///<summary>The high-contrast partner of each token, indexed by EnumUiColor (section 3.2): surfaces and hover fills the window colour, text the
@@ -142,6 +147,7 @@ namespace CodeBase {
 			KnownColor.ActiveCaption,//TitleBar
 			KnownColor.ActiveCaptionText,//TitleBarText
 			KnownColor.WindowFrame,//TitleBarOutline
+			KnownColor.HighlightText,//SelectionBarNoFocus
 		};
 
 		///<summary>The number of colour tokens.</summary>
@@ -217,6 +223,7 @@ namespace CodeBase {
 		public static Color TitleBar { get { return GetColor(EnumUiColor.TitleBar); } }
 		public static Color TitleBarText { get { return GetColor(EnumUiColor.TitleBarText); } }
 		public static Color TitleBarOutline { get { return GetColor(EnumUiColor.TitleBarOutline); } }
+		public static Color SelectionBarNoFocus { get { return GetColor(EnumUiColor.SelectionBarNoFocus); } }
 		#endregion Colour tokens
 	}
 }
