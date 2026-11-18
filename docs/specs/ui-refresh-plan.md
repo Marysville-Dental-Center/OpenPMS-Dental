@@ -1368,6 +1368,14 @@ own 26.2 overlap check before it starts. The first cut is below; a brief that fi
 - Tests: no designer `Image=` points to a removed picture; `RenameGuardTests` (pack URIs) updated; the layout snapshot and the bounds
   record.
 - Gallery: G-UI3, the slice's windows.
+- **Status UI-9a-1 (2026-11-18).** Done on `ui/ui9a1-1` (`docs/port-notes/UI-9a.md`, sections 1 to 3), not merged yet, waiting for G-UI3
+  (`.git/od-tools/test-results/G-UI3-ui9a1`, rendered off screen). The tool for every slice, `tools/Convert-PictureUses.ps1` (inventory,
+  `-Check`, `-Apply`; `icons/picture-slices.tsv`, `icons/picture-map.tsv`, `icons/picture-converted.tsv`), and `IconLibrary.GetBitmap`.
+  Forms A-C: 62 button pictures in 30 windows, 48 as `UI.Button.Icon` and 14 as `GetBitmap` at the picture's size (the Icon slot did not fit
+  or the picture is not 22 px); 8 window `.resx` pictures and the `Resources` picture `butPin` (its last use) removed; the claim form
+  background kept (4.5); 7 ImageLists left to UI-9b. New `EnumIcons` Up, Down, Edit, Label, Note, Pin, Preview, Send (both enums) and
+  Print, Export (WinForms), 8 manifest rows. `PictureMapTests` (map complete, record in the designers, every read picture present, the
+  built windows); `RenameGuardTests` unchanged (no pack URI in these WinForms windows). Owner questions in the port note, section 3.6.
 
 **UI-9b: ImageLists to icons** (toolbars and trees; 50 `.resx` files, 55 lists, 244 pictures, 318 `ODToolBarButton` calls)
 - Slices: UI-9b-1 the main window and the module toolbars (`Main Modules`, `FormOpenDental`), with `OpenPmsDental/Logic/ProgramL.cs`;

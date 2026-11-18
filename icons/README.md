@@ -183,6 +183,19 @@ the manifest; G-UI1 part 3 shows them.
 | Imaging: scan radiograph; selector radiograph (`ScanXray`, `ImageSelectorXray`) | radiograph | Xray (regular) | Fluent | UI-7b |
 | Image selector: file, folder, web folder (`ImageSelectorFile`, `ImageSelectorFolder`, `ImageSelectorFolderWeb`) | window; yellow folder; folder with a globe | Document, Folder, Folder Globe (regular) | Fluent | UI-7b |
 | Image selector: mount (`ImageSelectorMount`) | nothing (both libraries drew no picture) | Layout Cell Four (regular) | Fluent | UI-7b |
+| Move up, move down in a list (`Up`, `Down`) | green arrows (`up.gif`, `down.gif`) | Arrow Up, Arrow Down (regular) | Fluent | UI-9a-1 |
+| Move, back, forward, insert, copy, more (`ArrowLeft`, `ArrowRight`) | blue arrows (`Left.gif`, `Right.gif`, FormApptSearchAdvanced's More) | Arrow Left, Arrow Right (UI-7b's rows) | Fluent | UI-9a-1 |
+| Print buttons (`Print`) | printers (`butPrint.gif`, `butPrintsmall.gif`) | Print (UI-7b's row; now a WinForms member too) | Fluent | UI-9a-1 |
+| Export buttons (`Export`) | sheet with a red arrow (`butExport.gif`) | Arrow Export LTR (UI-7b's row; now a WinForms member too) | Fluent | UI-9a-1 |
+| Print preview (`Preview`) | page with a magnifier (`butPreview.gif`) | Document Search (regular); the plan's Document Print has no 16 px design | Fluent | UI-9a-1 |
+| Mailing labels (`Label`) | a label (`butlabel.gif`) | Contact Card (regular) | Fluent | UI-9a-1 |
+| To the pinboard (`Pin`) | yellow pin (`butPin.gif`, FormApptEdit) | Pin (regular) | Fluent | UI-9a-1 |
+| Edit (`Edit`) | yellow pencil (`editPencil.gif`) | Edit (regular) | Fluent | UI-9a-1 |
+| A note for the patient (`Note`) | note pad (FormApptsOther) | Note (regular) | Fluent | UI-9a-1 |
+| Send claims, send to and update at TSI (`Send`) | red arrow up (FormClaimEdit, FormClaimResend, FormArManager) | Send (regular) | Fluent | UI-9a-1 |
+
+The window pictures behind these rows, and the pictures that stay, are in `icons/picture-map.tsv` (`tools/Convert-PictureUses.ps1`,
+`docs/port-notes/UI-9a.md`); `icons/picture-converted.tsv` lists every converted control.
 
 ## Drawing an `EnumIcons` icon
 
