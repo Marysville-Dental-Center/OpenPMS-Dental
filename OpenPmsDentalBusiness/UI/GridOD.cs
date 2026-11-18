@@ -76,31 +76,19 @@ using OpenPmsDental.UI;
 		#endregion Fields - Public
 
 		#region Fields - Private Static Drawing
-		//These static drawing objects never get disposed; just used repeatedly by all the various grids.
-		//Colors-------------------------------------------------------------------------------------------------
-		private static Color _colorHover=Color.FromArgb(247,251,253);//ColorOD.Hover=229,239,251, but that's too dark for a grid
-		///<summary>The gray text when a button is disabled.</summary>
-		private static Color _colorTextDisabled=Color.FromArgb(161,161,146);
-		private static Color _colorTitleTop=Color.FromArgb(156,175,230);
-		///<summary>This is a little bit misused.  Review.</summary>
-		private static Color _colorTitleBottom=Color.FromArgb(60,90,150);
-		//Brushes------------------------------------------------------------------------------------------------
-		private static SolidBrush _brushBackground=new SolidBrush(Color.FromArgb(252,253,254));
-		private static SolidBrush _brushHeaderBackground=new SolidBrush(Color.FromArgb(223,234,245));//#DFEAF5
-		private static SolidBrush _brushHeaderText=(SolidBrush)Brushes.Black;
-		private static SolidBrush _brushTitleText=(SolidBrush)Brushes.White;
-		//Pens---------------------------------------------------------------------------------------------------
-		///<summary>Review.  Also separates column headers and is line below headers.  Also used in a few other places where darker line needed.  Maybe change name _penGridlineDark?</summary>
-		private static Pen _penColumnSeparator=new Pen(Color.FromArgb(120,120,120));//	#787878
-		///<summary>Seems to only be used once as the line between title and headers.</summary>
-		private static Pen _penGridInnerLine=new Pen(Color.FromArgb(102,102,122));//	#66667A
-		private static Pen _penGridline=new Pen(Color.FromArgb(220,220,220));
-		private static Pen _penOutline=new Pen(Color.FromArgb(77,100,147));//#4d6493
+		//The screen colours are the UiTheme tokens (UI refresh, package UI-5; docs/specs/ui-refresh-plan.md sections 3.2 and 3.6, docs/port-notes/UI-5.md):
+		//title Accent with white text, header SurfaceSubtle with Stroke separators, rows SurfaceRaised with Gridline lines, hover RowHover,
+		//selection AccentSubtle with the 2 px selection bar, the focused row's Accent outline, outer border Stroke (GridScreenLook, shared with
+		//GridOld). The pens and brushes come from UiTheme's per-thread caches and are never disposed. Printouts and sheets draw with GridPrintLook
+		//(today's colours, UQ-5).
+		///<summary>Today's default selection colour (the ColorSelectedRow default). A grid that keeps it draws its selection in AccentSubtle; a colour a
+		///window sets (DarkSalmon in the Family and Account modules, a transparent one in the report setup) stays, like the other row colours.</summary>
+		private static readonly Color _colorSelectedRowStock=Color.FromArgb(205,220,235);
+		///<summary>The title's height on a printout or a sheet at 96 DPI, today's (UQ-5): the screen's follows the font (GridScreenLook.GetHeightTitle96).</summary>
+		private const int HEIGHT_TITLE_PRINT=18;
 		#endregion Fields - Private Static Drawing
 
 		#region Fields - Private Drawing
-		//These fields change when dpi changes, so they are not static.  All disposed
-		private LinearGradientBrush _brushTitleBackground;//=new LinearGradientBrush(new Point(0,0),new Point(0,18),_colorTitleTop,_colorTitleBottom);
 		//Fonts--------------------------------------------------------------------------------------------------
 		//The screen fonts take the font tokens (UI refresh, UI-2a-3: FontGrid in its four styles, FontTitle), which hold today's sans serif 8.5
 		//and 10 Bold until UI-2b. Printouts and sheets never use them: they draw with the print fonts below.
@@ -121,7 +109,7 @@ using OpenPmsDental.UI;
 
 		#region Fields - Private for Properties
 		private bool _addButtonEnabled=true;
-		private Color _colorSelectedRow=Color.FromArgb(205,220,235);
+		private Color _colorSelectedRow=_colorSelectedRowStock;
 			//186,199,219);//recent listboxOD color
 			//Color.Silver;//gray 192
 		private bool _hasAddButton=false;
@@ -161,10 +149,17 @@ using OpenPmsDental.UI;
 		private GridRow _gridRowMouseDown;
 		///<summary>Is set when ComputeRows is run, then used . If any columns are editable, hasEditableColumn is true, and all row heights are slightly taller.</summary>
 		private bool _hasEditableColumn;
-		///<summary>Starts out 18.  If title is not visible, this will be set to 0. 96dpi.</summary>
-		private int _heightTitle=18;
-		///<summary>Starts out 15, but code can push it higher to fit multiline text. If header is not visible, this will be set to 0. 96dpi.</summary>
-		private int _heightHeader=15;
+		///<summary>The screen title's height: its font's line height plus 2 (UI-5), 18 with today's font. If title is not visible, this will be set to 0.
+		///96dpi.</summary>
+		private int _heightTitle=GridScreenLook.GetHeightTitle96();
+		///<summary>_heightTitle for printouts and sheets: today's 18 (UQ-5), or 0 when the title is not visible. 96dpi.</summary>
+		private int _heightTitlePrint=HEIGHT_TITLE_PRINT;
+		///<summary>Starts out at the header font's line height plus 2 (UI-5; 15 with today's font), but code can push it higher to fit multiline text.
+		///If header is not visible, this will be set to 0. 96dpi.</summary>
+		private int _heightHeader=GridScreenLook.GetHeightHeader96();
+		///<summary>The row the arrow keys or the last click moved to: it gets the 1 px Accent outline while the grid has focus and Windows shows
+		///keyboard cues (section 3.6). -1 for none; reset by EndUpdate.</summary>
+		private int _indexRowFocused=-1;
 		///<summary>_heightHeader for printouts and sheets: the same rule, with the multiline headers measured in the print header font (UI-2a-3), so a
 		///taller screen font never changes a printed header. 96dpi.</summary>
 		private int _heightHeaderPrint=15;
@@ -248,7 +243,6 @@ using OpenPmsDental.UI;
 		protected override void Dispose(bool disposing) {
 			if(disposing) {
 				_stringFormat?.Dispose();
-				_brushTitleBackground?.Dispose();
 				_fontCell?.Dispose();
 				_fontCellBold?.Dispose();
 				_fontUnderline?.Dispose();
@@ -534,7 +528,7 @@ using OpenPmsDental.UI;
 				}
 				_headersVisible=value;
 				if(_headersVisible){
-					_heightHeader=15;
+					_heightHeader=GridScreenLook.GetHeightHeader96();
 					_heightHeaderPrint=15;
 				}
 				else{
@@ -639,10 +633,12 @@ using OpenPmsDental.UI;
 				}
 				_titleVisible=value;
 				if(_titleVisible){
-					_heightTitle=18;
+					_heightTitle=GridScreenLook.GetHeightTitle96();
+					_heightTitlePrint=HEIGHT_TITLE_PRINT;
 				}
 				else{
 					_heightTitle=0;
+					_heightTitlePrint=0;
 				}
 				LayoutScrolls();
 			}
@@ -911,6 +907,7 @@ using OpenPmsDental.UI;
 			hScroll.Value=0;
 			_listSelectedIndices=new List<int>();
 			_selectedCell=new Point(-1,-1);
+			_indexRowFocused=-1;
 			textEdit?.Dispose();
 			_sortedByColumnIdx=-1;
 			Invalidate();
@@ -1442,18 +1439,15 @@ using OpenPmsDental.UI;
 			}
 		}
 
-		///<summary>Draws a solid whitish background.</summary>
+		///<summary>Draws the background below the header: SurfaceRaised (UI-5).</summary>
 		private void DrawBackG(Graphics g) {
-			g.FillRectangle(_brushBackground,0,OriginY(),Width,Height-OriginY());
+			GridScreenLook.DrawBackground(g,new Rectangle(0,OriginY(),Width,Height-OriginY()));
 		}
 
 		///<summary>Draws the background, lines, and text for all rows that are visible.</summary>
 		private void DrawRows(Graphics g) {
-			if(CultureInfo.CurrentCulture.Name.EndsWith("IN") && _fontCell.Name!="Arial") {
-				//India. Not sure on history of this hack, but it seems harmless. Maybe MS not avail in India?
-				_fontCell=new Font("Arial",_fontCell.Size);
-				_fontCellBold=new Font("Arial",_fontCell.Size,FontStyle.Bold);
-			}
+			//India: the screen fonts no longer switch to Arial (UI-5, plan section 5.1): the likely reason was the rupee sign, which Segoe UI and
+			//Microsoft Sans Serif both draw on Windows 10 and 11 (GridLookTests checks it). The print fonts still switch, so printouts keep their look.
 			if(CultureInfo.CurrentCulture.Name.EndsWith("IN") && _fontPrintCell.Name!="Arial") {
 				//The same for the print fonts: a grid shown on screen printed in Arial in India, because it printed with the screen fonts (UI-2a-3).
 				_fontPrintCell=new Font("Arial",_fontPrintCell.Size);
@@ -1473,7 +1467,7 @@ using OpenPmsDental.UI;
 					break;
 				}
 				if(ListGridRows[i].Cells.Count==0){
-					FillRow(i);	
+					FillRow(i);
 				}
 				if(!ListGridRows[i].State.IsHeightCalculated){
 					int heightBefore=ListGridRows[i].State.HeightTotal;
@@ -1499,21 +1493,25 @@ using OpenPmsDental.UI;
 			//The values for Ypos, XPos, etc. refer to actual gridline positions.
 			//Cells are sequentially drawn top to bottom, left to right.
 			//Cell background is drawn, followed by right and bottom gridlines.
-			//So backgrounds must start 1 pix R and D to avoid drawing on top of gridlines to their L and top. 
+			//So backgrounds must start 1 pix R and D to avoid drawing on top of gridlines to their L and top.
 			//This rule is consistent, including cell 0,0, where the left "gridline" is the outline of the entire grid.
 			//For example, if a cell is 40x10, then the fill rect is size 40x10, drawn at 1,1.
 			//Then, its own gridlines are drawn at 40 and 10 on right and bottom
-			//These draw right on top of the filled rectangle, resulting in perfect alignment.	
+			//These draw right on top of the filled rectangle, resulting in perfect alignment.
 			GridRow gridRow=ListGridRows[rowI];
-			int top=-vScroll.Value+OriginY()+gridRow.State.YPos;//The gridline above this row. 
+			int top=-vScroll.Value+OriginY()+gridRow.State.YPos;//The gridline above this row.
 			int hMain=gridRow.State.HeightMain;
 			int hNote=gridRow.State.HeightNote;
 			int hTot=gridRow.State.HeightMain+gridRow.State.HeightNote;
 			Font font;//do not dispose this ref.
+			//The row colours of UI-5 (GridScreenLook): the selection AccentSubtle unless the window set its own ColorSelectedRow; a row the program
+			//or the office coloured keeps its colour; white rows are SurfaceRaised; hover darkens by RowHover.
+			bool isSelected=_listSelectedIndices.Contains(rowI);
+			Color colorSelection=GridScreenLook.GetSelectionFill(ColorSelectedRow,_colorSelectedRowStock);
 			Color colorRow;
 			//selected row color
-			if(_listSelectedIndices.Contains(rowI)) {
-				colorRow=GetSelectedColor(gridRow.ColorBackG,ColorSelectedRow);
+			if(isSelected) {
+				colorRow=GetSelectedColor(gridRow.ColorBackG,colorSelection);
 			}
 			//colored row background
 			else if(gridRow.ColorBackG.ToArgb()!=Color.White.ToArgb()) {//.ToArgb required for value comparison
@@ -1524,17 +1522,11 @@ using OpenPmsDental.UI;
 			}
 			//normal row color
 			else {//need to draw over the gray background
-				colorRow=gridRow.ColorBackG;
+				colorRow=GridScreenLook.GetRowBack(gridRow.ColorBackG);
 			}
-			//hover row background gets blended to make it slightly darker, just like 247,251,253 is darker than white
+			//hover row background gets blended to make it slightly darker, as RowHover is darker than white
 			if(_hoverRow==rowI){
-				int r=colorRow.R-255+_colorHover.R;
-				if(r<0) r=0;
-				int gr=colorRow.G-255+_colorHover.G;
-				if(gr<0) gr=0;
-				int b=colorRow.B-255+_colorHover.B;
-				if(b<0) b=0;
-				colorRow=Color.FromArgb(r,gr,b);
+				colorRow=GridScreenLook.BlendHover(colorRow);
 			}
 			using SolidBrush brushRow=new SolidBrush(colorRow);
 			g.FillRectangle(brushRow,
@@ -1553,11 +1545,11 @@ using OpenPmsDental.UI;
 				//Blend with row background colors. Cell color= Avg(CellColor+RowColor)
 				Color colorCell;
 				//selected row
-				if(_listSelectedIndices.Contains(rowI)) {
+				if(isSelected) {
 					colorCell=Color.FromArgb(
-						(ColorSelectedRow.R+gridRow.Cells[i].ColorBackG.R)/2,
-						(ColorSelectedRow.G+gridRow.Cells[i].ColorBackG.G)/2,
-						(ColorSelectedRow.B+gridRow.Cells[i].ColorBackG.B)/2);
+						(colorSelection.R+gridRow.Cells[i].ColorBackG.R)/2,
+						(colorSelection.G+gridRow.Cells[i].ColorBackG.G)/2,
+						(colorSelection.B+gridRow.Cells[i].ColorBackG.B)/2);
 				}
 				//colored row background
 				//This is wrong.  We should not have been blending cell color with row color.  Cell is supposed to override row.
@@ -1572,32 +1564,12 @@ using OpenPmsDental.UI;
 					colorCell=gridRow.Cells[i].ColorBackG;
 				}
 				//blend again for hover. This could result in a blend of row+cell+hover, or selected+cell+hover
-				//hover row background gets blended to make it slightly darker, just like 247,251,253 is darker than white
 				if(_hoverRow==rowI){
-					int r=colorCell.R-255+_colorHover.R;
-					if(r<0) r=0;
-					int gr=colorCell.G-255+_colorHover.G;
-					if(gr<0) gr=0;
-					int b=colorCell.B-255+_colorHover.B;
-					if(b<0) b=0;
-					colorCell=Color.FromArgb(r,gr,b);
+					colorCell=GridScreenLook.BlendHover(colorCell);
 				}
-				if(gridRow.Cells[i].IsButton) { 
+				if(gridRow.Cells[i].IsButton) {
 					Rectangle rectangleButton=new Rectangle(-hScroll.Value+Columns[i].State.XPos+2,top+2,Columns[i].State.Width-4,hTot-4);
-					Color colorTop=Color.White;
-					if(gridRow.Cells[i].ButtonIsPressed){
-						colorTop=Color.LightGray;
-					}
-					using(LinearGradientBrush brushButton = new LinearGradientBrush(rectangleButton,colorTop,Color.LightGray,90)) {
-						g.FillRectangle(brushButton,rectangleButton); 
-					}
-					Color colorOutline=_colorTextDisabled;
-					if(Enabled){
-						colorOutline=_colorTitleBottom;
-					}
-					using(Pen pen=new Pen(colorOutline)) { 
-						g.DrawRectangle(pen,rectangleButton);
-					}
+					GridScreenLook.DrawCellButton(g,rectangleButton,gridRow.Cells[i].ButtonIsPressed,Enabled,_scaleMS*_zoomLocal);
 				}
 				else {
 					using(SolidBrush brushCell=new SolidBrush(colorCell)) {
@@ -1607,47 +1579,52 @@ using OpenPmsDental.UI;
 			}
 			if(_selectionMode==GridSelectionMode.OneCell && _selectedCell.X!=-1 && _selectedCell.Y!=-1
 				&& _selectedCell.Y==rowI) {
-				g.FillRectangle(new SolidBrush(ColorSelectedRow),
-					-hScroll.Value+Columns[_selectedCell.X].State.XPos+1,
-					top+1,
-					Columns[_selectedCell.X].State.Width,
-					hTot);
+				using(SolidBrush brushSelectedCell=new SolidBrush(colorSelection)) {
+					g.FillRectangle(brushSelectedCell,
+						-hScroll.Value+Columns[_selectedCell.X].State.XPos+1,
+						top+1,
+						Columns[_selectedCell.X].State.Width,
+						hTot);
+				}
 			}
+			Pen penGridline=UiTheme.GetPen(EnumUiColor.Gridline);//shared, never disposed
 			//lines for note section
 			if(hNote>0) {
 				//left vertical gridline for note
 				if(NoteSpanStart!=0) {
-					g.DrawLine(_penGridline,
+					g.DrawLine(penGridline,
 						-hScroll.Value+Columns[NoteSpanStart].State.XPos,
 						top+hMain,
 						-hScroll.Value+Columns[NoteSpanStart].State.XPos,
 						top+hTot);
 				}
 				//vertical line on very right of entire grid
-				g.DrawLine(_penGridline,
+				g.DrawLine(penGridline,
 					-hScroll.Value+_widthTotal,
 					top+hMain+1,
 					-hScroll.Value+_widthTotal,
 					top+hTot);
 				//Horizontal line which divides the main part of the row from the notes section of the row
-				g.DrawLine(_penGridline,
+				g.DrawLine(penGridline,
 					-hScroll.Value+Columns[0].State.XPos,
 					top+hMain,
 					-hScroll.Value+Columns[Columns.Count-1].State.Right,
 					top+hMain);
 			}
-			Pen penLower=new Pen(_penGridline.Color);//disposed a few pages down
+			Pen penLower=penGridline;//only the ColorLborder pen below is made here, and disposed a few pages down
+			Pen penLborder=null;
 			if(rowI==ListGridRows.Count-1) {//last row
-				penLower=new Pen(_penColumnSeparator.Color);
+				penLower=UiTheme.GetPen(EnumUiColor.Stroke);
 			}
 			else {
 				if(gridRow.ColorLborder!=Color.Empty) {
-					penLower=new Pen(gridRow.ColorLborder);
+					penLborder=new Pen(gridRow.ColorLborder);
+					penLower=penLborder;
 				}
 			}
 			for(int i=0;i<Columns.Count;i++) {
 				//vertical line on right of cell
-				g.DrawLine(_penGridline,
+				g.DrawLine(penGridline,
 					-hScroll.Value+Columns[i].State.Right,
 					top+1,
 					-hScroll.Value+Columns[i].State.Right,
@@ -1675,7 +1652,7 @@ using OpenPmsDental.UI;
 				}
 				Rectangle rectangleText=new Rectangle(-hScroll.Value+Columns[i].State.XPos,top+1,Columns[i].State.Width,hMain);
 				if(WrapText && Columns[i].TextAlign==HorizontalAlignment.Left){
-					//The line below is a compromise that leaves a bit of extra white space on the right, 
+					//The line below is a compromise that leaves a bit of extra white space on the right,
 					//but still works for sheets and printing.  See comments in ComputeRows.
 					rectangleText=new Rectangle(-hScroll.Value+Columns[i].State.XPos,top+1,Columns[i].State.Width,hMain);
 				}
@@ -1695,14 +1672,14 @@ using OpenPmsDental.UI;
 				Color colorText;
 				if(gridRow.Cells[i].ColorText== Color.Empty) {
 					if(gridRow.Cells[i].IsButton && !Enabled) { //set the "button" text to gray if this is grid is disabled
-						colorText=_colorTextDisabled;
+						colorText=UiTheme.TextDisabled;
 					}
-					else { 
-						colorText=gridRow.ColorText;
+					else {
+						colorText=GridScreenLook.GetTextColor(gridRow.ColorText,isSelected);
 					}
 				}
 				else {
-					colorText=gridRow.Cells[i].ColorText;
+					colorText=GridScreenLook.GetTextColor(gridRow.Cells[i].ColorText,isSelected);
 				}
 				if(gridRow.Cells[i].Bold== YN.Yes) {
 					font= _fontCellBold;
@@ -1728,24 +1705,25 @@ using OpenPmsDental.UI;
 				}
 				//If _hasDropDowns, we don't support images in the first column
 				if(_hasDropDowns && i==0) { //only draw the dropdown arrow in the first column of the row.
+					Pen penArrow=UiTheme.GetPen(EnumUiColor.Text);//shared, never disposed
 					if(gridRow.State.DropDownState== ODGridDropDownState.Up) {//arrow pointing right
 						PointF topPoint = new PointF(-hScroll.Value+Columns[i].State.XPos+3,top+(hMain/2)-5);
 						PointF botPoint = new PointF(topPoint.X, topPoint.Y+10);
 						PointF rightPoint = new PointF(topPoint.X+5, topPoint.Y+5);
-						g.DrawPolygon(Pens.Black, new PointF[] { topPoint, botPoint, rightPoint });
+						g.DrawPolygon(penArrow, new PointF[] { topPoint, botPoint, rightPoint });
 					}
 					else if(gridRow.State.DropDownState== ODGridDropDownState.Down) {//arrow pointing down
 						PointF leftPoint = new PointF(-hScroll.Value+Columns[i].State.XPos+1,top+(hMain/2)-2);
 						PointF rightPoint = new PointF(leftPoint.X+10, leftPoint.Y);
 						PointF botPoint = new PointF(leftPoint.X+5, leftPoint.Y+5);
-						g.DrawPolygon(Pens.Black, new PointF[] { leftPoint, botPoint, rightPoint });
+						g.DrawPolygon(penArrow, new PointF[] { leftPoint, botPoint, rightPoint });
 					}
 					//a small L indicator that shows that a row is a drop down child.
 					else if(gridRow.DropDownParent!=null) {
 						PointF topPoint = new PointF(-hScroll.Value+Columns[i].State.XPos+4,top+1);
 						PointF midPoint = new PointF(-hScroll.Value+Columns[i].State.XPos+4,top+8);
 						PointF rightPoint = new PointF(-hScroll.Value+Columns[i].State.XPos+9,top+8);
-						g.DrawLines(Pens.Black, new PointF[] { topPoint, midPoint, rightPoint });
+						g.DrawLines(penArrow, new PointF[] { topPoint, midPoint, rightPoint });
 					}
 				}
 				if(Columns[i].ImageList==null){//text
@@ -1765,7 +1743,7 @@ using OpenPmsDental.UI;
 					}
 				}
 			}
-			penLower.Dispose();
+			penLborder?.Dispose();
 			//note text
 			if(hNote>0 && NoteSpanStop>0 && NoteSpanStart<Columns.Count) {
 				int noteW=0;
@@ -1773,7 +1751,7 @@ using OpenPmsDental.UI;
 					noteW+=Columns[i].State.Width;
 				}
 				if(gridRow.Bold) {
-					font= _fontCellBold; 
+					font= _fontCellBold;
 				}
 				else {
 					font= _fontCell;
@@ -1784,7 +1762,7 @@ using OpenPmsDental.UI;
 					Columns[NoteSpanStop].State.Right-Columns[NoteSpanStart].State.XPos,
 					hNote);
 				_stringFormat.Alignment = StringAlignment.Near;
-				using(SolidBrush brush=new SolidBrush(gridRow.ColorText)){
+				using(SolidBrush brush=new SolidBrush(GridScreenLook.GetTextColor(gridRow.ColorText,isSelected))){
 					if(gridRow.Note.Length<= TEXT_LENGTH_LIMIT) {
 						g.DrawString(gridRow.Note,font,brush,rectangleNote,_stringFormat);
 					}
@@ -1793,116 +1771,126 @@ using OpenPmsDental.UI;
 					}
 				}
 			}
+			//The selection bar and the focused row (UI-5, sections 3.2 and 3.6), inside the row's fill (from x 1 to its right gridline, below its top
+			//gridline, above its bottom one), drawn last so a cell colour or an image in the first column does not hide them.
+			if(Columns.Count==0) {
+				return;
+			}
+			int right=Math.Min(-hScroll.Value+Columns[Columns.Count-1].State.Right,Width-1);
+			Rectangle rectangleRowInside=new Rectangle(1,top+1,right-1,hTot-1);
+			float scale=_scaleMS*_zoomLocal;
+			if(isSelected && _selectionMode!=GridSelectionMode.OneCell) {
+				GridScreenLook.DrawSelectionBar(g,rectangleRowInside,IsSelectionFocused,scale);
+			}
+			if(rowI==GetIndexRowFocused() && IsFocusedRowShown) {
+				GridScreenLook.DrawFocusedRow(g,rectangleRowInside,scale);
+			}
 		}
 
 		private void DrawTitle(Graphics g) {
 			if(_heightTitle==0) {
 				return;
 			}
-			g.FillRectangle(_brushTitleBackground,1,1,Width,ScaleI(_heightTitle));
-			g.DrawString(_title,_fontTitle,Brushes.White,Width/2-g.MeasureString(_title,_fontTitle).Width/2,2);
+			//Flat Accent with white text (UI-5); the font is the title token's.
+			GridScreenLook.DrawTitle(g,Width,ScaleI(_heightTitle),_title,_fontTitle,isDesignMode:false);
 			if(!HasAddButton) {
 				return;
 			}
 			//Everything from here down is AddButton
-			int addW=ScaleI(_heightTitle);
-			int dividerX=Width-addW-3;
-			const int dividerLineWidth=1;
-			const int plusSignWidth=4;
-			Brush brushPlusSign=Brushes.White;//new SolidBrush(ODColorTheme.GridTextBrush.Color);//cannot dispose a brush from ODColorTheme
-			if(!_addButtonEnabled) {
-				//"gray out" darkest background color for plus sign
-				const double fadeFactor=0.8;
-				brushPlusSign=new LinearGradientBrush(new Rectangle(0,0,Width,ScaleI(_heightTitle)),
-					Color.FromArgb((int)(_colorTitleTop.R*fadeFactor),(int)(_colorTitleTop.G*fadeFactor),(int)(_colorTitleTop.B*fadeFactor)),
-					Color.FromArgb((int)(_colorTitleBottom.R*fadeFactor),(int)(_colorTitleBottom.G*fadeFactor),(int)(_colorTitleBottom.B*fadeFactor)),
-					LinearGradientMode.Vertical);//"gray out" AddButton
-			}
-			using(Pen pDark=new Pen(Color.FromArgb(102,102,122))) {
-				g.DrawLine(Pens.LightGray,new Point(dividerX,0),new Point(dividerX,ScaleI(_heightTitle)));//divider line(right side)
-				g.DrawLine(pDark,new Point(dividerX-dividerLineWidth,0),new Point(dividerX-dividerLineWidth,ScaleI(_heightTitle)));//divider line(left side)
-				g.FillRectangle(brushPlusSign,//vertical bar in "+" sign
-					Width-addW/2-plusSignWidth,2,
-					plusSignWidth,addW-plusSignWidth);
-				//Width-addW/2+2,addW-2);
-				g.FillRectangle(brushPlusSign,//horizontal bar in "+" sign
-					Width-addW,(addW-plusSignWidth)/2,
-					addW-plusSignWidth,plusSignWidth);
-				//Width-2,addW/2+2);
-				//g.DrawString("+",titleFont,brushTitleText,Width-addW+4,2);
-			}
-			AddButtonWidth=addW;
+			AddButtonWidth=GridScreenLook.DrawAddButton(g,Width,ScaleI(_heightTitle),_addButtonEnabled);
 		}
 
 		private void DrawHeaders(Graphics g) {
 			if(_heightHeader==0) {
 				return;
 			}
-			g.FillRectangle(_brushHeaderBackground,1,ScaleI(_heightTitle)+1,Width,ScaleI(_heightHeader));//background
-			g.DrawLine(_penGridInnerLine,0,ScaleI(_heightTitle),Width,ScaleI(_heightTitle));//line between title and headers
+			//SurfaceSubtle with Text, 1 px Stroke column separators and bottom line (UI-5). The title's Accent ends at its own bottom edge, so
+			//there is no line between title and headers.
+			GridScreenLook.DrawHeaderBackground(g,Width,ScaleI(_heightTitle)+1,ScaleI(_heightHeader));
 			StringFormat stringFormat=new StringFormat();
 			stringFormat.Alignment=StringAlignment.Center;
 			stringFormat.LineAlignment=StringAlignment.Center;
 			for(int i=0;i<Columns.Count;i++) {
 				if(i!=0) {
 					//vertical lines to right of column header
-					g.DrawLine(_penColumnSeparator,-hScroll.Value+Columns[i].State.XPos,ScaleI(_heightTitle)+3,
-						-hScroll.Value+Columns[i].State.XPos,OriginY()-2);
-					g.DrawLine(new Pen(Color.White),-hScroll.Value+Columns[i].State.XPos+1,ScaleI(_heightTitle)+3,
-						-hScroll.Value+Columns[i].State.XPos+1,OriginY()-2);
+					GridScreenLook.DrawHeaderSeparator(g,-hScroll.Value+Columns[i].State.XPos,ScaleI(_heightTitle)+1,OriginY());
 				}
 				RectangleF rect=new RectangleF(Columns[i].State.XPos-hScroll.Value,ScaleI(_heightTitle)+1,
 					Columns[i].State.Width,ScaleI(_heightHeader));
-				g.DrawString(Columns[i].Heading,_fontHeader,_brushHeaderText,rect,stringFormat);
+				g.DrawString(Columns[i].Heading,_fontHeader,UiTheme.GetBrush(EnumUiColor.Text),rect,stringFormat);
 			}
-			GraphicsState graphicsState=g.Save();
-			g.SmoothingMode=SmoothingMode.HighQuality;
 			for(int i=0;i<Columns.Count;i++) {
 				if(_sortedByColumnIdx == i) {
 					PointF p=new PointF(-hScroll.Value+Columns[i].State.XPos+6,ScaleF(_heightTitle+_heightHeader/2f));
-					if(_isSortedAscending) {//pointing up
-						g.FillPolygon(Brushes.White,new PointF[] {
-						new PointF(p.X-4.9f,p.Y+2f),//LLstub
-						new PointF(p.X-4.9f,p.Y+2.5f),//LLbase
-						new PointF(p.X+4.9f,p.Y+2.5f),//LRbase
-						new PointF(p.X+4.9f,p.Y+2f),//LRstub
-						new PointF(p.X,p.Y-2.8f)});//Top
-						g.FillPolygon(Brushes.Black,new PointF[] {
-						new PointF(p.X-4,p.Y+2),//LL
-						new PointF(p.X+4,p.Y+2),//LR
-						new PointF(p.X,p.Y-2)});//Top
-					}
-					else {//pointing down
-						g.FillPolygon(Brushes.White,new PointF[] {//shaped like home plate
-						new PointF(p.X-4.9f,p.Y-2f),//ULstub
-						new PointF(p.X-4.9f,p.Y-2.7f),//ULtop
-						new PointF(p.X+4.9f,p.Y-2.7f),//URtop
-						new PointF(p.X+4.9f,p.Y-2f),//URstub
-						new PointF(p.X,p.Y+2.8f)});//Bottom
-						g.FillPolygon(Brushes.Black,new PointF[] {
-						new PointF(p.X-4,p.Y-2),//UL
-						new PointF(p.X+4,p.Y-2),//UR
-						new PointF(p.X,p.Y+2)});//Bottom
-					}
+					GridScreenLook.DrawSortArrow(g,p,_isSortedAscending);
 				}//if
 			}//for
-			g.Restore(graphicsState);//to possibly turn off HighQuality
 			stringFormat.Dispose();
 			//line below headers
-			g.DrawLine(_penColumnSeparator,0,OriginY(),Width,OriginY());
+			GridScreenLook.DrawHeaderBottomLine(g,Width,OriginY());
 		}
 
-		///<summary>Draws outline around entire control.</summary>
+		///<summary>Draws outline around entire control: 1 px Stroke (UI-5).</summary>
 		private void DrawOutline(Graphics g) {
 			if(hScroll.Visible) {//for the little square at the lower right between the two scrollbars
-				g.FillRectangle(new SolidBrush(Color.FromKnownColor(KnownColor.Control)),Width-vScroll.Width-1,
-					Height-hScroll.Height-1,vScroll.Width,hScroll.Height);
+				using(SolidBrush brushCorner=new SolidBrush(Color.FromKnownColor(KnownColor.Control))) {
+					g.FillRectangle(brushCorner,Width-vScroll.Width-1,Height-hScroll.Height-1,vScroll.Width,hScroll.Height);
+				}
 			}
-			g.DrawRectangle(_penOutline,0,0,Width-1,Height-1);
+			GridScreenLook.DrawOutline(g,Width,Height,_scaleMS*_zoomLocal);
+		}
+
+		///<summary>True while the grid or a control in it (an edit box, a combo box) has focus: the selection bar is Accent then, SelectionBarNoFocus
+		///otherwise (section 3.2). The arrows that come through the parent form without focus (ParentForm_KeyDown) keep the unfocused bar.</summary>
+		protected virtual bool IsSelectionFocused {
+			get { return Focused || ContainsFocus; }
+		}
+
+		///<summary>True while the grid has focus and Windows shows keyboard cues: the focused row gets its Accent outline then (section 3.6), so a
+		///mouse click draws no outline.</summary>
+		protected virtual bool IsFocusedRowShown {
+			get { return IsSelectionFocused && ShowFocusCues; }
+		}
+
+		///<summary>The focused row: the row the arrow keys or the last click moved to, if it is still a row; else the first selected row in the
+		///row selection modes. -1 for none.</summary>
+		private int GetIndexRowFocused() {
+			if(_selectionMode==GridSelectionMode.OneCell || _selectionMode==GridSelectionMode.None) {
+				return -1;
+			}
+			if(_indexRowFocused>=0 && _indexRowFocused<ListGridRows.Count) {
+				return _indexRowFocused;
+			}
+			if(_listSelectedIndices.Count>0) {
+				return _listSelectedIndices[0];
+			}
+			return -1;
 		}
 		#endregion Methods - Event Handlers - Painting
 
 		#region Methods - Event Handlers
+		//Focus changes the selection bar (Accent with focus, SelectionBarNoFocus without) and the focused row's outline (UI-5), so the grid
+		//repaints when it or a control in it (an edit box, a combo box) gets or loses focus.
+		protected override void OnEnter(EventArgs e) {
+			base.OnEnter(e);
+			Invalidate();
+		}
+
+		protected override void OnLeave(EventArgs e) {
+			base.OnLeave(e);
+			Invalidate();
+		}
+
+		protected override void OnGotFocus(EventArgs e) {
+			base.OnGotFocus(e);
+			Invalidate();
+		}
+
+		protected override void OnLostFocus(EventArgs e) {
+			base.OnLostFocus(e);
+			Invalidate();
+		}
+
 		protected override void OnFontChanged(EventArgs e) {
 			base.OnFontChanged(e);
 			//irrelevant since we ignore the actual font and just use scale.
@@ -2171,6 +2159,7 @@ using OpenPmsDental.UI;
 			_mouseDownCol=PointToCol(e.X);
 			if(_mouseDownRow.Between(0,ListGridRows.Count-1)) {
 				_gridRowMouseDown=ListGridRows[_mouseDownRow];
+				_indexRowFocused=_mouseDownRow;//the focused row's outline follows the click (UI-5)
 			}
 			else {
 				_gridRowMouseDown=null;
@@ -2695,8 +2684,8 @@ using OpenPmsDental.UI;
 			Graphics g=CreateGraphics();
 			int heightText=(int)(1.03f*g.MeasureString(textEdit.Text+"\r\n",_fontCell,textEdit.Width).Height);
 			g.Dispose();
-			if(heightText < ScaleI(EDITABLE_ROW_HEIGHT)) {//if it's less than one line
-			  heightText=ScaleI(EDITABLE_ROW_HEIGHT);//set it to one line
+			if(heightText < HeightEditableRow()) {//if it's less than one line
+			  heightText=HeightEditableRow();//set it to one line
 			}
 			if(heightText<=textEdit.Height+1) {
 				return;
@@ -2709,7 +2698,7 @@ using OpenPmsDental.UI;
 			if(textEdit.Top==0 && textEdit.Bottom==bottomVisible){
 				return;//already as tall as it can get
 			}
-			textEdit.Height+=ScaleI(EDITABLE_ROW_HEIGHT);
+			textEdit.Height+=HeightEditableRow();
 			if(textEdit.Bottom<=bottomVisible){
 				return;
 			}
@@ -2752,6 +2741,7 @@ using OpenPmsDental.UI;
 					int selectedNew=_listSelectedIndices[0]+1;
 					_listSelectedIndices.Clear();
 					_listSelectedIndices.Add(selectedNew);
+					_indexRowFocused=selectedNew;
 					ScrollToMakeVisible(selectedNew);
 					SelectionCommitted?.Invoke(this,new EventArgs());
 					hScroll.Value=hScroll.Minimum;
@@ -2763,6 +2753,7 @@ using OpenPmsDental.UI;
 					int selectedNew=_listSelectedIndices[0]-1;
 					_listSelectedIndices.Clear();
 					_listSelectedIndices.Add(selectedNew);
+					_indexRowFocused=selectedNew;
 					ScrollToMakeVisible(selectedNew);				
 					SelectionCommitted?.Invoke(this,new EventArgs());
 					Invalidate();
@@ -3223,17 +3214,17 @@ using OpenPmsDental.UI;
 		public void SheetDrawTitle(Graphics g,int x,int y,float scaleMS) {
 			Color cTitleTop=GridPrintLook.ColorTitleTop;
 			Color cTitleBottom=GridPrintLook.ColorTitleBottom;
-			LinearGradientBrush brushTitleBackground=new LinearGradientBrush(new Rectangle(x,y,Width,_heightTitle),cTitleTop,cTitleBottom,LinearGradientMode.Vertical);
-			g.FillRectangle(brushTitleBackground,x,y,Width,_heightTitle);
+			LinearGradientBrush brushTitleBackground=new LinearGradientBrush(new Rectangle(x,y,Width,_heightTitlePrint),cTitleTop,cTitleBottom,LinearGradientMode.Vertical);
+			g.FillRectangle(brushTitleBackground,x,y,Width,_heightTitlePrint);
 			Font font=new Font(_fontPrintTitle.FontFamily,_fontPrintTitle.Size/scaleMS,_fontPrintTitle.Style);
 			g.DrawString(_title,font,GridPrintLook.BrushTitleText,x+(Width/2-g.MeasureString(_title,font).Width/2),y+2);
 			//Outline the Title
 			//Draw line from LL to UL to UR to LR. top three sides of a rectangle.
 			g.DrawLines(GridPrintLook.PenOutline,new Point[] { 
-				new Point(x,y+_heightTitle),
+				new Point(x,y+_heightTitlePrint),
 				new Point(x,y),
 				new Point(x+Width,y),
-				new Point(x+Width,y+_heightTitle) });
+				new Point(x+Width,y+_heightTitlePrint) });
 			//g.DrawRectangle(pen,0,0,Width-1,Height-1);
 			if(brushTitleBackground!=null) {
 				brushTitleBackground.Dispose();
@@ -3245,19 +3236,19 @@ using OpenPmsDental.UI;
 			Color cTitleTop=GridPrintLook.ColorTitleTop;
 			Color cTitleBottom=GridPrintLook.ColorTitleBottom;
 			Color cTitleText=GridPrintLook.BrushTitleText.Color;
-			LinearGradientBrush brushTitleBackground=new LinearGradientBrush(new Rectangle(x,y,Width,_heightTitle),cTitleTop,cTitleBottom,LinearGradientMode.Vertical);
+			LinearGradientBrush brushTitleBackground=new LinearGradientBrush(new Rectangle(x,y,Width,_heightTitlePrint),cTitleTop,cTitleBottom,LinearGradientMode.Vertical);
 			XSolidBrush brushTitleText=new XSolidBrush(cTitleText);
-			g.DrawRectangle(brushTitleBackground,ToPoints(x),ToPoints(y),ToPoints(Width),ToPoints(_heightTitle));
+			g.DrawRectangle(brushTitleBackground,ToPoints(x),ToPoints(y),ToPoints(Width),ToPoints(_heightTitlePrint));
 			XFont xTitleFont=new XFont(_fontPrintTitle.FontFamily.ToString(),_fontPrintTitle.Size,XFontStyleEx.Bold);
 			//g.DrawString(title,titleFont,brushTitleText,p((float)x+(float)(Width/2-g.MeasureString(title,titleFont).Width/2)),p(y+2));
 			DrawStringX(g,_title,xTitleFont,brushTitleText,new XRect((float)x+(float)(Width/2),y,100,100),XStringAlignment.Center);
 			//Outline the Title
 			//Draw line from LL to UL to UR to LR. top three sides of a rectangle.
 			g.DrawLines(GridPrintLook.PenOutline,new Point[] { 
-				new Point(x,y+_heightTitle),
+				new Point(x,y+_heightTitlePrint),
 				new Point(x,y),
 				new Point(x+Width,y),
-				new Point(x+Width,y+_heightTitle) });
+				new Point(x+Width,y+_heightTitlePrint) });
 			//g.DrawRectangle(pen,0,0,Width-1,Height-1);
 			if(brushTitleBackground!=null) {
 				brushTitleBackground.Dispose();
@@ -3616,7 +3607,6 @@ using OpenPmsDental.UI;
 
 		///<summary>Font is ignored.  We base font off of scale, so when scale changes, we change all the fonts here.</summary>
 		private void SetFonts(){
-			_brushTitleBackground?.Dispose();
 			_fontCell?.Dispose();
 			_fontCellBold?.Dispose();
 			_fontUnderline?.Dispose();
@@ -3627,7 +3617,13 @@ using OpenPmsDental.UI;
 			_fontPrintCellBold?.Dispose();
 			_fontPrintHeader?.Dispose();
 			_fontPrintTitle?.Dispose();
-			_brushTitleBackground=new LinearGradientBrush(new Point(0,0),new Point(0,ScaleI(18)),_colorTitleTop,_colorTitleBottom);
+			//The screen's title and header heights follow the font tokens (UI-5); a multiline header grows again in LayoutScrolls.
+			if(_titleVisible) {
+				_heightTitle=GridScreenLook.GetHeightTitle96();
+			}
+			if(_headersVisible) {
+				_heightHeader=GridScreenLook.GetHeightHeader96();
+			}
 			//Screen: the font tokens (UI-2a-3), at the grid's zoom. this.Font is ignored.
 			_fontCell=NewScreenFont(UiTheme.FontGrid);
 			_fontCellBold=NewScreenFont(UiTheme.FontGridBold);
@@ -4135,7 +4131,7 @@ using OpenPmsDental.UI;
 			_areRowHeightsForPrint=IsPrintFonts();
 			int heightEach=(_areRowHeightsForPrint ? _fontPrintCell : _fontCell).Height+1;//assume one row
 			if(_hasEditableColumn) {
-				heightEach=ScaleI(EDITABLE_ROW_HEIGHT);
+				heightEach=HeightEditableRow();
 			}
 			if(_heightImage>heightEach){//_heightImage is already scaled to current dpi
 				heightEach=_heightImage;
@@ -4206,8 +4202,8 @@ using OpenPmsDental.UI;
 						heightCell=(int)Math.Ceiling(((1.03) 
 							*(float)(g.MeasureString(ListGridRows[i].Cells[j].Text+"\r\n",fontMeas,Columns[j].State.Width,_stringFormat).Height))+4);//because textbox will be bigger
 						//heightCell=(int)ScaleMS(heightCell);
-						if(heightCell < ScaleI(EDITABLE_ROW_HEIGHT)) {
-							heightCell=ScaleI(EDITABLE_ROW_HEIGHT);//only used for single line text
+						if(heightCell < HeightEditableRow()) {
+							heightCell=HeightEditableRow();//only used for single line text
 						}
 					}
 					else {//no editable column
@@ -4255,7 +4251,7 @@ using OpenPmsDental.UI;
 			}
 			else {//text not wrapping
 				if(_hasEditableColumn) {
-					ListGridRows[i].State.HeightMain=ScaleI(EDITABLE_ROW_HEIGHT);
+					ListGridRows[i].State.HeightMain=HeightEditableRow();
 				}
 				else {
 					ListGridRows[i].State.HeightMain=(int)ScaleMS(font.Height)+1;
@@ -4274,8 +4270,8 @@ using OpenPmsDental.UI;
 				ListGridRows[i].State.HeightNote=(int)heightNote;
 			}
 			if(ListGridRows[i].Cells.Any(x => x.IsButton)){
-				if(ListGridRows[i].State.HeightMain<ScaleI(EDITABLE_ROW_HEIGHT)) {
-					ListGridRows[i].State.HeightMain=ScaleI(EDITABLE_ROW_HEIGHT);
+				if(ListGridRows[i].State.HeightMain<HeightEditableRow()) {
+					ListGridRows[i].State.HeightMain=HeightEditableRow();
 				}
 			}
 			if(_hasDropDowns) {
@@ -4382,9 +4378,9 @@ using OpenPmsDental.UI;
 				}
 				if(yPosCur //start position of row
 					+ListGridRows[i].State.HeightMain //+row height
-					+(drawTitle?_heightTitle:0) //+title height if needed
+					+(drawTitle?_heightTitlePrint:0) //+title height if needed
 					+(drawHeader?_heightHeaderPrint:0) //+header height if needed
-					+(drawFooter?_heightTitle:0) //+footer height if needed.
+					+(drawFooter?_heightTitlePrint:0) //+footer height if needed.
 					>=bottomCurPage) 
 				{
 					if(i>0) {
@@ -4396,10 +4392,10 @@ using OpenPmsDental.UI;
 				}
 				#endregion
 				ListGridSheetRows.Add(new GridSheetRow(yPosCur,drawTitle,drawHeader,false,drawFooter));
-				yPosCur+=(drawTitle?_heightTitle:0);
+				yPosCur+=(drawTitle?_heightTitlePrint:0);
 				yPosCur+=(drawHeader?_heightHeaderPrint:0);
 				yPosCur+=ListGridRows[i].State.HeightMain;
-				yPosCur+=(drawFooter?_heightTitle:0);
+				yPosCur+=(drawFooter?_heightTitlePrint:0);
 				drawTitle=drawHeader=drawFooter=false;//reset all flags for next row.
 				if(i==ListGridRows.Count-1){//set print height equal to the bottom of the last row.
 					ListGridSheetRows[i].IsBottomRow=true;
@@ -4523,6 +4519,15 @@ using OpenPmsDental.UI;
 			//This is here because Dpi.Scale is over in OD. Here, Scale is already used by Windows, so we call it ScaleI.  A refactor could use OpenPmsDentalBusiness.UI.DpiScale, but that's too much work, with no benefit.
 			float scaleTotal=_scaleMS*_zoomLocal;//example 1.5*1.2
 			return (int)(Math.Round(val96*scaleTotal));
+		}
+
+		///<summary>The height of an editable row (text boxes, combo boxes and buttons need room), at the current scale: on screen it follows the cell
+		///font (UI-5: today's 19 at 96 DPI, 22 with Segoe UI 9); printouts and sheets keep today's 19 (UQ-5).</summary>
+		private int HeightEditableRow(){
+			if(IsPrintFonts()) {
+				return ScaleI(EDITABLE_ROW_HEIGHT);
+			}
+			return ScaleI(GridScreenLook.GetHeightEditableRow96());
 		}
 
 		///<summary>The top left corner of the grid area, right below the title and header.  Converted to current screen dpi.</summary>
