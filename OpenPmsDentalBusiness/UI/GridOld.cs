@@ -3498,7 +3498,7 @@ namespace OpenPmsDental.UI {
 		}
 
 		private int PrintPageHelper(Graphics g,int pageNumber,Rectangle bounds,int marginTopFirstPage,bool HasHeaderSpaceOnEveryPage) {
-			//Printers ignore TextRenderingHint.AntiAlias.
+			//Printers ignore TextRenderingHint.AntiAlias.  
 			//And they ignore SmoothingMode.HighQuality.
 			//They seem to do font themselves instead of letting us have control.
 			//g.TextRenderingHint=TextRenderingHint.AntiAlias;//an attempt to fix the printing measurements.
