@@ -189,3 +189,50 @@ own font, the designer fonts LayoutManager records), while the swap also set eve
 font-driven bounds differences of the plain forms (the `AutoScaleMode.Font` containers, UI-2a-2) are the same in both (458 in 27 windows).
 At the other scales, Segoe UI 9: 1,651 (1.2), 1,470 (1.25), 2,504 (1.5), 2,392 (1.75), 1,826 (2) new overflows; the text-scale run as in
 UI-0b (today 257, Segoe UI 9 299, Segoe UI 8.25 290 new overflows in about 50 windows).
+
+## UF1: the signature check and a scale change
+
+Branch `fix/uf1-signature` from `main` at `7d99983ff`. The owner's connected run of UF1 (2026-11-17 18:40, `.git/od-tools/test-results/ui2a1-wc-uf/`)
+failed all five signature items, the first one ("shows as valid when the window opens") included, and the saved row had no signature.
+Two causes:
+
+1. **The check signed with the wrong key data.** The key data of a procedure note is the note followed by `Procedure.UserNum`
+   (`Procedures.GetSignatureKeyData`, `Procedures.cs:5674`); `UserNum` is not a database column (`Procedure.cs:161`) and comes from the newest
+   `procnote` row (`Procedures.GetOneProc`, `Procedures.cs:369`). The synthetic dump's D1110 has no note, so the check signed with
+   `<note>0` and inserted the row with `Security.CurUser.UserNum`; the window, opened from the progress notes (`ControlChart.cs:2189`, a fresh
+   `GetOneProc`), checked it with `<note><user>`: "Invalid Signature", no points. Fixed in `InProcChecks.UF.cs`: the check sets the
+   procedure's `UserNum` to the row's user before it signs, as `FormProcEdit.signatureBoxWrapper_SignatureChanged` does before `SaveSignature`.
+2. **A scale change while the window is open clears the signature (Open Dental's behaviour; owner decision).** The zoom step sets the note
+   box's font to its new size (`LayoutManagerForms.LayoutControlBoundsAndFonts`, `LayoutManagerForms.cs:1031`: a font is set only when the
+   size differs, Job 55866). A rich text box raises `TextChanged` for every font it is given; `FormProcEdit.textNotes_TextChanged`
+   (`FormProcEdit.cs:1886`) takes that for an edit of the note after start-up and calls `signatureBoxWrapper.ClearSignature()`, which sets
+   `_signatureChanged`; Save then writes a new `procnote` row with the same note and no signature (`SaveSignature`, `FormProcEdit.cs:2646`,
+   reads 0 points as ""; `ProcNotes.IsNoteRowNeeded`). The signature box's own rescale clears nothing. In the program the reachable path is a
+   change of the Windows scale while the window is open (moved to a screen with another scale, or the display's scale changed:
+   `FormODBase` `WM_DPICHANGED`, `FormODBase.cs:1394`); the program's zoom cannot change while the modal window is open. A resize at the same
+   scale and a plain open and save keep the signature. The same code is in Open Dental 24.3.1 (`be14fe1be`: `textNotes_TextChanged`, the
+   rebuild's same-size guard, `OnLoad`'s layout before `Load`, `WM_DPICHANGED`), and `FormProcGroup.textNotes_TextChanged` has the same rule
+   for group notes, so it is not fork-only and not caused by UI-2a-1. **The product is not changed** (upstream behaviour): whether a font
+   change should stop clearing the signature (for example by comparing the note's text before clearing) is for the owner.
+
+What changed:
+
+- `tests/WindowChecksTests/InProc/InProcChecks.UF.cs`: the key data fix; a failed signature item now says what the box shows (valid or
+  invalid, points, the window's `_signatureChanged`, whether the note changed), and a saved row without a signature says so; the shared
+  body runs UF1 (zoom change, resize, save) and the new **UF2** (the same signed note, opened and saved with no zoom change and no resize).
+  `UTests.UF2_SignedNote_StaysValid_AfterOpenAndSave`, group U's part `UF`.
+- `tests/UiRefreshTests/SignatureFontChangeTests.cs` (no database, no window shown; `FormProcEdit` built as the scan builds it, its handles
+  made, the signed note filled as `FillControlsOnStartup` does): a resize at the same scale keeps the signature and `SaveSignature` keeps it;
+  a Windows scale of 150% and a program zoom of 120% each set the note box's font, raise `TextChanged`, clear the signature and make the save
+  store none (pinned as Open Dental's behaviour, the owner decision); without `textNotes_TextChanged` the same scale change keeps it.
+
+Until the owner decides, UF1 fails at its zoom step by design (it checks what the plan asks: section 9, "a signed note stays valid after a
+zoom change, a resize and a save"), and UF2 is the check that must pass.
+
+Runs (x64): the build lane, 0 errors. Targeted with `-RequireBuildOutput` (`.git/od-tools/test-results/uf1-fix-targeted-1.txt`):
+UiRefreshTests 80 passed, 1 opt-in skipped (both new tests passed), WindowChecksTests 27 passed, 42 opt-in skipped (UF1 and UF2 among them),
+NoHqTests 122. The window checks with `OPMS_WINDOW_CHECKS_GROUPS=UF` in the owner's connected session (`uf1-fix-1.txt`,
+`.git/od-tools/test-results/uf1-fix-1/`, scratch copy `winchk_1117185709`, dropped): **UF2 PASSED** (the signed note shows as valid, is saved
+unchanged and stays valid); **UF1 FAILED at the zoom step only**: the signed note shows as valid when the window opens; after the zoom
+(the note box at Microsoft Sans Serif 9.9) the box shows no signature, the window's `_signatureChanged` is True and the note is unchanged;
+the saved row has the same note and no signature. U0 PASSED (three pictures, not approved yet).
