@@ -63,6 +63,20 @@ namespace DevDbTool {
 		///shows those as the product name (AboutBoxInfo.GetDisplayName); a new database is not an adopted copy, so its rows say so themselves. An
 		///adopted database keeps Open Dental's values, because adoption may change no other row (AdoptionRowCheck).</summary>
 		public static readonly string[] ArrayProductNamePrefs={ "MainWindowTitle","SoftwareName" };
+		///<summary>The default procedure buttons that have a picture, by description, and the custom dental icon each shows in a new database (UQ-7 of
+		///docs/specs/ui-refresh-plan.md, package UI-8: new-style pictures for new databases only, 20x20 as the table stores them,
+		///CodeBase.UiIcons.GetProcButtonPicture). ProcButtons.SetToDefault made the rows with Open Dental's pictures and keeps them, so an office's
+		///buttons never change; only the new database's rows get these. RCT BU PFM and RCT BU Ceramic share one picture, as they do today.</summary>
+		public static readonly Dictionary<string,CodeBase.DentalIcon> DictProcButtonPictures=new Dictionary<string,CodeBase.DentalIcon> {
+			{ "Amalgam",CodeBase.DentalIcon.ProcAmalgam },
+			{ "Composite",CodeBase.DentalIcon.ProcComposite },
+			{ "Crown-PFM",CodeBase.DentalIcon.ProcCrownPfm },
+			{ "Crown-Ceramic",CodeBase.DentalIcon.ProcCrownCeramic },
+			{ "RCT",CodeBase.DentalIcon.ProcRct },
+			{ "RCT BU PFM",CodeBase.DentalIcon.ProcRctBuildUp },
+			{ "RCT BU Ceramic",CodeBase.DentalIcon.ProcRctBuildUp },
+			{ "PA",CodeBase.DentalIcon.XrayPeriapical },
+		};
 
 		private readonly string _database;
 		private readonly DateTime _dateTimeWindowStart;
@@ -82,6 +96,7 @@ namespace DevDbTool {
 			BlankProviders();
 			BlankPracticePrefs();
 			SetPrefs();
+			SetProcButtonPictures();
 			ReplaceRunTimestamps();
 			ReplaceRunDatesInPrefs();
 		}
@@ -146,6 +161,19 @@ namespace DevDbTool {
 			ListLog.Add(string.Join(" and ",ArrayProductNamePrefs)+": "+CodeBase.VendorDirect.ProductIdentity.ProductName+".");
 			long count=DataCore.NonQ("UPDATE userod SET IsPasswordResetRequired=1 WHERE UserName='Admin' AND COALESCE(Password,'')=''");
 			ListLog.Add("Admin must set a password at the first logon (IsPasswordResetRequired, "+count+" row).");
+		}
+
+		///<summary>Gives the default procedure buttons of DictProcButtonPictures their new-style pictures. Each must be one row with a picture, as
+		///ProcButtons.SetToDefault makes it; anything else stops the export, so a file without them is never written.</summary>
+		private void SetProcButtonPictures() {
+			foreach(KeyValuePair<string,CodeBase.DentalIcon> pair in DictProcButtonPictures) {
+				long count=DataCore.NonQ("UPDATE procbutton SET ButtonImage='"+POut.String(CodeBase.UiIcons.GetProcButtonPicture(pair.Value))+"' "
+					+"WHERE Description='"+POut.String(pair.Key)+"' AND ButtonImage<>''");
+				if(count!=1) {
+					throw new ApplicationException("The default procedure button '"+pair.Key+"' with a picture was found "+count+" times, not once.");
+				}
+			}
+			ListLog.Add("Default procedure buttons: new-style pictures for "+string.Join(", ",DictProcButtonPictures.Keys)+" (UQ-7, new databases only).");
 		}
 
 		///<summary>One UPDATE per table that sets every date, datetime and timestamp column of a row the run stamped, so the ON UPDATE timestamps of the
