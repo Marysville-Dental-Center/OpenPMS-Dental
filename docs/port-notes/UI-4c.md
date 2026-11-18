@@ -169,3 +169,8 @@ passed, 1 skipped), NoHqTests 122/122. WPF rendered in the disconnected session,
 scan rerun (into `.git/od-tools/test-results/ui4c2-scan`): Segoe UI 9 makes 1,775 controls overflow in 450 windows, the same counts as UI-4b-3's
 and UI-6's reruns (every summary line the same but the timing: this package changes no text rectangle); today's font reports nothing new.
 `tools/Test-NoEolFlips.ps1 -Base main`: no file changed its line ends.
+
+Review fix (ui/ui4c2-2, the dashboard picture keeps today's look): full filter build x64 through the lane, 0 errors; Targeted run
+(`.git/od-tools/test-results/ui4c2-2-fix.txt`): UiRefreshTests 187 (179 passed, 8 opt-ins skipped, the new
+`WinForms_PictureBox_InOfficeContent_KeepsTodaysLook` passed), WindowChecksTests 72 (29 passed, 43 opt-in skipped), UnitTests 1,731 (1,728
+passed, 3 skipped), PrintGuardTests 17 (16 passed, 1 skipped), NoHqTests 122/122. No line ends changed.
