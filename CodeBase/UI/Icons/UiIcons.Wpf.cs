@@ -9,7 +9,7 @@ using System.Windows.Media;
 
 namespace CodeBase {
 	public static partial class UiIcons {
-		///<summary>The frozen geometries, by glyph, slot pixels and scale. Frozen objects may be used on any thread.</summary>
+		///<summary>The frozen geometries, by design, slot pixels and scale. Frozen objects may be used on any thread.</summary>
 		private static readonly Dictionary<WpfKey,StreamGeometry> _dictGeometriesWpf=new Dictionary<WpfKey,StreamGeometry>();
 		private static readonly object _lockWpf=new object();
 
@@ -17,11 +17,20 @@ namespace CodeBase {
 		///slot's real pixel size, round(sizeSlot*scale) (section 3.5), centred in the slot on whole device pixels, in DIPs from the slot's top left
 		///corner. Frozen and cached. An empty geometry for None.</summary>
 		public static Geometry GetGeometryWpf(UiGlyph uiGlyph,double sizeSlot,double scale=1) {
-			if(scale<=0 || double.IsNaN(scale) || double.IsInfinity(scale)) {
-				scale=1;
-			}
+			scale=GetScaleWpf(scale);
 			int sizePixels=(int)Math.Round(sizeSlot*scale);
-			WpfKey wpfKey=new WpfKey(uiGlyph,sizePixels,scale);
+			return GetGeometryWpf(GetDesign(uiGlyph,sizePixels),sizeSlot,scale);
+		}
+
+		///<summary>A design's geometry for a square slot of sizeSlot DIPs at the scale (GetGeometryWpf), placed by GetDrawRectangle at the slot's real
+		///pixel size. Frozen and cached. An empty geometry for null.</summary>
+		public static Geometry GetGeometryWpf(IconDesign iconDesign,double sizeSlot,double scale=1) {
+			scale=GetScaleWpf(scale);
+			int sizePixels=(int)Math.Round(sizeSlot*scale);
+			if(iconDesign==null || sizePixels<=0) {
+				return Geometry.Empty;
+			}
+			WpfKey wpfKey=new WpfKey(iconDesign,sizePixels,scale);
 			lock(_lockWpf) {
 				StreamGeometry streamGeometry;
 				if(_dictGeometriesWpf.TryGetValue(wpfKey,out streamGeometry)) {
@@ -30,13 +39,10 @@ namespace CodeBase {
 			}
 			StreamGeometry streamGeometryNew=new StreamGeometry();
 			streamGeometryNew.FillRule=FillRule.Nonzero;
-			IconDesign iconDesign=GetDesign(uiGlyph,sizePixels);
-			if(iconDesign!=null && sizePixels>0) {
-				System.Drawing.Rectangle rectangleDraw=GetDrawRectangle(iconDesign,new System.Drawing.Rectangle(0,0,sizePixels,sizePixels));
-				using(StreamGeometryContext streamGeometryContext=streamGeometryNew.Open()) {
-					iconDesign.GetFigures().WriteTo(new WpfPathSink(streamGeometryContext),(float)(rectangleDraw.X/scale),(float)(rectangleDraw.Y/scale),
-						(float)((double)rectangleDraw.Width/iconDesign.Size/scale));
-				}
+			System.Drawing.Rectangle rectangleDraw=GetDrawRectangle(iconDesign,new System.Drawing.Rectangle(0,0,sizePixels,sizePixels));
+			using(StreamGeometryContext streamGeometryContext=streamGeometryNew.Open()) {
+				iconDesign.GetFigures().WriteTo(new WpfPathSink(streamGeometryContext),(float)(rectangleDraw.X/scale),(float)(rectangleDraw.Y/scale),
+					(float)((double)rectangleDraw.Width/iconDesign.Size/scale));
 			}
 			streamGeometryNew.Freeze();
 			lock(_lockWpf) {
@@ -47,6 +53,14 @@ namespace CodeBase {
 				_dictGeometriesWpf.Add(wpfKey,streamGeometryNew);
 			}
 			return streamGeometryNew;
+		}
+
+		///<summary>The scale, or 1 when it is not a positive number.</summary>
+		private static double GetScaleWpf(double scale) {
+			if(scale<=0 || double.IsNaN(scale) || double.IsInfinity(scale)) {
+				return 1;
+			}
+			return scale;
 		}
 
 		///<summary>Fills the glyph in the brush, in the largest square that fits the slot, centred. scale is the device pixels per DIP of the target.</summary>
@@ -80,20 +94,21 @@ namespace CodeBase {
 			return drawingImage;
 		}
 
-		///<summary>The key of a cached geometry.</summary>
+		///<summary>The key of a cached geometry: the design (by reference: the table's designs live as long as the program), the slot's pixels and
+		///the scale.</summary>
 		private struct WpfKey:IEquatable<WpfKey> {
-			private readonly UiGlyph _uiGlyph;
+			private readonly IconDesign _iconDesign;
 			private readonly int _sizePixels;
 			private readonly double _scale;
 
-			public WpfKey(UiGlyph uiGlyph,int sizePixels,double scale) {
-				_uiGlyph=uiGlyph;
+			public WpfKey(IconDesign iconDesign,int sizePixels,double scale) {
+				_iconDesign=iconDesign;
 				_sizePixels=sizePixels;
 				_scale=scale;
 			}
 
 			public bool Equals(WpfKey other) {
-				return _uiGlyph==other._uiGlyph && _sizePixels==other._sizePixels && _scale==other._scale;
+				return ReferenceEquals(_iconDesign,other._iconDesign) && _sizePixels==other._sizePixels && _scale==other._scale;
 			}
 
 			public override bool Equals(object obj) {
@@ -101,7 +116,7 @@ namespace CodeBase {
 			}
 
 			public override int GetHashCode() {
-				return ((int)_uiGlyph*397^_sizePixels)*397^_scale.GetHashCode();
+				return (_iconDesign.GetHashCode()*397^_sizePixels)*397^_scale.GetHashCode();
 			}
 		}
 

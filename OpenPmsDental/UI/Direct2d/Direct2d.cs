@@ -495,7 +495,12 @@ namespace OpenPmsDental.UI{
 		///AddBezier, EndFigure, EndPath; the wrapper's fill mode is winding, the SVGs' nonzero rule). Call between BeginDraw and EndDraw. Nothing for
 		///None or an empty slot.</summary>
 		public void FillGlyph(CodeBase.UiGlyph uiGlyph,Rectangle rectangleSlot,Color color){
-			CodeBase.IconDesign iconDesign=CodeBase.UiIcons.GetDesign(uiGlyph,Math.Min(rectangleSlot.Width,rectangleSlot.Height));
+			FillIcon(CodeBase.UiIcons.GetDesign(uiGlyph,Math.Min(rectangleSlot.Width,rectangleSlot.Height)),rectangleSlot,color);
+		}
+
+		///<summary>Fills one design of the icon table (CodeBase.UiIcons.GetDesign) in a slot, placed by CodeBase.UiIcons.GetDrawRectangle, as
+		///FillGlyph does. Nothing for null or an empty slot.</summary>
+		public void FillIcon(CodeBase.IconDesign iconDesign,Rectangle rectangleSlot,Color color){
 			if(iconDesign==null || rectangleSlot.Width<=0 || rectangleSlot.Height<=0){
 				return;
 			}
