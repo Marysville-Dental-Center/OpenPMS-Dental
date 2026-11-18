@@ -199,6 +199,8 @@ the manifest; G-UI1 part 3 shows them.
 | Dictate (`Microphone`) | microphone (`Microphone_22px.png`) | Mic (regular) | Fluent | UI-9a-3 |
 | Zoom (`ZoomIn`, `ZoomOut`) | magnifiers (`butZoomIn.gif`, `butZoomOut.gif`) | Zoom In, Zoom Out (regular) | Fluent | UI-9a-3 |
 | Add (FormOrthoChartSetup) | blue plus | existing `Add` | Fluent | UI-9a-3 |
+| Record (`Record`) | red record circle (`record.gif`, FormRecordAudio) | Record (regular) | Fluent | UI-9a-4 |
+| Pin, print preview, add, delete (FormRecallList, FormRxEdit, FormStatementOptions, FormSheet*) | `butPin22.gif`, `printPreview20.gif`, `Add`, `DeleteX` | existing `Pin`, `Preview`, `Add`, `DeleteX` | Fluent | UI-9a-4 |
 
 The window pictures behind these rows, and the pictures that stay, are in `icons/picture-map.tsv` (`tools/Convert-PictureUses.ps1`,
 `docs/port-notes/UI-9a.md`); `icons/picture-converted.tsv` lists every converted control.
