@@ -8,8 +8,9 @@
 // - a scale change while the window is open (another Windows scale when the window moves to another screen, or the program's zoom) sets
 //   textNotes' font to its new size; the rich text box raises TextChanged for it, FormProcEdit.textNotes_TextChanged takes that for an edit of
 //   the note and clears the signature, and the save then stores the note with no signature. That is Open Dental's code unchanged (24.3.1:
-//   textNotes_TextChanged, LayoutManagerForms' font rebuild with Job 55866's same-size guard, FormODBase's WM_DPICHANGED), so the test pins
-//   it as Open Dental's behaviour, an owner decision (UI-2a.md); the signature box's own rescale clears nothing (the second half of the test).
+//   textNotes_TextChanged, LayoutManagerForms' font rebuild with Job 55866's same-size guard, FormODBase's WM_DPICHANGED). The owner chose on
+//   2026-11-17 to clear it only when the note's text changes (FormProcEdit and FormProcGroup keep the last text); the test checks that a scale
+//   change keeps the signature, that an edit still clears it, and that the signature box's own rescale clears nothing.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
 using System.Collections.Generic;
@@ -53,7 +54,7 @@ namespace UiRefreshTests {
 		}
 
 		[TestMethod]
-		public void FormProcEdit_SignedNote_AScaleChange_ClearsTheSignature_OpenDentalBehaviour_OwnerDecision() {
+		public void FormProcEdit_SignedNote_AScaleChange_KeepsTheSignature_OwnerDecision() {
 			StaRunner.Run(() => {
 				//Another Windows scale (WM_DPICHANGED: SetScaleMS, then the layout) and the program's zoom (the layout reads the zoom; ZoomTest stands for it).
 				foreach(string scaleChange in new[] { "Windows scale 150%","program zoom 120%" }) {
@@ -66,14 +67,27 @@ namespace UiRefreshTests {
 						Assert.IsTrue(countTextChanged>0,scaleChange+": the rich text box raises TextChanged for the new font.");
 						Assert.AreEqual(NOTE,textNotes.Text,scaleChange+": the note itself is unchanged.");
 						SignatureBoxWrapper signatureBoxWrapper=(SignatureBoxWrapper)GetField(formProcEdit,"signatureBoxWrapper");
-						Assert.IsTrue((bool)GetField(formProcEdit,"_signatureChanged"),scaleChange+": textNotes_TextChanged took it for an edit of the note.");
-						Assert.IsTrue(signatureBoxWrapper.SigIsBlank,scaleChange+": the signature is cleared (Open Dental's behaviour; owner decision, UI-2a.md).");
+						//Open Dental cleared the signature here (a font set raises TextChanged); the owner chose on 2026-11-17 to clear it only when the
+						//note's text changes (UI-2a.md).
+						Assert.IsFalse((bool)GetField(formProcEdit,"_signatureChanged"),scaleChange+": a font change is not an edit of the note.");
+						Assert.IsFalse(signatureBoxWrapper.SigIsBlank,scaleChange+": the signature is kept.");
+						AssertSignatureShownAndValid(formProcEdit,scaleChange+", after the scale change");
 						Procedure procedure=(Procedure)GetField(formProcEdit,"_procedure");
 						InvokeNonPublic(formProcEdit,"SaveSignature");
-						Assert.AreEqual("",procedure.Signature,scaleChange+": the save then stores the note without its signature.");
+						Assert.AreEqual(signature,procedure.Signature,scaleChange+": the save keeps the signature.");
 					}
 				}
-				//The cause is the note box's TextChanged, not the signature box: without FormProcEdit's handler the same scale change keeps the signature.
+				//An edit of the note still clears the signature, as in Open Dental.
+				using(BuiltWindow builtWindow=BuildSigned(out FormProcEdit formProcEdit,out string signature)) {
+					Control textNotes=(Control)GetField(formProcEdit,"textNotes");
+					textNotes.Text=NOTE+" edited";
+					SignatureBoxWrapper signatureBoxWrapper=(SignatureBoxWrapper)GetField(formProcEdit,"signatureBoxWrapper");
+					Assert.IsTrue((bool)GetField(formProcEdit,"_signatureChanged"),"An edit of the note changes the signature.");
+					Assert.IsTrue(signatureBoxWrapper.SigIsBlank,"An edit of the note clears the signature.");
+					ChangeScale(builtWindow,"Windows scale 150%");
+					Assert.IsTrue(signatureBoxWrapper.SigIsBlank,"A later scale change does not bring it back.");
+				}
+				//The signature box itself keeps the signature on a scale change, with or without FormProcEdit's note handler.
 				using(BuiltWindow builtWindow=BuildSigned(out FormProcEdit formProcEdit,out string signature)) {
 					Control textNotes=(Control)GetField(formProcEdit,"textNotes");
 					EventHandler eventHandler=(EventHandler)Delegate.CreateDelegate(typeof(EventHandler),formProcEdit,"textNotes_TextChanged");
