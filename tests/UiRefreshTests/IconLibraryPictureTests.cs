@@ -264,6 +264,44 @@ namespace UiRefreshTests {
 			});
 		}
 
+		[TestMethod]
+		public void Pictures_ModuleIconsFilledInAccent() {
+			//After UI-7b only (the Filled rows and DrawColored came with it): the selected module's icon as UI-6 will draw it (section 3.6: the Filled
+			//style tinted Accent), at 32 px and each scale, written as icons\<name>\32px-<scale>-filled.png (pictures with no before).
+			IconRendererTests.RequireDirect2d();
+			string folder=Environment.GetEnvironmentVariable(VARIABLE_PICTURES);
+			IconRendererTests.RunSta(() => {
+				bool isOnlyGdiOld=WinIconLibrary.OnlyGDI;
+				WinIconLibrary.OnlyGDI=false;
+				try {
+					foreach(WinEnumIcons winEnumIcons in Enum.GetValues(typeof(WinEnumIcons)).Cast<WinEnumIcons>()) {
+						if(winEnumIcons==WinEnumIcons.None || !IsModuleIcon(winEnumIcons.ToString())) {
+							continue;
+						}
+						foreach(float scale in ArrayScales) {
+							int sizePixels=UiTheme.ScaleI(SLOT_MODULE96,scale);
+							using(Bitmap bitmap=NewWhiteBitmap(sizePixels)) {
+								using(Graphics g=Graphics.FromImage(bitmap)) {
+									WinIconLibrary.DrawColored(g,winEnumIcons,new Rectangle(0,0,sizePixels,sizePixels),UiTheme.GetColor(EnumUiColor.Accent),Color.White,
+										isFilled:true);
+								}
+								Assert.IsTrue(IconRendererTests.GetInk(bitmap,isOnWhite:true).Any(x => x>=32),winEnumIcons+" Filled draws nothing.");
+								if(!string.IsNullOrEmpty(folder)) {
+									string folderIcon=Path.Combine(folder,"icons",winEnumIcons.ToString());
+									Directory.CreateDirectory(folderIcon);
+									bitmap.Save(Path.Combine(folderIcon,SLOT_MODULE96+"px-"+GetScaleText(scale)+"-filled.png"),ImageFormat.Png);
+								}
+							}
+						}
+					}
+					Assert.IsFalse(WinIconLibrary.OnlyGDI,"Direct2D failed and IconLibrary fell back to GDI+.");
+				}
+				finally {
+					WinIconLibrary.OnlyGDI=isOnlyGdiOld;
+				}
+			});
+		}
+
 		///<summary>One sheet of every icon at one scale: a row per icon with its name, then a cell per slot (16, 20, 24 and the module bar's 32 px),
 		///each the slot's real pixels on white with a 6 px margin. The layout depends only on the names and the scale, so a before and an after
 		///sheet line up pixel for pixel.</summary>
