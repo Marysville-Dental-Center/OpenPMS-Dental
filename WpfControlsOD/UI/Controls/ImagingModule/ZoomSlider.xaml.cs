@@ -98,7 +98,8 @@ Jordan is the only one allowed to edit this file.
 			rectangleMinus.Width=18;
 			rectangleMinus.Height=ActualHeight-1;
 			rectangleMinus.Fill=Brushes.Transparent;
-			rectangleMinus.Stroke=Brushes.Transparent;
+			rectangleMinus.RadiusX=UiTheme.CORNER_CONTROL;
+			rectangleMinus.RadiusY=UiTheme.CORNER_CONTROL;
 			canvas.Children.Add(rectangleMinus);
 			//rectanglePlus---------------------------------------------------
 			rectanglePlus=new Rectangle();
@@ -106,7 +107,8 @@ Jordan is the only one allowed to edit this file.
 			rectanglePlus.Width=17;
 			rectanglePlus.Height=ActualHeight-1;
 			rectanglePlus.Fill=Brushes.Transparent;
-			rectanglePlus.Stroke=Brushes.Transparent;
+			rectanglePlus.RadiusX=UiTheme.CORNER_CONTROL;
+			rectanglePlus.RadiusY=UiTheme.CORNER_CONTROL;
 			canvas.Children.Add(rectanglePlus);
 			//rectangleFit--------------------------------------------------
 			rectangleFit=new Rectangle();
@@ -114,7 +116,8 @@ Jordan is the only one allowed to edit this file.
 			rectangleFit.Width=27;
 			rectangleFit.Height=ActualHeight-1;
 			rectangleFit.Fill=Brushes.Transparent;
-			rectangleFit.Stroke=Brushes.Transparent;
+			rectangleFit.RadiusX=UiTheme.CORNER_CONTROL;
+			rectangleFit.RadiusY=UiTheme.CORNER_CONTROL;
 			canvas.Children.Add(rectangleFit);
 			//rectangle100---------------------------------------------------
 			rectangle100=new Rectangle();
@@ -122,7 +125,8 @@ Jordan is the only one allowed to edit this file.
 			rectangle100.Width=29;
 			rectangle100.Height=ActualHeight-1;
 			rectangle100.Fill=Brushes.Transparent;
-			rectangle100.Stroke=Brushes.Transparent;
+			rectangle100.RadiusX=UiTheme.CORNER_CONTROL;
+			rectangle100.RadiusY=UiTheme.CORNER_CONTROL;
 			canvas.Children.Add(rectangle100);
 			canvas.Children.Add(textBoxEdit);
 			textBoxEdit.Visible=false;
@@ -232,91 +236,23 @@ Jordan is the only one allowed to edit this file.
 			rectangleSlider.Width=widthValue;
 			Canvas.SetLeft(polygonTriangle,xValuePixels);
 			Canvas.SetLeft(textBlock,leftSlider+3);
-			if(_isMouseDown){
-				LinearGradientBrush linearGradientBrush=new LinearGradientBrush(Color.FromRgb(225,225,225),Color.FromRgb(141,151,179),angle:90);
-				if(HitTest(rectangleMinus,_pointMouseDown)){
-					rectangleMinus.Fill=linearGradientBrush;
-					rectangleMinus.Stroke=Brushes.SlateGray;
-				}
-				else{
-					rectangleMinus.Fill=Brushes.Transparent;
-					rectangleMinus.Stroke=Brushes.Transparent;
-				}
-				if(HitTest(rectanglePlus,_pointMouseDown)){
-					rectanglePlus.Fill=linearGradientBrush;
-					rectanglePlus.Stroke=Brushes.SlateGray;
-				}
-				else{
-					rectanglePlus.Fill=Brushes.Transparent;
-					rectanglePlus.Stroke=Brushes.Transparent;
-				}
-				if(HitTest(rectangleFit,_pointMouseDown)){
-					rectangleFit.Fill=linearGradientBrush;
-					rectangleFit.Stroke=Brushes.SlateGray;
-				}
-				else{
-					rectangleFit.Fill=Brushes.Transparent;
-					rectangleFit.Stroke=Brushes.Transparent;
-				}
-				if(HitTest(rectangle100,_pointMouseDown)){
-					rectangle100.Fill=linearGradientBrush;
-					rectangle100.Stroke=Brushes.SlateGray;
-				}
-				else{
-					rectangle100.Fill=Brushes.Transparent;
-					rectangle100.Stroke=Brushes.Transparent;
-				}
+			//The new look (UI-4c-1, docs/specs/ui-refresh-plan.md section 3.6; docs/port-notes/UI-4c.md), as the WinForms slider's (UiSliderPaint): the
+			//cells as toolbar buttons (SubtlePressed while the mouse is down on one, SubtleHover under the mouse, 4 px corners, under the dividers), the
+			//value box an input (Accent while dragged, StrokeStrongHover under the mouse, StrokeStrong at rest, Stroke disabled), the glyphs, texts and
+			//pointer Text (TextDisabled disabled).
+			Rectangle[] arrayRectanglesCells=new Rectangle[] { rectangleMinus,rectanglePlus,rectangleFit,rectangle100 };
+			for(int i=0;i<arrayRectanglesCells.Length;i++){
+				EnumUiColor? uiColorCell=UiSliderPaint.GetCellFill(GetCellState(arrayRectanglesCells[i]));
+				arrayRectanglesCells[i].Fill=uiColorCell==null ? Brushes.Transparent : UiLook.Brush(uiColorCell.Value);
 			}
-			else{//Mouse not down. Outline any hover button
-				if(HitTest(rectangleMinus,_pointMouse)){
-					rectangleMinus.Fill=Brushes.Transparent;
-					rectangleMinus.Stroke=Brushes.SlateGray;
-				}
-				else{
-					rectangleMinus.Fill=Brushes.Transparent;
-					rectangleMinus.Stroke=Brushes.Transparent;
-				}
-				if(HitTest(rectanglePlus,_pointMouse)){
-					rectanglePlus.Fill=Brushes.Transparent;
-					rectanglePlus.Stroke=Brushes.SlateGray;
-				}
-				else{
-					rectanglePlus.Fill=Brushes.Transparent;
-					rectanglePlus.Stroke=Brushes.Transparent;
-				}
-				if(HitTest(rectangleFit,_pointMouse)){
-					rectangleFit.Fill=Brushes.Transparent;
-					rectangleFit.Stroke=Brushes.SlateGray;
-				}
-				else{
-					rectangleFit.Fill=Brushes.Transparent;
-					rectangleFit.Stroke=Brushes.Transparent;
-				}
-				if(HitTest(rectangle100,_pointMouse)){
-					rectangle100.Fill=Brushes.Transparent;
-					rectangle100.Stroke=Brushes.SlateGray;
-				}
-				else{
-					rectangle100.Fill=Brushes.Transparent;
-					rectangle100.Stroke=Brushes.Transparent;
-				}
-				if(HitTest(rectangleSlider,_pointMouse)){
-					rectangleSlider.Stroke=new SolidColorBrush(Color.FromRgb(50,50,130));//blue outline hover
-				}
-				else{
-					rectangleSlider.Stroke=new SolidColorBrush(Color.FromRgb(180,180,180));//#b4b4b4
-				}
-			}
-			Color colorText=Colors.Black;
-			if(!IsEnabled){
-				colorText=OpenPmsDental.ColorOD.Gray_Wpf(160);
-			}
-			lineMinus.Stroke=new SolidColorBrush(colorText);
-			linePlus1.Stroke=new SolidColorBrush(colorText);
-			linePlus2.Stroke=new SolidColorBrush(colorText);
-			textFit.Foreground=new SolidColorBrush(colorText);
-			text100.Foreground=new SolidColorBrush(colorText);
-			textBlock.Foreground=new SolidColorBrush(colorText);
+			rectangleSlider.Stroke=UiLook.Brush(GetValueBoxOutline());
+			SolidColorBrush brushText=UiLook.Brush(UiSliderPaint.GetText(IsEnabled));
+			pathMinus.Fill=brushText;
+			pathPlus.Fill=brushText;
+			polygonTriangle.Fill=brushText;
+			textFit.Foreground=brushText;
+			text100.Foreground=brushText;
+			textBlock.Foreground=brushText;
 			//Tick line
 			//int yTickLine = 4;
 			lineHoriz.X1=_rectTickLine.X;
@@ -331,6 +267,29 @@ Jordan is the only one allowed to edit this file.
 			lineVertRight.X2=_rectTickLine.Right;
 			string sVal = Round(_value).ToString();
 			textBlock.Text=sVal;
+		}
+
+		///<summary>The state of a cell (minus, plus, Fit, 100): pressed while the mouse is down on it, hover under the mouse, at rest otherwise;
+		///disabled when the slider is.</summary>
+		private EnumUiButtonState GetCellState(Rectangle rectangle){
+			if(!IsEnabled){
+				return EnumUiButtonState.Disabled;
+			}
+			if(_isMouseDown){
+				return HitTest(rectangle,_pointMouseDown) ? EnumUiButtonState.Pressed : EnumUiButtonState.Normal;
+			}
+			return HitTest(rectangle,_pointMouse) ? EnumUiButtonState.Hover : EnumUiButtonState.Normal;
+		}
+
+		///<summary>The value box's outline: Accent while dragged, StrokeStrongHover under the mouse, StrokeStrong at rest, Stroke when disabled.</summary>
+		private EnumUiColor GetValueBoxOutline(){
+			if(!IsEnabled){
+				return EnumUiColor.Stroke;
+			}
+			if(_isMouseDown){
+				return _isMouseDownInRectangleSlider ? EnumUiColor.Accent : EnumUiColor.StrokeStrong;
+			}
+			return HitTest(rectangleSlider,_pointMouse) ? EnumUiColor.StrokeStrongHover : EnumUiColor.StrokeStrong;
 		}
 
 		///<summary>Returns true if the point is within the rectangle. Doesn't bother with Y for this control.</summary>

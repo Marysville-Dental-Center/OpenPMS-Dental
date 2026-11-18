@@ -12,7 +12,9 @@
 			<Setter Property="local:WindowingSlider.VerticalAlignment" Value="Top"/>
 		</Style>
 	</UserControl.Style>
-	<Grid x:Name="grid" x:FieldModifier="internal" Background="#F0F0F0" SnapsToDevicePixels="False">
+	<!--The new look (UI-4c-1, docs/port-notes/UI-4c.md): on Surface; the handles flat, as small buttons, and the range outlined like an input, from
+	the UiTheme tokens in Draw. The black, the grey ramp and the white show the window and level of the image (content), so they stay.-->
+	<Grid x:Name="grid" x:FieldModifier="internal" Background="{x:Static local:UiLookImaging.BrushSurface}" SnapsToDevicePixels="False">
 		<Canvas x:Name="canvas" x:FieldModifier="internal">
 			<Rectangle x:Name="rectangleBlack" x:FieldModifier="internal" Canvas.Left="4" Canvas.Top="2" Width="34" Height="16" Fill="Black"/>
 			<Rectangle x:Name="rectangleGradient" x:FieldModifier="internal" Width="86" Height="16" Canvas.Left="34" Canvas.Top="2">
@@ -24,10 +26,10 @@
 				</Rectangle.Fill>
 			</Rectangle>
 			<Rectangle x:Name="rectangleWhite" x:FieldModifier="internal" Canvas.Left="120" Canvas.Top="2" Width="30" Height="16" Fill="White"/>
-			<Polygon x:Name="polygonLeft" x:FieldModifier="internal" Canvas.Left="34" Canvas.Top="0.5" Points="-3.5,16 -3.5,3 0,0 3.5,3 3.5,16 0,19" Fill="#C8CADC" Stroke="#1C5180"/>
-			<Polygon x:Name="polygonRight" x:FieldModifier="internal" Canvas.Left="120" Canvas.Top="0.5" Points="-3.5,16 -3.5,3 0,0 3.5,3 3.5,16 0,19" Fill="#C8CADC" Stroke="#1C5180"/>
-			<Line x:Name="lineTop" x:FieldModifier="internal" X1="34" Y1="0.5" X2="120" Y2="0.5" Stroke="#1C5180"/>
-			<Line x:Name="lineBottom" x:FieldModifier="internal" X1="34" Y1="19.5" X2="120" Y2="19.5" Stroke="#1C5180"/>
+			<Polygon x:Name="polygonLeft" x:FieldModifier="internal" Canvas.Left="34" Canvas.Top="0.5" Points="-3.5,16 -3.5,3 0,0 3.5,3 3.5,16 0,19"/>
+			<Polygon x:Name="polygonRight" x:FieldModifier="internal" Canvas.Left="120" Canvas.Top="0.5" Points="-3.5,16 -3.5,3 0,0 3.5,3 3.5,16 0,19"/>
+			<Line x:Name="lineTop" x:FieldModifier="internal" X1="34" Y1="0.5" X2="120" Y2="0.5"/>
+			<Line x:Name="lineBottom" x:FieldModifier="internal" X1="34" Y1="19.5" X2="120" Y2="19.5"/>
 		</Canvas>
 	</Grid>
 </UserControl>

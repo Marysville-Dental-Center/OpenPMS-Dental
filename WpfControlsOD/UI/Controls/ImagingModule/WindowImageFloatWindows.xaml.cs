@@ -35,9 +35,6 @@ Jordan is the only one allowed to edit this file.
 		#endregion Fields - Public
 
 		#region Fields - Private
-		private Color _colorBack=Color.FromRgb(224,224,224);
-		private Color _colorOutline=Color.FromRgb(140,140,140);
-		private Color _colorHover=Color.FromRgb(180,200,220);
 		private bool _isClosed;
 		//we'll need to do the drawing with parameters instead of hard numbers
 		///<summary>10. Margin between screens and around sides.</summary>
@@ -351,112 +348,41 @@ Jordan is the only one allowed to edit this file.
 		}
 
 		private void WindowImageFloatWindows_MouseMove(object sender,MouseEventArgs e) {
-			SolidColorBrush solidColorBrushBack=new SolidColorBrush(_colorBack);
-			SolidColorBrush solidColorBrushHover=new SolidColorBrush(_colorHover);
+			//The new look (UI-4c-1): each snap area under the mouse AccentSubtle with an Accent outline, the others SurfaceSubtle with StrokeStrong.
 			Point point = e.GetPosition(_pathHalf_L);
-			if(_pathHalf_L.Data.FillContains(point)){
-				_pathHalf_L.Fill=solidColorBrushHover;
-			}
-			else{
-				_pathHalf_L.Fill=solidColorBrushBack;
-			}
+			UiLookImaging.SetSnapArea(_pathHalf_L,_pathHalf_L.Data.FillContains(point));
 			point = e.GetPosition(_pathHalf_R);
-			if(_pathHalf_R.Data.FillContains(point)){
-				_pathHalf_R.Fill=solidColorBrushHover;
-			}
-			else{
-				_pathHalf_R.Fill=solidColorBrushBack;
-			}
+			UiLookImaging.SetSnapArea(_pathHalf_R,_pathHalf_R.Data.FillContains(point));
 			//no mouse hover for max
 			point = e.GetPosition(_pathCenter);
-			if(_pathCenter.Data.FillContains(point)){
-				_pathCenter.Fill=solidColorBrushHover;
-			}
-			else{
-				_pathCenter.Fill=solidColorBrushBack;
-			}
+			UiLookImaging.SetSnapArea(_pathCenter,_pathCenter.Data.FillContains(point));
 			point = e.GetPosition(_pathQuarter_UL);
-			if(_pathQuarter_UL.Data.FillContains(point)){
-				_pathQuarter_UL.Fill=solidColorBrushHover;
-			}
-			else{
-				_pathQuarter_UL.Fill=solidColorBrushBack;
-			}
+			UiLookImaging.SetSnapArea(_pathQuarter_UL,_pathQuarter_UL.Data.FillContains(point));
 			point = e.GetPosition(_pathQuarter_UR);
-			if(_pathQuarter_UR.Data.FillContains(point)){
-				_pathQuarter_UR.Fill=solidColorBrushHover;
-			}
-			else{
-				_pathQuarter_UR.Fill=solidColorBrushBack;
-			}
+			UiLookImaging.SetSnapArea(_pathQuarter_UR,_pathQuarter_UR.Data.FillContains(point));
 			point = e.GetPosition(_pathQuarter_LL);
-			if(_pathQuarter_LL.Data.FillContains(point)){
-				_pathQuarter_LL.Fill=solidColorBrushHover;
-			}
-			else{
-				_pathQuarter_LL.Fill=solidColorBrushBack;
-			}
+			UiLookImaging.SetSnapArea(_pathQuarter_LL,_pathQuarter_LL.Data.FillContains(point));
 			point = e.GetPosition(_pathQuarter_LR);
-			if(_pathQuarter_LR.Data.FillContains(point)){
-				_pathQuarter_LR.Fill=solidColorBrushHover;
-			}
-			else{
-				_pathQuarter_LR.Fill=solidColorBrushBack;
-			}
+			UiLookImaging.SetSnapArea(_pathQuarter_LR,_pathQuarter_LR.Data.FillContains(point));
 			if(_pathHalf_L2==null){
 				return;
 			}
 			//second screen buttons===========================================================
 			point = e.GetPosition(_pathHalf_L2);
-			if(_pathHalf_L2.Data.FillContains(point)){
-				_pathHalf_L2.Fill=solidColorBrushHover;
-			}
-			else{
-				_pathHalf_L2.Fill=solidColorBrushBack;
-			}
+			UiLookImaging.SetSnapArea(_pathHalf_L2,_pathHalf_L2.Data.FillContains(point));
 			point = e.GetPosition(_pathHalf_R2);
-			if(_pathHalf_R2.Data.FillContains(point)){
-				_pathHalf_R2.Fill=solidColorBrushHover;
-			}
-			else{
-				_pathHalf_R2.Fill=solidColorBrushBack;
-			}
+			UiLookImaging.SetSnapArea(_pathHalf_R2,_pathHalf_R2.Data.FillContains(point));
 			//no mouse hover for max
 			point = e.GetPosition(_pathCenter2);
-			if(_pathCenter2.Data.FillContains(point)){
-				_pathCenter2.Fill=solidColorBrushHover;
-			}
-			else{
-				_pathCenter2.Fill=solidColorBrushBack;
-			}
+			UiLookImaging.SetSnapArea(_pathCenter2,_pathCenter2.Data.FillContains(point));
 			point = e.GetPosition(_pathQuarter_UL2);
-			if(_pathQuarter_UL2.Data.FillContains(point)){
-				_pathQuarter_UL2.Fill=solidColorBrushHover;
-			}
-			else{
-				_pathQuarter_UL2.Fill=solidColorBrushBack;
-			}
+			UiLookImaging.SetSnapArea(_pathQuarter_UL2,_pathQuarter_UL2.Data.FillContains(point));
 			point = e.GetPosition(_pathQuarter_UR2);
-			if(_pathQuarter_UR2.Data.FillContains(point)){
-				_pathQuarter_UR2.Fill=solidColorBrushHover;
-			}
-			else{
-				_pathQuarter_UR2.Fill=solidColorBrushBack;
-			}
+			UiLookImaging.SetSnapArea(_pathQuarter_UR2,_pathQuarter_UR2.Data.FillContains(point));
 			point = e.GetPosition(_pathQuarter_LL2);
-			if(_pathQuarter_LL2.Data.FillContains(point)){
-				_pathQuarter_LL2.Fill=solidColorBrushHover;
-			}
-			else{
-				_pathQuarter_LL2.Fill=solidColorBrushBack;
-			}
+			UiLookImaging.SetSnapArea(_pathQuarter_LL2,_pathQuarter_LL2.Data.FillContains(point));
 			point = e.GetPosition(_pathQuarter_LR2);
-			if(_pathQuarter_LR2.Data.FillContains(point)){
-				_pathQuarter_LR2.Fill=solidColorBrushHover;
-			}
-			else{
-				_pathQuarter_LR2.Fill=solidColorBrushBack;
-			}
+			UiLookImaging.SetSnapArea(_pathQuarter_LR2,_pathQuarter_LR2.Data.FillContains(point));
 		}
 
 		#endregion Methods - Event Handlers
@@ -479,9 +405,8 @@ Jordan is the only one allowed to edit this file.
 			path.Margin=new Thickness(x,y,0,0);
 			path.HorizontalAlignment=HorizontalAlignment.Left;
 			path.VerticalAlignment=VerticalAlignment.Top;
-			path.Stroke=new SolidColorBrush(_colorOutline);
 			path.StrokeThickness=1;
-			path.Fill=new SolidColorBrush(_colorBack);
+			UiLookImaging.SetSnapArea(path,isHover:false);
 			grid.Children.Add(path);
 			return path;
 		}
