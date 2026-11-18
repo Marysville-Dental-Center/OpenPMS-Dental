@@ -78,6 +78,7 @@ To add an icon: add the member here (and to the WinForms enum when WinForms draw
 		Pin,
 		Preview,
 		Send,
+		Sync,
 		Up
 	}
 

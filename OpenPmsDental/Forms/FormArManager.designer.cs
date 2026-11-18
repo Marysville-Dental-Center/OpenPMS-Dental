@@ -1016,7 +1016,7 @@ namespace OpenPmsDental{
 			// butUpdateStatus
 			// 
 			this.butUpdateStatus.AdjustImageLocation = new System.Drawing.Point(-4, 0);
-			this.butUpdateStatus.Icon = OpenPmsDental.UI.EnumIcons.Send;
+			this.butUpdateStatus.Icon = OpenPmsDental.UI.EnumIcons.Sync;
 			this.butUpdateStatus.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butUpdateStatus.Location = new System.Drawing.Point(424, 14);
 			this.butUpdateStatus.Name = "butUpdateStatus";

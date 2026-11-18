@@ -22,6 +22,10 @@ tools/New-IconData.ps1 turns them into CodeBase/UI/Icons/IconData.g.cs; the UI-7
 that each file's SHA-256 is the one below and in the generated file, and that the generated file is the generator's output.
 
 SHA-256 of each file:
+6dd6ec60d6757fa8ccfe655db22ba049fa6694eb04876961bdb8db8d30cea5cd  icons/arrow_sync_12_regular.svg
+fdb15ade1d9ef149abe9c790b0e22cf2d08f037cd5998c419f05cb5861b9a4c0  icons/arrow_sync_16_regular.svg
+563a1dd29e26075d3ffc349bacdf56a58d86842373a045a753ba1e1973205813  icons/arrow_sync_20_regular.svg
+54305365aa4d78a40d2b771a7c6ebff0a73485d60949b1b64e9ce7d5f79b6eaf  icons/arrow_sync_24_regular.svg
 8595ec1177c0ff5404667ac816295c249eb56e94dd53659d1f29655e24b9c0e0  icons/checkmark_12_regular.svg
 953db534b6c56e385f90b2f91c1119298e19ccfdbbfdd840aabfee9be6de4abf  icons/checkmark_16_regular.svg
 9ad90a13e5d3dd6309544d09a14817b7e609015db6e6c60ecd44ef120d2b3470  icons/checkmark_20_regular.svg

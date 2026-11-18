@@ -64,6 +64,7 @@ namespace OpenPmsDental.UI{
 		Preview,
 		Print,
 		Send,
+		Sync,
 		Up
 	}
 
