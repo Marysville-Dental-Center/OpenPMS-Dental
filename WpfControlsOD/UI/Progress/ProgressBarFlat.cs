@@ -51,7 +51,7 @@ namespace WpfControls.UI {
 				return _controlTemplate;
 			}
 			ControlTemplate controlTemplate=new ControlTemplate(typeof(ProgressBar));
-			FrameworkElementFactory factoryRoot=new FrameworkElementFactory(typeof(Grid));
+			FrameworkElementFactory factoryRoot=new FrameworkElementFactory(typeof(System.Windows.Controls.Grid));//not WpfControls.UI.Grid, the program's grid
 			factoryRoot.SetValue(UIElement.SnapsToDevicePixelsProperty,true);
 			factoryRoot.SetValue(FrameworkElement.UseLayoutRoundingProperty,true);
 			FrameworkElementFactory factoryTrack=new FrameworkElementFactory(typeof(Border),"PART_Track");

@@ -103,7 +103,8 @@ namespace OpenPmsDental.UI
 			g.InterpolationMode=InterpolationMode.High;
 			if(HasBorder) {
 				//UI-4c-2 (section 3.6 of the UI refresh plan): the container border, 1 px Stroke, square (it was Gray). The picture inside is the office's.
-				UiControlPaint.Outline(g,EnumUiColor.Stroke,new Rectangle(0,0,Width,Height),1,0,1f);
+				float scale=DeviceDpi/96f;
+				UiControlPaint.Outline(g,EnumUiColor.Stroke,new Rectangle(0,0,Width,Height),UiTheme.GetLineWidth(scale),0,scale);
 			}
 			float heightImage=-1;
 			float widthImage=-1;
@@ -125,7 +126,7 @@ namespace OpenPmsDental.UI
 				//amount of space around the outside edge of the image in pixels. 1px shows border, 2px shows border and a little whitespace.
 				int padding=0;
 				if(HasBorder) {
-					padding=1;
+					padding=UiTheme.GetLineWidth(DeviceDpi/96f);//the border's width: 1 px, 2 px at 200%
 				}
 				//Debug.WriteLine("Hratio:"+(float)image.Height/(float)Height+"Wratio:"+(float)image.Width/(float)Width);
 				if(heightImage/(float)Height > widthImage/(float)Width){//Image is proportionally taller

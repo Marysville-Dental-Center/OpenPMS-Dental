@@ -34,8 +34,7 @@ namespace OpenPmsDental.UI{
 			_scale=Width/18f;
 			//UI-4c-2 (sections 3.2 and 3.6 of the UI refresh plan): the triangle is the Warning token (it was light orange 255,192,128 with an orange
 			//outline), the red one Danger (it was OrangeRed), the mark white.
-			_color=UiTheme.GetColor(UiDialogPaint.GetWarningFill(isRed:false));
-			_colorOutline=_color;
+			SetColor(isRed:false);
 			_toolTipOD=new ToolTipOD();
 			_toolTipOD.SetControlAndAction(this,ToolTipSetString);
 		}
@@ -70,10 +69,16 @@ namespace OpenPmsDental.UI{
 			//for both popup and triangle, we will show this triangle
 			Visible=true;
 			if(_databaseIntegrity.Behavior==EnumIntegrityBehavior.TriangleRed) {
-				_color=UiTheme.GetColor(UiDialogPaint.GetWarningFill(isRed:true));
-				_colorOutline=_color;
+				SetColor(isRed:true);
 			}
 			SetTriangleBehavior();
+		}
+
+		///<summary>The triangle's fill and outline: the Warning token, or Danger for the red one (UiDialogPaint.GetWarningFill).</summary>
+		internal void SetColor(bool isRed){
+			_color=UiTheme.GetColor(UiDialogPaint.GetWarningFill(isRed));
+			_colorOutline=_color;
+			Invalidate();
 		}
 
 		///<summary></summary>
