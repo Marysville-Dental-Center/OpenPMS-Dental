@@ -1,19 +1,18 @@
 ﻿using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Windows.Forms;
-using System.Windows.Navigation;
+using CodeBase;
 
 namespace OpenPmsDental.UI{
-	//Jordan's Instructions to self for maintenance
-	//This enum is manually maintained with no automation.  A similar list is stored in the database, which is filled by Adding in Icon Manager.  
-	//1. Add enumeration here
-	//2. Add in Icon Manager to db.
-	//3. Generate individual with no images.
-	//4. Add Gen_ files to project
-	//5. Generate from main page.
-	//6. Add images 
+	//The icons of the toolbars, buttons and module bar. Since package UI-7b of the UI refresh (docs/specs/ui-refresh-plan.md, sections 3.5, 4.2
+	//and 4.3; docs/port-notes/UI-7b.md) every member but three draws a Fluent UI System Icon from the one icon table in CodeBase
+	//(CodeBase/UI/Icons, made by tools/New-IconData.ps1 from icons/manifest.json, where each member has its row keyed by its name). The WPF
+	//IconLibrary (WpfControlsOD/UI/IconLibrary) draws the same rows. Chart32G, Chart32W and ChartMed32 keep their pictures (Gen_*.cs, through
+	//IconSelector) until UI-8 makes the dental icons.
+	//To add an icon: add the member here (and to the WPF enum when WPF draws it), add its manifest row (icons/README.md), run the generator.
 	public enum EnumIcons{
 		None,
 		Account32,
@@ -58,84 +57,147 @@ namespace OpenPmsDental.UI{
 
 	///<summary></summary>
 	public partial class IconLibrary{
-		///<summary>This can be set to true if a customer computer is crashing. It forces use of GDI+ and no Direct2D.  Only downside is that icons will be blurry.</summary>
+		///<summary>This can be set to true if a customer computer is crashing. It forces use of GDI+ and no Direct2D (NoD2D.txt). The Fluent icons are
+		///then filled with GDI+ (CodeBase.UiIcons), the same shapes antialiased.</summary>
 		public static bool OnlyGDI;
+		///<summary>The manifest's enum name of these icons' rows.</summary>
+		public const string MANIFEST_ENUM="EnumIcons";
+		///<summary>The suffix of the row of an icon's Filled style ("on" states: the selected module, section 4.3): Appt32Filled.</summary>
+		public const string FILLED_SUFFIX="Filled";
+		///<summary>The designs of each member by rising size, Regular and Filled, indexed by the enum's value; filled on first use.</summary>
+		private static IconDesign[][] _arrayDesignsRegular;
+		private static IconDesign[][] _arrayDesignsFilled;
+		private static readonly object _lockDesigns=new object();
 
-		//This didn't work.  The entire bitmap would need to be drawn in Direct2D, and then we might as well draw the whole control in D2D.
-		/*
-		///<summary>Supply the bitmap on which to draw.  There is no transparency at this interface, so the background should already be painted for the bitmap. The rectangle to draw on is usually just 0,0,bitmap.Width,bitmap.Height.</summary>
-		public static void DrawOnBitmap(Bitmap bitmapBack,EnumIcons icon,Rectangle rectangle,bool designMode=false){
-			if(icon==EnumIcons.None){
-				return;
+		#region Designs
+		///<summary>Whether the icon still draws its picture (Gen_*.cs) instead of a Fluent icon: Chart32G, Chart32W and ChartMed32, until UI-8.</summary>
+		public static bool IsPicture(EnumIcons icon){
+			switch(icon){
+				case EnumIcons.Chart32G:
+				case EnumIcons.Chart32W:
+				case EnumIcons.ChartMed32:
+					return true;
+				default:
+					return false;
 			}
-			if(IsVector(icon) && !designMode){
-				Direct2d d=Direct2d.FromBitmap(bitmapBack);
-				int width=Width(icon);
-				float scale=(float)rectangle.Width/width;
-				IconSelector.DrawVectors(d,icon,rectangle.Location,scale);
-				d.EndDraw();
-				d.Dispose();
-			}
-			else{
-				string base64=IconSelector.GetBase64(icon);
-				if(base64==""){
-					return;
+		}
+
+		///<summary>The icon's designs in the icon table by rising size, Regular or Filled. The Filled style falls back to Regular when the icon has no
+		///Filled row. Empty for None and the pictures.</summary>
+		public static IconDesign[] GetDesigns(EnumIcons icon,bool isFilled=false){
+			if(_arrayDesignsRegular==null){
+				lock(_lockDesigns){
+					if(_arrayDesignsRegular==null){
+						Array arrayValues=Enum.GetValues(typeof(EnumIcons));
+						int count=0;
+						foreach(object value in arrayValues){
+							count=Math.Max(count,(int)value+1);
+						}
+						IconDesign[][] arrayRegular=new IconDesign[count][];
+						IconDesign[][] arrayFilled=new IconDesign[count][];
+						foreach(object value in arrayValues){
+							EnumIcons iconEach=(EnumIcons)value;
+							if(iconEach==EnumIcons.None || IsPicture(iconEach)){
+								arrayRegular[(int)value]=new IconDesign[0];
+								arrayFilled[(int)value]=new IconDesign[0];
+								continue;
+							}
+							arrayRegular[(int)value]=UiIcons.GetDesigns(MANIFEST_ENUM,iconEach.ToString());
+							IconDesign[] arrayDesignsFilled=UiIcons.GetDesigns(MANIFEST_ENUM,iconEach.ToString()+FILLED_SUFFIX);
+							if(arrayDesignsFilled.Length==0){
+								arrayDesignsFilled=arrayRegular[(int)value];
+							}
+							arrayFilled[(int)value]=arrayDesignsFilled;
+						}
+						_arrayDesignsFilled=arrayFilled;
+						_arrayDesignsRegular=arrayRegular;
+					}
 				}
-				Byte[] byteArray=Convert.FromBase64String(base64);
-				MemoryStream memoryStream=new MemoryStream(byteArray);
-				Bitmap bitmap=(Bitmap)Image.FromStream(memoryStream);
-				memoryStream.Dispose();
-				using Graphics g=Graphics.FromImage(bitmapBack);
-				g.DrawImage(bitmap,rectangle);
-				bitmap.Dispose();
-				return;
 			}
-		}*/
+			IconDesign[][] arrayDesigns=isFilled ? _arrayDesignsFilled : _arrayDesignsRegular;
+			int index=(int)icon;
+			if(index<0 || index>=arrayDesigns.Length){
+				return new IconDesign[0];
+			}
+			return arrayDesigns[index];
+		}
 
+		///<summary>The design drawn in a square slot of sizeSlot device pixels (section 3.5: the largest that fits, never stretched up). Null for None and
+		///the pictures.</summary>
+		public static IconDesign GetDesign(EnumIcons icon,int sizeSlot,bool isFilled=false){
+			return UiIcons.GetDesign(GetDesigns(icon,isFilled),sizeSlot);
+		}
+
+		///<summary>The icon's default colour: its manifest role as a colour token (UQ-4: Text, with Danger, Success and Accent for a few).</summary>
+		public static Color GetColor(EnumIcons icon){
+			IconDesign[] arrayDesigns=GetDesigns(icon);
+			if(arrayDesigns.Length==0){
+				return UiTheme.GetColor(EnumUiColor.Text);
+			}
+			return UiIcons.GetRoleColor(arrayDesigns[0]);
+		}
+		#endregion Designs
+
+		#region Drawing
 		public static void Draw(Direct2d d,EnumIcons icon,Rectangle rectangle){
 			if(icon==EnumIcons.None){
 				return;
 			}
-			if(IsVector(icon)){
-				int width=Width(icon);
-				float scale=(float)rectangle.Width/width;
-				IconSelector.DrawVectors(d,icon,rectangle.Location,scale);
-			}
-			else{
-				string base64=IconSelector.GetBase64(icon);
-				if(base64==""){
-					return;
-				}
-				Byte[] byteArray=Convert.FromBase64String(base64);
-				MemoryStream memoryStream=new MemoryStream(byteArray);
-				Bitmap bitmap=(Bitmap)Image.FromStream(memoryStream);
-				memoryStream.Dispose();
-				d.DrawBitmapImmediate(bitmap,rectangle);
-				bitmap.Dispose();
+			if(!IsPicture(icon)){
+				d.FillIcon(GetDesign(icon,Math.Min(rectangle.Width,rectangle.Height)),rectangle,GetColor(icon));
 				return;
 			}
+			using Bitmap bitmap=GetPictureBitmap(icon);
+			if(bitmap==null){
+				return;
+			}
+			d.DrawBitmapImmediate(bitmap,rectangle);
 		}
 
+		///<summary>A WPF image of the icon at its size (Width: 22 or 32 px at 96 DPI) for the WPF toolbars and buttons that the WinForms helpers fill
+		///(UIManagement). Null when there is nothing to draw.</summary>
 		public static System.Windows.Media.Imaging.BitmapImage DrawWpf(EnumIcons icon){
-			//In the future, attach a series of Shapes (rectangles, paths, etc) to some container that's passed in.
-			//For now, just always draw the image at its original size.
-			int width=Width(icon);
-			//wImage.Width=width;
-			System.Windows.Media.Imaging.BitmapImage bitmapImage=new System.Windows.Media.Imaging.BitmapImage();
-			string base64=IconSelector.GetBase64(icon);
-			if(base64==""){
+			if(icon==EnumIcons.None){
 				return null;
 			}
-			byte[] byteArray=Convert.FromBase64String(base64);
+			byte[] byteArray;
+			if(IsPicture(icon)){
+				string base64=IconSelector.GetBase64(icon);
+				if(base64==""){
+					return null;
+				}
+				byteArray=Convert.FromBase64String(base64);
+			}
+			else{
+				int width=Width(icon);
+				using Bitmap bitmap=UiIcons.GetBitmap(GetDesign(icon,width),width,GetColor(icon));
+				using MemoryStream memoryStreamPng=new MemoryStream();
+				bitmap.Save(memoryStreamPng,ImageFormat.Png);
+				byteArray=memoryStreamPng.ToArray();
+			}
+			System.Windows.Media.Imaging.BitmapImage bitmapImage=new System.Windows.Media.Imaging.BitmapImage();
 			bitmapImage.BeginInit();
 			bitmapImage.StreamSource=new MemoryStream(byteArray);
 			bitmapImage.EndInit();
 			return bitmapImage;
-			//wImage.Source=bitmapImage;
-			//return wImage;
-			/*			
-			Bitmap bitmap=(Bitmap)Image.FromStream(memoryStream);
-			memoryStream.Dispose();
+		}
+
+		///<summary>Draws the icon in its default colour (GetColor). A Fluent icon is filled with Direct2D into a bitmap of the rectangle over the
+		///gradient (the bitmap target has no transparency, so the button's gradient is drawn under it to match), then that bitmap onto g; with OnlyGDI,
+		///in design mode, or when Direct2D cannot start (which sets OnlyGDI from then on), it is filled with GDI+ on whatever g already shows. The
+		///pictures (IsPicture) draw their bitmaps as before.</summary>
+		public static void Draw(Graphics g,EnumIcons icon,Rectangle rectangle,Color colorGradientTop,Color colorGradientBottom,bool designMode=false){
+			if(icon==EnumIcons.None){
+				return;
+			}
+			if(!IsPicture(icon)){
+				DrawFluent(g,GetDesign(icon,Math.Min(rectangle.Width,rectangle.Height)),rectangle,GetColor(icon),colorGradientTop,colorGradientBottom,designMode);
+				return;
+			}
+			Bitmap bitmap=GetPictureBitmap(icon);
+			if(bitmap==null){
+				return;
+			}
 			if(icon!=EnumIcons.Chart32G && icon!=EnumIcons.Chart32W){
 				g.DrawImage(bitmap,rectangle);
 				bitmap.Dispose();
@@ -145,10 +207,6 @@ namespace OpenPmsDental.UI{
 			//Chart bitmap needs high quality. Downside is white halo, so draw it slighly smaller, then cover the halo
 			GraphicsState graphicsState=g.Save();
 			g.InterpolationMode=InterpolationMode.HighQualityBicubic;
-			//if(icon==EnumIcons.Chart32G){
-				//g.FillRectangle(Brushes.Red,rectangle);
-			//}
-			//Rectangle rectangleSmaller=Rectangle.Inflate(rectangle,-1,-1);
 			g.DrawImage(bitmap,rectangle);
 			bitmap.Dispose();
 			if(icon==EnumIcons.Chart32G){
@@ -157,131 +215,37 @@ namespace OpenPmsDental.UI{
 					g.DrawRectangle(pen,rectangle.X+0.75f,rectangle.Y+0.75f,rectangle.Width-1.25f,rectangle.Height-1.25f);
 				}
 			}
-			g.Restore(graphicsState);*/
+			g.Restore(graphicsState);
 		}
 
-		///<summary>This works, but there are some bugs: stray lines of pixels when resizing, and halos due to Interpolation of edge pixels.  Graphics and Direct2D don't actually share the same context very well, even when they take turns.</summary>
-		public static void Draw(Graphics g,EnumIcons icon,Rectangle rectangle,Color colorGradientTop,Color colorGradientBottom,bool designMode=false){
+		///<summary>Draws the icon in a colour of the caller's, Regular or Filled (section 3.6: the selected module's icon is Filled in Accent; UI-6), over
+		///colorBack, the background the control has under the icon (Direct2D's bitmap has no transparency). As Draw: Direct2D, or GDI+ with OnlyGDI.
+		///The pictures draw their bitmaps.</summary>
+		public static void DrawColored(Graphics g,EnumIcons icon,Rectangle rectangle,Color color,Color colorBack,bool isFilled=false){
 			if(icon==EnumIcons.None){
 				return;
 			}
-			if(IsVector(icon) && !designMode && !OnlyGDI){
-				//This top attempt looked terrible unless using the d.Clear.==========================================================
-				/*
-				g.InterpolationMode=InterpolationMode.HighQualityBicubic;
-				Bitmap bitmap=new Bitmap(rectangle.Width,rectangle.Height);
-				Direct2d d=Direct2d.FromBitmap(bitmap);
-				d.Clear(SystemColors.Control);
-				int width=Width(icon);
-				float scale=(float)rectangle.Width/width;
-				IconSelector.DrawVectors(d,icon,new Point(0,0),scale);//draw the vectors on the bitmap
-				d.EndDraw();
-				d.Dispose();
-				g.DrawImage(bitmap,rectangle);//draw the bitmap to our main graphics
-				bitmap.Dispose();*/
-				//===================================================================================================================
-				//This works, but leaves a few stray lines of pixels when resizing. It also seems to leave OD hanging on some computers
-				/*
-				int width=Width(icon);
-				float scale=(float)rectangle.Width/width;
-				Direct2d d=Direct2d.FromGraphics(g);
-				d.BeginDraw();
-				IconSelector.DrawVectors(d,icon,rectangle.Location,scale);
-				d.EndDraw();
-				d.Dispose();*/
-				//===================================================================================================================
-				//This is a hassle to match up the gradient. So it works fine, but it's just not going to scale well.
-				//There are three possible future strategies:
-				//1. Draw entire button in DirectX as a bitmap. Would need to also consider caching the bitmap to improve performance. Still a bit clumsy.
-				//2. Draw entire button in DirectX using hWnd. Would take a lot of work to get the framework perfected. This could get too complex.
-				//3. Stick with this code, redrawing gradients where needed. This might actually be a really good compromise.
-				using Bitmap bitmap=new Bitmap(rectangle.Width,rectangle.Height);
-				Direct2d d=null;
-				try{//need to narrow this scope
-					d=Direct2d.FromBitmap(bitmap);
-				}
-				catch{
-					OnlyGDI=true;//from now on
-					Draw(g,icon,rectangle,colorGradientTop,colorGradientBottom,designMode);//draws the non-vector version
-					d?.Dispose();
-					return;
-				}
-				d.BeginDraw();
-				d.CreateGradientBrush(0,colorGradientTop,colorGradientBottom,0,0,0,rectangle.Height);
-				//d.CreateGradientBrush(0,Color.Red,Color.Red,0,0,0,rectangle.Height);
-				d.FillRectangleGradient(0,0,0,rectangle.Width,rectangle.Height);
-				int width=Width(icon);
-				float scale=(float)rectangle.Width/width;
-				IconSelector.DrawVectors(d,icon,new Point(0,0),scale);//draw the vectors on the bitmap
-				d.EndDraw();
-				g.DrawImage(bitmap,rectangle);//draw the bitmap to our main graphics
-				d.Dispose();
+			if(IsPicture(icon)){
+				Draw(g,icon,rectangle,colorBack,colorBack);
+				return;
 			}
-			else{
-				string base64=IconSelector.GetBase64(icon);
-				if(base64==""){
-					return;
-				}
-				Byte[] byteArray=Convert.FromBase64String(base64);
-				MemoryStream memoryStream=new MemoryStream(byteArray);
-				Bitmap bitmap=(Bitmap)Image.FromStream(memoryStream);
-				memoryStream.Dispose();
-				if(icon!=EnumIcons.Chart32G && icon!=EnumIcons.Chart32W){
-					g.DrawImage(bitmap,rectangle);
-					bitmap.Dispose();
-					return;
-				}
-				//Everything below this point is just for the chart.
-				//Chart bitmap needs high quality. Downside is white halo, so draw it slighly smaller, then cover the halo
-				GraphicsState graphicsState=g.Save();
-				g.InterpolationMode=InterpolationMode.HighQualityBicubic;
-				//if(icon==EnumIcons.Chart32G){
-					//g.FillRectangle(Brushes.Red,rectangle);
-				//}
-				//Rectangle rectangleSmaller=Rectangle.Inflate(rectangle,-1,-1);
-				g.DrawImage(bitmap,rectangle);
-				bitmap.Dispose();
-				if(icon==EnumIcons.Chart32G){
-					//this is the one with the white edge
-					using(Pen pen=new Pen(Color.FromArgb(240,240,240))){
-						g.DrawRectangle(pen,rectangle.X+0.75f,rectangle.Y+0.75f,rectangle.Width-1.25f,rectangle.Height-1.25f);
-					}
-				}
-				g.Restore(graphicsState);
-			}
+			DrawFluent(g,GetDesign(icon,Math.Min(rectangle.Width,rectangle.Height),isFilled),rectangle,color,colorBack,colorBack,designMode:false);
 		}
 
-		/*
-		public static Bitmap GetBitmap(Graphics g,EnumIcons icon,Size size){
-			if(IconSelector.IsVector(icon)){
-				int width=IconSelector.Width(icon);
-				float scale=(float)size.Width/width;
-				Bitmap bitmap=new Bitmap(size.Width,size.Height);
-				Direct2d d=Direct2d.FromBitmap(bitmap);
-				//d.Clear(Color.Transparent);
-				IconSelector.DrawVectors(d,icon,new Point(0,0),scale);
-				d.EndDraw();
-				d.Dispose();
-				return bitmap;
-			}
-			else{
-				Byte[] byteArray=Convert.FromBase64String(IconSelector.GetBase64(icon));
-				MemoryStream memoryStream=new MemoryStream(byteArray);
-				Bitmap bitmap=(Bitmap)Image.FromStream(memoryStream);
-				memoryStream.Dispose();
-				return bitmap;
-			}
-		}*/
-
-		///<summary>This draws with the greyed-out look for disabled buttons.</summary>
+		///<summary>Draws as disabled: a Fluent icon filled in TextDisabled (section 4.2, item 6), not greyed with ControlPaint; the pictures greyed as
+		///before.</summary>
 		public static void DrawDisabled(Graphics g,EnumIcons icon,Rectangle rectangle){
 			if(icon==EnumIcons.None){
 				return;
 			}
-			Byte[] byteArray=Convert.FromBase64String(IconSelector.GetBase64(icon));
-			MemoryStream memoryStream=new MemoryStream(byteArray);
-			Bitmap bitmap=(Bitmap)Image.FromStream(memoryStream);
-			memoryStream.Dispose();
+			if(!IsPicture(icon)){
+				UiIcons.Draw(g,GetDesign(icon,Math.Min(rectangle.Width,rectangle.Height)),rectangle,UiTheme.GetColor(EnumUiColor.TextDisabled));
+				return;
+			}
+			Bitmap bitmap=GetPictureBitmap(icon);
+			if(bitmap==null){
+				return;
+			}
 			Bitmap bitmapDisabled=new Bitmap(bitmap.Width,bitmap.Height);
 			Graphics gfx=Graphics.FromImage(bitmapDisabled);
 			ControlPaint.DrawImageDisabled(gfx,bitmap,0,0,ColorOD.Control);
@@ -290,6 +254,57 @@ namespace OpenPmsDental.UI{
 			bitmapDisabled.Dispose();
 			bitmap.Dispose();
 		}
+
+		///<summary>Fills a design in the rectangle: Direct2D into a bitmap over the gradient, then onto g pixel for pixel; GDI+ with OnlyGDI, in design
+		///mode, or when Direct2D cannot start.</summary>
+		private static void DrawFluent(Graphics g,IconDesign iconDesign,Rectangle rectangle,Color color,Color colorGradientTop,Color colorGradientBottom,bool designMode){
+			if(iconDesign==null || rectangle.Width<=0 || rectangle.Height<=0){
+				return;
+			}
+			if(designMode || OnlyGDI){
+				UiIcons.Draw(g,iconDesign,rectangle,color);
+				return;
+			}
+			using Bitmap bitmap=new Bitmap(rectangle.Width,rectangle.Height);
+			Direct2d d=null;
+			try{
+				d=Direct2d.FromBitmap(bitmap);
+			}
+			catch{
+				OnlyGDI=true;//from now on
+				d?.Dispose();
+				UiIcons.Draw(g,iconDesign,rectangle,color);
+				return;
+			}
+			try{
+				d.BeginDraw();
+				d.CreateGradientBrush(0,colorGradientTop,colorGradientBottom,0,0,0,rectangle.Height);
+				d.FillRectangleGradient(0,0,0,rectangle.Width,rectangle.Height);
+				d.FillIcon(iconDesign,new Rectangle(0,0,rectangle.Width,rectangle.Height),color);
+				d.EndDraw();
+			}
+			finally{
+				d.Dispose();
+			}
+			GraphicsState graphicsState=g.Save();
+			g.InterpolationMode=InterpolationMode.NearestNeighbor;
+			g.PixelOffsetMode=PixelOffsetMode.Half;
+			g.DrawImage(bitmap,rectangle,0,0,rectangle.Width,rectangle.Height,GraphicsUnit.Pixel);
+			g.Restore(graphicsState);
+		}
+
+		///<summary>A new bitmap of a picture icon's Gen_*.cs image, or null when it has none. The caller disposes it.</summary>
+		private static Bitmap GetPictureBitmap(EnumIcons icon){
+			string base64=IconSelector.GetBase64(icon);
+			if(base64==""){
+				return null;
+			}
+			byte[] byteArray=Convert.FromBase64String(base64);
+			using MemoryStream memoryStream=new MemoryStream(byteArray);
+			using Bitmap bitmapRead=(Bitmap)Image.FromStream(memoryStream);
+			return new Bitmap(bitmapRead);
+		}
+		#endregion Drawing
 
 		///<summary>32 or 22</summary>
 		public static int Width(EnumIcons icon){
@@ -306,51 +321,14 @@ namespace OpenPmsDental.UI{
 			}
 		}
 
+		///<summary>Whether the icon is drawn as vectors: every icon but the pictures (IsPicture) since UI-7b.</summary>
 		public static bool IsVector(EnumIcons icon){
-			switch(icon){
-				case EnumIcons.ArrowLeft:
-				case EnumIcons.ArrowRight:
-				case EnumIcons.ChartMed32:
-				case EnumIcons.Chart32:
-				case EnumIcons.Chart32G:
-				case EnumIcons.Chart32W:
-				case EnumIcons.Probe:
-				case EnumIcons.TreatPlanMed32:
-				case EnumIcons.ImageSelectorDoc:
-				case EnumIcons.ImageSelectorPhoto:
-				case EnumIcons.ImageSelectorXray:
-					return false;
-				default:
-					return true;
-/*
-				case EnumIcons.Account32:
-				case EnumIcons.Add:
-				case EnumIcons.Appt32:
-				case EnumIcons.BreakAptX:
-				case EnumIcons.CommLog:
-				case EnumIcons.Complete:
-				case EnumIcons.DeleteX:
-				case EnumIcons.Email:
-				case EnumIcons.Family32:
-				case EnumIcons.Imaging32:
-				case EnumIcons.Manage32:
-				case EnumIcons.PatAdd:
-				case EnumIcons.Patient:
-				case EnumIcons.PatMoveFam:
-				case EnumIcons.PatSelect:
-				case EnumIcons.Recall:
-				case EnumIcons.Text:
-				case EnumIcons.TreatPlan32:
-				case EnumIcons.WebMail:
-					return true;
-				default:
-					return false;*/
-			}
+			return icon!=EnumIcons.None && !IsPicture(icon);
 		}
 
 	}
 
-		
+
 }
 
 

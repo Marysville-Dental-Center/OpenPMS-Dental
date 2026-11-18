@@ -1267,6 +1267,13 @@ so it is cut into two slices that share no files and may run side by side).
 - Tests: every `EnumIcons` has a manifest row and draws non-empty at every size on GDI+, Direct2D and WPF, and on the OnlyGDI path and
   in NoDpi mode; `InProcChecks.DE` `WpfImages` counts vector icons (section 9).
 - Gallery: **G-UI1 part 3** (today's icon beside the Fluent icon, 16/20/24 px, 100/125/150/200%).
+- **Status (2026-11-17).** Done on `ui/ui7b-1` (`docs/port-notes/UI-7b.md`), not merged yet, waiting for G-UI1 part 3
+  (`.git/od-tools/test-results/G-UI1-part3-ui7b`, rendered off screen; the before set from the `Gen_*.cs` pictures first). 57 `EnumIcons`
+  manifest rows: the 50 members of both enums that get a Fluent icon and the Filled style of the seven module icons (`<member>Filled`); 248
+  more 1.1.346 SVGs from UI-7a's download. Both `IconLibrary` copies draw from the table with their callers unchanged (Direct2D path calls,
+  GDI+ on the OnlyGDI path, WPF `Path`s); 35 + 37 `Gen_*.cs` files and the WPF `IconSelector` go; Chart32G, Chart32W and ChartMed32 keep
+  their pictures (three `Gen_*.cs` files) until UI-8. Account, Tx Plan and medical Tx Plan take Receipt, Clipboard Text LTR and Heart Pulse
+  (the examples of 4.3 have no 32 px design; owner question). `InProcChecks.DE` `WpfImages` counts vector icons.
 
 **UI-8: custom dental icons**
 - Owns: `icons/custom/*.svg`, their manifest rows, `db/init/new-database.sql` (default procedure-button pictures only, if UQ-7 says yes).

@@ -33,14 +33,40 @@ namespace WindowChecksTests.InProc {
 			return list;
 		}
 
-		///<summary>The Frm's button and toolbar images (an Image inside a button or a toolbar: Resources/*.gif): how many, and how many have no
-		///picture (blank). Other images (a preview, a histogram) are empty until something is captured, and are left out.</summary>
+		///<summary>The Frm's button and toolbar images: bitmaps (an Image inside a button or a toolbar: Resources/*.gif) and vector icons (the
+		///Fluent icons of IconLibrary since UI-7b: a Path, or an Image showing a DrawingImage), how many, and how many have no picture (blank: no
+		///source, no size, or an empty geometry or drawing). Without the vector icons the Fluent icons would pass with 0 images (section 9 of
+		///docs/specs/ui-refresh-plan.md). Other images (a preview, a histogram) are empty until something is captured, and are left out.</summary>
 		public static string WpfImages(System.Windows.FrameworkElement frm,out int countBlank) {
-			List<System.Windows.Controls.Image> listImages=WpfTree(frm).OfType<System.Windows.Controls.Image>().Where(x => x.IsVisible && IsInButtonOrToolBar(x,frm))
+			List<System.Windows.DependencyObject> listTree=WpfTree(frm);
+			List<System.Windows.Controls.Image> listImages=listTree.OfType<System.Windows.Controls.Image>().Where(x => x.IsVisible && IsInButtonOrToolBar(x,frm))
 				.ToList();
-			countBlank=listImages.Count(x => x.Source==null || x.ActualWidth<=0);
-			int countOther=WpfTree(frm).OfType<System.Windows.Controls.Image>().Count(x => x.IsVisible)-listImages.Count;
-			return listImages.Count+" button or toolbar images, "+countOther+" other images";
+			List<System.Windows.Shapes.Path> listPaths=listTree.OfType<System.Windows.Shapes.Path>().Where(x => x.IsVisible && IsInButtonOrToolBar(x,frm)).ToList();
+			int countDrawingImages=listImages.Count(x => x.Source is System.Windows.Media.DrawingImage);
+			countBlank=listImages.Count(x => IsBlankImage(x))+listPaths.Count(x => IsBlankPath(x));
+			int countOther=listTree.OfType<System.Windows.Controls.Image>().Count(x => x.IsVisible)-listImages.Count;
+			return (listImages.Count+listPaths.Count)+" button or toolbar images ("+(listImages.Count-countDrawingImages)+" bitmaps, "
+				+(listPaths.Count+countDrawingImages)+" vector icons), "+countOther+" other images";
+		}
+
+		///<summary>An Image with no source or no size, or showing a DrawingImage whose drawing is empty.</summary>
+		public static bool IsBlankImage(System.Windows.Controls.Image image) {
+			if(image.Source==null || image.ActualWidth<=0) {
+				return true;
+			}
+			if(image.Source is System.Windows.Media.DrawingImage drawingImage) {
+				return drawingImage.Drawing==null || drawingImage.Drawing.Bounds.IsEmpty || drawingImage.Drawing.Bounds.Width<=0 || drawingImage.Drawing.Bounds.Height<=0;
+			}
+			return false;
+		}
+
+		///<summary>A Path with no size or with no geometry to fill (a vector icon that draws nothing).</summary>
+		public static bool IsBlankPath(System.Windows.Shapes.Path path) {
+			if(path.ActualWidth<=0 || path.Data==null || path.Data.IsEmpty()) {
+				return true;
+			}
+			System.Windows.Rect rectBounds=path.Data.Bounds;
+			return rectBounds.IsEmpty || (rectBounds.Width<=0 && rectBounds.Height<=0);
 		}
 
 		private static bool IsInButtonOrToolBar(System.Windows.DependencyObject dependencyObject,System.Windows.FrameworkElement frm) {

@@ -30,8 +30,11 @@ packages. The approved download is `.git/od-tools/downloads/ui7a-fluentui-svg-ic
 ```
 
 - `enum`: `UiGlyph` (the control glyphs; the generator writes this enum, in manifest order after `None`) or `EnumIcons` (the toolbar
-  and module icons; UI-7b adds those rows, keyed by the member's name, and keeps the enum in `IconLibrary.cs`).
-- `name`: the enum member. One row per purpose: a purpose drawn in many places is one row.
+  and module icons; UI-7b added those rows, keyed by the member's name; the enum stays in both `IconLibrary.cs` files, and a member of
+  both enums has one row that both libraries draw).
+- `name`: the enum member. One row per purpose: a purpose drawn in many places is one row. An `EnumIcons` member's Filled style (the
+  "on" state, section 4.3) is a second row named `<member>Filled` with `"style": "filled"`; `IconLibrary.GetDesigns(icon,isFilled:true)`
+  finds it and falls back to the Regular row when there is none. Today the seven module bar icons have one.
 - `fluent`: the Fluent file name stem, or `custom`: a stem under `icons/custom` (`<custom>_<size>.svg`). Exactly one of the two.
 - `style`: `regular`, or `filled` for "on" states (the selected module, a toggled toolbar button), section 4.3.
 - `sizes`: the design sizes compiled in, rising: 12, 16, 20, 24, 32, 48 (section 3.5; the 24 design serves 24 to 31 px, so 28 is not
@@ -140,3 +143,56 @@ the manifest; G-UI1 part 3 shows them.
 | Next: month calendar, tab scroll, sub-menus | the control's own drawing | Chevron Right (regular) | Fluent | UI-7a (UI-4b, UI-4c, UI-6) |
 | Check box check mark; checked menu items | the control's own drawing | Checkmark (regular) | Fluent | UI-7a (UI-4a, UI-6) |
 | Indeterminate check box | the control's own drawing | Line Horizontal 1 (regular), "the dash" | Fluent | UI-7a (UI-4a) |
+| Module bar: Appts (`Appt32`) | calendar page with a grid | Calendar LTR (regular; filled for the selected module) | Fluent | UI-7b |
+| Module bar: Family (`Family32`) | group of coloured people | People (regular; filled) | Fluent | UI-7b |
+| Module bar: Account (`Account32`) | green dollar sign and card | Receipt (regular; filled); the plan's example Receipt Money has no 32 px design | Fluent | UI-7b |
+| Module bar: Tx Plan (`TreatPlan32`) | clipboard with a list | Clipboard Text LTR (regular; filled); the plan's Clipboard Task List LTR has no 32 px design | Fluent | UI-7b |
+| Module bar: Tx Plan, medical layout (`TreatPlanMed32`) | clipboard with a list | Heart Pulse (regular; filled); the plan's Clipboard Heart has no 32 px design | Fluent | UI-7b |
+| Module bar: Chart (`Chart32G`, `Chart32W`), medical (`ChartMed32`) | tooth; red medical cross | today's pictures, kept | Gen_*.cs | UI-8 |
+| Module bar: Imaging (`Imaging32`) | scanner and camera | Image Multiple (regular; filled) | Fluent | UI-7b |
+| Module bar: Manage (`Manage32`) | purple gears | Briefcase (regular; filled) | Fluent | UI-7b |
+| Chart picture no code draws (`Chart32`) | tooth | Clipboard Pulse (regular), until UI-8's tooth | Fluent | UI-7b |
+| Add (`Add`) | blue plus | Add (regular), `Accent` | Fluent | UI-7b |
+| Delete (`DeleteX`) | red X | Delete (regular), `Danger` | Fluent | UI-7b |
+| Left and right arrows (`ArrowLeft`, `ArrowRight`) | blue arrows | Arrow Left, Arrow Right (regular) | Fluent | UI-7b |
+| Break appointment (`BreakAptX`) | box with a cross | Calendar Cancel (regular), `Danger` | Fluent | UI-7b |
+| Set complete (`Complete`) | blue check swoosh | Checkmark Circle (regular), `Success` | Fluent | UI-7b |
+| Commlog (`CommLog`) | three linked circles | Chat (regular) | Fluent | UI-7b |
+| Email (`Email`) | blue envelope | Mail (regular) | Fluent | UI-7b |
+| Secure web mail, no code draws it (`WebMail`) | blue envelope | Mail Shield (regular) | Fluent | UI-7b |
+| Text message (`Text`) | blue speech bubbles | Phone Chat (regular; the 16 px design leaves its square, so 16 px slots draw the 20 px design) | Fluent | UI-7b |
+| Recall (`Recall`) | green circling arrows | Calendar Arrow Repeat All (regular) | Fluent | UI-7b |
+| Select patient (`PatSelect`) | person with a blue arrow | Person Search (regular; no 16 px design, as Text) | Fluent | UI-7b |
+| Patient (`Patient`) | red person | Person (regular) | Fluent | UI-7b |
+| Add family member (`PatAdd`) | plus and person | Person Add (regular) | Fluent | UI-7b |
+| Delete patient (`PatDelete`) | X and person | Person Delete (regular), `Danger` | Fluent | UI-7b |
+| Move to another family (`PatMoveFam`) | person with a green arrow | Person Arrow Right (regular) | Fluent | UI-7b |
+| Set guarantor (`PatSetGuarantor`) | green up arrow and person | Person Money (regular) | Fluent | UI-7b |
+| Perio probe, no code draws it (`Probe`) | probe on the gum | Ruler (regular) | Fluent | UI-7b |
+| Imaging: Mount / Acquire (`Acquire`) | radiation sign | Scan Camera (regular) | Fluent | UI-7b |
+| Imaging: pan (`ArrowsAll`) | four-way arrows | Arrow Move (regular) | Fluent | UI-7b |
+| Imaging: copy, paste (`Copy`, `Paste`) | two pages; clipboard | Copy, Clipboard Paste (regular) | Fluent | UI-7b |
+| Imaging: crop, flip, hand (`Crop`, `Flip`, `Hand`) | framed picture; flip arrow; hand | Crop, Flip Horizontal, Hand Right (regular) | Fluent | UI-7b |
+| Imaging: rotate left, right (`RotateL`, `RotateR`) | blue rotate arrows | Arrow Rotate Counterclockwise, Arrow Rotate Clockwise (regular) | Fluent | UI-7b |
+| Imaging: export, import (`Export`, `Import`) | yellow folder with an arrow | Arrow Export LTR, Arrow Import (regular) | Fluent | UI-7b |
+| Imaging: print, info, video (`Print`, `Info`, `Video`) | printer; blue i; video camera | Print, Info, Video (regular) | Fluent | UI-7b |
+| Imaging: scan document; selector document (`ImageSelectorDoc`) | page | Document Text (regular) | Fluent | UI-7b |
+| Imaging: scan multi-page (`ScanMulti`) | stack of pages | Document Multiple (regular) | Fluent | UI-7b |
+| Imaging: scan photo; selector photo (`ScanPhoto`, `ImageSelectorPhoto`) | photo of teeth | Image (regular) | Fluent | UI-7b |
+| Imaging: scan radiograph; selector radiograph (`ScanXray`, `ImageSelectorXray`) | radiograph | Xray (regular) | Fluent | UI-7b |
+| Image selector: file, folder, web folder (`ImageSelectorFile`, `ImageSelectorFolder`, `ImageSelectorFolderWeb`) | window; yellow folder; folder with a globe | Document, Folder, Folder Globe (regular) | Fluent | UI-7b |
+| Image selector: mount (`ImageSelectorMount`) | nothing (both libraries drew no picture) | Layout Cell Four (regular) | Fluent | UI-7b |
+
+## Drawing an `EnumIcons` icon
+
+The callers keep the `IconLibrary` calls (UI-7b changed no caller). Both copies draw the rows above from the table.
+
+```csharp
+IconLibrary.Draw(g,EnumIcons.Add,rectangle,colorGradientTop,colorGradientBottom);   //WinForms: Direct2D into a bitmap over the gradient; GDI+ with OnlyGDI
+IconLibrary.Draw(direct2d,EnumIcons.Add,rectangle);                                  //WinForms, between BeginDraw and EndDraw
+IconLibrary.DrawDisabled(g,EnumIcons.Add,rectangle);                                 //TextDisabled
+IconLibrary.DrawColored(g,EnumIcons.Appt32,rectangle,colorAccent,colorBack,isFilled:true); //a colour of the caller's, the Filled style (UI-6)
+BitmapImage bitmapImage=IconLibrary.DrawWpf(EnumIcons.Add);                          //WinForms helpers that fill WPF controls: a PNG of Width(icon) px
+IconLibrary.DrawWpf(EnumIcons.Add,grid);                                             //WPF: a Path of grid.Width DIPs at the grid's DPI
+IconLibrary.DrawWpf(EnumIcons.Appt32,grid,brush,isFilled:true);                      //WPF, a brush of the caller's, Filled
+```
