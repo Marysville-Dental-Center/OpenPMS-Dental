@@ -105,7 +105,8 @@ All in `tests/UiRefreshTests` (no new test assembly):
 - `EFormLookTests.EFormFill_SyntheticForm_LooksAsBefore`: unchanged and green (the eForm picture as before).
 - The layout snapshot and the bounds record (`LayoutSnapshotTests`, `Scan_TodaysFont_ReportsNothingNew`), `TerminologyLayoutTests`
   (M2TERMTests), `LayoutDesignerTests` (M2INSPLANTests): unchanged and green; no designer layout changed.
-- The scan rerun (`OPMS_UI_SCAN=1`, into `.git/od-tools/test-results/ui4b1-scan`): see section 8.
+- The scan rerun (`OPMS_UI_SCAN=1`, into `.git/od-tools/test-results/ui4b1-scan`): Segoe UI 9 makes 1,775 controls overflow in 450 windows,
+  8.25 makes 637 in 245, the same counts as UI-4a's rerun (this package changes no text rectangle); today's font reports nothing new.
 
 ### 6. Gallery G-UI1 part 2b
 
@@ -148,4 +149,7 @@ windows (`ui-before`) is for G-UI3.
 
 ### 8. Runs
 
-See the status line in the plan and the commit that adds this section's numbers.
+Full filter build x64 through the lane: 0 errors. Targeted runs (x64, after the full build, `.git/od-tools/test-results/ui4b1-final.txt`):
+UiRefreshTests 110 (107 passed, 3 opt-ins skipped: the two galleries and the scan), WindowChecksTests 71 (29 passed, 42 opt-in skipped),
+M2TERMTests 21/21, M2INSPLANTests 31/31, NoHqTests 122/122. The scan run (`ui4b1-scan.txt`) and the strips run (`ui4b1-strips.txt`) passed
+too. `tools/Test-NoEolFlips.ps1 -Base main`: no file changed its line ends. The branch merges into the current `main` without conflicts.
