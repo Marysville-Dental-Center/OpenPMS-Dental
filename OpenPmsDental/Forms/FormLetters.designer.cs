@@ -63,7 +63,7 @@ namespace OpenPmsDental {
 			// 
 			// butEdit
 			// 
-			this.butEdit.Image = global::OpenPmsDental.Properties.Resources.editPencil;
+			this.butEdit.Icon = OpenPmsDental.UI.EnumIcons.Edit;
 			this.butEdit.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butEdit.Location = new System.Drawing.Point(106, 414);
 			this.butEdit.Name = "butEdit";

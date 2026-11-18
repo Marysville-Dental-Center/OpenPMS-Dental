@@ -193,6 +193,7 @@ the manifest; G-UI1 part 3 shows them.
 | Edit (`Edit`) | yellow pencil (`editPencil.gif`) | Edit (regular) | Fluent | UI-9a-1 |
 | A note for the patient (`Note`) | note pad (FormApptsOther) | Note (regular) | Fluent | UI-9a-1 |
 | Send claims, send to and update at TSI (`Send`) | red arrow up (FormClaimEdit, FormClaimResend, FormArManager) | Send (regular) | Fluent | UI-9a-1 |
+| Clear a value, go, add (`DeleteX`, `ArrowRight`, `Add`) | red X (`deleteX18.gif`), green go circle (`butGoto.gif`), blue plus (FormFeeSchedGroups) | existing members, no new icon | Fluent | UI-9a-2 |
 
 The window pictures behind these rows, and the pictures that stay, are in `icons/picture-map.tsv` (`tools/Convert-PictureUses.ps1`,
 `docs/port-notes/UI-9a.md`); `icons/picture-converted.tsv` lists every converted control.

@@ -142,7 +142,7 @@ namespace OpenPmsDental {
 			// butClearValue
 			// 
 			this.butClearValue.AdjustImageLocation = new System.Drawing.Point(1, 0);
-			this.butClearValue.Image = global::OpenPmsDental.Properties.Resources.deleteX18;
+			this.butClearValue.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.DeleteX,18,18);
 			this.butClearValue.Location = new System.Drawing.Point(395, 106);
 			this.butClearValue.Name = "butClearValue";
 			this.butClearValue.Size = new System.Drawing.Size(21, 22);

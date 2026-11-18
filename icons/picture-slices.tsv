@@ -3,3 +3,4 @@
 # converted; tests/UiRefreshTests/PictureMapTests checks that icons/picture-map.tsv has a row for every picture use of every slice listed here.
 # slice	folder	patterns
 UI-9a-1	OpenPmsDental/Forms	FormA*,FormB*,FormC*
+UI-9a-2	OpenPmsDental/Forms	FormD*,FormE*,FormF*,FormG*,FormH*,FormI*,FormJ*,FormK*,FormL*

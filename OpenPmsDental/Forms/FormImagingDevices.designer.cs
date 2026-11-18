@@ -78,7 +78,7 @@ namespace OpenDentalImaging{
 			// butDown
 			// 
 			this.butDown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butDown.Image = global::OpenPmsDental.Properties.Resources.down;
+			this.butDown.Icon = OpenPmsDental.UI.EnumIcons.Down;
 			this.butDown.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butDown.Location = new System.Drawing.Point(1067, 188);
 			this.butDown.Name = "butDown";
@@ -90,7 +90,7 @@ namespace OpenDentalImaging{
 			// butUp
 			// 
 			this.butUp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butUp.Image = global::OpenPmsDental.Properties.Resources.up;
+			this.butUp.Icon = OpenPmsDental.UI.EnumIcons.Up;
 			this.butUp.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butUp.Location = new System.Drawing.Point(1067, 156);
 			this.butUp.Name = "butUp";

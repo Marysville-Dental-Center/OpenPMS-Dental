@@ -183,16 +183,6 @@ namespace OpenPmsDental.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap butGoto {
-            get {
-                object obj = ResourceManager.GetObject("butGoto", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         public static System.Drawing.Bitmap butLabel {
             get {
                 object obj = ResourceManager.GetObject("butLabel", resourceCulture);

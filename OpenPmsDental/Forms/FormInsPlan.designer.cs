@@ -865,7 +865,7 @@ namespace OpenPmsDental {
 			// butLabel
 			// 
 			this.butLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butLabel.Image = global::OpenPmsDental.Properties.Resources.butLabel;
+			this.butLabel.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.Label,18,16);
 			this.butLabel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butLabel.Location = new System.Drawing.Point(201, 657);
 			this.butLabel.Name = "butLabel";

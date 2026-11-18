@@ -90,7 +90,7 @@ namespace OpenPmsDental {
 			// butEdit
 			// 
 			this.butEdit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butEdit.Image = global::OpenPmsDental.Properties.Resources.editPencil;
+			this.butEdit.Icon = OpenPmsDental.UI.EnumIcons.Edit;
 			this.butEdit.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butEdit.Location = new System.Drawing.Point(258,156);
 			this.butEdit.Name = "butEdit";
