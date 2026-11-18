@@ -14,12 +14,6 @@
 		protected override void Dispose(bool disposing){
 			if(disposing){
 				components?.Dispose();
-				_brushMainGradient?.Dispose();
-				_brushPushedGradient?.Dispose();
-				_penDivider?.Dispose();
-				_penSliderOutline?.Dispose();
-				_penTickLine?.Dispose();
-				_penBlack?.Dispose();
 			}
 			base.Dispose(disposing);
 		}

@@ -12,7 +12,6 @@ namespace OpenPmsDental.UI {
 		protected override void Dispose(bool disposing) {
 			if(disposing) {
 				components?.Dispose();
-				_linearGradientBrush?.Dispose();
 			}
 			base.Dispose(disposing);
 		}

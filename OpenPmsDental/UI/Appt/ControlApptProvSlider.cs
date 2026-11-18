@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CodeBase;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -62,7 +63,6 @@ namespace OpenPmsDental.UI{
 		///<summary>Property</summary>
 		private Color _colorProv=Color.FromArgb(200,220,255);
 		private Color _colorProv2=Color.FromArgb(220, 200, 255);
-		private Color _colorSliderOutline=Color.FromArgb(28,81,128);//button outline: 28,81,128, grid outline: 119,119,146
 		//private Font _fontCourier;//disposed
 		//private Font _fontTime;//disposed
 		#endregion Fields - Private Colors Etc
@@ -620,12 +620,17 @@ namespace OpenPmsDental.UI{
 		protected override void OnPaint(PaintEventArgs pe){
 			base.OnPaint(pe);
 			Graphics g=pe.Graphics;//alias
-			g.SmoothingMode=SmoothingMode.HighQuality;
+			g.SmoothingMode=SmoothingMode.None;//lines and cells on whole pixels (section 3.3); the slider's rounded button sets its own
 			g.TextRenderingHint=System.Drawing.Text.TextRenderingHint.AntiAlias;//keeps text centered in cells better
 			using(SolidBrush brushBack=new SolidBrush(this.BackColor)){
 				g.FillRectangle(brushBack,0,0,Width,Height);
 			}
-			g.FillRectangle(Brushes.White,_marginLR,0,Width-_marginLR*2-1,SelectedLength*_heightRow);
+			//The new look (UI-4c-1, docs/specs/ui-refresh-plan.md section 3.6; docs/port-notes/UI-4c.md): the cells SurfaceRaised, the hour lines
+			//StrokeStrong and the other lines Gridline (were black and silver), the outline StrokeStrong (was gray), the slider a button (SurfaceRaised,
+			//ButtonHover under the mouse, ButtonPressed while dragged, a 1 px Stroke border, 4 px corners), the texts Text and the cursor Accent (was
+			//red). The providers' colours are the office's (data colours) and stay. Every line, cell and text where it was.
+			float scale=LayoutManager.ScaleMy();
+			g.FillRectangle(UiTheme.GetBrush(EnumUiColor.SurfaceRaised),_marginLR,0,Width-_marginLR*2-1,SelectedLength*_heightRow);
 			//g.FillRectangle(Brushes.LightGray,_marginLR,0,_widthLeft,SelectedLength*_heightRow);//left handles
 			//lines are drawn above each cell
 			for(int i=0;i<SelectedLength;i++){
@@ -637,10 +642,10 @@ namespace OpenPmsDental.UI{
 						g.FillRectangle(_brushProv2,_marginLR+_widthLeft,i*_heightRow,_widthLeft,_heightRow);
 					}
 					if(i%6==0){
-						g.DrawLine(Pens.Black,_marginLR,i*_heightRow,Width-_marginLR-1,i*_heightRow);
+						g.DrawLine(UiTheme.GetPen(EnumUiColor.StrokeStrong),_marginLR,i*_heightRow,Width-_marginLR-1,i*_heightRow);
 					}
 					else{
-						g.DrawLine(Pens.Silver,_marginLR,i*_heightRow,Width-_marginLR-1,i*_heightRow);
+						g.DrawLine(UiTheme.GetPen(EnumUiColor.Gridline),_marginLR,i*_heightRow,Width-_marginLR-1,i*_heightRow);
 					}
 				}
 				else if(MinPerIncr==15){
@@ -651,10 +656,10 @@ namespace OpenPmsDental.UI{
 						g.FillRectangle(_brushProv2,_marginLR+_widthLeft,i*_heightRow,_widthLeft,_heightRow);
 					}
 					if(i%4==0){
-						g.DrawLine(Pens.Black,_marginLR,i*_heightRow,Width-_marginLR-1,i*_heightRow);
+						g.DrawLine(UiTheme.GetPen(EnumUiColor.StrokeStrong),_marginLR,i*_heightRow,Width-_marginLR-1,i*_heightRow);
 					}
 					else{
-						g.DrawLine(Pens.Silver,_marginLR,i*_heightRow,Width-_marginLR-1,i*_heightRow);
+						g.DrawLine(UiTheme.GetPen(EnumUiColor.Gridline),_marginLR,i*_heightRow,Width-_marginLR-1,i*_heightRow);
 					}
 				}
 				else{//5
@@ -665,47 +670,35 @@ namespace OpenPmsDental.UI{
 						g.FillRectangle(_brushProv2,_marginLR+_widthLeft,i*_heightRow,_widthLeft,_heightRow);
 					}
 					if(i%12==0){
-						g.DrawLine(Pens.Black,_marginLR,i*_heightRow,Width-_marginLR-1,i*_heightRow);
+						g.DrawLine(UiTheme.GetPen(EnumUiColor.StrokeStrong),_marginLR,i*_heightRow,Width-_marginLR-1,i*_heightRow);
 					}
 					else{
-						g.DrawLine(Pens.Silver,_marginLR,i*_heightRow,Width-_marginLR-1,i*_heightRow);
+						g.DrawLine(UiTheme.GetPen(EnumUiColor.Gridline),_marginLR,i*_heightRow,Width-_marginLR-1,i*_heightRow);
 					}
 				}
 			}
 			//ProvBarText-------------------------------------------------------------------------------
 			//needs to be a second loop due to descending characters like g that need to draw on top of gridlines
 			using Font fontCourier=new Font(FontFamily.GenericMonospace,LayoutManager.ScaleFontODZoom(8.5f));
-			for(int i=0;i<SelectedLength;i++){
+			for(int i=0;i<SelectedLength && IsTextShown;i++){
 				if(_provBarText.Length>i && _provBarText[i]!=' '){
-					g.DrawString(_provBarText.Substring(i,1),fontCourier,Brushes.Black,_marginLR+(_widthLeft*2)+1,i*_heightRow+1);
+					g.DrawString(_provBarText.Substring(i,1),fontCourier,UiTheme.GetBrush(EnumUiColor.Text),_marginLR+(_widthLeft*2)+1,i*_heightRow+1);
 				}
 			}
 			//outline-----------------------------------------------------------------------------------
-			g.DrawLine(Pens.Silver,_marginLR+_widthLeft,0,_marginLR+_widthLeft,SelectedLength*_heightRow);//first vertical line closer to L
-			g.DrawLine(Pens.Silver,_marginLR+(_widthLeft*2),0,_marginLR+(_widthLeft*2),SelectedLength*_heightRow);//second vertical line closer to R
-			g.DrawLine(Pens.Gray,_marginLR,0,Width-_marginLR-1,0);//top
-			g.DrawLine(Pens.Gray,_marginLR,0,_marginLR,SelectedLength*_heightRow);//L above slider
-			g.DrawLine(Pens.Gray,Width-_marginLR-1,0,Width-_marginLR-1,SelectedLength*_heightRow);//R above slider
+			g.DrawLine(UiTheme.GetPen(EnumUiColor.Gridline),_marginLR+_widthLeft,0,_marginLR+_widthLeft,SelectedLength*_heightRow);//first vertical line closer to L
+			g.DrawLine(UiTheme.GetPen(EnumUiColor.Gridline),_marginLR+(_widthLeft*2),0,_marginLR+(_widthLeft*2),SelectedLength*_heightRow);//second vertical line closer to R
+			g.DrawLine(UiTheme.GetPen(EnumUiColor.StrokeStrong),_marginLR,0,Width-_marginLR-1,0);//top
+			g.DrawLine(UiTheme.GetPen(EnumUiColor.StrokeStrong),_marginLR,0,_marginLR,SelectedLength*_heightRow);//L above slider
+			g.DrawLine(UiTheme.GetPen(EnumUiColor.StrokeStrong),Width-_marginLR-1,0,Width-_marginLR-1,SelectedLength*_heightRow);//R above slider
 			if(DesignMode){
-				g.DrawLine(Pens.LightGray,_marginLR,Height-1,Width-_marginLR-1,Height-1);//bottom
-				g.DrawLine(Pens.LightGray,_marginLR,SelectedLength*_heightRow,_marginLR,Height);//L below slider
-				g.DrawLine(Pens.LightGray,Width-_marginLR-1,SelectedLength*_heightRow,Width-_marginLR-1,Height);//R below slider
+				g.DrawLine(UiTheme.GetPen(EnumUiColor.Stroke),_marginLR,Height-1,Width-_marginLR-1,Height-1);//bottom
+				g.DrawLine(UiTheme.GetPen(EnumUiColor.Stroke),_marginLR,SelectedLength*_heightRow,_marginLR,Height);//L below slider
+				g.DrawLine(UiTheme.GetPen(EnumUiColor.Stroke),Width-_marginLR-1,SelectedLength*_heightRow,Width-_marginLR-1,Height);//R below slider
 			}
 			//Slider------------------------------------------------------------------------------------
 			_rectangleFSlider=new RectangleF(0,SelectedLength*_heightRow,Width-1,_heightRow+LayoutManager.Scale(4));
-			GraphicsPath graphicsPath=ControlApptPanel.GetRoundedPath(_rectangleFSlider,2);
-			if(_rectangleFSlider.Contains(_pointMouse) || _isDraggingSlider){
-				g.FillPath(Brushes.White,graphicsPath);//hover effect
-			}
-			else{
-				using(SolidBrush brush237=new SolidBrush(Color.FromArgb(237,237,237))){
-					g.FillPath(brush237,graphicsPath);
-				}
-			}
-			using(Pen pen=new Pen(_colorSliderOutline)){
-				g.DrawPath(pen,graphicsPath);
-			}
-			graphicsPath.Dispose();
+			EnumUiColor uiColorText=UiControlPaint.DrawButton(g,GetRectangleSlider(),GetSliderState(),isPrimary:false,isFocused:false,scale);
 			TimeSpan timeSpan=CodeBase.ODTimeSpan.FromMinutes(Pattern.Length*5);
 			string strTime=timeSpan.ToString("h':'mm");
 			using Font fontTime=new Font(FontFamily.GenericSansSerif,LayoutManager.ScaleFontODZoom(8.5f));
@@ -714,16 +707,51 @@ namespace OpenPmsDental.UI{
 			float x=Width/2f-widthStr/2;
 			float y=SelectedLength*_heightRow+LayoutManager.ScaleF(2);
 			//g.DrawRectangle(Pens.Red,x,y,widthStr,heightStr);//for debugging
-			g.DrawString(strTime,fontTime,Brushes.Black,x,y);
 			//SelectedIndex------------------------------------------------------------------------------
-			if(SelectedIndex>-1 && _isCursorFlashOn && this.Focused){
-				using(Pen pen=new Pen(Color.Red,LayoutManager.ScaleF(1))){
+			if(IsTextShown){
+				g.DrawString(strTime,fontTime,UiTheme.GetBrush(uiColorText),x,y);
+			}
+			if(IsCursorShown){
+				using(Pen pen=new Pen(UiTheme.GetColor(EnumUiColor.Accent),LayoutManager.ScaleF(1))){
 					g.DrawLine(pen,_marginLR+(_widthLeft*2)+LayoutManager.Scale(3),	SelectedIndex*_heightRow+2,
 						_marginLR+(_widthLeft*2)+LayoutManager.Scale(3), (SelectedIndex+1)*_heightRow-2);
 				}
 			}
 		}
 		#endregion Methods - Event Handlers - OnPaint
+
+		#region Methods - Look
+		///<summary>Whether the texts (the provider bar text and the length) are drawn. Always true; the state tests draw the shapes alone to compare
+		///them.</summary>
+		protected virtual bool IsTextShown{
+			get{
+				return true;
+			}
+		}
+
+		///<summary>Whether the flashing cursor is drawn now: a cell selected, the flash on, and the slider focused. Virtual for the state tests.</summary>
+		protected virtual bool IsCursorShown{
+			get{
+				return SelectedIndex>-1 && _isCursorFlashOn && this.Focused;
+			}
+		}
+
+		///<summary>The slider's button in whole pixels: the pixels today's rounded path covered (its 1 px outline on the float rectangle's edges).</summary>
+		protected Rectangle GetRectangleSlider(){
+			return new Rectangle(0,(int)Math.Round(_rectangleFSlider.Y),Width,(int)Math.Round(_rectangleFSlider.Height)+1);
+		}
+
+		///<summary>The slider's state: pressed while dragged, hover under the mouse, at rest otherwise.</summary>
+		protected EnumUiButtonState GetSliderState(){
+			if(_isDraggingSlider){
+				return EnumUiButtonState.Pressed;
+			}
+			if(_rectangleFSlider.Contains(_pointMouse)){
+				return EnumUiButtonState.Hover;
+			}
+			return EnumUiButtonState.Normal;
+		}
+		#endregion Methods - Look
 
 		#region Methods - Protected
 		///<summary>This is to prevent the form from closing when the user is typing something into the prov slider. It will require that alt must be pressed in order to use Access Keys (&OK).</summary>
