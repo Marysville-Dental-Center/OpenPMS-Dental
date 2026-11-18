@@ -67,3 +67,18 @@ FormRecordAudio:imageListMain.ImageStream	UI-9b	the window's ImageList
 FormSetupWizard:imageList1.ImageStream	UI-9b	the setup wizard's ImageList
 FormSetupWizardProgress:imageList1.ImageStream	UI-9b	the setup wizard progress ImageList
 FormSnomeds:imageListInfoButton.ImageStream	UI-9b	the info button ImageList of the SNOMED grid
+# UI-9a-5 (Forms T-Z and Forms Reports)
+Resources:Copy	EnumIcons.Copy	copy (two sheets)
+Resources:butPaste	EnumIcons.Paste	paste (clipboard with a sheet)
+FormTimeCard:butRight.Image	EnumIcons.ArrowRight	next (blue arrow right)
+FormTimeCard:butLeft.Image	EnumIcons.ArrowLeft	previous (blue arrow left)
+FormTimeCard:butPrint.Image	EnumIcons.Print	print
+FormTimeCard:butPrevEmp.Image	EnumIcons.ArrowLeft	previous employee (blue arrow left)
+FormTimeCard:butNextEmp.Image	EnumIcons.ArrowRight	next employee (blue arrow right)
+FormRpReferrals:butDeleteFilter.Image	EnumIcons.DeleteX	delete the filter (red X)
+FormTPsign:imageListMain.ImageStream	UI-9b	the window ImageList
+FormWebBrowserPrefs:imageList1.ImageStream	UI-9b	the window ImageList
+FormWebView:imageList1.ImageStream	UI-9b	the window ImageList
+FormWiki:imageListMain.ImageStream	UI-9b	the window ImageList
+FormWikiEdit:imageListMain.ImageStream	UI-9b	the window ImageList
+FormRpProcOverpaid:imageListCalendar.ImageStream	UI-9b	the window ImageList
