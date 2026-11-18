@@ -1,5 +1,5 @@
-// The longer 25.4 wording still fits the controls that show it, at 96 dpi with the default font (Microsoft Sans Serif 8.25). The layout manager
-// scales sizes and fonts together, so a text that fits at 96 dpi fits at every zoom.
+// The longer 25.4 wording still fits the controls that show it, at 96 dpi with the default font (the body token UiTheme.FontBody: Microsoft Sans
+// Serif 8.25 until UI-2b; UI-2a-1). The layout manager scales sizes and fonts together, so a text that fits at 96 dpi fits at every zoom.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System.Collections.Generic;
 using System.Drawing;
@@ -13,7 +13,7 @@ namespace M2TERMTests {
 		private const int CHECKBOX_BOX_AND_GAP=12+4;
 
 		private static Font NewDefaultFont() {
-			return new Font("Microsoft Sans Serif",8.25f);
+			return (Font)CodeBase.UiTheme.FontBody.Clone();//UI-2a-1: the token, so after the flip (UI-2b) this measures in Segoe UI
 		}
 
 		[TestMethod]

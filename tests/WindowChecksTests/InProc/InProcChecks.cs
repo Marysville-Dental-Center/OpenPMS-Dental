@@ -25,7 +25,8 @@ namespace WindowChecksTests.InProc {
 			//decision 9), then per-monitor DPI awareness, which the .NET Framework build read from its app.config. The session's process is the
 			//program's own (WINCHK-5), so these per-process calls act on the program alone, as in a real start; without them every plain form of
 			//the in-process pictures drew in Segoe UI 9.
-			Application.SetDefaultFont(new System.Drawing.Font("Microsoft Sans Serif",8.25f));
+			//UI-2a-1: the font ProgramEntry.Main's literal holds, which NoHqTests' DefaultFontTests keeps equal to the body token.
+			Application.SetDefaultFont(new System.Drawing.Font(UiTheme.FontBody.FontFamily,UiTheme.FontBody.SizeInPoints));
 			Application.SetHighDpiMode(HighDpiMode.PerMonitorV2);
 			System.Windows.Media.RenderOptions.ProcessRenderMode=System.Windows.Interop.RenderMode.SoftwareOnly;
 			Application.EnableVisualStyles();

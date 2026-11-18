@@ -1,6 +1,8 @@
 // The tier 1 text-fit scan (docs/specs/ui-refresh-plan.md section 5.4, docs/port-notes/UI-0b.md). For every Form and UserControl type
 // (WindowBuilder.GetScanTypes) it builds the before set (today's font, Microsoft Sans Serif 8.25, the exes' default) and each font option under
-// test (the default set to the option's body font, then the test-side font swap), lays each LayoutManager window out at the scales (a
+// test (the default set to the option's body font, and from UI-2a-1 on the token override UiTheme.SetFontForTest set before the window is
+// built, so the product's own font path runs: FormODBase's font, the mapping of the designer fonts; ScanOptions.IsFontSwap gives UI-0b's
+// test-side font swap instead, for comparing with its counts), lays each LayoutManager window out at the scales (a
 // simulated Windows scale through LayoutManagerForms.SetScaleMS; 1.2 also stands for the program's zoom step), and compares:
 // - new overflows: a control whose text fits in the before set and not in the font under test (TextFitMeasurer), with the pixels missing, the
 //   ink check, and the free space to the right and below inside the parent without touching a sibling ("fixable" when it is enough);
@@ -21,6 +23,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using CodeBase;
 using UiRefreshTests.TextFit;
 
 namespace UiRefreshTests.Scan {
@@ -39,6 +42,9 @@ namespace UiRefreshTests.Scan {
 		public string FolderOut;
 		///<summary>The scan fails when it takes longer (StaRunner).</summary>
 		public TimeSpan Timeout=TimeSpan.FromMinutes(30);
+		///<summary>False (the default from UI-2a-1 on): a font option is put through the token override UiTheme.SetFontForTest before each window
+		///is built (section 5.4). True: UI-0b's test-side font swap after the build, as before UI-2a-1, for comparing with UI-0b's counts.</summary>
+		public bool IsFontSwap;
 	}
 
 	///<summary>Why a type was not scanned.</summary>
@@ -188,25 +194,30 @@ namespace UiRefreshTests.Scan {
 			scanTypeResult.CountMeasured=listBefore[0].DictResults.Count;
 			boundsRecordFiles.Write("before",listBefore[0].ListRows);
 			foreach(TextFitFontOption fontOption in scanOptions.ListFontOptions) {
-				CompareRun(scanType,fontOption.Name,fontOption,1f,arrayScales,listBefore,scanReport,setFitFixes,boundsRecordFiles);
+				CompareRun(scanType,fontOption.Name,fontOption,1f,arrayScales,listBefore,scanReport,setFitFixes,boundsRecordFiles,scanOptions.IsFontSwap);
 			}
 			bool takesDefaultFont=scanType.Kind==BuildKind.PlainWindow || scanType.Kind==BuildKind.UserControlPlain;
 			if(scanOptions.IsTextScaleRun && takesDefaultFont) {
 				CompareRun(scanType,TextFitFontOption.Today.Name+RUN_TEXT_SCALE_SUFFIX,TextFitFontOption.Today,scanOptions.TextScale,new float[] { 1f },
-					listBefore,scanReport,setFitFixes,boundsRecordFiles);
+					listBefore,scanReport,setFitFixes,boundsRecordFiles,scanOptions.IsFontSwap);
 				foreach(TextFitFontOption fontOption in scanOptions.ListFontOptions.Where(x => !x.IsToday)) {
 					CompareRun(scanType,fontOption.Name+RUN_TEXT_SCALE_SUFFIX,fontOption,scanOptions.TextScale,new float[] { 1f },listBefore,scanReport,
-						setFitFixes,boundsRecordFiles);
+						setFitFixes,boundsRecordFiles,scanOptions.IsFontSwap);
 				}
 			}
 		}
 
 		private static void CompareRun(ScanType scanType,string run,TextFitFontOption fontOption,float textScale,float[] arrayScales,
-			List<ScanSnapshot> listBefore,ScanReport scanReport,HashSet<string> setFitFixes,BoundsRecordFiles boundsRecordFiles)
+			List<ScanSnapshot> listBefore,ScanReport scanReport,HashSet<string> setFitFixes,BoundsRecordFiles boundsRecordFiles,bool isFontSwap)
 		{
 			List<ScanSnapshot> listAfter;
 			try {
-				listAfter=BuildAndSnapshot(scanType,fontOption,textScale,fontOption.IsToday ? null : fontOption,arrayScales);
+				if(isFontSwap || fontOption.IsToday) {
+					listAfter=BuildAndSnapshot(scanType,fontOption,textScale,fontOption.IsToday ? null : fontOption,arrayScales);
+				}
+				else {
+					listAfter=BuildAndSnapshot(scanType,fontOption,textScale,null,arrayScales,GetUiFontOption(fontOption));
+				}
 			}
 			catch(Exception exception) {
 				//Built in the before set but not in this run: a difference in itself.
@@ -303,14 +314,37 @@ namespace UiRefreshTests.Scan {
 			return TextFitMeasurer.GetFreeSpace(rectangle,listSiblings,sizeParentClient);
 		}
 
+		///<summary>The token values of a font option of the scan (UI-2a-1): segoe9 is UI-2b's set, segoe825 UQ-1's other option.</summary>
+		public static UiFontOption GetUiFontOption(TextFitFontOption fontOption) {
+			foreach(UiFontOption uiFontOption in new[] { UiFontOption.Today,UiFontOption.UI2b,UiFontOption.Compact }) {
+				if(uiFontOption.Name==fontOption.Name) {
+					return uiFontOption;
+				}
+			}
+			throw new ArgumentException("No token values for the font option "+fontOption.Name);
+		}
+
 		///<summary>Builds the type with the default font of fontOption (times textScale), swaps its fonts to fontSwap when given, and snapshots it
-		///at each scale.</summary>
+		///at each scale. With uiFontOptionOverride the tokens hold its values while the window is built and measured (UiTheme.SetFontForTest), and
+		///today's again afterwards.</summary>
 		public static List<ScanSnapshot> BuildAndSnapshot(ScanType scanType,TextFitFontOption fontOption,float textScale,TextFitFontOption fontSwap,
-			float[] arrayScales)
+			float[] arrayScales,UiFontOption uiFontOptionOverride=null)
 		{
 			DefaultFontOverride.Set(fontOption,textScale);
 			StaRunner.TakeExceptionInCallback();
 			List<ScanSnapshot> listSnapshots=new List<ScanSnapshot>();
+			UiTheme.SetFontForTest(uiFontOptionOverride);
+			try {
+				BuildAndSnapshotInto(scanType,fontSwap,arrayScales,listSnapshots);
+			}
+			finally {
+				UiTheme.SetFontForTest(null);
+			}
+			ThrowExceptionInCallback();
+			return listSnapshots;
+		}
+
+		private static void BuildAndSnapshotInto(ScanType scanType,TextFitFontOption fontSwap,float[] arrayScales,List<ScanSnapshot> listSnapshots) {
 			using(BuiltWindow builtWindow=WindowBuilder.Build(scanType)) {
 				ThrowExceptionInCallback();
 				CheckNothingShown(builtWindow);
@@ -327,8 +361,6 @@ namespace UiRefreshTests.Scan {
 				ThrowExceptionInCallback();
 				CheckNothingShown(builtWindow);
 			}
-			ThrowExceptionInCallback();
-			return listSnapshots;
 		}
 
 		///<summary>Throws what WinForms caught in a window procedure while the type was built (a control that reads the database when its
