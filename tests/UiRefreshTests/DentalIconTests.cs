@@ -3,7 +3,7 @@
 // drawing's output (tools/New-DentalIcons.ps1 -Check) and say they are the program's own; each icon draws non-empty at every slot of section
 // 3.5 (the largest design that fits) on GDI+, Direct2D and WPF, on the OnlyGDI path (Direct2d.DrawIcon with NoD2D.txt) and in NoDpi mode, and
 // the Filled twin has more ink; the default procedure buttons of db/init/new-database.sql carry the new pictures, 20x20 as the table stores them
-// (UQ-7), and no code path gives them to an office's rows. IconRendererTests also draws every manifest row, these included.
+// (UQ-7), and no code path but the office's own "Set to default" reset gives them to an office's rows. IconRendererTests also draws every manifest row, these included.
 // With OPMS_UI8_ICON_PICTURES set to a folder, DentalIconPictures_ForTheGallery writes gallery G-UI1 part 4's pictures there (before\ and
 // after\, for tools/New-UiGallery.ps1). Everything is drawn off screen; no window, no database, no network. The Direct2D tests need
 // Direct2dWrapper.dll (the full build) and are inconclusive without it.
@@ -455,10 +455,11 @@ namespace UiRefreshTests {
 		public void NoCodePathGivesTheNewPicturesToAnOfficesRows() {
 			string root=RepoPaths.Root();
 			List<ProcButtonPicture> listBefore=ReadProcButtonPicturesBefore();
-			//1. ProcButtons.SetToDefault (Setup, Procedure Codes tools: it replaces the office's buttons when asked) keeps Open Dental's pictures.
+			//1. ProcButtons.SetToDefault (Setup, Procedure Codes tools: it replaces the office's buttons when asked) inserts them with Open Dental's
+			//pictures and then gives them the new ones through UiIcons.DictProcButtonPictures (owner, 2026-11-17: the reset gives the new pictures).
 			string procButtonsCs=File.ReadAllText(Path.Combine(root,"OpenPmsDentalBusiness","Data Interface","ProcButtons.cs"));
 			foreach(ProcButtonPicture procButtonPicture in listBefore) {
-				StringAssert.Contains(procButtonsCs,"'"+procButtonPicture.PictureBefore+"'",procButtonPicture.Description+": SetToDefault keeps today's picture.");
+				StringAssert.Contains(procButtonsCs,"'"+procButtonPicture.PictureBefore+"'",procButtonPicture.Description+": SetToDefault's insert as in Open Dental.");
 			}
 			//2. No fork migration step and no convert script touches a procedure button's picture.
 			foreach(string path in Directory.GetFiles(Path.Combine(root,"OpenPmsDentalBusiness","Misc","ForkMigrations"),"*.cs",SearchOption.AllDirectories)) {
@@ -497,8 +498,11 @@ namespace UiRefreshTests {
 					}
 				}
 			}
-			CollectionAssert.AreEquivalent(new[] { "CodeBase/UI/Icons/UiIcons.Dental.cs","tools/DevDbTool/InitSqlScrub.cs","tests/UiRefreshTests/DentalIconTests.cs" },
-				listCallers,"Only the new database's maker (DevDbTool's scrub of the scratch database) gives the pictures to rows.");
+			StringAssert.Contains(procButtonsCs,"SetDefaultPictures();","SetToDefault gives the new pictures (owner, 2026-11-17).");
+			StringAssert.Contains(procButtonsCs,"UiIcons.DictProcButtonPictures","SetToDefault uses the shared list of default pictures.");
+			CollectionAssert.AreEquivalent(new[] { "CodeBase/UI/Icons/UiIcons.Dental.cs","tools/DevDbTool/InitSqlScrub.cs","tests/UiRefreshTests/DentalIconTests.cs",
+				"OpenPmsDentalBusiness/Data Interface/ProcButtons.cs" },
+				listCallers,"Only the new database's maker and the office's own \"Set to default\" give the pictures to rows.");
 			string textInitSql=File.ReadAllText(Path.Combine(root,"db","init","new-database.sql"));
 			foreach(string picture in listNewPictures) {
 				StringAssert.Contains(textInitSql,"'"+picture+"'","db/init/new-database.sql carries the new picture.");

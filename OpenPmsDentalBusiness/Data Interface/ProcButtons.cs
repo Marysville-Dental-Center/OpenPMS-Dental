@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 using System.Reflection;
+using CodeBase;
 using DataConnectionBase;
 
 namespace OpenPmsDentalBusiness{
@@ -140,6 +141,18 @@ namespace OpenPmsDentalBusiness{
 			}
 			else {
 				SetToDefaultOracle();
+			}
+			SetDefaultPictures();
+		}
+
+		///<summary>Gives the default buttons SetToDefault just made the new-style pictures of a new database (CodeBase.UiIcons.DictProcButtonPictures;
+		///the owner's answer of 2026-11-17: "Set to default" gives the same pictures as a new database). Only buttons that got a picture above are
+		///changed; this runs only inside the reset, which has just replaced every procedure button of the office at its own request.</summary>
+		private static void SetDefaultPictures() {
+			foreach(KeyValuePair<string,DentalIcon> pair in UiIcons.DictProcButtonPictures) {
+				string command="UPDATE procbutton SET ButtonImage='"+POut.String(UiIcons.GetProcButtonPicture(pair.Value))+"' "
+					+"WHERE Description='"+POut.String(pair.Key)+"' AND ButtonImage<>''";
+				Db.NonQ(command);
 			}
 		}
 

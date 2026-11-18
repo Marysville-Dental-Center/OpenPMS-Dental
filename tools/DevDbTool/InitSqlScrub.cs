@@ -63,20 +63,10 @@ namespace DevDbTool {
 		///shows those as the product name (AboutBoxInfo.GetDisplayName); a new database is not an adopted copy, so its rows say so themselves. An
 		///adopted database keeps Open Dental's values, because adoption may change no other row (AdoptionRowCheck).</summary>
 		public static readonly string[] ArrayProductNamePrefs={ "MainWindowTitle","SoftwareName" };
-		///<summary>The default procedure buttons that have a picture, by description, and the custom dental icon each shows in a new database (UQ-7 of
-		///docs/specs/ui-refresh-plan.md, package UI-8: new-style pictures for new databases only, 20x20 as the table stores them,
-		///CodeBase.UiIcons.GetProcButtonPicture). ProcButtons.SetToDefault made the rows with Open Dental's pictures and keeps them, so an office's
-		///buttons never change; only the new database's rows get these. RCT BU PFM and RCT BU Ceramic share one picture, as they do today.</summary>
-		public static readonly Dictionary<string,CodeBase.DentalIcon> DictProcButtonPictures=new Dictionary<string,CodeBase.DentalIcon> {
-			{ "Amalgam",CodeBase.DentalIcon.ProcAmalgam },
-			{ "Composite",CodeBase.DentalIcon.ProcComposite },
-			{ "Crown-PFM",CodeBase.DentalIcon.ProcCrownPfm },
-			{ "Crown-Ceramic",CodeBase.DentalIcon.ProcCrownCeramic },
-			{ "RCT",CodeBase.DentalIcon.ProcRct },
-			{ "RCT BU PFM",CodeBase.DentalIcon.ProcRctBuildUp },
-			{ "RCT BU Ceramic",CodeBase.DentalIcon.ProcRctBuildUp },
-			{ "PA",CodeBase.DentalIcon.XrayPeriapical },
-		};
+		///<summary>The default procedure buttons that have a picture and their dental icons: CodeBase.UiIcons.DictProcButtonPictures, shared with
+		///ProcButtons.SetToDefault (UQ-7; the reset gives them too since the owner's answer of 2026-11-17). The seed dump's rows were made with
+		///Open Dental's pictures, so the scrub gives the new database these.</summary>
+		public static readonly Dictionary<string,CodeBase.DentalIcon> DictProcButtonPictures=CodeBase.UiIcons.DictProcButtonPictures;
 
 		private readonly string _database;
 		private readonly DateTime _dateTimeWindowStart;
@@ -163,17 +153,22 @@ namespace DevDbTool {
 			ListLog.Add("Admin must set a password at the first logon (IsPasswordResetRequired, "+count+" row).");
 		}
 
-		///<summary>Gives the default procedure buttons of DictProcButtonPictures their new-style pictures. Each must be one row with a picture, as
-		///ProcButtons.SetToDefault makes it; anything else stops the export, so a file without them is never written.</summary>
+		///<summary>Gives the default procedure buttons of DictProcButtonPictures their new-style pictures (ProcButtons.SetToDefault already gives them
+		///since the owner's answer of 2026-11-17; the seed dump's rows may predate it). Each must then be exactly one row holding its new picture;
+		///anything else stops the export, so a file without them is never written.</summary>
 		private void SetProcButtonPictures() {
 			foreach(KeyValuePair<string,CodeBase.DentalIcon> pair in DictProcButtonPictures) {
-				long count=DataCore.NonQ("UPDATE procbutton SET ButtonImage='"+POut.String(CodeBase.UiIcons.GetProcButtonPicture(pair.Value))+"' "
+				string picture=CodeBase.UiIcons.GetProcButtonPicture(pair.Value);
+				DataCore.NonQ("UPDATE procbutton SET ButtonImage='"+POut.String(picture)+"' "
 					+"WHERE Description='"+POut.String(pair.Key)+"' AND ButtonImage<>''");
+				//Counted afterwards: an UPDATE that leaves a row unchanged may report 0 rows.
+				long count=PIn.Long(DataCore.GetScalar("SELECT COUNT(*) FROM procbutton WHERE Description='"+POut.String(pair.Key)+"' "
+					+"AND ButtonImage='"+POut.String(picture)+"'"));
 				if(count!=1) {
 					throw new ApplicationException("The default procedure button '"+pair.Key+"' with a picture was found "+count+" times, not once.");
 				}
 			}
-			ListLog.Add("Default procedure buttons: new-style pictures for "+string.Join(", ",DictProcButtonPictures.Keys)+" (UQ-7, new databases only).");
+			ListLog.Add("Default procedure buttons: new-style pictures for "+string.Join(", ",DictProcButtonPictures.Keys)+" (UQ-7).");
 		}
 
 		///<summary>One UPDATE per table that sets every date, datetime and timestamp column of a row the run stamped, so the ON UPDATE timestamps of the

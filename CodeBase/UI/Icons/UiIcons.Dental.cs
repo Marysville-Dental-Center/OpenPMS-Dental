@@ -94,8 +94,23 @@ namespace CodeBase {
 		///<summary>The picture of a default procedure button of a new database (UQ-7 of the plan: new-style pictures for new databases only): the
 		///dental icon's 20 px design in the light look's Text colour on white, as the bitmap file procbutton.ButtonImage holds today (20x20, 32 bits
 		///per pixel, bottom-up rows, every pixel opaque, 96 DPI), in base64. tools/DevDbTool writes these into the new database that
-		///db/init/new-database.sql is made from; no code path gives them to an office's existing rows (ProcButtons.SetToDefault keeps Open Dental's
-		///pictures). The same icon always gives the same text.</summary>
+		///db/init/new-database.sql is made from, and ProcButtons.SetToDefault gives them to the default buttons it makes when an office asks for the
+		///reset (owner, 2026-11-17); no other code path changes an office's rows. The same icon always gives the same text.</summary>
+		///<summary>The default procedure buttons that have a picture, by description, and the dental icon each shows (UQ-7 of the plan, package UI-8;
+		///the owner's answer of 2026-11-17: the reset gives them too). Used by tools/DevDbTool for a new database and by ProcButtons.SetToDefault.
+		///RCT BU PFM and RCT BU Ceramic share one picture, as they do today.</summary>
+		public static readonly System.Collections.Generic.Dictionary<string,DentalIcon> DictProcButtonPictures=
+			new System.Collections.Generic.Dictionary<string,DentalIcon> {
+			{ "Amalgam",DentalIcon.ProcAmalgam },
+			{ "Composite",DentalIcon.ProcComposite },
+			{ "Crown-PFM",DentalIcon.ProcCrownPfm },
+			{ "Crown-Ceramic",DentalIcon.ProcCrownCeramic },
+			{ "RCT",DentalIcon.ProcRct },
+			{ "RCT BU PFM",DentalIcon.ProcRctBuildUp },
+			{ "RCT BU Ceramic",DentalIcon.ProcRctBuildUp },
+			{ "PA",DentalIcon.XrayPeriapical },
+		};
+
 		public static string GetProcButtonPicture(DentalIcon dentalIcon) {
 			const int size=PROC_BUTTON_PICTURE_SIZE;
 			byte[] arrayBytes=new byte[54+size*size*4];
