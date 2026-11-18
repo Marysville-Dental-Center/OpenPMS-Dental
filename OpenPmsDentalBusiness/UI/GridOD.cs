@@ -1093,10 +1093,10 @@ using OpenPmsDental.UI;
 			}
 			yPos+=_heightHeaderPrint;
 			#endregion ColumnHeaders
-			Pen gridPen=_penGridline;
-			Pen lowerPen=new Pen(_penGridline.Color);
+			Pen gridPen=GridPrintLook.PenGridline;
+			Pen lowerPen=new Pen(GridPrintLook.PenGridline.Color);
 			if(_printedRows==ListGridRows.Count-1) {//last row
-				lowerPen=new Pen(_penColumnSeparator.Color);
+				lowerPen=new Pen(GridPrintLook.PenColumnSeparator.Color);
 			}
 			else {
 				if(ListGridRows.Count>0 && ListGridRows[_printedRows].ColorLborder!=Color.Empty) {
@@ -2837,23 +2837,23 @@ using OpenPmsDental.UI;
 			if(ListGridRows[rowI].State.HeightNote>0) {
 				//left vertical gridline
 				if(NoteSpanStart!=0) {
-					g.DrawLine(_penGridline,
+					g.DrawLine(GridPrintLook.PenGridline,
 						x-hScroll.Value+1+Columns[NoteSpanStart].State.XPos,
 						y-vScroll.Value+1+ListGridRows[rowI].State.HeightMain,
 						x-hScroll.Value+1+Columns[NoteSpanStart].State.XPos,
 						y-vScroll.Value+1+ListGridRows[rowI].State.HeightMain+ListGridRows[rowI].State.HeightNote);
 				}
 				//Horizontal line which divides the main part of the row from the notes section of the row
-				g.DrawLine(_penGridline,
+				g.DrawLine(GridPrintLook.PenGridline,
 					x-hScroll.Value+1+Columns[0].State.XPos+1,
 					y-vScroll.Value+1+ListGridRows[rowI].State.HeightMain,
 					x-hScroll.Value+1+Columns[Columns.Count-1].State.Right,
 					y-vScroll.Value+1+ListGridRows[rowI].State.HeightMain);
 
 			}
-			Pen penLower=new Pen(_penGridline.Color);//disposed a few pages down
+			Pen penLower=new Pen(GridPrintLook.PenGridline.Color);//disposed a few pages down
 			if(rowI==ListGridRows.Count-1) {//last row
-				penLower=new Pen(_penColumnSeparator.Color);
+				penLower=new Pen(GridPrintLook.PenColumnSeparator.Color);
 			}
 			else {
 				if(ListGridRows[rowI].ColorLborder!=Color.Empty) {
@@ -2863,14 +2863,14 @@ using OpenPmsDental.UI;
 			for(int i=0;i<Columns.Count;i++) {
 				//right vertical gridline
 				if(rowI == 0) {
-					g.DrawLine(_penGridline,
+					g.DrawLine(GridPrintLook.PenGridline,
 						x- hScroll.Value+Columns[i].State.XPos + Columns[i].State.Width,
 						y- vScroll.Value+1,
 						x- hScroll.Value+Columns[i].State.XPos + Columns[i].State.Width,
 						y- vScroll.Value+1+ ListGridRows[rowI].State.HeightMain);
 				}
 				else {
-					g.DrawLine(_penGridline,
+					g.DrawLine(GridPrintLook.PenGridline,
 						x- hScroll.Value + Columns[i].State.XPos + Columns[i].State.Width,
 						y- vScroll.Value+1,
 						x- hScroll.Value + Columns[i].State.XPos + Columns[i].State.Width,
@@ -2994,7 +2994,7 @@ using OpenPmsDental.UI;
 			}
 			//Left right and bottom lines of grid.  This creates the outline of the entire grid when not using outline control
 			//Outline the Title
-			Pen pen=_penOutline;//does not need to be disposed.
+			Pen pen=GridPrintLook.PenOutline;//does not need to be disposed.
 			if(isSheetGrid) {
 				pen=Pens.Black;//System pen, does not need to be disposed.
 			}
@@ -3051,7 +3051,7 @@ using OpenPmsDental.UI;
 					ToPoints(Columns[_selectedCell.X].State.Width),
 					ToPoints(ListGridRows[rowI].State.HeightMain+ListGridRows[rowI].State.HeightNote-1));
 			}
-			XPen gridPen=new XPen(_penGridline);
+			XPen gridPen=new XPen(GridPrintLook.PenGridline);
 			//lines for note section
 			if(ListGridRows[rowI].State.HeightNote>0) {
 				//left vertical gridline
@@ -3069,9 +3069,9 @@ using OpenPmsDental.UI;
 					ToPoints(x-hScroll.Value+1+Columns[Columns.Count-1].State.Right),
 					ToPoints(y-vScroll.Value+1+ListGridRows[rowI].State.HeightMain));
 			}
-			XPen xPenLower=new XPen(_penGridline);
+			XPen xPenLower=new XPen(GridPrintLook.PenGridline);
 			if(rowI==ListGridRows.Count-1) {//last row
-				xPenLower=new XPen(XColor.FromArgb(_penColumnSeparator.Color.ToArgb()));
+				xPenLower=new XPen(XColor.FromArgb(GridPrintLook.PenColumnSeparator.Color.ToArgb()));
 			}
 			else {
 				if(ListGridRows[rowI].ColorLborder!=Color.Empty) {
@@ -3208,7 +3208,7 @@ using OpenPmsDental.UI;
 			}
 			//Left right and bottom lines of grid.  This creates the outline of the entire grid when not using outline control
 			//Outline the Title
-			XPen pen=new XPen(_penOutline.Color);
+			XPen pen=new XPen(GridPrintLook.PenOutline.Color);
 			if(isSheetGrid) {
 				pen=new XPen(Color.Black);
 			}
@@ -3221,15 +3221,15 @@ using OpenPmsDental.UI;
 		}
 
 		public void SheetDrawTitle(Graphics g,int x,int y,float scaleMS) {
-			Color cTitleTop=_colorTitleTop;
-			Color cTitleBottom=_colorTitleBottom;
+			Color cTitleTop=GridPrintLook.ColorTitleTop;
+			Color cTitleBottom=GridPrintLook.ColorTitleBottom;
 			LinearGradientBrush brushTitleBackground=new LinearGradientBrush(new Rectangle(x,y,Width,_heightTitle),cTitleTop,cTitleBottom,LinearGradientMode.Vertical);
 			g.FillRectangle(brushTitleBackground,x,y,Width,_heightTitle);
 			Font font=new Font(_fontPrintTitle.FontFamily,_fontPrintTitle.Size/scaleMS,_fontPrintTitle.Style);
-			g.DrawString(_title,font,_brushTitleText,x+(Width/2-g.MeasureString(_title,font).Width/2),y+2);
+			g.DrawString(_title,font,GridPrintLook.BrushTitleText,x+(Width/2-g.MeasureString(_title,font).Width/2),y+2);
 			//Outline the Title
 			//Draw line from LL to UL to UR to LR. top three sides of a rectangle.
-			g.DrawLines(_penOutline,new Point[] { 
+			g.DrawLines(GridPrintLook.PenOutline,new Point[] { 
 				new Point(x,y+_heightTitle),
 				new Point(x,y),
 				new Point(x+Width,y),
@@ -3242,9 +3242,9 @@ using OpenPmsDental.UI;
 		}
 
 		public void SheetDrawTitleX(XGraphics g,int x,int y) {
-			Color cTitleTop=_colorTitleTop;
-			Color cTitleBottom=_colorTitleBottom;
-			Color cTitleText=_brushTitleText.Color;
+			Color cTitleTop=GridPrintLook.ColorTitleTop;
+			Color cTitleBottom=GridPrintLook.ColorTitleBottom;
+			Color cTitleText=GridPrintLook.BrushTitleText.Color;
 			LinearGradientBrush brushTitleBackground=new LinearGradientBrush(new Rectangle(x,y,Width,_heightTitle),cTitleTop,cTitleBottom,LinearGradientMode.Vertical);
 			XSolidBrush brushTitleText=new XSolidBrush(cTitleText);
 			g.DrawRectangle(brushTitleBackground,ToPoints(x),ToPoints(y),ToPoints(Width),ToPoints(_heightTitle));
@@ -3253,7 +3253,7 @@ using OpenPmsDental.UI;
 			DrawStringX(g,_title,xTitleFont,brushTitleText,new XRect((float)x+(float)(Width/2),y,100,100),XStringAlignment.Center);
 			//Outline the Title
 			//Draw line from LL to UL to UR to LR. top three sides of a rectangle.
-			g.DrawLines(_penOutline,new Point[] { 
+			g.DrawLines(GridPrintLook.PenOutline,new Point[] { 
 				new Point(x,y+_heightTitle),
 				new Point(x,y),
 				new Point(x+Width,y),
