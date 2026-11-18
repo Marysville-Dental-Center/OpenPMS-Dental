@@ -1275,6 +1275,14 @@ so it is cut into two slices that share no files and may run side by side).
   (their chrome; the appointment book stays by UQ-8), `ImagesModule/UnmountedBar`, `ImagesModule/WindowingSlider`,
   `ImagesModule/ZoomSlider`; WPF `ImagingModule/*` (`ImageDockHeader`, `ImageSelector`, `ImageSelectorTypes`, `UnmountedBar`,
   `WindowImageFloatWindows`, `WindowingSlider`, `ZoomSlider`).
+  - **Status (2026-11-18).** Done on `ui/ui4c1-1` (`docs/port-notes/UI-4c.md`, section UI-4c-1), not merged yet: `CodeBase/UI/UiSliderPaint.cs`
+    (the windowing handles as small buttons with an input's outline, the zoom cells as toolbar buttons, the value box as an input, the Fluent minus
+    and plus, on UI-4a's `UiControlPaint`); WinForms `ToggleDayWeek` (rows as toggles), `PinBoard`, `ControlApptProvSlider` (the slider a button),
+    `UnmountedBar` (a flat `Accent` header), `WindowingSlider`, `ZoomSlider`; WPF `ImageDockHeader` (the sheet's floating windows, Fluent caption
+    glyphs), `ImageSelector` (a list with the selection bar and Fluent chevrons), `UnmountedBar`, `WindowingSlider`, `ZoomSlider`,
+    `WindowImageFloatWindows` (`UiLookImaging`). Kept: the appointments (UQ-8), the providers' colours, the windowing ramp, the mount's colour and
+    the unmounted images' marks. Tests in `tests/UiRefreshTests` (`ImagingApptStateTests`, `ImagingApptGallery`); gallery G-UI1 part 2e in
+    `.git/od-tools/test-results/ui4c1-G-UI1-part2e/`.
 - **UI-4c-2: dialogs, progress and the rest** (25 files). WinForms `ODColorPicker`, `ODCodeRangeFilter`, `ODPictureBox`,
   `OdProgressBar`, `BufferedTreeView`, `MsgBoxCopyPaste`, `DatabaseIntegrity/WarningIntegrity`, `FormPrintPreview` and
   `ODPrintPreviewControl` (chrome only); WPF `SignatureBoxWrapper`, `DatabaseIntegrity/WarningIntegrity`, `Dialogs/FrmColorDialog`,

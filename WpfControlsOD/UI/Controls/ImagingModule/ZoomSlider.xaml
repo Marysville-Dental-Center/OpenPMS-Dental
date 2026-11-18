@@ -12,33 +12,29 @@
 			<Setter Property="local:ZoomSlider.VerticalAlignment" Value="Top"/>
 		</Style>
 	</UserControl.Style>
-	<Grid SnapsToDevicePixels="True">
-		<Grid.Background>
-			<LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-				<GradientStop Color="White" Offset="0.0" />
-				<GradientStop Color="#abb5d1" Offset="1.0" />
-			</LinearGradientBrush>
-		</Grid.Background>
+	<!--The new look (UI-4c-1, docs/port-notes/UI-4c.md): a toolbar strip (SurfaceSubtle with a Gridline at the bottom, was a gradient); the cells as
+	toolbar buttons (Draw: SubtleHover, SubtlePressed, 4 px corners) under the 1 px Stroke dividers; the Fluent minus and plus; the tick line
+	StrokeStrong; the value box an input (SurfaceRaised, its outline from Draw). Every line, box and text where it was.-->
+	<Grid SnapsToDevicePixels="True" Background="{x:Static local:UiLookImaging.BrushSurfaceSubtle}">
 		<Canvas x:Name="canvas" x:FieldModifier="internal">
-			<Line X1="0.5" Y1="0" X2="0.5" Y2="25" Stroke="#b4b4b4" StrokeThickness="1" />
-			<Line x:Name="lineMinus" x:FieldModifier="internal" Panel.ZIndex="1" X1="4" Y1="12" X2="13" Y2="12" Stroke="Black" StrokeThickness="1.5" SnapsToDevicePixels="False"/>
-			<Line X1="17" Y1="0" X2="17" Y2="25" Stroke="#b4b4b4" StrokeThickness="1" />
-			<Line x:Name="lineHoriz" x:FieldModifier="internal" X1="22" Y1="4" X2="148" Y2="4" Stroke="SlateGray" StrokeThickness="1" />
-			<Line x:Name="lineVertLeft" x:FieldModifier="internal" X1="22" Y1="0" X2="22" Y2="4.5" Stroke="SlateGray" StrokeThickness="1" />
-			<Line x:Name="lineVertFit" x:FieldModifier="internal" X1="90" Y1="0" X2="90" Y2="4.5" Stroke="SlateGray" StrokeThickness="1" />
-			<Line x:Name="lineVertRight" x:FieldModifier="internal" X1="148" Y1="0" X2="148" Y2="4.5" Stroke="SlateGray" StrokeThickness="1" />
-			<Rectangle x:Name="rectangleSlider" x:FieldModifier="internal" Panel.ZIndex="1" Canvas.Left="77" Canvas.Top="9" Width="26" Height="14.5" Fill="White" Stroke="#b4b4b4"/>
-			<Polygon x:Name="polygonTriangle" x:FieldModifier="internal" Canvas.Left="90" Canvas.Top="4" Points="-2.5,5 0,0 2.5,5" Fill="Black" SnapsToDevicePixels="False"/>
+			<Line Panel.ZIndex="1" X1="0.5" Y1="0" X2="0.5" Y2="25" Stroke="{x:Static local:UiLookImaging.BrushStroke}" StrokeThickness="1" />
+			<Path x:Name="pathMinus" x:FieldModifier="internal" Panel.ZIndex="1" Canvas.Left="3" Canvas.Top="6" Width="12" Height="12" Data="{x:Static local:UiLookImaging.GeometryMinus}"/>
+			<Line Panel.ZIndex="1" X1="17" Y1="0" X2="17" Y2="25" Stroke="{x:Static local:UiLookImaging.BrushStroke}" StrokeThickness="1" />
+			<Line x:Name="lineHoriz" x:FieldModifier="internal" X1="22" Y1="4" X2="148" Y2="4" Stroke="{x:Static local:UiLookImaging.BrushStrokeStrong}" StrokeThickness="1" />
+			<Line x:Name="lineVertLeft" x:FieldModifier="internal" X1="22" Y1="0" X2="22" Y2="4.5" Stroke="{x:Static local:UiLookImaging.BrushStrokeStrong}" StrokeThickness="1" />
+			<Line x:Name="lineVertFit" x:FieldModifier="internal" X1="90" Y1="0" X2="90" Y2="4.5" Stroke="{x:Static local:UiLookImaging.BrushStrokeStrong}" StrokeThickness="1" />
+			<Line x:Name="lineVertRight" x:FieldModifier="internal" X1="148" Y1="0" X2="148" Y2="4.5" Stroke="{x:Static local:UiLookImaging.BrushStrokeStrong}" StrokeThickness="1" />
+			<Rectangle x:Name="rectangleSlider" x:FieldModifier="internal" Panel.ZIndex="1" Canvas.Left="77" Canvas.Top="9" Width="26" Height="14.5" Fill="{x:Static local:UiLookImaging.BrushSurfaceRaised}" Stroke="{x:Static local:UiLookImaging.BrushStrokeStrong}"/>
+			<Polygon x:Name="polygonTriangle" x:FieldModifier="internal" Canvas.Left="90" Canvas.Top="4" Points="-2.5,5 0,0 2.5,5" Fill="{x:Static local:UiLookImaging.BrushText}" SnapsToDevicePixels="False"/>
 			<TextBlock x:Name="textBlock" x:FieldModifier="internal" Panel.ZIndex="2" Text="125" Canvas.Left="80" Canvas.Top="8.5"/>
-			<Line X1="158" Y1="0" X2="158" Y2="25" Stroke="#b4b4b4" StrokeThickness="1" />
-			<Line x:Name="linePlus1" x:FieldModifier="internal" Panel.ZIndex="1" X1="161.5" Y1="12" X2="171.5" Y2="12" Stroke="Black" StrokeThickness="1.5" SnapsToDevicePixels="False"/>
-			<Line x:Name="linePlus2" x:FieldModifier="internal" Panel.ZIndex="1" X1="166.7" Y1="7" X2="166.7" Y2="17" Stroke="Black" StrokeThickness="1.5" SnapsToDevicePixels="False"/>
-			<Line X1="175" Y1="0" X2="175" Y2="25" Stroke="#b4b4b4" StrokeThickness="1" />
+			<Line Panel.ZIndex="1" X1="158" Y1="0" X2="158" Y2="25" Stroke="{x:Static local:UiLookImaging.BrushStroke}" StrokeThickness="1" />
+			<Path x:Name="pathPlus" x:FieldModifier="internal" Panel.ZIndex="1" Canvas.Left="161" Canvas.Top="6" Width="12" Height="12" Data="{x:Static local:UiLookImaging.GeometryPlus}"/>
+			<Line Panel.ZIndex="1" X1="175" Y1="0" X2="175" Y2="25" Stroke="{x:Static local:UiLookImaging.BrushStroke}" StrokeThickness="1" />
 			<TextBlock x:Name="textFit" x:FieldModifier="internal" Panel.ZIndex="1" Text="Fit" Canvas.Left="182" Canvas.Top="4.5"/>
-			<Line X1="202" Y1="0" X2="202" Y2="25" Stroke="#b4b4b4" StrokeThickness="1" />
+			<Line Panel.ZIndex="1" X1="202" Y1="0" X2="202" Y2="25" Stroke="{x:Static local:UiLookImaging.BrushStroke}" StrokeThickness="1" />
 			<TextBlock x:Name="text100" x:FieldModifier="internal" Panel.ZIndex="1" Text="100" Canvas.Left="206.5" Canvas.Top="4.5"/>
-			<Line X1="230.5" Y1="0" X2="230.5" Y2="25" Stroke="#b4b4b4" StrokeThickness="1" />
-			<Line X1="0" Y1="24.5" X2="230.5" Y2="24.5" Stroke="#708090" StrokeThickness="1" />
+			<Line Panel.ZIndex="1" X1="230.5" Y1="0" X2="230.5" Y2="25" Stroke="{x:Static local:UiLookImaging.BrushStroke}" StrokeThickness="1" />
+			<Line Panel.ZIndex="1" X1="0" Y1="24.5" X2="230.5" Y2="24.5" Stroke="{x:Static local:UiLookImaging.BrushGridline}" StrokeThickness="1" />
 		</Canvas>
 	</Grid>
 </UserControl>

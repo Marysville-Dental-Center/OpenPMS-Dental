@@ -16,7 +16,8 @@
 			<ContentPresenter/>
 		</ControlTemplate>
 	</UserControl.Template>
-	<Grid x:Name="grid" x:FieldModifier="internal" Background="#7186b3">
+	<!--The new look (UI-4c-1, docs/port-notes/UI-4c.md): the colours come from SetColors (the UiTheme tokens), the caption glyphs are Fluent.-->
+	<Grid x:Name="grid" x:FieldModifier="internal">
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="*"/><!--Text-->
 			<ColumnDefinition Width="Auto"/><!--Windows-->
@@ -25,22 +26,21 @@
 			<ColumnDefinition Width="30"/><!--max-->
 			<ColumnDefinition Width="30"/><!--close-->
 		</Grid.ColumnDefinitions>
-		<Border x:Name="borderDrag"  x:FieldModifier="internal" Background="#7186b3" IsHitTestVisible="True"/>
+		<Border x:Name="borderDrag"  x:FieldModifier="internal" IsHitTestVisible="True"/>
 		<local:Label x:Name="labelTitle" x:FieldModifier="internal" Foreground="White" Height="18" Text="4/6/2024 Patient Photo" Margin="12,1,152,0" VerticalAlignment="Center" HorizontalAlignment="Stretch" VAlign="Center" IsHitTestVisible="False"/>
-		<Rectangle x:Name="rectangleWindows" Grid.Column="1" x:FieldModifier="internal" Margin="0,3,0,0" Fill="#FF6C718C" />
+		<Rectangle x:Name="rectangleWindows" Grid.Column="1" x:FieldModifier="internal" Margin="0,3,0,0" />
 		<local:Label x:Name="labelWin" Grid.Column="1" x:FieldModifier="internal" Foreground="White" Height="18" Text="Windows" IsHitTestVisible="False" Margin="2,1,1,0" VerticalAlignment="Center" HorizontalAlignment="Stretch" VAlign="Center"/>
-		<Rectangle x:Name="rectangleMin" Grid.Column="3" x:FieldModifier="internal" Margin="0,2,0,0" Fill="#FFA3A8C5" />
+		<Rectangle x:Name="rectangleMin" Grid.Column="3" x:FieldModifier="internal" Margin="0,2,0,0" />
 		<Canvas Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center" IsHitTestVisible="False" Margin="0,1,0,0">
-			<Line x:Name="lineMin" Stroke="White" X1="-5" X2="5"/>
+			<Path x:Name="pathMin" x:FieldModifier="internal" Canvas.Left="-6" Canvas.Top="-6" Width="12" Height="12"/>
 		</Canvas>
-		<Rectangle x:Name="rectangleMax" Grid.Column="4" x:FieldModifier="internal" Margin="0,2,0,0" Fill="#FF6C718C" />
+		<Rectangle x:Name="rectangleMax" Grid.Column="4" x:FieldModifier="internal" Margin="0,2,0,0" />
 		<Canvas Grid.Column="4" HorizontalAlignment="Center" VerticalAlignment="Center" IsHitTestVisible="False" Margin="0,1,0,0">
-			<Rectangle x:Name="rectangleMaxSmall" Stroke="White" Canvas.Top="-5" Canvas.Left="-5" Width="10" Height="10"/>
+			<Path x:Name="pathMax" x:FieldModifier="internal" Canvas.Left="-6" Canvas.Top="-6" Width="12" Height="12"/>
 		</Canvas>
-		<Rectangle x:Name="rectangleClose" Grid.Column="5" x:FieldModifier="internal" Margin="0,1,0,0" Fill="Red" />
+		<Rectangle x:Name="rectangleClose" Grid.Column="5" x:FieldModifier="internal" Margin="0,1,0,0" />
 		<Canvas Grid.Column="5" HorizontalAlignment="Center" VerticalAlignment="Center" IsHitTestVisible="False" Margin="0,1,0,0">
-			<Line x:Name="lineX" X1="-5" Y1="-5" X2="5" Y2="5" Stroke="White" StrokeThickness="1.4"/>
-			<Line x:Name="lineX2" X1="5" Y1="-5" X2="-5" Y2="5" Stroke="White" StrokeThickness="1.4"/>
+			<Path x:Name="pathClose" x:FieldModifier="internal" Canvas.Left="-6" Canvas.Top="-6" Width="12" Height="12"/>
 		</Canvas>
 	</Grid>
 </UserControl>

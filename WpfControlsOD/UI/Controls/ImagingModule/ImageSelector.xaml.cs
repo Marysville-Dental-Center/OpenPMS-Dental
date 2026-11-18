@@ -90,6 +90,7 @@ Only used once in Imaging module.
 			_toolTip=new ToolTip();
 			_toolTip.SetControlAndAction(this,ToolTipSetString);
 			Unloaded+=ImageSelector_Unloaded;
+			IsKeyboardFocusWithinChanged+=(sender,e) => SetColors();//the selection bar: Accent with focus, SelectionBarNoFocus without
 		}
 		#endregion Constructor
 
@@ -580,29 +581,22 @@ Only used once in Imaging module.
 				canvas.VerticalAlignment=VerticalAlignment.Center;
 				canvas.HorizontalAlignment=HorizontalAlignment.Center;
 				grid.Children.Add(canvas);
-				Rectangle rectangle=new Rectangle();
-				rectangle.Width=12;
-				rectangle.Height=12;
-				Canvas.SetLeft(rectangle,-6);
-				Canvas.SetTop(rectangle,-6);
-				rectangle.Fill=Brushes.White;
-				rectangle.Stroke=Brushes.Black;
-				rectangle.StrokeThickness=1;
-				rectangle.RadiusX=1.5;
-				rectangle.RadiusY=1.5;
-				canvas.Children.Add(rectangle);
-				Line lineH=new Line();
-				lineH.X1=-4;
-				lineH.X2=4;
-				lineH.Stroke=Brushes.Black;
-				canvas.Children.Add(lineH);
+				//The new look (UI-4c-1): the tree's expander (UI-4b-1), a Fluent chevron in TextSecondary where the +/- box was: right while
+				//collapsed, down while expanded.
+				System.Windows.Shapes.Path pathChevron=new System.Windows.Shapes.Path();
+				pathChevron.Name="pathChevron";
+				pathChevron.Width=12;
+				pathChevron.Height=12;
+				Canvas.SetLeft(pathChevron,-6);
+				Canvas.SetTop(pathChevron,-6);
+				pathChevron.Fill=UiLookLists.BrushTextSecondary;
 				if(nodeObjTag.ExpandCollapse==NodeObjTag.EnumExpandCollapse.Plus){
-					Line lineV=new Line();
-					lineV.Y1=-4;
-					lineV.Y2=4;
-					lineV.Stroke=Brushes.Black;
-					canvas.Children.Add(lineV);
+					pathChevron.Data=UiLookLists.GeometryChevronRight;
 				}
+				else{
+					pathChevron.Data=UiLookLists.GeometryChevronDown;
+				}
+				canvas.Children.Add(pathChevron);
 			}
 			EnumIcons enumIcons=EnumIcons.ImageSelectorFolder;
 			if(nodeObjTag.IconShow==EnumIconShow.FolderWeb){
@@ -625,7 +619,7 @@ Only used once in Imaging module.
 			Rectangle rectangleLineTop=new Rectangle();
 			rectangleLineTop.Height=1;//this is effectively a line, but easier to draw
 			rectangleLineTop.VerticalAlignment=VerticalAlignment.Top;
-			rectangleLineTop.Fill=new SolidColorBrush(OpenPmsDental.ColorOD.Gray_Wpf(110));
+			rectangleLineTop.Fill=UiLookImaging.BrushStrokeStrong;//the category's divider (was gray 110; StrokeStrong by the owner's answer of 2026-11-18, so the groups stay clearly apart)
 			System.Windows.Controls.Grid.SetColumnSpan(rectangleLineTop,3);
 			grid.Children.Add(rectangleLineTop);
 			//lower line probably isn't needed. Individual images will have the own upper line.
@@ -688,6 +682,7 @@ Only used once in Imaging module.
 				gridIcon.Height=16;
 				gridIcon.HorizontalAlignment=HorizontalAlignment.Left;
 				gridIcon.VerticalAlignment=VerticalAlignment.Center;
+				gridIcon.Margin=new Thickness(2,0,0,0);//clear of the 2 px selection bar (owner, 2026-11-18); 16+2 fits the 20 px icon column
 				grid.Children.Add(gridIcon);
 				IconLibrary.DrawWpf(enumIcons,gridIcon);
 				TextBlock textBlock=new TextBlock();
@@ -699,7 +694,7 @@ Only used once in Imaging module.
 				Rectangle rectangleLineTop=new Rectangle();
 				rectangleLineTop.Height=1;
 				rectangleLineTop.VerticalAlignment=VerticalAlignment.Top;
-				rectangleLineTop.Fill=new SolidColorBrush(OpenPmsDental.ColorOD.Gray_Wpf(210));
+				rectangleLineTop.Fill=UiLookImaging.BrushGridline;//the line between items (was gray 210)
 				System.Windows.Controls.Grid.SetColumnSpan(rectangleLineTop,2);
 				grid.Children.Add(rectangleLineTop);
 				border.Child=grid;
@@ -882,37 +877,59 @@ Only used once in Imaging module.
 				if(stackPanel.Children[i] is Border border){
 					int idx=IndexFromBorder(border);
 					NodeObjTag nodeObjTag=(NodeObjTag)border.Tag;
-					Color colorBack=Colors.White;
-					if(nodeObjTag.IsMatching(_nodeObjTagSelected)){//whether category or doc
-						colorBack=Color.FromRgb(180,210,255);//this color is specific to this control
-					}
-					else if(_hoverIndex==idx){
-						colorBack=Color.FromRgb(229,239,251);
-					}
-					else if(nodeObjTag.NodeType==EnumImageNodeType.Category){
-						colorBack=OpenPmsDental.ColorOD.Gray_Wpf(240);
-					}
-					border.Background=new SolidColorBrush(colorBack);
+					SetRowLook(border,isSelected:nodeObjTag.IsMatching(_nodeObjTagSelected),isHover:_hoverIndex==idx,
+						isCategory:nodeObjTag.NodeType==EnumImageNodeType.Category);
 				}
 				if(stackPanel.Children[i] is WrapPanel wrapPanel){
 					for(int w=0;w<wrapPanel.Children.Count;w++){
 						Border borderW=(Border)wrapPanel.Children[w];
 						int idx=IndexFromBorder(borderW);
 						NodeObjTag nodeObjTag=(NodeObjTag)borderW.Tag;
-						Color colorBack=Colors.White;
-						if(nodeObjTag.IsMatching(_nodeObjTagSelected)){//whether category or doc
-							colorBack=Color.FromRgb(180,210,255);//this color is specific to this control
-						}
-						else if(_hoverIndex==idx){
-							colorBack=Color.FromRgb(229,239,251);
-						}
-						else if(nodeObjTag.NodeType==EnumImageNodeType.Category){
-							colorBack=OpenPmsDental.ColorOD.Gray_Wpf(240);
-						}
-						borderW.Background=new SolidColorBrush(colorBack);
+						SetRowLook(borderW,isSelected:nodeObjTag.IsMatching(_nodeObjTagSelected),isHover:_hoverIndex==idx,
+							isCategory:nodeObjTag.NodeType==EnumImageNodeType.Category);
 					}
 				}
 			}
+		}
+
+		///<summary>The new look of a row or a thumbnail (UI-4c-1, docs/specs/ui-refresh-plan.md sections 3.2 and 3.6; docs/port-notes/UI-4c.md), as
+		///a list's item: selected, AccentSubtle with the 2 px selection bar in its first 2 px (Accent while the selector has keyboard focus,
+		///SelectionBarNoFocus without; was a light blue fill alone); RowHover under the mouse; a category SurfaceSubtle (was gray 240); other rows
+		///SurfaceRaised. The bar is a rectangle laid over the row's grid, so nothing in the row moves; it starts inside the selector's 1 px outline,
+		///which lies over the rows' first pixel, so both of its pixels show, and lies under the row's icon and text.</summary>
+		private void SetRowLook(Border border,bool isSelected,bool isHover,bool isCategory){
+			EnumUiColor uiColorBack=EnumUiColor.SurfaceRaised;
+			if(isSelected){
+				uiColorBack=EnumUiColor.AccentSubtle;
+			}
+			else if(isHover){
+				uiColorBack=EnumUiColor.RowHover;
+			}
+			else if(isCategory){
+				uiColorBack=EnumUiColor.SurfaceSubtle;
+			}
+			border.Background=UiLook.Brush(uiColorBack);
+			if(!(border.Child is System.Windows.Controls.Grid grid)){
+				return;
+			}
+			Rectangle rectangleBar=grid.Children.OfType<Rectangle>().FirstOrDefault(x => x.Name=="rectangleSelectionBar");
+			if(rectangleBar is null){
+				if(!isSelected){
+					return;
+				}
+				rectangleBar=new Rectangle();
+				rectangleBar.Name="rectangleSelectionBar";
+				rectangleBar.Width=UiLookLists.WIDTH_SELECTION_BAR;
+				rectangleBar.HorizontalAlignment=HorizontalAlignment.Left;
+				rectangleBar.Margin=new Thickness(borderOutline.BorderThickness.Left,0,0,0);//inside the selector's 1 px outline, which lies over the rows' first pixel
+				rectangleBar.VerticalAlignment=VerticalAlignment.Stretch;
+				rectangleBar.IsHitTestVisible=false;
+				System.Windows.Controls.Grid.SetColumnSpan(rectangleBar,Math.Max(1,grid.ColumnDefinitions.Count));
+				System.Windows.Controls.Grid.SetRowSpan(rectangleBar,Math.Max(1,grid.RowDefinitions.Count));
+				grid.Children.Insert(0,rectangleBar);//under the row's icon and text: a Fluent icon that starts on the bar's second pixel still shows whole
+			}
+			rectangleBar.Visibility=isSelected ? Visibility.Visible : Visibility.Collapsed;
+			rectangleBar.Fill=UiLookLists.GetSelectionBar(IsKeyboardFocusWithin);
 		}
 
 		///<summary>Does a hit test to determine if over text that is too long to fit.  If so, creates appropriate tooltip text.</summary>

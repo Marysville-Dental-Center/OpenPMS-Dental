@@ -67,6 +67,9 @@ Jordan is the only one allowed to edit this file.
 			rectangleWindows.MouseLeftButtonDown+=RectangleWin_MouseLeftButtonDown;
 			rectangleWindows.MouseLeave+=RectangleWin_MouseLeave;
 			rectangleWindows.MouseMove+=RectangleWin_MouseMove;
+			pathMin.Data=UiIcons.GetGeometryWpf(UiGlyph.Subtract,UiSliderPaint.SIZE_GLYPH);
+			pathMax.Data=UiIcons.GetGeometryWpf(UiGlyph.Maximize,UiSliderPaint.SIZE_GLYPH);
+			pathClose.Data=UiIcons.GetGeometryWpf(UiGlyph.Dismiss,UiSliderPaint.SIZE_GLYPH);
 			SetColors();
 		}
 
@@ -146,71 +149,51 @@ Jordan is the only one allowed to edit this file.
 
 		#region Methods private
 		private void SetColors(){
-			//this is copied from FormODBase PanelBorders_Paint
-			Color colorBorder;
-			Color colorBorderText;
-			Color colorHoverMinMax;
-			Color colorFloatBase=Color.FromRgb(65, 94, 154);//This is the default dark blue-gray, same as grid titles
-			Color colorHoverX=Color.FromRgb(232,17,35);;
+			//The new look (UI-4c-1, docs/specs/ui-refresh-plan.md section 3.6, the floating image windows; docs/port-notes/UI-4c.md), as the design
+			//sheet's floating windows: selected, Accent with white text and CaptionHover under the mouse; not selected, SurfaceSubtle with Text and
+			//SubtleHover; the close button Danger under the mouse with a white glyph on both; empty, all SurfaceRaised (invisible). The Windows button
+			//while its menu is open: SurfaceRaised with Text, as today's white. The glyphs are Fluent (subtract, maximize, dismiss).
+			EnumUiColor uiColorBack;
+			EnumUiColor uiColorText;
+			EnumUiColor uiColorHover;
+			EnumUiColor uiColorHoverX=EnumUiColor.Danger;
 			if(IsEmpty){
-				colorBorder=Colors.White;
-				colorBorderText=Colors.White;
-				colorHoverMinMax=Colors.White;
-				colorHoverX=Colors.White;
+				uiColorBack=EnumUiColor.SurfaceRaised;
+				uiColorText=EnumUiColor.SurfaceRaised;
+				uiColorHover=EnumUiColor.SurfaceRaised;
+				uiColorHoverX=EnumUiColor.SurfaceRaised;
 			}
 			else if(IsSelected){
-				colorBorder=ColorOD.Mix_Wpf(colorFloatBase,Colors.White,3,1);
-				colorBorderText=Colors.White;
-				colorHoverMinMax=ColorOD.Mix_Wpf(colorBorder,colorBorderText,4,1);
+				uiColorBack=EnumUiColor.Accent;
+				uiColorText=EnumUiColor.TextOnAccent;
+				uiColorHover=EnumUiColor.CaptionHover;
 			}
 			else{
-				colorBorder=ColorOD.Mix_Wpf(colorFloatBase,Colors.White,1,3);
-				colorBorderText=Colors.Black;
-				colorHoverMinMax=ColorOD.Mix_Wpf(colorBorder,colorBorderText,10,1);
+				uiColorBack=EnumUiColor.SurfaceSubtle;
+				uiColorText=EnumUiColor.Text;
+				uiColorHover=EnumUiColor.SubtleHover;
 			}
-			grid.Background=new SolidColorBrush(colorBorder);
-			borderDrag.Background=new SolidColorBrush(colorBorder);//so it can be clickable
-			if(_isHoverMax) {
-				rectangleMax.Fill=new SolidColorBrush(colorHoverMinMax);
-			}
-			else{
-				rectangleMax.Fill=new SolidColorBrush(colorBorder);
-			}
-			if(_isHoverMin) {
-				rectangleMin.Fill=new SolidColorBrush(colorHoverMinMax);
-			}
-			else{
-				rectangleMin.Fill=new SolidColorBrush(colorBorder);
-			}
+			grid.Background=UiLook.Brush(uiColorBack);
+			borderDrag.Background=UiLook.Brush(uiColorBack);//so it can be clickable
+			rectangleMax.Fill=UiLook.Brush(_isHoverMax ? uiColorHover : uiColorBack);
+			rectangleMin.Fill=UiLook.Brush(_isHoverMin ? uiColorHover : uiColorBack);
 			if(IsEmpty){
-				rectangleWindows.Fill=Brushes.White;
-				labelWin.Foreground=Brushes.White;
+				rectangleWindows.Fill=UiLook.Brush(EnumUiColor.SurfaceRaised);
+				labelWin.ColorText=UiTheme.GetColorWpf(EnumUiColor.SurfaceRaised);
 			}
 			else if(_isButWinPressed){
-				rectangleWindows.Fill=Brushes.White;
-				labelWin.Foreground=Brushes.Black;
+				rectangleWindows.Fill=UiLook.Brush(EnumUiColor.SurfaceRaised);
+				labelWin.ColorText=UiTheme.GetColorWpf(EnumUiColor.Text);
 			}
 			else{//not pressed
-				labelWin.Foreground=new SolidColorBrush(colorBorderText);
-					//Brushes.White;
-				if(_isHoverWin) {
-					rectangleWindows.Fill=new SolidColorBrush(colorHoverMinMax);
-				}
-				else{
-					rectangleWindows.Fill=new SolidColorBrush(colorBorder);
-				}
+				labelWin.ColorText=UiTheme.GetColorWpf(uiColorText);
+				rectangleWindows.Fill=UiLook.Brush(_isHoverWin ? uiColorHover : uiColorBack);
 			}
-			if(_isHoverX) {
-				rectangleClose.Fill=new SolidColorBrush(colorHoverX);
-			}
-			else{
-				rectangleClose.Fill=new SolidColorBrush(colorBorder);
-			}
-			labelTitle.ColorText=colorBorderText;
-			lineMin.Stroke=new SolidColorBrush(colorBorderText);
-			rectangleMaxSmall.Stroke=new SolidColorBrush(colorBorderText);
-			lineX.Stroke=new SolidColorBrush(colorBorderText);
-			lineX2.Stroke=new SolidColorBrush(colorBorderText);
+			rectangleClose.Fill=UiLook.Brush(_isHoverX ? uiColorHoverX : uiColorBack);
+			labelTitle.ColorText=UiTheme.GetColorWpf(uiColorText);
+			pathMin.Fill=UiLook.Brush(uiColorText);
+			pathMax.Fill=UiLook.Brush(uiColorText);
+			pathClose.Fill=UiLook.Brush(_isHoverX && !IsEmpty ? EnumUiColor.TextOnAccent : uiColorText);
 		}
 		#endregion Methods private
 

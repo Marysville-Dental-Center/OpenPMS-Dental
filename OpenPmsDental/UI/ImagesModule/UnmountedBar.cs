@@ -13,14 +13,8 @@ using CodeBase;
 namespace OpenPmsDental.UI {
 	public partial class UnmountedBar:Control {
 		public LayoutManagerForms LayoutManager=new LayoutManagerForms();
-		///<summary>Changes when dpi changes. Disposed</summary>
-		private LinearGradientBrush _linearGradientBrush;
 		///<summary>20 at 96 dpi</summary>
 		private int _heightHeader96=20;
-		///<summary>Copied from GridOD</summary>
-		private static Color _colorTitleTop=Color.FromArgb(156,175,230);
-		///<summary>Copied from GridOD</summary>
-		private static Color _colorTitleBottom=Color.FromArgb(60,90,150);
 		private Font _fontTitle=new Font("Segoe UI",10f);
 		///<summary>This list just holds secondary references to the various objects, including bitmaps.  This class is not responsible for disposing of bitmaps.</summary>
 		private List<UnmountedObject> _listUnmountedObjects;
@@ -90,8 +84,6 @@ namespace OpenPmsDental.UI {
 		#region Methods - override
 		protected override void OnResize(EventArgs e){
 			base.OnResize(e);
-			_linearGradientBrush?.Dispose();
-			_linearGradientBrush=new LinearGradientBrush(new Point(0,0),new Point(0,LayoutManager.Scale(_heightHeader96)),_colorTitleTop,_colorTitleBottom);
 			_fontTitle?.Dispose();
 			_fontTitle=new Font(FontFamily.GenericSansSerif,LayoutManager.ScaleF(10f),FontStyle.Bold);
 			CalculatePositions();
@@ -101,10 +93,16 @@ namespace OpenPmsDental.UI {
 		protected override void OnPaint(PaintEventArgs pe) {
 			Graphics g=pe.Graphics;
 			g.SmoothingMode=SmoothingMode.HighQuality;
+			//The new look (UI-4c-1, docs/specs/ui-refresh-plan.md sections 3.2 and 3.6; docs/port-notes/UI-4c.md): the header as the grid title, a flat
+			//Accent bar with white text (was a gradient), the outline Stroke. The images sit on the mount's own background colour (the office's), so
+			//their outlines and the yellow selection stay as they are.
+			float scale=LayoutManager.ScaleMy();
 			g.Clear(_colorBack);
-			g.FillRectangle(_linearGradientBrush,0,0,Width,LayoutManager.Scale(_heightHeader96));
+			UiControlPaint.Fill(g,EnumUiColor.Accent,GetRectangleHeader(),UiTheme.CORNER_SQUARE,scale);
 			string title="Unmounted";
-			g.DrawString(title,_fontTitle,Brushes.White,Width/2-g.MeasureString(title,_fontTitle).Width/2,2);
+			if(IsTextShown){
+				g.DrawString(title,_fontTitle,UiTheme.GetBrush(EnumUiColor.TextOnAccent),Width/2-g.MeasureString(title,_fontTitle).Width/2,2);
+			}
 			if(_listUnmountedObjects!=null){
 				for(int i=0;i<_listUnmountedObjects.Count;i++){
 					DrawMountOne(g,i);
@@ -116,10 +114,20 @@ namespace OpenPmsDental.UI {
 					g.DrawRectangle(penOutline,_listUnmountedObjects[SelectedIndex].GetBounds());
 				}
 			}
-			using Pen pen=new Pen(ColorOD.Outline);
-			Rectangle rectangle=new Rectangle(0,0,Width-1,Height-1);
-			g.DrawRectangle(pen,rectangle);
+			UiControlPaint.Outline(g,EnumUiColor.Stroke,new Rectangle(0,0,Width,Height),UiTheme.GetLineWidth(scale),UiTheme.CORNER_SQUARE,scale);
 			base.OnPaint(pe);
+		}
+
+		///<summary>Whether the title is drawn. Always true; the state tests draw the shapes alone to compare them.</summary>
+		protected virtual bool IsTextShown{
+			get{
+				return true;
+			}
+		}
+
+		///<summary>The header bar along the top, as today's gradient filled it.</summary>
+		protected Rectangle GetRectangleHeader(){
+			return new Rectangle(0,0,Width,LayoutManager.Scale(_heightHeader96));
 		}
 
 		///<summary></summary>

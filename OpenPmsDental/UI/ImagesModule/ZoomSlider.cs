@@ -1,4 +1,5 @@
 ﻿#region using
+using CodeBase;
 using OpenPmsDentalBusiness;
 using System;
 using System.Collections.Generic;
@@ -17,10 +18,6 @@ namespace OpenPmsDental.UI{
 	public partial class ZoomSlider : Control{
 		#region Fields
 		public LayoutManagerForms LayoutManager=new LayoutManagerForms();
-		///<summary></summary>
-		private LinearGradientBrush _brushMainGradient;
-		///<summary></summary>
-		private LinearGradientBrush _brushPushedGradient;
 		///<summary>This is the zoom level that's calculated in SetValueInitialFit and then constantly used to derive other values like _maximum.</summary>
 		private int _fit;
 		private Font _font=new Font("Segoe UI",9f);
@@ -30,16 +27,6 @@ namespace OpenPmsDental.UI{
 		private bool _isMouseDown;
 		///<summary>This changes constantly and is not under external control.  It starts out as twice _fit, but then increases more each time user hits "plus".</summary>
 		private int _maximum=100;
-		///<summary></summary>
-		private static Pen _penDivider=new Pen(Color.FromArgb(180,180,180));
-		///<summary></summary>
-		private static Pen _penSliderOutline=new Pen(Color.FromArgb(50,50,130));
-		///<summary>Used for button outlines and control outline. Stays 1 pixel with scaling.</summary>
-		private static Pen _penOutline=Pens.SlateGray;
-		///<summary>Used for tickline. Varies in thickness with scaling.</summary>
-		private static Pen _penTickLine=new Pen(Color.SlateGray);
-		///<summary>Used plus and minus. Varies in thickness with scaling.</summary>
-		private static Pen _penBlack=new Pen(Color.Black,1.5f);
 		///<summary>Current position of mouse on control.  -1,-1 indicates not over control.</summary>
 		private Point _pointMouse=new Point(-1,-1);
 		///<summary>Point where mouse was initially down.  If dragging, it will get the original position.</summary>
@@ -172,11 +159,11 @@ namespace OpenPmsDental.UI{
 			g.TextRenderingHint=TextRenderingHint.ClearTypeGridFit;
 			if(DesignMode){
 				//because the first DrawLine keeps crashing otherwise
-				g.DrawRectangle(_penOutline,0,0,Width-1,Height-1);
+				g.DrawRectangle(UiTheme.GetPen(EnumUiColor.StrokeStrong),0,0,Width-1,Height-1);
 				StringFormat format=new StringFormat();
 				format.Alignment=StringAlignment.Center;
 				format.LineAlignment=StringAlignment.Center;
-				g.DrawString(this.Name,Font,Brushes.Black,new Rectangle(0,0,Width,Height),format);
+				g.DrawString(this.Name,Font,UiTheme.GetBrush(EnumUiColor.Text),new Rectangle(0,0,Width,Height),format);
 				return;
 			}
 			//Calculate a few rectangles
@@ -193,105 +180,103 @@ namespace OpenPmsDental.UI{
 				+(int)(((float)_rectangleTickLine.Right-_rectangleTickLine.Left)//how many pixels in tick line
 				/(_maximum-1) *_value);
 			_rectangleSlider=new Rectangle(xValuePixels-(widthValue/2),LayoutManager.Scale(9),widthValue,Height-LayoutManager.Scale(11));
-			g.Clear(SystemColors.Control);
-			g.FillRectangle(_brushMainGradient,0,0,Width,Height);//background does not change based on hover
-			if(_isMouseDown){
-				if(_rectangleMinus.Contains(_pointMouseDown)){
-					g.FillRectangle(_brushPushedGradient,_rectangleMinus);
-				}
-				if(_rectanglePlus.Contains(_pointMouseDown)){
-					g.FillRectangle(_brushPushedGradient,_rectanglePlus);
-				}
-				if(_rectangleFit.Contains(_pointMouseDown)){
-					g.FillRectangle(_brushPushedGradient,_rectangleFit);
-				}
-				if(_rectangle100.Contains(_pointMouseDown)){
-					g.FillRectangle(_brushPushedGradient,_rectangle100);
+			//The new look (UI-4c-1, docs/specs/ui-refresh-plan.md section 3.6; docs/port-notes/UI-4c.md): a toolbar strip (SurfaceSubtle with a 1 px
+			//Gridline at the bottom, was a gradient); the minus, plus, Fit and 100 cells as toolbar buttons (SubtleHover under the mouse, SubtlePressed
+			//pressed, 4 px corners, were outlines and a gradient); the dividers 1 px Stroke; the minus and plus Fluent glyphs; the tick line StrokeStrong;
+			//the value box an input (SurfaceRaised with a StrokeStrong outline, StrokeStrongHover under the mouse, Accent while dragged); the texts and the
+			//pointer Text (TextDisabled when disabled). Every rectangle and text where it was.
+			float scale=LayoutManager.ScaleMy();
+			int widthLine=UiTheme.GetLineWidth(scale);
+			g.Clear(UiTheme.GetColor(EnumUiColor.SurfaceSubtle));
+			EnumUiColor uiColorText=UiSliderPaint.GetText(Enabled);
+			Rectangle[] arrayRectanglesCells=new Rectangle[] { _rectangleMinus,_rectanglePlus,_rectangleFit,_rectangle100 };
+			for(int i=0;i<arrayRectanglesCells.Length;i++){
+				EnumUiColor? uiColorCell=UiSliderPaint.GetCellFill(GetCellState(arrayRectanglesCells[i]));
+				if(uiColorCell!=null){
+					UiControlPaint.Fill(g,uiColorCell.Value,arrayRectanglesCells[i],UiTheme.CORNER_CONTROL,scale);
 				}
 			}
-			g.DrawLine(_penDivider,0,0,0,Height);
-			g.DrawLine(_penDivider,_rectangleMinus.Right,0,_rectangleMinus.Right,Height);
-			g.DrawLine(_penDivider,_rectangleTickLineMargin.Right,0,_rectangleTickLineMargin.Right,Height);
-			g.DrawLine(_penDivider,_rectanglePlus.Right,0,_rectanglePlus.Right,Height);
-			g.DrawLine(_penDivider,_rectangleFit.Right,0,_rectangleFit.Right,Height);
-			g.DrawLine(_penDivider,_rectangle100.Right,0,_rectangle100.Right,Height);
-			Brush brushText=Brushes.Black;
-			if(!Enabled){
-				brushText=SystemBrushes.GrayText;
+			//The dividers where today's 1 px lines were, the full height
+			int[] arrayXDividers=GetXDividers();
+			for(int i=0;i<arrayXDividers.Length;i++){
+				UiControlPaint.Fill(g,EnumUiColor.Stroke,new Rectangle(arrayXDividers[i],0,widthLine,Height),UiTheme.CORNER_SQUARE,scale);
 			}
-			//these two rectangles are 17x25 unscaled
-			//Minus
-			GraphicsHelper.DrawLine(g,_penBlack,_rectangleMinus.Left+LayoutManager.Scale(4f),LayoutManager.Scale(12f),
-				_rectangleMinus.Left+LayoutManager.Scale(13f),LayoutManager.Scale(12f));
-			//Plus:
-			GraphicsHelper.DrawLine(g,_penBlack,_rectanglePlus.Left+LayoutManager.ScaleF(4f),LayoutManager.ScaleF(12f),
-				_rectanglePlus.Left+LayoutManager.ScaleF(14f),LayoutManager.ScaleF(12f));
-			GraphicsHelper.DrawLine(g,_penBlack,_rectanglePlus.Left+LayoutManager.ScaleF(9f),LayoutManager.ScaleF(7f),
-				_rectanglePlus.Left+LayoutManager.ScaleF(9f),LayoutManager.ScaleF(17f));
-			g.DrawString("Fit",_font,brushText,_rectangleFit.Left+5,_rectangleFit.Top+4);
-			g.DrawString("100",_font,brushText,_rectangle100.Left+3,_rectangle100.Top+4);
-			//Tick line
+			//Minus and plus: the Fluent glyphs, centred in their cells (these two cells are 17x25 unscaled)
+			UiSliderPaint.DrawZoomGlyph(g,UiSliderPaint.GetGlyphRectangle(_rectangleMinus,scale),isPlus:false,uiColorText);
+			UiSliderPaint.DrawZoomGlyph(g,UiSliderPaint.GetGlyphRectangle(_rectanglePlus,scale),isPlus:true,uiColorText);
+			Brush brushText=UiTheme.GetBrush(uiColorText);
+			if(IsTextShown){
+				g.DrawString("Fit",_font,brushText,_rectangleFit.Left+5,_rectangleFit.Top+4);
+				g.DrawString("100",_font,brushText,_rectangle100.Left+3,_rectangle100.Top+4);
+			}
+			//Tick line, where today's 1 px lines were (DrawLine covered both end points)
 			int yTickLine=LayoutManager.Scale(4);
-			g.DrawLine(_penTickLine,_rectangleTickLine.X,yTickLine,_rectangleTickLine.Right,yTickLine);//horiz
-			g.DrawLine(_penTickLine,_rectangleTickLine.X,0,_rectangleTickLine.X,yTickLine);//left vert. Const won't need to change once I measure it.
 			int xFitPixels=(int)(((float)_rectangleTickLine.Right-_rectangleTickLine.Left)//how many pixels to the Fit tick line
 				/(_maximum-1) *_fit);
-			g.DrawLine(_penTickLine,_rectangleTickLine.Left+xFitPixels,0,_rectangleTickLine.Left+xFitPixels,yTickLine);//vertFit
-			g.DrawLine(_penTickLine,_rectangleTickLine.Right,0,_rectangleTickLine.Right,yTickLine);//right vert
-			//Slider
-			g.FillRectangle(Brushes.White,_rectangleSlider);
-			if(_isMouseDown){//outline any pressed button
-				if(_isMouseDownOnSlider){
-					g.DrawRectangle(_penSliderOutline,_rectangleSlider);
-				}
-				else{
-					g.DrawRectangle(_penDivider,_rectangleSlider);
-				}
+			Rectangle[] arrayRectanglesTicks=GetRectanglesTickLine(xFitPixels,yTickLine,widthLine);
+			for(int i=0;i<arrayRectanglesTicks.Length;i++){
+				UiControlPaint.Fill(g,EnumUiColor.StrokeStrong,arrayRectanglesTicks[i],UiTheme.CORNER_SQUARE,scale);
 			}
-			else{//outline any hover button
-				if(_rectangleSlider.Contains(_pointMouse)){
-					g.DrawRectangle(_penSliderOutline,_rectangleSlider);
-				}
-				else{
-					g.DrawRectangle(_penDivider,_rectangleSlider);
-				}
-			}
+			//Slider: the value box, its outline where today's DrawRectangle put it
+			UiControlPaint.Fill(g,EnumUiColor.SurfaceRaised,_rectangleSlider,UiTheme.CORNER_SQUARE,scale);
+			UiControlPaint.Outline(g,GetValueBoxOutline(),new Rectangle(_rectangleSlider.X,_rectangleSlider.Y,_rectangleSlider.Width+1,_rectangleSlider.Height+1),
+				widthLine,UiTheme.CORNER_SQUARE,scale);
 			string sVal=Round(_value).ToString();
-			g.DrawString(sVal,_font,brushText,_rectangleSlider.X+LayoutManager.ScaleF(1),_rectangleSlider.Y-LayoutManager.ScaleF(1));
+			if(IsTextShown){
+				g.DrawString(sVal,_font,brushText,_rectangleSlider.X+LayoutManager.ScaleF(1),_rectangleSlider.Y-LayoutManager.ScaleF(1));
+			}
 			PointF[] points=new PointF[3];
 			points[0]=new PointF(xValuePixels,yTickLine);//top point
 			points[1]=new PointF(xValuePixels-LayoutManager.ScaleF(2.5f),yTickLine+LayoutManager.ScaleF(5f));//left point
 			points[2]=new PointF(xValuePixels+LayoutManager.ScaleF(2.5f),yTickLine+LayoutManager.ScaleF(5f));//right point
-			g.FillPolygon(brushText,points);		
-			if(_isMouseDown){//outline any pressed button
-				if(_rectangleMinus.Contains(_pointMouseDown)){
-					g.DrawRectangle(_penOutline,_rectangleMinus);
-				}
-				if(_rectanglePlus.Contains(_pointMouseDown)){
-					g.DrawRectangle(_penOutline,_rectanglePlus);
-				}
-				if(_rectangleFit.Contains(_pointMouseDown)){
-					g.DrawRectangle(_penOutline,_rectangleFit);
-				}
-				if(_rectangle100.Contains(_pointMouseDown)){
-					g.DrawRectangle(_penOutline,_rectangle100);
-				}
+			g.FillPolygon(brushText,points);
+			//The bottom line, as a toolbar's
+			UiControlPaint.Fill(g,EnumUiColor.Gridline,new Rectangle(0,Height-widthLine,Width,widthLine),UiTheme.CORNER_SQUARE,scale);
+		}
+
+		///<summary>Whether the texts (Fit, 100 and the value) are drawn. Always true; the state tests draw the shapes alone to compare them.</summary>
+		protected virtual bool IsTextShown{
+			get{
+				return true;
 			}
-			else{//outline any hover button
-				if(_rectangleMinus.Contains(_pointMouse)){
-					g.DrawRectangle(_penOutline,_rectangleMinus);
-				}
-				if(_rectanglePlus.Contains(_pointMouse)){
-					g.DrawRectangle(_penOutline,_rectanglePlus);
-				}
-				if(_rectangleFit.Contains(_pointMouse)){
-					g.DrawRectangle(_penOutline,_rectangleFit);
-				}
-				if(_rectangle100.Contains(_pointMouse)){
-					g.DrawRectangle(_penOutline,_rectangle100);
-				}
+		}
+
+		///<summary>The state of a cell (minus, plus, Fit, 100): pressed while the mouse is down on it, hover under the mouse, at rest otherwise;
+		///disabled when the slider is.</summary>
+		protected EnumUiButtonState GetCellState(Rectangle rectangleCell){
+			if(!Enabled){
+				return EnumUiButtonState.Disabled;
 			}
-			g.DrawLine(_penOutline,0,Height-1,Width,Height-1);
+			if(_isMouseDown){
+				return rectangleCell.Contains(_pointMouseDown) ? EnumUiButtonState.Pressed : EnumUiButtonState.Normal;
+			}
+			return rectangleCell.Contains(_pointMouse) ? EnumUiButtonState.Hover : EnumUiButtonState.Normal;
+		}
+
+		///<summary>The value box's outline: Accent while dragged, StrokeStrongHover under the mouse, StrokeStrong at rest, Stroke when disabled.</summary>
+		protected EnumUiColor GetValueBoxOutline(){
+			if(!Enabled){
+				return EnumUiColor.Stroke;
+			}
+			if(_isMouseDown){
+				return _isMouseDownOnSlider ? EnumUiColor.Accent : EnumUiColor.StrokeStrong;
+			}
+			return _rectangleSlider.Contains(_pointMouse) ? EnumUiColor.StrokeStrongHover : EnumUiColor.StrokeStrong;
+		}
+
+		///<summary>The x of each divider: the left edge and the right edge of each cell, as today.</summary>
+		protected int[] GetXDividers(){
+			return new int[] { 0,_rectangleMinus.Right,_rectangleTickLineMargin.Right,_rectanglePlus.Right,_rectangleFit.Right,_rectangle100.Right };
+		}
+
+		///<summary>The tick line's pieces in whole pixels: the line along the top and the short marks at the start, at Fit and at the end.</summary>
+		protected Rectangle[] GetRectanglesTickLine(int xFitPixels,int yTickLine,int widthLine){
+			return new Rectangle[] {
+				new Rectangle(_rectangleTickLine.X,yTickLine,_rectangleTickLine.Width+widthLine,widthLine),
+				new Rectangle(_rectangleTickLine.X,0,widthLine,yTickLine+widthLine),
+				new Rectangle(_rectangleTickLine.Left+xFitPixels,0,widthLine,yTickLine+widthLine),
+				new Rectangle(_rectangleTickLine.Right,0,widthLine,yTickLine+widthLine)
+			};
 		}
 
 		protected override void OnEnabledChanged(EventArgs e){
@@ -408,20 +393,8 @@ namespace OpenPmsDental.UI{
 
 		#region Methods
 		private void CalculateScale(){
-			_brushMainGradient?.Dispose();
-			_brushPushedGradient?.Dispose();
-			_brushMainGradient=new LinearGradientBrush(new Point(0,0),new Point(0,Height),Color.FromArgb(255,255,255),Color.FromArgb(171,181,209));
-			_brushPushedGradient=new LinearGradientBrush(new Point(0,0),new Point(0,Height),Color.FromArgb(225,225,225),Color.FromArgb(141,151,179));
 			_font?.Dispose();
 			_font=new Font("Segoe UI",LayoutManager.ScaleFontODZoom(9f));
-			_penDivider?.Dispose();
-			_penSliderOutline?.Dispose();
-			_penTickLine?.Dispose();
-			_penBlack?.Dispose();
-			_penDivider=new Pen(Color.FromArgb(180,180,180),LayoutManager.ScaleF(1));
-			_penSliderOutline=new Pen(Color.FromArgb(50,50,130),LayoutManager.ScaleF(1));
-			_penTickLine=new Pen(Color.SlateGray,LayoutManager.ScaleF(1));
-			_penBlack=new Pen(Color.Black,LayoutManager.ScaleF(1.5f));
 			//recalculate most rectangles
 			_rectangleMinus=new Rectangle(0,0,LayoutManager.Scale(17),Height-2);
 			_rectangle100=new Rectangle(Width-LayoutManager.Scale(30),0,LayoutManager.Scale(29),Height-2);

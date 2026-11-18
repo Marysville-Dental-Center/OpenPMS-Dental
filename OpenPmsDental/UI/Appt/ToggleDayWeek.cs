@@ -1,4 +1,5 @@
-﻿using OpenPmsDentalBusiness;
+﻿using CodeBase;
+using OpenPmsDentalBusiness;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -21,12 +22,6 @@ namespace OpenPmsDental.UI {
 		#region Fields - Public
 		public LayoutManagerForms LayoutManager=new LayoutManagerForms();
 		#endregion Fields - Public
-
-		#region Fields - Private Static
-		//These are static for life of program. Not disposed.
-		private static SolidBrush _brushSelectedBack=new SolidBrush(Color.FromArgb(186,199,219));
-		private static SolidBrush _brushHover=new SolidBrush(ColorOD.Hover);
-		#endregion Fields - Private Static
 
 		#region Fields - Private
 		private int _hoverIndex=-1;
@@ -61,45 +56,64 @@ namespace OpenPmsDental.UI {
 
 		#region Event - Event Handlers - OnPaint
 		protected override void OnPaint(PaintEventArgs e){
+			//The new look (UI-4c-1, docs/specs/ui-refresh-plan.md section 3.6; docs/port-notes/UI-4c.md): SurfaceRaised with a 1 px Stroke border,
+			//each row a toggle as the toolbar's (SubtleHover under the mouse, the selected one AccentSubtle with a 1 px Accent outline, 4 px corners,
+			//inside the row), its text and its little day or week box in Text. Every rectangle and text position as before.
 			Graphics g=e.Graphics;
-			g.SmoothingMode=SmoothingMode.HighQuality;
-			g.Clear(Color.White);
+			float scale=LayoutManager.ScaleMy();
+			g.Clear(UiTheme.GetColor(EnumUiColor.SurfaceRaised));
 			StringFormat stringFormat=new StringFormat(StringFormatFlags.NoWrap);
 			stringFormat.LineAlignment=StringAlignment.Center;
 			stringFormat.Alignment=StringAlignment.Near;//left
 			int heightLine=Height/Items.Count;
+			int widthLine=UiTheme.GetLineWidth(scale);
 			for(int i=0; i<Items.Count; i++) {
 				bool isSelected=false;
 				if(_selectedIndex==i){
 					isSelected=true;
 				}
-				Color colorBack=Color.White;
-				Color colorText=ColorOD.Gray(30);//not quite black
-				if(_hoverIndex==i){
-					colorBack=Color.FromArgb(248,249,255);//ColorOD.Hover=229,239,251, which is just too dark for this control
-					//unfortunately, because of all the other blue, this just looks light gray.
-				}
+				Rectangle rectangleItem=GetRectangleItem(i);
+				EnumUiColor uiColorText=EnumUiColor.Text;
 				if(isSelected){
-					colorBack=Color.FromArgb(220,230,255);//light blue
-					colorText=Color.FromArgb(0,20,255);//bright blue
+					UiControlPaint.Fill(g,EnumUiColor.AccentSubtle,rectangleItem,UiTheme.CORNER_CONTROL,scale);
+					UiControlPaint.Outline(g,EnumUiColor.Accent,rectangleItem,widthLine,UiTheme.CORNER_CONTROL,scale);
+					uiColorText=EnumUiColor.TextSelected;
 				}
-				using SolidBrush solidBrushBack=new SolidBrush(colorBack);
-				using SolidBrush solidBrushText=new SolidBrush(colorText);
-				using Pen penLines=new Pen(colorText);
-				g.FillRectangle(solidBrushBack,new Rectangle(0,i*heightLine,Width,heightLine));
+				else if(_hoverIndex==i){
+					UiControlPaint.Fill(g,EnumUiColor.SubtleHover,rectangleItem,UiTheme.CORNER_CONTROL,scale);
+				}
 				Rectangle rectangleText=new Rectangle(Width/2,i*heightLine+1,Width/2,heightLine);
-				g.DrawString(Items[i],this.Font,solidBrushText,rectangleText,stringFormat);
-				if(i==0){//day
-					g.DrawRectangle(penLines,LayoutManager.Scale(15),LayoutManager.Scale(5),LayoutManager.Scale(10),LayoutManager.Scale(10));
+				if(IsTextShown){
+					g.DrawString(Items[i],this.Font,UiTheme.GetBrush(uiColorText),rectangleText,stringFormat);
 				}
-				else{//week
-					g.DrawRectangle(penLines,LayoutManager.Scale(8),heightLine+LayoutManager.Scale(5),LayoutManager.Scale(25),LayoutManager.Scale(10));
-
-				}
+				//The day or week box: where today's 1 px rectangle was (DrawRectangle covers one pixel more to the right and below).
+				UiControlPaint.Outline(g,uiColorText,GetRectangleGlyph(i),widthLine,UiTheme.CORNER_SQUARE,scale);
 			}
-			Color colorBorder=ColorOD.Gray(190);
-			using Pen penBorder=new Pen(colorBorder);
-			g.DrawRectangle(penBorder,new Rectangle(0,0,Width-1,Height-1));
+			UiControlPaint.Outline(g,EnumUiColor.Stroke,new Rectangle(0,0,Width,Height),widthLine,UiTheme.CORNER_SQUARE,scale);
+		}
+
+		///<summary>Whether the texts are drawn. Always true; the state tests draw the shapes alone to compare them.</summary>
+		protected virtual bool IsTextShown{
+			get{
+				return true;
+			}
+		}
+
+		///<summary>The toggle shape of a row (hover and selection): the row inside the border and 1 px from the other row, at the scale.</summary>
+		protected Rectangle GetRectangleItem(int index){
+			int heightLine=Height/Items.Count;
+			int inset=LayoutManager.Scale(2);
+			int insetY=LayoutManager.Scale(1);
+			return new Rectangle(inset,index*heightLine+insetY,Width-inset*2,heightLine-insetY*2);
+		}
+
+		///<summary>The little day or week box of a row, as today's DrawRectangle covered it.</summary>
+		protected Rectangle GetRectangleGlyph(int index){
+			int heightLine=Height/Items.Count;
+			if(index==0){//day
+				return new Rectangle(LayoutManager.Scale(15),LayoutManager.Scale(5),LayoutManager.Scale(10)+1,LayoutManager.Scale(10)+1);
+			}
+			return new Rectangle(LayoutManager.Scale(8),heightLine+LayoutManager.Scale(5),LayoutManager.Scale(25)+1,LayoutManager.Scale(10)+1);
 		}
 		#endregion Event - Event Handlers - OnPaint
 

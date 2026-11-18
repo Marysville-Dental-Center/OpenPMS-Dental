@@ -1,3 +1,4 @@
+using CodeBase;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -78,16 +79,18 @@ namespace OpenPmsDental.UI {
 		}
 
 		protected override void OnPaint(PaintEventArgs pe) {
+			//The new look (UI-4c-1, docs/specs/ui-refresh-plan.md section 3.6; docs/port-notes/UI-4c.md): on Surface (was the Windows grey); the range
+			//between the handles outlined like an input (StrokeStrong, StrokeStrongHover under the mouse, Accent while dragged, Stroke when disabled);
+			//the handles flat, as small buttons (UiSliderPaint), without the old gloss. The black, the grey ramp and the white show the window and level
+			//of the image (content), so they stay. Every shape where it was.
 			Graphics g=pe.Graphics;
 			g.SmoothingMode=SmoothingMode.HighQuality;
-			SolidBrush brush=new SolidBrush(SystemColors.Control);//gray 240=#F0F0F0
-			g.FillRectangle(brush,0,0,Width,Height);
+			g.FillRectangle(UiTheme.GetBrush(EnumUiColor.Surface),0,0,Width,Height);
 			_tick=(float)(Width-_widthBut-1)/255f;//gets set in mousemove also
 			Rectangle rectangleMiddle=GetRectMiddle();
-			if(_enumSliderButStateM==EnumSliderButState.Hover) {
-				g.FillRectangle(Brushes.White,rectangleMiddle);
-			}
-			g.DrawRectangle(new Pen(Color.FromArgb(28,81,128)),rectangleMiddle);
+			//The range's 1 px outline where today's DrawRectangle put it (one pixel more to the right and below than the rectangle).
+			UiControlPaint.Outline(g,UiSliderPaint.GetHandleOutline(GetState(_enumSliderButStateM)),
+				new Rectangle(rectangleMiddle.X,rectangleMiddle.Y,rectangleMiddle.Width+1,rectangleMiddle.Height+1),UiTheme.GetLineWidth(LayoutManager.ScaleMy()),UiTheme.CORNER_SQUARE,LayoutManager.ScaleMy());
 			//Black left
 			Rectangle rect=new Rectangle((int)(_widthBut/2),2,rectangleMiddle.Left-(int)(_widthBut/2),Height-5);
 			g.FillRectangle(Brushes.Black,rect);
@@ -157,29 +160,27 @@ namespace OpenPmsDental.UI {
 			return path;
 		}
 
+		///<summary>A handle (section 3.6, UiSliderPaint): flat SurfaceRaised with a 1 px StrokeStrong outline, ButtonHover and StrokeStrongHover under
+		///the mouse, ButtonPressed and Accent while dragged, ButtonHover and Stroke when disabled. Antialiased on today's path.</summary>
 		private void DrawButton(Graphics g,GraphicsPath pathmain,EnumSliderButState state){
-			Color clrMain=Color.FromArgb(200,202,220);//#C8CADC
+			EnumUiButtonState buttonState=GetState(state);
+			g.FillPath(UiTheme.GetBrush(UiSliderPaint.GetHandleFill(buttonState)),pathmain);
+			g.DrawPath(UiTheme.GetPen(UiSliderPaint.GetHandleOutline(buttonState)),pathmain);
+			pathmain.Dispose();
+		}
+
+		///<summary>The shared button state of a part: disabled when the slider is, else its own.</summary>
+		private EnumUiButtonState GetState(EnumSliderButState state){
+			if(!Enabled){
+				return EnumUiButtonState.Disabled;
+			}
 			if(state==EnumSliderButState.Hover){
-				clrMain=Color.FromArgb(240,240,255);
+				return EnumUiButtonState.Hover;
 			}
-			else if(state==EnumSliderButState.Pressed) {
-				clrMain=Color.FromArgb(150,150,160);
+			if(state==EnumSliderButState.Pressed){
+				return EnumUiButtonState.Pressed;
 			}
-			GraphicsPath pathsub=new GraphicsPath();
-			RectangleF rect=pathmain.GetBounds();
-			pathsub.AddEllipse(rect.Left-rect.Width/8f,rect.Top-rect.Height/2f,rect.Width,rect.Height*3f/2f);
-			PathGradientBrush pathBrush=new PathGradientBrush(pathsub);
-			pathBrush.CenterColor=Color.FromArgb(255,255,255,255);
-			pathBrush.SurroundColors=new Color[] { Color.FromArgb(0,255,255,255) };
-			g.FillPath(new SolidBrush(clrMain),pathmain);
-			g.FillPath(pathBrush,pathmain);
-			Color clrDarkOverlay=Color.FromArgb(50,125,125,125);
-			LinearGradientBrush brush=new LinearGradientBrush(new PointF(rect.Left,rect.Bottom),
-				new PointF(rect.Left,rect.Top+rect.Height/2),Color.FromArgb(0,0,0,0),
-				Color.FromArgb(50,0,0,0));
-			g.FillPath(brush,pathmain);
-			Pen outline=new Pen(Color.FromArgb(28,81,128));//#1C5180
-			g.DrawPath(outline,pathmain);
+			return EnumUiButtonState.Normal;
 		}
 
 		///<summary></summary>

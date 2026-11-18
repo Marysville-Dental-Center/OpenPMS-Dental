@@ -1,3 +1,4 @@
+using CodeBase;
 using OpenPmsDentalBusiness;
 using System;
 using System.Collections.Generic;
@@ -108,24 +109,31 @@ namespace OpenPmsDental.UI {
 
 		#region Events - OnPaint
 		protected override void OnPaint(PaintEventArgs pe) {
+			//The new look (UI-4c-1, docs/specs/ui-refresh-plan.md section 3.6; docs/port-notes/UI-4c.md): the board SurfaceRaised with a 1 px Stroke
+			//border (was black), the hint in TextSecondary (was gray). The appointments on it are the appointment book's drawing and keep their look
+			//(UQ-8), the selected one's outline in its provider's colour too.
 			Graphics g=pe.Graphics;
-			try{ 
-				g.Clear(Color.White);
+			try{
+				g.Clear(UiTheme.GetColor(EnumUiColor.SurfaceRaised));
 			}
 			catch{
 				return;//This can happen on remote desktop when connection is lost
 			}
+			UiControlPaint.Outline(g,EnumUiColor.Stroke,new Rectangle(0,0,Width,Height),UiTheme.GetLineWidth(LayoutManager.ScaleMy()),UiTheme.CORNER_SQUARE,
+				LayoutManager.ScaleMy());
 			g.SmoothingMode=SmoothingMode.AntiAlias;
-			g.DrawRectangle(Pens.Black,0,0,Width-1,Height-1);
 			//for(int i=0;i<_dataTableAppointments.Rows.Count;i++) {
 			if(ListPinBoardItems==null || ListPinBoardItems.Count==0) {
+				if(!IsTextShown){
+					return;
+				}
 				StringFormat format=new StringFormat();
 				format.Alignment=StringAlignment.Center;
 				format.LineAlignment=StringAlignment.Center;
 				//This has me stumped.  I shouldn't have to scale by the MS amount to get it to look good.
 				using Font font=new Font(LayoutManagerForms.FontInitial.FontFamily,LayoutManager.ScaleF(8.25f));
 				string str="Drag\r\nAppointments to\r\nthis Pinboard";
-				g.DrawString(str,font,Brushes.Gray,new RectangleF(0,0,Width,Height-20),format);
+				g.DrawString(str,font,UiTheme.GetBrush(EnumUiColor.TextSecondary),new RectangleF(0,0,Width,Height-20),format);
 				//g.DrawString(str,font,Brushes.Gray,0,0);
 				return;
 			}
@@ -150,6 +158,13 @@ namespace OpenPmsDental.UI {
 					//g.DrawRectangle(penProvOutline,1.5f,locY+.5f,ListPinBoardItems[i].BitmapAppt.Width-2,ListPinBoardItems[i].BitmapAppt.Height-1);
 					penProvOutline.Dispose();
 				}
+			}
+		}
+
+		///<summary>Whether the hint is drawn. Always true; the state tests draw the board alone to compare it.</summary>
+		protected virtual bool IsTextShown{
+			get{
+				return true;
 			}
 		}
 

@@ -12,7 +12,9 @@
 			<Setter Property="local:ImageSelector.VerticalAlignment" Value="Top"/>
 		</Style>
 	</UserControl.Style>
-	<Grid Background="White">
+	<!--The new look (UI-4c-1, docs/port-notes/UI-4c.md): a list (SurfaceRaised, a 1 px StrokeStrong border, the text in Text); the rows' colours,
+	the selection bar and the Fluent chevrons come from SetColors and ComputeRows.-->
+	<Grid Background="{x:Static local:UiLookImaging.BrushSurfaceRaised}" TextElement.Foreground="{x:Static local:UiLookImaging.BrushText}">
 		<Grid.RowDefinitions>
 			<RowDefinition Height="29"/>
 			<RowDefinition Height="*"/>
@@ -24,6 +26,6 @@
 				<d:TextBlock>ImageSelector</d:TextBlock>
 			</StackPanel>
 		</ScrollViewer>
-		<Border BorderThickness="1" SnapsToDevicePixels="True" BorderBrush="#FF969696" Grid.RowSpan="3" IsHitTestVisible="False"/>
+		<Border x:Name="borderOutline" x:FieldModifier="internal" BorderThickness="1" SnapsToDevicePixels="True" BorderBrush="{x:Static local:UiLookImaging.BrushStrokeStrong}" Grid.RowSpan="3" IsHitTestVisible="False"/>
 	</Grid>
 </UserControl>

@@ -12,16 +12,11 @@
 			<Setter Property="local:UnmountedBar.VerticalAlignment" Value="Top"/>
 		</Style>
 	</UserControl.Style>
-	<Grid x:Name="grid" x:FieldModifier="internal" Background="#F0F0F0" SnapsToDevicePixels="False">
-		<Rectangle Height="20" Stroke="#66667a" StrokeThickness="0,0,0,1" VerticalAlignment="Top">
-			<Rectangle.Fill>
-				<LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-					<GradientStop Color="	#9cafe6" Offset="0.0" />
-					<GradientStop Color="#3c5a96" Offset="1.0" />
-				</LinearGradientBrush>
-			</Rectangle.Fill>
-		</Rectangle>
-		<TextBlock Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Medium" FontSize="14" Width="100" Height="18" Text="Unmounted" Margin="10,1,0,0"/>
+	<!--The new look (UI-4c-1, docs/port-notes/UI-4c.md): on Surface; the header as the grid title, a flat Accent bar with white text (was a
+	gradient with a dark line). The images sit on the mount's own background colour (the office's) and keep their outlines.-->
+	<Grid x:Name="grid" x:FieldModifier="internal" Background="{x:Static local:UiLookImaging.BrushSurface}" SnapsToDevicePixels="False">
+		<Rectangle x:Name="rectangleHeader" x:FieldModifier="internal" Height="20" Fill="{x:Static local:UiLook.BrushAccent}" VerticalAlignment="Top"/>
+		<TextBlock x:Name="textBlockTitle" x:FieldModifier="internal" Foreground="{x:Static local:UiLook.BrushTextOnAccent}" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Medium" FontSize="14" Width="100" Height="18" Text="Unmounted" Margin="10,1,0,0"/>
 		<!--font 14 is 10.5pt-->
 		<local:Button Width="60" Height="20" Text="Remount" Margin="200,0,0,0" Click="butRemount_Click"/>
 		<local:Button Width="60" Height="20" Text="Delete" Margin="260,0,0,0" Click="butDelete_Click"/>

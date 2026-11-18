@@ -60,6 +60,7 @@ Jordan is the only one allowed to edit this file.
 			MouseLeave+=This_MouseLeave;
 			MouseMove+=This_MouseMove;
 			MouseLeftButtonUp+=This_MouseLeftButtonUp;
+			SetLook();//the resting look before the first Draw (the designer, and a host that has not drawn yet)
 		}
 		#endregion Constructor
 
@@ -136,6 +137,7 @@ Jordan is the only one allowed to edit this file.
 				lineTop.X2=_widthBut/2+MaxVal*_tick;
 				lineBottom.X1=_widthBut/2+MinVal*_tick;
 				lineBottom.X2=_widthBut/2+MaxVal*_tick;
+				SetLook();
 				return;
 			}
 			Canvas.SetLeft(polygonLeft,_widthBut/2+MinVal*_tick);
@@ -158,26 +160,36 @@ Jordan is the only one allowed to edit this file.
 			lineTop.X2=_widthBut/2+MaxVal*_tick;
 			lineBottom.X1=_widthBut/2+MinVal*_tick;
 			lineBottom.X2=_widthBut/2+MaxVal*_tick;
-			//left
-			if(_enumSliderButStateL==EnumSliderButState.Hover){
-				polygonLeft.Fill=new SolidColorBrush(Color.FromRgb(229,239,251));
+			SetLook();
+		}
+
+		///<summary>The new look (UI-4c-1, docs/specs/ui-refresh-plan.md section 3.6; docs/port-notes/UI-4c.md), as the WinForms slider's
+		///(UiSliderPaint): each handle flat SurfaceRaised with a StrokeStrong outline, ButtonHover and StrokeStrongHover under the mouse, ButtonPressed
+		///and Accent while dragged, ButtonHover and Stroke when disabled; the range's top and bottom lines in the outline of its own state.</summary>
+		private void SetLook(){
+			EnumUiButtonState buttonStateL=GetState(_enumSliderButStateL);
+			EnumUiButtonState buttonStateR=GetState(_enumSliderButStateR);
+			EnumUiButtonState buttonStateM=GetState(_enumSliderButStateM);
+			polygonLeft.Fill=UiLook.Brush(UiSliderPaint.GetHandleFill(buttonStateL));
+			polygonLeft.Stroke=UiLook.Brush(UiSliderPaint.GetHandleOutline(buttonStateL));
+			polygonRight.Fill=UiLook.Brush(UiSliderPaint.GetHandleFill(buttonStateR));
+			polygonRight.Stroke=UiLook.Brush(UiSliderPaint.GetHandleOutline(buttonStateR));
+			lineTop.Stroke=UiLook.Brush(UiSliderPaint.GetHandleOutline(buttonStateM));
+			lineBottom.Stroke=UiLook.Brush(UiSliderPaint.GetHandleOutline(buttonStateM));
+		}
+
+		///<summary>The shared button state of a part: disabled when the slider is, else its own.</summary>
+		private EnumUiButtonState GetState(EnumSliderButState enumSliderButState){
+			if(!IsEnabled){
+				return EnumUiButtonState.Disabled;
 			}
-			else if(_enumSliderButStateL==EnumSliderButState.Pressed){
-				polygonLeft.Fill=new SolidColorBrush(Color.FromRgb(150,150,160));
+			if(enumSliderButState==EnumSliderButState.Hover){
+				return EnumUiButtonState.Hover;
 			}
-			else{
-				polygonLeft.Fill=new SolidColorBrush((Color)ColorConverter.ConvertFromString("#C8CADC"));
+			if(enumSliderButState==EnumSliderButState.Pressed){
+				return EnumUiButtonState.Pressed;
 			}
-			//right
-			if(_enumSliderButStateR==EnumSliderButState.Hover){
-				polygonRight.Fill=new SolidColorBrush(Color.FromRgb(229,239,251));
-			}
-			else if(_enumSliderButStateR==EnumSliderButState.Pressed){
-				polygonRight.Fill=new SolidColorBrush(Color.FromRgb(150,150,160));
-			}
-			else{
-				polygonRight.Fill=new SolidColorBrush((Color)ColorConverter.ConvertFromString("#C8CADC"));
-			}
+			return EnumUiButtonState.Normal;
 		}
 		#endregion Methods public
 
