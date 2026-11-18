@@ -60,6 +60,7 @@ Jordan is the only one allowed to edit this file.
 			MouseLeave+=This_MouseLeave;
 			MouseMove+=This_MouseMove;
 			MouseLeftButtonUp+=This_MouseLeftButtonUp;
+			SetLook();//the resting look before the first Draw (the designer, and a host that has not drawn yet)
 		}
 		#endregion Constructor
 
