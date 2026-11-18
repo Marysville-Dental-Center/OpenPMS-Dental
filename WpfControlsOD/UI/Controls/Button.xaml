@@ -22,14 +22,17 @@
 			<ColumnDefinition Width="Auto"/><!--Image. if no image in first column, its width will be 0.-->
 			<ColumnDefinition Width="*"/><!--Text-->
 		</Grid.ColumnDefinitions>
+		<!--The gradient, borderHover and borderClassic are today's look, kept for office content (ContentLook.IsPinned, the eForm fill surface).
+		The new look (UI-4a, section 3.6) is borderBack: the flat fill and the 1 px border with 4 px corners; SetColors switches between them.-->
 		<Grid.Background>
 			<LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
 				<GradientStop Color="White" Offset="0.0" />
 				<GradientStop Color="#E1E8EB" Offset="1.0" />
 			</LinearGradientBrush>
 		</Grid.Background>
+		<Border x:Name="borderBack" x:FieldModifier="internal" Grid.ColumnSpan="2" BorderThickness="1" CornerRadius="4" SnapsToDevicePixels="True" Visibility="Collapsed"/>
 		<Border x:Name="borderHover" x:FieldModifier="internal" Grid.ColumnSpan="2" />
-		<Border Grid.ColumnSpan="2" BorderBrush="#1C5180" BorderThickness="1" CornerRadius="3"/><!--No content because it overlays without shifting anything under it.-->
+		<Border x:Name="borderClassic" x:FieldModifier="internal" Grid.ColumnSpan="2" BorderBrush="#1C5180" BorderThickness="1" CornerRadius="3"/><!--No content because it overlays without shifting anything under it.-->
 		<Grid x:Name="gridImage" x:FieldModifier="internal" HorizontalAlignment="Left" VerticalAlignment="Center"/>
 		<AccessText Grid.Column="1" x:Name="accessText" x:FieldModifier="internal" HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="Wrap" TextAlignment="Center"/>
 		<TextBlock Grid.Column="1" x:Name="textBlock" x:FieldModifier="internal" HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="Wrap" TextAlignment="Center"/>

@@ -82,7 +82,7 @@
 		<ui:ToolBar x:Name="toolBarMain" HorizontalAlignment="Stretch" Height="25" Margin="0,24,0,0" />
 		<ui:Menu x:Name="menuMain" HorizontalAlignment="Stretch" Height="24" Margin="0,0,0,0" />
 		<ui:Button x:Name="button4" Width="85" Height="24" Margin="2,529,0,0" Text="Delete" Icon="DeleteX" />
-		<ui:Button x:Name="button1" Width="85" Height="24" Margin="681,564,0,0" Text="OK" Click="button1_Click_2" />
+		<ui:Button x:Name="button1" IsPrimary="True" Width="85" Height="24" Margin="681,564,0,0" Text="OK" Click="button1_Click_2" />
 		<ui:TextBox x:Name="textBox3" Width="90" Height="20" Margin="60,55,0,0" Text="text in box" />
 		<ui:Grid x:Name="gridMain" Width="263" Height="226" Margin="115,279,0,0" SortingAllowByColumn="True" ArrowsWhenNoFocus="True" DropDownNesting="True" HScrollVisible="True" SelectionMode="MultiExtended" ContextMenuShows="False" Title="New Grid" TranslationName="test" />
 		<ui:PanelAutoScroll x:Name="panel4" Width="182" Height="110" Margin="584,86,0,0" ColorBack="#FFFFE0C0" ColorBorder="DarkGray" Click="panel4_Click" >

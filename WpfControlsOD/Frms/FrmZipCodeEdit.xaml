@@ -16,6 +16,6 @@
 		<ui:TextBox x:Name="textCity" Width="267" Height="20" Margin="110,48,0,0" TabIndexOD="0" />
 		<ui:TextBox x:Name="textState" Width="97" Height="20" Margin="110,79,0,0" TabIndexOD="1" />
 		<ui:TextBox x:Name="textZip" Width="127" Height="20" Margin="110,17,0,0" TabIndexOD="2" />
-		<ui:Button x:Name="butSave" HorizontalAlignment="Right" Width="75" VerticalAlignment="Bottom" Height="26" Margin="0,0,10,10" Text="_Save" Click="butSave_Click" />
+		<ui:Button x:Name="butSave" IsPrimary="True" HorizontalAlignment="Right" Width="75" VerticalAlignment="Bottom" Height="26" Margin="0,0,10,10" Text="_Save" Click="butSave_Click" />
 	</Grid>
 </local:FrmODBase>

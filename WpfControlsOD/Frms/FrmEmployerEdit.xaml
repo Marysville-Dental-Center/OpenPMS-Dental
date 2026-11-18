@@ -10,6 +10,6 @@
              Text="Edit Employer" MinMaxBoxes="False" >
 	<Grid Background="#FFFCFDFE" >
 		<ui:TextBox x:Name="textEmp" Width="308" Height="20" Margin="20,51,0,0" />
-		<ui:Button x:Name="butSave" HorizontalAlignment="Right" Width="75" VerticalAlignment="Bottom" Height="25" Margin="0,0,21,26" Text="_Save" Click="butSave_Click" />
+		<ui:Button x:Name="butSave" IsPrimary="True" HorizontalAlignment="Right" Width="75" VerticalAlignment="Bottom" Height="25" Margin="0,0,21,26" Text="_Save" Click="butSave_Click" />
 	</Grid>
 </local:FrmODBase>
