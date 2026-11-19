@@ -445,9 +445,31 @@ namespace UiRefreshTests {
 									listNotes.Add(grouping.Key+"."+row.Control+"\tno control");
 									continue;
 								}
-								using(Bitmap bitmap=DesignSheetWindows.Capture(control,Rectangle.Empty)) {
-									Save(bitmap,Path.Combine(folder,"controls",grouping.Key+"."+row.Control+".png"));
-									countPictures++;
+								if(control.Width<=0 || control.Height<=0) {
+									//Laid out to nothing until it is needed (the signature box's buttons): its picture alone, on the control colour.
+									Image image=GetImage(control,row.Property);
+									if(image==null) {
+										listNotes.Add(grouping.Key+"."+row.Control+"\tnot pictured: "+control.Width+" x "+control.Height+" in the built window, no picture");
+										continue;
+									}
+									using(Bitmap bitmap=new Bitmap(image.Width,image.Height,PixelFormat.Format24bppRgb))
+									using(Graphics g=Graphics.FromImage(bitmap)) {
+										g.Clear(SystemColors.Control);
+										g.DrawImage(image,new Rectangle(0,0,image.Width,image.Height));
+										Save(bitmap,Path.Combine(folder,"controls",grouping.Key+"."+row.Control+".png"));
+										countPictures++;
+									}
+									listNotes.Add(grouping.Key+"."+row.Control+"\t"+control.Width+" x "+control.Height+" in the built window: its picture alone");
+									continue;
+								}
+								try {
+									using(Bitmap bitmap=DesignSheetWindows.Capture(control,Rectangle.Empty)) {
+										Save(bitmap,Path.Combine(folder,"controls",grouping.Key+"."+row.Control+".png"));
+										countPictures++;
+									}
+								}
+								catch(Exception exception) {
+									listNotes.Add(grouping.Key+"."+row.Control+"\tnot pictured: "+exception.GetType().Name+" "+exception.Message.Replace("\r"," ").Replace("\n"," "));
 								}
 							}
 						}
