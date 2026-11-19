@@ -1191,6 +1191,13 @@ the bounds record must equal the before set.
   `tests/UiRefreshTests/Data/font-literal-allow.tsv`; the slice has no plain form or window without `InitializeLayoutManager` with a
   designer font. The scan and the literal test are `tests/UiRefreshTests/FontLiteralScanTests.cs`; later slices add their folders to
   `FontLiteralScan.ArrayFolders`. Still open, for a connected session: U0 and the bounds record against the before set.
+- **Status UI-2a-5 (2026-11-18).** Slice 2 (the other OpenPmsDental folders of UI-9a-6, `OpenPmsDentalBusiness`, `OpenPmsDentalGraph`,
+  `SparksToothChart`) done on `ui/ui2a5-1` (`docs/port-notes/UI-2a.md`, section UI-2a-5), not merged yet: 23 screen sites of the scan
+  and `ModuleBar`'s Arial captions (5.1 names the role) take their role's token (`FontBody`, `FontButtonPanel`, `FontModuleCaption`,
+  `FontTitle`, `FontGrid`, `FontGridBold`, or `FontFamilyName` at the site's own size), 72 allow-list rows for the sites that stay, the generated per-site report
+  `tests/UiRefreshTests/Data/font-literal-sites.tsv`; the literal test compares a literal with its parent's font; the five allocator
+  windows have no default font to remove (their nine literals stay for UI-2b); two more inherited-font sites are on the UI-2b checklist.
+  Still open, for a connected session: U0 and the bounds record against the before set.
 
 **UI-3: the window frame**
 - Owns: `FormODBase.cs` and `FormFrame.cs` (frame drawing). Ideally one shared border painter in a new file both call
