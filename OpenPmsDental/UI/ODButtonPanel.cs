@@ -59,7 +59,7 @@ namespace OpenPmsDental.UI {
 
 		protected override void OnSizeChanged(EventArgs e) {
 			base.OnSizeChanged(e);
-			_font=new Font(FontFamily.GenericSansSerif,LayoutManager.ScaleFontODZoom(8.5f));
+			_font=new Font(UiTheme.FontButtonPanel.FontFamily,LayoutManager.ScaleFontODZoom(UiTheme.FontButtonPanel.SizeInPoints));//The button panel's token (UI-2a-5).
 			_heightRow=LayoutManager.Scale(18);
 			Invalidate();
 		}

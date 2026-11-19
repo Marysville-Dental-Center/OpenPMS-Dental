@@ -9,6 +9,7 @@ using System.Drawing;
 using System.Drawing.Text;
 using System.Data;
 using System.Windows.Forms;
+using CodeBase;
 
 namespace OpenPmsDental{
 	///<summary></summary>
@@ -60,11 +61,12 @@ namespace OpenPmsDental{
 		private Font fontB;
 		private OpenPmsDental.ContrPanelTable panelTable;
 		private Point mouseDownPosition;
-		private Font myFont=new Font("Microsoft Sans Serif",12);//only initialized to prevent complile error
+		private Font myFont=new Font(UiTheme.FontFamilyName,12);//only initialized to prevent complile error
 		private float myFontSize=0;
 		private FontStyle myFontStyle=FontStyle.Regular;
 		private Color myFontColor=Color.Black;
-		private FontFamily myFontFamily=FontFamily.GenericSansSerif;
+		///<summary>The cells' family: the grid font token's (UI-2a-5), sans serif until UI-2b.</summary>
+		private FontFamily myFontFamily=UiTheme.FontGrid.FontFamily;
 		private int offset=0;//distance from left of cell to begin of text
     private bool ControlIsDown;
 		//public Color GridColor=Color.Gray;
@@ -94,8 +96,9 @@ namespace OpenPmsDental{
 		public ContrTable(){
 			InitializeComponent();// This call is required by the Windows.Forms Form Designer.
 			this.panelTable.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.panelTable_MouseWheel);
-			fontSS = new Font("Microsoft Sans Serif", 8);
-			fontB = new Font("Microsoft Sans Serif",(float)8.25,FontStyle.Bold);
+			//Screen fonts from the tokens (UI-2a-5), today's fonts until UI-2b.
+			fontSS = new Font(UiTheme.FontFamilyName, 8);
+			fontB = new Font(UiTheme.FontBody,FontStyle.Bold);
 			selectedIndices=new int[0];
 		}
 
@@ -521,17 +524,17 @@ namespace OpenPmsDental{
 				//offset=(int)(((float)Width-scrollWidth-grfx.MeasureString(Heading,myFont).Width)/2);
 				if (FontBold[j,i]) {
 					myFontStyle=FontStyle.Bold;
-					myFontFamily=FontFamily.GenericSansSerif;
+					myFontFamily=UiTheme.FontGrid.FontFamily;
 				}
 				else{
 					myFontStyle=FontStyle.Regular;
-					myFontFamily=FontFamily.GenericSansSerif;
+					myFontFamily=UiTheme.FontGrid.FontFamily;
 				}
 				if (FontSize[j,i]!=0) myFontSize=FontSize[j,i];
 				//else if (FontBold[j,i]) myFontSize=8.5f;
-				else myFontSize=8.5f;
+				else myFontSize=UiTheme.FontGrid.SizeInPoints;
 				//myFont=new Font(myFontName,myFontSize,myFontStyle);
-				myFont=new Font(FontFamily.GenericSansSerif,myFontSize,myFontStyle);
+				myFont=new Font(myFontFamily,myFontSize,myFontStyle);
 				if(FontColor[j,i].IsEmpty){
 					myFontColor=Color.Black;
 				}
@@ -615,13 +618,13 @@ namespace OpenPmsDental{
 			}
 			//myFontFamily=FontFamily.GenericSansSerif;
 			//grfx.DrawLine(penB,panelHead.Width-3,fieldsLoc+1,panelHead.Width-3,fieldsLoc+14+1);
-			Font myFont=new Font(FontFamily.GenericSansSerif,10f,FontStyle.Bold);
+			Font myFont=new Font(UiTheme.FontTitle,UiTheme.FontTitle.Style);//The title token (UI-2a-5): sans serif 10 Bold until UI-2b.
 			int offset=(int)(((float)panelHead.Width-scrollWidth-grfx.MeasureString(Heading,myFont).Width)/2);
 			if (HeadingIsPresent)
 				//grfx.TextRenderingHint=TextRenderingHint.AntiAlias;
 				grfx.DrawString(Heading,myFont,new SolidBrush(Color.Black),offset,0);
 				//grfx.TextRenderingHint=TextRenderingHint.SystemDefault;
-			myFont=new Font(FontFamily.GenericSansSerif,8.5f,FontStyle.Bold);
+			myFont=new Font(UiTheme.FontGridBold,FontStyle.Bold);//The grid header's token (UI-2a-5): sans serif 8.5 Bold until UI-2b.
 			//text
 			for (int j=0; j<MaxCols; j++){
 				offset=(int)(((float)ColWidth[j]-grfx.MeasureString(Fields[j],myFont).Width)/2);
@@ -660,15 +663,15 @@ namespace OpenPmsDental{
 						//text
 						if (FontBold[j,i]) {
 							myFontStyle=FontStyle.Bold;
-							myFontFamily=FontFamily.GenericSansSerif;
+							myFontFamily=UiTheme.FontGrid.FontFamily;
 						}
 						else{
 							myFontStyle=FontStyle.Regular;
-							myFontFamily=FontFamily.GenericSansSerif;
+							myFontFamily=UiTheme.FontGrid.FontFamily;
 						}
 						if (FontSize[j,i]!=0) myFontSize=FontSize[j,i];
-						else if (FontBold[j,i]) myFontSize=8.5f;
-						else myFontSize=8.5f;
+						else if (FontBold[j,i]) myFontSize=UiTheme.FontGrid.SizeInPoints;
+						else myFontSize=UiTheme.FontGrid.SizeInPoints;
 						//temp:
 						//myFontSize=9f;
 						//myFontFamily=new FontFamily("Microsoft Sans Serif");

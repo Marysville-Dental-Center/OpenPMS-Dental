@@ -85,7 +85,7 @@ namespace OpenPmsDental.UI {
 		protected override void OnResize(EventArgs e){
 			base.OnResize(e);
 			_fontTitle?.Dispose();
-			_fontTitle=new Font(FontFamily.GenericSansSerif,LayoutManager.ScaleF(10f),FontStyle.Bold);
+			_fontTitle=new Font(UiTheme.FontTitle.FontFamily,LayoutManager.ScaleF(UiTheme.FontTitle.SizeInPoints),UiTheme.FontTitle.Style);//The title token (UI-2a-5).
 			CalculatePositions();
 			Invalidate();
 		}

@@ -387,7 +387,7 @@ namespace OpenPmsDental.UI {
 			g.SmoothingMode=SmoothingMode.HighQuality;
 			g.Clear(UiTheme.GetColor(EnumUiColor.SurfaceRaised));
 			//we must ignore the Font because of accumulated rounding errors.
-			using Font font=new Font(FontFamily.GenericSansSerif,LayoutManager.ScaleFontODZoom(8.25f));
+			using Font font=new Font(UiTheme.FontBody.FontFamily,LayoutManager.ScaleFontODZoom(UiTheme.FontBody.SizeInPoints));//The body token (UI-2a-5).
 			//_heightLine=(int)Math.Ceiling(font.GetHeight()+1);//bottoms of characters were getting cut off in rare cases due to font rounding.
 			_heightLine=(int)Math.Ceiling(LayoutManager.ScaleMS(font.GetHeight()))+1;//bottoms of characters were getting cut off in rare cases due to font rounding.
 			if(DesignMode){

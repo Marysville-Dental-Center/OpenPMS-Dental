@@ -918,7 +918,7 @@ namespace OpenPmsDental.UI {
 				stringException=new ArgumentNullException("PageChangeEventHandler").ToString();
 			}
 			if(!string.IsNullOrEmpty(stringException)) {
-				Font exceptionFont=new Font(FontFamily.GenericSansSerif,16,FontStyle.Bold);
+				Font exceptionFont=new Font(UiTheme.FontFamilyName,16,FontStyle.Bold);//A size no role has: the token family (UI-2a-5).
 				RectangleF rectangle=new RectangleF(0,OriginY(),Width,Height-OriginY());
 				SolidBrush exceptionBrush=new SolidBrush(Color.Red);
 				g.DrawString(stringException,exceptionFont,exceptionBrush,rectangle,_stringFormat);	
