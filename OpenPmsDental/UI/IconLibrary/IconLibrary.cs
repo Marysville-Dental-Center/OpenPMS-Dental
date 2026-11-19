@@ -81,7 +81,14 @@ namespace OpenPmsDental.UI{
 		Paste,
 		//The Excel export and query view pictures of FormQuery, with their manifest rows.
 		ExportExcel,
-		QueryView
+		QueryView,
+		//UI-9a-6 (Main Modules, User Controls and the shared projects, docs/port-notes/UI-9a.md): the pictures of the appointment and Manage modules, with their manifest rows.
+		PinOff,
+		Calculator,
+		Backup,
+		Deposit,
+		Insurance,
+		TaskList
 	}
 
 	///<summary></summary>
