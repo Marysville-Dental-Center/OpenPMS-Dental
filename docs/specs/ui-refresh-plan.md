@@ -1196,7 +1196,8 @@ the bounds record must equal the before set.
   and `ModuleBar`'s Arial captions (5.1 names the role) take their role's token (`FontBody`, `FontButtonPanel`, `FontModuleCaption`,
   `FontTitle`, `FontGrid`, `FontGridBold`, or `FontFamilyName` at the site's own size), 72 allow-list rows for the sites that stay, the generated per-site report
   `tests/UiRefreshTests/Data/font-literal-sites.tsv`; the literal test compares a literal with its parent's font; the five allocator
-  windows have no default font to remove (their nine literals stay for UI-2b); two more inherited-font sites are on the UI-2b checklist.
+  windows have no default font to remove (their nine literals stay for UI-2b); three more inherited-font sites are on the UI-2b checklist
+  (`SignatureBox`'s signature picture, the dashboard legend's print copy, and `SheetEditMobileCtrl` to decide).
   Still open, for a connected session: U0 and the bounds record against the before set.
 
 **UI-3: the window frame**

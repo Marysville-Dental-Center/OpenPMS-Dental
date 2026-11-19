@@ -508,6 +508,13 @@ Every line of the slice's 1,622 `.cs` files that names `Microsoft Sans Serif`, `
     draw follows the pin. To decide, not yet a pin: `OpenPmsDental/SheetFramework/SheetEditMobileCtrl.cs` (lines 1318-1512), the mobile
     layout editor's field previews in the sheet designer, drawn with the inherited `Font`: sheet design content (pin) or the editor's own
     chrome (follows the token)?
+  - Added by UI-2a-5's review fix: `OpenPmsDentalGraph/Base/Legend.cs` lines 104 and 135 (the item names, measured at 69, 71, 84, 90,
+    114 and 121), drawn with the inherited `Font` on the copy `Legend.PrintCopy` (line 303) makes. `FormPrintSettings` (opened by
+    `GraphQuantityOverTime.cs:922`) takes that copy (`FormPrintSettings.cs:35`), never adds it to a parent, and `MakePage` draws it with
+    `DrawToBitmap` into the page bitmap (lines 85-89) that `ChartGenericFormat_PrintPage` prints (line 191) and `butExport_Click` exports as
+    PDF (line 210). Neither `Legend.designer.cs` nor `PrintCopy` sets a font, so the copy draws in `Control.DefaultFont`, the exe default
+    that `ProgramEntry`'s `SetDefaultFont` literal sets: a printout and an exported document, so pin today's font on the copy, e.g.
+    `Font=new Font("Microsoft Sans Serif",8.25f)` in `PrintCopy`'s initialiser. The legend on screen (in the window) follows its window.
 - FontLiteralScan.CheckLiteral must compare a control's literal with its parent's font (plan 5.1: remove a default font only where the parent
   has the default font) before a later slice relies on it, e.g. FormReport_ProviderIncomeReport sets a Bold form font. The UI-2a-5 brief
   carries this fix. (Done in UI-2a-5, section UI-2a-5, 4.)
@@ -627,9 +634,15 @@ Sites that draw a printout or office content with an **inherited** Font (the rev
 - `OpenPmsDentalBusiness/UI/SignatureBox.cs:221` (`GetSigImage`): a digital signature's text in the signature picture that sheets print and
   save, the treatment plan saves and the PayConnect receipt takes. Today it inherits Microsoft Sans Serif 8.25 (the window's font, or the
   exe's default when `SheetDrawingJob` builds the wrapper on its own); after UI-2b it would be Segoe UI 9. Pin it.
+- `OpenPmsDentalGraph/Base/Legend.cs:104, 135` through `Legend.PrintCopy` (`Legend.cs:303`): the dashboard graph's printed and exported
+  page. `FormPrintSettings` (from `GraphQuantityOverTime.cs:922`) draws the parentless copy with `DrawToBitmap` in `MakePage`
+  (`FormPrintSettings.cs:85-89`) into the page it prints (`ChartGenericFormat_PrintPage`, line 191) and exports as PDF (`butExport_Click`).
+  The copy has no font of its own, so it draws in the exe's default font (Microsoft Sans Serif 8.25 today, Segoe UI 9 after UI-2b). Pin it,
+  e.g. `Font=new Font("Microsoft Sans Serif",8.25f)` on the copy `PrintCopy` returns. (Found by the UI-2a-5 review; the first pass had
+  wrongly called the legend screen only.)
 - To decide: `OpenPmsDental/SheetFramework/SheetEditMobileCtrl.cs` (1318-1512), the sheet designer's mobile layout previews.
-- Checked and not on the list: the graph's `Legend` (screen only: `FormPrintImage` prints a copy of the MS Chart, not the legend control),
-  `ToothChart2D` and `ContrPerio` (pinned in UI-2a-1), `ToothChartData` (its own font), ReportComplex (each report object carries its font),
+- Checked and not on the list: the graph's `Legend` on screen (the window's own legend follows its window; its print copy is listed above),
+  `FormPrintImage` (prints a copy of the MS Chart, whose element fonts are content literals), `ToothChart2D` and `ContrPerio` (pinned in UI-2a-1), `ToothChartData` (its own font), ReportComplex (each report object carries its font),
   `FormPrintTrojan` (monospace page numbers set by its callers).
 
 ### 6. Tests (`tests/UiRefreshTests/FontLiteralScanTests.cs`)
