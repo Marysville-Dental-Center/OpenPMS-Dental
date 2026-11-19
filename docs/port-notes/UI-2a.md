@@ -681,3 +681,14 @@ Sites that draw a printout or office content with an **inherited** Font (the rev
   attachment preview (document, or chrome); the measurement label on the image canvas; `SheetEditMobileCtrl` (pin, or the token).
 - Screen fonts in another family that stay by 5.1 (section 2): `ZoomSlider` (Segoe UI 9 already), `ODcodeBox` (Courier New). Say if either
   should take a role at UI-2b.
+
+### UI-2a-5: the lead's decisions (2026-11-18)
+
+Decided by the rules already set (UQ-5 printouts, UQ-6 tooth and perio chart, UQ-8 appointment book, 5.1/5.2 content):
+- The appointment bubble (ControlApptPanel.cs:4657-4658) belongs to the appointment book: it keeps its font (UQ-8).
+- Documents.NoAvailablePhoto and DxcPdfAttachment.CreatePreviewBitmap are documents (stored or attached pictures): they keep their fonts.
+- The image canvas's measurement label (ControlImageDisplay.cs:4215) is drawn on the image and exported with it (line 4160): document, kept.
+- SheetEditMobileCtrl's mobile layout previews are sheet design content: UI-2b pins them (added to the checklist).
+- SignatureBox's on-screen digital signature text (OnPaint, line 284) follows GetSigImage's pin, so screen and saved picture match: UI-2b
+  pins both (added to the checklist).
+- ZoomSlider (Segoe UI 9) and ODcodeBox (Courier New) keep their own families (as FormPreferences and the eligibility grid, UI-2a-4).
