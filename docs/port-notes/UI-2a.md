@@ -692,3 +692,76 @@ Decided by the rules already set (UQ-5 printouts, UQ-6 tooth and perio chart, UQ
 - SignatureBox's on-screen digital signature text (OnPaint, line 284) follows GetSigImage's pin, so screen and saved picture match: UI-2b
   pins both (added to the checklist).
 - ZoomSlider (Segoe UI 9) and ODcodeBox (Courier New) keep their own families (as FormPreferences and the eligibility grid, UI-2a-4).
+
+## UI-2a-6: the code font sites, last slice
+
+The other projects of UI-9a-7: `CentralManager`, `RdlDesign`, `ServiceManager`, `MySQLManager`, `xCrudGenerator`, `OpenPmsDentalDbSettings`,
+`OpenPmsDentalHL7`, `DatabaseIntegrityCheck`, `DocumentationBuilder`, `UpdateFileCopier`, `OpenPmsDentalHelper32`, `CodeBase`, `ODR` and
+`WpfControlsOD`. Branch `ui/ui2a6-1` from `main` at `f8e1b78b5`. No schema change, no new package, nothing downloaded, no program started, no
+window shown. Nothing changes on screen.
+
+### 1. Files
+
+| File | What |
+|---|---|
+| `tests/UiRefreshTests/FontLiteralScanTests.cs` | the 14 projects in `FontLiteralScan.ArrayFolders`; a fifth sort, `token` (section 3) |
+| `tests/UiRefreshTests/Data/font-literal-allow.tsv` | 15 new rows (11 exe literals, 4 token definitions) |
+| `tests/UiRefreshTests/Data/font-literal-sites.tsv` | regenerated: 23 new sites |
+| `xCrudGenerator/Form1.Designer.cs` | `label10.Font` (Microsoft Sans Serif 8.25 Regular) removed: the form sets no font, so the label inherits the exe's default, the same font (line ends kept: CRLF) |
+| `docs/specs/ui-refresh-plan.md` | the UI-2a-6 status line |
+
+### 2. The grep (fresh, comments skipped) and the sort
+
+Lines naming `Microsoft Sans Serif` or `GenericSansSerif` in the 14 projects' `.cs` files: 23 sites remain outside exempt designer code (a ninth control font, `label10`, was removed).
+
+- **Exe defaults (11, sort `exe`).** The `SetDefaultFont` literals of the 11 other exes (`CentralManager`, `DatabaseIntegrityCheck`,
+  `DocumentationBuilder`, `MySQLManager`, `OpenPmsDentalDbSettings`, `OpenPmsDentalHL7`, `OpenPmsDentalHelper32`, `RdlDesign/RdlDesigner.cs:1284`,
+  `ServiceManager`, `UpdateFileCopier`, `xCrudGenerator`). `NoHqTests/DefaultFontTests` already checks each against the token; UI-2b changes them.
+- **Control and form fonts of plain forms (designer code in scope, 9 literals found, 8 stay, sort `literal`).** The plain exes' forms are not under
+  LayoutManager. Each sits under the default font (parent `this`, or a panel with no font). `xCrudGenerator/Form1.Designer.cs:205`
+  (`label10`, Microsoft Sans Serif 8.25 Regular) is the default font: removed. The others are not the default and stay for UI-2b (the
+  literal test checks them): `CentralManager` `labelVersion`, `labelFetch` (twice), `labelSourceDb` (8.25 Bold), `xCrudGenerator` `label2`
+  (10 Bold), `RdlDesign` `DataSetRowsCtl.label1` (6 Regular) and `DialogAbout.label8` (12 Bold), and `CodeBase/Progress/FormProgressStatus`
+  `labelMinimize` (8.25 Bold, inside a panel without a font). (`labelFetch` is in two forms.) The plan's
+  counts hold: CentralManager 4, xCrudGenerator 2, RdlDesign 2.
+- **The graph's six chart element fonts**: in `OpenPmsDentalGraph`, done and allow-listed in UI-2a-5; no edit here.
+- **Token definitions (4, sort `token`).** `CodeBase/UI/UiTheme.Fonts.cs:62-63` (the option `Today` holds sans serif 8.5, sans serif 10 Bold
+  and the family constant) and `UiTheme.Metrics.cs:19` (`FONT_FAMILY_TODAY`) are the tokens' own values, which UI-2b changes. They are not
+  screen sites to route through a token. `WpfControlsOD/UI/Graphics.cs:564`, the default `Name` of the WPF drawing `Font`, is the fourth (unsure,
+  section 4).
+- **Other families, all stay (5.1).** `CentralManager/FormCentralProdInc.cs` (Tahoma 8 and 9 Bold in a report's columns and headings: a
+  printout), RdlDesign's Arial 8.25 Bold Italic expression-button headings (3.4), Wingdings and the report canvas's fonts (report content),
+  `MsgBoxCopyPaste` (Courier New, the message text), `UiTheme`'s own `new Font(option...)` lines (the tokens).
+- **Fonts built from an inherited Font.** `MsgBoxCopyPaste` (lines 161-178), `ODR/FormParameterInput.cs:199` and `ComboBoxMulti.cs:223`
+  measure and draw screen text with the window's font: chrome, follows the token. Nothing here draws a printout or office content with an
+  inherited font, so the UI-2b checklist gets no new pin.
+- **WPF.** `WpfControlsOD` has no `Microsoft Sans Serif` in a XAML file; the `FrmTestAllControls` RTF samples name it inside strings or block
+  comments of a test window (content, not scanned lines).
+
+### 3. The `token` sort
+
+The allow list had four sorts (print, document, content, exe). The definition of a token or of a default font is none of them and is not a
+site to route through a token, so a fifth sort, `token`, covers them (`ArraySorts`, the allow-list test and the report's header know it).
+UI-2b changes those values together with the exe literals.
+
+### 4. Unsure, listed for the lead
+
+- `WpfControlsOD/UI/Graphics.cs:564`: the default family of `OpenPmsDental.Drawing.Font` (Microsoft Sans Serif 8.25, "what we always used with
+  WinForms"). Every WPF drawing that does not set a name takes it. Kept as a `token` row; at UI-2b the lead says whether it takes the body
+  family or stays (a drawing default is also used where a document or content is drawn).
+
+### 5. Runs
+
+- The build lane (x64), `UiRefreshTests` and its references: 0 errors; no program project changed except the one designer file.
+- Targeted (x64, `-RequireBuildOutput`, `.git/od-tools/test-results/ui2a6-explore-2.txt`): UiRefreshTests 201 passed, 9 opt-in skipped
+  (the scan, literal, scope and report tests among them); NoHqTests 122 passed. The first run (`ui2a6-explore-1.txt`) failed the scan on
+  the one site without a row and the report, as it should.
+
+### 6. For the lead
+
+- No visible change: the only code change is `xCrudGenerator`'s `label10`, which inherits the font it set. Group U needs a connected session.
+- Decide (section 4): the default family of the WPF drawing `Font`.
+
+### UI-2a-6: the lead's note (2026-11-18)
+
+WpfControlsOD/UI/Graphics.cs:564, the default Name of the WPF drawing Font (Microsoft Sans Serif): UI-2b lists its callers before the flip; screen drawing takes the body family, any printout or content caller is pinned (added to the UI-2b checklist).

@@ -1199,6 +1199,12 @@ the bounds record must equal the before set.
   windows have no default font to remove (their nine literals stay for UI-2b); three more inherited-font sites are on the UI-2b checklist
   (`SignatureBox`'s signature picture, the dashboard legend's print copy, and `SheetEditMobileCtrl` to decide).
   Still open, for a connected session: U0 and the bounds record against the before set.
+- **Status UI-2a-6 (2026-11-18).** Last slice (the other projects of UI-9a-7: CentralManager, RdlDesign, ServiceManager, MySQLManager,
+  xCrudGenerator, OpenPmsDentalDbSettings, OpenPmsDentalHL7, DatabaseIntegrityCheck, DocumentationBuilder, UpdateFileCopier,
+  OpenPmsDentalHelper32, CodeBase, ODR, WpfControlsOD) done on `ui/ui2a6-1` (`docs/port-notes/UI-2a.md`, section UI-2a-6), not merged yet:
+  the 14 projects are in the font scan, 15 allow-list rows (11 exe literals, 4 token definitions, a new sort `token`), the report regenerated;
+  `xCrudGenerator`'s default `label10` font removed, the other control fonts stay literals for UI-2b; no new inherited-font site for the checklist.
+  Open: the default family of the WPF drawing `Font` (`Graphics.cs:564`), and U0 against the before set in a connected session.
 
 **UI-3: the window frame**
 - Owns: `FormODBase.cs` and `FormFrame.cs` (frame drawing). Ideally one shared border painter in a new file both call
