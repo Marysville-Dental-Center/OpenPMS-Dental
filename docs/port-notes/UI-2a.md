@@ -666,6 +666,9 @@ Sites that draw a printout or office content with an **inherited** Font (the rev
   guard's scratch databases were dropped by the guard; none is left.
 - The report was written by a run with `OPMS_UI_FONT_SITES_WRITE=1` (`ui2a5-explore-2.txt`, all passed); the first run of the new folders
   (`ui2a5-explore-1.txt`) failed the scan on the 100 sites then without a row, as it should.
+- Review fix (`ui/ui2a5-2`, the legend's print copy on the UI-2b checklist; documents only): the build lane (x64), the whole filter, 0
+  errors; Targeted (`ui2a5-targeted-2.txt`): UiRefreshTests 201 passed, 9 skipped; PrintGuardTests 16 passed, 1 skipped; UnitTests 1,728
+  passed, 3 skipped; WindowChecksTests 29 passed, 43 skipped; NoHqTests 122 passed. No scratch database left.
 
 ### 8. For the lead
 
