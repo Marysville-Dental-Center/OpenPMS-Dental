@@ -68,7 +68,7 @@ Boilerplate for the new WpfControls.UI.ToolBar is over in ToolBar.xaml.cs
 		///<summary></summary>
 		public ToolBarOD(){
 			InitializeComponent();// This call is required by the Windows.Forms Form Designer.
-			Font=new Font("Microsoft Sans Serif",8.25f);
+			Font=(Font)UiTheme.FontBody.Clone();//The body token (UI-2a-5): Microsoft Sans Serif 8.25 until UI-2b.
 			this.DoubleBuffered=true;
 			toolTip1 = new ToolTip();
 			toolTip1.InitialDelay=1100;

@@ -384,7 +384,7 @@ namespace OpenPmsDental{
 			StringFormat stringFormat=new StringFormat();
 			stringFormat.Alignment=StringAlignment.Center;
 			stringFormat.LineAlignment=StringAlignment.Center;
-			Font font=new Font(FontFamily.GenericSansSerif,LayoutManager.ScaleF(12),FontStyle.Bold);
+			Font font=new Font(UiTheme.FontFamilyName,LayoutManager.ScaleF(12),FontStyle.Bold);//A size no role has: the token family (UI-2a-5).
 			g.DrawString("A",font,solidBrush,rectangleF,stringFormat);
 			stringFormat.Dispose();
 			//Toolbar itself------------------------------------------------------------------------

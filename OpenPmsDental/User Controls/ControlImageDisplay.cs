@@ -3252,7 +3252,7 @@ Here is the desired behavior:
 						Color colorBack=Color.FromArgb(255,_listImageDraws[idxHover].ColorDraw);
 						panelHover.BackColor=colorBack;//Set to fully opaque
 						using Graphics g=panelHover.CreateGraphics();
-						using Font font=new Font(FontFamily.GenericSansSerif,LayoutManager.ScaleF(8.25f));
+						using Font font=new Font(UiTheme.FontBody.FontFamily,LayoutManager.ScaleF(UiTheme.FontBody.SizeInPoints));//labelHover's font: the body token (UI-2a-5).
 						//StringFormat stringFormat=new StringFormat();
 						//stringFormat.
 						SizeF sizeF=g.MeasureString(_listImageDraws[idxHover].Details,font,300);//,stringFormat

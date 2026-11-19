@@ -3179,12 +3179,12 @@ namespace OpenPmsDental {
 				countNotRec++;
 			}
 			if(countNotRec==0) {
-				textLab.Font=new Font("Microsoft Sans Serif",LayoutManager.Scale(8.25f),FontStyle.Regular);
+				textLab.Font=new Font(UiTheme.FontBody.FontFamily,LayoutManager.Scale(UiTheme.FontBody.SizeInPoints),FontStyle.Regular);//The body token (UI-2a-5).
 				textLab.ForeColor=Color.Black;
 				textLab.Text=Lan.g(this,"All Received");
 				return;
 			}
-			textLab.Font=new Font("Microsoft Sans Serif",LayoutManager.Scale(8.25f),FontStyle.Bold);
+			textLab.Font=new Font(UiTheme.FontBody.FontFamily,LayoutManager.Scale(UiTheme.FontBody.SizeInPoints),FontStyle.Bold);//The body token (UI-2a-5).
 			textLab.ForeColor=Color.DarkRed;
 			textLab.Text=countNotRec.ToString()+Lan.g(this," NOT RECEIVED");
 		}
