@@ -5,3 +5,128 @@
 UI-9a-1	OpenPmsDental/Forms	FormA*,FormB*,FormC*
 UI-9a-2	OpenPmsDental/Forms	FormD*,FormE*,FormF*,FormG*,FormH*,FormI*,FormJ*,FormK*,FormL*
 UI-9a-3	OpenPmsDental/Forms	FormM*,FormN*,FormO*,FormP*,FormQ*
+UI-9a-6-01	OpenPmsDental/Bridges	*
+UI-9a-6-02	OpenPmsDental/Logic	*
+UI-9a-6-03	OpenPmsDental/Logic/VendorDirect	*
+UI-9a-6-04	OpenPmsDental/Main Modules	*
+UI-9a-6-05	OpenPmsDental/Misc	*
+UI-9a-6-06	OpenPmsDental/ReportingComplex	*
+UI-9a-6-07	OpenPmsDental/ReportingForRdl	*
+UI-9a-6-08	OpenPmsDental/ReportingForRdl/Allocators	*
+UI-9a-6-09	OpenPmsDental/ReportingForRdl/Allocators/MyAllocator1	*
+UI-9a-6-10	OpenPmsDental/ReportingForRdl/Allocators/MyAllocator1/Images	*
+UI-9a-6-11	OpenPmsDental/ReportingForRdl/Allocators/MyAllocator1/ReportUI	*
+UI-9a-6-12	OpenPmsDental/ReportingForRdl/Allocators/MyAllocator1/SupportingCode	*
+UI-9a-6-13	OpenPmsDental/SheetFramework	*
+UI-9a-6-14	OpenPmsDental/SmartCards	*
+UI-9a-6-15	OpenPmsDental/SmartCards/Belgium	*
+UI-9a-6-16	OpenPmsDental/SmartCards/Windows	*
+UI-9a-6-17	OpenPmsDental/Tables Old Grids	*
+UI-9a-6-18	OpenPmsDental/UI	*
+UI-9a-6-19	OpenPmsDental/UI/Appt	*
+UI-9a-6-20	OpenPmsDental/UI/BordersDpi	*
+UI-9a-6-21	OpenPmsDental/UI/BordersDpi/MouseWatcher	*
+UI-9a-6-22	OpenPmsDental/UI/ClinicSelector	*
+UI-9a-6-23	OpenPmsDental/UI/DatabaseIntegrity	*
+UI-9a-6-24	OpenPmsDental/UI/Direct2d	*
+UI-9a-6-25	OpenPmsDental/UI/IconLibrary	*
+UI-9a-6-26	OpenPmsDental/UI/ImagesModule	*
+UI-9a-6-27	OpenPmsDental/UI/Splitters	*
+UI-9a-6-28	OpenPmsDental/UI/TabControl	*
+UI-9a-6-29	OpenPmsDental/UI/Voice	*
+UI-9a-6-30	OpenPmsDental/UIManagement	*
+UI-9a-6-31	OpenPmsDental/UIManagement/Helpers	*
+UI-9a-6-32	OpenPmsDental/User Controls	*
+UI-9a-6-33	OpenPmsDental/User Controls/Dashboard	*
+UI-9a-6-34	OpenPmsDental/User Controls/Preferences	*
+UI-9a-6-35	OpenPmsDental/User Controls/SetupWizControls	*
+UI-9a-6-36	OpenPmsDentalBusiness	*
+UI-9a-6-37	OpenPmsDentalBusiness/Bridges	*
+UI-9a-6-38	OpenPmsDentalBusiness/Bridges/CareCredit	*
+UI-9a-6-39	OpenPmsDentalBusiness/Bridges/Pearl	*
+UI-9a-6-40	OpenPmsDentalBusiness/Bridges/Pearl/Request	*
+UI-9a-6-41	OpenPmsDentalBusiness/Bridges/Pearl/Response	*
+UI-9a-6-42	OpenPmsDentalBusiness/Bridges/PostcardMania	*
+UI-9a-6-43	OpenPmsDentalBusiness/Bridges/QuickBooksOnline	*
+UI-9a-6-44	OpenPmsDentalBusiness/Cache	*
+UI-9a-6-45	OpenPmsDentalBusiness/Crud	*
+UI-9a-6-46	OpenPmsDentalBusiness/CrudFramework	*
+UI-9a-6-47	OpenPmsDentalBusiness/Data Interface	*
+UI-9a-6-48	OpenPmsDentalBusiness/Db	*
+UI-9a-6-49	OpenPmsDentalBusiness/Db Multi Table	*
+UI-9a-6-50	OpenPmsDentalBusiness/Db Multi Table/Cqm	*
+UI-9a-6-51	OpenPmsDentalBusiness/Eclaims	*
+UI-9a-6-52	OpenPmsDentalBusiness/EForms	*
+UI-9a-6-53	OpenPmsDentalBusiness/Email	*
+UI-9a-6-54	OpenPmsDentalBusiness/HL7	*
+UI-9a-6-55	OpenPmsDentalBusiness/HL7old	*
+UI-9a-6-56	OpenPmsDentalBusiness/Imaging	*
+UI-9a-6-57	OpenPmsDentalBusiness/InternalTools/Cloud/Crud	*
+UI-9a-6-58	OpenPmsDentalBusiness/InternalTools/Cloud/TableTypes	*
+UI-9a-6-59	OpenPmsDentalBusiness/InternalTools/EServices	*
+UI-9a-6-60	OpenPmsDentalBusiness/InternalTools/EServices/Crud	*
+UI-9a-6-61	OpenPmsDentalBusiness/InternalTools/EServices/TableTypes	*
+UI-9a-6-62	OpenPmsDentalBusiness/InternalTools/Faq/TableTypes	*
+UI-9a-6-63	OpenPmsDentalBusiness/InternalTools/IntegratedTexting	*
+UI-9a-6-64	OpenPmsDentalBusiness/InternalTools/IntegratedTexting/TableTypes	*
+UI-9a-6-65	OpenPmsDentalBusiness/InternalTools/Job Manager	*
+UI-9a-6-66	OpenPmsDentalBusiness/InternalTools/Job Manager/Crud	*
+UI-9a-6-67	OpenPmsDentalBusiness/InternalTools/Job Manager/TableTypes	*
+UI-9a-6-68	OpenPmsDentalBusiness/InternalTools/Phones/TableTypes	*
+UI-9a-6-69	OpenPmsDentalBusiness/InternalTools/RemoteSupport/TableTypes	*
+UI-9a-6-70	OpenPmsDentalBusiness/InternalTools/WebChat/TableTypes	*
+UI-9a-6-71	OpenPmsDentalBusiness/Logic	*
+UI-9a-6-72	OpenPmsDentalBusiness/Misc	*
+UI-9a-6-73	OpenPmsDentalBusiness/Misc/ApptModule	*
+UI-9a-6-74	OpenPmsDentalBusiness/Misc/CreditCardUtils	*
+UI-9a-6-75	OpenPmsDentalBusiness/Misc/ForkMigrations	*
+UI-9a-6-76	OpenPmsDentalBusiness/Misc/ForkRelease	*
+UI-9a-6-77	OpenPmsDentalBusiness/Misc/Maintenance	*
+UI-9a-6-78	OpenPmsDentalBusiness/Misc/MainWindow	*
+UI-9a-6-79	OpenPmsDentalBusiness/ODDataSet	*
+UI-9a-6-80	OpenPmsDentalBusiness/ODEvents	*
+UI-9a-6-81	OpenPmsDentalBusiness/Plugins	*
+UI-9a-6-82	OpenPmsDentalBusiness/Remoting	*
+UI-9a-6-83	OpenPmsDentalBusiness/Reports	*
+UI-9a-6-84	OpenPmsDentalBusiness/Shared/ODCloudClient	*
+UI-9a-6-85	OpenPmsDentalBusiness/SheetFramework	*
+UI-9a-6-86	OpenPmsDentalBusiness/TableTypes	*
+UI-9a-6-87	OpenPmsDentalBusiness/UI	*
+UI-9a-6-88	OpenPmsDentalBusiness/VendorDirect	*
+UI-9a-6-89	OpenPmsDentalBusiness/VendorDirect/DentalXChange	*
+UI-9a-6-90	OpenPmsDentalBusiness/VendorDirect/Eds	*
+UI-9a-6-91	OpenPmsDentalBusiness/VendorDirect/Glidewell	*
+UI-9a-6-92	OpenPmsDentalBusiness/VendorDirect/GlobalPayments	*
+UI-9a-6-93	OpenPmsDentalBusiness/VendorDirect/Pearl	*
+UI-9a-6-94	OpenPmsDentalBusiness/VendorDirect/ProgramLinks	*
+UI-9a-6-95	OpenPmsDentalBusiness/Web References/com.dentalxchange.webservices	*
+UI-9a-6-96	OpenPmsDentalBusiness/Web References/Dentalxchange2016	*
+UI-9a-6-97	OpenPmsDentalBusiness/Web References/DentalxchangePartnerService	*
+UI-9a-6-98	OpenPmsDentalBusiness/Web References/EmdeonITS	*
+UI-9a-6-99	OpenPmsDentalBusiness/Web References/NewCropWebService	*
+UI-9a-6-100	OpenPmsDentalBusiness/WebBridges	*
+UI-9a-6-101	OpenPmsDentalBusiness/WebBridges/Erx	*
+UI-9a-6-102	OpenPmsDentalBusiness/WebBridges/Erx/DoseSpot	*
+UI-9a-6-103	OpenPmsDentalBusiness/WebBridges/Erx/NewCrop	*
+UI-9a-6-104	OpenPmsDentalBusiness/WebBridges/Google	*
+UI-9a-6-105	OpenPmsDentalBusiness/WebBridges/Microsoft365	*
+UI-9a-6-106	OpenPmsDentalBusiness/WebBridges/OcrInsScan	*
+UI-9a-6-107	OpenPmsDentalBusiness/WebBridges/PDMP	*
+UI-9a-6-108	OpenPmsDentalBusiness/WebBridges/Usps	*
+UI-9a-6-109	OpenPmsDentalBusiness/WebServices	*
+UI-9a-6-110	OpenPmsDentalBusiness/WebTypes	*
+UI-9a-6-111	OpenPmsDentalBusiness/WebTypes/AutoComm	*
+UI-9a-6-112	OpenPmsDentalBusiness/WebTypes/Payments	*
+UI-9a-6-113	OpenPmsDentalBusiness/WebTypes/Shared	*
+UI-9a-6-114	OpenPmsDentalBusiness/WebTypes/Shared/XWeb	*
+UI-9a-6-115	OpenPmsDentalBusiness/WebTypes/WebApps	*
+UI-9a-6-116	OpenPmsDentalBusiness/WebTypes/WebForms/Crud	*
+UI-9a-6-117	OpenPmsDentalBusiness/WebTypes/WebForms/TableTypes	*
+UI-9a-6-118	OpenPmsDentalBusiness/WebTypes/WebSched/TimeSlot	*
+UI-9a-6-119	OpenPmsDentalBusiness/X12	*
+UI-9a-6-120	OpenPmsDentalGraph/Base	*
+UI-9a-6-121	OpenPmsDentalGraph/Cache	*
+UI-9a-6-122	OpenPmsDentalGraph/Concrete	*
+UI-9a-6-123	OpenPmsDentalGraph/Dashboard	*
+UI-9a-6-124	SparksToothChart	*
+UI-9a-6-125	SparksToothChart/Wpf3D	*

@@ -761,3 +761,7 @@ UI-2b changes those values together with the exe literals.
 
 - No visible change: the only code change is `xCrudGenerator`'s `label10`, which inherits the font it set. Group U needs a connected session.
 - Decide (section 4): the default family of the WPF drawing `Font`.
+
+### UI-2a-6: the lead's note (2026-11-18)
+
+WpfControlsOD/UI/Graphics.cs:564, the default Name of the WPF drawing Font (Microsoft Sans Serif): UI-2b lists its callers before the flip; screen drawing takes the body family, any printout or content caller is pinned (added to the UI-2b checklist).
